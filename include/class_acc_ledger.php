@@ -1160,28 +1160,28 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     $user=new User($this->db);
     $tot_cred=0;$tot_deb=0;
     /* check for a double reload */
-    if ( CountSql($this->db,'select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
+    if ( isset($mt) && count_sql($this->db,'select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
       throw new Exception ('Double Encodage',5);
 
     // Check the periode and the date
     if ( isDate($date) == null ) { 
       throw new Exception('Date invalide', 2);
     }
-	$periode=new Periode($this->db);	
-	/* find the periode  if we have enabled the check_periode*/
-	if ($this->check_periode()==false) {
-		$periode->find_periode($date);
-		} else {
-		$periode->id=$user->get_periode();
-		list ($l_date_start,$l_date_end)=$periode->get_date_limite();
-		 // Date dans la periode active
-	     if ( cmpDate($date,$l_date_start)<0 || 
-	          cmpDate($date,$l_date_end)>0 )
-	      {
-	       throw new Exception('Pas dans la periode active',5);
-	     }
+    $periode=new Periode($this->db);	
+    /* find the periode  if we have enabled the check_periode*/
+    if ($this->check_periode()==false) {
+      $periode->find_periode($date);
+    } else {
+      $periode->id=$user->get_periode();
+      list ($l_date_start,$l_date_end)=$periode->get_date_limite();
+      // Date dans la periode active
+      if ( cmpDate($date,$l_date_start)<0 || 
+	   cmpDate($date,$l_date_end)>0 )
+	{
+	  throw new Exception('Pas dans la periode active',5);
+	}
 
-		}
+    }
 		
 
 	
@@ -1293,7 +1293,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
       $tot_amount=0;
       $tot_deb=0;
       $tot_cred=0;
-	  $oPeriode=new Periode($cn);
+	  $oPeriode=new Periode($this->db);
 	  $check_periode=$this->check_periode();
 	  if ( $check_periode == false) {
 		$oPeriode->find_periode($date);
@@ -1318,7 +1318,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	  }
 	  $acc_op->date=$date;
 	  // compute the periode is do not check it
-	  if ($check_periode == false ) $acc_op->periode=$periode->id;
+	  if ($check_periode == false ) $acc_op->periode=$oPeriode->id;
 	  $acc_op->desc=$desc;
 	  $acc_op->amount=round(${'amount'.$i},2);
 	  $acc_op->grpt=$seq;
@@ -1350,7 +1350,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	}// loop for each item
       $acc_end=new Acc_Operation($this->db);
       $acc_end->amount=$tot_deb;
-	  if ($check_periode == false ) $acc_end->periode=$periode->id;
+	  if ($check_periode == false ) $acc_end->periode=$oPeriode->id;
       $acc_end->date=$date;
       $acc_end->desc=$desc;
       $acc_end->grpt=$seq;
