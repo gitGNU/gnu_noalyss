@@ -53,7 +53,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
    */
   public function verify($p_array) {
     extract ($p_array);
-    print_r($p_array);
+
     /* check for a double reload */
     if ( isset($mt) && count_sql($this->db,'select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
       throw new Exception ('Double Encodage',5);
@@ -610,8 +610,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     
     $sql=SQL_LIST_ALL_INVOICE.$cond." and jr_def_id=".$this->id ;
     $step=$_SESSION['g_pagesize'];
-    $page=(isset($_GET['offset']))?$_GET['page']:1;
-    $offset=(isset($_GET['offset']))?$_GET['offset']:0;
+    $page=(isset($_REQUEST['offset']))?$_REQUEST['page']:1;
+    $offset=(isset($_REQUEST['offset']))?$_REQUEST['offset']:0;
     /* security  */
     $available_ledger=$User->get_ledger_sql();
 
@@ -634,8 +634,11 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $hid=new IHidden();
     
     echo $list;
-    if ( $max_line !=0 )
+    if ( $max_line !=0 ) {
+      echo HtmlInput::hidden('page',$page);
+      echo HtmlInput::hidden('offset',$offset);
       echo HtmlInput::submit('paid','Mise à jour paiement');
+    }
     echo '</FORM>';
     echo "$bar <hr>";
     
