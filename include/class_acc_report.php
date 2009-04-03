@@ -142,8 +142,10 @@ function form($p_line=0) {
     $r.= '</TD>';
 
     $r.='<td>';
-    $search='<input type="button" value="Recherche Poste" onclick="SearchPoste(\''.$_REQUEST['PHPSESSID'].'\','.dossier::id().',\'form'.$i.'\',\'\',\'poste\',\'N\')" class="inp"/>';
-    $r.=$search;
+    $search=new IButton();
+    $search->label="Recherche poste";
+    $search->javascript=' SearchPoste(\''.$_REQUEST['PHPSESSID'].'\','.dossier::id().',\'form'.$i.'\',\'\',\'poste\',\'N\')';
+    $r.=$search->input();
     $r.='</td>';
 
 
