@@ -114,9 +114,14 @@ echo '</div>';
  * Mini Report
  */
 $report=$user->get_mini_report();
+$rapport=new Acc_Report($cn);
+$rapport->id=$report;
+if ( $rapport->exist() == false ) {
+  $user->set_mini_report(0);
+  $report=0;
+}
 if ( $report != 0 ) {
-  $rapport=new Acc_Report($cn);
-  $rapport->id=$report;
+
   echo '<div style="float:right">';
   echo '<fieldset style="background-color:white"><legend>'.$rapport->get_name().'</legend>';
   $exercice=$user->get_exercice();
