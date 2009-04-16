@@ -44,7 +44,6 @@ function clean_Fid(p_ctl)
 	if ( $(nSell) ) {	  $(nSell).value="";	}
 	if ( $(nBuy) ) {	  $(nBuy).value="";}
 	if ( $(nTva_id) ) {  $(nTva_id).value="-1"; }
-	if ( $("first_sold")) { $("first_sold").value=""; }
 	
 }
 function errorFid(request,json) {
