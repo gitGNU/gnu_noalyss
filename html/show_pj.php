@@ -40,7 +40,7 @@ $cn=DbConnect($gDossier);
 
 
 include_once ('class_user.php');
-$User=new User(DbConnect());
+$User=new User($cn);
 $User->Check();
 // retrieve the jrn
 $r=ExecSql($cn,"select jr_def_id from jrn where jr_grpt_id=$jr_grpt_id");
