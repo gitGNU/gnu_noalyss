@@ -70,8 +70,7 @@ function cmpDate ($p_date,$p_date_oth) {
   $l_date=isDate($p_date);
   $l2_date=isDate($p_date_oth);
   if ($l_date == null || $l2_date == null ) {
-    echo "erreur date";
-    return null;
+    throw new Exception ("erreur date");
   }
   $l_adate=explode(".",$l_date);
   $l2_adate=explode(".",$l2_date);
