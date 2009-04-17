@@ -80,7 +80,7 @@ class Acc_Account {
   function get_lib() {
     $ret=ExecSqlParam($this->db,
 		 "select pcm_lib from tmp_pcmn where
-                  pcm_val=$1",array($this->pcm_value));
+                  pcm_val=$1",array($this->pcm_val));
       if ( pg_NumRows($ret) != 0) {
 	$r=pg_fetch_array($ret);
 	$this->pcm_lib=$r['pcm_lib'];

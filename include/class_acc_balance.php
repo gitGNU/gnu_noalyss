@@ -115,7 +115,7 @@ class Acc_Balance {
     // Add the saldo
     $i+=1;
     $a['poste']="";
-    $a['label']="<b> Totaux </b>";
+    $a['label']="Totaux ";
     $a['sum_deb']=$tot_deb;
     $a['sum_cred']=$tot_cred;
     $a['solde_deb']=$tot_deb_saldo;

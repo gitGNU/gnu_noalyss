@@ -48,7 +48,7 @@ require_once('class_html_input.php');
 	public function input($p_name=null,$p_value=null)
 	{
 		foreach (array('type','cn') as $a){
-			if ( ! isset ($this->$a) ) throw new Exception('Variable non définie '.$a);
+			if ( ! isset ($this->$a) ) throw new Exception('Variable non définie [ '.$a.']');
 		}
 		$this->name=($p_name==null)?$this->name:$p_name;
 		$this->value=($p_value==null)?$this->value:$p_value;
