@@ -190,9 +190,10 @@ if ( $def==3) {
   // Filter the saldo
   //  on the current year
   $filter_year="  j_tech_per in (select p_id from parm_periode where  p_exercice='".$User->get_exercice()."')";
-
+  // for highligting tje line
+  $idx=0;
   // for each account
-  for ( $i = 0; $i < sizeof($array);$i++) {
+  for ( $i = 0; $i < count($array);$i++) {
     // get the saldo
     $m=$array[$i]->get_solde_detail($filter_year);
 
@@ -200,15 +201,20 @@ if ( $def==3) {
 
     // print the result if the saldo is not equal to 0
     if ( $m['debit'] != 0.0 || $m['credit'] != 0.0) {
-      echo "<tr>";
-      echo "<TD>".
+      if ( $idx%2 != 0 ) 
+	$odd="odd";
+      else
+	$odd="";
+      $idx++;
+      echo "<tr class=\"$odd\">";
+      echo "<TD >".
 	$array[$i]->strAttribut(ATTR_DEF_QUICKCODE).
 	"</TD>";
 
-      echo "<TD>".
+      echo "<TD >".
 	$array[$i]->strAttribut(ATTR_DEF_NAME).
 	"</TD>".
-	"<TD>".
+	"<TD align=\"right\">".
 	$solde.
 	"</TD>"."</TR>";
     }
@@ -217,3 +223,4 @@ if ( $def==3) {
   echo "</div>";
   exit();
 }
+

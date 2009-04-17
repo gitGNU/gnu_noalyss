@@ -57,7 +57,7 @@ $res=$acc->get_solde_detail($filter_year);
 
 if ( empty($res) ) return '{"saldo":"0"}';
 $solde=$res['solde'];
-
+if ( $res['debit'] < $res['credit'] ) $solde=$solde*(-1);
 
 //header("Content-type: text/html; charset: utf8",true);
 

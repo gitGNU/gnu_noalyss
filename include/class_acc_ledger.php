@@ -1196,7 +1196,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
       /* if we use the strict mode, we get the date of the last
 	 operation */
       $last_date=$this->get_last_date();
-      if ( cmpDate($date,$last_date) < 0 )
+      if ( $last_date !=null && cmpDate($date,$last_date) < 0 )
 	throw new Exception('Vous utilisez le mode strict la dernière operation est la date du '
 			      .$last_date.' vous ne pouvez pas encoder à une date antérieure',15);
 

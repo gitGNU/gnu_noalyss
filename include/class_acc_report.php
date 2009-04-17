@@ -372,7 +372,18 @@ function form($p_line=0) {
       $this->insert();
     }
   }
-
+  /**
+   *@brief check if a report exist
+   *@param $p_id, optional, if given check the report with this fr_id
+   *@return return true if the report exist otherwise false
+   */
+  function exist($p_id=0) {
+    $c=$this->id;
+    if ( $p_id != 0 ) $c=$p_id;
+    $ret=execSqlParam($this->db,"select fr_label from formdef where fr_id=$1",array($c));
+    if (pg_NumRows($ret) == 0) return false;
+    return true;
+  }
   function test_me() {
     $cn=DbConnect(dossier::id());
     $a=new Acc_Report($cn);

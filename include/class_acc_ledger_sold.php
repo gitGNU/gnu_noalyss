@@ -91,7 +91,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       /* if we use the strict mode, we get the date of the last
 	 operation */
       $last_date=$this->get_last_date();
-      if ( cmpDate($e_date,$last_date) < 0 )
+      if ( $last_date != null  && cmpDate($e_date,$last_date) < 0 )
 	throw new Exception('Vous utilisez le mode strict la dernière operation est date du '
 			      .$last_date.' vous ne pouvez pas encoder à une date antérieure',13);
 
