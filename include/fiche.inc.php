@@ -294,16 +294,17 @@ if ( isset ( $_GET["action"]) ) {
   if ( $action == "search" ) 
     {
       ShowRecherche();
-      $sql="select distinct f_id,fd_id,av_text from fiche join jnt_fic_att_value using (f_id) 
+      $sql="select distinct f_id,fd_id from fiche join jnt_fic_att_value using (f_id) 
             join attr_value using (jft_id) where
-            upper(av_text) like upper('%".FormatString($_GET["search_text"])."%') order by av_text,f_id";
+            upper(av_text) like upper('%".FormatString($_GET["search_text"])."%') order by f_id";
+
       $all=get_array($cn,$sql);
       // test on the size
       //
       if ( sizeof($all) != 0 )
 	{
 	  echo '<DIV class="u_redcontent">';
-	  echo "Nombre de résultat : ".sizeof($all).'<br>';
+	  echo "Résultat : ".sizeof($all).'éléments trouvés <br>';
 	  foreach ($all as $f_id){
 	    $fiche=new fiche($cn,$f_id['f_id']);
 	    echo '<A class="mtitle" href="?p_action=fiche&'.$str_dossier.'&action=detail&fiche_id='.$f_id['f_id'].
