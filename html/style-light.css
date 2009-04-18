@@ -17,9 +17,8 @@ table.result {
   font-size:10px;
   color:blue;
   border:blue solid 1px; 
-//  width:80%;
-  
-  }
+  width:100%;
+}
 table.result th { 
   font-size:11px;
   font-weight:bold;
@@ -200,6 +199,10 @@ table.document th{
 	      background-color:lightgrey;
 	      color:darkblue;
 }
+table.result th{
+	      background-color:lightgrey;
+	      color:darkblue;
+}
 span.error {
 color:black;  
 background-color:red;
@@ -221,6 +224,12 @@ td.mtitle {
 	text-align:center;
 	width:95px;
         height :30px; 
+	font-size:10px;
+    background-color:#DDE6FF;
+}
+td.msubtitle {
+	text-align:center;
+	height:20px;
 	font-size:10px;
     background-color:#DDE6FF;
 }
@@ -298,6 +307,11 @@ tr.even:hover td
   color:white;
 }
 td.mtitle:hover,td.mtitle:hover a
+{
+  background-color:#a9d6e4;
+  color:white;
+}
+td.msubtitle:hover,td.msubtitle:hover a
 {
   background-color:#a9d6e4;
   color:white;

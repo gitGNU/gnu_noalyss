@@ -361,7 +361,7 @@ function ShowMenuAdvanced($default="") {
 		array('user_advanced.php?p_action=ouv&'.$str_dossier,'Ecriture ouverture',"",8),
 		array('user_advanced.php?p_action=verif&'.$str_dossier,'V&eacute;rification',"",10)
 	),
-					  'H',"mtitle","mtitle",$default);
+					  'H',"msubtitle","mtitle",$default);
  $r='<div class="u_subtmenu">'.$left_menu."</div>";
  return $r;
 }

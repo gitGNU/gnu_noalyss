@@ -162,11 +162,11 @@ $own=new Own($p_cn);
 
   if ($Max==0) return array(0,"Aucun enregistrement trouv&eacute;");
 
-  $r.='<table style="width:100%;border:solid blue 2px ;border-style:outset;">';
+  $r.='<table class="result">';
   $l_sessid=$_REQUEST['PHPSESSID'];
 
-  $r.="<tr class=\"even\">";
-  $r.="<th> Internal</th>";
+  $r.="<tr >";
+  $r.="<th>Internal</th>";
   $r.=$sort_date;
   $r.=$sort_echeance;
   $r.=$sort_pj;
@@ -178,6 +178,8 @@ $own=new Own($p_cn);
       $r.="<th> Pay&eacute;</th>";
     }
   $r.="<th>Op. Concern&eacute;e</th>";
+  if ($own->MY_STRICT=='N' &&  $user->check_action(GEOP)==1)
+    $r.='<th>Action</th>';
   $r.="<th>Document</th>";
   $r.="</tr>";
   // Total Amount

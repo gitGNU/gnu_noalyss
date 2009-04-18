@@ -75,6 +75,7 @@ $ret=$period->input();
 		echo $e->getTrace();
 		exit;
 	}
+}
 if ( $ret != null) {
   echo '<FORM METHOD="POST">';
   echo HtmlInput::hidden('p_action','central');

@@ -572,7 +572,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $filter_year=" where p_exercice='".$User->get_exercice()."'";
     
     $periode_start=make_array($this->db,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by  p_start,p_end",1);
-    $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
+    $current=(isset($_GET['p_periode']))?$_GET['p_periode']:-1;
     $w->selected=$current;
     $w->noadd=true;
     echo 'Période  '.$w->input("p_periode",$periode_start);

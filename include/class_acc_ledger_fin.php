@@ -692,7 +692,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     
     $periode_start=make_array($this->db,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end",1);
   // User is already set User=new User($this->db);
-    $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
+    $current=(isset($_GET['p_periode']))?$_GET['p_periode']:-1;
     $w->selected=$current;
 
     echo JS_SEARCH_CARD;
