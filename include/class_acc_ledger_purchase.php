@@ -579,8 +579,15 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     /* select ledger */
     $wLedger=$this->select_ledger('ACH',3);
     if ($wLedger == null) exit ('Pas de journal disponible');
-    //    if ( count($wLedger->value) > 1)
-      $wLedger->value[]=array('value'=>-1,'label'=>'Tous les journaux d\'achat');
+    if ( count($wLedger->value) > 1) {
+      $aValue=$wLedger->value;
+      $wLedger->value[0]=array('value'=>-1,'label'=>'Tous les journaux d\'achat');
+      $idx=1;
+      foreach ($aValue as $a) {
+	$wLedger->value[$idx]=$a;
+	$idx++;
+      }
+    }
     echo 'Journal '.$wLedger->input();
 
     $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";

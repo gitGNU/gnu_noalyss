@@ -199,7 +199,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 
     // Ledger (p_jrn)
     //--
-    $wLedger=$this->select_ledger('FIN',2);
+    $wLedger=$this->select_ledger('FIN',3);
     if ($wLedger == null) exit ('Pas de journal disponible');
 
     $label=" Journal ".HtmlInput::infobulle(2) ;
@@ -702,8 +702,16 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     echo 'Période  '.$w->input("p_periode",$periode_start);
     $wLedger=$this->select_ledger('fin',3);
     if ($wLedger == null) exit ('Pas de journal disponible');
+    if ( count($wLedger->value) > 1) {
+      $aValue=$wLedger->value;
+      $wLedger->value[0]=array('value'=>-1,'label'=>'Tous les journaux financiers');
+      $idx=1;
+      foreach ($aValue as $a) {
+	$wLedger->value[$idx]=$a;
+	$idx++;
+      }
+    }
 
-    $wLedger->value[]=array('value'=>-1,'label'=>'Tous les journaux financiers');
 
 
     echo 'Journal '.$wLedger->input();

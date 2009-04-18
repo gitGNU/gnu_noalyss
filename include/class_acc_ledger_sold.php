@@ -454,9 +454,16 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
     if ( $wLedger == null ) 
       exit('Pas de journal disponible');
-    if ( count($wLedger->value) > 1)
-      $wLedger->value[]=array('value'=>-1,'label'=>'Tous les journaux de vente');
 
+    if ( count($wLedger->value) > 1) {
+      $aValue=$wLedger->value;
+      $wLedger->value[0]=array('value'=>-1,'label'=>'Tous les journaux de vente');
+      $idx=1;
+      foreach ($aValue as $a) {
+	$wLedger->value[$idx]=$a;
+	$idx++;
+      }
+    }
     echo 'Journal '.$wLedger->input();
     echo JS_SEARCH_CARD;
     echo JS_PROTOTYPE;
