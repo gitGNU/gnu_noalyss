@@ -574,11 +574,15 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $periode_start=make_array($this->db,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by  p_start,p_end",1);
     $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
     $w->selected=$current;
-    
+    $w->noadd=true;
     echo 'Période  '.$w->input("p_periode",$periode_start);
+    /* select ledger */
     $wLedger=$this->select_ledger('ACH',3);
     if ($wLedger == null) exit ('Pas de journal disponible');
+    //    if ( count($wLedger->value) > 1)
+      $wLedger->value[]=array('value'=>-1,'label'=>'Tous les journaux d\'achat');
     echo 'Journal '.$wLedger->input();
+
     $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
     $this->type='ACH';
     $all=$this->get_all_fiche_def();
@@ -593,6 +597,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $w->extra='filter';
     $w->extra2='QuickCode';
     $w->table=0;
+    $w->noadd='no';
     $sp=new ISpan();
     echo $sp->input("qcode_label","",$qcode);
     echo $w->input();
@@ -605,8 +610,11 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     } else {
       $cond=" and jr_tech_per=".$current;
     }
-    
-    $sql=SQL_LIST_ALL_INVOICE.$cond." and jr_def_id=".$this->id ;
+    if ( $this->id != -1) 
+      $sql=SQL_LIST_ALL_INVOICE.$cond." and jr_def_id=".$this->id ;
+    else
+      $sql=SQL_LIST_ALL_INVOICE.$cond." and ".$User->get_ledger_sql('ACH',3);
+
     $step=$_SESSION['g_pagesize'];
     $page=(isset($_REQUEST['offset']))?$_REQUEST['page']:1;
     $offset=(isset($_REQUEST['offset']))?$_REQUEST['offset']:0;
@@ -623,7 +631,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	$sql="where jrn_def_type='ACH' $cond $l and $available_ledger ";
       }
 
-    list($max_line,$list)=ListJrn($this->db,$this->id,$sql,null,$offset,1);
+    list($max_line,$list)=ListJrn($this->db,$sql,null,$offset,1);
     $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
     
     echo "<hr>$bar";
@@ -1242,9 +1250,9 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     
     
     $sql=SQL_LIST_UNPAID_INVOICE_DATE_LIMIT." and jr_def_id=".$this->id ;
-    list($max_line,$list)=ListJrn($this->db,$this->id,$sql,null,$offset,1);
+    list($max_line,$list)=ListJrn($this->db,$sql,null,$offset,1);
     $sql=SQL_LIST_UNPAID_INVOICE." and jr_def_id=".$this->id ;
-    list($max_line2,$list2)=ListJrn($this->db,$this->id,$sql,null,$offset,1);
+    list($max_line2,$list2)=ListJrn($this->db,$sql,null,$offset,1);
 
     // Get the max line
     $m=($max_line2>$max_line)?$max_line2:$max_line;

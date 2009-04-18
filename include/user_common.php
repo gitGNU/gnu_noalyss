@@ -39,7 +39,6 @@ require_once("class_acc_operation.php");
  *        
  * 
  * \param $p_cn database connection
- * \param $p_jrn jrn_id jrn.jrn_def_id
  * \param $p_where the sql query where clause
  * \param $p_array param. for a search
  * \param $p_value offset
@@ -47,11 +46,9 @@ require_once("class_acc_operation.php");
  * \return array (entryCount,generatedHTML);
  * 
  */
-function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
+function ListJrn($p_cn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
 {
   $user=new User($p_cn);
-  //  print_r("function ListJrn($p_cn,$p_jrn,$p_where='',$p_array=null,$p_value=0,$p_paid=0)");
-  echo_debug(__FILE__,__LINE__,"Entering into function ListJrn($p_cn,$p_jrn,$p_where='',$p_array=null,$p_value=0,$p_paid=0)");
   $gDossier=dossier::id();
   $amount_paid=0.0;
   $amount_unpaid=0.0;
@@ -142,154 +139,9 @@ $own=new Own($p_cn);
     $or=" or ";
   }
   $sql_fin.=")";
+  /*  compute the sql stmt */
+  $sql=Acc_Ledger::compute_sql($p_array,$order,$p_where);
 
-  if ( $p_array == null ) {
-   $sql="select jr_id	,
-			jr_montant,
-                        substr(jr_comment,1,60) as jr_comment,
-			to_char(jr_ech,'DD.MM.YYYY') as jr_ech,
-			to_char(jr_date,'DD.MM.YYYY') as jr_date,
-                        jr_date as jr_date_order,
-			jr_grpt_id,
-			jr_rapt,
-			jr_internal,
-			jrn_def_id,
-			jrn_def_name,
-			jrn_def_ech,
-			jrn_def_type,
-                        jr_valid,
-                        jr_tech_per,
-                        jr_pj_name,
-                        p_closed,
-                        jr_pj_number
-		       from 
-			jrn 
-                            join jrn_def on jrn_def_id=jr_def_id 
-                            join parm_periode on p_id=jr_tech_per
-                       $p_where 
-	                 $order";
-  }
-  if ( $p_array != null ) {
-    // Construction Query 
-    foreach ( $p_array as $key=>$element) {
-      ${"l_$key"}=$element;
-    }
-    $sql="select jr_id	,
-		jr_montant,
-                substr(jr_comment,1,60) as jr_comment,
-		jr_ech,
-		to_char(jr_date,'DD.MM.YYYY') as jr_date,
-                jr_date as jr_date_order,
-		jr_grpt_id,
-		jr_rapt,
-		jr_internal,
-		jrn_def_id,
-		jrn_def_name,
-		jrn_def_ech,
-		jrn_def_type,
-                jr_valid,
-                jr_tech_per,
-                jr_pj_name,
-                p_closed,
-                jr_pj_number
-		      from 
-                jrn join jrn_def on jrn_def_id=jr_def_id 
-                    join parm_periode on p_id=jr_tech_per
-                ";
-    $jrn_sql=($p_jrn =0)?"1=1":"jrn_def_id=$p_jrn ";
-    $l_and=" where ";
-    // amount
-    // remove space
-    $l_s_montant=trim($l_s_montant);
-    // replace comma by dot
-    $l_s_montant=str_replace(',','.',$l_s_montant);
-    $l_st_montant=trim($l_st_montant);
-    // replace comma by dot
-    $l_st_montant=str_replace(',','.',$l_st_montant);
-    $done_comp=0;
-    echo_debug('user_common',__LINE__,"l_s_montant $l_s_montant");
-    /* -------------------------------------------------------------------------- */
-    /* if both amount are the same then we need to search into the detail
-     */
-    /* -------------------------------------------------------------------------- */
-    if ( ( ereg("^[0-9]+$", $l_s_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_s_montant)) &&
-	 ( ereg("^[0-9]+$", $l_st_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_st_montant) ) 
-	 )
-      {
-	if (	 bccomp($l_s_montant,$l_st_montant,2) == 0 ) {
-	  $sql .= $l_and. 'jr_grpt_id in  ( select distinct j_grpt from jrnx where j_montant = '.$l_s_montant.')';
-	  $l_and=" and ";
-	  $done_comp=1;
-
-	}
-
-      }
-    /*------------------------------------------------------------------------------*
-     * If amount are different the range is about the total of the operation
-     *------------------------------------------------------------------------------*/
-    if ( $done_comp==0 && (ereg("^[0-9]+$", $l_s_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_s_montant) )) 
-    {
-      $sql.=$l_and."  jr_montant >= $l_s_montant";
-      $l_and=" and ";
-    }
-    if ( $done_comp==0 && (ereg("^[0-9]+$", $l_st_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_st_montant) )) 
-    {
-      $sql.=$l_and."  jr_montant <= $l_st_montant";
-      $l_and=" and ";
-    }
-
-    // date
-    if ( isDate($l_date_start) != null ) 
-    {
-      $sql.=$l_and." jr_date >= to_date('".$l_date_start."','DD.MM.YYYY')";
-      $l_and=" and ";
-    }
-    if ( isDate($l_date_end) != null ) {
-      $sql.=$l_and." jr_date <= to_date('".$l_date_end."','DD.MM.YYYY')";
-      $l_and=" and ";
-    }
-    // comment
-    $l_s_comment=FormatString($l_s_comment);
-    if ( $l_s_comment != null ) 
-    {
-      $sql.=$l_and." ( upper(jr_comment) like upper('%".$l_s_comment."%') or upper(jr_pj_number) like upper('%".$l_s_comment."%') )";
-      $l_and=" and ";
-    }
-    // internal
-    $l_s_internal=FormatString($l_s_internal);
-    if ( $l_s_internal != null ) {
-      $sql.=$l_and."  jr_internal like upper('%$l_s_internal%')  ";
-      $l_and=" and ";
-    }
-    // Poste
-    $l_poste=FormatString($l_poste);
-    if ( $l_poste != null ) {
-      $sql.=$l_and."  jr_grpt_id in (select j_grpt 
-             from jrnx where j_poste::text like '$l_poste' )  ";
-      $l_and=" and ";
-    }
-    // Quick Code
-    if ( $l_qcode != null ) 
-      {
-	$l_qcode=FormatString($l_qcode);
-	$sql.=$l_and."  jr_grpt_id in ( select j_grpt from 
-             jrnx where trim(j_qcode) = upper(trim('$l_qcode')))";
-	$l_and=" and ";
-      }
-    // if not admin check filter 
-    $User=new User(DbConnect());
-    $User->Check();
-    $User->check_dossier(dossier::id());
-
-    if ( $User->admin == 0 && $User->is_local_admin()==0 ) 
-    {
-      $sql.=$l_and." jr_def_id in ( select uj_jrn_id ".
-	" from user_sec_jrn where ".
-	" uj_login='".$_SESSION['g_user']."'".
-	" and uj_priv in ('R','W'))";
-    }
-    $sql.=$order;
-  }// p_array != null
   // Count 
   $count=count_sql($p_cn,$sql);
   // Add the limit 
@@ -366,7 +218,7 @@ $own=new Own($p_cn);
     //DEBUG
     //    $r.=$l_sessid;
     $r.=sprintf('<A class="detail" HREF="javascript:modifyOperation(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')" >%s</A>',
-				$row['jr_id'], $l_sessid,$gDossier, $p_jrn,$vue, $row['jr_internal']);
+				$row['jr_id'], $l_sessid,$gDossier, $row['jrn_def_id'],$vue, $row['jr_internal']);
     $r.="</TD>";
     // date
     $r.="<TD>";
@@ -452,7 +304,7 @@ $own=new Own($p_cn);
       // cancel operation
       if ( $user->check_action(GEOP)==1)
 	$r.=sprintf('<input TYPE="BUTTON" VALUE="%s" onClick="cancelOperation(\'%s\',\'%s\',%d,\'%s\')">',
-		    "Annuler",$row['jr_grpt_id'],$l_sessid,$gDossier,$p_jrn);
+		    "Annuler",$row['jr_grpt_id'],$l_sessid,$gDossier,$row['jrn_def_id']);
       $r.="</TD>";
     } // else
     //document
@@ -460,7 +312,7 @@ $own=new Own($p_cn);
       {
 	$image='<IMG SRC="image/insert_table.gif" title="'.$row['jr_pj_name'].'" border="0">';
 	$r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s&%s&PHPSESSID=%s">%s</A>',
-			   $p_jrn,
+			   $row['jrn_def_id'],
 			   $row['jr_grpt_id'],
 			   $str_dossier,
 			   $_REQUEST['PHPSESSID'],

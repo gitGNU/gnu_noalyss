@@ -61,7 +61,7 @@ if ( isset ($_GET['viewsearch'])) {
   else
      $array=$_GET;
 
-  list($max_line,$a)=ListJrn($cn,0,"",$array,$offset,2);
+  list($max_line,$a)=ListJrn($cn,"",$array,$offset,2);
 
   $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 

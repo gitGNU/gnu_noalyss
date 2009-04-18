@@ -35,20 +35,20 @@
 require_once('class_html_input.php');
 class ICard extends HtmlInput
 {
-	/*!\brief return a string with the HTML of the button search */
-	public function dbutton() {
-		if (!isset ($this->jrn) ) $this->jrn=-1;
-		$add='yes';
-		if ( isset($this->noadd) ) $add='no';
-		$r= sprintf('<INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')" value="%s">',
-			 $_REQUEST['PHPSESSID'],
-		     $this->extra,
-		     $this->name,
-			$this->jrn,
-			$add,
-		     $this->extra2);
-		return $r;
-	}
+  /*!\brief return a string with the HTML of the button search */
+  public function dbutton() {
+    if (!isset ($this->jrn) ) $this->jrn=-1;
+    $add='yes';
+    if ( isset($this->noadd) && $this->noadd=="no") $add='no';
+    $r= sprintf('<INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')" value="%s">',
+		$_REQUEST['PHPSESSID'],
+		$this->extra,
+		$this->name,
+		$this->jrn,
+		$add,
+		$this->extra2);
+    return $r;
+  }
   /*!\brief show the html  input of the widget*/
   public function input($p_name=null,$p_value=null)
   {

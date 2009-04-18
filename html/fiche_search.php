@@ -47,6 +47,7 @@
    * - ctrl the second control to set up
    * - gDossier the dossier id
    * -the caller (what jascript function triggers this window)
+   *\note if the p_jrn is -1 then all the card are shown
  */
 
 include_once ("ac_common.php");
@@ -112,11 +113,11 @@ function setCtrl(name_ctl,value,name_ctl2,value_3) {
 $cn=DbConnect($gDossier);
 $r="";
 // Propose to add a card if the ledger is not 0 (the great ledger)
-print_r($_REQUEST);
-$add=1;
-if ( isset($_REQUEST['noadd']) && $_REQUEST['noadd']=='no') $add=0;
 
-if ($add=1 && $User->check_action(FICADD)==1 && $_GET['p_jrn']  != 0 ) {
+$add=1;
+if ( isset($_REQUEST['add'])&& $_REQUEST['add']=='no' ) $add=0;
+
+if ($add==1 && $User->check_action(FICADD)==1 ) {
   if ( $User->check_action(FICADD)==1) {
     $add_card=new IButton();
     $add_card->javascript=sprintf("NewCard('%s','%s','%s')",
@@ -158,64 +159,67 @@ if (
     )
   {
 
-  // Get the field from database
-  if ( $e_type == 'deb' ) {
-    $get='jrn_def_fiche_deb';
-    $list_fiche=get_list_fiche($cn,$get,$_GET['p_jrn']);
-    $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
-  }
-  elseif ( $e_type == 'cred' ) {
-    $get='jrn_def_fiche_cred';
-    $list_fiche=get_list_fiche($cn,$get,$_GET['p_jrn']);
-    $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
-  }
-  /*!\brief if $e_type (from widget::extra) equal all, all the card are shown 
-   * without restriction
-   */
-  elseif ( $e_type == 'all' ) {
-    $sql="select * from vw_fiche_attr where true";
-  }
-  elseif ($e_type=='filter') {
+    if ( $_GET['p_jrn'] == -1 )
+      $e_type='all';
     
-    $get='jrn_def_fiche_cred';
-    $list_cred=get_list_fiche($cn,$get,$_GET['p_jrn']);
-
-
-    $get='jrn_def_fiche_deb';
-    $list_deb=get_list_fiche($cn,$get,$_GET['p_jrn']);
-    $list_fiche=$list_cred.','.$list_deb;
-
-    if ( $list_fiche == ',' ) 
-      exit("Vous n'avez pas bien configure ce journal, vous devez aller dans Paramètre->Journal et indiquez les fiches utilisables");
-
-    $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
+    // Get the field from database
+    if ( $e_type == 'deb' ) {
+      $get='jrn_def_fiche_deb';
+      $list_fiche=get_list_fiche($cn,$get,$_GET['p_jrn']);
+      $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
+    }
+    elseif ( $e_type == 'cred' ) {
+      $get='jrn_def_fiche_cred';
+      $list_fiche=get_list_fiche($cn,$get,$_GET['p_jrn']);
+      $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
+    }
+    /*!\brief if $e_type (from widget::extra) equal all, all the card are shown 
+     * without restriction
+     */
+    elseif ( $e_type == 'all' ) {
+      $sql="select * from vw_fiche_attr where true";
+    }
+    elseif ($e_type=='filter') {
+      
+      $get='jrn_def_fiche_cred';
+      $list_cred=get_list_fiche($cn,$get,$_GET['p_jrn']);
+      
+      
+      $get='jrn_def_fiche_deb';
+      $list_deb=get_list_fiche($cn,$get,$_GET['p_jrn']);
+      $list_fiche=$list_cred.','.$list_deb;
+      
+      if ( $list_fiche == ',' ) 
+	exit("Vous n'avez pas bien configure ce journal, vous devez aller dans Paramètre->Journal et indiquez les fiches utilisables");
+      
+      $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
+      
+    } elseif( strpos($e_type,'frd_id')===0 ) {
+      /* $e_type must be something like frd_id in (...) */
+      $sql="select * from vw_fiche_attr where $e_type ";
+      
+    }
+    // if e_type contains a list of value for filtering on fiche_def_ref.frd_id
+    else{
+      $list_fiche=$e_type;
+      $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
+    }
     
-  } elseif( strpos($e_type,'frd_id')===0 ) {
-    /* $e_type must be something like frd_id in (...) */
-    $sql="select * from vw_fiche_attr where $e_type ";
-
-  }
-  // if e_type contains a list of value for filtering on fiche_def_ref.frd_id
-  else{
-    $list_fiche=$e_type;
-    $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
-  }
-
-// e_fic_search contains the pattern
-
-  if (strlen(trim($e_fic_search) ) == 0 ) {
-    $Res=ExecSql($cn,$sql); 
-  } else {
-    $e_fic_search=FormatString($e_fic_search);
-    $Res=ExecSql($cn,"$sql and ( upper(vw_name) like upper('%$e_fic_search%') or ".
-               "upper(quick_code) like upper('%$e_fic_search%'))" ); 
-  }
-
-  // Test whether rows are returned
- if ( ($Max = pg_NumRows($Res) ) == 0 && $_GET['p_jrn'] != 0) {
-   echo_warning("Pas de fiche trouvée");
-   if (isset($add_card)) echo $add_card->input();
-   return;
+    // e_fic_search contains the pattern
+    
+    if (strlen(trim($e_fic_search) ) == 0 ) {
+      $Res=ExecSql($cn,$sql); 
+    } else {
+      $e_fic_search=FormatString($e_fic_search);
+      $Res=ExecSql($cn,"$sql and ( upper(vw_name) like upper('%$e_fic_search%') or ".
+		   "upper(quick_code) like upper('%$e_fic_search%'))" ); 
+    }
+    
+    // Test whether rows are returned
+    if ( ($Max = pg_NumRows($Res) ) == 0 && $_GET['p_jrn'] != 0) {
+      echo_warning("Pas de fiche trouvée");
+      if (isset($add_card)) echo $add_card->input();
+      return;
  } 
  // Show the cards
  for ( $i=0; $i < $Max; $i++)  {

@@ -702,9 +702,14 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     echo 'Période  '.$w->input("p_periode",$periode_start);
     $wLedger=$this->select_ledger('fin',3);
     if ($wLedger == null) exit ('Pas de journal disponible');
+
+    $wLedger->value[]=array('value'=>-1,'label'=>'Tous les journaux financiers');
+
+
     echo 'Journal '.$wLedger->input();
     $w=new ICard();
-	$w->jrn=$this->id;
+    $w->noadd='no';
+    $w->jrn=$this->id;
     $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
     echo dossier::hidden();
     echo HtmlInput::hidden('p_action','bank');
@@ -735,8 +740,10 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	  $User->get_exercice().")";
       }
     /* security  */
-    $available_ledger=" and jr_def_id= ".$this->id." and ".$User->get_ledger_sql();
-    
+    if( $this->id != -1)
+      $available_ledger=" and jr_def_id= ".$this->id." and ".$User->get_ledger_sql();
+    else
+          $available_ledger=" and ".$User->get_ledger_sql();
     // Show list of sell
     // Date - date of payment - Customer - amount
     $sql=SQL_LIST_ALL_INVOICE.$filter_per." and jr_def_type='FIN'".
@@ -744,17 +751,17 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $step=$_SESSION['g_pagesize'];
     $page=(isset($_GET['offset']))?$_GET['page']:1;
     $offset=(isset($_GET['offset']))?$_GET['offset']:0;
-    
+
     $l="";
     
     // check if qcode contains something
     if ( $qcode != "" )
       {
 	// add a condition to filter on the quick code
-	$l=" and jr_grpt_id in (select j_grpt from jrnx where j_qcode='$qcode') ";
+	$l=" and jr_grpt_id in (select j_grpt from jrnx where j_qcode=upper('$qcode')) ";
       }
     
-    list($max_line,$list)=ListJrn($this->db,0,"where jrn_def_type='FIN' $filter_per $l $available_ledger "
+    list($max_line,$list)=ListJrn($this->db,"where jrn_def_type='FIN' $filter_per $l $available_ledger "
 				  ,null,$offset,0);
     $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
     

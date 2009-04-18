@@ -454,6 +454,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
     if ( $wLedger == null ) 
       exit('Pas de journal disponible');
+    if ( count($wLedger->value) > 1)
+      $wLedger->value[]=array('value'=>-1,'label'=>'Tous les journaux de vente');
+
     echo 'Journal '.$wLedger->input();
     echo JS_SEARCH_CARD;
     echo JS_PROTOTYPE;
@@ -463,13 +466,14 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $all=$this->get_all_fiche_def();
 
     $w=new ICard();
-	$w->jrn=$this->id;
+    $w->jrn=$this->id;
     $w->name='qcode';
     $w->value=$qcode;
     $w->label='';
     $w->extra='filter';
     $w->extra2='QuickCode';
     $w->table=0;
+    $w->noadd='no';
     $sp=new ISpan();
     echo $w->input();
 
@@ -483,8 +487,11 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     } else {
       $cond=" and jr_tech_per=".$current;
     }
+    if ( $this->id != -1) 
+      $sql=SQL_LIST_ALL_INVOICE.$cond." and jr_def_id=".$this->id ;
+    else
+      $sql=SQL_LIST_ALL_INVOICE.$cond." and ".$User->get_ledger_sql('VEN',3);
     
-    $sql=SQL_LIST_ALL_INVOICE.$cond." and jr_def_id=".$this->id ;
     $step=$_SESSION['g_pagesize'];
     $page=(isset($_REQUEST['offset']))?$_REQUEST['page']:1;
     $offset=(isset($_REQUEST['offset']))?$_REQUEST['offset']:0;
@@ -502,8 +509,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	$sql="where jrn_def_type='VEN' $cond $l and $available_ledger ";
       }
 
-
-    list($max_line,$list)=ListJrn($this->db,$this->id,$sql,null,$offset,1);
+    list($max_line,$list)=ListJrn($this->db,$sql,null,$offset,1);
     $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
     
     echo "<hr>$bar";
@@ -801,9 +807,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     
     
     $sql=SQL_LIST_UNPAID_INVOICE_DATE_LIMIT." and jr_def_id=".$this->id ;
-    list($max_line,$list)=ListJrn($this->db,$this->id,$sql,null,$offset,1);
+    list($max_line,$list)=ListJrn($this->db,$sql,null,$offset,1);
     $sql=SQL_LIST_UNPAID_INVOICE." and jr_def_id=".$this->id ;
-    list($max_line2,$list2)=ListJrn($this->db,$this->id,$sql,null,$offset,1);
+    list($max_line2,$list2)=ListJrn($this->db,$sql,null,$offset,1);
 
     // Get the max line
     $m=($max_line2>$max_line)?$max_line2:$max_line;

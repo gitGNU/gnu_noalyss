@@ -56,9 +56,8 @@ function SearchCard(p_sessid,type,name,p_ledger,no_add)
 	jrn=p_ledger;
 	
   var file='fiche_search.php';
-var qadd='';
-if ( no_add != undefined ) { qadd="&noadd"}
-if ( no_add == 'no' ) { qadd="&noadd"}
+var qadd='&add=yes';
+if ( no_add != undefined && no_add=='no' ) { qadd="&add=no"}
 
 var query='?first&search&fic_search='+search+'&p_jrn='+jrn+'&PHPSESSID='+p_sessid
 +'&type='+type+'&name='+name+'&gDossier='+gDossier+qadd;

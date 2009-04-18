@@ -31,6 +31,7 @@
  *  	-  caller=searchcardCtrl : p_extra contains the control to update
  *	- caller =searchcard p_extra is not used
  * - extra extra data, its meaning depends of the caller
+   *\note if the j is -1 then all the card are shown
  */
 
 require_once('class_own.php');
@@ -49,6 +50,9 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
 { 
   $d=FormatString($_GET['d']);
   $jrn=FormatString($_GET['j']);
+
+  if ( $jrn == -1 ) 
+    $d='all';
 
   switch ($d) {
   case 'cred':
@@ -71,6 +75,10 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
 
     $filter_card="and fd_id in ($filter_jrn)";
     break;
+  case 'all':
+    $filter_card='';
+    break;
+
   default:
     $filter_card="and frd_id in ($d)";
   }

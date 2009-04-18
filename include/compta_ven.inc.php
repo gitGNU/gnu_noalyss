@@ -278,8 +278,7 @@ if ( $def == 2 ) {
 
   $Ledger=new Acc_Ledger_Sold($cn,0);
   if ( !isset($_REQUEST['p_jrn'])) {
-    $def_ledger=$Ledger->get_first('ven');
-    $Ledger->id=$def_ledger['jrn_def_id'];
+    $Ledger->id=-1;
   } else 
     $Ledger->id=$_REQUEST['p_jrn'];
 
@@ -317,8 +316,7 @@ if ( $def==3 ) {
   
   $Ledger=new Acc_Ledger_Sold($cn,0);
   if ( !isset($_REQUEST['p_jrn'])) {
-    $def_ledger=$Ledger->get_first('ven');
-    $Ledger->id=$def_ledger['jrn_def_id'];
+    $Ledger->id=-1;
   } else 
     $Ledger->id=$_REQUEST['p_jrn'];
 

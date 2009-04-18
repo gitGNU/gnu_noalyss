@@ -257,6 +257,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id 
                             $sql_type
                              order by jrn_Def_id";
+
     }
 
     $res=ExecSql($this->db,$sql);
@@ -272,8 +273,6 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
    *\return string
    */
   function get_ledger_sql($p_type='ALL',$p_access=3) {
-    /* for admin or local admin there is no restriction on the  ledger */
-    if ($this->admin == 1 || $this->is_local_admin(dossier::id()) == 1) return ' jrn_def_id > 0 ';
     $aLedger=$this->get_ledger($p_type,$p_access);
     if ( empty ($aLedger)) return ' jrn_def_id < 0 ';
     $sql=" jrn_def_id in (";

@@ -507,7 +507,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	$sql="where  $cond $l and $filter_ledger ";
       }
 
-    list($max_line,$list)=ListJrn($this->db,$this->id,$sql,null,$offset,0);
+    list($max_line,$list)=ListJrn($this->db,$sql,null,$offset,0);
     $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
     
     echo "<hr>$bar";
@@ -1701,5 +1701,140 @@ function get_last_date()
   function inc_seq_pj() {
     $sql="select nextval('s_jrn_pj".$this->id."')";
     ExecSql($this->db,$sql);
+  }
+
+  /*!\brief Compute the sql to show the row, called by ListJrn
+   *\param $array containing the search
+   *\param $p_order the order of the row
+   *\param $p_where is the sql condition if not null then the $p_array will not be used
+   *\return the sql stmt
+   */
+  static function compute_sql($p_array,$p_order,$p_where) {
+      $sql="select jr_id	,
+			jr_montant,
+                        substr(jr_comment,1,60) as jr_comment,
+			to_char(jr_ech,'DD.MM.YYYY') as jr_ech,
+			to_char(jr_date,'DD.MM.YYYY') as jr_date,
+                        jr_date as jr_date_order,
+			jr_grpt_id,
+			jr_rapt,
+			jr_internal,
+			jrn_def_id,
+			jrn_def_name,
+			jrn_def_ech,
+			jrn_def_type,
+                        jr_valid,
+                        jr_tech_per,
+                        jr_pj_name,
+                        p_closed,
+                        jr_pj_number
+		       from 
+			jrn 
+                            join jrn_def on jrn_def_id=jr_def_id 
+                            join parm_periode on p_id=jr_tech_per";
+
+    if ( $p_array == null ) {
+      $sql.="  $p_where              $p_order";
+      return $sql;
+    }
+
+    // Construction Query 
+    foreach ( $p_array as $key=>$element) {
+      ${"l_$key"}=$element;
+    }
+    $l_and=" where ";
+    // amount
+    // remove space
+    $l_s_montant=trim($l_s_montant);
+    // replace comma by dot
+    $l_s_montant=str_replace(',','.',$l_s_montant);
+    $l_st_montant=trim($l_st_montant);
+    // replace comma by dot
+    $l_st_montant=str_replace(',','.',$l_st_montant);
+    $done_comp=0;
+    echo_debug('user_common',__LINE__,"l_s_montant $l_s_montant");
+    /* -------------------------------------------------------------------------- */
+    /* if both amount are the same then we need to search into the detail
+     */
+    /* -------------------------------------------------------------------------- */
+    if ( ( ereg("^[0-9]+$", $l_s_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_s_montant)) &&
+	 ( ereg("^[0-9]+$", $l_st_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_st_montant) ) 
+	 )
+      {
+	if (	 bccomp($l_s_montant,$l_st_montant,2) == 0 ) {
+	  $sql .= $l_and. 'jr_grpt_id in  ( select distinct j_grpt from jrnx where j_montant = '.$l_s_montant.')';
+	  $l_and=" and ";
+	  $done_comp=1;
+
+	}
+
+      }
+    /*------------------------------------------------------------------------------*
+     * If amount are different the range is about the total of the operation
+     *------------------------------------------------------------------------------*/
+    if ( $done_comp==0 && (ereg("^[0-9]+$", $l_s_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_s_montant) )) 
+      {
+	$sql.=$l_and."  jr_montant >= $l_s_montant";
+	$l_and=" and ";
+      }
+    if ( $done_comp==0 && (ereg("^[0-9]+$", $l_st_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_st_montant) )) 
+      {
+	$sql.=$l_and."  jr_montant <= $l_st_montant";
+	$l_and=" and ";
+      }
+
+    // date
+    if ( isDate($l_date_start) != null ) 
+      {
+	$sql.=$l_and." jr_date >= to_date('".$l_date_start."','DD.MM.YYYY')";
+	$l_and=" and ";
+      }
+    if ( isDate($l_date_end) != null ) {
+      $sql.=$l_and." jr_date <= to_date('".$l_date_end."','DD.MM.YYYY')";
+      $l_and=" and ";
+    }
+    // comment
+    $l_s_comment=FormatString($l_s_comment);
+    if ( $l_s_comment != null ) 
+      {
+	$sql.=$l_and." ( upper(jr_comment) like upper('%".$l_s_comment."%') or upper(jr_pj_number) like upper('%".$l_s_comment."%') )";
+	$l_and=" and ";
+      }
+    // internal
+    $l_s_internal=FormatString($l_s_internal);
+    if ( $l_s_internal != null ) {
+      $sql.=$l_and."  jr_internal like upper('%$l_s_internal%')  ";
+      $l_and=" and ";
+    }
+    // Poste
+    $l_poste=FormatString($l_poste);
+    if ( $l_poste != null ) {
+      $sql.=$l_and."  jr_grpt_id in (select j_grpt 
+             from jrnx where j_poste::text like '$l_poste' )  ";
+      $l_and=" and ";
+    }
+    // Quick Code
+    if ( $l_qcode != null ) 
+      {
+	$l_qcode=FormatString($l_qcode);
+	$sql.=$l_and."  jr_grpt_id in ( select j_grpt from 
+             jrnx where trim(j_qcode) = upper(trim('$l_qcode')))";
+	$l_and=" and ";
+      }
+    // if not admin check filter 
+    $User=new User(DbConnect());
+    $User->Check();
+    $User->check_dossier(dossier::id());
+
+    if ( $User->admin == 0 && $User->is_local_admin()==0 ) 
+      {
+	$sql.=$l_and." jr_def_id in ( select uj_jrn_id ".
+	  " from user_sec_jrn where ".
+	  " uj_login='".$_SESSION['g_user']."'".
+	  " and uj_priv in ('R','W'))";
+      }
+    $sql.=$p_order;
+
+    return $sql;
   }
 }

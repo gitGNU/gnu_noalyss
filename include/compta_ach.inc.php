@@ -225,8 +225,7 @@ if ( $def == 2 ) {
   echo '<div class="content">';
   $Ledger=new Acc_Ledger_Purchase($cn,0);
   if ( !isset($_GET['p_jrn'])) {
-    $def_ledger=$Ledger->get_first('ach');
-    $Ledger->id=$def_ledger['jrn_def_id'];
+    $Ledger->id=-1;
   } else 
     $Ledger->id=$_GET['p_jrn'];
 

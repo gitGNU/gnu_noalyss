@@ -157,18 +157,18 @@ if ( $def == 2) {
 
 
   echo '<div class="content">';
-  if ( isset($_REQUEST['p_jrn']))
+  if ( isset($_REQUEST['p_jrn'])) {
     $Ledger->id=$_REQUEST['p_jrn'];
-  else {
-    $def_ledger=$Ledger->get_first('fin');
-    $Ledger->id=$def_ledger['jrn_def_id'];
+    $jrn_priv=$User->get_ledger_access($Ledger->id);
+    
+    // Check privilege
+    if ( isset($_REQUEST['p_jrn']) && $jrn_priv=='X') {
+      NoAccess();
+      exit -1;
+    }
   }
-  $jrn_priv=$User->get_ledger_access($Ledger->id);
-
- // Check privilege
-  if ( isset($_REQUEST['p_jrn']) && $jrn_priv=='X') {
-       NoAccess();
-       exit -1;
+  else {
+    $Ledger->id=-1;
   }
 
   $Ledger->show_ledger();
