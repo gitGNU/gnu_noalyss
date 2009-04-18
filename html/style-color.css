@@ -15,7 +15,7 @@ table.result {
   font-size:10px;
   color:blue;
   border:blue solid 1px;
-  width:80%;
+  width:100%;
   
   }
 table.result th { 
@@ -476,5 +476,15 @@ div.infobulle {
 	   z-index:10;
 	   width:25em;
 }
-
+td.msubtitle {
+	text-align:center;
+	height:20px;
+	font-size:10px;
+    background-color:#DDE6FF;
+}
+td.msubtitle:hover,td.msubtitle:hover a
+{
+  background-color:#a9d6e4;
+  color:white;
+}
 /* </style> */

@@ -15,7 +15,7 @@ table.result {
  font-size:10px;
  color:blue;
  border:blue solid 1px;
- width:80%;
+ width:100%;
 
  }
 table.result th {
@@ -25,6 +25,19 @@ table.result th {
  border-bottom:1px solid blue;
  padding-left:10px;
  padding-right:10px;
+ background-color: silver;
+ 
+}
+td.msubtitle {
+	text-align:center;
+	height:20px;
+	font-size:10px;
+    background-color:#DDE6FF;
+}
+td.msubtitle:hover,td.msubtitle:hover a
+{
+  background-color:#a9d6e4;
+  color:white;
 }
 
 h2 {
