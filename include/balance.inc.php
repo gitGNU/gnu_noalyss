@@ -81,13 +81,13 @@ $from_poste=new IPoste();
 $from_poste->name="from_poste";
 $from_poste->extra2=null;
 $from_poste->value=(isset($_POST['from_poste']))?$_POST['from_poste']:"";
-$from_span=new ISpan("from_poste_label","from_poste_label");
+$from_span=new ISpan("from_poste_label","");
 
 $to_poste=new IPoste();
 $to_poste->name="to_poste";
 $to_poste->extra2=null;
 $to_poste->value=(isset($_POST['to_poste']))?$_POST['to_poste']:"";
-$to_span=new ISpan("to_poste_label","to_poste_label");
+$to_span=new ISpan("to_poste_label","");
 $c=new ICheckBox();
 $c->label="centralisé";
 echo $c->input('central');
