@@ -22,6 +22,9 @@
  *        file included by user_impress
  *
  * some variable are already defined ($cn, $User ...)
+ * \bug IMPORTANT this file doesn't work properly : the problem is the
+ * javascript enable_type_periode which makes the from_periode,
+ * to_periode, p_step... undefined
 
  */
 require_once("class_ihidden.php");
@@ -39,22 +42,25 @@ if ( isset( $_GET['bt_html'] ) ) {
   $Form->get_name();
   // step asked ?
   //--
-  if ($_GET['p_step'] == 0 ) {
-	if ( $_GET ['type_periode'] == 0 )
-	  $array=$Form->get_row( $_GET['from_periode'],$_GET['to_periode'], $_GET['type_periode']);
-	else 
-	  $array=$Form->get_row( $_GET['from_date'],$_GET['to_date'], $_GET['type_periode']);
-  } else {
-    // step are asked
-    //--
-    for ($e=$_GET['from_periode'];$e<=$_GET['to_periode'];$e+=$_GET['p_step'])
-      {
+  if ( $_GET['type_periode'] == 1 )
+      $array=$Form->get_row( $_GET['from_date'],$_GET['to_date'], $_GET['type_periode']);
 
-		$periode=getPeriodeName($cn,$e);
-		if ( $periode == null ) continue;
-		$array[]=$Form->get_row($e,$e,$_GET['type_periode']);
-		$periode_name[]=$periode;
-      }
+  if ($_GET['type_periode']  == 0  && $_GET['p_step'] == 0 ) {
+      $array=$Form->get_row( $_GET['from_periode'],$_GET['to_periode'], $_GET['type_periode']);
+  
+  
+  if ($_GET['type_periode']  == 0  && $_GET['p_step'] == 1 ) {
+      // step are asked
+      //--
+      for ($e=$_GET['from_periode'];$e<=$_GET['to_periode'];$e+=$_GET['p_step'])
+	{
+
+	  $periode=getPeriodeName($cn,$e);
+	  if ( $periode == null ) continue;
+	  $array[]=$Form->get_row($e,$e,$_GET['type_periode']);
+	  $periode_name[]=$periode;
+	}
+    }
   }
 
 
@@ -88,29 +94,31 @@ if ( isset( $_GET['bt_html'] ) ) {
 	dossier::hidden().
     $hid->input("type","rapport").
     $hid->input("p_action","impress").
-    $hid->input("form_id",$Form->id).
-    $hid->input("from_periode",$_GET['from_periode']).
-    $hid->input("to_periode",$_GET['to_periode']).
-    $hid->input("p_step",$_GET['p_step']).
-    $hid->input("from_date",$_GET['from_date']).
-	$hid->input("to_date",$_GET['to_date']).
-	$hid->input("type_periode",$_GET['type_periode']);
+    $hid->input("form_id",$Form->id);
+  if ( isset($_GET['from_periode'])) echo $hid->input("from_periode",$_GET['from_periode']);
+  if ( isset($_GET['to_periode'])) echo $hid->input("to_periode",$_GET['to_periode']);
+  if (isset($_GET['p_step'])) echo $hid->input("p_step",$_GET['p_step']);
+  if ( isset($_GET['from_date'])) echo $hid->input("from_date",$_GET['from_date']);
+  if ( isset($_GET['to_date'])) echo $hid->input("to_date",$_GET['to_date']);
+    echo $hid->input("type_periode",$_GET['type_periode']);
+
 
 
 
   echo "</form></TD>";
   echo '<TD><form method="GET" ACTION="form_csv.php">'.
     HtmlInput::submit('bt_csv',"Export CSV").
-	dossier::hidden().
+    dossier::hidden().
     $hid->input("type","form").
     $hid->input("p_action","impress").
-    $hid->input("form_id",$Form->id).
-    $hid->input("from_periode",$_GET['from_periode']).
-    $hid->input("to_periode",$_GET['to_periode']).
-    $hid->input("p_step",$_GET['p_step']).
-    $hid->input("from_date",$_GET['from_date']).
-    $hid->input("to_date",$_GET['to_date']).
-	$hid->input("type_periode",$_GET['type_periode']);
+    $hid->input("form_id",$Form->id);
+  if ( isset($_GET['from_periode'])) echo $hid->input("from_periode",$_GET['from_periode']);
+  if ( isset($_GET['to_periode'])) echo $hid->input("to_periode",$_GET['to_periode']);
+  if (isset($_GET['p_step'])) echo $hid->input("p_step",$_GET['p_step']);
+  if ( isset($_GET['from_date'])) echo $hid->input("from_date",$_GET['from_date']);
+  if ( isset($_GET['to_date'])) echo $hid->input("to_date",$_GET['to_date']);
+  echo	$hid->input("type_periode",$_GET['type_periode']);
+
 
   echo "</form></TD>";
 
@@ -119,7 +127,7 @@ if ( isset( $_GET['bt_html'] ) ) {
   echo "</table>";
   if ( count($Form->row ) == 0 ) 
   	exit;
-
+  if ( $_GET['type_periode']==0 ) {
       if ( $_GET['p_step'] == 0) 
 	{ // check the step
 	  // show tables
@@ -134,7 +142,10 @@ if ( isset( $_GET['bt_html'] ) ) {
 	      ShowReportResult($e);
 	    }
 	  }
-
+    }
+  else {
+    ShowReportResult($Form->row);
+  }
   echo "</div>";
   exit;
 }
@@ -163,42 +174,48 @@ echo 	dossier::hidden();
 echo '<TABLE border="2"><TR>';
 $w=new ISelect();
 $w->table=1;
-$w->label="Choississez le rapport";
+print td("Choississez le rapport");
 print $w->input("form_id",$ret);
 print '</TR>';
-print '<TR>';
-// filter on the current year
-$filter_year=" where p_exercice='".$User->get_exercice()."'";
-
-$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
-$w->label="P&eacute;riode comptable : Depuis";
-print $w->input('from_periode',$periode_start);
-$w->label=" jusqu'à ";
-$periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode  $filter_year order by p_start,p_end");
-print $w->input('to_periode',$periode_end);
-print "</TR>";
-//--- by date
-$date=new IDate();
-$date->table=1;
-$date->label="Calendrier depuis :";
-echo $date->input('from_date');
-$date->label="jusque";
-echo $date->input('to_date');
 //-- calendrier ou periode comptable
 $aCal=array(
 			   array('value'=>0,'label'=>'P&eacute;riode comptable'),
 			   array('value'=>1,'label'=>'Calendrier')
 			   );
-$w->label='Type de date : ';
+
+$w->javascript=' onchange=enable_type_periode();';
 echo '<tr>';
+print td('Type de date : ');
 echo $w->input('type_periode',$aCal);
 echo '</Tr>';
+$w->javascript='';
+print '<TR>';
+// filter on the current year
+$filter_year=" where p_exercice='".$User->get_exercice()."'";
+
+$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
+print td("P&eacute;riode comptable : Depuis");
+echo $w->input('from_periode',$periode_start);
+print td(" jusqu'à ");
+$periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode  $filter_year order by p_start,p_end");
+print $w->input('to_periode',$periode_end);
+print "</TR>";
+echo '<tr>';
+//--- by date
+$date=new IDate();
+echo td("Calendrier depuis :");
+echo td($date->input('from_date'));
+echo td("jusque");
+echo td($date->input('to_date'));
+echo '</tr>';
+
 $aStep=array(
 	     array('value'=>0,'label'=>'Pas d\'étape'),
 	     array('value'=>1,'label'=>'1 mois')
 	     );
-$w->label='Par étape de';
-echo '<TR> '.$w->input('p_step',$aStep);
+echo '<tr>';
+echo td('Par étape de');
+echo $w->input('p_step',$aStep);
 echo '</TR>';
 
 echo '</TABLE>';
@@ -209,6 +226,7 @@ echo '<br>';
 print HtmlInput::submit('bt_html','Visualisation');
 
 echo '</FORM>';
+echo '<script>enable_type_periode()</script>';
 echo '</div>';
 //-----------------------------------------------------
 // Function
