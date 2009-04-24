@@ -32,7 +32,7 @@ trim = function(p_value) {
 
 // Set the focus to the specified field,
 // and select it if requested by SelectIt
-function GetID(ID) {
+function g(ID) {
   if (document.all) {
     return document.all[ID];
   } else if (document.getElementById) {
@@ -780,6 +780,22 @@ function quick_writing_add_row(){
 function my_clear(p_ctrl) {
 	if ( document.getElementById(p_ctrl)){
     document.getElementById(p_ctrl).value="";
+	}
+}
+/**
+ *@brief enable the type of periode
+ */
+function enable_type_periode() {
+	if ( g('type_periode').value == 1 ) {
+		g('from_periode').disabled=true;
+		g('to_periode').disabled=true;
+		g('from_date').disabled=false;
+		g('to_date').disabled=false;
+	} else {
+		g('from_periode').disabled=false;
+		g('to_periode').disabled=false;
+		g('from_date').disabled=true;
+		g('to_date').disabled=true;
 	}
 }
 

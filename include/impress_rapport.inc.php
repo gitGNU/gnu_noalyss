@@ -86,13 +86,13 @@ if ( isset( $_GET['bt_html'] ) ) {
 	dossier::hidden().
     $hid->IOValue("type","rapport").
     $hid->IOValue("p_action","impress").
-    $hid->IOValue("form_id",$Form->id).
-    $hid->IOValue("from_periode",$_GET['from_periode']).
-    $hid->IOValue("to_periode",$_GET['to_periode']).
-    $hid->IOValue("p_step",$_GET['p_step']).
-    $hid->IOValue("from_date",$_GET['from_date']).
-	$hid->IOValue("to_date",$_GET['to_date']).
-	$hid->IOValue("type_periode",$_GET['type_periode']);
+    $hid->IOValue("form_id",$Form->id);
+  if ( isset($_GET['from_periode'])) echo $hid->IOValue("from_periode",$_GET['from_periode']);
+  if ( isset($_GET['to_periode'])) echo $hid->IOValue("to_periode",$_GET['to_periode']);
+  echo $hid->IOValue("p_step",$_GET['p_step']);
+  if ( isset($_GET['from_date'])) echo $hid->IOValue("from_date",$_GET['from_date']);
+  if ( isset($_GET['to_date'])) echo $hid->IOValue("to_date",$_GET['to_date']);
+    echo $hid->IOValue("type_periode",$_GET['type_periode']);
 
 
 
@@ -102,13 +102,13 @@ if ( isset( $_GET['bt_html'] ) ) {
 	dossier::hidden().
     $hid->IOValue("type","form").
     $hid->IOValue("p_action","impress").
-    $hid->IOValue("form_id",$Form->id).
-    $hid->IOValue("from_periode",$_GET['from_periode']).
-    $hid->IOValue("to_periode",$_GET['to_periode']).
-    $hid->IOValue("p_step",$_GET['p_step']).
-    $hid->IOValue("from_date",$_GET['from_date']).
-    $hid->IOValue("to_date",$_GET['to_date']).
-	$hid->IOValue("type_periode",$_GET['type_periode']);
+    $hid->IOValue("form_id",$Form->id);
+  if ( isset($_GET['from_periode'])) echo $hid->IOValue("from_periode",$_GET['from_periode']);
+  if ( isset($_GET['to_periode'])) echo $hid->IOValue("to_periode",$_GET['to_periode']);
+  echo $hid->IOValue("p_step",$_GET['p_step']);
+  if ( isset($_GET['from_date'])) echo $hid->IOValue("from_date",$_GET['from_date']);
+  if ( isset($_GET['to_date'])) echo $hid->IOValue("to_date",$_GET['to_date']);
+  echo	$hid->IOValue("type_periode",$_GET['type_periode']);
 
   echo "</form></TD>";
 
@@ -164,6 +164,17 @@ $w->table=1;
 $w->label="Choississez le rapport";
 print $w->IOValue("form_id",$ret);
 print '</TR>';
+//-- calendrier ou periode comptable
+$aCal=array(
+			   array('value'=>0,'label'=>'P&eacute;riode comptable'),
+			   array('value'=>1,'label'=>'Calendrier')
+			   );
+$w->label='Type de date : ';
+$w->javascript=' onchange=enable_type_periode();';
+echo '<tr>';
+echo $w->IOValue('type_periode',$aCal);
+echo '</Tr>';
+$w->javascript='';
 print '<TR>';
 // filter on the current year
 $filter_year=" where p_exercice='".$User->get_exercice()."'";
@@ -182,19 +193,11 @@ $date->label="Calendrier depuis :";
 echo $date->IOValue('from_date');
 $date->label="jusque";
 echo $date->IOValue('to_date');
-//-- calendrier ou periode comptable
-$aCal=array(
-			   array('value'=>0,'label'=>'P&eacute;riode comptable'),
-			   array('value'=>1,'label'=>'Calendrier')
-			   );
-$w->label='Type de date : ';
-echo '<tr>';
-echo $w->IOValue('type_periode',$aCal);
-echo '</Tr>';
 $aStep=array(
 	     array('value'=>0,'label'=>'Pas d\'étape'),
 	     array('value'=>1,'label'=>'1 mois')
 	     );
+
 $w->label='Par étape de';
 echo '<TR> '.$w->IOValue('p_step',$aStep);
 echo '</TR>';
@@ -207,6 +210,7 @@ echo '<br>';
 print widget::submit('bt_html','Visualisation');
 
 echo '</FORM>';
+echo '<script>enable_type_periode()</script>';
 echo '</div>';
 //-----------------------------------------------------
 // Function
