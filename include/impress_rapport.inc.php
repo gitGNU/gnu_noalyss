@@ -22,16 +22,11 @@
  *        file included by user_impress
  *
  * some variable are already defined ($cn, $User ...)
- * \bug IMPORTANT this file doesn't work properly : the problem is the
- * javascript enable_type_periode which makes the from_periode,
- * to_periode, p_step... undefined
-
  */
 require_once("class_ihidden.php");
 require_once("class_iselect.php");
 require_once("class_idate.php");
 require_once("class_acc_report.php");
-
 //-----------------------------------------------------
 // If print is asked
 // First time in html
@@ -42,12 +37,13 @@ if ( isset( $_GET['bt_html'] ) ) {
   $Form->get_name();
   // step asked ?
   //--
+
   if ( $_GET['type_periode'] == 1 )
       $array=$Form->get_row( $_GET['from_date'],$_GET['to_date'], $_GET['type_periode']);
 
-  if ($_GET['type_periode']  == 0  && $_GET['p_step'] == 0 ) {
+  if ($_GET['type_periode']  == 0  && $_GET['p_step'] == 0 ) 
       $array=$Form->get_row( $_GET['from_periode'],$_GET['to_periode'], $_GET['type_periode']);
-  
+      
   
   if ($_GET['type_periode']  == 0  && $_GET['p_step'] == 1 ) {
       // step are asked
@@ -61,7 +57,7 @@ if ( isset( $_GET['bt_html'] ) ) {
 	  $periode_name[]=$periode;
 	}
     }
-  }
+
 
 
   $rep="";
