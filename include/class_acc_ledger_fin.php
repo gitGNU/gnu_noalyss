@@ -612,7 +612,6 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 		  //
 		  $rec=new Acc_Reconciliation ($this->db);
 		  $rec->set_jr_id($jr_id);
-		  $rec->insert($l_array['jr_id']);
 
 		  if ( isNumber($rRapt) == 1 ) 
 		    {
