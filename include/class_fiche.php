@@ -373,13 +373,17 @@ class fiche {
 	  if ( $p_readonly) 
 	    {
 	      $w=new IText();
+	      $w->table=1;
+	  
 	    }
 	  if ($p_readonly==false)
 	    {
+
 	      if ( $r->ad_id == ATTR_DEF_ACCOUNT) 
 		{
 		  $ret.=JS_SEARCH_POSTE;
 		  $w=new IPoste();
+		  $w->table=2;
 		  //  account created automatically
 		  $sql="select account_auto($this->fiche_def)";
 		  echo_debug("class_fiche",__LINE__,$sql);
@@ -395,6 +399,8 @@ class fiche {
 		{
 		  $ret.=JS_SHOW_TVA;
 		  $w=new ITva();
+		  $w->table=1;
+
 	    }
 	      elseif ( $r->ad_id == ATTR_DEF_COMPANY )
 		{
@@ -403,6 +409,8 @@ class fiche {
 		  // filter on frd_id
 		  $w->extra=FICHE_TYPE_CLIENT.','.FICHE_TYPE_FOURNISSEUR.','.FICHE_TYPE_ADM_TAX; 
 		  $w->extra2=0;      // jrn = 0
+		  $w->table=1;
+	      
 		  $label=new ISpan();
 		  $label->name="av_text".$r->ad_id."_label";
 		  $msg=$label->input();
@@ -411,16 +419,15 @@ class fiche {
 	      else 
 		{
 		  $w=new IText();
+		  $w->table=1;
 		}
 	    }
-	  $w->label=$r->ad_text;
 	  $w->value=$r->av_text;
 	  $w->name="av_text".$r->ad_id;
 	  $w->readonly=$p_readonly;
-	  $w->table=1;
 
 
-	  $ret.="<TR>".$w->input()."$msg </TR>";
+	  $ret.="<TR>".td($r->ad_text).$w->input()."$msg </TR>";
 	}
       $ret.="</table>";
       return $ret;
