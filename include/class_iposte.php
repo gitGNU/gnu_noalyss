@@ -22,8 +22,16 @@
 
 /*!\file 
  * \brief Html Input 
+ * 
  */
 require_once('class_html_input.php');
+/**
+ *@brief show a button, for selecting a account and a input text for manually inserting an account
+ * the different value of table are 
+ * - 0 no table, it means no TD tags
+ * - 1 the button and the text are separated by TD tags
+ * - 2 the button and the text are in the same column (TD)
+ */
 class IPoste extends HtmlInput
 {
   /*!\brief show the html  input of the widget*/
@@ -80,6 +88,11 @@ class IPoste extends HtmlInput
     if  ( $this->table==0) {
       $r=str_replace ('<TD>','',$r);
       $r=str_replace ('</TD>','',$r);
+    }
+    if ( $this->table==2) {
+      $r=str_replace ('<TD>','',$r);
+      $r=str_replace ('</TD>','',$r);
+      $r=td($r);
     }
     return $r;
 
