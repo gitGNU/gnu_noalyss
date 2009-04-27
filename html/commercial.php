@@ -80,19 +80,13 @@ echo menu_tool('commercial.php');
 echo '<div style="float:left;background-color:#879ED4;width:100%;">';
 
 echo ShowItem(array(
+		    array('?p_action=tdb&'.$str_dossier,'Tableau de bord'),
 		    array('?p_action=client&'.$str_dossier,'Client'),
-		    array('?p_action=ven&'.$str_dossier,'Vente/Facture'),
 		    array('?p_action=fournisseur&'.$str_dossier,'Fournisseur'),
-		    array('?p_action=ach&'.$str_dossier,'Achat/D&eacute;pense'),
-		    array('?p_action=bank&'.$str_dossier,'Banque'),
-		    array('?p_action=quick_writing&'.$str_dossier,'Ecriture directe'),
-		    array('?p_action=impress&'.$str_dossier,'Impression'),
+		    array('?p_action=adm&'.$str_dossier,'Administration'),
 		    array('?p_action=stock&'.$str_dossier,'Stock'),
-		    array('?p_action=fiche&'.$str_dossier,'Fiche'),
-		    array('?p_action=periode&'.$str_dossier,'Ferm. Periode'),
-		    array('?p_action=central&'.$str_dossier,'Centralisation'),
-		    array('?p_action=defreport&'.$str_dossier,'Rapport'),
 		    array('?p_action=contact&'.$str_dossier,'Contact'),
+		    array('?p_action=prev&'.$str_dossier,'Prevision'),
 		    array('?p_action=suivi_courrier&'.$str_dossier,'Suivi Courrier'),
 		    ),
 	      'H',"mtitle","mtitle","?p_action=$p_action&".$str_dossier,' width="100%"');
