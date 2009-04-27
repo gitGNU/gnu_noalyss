@@ -641,22 +641,20 @@ $r.='<script language="javascript">
   $agent=$_SERVER['HTTP_USER_AGENT'];
 
   $amodule=array(
+		 array('value'=>'access.php','label'=>'Accueil'),
 		 array('value'=>'user_pref.php','label'=>'Preference'),
-		 array('value'=>'parametre.php','label'=>'Parametre'),
-		 array('value'=>'budget.php','label'=>'Budget'),
+		 array('value'=>'parametre.php','label'=>'Paramètre'),
 		 array('value'=>'user_login.php','label'=>'Autre Dossier'),
+		 array('value'=>'logout.php','label'=>'Deconnexion'),
 		 array('value'=>'new_line'),
-		 array('value'=>'user_compta.php','label'=>'Comptabilite'),
+		 array('value'=>'user_compta.php','label'=>'Compta Générale'),
 		 array('value'=>'commercial.php','label'=>'Gestion'),
 		 array('value'=>'comptanalytic.php','label'=>'Compt. Analytique'),
-		 array('value'=>'access.php','label'=>'Accueil'),
-		 array('value'=>'logout.php','label'=>'Deconnection')
+		 array('value'=>'budget.php','label'=>'Budget')
 	       );
 
   $gDossier=dossier::id();
-  $r.=    '<table><tr><td class="mtitle2">';
-  $r.= '<A class="cell" HREF="javascript:openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$gDossier.')">'.
-    'Recherche</a></td>';
+  $r.=    '<table>';
   foreach($amodule as $col ) {
     $url=$col['value'].'?'.dossier::get();
     if ( $p_from==$col['value']) {
@@ -675,7 +673,11 @@ $r.='<script language="javascript">
     }
 
   }
+   $r.='<td class="mtitle2">';
+  $r.= '<A class="cell" HREF="javascript:openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$gDossier.')">'.
+    'Recherche</a></td>';
   $r.='</tr>';
+
   $r.= '</table>';
   $r.= '</div>';
   
