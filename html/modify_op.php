@@ -48,7 +48,7 @@ $acc=new Acc_Operation($cn);
 if (isset($_REQUEST['line']))
   $acc->jr_id=$_REQUEST ['line'];
 else 
-  $acc->jr_id=$_REQUEST ['jr_ir'];
+  $acc->jr_id=$_REQUEST ['jr_id'];
 
 $p_jrn=$acc->get_ledger();
 
@@ -289,7 +289,7 @@ if ( isset($_POST['update_record']) ) {
 		}
 
 		if ( $tot_tab != $_POST['amount_t'.$tab]) {
-		  echo '<script>alert ("Erreur montant CA Operation annulee")</script>';
+		  echo '<script>alert ("Erreur montant dans Comptabilite analytique\n Operation annulee")</script>';
 		  redirect($_SERVER['HTTP_REFERER']);
 		  return;
 		}
