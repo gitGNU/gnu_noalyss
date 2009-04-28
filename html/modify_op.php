@@ -294,7 +294,7 @@ if ( isset($_POST['update_record']) ) {
 
 		if ( $tot_tab != $_POST['amount_t'.$tab]) {
 		  echo '<script>alert ("Erreur montant dans Comptabilite analytique\n Operation annulee")</script>';
-		  exit(); // get_redirect($_SERVER['HTTP_REFERER']);
+		  get_redirect($_SERVER['HTTP_REFERER']);
 		  return;
 		}
 		$tot_tab=0;
