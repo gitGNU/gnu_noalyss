@@ -177,10 +177,11 @@ where
  * \brief  show the default screen
  *        
  * \param p_search (filter) 
+ * \param p_action show the action column
  *	 
  * \return: string to display
  */
-  function Summary($p_search) 
+  function Summary($p_search,$p_action=1) 
     {
       $str_dossier=dossier::get();
       $p_search=FormatString($p_search);
@@ -222,9 +223,9 @@ where
 <th>Adresse</th>
 <th>Total d&eacute;bit</th>
 <th>Total cr&eacute;dit</th>
-<th>Solde</th>
-<th colspan="5">Action </th>
-</TR>';
+<th>Solde</th>';
+      $r.=($p_action==1)?'<th colspan="5">Action</th>':'';
+$r.='</TR>';
 	  echo_debug(__FILE__,__LINE__,$step_client);
       if ( sizeof ($step_client ) == 0 )
 	return $r;
@@ -250,18 +251,18 @@ where
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['debit']);
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['credit']);
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['solde']);
-
-	if ( basename($script)=='commercial.php') {
-	  $r.="<TD>";
+	if ( $p_action == 1 ) {
+	  if ( basename($script)=='commercial.php') {
+	    $r.="<TD>";
 	  
-	  $r.=sprintf('<A class="mtitle" HREF="%s?p_action=contact&qcode=%s&%s&url=%s" title="Contact">Contact</A></td>',
-		      $script,$client->strAttribut(ATTR_DEF_QUICKCODE),$str_dossier,$url);
-	  $r.=sprintf('<td><A  class="mtitle"  HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&%s&url=%s" title="Action">Courrier</A></td> ',
-		      $script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
+	    $r.=sprintf('<A class="mtitle" HREF="%s?p_action=contact&qcode=%s&%s&url=%s" title="Contact">Contact</A></td>',
+			$script,$client->strAttribut(ATTR_DEF_QUICKCODE),$str_dossier,$url);
+	    $r.=sprintf('<td><A  class="mtitle"  HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&%s&url=%s" title="Action">Courrier</A></td> ',
+			$script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
 	  
 	  
-	} 
-	$p_action_ven=( $script == "commercial.php")?"p_action=client&sa=f":"p_action=ven&sa=l";
+	  } 
+	  $p_action_ven=( $script == "commercial.php")?"p_action=client&sa=f":"p_action=ven&sa=l";
 	  $r.='<td><A  class="mtitle"  HREF="?'.$p_action_ven.'&p_periode=-1&'.$str_dossier.'&qcode='.$client->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$url.'" title="Historique Facture">Facture</A></td>';
 	  $r.=sprintf('<td><A class="mtitle" HREF="%s?liste&p_action=bank&sa=l&qcode=%s&%s&url=%s&p_periode=-1" title="Financier">Financier</A></td>',
 		      $script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
@@ -272,7 +273,7 @@ title="Operation">Operation</A></td>',
 	  
 	  $r.='</TD>';
 	
-	  
+	}
 	
 	$r.="</TR>";
 

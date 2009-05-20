@@ -122,7 +122,7 @@ if ( $sub_action == "list" )
  $search=(isset($_GET['query']))?$_GET['query']:"";
 
  echo '<div class="content">';
- echo $client->Summary($search);
+ echo $client->Summary($search,$action);
  echo '</div>';
  echo '</div>';
 

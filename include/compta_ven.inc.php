@@ -347,5 +347,6 @@ if ( $def==3 ) {
 }
 if ( $p_action == 'client') {
   $User->can_request(GECUST,1);
+  $action=1;
   require_once ('client.inc.php');
 }
