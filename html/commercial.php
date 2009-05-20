@@ -113,6 +113,7 @@ if ( $p_action == "pref" )
 if ( $p_action == "client" ) 
 {
   $User->can_request(GECUST,1);
+  $action=0;
   require_once("client.inc.php");
 }// $p_action == fournisseur
 //-----------------------------------------------------
