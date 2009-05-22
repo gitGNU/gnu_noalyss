@@ -44,7 +44,7 @@ class User {
       if ( ! isset ($_SESSION['g_user'])){ 
 	echo '<h2 class="error"> Utilisateur déconnecté</h2>';
 	redirect('index.php',5);
-
+	exit();
       }
 
       $this->login=$_SESSION['g_user'];

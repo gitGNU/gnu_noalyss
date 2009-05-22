@@ -7,11 +7,8 @@ BODY {
 }
 .notice {
 		color:red;
-        /*font-weight:bold;*/
         font-style: italic;
-        
-
-}
+        }
 
 table.result {
   font-size:10px;
@@ -177,6 +174,15 @@ div.content{
          float:left; 	 
 	 padding-top:7px;
          width:100%; 	 
+         font-size:9px; 	 
+         font-family:sans-serif; 	 
+
+}
+div.content30{ 	 
+         position: float; 	 
+         float:left; 	 
+	 padding-top:7px;
+         width:35%; 	 
          font-size:9px; 	 
          font-family:sans-serif; 	 
 
@@ -400,8 +406,10 @@ div.content a {
   text-decoration: none;
   display: block;
   color: blue;
-
+padding: 1px ;
+	
 }
+
 
 div.content a:hover {
   font-size:9px;
@@ -412,6 +420,7 @@ div.content a:hover {
     display: block;
 
 }
+
 div.u_redcontent a.mtitle {
   font-size:10px;
   text-decoration:none;
@@ -505,6 +514,9 @@ fieldset fieldset legend {
 select {
 border: 1px solid blue;
 }
+
+
+
 .infobulle {
 	   position:absolute;
 	   border:1px solid black;
@@ -513,7 +525,8 @@ border: 1px solid blue;
 	   visibility:hidden;
 	   z-index:10;
 	   width:25em;
-           
+       
 }
+
 
 /* </style> */

@@ -389,11 +389,11 @@ class fiche {
 		  echo_debug("class_fiche",__LINE__,$sql);
 		  $ret_sql=ExecSql($this->cn,$sql);
 		  $a=pg_fetch_array($ret_sql,0);
-		  $msg='<tD><span id="'.$r->ad_id.'_label"></span></td>';
+		  $msg='<tD><span id="'.$r->ad_id.'_label"></span>'.HtmlInput::infobulle(10).'</td>';
 
 		  if ( $a['account_auto'] == 't' )
 		    $msg.="<TD> <font color=\"red\">si vide le Poste sera créé automatiquement</font> </TD> ";
-		  $msg.="<td><font color=\"red\">ATTENTION changer le poste comptable d'une fiche modifiera toutes les opérations où cette fiche est utilisée</font></td>";
+
 		}
 	      elseif ( $r->ad_id == ATTR_DEF_TVA) 
 		{

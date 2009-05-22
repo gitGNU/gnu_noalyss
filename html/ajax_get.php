@@ -16,39 +16,37 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-/* $Revision: 1615 $ */
+/* $Revision$ */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
- * \brief Html Input 
+/*!\file
+ * \brief this file respond to an ajax request and return an object with the ctl and the html string
+ * {'ctl':'','html':''}
+ * The parameters are
+ * - PHPSESSID
+ * - gDossier
+ * - f_id 
+ * - op action to take
+ * - p page 
+ * - ctl (to return)
  */
-require_once('class_html_input.php');
- class IButton extends HtmlInput
-{
-	var $label; 
-	/*!\brief show the html  input of the widget*/
-	public function input($p_name=null,$p_value=null)
- 	{
-		 $this->name=($p_name==null)?$this->name:$p_name;
-		 $this->value=($p_value==null)?$this->value:$p_value;
-		 if ( $this->readOnly==true) return $this->display();
-		$extra= ( isset($this->extra))?$this->extra:"";
-
-		$r='<input type="BUTTON" name="'.$this->name.'"'.
-		  ' id="'.$this->name.'"'.
-		  ' value="'.$this->value.'"'.
-		  ' onClick="'.$this->javascript.'"'.$extra.'>';
-		return $r;
-
-	}
-	/*!\brief print in html the readonly value of the widget*/
-	public function display()
- 	{
-		return "";
-	}
-	static public function test_me()
- 	{
-
-	}
+$var=array('PHPSESSID','gDossier','f_id','op','p','ctl');
+$cont=0;
+foreach ($var as $v) {
+  if ( ! isset ($_GET[$v] ) ) {
+    echo "$v is not set ";
+    $cont=1;
+  }
 }
+if ( $cont != 0 ) exit();
+extract($_GET);
+
+switch($op) {
+case "op":
+  $html="Vous demandez Historique Operation ";
+
+}
+sleep(5);
+header("Content-type: text/html; charset: utf8",true);
+echo "{'ctl':'".$_GET['ctl']."','html':'".$html."'}";

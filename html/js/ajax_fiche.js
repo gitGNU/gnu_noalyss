@@ -164,4 +164,35 @@ function ajax_success_saldo(request,json) {
   $('first_sold').value=answer.saldo;
   
 }
+/*!\brief this function get data from ajax_get.php and fill the hidden div with the return html string
+* \param phpsessid
+* \param p_dossier
+* \param f_id fiche.f_id
+* \param p_operation what to do : op : history of operation
+* \param ctl : id of the div to show
+* \param page
+*/
+function ajax_get(phpsessid,p_dossier,f_id,p_operation,ctl,page) {
+$(ctl).show();
+var queryString="PHPSESSID="+phpsessid+"&gDossier="+p_dossier+"&f_id="+f_id+"&op="+p_operation+"&p="+page+'&ctl='+ctl;
+var action = new Ajax.Request(
+	"ajax_get.php" , { method:'get', parameters:queryString,onFailure:ajax_get_failure,onSuccess:ajax_get_success}
+    );
+}
+/*!\brief callback function for ajax_get when successuf
+*/
+function ajax_get_success(request,json)
+{
+var answer=request.responseText.evalJSON(false);
+$(answer.ctl).show();
+$(answer.ctl).innerHTML=answer.html;
+}
+/*!\brief callback function for ajax_get when fails
+*/
+function ajax_get_failure(request,json)
+{
+alert("Ajax do not work for ajax_get");
+
+}
+
 //-->

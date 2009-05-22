@@ -21,8 +21,10 @@
 require_once("class_iselect.php");
 require_once("class_ihidden.php");
 require_once("class_customer.php");
+require_once("class_ibutton.php");
 $sub_action=(isset($_REQUEST['sb']))?$_REQUEST['sb']:"list";
-
+echo JS_PROTOTYPE;
+echo JS_AJAX_FICHE;
 /*! \file
  * \brief Called from the module "Gestion" to manage the customer
  */
@@ -132,10 +134,10 @@ if ( $sub_action == "list" )
 if ( $sub_action == 'detail' )
 {
   $f_id=$_REQUEST['f_id'];
-  echo '<div class="content">';
+  echo '<div class="content30">';
   $client=new Customer($cn,$f_id);
   $retour=HtmlInput::button_href("Retour", urldecode($_REQUEST['url']));
-
+  echo JS_INFOBULLE;
   echo $retour;
   echo '<form action="'.$_REQUEST['url'].'" method="post">'; 
   echo dossier::hidden();
@@ -155,7 +157,17 @@ if ( $sub_action == 'detail' )
   
   echo '</form>';
   echo $retour;
-  echo '<div>';
+  echo '</div>';
+  echo '<div style="float:left;padding-top:20px">';
+
+  $operation=new IButton("allop","Historique opérations");
+  $operation->javascript=sprintf("ajax_get('%s','%s','%s','%s','detail','%s')",
+				 $_REQUEST['PHPSESSID'],dossier::id(),$f_id,'op','1');
+  echo $operation->input();
+  echo "</div>";
+  echo '<div id="detail" style="float:left;clear:both;display:none">';
+  echo '<b>Chargement </b> <img src="image/load.gif" height="24">';
+  echo '</div>';
 }
 html_page_stop();
 ?>
