@@ -81,7 +81,7 @@ if ( ! empty ($array)) {
   echo '<table style="border: 2px outset blue; width: 100%;" >';
   echo $tr.$th.'Libell&eacute;'.$eth.$th.'Type de fiche'
   .$eth.$th.'enregistr&eacute; dans le journal'.$eth.
-    $th.' Avec la fiche'.$eth.$th.'Aciotn'.$eth.$etr;
+    $th.' Avec la fiche'.$eth.$th.'Action'.$eth.$etr;
   foreach ($array as $row) {
     echo $tr;
     echo $row->row();
@@ -108,7 +108,7 @@ if ( ! empty ($array)) {
   echo '<table style="border: 2px outset blue; width: 100%;" >';
   echo $tr.$th.'Libell&eacute;'.$eth.$th.'Type de fiche'
   .$eth.$th.'enregistr&eacute; dans le journal'.$eth.
-    $th.' Avec la fiche'.$eth.$th.'Aciotn'.$eth.$etr;
+    $th.' Avec la fiche'.$eth.$th.'Action'.$eth.$etr;
   foreach ($array as $row) {
     echo $tr;
     echo $row->row();
