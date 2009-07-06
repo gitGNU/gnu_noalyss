@@ -139,5 +139,9 @@ class HtmlInput {
     $r='<A HREF="#" style="display:inline;color:black;background-color:yellow;padding-left:4px;padding-right:4px;text-decoration:none;" onmouseover="showBulle(\''.$p_comment.'\')"  onclick="showBulle(\''.$p_comment.'\')" onmouseout="hideBulle(0)">?</A>';
     return $r;
   }
+  static function warnbulle($p_comment){
+    $r='<A HREF="#" style="display:inline;color:black;background-color:red;padding-left:4px;padding-right:4px;text-decoration:none;" onmouseover="showBulle(\''.$p_comment.'\')"  onclick="showBulle(\''.$p_comment.'\')" onmouseout="hideBulle(0)">XX</A>';
+    return $r;
+  }
 
 }
