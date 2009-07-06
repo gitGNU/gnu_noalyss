@@ -159,15 +159,44 @@ if ( $sub_action == 'detail' )
   echo $retour;
   echo '</div>';
   echo '<div style="float:left;padding-top:20px">';
+  /* Detail Compte */
+  $operation=new IButton("allop","Détail Compte");
+  $operation->javascript=sprintf("ajax_get('%s','%s','%s','%s','detail','%s')",
+				 $_REQUEST['PHPSESSID'],dossier::id(),$f_id,'dc','1');
+  echo $operation->input();
+  unset ($operation);
 
-  $operation=new IButton("allop","Historique opérations");
+  /* accountant operation */
+  $operation=new IButton("allop","Historique Comptabilité");
   $operation->javascript=sprintf("ajax_get('%s','%s','%s','%s','detail','%s')",
 				 $_REQUEST['PHPSESSID'],dossier::id(),$f_id,'op','1');
   echo $operation->input();
-  echo "</div>";
-  echo '<div id="detail" style="float:left;clear:both;display:none">';
+  unset ($operation);
+
+  /*  financial operation  */
+  $operation=new IButton("allop","Mouvement Financier");
+  $operation->javascript=sprintf("ajax_get('%s','%s','%s','%s','detail','%s')",
+				 $_REQUEST['PHPSESSID'],dossier::id(),$f_id,'mf','1');
+  echo $operation->input();
+  unset ($operation);
+  /* mail  */
+  $operation=new IButton("allop","Historique Contact & Courrier");
+  $operation->javascript=sprintf("ajax_get('%s','%s','%s','%s','detail','%s')",
+				 $_REQUEST['PHPSESSID'],dossier::id(),$f_id,'hc','1');
+  echo $operation->input();
+  unset ($operation);
+  /* action */
+  $operation=new IButton("allop","Liste Contact");
+  $operation->javascript=sprintf("ajax_get('%s','%s','%s','%s','detail','%s')",
+				 $_REQUEST['PHPSESSID'],dossier::id(),$f_id,'lc','1');
+  echo $operation->input();
+  unset ($operation);
+
+  echo '<div id="detail" style="display:none">';
   echo '<b>Chargement </b> <img src="image/load.gif" height="24">';
   echo '</div>';
+  echo "</div>";
+
 }
 html_page_stop();
 ?>

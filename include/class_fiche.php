@@ -370,6 +370,7 @@ class fiche {
       foreach ( $attr as $r) 
 	{
 	  $msg="";
+	  $bulle="";
 	  if ( $p_readonly) 
 	    {
 	      $w=new IText();
@@ -389,10 +390,10 @@ class fiche {
 		  echo_debug("class_fiche",__LINE__,$sql);
 		  $ret_sql=ExecSql($this->cn,$sql);
 		  $a=pg_fetch_array($ret_sql,0);
-		  $msg='<tD><span id="'.$r->ad_id.'_label"></span>'.HtmlInput::infobulle(10).'</td>';
+		  $bulle=HtmlInput::infobulle(10);
 
 		  if ( $a['account_auto'] == 't' )
-		    $msg.="<TD> <font color=\"red\">si vide le Poste sera créé automatiquement</font> </TD> ";
+		    $bulle.=HtmlInput::warnbulle(11);
 
 		}
 	      elseif ( $r->ad_id == ATTR_DEF_TVA) 
@@ -427,7 +428,7 @@ class fiche {
 	  $w->readonly=$p_readonly;
 
 
-	  $ret.="<TR>".td($r->ad_text).$w->input()."$msg </TR>";
+	  $ret.="<TR>".td($r->ad_text.$bulle).$w->input()."$msg </TR>";
 	}
       $ret.="</table>";
       return $ret;

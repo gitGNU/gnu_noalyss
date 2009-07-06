@@ -133,6 +133,9 @@ if ( $p_action == 'suivi_courrier')
 }
 //-----------------------------------------------------
 // p_action == facture
+/*!
+ \todo remove it : obsolete 
+*/
 //-----------------------------------------------------
 if ( $p_action == "ven" ) 
 {
@@ -145,6 +148,9 @@ if ( $p_action == 'contact')
   require_once("contact.inc.php");
 }
 //-----------------------------------------------------
+/*!
+\todo remove it : obsolete 
+*/
 // Expense
 if ( $p_action == 'ach') 
 {

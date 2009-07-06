@@ -33,6 +33,7 @@ content[7]="(optionnel) Ces champs servent à contrôler que les montants corres
 content[8]="(optionnel) Ce montant correspond au total tva, si vous le laissez à vide, il sera calculé automatiquement en fonction du taux";
 content[9]="Tapez le numéro de poste ou une partie du poste ou du libellé puis sur recherche, Si vous avez donné un quickcode, le poste comptable ne sera pas utilisé";
 content[10]="ATTENTION changer le poste comptable d'une fiche modifiera <b>toutes les opérations</b> où cette fiche est utilisée";
+content[11]="ATTENTION si le poste comptable est  vide, il sera créé automatiquement";
 function showBulle(p_ctl) {
 	d=document.getElementById('bulle');
 	d.innerHTML=content[p_ctl];

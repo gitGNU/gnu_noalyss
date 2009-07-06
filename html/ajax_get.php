@@ -27,7 +27,12 @@
  * - PHPSESSID
  * - gDossier
  * - f_id 
- * - op action to take
+ * - op action to take this action can be 
+      - dc Detail of the account
+      - op Account history
+      - mf Financial move
+      - hc history of mail, all the contact : phone call, mail, offer...
+      - lc list of the contacts
  * - p page 
  * - ctl (to return)
  */
