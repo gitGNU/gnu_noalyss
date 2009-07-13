@@ -107,7 +107,7 @@ class Document_modele {
 	{
 	  // Start transaction
 	  StartSql($this->cn);
-	  // Save data into the table invoice
+	  // Save data into the table document_modele
 	  // if $this->md_id == -1 it means it is a new document model
 	  // so first we have to insert it
 	  // the name and the type must be set before calling save
@@ -202,51 +202,6 @@ class Document_modele {
       Commit($this->cn);
     }
   
-  /*!
-   * \brief Parse and remplace the tag in the invoice 
-   *         By the value found in quant_sold
-   * \param p_id is the id of the invoice
-   * \param p_internal reference (quant_sold qs_internal)
-   */
-  function Get($p_id,$p_internal) 
-    {
-      // retrieve info from the table invoice
-      
-      // retrieve the template and generate document
-      StartSql($this->cn);
-      $ret=ExecSql($cn,"select iv_name,iv_file from invoice where iv_id".$this->iv_id);
-      if ( pg_num_rows ($ret) == 0 )
-	return;
-      $row=pg_fetch_array($ret,0);
-      //the template is saved into file $tmp
-      $tmp=tempnam($_ENV['TMP'],'invoice_');
-      pg_lo_export($cn,$row['iv_file'],$tmp);
-      // Parse the file 
-      
-      
-      
-      
-      // send it to stdout
-      ini_set('zlib.output_compression','Off');
-      header("Pragma: public");
-      header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-      header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-      header("Cache-Control: must-revalidate");
-      header('Content-type: rtf/x-application');
-      header('Content-Disposition: attachment;filename="invoice'.$p_internal.'.rtf"',FALSE);
-      header("Accept-Ranges: bytes");
-      $file=fopen($tmp,'r');
-      while ( !feof ($file) )
-	{
-	  echo fread($file,8192);
-	}
-      fclose($file);
-      
-      unlink ($tmp);
-      
-      Commit($cn);
-      
-    }
   /*!
    * \brief show the form for loading a template
    * \param p_action for the field action = destination url 

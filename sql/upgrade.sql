@@ -10,3 +10,4 @@ begin;
 alter table groupe_analytique add constraint fk_pa_id foreign key(pa_id)  references plan_analytique(pa_id) on delete cascade;
 alter table stock_goods add constraint fk_stock_good_f_id foreign key(f_id)  references fiche(f_id) ;
 
+drop table invoice;

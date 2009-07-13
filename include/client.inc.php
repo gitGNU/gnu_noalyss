@@ -167,26 +167,26 @@ if ( $sub_action == 'detail' )
   unset ($operation);
 
   /* accountant operation */
-  $operation=new IButton("allop","Historique Comptabilité");
+  $operation=new IButton("allop","Mouv.Comptables");
   $operation->javascript=sprintf("ajax_get('%s','%s','%s','%s','detail','%s')",
 				 $_REQUEST['PHPSESSID'],dossier::id(),$f_id,'op','1');
   echo $operation->input();
   unset ($operation);
 
   /*  financial operation  */
-  $operation=new IButton("allop","Mouvement Financier");
+  $operation=new IButton("allop","Mouv.Financiers");
   $operation->javascript=sprintf("ajax_get('%s','%s','%s','%s','detail','%s')",
 				 $_REQUEST['PHPSESSID'],dossier::id(),$f_id,'mf','1');
   echo $operation->input();
   unset ($operation);
   /* mail  */
-  $operation=new IButton("allop","Historique Contact & Courrier");
+  $operation=new IButton("allop","Contacts, Actions & Courriers");
   $operation->javascript=sprintf("ajax_get('%s','%s','%s','%s','detail','%s')",
 				 $_REQUEST['PHPSESSID'],dossier::id(),$f_id,'hc','1');
   echo $operation->input();
   unset ($operation);
   /* action */
-  $operation=new IButton("allop","Liste Contact");
+  $operation=new IButton("allop","Pers. Contact");
   $operation->javascript=sprintf("ajax_get('%s','%s','%s','%s','detail','%s')",
 				 $_REQUEST['PHPSESSID'],dossier::id(),$f_id,'lc','1');
   echo $operation->input();
