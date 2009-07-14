@@ -81,7 +81,11 @@ function new_fiche($p_cn,$p_type) {
 
 if ( isset($_POST['add_fiche'])) {
   $fiche=new fiche($cn);
-  $fiche->Save($_POST['fiche']);
+  try {
+    $fiche->Save($_POST['fiche']);
+  } catch (Exception $e) {
+    alert ($e->getMessage());
+  }
 
 ?>
 <SCRIPT>

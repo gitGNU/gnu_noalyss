@@ -451,6 +451,7 @@ class fiche {
       StartSql($this->cn);
       try 
 	{
+
 	  $sql=sprintf("insert into fiche(f_id,fd_id)". 
 		       " values (%d,%d)",
 		       $fiche_id,$p_fiche_def);
@@ -480,7 +481,7 @@ class fiche {
 		if ( $st == 0 ) {
 		  $user=new User($this->cn);
 		  $exercice=$user->get_exercice();
-		  if ( $exercice == 0 ) throw Exception ('Annee invalide erreur');
+		  if ( $exercice == 0 ) throw new Exception ('Veuillez choisir une période dans vos préférences ',1);
 
 		  $str_stock=sprintf('insert into stock_goods(f_id,sg_quantity,sg_comment,sg_code,sg_type,sg_exercice) '.
 				     ' values (%d,0,\'%s\',upper(\'%s\'),\'d\',\'%s\')',
@@ -561,10 +562,8 @@ class fiche {
 	    }
 	}  catch (Exception $e) 
 	     {
-	       echo '<span class="error">'.
-		 $e->getMessage().
-		 '</span>';
 	       Rollback($this->cn);
+	       throw ($e);
 	       return;
 	     }
       Commit($this->cn);
