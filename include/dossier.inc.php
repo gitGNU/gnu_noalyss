@@ -40,14 +40,14 @@ if ( isset ($_POST['upd']) && isset ($_POST['d'])) {
 echo '<div class="u_redcontent">';
 // check and add an new folder
 if ( isset ($_POST["DATABASE"]) ) {
-  $cn=DbConnect();
+  $cn=new Database();
   $dos=trim($_POST["DATABASE"]);
   $dos=FormatString($dos);
   if (strlen($dos)==0) {
     echo ("Le nom du dossier est vide");
     exit -1;
   }
-  $encoding=getDbValue($cn,"select encoding from pg_database  where ".
+  $encoding=$cn->get_value("select encoding from pg_database  where ".
 		       " datname='".domaine.'mod'.FormatString($_POST["FMOD_ID"])."'");
   if ( $encoding != 6 ) {
     alert('Désolé vous devez migrer ce modèle en unicode');
@@ -59,18 +59,18 @@ if ( isset ($_POST["DATABASE"]) ) {
 
   $desc=FormatString($_POST["DESCRIPTION"]);
   try  {
-    StartSql($cn);
-    $Res=ExecSql($cn,"insert into ac_dossier(dos_name,dos_description)
+    $cn->start();
+    $Res=$cn->exec_sql("insert into ac_dossier(dos_name,dos_description)
                     values ('".$dos."','$desc')");
-    $l_id=GetSequence($cn,'dossier_id');
-      Commit($cn);
+    $l_id=$cn->get_current_seq('dossier_id');
+      $cn->commit();
       } catch (Exception $e) {
 	$msg="Desole la creation de ce dossier a echoue,\n la cause la plus probable est".
 	  ' deux fois le même nom de dossier';
 	alert($msg);;
 	echo_debug(__FILE__.':'.__LINE__.'- echec ','Echec creation ',$e);
 	$l_id=0;	
-	Rollback($cn);
+	$cn->rollback();
 
       }
       // If the id is not null, name successfully inserted
@@ -84,7 +84,7 @@ if ( isset ($_POST["DATABASE"]) ) {
 	if ( strlen($year) != 4 || isNumber($year) == 0 || $year > 2100 || $year < 2000 || $year != round($year,0))
 	  {
 	    echo "$year est une année invalide";
-	    $Res=ExecSql($cn,"delete from ac_dossier where dos_id=$l_id");
+	    $Res=$cn->exec_sql("delete from ac_dossier where dos_id=$l_id");
 	  }
 	else 
 	  {
@@ -99,22 +99,22 @@ if ( isset ($_POST["DATABASE"]) ) {
 	      echo   "[".$Sql."]";
 
 	      ob_end_clean();
-	      ExecSql($cn,"delete from ac_dossier where dos_id=$l_id");
+	      $cn->exec_sql("delete from ac_dossier where dos_id=$l_id");
 	      echo "<h2 class=\"error\"> Base de donnée ".domaine."mod".$_POST['FMOD_ID']."  est accèdée, déconnectez-vous d'abord</h2>";
 	      exit;
 		}
 	    ob_flush();
-	    $Res=ExecSql($cn,"insert into jnt_use_dos (use_id,dos_id) values (1,$l_id)");
+	    $Res=$cn->exec_sql("insert into jnt_use_dos (use_id,dos_id) values (1,$l_id)");
 	    // Connect to the new database
-	    $cn=DbConnect($l_id);
+	    $cn=new Database($l_id);
 	    //--year --
-	    $Res=ExecSql($cn,"delete from parm_periode");
+	    $Res=$cn->exec_sql("delete from parm_periode");
 	    if ( ($year % 4 == 0 && $year % 100 != 0) || $year % 400 == 0 )  
 	      $fev=29;
 	    else
 	      $fev=28;
 
-	    $Res=ExecSql($cn,"delete from user_local_pref where parameter_type='PERIODE'");
+	    $Res=$cn->exec_sql("delete from user_local_pref where parameter_type='PERIODE'");
 	    $nb_day=array(31,$fev,31,30,31,30,31,31,30,31,30,30);
 	    $m=1;
 	    foreach ($nb_day as $day) 
@@ -124,17 +124,17 @@ if ( isset ($_POST["DATABASE"]) ) {
 			$sql=sprintf("insert into parm_periode (p_start,p_end,p_exercice)
                               values (to_date('%s','DD-MM-YYYY'),to_date('%s','DD-MM-YYYY'),'%s')",
 			     $p_start,$p_end,$year);
-			$Res=ExecSql($cn,$sql);
+			$Res=$cn->exec_sql($sql);
 			$m++;
 	      }
 	    $sql=sprintf("insert into parm_periode (p_start,p_end,p_exercice)
                               values (to_date('31-12-%s','DD-MM-YYYY'),to_date('31-12-%s','DD-MM-YYYY'),'%s')",
 					 $year,$year,$year);
-	    $Res=ExecSql($cn,$sql);
+	    $Res=$cn->exec_sql($sql);
 	    $sql="	insert into jrn_periode(p_id,jrn_def_id,status) ".
 	      "select p_id,jrn_def_id, 'OP'".
 	      " from parm_periode cross join jrn_def";
-	    $Res=ExecSql($cn,$sql);
+	    $Res=$cn->exec_sql($sql);
 	
 
 	  }
@@ -144,7 +144,7 @@ if ( isset ($_POST["DATABASE"]) ) {
    <h2> Dossier Management</h2>
 
 <?php  
-    $cn=DbConnect();
+    $cn=new Database();
 //---------------------------------------------------------------------------
 // List of folder
 if ( $sa == 'list' ) {
@@ -153,7 +153,7 @@ if ( $sa == 'list' ) {
 
     $offset=(isset($_REQUEST['offset']))?$_REQUEST['offset']:0;
     $page=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
-    $count=getDbValue($cn,"select count(*) from ac_dossier");
+    $count=$cn->get_value("select count(*) from ac_dossier");
     $size=10; 
 
     echo jrn_navigation_bar($offset,$count,$size,$page); 
@@ -204,7 +204,7 @@ if ( $sa == 'list' ) {
 // Add a new folder
  if ( $sa == 'add' ) {
    // Load the available Templates
-   $Res=ExecSql($cn,"select mod_id,mod_name,mod_desc from 
+   $Res=$cn->exec_sql("select mod_id,mod_name,mod_desc from 
                       modeledef order by mod_name");
    $count=pg_NumRows($Res);
    
@@ -289,9 +289,9 @@ if ( $sa == 'del' ) {
 if ( $sa == 'remove' ) {
   if ( ! isset ($_REQUEST['p_confirm'])) {echo('Désolé, vous n\'avez pas coché la case');  echo HtmlInput::button_href('Retour','?action=dossier_mgt');exit();}
 
-  $cn=DbConnect();
+  $cn=new Database();
    $msg="dossier";
-   $name=getDbValue($cn,"select dos_name from ac_dossier where dos_id=$1",array($_REQUEST['d']));
+   $name=$cn->get_value("select dos_name from ac_dossier where dos_id=$1",array($_REQUEST['d']));
    if ( strlen(trim($name)) == 0 )
      {
        echo "<h2 class=\"error\"> $msg inexistant</h2>";
@@ -308,11 +308,11 @@ if ( $sa == 'remove' ) {
    }
    ob_flush();
    $sql="delete from priv_user where priv_id in (select jnt_id from jnt_use_dos where dos_id=$1)";
-   ExecSqlParam($cn,$sql,array($_REQUEST['d']));
+   $cn->exec_sql($sql,array($_REQUEST['d']));
    $sql="delete from  jnt_use_dos where dos_id=$1";
-   ExecSqlParam($cn,$sql,array($_REQUEST['d']));
+   $cn->exec_sql($sql,array($_REQUEST['d']));
    $sql="delete from ac_dossier where dos_id=$1";
-   ExecSqlParam($cn,$sql,array($_REQUEST['d']));
+   $cn->exec_sql($sql,array($_REQUEST['d']));
    print '<h2 class="info">';
    print "Voilà le dossier ".h($name)." est effacé</h2>";
    echo HtmlInput::button_href('Retour','?action=dossier_mgt');

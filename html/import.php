@@ -26,12 +26,12 @@
 include_once("ac_common.php");
 include_once("user_menu.php");
 include_once ("constant.php");
-include_once ("postgres.php");
+require_once('class_database.php');
 
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 include ('class_user.php');
 $User=new User($cn);

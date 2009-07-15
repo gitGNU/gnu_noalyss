@@ -27,15 +27,15 @@
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 include_once("ac_common.php");
-include_once("postgres.php");
+require_once('class_database.php');
 include_once("class.ezpdf.php");
 echo_debug('sec_pdf.php',__LINE__,"imp pdf securité");
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 //-----------------------------------------------------
 // Security 
 
 // Check User
-$rep=DbConnect();
+$rep=new Database();
 include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
@@ -70,7 +70,7 @@ if ( $SecUser->admin==1)
   $pdf->ezText('Administrateur',12,array('justification'=>'center'));
 //-----------------------------------------------------
 // Journal
-$Res=ExecSql($cn,"select jrn_def_id,jrn_def_name  from jrn_def ");
+$Res=$cn->exec_sql("select jrn_def_id,jrn_def_name  from jrn_def ");
 $SecUser->db=$cn;
 for ($e=0;$e < pg_NumRows($Res);$e++) {
   $row=pg_fetch_array($Res,$e);
@@ -99,7 +99,7 @@ $pdf->ezTable($a_jrn,
 
 //-----------------------------------------------------
 // Action
-$Res=ExecSql($cn,
+$Res=$cn->exec_sql(
 	     "select ac_id, ac_description from action   order by ac_description ");
 
 $Max=pg_NumRows($Res);

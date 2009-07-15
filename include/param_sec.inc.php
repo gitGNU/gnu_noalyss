@@ -30,16 +30,16 @@ require_once('class_dossier.php');
 $gDossier=dossier::id();
 $str_dossier=dossier::get();
 
-include_once ("postgres.php");
+require_once('class_database.php');
 /* Admin. Dossier */
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 include_once ("class_user.php");
 $User=new User($cn);
 $User->Check();
 $User->check_dossier($gDossier);
 
 include_once ("user_menu.php");
-$cn_dossier=DbConnect($gDossier);
+$cn_dossier=new Database($gDossier);
 
 
 if ( $User->check_action(PARSEC) == 0 ) {
@@ -48,9 +48,9 @@ if ( $User->check_action(PARSEC) == 0 ) {
   exit -1;
  }
 
-$cn=DbConnect();
+$cn=new Database();
 /*  Show all the users, included local admin */
-$user_sql=ExecSql($cn,"select  use_id,use_first_name,use_name,use_login,use_admin,priv_priv from ac_users natural join jnt_use_dos ".
+$user_sql=$cn->exec_sql("select  use_id,use_first_name,use_name,use_login,use_admin,priv_priv from ac_users natural join jnt_use_dos ".
 	      " join priv_user on (jnt_id=priv_jnt) where use_login != 'phpcompta' and dos_id=".$gDossier);
 $MaxUser=pg_NumRows($user_sql);
 
@@ -89,41 +89,41 @@ if ( isset($_POST['ok'])) {
 
   $sec_User=new User($cn_dossier,$_POST['user_id']);
   /* Save first the ledger */
-  $cn_dossier=DbConnect(dossier::id());
-  $a=get_array($cn_dossier,'select jrn_def_id from jrn_def');
+  $cn_dossier=new Database(dossier::id());
+  $a=$cn_dossier->get_array('select jrn_def_id from jrn_def');
   foreach ($a as $key) {
     $id=$key['jrn_def_id'];
     $priv=sprintf("jrn_act%d",$id);
-    $count=getDbValue($cn_dossier,'select count(*) from user_sec_jrn where uj_login=$1 '.
+    $count=$cn_dossier->get_value('select count(*) from user_sec_jrn where uj_login=$1 '.
 		      ' and uj_jrn_id=$2',array($sec_User->login,$id));
     if ( $count == 0 )
       {
-	ExecSqlParam($cn_dossier,'insert into user_sec_jrn (uj_login,uj_jrn_id,uj_priv)'.
+	$cn_dossier->exec_sql('insert into user_sec_jrn (uj_login,uj_jrn_id,uj_priv)'.
 		     ' values ($1,$2,$3)',
 		     array($sec_User->login,$id,$_POST[$priv]));
 	
       } else {
-      ExecSqlParam($cn_dossier,'update user_sec_jrn set uj_priv=$1 where uj_login=$2 and uj_jrn_id=$3',
+      $cn_dossier->exec_sql('update user_sec_jrn set uj_priv=$1 where uj_login=$2 and uj_jrn_id=$3',
 		   array($_POST[$priv],$sec_User->login,$id));
     }
   }
   /* now save all the actions */
-  $a=get_array($cn_dossier,'select ac_id from action');
+  $a=$cn_dossier->get_array('select ac_id from action');
 
   foreach ($a as $key) {
     $id=$key['ac_id'];
     $priv=sprintf("action%d",$id);
-    $count=getDbValue($cn_dossier,'select count(*) from user_sec_act where ua_login=$1 '.
+    $count=$cn_dossier->get_value('select count(*) from user_sec_act where ua_login=$1 '.
 		      ' and ua_act_id=$2',array($sec_User->login,$id));
     if ( $_POST[$priv] == 1 && $count == 0)
       {
-	ExecSqlParam($cn_dossier,'insert into user_sec_act (ua_login,ua_act_id)'.
+	$cn_dossier->exec_sql('insert into user_sec_act (ua_login,ua_act_id)'.
 		     ' values ($1,$2)',
 		     array($sec_User->login,$id));
 	
       }
     if ($_POST[$priv] == 0 ){
-      ExecSqlParam($cn_dossier,'delete from user_sec_act  where ua_login=$1 and ua_act_id=$2',
+      $cn_dossier->exec_sql('delete from user_sec_act  where ua_login=$1 and ua_act_id=$2',
 		   array($sec_User->login,$id));
     }
   } 
@@ -140,7 +140,7 @@ if ( isset($_POST['ok'])) {
 if ( $action == "view" ) {
   $l_Db=sprintf("dossier%d",$gDossier);
 
-  $cn=DbConnect();
+  $cn=new Database();
   $User=new User($cn,$_GET['user_id']);
 
   echo '<h2>'.h($User->first_name).' '.h($User->name).' '.hi($User->login);
@@ -171,7 +171,7 @@ if ( $action == "view" ) {
   // Show access for journal
   //--------------------------------------------------------------------------------
 
-  $Res=ExecSql($cn_dossier,"select jrn_def_id,jrn_def_name  from jrn_def ".
+  $Res=$cn_dossier->exec_sql("select jrn_def_id,jrn_def_name  from jrn_def ".
 		    " order by jrn_def_name");
   $sec_User=new User($cn_dossier,$_GET['user_id']);
 

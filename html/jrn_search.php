@@ -23,10 +23,10 @@
  */
 
 require_once ("ac_common.php");
-require_once ("postgres.php");
+require_once('class_database.php');
 require_once("user_common.php");
 /* Admin. Dossier */
-$rep=DbConnect();
+$rep=new Database();
 include_once ("class_user.php");
 require_once('class_html_input.php');
 $User=new User($rep);
@@ -60,7 +60,7 @@ $c_internal="";
 $c_date="";
 $condition="";
 $part=" where ";
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 // if search then build the condition
 if ( isset ($_GET["search"]) ) {
   $c1=0;
@@ -166,7 +166,7 @@ if ( isset ($_GET["search"]) ) {
                  jrn on jr_grpt_id=j_grpt inner join tmp_pcmn on j_poste=pcm_val ".
     $jnt.
     $condition." order by jr_date,jr_id,j_debit desc";
-  $Res=ExecSql($cn,$sql);
+  $Res=$cn->exec_sql($sql);
 
   $MaxLine=pg_NumRows($Res);
   $offset=(isset($_GET['offset']))?$_GET['offset']:0;
@@ -186,7 +186,7 @@ if ( isset ($_GET["search"]) ) {
      html_page_stop();
      return;
    }
-  $Res=ExecSql($cn,$sql);
+  $Res=$cn->exec_sql($sql);
   $MaxLine=pg_NumRows($Res);
 
   $col_vide="<TD></TD>";

@@ -43,7 +43,7 @@ class Document_type
   function get()
     {
       $sql="select * from document_type where dt_id=".$this->dt_id;
-      $R=ExecSql($this->db,$sql);
+      $R=$this->db->exec_sql($sql);
       $r=pg_fetch_array($R,0);
       $this->dt_id=$r['dt_id'];
       $this->dt_value=$r['dt_value'];

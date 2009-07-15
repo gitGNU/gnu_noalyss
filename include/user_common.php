@@ -24,7 +24,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-include_once("postgres.php");
+require_once('class_database.php');
 require_once("class_icheckbox.php");
 require_once("class_ihidden.php");
 require_once("class_document.php");
@@ -131,7 +131,7 @@ $own=new Own($p_cn);
 	}
     }
   // set a filter for the FIN 
-  $a_parm_code=get_array($p_cn,"select p_value from parm_code where p_code in ('BANQUE','COMPTE_COURANT','CAISSE')");
+  $a_parm_code=$p_cn->get_array("select p_value from parm_code where p_code in ('BANQUE','COMPTE_COURANT','CAISSE')");
   $sql_fin="(";
   $or="";
   foreach ($a_parm_code as $code) {
@@ -143,12 +143,12 @@ $own=new Own($p_cn);
   $sql=Acc_Ledger::compute_sql($p_array,$order,$p_where);
 
   // Count 
-  $count=count_sql($p_cn,$sql);
+  $count=$p_cn->count_sql($sql);
   // Add the limit 
   $sql.=$limit.$offset;
 
   // Execute SQL stmt
-  $Res=ExecSql($p_cn,$sql);
+  $Res=$p_cn->exec_sql($sql);
 
   //starting from here we can refactor, so that instead of returning the generated HTML, 
   //this function returns a tree structure.
@@ -250,7 +250,7 @@ $own=new Own($p_cn);
     // Check ledger type : 
      if (  $row['jrn_def_type'] == 'FIN' ) 
      {
-       $positive = count_sql($p_cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
+       $positive = $p_cn->count_sql("select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
  			   " where jr_id=".$row['jr_id']." and $sql_fin ".
  			   " and j_debit='f'");
      }
@@ -290,7 +290,7 @@ $own=new Own($p_cn);
       {      
 	$operation=new Acc_Operation($p_cn);
 	$operation->jr_id=$element;
-	$l_amount=getDbValue($p_cn,"select jr_montant from jrn ".
+	$l_amount=$p_cn->get_value("select jr_montant from jrn ".
 					 " where jr_id=$element");
 	$r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."','".$l_sessid."',".$gDossier.")\" > ".$operation->get_internal()." [ $l_amount &euro; ]</A>";
       }//for
@@ -375,7 +375,7 @@ function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
   $code_marchandise=$code->strAttribut(ATTR_DEF_STOCK);
   $p_good=FormatString($p_good);
   $sql="select f_id from vw_poste_qcode where j_qcode=upper('$p_good')";
-  $Res=ExecSql($p_cn,$sql);
+  $Res=$p_cn->exec_sql($sql);
   $r=pg_fetch_array($Res,0);
   $f_id=$r['f_id'];
   $user=new User($p_cn);
@@ -383,7 +383,7 @@ function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
   if ( $exercice == 0 ) throw new Exception ('Annee invalide erreur');
 
 
-  $Res=ExecSql($p_cn,"insert into stock_goods (
+  $Res=$p_cn->exec_sql("insert into stock_goods (
                             j_id,
                             f_id,
                             sg_code, 
@@ -409,7 +409,7 @@ function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
  *        - 0 is not valid
  */
 function isValid ($p_cn,$p_grpt_id) {
-  $Res=ExecSql($p_cn,"select jr_valid from jrn where jr_grpt_id=$p_grpt_id");
+  $Res=$p_cn->exec_sql("select jr_valid from jrn where jr_grpt_id=$p_grpt_id");
 
   if ( ( $M = pg_NumRows($Res)) == 0 ) return 0;
 

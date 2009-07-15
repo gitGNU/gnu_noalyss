@@ -42,7 +42,7 @@ function get_dataJrn($p_cn,$p_array,$filter=YES)
   if ( $filter==YES) {
     if ( ! isset ( $p_array['central'])){
       $cond=CreatePeriodeCond($p_array['periode']);
-      $Res=ExecSql($p_cn,"select to_char(j_date,'DD.MM.YYYY') as j_date,
+      $Res=$p_cn->exec_sql("select to_char(j_date,'DD.MM.YYYY') as j_date,
                 j_montant as montant,j_debit as debit,j_poste as poste,".
 	       "j_text as description,j_grpt as grp,jr_comment as comment,
                 j_rapt as oc,jr_internal from jrnx left join jrn on ".
@@ -52,7 +52,7 @@ function get_dataJrn($p_cn,$p_array,$filter=YES)
       // create 
       $cond=CreatePeriodeCond($p_array['periode'],"c_periode");
 
-      $Res=ExecSql($p_cn,"select to_char(c_date,'DD.MM.YYYY') as j_date,
+      $Res=$p_cn->exec_sql("select to_char(c_date,'DD.MM.YYYY') as j_date,
                 c_montant as montant,c_debit as debit,c_poste as poste,".
 		   "c_description as description,c_grp as grp,c_comment as comment,
                 c_rapt as oc,c_internal as jr_internal from centralized left join jrn on ".
@@ -64,7 +64,7 @@ function get_dataJrn($p_cn,$p_array,$filter=YES)
   if ( $filter == NO) {
     if ( ! isset ($p_array['central']) ) {
       $cond=CreatePeriodeCond($p_array['periode']);
-      $Res=ExecSql($p_cn,"select to_char(j_date,'DD.MM.YYYY') as j_date,
+      $Res=$p_cn->exec_sql("select to_char(j_date,'DD.MM.YYYY') as j_date,
                 j_montant as montant,j_debit as debit,j_poste as poste,".
 		   "j_text as description,j_grpt as grp,jr_comment as comment,
                 j_rapt as oc,jr_internal from jrnx left join jrn on ".
@@ -73,7 +73,7 @@ function get_dataJrn($p_cn,$p_array,$filter=YES)
     } else {
       $cond=CreatePeriodeCond($p_array['periode'],"c_periode");
 
-      $Res=ExecSql($p_cn,"select to_char(c_date,'DD.MM.YYYY') as j_date,
+      $Res=$p_cn->exec_sql("select to_char(c_date,'DD.MM.YYYY') as j_date,
                 c_montant as montant,c_debit as debit,c_poste as poste,".
 		   "c_description as description,c_grp as grp,c_comment as comment,
                 c_rapt as oc,c_internal as jr_internal from centralized left join jrn on ".
@@ -151,7 +151,7 @@ function get_dataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
     $cond=CreatePeriodeCond($p_array['periode']);
     if ( ! isset ($p_array['central']) ) {
       // Journaux non centralisés
-    $Res=ExecSql($p_cn,"select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
+    $Res=$p_cn->exec_sql("select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
                       jr_internal,
                 case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
                 case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
@@ -185,7 +185,7 @@ function get_dataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
 		"jr_grpt_id=c_grp left join tmp_pcmn on pcm_val=c_poste where ".
           	" c_jrn_def=".$p_array['p_id']." and ".
                 $cond." order by c_id ";
-    $Res=ExecSql($p_cn,$Sql." limit ".$p_limit." offset ".$p_offset);
+    $Res=$p_cn->exec_sql($Sql." limit ".$p_limit." offset ".$p_offset);
 
     }
   } else {
@@ -193,7 +193,7 @@ function get_dataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
     if (! isset($p_array['central'])) {
       // Non centralisé
       $cond=CreatePeriodeCond($p_array['periode']);
-      $Res=ExecSql($p_cn,"select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
+      $Res=$p_cn->exec_sql("select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
                       jr_internal,
                 case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
                 case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
@@ -226,7 +226,7 @@ function get_dataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
             from centralized left join jrn on ".
 		"jr_grpt_id=c_grp left join tmp_pcmn on pcm_val=c_poste where ".
                 $cond." order by c_id ";
-    $Res=ExecSql($p_cn,$Sql." limit ".$p_limit." offset ".$p_offset);
+    $Res=$p_cn->exec_sql($Sql." limit ".$p_limit." offset ".$p_offset);
     } // Grand Livre
   }
 
@@ -311,14 +311,14 @@ function get_rappel_simple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,&$arap)
       exit;
     }
   // find the last operation of the previous periode
-  $min=getDbValue($p_cn,"select max (c_id) from centralized where c_jrn_def=$p_jrn_id ".
+  $min=$p_cn->get_value("select max (c_id) from centralized where c_jrn_def=$p_jrn_id ".
 		  " and c_date < (select p_start from parm_periode where p_id = $p_from)");
   if ($min == "" ) return 0;
   // Find Exercice
   $periode=new Periode($p_cn,$p_from);
   $Exercice=$periode->get_exercice();
 
-  $a_Tva=get_array($p_cn,"select tva_id,tva_label,tva_poste from tva_rate where tva_rate != 0.0000 order by tva_id");
+  $a_Tva=$p_cn->get_array("select tva_id,tva_label,tva_poste from tva_rate where tva_rate != 0.0000 order by tva_id");
   
   // Compute VAT
   foreach ($a_Tva as $line_tva)
@@ -328,13 +328,13 @@ function get_rappel_simple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,&$arap)
 	$ctva=$deb;
       else
 	$ctva=$cred;
-      $sum_deb=getDbValue($p_cn,"select sum(j_montant) from (select distinct c_internal,j_montant ".
+      $sum_deb=$p_cn->get_value("select sum(j_montant) from (select distinct c_internal,j_montant ".
 			    " from jrnx join centralized on (j_grpt=c_grp) ".
 			   " where c_id < $min and j_poste = '$ctva' and j_debit='t' and ".
 			  " c_jrn_def=$p_jrn_id and j_tech_per in ".
 			  "    (select p_id from parm_periode where p_exercice='$Exercice') ) as w");
 
-      $sum_cred=getDbValue($p_cn,"select sum(j_montant) from (select distinct c_internal,j_montant ".
+      $sum_cred=$p_cn->get_value("select sum(j_montant) from (select distinct c_internal,j_montant ".
 			    " from jrnx join centralized on (j_grpt=c_grp) ".
 			   " where c_id < $min and j_poste = '$ctva' and j_debit='f' and ".
 			  " c_jrn_def=$p_jrn_id and j_tech_per in ".
@@ -346,7 +346,7 @@ function get_rappel_simple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,&$arap)
       $arap[$ix]=($p_jrn_type=='ACH')?$sum_deb-$sum_cred:$sum_cred-$sum_deb;
     }
   // Previous period
-  $previous=getDbValue($p_cn,"select max(p_id) from parm_periode where ".
+  $previous=$p_cn->get_value("select max(p_id) from parm_periode where ".
 		       "p_end < (select p_end from parm_periode where p_id=$p_from) ".
 		       " and p_start <= (select p_start from parm_periode where p_id=$p_from)");
 
@@ -386,7 +386,7 @@ function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cen
 
     //     Vue filtree => Journaux & Jrn centralisé 
     if ( $p_central == 1 ) {
-      $c_line=count_sql($p_cn,"select * from centralized left join parm_periode on c_periode=p_id ".
+      $c_line=$p_cn->count_sql("select * from centralized left join parm_periode on c_periode=p_id ".
 		       " where c_jrn_def=$p_jrn_id and  p_exercice='".$p_exercice."'".
 		       " and c_order $cmp $p_jrnx_id ");
       
@@ -398,7 +398,7 @@ function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cen
 	" where c_jrn_def=$p_jrn_id and ".
 	" p_exercice='".$p_exercice."'".
 	" and c_order $cmp $p_jrnx_id " ;
-      $Res=ExecSql($p_cn,$sql." and c_debit='t' ");
+      $Res=$p_cn->exec_sql($sql." and c_debit='t' ");
       if ( pg_NumRows($Res) == 0 ) 
 	$deb=0;
       else {
@@ -406,7 +406,7 @@ function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cen
 	$deb=$line['tot_amount'];
       }
       
-      $Res=ExecSql($p_cn,$sql." and c_debit='f' ");
+      $Res=$p_cn->exec_sql($sql." and c_debit='f' ");
       if ( pg_NumRows($Res) == 0 ) 
 	$cred=0;
       else {
@@ -422,7 +422,7 @@ function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cen
   } // Type = jrn
   if ($p_type==0 ) { // Si Grand Livre, prendre donnée centralisée{
     if ( $p_central == 1) {
-      $c_line=count_sql($p_cn,"select * from centralized left join parm_periode on c_periode=p_id ".
+      $c_line=$p_cn->count_sql("select * from centralized left join parm_periode on c_periode=p_id ".
 		       "where p_exercice='".$p_exercice."'".
 		       " and c_id $cmp $p_jrnx_id ");
       
@@ -433,7 +433,7 @@ function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cen
 	" where ".
 	" p_exercice='".$p_exercice."'".
 	" and c_order $cmp $p_jrnx_id " ;
-      $Res=ExecSql($p_cn,$sql." and c_debit='t' ");
+      $Res=$p_cn->exec_sql($sql." and c_debit='t' ");
       if ( pg_NumRows($Res) == 0 ) 
 	$deb=0;
       else {
@@ -441,7 +441,7 @@ function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cen
 	$deb=$line['tot_amount'];
       }
       
-      $Res=ExecSql($p_cn,$sql." and c_debit='f' ");
+      $Res=$p_cn->exec_sql($sql." and c_debit='f' ");
       if ( pg_NumRows($Res) == 0 ) 
 	$cred=0;
       else {
@@ -528,11 +528,11 @@ echo_debug(__FILE__,__LINE__,"receiving $p_formula");
 		// retrieve the first month of this periode
 		$User=new User($p_cn);
 		$user_periode=$User->get_periode();
-		$periode=getDbValue($p_cn,
+		$periode=$p_cn->get_value(
 				    "select p_exercice from parm_periode where p_id=$user_periode");
 		$sql_per="select to_char(p_start,'MM.YYYY') as start from parm_periode where ".
 		  " p_exercice='".$periode."' order by p_start";
-		$ret=get_array($p_cn,$sql_per);
+		$ret=$p_cn->get_array($sql_per);
 		$from=$ret[0]['start'];
 
       } 

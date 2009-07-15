@@ -34,7 +34,7 @@ require_once("class_itext.php");
 require_once("class_ihidden.php");
 require_once("class_iselect.php");
 require_once ('class_dossier.php');
-require_once ('postgres.php');
+require_once ('class_database.php');
 
  
 class Bud_Hypo {
@@ -62,7 +62,7 @@ class Bud_Hypo {
       " from bud_hypothese ".
       " where  ".
       " bh_id =".$this->bh_id;
-    $res=ExecSql($this->db,$sql);
+    $res=$this->db->exec_sql($sql);
 
     if ( pg_NumRows($res) == 0 ) return;
 
@@ -76,7 +76,7 @@ class Bud_Hypo {
   
   function delete () {
     $sql="delete from bud_hypothese where bh_id=".$this->bh_id;
-    ExecSql($this->db,$sql);
+    $this->db->exec_sql($sql);
   }
 
   function add() {
@@ -91,7 +91,7 @@ class Bud_Hypo {
 		 $this->bh_description,
 		 $pa_id
 	      );
-    $a=ExecSqlParam($this->db,$sql,$array);
+    $a=$this->db->exec_sql($sql,$array);
     $this->bh_id=pg_fetch_result($a,0,0);
   }
   function update() {
@@ -110,7 +110,7 @@ class Bud_Hypo {
       $bh_description,
       $this->bh_id
        	 );
-    ExecSql($this->db,$sql);
+    $this->db->exec_sql($sql);
   }
 
   function get_from_array($p_array) {
@@ -129,7 +129,7 @@ class Bud_Hypo {
  */
   static function get_list($p_cn) {
     $sql="select * from bud_hypothese order by bh_name ";
-    $r=ExecSql($p_cn,$sql);
+    $r=$p_cn->exec_sql($sql);
     if ( pg_NumRows($r)==0 ) return null;
     $a=pg_fetch_all($r);
     foreach($a as $row) {
@@ -151,7 +151,7 @@ class Bud_Hypo {
     $wDescription=new IText("Description","bh_description",$this->bh_description);
     $wSaldo=new IText("Solde","bh_saldo",$this->bh_saldo);
     $wBh_id=new IHidden("","bh_id",$this->bh_id);
-    $array=make_array($this->db,"select pa_id,pa_name from plan_analytique",1);
+    $array=$this->db->make_array("select pa_id,pa_name from plan_analytique",1);
     $wPa_id=new ISelect("Plan Analytique","pa_id",$array);
     $wPa_id->selected=$this->pa_id;
     if ( $p_update != 0 ) $wPa_id->readonly=true;
@@ -177,17 +177,17 @@ class Bud_Hypo {
     else return 0;
   }
   function size() {
-    $count=getDbValue($this->db,"select count(*) from bud_hypothese");
+    $count=$this->db->get_value("select count(*) from bud_hypothese");
     return $count;
   }
   function size_analytic() {
-    $count=getDbValue($this->db,"select count(*) from bud_hypothese where pa_id is not null");
+    $count=$this->db->get_value("select count(*) from bud_hypothese where pa_id is not null");
     return $count;
   }
 
   static function test_me() {
-    $cn=DbConnect (dossier::id());
-    ExecSql($cn,"delete from bud_hypothese");
+    $cn=new Database (dossier::id());
+    $cn->exec_sql("delete from bud_hypothese");
     $a=new Bud_Hypo($cn);
     $a->bh_name="test me function";
     $a->bh_saldo=2.123456;

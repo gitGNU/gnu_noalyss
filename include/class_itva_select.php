@@ -35,7 +35,7 @@ require_once('class_iselect.php');
     $this->value=($p_value==null)?$this->value:$p_value;
     if ( $this->readOnly==true) return $this->display();
 
-    $select_tva=make_array($this->db,"select tva_id,tva_label from tva_rate order by tva_rate desc",0);
+    $select_tva=$this->db->make_array("select tva_id,tva_label from tva_rate order by tva_rate desc",0);
     $this->value=$select_tva;
     $r=parent::input();
     return $r;

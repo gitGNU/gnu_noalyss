@@ -33,7 +33,7 @@ require_once("class_itext.php");
 require_once("class_ihidden.php");
 require_once("class_iselect.php");
 require_once("class_ibutton.php");
-require_once('postgres.php');
+require_once('class_database.php');
 require_once('debug.php');
 require_once('constant.php');
 require_once('class_dossier.php');
@@ -117,7 +117,7 @@ class Anc_Print {
 	$r.='<span style="padding:5px;margin:5px;border:2px double  blue;display:block;">';
 	$plan=new Anc_Plan($this->db);
 	$plan_id=new ISelect("","pa_id");
- 	$plan_id->value=make_array($this->db,"select pa_id, pa_name from plan_analytique order by pa_name");
+ 	$plan_id->value=$this->db->make_array("select pa_id, pa_name from plan_analytique order by pa_name");
 	$plan_id->selected=$this->pa_id;
 	$r.= "Plan Analytique :".$plan_id->input();
 

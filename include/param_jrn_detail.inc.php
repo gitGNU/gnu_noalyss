@@ -29,9 +29,9 @@ $gDossier=dossier::id();
 
 include_once ("ac_common.php");
 html_page_start($_SESSION['g_theme']);
-include_once ("postgres.php");
+require_once('class_database.php');
 /* Admin. Dossier */
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 include_once ("class_user.php");
 $User=new User($cn);
 $User->Check();
@@ -52,9 +52,9 @@ if ( isset( $_REQUEST['p_jrn'] )) {
 // remove ledger
 //--------------------------------------------------
 if ( isset($_POST["efface"])) {
-	if ( count_sql($cn,"select * from jrn where jr_def_id=".$_POST['p_jrn']." limit 3") == 0 )
+	if ( $cn->count_sql("select * from jrn where jr_def_id=".$_POST['p_jrn']." limit 3") == 0 )
 	  {
-	    ExecSqlParam($cn,"delete from jrn_def where jrn_def_id=$1",array($_POST['p_jrn']));
+	    $cn->exec_sql("delete from jrn_def where jrn_def_id=$1",array($_POST['p_jrn']));
 	  } else { echo '
 <script language="javascript">
 		alert("Impossible d\'effacer ce journal.\n Il est utilisé\n");
@@ -114,8 +114,8 @@ If ( isset ($_POST["update"] )) {
 		       $_GET['p_jrn']
 		       );
     echo_debug($Sql);
-    $Res=ExecSqlParam($cn,$Sql,$sql_array);
-    $Res=AlterSequence($cn,"s_jrn_pj".$_GET['p_jrn'],$_POST['jrn_def_pj_seq']);
+    $Res=$cn->exec_sql($Sql,$sql_array);
+    $Res=$cn->alter_seq($_POST['jrn_def_pj_seq'],"s_jrn_pj".$_GET['p_jrn']);
   }
 }
 echo '<div class="lmenu">';
@@ -129,7 +129,7 @@ echo '</div>';
 </script>
 
 <?php
-$Res=ExecSql($cn,"select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
+$Res=$cn->exec_sql("select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
 	     "jrn_deb_max_line,jrn_cred_max_line,jrn_def_code".
                  ",jrn_def_type,jrn_def_ech, jrn_def_ech_lib,jrn_def_fiche_deb,jrn_def_fiche_cred".
                  " from jrn_def where".

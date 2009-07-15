@@ -31,7 +31,7 @@
  */
 
 require_once ('constant.php');
-require_once ('postgres.php');
+require_once ('class_database.php');
 require_once ('debug.php');
 require_once('class_dossier.php');
 require_once('class_acc_ledger.php');
@@ -43,7 +43,7 @@ foreach (array('l','gDossier') as $a) {
   if ( ! isset (${$a}) )   { echo "error $a is not set "; exit();} 
 }
 if ( ereg('^[0-9]+$',$l) == false ) {exit();}
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
 $User=new User($cn);
 $User->Check();
 

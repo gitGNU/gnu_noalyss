@@ -25,7 +25,7 @@
  *
  */
 
-require_once ('postgres.php');
+require_once ('class_database.php');
 require_once ('debug.php');
 require_once ('class.ezpdf.php');
 require_once ('class_own.php');

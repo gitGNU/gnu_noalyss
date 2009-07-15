@@ -24,15 +24,15 @@
  */
 
 include_once ("ac_common.php");
-include_once ("postgres.php");
+require_once('class_database.php');
 require_once("class_iselect.php");
 require_once("class_itext.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-include_once ("postgres.php");
+require_once('class_database.php');
 /* Admin. Dossier */
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 include_once ("class_user.php");
 $User=new User($cn);
 $User->Check();

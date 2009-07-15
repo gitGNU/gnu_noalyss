@@ -22,7 +22,7 @@
  * \brief Send the poste list in csv
  */
 include_once("ac_common.php");
-include_once ("postgres.php");
+require_once('class_database.php');
 include ('class_user.php');
 require_once("class_acc_account_ledger.php");
 require_once ('class_acc_operation.php');
@@ -33,7 +33,7 @@ require_once('class_dossier.php');
 $gDossier=dossier::id();
 
 /* Admin. Dossier */
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 
 $User=new User($cn);
@@ -43,11 +43,11 @@ $User->can_request(IMPPOSTE,0);
 
 if ( isset ( $_REQUEST['poste_fille']) )
 { //choisit de voir tous les postes
-  $a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val::text like '".$_REQUEST["poste_id"]."%'");
+  $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '".$_REQUEST["poste_id"]."%'");
 } 
 else 
 {
-  $a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val = '".$_REQUEST['poste_id']."'");
+  $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val = '".$_REQUEST['poste_id']."'");
 }
 
 if ( ! isset ($_REQUEST['oper_detail'])) {

@@ -25,16 +25,16 @@ header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="balance.csv"',FALSE);
 include_once ("ac_common.php");
 include_once("class_acc_balance.php");
-include_once ("postgres.php");
+require_once('class_database.php');
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
 require_once("class_acc_ledger.php");
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 
 require_once ('class_user.php');
-$User=new User(DbConnect());
+$User=new User(new Database());
 $User->Check();
 if ( $User->check_action(IMPBAL) == 0)
   {

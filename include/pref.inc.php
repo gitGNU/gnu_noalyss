@@ -43,9 +43,9 @@ if ( isset($_POST['pass_1'])
 <?php  
     }
     else {
-      $Rep=DbConnect();
+      $Rep=new Database();
       $l_pass=md5($_POST['pass_1']);
-      $Res=ExecSql($Rep,"update ac_users set use_pass='$l_pass' where use_login='".$_SESSION['g_user']."'");
+      $Res=$Rep->exec_sql("update ac_users set use_pass='$l_pass' where use_login='".$_SESSION['g_user']."'");
       $pass=$_POST['pass_1'];
       $_SESSION['g_pass']=$_POST['pass_1'];
       $g_pass=$_POST['pass_1'];
@@ -75,9 +75,9 @@ Mot de passe :
 </td>
 </tr>
 <?php  
-$Rep=DbConnect();
+$Rep=new Database();
 // charge tous les styles
-$res=ExecSql($Rep,"select the_name from theme
+$res=$Rep->exec_sql("select the_name from theme
                       order by the_name");
 for ($i=0;$i < pg_NumRows($res);$i++){
   $st=pg_fetch_array($res,$i);
@@ -132,7 +132,7 @@ if (  isset ($_REQUEST['gDossier']))
   {
     $inside_dossier=true;
     $msg=""; 
-    $cn=DbConnect($_REQUEST['gDossier']);
+    $cn=new Database($_REQUEST['gDossier']);
     $User->cn=$cn;    
 
     if ( isset ($_POST['periode']))
@@ -143,7 +143,7 @@ if (  isset ($_REQUEST['gDossier']))
 
     $l_user_per=$User->get_periode();
     if ( $l_user_per=="") 
-      $l_user_per=getDbValue($cn,"select min(p_id) from parm_periode where p_closed='f'");
+      $l_user_per=$cn->get_value("select min(p_id) from parm_periode where p_closed='f'");
 
     // if periode is closed then warns the users
     $period=new Periode($cn,$l_user_per);

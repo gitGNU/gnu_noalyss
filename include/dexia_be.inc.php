@@ -32,7 +32,7 @@ $LinesSkipped=0;
 $LinesImported=0;
 $LinesDup=0;
 $row=1;
-StartSql($p_cn);
+$p_cn->start();
 while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 	$num = count($data);
 	echo_debug('dexia_be',__LINE__,$num);
@@ -113,9 +113,9 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 // Check if no need to rollback when executing the SQL
 //-----------------------------------------------------
 			try {
-			  ExecSql($p_cn,$Sql,'latin1') ;
+			  $p_cn->exec_sql($Sql,'latin1') ;
 			} catch (Exception $e) {
-			  Rollback($p_cn);
+			  $p_cn->rollback();
 			  echo "Rollbacking    : $ref_extrait $detail <BR>";
 			  $LinesSkipped++;
 			  break;

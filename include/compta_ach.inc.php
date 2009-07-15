@@ -30,7 +30,7 @@ $gDossier=dossier::id();
 
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
   //menu = show a list of ledger
 $str_dossier=dossier::get();
 $array=array( 

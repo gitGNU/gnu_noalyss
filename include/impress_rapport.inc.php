@@ -149,8 +149,8 @@ if ( isset( $_GET['bt_html'] ) ) {
 //-----------------------------------------------------
 // Show the jrn and date
 //-----------------------------------------------------
-include_once("postgres.php");
-$ret=make_array($cn,"select fr_id,fr_label
+require_once('class_database.php');
+$ret=$cn->make_array("select fr_id,fr_label
                  from formdef
                  order by fr_label");
 if ( sizeof($ret) == 0 ) {
@@ -189,11 +189,11 @@ print '<TR>';
 // filter on the current year
 $filter_year=" where p_exercice='".$User->get_exercice()."'";
 
-$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
+$periode_start=$cn->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 print td("P&eacute;riode comptable : Depuis");
 echo $w->input('from_periode',$periode_start);
 print td(" jusqu'à ");
-$periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode  $filter_year order by p_start,p_end");
+$periode_end=$cn->make_array("select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode  $filter_year order by p_start,p_end");
 print $w->input('to_periode',$periode_end);
 print "</TR>";
 echo '<tr>';

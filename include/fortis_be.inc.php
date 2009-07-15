@@ -78,7 +78,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 					code='".$code."' and 
 					num_compte='".$num_compte."'";
 			$sql=utf8_encode($sql);
-			$Res=ExecSql($p_cn,$sql);
+			$Res=$p_cn->exec_sql($sql);
 			$Num=pg_NumRows($Res);
 			
 			if($Num > 0 ) {
@@ -107,7 +107,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 					$p_jrn,
 					'n')";
 			
-				$Res=ExecSql($p_cn,$Sql);
+				$Res=$p_cn->exec_sql($Sql);
 				
 			}
 		}

@@ -30,7 +30,7 @@
 require_once("class_itext.php");
 require_once("class_ihidden.php");
 require_once("constant.php");
-require_once("postgres.php");
+require_once('class_database.php');
 require_once("class_anc_account.php");
 require_once ('class_dossier.php');
 
@@ -58,7 +58,7 @@ class Anc_Plan
 	$array=array();
 	$sql="select pa_id as id,pa_name as name,".
 	  "pa_description as description from plan_analytique order by pa_name";
-	$ret=ExecSql($this->db,$sql);
+	$ret=$this->db->exec_sql($sql);
 	$array=pg_fetch_all($ret);
 	return $array;
   }
@@ -68,7 +68,7 @@ class Anc_Plan
 	if ( $this->id==0) return;
 
 	$sql="select pa_name,pa_description from plan_analytique where pa_id=".$this->id;
-	$ret= ExecSql($this->db,$sql);
+	$ret= $this->db->exec_sql($sql);
 	if ( pg_NumRows($ret) == 0)
 	  {
 		return;
@@ -82,7 +82,7 @@ class Anc_Plan
   function delete()
   {
 	if ( $this->id == 0 ) return;
-	ExecSql($this->db,"delete from plan_analytique where pa_id=".$this->id);
+	$this->db->exec_sql("delete from plan_analytique where pa_id=".$this->id);
   }
 
   function update()
@@ -93,7 +93,7 @@ class Anc_Plan
 	  return;
 
 	$description=FormatString($this->description);
-	ExecSql($this->db,"update plan_analytique set pa_name='".$name."'".
+	$this->db->exec_sql("update plan_analytique set pa_name='".$name."'".
 			", pa_description='".$description."'".
 			" where pa_id=".$this->id);
   }
@@ -105,11 +105,11 @@ class Anc_Plan
 	  return;
 	if ( $this->isAppend() == false) return;
 	$description=FormatString($this->description);
-	ExecSql($this->db,"insert into plan_analytique(pa_name,pa_description)".
+	$this->db->exec_sql("insert into plan_analytique(pa_name,pa_description)".
 			" values (".
 			"'".$name."',".
 			"'".$description."')");
-	$this->id=getSequence($this->db,'plan_analytique_pa_id_seq');
+	$this->id=$this->db->get_current_seq($this->db,'plan_analytique_pa_id_seq');
 
   }
   function form()
@@ -129,7 +129,7 @@ class Anc_Plan
   }
   function isAppend()
   {
-	$count=getDbValue($this->db,"select count(pa_id) from plan_analytique");
+	$count=$this->db->get_value("select count(pa_id) from plan_analytique");
 
 	if ( $count > 4)
 	  return false;
@@ -143,7 +143,7 @@ class Anc_Plan
   function get_poste_analytique()
   {
 	$sql="select po_id from poste_analytique where pa_id=".$this->id;
-	$r=ExecSql($this->db,$sql);
+	$r=$this->db->exec_sql($sql);
 	$ret=array();
 	if ( pg_NumRows($r) == 0 ) 
 	  return $ret;
@@ -171,21 +171,21 @@ class Anc_Plan
 	  return $res;
   }
   function count() {
-	$a=count_sql($this->db,"select pa_id from plan_analytique");
+	$a=$this->db->count_sql("select pa_id from plan_analytique");
 	return $a;
   }
   function exist() {
-	$a=count_sql($this->db,"select pa_id from plan_analytique where pa_id=".
+	$a=$this->db->count_sql("select pa_id from plan_analytique where pa_id=".
 				pg_escape_string($this->pa_id));
 
 	return ($a==0)?false:true;
 
   }
   static function test_me() {
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     echo "<h1>Plan analytique : test</h1>";
     echo "clean";
-    ExecSql($cn,"delete from plan_analytique");
+    $cn->exec_sql("delete from plan_analytique");
 
     $p=new Anc_Plan($cn);
     echo "<h2>Add</h2>";

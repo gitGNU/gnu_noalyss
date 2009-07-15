@@ -21,14 +21,14 @@ require_once('class_dossier.php');
 include_once ("ac_common.php");
 /* $Revision$ */
 include_once ("class_user.php");
-include_once ("postgres.php");
+require_once('class_database.php');
 /*! \file
  * \brief main page of the accountancy module
  */
 
-$User=new User(DbConnect());
+$User=new User(new Database());
 $User->check_dossier(dossier::id());
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
 $User->cn=$cn;
 $User->Check();
 

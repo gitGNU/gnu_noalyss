@@ -21,11 +21,11 @@
 /*!\file
  * \brief printing of card 
  */
-include_once('postgres.php');
+include_once('class_database.php');
 include_once('class_fiche.php');
 
 $gDossier=dossier::id();
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 //-----------------------------------------------------
 if  ( isset ($_REQUEST['fd_id'])) {
@@ -63,11 +63,11 @@ if  ( isset ($_REQUEST['fd_id'])) {
     // filter on the current year
     $filter_year=" where p_exercice='".$User->get_exercice()."'";
 
-    $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
+    $periode_start=$cn->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
     
     $w->selected=(isset($_POST['from_periode']))?$_POST['from_periode']:"";
     print "Depuis ".$w->input('from_periode',$periode_start);
-    $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
+    $periode_end=$cn->make_array("select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
     $w->selected=(isset($_POST['to_periode']))?$_POST['to_periode']:"";
     print " Jusque ".$w->input('to_periode',$periode_end);
     

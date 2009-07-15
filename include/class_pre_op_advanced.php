@@ -56,7 +56,7 @@ class Pre_Op_Advanced extends Pre_operation_detail {
  */
   function save() {
 	try {
-	  StartSql($this->db);
+	  $this->db->start();
 	  if ($this->operation->save() == false )
 		return;
 	  // save the selling
@@ -75,12 +75,12 @@ class Pre_Op_Advanced extends Pre_operation_detail {
 			 $this->{'isqc'.$i}
 			 );
 
-	    ExecSql($this->db,$sql);
+	    $this->db->exec_sql($sql);
 
 	  }
 	} catch (Exception $e) {
 	  echo ($e->getMessage());
-	  Rollback($this->db);
+	  $this->db->rollback();
 	}
 
   }
@@ -122,7 +122,7 @@ class Pre_Op_Advanced extends Pre_operation_detail {
 	$sql="select opd_id,opd_poste,opd_amount,opd_debit,".
 	  " opd_qc from op_predef_detail where od_id=".$this->operation->od_id.
 	  " order by opd_id";
-	$res=ExecSql($this->db,$sql);
+	$res=$this->db->exec_sql($sql);
 	$array=pg_fetch_all($res);
 	return $array;
   }

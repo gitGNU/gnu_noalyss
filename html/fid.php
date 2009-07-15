@@ -36,7 +36,7 @@
 
 require_once('class_own.php');
 require_once  ("constant.php");
-require_once  ("postgres.php");
+require_once('class_database.php');
 require_once ("user_common.php");
 require_once ("debug.php");
 require_once('class_dossier.php');
@@ -45,7 +45,7 @@ $caller=$_GET['caller'];
 $extra=$_GET['extra'];
 
 echo_debug('fid.php',__LINE__,"Recherche fid.php".$_GET["FID"]);
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
 { 
   $d=FormatString($_GET['d']);
@@ -56,11 +56,11 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
 
   switch ($d) {
   case 'cred':
-    $filter_jrn=getDbValue($cn,"select jrn_def_fiche_cred from jrn_def where jrn_def_id=$1",array($jrn));
+    $filter_jrn=$cn->get_value("select jrn_def_fiche_cred from jrn_def where jrn_def_id=$1",array($jrn));
     $filter_card="and fd_id in ($filter_jrn)";
     break;
   case 'deb':
-    $filter_jrn=getDbValue($cn,"select jrn_def_fiche_deb from jrn_def where jrn_def_id=$1",array($jrn));
+    $filter_jrn=$cn->get_value("select jrn_def_fiche_deb from jrn_def where jrn_def_id=$1",array($jrn));
     $filter_card="and fd_id in ($filter_jrn)";
     break;
   case 'all':
@@ -71,7 +71,7 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
 
     $get_deb='jrn_def_fiche_deb';
 
-    $filter_jrn=getDbValue($cn,"select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_id=$1",array($jrn));
+    $filter_jrn=$cn->get_value("select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_id=$1",array($jrn));
 
     $filter_card="and fd_id in ($filter_jrn)";
     break;
@@ -87,7 +87,7 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
                     from vw_fiche_attr 
                     where quick_code=upper($1)". $filter_card;
 
-  $array=get_array($cn,$sql,  array($_GET['FID']));
+  $array=$cn->get_array($sql,  array($_GET['FID']));
 
   echo_debug("fid",__LINE__,$array);
   /* Different behaviour depending of the caller */

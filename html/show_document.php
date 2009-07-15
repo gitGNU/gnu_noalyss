@@ -23,16 +23,16 @@
  * \brief retrieve a document
  */
 
-include_once ("postgres.php");
+require_once('class_database.php');
 require_once("ac_common.php");
 require_once( "class_document.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 
 require_once ('class_user.php');
-$User=new User(DbConnect());
+$User=new User(new Database());
 /*!\todo Add security here
  */
 $User->Check();

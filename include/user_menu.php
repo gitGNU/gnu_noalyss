@@ -104,10 +104,10 @@ function GetAvailableFolder($p_user,$p_admin,$p_filter="")
     $sql="select distinct dos_id,dos_name,dos_description from ac_dossier 
       where  dos_name ilike '%$p_filter%' order by dos_name";
   }
-  include_once("postgres.php");
-  $cn=DbConnect();
+  require_once('class_database.php');
+  $cn=new Database();
 
-  $Res=ExecSql($cn,$sql);
+  $Res=$cn->exec_sql($sql);
   $max=pg_numRows($Res);
   if ( $max == 0 ) return 0;
 
@@ -127,7 +127,7 @@ function GetAvailableFolder($p_user,$p_admin,$p_filter="")
  */
 function ShowMenuCompta($p_high="")
 {
-  include_once("postgres.php");
+  require_once('class_database.php');
 
   // find our current menu
   $default=basename($_SERVER['PHP_SELF']);
@@ -377,7 +377,7 @@ function ShowMenuAdvanced($default="") {
  */
 function ShowMenuFiche($p_dossier)
 {
-     $cn=DbConnect($p_dossier);
+     $cn=new Database($p_dossier);
 	 $str_dossier=dossier::get();
      echo '<div class="lmenu">';
      echo '<TABLE>';
@@ -386,7 +386,7 @@ function ShowMenuFiche($p_dossier)
           <A class="mtitle" HREF="?p_action=fiche&action=add_modele&fiche=modele&'.$str_dossier.'">Creation</A></TD>
           <TD><A class="mtitle" HREF="?p_action=fiche&'.$str_dossier.'">Recherche</A></TD>
            </TR>';
-     $Res=ExecSql($cn,"select fd_id,fd_label from fiche_def order by fd_label");
+     $Res=$cn->exec_sql("select fd_id,fd_label from fiche_def order by fd_label");
      $Max=pg_NumRows($Res);
      for ( $i=0; $i < $Max;$i++) {
        $l_line=pg_fetch_array($Res,$i);
@@ -492,9 +492,9 @@ function MenuJrn()
 	$str_dossier=dossier::get();
     echo '<TABLE>';
     echo '<TR><TD class="mtitle"><A class="mtitle" HREF="?p_action=jrn&sa=add&'.$str_dossier.'">Création </A></TD></TR>';
-    include_once("postgres.php");
-    $Cn=DbConnect(dossier::id());
-    $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_name,
+    require_once('class_database.php');
+    $Cn=new Database(dossier::id());
+    $Ret=$Cn->exec_sql("select jrn_def_id,jrn_def_name,
                              jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc 
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id order by jrn_def_name");
     $Max=pg_NumRows($Ret);

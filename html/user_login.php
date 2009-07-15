@@ -23,9 +23,9 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
 include_once ("ac_common.php");
-include_once("postgres.php");
+require_once('class_database.php');
 require_once('class_itext.php');
-$rep=DbConnect();
+$rep=new Database();
 include_once ("class_user.php");
 $User=new User($rep);
 

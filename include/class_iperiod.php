@@ -83,7 +83,7 @@ require_once('class_html_input.php');
 		$cond.=" and p_exercice='".$this->user->get_exercice()."'";
 	   }
 	   $sql.="  order by p_start,p_end";
-	  $Res=ExecSql($this->cn,$sql);
+	  $Res=$this->cn->exec_sql($sql);
 	  $Max=pg_NumRows($Res);
 	  if ( $Max == 0 )  throw new Exception('Aucune p&eacute;riode trouv&eacute;e',1);
 	  $ret='<SELECT NAME="'.$this->name.'">';

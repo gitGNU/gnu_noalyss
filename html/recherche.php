@@ -31,10 +31,10 @@ include_once("user_common.php");
 html_page_start($_SESSION['g_theme']);
 $gDossier=dossier::id();
 
-include_once ("postgres.php");
+require_once('class_database.php');
 /* Admin. Dossier */
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 include_once ('class_user.php');
 $User=new User($cn);
 $User->Check();

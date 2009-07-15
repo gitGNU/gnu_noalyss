@@ -46,7 +46,7 @@ class Bud_Synthese_Acc extends Bud_Synthese {
   }
 
   function select_hypo() {
-    $hypo=make_array($this->cn,'select bh_id, bh_name from bud_hypothese ');
+    $hypo=$this->cn->make_array('select bh_id, bh_name from bud_hypothese ');
 
     $wSelect =new ISelect();
     $wSelect->name='bh_id';
@@ -65,7 +65,7 @@ class Bud_Synthese_Acc extends Bud_Synthese {
     $hypo=new Bud_Hypo($this->cn);
     $hypo->bh_id=$this->bh_id;
     $hypo->load();
-    $acc_value=make_array($this->cn,'select  distinct pcm_val::text,pcm_val from bud_detail where bh_id='.$this->bh_id." order by pcm_val::text ");
+    $acc_value=$this->cn->make_array('select  distinct pcm_val::text,pcm_val from bud_detail where bh_id='.$this->bh_id." order by pcm_val::text ");
     $wAcc_from=new ISelect();
     $wAcc_from->name="acc_from";
     $wAcc_from->value=$acc_value;
@@ -76,7 +76,7 @@ class Bud_Synthese_Acc extends Bud_Synthese {
     $wAcc_to->value=$acc_value;
     $wAcc_to->selected=$this->acc_to;
 
-    $per=make_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') ".
+    $per=$this->cn->make_array("select p_id,to_char(p_start,'MM.YYYY') ".
 		    " from parm_periode order by p_start,p_end");
 
     $wFrom=new ISelect();
@@ -151,11 +151,11 @@ class Bud_Synthese_Acc extends Bud_Synthese {
       " where pcm_val::text >= $1 and ".
       "pcm_val::text <= $2 and bud_card.bh_id=$3";
 
-    $res=ExecSqlParam($this->cn,$sql,array($this->acc_from,$this->acc_to,$this->bh_id));
+    $res=$this->cn->exec_sql($sql,array($this->acc_from,$this->acc_to,$this->bh_id));
     $aBudCard=pg_fetch_all($res);
     echo_debug(__FILE__.':'.__LINE__.'- load','aBudCard',$aBudCard);
     $array=array();
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     pg_prepare($cn,"sql_detail","select distinct bc_id,bc_code,bc_description,bc_price_unit ".
 	       " from bud_detail join bud_card using (bc_id)".
 	       " where pcm_val=$1");
@@ -239,7 +239,7 @@ class Bud_Synthese_Acc extends Bud_Synthese {
     $r="";
     if (empty($p_array)) return;
     $persql=sql_filter_per($this->cn,$this->from,$this->to,'p_id','p_id');
-    $per=get_array($this->cn,"select to_char(p_start,'MM.YYYY') as d".
+    $per=$this->cn->get_array("select to_char(p_start,'MM.YYYY') as d".
 		   " from parm_periode ".
 		   " where $persql");
 
@@ -279,7 +279,7 @@ class Bud_Synthese_Acc extends Bud_Synthese {
 
   static function test_me() {
 
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $obj=new Bud_Synthese_Acc($cn);
     echo '<form method="GET">';
     echo $obj->select_hypo();

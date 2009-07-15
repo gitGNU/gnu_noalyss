@@ -41,7 +41,7 @@ class Bud_Synthese_Group extends Bud_Synthese {
     }
   }
   function select_hypo() {
-    $hypo=make_array($this->cn,'select bh_id, bh_name from bud_hypothese order by bh_name');
+    $hypo=$this->cn->make_array('select bh_id, bh_name from bud_hypothese order by bh_name');
     $wSelect =new ISelect();
     $wSelect->name='bh_id';
     $wSelect->value=$hypo;
@@ -63,7 +63,7 @@ class Bud_Synthese_Group extends Bud_Synthese {
     $hypo->load();
     $fga_id=0;
     if ($hypo->has_plan() == 1 ) {
-      $anc_value=make_array($this->cn,"select distinct ga_id, ".
+      $anc_value=$this->cn->make_array("select distinct ga_id, ".
 			    " ga_id||'-'||substr(ga_description,10) as ga_description ".
 			    "from groupe_analytique ".
 			    " join poste_analytique using (ga_id) ".
@@ -77,7 +77,7 @@ class Bud_Synthese_Group extends Bud_Synthese {
 	$fga_id=1;
       }
     }
-    $per=make_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') ".
+    $per=$this->cn->make_array("select p_id,to_char(p_start,'MM.YYYY') ".
 		    " from parm_periode order by p_start,p_end");
 
     $wFrom=new ISelect();
@@ -192,7 +192,7 @@ class Bud_Synthese_Group extends Bud_Synthese {
 	" and $per ".
 	" group by pcm_val,p_id,bc_price_unit order by pcm_val,p_id";
 
-    $res=get_array($this->cn,$sql);
+    $res=$this->cn->get_array($sql);
     echo_debug(__FILE__.':'.__LINE__.'- load','$res',$res);
     $pcm_val="";
     $old="XX";
@@ -326,7 +326,7 @@ Array
     $hypo->bh_id=$this->bh_id;
     $hypo->load();
     $initial=$hypo->bh_saldo;
-    $per=get_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') as d".
+    $per=$this->cn->get_array("select p_id,to_char(p_start,'MM.YYYY') as d".
 		   " from parm_periode ".
 		   " where p_id between ".$this->from.' and '.
 		   $this->to." order by p_start" );
@@ -385,7 +385,7 @@ Array
     $r="";
     $persql=sql_filter_per($this->cn,$this->from,$this->to,'p_id','p_id');
     list ($head,$foot)=$this->head_foot($p_array);
-    $per=get_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') as d".
+    $per=$this->cn->get_array("select p_id,to_char(p_start,'MM.YYYY') as d".
 		   " from parm_periode ".
 		   " where $persql");
     $r.='<table>';
@@ -457,7 +457,7 @@ Array
   function display_csv($p_array) {
     $r="";
     list ($head,$foot)=$this->head_foot($p_array);
-    $per=get_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') as d".
+    $per=$this->cn->get_array("select p_id,to_char(p_start,'MM.YYYY') as d".
 		   " from parm_periode ".
 		   " where p_id between ".$this->from.' and '.
 		   $this->to." order by p_start" );
@@ -519,7 +519,7 @@ Array
   }
 
   static function test_me() {
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $obj=new Bud_Synthese_Group($cn);
     echo '<form method="GET">';
 	echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);

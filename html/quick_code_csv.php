@@ -22,7 +22,7 @@
  * \brief Send the poste list in csv
  */
 include_once("ac_common.php");
-include_once ("postgres.php");
+require_once('class_database.php');
 include ('class_user.php');
 require_once("class_fiche.php");
 header('Content-type: application/csv');
@@ -31,7 +31,7 @@ require_once('class_dossier.php');
 $gDossier=dossier::id();
 
 /* Admin. Dossier */
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 
 $User=new User($cn);

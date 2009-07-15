@@ -55,7 +55,7 @@ class Pre_op_ven extends Pre_operation_detail {
  */
   function save() {
 	try {
-	  StartSql($this->db);
+	  $this->db->start();
 	  if ($this->operation->save() == false )
 		return;
 	  // save the client
@@ -65,7 +65,7 @@ class Pre_op_ven extends Pre_operation_detail {
 				   $this->operation->od_id,
 				   $this->e_client,
 				   "t");
-	  ExecSql($this->db,$sql);
+	  $this->db->exec_sql($sql);
 	  // save the selling
 	  for ($i=0;$i<$this->operation->nb_item;$i++) {
 	    if ( strlen(trim($this->{"e_march".$i}))==0) continue;
@@ -80,13 +80,13 @@ class Pre_op_ven extends Pre_operation_detail {
 					 'f',
 					 $this->operation->od_id
 					 );
-		ExecSql($this->db,$sql);
+		$this->db->exec_sql($sql);
 	  }
 	} catch (Exception $e) {
 	  echo ($e->getMessage());
-	  Rollback($this->db);
+	  $this->db->rollback();
 	}
-	commit($this->db);
+	$this->db->commit();
 
   }
   /*!\brief compute an array accordingly with the FormVenView function
@@ -117,7 +117,7 @@ class Pre_op_ven extends Pre_operation_detail {
 	$sql="select opd_id,opd_poste,opd_amount,opd_tva_id,opd_debit,".
 	  " opd_quantity from op_predef_detail where od_id=".$this->operation->od_id.
 	  " order by opd_id";
-	$res=ExecSql($this->db,$sql);
+	$res=$this->db->exec_sql($sql);
 	$array=pg_fetch_all($res);
 	return $array;
   }

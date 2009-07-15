@@ -81,7 +81,7 @@ echo dossier::hidden();
 echo '<TABLE>';
 
 print '<TR>';
-$year=make_array($cn,"select distinct extract(year from jr_date), extract(year from jr_date) from jrn");
+$year=$cn->make_array("select distinct extract(year from jr_date), extract(year from jr_date) from jrn");
 if ( sizeof($year) == 0 ) 
 {
   echo "Aucun enregistrement dans les journaux";

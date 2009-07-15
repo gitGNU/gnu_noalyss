@@ -33,11 +33,11 @@ html_page_start($_SESSION['g_theme']);
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-include_once ("postgres.php");
+require_once('class_database.php');
 /* Admin. Dossier */
 
 include_once ("class_user.php");
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 $User=new User($cn);
 $User->Check();
 $User->check_dossier($gDossier);
@@ -57,7 +57,7 @@ if ( isset ($_POST["add"]) ) {
   }
   else {
     /*  if name already use we stop */
-    if ( count_sql($cn,"select * from jrn_def where jrn_def_name=$1",array($_POST['p_jrn_name'])) >0 ) {
+    if ( $cn->count_sql("select * from jrn_def where jrn_def_name=$1",array($_POST['p_jrn_name'])) >0 ) {
       
       alert ('Un journal de ce nom existe déjà');
     } else {
@@ -85,7 +85,7 @@ if ( isset ($_POST["add"]) ) {
 	$p_jrn_fiche_cred=join(",",$_POST["FICHEDEB"]);
       }
       $l_cred_max_line=$l_deb_max_line;
-      StartSql($cn);
+      $cn->start();
 	$Sql="insert into jrn_def(jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
                   jrn_def_type,jrn_def_fiche_deb,jrn_def_fiche_cred,jrn_def_code,jrn_def_pj_pref) 
                   values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)";
@@ -94,11 +94,11 @@ if ( isset ($_POST["add"]) ) {
 			 $l_deb_max_line,$l_cred_max_line,$_POST['p_jrn_type'],
 			 $p_jrn_fiche_deb,$p_jrn_fiche_cred,
 			 $p_code,$_POST['jrn_def_pj_pref']);
-	$Res=ExecSqlParam($cn,$Sql,$sql_array);
-	$ledger_id=GetSequence($cn,'s_jrn_def');
-	$Res=create_sequence($cn,'s_jrn_pj'.$ledger_id);
-	AlterSequence($cn,'s_jrn_pj'.$ledger_id,$_POST['jrn_def_pj_seq']);
-	Commit($cn);
+	$Res=$cn->exec_sql($Sql,$sql_array);
+	$ledger_id=$cn->get_current_seq('s_jrn_def');
+	$Res=$cn->create_sequence('s_jrn_pj'.$ledger_id);
+	$cn->alter_seq($_POST['jrn_def_pj_seq'],'s_jrn_pj'.$ledger_id);
+	$cn->commit();
     }
   }
   echo '<div class="lmenu">';
@@ -137,7 +137,7 @@ $hidden.=HtmlInput::hidden('p_ech_lib','echeance');
 $name="";
 $code="";
 $wType=new ISelect();
-$wType->value=make_array($cn,'select jrn_type_id,jrn_desc from jrn_type');
+$wType->value=$cn->make_array('select jrn_type_id,jrn_desc from jrn_type');
 $wType->name="p_jrn_type";
 $type=$wType->input();
 $rcred=$rdeb=array();

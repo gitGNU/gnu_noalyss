@@ -44,7 +44,7 @@ $result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' width="100%"');
 echo $result;
 
 echo "</DIV>";
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 
 include_once("impress_inc.php");

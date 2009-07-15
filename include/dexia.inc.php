@@ -32,7 +32,7 @@ $LinesSkipped=0;
 $LinesImported=0;
 $LinesDup=0;
 $row=1;
-StartSql($p_cn);
+$p_cn->start();
 while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) 
 {
   $num = count($data);
@@ -124,10 +124,10 @@ compte_ordre='$compte_ordre' limit 2";
 // Check if no need to rollback when executing the SQL
 //-----------------------------------------------------
  try {
-   ExecSql($p_cn,$Sql);
+   $p_cn->exec_sql($Sql);
  }
  catch (Exception $e) {
-   Rollback($p_cn);
+   $p_cn->rollback();
    echo "Rollbacking : $ref_extrait $detail <BR>";
    $LinesSkipped++;
    continue;

@@ -26,9 +26,9 @@ $gDossier=dossier::id();
 
 include_once ("ac_common.php");
 
-include_once ("postgres.php");
+require_once('class_database.php');
 include_once ("class_user.php");
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 $User=new User($cn);
 $User->Check();
 $User->check_dossier($gDossier);

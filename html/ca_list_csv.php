@@ -29,7 +29,7 @@ header('Content-Disposition: attachment;filename="jrn.csv"',FALSE);
 
 require_once ('class_anc_listing.php');
 
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
 
 $bal=new Anc_Listing($cn);
 $bal->get_request();

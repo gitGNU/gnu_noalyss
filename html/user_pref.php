@@ -24,12 +24,12 @@
  */
 
 include_once ("ac_common.php");
-include_once ("postgres.php");
+require_once('class_database.php');
 /* Admin. Dossier */
-$Rep=DbConnect();
+$Rep=new Database();
 include_once ("class_user.php");
 require_once('class_dossier.php');
-$cn=DbConnect();
+$cn=new Database();
 
 /* if the dossier is not set then we have to connect to the
  * account_repository database
@@ -37,11 +37,11 @@ $cn=DbConnect();
 
 if ( isset ($_REQUEST['gDossier'])) 
   {
-	$cn=DbConnect($_REQUEST['gDossier']);
+	$cn=new Database($_REQUEST['gDossier']);
   } 
 else
   {
-	$cn=DbConnect();
+	$cn=new Database();
   }
 
 

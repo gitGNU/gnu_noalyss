@@ -30,7 +30,7 @@ class Own {
   // constructor 
   function Own($p_cn) {
     $this->db=$p_cn;
-    $Res=ExecSql($p_cn,"select * from parameter where pr_id like 'MY_%'");
+    $Res=$p_cn->exec_sql("select * from parameter where pr_id like 'MY_%'");
     for ($i = 0;$i < pg_NumRows($Res);$i++) {
       $row=pg_fetch_array($Res,$i);
       $key=$row['pr_id'];
@@ -59,13 +59,13 @@ class Own {
       $this->check($p_attr);
       $value=$this->$p_attr;
       // check if the parameter does exist
-      if ( getDbValue($this->db,'select count(*) from parameter where pr_id=$1',array($p_attr)) != 0 )
+      if ( $this->db->get_value('select count(*) from parameter where pr_id=$1',array($p_attr)) != 0 )
 	{
-	  $Res=ExecSqlParam($this->db,"update parameter set pr_value=$1 where pr_id=$2",
+	  $Res=$this->db->exec_sql("update parameter set pr_value=$1 where pr_id=$2",
 		       array($value,$p_attr));
 	} else {
 
-	  $Res=ExecSqlParam($this->db,"insert into parameter (pr_id,pr_value) values( $1,$2)",
+	  $Res=$this->db->exec_sql("insert into parameter (pr_id,pr_value) values( $1,$2)",
 		       array($p_attr,$value));
 	  
 	}

@@ -23,7 +23,7 @@ include_once ("ac_common.php");
  */
 /* $Revision$ */
 
-include_once ("postgres.php");
+require_once('class_database.php');
 include_once("debug.php");
 
 
@@ -36,7 +36,7 @@ if (  isset ($_POST["p_user"] ) ) {
 
   // Verif if User and Pass match DB
   // if no, then redirect to the login page
-  $rep=DbConnect();
+  $rep=new Database();
   include_once ("class_user.php");
   $User=new User($rep);
    $User->Check();
@@ -45,7 +45,7 @@ if (  isset ($_POST["p_user"] ) ) {
 
 } else
 {
-  $rep=DbConnect();
+  $rep=new Database();
   include_once ("class_user.php");
   $User=new User($rep);
   $User->Check();

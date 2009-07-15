@@ -53,7 +53,7 @@ class Acc_Parm_Code {
 
   function load_all() {
     $sql="select * from parm_code order by p_code";
-    $Res=ExecSql($this->db,$sql);
+    $Res=$this->db->exec_sql($sql);
     $r= pg_fetch_all($Res);
     $idx=0;
     $array=array();
@@ -91,7 +91,7 @@ class Acc_Parm_Code {
 	  "p_comment='".$this->p_comment."'  ".
 	",p_value='".$this->p_value."'  ".
 	  "where p_code='".$this->p_code."'";
-	$Res=ExecSql($this->db,$sql);
+	$Res=$this->db->exec_sql($sql);
       }
     }
 /*! 
@@ -164,7 +164,7 @@ class Acc_Parm_Code {
     if ( $this->p_code == -1 ) return "p_code non initialisé";
     $sql='select * from parm_code where p_code=$1 ';
 
-    $Res=ExecSqlParam($this->db,$sql,array($this->p_code));
+    $Res=$this->db->exec_sql($sql,array($this->p_code));
 
     if ( pg_NumRows($Res) == 0 ) return 'INCONNU';
     $row= pg_fetch_array($Res,0);

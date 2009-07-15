@@ -106,7 +106,7 @@ class Todo_List
 
     $sql="insert into todo_list (tl_date,tl_title,tl_desc,use_login) ".
       " values (to_date($1,'DD.MM.YYYY'),$2,$3,$4)  returning tl_id";
-    $res=ExecSqlParam($this->cn,
+    $res=$this->cn->exec_sql(
 		 $sql,
 		 array($this->tl_date,
 		       $this->tl_title,
@@ -122,7 +122,7 @@ class Todo_List
 
     $sql="update todo_list set tl_title=$1,tl_date=to_date($2,'DD.MM.YYYY'),tl_desc=$3 ".
       " where tl_id = $4";
-    $res=ExecSqlParam($this->cn,
+    $res=$this->cn->exec_sql(
 		 $sql,
 		 array($this->tl_title,
 		       $this->tl_date,
@@ -138,7 +138,7 @@ class Todo_List
     $sql="select tl_id, tl_title,tl_desc,to_char( tl_date,'DD.MM.YYYY') as tl_date 
 from todo_list where use_login=$1".
       " order by tl_date desc";
-    $res=ExecSqlParam($this->cn,
+    $res=$this->cn->exec_sql(
 		      $sql,
 		      array($this->use_login));	
     $array=pg_fetch_all($res);
@@ -149,7 +149,7 @@ from todo_list where use_login=$1".
    $sql="select tl_id,tl_title,tl_desc,to_char( tl_date,'DD.MM.YYYY') as tl_date
 from todo_list where tl_id=$1"; 
 
-    $res=ExecSqlParam($this->cn,
+    $res=$this->cn->exec_sql(
 		 $sql,
 		 array($this->tl_id)
 		 );
@@ -160,7 +160,7 @@ from todo_list where tl_id=$1";
   }
   public function delete() {
     $sql="delete from todo_list where tl_id=$1"; 
-    $res=ExecSqlParam($this->cn,$sql,array($this->tl_id));
+    $res=$this->cn->exec_sql($sql,array($this->tl_id));
 
   }
   public function toJSON() {
@@ -176,7 +176,7 @@ from todo_list where tl_id=$1";
   /*!\brief static testing function
    */
   static function test_me() {
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $r=new Todo_List($cn);
     $r->set_parameter('title','test');
     $r->use_login='phpcompta';

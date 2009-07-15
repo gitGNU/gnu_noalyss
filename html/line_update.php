@@ -24,15 +24,15 @@
 include_once ("ac_common.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
-include_once ("postgres.php");
+require_once('class_database.php');
 require_once ('class_acc_account.php');
 /* Admin. Dossier */
-$rep=DbConnect();
+$rep=new Database();
 include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
 html_page_start($User->theme,"onLoad='window.focus();'");
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 $User->can_request(PARPCMN);
 
 
@@ -79,7 +79,7 @@ if ( isset ($_POST["update"] ) ) {
 	}
       }
       /* Parent existe */
-      $Ret=ExecSqlParam($cn,"select pcm_val from tmp_pcmn where pcm_val=$1",array($p_parent));
+      $Ret=$cn->exec_sql("select pcm_val from tmp_pcmn where pcm_val=$1",array($p_parent));
       if ( ($p_parent != 0 && pg_NumRows($Ret) == 0) || $p_parent==$old_line ) {
 	echo '<SCRIPT> alert(" Ne peut pas modifier; aucun poste parent"); </SCRIPT>';
       } else {

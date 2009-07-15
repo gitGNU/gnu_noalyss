@@ -51,7 +51,7 @@ class fiche_def {
 */
 function input ($p_js) 
 {
-  $ref=get_array($this->cn,"select * from fiche_def_ref order by frd_text");
+  $ref=$this->cn->get_array("select * from fiche_def_ref order by frd_text");
   $iradio=new IRadio();
   // Number of line of the card
 //  $display.='<INPUT TYPE="HIDDEN" NAME="INC" VALUE="'.$p_ligne.'">';
@@ -71,7 +71,7 @@ function input ($p_js)
       " natural join attr_def where fd_id=".$this->id.
       " order by jnt_order";
 
-    $Ret=ExecSql($this->cn,$sql);
+    $Ret=$this->cn->exec_sql($sql);
 
     if ( ($Max=pg_NumRows($Ret)) == 0 )
       return ;
@@ -93,12 +93,12 @@ function input ($p_js)
   function Get() {
     if ( $this->id == 0 ) 
       return 0;
-    ExecSqlParam($this->cn,'select fiche_attribut_synchro($1)',
+    $this->cn->exec_sql('select fiche_attribut_synchro($1)',
 		 array($this->id));
 
     $sql="select * from fiche_def ".
       " where fd_id=".$this->id;
-    $Ret=ExecSql($this->cn,$sql);
+    $Ret=$this->cn->exec_sql($sql);
     if ( ($Max=pg_NumRows($Ret)) == 0 )
       return ;
     $row=pg_fetch_array($Ret,0);
@@ -116,7 +116,7 @@ function input ($p_js)
  function GetAll() {
    $sql="select * from fiche_def ";
 
-    $Ret=ExecSql($this->cn,$sql);
+    $Ret=$this->cn->exec_sql($sql);
     if ( ($Max=pg_NumRows($Ret)) == 0 )
       return ;
 
@@ -139,7 +139,7 @@ function input ($p_js)
  * \return  true or false
  */
  function HasAttribute($p_attr) {
-   return (count_sql($this->cn,"select * from vw_fiche_def where ad_id=$p_attr and fd_id=".$this->id)>0)?true:false;
+   return ($this->cn->count_sql("select * from vw_fiche_def where ad_id=$p_attr and fd_id=".$this->id)>0)?true:false;
 
  }
 /*!   
@@ -216,32 +216,32 @@ function input ($p_js)
        $sql=sprintf("insert into fiche_def(fd_label,fd_class_base,frd_id,fd_create_account) 
                 values ('%s',%s,%d,'%s')",
 		 $p_nom_mod,$p_class_base,$p_FICHE_REF,$p_create);
-       $Res=ExecSql($this->cn,$sql);
+       $Res=$this->cn->exec_sql($sql);
        
        // p_class must be added to tmp_pcmn 
        $sql=sprintf("select account_add(%d,'%s')",
 		    $p_class_base,$p_nom_mod);
        
-       $Res=ExecSql($this->cn,$sql);
+       $Res=$this->cn->exec_sql($sql);
        
        // Get the fd_id
-       $fd_id=GetSequence($this->cn,'s_fdef');
+       $fd_id=$this->cn->get_current_seq('s_fdef');
     
        // Add the class_base if needed
        
        $sql=sprintf("insert into jnt_fic_attr(fd_id,ad_id,jnt_order) 
                      values (%d,%d,10)",$fd_id,ATTR_DEF_ACCOUNT);
-       $Res=ExecSql($this->cn,$sql);
+       $Res=$this->cn->exec_sql($sql);
 
      } else {
        //There is no class base not even as default
        $sql=sprintf("insert into fiche_def(fd_label,frd_id,fd_create_account) values ('%s',%d,'%s')",
 		    $p_nom_mod,$p_FICHE_REF,$p_create);
        
-       $Res=ExecSql($this->cn,$sql);
+       $Res=$this->cn->exec_sql($sql);
        
        // Get the fd_id
-       $fd_id=GetSequence($this->cn,'s_fdef');
+       $fd_id=$this->cn->get_current_seq('s_fdef');
        
      }
      
@@ -259,7 +259,7 @@ function input ($p_js)
 	 $sql=sprintf("insert into jnt_fic_Attr(fd_id,ad_id,jnt_order)
                    values (%d,%s,%d)",
 		      $fd_id,$v['ad_id'],$jnt_order);
-	 ExecSql($this->cn,$sql);
+	 $this->cn->exec_sql($sql);
        }
      }
      
@@ -286,7 +286,7 @@ function input ($p_js)
 	$sql.=" offset $offset limit $step";
       }
 
-    $Ret=ExecSql($this->cn,$sql);
+    $Ret=$this->cn->exec_sql($sql);
     if ( ($Max=pg_NumRows($Ret)) == 0 )
       return ;
     $all[0]=new fiche($this->cn);
@@ -310,7 +310,7 @@ function input ($p_js)
                fiche join fiche_def using(fd_id)
             where frd_id=$1";
 
-    $Ret=ExecSqlParam($this->cn,$sql,array($p_cat));
+    $Ret=$this->cn->exec_sql($sql,array($p_cat));
     if ( ($Max=pg_NumRows($Ret)) == 0 )
       return null;
     $all[0]=new fiche($this->cn);
@@ -340,7 +340,7 @@ function input ($p_js)
 
 	$page=(isset($_GET['page']))?$_GET['page']:1;
 	$offset=(isset($_GET['offset']))?$_GET['offset']:0;
-	$max_line=count_sql($this->cn,"select f_id,av_text  from 
+	$max_line=$this->cn->count_sql("select f_id,av_text  from 
                           fiche join jnt_fic_att_value using (f_id) 
                                 join attr_value using (jft_id)
                        where fd_id='".$this->id."' and ad_id=".ATTR_DEF_NAME." order by f_id");
@@ -351,7 +351,7 @@ function input ($p_js)
       
       // Get all name the cards of the select category
       // 1 for attr_def.ad_id is always the name
-      $Res=ExecSql($this->cn,"select f_id,vw_name,quick_code  from ".
+      $Res=$this->cn->exec_sql("select f_id,vw_name,quick_code  from ".
 		   " vw_fiche_attr ".
 		   " where fd_id='".$this->id.
 		   "' order by f_id $sql_offset $sql_limit ");
@@ -405,7 +405,7 @@ function input ($p_js)
       echo_debug("class_fiche_def",__LINE__,"DisplayAttribut");
       if ( $this->id == 0 )
 	return ;
-      ExecSqlParam($this->cn,'select fiche_attribut_synchro($1)',
+      $this->cn->exec_sql('select fiche_attribut_synchro($1)',
 		   array($this->id));
 
       $MaxLine=sizeof($this->attribut);
@@ -428,7 +428,7 @@ function input ($p_js)
 	} else {
 		if ( $str == "remove" ) {
 		  //Only for the not mandatory attribute (not defined in attr_min)
-		  if ( count_sql($this->cn,"select * from attr_min where frd_id=".
+		  if ( $this->cn->count_sql("select * from attr_min where frd_id=".
 			   $this->fiche_def." and ad_id = ".$this->attribut[$i]->ad_id) == 0
 		       && $this->attribut[$i]->ad_id != ATTR_DEF_QUICKCODE
 		       && $this->attribut[$i]->ad_id != ATTR_DEF_ACCOUNT
@@ -457,7 +457,7 @@ function input ($p_js)
       
       // Show the possible attribute which are not already attribute of the model
       // of card
-      $Res=ExecSql($this->cn,"select ad_id,ad_text from attr_def 
+      $Res=$this->cn->exec_sql("select ad_id,ad_text from attr_def 
                        where 
                  ad_id not in (select ad_id from fiche_def natural join jnt_fic_attr
                            where fd_id=".$this->id.")");
@@ -490,7 +490,7 @@ function input ($p_js)
       $sql=sprintf("update   fiche_def set fd_label='%s' ".
 		   "where                    fd_id=%d", 
 		   $p_label,$this->id);
-      $Res=ExecSql($this->cn,$sql);
+      $Res=$this->cn->exec_sql($sql);
       
     }
   /*!\brief insert a new attribut for this fiche_def
@@ -506,7 +506,7 @@ function input ($p_js)
       // it means insert a row in jnt_fic_attr
       $sql=sprintf("insert into jnt_fic_attr (fd_id,ad_id,jnt_order) values (%d,%d,%d)", 
 		   $this->id,$p_ad_id,$max);
-      $Res=ExecSql($this->cn,$sql);
+      $Res=$this->cn->exec_sql($sql);
       // update all the existing card
       
     }
@@ -518,10 +518,10 @@ function input ($p_js)
      {
        foreach ($array as $ch) 
 	 {
-	   StartSql($this->cn);
+	   $this->cn->start();
 	   $sql="delete from jnt_fic_attr where fd_id=".$this->id.
 	     "   and ad_id=".$ch;
-	   ExecSql($this->cn,$sql);
+	   $this->cn->exec_sql($sql);
 
 	   $sql="delete from attr_value where jft_id in ( select ".
 	     " jft_id from attr_value join jnt_fic_att_value using (jft_id) ".
@@ -529,15 +529,15 @@ function input ($p_js)
 	     " where ".
 	     "fd_id = ".$this->id." and ".
 	     "ad_id=".$ch.")";
-	   ExecSql($this->cn,$sql);
+	   $this->cn->exec_sql($sql);
 
 	   $sql="delete from jnt_fic_att_value where jft_id in (".
 	     " select jft_id from jnt_fic_att_value join fiche using (f_id) ".
 	     " where ".
 	     " fd_id = ".$this->id." and ".
 	     " ad_id = ".$ch.")";
-	   ExecSql($this->cn,$sql);
-	   Commit($this->cn);
+	   $this->cn->exec_sql($sql);
+	   $this->cn->commit();
 	 }
      }
 
@@ -552,13 +552,13 @@ function input ($p_js)
 	 if ( $row->ad_id == 1 ) continue;
 	 if ( ${'jnt_order'.$row->ad_id} <= 0 ) continue;
 	 $sql='update jnt_fic_attr set jnt_order=$1 where fd_id=$2 and ad_id=$3';
-	 ExecSqlParam($this->cn,$sql,array(${'jnt_order'.$row->ad_id},
+	 $this->cn->exec_sql($sql,array(${'jnt_order'.$row->ad_id},
 					   $this->id,
 					   $row->ad_id));
 	 
        }
        /* correct the order */
-       ExecSql($this->cn,'select attribute_correct_order()');
+       $this->cn->exec_sql('select attribute_correct_order()');
      }
 
 
@@ -585,9 +585,9 @@ function input ($p_js)
 	 /* if remains == 0 then remove cat */
 	 if ( $remain == 0 ) {
 	   $sql='delete from jnt_fic_attr where fd_id=$1';
-	   ExecSqlParam($this->cn,$sql,array($this->id));
+	   $this->cn->exec_sql($sql,array($this->id));
 	   $sql='delete from fiche_def where fd_id=$1';
-	   ExecSqlParam($this->cn,$sql,array($this->id));
+	   $this->cn->exec_sql($sql,array($this->id));
        }
 
        return $remain;
@@ -606,7 +606,7 @@ function get_attr_min($p_fiche_def_ref) {
          natural join fiche_def_ref
       where
       frd_id= $1";
-  $Res=ExecSqlParam($this->cn,$Sql,array($p_fiche_def_ref));
+  $Res=$this->cn->exec_sql($Sql,array($p_fiche_def_ref));
   $Num=pg_NumRows($Res);
 
   // test the number of returned rows

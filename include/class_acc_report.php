@@ -48,7 +48,7 @@ class Acc_Report {
   /*!\brief Return the report's name
    */
   function get_name() {
-    $ret=execSql($this->db,"select fr_label from formdef where fr_id=".$this->id);
+    $ret=$this->db->exec_sql("select fr_label from formdef where fr_id=".$this->id);
     if (pg_NumRows($ret) == 0) return $this->name;
     $a=pg_fetch_array($ret,0);
     $this->name=$a['fr_label'];
@@ -60,10 +60,9 @@ class Acc_Report {
    * \param $p_end end periode
    * \param $p_type_date type of the date : periode or calendar
    */
- 
   function get_row($p_start,$p_end,$p_type_date) {
 
-   $Res=ExecSql($this->db,"select fo_id ,
+   $Res=$this->db->exec_sql("select fo_id ,
                      fo_fr_id,
                      fo_pos,
                      fo_label,
@@ -174,8 +173,8 @@ function form($p_line=0) {
   }
   function insert() {
     try {
-      startSql($this->db);
-      $ret_sql=ExecSqlParam($this->db,
+      $this->db->start();
+      $ret_sql=$this->db->exec_sql(
 			 "insert into formdef (fr_label) values($1) returning fr_id",
 			 array($this->name)
 			 );
@@ -187,7 +186,7 @@ function form($p_line=0) {
 	  {
 	    $ix=($row->get_parameter("position")!="")?$row->get_parameter("position"):$ix;
 	    $row->set_parameter("position",$ix);
-	    $ret_sql=ExecSqlParam($this->db,
+	    $ret_sql=$this->db->exec_sql(
 				  "insert into form (fo_fr_id,fo_pos,fo_label,fo_formula)".
 				  " values($1,$2,$3,$4)",
 				  array($this->id,
@@ -199,19 +198,19 @@ function form($p_line=0) {
       }
 			      
     } catch (Exception $e) {
-      Rollback($this->db);
+      $this->db->rollback();
       echo $e->getMessage();
     }
-    Commit($this->db);
+    $this->db->commit();
 
   }
   function update() {
     try {
-      startSql($this->db);
-      $ret_sql=ExecSqlParam($this->db,
+      $this->db->start();
+      $ret_sql=$this->db->exec_sql(
 			    "update formdef set fr_label=$1 where fr_id=$2",
 			    array($this->name,$this->id));
-      $ret_sql=ExecSqlParam($this->db,
+      $ret_sql=$this->db->exec_sql(
 			    "delete from form where fo_fr_id=$1",
 			    array($this->id));
       $ix=0;
@@ -222,7 +221,7 @@ function form($p_line=0) {
 	{
 	  $ix=($row->get_parameter("position")!="")?$row->get_parameter("position"):$ix;
 	  $row->set_parameter("position",$ix);
-	  $ret_sql=ExecSqlParam($this->db,
+	  $ret_sql=$this->db->exec_sql(
 				"insert into form (fo_fr_id,fo_pos,fo_label,fo_formula)".
 				" values($1,$2,$3,$4)",
 				array($this->id,
@@ -235,10 +234,10 @@ function form($p_line=0) {
 			    
 
     }catch (Exception $e) {
-      Rollback($this->db);
+      $this->db->rollback();
       echo $e->getMessage();
     }
-    Commit($this->db);
+    $this->db->commit();
   }
   /*!\brief fill a form thanks an array, usually it is $_POST
    *\param $p_array keys = fr_id, form_nom,textXX, formXX, posXX where
@@ -262,12 +261,12 @@ function form($p_line=0) {
 
 
   function load() {
-    $sql=ExecSqlParam($this->db,
+    $sql=$this->db->exec_sql(
 		      "select fr_label from formdef where fr_id=$1",
 		      array($this->id));
     if ( pg_NumRows($sql) == 0 ) return;
     $this->name=pg_fetch_result($sql,0,0);
-    $sql=ExecSqlParam($this->db,
+    $sql=$this->db->exec_sql(
 		      "select fo_id,fo_pos,fo_label,fo_formula ".
 		      " from form ".
 		      " where fo_fr_id=$1 order by fo_pos",
@@ -290,7 +289,7 @@ function form($p_line=0) {
 
   }
   function delete() {
-    $ret=ExecSqlParam($this->db,
+    $ret=$this->db->exec_sql(
 		      "delete from formdef where fr_id=$1",
 		      array($this->id)
 		      );
@@ -303,7 +302,7 @@ function form($p_line=0) {
   function get_list()
   {
     $sql="select fr_id,fr_label from formdef order by fr_label";
-    $ret=ExecSql($this->db,$sql);
+    $ret=$this->db->exec_sql($sql);
     if ( pg_NumRows($ret) == 0 ) return array();
     $array=pg_fetch_all($ret);
     $obj=array();
@@ -320,7 +319,7 @@ function form($p_line=0) {
    *\return string with html code 
    */
   function make_array() {
-    $sql=make_array($this->db,"select fr_id,fr_label from formdef order by fr_label");
+    $sql=$this->db->make_array("select fr_id,fr_label from formdef order by fr_label");
     return $sql;
   }
 
@@ -380,12 +379,12 @@ function form($p_line=0) {
   function exist($p_id=0) {
     $c=$this->id;
     if ( $p_id != 0 ) $c=$p_id;
-    $ret=execSqlParam($this->db,"select fr_label from formdef where fr_id=$1",array($c));
+    $ret=$this->db->exec_sql("select fr_label from formdef where fr_id=$1",array($c));
     if (pg_NumRows($ret) == 0) return false;
     return true;
   }
   function test_me() {
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $a=new Acc_Report($cn);
     print_r($a->get_list());
     $array=array("text0"=>"test1",

@@ -24,7 +24,7 @@
  * \brief this class is used for the table tva_rate
  */
 require_once('class_dossier.php');
-require_once('postgres.php');
+require_once('class_database.php');
 
   /*!\brief Acc_Tva is used for to map the table tva_rate 
    * parameter are
@@ -85,14 +85,14 @@ class Acc_Tva
     if ( $this->verify() != 0 ) return;
     $sql="select tva_insert($1,$2,$3,$4)";
 
-    $res=ExecSqlParam($this->cn,
+    $res=$this->cn->exec_sql(
 		 $sql,
 		 array($this->tva_label,
 		       $this->tva_rate,
 		       $this->tva_comment,
 		       $this->tva_poste)
 		 );
-    $this->tva_id=GetSequence($this->cn,'s_tva');
+    $this->tva_id=$this->cn->get_current_seq('s_tva');
     $err=pg_fetch_result($res);
   }
 
@@ -100,7 +100,7 @@ class Acc_Tva
     if ( $this->verify() != 0 ) return;
     $sql="update tva_rate set tva_label=$1,tva_rate=$2,tva_comment=$3,tva_poste=$4 ".
       " where tva_id = $5";
-    $res=ExecSqlParam($this->cn,
+    $res=$this->cn->exec_sql(
 		 $sql,
 		 array($this->tva_label,
 		       $this->tva_rate,
@@ -113,7 +113,7 @@ class Acc_Tva
 
   public function load() {
     $sql="select tva_label,tva_rate, tva_comment,tva_poste from tva_rate where tva_id=$1";
-    $res=ExecSqlParam($this->cn,
+    $res=$this->cn->exec_sql(
 		 $sql,
 		 array($this->tva_id)
 		 );
@@ -144,13 +144,13 @@ class Acc_Tva
   }
   public function delete() {
     $sql="delete from tva_rate where tva_id=$1";
-    $res=ExecSqlParam($this->cn,$sql,array($this->tva_id));
+    $res=$this->cn->exec_sql($sql,array($this->tva_id));
   }
   /*!\brief
    * Test function
    */	
   static function test_me() {
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $a=new Acc_Tva($cn);
     echo $a->get_info();
     $a->set_parameter("id",1);

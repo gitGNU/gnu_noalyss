@@ -132,7 +132,7 @@ class action
 	  // Doc Type
 	  $doc_type=new ISelect();
 	  $doc_type->name="dt_id";
-	  $doc_type->value=make_array($this->db,"select dt_id,dt_value from document_type where dt_id in (".ACTION.")");
+	  $doc_type->value=$this->db->make_array("select dt_id,dt_value from document_type where dt_id in (".ACTION.")");
 	  $doc_type->selected=$this->dt_id;
 	  $doc_type->readonly=false;
 	  $str_doc_type=$doc_type->input();
@@ -143,7 +143,7 @@ class action
 	$doc_type=new IHidden();
 	$doc_type->name="dt_id";
 	$doc_type->value=$this->dt_id;
-	$str_doc_type=$doc_type->input()." ".getDbValue($this->db,"select dt_value from document_type where dt_id=".$this->dt_id);
+	$str_doc_type=$doc_type->input()." ".$this->db->get_value("select dt_value from document_type where dt_id=".$this->dt_id);
       }
 
       // Description
@@ -159,7 +159,7 @@ class action
       // Retrieve the value
       if ( $p_view != 'READ' )
 	{
-	  $a=make_array($this->db,"select s_id,s_value from document_state ");
+	  $a=$this->db->make_array("select s_id,s_value from document_state ");
 	  $state=new ISelect();
 	  $state->readonly=$readonly;
 	  $state->name="d_state";
@@ -169,7 +169,7 @@ class action
 	} else {
 	  $str_state="";
 	  if ( strlen($this->d_state) != 0 )
-	    {	  $str_state=getDbValue($this->db,"select s_value from document_state where s_id=".$this->d_state);
+	    {	  $str_state=$this->db->get_value("select s_value from document_state where s_id=".$this->d_state);
 	    $g=new IHidden();
 	    $str_state.=$g->input('d_state',$this->d_state);
 	    }
@@ -244,7 +244,7 @@ class action
 
 	  $lag_ref_ag_id='<a class="mtitle" href="commercial.php?p_action=suivi_courrier&sa=detail&ag_id='.
 	    $this->ag_ref_ag_id.'&'.dossier::get().'">'.
-	    getDbValue($this->db,"select ag_ref from action_gestion where ag_id=".$this->ag_ref_ag_id).
+	    $this->db->get_value("select ag_ref from action_gestion where ag_id=".$this->ag_ref_ag_id).
 	    "</A>";
 	} 
       // sender
@@ -325,7 +325,7 @@ class action
 	" f_id_dest,f_id_exp,ag_title,ag_comment,ag_ref,d_id,ag_type,d_state,  ".
 	" ag_ref_ag_id ".
 	" from action_gestion left join document using (ag_id) where ag_id=".$this->ag_id;
-      $r=ExecSql($this->db,$sql);
+      $r=$this->db->exec_sql($sql);
       $row=pg_fetch_all($r);
       if ( $row==false) return;
       $this->ag_comment=$row[0]['ag_comment'];
@@ -387,7 +387,7 @@ class action
       $doc_type=new IHidden();
       $doc_type->name="dt_id";
       $doc_type->value=$this->dt_id;
-      $a=ExecSql($this->db,"select dt_value from document_type where dt_id=".$this->dt_id);
+      $a=$this->db->exec_sql("select dt_value from document_type where dt_id=".$this->dt_id);
       $v=pg_fetch_array($a,0);
       $str_type=$v[0];
       if ( isset ($_REQUEST['url'])) 
@@ -403,7 +403,7 @@ class action
 	}
 
       // state
-      $a=ExecSql($this->db,"select s_value from document_state where s_id=".$this->d_state);
+      $a=$this->db->exec_sql("select s_value from document_state where s_id=".$this->d_state);
       $v=pg_fetch_array($a,0);
       $str_state=$v[0];
       $state=new IHidden();
@@ -426,7 +426,7 @@ class action
       $gen->name="p_gen";
       $doc_gen=new ISelect();
       $doc_gen->name="gen_doc";
-      $doc_gen->value=make_array($this->db,
+      $doc_gen->value=$this->db->make_array(
 				 "select md_id,md_name from document_modele where md_type=".$this->dt_id);
 
       $h_agrefid=new IHidden();
@@ -534,7 +534,7 @@ class action
 	  $this->ag_title=$doc_mod->dt_value;
 	}
       echo_debug('class_action',__LINE__," tiers->id  ".$tiers->id);
-      $this->ag_id=NextSequence($this->db,'action_gestion_ag_id_seq');
+      $this->ag_id=$this->db->get_next_seq('action_gestion_ag_id_seq');
       // Create the reference 
       $ref=$this->dt_id.'/'.$this->ag_id;
       $this->ag_ref=$ref;
@@ -557,7 +557,7 @@ class action
 		   $ref,
 		   $this->ag_ref_ag_id
 		   );
-      ExecSql($this->db,$sql);
+      $this->db->exec_sql($sql);
 
 
 
@@ -791,7 +791,7 @@ class action
       $limit=" LIMIT $step OFFSET $offset ";  
       $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
-      $Res=ExecSql($this->db,$sql.$limit);
+      $Res=$this->db->exec_sql($sql.$limit);
       $a_row=pg_fetch_all($Res);
 
       $r="";
@@ -862,7 +862,7 @@ class action
 	  // show reference
 	  if ( $row['ag_ref_ag_id'] != 0 ) 
 	    {
-	      $retSqlStmt=ExecSql($this->db,
+	      $retSqlStmt=$this->db->exec_sql(
 				  "select ag_ref from action_gestion where ag_id=".$row['ag_ref_ag_id']);
 	      $retSql=pg_fetch_all($retSqlStmt);
 	      if ( $retSql != null )
@@ -973,7 +973,7 @@ class action
 		   $this->f_id_dest,
 		   $this->ag_ref_ag_id,
 		   $this->ag_id);
-      ExecSql($this->db,$sql);
+      $this->db->exec_sql($sql);
       echo_debug('class_action',__LINE__,$_FILES);
       if ( strlen(trim($_FILES['file_upload']['name'])) !=0 ) 
 	{
@@ -1011,12 +1011,12 @@ class action
       $this->get();
       // remove the key
       $sql=sprintf("delete from action_gestion where ag_id=%d",$this->ag_id);
-      ExecSql($this->db,$sql);
+      $this->db->exec_sql($sql);
 
       // remove the ref
        $sql=sprintf("update action_gestion set ag_ref_ag_id=0 where ag_ref_ag_id=%d",
  		   $this->ag_id);
-       ExecSql($this->db,$sql);
+       $this->db->exec_sql($sql);
 
       // if there is a document
       if ( $this->dt_id != 0 )

@@ -26,7 +26,7 @@
  */
 require_once('class_dossier.php');
 include_once ("ac_common.php");
-include_once("postgres.php");
+require_once('class_database.php');
 include_once("stock_inc.php");
 require_once('class_dossier.php');
 require_once('class_periode.php');
@@ -34,11 +34,11 @@ $gDossier=dossier::id();
 
 html_page_start($_SESSION['g_theme']);
 
-include_once ("postgres.php");
+require_once('class_database.php');
 /* Admin. Dossier */
 $gDossier=dossier::id();
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 include_once ("class_user.php");
 $User=new User($cn);
 $User->Check();
@@ -92,7 +92,7 @@ if ( isset ($_POST['sub_change']))
     if ( $change != 0)
       {
 	$comment=FormatString($comment);
-	$Res=ExecSql($cn,"insert into stock_goods
+	$Res=$cn->exec_sql("insert into stock_goods
                      (  j_id,
                         f_id, 
                         sg_code,
@@ -166,7 +166,7 @@ if ( $action == 'detail' ) {
 
 // Show the possible years
 $sql="select distinct (p_exercice) as exercice from parm_periode ";
-$Res=ExecSql($cn,$sql);
+$Res=$cn->exec_sql($sql);
 $r="";
 for ( $i = 0; $i < pg_NumRows($Res);$i++) {
   $l=pg_fetch_array($Res,$i);

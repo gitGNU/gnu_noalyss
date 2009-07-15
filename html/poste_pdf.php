@@ -25,7 +25,7 @@
  */
 include_once("class_acc_account_ledger.php");
 include_once("ac_common.php");
-include_once("postgres.php");
+require_once('class_database.php');
 include_once("class.ezpdf.php");
 include_once("impress_inc.php");
 require_once ('header_print.php');
@@ -35,7 +35,7 @@ require_once('class_user.php');
 $gDossier=dossier::id();
 
 /* Security */
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 $User=new User($cn);
 $User->Check();
 $User->check_dossier($gDossier);
@@ -44,9 +44,9 @@ $User->can_request(IMPPOSTE,0);
 extract($_POST);
 
  if ( isset ( $poste_fille) ){ //choisit de voir tous les postes
-   $a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val::text like '$poste_id%'");
+   $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '$poste_id%'");
  } else 
- $a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val::text = '$poste_id'");
+ $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text = '$poste_id'");
       
 
 $ret="";

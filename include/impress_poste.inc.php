@@ -33,7 +33,7 @@ require_once('class_acc_operation.php');
 //-----------------------------------------------------
 // Show the jrn and date
 //-----------------------------------------------------
-include_once("postgres.php");
+require_once('class_database.php');
 //-----------------------------------------------------
 // Form
 //-----------------------------------------------------
@@ -68,12 +68,12 @@ print '<TR>';
 $select=new ISelect();
 $select->table=1;
 $filter_year=" where p_exercice='".$User->get_exercice()."'";
-$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
+$periode_start=$cn->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 $select->label="Depuis";
 $select->selected=(isset($_REQUEST['from_periode']))?$_REQUEST['from_periode']:"";
 print $select->input('from_periode',$periode_start);
 $select->label=" jusqu'à ";
-$periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode  $filter_year order by p_start,p_end");
+$periode_end=$cn->make_array("select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode  $filter_year order by p_start,p_end");
 $select->selected=(isset($_REQUEST['to_periode']))?$_REQUEST['to_periode']:"";
 print $select->input('to_periode',$periode_end);
 print "</TR>";
@@ -111,7 +111,7 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
       if ( isset ($_GET['poste_fille']) )
       {
 		$parent=$_GET['poste_id'];
-		$a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val::text like '$parent%' order by pcm_val::text");
+		$a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '$parent%' order by pcm_val::text");
 	$go=3;
       } 
       // Check if the post is numeric and exists

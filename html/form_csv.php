@@ -22,7 +22,7 @@
  * \brief Send a report in CSV format
  */
 include_once("ac_common.php");
-include_once ("postgres.php");
+require_once('class_database.php');
 include ('class_user.php');
 require_once("class_acc_report.php");
 require_once("impress_inc.php");
@@ -32,7 +32,7 @@ require_once('class_dossier.php');
 $gDossier=dossier::id();
 
 /* Admin. Dossier */
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 
 $User=new User($cn);

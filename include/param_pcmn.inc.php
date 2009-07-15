@@ -27,10 +27,10 @@ require_once("constant.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-include_once ("postgres.php");
+require_once('class_database.php');
 /* Admin. Dossier */
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 include_once ("class_user.php");
 $User=new User($cn);
@@ -72,17 +72,17 @@ if (isset ($_GET['action'])) {
   if ( $_GET['action']=="del" ) {
     if ( isset ($_GET['l']) ) {
       /* Ligne a enfant*/
-      $R=ExecSqlParam($cn,"select pcm_val from tmp_pcmn where pcm_val_parent=$1",array($_GET['l']));
+      $R=$cn->exec_sql("select pcm_val from tmp_pcmn where pcm_val_parent=$1",array($_GET['l']));
       if ( pg_NumRows($R) != 0 ) {
 		alert("Ne peut pas effacer le poste: d'autres postes en dépendent");
       } else {
 	/* Vérifier que le poste n'est pas utilisé qq part dans les journaux */
-	$Res=ExecSqlParam($cn,"select * from jrnx where j_poste=$1",array($_GET['l']));
+	$Res=$cn->exec_sql("select * from jrnx where j_poste=$1",array($_GET['l']));
 	if ( pg_NumRows($Res) != 0 ) {
 	  alert("Ne peut pas effacer le poste: il est utilisé dans les journaux");
 	}
 	else {
-	  $Del=ExecSqlParam($cn,"delete from tmp_pcmn where pcm_val=$1",array($_GET['l']));
+	  $Del=$cn->exec_sql("delete from tmp_pcmn where pcm_val=$1",array($_GET['l']));
 	} // if pg_NumRows
       } // if pg_NumRows
     } // isset ($l)
@@ -110,13 +110,13 @@ if ( isset ( $_POST["Ajout"] ) ) {
 	echo_debug('pcmn_update.php',__LINE__,"Ajout valeur = $p_val parent = $p_parent");
       }
       /* Parent existe */
-      $Ret=ExecSqlParam($cn,"select pcm_val from tmp_pcmn where pcm_val=$1",array($p_parent));
+      $Ret=$cn->exec_sql("select pcm_val from tmp_pcmn where pcm_val=$1",array($p_parent));
       if ( $p_parent != 0 && pg_NumRows($Ret) == 0 ) {
 		alert(" Ne peut pas modifier; aucun poste parent");
       } else {
 	// Check if the account already exists
 	
-	$Count=count_sql($cn,"select * from tmp_pcmn where pcm_val='".$p_val."'");
+	$Count=$cn->count_sql("select * from tmp_pcmn where pcm_val='".$p_val."'");
 	if ( $Count != 0 ) 
 	  {
 	    // Alert message account already exists
@@ -124,7 +124,7 @@ if ( isset ( $_POST["Ajout"] ) ) {
 	    
 	  } else 
 	    {
-	      $Ret=ExecSqlParam($cn,"insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent,pcm_type) values ($1,$2,$3,$4)",array($p_val,$p_lib,$p_parent,$p_type));
+	      $Ret=$cn->exec_sql("insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent,pcm_type) values ($1,$2,$3,$4)",array($p_val,$p_lib,$p_parent,$p_type));
 	    }
       }
     } else {
@@ -133,7 +133,7 @@ if ( isset ( $_POST["Ajout"] ) ) {
   }
 }
 
-$Ret=ExecSql($cn,"select pcm_val,pcm_lib,pcm_val_parent,pcm_type from tmp_pcmn where substr(pcm_val::text,1,1)='".$_SESSION['g_start']."' order by pcm_val::text");
+$Ret=$cn->exec_sql("select pcm_val,pcm_lib,pcm_val_parent,pcm_type from tmp_pcmn where substr(pcm_val::text,1,1)='".$_SESSION['g_start']."' order by pcm_val::text");
 $MaxRow=pg_NumRows($Ret);
 
 ?>

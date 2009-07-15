@@ -32,14 +32,14 @@ $gDossier=dossier::id();
 include_once('class_user.php');
 include_once("jrn.php");
 include_once("ac_common.php");
-include_once("postgres.php");
+require_once('class_database.php');
 include_once("class.ezpdf.php");
 include_once("impress_inc.php");
 include_once("class_acc_ledger.php");
 require_once ('header_print.php');
 require_once('class_own.php');
 require_once('class_periode.php');
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 $periode=new Periode($cn);
 
 
@@ -194,7 +194,7 @@ if  ( ($jrn_type=='ACH' || $jrn_type=='VEN' ) && $_REQUEST['p_simple']== 1 )
     header_pdf($cn,$pdf);
 
     $offset=0;$limit=30;$step=30;
-    $a_Tva=get_array($cn,"select tva_id,tva_label,tva_poste from tva_rate where tva_rate != 0.0000 order by tva_id");
+    $a_Tva=$cn->get_array("select tva_id,tva_label,tva_poste from tva_rate where tva_rate != 0.0000 order by tva_id");
     $col_tva="TVA ";
     $space=0;
     $total_HTVA=0.0;

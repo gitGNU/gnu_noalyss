@@ -46,7 +46,7 @@ class Bud_Synthese {
     }
   }
   static function test_me() {
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $a=array('from'=>'01.01.2008',
 	     'to'=>'11.01.2008',
 	     'bh_id'=>1);

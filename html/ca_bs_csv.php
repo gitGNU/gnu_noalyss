@@ -29,7 +29,7 @@ header('Content-Disposition: attachment;filename="ca_bal_simple.csv"',FALSE);
 
 require_once ('class_anc_balance_simple.php');
 
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
 
 $bal=new Anc_Balance_Simple($cn);
 $bal->get_request();

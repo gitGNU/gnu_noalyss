@@ -30,7 +30,7 @@ echo '<div class="content">';
   if ( isset ($_POST['confirm_rm'])) 
   {
     if ( count_sql($cn,'select * from tva_rate') > 1 )
-      ExecSqlParam($cn,'select tva_delete($1)',array($_POST['tva_id']));
+      $cn->exec_sql('select tva_delete($1)',array($_POST['tva_id']));
     else 
       echo '<p class="notice">Vous ne pouvez pas effacer tous taux'.
 	' Si votre soci&eacute;t&eacute; n\'utilise pas la TVA, changer dans le menu soci&eacute;t&eacute</p>';
@@ -60,7 +60,7 @@ echo '<div class="content">';
 	    {
 	      $sql="select tva_insert($1,$2,$3,$4)";
 	  
-	      $res=ExecSqlParam($cn,
+	      $res=$cn->exec_sql(
 			    $sql,
 			    array($tva_label,
 				  $tva_rate,
@@ -72,7 +72,7 @@ echo '<div class="content">';
 	    }
 	  if (  isset ($_POST['confirm_mod']) ) 
 	    {
-	      $Res=ExecSql($cn,
+	      $Res=$cn->exec_sql(
 		       "select tva_modify($tva_id,'$tva_label',
                        '$tva_rate','$tva_comment','$tva_poste')");
 	      $ret_sql=pg_fetch_row($Res);
@@ -100,7 +100,7 @@ if ( $own->MY_TVA_USE=='N' ){
   //-----------------------------------------------------
   // Display
   $sql="select tva_id,tva_label,tva_rate,tva_comment,tva_poste from tva_rate order by tva_rate";
-  $Res=ExecSql($cn,$sql);
+  $Res=$cn->exec_sql($sql);
   ?>
 <TABLE>
 <TR>

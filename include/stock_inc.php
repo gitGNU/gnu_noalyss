@@ -52,7 +52,7 @@ where
 
 
   // send the sql
-  $Res=ExecSql($p_cn,$sql);
+  $Res=$p_cn->exec_sql($sql);
 
   
   if ( ( $M = pg_NumRows($Res)) == 0 ) return null;
@@ -127,7 +127,7 @@ $sql="select distinct f_id,av_text
           and sg_code='$p_sg_code'
            ";
 // Execute
- $Res=ExecSql($p_cn,$sql);
+ $Res=$p_cn->exec_sql($sql);
  if ( ( $M=pg_NumRows($Res)) == 0 ) return null;
  
  // Store in an array
@@ -190,7 +190,7 @@ $sql="select sg_code,
 
  $r.='<H2 class="info">'.$p_sg_code."  Noms : ".$name.'</H2>';
   
-  $Res=ExecSql($p_cn,$sql);
+  $Res=$p_cn->exec_sql($sql);
   if ( ($M=pg_NumRows($Res)) == 0 ) return "no rows";
   $r.='<table style="width:100%;border:solid blue 2px ;border-style:outset;">';
   $r.="<TR>";
@@ -299,7 +299,7 @@ function GetQuantity($p_cn,$p_sg_code,$p_year,$p_type) {
         sg_code='$p_sg_code' and 
          (p_exercice = '$p_year' or to_char(sg_date::timestamp,'YYYY')='$p_year') and 
          sg_type='$p_type'";
-  $Res=ExecSql($p_cn,$sql);
+  $Res=$p_cn->exec_sql($sql);
   if ( pg_NumRows($Res)== 0) return null;
   $value=pg_fetch_array($Res,0);
   return $value['result'];

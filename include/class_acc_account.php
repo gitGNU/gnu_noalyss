@@ -25,7 +25,7 @@
  * \brief Manage the account from the table tmp_pcmn
  */
 require_once("class_iselect.php");
-require_once ('postgres.php');
+require_once ('class_database.php');
 require_once ('class_dossier.php');
 
 class Acc_Account {
@@ -78,7 +78,7 @@ class Acc_Account {
    * \return string with the pcm_lib
    */
   function get_lib() {
-    $ret=ExecSqlParam($this->db,
+    $ret=$this->db->exec_sql(
 		 "select pcm_lib from tmp_pcmn where
                   pcm_val=$1",array($this->pcm_val));
       if ( pg_NumRows($ret) != 0) {
@@ -130,7 +130,7 @@ class Acc_Account {
    */
   function load()
   {
-    $ret=ExecSql($this->db,"select pcm_lib,pcm_val_parent,pcm_type from 
+    $ret=$this->db->exec_sql("select pcm_lib,pcm_val_parent,pcm_type from 
                               tmp_pcmn where pcm_val=".$this->pcm_val);
     $r=pg_fetch_all($ret);
     
@@ -181,18 +181,18 @@ class Acc_Account {
   }
   function count($p_value) {
     $sql="select count(*) from tmp_pcmn where pcm_val=$1";
-    return getDbValue($this->db,$sql,array($p_value));
+    return $this->db->get_value($sql,array($p_value));
   }
   /*!\brief for developper only during test */
  static function test_me() {
-     $cn=DbConnect(dossier::id());
+     $cn=new Database(dossier::id());
 
  }
   function update($p_old) {
     $this->pcm_lib=substr(FormatString ($this->pcm_lib),0,150);
     $this->check();
     $sql="update tmp_pcmn set pcm_val=$1, pcm_lib=$2,pcm_val_parent=$3,pcm_type=$4 where pcm_val=$5";
-    $Ret=ExecSqlParam($this->db,$sql,array($this->pcm_val,
+    $Ret=$this->db->exec_sql($sql,array($this->pcm_val,
 					   $this->pcm_lib,
 					   $this->pcm_val_parent,
 					   $this->pcm_type,

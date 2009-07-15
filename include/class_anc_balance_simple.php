@@ -58,7 +58,7 @@ class Anc_Balance_Simple extends Anc_Print {
 	$sql.=" group by po_id,po_name,po_description";
 	$sql.=" order by po_id";
 
-	$res=ExecSql($this->db,$sql);
+	$res=$this->db->exec_sql($sql);
 
 	if ( pg_NumRows($res) == 0 )
 	  return null;
@@ -289,7 +289,7 @@ INVALIDWIDGET 	$submit=new widget();
  */
 static  function test_me () {
   // call the page with ?gDossier=14
-  $a=DbConnect(dossier::id());
+  $a=new Database(dossier::id());
   
   $bal=new Anc_Balance_Simple($a);
   $bal->get_request();	

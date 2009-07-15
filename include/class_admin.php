@@ -19,7 +19,7 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once("constant.php");
-require_once("postgres.php");
+require_once('class_database.php');
 require_once("class_acc_parm_code.php");
 
 require_once('class_fiche.php');

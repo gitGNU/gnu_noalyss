@@ -32,7 +32,7 @@
    */
 
 require_once ('constant.php');
-require_once ('postgres.php');
+require_once ('class_database.php');
 require_once ('class_dossier.php');
 
 class Bud_Detail {
@@ -59,7 +59,7 @@ class Bud_Detail {
     $sql="insert into bud_detail (po_id,bc_id,pcm_val,bh_id) ".
       " values ($1,$2,$3,$4) returning bd_id ";
 
-    $a=ExecSqlParam($this->db,$sql,$array);
+    $a=$this->db->exec_sql($sql,$array);
     $this->bd_id=pg_fetch_result($a,0,0);
   }
   /*!\brief update thanks the bd_id if bd_id == 0 returns directly
@@ -77,13 +77,13 @@ class Bud_Detail {
 		 $this->pcm_val,
 		 $this->bd_id
 		 );
-    ExecSqlParam($this->db,$sql,$array);
+    $this->db->exec_sql($sql,$array);
 
   }
   /*!\brief delete in bud_detail
    */
   function delete() {
-    ExecSql($this->db,"delete from bud_detail where bd_id=".$this->bd_id);
+    $this->db->exec_sql("delete from bud_detail where bd_id=".$this->bd_id);
   }
   /*!\brief load one row from the table Bud_Detail and makes an
      object of it
@@ -95,7 +95,7 @@ class Bud_Detail {
       " from bud_detail ".
       " where  ".
       " bd_id =".$this->bd_id;
-    $res=ExecSql($this->db,$sql);
+    $res=$this->db->exec_sql($sql);
 
     if ( pg_NumRows($res) == 0 ) return;
 
@@ -120,7 +120,7 @@ class Bud_Detail {
    *
    */
   static function test_me() {
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $a=new Bud_Detail($cn);
     $a->po_id=4;
     $a->bh_id=4;

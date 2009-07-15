@@ -52,7 +52,7 @@ class Pre_op_fin extends Pre_operation_detail {
  */
   function save() {
 	try {
-	  StartSql($this->db);
+	  $this->db->start();
 	  if ($this->operation->save() == false )
 		return;
 	  // save the client
@@ -62,7 +62,7 @@ class Pre_op_fin extends Pre_operation_detail {
 				   $this->operation->od_id,
 				   $this->e_bank_account,
 				   "t");
-	  ExecSql($this->db,$sql);
+	  $this->db->exec_sql($sql);
 	  // save the selling
 	  for ($i=0;$i<$this->operation->nb_item;$i++) {
 		$sql=sprintf('insert into op_predef_detail (opd_poste,'.
@@ -76,11 +76,11 @@ class Pre_op_fin extends Pre_operation_detail {
 					 'f',
 					 $this->operation->od_id
 					 );
-		ExecSql($this->db,$sql);
+		$this->db->exec_sql($sql);
 	  }
 	} catch (Exception $e) {
 	  echo ($e->getMessage());
-	  Rollback($this->db);
+	  $this->db->rollback();
 	}
 
   }
@@ -111,7 +111,7 @@ class Pre_op_fin extends Pre_operation_detail {
 	$sql="select opd_id,opd_poste,opd_amount,opd_comment,opd_debit".
 	  " from op_predef_detail where od_id=".$this->operation->od_id.
 	  " order by opd_id";
-	$res=ExecSql($this->db,$sql);
+	$res=$this->db->exec_sql($sql);
 	$array=pg_fetch_all($res);
 	return $array;
   }

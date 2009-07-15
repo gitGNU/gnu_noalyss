@@ -646,13 +646,13 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_url,$p_array=null) {
   echo_debug('jrn.php',__LINE__,"function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) ");
 
   $db=sprintf("dossier%d",$p_dossier);
-  $cn=DbConnect($p_dossier);
+  $cn=new Database($p_dossier);
   $oJrn=new Acc_Ledger($cn,$p_jrn);
   $l_prop=$oJrn->get_propertie();
   echo "<H2 class=\"info\">".$l_prop['jrn_def_name']."( ".$l_prop['jrn_def_code'].")"."</H2>";
   if ( $p_array == null) {
     $l_periode=GetUserPeriode($cn,$p_user);
-    $Res=ExecSql($cn,"select jr_id,j_id,jr_internal,to_char(j_date,'DD.MM.YYYY') as j_date,
+    $Res=$cn->exec_sql("select jr_id,j_id,jr_internal,to_char(j_date,'DD.MM.YYYY') as j_date,
                        j_montant,j_poste,pcm_lib,j_grpt,j_debit,j_centralized,j_tech_per,
                        pcm_lib
                    from jrnx inner join tmp_pcmn on j_poste=pcm_val
@@ -689,7 +689,7 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_url,$p_array=null) {
 
     $sql.=" order by j_id,j_grpt,j_debit desc";
     echo_debug ("search query is $sql");
-    $Res=ExecSql($cn,$sql);
+    $Res=$cn->exec_sql($sql);
   }
   $MaxLine=pg_NumRows($Res);
   if ( $MaxLine == 0 ) return;
@@ -772,7 +772,7 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_url,$p_array=null) {
  */ 
 function get_data ($p_cn,$p_grpt) {
   echo_debug('jrn.php',__LINE__,"get_data $p_cn $p_grpt");
-  $Res=ExecSql($p_cn,"select 
+  $Res=$p_cn->exec_sql("select 
                         to_char(j_date,'DD.MM.YYYY') as j_date,
                         j_text,
                         j_debit,
@@ -837,7 +837,7 @@ function get_data ($p_cn,$p_grpt) {
 function get_dataJrnJrId ($p_cn,$p_jr_id) {
 
   echo_debug('jrn.php',__LINE__,"get_dataJrn $p_cn $p_jr_id");
-  $Res=ExecSql($p_cn,"select 
+  $Res=$p_cn->exec_sql("select 
                         j_text,
                         j_debit,
                         j_poste,
@@ -918,7 +918,7 @@ function get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
 
   echo_debug(__FILE__.":".__LINE__."get_dataJrnJrIdUser");
 
-  $Res=ExecSql($p_cn,"select ".
+  $Res=$p_cn->exec_sql("select ".
 	       "*".
 	       "  from quant_sold join jrn on (qs_internal=jr_internal) ". 
 	       "       join jrn_def on (jr_def_id=jrn_def_id) ".
@@ -934,7 +934,7 @@ function get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
   // if no info found in quant_sold try in quant_purchase 
   if ( $MaxLine == 0 ) 
     {
-      $Res=ExecSql($p_cn,"select ".
+      $Res=$p_cn->exec_sql("select ".
 		   "*".
 		   "  from quant_purchase join jrn on (qp_internal=jr_internal)".
 		   "       join jrn_def on (jr_def_id=jrn_def_id) ".

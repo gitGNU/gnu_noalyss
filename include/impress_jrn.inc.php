@@ -31,7 +31,7 @@ $gDossier=dossier::id();
 //-----------------------------------------------------
 // Show the jrn and date
 //-----------------------------------------------------
-include_once("postgres.php");
+require_once('class_database.php');
 
 if ( $User->Admin() == 0 && $User->is_local_admin()==0) {
   $sql="select jrn_def_id,jrn_def_name
@@ -41,15 +41,15 @@ if ( $User->Admin() == 0 && $User->is_local_admin()==0) {
                              uj_login='$User->login'
                              and uj_priv !='X'
                              ";
-  $ret=make_array($cn,$sql);
+  $ret=$cn->make_array($sql);
 } else {
-  $ret=make_array($cn,"select jrn_def_id,jrn_def_name
+  $ret=$cn->make_array("select jrn_def_id,jrn_def_name
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id");
 
  } 
 
 // Count the forbidden journaux
-    $NoPriv=count_sql($cn,"select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
+    $NoPriv=$cn->count_sql("select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
                                 jrn_deb_max_line,jrn_cred_max_line
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id
                              join  user_sec_jrn on uj_jrn_id=jrn_def_id 
@@ -86,13 +86,13 @@ print '<TR>';
 // filter on the current year
 $filter_year=" where p_exercice='".$User->get_exercice()."'";
 
-$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
+$periode_start=$cn->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 $w->selected=(isset($_GET['from_periode']))?$_GET['from_periode']:'';
 print td('Depuis').$w->input('from_periode',$periode_start);
 print '</TR>';
 print '<TR>';
 
-$periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
+$periode_end=$cn->make_array("select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 $w->selected=(isset($_GET['to_periode']))?$_GET['to_periode']:'';
 print td('Jusque ').$w->input('to_periode',$periode_end);
 print "</TR><TR>";
@@ -216,7 +216,7 @@ require_once("class_acc_ledger.php");
 	"<th> montant</th>".
 	"</TR>";
   // set a filter for the FIN
-  $a_parm_code=get_array($cn,"select p_value from parm_code where p_code in ('BANQUE','COMPTE_COURANT','CAISSE')");
+  $a_parm_code=$cn->get_array("select p_value from parm_code where p_code in ('BANQUE','COMPTE_COURANT','CAISSE')");
   $sql_fin="(";
   $or="";
   foreach ($a_parm_code as $code) {
@@ -237,7 +237,7 @@ require_once("class_acc_ledger.php");
 	// the credit must be negative and written in red
   	// Get the jrn type
 	if ( $line['jrn_def_type'] == 'FIN' ) {
-	  $positive = count_sql($cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
+	  $positive = $cn->count_sql("select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
 		   " where jr_id=".$line['jr_id']." and $sql_fin ".
 			       " and j_debit='f'");
 	

@@ -27,6 +27,7 @@
 // Bank type = eub
 //-----------------------------------------------------
 $row=1;
+$p_cn->set_encoding('latin1');
 while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 	$num = count($data);
 	for ($c=0; $c < $num; $c++) {
@@ -71,7 +72,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 			'$p_bq_account',
 			$p_jrn,
 			'n')";
-		$Res=ExecSql($p_cn,$Sql,'latin1');
+		$Res=$p_cn->exec_sql($Sql);
 		}
 	} // for ($c=0;$c<$num;$c++)
 		$row++;

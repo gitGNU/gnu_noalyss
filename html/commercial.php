@@ -28,7 +28,7 @@
 
 include_once ("ac_common.php");
 require_once("constant.php");
-include_once ("postgres.php");
+require_once('class_database.php');
 
 echo JS_AJAX_FICHE;
 require_once('class_dossier.php');
@@ -37,9 +37,9 @@ $gDossier=dossier::id();
 $g_name=dossier::name();
 
 
-include_once ("postgres.php");
+require_once('class_database.php');
 /* Admin. Dossier */
-$rep=DbConnect($gDossier);
+$rep=new Database($gDossier);
 require_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
@@ -94,7 +94,7 @@ echo ShowItem(array(
 echo '</div>';
 echo '</div>';
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 echo JS_VIEW_JRN_MODIFY;
 echo JS_AJAX_FICHE;

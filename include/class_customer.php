@@ -19,7 +19,7 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once("constant.php");
-require_once("postgres.php");
+require_once('class_database.php');
 require_once("class_acc_parm_code.php");
 require_once('class_periode.php');
 require_once('class_fiche.php');
@@ -56,7 +56,7 @@ class Customer extends fiche{
   function get_by_account($p_poste=0) {
     $this->poste=($p_poste==0)?$this->poste:$p_poste;
     $sql="select * from vw_client where poste_comptable=$1";
-    $Res=ExecSqlParam($this->cn,$sql,array($this->poste));
+    $Res=$this->cn->exec_sql($sql,array($this->poste));
     if ( pg_NumRows($Res) == 0) return null;
     if ( pg_NumRows($Res) > 1 ) throw new Exception ('Plusieurs fiches avec le même poste',1);
     // There is only _one_ row by customer
@@ -82,7 +82,7 @@ class Customer extends fiche{
   function VatListing($p_year) {
     $cond_sql=" and   A.j_date = B.j_date and extract(year from A.j_date) ='$p_year'";
     /* List of customer  */
-    $aCustomer=get_array($this->cn,'select f_id,name,quick_code,tva_num,poste_comptable from vw_client '.
+    $aCustomer=$this->cn->get_array('select f_id,name,quick_code,tva_num,poste_comptable from vw_client '.
 	      " where tva_num !='' ");
 
     /* Use the code */
@@ -125,7 +125,7 @@ where
       $cond_sql
 ";
 
-    $Res=ExecSql($this->cn,$sql);
+    $Res=$this->cn->exec_sql($sql);
     // Foreach operation 
     // where 7% or tva account are involved
     // and store the result in an array (a_Res)
@@ -139,7 +139,7 @@ where
 
       // select the operation
       //----
-      $Res2=ExecSql($this->cn,"select j_poste,j_montant,j_debit from jrnx where j_grpt=".$row1['j_grpt']); 
+      $Res2=$this->cn->exec_sql("select j_poste,j_montant,j_debit from jrnx where j_grpt=".$row1['j_grpt']); 
       $a_row=pg_fetch_all($Res2);
 
       // Store the amount in the array

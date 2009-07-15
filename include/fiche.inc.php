@@ -25,7 +25,7 @@ include_once ("ac_common.php");
 require_once("class_itext.php");
 require_once("class_ihidden.php");
 require_once('class_fiche.php');
-include_once ("postgres.php");
+require_once('class_database.php');
 include_once ("user_menu.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
@@ -41,7 +41,7 @@ $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."
 
 
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 echo_debug(__FILE__,__LINE__,"Connected");
 // Security check
 $write=$User->check_action(FICADD);
@@ -298,7 +298,7 @@ if ( isset ( $_GET["action"]) ) {
             join attr_value using (jft_id) where
             upper(av_text) like upper('%".FormatString($_GET["search_text"])."%') order by f_id";
 
-      $all=get_array($cn,$sql);
+      $all=$cn->get_array($sql);
       // test on the size
       //
       if ( sizeof($all) != 0 )

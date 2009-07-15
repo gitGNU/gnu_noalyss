@@ -31,7 +31,7 @@
 require_once("class_itext.php");
 require_once("class_ihidden.php");
 require_once("class_ibutton.php");
-require_once ('postgres.php');
+require_once ('class_database.php');
 require_once ("ac_common.php");
 require_once ('class_dossier.php');
 require_once ('class_anc_account.php');
@@ -57,7 +57,7 @@ echo HtmlInput::submit("go","Recherche");
 echo '</form>';
 //------------- FORM ----------------------------------
 if ( isset($_REQUEST['go'])) {
-  $cn=DbConnect(dossier::id());
+  $cn=new Database(dossier::id());
   $plan=new Anc_Plan($cn,$_REQUEST['c2']);
   $plan->pa_id=$_REQUEST['c2'];
   if ( $plan->exist()==false)
@@ -66,7 +66,7 @@ if ( isset($_REQUEST['go'])) {
   $sql="select po_name , po_description from poste_analytique ".
 	"where pa_id=".$_REQUEST['c2']." and ".
 	" upper (po_name) like upper('%".pg_escape_string($_REQUEST['label'])."%') order by po_name";
-  $res=ExecSql($cn,$sql);
+  $res=$cn->exec_sql($sql);
   $array=pg_fetch_all($res);
   if (empty($array) == true)
 	{

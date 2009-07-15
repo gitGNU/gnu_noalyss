@@ -24,7 +24,7 @@
 
 include_once("debug.php");
 include_once("constant.php");
-require_once ("postgres.php");
+require_once('class_database.php');
 require_once('class_periode.php');
 
 /*!\brief to protect again bad characters which can lead to a cross scripting attack
@@ -152,9 +152,9 @@ function isDate ( $p_date) {
 function html_page_start($p_theme="",$p_script="",$p_script2="")
 {	
 
- $cn=DbConnect();
+ $cn=new Database();
  if ( $p_theme != "") {
-   $Res=ExecSql($cn,"select the_filestyle from theme
+   $Res=$cn->exec_sql("select the_filestyle from theme
                    where the_name='".$p_theme."'");
     if (pg_NumRows($Res)==0) 
       $style="style.css";
@@ -205,9 +205,9 @@ function html_page_start($p_theme="",$p_script="",$p_script2="")
 function html_min_page_start($p_theme="",$p_script="",$p_script2="")
 {	
 
- $cn=DbConnect();
+ $cn=new Database();
  if ( $p_theme != "") {
-   $Res=ExecSql($cn,"select the_filestyle from theme
+   $Res=$cn->exec_sql("select the_filestyle from theme
                    where the_name='".$p_theme."'");
     if (pg_NumRows($Res)==0) 
       $style="style.css";
@@ -369,39 +369,6 @@ function echo_warning($p_string)
   echo '<H2 class="info">'.$p_string."</H2>";
 }
 /*! 
- **************************************************
- * \brief make a array with the sql
- *        
- * \param  $p_cn dbatabase connection
- * \param $p_sql related sql 
- *  \param $p_null if the array start with a null value
- *
- * \return: a double array [value,label]
- */
-function make_array($p_cn,$p_sql,$p_null=0) {
-  echo_debug('ac_common',__LINE__,$p_sql);
-  $a=ExecSql($p_cn,$p_sql);
-  $max=pg_NumRows($a);
-  if ( $max==0) return null;
-  for ($i=0;$i<$max;$i++) {
-    $row=pg_fetch_row($a);
-    $r[$i]['value']=$row[0];
-    $r[$i]['label']=$row[1];
-  }
-  // add a blank item ?
-  if ( $p_null == 1 ) {
-  for ($i=$max;$i!=0;$i--) {
-    $r[$i]['value']=    $r[$i-1]['value'];
-    $r[$i]['label']=    $r[$i-1]['label'];
-  }
-  $r[0]['value']=-1;
-  $r[0]['label']=" ";
-  } //   if ( $p_null == 1 ) 
-
-  return $r;
-}
-/*! 
- **************************************************
  * \brief Show the periode which found thanks its id
  *           
  *        
@@ -415,13 +382,12 @@ function getPeriodeName($p_cn,$p_id,$pos='p_start') {
   if ( $pos != 'p_start' and 
        $pos != 'p_end')
     echo_error('ac_common.php'."-".__LINE__.'  UNDEFINED PERIODE');
-  $ret=execSql($p_cn,"select to_char($pos,'Mon YYYY') as t from parm_periode where p_id=$p_id");
-  if (pg_NumRows($ret) == 0) return null;
-  $a=pg_fetch_array($ret,0);
-  return $a['t'];
+  $ret=$p_cn->get_value("select to_char($pos,'Mon YYYY') as t from parm_periode where p_id=$p_id");
+  return $ret;
 }
+
+
 /*! 
- **************************************************
  * \brief Return the period corresponding to the 
  *           date
  *        
@@ -432,13 +398,11 @@ function getPeriodeName($p_cn,$p_id,$pos='p_start') {
  *       parm_periode.p_id
  */
 function getPeriodeFromMonth($p_cn,$p_date) {
-  $R=ExecSql($p_cn,"select p_id from parm_periode where
+  $R=$p_cn->get_value("select p_id from parm_periode where
               to_char(p_start,'DD.MM.YYYY') = '01.$p_date'");
-  if ( pg_NumRows($R) == 0 ) 
+  if ( $R == "" ) 
     return -1;
-  $a=pg_fetch_array($R,0);
-
-  return $a['p_id'];
+  return $R;
 }
 /*!\brief Decode the html for the widegt richtext and remove newline
  *\param $p_html string to decode

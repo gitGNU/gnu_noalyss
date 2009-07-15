@@ -31,7 +31,7 @@ require_once ('class_acc_ledger_info.php');
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 $gDossier=dossier::id();
 
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
   //menu = show a list of ledger
 $str_dossier=dossier::get();
 $array=array( 
@@ -165,7 +165,7 @@ if ( $def==1 || $def == 4 ) {
 	$str_file=$doc->Generate();
 	$doc->MoveDocumentPj($internal);
 	$sql="update jrn set jr_comment=jr_comment ||'Facture ".$doc->d_number."' where jr_internal='$internal'";
-	ExecSql($cn,$sql);
+	$cn->exec_sql($sql);
 	/* Save the additional information into jrn_info */
 	$obj=new Acc_Ledger_Info($cn);
 	$jr_id=$obj->search_id_internal($internal);

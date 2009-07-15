@@ -267,7 +267,7 @@ class Anc_Balance_Double extends Anc_Print
 	$r.='<span style="padding:5px;margin:5px;border:2px double  blue;display:block;">';
 	$plan=new Anc_Plan($this->db);
 	$plan_id=new ISelect("","pa_id2");
- 	$plan_id->value=make_array($this->db,"select pa_id, pa_name from plan_analytique order by pa_name");
+ 	$plan_id->value=$this->db->make_array("select pa_id, pa_name from plan_analytique order by pa_name");
 	$plan_id->selected=$this->pa_id2;
 	$r.= "Plan Analytique :".$plan_id->input();
 
@@ -403,7 +403,7 @@ order by 1;
 ";
 
 
-	$res=ExecSql($this->db,$sql);
+	$res=$this->db->exec_sql($sql);
 
 	if ( pg_NumRows($res) == 0 )
 	  return null;
@@ -526,7 +526,7 @@ order by 1;
  */
  static function test_me()
   {
-  $a=DbConnect(dossier::id());
+  $a=new Database(dossier::id());
   
   $bal=new Anc_Balance_Double($a);
   $bal->get_request();	

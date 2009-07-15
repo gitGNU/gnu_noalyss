@@ -38,7 +38,7 @@ echo '<div class="content">';
 /* 1st  possibility is not defined */
 if ( ! isset ($_REQUEST['bh_id'])) {
   $wHypo=new ISelect("","bh_id");
-  $wHypo->value=make_array($cn,"select bh_id,bh_name from bud_hypothese",0);
+  $wHypo->value=$cn->make_array("select bh_id,bh_name from bud_hypothese",0);
   $wHypo->selected=(isset($_REQUEST['bh_id']))?$_REQUEST['bh_id']:"";
   $wHypo->javascript='onChange="this.form.submit();"';
 
@@ -62,7 +62,7 @@ $button_other=HtmlInput::button_href('Autre detail','?gDossier='.dossier::id().
  *  the detail  
  */
 $wPost_Analytic=new ISelect("","po_id");
-$wPost_Analytic->value=make_array($cn,"select po_id,po_name from poste_analytique join ".
+$wPost_Analytic->value=$cn->make_array("select po_id,po_name from poste_analytique join ".
 				  " bud_hypothese as a using (pa_id) ".
 				  " where a.bh_id=".$_REQUEST['bh_id']);
 

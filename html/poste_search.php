@@ -26,10 +26,10 @@ include_once ("ac_common.php");
 require_once('class_acc_ledger.php');
 
 html_min_page_start($_SESSION['g_theme'],'onLoad="window.focus();"');
-include_once ("postgres.php");
+require_once('class_database.php');
 include_once("jrn.php");
 /* Admin. Dossier */
-$rep=DbConnect();
+$rep=new Database();
 include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
@@ -44,7 +44,7 @@ $c_class="";
 extract ($_GET);
 
 $condition="";
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 if ( isset($_GET['search']) ) {
   $c1=0;
 
@@ -140,7 +140,7 @@ echo '</FORM>';
 echo '<p class="notice">Nombre de lignes affichées est limité</p>';
 // if request search
 if ( isset($_GET['search']) || isset($_GET['filter']) ) {
-  $Res=ExecSql($cn,"select pcm_val,html_quote(pcm_lib) as pcm_lib from tmp_pcmn $condition order by pcm_val::text ".
+  $Res=$cn->exec_sql("select pcm_val,html_quote(pcm_lib) as pcm_lib from tmp_pcmn $condition order by pcm_val::text ".
 	       " limit 100");
   
   $MaxLine=pg_NumRows($Res);

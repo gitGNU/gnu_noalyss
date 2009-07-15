@@ -18,7 +18,7 @@
  */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 include_once ("ac_common.php");
-include_once ("postgres.php");
+require_once('class_database.php');
 require_once("class_fiche.php");
 require_once("class_fiche_def.php");
 require_once('class_html_input.php');
@@ -34,7 +34,7 @@ require_once('class_html_input.php');
 /* $Revision$ */
 /* Admin. Dossier */
 $gDossier=dossier::id();
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 include_once ("class_user.php");
 $User=new User($cn);
@@ -96,7 +96,7 @@ if ( isset($_POST['add_fiche'])) {
   if ( $e_type != 'cred' and $e_type != 'deb' && $e_type!='filter')     {
     //    $list['fiche']=$e_type;
     $sql="select fd_id from fiche_def where frd_id in ($e_type)";
-    $Res=ExecSql($cn,$sql);
+    $Res=$cn->exec_sql($sql);
     // fetch it
     $Max=pg_NumRows($Res);
     if ( $Max==0) {
@@ -130,7 +130,7 @@ if ( isset($_POST['add_fiche'])) {
 
     
 
-    $Res=ExecSqlParam($cn,$sql,array($_GET['p_jrn']));
+    $Res=$cn->exec_sql($sql,array($_GET['p_jrn']));
     
   // fetch it
     $Max=pg_NumRows($Res);

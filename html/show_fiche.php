@@ -29,13 +29,13 @@
  */
 require_once ('class_user.php');
 require_once ('class_fiche.php');
-require_once ('postgres.php');
+require_once ('class_database.php');
 require_once ('debug.php');
 require_once ('ac_common.php');
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-$User=new User(DbConnect());
+$User=new User(new Database());
 $User->Check();
 html_page_start($_SESSION['g_theme'],"onLoad='window.focus();'");
 
@@ -45,7 +45,7 @@ if ( ! isset ($_REQUEST['q'])) {
   exit();
 }
 // connect to the database
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 // Create a object fiche
 

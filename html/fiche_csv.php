@@ -26,12 +26,12 @@ header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="fiche.csv"',FALSE);
 include_once ("ac_common.php");
 include_once('class_fiche.php');
-include_once ("postgres.php");
+require_once('class_database.php');
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
 if (  isset ($_REQUEST['with_amount']))  include_once("class_acc_account_ledger.php");
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 require_once ('class_user.php');
 $User=new User($cn);

@@ -26,7 +26,7 @@
  *  
  */
 require_once("class_iconcerned.php");
-require_once ('postgres.php');
+require_once ('class_database.php');
 require_once ('class_dossier.php');
 
 /*! \brief new class for managing the reconciliation it must be used
@@ -109,7 +109,7 @@ class Acc_Reconciliation {
 	 ==0) 
       {
 	// Ok we can insert 
-	$Res=ExecSql($this->db,"insert into jrn_rapt(jr_id,jra_concerned) values ".
+	$Res=$this->db->exec_sql("insert into jrn_rapt(jr_id,jra_concerned) values ".
 		     "(".$this->jr_id.",$jr_id2)");
       }
     return true;
@@ -129,14 +129,14 @@ class Acc_Reconciliation {
 	return;
       }
     // verify if exists
-    if ( count_sql($this->db,"select jra_id from jrn_rapt where ".
+    if ( $this->db->count_sql("select jra_id from jrn_rapt where ".
 		  " jra_concerned=".$this->jr_id."  and jr_id=$jr_id2
                    union
                  select jra_id from jrn_rapt where jra_concerned=$jr_id2 ".
 		  " and jr_id=".$this->jr_id) !=0) 
       {
 	// Ok we can delete 
-	$Res=ExecSql($this->db,"delete from jrn_rapt where ".
+	$Res=$this->db->exec_sql("delete from jrn_rapt where ".
 		     "(jra_concerned=$jr_id2 and jr_id=".$this->jr_id.") or 
                                (jra_concerned=".$this->jr_id." and jr_id=$jr_id2) ");
       }
@@ -153,7 +153,7 @@ class Acc_Reconciliation {
     $sql=" select jr_id as cn from jrn_rapt where jra_concerned=".$this->jr_id.
       " union ".
       " select jra_concerned as cn from jrn_rapt where jr_id=".$this->jr_id;
-    $Res=ExecSql($this->db,$sql);
+    $Res=$this->db->exec_sql($sql);
 
     // If nothing is found return null
     $n=pg_NumRows($Res);
@@ -174,7 +174,7 @@ class Acc_Reconciliation {
   }
   */
   static function test_me() {
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $rap=new Acc_Reconciliation($cn);
     $rap->set_jr_id(38);
     $a=$rap->get();

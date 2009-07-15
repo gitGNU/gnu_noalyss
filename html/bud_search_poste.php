@@ -25,10 +25,10 @@
 include_once ("ac_common.php");
 require_once('class_acc_ledger.php');
 require_once('class_html_input.php');
-include_once ("postgres.php");
+require_once('class_database.php');
 include_once("jrn.php");
 /* Admin. Dossier */
-$rep=DbConnect();
+$rep=new Database();
 
 
 html_page_start($_SESSION['g_theme'],'onLoad="window.focus();"');
@@ -48,7 +48,7 @@ $c_comment="";
 $c_class="";
 
 $condition="";
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 extract ($_GET);
 
 if ( isset($_GET['search']) ) {
@@ -89,7 +89,7 @@ echo '</FORM>';
 
 // if request search
 if ( isset($_GET['search'])){
-  $Res=ExecSql($cn,"select pcm_val,pcm_lib from tmp_pcmn $condition order by pcm_val::text");
+  $Res=$cn->exec_sql("select pcm_val,pcm_lib from tmp_pcmn $condition order by pcm_val::text");
   
   $MaxLine=pg_NumRows($Res);
   if ( $MaxLine==0) { 

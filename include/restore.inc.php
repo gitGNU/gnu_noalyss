@@ -59,8 +59,8 @@ if ( isset ($_REQUEST['sa'] )) {
     ini_set('upload_max_filesize','5M');
     echo '<div class="content">';
 
-    $cn=DbConnect();
-    $id=NextSequence($cn,'dossier_id');
+    $cn=new Database();
+    $id=$cn->get_next_seq('dossier_id');
 
     if ( strlen(trim($_REQUEST['database'])) == 0 )
       $lname=$id." Restauration :".FormatString($_FILES['file']['name']);
@@ -69,29 +69,29 @@ if ( isset ($_REQUEST['sa'] )) {
 
 
     $sql="insert into ac_dossier (dos_id,dos_name) values (".$id.",'".$lname."') ";
-    StartSql($cn);
+    $cn->start();
     try{
-      getDbValue($cn,$sql);
+      $cn->get_value($sql);
 
 
     } catch ( Exception $e) {
       echo '<span class="error">'."Echec de la restauration ".'</span>';
       print_r($e);
-      Rollback($cn);
+      $cn->rollback();
       exit();
     }
-    Commit($cn);
+    $cn->commit();
     $name=domaine."dossier".$id;
     echo $name;
-    ExecSql($cn,"create database ".$name." encoding='utf8'");
+    $cn->exec_sql("create database ".$name." encoding='utf8'");
     $args="  -d $name ".$_FILES['file']['tmp_name'];
 
     $status=passthru(PG_RESTORE.$args);
     echo '<h2 class="info"> Restauration réussie du dossier '.$lname.'</h2>';
 
-    $new_cn=DbConnect($id);
+    $new_cn=new Database($id);
 
-    apply_patch($new_cn,$name,0);
+    $new_cn->apply_patch($name,0);
     echo '<span class="error">'.'Ne pas recharger la page, sinon votre base de données sera restaurée une fois de plus'.'</span>';
     echo $retour;
 
@@ -104,8 +104,8 @@ if ( isset ($_REQUEST['sa'] )) {
     ini_set('upload_max_filesize','5M');
     echo '<div class="content">';
 
-    $cn=DbConnect();
-    $id=NextSequence($cn,'s_modid');
+    $cn=new Database();
+    $id=$cn->get_next_seq('s_modid');
 
     if ( strlen(trim($_REQUEST['database'])) == 0 )
       $lname=$id." Restauration :".FormatString($_FILES['file']['name']);
@@ -114,25 +114,25 @@ if ( isset ($_REQUEST['sa'] )) {
 
 
     $sql="insert into modeledef (mod_id,mod_name) values (".$id.",'Restauration".$lname."') ";
-    StartSql($cn);
+    $cn->start();
     try{
-      getDbValue($cn,$sql);
+      $cn->get_value($sql);
 
     } catch ( Exception $e) {
       echo '<span class="error">'."Echec de la restauration ".'</span>';
       print_r($e);
-      Rollback($cn);
+      $cn->rollback();
       exit();
     }
-    Commit($cn);
+    $cn->commit();
 
     $name=domaine."mod".$id;
-    ExecSql($cn,"create database ".$name." encoding='utf8'");
+    $cn->exec_sql("create database ".$name." encoding='utf8'");
     $args="   -d $name ".$_FILES['file']['tmp_name'];
     $status=exec(PG_RESTORE.$args);
 
     echo '<h2 class="info"> Restauration réussie du modèle '.$lname.'</h2>';
-    $new_cn=DbConnect($id,'mod');
+    $new_cn=new Database($id,'mod');
 
     apply_patch($new_cn,$name,0);
 

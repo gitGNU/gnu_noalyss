@@ -51,13 +51,13 @@
  */
 
 include_once ("ac_common.php");
-include_once ("postgres.php");
+require_once('class_database.php');
 include_once("jrn.php");
 require_once("class_ibutton.php");
 require_once('class_dossier.php');
 include_once ("class_user.php");
 $gDossier=dossier::id();
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 $User=new User($cn);
 $User->Check();
@@ -80,7 +80,7 @@ function get_list_fiche($p_cn,$get,$p_jrn)
 {
 
   $sql="select $get as fiche from jrn_def where jrn_def_id=$1";
-  $Res=ExecSqlParam($p_cn,$sql,array($p_jrn));
+  $Res=$p_cn->exec_sql($sql,array($p_jrn));
 
   // fetch it
   $Max=pg_NumRows($Res);
@@ -110,7 +110,7 @@ function setCtrl(name_ctl,value,name_ctl2,value_3) {
 	}
 </script>
 <?php
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 $r="";
 // Propose to add a card if the ledger is not 0 (the great ledger)
 
@@ -208,10 +208,10 @@ if (
     // e_fic_search contains the pattern
     
     if (strlen(trim($e_fic_search) ) == 0 ) {
-      $Res=ExecSql($cn,$sql); 
+      $Res=$cn->exec_sql($sql); 
     } else {
       $e_fic_search=FormatString($e_fic_search);
-      $Res=ExecSql($cn,"$sql and ( upper(vw_name) like upper('%$e_fic_search%') or ".
+      $Res=$cn->exec_sql("$sql and ( upper(vw_name) like upper('%$e_fic_search%') or ".
 		   "upper(quick_code) like upper('%$e_fic_search%'))" ); 
     }
     

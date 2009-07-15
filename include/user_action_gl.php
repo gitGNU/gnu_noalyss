@@ -28,7 +28,7 @@ include_once("class_user.php");
 require_once("class_iselect.php");
 require_once("jrn.php");
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 echo '<div class="u_content">
       <form method="GET">';  
@@ -39,7 +39,7 @@ $w=new ISelect();
 // filter on the current year
 $filter_year=" where p_exercice='".$User->get_exercice()."'";
 
-$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end",1);
+$periode_start=$cn->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end",1);
 $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
 $w->selected=$current;
 echo 'Période  '.$w->input("p_periode",$periode_start).HtmlInput::submit('gl_submit','Valider');

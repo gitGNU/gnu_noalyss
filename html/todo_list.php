@@ -36,11 +36,11 @@
  */
 require_once ('class_dossier.php');
 require_once ('class_todo_list.php');
-require_once ('postgres.php');
+require_once ('class_database.php');
 
   /*!\todo needs security for the users */
 if (isset($_REQUEST['show'])) {
-  $cn=DbConnect(dossier::id());
+  $cn=new Database(dossier::id());
   $todo=new Todo_list($cn);
   $todo->set_parameter('id',$_REQUEST['id']);
   $todo->load();
@@ -50,7 +50,7 @@ if (isset($_REQUEST['show'])) {
 }
   /*!\todo needs security for the users */
 if (isset($_REQUEST['del'])) {
-  $cn=DbConnect(dossier::id());
+  $cn=new Database(dossier::id());
   $todo=new Todo_list($cn);
   $todo->set_parameter('id',$_REQUEST['id']);
   $todo->delete();

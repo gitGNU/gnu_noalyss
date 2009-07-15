@@ -51,7 +51,7 @@ class Document_modele {
   function myList() { 
 	$s=dossier::get();
     $sql="select md_id,md_name,dt_value from document_modele join document_type on(dt_id=md_type)";
-    $Res=ExecSql($this->cn,$sql);
+    $Res=$this->cn->exec_sql($sql);
     $all=pg_fetch_all($Res);
     if ( pg_NumRows($Res) == 0 ) return "";
     $r='<p><form method="post">';
@@ -106,7 +106,7 @@ class Document_modele {
       try 
 	{
 	  // Start transaction
-	  StartSql($this->cn);
+	  $this->cn->start();
 	  // Save data into the table document_modele
 	  // if $this->md_id == -1 it means it is a new document model
 	  // so first we have to insert it
@@ -116,13 +116,13 @@ class Document_modele {
 	      
 	      // insert into the table document_modele
 	      $this->name=FormatString($this->md_name);
-	      $this->md_id=NextSequence($this->cn,'document_modele_md_id_seq');
+	      $this->md_id=$this->cn->get_next_seq('document_modele_md_id_seq');
 	      $sql=sprintf("insert into document_modele(md_id,md_name,md_type) 
                               values (%d,'%s',%d)",
 			   $this->md_id,$this->name,$this->md_type);
-	      $Ret=ExecSql($this->cn,$sql);
+	      $Ret=$this->cn->exec_sql($sql);
 	      // create the sequence for this modele of document
-	      $this->md_sequence="document_".NextSequence($this->cn,"document_seq");
+	      $this->md_sequence="document_".$this->cn->get_next_seq("document_seq");
 	      // if start is not equal to 0 and he's a number than the user
 	      // request a number change
 	      echo_debug('class_document_modele',__LINE__, "this->start ".$this->start." a number ".isNumber($this->start));
@@ -130,7 +130,7 @@ class Document_modele {
 	      if ( $this->start != 0 && isNumber($this->start) == 1 )
 		{
 		  $sql="alter sequence seq_doc_type_".$this->md_type." restart ".$this->start;
-		  ExecSql($this->cn,$sql);
+		  $this->cn->exec_sql($sql);
 		}
 	      
 	    }
@@ -147,12 +147,12 @@ class Document_modele {
 		  if ( $oid == false ) 
 		    {
 		      echo_error('class_document_modele.php',__LINE__,"cannot upload document");
-		      Rollback($cn);
+		      $cn->rollback();
 		      return;
 		    }
 		  echo_debug('class_document_modele.php',__LINE__,"Loading document");
 		  // Remove old document
-		  $ret=ExecSql($this->cn,"select md_lob from document_modele where md_id=".$this->md_id);
+		  $ret=$this->cn->exec_sql("select md_lob from document_modele where md_id=".$this->md_id);
 		  if (pg_num_rows($ret) != 0) 
 		    {
 		      $r=pg_fetch_array($ret,0);
@@ -161,13 +161,13 @@ class Document_modele {
 			pg_lo_unlink($this->cn,$old_oid);
 		    }
 		  // Load new document
-		  ExecSql($this->cn,"update document_modele set md_lob=".$oid.", md_mimetype='".$_FILES['doc']['type']."' ,md_filename='".$_FILES['doc']['name']."' where md_id=".$this->md_id);
-		  Commit($this->cn);
+		  $this->cn->exec_sql("update document_modele set md_lob=".$oid.", md_mimetype='".$_FILES['doc']['type']."' ,md_filename='".$_FILES['doc']['name']."' where md_id=".$this->md_id);
+		  $this->cn->commit();
 		}
 	      else 
 		{
 		  echo "<H1>Error</H1>";
-		  Rollback($this->cn);
+		  $this->cn->rollback();
 		  exit;
 		}
 	    }
@@ -185,10 +185,10 @@ class Document_modele {
    */
   function Delete() 
     {
-      StartSql($this->cn);
+      $this->cn->start();
       // first we unlink the document
       $sql="select md_lob from document_modele where md_id=".$this->md_id;
-      $res=ExecSql($this->cn,$sql);
+      $res=$this->cn->exec_sql($sql);
       $r=pg_fetch_array($res,0);
       // if a lob is found
       if ( strlen ($r['md_lob']) != 0 )
@@ -198,8 +198,8 @@ class Document_modele {
 	}
       // now we can delete the row
       $sql="delete from document_modele where md_id =".$this->md_id;
-      $sql=ExecSql($this->cn,$sql);
-      Commit($this->cn);
+      $sql=$this->cn->exec_sql($sql);
+      $this->cn->commit();
     }
   
   /*!
@@ -233,7 +233,7 @@ class Document_modele {
       $w=new ISelect();
       $w->name="md_type";
 
-      $w->value=make_array($this->cn,'select dt_id,dt_value from document_type');
+      $w->value=$this->cn->make_array('select dt_id,dt_value from document_type');
       $r.="<td>".$w->input()."</td></tr>";
 
       $f=new IFile();

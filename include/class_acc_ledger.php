@@ -65,8 +65,8 @@ class Acc_Ledger {
     $this->nb=10;
   }
   function get_last_pj() {
-    if ( exist_sequence($this->db,"s_jrn_pj".$this->id) ) {
-      $ret= get_array($this->db,"select last_value,is_called from s_jrn_pj".$this->id);
+    if ( $this->db->exist_sequence("s_jrn_pj".$this->id) ) {
+      $ret= $this->db->get_array("select last_value,is_called from s_jrn_pj".$this->id);
 	  $last=$ret[0]['last_value'];
 	  /*!
 	       *\note  With PSQL sequence , the last_value column is 1 when before   AND after the first call, to make the difference between them
@@ -75,7 +75,7 @@ class Acc_Ledger {
 	  return $last;
 	  }
     else
-      create_sequence($this->db,"s_jrn_pj".$this->id);
+      $this->db->create_sequence("s_jrn_pj".$this->id);
     return 0;
   }
   /*! 
@@ -89,7 +89,7 @@ class Acc_Ledger {
       return "GL";
     }
 
-    $Res=ExecSql($this->db,"select jrn_def_type from ".
+    $Res=$this->db->exec_sql("select jrn_def_type from ".
 		 " jrn_def where jrn_def_id=".
 		 $this->id);
     $Max=pg_NumRows($Res);
@@ -108,7 +108,7 @@ class Acc_Ledger {
       return $this->name;
     }
   
-    $Res=ExecSql($this->db,"select jrn_def_name from ".
+    $Res=$this->db->exec_sql("select jrn_def_name from ".
 		 " jrn_def where jrn_def_id=".
 		 $this->id);
     $Max=pg_NumRows($Res);
@@ -146,7 +146,7 @@ class Acc_Ledger {
       if ( $cent=='off' ) {
 	echo_debug('class_acc_ledger.php',__LINE__,"journaux non  centralise");
 	// Journaux non centralises
-	$Res=ExecSql($this->db,"select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
+	$Res=$this->db->exec_sql("select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
 	      jr_internal,
 	case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
 	case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
@@ -188,7 +188,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
    where ".
 	  " c_jrn_def=".$this->id." and ".
 	  $periode." order by c_order ";
-	$Res=ExecSql($this->db,$Sql.$cond_limite);
+	$Res=$this->db->exec_sql($Sql.$cond_limite);
 
       }
     } else {
@@ -196,7 +196,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
       if ( $cent == 'off') {
 	echo_debug('class_acc_ledger.php',__LINE__,"Grand livre non centralise");
 	// Non centralise
-	$Res=ExecSql($this->db,"select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
+	$Res=$this->db->exec_sql("select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
 	      jr_internal,
 	case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
 	case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
@@ -236,7 +236,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	  "            join jrnx on (j_id=c_j_id)".
 	  " where ".
 	  $periode." order by c_order ";
-	$Res=ExecSql($this->db,$Sql.$cond_limite);
+	$Res=$this->db->exec_sql($Sql.$cond_limite);
       } // Grand Livre
     }
 
@@ -407,7 +407,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     //load all data into an array
     //---
 
-    $Res=ExecSql($this->db,$sql);
+    $Res=$this->db->exec_sql($sql);
     $Max=pg_NumRows($Res);
     if ( $Max == 0 ) 
       {
@@ -417,8 +417,8 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     // for type ACH and Ven we take more info
     if (  $type == 'ACH' ||  	  $type == 'VEN') 
       {
-	$a_ParmCode=get_array($this->db,'select p_code,p_value from parm_code');
-	$a_TVA=get_array($this->db,'select tva_id,tva_label,tva_poste 
+	$a_ParmCode=$this->db->get_array('select p_code,p_value from parm_code');
+	$a_TVA=$this->db->get_array('select tva_id,tva_label,tva_poste 
 			 from tva_rate where tva_rate != 0 order by tva_id');
 	for ( $i=0;$i<$Max;$i++) 
 	  {
@@ -459,7 +459,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     // filter on the current year
     $filter_year=" where p_exercice='".$User->get_exercice()."'";
     
-    $periode_start=make_array($this->db,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by  p_start,p_end",1);
+    $periode_start=$this->db->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by  p_start,p_end",1);
     $w=new ISelect("p_periode",$periode_start);
     $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
     $w->selected=$current;
@@ -554,13 +554,13 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     if ( $a_TVA == null ) 
       {
 	//Load TVA array
-	$a_TVA=get_array($this->db,'select tva_id,tva_label,tva_poste 
+	$a_TVA=$this->db->get_array('select tva_id,tva_label,tva_poste 
 			 from tva_rate where tva_rate != 0 order by tva_id');
       }
     if ( $a_ParmCode == null )
       {
 	//Load Parm_code
-	$a_ParmCode=get_array($this->db,'select p_code,p_value from parm_code');
+	$a_ParmCode=$this->db->get_array('select p_code,p_value from parm_code');
       }
     // init
     $p_array['client']="";
@@ -573,7 +573,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     // Retrieve data from jrnx
     $sql="select j_id,j_poste,j_montant, j_debit,j_qcode from jrnx where ".
       " j_grpt=".$p_array['grpt_id'];
-    $Res2=ExecSql($this->db,$sql);
+    $Res2=$this->db->exec_sql($sql);
     $data_jrnx=pg_fetch_all($Res2);
     $c=0;
 
@@ -737,7 +737,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
   { 
     if ( $this->id == 0 ) return;
 
-    $Res=ExecSqlParam($this->db,"select jrn_Def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_def_type,
+    $Res=$this->db->exec_sql("select jrn_Def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_def_type,
 	   jrn_deb_max_line,jrn_cred_max_line,jrn_def_ech,jrn_def_ech_lib,jrn_def_code,
 	   jrn_def_fiche_deb,jrn_def_fiche_deb,jrn_def_pj_pref
 	   from jrn_Def
@@ -760,7 +760,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
   {
     $sql_cred='jrn_deb_max_line';
     $sql="select jrn_deb_max_line as value from jrn_def where jrn_def_id=$1";
-    $r=ExecSqlParam($this->db,$sql,array($this->id));
+    $r=$this->db->exec_sql($sql,array($this->id));
     $Res=pg_fetch_all($r);
     echo_debug('class_acc_ledger',__LINE__,$Res);
     if ( sizeof($Res) == 0 ) return 1;
@@ -791,7 +791,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
       $sql='select c_montant as montant,c_debit as deb from centralized where '
 	.$periode.$ledger;
     }
-    $ret=ExecSql($this->db,$sql);
+    $ret=$this->db->exec_sql($sql);
     $array=pg_fetch_all($ret);
     $deb=0.0;
     $cred=0.0;
@@ -848,7 +848,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
       " from jrn_def where ".
       " jrn_def_id = $1 ";
 
-    $r=ExecSqlParam($this->db,$sql,array($this->id));
+    $r=$this->db->exec_sql($sql,array($this->id));
 
     $res=pg_fetch_all($r);
     if ( empty($res) ) return null;
@@ -866,7 +866,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
       " from jrn_def where ".
       " jrn_def_id = $1";
 
-    $r=ExecSqlParam($this->db,$sql,array($this->id));
+    $r=$this->db->exec_sql($sql,array($this->id));
 
     $res=pg_fetch_all($r);
 
@@ -1261,7 +1261,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
   function compute_internal_code($p_grpt)
   {
     if ( $this->id==0) return;
-    $num = NextSequence($this->db,'s_internal');
+    $num = $this->db->get_next_seq('s_internal');
     $atype=$this->get_propertie();
     $type=$atype['jrn_def_code'];
     $internal_code=sprintf("%d%s-%s",dossier::id(),$type,$num);
@@ -1283,12 +1283,12 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     try {
       $this->verify($p_array);
      
-      StartSql($this->db) ;
+      $this->db->start() ;
        
-      $seq=NextSequence($this->db,'s_grpt');
+      $seq=$this->db->get_next_seq('s_grpt');
       $internal=$this->compute_internal_code($seq);
        
-      $group=NextSequence($this->db,"s_oa_group");       
+      $group=$this->db->get_next_seq("s_oa_group");       
       $own=new own($this->db);
       $tot_amount=0;
       $tot_deb=0;
@@ -1368,7 +1368,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 
       $this->pj=$acc_end->set_pj();
 
-      ExecSql($this->db,"update jrn set jr_internal='".$internal."' where ".
+      $this->db->exec_sql("update jrn set jr_internal='".$internal."' where ".
 	      " jr_grpt_id = ".$seq);
 
       // Save now the predef op 
@@ -1393,13 +1393,13 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
       throw $a;
     } 
     catch (Exception $e) {
-      Rollback($this->db);
+      $this->db->rollback();
       echo 'OPERATION ANNULEE ';
       echo '<hr>';
       echo __FILE__.__LINE__.$e->getMessage();
       exit();
     }
-    Commit($this->db);
+    $this->db->commit();
     return true;
   }
 
@@ -1424,7 +1424,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
   static function next_number($p_cn,$p_type)
   {
   
-    $Ret=count_sql($p_cn,"select * from jrn_def where jrn_def_type='".$p_type."'");
+    $Ret=$p_cn->count_sql("select * from jrn_def where jrn_def_type='".$p_type."'");
     return $Ret+1;
   }
   /*!\brief get the first ledger
@@ -1449,7 +1449,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	    list($ad) = sscanf($name,"set_jr_id%d");
  	    if ( $ad == null ) continue;
  	    $sql="update jrn set jr_rapt='' where jr_id=$ad";
- 	    $Res=ExecSql($this->db,$sql);
+ 	    $Res=$this->db->exec_sql($sql);
 
 	  }
 	// set a paid flag for the checked box
@@ -1460,14 +1460,14 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	    if ( $id == null ) continue;
 	    $paid=($paid=='on')?'paid':'';
 	    $sql="update jrn set jr_rapt='$paid' where jr_id=$id";
-	    $Res=ExecSql($this->db,$sql);
+	    $Res=$this->db->exec_sql($sql);
 	  }
 
   }
   function update_internal_code($p_internal) {
     if ( ! isset($this->grpt_id) )
       exit( 'ERREUR '.__FILE__.":".__LINE__);
-    $Res=ExecSql($this->db,"update jrn set jr_internal='".$p_internal."' where ".
+    $Res=$this->db->exec_sql("update jrn set jr_internal='".$p_internal."' where ".
 		 " jr_grpt_id = ".$this->grpt_id);
 
   }
@@ -1481,7 +1481,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
       " from jrn_def where ".
       " jrn_def_type = $1 ";
 
-    $r=ExecSqlParam($this->db,$sql,array($this->type));
+    $r=$this->db->exec_sql($sql,array($this->type));
 
     $res=pg_fetch_all($r);
     if ( empty($res) ) return null;
@@ -1523,7 +1523,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
           and j_poste::text not like '6%'
           group by j_poste,j_qcode
           having (sum(a.montant) != 0 )";
-    $res=get_array($this->db,$sql,array($p_exercice));
+    $res=$this->db->get_array($sql,array($p_exercice));
     return $res;
   }
 /*!
@@ -1554,7 +1554,7 @@ function get_last_date()
 {
 	if ( $this->id==0) throw new Exception (__FILE__.":".__LINE__."Journal incorrect ");
 	$sql="select to_char(max(jr_date),'DD.MM.YYYY') from jrn where jr_def_id=$1";
-	$date=getDbValue($this->db,$sql,array($this->id));
+	$date=$this->db->get_value($sql,array($this->id));
 	return $date;
 }
   /*!\brief retrieve the jr_id thanks the internal code, do not change
@@ -1564,7 +1564,7 @@ function get_last_date()
    */
   function get_id($p_internal) {
     $sql='select jr_id from jrn where jr_internal=$1';
-    $value=getDbValue($this->db,$sql,array($p_internal));
+    $value=$this->db->get_value($sql,array($p_internal));
     if ($value=='') $value=0;
     return $value;
   }
@@ -1585,7 +1585,7 @@ function get_last_date()
     $doc->MoveDocumentPj($internal);
     // Update the comment with invoice number
     $sql="update jrn set jr_comment=' document ".$doc->d_number."' where jr_internal='$internal'";
-    ExecSql($this->db,$sql);
+    $this->db->exec_sql($sql);
     return '<h2 class="info">'.$str_file.'</h2>';
     
   }
@@ -1616,7 +1616,7 @@ function get_last_date()
   {
     echo Acc_Reconciliation::$javascript;
     html_page_start();
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $_SESSION['g_user']='phpcompta';
     $_SESSION['g_pass']='phpcompta';
 
@@ -1700,7 +1700,7 @@ function get_last_date()
   /*!\brief increment the sequence for the pj */
   function inc_seq_pj() {
     $sql="select nextval('s_jrn_pj".$this->id."')";
-    ExecSql($this->db,$sql);
+    $this->db->exec_sql($sql);
   }
 
   /*!\brief Compute the sql to show the row, called by ListJrn
@@ -1822,7 +1822,7 @@ function get_last_date()
 	$l_and=" and ";
       }
     // if not admin check filter 
-    $User=new User(DbConnect());
+    $User=new User(new Database());
     $User->Check();
     $User->check_dossier(dossier::id());
 

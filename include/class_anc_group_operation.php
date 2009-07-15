@@ -32,7 +32,7 @@ require_once("class_itext.php");
 require_once("class_iselect.php");
 require_once("class_icheckbox.php");
 require_once ("class_anc_operation.php");
-require_once ("postgres.php");
+require_once('class_database.php');
 require_once ('class_anc_plan.php');
 require_once ('class_dossier.php');
 
@@ -61,7 +61,7 @@ class Anc_Group_Operation
 
     $amount=0;
     try {
-      StartSql($this->db);
+      $this->db->start();
       foreach ($this->a_operation as $row) {
 	$add=round($row->oa_amount,2);
 	$add=($row->oa_debit=='t')?$add:$add*(-1);
@@ -71,10 +71,10 @@ class Anc_Group_Operation
       if ( $amount != 0 ) thrown new Exception ('Operation non equilibrée');
     } catch ($e) {
       echo $e->getTrace();
-      Rollback($this->db);
+      $this->db->rollback();
       exit();
     }
-    Commit($this->db);
+    $this->db->commit();
   }
   /*!\brief show a form for the operation (several rows)
    * \return the string containing the form but without the form tag
@@ -114,7 +114,7 @@ class Anc_Group_Operation
 	  {
 	    $idx=$d['id'];
 	    /* array of possible value for the select */
-	    $aPoste[$idx]=make_array($this->db,"select po_id as value,".
+	    $aPoste[$idx]=$this->db->make_array("select po_id as value,".
 				     " html_quote(po_name||':'||po_description) as label ".
 					" from poste_analytique ".
 					" where pa_id = ".$idx.
@@ -204,9 +204,9 @@ class Anc_Group_Operation
   /*!\brief save the group of operation but only if the amount is
      balanced  */
   function save() {
-	StartSql($this->db);
+	$this->db->start();
 	try  {
-	  $oa_group=NextSequence($this->db,'s_oa_group');
+	  $oa_group=$this->db->get_next_seq('s_oa_group');
 	  for ($i=0;$i<count($this->a_operation);$i++) {
 		$this->a_operation[$i]->oa_group=$oa_group;
 		$this->a_operation[$i]->add();
@@ -216,11 +216,11 @@ class Anc_Group_Operation
 			'Erreur dans l\'enregistrement '.
 			__FILE__.':'.__LINE__.' '.
 			$ex->getMessage();
-		  Rollback($p_cn);
+		  $p_cn->rollback();
 		  exit();
 
 	}
-	Commit($this->db);
+	$this->db->commit();
   }
   /*!\brief show the form */
   function show() {
@@ -229,7 +229,7 @@ class Anc_Group_Operation
   static function test_me() 
   {
     $dossier=dossier::id();
-    $cn=DbConnect($dossier);
+    $cn=new Database($dossier);
 
     if ( isset($_POST['go'])) {
       $b=new Anc_Group_Operation($cn);

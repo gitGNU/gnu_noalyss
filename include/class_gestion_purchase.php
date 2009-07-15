@@ -70,7 +70,7 @@ class gestion_purchase extends gestion_table
                   qp_dep_priv
                  from quant_purchase left join tva_rate on (qp_vat_code=tva_id)
           where qp_internal='".$this->qp_internal."'";
-	$ret=ExecSql($this->db,$sql);
+	$ret=$this->db->exec_sql($sql);
 	// $res contains all the line
 	$res=pg_fetch_all($ret);
 
@@ -86,7 +86,7 @@ class gestion_purchase extends gestion_table
 	return $array;
   }
   function search_by_jid($p_jid) {
-    $res=ExecSql($this->db,"select qp_id from quant_purchase where j_id=".$p_jid);
+    $res=$this->db->exec_sql("select qp_id from quant_purchase where j_id=".$p_jid);
 
     if ( pg_NumRows($res) == 1) 
       $this->qp_id=pg_fetch_result($res,0,0);
@@ -109,7 +109,7 @@ class gestion_purchase extends gestion_table
                   qp_dep_priv
                  from quant_purchase
         where qp_id=".$this->qp_id;
-	$ret=ExecSql($this->db,$sql);
+	$ret=$this->db->exec_sql($sql);
 	// $res contains all the line
 	$res=pg_fetch_all($ret);
 

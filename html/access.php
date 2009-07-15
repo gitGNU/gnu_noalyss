@@ -35,7 +35,7 @@ require_once ('class_dossier.php');
 require_once('class_todo_list.php');
 require_once("class_itextarea.php");
 
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
 $user=new User($cn);
 $user->Check();
 $user->check_dossier(dossier::id());

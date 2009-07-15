@@ -20,7 +20,7 @@
 
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-//include_once ("postgres.php");
+//require_once('class_database.php');
 include_once("constant.php");
 /*! \file
  * \brief Debug procedure

@@ -34,7 +34,7 @@
 				 "desc"=>"dos_description");
  *
  */
-require_once('postgres.php');
+require_once('class_database.php');
 include_once('debug.php');
 require_once('ac_common.php');
 
@@ -43,7 +43,7 @@ class dossier {
 				 "name"=>"dos_name",
 				 "desc"=>"dos_description");
   function __construct($p_id) {
-    $this->cn=DbConnect(); 	// Connect to the repository
+    $this->cn=new Database(); 	// Connect to the repository
     $this->dos_id=$p_id;
   }
   /*!\brief return the $_REQUEST['gDossier'] after a check */
@@ -84,9 +84,9 @@ class dossier {
 	echo_debug(__FILE__,__LINE__,"get_name");
 	self::check();
 
-	$cn=DbConnect();
+	$cn=new Database();
 	$id=($id==0)?$_REQUEST['gDossier']:$id;
-	$name=getDbValue($cn,"select dos_name from ac_dossier where dos_id=$1",array($_REQUEST['gDossier']));
+	$name=$cn->get_value("select dos_name from ac_dossier where dos_id=$1",array($_REQUEST['gDossier']));
 	return $name;
   }
 
@@ -117,13 +117,13 @@ class dossier {
   public function update() {
     if ( strlen(trim($this->dos_name))== 0 ) return;
 
-    if ( getDbValue($this->cn,"select count(*) from ac_dossier where dos_name=$1 and dos_id<>$2",
+    if ( $this->cn->get_value("select count(*) from ac_dossier where dos_name=$1 and dos_id<>$2",
 		    array($this->dos_name,$this->dos_id)) !=0 )
       return ;
 
     $sql="update ac_dossier set dos_name=$1,dos_description=$2 ".
       " where dos_id = $3";
-    $res=ExecSqlParam($this->cn,
+    $res=$this->cn->exec_sql(
 		      $sql,
 		      array(trim($this->dos_name),
 			    trim($this->dos_description),
@@ -135,7 +135,7 @@ class dossier {
 
     $sql="select dos_name,dos_description from ac_dossier where dos_id=$1"; 
     
-    $res=ExecSqlParam($this->cn,
+    $res=$this->cn->exec_sql(
 		 $sql,
 		 array($this->dos_id)
 		 );
@@ -146,6 +146,6 @@ class dossier {
   }
 
   static function get_version($p_cn) {
-    return getDbValue($p_cn,'select val from version');
+    return $p_cn->get_value('select val from version');
   }
 }

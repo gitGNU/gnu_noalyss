@@ -54,7 +54,7 @@ function ImportCSV($p_cn,$file,$p_bq_account,$p_format_csv,$p_jrn)
     die;
   }
   
-StartSql($p_cn);
+$p_cn->start();
 
         
 // include the right format for CSV --> given by the <form
@@ -64,7 +64,7 @@ require_once($p_format_csv);
 echo "Importation terminée.";
 
 // if importation succeeds then we can commit the change
-Commit($p_cn);
+$p_cn->commit();
 
 }
 
@@ -106,7 +106,7 @@ $oJrn=new Acc_Ledger($p_cn,$p_val['jrn']);
   if ( isset($p_val['poste_comptable']))
     {
       $w->value=$p_val['poste_comptable'];
-      $cn=DbConnect(dossier::id());
+      $cn=new Database(dossier::id());
       $f=new fiche($p_cn);
       $f->get_by_qcode($p_val['poste_comptable']);
       $s->value=$f->strAttribut(ATTR_DEF_NAME);
@@ -157,7 +157,7 @@ $oJrn=new Acc_Ledger($p_cn,$p_val['jrn']);
 function VerifImport($p_cn){
 	$sql = "select * from import_tmp where status='n' ".
 	  " order by date_exec,code";
-	$Res=ExecSql($p_cn,$sql);
+	$Res=$p_cn->exec_sql($sql);
 	$Num=pg_NumRows($Res);
 	echo $Num." opérations à complèter.<br/><br/>";
 	$i=1;
@@ -184,7 +184,7 @@ function ConfirmTransfert($p_cn,$periode){
 
   $sql = "select to_char(p_start,'DD-MM-YYYY') as p_start,to_char(p_end,'DD-MM-YYYY') as p_end".
     " from parm_periode where p_id = '".$periode."'";
-  $Res=ExecSql($p_cn,$sql);
+  $Res=$p_cn->exec_sql($sql);
   $val = pg_fetch_array($Res);
   if ( $val == false )
     {
@@ -203,7 +203,7 @@ function ConfirmTransfert($p_cn,$periode){
   
 
 	
-  $Res=ExecSql($p_cn,$sql);
+  $Res=$p_cn->exec_sql($sql);
   $Num=pg_NumRows($Res);
   echo $Num." opérations à transfèrer.<br/><br/>";
   if ( $Num == 0 ) return;
@@ -242,7 +242,7 @@ function TransferCSV($p_cn, $periode){
   $sql = "select to_char(p_start,'DD-MM-YYYY') as p_start,to_char(p_end,'DD-MM-YYYY') as p_end".
     " from parm_periode where p_id = '".$periode."'";
 
-  $Res=ExecSql($p_cn,$sql);
+  $Res=$p_cn->exec_sql($sql);
   $val = pg_fetch_array($Res);
   if ( $val == false )
     {
@@ -261,8 +261,8 @@ function TransferCSV($p_cn, $periode){
 
   try 
     {
-      StartSql($p_cn);
-      $ResAll=ExecSql($p_cn,$sql);
+      $p_cn->start();
+      $ResAll=$p_cn->exec_sql($sql);
       $Max=pg_NumRows($ResAll);
       echo $Max." opérations à transférer.<br/>";
       for ($i = 0;$i < $Max;$i++) {
@@ -293,14 +293,14 @@ function TransferCSV($p_cn, $periode){
 	  {
 	    $sqltest = "select * from tmp_pcmn WHERE pcm_val='".$poste_comptable."'";
 	  
-	    $Restest=ExecSql($p_cn,$sqltest);
+	    $Restest=$p_cn->exec_sql($sqltest);
 	    $test=pg_NumRows($Restest);
 	  }
 
 	// Test it
 	if($test == 0) {
 	  $sqlupdate = "update import_tmp set status='n' WHERE code='".$code."' AND num_compte='".$num_compte."' or num_compte is null";
-	  $Resupdate=ExecSql($p_cn,$sqlupdate);
+	  $Resupdate=$p_cn->exec_sql($sqlupdate);
 	  echo "Poste comptable erronn&eacute; pour l'op&eacute;ration ".$num_compte."-".$code.", r&eacute;initialisation du poste comptable<br/>";
 	  continue;
 	}
@@ -308,7 +308,7 @@ function TransferCSV($p_cn, $periode){
       
 	// Finances
       
-	$seq=NextSequence($p_cn,'s_grpt');
+	$seq=$p_cn->get_next_seq('s_grpt');
 	$p_user = $_SESSION['g_user'];
 
 	$acc_op=new Acc_Operation($p_cn);
@@ -342,7 +342,7 @@ function TransferCSV($p_cn, $periode){
 
       	$internal=$oJrn->compute_internal_code($seq);
 
-	$Res=ExecSql($p_cn,"update jrn set jr_internal='".$internal."' where ".
+	$Res=$p_cn->exec_sql("update jrn set jr_internal='".$internal."' where ".
                " jr_id = ".$jr_id);
       // insert rapt
 
@@ -352,17 +352,17 @@ function TransferCSV($p_cn, $periode){
 	
 	echo "Tranfert de l'opération ".$code." effectué<br/>";
 	$sql2 = "update import_tmp set status='t' where code='".$code."'";
-	$Res2=ExecSql($p_cn,$sql2);
+	$Res2=$p_cn->exec_sql($sql2);
       } 
     }	catch (Exception $e) {
-      Rollback($p_cn);
+      $p_cn->rollback();
       echo '<span class="error">'.
 	'Erreur dans '.__FILE__.':'.__LINE__.
 	' Message = '.$e->getMessage().
 	'</span>';
     }
   
-  Commit($p_cn);
+  $p_cn->commit();
   
 }
 /*! 
@@ -386,10 +386,10 @@ $w=new ISelect();
   echo $w->label." :".$w->input('import_jrn',$jrn)."<br>";
   // choose the bank account
   $banque=new Acc_Parm_Code($p_cn,'BANQUE');
-  $bq=make_array($p_cn,"select j_qcode,vw_name from vw_poste_qcode join vw_fiche_attr on (j_qcode=quick_code) where j_poste::text like '".$banque->p_value."%'");
+  $bq=$p_cn->make_array("select j_qcode,vw_name from vw_poste_qcode join vw_fiche_attr on (j_qcode=quick_code) where j_poste::text like '".$banque->p_value."%'");
   $w->label='Banque';
   echo "Compte en banque :".$w->input('import_bq',$bq)."<br>";
-  $format_csv=make_array($p_cn,"select include_file,name from format_csv_banque;");
+  $format_csv=$p_cn->make_array("select include_file,name from format_csv_banque;");
   $w->label="Format import";
   echo $w->label.$w->input('format_csv',$format_csv).'<br>';
   echo HtmlInput::submit("Import fiche","Import fiche");

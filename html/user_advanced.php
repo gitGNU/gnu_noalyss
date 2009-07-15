@@ -28,17 +28,17 @@ $gDossier=dossier::id();
 
 html_page_start($_SESSION['g_theme']);
 
-include_once ("postgres.php");
+require_once('class_database.php');
 /* Admin. Dossier */
-$rep=DbConnect();
+$rep=new Database();
 include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
 $User->check_dossier(dossier::id());
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
 $User->db=$cn;
 
-include_once ("postgres.php");
+require_once('class_database.php');
 echo_debug('user_advanced.php',__LINE__,"user is ".$_SESSION['g_user']);
 
 

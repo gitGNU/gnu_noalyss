@@ -19,7 +19,7 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once("constant.php");
-require_once("postgres.php");
+require_once('class_database.php');
 require_once("class_acc_parm_code.php");
 require_once('class_periode.php');
 require_once('class_fiche.php');
@@ -56,7 +56,7 @@ class Supplier extends fiche{
   function get_by_account($p_poste=0) {
     $this->poste=($p_poste==0)?$this->poste:$p_poste;
     $sql="select * from vw_supplier where poste_comptable=".$this->poste;
-    $Res=ExecSql($this->cn,$sql);
+    $Res=$this->cn->exec_sql($sql);
     if ( pg_NumRows($Res) == 0) return null;
     // There is only _one_ row by supplier
     $row=pg_fetch_array($Res,0);

@@ -31,7 +31,7 @@ require_once("class_ihidden.php");
 require_once("class_itext.php");
 require_once("class_iselect.php");
 require_once("class_ispan.php");
-require_once("postgres.php");
+require_once('class_database.php');
 require_once("class_anc_plan.php");
 
 class Anc_Account
@@ -65,7 +65,7 @@ class Anc_Account
           where ".
 	  $p_where;
 
-	$ret=ExecSql($this->db,$sql);
+	$ret=$this->db->exec_sql($sql);
 	if ( pg_NumRows($ret) == 0 )return null;
 	$line=pg_fetch_array($ret);
 
@@ -118,7 +118,7 @@ class Anc_Account
 	  "'".$this->description."',".
 	  $ga_id.")";
 	try {
-	  ExecSql($this->db,$sql);
+	  $this->db->exec_sql($sql);
 
 	} catch (Exception $e) {
 	  echo_debug(__FILE__,__LINE__,$e);
@@ -128,7 +128,7 @@ class Anc_Account
             
   }
   static function make_array_name($cn,$pa_id) {
-    $a=make_array($cn,"select  po_name,po_name from poste_analytique ".
+    $a=$cn->make_array("select  po_name,po_name from poste_analytique ".
 		  " where ".
 		  " pa_id =".$pa_id." order by po_name ");
     return $a;
@@ -146,7 +146,7 @@ class Anc_Account
 	  " ga_id='".$this->ga_id."'".
 	  " where po_id=".$this->id;
 	try { 
-	  ExecSql($this->db,$sql);
+	  $this->db->exec_sql($sql);
 	} catch (Exception $e) {
 	  echo_debug(__FILE__,__LINE__,$e);
 	  echo "<p class=\"notice\">Doublon : l'enregistrement n'est pas sauve</p>";
@@ -167,7 +167,7 @@ class Anc_Account
   function delete()
   {
 	$sql="delete from poste_analytique where po_id=".$this->id;
-	ExecSql($this->db,$sql);
+	$this->db->exec_sql($sql);
   }
   /*! \brief return an array of object Poste_Analytique
    *
@@ -183,7 +183,7 @@ class Anc_Account
          from poste_analytique ".
 	  "   order by po_name";
 
-	$ex=ExecSql($this->db,$sql);
+	$ex=$this->db->exec_sql($sql);
 	$ret=pg_fetch_all($ex);
 	if ( $ret  == null )
 	  return null;
@@ -230,7 +230,7 @@ class Anc_Account
 	$wPa_id=new IHidden("pa_id","pa_id",$this->pa_id);
 	$wAmount=new IText("Montant","po_amount",$this->amount);
 	$wDescription=new IText("Description","po_description",$this->description);
-	$aGroup_analytic=make_array($this->db,"select ga_id,ga_id from groupe_analytique where pa_id=".$this->pa_id,1);
+	$aGroup_analytic=$this->db->make_array("select ga_id,ga_id from groupe_analytique where pa_id=".$this->pa_id,1);
 	if ( count($aGroup_analytic) > 1 ) {
 	  $wGa_id=new ISelect("Groupe","ga_id");
 	  $wGa_id->value=$aGroup_analytic;
@@ -291,8 +291,8 @@ class Anc_Account
     $this->ga_id=(isset($p_array['ga_id']) && $p_array['ga_id'] != "-1" )?$p_array['ga_id']:null;
   }
   static function test_me() {
-    $cn=DbConnect(dossier::id());
-    $pa_id=getDBValue($cn,"select max(pa_id) from plan_analytique");
+    $cn=new Database(dossier::id());
+    $pa_id=$cn->get_value("select max(pa_id) from plan_analytique");
     $o=new Poste_Analytique($cn);
     echo "<h1>Poste_Analytique</h1>";
     echo "<h2>get_list</h2>";

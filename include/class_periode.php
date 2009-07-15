@@ -28,7 +28,7 @@
  */
 require_once ('ac_common.php');
 require_once ('debug.php');
-require_once ('postgres.php');
+require_once ('class_database.php');
 class Periode {
   var $cn;			/*!< database connection */
   var $jrn_def_id;		/*!< the jr, 0 means all the ledger*/
@@ -54,14 +54,14 @@ class Periode {
    */
   function limit_year($p_exercice) {
     $sql_start="select p_id from parm_periode where p_exercice=$1 order by p_start  ASC";
-    $start=getDbValue($this->cn,$sql_start,array($p_exercice));
+    $start=$this->cn->get_value($sql_start,array($p_exercice));
     $sql_end="select p_id from parm_periode where p_exercice=$1 order by p_end  DESC";
-    $end=getDbValue($this->cn,$sql_end,array($p_exercice));
+    $end=$this->cn->get_value($sql_end,array($p_exercice));
     return array("start"=>$start,"end"=>$end);
-	}
-	/*!\brief check if a periode is closed. If jrn_def_id is set to a no zero value then check only for this ledger 
-	*\return 1 is the periode is closed otherwise return 0
-	*/
+  }
+  /*!\brief check if a periode is closed. If jrn_def_id is set to a no zero value then check only for this ledger 
+   *\return 1 is the periode is closed otherwise return 0
+   */
   function is_closed() {
     if ( $this->jrn_def_id != 0 )
     $sql="select status from jrn_periode ".
@@ -71,7 +71,7 @@ class Periode {
     $sql="select p_closed as status from parm_periode ".
       " where ".
       " p_id =".$this->p_id;
-    $res=ExecSql($this->cn,$sql);
+    $res=$this->cn->exec_sql($sql);
     $status=pg_fetch_result($res,0,0);
     echo_debug(__FILE__.':'.__LINE__.'- is_closed','return ',$status);
     if ( $status == 'CL' || $status=='t' ||$status=='CE') 
@@ -89,7 +89,7 @@ class Periode {
     $sql="select p_closed as status from parm_periode ".
       " where ".
       " p_id =".$this->p_id;
-    $res=ExecSql($this->cn,$sql);
+    $res=$this->cn->exec_sql($sql);
     $status=pg_fetch_result($res,0,0);
     if ( $status == 'OP' || $status=='f' ) 
       return 1;
@@ -104,7 +104,7 @@ class Periode {
     $sql="select p_centralized as status from parm_periode ".
       " where ".
       " p_id =".$this->p_id;
-    $res=ExecSql($this->cn,$sql);
+    $res=$this->cn->exec_sql($sql);
     $status=pg_fetch_result($res,0,0);
     if ( $status == 'CE' || $status=='t' ) 
       return 1;
@@ -112,14 +112,14 @@ class Periode {
   }
   function close() {
     if ( $this->jrn_def_id == 0 ) {
-      ExecSql($this->cn,"update parm_periode set p_closed=true where p_id=".
+      $this->cn->exec_sql("update parm_periode set p_closed=true where p_id=".
 	      $this->p_id);
-      ExecSql($this->cn,"update jrn_periode set status='CL' ".
+      $this->cn->exec_sql("update jrn_periode set status='CL' ".
 	      " where p_id = ".$this->p_id);
 
       return;
     }else {
-      ExecSql($this->cn,"update jrn_periode set status='CL' ".
+      $this->cn->exec_sql("update jrn_periode set status='CL' ".
 	      " where jrn_def_id=".$this->jrn_def_id." and ".
 	      " p_id = ".$this->p_id);
       /* if all ledgers have this periode closed then synchro with
@@ -131,17 +131,17 @@ class Periode {
 			 " p_id=".$this->p_id." and status='CL'");
 
       if ( $nJrnPeriode==$nJrn) 
-	ExecSql($this->cn,"update parm_periode set p_closed=true where p_id=".$this->p_id);
+	$this->cn->exec_sql("update parm_periode set p_closed=true where p_id=".$this->p_id);
       return;
     }
   
   }
   function centralized() {
     if ( $this->jrn_def_id == 0 ) {
-      ExecSql($this->cn,"update parm_periode set p_central=true");
+      $this->cn->exec_sql("update parm_periode set p_central=true");
       return;
     }else {
-      ExecSql($this->cn,"update jrn_periode set status='CE' ".
+      $this->cn->exec_sql("update jrn_periode set status='CE' ".
 	      " where ".
 	      " p_id = ".$this->p_id);
       return;
@@ -157,7 +157,7 @@ class Periode {
     $str_dossier=dossier::get();
 
     if ( $this->jrn_def_id==0 ) {
-      $Res=ExecSql($this->cn,"select p_id,to_char(p_start,'DD.MM.YYYY') as date_start,to_char(p_end,'DD.MM.YYYY') as date_end,p_central,p_closed,p_exercice
+      $Res=$this->cn->exec_sql("select p_id,to_char(p_start,'DD.MM.YYYY') as date_start,to_char(p_end,'DD.MM.YYYY') as date_end,p_central,p_closed,p_exercice
   from parm_periode order by p_start,p_end");
       $Max=pg_NumRows($Res);
       echo '<TABLE ALIGN="CENTER">';
@@ -212,11 +212,11 @@ class Periode {
       echo '</TABLE>';
       
     } else {
-      $Res=ExecSql($this->cn,"select p_id,to_char(p_start,'DD.MM.YYYY') as date_start,to_char(p_end,'DD.MM.YYYY') as date_end,status,p_exercice
+      $Res=$this->cn->exec_sql("select p_id,to_char(p_start,'DD.MM.YYYY') as date_start,to_char(p_end,'DD.MM.YYYY') as date_end,status,p_exercice
   from parm_periode join jrn_periode using (p_id) where jrn_def_id=".$this->jrn_def_id."
  order by p_start,p_end");
       $Max=pg_NumRows($Res);
-      $r=ExecSql($this->cn,'select jrn_Def_name from jrn_Def where jrn_Def_id='.
+      $r=$this->cn->exec_sql('select jrn_Def_name from jrn_Def where jrn_Def_id='.
 		 $this->jrn_def_id);
       $jrn_name=pg_fetch_result($r,0,0);
       echo '<h2> Journal '.$jrn_name.'</h2>';
@@ -258,7 +258,7 @@ class Periode {
       { 
 	return 1;
       }
-    $p_id=NextSequence($this->cn,'s_periode');
+    $p_id=$this->cn->get_next_seq('s_periode');
     $sql=sprintf(" insert into parm_periode(p_id,p_start,p_end,p_closed,p_exercice)".
 		 "values (%d,to_date('%s','DD.MM.YYYY'),to_date('%s','DD.MM.YYYY')".
 		 ",'f','%s')",   
@@ -267,13 +267,13 @@ class Periode {
 		 $p_date_end,
 		 $p_exercice);
     try {
-      StartSql($this->cn);
-      $Res=ExecSql($this->cn,$sql);
-      $Res=ExecSql($this->cn,"insert into jrn_periode (jrn_def_id,p_id,status) ".
+      $this->cn->start();
+      $Res=$this->cn->exec_sql($sql);
+      $Res=$this->cn->exec_sql("insert into jrn_periode (jrn_def_id,p_id,status) ".
 		   "select jrn_def_id,$p_id,'OP' from jrn_def");
-      Commit($this->cn);
+      $this->cn->commit();
     } catch (Exception $e) {
-      Rollback($this->cn);
+      $this->cn->rollback();
       echo_debug(__FILE__.':'.__LINE__.'- Periode insert','Exception ',$e);
       echo_debug(__FILE__.':'.__LINE__.'- Periode insert','Exception ',$e->getMessage());
       return 1;
@@ -284,7 +284,7 @@ class Periode {
    */
   function load() {
 
-    $row=get_array($this->cn,"select p_start,p_end,p_exercice,p_closed,p_central from parm_periode where p_id=$1",
+    $row=$this->cn->get_array("select p_start,p_end,p_exercice,p_closed,p_central from parm_periode where p_id=$1",
 		 array($this->p_id));
     if ($row == null ) return;
     
@@ -302,8 +302,8 @@ class Periode {
    */
   function get_limit($p_exercice)  {
 
-    $max=getDbValue($this->cn,"select p_id from parm_periode where p_exercice=$1 order by p_start asc",array($p_exercice));
-    $min=getDbValue($this->cn,"select p_id from parm_periode where p_exercice=$1 order by p_start desc",array($p_exercice));
+    $max=$this->cn->get_value("select p_id from parm_periode where p_exercice=$1 order by p_start asc",array($p_exercice));
+    $min=$this->cn->get_value("select p_id from parm_periode where p_exercice=$1 order by p_start desc",array($p_exercice));
     $rMax=new Periode($this->cn);
     $rMax->p_id=$max;
     $rMax->load();
@@ -323,7 +323,7 @@ class Periode {
               to_char(p_end,'DD.MM.YYYY')   as p_end
        from parm_periode
          where p_id=$1";
-    $Res=ExecSqlParam($this->cn,$sql,array($p_periode));
+    $Res=$this->cn->exec_sql($sql,array($p_periode));
     if ( pg_NumRows($Res) == 0) return null;
     return pg_fetch_array($Res,0);
     
@@ -339,7 +339,7 @@ class Periode {
   function get_exercice($p_id=0) {
   if ( $p_id == 0 )  $p_id=$this->id;
     $sql="select p_exercice from parm_periode where p_id=".$p_id;
-    $Res=ExecSql($this->cn,$sql);
+    $Res=$this->cn->exec_sql($sql);
     if ( pg_NumRows($Res) == 0) return null;
     return pg_fetch_result($Res,0,0);
 
@@ -351,7 +351,7 @@ class Periode {
  */
   function find_periode($p_date) {
 	$sql="select p_id from parm_periode where p_start <= to_date($1,'DD.MM.YYYY') and p_end >= to_date($1,'DD.MM.YYYY') ";
-	$ret=ExecSqlParam($this->cn,$sql,array($p_date));
+	$ret=$this->cn->exec_sql($sql,array($p_date));
 	$nb_periode=pg_NumRows($ret);
 	if (  $nb_periode == 0 )
 		throw  (new Exception('Aucune période trouvée',101));
@@ -362,7 +362,7 @@ class Periode {
 	return $per;
   }
   static function test_me() {
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $obj=new Periode($cn);
     $obj->set_jrn(1);
     $obj->display_form_periode();

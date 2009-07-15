@@ -26,7 +26,7 @@
 include_once ("ac_common.php");
 include_once("central_inc.php");
 include_once("user_common.php");
-include_once ("postgres.php");
+require_once('class_database.php');
 include_once("jrn.php");
 require_once ("constant.php");
 require_once('class_acc_reconciliation.php');
@@ -34,7 +34,7 @@ require_once('class_acc_operation.php');
 
 /* Admin. Dossier */
 $gDossier=dossier::id();
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 include_once ("class_user.php");
 $User=new User($cn);
@@ -207,7 +207,7 @@ if ( isset($_POST['update_record']) ) {
     }
   try {
 	// NO UPDATE except rapt & comment && upload pj && PJ Number
-	StartSql($cn);
+	$cn->start();
 	$acc=new Acc_Operation($cn);
 	$acc->jr_id=$_POST['jr_id'];
 	/* set the pj */
@@ -244,24 +244,24 @@ if ( isset($_POST['update_record']) ) {
 	  save_upload_document($cn,$_POST['jr_grpt_id']);
 	}
 	if ( isset ($_POST['is_paid'] )) 
-	  $Res=ExecSqlParam($cn,"update jrn set jr_rapt='paid' where jr_id=$1",array($_POST['jr_id']));
+	  $Res=$cn->exec_sql("update jrn set jr_rapt='paid' where jr_id=$1",array($_POST['jr_id']));
 	
 	if ( isset ($_POST['to_remove'] )) {
 	  /*! \note we don't remove the document file if another
 	   * operation needs it.
 	   */
-	  $ret=ExecSqlParam($cn,"select jr_pj from jrn where jr_id=$1",array($_POST['jr_id']));
+	  $ret=$cn->exec_sql("select jr_pj from jrn where jr_id=$1",array($_POST['jr_id']));
 	  if (pg_num_rows($ret) != 0) {
 		$r=pg_fetch_array($ret,0);
 		$old_oid=$r['jr_pj'];
 		if (strlen($old_oid) != 0)
 		  {
 			// check if this pj is used somewhere else
-			$c=count_sql($cn,"select * from jrn where jr_pj=".$old_oid);
+			$c=$cn->count_sql("select * from jrn where jr_pj=".$old_oid);
 			if ( $c == 1 )
 			  pg_lo_unlink($cn,$old_oid);
 		  }
-		ExecSqlParam($cn,"update jrn set jr_pj=null, jr_pj_name=null, ".
+		$cn->exec_sql("update jrn set jr_pj=null, jr_pj_name=null, ".
 			"jr_pj_type=null  where jr_id=$1",array($_POST['jr_id']));
 	  }
 
@@ -303,12 +303,12 @@ if ( isset($_POST['update_record']) ) {
 	    $sql="select j_id,j_poste,to_char(j_date,'DD.MM.YYYY') as j_date,j_debit ".
 	      "from jrn join jrnx on (j_grpt=jr_grpt_id) ".
 	      "where jr_id=$1";
-	    $res=ExecSqlParam($cn,$sql,array($_POST['jr_id']));
+	    $res=$cn->exec_sql($sql,array($_POST['jr_id']));
 
 	    $array_jid=pg_fetch_all($res);
 	    // if j_poste match 6 or 7 we insert them
 	    $count=0;
-	    $group=NextSequence($cn,"s_oa_group");
+	    $group=$cn->get_next_seq("s_oa_group");
 
 	    foreach( $array_jid as $row_ca) {
 	      echo_debug(__FILE__.':'.__LINE__,"array is ",$row_ca);
@@ -332,11 +332,11 @@ if ( isset($_POST['update_record']) ) {
       __FILE__.':'.__LINE__.' '.
       $e->getMessage();
 	echo_debug(__FILE__,__LINE__,$e->getMessage());
-    Rollback($cn);
+    $cn->rollback();
     exit();
   }
 
-  Commit($cn);
+  $cn->commit();
   echo ' <script> 
  window.close();
  self.opener.RefreshMe();

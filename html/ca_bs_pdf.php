@@ -27,7 +27,7 @@
 require_once ('class_anc_balance_simple.php');
 require_once ('header_print.php');
 
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
 
 
 $balance=new Anc_Balance_Simple($cn);

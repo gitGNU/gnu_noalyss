@@ -66,7 +66,7 @@ class Anc_Operation
   function add($p_seq=0) {
 
 	if ( $this->oa_group == 0) {
-	  $this->oa_group=NextSequence($this->db,'s_oa_group');
+	  $this->oa_group=$this->db->get_next_seq('s_oa_group');
 	}
 
 	if ( $this->j_id == 0 ) {
@@ -100,7 +100,7 @@ class Anc_Operation
 	  "to_date('".$this->oa_date."','DD.MM.YYYY'),".$oa_row.")";
 
 
-	  ExecSql($this->db,$sql);
+	  $this->db->exec_sql($sql);
 
   }
   /*!\brief delete a row from the table operation_analytique
@@ -109,7 +109,7 @@ class Anc_Operation
   function delete() {
 	$sql="delete from operation_analytique where oa_id=".$this->oa_id;
 
-	ExecSql($this->db,$sql);
+	$this->db->exec_sql($sql);
   }
 
   /*!\brief update a row in  the table operation_analytique
@@ -118,7 +118,7 @@ class Anc_Operation
 	if ( $this->po_id == -1) { $this->delete();return;}
 	
 	  $sql="update operation_analytique set po_id=".$this->po_id." where oa_id=".$this->oa_id;
-	ExecSql($this->db,$sql);
+	$this->db->exec_sql($sql);
   }
 
   /*!\brief get a list of row from a certain periode
@@ -146,7 +146,7 @@ class Anc_Operation
 	  " join poste_analytique using(po_id) ".
 	  "where $pa_id_cond oa_amount <> 0.0 $cond $cond_poste".
 	  " order by oa_date ,oa_group,oa_debit desc,oa_id";
-	$RetSql=ExecSql($this->db,$sql);
+	$RetSql=$this->db->exec_sql($sql);
 
 
 	$array=pg_fetch_all($RetSql);
@@ -286,7 +286,7 @@ class Anc_Operation
           from operation_analytique 
           where 
           j_id=$p_jid order by j_id,oa_row";
-	$ret=ExecSql($this->db,$sql);
+	$ret=$this->db->exec_sql($sql);
 	$res=pg_fetch_all($ret);
 	echo_debug(__FILE__.":".__LINE__."count res is ",count($res));
 	echo_debug(__FILE__.":".__LINE__," res =",$res);
@@ -312,7 +312,7 @@ class Anc_Operation
 	  $sql="select jr_date,j_montant,j_debit from jrnx ".
 		" join jrn on (jr_grpt_id = j_grpt) ".
 		"where j_id=".$this->j_id;
-	  $res=ExecSql($this->db,$sql);
+	  $res=$this->db->exec_sql($sql);
 	  if (pg_NumRows($res) == 0 ) return;
 	  $row=pg_fetch_array($res,0);
 	  $this->oa_amount=$row['j_amount'];
@@ -332,7 +332,7 @@ class Anc_Operation
   /*!\brief retrieve the jr_id thanks the oa_group */
   function get_jrid() {
 	$sql="select distinct jr_id from jrn join jrnx on (j_grpt=jr_grpt_id) join operation_analytique using (j_id) where j_id is not null and oa_group=".$this->oa_group;
-	$res=ExecSql($this->db,$sql);
+	$res=$this->db->exec_sql($sql);
 	if ( pg_NumRows($res) == 0 ) return 0;
 	$ret=pg_fetch_all($res);
 	return $ret[0]['jr_id'];
@@ -359,7 +359,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
           where j_id is null and 
       $cond and pa_id=$p_plan_id ";
 	try { 
-	  $res=ExecSql($this->db,$sql);
+	  $res=$this->db->exec_sql($sql);
 	  $array=pg_fetch_all($res);
 	  echo_debug(__FILE__.":".__LINE__," array =",$array);
 	} catch (Exception $e) {
@@ -406,7 +406,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
 	   {
 		 $count++;
 	 
-		 $array=make_array($this->db,
+		 $array=$this->db->make_array(
 						   "select pa_id||'_'||po_id as value,".
 						   " html_quote(po_name) as label from poste_analytique ".
 						   " where pa_id = ".$r_plan['id'].
@@ -562,7 +562,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
  */
  function delete_by_jid($p_jid) {
    $sql="delete from operation_analytique where j_id=$p_jid";
-   ExecSql($this->db,$sql);
+   $this->db->exec_sql($sql);
  }
 
  /*\brief test the class

@@ -29,7 +29,7 @@
 
 // Add user
 if ( isset ($_POST["LOGIN"]) ) {
-  $cn=DbConnect();
+  $cn=new Database();
   $pass5=md5($_POST['PASS']);
 
   $first_name=pg_escape_string($_POST['FNAME']);
@@ -40,7 +40,7 @@ if ( isset ($_POST["LOGIN"]) ) {
   $login=str_replace(" ","",$login);
   $login=strtolower($login);
 
-  $Res=ExecSql($cn,"insert into ac_users(use_first_name,use_name,use_login,use_active,use_pass)
+  $Res=$cn->exec_sql("insert into ac_users(use_first_name,use_name,use_login,use_active,use_pass)
                     values ('".$first_name."','".$last_name."','".$login."',1,'$pass5')");
 } //SET login
 

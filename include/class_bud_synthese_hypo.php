@@ -38,7 +38,7 @@ class Bud_Synthese_Hypo extends Bud_Synthese {
 /*     echo "constructor ".__FILE__; */
 /*   } */
   static function make_array($p_cn) {
-    $a=make_array($p_cn,'select bh_id, bh_name from bud_hypothese '.
+    $a=$p_cn->make_array('select bh_id, bh_name from bud_hypothese '.
 		  ' order by bh_name');
     return $a;
   }
@@ -52,7 +52,7 @@ class Bud_Synthese_Hypo extends Bud_Synthese {
 
     $r="Choississez l'hypoth&egrave;se :".$wSelect->input();
 
-    $per=make_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') ".
+    $per=$this->cn->make_array("select p_id,to_char(p_start,'MM.YYYY') ".
 		    " from parm_periode order by p_start,p_end");
 
     $wFrom=new ISelect();
@@ -109,9 +109,9 @@ Array
     $per=sql_filter_per($this->cn,$this->from,$this->to,'p_id','p_id');
     $per_acc=sql_filter_per($this->cn,$this->from,$this->to,'p_id','j_tech_per');
     $sql_poste="select distinct pcm_val from bud_detail where bh_id=".$this->bh_id;
-    $aPoste=get_array($this->cn,$sql_poste);
+    $aPoste=$this->cn->get_array($sql_poste);
     $hypo=new Bud_Hypo($this->cn,$this->bh_id);
-    $local_con=DbConnect(dossier::id());
+    $local_con=new Database(dossier::id());
     if ( $hypo->has_plan()  == 1 ) {
       $sql_prepare=pg_prepare($local_con,"get_group","select sum(bdp_amount) as amount,ga_id,".
 			      "bc_price_unit".
@@ -139,7 +139,7 @@ Array
     }
     $array=array();
     // Now we put 0 if there is nothing for a group
-    $aGroup=get_array($this->cn,"select distinct ga_id from bud_detail join poste_analytique ".
+    $aGroup=$this->cn->get_array("select distinct ga_id from bud_detail join poste_analytique ".
 		      " using (po_id) where bh_id=".$this->bh_id." order by ga_id ");
 
      if ( empty ($aPoste)) return array();
@@ -174,7 +174,7 @@ Array
      *   locally, it closed also the main connection so I reopened it
      */
     pg_close($local_con);
-    $this->cn=DbConnect(dossier::id());
+    $this->cn=new Database(dossier::id());
     return $array;
   }
   /*!\brief compute the summary
@@ -202,7 +202,7 @@ Array
 
     if ( empty ($p_array)) return ;
     // Now we put 0 if there is nothing for a group
-    $aGroup=get_array($this->cn,"select distinct ga_id from bud_detail join poste_analytique ".
+    $aGroup=$this->cn->get_array("select distinct ga_id from bud_detail join poste_analytique ".
 		      " using (po_id) where bh_id=".$this->bh_id." order by ga_id ");
 
 
@@ -241,7 +241,7 @@ Array
     $array=array();
     if ( empty ($p_array)) return $array ;
     // Now we put 0 if there is nothing for a group
-    $aGroup=get_array($this->cn,"select distinct ga_id from bud_detail join poste_analytique ".
+    $aGroup=$this->cn->get_array("select distinct ga_id from bud_detail join poste_analytique ".
 		      " using (po_id) where bh_id=".$this->bh_id." order by ga_id ");
 
 
@@ -271,7 +271,7 @@ Array
     if ( empty ($p_array)) return;
     $heading="";
     $r="";
-    $aGroup=get_array($this->cn,"select distinct ga_id from bud_detail join poste_analytique ".
+    $aGroup=$this->cn->get_array("select distinct ga_id from bud_detail join poste_analytique ".
 		      " using (po_id) where bh_id=".$this->bh_id." order by ga_id ");
     $heading.='<tr>';
     $heading.='<th>CE  </th>';
@@ -318,7 +318,7 @@ Array
     if ( empty ($p_array)) return;
     $heading="";
     $r="";
-    $aGroup=get_array($this->cn,"select distinct ga_id from bud_detail join poste_analytique ".
+    $aGroup=$this->cn->get_array("select distinct ga_id from bud_detail join poste_analytique ".
 		      " using (po_id) where bh_id=".$this->bh_id." order by ga_id ");
     $heading.='"CE",';
     foreach ($aGroup as $rGroup ) 
@@ -363,7 +363,7 @@ Array
     if ( empty ($p_array))return '';    
     $summary_array=$this->summary($p_array);
     arsort($summary_array);
-    $aGroup=get_array($this->cn,"select distinct ga_id from bud_detail join poste_analytique ".
+    $aGroup=$this->cn->get_array("select distinct ga_id from bud_detail join poste_analytique ".
 		      " using (po_id) where bh_id=".$this->bh_id." order by ga_id ");
     $per_acc=sql_filter_per($this->cn,$this->from,$this->to,'p_id','j_tech_per');
 
@@ -404,7 +404,7 @@ Array
     return $r;
   }
   static function test_me() {
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $obj=new Bud_Synthese_Hypo($cn);
     echo '<form method="GET">';
 	echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);

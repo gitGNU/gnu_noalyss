@@ -35,7 +35,7 @@ require_once('class_periode.php');
 
 
 
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
 $id=(isset ($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
 /*!\brief show a form for quick_writing */
 function show_qw_menu($def=0) {

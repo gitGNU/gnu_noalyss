@@ -92,8 +92,8 @@ class User {
              use_active,
              use_admin
                      from ac_users ";
-    $cn=DbConnect(); 
-    $Res=ExecSqlParam($cn,$sql.$sql_cond,$sql_array);
+    $cn=new Database(); 
+    $Res=$cn->exec_sql($sql.$sql_cond,$sql_array);
     if (($Max=pg_NumRows($Res)) == 0 ) return -1;
     $row=pg_fetch_array($Res,0);
     $this->id=$row['use_id'];
@@ -109,7 +109,7 @@ class User {
   $Sql="update ac_users set use_first_name=$1, use_name=$2
         ,use_active=$3,use_admin=$4 where use_id=$5";
 		
-  $Res=ExecSqlParam($cn,$Sql,array($this->first_name,$this->last_name,$this->active,$this->admin,$this->id));
+  $Res=$cn->exec_sql($Sql,array($this->first_name,$this->last_name,$this->active,$this->admin,$this->id));
   }
   /*!
    * \brief Check if user is active and exists in therepository
@@ -122,16 +122,15 @@ class User {
     $res=0;
     $pass5=md5($this->pass);
 
-    $cn=DbConnect();
-    if ( $cn != false ) {
-      $sql="select ac_users.use_login,ac_users.use_active, ac_users.use_pass,
+    $cn=new Database();
+    $sql="select ac_users.use_login,ac_users.use_active, ac_users.use_pass,
                     use_admin,use_first_name,use_name
 				from ac_users  
 				 where ac_users.use_id='$this->id' 
 					and ac_users.use_active=1
 					and ac_users.use_pass='$pass5'";
       echo_debug('class_user.php',__LINE__,"Sql = $sql");
-      $ret=pg_exec($cn,$sql);
+      $ret=$cn->exec_sql($sql);
       $res=pg_NumRows($ret);
       echo_debug('class_user.php',__LINE__,"Number of found rows : $res");
       if ( $res >0 ) {
@@ -147,7 +146,7 @@ class User {
 	$this->load_global_pref();
 
 
-      }
+    
     }
 	  
     if ( $res == 0  ) {
@@ -175,10 +174,10 @@ class User {
     if ($p_dossier==0)
       $p_dossier=dossier::id();
     if ( $this->isAdmin() == 1) return 'L';
-    $cn=DbConnect();
+    $cn=new Database();
     $sql="select priv_priv from priv_user join jnt_use_dos on (jnt_id=priv_jnt) join ac_users using (use_id)
 where use_id=$1 and dos_id=$2";
-    $res=getDbValue($cn,$sql,array($this->id,$p_dossier));
+    $res=$cn->get_value($sql,array($this->id,$p_dossier));
 	if ( $res=='') return 'X';
     return $res;
   }
@@ -187,11 +186,11 @@ where use_id=$1 and dos_id=$2";
 	 *\param $priv the priv. to set
 	 */
   function set_folder_access($db_id,$priv) {
-    $cn=DbConnect();
-	$jnt=getDbValue($cn,"select jnt_id from jnt_use_dos where dos_id=$1 and use_id=$2",array($db_id,$this->id));
-	if ( $jnt=='' ) {$Res=ExecSqlParam($cn,"insert into jnt_use_dos(dos_id,use_id) values($1,$2)",array($db_id,$this->id)); 
-		$jnt=getDbValue($cn,"select jnt_id from jnt_use_dos where dos_id=$1 and use_id=$2",array($db_id,$this->id));}
-	$Res=ExecSql($cn,"update priv_user set priv_priv=$1 where priv_jnt=$2",array($priv,$jnt));
+    $cn=new Database();
+	$jnt=$cn->get_value("select jnt_id from jnt_use_dos where dos_id=$1 and use_id=$2",array($db_id,$this->id));
+	if ( $jnt=='' ) {$Res=$cn->exec_sql("insert into jnt_use_dos(dos_id,use_id) values($1,$2)",array($db_id,$this->id)); 
+		$jnt=$cn->get_value("select jnt_id from jnt_use_dos where dos_id=$1 and use_id=$2",array($db_id,$this->id));}
+	$Res=$cn->exec_sql("update priv_user set priv_priv=$1 where priv_jnt=$2",array($priv,$jnt));
 	
 	}
   /*!\brief check that a user is valid and the access to the folder
@@ -211,7 +210,8 @@ where use_id=$1 and dos_id=$2";
       return 'W';
 
     $sql="select uj_priv from user_sec_jrn where uj_login=$1 and uj_jrn_id=$2";
-    $res=getDbValue($this->db,$sql,array($this->login,$p_ledger));
+    $res=$this->db->getDbValue($sql,array($this->login,$p_ledger));
+
     if ( $res=='' ) $res='X';
     return $res;
   }
@@ -260,7 +260,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
 
     }
 
-    $res=ExecSql($this->db,$sql);
+    $res=$this->db->exec_sql($sql);
     if ( pg_NumRows($res) == 0 ) return null;
     $array=pg_fetch_all($res);
     return $array;
@@ -293,8 +293,8 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
       $sql="select use_admin from ac_users where use_login=$1
 		and use_active=1  ";
       
-      $cn=DbConnect();
-      $res=ExecSqlParam($cn,$sql,array($this->login));
+      $cn=new Database();
+      $res=$cn->exec_sql($sql,array($this->login));
       if ( pg_NumRows($res)==0) exit(__FILE__." ".__LINE__." aucun resultat");
       $this->admin=pg_fetch_result($res,0);
     } 
@@ -311,20 +311,20 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
    */ 
   function set_periode($p_periode) {
     $sql="update user_local_pref set parameter_value='$p_periode' where user_id='$this->id' and parameter_type='PERIODE'";
-    $Res=ExecSql($this->db,$sql);
+    $Res=$this->db->exec_sql($sql);
   }
 
   private function set_default_periode() {
 
     /* get the first periode */
     $sql='select min(p_id) as pid from parm_periode where p_closed = false and p_start = (select min(p_start) from parm_periode)';
-    $Res=ExecSql($this->db,$sql);
+    $Res=$this->db->exec_sql($sql);
 
     $pid=pg_fetch_result($Res,0,0);
     /* if all the periode are closed, then we use the last closed period */
     if ( $pid == null ) {
       $sql='select min(p_id) as pid from parm_periode where p_start = (select max(p_start) from parm_periode)';
-      $Res2=ExecSql($this->db,$sql);
+      $Res2=$this->db->exec_sql($sql);
       $pid=pg_fetch_result($Res2,0,0);
       if ( $pid == null )  {
 	echo "Aucune periode trouvable !!!";
@@ -337,7 +337,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
     $sql=sprintf("insert into user_local_pref (user_id,parameter_value,parameter_type) 
                  values ('%s','%d','PERIODE')",
 		 $this->id,$pid);
-    $Res=ExecSql($this->db,$sql);
+    $Res=$this->db->exec_sql($sql);
   }
 
   /*! 
@@ -370,15 +370,15 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
   /*!\brief set the mini rapport to display on the welcome page
    */
   function set_mini_report($p_id) {
-    $count=getDbValue($this->db,"select count(*) from user_local_pref where user_id=$1 and parameter_type=$2",
+    $count=$this->db->get_value("select count(*) from user_local_pref where user_id=$1 and parameter_type=$2",
 		      array($this->id,'MINIREPORT'));
     if ( $count == 1 ) {
       $sql="update user_local_pref set parameter_value=$1 where user_id=$2 and parameter_type='MINIREPORT'";
-      $Res=ExecSqlParam($this->db,$sql,array($p_id,$this->id));
+      $Res=$this->db->exec_sql($sql,array($p_id,$this->id));
     } else {
       $sql="insert into user_local_pref (user_id,parameter_type,parameter_value)".
 	"values($1,'MINIREPORT',$2)";
-      $Res=ExecSqlParam($this->db,$sql,array($this->id,$p_id));
+      $Res=$this->db->exec_sql($sql,array($this->id,$p_id));
     }
 
 
@@ -392,7 +392,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
   function get_preference ()
   {
     $sql="select parameter_type,parameter_value from user_local_pref where user_id='".$this->id."'";
-    $Res=ExecSql($this->db,$sql);
+    $Res=$this->db->exec_sql($sql);
     $l_array=array();
     for ( $i =0;$i < pg_NumRows($Res);$i++) {
       $row= pg_fetch_array($Res,$i);
@@ -417,7 +417,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
     if ( $this->Admin()==1 ) return 1;
     if ( $this->is_local_admin(dossier::id()) == 1 ) return 1;
     
-    $Res=ExecSqlParam($this->db,
+    $Res=$this->db->exec_sql(
 		      "select * from user_sec_act where ua_login=$1 and ua_act_id=$2",
 		      array($this->login,$p_action_id));
     $Count=pg_NumRows($Res);
@@ -435,9 +435,9 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
   function load_global_pref() 
   {
     echo_debug('class_user.php',__LINE__,"function load_global_pref");
-    $cn=Dbconnect();
+    $cn=new Database();
     // Load everything in an array
-    $Res=ExecSql ($cn,"select parameter_type,parameter_value from 
+    $Res=$cn->exec_sql ("select parameter_type,parameter_value from 
                   user_global_pref
                   where user_id='".$this->login."'");
     $Max=pg_NumRows($Res);
@@ -480,19 +480,19 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
 
     $default_parameter= array("THEME"=>"Light",
 			      "PAGESIZE"=>"50",'TOPMENU'=>'TEXT');
-    $cn=Dbconnect();
+    $cn=new Database();
     $Sql="insert into user_global_pref(user_id,parameter_type,parameter_value) 
 				values ('%s','%s','%s')";
     if ( $p_type == "" ) {
       foreach ( $default_parameter as $name=>$value) {
 	$Insert=sprintf($Sql,$this->login,$name,$value);
-	ExecSql($cn,$Insert);
+	$cn->exec_sql($Insert);
       }
     }
     else {
       $value=($p_value=="")?$default_parameter[$p_type]:$p_value;
       $Insert=sprintf($Sql,$this->login,$p_type,$value);
-      ExecSql($cn,$Insert);
+      $cn->exec_sql($Insert);
     }
 
 
@@ -508,13 +508,13 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
   function update_global_pref($p_type,$p_value="") {
     $default_parameter= array("THEME"=>"Light",
 			      "PAGESIZE"=>"50",'TOPMENU'=>'SELECT');
-    $cn=Dbconnect();
+    $cn=new Database();
     $Sql="update user_global_pref set parameter_value='%s' 
 			where parameter_type='%s' and 
 				user_id='%s'";
     $value=($p_value=="")?$default_parameter[$p_type]:$p_value;
     $Update=sprintf($Sql,$value,$p_type,$this->login);
-    ExecSql($cn,$Update);
+    $cn->exec_sql($Update);
 
   }//end function
   /*!\brief Return the year of current Periode
@@ -524,7 +524,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
   function get_exercice()
   {
     $sql="select p_exercice from parm_periode where p_id=".$this->get_periode();
-    $Ret=ExecSql($this->db,$sql);
+    $Ret=$this->db->exec_sql($sql);
     if (pg_NumRows($Ret) == 1) 
       {
 	$r=pg_fetch_array($Ret,0);
@@ -586,7 +586,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
       ' on ( jnt_use_dos.jnt_id = priv_user.priv_jnt) '.
       " where priv_priv='L' and use_login='".$this->login."' and dos_id=$p_dossier";
 
-    $cn=DbConnect();
+    $cn=new Database();
   
     $isAdmin=count_sql($cn,$sql);
 
@@ -614,9 +614,9 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
   {
     $this->Admin();
     if ( $this->admin==1 || $this->is_local_admin($p_dossier_id)==1) return 'L';
-    $cn=DbConnect();
+    $cn=new Database();
 
-    $dossier=getDbValue($cn,"select priv_priv from jnt_use_dos join priv_user on (priv_jnt=jnt_id) where dos_id=$1 and use_id=$2",
+    $dossier=$cn->get_value("select priv_priv from jnt_use_dos join priv_user on (priv_jnt=jnt_id) where dos_id=$1 and use_id=$2",
 			array($p_dossier_id,$this->id));
     if ( $dossier=='X' || $dossier=='') {
       alert('Dossier non accessible');

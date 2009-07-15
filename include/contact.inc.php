@@ -162,7 +162,7 @@ if ( $sub_action == "list" )
 <?php  
  $w=new ISelect();
  $w->name="fd_id";
- $w->value= make_array($cn,"select fd_id,fd_label from fiche_def where ".
+ $w->value= $cn->make_array("select fd_id,fd_label from fiche_def where ".
 	     " frd_id=".FICHE_TYPE_CONTACT);
  // if array is empty show an warning and stops
  if ( sizeof ($w->value) == 0 ) {

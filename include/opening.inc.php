@@ -26,7 +26,7 @@
  * current folder
  */
 $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:'';
-$User=new User(DbConnect(dossier::id()));
+$User=new User(new Database(dossier::id()));
 $User->Check();
 $User->can_request(PAREO,1);
 require_once("class_iselect.php");
@@ -79,8 +79,8 @@ if ( $sa=='step2') {
   echo HtmlInput::hidden('p_action','ouv');
   echo HtmlInput::hidden('sa','step3');
   echo HtmlInput::hidden('f',$_REQUEST['f']);
-  $cn=DbConnect($_REQUEST['f']);
-  $periode=make_array($cn,"select distinct p_exercice,p_exercice from parm_periode order by p_exercice");
+  $cn=new Database($_REQUEST['f']);
+  $periode=$cn->make_array("select distinct p_exercice,p_exercice from parm_periode order by p_exercice");
   $w=new ISelect();
   $w->table=0;
   $w->label='Periode';
@@ -109,7 +109,7 @@ if ( $sa == 'step3') {
   echo HtmlInput::hidden('f',$_REQUEST['f']);
   echo HtmlInput::hidden('p_periode',$_REQUEST['p_periode']);
   $wLedger=new ISelect();
-  $User=new User(DbConnect(dossier::id()));
+  $User=new User(new Database(dossier::id()));
   $avail=$User->get_ledger('ODS');
   /* compute select list */
   $array=array();
@@ -135,7 +135,7 @@ if ( $sa == 'step3') {
 if ( $sa=='step4') {
   echo '<div class="content">';
   echo '<fieldset><legend> Dernière étape</legend>';
-  $cn_target=DbConnect($_REQUEST['f']);
+  $cn_target=new Database($_REQUEST['f']);
   $saldo=new Acc_Ledger($cn_target,0);
   $array=$saldo->get_saldo_exercice($_REQUEST['p_periode']);
   /*  we need to transform the array into a Acc_Ledger array */
@@ -157,7 +157,7 @@ if ( $sa=='step4') {
     if ( $row['solde'] > 0 ) $result[$ck]='on';
     $idx++;
   }
-  $cn=DbConnect(dossier::id());
+  $cn=new Database(dossier::id());
   $User=new User($cn);
   $jrn=new Acc_Ledger($cn,$_REQUEST['p_jrn']);
   echo '<form method="post" action="compta.php">';

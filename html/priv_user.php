@@ -21,12 +21,12 @@
  * \brief Users Security 
  */
 include_once("ac_common.php");
-include_once("postgres.php");
+require_once('class_database.php');
 include_once("debug.php");
 include_once("user_menu.php");
 html_page_start($_SESSION['g_theme']);
 
-$rep=DbConnect();
+$rep=new Database();
 include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
@@ -67,9 +67,9 @@ echo '<h2>Gestion Utilisateurs</h2>';
 <?php
 /* Parse the changes */
 if ( isset ( $_GET['reset_passwd']) ){
-  $cn=DbConnect();
+  $cn=new Database();
   $l_pass=md5('phpcompta');
-  $Res=ExecSql($cn, "update ac_users set use_pass='$l_pass' where use_id=$uid");
+  $Res=$cn->exec_sql( "update ac_users set use_pass='$l_pass' where use_id=$uid");
   echo '<H2 class="info"> Password remis à phpcompta</H2>';
 }
 /*  Save the changes */
@@ -77,7 +77,7 @@ if ( isset ($_POST['SAVE']) ){
   $uid = $_POST['UID'];
 
   // Update User 
-  $cn=DbConnect();
+  $cn=new Database();
   $last_name=$_POST['fname'];
   $first_name=$_POST['lname'];
   $UserChange=new User($cn,$uid);
@@ -98,7 +98,7 @@ if ( isset ($_POST['SAVE']) ){
 	      {
 			echo_debug('priv_user.php',__LINE__,"Found a priv");
 			$db_id=substr($name,4);
-			$cn=DbConnect();
+			$cn=new Database();
 			$UserChange->set_folder_access($db_id,$elem);
 			
 	     }
@@ -107,10 +107,10 @@ if ( isset ($_POST['SAVE']) ){
 	}
 } else {
   if ( isset ($_POST["DELETE"]) ) {
-    $cn=DbConnect();
-    $Res=ExecSqlParam($cn,"delete from priv_user where priv_jnt in ( select jnt_id from jnt_use_dos where use_id=$1",array($uid));
-    $Res=ExecSqlParam($cn,"delete from jnt_use_dos where use_id=$1",array($uid));
-    $Res=ExecSqlParam($cn,"delete from ac_users where use_id=$1",array($uid));
+    $cn=new Database();
+    $Res=$cn->exec_sql("delete from priv_user where priv_jnt in ( select jnt_id from jnt_use_dos where use_id=$1",array($uid));
+    $Res=$cn->exec_sql("delete from jnt_use_dos where use_id=$1",array($uid));
+    $Res=$cn->exec_sql("delete from ac_users where use_id=$1",array($uid));
 
     echo "<center><H2 class=\"info\"> User ".h($_POST['fname'])." ".h($_POST['lname'])." (".
       h($_POST['login']).") est effacé</H2></CENTER>";
@@ -191,7 +191,7 @@ if (  empty ( $Dossier )) {
 	echo '</div>';
 	exit();
 }
-$mod_user=new User(DbConnect(),$uid);
+$mod_user=new User(new Database(),$uid);
 foreach ( $Dossier as $rDossier) {
 
   $priv=$mod_user->get_folder_access($rDossier['dos_id']);

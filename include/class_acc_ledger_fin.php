@@ -531,7 +531,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     
     try 
       {
-	StartSql($this->db);
+	$this->db->start();
 	$amount=0.0;  
 	// Credit = goods 
 	for ( $i = 0; $i < $nb_item;$i++) {
@@ -547,7 +547,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	  $amount+=${"e_other$i"."_amount"};
 	  // Record a line for the bank
 	  // Compute the j_grpt
-	  $seq=NextSequence($this->db,'s_grpt');
+	  $seq=$this->db->get_next_seq('s_grpt');
 
 	  $acc_operation=new Acc_Operation($this->db);
 	  $acc_operation->date=$e_date;
@@ -643,7 +643,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	  } else {
 	  if ( $oid  != 0 ) 
 	    {
-	      ExecSql($this->db,"update jrn set jr_pj=".$oid.", jr_pj_name='".$_FILES['pj']['name']."', ".
+	      $this->db->exec_sql("update jrn set jr_pj=".$oid.", jr_pj_name='".$_FILES['pj']['name']."', ".
 		      "jr_pj_type='".$_FILES['pj']['type']."'  where jr_grpt_id=$seq");
 	    }
 	}
@@ -656,11 +656,11 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	'Erreur dans l\'enregistrement '.
 	__FILE__.':'.__LINE__.' '.
 	$e->getMessage();
-      Rollback($this->db);
+      $this->db->rollback();
       exit();
  
     }
-  Commit($this->db);
+  $this->db->commit();
   $r="";
   $r.="<br>Ancien solde ".$solde;
   $new_solde+=$amount;
@@ -689,7 +689,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     // filter on the current year
     $filter_year=" where p_exercice='".$User->get_exercice()."'";
     
-    $periode_start=make_array($this->db,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end",1);
+    $periode_start=$this->db->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end",1);
   // User is already set User=new User($this->db);
     $current=(isset($_GET['p_periode']))?$_GET['p_periode']:-1;
     $w->selected=$current;

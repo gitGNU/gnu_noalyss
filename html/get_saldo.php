@@ -38,7 +38,7 @@ foreach ( array('j','ctl') as $a ) {
   }
 }
 
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
 $user=new User($cn);
 $user->check();
 if ( $user->check_jrn($_GET['j'])=='X' ) return '{"saldo":"0"}';

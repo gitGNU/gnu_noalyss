@@ -86,7 +86,7 @@ class Acc_Balance {
              $and
             $per_sql ) as m group by j_poste order by j_poste::text";
 
-    $Res=ExecSql($this->db,$sql);
+    $Res=$this->db->exec_sql($sql);
 
     $tot_cred=  0.0;
     $tot_deb=  0.0;

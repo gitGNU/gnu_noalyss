@@ -27,7 +27,7 @@ require_once ('class_acc_ledger_fin.php');
 $gDossier=dossier::id();
 $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
 $menu_action="?p_action=bank&".dossier::get();
 $menu=array(
 	    array($menu_action.'&sa=n','Nouvel extrait','Encodage d\'un nouvel extrait',1),

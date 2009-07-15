@@ -28,12 +28,12 @@
  *
  */
 require_once("constant.php");
-require_once("postgres.php");
+require_once('class_database.php');
 require_once("ac_common.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 $str_dossier=dossier::get();
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 require_once ("class_user.php");
 require_once ('user_menu.php');
 $User=new User($cn);

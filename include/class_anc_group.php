@@ -24,7 +24,7 @@
  * \brief class for the group of the analytic account
  *
  */
-require_once ('postgres.php');
+require_once ('class_database.php');
 require_once ('constant.php');
 require_once ('debug.php');
 require_once ('class_dossier.php');
@@ -55,7 +55,7 @@ class Anc_Group {
 		 pg_escape_string($this->ga_description),
 		 $this->pa_id);
     try {
-      ExecSql($this->db,$sql);
+      $this->db->exec_sql($sql);
     } catch (Exception $a) {
       return '<span class="notice">Doublon !!</span>';
     }
@@ -70,7 +70,7 @@ class Anc_Group {
     $this->ga_id=strtoupper($this->ga_id);
     $sql=" delete from groupe_analytique where ga_id='".pg_escape_string($this->ga_id)."'";
 
-    ExecSql($this->db,$sql);
+    $this->db->exec_sql($sql);
   }
 
   /*! 
@@ -79,7 +79,7 @@ class Anc_Group {
   function load() {
     $sql="select ga_id, ga_description,pa_id from groupe_analytique where".
       " ga_id = ".$this->ga_id;
-    $res=ExecSql($this->db,$sql);
+    $res=$this->db->exec_sql($sql);
     $array=pg_fetch_all($res);
     if ( ! empty($array) ) {
       $this->ga_id=$array['ga_id'];
@@ -101,7 +101,7 @@ class Anc_Group {
     $sql=" select ga_id,groupe_analytique.pa_id,pa_name,ga_description ".
       " from groupe_analytique ".
       " join plan_analytique using (pa_id)";
-    $r=ExecSql($this->db,$sql);
+    $r=$this->db->exec_sql($sql);
     $array=pg_fetch_all($r);
     $res=array();
     if ( ! empty($array)) {
@@ -116,7 +116,7 @@ class Anc_Group {
   }
   static function test_me() {
 
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     print_r($cn);
     $o=new Anc_Group($cn);
     $r=$o->myList();

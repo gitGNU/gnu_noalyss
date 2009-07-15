@@ -30,7 +30,7 @@
  */
 
 require_once ('constant.php');
-require_once ('postgres.php');
+require_once ('class_database.php');
 require_once ('debug.php');
 require_once('class_dossier.php');
 require_once('class_pre_operation.php');
@@ -39,7 +39,7 @@ extract ($_GET);
 foreach (array('l','t','d','gDossier') as $a) {
   if ( ! isset (${$a}) )   { echo "error $a is not set "; exit();} 
 }
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
 $op=new Pre_operation_detail($cn);
 $op->set('ledger',$l);
 $op->set('ledger_type',$t);

@@ -97,7 +97,7 @@ class Acc_Payment
     /*  please adapt
     $sql="insert into tva_rate (tva_label,tva_rate,tva_comment,tva_poste) ".
       " values ($1,$2,$3,$4)  returning tva_id";
-    $res=ExecSqlParam($this->cn,
+    $res=$this->cn->exec_sql(
 		 $sql,
 		 array($this->tva_label,
 		       $this->tva_rate,
@@ -113,7 +113,7 @@ class Acc_Payment
 
     $sql="update mod_payment set mp_lib=$1,mp_qcode=$2,mp_type=$3,mp_jrn_def_id=$4,mp_fd_id=$5 ".
       " where mp_id = $6";
-    $res=ExecSqlParam($this->cn,
+    $res=$this->cn->exec_sql(
 		 $sql,
 		 array($this->mp_lib,
 		       $this->mp_qcode,
@@ -123,17 +123,17 @@ class Acc_Payment
 		       $this->mp_id)
 		 );
     if ( strlen (trim($this->mp_jrn_def_id))==0)
-      ExecSqlParam($this->cn,
+      $this->cn->exec_sql(
 		   'update mod_payment '.
 		   'set mp_jrn_def_id = null where mp_id=$1',
 		   array($this->mp_id));
     if ( strlen (trim($this->mp_qcode))==0)
-      ExecSqlParam($this->cn,
+      $this->cn->exec_sql(
 		   'update mod_payment '.
 		   'set mp_qcode = null where mp_id=$1',
 		   array($this->mp_id));
     if ( strlen (trim($this->mp_fd_id))==0)
-      ExecSqlParam($this->cn,
+      $this->cn->exec_sql(
 		   'update mod_payment '.
 		   'set mp_fd_id = null where mp_id=$1',
 		   array($this->mp_id));
@@ -143,7 +143,7 @@ class Acc_Payment
   public function load() {
     $sql='select mp_id,mp_lib,mp_fd_id,mp_jrn_def_id,mp_qcode,mp_type from mod_payment '.
       ' where mp_id = $1';
-    $res=ExecSqlParam($this->cn,
+    $res=$this->cn->exec_sql(
 		 $sql,
 		 array($this->mp_id)
 		 );
@@ -154,7 +154,7 @@ class Acc_Payment
   }
   public function delete() {
 /*    $sql="delete from tva_rate where tva_id=$1"; 
-    $res=ExecSqlParam($this->cn,$sql,array($this->tva_id));
+    $res=$this->cn->exec_sql($sql,array($this->tva_id));
 */
   }
   /*!\brief retrieve all the data for a certain type
@@ -165,7 +165,7 @@ class Acc_Payment
     $sql='select mp_id '.
       ' from mod_payment '.
       ' where mp_type=$1';
-    $array=get_array($this->cn,$sql,array($this->mp_type));
+    $array=$this->cn->get_array($sql,array($this->mp_type));
     $ret=array();
     if ( !empty($array) ) {
       foreach ($array as $row) {
@@ -186,7 +186,7 @@ class Acc_Payment
       ' from mod_payment '.
       ' where mp_type=$1 and mp_jrn_def_id is not null and '.
       ' (mp_fd_id is not null or mp_qcode is not null)';
-    $array=get_array($this->cn,$sql,array($this->mp_type));
+    $array=$this->cn->get_array($sql,array($this->mp_type));
     $ret=array();
     if ( !empty($array) ) {
       foreach ($array as $row) {
@@ -237,7 +237,7 @@ class Acc_Payment
     $r.=$etd.$etr;
     $r.=$tr.$td;
     $r.='Type de fiche '.$etd;
-    $array=make_array($this->cn,'select fd_id,fd_label from fiche_def join fiche_def_ref '.
+    $array=$this->cn->make_array('select fd_id,fd_label from fiche_def join fiche_def_ref '.
 	' using (frd_id) where frd_id in (25,4) order by fd_label');
     $fd=new ISelect();
     $fd->name='mp_fd_id';
@@ -246,7 +246,7 @@ class Acc_Payment
     $r.=$td.$fd->input();
     $r.=$etd;
     $r.=$tr.$td.'Enregistre dans le journal '.$etd;
-    $array=make_array($this->cn,'select jrn_def_id,jrn_def_name from '.
+    $array=$this->cn->make_array('select jrn_def_id,jrn_def_name from '.
 		      ' jrn_def where jrn_def_type = \'ODS\' or jrn_def_type=\'FIN\'');
     $jrn=new ISelect();
     $jrn->value=$array;
@@ -329,7 +329,7 @@ class Acc_Payment
    */
   static function test_me() {
     echo JS_SEARCH_CARD;
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $ac=new Acc_Payment($cn);
     $ac->set_parameter('type','ACH');
     echo '<form method="post">';

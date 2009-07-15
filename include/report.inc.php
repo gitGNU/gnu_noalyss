@@ -27,7 +27,7 @@ require_once("class_ifile.php");
 require_once("class_ibutton.php");
 require_once('class_acc_report.php');
 require_once('class_dossier.php');
-include_once ("postgres.php");
+require_once('class_database.php');
 include_once ("class_user.php");
 include_once ("user_menu.php");
 
@@ -37,14 +37,14 @@ $gDossier=dossier::id();
 $str_dossier=dossier::get();
 
 /* Admin. Dossier */
-$rep=DbConnect($gDossier);
+$rep=new Database($gDossier);
 
 $User=new User($rep);
 $User->Check();
 $User->can_request(PARRAP,1);
 
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 $nocookie='&PHPSESSID='.$_REQUEST['PHPSESSID'];
 $rap=new Acc_Report($cn);

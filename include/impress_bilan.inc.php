@@ -29,8 +29,8 @@ require_once ('class_acc_bilan.php');
 //-----------------------------------------------------
 // Show the jrn and date
 //-----------------------------------------------------
-include_once("postgres.php");
-/*$ret=make_array($cn,"select fr_id,fr_label
+require_once('class_database.php');
+/*$ret=$cn->make_array("select fr_id,fr_label
                  from formdef
                  order by fr_label");
 */

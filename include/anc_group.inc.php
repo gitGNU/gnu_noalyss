@@ -66,7 +66,7 @@ foreach ($array as $idx=>$m) {
 }
 $w=new IText("ga_id");
 $wDesc=new IText("ga_description");
-$val_pa_id=make_array($cn,"select pa_id,pa_name from plan_analytique");
+$val_pa_id=$cn->make_array("select pa_id,pa_name from plan_analytique");
 $wPa_id=new ISelect("pa_id");
 $wPa_id->value=$val_pa_id;
 

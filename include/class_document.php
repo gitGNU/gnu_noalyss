@@ -52,14 +52,14 @@ class Document
    */
   function blank()
     {
-      $this->d_id=NextSequence($this->db,"document_d_id_seq");
+      $this->d_id=$this->db->get_next_seq("document_d_id_seq");
       // affect a number
-      $this->d_number=NextSequence($this->db,"seq_doc_type_".$this->md_type);
+      $this->d_number=$this->db->get_next_seq("seq_doc_type_".$this->md_type);
       $sql=sprintf('insert into document(d_id,ag_id,d_number) values(%d,%d,%d)',
 		   $this->d_id,
 		   $this->ag_id,
 		   $this->d_number);
-      ExecSql($this->db,$sql);
+      $this->db->exec_sql($sql);
 
     }
   /*!\brief Save save the state of the document
@@ -68,7 +68,7 @@ class Document
     {
       $sql="update document set d_state=".$this->d_state.
 	" where d_id=".$this->d_id;
-      ExecSql($this->db,$sql);
+      $this->db->exec_sql($sql);
     }
 /*!  
  * \brief Generate the document, Call $this-\>Replace to replace
@@ -88,10 +88,10 @@ class Document
       mkdir ($dirname);
       echo_debug('class_action',__LINE__,"Dirname is $dirname");
       // Retrieve the lob and save it into $dirname
-      StartSql($this->db);
+      $this->db->start();
       $dm_info="select md_type,md_lob,md_filename,md_mimetype 
                    from document_modele where md_id=".$this->md_id;
-      $Res=ExecSql($this->db,$dm_info);
+      $Res=$this->db->exec_sql($dm_info);
 
       $row=pg_fetch_array($Res,0);
       $this->d_lob=$row['md_lob'];
@@ -124,13 +124,13 @@ class Document
       else 
 	$file_to_parse=$filename;
       // affect a number
-      $this->d_number=NextSequence($this->db,"seq_doc_type_".$row['md_type']);
+      $this->d_number=$this->db->get_next_seq("seq_doc_type_".$row['md_type']);
       echo_debug(__FILE__,__LINE__,"seq_doc_type_".$row['md_type'].' = '.$this->d_number);
 
       // parse the document - return the doc number ?
       $this->ParseDocument($dirname,$file_to_parse,$type);
 
-      Commit($this->db);
+      $this->db->commit();
       // if the doc is a OOo, we need to re-zip it 
       if ( strpos($row['md_mimetype'],'vnd.oasis') != 0 )
 	{
@@ -282,10 +282,10 @@ class Document
       echo_debug('class_document',__LINE__,'Save generated');
       // We save the generated file
       $doc=new Document($this->db);
-      StartSql($this->db);
+      $this->db->start();
       $this->d_lob=pg_lo_import($this->db,$p_file);
       if ( $this->d_lob == false ) { 
-	Rollback($this->db); echo_debug('class_document',__LINE__,"can't save file $p_file");
+	$this->db->rollback(); echo_debug('class_document',__LINE__,"can't save file $p_file");
 	return 1; }
     
       $sql=sprintf("insert into document(ag_id,d_lob,d_number,d_filename,d_mimetype,d_state) 
@@ -297,12 +297,12 @@ class Document
 		   $this->d_mimetype,
 		   $this->d_state
 		   );
-      ExecSql($this->db,$sql);
-      $this->d_id=GetSequence($this->db,"document_d_id_seq");
+      $this->db->exec_sql($sql);
+      $this->d_id=$this->db->get_current_seq("document_d_id_seq");
       echo_debug('class_document',__LINE__,'document sauvï¿½ : d_id'.$this->d_id);
       // Clean the file
       unlink ($p_file);
-      Commit($this->db);
+      $this->db->commit();
       return 0;
     }
   /*! Upload
@@ -319,7 +319,7 @@ class Document
       if ( sizeof($_FILES) == 0 ) return;
 
       // Start Transaction
-      StartSql($this->db);
+      $this->db->start();
       $new_name=tempnam($_ENV['TMP'],'doc_');
 
 
@@ -333,7 +333,7 @@ class Document
 	    // check if the lob is in the database
 	    if ( $oid == false ) 
 	      {
-		Rollback($this->db);
+		$this->db->rollback();
 		return 1;
 	      }
 	  }
@@ -344,7 +344,7 @@ class Document
 	  // now we have to update the col.
 	  // We retrieve the row to remove a possible existing lob (replace)
 	  $sql="select d_lob from document where d_id=".$this->d_id;
-	  $ret=ExecSql($this->db,$sql);
+	  $ret=$this->db->exec_sql($sql);
 
 	  if (pg_num_rows($ret) != 0)  
 	    {
@@ -357,9 +357,9 @@ class Document
 	  // Update the table
 	  $sql=sprintf("update document set d_lob=%s,d_filename='%s',d_mimetype='%s' where d_id=%d",
 		       $this->d_lob,$this->d_filename,$this->d_mimetype,$this->d_id);
-	  ExecSql($this->db,$sql);
+	  $this->db->exec_sql($sql);
 	}
-      Commit($this->db);
+      $this->db->commit();
 
     }
 /*! a_ref
@@ -382,8 +382,8 @@ class Document
   function Send() 
     {
       // retrieve the template and generate document
-      StartSql($this->db);
-      $ret=ExecSql($this->db,
+      $this->db->start();
+      $ret=$this->db->exec_sql(
 		   "select d_id,d_lob,d_filename,d_mimetype from document where d_id=".$this->d_id );
       if ( pg_num_rows ($ret) == 0 )
 	return;
@@ -412,7 +412,7 @@ class Document
       
       unlink ($tmp);
       
-      Commit($this->db);
+      $this->db->commit();
       
     }
   /*!\brief Get  complete all the data member thx info from the database
@@ -420,7 +420,7 @@ class Document
   function get()
     {
       $sql="select * from document where d_id=".$this->d_id;
-      $ret=ExecSql($this->db,$sql);
+      $ret=$this->db->exec_sql($sql);
       if ( pg_num_rows($ret) == 0 )
 	return;
       $row=pg_fetch_array($ret,0);
@@ -916,7 +916,7 @@ class Document
   function remove()
     {
       $sql='delete from document where d_id='.$this->d_id;
-      ExecSql($this->db,$sql);
+      $this->db->exec_sql($sql);
     }
   /*!\brief Move a document from the table document into the concerned row
    *        the document is not copied : it is only a link
@@ -929,7 +929,7 @@ class Document
 
       $sql=sprintf("update jrn set jr_pj=%s,jr_pj_name='%s',jr_pj_type='%s' where jr_internal='%s'",
 		   $this->d_lob,$this->d_filename,$this->d_mimetype,$p_internal);
-      ExecSql($this->db,$sql);
+      $this->db->exec_sql($sql);
       // clean the table document
       //$this->remove();
     }

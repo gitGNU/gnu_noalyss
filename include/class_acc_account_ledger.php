@@ -25,7 +25,7 @@
  * \brief Manage the account from the table jrn, jrnx or tmp_pcmn
  */
 require_once("class_ihidden.php");
-require_once ('postgres.php');
+require_once ('class_database.php');
 require_once ('class_dossier.php');
 
 class Acc_Account_Ledger {
@@ -55,7 +55,7 @@ class Acc_Account_Ledger {
       $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
 
       
-      $Res=ExecSql($this->db,"select jr_id,to_char(j_date,'DD.MM.YYYY') as j_date,".
+      $Res=$this->db->exec_sql("select jr_id,to_char(j_date,'DD.MM.YYYY') as j_date,".
 	       "case when j_debit='t' then j_montant else 0 end as deb_montant,".
 	       "case when j_debit='f' then j_montant else 0 end as cred_montant,".
 	       " jr_comment as description,jrn_def_name as jrn_name,".
@@ -87,7 +87,7 @@ class Acc_Account_Ledger {
    * \return string with the pcm_lib
    */
   function get_name() {
-    $ret=ExecSqlParam($this->db,
+    $ret=$this->db->exec_sql(
 		 "select pcm_lib from tmp_pcmn where
                   pcm_val=$1",array($this->id));
       if ( pg_NumRows($ret) != 0) {
@@ -103,7 +103,7 @@ class Acc_Account_Ledger {
    */
   function do_exist() {
     $sql="select pcm_val from tmp_pcmn where pcm_val= $1";
-    $ret=ExecSqlParam($this->db,$sql,array($this->id));
+    $ret=$this->db->exec_sql($sql,array($this->id));
     return pg_NumRows($ret) ;
   }
   /*!\brief Get all the value for this object from the database
@@ -112,7 +112,7 @@ class Acc_Account_Ledger {
    */
   function load()
   {
-    $ret=ExecSqlParam($this->db,"select pcm_lib,pcm_val_parent from 
+    $ret=$this->db->exec_sql("select pcm_lib,pcm_val_parent from 
                               tmp_pcmn where pcm_val=$1",array($this->id));
     $r=pg_fetch_all($ret);
     
@@ -140,7 +140,7 @@ class Acc_Account_Ledger {
    *
    */ 
   function get_solde($p_cond=" true ") {
-  $Res=ExecSql($this->db,"select sum(deb) as sum_deb, sum(cred) as sum_cred from 
+  $Res=$this->db->exec_sql("select sum(deb) as sum_deb, sum(cred) as sum_cred from 
           ( select j_poste, 
              case when j_debit='t' then j_montant else 0 end as deb, 
              case when j_debit='f' then j_montant else 0 end as cred 
@@ -174,7 +174,7 @@ function get_solde_detail($p_cond="") {
             $p_cond
           ) as m  ";
 
- $Res=ExecSql($this->db,$sql);
+ $Res=$this->db->exec_sql($sql);
  $Max=pg_NumRows($Res);
  if ($Max==0) {
    return array('debit'=>0,
@@ -203,7 +203,7 @@ function get_solde_detail($p_cond="") {
  function isTVA() 
    {
       // Load TVA array
-     $a_TVA=get_array($this->db,'select tva_poste 
+     $a_TVA=$this->db->get_array('select tva_poste 
                                 from tva_rate');
      foreach ( $a_TVA as $line_tva) 
        {	      
@@ -330,7 +330,7 @@ function get_solde_detail($p_cond="") {
  * \return 0 ok,  -1 no
  */
  function belong_ledger($p_jrn) {
-   $filter=getDbValue($this->db,"select jrn_def_class_cred from jrn_def where jrn_def_id=$p_jrn");
+   $filter=$this->db->get_value("select jrn_def_class_cred from jrn_def where jrn_def_id=$p_jrn");
    if ( trim ($filter) == '') 
      return 0;
 
@@ -353,14 +353,14 @@ function get_solde_detail($p_cond="") {
       }
     }//foreach
     $sql.=$SqlFilter.' and pcm_val='.$this->id;
-    $max=getDbValue($this->db,$sql);
+    $max=$this->db->get_value($sql);
     if ($max > 0 ) 
       return 0;
     else
       return -1;
  }
  static function test_me() {
-     $cn=DbConnect(dossier::id());
+     $cn=new Database(dossier::id());
      $a=new Acc_Account_Ledger($cn,550);
      echo ' Journal 4 '.$a->belong_ledger(4);
 

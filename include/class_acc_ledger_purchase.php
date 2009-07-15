@@ -170,8 +170,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $this->verify($p_array) ; 
 
     $own=new own($this->db);
-    $group=NextSequence($this->db,"s_oa_group"); /* for analytic */
-    $seq=NextSequence($this->db,'s_grpt');
+    $group=$this->db->get_next_seq("s_oa_group"); /* for analytic */
+    $seq=$this->db->get_next_seq('s_grpt');
     $this->id=$p_jrn;
     $internal=$this->compute_internal_code($seq);
     $cust=new fiche($this->db);
@@ -190,7 +190,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $tot_amount=0;
       $tot_tva=0;
       $tot_debit=0;
-      StartSql($this->db);
+      $this->db->start();
       $tot_nd=0;
       $tot_perso=0;
       $tot_tva_nd=0;
@@ -317,7 +317,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	// insert into quant_purchase
 	//-----
 	if ( $own->MY_TVA_USE=='Y') {
-	  $r=ExecSql($this->db,"select insert_quant_purchase ".
+	  $r=$this->db->exec_sql("select insert_quant_purchase ".
 		     "('".$internal."'".
 		     ",".$j_id.
 		     ",'".${"e_march".$i}."'".
@@ -332,7 +332,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 		     ",'".$e_client."')");
 	  
 	} else {
-	  $r=ExecSql($this->db,"select insert_quant_purchase ".
+	  $r=$this->db->exec_sql("select insert_quant_purchase ".
 		     "('".$internal."'".
 		     ",".$j_id.
 		     ",'".${"e_march".$i}."'".
@@ -491,7 +491,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $acfiche->get_by_qcode($fqcode);
 
       /* jrnx */
-      $acseq=NextSequence($this->db,'s_grpt');
+      $acseq=$this->db->get_next_seq('s_grpt');
       $acjrn=new Acc_Ledger($this->db,$mp->get_parameter('ledger'));
       $acinternal=$acjrn->compute_internal_code($acseq);
 
@@ -531,7 +531,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $r2=$this->get_id($acinternal);
 
       /* set the flag paid */
-      $Res=ExecSqlParam($this->db,"update jrn set jr_rapt='paid' where jr_id=$1",array($r1));
+      $Res=$this->db->exec_sql("update jrn set jr_rapt='paid' where jr_id=$1",array($r1));
 
       /* Reconcialiation */
       $rec=new Acc_Reconciliation($this->db);
@@ -545,10 +545,10 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	  'Erreur dans l\'enregistrement '.
 	  __FILE__.':'.__LINE__.' '.
 	  $e->getMessage().$e->getTrace();
-	Rollback($this->db);
+	$this->db->rollback();
 	exit();
       }
-    Commit($this->db);
+    $this->db->commit();
     return $internal;
   }
 
@@ -571,7 +571,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     // filter on the current year
     $filter_year=" where p_exercice='".$User->get_exercice()."'";
     
-    $periode_start=make_array($this->db,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by  p_start,p_end",1);
+    $periode_start=$this->db->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by  p_start,p_end",1);
     $current=(isset($_GET['p_periode']))?$_GET['p_periode']:-1;
     $w->selected=$current;
     $w->noadd=true;
@@ -907,7 +907,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       if ( $own->MY_TVA_USE=='Y') {
 	// vat label
 	//--
-	$select_tva=make_array($this->db,"select tva_id,tva_label from tva_rate order by tva_rate desc",0);
+	$select_tva=$this->db->make_array("select tva_id,tva_label from tva_rate order by tva_rate desc",0);
 	$Tva=new ISelect();
 	$Tva->javascript="onChange=\"clean_tva($i);compute_purchase($i);\"";
 	$Tva->table=1;
@@ -1236,7 +1236,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	// We propose to generate  the invoice and some template
 	$doc_gen=new ISelect();
 	$doc_gen->name="gen_doc";
-	$doc_gen->value=make_array($this->db,
+	$doc_gen->value=$this->db->make_array(
 				   "select md_id,md_name from document_modele where md_type=10");
 	$r.=$doc_gen->input().'<br>';  
       }

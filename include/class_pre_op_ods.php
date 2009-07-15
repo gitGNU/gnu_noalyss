@@ -53,7 +53,7 @@ class Pre_op_ods extends Pre_operation_detail {
  */
   function save() {
 	try {
-	  StartSql($this->db);
+	  $this->db->start();
 	  if ($this->operation->save() == false )
 		return;
 
@@ -68,11 +68,11 @@ class Pre_op_ods extends Pre_operation_detail {
 					 ($this->{"e_account".$i."_type"}=='d')?'t':'f',
 					 $this->operation->od_id
 					 );
-		ExecSql($this->db,$sql);
+		$this->db->exec_sql($sql);
 	  }
 	} catch (Exception $e) {
 	  echo ($e->getMessage());
-	  Rollback($this->db);
+	  $this->db->rollback();
 	}
 
   }
@@ -102,7 +102,7 @@ class Pre_op_ods extends Pre_operation_detail {
 	$sql="select opd_id,opd_poste,opd_amount,opd_debit".
 	  "  from op_predef_detail where od_id=".$this->operation->od_id.
 	  " order by opd_debit, opd_id,opd_amount";
-	$res=ExecSql($this->db,$sql);
+	$res=$this->db->exec_sql($sql);
 	$array=pg_fetch_all($res);
 	return $array;
   }

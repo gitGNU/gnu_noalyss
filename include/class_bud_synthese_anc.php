@@ -44,7 +44,7 @@ class Bud_Synthese_Anc extends Bud_Synthese {
   }
 
   function select_hypo() {
-    $hypo=make_array($this->cn,'select bh_id, bh_name from bud_hypothese '.
+    $hypo=$this->cn->make_array('select bh_id, bh_name from bud_hypothese '.
 		  ' where pa_id is not null order by bh_name');
     $wSelect =new ISelect();
     $wSelect->name='bh_id';
@@ -73,7 +73,7 @@ class Bud_Synthese_Anc extends Bud_Synthese {
     $wPo_to->value=$po_value;
     $wPo_to->selected=$this->po_to;
 
-    $per=make_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') ".
+    $per=$this->cn->make_array("select p_id,to_char(p_start,'MM.YYYY') ".
 		    " from parm_periode order by p_start,p_end");
 
     $wFrom=new ISelect();
@@ -147,10 +147,10 @@ class Bud_Synthese_Anc extends Bud_Synthese {
     " from bud_card join bud_detail using (bc_id) ".
       "join poste_analytique using(po_id) where po_name >= $1 and ".
       "po_name <=$2 and bud_card.bh_id=$3";
-    $res=ExecSqlParam($this->cn,$sql,array($this->po_from,$this->po_to,$this->bh_id));
+    $res=$this->cn->exec_sql($sql,array($this->po_from,$this->po_to,$this->bh_id));
     $aBudCard=pg_fetch_all($res);
     $array=array();
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     pg_prepare($cn,"sql_detail","select distinct pcm_val from bud_detail ".
 	       " where bc_id=$1");
     pg_prepare($cn,"sql_detail_periode","select sum(bdp_amount) as amount,".
@@ -229,7 +229,7 @@ class Bud_Synthese_Anc extends Bud_Synthese {
     $r="";
     if (empty($p_array)) return;
     $persql=sql_filter_per($this->cn,$this->from,$this->to,'p_id','p_id');
-    $per=get_array($this->cn,"select to_char(p_start,'MM.YYYY') as d".
+    $per=$this->cn->get_array("select to_char(p_start,'MM.YYYY') as d".
 		   " from parm_periode ".
 		   " where $persql");
 
@@ -272,7 +272,7 @@ class Bud_Synthese_Anc extends Bud_Synthese {
   }
   static function test_me() {
 
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $obj=new Bud_Synthese_Anc($cn);
     echo '<form method="GET">';
 	echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);

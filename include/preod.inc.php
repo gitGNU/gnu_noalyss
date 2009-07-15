@@ -26,16 +26,16 @@
 require_once("class_iselect.php");
 require_once("class_icheckbox.php");
 require_once("class_ihidden.php");
-require_once('postgres.php');
+require_once('class_database.php');
 require_once('ac_common.php');
 require_once('class_pre_operation.php');
-$user=new User(DbConnect(dossier::id()));
+$user=new User(new Database(dossier::id()));
 $user->can_request(PARPREDE,1);
   echo '<div class="content">';
   echo '<form method="GET">';
   $sel=new ISelect();
   $sel->name="jrn";
-  $sel->value=make_array($cn,"select jrn_def_id,jrn_def_name from ".
+  $sel->value=$cn->make_array("select jrn_def_id,jrn_def_name from ".
 						 " jrn_def order by jrn_def_name");
   // Show a list of ledger
   $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";

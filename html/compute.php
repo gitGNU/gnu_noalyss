@@ -34,7 +34,7 @@
  */
 
 require_once ('constant.php');
-require_once ('postgres.php');
+require_once ('class_database.php');
 require_once ('debug.php');
 require_once ('class_acc_compute.php');
 require_once('class_dossier.php');
@@ -46,7 +46,7 @@ extract ($_GET);
 foreach (array('t','c','p','q','n','gDossier') as $a) {
   if ( ! isset (${$a}) )   { echo "error $a is not set "; exit();} 
 }
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
 $User=new User($cn);
 $User->Check();
 

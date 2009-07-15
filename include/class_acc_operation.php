@@ -72,7 +72,7 @@ var $jr_id;	/*!< pk of jrn */
     $this->amount=abs($this->amount);
     $debit=($this->type=='c')?'false':'true';
 
-    $Res=ExecSqlParam($this->db,"select insert_jrnx
+    $Res=$this->db->exec_sql("select insert_jrnx
 		 ($1::text,abs($2)::numeric,$3::poste_comptable,$4::integer,$5::integer,$6::bool,$7::text,$8::integer,upper($9))",
 		      array(
 			    $this->date,
@@ -85,7 +85,7 @@ var $jr_id;	/*!< pk of jrn */
 			    $this->periode,
 			    $this->qcode));
     if ( $Res==false) return $Res;
-    $this->jrnx_id=GetSequence($this->db,'s_jrn_op');
+    $this->jrnx_id=$this->db->get_current_seq('s_jrn_op');
     return $this->jrnx_id;
     
   }
@@ -95,18 +95,18 @@ var $jr_id;	/*!< pk of jrn */
   function set_pj() {
     if ( strlen(trim($this->pj)) == 0 ) {
       $sql="update jrn set jr_pj_number=$1 where jr_id=$2";
-      ExecSqlParam($this->db,$sql,array(null,$this->jr_id));
+      $this->db->exec_sql($sql,array(null,$this->jr_id));
       return '';
      }
     /* is pj uniq ? */
-    if ( count_sql($this->db,"select jr_id from jrn where jr_pj_number=$1 and jr_def_id=$2",
+    if ( $this->db->count_sql("select jr_id from jrn where jr_pj_number=$1 and jr_def_id=$2",
 		  array($this->pj,$this->jrn)
 		  ) == 0 ) {
       $sql="update jrn set jr_pj_number=$1 where jr_id=$2";
-      ExecSqlParam($this->db,$sql,array($this->pj,$this->jr_id));
+      $this->db->exec_sql($sql,array($this->pj,$this->jr_id));
     } else {
       /* get pref */
-      $pref=getDbValue($this->db,"select jrn_def_pj_pref from jrn_def where jrn_def_id=$1",
+      $pref=$this->db->get_value("select jrn_def_pj_pref from jrn_def where jrn_def_id=$1",
 		       array($this->jrn));
       /*  try another seq */
       $flag=0;$limit=100;
@@ -114,11 +114,11 @@ var $jr_id;	/*!< pk of jrn */
 	/*  limit the search to $limit */
 	if ( $limit < 1 ) { $this->pj='';$flag=2; break;}
 
-	$seq=NextSequence($this->db,'s_jrn_pj'.$this->jrn);
+	$seq=$this->db->get_next_seq('s_jrn_pj'.$this->jrn);
 	$this->pj=$pref.$seq;
 
 	/* check if the new pj numb exist */
-	$c=count_sql($this->db,"select jr_id from jrn where jr_pj_number=$1 and jr_def_id=$2",
+	$c=$this->db->count_sql("select jr_id from jrn where jr_pj_number=$1 and jr_def_id=$2",
 		    array($this->pj,$this->jrn)
 		    ); 
 	if ( $c == 0 ) { $flag=1; break;}
@@ -127,7 +127,7 @@ var $jr_id;	/*!< pk of jrn */
       /* a pj numb is found */
       if ( $flag == 1 ) {
         $sql="update jrn set jr_pj_number=$1 where jr_id=$2";
-	ExecSqlParam($this->db,$sql,array($this->pj,$this->jr_id));
+	$this->db->exec_sql($sql,array($this->pj,$this->jr_id));
 	}
     }
     return $this->pj;
@@ -146,7 +146,7 @@ var $jr_id;	/*!< pk of jrn */
   {
     $p_comment=FormatString($this->desc);
 
-    $diff=getDbValue($this->db,"select check_balance ($1)",array($this->grpt));
+    $diff=$this->db->get_value("select check_balance ($1)",array($this->grpt));
     if ( $diff != 0 ) {
       
       echo "Erreur : balance incorrecte :diff = $diff";
@@ -157,7 +157,7 @@ var $jr_id;	/*!< pk of jrn */
 
     // if amount == -1then the triggers will throw an error
     // 
-    $Res=ExecSqlParam($this->db,"insert into jrn (jr_def_id,jr_montant,jr_comment,".
+    $Res=$this->db->exec_sql("insert into jrn (jr_def_id,jr_montant,jr_comment,".
 		      "jr_date,jr_ech,jr_grpt_id,jr_tech_per,jr_mt)   values (".
 		      "$1,$2,$3,".
 		      "to_date($4,'DD.MM.YYYY'),to_date($5,'DD.MM.YYYY'),$6,$7,$8)",
@@ -165,7 +165,7 @@ var $jr_id;	/*!< pk of jrn */
 			     $this->date,$echeance,$this->grpt,$this->periode,$this->mt)
 			    );
     if ( $Res == false)  return false;
-    $this->jr_id=GetSequence($this->db,'s_jrn');
+    $this->jr_id=$this->db->get_current_seq('s_jrn');
     return $this->jr_id;
   }
 /*!
@@ -177,7 +177,7 @@ var $jr_id;	/*!< pk of jrn */
 function get_internal() {
  if ( ! isset($this->jr_id) ) 
 		throw new Exception('jr_id is not set',1);
-  $Res=ExecSql($this->db,"select jr_internal from jrn where jr_id=".$this->jr_id);
+  $Res=$this->db->exec_sql("select jr_internal from jrn where jr_id=".$this->jr_id);
   if ( pg_NumRows($Res) == 0 ) return null;
   $l_line=pg_fetch_array($Res);
   $this->jr_internal= $l_line['jr_internal'];
@@ -188,7 +188,7 @@ function get_internal() {
  * \return 0 ok -1 nok
  */
  function seek_internal($p_internal) {
-   $res=ExecSqlParam($this->db,'select j_id from jrn where jr_internal=$1',
+   $res=$this->db->exec_sql('select j_id from jrn where jr_internal=$1',
 		     array($p_internal));
    if ( pg_NumRows($Res) == 0 ) return -1;
    $this->jr_id=pg_fetch_result($Res,0,0);
@@ -205,7 +205,7 @@ function get_internal() {
                 left join vw_fiche_attr on (j_qcode=quick_code)
 		where
 		jr_id=$1 order by j_debit desc";
-   $res=ExecSqlParam($this->db,$sql,array($this->jr_id));
+   $res=$this->db->exec_sql($sql,array($this->jr_id));
    if ( pg_NumRows ($res) == 0 ) return array();
    $all=pg_fetch_all($res);
    return $all;
@@ -214,18 +214,18 @@ function get_internal() {
  function update_comment($p_text)
  {
    $sql="update jrnx set j_text=$1 where j_id=$2";
-   ExecSqlParam($this->db,$sql,array($p_text,$this->jrnx_id));
+   $this->db->exec_sql($sql,array($p_text,$this->jrnx_id));
  }
  /*!\brief add a comment to the operation (jrn.jr_text) */
  function operation_update_comment($p_text)
  {
    $sql="update jrn set jr_comment=$1 where jr_id=$2";
-   ExecSqlParam($this->db,$sql,array($p_text,$this->jr_id));
+   $this->db->exec_sql($sql,array($p_text,$this->jr_id));
  }
  /*!\brief return the jrn_def_id from jrn */
  function get_ledger() {
    $sql="select jr_def_id from jrn where jr_id=$1";
-   $row=getDbValue($this->db,$sql,array($this->jr_id));
+   $row=$this->db->get_value($sql,array($this->jr_id));
    return $row;
  }
  /*!\brief display_jrnx_detail : get the data from get_jrnx_data and

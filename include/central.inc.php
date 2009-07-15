@@ -30,14 +30,14 @@ html_page_start($_SESSION['g_theme']);
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-include_once ("postgres.php");
+require_once('class_database.php');
 /* Admin. Dossier */
-$rep=DbConnect(dossier::id());
+$rep=new Database(dossier::id());
 include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 include_once("central_inc.php");
 
