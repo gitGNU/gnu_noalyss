@@ -37,4 +37,7 @@ LANGUAGE plpgsql;
 
 
 
+update version set val=58;
+
 commit;
+
