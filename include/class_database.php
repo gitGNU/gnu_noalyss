@@ -93,6 +93,7 @@ de donn&eacute;es");
     function exec_sql( $p_string,$p_array=null) {
 
       echo_debug('class_database.php',__LINE__,"SQL = $p_string");
+
       try {
 
 	if ( $p_array==null ) {
@@ -100,14 +101,16 @@ de donn&eacute;es");
 	} else {
 	  $ret=pg_query_params($this->db,$p_string,$p_array);
 	}
-	if ( ! $ret )       throw new Exception (" SQL ERROR $p_string ",1);
+       	if ( ! $ret ) { throw new Exception ("  SQL ERROR $p_string ",1);}
       }catch (Exception  $a) {
-	print_r ($p_string);
-	print_r($a->getMessage());
-	print_r($a->getTrace());
-	exit();
+	if (DEBUG) {
+	  print_r ($p_string);
+	  echo $a->getMessage();
+	  echo $a->getTrace();
+	}
+	throw ($a);
       }
-  
+
       return $ret;
 
     }

@@ -191,7 +191,7 @@ class Anc_Account
 	$array=array();
 	foreach ($ret as $line)
 	  {
-		$objet=new Poste_Analytique($this->db);
+		$objet=new Anc_Account($this->db);
 
 		$object->id=$line['po_id'];
 		$object->name=$line['po_name'];
@@ -293,7 +293,7 @@ class Anc_Account
   static function test_me() {
     $cn=new Database(dossier::id());
     $pa_id=$cn->get_value("select max(pa_id) from plan_analytique");
-    $o=new Poste_Analytique($cn);
+    $o=new Anc_Account($cn);
     echo "<h1>Poste_Analytique</h1>";
     echo "<h2>get_list</h2>";
     $ee=$o->get_list();

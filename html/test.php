@@ -40,6 +40,8 @@ h2 {
 include_once("ac_common.php");
 require_once('class_database.php');
 require_once ('class_dossier.php');
+require_once('class_html_input.php');
+
 if ( ! file_exists('authorized_debug') ) { 
 echo "Pour pouvoir utiliser ce fichier vous devez creer un fichier nomme authorized_debug 
 dans le repertoire html du server";
@@ -101,20 +103,20 @@ $act=$_REQUEST['test_select'];
 switch ($act) {
 case 1:
 	require_once('class_anc_plan.php');
-	Anc_Plan::testme();
+	Anc_Plan::test_me();
 	break;
 
 case 2:
 	require_once("class_anc_account.php");
-	Anc_Account::testme();
+	Anc_Account::test_me();
 	break;
 case 3:
 	require_once ('class_bud_card.php');
-	Bud_Card::testme();
+	Bud_Card::test_me();
 	break;
 case 4:
 	require_once('class_bud_hypo.php');
-	Bud_Hypo::testme();
+	Bud_Hypo::test_me();
 	break;
 case 5:
 	require_once ('class_bud_detail_periode.php');
@@ -146,9 +148,9 @@ case 11:
 	break;
 case 13:
 	require_once('class_acc_report.php');
-	Rapport::test_me();
+	Acc_Report::test_me();
 	require_once('class_acc_report_row.php');
-	Rapport_Row::test_me();
+	Acc_Report_Row::test_me();
 	break;
 case 14:
 	require_once('class_acc_tva.php');

@@ -222,6 +222,7 @@ class Bud_Card {
     $a->bc_description="Juste une description";
     $a->bc_unit="Euro";
     $a->bc_price_unit=0.55;
+    $a->bh_id=1;
     $a->add();
     print_r($a);
 

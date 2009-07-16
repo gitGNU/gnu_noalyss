@@ -197,7 +197,7 @@ class Bud_Data {
     $wAmount->size=8;
     $wAmount->extra="disabled";
 
-INVALIDWIDGET     $wAccount=new widget('js_bud_search_poste');
+     $wAccount=new widget('js_bud_search_poste');
     $wAccount->table=0;
     $wAccount->disabled=true;
     $wAccount->value=$this->pcm_val.' - '.$this->pcm_lib;
