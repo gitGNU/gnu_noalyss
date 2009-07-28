@@ -35,14 +35,15 @@ class Database
 {
 
   private $db; 			/*!< database connection */
-
+  private $ret;			/*!< return value  */
   /*!\brief constructor
    *\param $p_database_id is the id of the dossier, or the modele following the 
    * p_type if = 0 then connect to the repository 
    *\param $p_type is 'DOS' (defaut) for dossier or 'MOD'
    */
   function __construct ($p_database_id=0,$p_type='dos') {
-    if ( IsNumber($p_database_id) == false || strlen($p_database_id) > 5 ) 	die ("Dossier invalide");
+    print_r("p_database_id");print_r( $p_database_id);
+    if ( IsNumber($p_database_id) == false || strlen($p_database_id) > 5 ) 	die ("-->Dossier invalide [$p_database_id]");
     $phpcompta_user=phpcompta_user;
     $password=phpcompta_password;
     $port=phpcompta_psql_port;
@@ -53,22 +54,26 @@ class Database
       $l_dossier=sprintf("%sdossier%d",domaine,$p_database_id);
     } else if ($p_type=='mod') {	  /* connect to a template (modele) */
       $l_dossier=sprintf("%smod%d",domaine,$p_database_id);
+    } else if ($p_type=='template') {
+      $l_dossier='template1';
     } else { throw new Exception ('Connection invalide'); }
 
     ob_start();
     $a=pg_connect("dbname=$l_dossier host=127.0.0.1 user='$phpcompta_user'
 password='$password' port=$port");
-
+    
     if ( $a == false )
       {
-  	ob_end_clean();
+	ob_end_clean();
 	echo '<h2 class="error">Impossible de se connecter &agrave; postgreSql !</h2>';
+	echo '<p>';
   	echo "Vos param&egrave;tres sont incorrectes : <br>";
   	echo "<br>";
   	echo "base de donn&eacute;e : $l_dossier<br>";
 	echo "Domaine : ".domaine."<br>";
   	echo "Port $port <br>";
   	echo "Utilisateur : $phpcompta_user <br>";
+	echo '</p>';
 
   	exit ("Connection impossible : v&eacute;rifiez vos param&egrave;tres de base
 de donn&eacute;es");
@@ -97,11 +102,11 @@ de donn&eacute;es");
       try {
 
 	if ( $p_array==null ) {
-	  $ret=pg_query($this->db,$p_string);
+	  $this->ret=pg_query($this->db,$p_string);
 	} else {
-	  $ret=pg_query_params($this->db,$p_string,$p_array);
+	  $this->ret=pg_query_params($this->db,$p_string,$p_array);
 	}
-       	if ( ! $ret ) { throw new Exception ("  SQL ERROR $p_string ",1);}
+       	if ( ! $this->ret ) { throw new Exception ("  SQL ERROR $p_string ",1);}
       }catch (Exception  $a) {
 	if (DEBUG) {
 	  print_r ($p_string);
@@ -111,7 +116,7 @@ de donn&eacute;es");
 	throw ($a);
       }
 
-      return $ret;
+      return $this->ret;
 
     }
     /*! \brief Count the number of row returned by a sql statement
@@ -133,6 +138,7 @@ de donn&eacute;es");
       $seq=pg_fetch_array($Res,0);
       return $seq['seq'];
     }
+
 
     /*!\brief  get the current sequence
      */
@@ -237,10 +243,19 @@ de donn&eacute;es");
       return $Res;
     }
 
+
+    function fetch($p_indice) {
+      if ( $this->ret == false ) throw new Exception ('this->ret is empty');
+      return pg_fetch_array($this->ret ) ;
+    }
+    function size() {
+      return pg_NumRows($this->ret);
+    }
     /*!\brief loop to apply all the path to a folder or 
      *         a template
+     * \param $p_cn database connexion
      * \param $p_name database name
-     * \param $from_setup if the patch is invoked from the setup screen
+     * \param $from_setup == 1 if called from setup.php
      *
      */
     function apply_patch($p_name,$from_setup=1)
@@ -261,12 +276,12 @@ de donn&eacute;es");
 	    if ( $i == 4 )
 	      {      
 		$sql="select jrn_def_id from jrn_def ";
-		$Res=$this->db($sql);
-		$Max=pg_NumRows($Res);
+		$Res=$this->exec_sql($sql);
+		$Max=$this->size();
 		for ($seq=0;$seq<$Max;$seq++) {
 		  $row=pg_fetch_array($Res,$seq);
 		  $sql=sprintf ("create sequence s_jrn_%d",$row['jrn_def_id']);
-		  $this->db($sql);
+		  $this->exec_sql($sql);
 		}
 	      }
 	    // specific to version 7
@@ -287,12 +302,12 @@ de donn&eacute;es");
 	    if ( $i == 17 ) 
 	      { 
 		$this->execute_script($add.'sql/patch/upgrade17.sql');
-		$max=$p_cn->get_value('select last_value from s_jnt_fic_att_value');
-		$p_cn->alter_seq('s_jnt_fic_att_value',$max+1);
+		$max=$this->get_value('select last_value from s_jnt_fic_att_value');
+		$this->alter_seq($p_cn,'s_jnt_fic_att_value',$max+1);
 	      } // version 
 		
-		// reset sequence in the modele
-		//--
+	    // reset sequence in the modele
+	    //--
 	    if ( $i == 30 && $p_name=="mod" ) 
 	      {
 		$a_seq=array('s_jrn','s_jrn_op','s_centralized',
@@ -444,6 +459,7 @@ de donn&eacute;es");
       }
       return 0;
     }
+
     /*!\brief
      *\param
      *\return

@@ -45,7 +45,8 @@ if ( isset ($_POST["LOGIN"]) ) {
 } //SET login
 
 // Show all the existing user on 7 columns
-$cn=GetAllUser();
+$repo=new Dossier(0);
+$cn=$repo->get_user();
 echo_debug('admin_repo.php',__LINE__,"Array = $cn");
 $compteur=0;
 ?>

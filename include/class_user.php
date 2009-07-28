@@ -65,6 +65,7 @@ class User {
     } 
     else // if p_id is set get data of another user
       {
+	print_r("debug p_id $p_id");
 	$this->id=$p_id;
 	$this->db=$p_cn;
 	$this->load();
@@ -171,14 +172,15 @@ class User {
    *
    */
   function get_folder_access($p_dossier = 0) {
-    if ($p_dossier==0)
-      $p_dossier=dossier::id();
-    if ( $this->isAdmin() == 1) return 'L';
+    print_r("debug : get_folder_access $p_dossier");
+    if ($p_dossier==0)       $p_dossier=dossier::id();
+    if ( $this->is_local_admin($p_dossier) == 1) return 'L';
     $cn=new Database();
+    print_r("debug"); print_r($cn);
     $sql="select priv_priv from priv_user join jnt_use_dos on (jnt_id=priv_jnt) join ac_users using (use_id)
 where use_id=$1 and dos_id=$2";
     $res=$cn->get_value($sql,array($this->id,$p_dossier));
-	if ( $res=='') return 'X';
+    if ( $res=='') return 'X';
     return $res;
   }
   /*\brief save the access of a folder 
@@ -588,7 +590,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
 
     $cn=new Database();
   
-    $isAdmin=count_sql($cn,$sql);
+    $isAdmin=$cn->count_sql($sql);
 
 
     return $isAdmin;

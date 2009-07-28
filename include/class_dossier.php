@@ -52,11 +52,66 @@ class dossier {
 	self::check();
 	return $_REQUEST['gDossier'];
   }
+
+  /*!
+   * \param  p_type string : all for all dossiers lim for only the 
+   *             dossier where we've got rights
+   * 
+   * Show the folder where user have access. Return    : nothing
+   ++*/ 
+  function show_dossier($p_type,$p_first=0,$p_max=10,$p_Num=0) {
+    $l_user=$_SESSION['g_user'];
+    if ( $p_max == 0 ) {
+      $l_step="";
+    } else {
+      $l_step="LIMIT $p_max OFFSET $p_first";
+    }
+
+    if ( $p_type == "all") {
+      $l_sql="select *, 'W' as priv_priv from ac_dossier ORDER BY dos_name  ";
+      $p_Num=$this->cn->count_sql($l_sql);
+    } else {
+      $l_sql="select * from jnt_use_dos 
+                               natural join ac_dossier 
+                               natural join ac_users 
+                               inner join priv_user on priv_jnt=jnt_id where 
+                               use_login='".$l_user."' and priv_priv !='NO'
+                               order by dos_name ";
+      $p_Num=$this->cn->count_sql($l_sql);
+    }
+    $l_sql=$l_sql.$l_step;
+    $p_res=$this->cn->exec_sql($l_sql);
+
+    echo_debug('postgres.php',__LINE__,"ShowDossier:".$p_res." Line = $p_Num");
+
+    $Max=$this->cn->size();
+    if ( $Max == 0 ) return null;
+    for ( $i=0;$i<$Max; $i++) {	
+      $row[]=$this->cn->fetch($p_res);
+    }
+    return $row;
+  }
+
+/*! 
+ * \brief Return all the users
+ * as an array
+ */
+function get_user() {
+  $sql="select * from ac_users where use_login!='phpcompta'";
+  $Res=$this->cn->exec_sql($sql);
+  $Num=$this->cn->size();
+  if ( $Num == 0 ) return null;
+  for ($i=0;$i < $Num; $i++) {
+    $User[]=$this->cn->fetch($i);
+  }
+  return $User;
+}
+
   /*!\brief check if gDossier is set */
   static function check() {
 	if ( ! isset ($_REQUEST['gDossier']) ){
 	  echo_error ('Dossier inconnu ');
-	  exit('Dossier invalide');
+	  exit('Dossier invalide ');
 	}
 	$id=$_REQUEST['gDossier'];
 	if ( is_numeric ($id) == 0 ||

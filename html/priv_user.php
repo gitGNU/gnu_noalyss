@@ -184,16 +184,18 @@ $array=array(
 	     array('value'=>'R','label'=>'Utilisateur normal'),
 	     array('value'=>'L','label'=>'Administrateur local(Tous les droits)')
 	     );
+$repo=new Dossier(0);
 
-$Dossier=ShowDossier('all',1,0);
+$Dossier=$repo->show_dossier('all',1,0);
 if (  empty ( $Dossier )) {
 	echo hb('* Aucun Dossier *');
 	echo '</div>';
 	exit();
 }
+
 $mod_user=new User(new Database(),$uid);
 foreach ( $Dossier as $rDossier) {
-
+  print_r("debug");print_r($rDossier);
   $priv=$mod_user->get_folder_access($rDossier['dos_id']);
   printf("<TR><TD> Dossier : %s </TD>",h($rDossier['dos_name']));
   

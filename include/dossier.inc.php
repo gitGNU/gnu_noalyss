@@ -95,10 +95,10 @@ if ( isset ($_POST["DATABASE"]) ) {
 			 FormatString($_POST["FMOD_ID"]));
 	    echo_debug("[".$Sql."]");
 	    ob_start();
-	    if ( pg_query($cn,$Sql)==false) {
+	    if ( $cn->exec_sql($Sql)==false) {
 	      echo   "[".$Sql."]";
 
-	      ob_end_clean();
+	      //ob_end_clean();
 	      $cn->exec_sql("delete from ac_dossier where dos_id=$l_id");
 	      echo "<h2 class=\"error\"> Base de donnée ".domaine."mod".$_POST['FMOD_ID']."  est accèdée, déconnectez-vous d'abord</h2>";
 	      exit;
@@ -157,7 +157,8 @@ if ( $sa == 'list' ) {
     $size=10; 
 
     echo jrn_navigation_bar($offset,$count,$size,$page); 
-    $Res=ShowDossier('all',$offset,$size);
+    $repo=new Dossier(0);
+    $Res=$repo->show_dossier('all',$offset,$size);
     $compteur=1;
     $template="";
     echo JS_CONFIRM;
