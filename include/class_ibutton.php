@@ -37,7 +37,7 @@ require_once('class_html_input.php');
 
 		$r='<input type="BUTTON" name="'.$this->name.'"'.
 		  ' id="'.$this->name.'"'.
-		  ' value="'.$this->value.'"'.
+		  ' value="'.$this->label.'"'.
 		  ' onClick="'.$this->javascript.'"'.$extra.'>';
 		return $r;
 
