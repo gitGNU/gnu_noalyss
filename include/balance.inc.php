@@ -45,14 +45,16 @@ echo dossier::hidden();
 // filter on the current year
 $from=(isset($_POST["from_periode"]))?$_POST['from_periode']:"";
 $input_from=new IPeriod("from_periode",$from);
+$input_from->show_end_date=false;
 $input_from->type=ALL;
 $input_from->cn=$cn;
 $input_from->filter_year;
 $input_from->user=$User;
 echo 'Depuis :'.$input_from->input();
 // filter on the current year
-$to=(isset($_POST["to_periode"]))?$_POST['from_periode']:"";
-$input_to=new IPeriod("to_periode",$from);
+$to=(isset($_POST["to_periode"]))?$_POST['to_periode']:"";
+$input_to=new IPeriod("to_periode",$to);
+$input_to->show_start_date=false;
 $input_to->filter_year;
 $input_to->type=ALL;
 $input_to->cn=$cn;

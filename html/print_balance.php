@@ -79,8 +79,9 @@ if ( sizeof($array)  == 0 ) {
   exit();
   
  }
-$a=get_periode($cn,$from_periode);
-$b=get_periode($cn,$to_periode);
+$pPeriode=new Periode($cn);
+$a=$pPeriode->get_date_limit($from_periode);
+$b=$pPeriode->get_date_limit($to_periode);
 $per_text=utf8_decode(" période du ").$a['p_start']." au ".$b['p_end'];
 $pdf=new Cezpdf('a4');
 $pdf->selectFont('./addon/fonts/Helvetica.afm');

@@ -61,18 +61,19 @@ class Acc_Balance {
 
     // filter on requested periode
     $per_sql=sql_filter_per($this->db,$p_from_periode,$p_to_periode,'p_id','j_tech_per');
+
     // if centralized
     $cent="";	$and=""; $jrn="";
 	$from_poste="";$to_poste="";
 
     if ( $this->central=='Y' ) { $cent="j_centralized = true";$and=" and "; }
-	if ($this->jrn!= -1){	  $jrn=" $and  j_jrn_def=".$this->jrn;$and=" and ";}
-	if ( strlen(trim($this->from_poste)) != 0 ) {
-	  $from_poste=" $and j_poste::text >= '".$this->from_poste."'"; $and=" and ";
-	}
-	if ( strlen(trim($this->to_poste)) != 0 ) {
-	  $to_poste=" $and j_poste::text <= '".$this->to_poste."'"; $and=" and ";
-	}
+    if ($this->jrn!= -1){	  $jrn=" $and  j_jrn_def=".$this->jrn;$and=" and ";}
+    if ( strlen(trim($this->from_poste)) != 0 && $this->from_poste!=-1  ) {
+      $from_poste=" $and j_poste::text >= '".$this->from_poste."'"; $and=" and ";
+    }
+    if ( strlen(trim($this->to_poste)) != 0   && $this->to_poste!=-1 ) {
+      $to_poste=" $and j_poste::text <= '".$this->to_poste."'"; $and=" and ";
+    }
 
     // build query
     $sql="select j_poste,sum(deb) as sum_deb, sum(cred) as sum_cred from 
@@ -85,18 +86,19 @@ class Acc_Balance {
              $cent  $jrn $from_poste $to_poste
              $and
             $per_sql ) as m group by j_poste order by j_poste::text";
-
+    $cn=clone $this->db;
     $Res=$this->db->exec_sql($sql);
 
     $tot_cred=  0.0;
     $tot_deb=  0.0;
     $tot_deb_saldo=0.0;
     $tot_cred_saldo=0.0;
-    $M=pg_NumRows($Res);
+    $M=$this->db->size();
+
     // Load the array
     for ($i=0; $i <$M;$i++) {
-      $r=pg_fetch_array($Res,$i);
-      $poste=new Acc_Account($this->db,$r['j_poste']);
+      $r=$this->db->fetch($i);
+      $poste=new Acc_Account($cn,$r['j_poste']);
 
       $a['poste']=$r['j_poste'];
       $a['label']=substr($poste->get_lib(),0,40);

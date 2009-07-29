@@ -37,7 +37,7 @@ function header_pdf($p_cn,&$p_pdf) {
   $own=new own($p_cn);
   $soc=$own->MY_NAME;
   $date=date('d / m / Y H:i ');
-  $dossier=" Dossier : ".dossier::name();
+  $dossier=" Dossier : ".utf8_decode(dossier::name());
   $p_pdf->ezText($dossier." ".$soc." ".$date,9);
   }
 function header_txt($p_cn) {
@@ -45,7 +45,7 @@ function header_txt($p_cn) {
   $soc=$own->MY_NAME;
 
   $date=date('d / m / Y H:i ');
-  $dossier=" Dossier : ".dossier::name();
+  $dossier=utf8_decode(" Dossier : ".dossier::name());
   return $dossier." ".$soc." ".$date;
   }
 

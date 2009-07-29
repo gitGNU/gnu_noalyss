@@ -52,7 +52,7 @@ list($array,$tot_deb,$tot_cred)=$Fiche->get_row($from_periode,$to_periode);
 if ( count($array) == 0 ) {
   continue;
 }
-$Libelle=sprintf("(%s) %s ",$Fiche->id,$Fiche->getName());
+$Libelle=utf8_decode(sprintf("(%s) %s ",$Fiche->id,$Fiche->getName()));
 header_pdf($cn,$pdf);
 //  $pdf->ezText($Libelle,30);
 $pdf->ezTable($array,

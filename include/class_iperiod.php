@@ -23,12 +23,14 @@
 /*!\file 
  * \brief Html Input 
  */
- /* \brief          Generate the form for the periode
+ /*! \brief          Generate the form for the periode
  * Data Members
-  *   - $cn connexion 
-  *   - $type the type of the periode OPEN CLOSE NOTCENTRALIZED or ALL
- *   -  $filter_year make a filter on the default exercice by default yes
- *   -  $user if a filter is required then we need who is the user (object User)
+  *   - $cn connexion to the current folder 
+  *   - $type the type of the periode OPEN CLOSE NOTCENTRALIZED or ALL, IT MUST BE SET
+  *   - $filter_year make a filter on the default exercice by default yes
+  *   - $user if a filter is required then we need who is the user (object User)
+  *   - $show_end_date; $show_end_date is not set or false, do not show the end date  default = true
+  *   - $show_start_date; $show_start_date is not set or false, do not show the start date  default=true
  */
 require_once('class_html_input.php');
  class IPeriod extends HtmlInput
@@ -36,9 +38,25 @@ require_once('class_html_input.php');
 	var $type; /*!< $type the type of the periode OPEN CLOSE NOTCENTRALIZED or ALL */
 	var $cn;  /*!< $cn is the database connection */
 	var $show_end_date; /*!< $show_end_date is not set or false, do not show the end date */
+	var $show_start_date; /*!< $show_start_date is not set or false, do not show the start date */
 	var $filter_year; /*!< $filter_year make a filter on the default exercice by default yes */
 	var $user;  /*! $user if a filter is required then we need who is the user (object User)*/
-	
+	function __construct($p_name="",$p_value="") {
+	  $this->name=$p_name;
+	  $this->readOnly=false;
+	  $this->size=20;
+	  $this->width=50;
+	  $this->heigh=20;
+	  $this->value=$p_value;
+	  $this->selected="";
+	  $this->table=0;
+	  $this->disabled=false;
+	  $this->javascript="";
+	  $this->extra2="all";
+	  $this->show_start_date=true;
+	  $this->show_end_date=true;
+
+	}
 	/*!   
 	 * \brief show the input html for a periode
 	 * \return string containing html code for the HTML
@@ -84,28 +102,33 @@ require_once('class_html_input.php');
 	   }
 	   $sql.="  order by p_start,p_end";
 	  $Res=$this->cn->exec_sql($sql);
-	  $Max=pg_NumRows($Res);
+	  $Max=$this->cn->size($Res);
 	  if ( $Max == 0 )  throw new Exception('Aucune p&eacute;riode trouv&eacute;e',1);
 	  $ret='<SELECT NAME="'.$this->name.'">';
 	  for ( $i = 0; $i < $Max;$i++) {
-	    $l_line=pg_fetch_array($Res,$i);
+	    $l_line=$this->cn->fetch($i);
 	    if ( $this->value==$l_line['p_id'] )
 	      $sel="SELECTED";
 	    else
 	      $sel="";
 
-	   if ( ! isset($this->show_end_date) || (isset($this->show_end_date) && $this->show_end_date==false)) 
+	   if ( $this->show_start_date == true && $this->show_end_date==true )
 	   {
 		$ret.=sprintf('<OPTION VALUE="%s" %s>%s - %s',$l_line['p_id']
 			  ,$sel
 			  ,$l_line['p_start_string']
 			  ,$l_line['p_end_string']);
-		} else {
+	   } else if ($this->show_start_date == true ) {
 		$ret.=sprintf('<OPTION VALUE="%s" %s>%s ',$l_line['p_id']
 			  ,$sel
 			  ,$l_line['p_start_string']
 			  );
-		}
+	   } else if ( $this->show_end_date == true ) {
+	     $ret.=sprintf('<OPTION VALUE="%s" %s>%s ',$l_line['p_id']
+			   ,$sel
+			   ,$l_line['p_end_string']
+			   );
+	   }
 
 	  }
 	  $ret.="</SELECT>";
