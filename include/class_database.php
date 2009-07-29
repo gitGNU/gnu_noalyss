@@ -42,7 +42,6 @@ class Database
    *\param $p_type is 'DOS' (defaut) for dossier or 'MOD'
    */
   function __construct ($p_database_id=0,$p_type='dos') {
-    print_r("p_database_id");print_r( $p_database_id);
     if ( IsNumber($p_database_id) == false || strlen($p_database_id) > 5 ) 	die ("-->Dossier invalide [$p_database_id]");
     $phpcompta_user=phpcompta_user;
     $password=phpcompta_password;
@@ -96,9 +95,6 @@ de donn&eacute;es");
      * \return false if error otherwise true
      */
     function exec_sql( $p_string,$p_array=null) {
-
-      echo_debug('class_database.php',__LINE__,"SQL = $p_string");
-
       try {
 
 	if ( $p_array==null ) {

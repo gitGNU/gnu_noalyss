@@ -490,7 +490,7 @@ class fiche {
 		}
 	      // stock 
 	      if ( $id == ATTR_DEF_STOCK ) {
-		$st=count_sql($this->cn,'select * from stock_goods where '.
+		$st=$this->cn->count_sql('select * from stock_goods where '.
 			     " upper(sg_code)=upper('$value')");
 		if ( $st == 0 ) {
 		  $user=new User($this->cn);
@@ -643,7 +643,7 @@ class fiche {
                
 	       }
 	     	      if ( $id == ATTR_DEF_STOCK ) {
-		$st=count_sql($this->cn,'select * from stock_goods where '.
+		$st=$this->cn->count_sql('select * from stock_goods where '.
 			     " f_id=".$this->id);
 		if ( $st == 0 ) {
 		  $user=new User($this->cn);

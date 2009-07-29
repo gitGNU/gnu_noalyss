@@ -131,7 +131,7 @@ class Acc_Ledger_Info {
   }
   function count() {
     $sql="select ji_id from jrn_info where jr_id=".$this->jr_id;
-    return count_sql($this->cn,$sql);
+    return $this->cn->count_sql($sql);
   }
   function search_id_internal($p_internal) {
     $sql="select jr_id from jrn where jr_internal='$p_internal'";

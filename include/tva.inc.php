@@ -29,7 +29,7 @@ echo '<div class="content">';
   // Confirm remove
   if ( isset ($_POST['confirm_rm'])) 
   {
-    if ( count_sql($cn,'select * from tva_rate') > 1 )
+    if ( $cn->count_sql('select * from tva_rate') > 1 )
       $cn->exec_sql('select tva_delete($1)',array($_POST['tva_id']));
     else 
       echo '<p class="notice">Vous ne pouvez pas effacer tous taux'.

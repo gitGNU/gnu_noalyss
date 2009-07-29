@@ -55,7 +55,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
   public function verify($p_array) {
     extract ($p_array);
     /* check for a double reload */
-    if ( isset($mt) && count_sql($this->db,'select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
+    if ( isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
       throw new Exception ('Double Encodage',5);
 
     /* check if there is a customer */
@@ -777,8 +777,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.="Ajoutez une pi&egrave;ce justificative ";
     $r.=$file->input("pj","");
 
-    if ( count_sql($this->db,
-		  "select md_id,md_name from document_modele where md_type=4") > 0 )
+    if ( $this->db->count_sql("select md_id,md_name from document_modele where md_type=4") > 0 )
       {
 
 	
@@ -885,8 +884,14 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $period->cn=$this->db;
       $period->value=$def;
       $period->type=OPEN;
+      try {
       $l_form_per=$period->input();
-      
+      } catch (Exception $e) {
+	if ($e->getCode() == 1 ) { 
+	  echo "Aucune période ouverte";
+	  exit();
+	}
+      }
       $label=HtmlInput::infobulle(3);
       $f_periode="Période comptable $label ".$l_form_per;
     }

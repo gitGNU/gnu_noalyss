@@ -45,7 +45,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
   public function verify($p_array) {
     extract ($p_array);
     /* check for a double reload */
-    if ( isset($mt) && count_sql($this->db,'select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
+    if ( isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
       throw new Exception ('Double Encodage',5);
 
     /* check if there is a customer */
@@ -192,7 +192,14 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       $period->type=OPEN;
       $period->value=$l_user_per;
       $period->user=$user;
-      $l_form_per=$period->input();
+      try {
+	$l_form_per=$period->input();
+      } catch (Exception $e) {
+	if ($e->getCode() == 1 ) { 
+	  echo "Aucune période ouverte";
+	  exit();
+	}
+      }
       $label=HtmlInput::infobulle(3);
       $f_period="Période comptable $label".$l_form_per;
     }

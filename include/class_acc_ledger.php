@@ -1160,7 +1160,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     $user=new User($this->db);
     $tot_cred=0;$tot_deb=0;
     /* check for a double reload */
-    if ( isset($mt) && count_sql($this->db,'select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
+    if ( isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
       throw new Exception ('Double Encodage',5);
 
     // Check the periode and the date

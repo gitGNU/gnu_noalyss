@@ -309,7 +309,7 @@ class action
       $r.="</p>";
 
       // show the list of the concern operation
-      if ( count_sql($this->db,'select * from action_gestion where ag_ref_ag_id!=0 and ag_ref_ag_id='.$this->ag_id.
+      if ( $this->db->count_sql('select * from action_gestion where ag_ref_ag_id!=0 and ag_ref_ag_id='.$this->ag_id.
 		    " limit 2") > 0 )
 	$r.=$this->myList(ACTION," and ag_ref_ag_id=".$this->ag_id);
       return $r;
@@ -784,7 +784,7 @@ class action
       left outer join document_modele on (ag_type=md_type) 
       join document_type on (ag_type=dt_id)
    where dt_id in ($p_filter) $p_search $sort";
-      $max_line=count_sql($this->db,$sql);
+      $max_line=$this->db->count_sql($sql);
       $step=$_SESSION['g_pagesize'];
       $page=(isset($_GET['offset']))?$_GET['page']:1;
       $offset=(isset($_GET['offset']))?pg_escape_string($_GET['offset']):0;

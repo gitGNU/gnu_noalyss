@@ -100,7 +100,7 @@ class Acc_Reconciliation {
       return true;
 
     // verify if exists
-    if ( count_sql($this->db,
+    if ( $this->db->count_sql(
 		  "select jra_id from jrn_rapt where jra_concerned=".$this->jr_id.
 		  " and jr_id=$jr_id2
                    union
