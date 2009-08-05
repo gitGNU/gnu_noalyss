@@ -385,6 +385,8 @@ class Acc_Bilan {
 		// htmlentities() is not the best function to deal with XML
 		// $a = htmlentities($ret[0]['acct_name'], ENT_QUOTES, "UTF-8", false);
 		$a = $ret[0]['acct_name'];
+		$a=str_replace('<','&lt;',$a);
+		$a=str_replace('>','&gt;',$a);
 	      }
 	    }
 	  } else {
