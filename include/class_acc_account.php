@@ -190,7 +190,7 @@ class Acc_Account {
 
  }
   function update($p_old) {
-    $this->pcm_lib=substr(FormatString ($this->pcm_lib),0,150);
+    $this->pcm_lib=substr($this->pcm_lib,0,150);
     $this->check();
     $sql="update tmp_pcmn set pcm_val=$1, pcm_lib=$2,pcm_val_parent=$3,pcm_type=$4 where pcm_val=$5";
     $Ret=ExecSqlParam($this->db,$sql,array($this->pcm_val,
