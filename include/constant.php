@@ -31,7 +31,7 @@ define ("DBVERSION",58);
 define ("MAX_COMPTE",4);
 define ('MAX_BUD_DETAIL',20);
 define ('MAX_ARTICLE',8);
-define ("DEBUG","false");
+define ("DEBUG","true");
 
 // Erreur
 define ("NOERROR",0);

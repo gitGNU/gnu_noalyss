@@ -313,88 +313,99 @@ class Acc_Bilan {
   * \return the xml 
   */
   function generate_odt()
- {
-   // create a temp directory in /tmp to unpack file and to parse it
-   $dirname=tempnam($_ENV['TMP'],'bilan_');
+  {
+    // create a temp directory in /tmp to unpack file and to parse it
+    $dirname=tempnam($_ENV['TMP'],'bilan_');
    
    
-   unlink($dirname);
-   mkdir ($dirname);
-   chdir($dirname);
+    unlink($dirname);
+    mkdir ($dirname);
+    chdir($dirname);
 
-   echo_debug(__FILE__.':'.__LINE__.'- ','dirname is ',$dirname);
-   $file_base=dirname($_SERVER['SCRIPT_FILENAME']).DIRECTORY_SEPARATOR.$this->b_file_template;
-   echo_debug(__FILE__.':'.__LINE__.'-','$file_base',$file_base);
-   echo_debug(__FILE__.':'.__LINE__.'- ','this is ',$this->b_file_template);
-   $work_file=basename($file_base);
-   if ( copy ($file_base,$work_file) == false )
-	 {
-	   echo "Je ne peux pas ouvrir ce fichier ";
-	   exit();
-	 }
-   ob_start();
-   system('unzip "'.$work_file.'"');
-   ob_end_clean();
-   unlink($work_file);
-   // remove the zip file
-   $p_file=fopen('content.xml','r');
+    echo_debug(__FILE__.':'.__LINE__.'- ','dirname is ',$dirname);
+    $file_base=dirname($_SERVER['SCRIPT_FILENAME']).DIRECTORY_SEPARATOR.$this->b_file_template;
+    echo_debug(__FILE__.':'.__LINE__.'-','$file_base',$file_base);
+    echo_debug(__FILE__.':'.__LINE__.'- ','this is ',$this->b_file_template);
+    $work_file=basename($file_base);
+    if ( copy ($file_base,$work_file) == false )
+      {
+	echo "Je ne peux pas ouvrir ce fichier ";
+	exit();
+      }
+    ob_start();
+    system('unzip "'.$work_file.'"');
+    ob_end_clean();
+    unlink($work_file);
+    // remove the zip file
+    $p_file=fopen('content.xml','r');
 
-   if ( $p_file == false) {
-	  echo 'Cannot Open';
-	  exit();
-	}
+    if ( $p_file == false) {
+      echo 'Cannot Open';
+      exit();
+    }
 
-	$r="";
-	$regex="&lt;&lt;\\$[A-Z]*[0-9]*&gt;&gt;";
-	$lt="&lt;";
-	$gt="&gt;";
-	while ( !feof($p_file) ) {
-	  echo_debug(__FILE__.':'.__LINE__.'- ','read line OD FILE');
-	  $line_rtf=fgets($p_file);
-	  //	  echo_debug(__FILE__.':'.__LINE__.'-','$line_rtf',$line_rtf);
-	  if ( ereg('&lt;&lt;header&gt;&gt;',$line_rtf) ) {
-		// Create the header
-		$line_rtf=str_replace('&lt;&lt;header&gt;&gt;',header_txt($this->db),$line_rtf);
-		$r.=$line_rtf;
-		echo_debug(__FILE__.':'.__LINE__.'- ','Header : ');
-		continue;
+    $r="";
+    $regex="&lt;&lt;\\$[A-Z]*[0-9]*&gt;&gt;";
+    $lt="&lt;";
+    $gt="&gt;";
+    while ( !feof($p_file) ) {
+      echo_debug(__FILE__.':'.__LINE__.'- ','read line OD FILE');
+      $line_rtf=fgets($p_file);
+      echo_debug(__FILE__.':'.__LINE__.'-','$line_rtf',$line_rtf);
+      /* It doesn't work if we found several header tag */
+      if ( ereg('&lt;&lt;header&gt;&gt;',$line_rtf) ) {
+	// Create the header
+	$line_rtf=str_replace('&lt;&lt;header&gt;&gt;',header_txt($this->db),$line_rtf);
+	$r.=$line_rtf;
+	echo_debug(__FILE__.':'.__LINE__.'- ','Header : ');
+	continue;
+      }
+      //	  echo_debug(__FILE__.':'.__LINE__.'- ','$r',$r);
+      // the line contains the magic <<
+      $tmp="";
+      while (ereg($regex,$line_rtf,$f2) == true) {
+	echo_debug(__FILE__.':'.__LINE__.'- ','Pattern found',$f2);
+
+	// the f2 array contains all the magic << in the line
+	foreach ($f2 as $f2_str) {
+	  echo_debug(__FILE__.':'.__LINE__.'- ','f2_str',$f2_str);
+
+	  $to_remove=$f2_str;
+	  $f2_value=str_replace("&lt;","",$f2_str);
+	  $f2_value=str_replace("&gt;","",$f2_value);
+	  $f2_value=str_replace("$","",$f2_value);
+
+	  // check for missing variables and labels (N vars)
+	  if( ! isset($this->$f2_value)) {
+	    $a = "!!".$f2_value."!!";
+	    if( substr($f2_value, 0, 1) == "N" ) {
+	      $ret = get_array($this->db, "SELECT pcm_lib AS acct_name FROM tmp_pcmn WHERE pcm_val::text LIKE ".
+			       " substr($1, 2)||'%' ORDER BY pcm_val ASC LIMIT 1",array($f2_value));
+	      if($ret[0]['acct_name']) {
+		// htmlentities() is not the best function to deal with XML
+		// $a = htmlentities($ret[0]['acct_name'], ENT_QUOTES, "UTF-8", false);
+		$a = $ret[0]['acct_name'];
+	      }
+	    }
+	  } else {
+		    
+	    $a=$this->$f2_value;
 	  }
-	  //	  echo_debug(__FILE__.':'.__LINE__.'- ','$r',$r);
-	  // the line contains the magic <<
-	  $tmp="";
-	  while (ereg($regex,$line_rtf,$f2) == true) {
-		// DEBUG
-		//    echo $r.'<br>';
-		echo_debug(__FILE__.':'.__LINE__.'- ','Pattern found',$f2);
-		// the f2 array contains all the magic << in the line
-		foreach ($f2 as $f2_str) {
-		  echo_debug(__FILE__.':'.__LINE__.'- ','f2_str',$f2_str);
-		  // DEBUG
-		  // echo "single_f2 = $f2_str <br>";
-		  // replace single_f2 by its value
-		  $to_remove=$f2_str;
-		  $f2_value=str_replace("&lt;","",$f2_str);
-		  $f2_value=str_replace("&gt;","",$f2_value);
-		  $f2_value=str_replace("$","",$f2_value);
-		  // DEBUG
-		  //echo "f2_value=$f2_value";
-		  //		  $a=${"$f2_value"};
-		  $a=$this->$f2_value;
-		  if ( $a=='-0' ) $a=0; 
-
-		  echo_debug(__FILE__.':'.__LINE__.'- $a =',$a);
-		  // DEBUG      echo " a = $a";
-		  $line_rtf=str_replace($f2_str,$a,$line_rtf);
-
-		}// foreach end
-	  }
-	  $r.=$line_rtf;
+	  if ( $a=='-0' ) $a=0; 
+		  
+	  echo_debug(__FILE__.':'.__LINE__.'- $a =',$a);
 		
-	}// rtf file is read
-	// DEBUG
-	//  fwrite($out,$r);
-	//	echo $r;
-	return $r;
+	  $line_rtf=str_replace($f2_str,$a,$line_rtf);
+		  
+	}// foreach end
+      } // while ereg
+      $r.=$line_rtf;
+		
+    }// rtf file is read
+    // DEBUG
+    //  fwrite($out,$r);
+    //	echo $r;
+    return $r;
 	  
 	  
 
@@ -436,10 +447,25 @@ class Acc_Bilan {
 		  $f2_value=str_replace($lt,"",$f2_str);
 		  $f2_value=str_replace($gt,"",$f2_value);
 		  $f2_value=str_replace("$","",$f2_value);
+
+          // check for missing variables and labels (N vars)
+          if( ! isset($this->$f2_value)) {
+            $a = "!!".$f2_value."!!";
+            if( substr($f2_value, 0, 1) == "N" ) {
+                $ret = get_array($this->db, "SELECT pcm_lib AS acct_name FROM tmp_pcmn WHERE ".
+				 " pcm_val::text LIKE substr($1, 2)||'%' ORDER BY pcm_val ASC LIMIT 1",
+				 array($f2_value));
+                if($ret[0]['acct_name']) {
+		  /* for rtf we have the string to put it in latin1 */
+                  $a = utf8_decode($ret[0]['acct_name']);
+                }
+            }
+          } else {
 		  // DEBUG
 		  //echo "f2_value=$f2_value";
 		  //		  $a=${"$f2_value"};
 		  $a=$this->$f2_value;
+          }
 		  // DEBUG      echo " a = $a";
 		  echo_debug(__FILE__.':'.__LINE__.'- $a =',$a);
 		  if ( $a=='-0' ) $a=0; 
