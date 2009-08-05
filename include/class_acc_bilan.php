@@ -351,14 +351,15 @@ class Acc_Bilan {
     while ( !feof($p_file) ) {
       echo_debug(__FILE__.':'.__LINE__.'- ','read line OD FILE');
       $line_rtf=fgets($p_file);
-      echo_debug(__FILE__.':'.__LINE__.'-','$line_rtf',$line_rtf);
-      /* It doesn't work if we found several header tag */
-      if ( ereg('&lt;&lt;header&gt;&gt;',$line_rtf) ) {
-	// Create the header
-	$line_rtf=str_replace('&lt;&lt;header&gt;&gt;',header_txt($this->db),$line_rtf);
-	$r.=$line_rtf;
-	echo_debug(__FILE__.':'.__LINE__.'- ','Header : ');
-	continue;
+      //      echo_debug(__FILE__.':'.__LINE__.'-','$line_rtf',$line_rtf);
+
+      /* replace the header tag */
+      while( ereg('&lt;&lt;header&gt;&gt;',$line_rtf,$head) == true ) {
+	foreach ($head as $h) {
+	  // Create the header
+	  $line_rtf=str_replace($h,header_txt($this->db),$line_rtf);
+	  echo_debug(__FILE__.':'.__LINE__.'- ','Header : ');
+	}
       }
       //	  echo_debug(__FILE__.':'.__LINE__.'- ','$r',$r);
       // the line contains the magic <<
@@ -403,16 +404,10 @@ class Acc_Bilan {
       } // while ereg
       $r.=$line_rtf;
 		
-    }// rtf file is read
-    // DEBUG
-    //  fwrite($out,$r);
-    //	echo $r;
+    }// odt file is read
     return $r;
 	  
-	  
-
-	
-  }
+ }
 
 /*! 
  * \brief generate the plain  file (rtf,txt, or html)
