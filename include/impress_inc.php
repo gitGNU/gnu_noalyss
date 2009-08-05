@@ -634,6 +634,19 @@ echo_debug(__FILE__,__LINE__,"p_formula = $p_formula ");
     echo_debug('impress_inc.php',__LINE__, $p_formula);
 
     eval("$p_formula");
+
+    while (ereg("\[([0-9]+)([Tt]*)\]",trim($p_label),$e) == true) {
+        $nom = "!!".$e[1]."!!";
+        if (CheckFormula($e[0])) {
+	  $nom = getDbValue ($p_cn, "SELECT pcm_lib AS acct_name FROM tmp_pcmn WHERE pcm_val::text LIKE $1||'%' ORDER BY pcm_val ASC LIMIT 1",array($e[1]));
+            if($nom) {
+              if($e[2] == 'T') $nom = strtoupper($nom);
+              if($e[2] == 't') $nom = strtolower($nom);
+            }
+        }
+        $p_label = str_replace($e[0], $nom, $p_label);
+    }
+
     $aret=array('desc'=>$p_label,
 		'montant'=>$result);
     return $aret;
@@ -724,6 +737,10 @@ function CheckFormula($p_string) {
   $p_string=str_replace("C","",$p_string);
   $p_string=str_replace("D","",$p_string);
   $p_string=str_replace("S","",$p_string);
+  // Remove T,t
+  $p_string=str_replace("T","",$p_string);
+  $p_string=str_replace("t","",$p_string);
+
   if ( ereg ("^(\\$[a-zA-Z]*[0-9]*=){0,1}((\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})+ *([+-\*/])* *(\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})*)*(([+-\*/])*\\$([a-zA-Z])+[0-9]*([+-\*/])*)* *( *FROM=[0-9][0-0].20[0-9][0-9]){0,1}$",$p_string) == false)
     {
       return false;
