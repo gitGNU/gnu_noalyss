@@ -344,9 +344,9 @@ de donn&eacute;es");
      */ 
     function get_value($p_sql,$p_array=null)
     {
-      $ret=$this->exec_sql($p_sql,$p_array);
-      if ( pg_NumRows($ret) == 0 ) return "";
-      $r=pg_fetch_row($ret,0);
+      $this->ret=$this->exec_sql($p_sql,$p_array);
+      if ( pg_NumRows($this->ret) == 0 ) return "";
+      $r=pg_fetch_row($this->ret,0);
       return $r[0];
     
     }
