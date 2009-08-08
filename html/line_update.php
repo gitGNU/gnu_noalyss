@@ -43,7 +43,7 @@ if ( isset ($_POST["update"] ) ) {
   echo JS_UPDATE_PCMN;
 
     $p_val=trim($_POST["p_val"]);
-    $p_lib=FormatString($_POST["p_lib"]);
+    $p_lib=trim($_POST["p_lib"]);
     $p_parent=trim($_POST["p_parent"]);
     $old_line=trim($_POST["p_old"]);
     $p_type=htmlentities($_POST['p_type']);
