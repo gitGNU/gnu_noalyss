@@ -207,14 +207,14 @@ if ( $sa == 'list' ) {
    // Load the available Templates
    $Res=$cn->exec_sql("select mod_id,mod_name,mod_desc from 
                       modeledef order by mod_name");
-   $count=pg_NumRows($Res);
+   $count=Database::num_row($Res);
    
    if ( $count == 0 ) {
      echo "No template available";
    } else {
      $template='<SELECT NAME=FMOD_ID>';
      for ($i=0;$i<$count;$i++) {
-       $mod=pg_fetch_array($Res,$i);
+       $mod=Database::fetch_array($Res,$i);
        $template.='<OPTION VALUE="'.$mod['mod_id'].'"> '.h($mod['mod_name']." - ".substr($mod['mod_desc'],0,30));
      }// for
      $template.="</SELECT>";
@@ -300,7 +300,7 @@ if ( $sa == 'remove' ) {
      }
    $sql="drop database ".domaine."dossier".FormatString($_REQUEST['d']);
    ob_start();
-   if ( pg_query($cn,$sql)==false) {
+   if ( $cn->exec_sql($sql)==false) {
      ob_end_clean();
      
      echo "<h2 class=\"error\"> 

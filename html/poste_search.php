@@ -50,8 +50,8 @@ if ( isset($_GET['search']) ) {
 
   $condition="";
   if ( strlen(trim($p_comment)) != 0 ) {
-    $condition=" where (upper(pcm_lib) like upper('%".pg_escape_string($p_comment)."%') or ".
-      " pcm_val::text like '%".pg_escape_string($p_comment)."%') ";
+    $condition=" where (upper(pcm_lib) like upper('%".Database::escape_string($p_comment)."%') or ".
+      " pcm_val::text like '%".Database::escape_string($p_comment)."%') ";
   }
 
 }
@@ -143,7 +143,7 @@ if ( isset($_GET['search']) || isset($_GET['filter']) ) {
   $Res=$cn->exec_sql("select pcm_val,html_quote(pcm_lib) as pcm_lib from tmp_pcmn $condition order by pcm_val::text ".
 	       " limit 100");
   
-  $MaxLine=pg_NumRows($Res);
+  $MaxLine=Database::num_row($Res);
   if ( $MaxLine==0) { 
     html_page_stop();
     return;
@@ -153,7 +153,7 @@ if ( isset($_GET['search']) || isset($_GET['filter']) ) {
   $ahref="";
   $end_ahref="";  
   for ( $i=0; $i < $MaxLine; $i++) {
-    $l_line=pg_fetch_array($Res,$i);
+    $l_line=Database::fetch_array($Res,$i);
     $even=($i%2 == 0)?"odd":"even";
     echo "<TR class=\"$even\">";
     // if p_ctl is set we need to be able to return the value

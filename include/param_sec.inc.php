@@ -52,13 +52,13 @@ $cn=new Database();
 /*  Show all the users, included local admin */
 $user_sql=$cn->exec_sql("select  use_id,use_first_name,use_name,use_login,use_admin,priv_priv from ac_users natural join jnt_use_dos ".
 	      " join priv_user on (jnt_id=priv_jnt) where use_login != 'phpcompta' and dos_id=".$gDossier);
-$MaxUser=pg_NumRows($user_sql);
+$MaxUser=Database::num_row($user_sql);
 
 echo '<DIV class="content" >';
 
 echo '<TABLE CELLSPACING="20" ALIGN="CENTER">';
 for ($i = 0;$i < $MaxUser;$i++) {
-  $l_line=pg_fetch_array($user_sql,$i);
+  $l_line=Database::fetch_array($user_sql,$i);
   //  echo '<TR>';
   if ( $i % 3 == 0 && $i != 0)
     echo "</TR><TR>";
@@ -189,7 +189,7 @@ if ( $action == "view" ) {
 
   echo '<Fieldset><legend>Journaux </legend>';
   echo '<table align="CENTER" width="100%">';
-  $MaxJrn=pg_NumRows($Res);
+  $MaxJrn=Database::num_row($Res);
   $jrn_priv=new ISelect();
   $array=array(
 	       array ('value'=>'R','label'=>'Uniquement lecture'),
@@ -200,7 +200,7 @@ if ( $action == "view" ) {
 
   for ( $i =0 ; $i < $MaxJrn; $i++ ) {
     /* set the widget */
-    $l_line=pg_fetch_array($Res,$i);
+    $l_line=Database::fetch_array($Res,$i);
 
     echo '<TR> ';
     if ( $i == 0 ) echo '<TD> <B> Journal </B> </TD>';else echo "<TD></TD>";

@@ -355,21 +355,21 @@ INVALIDWIDGET 	$submit=new widget();
 	$filter_poste="";
 	$and="";
 	if ( $this->from_poste != "" ){
-	  $filter_poste.=" $and upper(pa.po_name)>= upper('".pg_escape_string($this->from_poste)."')";
+	  $filter_poste.=" $and upper(pa.po_name)>= upper('".Database::escape_string($this->from_poste)."')";
 	  $and=" and ";
 
 	}
 	if ( $this->to_poste != "" ){
-	  $filter_poste.=" $and upper(pa.po_name)<= upper('".pg_escape_string($this->to_poste)."')";
+	  $filter_poste.=" $and upper(pa.po_name)<= upper('".Database::escape_string($this->to_poste)."')";
 	  $and=" and ";
 	}
 
 	if ( $this->from_poste2 != "" ){
-	  $filter_poste.=" $and upper(pb.po_name)>= upper('".pg_escape_string($this->from_poste2)."')";
+	  $filter_poste.=" $and upper(pb.po_name)>= upper('".Database::escape_string($this->from_poste2)."')";
 	  $and=" and ";
 	}
 	if ( $this->to_poste2 != "" ){
-	  $filter_poste.=" $and upper(pb.po_name)<= upper('".pg_escape_string($this->to_poste2)."')";
+	  $filter_poste.=" $and upper(pb.po_name)<= upper('".Database::escape_string($this->to_poste2)."')";
 	  $and=" and ";
 	}
 	if ( $filter_poste != "")
@@ -405,11 +405,11 @@ order by 1;
 
 	$res=$this->db->exec_sql($sql);
 
-	if ( pg_NumRows($res) == 0 )
+	if ( Database::num_row($res) == 0 )
 	  return null;
 	$a=array();
 	$count=0;
-	$array=pg_fetch_all($res);
+	$array=Database::fetch_all($res);
 	foreach ($array as $row) {
 	  $a[$count]['a_po_id']=$row['a_po_id'];
 	  $a[$count]['a_d']=$row['a_d'];

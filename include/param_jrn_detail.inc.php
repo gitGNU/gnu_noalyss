@@ -134,10 +134,10 @@ $Res=$cn->exec_sql("select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
                  ",jrn_def_type,jrn_def_ech, jrn_def_ech_lib,jrn_def_fiche_deb,jrn_def_fiche_cred".
                  " from jrn_def where".
                  " jrn_def_id=".$_REQUEST['p_jrn']);
-if ( pg_NumRows($Res) == 0 ) exit();
+if ( Database::num_row($Res) == 0 ) exit();
 
 
-$l_line=pg_fetch_array($Res,0);
+$l_line=Database::fetch_array($Res,0);
 $sessid = $_REQUEST['PHPSESSID'];
 
 /* Load all the properties of the ledger */

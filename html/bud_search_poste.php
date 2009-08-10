@@ -91,7 +91,7 @@ echo '</FORM>';
 if ( isset($_GET['search'])){
   $Res=$cn->exec_sql("select pcm_val,pcm_lib from tmp_pcmn $condition order by pcm_val::text");
   
-  $MaxLine=pg_NumRows($Res);
+  $MaxLine=Database::num_row($Res);
   if ( $MaxLine==0) { 
     html_page_stop();
     return;
@@ -100,7 +100,7 @@ if ( isset($_GET['search'])){
   $l_id="";
   
   for ( $i=0; $i < $MaxLine; $i++) {
-    $l_line=pg_fetch_array($Res,$i);
+    $l_line=Database::fetch_array($Res,$i);
     echo "<TR>";
     // if p_ctl is set we need to be able to return the value
     if (isset($p_ctl) && $p_ctl != 'not' ){

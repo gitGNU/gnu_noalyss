@@ -157,7 +157,7 @@ de donn&eacute;es");
   
       $Res=$this->exec_sql("alter sequence $p_name restart $p_value");
     }
-    /*!  execute_script
+    /*!  
      * \brief Execute a sql script
      * \param $script script name
      */
@@ -247,6 +247,10 @@ de donn&eacute;es");
     function size() {
       return pg_NumRows($this->ret);
     }
+    function count() {
+      return pg_NumRows($this->ret);
+    }
+
     /*!\brief loop to apply all the path to a folder or 
      *         a template
      * \param $p_cn database connexion
@@ -455,7 +459,80 @@ de donn&eacute;es");
       }
       return 0;
     }
+  /*!\brief wrapper for the function pg_NumRows
+   *\param $ret is the result of a exec_sql
+   *\return number of line affected
+   */
+    static function num_row($ret) { return pg_NumRows($ret); }
 
+
+  /*!\brief wrapper for the function pg_fetch_array
+   *\param $ret is the result of a pg_exec
+   *\param $p_indice is the index
+   *\return $array of column 
+   */
+    static function fetch_array($ret,$p_indice) { return pg_fetch_array($ret,$p_indice); }
+
+  /*!\brief wrapper for the function pg_fetch_all
+   *\param $ret is the result of pg_exec (exec_sql)
+   *\return double array (row x col )
+   */
+    static function fetch_all($ret) { return pg_fetch_all($ret); }
+
+  /*!\brief wrapper for the function pg_fetch_all
+   *\param $ret is the result of pg_exec (exec_sql)
+   *\param $p_row is the indice of the row
+   *\param $p_col is the indice of the col
+   *\return a string or an integer
+   */
+    static function fetch_result($ret,$p_row=0,$p_col=0) { return pg_fetch_result($ret,$p_row,$p_col); }
+
+    /*!\brief wrapper for the function pg_lo_unlink 
+     *\param $p_oid is the of oid 
+     *\return return the result of the operation
+     */   
+    function lo_unlink($p_oid) { return pg_lo_unlink($this->db,$p_oid); }
+
+    /*!\brief wrapper for the function pg_lo_unlink 
+     *\param $p_string string name for pg_prepare function
+     *\param $p_sql  is the sql to prepare 
+     *\return return the result of the operation
+     */   
+    function prepare($p_string,$p_sql) { return pg_prepare($this->db,$p_string,$p_sql); }
+    /*!\brief wrapper for the function pg_lo_unlink 
+     *\param $p_string string name for pg_prepare function
+     *\param $p_array contains the variables
+     *\return return the result of the operation
+     */   
+    function execute($p_string,$p_array) { return pg_execute($this->db,$p_string,$p_array); }
+
+  /*!\brief wrapper for the function pg_lo_export
+   *\param $p_oid is the oid of the log
+   *\param $tmp  is the file
+   *\return result of the operation
+   */
+    function lo_export($p_oid,$tmp) {
+      return pg_lo_export($this->db,$oid,$tmp);
+    }
+  /*!\brief wrapper for the function pg_lo_export
+   *\param $p_oid is the oid of the log
+   *\param $tmp  is the file
+   *\return result of the operation
+   */
+    function lo_import($p_oid) {
+      return pg_lo_import($this->db,$oid);
+    }
+
+  /*!\brief wrapper for the function pg_escape_string
+   *\param $p_string is the string to escape
+   *\return escaped string
+   */
+    static function escape_string($p_string) {
+      return pg_escape_string($p_string);
+    }
+  /*!\brief wrapper for the function pg_close 
+   */
+    function close() { pg_close($this->db);}
     /*!\brief
      *\param
      *\return

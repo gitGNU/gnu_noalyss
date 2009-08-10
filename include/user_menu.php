@@ -108,11 +108,11 @@ function GetAvailableFolder($p_user,$p_admin,$p_filter="")
   $cn=new Database();
 
   $Res=$cn->exec_sql($sql);
-  $max=pg_numRows($Res);
+  $max=Database::num_row($Res);
   if ( $max == 0 ) return 0;
 
   for ($i=0;$i<$max;$i++) {
-    $array[]=pg_fetch_array($Res,$i);
+    $array[]=Database::fetch_array($Res,$i);
   }
   return $array;
 }
@@ -387,9 +387,9 @@ function ShowMenuFiche($p_dossier)
           <TD><A class="mtitle" HREF="?p_action=fiche&'.$str_dossier.'">Recherche</A></TD>
            </TR>';
      $Res=$cn->exec_sql("select fd_id,fd_label from fiche_def order by fd_label");
-     $Max=pg_NumRows($Res);
+     $Max=Database::num_row($Res);
      for ( $i=0; $i < $Max;$i++) {
-       $l_line=pg_fetch_array($Res,$i);
+       $l_line=Database::fetch_array($Res,$i);
        printf('<TR><TD class="cell">
              <A class="mtitle" HREF="?p_action=fiche&action=modifier&fiche=%d&%s">%s</A></TD>
                <TD class="mshort">
@@ -497,10 +497,10 @@ function MenuJrn()
     $Ret=$Cn->exec_sql("select jrn_def_id,jrn_def_name,
                              jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc 
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id order by jrn_def_name");
-    $Max=pg_NumRows($Ret);
+    $Max=Database::num_row($Ret);
 
     for ($i=0;$i<$Max;$i++) {
-      $l_line=pg_fetch_array($Ret,$i);
+      $l_line=Database::fetch_array($Ret,$i);
       printf ('<TR><TD class="mtitle"><A class="mtitle" HREF="?p_action=jrn&sa=detail&p_jrn=%s&'.$str_dossier.'">%s</A></TD></TR>',
 	      $l_line['jrn_def_id'],$l_line['jrn_def_name']);
 

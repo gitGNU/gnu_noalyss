@@ -123,7 +123,7 @@ class Pre_Op_Advanced extends Pre_operation_detail {
 	  " opd_qc from op_predef_detail where od_id=".$this->operation->od_id.
 	  " order by opd_id";
 	$res=$this->db->exec_sql($sql);
-	$array=pg_fetch_all($res);
+	$array=Database::fetch_all($res);
 	return $array;
   }
   function set_od_id($p_id) {

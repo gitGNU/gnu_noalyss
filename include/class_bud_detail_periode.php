@@ -60,7 +60,7 @@ class Bud_Detail_Periode{
     $value=array($this->bdp_amount,$this->p_id,$this->bd_id);
     try {
       $r=$this->cn->exec_sql($sql,$value);
-      $this->bdp_id=pg_fetch_result($r,0,0);
+      $this->bdp_id=Database::fetch_result($r,0,0);
     } catch (Exception $e) {
       echo "Erreur : ".$e->getMessage();
     }

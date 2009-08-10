@@ -113,7 +113,7 @@ class Todo_List
 		       $this->tl_desc,
 		       $this->use_login)
 		 );
-    $this->tl_id=pg_fetch_result($res,0,0);
+    $this->tl_id=Database::fetch_result($res,0,0);
     
   }
 
@@ -141,7 +141,7 @@ from todo_list where use_login=$1".
     $res=$this->cn->exec_sql(
 		      $sql,
 		      array($this->use_login));	
-    $array=pg_fetch_all($res);
+    $array=Database::fetch_all($res);
     return $array;	   
   }
   public function load() {
@@ -154,8 +154,8 @@ from todo_list where tl_id=$1";
 		 array($this->tl_id)
 		 );
 
-    if ( pg_NumRows($res) == 0 ) return;
-    $row=pg_fetch_array($res,0);
+    if ( Database::num_row($res) == 0 ) return;
+    $row=Database::fetch_array($res,0);
     foreach ($row as $idx=>$value) { $this->$idx=$value; }
   }
   public function delete() {

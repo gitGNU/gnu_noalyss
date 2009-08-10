@@ -60,11 +60,11 @@ class Anc_Balance_Simple extends Anc_Print {
 
 	$res=$this->db->exec_sql($sql);
 
-	if ( pg_NumRows($res) == 0 )
+	if ( Database::num_row($res) == 0 )
 	  return null;
 	$a=array();
 	$count=0;
-	$array=pg_fetch_all($res);
+	$array=Database::fetch_all($res);
 	foreach ($array as $row) {
 	  $a[$count]['po_id']=$row['po_id'];
 	  $a[$count]['sum_deb']=$row['sum_deb'];

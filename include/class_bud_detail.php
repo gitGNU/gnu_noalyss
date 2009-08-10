@@ -60,7 +60,7 @@ class Bud_Detail {
       " values ($1,$2,$3,$4) returning bd_id ";
 
     $a=$this->db->exec_sql($sql,$array);
-    $this->bd_id=pg_fetch_result($a,0,0);
+    $this->bd_id=Database::fetch_result($a,0,0);
   }
   /*!\brief update thanks the bd_id if bd_id == 0 returns directly
    *
@@ -97,9 +97,9 @@ class Bud_Detail {
       " bd_id =".$this->bd_id;
     $res=$this->db->exec_sql($sql);
 
-    if ( pg_NumRows($res) == 0 ) return;
+    if ( Database::num_row($res) == 0 ) return;
 
-    $a=pg_fetch_array($res,0);
+    $a=Database::fetch_array($res,0);
     foreach ( array('bc_id','po_id','pcm_val') as $key) {
       $this->{"$key"}=$a[$key];
     }

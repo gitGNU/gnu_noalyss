@@ -65,9 +65,9 @@ if ( isset($_REQUEST['go'])) {
 
   $sql="select po_name , po_description from poste_analytique ".
 	"where pa_id=".$_REQUEST['c2']." and ".
-	" upper (po_name) like upper('%".pg_escape_string($_REQUEST['label'])."%') order by po_name";
+    " upper (po_name) like upper('%".Database::escape_string($_REQUEST['label'])."%') order by po_name";
   $res=$cn->exec_sql($sql);
-  $array=pg_fetch_all($res);
+  $array=Database::fetch_all($res);
   if (empty($array) == true)
 	{
 	  echo "D&eacute;sol&eacute; aucun poste trouv&eacute;";

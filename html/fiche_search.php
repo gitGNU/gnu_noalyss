@@ -217,7 +217,7 @@ if (
     }
     
     // Test whether rows are returned
-    if ( ($Max = pg_NumRows($Res) ) == 0 && $_GET['p_jrn'] != 0) {
+    if ( ($Max = Database::num_row($Res) ) == 0 && $_GET['p_jrn'] != 0) {
       echo_warning("Pas de fiche trouvée");
       if (isset($add_card)) echo $add_card->input();
       return;
@@ -227,7 +227,7 @@ if (
 
   //set focus on first "Select" button.
    
-  $row=pg_fetch_array($Res,$i);
+  $row=Database::fetch_array($Res,$i);
   // if quick code is empty pass
   if (trim($row['quick_code']) == "")
     continue;

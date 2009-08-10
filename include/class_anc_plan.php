@@ -59,7 +59,7 @@ class Anc_Plan
 	$sql="select pa_id as id,pa_name as name,".
 	  "pa_description as description from plan_analytique order by pa_name";
 	$ret=$this->db->exec_sql($sql);
-	$array=pg_fetch_all($ret);
+	$array=Database::fetch_all($ret);
 	return $array;
   }
 
@@ -69,11 +69,11 @@ class Anc_Plan
 
 	$sql="select pa_name,pa_description from plan_analytique where pa_id=".$this->id;
 	$ret= $this->db->exec_sql($sql);
-	if ( pg_NumRows($ret) == 0)
+	if ( Database::num_row($ret) == 0)
 	  {
 		return;
 	  }
-	$a=  pg_fetch_array($ret,0);
+	$a=  Database::fetch_array($ret,0);
 	$this->name=$a['pa_name'];
 	$this->description=$a['pa_description'];
 
@@ -145,10 +145,10 @@ class Anc_Plan
 	$sql="select po_id from poste_analytique where pa_id=".$this->id;
 	$r=$this->db->exec_sql($sql);
 	$ret=array();
-	if ( pg_NumRows($r) == 0 ) 
+	if ( Database::num_row($r) == 0 ) 
 	  return $ret;
 	
-	$all=pg_fetch_all($r);
+	$all=Database::fetch_all($r);
 	foreach ($all as $line)
 	  {
 		$obj=new Anc_Account($this->db,$line['po_id']);
@@ -176,7 +176,7 @@ class Anc_Plan
   }
   function exist() {
 	$a=$this->db->count_sql("select pa_id from plan_analytique where pa_id=".
-				pg_escape_string($this->pa_id));
+				Database::escape_string($this->pa_id));
 
 	return ($a==0)?false:true;
 

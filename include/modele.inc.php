@@ -83,7 +83,7 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
     if ( $l_id != 0 ) {
       $Sql=sprintf("CREATE DATABASE %sMOD%d encoding='UTF8' TEMPLATE %sDOSSIER%s",domaine,$l_id,domaine,$_POST["FMOD_DBID"]);
       ob_start();
-      if ( pg_query($cn,$Sql)==false) {
+      if ( $cn->exec_sql($Sql)==false) {
 	ob_end_clean();
 	echo "<h2 class=\"error\"> Base de donn&eacute;e ".domaine."dossier".$_POST['FMOD_DBID']."  est accèd&eacute;e, d&eacute;connectez-vous en d'abord</h2>";
 	$Res=$cn->exec_sql("delete from modeledef where mod_id=".$l_id);
@@ -98,11 +98,11 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
   // Clean some tables 
 
   $Res=$cn_mod->exec_sql("select distinct jr_pj from jrn where jr_pj is not null ");
-  if ( pg_NumRows($Res) != 0 )
+  if ( Database::num_row($Res) != 0 )
     {
-      $a_lob=pg_fetch_all($Res);
+      $a_lob=Database::fetch_all($Res);
       foreach ($a_lob as $lob) 
-	@pg_lo_unlink($cn_mod,$lob['loid']);
+	$cn_mod->lo_unlink($lob['loid']);
     }
   
   $Res=$cn_mod->exec_sql("truncate table quant_sold");
@@ -137,9 +137,9 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
   }
   $sql="select jrn_def_id from jrn_def ";
   $Res=$cn_mod->exec_sql($sql);
-  $Max=pg_NumRows($Res);
+  $Max=Database::num_row($Res);
   for ($seq=0;$seq<$Max;$seq++) {
-    $row=pg_fetch_array($Res,$seq);
+    $row=Database::fetch_array($Res,$seq);
     /* if seq doesn't exist create it */
     if ( $cn_mod->exist_sequence('s_jrn_'.$row['jrn_def_id']) == false ) {
       $cn_mod->create_sequence('s_jrn_'.$row['jrn_def_id']);
@@ -159,12 +159,12 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
       $Res=$cn_mod->exec_sql("delete from document");
       // Remove lob file
       $Res=$cn_mod->exec_sql("select distinct loid from pg_largeobject");
-      if ( pg_NumRows($Res) != 0 )
+      if ( Database::num_row($Res) != 0 )
 	{
-	  $a_lob=pg_fetch_all($Res);
+	  $a_lob=Database::fetch_all($Res);
 	  //var_dump($a_lob);
 	  foreach ($a_lob as $lob) {
-	    pg_lo_unlink($cn_mod,$lob['loid']);
+	    $cn_mod->lo_unlink($lob['loid']);
 	  }
 	}
     }
@@ -179,11 +179,11 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
 
       // Remove lob file
       $Res=$cn_mod->exec_sql("select distinct loid from pg_largeobject");
-      if ( pg_NumRows($Res) != 0 )
+      if ( Database::num_row($Res) != 0 )
 			  {
-			    $a_lob=pg_fetch_all($Res);
+			    $a_lob=Database::fetch_all($Res);
 			    foreach ($a_lob as $lob) 
-			      pg_lo_unlink($cn_mod,$lob['loid']);
+			     $cn_mod->lo_unlink($lob['loid']);
 			  }
       
       
@@ -198,7 +198,7 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
 
 $Res=$cn->exec_sql("select mod_id,mod_name,mod_desc from 
                       modeledef order by mod_name");
-$count=pg_NumRows($Res);
+$count=Database::num_row($Res);
 echo '<div class="content">';
 echo "<H2>Modèles</H2>";
 if ( $sa=='list') {
@@ -217,7 +217,7 @@ if ( $sa=='list') {
       "</TR>";
   
     for ($i=0;$i<$count;$i++) {
-      $mod=pg_fetch_array($Res,$i);
+      $mod=Database::fetch_array($Res,$i);
       printf('<TR>'.
 	     '<TD>%d <b> %s</b> </TD>'.
 	     '<TD><I> %s </I></TD>'.
@@ -248,12 +248,12 @@ if ( $sa == 'add') {
 // Show All available folder
 $Res=$cn->exec_sql("select dos_id, dos_name,dos_description from ac_dossier
                       order by dos_name");
-$count=pg_NumRows($Res);
+$count=Database::num_row($Res);
 $available="";
 if ( $count != 0 ) {
   $available='<SELECT NAME="FMOD_DBID">';
   for ($i=0;$i<$count;$i++) {
-    $db=pg_fetch_array($Res,$i);
+    $db=Database::fetch_array($Res,$i);
     $available.='<OPTION VALUE="'.$db['dos_id'].'">'.$db['dos_name'].':'.$db['dos_description'];
   }//for i
   $available.='</SELECT>';
@@ -356,7 +356,7 @@ if ( $sa == 'remove' ) {
      }
    $sql="drop database ".domaine."mod".FormatString($_REQUEST['m']);
    ob_start();
-   if ( pg_query($cn,$sql)==false) {
+   if ( $cn->exec_sql($sql)==false) {
      ob_end_clean();
      
      echo "<h2 class=\"error\"> 

@@ -79,8 +79,8 @@ $Rep=new Database();
 // charge tous les styles
 $res=$Rep->exec_sql("select the_name from theme
                       order by the_name");
-for ($i=0;$i < pg_NumRows($res);$i++){
-  $st=pg_fetch_array($res,$i);
+for ($i=0;$i < Database::num_row($res);$i++){
+  $st=Database::fetch_array($res,$i);
   $style[]=$st['the_name'];
 }
 // Formatte le display

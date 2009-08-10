@@ -251,15 +251,15 @@ if ( isset($_POST['update_record']) ) {
 	   * operation needs it.
 	   */
 	  $ret=$cn->exec_sql("select jr_pj from jrn where jr_id=$1",array($_POST['jr_id']));
-	  if (pg_num_rows($ret) != 0) {
-		$r=pg_fetch_array($ret,0);
+	  if (Database::num_row($ret) != 0) {
+		$r=Database::fetch_array($ret,0);
 		$old_oid=$r['jr_pj'];
 		if (strlen($old_oid) != 0)
 		  {
 			// check if this pj is used somewhere else
 			$c=$cn->count_sql("select * from jrn where jr_pj=".$old_oid);
 			if ( $c == 1 )
-			  pg_lo_unlink($cn,$old_oid);
+			  $cn->lo_unlink($old_oid);
 		  }
 		$cn->exec_sql("update jrn set jr_pj=null, jr_pj_name=null, ".
 			"jr_pj_type=null  where jr_id=$1",array($_POST['jr_id']));
@@ -305,7 +305,7 @@ if ( isset($_POST['update_record']) ) {
 	      "where jr_id=$1";
 	    $res=$cn->exec_sql($sql,array($_POST['jr_id']));
 
-	    $array_jid=pg_fetch_all($res);
+	    $array_jid=Database::fetch_all($res);
 	    // if j_poste match 6 or 7 we insert them
 	    $count=0;
 	    $group=$cn->get_next_seq("s_oa_group");

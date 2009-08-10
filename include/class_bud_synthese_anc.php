@@ -148,12 +148,12 @@ class Bud_Synthese_Anc extends Bud_Synthese {
       "join poste_analytique using(po_id) where po_name >= $1 and ".
       "po_name <=$2 and bud_card.bh_id=$3";
     $res=$this->cn->exec_sql($sql,array($this->po_from,$this->po_to,$this->bh_id));
-    $aBudCard=pg_fetch_all($res);
+    $aBudCard=Database::fetch_all($res);
     $array=array();
     $cn=new Database(dossier::id());
-    pg_prepare($cn,"sql_detail","select distinct pcm_val from bud_detail ".
+    $cn->prepare("sql_detail","select distinct pcm_val from bud_detail ".
 	       " where bc_id=$1");
-    pg_prepare($cn,"sql_detail_periode","select sum(bdp_amount) as amount,".
+    $cn->prepare("sql_detail_periode","select sum(bdp_amount) as amount,".
 	       "p_id from bud_card join bud_detail using (bc_id)".
 	       " join bud_detail_periode using (bd_id) ".
 	       " join parm_periode using (p_id) ".
@@ -169,16 +169,16 @@ class Bud_Synthese_Anc extends Bud_Synthese {
       $line['bc_description']=$rBudCard['bc_description'];
       $line['bc_unit']=$rBudCard['bc_unit'];
 
-      $res=pg_execute("sql_detail",array($line['bc_id']));
-      $row=pg_fetch_all($res);
+      $res=$cn->execute("sql_detail",array($line['bc_id']));
+      $row=Database::fetch_all($res);
       $idx=0;
       foreach ($row as $col) {
 	$sub=array();
 	$pcm_val=$col['pcm_val'];
 	$sub['pcm_val']=$pcm_val;
 	$periode=array();
-	$res2=pg_execute("sql_detail_periode",array($rBudCard['bc_id'],$pcm_val));
-	$col_per=pg_fetch_all($res2);
+	$res2=$cn->execute("sql_detail_periode",array($rBudCard['bc_id'],$pcm_val));
+	$col_per=Database::fetch_all($res2);
 	if ( empty ($col_per) ) continue;
 	$sub['unit']=0;
 	foreach ($col_per as $cPer) {

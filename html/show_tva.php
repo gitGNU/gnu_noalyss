@@ -45,10 +45,10 @@ function GetIt(ctl,tva_id) {
 $condition="";
 $cn=new Database($gDossier);
 $Res=$cn->exec_sql("select * from tva_rate order by tva_rate desc");
-$Max=pg_NumRows($Res);
+$Max=Database::num_row($Res);
 echo "<TABLE BORDER=\"1\">";
 for ($i=0;$i<$Max;$i++) {
-  $row=pg_fetch_array($Res,$i);
+  $row=Database::fetch_array($Res,$i);
   $set=sprintf( '<INPUT TYPE="BUTTON" Value="select" onClick="GetIt(\'%s\',\'%s\');">',
 	     $_GET['ctl'],$row['tva_id']);
   printf("<tr><TD BGCOLOR=\LIGHTGREEN\" >%s %d</TD><TD>%s</TD><TD>%s</TD></TR>",

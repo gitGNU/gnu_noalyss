@@ -84,7 +84,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 		
 		$sql = "select * from import_tmp where code='".$code."' and num_compte='".$num_compte."'";
 		$Res=$p_cn->exec_sql($sql);
-		$Num=pg_NumRows($Res);
+		$Num=Database::num_row($Res);
 		
 		if($Num > 0) {
 			echo "Op&eacute;ration FORTIS ".$code." d&eacute;j&eagrave; import&eacute;e.<br/>";

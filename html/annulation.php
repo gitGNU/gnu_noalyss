@@ -138,12 +138,12 @@ if  ($p_id != -1 ) { // A
     // Test whether date of the operation is in a closed periode
     // get the period_id
    $p=$cn->exec_sql("select jr_tech_per from jrn where jr_grpt_id=$1",array($_REQUEST['jrn_op']));
-    $period_id=pg_fetch_result($p,0,0);
+   $period_id=Database::fetch_result($p,0,0);
     // thanks jrn_op  (jrn.jr_id) we find out the concerned ledger
 	
     $sql="select jr_def_id from jrn where jr_grpt_id=".$_REQUEST['jrn_op'];
     $r=$cn->exec_sql($sql);
-    $nJrn=pg_fetch_result($r,0,0);
+    $nJrn=Database::fetch_result($r,0,0);
     $per=new Periode($cn);
     $per->set_jrn($nJrn);
     $per->set_periode($period_id);
@@ -312,7 +312,7 @@ self.opener.RefreshMe();
 			
 			if ( isset($l_array['jr_pj']) && $l_array['jr_pj'] != "") 
 			  {
-				$Res=pg_lo_unlink($cn,$l_array['jr_pj']);
+				$Res=$cn->lo_unlink($l_array['jr_pj']);
 				if ( $Res == false) 
 				  throw (new Exception(__FILE__.__LINE__.
 									   "Echec Effacement lob  [ $sql ]"));

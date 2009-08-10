@@ -178,8 +178,8 @@ function get_internal() {
  if ( ! isset($this->jr_id) ) 
 		throw new Exception('jr_id is not set',1);
   $Res=$this->db->exec_sql("select jr_internal from jrn where jr_id=".$this->jr_id);
-  if ( pg_NumRows($Res) == 0 ) return null;
-  $l_line=pg_fetch_array($Res);
+  if ( Database::num_row($Res) == 0 ) return null;
+  $l_line=Database::fetch_array($Res);
   $this->jr_internal= $l_line['jr_internal'];
   return $this->jr_internal;
 }
@@ -190,8 +190,8 @@ function get_internal() {
  function seek_internal($p_internal) {
    $res=$this->db->exec_sql('select j_id from jrn where jr_internal=$1',
 		     array($p_internal));
-   if ( pg_NumRows($Res) == 0 ) return -1;
-   $this->jr_id=pg_fetch_result($Res,0,0);
+   if ( Database::num_row($Res) == 0 ) return -1;
+   $this->jr_id=Database::fetch_result($Res,0,0);
    return 0;
  }
  /*!\brief retrieve data from jrnx 
@@ -206,8 +206,8 @@ function get_internal() {
 		where
 		jr_id=$1 order by j_debit desc";
    $res=$this->db->exec_sql($sql,array($this->jr_id));
-   if ( pg_NumRows ($res) == 0 ) return array();
-   $all=pg_fetch_all($res);
+   if ( Database::num_row ($res) == 0 ) return array();
+   $all=Database::fetch_all($res);
    return $all;
  }
  /*!\brief add a comment to the line (jrnx.j_text) */

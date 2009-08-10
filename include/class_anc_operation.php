@@ -93,7 +93,7 @@ class Anc_Operation
 	  $this->po_id.",".
 	  $this->pa_id.",".
 	  $this->oa_amount.",".
-	  "' ".pg_escape_string($this->oa_description)."',".
+	  "' ".Database::escape_string($this->oa_description)."',".
 	  "'".$this->oa_debit."',".
 	  $this->oa_group.",".
 	  $this->j_id.",".
@@ -149,7 +149,7 @@ class Anc_Operation
 	$RetSql=$this->db->exec_sql($sql);
 
 
-	$array=pg_fetch_all($RetSql);
+	$array=Database::fetch_all($RetSql);
 	return $array;
   }
 
@@ -287,7 +287,7 @@ class Anc_Operation
           where 
           j_id=$p_jid order by j_id,oa_row";
 	$ret=$this->db->exec_sql($sql);
-	$res=pg_fetch_all($ret);
+	$res=Database::fetch_all($ret);
 	echo_debug(__FILE__.":".__LINE__."count res is ",count($res));
 	echo_debug(__FILE__.":".__LINE__," res =",$res);
 	if ( $res== false) return null;
@@ -313,8 +313,8 @@ class Anc_Operation
 		" join jrn on (jr_grpt_id = j_grpt) ".
 		"where j_id=".$this->j_id;
 	  $res=$this->db->exec_sql($sql);
-	  if (pg_NumRows($res) == 0 ) return;
-	  $row=pg_fetch_array($res,0);
+	  if (Database::num_row($res) == 0 ) return;
+	  $row=Database::fetch_array($res,0);
 	  $this->oa_amount=$row['j_amount'];
 	  $this->oa_date=$row['jr_date'];
 	  $this->oa_debit=$row['j_debit'];
@@ -333,8 +333,8 @@ class Anc_Operation
   function get_jrid() {
 	$sql="select distinct jr_id from jrn join jrnx on (j_grpt=jr_grpt_id) join operation_analytique using (j_id) where j_id is not null and oa_group=".$this->oa_group;
 	$res=$this->db->exec_sql($sql);
-	if ( pg_NumRows($res) == 0 ) return 0;
-	$ret=pg_fetch_all($res);
+	if ( Database::num_row($res) == 0 ) return 0;
+	$ret=Database::fetch_all($res);
 	return $ret[0]['jr_id'];
   }
   /*\brief this function get the balance for a certain period
@@ -360,7 +360,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
       $cond and pa_id=$p_plan_id ";
 	try { 
 	  $res=$this->db->exec_sql($sql);
-	  $array=pg_fetch_all($res);
+	  $array=Database::fetch_all($res);
 	  echo_debug(__FILE__.":".__LINE__," array =",$array);
 	} catch (Exception $e) {
 	  var_dump($e);

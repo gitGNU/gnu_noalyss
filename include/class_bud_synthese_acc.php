@@ -152,14 +152,14 @@ class Bud_Synthese_Acc extends Bud_Synthese {
       "pcm_val::text <= $2 and bud_card.bh_id=$3";
 
     $res=$this->cn->exec_sql($sql,array($this->acc_from,$this->acc_to,$this->bh_id));
-    $aBudCard=pg_fetch_all($res);
+    $aBudCard=Database::fetch_all($res);
     echo_debug(__FILE__.':'.__LINE__.'- load','aBudCard',$aBudCard);
     $array=array();
     $cn=new Database(dossier::id());
-    pg_prepare($cn,"sql_detail","select distinct bc_id,bc_code,bc_description,bc_price_unit ".
+    $cn->prepare("sql_detail","select distinct bc_id,bc_code,bc_description,bc_price_unit ".
 	       " from bud_detail join bud_card using (bc_id)".
 	       " where pcm_val=$1");
-    pg_prepare($cn,"sql_detail_periode","select sum(bdp_amount) as amount,".
+    $cn->prepare("sql_detail_periode","select sum(bdp_amount) as amount,".
 	       "p_id from bud_card join bud_detail using (bc_id)".
 	       " join bud_detail_periode using (bd_id) ".
 	       " join parm_periode using (p_id) ".
@@ -176,8 +176,8 @@ class Bud_Synthese_Acc extends Bud_Synthese {
       $line['acc_name']=$acc_account->label;
       $line['acc_amount']=$acc_account->get_solde($per_acc);
 
-      $res=pg_execute("sql_detail",array($rBudCard['pcm_val']));
-      $row=pg_fetch_all($res);
+      $res=$cn->execute("sql_detail",array($rBudCard['pcm_val']));
+      $row=Database::fetch_all($res);
       $idx=0;
       foreach ($row as $col) {
 	$sub=array();
@@ -190,8 +190,8 @@ class Bud_Synthese_Acc extends Bud_Synthese {
 	$periode=array();
 	$sub['unit']=0;
 
-	$res2=pg_execute("sql_detail_periode",array($bc_id,$rBudCard['pcm_val']));
-	$col_per=pg_fetch_all($res2);
+	$res2=$cn->execute("sql_detail_periode",array($bc_id,$rBudCard['pcm_val']));
+	$col_per=Database::fetch_all($res2);
 	if ( empty ($col_per) ) continue;
 	// fill the periode array
 	foreach ($col_per as $cPer) {

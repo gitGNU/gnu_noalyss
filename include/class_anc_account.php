@@ -66,8 +66,8 @@ class Anc_Account
 	  $p_where;
 
 	$ret=$this->db->exec_sql($sql);
-	if ( pg_NumRows($ret) == 0 )return null;
-	$line=pg_fetch_array($ret);
+	if ( Database::num_row($ret) == 0 )return null;
+	$line=Database::fetch_array($ret);
 
 	$this->id=$line['po_id'];
 	$this->name=$line['po_name'];
@@ -184,7 +184,7 @@ class Anc_Account
 	  "   order by po_name";
 
 	$ex=$this->db->exec_sql($sql);
-	$ret=pg_fetch_all($ex);
+	$ret=Database::fetch_all($ex);
 	if ( $ret  == null )
 	  return null;
 

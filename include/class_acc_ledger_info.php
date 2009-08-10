@@ -56,7 +56,7 @@ class Acc_Ledger_Info {
 			       ' returning ji_id ',
 			       array ($this->jr_id,$this->id_type,$this->ji_value)
 			       );
-      $this->ji_id=pg_fetch_result($sql,0,0);
+      $this->ji_id=Database::fetch_result($sql,0,0);
     } catch (Exception $e) {
       echo "Echec sauvegarde info additionnelles";
       throw $e;
@@ -84,8 +84,8 @@ class Acc_Ledger_Info {
   function load() {
     $sql="select jr_id,id_type,ji_value from jrn_info where ji_id=".$this->ji_id;
     $r=$this->cn->exec_sql($sql);
-    if (pg_NumRows ($r) > 0 ) {
-      $this->from_array(pg_fetch_array($r,0));
+    if (Database::num_row ($r) > 0 ) {
+      $this->from_array(Database::fetch_array($r,0));
       return 0;
     }else {
       return 1;
@@ -117,9 +117,9 @@ class Acc_Ledger_Info {
 
     $sql="select ji_id from jrn_info where jr_id=".$this->jr_id;
     $r=$this->cn->exec_sql($sql);
-    if (pg_NumRows($r) == 0 ) 
+    if (Database::num_row($r) == 0 ) 
       return array();
-    $array=pg_fetch_all($r);
+    $array=Database::fetch_all($r);
     $ret=array();
     foreach ($array as $row) {
       $o=new Acc_Ledger_Info($this->cn,$row['ji_id']);
@@ -136,8 +136,8 @@ class Acc_Ledger_Info {
   function search_id_internal($p_internal) {
     $sql="select jr_id from jrn where jr_internal='$p_internal'";
     $r=$this->cn->exec_sql($sql);
-    if (pg_NumRows($r) > 0 ) {
-      $this->jr_id=pg_fetch_result($r,0,0);
+    if (Database::num_row($r) > 0 ) {
+      $this->jr_id=Database::fetch_result($r,0,0);
       return $this->jr_id;
     } else {
       $this->jr_id=-1;

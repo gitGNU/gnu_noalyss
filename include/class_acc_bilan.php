@@ -92,15 +92,15 @@ class Acc_Bilan {
   private function warning($p_message,$p_type,$p_deb) {
     $sql="select pcm_val,pcm_lib from tmp_pcmn where pcm_type='$p_type'";
     $res=$this->db->exec_sql($sql);
-    if ( pg_NumRows($res) ==0 ) 
+    if ( Database::num_row($res) ==0 ) 
       return;
     $count=0;
-    $nRow=pg_NumRows($res);
+    $nRow=Database::num_row($res);
     $ret="";
     $obj=new Acc_Account_Ledger($this->db,0);
     for ($i=0;$i<$nRow;$i++) {
 
-      $line=pg_fetch_array($res);
+      $line=Database::fetch_array($res);
       /* set the periode filter */
       $sql=sql_filter_per($this->db,$this->from,$this->to,'p_id','j_tech_per');
       $obj->id=$line['pcm_val'];
@@ -237,9 +237,9 @@ class Acc_Bilan {
 		" b_id = ".$this->id;
 	  $res=$this->db->exec_sql($sql);
 	  
-	  if ( pg_NumRows($res)==0)
+	  if ( Database::num_row($res)==0)
 		throw new Exception ('Aucun enregistrement trouve');
-	  $array=pg_fetch_array($res,0);
+	  $array=Database::fetch_array($res,0);
 	  foreach ($array as $name=>$value)
 		$this->$name=$value;
 	  

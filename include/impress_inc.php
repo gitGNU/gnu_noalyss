@@ -83,9 +83,9 @@ function get_dataJrn($p_cn,$p_array,$filter=YES)
     } 
   }// filter == no
   $array=array();
-  $Max=pg_NumRows($Res);
+  $Max=Database::num_row($Res);
   for ($i=0;$i<$Max;$i++) {
-    $array[]=pg_fetch_array($Res,$i);
+    $array[]=Database::fetch_array($Res,$i);
   }
   return $array;
 }
@@ -232,13 +232,13 @@ function get_dataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
 
 
   $array=array();
-  $Max=pg_NumRows($Res);
+  $Max=Database::num_row($Res);
   if ($Max==0) return null;
   $case="";
   $tot_deb=0;
   $tot_cred=0;
   for ($i=0;$i<$Max;$i++) {
-    $line=pg_fetch_array($Res,$i);
+    $line=Database::fetch_array($Res,$i);
     $mont_deb=($line['deb_montant']!=0)?sprintf("% 8.2f",$line['deb_montant']):"";
     $mont_cred=($line['cred_montant']!=0)?sprintf("% 8.2f",$line['cred_montant']):"";
     $jr_montant=($line['jr_montant']!=0)?sprintf("% 8.2f",$line['jr_montant']):"";
@@ -399,19 +399,19 @@ function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cen
 	" p_exercice='".$p_exercice."'".
 	" and c_order $cmp $p_jrnx_id " ;
       $Res=$p_cn->exec_sql($sql." and c_debit='t' ");
-      if ( pg_NumRows($Res) == 0 ) 
+      if ( Database::num_row($Res) == 0 ) 
 	$deb=0;
       else {
-	$line=pg_fetch_array($Res,0);
+	$line=Database::fetch_array($Res,0);
 	$deb=$line['tot_amount'];
       }
       
       $Res=$p_cn->exec_sql($sql." and c_debit='f' ");
-      if ( pg_NumRows($Res) == 0 ) 
+      if ( Database::num_row($Res) == 0 ) 
 	$cred=0;
       else {
 	
-	$line=pg_fetch_array($Res,0);
+	$line=Database::fetch_array($Res,0);
 	$cred=$line['tot_amount'];
       }
       echo_debug('impress_inc.php',__LINE__,"MONTANT $deb,$cred");
@@ -434,19 +434,19 @@ function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cen
 	" p_exercice='".$p_exercice."'".
 	" and c_order $cmp $p_jrnx_id " ;
       $Res=$p_cn->exec_sql($sql." and c_debit='t' ");
-      if ( pg_NumRows($Res) == 0 ) 
+      if ( Database::num_row($Res) == 0 ) 
 	$deb=0;
       else {
-	$line=pg_fetch_array($Res,0);
+	$line=Database::fetch_array($Res,0);
 	$deb=$line['tot_amount'];
       }
       
       $Res=$p_cn->exec_sql($sql." and c_debit='f' ");
-      if ( pg_NumRows($Res) == 0 ) 
+      if ( Database::num_row($Res) == 0 ) 
 	$cred=0;
       else {
 	
-	$line=pg_fetch_array($Res,0);
+	$line=Database::fetch_array($Res,0);
 	$cred=$line['tot_amount'];
       }
       echo_debug('impress_inc.php',__LINE__,"MONTANT $deb,$cred");

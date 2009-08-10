@@ -57,9 +57,9 @@ class Supplier extends fiche{
     $this->poste=($p_poste==0)?$this->poste:$p_poste;
     $sql="select * from vw_supplier where poste_comptable=".$this->poste;
     $Res=$this->cn->exec_sql($sql);
-    if ( pg_NumRows($Res) == 0) return null;
+    if ( Database::num_row($Res) == 0) return null;
     // There is only _one_ row by supplier
-    $row=pg_fetch_array($Res,0);
+    $row=Database::fetch_array($Res,0);
     $this->name=$row['name'];
     $this->id=$row['f_id'];    
     $this->street=$row['rue'];    

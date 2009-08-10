@@ -93,7 +93,7 @@ class Document
                    from document_modele where md_id=".$this->md_id;
       $Res=$this->db->exec_sql($dm_info);
 
-      $row=pg_fetch_array($Res,0);
+      $row=Database::fetch_array($Res,0);
       $this->d_lob=$row['md_lob'];
       $this->d_filename=$row['md_filename'];
       $this->d_mimetype=$row['md_mimetype'];
@@ -102,7 +102,7 @@ class Document
 
       chdir($dirname);
       $filename=$row['md_filename'];
-      pg_lo_export($this->db,$row['md_lob'],$filename);
+      $this->lo_export($row['md_lob'],$filename);
       $type="n";
       echo_debug('class_document',__LINE__,'The document type is '.$row['md_mimetype']);
       // if the doc is a OOo, we need to unzip it first
@@ -283,7 +283,7 @@ class Document
       // We save the generated file
       $doc=new Document($this->db);
       $this->db->start();
-      $this->d_lob=pg_lo_import($this->db,$p_file);
+      $this->d_lob=$this->lo_import($p_file);
       if ( $this->d_lob == false ) { 
 	$this->db->rollback(); echo_debug('class_document',__LINE__,"can't save file $p_file");
 	return 1; }
@@ -329,7 +329,7 @@ class Document
 	  // upload the file and move it to temp directory
 	  if ( move_uploaded_file($_FILES['file_upload']['tmp_name'],$new_name))
 	  {
-	    $oid=pg_lo_import($this->db,$new_name);
+	    $oid=$this->db->lo_import($new_name);
 	    // check if the lob is in the database
 	    if ( $oid == false ) 
 	      {
@@ -346,13 +346,13 @@ class Document
 	  $sql="select d_lob from document where d_id=".$this->d_id;
 	  $ret=$this->db->exec_sql($sql);
 
-	  if (pg_num_rows($ret) != 0)  
+	  if (Database::num_row($ret) != 0)  
 	    {
 	      // a result is found, the old oid is keept in order to
 	      // remove it later
-	      $r=pg_fetch_array($ret,0) ;
+	      $r=Database::fetch_array($ret,0) ;
 	      $old_oid=$r['d_lob'] ;
-	      if (strlen($old_oid) != 0) { pg_lo_unlink ($this->db,$old_oid);}
+	      if (strlen($old_oid) != 0) { $this->db->lo_unlink ($old_oid);}
 	    }
 	  // Update the table
 	  $sql=sprintf("update document set d_lob=%s,d_filename='%s',d_mimetype='%s' where d_id=%d",
@@ -385,12 +385,12 @@ class Document
       $this->db->start();
       $ret=$this->db->exec_sql(
 		   "select d_id,d_lob,d_filename,d_mimetype from document where d_id=".$this->d_id );
-      if ( pg_num_rows ($ret) == 0 )
+      if ( Database::num_row ($ret) == 0 )
 	return;
-      $row=pg_fetch_array($ret,0);
+      $row=Database::fetch_array($ret,0);
       //the document  is saved into file $tmp
       $tmp=tempnam($_ENV['TMP'],'document_');
-      pg_lo_export($this->db,$row['d_lob'],$tmp);
+      $this->db->lo_export($row['d_lob'],$tmp);
       $this->d_mimetype=$row['d_mimetype'];
       $this->d_filename=$row['d_filename'];
 
@@ -421,9 +421,9 @@ class Document
     {
       $sql="select * from document where d_id=".$this->d_id;
       $ret=$this->db->exec_sql($sql);
-      if ( pg_num_rows($ret) == 0 )
+      if ( Database::num_row($ret) == 0 )
 	return;
-      $row=pg_fetch_array($ret,0);
+      $row=Database::fetch_array($ret,0);
       $this->ag_id=$row['ag_id'];
       $this->d_mimetype=$row['d_mimetype'];
       $this->d_filename=$row['d_filename'];

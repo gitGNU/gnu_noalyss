@@ -81,8 +81,8 @@ class Acc_Account {
     $ret=$this->db->exec_sql(
 		 "select pcm_lib from tmp_pcmn where
                   pcm_val=$1",array($this->pcm_val));
-      if ( pg_NumRows($ret) != 0) {
-	$r=pg_fetch_array($ret);
+      if ( Database::num_row($ret) != 0) {
+	$r=Database::fetch_array($ret);
 	$this->pcm_lib=$r['pcm_lib'];
       } else {
 	$this->pcm_lib="Poste inconnu";
@@ -132,7 +132,7 @@ class Acc_Account {
   {
     $ret=$this->db->exec_sql("select pcm_lib,pcm_val_parent,pcm_type from 
                               tmp_pcmn where pcm_val=".$this->pcm_val);
-    $r=pg_fetch_all($ret);
+    $r=Database::fetch_all($ret);
     
     if ( ! $r ) return false;
     $this->pcm_lib=$r[0]['pcm_lib'];

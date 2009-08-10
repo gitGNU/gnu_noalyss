@@ -52,8 +52,8 @@ class Document_modele {
 	$s=dossier::get();
     $sql="select md_id,md_name,dt_value from document_modele join document_type on(dt_id=md_type)";
     $Res=$this->cn->exec_sql($sql);
-    $all=pg_fetch_all($Res);
-    if ( pg_NumRows($Res) == 0 ) return "";
+    $all=Database::fetch_all($Res);
+    if ( Database::num_row($Res) == 0 ) return "";
     $r='<p><form method="post">';
 	$r.=dossier::hidden();
     $r.="<table>";
@@ -143,7 +143,7 @@ class Document_modele {
 				     $new_name)) 
 		{
 		  // echo "Image saved";
-		  $oid= pg_lo_import($this->cn,$new_name);
+		  $oid= $this->cn->lo_import($new_name);
 		  if ( $oid == false ) 
 		    {
 		      echo_error('class_document_modele.php',__LINE__,"cannot upload document");
@@ -153,12 +153,12 @@ class Document_modele {
 		  echo_debug('class_document_modele.php',__LINE__,"Loading document");
 		  // Remove old document
 		  $ret=$this->cn->exec_sql("select md_lob from document_modele where md_id=".$this->md_id);
-		  if (pg_num_rows($ret) != 0) 
+		  if (Database::num_row($ret) != 0) 
 		    {
-		      $r=pg_fetch_array($ret,0);
+		      $r=Database::fetch_array($ret,0);
 		      $old_oid=$r['md_lob'];
 		      if (strlen($old_oid) != 0) 
-			pg_lo_unlink($this->cn,$old_oid);
+			$this->cn->lo_unlink($old_oid);
 		    }
 		  // Load new document
 		  $this->cn->exec_sql("update document_modele set md_lob=".$oid.", md_mimetype='".$_FILES['doc']['type']."' ,md_filename='".$_FILES['doc']['name']."' where md_id=".$this->md_id);
@@ -189,12 +189,12 @@ class Document_modele {
       // first we unlink the document
       $sql="select md_lob from document_modele where md_id=".$this->md_id;
       $res=$this->cn->exec_sql($sql);
-      $r=pg_fetch_array($res,0);
+      $r=Database::fetch_array($res,0);
       // if a lob is found
       if ( strlen ($r['md_lob']) != 0 )
 	{
 	  // we remove it first
-	  pg_lo_unlink($r['md_lob']);
+	  $this->cn->lo_unlink($r['md_lob']);
 	}
       // now we can delete the row
       $sql="delete from document_modele where md_id =".$this->md_id;

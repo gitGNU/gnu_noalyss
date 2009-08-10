@@ -31,8 +31,8 @@ class Own {
   function Own($p_cn) {
     $this->db=$p_cn;
     $Res=$p_cn->exec_sql("select * from parameter where pr_id like 'MY_%'");
-    for ($i = 0;$i < pg_NumRows($Res);$i++) {
-      $row=pg_fetch_array($Res,$i);
+    for ($i = 0;$i < Database::num_row($Res);$i++) {
+      $row=Database::fetch_array($Res,$i);
       $key=$row['pr_id'];
       $elt=$row['pr_value'];
       // store value here

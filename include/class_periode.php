@@ -72,7 +72,7 @@ class Periode {
       " where ".
       " p_id =".$this->p_id;
     $res=$this->cn->exec_sql($sql);
-    $status=pg_fetch_result($res,0,0);
+    $status=Database::fetch_result($res,0,0);
     echo_debug(__FILE__.':'.__LINE__.'- is_closed','return ',$status);
     if ( $status == 'CL' || $status=='t' ||$status=='CE') 
       return 1;
@@ -90,7 +90,7 @@ class Periode {
       " where ".
       " p_id =".$this->p_id;
     $res=$this->cn->exec_sql($sql);
-    $status=pg_fetch_result($res,0,0);
+    $status=Database::fetch_result($res,0,0);
     if ( $status == 'OP' || $status=='f' ) 
       return 1;
     return 0;
@@ -105,7 +105,7 @@ class Periode {
       " where ".
       " p_id =".$this->p_id;
     $res=$this->cn->exec_sql($sql);
-    $status=pg_fetch_result($res,0,0);
+    $status=Database::fetch_result($res,0,0);
     if ( $status == 'CE' || $status=='t' ) 
       return 1;
     return 0;
@@ -159,7 +159,7 @@ class Periode {
     if ( $this->jrn_def_id==0 ) {
       $Res=$this->cn->exec_sql("select p_id,to_char(p_start,'DD.MM.YYYY') as date_start,to_char(p_end,'DD.MM.YYYY') as date_end,p_central,p_closed,p_exercice
   from parm_periode order by p_start,p_end");
-      $Max=pg_NumRows($Res);
+      $Max=Database::num_row($Res);
       echo '<TABLE ALIGN="CENTER">';
       echo "</TR>";
       echo '<TH> Date d&eacute;but </TH>';
@@ -168,7 +168,7 @@ class Periode {
       echo "</TR>";
       
       for ($i=0;$i<$Max;$i++) {
-	$l_line=pg_fetch_array($Res,$i);
+	$l_line=Database::fetch_array($Res,$i);
 	echo '<TR>'; 
 	echo '<TD ALIGN="CENTER"> '.$l_line['date_start'].'</TD>';
 	echo '<TD  ALIGN="CENTER"> '.$l_line['date_end'].'</TD>';
@@ -215,10 +215,10 @@ class Periode {
       $Res=$this->cn->exec_sql("select p_id,to_char(p_start,'DD.MM.YYYY') as date_start,to_char(p_end,'DD.MM.YYYY') as date_end,status,p_exercice
   from parm_periode join jrn_periode using (p_id) where jrn_def_id=".$this->jrn_def_id."
  order by p_start,p_end");
-      $Max=pg_NumRows($Res);
+      $Max=Database::num_row($Res);
       $r=$this->cn->exec_sql('select jrn_Def_name from jrn_Def where jrn_Def_id='.
 		 $this->jrn_def_id);
-      $jrn_name=pg_fetch_result($r,0,0);
+      $jrn_name=Database::fetch_result($r,0,0);
       echo '<h2> Journal '.$jrn_name.'</h2>';
       echo '<TABLE ALIGN="CENTER">';
       echo "</TR>";
@@ -228,7 +228,7 @@ class Periode {
       echo "</TR>";
       
       for ($i=0;$i<$Max;$i++) {
-	$l_line=pg_fetch_array($Res,$i);
+	$l_line=Database::fetch_array($Res,$i);
 	echo '<TR>'; 
 	echo '<TD ALIGN="CENTER"> '.$l_line['date_start'].'</TD>';
 	echo '<TD  ALIGN="CENTER"> '.$l_line['date_end'].'</TD>';
@@ -324,8 +324,8 @@ class Periode {
        from parm_periode
          where p_id=$1";
     $Res=$this->cn->exec_sql($sql,array($p_periode));
-    if ( pg_NumRows($Res) == 0) return null;
-    return pg_fetch_array($Res,0);
+    if ( Database::num_row($Res) == 0) return null;
+    return Database::fetch_array($Res,0);
     
   }
 /*!\brief return the first day of periode
@@ -340,8 +340,8 @@ class Periode {
   if ( $p_id == 0 )  $p_id=$this->id;
     $sql="select p_exercice from parm_periode where p_id=".$p_id;
     $Res=$this->cn->exec_sql($sql);
-    if ( pg_NumRows($Res) == 0) return null;
-    return pg_fetch_result($Res,0,0);
+    if ( Database::num_row($Res) == 0) return null;
+    return Database::fetch_result($Res,0,0);
 
   }
 /*!\brief retrieve the periode thanks the date_end
@@ -352,12 +352,12 @@ class Periode {
   function find_periode($p_date) {
 	$sql="select p_id from parm_periode where p_start <= to_date($1,'DD.MM.YYYY') and p_end >= to_date($1,'DD.MM.YYYY') ";
 	$ret=$this->cn->exec_sql($sql,array($p_date));
-	$nb_periode=pg_NumRows($ret);
+	$nb_periode=Database::num_row($ret);
 	if (  $nb_periode == 0 )
 		throw  (new Exception('Aucune période trouvée',101));
 	if ( $nb_periode > 1 ) 
 		throw  (new Exception("Trop de périodes trouvées $nb_periode pour $p_date",100));
-	$per=pg_fetch_result($ret,0);
+	$per=Database::fetch_result($ret,0);
 	$this->id=$per;
 	return $per;
   }

@@ -103,14 +103,14 @@ if ( isset($_POST['add_fiche'])) {
      
     $Res=$cn->exec_sql($sql);
     // fetch it
-    $Max=pg_NumRows($Res);
+    $Max=Database::num_row($Res);
     if ( $Max==0) {
       echo_warning("No rows");
     exit();
     }
-    $n=pg_NumRows($Res);
+    $n=Database::num_row($Res);
     for ($i=0;$i <$n;$i++) {
-      $f=pg_fetch_array($Res,$i);
+      $f=Database::fetch_array($Res,$i);
       $e[$i]=$f['fd_id'];
     }
     $list['fiche']=join(',',$e);

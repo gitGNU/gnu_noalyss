@@ -55,7 +55,7 @@ where
   $Res=$p_cn->exec_sql($sql);
 
   
-  if ( ( $M = pg_NumRows($Res)) == 0 ) return null;
+  if ( ( $M = Database::num_row($Res)) == 0 ) return null;
   // store it in a HTLM table
   $result='<table style="width:100%;border:solid blue 2px ;border-style:outset;">';
   $result.="<tr>";
@@ -68,7 +68,7 @@ where
 
   // Sql result => table
   for ($i = 0; $i < $M ; $i++ ) {
-    $r=pg_fetch_array($Res,$i);
+    $r=Database::fetch_array($Res,$i);
     $result.="<TR>";
 
     // sg_code  and link to details
@@ -128,11 +128,11 @@ $sql="select distinct f_id,av_text
            ";
 // Execute
  $Res=$p_cn->exec_sql($sql);
- if ( ( $M=pg_NumRows($Res)) == 0 ) return null;
+ if ( ( $M=Database::num_row($Res)) == 0 ) return null;
  
  // Store in an array
  for ( $i=0; $i<$M;$i++) {
-   $r=pg_fetch_array($Res,$i);
+   $r=Database::fetch_array($Res,$i);
    $a['f_id']=$r['f_id'];
    $fiche=new Fiche($p_cn,$r['f_id']);
    $a['av_text']=$fiche->getName();
@@ -191,7 +191,7 @@ $sql="select sg_code,
  $r.='<H2 class="info">'.$p_sg_code."  Noms : ".$name.'</H2>';
   
   $Res=$p_cn->exec_sql($sql);
-  if ( ($M=pg_NumRows($Res)) == 0 ) return "no rows";
+  if ( ($M=Database::num_row($Res)) == 0 ) return "no rows";
   $r.='<table style="width:100%;border:solid blue 2px ;border-style:outset;">';
   $r.="<TR>";
   $r.="<th>Date </th>";
@@ -206,7 +206,7 @@ $sql="select sg_code,
   $l_sessid=$_REQUEST['PHPSESSID'];
 
   for ( $i=0; $i < $M;$i++) {
-    $l=pg_fetch_array($Res,$i);
+    $l=Database::fetch_array($Res,$i);
     $r.="<tR>";
 
     // date
@@ -300,8 +300,8 @@ function GetQuantity($p_cn,$p_sg_code,$p_year,$p_type) {
          (p_exercice = '$p_year' or to_char(sg_date::timestamp,'YYYY')='$p_year') and 
          sg_type='$p_type'";
   $Res=$p_cn->exec_sql($sql);
-  if ( pg_NumRows($Res)== 0) return null;
-  $value=pg_fetch_array($Res,0);
+  if ( Database::num_row($Res)== 0) return null;
+  $value=Database::fetch_array($Res,0);
   return $value['result'];
     
 }

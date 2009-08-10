@@ -691,13 +691,13 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_url,$p_array=null) {
     echo_debug ("search query is $sql");
     $Res=$cn->exec_sql($sql);
   }
-  $MaxLine=pg_NumRows($Res);
+  $MaxLine=Database::num_row($Res);
   if ( $MaxLine == 0 ) return;
   $col_vide="<TD></TD>";
   echo '<TABLE ALIGN="center">';
   $l_id=0;
   for ( $i=0; $i < $MaxLine; $i++) {
-    $l_line=pg_fetch_array($Res,$i);
+    $l_line=Database::fetch_array($Res,$i);
     if ( $l_line['j_debit'] == 't' ) {
       echo '<TR style="background-color:lightblue;">';
     }
@@ -784,12 +784,12 @@ function get_data ($p_cn,$p_grpt) {
                         to_char(jr_date,'DD.MM.YYYY') as jr_date,
                         jr_id,jr_internal,jr_def_id,jr_pj
                      from jrnx inner join jrn on j_grpt=jr_grpt_id where j_grpt=$p_grpt");
-  $MaxLine=pg_NumRows($Res);
+  $MaxLine=Database::num_row($Res);
   if ( $MaxLine == 0 ) return null;
   $deb=0;$cred=0;
   for ( $i=0; $i < $MaxLine; $i++) {
     
-    $l_line=pg_fetch_array($Res,$i);
+    $l_line=Database::fetch_array($Res,$i);
     $l_array['op_date']=$l_line['j_date'];
     if ( $l_line['j_debit'] == 't' ) {
       $l_class=sprintf("class_deb%d",$deb);
@@ -861,12 +861,12 @@ function get_dataJrnJrId ($p_cn,$p_jr_id) {
                       where 
                          jr_id=$p_jr_id 
                       order by j_debit desc,j_id asc");
-  $MaxLine=pg_NumRows($Res);
+  $MaxLine=Database::num_row($Res);
   echo_debug('jrn.php',__LINE__,"Found $MaxLine lines");
   if ( $MaxLine == 0 ) return null;
 
   for ( $i=0; $i < $MaxLine; $i++) {
-    $line=pg_fetch_array($Res,$i);
+    $line=Database::fetch_array($Res,$i);
     $array['j_debit']=$line['j_debit'];
     // is there a name from this j_qcode
     //
@@ -927,7 +927,7 @@ function get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
 	       " where jr_id=$p_jr_id order by jrnx.j_id");
 
 
-  $MaxLine=pg_NumRows($Res);
+  $MaxLine=Database::num_row($Res);
   echo_debug('jrn.php',__LINE__,"Found $MaxLine lines");
 
 
@@ -941,7 +941,7 @@ function get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
 		   "   inner join jrnx on (j_grpt=jr_grpt_id) ".
 				   " join tmp_pcmn on (pcm_val=j_poste)".
 		   " where jr_id=$p_jr_id");
-      $MaxLine=pg_NumRows($Res);
+      $MaxLine=Database::num_row($Res);
       if ( $MaxLine == 0 ) 	  return null;
       
       
@@ -950,7 +950,7 @@ function get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
 
 
   for ( $i=0; $i < $MaxLine; $i++) {
-    $line=pg_fetch_array($Res,$i);
+    $line=Database::fetch_array($Res,$i);
 
 
     $array['j_debit']=$line['j_debit'];

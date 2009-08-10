@@ -82,7 +82,7 @@ class Bud_Data {
     echo_debug(__FILE__.':'.__LINE__.'- load',' SQL ',$sql);
 
     $res1=$this->cn->exec_sql($sql);
-    $array=pg_fetch_all($res1);
+    $array=Database::fetch_all($res1);
 
     
     $sql_periode="select coalesce(bdp_amount,0) as bdp_amount,a.p_id as p_id ".
@@ -103,7 +103,7 @@ class Bud_Data {
 	  // get the the bud_detail_periode for this bud_detail
 	  $arg=array($obj->bd_id);
 	  $res2=$this->cn->exec_sql($sql_periode,$arg);
-	  $per=pg_fetch_all($res2);
+	  $per=Database::fetch_all($res2);
 	} catch (Exception $e) {
 	  echo __FILE__.__LINE__."Erreur lors du chargement ";
 	  echo_debug(__FILE__,__LINE__,$arg);

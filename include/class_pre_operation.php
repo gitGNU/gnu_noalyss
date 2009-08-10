@@ -65,7 +65,7 @@ class Pre_operation
    */
   function save() {
 	if (	$this->db->count_sql("select * from op_predef ".
-			 "where upper(od_name)=upper('".pg_escape_string($this->name)."')".
+			 "where upper(od_name)=upper('".Database::escape_string($this->name)."')".
 					 "and jrn_def_id=".$this->p_jrn)
 			!= 0 )
 	  {
@@ -80,7 +80,7 @@ class Pre_operation
 				 'values'.
 				 "(%d,'%s',%d,'%s','%s')",
 				 $this->p_jrn,
-				 pg_escape_string($this->name),
+				 Database::escape_string($this->name),
 				 $this->nb_item,
 		     $this->jrn_type,
 		     $this->od_direct);
@@ -97,7 +97,7 @@ class Pre_operation
 	  " and od_direct='".$this->od_direct."'".
 	  " order by od_name";
 	$res=$this->db->exec_sql($sql);
-	$array=pg_fetch_all($res);
+	$array=Database::fetch_all($res);
 	echo_debug(__FILE__.':'.__LINE__.'- ','load pre_op',$array);
 
 	return $array;
@@ -146,7 +146,7 @@ class Pre_operation
       " and od_direct ='".$this->od_direct."'".
       " order by od_name";
   $res=$this->db->exec_sql($sql);
-  $all=pg_fetch_all($res);
+  $all=Database::fetch_all($res);
   return $all;
   }
   /*!\brief set the ledger

@@ -54,7 +54,7 @@ function ListJrn($p_cn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
   $amount_unpaid=0.0;
   include_once("central_inc.php");
   $limit=($_SESSION['g_pagesize']!=-1)?" LIMIT ".$_SESSION['g_pagesize']:"";
-  $offset=($_SESSION['g_pagesize']!=-1)?" OFFSET ".pg_escape_string($p_value):"";
+  $offset=($_SESSION['g_pagesize']!=-1)?" OFFSET ".Database::escape_string($p_value):"";
   $order="  order by jr_date_order asc,jr_internal asc";
   // Sort
   $url=CleanUrl();
@@ -158,7 +158,7 @@ $own=new Own($p_cn);
   $r.=JS_VIEW_JRN_CANCEL;
   $r.=JS_VIEW_JRN_MODIFY;
 
-  $Max=pg_NumRows($Res);
+  $Max=Database::num_row($Res);
 
   if ($Max==0) return array(0,"Aucun enregistrement trouv&eacute;");
 
@@ -188,7 +188,7 @@ $own=new Own($p_cn);
   for ($i=0; $i < $Max;$i++) {
 
     
-    $row=pg_fetch_array($Res,$i);
+    $row=Database::fetch_array($Res,$i);
     
     if ( $i % 2 == 0 ) $tr='<TR class="odd">'; 
 		else $tr='<TR class="even">';
@@ -376,7 +376,7 @@ function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
   $p_good=FormatString($p_good);
   $sql="select f_id from vw_poste_qcode where j_qcode=upper('$p_good')";
   $Res=$p_cn->exec_sql($sql);
-  $r=pg_fetch_array($Res,0);
+  $r=Database::fetch_array($Res,0);
   $f_id=$r['f_id'];
   $user=new User($p_cn);
   $exercice=$user->get_exercice();
@@ -411,9 +411,9 @@ function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
 function isValid ($p_cn,$p_grpt_id) {
   $Res=$p_cn->exec_sql("select jr_valid from jrn where jr_grpt_id=$p_grpt_id");
 
-  if ( ( $M = pg_NumRows($Res)) == 0 ) return 0;
+  if ( ( $M = Database::num_row($Res)) == 0 ) return 0;
 
-  $a=pg_fetch_array($Res,0);
+  $a=Database::fetch_array($Res,0);
 
   if ( $a['jr_valid'] == 't') return 1;
   if ( $a['jr_valid'] == 'f') return 0;

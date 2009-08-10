@@ -72,8 +72,8 @@ if ( $SecUser->admin==1)
 // Journal
 $Res=$cn->exec_sql("select jrn_def_id,jrn_def_name  from jrn_def ");
 $SecUser->db=$cn;
-for ($e=0;$e < pg_NumRows($Res);$e++) {
-  $row=pg_fetch_array($Res,$e);
+for ($e=0;$e < Database::num_row($Res);$e++) {
+  $row=Database::fetch_array($Res,$e);
   $a_jrn[$e]['jrn_name']=utf8_decode($row['jrn_def_name']);
   $priv=$SecUser->check_jrn($row['jrn_def_id']);
   switch($priv) {
@@ -102,10 +102,10 @@ $pdf->ezTable($a_jrn,
 $Res=$cn->exec_sql(
 	     "select ac_id, ac_description from action   order by ac_description ");
 
-$Max=pg_NumRows($Res);
+$Max=Database::num_row($Res);
 
 for ( $i =0 ; $i < $Max; $i++ ) {
-   $l_line=pg_fetch_array($Res,$i);
+   $l_line=Database::fetch_array($Res,$i);
    $action['lib']=utf8_decode($l_line['ac_description']);
    $right=$SecUser->check_action($l_line['ac_id']);
    switch ($right) {

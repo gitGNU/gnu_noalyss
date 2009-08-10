@@ -95,8 +95,8 @@ class User {
                      from ac_users ";
     $cn=new Database(); 
     $Res=$cn->exec_sql($sql.$sql_cond,$sql_array);
-    if (($Max=pg_NumRows($Res)) == 0 ) return -1;
-    $row=pg_fetch_array($Res,0);
+    if (($Max=Database::num_row($Res)) == 0 ) return -1;
+    $row=Database::fetch_array($Res,0);
     $this->id=$row['use_id'];
     $this->first_name=$row['use_first_name'];
     $this->name=$row['use_name'];
@@ -132,10 +132,10 @@ class User {
 					and ac_users.use_pass='$pass5'";
       echo_debug('class_user.php',__LINE__,"Sql = $sql");
       $ret=$cn->exec_sql($sql);
-      $res=pg_NumRows($ret);
+      $res=Database::num_row($ret);
       echo_debug('class_user.php',__LINE__,"Number of found rows : $res");
       if ( $res >0 ) {
-	$r=pg_fetch_array($ret,0);
+	$r=Database::fetch_array($ret,0);
 	$_SESSION['use_admin']=$r['use_admin'];
 	$_SESSION['use_name']=$r['use_name'];
 	$_SESSION['use_first_name']=$r['use_first_name'];
@@ -263,8 +263,8 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
     }
 
     $res=$this->db->exec_sql($sql);
-    if ( pg_NumRows($res) == 0 ) return null;
-    $array=pg_fetch_all($res);
+    if ( Database::num_row($res) == 0 ) return null;
+    $array=Database::fetch_all($res);
     return $array;
   }
 
@@ -297,8 +297,8 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
       
       $cn=new Database();
       $res=$cn->exec_sql($sql,array($this->login));
-      if ( pg_NumRows($res)==0) exit(__FILE__." ".__LINE__." aucun resultat");
-      $this->admin=pg_fetch_result($res,0);
+      if ( Database::num_row($res)==0) exit(__FILE__." ".__LINE__." aucun resultat");
+      $this->admin=Database::fetch_result($res,0);
     } 
     else $this->admin=1;
     
@@ -322,18 +322,18 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
     $sql='select min(p_id) as pid from parm_periode where p_closed = false and p_start = (select min(p_start) from parm_periode)';
     $Res=$this->db->exec_sql($sql);
 
-    $pid=pg_fetch_result($Res,0,0);
+    $pid=Database::fetch_result($Res,0,0);
     /* if all the periode are closed, then we use the last closed period */
     if ( $pid == null ) {
       $sql='select min(p_id) as pid from parm_periode where p_start = (select max(p_start) from parm_periode)';
       $Res2=$this->db->exec_sql($sql);
-      $pid=pg_fetch_result($Res2,0,0);
+      $pid=Database::fetch_result($Res2,0,0);
       if ( $pid == null )  {
 	echo "Aucune periode trouvable !!!";
 	exit(1);
       }
 
-      $pid=pg_fetch_result($Res2,0,0);
+      $pid=Database::fetch_result($Res2,0,0);
     }
 
     $sql=sprintf("insert into user_local_pref (user_id,parameter_value,parameter_type) 
@@ -396,8 +396,8 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
     $sql="select parameter_type,parameter_value from user_local_pref where user_id='".$this->id."'";
     $Res=$this->db->exec_sql($sql);
     $l_array=array();
-    for ( $i =0;$i < pg_NumRows($Res);$i++) {
-      $row= pg_fetch_array($Res,$i);
+    for ( $i =0;$i < Database::num_row($Res);$i++) {
+      $row= Database::fetch_array($Res,$i);
       $type=$row['parameter_type'];
       $l_array[$type]=$row['parameter_value'];
     }
@@ -422,7 +422,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
     $Res=$this->db->exec_sql(
 		      "select * from user_sec_act where ua_login=$1 and ua_act_id=$2",
 		      array($this->login,$p_action_id));
-    $Count=pg_NumRows($Res);
+    $Count=Database::num_row($Res);
     if ( $Count == 0 ) return 0;
     if ( $Count == 1 ) return 1;
     echo "<H2 class=\"error\"> Action Invalide !!! $Count select * from user_sec_act where ua_login='$p_login' and ua_act_id=$p_action_id </H2>";
@@ -442,7 +442,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
     $Res=$cn->exec_sql ("select parameter_type,parameter_value from 
                   user_global_pref
                   where user_id='".$this->login."'");
-    $Max=pg_NumRows($Res);
+    $Max=Database::num_row($Res);
     if (  $Max == 0 ) {
       $this->insert_default_global_pref();
       $this->load_global_pref();
@@ -451,7 +451,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
     // Load value into array
     $line=array();
     for ($i=0;$i<$Max;$i++) {
-      $row=pg_fetch_array($Res,$i);
+      $row=Database::fetch_array($Res,$i);
       $type=$row['parameter_type']; 
       $line[$type]=$row['parameter_value'];;
     }
@@ -527,9 +527,9 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
   {
     $sql="select p_exercice from parm_periode where p_id=".$this->get_periode();
     $Ret=$this->db->exec_sql($sql);
-    if (pg_NumRows($Ret) == 1) 
+    if (Database::num_row($Ret) == 1) 
       {
-	$r=pg_fetch_array($Ret,0);
+	$r=Database::fetch_array($Ret,0);
 	return $r['p_exercice'];
       }
     else 

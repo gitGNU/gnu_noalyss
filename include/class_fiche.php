@@ -73,7 +73,7 @@ class fiche {
       $sql="select f_id from jnt_fic_att_value join attr_value 
            using (jft_id)  where ad_id=23 and av_text=upper('".$p_qcode."')";
       $Res=$this->cn->exec_sql($sql);
-      $r=pg_fetch_all($Res);
+      $r=Database::fetch_all($Res);
       echo_debug('fiche',__LINE__,'result:'.var_export($r,true).'size '.sizeof($r));
 
       if ( $r == null  ) 
@@ -103,10 +103,10 @@ class fiche {
        " order by jnt_order";
 
     $Ret=$this->cn->exec_sql($sql);
-    if ( ($Max=pg_NumRows($Ret)) == 0 )
+    if ( ($Max=Database::num_row($Ret)) == 0 )
       return ;
     for ($i=0;$i<$Max;$i++) {
-      $row=pg_fetch_array($Ret,$i);
+      $row=Database::fetch_array($Ret,$i);
       $this->fiche_def=$row['fd_id'];
       $t=new Attribut ($row['ad_id']);
       $t->ad_text=$row['ad_text'];
@@ -181,7 +181,7 @@ class fiche {
 
     $Ret=$this->cn->exec_sql($sql.$p_sql);
     
-    return pg_NumRows($Ret) ;
+    return Database::num_row($Ret) ;
   }
 /*!   
  **************************************************
@@ -214,12 +214,12 @@ class fiche {
       }
 
     $Ret=$this->cn->exec_sql($sql);
-    if ( ($Max=pg_NumRows($Ret)) == 0 )
+    if ( ($Max=Database::num_row($Ret)) == 0 )
       return ;
     $all[0]=new fiche($this->cn);
 
     for ($i=0;$i<$Max;$i++) {
-      $row=pg_fetch_array($Ret,$i);
+      $row=Database::fetch_array($Ret,$i);
       $t=new fiche($this->cn,$row['f_id']);
       $t->getAttribut();
       $all[$i]=$t;
@@ -254,7 +254,7 @@ class fiche {
 	  $sql="select av_text from attr_value join jnt_fic_att_value using(jft_id)
                 where f_id=".FormatString($this->id)." and ad_id=".$p_ad_id;
 	  $Res=$this->cn->exec_sql($sql);
-	  $row=pg_fetch_all($Res);
+	  $row=Database::fetch_all($Res);
 	  // if not found return error
 	  if ( $row == false ) 
 	    return ' - ERROR -';
@@ -296,7 +296,7 @@ class fiche {
 			  $sql="select account_auto($p_fiche_def)";
 			  echo_debug("class_fiche",__LINE__,$sql);
 			  $ret_sql=$this->cn->exec_sql($sql);
-			  $a=pg_fetch_array($ret_sql,0);
+			  $a=Database::fetch_array($ret_sql,0);
 			  $label=new ISpan();
 			  $label->name="av_text".$attr->ad_id."_label";
 			  
@@ -389,7 +389,7 @@ class fiche {
 		  $sql="select account_auto($this->fiche_def)";
 		  echo_debug("class_fiche",__LINE__,$sql);
 		  $ret_sql=$this->cn->exec_sql($sql);
-		  $a=pg_fetch_array($ret_sql,0);
+		  $a=Database::fetch_array($ret_sql,0);
 		  $bulle=HtmlInput::infobulle(10);
 
 		  if ( $a['account_auto'] == 't' )
@@ -605,7 +605,7 @@ class fiche {
 	     // retrieve jft_id to update table attr_value
 	     $sql=" select jft_id from jnt_fic_att_value where ad_id=$id and f_id=$this->id";
 	     $Ret=$this->cn->exec_sql($sql);
-	     if ( pg_NumRows($Ret) != 1 ) {
+	     if ( Database::num_row($Ret) != 1 ) {
 	       // we need to insert this new attribut
 	       echo_debug ("class_fiche ".__LINE__." adding id !!! ");
 	       $jft_id=$this->cn->get_next_seq('s_jnt_fic_att_value');
@@ -620,7 +620,7 @@ class fiche {
 	       $ret3=$this->cn->exec_sql($sql3);
 	     } else 
 	       {
-	       $tmp=pg_fetch_array($Ret,0);
+	       $tmp=Database::fetch_array($Ret,0);
 	       $jft_id=$tmp['jft_id'];
 	       }
 	     // Special traitement
@@ -772,7 +772,7 @@ class fiche {
        // if the card is used do not removed it
        $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
 
-       if ( $this->cn->count_sql("select * from jrnx where j_qcode='".pg_escape_string($qcode)."'") != 0)
+       if ( $this->cn->count_sql("select * from jrnx where j_qcode='".Database::escape_string($qcode)."'") != 0)
 	 {
 	   alert('Impossible cette fiche est utilisée dans un journal'); 
 	   return;
@@ -809,7 +809,7 @@ class fiche {
        $sql="select av_text from jnt_fic_att_value join attr_value 
             using (jft_id)  where ad_id=1 and f_id=".$this->id;
        $Res=$this->cn->exec_sql($sql);
-       $r=pg_fetch_all($Res);
+       $r=Database::fetch_all($Res);
        if ( sizeof($r) == 0 ) 
          return 1;
        return $r[0]['av_text'];
@@ -823,7 +823,7 @@ class fiche {
        $sql="select av_text from jnt_fic_att_value join attr_value 
             using (jft_id)  where ad_id=23 and f_id=".$this->id;
        $Res=$this->cn->exec_sql($sql);
-       $r=pg_fetch_all($Res);
+       $r=Database::fetch_all($Res);
        if ( sizeof($r) == 0 ) 
          return null;
        return $r[0]['av_text'];
@@ -889,10 +889,10 @@ class fiche {
       $array=array();
       $tot_cred=0.0;
       $tot_deb=0.0;
-      $Max=pg_NumRows($Res);
+      $Max=Database::num_row($Res);
       if ( $Max == 0 ) return null;
       for ($i=0;$i<$Max;$i++) {
-	$array[]=pg_fetch_array($Res,$i);
+	$array[]=Database::fetch_array($Res,$i);
 	if ($array[$i]['j_debit']=='t') {
 	  $tot_deb+=$array[$i]['deb_montant'] ;
 	} else {
@@ -1083,9 +1083,9 @@ function get_solde_detail($p_cond="") {
             j_qcode = ('$qcode'::text)
             $p_cond
           ) as m  ");
-  $Max=pg_NumRows($Res);
+  $Max=Database::num_row($Res);
   if ($Max==0) return 0;
-  $r=pg_fetch_array($Res,0);
+  $r=Database::fetch_array($Res,0);
   
   return array('debit'=>$r['sum_deb'],
 	       'credit'=>$r['sum_cred'],
@@ -1104,8 +1104,8 @@ function empty_attribute($p_attr) {
     " and ad_id = ".$p_attr.
     " order by ad_id";
   $res=$this->cn->exec_sql($sql);
-  if ( pg_NumRows($res) == 0 ) return true;
-  $text=pg_fetch_result($res,0,0);
+  if ( Database::num_row($res) == 0 ) return true;
+  $text=Database::fetch_result($res,0,0);
   return (strlen(trim($text)) > 0)?false:true;
 
   
@@ -1178,12 +1178,12 @@ function belong_ledger($p_jrn,$p_type="")
                          from jrn_def where jrn_def_id=$p_jrn"
 		 );
   }
-  $Max=pg_NumRows($Res);
+  $Max=Database::num_row($Res);
   if ( $Max==0) {
     return -2;
   }
   /* convert the array to a string */
-  $list=pg_fetch_all($Res);
+  $list=Database::fetch_all($Res);
   $str_list="";
   $comma='';
   foreach ($list as $row) {
@@ -1204,7 +1204,7 @@ function belong_ledger($p_jrn,$p_type="")
            fd_id in (".$str_list.") and f_id= ".$this->id;
 
   $Res=$this->cn->exec_sql($sql);
-  $Max=pg_NumRows($Res);
+  $Max=Database::num_row($Res);
   if ($Max==0 ) 
     return 0;
   else

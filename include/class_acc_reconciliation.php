@@ -156,13 +156,13 @@ class Acc_Reconciliation {
     $Res=$this->db->exec_sql($sql);
 
     // If nothing is found return null
-    $n=pg_NumRows($Res);
+    $n=Database::num_row($Res);
 
     if ($n ==0 ) return null;
 
     // put everything in an array
     for ($i=0;$i<$n;$i++) {
-      $l=pg_fetch_array($Res,$i);
+      $l=Database::fetch_array($Res,$i);
       $r[$i]=$l['cn'];
     }
     return $r;

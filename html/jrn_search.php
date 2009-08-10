@@ -168,7 +168,7 @@ if ( isset ($_GET["search"]) ) {
     $condition." order by jr_date,jr_id,j_debit desc";
   $Res=$cn->exec_sql($sql);
 
-  $MaxLine=pg_NumRows($Res);
+  $MaxLine=Database::num_row($Res);
   $offset=(isset($_GET['offset']))?$_GET['offset']:0;
   $limit=$_SESSION['g_pagesize'];
   $sql_limit="";
@@ -187,7 +187,7 @@ if ( isset ($_GET["search"]) ) {
      return;
    }
   $Res=$cn->exec_sql($sql);
-  $MaxLine=pg_NumRows($Res);
+  $MaxLine=Database::num_row($Res);
 
   $col_vide="<TD></TD>";
 echo '<form id="form_jrn_concerned">';
@@ -201,7 +201,7 @@ echo '<form id="form_jrn_concerned">';
 //     return;
 //   }
   for ( $i=0; $i < $MaxLine; $i++) {
-    $l_line=pg_fetch_array($Res,$i);
+    $l_line=Database::fetch_array($Res,$i);
     if ( $l_id == $l_line['j_grpt'] ) {
       echo $col_vide.$col_vide;
     } else {

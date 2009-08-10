@@ -32,8 +32,8 @@ if ( isset ($_POST["LOGIN"]) ) {
   $cn=new Database();
   $pass5=md5($_POST['PASS']);
 
-  $first_name=pg_escape_string($_POST['FNAME']);
-  $last_name=pg_escape_string($_POST['LNAME']);
+  $first_name=Database::escape_string($_POST['FNAME']);
+  $last_name=Database::escape_string($_POST['LNAME']);
   $login=$_POST['LOGIN'];
   $login=str_replace("'","",$login);
   $login=str_replace('"',"",$login);

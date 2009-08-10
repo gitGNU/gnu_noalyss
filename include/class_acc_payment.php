@@ -136,8 +136,8 @@ class Acc_Payment
 		 array($this->mp_id)
 		 );
 
-    if ( pg_NumRows($res) == 0 ) return;
-    $row=pg_fetch_array($res,0);
+    if ( Database::num_row($res) == 0 ) return;
+    $row=Database::fetch_array($res,0);
     foreach ($row as $idx=>$value) { $this->$idx=$value; }
   }
   public function delete() {

@@ -93,7 +93,7 @@ class Acc_Tva
 		       $this->tva_poste)
 		 );
     $this->tva_id=$this->cn->get_current_seq('s_tva');
-    $err=pg_fetch_result($res);
+    $err=Database::fetch_result($res);
   }
 
   public function update() {
@@ -118,9 +118,9 @@ class Acc_Tva
 		 array($this->tva_id)
 		 );
 
-    if ( pg_NumRows($res) == 0 ) return null;
+    if ( Database::num_row($res) == 0 ) return null;
 
-    $row=pg_fetch_array($res,0);
+    $row=Database::fetch_array($res,0);
     foreach ($row as $idx=>$value) { $this->$idx=$value; }
   }
   /*!\brief get the account of the side (debit or credit)

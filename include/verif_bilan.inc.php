@@ -46,7 +46,7 @@ $User=new User($cn);
 
   $sql="select jrn_def_id,jrn_def_name from jrn_def";
   $res=$cn->exec_sql($sql);
-  $jrn=pg_fetch_all($res);
+  $jrn=Database::fetch_all($res);
   foreach ($jrn as $l) {
     $id=$l['jrn_def_id'];
     $name=$l['jrn_def_name'];
@@ -76,7 +76,7 @@ $User=new User($cn);
   printf ('<li> Total solde Grand Livre : debit %f credit %f %s</li>',$deb,$cred,$result);
   $sql="select jrn_def_id,jrn_def_name from jrn_def";
   $res=$cn->exec_sql($sql);
-  $jrn=pg_fetch_all($res);
+  $jrn=Database::fetch_all($res);
   foreach ($jrn as $l) {
     $id=$l['jrn_def_id'];
     $name=$l['jrn_def_name'];

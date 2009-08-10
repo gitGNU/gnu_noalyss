@@ -73,18 +73,18 @@ if (isset ($_GET['action'])) {
     if ( isset ($_GET['l']) ) {
       /* Ligne a enfant*/
       $R=$cn->exec_sql("select pcm_val from tmp_pcmn where pcm_val_parent=$1",array($_GET['l']));
-      if ( pg_NumRows($R) != 0 ) {
+      if ( Database::num_row($R) != 0 ) {
 		alert("Ne peut pas effacer le poste: d'autres postes en dépendent");
       } else {
 	/* Vérifier que le poste n'est pas utilisé qq part dans les journaux */
 	$Res=$cn->exec_sql("select * from jrnx where j_poste=$1",array($_GET['l']));
-	if ( pg_NumRows($Res) != 0 ) {
+	if ( Database::num_row($Res) != 0 ) {
 	  alert("Ne peut pas effacer le poste: il est utilisé dans les journaux");
 	}
 	else {
 	  $Del=$cn->exec_sql("delete from tmp_pcmn where pcm_val=$1",array($_GET['l']));
-	} // if pg_NumRows
-      } // if pg_NumRows
+	} // if Database::num_row
+      } // if Database::num_row
     } // isset ($l)
   } //$action == del
 } // isset action
@@ -111,7 +111,7 @@ if ( isset ( $_POST["Ajout"] ) ) {
       }
       /* Parent existe */
       $Ret=$cn->exec_sql("select pcm_val from tmp_pcmn where pcm_val=$1",array($p_parent));
-      if ( $p_parent != 0 && pg_NumRows($Ret) == 0 ) {
+      if ( $p_parent != 0 && Database::num_row($Ret) == 0 ) {
 		alert(" Ne peut pas modifier; aucun poste parent");
       } else {
 	// Check if the account already exists
@@ -134,7 +134,7 @@ if ( isset ( $_POST["Ajout"] ) ) {
 }
 
 $Ret=$cn->exec_sql("select pcm_val,pcm_lib,pcm_val_parent,pcm_type from tmp_pcmn where substr(pcm_val::text,1,1)='".$_SESSION['g_start']."' order by pcm_val::text");
-$MaxRow=pg_NumRows($Ret);
+$MaxRow=Database::num_row($Ret);
 
 ?>
 
@@ -162,7 +162,7 @@ echo dossier::hidden();
 <?php
   $str_dossier=dossier::get();
 for ($i=0; $i <$MaxRow; $i++) {
-  $A=pg_fetch_array($Ret,$i);
+  $A=Database::fetch_array($Ret,$i);
 
   if ( $i%2 == 0 ) {
     $td ='<TD class="odd">';

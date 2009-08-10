@@ -92,9 +92,9 @@ class Acc_Ledger {
     $Res=$this->db->exec_sql("select jrn_def_type from ".
 		 " jrn_def where jrn_def_id=".
 		 $this->id);
-    $Max=pg_NumRows($Res);
+    $Max=Database::num_row($Res);
     if ($Max==0) return null;
-    $ret=pg_fetch_array($Res,0);
+    $ret=Database::fetch_array($Res,0);
     $this->type=$ret['jrn_def_type'];
     return $ret['jrn_def_type'];
   }
@@ -111,9 +111,9 @@ class Acc_Ledger {
     $Res=$this->db->exec_sql("select jrn_def_name from ".
 		 " jrn_def where jrn_def_id=".
 		 $this->id);
-    $Max=pg_NumRows($Res);
+    $Max=Database::num_row($Res);
     if ($Max==0) return null;
-    $ret=pg_fetch_array($Res,0);
+    $ret=Database::fetch_array($Res,0);
     $this->name=$ret['jrn_def_name'];
     return $ret['jrn_def_name'];
   }
@@ -242,12 +242,12 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 
 
     $array=array();
-    $Max=pg_NumRows($Res);
+    $Max=Database::num_row($Res);
     if ($Max==0) return null;
     $case="";
     $tot_deb=0;
     $tot_cred=0;
-    $row=pg_fetch_all($Res);
+    $row=Database::fetch_all($Res);
     for ($i=0;$i<$Max;$i++) {
       $fiche=new fiche($this->db);
       $line=$row[$i];
@@ -408,7 +408,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     //---
 
     $Res=$this->db->exec_sql($sql);
-    $Max=pg_NumRows($Res);
+    $Max=Database::num_row($Res);
     if ( $Max == 0 ) 
       {
 	return null;
@@ -422,7 +422,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 			 from tva_rate where tva_rate != 0 order by tva_id');
 	for ( $i=0;$i<$Max;$i++) 
 	  {
-	    $array[$i]=pg_fetch_array($Res); 
+	    $array[$i]=Database::fetch_array($Res); 
 	    $p=$this->get_detail($array[$i],$type,$trunc,$a_TVA,$a_ParmCode);
 	    if ( $array[$i]['dep_priv'] != 0.0) {
 	      $array[$i]['comment'].="(priv. ".$array[$i]['dep_priv'].")";
@@ -432,7 +432,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
       }
     else 
       {
-	$array=pg_fetch_all($Res);
+	$array=Database::fetch_all($Res);
  
       }
 
@@ -574,7 +574,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     $sql="select j_id,j_poste,j_montant, j_debit,j_qcode from jrnx where ".
       " j_grpt=".$p_array['grpt_id'];
     $Res2=$this->db->exec_sql($sql);
-    $data_jrnx=pg_fetch_all($Res2);
+    $data_jrnx=Database::fetch_all($Res2);
     $c=0;
 
     // Parse data from jrnx and fill diff. field
@@ -742,12 +742,12 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	   jrn_def_fiche_deb,jrn_def_fiche_deb,jrn_def_pj_pref
 	   from jrn_Def
 	      where jrn_def_id=$1",array($this->id));
-    $Count=pg_NumRows($Res);
+    $Count=Database::num_row($Res);
     if ( $Count == 0 ) {
       echo '<DIV="redcontent"><H2 class="error"> Parametres journaux non trouves</H2> </DIV>';
       return null;
     }
-    return pg_fetch_array($Res,0);
+    return Database::fetch_array($Res,0);
   }
 
   /*! \function GetDefLine
@@ -761,7 +761,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     $sql_cred='jrn_deb_max_line';
     $sql="select jrn_deb_max_line as value from jrn_def where jrn_def_id=$1";
     $r=$this->db->exec_sql($sql,array($this->id));
-    $Res=pg_fetch_all($r);
+    $Res=Database::fetch_all($r);
     echo_debug('class_acc_ledger',__LINE__,$Res);
     if ( sizeof($Res) == 0 ) return 1;
     return $Res[0]['value'];
@@ -792,7 +792,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	.$periode.$ledger;
     }
     $ret=$this->db->exec_sql($sql);
-    $array=pg_fetch_all($ret);
+    $array=Database::fetch_all($ret);
     $deb=0.0;
     $cred=0.0;
     foreach ($array as $line) {
@@ -850,7 +850,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 
     $r=$this->db->exec_sql($sql,array($this->id));
 
-    $res=pg_fetch_all($r);
+    $res=Database::fetch_all($r);
     if ( empty($res) ) return null;
 
     return $res[0];
@@ -868,7 +868,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 
     $r=$this->db->exec_sql($sql,array($this->id));
 
-    $res=pg_fetch_all($r);
+    $res=Database::fetch_all($r);
 
     if ( empty($res) ) return null;
 
@@ -1483,7 +1483,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 
     $r=$this->db->exec_sql($sql,array($this->type));
 
-    $res=pg_fetch_all($r);
+    $res=Database::fetch_all($r);
     if ( empty($res) ) return null;
     $card="";
     $comma='';

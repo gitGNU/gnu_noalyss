@@ -67,10 +67,10 @@ class Acc_Account_Ledger {
       $array=array();
       $tot_cred=0.0;
       $tot_deb=0.0;
-      $Max=pg_NumRows($Res);
+      $Max=Database::num_row($Res);
       if ( $Max == 0 ) return null;
       for ($i=0;$i<$Max;$i++) {
-	$array[]=pg_fetch_array($Res,$i);
+	$array[]=Database::fetch_array($Res,$i);
 	if ($array[$i]['j_debit']=='t') {
 	  $tot_deb+=$array[$i]['deb_montant'] ;
 	} else {
@@ -90,8 +90,8 @@ class Acc_Account_Ledger {
     $ret=$this->db->exec_sql(
 		 "select pcm_lib from tmp_pcmn where
                   pcm_val=$1",array($this->id));
-      if ( pg_NumRows($ret) != 0) {
-	$r=pg_fetch_array($ret);
+      if ( Database::num_row($ret) != 0) {
+	$r=Database::fetch_array($ret);
 	$this->name=$r['pcm_lib'];
       } else {
 	$this->name="Poste inconnu";
@@ -104,7 +104,7 @@ class Acc_Account_Ledger {
   function do_exist() {
     $sql="select pcm_val from tmp_pcmn where pcm_val= $1";
     $ret=$this->db->exec_sql($sql,array($this->id));
-    return pg_NumRows($ret) ;
+    return Database::num_row($ret) ;
   }
   /*!\brief Get all the value for this object from the database
    *        the data member are set 
@@ -114,7 +114,7 @@ class Acc_Account_Ledger {
   {
     $ret=$this->db->exec_sql("select pcm_lib,pcm_val_parent from 
                               tmp_pcmn where pcm_val=$1",array($this->id));
-    $r=pg_fetch_all($ret);
+    $r=Database::fetch_all($ret);
     
     if ( ! $r ) return false;
     $this->label=$r[0]['pcm_lib'];
@@ -149,9 +149,9 @@ class Acc_Account_Ledger {
             j_poste::text like ('$this->id'::text) and
             $p_cond
           ) as m  ");
-  $Max=pg_NumRows($Res);
+  $Max=Database::num_row($Res);
   if ($Max==0) return 0;
-  $r=pg_fetch_array($Res,0);
+  $r=Database::fetch_array($Res,0);
   
   return abs($r['sum_deb']-$r['sum_cred']);
 }
@@ -175,13 +175,13 @@ function get_solde_detail($p_cond="") {
           ) as m  ";
 
  $Res=$this->db->exec_sql($sql);
- $Max=pg_NumRows($Res);
+ $Max=Database::num_row($Res);
  if ($Max==0) {
    return array('debit'=>0,
 	       'credit'=>0,
 	       'solde'=>0)     ;
  }
- $r=pg_fetch_array($Res,0);
+ $r=Database::fetch_array($Res,0);
  // if p_start is < p_end the query returns null to avoid any problem
  // we set it to 0
  if ($r['sum_deb']=='') 

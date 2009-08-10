@@ -51,8 +51,8 @@ class Anc_Group {
   
   function insert() {
     $sql=" insert into groupe_analytique (ga_id,ga_description,pa_id) values ('%s','%s',%d)";
-    $sql=sprintf($sql,pg_escape_string($this->ga_id),
-		 pg_escape_string($this->ga_description),
+    $sql=sprintf($sql,Database::escape_string($this->ga_id),
+		 Database::escape_string($this->ga_description),
 		 $this->pa_id);
     try {
       $this->db->exec_sql($sql);
@@ -68,7 +68,7 @@ class Anc_Group {
   function remove() {
     $this->ga_id=str_replace(' ','',$this->ga_id);
     $this->ga_id=strtoupper($this->ga_id);
-    $sql=" delete from groupe_analytique where ga_id='".pg_escape_string($this->ga_id)."'";
+    $sql=" delete from groupe_analytique where ga_id='".Database::escape_string($this->ga_id)."'";
 
     $this->db->exec_sql($sql);
   }
@@ -80,7 +80,7 @@ class Anc_Group {
     $sql="select ga_id, ga_description,pa_id from groupe_analytique where".
       " ga_id = ".$this->ga_id;
     $res=$this->db->exec_sql($sql);
-    $array=pg_fetch_all($res);
+    $array=Database::fetch_all($res);
     if ( ! empty($array) ) {
       $this->ga_id=$array['ga_id'];
       $this->ga_description=$array['ga_description'];
@@ -102,7 +102,7 @@ class Anc_Group {
       " from groupe_analytique ".
       " join plan_analytique using (pa_id)";
     $r=$this->db->exec_sql($sql);
-    $array=pg_fetch_all($r);
+    $array=Database::fetch_all($r);
     $res=array();
     if ( ! empty($array)) {
       foreach ($array as $m ) {

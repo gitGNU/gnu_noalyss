@@ -120,7 +120,7 @@ class Pre_op_ach extends Pre_operation_detail {
 	  " opd_quantity,opd_tva_amount from op_predef_detail where od_id=".$this->operation->od_id.
 	  " order by opd_id";
 	$res=$this->db->exec_sql($sql);
-	$array=pg_fetch_all($res);
+	$array=Database::fetch_all($res);
 	return $array;
   }
   function set_od_id($p_id) {

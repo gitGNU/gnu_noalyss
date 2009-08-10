@@ -156,10 +156,10 @@ function html_page_start($p_theme="",$p_script="",$p_script2="")
  if ( $p_theme != "") {
    $Res=$cn->exec_sql("select the_filestyle from theme
                    where the_name='".$p_theme."'");
-    if (pg_NumRows($Res)==0) 
+    if (Database::num_row($Res)==0) 
       $style="style.css";
     else {
-      $s=pg_fetch_array($Res,0);
+      $s=Database::fetch_array($Res,0);
       $style=$s['the_filestyle'];
     }
  }else {
@@ -209,10 +209,10 @@ function html_min_page_start($p_theme="",$p_script="",$p_script2="")
  if ( $p_theme != "") {
    $Res=$cn->exec_sql("select the_filestyle from theme
                    where the_name='".$p_theme."'");
-    if (pg_NumRows($Res)==0) 
+    if (Database::num_row($Res)==0) 
       $style="style.css";
     else {
-      $s=pg_fetch_array($Res,0);
+      $s=Database::fetch_array($Res,0);
       $style=$s['the_filestyle'];
     }
  }else {

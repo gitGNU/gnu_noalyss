@@ -326,7 +326,7 @@ class action
 	" ag_ref_ag_id ".
 	" from action_gestion left join document using (ag_id) where ag_id=".$this->ag_id;
       $r=$this->db->exec_sql($sql);
-      $row=pg_fetch_all($r);
+      $row=Database::fetch_all($r);
       if ( $row==false) return;
       $this->ag_comment=$row[0]['ag_comment'];
       $this->ag_timestamp=$row[0]['ag_timestamp'];
@@ -388,7 +388,7 @@ class action
       $doc_type->name="dt_id";
       $doc_type->value=$this->dt_id;
       $a=$this->db->exec_sql("select dt_value from document_type where dt_id=".$this->dt_id);
-      $v=pg_fetch_array($a,0);
+      $v=Database::fetch_array($a,0);
       $str_type=$v[0];
       if ( isset ($_REQUEST['url'])) 
 	{
@@ -404,7 +404,7 @@ class action
 
       // state
       $a=$this->db->exec_sql("select s_value from document_state where s_id=".$this->d_state);
-      $v=pg_fetch_array($a,0);
+      $v=Database::fetch_array($a,0);
       $str_state=$v[0];
       $state=new IHidden();
       $state->name="d_state";
@@ -787,12 +787,12 @@ class action
       $max_line=$this->db->count_sql($sql);
       $step=$_SESSION['g_pagesize'];
       $page=(isset($_GET['offset']))?$_GET['page']:1;
-      $offset=(isset($_GET['offset']))?pg_escape_string($_GET['offset']):0;
+      $offset=(isset($_GET['offset']))?Database::escape_string($_GET['offset']):0;
       $limit=" LIMIT $step OFFSET $offset ";  
       $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
       $Res=$this->db->exec_sql($sql.$limit);
-      $a_row=pg_fetch_all($Res);
+      $a_row=Database::fetch_all($Res);
 
       $r="";
       $r.=$bar;
@@ -864,7 +864,7 @@ class action
 	    {
 	      $retSqlStmt=$this->db->exec_sql(
 				  "select ag_ref from action_gestion where ag_id=".$row['ag_ref_ag_id']);
-	      $retSql=pg_fetch_all($retSqlStmt);
+	      $retSql=Database::fetch_all($retSqlStmt);
 	      if ( $retSql != null )
 		{
 		  foreach ($retSql as $line) 
@@ -1025,7 +1025,7 @@ class action
 	  $doc->get();
 	  $doc->remove();
 	  if ( strlen(trim($doc->d_lob))!=0 ) 
-	    pg_lo_unlink($this->db,$doc->dt_lob);
+	    $this->lo_unlink($doc->dt_lob);
 	}
 
     } 

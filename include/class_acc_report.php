@@ -49,8 +49,8 @@ class Acc_Report {
    */
   function get_name() {
     $ret=$this->db->exec_sql("select fr_label from formdef where fr_id=".$this->id);
-    if (pg_NumRows($ret) == 0) return $this->name;
-    $a=pg_fetch_array($ret,0);
+    if (Database::num_row($ret) == 0) return $this->name;
+    $a=Database::fetch_array($ret,0);
     $this->name=$a['fr_label'];
     return $this->name;
   }
@@ -71,11 +71,11 @@ class Acc_Report {
                       inner join formdef on fr_id=fo_fr_id
                      where fr_id =".$this->id.
                      "order by fo_pos");
-    $Max=pg_NumRows($Res);
+    $Max=Database::num_row($Res);
     if ($Max==0) {      $this->row=0;return null;}
     $col=array();
     for ($i=0;$i<$Max;$i++) {
-      $l_line=pg_fetch_array($Res,$i);
+      $l_line=Database::fetch_array($Res,$i);
 	  $col[]=ParseFormula($this->db,
 			      $l_line['fo_label'],
 			      $l_line['fo_formula'],
@@ -178,7 +178,7 @@ function form($p_line=0) {
 			 "insert into formdef (fr_label) values($1) returning fr_id",
 			 array($this->name)
 			 );
-      $this->id=pg_fetch_result($ret_sql,0,0);
+      $this->id=Database::fetch_result($ret_sql,0,0);
       $ix=1;
       foreach ( $this->aAcc_Report_row as $row) {
 	if ( strlen(trim($row->get_parameter("name"))) != 0 && 
@@ -264,14 +264,14 @@ function form($p_line=0) {
     $sql=$this->db->exec_sql(
 		      "select fr_label from formdef where fr_id=$1",
 		      array($this->id));
-    if ( pg_NumRows($sql) == 0 ) return;
-    $this->name=pg_fetch_result($sql,0,0);
+    if ( Database::num_row($sql) == 0 ) return;
+    $this->name=Database::fetch_result($sql,0,0);
     $sql=$this->db->exec_sql(
 		      "select fo_id,fo_pos,fo_label,fo_formula ".
 		      " from form ".
 		      " where fo_fr_id=$1 order by fo_pos",
 		      array($this->id));
-    $f=pg_fetch_all($sql);
+    $f=Database::fetch_all($sql);
     $array=array();
     if ( ! empty($f) ) {
       foreach ($f as $r) {
@@ -303,8 +303,8 @@ function form($p_line=0) {
   {
     $sql="select fr_id,fr_label from formdef order by fr_label";
     $ret=$this->db->exec_sql($sql);
-    if ( pg_NumRows($ret) == 0 ) return array();
-    $array=pg_fetch_all($ret);
+    if ( Database::num_row($ret) == 0 ) return array();
+    $array=Database::fetch_all($ret);
     $obj=array();
     foreach ($array as $row) {
       $tmp=new Acc_Report($this->db);
@@ -380,7 +380,7 @@ function form($p_line=0) {
     $c=$this->id;
     if ( $p_id != 0 ) $c=$p_id;
     $ret=$this->db->exec_sql("select fr_label from formdef where fr_id=$1",array($c));
-    if (pg_NumRows($ret) == 0) return false;
+    if (Database::num_row($ret) == 0) return false;
     return true;
   }
   function test_me() {

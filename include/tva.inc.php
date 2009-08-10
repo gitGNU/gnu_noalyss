@@ -67,16 +67,14 @@ echo '<div class="content">';
 				  $tva_comment,
 				  $tva_poste)
 		 );
-	      $ret_sql=pg_fetch_row($res);
-	      $err=$ret_sql[0];
+	      $err=Database::fetch_result($res);
 	    }
 	  if (  isset ($_POST['confirm_mod']) ) 
 	    {
 	      $Res=$cn->exec_sql(
 		       "select tva_modify($tva_id,'$tva_label',
                        '$tva_rate','$tva_comment','$tva_poste')");
-	      $ret_sql=pg_fetch_row($Res);
-	      $err=$ret_sql[0];
+	      $err=Database::fetch_result($Res);
 	    }
 
 	}
@@ -110,7 +108,7 @@ if ( $own->MY_TVA_USE=='N' ){
 <th>Poste</th>
 </tr>
 <?php  
-  $val=pg_fetch_all($Res);
+  $val=Database::fetch_all($Res);
   echo_debug('parametre',__LINE__,$val);
   foreach ( $val as $row)
     {

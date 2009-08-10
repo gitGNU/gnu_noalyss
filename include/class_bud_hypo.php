@@ -64,9 +64,9 @@ class Bud_Hypo {
       " bh_id =".$this->bh_id;
     $res=$this->db->exec_sql($sql);
 
-    if ( pg_NumRows($res) == 0 ) return;
+    if ( Database::num_row($res) == 0 ) return;
 
-    $a=pg_fetch_array($res,0);
+    $a=Database::fetch_array($res,0);
     $this->bh_name=$a['bh_name'];
     $this->bh_saldo=$a['bh_saldo'];
     $this->bh_description=$a['bh_description'];
@@ -92,13 +92,13 @@ class Bud_Hypo {
 		 $pa_id
 	      );
     $a=$this->db->exec_sql($sql,$array);
-    $this->bh_id=pg_fetch_result($a,0,0);
+    $this->bh_id=Database::fetch_result($a,0,0);
   }
   function update() {
     if ( strlen(trim ($this->bh_name)) == "" ) return; 
-    $bh_name=pg_escape_string($this->bh_name);
+    $bh_name=Database::escape_string($this->bh_name);
     $bh_saldo=(isNumber($this->bh_saldo) == 1 ) ?$this->bh_saldo:0;
-    $bh_description=pg_escape_string($this->bh_description);
+    $bh_description=Database::escape_string($this->bh_description);
     $pa_id=($this->pa_id == null || $this->pa_id < 0 )?"NULL":$this->pa_id;
 
     $sql=sprintf(
@@ -130,8 +130,8 @@ class Bud_Hypo {
   static function get_list($p_cn) {
     $sql="select * from bud_hypothese order by bh_name ";
     $r=$p_cn->exec_sql($sql);
-    if ( pg_NumRows($r)==0 ) return null;
-    $a=pg_fetch_all($r);
+    if ( Database::num_row($r)==0 ) return null;
+    $a=Database::fetch_all($r);
     foreach($a as $row) {
       $tmp=new Bud_Hypo($p_cn);
       $tmp->bh_id=$row['bh_id'];

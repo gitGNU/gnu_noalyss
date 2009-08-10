@@ -52,7 +52,7 @@ class fiche_def_ref
     {
       $sql="select * from fiche_def_ref order by frd_id";
       $Res=$this->db->exec_sql($sql);
-      $all=pg_fetch_all($Res);
+      $all=Database::fetch_all($Res);
       if ( $Res == false ) return array();
       $idx=0;
       $array=array();
@@ -129,8 +129,8 @@ class fiche_def_ref
       $sql="select * from  fiche_def_ref ".
 	" where frd_id=".$this->frd_id;
       $Res=$this->db->exec_sql($sql);
-      if ( pg_NumRows($Res) == 0 ) return null;
-      $r=pg_fetch_array($Res,0);
+      if ( Database::num_row($Res) == 0 ) return null;
+      $r=Database::fetch_array($Res,0);
       $this->frd_text=$r['frd_text'];
       $this->frd_class_base=$r['frd_class_base'];
     }

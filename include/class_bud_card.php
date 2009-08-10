@@ -66,7 +66,7 @@ class Bud_Card {
       " values (substr($1,1,10),$2,$3,substr($4,1,20),$5) returning bc_id ";
     try {
       $a=$this->db->exec_sql($sql,$array);
-      $x=pg_fetch_array($a,0);
+      $x=Database::fetch_array($a,0);
       $this->bc_id=$x['bc_id'];
     } catch (Exception $e) {
 
@@ -144,9 +144,9 @@ class Bud_Card {
       " bc_id =".$this->bc_id;
     $res=$this->db->exec_sql($sql);
 
-    if ( pg_NumRows($res) == 0 ) return null;
+    if ( Database::num_row($res) == 0 ) return null;
 
-    $a=pg_fetch_array($res,0);
+    $a=Database::fetch_array($res,0);
 	$this->get_from_array($a);  
   }
 
@@ -158,7 +158,7 @@ class Bud_Card {
   static function get_list($p_cn,$p_bh_id) {	
     $sql="select * from bud_card where bh_id = $p_bh_id";
     $r=$p_cn->exec_sql($sql);
-    $get=pg_fetch_all($r);
+    $get=Database::fetch_all($r);
     
     if (empty ($get))
       return array();

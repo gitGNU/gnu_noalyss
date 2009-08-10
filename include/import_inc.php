@@ -158,7 +158,7 @@ function VerifImport($p_cn){
 	$sql = "select * from import_tmp where status='n' ".
 	  " order by date_exec,code";
 	$Res=$p_cn->exec_sql($sql);
-	$Num=pg_NumRows($Res);
+	$Num=Database::num_row($Res);
 	echo $Num." opérations à complèter.<br/><br/>";
 	$i=1;
 	// include javascript for popup 
@@ -166,7 +166,7 @@ function VerifImport($p_cn){
 	echo JS_CONCERNED_OP;
 	echo JS_AJAX_FICHE;
 	echo JS_PROTOTYPE;
-	while($val = pg_fetch_array($Res)){
+	while($val = Database::fetch_array($Res)){
 	  echo '<form METHOD="POST" id="form_'.$i.'"action="import.php?action=verif">'; 
 	  echo dossier::hidden();
 	  ShowBox($val,$i,$p_cn,'form');
@@ -185,7 +185,7 @@ function ConfirmTransfert($p_cn,$periode){
   $sql = "select to_char(p_start,'DD-MM-YYYY') as p_start,to_char(p_end,'DD-MM-YYYY') as p_end".
     " from parm_periode where p_id = '".$periode."'";
   $Res=$p_cn->exec_sql($sql);
-  $val = pg_fetch_array($Res);
+  $val = Database::fetch_array($Res);
   if ( $val == false )
     {
       echo "<script>".
@@ -204,11 +204,11 @@ function ConfirmTransfert($p_cn,$periode){
 
 	
   $Res=$p_cn->exec_sql($sql);
-  $Num=pg_NumRows($Res);
+  $Num=Database::num_row($Res);
   echo $Num." opérations à transfèrer.<br/><br/>";
   if ( $Num == 0 ) return;
   $i=1;
-  while($val = pg_fetch_array($Res)){
+  while($val = Database::fetch_array($Res)){
 
     echo '<form method="post" id="form_'.$i.'" action="import.php">';
 	echo dossier::hidden();
@@ -243,7 +243,7 @@ function TransferCSV($p_cn, $periode){
     " from parm_periode where p_id = '".$periode."'";
 
   $Res=$p_cn->exec_sql($sql);
-  $val = pg_fetch_array($Res);
+  $val = Database::fetch_array($Res);
   if ( $val == false )
     {
       echo "<script>".
@@ -263,10 +263,10 @@ function TransferCSV($p_cn, $periode){
     {
       $p_cn->start();
       $ResAll=$p_cn->exec_sql($sql);
-      $Max=pg_NumRows($ResAll);
+      $Max=Database::num_row($ResAll);
       echo $Max." opérations à transférer.<br/>";
       for ($i = 0;$i < $Max;$i++) {
-	$val=pg_fetch_array($ResAll,$i);
+	$val=Database::fetch_array($ResAll,$i);
 
 	$code=$val['code']; 
 	$date_exec=$val['date_exec']; 
@@ -294,7 +294,7 @@ function TransferCSV($p_cn, $periode){
 	    $sqltest = "select * from tmp_pcmn WHERE pcm_val='".$poste_comptable."'";
 	  
 	    $Restest=$p_cn->exec_sql($sqltest);
-	    $test=pg_NumRows($Restest);
+	    $test=Database::num_row($Restest);
 	  }
 
 	// Test it

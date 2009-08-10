@@ -113,7 +113,7 @@ Array
     $hypo=new Bud_Hypo($this->cn,$this->bh_id);
     $local_con=new Database(dossier::id());
     if ( $hypo->has_plan()  == 1 ) {
-      $sql_prepare=pg_prepare($local_con,"get_group","select sum(bdp_amount) as amount,ga_id,".
+      $sql_prepare=$local_con->prepare("get_group","select sum(bdp_amount) as amount,ga_id,".
 			      "bc_price_unit".
 			      " from ".
 			      " bud_detail join bud_detail_periode using (bd_id) ".
@@ -125,7 +125,7 @@ Array
 			      " group by ga_id,bc_price_unit ".
 			      " order by ga_id ");
     } else {
-      $sql_prepare=pg_prepare($local_con,"get_group","select sum(bdp_amount) as amount,'Aucun groupe' as ga_id,".
+      $sql_prepare=$local_con->prepare("get_group","select sum(bdp_amount) as amount,'Aucun groupe' as ga_id,".
 			      "bc_price_unit".
 			      " from ".
 			      " bud_detail join bud_detail_periode using (bd_id) ".
@@ -147,8 +147,8 @@ Array
     foreach ($aPoste as $rPoste) {
       $pcm_val=$rPoste['pcm_val'];
       $line=array();
-      $res=pg_execute("get_group",array($pcm_val,$this->bh_id));
-      $row=pg_fetch_all($res);
+      $res=$cn->execute("get_group",array($pcm_val,$this->bh_id));
+      $row=Database::fetch_all($res);
       if ( empty ($row) ) continue;
       // initialize all groupe to 0
       if ( ! empty($aGroup) ) {
@@ -173,7 +173,7 @@ Array
     /*!\bug it is a bug ? When I close a connection created and used
      *   locally, it closed also the main connection so I reopened it
      */
-    pg_close($local_con);
+    $local_con->close();
     $this->cn=new Database(dossier::id());
     return $array;
   }

@@ -55,11 +55,11 @@
 </TR>
 <?php
 // Show the fiche in deb section
-$Res=ExecSql($cn,"select fd_id,fd_label from fiche_def order by fd_label");
-$num=pg_NumRows($Res);
+$Res=$cn->exec_sql("select fd_id,fd_label from fiche_def order by fd_label");
+$num=$cn->size();
 
 for ($i=0;$i<$num;$i++) {
-  $res=pg_fetch_array($Res,$i);
+  $res=$cn->fetch($i);
   $CHECKED=" unchecked";
   foreach ( $rdeb as $element) { 
     if ( $element == $res['fd_id'] ) {

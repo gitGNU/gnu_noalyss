@@ -57,10 +57,10 @@ class Customer extends fiche{
     $this->poste=($p_poste==0)?$this->poste:$p_poste;
     $sql="select * from vw_client where poste_comptable=$1";
     $Res=$this->cn->exec_sql($sql,array($this->poste));
-    if ( pg_NumRows($Res) == 0) return null;
-    if ( pg_NumRows($Res) > 1 ) throw new Exception ('Plusieurs fiches avec le même poste',1);
+    if ( Database::num_row($Res) == 0) return null;
+    if ( Database::num_row($Res) > 1 ) throw new Exception ('Plusieurs fiches avec le même poste',1);
     // There is only _one_ row by customer
-    $row=pg_fetch_array($Res,0);
+    $row=Database::fetch_array($Res,0);
     $this->name=$row['name'];
     $this->id=$row['f_id'];    
     $this->street=$row['rue'];    
@@ -131,16 +131,16 @@ where
     // and store the result in an array (a_Res)
     //---
 
-    for ($i=0; $i < pg_NumRows($Res);$i++) {
+    for ($i=0; $i < Database::num_row($Res);$i++) {
       // Get each row
       //---
-      $row1=pg_fetch_array($Res,$i);
+      $row1=Database::fetch_array($Res,$i);
   
 
       // select the operation
       //----
       $Res2=$this->cn->exec_sql("select j_poste,j_montant,j_debit from jrnx where j_grpt=".$row1['j_grpt']); 
-      $a_row=pg_fetch_all($Res2);
+      $a_row=Database::fetch_all($Res2);
 
       // Store the amount in the array
       //---

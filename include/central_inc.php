@@ -71,10 +71,10 @@ $sql="insert into centralized( c_j_id,
      // get the existing jrn_def_id 
      //--
      $Res = $p_cn->exec_sql("select jrn_def_id from jrn_def");
-     $MaxJrn=pg_NumRows($Res);
+     $MaxJrn=Database::num_row($Res);
      // for each jrn_def_id
      for ( $i=0; $i < $MaxJrn;$i++) {
-       $row=pg_fetch_array($Res,$i);
+       $row=Database::fetch_array($Res,$i);
        // get the op related to that jrn_def_id
        $sql=sprintf("select jr_id from jrn 
          where
@@ -86,7 +86,7 @@ $sql="insert into centralized( c_j_id,
 		);
 
        $Res2=$p_cn->exec_sql($sql);
-       $MaxLine=pg_NumRows($Res2);
+       $MaxLine=Database::num_row($Res2);
        $jrn_def_id=$row['jrn_def_id'];
 	 /* if seq doesn't exist create it */
        if ( $p_cn->exist_sequence('s_jrn_'.$jrn_def_id) == false ) {
@@ -95,7 +95,7 @@ $sql="insert into centralized( c_j_id,
 		 
        for ($e=0;$e < $MaxLine;$e++) {
 		 // each line is updated with a sequence
-		 $line=pg_fetch_array($Res2,$e);
+		 $line=Database::fetch_array($Res2,$e);
 		 $jr_id=$line['jr_id'];
 		 $sql=sprintf ("update jrn set 
                  jr_opid = (select nextval('s_jrn_%d'))
@@ -117,10 +117,10 @@ $sql="insert into centralized( c_j_id,
 		  );
      
      $Res2=$p_cn->exec_sql($sql);
-     $MaxLine=pg_NumRows($Res2);
+     $MaxLine=Database::num_row($Res2);
      for ($e=0;$e < $MaxLine;$e++) {
        // each line is updated with a sequence
-       $line=pg_fetch_array($Res2,$e);
+       $line=Database::fetch_array($Res2,$e);
        $jr_id=$line['jr_id'];
        $sql=sprintf ("update jrn set 
                  jr_c_opid = (select nextval('s_central'))
@@ -132,8 +132,8 @@ $sql="insert into centralized( c_j_id,
      $Res=$p_cn->exec_sql("select c_id from centralized 
                  inner join jrn on c_grp = jr_grpt_id
                  order by jr_c_opid, c_debit desc");
-     for ( $e=0;$e < pg_NumRows($Res);$e++) {
-       $row=pg_fetch_array($Res,$e);
+     for ( $e=0;$e < Database::num_row($Res);$e++) {
+       $row=Database::fetch_array($Res,$e);
        $sql=sprintf ("update centralized set  
                  c_order = (select nextval('s_central_order'))
                  where c_id = %d",$row['c_id']);

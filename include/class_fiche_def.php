@@ -73,10 +73,10 @@ function input ($p_js)
 
     $Ret=$this->cn->exec_sql($sql);
 
-    if ( ($Max=pg_NumRows($Ret)) == 0 )
+    if ( ($Max=Database::num_row($Ret)) == 0 )
       return ;
     for ($i=0;$i < $Max;$i++) {
-      $row=pg_fetch_array($Ret,$i);
+      $row=Database::fetch_array($Ret,$i);
       $t = new Attribut($row['ad_id']);
       $t->ad_text=$row['ad_text'];
       $t->jnt_order=$row['jnt_order'];
@@ -99,9 +99,9 @@ function input ($p_js)
     $sql="select * from fiche_def ".
       " where fd_id=".$this->id;
     $Ret=$this->cn->exec_sql($sql);
-    if ( ($Max=pg_NumRows($Ret)) == 0 )
+    if ( ($Max=Database::num_row($Ret)) == 0 )
       return ;
-    $row=pg_fetch_array($Ret,0);
+    $row=Database::fetch_array($Ret,0);
     $this->label=$row['fd_label'];
     $this->class_base=$row['fd_class_base'];
     $this->fiche_def=$row['frd_id'];
@@ -117,11 +117,11 @@ function input ($p_js)
    $sql="select * from fiche_def ";
 
     $Ret=$this->cn->exec_sql($sql);
-    if ( ($Max=pg_NumRows($Ret)) == 0 )
+    if ( ($Max=Database::num_row($Ret)) == 0 )
       return ;
 
     for ( $i = 0; $i < $Max;$i++) {
-      $row=pg_fetch_array($Ret,$i);
+      $row=Database::fetch_array($Ret,$i);
       $this->all[$i]=new fiche_def($this->cn,$row['fd_id']);
       $this->all[$i]->label=$row['fd_label'];
       $this->all[$i]->class_base=$row['fd_class_base'];
@@ -287,12 +287,12 @@ function input ($p_js)
       }
 
     $Ret=$this->cn->exec_sql($sql);
-    if ( ($Max=pg_NumRows($Ret)) == 0 )
+    if ( ($Max=Database::num_row($Ret)) == 0 )
       return ;
     $all[0]=new fiche($this->cn);
 
     for ($i=0;$i<$Max;$i++) {
-      $row=pg_fetch_array($Ret,$i);
+      $row=Database::fetch_array($Ret,$i);
       $t=new fiche($this->cn,$row['f_id']);
       $t->getAttribut();
       $all[$i]=$t;
@@ -311,12 +311,12 @@ function input ($p_js)
             where frd_id=$1";
 
     $Ret=$this->cn->exec_sql($sql,array($p_cat));
-    if ( ($Max=pg_NumRows($Ret)) == 0 )
+    if ( ($Max=Database::num_row($Ret)) == 0 )
       return null;
     $all[0]=new fiche($this->cn);
 
     for ($i=0;$i<$Max;$i++) {
-      $row=pg_fetch_array($Ret,$i);
+      $row=Database::fetch_array($Ret,$i);
       $t=new fiche($this->cn,$row['f_id']);
       $t->getAttribut();
       $all[$i]=$t;
@@ -355,7 +355,7 @@ function input ($p_js)
 		   " vw_fiche_attr ".
 		   " where fd_id='".$this->id.
 		   "' order by f_id $sql_offset $sql_limit ");
-      $Max=pg_NumRows($Res);
+      $Max=Database::num_row($Res);
       echo $bar;
       $str="";
       // save the url 
@@ -377,7 +377,7 @@ function input ($p_js)
       $str_dossier=dossier::get();
       echo '<table>';
       for ( $i = 0; $i < $Max; $i++) {
-		$l_line=pg_fetch_array($Res,$i);
+		$l_line=Database::fetch_array($Res,$i);
 		if ( $i%2 == 0) 
 		  echo '<TR class="odd">';
 		else
@@ -461,12 +461,12 @@ function input ($p_js)
                        where 
                  ad_id not in (select ad_id from fiche_def natural join jnt_fic_attr
                            where fd_id=".$this->id.")");
-      $M=pg_NumRows($Res);
+      $M=Database::num_row($Res);
       
       // Show the unused attribute
       $r.='<TR> <TD>';
       $r.= '<SELECT NAME="ad_id">';
-      for ($i=0;$i<$M;$i++) {	$l=pg_fetch_array($Res,$i);
+      for ($i=0;$i<$M;$i++) {	$l=Database::fetch_array($Res,$i);
 	$a=sprintf('<OPTION VALUE="%s"> %s',
 	       $l['ad_id'],$l['ad_text']);
 	$r.=$a;
@@ -607,14 +607,14 @@ function get_attr_min($p_fiche_def_ref) {
       where
       frd_id= $1";
   $Res=$this->cn->exec_sql($Sql,array($p_fiche_def_ref));
-  $Num=pg_NumRows($Res);
+  $Num=Database::num_row($Res);
 
   // test the number of returned rows
   if ($Num == 0 ) return null;
 
   // Get Results & Store them in a array
   for ($i=0;$i<$Num;$i++) {
-    $f=pg_fetch_array($Res,$i);
+    $f=Database::fetch_array($Res,$i);
     $array[$i]['ad_id']=$f['ad_id'];
     $array[$i]['ad_text']=$f['ad_text'];
   }

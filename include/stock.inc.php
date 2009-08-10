@@ -168,8 +168,8 @@ if ( $action == 'detail' ) {
 $sql="select distinct (p_exercice) as exercice from parm_periode ";
 $Res=$cn->exec_sql($sql);
 $r="";
-for ( $i = 0; $i < pg_NumRows($Res);$i++) {
-  $l=pg_fetch_array($Res,$i);
+for ( $i = 0; $i < Database::num_row($Res);$i++) {
+  $l=Database::fetch_array($Res,$i);
   $r.=sprintf('<A class="mtitle" HREF="?p_action=stock&year=%d&'.dossier::get().'">%d</a> - ',
 	      $l['exercice'],
 	      $l['exercice']);

@@ -54,7 +54,7 @@ class Acc_Parm_Code {
   function load_all() {
     $sql="select * from parm_code order by p_code";
     $Res=$this->db->exec_sql($sql);
-    $r= pg_fetch_all($Res);
+    $r= Database::fetch_all($Res);
     $idx=0;
     $array=array();
 
@@ -166,8 +166,8 @@ class Acc_Parm_Code {
 
     $Res=$this->db->exec_sql($sql,array($this->p_code));
 
-    if ( pg_NumRows($Res) == 0 ) return 'INCONNU';
-    $row= pg_fetch_array($Res,0);
+    if ( Database::num_row($Res) == 0 ) return 'INCONNU';
+    $row= Database::fetch_array($Res,0);
     $this->p_value=$row['p_value'];
     $this->p_comment=$row['p_comment'];
 

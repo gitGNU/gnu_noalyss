@@ -64,7 +64,7 @@ class gestion_sold extends gestion_table
           where qs_internal='".$this->qs_internal."'";
 	$ret=$this->db->exec_sql($sql);
 	// $res contains all the line
-	$res=pg_fetch_all($ret);
+	$res=Database::fetch_all($ret);
 
 	if ( sizeof($res)==0) return null;
 	$count=0;
