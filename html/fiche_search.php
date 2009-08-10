@@ -83,13 +83,13 @@ function get_list_fiche($p_cn,$get,$p_jrn)
   $Res=$p_cn->exec_sql($sql,array($p_jrn));
 
   // fetch it
-  $Max=pg_NumRows($Res);
+  $Max=$p_cn->size();
   if ( $Max==0) {
     echo_warning("Aucune fiche trouvée");
     exit();
   }
   // Normally Max must be == 1
-  $list=pg_fetch_array($Res,0);
+  $list=$p_cn->fetch(0);
   if ( $list['fiche']=="") {
     echo_warning("Journal mal paramètré");
 	echo_warning('Changez-en les réglages dans paramètre->journaux');
@@ -120,10 +120,11 @@ if ( isset($_REQUEST['add'])&& $_REQUEST['add']=='no' ) $add=0;
 if ($add==1 && $User->check_action(FICADD)==1 ) {
   if ( $User->check_action(FICADD)==1) {
     $add_card=new IButton();
-    $add_card->javascript=sprintf("NewCard('%s','%s','%s')",
+    $add_card->javascript=sprintf("NewCard('%s','%s','%s',%s)",
 				  $_REQUEST['PHPSESSID'],
 				  $_GET['type'],
-				  "fic_search");
+				  "fic_search",
+				  $_REQUEST['p_jrn']);
     $add_card->label="Ajout d'une fiche";
   }
 }
@@ -204,7 +205,7 @@ if (
       $list_fiche=$e_type;
       $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
     }
-    
+ 
     // e_fic_search contains the pattern
     
     if (strlen(trim($e_fic_search) ) == 0 ) {

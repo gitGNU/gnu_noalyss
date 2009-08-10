@@ -80,7 +80,7 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
     break;
 
   default:
-    $filter_card="and frd_id in ($d)";
+    $filter_card="and fd_id in ($d)";
   }
 
   $sql="select vw_name,vw_addr,vw_cp,vw_buy,vw_sell,tva_id 

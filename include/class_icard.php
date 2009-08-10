@@ -61,7 +61,17 @@ class ICard extends HtmlInput
     $l_sessid=$_REQUEST['PHPSESSID'];
 
     if ( $this->javascript=="") { 
+    if ( isset($this->jrn)) {
       /* if javascript is empty then we   add a default behaviour */
+      $this->javascript=sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',%s)"',
+				$this->name,
+				$this->extra, //deb or cred
+				$l_sessid,
+				'js_search_only',
+				'none',
+				$this->jrn
+				);
+				}else {      /* if javascript is empty then we   add a default behaviour */
       $this->javascript=sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')"',
 				$this->name,
 				$this->extra, //deb or cred
@@ -69,6 +79,7 @@ class ICard extends HtmlInput
 				'js_search_only',
 				'none'
 				);
+}
     }
       if ( $this->extra2 == "" ) $this->extra2="QuickCode";
       if ( $this->table==1)

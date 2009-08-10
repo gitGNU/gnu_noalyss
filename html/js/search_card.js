@@ -68,16 +68,19 @@ var query='?first&search&fic_search='+search+'&p_jrn='+jrn+'&PHPSESSID='+p_sessi
 }
 /*!\brief Open a window for adding a card
 *
-* Remark The ledger (jrn_id) must be in the calling form as a hidden field named p_jrn
+* Remark The ledger (jrn_id) must be in the calling form as a hidden field named p_jrn or passed as a parameter
 *\param  p_sessid is the PHPSESSID
 *\param type must be deb or cred
 *\param  name is the name of the control, it is used for computing the name of the VAT, Price field 
+*\param p_jrn ledger id
 */
-function NewCard(p_sessid,type,name)
+function NewCard(p_sessid,type,name,p_jrn)
 {
+
   var search=document.getElementById(name).value;
   var gDossier=document.getElementById('gDossier').value;
-  var jrn=$("p_jrn").value;
+  var jrn=0;
+  if ( p_jrn == undefined )  {  jrn=$("p_jrn").value; } else { jrn=p_jrn;}
   var a=window.open('fiche_new.php?p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name+'&gDossier='+gDossier,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
    return false;
 

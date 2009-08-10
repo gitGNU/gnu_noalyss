@@ -56,13 +56,15 @@ function errorFid(request,json) {
  * \param phpsessid
  *\param p_caller id of the caller 
  *\param  p_extra extra parameter, change depends of the caller
+ *\param p_jrn is the ledger id
  */
-function ajaxFid(p_ctl,p_deb,phpsessid,p_caller,p_extra) 
+function ajaxFid(p_ctl,p_deb,phpsessid,p_caller,p_extra,p_jrn) 
 {
   var gDossier=$('gDossier').value;
     var ctl_value=trim($(p_ctl).value);
     $(p_ctl).value=ctl_value;
-  var p_jrn=$('p_jrn').value;
+    if ( p_jrn == undefined ) {	  var p_jrn=$('p_jrn').value; }
+   
   if ( trim(ctl_value)==0 ) {
     nLabel=p_ctl+"_label";
     if ($(nLabel) ){$(nLabel).value="";}

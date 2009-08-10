@@ -99,7 +99,8 @@ if ( isset($_POST['add_fiche'])) {
   // if e_type contains a list of value
   if ( $e_type != 'cred' and $e_type != 'deb' && $e_type!='filter')     {
     //    $list['fiche']=$e_type;
-    $sql="select fd_id from fiche_def where frd_id in ($e_type)";
+    $sql="select fd_id from fiche_def where fd_id in ($e_type)";
+     
     $Res=$cn->exec_sql($sql);
     // fetch it
     $Max=pg_NumRows($Res);
@@ -135,15 +136,15 @@ if ( isset($_POST['add_fiche'])) {
     
 
     $Res=$cn->exec_sql($sql,array($_GET['p_jrn']));
-    
+
   // fetch it
-    $Max=pg_NumRows($Res);
+    $Max=$cn->size();
     if ( $Max==0) {
       echo_warning("No rows");
     exit();
     }
     // Normally Max must be == 1
-    $list=pg_fetch_array($Res,0);
+    $list=$cn->fetch(0);
     if ( $list['fiche']=="") {
       echo_warning("Journal mal paramètré");
       return;

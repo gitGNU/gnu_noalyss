@@ -94,18 +94,6 @@ class Acc_Payment
 
   public function insert() {
     if ( $this->verify() != 0 ) return;
-    /*  please adapt
-    $sql="insert into tva_rate (tva_label,tva_rate,tva_comment,tva_poste) ".
-      " values ($1,$2,$3,$4)  returning tva_id";
-    $res=$this->cn->exec_sql(
-		 $sql,
-		 array($this->tva_label,
-		       $this->tva_rate,
-		       $this->tva_comment,
-		       $this->tva_poste)
-		 );
-    $this->tva_id=pg_fetch_result($res,0,0);
-    */
   }
 
   public function update() {
@@ -153,9 +141,7 @@ class Acc_Payment
     foreach ($row as $idx=>$value) { $this->$idx=$value; }
   }
   public function delete() {
-/*    $sql="delete from tva_rate where tva_id=$1"; 
-    $res=$this->cn->exec_sql($sql,array($this->tva_id));
-*/
+
   }
   /*!\brief retrieve all the data for a certain type
    *\param non
