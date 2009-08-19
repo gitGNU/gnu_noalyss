@@ -71,17 +71,15 @@ if ( strpos($inc_path,";") != 0 ) {
 set_include_path($new_path);
 
 require_once('config_file.php');
-require_once('class_database.php');
 /* The config file is created here */
 if (isset($_POST['save_config'])) {
   $url=config_file_create($_POST,1,$os);
  }
 
-
 if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php')) {
   /* if the config file is not found we propose to create one */
   if ( is_writable ('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'constant.php') == false ) {
-    echo '<h2 class="error"> On ne peut pas écrire dans le répertoire de phpcompta, changez-en les droits </h2>';
+    echo '<h2 class="error"> On ne peut pas &eacute;crire dans le r&eacute;pertoire de phpcompta, changez-en les droits </h2>';
     exit();
   }
 
@@ -93,6 +91,8 @@ if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.D
   exit();
   }
 include_once('constant.php');
+require_once('class_database.php');
+
 include_once('debug.php');
 include_once('ac_common.php');
 /* If htaccess file doesn't exists we create them here
