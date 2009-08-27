@@ -680,6 +680,8 @@ class Document
 	  $id='e_march'.$counter.'_tva_id';
 	  if ( !isset (${$id}) ) return "";
 	  if ( ${$id} == -1 ) return "";
+	  $march_id='e_march'.$counter.'_price' ;
+	  if ( ! isset (${$march_id})) return '';
 	  $tva=new Acc_Tva($this->db);
 	  $tva->set_parameter("id",${$id});
 	  $tva->load();
@@ -705,6 +707,9 @@ class Document
 	  extract ($_POST);
 	  $id='e_march'.$counter.'_tva_id';
 	  if ( !isset (${$id}) ) return "";
+	  $march_id='e_march'.$counter.'_price' ;
+	  if ( ! isset (${$march_id})) return '';
+	  if ( ${$march_id} == 0 )return '';
 	  $tva=GetTvaRate($this->db,${$id});
 	  if ( $tva == null || $tva==0 ) return "";
 	  $r=$tva['tva_label'];
