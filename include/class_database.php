@@ -361,6 +361,7 @@ de donn&eacute;es");
      */
     function get_array($p_sql,$p_array=null) {
       $r=$this->exec_sql($p_sql,$p_array);
+
       if ( ($Max=  pg_NumRows($r)) == 0 ) return null;
       $array=pg_fetch_all($r);
       return $array;

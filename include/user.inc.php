@@ -41,7 +41,8 @@ if ( isset ($_POST["LOGIN"]) ) {
   $login=strtolower($login);
 
   $Res=$cn->exec_sql("insert into ac_users(use_first_name,use_name,use_login,use_active,use_pass)
-                    values ('".$first_name."','".$last_name."','".$login."',1,'$pass5')");
+                    values ($1,$2,$3,1,$4)",
+		     array($first_name,$last_name,$login,$pass5));
 } //SET login
 
 // Show all the existing user on 7 columns

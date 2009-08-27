@@ -195,7 +195,7 @@ if (  empty ( $Dossier )) {
 
 $mod_user=new User(new Database(),$uid);
 foreach ( $Dossier as $rDossier) {
-  print_r("debug");print_r($rDossier);
+
   $priv=$mod_user->get_folder_access($rDossier['dos_id']);
   printf("<TR><TD> Dossier : %s </TD>",h($rDossier['dos_name']));
   

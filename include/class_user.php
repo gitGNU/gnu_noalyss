@@ -65,7 +65,6 @@ class User {
     } 
     else // if p_id is set get data of another user
       {
-	print_r("debug p_id $p_id");
 	$this->id=$p_id;
 	$this->db=$p_cn;
 	$this->load();
@@ -109,7 +108,7 @@ class User {
    
   $Sql="update ac_users set use_first_name=$1, use_name=$2
         ,use_active=$3,use_admin=$4 where use_id=$5";
-		
+  $cn=new Database();		
   $Res=$cn->exec_sql($Sql,array($this->first_name,$this->last_name,$this->active,$this->admin,$this->id));
   }
   /*!
@@ -172,13 +171,14 @@ class User {
    *
    */
   function get_folder_access($p_dossier = 0) {
-    print_r("debug : get_folder_access $p_dossier");
+
     if ($p_dossier==0)       $p_dossier=dossier::id();
     if ( $this->is_local_admin($p_dossier) == 1) return 'L';
     $cn=new Database();
-    print_r("debug"); print_r($cn);
+
     $sql="select priv_priv from priv_user join jnt_use_dos on (jnt_id=priv_jnt) join ac_users using (use_id)
 where use_id=$1 and dos_id=$2";
+
     $res=$cn->get_value($sql,array($this->id,$p_dossier));
     if ( $res=='') return 'X';
     return $res;
@@ -188,13 +188,19 @@ where use_id=$1 and dos_id=$2";
 	 *\param $priv the priv. to set
 	 */
   function set_folder_access($db_id,$priv) {
+
     $cn=new Database();
-	$jnt=$cn->get_value("select jnt_id from jnt_use_dos where dos_id=$1 and use_id=$2",array($db_id,$this->id));
-	if ( $jnt=='' ) {$Res=$cn->exec_sql("insert into jnt_use_dos(dos_id,use_id) values($1,$2)",array($db_id,$this->id)); 
-		$jnt=$cn->get_value("select jnt_id from jnt_use_dos where dos_id=$1 and use_id=$2",array($db_id,$this->id));}
-	$Res=$cn->exec_sql("update priv_user set priv_priv=$1 where priv_jnt=$2",array($priv,$jnt));
-	
-	}
+    $jnt=$cn->get_value("select jnt_id from jnt_use_dos where dos_id=$1 and use_id=$2",array($db_id,$this->id));
+
+    if ( $cn->size() == 0 ) {
+
+      $Res=$cn->exec_sql("insert into jnt_use_dos(dos_id,use_id) values($1,$2)",array($db_id,$this->id)); 
+      $jnt=$cn->get_value("select jnt_id from jnt_use_dos where dos_id=$1 and use_id=$2",array($db_id,$this->id));
+      $Res=$cn->exec_sql("insert into priv_user (priv_priv,priv_jnt) values($1,$2)",array($priv,$jnt));
+    }
+    $Res=$cn->exec_sql("update priv_user set priv_priv=$1 where priv_jnt=$2",array($priv,$jnt));
+    
+  }
   /*!\brief check that a user is valid and the access to the folder
    * \param $p_ledger the ledger to check
    *\return the priv_priv 
