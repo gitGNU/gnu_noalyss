@@ -400,7 +400,7 @@ class Document
       header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
       header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
       header("Cache-Control: must-revalidate");
-      header('Content-type: "'.$this->d_mimetype.'"');
+      header('Content-type: '.$this->d_mimetype);
       header('Content-Disposition: attachment;filename="'.$this->d_filename.'"',FALSE);
       header("Accept-Ranges: bytes");
       $file=fopen($tmp,'r');
