@@ -147,7 +147,7 @@ class Document_modele {
 		  if ( $oid == false ) 
 		    {
 		      echo_error('class_document_modele.php',__LINE__,"cannot upload document");
-		      $cn->rollback();
+		      $this->cn->rollback();
 		      return;
 		    }
 		  echo_debug('class_document_modele.php',__LINE__,"Loading document");
