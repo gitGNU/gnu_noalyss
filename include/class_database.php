@@ -513,7 +513,7 @@ de donn&eacute;es");
    *\return result of the operation
    */
     function lo_export($p_oid,$tmp) {
-      return pg_lo_export($this->db,$oid,$tmp);
+      return pg_lo_export($this->db,$p_oid,$tmp);
     }
   /*!\brief wrapper for the function pg_lo_export
    *\param $p_oid is the oid of the log
@@ -521,7 +521,7 @@ de donn&eacute;es");
    *\return result of the operation
    */
     function lo_import($p_oid) {
-      return pg_lo_import($this->db,$oid);
+      return pg_lo_import($this->db,$p_oid);
     }
 
   /*!\brief wrapper for the function pg_escape_string
