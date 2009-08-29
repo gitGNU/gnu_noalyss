@@ -192,7 +192,7 @@ class Document_modele {
       if ( strlen ($r['md_lob']) != 0 )
 	{
 	  // we remove it first
-	  pg_lo_unlink($r['md_lob']);
+	  pg_lo_unlink($this->cn,$r['md_lob']);
 	}
       // now we can delete the row
       $sql="delete from document_modele where md_id =".$this->md_id;
