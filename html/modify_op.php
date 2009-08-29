@@ -43,7 +43,7 @@ $User->check_dossier(dossier::id());
 
 html_page_start($User->theme,"onLoad='window.focus();'");
 require_once('class_dossier.php');
-// $p_jrn=(isset($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:0;
+
 $acc=new Acc_Operation($cn);
 if (isset($_REQUEST['line']))
   $acc->jr_id=$_REQUEST ['line'];
@@ -56,7 +56,7 @@ if ( isset ( $_GET['action'] ) ) {
   $action=$_GET['action'];
 }
 //$_SESSION["p_jrn"]=$p_jrn;
-
+print_r($_REQUEST);
 $p_view=(isset($_REQUEST['p_view']))?$_REQUEST['p_view']:"error";
 
 if ( isset ( $_REQUEST['action'] ) ) {

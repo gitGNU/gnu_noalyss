@@ -34,11 +34,16 @@ include_once("constant.php");
 function echo_debug      ($file,$line="",$msg="") {
   if ( DEBUG=='true' ) {
     $f=fopen ($_ENV['TMP'].DIRECTORY_SEPARATOR."phpcompta.log","a+");
-    $a=var_export($msg,true);
-    $e=basename($file);
-    fwrite($f,"$e : $line $a\n");
-    fclose ($f);
+
+    if ($f == false) { echo "Ne peut ouvrir le fichier  pour deboggage"; }
+    else {
+      $a=var_export($msg,true);
+      $e=basename($file);
+      fwrite($f,"$e : $line $a\n");
+      fclose ($f);
+    }
   }
+  return;
 }
 
 ?>

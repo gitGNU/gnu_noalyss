@@ -464,7 +464,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     /* Save the attachment */
     if ( isset ($_FILES)) {
       if ( sizeof($_FILES) != 0 )
-	save_upload_document($this->db,$seq);
+	$this->db->save_upload_document($seq);
     }
     /* Generate an document  and save it into the database */
     if ( isset($_POST['gen_invoice']) && $e_mp != 0) {

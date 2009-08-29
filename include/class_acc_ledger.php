@@ -1173,7 +1173,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
       $periode->find_periode($date);
     } else {
       $periode->id=$user->get_periode();
-      list ($l_date_start,$l_date_end)=$periode->get_date_limite();
+      list ($l_date_start,$l_date_end)=$periode->get_date_limit();
       // Date dans la periode active
       if ( cmpDate($date,$l_date_start)<0 || 
 	   cmpDate($date,$l_date_end)>0 )

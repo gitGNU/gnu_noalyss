@@ -44,6 +44,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
    */
   public function verify($p_array) {
     extract ($p_array);
+    print_r($p_array);
     /* check for a double reload */
     if ( isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
       throw new Exception ('Double Encodage',5);
@@ -56,16 +57,16 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     if ( isDate($e_date) == null ) {
       throw new Exception('Date invalide', 2);
     }
-	$oPeriode=new Periode($this->db);
-	if ($this->check_periode()==false) {
-			$periode=$oPeriode->find_periode($e_date);
-	} else {
-		$oPeriode->id=$periode;
-	    list ($min,$max)=$oPeriode->get_date_limit();
-	    if ( cmpDate($e_date,$min) < 0 ||
-		 cmpDate($e_date,$max) > 0) 
-		throw new Exception('Date et periode ne correspondent pas',6);
-	}
+    $oPeriode=new Periode($this->db);
+    if ($this->check_periode()==false) {
+      $periode=$oPeriode->find_periode($e_date);
+    } else {
+      $oPeriode->id=$periode;
+      list ($min,$max)=$oPeriode->get_date_limit();
+      if ( cmpDate($e_date,$min) < 0 ||
+	   cmpDate($e_date,$max) > 0) 
+	throw new Exception('Date et periode ne correspondent pas',6);
+    }
 	
     /* check if the periode is closed */
     if ( $this->is_closed($periode)==1 )
@@ -192,6 +193,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       $period->type=OPEN;
       $period->value=$l_user_per;
       $period->user=$user;
+      $period->name='periode';
       try {
 	$l_form_per=$period->input();
       } catch (Exception $e) {
@@ -645,7 +647,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	    // first record we upload the files and
 	    // keep variable to update other row of jrn
 	    if ( isset ($_FILES))
-	      $oid=save_upload_document($this->db,$seq);
+	      $oid=$this->db->save_upload_document($seq);
 
 	  } else {
 	  if ( $oid  != 0 ) 

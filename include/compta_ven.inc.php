@@ -30,7 +30,7 @@ require_once ('class_document.php');
 require_once ('class_acc_ledger_info.php');
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 $gDossier=dossier::id();
-
+print_r($_REQUEST);
 $cn=new Database(dossier::id());
   //menu = show a list of ledger
 $str_dossier=dossier::get();
@@ -135,6 +135,7 @@ if ( $def==1 || $def == 4 ) {
       alert($e->getMessage());
       $correct=1;
     }
+
     if ( ! isset($correct)) {
       echo '<div class="content">';
       $Ledger=new Acc_Ledger_Sold($cn,$_POST['p_jrn']);

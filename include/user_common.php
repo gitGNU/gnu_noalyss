@@ -352,12 +352,10 @@ $own=new Own($p_cn);
 
 
 
-/*!   InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c');
- **************************************************
+/*!   
  *\brief  Insert data into stock_goods,
  *        
- * \param  $p_cn database connection
- * 
+ * \param  $p_cn Database object 
  * \param $p_j_id the j_id
  * \param $p_good the goods
  * \param $p_quant  quantity
@@ -368,8 +366,9 @@ $own=new Own($p_cn);
  */
 function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
 {
-  echo_debug('user_common.php',__LINE__,"function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)");
+  
   // Retrieve the good account for stock
+ echo "here 114";
   $code=new fiche($p_cn);
   $code->get_by_qcode($p_good);
   $code_marchandise=$code->strAttribut(ATTR_DEF_STOCK);

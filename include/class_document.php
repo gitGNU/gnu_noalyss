@@ -102,7 +102,7 @@ class Document
 
       chdir($dirname);
       $filename=$row['md_filename'];
-      $this->lo_export($row['md_lob'],$filename);
+      $this->db->lo_export($row['md_lob'],$filename);
       $type="n";
       echo_debug('class_document',__LINE__,'The document type is '.$row['md_mimetype']);
       // if the doc is a OOo, we need to unzip it first
@@ -283,7 +283,7 @@ class Document
       // We save the generated file
       $doc=new Document($this->db);
       $this->db->start();
-      $this->d_lob=$this->lo_import($p_file);
+      $this->d_lob=$this->db->lo_import($p_file);
       if ( $this->d_lob == false ) { 
 	$this->db->rollback(); echo_debug('class_document',__LINE__,"can't save file $p_file");
 	return 1; }
@@ -711,7 +711,7 @@ class Document
 	  if ( ! isset (${$march_id})) return '';
 	  if ( ${$march_id} == 0 )return '';
 
-	  $tva=new Acc_Tva($cn,${$id});
+	  $tva=new Acc_Tva($this->db,${$id});
 	  if ($tva->load() == null) return "";
 	  $r=$tva->get_parameter('label');
 
@@ -881,7 +881,7 @@ class Document
 	  $sum=0.0;
 	  for ($i=0;$i<$nb_item;$i++)
 	    {
-		  $tva=new Acc_Tva($cn,${'e_march'.$i.'_tva_id'});
+		  $tva=new Acc_Tva($this->db,${'e_march'.$i.'_tva_id'});
 		  if ($tva->load() == null) $tva_rate=0.0; else $tva_rate=$tva->get_parameter('rate');
 	      $sell=${'e_march'.$i.'_price'};
 	      $qt=${'e_quant'.$i};

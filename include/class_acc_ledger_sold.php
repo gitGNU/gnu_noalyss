@@ -180,7 +180,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 		$tperiode=$period;
 	else 
 		$tperiode=$oPeriode->find_periode($e_date);
-		
+
     $cust=new fiche($this->db);
     $cust->get_by_qcode($e_client);
     $poste=$cust->strAttribut(ATTR_DEF_ACCOUNT);
@@ -213,7 +213,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	if ( $amount < 0 ) $tot_debit=bcadd($tot_debit,abs($amount));
 
 	$j_id=$acc_operation->insert_jrnx();
-	
+
 	if ($own->MY_TVA_USE == 'Y' ) {	
 		/* Compute sum vat */
 		$oTva=new Acc_Tva($this->db);
@@ -242,7 +242,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 		
 	// always save quantity but in withStock we can find 
 	// what card need a stock management
-	
+
 	InsertStockGoods($this->db,$j_id,${'e_march'.$i},$nNeg*${'e_quant'.$i},'c') ;
 
 	if ( $own->MY_ANALYTIC != "nu" )
@@ -256,7 +256,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	    echo_debug(__FILE__.':'.__LINE__,"Description is $e_comm");
 	    $op->oa_description=FormatString($e_comm);
 	    $op->save_form_plan($_POST,$i);
-	  }
+	  } 
 	if ( $own->MY_TVA_USE=='Y') {
 	/* save into quant_sold */
 	$r=$this->db->exec_sql("select insert_quant_sold ".
@@ -345,7 +345,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     /* Save the attachment */
     if ( isset ($_FILES)) {
       if ( sizeof($_FILES) != 0 )
-	save_upload_document($this->db,$seq);
+	$this->db->save_upload_document($seq);
     } else
     /* Generate an invoice and save it into the database */
     if ( isset($_POST['gen_invoice'])) {
@@ -423,6 +423,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	exit();
       }
     $this->db->commit();
+
     return $internal;
   }
 

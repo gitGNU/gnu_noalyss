@@ -472,7 +472,7 @@ de donn&eacute;es");
    *\param $p_indice is the index
    *\return $array of column 
    */
-    static function fetch_array($ret,$p_indice) { return pg_fetch_array($ret,$p_indice); }
+    static function fetch_array($ret,$p_indice=0) { return pg_fetch_array($ret,$p_indice); }
 
   /*!\brief wrapper for the function pg_fetch_all
    *\param $ret is the result of pg_exec (exec_sql)
