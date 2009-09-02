@@ -38,7 +38,7 @@ require_once('class_database.php');
 */
 class Acc_Tva
 {
-  private static $cn;		/*!< $cn database connection */
+  private  $cn;		/*!< $cn database connection */
   private static $variable=array("id"=>"tva_id",
 				 "label"=>"tva_label",
 				 "rate"=>"tva_rate",

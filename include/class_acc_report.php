@@ -383,7 +383,7 @@ function form($p_line=0) {
     if (Database::num_row($ret) == 0) return false;
     return true;
   }
-  function test_me() {
+  static function test_me() {
     $cn=new Database(dossier::id());
     $a=new Acc_Report($cn);
     print_r($a->get_list());

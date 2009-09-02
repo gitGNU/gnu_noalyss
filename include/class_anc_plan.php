@@ -109,7 +109,7 @@ class Anc_Plan
 			" values (".
 			"'".$name."',".
 			"'".$description."')");
-	$this->id=$this->db->get_current_seq($this->db,'plan_analytique_pa_id_seq');
+	$this->id=$this->db->get_current_seq('plan_analytique_pa_id_seq');
 
   }
   function form()

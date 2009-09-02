@@ -130,9 +130,8 @@ de donn&eacute;es");
      */
     function get_current_seq($p_seq)
     {
-      $Res=$this->exec_sql("select currval('$p_seq') as seq");
-      $seq=pg_fetch_array($Res,0);
-      return $seq['seq'];
+      $Res=$this->get_value("select currval('$p_seq') as seq");
+      return $Res;
     }
 
 
@@ -541,6 +540,9 @@ de donn&eacute;es");
      *\see
      *\todo
      */	
+    function __toString() {
+      return "database ";
+    }
     static function test_me() {
     }
   

@@ -154,7 +154,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
   }
 
-  public function save() {
+  public function save($p_array) {
     echo "<h2> Acc_Ledger_Sold::save Not implemented</h2>";
   }
 

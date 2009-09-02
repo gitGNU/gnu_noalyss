@@ -396,7 +396,7 @@ class Bud_Data {
    */
 
   static function test_me() {
-    echo JS_PROTOTYPE_JS;
+    echo JS_PROTOTYPE;
     echo JS_BUD_SCRIPT;
     $cn=new Database(dossier::id());
     $sql="select bh_id||','||po_id,bh_name||' -- '||po_name ".

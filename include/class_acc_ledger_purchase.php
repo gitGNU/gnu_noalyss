@@ -156,7 +156,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       throw new Exception('Il n\'y a aucune marchandise',12);
   }
 
-  public function save() {
+  public function save($p_array) {
     echo "<h2> Acc_Ledger_Purchase::save Not implemented</h2>";
   }
 
@@ -768,9 +768,10 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     if ( $own->MY_PJ_SUGGEST=='Y') {
       $default_pj=$this->guess_pj();
     } 
+    $pj=new IText();
     $pj->value=(isset($e_pj))?$e_pj:$default_pj;
 
-    $pj=new IText();
+
     $pj->table=0;
     $pj->name="e_pj";
     $pj->size=10;

@@ -191,7 +191,7 @@ class Anc_Account
 	$array=array();
 	foreach ($ret as $line)
 	  {
-		$objet=new Anc_Account($this->db);
+		$object=new Anc_Account($this->db);
 
 		$object->id=$line['po_id'];
 		$object->name=$line['po_name'];

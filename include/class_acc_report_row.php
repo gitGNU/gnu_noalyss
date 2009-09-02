@@ -96,7 +96,7 @@ class  Acc_Report_Row
     }
     return $ret;
   }
-  function test_me()
+  static function test_me()
   {
         $cn=new Database(dossier::id());
 	$a=new Acc_Report_Row();
@@ -105,7 +105,7 @@ class  Acc_Report_Row
 		     "text1"=>"test2",
 		     "form1"=>"6%"
 		     );
-
+	$a->db=$cn;
 	$b=$a->from_array($array);
 	print_r($b);
 	echo $a->get_info();

@@ -104,8 +104,6 @@ if ( $Jrn->id==0  || $jrn_type=='FIN' || $jrn_type=='ODS' || $_REQUEST['p_simple
 				     $filter,
 				     $l_centr
 				     );
-    echo_debug('jrn_pdf.php',__LINE__,"MONTANT $rap_deb,$rap_cred");
-    echo_debug('jrn_pdf.php',__LINE__,"  list($rap_deb,$rap_cred)=get_rappel($cn,$first_id,".$Jrn->id.",$Exercice,FIRST)");
     $pdf->ezText(utf8_decode($Jrn->name),30);
     
     if (  $l_centr == 1 ) {

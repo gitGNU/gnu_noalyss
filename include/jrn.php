@@ -252,7 +252,6 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 {
 
-  echo_debug('jrn.php',__LINE__,"function ShowOperationUser($p_cn,$p_jr_id,$p_mode) ");
   $gDossier=dossier::id();  
   $l_array=get_dataJrnJrIdUser($p_cn,$p_jr_id);
   $str_dossier=dossier::get();
@@ -836,7 +835,6 @@ function get_data ($p_cn,$p_grpt) {
  */ 
 function get_dataJrnJrId ($p_cn,$p_jr_id) {
 
-  echo_debug('jrn.php',__LINE__,"get_dataJrn $p_cn $p_jr_id");
   $Res=$p_cn->exec_sql("select 
                         j_text,
                         j_debit,
