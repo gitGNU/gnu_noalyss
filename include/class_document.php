@@ -730,7 +730,7 @@ class Document
 	       || strlen(trim($qt)) ==0)
 	    return "";
 	  $a_tva=GetTvaRate($this->db,${$tva});
-	  echo_debug('class_document',__LINE__,'Tva  :'.var_eanalyticxport($a_tva,true));
+	  echo_debug('class_document',__LINE__,'Tva  :'.var_export($a_tva,true));
 	  // if no vat returns 0
 	  if ( sizeof($a_tva) == 0 ) return "";
 	  $r=round(${$price},2)*${$qt}*$a_tva['tva_rate'];

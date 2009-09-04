@@ -395,10 +395,18 @@ class Acc_Bilan {
 	    $a=$this->$f2_value;
 	  }
 	  if ( $a=='-0' ) $a=0; 
-		  
-	  echo_debug(__FILE__.':'.__LINE__.'- $a =',$a);
-		
-	  $line_rtf=str_replace($f2_str,$a,$line_rtf);
+
+	  /*  allow numeric cel in ODT for the formatting and formula */
+	   if ( is_numeric($a) ) {
+	     echo_debug(__FILE__,__LINE__," a is numeric $a");
+	     $searched='office:value-type="string"><text:p>'.$f2_str;
+	     $replaced='office:value-type="float" office:value="'.$a.'"><text:p>'.$f2_str;
+	     $line_rtf=str_replace($searched, $replaced, $line_rtf);
+	   }		  
+	   
+	   echo_debug(__FILE__.':'.__LINE__.'- $a =',$a);
+	   
+	   $line_rtf=str_replace($f2_str,$a,$line_rtf);
 		  
 	}// foreach end
       } // while ereg
@@ -509,49 +517,51 @@ class Acc_Bilan {
 	  break;
 	case 'odt':
 	case 'ods':
-	  $result=$this->generate_odt($templ);
-	  
-	  $this->send($result);
-	  break;
+	  $result=$this->generate_odt($templ);	  
+	   $this->send($result);
+	   break;
 
-	}
-	fclose($templ);
-  }
-  /*!\brief send the result of generate plain to the browser
-   * \param $p_result is the string returned by generate_...
-   */
-  function send($p_result) {
-	switch ($this->b_type) {
-	case 'rtf':
-	  // A rtf file is generated
-	  header('Content-type: application/rtf');
-	  header('Content-Disposition: attachment; filename="'.$this->b_name.'.rtf"');
-	  echo $p_result;
-	  break;
+	 }
+	 fclose($templ);
+   }
+   /*!\brief send the result of generate plain to the browser
+    * \param $p_result is the string returned by generate_...
+    */
+   function send($p_result) {
+	 switch ($this->b_type) {
+	 case 'rtf':
+	   // A rtf file is generated
+	   header('Content-type: application/rtf');
+	   header('Content-Disposition: attachment; filename="'.$this->b_name.'.rtf"');
+	   echo $p_result;
+	   break;
 
-	case 'txt':
-	  // A txt file is generated
-	  header('Content-type: application/txt');
-	  header('Content-Disposition: attachment; filename="'.$this->b_name.'.txt"');
+	 case 'txt':
+	   // A txt file is generated
+	   header('Content-type: application/txt');
+	   header('Content-Disposition: attachment; filename="'.$this->b_name.'.txt"');
 
-	  echo $p_result;
-	  break;
-	case 'html':
-	  // A txt file is generated
-	  header('Content-type: application/html');
-	  header('Content-Disposition: attachment; filename="'.$this->b_name.'.html"');
+	   echo $p_result;
+	   break;
+	 case 'html':
+	   // A txt file is generated
+	   header('Content-type: application/html');
+	   header('Content-Disposition: attachment; filename="'.$this->b_name.'.html"');
 
-	  echo $p_result;
-	  break;
-	case 'odt':
-	case 'ods':
-	  /*	  header("Pragma: public");
-      header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-      header("Cache-Control: must-revalidate");
-      header('Content-type: "application/vnd.oasis.opendocument.text"');
-      header('Content-Disposition: attachment;filename="'.$this->b_name.'.odt"',FALSE);
-      header("Accept-Ranges: bytes");
-	  */
+	   echo $p_result;
+	   break;
+	 case 'odt':
+	 case 'ods':
+	   /*   header("Pragma: public");
+	 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+	 header("Cache-Control: must-revalidate"); 
+	 if ( $this->b_type == 'odt' )
+	   header('Content-type: application/vnd.oasis.opendocument.text');
+	 if ( $this->b_type == 'ods' )
+	   header('Content-type: application/vnd.oasis.opendocument.spreadsheet');
+	 header('Content-Disposition: attachment;filename="'.$this->b_name.'.odt"',FALSE);
+	 header("Accept-Ranges: bytes"); 
+	   */
 	  ob_start();
 	  // save the file in a temp folder
 	  // create a temp directory in /tmp to unpack file and to parse it
