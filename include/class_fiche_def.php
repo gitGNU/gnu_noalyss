@@ -47,14 +47,14 @@ class fiche_def {
     $this->id=$p_id;
   }
 /*!\brief show the content of the form to create  a new fiche_def_ref
-* \todo use template technology to finish it
 */
-function input ($p_js) 
+function input () 
 {
+  echo JS_SEARCH_POSTE;
   $ref=$this->cn->get_array("select * from fiche_def_ref order by frd_text");
   $iradio=new IRadio();
-  // Number of line of the card
-//  $display.='<INPUT TYPE="HIDDEN" NAME="INC" VALUE="'.$p_ligne.'">';
+  $p_js=" SearchPosteFilter('".$_REQUEST['PHPSESSID']."','".dossier::id()."','class_base','all','','class_base_label')";
+
   require_once ('template/fiche_def_input.php');
   return;
 }
@@ -620,7 +620,15 @@ function get_attr_min($p_fiche_def_ref) {
   }
   return $array;
 }
-
+  /*!\brief count the number of fiche_def (category) which has the frd_id (type of category)
+   *\param $p_frd_id is the frd_id in constant.php the FICHE_TYPE_
+   *\return the number of cat. of card of the given type
+   *\see constant.php
+   */
+function count_category($p_frd_id) {
+  $ret=$this->cn->count_sql("select fd_id from fiche_def where frd_id=$1",array($p_frd_id));
+  return $ret;
+}
 
 
 
