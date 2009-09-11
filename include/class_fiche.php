@@ -375,6 +375,7 @@ class fiche {
 	    {
 	      $w=new IText();
 	      $w->table=1;
+	      $w->readOnly=true;
 	  
 	    }
 	  if ($p_readonly==false)
