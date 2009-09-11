@@ -5,7 +5,8 @@
 </TR>
 <TR>
 <TD> Classe de base </TD>
-<TD><INPUT TYPE="INPUT" NAME="class_base"> <INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="<? $p_js;?>"></TD>
+<TD><INPUT TYPE="INPUT" id="class_base" NAME="class_base"> <INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="<?php echo $p_js;?>"></TD>
+<td><span id="class_base_label"></span></td>
 </TR>
 <TR>
 <TD> <INPUT TYPE="CHECKBOX" NAME="create" CHECKED>Cr&eacute;ation automatique du poste comptable</TD>
