@@ -85,7 +85,7 @@ echo ShowItem(array(
 		    array('?p_action=fournisseur&'.$str_dossier,'Fournisseur'),
 		    array('?p_action=adm&'.$str_dossier,'Administration'),
 		    array('?p_action=stock&'.$str_dossier,'Stock'),
-		    array('?p_action=fiche&'.$str_dossier,'fiche'),
+		    array('?p_action=fiche&'.$str_dossier,'Fiche'),
 		    array('?p_action=prev&'.$str_dossier,'Prevision'),
 		    array('?p_action=suivi_courrier&'.$str_dossier,'Suivi Courrier'),
 		    ),
