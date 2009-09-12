@@ -93,7 +93,7 @@ function ShowActionList($cn,$retour,$h_url)
 
 <?php  
     // show the  action in 
-    $act=new action($cn);
+    $act=new Action($cn);
    /*! \brief
     *  \note The field 'recherche' is   about a part of the title or a ref. number
     */
@@ -167,8 +167,8 @@ if ( $sub_action=="update" )
   // Update the modification
   if ( isset($_POST['save']))
     {
-      $act=new action($cn);
-      $act=new action($cn);
+      $act=new Action($cn);
+      $act=new Action($cn);
       
       $act->ag_id=$_POST['ag_id'];
       $act->ag_comment=$_POST['ag_comment'];
@@ -194,7 +194,7 @@ if ( $sub_action=="update" )
   //----------------------------------------------------------------------
 if ( isset ($_POST['add_action_here']) )
 {
-      $act=new action($cn);
+      $act=new Action($cn);
       $act->ag_ref_ag_id=$_POST['ag_id'];
       
       //----------------------------------------
@@ -247,7 +247,7 @@ if ( $sub_action=='detail' )
   echo '<div style="float:right">';
   echo '<A class="mtitle" HREF="commercial.php?p_action=suivi_courrier&'.$str_dossier.'"><input type="button" value="Retour"></A>';
   echo '</div>';
-  $act=new action($cn);
+  $act=new Action($cn);
   $act->ag_id=$_REQUEST['ag_id'];
   echo $act->get();
   $act->ag_comment=Decode($act->ag_comment);
@@ -286,7 +286,7 @@ if ( $sub_action == 'delete' )
     {
       echo '<div class="u_redcontent">';
       echo '<A class="mtitle" HREF="commercial.php?p_action=suivi_courrier&'.$str_dossier.'"><input type="button" value="Retour"></A>';
-      $act=new action($cn);
+      $act=new Action($cn);
       $act->ag_id=$_REQUEST['ag_id'];
       echo $act->get();
       $act->ag_comment=Decode($act->ag_comment);
@@ -312,7 +312,7 @@ if ( $sub_action == 'delete' )
   else 
     {
       // confirmed 
-      $act=new action($cn);
+      $act=new Action($cn);
       $act->ag_id=$_REQUEST['ag_id'];
       $act->remove();      
       $sub_action="list";
@@ -333,7 +333,7 @@ if ( $sub_action == "add_action" )
   echo '</div>';
   echo_debug('action',__LINE__,var_export($_POST,true));
   echo $retour;
-  $act=new action($cn);
+  $act=new Action($cn);
   $act->ag_id=0;
   $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:"0";
   $act->ag_timestamp=(isset($_POST['ag_timestamp']))?$_POST['ag_timestamp']:"";
@@ -372,7 +372,7 @@ if ( $sub_action == "add_action" )
 //--------------------------------------------------------------------------------
 if  ( $sub_action == "save_action_st2" ) 
 {
-  $act=new action($cn);
+  $act=new Action($cn);
 
   $act->ag_comment=$_POST['ag_comment'];
   $act->ag_timestamp=$_POST['ag_timestamp'];
@@ -401,7 +401,7 @@ if  ( $sub_action == "save_action_st2" )
 if  ( $sub_action == "save_action_st3" ) 
 {
   echo_debug("action.inc.php",__LINE__,'Stage 3');
-  $act=new action($cn);
+  $act=new Action($cn);
   $act->ag_id=$_POST['ag_id'];
   $act->ag_ref_ag_idid=$_POST['ag_ref_ag_id'];
   $act->ag_comment=$_POST['ag_comment'];

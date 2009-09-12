@@ -623,7 +623,7 @@ class Document
 	  
 	  break;
 	case 'REFERENCE':
-	  $act=new action($this->db);
+	  $act=new Action($this->db);
 	  $act->ag_id=$this->ag_id;
 	  $act->get();
 	  $r=$act->ag_ref;

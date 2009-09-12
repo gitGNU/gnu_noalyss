@@ -53,7 +53,7 @@ require_once("user_common.php");
  * The table document_type are the possible actions
  */
 
-class action 
+class Action 
 {
   var $db;	      /*!<  $db  database connexion    */
   var $ag_comment;    /*!<  $ag_comment description (ag_gestion.ag_comment) */
@@ -70,7 +70,7 @@ class action
   * \brief constructor
  * \param p_cn database connection
  */
-  function action ($p_cn)
+  function __construct ($p_cn)
     {
       $this->db=$p_cn;
       $this->f_id=0;
