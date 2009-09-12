@@ -425,6 +425,8 @@ div.u_redcontent a.mtitle {
   font-size:10px;
   text-decoration:none;
   display:inline;
+
+  
   color:blue;
 
 }
@@ -442,6 +444,8 @@ div.content a.mtitle {
   text-decoration:none;
   display:inline;
   color:blue;
+    
+
 
 }
 
@@ -450,7 +454,7 @@ div.content a.mtitle:hover {
   display:inline;
   background-color:darkblue;
   color:white;
-
+ 
 
 }
 div.u_redcontent input.text {
@@ -528,5 +532,20 @@ border: 1px solid blue;
        
 }
 
+span.action {
+	background-color: lightblue;
+	color:blue;
+	border-style: solid;
+	border-color: blue;
+	display:inline;
+	border-width:2px;
+	border-style: outset;
+	padding:5px;
+	margin:2px;
+	
+	
+	
+	
+}
 
 /* </style> */

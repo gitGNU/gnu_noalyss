@@ -22,20 +22,29 @@
 
 /*!\file 
  * \brief Html Input show just a ref to an action
+ * create a button with a link, if you want to use a javascript
+ * value must be empty
  */
 require_once('class_html_input.php');
  class IAction extends HtmlInput
 {
   /*!\brief show the html  input of the widget*/
-  public function input($p_name=null,$p_value=null)
+  public function input($p_name="",$p_value="")
   {
-    $this->name=($p_name==null)?$this->name:$p_name;
-    $this->value=($p_value==null)?$this->value:$p_value;
+    $this->name=($p_name=="")?$this->name:$p_name;
+    $this->value=($p_value=="")?$this->value:$p_value;
     if ( $this->readOnly==true) return $this->display();
-    
-    $r=sprintf('<span id="%s" class="action"> <A class="mtitle" HREF="%s" >%s</A></span>',
+    $this->javascript= (!isset ($this->javascript))?"":$this->javascript;
+    if ( $this->value !="")
+      $r=sprintf('<span id="%s" class="action"> <A class="mtitle" HREF="%s" %s>%s</A></span>',
 	       $this->name,
 	       $this->value,
+	       $this->javascript,
+	       $this->label);
+    else
+            $r=sprintf('<span id="%s" class="action"> <A class="mtitle" href="javascript: %s">%s</A></span>',
+	       $this->name,
+	       $this->javascript,
 	       $this->label);
 
     return $r;
