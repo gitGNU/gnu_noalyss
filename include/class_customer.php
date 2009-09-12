@@ -173,7 +173,6 @@ where
     return $a_Res;
   }
 /*! Summary
- **************************************************
  * \brief  show the default screen
  *        
  * \param p_search (filter) 
@@ -185,7 +184,6 @@ where
     {
       $str_dossier=dossier::get();
       $p_search=FormatString($p_search);
-      $url=urlencode($_SERVER['REQUEST_URI']);
       $script=$_SERVER['PHP_SELF'];
       // Creation of the nav bar
       // Get the max numberRow
@@ -231,8 +229,8 @@ $r.='</TR>';
 	return $r;
       foreach ($step_client as $client ) {
 	$r.="<TR>";
-	$e=sprintf('<A HREF="%s?p_action=client&sb=detail&f_id=%d&%s&url=%s" title="Détail"> ',
-			   $script,$client->id,$str_dossier,$url);
+	$e=sprintf('<A HREF="%s?p_action=client&sb=detail&f_id=%d&%s" title="Détail"> ',
+			   $script,$client->id,$str_dossier);
 
 	$r.="<TD> $e".$client->strAttribut(ATTR_DEF_QUICKCODE)."</A></TD>";
 	$r.="<TD>".h($client->strAttribut(ATTR_DEF_NAME))."</TD>";
@@ -251,6 +249,7 @@ $r.='</TR>';
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['debit']);
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['credit']);
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['solde']);
+	/*!\todo The following code is probably dead code and should be removed */
 	if ( $p_action == 1 ) {
 	  if ( basename($script)=='commercial.php') {
 	    $r.="<TD>";
