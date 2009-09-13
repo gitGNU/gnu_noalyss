@@ -57,60 +57,57 @@ class ICard extends HtmlInput
     if ( $this->readOnly==true) return $this->display();
     $l_sessid=$_REQUEST['PHPSESSID'];
 
-    //--
-    $l_sessid=$_REQUEST['PHPSESSID'];
-
     if ( $this->javascript=="") { 
-    if ( isset($this->jrn)) {
-      /* if javascript is empty then we   add a default behaviour */
-      $this->javascript=sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',%s)"',
-				$this->name,
-				$this->extra, //deb or cred
-				$l_sessid,
-				'js_search_only',
-				'none',
-				$this->jrn
-				);
-				}else {      /* if javascript is empty then we   add a default behaviour */
-      $this->javascript=sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')"',
-				$this->name,
-				$this->extra, //deb or cred
-				$l_sessid,
-				'js_search_only',
-				'none'
-				);
-}
+      if ( isset($this->jrn)) {
+	/* if javascript is empty then we   add a default behaviour */
+	$this->javascript=sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',%s)"',
+				  $this->name,
+				  $this->extra, //deb or cred
+				  $l_sessid,
+				  'js_search_only',
+				  'none',
+				  $this->jrn
+				  );
+      }else {      /* if javascript is empty then we   add a default behaviour */
+	$this->javascript=sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')"',
+				  $this->name,
+				  $this->extra, //deb or cred
+				  $l_sessid,
+				  'js_search_only',
+				  'none'
+				  );
+      }
     }
-      if ( $this->extra2 == "" ) $this->extra2="QuickCode";
-      if ( $this->table==1)
-	{
-	  $r=sprintf('<TD> %s
+    if ( $this->extra2 == "" ) $this->extra2="QuickCode";
+    if ( $this->table==1)
+      {
+	$r=sprintf('<TD> %s
 			%s</TD><TD> <INPUT class="input_text"  TYPE="Text"  " '.
-		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" %s>',
-		     $this->dbutton(),
-		     $this->label,
-		     $this->name,
-		     $this->name,
-		     $this->value,
-		     $this->javascript
-		     );
-	}
-      else
-	{
-	  $r=sprintf('%s %s <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
-		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8"  %s">',
-			 $this->dbutton(),
-		     $this->label,
-		     $this->name,
-		     $this->name,
-		     $this->value,
-		     $this->javascript
-		     );
-	}
+		   ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" %s>',
+		   $this->dbutton(),
+		   $this->label,
+		   $this->name,
+		   $this->name,
+		   $this->value,
+		   $this->javascript
+		   );
+      }
+    else
+      {
+	$r=sprintf('%s %s <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
+		   ' NAME="%s" ID="%s" VALUE="%s" SIZE="8"  %s">',
+		   $this->dbutton(),
+		   $this->label,
+		   $this->name,
+		   $this->name,
+		   $this->value,
+		   $this->javascript
+		   );
+      }
     
     //--    
     return $r;
-
+    
   }
   /*!\brief print in html the readonly value of the widget*/
   public function display()
