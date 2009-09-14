@@ -46,7 +46,7 @@ function todo_list_show_success(request,json) {
     $('p_title').value=answer.tl_title;
 
     $('p_date').value=answer.tl_date;
-    $('p_desc').value=answer.tl_desc;
+    $('p_desc').value=decodeURI(answer.tl_desc);
     $('tl_id').value=answer.tl_id;
     $('add_todo_list').show();
     $('add').hide();

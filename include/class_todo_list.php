@@ -164,11 +164,12 @@ from todo_list where tl_id=$1";
 
   }
   public function toJSON() {
+
     $r='';
     $r.='{';
     $r.='"tl_id":"'.$this->tl_id.'",';
     $r.='"tl_title":"'.$this->tl_title.'",';
-    $r.='"tl_desc":"'.$this->tl_desc.'",';
+    $r.='"tl_desc":"'.urlencode($this->tl_desc).'",';
     $r.='"tl_date":"'.$this->tl_date.'"';
     $r.='}';
     return $r;
