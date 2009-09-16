@@ -39,7 +39,6 @@ class Document
   var $d_lob;       /*!< $d_lob the oid of the lob */
   var $d_number;    /*!< $d_number number of the document */
   var $md_id;       /*!< $md_id document's template */
-  var $d_state;     /*!< $d_state document.d_state status of the document */
   /* Constructor
    * \param $p_cn Database connection
    */
@@ -66,9 +65,6 @@ class Document
    */
   function save()
     {
-      $sql="update document set d_state=".$this->d_state.
-	" where d_id=".$this->d_id;
-      $this->db->exec_sql($sql);
     }
 /*!  
  * \brief Generate the document, Call $this-\>Replace to replace
@@ -288,14 +284,13 @@ class Document
 	$this->db->rollback(); echo_debug('class_document',__LINE__,"can't save file $p_file");
 	return 1; }
     
-      $sql=sprintf("insert into document(ag_id,d_lob,d_number,d_filename,d_mimetype,d_state) 
+      $sql=sprintf("insert into document(ag_id,d_lob,d_number,d_filename,d_mimetype) 
                         values (%d,%s,%d,'%s','%s',%d)",
 		   $this->ag_id,
 		   $this->d_lob,
 		   $this->d_number,
 		   $this->d_filename,
-		   $this->d_mimetype,
-		   $this->d_state
+		   $this->d_mimetype
 		   );
       $this->db->exec_sql($sql);
       $this->d_id=$this->db->get_current_seq("document_d_id_seq");
@@ -308,65 +303,53 @@ class Document
   /*! Upload
    * \brief Upload a file into document 
    *  all the needed data are in $_FILES we don't increment the seq
-   * 
+   * \param $p_file : array containing by default $_FILES
    *
    * \return
    */
-  function Upload() 
+  function Upload($p_ag_id) 
     {
-
       // nothing to save
       if ( sizeof($_FILES) == 0 ) return;
-
+      /* for several files  */
+      /* $_FILES is now an array */
       // Start Transaction
       $this->db->start();
-      $new_name=tempnam($_ENV['TMP'],'doc_');
-
-
-      // check if a file is submitted
-      if ( strlen($_FILES['file_upload']['tmp_name']) != 0 )
-	{
-	  // upload the file and move it to temp directory
-	  if ( move_uploaded_file($_FILES['file_upload']['tmp_name'],$new_name))
+      $name=$_FILES['file_upload']['name'];
+      for ($i = 0; $i < sizeof($name);$i++) {
+	$new_name=tempnam($_ENV['TMP'],'doc_');
+	// check if a file is submitted
+	if ( strlen($_FILES['file_upload']['tmp_name'][$i]) != 0 )
 	  {
-	    $oid=$this->db->lo_import($new_name);
-	    // check if the lob is in the database
-	    if ( $oid == false ) 
+	    // upload the file and move it to temp directory
+	    if ( move_uploaded_file($_FILES['file_upload']['tmp_name'][$i],$new_name))
 	      {
-		$this->db->rollback();
-		return 1;
+		$oid=$this->db->lo_import($new_name);
+		// check if the lob is in the database
+		if ( $oid == false ) 
+		  {
+		    $this->db->rollback();
+		    return 1;
+		  }
 	      }
+	    // the upload in the database is successfull
+	    $this->d_lob=$oid;
+	    $this->d_filename=$_FILES['file_upload']['name'][$i];
+	    $this->d_mimetype=$_FILES['file_upload']['type'][$i];
+	    
+	    // insert into  the table
+	    $sql="insert into document (ag_id, d_lob,d_filename,d_mimetype,d_number) values ($1,$2,$3,$4,5)";
+	    $this->db->exec_sql($sql,array($p_ag_id,$this->d_lob,$this->d_filename,$this->d_mimetype));
 	  }
-	  // the upload in the database is successfull
-	  $this->d_lob=$oid;
-	  $this->d_filename=$_FILES['file_upload']['name'];
-	  $this->d_mimetype=$_FILES['file_upload']['type'];
-	  // now we have to update the col.
-	  // We retrieve the row to remove a possible existing lob (replace)
-	  $sql="select d_lob from document where d_id=".$this->d_id;
-	  $ret=$this->db->exec_sql($sql);
-
-	  if (Database::num_row($ret) != 0)  
-	    {
-	      // a result is found, the old oid is keept in order to
-	      // remove it later
-	      $r=Database::fetch_array($ret,0) ;
-	      $old_oid=$r['d_lob'] ;
-	      if (strlen($old_oid) != 0) { $this->db->lo_unlink ($old_oid);}
-	    }
-	  // Update the table
-	  $sql=sprintf("update document set d_lob=%s,d_filename='%s',d_mimetype='%s' where d_id=%d",
-		       $this->d_lob,$this->d_filename,$this->d_mimetype,$this->d_id);
-	  $this->db->exec_sql($sql);
-	}
+      } /* end for */
       $this->db->commit();
-
+      
     }
-/*! a_ref
- * \brief create and compute a string for reference the doc <A ...>
- *
- * \return a string
- */
+  /*! a_ref
+   * \brief create and compute a string for reference the doc <A ...>
+   *
+   * \return a string
+   */
   function a_ref() 
     {
       if ( $this->d_id == 0 )
@@ -428,7 +411,6 @@ class Document
       $this->d_mimetype=$row['d_mimetype'];
       $this->d_filename=$row['d_filename'];
       $this->d_lob=$row['d_lob'];
-      $this->d_state=$row['ag_id'];
       $this->d_number=$row['d_number'];
 
     }

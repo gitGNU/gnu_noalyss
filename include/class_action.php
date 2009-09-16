@@ -18,7 +18,7 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.f
-
+require_once('class_itextarea.php');
 require_once("class_idate.php");
 require_once("class_iselect.php");
 require_once("class_ihidden.php");
@@ -59,12 +59,12 @@ class Action
   var $ag_comment;    /*!<  $ag_comment description (ag_gestion.ag_comment) */
   var $ag_timestamp;  /*!<   $ag_timestamp document date (ag_gestion.ag_timestamp)*/
   var $dt_id;         /*!<   $dt_id type of the document (document_type.dt_id)*/
-  var $d_state;       /*!<   $d_state stage of the document (printed, send to client...)*/
+  var $ag_state;       /*!<   $ag_state stage of the document (printed, send to client...)*/
   var $d_number;      /*!<   $d_number number of the document*/
   var $d_filename;    /*!<   $d_filename filename's document      */
   var $d_mimetype;    /*!<   $d_mimetype document's filename      */
   var $ag_title;      /*!<   $ag_title title document	      */
-  var $f_id;	      /*!<   $f_id_dest fiche id (From field )  */  
+  var $f_id;	      /*!<   $f_id_exp fiche id (From field )  */  
   var $ag_ref_ag_id;   /*!<   $ag_ref_ag_id concern previous action*/
   /*!  constructor  
   * \brief constructor
@@ -84,8 +84,8 @@ class Action
    *\note  If  ag_id is not equal to zero then it is an update otherwise
    *        it is a new document
    *
-   * \param $p_view if set to true the form will be in readonly mode 
-   * \param $p_gen true we show the tag for generating a doc
+   * \param $p_view if set to true the form will be in readonly mode (value: true or false) 
+   * \param $p_gen true we show the tag for generating a doc (value : true or false)
    *
    * \note  update the reference number or the document type is not allowed
    *       
@@ -143,13 +143,13 @@ class Action
 	$doc_type=new IHidden();
 	$doc_type->name="dt_id";
 	$doc_type->value=$this->dt_id;
-	$str_doc_type=$doc_type->input()." ".$this->db->get_value("select dt_value from document_type where dt_id=".$this->dt_id);
+	$str_doc_type=$doc_type->input().$this->db->get_value("select dt_value from document_type where dt_id=".$this->dt_id);
       }
 
       // Description
-      $desc=new IText();
-      $desc->width=700;
-      $desc->heigh=100;
+      $desc=new ITextArea();
+      $desc->width=70;
+      $desc->heigh=5;
       $desc->name="ag_comment";
       $desc->readonly=$readonly;
 
@@ -162,16 +162,16 @@ class Action
 	  $a=$this->db->make_array("select s_id,s_value from document_state ");
 	  $state=new ISelect();
 	  $state->readonly=$readonly;
-	  $state->name="d_state";
+	  $state->name="ag_state";
 	  $state->value=$a;
-	  $state->selected=$this->d_state;
+	  $state->selected=$this->ag_state;
 	  $str_state=$state->input();
 	} else {
 	  $str_state="";
-	  if ( strlen($this->d_state) != 0 )
-	    {	  $str_state=$this->db->get_value("select s_value from document_state where s_id=".$this->d_state);
+	  if ( strlen($this->ag_state) != 0 )
+	    {	  $str_state=$this->db->get_value("select s_value from document_state where s_id=".$this->ag_state);
 	    $g=new IHidden();
-	    $str_state.=$g->input('d_state',$this->d_state);
+	    $str_state.=$g->input('ag_state',$this->ag_state);
 	    }
 	}
       // Retrieve the value if there is an attached doc
@@ -201,9 +201,8 @@ class Action
       $title=new IText();
       $title->readonly=$readonly;
       $title->name="ag_title";
-	  //      $title->value=FormatString($this->ag_title);
       $title->value=$this->ag_title;
-      $title->size=80;
+      $title->size=60;
 
       // ag_ref
       // Always false for update
@@ -212,17 +211,6 @@ class Action
       $ag_ref->name="ag_ref";
       $ag_ref->value=FormatString($this->ag_ref);
       $client_label=new ISpan();
-
-      // f_id_dest destination
-      if ( $this->qcode_dest != '- ERROR -' && strlen(trim($this->qcode_dest)) != 0)
-	{
-	  $tiers=new fiche($this->db);
-	  $tiers->get_by_qcode($this->qcode_dest);
-	  $qcode_dest_label=$tiers->strAttribut(1);
-	} else {
-	  //	  echo "f_id $this->f_id";
-	  $qcode_dest_label=($this->f_id_dest==0 || trim($this->qcode_dest)=="")?'Interne ':'Error';
-	}
 
       // f_id_exp sender
       if ( $this->qcode_exp != '- ERROR -' && strlen(trim($this->qcode_exp)) != 0)
@@ -250,59 +238,41 @@ class Action
       // sender
       $w=new ICard();
       $w->readonly=$readonly;
-	  $w->jrn=0;
+      $w->jrn=0;
       $w->name='qcode_exp';
       $w->value=($this->f_id_exp != 0)?$this->qcode_exp:"";
       $w->label="";
       $w->extra='frd_id in (14,25,8,9,16)';
       $w->extra2='Recherche';
       $sp=new ISpan();
+      $sp->name='qcode_exp_label';
+      $sp->value=$qcode_exp_label;
+
       $h_agrefid=new IHidden();
-      // destination
-      $wdest=new ICard();
-      $wdest->readonly=$readonly;
-      $wdest->name='qcode_dest';
-      $wdest->value=($this->f_id_dest != 0)?$this->qcode_dest:"";
-      $wdest->label="";
-      $wdest->extra='frd_id in (14,25,8,9,16)';
-      $wdest->extra2='Recherche';
-      $spdest=new ISpan();
       $h_agrefid=new IHidden();
       $str_ag_ref="<b>".(($this->ag_ref != "")?$this->ag_ref:" Nouveau ")."</b>";
       // Preparing the return string
       $r="";
       $r.=JS_SEARCH_CARD;
-      $r.= '<p>Date :'.$date->input()." <br>Reference  ".$str_ag_ref; 
-      $r.="&nbsp;         Concerne :".$lag_ref_ag_id.
-      '   Type d\' action';
-      echo_debug('class_action',__LINE__,"str_doc_type $str_doc_type");
-      $r.= $str_doc_type;
-
-      // state
-      $r.="     Etat :".$str_state."</p>";
-
-
-      $r.= "<p> ";
-      $r.="Exp&eacute;diteur : ".$w->input();
-      $r.=$sp->input('qcode_exp_label',$qcode_exp_label)."</TD></TR>";
-      $r.="Destinataire :".$wdest->input();
-      $r.=$spdest->input('qcode_dest_label',$qcode_dest_label)."</TD></TR>";
-
-      //      $r.=' Ref :'.$ag_ref->input();
-      $r.="</p>";
-      echo_debug('class_action',__LINE__,' ag_id is '.$this->ag_id);
-
-      $r.= "<p> Titre : ".$title->input();
-      $r.= "<p>".$desc->input()."</p>";
-      $r.= $doc_ref;
+      /* for new files */
+      $upload=new IFile();
+      $upload->name="file_upload[]";
+      $upload->value="";
+      $aAttachedFile=$this->db->get_array('select d_id,d_filename,d_mimetype,'.
+					  '\'show_document.php?PHPSESSID='.$_REQUEST['PHPSESSID'].'&'.Dossier::get().'&d_id=\'||d_id as link'.
+					  ' from document where ag_id=$1',
+					 array($this->ag_id));
+      ob_start();
+      require_once ('template/detail-action.php');
+      $content=ob_get_contents();
+      ob_end_clean();
+      $r.=$content;
 
       //hidden
       $r.="<p>";
       $r.=$h2->input();
       $r.=$h_agrefid->input("ag_ref_ag_id",$this->ag_ref_ag_id); 
       $r.=$h_ag_id->input('ag_id',$this->ag_id);
-      $hidden=new IHidden();
-      $r.=$hidden->input('f_id_dest',$this->f_id_dest);
       $hidden2=new IHidden();
       $r.=$hidden2->input('f_id_exp',$this->f_id_exp);
 
@@ -322,7 +292,7 @@ class Action
     {
       echo_debug('class_action',__LINE__,'Action::Get() ');
       $sql="select ag_id, ag_comment,to_char (ag_timestamp,'DD-MM-YYYY') as ag_timestamp,".
-	" f_id_dest,f_id_exp,ag_title,ag_comment,ag_ref,d_id,ag_type,d_state,  ".
+	" f_id_exp,ag_title,ag_comment,ag_ref,d_id,ag_type,ag_state,  ".
 	" ag_ref_ag_id ".
 	" from action_gestion left join document using (ag_id) where ag_id=".$this->ag_id;
       $r=$this->db->exec_sql($sql);
@@ -330,7 +300,7 @@ class Action
       if ( $row==false) return;
       $this->ag_comment=$row[0]['ag_comment'];
       $this->ag_timestamp=$row[0]['ag_timestamp'];
-      $this->f_id_dest=$row[0]['f_id_dest'];
+
       $this->f_id_exp=$row[0]['f_id_exp'];
       $this->ag_title=$row[0]['ag_title'];
       $this->ag_type=$row[0]['ag_type'];
@@ -345,13 +315,11 @@ class Action
       // if there is a document fill the object
       if ($this->d_id != 0 )
 	{
-	  $this->state=$row['0']['d_state'];
-	  $this->d_state=$row[0]['d_state'];
+	  $this->state=$row['0']['ag_state'];
+	  $this->ag_state=$row[0]['ag_state'];
 	}
       echo_debug('class_action',__LINE__,' After test Document id = '.$this->d_id);
       $this->dt_id=$this->ag_type;
-      $adest=new fiche($this->db,$this->f_id_dest);
-      $this->qcode_dest=$adest->strAttribut(ATTR_DEF_QUICKCODE);
       $aexp=new fiche($this->db,$this->f_id_exp);
       $this->qcode_exp=$aexp->strAttribut(ATTR_DEF_QUICKCODE);
 
@@ -403,12 +371,12 @@ class Action
 	}
 
       // state
-      $a=$this->db->exec_sql("select s_value from document_state where s_id=".$this->d_state);
+      $a=$this->db->exec_sql("select s_value from document_state where s_id=".$this->ag_state);
       $v=Database::fetch_array($a,0);
       $str_state=$v[0];
       $state=new IHidden();
-      $state->name="d_state";
-      $state->value=$this->d_state;
+      $state->name="ag_state";
+      $state->value=$this->ag_state;
 	
       // title
       $title=new IText();
@@ -431,22 +399,6 @@ class Action
 
       $h_agrefid=new IHidden();
 
-       // f_id
-       if ( trim($this->qcode_dest) =="")
-         {
-           // internal document
-           $this->f_id_dest=0; // internal document
-           $namedest="interne";
-         }
-       else // ( trim($this->qcode_dest) !=""  )
-         {
-           $tiers=new fiche($this->db);
-           $tiers->get_by_qcode($this->qcode_dest);
-           $this->f_id_dest=$tiers->id;
-           $namedest=$tiers->strAttribut(1);
-		if ( $namedest == '- ERROR  -') $this->f_id_dest=-1;	
-         }
- 
        // f_id
        if ( trim($this->qcode_exp) =="")
          {
@@ -472,7 +424,6 @@ class Action
       $r.="<p>Etat $str_state".$state->input()."</p>";
       $r.="<p>Type du document $str_type".$doc_type->input()."</p>";
       $r.="<p> Expediteur : ".$this->qcode_exp." ".$nameexp.'</p>';
-      $r.="<p> Destinataire : ".$this->qcode_dest." ".$namedest.'</p>';
       $r.="<p> Titre : ".$title->input();
       $r.="<p>Description :".$desc->input()."</p>";
 
@@ -484,9 +435,7 @@ class Action
       // Add the hidden tag
       $r.='<input type="hidden" name="sa" value="save_action_st2">';
       $r.='<input type="hidden" name="p_action" value="suivi_courrier">';
-      $r.='<input type="hidden" name="f_id_dest" value="'.$this->f_id_dest.'">';
       $r.='<input type="hidden" name="f_id_exp" value="'.$this->f_id_exp.'">';
-      $r.='<input type="hidden" name="qcode_dest" value="'.$this->qcode_dest.'">';
       $r.='<input type="hidden" name="qcode_exp" value="'.$this->qcode_exp.'">';
 
 
@@ -494,9 +443,7 @@ class Action
 	
       // retrieve customer
 
-
-      if ( $this->f_id_dest != -1 && $this->f_id_exp !=-1 )
-	$r.=HtmlInput::submit("Save","Sauve");
+      $r.=HtmlInput::submit("Save","Sauve");
       $r.=HtmlInput::submit("corr","Corrige");
 
       $r.=$h_url."</form>";
@@ -518,9 +465,6 @@ class Action
       $seq_name="seq_doc_type_".$this->dt_id;
       $str_file="";
       $add_file='';
-      // f_id dest
-      $tiers=new fiche($this->db);
-      $tiers->get_by_qcode($this->qcode_dest);
 
       // f_id exp
       $exp=new fiche($this->db);
@@ -545,7 +489,7 @@ class Action
       $this->ag_comment=str_replace("%OA","",$this->ag_comment);
       // save into the database
       $sql=sprintf("insert into action_gestion".
-		   "(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,f_id_exp,ag_comment,ag_ref,ag_ref_ag_id) ".
+		   "(ag_id,ag_timestamp,ag_type,ag_title,f_id_exp,ag_comment,ag_ref,ag_ref_ag_id) ".
 		   " values (%d,to_date('%s','DD-MM-YYYY'),'%d','%s',%d,%d,'%s','%s',%d)",
 		   $this->ag_id,
 		   $this->ag_timestamp,
@@ -568,7 +512,7 @@ class Action
 	  $doc->f_id=$tiers->id;
 	  $doc->md_id=$this->md_id;
 	  $doc->ag_id=$this->ag_id;
-	  $doc->d_state=$this->d_state;
+	  $doc->ag_state=$this->ag_state;
 	  $str_file=$doc->Generate();
 	  $d='<input type="hidden" name="d_id" value="'.$doc->d_id.'">';
 	}
@@ -586,9 +530,6 @@ class Action
       $r.='<input type="hidden" name="d_id" value="'.$this->d_id.'">'; 
       // ag_comment must be saved in urlcode
       $r.='<input type="hidden" name="ag_comment" value="'.urlencode($this->ag_comment).'">';
-      // add hidden code for qcode_exp, qcode_dest
-      $r.='<input type="hidden" name="qcode_dest" value="'.$this->qcode_dest.'">';
-      $r.='<input type="hidden" name="qcode_exp" value="'.$this->qcode_exp.'">';
       // Value for the generated document
       if ( $this->gen == 'on' ) 
 	{
@@ -649,7 +590,7 @@ class Action
  */
   function myList($p_filter="",$p_search="")
     {
-	  $str_dossier=dossier::get();
+      $str_dossier=dossier::get();
       // for the sort
       $sort="";
       $image_asc='<IMAGE SRC="image/down.png" border="0" >';
@@ -665,9 +606,6 @@ class Action
       $sort_exp='<th><A  class="mtitle"  href="?'.$url.'&s=exp&'.$str_dossier.'">'.$image_asc.'</A>'.
 	'Expéditeur'.
 	'<A  class="mtitle"  href="?'.$url.'&s=exp_d&'.$str_dossier.'">'.$image_desc.'</A></th>';
-      $sort_dest='<th><A  class="mtitle" href="?'.$url.'&s=dest&'.$str_dossier.'">'.$image_asc.'</A>'.
-	'Destinataire'.
-	'<A class="mtitle"  href="?'.$url.'&s=dest_d&'.$str_dossier.'">'.$image_desc.'</A></th>';
       $sort_titre='<th><A  class="mtitle"  href="?'.$url.'&s=ti&'.$str_dossier.'">'.$image_asc.'</A>'.
 	'Titre'.
 	'<A  class="mtitle"  href="?'.$url.'&s=ti_d&'.$str_dossier.'">'.$image_desc.'</A></th>';
@@ -708,21 +646,6 @@ class Action
 	      $image_sel_desc.'</th>';
 
 	    $sort=" f_id_exp desc";
-	    break;
-
-	  case "dest":
-	    $sort_dest='<th>'.$image_sel_asc.
-	      'Destinataire'.
-	      '<A class="mtitle"  href="?'.$url.'&s=dest_d">'.$image_desc.'</A></th>';
-
-	    $sort=" f_id_dest asc";
-	    break;
-	  case "dest_d":
-	    $sort_dest='<th><A  class="mtitle"  href="?'.$url.'&s=dest">'.$image_asc.'</A>'.
-	      'Destinataire'.
-	      $image_sel_desc.'</th>';
-	    
-	    $sort=" f_id_dest desc";
 	    break;
 
 	  case "ti":
@@ -776,14 +699,18 @@ class Action
 	  $sort=" order by ".$sort;
 	}
       }
+      if ( strlen(trim($p_filter)) != 0 ) 
+	$p_filter_doc=" dt_id in ( $p_filter )";
+      else 
+	$p_filter_doc=" 1=1 ";
+
       $sql="
-   select ag_id,to_char(ag_timestamp,'DD-MM-YYYY') as my_date,ag_ref_ag_id,f_id_dest,f_id_exp".
-	",ag_title,d_id,md_type,dt_value,ag_ref 
+   select ag_id,to_char(ag_timestamp,'DD-MM-YYYY') as my_date,ag_ref_ag_id,f_id_exp".
+	",ag_title,md_type,dt_value,ag_ref 
    from action_gestion 
-      left outer join document using (ag_id)
       left outer join document_modele on (ag_type=md_type) 
       join document_type on (ag_type=dt_id)
-   where dt_id in ($p_filter) $p_search $sort";
+   where $p_filter_doc $p_search $sort";
       $max_line=$this->db->count_sql($sql);
       $step=$_SESSION['g_pagesize'];
       $page=(isset($_GET['offset']))?$_GET['page']:1;
@@ -799,13 +726,11 @@ class Action
       $r.='<table class="document">';
       $r.="<tr>";
       $r.=$sort_date;
-      $r.=$sort_dest;
       $r.=$sort_exp;
       $r.=$sort_titre;
       $r.='<th>type</th>';
       $r.=$sort_reference;
       $r.=$sort_concerne;
-      $r.='<th>Document</th>';
       $r.="</tr>";
 
       
@@ -827,20 +752,6 @@ class Action
 	  $tr=($i%2==0)?'even':'odd';
 	  $r.="<tr class=\"$tr\">";
 	  $r.="<td>".$href.$row['my_date'].'</a>'."</td>";
-	  // Destinataire
-	  $fdest=new fiche($this->db);
-	  $fdest->id=$row['f_id_dest'];
-	  $qcode_dest=$fdest->strAttribut(ATTR_DEF_QUICKCODE);
-
-	  $qdest=($qcode_dest=="- ERROR -")?"Interne":$qcode_dest;
-	  $jsdest=sprintf("javascript:showfiche('%s','%s')",
-		      $_REQUEST['PHPSESSID'],$qdest);
-	  if ( $qdest != 'Interne' )
-	    {
-	      $r.="<td>".$href.$qdest." : ".$fdest->getName().'</a></td>';
-	    }
-	  else
-	    $r.="<td>$href Interne </a> </td>";
 
 	  // Expediteur
 	  $fexp=new fiche($this->db);
@@ -880,13 +791,6 @@ class Action
 	  $r.="<td>".$row['dt_value']."</td>";
 	  $r.="<td>".$row['ag_ref']."</td>";
 	  $r.="<td>".$ref."</td>";
-	  if ( $row['d_id'] != '')
-	    {
-	      $doc=new Document($this->db,$row['d_id']);
-	      $doc->get();
-	      if ( strlen(trim($doc->d_lob)) != 0 )
-		$r.="<td>".$doc->a_ref()."</td>";
-	    }
 	  $r.="</tr>";
 
 	}
@@ -927,20 +831,6 @@ class Action
 	    $this->f_id_exp=$tiers->id;
 
 	}
-      if ( trim($this->qcode_dest) =="" )
-	{
-	  // internal document
-	  $this->f_id_dest=0; // internal document
-	}
-      else
-	{
-	  $tiers=new fiche($this->db);
-	  if ( $tiers->get_by_qcode($this->qcode_dest) == -1 ) // Error we cannot retrieve this qcode
-	    return false; 
-	  else
-	    $this->f_id_dest=$tiers->id;
-
-	}
 
 
       //remove newline from ag_comment
@@ -962,7 +852,6 @@ class Action
 		   " ag_title='%s',".
 		   " ag_type=%d, ".
 		   " f_id_exp=%d, ".
-		   " f_id_dest=%d, ".
 		   " ag_ref_ag_id=%d".
 		   " where ag_id = %d",
 		   $this->ag_comment,
@@ -970,49 +859,43 @@ class Action
 		   FormatString($this->ag_title),
 		   $this->dt_id,
 		   $this->f_id_exp,
-		   $this->f_id_dest,
 		   $this->ag_ref_ag_id,
 		   $this->ag_id);
       $this->db->exec_sql($sql);
       echo_debug('class_action',__LINE__,$_FILES);
-      if ( strlen(trim($_FILES['file_upload']['name'])) !=0 ) 
+      // Upload  documents
+      $doc=new Document($this->db);
+      if ( $this->d_id !=0 )
 	{
-	  echo_debug('class_action',__LINE__,'sizeof($_FILES) = '.sizeof($_FILES));
-	  echo_debug('class_action',__LINE__,'$this->d_id = '.$this->d_id);
-
-	  // Upload a new document
-	  $doc=new Document($this->db);
-	  if ( $this->d_id !=0 )
-	    {
-	      $doc->d_id=$this->d_id;
-	    } else {
-	      // we need to increment the counter 
-	      $doc->ag_id=$this->ag_id;
-	      $doc->md_type=$this->dt_id;
-	      $doc->blank();
-	    }
-	  $doc->Upload($this->ag_id);
-      
-	}
+	  $doc->d_id=$this->d_id;
+	} else {
+	// we need to increment the counter 
+	$doc->ag_id=$this->ag_id;
+	$doc->md_type=$this->dt_id;
+	$doc->blank();
+      }
+      $doc->Upload($this->ag_id);
       if ( $this->d_id != 0 )
 	{
 	  $doc=new Document($this->db);
 	  $doc->d_id=$this->d_id ;
-	  $doc->d_state=$this->d_state;
+	  $doc->ag_state=$this->ag_state;
 	  $doc->save();
 	}
       return true;
     }
+
+
   /*!\brief remove the action 
    *
    */
   function remove()
-    {
-      $this->get();
-      // remove the key
-      $sql=sprintf("delete from action_gestion where ag_id=%d",$this->ag_id);
-      $this->db->exec_sql($sql);
-
+  {
+    $this->get();
+    // remove the key
+    $sql=sprintf("delete from action_gestion where ag_id=%d",$this->ag_id);
+    $this->db->exec_sql($sql);
+      
       // remove the ref
        $sql=sprintf("update action_gestion set ag_ref_ag_id=0 where ag_ref_ag_id=%d",
  		   $this->ag_id);

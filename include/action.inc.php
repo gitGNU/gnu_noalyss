@@ -1,4 +1,3 @@
-
 <?php  
 /*
  *   This file is part of PhpCompta.
@@ -20,9 +19,10 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /*! \file
- * \brief Page who manage the different action (meeting, letter)
+ * \brief Page who manage the different actions (meeting, letter)
  */
 $User->can_request(GECOUR);
+echo JS_PROTOTYPE;
 
 //-----------------------------------------------------
 // Action
@@ -57,6 +57,7 @@ function ShowActionList($cn,$retour,$h_url)
    $w->value=$qcode;
    $w->label='Quick Code1';
    $w->extra='4,9,14,16,8';
+   $w->extra2='Fiche';
    $w->table=0;
    echo '<span>';
    echo $w->input();
@@ -82,7 +83,6 @@ function ShowActionList($cn,$retour,$h_url)
 <input type="submit" name="submit_query" value="Ajout Action">
 <input type="hidden" name="p_action" value="suivi_courrier">
 <input type="hidden" name="sa" value="add_action">
-<!--    <input type="hidden" name="qcode_dest" value=<?php   echo '"'.$qcode_dest.'"';?> -->
    <?php   // if called from another menu, url is set
    echo $h_url;
     echo $retour; ?>
@@ -123,9 +123,7 @@ function ShowActionList($cn,$retour,$h_url)
 	   if ( $fiche->id == 0 ) 
 	     $str=' and false ';
 	   else
-	     $str=" and (f_id_exp= ".$fiche->id." or ".
-	       "f_id_dest=".$fiche->id.")";
-
+	     $str=" and (f_id_exp= ".$fiche->id." ) ";
 	 }
      }
 
@@ -173,10 +171,9 @@ if ( $sub_action=="update" )
       $act->ag_id=$_POST['ag_id'];
       $act->ag_comment=$_POST['ag_comment'];
       $act->ag_timestamp=$_POST['ag_timestamp'];
-      $act->d_state=$_POST['d_state'];
+      $act->ag_state=$_POST['ag_state'];
       $act->dt_id=(isset($_POST['dt_id']))?$_POST['dt_id']:0;
       $act->qcode_exp=$_POST['qcode_exp'];
-      $act->qcode_dest=$_POST['qcode_dest'];
       $act->ag_title=$_POST['ag_title'];
       $act->d_id=(isset($_POST['d_id']))?$_POST['d_id']:0;
       $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:0;
@@ -201,18 +198,15 @@ if ( isset ($_POST['add_action_here']) )
       // puis comme ajout normal (copier / coller )
       echo $retour;
       $act->ag_id=0;
-      $act->qcode_dest=(isset($_POST['qcode_dest']))?$_REQUEST['qcode_dest']:"";
       $act->qcode_exp=(isset($_POST['qcode_exp']))?$_REQUEST['qcode_exp']:"";
-      $act->f_id_dest=(isset($_POST['f_id_dest']))?$_POST['f_id_dest']:0;
       $act->f_id_exp=(isset($_POST['f_id_exp']))?$_POST['f_id_exp']:0;
 
       $act->ag_ref_ag_id=$_POST['ag_id'];
       $act->ag_timestamp=(isset($_POST['ag_timestamp']))?$_POST['ag_timestamp']:"";
-      $act->qcode_dest=isset($_POST['qcode_dest'])?$_REQUEST['qcode_dest']:"";
       $act->qcode_exp=isset($_POST['qcode_exp'])?$_REQUEST['qcode_exp']:"";
       $act->d_id=0;
       $act->dt_id=isset($_POST['dt_id'])?$_REQUEST['dt_id']:"";
-      $act->d_state=(isset($_POST['d_state']))?$_POST['d_state']:"";
+      $act->ag_state=(isset($_POST['ag_state']))?$_POST['ag_state']:"";
       $act->ag_ref="";
       $act->ag_title=(isset($_POST['ag_title']))?$_POST['ag_title']:"";
       echo '<div class="content">';
@@ -245,22 +239,20 @@ if ( $sub_action=='detail' )
 {
   echo '<div class="content">';
   echo '<div style="float:right">';
-  echo '<A class="mtitle" HREF="commercial.php?p_action=suivi_courrier&'.$str_dossier.'"><input type="button" value="Retour"></A>';
+  //  echo '<A class="mtitle" HREF="commercial.php?p_action='.$_REQUEST['p_action'].'&'.$str_dossier.'"><input type="button" value="Retour"></A>';
   echo '</div>';
+
   $act=new Action($cn);
   $act->ag_id=$_REQUEST['ag_id'];
   echo $act->get();
   $act->ag_comment=Decode($act->ag_comment);
-  echo '<form name="RTEDemo" action="commercial.php?p_action=suivi_courrier"  enctype="multipart/form-data"  method="post"  onsubmit="return submitForm();" >';
+  echo '<form name="RTEDemo" action="commercial.php"  enctype="multipart/form-data"  method="post"  onsubmit="return submitForm();" >';
+  echo HtmlInput::hidden('p_action',$_REQUEST['p_action']);
   echo dossier::hidden();
   echo JS_SEARCH_CARD;
   echo $act->display('UPD',false);
   echo '<input type="hidden" name="p_action" value="suivi_courrier">';
   echo '<input type="hidden" name="sa" value="update">';
-  $upload=new IFile();
-  $upload->name="file_upload";
-  $upload->value="";
-  echo "Enregistrer le fichier ".$upload->input();
   echo HtmlInput::submit("save","Sauve");
   echo HtmlInput::submit("add_action_here","Ajoute une action à celle-ci");
   echo '</form>';
@@ -273,7 +265,7 @@ if ( $sub_action=='detail' )
   echo '<input type="hidden" name="ag_id" value="'.$act->ag_id.'">';
   echo '</form>';
 
-  echo $retour;
+  //  echo $retour;
 
   echo '</div>';
 }
@@ -337,13 +329,11 @@ if ( $sub_action == "add_action" )
   $act->ag_id=0;
   $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:"0";
   $act->ag_timestamp=(isset($_POST['ag_timestamp']))?$_POST['ag_timestamp']:"";
-  $act->qcode_dest=(isset($_POST['qcode_dest']))?$_REQUEST['qcode_dest']:"";
   $act->qcode_exp=(isset($_POST['qcode_exp']))?$_REQUEST['qcode_exp']:"";
-  $act->f_id_dest=(isset($_POST['f_id_dest']))?$_POST['f_id_dest']:0;
   $act->f_id_exp=(isset($_POST['f_id_exp']))?$_POST['f_id_exp']:0;
   $act->d_id=0;
   $act->dt_id=isset($_POST['dt_id'])?$_REQUEST['dt_id']:"";
-  $act->d_state=(isset($_POST['d_state']))?$_POST['d_state']:"";
+  $act->ag_state=(isset($_POST['ag_state']))?$_POST['ag_state']:"";
   $act->ag_ref="";
   $act->ag_title=(isset($_POST['ag_title']))?$_POST['ag_title']:"";
   echo '<div class="u_redcontent">';
@@ -376,11 +366,9 @@ if  ( $sub_action == "save_action_st2" )
 
   $act->ag_comment=$_POST['ag_comment'];
   $act->ag_timestamp=$_POST['ag_timestamp'];
-  $act->d_state=$_POST['d_state'];
+  $act->ag_state=$_POST['ag_state'];
   $act->dt_id=$_POST['dt_id'];
-  $act->qcode_dest=$_POST['qcode_dest'];
   $act->qcode_exp=$_POST['qcode_exp'];
-  $act->f_id_dest=$_POST['f_id_dest'];
   $act->f_id_exp=$_POST['f_id_exp'];
 
   $act->ag_title=$_POST['ag_title'];
@@ -406,9 +394,8 @@ if  ( $sub_action == "save_action_st3" )
   $act->ag_ref_ag_idid=$_POST['ag_ref_ag_id'];
   $act->ag_comment=$_POST['ag_comment'];
   $act->ag_timestamp=$_POST['ag_timestamp'];
-  $act->d_state=$_POST['d_state'];
+  $act->ag_state=$_POST['ag_state'];
   $act->dt_id=$_POST['dt_id'];
-  $act->qcode_dest=$_POST['qcode_dest'];
   $act->qcode_exp=$_POST['qcode_exp'];
 
   $act->ag_title=$_POST['ag_title'];
