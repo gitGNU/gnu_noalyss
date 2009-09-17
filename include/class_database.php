@@ -357,11 +357,12 @@ de donn&eacute;es");
      * in a array
      * \param $p_sql sql query
      * \param $p_array if not null we use ExecSqlParam
+     *\return an empty array if nothing is found
      */
     function get_array($p_sql,$p_array=null) {
       $r=$this->exec_sql($p_sql,$p_array);
 
-      if ( ($Max=  pg_NumRows($r)) == 0 ) return null;
+      if ( ($Max=  pg_NumRows($r)) == 0 ) return array();
       $array=pg_fetch_all($r);
       return $array;
     }
