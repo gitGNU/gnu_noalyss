@@ -92,7 +92,7 @@ class Action
    *
    * \return string containing the html code
    */
-  function Display($p_view,$p_gen) 
+  function Display($p_view,$p_gen,$retour="") 
     {
       echo_debug('class_action',__LINE__,'Display()  :'.var_export($_POST,true));
       echo_debug('class_action',__LINE__,'Display $this  :'.var_export($this,true));

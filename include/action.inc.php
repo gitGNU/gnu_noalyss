@@ -200,10 +200,6 @@ if ( isset ($_POST['add_action_here']) )
       $act->ag_ref="";
       $act->ag_title=(isset($_POST['ag_title']))?$_POST['ag_title']:"";
       echo '<div class="content">';
-      echo '<div style="float:right">';
-      echo '<p>'.$retour.'</p>';
-      echo '</div>';
-
 
       echo JS_SEARCH_CARD;
       // Add hidden tag
@@ -212,7 +208,7 @@ if ( isset ($_POST['add_action_here']) )
       echo dossier::hidden();
       $act->ag_comment="";
       echo_debug("action.inc",__LINE__,"call display");
-      echo $act->Display('NEW',false);
+      echo $act->Display('NEW',false,$retour);
       
       echo '<input type="hidden" name="p_action" value="suivi_courrier">';
       echo '<input type="hidden" name="sa" value="save_action_st2">';
@@ -231,11 +227,6 @@ if ( isset ($_POST['add_action_here']) )
 if ( $sub_action=='detail' )
 {
   echo '<div class="content">';
-  echo '<div style="float:right">';
-  echo $retour;
-
-  echo '</div>';
-
   $act=new Action($cn);
   $act->ag_id=$_REQUEST['ag_id'];
   echo $act->get();
@@ -244,7 +235,7 @@ if ( $sub_action=='detail' )
   echo HtmlInput::hidden('p_action',$_REQUEST['p_action']);
   echo dossier::hidden();
   echo JS_SEARCH_CARD;
-  echo $act->display('UPD',false);
+  echo $act->Display('UPD',false,$retour);
   echo '<input type="hidden" name="p_action" value="suivi_courrier">';
   echo '<input type="hidden" name="sa" value="update">';
   echo HtmlInput::submit("save","Sauve");
@@ -281,8 +272,6 @@ if ( $sub_action == "list" )
 // Add an action
 if ( $sub_action == "add_action" ) 
 {
-  echo '<div style="float:right">';
-  echo '</div>';
   echo_debug('action',__LINE__,var_export($_POST,true));
   $act=new Action($cn);
   $act->ag_id=0;
@@ -296,9 +285,6 @@ if ( $sub_action == "add_action" )
   $act->ag_ref="";
   $act->ag_title=(isset($_POST['ag_title']))?$_POST['ag_title']:"";
   echo '<div class="content">';
-  echo '<div style="float:right">';
-  echo "<p>$retour</p>";
-  echo '</div>';
   echo JS_SEARCH_CARD;
   // Add hidden tag
   echo '<form method="post" action="commercial.php" name="form_add" id="form_add" enctype="multipart/form-data" >';
@@ -307,7 +293,7 @@ if ( $sub_action == "add_action" )
 
   $act->ag_comment=(isset($_POST['ag_comment']))?Decode($_POST['ag_comment']):"";
   echo_debug("action.inc",__LINE__,"call display");
-  echo $act->Display('NEW',false);
+  echo $act->Display('NEW',false,$retour);
 
   echo '<input type="hidden" name="p_action" value="suivi_courrier">';
   echo '<input type="hidden" name="sa" value="save_action_st2">';
