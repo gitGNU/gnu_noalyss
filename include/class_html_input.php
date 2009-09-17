@@ -127,13 +127,19 @@ class HtmlInput {
   static function hidden($p_name,$p_value) {
     return '<INPUT TYPE="hidden" id="'.$p_name.'" NAME="'.$p_name.'" VALUE="'.$p_value.'">';
   }
-  static function button_href($p_name,$p_value) {
+  /*!\brief create a button with a ref
+   *\param $p_label the text
+   *\param $p_value the location of the window, the PHPSESSID is added, but not the gDossier
+   *\param $p_name the id of the span
+   *\return string with htmlcode
+   */
+  static function button_href($p_label,$p_value,$p_name="") {
     $str='&PHPSESSID='.$_REQUEST['PHPSESSID'];
-//    $p_value.=$str;
-	return sprintf('<button onClick="window.location=\'%s\'">%s</button>',
-				   $p_value,
-				   $p_name);
-
+    $r=sprintf('<span id="%s" class="action"> <A class="mtitle" href="%s">%s</A></span>',
+	       $p_name,
+	       $p_value.$str,
+	       $p_label);
+    return $r;
   }
   static function infobulle($p_comment){
     $r='<A HREF="#" style="display:inline;color:black;background-color:yellow;padding-left:4px;padding-right:4px;text-decoration:none;" onmouseover="showBulle(\''.$p_comment.'\')"  onclick="showBulle(\''.$p_comment.'\')" onmouseout="hideBulle(0)">?</A>';
