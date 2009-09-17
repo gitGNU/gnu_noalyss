@@ -77,7 +77,7 @@ class Action
 
     }
   //----------------------------------------------------------------------
-  /*!  Display
+  /*!  
    * \brief Display the object, the tags for the FORM
    *        are in the caller. It will be used for adding and updating 
    *        action 
@@ -230,9 +230,9 @@ class Action
 	{
     // 	    $this->GetAgRef("ag_ref_ag_id")."</A>";
 
-	  $lag_ref_ag_id='<a class="mtitle" href="commercial.php?p_action=suivi_courrier&sa=detail&ag_id='.
+	  $lag_ref_ag_id='<a class="mtitle" href="?p_action='.$_REQUEST['p_action'].'&sa=detail&ag_id='.
 	    $this->ag_ref_ag_id.'&'.dossier::get().'">'.
-	    $this->db->get_value("select ag_ref from action_gestion where ag_id=".$this->ag_ref_ag_id).
+	    $this->db->get_value("select ag_ref from action_gestion where ag_id=$1",array($this->ag_ref_ag_id)).
 	    "</A>";
 	} 
       // sender

@@ -15,7 +15,7 @@
 <TD>
 <table>
 <tr>
-<td>Concerne</td><td>Lien vers action concernéex</td>
+<td>Concerne</td><td><?php echo $lag_ref_ag_id;?></td>
 </tr><tr>
 <TD>Type Action</TD><TD><?php echo $str_doc_type;?></TD>
 </tr><tr>
