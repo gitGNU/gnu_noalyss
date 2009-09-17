@@ -61,19 +61,15 @@ class Document
       $this->db->exec_sql($sql);
 
     }
-  /*!\brief Save save the state of the document
+
+  /*!  
+   * \brief Generate the document, Call $this-\>Replace to replace
+   *        tag by value
+   *        
+   *
+   * \return an array : the url where the generated doc can be found, the name
+   * of the file and his mimetype
    */
-  function save()
-    {
-    }
-/*!  
- * \brief Generate the document, Call $this-\>Replace to replace
- *        tag by value
- *        
- *
- * \return an array : the url where the generated doc can be found, the name
- * of the file and his mimetype
- */
   function Generate() 
     {
       // create a temp directory in /tmp to unpack file and to parse it
@@ -309,8 +305,12 @@ class Document
    */
   function Upload($p_ag_id) 
     {
+      print_r('upload');
+      print_r($_FILES); print_r("sizeof ".sizeof($_FILES));
       // nothing to save
       if ( sizeof($_FILES) == 0 ) return;
+
+      print_r(__FILE__.':'.__LINE__);
       /* for several files  */
       /* $_FILES is now an array */
       // Start Transaction
@@ -398,6 +398,27 @@ class Document
       $this->db->commit();
       
     }
+  /*!\brief get all the document of a given action
+   *\param $ag_id the ag_id from action::ag_id (primary key)
+   *\return an array of objects document or an empty array if nothing found
+   */
+  function get_all($ag_id) {
+    $res=$this->db->get_array('select d_id, ag_id, d_lob, d_number, d_filename,'.
+			      ' d_mimetype from document where ag_id=$1',array($ag_id));
+    $a=array();
+    for ($i=0;$i<sizeof($res); $i++ ) {
+      $doc=new Document($this->db);
+      $doc->d_id=$res[$i]['d_id'];
+      $doc->ag_id=$res[$i]['ag_id'];
+      $doc->d_lob=$res[$i]['d_lob'];
+      $doc->d_number=$res[$i]['d_number'];
+      $doc->d_filename=$res[$i]['d_filename'];
+      $doc->d_mimetype=$res[$i]['d_mimetype'];
+      $a[$i]=clone $doc;
+    }
+    return $a;
+  }
+
   /*!\brief Get  complete all the data member thx info from the database
    */
   function get()
@@ -906,6 +927,8 @@ class Document
     {
       $sql='delete from document where d_id='.$this->d_id;
       $this->db->exec_sql($sql);
+      if ($this->d_lob != 0 ) 
+	$this->db->lo_unlink($this->d_lob);
     }
   /*!\brief Move a document from the table document into the concerned row
    *        the document is not copied : it is only a link

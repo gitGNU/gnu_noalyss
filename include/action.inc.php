@@ -23,7 +23,7 @@
  */
 $User->can_request(GECOUR);
 echo JS_PROTOTYPE;
-
+$retour=HtmlInput::button_href('Retour','?p_action=suivi_courrier&'.dossier::get());
 //-----------------------------------------------------
 // Action
 //-----------------------------------------------------
@@ -32,7 +32,7 @@ require_once("class_ispan.php");
 require_once("class_ifile.php");
 require_once("class_itext.php");
 require_once("class_action.php");
-
+require_once('class_iaction.php');
 /*!\brief Show the list of action, this code should be common
  *        to several webpage. But for the moment we keep like that
  *        because it is used only by this file.
@@ -40,7 +40,7 @@ require_once("class_action.php");
  * \param $retour button for going back
  * \param $h_url calling url
  */
-function ShowActionList($cn,$retour,$h_url)
+function ShowActionList($cn)
 {
   // show the search menu
   ?>
@@ -83,9 +83,6 @@ function ShowActionList($cn,$retour,$h_url)
 <input type="submit" name="submit_query" value="Ajout Action">
 <input type="hidden" name="p_action" value="suivi_courrier">
 <input type="hidden" name="sa" value="add_action">
-   <?php   // if called from another menu, url is set
-   echo $h_url;
-    echo $retour; ?>
 </form>
 </span>
 </div>
@@ -137,7 +134,8 @@ function ShowActionList($cn,$retour,$h_url)
   // permit also a search
   // show detail
 $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
-
+/* for delete  */
+if ( isset($_POST['delete'] )) $sub_action='delete';
 if ( $sub_action == "" ) $sub_action="list";
 
 // if correction is asked go to directly to add_action
@@ -148,14 +146,8 @@ if (isset($_POST['corr'] ))
 }
 // if this page is called from another menu (customer, supplier,...)
 // a button back is added
-$retour="";
-$h_url="";
 
-if ( isset ($_REQUEST['url'])) 
-{
-  $retour=HtmlInput::button_href('Retour',urldecode($_REQUEST['url']));
-     $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
-}
+
 //----------------------------------------------------------------------
 // Update the detail
 // Add a new action related to this one or update 
@@ -166,8 +158,6 @@ if ( $sub_action=="update" )
   if ( isset($_POST['save']))
     {
       $act=new Action($cn);
-      $act=new Action($cn);
-      
       $act->ag_id=$_POST['ag_id'];
       $act->ag_comment=$_POST['ag_comment'];
       $act->ag_timestamp=$_POST['ag_timestamp'];
@@ -183,7 +173,8 @@ if ( $sub_action=="update" )
       } 
       else 
 	{
-	  ShowActionList($cn,$retour,$h_url);
+	  ShowActionList($cn);
+	  echo hb('Action Sauvée  : '.$act->ag_ref);
 	}
     }
   //----------------------------------------------------------------------
@@ -196,7 +187,6 @@ if ( isset ($_POST['add_action_here']) )
       
       //----------------------------------------
       // puis comme ajout normal (copier / coller )
-      echo $retour;
       $act->ag_id=0;
       $act->qcode_exp=(isset($_POST['qcode_exp']))?$_REQUEST['qcode_exp']:"";
       $act->f_id_exp=(isset($_POST['f_id_exp']))?$_POST['f_id_exp']:0;
@@ -210,12 +200,16 @@ if ( isset ($_POST['add_action_here']) )
       $act->ag_ref="";
       $act->ag_title=(isset($_POST['ag_title']))?$_POST['ag_title']:"";
       echo '<div class="content">';
+      echo '<div style="float:right">';
+      echo '<p>'.$retour.'</p>';
+      echo '</div>';
+
+
       echo JS_SEARCH_CARD;
       // Add hidden tag
-      echo '<form name="RTEDemo" action="commercial.php?p_action=suivi_courrier" method="post" onsubmit="return submitForm();">';
+      echo '<form  enctype="multipart/form-data" action="commercial.php" method="post"">';
       
-      //      $act->ag_comment=(isset($_POST['ag_comment']))?Decode($_POST['ag_comment']):"";
-	  echo dossier::hidden();
+      echo dossier::hidden();
       $act->ag_comment="";
       echo_debug("action.inc",__LINE__,"call display");
       echo $act->Display('NEW',false);
@@ -223,7 +217,6 @@ if ( isset ($_POST['add_action_here']) )
       echo '<input type="hidden" name="p_action" value="suivi_courrier">';
       echo '<input type="hidden" name="sa" value="save_action_st2">';
       
-      echo $h_url;
       echo '<input type="submit" name="save_action_st2" value="Enregistrer"></p>'.
 	'</form>'.
 	'</div>';
@@ -239,14 +232,15 @@ if ( $sub_action=='detail' )
 {
   echo '<div class="content">';
   echo '<div style="float:right">';
-  //  echo '<A class="mtitle" HREF="commercial.php?p_action='.$_REQUEST['p_action'].'&'.$str_dossier.'"><input type="button" value="Retour"></A>';
+  echo $retour;
+
   echo '</div>';
 
   $act=new Action($cn);
   $act->ag_id=$_REQUEST['ag_id'];
   echo $act->get();
   $act->ag_comment=Decode($act->ag_comment);
-  echo '<form name="RTEDemo" action="commercial.php"  enctype="multipart/form-data"  method="post"  onsubmit="return submitForm();" >';
+  echo '<form  enctype="multipart/form-data"  action="commercial.php"  method="post"   >';
   echo HtmlInput::hidden('p_action',$_REQUEST['p_action']);
   echo dossier::hidden();
   echo JS_SEARCH_CARD;
@@ -255,76 +249,41 @@ if ( $sub_action=='detail' )
   echo '<input type="hidden" name="sa" value="update">';
   echo HtmlInput::submit("save","Sauve");
   echo HtmlInput::submit("add_action_here","Ajoute une action à celle-ci");
+  echo HtmlInput::submit("delete","Efface cette action"," onclick=\"return confirm('Vous confirmez l\'effacement')\" )");
   echo '</form>';
-  echo '<form action="commercial.php"  method="post"   >';
-  echo dossier::hidden();
-
-  echo HtmlInput::submit("delete","Efface cette action");
-  echo '<input type="hidden" name="p_action" value="suivi_courrier">';
-  echo '<input type="hidden" name="sa" value="delete">';
-  echo '<input type="hidden" name="ag_id" value="'.$act->ag_id.'">';
-  echo '</form>';
-
-  //  echo $retour;
-
   echo '</div>';
+
 }
 //-------------------------------------------------------------------------------
 // Delete an action
 if ( $sub_action == 'delete' ) 
 {
-  // first the confirmation
-  if ( ! isset ($_POST['confirm_delete'])) 
-    {
-      echo '<div class="u_redcontent">';
-      echo '<A class="mtitle" HREF="commercial.php?p_action=suivi_courrier&'.$str_dossier.'"><input type="button" value="Retour"></A>';
-      $act=new Action($cn);
-      $act->ag_id=$_REQUEST['ag_id'];
-      echo $act->get();
-      $act->ag_comment=Decode($act->ag_comment);
-
-      echo JS_SEARCH_CARD;
-      echo $act->display('READ',false);
-      // display the form
-      echo '<form action="commercial.php?p_action=suivi_courrier" method="post" >';
-	  echo dossier::hidden();
-
-      echo '<input type="hidden" name="p_action" value="suivi_courrier">';
-      echo '<input type="hidden" name="sa" value="delete">';
-      echo '<input type="hidden" name="ag_id" value="'.$act->ag_id.'">';
-      echo HtmlInput::submit("confirm_delete","Confirmer l'effacement");
-      
-      echo '</form>';
-      
-
-      
-      echo '</div>';
-      
-    }
-  else 
-    {
       // confirmed 
-      $act=new Action($cn);
-      $act->ag_id=$_REQUEST['ag_id'];
-      $act->remove();      
-      $sub_action="list";
-    }
+  $cn->start();
+  $act=new Action($cn);
+  $act->ag_id=$_REQUEST['ag_id'];
+  $act->get();
+  $act->remove();      
+  $sub_action="list";
+  $cn->commit();
+  ShowActionList($cn);
+  if ( isset( $act->ag_ref) )
+    echo hb('Action '.$act->ag_ref.' effacée');
+  exit();
 }
 
 //--------------------------------------------------------------------------------
 // Show a list of the action
 if ( $sub_action == "list" )
-     ShowActionList($cn,$retour,$h_url);
+     ShowActionList($cn);
        
 //--------------------------------------------------------------------------------
 // Add an action
 if ( $sub_action == "add_action" ) 
 {
   echo '<div style="float:right">';
-  echo '<A class="one" HREF="commercial.php?p_action=suivi_courrier&'.$str_dossier.'"><input type="button" value="Retour"></A>';
   echo '</div>';
   echo_debug('action',__LINE__,var_export($_POST,true));
-  echo $retour;
   $act=new Action($cn);
   $act->ag_id=0;
   $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:"0";
@@ -336,10 +295,13 @@ if ( $sub_action == "add_action" )
   $act->ag_state=(isset($_POST['ag_state']))?$_POST['ag_state']:"";
   $act->ag_ref="";
   $act->ag_title=(isset($_POST['ag_title']))?$_POST['ag_title']:"";
-  echo '<div class="u_redcontent">';
+  echo '<div class="content">';
+  echo '<div style="float:right">';
+  echo "<p>$retour</p>";
+  echo '</div>';
   echo JS_SEARCH_CARD;
   // Add hidden tag
-  echo '<form name="RTEDemo" action="commercial.php?p_action=suivi_courrier" method="post" onsubmit="return submitForm();">';
+  echo '<form method="post" action="commercial.php" name="form_add" id="form_add" enctype="multipart/form-data" >';
   echo dossier::hidden();
 
 
@@ -349,16 +311,15 @@ if ( $sub_action == "add_action" )
 
   echo '<input type="hidden" name="p_action" value="suivi_courrier">';
   echo '<input type="hidden" name="sa" value="save_action_st2">';
-
-  echo $h_url;
-  echo '<input type="submit" name="save_action_st2" value="Enregistrer"></p>'.
-    '</form>'.
-    '</div>';
-
+  echo '<input type="hidden" name="save_action_st2" value="save_action_st2">';
+  echo '</form>';
+  
+  echo '<input type="submit" name="save_action_st2" value="Enregistrer">';
+  echo   '</div>';
 }
 //--------------------------------------------------------------------------------
 // Save Action
-// Stage 2 : Save the action and propose to save a file
+// Stage 2 : Save the action + Files and generate eventually a document
 //--------------------------------------------------------------------------------
 if  ( $sub_action == "save_action_st2" ) 
 {
@@ -378,32 +339,9 @@ if  ( $sub_action == "save_action_st2" )
 
   $act->gen=isset($_POST['p_gen'])?'on':'off';
   // insert into action_gestion
-  echo $act->SaveStage2();
-  echo '<A class="one" HREF="commercial.php?p_action=suivi_courrier&'.$str_dossier.'"><INPUT TYPE="BUTTON" VALUE="Retour Liste"></A>';
-}
-
-//--------------------------------------------------------------------------------
-// Save Document
-// Stage 3 : Save the document
-//--------------------------------------------------------------------------------
-if  ( $sub_action == "save_action_st3" ) 
-{
-  echo_debug("action.inc.php",__LINE__,'Stage 3');
-  $act=new Action($cn);
-  $act->ag_id=$_POST['ag_id'];
-  $act->ag_ref_ag_idid=$_POST['ag_ref_ag_id'];
-  $act->ag_comment=$_POST['ag_comment'];
-  $act->ag_timestamp=$_POST['ag_timestamp'];
-  $act->ag_state=$_POST['ag_state'];
-  $act->dt_id=$_POST['dt_id'];
-  $act->qcode_exp=$_POST['qcode_exp'];
-
-  $act->ag_title=$_POST['ag_title'];
-  $d_id=(isset($_POST['d_id']))?$_POST['d_id']:0;
-  $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:0;
-  echo $act->SaveStage3($d_id);
-  ShowActionList($cn,$retour,$h_url);
-
+  echo $act->save();
+  ShowActionList($cn);
+  echo hb('Action Sauvée  : '.$act->ag_ref);
 }
 //---------------------------------------------------------------------
 

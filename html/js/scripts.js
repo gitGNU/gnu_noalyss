@@ -807,5 +807,41 @@ function enable_type_periode() {
 		g('p_step').disabled=false;
 	}
 }
+/**
+ *@brief remove an attached document of an action
+ *@param phpsessid
+ *@param dossier
+ *@param dt_id id of the document (pk document:d_id)
+*/
+function remove_document(p_sessid,p_dossier,p_id) {
+  queryString="?PHPSESSID="+p_sessid+"&gDossier="+p_dossier+"&a=rm&d_id="+p_id;
+  var action=new Ajax.Request (
+			       "show_document.php",
+			       {
+				 method:'get',
+				 parameters:queryString,
+				 onFailure:errorRemoveDoc,
+				 onSuccess:successRemoveDoc
+			       }
+			
+			       );
 
-
+}
+/**
+ *@brief error if a document if removed
+ */
+ function errorRemoveDoc() { alert('Impossible d\'effacer ce document');}
+ /**
+  *@brief success when removing a document
+  */
+  function successRemoveDoc(request,json){
+	  var answer=request.responseText.evalJSON(true);
+	  var action="ac"+answer.d_id;
+	  $(action).innerHTML="";
+	  var doc="doc"+answer.d_id;
+	  $(doc).style.color="red";
+	  $(doc).href="javascript:alert('Document Effacé')";
+	  $(doc).style.textDecoration="line-through";
+	  	
+  }
+  

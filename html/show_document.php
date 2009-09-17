@@ -29,13 +29,24 @@ require_once( "class_document.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 $cn=new Database($gDossier);
-
+$action=(isset($_REQUEST['a']))?$_REQUEST['a']:'sh';
 
 require_once ('class_user.php');
 $User=new User(new Database());
 /*!\todo Add security here
  */
 $User->Check();
-// retrieve the document
-$doc=new Document($cn,$_REQUEST['d_id']);
-$doc->Send();
+/* Show the document */
+if ( $action == 'sh') {
+  // retrieve the document
+  $doc=new Document($cn,$_REQUEST['d_id']);
+  $doc->Send();
+}
+/* remove the document */
+if ( $action == 'rm' ) {
+  $doc=new Document($cn,$_REQUEST['d_id']);
+  $doc->remove();
+  $json=sprintf('{"d_id":"%s"}',$_REQUEST['d_id']);
+  header("Content-type: text/html; charset: utf8",true);
+  print $json;
+}

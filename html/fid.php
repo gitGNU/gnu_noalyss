@@ -22,9 +22,9 @@
 
 /*!\file 
  * \brief Fid for the ajax request for cards
- *
+ * \see fiche_search.php
  * Valid parameter GET are 
- * -  d type = cred, deb, all or filter (see fiche_search.php')
+ * -  d type = cred, deb, all or filter or any sql where clause if the d starts with [sql]
  * -  j is the legdger
  * - PHPSESSID
  * - caller give you what is the caller
@@ -53,47 +53,51 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
 
   if ( $jrn == -1 ) 
     $d='all';
+  if ( strpos($d,'sql') == false ) {
+    switch ($d) {
+    case 'cred':
+      $filter_jrn=$cn->get_value("select jrn_def_fiche_cred from jrn_def where jrn_def_id=$1",array($jrn));
+      $filter_card="and fd_id in ($filter_jrn)";
+      break;
+    case 'deb':
+      $filter_jrn=$cn->get_value("select jrn_def_fiche_deb from jrn_def where jrn_def_id=$1",array($jrn));
+      $filter_card="and fd_id in ($filter_jrn)";
+      break;
+    case 'all':
+      $filter_card="";
+      break;
+    case 'filter':
+      $get_cred='jrn_def_fiche_cred';
 
-  switch ($d) {
-  case 'cred':
-    $filter_jrn=$cn->get_value("select jrn_def_fiche_cred from jrn_def where jrn_def_id=$1",array($jrn));
-    $filter_card="and fd_id in ($filter_jrn)";
-    break;
-  case 'deb':
-    $filter_jrn=$cn->get_value("select jrn_def_fiche_deb from jrn_def where jrn_def_id=$1",array($jrn));
-    $filter_card="and fd_id in ($filter_jrn)";
-    break;
-  case 'all':
-    $filter_card="";
-    break;
-  case 'filter':
-    $get_cred='jrn_def_fiche_cred';
+      $get_deb='jrn_def_fiche_deb';
 
-    $get_deb='jrn_def_fiche_deb';
+      $filter_jrn=$cn->get_value("select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_id=$1",array($jrn));
 
-    $filter_jrn=$cn->get_value("select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_id=$1",array($jrn));
+      $filter_card="and fd_id in ($filter_jrn)";
+      break;
+    case 'all':
+      $filter_card='';
+      break;
 
-    $filter_card="and fd_id in ($filter_jrn)";
-    break;
-  case 'all':
-    $filter_card='';
-    break;
-
-  default:
-    $filter_card="and fd_id in ($d)";
+    default:
+      $filter_card="and fd_id in ($d)";
+    }
+  } else {
+    $filter_card=$d;
+    $filter_card=str_replace('[sql]','',$d);
   }
-
   $sql="select vw_name,vw_addr,vw_cp,vw_buy,vw_sell,tva_id 
                     from vw_fiche_attr 
                     where quick_code=upper($1)". $filter_card;
 
   $array=$cn->get_array($sql,  array($_GET['FID']));
+  if ( empty($array)) { echo '{"answer":"nok"}'; exit;}
 
   echo_debug("fid",__LINE__,$array);
   /* Different behaviour depending of the caller */
   if ( strcmp($caller,'searchcardCtrl') === 0 ){
 	$name=$array[0]['vw_name'];
-  } else
+  } else 
   $name=$array[0]['vw_name']." ".$array[0]['vw_addr']." ".$array[0]['vw_cp'];
 	
   $sell=$array[0]['vw_sell'] ;
@@ -112,7 +116,7 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
 
 }
      else
-     $a='{"answer":"nok"}';
+       $a='{"answer":"nok"}';
 echo_debug("fid.php",__LINE__,"Answer is \n $a");
 header("Content-type: text/html; charset: utf8",true);
 print $a;

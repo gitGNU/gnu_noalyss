@@ -153,7 +153,7 @@ class Action
       $desc->name="ag_comment";
       $desc->readonly=$readonly;
 
-      $desc->value=FormatString(urldecode($this->ag_comment));
+      $desc->value=$this->ag_comment;
 
       // state
       // Retrieve the value
@@ -242,7 +242,7 @@ class Action
       $w->name='qcode_exp';
       $w->value=($this->f_id_exp != 0)?$this->qcode_exp:"";
       $w->label="";
-      $w->extra='frd_id in (14,25,8,9,16)';
+      $w->extra='[sql] and frd_id in (14,25,8,9,16)';
       $w->extra2='Recherche';
       $sp=new ISpan();
       $sp->name='qcode_exp_label';
@@ -263,6 +263,7 @@ class Action
 					  ' from document where ag_id=$1',
 					 array($this->ag_id));
       ob_start();
+      $ag_id=$this->ag_id;
       require_once ('template/detail-action.php');
       $content=ob_get_contents();
       ob_end_clean();
@@ -327,139 +328,18 @@ class Action
       echo_debug('class_action',__LINE__,'Detail $this  :'.var_export($this,true));
 
     }
-/*!  Confirm
- * \brief Display the encoded data and ask a confirmation
- *        this correspond to the stage 1, before the generation
- *        or the upload of document
- * 
- * 
- * \return string containing the form
- */
-  function Confirm()
-    {
-      echo_debug('class_action',__LINE__,'confirm()  :'.var_export($_POST,true));
-      echo_debug('class_action',__LINE__,'confirm $this  :'.var_export($this,true));
 
-      if ( isDate($this->ag_timestamp) == null )
-		{
-		  // if the date is invalid, default date is today
-		  $this->ag_timestamp=date("d.m.Y");
-		}
-      // Compute the widget
-      // Date 
-      $date=new IText();
-      $date->readonly=true;
-      $date->name="ag_timestamp";
-      $date->value=$this->ag_timestamp;
-      // Doc Type
-      $doc_type=new IHidden();
-      $doc_type->name="dt_id";
-      $doc_type->value=$this->dt_id;
-      $a=$this->db->exec_sql("select dt_value from document_type where dt_id=".$this->dt_id);
-      $v=Database::fetch_array($a,0);
-      $str_type=$v[0];
-      if ( isset ($_REQUEST['url'])) 
-	{
-	  $retour=HtmlInput::button_href('Retour',urldecode($_REQUEST['url']));
-				 
-	  $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
-	}
-      else 
-	{ 
-	  $retour="";
-	  $h_url="";
-	}
-
-      // state
-      $a=$this->db->exec_sql("select s_value from document_state where s_id=".$this->ag_state);
-      $v=Database::fetch_array($a,0);
-      $str_state=$v[0];
-      $state=new IHidden();
-      $state->name="ag_state";
-      $state->value=$this->ag_state;
-	
-      // title
-      $title=new IText();
-      $title->readonly=true;
-      $title->name="ag_title";
-      $title->value=FormatString($this->ag_title);
-
-      // Description
-      $desc=new ITextArea();
-      $desc->name="ag_comment";
-      $desc->readonly=" disabled ";
-      $desc->value=$this->ag_comment;
-      // Propose to generate a document
-      $gen=new ICheckBox();
-      $gen->name="p_gen";
-      $doc_gen=new ISelect();
-      $doc_gen->name="gen_doc";
-      $doc_gen->value=$this->db->make_array(
-				 "select md_id,md_name from document_modele where md_type=".$this->dt_id);
-
-      $h_agrefid=new IHidden();
-
-       // f_id
-       if ( trim($this->qcode_exp) =="")
-         {
-           // internal document
-           $this->f_id_exp=0; // internal document
-           $nameexp="interne";
-         }
-       else // ( trim($this->qcode_exp) !=""  )
-         {
-           $tiers=new fiche($this->db);
-           $tiers->get_by_qcode($this->qcode_exp);
-           $this->f_id_exp=$tiers->id;
-           $nameexp=$tiers->strAttribut(1);
-		if ( $nameexp == '- ERROR  -') $this->f_id_exp=-1;	
-         }
- 
-
-
-      // Preparing the return string
-      $r=$retour."<form method=\"post\">";
-	  $r.=dossier::hidden();
-      $r.="<p>Date : ".$date->input()."</p>";
-      $r.="<p>Etat $str_state".$state->input()."</p>";
-      $r.="<p>Type du document $str_type".$doc_type->input()."</p>";
-      $r.="<p> Expediteur : ".$this->qcode_exp." ".$nameexp.'</p>';
-      $r.="<p> Titre : ".$title->input();
-      $r.="<p>Description :".$desc->input()."</p>";
-
-      // if no document exist for this type then do not display the question
-      if ( sizeof($doc_gen->value) != 0) 
-	$r.="<p> G&eacute;n&eacute;rer un document ".$gen->input()." ".$doc_gen->input()."</p>";
-	
-
-      // Add the hidden tag
-      $r.='<input type="hidden" name="sa" value="save_action_st2">';
-      $r.='<input type="hidden" name="p_action" value="suivi_courrier">';
-      $r.='<input type="hidden" name="f_id_exp" value="'.$this->f_id_exp.'">';
-      $r.='<input type="hidden" name="qcode_exp" value="'.$this->qcode_exp.'">';
-
-
-      $r.=	$h_agrefid->input("ag_ref_ag_id",$this->ag_ref_ag_id);
-	
-      // retrieve customer
-
-      $r.=HtmlInput::submit("Save","Sauve");
-      $r.=HtmlInput::submit("corr","Corrige");
-
-      $r.=$h_url."</form>";
-      return $r;
-    }
-/*!  SaveStage2
+/*!  
  * \brief Save the document and propose to save the generated document or  
  *  to upload one, the data are included except the file. Temporary the generated
  * document is save
  *
  * \return
  */
-  function SaveStage2() 
+  function save() 
     {
-      echo_debug('class_action',__LINE__,'saveStage2()  :'.var_export($_POST,true));
-      echo_debug('class_action',__LINE__,' saveStage2()  $this  :'.var_export($this,true));
+      echo_debug('class_action',__LINE__,'save()  :'.var_export($_POST,true));
+      echo_debug('class_action',__LINE__,' save()  $this  :'.var_export($this,true));
 
       // Get The sequence id, 
       $seq_name="seq_doc_type_".$this->dt_id;
@@ -477,33 +357,30 @@ class Action
 	  $doc_mod->get();
 	  $this->ag_title=$doc_mod->dt_value;
 	}
-      echo_debug('class_action',__LINE__," tiers->id  ".$tiers->id);
       $this->ag_id=$this->db->get_next_seq('action_gestion_ag_id_seq');
       // Create the reference 
       $ref=$this->dt_id.'/'.$this->ag_id;
       $this->ag_ref=$ref;
       /*!\brief the ag_comment is already urlencoded 
        */
-      //we remove newline 
-      $this->ag_comment=str_replace("%OD","",$this->ag_comment);
-      $this->ag_comment=str_replace("%OA","",$this->ag_comment);
       // save into the database
-      $sql=sprintf("insert into action_gestion".
-		   "(ag_id,ag_timestamp,ag_type,ag_title,f_id_exp,ag_comment,ag_ref,ag_ref_ag_id) ".
-		   " values (%d,to_date('%s','DD-MM-YYYY'),'%d','%s',%d,%d,'%s','%s',%d)",
-		   $this->ag_id,
-		   $this->ag_timestamp,
-		   $this->dt_id,
-		   FormatString($this->ag_title),
-		   $tiers->id,
-		   $exp->id,
-		   $this->ag_comment,
-		   $ref,
-		   $this->ag_ref_ag_id
-		   );
-      $this->db->exec_sql($sql);
-
-
+      $sql="insert into action_gestion".
+	"(ag_id,ag_timestamp,ag_type,ag_title,f_id_exp,ag_comment,ag_ref,ag_ref_ag_id) ".
+	" values ($1,to_date($2,'DD-MM-YYYY'),$3,$4,$5,$6,$7,$8)";
+      $this->db->exec_sql($sql,array($this->ag_id, /* 1 */
+				     $this->ag_timestamp, /* 2 */
+				     $this->dt_id,	/* 3 */
+				     $this->ag_title, /* 4 */
+				     $exp->id,	  /* 5 */
+				     $this->ag_comment,	  /* 6 */
+				     $ref,		  /* 7 */
+				     $this->ag_ref_ag_id  /* 8 */
+				     )
+			  );
+      /* Upload the documents */
+      print_r('ici');
+      $doc=new Document($this->db);
+      $doc->Upload($this->ag_id);
 
       // the lob filename and the mimetype needed if we want to generate a doc.
       if ( $this->gen == 'on' ) 
@@ -516,38 +393,7 @@ class Action
 	  $str_file=$doc->Generate();
 	  $d='<input type="hidden" name="d_id" value="'.$doc->d_id.'">';
 	}
-      $r="";
-      // readonly and upload of a file
-      $r.="<hr>";
-      $r.='<form enctype="multipart/form-data" method="post">';
-	  $r.=dossier::hidden();
-      echo_debug("class_action",__LINE__,"call display");
-      $r.=$this->Display('READ',false);
-      // Add the hidden tag
-      $r.='<input type="hidden" name="sa" value="save_action_st3">';
-      $r.='<input type="hidden" name="p_action" value="suivi_courrier">';
-      // add the d_id
-      $r.='<input type="hidden" name="d_id" value="'.$this->d_id.'">'; 
-      // ag_comment must be saved in urlcode
-      $r.='<input type="hidden" name="ag_comment" value="'.urlencode($this->ag_comment).'">';
-      // Value for the generated document
-      if ( $this->gen == 'on' ) 
-	{
-	  $r.='<input type="hidden" name="d_id" value="'.$doc->d_id.'">';
-	  $r.="Sauver le document généré :";
-	  $r.=$str_file;
-	  $checkbox=new ICheckBox();
-	  $checkbox->name="save_generate";
-	  $r.=$checkbox->input();
-	  $r.="<hr>";
-	}
-      $upload=new IFile();
-      $upload->name="file_upload";
-      $upload->value="";
-      $r.="Enregistrer le fichier ".$upload->input();
-      $r.=HtmlInput::submit("save","Sauve le fichier");
-      $r.="</form>";
-      return $r;
+      //      return $r;
     }
 /*! SaveStage3
  * \brief Upload the document or save the generated document
@@ -581,7 +427,7 @@ class Action
     }
 
 /*! myList($p_filter="")
- * \brief Show list of action
+ * \brief Show list of action by default if sorted on date
  * \param  $p_filter filters on the document_type
  * \param $p_search must a valid sql command ( ex 'and  ag_title like upper('%hjkh%'))
  * 
@@ -617,7 +463,6 @@ class Action
 	'<A  class="mtitle"  href="?'.$url.'&s=ref_d&'.$str_dossier.'">'.$image_desc.'</A></th>';
 
       if ( isset($_GET['s'])){
-	{
 	  switch ($_GET['s']) {
 	  case "date_a":
 	    $sort=" ag_timestamp asc";
@@ -696,9 +541,16 @@ class Action
 
 
 	  }
-	  $sort=" order by ".$sort;
-	}
+	
+      }  else {
+	$sort=" ag_timestamp asc";
+	$sort_date='<th>'.$image_sel_asc.'</A>'.
+	  'Date'.
+	  '<A  class="mtitle"  href="?'.$url.'&s=date_d">'.$image_desc.'</A></th>';
       }
+
+      $sort=" order by ".$sort;
+
       if ( strlen(trim($p_filter)) != 0 ) 
 	$p_filter_doc=" dt_id in ( $p_filter )";
       else 
@@ -832,36 +684,22 @@ class Action
 
 	}
 
-
-      //remove newline from ag_comment
-      $this->ag_comment=str_replace("\n","",$this->ag_comment);
-      $this->ag_comment=str_replace("\r","",$this->ag_comment);
-
-      // url encoded
-      $this->ag_comment=urlencode($this->ag_comment);
-
-      // bug PHP : sometimes the newline remains
-      $this->ag_comment=str_replace("%A0","",$this->ag_comment);
-      $this->ag_comment=str_replace("%0D","",$this->ag_comment);
-      $this->ag_comment=str_replace("+%A0+","",$this->ag_comment);
-      $this->ag_comment=str_replace("+%0D+","",$this->ag_comment);
-
-
-      $sql=sprintf("update action_gestion set ag_comment='%s',".
-		   " ag_timestamp=to_date('%s','DD.MM.YYYY'),".
-		   " ag_title='%s',".
-		   " ag_type=%d, ".
-		   " f_id_exp=%d, ".
-		   " ag_ref_ag_id=%d".
-		   " where ag_id = %d",
-		   $this->ag_comment,
-		   $this->ag_timestamp,
-		   FormatString($this->ag_title),
-		   $this->dt_id,
-		   $this->f_id_exp,
-		   $this->ag_ref_ag_id,
-		   $this->ag_id);
-      $this->db->exec_sql($sql);
+      $this->db->exec_sql("update action_gestion set ag_comment=$1,".
+			  " ag_timestamp=to_date($2,'DD.MM.YYYY'),".
+			  " ag_title=$3,".
+			  " ag_type=$4, ".
+			  " f_id_exp=$5, ".
+			  " ag_ref_ag_id=$6 ,".
+			  "ag_state=$7".
+			  " where ag_id = $8",
+			  array ( $this->ag_comment, /* 1 */
+				  $this->ag_timestamp, /* 2 */
+				  $this->ag_title,     /* 3 */
+				  $this->dt_id,	       /* 4 */
+				  $this->f_id_exp,     /* 5 */
+				  $this->ag_ref_ag_id, /* 6 */
+				  $this->ag_state,     /* 7 */
+				  $this->ag_id));      /* 8 */
       echo_debug('class_action',__LINE__,$_FILES);
       // Upload  documents
       $doc=new Document($this->db);
@@ -875,13 +713,6 @@ class Action
 	$doc->blank();
       }
       $doc->Upload($this->ag_id);
-      if ( $this->d_id != 0 )
-	{
-	  $doc=new Document($this->db);
-	  $doc->d_id=$this->d_id ;
-	  $doc->ag_state=$this->ag_state;
-	  $doc->save();
-	}
       return true;
     }
 
@@ -896,20 +727,18 @@ class Action
     $sql=sprintf("delete from action_gestion where ag_id=%d",$this->ag_id);
     $this->db->exec_sql($sql);
       
-      // remove the ref
-       $sql=sprintf("update action_gestion set ag_ref_ag_id=0 where ag_ref_ag_id=%d",
- 		   $this->ag_id);
-       $this->db->exec_sql($sql);
-
-      // if there is a document
-      if ( $this->dt_id != 0 )
-	{
-	  $doc=new Document($this->db,$this->dt_id);
-	  $doc->get();
-	  $doc->remove();
-	  if ( strlen(trim($doc->d_lob))!=0 ) 
-	    $this->lo_unlink($doc->dt_lob);
-	}
-
-    } 
+    // remove the ref of the depending action
+    $sql=sprintf("update action_gestion set ag_ref_ag_id=0 where ag_ref_ag_id=%d",
+		 $this->ag_id);
+    $this->db->exec_sql($sql);
+    /*  check the number of attached document */
+    $doc=new Document($this->db);
+    $aDoc=$doc->get_all($this->ag_id);
+    if ( ! empty ($aDoc)) {
+      // if there are documents
+      for ($i=0;$i <sizeof($aDoc);$i++) {
+	$aDoc[$i]->remove();
+      }
+    }
+  } 
 }

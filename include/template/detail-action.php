@@ -1,23 +1,31 @@
 <fieldset><legend>Informations générales</legend>
+<table width="100%">
+<TR><TD>
+	<table width="50%">
+	<TR>
+	<TD>Date</TD><TD><?php echo $date->input(); ?></TD>
+	</TR>
+	<tr>
+	<TD>Reference</TD><TD><?php echo $str_ag_ref; ?></TD>
+	</TD></TR>
+	<TD>Destinataire</TD><TD><?php echo $w->input(); ?></td>
+</TD>
+</table>
+</TD>
+<TD>
 <table>
-<TR>
-<TD>Date</TD><TD><?php echo $date->input(); ?></TD>
-</TR>
 <tr>
-<TR>
-<TD>Reference</TD><TD><?php echo $str_ag_ref; ?></TD>
-
 <td>Concerne</td><td>Lien vers action concernéex</td>
+</tr><tr>
 <TD>Type Action</TD><TD><?php echo $str_doc_type;?></TD>
+</tr><tr>
 <TD>Etat</TD><td><?php echo $str_state;?><TD></TD>
-</tr>
-<TR>
-<TD>Destinataire</TD><TD><?php echo $w->input(); ?><?php echo $sp->input();?></TD>
-
 </TR>
 </table>
-
-
+</TD>
+</TR>
+</table>
+<?php echo $sp->input();?>
 </fieldset>
 <fieldset><legend>Détail</legend>
 <p>
@@ -38,7 +46,15 @@ for ($i=0;$i<sizeof($aAttachedFile);$i++) :
 ?>
 
 <p>
-<A class="mtitle" href="<?php echo $aAttachedFile[$i]['link']?>"> <?php echo $aAttachedFile[$i]['d_filename'];?> </A>
+<A class="mtitle" id="<?php echo "doc".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $aAttachedFile[$i]['link']?>"> <?php echo $aAttachedFile[$i]['d_filename'];?> </A>
+<?php $rmDoc=sprintf("javascript:if ( confirm('Voulez-vous effacer le document %s')==true ) {remove_document('%s','%s','%s');}",
+	$aAttachedFile[$i]['d_filename'],
+	$_REQUEST['PHPSESSID'],
+	dossier::id(),
+	$aAttachedFile[$i]['d_id']);
+?>
+	
+<a class="mtitle" id="<?php echo "ac".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $rmDoc;?>">Effacer</a>
 </p>
 
 <?php
