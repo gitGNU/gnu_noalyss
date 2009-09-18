@@ -106,6 +106,7 @@ de donn&eacute;es");
       }catch (Exception  $a) {
 	if (DEBUG) {
 	  print_r ($p_string);
+	  print_r($p_array);
 	  echo $a->getMessage();
 	  echo $a->getTrace();
 	}
