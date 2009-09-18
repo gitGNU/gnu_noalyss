@@ -43,13 +43,15 @@
    *     - all the card, 
    *     - filter     get int the setting of the ledger the FD_ID 
    *     - List of value (fd_id)
+   *     - start with the [sql] tag if we use a SQL where clause
    * - name of the control
    * - ctrl the second control to set up
    * - gDossier the dossier id
    * -the caller (what jascript function triggers this window)
+   * 
    *\note if the p_jrn is -1 then all the card are shown
  */
-
+print_r( $_REQUEST);
 include_once ("ac_common.php");
 require_once('class_database.php');
 include_once("jrn.php");
@@ -195,10 +197,9 @@ if (
       
       $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
       
-    } elseif( strpos($e_type,'frd_id')===0 ) {
-      /* $e_type must be something like frd_id in (...) */
-      $sql="select * from vw_fiche_attr where $e_type ";
-      
+    }  elseif (strpos($e_type,'sql') != 0 ) {
+      $t=str_replace('[sql]',' ',$e_type);
+      $sql="select * from vw_fiche_attr where true $t";
     }
     // if e_type contains a list of value for filtering on fiche_def_ref.frd_id
     else{
