@@ -65,7 +65,7 @@ class Action
   var $d_filename;    /*!<   $d_filename filename's document      */
   var $d_mimetype;    /*!<   $d_mimetype document's filename      */
   var $ag_title;      /*!<   $ag_title title document	      */
-  var $f_id;	      /*!<   $f_id_exp fiche id (From field )  */  
+  var $f_id;	      /*!<   $f_id_dest fiche id (From field )  */  
   var $ag_ref_ag_id;   /*!<   $ag_ref_ag_id concern previous action*/
   var $ag_ref;	       /*!< $ag_ref is the ref  */
   /*!  constructor  
@@ -214,14 +214,14 @@ class Action
       $ag_ref->value=FormatString($this->ag_ref);
       $client_label=new ISpan();
 
-      // f_id_exp sender
+      // f_id_dest sender
       if ( $this->qcode_dest != '- ERROR -' && strlen(trim($this->qcode_dest)) != 0)
 	{
 	  $tiers=new fiche($this->db);
 	  $tiers->get_by_qcode($this->qcode_dest);
 	  $qcode_dest_label=$tiers->strAttribut(1);
 	} else {
-	  $qcode_dest_label=($this->f_id_exp==0 || trim($this->qcode_dest)=="")?'Interne ':'Error';
+	  $qcode_dest_label=($this->f_id_dest==0 || trim($this->qcode_dest)=="")?'Interne ':'Error';
 	}
 
       $h_ag_id=new IHidden();
@@ -242,7 +242,7 @@ class Action
       $w->readonly=$readonly;
       $w->jrn=0;
       $w->name='qcode_dest';
-      $w->value=($this->f_id_exp != 0)?$this->qcode_dest:"";
+      $w->value=($this->f_id_dest != 0)?$this->qcode_dest:"";
       $w->label="";
       $w->extra='[sql] and frd_id in (14,25,8,9,16)';
       $w->extra2='Recherche';
@@ -297,7 +297,7 @@ class Action
       $r.=$h_agrefid->input("ag_ref_ag_id",$this->ag_ref_ag_id); 
       $r.=$h_ag_id->input('ag_id',$this->ag_id);
       $hidden2=new IHidden();
-      $r.=$hidden2->input('f_id_exp',$this->f_id_exp);
+      $r.=$hidden2->input('f_id_dest',$this->f_id_dest);
       $r.="</p>";
 
       // show the list of the concern operation
@@ -314,7 +314,7 @@ class Action
     {
       echo_debug('class_action',__LINE__,'Action::Get() ');
       $sql="select ag_id, ag_comment,to_char (ag_timestamp,'DD-MM-YYYY') as ag_timestamp,".
-	" f_id_exp,ag_title,ag_comment,ag_ref,d_id,ag_type,ag_state,  ".
+	" f_id_dest,ag_title,ag_comment,ag_ref,d_id,ag_type,ag_state,  ".
 	" ag_ref_ag_id ".
 	" from action_gestion left join document using (ag_id) where ag_id=".$this->ag_id;
       $r=$this->db->exec_sql($sql);
@@ -323,7 +323,7 @@ class Action
       $this->ag_comment=$row[0]['ag_comment'];
       $this->ag_timestamp=$row[0]['ag_timestamp'];
 
-      $this->f_id_exp=$row[0]['f_id_exp'];
+      $this->f_id_dest=$row[0]['f_id_dest'];
       $this->ag_title=$row[0]['ag_title'];
       $this->ag_type=$row[0]['ag_type'];
       $this->ag_ref=$row[0]['ag_ref'];
@@ -342,7 +342,7 @@ class Action
 	}
       echo_debug('class_action',__LINE__,' After test Document id = '.$this->d_id);
       $this->dt_id=$this->ag_type;
-      $aexp=new fiche($this->db,$this->f_id_exp);
+      $aexp=new fiche($this->db,$this->f_id_dest);
       $this->qcode_dest=$aexp->strAttribut(ATTR_DEF_QUICKCODE);
 
       echo_debug('class_action',__LINE__,'Detail end ()  :'.var_export($_POST,true));
@@ -386,7 +386,7 @@ class Action
        */
       // save into the database
       $sql="insert into action_gestion".
-	"(ag_id,ag_timestamp,ag_type,ag_title,f_id_exp,ag_comment,ag_ref,ag_ref_ag_id) ".
+	"(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_comment,ag_ref,ag_ref_ag_id) ".
 	" values ($1,to_date($2,'DD-MM-YYYY'),$3,$4,$5,$6,$7,$8)";
       $this->db->exec_sql($sql,array($this->ag_id, /* 1 */
 				     $this->ag_timestamp, /* 2 */
@@ -489,7 +489,7 @@ class Action
 	    $sort_exp='<th>'.$image_sel_asc.'</A>'.
 	      'Expéditeur'.
 	      '<A  class="mtitle"  href="?'.$url.'&s=exp_d">'.$image_asc.'</A></th>';
-	    $sort=" f_id_exp asc";
+	    $sort=" f_id_dest asc";
 	    break;
 
 	  case "exp_d":
@@ -497,7 +497,7 @@ class Action
 	      'Expéditeur'.
 	      $image_sel_desc.'</th>';
 
-	    $sort=" f_id_exp desc";
+	    $sort=" f_id_dest desc";
 	    break;
 
 	  case "ti":
@@ -564,7 +564,7 @@ class Action
 	$p_filter_doc=" 1=1 ";
 
       $sql="
-   select ag_id,to_char(ag_timestamp,'DD-MM-YYYY') as my_date,ag_ref_ag_id,f_id_exp".
+   select ag_id,to_char(ag_timestamp,'DD-MM-YYYY') as my_date,ag_ref_ag_id,f_id_dest".
 	",ag_title,md_type,dt_value,ag_ref 
    from action_gestion 
       left outer join document_modele on (ag_type=md_type) 
@@ -614,7 +614,7 @@ class Action
 
 	  // Expediteur
 	  $fexp=new fiche($this->db);
-	  $fexp->id=$row['f_id_exp'];
+	  $fexp->id=$row['f_id_dest'];
 	  $qcode_dest=$fexp->strAttribut(ATTR_DEF_QUICKCODE);
 
 	  $qexp=($qcode_dest=="- ERROR -")?"Interne":$qcode_dest;
@@ -679,7 +679,7 @@ class Action
       if ( trim($this->qcode_dest) =="" )
 	{
 	  // internal document
-	  $this->f_id_exp=0; // internal document
+	  $this->f_id_dest=0; // internal document
 	}
       else
 	{
@@ -687,7 +687,7 @@ class Action
 	  if ( $tiers->get_by_qcode($this->qcode_dest) == -1 ) // Error we cannot retrieve this qcode
 	    return false; 
 	  else
-	    $this->f_id_exp=$tiers->id;
+	    $this->f_id_dest=$tiers->id;
 
 	}
       $ref=$this->dt_id.'/'.$this->ag_id;
@@ -696,7 +696,7 @@ class Action
 			  " ag_timestamp=to_date($2,'DD.MM.YYYY'),".
 			  " ag_title=$3,".
 			  " ag_type=$4, ".
-			  " f_id_exp=$5, ".
+			  " f_id_dest=$5, ".
 			  " ag_ref_ag_id=$6 ,".
 			  "ag_state=$7".
 			  " where ag_id = $8",
@@ -704,7 +704,7 @@ class Action
 				  $this->ag_timestamp, /* 2 */
 				  $this->ag_title,     /* 3 */
 				  $this->dt_id,	       /* 4 */
-				  $this->f_id_exp,     /* 5 */
+				  $this->f_id_dest,     /* 5 */
 				  $this->ag_ref_ag_id, /* 6 */
 				  $this->ag_state,     /* 7 */
 				  $this->ag_id));      /* 8 */
@@ -722,7 +722,7 @@ class Action
     $doc=new Document($this->db);
     $mod=new Document_Modele($this->db,$md_id);
     $mod->load();
-    $doc->f_id=$this->f_id_exp;
+    $doc->f_id=$this->f_id_dest;
     $doc->md_id=$md_id;
     $doc->ag_id=$this->ag_id;
     $doc->Generate();
@@ -735,7 +735,7 @@ class Action
   function fromArray($p_array) {
       $this->ag_id=(isset($p_array['ag_id']))?$p_array['ag_id']:"";
       $this->qcode_dest=(isset($p_array['qcode_dest']))?$p_array['qcode_dest']:"";
-      $this->f_id_exp=(isset($p_array['f_id_exp']))?$p_array['f_id_exp']:0;
+      $this->f_id_dest=(isset($p_array['f_id_dest']))?$p_array['f_id_dest']:0;
       $this->ag_ref_ag_id=(isset($p_array['ag_ref_ag_id']))?$p_array['ag_ref_ag_id']:0;
       $this->ag_timestamp=(isset($p_array['ag_timestamp']))?$p_array['ag_timestamp']:"";
       $this->qcode_dest=(isset($p_array['qcode_dest']))?$p_array['qcode_dest']:"";

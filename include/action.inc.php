@@ -120,7 +120,7 @@ function ShowActionList($cn)
 	   if ( $fiche->id == 0 ) 
 	     $str=' and false ';
 	   else
-	     $str=" and (f_id_exp= ".$fiche->id." ) ";
+	     $str=" and (f_id_dest= ".$fiche->id." ) ";
 	 }
      }
 
@@ -284,7 +284,7 @@ if ( $sub_action == "add_action" )
   $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:"0";
   $act->ag_timestamp=(isset($_POST['ag_timestamp']))?$_POST['ag_timestamp']:"";
   $act->qcode_dest=(isset($_POST['qcode_dest']))?$_REQUEST['qcode_dest']:"";
-  $act->f_id_exp=(isset($_POST['f_id_exp']))?$_POST['f_id_exp']:0;
+  $act->f_id_dest=(isset($_POST['f_id_dest']))?$_POST['f_id_dest']:0;
   $act->d_id=0;
   $act->dt_id=isset($_POST['dt_id'])?$_REQUEST['dt_id']:"";
   $act->ag_state=(isset($_POST['ag_state']))?$_POST['ag_state']:"";
@@ -323,7 +323,7 @@ if  ( $sub_action == "save_action_st2" )
   $act->ag_state=$_POST['ag_state'];
   $act->dt_id=$_POST['dt_id'];
   $act->qcode_dest=$_POST['qcode_dest'];
-  $act->f_id_exp=$_POST['f_id_exp'];
+  $act->f_id_dest=$_POST['f_id_dest'];
 
   $act->ag_title=$_POST['ag_title'];
   $act->d_id=0;
