@@ -95,7 +95,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	throw new AcException('La fiche '.$e_client.'n\'est pas accessible à ce journal',10);
 
     $nb=0;
-    $own=new Own($this->db);
+
     //----------------------------------------
     // foreach item
     //----------------------------------------
@@ -122,11 +122,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $fiche->get_by_qcode(${'e_march'.$i});
       if ( $fiche->belong_ledger($p_jrn,'cred') !=1 )
 	throw new AcException('La fiche '.${'e_march'.$i}.'n\'est pas accessible à ce journal',10);
-      /* Check if tva amount is numeric */
-      if ( $own->MY_TVA_USE == 'Y' && isNumber(${"tva_march$i"."_show"}) ==false) 
-	throw new AcException('Pour la fiche '.${'e_march'.$i}.' le montant TVA est incorrect ',12);
       $nb++;
-    } // end foreach
+    }
     if ( $nb == 0 )
       throw new AcException('Il n\'y a aucune marchandise',12);
     //------------------------------------------------------
@@ -190,8 +187,15 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	
 	if ($own->MY_TVA_USE == 'Y' ) {	
 		/* Compute sum vat */
+		$oTva=new Acc_Tva($this->db);
 		$idx_tva=${'e_march'.$i.'_tva_id'};
-		$tva_item=${"tva_march$i"."_show"};
+		$oTva->set_parameter('id',$idx_tva);
+		$oTva->load();
+		$op_tva=new Acc_Compute();
+		$op_tva->set_parameter("amount",$amount);
+		$op_tva->set_parameter('amount_vat_rate',$oTva->get_parameter('rate'));
+		$op_tva->compute_vat();
+		$tva_item=$op_tva->get_parameter('amount_vat');
 
 
 		if (isset($tva[$idx_tva] ) )
@@ -731,9 +735,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	      //--
 	      $wTva_amount=new widget("text");
 	      $wTva_amount->table=1;
-	      $wTva_amount->readonly=false;
+	      $wTva_amount->readonly=true;
 	      $wTva_amount->size=6;
-	      $wTva_amount->javascript=" onchange=\"$('tva_amount".$i."').value=$('tva_march".$i."_show').value;refresh_sold()\."";
 	      $r.=$wTva_amount->IOValue("tva_march$i"."_show");
       }
       // quantity
@@ -872,7 +875,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $amount=bcmul(${"e_march".$i."_price"},${'e_quant'.$i});
       $op->set_parameter("amount",$amount);
       if ( $own->MY_TVA_USE=='Y') {
-	$tva_item=${"tva_march$i"."_show"};
+	$op->set_parameter('amount_vat_rate',$oTva->get_parameter('rate'));
+	$op->compute_vat();
+	$tva_item=$op->get_parameter('amount_vat');
 	if (isset($tva[$idx_tva] ) )
 	  $tva[$idx_tva]+=$tva_item;
 	else
@@ -998,10 +1003,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     for ($i=0;$i < $nb_item;$i++) {
       $r.=widget::hidden("e_march".$i,${"e_march".$i});
       $r.=widget::hidden("e_march".$i."_price",${"e_march".$i."_price"});
-      if ( $own->MY_TVA_USE=='Y') {
-	$r.=widget::hidden("e_march".$i."_tva_id",${"e_march".$i."_tva_id"});
-	$r.=widget::hidden("e_march".$i."_show",${"e_march".$i."_show"});
-      }
+      if ( $own->MY_TVA_USE=='Y') $r.=widget::hidden("e_march".$i."_tva_id",${"e_march".$i."_tva_id"});
       $r.=widget::hidden("e_quant".$i,${"e_quant".$i});
     }
 
