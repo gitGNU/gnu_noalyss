@@ -53,9 +53,9 @@ class Periode {
    *\return array [start]=>,[end]=>
    */
   function limit_year($p_exercice) {
-    $sql_start="select p_id from parm_periode where p_exercice=$1 order by p_start  ASC";
+    $sql_start="select p_id from parm_periode where p_exercice=$1 order by p_start  ASC limit 1";
     $start=$this->cn->get_value($sql_start,array($p_exercice));
-    $sql_end="select p_id from parm_periode where p_exercice=$1 order by p_end  DESC";
+    $sql_end="select p_id from parm_periode where p_exercice=$1 order by p_end  DESC limit 1";
     $end=$this->cn->get_value($sql_end,array($p_exercice));
     return array("start"=>$start,"end"=>$end);
   }
@@ -302,8 +302,8 @@ class Periode {
    */
   function get_limit($p_exercice)  {
 
-    $max=$this->cn->get_value("select p_id from parm_periode where p_exercice=$1 order by p_start asc",array($p_exercice));
-    $min=$this->cn->get_value("select p_id from parm_periode where p_exercice=$1 order by p_start desc",array($p_exercice));
+    $max=$this->cn->get_value("select p_id from parm_periode where p_exercice=$1 order by p_start asc limit 1",array($p_exercice));
+    $min=$this->cn->get_value("select p_id from parm_periode where p_exercice=$1 order by p_start desc limit 1",array($p_exercice));
     $rMax=new Periode($this->cn);
     $rMax->p_id=$max;
     $rMax->load();
