@@ -343,12 +343,15 @@ de donn&eacute;es");
      document_state where s_id=2
      *\param $p_array if array is not null we use the ExecSqlParm (safer)
      *\see exec_sql
+     *\note print a warning if several value are found, if only the first value is needed
+     * consider using a LIMIT clause
      * \return only the first value or an empty string if nothing is found
      */ 
     function get_value($p_sql,$p_array=null)
     {
       $this->ret=$this->exec_sql($p_sql,$p_array);
       if ( pg_NumRows($this->ret) == 0 ) return "";
+      if ( pg_NumRows($this->ret) > 1 ) echo "Attention $p_sql retourne plusieurs valeurs";
       $r=pg_fetch_row($this->ret,0);
       return $r[0];
     
