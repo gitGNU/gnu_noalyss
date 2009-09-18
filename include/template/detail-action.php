@@ -2,8 +2,10 @@
   <legend>
      Informations générales 
   </legend>
-<div style="float:right"><?echo $retour;?></div>
-
+  <div style="float:right">
+    <?echo $retour;
+    ?>
+  </div>
   <table width="100%">
     <TR>
       <TD>
@@ -44,7 +46,7 @@
                Concerne 
             </td>
             <td>
-              <?php echo $lag_ref_ag_id;
+              <?php echo $lag_ref_ag_id; 
               ?>
             </td>
           </tr>
@@ -53,7 +55,7 @@
                Type Action 
             </TD>
             <TD>
-              <?php echo $str_doc_type;
+              <?php echo $str_doc_type; 
               ?>
             </TD>
           </tr>
@@ -62,7 +64,7 @@
                Etat 
             </TD>
             <td>
-              <?php echo $str_state;
+              <?php echo $str_state; 
               ?>
             <TD>
             </TD>
@@ -71,7 +73,7 @@
       </TD>
     </TR>
   </table>
-  <?php echo $sp->input();
+  <?php echo $sp->input(); 
   ?>
 </fieldset>
 <fieldset>
@@ -89,6 +91,54 @@
     <?php echo $desc->input(); 
     ?>
   </p>
+</fieldset>
+<input type='button' value='Montrer articles' onclick='toggleShowDetail()'>
+<fieldset id="fldDetail" style='display:block'>
+<LEGEND> Détails article
+</LEGEND>
+<table id="art" class="result">
+<h>
+<th>Fiche</th>
+<th>Description</th>
+<th>prix unitaire</th>
+<th>quantité</th>
+<th>Code TVA</th>
+<th>Montant Hors TVA</th>
+<th>Montant TVA</th>
+<th>Montant TVAC</th>
+</tr>
+<?for ($i=0;$i<count($aArticle);$i++): ?>
+<TR>
+<TD><?php echo $aArticle[$i]['fid'] ?></TD>
+<TD><?php echo $aArticle[$i]['desc'] ?></TD>
+<TD class="num"><?php echo $aArticle[$i]['pu'] ?></TD>
+<TD class="num"><?php echo $aArticle[$i]['quant'] ?></TD>
+<TD class="num"><?php echo $aArticle[$i]['ctva'] ?></TD>
+<TD class="num"><?php echo $aArticle[$i]['htva'] ?></TD>
+<TD class="num"><?php echo $aArticle[$i]['atva'] ?></TD>
+<TD class="num"><?php echo $aArticle[$i]['totaltvac'] ?></TD>
+
+</TR>
+<?php endfor; ?> 
+</table>
+<script language="JavaScript">
+toggleShowDetail();
+function toggleShowDetail() {
+	try {var detail=g('fldDetail');
+	if (detail.style.display=='block' ) { detail.style.display='none';}
+	else { detail.style.display='block';} }
+	catch (error)  {alert(error);}
+	}
+	
+</script>
+
+</fieldset>
+<fieldset >
+  <legend>
+     Document à générer 
+  </legend>
+  <?php echo $str_select_doc; 
+  ?>
 </fieldset>
 <fieldset>
   <legend>

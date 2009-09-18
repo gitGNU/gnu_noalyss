@@ -281,7 +281,7 @@ class Document
 	return 1; }
     
       $sql=sprintf("insert into document(ag_id,d_lob,d_number,d_filename,d_mimetype) 
-                        values (%d,%s,%d,'%s','%s',%d)",
+                        values (%d,%s,%d,'%s','%s')",
 		   $this->ag_id,
 		   $this->d_lob,
 		   $this->d_number,
@@ -305,12 +305,9 @@ class Document
    */
   function Upload($p_ag_id) 
     {
-      print_r('upload');
-      print_r($_FILES); print_r("sizeof ".sizeof($_FILES));
       // nothing to save
       if ( sizeof($_FILES) == 0 ) return;
 
-      print_r(__FILE__.':'.__LINE__);
       /* for several files  */
       /* $_FILES is now an array */
       // Start Transaction

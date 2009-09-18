@@ -134,6 +134,25 @@ function ShowActionList($cn)
   // permit also a search
   // show detail
 $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
+/* if ag_id is set then we give it otherwise we have problem 
+ * with the generation of document
+ */
+$ag_id=(isset($_REQUEST['ag_id']))?$_REQUEST['ag_id']:0;
+/*--------------------------------------------------------------------------- */
+/* We ask to generate the document */
+/*--------------------------------------------------------------------------- */
+if ( isset($_POST['generate'])){
+  $act=new Action($cn);
+  $act->fromArray($_POST);
+  if ($act->ag_id == 0 ) { 
+    $act->save();
+    $ag_id=$act->ag_id;
+  } else {
+    $act->Update();
+  }
+  $act->generate_document($_POST['doc_mod']);
+  $sub_action='detail';
+}
 /* for delete  */
 if ( isset($_POST['delete'] )) $sub_action='delete';
 if ( $sub_action == "" ) $sub_action="list";
@@ -157,48 +176,33 @@ if ( $sub_action=="update" )
   // Update the modification
   if ( isset($_POST['save']))
     {
-      $act=new Action($cn);
-      $act->ag_id=$_POST['ag_id'];
-      $act->ag_comment=$_POST['ag_comment'];
-      $act->ag_timestamp=$_POST['ag_timestamp'];
-      $act->ag_state=$_POST['ag_state'];
-      $act->dt_id=(isset($_POST['dt_id']))?$_POST['dt_id']:0;
-      $act->qcode_exp=$_POST['qcode_exp'];
-      $act->ag_title=$_POST['ag_title'];
-      $act->d_id=(isset($_POST['d_id']))?$_POST['d_id']:0;
-      $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:0;
+      $act2=new Action($cn);
+      $act2->fromArray($_POST );
 
-      if ( $act->Update() == false ) {
+      if ( $act2->Update() == false ) {
 	$sub_action="detail";
       } 
       else 
 	{
 	  ShowActionList($cn);
-	  echo hb('Action Sauvée  : '.$act->ag_ref);
+	  echo hb('Action Sauvée  : '.$act2->ag_ref);
 	}
     }
   //----------------------------------------------------------------------
   // Add a related action 
   //----------------------------------------------------------------------
-if ( isset ($_POST['add_action_here']) )
-{
+  if ( isset ($_POST['add_action_here']) )
+    {
       $act=new Action($cn);
-      $act->ag_ref_ag_id=$_POST['ag_id'];
+
       
       //----------------------------------------
       // puis comme ajout normal (copier / coller )
+      $act->fromArray($_POST);
       $act->ag_id=0;
-      $act->qcode_exp=(isset($_POST['qcode_exp']))?$_REQUEST['qcode_exp']:"";
-      $act->f_id_exp=(isset($_POST['f_id_exp']))?$_POST['f_id_exp']:0;
-
-      $act->ag_ref_ag_id=$_POST['ag_id'];
-      $act->ag_timestamp=(isset($_POST['ag_timestamp']))?$_POST['ag_timestamp']:"";
-      $act->qcode_exp=isset($_POST['qcode_exp'])?$_REQUEST['qcode_exp']:"";
       $act->d_id=0;
-      $act->dt_id=isset($_POST['dt_id'])?$_REQUEST['dt_id']:"";
-      $act->ag_state=(isset($_POST['ag_state']))?$_POST['ag_state']:"";
-      $act->ag_ref="";
-      $act->ag_title=(isset($_POST['ag_title']))?$_POST['ag_title']:"";
+      $act->ag_ref_ag_id=$_POST['ag_id'];
+
       echo '<div class="content">';
 
       echo JS_SEARCH_CARD;
@@ -212,10 +216,11 @@ if ( isset ($_POST['add_action_here']) )
       
       echo '<input type="hidden" name="p_action" value="suivi_courrier">';
       echo '<input type="hidden" name="sa" value="save_action_st2">';
-      
-      echo '<input type="submit" name="save_action_st2" value="Enregistrer"></p>'.
-	'</form>'.
-	'</div>';
+      echo '<input type="submit" name="save_action_st2" value="Enregistrer">';
+      echo '<input type="submit" name="generate" value="Genere le document"></p>';
+      echo HtmlInput::submit("generate","Genere le document");
+      echo '</form>';
+      echo '</div>';
       
     }
   
@@ -228,7 +233,7 @@ if ( $sub_action=='detail' )
 {
   echo '<div class="content">';
   $act=new Action($cn);
-  $act->ag_id=$_REQUEST['ag_id'];
+  $act->ag_id=$ag_id;
   echo $act->get();
   $act->ag_comment=Decode($act->ag_comment);
   echo '<form  enctype="multipart/form-data"  action="commercial.php"  method="post"   >';
@@ -239,6 +244,7 @@ if ( $sub_action=='detail' )
   echo '<input type="hidden" name="p_action" value="suivi_courrier">';
   echo '<input type="hidden" name="sa" value="update">';
   echo HtmlInput::submit("save","Sauve");
+  echo HtmlInput::submit("generate","Genere le document");
   echo HtmlInput::submit("add_action_here","Ajoute une action à celle-ci");
   echo HtmlInput::submit("delete","Efface cette action"," onclick=\"return confirm('Vous confirmez l\'effacement')\" )");
   echo '</form>';
@@ -277,7 +283,7 @@ if ( $sub_action == "add_action" )
   $act->ag_id=0;
   $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:"0";
   $act->ag_timestamp=(isset($_POST['ag_timestamp']))?$_POST['ag_timestamp']:"";
-  $act->qcode_exp=(isset($_POST['qcode_exp']))?$_REQUEST['qcode_exp']:"";
+  $act->qcode_dest=(isset($_POST['qcode_dest']))?$_REQUEST['qcode_dest']:"";
   $act->f_id_exp=(isset($_POST['f_id_exp']))?$_POST['f_id_exp']:0;
   $act->d_id=0;
   $act->dt_id=isset($_POST['dt_id'])?$_REQUEST['dt_id']:"";
@@ -298,9 +304,10 @@ if ( $sub_action == "add_action" )
   echo '<input type="hidden" name="p_action" value="suivi_courrier">';
   echo '<input type="hidden" name="sa" value="save_action_st2">';
   echo '<input type="hidden" name="save_action_st2" value="save_action_st2">';
+  echo '<input type="submit" name="save_action_st2" value="Enregistrer">';
+  echo HtmlInput::submit("generate","Genere le document");
   echo '</form>';
   
-  echo '<input type="submit" name="save_action_st2" value="Enregistrer">';
   echo   '</div>';
 }
 //--------------------------------------------------------------------------------
@@ -315,7 +322,7 @@ if  ( $sub_action == "save_action_st2" )
   $act->ag_timestamp=$_POST['ag_timestamp'];
   $act->ag_state=$_POST['ag_state'];
   $act->dt_id=$_POST['dt_id'];
-  $act->qcode_exp=$_POST['qcode_exp'];
+  $act->qcode_dest=$_POST['qcode_dest'];
   $act->f_id_exp=$_POST['f_id_exp'];
 
   $act->ag_title=$_POST['ag_title'];

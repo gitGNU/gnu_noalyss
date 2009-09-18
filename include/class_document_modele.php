@@ -253,6 +253,15 @@ class Document_modele {
       $r.="</form></p>";
       return $r;
     }
-
+  /*!\brief load the value of a document_modele,the ag_id variable must be set
+   */
+  function load() {
+    $array=$this->cn->get_array("SELECT md_id, md_name, md_lob, md_type, md_filename, md_mimetype".
+				" FROM document_modele where md_id=$1",array($this->md_id));
+    if ( count($array) == 0 ) return null;
+    foreach ( array('md_name', 'md_lob','md_type', 'md_filename', 'md_mimetype') as $idx) {
+      $this->$idx=$array[0][$idx];
+    }
+  }
 }
 ?>
