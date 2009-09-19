@@ -67,7 +67,11 @@ function ShowActionList($cn)
 	   $a);
    $see_all=new ICheckBox('see_all');
    $see_all->selected= (isset($_REQUEST['see_all']))?true:false;
-   echo 'Toutes les actions:'.$see_all->input();
+   echo 'les actions fermées aussi:'.$see_all->input();
+   $my_action=new ICheckBox('my_action');
+   $my_action->selected= (isset($_REQUEST['my_action']))?true:false;
+   echo 'uniquement mes actions:'.$my_action->input();
+
    $sp=new ISpan("qcode_label",$qcode);
    echo $sp->input();
 
@@ -126,6 +130,7 @@ function ShowActionList($cn)
 	 }
      }
    if ( ! isset($_REQUEST['see_all']))      $query = ' and ag_state in (2,3) ';
+   if ( isset($_REQUEST['my_action']))      $query = " and (ag_owner='".$_SESSION['g_user']."' or ag_dest='".$_SESSION['g_user']."')";
    $r=$act->myList(ACTION,$query.$str);
    echo $r;
  }

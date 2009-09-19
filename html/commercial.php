@@ -25,7 +25,6 @@
  *        file must included and this file will manage the request 
  *        (customer, supplier, contact,...)
  */
-
 include_once ("ac_common.php");
 require_once("constant.php");
 require_once('class_database.php');
@@ -78,18 +77,50 @@ echo '<div class="u_tmenu">';
 echo menu_tool('commercial.php');
 
 echo '<div style="float:left;background-color:#879ED4;width:100%;">';
+$def=0;
+if  ( isset($_REQUEST['p_action'])) {
+  switch($_REQUEST['p_action']) {
+  case'tdb':
+    $def=1;
+   break;
+  case'client':
+    $def=2;
+    break;
+  case'tdb':
+    $def=1;
+    break;
+  case'fournisseur':
+    $def=3;
+    break;
+  case'adm':
+    $def=4;
+    break;
+  case'stock':
+    $def=5;
+    break;
+  case'fiche':
+    $def=6;
+    break;
+  case'prev':
+    $def=7;
+    break;
+  case'suivi_courrier':
+    $def=8;
+    break;
 
+  }
+}
 echo ShowItem(array(
-		    array('?p_action=tdb&'.$str_dossier,'Tableau de bord'),
-		    array('?p_action=client&'.$str_dossier,'Client'),
-		    array('?p_action=fournisseur&'.$str_dossier,'Fournisseur'),
-		    array('?p_action=adm&'.$str_dossier,'Administration'),
-		    array('?p_action=stock&'.$str_dossier,'Stock'),
-		    array('?p_action=fiche&'.$str_dossier,'Fiche'),
-		    array('?p_action=prev&'.$str_dossier,'Prevision'),
-		    array('?p_action=suivi_courrier&'.$str_dossier,'Suivi Courrier'),
+		    array('?p_action=tdb&'.$str_dossier,'Tableau de bord','',1),
+		    array('?p_action=client&'.$str_dossier,'Client','',2),
+		    array('?p_action=fournisseur&'.$str_dossier,'Fournisseur','',3),
+		    array('?p_action=adm&'.$str_dossier,'Administration','',4),
+		    array('?p_action=stock&'.$str_dossier,'Stock','',5),
+		    array('?p_action=fiche&'.$str_dossier,'Fiche','',6),
+		    array('?p_action=prev&'.$str_dossier,'Prevision','',7),
+		    array('?p_action=suivi_courrier&my_action&'.$str_dossier,'Suivi Courrier','',8),
 		    ),
-	      'H',"mtitle","mtitle","?p_action=$p_action&".$str_dossier,' width="100%"');
+	      'H',"mtitle","mtitle",$def,' width="100%"');
 
 echo '</div>';
 echo '</div>';
