@@ -59,6 +59,7 @@ function ShowActionList($cn)
    $w->label='Quick Code1';
    $w->extra='4,9,14,16,8';
    $w->extra2='Fiche';
+   $w->jrn=0;
    $w->table=0;
    echo '<span>';
    echo $w->input();

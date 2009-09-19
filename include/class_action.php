@@ -261,7 +261,7 @@ class Action
 
       $h_ag_id=new IHidden();
       // if concerns another action : show the link otherwise nothing
-      $lag_ref_ag_id=" X / XX ";
+      $lag_ref_ag_id=" 00 / 00 ";
       
       if ( $this->ag_ref_ag_id != 0 )
 	{
@@ -283,7 +283,6 @@ class Action
       $sp->name='qcode_dest_label';
       $sp->value=$qcode_dest_label;
 
-      $h_agrefid=new IHidden();
       $h_agrefid=new IHidden();
       $str_ag_ref="<b>".(($this->ag_ref != "")?$this->ag_ref:" Nouveau ")."</b>";
       // Preparing the return string
