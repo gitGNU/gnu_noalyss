@@ -547,5 +547,10 @@ span.action {
 	
 	
 }
-
+td.num {
+	text-align:right;
+}
+tr.priority1 {
+	background-color:red;
+	}
 /* </style> */

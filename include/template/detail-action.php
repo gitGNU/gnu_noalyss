@@ -1,3 +1,4 @@
+
 <fieldset>
   <legend>
      Informations générales 
@@ -6,9 +7,9 @@
     <?echo $retour;
     ?>
   </div>
-  <table width="100%">
-    <TR>
-      <TD>
+<div style="float:left;width:50%">
+<em> <strong><?php echo $sp->input();   ?></strong></em>
+
         <table width="50%">
           <TR>
             <TD>
@@ -16,6 +17,15 @@
             </TD>
             <TD>
               <?php echo $date->input(); 
+              ?>
+            </TD>
+          </TR>
+          <TR>
+            <TD>
+               Heure 
+            </TD>
+            <TD>
+              <?php echo $str_ag_hour; 
               ?>
             </TD>
           </TR>
@@ -38,8 +48,8 @@
           </td>
           </TD>
         </table>
-      </TD>
-      <TD>
+</div>
+<div style="float:left;width:50%">
         <table>
           <tr>
             <td>
@@ -52,10 +62,20 @@
           </tr>
           <tr>
             <TD>
-               Type Action 
+               Type  
             </TD>
             <TD>
               <?php echo $str_doc_type; 
+              ?>
+            </TD>
+          </tr>
+
+          <tr>
+            <TD>
+               Calendrier
+            </TD>
+            <TD>
+              <?php echo $str_ag_cal; 
               ?>
             </TD>
           </tr>
@@ -69,12 +89,27 @@
             <TD>
             </TD>
           </TR>
+          <tr>
+            <TD>
+               Priorité 
+            </TD>
+            <td>
+              <?php echo $str_ag_priority; 
+              ?>
+            <TD>
+            </TD>
+          </TR>
+          <tr>
+            <TD>
+               Affecté 
+            </TD>
+            <td>
+              <?php echo $str_ag_dest;?>
+            <TD>
+            </TD>
+          </TR>
         </table>
-      </TD>
-    </TR>
-  </table>
-  <?php echo $sp->input(); 
-  ?>
+</div>
 </fieldset>
 <fieldset>
   <legend>

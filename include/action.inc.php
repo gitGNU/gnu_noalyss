@@ -51,6 +51,7 @@ function ShowActionList($cn)
 	echo dossier::hidden();
    $a=(isset($_GET['query']))?$_GET['query']:"";
    $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
+
    echo JS_SEARCH_CARD;
    $w=new ICard();
    $w->name='qcode';
@@ -63,8 +64,9 @@ function ShowActionList($cn)
    echo $w->input();
    printf ('Titre ou référence: <input type="text" name="query" value="%s"></span>',
 	   $a);
-
-
+   $see_all=new ICheckBox('see_all');
+   $see_all->selected= (isset($_REQUEST['see_all']))?true:false;
+   echo 'Toutes les actions:'.$see_all->input();
    $sp=new ISpan("qcode_label",$qcode);
    echo $sp->input();
 
@@ -98,11 +100,10 @@ function ShowActionList($cn)
 
    if ( isset($_REQUEST['query']) )
    {
-     $com=urlencode($_REQUEST['query']);
      // if a query is request build the sql stmt
      $query="and (ag_title ~* '".FormatString($_REQUEST['query'])."' ".
        "or ag_ref ='".trim(FormatString($_REQUEST['query'])).
-       "' or ag_comment ~* '$com'".
+       "' or ag_comment ~* '".trim(FormatString($_REQUEST['query']))."'".
        ")"; 
    }
  
@@ -123,7 +124,7 @@ function ShowActionList($cn)
 	     $str=" and (f_id_dest= ".$fiche->id." ) ";
 	 }
      }
-
+   if ( ! isset($_REQUEST['see_all']))      $query = ' and ag_state in (2,3) ';
    $r=$act->myList(ACTION,$query.$str);
    echo $r;
  }
@@ -185,7 +186,8 @@ if ( $sub_action=="update" )
       else 
 	{
 	  ShowActionList($cn);
-	  echo hb('Action Sauvée  : '.$act2->ag_ref);
+	  $url="?p_action=suivi_courrier&sa=detail&ag_id=".$act2->ag_id.'&'.dossier::get();
+	  echo '<p><a class="mtitle" href="'.$url.'">'.hb('Action Sauvée  : '.$act2->ag_ref).'</a></p>';
 	}
     }
   //----------------------------------------------------------------------
@@ -280,16 +282,9 @@ if ( $sub_action == "add_action" )
 {
   echo_debug('action',__LINE__,var_export($_POST,true));
   $act=new Action($cn);
+  $act->fromArray($_POST );
   $act->ag_id=0;
-  $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:"0";
-  $act->ag_timestamp=(isset($_POST['ag_timestamp']))?$_POST['ag_timestamp']:"";
-  $act->qcode_dest=(isset($_POST['qcode_dest']))?$_REQUEST['qcode_dest']:"";
-  $act->f_id_dest=(isset($_POST['f_id_dest']))?$_POST['f_id_dest']:0;
   $act->d_id=0;
-  $act->dt_id=isset($_POST['dt_id'])?$_REQUEST['dt_id']:"";
-  $act->ag_state=(isset($_POST['ag_state']))?$_POST['ag_state']:"";
-  $act->ag_ref="";
-  $act->ag_title=(isset($_POST['ag_title']))?$_POST['ag_title']:"";
   echo '<div class="content">';
   echo JS_SEARCH_CARD;
   // Add hidden tag
@@ -317,24 +312,16 @@ if ( $sub_action == "add_action" )
 if  ( $sub_action == "save_action_st2" ) 
 {
   $act=new Action($cn);
-
-  $act->ag_comment=$_POST['ag_comment'];
-  $act->ag_timestamp=$_POST['ag_timestamp'];
-  $act->ag_state=$_POST['ag_state'];
-  $act->dt_id=$_POST['dt_id'];
-  $act->qcode_dest=$_POST['qcode_dest'];
-  $act->f_id_dest=$_POST['f_id_dest'];
-
-  $act->ag_title=$_POST['ag_title'];
+  $act->fromArray($_POST);
   $act->d_id=0;
   $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:0;
   $act->md_id=(isset($_POST['gen_doc']))?$_POST['gen_doc']:0;
 
-  $act->gen=isset($_POST['p_gen'])?'on':'off';
   // insert into action_gestion
   echo $act->save();
   ShowActionList($cn);
-  echo hb('Action Sauvée  : '.$act->ag_ref);
+  $url="?p_action=suivi_courrier&sa=detail&ag_id=".$act2->ag_id.'&'.dossier::get();
+  echo '<p><a class="mtitle" href="'.$url.'">'.hb('Action Sauvée  : '.$act2->ag_ref).'</a></p>';
 }
 //---------------------------------------------------------------------
 

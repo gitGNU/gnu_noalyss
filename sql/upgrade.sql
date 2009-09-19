@@ -50,12 +50,21 @@ LANGUAGE 'plpgsql' VOLATILE;
 alter table document drop column d_state;
 alter table action_gestion drop column f_id_exp;
 alter table action_gestion set ag_title type text;
+ALTER TABLE action_gestion ADD COLUMN ag_hour time with time zone;
+ALTER TABLE action_gestion ADD COLUMN ag_priority integer;
+ALTER TABLE action_gestion ALTER COLUMN ag_priority SET DEFAULT 2;
+ALTER TABLE action_gestion ADD COLUMN ag_dest text;
+ALTER TABLE action_gestion ADD COLUMN ag_owner text;
+
+
+
 
 CREATE OR REPLACE FUNCTION action_gestion_ins_upd()
   RETURNS trigger AS
 $BODY$
 begin
 NEW.ag_title := substr(NEW.ag_title,1,70);
+NEW.ag_hour := substr(NEW.ag_hour,1,10);
 return NEW;
 end;
 $BODY$
@@ -73,6 +82,9 @@ ALTER TABLE action_gestion   ADD COLUMN ag_state integer;
 update action_gestion set f_id_dest =  f_id_exp where f_id_exp != 0;
 
 alter table action drop column f_id_dest;
-
+UPDATE document_state    SET s_value= 'Clôturé' WHERE s_id=1;
+UPDATE document_state    SET s_value= 'A suivre' WHERE s_id=2;
+UPDATE document_state    SET s_value= 'A faire' WHERE s_id=3;
+UPDATE document_state    SET s_value= 'Abandonné' WHERE s_id=4;
 commit;
 

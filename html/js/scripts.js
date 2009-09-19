@@ -844,4 +844,18 @@ function remove_document(p_sessid,p_dossier,p_id) {
 	  $(doc).style.textDecoration="line-through";
 	  	
   }
-  
+ /**
+ * @brief check the format of the hour
+ * @param p_ctl is the control where the hour is encoded
+ */
+ function check_hour(p_ctl) {
+	 try { 
+	 	var h=document.getElementById(p_ctl);
+	 	var re = /^\d{1,2}:\d{2}$/;
+	 	 if ( trim(h.value) !='' && ! h.value.match(re)) 
+	 	 	alert("Format de l'heure est HH:MM ")
+	 }catch (erreur){
+	 	alert('fct : check_hour '+erreur);
+	 }
+	 
+ }

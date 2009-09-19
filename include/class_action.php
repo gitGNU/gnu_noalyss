@@ -68,6 +68,9 @@ class Action
   var $f_id;	      /*!<   $f_id_dest fiche id (From field )  */  
   var $ag_ref_ag_id;   /*!<   $ag_ref_ag_id concern previous action*/
   var $ag_ref;	       /*!< $ag_ref is the ref  */
+  var $ag_hour;	       /*!< $ag_hour is the hour of the meeting, action */
+  var $ag_priority;    /*!< $ag_priority is the priority 1 High, 2 medium, 3 low */
+  var $ag_dest;	       /*!< $ag_dest person who is in charged */
   /*!  constructor  
   * \brief constructor
  * \param p_cn database connection
@@ -96,10 +99,6 @@ class Action
    */
   function Display($p_view,$p_gen,$retour="") 
     {
-      echo_debug('class_action',__LINE__,'Display()  :'.var_export($_POST,true));
-      echo_debug('class_action',__LINE__,'Display $this  :'.var_export($this,true));
-
-
       if ( $p_view=='UPD')
 		{
 		  $upd=true;	
@@ -127,7 +126,6 @@ class Action
       $date->name="ag_timestamp";
       $date->value=$this->ag_timestamp;
       
-      
       // for insert mode only
       if ( $upd == false )
 	{
@@ -154,28 +152,18 @@ class Action
       $desc->heigh=5;
       $desc->name="ag_comment";
       $desc->readonly=$readonly;
-
       $desc->value=$this->ag_comment;
 
       // state
       // Retrieve the value
-      if ( $p_view != 'READ' )
-	{
-	  $a=$this->db->make_array("select s_id,s_value from document_state ");
-	  $state=new ISelect();
-	  $state->readonly=$readonly;
-	  $state->name="ag_state";
-	  $state->value=$a;
-	  $state->selected=$this->ag_state;
-	  $str_state=$state->input();
-	} else {
-	  $str_state="";
-	  if ( strlen($this->ag_state) != 0 )
-	    {	  $str_state=$this->db->get_value("select s_value from document_state where s_id=".$this->ag_state);
-	    $g=new IHidden();
-	    $str_state.=$g->input('ag_state',$this->ag_state);
-	    }
-	}
+      $a=$this->db->make_array("select s_id,s_value from document_state ");
+      $state=new ISelect();
+      $state->readonly=$readonly;
+      $state->name="ag_state";
+      $state->value=$a;
+      $state->selected=$this->ag_state;
+      $str_state=$state->input();
+    
       // Retrieve the value if there is an attached doc
       $doc_ref="";
       // Document id
@@ -206,6 +194,53 @@ class Action
       $title->value=$this->ag_title;
       $title->size=60;
 
+      // ag_cal
+      $ag_cal=new ICheckBox('ag_cal');
+      $ag_cal->readonly=$readonly;
+      $ag_cal->name="ag_cal";
+
+      if ( $this->ag_cal=='C' ) 
+	$ag_cal->selected=true;
+      else
+	$ag_cal->selected=false;	
+
+      $str_ag_cal=$ag_cal->input();
+
+      // Priority of the ag_priority
+      $ag_priority=new ISelect();
+      $ag_priority->readonly=$readonly;
+      $ag_priority->name="ag_priority";
+      $ag_priority->selected=$this->ag_priority;
+      $ag_priority->value=array(array('value'=>1,'label'=>'Haute'),
+			array('value'=>2,'label'=>'Moyenne'),
+			array('value'=>3,'label'=>'Basse')
+			);
+      $str_ag_priority=$ag_priority->input();
+
+      // hour of the action (meeting) ag_hour
+      $ag_hour=new IText();
+      $ag_hour->readonly=$readonly;
+      $ag_hour->name="ag_hour";
+      $ag_hour->value=$this->ag_hour;
+      $ag_hour->size=6;
+      $ag_hour->javascript=" onblur=check_hour('ag_hour');";
+      $str_ag_hour=$ag_hour->input();
+
+      // Person in charged of the action
+      $ag_dest=new ISelect();
+      $ag_dest->readonly=$readonly;
+      $ag_dest->name="ag_dest";
+      $repo=new Database();
+      $aAg_dest=$repo->make_array("select  use_id as value, ".
+				  "use_first_name||' '||use_name||'('||use_login||')' as label ".
+				  " from ac_users natural join jnt_use_dos ".
+				  " join priv_user on (jnt_id=priv_jnt) ".
+				  "where dos_id= ".$_REQUEST['gDossier']);
+      $aAg_dest[]=array('value'=>0,'label'=>'phpcompta');
+      $ag_dest->value=$aAg_dest;
+      $ag_dest->selected=$this->ag_dest;
+      $str_ag_dest=$ag_dest->input();
+
       // ag_ref
       // Always false for update
       $ag_ref=new IText();
@@ -230,8 +265,6 @@ class Action
       
       if ( $this->ag_ref_ag_id != 0 )
 	{
-    // 	    $this->GetAgRef("ag_ref_ag_id")."</A>";
-
 	  $lag_ref_ag_id='<a class="mtitle" href="?p_action='.$_REQUEST['p_action'].'&sa=detail&ag_id='.
 	    $this->ag_ref_ag_id.'&'.dossier::get().'">'.
 	    $this->db->get_value("select ag_ref from action_gestion where ag_id=$1",array($this->ag_ref_ag_id)).
@@ -315,7 +348,7 @@ class Action
       echo_debug('class_action',__LINE__,'Action::Get() ');
       $sql="select ag_id, ag_comment,to_char (ag_timestamp,'DD-MM-YYYY') as ag_timestamp,".
 	" f_id_dest,ag_title,ag_comment,ag_ref,d_id,ag_type,ag_state,  ".
-	" ag_ref_ag_id ".
+	" ag_ref_ag_id, ag_dest, ag_hour, ag_priority, ag_cal ".
 	" from action_gestion left join document using (ag_id) where ag_id=".$this->ag_id;
       $r=$this->db->exec_sql($sql);
       $row=Database::fetch_all($r);
@@ -329,6 +362,10 @@ class Action
       $this->ag_ref=$row[0]['ag_ref'];
       $this->ag_ref_ag_id=$row[0]['ag_ref_ag_id'];
       $this->d_id=$row[0]['d_id'];
+      $this->ag_dest=$row[0]['ag_dest'];
+      $this->ag_hour=$row[0]['ag_hour'];
+      $this->ag_priority=$row[0]['ag_priority'];
+      $this->ag_cal=$row[0]['ag_cal'];
       //
       echo_debug('class_action',__LINE__,' Document id = '.$this->d_id);
       // if there is no document set 0 to d_id
@@ -370,7 +407,6 @@ class Action
       // f_id exp
       $exp=new fiche($this->db);
       $exp->get_by_qcode($this->qcode_dest);
-
       if ( trim($this->ag_title) == "") 
 	{
 	  $doc_mod=new document_type($this->db);
@@ -379,15 +415,19 @@ class Action
 	  $this->ag_title=$doc_mod->dt_value;
 	}
       $this->ag_id=$this->db->get_next_seq('action_gestion_ag_id_seq');
+
       // Create the reference 
       $ref=$this->dt_id.'/'.$this->ag_id;
       $this->ag_ref=$ref;
-      /*!\brief the ag_comment is already urlencoded 
-       */
+      if ( $this->ag_cal=='on') 
+	$ag_cal='C';
+      else 
+	$ag_cal='I';
+      $this->ag_ref_ag_id=(strlen(trim($this->ag_ref_ag_id))==0)?0:$this->ag_ref_ag_id;
       // save into the database
       $sql="insert into action_gestion".
-	"(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_comment,ag_ref,ag_ref_ag_id) ".
-	" values ($1,to_date($2,'DD-MM-YYYY'),$3,$4,$5,$6,$7,$8)";
+	"(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_comment,ag_ref,ag_ref_ag_id, ag_dest, ag_hour, ag_priority,ag_cal,ag_owner) ".
+	" values ($1,to_date($2,'DD-MM-YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)";
       $this->db->exec_sql($sql,array($this->ag_id, /* 1 */
 				     $this->ag_timestamp, /* 2 */
 				     $this->dt_id,	/* 3 */
@@ -395,44 +435,18 @@ class Action
 				     $exp->id,	  /* 5 */
 				     $this->ag_comment,	  /* 6 */
 				     $ref,		  /* 7 */
-				     $this->ag_ref_ag_id  /* 8 */
+				     $this->ag_ref_ag_id,  /* 8 */
+				     $this->ag_dest,	   /* 9 */
+				     $this->ag_hour,	   /* 10 */
+				     $this->ag_priority,   /* 11 */
+				     $ag_cal,	   /* 12 */
+				     $_SESSION['g_user'] /* 13 */
 				     )
 			  );
       /* Upload the documents */
       $doc=new Document($this->db);
       $doc->Upload($this->ag_id);
     }
-/*! SaveStage3
- * \brief Upload the document or save the generated document
- * \param $d_id document_id when we upload we don't increment seq. if = 0 then no file
- *
- */
-  function SaveStage3($d_id) 
-    {
-      echo_debug('class_action',__LINE__,'SaveStage3()  :'.var_export($_POST,true));
-      echo_debug('class_action',__LINE__,'SaveStage3  :'.var_export($this,true));
-
-      // if we save the generated doc
-      if ( isset($_POST['save_generate']))
-	{
-	  return;
-	}
-
-      // Upload a new document
-      $doc=new Document($this->db);
-      $doc->ag_id=$this->ag_id;
-      // if there is a document and it is not an update
-      if ( sizeof($_FILES) !=0 && $d_id==0) 
-	{
-	  $doc->md_type=$this->dt_id;
-	  $doc->blank();
-	}
-      else 
-	$doc->d_id=$d_id;
-
-      $doc->Upload($this->ag_id);
-    }
-
 /*! myList($p_filter="")
  * \brief Show list of action by default if sorted on date
  * \param  $p_filter filters on the document_type
@@ -565,7 +579,7 @@ class Action
 
       $sql="
    select ag_id,to_char(ag_timestamp,'DD-MM-YYYY') as my_date,ag_ref_ag_id,f_id_dest".
-	",ag_title,md_type,dt_value,ag_ref 
+	",ag_title,md_type,dt_value,ag_ref, ag_priority
    from action_gestion 
       left outer join document_modele on (ag_type=md_type) 
       join document_type on (ag_type=dt_id)
@@ -609,6 +623,7 @@ class Action
 	  $href='<A class="document" HREF="commercial.php?p_action=suivi_courrier&sa=detail&ag_id='.$row['ag_id'].'&'.$str_dossier.'">';
 	  $i++;
 	  $tr=($i%2==0)?'even':'odd';
+	  if ($row['ag_priority'] < 2) $tr='priority1';	
 	  $r.="<tr class=\"$tr\">";
 	  $r.="<td>".$href.$row['my_date'].'</a>'."</td>";
 
@@ -691,6 +706,7 @@ class Action
 
 	}
       $ref=$this->dt_id.'/'.$this->ag_id;
+      if ( $this->ag_cal == 'on') $ag_cal='C'; else $ag_cal='I';
       $this->ag_ref=$ref;
       $this->db->exec_sql("update action_gestion set ag_comment=$1,".
 			  " ag_timestamp=to_date($2,'DD.MM.YYYY'),".
@@ -698,7 +714,11 @@ class Action
 			  " ag_type=$4, ".
 			  " f_id_dest=$5, ".
 			  " ag_ref_ag_id=$6 ,".
-			  "ag_state=$7".
+			  "ag_state=$7,".
+			  " ag_hour = $9 ,".
+			  " ag_priority = $10 ,".
+			  " ag_dest = $11 , ".
+			  " ag_cal = $12 ".
 			  " where ag_id = $8",
 			  array ( $this->ag_comment, /* 1 */
 				  $this->ag_timestamp, /* 2 */
@@ -707,7 +727,12 @@ class Action
 				  $this->f_id_dest,     /* 5 */
 				  $this->ag_ref_ag_id, /* 6 */
 				  $this->ag_state,     /* 7 */
-				  $this->ag_id));      /* 8 */
+				  $this->ag_id,      /* 8 */
+				  $this->ag_hour,    /* 9 */
+				  $this->ag_priority, /* 10 */
+				  $this->ag_dest,     /* 11 */
+				  $ag_cal	      /* 12 */
+				  ));
       echo_debug('class_action',__LINE__,$_FILES);
       // Upload  documents
       $doc=new Document($this->db);
@@ -743,6 +768,11 @@ class Action
       $this->ag_state=(isset($p_array['ag_state']))?$p_array['ag_state']:"";
       $this->ag_ref=(isset($p_array['ag_ref']))?$p_array['ag_ref']:"";
       $this->ag_title=(isset($p_array['ag_title']))?$p_array['ag_title']:"";
+      $this->ag_hour=(isset($p_array['ag_hour']))?$p_array['ag_hour']:"";
+      $this->ag_dest=(isset($p_array['ag_dest']))?$p_array['ag_dest']:"";
+      $this->ag_priority=(isset($p_array['ag_priority']))?$p_array['ag_priority']:2;
+      $this->ag_cal=(isset($p_array['ag_cal']))?$p_array['ag_cal']:"";
+
   }
   /*!\brief remove the action 
    *
