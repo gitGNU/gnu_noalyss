@@ -57,7 +57,8 @@ class fiche {
   }
 /*!   get_by_qcode($p_qcode)
  * \brief Retrieve a card thx his quick_code
- *        complete the object,, set the id member of the object
+ *        complete the object,, set the id member of the object or set it
+ *        to 0 if no card is found
  * \param $p_qcode quick_code (ad_id=23)
  * \param $p_all retrieve all the attribut of the card, possible value
  * are true, false retrieve only the f_id
@@ -78,7 +79,7 @@ class fiche {
 
       if ( $r == null  ) 
 	return 1;
-      $this->id=$r[0]['f_id'];
+      if ( $this->cn->count($Res)==0) 	$this->id=0; else       $this->id=$r[0]['f_id'];
       echo_debug('class_fiche',__LINE__,'f_id = '.$this->id);
 
       if ( $p_all )
