@@ -78,7 +78,7 @@
 </fieldset>
 <fieldset>
   <legend>
-     Détail 
+     Description 
   </legend>
   <p>
      Titre 
@@ -94,7 +94,7 @@
 </fieldset>
 <input type='button' value='Montrer articles' onclick='toggleShowDetail()'>
 <fieldset id="fldDetail" style='display:block'>
-<LEGEND> Détails article
+<LEGEND> Détail des articles
 </LEGEND>
 <table id="art" class="result">
 <h>
@@ -145,7 +145,6 @@ function toggleShowDetail() {
      Pièces attachées 
   </legend>
   <?php
-print_r($aAttachedFile);
 for ($i=0;$i<sizeof($aAttachedFile);$i++) : 
   ?>
   <p>
@@ -174,7 +173,7 @@ catch(exception) { alert('Je ne peux pas ajouter de fichier'); alert(exception);
 }
 </script>
   <p>
-     Ajout de document: 
+     <strong>Fichiers à ajouter: </strong>
     <ol id='add_file'>
       <li>
         <?php echo $upload->input(); 
@@ -182,5 +181,5 @@ catch(exception) { alert('Je ne peux pas ajouter de fichier'); alert(exception);
       </li>
     </ol>
   </p>
-  <input type="button" onclick="addFiles();" value="Ajout de fichier">
+  <input type="button" onclick="addFiles();" value="Ajouter un fichier">
 </fieldset>
