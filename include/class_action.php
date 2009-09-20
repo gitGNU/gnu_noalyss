@@ -71,6 +71,7 @@ class Action
   var $ag_hour;	       /*!< $ag_hour is the hour of the meeting, action */
   var $ag_priority;    /*!< $ag_priority is the priority 1 High, 2 medium, 3 low */
   var $ag_dest;	       /*!< $ag_dest person who is in charged */
+  var $ag_contact;     /*!< $ag_contact contact */
   /*!  constructor  
   * \brief constructor
  * \param p_cn database connection
@@ -283,6 +284,25 @@ class Action
       $sp->name='qcode_dest_label';
       $sp->value=$qcode_dest_label;
 
+      // contact
+      $ag_contact=new ICard();
+      $ag_contact->readonly=$readonly;
+      $ag_contact->jrn=0;
+      $ag_contact->name='ag_contact';
+      $ag_contact->value=$this->ag_contact;
+      $ag_contact->label="";
+      $ag_contact->extra='[sql] and frd_id = 16'; /* frd = 16 for contact */
+      $ag_contact->extra2='Recherche';
+      $spcontact=new ISpan();
+      $spcontact->name='ag_contact_label';
+      $spcontact->value='';
+      $fiche_contact=new Fiche($this->db);
+      $fiche_contact->get_by_qcode($this->ag_contact);
+      if ( $fiche_contact->id != 0 ) {
+	$spcontact->value=$fiche_contact->strAttribut(ATTR_DEF_NAME);
+      }
+
+
       $h_agrefid=new IHidden();
       $str_ag_ref="<b>".(($this->ag_ref != "")?$this->ag_ref:" Nouveau ")."</b>";
       // Preparing the return string
@@ -347,18 +367,19 @@ class Action
       echo_debug('class_action',__LINE__,'Action::Get() ');
       $sql="select ag_id, ag_comment,to_char (ag_timestamp,'DD-MM-YYYY') as ag_timestamp,".
 	" f_id_dest,ag_title,ag_comment,ag_ref,d_id,ag_type,ag_state,  ".
-	" ag_ref_ag_id, ag_dest, ag_hour, ag_priority, ag_cal ".
+	" ag_ref_ag_id, ag_dest, ag_hour, ag_priority, ag_cal,ag_contact ".
 	" from action_gestion left join document using (ag_id) where ag_id=".$this->ag_id;
       $r=$this->db->exec_sql($sql);
       $row=Database::fetch_all($r);
       if ( $row==false) return;
       $this->ag_comment=$row[0]['ag_comment'];
       $this->ag_timestamp=$row[0]['ag_timestamp'];
-
+      $this->ag_contact=$row[0]['ag_contact'];
       $this->f_id_dest=$row[0]['f_id_dest'];
       $this->ag_title=$row[0]['ag_title'];
       $this->ag_type=$row[0]['ag_type'];
       $this->ag_ref=$row[0]['ag_ref'];
+      $this->ag_state=$row[0]['ag_state'];
       $this->ag_ref_ag_id=$row[0]['ag_ref_ag_id'];
       $this->d_id=$row[0]['d_id'];
       $this->ag_dest=$row[0]['ag_dest'];
@@ -425,8 +446,8 @@ class Action
       $this->ag_ref_ag_id=(strlen(trim($this->ag_ref_ag_id))==0)?0:$this->ag_ref_ag_id;
       // save into the database
       $sql="insert into action_gestion".
-	"(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_comment,ag_ref,ag_ref_ag_id, ag_dest, ag_hour, ag_priority,ag_cal,ag_owner) ".
-	" values ($1,to_date($2,'DD-MM-YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)";
+	"(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_comment,ag_ref,ag_ref_ag_id, ag_dest, ag_hour, ag_priority,ag_cal,ag_owner,ag_contact) ".
+	" values ($1,to_date($2,'DD-MM-YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)";
       $this->db->exec_sql($sql,array($this->ag_id, /* 1 */
 				     $this->ag_timestamp, /* 2 */
 				     $this->dt_id,	/* 3 */
@@ -439,7 +460,8 @@ class Action
 				     $this->ag_hour,	   /* 10 */
 				     $this->ag_priority,   /* 11 */
 				     $ag_cal,	   /* 12 */
-				     $_SESSION['g_user'] /* 13 */
+				     $_SESSION['g_user'], /* 13 */
+				     $this->ag_contact
 				     )
 			  );
       /* Upload the documents */
@@ -717,7 +739,8 @@ class Action
 			  " ag_hour = $9 ,".
 			  " ag_priority = $10 ,".
 			  " ag_dest = $11 , ".
-			  " ag_cal = $12 ".
+			  " ag_cal = $12 ,".
+			  " ag_contact = $13 ".
 			  " where ag_id = $8",
 			  array ( $this->ag_comment, /* 1 */
 				  $this->ag_timestamp, /* 2 */
@@ -730,7 +753,8 @@ class Action
 				  $this->ag_hour,    /* 9 */
 				  $this->ag_priority, /* 10 */
 				  $this->ag_dest,     /* 11 */
-				  $ag_cal	      /* 12 */
+				  $ag_cal,	      /* 12 */
+				  $this->ag_contact   /* 13 */
 				  ));
       echo_debug('class_action',__LINE__,$_FILES);
       // Upload  documents
@@ -764,14 +788,14 @@ class Action
       $this->ag_timestamp=(isset($p_array['ag_timestamp']))?$p_array['ag_timestamp']:"";
       $this->qcode_dest=(isset($p_array['qcode_dest']))?$p_array['qcode_dest']:"";
       $this->dt_id=(isset($p_array['dt_id']))?$p_array['dt_id']:"";
-      $this->ag_state=(isset($p_array['ag_state']))?$p_array['ag_state']:"";
+      $this->ag_state=(isset($p_array['ag_state']))?$p_array['ag_state']:2;
       $this->ag_ref=(isset($p_array['ag_ref']))?$p_array['ag_ref']:"";
       $this->ag_title=(isset($p_array['ag_title']))?$p_array['ag_title']:"";
       $this->ag_hour=(isset($p_array['ag_hour']))?$p_array['ag_hour']:"";
       $this->ag_dest=(isset($p_array['ag_dest']))?$p_array['ag_dest']:"";
       $this->ag_priority=(isset($p_array['ag_priority']))?$p_array['ag_priority']:2;
       $this->ag_cal=(isset($p_array['ag_cal']))?$p_array['ag_cal']:"";
-
+      $this->ag_contact=(isset($p_array['ag_contact']))?$p_array['ag_contact']:"";
   }
   /*!\brief remove the action 
    *

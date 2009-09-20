@@ -39,6 +39,7 @@
             </TD>
             </TD>
           </TR>
+	<tr>
           <TD>
              Destinataire 
           </TD>
@@ -46,7 +47,21 @@
             <?php echo $w->input(); 
             ?>
           </td>
+          </Tr>
+	<tr>
+          <TD>
+             Contact
           </TD>
+          <TD>
+            <?php echo $ag_contact->input(); 
+            ?>
+          </td>
+          </Tr>
+	<tr>
+          <TD colspan="2">
+             <?php echo $spcontact->input(); ?>
+          </td>
+          </Tr>
         </table>
 </div>
 <div style="float:left;width:50%">
