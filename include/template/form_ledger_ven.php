@@ -54,7 +54,7 @@ echo '</tr>';
   <?=HtmlInput::button('act','Actualiser','onClick="compute_all_sold();"'); ?>
  </div>
 
-    <div style="position:float;float:right;text-align:left;font-size:1.2em;font-weight:bold;color:blue" id="sum">'
+    <div style="position:float;float:right;text-align:left;font-size:1.2em;font-weight:bold;color:blue" id="sum">
     <br><span id="htva">0.0</span>
 <?php 
     if ( $flag_tva=='Y' )  : ?>
