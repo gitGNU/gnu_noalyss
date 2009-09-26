@@ -57,6 +57,7 @@ function errorFid(request,json) {
  *\param p_caller id of the caller 
  *\param  p_extra extra parameter, change depends of the caller
  *\param p_jrn is the ledger id
+ *\see successFid errorFid fid.php
  */
 function ajaxFid(p_ctl,p_deb,phpsessid,p_caller,p_extra,p_jrn) 
 {
@@ -108,16 +109,22 @@ function successFid(request,json) {
   }
   var toSet=ctl+'_label';
   if (trim(data) == "" ) {
+  if ($(toSet).tagName=='SPAN') {
     $(toSet).innerHTML="Fiche Inconnue";
     $(toSet).style.color="red";
     clean_Fid(ctl);
     $(ctl).style.color="red";
+    } else {
+    	$(toSet).value="";
+    }
   } else {
     $(ctl).style.color="black";	
     var nSell=ctl+"_price";
     var nBuy=ctl+"_price";
     var nTva_id=ctl+"_tva_id";
-    $(toSet).innerHTML=data;
+    if ($(toSet).tagName=='SPAN')
+    	$(toSet).innerHTML=data;
+    	else $(toSet).value=data;
     $(toSet).style.color="black";
     if ( $(nTva_id) ) {
       $(nTva_id).value=tva_id;

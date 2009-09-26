@@ -120,8 +120,13 @@ function SetValue(p_ctl,p_value)
 
 	// Compute name of label ctl
 	var a=i+'_label';
+	
+	if (document.getElementById(a).tagName=='SPAN') {
 	document.getElementById(a).innerHTML=p_label;
 	document.getElementById(a).style.color='black';
+	} else {
+	 SetValue(a,p_label)
+	}
 	// Compute name of  sell  ctl 
  	var a=i+'_price';
 	// if the object exist
