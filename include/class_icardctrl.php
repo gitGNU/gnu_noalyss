@@ -22,6 +22,7 @@
 
 /*!\file 
  * \brief Html Input 
+ * \see ICard SearchCard fiche_search.php
  */
 require_once('class_html_input.php');
 class ICardCtrl extends HtmlInput

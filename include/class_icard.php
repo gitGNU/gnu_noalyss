@@ -28,9 +28,12 @@
   /*!\brief Input HTML for the card show buttons, in the file, you have to add JS_SEARCH
    *
    * - extra2 is the label in the button
-   * - table = 1 then add the <td> between the button and the input text
-   *  - if noadd is defined you can't add a card
-   * \see SearchCard for extra
+   * - table = 1 then add the tag TD between the button and the input text
+   * - if noadd is defined and set to no then you can not add a card
+   * - if the this->jrn is -1 then all the card will be shown
+   * - extra contents the type (all, deb or cred or a SQL clause
+   *
+   * \see SearchCard fiche_search.php
    */
 require_once('class_html_input.php');
 class ICard extends HtmlInput
