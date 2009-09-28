@@ -285,7 +285,7 @@ function Rollback($p_cn) {
   $Res=ExecSql($p_cn,"rollback");
 }
 function AlterSequence($p_cn,$p_name,$p_value) {
-  
+ if ( $p_value <= 0 ) $p_value=1; 
   $Res=ExecSql($p_cn,"alter sequence $p_name restart $p_value");
 }
 /*!
