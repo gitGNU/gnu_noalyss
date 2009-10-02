@@ -23,7 +23,7 @@
  */
 $User->can_request(GECOUR);
 echo JS_PROTOTYPE;
-$retour=HtmlInput::button_href('Retour','?p_action=suivi_courrier&'.dossier::get());
+$retour=HtmlInput::button_href('Retour','?p_action=suivi_courrier&my_action&'.dossier::get());
 //-----------------------------------------------------
 // Action
 //-----------------------------------------------------
@@ -131,6 +131,7 @@ function ShowActionList($cn)
      }
    if ( ! isset($_REQUEST['see_all']))      $query = ' and ag_state in (2,3) ';
    if ( isset($_REQUEST['my_action']))      $query = " and (ag_owner='".$_SESSION['g_user']."' or ag_dest='".$_SESSION['g_user']."')";
+
    $r=$act->myList(ACTION,$query.$str);
    echo $r;
  }

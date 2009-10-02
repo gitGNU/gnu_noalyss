@@ -1,4 +1,3 @@
-
 <fieldset>
   <legend>
      Informations générales 
@@ -142,20 +141,27 @@
     ?>
   </p>
 </fieldset>
-<input type='button' value='Montrer articles' onclick='toggleShowDetail()'>
+<input type='button' value='Montrer articles' id="toggleButton" onclick='toggleShowDetail()'>
 <fieldset id="fldDetail" style='display:block'>
 <LEGEND> Détail des articles
 </LEGEND>
-<table id="art" class="result">
+<?php // hidden fields
+for ($i=0;$i<count($aArticle);$i++) :
+	echo $aArticle[$i]['ad_id'];
+	echo $aArticle[$i]['hidden_tva'];
+	echo $aArticle[$i]['hidden_htva'];
+endfor;
+?>
+<table id="art" >
 <h>
 <th>Fiche</th>
 <th>Description</th>
 <th>prix unitaire</th>
 <th>quantité</th>
 <th>Code TVA</th>
-<th>Montant Hors TVA</th>
 <th>Montant TVA</th>
 <th>Montant TVAC</th>
+<!-- <th>Montant TVAC</th> -->
 </tr>
 <?for ($i=0;$i<count($aArticle);$i++): ?>
 <TR>
@@ -163,11 +169,15 @@
 <TD><?php echo $aArticle[$i]['desc'] ?></TD>
 <TD class="num"><?php echo $aArticle[$i]['pu'] ?></TD>
 <TD class="num"><?php echo $aArticle[$i]['quant'] ?></TD>
-<TD class="num"><?php echo $aArticle[$i]['ctva'] ?></TD>
+<TD class="num"><?php echo $aArticle[$i]['tvaid'] ?></TD>
+<TD class="num"><?php echo $aArticle[$i]['tva'] ?></TD>
+<TD class="num"><?php echo $aArticle[$i]['tvac'] ?></TD>
+
+<!-- <TD class="num"><?php echo $aArticle[$i]['ctva'] ?></TD>
 <TD class="num"><?php echo $aArticle[$i]['htva'] ?></TD>
 <TD class="num"><?php echo $aArticle[$i]['atva'] ?></TD>
 <TD class="num"><?php echo $aArticle[$i]['totaltvac'] ?></TD>
-
+-->
 </TR>
 <?php endfor; ?> 
 </table>
@@ -175,12 +185,27 @@
 toggleShowDetail();
 function toggleShowDetail() {
 	try {var detail=g('fldDetail');
-	if (detail.style.display=='block' ) { detail.style.display='none';}
-	else { detail.style.display='block';} }
+	var but=g('toggleButton');
+	if (detail.style.display=='block' ) { but.value="Montrer les détails";detail.style.display='none';}
+	else { but.value="Cacher les détails";detail.style.display='block';} }
 	catch (error)  {alert(error);}
 	}
 	
 </script>
+<div style="float: left; text-align: right; padding-right: 5px; font-size: 1.2em; font-weight: bold; color: blue;">
+  <input name="act" id="act" value="Actualiser" onclick="compute_all_purchase();" type="button">
+
+    <div style="float: right; text-align: left; font-size: 1.2em; font-weight: bold; color: blue;" id="sum">
+    <br><span id="htva">0.0</span>
+     <br><span id="tva">0.0</span>
+    <br><span id="tvac">0.0</span>
+ </div>
+
+<div style="float: left; text-align: right; padding-right: 5px; font-size: 1.2em; font-weight: bold; color: blue;">
+    <br>Total HTVA
+    <br>Total TVA
+    <br>Total TVAC
+ </div>
 
 </fieldset>
 <fieldset >

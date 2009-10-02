@@ -135,7 +135,7 @@ class HtmlInput {
    */
   static function button_href($p_label,$p_value,$p_name="") {
     $str='&PHPSESSID='.$_REQUEST['PHPSESSID'];
-    $r=sprintf('<span id="%s" class="action"> <A class="mtitle" href="%s">%s</A></span>',
+    $r=sprintf('<span id="%s" class="action"> <A class="action" href="%s">%s</A></span>',
 	       $p_name,
 	       $p_value.$str,
 	       $p_label);

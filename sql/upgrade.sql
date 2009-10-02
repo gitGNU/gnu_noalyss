@@ -55,7 +55,7 @@ ALTER TABLE action_gestion ADD COLUMN ag_priority integer;
 ALTER TABLE action_gestion ALTER COLUMN ag_priority SET DEFAULT 2;
 ALTER TABLE action_gestion ADD COLUMN ag_dest text;
 ALTER TABLE action_gestion ADD COLUMN ag_owner text;
-ALTER TABLE action_gestion ADD COLUMN ag_contact text;
+ALTER TABLE action_gestion ADD COLUMN ag_contact int8;
 
 
 
@@ -87,6 +87,26 @@ UPDATE document_state    SET s_value= 'Clôturé' WHERE s_id=1;
 UPDATE document_state    SET s_value= 'A suivre' WHERE s_id=2;
 UPDATE document_state    SET s_value= 'A faire' WHERE s_id=3;
 UPDATE document_state    SET s_value= 'Abandonné' WHERE s_id=4;
+
+
+CREATE TABLE action_detail
+(
+  ad_id serial,
+  f_id int8,
+  ad_text text,
+  ad_pu numeric(20,4) DEFAULT 0,
+   ad_quant numeric(20,4) DEFAULT 0,
+  ad_tva_id integer DEFAULT 0,
+  ad_tva_amount numeric(20,4) DEFAULT 0,
+  ad_total_amount numeric(20,4) DEFAULT 0,
+  ag_id integer NOT NULL DEFAULT 0,
+  CONSTRAINT action_detail_pkey PRIMARY KEY (ad_id),
+  CONSTRAINT action_detail_ag_id_fkey FOREIGN KEY (ag_id)
+      REFERENCES action_gestion (ag_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+COMMENT ON TABLE action_detail IS 'Detail of action_gestion, see class Action_Detail';
 
 commit;
 

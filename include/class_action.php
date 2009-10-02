@@ -20,6 +20,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.f
 require_once('class_itextarea.php');
 require_once("class_idate.php");
+require_once('class_itva_select.php');
 require_once("class_iselect.php");
 require_once("class_ihidden.php");
 require_once("class_itext.php");
@@ -32,6 +33,8 @@ require_once("class_document.php");
 require_once("class_document_type.php");
 require_once("class_document_modele.php");
 require_once("user_common.php");
+require_once('class_action_detail.php');
+
 /*!\file 
  * \brief class_action for manipulating actions
  * action can be :
@@ -133,7 +136,7 @@ class Action
 	  // Doc Type
 	  $doc_type=new ISelect();
 	  $doc_type->name="dt_id";
-	  $doc_type->value=$this->db->make_array("select dt_id,dt_value from document_type where dt_id in (".ACTION.")");
+	  $doc_type->value=$this->db->make_array("select dt_id,dt_value from document_type");
 	  $doc_type->selected=$this->dt_id;
 	  $doc_type->readonly=false;
 	  $str_doc_type=$doc_type->input();
@@ -289,7 +292,12 @@ class Action
       $ag_contact->readonly=$readonly;
       $ag_contact->jrn=0;
       $ag_contact->name='ag_contact';
-      $ag_contact->value=$this->ag_contact;
+      $ag_contact->value='';
+      if( $this->ag_contact != 0 ) {
+	$contact=new Fiche($this->db,$this->ag_contact);
+	$ag_contact->value=$contact->get_quick_code();
+      }
+
       $ag_contact->label="";
       $ag_contact->extra='[sql] and frd_id = 16'; /* frd = 16 for contact */
       $ag_contact->extra2='Recherche';
@@ -313,7 +321,9 @@ class Action
       $upload->name="file_upload[]";
       $upload->value="";
       $aAttachedFile=$this->db->get_array('select d_id,d_filename,d_mimetype,'.
-					  '\'show_document.php?PHPSESSID='.$_REQUEST['PHPSESSID'].'&'.Dossier::get().'&d_id=\'||d_id as link'.
+					  '\'show_document.php?PHPSESSID='.
+					  $_REQUEST['PHPSESSID'].'&'.
+					  Dossier::get().'&d_id=\'||d_id as link'.
 					  ' from document where ag_id=$1',
 					 array($this->ag_id));
       /* create the select for document */
@@ -325,17 +335,96 @@ class Action
       $str_select_doc=$aDocMod->input();
       $ag_id=$this->ag_id;
 
+      /* fid = Icard  */
+      $icard=new ICard();
+      $icard->jrn=0;
+      $icard->table=0;
+      $icard->extra2='QuickCode';
+      $icard->noadd="no";
+      $icard->extra='all';
+
+      /* Text desc  */
+      $text=new IText();
+
+      /* TVA */
+      $itva=new ITva_Select($this->db);
+
       /* create aArticle for the detail section */
-      for ($i=0;$i<10;$i++) {
-	$aArticle[$i]['fid']='fid';
-	$aArticle[$i]['desc']='desc';
-	$aArticle[$i]['pu']='pu';
-	$aArticle[$i]['quant']='quant';
-	$aArticle[$i]['htva']='htva';
-	$aArticle[$i]['atva']='atva';
-	$aArticle[$i]['ctva']='ctva';
-	$aArticle[$i]['totaltvac']='totaltvac';
+      for ($i=0;$i< MAX_ARTICLE;$i++) {
+	/* fid = Icard  */
+	$icard=new ICard();
+	$icard->jrn=0;
+	$icard->table=0;
+	$icard->extra2='QuickCode';
+	$icard->noadd="no";
+	$icard->extra='all';
+	$icard->name="e_march".$i;
+	$tmp_ad=(isset($this->aAction_detail[$i]))?$this->aAction_detail[$i]:false;
+	$icard->value='';
+	if ( $tmp_ad ) {
+	  $march=new Fiche($this->db);
+	  $f=$tmp_ad->get_parameter('qcode');
+	  if ( $f != 0 ) {
+	    $march->id=$f;
+	    $icard->value=$march->get_quick_code();
+	  }
+	}
+
+	$aArticle[$i]['fid']=$icard->input();
+
+	$text->javascript=' onchange="clean_tva('.$i.');compute_purchase('.$i.')"';
+	$text->name="e_march".$i."_label";
+	$text->size=40;
+	$text->value=($tmp_ad)?$tmp_ad->get_parameter('text'):"";
+	$aArticle[$i]['desc']=$text->input();
+
+	$text->name="e_march".$i."_price";
+	$text->size=8;
+	$text->value=($tmp_ad)?$tmp_ad->get_parameter('price_unit'):0;
+	$aArticle[$i]['pu']=$text->input();
+
+	$text->name="e_quant".$i;
+	$text->size=8;
+	$text->value=($tmp_ad)?$tmp_ad->get_parameter('quantity'):0;
+	$aArticle[$i]['quant']=$text->input();
+
+	$itva->name='e_march'.$i.'_tva_id';
+	$text->value=($tmp_ad)?$tmp_ad->get_parameter('tva_id'):0;
+	$itva->javascript=' onchange="clean_tva('.$i.');compute_purchase('.$i.')"';
+	$aArticle[$i]['tvaid']=$itva->input();
+
+	$text->name="e_march".$i."_tva_amount";
+	$text->value=($tmp_ad)?$tmp_ad->get_parameter('tva_amount'):0;
+	$text->javascript=' onchange="compute_purchase('.$i.')"';
+	$text->size=8;
+	$aArticle[$i]['tva']=$text->input();
+
+	$text->name="tvac_march".$i;
+	$text->value=($tmp_ad)?$tmp_ad->get_parameter('total'):0;
+	$text->size=8;
+	$aArticle[$i]['tvac']=$text->input();
+
+	$aArticle[$i]['hidden_htva']=HtmlInput::hidden('htva_march'.$i,0);
+	$aArticle[$i]['hidden_tva']=HtmlInput::hidden('tva_march'.$i,0);
+	$aArticle[$i]['ad_id']=	($tmp_ad)?HtmlInput::hidden('ad_id'.$i,$tmp_ad->get_parameter('id')):HtmlInput::hidden('ad_id'.$i,0);
+
+
       }
+      /* Add the javascript */
+      $r.=JS_INFOBULLE;
+      $r.=JS_SEARCH_CARD;
+      $r.=JS_SHOW_TVA;    
+      $r.=JS_TVA;
+      $r.=JS_AJAX_FICHE;
+
+      /* Add the needed hidden values */  
+      $r.=dossier::hidden();
+      $r.=HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);  
+
+      /* add the number of item */
+      $Hid=new IHidden();
+      $r.=$Hid->input("nb_item",MAX_ARTICLE);
+
       /* get template */
       ob_start();
       require_once ('template/detail-action.php');
@@ -355,7 +444,7 @@ class Action
       // show the list of the concern operation
       if ( $this->db->count_sql('select * from action_gestion where ag_ref_ag_id!=0 and ag_ref_ag_id='.$this->ag_id.
 		    " limit 2") > 0 )
-	$r.=$this->myList(ACTION," and ag_ref_ag_id=".$this->ag_id);
+	$r.=$this->myList(""," and ag_ref_ag_id=".$this->ag_id);
       return $r;
  
     }
@@ -386,7 +475,12 @@ class Action
       $this->ag_hour=$row[0]['ag_hour'];
       $this->ag_priority=$row[0]['ag_priority'];
       $this->ag_cal=$row[0]['ag_cal'];
-      //
+
+      $action_detail=new Action_Detail($this->db);
+      $action_detail->set_parameter('ag_id',$this->ag_id);
+      $this->aAction_detail=$action_detail->load_all();
+
+
       echo_debug('class_action',__LINE__,' Document id = '.$this->d_id);
       // if there is no document set 0 to d_id
       if ( $this->d_id == "" ) 
@@ -401,11 +495,8 @@ class Action
       $this->dt_id=$this->ag_type;
       $aexp=new fiche($this->db,$this->f_id_dest);
       $this->qcode_dest=$aexp->strAttribut(ATTR_DEF_QUICKCODE);
-
-      echo_debug('class_action',__LINE__,'Detail end ()  :'.var_export($_POST,true));
-      echo_debug('class_action',__LINE__,'Detail $this  :'.var_export($this,true));
-
-    }
+  
+  }
 
 /*!  
  * \brief Save the document and propose to save the generated document or  
@@ -427,6 +518,10 @@ class Action
       // f_id exp
       $exp=new fiche($this->db);
       $exp->get_by_qcode($this->qcode_dest);
+
+      $contact=new fiche($this->db);
+      $contact->get_by_qcode($this->ag_contact);
+
       if ( trim($this->ag_title) == "") 
 	{
 	  $doc_mod=new document_type($this->db);
@@ -446,8 +541,9 @@ class Action
       $this->ag_ref_ag_id=(strlen(trim($this->ag_ref_ag_id))==0)?0:$this->ag_ref_ag_id;
       // save into the database
       $sql="insert into action_gestion".
-	"(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_comment,ag_ref,ag_ref_ag_id, ag_dest, ag_hour, ag_priority,ag_cal,ag_owner,ag_contact) ".
-	" values ($1,to_date($2,'DD-MM-YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)";
+	"(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_comment,ag_ref,ag_ref_ag_id, ag_dest, ".
+	" ag_hour, ag_priority,ag_cal,ag_owner,ag_contact,ag_state) ".
+	" values ($1,to_date($2,'DD-MM-YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)";
       $this->db->exec_sql($sql,array($this->ag_id, /* 1 */
 				     $this->ag_timestamp, /* 2 */
 				     $this->dt_id,	/* 3 */
@@ -461,19 +557,27 @@ class Action
 				     $this->ag_priority,   /* 11 */
 				     $ag_cal,	   /* 12 */
 				     $_SESSION['g_user'], /* 13 */
-				     $this->ag_contact
+				     $contact->id,	  /* 14 */
+				     $this->ag_state	  /* 15 */
 				     )
 			  );
+
+      /* insert also the details */
+      for ( $i = 0; $i < MAX_ARTICLE;$i++) {
+	$act=new Action_Detail($this->db);
+	$act->from_array($_POST,$i);
+	$act->ag_id=$this->ag_id;
+	$act->save();
+      }
+
       /* Upload the documents */
       $doc=new Document($this->db);
       $doc->Upload($this->ag_id);
     }
 /*! myList($p_filter="")
  * \brief Show list of action by default if sorted on date
- * \param  $p_filter filters on the document_type
+ * \param $p_filter filters on the document_type
  * \param $p_search must a valid sql command ( ex 'and  ag_title like upper('%hjkh%'))
- * 
- * 
  * \return string containing html code
  */
   function myList($p_filter="",$p_search="")
@@ -702,12 +806,8 @@ class Action
    */
   function Update()
     {
-      echo_debug('class_action',__LINE__,'Update() $_POST()  :'.var_export($_POST,true));
-      echo_debug('class_action',__LINE__,'Update()  $this  :'.var_export($this,true));
-
       // if ag_id == 0 nothing to do
       if ( $this->ag_id == 0 ) return ;
-
 
       // retrieve customer
       // f_id
@@ -726,6 +826,11 @@ class Action
 	    $this->f_id_dest=$tiers->id;
 
 	}
+      $contact=new fiche($this->db);
+      if ( $contact->get_by_qcode($this->ag_contact) == -1 ) 
+	$contact->id=0;
+
+	  
       $ref=$this->dt_id.'/'.$this->ag_id;
       if ( $this->ag_cal == 'on') $ag_cal='C'; else $ag_cal='I';
       $this->ag_ref=$ref;
@@ -754,13 +859,21 @@ class Action
 				  $this->ag_priority, /* 10 */
 				  $this->ag_dest,     /* 11 */
 				  $ag_cal,	      /* 12 */
-				  $this->ag_contact   /* 13 */
+				  $contact->id   /* 13 */
 				  ));
       echo_debug('class_action',__LINE__,$_FILES);
       // Upload  documents
       $doc=new Document($this->db);
       $doc->Upload($this->ag_id); 
+
+      /* save action details */
+      for ( $i = 0; $i < MAX_ARTICLE;$i++) {
+	$act=new Action_Detail($this->db);
+	$act->from_array($_POST,$i);
+	$act->save();
+      }
       return true;
+
     }
 
   /*!\brief generate the document and add it to the action
@@ -785,7 +898,7 @@ class Action
       $this->qcode_dest=(isset($p_array['qcode_dest']))?$p_array['qcode_dest']:"";
       $this->f_id_dest=(isset($p_array['f_id_dest']))?$p_array['f_id_dest']:0;
       $this->ag_ref_ag_id=(isset($p_array['ag_ref_ag_id']))?$p_array['ag_ref_ag_id']:0;
-      $this->ag_timestamp=(isset($p_array['ag_timestamp']))?$p_array['ag_timestamp']:"";
+      $this->ag_timestamp=(isset($p_array['ag_timestamp']))?$p_array['ag_timestamp']:date('d-m-Y');
       $this->qcode_dest=(isset($p_array['qcode_dest']))?$p_array['qcode_dest']:"";
       $this->dt_id=(isset($p_array['dt_id']))?$p_array['dt_id']:"";
       $this->ag_state=(isset($p_array['ag_state']))?$p_array['ag_state']:2;
@@ -804,13 +917,13 @@ class Action
   {
     $this->get();
     // remove the key
-    $sql=sprintf("delete from action_gestion where ag_id=%d",$this->ag_id);
-    $this->db->exec_sql($sql);
+    $sql="delete from action_gestion where ag_id=$1";
+    $this->db->exec_sql($sql,array($this->ag_id));
       
     // remove the ref of the depending action
-    $sql=sprintf("update action_gestion set ag_ref_ag_id=0 where ag_ref_ag_id=%d",
-		 $this->ag_id);
-    $this->db->exec_sql($sql);
+    $sql="update action_gestion set ag_ref_ag_id=0 where ag_ref_ag_id=$1";
+    $this->db->exec_sql($sql,array($this->ag_id));
+
     /*  check the number of attached document */
     $doc=new Document($this->db);
     $aDoc=$doc->get_all($this->ag_id);
