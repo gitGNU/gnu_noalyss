@@ -61,7 +61,7 @@ class fiche {
  *        to 0 if no card is found
  * \param $p_qcode quick_code (ad_id=23)
  * \param $p_all retrieve all the attribut of the card, possible value
- * are true, false retrieve only the f_id
+ * are true, false retrieves only the f_id
  * \return 0 success 1 error not found
  */
 
@@ -70,16 +70,14 @@ class fiche {
       if ( $p_qcode == null )
 	$p_qcode=$this->quick_code;
 
-      $p_qcode=FormatString($p_qcode);
       $sql="select f_id from jnt_fic_att_value join attr_value 
-           using (jft_id)  where ad_id=23 and av_text=upper('".$p_qcode."')";
-      $Res=$this->cn->exec_sql($sql);
-      $r=Database::fetch_all($Res);
-      echo_debug('fiche',__LINE__,'result:'.var_export($r,true).'size '.sizeof($r));
-
-      if ( $r == null  ) 
+           using (jft_id)  where ad_id=23 and av_text=upper($1)";
+      $this->id=$this->cn->get_value($sql,array($p_qcode));
+      if ( $this->cn->count()==0) {
+	$this->id=0;
 	return 1;
-      if ( $this->cn->count($Res)==0) 	$this->id=0; else       $this->id=$r[0]['f_id'];
+      }
+
       echo_debug('class_fiche',__LINE__,'f_id = '.$this->id);
 
       if ( $p_all )
@@ -805,6 +803,7 @@ class fiche {
 
 
    /*!\brief return the name of a card
+    * 
     */
    function getName() 
      {
