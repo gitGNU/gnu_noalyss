@@ -102,9 +102,6 @@ class Document
       if ( strpos($row['md_mimetype'],'vnd.oasis') != 0 )
 	{
 	  echo_debug('class_document',__LINE__,'Unzip the OOo');
-	  echo '<span id="gen_msg">';
-	  echo '<blink><font color="red">Un moment de patience, le document se pr&eacute;pare...</font></blink>';
-	  echo '</span><br>';
 	  ob_start();
 	  system("unzip '".$filename."'");
 	  // Remove the file we do  not need anymore
@@ -131,9 +128,6 @@ class Document
 	  ob_end_clean();
 	  echo "  ";
 ?>
-<script language="javascript">
-	this.document.getElementById('gen_msg').innerHTML='<font color="green">le document est pr&ecirc;t</color>';
-</script>
 
 <?php
 	  $file_to_parse=$filename;
