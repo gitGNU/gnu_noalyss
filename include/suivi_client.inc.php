@@ -26,13 +26,16 @@
  *  - sb = detail 
  *  - sc = sv
  *  - sd = this parameter is used here
- * 
+ *  - $cn = database connection 
  */
+require_once('class_action.php');
 
   /* By default we should a list of all the actions for this customer */
 $sdAction=(isset($_REQUEST['sd']))?$_REQUEST['sd']:'ls';
 
 /* List of all the possible action */
 if ( $sdAction == 'ls' ) {
-  require_once('template/list-of-operation.php');
+
+  $list=new Action($cn);
+  echo $list->myList();
 }
