@@ -52,7 +52,7 @@ if ( $bilan->b_type=='odt')
   {
 	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 	header("Cache-Control: must-revalidate");
-	header('Content-type: "application/vnd.oasis.opendocument.text"');
+	header('Content-type: application/vnd.oasis.opendocument.text');
 	header('Content-Disposition: attachment;filename="'.$bilan->b_name.'.odt"',FALSE);
 	header("Accept-Ranges: bytes");
 
@@ -61,7 +61,7 @@ if ( $bilan->b_type=='ods')
   {
 	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 	header("Cache-Control: must-revalidate");
-	header('Content-type: "application/vnd.oasis.opendocument.spreadsheet"');
+	header('Content-type: application/vnd.oasis.opendocument.spreadsheet');
 	header('Content-Disposition: attachment;filename="'.$bilan->b_name.'.ods"',FALSE);
 	header("Accept-Ranges: bytes");
 
