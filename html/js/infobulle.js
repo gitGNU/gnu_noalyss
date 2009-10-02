@@ -17,7 +17,9 @@
 */
 /*!\file 
  * \brief create the infobulle, the internalization is not yet implemented
- * \example echo JS_INFOBULLE; echo HtmlInput::infobulle(x)
+ * \example infobulle
+ * echo JS_INFOBULLE
+ * echo HtmlInput::infobulle(x)
  */
 
 var posX=0,posy=0,offsetX=10,offsetY=10;
