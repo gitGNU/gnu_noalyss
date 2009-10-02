@@ -427,7 +427,7 @@ div.u_redcontent a.mtitle {
   display:inline;
 
   
-  color:blue;
+  color:black;
 
 }
 
@@ -533,10 +533,10 @@ border: 1px solid blue;
 }
 
 span.action {
-	background-color: lightblue;
-	color:blue;
+	background-color: lightgrey;
+	color:black;
 	border-style: solid;
-	border-color: blue;
+	border-color: grey;
 	display:inline;
 	border-width:2px;
 	border-style: outset;
@@ -553,4 +553,18 @@ td.num {
 tr.priority1 {
 	background-color:red;
 	}
+span.action a.action {
+  font-size:10px;
+  text-decoration:none;
+  display:inline;
+  color:black;
+}
+
+span.action a.action:hover {
+  text-decoration:none;
+  display:inline;
+  background-color:lightblue;
+  color:black;
+}
+
 /* </style> */
