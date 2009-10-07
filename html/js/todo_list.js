@@ -42,7 +42,7 @@ function todo_list_show(p_id) {
 }
 function todo_list_show_success(request,json) {
     var answer = request.responseText.evalJSON(true);
-
+ try {
     $('p_title').value=answer.tl_title;
 
     $('p_date').value=answer.tl_date;
@@ -50,6 +50,7 @@ function todo_list_show_success(request,json) {
     $('tl_id').value=answer.tl_id;
     $('add_todo_list').show();
     $('add').hide();
+ } catch (e)  { alert(e.message);}
 }
 function todo_list_show_error(request_json) {
     alert ('failure');
