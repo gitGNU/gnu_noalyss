@@ -47,16 +47,17 @@ function add_row(p_table,p_seq,p_count) {
   for (var e=0;e<all_elt.length;e++) {
     all_elt[e].value=new_value;
   }
-  var tbody=document.g(p_table).getElementsByTagName("tbody")[0];
+  var tbody=g(p_table).getElementsByTagName("tbody")[0];
   var row=document.createElement("TR");
   for ( i=1;i<=p_count;i++) {
 	var cell=document.createElement("TD");
-	var col=document.getElementById(p_table+"td"+i+'c1');
+	var col=g(p_table+"td"+i+'c1');
 	var txt=col.innerHTML;
 	txt=txt.replace(/row_1/g,"row_"+new_value);
 	cell.innerHTML=txt;
 
-	row.appendChild(cell); }
+	row.appendChild(cell); 
+	}
 
   // create the amount cell
   var cell_montant=document.createElement("TD");
@@ -70,22 +71,20 @@ function add_row(p_table,p_seq,p_count) {
  * \param p_style : error or ok, if ok show a ok box if the amount are equal
  *
  *
- * \return true the amounts are equal
+ * \return true if the amounts are equal
  */
-
-
 function verify_ca(p_style) {
-  var nb_item=document.getElementById('nb_item').value;
+  var nb_item=g('nb_item').value;
 
   for ( var item=0;item<=nb_item-1;item++) {
-      if ( document.getElementById('nb_t'+item) ) {
-	  var nb_row=1*document.getElementById('nb_t'+item).value;
-	  var amount=1*document.getElementById('amount_t'+item).value;
+      if ( g('nb_t'+item) ) {
+	  var nb_row=1*g('nb_t'+item).value;
+	  var amount=1*g('amount_t'+item).value;
 	  var get=0;
 	  for (var row=1;row <= nb_row;row++) {
 	      
-	      if ( document.getElementById('ta_'+item+'o1row_'+row).value != -1) {
-		  val=document.getElementById('val'+item+'l'+row).value;
+	      if ( g('ta_'+item+'o1row_'+row).value != -1) {
+		  val=g('val'+item+'l'+row).value;
 		  if ( isNaN(val)) {		continue;}
 		  get=get+(val*1);
 	      } else {
@@ -117,41 +116,13 @@ function verify_ca(p_style) {
  */
 function search_ca (p_sessid,p_dossier,p_target,p_source)
 {
-  var pa_id=document.getElementById(p_source).value;
+  var pa_id=g(p_source).value;
 
   var url="?PHPSESSID="+p_sessid+"&gDossier="+p_dossier+"&c1="+p_target+"&c2="+pa_id;
   var a=window.open("search_ca.php"+url,"CA recherche",'statusbar=no,scrollbars=yes,toolbar=no');
   a.focus();
 }
 
-/*! 
- * \brief set a ctrl is the caller windows
- * \param p_ctrl the control to change
- * \param p_value the value the control will contains
- * \param
- * 
- *
- * \return none
- */
-
-function ca_set_child(p_ctl,p_value) {
-
-  self.opener.ca_set_parent(p_ctl,p_value);
-	window.close();
-}
-/*! 
- * \brief this script is in the parent windows and it is called by SetItChild
- * \param \see ca_set_child
- *
- * \return none
- */
-
-function ca_set_parent(p_ctl,p_value) {
-
-	var f=document.getElementById(p_ctl);
-	f.value=p_value;
-	
-}
 function caod_checkTotal() {
   var ie4=false;
   if ( document.all ) { 
@@ -162,9 +133,9 @@ function caod_checkTotal() {
   var nb_item=10;
 
   for (var i=0;i <nb_item ;i++) {
-    var doc_amount=document.getElementById("pamount"+i);
+    var doc_amount=g("pamount"+i);
 	if ( ! doc_amount ) { return;}
-    var side=document.getElementById("pdeb"+i);
+    var side=g("pdeb"+i);
 	if ( ! side ) { return;}
     var amount=parseFloat(doc_amount.value);
   
@@ -177,26 +148,41 @@ function caod_checkTotal() {
     if ( side.checked == true ) {
       total_deb+=amount;
     }
-
-//        alert("amount ="+i+"="+amount+" cred/deb = "+deb+"total d/b"+total_deb+"/"+total_cred);
   }
 
 
 
   r_total_cred=Math.round(total_cred*100)/100;
   r_total_deb=Math.round(total_deb*100)/100;
-  document.getElementById('totalDeb').innerHTML=r_total_deb;
-  document.getElementById('totalCred').innerHTML=r_total_cred;
+  g('totalDeb').innerHTML=r_total_deb;
+  g('totalCred').innerHTML=r_total_cred;
 
   if ( r_total_deb != r_total_cred ) {
-    document.getElementById("totalDiff").style.color="red";
-    document.getElementById("totalDiff").style.fontWeight="bold";
-    document.getElementById("totalDiff").innerHTML="Différence";
+    g("totalDiff").style.color="red";
+    g("totalDiff").style.fontWeight="bold";
+    g("totalDiff").innerHTML="Différence";
     diff=total_deb-total_cred;
     diff=Math.round(diff*100)/100;
-    document.getElementById("totalDiff").innerHTML=diff
+    g("totalDiff").innerHTML=diff
     
   } else {
-    document.getElementById("totalDiff").innerHTML="0.0";
+    g("totalDiff").innerHTML="0.0";
   }
 }
+
+/**
+ *@brief remove an operation
+ *@param p_sessid is the PHPSESSID
+ *@param p_dossier is the folder
+ *@param p_oa_group is the group of the analytic operation
+ */
+function op_remove(p_sessid,p_dossier,p_oa_group) {
+  var a=confirm("Etes-vous sur de vouloir effacer cette operation ?\n");
+  if ( a == false ) return;
+  var obj={"PHPSESSID":p_sessid,"oa":p_oa_group,"gDossier":p_dossier};
+  queryString=encodeJSON(obj);
+  ajaxRequest=new Ajax();
+  ajaxRequest.createAjax("remove_op.php",queryString);
+  g(p_oa_group).style.display='none';
+}
+
