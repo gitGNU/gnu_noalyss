@@ -35,11 +35,11 @@
  * to know if the return must update or replace
  *\see poste_search.php
  */
-function SearchPoste(p_sessid,p_dossier,p_ctl,p_jrn,p_return,p_search,p_ctrl)
+function search_poste(p_sessid,p_dossier,p_ctl,p_jrn,p_return,p_search,p_ctrl)
      {
 	var comment="";
-	if ( document.getElementById(p_ctl) && p_search=='Y')	{
-	       comment=document.getElementById(p_ctl).value;
+	if ( g(p_ctl) && p_search=='Y')	{
+	       comment=g(p_ctl).value;
 	} 
 
        var
@@ -58,73 +58,33 @@ win=window.open('poste_search.php?gDossier='+p_dossier+'&p_jrn='+p_jrn+'&p_ctl='
 *\param p_ctrl the control to update (default value = none )
  *\see poste_search.php
  */
-
 function SearchPosteFilter(p_sessid,p_dossier,p_ctl,p_filter,jrn,p_ctrl)
-     {
+{
 	var comment="";
-	if ( document.getElementById(p_ctl) )	{
-	       comment=document.getElementById(p_ctl).value;
+	if ( g(p_ctl) )	{
+	       comment=g(p_ctl).value;
 	} 
 
 	var win=window.open('poste_search.php?gDossier='+p_dossier+'&p_jrn='+jrn+'&p_ctl='+p_ctl+'&PHPSESSID='+p_sessid+'&filter='+p_filter+'&p_comment='+comment+"&search&ret=label"+'&ctrl='+p_ctrl,'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
     } 
-function GetIt() {
-  window.close();	
-} 
-function SetItChild(p_ctl,p_value,p_label,p_ctrl) {
 
-  self.opener.SetItParent(p_ctl,p_value,p_label,p_ctrl);
-	window.close();
-}
-function SetItParent(p_ctl,p_value,p_label,p_ctrl) {
-
-    var f=document.getElementById(p_ctl);
-    f.value=p_value;
-    var f1=document.getElementById(p_ctl+"_label");
-    if ( f1)	f1.innerHTML=p_label;
-    if ( document.getElementById(p_ctrl))	document.getElementById(p_ctrl).value=p_label;
-	
-}
-
-function set_poste_child(p_ctl,p_value) {
-
-  self.opener.set_poste_parent(p_ctl,p_value);
-	window.close();
-}
 function set_poste_parent(p_ctl,p_value) {
-
-	var f=document.getElementById(p_ctl);
+	var f=g(p_ctl);
 	f.value+='['+p_value+']';
-	
 }
 
-function set_jrn_child(p_ctl,p_value) {
-
-  self.opener.set_jrn_parent(p_ctl,p_value);
-	window.close();
-}
 function set_jrn_parent(p_ctl,p_value) {
-	var f=document.getElementById(p_ctl);
+	var f=g(p_ctl);
 	if ( f ) {
 		if ( trim(f.value)!="") f.value+=' ';
 		f.value+=p_value;
 	}
 }
-/* SetValue( p_ctl,p_value )
-/* p_ctl is the name of the control
-/* p_value is the value to set in
-*/
-function SetValue(p_ctl,p_value) 
-{
 
-	var f=document.getElementsByName(p_ctl);
-	for (var h=0; h < f.length; h++) {
-		f[h].value=p_value;
-		}
-	
 
-}
+function PcmnUpdate(p_value,p_lib,p_parent,p_type,p_sessid,p_dossier)
+	{
+	var win=window.open('line_update.php?l='+p_value+'&n='+p_lib+'&p='+p_parent+'&m'+p_type+'&PHPSESSID='+p_sessid+'&gDossier='+p_dossier,'Modifie','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
+	}
 
-function clear(p_ctrl) {
-	if ( document.getElementById(p_ctrl)) document.getElementById(p_ctrl)='';
-}
+
