@@ -514,7 +514,7 @@ function updateJrn(p_ctl) {
 	var str_name=elmt.name;
 	var nValue=str_name.replace("jr_concerned","");
 
-	self.opener.SetIt(nValue,p_ctl);
+	set_inparent(nValue,p_ctl);
       }
     }
   }
