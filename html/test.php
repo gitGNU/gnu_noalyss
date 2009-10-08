@@ -77,7 +77,8 @@ $array=array(
 	array(17,'Ledger info(class_acc_ledger_info'),
 	array(18,'Toddo list(class_todo'),
 	array(19,'Payment (class_acc_payment'),
-	array(20,'Form Acc_Ledger_Sold')
+	array(20,'Form Acc_Ledger_Sold'),
+	array(21,'Javascript')	
 	);
 $r='<form method="get">';
 $r.='<select name="test_select" >';
@@ -190,5 +191,86 @@ case 20:
 	require_once('class_acc_ledger_sold.php');
 	Acc_Ledger_Sold::test_me();
 	break;
+case 21:
+	test_javascript();
+	break;	
 
+}
+
+
+function test_javascript(){
+echo <<<JS
+<script language="Javascript" src="js/scripts.js"></script>
+<script language="javascript">
+  function ajax_post() {
+  a=new Ajax();
+  a.createAjax('test.php','a=1&b=2');
+  a.postPage();
+  a.onSuccess(show);
+}
+  function ajax_get() {
+  a=new Ajax();
+  a.createAjax('test.php','a=1&b=2');
+  a.getPage();
+  a.onSuccess(show);
+}
+  function ajax_get_obj() {
+  a=new Ajax();
+  var param={"reponse":"oui","valeur":"pas des masses","gDossier":"13"};
+  str_param=encodeJSON(param);
+  a.createAjax('test.php',str_param);
+  a.getPage();
+  a.onSuccess(show);
+}
+  function ajax_post_obj() {
+  var a=new Ajax();
+  var param={"reponse":"oui","valeur":"pas des masses","gDossier":"13"};
+  str_param=encodeJSON(param);
+  a.createAjax('test.php',str_param);
+  a.postPage();
+}
+function show(p) {
+  alert('return ok');
+}
+
+</script>
+<h1> Ajax get - post </h1>
+<div>
+    <input type="button" onclick="ajax_post()" value="Ajax POST">
+    <input type="button" onclick="ajax_get()" value="Ajax GET">
+</div>
+<h1> encodeParameter</h1>
+<div>
+<p>
+obj =  { "a":"1000","b":"seconde valeur"}
+</p>
+<p>
+    <input type="button" onclick='x=120;obj =  { "a":"1000","b":"seconde valeur","c":x} ;a=encodeJSON(obj);alert(a);' value="encodeParameter">
+  <input type="button" onclick="ajax_get_obj()" value="Ajax GET + object">
+  <input type="button" onclick="ajax_post_obj()" value="Ajax POST + object">
+</p>
+</div>
+    
+<h1>set_value</h1>
+<div>
+<p id="p_id">p_id</p>
+<span id="p_span">p_span</span>
+<textarea id="p_txtarea">
+p_txtarea
+</textarea>
+    <input type="text" value="toto" id="p_input_text">
+<input type="button" onclick="set_all()" value="set_all()">
+
+<script>
+    function set_all() {
+  set_value('p_id',"Ceci est un paragraphe");
+  set_value('p_span',"Ceci est un SPAN");
+  set_value('p_txtarea',"Ceci est un très grand textarea vraiemnt");
+  set_value('p_input_text','normalement nous sommes dans l\'input');
+}
+
+
+</script>
+</div>
+JS;
 }
