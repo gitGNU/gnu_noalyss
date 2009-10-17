@@ -96,7 +96,7 @@ function refresh_window() {
 /**
  * @brief object ajax
  */ 
-﻿var Ajax=function() {
+var Ajax=function() {
 	var xhr;
 	var synchrone=false;
 	var page,param;
@@ -151,7 +151,7 @@ function refresh_window() {
 		this.xhr.open('GET',uri,false);
 		this.xhr.send(null);
 		
-		} catch (e) { alert('Error Ajax.getPage '+e.message); exit();}
+		} catch (e) { alert('Error Ajax.getPage '+e.message); return;}
 	}
 	/**
 	 *@brief do a get in ajax
@@ -164,8 +164,10 @@ function refresh_window() {
 		this.xhr.send(this.param);
 	}
 	this.onSuccess = function(pFunction) {
+		
 		if ( this.xhr.readyState == 4 ) {
-			if (this.xhr.status==200) {pFunction(this.xhr);}
+		
+			if (this.xhr.status==200) {alert('ici');pFunction(this.xhr);}
 			if (this.xhr.status==404) {alert('Page not found'); }
 			}
 		}
@@ -186,3 +188,52 @@ encodeJSON=function(obj) {
 		return str;
 	} catch(e){alert('encodeParameter '+e.message);}
 }
+hide=function(p_param){
+  g(p_param).style.display='none';
+}
+show=function(p_param){
+  g(p_param).style.display='block';
+}
+
+/**
+ *@brief set the focus on the selected field
+ *@param Field id of  the control
+ *@param selectIt : the value selected in case of Field is a object select, numeric
+ */
+function SetFocus(Field,SelectIt) {
+  var elem = g(Field);
+  if (elem) {
+    elem.focus();
+   }
+  return true;
+}
+ /** 
+ * @brief set a DOM id with a value in the parent window (the caller),
+  @param p_ctl is the name of the control
+  @param p_value is the value to set in
+ */
+ function set_inparent(p_ctl,p_value) {
+   self.opener.set_value(p_ctl,p_value);
+ }
+
+ /** 
+ * @brief set a DOM id with a value, it will consider if it the attribute
+ 	value or innerHTML has be used
+  @param p_ctl is the name of the control
+  @param p_value is the value to set in
+ */
+ function set_value(p_ctl,p_value) {       
+	if ( g(p_ctl)) {
+		var g_ctrl=g(p_ctl);
+		if ( g_ctrl.value ) { g(p_ctl).value=p_value;}
+		if ( g_ctrl.innerHTML ) { g(p_ctl).innerHTML=p_value;}
+	}
+}
+/**
+ *@brief will reload the window but it is dangerous if we have submitted
+ * a form 
+ */
+function refresh_window() {
+	window.location.reload();
+}
+
