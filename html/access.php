@@ -39,6 +39,8 @@ $cn=new Database(dossier::id());
 $user=new User($cn);
 $user->Check();
 $user->check_dossier(dossier::id());
+html_page_start($_SESSION['g_theme']);
+echo JS_PROTOTYPE;
 
 if ( DBVERSION!=dossier::get_version($cn)) {
   echo '<h2 class="error">Votre base de données n\'est pas  à jour, ';
@@ -47,7 +49,6 @@ if ( DBVERSION!=dossier::get_version($cn)) {
   echo '<a hreF="'.$base.'">'.$a.'</a></h2>';
 }
 
-html_page_start($_SESSION['g_theme']);
 echo '<div class="u_tmenu">';
 echo menu_tool('access.php');
 echo '</div>';
@@ -55,7 +56,6 @@ echo '<div class="content">';
 /* 
  * Todo list
  */
-echo JS_PROTOTYPE;
 echo JS_TODO;
 if ( isset($_REQUEST['save_todo_list'])) {
   /* Save the new elt */
@@ -84,8 +84,8 @@ echo "Description<br>".$wDesc->input().'<br>';
 echo HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);
 echo dossier::hidden();
 echo HtmlInput::hidden('tl_id',0);
-echo HtmlInput::submit('save_todo_list','Sauve','onClick="$(\'add_todo_list\').hide();$(\'add\').show();return true;"');
-echo HtmlInput::button('hide','Annuler','onClick="$(\'add_todo_list\').hide();$(\'add\').show();"');
+echo HtmlInput::submit('save_todo_list','Sauve','onClick="hide(\'add_todo_list\');show(\'add\');return true;"');
+echo HtmlInput::button('hide','Annuler','onClick="$(\'add_todo_list\').hide();return true;"');
 echo '</form>';
 
 echo '</div>';
@@ -127,7 +127,7 @@ if ( $rapport->exist() == false ) {
 
 if ( $report != 0 ) {
 
-  echo '<div style="float:right">';
+  echo '<div style="float:right;width:25%">';
   echo '<fieldset style="background-color:white"><legend>'.$rapport->get_name().'</legend>';
   $exercice=$user->get_exercice();
   if ( $exercice == 0 ) {
@@ -138,7 +138,7 @@ if ( $report != 0 ) {
     
     $result=$rapport->get_row($limit['start'],$limit['end'],'periode');
     $ix=0;
-    echo '<table border="0">';
+    echo '<table border="0" width="100%">';
     foreach ($result as $row) {
       $ix++;
       $bgcolor=($ix%2==0)?' style="background-color:lightgrey"':'';
