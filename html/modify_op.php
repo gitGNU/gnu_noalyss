@@ -68,7 +68,7 @@ if ( ! isset ( $action )) {
 }
 
 // Javascript
-echo JS_VIEW_JRN_MODIFY;
+echo JS_LEDGER;
 ?>
 <script language="javascript">
   function show_div (p_div) {

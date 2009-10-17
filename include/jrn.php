@@ -62,7 +62,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
   }
   echo_debug('jrn.php',__LINE__,$l_array);
   // Javascript
-  $r=JS_VIEW_JRN_MODIFY;
+  $r=JS_LEDGER;
 
   // Build the form
   $col_vide="<TD></TD>";
@@ -271,7 +271,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 
   echo_debug('jrn.php',__LINE__,$l_array);
   // Javascript
-  $r=JS_VIEW_JRN_MODIFY;
+  $r=JS_LEDGER;
 
   // Build the form
   $col_vide="<TD></TD>";

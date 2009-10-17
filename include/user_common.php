@@ -59,10 +59,10 @@ function ListJrn($p_cn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
   // Sort
   $url=CleanUrl();
   $str_dossier=dossier::get();
-  $image_asc='<IMAGE SRC="image/down.png" border="0" >';
-  $image_desc='<IMAGE SRC="image/up.png" border="0">';
-  $image_sel_desc='<IMAGE SRC="image/select1.png">';
-  $image_sel_asc='<IMAGE SRC="image/select2.png">';
+  $image_asc='<IMAGE SRC="image/down.gif" border="0" >';
+  $image_desc='<IMAGE SRC="image/up.gif" border="0">';
+  $image_sel_desc='<IMAGE SRC="image/select1.gif">';
+  $image_sel_asc='<IMAGE SRC="image/select2.gif">';
   
   $sort_date="<th>  <A class=\"mtitle\" HREF=\"?$url&o=da\">$image_asc</A>Date <A class=\"mtitle\" HREF=\"?$url&o=dd\">$image_desc</A></th>";
   $sort_description="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ca\">$image_asc</A>Description <A class=\"mtitle\" HREF=\"?$url&o=cd\">$image_desc</A></th>";
@@ -155,8 +155,8 @@ $own=new Own($p_cn);
   
   $r="";
 
-  $r.=JS_VIEW_JRN_CANCEL;
-  $r.=JS_VIEW_JRN_MODIFY;
+  $r.=JS_LEDGER;
+  $r.=JS_LEDGER;
 
   $Max=Database::num_row($Res);
 

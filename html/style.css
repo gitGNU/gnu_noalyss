@@ -524,5 +524,68 @@ div.infobulle {
 	   z-index:10;
 	   width:25em;
 }
+div.popup_border_title {
+	position:absolute;
+	top:20%;
+	bottom:20%;
+	left:20%;
+	right:20%;
+	width:60%;
+	height:60%;
+	/*background:lightgrey;*/
+	z-index:95;
+	/*border:dotted 1px black;*/
+	border: 3px outset #201e87;
+	background-color:#201e87;
+	font-size: medium ;
+	font-family: sans-serif;
+	font-style: italic;
+	font-weight: bolder;
+	text-align:center;
+	border-bottom: 1px solid #201e87;
+	color: white;
+	
+	
+	}
+div.popup_border_notitle {
+	position:absolute;
+	top:20%;
+	bottom:20%;
+	left:20%;
+	right:20%;
+	width:60%;
+	height:60%;
+	/*background:lightgrey;*/
+	z-index:95;
+	/*border:dotted 1px black;*/
+	border: 3px outset #201e87;
+	background-color:lightblue;	
+	font-family: sans-serif;
+	font-style: italic;
+	font-weight: bolder;
+	text-align:center;
+	
+	color: white;
+	
+	
+	}
 
+div.popup_content {
+	position:absolute;
+	top:10%;
+	bottom:0%;
+	left:0%;
+	right:0%;
+	width:100%;
+	height:90%;
+	overflow:auto;
+	background-color:lightblue;	
+	font-size:10px ;
+	font-family: sans-serif;
+	font-style: normal;
+	font-weight: normal;
+	color: black;
+	text-align: left;
+	
+}
 /* </style> */

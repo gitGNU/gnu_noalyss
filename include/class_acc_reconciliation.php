@@ -36,7 +36,7 @@ require_once ('class_dossier.php');
 class Acc_Reconciliation {
   var $db;			/*!< database connection */
   var $jr_id;			/*!< jr_id */
-  public static  $javascript=JS_CONCERNED_OP;
+  public static  $javascript=JS_LEDGER;
   function   __construct($cn) {
     $this->db=$cn;
     $this->jr_id=0;
@@ -170,7 +170,7 @@ class Acc_Reconciliation {
   /*!\brief return the javascript function (static method)
    *
   static function javascript()  {
-    return JS_CONCERNED_OP;
+    return JS_LEDGER;
   }
   */
   static function test_me() {

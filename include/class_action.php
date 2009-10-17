@@ -315,7 +315,7 @@ class Action
       $str_ag_ref="<b>".(($this->ag_ref != "")?$this->ag_ref:" Nouveau ")."</b>";
       // Preparing the return string
       $r="";
-      $r.=JS_SEARCH_CARD;
+      $r.=JS_LEDGER;
       /* for new files */
       $upload=new IFile();
       $upload->name="file_upload[]";
@@ -412,7 +412,7 @@ class Action
       }
       /* Add the javascript */
       $r.=JS_INFOBULLE;
-      $r.=JS_SEARCH_CARD;
+      $r.=JS_LEDGER;
       $r.=JS_SHOW_TVA;    
       $r.=JS_TVA;
       $r.=JS_AJAX_FICHE;
@@ -585,10 +585,10 @@ class Action
       $str_dossier=dossier::get();
       // for the sort
       $sort="";
-      $image_asc='<IMAGE SRC="image/down.png" border="0" >';
-      $image_desc='<IMAGE SRC="image/up.png" border="0" >';
-      $image_sel_desc='<IMAGE SRC="image/select1.png" border="0" >';
-      $image_sel_asc='<IMAGE SRC="image/select2.png" border="0" >';
+      $image_asc='<IMAGE SRC="image/down.gif" border="0" >';
+      $image_desc='<IMAGE SRC="image/up.gif" border="0" >';
+      $image_sel_desc='<IMAGE SRC="image/select1.gif" border="0" >';
+      $image_sel_asc='<IMAGE SRC="image/select2.gif" border="0" >';
 
       $url=CleanUrl();
       $url.=$str_dossier.'&p_action='.$_REQUEST['p_action'];
@@ -741,7 +741,7 @@ class Action
 	  return $r;
 
 	}
-      $r.=JS_SEARCH_CARD;
+      $r.=JS_LEDGER;
       $i=0;
       foreach ($a_row as $row )
 	{

@@ -255,7 +255,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   //  $r.= '<div style="border-style:outset;border-width:1pt;">';
 
   $r.=JS_SEARCH_POSTE;
-  $r.=JS_SEARCH_CARD;
+  $r.=JS_LEDGER;
   $r.= '<h2><IMG SRC="image/search.png" width="48" border="0" > Recherche</h2>';
   $r.= '<FORM ACTION="recherche.php" METHOD="GET">';
   $r.=dossier::hidden();

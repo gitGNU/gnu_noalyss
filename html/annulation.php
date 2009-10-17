@@ -49,7 +49,7 @@ if ($User->check_action(GEOP,0) == 0 ) {
 }
 
 html_page_start($User->theme,"onLoad='window.focus();'");
-echo JS_VIEW_JRN_MODIFY;
+echo JS_LEDGER;
 if ( isset( $_REQUEST['p_jrn'] )) {
   $p_jrn=$_GET['p_jrn'];
   }

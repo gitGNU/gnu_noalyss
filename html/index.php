@@ -86,7 +86,7 @@ BODY {
 </style>
 <script src="js/scripts.js" type="text/javascript"></script>
 </head>
-<BODY onLoad="SetFocus(\'login\',0)">';
+<BODY onLoad="SetFocus(\'p_user\')">';
 $my_domain="";
 require ('config.inc.php');
 if ( strlen(domaine) > 0 ) {
@@ -95,7 +95,7 @@ if ( strlen(domaine) > 0 ) {
 
 echo '
 <span style="background-color:#879ed4;color:white;padding-left:4px;padding-right:4px;">
-version  4.3.build SVNINFO - '.$my_domain.'
+version  5.0.build SVNINFO - '.$my_domain.'
 </span>
 <BR>
 <BR>

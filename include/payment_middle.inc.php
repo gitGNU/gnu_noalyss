@@ -33,7 +33,7 @@ echo '<div class="content">';
 //----------------------------------------------------------------------
 // change
 if ( $sb=='change') {
-  echo JS_SEARCH_CARD;
+  echo JS_LEDGER;
   echo JS_AJAX_FICHE;
   echo JS_PROTOTYPE;
   if ( !isset($_GET['id'])) exit;

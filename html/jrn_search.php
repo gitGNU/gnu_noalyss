@@ -39,7 +39,7 @@ require_once('class_dossier.php');
 $gDossier=dossier::id();
 
 // Javascript
-echo JS_CONCERNED_OP;
+echo JS_LEDGER;
 if ( isset( $p_jrn )) {
   $p_jrn=$p_jrn;
   $_SESSION[ "p_jrn"]=$p_jrn;

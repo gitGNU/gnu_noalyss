@@ -69,11 +69,8 @@ echo ShowMenuCompta("user_advanced.php?".dossier::get());
 echo '</div>';
 // Get action
 
-
-
 // call impress sub-menu
 if ( $action == 'impress' ) {
-
   require_once('impress.inc.php');
 }
 

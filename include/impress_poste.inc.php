@@ -39,7 +39,7 @@ require_once('class_database.php');
 //-----------------------------------------------------
 echo '<div class="content">';
 echo JS_SEARCH_POSTE;
-echo JS_SEARCH_CARD;
+echo JS_LEDGER;
 echo JS_PROTOTYPE;
 echo '<FORM action="?" METHOD="GET">';
 echo HtmlInput::hidden('p_action','impress');

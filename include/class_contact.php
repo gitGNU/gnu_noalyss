@@ -106,7 +106,7 @@ attr_value using (jft_id) where av_text=upper('".$this->company."') and ad_id=".
 $back_url=urlencode($_SERVER['REQUEST_URI']);
       if ( sizeof ($step_contact ) == 0 )
 	return $r;
-      echo JS_SEARCH_CARD;
+      echo JS_LEDGER;
       foreach ($step_contact as $contact ) {
 	$l_company=new fiche($this->cn);
 	$l_company->get_by_qcode($contact->strAttribut(ATTR_DEF_COMPANY),false);

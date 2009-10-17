@@ -466,7 +466,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       }
     }
     echo 'Journal '.$wLedger->input();
-    echo JS_SEARCH_CARD;
+    echo JS_LEDGER;
     echo JS_PROTOTYPE;
     echo JS_AJAX_FICHE;
     $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";

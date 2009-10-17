@@ -314,7 +314,7 @@ class Acc_Payment
   /*!\brief test function
    */
   static function test_me() {
-    echo JS_SEARCH_CARD;
+    echo JS_LEDGER;
     $cn=new Database(dossier::id());
     $ac=new Acc_Payment($cn);
     $ac->set_parameter('type','ACH');

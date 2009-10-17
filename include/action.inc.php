@@ -52,7 +52,7 @@ function ShowActionList($cn)
    $a=(isset($_GET['query']))?$_GET['query']:"";
    $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
 
-   echo JS_SEARCH_CARD;
+   echo JS_LEDGER;
    $w=new ICard();
    $w->name='qcode';
    $w->value=$qcode;
@@ -214,7 +214,7 @@ if ( $sub_action=="update" )
 
       echo '<div class="content">';
 
-      echo JS_SEARCH_CARD;
+      echo JS_LEDGER;
       // Add hidden tag
       echo '<form  enctype="multipart/form-data" action="commercial.php" method="post"">';
       
@@ -248,7 +248,7 @@ if ( $sub_action=='detail' )
   echo '<form  enctype="multipart/form-data"  action="commercial.php"  method="post"   >';
   echo HtmlInput::hidden('p_action',$_REQUEST['p_action']);
   echo dossier::hidden();
-  echo JS_SEARCH_CARD;
+  echo JS_LEDGER;
   echo $act->Display('UPD',false,$retour);
   echo '<input type="hidden" name="p_action" value="suivi_courrier">';
   echo '<input type="hidden" name="sa" value="update">';
@@ -293,7 +293,7 @@ if ( $sub_action == "add_action" )
   $act->ag_id=0;
   $act->d_id=0;
   echo '<div class="content">';
-  echo JS_SEARCH_CARD;
+  echo JS_LEDGER;
   // Add hidden tag
   echo '<form method="post" action="commercial.php" name="form_add" id="form_add" enctype="multipart/form-data" >';
   echo dossier::hidden();

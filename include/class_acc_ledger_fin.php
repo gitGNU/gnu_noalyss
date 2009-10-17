@@ -703,7 +703,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $current=(isset($_GET['p_periode']))?$_GET['p_periode']:-1;
     $w->selected=$current;
 
-    echo JS_SEARCH_CARD;
+    echo JS_LEDGER;
     echo JS_PROTOTYPE;
     echo JS_AJAX_FICHE;
     echo '<form>';

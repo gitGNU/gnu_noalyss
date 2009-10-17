@@ -1,17 +1,4 @@
-﻿
-<style type="text/css">
-<!--
-h2 {
-	color:green;
-	font-size:20px;
-}
-.error {
-	color:red;
-	font-size:20px;
-}
--->
-</style>
-<?php
+﻿<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -78,7 +65,8 @@ $array=array(
 	array(18,'Toddo list(class_todo'),
 	array(19,'Payment (class_acc_payment'),
 	array(20,'Form Acc_Ledger_Sold'),
-	array(21,'Javascript')	
+	array(21,'Javascript') ,
+	array(22,'DIV IPopup')	
 	);
 $r='<form method="get">';
 $r.='<select name="test_select" >';
@@ -194,6 +182,10 @@ case 20:
 case 21:
 	test_javascript();
 	break;	
+case 22:
+  require_once('class_ipopup.php');
+  IPopup::test_me();
+  break;	
 
 }
 

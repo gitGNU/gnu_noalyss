@@ -40,7 +40,7 @@ include ("user_menu.php");
 /* Modif d'une ligne */
 if ( isset ($_POST["update"] ) ) {
 
-  echo JS_UPDATE_PCMN;
+  echo JS_ACCOUNTING_ITEM;
 
     $p_val=trim($_POST["p_val"]);
     $p_lib=trim($_POST["p_lib"]);

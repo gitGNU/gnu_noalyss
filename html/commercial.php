@@ -127,7 +127,7 @@ echo '</div>';
 
 $cn=new Database($gDossier);
 
-echo JS_VIEW_JRN_MODIFY;
+echo JS_LEDGER;
 echo JS_AJAX_FICHE;
 
 //-----------------------------------------------------

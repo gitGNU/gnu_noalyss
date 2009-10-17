@@ -1,7 +1,7 @@
 <?php
 
     echo JS_INFOBULLE;
-    echo JS_SEARCH_CARD;
+    echo JS_CARD;
     echo JS_CONCERNED_OP;
     echo JS_AJAX_FICHE;
 

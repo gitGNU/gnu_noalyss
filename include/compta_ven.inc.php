@@ -195,7 +195,7 @@ if ( $def==1 || $def == 4 ) {
 
   echo '<div class="content">';
   echo JS_PROTOTYPE;
-
+  echo JS_CARD;
   echo "<FORM NAME=\"form_detail\" METHOD=\"POST\">";
 
   $array=(isset($_POST['correct'])||isset ($correct))?$_POST:null;

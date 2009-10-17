@@ -68,7 +68,7 @@ function checkTotal() {
   if ( r_total_deb != r_total_cred ) {
     document.getElementById("totalDiff").style.color="red";
     document.getElementById("totalDiff").style.fontWeight="bold";
-    document.getElementById("totalDiff").innerHTML="Différence";
+    document.getElementById("totalDiff").innerHTML="DiffÃ©rence";
     diff=total_deb-total_cred;
     diff=Math.round(diff*100)/100;
     document.getElementById("totalDiff").innerHTML=diff

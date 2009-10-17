@@ -1,7 +1,7 @@
 <?php
 
     echo JS_INFOBULLE;
-    echo JS_SEARCH_CARD;
+echo JS_LEDGER;
     echo JS_SHOW_TVA;    
     echo JS_TVA;
     echo JS_AJAX_FICHE;

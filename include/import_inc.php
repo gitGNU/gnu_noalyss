@@ -162,10 +162,9 @@ function VerifImport($p_cn){
 	echo $Num." opérations à complèter.<br/><br/>";
 	$i=1;
 	// include javascript for popup 
-	echo JS_SEARCH_CARD;
-	echo JS_CONCERNED_OP;
+	echo JS_CARD;
+	echo JS_LEDGER;
 	echo JS_AJAX_FICHE;
-	echo JS_PROTOTYPE;
 	while($val = Database::fetch_array($Res)){
 	  echo '<form METHOD="POST" id="form_'.$i.'"action="import.php?action=verif">'; 
 	  echo dossier::hidden();

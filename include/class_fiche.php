@@ -324,7 +324,7 @@ class fiche {
 	    }
 	  elseif ( $attr->ad_id == ATTR_DEF_COMPANY )
 	    {
-	      $r.=JS_SEARCH_CARD;
+	      $r.=JS_LEDGER;
 	      $w=new ISearch();
 	      // filter on frd_id
 	      $w->extra=FICHE_TYPE_CLIENT.','.FICHE_TYPE_FOURNISSEUR.','.FICHE_TYPE_ADM_TAX; 
@@ -405,7 +405,7 @@ class fiche {
 	    }
 	      elseif ( $r->ad_id == ATTR_DEF_COMPANY )
 		{
-		  $ret.=JS_SEARCH_CARD;
+		  $ret.=JS_LEDGER;
 		  $w=new ISearch();
 		  // filter on frd_id
 		  $w->extra=FICHE_TYPE_CLIENT.','.FICHE_TYPE_FOURNISSEUR.','.FICHE_TYPE_ADM_TAX; 

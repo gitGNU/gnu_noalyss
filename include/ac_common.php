@@ -468,4 +468,14 @@ function alert($p_msg)
   echo 'alert(\''.j($p_msg).'\')';
   echo '</script>';
 }
+/*!\brief generate the html needed to include a javascript, the path must be
+ * given
+ *\param p_name name of the script (+path)
+ *\return Html string
+ */
+function include_javascript($p_name) 
+{
+  return sprintf('<SCRIPT language="javascript" src="%s"></SCRIPT>',
+		 $p_name);
+}
 ?>

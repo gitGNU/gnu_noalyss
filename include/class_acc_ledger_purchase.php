@@ -593,7 +593,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
     $this->type='ACH';
     $all=$this->get_all_fiche_def();
-    echo JS_SEARCH_CARD;
+    echo JS_LEDGER;
     echo JS_PROTOTYPE;
     echo JS_AJAX_FICHE;
     $w=new ICard();
@@ -682,7 +682,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $r="";
     $r.="<FORM NAME=\"form_detail\" METHOD=\"POST\">";
     $r.=JS_INFOBULLE;
-    $r.=JS_SEARCH_CARD;
+    $r.=JS_LEDGER;
     $r.=JS_SHOW_TVA;    
     $r.=JS_TVA;
     $r.=JS_AJAX_FICHE;

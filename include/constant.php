@@ -108,29 +108,20 @@ define ("ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP",22);
 define ("ATTR_DEF_QUICKCODE",23);
 define ("JS_CONFIRM",
 "<SCRIPT language=\"javascript\" src=\"js/confirm.js\">	</SCRIPT>");
-define ("JS_SEARCH_POSTE",
-"<SCRIPT language=\"javascript\" src=\"js/search_poste.js\">	</SCRIPT>");
+define ("JS_ACCOUNTING_ITEM",
+"<SCRIPT language=\"javascript\" src=\"js/accounting_item.js\">	</SCRIPT>");
 
 define ("JS_BUD_SCRIPT",
 "<SCRIPT language=\"javascript\" src=\"js/bud_script.js\">	</SCRIPT>");
 
-define ("JS_VIEW_JRN_CANCEL",
-"<script  language=\"javascript\" src=\"js/cancel_op.js\">	</script>");
-
-define ("JS_VIEW_JRN_MODIFY",
-"<script  language=\"javascript\" src=\"js/modify_op.js\">	</script>");
-
-
-define ("JS_UPDATE_PCMN",
-"<script  language=\"javascript\" src=\"js/update_pcmn.js\">	</script>");
-
-define ("JS_SEARCH_CARD","
-<script  language=\"javascript\" src=\"js/search_card.js\"></script>
+define ("JS_LEDGER","
+<script  language=\"javascript\" src=\"js/acc_ledger.js\"></script>
 ");
-// concerned operation
-define ("JS_CONCERNED_OP",'
-<script type="text/javascript" language="javascript"  src="js/jrn_concerned.js">
-</script>');
+define ("JS_CARD","
+<script  language=\"javascript\" src=\"js/card.js\"></script>
+");
+
+
 define ('JS_CALENDAR','
 <script type="text/javascript" language="javascript"  src="js/jrn_concerned.js">
 </script>');
@@ -197,7 +188,6 @@ define ("JS_AJAX_FICHE",'<script language="javascript" src="js/ajax_fiche.js"></
 define ("JS_TODO",'<script language="javascript" src="js/todo_list.js"></script>');
 define ("JS_AJAX_OP",'<script language="javascript" src="js/ajax_op.js"></script>');
 define ("JS_PROTOTYPE",'<script language="javascript" src="js/prototype.js"></script>');
-define ("JS_MINTOOLKIT",'<script language="javascript" src="js/mintoolkit.js"></script>');
 // Sql string
 define ("SQL_LIST_ALL_INVOICE","");
 

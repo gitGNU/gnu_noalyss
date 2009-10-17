@@ -132,7 +132,7 @@ if ( $sub_action == "list" )
 <?php
    echo dossier::hidden();  
    $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
- echo JS_SEARCH_CARD;
+ echo JS_LEDGER;
  $w=new ICard();
  $w->name='qcode';
  $w->value=$qcode;

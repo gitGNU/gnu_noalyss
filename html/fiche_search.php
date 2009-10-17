@@ -65,7 +65,7 @@ $User=new User($cn);
 $User->Check();
 $User->check_dossier($gDossier);
 
-echo JS_SEARCH_CARD;
+echo JS_LEDGER;
 echo JS_MINTOOLKIT;
 //determine focus:
 if ( isset ( $_GET['search']) )

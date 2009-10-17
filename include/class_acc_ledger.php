@@ -469,7 +469,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
 
     $all=$this->get_all_fiche_def();
-    echo JS_SEARCH_CARD;
+    echo JS_LEDGER;
     echo JS_PROTOTYPE;
     echo JS_AJAX_FICHE;
     $w=new ICard();
@@ -984,7 +984,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 
     $ret="";
     // Load the javascript
-    $ret.=JS_SEARCH_CARD;
+    $ret.=JS_LEDGER;
     $ret.=JS_SEARCH_POSTE;
     $ret.=JS_AJAX_FICHE;
     $ret.=JS_PROTOTYPE;

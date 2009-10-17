@@ -42,7 +42,7 @@ include_once ("user_menu.php");
 
 
 
-echo JS_UPDATE_PCMN;
+echo JS_ACCOUNTING_ITEM;
 /* Store the p_start parameter */
 if ( ! isset ( $_SESSION['g_start']) ) {
   $_SESSION['g_start']="";
