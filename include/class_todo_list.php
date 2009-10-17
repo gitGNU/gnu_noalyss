@@ -24,6 +24,7 @@
  * \brief the todo list is managed by this class
  */
 
+require_once('function_javascript.php');
 
 /*!\brief 
  * This class manages the table todo_list
@@ -164,12 +165,12 @@ from todo_list where tl_id=$1";
 
   }
   public function toJSON() {
-
+    $str=encodeURI($this->tl_desc);
     $r='';
     $r.='{';
     $r.='"tl_id":"'.$this->tl_id.'",';
     $r.='"tl_title":"'.$this->tl_title.'",';
-    $r.='"tl_desc":"'.urlencode($this->tl_desc).'",';
+    $r.='"tl_desc":"'.$str.'",';
     $r.='"tl_date":"'.$this->tl_date.'"';
     $r.='}';
     return $r;
