@@ -85,7 +85,7 @@ echo HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);
 echo dossier::hidden();
 echo HtmlInput::hidden('tl_id',0);
 echo HtmlInput::submit('save_todo_list','Sauve','onClick="hide(\'add_todo_list\');show(\'add\');return true;"');
-echo HtmlInput::button('hide','Annuler','onClick="$(\'add_todo_list\').hide();return true;"');
+echo HtmlInput::button('hide','Annuler','onClick="$(\'add_todo_list\').hide();$(\'add\').show();return true;"');
 echo '</form>';
 
 echo '</div>';
