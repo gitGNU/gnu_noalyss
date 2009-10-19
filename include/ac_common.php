@@ -52,14 +52,13 @@ function j($p_string) { $a=preg_replace("/\r?\n/", "\\n", addslashes($p_string))
  *  
  */
 function echo_error      ($p_log, $p_line="", $p_message="") {
-	$fdebug=fopen($_ENV['TMP'].DIRECTORY_SEPARATOR."phpcompta_error.log","a+");
-	if ( $fdebug == false) {
-	  echo "ERREUR :".$p_log." ".$p_line." ".$p_message;
-	} else {
-	  fwrite($fdebug,date("Ymd H:i:s").$p_log." ".$p_line." ".$p_message."\n");
-	  fclose($fdebug);
-	  echo_debug($p_log,$p_line,$p_message);
-	}
+  echo "ERREUR :".$p_log." ".$p_line." ".$p_message;
+  $fdebug=fopen($_ENV['TMP'].DIRECTORY_SEPARATOR."phpcompta_error.log","a+");
+  if ($fdebug != null ) {
+    fwrite($fdebug,date("Ymd H:i:s").$p_log." ".$p_line." ".$p_message."\n");
+    fclose($fdebug);
+    echo_debug($p_log,$p_line,$p_message);
+  }
 }
  
 /*! 
