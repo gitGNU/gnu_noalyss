@@ -21,6 +21,7 @@
 
 var posX=0,posy=0,offsetX=10,offsetY=10;
 document.onmousemove=getPosition;
+var content=new Array();
 content[0]="Donnez le quickcode ou tapez une partie du nom de la fiche puis cliquer sur rechercher, si la recherche ne donne rien, il vous sera proposé de créer une nouvelle fiche";
 content[1]="(optionnel) La description est un commentaire libre qui sert à identifier cette opération";
 content[2]="Selectionnez le journal où l'opération doit être sauvée";
