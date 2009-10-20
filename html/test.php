@@ -66,7 +66,9 @@ $array=array(
 	array(19,'Payment (class_acc_payment'),
 	array(20,'Form Acc_Ledger_Sold'),
 	array(21,'Javascript') ,
-	array(22,'DIV IPopup')	
+	array(22,'DIV IPopup'),
+	array(23,'Détection Navigateur')	,
+	array(24,'Search Card')
 	);
 $r='<form method="get">';
 $r.='<select name="test_select" >';
@@ -185,8 +187,22 @@ case 21:
 case 22:
   require_once('class_ipopup.php');
   IPopup::test_me();
-  break;	
+  break;
+case 23:
+	$browser= $_SERVER['HTTP_USER_AGENT'];
+	echo $browser;
+	if ( strpos ($browser,'MSIE 6.0') != 0 ) {
+		echo "Vous utilisez Internet Explorer 6";
+	}
+	break;
+case 24:
+  require_once('class_icard.php');
+  require_once ('constant.php');
 
+  echo JS_PROTOTYPE;
+  echo JS_CARD;
+  ICard::test_me();
+  break;
 }
 
 

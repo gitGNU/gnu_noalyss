@@ -25,14 +25,6 @@
  *
  */
 
-/*!\brief this function fills the data from fid.php, 
- * \param p_ctl the ctrl to fill
- * \param p_deb if debit of credit
- * \param p_jrn the ledger
- */
-function trim(s) {
-    return s.replace(/^\s+/, '').replace(/\s+$/, '');
-}
 /*!\brief clean the row (the label, price and vat)
  * \param p_ctl the calling ctrl
  */
@@ -62,7 +54,7 @@ function errorFid(request,json) {
 function ajaxFid(p_ctl,p_deb,phpsessid,p_caller,p_extra,p_jrn) 
 {
   var gDossier=$('gDossier').value;
-    var ctl_value=trim($(p_ctl).value);
+    var ctl_value=trim(g(p_ctl).value);
     $(p_ctl).value=ctl_value;
     if ( p_jrn == undefined ) {	  var p_jrn=$('p_jrn').value; }
    
@@ -108,7 +100,7 @@ function successFid(request,json) {
 	else { $(ctl).style.color="black"; $(extra).value=data;}
   }
   var toSet=ctl+'_label';
-  if (trim(data) == "" ) {
+  if (data == undefined ) {
   if ($(toSet).tagName=='SPAN') {
     $(toSet).innerHTML="Fiche Inconnue";
     $(toSet).style.color="red";

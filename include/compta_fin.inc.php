@@ -24,6 +24,8 @@
  * \brief this file is to be included to handle the financial ledger
  */
 require_once ('class_acc_ledger_fin.php');
+echo JS_PROTOTYPE;
+echo JS_CARD;
 $gDossier=dossier::id();
 $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 

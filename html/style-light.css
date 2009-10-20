@@ -176,7 +176,8 @@ div.content{
          width:100%; 	 
          font-size:9px; 	 
          font-family:sans-serif; 	
-         clear:both; 
+         clear:both;
+          
 
 }
 div.content30{ 	 
@@ -518,6 +519,8 @@ fieldset fieldset legend {
 	 }	
 select {
 border: 1px solid blue;
+
+
 }
 
 
@@ -543,10 +546,6 @@ span.action {
 	border-style: outset;
 	padding:5px;
 	margin:2px;
-	
-	
-	
-	
 }
 td.num {
 	text-align:right;
@@ -567,7 +566,16 @@ span.action a.action:hover {
   background-color:lightblue;
   color:black;
 }
-div.popup_border {
+div.popup_back{
+	position:absolute;
+	top:0px;
+	width:100%;
+	height:100%;
+	z-index:95;
+	display:none;	
+}
+
+div.popup_border_title {
 	position:absolute;
 	top:20%;
 	bottom:20%;
@@ -578,17 +586,59 @@ div.popup_border {
 	/*background:lightgrey;*/
 	z-index:95;
 	/*border:dotted 1px black;*/
+	border: 3px groove black;
+	background-color:#879ED4;
+	font-size: 105% ;
+	font-family: sans-serif;
+	font-style: italic;
+	font-weight: bolder;
+	text-align:center;
+	border-bottom: 2px solid #201e87;
+	color: white;
+	display:none;
+	
+	
 	}
+div.popup_border_notitle {
+	position:absolute;
+	top:20%;
+	bottom:20%;
+	left:20%;
+	right:20%;
+	width:60%;
+	height:60%;
+	/*background:lightgrey;*/
+	z-index:95;
+	/*border:dotted 1px black;*/
+	border: 3px outset #201e87;
+	background-color:lightblue;	
+	font-family: sans-serif;
+	font-style: italic;
+	font-weight: bolder;
+	text-align:center;
+	display:none;
+	color: white;
+	
+	
+	}
+
 div.popup_content {
 	position:absolute;
-	top:2%;
-	bottom:2%;
-	left:2%;
-	right:2%;
-	width:96%;
-	height:96%;
+	top:10%;
+	bottom:0%;
+	left:0%;
+	right:0%;
+	width:100%;
+	height:90%;
 	overflow:auto;
 	background-color:lightblue;	
-	border: 3px outset #201e87;
+	font-size:10px ;
+	font-family: sans-serif;
+	font-style: normal;
+	font-weight: normal;
+	color: black;
+	text-align: left;
+	display:none;
+	z-index:95;
 }
 /* </style> */

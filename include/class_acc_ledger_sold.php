@@ -482,6 +482,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $w->extra2='QuickCode';
     $w->table=0;
     $w->noadd='no';
+    $w->ipopup='sCard';
     $sp=new ISpan();
     echo $w->input();
 
@@ -838,13 +839,15 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
 
   }
-   /*!\brief display the form for entering data for invoice
+   /*!\brief display the form for entering data for invoice, it will set the variable
+    * $this->ipopup which will contains all the popup and the forms
    *\param $p_array is null or you can put the predef operation or the $_POST
+   *
    *\return string
    */
   function input($p_array=null) {
     if ( $p_array != null ) extract($p_array);
-
+    $this->ipopupCard='';
     $user = new User($this->db);
     $own=new Own($this->db);
     $flag_tva=$own->MY_TVA_USE;
@@ -968,6 +971,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $W1->table=0;
     $W1->extra=$fiche;  // list of card
     $W1->extra2="Recherche";
+    $this->ipopupCard.=$W1->formPopup();
     $f_client_qcode=$W1->input();
     $client_label=new ISpan();
     $client_label->table=0;
@@ -1016,6 +1020,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $W1->table=1;
       $W1->extra2="Recherche";
       $W1->extra='cred';  // credits
+      $this->ipopupCard.=$W1->formPopup();
       $W1->javascript=sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\');compute_sold(%d)"',
 			$W1->name,
 			$W1->extra, //deb or cred

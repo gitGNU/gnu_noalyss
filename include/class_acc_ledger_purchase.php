@@ -805,7 +805,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     }
     
     $W1=new ICard();
-	$W1->jrn=$this->id;
+    $W1->jrn=$this->id;
     $W1->label="Fournisseur ".HtmlInput::infobulle(0) ;
     $W1->name="e_client";
     $W1->tabindex=3;

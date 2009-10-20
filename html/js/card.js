@@ -37,36 +37,26 @@ function showfiche(p_sessid,p_qcode)
 *
 * Remark The ledger (jrn_id) must be in the calling form as a hidden field named p_jrn
 *\param  p_sessid is the PHPSESSID
-*\param type must be deb or cred
 *\param  name is the name of the control, it is used for computing the name of the VAT, Price field 
-*\param no_add to avoid to be able to add a card (for undefined or no)
-*\param p_ledger is the ledger id : 0 means no check
-* \todo must used ipopup
+*\param object_button is the object button with some attributes as 
+*  - jrn (0 means all the ledger )
+*  - add (no if the button to add a card is not available)
 * \see SetData()
 */
-function SearchCard(p_sessid,type,name,p_ledger,no_add)
+function SearchCard(p_sessid,name,objectCtl)
 {
   var search=g(name).value;
   var gDossier=g('gDossier').value;
-  
-  var jrn=0;
-  if ( p_ledger == undefined ) {
-	if ( g("p_jrn") ) {
-		jrn=g("p_jrn").value;
-	}	
-  } else 
-	jrn=p_ledger;
-	
+  	
   var file='fiche_search.php';
-var qadd='&add=yes';
-if ( no_add != undefined && no_add=='no' ) { qadd="&add=no"}
 
-var query='?first&search&fic_search='+search+'&p_jrn='+jrn+'&PHPSESSID='+p_sessid
-+'&type='+type+'&name='+name+'&gDossier='+gDossier+qadd;
+var query='?first&search&fic_search='+search+'&p_jrn='+objectCtl.jrn+'&PHPSESSID='+p_sessid
++'&type='+objectCtl.type+'&name='+name+'&gDossier='+gDossier+objectCtl.add;
   query+="&caller=searchcard";
-   var a=window.open(file+query,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
-   a.focus();
-   return false;
+  $(name+'_fond').style.display='block';
+  $(name+"_border").style.display='block';
+  $(name+"_content").style.display='block';
+     return false;
 }
 /*!\brief Open a window for adding a card
 *

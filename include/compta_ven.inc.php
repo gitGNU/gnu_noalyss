@@ -28,6 +28,7 @@ require_once("class_acc_ledger_sold.php");
 require_once ('class_pre_op_ven.php');
 require_once ('class_document.php');
 require_once ('class_acc_ledger_info.php');
+
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 $gDossier=dossier::id();
 print_r($_REQUEST);
@@ -261,6 +262,7 @@ if ( $def==1 || $def == 4 ) {
   echo '<form onsubmit="cal();return false;" name="calc_line" method="get">';
   echo JS_CALC_LINE;
   echo '</form>';
+  echo $Ledger->ipopupCard;
   echo '</div>';
   exit();
 }

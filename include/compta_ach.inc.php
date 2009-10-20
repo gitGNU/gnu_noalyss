@@ -27,6 +27,8 @@ require_once("class_icheckbox.php");
 require_once("class_acc_ledger_purchase.php");
 require_once ('class_pre_op_ach.php');
 $gDossier=dossier::id();
+echo JS_PROTOTYPE;
+echo JS_CARD;
 
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 

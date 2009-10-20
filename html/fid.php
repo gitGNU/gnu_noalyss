@@ -91,6 +91,8 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
                     where quick_code=upper($1)". $filter_card;
 
   $array=$cn->get_array($sql,  array($_GET['FID']));
+
+  /**\todo  we need to add the ctrl to update */
   if ( empty($array)) { echo '{"answer":"nok"}'; exit;}
 
   echo_debug("fid",__LINE__,$array);

@@ -25,11 +25,11 @@
  */
 require_once('class_dossier.php');
 require_once('user_common.php');
+
 $gDossier=dossier::id();
 include_once ("ac_common.php");
 $action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 $use_html=1;
-
 //----------------------------------------------------------------------
 /*!\todo find a way to improve performance : the calendar must not
  *   always be loaded and takes at least 50KB
@@ -50,7 +50,6 @@ if ( $use_html == 1)
 else 
   html_min_page_start($_SESSION['g_theme']);
 //----------------------------------------------------------------------
-
 
 require_once('class_database.php');
 /* Admin. Dossier */

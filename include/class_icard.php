@@ -27,29 +27,36 @@
 
   /*!\brief Input HTML for the card show buttons, in the file, you have to add JS_SEARCH
    *
-   * - extra2 is the label in the button
+   * - label is the label in the button
    * - table = 1 then add the tag TD between the button and the input text
    * - if noadd is defined and set to no then you can not add a card
    * - if the this->jrn is -1 then all the card will be shown
-   * - extra contents the type (all, deb or cred or a SQL clause
-   *
+   * - extra contents the type (all, deb or cred, a list of FD_ID between parent.  or a SQL clause
    * \see SearchCard fiche_search.php
    */
 require_once('class_html_input.php');
+require_once('class_ipopupsearchcard.php');
 class ICard extends HtmlInput
 {
   /*!\brief return a string with the HTML of the button search */
   public function dbutton() {
     if (!isset ($this->jrn) ) $this->jrn=-1;
+    
     $add='yes';
     if ( isset($this->noadd) && $this->noadd=="no") $add='no';
-    $r= sprintf('<INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')" value="%s">',
+    $r="";
+    /* add properties thanks javascript */
+    $docId='obj_'.$this->name;
+    $javascript=sprintf("<script>var $docId=new Object();$docId.jrn='%s';$docId.add='%s';$docId.dossier='%s';$docId.type='%s'</script>",
+			$this->name,
+			$this->jrn,$add,dossier::id(),$this->extra);
+    $r.=$javascript;
+    /* create the button */
+    $r.= sprintf('<INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',obj_%s)" value="QuickCode">',
 		$_REQUEST['PHPSESSID'],
-		$this->extra,
-		$this->name,
-		$this->jrn,
-		$add,
-		$this->extra2);
+		 $this->name,
+		$this->name
+		);
     return $r;
   }
   /*!\brief show the html  input of the widget*/
@@ -59,7 +66,6 @@ class ICard extends HtmlInput
     $this->value=($p_value==null)?$this->value:$p_value;
     if ( $this->readOnly==true) return $this->display();
     $l_sessid=$_REQUEST['PHPSESSID'];
-
     if ( $this->javascript=="") { 
       if ( isset($this->jrn)) {
 	/* if javascript is empty then we   add a default behaviour */
@@ -107,11 +113,22 @@ class ICard extends HtmlInput
 		   $this->javascript
 		   );
       }
-    
     //--    
     return $r;
     
   }
+  /*!\brief Two forms can not be mixed so the div for the input must be displayed after the last form
+   *\param none
+   *\return HTML String
+   *\note
+   *\see
+   *\todo
+   */
+  function formPopup() {
+    $this->ipopup=new IPopupSearchCard($this->name);
+    return $this->ipopup->input();
+  }
+
   /*!\brief print in html the readonly value of the widget*/
   public function display()
   {
@@ -124,6 +141,9 @@ class ICard extends HtmlInput
   }
   static public function test_me()
   {
-
+    $a=new ICard('testme');
+    if ( isset($_REQUEST['test_select']) )
+	 echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
+    echo $a->input();
   }
 }

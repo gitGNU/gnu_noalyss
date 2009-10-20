@@ -544,6 +544,7 @@ div.popup_border_title {
 	text-align:center;
 	border-bottom: 1px solid #201e87;
 	color: white;
+	display:none;
 	
 	
 	}
@@ -564,7 +565,7 @@ div.popup_border_notitle {
 	font-style: italic;
 	font-weight: bolder;
 	text-align:center;
-	
+	display:none;
 	color: white;
 	
 	
@@ -586,6 +587,11 @@ div.popup_content {
 	font-weight: normal;
 	color: black;
 	text-align: left;
-	
+	display:none;
+}
+select {
+border: 1px solid blue;
+z-index:
+
 }
 /* </style> */
