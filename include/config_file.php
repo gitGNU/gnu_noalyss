@@ -116,6 +116,8 @@ function config_file_create($p_array,$from_setup=1,$os=1) {
   fputs($hFile,"\n\r");
   fputs($hFile, 'define ("phpcompta_psql_port","'.$cport.'");');
   fputs($hFile,"\n\r");
+  fputs($hFile, 'define ("phpcompta_psql_host","127.0.0.1");');
+  fputs($hFile,"\n\r");
   fputs($hFile, 'define ("domaine","");');
   fputs($hFile,"\n\r");
   fputs($hFile,'?>');
