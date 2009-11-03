@@ -58,7 +58,7 @@ function AttachEvent(Obj, EventType, Function, Capture) {
 
 function SetFocus(Field,SelectIt) {
   var elem = GetFormField(Field);
-  if (!elem) { elem = GetID(Field); }
+  if (!elem) { elem = g(Field); }
 
   if (elem) {
     elem.focus();
@@ -85,7 +85,7 @@ function SetFocus(Field,SelectIt) {
 }
 
 function HandleSubmit(e) {
-  SubmitButton = GetID('SubmitButton');
+  SubmitButton = g('SubmitButton');
   var code = e.charCode || e.keyCode;
   if ( (code == 13) && e.ctrlKey ) 
   {     
