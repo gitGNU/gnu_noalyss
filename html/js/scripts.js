@@ -247,7 +247,7 @@ function import_update(p_sessid,p_dossier,p_count) {
 				url, 
 				{
 				method:'get',
-				parameters:query_string,
+				parameters:query_string
 				}
 				);
   var form=$("form_"+p_count);
@@ -273,7 +273,7 @@ function import_remove(p_sessid,p_dossier,p_count) {
 				url, 
 				{
 				method:'get',
-				parameters:query_string,
+				parameters:query_string
 				}
 				);
   var form=$("form_"+p_count);
@@ -297,7 +297,7 @@ function import_not_confirmed(p_sessid,p_dossier,p_count) {
 				url, 
 				{
 				method:'get',
-				parameters:query_string,
+				parameters:query_string
 				}
 				);
   var form=$("form_"+p_count);
@@ -369,27 +369,25 @@ function ledger_sold_add_row(){
    style='class="input_text"';
    var mytable=$("sold_item").tBodies[0];
    var line=mytable.rows.length;
-   var row=mytable.insertRow(line);
    var phpsessid=$("phpsessid");
    var nb=$("nb_item");
 
   var newNode = mytable.rows[1].cloneNode(true);
-  var tt=newNode.innerHTML;
   mytable.appendChild(newNode);
 
+  var tt=mytable.rows[1].innerHTML;
+   var new_tt=tt.replace(/march0/g,"march"+nb.value);
+   new_tt=new_tt.replace(/e_march0_label/g,"e_march"+nb.value+'_label');
+   new_tt=new_tt.replace(/quant0/g,"quant"+nb.value);
+   new_tt=new_tt.replace(/sold\(0\)/g,"sold("+nb.value+")");
 
-  new_tt=tt.replace(/march0/g,"march"+nb.value);
-  new_tt=new_tt.replace(/quant0/g,"quant"+nb.value);
-  new_tt=new_tt.replace(/sold\(0\)/g,"sold("+nb.value+")");
-
-  newNode.innerHTML=new_tt;
+   newNode.innerHTML=new_tt;
     $("e_march"+nb.value+"_label").innerHTML='&nbsp;';
     $("e_march"+nb.value+"_price").value='0';
     $("e_march"+nb.value).value="";
     $("e_quant"+nb.value).value="1";
-
+   
   nb.value++;
-
 }
 function compute_all_sold() {
     var loop=0;
