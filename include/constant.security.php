@@ -1,8 +1,4 @@
 <?php
-define ("BUDLEC",100);  //Accès en lecture
-define ("BUDHYP",110);  //Création hypothèse
-define ("BUDFIC",120);  //Création de fiche
-define ("BUDIMP",130);  //Impression
 define ("CAPA",210);  //Ajout de plan analytique
 define ("CAPO",220);  //Ajout de poste analytique
 define ("CAGA",230);  //Ajout de groupe analytique
@@ -14,6 +10,7 @@ define ("GEOP",307);  //Effacement d'opération
 define ("GECOUR",310);  //Courrier (lecture & écriture)
 define ("GESUPPL",311);	/* Fournisseur */
 define ("GECUST",312);	/* Clients */
+define ("GEADM",313);	/* Administration */
 define ("GESTOCK",320);  //gestion de stock
 define ("IMPRAP",700);  //Rapport
 define ("IMPJRN",710);  //Journaux
@@ -43,4 +40,7 @@ define ("PARRAP",1230);  //Création de rapport
 define ("PARPREDE",1240);  //Effacement et création d'opération prédéfinie
 define ("STOLE",1500);  //Stock (lecture)
 define ("STOWRITE",1510);  //Stock (changement)
+define ("EXTENSION",1600);  //Extension
+define ("PREVCON",1701);  //Prevision
+define ("PREVMOD",1702);  //Prevision
 ?>

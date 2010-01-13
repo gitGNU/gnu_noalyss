@@ -30,8 +30,11 @@
  *   different hyp.
  *
  */
+require_once("class_itext.php");
+require_once("class_ihidden.php");
+require_once("class_iselect.php");
 require_once ('class_dossier.php');
-require_once ('postgres.php');
+require_once ('class_database.php');
 
  
 class Bud_Hypo {
@@ -59,11 +62,11 @@ class Bud_Hypo {
       " from bud_hypothese ".
       " where  ".
       " bh_id =".$this->bh_id;
-    $res=ExecSql($this->db,$sql);
+    $res=$this->db->exec_sql($sql);
 
-    if ( pg_NumRows($res) == 0 ) return;
+    if ( Database::num_row($res) == 0 ) return;
 
-    $a=pg_fetch_array($res,0);
+    $a=Database::fetch_array($res,0);
     $this->bh_name=$a['bh_name'];
     $this->bh_saldo=$a['bh_saldo'];
     $this->bh_description=$a['bh_description'];
@@ -73,7 +76,7 @@ class Bud_Hypo {
   
   function delete () {
     $sql="delete from bud_hypothese where bh_id=".$this->bh_id;
-    ExecSql($this->db,$sql);
+    $this->db->exec_sql($sql);
   }
 
   function add() {
@@ -88,14 +91,14 @@ class Bud_Hypo {
 		 $this->bh_description,
 		 $pa_id
 	      );
-    $a=ExecSqlParam($this->db,$sql,$array);
-    $this->bh_id=pg_fetch_result($a,0,0);
+    $a=$this->db->exec_sql($sql,$array);
+    $this->bh_id=Database::fetch_result($a,0,0);
   }
   function update() {
     if ( strlen(trim ($this->bh_name)) == "" ) return; 
-    $bh_name=pg_escape_string($this->bh_name);
+    $bh_name=Database::escape_string($this->bh_name);
     $bh_saldo=(isNumber($this->bh_saldo) == 1 ) ?$this->bh_saldo:0;
-    $bh_description=pg_escape_string($this->bh_description);
+    $bh_description=Database::escape_string($this->bh_description);
     $pa_id=($this->pa_id == null || $this->pa_id < 0 )?"NULL":$this->pa_id;
 
     $sql=sprintf(
@@ -107,7 +110,7 @@ class Bud_Hypo {
       $bh_description,
       $this->bh_id
        	 );
-    ExecSql($this->db,$sql);
+    $this->db->exec_sql($sql);
   }
 
   function get_from_array($p_array) {
@@ -126,9 +129,9 @@ class Bud_Hypo {
  */
   static function get_list($p_cn) {
     $sql="select * from bud_hypothese order by bh_name ";
-    $r=ExecSql($p_cn,$sql);
-    if ( pg_NumRows($r)==0 ) return null;
-    $a=pg_fetch_all($r);
+    $r=$p_cn->exec_sql($sql);
+    if ( Database::num_row($r)==0 ) return null;
+    $a=Database::fetch_all($r);
     foreach($a as $row) {
       $tmp=new Bud_Hypo($p_cn);
       $tmp->bh_id=$row['bh_id'];
@@ -143,13 +146,13 @@ class Bud_Hypo {
 
   function form($p_update=0) {
 
-    $wName=new widget("text","Nom","bh_name",$this->bh_name);
+    $wName=new IText("Nom","bh_name",$this->bh_name);
 
-    $wDescription=new widget("text","Description","bh_description",$this->bh_description);
-    $wSaldo=new widget("text","Solde","bh_saldo",$this->bh_saldo);
-    $wBh_id=new widget("hidden","","bh_id",$this->bh_id);
-    $array=make_array($this->db,"select pa_id,pa_name from plan_analytique",1);
-    $wPa_id=new widget("select","Plan Analytique","pa_id",$array);
+    $wDescription=new IText("Description","bh_description",$this->bh_description);
+    $wSaldo=new IText("Solde","bh_saldo",$this->bh_saldo);
+    $wBh_id=new IHidden("","bh_id",$this->bh_id);
+    $array=$this->db->make_array("select pa_id,pa_name from plan_analytique",1);
+    $wPa_id=new ISelect("Plan Analytique","pa_id",$array);
     $wPa_id->selected=$this->pa_id;
     if ( $p_update != 0 ) $wPa_id->readonly=true;
     $wName->table=1;
@@ -158,11 +161,11 @@ class Bud_Hypo {
     $wPa_id->table=1;
 
     $r="<table>";
-    $r.='<tr>'.$wName->IOValue().'</tr>';
-    $r.='<tr>'.$wDescription->IOValue().'</tr>';
-    $r.='<tr>'.$wSaldo->IOValue().'</tr>';
-    $r.='<tr>'.$wPa_id->IOValue().'</tr>';
-    $r.=$wBh_id->IOValue();
+    $r.='<tr>'.$wName->input().'</tr>';
+    $r.='<tr>'.$wDescription->input().'</tr>';
+    $r.='<tr>'.$wSaldo->input().'</tr>';
+    $r.='<tr>'.$wPa_id->input().'</tr>';
+    $r.=$wBh_id->input();
     $r.="</table>";
     return $r;
 
@@ -174,17 +177,17 @@ class Bud_Hypo {
     else return 0;
   }
   function size() {
-    $count=getDbValue($this->db,"select count(*) from bud_hypothese");
+    $count=$this->db->get_value("select count(*) from bud_hypothese");
     return $count;
   }
   function size_analytic() {
-    $count=getDbValue($this->db,"select count(*) from bud_hypothese where pa_id is not null");
+    $count=$this->db->get_value("select count(*) from bud_hypothese where pa_id is not null");
     return $count;
   }
 
   static function test_me() {
-    $cn=DbConnect (dossier::id());
-    ExecSql($cn,"delete from bud_hypothese");
+    $cn=new Database (dossier::id());
+    $cn->exec_sql("delete from bud_hypothese");
     $a=new Bud_Hypo($cn);
     $a->bh_name="test me function";
     $a->bh_saldo=2.123456;

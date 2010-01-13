@@ -22,13 +22,15 @@
  * \brief included file for customizing with the vat (account,rate...)
  */
 require_once('class_own.php');
-
+require_once('class_html_input.php');
+require_once('class_ihidden.php');
+require_once('class_itextarea.php');
 echo '<div class="content">';
   // Confirm remove
   if ( isset ($_POST['confirm_rm'])) 
   {
-    if ( CountSql($cn,'select * from tva_rate') > 1 )
-      ExecSqlParam($cn,'select tva_delete($1)',array($_POST['tva_id']));
+    if ( $cn->count_sql('select * from tva_rate') > 1 )
+      $cn->exec_sql('select tva_delete($1)',array($_POST['tva_id']));
     else 
       echo '<p class="notice">Vous ne pouvez pas effacer tous taux'.
 	' Si votre soci&eacute;t&eacute; n\'utilise pas la TVA, changer dans le menu soci&eacute;t&eacute</p>';
@@ -58,23 +60,21 @@ echo '<div class="content">';
 	    {
 	      $sql="select tva_insert($1,$2,$3,$4)";
 	  
-	      $res=ExecSqlParam($cn,
+	      $res=$cn->exec_sql(
 			    $sql,
 			    array($tva_label,
 				  $tva_rate,
 				  $tva_comment,
 				  $tva_poste)
 		 );
-	      $ret_sql=pg_fetch_row($res);
-	      $err=$ret_sql[0];
+	      $err=Database::fetch_result($res);
 	    }
 	  if (  isset ($_POST['confirm_mod']) ) 
 	    {
-	      $Res=ExecSql($cn,
+	      $Res=$cn->exec_sql(
 		       "select tva_modify($tva_id,'$tva_label',
                        '$tva_rate','$tva_comment','$tva_poste')");
-	      $ret_sql=pg_fetch_row($Res);
-	      $err=$ret_sql[0];
+	      $err=Database::fetch_result($Res);
 	    }
 
 	}
@@ -97,8 +97,8 @@ if ( $own->MY_TVA_USE=='N' ){
 }
   //-----------------------------------------------------
   // Display
-  $sql="select tva_id,tva_label,tva_rate,tva_comment,tva_poste from tva_rate order by tva_rate";
-  $Res=ExecSql($cn,$sql);
+  $sql="select tva_id,tva_label,tva_rate,tva_comment,tva_poste from tva_rate order by tva_label";
+  $Res=$cn->exec_sql($sql);
   ?>
 <TABLE>
 <TR>
@@ -108,7 +108,7 @@ if ( $own->MY_TVA_USE=='N' ){
 <th>Poste</th>
 </tr>
 <?php  
-  $val=pg_fetch_all($Res);
+  $val=Database::fetch_all($Res);
   echo_debug('parametre',__LINE__,$val);
   foreach ( $val as $row)
     {
@@ -127,7 +127,7 @@ if ( $own->MY_TVA_USE=='N' ){
 
 
       echo "<TD>";
-      echo widget::hidden('tva_id',$row['tva_id']);
+      echo HtmlInput::hidden('tva_id',$row['tva_id']);
       echo h($row['tva_label']);
       echo "</TD>";
 
@@ -144,16 +144,20 @@ if ( $own->MY_TVA_USE=='N' ){
       echo "</TD>";
 
       echo "<TD>";
-      echo '<input type="submit" name="rm" value="Efface">';
-      echo '<input type="submit" name="mod" value="Modifie">';
-      $w=new widget("hidden");
+      echo HtmlInput::submit("rm" ,"Efface");
+      echo HtmlInput::submit("mod","Modifie");
+      $w=new IHidden();
       $w->name="tva_id";
       $w->value=$row['tva_id'];
-      echo $w->IOValue();
-      $w=new widget("hidden");
+      echo $w->input();
+      $w=new IHidden();
       $w->name="p_action";
+      $w->value="divers";
+      echo $w->input();
+      $w=new IHidden();
+      $w->name="sa";
       $w->value="tva";
-      echo $w->IOValue();
+      echo $w->input();
 
       echo "</TD>";
 
@@ -170,7 +174,8 @@ if (   ! isset ($_POST['add'])
 ) { ?>
     <form method="post">
     <input type="submit" name="add" value="Ajouter un taux de tva">
-    <input type="hidden" name="p_action" value="tva">
+    <input type="hidden" name="p_action" value="divers">
+    <input type="hidden" name="sa" value="tva">
      </form>
 <?php  
        } 
@@ -202,8 +207,8 @@ if (   ! isset ($_POST['add'])
 <?php  
     echo '<FORM method="post">';
     echo '<input type="hidden" name="tva_id" value="'.$index.'">';
-    echo '<input type="submit" name="confirm_rm" value="Confirme">';
-    echo '<input type="submit" value="Cancel" name="no">';
+    echo HtmlInput::submit("confirm_rm" ,"Confirme");
+    echo HtmlInput::submit("Cancel" ,"no");
     echo "</form>"; 
 
   }
@@ -219,18 +224,18 @@ if (   ! isset ($_POST['add'])
 ?>
 <table >
    <tr> <td align="right"> Label (ce que vous verrez dans les journaux)</td>
-   <td> <?php   $w=new widget("text");$w->size=20; echo $w->IOValue('tva_label','') ?></td>
+   <td> <?php   $w=new IText();$w->size=20; echo $w->input('tva_label','') ?></td>
 </tr>
    <tr><td  align="right"> Taux de tva </td>
-   <td> <?php   $w=new widget("text");$w->size=5; echo $w->IOValue('tva_rate','') ?></td>
+   <td> <?php   $w=new IText();$w->size=5; echo $w->input('tva_rate','') ?></td>
 </tr>
 <tr>
 <td  align="right"> Commentaire </td>
-   <td> <?php   $w=new widget("textarea"); $w->heigh=2;$w->width=20;echo $w->IOValue('tva_comment','') ?></td>
+   <td> <?php   $w=new ITextarea; $w->heigh=2;$w->width=20;echo $w->input('tva_comment','') ?></td>
 </tr>
 <tr>
    <td  align="right">Poste comptable utilisés format :debit,credit</td>
-   <td> <?php   $w=new widget("text"); $w->size=10;echo $w->IOValue('tva_poste','') ?></td>
+   <td> <?php   $w=new IText(); $w->size=10;echo $w->input('tva_poste','') ?></td>
 </Tr>
 </table>
 <input type="submit" value="Confirme" name="confirm_add">
@@ -254,21 +259,21 @@ if (   ! isset ($_POST['add'])
 ?>
 <table>
    <tr> <td align="right"> Label (ce que vous verrez dans les journaux)</td>
-   <td> <?php   $w=new widget("text");$w->size=20; echo $w->IOValue('tva_label',$tva_array[$index]['tva_label']) ?></td>
+   <td> <?php   $w=new Itext();$w->size=20; echo $w->input('tva_label',$tva_array[$index]['tva_label']) ?></td>
 </tr>
    <tr><td  align="right"> Taux de tva </td>
 
-   <td> <?php   $w=new widget("text");$w->size=5; echo $w->IOValue('tva_rate',$tva_array[$index]['tva_rate']) ?></td>
+     <td> <?php   $w=new Itext();$w->size=5; echo $w->input('tva_rate',$tva_array[$index]['tva_rate']) ?></td>
 </tr>
 <tr>
 <td  align="right"> Commentaire </td>
-   <td> <?php   $w=new widget("textarea"); $w->heigh=2;$w->width=20;
-   echo $w->IOValue('tva_comment',$tva_array[$index]['tva_comment']) ?></td>
+   <td> <?php   $w=new ITextarea(); $w->heigh=2;$w->width=20;
+   echo $w->input('tva_comment',$tva_array[$index]['tva_comment']) ?></td>
 </tr>
 <tr>
    <td  align="right">Poste comptable utilisés format :debit,credit</td>
 
-   <td> <?php   $w=new widget("text");$w->size=5; echo $w->IOValue('tva_poste',$tva_array[$index]['tva_poste']) ?></td>
+     <td> <?php   $w=new IText();$w->size=5; echo $w->input('tva_poste',$tva_array[$index]['tva_poste']) ?></td>
 </Tr>
 </table>
 <input type="submit" value="Confirme" name="confirm_mod">

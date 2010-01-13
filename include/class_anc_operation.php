@@ -20,15 +20,18 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  *\brief definition of Anc_Operation
  */
+require_once("class_ibutton.php");
+require_once("class_ihidden.php");
+require_once("class_iselect.php");
+require_once("class_itext.php");
 require_once("class_anc_plan.php");
-require_once("class_widget.php");
 require_once ("user_common.php");
 
 /*! \brief this class is used to show the form for entering an
- *   operation only FOR analytic operation 
+ *   operation only FOR analytic operation
  *   to save it, to display or to get a list from a certain period
  *
  */
@@ -49,7 +52,7 @@ class Anc_Operation
   var $pa_id;	/*!< the plan analytique id */
 
   /*!\brief constructor
-   * 
+   *
    */
   function Anc_Operation ($p_cn,$p_id=0)   {
 	$this->db=$p_cn;
@@ -63,16 +66,16 @@ class Anc_Operation
   function add($p_seq=0) {
 
 	if ( $this->oa_group == 0) {
-	  $this->oa_group=NextSequence($this->db,'s_oa_group');
+	  $this->oa_group=$this->db->get_next_seq('s_oa_group');
 	}
 
 	if ( $this->j_id == 0 ) {
 	  $this->j_id="null";
 	}
 
-	  
+
 	// we don't save null operations
-	if ( $this->oa_amount == 0 || $this->po_id==-1) 
+	if ( $this->oa_amount == 0 || $this->po_id==-1)
 	  return;
 
 	$oa_row=(isset($this->oa_row))?$this->oa_row:"NULL";
@@ -90,14 +93,14 @@ class Anc_Operation
 	  $this->po_id.",".
 	  $this->pa_id.",".
 	  $this->oa_amount.",".
-	  "' ".pg_escape_string($this->oa_description)."',".
+	  "' ".Database::escape_string($this->oa_description)."',".
 	  "'".$this->oa_debit."',".
 	  $this->oa_group.",".
 	  $this->j_id.",".
 	  "to_date('".$this->oa_date."','DD.MM.YYYY'),".$oa_row.")";
 
 
-	  ExecSql($this->db,$sql);
+	  $this->db->exec_sql($sql);
 
   }
   /*!\brief delete a row from the table operation_analytique
@@ -106,16 +109,16 @@ class Anc_Operation
   function delete() {
 	$sql="delete from operation_analytique where oa_id=".$this->oa_id;
 
-	ExecSql($this->db,$sql);
+	$this->db->exec_sql($sql);
   }
 
   /*!\brief update a row in  the table operation_analytique
    */
   function update() {
 	if ( $this->po_id == -1) { $this->delete();return;}
-	
+
 	  $sql="update operation_analytique set po_id=".$this->po_id." where oa_id=".$this->oa_id;
-	ExecSql($this->db,$sql);
+	$this->db->exec_sql($sql);
   }
 
   /*!\brief get a list of row from a certain periode
@@ -143,23 +146,22 @@ class Anc_Operation
 	  " join poste_analytique using(po_id) ".
 	  "where $pa_id_cond oa_amount <> 0.0 $cond $cond_poste".
 	  " order by oa_date ,oa_group,oa_debit desc,oa_id";
-	$RetSql=ExecSql($this->db,$sql);
+	$RetSql=$this->db->exec_sql($sql);
 
 
-	$array=pg_fetch_all($RetSql);
+	$array=Database::fetch_all($RetSql);
 	return $array;
   }
 
   /*\brief show the HTML table for the operation
    */
   function html_table($p_from){
-
-
 	if ($p_from=="")
 	  { $from="";$to="";}
-	else
-	  list($from,$to)=get_periode($this->db,$p_from);
-
+	else {
+		$p=new Periode($this->db);
+		list($from,$to)=$p->get_date_limit($p_from);
+	}
 
 	$array=$this->get_list($from,$to);
 	if ( empty($array)  )
@@ -168,14 +170,14 @@ class Anc_Operation
 	// jrn_navigation_bar
 	$step=$_SESSION['g_pagesize'];
 	$page=(isset($_GET['offset']))?$_GET['page']:1;
-	$offset=(isset($_GET['offset']))?$_GET['offset']:0;	
+	$offset=(isset($_GET['offset']))?$_GET['offset']:0;
 	$bar=jrn_navigation_bar($offset+1,count($array),$step,$page);
 
 	$view=array_splice($array,$offset,$step);
 	$gDossier=dossier::id();
 	$ret="";
 	$ret.=$bar;
-	$ret.=JS_VIEW_JRN_MODIFY;
+	$ret.=JS_LEDGER;
 	$count=0;
 	$group=0;
 	$oldgroup=0;
@@ -183,25 +185,25 @@ class Anc_Operation
 	foreach ($view as $row) {
 	  $group=$row['oa_group'];
 	  if ( $group !=$oldgroup ) {
-		if ( $oldgroup!=0 ) 
+		if ( $oldgroup!=0 )
 		  {
-			
-			  $efface=new widget('button');
+
+			  $efface=new IButton();
 			  $efface->javascript="op_remove('".$_REQUEST['PHPSESSID']."',".$gDossier.",".$oldgroup.")";
 			  $efface->name="Efface";
 			  $efface->label="Efface";
-			  $ret.="<td>".$efface->IOValue()."</td>";
-			  
+			  $ret.="<td>".$efface->input()."</td>";
+
 			$this->oa_group=$oldgroup;
 			$jr_id=$this->get_jrid();
-			
+
 			if ( $jr_id != 0) {
 			  // get the old jr_id
-			  $detail=new widget('button');
+			  $detail=new IButton();
 			  $detail->javascript="viewOperation($jr_id,'".$_REQUEST['PHPSESSID']."',$gDossier)";
 			  $detail->name="Detail";
 			  $detail->label="Detail";
-			  $ret.="<td>".$detail->IOValue()."</td>";
+			  $ret.="<td>".$detail->input()."</td>";
 			}
 			$ret.='</table>';
 
@@ -221,7 +223,7 @@ class Anc_Operation
 
 
 		$oldgroup=$group;
-		
+
 	  }
 
 	  $class=($count%2==0)?"odd":"";
@@ -235,7 +237,7 @@ class Anc_Operation
 	    "</td>";
 	  if ( $cred=='DEBIT')
 	    $ret.='<td></td>';
-	  
+
 	  $ret.='<td>'.	$row['oa_amount'].
 		"</td>".
 		"<td>".
@@ -246,26 +248,26 @@ class Anc_Operation
 		}
 
 
-	$efface=new widget('button');
+	$efface=new IButton();
 	$efface->javascript="op_remove('".$_REQUEST['PHPSESSID']."',$gDossier,".$oldgroup.")";
 	$efface->name="Efface";
 	$efface->label="Efface";
-	$ret.="<td>".$efface->IOValue()."</td>";
+	$ret.="<td>".$efface->input()."</td>";
 	// get the old jr_id
 	$this->oa_group=$oldgroup;
 	$jr_id=$this->get_jrid();
 	if ( $jr_id != 0 ){
-	  $detail=new widget('button');
+	  $detail=new IButton();
 	  $detail->javascript="viewOperation($jr_id,'".$_REQUEST['PHPSESSID']."',$gDossier)";
 	  $detail->name="Detail";
 	  $detail->label="Detail";
-	  $ret.="<td>".$detail->IOValue()."</td>";
+	  $ret.="<td>".$detail->input()."</td>";
 	}
 	$ret.='</table>';
 	$ret.=$bar;
 	return $ret;
   }
-  /*!\brief retrieve an operation thanks a jrnx.j_id 
+  /*!\brief retrieve an operation thanks a jrnx.j_id
    * \param the jrnx.j_id
    * \return false if nothing is found other true
    */
@@ -280,18 +282,18 @@ class Anc_Operation
                   oa_date,
                   pa_id,
                   oa_row
-          from operation_analytique 
-          where 
+          from operation_analytique
+          where
           j_id=$p_jid order by j_id,oa_row";
-	$ret=ExecSql($this->db,$sql);
-	$res=pg_fetch_all($ret);
+	$ret=$this->db->exec_sql($sql);
+	$res=Database::fetch_all($ret);
 	echo_debug(__FILE__.":".__LINE__."count res is ",count($res));
 	echo_debug(__FILE__.":".__LINE__," res =",$res);
 	if ( $res== false) return null;
 
 	foreach ($res as $row) {
 	  $a=new Anc_Operation($this->db);
-	  foreach ( $row as $attr=>$value ) 
+	  foreach ( $row as $attr=>$value )
 		{
 		  $a->$attr=$row[$attr];
 		}
@@ -309,9 +311,9 @@ class Anc_Operation
 	  $sql="select jr_date,j_montant,j_debit from jrnx ".
 		" join jrn on (jr_grpt_id = j_grpt) ".
 		"where j_id=".$this->j_id;
-	  $res=ExecSql($this->db,$sql);
-	  if (pg_NumRows($res) == 0 ) return;
-	  $row=pg_fetch_array($res,0);
+	  $res=$this->db->exec_sql($sql);
+	  if (Database::num_row($res) == 0 ) return;
+	  $row=Database::fetch_array($res,0);
 	  $this->oa_amount=$row['j_amount'];
 	  $this->oa_date=$row['jr_date'];
 	  $this->oa_debit=$row['j_debit'];
@@ -329,9 +331,9 @@ class Anc_Operation
   /*!\brief retrieve the jr_id thanks the oa_group */
   function get_jrid() {
 	$sql="select distinct jr_id from jrn join jrnx on (j_grpt=jr_grpt_id) join operation_analytique using (j_id) where j_id is not null and oa_group=".$this->oa_group;
-	$res=ExecSql($this->db,$sql);
-	if ( pg_NumRows($res) == 0 ) return 0;
-	$ret=pg_fetch_all($res);
+	$res=$this->db->exec_sql($sql);
+	if ( Database::num_row($res) == 0 ) return 0;
+	$ret=Database::fetch_all($res);
 	return $ret[0]['jr_id'];
   }
   /*\brief this function get the balance for a certain period
@@ -343,31 +345,31 @@ function get_balance($p_from,$p_to,$p_plan_id)
   {
 	// for the operation connected to jrnx
 	$cond=sql_filter_per($this->db,$p_from,$p_to,'p_id','j_date');
-	$sql="select oa_id, po_id, oa_amount, oa_debit, j_date from jrnx join operation_analytique using (j_id) 
+	$sql="select oa_id, po_id, oa_amount, oa_debit, j_date from jrnx join operation_analytique using (j_id)
          join poste_analytique using (pa_id)
-          where 
+          where
           $cond and j_id is not null and pa_id=$p_plan_id";
 
-	// OD 
+	// OD
 	$cond=sql_filter_per($this->db,$p_from,$p_to,'p_id','oa_date');
-	$sql="union select oa_id, po_id, oa_amount, oa_debit,oa_date from 
-               operation_analytique 
+	$sql="union select oa_id, po_id, oa_amount, oa_debit,oa_date from
+               operation_analytique
                join poste_analytique using (pa_id)
-          where j_id is null and 
+          where j_id is null and
       $cond and pa_id=$p_plan_id ";
-	try { 
-	  $res=ExecSql($this->db,$sql);
-	  $array=pg_fetch_all($res);
+	try {
+	  $res=$this->db->exec_sql($sql);
+	  $array=Database::fetch_all($res);
 	  echo_debug(__FILE__.":".__LINE__," array =",$array);
 	} catch (Exception $e) {
 	  var_dump($e);
 	}
   }
   /*!\brief display the form for PA
-   * \param $p_null = 1 if PA optional otherwise 0 mandatory 
+   * \param $p_null = 1 if PA optional otherwise 0 mandatory
    * \param $p_mode == form 1 ==> read/write otherwise 0==>readonly
    * \param $p_seq number of the row
-   * \param $p_amount amount 
+   * \param $p_amount amount
    * \see save_form_plan
    */
  function display_form_plan($p_array,$p_null,$p_mode,$p_seq,$p_amount) {
@@ -380,20 +382,20 @@ function get_balance($p_from,$p_to,$p_plan_id)
    if ( empty ($a_plan) ) return "";
    $table_id="t".$p_seq;
 
-   $hidden=new widget("hidden");
+   $hidden=new IHidden();
 
 
-   $result.=$hidden->IOValue('amount_'.$table_id,$p_amount);
+   $result.=$hidden->input('amount_'.$table_id,$p_amount);
    if ( $p_mode==1 )
      $result.='<table id="'.$table_id.'">';
-   else 
+   else
         $result.='<table>';
    $result.="<tr>".$plan->header()."<th>montant</th></tr>";
 
 
 
    $nb_row=(!isset(${'nb_'.$table_id}))?1:${'nb_'.$table_id};
-   $result.=$hidden->IOValue('nb_'.$table_id,$nb_row);
+   $result.=$hidden->input('nb_'.$table_id,$nb_row);
 
    for ( $i=1; $i <= $nb_row;$i++) {
 	 $result.='<tr>';
@@ -402,13 +404,13 @@ function get_balance($p_from,$p_to,$p_plan_id)
 	 foreach ($a_plan as $r_plan)
 	   {
 		 $count++;
-	 
-		 $array=make_array($this->db,
+
+		 $array=$this->db->make_array(
 						   "select pa_id||'_'||po_id as value,".
 						   " html_quote(po_name) as label from poste_analytique ".
 						   " where pa_id = ".$r_plan['id'].
 						   " order by po_name",$p_null);
-		 $select = new widget("select","","ta_".$p_seq."o".$count."row_".$i,$array);
+		 $select =new ISelect("ta_".$p_seq."o".$count."row_".$i,$array);
 		 $select->table=0;
 		 // view only or editable
 		 if (  $p_mode==1 ) {
@@ -421,54 +423,54 @@ function get_balance($p_from,$p_to,$p_plan_id)
 		   $select->selected=(isset(${"ta_".$p_seq."o".$count."row_".$i}))?${"ta_".$p_seq."o".$count."row_".$i}:0;
 		 }
 		 if ($p_mode==1)
-		   $result.='<td id="'.$table_id.'td'.$count.'c'.$i.'">'.$select->IOValue().'</td>';
+		   $result.='<td id="'.$table_id.'td'.$count.'c'.$i.'">'.$select->input().'</td>';
 		 else
-		   $result.='<td>'.$select->IOValue().'</td>';
-	   
+		   $result.='<td>'.$select->input().'</td>';
+
 
 	   }
-	 $value=new widget("text");
+	 $value=new IText();
 	 $value->name="val".$p_seq."l$i";
 	 $value->size=6;
 	 $value->value=(isset(${"val".$p_seq."l$i"}))?round(${"val".$p_seq."l$i"},2):$p_amount;
 	 //	 $value->value=($p_doc=="form")?$p_amount:round(${"val".$p_seq."l$i"},2);
 	 $value->readonly=($p_mode==1)?false:true;
-	 
-	 $result.='<td>'.$value->IOValue().'</td>';
+
+	 $result.='<td>'.$value->input().'</td>';
 
 	 $result.="</tr>";
    }
 
    $result.="</table>";
    // add a button to add a row
-   $button=new widget("button");
+   $button=new IButton();
    $button->javascript="onChange=add_row('$table_id',$p_seq,$count);";
    $button->name="js".$p_seq;
    $button->label="Nouvelle ligne";
    if ( $p_mode == 1 )
-	 $result.=$button->IOValue();
+	 $result.=$button->input();
    return $result;
  }
  /*!\brief it called for each item, the data are taken from $p_array
-  *  data and set before in this. 
+  *  data and set before in this.
   * \param $p_item if the item nb for each item (purchase or selling
   *  merchandise)
-  * \param $p_array structure 
+  * \param $p_array structure
   * \verbatim
    nb_tA A is the number of the item contains the number of
-           rows of CA for this card 
+           rows of CA for this card
    valAlR amount for the CA (item A row R)
    ta_AoCrow_R contains the value of the pa_id and po_id for this
                row with the form pa_id_po_id %d_%d
   *\endverbatim
-  * \attention The idea is one j_id matches several oa_id, 
+  * \attention The idea is one j_id matches several oa_id,
   *  serveral data are set before the call :
   *   -j_id
   *   -oa_debit
   *   -oa_group
-  *   -oa_date      
+  *   -oa_date
   *   -oa_description
-  *       
+  *
   */
  function save_form_plan($p_array,$p_item) {
    echo_debug(__FILE__.':'.__LINE__,"p_array is ",$p_array);
@@ -481,41 +483,41 @@ function get_balance($p_from,$p_to,$p_plan_id)
    echo_debug(__FILE__.':'.__LINE__.'- ', "max of row for CA = ".$max);
    // get all the PA
    $plan=new Anc_Plan($this->db);
-   $cplan=$plan->count(); 
+   $cplan=$plan->count();
    echo_debug(__FILE__.':'.__LINE__," nb of PA $cplan");
-   // foreach row 
+   // foreach row
    for ($i=1;$i<=$max;$i++) {
 	 echo_debug(__FILE__.':'.__LINE__." loop i $i");
 
-	 // foreach col PA			
+	 // foreach col PA
 	 for ($e=1;$e<=$cplan+1;$e++)
-	   { 
+	   {
 		 echo_debug(__FILE__.':'.__LINE__."loop e $e");
 		 echo_debug(__FILE__.':'.__LINE__," Checking ta_".$p_item."o".$e."row_".$i);
 		 if ( isset(${"ta_".$p_item."o".$e."row_".$i}) && ${"ta_".$p_item."o".$e."row_".$i}!=-1)
-		   { 
-		     echo_debug(__FILE__.':'.__LINE__,"Value is ".${"ta_".$p_item."o".$e."row_".$i});			 
-		     $op=new Anc_Operation($this->db); 
+		   {
+		     echo_debug(__FILE__.':'.__LINE__,"Value is ".${"ta_".$p_item."o".$e."row_".$i});
+		     $op=new Anc_Operation($this->db);
 		     $val=${"ta_".$p_item."o".$e."row_".$i};
 		     list($op->pa_id,$op->po_id)=sscanf($val,"%d_%d");
 		     $op->oa_group=$this->oa_group;
-		     $op->j_id=$this->j_id; 
+		     $op->j_id=$this->j_id;
 		     $op->oa_amount=${"val".$p_item."l".$i};
 		     $op->oa_debit=$this->oa_debit;
 		     $op->oa_date=$this->oa_date;
-		     
+
 		     $op->oa_description=$this->oa_description;
 		     $op->oa_row=$i;
-		     $op->add(); 
-		   } 	 
+		     $op->add();
+		   }
 	   }
    }
-   
+
  }
  /*\brief transform a array of operation into a array usage by
   *display_form_plan & save_form_plan
   *\param $p_array array of operation
-  *\param $p_line line 
+  *\param $p_line line
   *\return an array complying with \see save_form_plan
   */
  function to_request ($p_array,$p_line){
@@ -551,7 +553,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
    $result[$table]=$line-1;
    return $result;
  }
-/*! 
+/*!
  * \brief delete from operation_analytique
  * \param $p_jid the operation_analytique.j_id field
  *
@@ -559,7 +561,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
  */
  function delete_by_jid($p_jid) {
    $sql="delete from operation_analytique where j_id=$p_jid";
-   ExecSql($this->db,$sql);
+   $this->db->exec_sql($sql);
  }
 
  /*\brief test the class
@@ -571,7 +573,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
    $array=$this->get_by_jid(442);
    echo_debug(__FILE__.':'.__LINE__,"resultat get_by_jid",$array);
 
-   $a=$this->to_request($array,1);   
+   $a=$this->to_request($array,1);
    echo_debug(__FILE__.':'.__LINE__,"resultat to_request ligne 1",$a);
 
 

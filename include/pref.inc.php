@@ -21,10 +21,14 @@
 /*!\file 
  * \brief this file is always included and then executed
  *        it permits to change the user preferences
+ *\see user_pref.php
  */
-require_once('class_widget.php');
+
 require_once('class_user.php');
+require_once("class_iselect.php");
+require_once("class_iperiod.php");
 require_once('class_acc_report.php');
+require_once('class_periode.php');
 echo '<DIV class="content">';
 //----------------------------------------------------------------------
 // Change password
@@ -34,18 +38,18 @@ if ( isset($_POST['pass_1'])
   if ($_POST['pass_1'] != $_POST['pass_2'] ) {
   ?>
 <script>
-   alert("Les mots de passe ne correspondent pas. Mot de passe inchang&eacute;");
+      alert(_("Les mots de passe ne correspondent pas. Mot de passe inchangé"));
 </script>
 <?php  
     }
     else {
-      $Rep=DbConnect();
+      $Rep=new Database();
       $l_pass=md5($_POST['pass_1']);
-      $Res=ExecSql($Rep,"update ac_users set use_pass='$l_pass' where use_login='".$_SESSION['g_user']."'");
+      $Res=$Rep->exec_sql("update ac_users set use_pass='$l_pass' where use_login='".$_SESSION['g_user']."'");
       $pass=$_POST['pass_1'];
       $_SESSION['g_pass']=$_POST['pass_1'];
       $g_pass=$_POST['pass_1'];
-      echo "<i>Mot de passe est modifi&eacute;</i>";
+      echo "<i>"._('Mot de passe est modifiée')."</i>";
     }
   }
 
@@ -54,7 +58,7 @@ if ( ! isset ($_REQUEST['gDossier']) )
   {
     echo '<A class="mtitle" href="user_login.php"><input type="button" value="Retour"></a>';
   } else {
-  echo '<h2 class="info">Changez vos pr&eacute;f&eacute;rences</h2>';
+  echo '<h2 class="info">'._('Changez vos préférences').'</h2>';
   }
 
 ?>
@@ -62,7 +66,7 @@ if ( ! isset ($_REQUEST['gDossier']) )
 <div class="content">
 
 <FORM ACTION="<?php   echo $url;?>" METHOD="POST">
-<fieldset><legend> Options G&eacute;n&eacute;rales</legend>
+  <fieldset><legend><?php echo _('Options Générales')?></legend>
 <table>
 <tr><td>
 Mot de passe :
@@ -71,12 +75,12 @@ Mot de passe :
 </td>
 </tr>
 <?php  
-$Rep=DbConnect();
+$Rep=new Database();
 // charge tous les styles
-$res=ExecSql($Rep,"select the_name from theme
+$res=$Rep->exec_sql("select the_name from theme
                       order by the_name");
-for ($i=0;$i < pg_NumRows($res);$i++){
-  $st=pg_fetch_array($res,$i);
+for ($i=0;$i < Database::num_row($res);$i++){
+  $st=Database::fetch_array($res,$i);
   $style[]=$st['the_name'];
 }
 // Formatte le display
@@ -93,7 +97,7 @@ $disp_style.="</SELECT>";
 <p>
 <tr>
 <td>
-Th&egrave;me 
+<?php echo _('Thème'); ?>
 </td>
 <td>
 <?php   print $disp_style;?> 
@@ -101,60 +105,48 @@ Th&egrave;me
 </tr>
 
 <?php  
-/*!\todo Not used anymore to be removed ?
-$topmenu=new widget('select');
-$topmenu->name='topmenu';
-$topmenu->selected=$_SESSION['g_topmenu'];
-$array=array(
-	     array('value'=>'TEXT','label'=>'Texte'),
-	     array('value'=>'SELECT','label'=>'Menu deroulant')
-	     );
-$topmenu->value=$array;
-?>
-<tr><td>
-Style de menu
-</td>
-<td>
-<?php echo $topmenu->IOValue();?>
-</td>
-</tr>
-
-<?php
-*/
 $inside_dossier=false;
 // Si utilise un dossier alors propose de changer
 // la periode par defaut
 if (  isset ($_REQUEST['gDossier']))
   {
     $inside_dossier=true;
-    include_once("preference.php");
     $msg=""; 
-    $cn=DbConnect($_REQUEST['gDossier']);
+    $cn=new Database($_REQUEST['gDossier']);
     $User->cn=$cn;    
 
-    if ( isset ($_POST['periode']))
+    if ( isset ($_POST['period']))
       {    
-	$periode=$_POST["periode"];
+	$periode=$_POST["period"];
 	$User->set_periode($periode);
-	echo_debug('pref.inc',__LINE__,"Periode returns ".PeriodeClosed($cn,$periode));
-    
       }
 
     $l_user_per=$User->get_periode();
     if ( $l_user_per=="") 
-      $l_user_per=getDbValue($cn,"select min(p_id) from parm_periode where p_closed='f'");
+      $l_user_per=$cn->get_value("select min(p_id) from parm_periode where p_closed='f'");
 
     // if periode is closed then warns the users
-    if ( PeriodeClosed($cn,$l_user_per)=='t')
+    $period=new Periode($cn,$l_user_per);
+    $period->p_id=$l_user_per;
+    $period->jrn_def_id=0;
+    if ( $period->is_closed($l_user_per)==1)
       {
-	$msg= '<h2 class="notice">Attention cette p&eacute;riode est ferm&eacute;e, vous ne pourrez rien modifier dans le module comptable</h2>';
+	$msg=_('Attention cette période est fermée, vous ne pourrez rien modifier dans le module comptable');
+	$msg= '<h2 class="notice">'.$msg.'</h2>';
       }
-    
+	
 
-    $l_form_per=FormPeriode($cn,$l_user_per,ALL);
+    $period=new IPeriod("period");
+    $period->user=$User;
+    $period->cn=$cn;
+    $period->value=$l_user_per;
+    $period->type=ALL;
+    $l_form_per=$period->input();
+	
+    
     
     ?>
-<tr><td> P&eacute;riode</td>
+      <tr><td><?php echo _('Période');?></td>
 <td>
 <?php      printf(' %s ',$l_form_per); ?>
 </td>
@@ -165,7 +157,7 @@ if (  isset ($_REQUEST['gDossier']))
 ?>
 
 <tr>
-<td>Taille des pages</td>
+<td><? echo _('Taille des pages');?></td>
 <td>
 <SELECT NAME="p_size">
 <option value="15">15
@@ -174,9 +166,9 @@ if (  isset ($_REQUEST['gDossier']))
 <option value="100">100
 <option value="150">150
 <option value="200">200
-<option value="-1">Illimit&eacute;
+  <option value="-1"><?php echo _('Illimité'); ?>
 <?php  
-	$label=($_SESSION['g_pagesize'] == -1)?'Illimit&eacute;':$_SESSION['g_pagesize'];
+	$label=($_SESSION['g_pagesize'] == -1)?_('Illimité'):$_SESSION['g_pagesize'];
 	echo '<option value="'.$_SESSION['g_pagesize'].'" selected>'.$label;
 ?>
 </SELECT>
@@ -189,27 +181,48 @@ if (  isset ($_REQUEST['gDossier']))
 if ( $inside_dossier ) {
   /* Pref for welcome page */
   echo '<fieldset>';
-  echo '<legend> Options pour la page d\'accueil</legend>';
-  echo 'Mini-Rapport : ';
+  echo '<legend>'._('Options pour la page d\'accueil').'</legend>';
+  echo _('Mini-Rapport : ');
   $rapport=new Acc_Report($cn);
   $aRapport=$rapport->make_array();
-  $aRapport[]=array("value"=>0,"label"=>'Aucun mini rapport');
-  $wRapport=new widget("select");
+  $aRapport[]=array("value"=>0,"label"=>_('Aucun mini rapport'));
+  $wRapport=new ISelect();
   $wRapport->name="minirap";
   $wRapport->selected=$User->get_mini_report();
   $wRapport->value=$aRapport;
-  echo $wRapport->IOValue();
-  echo '<span class="notice">Le mini rapport est un rapport qui s\'affiche  sur votre page d\'accueil</span>';
+  echo $wRapport->input();
+  echo '<span class="notice">'._('Le mini rapport est un rapport qui s\'affiche  sur votre page d\'accueil').'</span>';
   echo '</fieldset>';
 }
 
+echo '<fieldset>';
+echo '<legend>'._('Langue').'</legend>';
+echo _('Selectionnez votre langue');
+$aLang=array(array(_('Français'),'fr_FR.utf8'),
+		array(_('Anglais'),'en_US.utf8'),
+		array(_('Néerlandais'),'nl_NL.utf8'),
+		);
+echo '<select name="lang" id="l">';
+for ($i =0;$i < count($aLang);$i++) {
+  $sel="";
+  if ( $aLang[$i][1]==$_SESSION['g_lang']) $sel=" selected ";
+	printf('<option value="%s" %s>%s</option>',
+	       $aLang[$i][1],$sel,$aLang[$i][0]);
+
+}
+echo '</select>';
+echo '</fieldset>';
 
 
-echo widget::submit("val","Valider");
+echo HtmlInput::submit("val",_("Valider"));
 echo '</form>';
+
+
+
+
 if ( ! $inside_dossier ) 
 {
-    echo '<A class="mtitle" href="user_login.php"><input type="button" value="Retour"></a>';
+    echo '<A class="mtitle" href="user_login.php"><input type="button" value="'._('Retour').'"></a>';
 }
 
 

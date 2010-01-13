@@ -27,6 +27,7 @@
 // Bank ING
 //-----------------------------------------------------
 $row=1;
+$p_cn->set_encoding('latin1');
 while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 	$num = count($data);
 	for ($c=0; $c < $num; $c++) {
@@ -82,8 +83,8 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 		$code = $annee."-".$code;
 		
 		$sql = "select * from import_tmp where code='".$code."' and num_compte='".$num_compte."'";
-		$Res=ExecSql($p_cn,$sql,'latin1');
-		$Num=pg_NumRows($Res);
+		$Res=$p_cn->exec_sql($sql);
+		$Num=Database::num_row($Res);
 		
 		if($Num > 0) {
 			echo "Op&eacute;ration FORTIS ".$code." d&eacute;j&eagrave; import&eacute;e.<br/>";
@@ -111,7 +112,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 				$p_jrn,
 				'n')";
 	echo $sql;
-	$Res=ExecSql($p_cn,$Sql,'latin1');
+	$Res=$p_cn->exec_sql($Sql);
 		}
 	}
 

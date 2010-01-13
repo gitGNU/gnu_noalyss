@@ -22,67 +22,156 @@
  * \brief ask for Printing the ledger (pdf,html)
  */
 
-include_once("class_widget.php");
+require_once("class_ihidden.php");
+require_once("class_iselect.php");
+require_once("class_icheckbox.php");
+
 require_once('class_dossier.php');
 $gDossier=dossier::id();
+//-----------------------------------------------------
+// Show the jrn and date
+//-----------------------------------------------------
+require_once('class_database.php');
+
+if ( $User->Admin() == 0 && $User->is_local_admin()==0) {
+  $sql="select jrn_def_id,jrn_def_name
+                             from jrn_def join jrn_type on jrn_def_type=jrn_type_id
+                             join user_sec_jrn on uj_jrn_id=jrn_def_id 
+                             where
+                             uj_login='$User->login'
+                             and uj_priv !='X'
+                             ";
+  $ret=$cn->make_array($sql);
+} else {
+  $ret=$cn->make_array("select jrn_def_id,jrn_def_name
+                             from jrn_def join jrn_type on jrn_def_type=jrn_type_id");
+
+ } 
+
+// Count the forbidden journaux
+    $NoPriv=$cn->count_sql("select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
+                                jrn_deb_max_line,jrn_cred_max_line
+                             from jrn_def join jrn_type on jrn_def_type=jrn_type_id
+                             join  user_sec_jrn on uj_jrn_id=jrn_def_id 
+                             where  
+                             uj_login='$User->id'
+                             and uj_priv ='X'
+                   ");
+    // Pour voir tout les journal ?
+    if ( $NoPriv == 0 ) {
+      $a=count($ret);
+      $all=array('value'=>0,'label'=>'Grand Livre');
+      $ret[$a]=$all;
+   }
+if ( count($ret) < 1 ) 
+  NoAccess();
+
+//-----------------------------------------------------
+// Form
+//-----------------------------------------------------
+
+echo '<div class="content">';
+echo '<FORM METHOD="GET">'.dossier::hidden();
+echo HtmlInput::hidden('p_action','impress');
+echo HtmlInput::hidden('type','jrn');
+
+echo '<TABLE  ><TR>';
+$w=new ISelect();
+$w->table=1;
+$label="Choississez le journal";
+$w->selected=(isset($_GET['jrn_id']))?$_GET['jrn_id']:'';
+print td($label).$w->input("jrn_id",$ret);
+print '</TR>';
+print '<TR>';
+// filter on the current year
+$filter_year=" where p_exercice='".$User->get_exercice()."'";
+
+$periode_start=$cn->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
+$w->selected=(isset($_GET['from_periode']))?$_GET['from_periode']:'';
+print td('Depuis').$w->input('from_periode',$periode_start);
+print '</TR>';
+print '<TR>';
+
+$periode_end=$cn->make_array("select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
+$w->selected=(isset($_GET['to_periode']))?$_GET['to_periode']:'';
+print td('Jusque ').$w->input('to_periode',$periode_end);
+print "</TR><TR>";
+$centralise=new ICheckBox();
+print td("Depuis les journaux centralisés");
+$centralise->selected=(isset($_GET['cent']))?true:false;
+print td($centralise->input('cent'));
+$a=array(
+	 array('value'=>0,'label'=>'Detaillé'),
+	 array('value'=>1,'label'=>'Simple')
+	 );
+$w->selected=1;
+print '</TR>';
+print '<TR>';
+$w->selected=(isset($_GET['p_simple']))?$_GET['p_simple']:'';
+echo td('Style d\'impression').$w->input('p_simple',$a);
+print "</TR>";
+echo '</TABLE>';
+print HtmlInput::submit('bt_html','Visualisation');
+
+echo '</FORM>';
+  echo '<span class="notice"> Attention : en-cas d\'impression de journaux centralis&eacute;s, dans le PDF, les montants d&eacute;bit et cr&eacute;dit calcul&eacute;s  par page sont la somme des montants de la page uniquement. Si une op&eacute;ration est sur 2 pages ces montants diff&egrave;reront évidemment. Ces montants doivent &ecirc;tre &eacute;gaux sur la derni&egrave;re page. Pour v&eacute;rifier la balance, utilisez la balance des comptes ou Avanc&eacute;->V&eacute;rification</span>';
+
 
 //-----------------------------------------------------
 // If print is asked
 // First time in html
 // after in pdf or cvs
 //-----------------------------------------------------
-if ( isset( $_POST['bt_html'] ) ) {
+if ( isset( $_REQUEST['bt_html'] ) ) {
 require_once("class_acc_ledger.php");
- $p_cent=( isset ( $_POST['cent']) )?'on':'off';
-  // $POST=from_periode, to_periode, jrn_id, cent
- $d=var_export($_POST,true);
+ $p_cent=( isset ( $_GET ['cent']) )?'on':'off';
+
+ $d=var_export($_GET,true);
  echo_debug('impress_jrn.php',__LINE__,$d);
-  $Jrn=new Acc_Ledger($cn,$_POST['jrn_id']);
+  $Jrn=new Acc_Ledger($cn,$_GET['jrn_id']);
   $Jrn->get_name();
-  if ( $_POST['p_simple']==0 ) 
+  if ( $_GET['p_simple']==0 ) 
     {
-      $Row=$Jrn->get_row( $_POST['from_periode'],
-		    $_POST['to_periode'],
+      $Row=$Jrn->get_row( $_GET['from_periode'],
+		    $_GET['to_periode'],
 		    $p_cent);
     }
   else 
     {
-      $Row=$Jrn->get_rowSimple($_POST['from_periode'],
-			 $_POST['to_periode'],
+      $Row=$Jrn->get_rowSimple($_GET['from_periode'],
+			 $_GET['to_periode'],
 			 $p_cent);
       //      var_dump($Row);
     }
   $rep="";
-  $submit=new widget();
-  $hid=new widget("hidden");
+  $hid=new IHidden();
   echo '<div class="content">';
   echo '<h2 class="info">'.h($Jrn->name).'</h2>';
   echo "<table>";
   echo '<TR>';
   echo '<TD><form method="GET" ACTION="?">'.dossier::hidden().
-    widget::submit('bt_other',"Autre journal").
-    $hid->IOValue("type","jrn").$hid->IOValue('p_action','impress')."</form></TD>";
+    $hid->input("type","jrn").$hid->input('p_action','impress')."</form></TD>";
 
   echo '<TD><form method="GET" ACTION="jrn_pdf.php">'.dossier::hidden().
-    widget::submit('bt_pdf',"Export PDF").
-    $hid->IOValue("type","jrn").
-    $hid->IOValue("p_action","impress").
-    $hid->IOValue("central",$p_cent).
-    $hid->IOValue("jrn_id",$Jrn->id).
-    $hid->IOValue("from_periode",$_POST['from_periode']).
-    $hid->IOValue("to_periode",$_POST['to_periode']);
-  echo $hid->IOValue("p_simple",$_POST['p_simple']);
+    HtmlInput::submit('bt_pdf',"Export PDF").
+    $hid->input("type","jrn").
+    $hid->input("p_action","impress").
+    $hid->input("central",$p_cent).
+    $hid->input("jrn_id",$Jrn->id).
+    $hid->input("from_periode",$_GET['from_periode']).
+    $hid->input("to_periode",$_GET['to_periode']);
+  echo $hid->input("p_simple",$_GET['p_simple']);
 
   echo "</form></TD>";
   echo '<TD><form method="GET" ACTION="jrn_csv.php">'.dossier::hidden().
-    widget::submit('bt_csv',"Export CSV").
-    $hid->IOValue("type","jrn").
-    $hid->IOValue("p_action","impress").
-    $hid->IOValue("central",$p_cent).
-    $hid->IOValue("jrn_id",$Jrn->id).
-    $hid->IOValue("from_periode",$_POST['from_periode']).
-    $hid->IOValue("to_periode",$_POST['to_periode']);
-  echo $hid->IOValue("p_simple",$_POST['p_simple']);
+    HtmlInput::submit('bt_csv',"Export CSV").
+    $hid->input("type","jrn").
+    $hid->input("p_action","impress").
+    $hid->input("central",$p_cent).
+    $hid->input("jrn_id",$Jrn->id).
+    $hid->input("from_periode",$_GET['from_periode']).
+    $hid->input("to_periode",$_GET['to_periode']);
+  echo $hid->input("p_simple",$_GET['p_simple']);
   echo "</form></TD>";
 
   echo "</TR>";
@@ -94,7 +183,7 @@ require_once("class_acc_ledger.php");
 
   echo '<TABLE class="result">';
 
-  if ( $_POST['p_simple'] == 0 ) {
+  if ( $_GET['p_simple'] == 0 ) {
     // detailled printing
     //---
     foreach ( $Jrn->row as $op ) { 
@@ -127,7 +216,7 @@ require_once("class_acc_ledger.php");
 	"<th> montant</th>".
 	"</TR>";
   // set a filter for the FIN
-  $a_parm_code=get_array($cn,"select p_value from parm_code where p_code in ('BANQUE','COMPTE_COURANT','CAISSE')");
+  $a_parm_code=$cn->get_array("select p_value from parm_code where p_code in ('BANQUE','COMPTE_COURANT','CAISSE')");
   $sql_fin="(";
   $or="";
   foreach ($a_parm_code as $code) {
@@ -148,7 +237,7 @@ require_once("class_acc_ledger.php");
 	// the credit must be negative and written in red
   	// Get the jrn type
 	if ( $line['jrn_def_type'] == 'FIN' ) {
-	  $positive = CountSql($cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
+	  $positive = $cn->count_sql("select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
 		   " where jr_id=".$line['jr_id']." and $sql_fin ".
 			       " and j_debit='f'");
 	
@@ -168,8 +257,8 @@ require_once("class_acc_ledger.php");
   echo "</table>";
   // show the saldo
   
-  $solde=$Jrn->get_solde( $_POST['from_periode'],
-						  $_POST['to_periode'],
+  $solde=$Jrn->get_solde( $_GET['from_periode'],
+						  $_GET['to_periode'],
 						  $p_cent);
   echo "solde d&eacute;biteur:".$solde[0]."<br>";
   echo "solde cr&eacute;diteur:".$solde[1];
@@ -177,82 +266,6 @@ require_once("class_acc_ledger.php");
   echo "</div>";
   exit;
 }
-
-//-----------------------------------------------------
-// Show the jrn and date
-//-----------------------------------------------------
-include_once("postgres.php");
-
-if ( $User->Admin() == 0 && $User->is_local_admin()==0) {
-  $sql="select jrn_def_id,jrn_def_name
-                             from jrn_def join jrn_type on jrn_def_type=jrn_type_id
-                             join user_sec_jrn on uj_jrn_id=jrn_def_id 
-                             where
-                             uj_login='$User->login'
-                             and uj_priv !='X'
-                             ";
-  $ret=make_array($cn,$sql);
-} else {
-  $ret=make_array($cn,"select jrn_def_id,jrn_def_name
-                             from jrn_def join jrn_type on jrn_def_type=jrn_type_id");
-
- } 
-
-// Count the forbidden journaux
-    $NoPriv=CountSql($cn,"select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
-                                jrn_deb_max_line,jrn_cred_max_line
-                             from jrn_def join jrn_type on jrn_def_type=jrn_type_id
-                             join  user_sec_jrn on uj_jrn_id=jrn_def_id 
-                             where  
-                             uj_login='$User->id'
-                             and uj_priv ='X'
-                   ");
-    // Pour voir tout les journal ?
-    if ( $NoPriv == 0 ) {
-      $a=count($ret);
-      $all=array('value'=>0,'label'=>'Grand Livre');
-      $ret[$a]=$all;
-   }
-if ( count($ret) < 1 ) 
-  NoAccess();
-//-----------------------------------------------------
-// Form
-//-----------------------------------------------------
-echo '<div class="content">';
-echo '<FORM ACTION="?p_action=impress&type=jrn" METHOD="POST">'.dossier::hidden();
-echo '<TABLE width="90%" align="center"><TR>';
-$w=new widget("select");
-$w->table=1;
-$w->label="Choississez le journal";
-print $w->IOValue("jrn_id",$ret);
-print '</TR>';
-print '<TR>';
-// filter on the current year
-$filter_year=" where p_exercice='".$User->get_exercice()."'";
-
-$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
-$w->label="Depuis";
-print $w->IOValue('from_periode',$periode_start);
-$w->label=" jusqu'à ";
-$periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
-print $w->IOValue('to_periode',$periode_end);
-print "</TR><TR>";
-$centralise=new widget("checkbox");
-$centralise->label="Depuis les journaux centralisés";
-$centralise->table=1;
-print $centralise->IOValue('cent');
-$a=array(
-	 array('value'=>0,'label'=>'Detaillé'),
-	 array('value'=>1,'label'=>'Simple')
-	 );
-$w->selected=1;
-echo $w->IOValue('p_simple',$a,'Style d\'impression');
-print "</TR>";
-echo '</TABLE>';
-print widget::submit('bt_html','Visualisation');
-
-echo '</FORM>';
-  echo '<span class="notice"> Attention : en-cas d\'impression de journaux centralis&eacute;s, dans le PDF, les montants d&eacute;bit et cr&eacute;dit calcul&eacute;s  par page sont la somme des montants de la page uniquement. Si une op&eacute;ration est sur 2 pages ces montants diff&egrave;reront évidemment. Ces montants doivent &ecirc;tre &eacute;gaux sur la derni&egrave;re page. Pour v&eacute;rifier la balance, utilisez la balance des comptes ou Avanc&eacute;->V&eacute;rification</span>';
 
 echo '</div>';
 ?>

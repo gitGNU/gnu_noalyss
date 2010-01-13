@@ -24,6 +24,7 @@
  * \brief the todo list is managed by this class
  */
 
+require_once('function_javascript.php');
 
 /*!\brief 
  * This class manages the table todo_list
@@ -106,14 +107,14 @@ class Todo_List
 
     $sql="insert into todo_list (tl_date,tl_title,tl_desc,use_login) ".
       " values (to_date($1,'DD.MM.YYYY'),$2,$3,$4)  returning tl_id";
-    $res=ExecSqlParam($this->cn,
+    $res=$this->cn->exec_sql(
 		 $sql,
 		 array($this->tl_date,
 		       $this->tl_title,
 		       $this->tl_desc,
 		       $this->use_login)
 		 );
-    $this->tl_id=pg_fetch_result($res,0,0);
+    $this->tl_id=Database::fetch_result($res,0,0);
     
   }
 
@@ -122,7 +123,7 @@ class Todo_List
 
     $sql="update todo_list set tl_title=$1,tl_date=to_date($2,'DD.MM.YYYY'),tl_desc=$3 ".
       " where tl_id = $4";
-    $res=ExecSqlParam($this->cn,
+    $res=$this->cn->exec_sql(
 		 $sql,
 		 array($this->tl_title,
 		       $this->tl_date,
@@ -138,10 +139,10 @@ class Todo_List
     $sql="select tl_id, tl_title,tl_desc,to_char( tl_date,'DD.MM.YYYY') as tl_date 
 from todo_list where use_login=$1".
       " order by tl_date desc";
-    $res=ExecSqlParam($this->cn,
+    $res=$this->cn->exec_sql(
 		      $sql,
 		      array($this->use_login));	
-    $array=pg_fetch_all($res);
+    $array=Database::fetch_all($res);
     return $array;	   
   }
   public function load() {
@@ -149,35 +150,35 @@ from todo_list where use_login=$1".
    $sql="select tl_id,tl_title,tl_desc,to_char( tl_date,'DD.MM.YYYY') as tl_date
 from todo_list where tl_id=$1"; 
 
-    $res=ExecSqlParam($this->cn,
+    $res=$this->cn->exec_sql(
 		 $sql,
 		 array($this->tl_id)
 		 );
 
-    if ( pg_NumRows($res) == 0 ) return;
-    $row=pg_fetch_array($res,0);
+    if ( Database::num_row($res) == 0 ) return;
+    $row=Database::fetch_array($res,0);
     foreach ($row as $idx=>$value) { $this->$idx=$value; }
   }
   public function delete() {
     $sql="delete from todo_list where tl_id=$1"; 
-    $res=ExecSqlParam($this->cn,$sql,array($this->tl_id));
+    $res=$this->cn->exec_sql($sql,array($this->tl_id));
 
   }
-  public function toJSON() {
-
-    $r='';
-    $r.='{';
-    $r.='"tl_id":"'.$this->tl_id.'",';
-    $r.='"tl_title":"'.$this->tl_title.'",';
-    $r.='"tl_desc":"'.rawurlencode($this->tl_desc).'",';
-    $r.='"tl_date":"'.$this->tl_date.'"';
-    $r.='}';
-    return $r;
+  /**
+   *@brief transform into xml
+   */
+  public function toXML() {
+    $id='<tl_id>'.$this->tl_id.'</tl_id>';
+    $title='<tl_title>'.escape_xml($this->tl_title).'</tl_title>';
+    $desc='<tl_desc>'.escape_xml($this->tl_desc).'</tl_desc>';
+    $date='<tl_date>'.$this->tl_date.'</tl_date>';
+    $ret='<data>'.$id.$title.$desc.$date.'</data>';
+    return $ret;
   }
   /*!\brief static testing function
    */
   static function test_me() {
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $r=new Todo_List($cn);
     $r->set_parameter('title','test');
     $r->use_login='phpcompta';

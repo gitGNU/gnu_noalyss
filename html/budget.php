@@ -29,7 +29,7 @@
  */
 require_once ('user_menu.php');
 require_once("constant.php");
-include_once ("postgres.php");
+require_once('class_database.php');
 require_once('class_dossier.php');
 require_once ('class_bud_hypo.php');
 html_page_start($_SESSION['g_theme']);
@@ -40,9 +40,9 @@ $g_name=dossier::name();
 
 $str_dossier=dossier::get();
 
-include_once ("postgres.php");
+require_once('class_database.php');
 /* Admin. Dossier */
-$rep=DbConnect($gDossier);
+$rep=new Database($gDossier);
 require_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
@@ -88,7 +88,7 @@ echo '</div>';
 echo '</div>';
 $User->can_request(BUDLEC,1);
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 $obj=new Bud_Hypo($cn);
 
 //-----------------------------------------------------

@@ -22,8 +22,9 @@
  * \brief Create, view, modify and parse report
  */
 
+require_once("class_itext.php");
+require_once("class_ibutton.php");
 require_once('class_acc_report_row.php');
-require_once('class_widget.php');
 require_once('impress_inc.php');
 
 /*! 
@@ -47,9 +48,9 @@ class Acc_Report {
   /*!\brief Return the report's name
    */
   function get_name() {
-    $ret=execSql($this->db,"select fr_label from formdef where fr_id=".$this->id);
-    if (pg_NumRows($ret) == 0) return $this->name;
-    $a=pg_fetch_array($ret,0);
+    $ret=$this->db->exec_sql("select fr_label from formdef where fr_id=".$this->id);
+    if (Database::num_row($ret) == 0) return $this->name;
+    $a=Database::fetch_array($ret,0);
     $this->name=$a['fr_label'];
     return $this->name;
   }
@@ -59,10 +60,9 @@ class Acc_Report {
    * \param $p_end end periode
    * \param $p_type_date type of the date : periode or calendar
    */
- 
   function get_row($p_start,$p_end,$p_type_date) {
 
-   $Res=ExecSql($this->db,"select fo_id ,
+   $Res=$this->db->exec_sql("select fo_id ,
                      fo_fr_id,
                      fo_pos,
                      fo_label,
@@ -71,11 +71,11 @@ class Acc_Report {
                       inner join formdef on fr_id=fo_fr_id
                      where fr_id =".$this->id.
                      "order by fo_pos");
-    $Max=pg_NumRows($Res);
+    $Max=Database::num_row($Res);
     if ($Max==0) {      $this->row=0;return null;}
     $col=array();
     for ($i=0;$i<$Max;$i++) {
-      $l_line=pg_fetch_array($Res,$i);
+      $l_line=Database::fetch_array($Res,$i);
 	  $col[]=ParseFormula($this->db,
 			      $l_line['fo_label'],
 			      $l_line['fo_formula'],
@@ -100,24 +100,25 @@ function form($p_line=0) {
   $r="";
   if ($p_line == 0 ) $p_line=count($this->aAcc_Report_row);
   $r.= dossier::hidden();
-  $r.= widget::hidden('line',$p_line);
-  $r.= widget::hidden('fr_id',$this->id);
-  $wForm=new widget("text");
+  $r.= HtmlInput::hidden('line',$p_line);
+  $r.= HtmlInput::hidden('fr_id',$this->id);
+  $r.=HtmlInput::phpsessid();
+  $wForm=new IText();
   $r.="Nom du rapport : ";
-  $r.=$wForm->IOValue('form_nom',$this->name);
+  $r.=$wForm->input('form_nom',$this->name);
 
-  $r.= '<TABLE id="rap1">';
+  $r.= '<TABLE id="rap1" width="100%">';
   $r.= "<TR>";
   $r.= "<TH> Position </TH>";
   $r.= "<TH> Texte </TH>";
   $r.= "<TH> Formule</TH>";
 
   $r.= '</TR>';
-  $wName=new widget("text");
-  $wName->size=50;
-  $wPos=new widget("text");
+  $wName=new IText();
+  $wName->size=40;
+  $wPos=new IText();
   $wPos->size=3;
-  $wForm=new widget("text");
+  $wForm=new IText();
   $wForm->size=35;
   for ( $i =0 ; $i < $p_line;$i++) {
 
@@ -125,37 +126,39 @@ function form($p_line=0) {
     
     $r.= "<TD>";
     $wPos->value=( isset($this->aAcc_Report_row[$i]->fo_pos))?$this->aAcc_Report_row[$i]->fo_pos:$i+1;
-    $r.=$wPos->IOValue("pos".$i);
+    $r.=$wPos->input("pos".$i);
     $r.= '</TD>';
     
 
     $r.= "<TD>";
     $wName->value=( isset($this->aAcc_Report_row[$i]->fo_label))?$this->aAcc_Report_row[$i]->fo_label:"";
-    $r.=$wName->IOValue("text".$i);
-    $r.= '</TD>';
-
-    $r.= "<TD>";
-    $wForm->value=( isset($this->aAcc_Report_row[$i]->fo_formula))?$this->aAcc_Report_row[$i]->fo_formula:"";
-    $r.=$wForm->IOValue("form".$i);
-
+    $r.=$wName->input("text".$i);
     $r.= '</TD>';
 
     $r.='<td>';
-  $search=new widget('js_search_poste_only');
-  $search->extra="form".$i;
-  $search->extra2='poste';
-  $r.=$search->IOValue();
-  $r.='</td>';
+    $search=new IPoste("form".$i);
+    $search->size=50;
+    $search->value=( isset($this->aAcc_Report_row[$i]->fo_formula))?$this->aAcc_Report_row[$i]->fo_formula:"";
+    $search->label=_("Recherche poste");
+    $search->set_attribute('gDossier',dossier::id());
+    $search->set_attribute('bracket',1);
+    $search->set_attribute('no_overwrite',1);
+    $search->set_attribute('noquery',1);
+    $search->set_attribute('account',$search->name);
+    $search->set_attribute('ipopup','ipop_card');
+
+    $r.=$search->input();
+    $r.='</td>';
 
 
     $r.= "</TR>";
     }
 
   $r.= "</TABLE>";
-  $wButton=new widget("button");
+  $wButton=new IButton();
   $wButton->javascript=" rapport_add_row('".dossier::id()."','".$_REQUEST['PHPSESSID']."')";
   $wButton->label="Ajout d'une ligne";
-  $r.=$wButton->IOValue();
+  $r.=$wButton->input();
   return $r;
 
 }
@@ -173,12 +176,12 @@ function form($p_line=0) {
   }
   function insert() {
     try {
-      startSql($this->db);
-      $ret_sql=ExecSqlParam($this->db,
+      $this->db->start();
+      $ret_sql=$this->db->exec_sql(
 			 "insert into formdef (fr_label) values($1) returning fr_id",
 			 array($this->name)
 			 );
-      $this->id=pg_fetch_result($ret_sql,0,0);
+      $this->id=Database::fetch_result($ret_sql,0,0);
       $ix=1;
       foreach ( $this->aAcc_Report_row as $row) {
 	if ( strlen(trim($row->get_parameter("name"))) != 0 && 
@@ -186,7 +189,7 @@ function form($p_line=0) {
 	  {
 	    $ix=($row->get_parameter("position")!="")?$row->get_parameter("position"):$ix;
 	    $row->set_parameter("position",$ix);
-	    $ret_sql=ExecSqlParam($this->db,
+	    $ret_sql=$this->db->exec_sql(
 				  "insert into form (fo_fr_id,fo_pos,fo_label,fo_formula)".
 				  " values($1,$2,$3,$4)",
 				  array($this->id,
@@ -198,19 +201,19 @@ function form($p_line=0) {
       }
 			      
     } catch (Exception $e) {
-      Rollback($this->db);
+      $this->db->rollback();
       echo $e->getMessage();
     }
-    Commit($this->db);
+    $this->db->commit();
 
   }
   function update() {
     try {
-      startSql($this->db);
-      $ret_sql=ExecSqlParam($this->db,
+      $this->db->start();
+      $ret_sql=$this->db->exec_sql(
 			    "update formdef set fr_label=$1 where fr_id=$2",
 			    array($this->name,$this->id));
-      $ret_sql=ExecSqlParam($this->db,
+      $ret_sql=$this->db->exec_sql(
 			    "delete from form where fo_fr_id=$1",
 			    array($this->id));
       $ix=0;
@@ -221,7 +224,7 @@ function form($p_line=0) {
 	{
 	  $ix=($row->get_parameter("position")!="")?$row->get_parameter("position"):$ix;
 	  $row->set_parameter("position",$ix);
-	  $ret_sql=ExecSqlParam($this->db,
+	  $ret_sql=$this->db->exec_sql(
 				"insert into form (fo_fr_id,fo_pos,fo_label,fo_formula)".
 				" values($1,$2,$3,$4)",
 				array($this->id,
@@ -234,10 +237,10 @@ function form($p_line=0) {
 			    
 
     }catch (Exception $e) {
-      Rollback($this->db);
+      $this->db->rollback();
       echo $e->getMessage();
     }
-    Commit($this->db);
+    $this->db->commit();
   }
   /*!\brief fill a form thanks an array, usually it is $_POST
    *\param $p_array keys = fr_id, form_nom,textXX, formXX, posXX where
@@ -256,22 +259,22 @@ function form($p_line=0) {
 
 
   }
-  /*!\brief the fr_id MUST be before called
+  /*!\brief the fr_id MUST be set before calling
    */
 
 
   function load() {
-    $sql=ExecSqlParam($this->db,
+    $sql=$this->db->exec_sql(
 		      "select fr_label from formdef where fr_id=$1",
 		      array($this->id));
-    if ( pg_NumRows($sql) == 0 ) return;
-    $this->name=pg_fetch_result($sql,0,0);
-    $sql=ExecSqlParam($this->db,
+    if ( Database::num_row($sql) == 0 ) return;
+    $this->name=Database::fetch_result($sql,0,0);
+    $sql=$this->db->exec_sql(
 		      "select fo_id,fo_pos,fo_label,fo_formula ".
 		      " from form ".
 		      " where fo_fr_id=$1 order by fo_pos",
 		      array($this->id));
-    $f=pg_fetch_all($sql);
+    $f=Database::fetch_all($sql);
     $array=array();
     if ( ! empty($f) ) {
       foreach ($f as $r) {
@@ -289,7 +292,7 @@ function form($p_line=0) {
 
   }
   function delete() {
-    $ret=ExecSqlParam($this->db,
+    $ret=$this->db->exec_sql(
 		      "delete from formdef where fr_id=$1",
 		      array($this->id)
 		      );
@@ -302,9 +305,9 @@ function form($p_line=0) {
   function get_list()
   {
     $sql="select fr_id,fr_label from formdef order by fr_label";
-    $ret=ExecSql($this->db,$sql);
-    if ( pg_NumRows($ret) == 0 ) return array();
-    $array=pg_fetch_all($ret);
+    $ret=$this->db->exec_sql($sql);
+    if ( Database::num_row($ret) == 0 ) return array();
+    $array=Database::fetch_all($ret);
     $obj=array();
     foreach ($array as $row) {
       $tmp=new Acc_Report($this->db);
@@ -319,7 +322,7 @@ function form($p_line=0) {
    *\return string with html code 
    */
   function make_array() {
-    $sql=make_array($this->db,"select fr_id,fr_label from formdef order by fr_label");
+    $sql=$this->db->make_array("select fr_id,fr_label from formdef order by fr_label");
     return $sql;
   }
 
@@ -346,7 +349,7 @@ function form($p_line=0) {
   function upload() {
     if ( empty ($_FILES) ) return;
     if ( strlen(trim($_FILES['report']['tmp_name'])) == 0 ) {
-      echo '<script>alert("Nom de fichier est vide");</script>';
+      alert("Nom de fichier est vide");
       return;
     }
     $file_report=tempnam('tmp','file_report');
@@ -379,12 +382,12 @@ function form($p_line=0) {
   function exist($p_id=0) {
     $c=$this->id;
     if ( $p_id != 0 ) $c=$p_id;
-    $ret=execSqlParam($this->db,"select fr_label from formdef where fr_id=$1",array($c));
-    if (pg_NumRows($ret) == 0) return false;
+    $ret=$this->db->exec_sql("select fr_label from formdef where fr_id=$1",array($c));
+    if (Database::num_row($ret) == 0) return false;
     return true;
   }
-  function test_me() {
-    $cn=DbConnect(dossier::id());
+  static function test_me() {
+    $cn=new Database(dossier::id());
     $a=new Acc_Report($cn);
     print_r($a->get_list());
     $array=array("text0"=>"test1",
@@ -398,11 +401,12 @@ function form($p_line=0) {
     print_r($a);
     echo '<form method="post">';
     echo $a->form(10);
-    echo '<INPUT TYPE="submit" value="Enregistre" name="update">';
+    
+	echo HtmlInput::submit('update','Enregistre');
     /* Add a line should be a javascript see comptanalytic */
     //  $r.= '<INPUT TYPE="submit" value="Ajoute une ligne" name="add_line">';
-    echo '<INPUT TYPE="submit" value="Efface ce rapport" name="del_form">';
-	echo widget::hidden('test_select',$_REQUEST['test_select']);
+    echo HtmlInput::submit('del_form','Efface ce rapport');
+	echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
     echo "</FORM>";
     if ( isset ($_POST['update'])) {
       $b=new Acc_Report($cn);

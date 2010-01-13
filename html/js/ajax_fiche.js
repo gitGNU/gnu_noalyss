@@ -25,56 +25,57 @@
  *
  */
 
-/*!\brief this function fills the data from fid.php, 
- * \param p_ctl the ctrl to fill
- * \param p_deb if debit of credit
- * \param p_jrn the ledger
- */
-function trim(s) {
-    return s.replace(/^\s+/, '').replace(/\s+$/, '');
-}
 /*!\brief clean the row (the label, price and vat)
  * \param p_ctl the calling ctrl
  */
 function clean_Fid(p_ctl)
 {
    	nSell=p_ctl+"_price";	
+   	nTvaAmount=p_ctl+"_tva_amount";
 	nBuy=p_ctl+"_price";	
 	nTva_id=p_ctl+"_tva_id";
 	if ( $(nSell) ) {	  $(nSell).value="";	}
 	if ( $(nBuy) ) {	  $(nBuy).value="";}
 	if ( $(nTva_id) ) {  $(nTva_id).value="-1"; }
-	
+	if ( $(nTvaAmount)) {$(nTvaAmount).value=0;}
 }
 function errorFid(request,json) {
   alert('erreur : ajax fiche');
 }
 /*!\brief this function fills the data from fid.php, 
- * \param p_ctl the ctrl to fill
- * \param p_deb if debit of credit
- * \param p_jrn the ledger
- * \param phpsessid
- *\param p_caller id of the caller 
- *\param  p_extra extra parameter, change depends of the caller
+ * \param p_ctl object : field of the input,
+ *  possible object member
+ * - label field to update with the card's name
+ * - price field to update with the card's price
+ * - tvaid field to update with the card's tva_id
+ * - jrn field to force the ledger
+  *\see successFid errorFid fid.php
  */
-function ajaxFid(p_ctl,p_deb,phpsessid,p_caller,p_extra) 
+function ajaxFid(p_ctl) 
 {
   var gDossier=$('gDossier').value;
-    var ctl_value=trim($(p_ctl).value);
-    $(p_ctl).value=ctl_value;
-  var p_jrn=$('p_jrn').value;
-  if ( trim(ctl_value)==0 ) {
-    nLabel=p_ctl+"_label";
-    if ($(nLabel) ){$(nLabel).value="";}
+  var phpsessid=$('phpsessid').value;
+  var jrn=$(p_ctl).jrn;
+  $(p_ctl).value=$(p_ctl).value.toUpperCase();
+  if ( jrn == undefined ) { if ($('p_jrn')!=undefined) {jrn=$('p_jrn').value; } }
+  if ( jrn == undefined ) { jrn=-1;}   
+  if ( trim($(p_ctl).value)=="" ) {
+    nLabel=$(p_ctl).label;
+    if ($(nLabel) ){$(nLabel).value="";
     $(nLabel).innerHTML="&nbsp;";
     clean_Fid(p_ctl);
     return;
+    }
   }
-  queryString="?FID="+ctl_value;
-  queryString=queryString+"&d="+p_deb+"&j="+p_jrn+'&gDossier='+gDossier;
-  queryString=queryString+'&ctl='+p_ctl+'&PHPSESSID='+phpsessid;
-  queryString=queryString+'&caller='+p_caller+'&extra='+p_extra;
-  /*  alert(queryString); */
+  var queryString="?FID="+trim($(p_ctl).value);
+  if ( $(p_ctl).label) { queryString+='&l='+$(p_ctl).label;}
+  if ( $(p_ctl).tvaid) { queryString+='&t='+$(p_ctl).tvaid;}
+  if ( $(p_ctl).price) { queryString+='&p='+$(p_ctl).price;}
+  if ( $(p_ctl).purchase) { queryString+='&b='+$(p_ctl).purchase;}
+  if ( $(p_ctl).typecard) { queryString+='&d='+$(p_ctl).typecard;}
+  queryString=queryString+"&j="+jrn+'&gDossier='+gDossier;
+  queryString=queryString+'&ctl='+p_ctl.id+'&PHPSESSID='+phpsessid;
+  
   var action=new Ajax.Request (
 			       "fid.php",
 			       {
@@ -89,43 +90,36 @@ function ajaxFid(p_ctl,p_deb,phpsessid,p_caller,p_extra)
 }
 /*!\brief callback function for ajax
  * \param request : object request
- * \param json : json answer */
+ * \param json : json answer 
+\verbatim
+ {"answer":"ok",
+ "flabel":"none",
+ "name":"Chambre de commerce",
+ "ftva_id":"none",
+ "tva_id":" ",
+ "fPrice_sale":"none",
+ "sell":" ",
+ "fPrice_purchase":"none",
+ "buy":" "}
+\endverbatim
+ */
 function successFid(request,json) {
   var answer=request.responseText.evalJSON(true);
+  var flabel=answer.flabel;
+  if ( answer.answer=='nok' ){
+      set_value(flabel," Fiche inexistante");
+      return;
+  }
 
-  var data=answer.name;
-  var sell=answer.sell;
-  var buy=answer.buy;
-  var tva_id=answer.tva_id;
-  var ctl=answer.ctl;
-  var extra=answer.extra;
-  var caller=answer.caller;
-  if ( caller == 'searchcardControl') {
-     if ( trim (data)== "") { $(ctl).style.color="red";}
-	else { $(ctl).style.color="black"; $(extra).value=data;}
-  }
-  var toSet=ctl+'_label';
-  if (trim(data) == "" ) {
-    $(toSet).innerHTML="Fiche Inconnue";
-    $(toSet).style.color="red";
-    clean_Fid(ctl);
-    $(ctl).style.color="red";
-  } else {
-    $(ctl).style.color="black";	
-    var nSell=ctl+"_price";
-    var nBuy=ctl+"_price";
-    var nTva_id=ctl+"_tva_id";
-    $(toSet).innerHTML=data;
-    $(toSet).style.color="black";
-    if ( $(nTva_id) ) {
-      $(nTva_id).value=tva_id;
-    }
-    if ( $(nSell ) && trim(sell)!="" ) {
-      $(nSell).value=sell;
-    }
-      if ( $(nBuy) && trim(buy)!="")  { $(nBuy).value=buy; }
-    
-  }
+  var ftva_id=answer.ftva_id;
+  var fsale=answer.fPrice_sale;
+  var fpurchase=answer.fPrice_purchase;
+  
+  if ( ftva_id != 'none') { set_value(ftva_id,answer.tva_id);}
+  if ( flabel != 'none') { set_value(flabel,answer.name);}
+  if ( fpurchase != 'none') { set_value(fpurchase,answer.buy);}
+  if ( fsale != 'none') { set_value(fsale,answer.sell);}
+
   
 }
 function ajax_error_saldo(request,json) {
@@ -138,8 +132,8 @@ function ajax_error_saldo(request,json) {
 function ajax_saldo(phpsessid,p_ctl) 
 {
   var gDossier=$('gDossier').value;
-    var ctl_value=trim($(p_ctl).value);
-    var jrn=$('p_jrn').value;
+  var ctl_value=trim($(p_ctl).value);
+  var jrn=$('p_jrn').value;
   queryString="?FID="+ctl_value;
   queryString=queryString+'&gDossier='+gDossier+'&j='+jrn;
   queryString=queryString+'&ctl='+ctl_value+'&PHPSESSID='+phpsessid;
@@ -164,4 +158,35 @@ function ajax_success_saldo(request,json) {
   $('first_sold').value=answer.saldo;
   
 }
+/*!\brief this function get data from ajax_card.php and fill the hidden div with the return html string
+* \param phpsessid
+* \param p_dossier
+* \param f_id fiche.f_id
+* \param p_operation what to do : op : history of operation
+* \param ctl : id of the div to show
+* \param page
+*/
+function ajax_card(phpsessid,p_dossier,f_id,p_operation,ctl,page) {
+$(ctl).show();
+var queryString="PHPSESSID="+phpsessid+"&gDossier="+p_dossier+"&f_id="+f_id+"&op="+p_operation+"&p="+page+'&ctl='+ctl;
+var action = new Ajax.Request(
+	"ajax_card.php" , { method:'get', parameters:queryString,onFailure:ajax_get_failure,onSuccess:ajax_get_success}
+    );
+}
+/*!\brief callback function for ajax_get when successuf
+*/
+function ajax_get_success(request,json)
+{
+var answer=request.responseText.evalJSON(false);
+$(answer.ctl).show();
+$(answer.ctl).innerHTML=answer.html;
+}
+/*!\brief callback function for ajax_get when fails
+*/
+function ajax_get_failure(request,json)
+{
+alert("Ajax do not work for ajax_get");
+
+}
+
 //-->

@@ -1,10 +1,13 @@
-
 <?php
 /*! \file
  * \brief default page where user access
  */
 /*! \mainpage PhpCompta
+ * Documentation
+ * - \subpage Francais
+ * - \subpage English
  *
+ *\page Francais
  * \section intro_sec Introduction
  *
  * Cette partie contient de la documentation pour les développeurs.
@@ -37,7 +40,7 @@
  * <li>Global -> function pour lire toute la doc sur les fonctions</li>
  * <li>Regarder dans dossier1.html et account_repository.html  pour la doc des base de données
  *</ul>
- *  et il ne faut connaître que 7 tags
+ *  et il ne faut connaître que ces tags
  * <ul>
  * <li> \\file en début de fichier</li>
  * <li> \\todo ajouter un todo </li>
@@ -45,7 +48,62 @@
  * <li> \\param pour commenter le paramètre d'une fonction</li>
  * <li> \\brief Commentaire du fichier, de la fonction ou de la classe</li>
  * <li> \\note des notes, des exemples</li>
+ * <li> \\throw or exception is a function can throw an exception
+ * <li> \\par to create a new paragraph
  * <li> \\return ce que la fonction retourne</li>
+ * <li> \\code et \\endcode si on veut donner un morceau de code comme documentation</li>
+ * <li> \\verbatim et \\endverbatim si on veut donner une description d'un tableau,  comme documentation</li>
+ *<li>  \\see xxxx Ajoute un lien vers un fichier, une fonction ou une classe </li>
+ * </ul>
+ *----------------------------------------------------------------------
+ *\page English
+ * \section intro_sec Introduction
+ *
+ * This parts contains documentation for developpers
+ *
+ * \section convention_code Coding convention
+ * <p>
+ * Some coding conventions to have a homogene code 
+ * <ol>
+ * <li>Reuse the existing code , </li>
+ * <li>Improve and check that the function is still working</li>
+ * <li>Make documentation thanks doxygen tag</li>
+ * <li>In the folder include: filenames ending by  *.inc.php will be executer after being included</li>
+ * <li>Dans le répertoire include: Les noms de fichiers sont *.php pour les fichiers contenant des fonctions uniquement</li>
+ * <li>In the folder include: filenames end by  *.php if they contains only function</li>
+ * <li>In the folder include: filenames starting with 
+ * class_*.php if it is related to a class.</li>
+ * <li>In the folder include/template: files for the HTML presentation
+ * </li>
+ * <li>Use sql/upgrade.sql as temporary file to modify the database,this file will be the base for a SQL patch
+ *  </li>
+ * <li>Write documentation </li>
+ * </ol>
+ * 
+ * </p>
+ * \section advice Advices
+ * <p>
+ * Use this document, it is generated automatically by doxygen, check the documentation your made, read it first this
+ * documentation before making change
+ * <ul>
+ * <li>Related contains all the \\todo</li>
+ * <li>Global -> all the functions</li>
+ * <li>check into mod1.html and account_repository.html for the database design
+ *</ul>
+ *  You need to know only this tags
+ * <ul>
+ * <li> \\file in the beginning of a file</li>
+ * <li> \\todo add a todo </li>
+ * <li> \\enum comment a variable</li>
+ * <li> \\param about the parameter of a function</li>
+ * <li> \\brief Documentation of the file, function or class</li>
+ * <li> \\note note exemple</li>
+ * <li> \\throw or exception is a function can throw an exception
+ * <li> \\par to create a new paragraph
+ * <li> \\return what the function returns</li>
+ * <li> \\code and \\endcode code snippet given as example</li>
+ * <li> \\verbatim and \\endverbatim if we want to keep the formatting without transformation</li>
+ *<li>  \\see xxxx create a link to the file, function or object xxxx </li>
  * </ul>
  */
 
@@ -84,7 +142,7 @@ BODY {
 </style>
 <script src="js/scripts.js" type="text/javascript"></script>
 </head>
-<BODY onLoad="SetFocus(\'login\',0)">';
+<BODY onLoad="SetFocus(\'p_user\')">';
 $my_domain="";
 require ('config.inc.php');
 if ( strlen(domaine) > 0 ) {
@@ -93,7 +151,7 @@ if ( strlen(domaine) > 0 ) {
 
 echo '
 <span style="background-color:#879ed4;color:white;padding-left:4px;padding-right:4px;">
-version  4.3.build SVNINFO - '.$my_domain.'
+version  5.0.build SVNINFO - '.$my_domain.'
 </span>
 <BR>
 <BR>
@@ -125,6 +183,9 @@ version  4.3.build SVNINFO - '.$my_domain.'
 </TD></TR></TABLE>
 </form> 
 </Center>
+<div  style="position:fixed;bottom:5em;border:1px solid red;text-align:right;width:20em;">
+<span style="display:block">Pour une meilleure expérience web, nous vous conseillons <a href="http://www.mozilla.com/fr/">firefox</a></span>
+<span style="display:block">For a better web experience, we recommend you <a href="http://www.mozilla.com/en/">firefox</a></span>
 </body>
 </html>';
 

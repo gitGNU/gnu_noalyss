@@ -1,12 +1,12 @@
 <TABLE>
 <TR>
-		
-		<TD> Nom journal </TD>
+
+		<TD><?=_('Nom journal')?> </TD>
 		<TD> <INPUT TYPE="text" NAME="p_jrn_name" VALUE="<?php	echo $name;	?>"></TD>
 </TR>
 <TR>
-<TD> Postes utilisables journal (d&eacute;bit/cr&eacute;dit) </TD>
-<TD> 
+<TD><?=_('Postes utilisables journal (débit/crédit)')?> </TD>
+<TD>
 <?php echo $search;?>
 </TD>
 </TR>
@@ -19,29 +19,29 @@
 <tr><td><INPUT TYPE="hidden" id="p_ech_lib" NAME="p_ech_lib" VALUE="echeance"></td>
 </tr>
 <TR>
-<TD> Type de journal </TD>
+<TD><?=_('Type de journal')?> </TD>
 <TD>
 <?php echo $type;?>
 </TD>
 </TR>
 <TR>
-<TD> Préfixe code interne </TD><TD>
+<TD><?=_('Préfixe code interne')?> </TD><TD>
 <?php echo $code?> </TD>
 </TR>
 <TR>
-<TD>Préfixe pièce justificative
+<TD><?=_('Préfixe pièce justificative')?>
 </TD>
 <TD>
 <?php echo $pj_pref; ?>
-<span class="notice">Le préfixe des pièces peut être différent pour chaque journal</span>
+<span class="notice"><?=_('Le préfixe des pièces peut être différent pour chaque journal')?></span>
 </TD>
 </TR>
 <tr>
-<TD>N° pièce justificative
+<TD><?=_('N° pièce justificative')?>
 </TD>
 <TD>
 <?php echo $pj_seq; ?>
-<span class="notice">La numérotation est propre à chaque journal</span>
+<span class="notice"><?=_('La numérotation est propre à chaque journal')?></span>
 </TD>
 
 </TR>
@@ -50,18 +50,18 @@
 <TABLE width="100%">
 <TR>
 
-<th> Fiches Débit</TH>
-<th> Fiches Crédit</TH>
+<th><?=_('Fiches Débit')?></TH>
+<th><?=_('Fiches Crédit')?></TH>
 </TR>
 <?php
 // Show the fiche in deb section
-$Res=ExecSql($cn,"select fd_id,fd_label from fiche_def order by fd_label");
-$num=pg_NumRows($Res);
+$Res=$cn->exec_sql("select fd_id,fd_label from fiche_def order by fd_label");
+$num=$cn->size();
 
 for ($i=0;$i<$num;$i++) {
-  $res=pg_fetch_array($Res,$i);
+  $res=$cn->fetch($i);
   $CHECKED=" unchecked";
-  foreach ( $rdeb as $element) { 
+  foreach ( $rdeb as $element) {
     if ( $element == $res['fd_id'] ) {
       $CHECKED="CHECKED";
       break;
@@ -71,13 +71,13 @@ for ($i=0;$i<$num;$i++) {
   printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHEDEB[]" %s>%s</TD>',
 	  $res['fd_id'],$CHECKED,$res['fd_label']);
   $CHECKED=" unchecked";
-  foreach ( $rcred as $element) { 
+  foreach ( $rcred as $element) {
     if ( $element == $res['fd_id'] ) {
       $CHECKED="CHECKED";
       break;
     }
   }
-  
+
   printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHECRED[]" %s>%s</TD>',
 	  $res['fd_id'],$CHECKED,$res['fd_label']);
   echo '</TR>';

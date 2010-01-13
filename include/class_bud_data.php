@@ -30,8 +30,10 @@
  * bud_detail_periode, 
  * the purpose is to insert or save into bud_detail_periode
  */
-require_once ('class_widget.php');
-require_once ('postgres.php');
+require_once("class_itext.php");
+require_once("class_iselect.php");
+require_once("class_ibutton.php");
+require_once ('class_database.php');
 require_once ('constant.php');
 require_once ('debug.php');
 require_once ('ac_common.php');
@@ -79,8 +81,8 @@ class Bud_Data {
       " and $sql_po_id ;";
     echo_debug(__FILE__.':'.__LINE__.'- load',' SQL ',$sql);
 
-    $res1=ExecSql($this->cn,$sql);
-    $array=pg_fetch_all($res1);
+    $res1=$this->cn->exec_sql($sql);
+    $array=Database::fetch_all($res1);
 
     
     $sql_periode="select coalesce(bdp_amount,0) as bdp_amount,a.p_id as p_id ".
@@ -100,8 +102,8 @@ class Bud_Data {
 	try {
 	  // get the the bud_detail_periode for this bud_detail
 	  $arg=array($obj->bd_id);
-	  $res2=ExecSqlParam($this->cn,$sql_periode,$arg);
-	  $per=pg_fetch_all($res2);
+	  $res2=$this->cn->exec_sql($sql_periode,$arg);
+	  $per=Database::fetch_all($res2);
 	} catch (Exception $e) {
 	  echo __FILE__.__LINE__."Erreur lors du chargement ";
 	  echo_debug(__FILE__,__LINE__,$arg);
@@ -131,7 +133,7 @@ class Bud_Data {
     $ret->bd_id=0;
     $ret->pcm_lib="";
     // populate the  periode with 0
-    $res_empty=get_array($this->cn,
+    $res_empty=$this->cn->get_array(
 			 "select 0,p_id from parm_periode order by p_start,p_end");
     foreach ( $res_empty as $r) {
       $p_id=$r['p_id'];
@@ -191,17 +193,17 @@ class Bud_Data {
     $p_number++;
     $tot=0;
 
-    $wAmount=new widget('text');
+    $wAmount=new IText();
     $wAmount->size=8;
     $wAmount->extra="disabled";
 
-    $wAccount=new widget('js_bud_search_poste');
+     $wAccount=new widget('js_bud_search_poste');
     $wAccount->table=0;
     $wAccount->disabled=true;
     $wAccount->value=$this->pcm_val.' - '.$this->pcm_lib;
     $wAccount->extra=$this->pcm_val;
 
-    $wBudCard=new widget('select');
+    $wBudCard=new ISelect();
     $wBudCard->value=$this->load_bud_card();
     $wBudCard->selected=$this->bc_id;
     $wBudCard->disabled=true;
@@ -211,14 +213,14 @@ class Bud_Data {
 
     $r='<form id="form_'.$p_number.'" disabled>';
     $r.=dossier::hidden();
-    $r.=widget::hidden('po_id',$this->po_id);
-    $r.=widget::hidden('bh_id',$this->bh_id);
-    $r.=widget::hidden('bd_id',$this->bd_id);
-    $r.=widget::hidden('form_id',$p_number);
+    $r.=HtmlInput::hidden('po_id',$this->po_id);
+    $r.=HtmlInput::hidden('bh_id',$this->bh_id);
+    $r.=HtmlInput::hidden('bd_id',$this->bd_id);
+    $r.=HtmlInput::hidden('form_id',$p_number);
     
-    $r.="Fiche Budget ".$wBudCard->IOValue('bc_id'.$p_number);
-    $r.="Compte d'exploitation ".$wAccount->IOValue('account_'.$p_number);
-    //    $r.=widget::hidden('account_'.$p_number.'_hidden',$this->pcm_val);
+    $r.="Fiche Budget ".$wBudCard->input('bc_id'.$p_number);
+    $r.="Compte d'exploitation ".$wAccount->input('account_'.$p_number);
+    //    $r.=HtmlInput::hidden('account_'.$p_number.'_hidden',$this->pcm_val);
 
     $r.='Total : <span id="form_total_'.$p_number.'"> '.$tot.' </span>';
     $r.='<table WIDTH="100%">';
@@ -228,32 +230,32 @@ class Bud_Data {
       $wAmount->javascript="onChange='bud_compute_sum(".$p_number.");'";
       echo_debug(__FILE__.':'.__LINE__,' p_id '.$p_id.' - amount '.$amount);
       $tot+=$amount;
-      $r.='<td >'.$wAmount->IOValue('amount_'.$p_id,sprintf("% 8.2f",$amount))."</td>";
+      $r.='<td >'.$wAmount->input('amount_'.$p_id,sprintf("% 8.2f",$amount))."</td>";
     }
     $r.="</tr>";
     $r.="</table>";
-    $r.=widget::hidden('PHPSESSID',$_REQUEST['PHPSESSID']);
+    $r.=HtmlInput::hidden('PHPSESSID',$_REQUEST['PHPSESSID']);
 
     $r.="</form>";
-    $button_change=new widget('button','Change');
+    $button_change=new IButton('Change');
     $button_change->javascript='bud_form_enable('.$p_number.')';
-    $r.=$button_change->IOValue('button_change'.$p_number);
+    $r.=$button_change->input('button_change'.$p_number);
 
 
-    $button_save=new widget('button','Sauve');
+    $button_save=new IButton('Sauve');
     $button_save->javascript='bud_form_save('.$p_number.')';
     $button_save->extra='style="display:none"';
-    $r.=$button_save->IOValue('button_save'.$p_number);
+    $r.=$button_save->input('button_save'.$p_number);
 
-    $button_delete=new widget('button','Efface');
+    $button_delete=new IButton('Efface');
     $button_delete->javascript='bud_form_delete('.$p_number.')';
     $button_delete->extra='style="display:none"';
-    $r.=$button_delete->IOValue('button_delete'.$p_number);
+    $r.=$button_delete->input('button_delete'.$p_number);
 
-    $button_escape=new widget('button','Echapper');
+    $button_escape=new IButton('Echapper');
     $button_escape->javascript='bud_form_disable('.$p_number.')';
     $button_escape->extra='style="display:none"';
-    $r.=$button_escape->IOValue('button_escape'.$p_number);
+    $r.=$button_escape->input('button_escape'.$p_number);
 
     $r.='<span id="Result'.$p_number.'"></span>';
     $r.="<hr>";
@@ -266,7 +268,7 @@ class Bud_Data {
 
   private function load_bud_card() {
     if ( !isset ($this->array_bud_card) )
-      $this->array_bud_card=make_array($this->cn,
+      $this->array_bud_card=$this->cn->make_array(
 				       'select bc_id,bc_code from  bud_card '.
 				       'where bh_id='.$this->bh_id);
     return $this->array_bud_card;
@@ -281,7 +283,7 @@ class Bud_Data {
     if ( ! isset ($this->header ) ){
       $r='<table style="border: 2px outset blue; width: 100%;">';
       $r.="<tr>";
-      $periode=get_array($this->cn,"select  to_char(p_start,'MM/YY')as d from parm_periode order by p_start,p_end ");
+      $periode=$this->cn->get_array("select  to_char(p_start,'MM/YY')as d from parm_periode order by p_start,p_end ");
       foreach ($periode as $row)
 	$r.='<th >'.$row['d'].'</th>';
 
@@ -344,7 +346,7 @@ class Bud_Data {
 
     $r=$this->extract_bud_detail();
     $r->update();
-    ExecSql($this->cn,"delete from bud_detail_periode where bd_id =".$this->bd_id);
+    $this->cn->exec_sql("delete from bud_detail_periode where bd_id =".$this->bd_id);
     echo_debug(__FILE__.':'.__LINE__.'- update ',$this->bud_detail_periode);
     foreach ( $this->bud_detail_periode as $obj ) {
       $obj->add();
@@ -363,7 +365,7 @@ class Bud_Data {
    */
 
   function delete_by_bd_id() {
-    ExecSql($this->cn,'delete from bud_detail where bd_id='.$this->bd_id);
+    $this->cn->exec_sql('delete from bud_detail where bd_id='.$this->bd_id);
   }
   /*!\brief transform an array containing the word amount_xx where xx
    * stand for the p_id ( parm_periode primary key) into the data
@@ -374,7 +376,7 @@ class Bud_Data {
   private function get_form_detail_periode($p_array){
     echo_debug(__FILE__.':'.__LINE__.'- get_form_detail_periode arg:','',$p_array);
     extract ($p_array);
-    $periode=get_array($this->cn,"select p_id from parm_periode");
+    $periode=$this->cn->get_array("select p_id from parm_periode");
 
     foreach ($periode as $key=>$value ) {
       $row=$value['p_id'];
@@ -394,18 +396,18 @@ class Bud_Data {
    */
 
   static function test_me() {
-    echo JS_PROTOTYPE_JS;
+    echo JS_PROTOTYPE;
     echo JS_BUD_SCRIPT;
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $sql="select bh_id||','||po_id,bh_name||' -- '||po_name ".
       " from bud_hypothese join poste_analytique using (pa_id)";
-    $w=new widget("select");
+    $w=new ISelect();
     echo '<form>';
-	echo widget::hidden('test_select',$_REQUEST['test_select']);
+	echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
     echo dossier::hidden();
     $w->selected=(isset($_REQUEST['bh_po_id']))?$_REQUEST['bh_po_id']:"";
-    echo $w->IOValue('bh_po_id',make_array($cn,$sql));
-    echo widget::submit('search','Recherche');
+    echo $w->input('bh_po_id',$cn->make_array($sql));
+    echo HtmlInput::submit('search','Recherche');
 
     echo '</form>';
     if ( isset($_REQUEST['search'])) {

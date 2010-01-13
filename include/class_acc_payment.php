@@ -23,6 +23,9 @@
 /*!\file
  * \brief Handle the table mod_payment
  */
+require_once("class_iselect.php");
+require_once("class_icard.php");
+require_once("class_ispan.php");
 require_once('class_acc_ledger.php');
 require_once('class_fiche.php');
 require_once('class_fiche_def.php');
@@ -91,18 +94,6 @@ class Acc_Payment
 
   public function insert() {
     if ( $this->verify() != 0 ) return;
-    /*  please adapt
-    $sql="insert into tva_rate (tva_label,tva_rate,tva_comment,tva_poste) ".
-      " values ($1,$2,$3,$4)  returning tva_id";
-    $res=ExecSqlParam($this->cn,
-		 $sql,
-		 array($this->tva_label,
-		       $this->tva_rate,
-		       $this->tva_comment,
-		       $this->tva_poste)
-		 );
-    $this->tva_id=pg_fetch_result($res,0,0);
-    */
   }
 
   public function update() {
@@ -110,7 +101,7 @@ class Acc_Payment
 
     $sql="update mod_payment set mp_lib=$1,mp_qcode=$2,mp_type=$3,mp_jrn_def_id=$4,mp_fd_id=$5 ".
       " where mp_id = $6";
-    $res=ExecSqlParam($this->cn,
+    $res=$this->cn->exec_sql(
 		 $sql,
 		 array($this->mp_lib,
 		       $this->mp_qcode,
@@ -120,17 +111,17 @@ class Acc_Payment
 		       $this->mp_id)
 		 );
     if ( strlen (trim($this->mp_jrn_def_id))==0)
-      ExecSqlParam($this->cn,
+      $this->cn->exec_sql(
 		   'update mod_payment '.
 		   'set mp_jrn_def_id = null where mp_id=$1',
 		   array($this->mp_id));
     if ( strlen (trim($this->mp_qcode))==0)
-      ExecSqlParam($this->cn,
+      $this->cn->exec_sql(
 		   'update mod_payment '.
 		   'set mp_qcode = null where mp_id=$1',
 		   array($this->mp_id));
     if ( strlen (trim($this->mp_fd_id))==0)
-      ExecSqlParam($this->cn,
+      $this->cn->exec_sql(
 		   'update mod_payment '.
 		   'set mp_fd_id = null where mp_id=$1',
 		   array($this->mp_id));
@@ -140,19 +131,17 @@ class Acc_Payment
   public function load() {
     $sql='select mp_id,mp_lib,mp_fd_id,mp_jrn_def_id,mp_qcode,mp_type from mod_payment '.
       ' where mp_id = $1';
-    $res=ExecSqlParam($this->cn,
+    $res=$this->cn->exec_sql(
 		 $sql,
 		 array($this->mp_id)
 		 );
 
-    if ( pg_NumRows($res) == 0 ) return;
-    $row=pg_fetch_array($res,0);
+    if ( Database::num_row($res) == 0 ) return;
+    $row=Database::fetch_array($res,0);
     foreach ($row as $idx=>$value) { $this->$idx=$value; }
   }
   public function delete() {
-/*    $sql="delete from tva_rate where tva_id=$1"; 
-    $res=ExecSqlParam($this->cn,$sql,array($this->tva_id));
-*/
+
   }
   /*!\brief retrieve all the data for a certain type
    *\param non
@@ -162,7 +151,7 @@ class Acc_Payment
     $sql='select mp_id '.
       ' from mod_payment '.
       ' where mp_type=$1';
-    $array=get_array($this->cn,$sql,array($this->mp_type));
+    $array=$this->cn->get_array($sql,array($this->mp_type));
     $ret=array();
     if ( !empty($array) ) {
       foreach ($array as $row) {
@@ -183,7 +172,7 @@ class Acc_Payment
       ' from mod_payment '.
       ' where mp_type=$1 and mp_jrn_def_id is not null and '.
       ' (mp_fd_id is not null or mp_qcode is not null)';
-    $array=get_array($this->cn,$sql,array($this->mp_type));
+    $array=$this->cn->get_array($sql,array($this->mp_type));
     $ret=array();
     if ( !empty($array) ) {
       foreach ($array as $row) {
@@ -226,7 +215,7 @@ class Acc_Payment
   public function form() {
     $td='<TD>';$etd='</td>';$tr='<tr>';$etr='</tr>';$th='<th>';$eth='</th>';
     $r='';
-    $r.=widget::hidden('id',$this->mp_id);
+    $r.=HtmlInput::hidden('id',$this->mp_id);
     $r.='<table>';
     $r.=$tr.$td.'Libell&eacute;'.$etd;
     $r.=$td;
@@ -234,32 +223,35 @@ class Acc_Payment
     $r.=$etd.$etr;
     $r.=$tr.$td;
     $r.='Type de fiche '.$etd;
-    $array=make_array($this->cn,'select fd_id,fd_label from fiche_def join fiche_def_ref '.
+    $array=$this->cn->make_array('select fd_id,fd_label from fiche_def join fiche_def_ref '.
 	' using (frd_id) where frd_id in (25,4) order by fd_label');
-    $fd=new widget('select');
+    $fd=new ISelect();
     $fd->name='mp_fd_id';
     $fd->value=$array;
     $fd->selected=$this->mp_fd_id;
-    $r.=$td.$fd->IOValue();
+    $r.=$td.$fd->input();
     $r.=$etd;
     $r.=$tr.$td.'Enregistre dans le journal '.$etd;
-    $array=make_array($this->cn,'select jrn_def_id,jrn_def_name from '.
+    $array=$this->cn->make_array('select jrn_def_id,jrn_def_name from '.
 		      ' jrn_def where jrn_def_type = \'ODS\' or jrn_def_type=\'FIN\'');
-    $jrn=new widget('select');
+    $jrn=new ISelect();
     $jrn->value=$array;
     $jrn->name='mp_jrn_def_id';
     $jrn->selected=(isset ($this->mp_jrn_def_id))?$this->mp_jrn_def_id:0;
-    $r.=$td.$jrn->IOValue().$etd;
+    $r.=$td.$jrn->input().$etd;
     $r.=$etr.$tr;
     $r.=$td.'Avec la fiche'.$etd;
-    $f=new widget('js_search_only');
+    $f=new ICard();
+    $f->jrn=$jrn->selected;
+    $f->noadd=true;
     $f->name='mp_qcode';
-    $f->extra='frd_id in (25,4)';
-    $f->extra2='Recherche';
+    $list=$this->cn->make_list('select fd_id from fiche_def where frd_id in (25,4)');
+    $f->extra=$list;
+    $f->extra2=_('Recherche');
     $f->value=(isset($this->mp_qcode))?$this->mp_qcode:'';
-    $r.=$td.$f->IOValue().$etd;
-    $s=new widget('span');
-    $r.=$td.$s->IOValue('mp_qcode_label');
+    $r.=$td.$f->input().$etd;
+    $s=new ISpan();
+    $r.=$td.$s->input('mp_qcode_label');
     $r.='</table>';
     return $r;
 
@@ -272,7 +264,7 @@ class Acc_Payment
   public function select() {
     $r='';
     $array=$this->get_valide();
-    $r.=widget::hidden('gDossier',dossier::id());
+    $r.=HtmlInput::hidden('gDossier',dossier::id());
     $r.='<ol>';
     $r.='<li ><input type="radio" name="e_mp" value="0" checked>Paiement encod&eacute; plus tard';
     if ( empty($array ) == false ){
@@ -281,20 +273,26 @@ class Acc_Payment
 	/* if the qcode is  null the propose a search button to select
 	   the card */
 	if ( $row->mp_qcode==NULL) { 
-	  $a=new widget('js_search_noadd');
+ 	  $a=new ICard();
+	  $a->jrn=$row->mp_jrn_def_id;
 	  $a->extra=$row->mp_fd_id;
-	  $a->extra2='Recherche';
 	  $a->name='e_mp_qcode_'.$row->mp_id;
-	  $s=new widget('span');
+	  $a->set_dblclick("fill_ipopcard(this);");
+	  $a->set_callback('filter_card');
+	  $a->set_function('fill_data');
+	  $a->set_attribute('ipopup','ipopcard');
+	  $a->set_attribute('label',$a->name.'_label');
+
+	  $s=new ISpan();
 	  $s->name=$a->name.'_label';
-	  $f=$a->IOValue().$s->IOValue();
+	  $f=$a->input().$s->input();
 	}else {
 	  /* if the qcode is not null then add a hidden variable with
 	     the qcode */
 
 	  $fiche=new fiche($this->cn);
 	  $fiche->get_by_qcode($row->mp_qcode);
-	  $f=widget::hidden('e_mp_qcode_'.$row->mp_id,$row->mp_qcode);
+	  $f=HtmlInput::hidden('e_mp_qcode_'.$row->mp_id,$row->mp_qcode);
 
 	  $f.=$fiche->strAttribut(ATTR_DEF_NAME);
 	}
@@ -322,14 +320,14 @@ class Acc_Payment
   /*!\brief test function
    */
   static function test_me() {
-    echo JS_SEARCH_CARD;
-    $cn=DbConnect(dossier::id());
+    echo JS_LEDGER;
+    $cn=new Database(dossier::id());
     $ac=new Acc_Payment($cn);
     $ac->set_parameter('type','ACH');
     echo '<form method="post">';
-	echo widget::hidden('test_select',$_REQUEST['test_select']);
+	echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
     echo $ac->select();
-    echo widget::submit('go','go');
+    echo HtmlInput::submit('go','go');
     echo '</form>';
     if ( isset($_POST['go']))
       print_r($_POST);

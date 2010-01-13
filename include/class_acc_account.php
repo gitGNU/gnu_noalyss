@@ -24,10 +24,9 @@
 /*!
  * \brief Manage the account from the table tmp_pcmn
  */
-require_once ('postgres.php');
+require_once("class_iselect.php");
+require_once ('class_database.php');
 require_once ('class_dossier.php');
-require_once ('class_widget.php');
-require_once('class_acexception.php');
 
 class Acc_Account {
   var $db;          /*!< $db database connection */
@@ -79,16 +78,16 @@ class Acc_Account {
    * \return string with the pcm_lib
    */
   function get_lib() {
-    $ret=ExecSqlParam($this->db,
+    $ret=$this->db->exec_sql(
 		 "select pcm_lib from tmp_pcmn where
-                  pcm_val=$1",array($this->pcm_value));
-      if ( pg_NumRows($ret) != 0) {
-	$r=pg_fetch_array($ret);
-	$this->name=$r['pcm_lib'];
+                  pcm_val=$1",array($this->pcm_val));
+      if ( Database::num_row($ret) != 0) {
+	$r=Database::fetch_array($ret);
+	$this->pcm_lib=$r['pcm_lib'];
       } else {
-	$this->name="Poste inconnu";
+	$this->pcm_lib="Poste inconnu";
       }
-    return $this->name;
+    return $this->pcm_lib;
   }
   /*!\brief Check that the value are valid 
    *\return true if all value are valid otherwise false
@@ -104,12 +103,12 @@ class Acc_Account {
 	// otherwise we check only the value
 		if ( strcmp ($p_member,'pcm_val') == 0 ) {
 		  if (is_numeric($p_value) ==0 )
-		    throw new AcException('Poste comptable incorrect '.$p_value);
+		    throw new Exception('Poste comptable incorrect '.$p_value);
 		  else
 		    return true;
 		} else if ( strcmp ($p_member,'pcm_val_parent') == 0 ) {
 		  if ( is_numeric($p_value) == 0 || ($this->count($p_value) == 0 && $p_value !=0))
-		    throw new AcException('Poste comptable parent incorrect '.$p_value);
+		    throw new Exception('Poste comptable parent incorrect '.$p_value);
 		  else 
 		    return true;
 		} else if ( strcmp ($p_member,'pcm_lib') == 0 ) {
@@ -119,9 +118,9 @@ class Acc_Account {
 				if ( strcmp ($k['value'],$p_value) == 0 ) return true;
 
 			}
-			throw new AcException('type de compte incorrect '.$p_value);
+			throw new Exception('type de compte incorrect '.$p_value);
 		}	
-		throw new AcException ('Donnee member inconnue '.$p_member);
+		throw new Exception ('Donnee member inconnue '.$p_member);
 	}
 	
   }
@@ -131,9 +130,9 @@ class Acc_Account {
    */
   function load()
   {
-    $ret=ExecSql($this->db,"select pcm_lib,pcm_val_parent,pcm_type from 
+    $ret=$this->db->exec_sql("select pcm_lib,pcm_val_parent,pcm_type from 
                               tmp_pcmn where pcm_val=".$this->pcm_val);
-    $r=pg_fetch_all($ret);
+    $r=Database::fetch_all($ret);
     
     if ( ! $r ) return false;
     $this->pcm_lib=$r[0]['pcm_lib'];
@@ -143,7 +142,7 @@ class Acc_Account {
     
   }
   function form($p_table=true){
-    $wType=new widget("select");
+    $wType=new ISelect();
     $wType->name='p_type';
     $wType->value=self::$type;
     
@@ -160,7 +159,7 @@ class Acc_Account {
 </TD>
 <TD>';
 
-      $ret.=$wType->IOValue().'</TD>';
+      $ret.=$wType->input().'</TD>';
       return $ret;
     }
     else {
@@ -173,7 +172,7 @@ class Acc_Account {
       $ret.='</tr><tr>';
       $wType->selected=$this->pcm_type;
       $ret.="<td> Type de poste </td>";
-      $ret.= '<td>'.$wType->IOValue().'</td>';
+      $ret.= '<td>'.$wType->input().'</td>';
       $ret.="</TR> </TABLE>";
       $ret.=dossier::hidden();
 
@@ -182,18 +181,18 @@ class Acc_Account {
   }
   function count($p_value) {
     $sql="select count(*) from tmp_pcmn where pcm_val=$1";
-    return getDbValue($this->db,$sql,array($p_value));
+    return $this->db->get_value($sql,array($p_value));
   }
   /*!\brief for developper only during test */
  static function test_me() {
-     $cn=DbConnect(dossier::id());
+     $cn=new Database(dossier::id());
 
  }
   function update($p_old) {
     $this->pcm_lib=substr($this->pcm_lib,0,150);
     $this->check();
     $sql="update tmp_pcmn set pcm_val=$1, pcm_lib=$2,pcm_val_parent=$3,pcm_type=$4 where pcm_val=$5";
-    $Ret=ExecSqlParam($this->db,$sql,array($this->pcm_val,
+    $Ret=$this->db->exec_sql($sql,array($this->pcm_val,
 					   $this->pcm_lib,
 					   $this->pcm_val_parent,
 					   $this->pcm_type,

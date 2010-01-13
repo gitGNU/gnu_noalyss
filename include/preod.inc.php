@@ -23,34 +23,36 @@
 /*!\file
  * \brief included file for managing the predefined operation
  */
-require_once('class_widget.php');
-require_once('postgres.php');
+require_once("class_iselect.php");
+require_once("class_icheckbox.php");
+require_once("class_ihidden.php");
+require_once('class_database.php');
 require_once('ac_common.php');
 require_once('class_pre_operation.php');
-$user=new User(DbConnect(dossier::id()));
+$user=new User(new Database(dossier::id()));
 $user->can_request(PARPREDE,1);
   echo '<div class="content">';
   echo '<form method="GET">';
-  $sel=new widget('select');
+  $sel=new ISelect();
   $sel->name="jrn";
-  $sel->value=make_array($cn,"select jrn_def_id,jrn_def_name from ".
+  $sel->value=$cn->make_array("select jrn_def_id,jrn_def_name from ".
 						 " jrn_def order by jrn_def_name");
   // Show a list of ledger
   $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
   $sel->selected=$sa;
-  echo 'Choississez un journal '.$sel->IOValue();
-  $wCheck=new widget("checkbox");
+  echo 'Choississez un journal '.$sel->input();
+  $wCheck=new ICheckBox();
   if ( isset($_REQUEST['direct'])) {
     $wCheck->selected=true;
   }
-  echo 'Ecriture directe'.$wCheck->IOValue('direct');
+  echo 'Ecriture directe'.$wCheck->input('direct');
 
   echo dossier::hidden();
-  $hid=new widget("hidden");
-  echo $hid->IOValue("sa","jrn");
-  echo $hid->IOValue("p_action","preod");
+  $hid=new IHidden();
+  echo $hid->input("sa","jrn");
+  echo $hid->input("p_action","preod");
   echo '<hr>';
-  echo widget::submit('Accepter','Accepter');
+  echo HtmlInput::submit('Accepter','Accepter');
   echo '</form>';
 
   // if $_REQUEST[sa] == del delete the predefined operation
@@ -91,11 +93,11 @@ $user->can_request(PARPREDE,1);
 	  echo '<td>';
 	  echo '<form method="POST">';
 	  echo dossier::hidden();
-	  echo $hid->IOValue("sa","del");
-	  echo $hid->IOValue("p_action","preod");
-	  echo $hid->IOValue("del","");
-	  echo $hid->IOValue("od_id",$row['od_id']);
-	  echo $hid->IOValue("jrn",$_GET['jrn']);
+	  echo $hid->input("sa","del");
+	  echo $hid->input("p_action","preod");
+	  echo $hid->input("del","");
+	  echo $hid->input("od_id",$row['od_id']);
+	  echo $hid->input("jrn",$_GET['jrn']);
 
 	  $b='<input type="submit" value="Effacer" '.
 		' onClick="return confirm(\'Voulez-vous vraiment effacer cette operation ?\');" >';

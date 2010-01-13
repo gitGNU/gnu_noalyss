@@ -27,9 +27,10 @@
    *   Data & function about connected users
    */
 
-include_once("constant.php");
+require_once("constant.php");
+require_once("user_common.php");
 require_once('class_dossier.php');
-
+require_once('ac_common.php');
 class User {
   var $id;
   var $pass;
@@ -40,11 +41,15 @@ class User {
   function User ($p_cn,$p_id=-1){
     // if p_id is not set then check the connected user
     if ( $p_id == -1 ) {
-      if ( ! isset ($_SESSION['g_user'])) 
-	exit('<h2 class="error"> Utilisateur déconnecté</h2>');
+      if ( ! isset ($_SESSION['g_user'])){ 
+	echo '<h2 class="error">'._('Session expirée<br>Utilisateur déconnecté').'</h2>';
+	redirect('index.php',1);
+	exit();
+      }
 
       $this->login=$_SESSION['g_user'];
       $this->pass=$_SESSION['g_pass'];
+      $this->lang=(isset($_SESSION['g_lang']))?$_SESSION['g_lang']:'fr_FR.utf8';
       $this->valid=(isset ($_SESSION['isValid']))?1:0;
       $this->db=$p_cn;
       $this->id=-1;
@@ -88,43 +93,50 @@ class User {
              use_active,
              use_admin
                      from ac_users ";
-    $cn=DbConnect(); 
-    $Res=ExecSqlParam($cn,$sql.$sql_cond,$sql_array);
-    if (($Max=pg_NumRows($Res)) == 0 ) return -1;
-    $row=pg_fetch_array($Res,0);
+    $cn=new Database(); 
+    $Res=$cn->exec_sql($sql.$sql_cond,$sql_array);
+    if (($Max=Database::num_row($Res)) == 0 ) return -1;
+    $row=Database::fetch_array($Res,0);
     $this->id=$row['use_id'];
     $this->first_name=$row['use_first_name'];
     $this->name=$row['use_name'];
     $this->active=$row['use_active'];
     $this->login=$row['use_login'];
     $this->admin=$row['use_admin'];
-
+  }
+  function save() {
+   
+  $Sql="update ac_users set use_first_name=$1, use_name=$2
+        ,use_active=$3,use_admin=$4 where use_id=$5";
+  $cn=new Database();		
+  $Res=$cn->exec_sql($Sql,array($this->first_name,$this->last_name,$this->active,$this->admin,$this->id));
   }
   /*!
    * \brief Check if user is active and exists in therepository
    * Automatically redirect, it doesn't check if a user can access a folder
+   *\param $silent false, echo an error message and exit, true : exit without warning
+   * default is false 
    * 
    ++*/
-  function Check()
+  function Check($silent=false)
   {
 	
     $res=0;
     $pass5=md5($this->pass);
 
-    $cn=DbConnect();
-    if ( $cn != false ) {
-      $sql="select ac_users.use_login,ac_users.use_active, ac_users.use_pass,
+    $cn=new Database();
+    $sql="select ac_users.use_login,ac_users.use_active, ac_users.use_pass,
                     use_admin,use_first_name,use_name
 				from ac_users  
 				 where ac_users.use_id='$this->id' 
 					and ac_users.use_active=1
 					and ac_users.use_pass='$pass5'";
       echo_debug('class_user.php',__LINE__,"Sql = $sql");
-      $ret=pg_exec($cn,$sql);
-      $res=pg_NumRows($ret);
+      $ret=$cn->exec_sql($sql);
+      $res=Database::num_row($ret);
       echo_debug('class_user.php',__LINE__,"Number of found rows : $res");
       if ( $res >0 ) {
-	$r=pg_fetch_array($ret,0);
+	$r=Database::fetch_array($ret,0);
 	$_SESSION['use_admin']=$r['use_admin'];
 	$_SESSION['use_name']=$r['use_name'];
 	$_SESSION['use_first_name']=$r['use_first_name'];
@@ -136,18 +148,15 @@ class User {
 	$this->load_global_pref();
 
 
-      }
+    
     }
 	  
     if ( $res == 0  ) {
-      echo '<META HTTP-EQUIV="REFRESH" content="4;url=index.html">';
-      echo "<BR><BR><BR><BR><BR><BR>";
-      echo "<P ALIGN=center><BLINK>
-			<FONT size=+12 COLOR=RED>
-			utilisateur ou mot de passe incorrect 
-			</FONT></BLINK></P></BODY></HTML>";
+      if ( ! $silent) {
+	alert(_('Utilisateur ou mot de passe incorrect'));
+	redirect('index.html');
+      }
       session_unset();
-		
       exit -1;			
     } else {
       $this->valid=1;
@@ -165,14 +174,35 @@ class User {
    *
    */
   function get_folder_access($p_dossier = 0) {
-    if ($p_dossier==0)
-      $p_dossier=dossier::id();
 
-    $cn=DbConnect();
+    if ($p_dossier==0)       $p_dossier=dossier::id();
+    if ( $this->is_local_admin($p_dossier) == 1) return 'L';
+    $cn=new Database();
+
     $sql="select priv_priv from priv_user join jnt_use_dos on (jnt_id=priv_jnt) join ac_users using (use_id)
 where use_id=$1 and dos_id=$2";
-    $res=getDbValue($cn,$sql,array($this->id,$p_dossier));
+
+    $res=$cn->get_value($sql,array($this->id,$p_dossier));
+    if ( $res=='') return 'X';
     return $res;
+  }
+  /*\brief save the access of a folder 
+       *\param $db_id the dossier id 
+	 *\param $priv the priv. to set
+	 */
+  function set_folder_access($db_id,$priv) {
+
+    $cn=new Database();
+    $jnt=$cn->get_value("select jnt_id from jnt_use_dos where dos_id=$1 and use_id=$2",array($db_id,$this->id));
+
+    if ( $cn->size() == 0 ) {
+
+      $Res=$cn->exec_sql("insert into jnt_use_dos(dos_id,use_id) values($1,$2)",array($db_id,$this->id)); 
+      $jnt=$cn->get_value("select jnt_id from jnt_use_dos where dos_id=$1 and use_id=$2",array($db_id,$this->id));
+      $Res=$cn->exec_sql("insert into priv_user (priv_priv,priv_jnt) values($1,$2)",array($priv,$jnt));
+    }
+    $Res=$cn->exec_sql("update priv_user set priv_priv=$1 where priv_jnt=$2",array($priv,$jnt));
+    
   }
   /*!\brief check that a user is valid and the access to the folder
    * \param $p_ledger the ledger to check
@@ -191,7 +221,8 @@ where use_id=$1 and dos_id=$2";
       return 'W';
 
     $sql="select uj_priv from user_sec_jrn where uj_login=$1 and uj_jrn_id=$2";
-    $res=getDbValue($this->db,$sql,array($this->login,$p_ledger));
+    $res=$this->db->get_value($sql,array($this->login,$p_ledger));
+
     if ( $res=='' ) $res='X';
     return $res;
   }
@@ -204,8 +235,6 @@ where use_id=$1 and dos_id=$2";
    * \return an array
    */
   function get_ledger($p_type='ALL',$p_access=3) {
-
-
     if ( $this->admin != 1 && $this->is_local_admin() != 1) {
       $sql_type=($p_type=='ALL')?'':"and jrn_def_type=upper('".FormatString($p_type)."')";
       switch($p_access) {
@@ -220,7 +249,8 @@ where use_id=$1 and dos_id=$2";
 	$sql_access=" and uj_priv = 'R'";
 	break;
 
-      }
+      } 
+
       $sql="select jrn_def_id,jrn_def_type,
 jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
                                jrn_deb_max_line,jrn_cred_max_line
@@ -237,11 +267,11 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id 
                             $sql_type
                              order by jrn_Def_id";
-    }
 
-    $res=ExecSql($this->db,$sql);
-    if ( pg_NumRows($res) == 0 ) return null;
-    $array=pg_fetch_all($res);
+    }
+    $res=$this->db->exec_sql($sql);
+    if ( Database::num_row($res) == 0 ) return null;
+    $array=Database::fetch_all($res);
     return $array;
   }
 
@@ -249,11 +279,9 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
    * \param $p_type = ALL or the type of the ledger (ACH,VEN,FIN,ODS)
    * \param $p_access =3 for READ or WRITE, 2 READ and write, 1 for readonly
    *
-   *\return string
+   *\return sql condition like = jrn_def_id in (...)
    */
   function get_ledger_sql($p_type='ALL',$p_access=3) {
-    /* for admin or local admin there is no restriction on the  ledger */
-    if ($this->admin == 1 || $this->is_local_admin(dossier::id()) == 1) return ' jrn_def_id > 0 ';
     $aLedger=$this->get_ledger($p_type,$p_access);
     if ( empty ($aLedger)) return ' jrn_def_id < 0 ';
     $sql=" jrn_def_id in (";
@@ -274,10 +302,10 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
       $sql="select use_admin from ac_users where use_login=$1
 		and use_active=1  ";
       
-      $cn=DbConnect();
-      $res=ExecSqlParam($cn,$sql,array($this->login));
-      if ( pg_NumRows($res)==0) exit(__FILE__." ".__LINE__." aucun resultat");
-      $this->admin=pg_fetch_result($res,0);
+      $cn=new Database();
+      $res=$cn->exec_sql($sql,array($this->login));
+      if ( Database::num_row($res)==0) exit(__FILE__." ".__LINE__." aucun resultat");
+      $this->admin=Database::fetch_result($res,0);
     } 
     else $this->admin=1;
     
@@ -292,33 +320,33 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
    */ 
   function set_periode($p_periode) {
     $sql="update user_local_pref set parameter_value='$p_periode' where user_id='$this->id' and parameter_type='PERIODE'";
-    $Res=ExecSql($this->db,$sql);
+    $Res=$this->db->exec_sql($sql);
   }
 
   private function set_default_periode() {
 
     /* get the first periode */
     $sql='select min(p_id) as pid from parm_periode where p_closed = false and p_start = (select min(p_start) from parm_periode)';
-    $Res=ExecSql($this->db,$sql);
+    $Res=$this->db->exec_sql($sql);
 
-    $pid=pg_fetch_result($Res,0,0);
+    $pid=Database::fetch_result($Res,0,0);
     /* if all the periode are closed, then we use the last closed period */
     if ( $pid == null ) {
       $sql='select min(p_id) as pid from parm_periode where p_start = (select max(p_start) from parm_periode)';
-      $Res2=ExecSql($this->db,$sql);
-      $pid=pg_fetch_result($Res2,0,0);
+      $Res2=$this->db->exec_sql($sql);
+      $pid=Database::fetch_result($Res2,0,0);
       if ( $pid == null )  {
-	echo "Aucune periode trouvable !!!";
+	echo _("Aucune période trouvéee !!!");
 	exit(1);
       }
 
-      $pid=pg_fetch_result($Res2,0,0);
+      $pid=Database::fetch_result($Res2,0,0);
     }
 
     $sql=sprintf("insert into user_local_pref (user_id,parameter_value,parameter_type) 
                  values ('%s','%d','PERIODE')",
 		 $this->id,$pid);
-    $Res=ExecSql($this->db,$sql);
+    $Res=$this->db->exec_sql($sql);
   }
 
   /*! 
@@ -351,15 +379,15 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
   /*!\brief set the mini rapport to display on the welcome page
    */
   function set_mini_report($p_id) {
-    $count=getDbValue($this->db,"select count(*) from user_local_pref where user_id=$1 and parameter_type=$2",
+    $count=$this->db->get_value("select count(*) from user_local_pref where user_id=$1 and parameter_type=$2",
 		      array($this->id,'MINIREPORT'));
     if ( $count == 1 ) {
       $sql="update user_local_pref set parameter_value=$1 where user_id=$2 and parameter_type='MINIREPORT'";
-      $Res=ExecSqlParam($this->db,$sql,array($p_id,$this->id));
+      $Res=$this->db->exec_sql($sql,array($p_id,$this->id));
     } else {
       $sql="insert into user_local_pref (user_id,parameter_type,parameter_value)".
 	"values($1,'MINIREPORT',$2)";
-      $Res=ExecSqlParam($this->db,$sql,array($this->id,$p_id));
+      $Res=$this->db->exec_sql($sql,array($this->id,$p_id));
     }
 
 
@@ -373,10 +401,10 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
   function get_preference ()
   {
     $sql="select parameter_type,parameter_value from user_local_pref where user_id='".$this->id."'";
-    $Res=ExecSql($this->db,$sql);
+    $Res=$this->db->exec_sql($sql);
     $l_array=array();
-    for ( $i =0;$i < pg_NumRows($Res);$i++) {
-      $row= pg_fetch_array($Res,$i);
+    for ( $i =0;$i < Database::num_row($Res);$i++) {
+      $row= Database::fetch_array($Res,$i);
       $type=$row['parameter_type'];
       $l_array[$type]=$row['parameter_value'];
     }
@@ -398,10 +426,10 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
     if ( $this->Admin()==1 ) return 1;
     if ( $this->is_local_admin(dossier::id()) == 1 ) return 1;
     
-    $Res=ExecSqlParam($this->db,
+    $Res=$this->db->exec_sql(
 		      "select * from user_sec_act where ua_login=$1 and ua_act_id=$2",
 		      array($this->login,$p_action_id));
-    $Count=pg_NumRows($Res);
+    $Count=Database::num_row($Res);
     if ( $Count == 0 ) return 0;
     if ( $Count == 1 ) return 1;
     echo "<H2 class=\"error\"> Action Invalide !!! $Count select * from user_sec_act where ua_login='$p_login' and ua_act_id=$p_action_id </H2>";
@@ -416,12 +444,12 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
   function load_global_pref() 
   {
     echo_debug('class_user.php',__LINE__,"function load_global_pref");
-    $cn=Dbconnect();
+    $cn=new Database();
     // Load everything in an array
-    $Res=ExecSql ($cn,"select parameter_type,parameter_value from 
+    $Res=$cn->exec_sql ("select parameter_type,parameter_value from 
                   user_global_pref
                   where user_id='".$this->login."'");
-    $Max=pg_NumRows($Res);
+    $Max=Database::num_row($Res);
     if (  $Max == 0 ) {
       $this->insert_default_global_pref();
       $this->load_global_pref();
@@ -430,12 +458,12 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
     // Load value into array
     $line=array();
     for ($i=0;$i<$Max;$i++) {
-      $row=pg_fetch_array($Res,$i);
+      $row=Database::fetch_array($Res,$i);
       $type=$row['parameter_type']; 
       $line[$type]=$row['parameter_value'];;
     }
     // save array into g_ variable
-    $array_pref=array ('g_theme'=>'THEME','g_pagesize'=>'PAGESIZE','g_topmenu'=>'TOPMENU');
+    $array_pref=array ('g_theme'=>'THEME','g_pagesize'=>'PAGESIZE','g_topmenu'=>'TOPMENU','g_lang'=>'LANG');
     foreach ($array_pref as $name=>$parameter ) {
       if ( ! isset ($line[$parameter]) ) {
 	echo_debug("Missing pref : ".$parameter);
@@ -460,20 +488,22 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
     echo_debug('class_user.php',__LINE__,"parameter p_type $p_type p_value  $p_value");
 
     $default_parameter= array("THEME"=>"Light",
-			      "PAGESIZE"=>"50",'TOPMENU'=>'TEXT');
-    $cn=Dbconnect();
+			      "PAGESIZE"=>"50",
+			      'TOPMENU'=>'TEXT',
+			      'LANG'=>'fr_FR.utf8');
+    $cn=new Database();
     $Sql="insert into user_global_pref(user_id,parameter_type,parameter_value) 
 				values ('%s','%s','%s')";
     if ( $p_type == "" ) {
       foreach ( $default_parameter as $name=>$value) {
 	$Insert=sprintf($Sql,$this->login,$name,$value);
-	ExecSql($cn,$Insert);
+	$cn->exec_sql($Insert);
       }
     }
     else {
       $value=($p_value=="")?$default_parameter[$p_type]:$p_value;
       $Insert=sprintf($Sql,$this->login,$p_type,$value);
-      ExecSql($cn,$Insert);
+      $cn->exec_sql($Insert);
     }
 
 
@@ -488,14 +518,15 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
    */
   function update_global_pref($p_type,$p_value="") {
     $default_parameter= array("THEME"=>"Light",
-			      "PAGESIZE"=>"50",'TOPMENU'=>'SELECT');
-    $cn=Dbconnect();
-    $Sql="update user_global_pref set parameter_value='%s' 
-			where parameter_type='%s' and 
-				user_id='%s'";
+			      "PAGESIZE"=>"50",
+			      "LANG"=>'fr_FR.utf8',
+			      'TOPMENU'=>'SELECT');
+    $cn=new Database();
+    $Sql="update user_global_pref set parameter_value=$1 
+			where parameter_type=$2 and 
+				user_id=$3";
     $value=($p_value=="")?$default_parameter[$p_type]:$p_value;
-    $Update=sprintf($Sql,$value,$p_type,$this->login);
-    ExecSql($cn,$Update);
+    $cn->exec_sql($Sql,array($value,$p_type,$this->login));
 
   }//end function
   /*!\brief Return the year of current Periode
@@ -505,10 +536,10 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
   function get_exercice()
   {
     $sql="select p_exercice from parm_periode where p_id=".$this->get_periode();
-    $Ret=ExecSql($this->db,$sql);
-    if (pg_NumRows($Ret) == 1) 
+    $Ret=$this->db->exec_sql($sql);
+    if (Database::num_row($Ret) == 1) 
       {
-	$r=pg_fetch_array($Ret,0);
+	$r=Database::fetch_array($Ret,0);
 	return $r['p_exercice'];
       }
     else 
@@ -544,28 +575,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
 
       }
   }
-  /*!   
-   * \brief Get the privilege of an user on a folder
-   */
-  function get_privilege($p_dossier)
-  {
-    /* you must be connected to the repository */
-    $sql="select priv_priv 
-       from priv_user  left join jnt_use_dos on jnt_id=priv_jnt
-	inner join ac_users on ac_users.use_id=jnt_use_dos.use_id
-       where ac_users.use_id=$1 and dos_id=$2";
-
-
-    $Res=ExecSqlParam($this->db,$sql,array($this->id,$p_dossier));
-    
-    $Num=pg_NumRows($Res);
-	
-    /* If nothing is found there is no access */
-    if ( $Num==0)       return 'X';
-    
-    $priv=pg_fetch_row($Res,0);
-    return $priv[0];
-  }
+  
   /*! 
    * \brief  Check if an user is an local administrator
    * 
@@ -588,13 +598,37 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
       ' on ( jnt_use_dos.jnt_id = priv_user.priv_jnt) '.
       " where priv_priv='L' and use_login='".$this->login."' and dos_id=$p_dossier";
 
-    $cn=DbConnect();
+    $cn=new Database();
   
-    $isAdmin=CountSql($cn,$sql);
+    $isAdmin=$cn->count_sql($sql);
 
 
     return $isAdmin;
 
+  }
+  /*!
+   *\brief return an array with all the users who can access $p_dossier including the global admin. The user
+   * must be activated
+   *
+   *\param $p_dossier dossier
+   *\return an array of user's  object
+   *  array indices
+   *    - use_id (id )
+   *    - use_login (login of the user)
+   *    - use_name 
+   *    - use_first_name
+   *
+   *\exception throw an exception if nobody can access
+   */
+  static function get_list($p_dossier) {
+    $sql="select distinct use_id,use_login,use_first_name,use_name from ac_users 
+ left outer join  jnt_use_dos using (use_id) 
+where 
+(dos_id=$1 or  use_admin=1) and use_active=1";
+    $repo=new Database();
+    $array=$repo->get_array($sql,array($p_dossier));
+    if ( $repo->size() == 0 ) throw new Exception ('Error inaccessible folder');
+    return $array;
   }
   /*! 
    * \brief check the access of an user on a ledger
@@ -612,16 +646,22 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
   {
     return $this->get_ledger_access($p_jrn);
   }
-  function check_dossier($p_dossier_id) 
+  /*!\brief check if an user can access a folder, if he cannot display a dialog box
+   * and exit
+   *\param the folder if
+   *\param $silent false, echo an error message and exit, true : exit without warning
+   * default is false 
+   */
+  function check_dossier($p_dossier_id,$silent=false) 
   {
     $this->Admin();
-    if ( $this->admin==1) return 'L';
-    $cn=DbConnect();
+    if ( $this->admin==1 || $this->is_local_admin($p_dossier_id)==1) return 'L';
+    $cn=new Database();
 
-    $dossier=getDbValue($cn,"select priv_priv from jnt_use_dos join priv_user on (priv_jnt=jnt_id) where dos_id=$1 and use_id=$2",
+    $dossier=$cn->get_value("select priv_priv from jnt_use_dos join priv_user on (priv_jnt=jnt_id) where dos_id=$1 and use_id=$2",
 			array($p_dossier_id,$this->id));
     if ( $dossier=='X' || $dossier=='') {
-      alert('Dossier non accessible');
+      if ( ! $silent) alert(_('Dossier non accessible'));
       exit();
     }
   }

@@ -47,7 +47,7 @@ class contact extends fiche
  *	
  * \return string to display
  */
-  function Summary($p_search) 
+  function Summary($p_search="",$p_action="") 
     {
       $p_search=FormatString($p_search);
       $extra_sql="";
@@ -87,7 +87,6 @@ attr_value using (jft_id) where av_text=upper('".$this->company."') and ad_id=".
 <th>Téléphone</th>
 <th>email</th>
 <th>Fax</th>
-<th colspan="2">Société</th>
 </TR>';
       $base=$_SERVER['PHP_SELF'];
       // Compute the url
@@ -106,7 +105,7 @@ attr_value using (jft_id) where av_text=upper('".$this->company."') and ad_id=".
 $back_url=urlencode($_SERVER['REQUEST_URI']);
       if ( sizeof ($step_contact ) == 0 )
 	return $r;
-      echo JS_SEARCH_CARD;
+      echo JS_LEDGER;
       foreach ($step_contact as $contact ) {
 	$l_company=new fiche($this->cn);
 	$l_company->get_by_qcode($contact->strAttribut(ATTR_DEF_COMPANY),false);
@@ -123,14 +122,13 @@ $back_url=urlencode($_SERVER['REQUEST_URI']);
 				    );
 	  }
 	$r.="<TR>";
-	$r.='<TD><A HREF="'.$url."&sa=detail&f_id=".$contact->id."\">".$contact->strAttribut(ATTR_DEF_QUICKCODE).
+	$qcode=$contact->strAttribut(ATTR_DEF_QUICKCODE);
+	$r.='<TD><A HREF="javascript:void(0)" onclick="this.ipopup=\'ipopcard\';this.qcode=(\''.$qcode.'\');fill_ipopcard(this);">'.$qcode.
             "</A></TD>";
 	$r.="<TD>".$contact->strAttribut(ATTR_DEF_NAME)."</TD>";
 	$r.="<TD>".$contact->strAttribut(ATTR_DEF_TEL)."</TD>";
 	$r.="<TD>".$contact->strAttribut(ATTR_DEF_EMAIL)."</TD>".
-            "<TD> ".$contact->strAttribut(ATTR_DEF_FAX)."</TD>".
-            "<TD> ".$l_company_name. "</TD>".
-            '<TD> <A href="?'.dossier::get().'&p_action=suivi_courrier&qcode='.$contact->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$back_url.'">Courrier</A></TD>';
+	  "<TD> ".$contact->strAttribut(ATTR_DEF_FAX)."</TD>";
 
 	$r.="</TR>";
 

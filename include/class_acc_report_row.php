@@ -96,16 +96,16 @@ class  Acc_Report_Row
     }
     return $ret;
   }
-  function test_me()
+  static function test_me()
   {
-        $cn=DbConnect(dossier::id());
+        $cn=new Database(dossier::id());
 	$a=new Acc_Report_Row();
 	$array=array("text0"=>"test1",
 		     "form0"=>"7%",
 		     "text1"=>"test2",
 		     "form1"=>"6%"
 		     );
-
+	$a->db=$cn;
 	$b=$a->from_array($array);
 	print_r($b);
 	echo $a->get_info();

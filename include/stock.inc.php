@@ -25,21 +25,20 @@
  * \brief Manage the stock by year
  */
 require_once('class_dossier.php');
-include_once("preference.php");
 include_once ("ac_common.php");
-include_once("postgres.php");
+require_once('class_database.php');
 include_once("stock_inc.php");
-include_once("check_priv.php");
 require_once('class_dossier.php');
+require_once('class_periode.php');
 $gDossier=dossier::id();
 
 html_page_start($_SESSION['g_theme']);
 
-include_once ("postgres.php");
+require_once('class_database.php');
 /* Admin. Dossier */
 $gDossier=dossier::id();
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 include_once ("class_user.php");
 $User=new User($cn);
 $User->Check();
@@ -78,7 +77,7 @@ if ( isset ($_POST['sub_change']))
        or isNumber($year) == 0 ) 
     {
       $msg="Stock données non conformes";
-      echo "<script> alert('$msg');</script>";
+      alert('$msg');
       echo_error($msg);
     } else 
       {
@@ -93,7 +92,7 @@ if ( isset ($_POST['sub_change']))
     if ( $change != 0)
       {
 	$comment=FormatString($comment);
-	$Res=ExecSql($cn,"insert into stock_goods
+	$Res=$cn->exec_sql("insert into stock_goods
                      (  j_id,
                         f_id, 
                         sg_code,
@@ -119,7 +118,7 @@ if ( isset ($_POST['sub_change']))
   $action="detail";
   }
 }
-echo JS_VIEW_JRN_MODIFY;
+echo JS_LEDGER;
 // View the summary
 
 // if year is not set then use the year of the user's periode
@@ -127,7 +126,9 @@ if ( ! isset ($_GET['year']) ) {
   // get defaut periode
   $a=$User->get_periode();
   // get exercice of periode
-  $year=get_exercice($cn,$a);
+    $periode=new Periode($cn,$a);
+	$year=$periode->get_exercice();
+ 
   } else
   { 
     $year=$_GET['year'];
@@ -152,7 +153,7 @@ if ( $action == 'detail' ) {
       echo 'Entrer la valeur qui doit augmenter ou diminuer le stock';
       echo '<form action="?p_action=stock" method="POST">';
       echo ChangeStock($sg_code,$year);
-      echo '<input type="submit" name="sub_change" value="Ok">';
+      echo HtmlInput::submit("sub_change" ,"Ok");
 	  echo dossier::hidden();
       echo '</form>';
     }
@@ -165,10 +166,10 @@ if ( $action == 'detail' ) {
 
 // Show the possible years
 $sql="select distinct (p_exercice) as exercice from parm_periode ";
-$Res=ExecSql($cn,$sql);
+$Res=$cn->exec_sql($sql);
 $r="";
-for ( $i = 0; $i < pg_NumRows($Res);$i++) {
-  $l=pg_fetch_array($Res,$i);
+for ( $i = 0; $i < Database::num_row($Res);$i++) {
+  $l=Database::fetch_array($Res,$i);
   $r.=sprintf('<A class="mtitle" HREF="?p_action=stock&year=%d&'.dossier::get().'">%d</a> - ',
 	      $l['exercice'],
 	      $l['exercice']);

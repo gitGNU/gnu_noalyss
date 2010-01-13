@@ -25,10 +25,10 @@
  *
  */
 require_once('constant.php');
-require_once('postgres.php');
+require_once('class_database.php');
 require_once('class_anc_operation.php');
 
-$cn=DbConnect(dossier::id);
+$cn=new Database(dossier::id);
 $op=new Anc_Operation($cn);
 $op->pa_id=$_GET['pa_id'];
 $array=$op->get_list($_GET['from'],$_GET['to']);

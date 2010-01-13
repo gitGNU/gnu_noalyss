@@ -20,7 +20,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief Main page for the analytic module
  */
 
@@ -28,12 +28,12 @@
  *
  */
 require_once("constant.php");
-require_once("postgres.php");
+require_once('class_database.php');
 require_once("ac_common.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 $str_dossier=dossier::get();
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 require_once ("class_user.php");
 require_once ('user_menu.php');
 $User=new User($cn);
@@ -42,7 +42,8 @@ $User->check_dossier($gDossier);
 
 
 html_page_start($_SESSION['g_theme']);
-
+echo js_include('prototype.js');
+echo js_include('anc_script.js');
 //-----------------------------------------------------------------
 //Header
 echo '<div class="u_tmenu">';
@@ -107,7 +108,7 @@ if ( !isset($_REQUEST['p_action']))
 //-----------------------------------------------------
 // p_action == pref
 //-----------------------------------------------------
-if ( $_REQUEST['p_action'] == "pref" ) 
+if ( $_REQUEST['p_action'] == "pref" )
 {
   require_once("pref.inc.php");
   exit();
@@ -140,7 +141,7 @@ if ($_REQUEST['p_action'] == 'ca_groupe' )
 if ($_REQUEST['p_action'] == 'ca_imp' )
   {
     echo '<div class="content">';
-    
+
     require_once('anc_imp.inc.php');
     echo '</div>';
 

@@ -22,14 +22,12 @@
  * \brief in a popup window manage the deletion of the operations
  */
 include_once ("ac_common.php");
-include_once ("poste.php");
-include_once("preference.php");
 include_once("central_inc.php");
 include_once("user_common.php");
-include_once("check_priv.php");
-include_once ("postgres.php");
+require_once('class_database.php');
 include_once("jrn.php");
-require_once("class_widget.php");
+require_once("class_itext.php");
+require_once("class_ibutton.php");
 require_once("class_acc_ledger.php");
 require_once("class_acc_operation.php");
 require_once ('class_periode.php');
@@ -41,7 +39,7 @@ include_once ("class_user.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 $User=new User($cn);
 $User->Check();
 $User->check_dossier(dossier::id());
@@ -51,7 +49,7 @@ if ($User->check_action(GEOP,0) == 0 ) {
 }
 
 html_page_start($User->theme,"onLoad='window.focus();'");
-echo JS_VIEW_JRN_MODIFY;
+echo JS_LEDGER;
 if ( isset( $_REQUEST['p_jrn'] )) {
   $p_jrn=$_GET['p_jrn'];
   }
@@ -87,7 +85,7 @@ if ( isset ($_POST['annul']) ) {
 <p>
 <h2 class="info">Confirmation</h2>
 <br>
-	    <p><span class="error">Attention: l'effacement d'une op&eacute;ration peut rompre la s&eacute;quence de la num&eacute;rotation des factures surtout celles g&eacute;n&eacute;r&eacute;es automatiquement, soyez tr&egrave;s prudent quand vous effacez. La pi&egrave;ce jointe sera elle aussi effac&eacute;e. Si vous utilisez la comptabilit&eacute; analytique les op&eacute;rations li&eacute;es seront effac&eacute;es.
+	    <p><span class="error">Attention: l'effacement d'une op&eacute;ration peut rompre la s&eacute;quence de la num&eacute;rotation des factures  surtout celles g&eacute;n&eacute;r&eacute;es automatiquement ainsi que celle des pièces justificatives, soyez tr&egrave;s prudent quand vous effacez. La pi&egrave;ce jointe sera elle aussi effac&eacute;e. Si vous utilisez la comptabilit&eacute; analytique les op&eacute;rations li&eacute;es seront effac&eacute;es.
 </span>
 </p> 
 
@@ -139,13 +137,13 @@ if  ($p_id != -1 ) { // A
  if ( $p_id != -1 ) { //B
     // Test whether date of the operation is in a closed periode
     // get the period_id
-   $p=ExecSqlParam($cn,"select jr_tech_per from jrn where jr_grpt_id=$1",array($_REQUEST['jrn_op']));
-    $period_id=pg_fetch_result($p,0,0);
+   $p=$cn->exec_sql("select jr_tech_per from jrn where jr_grpt_id=$1",array($_REQUEST['jrn_op']));
+   $period_id=Database::fetch_result($p,0,0);
     // thanks jrn_op  (jrn.jr_id) we find out the concerned ledger
 	
     $sql="select jr_def_id from jrn where jr_grpt_id=".$_REQUEST['jrn_op'];
-    $r=ExecSql($cn,$sql);
-    $nJrn=pg_fetch_result($r,0,0);
+    $r=$cn->exec_sql($sql);
+    $nJrn=Database::fetch_result($r,0,0);
     $per=new Periode($cn);
     $per->set_jrn($nJrn);
     $per->set_periode($period_id);
@@ -158,9 +156,9 @@ if  ($p_id != -1 ) { // A
 		
 		// if the operation is in a closed or centralized period
 		// the operation is voided thanks the opposite operation
-		StartSql($cn);
-		$grp_new=NextSequence($cn,'s_grpt');
-		$seq=NextSequence($cn,"s_jrn");
+		$cn->start();
+		$grp_new=$cn->get_next_seq('s_grpt');
+		$seq=$cn->get_next_seq("s_jrn");
 		$oJrn=new Acc_Ledger($cn,$l_array['jr_def_id']);
 		$p_internal=$oJrn->compute_internal_code($seq);
 		
@@ -174,7 +172,7 @@ if  ($p_id != -1 ) { // A
           from
 	  jrn
 	  where   jr_grpt_id=$2";
-		$Res=ExecSqlParam($cn,$sql,array($l_date_start,$_POST['p_id']));
+		$Res=$cn->exec_sql($sql,array($l_date_start,$_POST['p_id']));
    // Check return code
    if ( $Res == false) 
 	 throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
@@ -190,7 +188,7 @@ if  ($p_id != -1 ) { // A
 	  from
 	  jrnx
 	  where   j_grpt=".$_POST['p_id'];
-   $Res=ExecSql($cn,$sql);
+   $Res=$cn->exec_sql($sql);
    // Check return code
    if ( $Res == false) 
 	 throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
@@ -199,7 +197,7 @@ if  ($p_id != -1 ) { // A
     // Mark the operation invalid into the ledger
     // to avoid to nullify twice the same op.
     $sql="update jrn set jr_comment='Annule : '||jr_comment where jr_grpt_id=".$_POST['p_id'];
-    $Res=ExecSql($cn,$sql);
+    $Res=$cn->exec_sql($sql);
     // Check return code
 	if ( $Res == false) 
 	  throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
@@ -208,7 +206,7 @@ if  ($p_id != -1 ) { // A
    // Set the record to A (annulate) in quant_sold and quand_purchase
    
 
-   $Res=ExecSql($cn,"update quant_sold set ".
+   $Res=$cn->exec_sql("update quant_sold set ".
 				" qs_valid='A' where qs_internal='".$l_array['jr_internal']."'"
 			       );
 
@@ -216,7 +214,7 @@ if  ($p_id != -1 ) { // A
 	 throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
 
 
-   $Res=ExecSql($cn,"update quant_purchase set ".
+   $Res=$cn->exec_sql("update quant_purchase set ".
 				" qp_valid='A' where qp_internal='".$l_array['jr_internal']."'"
 				);
    if ( $Res == false) 
@@ -241,14 +239,14 @@ if  ($p_id != -1 ) { // A
    // also in the stock table
    $sql="delete from stock_goods where sg_id = any ( select sg_id
   from stock_goods natural join jrnx  where j_grpt=".$_POST['p_id'].")";
-   $Res=ExecSql($cn,$sql);
+   $Res=$cn->exec_sql($sql);
    // Check return code
    if ( $Res == false) 
 	 throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
 		  } 
 		catch (Exception $e) 
 		  {
-			Rollback($cn);
+			$cn->rollback();
 			$msg="D&eacute;sol&eacute; mais il n a pas &eacute;t&eacute; possible d'annuler ".
 			  "cette op&eacute;ration";
 
@@ -266,7 +264,7 @@ if  ($p_id != -1 ) { // A
 			$p_id=-1;
 			exit(-1);
 		  }
-   Commit($cn);
+   $cn->commit();
    // close the window
    echo '<h2 class="info"> Op&eacute;ration Annul&eacute;e</h2>';
     ?>
@@ -283,21 +281,21 @@ self.opener.RefreshMe();
 		try  
 		  {
 			// Start Sql
-			StartSql($cn);
+			$cn->start();
 			$sql="insert into del_action(del_name,del_time) values ($1,now());";
-			ExecSqlParam($cn,$sql,array($_SESSION['g_user']));
+			$cn->exec_sql($sql,array($_SESSION['g_user']));
 			// Set the record to A (annulate) in quant_sold and quand_purchase
 			// delete from the rapt table
 			$sql="delete from jrn_rapt where jr_id = any (select jr_id from jrn ".
 			  " where jr_grpt_id = ".$_POST['p_id'].")";
-			$Res=ExecSql($cn,$sql);
+			$Res=$cn->exec_sql($sql);
 			
 			if ( $Res == false) 
 			  throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
 
 			
 			
-			$Res=ExecSql($cn,"delete from  quant_sold  ".
+			$Res=$cn->exec_sql("delete from  quant_sold  ".
 						 " where qs_internal='".$l_array['jr_internal']."'"
 					);
 			
@@ -305,7 +303,7 @@ self.opener.RefreshMe();
 			  throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
 
 	
-			$Res=ExecSql($cn,"delete from quant_purchase  ".
+			$Res=$cn->exec_sql("delete from quant_purchase  ".
 						 " where qp_internal='".$l_array['jr_internal']."'"
 						 );
 	
@@ -314,7 +312,7 @@ self.opener.RefreshMe();
 			
 			if ( isset($l_array['jr_pj']) && $l_array['jr_pj'] != "") 
 			  {
-				$Res=pg_lo_unlink($cn,$l_array['jr_pj']);
+				$Res=$cn->lo_unlink($l_array['jr_pj']);
 				if ( $Res == false) 
 				  throw (new Exception(__FILE__.__LINE__.
 									   "Echec Effacement lob  [ $sql ]"));
@@ -324,27 +322,27 @@ self.opener.RefreshMe();
 			// delete from the stock table
 			$sql="delete from stock_goods where sg_id = any ( select sg_id
  from stock_goods natural join jrnx  where j_grpt=".$_POST['p_id'].")";
-			$Res=ExecSql($cn,$sql);
+			$Res=$cn->exec_sql($sql);
 	
 			if ( $Res == false) 
 			  throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
 			// delete from CA
 			$sql="delete from operation_analytique where j_id in (select j_id from";
 			$sql.="  jrnx where j_grpt=".$_POST['p_id'].")";
-			$Res=ExecSql($cn,$sql);
+			$Res=$cn->exec_sql($sql);
 			if ( $Res == false) 
 			  throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
 
 			// delete from jrnx & jrn
 			$sql="delete from jrnx  where j_grpt=".$_POST['p_id'];
 	
-			$Res=ExecSql($cn,$sql);
+			$Res=$cn->exec_sql($sql);
 			if ( $Res == false) 
 			  throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
 	
 			// build the sql stmt for jrn
 			$sql= "delete from jrn    where   jr_grpt_id=".$_POST['p_id'];
-			$Res=ExecSql($cn,$sql);
+			$Res=$cn->exec_sql($sql);
 	
 			if ( $Res == false) 
 			  throw (new Exception(__FILE__.__LINE__." sql a echoue [ $sql ]"));
@@ -352,7 +350,7 @@ self.opener.RefreshMe();
 		  } 
 		catch (Exception $e) 
 		  {
-			Rollback($cn);
+			$cn->rollback();
 			$msg="Desole mais il n a pas ete possible d'annuler ".
 			  "cette operation";
 			echo "<SCRIPT>alert('$msg');</SCRIPT>";
@@ -370,7 +368,7 @@ self.opener.RefreshMe();
 			exit(-1);
 		  }
 
-	Commit($cn);
+	$cn->commit();
 	echo '<h2 class="info"> Op&eacute;ration Annul&eacute;e</h2>';
 	  ?>
 	  <script>
@@ -389,26 +387,29 @@ echo '<div align="center"> Op&eacute;ration '.$l_array['jr_internal'].'</div>
 <div>
 <form action="'.$_SERVER['REQUEST_URI'].'" method="post" >';
 
-$a=new widget("text");
-$a->SetReadOnly(false);
+$a=new IText();
+$a->setReadOnly(false);
 
 echo '<div style="border-style:solid;border-width:1pt;">';
 
 $a->size=80;
-echo $a->IOValue("comment",$e_comment,"Description");
+echo $a->input("comment",$e_comment,"Description");
 echo '</DIV>';
 
 if ( isset ($e_ech) ) {
   echo "<DIV> Echeance $e_ech </DIV>";
 }
 for ( $i = 0; $i < $max_deb;$i++) {
-  $lib=GetPosteLibelle($gDossier,${"e_class_deb$i"}); 
+  $poste=new Acc_Account($gDossier,${"e_class_deb$i"});
+  $lib=$poste->get_lib();
+
   echo '<div style="background-color:#BFC2D5;">';
   echo ${"e_class_deb$i"}." $lib    "."<B>".${"e_mont_deb$i"}."</B>";
   echo "</div>";
 }
 for ( $i = 0; $i < $max_cred;$i++) {
-  $lib=GetPosteLibelle($gDossier,${"e_class_cred$i"});
+  $poste=new Acc_Account($gDossier,${"e_class_cred$i"});
+  $lib=$poste->get_lib();
   echo '<div style="background-color:#E8F4FF;">';
   echo ${"e_class_cred$i"}."  $lib   "."<B>".${"e_mont_cred$i"}."</B>";
   echo '</div>';
@@ -425,11 +426,11 @@ if ( $a != null ) {
 $operation=new Acc_Operation($cn);
 $operation->jr_id=$element;
 
-    $w=new widget("button");
+    $w=new IButton();
     $w->label=$operation->get_internal();
     $w->javascript="modifyOperation('".$element."','".$_REQUEST['PHPSESSID']."',".dossier::id().
       ','.$_REQUEST['p_jrn'].",'S')";
-    echo $w->IOValue().'<br>';
+    echo $w->input().'<br>';
   }//for
 }// if ( $a != null ) {
 

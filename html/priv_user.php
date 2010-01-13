@@ -21,12 +21,12 @@
  * \brief Users Security 
  */
 include_once("ac_common.php");
-include_once("postgres.php");
+require_once('class_database.php');
 include_once("debug.php");
 include_once("user_menu.php");
 html_page_start($_SESSION['g_theme']);
 
-$rep=DbConnect();
+$rep=new Database();
 include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
@@ -37,25 +37,18 @@ if ($User->admin != 1) {
   return;
 }
 
-if (! isset ($_GET['UID']) && ! isset($_POST['UID']) ) {
-  //Message d'erreur si UID non positionné
-  echo_debug('priv_user.php',__LINE__,"UID NOT DEFINED");
-  html_page_stop();
-  return;
+if (! isset ($_REQUEST['UID'])  ) {
+   html_page_stop();
+  exit();
 }
-$uid=( isset ($_GET['UID']))? $_GET['UID']: $_POST['UID'];
+$uid=$_REQUEST['UID'];
 $UserChange=new User($rep,$uid);
-
-echo_debug('priv_user.php',__LINE__,"UID IS DEFINED");
 
 $r_UID=$UserChange->id;
 if ( $r_UID == false ) {
-  echo_debug('priv_user.php',__LINE__,"UID NOT VALID");
   // Message d'erreur
   html_page_stop();
-  return;
 }
-echo_debug('priv_user.php',__LINE__,"UID IS VALID");
 echo '<H2 class="info"> Administration Globale</H2>';
 
 echo "<div>".MenuAdmin()."</div>";
@@ -74,9 +67,9 @@ echo '<h2>Gestion Utilisateurs</h2>';
 <?php
 /* Parse the changes */
 if ( isset ( $_GET['reset_passwd']) ){
-  $cn=DbConnect();
+  $cn=new Database();
   $l_pass=md5('phpcompta');
-  $Res=ExecSql($cn, "update ac_users set use_pass='$l_pass' where use_id=$uid");
+  $Res=$cn->exec_sql( "update ac_users set use_pass='$l_pass' where use_id=$uid");
   echo '<H2 class="info"> Password remis à phpcompta</H2>';
 }
 /*  Save the changes */
@@ -84,48 +77,44 @@ if ( isset ($_POST['SAVE']) ){
   $uid = $_POST['UID'];
 
   // Update User 
-  $cn=DbConnect();
-  $last_name=pg_escape_string($_POST['fname']);
-  $first_name=pg_escape_string($_POST['lname']);
+  $cn=new Database();
+  $last_name=$_POST['fname'];
+  $first_name=$_POST['lname'];
+  $UserChange=new User($cn,$uid);
+  if ( $UserChange->load()==-1) { 
+	alert("Cet utilisateur n'existe pas");} 
+  else {
+	  $UserChange->first_name=$first_name;
+	  $UserChange->last_name=$last_name;
+	  $UserChange->active=$_POST['Actif'];
+	  $UserChange->admin=$_POST['Admin'];
+	  $UserChange->save();
+	 
+	  // Update Priv on Folder
+	  foreach ($_POST as $name=>$elem)
+	    { 
+	      echo_debug('priv_user.php',__LINE__,"_POST $name $elem");
+	      if ( substr_count($name,'PRIV')!=0 )
+	      {
+			echo_debug('priv_user.php',__LINE__,"Found a priv");
+			$db_id=substr($name,4);
+			$cn=new Database();
+			$UserChange->set_folder_access($db_id,$elem);
+			
+	     }
 
-  $Sql="update ac_users set use_first_name='".$first_name."', use_name='".$last_name."'
-        ,use_active=".$_POST['Actif'].",use_admin=".$_POST['Admin']." where
-         use_id=".$uid;
-  $Res=ExecSql($cn,$Sql);
-  // Update Priv on Folder
-  foreach ($_POST as $name=>$elem)
-    { 
-      echo_debug('priv_user.php',__LINE__,"_POST $name $elem");
-      if ( substr_count($name,'PRIV')!=0 )
-      {
-	echo_debug('priv_user.php',__LINE__,"Found a priv");
-	$db_id=substr($name,4);
-	$cn=DbConnect();
-	if ( ExisteJnt($db_id,$uid) != 1 ) 
-	  {
-	  $Res=ExecSql($cn,"insert into jnt_use_dos(dos_id,use_id) values(".$db_id.",".$uid.")"); 
-	  }
-	
-	$jnt=GetJnt($db_id,$uid);
-	if (ExistePriv($jnt) > 0) 
-	  {
-	    $Res=ExecSql($cn,"update priv_user set priv_priv='".$elem."' where priv_jnt=".$jnt);
-	  } else {
-	   $Res=ExecSql($cn,"insert into  priv_user(priv_jnt,priv_priv) values (".$jnt.",'".$elem."')");
-	  }
-	
-      }
-
-    }
+	    }
+	}
 } else {
   if ( isset ($_POST["DELETE"]) ) {
-    $cn=DbConnect();
-    $Res=ExecSql($cn,"delete from priv_user where priv_jnt in ( select jnt_id from jnt_use_dos where use_id=".$uid.")");
-    $Res=ExecSql($cn,"delete from jnt_use_dos where use_id=".$uid);
-    $Res=ExecSql($cn,"delete from ac_users where use_id=".$uid);
+    $cn=new Database();
+    $Res=$cn->exec_sql("delete from priv_user where priv_jnt in ( select jnt_id from jnt_use_dos where use_id=$1",array($uid));
+    $Res=$cn->exec_sql("delete from jnt_use_dos where use_id=$1",array($uid));
+    $Res=$cn->exec_sql("delete from ac_users where use_id=$1",array($uid));
 
-    echo "<center><H2 class=\"info\"> User ".$_POST['fname']." ".$_POST['lname']." (".
-      $_POST['login'].") is deleted </H2></CENTER>";
+    echo "<center><H2 class=\"info\"> User ".h($_POST['fname'])." ".h($_POST['lname'])." (".
+      h($_POST['login']).") est effacé</H2></CENTER>";
+require_once("class_iselect.php");
     require_once("user.inc.php");
     return;
   }
@@ -195,32 +184,34 @@ $array=array(
 	     array('value'=>'R','label'=>'Utilisateur normal'),
 	     array('value'=>'L','label'=>'Administrateur local(Tous les droits)')
 	     );
+$repo=new Dossier(0);
 
-$Dossier=ShowDossier('all',1,0);
+$Dossier=$repo->show_dossier('all',1,0);
 if (  empty ( $Dossier )) {
-	echo '* Aucun Dossier *';
+	echo hb('* Aucun Dossier *');
 	echo '</div>';
 	exit();
 }
-$mod_user=new User(DbConnect(),$uid);
+
+$mod_user=new User(new Database(),$uid);
 foreach ( $Dossier as $rDossier) {
 
-  $priv=$mod_user->get_privilege($rDossier['dos_id']);
+  $priv=$mod_user->get_folder_access($rDossier['dos_id']);
   printf("<TR><TD> Dossier : %s </TD>",h($rDossier['dos_name']));
   
-  $select=new widget('select');
+  $select=new ISelect();
   $select->table=1;
   $select->name=sprintf('PRIV%s',$rDossier['dos_id']);
   $select->value=$array;
   $select->selected=$priv;
-  echo $select->IOValue();
+  echo $select->input();
   echo "</TD></TR>";
 }
 
 ?>
 </TABLE>
 
-<?php echo widget::button_href('Reinitialiser le mot de passe',
+<?php echo HtmlInput::button_anchor('Reinitialiser le mot de passe',
 			  sprintf('priv_user.php?reset_passwd&UID=%s',$uid)); 
 ?>
 

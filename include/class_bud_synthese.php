@@ -30,7 +30,6 @@
  */
 require_once ('class_dossier.php');
 require_once ('class_bud_hypo.php');
-require_once ('class_widget.php');
 
 class Bud_Synthese {
   var $cn;			/*!< database connection */
@@ -47,7 +46,7 @@ class Bud_Synthese {
     }
   }
   static function test_me() {
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $a=array('from'=>'01.01.2008',
 	     'to'=>'11.01.2008',
 	     'bh_id'=>1);

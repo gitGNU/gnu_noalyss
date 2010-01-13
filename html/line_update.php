@@ -24,16 +24,15 @@
 include_once ("ac_common.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
-include_once ("postgres.php");
-include_once("check_priv.php");
+require_once('class_database.php');
 require_once ('class_acc_account.php');
 /* Admin. Dossier */
-$rep=DbConnect();
+$rep=new Database();
 include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
 html_page_start($User->theme,"onLoad='window.focus();'");
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 $User->can_request(PARPCMN);
 
 
@@ -41,7 +40,7 @@ include ("user_menu.php");
 /* Modif d'une ligne */
 if ( isset ($_POST["update"] ) ) {
 
-  echo JS_UPDATE_PCMN;
+  echo JS_ACCOUNTING_ITEM;
 
     $p_val=trim($_POST["p_val"]);
     $p_lib=trim($_POST["p_lib"]);
@@ -56,7 +55,7 @@ if ( isset ($_POST["update"] ) ) {
     // Check if the data are correct 
     try {
       $acc->check() ; 
-    }catch (AcException $e) {
+    }catch (Exception $e) {
       $message="Valeurs invalides, pas de changement \n ".
 	$e->getMessage();
 	      echo '<script> alert(\''.$message.'\'); 
@@ -80,8 +79,8 @@ if ( isset ($_POST["update"] ) ) {
 	}
       }
       /* Parent existe */
-      $Ret=ExecSqlParam($cn,"select pcm_val from tmp_pcmn where pcm_val=$1",array($p_parent));
-      if ( ($p_parent != 0 && pg_NumRows($Ret) == 0) || $p_parent==$old_line ) {
+      $Ret=$cn->exec_sql("select pcm_val from tmp_pcmn where pcm_val=$1",array($p_parent));
+      if ( ($p_parent != 0 && Database::num_row($Ret) == 0) || $p_parent==$old_line ) {
 	echo '<SCRIPT> alert(" Ne peut pas modifier; aucun poste parent"); </SCRIPT>';
       } else {
 	$acc->update($old_line);	

@@ -28,7 +28,8 @@
  * and op_def_detail
  *
  */
-require_once ('class_widget.php');
+require_once("class_iselect.php");
+require_once("class_ihidden.php");
 class Pre_operation 
 {
   var $db;						/*!< $db database connection */
@@ -49,7 +50,7 @@ class Pre_operation
 	$this->jrn_type=$_POST['jrn_type'];
 	$this->name=(isset($_POST['e_comm']))?$_POST['e_comm']:"";
 	if ( $this->name=="") {
-	  $n=NextSequence($this->db,'op_def_op_seq');
+	  $n=$this->db->get_next_seq('op_def_op_seq');
 	  $this->name=$this->jrn_type.$n;
 	// common value
 	}
@@ -57,14 +58,14 @@ class Pre_operation
   function delete () {
 	$sql="delete from op_predef where od_id=".$this->od_id.
 	  			  " and od_direct ='".$this->od_direct."'";
-	ExecSql($this->db,$sql);
+	$this->db->exec_sql($sql);
   }
   /*!\brief save the predef check first is the name is unique
    * \return true op.success otherwise false
    */
   function save() {
-	if (	CountSql($this->db,"select * from op_predef ".
-			 "where upper(od_name)=upper('".pg_escape_string($this->name)."')".
+	if (	$this->db->count_sql("select * from op_predef ".
+			 "where upper(od_name)=upper('".Database::escape_string($this->name)."')".
 					 "and jrn_def_id=".$this->p_jrn)
 			!= 0 )
 	  {
@@ -79,12 +80,12 @@ class Pre_operation
 				 'values'.
 				 "(%d,'%s',%d,'%s','%s')",
 				 $this->p_jrn,
-				 pg_escape_string($this->name),
+				 Database::escape_string($this->name),
 				 $this->nb_item,
 		     $this->jrn_type,
 		     $this->od_direct);
-	ExecSql($this->db,$sql);
-	$this->od_id=GetSequence($this->db,'op_def_op_seq');
+	$this->db->exec_sql($sql);
+	$this->od_id=$this->db->get_current_seq('op_def_op_seq');
 	return true;
   }
   /*!\brief load the data from the database and return an array
@@ -95,8 +96,8 @@ class Pre_operation
 	  " from op_predef where od_id=".$this->od_id.
 	  " and od_direct='".$this->od_direct."'".
 	  " order by od_name";
-	$res=ExecSql($this->db,$sql);
-	$array=pg_fetch_all($res);
+	$res=$this->db->exec_sql($sql);
+	$array=Database::fetch_all($res);
 	echo_debug(__FILE__.':'.__LINE__.'- ','load pre_op',$array);
 
 	return $array;
@@ -116,21 +117,21 @@ class Pre_operation
   /*!\brief show the button for selecting a predefined operation */
   function show_button() {
 
-	$select=new widget("select");
-	$value=make_array($this->db,"select od_id,od_name from op_predef ".
+	$select=new ISelect();
+	$value=$this->db->make_array("select od_id,od_name from op_predef ".
 			  " where jrn_def_id=".$this->p_jrn.
 			  " and od_direct ='".$this->od_direct."'".
 			  " order by od_name");
 
 	if ( empty($value)==true) return "";
 	$select->value=$value;
-	$r=$select->IOValue("pre_def");
+	$r=$select->input("pre_def");
 
 	return $r;
   }
   /*!\brief count the number of pred operation for a ledger */
   function count() {
-	$a=CountSql($this->db,"select od_id,od_name from op_predef ".
+	$a=$this->db->count_sql("select od_id,od_name from op_predef ".
 		    " where jrn_def_id=".$this->p_jrn.
 		    " and od_direct ='".$this->od_direct."'".
 		    " order by od_name");
@@ -144,8 +145,8 @@ class Pre_operation
       " where jrn_def_id=".$this->p_jrn.
       " and od_direct ='".$this->od_direct."'".
       " order by od_name";
-  $res=ExecSql($this->db,$sql);
-  $all=pg_fetch_all($res);
+  $res=$this->db->exec_sql($sql);
+  $all=Database::fetch_all($res);
   return $all;
   }
   /*!\brief set the ledger
@@ -174,13 +175,13 @@ class Pre_operation_detail {
    */
   function form_get () {
   
-     $hid=new widget("hidden");
-     $r=$hid->IOValue("action","use_opd");
+     $hid=new IHidden();
+     $r=$hid->input("action","use_opd");
      $r.=dossier::hidden();
-     $r.=$hid->IOValue("p_jrn",$this->get("ledger"));
-     $r.=$hid->IOValue("jrn_type",$this->get("ledger_type"));
+     $r.=$hid->input("p_jrn",$this->get("ledger"));
+     $r.=$hid->input("jrn_type",$this->get("ledger_type"));
      if ($this->count() != 0 ) {
-       $r.= widget::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
+       $r.= HtmlInput::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
        $r.= $this->show_button();
      }
      return $r;
@@ -188,7 +189,7 @@ class Pre_operation_detail {
   }
   /*!\brief count the number of pred operation for a ledger */
   function count() {
-    $a=CountSql($this->db,"select od_id,od_name from op_predef ".
+    $a=$this->db->count_sql("select od_id,od_name from op_predef ".
 		    " where jrn_def_id=".$this->jrn_def_id.
 		    " and od_direct ='".$this->od_direct."'".
 		    " order by od_name");
@@ -197,16 +198,16 @@ class Pre_operation_detail {
   /*!\brief show the button for selecting a predefined operation */
   function show_button() {
 
-	$select=new widget("select");
+	$select=new ISelect();
 
 	$value=$this->get_operation();
 	//	if ( empty($value)==true) return "";
 	$select->value=$value;
-	$r=$select->IOValue("pre_def");
+	$r=$select->input("pre_def");
 	return $r;
   }
   public function   get_operation() {
-	$value=make_array($this->db,"select od_id,od_name from op_predef ".
+	$value=$this->db->make_array("select od_id,od_name from op_predef ".
 			  " where jrn_def_id=".FormatString($this->jrn_def_id).
 			  " and od_direct ='".FormatString($this->od_direct)."'".
 			  		  " order by od_name");

@@ -23,7 +23,7 @@
  */
 include_once("ac_common.php");
 include_once("impress_inc.php");
-include_once("postgres.php");
+require_once('class_database.php');
 require_once ('header_print.php');
 require_once ('class_acc_bilan.php');
 
@@ -33,7 +33,7 @@ $gDossier=dossier::id();
 
 
 /* Admin. Dossier */
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 $User=new User($cn);
 $User->Check();

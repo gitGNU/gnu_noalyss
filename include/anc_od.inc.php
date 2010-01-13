@@ -20,14 +20,15 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  *
  *
  * \brief Misc Operation for analytic accountancy
  *
  */
+require_once("class_ihidden.php");
+require_once("class_iselect.php");
 require_once("class_anc_account.php");
-require_once ("class_widget.php");
 require_once ("class_anc_operation.php");
 require_once ("class_anc_plan.php");
 require_once ("class_anc_group_operation.php");
@@ -35,7 +36,7 @@ require_once ("class_anc_group_operation.php");
 
 $pa=new Anc_Plan($cn);
 $m=$pa->get_list();
-if ( ! $m )  { echo '<h2 class="info"> Aucun plan analytique d&eacute;fini</h2>';exit();}
+if ( ! $m )  { echo '<h2 class="info">'._('Aucun plan analytique défini').'</h2>';exit();}
 
 
 
@@ -48,10 +49,10 @@ echo '
 <table>
 <tr>
     <td  class="mtitle" >
-     <A class="mtitle" HREF="?p_action=ca_od&new&'.$str_dossier.'"> Nouveau </A>
+     <A class="mtitle" HREF="?p_action=ca_od&new&'.$str_dossier.'"> '._('Nouveau').' </A>
  </td>
     <td  class="mtitle" >
-     <A class="mtitle" HREF="?p_action=ca_od&see&'.$str_dossier.'"> Liste op&eacute;rations </A
+     <A class="mtitle" HREF="?p_action=ca_od&see&'.$str_dossier.'">'._('Liste opérations').' </A
  </td>
 </tr>
 </table>
@@ -60,7 +61,7 @@ echo '
 ';
 
 //----------------------------------------------------------------------
-// the pa_id is set 
+// the pa_id is set
 //
 //----------------------------------------------------------------------
 if ( isset($_GET['see'])) {
@@ -77,28 +78,28 @@ echo '
 ';
 
  echo dossier::hidden();
- $hid=new widget("hidden");
- 
+ $hid=new IHidden();
+
  $hid->name="p_action";
  $hid->value="ca_od";
- echo $hid->IOValue();
- 
+ echo $hid->input();
+
  $hid->name="see";
  $hid->value="";
- echo $hid->IOValue();
+ echo $hid->input();
 
- $w=new widget("select");
+ $w=new ISelect();
  $w->name="p_periode";
  // filter on the current year
  $filter_year=" where p_exercice='".$User->get_exercice()."'";
- 
- $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by  p_start,p_end",1);
+
+ $periode_start=$cn->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by  p_start,p_end",1);
  $User=new User($cn);
  $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
  $w->value=$periode_start;
  $w->selected=$current;
- echo $w->IOValue(); 
- echo 'P&eacute;riode  '.widget::submit('gl_submit','Valider').'</form>';
+ echo $w->input();
+ echo 'P&eacute;riode  '.HtmlInput::submit('gl_submit','Valider').'</form>';
 
   echo '<div class="u_redcontent">';
   echo $a->html_table($current);
@@ -110,7 +111,7 @@ if ( isset($_POST['save'])) {
   // and exit
   //-----------------------------
   echo '<div class="u_redcontent">'.
-	'Op&eacute;ration sauv&eacute;e';
+	_('Opération sauvée');
   $a=new Anc_Group_Operation($cn);
 
   $a->get_from_array($_POST);
@@ -126,14 +127,14 @@ if ( isset($_GET['new'])) {
 	//------------------------------------------
   $a=new Anc_Group_Operation($cn);
   echo JS_CAOD_COMPUTE;
-  $wSubmit=new widget('hidden',"p_action","ca_od");
+  $wSubmit=new IHidden("p_action","ca_od");
   $wSubmit->table=0;
   echo '<div class="u_redcontent">';
   echo '<form method="post">';
   echo dossier::hidden();
-  echo $wSubmit->IOValue();
+  echo $wSubmit->input();
   echo $a->form();
-  echo widget::submit("save","Sauver");
+  echo HtmlInput::submit("save","Sauver");
   echo '</form>';
   echo '<div class="info">
     D&eacute;bit = <span id="totalDeb"></span>

@@ -40,16 +40,23 @@ function todo_list_show(p_id) {
     );
     return false;
 }
-function todo_list_show_success(request,json) {
-    var answer = request.responseText.evalJSON(true);
+function todo_list_show_success(req) {
+    try {
+	var answer=req.responseXML;
+	var tl_id=answer.getElementsByTagName('tl_id');
+	var tl_title=answer.getElementsByTagName('tl_title');
+	var tl_desc=answer.getElementsByTagName('tl_desc');
+	var tl_date=answer.getElementsByTagName('tl_date');
+	
+	if ( tl_id.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
 
-    $('p_title').value=answer.tl_title;
-
-    $('p_date').value=answer.tl_date;
-    $('p_desc').value=decodeURI(answer.tl_desc);
-    $('tl_id').value=answer.tl_id;
-    $('add_todo_list').show();
-    $('add').hide();
+	$('p_title').value=getNodeText(tl_title[0]);
+	$('p_date').value=getNodeText(tl_date[0]);
+	$('p_desc').value=getNodeText(tl_desc[0]);
+	$('tl_id').value=getNodeText(tl_id[0]);
+	$('add_todo_list').show();
+	$('add').hide();
+    } catch (e)  { alert(e.message);}
 }
 function todo_list_show_error(request_json) {
     alert ('failure');

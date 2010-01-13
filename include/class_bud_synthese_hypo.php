@@ -28,6 +28,7 @@
  * \brief Manage the hypothese for the budget module
  *  synthese
  */
+require_once("class_iselect.php");
 require_once ('class_bud_synthese.php');
 require_once ('class_acc_account_ledger.php');
 require_once ('class_bud_hypo.php');
@@ -37,36 +38,36 @@ class Bud_Synthese_Hypo extends Bud_Synthese {
 /*     echo "constructor ".__FILE__; */
 /*   } */
   static function make_array($p_cn) {
-    $a=make_array($p_cn,'select bh_id, bh_name from bud_hypothese '.
+    $a=$p_cn->make_array('select bh_id, bh_name from bud_hypothese '.
 		  ' order by bh_name');
     return $a;
   }
 
   function form() {
-    $wSelect = new widget('select');
+    $wSelect =new ISelect();
     $wSelect->name='bh_id';
     $wSelect->value=Bud_Synthese_Hypo::make_array($this->cn);
     $wSelect->selected=$this->bh_id;
     $wSelect->javascript='onChange=this.form.submit()';
 
-    $r="Choississez l'hypoth&egrave;se :".$wSelect->IOValue();
+    $r="Choississez l'hypoth&egrave;se :".$wSelect->input();
 
-    $per=make_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') ".
+    $per=$this->cn->make_array("select p_id,to_char(p_start,'MM.YYYY') ".
 		    " from parm_periode order by p_start,p_end");
 
-    $wFrom=new widget('select');
+    $wFrom=new ISelect();
     $wFrom->name='from';
     $wFrom->value=$per;
     $wFrom->selected=$this->from;
     $wFrom->selected=$this->from;
 
-    $wto=new widget('select');
+    $wto=new ISelect();
     $wto->name='to';
     $wto->selected=$this->to;
     $wto->value=$per;
     $wto->selected=$this->to;
 
-    $r.="Periode de ".$wFrom->IOValue()." &agrave; ".$wto->IOValue();
+    $r.="Periode de ".$wFrom->input()." &agrave; ".$wto->input();
     $r.=dossier::hidden();
     return $r;
   }
@@ -108,11 +109,11 @@ Array
     $per=sql_filter_per($this->cn,$this->from,$this->to,'p_id','p_id');
     $per_acc=sql_filter_per($this->cn,$this->from,$this->to,'p_id','j_tech_per');
     $sql_poste="select distinct pcm_val from bud_detail where bh_id=".$this->bh_id;
-    $aPoste=get_array($this->cn,$sql_poste);
+    $aPoste=$this->cn->get_array($sql_poste);
     $hypo=new Bud_Hypo($this->cn,$this->bh_id);
-    $local_con=DbConnect(dossier::id());
+    $local_con=new Database(dossier::id());
     if ( $hypo->has_plan()  == 1 ) {
-      $sql_prepare=pg_prepare($local_con,"get_group","select sum(bdp_amount) as amount,ga_id,".
+      $sql_prepare=$local_con->prepare("get_group","select sum(bdp_amount) as amount,ga_id,".
 			      "bc_price_unit".
 			      " from ".
 			      " bud_detail join bud_detail_periode using (bd_id) ".
@@ -124,7 +125,7 @@ Array
 			      " group by ga_id,bc_price_unit ".
 			      " order by ga_id ");
     } else {
-      $sql_prepare=pg_prepare($local_con,"get_group","select sum(bdp_amount) as amount,'Aucun groupe' as ga_id,".
+      $sql_prepare=$local_con->prepare("get_group","select sum(bdp_amount) as amount,'Aucun groupe' as ga_id,".
 			      "bc_price_unit".
 			      " from ".
 			      " bud_detail join bud_detail_periode using (bd_id) ".
@@ -138,7 +139,7 @@ Array
     }
     $array=array();
     // Now we put 0 if there is nothing for a group
-    $aGroup=get_array($this->cn,"select distinct ga_id from bud_detail join poste_analytique ".
+    $aGroup=$this->cn->get_array("select distinct ga_id from bud_detail join poste_analytique ".
 		      " using (po_id) where bh_id=".$this->bh_id." order by ga_id ");
 
      if ( empty ($aPoste)) return array();
@@ -146,8 +147,8 @@ Array
     foreach ($aPoste as $rPoste) {
       $pcm_val=$rPoste['pcm_val'];
       $line=array();
-      $res=pg_execute("get_group",array($pcm_val,$this->bh_id));
-      $row=pg_fetch_all($res);
+      $res=$cn->execute("get_group",array($pcm_val,$this->bh_id));
+      $row=Database::fetch_all($res);
       if ( empty ($row) ) continue;
       // initialize all groupe to 0
       if ( ! empty($aGroup) ) {
@@ -172,8 +173,8 @@ Array
     /*!\bug it is a bug ? When I close a connection created and used
      *   locally, it closed also the main connection so I reopened it
      */
-    pg_close($local_con);
-    $this->cn=DbConnect(dossier::id());
+    $local_con->close();
+    $this->cn=new Database(dossier::id());
     return $array;
   }
   /*!\brief compute the summary
@@ -201,7 +202,7 @@ Array
 
     if ( empty ($p_array)) return ;
     // Now we put 0 if there is nothing for a group
-    $aGroup=get_array($this->cn,"select distinct ga_id from bud_detail join poste_analytique ".
+    $aGroup=$this->cn->get_array("select distinct ga_id from bud_detail join poste_analytique ".
 		      " using (po_id) where bh_id=".$this->bh_id." order by ga_id ");
 
 
@@ -240,7 +241,7 @@ Array
     $array=array();
     if ( empty ($p_array)) return $array ;
     // Now we put 0 if there is nothing for a group
-    $aGroup=get_array($this->cn,"select distinct ga_id from bud_detail join poste_analytique ".
+    $aGroup=$this->cn->get_array("select distinct ga_id from bud_detail join poste_analytique ".
 		      " using (po_id) where bh_id=".$this->bh_id." order by ga_id ");
 
 
@@ -270,7 +271,7 @@ Array
     if ( empty ($p_array)) return;
     $heading="";
     $r="";
-    $aGroup=get_array($this->cn,"select distinct ga_id from bud_detail join poste_analytique ".
+    $aGroup=$this->cn->get_array("select distinct ga_id from bud_detail join poste_analytique ".
 		      " using (po_id) where bh_id=".$this->bh_id." order by ga_id ");
     $heading.='<tr>';
     $heading.='<th>CE  </th>';
@@ -317,7 +318,7 @@ Array
     if ( empty ($p_array)) return;
     $heading="";
     $r="";
-    $aGroup=get_array($this->cn,"select distinct ga_id from bud_detail join poste_analytique ".
+    $aGroup=$this->cn->get_array("select distinct ga_id from bud_detail join poste_analytique ".
 		      " using (po_id) where bh_id=".$this->bh_id." order by ga_id ");
     $heading.='"CE",';
     foreach ($aGroup as $rGroup ) 
@@ -354,7 +355,7 @@ Array
   function hidden() {
     $r="";
     foreach (array('bh_id','from','to') as $e)
-      $r.=widget::hidden($e,$this->$e);
+      $r.=HtmlInput::hidden($e,$this->$e);
     return $r;
   }
   /*!\brief the same as summary but show it in html */
@@ -362,7 +363,7 @@ Array
     if ( empty ($p_array))return '';    
     $summary_array=$this->summary($p_array);
     arsort($summary_array);
-    $aGroup=get_array($this->cn,"select distinct ga_id from bud_detail join poste_analytique ".
+    $aGroup=$this->cn->get_array("select distinct ga_id from bud_detail join poste_analytique ".
 		      " using (po_id) where bh_id=".$this->bh_id." order by ga_id ");
     $per_acc=sql_filter_per($this->cn,$this->from,$this->to,'p_id','j_tech_per');
 
@@ -403,12 +404,12 @@ Array
     return $r;
   }
   static function test_me() {
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $obj=new Bud_Synthese_Hypo($cn);
     echo '<form method="GET">';
-	echo widget::hidden('test_select',$_REQUEST['test_select']);
+	echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
     echo $obj->form();
-    echo widget::submit('recherche','Recherche');
+    echo HtmlInput::submit('recherche','Recherche');
     echo '</form>';
     print_r($_GET);
     if ( isset ($_GET['recherche'])) {

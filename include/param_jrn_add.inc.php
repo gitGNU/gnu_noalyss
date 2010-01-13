@@ -25,40 +25,46 @@
 
 include_once ("ac_common.php");
 include_once("jrn.php");
+require_once("class_itext.php");
+require_once("class_iselect.php");
 require_once ('class_acc_ledger.php');
+/* javascript for the search poste */
+require_once('class_ipopup.php');
+echo js_include('accounting_item.js');
+echo js_include('prototype.js');
+echo js_include('scriptaculous.js');
+echo js_include('effects.js');
+echo js_include('controls.js');
+echo js_include('dragdrop.js');
+
+/* ipopup for search poste */
+echo IPoste::ipopup('ipop_account');
 
 html_page_start($_SESSION['g_theme']);
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-include_once ("postgres.php");
+require_once('class_database.php');
 /* Admin. Dossier */
 
 include_once ("class_user.php");
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 $User=new User($cn);
 $User->Check();
 $User->check_dossier($gDossier);
-include_once("check_priv.php");
 include_once ("user_menu.php");
-
-
-
 
 $User->can_request(PARJRN);
 
-
-echo JS_SEARCH_POSTE;
-
 if ( isset ($_POST["add"]) ) {
   if (  !isset($_POST["p_jrn_name"]) || ! isset($_POST["p_jrn_type"] )) {
-    echo '<H2 CLASS="error"> Un paramètre manque</H2>';
+    echo '<H2 CLASS="error">'._('Un paramètre manque').'</H2>';
   }
   else {
     /*  if name already use we stop */
-    if ( CountSql($cn,"select * from jrn_def where jrn_def_name=$1",array($_POST['p_jrn_name'])) >0 ) {
+    if ( $cn->count_sql("select * from jrn_def where upper(jrn_def_name)=upper($1)",array($_POST['p_jrn_name'])) >0 ) {
       
-      alert ('Un journal de ce nom existe déjà');
+      alert (_('Un journal de ce nom existe déjà'));
     } else {
       
       if (strlen(trim($_POST['p_jrn_deb_max_line'])) == 0 || 
@@ -84,7 +90,7 @@ if ( isset ($_POST["add"]) ) {
 	$p_jrn_fiche_cred=join(",",$_POST["FICHEDEB"]);
       }
       $l_cred_max_line=$l_deb_max_line;
-      StartSql($cn);
+      $cn->start();
 	$Sql="insert into jrn_def(jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
                   jrn_def_type,jrn_def_fiche_deb,jrn_def_fiche_cred,jrn_def_code,jrn_def_pj_pref) 
                   values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)";
@@ -93,11 +99,10 @@ if ( isset ($_POST["add"]) ) {
 			 $l_deb_max_line,$l_cred_max_line,$_POST['p_jrn_type'],
 			 $p_jrn_fiche_deb,$p_jrn_fiche_cred,
 			 $p_code,$_POST['jrn_def_pj_pref']);
-	$Res=ExecSqlParam($cn,$Sql,$sql_array);
-	$ledger_id=GetSequence($cn,'s_jrn_def');
-	$Res=create_sequence($cn,'s_jrn_pj'.$ledger_id);
-	AlterSequence($cn,'s_jrn_pj'.$ledger_id,$_POST['jrn_def_pj_seq']);
-	Commit($cn);
+	$Res=$cn->exec_sql($Sql,$sql_array);
+	$ledger_id=$cn->get_current_seq('s_jrn_def');
+	$Res=$cn->create_sequence('s_jrn_pj'.$ledger_id);
+	$cn->commit();
     }
   }
   echo '<div class="lmenu">';
@@ -115,46 +120,48 @@ $sessid=$_REQUEST['PHPSESSID'];
 
 echo '<DIV CLASS="u_redcontent">';
 /* widget for searching an account */
-$wSearch=new widget('js_search_poste_only');
-$wSearch->extra="p_jrn_class_deb";
-$wSearch->extra2='jrn';
-$wJrn=new widget('text');
-$wJrn->name='p_jrn_class_deb';
-$wJrn->size=40;
-$wJrn->value='';
-$search=$wJrn->IOValue().$wSearch->IOValue();
+$wSearch=new IPoste();
+$wSearch->set_attribute('ipopup','ipop_account');
+$wSearch->set_attribute('account','p_jrn_class_deb');
+$wSearch->set_attribute('no_overwrite','1');
+$wSearch->set_attribute('noquery','1');
+
+$wSearch->name="p_jrn_class_deb";
+$wSearch->size=40;
+
+$search=$wSearch->input();
 
 /* construct all the hidden */
-$hidden= widget::hidden('p_jrn',0);
-$hidden.= widget::hidden('p_action','jrn');
-$hidden.= widget::hidden('sa','add');
+$hidden= HtmlInput::hidden('p_jrn',0);
+$hidden.= HtmlInput::hidden('p_action','jrn');
+$hidden.= HtmlInput::hidden('sa','add');
 $hidden.= dossier::hidden();
-$hidden.=widget::hidden('p_jrn_deb_max_line',10);
-$hidden.=widget::hidden('p_ech_lib','echeance');
+$hidden.=HtmlInput::hidden('p_jrn_deb_max_line',10);
+$hidden.=HtmlInput::hidden('p_ech_lib','echeance');
 
 /* properties of the ledger */
 $name="";
 $code="";
-$wType=new widget('select');
-$wType->value=make_array($cn,'select jrn_type_id,jrn_desc from jrn_type');
+$wType=new ISelect();
+$wType->value=$cn->make_array('select jrn_type_id,jrn_desc from jrn_type');
 $wType->name="p_jrn_type";
-$type=$wType->IOValue();
+$type=$wType->input();
 $rcred=$rdeb=array();
-$wPjPref=new widget('text');
+$wPjPref=new IText();
 $wPjPref->name='jrn_def_pj_pref';
-$pj_pref=$wPjPref->IOValue();
-$wPjSeq=new widget('text');
+$pj_pref=$wPjPref->input();
+$wPjSeq=new IText();
 $wPjSeq->value=0;
 $wPjSeq->name='jrn_def_pj_seq';
-$pj_seq=$wPjSeq->IOValue();
+$pj_seq=$wPjSeq->input();
 
 echo '<FORM METHOD="POST">';
-echo dossier::hidden();
-echo widget::hidden('p_action','jrn');
-echo widget::hidden('sa','add');
+echo dossier::hidden().HtmlInput::phpsessid();
+echo HtmlInput::hidden('p_action','jrn');
+echo HtmlInput::hidden('sa','add');
 require_once('template/param_jrn.php');
-
-echo '<INPUT TYPE="SUBMIT" name="add" VALUE="Sauve"><INPUT TYPE="RESET" VALUE="Reset">';
+echo HtmlInput::submit('add','Sauver');
+echo '<INPUT TYPE="RESET" VALUE="Reset">';
 echo '</FORM>';
 echo "</DIV>";
 html_page_stop();

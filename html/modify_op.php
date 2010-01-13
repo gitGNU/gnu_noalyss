@@ -24,21 +24,19 @@
  *
  */
 include_once ("ac_common.php");
-include_once ("poste.php");
-include_once("preference.php");
 include_once("central_inc.php");
-include_once("check_priv.php");
 include_once("user_common.php");
-include_once ("postgres.php");
+require_once('class_database.php');
 include_once("jrn.php");
-include_once("class_widget.php");
 require_once ("constant.php");
 require_once('class_acc_reconciliation.php');
 require_once('class_acc_operation.php');
-
+echo js_include('scripts.js');
+echo js_include('prototype.js');
+echo js_include('anc_script.js');
 /* Admin. Dossier */
 $gDossier=dossier::id();
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 include_once ("class_user.php");
 $User=new User($cn);
@@ -47,11 +45,11 @@ $User->check_dossier(dossier::id());
 
 html_page_start($User->theme,"onLoad='window.focus();'");
 require_once('class_dossier.php');
-// $p_jrn=(isset($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:0;
+
 $acc=new Acc_Operation($cn);
 if (isset($_REQUEST['line']))
   $acc->jr_id=$_REQUEST ['line'];
-else 
+else
   $acc->jr_id=$_REQUEST ['jr_id'];
 
 $p_jrn=$acc->get_ledger();
@@ -59,8 +57,6 @@ $p_jrn=$acc->get_ledger();
 if ( isset ( $_GET['action'] ) ) {
   $action=$_GET['action'];
 }
-//$_SESSION["p_jrn"]=$p_jrn;
-
 $p_view=(isset($_REQUEST['p_view']))?$_REQUEST['p_view']:"error";
 
 if ( isset ( $_REQUEST['action'] ) ) {
@@ -72,7 +68,7 @@ if ( ! isset ( $action )) {
 }
 
 // Javascript
-echo JS_VIEW_JRN_MODIFY;
+echo JS_LEDGER;
 ?>
 <script language="javascript">
   function show_div (p_div) {
@@ -100,24 +96,18 @@ if ( $action == 'update' ) {
 
       NoAccess();
       exit -1;
-    
+
     }
     // p_id is jrn.jr_id
     $p_id=$_GET["line"];
     echo_debug('modify_op.php',__LINE__," action = update p_id = $p_id");
 
-    echo JS_CONCERNED_OP;
-
-
-
-
-
     $view='<h2 class="error">Erreur vue inconnue</h2>';
 
 	// show the detailled operation
-    if ( $p_view == 'S' ) 
+    if ( $p_view == 'S' )
 	  $view='<div id="simple">';
-	else 
+	else
 	  $view='<div id="simple" style="display:none">';
 
 	$view.='<h2 class="info">Vue simple</h2>';
@@ -132,15 +122,15 @@ if ( $action == 'update' ) {
 	$view.="<br>";
 	$view.="<br>";
 	if ( $User->check_jrn($p_jrn) == 'W')
-	  $view.=($p_view == 'S')?'<input type="SUBMIT" name="update_record" value="Enregistre">':"";
+	  $view.=($p_view == 'S')?HtmlInput::submit('update_record','Enregistre'):'';
 	$view.="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	$view.='<input type="button" value="Fermer" onClick="window.close();  self.opener.RefreshMe();">';
 	$view.='</FORM>';
 	$view.='</div>';
 
-	if ( $p_view == 'S' ) 
+	if ( $p_view == 'S' )
 	  $view.='<div id="expert" style="display:none">';
-	else 
+	else
 	  $view.='<div id="expert" style="display:block">';
 
 	$view.='<h2 class="info">Vue expert</h2>';
@@ -155,7 +145,7 @@ if ( $action == 'update' ) {
 	$view.="<br>";
 	$view.="<br>";
 	if ( $User->check_jrn($p_jrn) == 'W')
-	  $view.=($p_view == 'E') ?'<input type="SUBMIT" name="update_record" value="Enregistre">':"";
+	  $view.=($p_view == 'E') ?HtmlInput::submit('update_record','Enregistre'):'';
 	$view.="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	$view.='<input type="button" value="Fermer" onClick="window.close();  self.opener.RefreshMe();">';
 	$view.='</div>';
@@ -163,7 +153,7 @@ if ( $action == 'update' ) {
 
     echo $view;
 
- }  
+ }
 //---------------------------------------------------------------------
 // action = vue ca
 //---------------------------------------------------------------------
@@ -179,9 +169,9 @@ if ( $action=="view_ca") {
   $view.='<input type="button" onclick="hide_div(\'simple\');show_div(\'expert\');" value="Vue Expert">';
   $view.='<input type="button" value="Fermer" onClick="window.close(); ">';
   $view.='</div>';
-  
 
-  
+
+
   $view.='<div id="expert" style="display:none">';
 
   $view.='<h2 class="info">Vue expert</h2>';
@@ -205,39 +195,39 @@ if ( isset($_POST['update_record']) ) {
   $acc->jr_id=$_POST['jr_id'];
   $l=$acc->get_ledger();
   if ( $User->check_jrn($l) != 'W' ) {
-      echo ' <script>   window.close();</script>';
-      NoAccess();
-      exit -1;
-    }
+    echo ' <script>   window.close();</script>';
+    NoAccess();
+    exit -1;
+  }
   try {
 	// NO UPDATE except rapt & comment && upload pj && PJ Number
-	StartSql($cn);
+	$cn->start();
 	$acc=new Acc_Operation($cn);
 	$acc->jr_id=$_POST['jr_id'];
 	/* set the pj */
-	$acc->pj=$_POST['pj']; $acc->set_pj(); 
+	$acc->pj=$_POST['pj']; $acc->set_pj();
 	$acc->operation_update_comment($_POST['comment']);
 	/* insert now the grouping */
+
 	if ( trim($_POST['rapt']) != "" ) {
-	  if ( strpos($_POST['rapt'],',') !== 0 )
+	  $rec=new Acc_Reconciliation ($cn);
+	  $rec->set_jr_id($_POST['jr_id']);
+
+	  if ( strpos($_POST['rapt'],',') != 0 )
 	    {
 	      $aRapt=split(',',$_POST['rapt']);
 	      /* reconcialition */
-	      $rec=new Acc_Reconciliation ($cn);
-	      $rec->set_jr_id($_POST['jr_id']);
 
 	      foreach ($aRapt as $rRapt) {
-		
-		
-		if ( isNumber($rRapt) == 1 ) 
+		if ( isNumber($rRapt) == 1 )
 		  {
 		    // Add a "concerned operation to bound these op.together
 		    //
 		    $rec->insert($rRapt);
 		  }
 	      }
-	    } else 
-	    if ( isNumber($_POST['rapt']) == 1 ) 
+	    } else
+	    if ( isNumber($_POST['rapt']) == 1 )
 	      {
 		$rec->insert($_POST['rapt']);
 	      }
@@ -245,27 +235,27 @@ if ( isset($_POST['update_record']) ) {
 
 	if ( isset ($_FILES)) {
 	  echo_debug("modify_op.php",__LINE__, "start upload doc.");
-	  save_upload_document($cn,$_POST['jr_grpt_id']);
+	  $cn->save_upload_document($_POST['jr_grpt_id']);
 	}
-	if ( isset ($_POST['is_paid'] )) 
-	  $Res=ExecSqlParam($cn,"update jrn set jr_rapt='paid' where jr_id=$1",array($_POST['jr_id']));
-	
+	if ( isset ($_POST['is_paid'] ))
+	  $Res=$cn->exec_sql("update jrn set jr_rapt='paid' where jr_id=$1",array($_POST['jr_id']));
+
 	if ( isset ($_POST['to_remove'] )) {
 	  /*! \note we don't remove the document file if another
 	   * operation needs it.
 	   */
-	  $ret=ExecSqlParam($cn,"select jr_pj from jrn where jr_id=$1",array($_POST['jr_id']));
-	  if (pg_num_rows($ret) != 0) {
-		$r=pg_fetch_array($ret,0);
+	  $ret=$cn->exec_sql("select jr_pj from jrn where jr_id=$1",array($_POST['jr_id']));
+	  if (Database::num_row($ret) != 0) {
+		$r=Database::fetch_array($ret,0);
 		$old_oid=$r['jr_pj'];
 		if (strlen($old_oid) != 0)
 		  {
 			// check if this pj is used somewhere else
-			$c=CountSql($cn,"select * from jrn where jr_pj=".$old_oid);
+			$c=$cn->count_sql("select * from jrn where jr_pj=".$old_oid);
 			if ( $c == 1 )
-			  pg_lo_unlink($cn,$old_oid);
+			  $cn->lo_unlink($old_oid);
 		  }
-		ExecSqlParam($cn,"update jrn set jr_pj=null, jr_pj_name=null, ".
+		$cn->exec_sql("update jrn set jr_pj=null, jr_pj_name=null, ".
 			"jr_pj_type=null  where jr_id=$1",array($_POST['jr_id']));
 	  }
 
@@ -282,10 +272,10 @@ if ( isset($_POST['update_record']) ) {
 	   //    if ( $own->MY_ANALYTIC == "ob") {
 	      $tab=0;	   	    $row=1;
 	      while (1) {
-		if ( !isset ($_POST['nb_t'.$tab])) 
+		if ( !isset ($_POST['nb_t'.$tab]))
 		  break;
 		$tot_tab=0;
-		
+
 		for ($i_row=0;$i_row <= MAX_COMPTE;$i_row++) {
 		  if ( ! isset($_POST['val'.$tab.'l'.$i_row]))
 		    continue;
@@ -294,7 +284,7 @@ if ( isset($_POST['update_record']) ) {
 
 		if ( $tot_tab != $_POST['amount_t'.$tab]) {
 		  echo '<script>alert ("Erreur montant dans Comptabilite analytique\n Operation annulee")</script>';
-		  get_redirect($_SERVER['HTTP_REFERER']);
+		  redirect($_SERVER['HTTP_REFERER']);
 		  return;
 		}
 		$tot_tab=0;
@@ -307,12 +297,12 @@ if ( isset($_POST['update_record']) ) {
 	    $sql="select j_id,j_poste,to_char(j_date,'DD.MM.YYYY') as j_date,j_debit ".
 	      "from jrn join jrnx on (j_grpt=jr_grpt_id) ".
 	      "where jr_id=$1";
-	    $res=ExecSqlParam($cn,$sql,array($_POST['jr_id']));
+	    $res=$cn->exec_sql($sql,array($_POST['jr_id']));
 
-	    $array_jid=pg_fetch_all($res);
+	    $array_jid=Database::fetch_all($res);
 	    // if j_poste match 6 or 7 we insert them
 	    $count=0;
-	    $group=NextSequence($cn,"s_oa_group");
+	    $group=$cn->get_next_seq("s_oa_group");
 
 	    foreach( $array_jid as $row_ca) {
 	      echo_debug(__FILE__.':'.__LINE__,"array is ",$row_ca);
@@ -329,19 +319,19 @@ if ( isset($_POST['update_record']) ) {
 			$count++;
 	      } //if ereg
 	    }//foreach
-	  }//	if ( $own->MY_ANALYTIC != "nu" ) 
+	  }//	if ( $own->MY_ANALYTIC != "nu" )
   } catch (Exception $e) {
     echo '<span class="error">'.
       'Erreur dans l\'enregistrement '.
       __FILE__.':'.__LINE__.' '.
       $e->getMessage();
 	echo_debug(__FILE__,__LINE__,$e->getMessage());
-    Rollback($cn);
+    $cn->rollback();
     exit();
   }
 
-  Commit($cn);
-  echo ' <script> 
+  $cn->commit();
+  echo ' <script>
  window.close();
  self.opener.RefreshMe();
  </script>';
@@ -351,7 +341,7 @@ if (  $action  == 'delete' ) {
   $rec=new Acc_Reconciliation ($cn);
   $rec->set_jr_id($_GET ['line']);
   $rec->remove($_GET['line2']);
- echo ' <script> 
+ echo ' <script>
   window.close();
  self.opener.RefreshMe();
  </script>';

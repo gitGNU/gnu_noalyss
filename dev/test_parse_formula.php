@@ -1,4 +1,9 @@
 <?
+/*
+# check the CheckFormula and the ParseFormula
+# This file is a part of PhpCompta under GPL
+# Author D. DE BONTRIDDER ddebontridder@yahoo.fr
+*/
 include_once('impress_inc.php');
 
 echo '<hr>';

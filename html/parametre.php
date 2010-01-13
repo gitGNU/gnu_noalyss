@@ -24,21 +24,34 @@
  */
 
 include_once ("ac_common.php");
-include_once ("postgres.php");
-require_once("class_widget.php");
+require_once('class_database.php');
+require_once("class_iselect.php");
+require_once("class_itext.php");
 require_once('class_dossier.php');
+require_once('class_iposte.php');
+echo js_include('prototype.js');
+echo js_include('scriptaculous.js');
+echo js_include('effects.js');
+echo js_include('controls.js');
+echo js_include('scripts.js');
+echo js_include('acc_ledger.js');
+echo js_include('card.js');
+echo js_include('accounting_item.js');
+echo js_include('ajax_fiche.js');
+echo js_include('dragdrop.js');
+
 $gDossier=dossier::id();
 
-include_once ("postgres.php");
+require_once('class_database.php');
 /* Admin. Dossier */
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 include_once ("class_user.php");
 $User=new User($cn);
 $User->Check();
 $User->check_dossier($gDossier);
 
 html_page_start($_SESSION['g_theme']);
-include_once("preference.php");
+
 include_once("user_menu.php");
 echo '<div class="u_tmenu">';
 
@@ -46,11 +59,10 @@ echo menu_tool('parametre.php');
 
 echo   '<div style="float:left;background-color:#879ED4;width:100%;">';
 
-include_once ("check_priv.php");
 
 $authorized =0;
 foreach ( array(PARCA,PARPER,PARFIC,PARDOC,PARJRN,PARTVA,
-		PARMP, PARPOS,PARCOORD,PARSEC) 
+		PARMP, PARPOS,PARCOORD,PARSEC,EXTENSION) 
 	  as $a) 
   {
     if ( $User->check_action($a) == 1 ) {
@@ -67,6 +79,9 @@ if ( isset($_REQUEST["p_action"]) ) {
   $p_action=$_REQUEST["p_action"];
 }
 switch ($p_action) {
+ case 'ext':
+   $default=3;
+   break;
  case 'jrn':
    $default=10;
    break;
@@ -78,12 +93,6 @@ switch ($p_action) {
    break;
  case 'divers':
    $default=2;
-   break;
- case 'tva':
-   $default=3;
-   break;
- case 'poste':
-   $default=4;
    break;
  case 'fiche':
    $default=5;
@@ -115,109 +124,85 @@ if ( isset ($_POST['action']) ) {
   $action=$_POST['action'];
 }
 echo_debug("parametre",__LINE__,$_POST);
-//-----------------------------------------------------
-// TVA RATE
-//-----------------------------------------------------
-if ( $p_action == "tva" ) 
-{
-  echo '</div>';
-  $User->can_request(PARTVA,1);
-  require_once("tva.inc.php");
-  // 
-}
-//-----------------------------------------------------
-// Account 
-//-----------------------------------------------------
-if ( $p_action == "poste" ) 
-{
-  $User->can_request(PARPOS,1);
-  require_once('poste.inc.php');
 
-}
 //-----------------------------------------------------
-// fiche 
+// divers 
 //-----------------------------------------------------
-if ( $p_action == "fiche" ) 
-{
-  $User->can_request(PARFIC,1);
-  require_once('fiche_def.inc.php');
-  return;
-}
-
 if ( $p_action == 'divers') {
   $s=dossier::get().'&PHPSESSID='.$_REQUEST['PHPSESSID'];
 
-  $array = array (/*array('parametre.php?p_action=divers&sa=devise&'.$s,
-		    'Devise','Devise',1),*/
-		  array('parametre.php?p_action=divers&sa=mp&'.$s,
-			'Moyen de paiement','Moyen de paiement',2)
+  $array = array (
+		  array('parametre.php?p_action=divers&sa=mp&'.$s,_('Moyen de paiement'),_('Moyen de paiement'),2),
+		  array('parametre.php?p_action=divers&sa=tva&'.$s,_('Tva'),_('Taux et poste comptable tva'),4),
+		  array('parametre.php?p_action=divers&sa=poste&'.$s,_('Poste Comptable'),_('Poste comptable constant'),7),
+		  array('parametre.php?p_action=divers&sa=fiche&'.$s,_('Catégorie de fiche'),_('Modifie les classe de base, les attribut,...'),5)
 		  );
   $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:'';
   $sb=(isset($_REQUEST['sb']))?$_REQUEST['sb']:'';
   $def=0;
   switch ($sa) {
-  case 'devise':
-    $def=1;
-    break;
-  case 'mp':
+    case 'mp':
     $def=2;
+    break;
+    case 'tva':
+    $def=4;
+    break;
+  case 'poste':
+    $def=7;
+    break;
+  case 'fiche':
+    $def=5;
     break;
   }
   echo '<div class="lmenu">';
   echo ShowItem($array,'H','mtitle','mtitle',$def);
   echo '</div>';
-
-  if ( $sa=='devise') {
-    echo '<DIV CLASS="u_redcontent">';
-    //-----------------------------------------------------
-    // Currency
-    //-----------------------------------------------------
-    if ( $sb == "c" ) {
-      $p_mid=$_GET['p_mid'];
-      $p_rate=$_GET['p_rate'];
-      $p_code=$_GET['p_code'];
-      
-      echo '<TR> <FORM ACTION="parametre.php" METHOD="POST">';
-      echo dossier::hidden();
-      echo '<INPUT TYPE="HIDDEN" VALUE="'.$p_mid.'" NAME="p_id">';
-      echo '<TD> <INPUT TYPE="text" NAME="p_devise" VALUE="'.$p_code.'"></TD>';
-      echo '<TD> <INPUT TYPE="text" NAME="p_rate" VALUE="'.$p_rate.'"></TD>';
-      echo '<TD> <INPUT TYPE="SUBMIT" NAME="action" Value="Change"</TD>';
-      echo '</FORM></TR>';
-    }
-    if ( $sb == "ch") {
-      $p_devise=$_GET['p_code'];
-      $p_id=$_GET['p_id'];
-      $p_rate=$_GET['p_rate'];
-      $Res=ExecSql($cn,"update parm_money set pm_code='$p_devise',pm_rate=$p_rate where pm_id=$p_id");
-      ShowDevise($cn);
-      
-    }
-    if ( $sb == "a") {
-      $p_devise=$_POST['p_devise'];
-      $p_rate=$_POST['p_rate'];
-      $Res=ExecSql($cn,"insert into parm_money ( pm_code,pm_rate) values ('$p_devise',$p_rate) ");
-      ShowDevise($cn);
-
-    }
-    
-    if ( $sb == "d") {
-      $p_id=$_GET['p_mid'];
-      $Res=ExecSql($cn,"delete from parm_money  where pm_id=$p_id");
-      ShowDevise($cn);
-    }
-    
-    
-    if ( $p_action=="divers") {
-      ShowDevise($cn);
-    }
-  }
+  
   if ( $sa=='mp') {
     $User->can_request(PARMP,1);
     require_once('payment_middle.inc.php');
     exit;
   }
-}
+
+  //-----------------------------------------------------
+  // TVA RATE
+  //-----------------------------------------------------
+  if ( $sa == "tva" ) 
+    {
+      echo '</div>';
+      $User->can_request(PARTVA,1);
+      require_once("tva.inc.php");
+      // 
+    }
+  //-----------------------------------------------------
+  // Accounting item
+  //-----------------------------------------------------
+  if ( $sa == "poste" ) 
+    {
+      $User->can_request(PARPOS,1);
+      require_once('poste.inc.php');
+
+    }
+  //-----------------------------------------------------
+  // fiche 
+  //-----------------------------------------------------
+  if ( $sa == "fiche" ) 
+    {
+      $User->can_request(PARFIC,1);
+      require_once('fiche_def.inc.php');
+      return;
+    }
+  
+ }
+//-----------------------------------------------------
+// Extension
+//-----------------------------------------------------
+
+if ( $p_action=='ext') {
+  $User->can_request(EXTENSION,1);
+  require_once('extension.inc.php');
+  exit;
+ }
 //-----------------------------------------------------
 // Coord societe
 //-----------------------------------------------------
@@ -225,7 +210,6 @@ if ( $p_action=='company') {
   $User->can_request(PARCOORD,1);
   echo '<div class="content">';
   require_once("class_own.php");
-  require_once("class_widget.php");
   if ( isset ($_POST['record_company'] )) {
     $m=new Own($cn);
     extract($_POST);
@@ -238,6 +222,7 @@ if ( $p_action=='company') {
     $m->MY_TEL=$p_tel;
     $m->MY_FAX=$p_fax;
     $m->MY_PAYS=$p_pays;
+    $m->MY_CHECK_PERIODE=$p_check_periode;
     if ( $User->check_action(PARCA)!=0)$m->MY_ANALYTIC=$p_compta;
     if ( $User->check_action(PARSTR)!=0) $m->MY_STRICT=$p_strict;
     if ( $User->check_action(PARTVA)!=0)$m->MY_TVA_USE=$p_tva_use;
@@ -248,57 +233,60 @@ if ( $p_action=='company') {
   $my=new Own($cn);
   ///// Compta analytic
   $array=array (
-				array("value"=>"ob",'label'=>"obligatoire"),
-				array("value"=>"op",'label'=>"optionnel"),
-				array("value"=>"nu",'label'=>"non utilisé")
+		array("value"=>"ob",'label'=>_("obligatoire")),
+		array("value"=>"op",'label'=>_("optionnel")),
+		array("value"=>"nu",'label'=>_("non utilisé"))
 				);
   $strict_array=array(
-		      array('value'=>'N','label'=>'Non'),
-		      array('value'=>'Y','label'=>'Oui')
+		      array('value'=>'N','label'=>_('Non')),
+		      array('value'=>'Y','label'=>_('Oui'))
 		      );
 
-  $compta=new widget("select");
+  $compta=new ISelect();
   $compta->table=1;
   $compta->selected=$my->MY_ANALYTIC;
 
-  $strict=new widget("select");
+  $strict=new ISelect();
   $strict->table=1;
   $strict->selected=$my->MY_STRICT;
 
-  $tva_use=new widget("select");
+  $tva_use=new ISelect();
   $tva_use->table=1;
   $tva_use->selected=$my->MY_TVA_USE;
 
-  $pj_suggest=new widget("select");
+  $pj_suggest=new ISelect();
   $pj_suggest->table=1;
   $pj_suggest->selected=$my->MY_PJ_SUGGEST;
   
+  $check_periode=new ISelect();
+  $check_periode->table=1;
+  $check_periode->selected=$my->MY_CHECK_PERIODE;
+
   // other parameters
-  $all=new widget("text");
+  $all=new IText();
   $all->table=1;
   echo '<form method="post" action="?p_action=company">';
   echo dossier::hidden();
-  echo "<table class=\"result\">";
-  echo "<tr>".$all->IOValue("p_name",$my->MY_NAME,"Nom société")."</tr>";
-  echo "<tr>".$all->IOValue("p_tel",$my->MY_TEL,"Téléphone")."</tr>";
-  echo "<tr>".$all->IOValue("p_fax",$my->MY_FAX,"Fax")."</tr>";
-  echo "<tr>".$all->IOValue("p_street",$my->MY_STREET,"Rue ")."</tr>";
-  echo "<tr>".$all->IOValue("p_no",$my->MY_NUMBER,"Numéro")."</tr>";
-  echo "<tr>".$all->IOValue("p_cp",$my->MY_CP,"Code Postal")."</tr>";
-  echo "<tr>".$all->IOValue("p_Commune",$my->MY_COMMUNE,"Commune")."</tr>";
-  echo "<tr>".$all->IOValue("p_pays",$my->MY_PAYS,"Pays")."</tr>";
-  echo "<tr>".$all->IOValue("p_tva",$my->MY_TVA,"Numéro de Tva")."</tr>";
+  echo "<table class=\"result\" style=\"width:70%\">";
+  echo "<tr>".td(_('Nom société')).$all->input("p_name",$my->MY_NAME)."</tr>";
+  echo "<tr>".td(_("Téléphone")).$all->input("p_tel",$my->MY_TEL)."</tr>";
+  echo "<tr>".td(_("Fax")).$all->input("p_fax",$my->MY_FAX)."</tr>";
+  echo "<tr>".td(_("Rue ")).$all->input("p_street",$my->MY_STREET)."</tr>";
+  echo "<tr>".td(_("Numéro")).$all->input("p_no",$my->MY_NUMBER)."</tr>";
+  echo "<tr>".td(_("Code Postal")).$all->input("p_cp",$my->MY_CP)."</tr>";
+  echo "<tr>".td(_("Commune")).$all->input("p_Commune",$my->MY_COMMUNE)."</tr>";
+  echo "<tr>".td(_("Pays")).$all->input("p_pays",$my->MY_PAYS)."</tr>";
+  echo "<tr>".td(_("Numéro de Tva")).$all->input("p_tva",$my->MY_TVA)."</tr>";
   if ( $User->check_action(PARCA)==0) $compta->setReadonly(true);
-  echo "<tr>".$compta->IOValue("p_compta",$array,"Utilisation de la compta. analytique")."</tr>";
+  echo "<tr>".td(_("Utilisation de la compta. analytique")).$compta->input("p_compta",$array)."</tr>";
   if ( $User->check_action(PARSTR)==0) $strict->setReadonly(true);
-  echo "<tr>".$strict->IOValue("p_strict",$strict_array,"Utilisation du mode strict ")."</tr>";
+  echo "<tr>".td(_("Utilisation du mode strict ")).$strict->input("p_strict",$strict_array)."</tr>";
   if ( $User->check_action(PARTVA)==0) $tva_use->setReadonly(true);
-  echo "<tr>".$tva_use->IOValue("p_tva_use",$strict_array,"Assujetti à la tva")."</tr>";
-  echo "<tr>".$pj_suggest->IOValue("p_pj",$strict_array,"Suggérer le numéro de pièce justificative")."</tr>";
-
+  echo "<tr>".td(_("Assujetti à la tva")).$tva_use->input("p_tva_use",$strict_array)."</tr>";
+  echo "<tr>".td(_("Suggérer le numéro de pièce justificative")).$pj_suggest->input("p_pj",$strict_array)."</tr>";
+  echo '<tr>'.td(_('Afficher la période comptable pour éviter les erreurs de date')).$check_periode->input('p_check_periode',$strict_array).'</tr>';
   echo "</table>";
-  $submit=new widget("submit");
-  echo widget::submit("record_company","Enregistre");
+  echo HtmlInput::submit("record_company",_("Sauve"));
   echo "</form>";
   echo '</div>';
   exit();

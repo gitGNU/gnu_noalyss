@@ -23,20 +23,19 @@
 /*! \file
  * \brief Main page for the printing
  */
-require_once("check_priv.php");
 $str_dossier=dossier::get();
 // show sub menu
 
 echo "<DIV class=\"u_subtmenu\">";
 echo JS_AJAX_FICHE;
 
-$p_array=array(array ("?p_action=impress&type=jrn&".$str_dossier,"Journaux"),
-			   array("?p_action=impress&type=poste&".$str_dossier,"Poste"),
-			   array("?p_action=impress&type=fiche&".$str_dossier,"Fiche"),
-			   array("?p_action=impress&type=rapport&".$str_dossier,"Rapport"),
-               array('?p_action=impress&type=bal&'.$str_dossier,'Balance des comptes'),
-			   array("?p_action=impress&type=bilan&".$str_dossier,"Bilan"),
-			   array("?p_action=impress&type=list_client&".$str_dossier,"Liste Clients Assujettis")
+$p_array=array(array ("?p_action=impress&type=jrn&".$str_dossier,_("Journaux")),
+	       array("?p_action=impress&type=poste&".$str_dossier,_("Poste")),
+	       array("?p_action=impress&type=fiche&".$str_dossier,_("Fiche")),
+	       array("?p_action=impress&type=rapport&".$str_dossier,_("Rapport")),
+               array('?p_action=impress&type=bal&'.$str_dossier,_('Balance des comptes')),
+	       array("?p_action=impress&type=bilan&".$str_dossier,_("Bilan")),
+	       array("?p_action=impress&type=list_client&".$str_dossier,_("Liste Clients Assujettis"))
 	       );
 $default=( isset ($_GET['type']))?"?p_action=impress&type=".$_GET['type']."&$str_dossier":"";
 
@@ -45,7 +44,7 @@ $result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' width="100%"');
 echo $result;
 
 echo "</DIV>";
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 
 include_once("impress_inc.php");

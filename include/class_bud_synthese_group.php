@@ -28,7 +28,7 @@
  * \brief Manage the hypothese for the budget module
  *  synthese
  */
-require_once ('class_widget.php');
+require_once("class_iselect.php");
 require_once ('class_bud_synthese.php');
 require_once ('class_acc_account_ledger.php');
 require_once ('class_bud_hypo.php');
@@ -41,14 +41,14 @@ class Bud_Synthese_Group extends Bud_Synthese {
     }
   }
   function select_hypo() {
-    $hypo=make_array($this->cn,'select bh_id, bh_name from bud_hypothese order by bh_name');
-    $wSelect = new widget('select');
+    $hypo=$this->cn->make_array('select bh_id, bh_name from bud_hypothese order by bh_name');
+    $wSelect =new ISelect();
     $wSelect->name='bh_id';
     $wSelect->value=$hypo;
     $wSelect->selected=$this->bh_id;
     $wSelect->javascript='onChange=this.form.submit()';
 
-    $r="Choississez l'hypoth&egrave;se :".$wSelect->IOValue();
+    $r="Choississez l'hypoth&egrave;se :".$wSelect->input();
     $r.=dossier::hidden();
     return $r;
   }
@@ -63,38 +63,38 @@ class Bud_Synthese_Group extends Bud_Synthese {
     $hypo->load();
     $fga_id=0;
     if ($hypo->has_plan() == 1 ) {
-      $anc_value=make_array($this->cn,"select distinct ga_id, ".
+      $anc_value=$this->cn->make_array("select distinct ga_id, ".
 			    " ga_id||'-'||substr(ga_description,10) as ga_description ".
 			    "from groupe_analytique ".
 			    " join poste_analytique using (ga_id) ".
 			    " join bud_detail using (po_id) ".
 			    " where bh_id=".$this->bh_id,1);
       if ( count($anc_value) > 0 ) {
-	$wGa_id=new widget("select");
+	$wGa_id=new ISelect();
 	$wGa_id->name="ga_id";
 	$wGa_id->value=$anc_value;
 	$wGa_id->selected=$this->ga_id;
 	$fga_id=1;
       }
     }
-    $per=make_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') ".
+    $per=$this->cn->make_array("select p_id,to_char(p_start,'MM.YYYY') ".
 		    " from parm_periode order by p_start,p_end");
 
-    $wFrom=new widget('select');
+    $wFrom=new ISelect();
     $wFrom->name='from';
     $wFrom->value=$per;
     $wFrom->selected=$this->from;
     
-    $wto=new widget('select');
+    $wto=new ISelect();
     $wto->name='to';
     $wto->value=$per;
     $wto->selected=$this->to;
 
     $r="";
-    $r.="Periode de ".$wFrom->IOValue()." &agrave; ".$wto->IOValue();
+    $r.="Periode de ".$wFrom->input()." &agrave; ".$wto->input();
     /* if there a group analytic */
     if ( $fga_id==1) 
-      $r.="Groupe  ".$wGa_id->IOValue();
+      $r.="Groupe  ".$wGa_id->input();
     $r.=dossier::hidden();
     return $r;
   }
@@ -192,7 +192,7 @@ class Bud_Synthese_Group extends Bud_Synthese {
 	" and $per ".
 	" group by pcm_val,p_id,bc_price_unit order by pcm_val,p_id";
 
-    $res=get_array($this->cn,$sql);
+    $res=$this->cn->get_array($sql);
     echo_debug(__FILE__.':'.__LINE__.'- load','$res',$res);
     $pcm_val="";
     $old="XX";
@@ -326,7 +326,7 @@ Array
     $hypo->bh_id=$this->bh_id;
     $hypo->load();
     $initial=$hypo->bh_saldo;
-    $per=get_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') as d".
+    $per=$this->cn->get_array("select p_id,to_char(p_start,'MM.YYYY') as d".
 		   " from parm_periode ".
 		   " where p_id between ".$this->from.' and '.
 		   $this->to." order by p_start" );
@@ -385,7 +385,7 @@ Array
     $r="";
     $persql=sql_filter_per($this->cn,$this->from,$this->to,'p_id','p_id');
     list ($head,$foot)=$this->head_foot($p_array);
-    $per=get_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') as d".
+    $per=$this->cn->get_array("select p_id,to_char(p_start,'MM.YYYY') as d".
 		   " from parm_periode ".
 		   " where $persql");
     $r.='<table>';
@@ -457,7 +457,7 @@ Array
   function display_csv($p_array) {
     $r="";
     list ($head,$foot)=$this->head_foot($p_array);
-    $per=get_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') as d".
+    $per=$this->cn->get_array("select p_id,to_char(p_start,'MM.YYYY') as d".
 		   " from parm_periode ".
 		   " where p_id between ".$this->from.' and '.
 		   $this->to." order by p_start" );
@@ -514,25 +514,25 @@ Array
   function hidden() {
     $r="";
     foreach (array('bh_id','ga_id','from','to') as $e)
-      $r.=widget::hidden($e,$this->$e);
+      $r.=HtmlInput::hidden($e,$this->$e);
     return $r;
   }
 
   static function test_me() {
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $obj=new Bud_Synthese_Group($cn);
     echo '<form method="GET">';
-	echo widget::hidden('test_select',$_REQUEST['test_select']);
+	echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
     echo $obj->select_hypo();
-    echo widget::submit('recherche','recherche');
+    echo HtmlInput::submit('recherche','recherche');
     echo '</form>';
     if ( isset($_GET['recherche'])) {
       $obj->from_array($_GET);
       echo '<form method="GET">';
       echo $obj->form();
-      echo widget::hidden('bh_id',$obj->bh_id);
-	  echo widget::hidden('test_select',$_REQUEST['test_select']);
-      echo widget::submit('recherche2','recherche');
+      echo HtmlInput::hidden('bh_id',$obj->bh_id);
+	  echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
+      echo HtmlInput::submit('recherche2','recherche');
       echo '</form>';
     }
     if ( isset($_GET['recherche2'])){

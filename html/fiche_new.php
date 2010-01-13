@@ -18,10 +18,10 @@
  */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 include_once ("ac_common.php");
-include_once ("postgres.php");
-include_once ("check_priv.php");
+require_once('class_database.php');
 require_once("class_fiche.php");
 require_once("class_fiche_def.php");
+require_once('class_html_input.php');
 
 /*! \file
  * \brief Create a new card in a popup window
@@ -34,7 +34,7 @@ require_once("class_fiche_def.php");
 /* $Revision$ */
 /* Admin. Dossier */
 $gDossier=dossier::id();
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 include_once ("class_user.php");
 $User=new User($cn);
@@ -51,7 +51,6 @@ if ( $User->check_action(FICADD)== 0) {
     return;
 }
 
-include_once("fiche_inc.php");
 
 
 foreach ($_GET as $key=>$element) {
@@ -73,7 +72,7 @@ function new_fiche($p_cn,$p_type) {
 
   $r.= '<H2 class="info"> '.$fiche_def->label.'<br>Nouveau </H2>';
   $r.= $fiche->blank($p_type);
-    $r.='<INPUT TYPE="SUBMIT" name="add_fiche" value="Mis à jour">';
+    $r.=HtmlInput::submit('add_fiche','Mise à jour');
 
     $r.='</FORM>';
     return $r;
@@ -100,17 +99,18 @@ if ( isset($_POST['add_fiche'])) {
   // if e_type contains a list of value
   if ( $e_type != 'cred' and $e_type != 'deb' && $e_type!='filter')     {
     //    $list['fiche']=$e_type;
-    $sql="select fd_id from fiche_def where frd_id in ($e_type)";
-    $Res=ExecSql($cn,$sql);
+    $sql="select fd_id from fiche_def where fd_id in ($e_type)";
+     
+    $Res=$cn->exec_sql($sql);
     // fetch it
-    $Max=pg_NumRows($Res);
+    $Max=Database::num_row($Res);
     if ( $Max==0) {
       echo_warning("No rows");
     exit();
     }
-    $n=pg_NumRows($Res);
+    $n=Database::num_row($Res);
     for ($i=0;$i <$n;$i++) {
-      $f=pg_fetch_array($Res,$i);
+      $f=Database::fetch_array($Res,$i);
       $e[$i]=$f['fd_id'];
     }
     $list['fiche']=join(',',$e);
@@ -135,16 +135,16 @@ if ( isset($_POST['add_fiche'])) {
 
     
 
-    $Res=ExecSqlParam($cn,$sql,array($_GET['p_jrn']));
-    
+    $Res=$cn->exec_sql($sql,array($_GET['p_jrn']));
+
   // fetch it
-    $Max=pg_NumRows($Res);
+    $Max=$cn->size();
     if ( $Max==0) {
       echo_warning("No rows");
     exit();
     }
     // Normally Max must be == 1
-    $list=pg_fetch_array($Res,0);
+    $list=$cn->fetch(0);
     if ( $list['fiche']=="") {
       echo_warning("Journal mal paramètré");
       return;
@@ -184,7 +184,7 @@ if ( sizeof($a)>1 and !isset ($_POST['cat']))
 	     $element,$name);
     
   }
-    echo '<INPUT TYPE="SUBMIT" value="Choisir">';
+    echo HtmlInput::submit("chx","Choisir");
     echo "</FORM>";
   }
 ?>

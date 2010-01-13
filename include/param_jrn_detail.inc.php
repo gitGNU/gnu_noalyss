@@ -21,45 +21,51 @@
 /*! \file
  * \brief Show and let modify ledger parameter
  */
+require_once("class_itext.php");
 require_once('class_dossier.php');
 require_once('class_acc_ledger.php');
+/* javascript for the search poste */
+require_once('class_ipopup.php');
+echo js_include('accounting_item.js');
+echo js_include('prototype.js');
+echo js_include('scriptaculous.js');
+echo js_include('effects.js');
+echo js_include('controls.js');
+echo js_include('dragdrop.js');
+
+/* ipopup for search poste */
+echo IPoste::ipopup('ipop_account');
 
 $gDossier=dossier::id();
 
 include_once ("ac_common.php");
 html_page_start($_SESSION['g_theme']);
-include_once ("postgres.php");
+require_once('class_database.php');
 /* Admin. Dossier */
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 include_once ("class_user.php");
 $User=new User($cn);
 $User->Check();
 $User->check_dossier($gDossier);
-include_once("check_priv.php");
 
 
 $User->can_request(PARJRN);
 
-// Javascript
-echo JS_SEARCH_POSTE;
 if ( isset( $_REQUEST['p_jrn'] )) {
   $p_jrn=$_REQUEST['p_jrn'];
  } else {
-  echo '<h2 class="error">Journal inexistant</h2>';
+  echo '<h2 class="error">'._('Journal inexistant').'</h2>';
   exit();
  }
 //--------------------------------------------------
 // remove ledger
 //--------------------------------------------------
 if ( isset($_POST["efface"])) {
-	if ( CountSql($cn,"select * from jrn where jr_def_id=".$_POST['p_jrn']." limit 3") == 0 )
+	if ( $cn->count_sql("select * from jrn where jr_def_id=".$_POST['p_jrn']." limit 3") == 0 )
 	  {
-	    ExecSqlParam($cn,"delete from jrn_def where jrn_def_id=$1",array($_POST['p_jrn']));
-	  } else { echo '
-<script language="javascript">
-		alert("Impossible d\'effacer ce journal.\n Il est utilisé\n");
-</script>
-';
+	    $cn->exec_sql("delete from jrn_def where jrn_def_id=$1",array($_POST['p_jrn']));
+	  } else { 
+	  alert(_("Impossible d\'effacer ce journal.\n Il est utilisé\n"));
 	}
   }
 
@@ -68,7 +74,7 @@ if ( isset($_POST["efface"])) {
 // Update ledger
 If ( isset ($_POST["update"] )) {
   if (  !isset($_POST["p_jrn_name"])  ) {
-    echo '<H2 CLASS="error"> Un paramètre manque</H2>';
+    echo '<H2 CLASS="error">'._('Un paramètre manque').'</H2>';
   }
   else {
     if ( isset ($_POST['p_ech']) && $_POST['p_ech'] == 'no' ) {
@@ -114,8 +120,8 @@ If ( isset ($_POST["update"] )) {
 		       $_GET['p_jrn']
 		       );
     echo_debug($Sql);
-    $Res=ExecSqlParam($cn,$Sql,$sql_array);
-    $Res=AlterSequence($cn,"s_jrn_pj".$_GET['p_jrn'],$_POST['jrn_def_pj_seq']);
+    $Res=$cn->exec_sql($Sql,$sql_array);
+    $Res=$cn->alter_seq("s_jrn_pj".$_GET['p_jrn'],$_POST['jrn_def_pj_seq']);
   }
 }
 echo '<div class="lmenu">';
@@ -129,15 +135,15 @@ echo '</div>';
 </script>
 
 <?php
-$Res=ExecSql($cn,"select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
+$Res=$cn->exec_sql("select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
 	     "jrn_deb_max_line,jrn_cred_max_line,jrn_def_code".
                  ",jrn_def_type,jrn_def_ech, jrn_def_ech_lib,jrn_def_fiche_deb,jrn_def_fiche_cred".
                  " from jrn_def where".
                  " jrn_def_id=".$_REQUEST['p_jrn']);
-if ( pg_NumRows($Res) == 0 ) exit();
+if ( Database::num_row($Res) == 0 ) exit();
 
 
-$l_line=pg_fetch_array($Res,0);
+$l_line=Database::fetch_array($Res,0);
 $sessid = $_REQUEST['PHPSESSID'];
 
 /* Load all the properties of the ledger */
@@ -147,33 +153,36 @@ $type=$prop['jrn_def_type'];
 $name=$prop['jrn_def_name'];
 $code=$prop['jrn_def_code'];
 /* widget for searching an account */
-$wSearch=new widget('js_search_poste_only');
-$wSearch->extra="p_jrn_class_deb";
-$wSearch->extra2='jrn';
-$wJrn=new widget('text');
-$wJrn->name='p_jrn_class_deb';
-$wJrn->size=40;
-$wJrn->value=$prop['jrn_def_class_deb'];
-$search=$wJrn->IOValue().$wSearch->IOValue();
-$wPjPref=new widget('text');
+$wSearch=new IPoste();
+$wSearch->set_attribute('ipopup','ipop_account');
+$wSearch->set_attribute('account','p_jrn_class_deb');
+$wSearch->set_attribute('no_overwrite','1');
+$wSearch->set_attribute('noquery','1');
+$wSearch->name="p_jrn_class_deb";
+$wSearch->size=40;
+$wSearch->value=$prop['jrn_def_class_deb'];
+$search=$wSearch->input();
+
+
+$wPjPref=new IText();
 $wPjPref->name='jrn_def_pj_pref';
 $wPjPref->value=$prop['jrn_def_pj_pref'];
-$pj_pref=$wPjPref->IOValue();
-$wPjSeq=new widget('text');
+$pj_pref=$wPjPref->input();
+$wPjSeq=new IText();
 $wPjSeq->value=$Ledger->get_last_pj();
 $wPjSeq->name='jrn_def_pj_seq';
-$pj_seq=$wPjSeq->IOValue();
+$pj_seq=$wPjSeq->input();
 
 $name=$l_line['jrn_def_name'];
 
 /* construct all the hidden */
-$hidden= widget::hidden('p_jrn',$_GET['p_jrn']);
-$hidden.= widget::hidden('p_action','jrn');
-$hidden.= widget::hidden('sa','detail');
+$hidden= HtmlInput::hidden('p_jrn',$_GET['p_jrn']);
+$hidden.= HtmlInput::hidden('p_action','jrn');
+$hidden.= HtmlInput::hidden('sa','detail');
 $hidden.= dossier::hidden();
-$hidden.=widget::hidden('p_jrn_deb_max_line',10);
-$hidden.=widget::hidden('p_ech_lib','echeance');
-
+$hidden.=HtmlInput::hidden('p_jrn_deb_max_line',10);
+$hidden.=HtmlInput::hidden('p_ech_lib','echeance');
+$hidden.=HtmlInput::phpsessid();
 
 /* Load the card */
 $card=$Ledger->get_fiche_def();

@@ -23,23 +23,21 @@
  * \brief concerns the centralisation of the operations
  */
 include_once ("ac_common.php");
-require_once ('class_widget.php');
+require_once('class_iperiod.php');
+
 html_page_start($_SESSION['g_theme']);
 
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-include_once ("postgres.php");
+require_once('class_database.php');
 /* Admin. Dossier */
-$rep=DbConnect(dossier::id());
+$rep=new Database(dossier::id());
 include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
-require_once  ("check_priv.php");
-include_once("preference.php");
 
-
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 include_once("central_inc.php");
 
@@ -62,14 +60,28 @@ if ( $_POST["periode"] != "" ) {
     }
   } 
 }// if ( isset ($_POST["central"] ))
-
-$ret=FormPeriode($cn,0,NOTCENTRALIZED);
+$period=new IPeriod("period");
+$period->user=$User;
+$period->cn=$cn;
+$period->value=0;
+$period->type=NOTCENTRALIZED;
+try {
+$ret=$period->input();
+} catch (Exception $e) {
+	if ( $e->getCode() != 0 ) {
+		echo $e->getMessage();
+		exit;
+	} else	{
+		echo $e->getTrace();
+		exit;
+	}
+}
 if ( $ret != null) {
   echo '<FORM METHOD="POST">';
-  echo widget::hidden('p_action','central');
+  echo HtmlInput::hidden('p_action','central');
   echo dossier::hidden();
   echo $ret;
-  echo '<INPUT TYPE="SUBMIT" name="central" VALUE="Centralise">';
+  echo HtmlInput::submit('central','Centralise');
   echo '</FORM>';
 } else {
   echo '<H2 class="info"> Aucune période à centraliser</H2>';

@@ -78,8 +78,8 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 					code='".$code."' and 
 					num_compte='".$num_compte."'";
 			$sql=utf8_encode($sql);
-			$Res=ExecSql($p_cn,$sql);
-			$Num=pg_NumRows($Res);
+			$Res=$p_cn->exec_sql($sql);
+			$Num=Database::num_row($Res);
 			
 			if($Num > 0 ) {
 				echo "Op&eacute;ration FORTIS ".$code." d&eacute;j&eagrave; import&eacute;e.<br/>";
@@ -107,7 +107,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 					$p_jrn,
 					'n')";
 			
-				$Res=ExecSql($p_cn,$Sql);
+				$Res=$p_cn->exec_sql($Sql);
 				
 			}
 		}

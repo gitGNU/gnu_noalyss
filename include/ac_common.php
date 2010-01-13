@@ -1,5 +1,4 @@
 <?php  
-
 /*
  *   This file is part of PhpCompta.
  *
@@ -25,14 +24,25 @@
 
 include_once("debug.php");
 include_once("constant.php");
-require_once('preference.php');
-require_once ("postgres.php");
+require_once('class_database.php');
+require_once('class_periode.php');
+
 /*!\brief to protect again bad characters which can lead to a cross scripting attack
 	the string to be diplayed must be protected
 */
 function h($p_string) { return htmlspecialchars($p_string);}
 function hi($p_string) { return '<i>'.htmlspecialchars($p_string).'</i>';}
 function hb($p_string) { return '<b>'.htmlspecialchars($p_string).'</b>';}
+function th($p_string) { return '<th>'.htmlspecialchars($p_string).'</th>';}
+
+/*!\brief surrond the string with td 
+*\param string
+*\param class to use
+* \return string surrounded by td
+*/
+function td($p_string,$p_class=''){ return '<td class="'.$p_class.'" >'.$p_string.'</td>';}
+/*!\brief escape correctly php string to javascript */
+function j($p_string) { $a=preg_replace("/\r?\n/", "\\n", addslashes($p_string)); return $a;}
 /*! 
  * \brief  log error into the /tmp/phpcompta_error.log it doesn't work on windows
  *
@@ -44,14 +54,13 @@ function hb($p_string) { return '<b>'.htmlspecialchars($p_string).'</b>';}
  *  
  */
 function echo_error      ($p_log, $p_line="", $p_message="") {
-	$fdebug=fopen($_ENV['TMP'].DIRECTORY_SEPARATOR."phpcompta_error.log","a+");
-	if ( $fdebug == false) {
-	  echo "ERREUR :".$p_log." ".$p_line." ".$p_message;
-	} else {
-	  fwrite($fdebug,date("Ymd H:i:s").$p_log." ".$p_line." ".$p_message."\n");
-	  fclose($fdebug);
-	  echo_debug($p_log,$p_line,$p_message);
-	}
+  echo "ERREUR :".$p_log." ".$p_line." ".$p_message;
+  $fdebug=fopen($_ENV['TMP'].DIRECTORY_SEPARATOR."phpcompta_error.log","a+");
+  if ($fdebug != null ) {
+    fwrite($fdebug,date("Ymd H:i:s").$p_log." ".$p_line." ".$p_message."\n");
+    fclose($fdebug);
+    echo_debug($p_log,$p_line,$p_message);
+  }
 }
  
 /*! 
@@ -70,7 +79,7 @@ function cmpDate ($p_date,$p_date_oth) {
   $l_date=isDate($p_date);
   $l2_date=isDate($p_date_oth);
   if ($l_date == null || $l2_date == null ) {
-    throw new Exception ("erreur date");
+    throw new Exception ("erreur date [$p_date] [$p_date_oth]");
   }
   $l_adate=explode(".",$l_date);
   $l2_adate=explode(".",$l2_date);
@@ -133,15 +142,6 @@ function isDate ( $p_date) {
   return $p_date;
 }
 /*! 
- * \brief call cmpDate & add quotes
- *        
- * \return the date or the quoted string null 
- */
-function formatDate($p_date) {
-  if ( isDate($p_date)== null) return "null";
-  return "'".$p_date."'";
-}
-/*! 
  * \brief Default page header for each page
  *        
  * \param p_theme default theme
@@ -153,14 +153,14 @@ function formatDate($p_date) {
 function html_page_start($p_theme="",$p_script="",$p_script2="")
 {	
 
- $cn=DbConnect();
+ $cn=new Database();
  if ( $p_theme != "") {
-   $Res=ExecSql($cn,"select the_filestyle from theme
+   $Res=$cn->exec_sql("select the_filestyle from theme
                    where the_name='".$p_theme."'");
-    if (pg_NumRows($Res)==0) 
+    if (Database::num_row($Res)==0) 
       $style="style.css";
     else {
-      $s=pg_fetch_array($Res,0);
+      $s=Database::fetch_array($Res,0);
       $style=$s['the_filestyle'];
     }
  }else {
@@ -168,7 +168,6 @@ function html_page_start($p_theme="",$p_script="",$p_script2="")
  } // end if
  echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 FINAL//EN">';
  echo "<HTML>";
-
 
  if ( $p_script2 != "" )
    $p_script2='<script src="'.$p_script2.'" type="text/javascript"></script>';
@@ -188,6 +187,11 @@ function html_page_start($p_theme="",$p_script="",$p_script2="")
 ';
 
  echo "<BODY $p_script>";
+ // language
+ if ( isset($_SESSION['g_lang'])){
+   set_language();
+ }
+
  /* If we are on the user_login page */
  if ( basename($_SERVER['PHP_SELF']) == 'user_login.php') {
   return;
@@ -206,14 +210,14 @@ function html_page_start($p_theme="",$p_script="",$p_script2="")
 function html_min_page_start($p_theme="",$p_script="",$p_script2="")
 {	
 
- $cn=DbConnect();
+ $cn=new Database();
  if ( $p_theme != "") {
-   $Res=ExecSql($cn,"select the_filestyle from theme
+   $Res=$cn->exec_sql("select the_filestyle from theme
                    where the_name='".$p_theme."'");
-    if (pg_NumRows($Res)==0) 
+    if (Database::num_row($Res)==0) 
       $style="style.css";
     else {
-      $s=pg_fetch_array($Res,0);
+      $s=Database::fetch_array($Res,0);
       $style=$s['the_filestyle'];
     }
  }else {
@@ -254,16 +258,6 @@ function html_page_stop()
 	echo "</HTML>";
 }
 /*! 
- * \brief Button logout
- *        
-
- * \return nothing
- */
-
-function html_button_logout() {
-	echo "<A class=\"mtitle\" HREF=logout.php> Logout </A>";
-}
-/*! 
  * \brief Echo no access and stop 
  *        
  * \return nothing
@@ -275,13 +269,13 @@ function NoAccess($js=1)
   if ( $js == 1 ) 
     {
       echo "<script>";
-      echo "alert ('Cette action ne vous est pas autorisée Contactez votre responsable');";
+      echo "alert ('"._('Cette action ne vous est pas autorisée Contactez votre responsable')."');";
       echo "</script>";
     }
   else 
     {
       echo '<div class="u_redcontent">';
-      echo '<h2 class="error"> Cette action ne vous est pas autorisée Contactez votre responsable</h2>';
+      echo '<h2 class="error">'._(' Cette action ne vous est pas autorisée Contactez votre responsable').'</h2>';
       echo '</div>';
     }
       exit -1;
@@ -294,10 +288,6 @@ function NoAccess($js=1)
  */
 function FormatString($p_string) 
 {
-  if ( !isset ($p_string) ) {
-    echo_error("ac_common.php FormatString p_string empty");
-    return null;
-  }
   $p_string=trim($p_string);
   if (strlen($p_string) == 0 ) return null;
   $p_string=str_replace("\'","'",$p_string);
@@ -380,39 +370,6 @@ function echo_warning($p_string)
   echo '<H2 class="info">'.$p_string."</H2>";
 }
 /*! 
- **************************************************
- * \brief make a array with the sql
- *        
- * \param  $p_cn dbatabase connection
- * \param $p_sql related sql 
- *  \param $p_null if the array start with a null value
- *
- * \return: a double array [value,label]
- */
-function make_array($p_cn,$p_sql,$p_null=0) {
-  echo_debug('ac_common',__LINE__,$p_sql);
-  $a=ExecSql($p_cn,$p_sql);
-  $max=pg_NumRows($a);
-  if ( $max==0) return null;
-  for ($i=0;$i<$max;$i++) {
-    $row=pg_fetch_row($a);
-    $r[$i]['value']=$row[0];
-    $r[$i]['label']=$row[1];
-  }
-  // add a blank item ?
-  if ( $p_null == 1 ) {
-  for ($i=$max;$i!=0;$i--) {
-    $r[$i]['value']=    $r[$i-1]['value'];
-    $r[$i]['label']=    $r[$i-1]['label'];
-  }
-  $r[0]['value']=-1;
-  $r[0]['label']=" ";
-  } //   if ( $p_null == 1 ) 
-
-  return $r;
-}
-/*! 
- **************************************************
  * \brief Show the periode which found thanks its id
  *           
  *        
@@ -426,13 +383,12 @@ function getPeriodeName($p_cn,$p_id,$pos='p_start') {
   if ( $pos != 'p_start' and 
        $pos != 'p_end')
     echo_error('ac_common.php'."-".__LINE__.'  UNDEFINED PERIODE');
-  $ret=execSql($p_cn,"select to_char($pos,'Mon YYYY') as t from parm_periode where p_id=$p_id");
-  if (pg_NumRows($ret) == 0) return null;
-  $a=pg_fetch_array($ret,0);
-  return $a['t'];
+  $ret=$p_cn->get_value("select to_char($pos,'Mon YYYY') as t from parm_periode where p_id=$p_id");
+  return $ret;
 }
+
+
 /*! 
- **************************************************
  * \brief Return the period corresponding to the 
  *           date
  *        
@@ -443,35 +399,11 @@ function getPeriodeName($p_cn,$p_id,$pos='p_start') {
  *       parm_periode.p_id
  */
 function getPeriodeFromMonth($p_cn,$p_date) {
-  $R=ExecSql($p_cn,"select p_id from parm_periode where
+  $R=$p_cn->get_value("select p_id from parm_periode where
               to_char(p_start,'DD.MM.YYYY') = '01.$p_date'");
-  if ( pg_NumRows($R) == 0 ) 
+  if ( $R == "" ) 
     return -1;
-  $a=pg_fetch_array($R,0);
-
-  return $a['p_id'];
-}
-/*! 
- **************************************************
- * \brief Return the period corresponding to the 
- *           date
- *        
- *
- * \param  	p_cn database connection
- *  \param      p_date the date 'DD.MM.YYYY'
- * \return parm_periode.p_id
- *       
- */
-function getPeriodeFromDate($p_cn,$p_date) {
-  $R=ExecSql($p_cn,"select p_id from parm_periode where
-              p_start <= to_date('$p_date','DD.MM.YYYY')
-           and p_end  >= to_date('$p_date','DD.MM.YYYY')
-           ");
-  if ( pg_NumRows($R) == 0 ) 
-    return -1;
-  $a=pg_fetch_array($R,0);
-
-  return $a['p_id'];
+  return $R;
 }
 /*!\brief Decode the html for the widegt richtext and remove newline
  *\param $p_html string to decode
@@ -505,17 +437,17 @@ function sql_filter_per($p_cn,$p_from,$p_to,$p_form='p_id',$p_field='jr_tech_per
   if ( $p_form == 'p_id' )
     {
       // retrieve the date
-      $a_start=get_periode($p_cn,$p_from);
-      $a_end=get_periode($p_cn,$p_to);
-      if ( $a_start == null or $a_end == null  )
-		{
-		  echo_debug(__FILE__,__LINE__,'Attention periode '.
-					 ' non trouvee periode p_from='.$p_from.
-					 'p_to_periode = '.$p_to);
-		}
+      $pPeriode=new Periode($p_cn);
+      $a_start=$pPeriode->get_date_limit($p_from);
+      $a_end=$pPeriode->get_date_limit($p_to);
+      if ( $a_start == null || $a_end == null  )
+		throw new Exception(__FILE__.__LINE__.'Attention periode '.
+			' non trouvee periode p_from='.$p_from.
+			'p_to_periode = '.$p_to);
+		
 
-      $p_from=($a_start==null)?'01.01.1900':$a_start['p_start'];
-      $p_to=($a_end==null)?'01.01.2100':$a_end['p_end'];
+      $p_from=$a_start['p_start'];
+      $p_to=$a_end['p_end'];
     }
   if ( $p_from == $p_to ) 
     $periode=" $p_field = (select p_id from parm_periode ".
@@ -530,11 +462,34 @@ function sql_filter_per($p_cn,$p_from,$p_to,$p_form='p_id',$p_field='jr_tech_per
 
 /*!\brief alert in javascript 
  *\param $p_msg is the message
+ *\param $buffer if false, echo directly and execute the javascript, if $buffer is true, the alert javascript
+ * is in the return string
+ *\return string with alert javascript if $buffer is true
  */
-function alert($p_msg)
+function alert($p_msg,$buffer=false)
 {
-  echo '<script language="javascript">';
-  echo 'alert(\''.FormatString($p_msg).'\')';
-  echo '</script>';
+  $r= '<script language="javascript">';
+  $r.= 'alert(\''.j($p_msg).'\')';
+  $r.= '</script>';
+
+  if ($buffer) return $r;
+  echo $r;
+
+}
+/**
+ *@brief set the lang thanks the _SESSION['g_lang'] var.
+ */
+
+function set_language() {
+   $dir="";
+   $dir=setlocale(LC_MESSAGES,$_SESSION['g_lang']);
+   
+   if ( $dir == "") {
+     $dir=setlocale(LC_MESSAGES,"fr_FR.utf8");
+     echo '<span class="notice">'.$_SESSION['g_lang'].'domaine non supporté</h2>';
+   }
+   bindtextdomain('messages','./lang');
+   textdomain('messages');
+   bind_textdomain_codeset('messages','UTF8');
 }
 ?>

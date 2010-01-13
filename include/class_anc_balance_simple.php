@@ -20,10 +20,11 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
   \brief manage the simple balance for CA, inherit from balance_ca
  */
 
+require_once("class_ihidden.php");
 require_once ('class_anc_print.php');
 require_once ('class_anc_plan.php');
 require_once ('ac_common.php');
@@ -35,8 +36,8 @@ require_once ('header_print.php');
 
 class Anc_Balance_Simple extends Anc_Print {
 
-/*! 
- * \brief load the data from the database 
+/*!
+ * \brief load the data from the database
  *
  * \return array
  */
@@ -44,7 +45,7 @@ class Anc_Balance_Simple extends Anc_Print {
   {
 	$filter=$this->set_sql_filter();
 	// sum debit
-	
+
 	$sql="select m.po_id,sum(deb) as sum_deb,sum(cred) as sum_cred,";
 	$sql.=" po_name||'  '||po_description as po_name";
 	$sql.=" from ";
@@ -56,14 +57,13 @@ class Anc_Balance_Simple extends Anc_Print {
 	$sql.=" where pa_id=".$this->pa_id;
 	$sql.=" group by po_id,po_name,po_description";
 	$sql.=" order by po_id";
+	$res=$this->db->exec_sql($sql);
 
-	$res=ExecSql($this->db,$sql);
-
-	if ( pg_NumRows($res) == 0 )
+	if ( Database::num_row($res) == 0 )
 	  return null;
 	$a=array();
 	$count=0;
-	$array=pg_fetch_all($res);
+	$array=Database::fetch_all($res);
 	foreach ($array as $row) {
 	  $a[$count]['po_id']=$row['po_id'];
 	  $a[$count]['sum_deb']=$row['sum_deb'];
@@ -75,10 +75,10 @@ class Anc_Balance_Simple extends Anc_Print {
 	}
 	return $a;
 
- 
+
   }
-/*! 
- * \brief Set the filter (account_date) 
+/*!
+ * \brief Set the filter (account_date)
  *
  * \return return the string to add to load
  */
@@ -104,11 +104,11 @@ class Anc_Balance_Simple extends Anc_Print {
 	  $and=" and ";
 	}
 	return $sql;
-	  
+
   }
-/*! 
+/*!
  * \brief compute the html display
- * 
+ *
  *
  * \return string
  */
@@ -142,12 +142,12 @@ class Anc_Balance_Simple extends Anc_Print {
 	  $deb=($row['sum_deb'] > $row['sum_cred'])?"D":"C";
 	  $deb=($row['solde'] == 0 )?'':$deb;
 	  $r.=sprintf("<td>%s</td>",$deb);
-	  $r.="</tr>";	  
-	}	
+	  $r.="</tr>";
+	}
 	$r.="</table>";
 	return $r;
   }
-/*! 
+/*!
  * \brief Compute  the form to display
  * \param $p_hidden hidden tag to be included (gDossier,...)
  *
@@ -157,12 +157,12 @@ class Anc_Balance_Simple extends Anc_Print {
   function display_form($p_string="") {
 	$r=parent::display_form($p_string);
 
-	$r.= '<input type="submit" value="Afficher">';
+	$r.= HtmlInput::submit('Affiche','Affiche');
 
 	return $r;
   }
 
-/*! 
+/*!
  * \brief Display the result in pdf
  *
  * \return none
@@ -182,7 +182,8 @@ class Anc_Balance_Simple extends Anc_Print {
 				   $this->to_poste,
 				   $this->from,
 				   $this->to);
-	for ($i_loop=0;$i_loop<=$count;$i_loop++) {	
+
+	for ($i_loop=0;$i_loop<=$count;$i_loop++) {
 
 	$view=$array;
 	$view=array_splice($view,$offset,$pagesize);
@@ -199,22 +200,22 @@ class Anc_Balance_Simple extends Anc_Print {
 					  'cols'=>array('sum_deb'=> array('justification'=>'right'),
 							'solde'=> array('justification'=>'right'),
 							'sum_cred'=> array('justification'=>'right'))));
-	
+
 	  $page++;
-	  $pdf->ezNewPage();					
+	  $pdf->ezNewPage();
 
 
 	  $offset+=$pagesize;
 	}
 	$pdf->ezStream();
   }
-/*! 
+/*!
  * \brief Compute the csv export
  * \return string with the csv
  */
   function display_csv()
   {
-	$array=$this->load();	
+	$array=$this->load();
 	if ( is_array($array) == false ){
 	  return $array;
 
@@ -230,68 +231,64 @@ class Anc_Balance_Simple extends Anc_Print {
 	  $r.=sprintf("%12.2f,",$row['sum_cred']);
 	  $r.=sprintf("%12.2f,",$row['solde']);
 	  $r.=sprintf("'%s'",$row['debit']);
-	  $r.="\r\n";	  
-	}	
+	  $r.="\r\n";
+	}
 	return $r;
 
   }
-/*! 
+/*!
  * \brief Show the button to export in PDF or CSV
  * \param $url_csv url of the csv
  * \param $url_pdf url of the pdf
- * \param $p_string hidden data to include in the form 
- * 
+ * \param $p_string hidden data to include in the form
+ *
  *
  * \return string with the button
  */
-  function show_button($url_csv,$url_pdf,$p_string="") 
+  function show_button($url_csv,$url_pdf,$p_string="")
   {
 	$r="";
-	$submit=new widget();
-	$submit->table=0;
-	$hidden=new widget("hidden");
 	$r.= '<form method="GET" action="'.$url_pdf.'" style="display:inline">';
 	$r.= $p_string;
 	$r.= dossier::hidden();
-	$r.= $hidden->IOValue("to",$this->to);
-	$r.= $hidden->IOValue("from",$this->from);
-	$r.= $hidden->IOValue("pa_id",$this->pa_id);
-	$r.= $hidden->IOValue("from_poste",$this->from_poste);
-	$r.= $hidden->IOValue("to_poste",$this->to_poste);
-	$r.=widget::submit('bt_pdf',"Export en PDF");
+	$r.= HtmlInput::hidden("to",$this->to);
+	$r.= HtmlInput::hidden("from",$this->from);
+	$r.= HtmlInput::hidden("pa_id",$this->pa_id);
+	$r.= HtmlInput::hidden("from_poste",$this->from_poste);
+	$r.= HtmlInput::hidden("to_poste",$this->to_poste);
+	$r.=HtmlInput::submit('bt_pdf',"Export en PDF");
 	$r.= '</form>';
 
 	$r.= '<form method="GET" action="'.$url_csv.'"  style="display:inline">';
-	$r.= $hidden->IOValue("to",$this->to);
-	$r.= $hidden->IOValue("from",$this->from);
-	$r.= $hidden->IOValue("pa_id",$this->pa_id);
-	$r.= $hidden->IOValue("from_poste",$this->from_poste);
-	$r.= $hidden->IOValue("to_poste",$this->to_poste);
-
+	$r.= HtmlInput::hidden("to",$this->to);
+	$r.= HtmlInput::hidden("from",$this->from);
+	$r.= HtmlInput::hidden("pa_id",$this->pa_id);
+	$r.= HtmlInput::hidden("from_poste",$this->from_poste);
+	$r.= HtmlInput::hidden("to_poste",$this->to_poste);
 	$r.= $p_string;
 	$r.= dossier::hidden();
-	$r.=widget::submit('bt_csv',"Export en CSV");
+	$r.=HtmlInput::submit('bt_csv',"Export en CSV");
 	$r.= '</form>';
 	return $r;
 }
 
-/*! 
+/*!
  * \brief for testing and debuggind the class
  *        it must never be called from production system, it is
  *        intended only for developpers
  * \param
  * \param
  * \param
- * 
+ *
  *
  * \return none
  */
 static  function test_me () {
   // call the page with ?gDossier=14
-  $a=DbConnect(dossier::id());
-  
+  $a=new Database(dossier::id());
+
   $bal=new Anc_Balance_Simple($a);
-  $bal->get_request();	
+  $bal->get_request();
 
   echo '<form method="GET">';
 

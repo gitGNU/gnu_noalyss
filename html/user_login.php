@@ -23,18 +23,28 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
 include_once ("ac_common.php");
-include_once("postgres.php");
-$rep=DbConnect();
+require_once('class_database.php');
+require_once('class_itext.php');
+$rep=new Database();
 include_once ("class_user.php");
 $User=new User($rep);
 
 $User->Check();
+echo <<<EOF
+<script language="JavaScript">
+
+  window.moveTo(0,0);
+window.resizeTo(screen.width,screen.height);
+
+</script>
+EOF;
 
 /*  Check Browser version if < IE6 then unsupported */
 $browser=$_SERVER['HTTP_USER_AGENT'];
 if ( strpos($browser,'MSIE 6')!=false ||
      strpos($browser,'MSIE 5')!=false ) {
-
+  $nav=_('Vous utilisez un navigateur dépassé depuis près de 8 ans!');
+  $nav2=_("Pour une meilleure expérience web, prenez le temps de mettre votre navigateur à jour");
 echo <<<EOF
     <!--[if lt IE 7]>
   <div style='border: 1px solid #F7941D; background: #FEEFDA; text-align: center; clear: both; height: 75px; position: relative;'>
@@ -42,8 +52,8 @@ echo <<<EOF
     <div style='width: 640px; margin: 0 auto; text-align: left; padding: 0; overflow: hidden; color: black;'>
       <div style='width: 75px; float: left;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-warning.jpg' alt='Warning!'/></div>
       <div style='width: 275px; float: left; font-family: Arial, sans-serif;'>
-        <div style='font-size: 14px; font-weight: bold; margin-top: 12px;'>Vous utilisez un navigateur dépassé depuis près de 8 ans!</div>
-        <div style='font-size: 12px; margin-top: 6px; line-height: 12px;'>Pour une meilleure expérience web, prenez le temps de mettre votre navigateur à jour.</div>
+        <div style='font-size: 14px; font-weight: bold; margin-top: 12px;'>$nav</div>
+  <div style='font-size: 12px; margin-top: 6px; line-height: 12px;'>$nav2.</div>
       </div>
       <div style='width: 75px; float: left;'><a href='http://fr.www.mozilla.com/fr/' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-firefox.jpg' style='border: none;' alt='Get Firefox 3.5'/></a></div>
       <div style='width: 73px; float: left;'><a href='http://www.apple.com/fr/safari/download/' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-safari.jpg' style='border: none;' alt='Get Safari 4'/></a></div>
@@ -56,7 +66,7 @@ exit();
 }
 
 
-html_min_page_start($_SESSION['g_theme']);
+html_page_start($_SESSION['g_theme']);
 include_once("user_menu.php");
 
 $priv=($User->admin==1)?"Administrateur":"Utilisateur";
@@ -67,26 +77,30 @@ $result.='<TR>';
 if ( $User->Admin()  == 1 ) {
   $result.="<TD  class=\"cell\" ><A class=\"cell\" HREF=\"admin_repo.php\"> Administration  </A></TD>";
 }
-$result.='<TD  class="cell" ><A class="cell" HREF="manuel-fr.pdf" > Aide </a></TD>';
-$result.='<TD class="cell"><A class="cell" HREF="user_pref.php">Pr&eacute;f&eacute;rence</a></TD>';
-$result.='<TD  class="cell" ><A class="cell" HREF="logout.php" >Deconnexion</a></TD>';
+$result.='<TD  class="cell" ><A class="cell" HREF="manuel-fr.pdf" >'._('Aide').' </a></TD>';
+$result.='<TD class="cell"><A class="cell" HREF="user_pref.php">'._('Préférence').'</a></TD>';
+$result.='<TD  class="cell" ><A class="cell" HREF="logout.php" >'._('Deconnexion').'</a></TD>';
 $result.="</TR>";
 $result.="</table>";
 
-echo '<h2 class="info">Bienvenue  '.$User->first_name.'  '.$User->name." dans PhpCompta </h2>";
-echo '<br>Choississez votre dossier';
+echo '<h2 class="info">'._('Bienvenue').$User->first_name.'  '.$User->name.' '._("dans PhpCompta")."</h2>";
+echo '<br>'._('Choississez votre dossier');
 echo '<span style="position:absolute;right:10px;top:30px">'.$result.'</span>';
 echo '</div>';
 ?>
 <form method="get" action="?">
-<input type="submit" value="Rechercher">
+<input type="submit" value="<?php echo _('Rechercher');?>">
 <?php
-$w=new widget("text");
+$w=new IText();
 $p_nom=isset($_GET ['p_nom'])?$_GET['p_nom']:"";
-echo $w->IOValue('p_nom',$p_nom);
+echo $w->input('p_nom',$p_nom);
 
 ?>
-<span class="notice">Donnez une partie du nom du dossier &agrave; rechercher</span>
+<span class="notice">
+<?php
+  echo _('Donnez une partie du nom du dossier à rechercher');
+?>
+</span>
 </form>
 <?php
 $filtre="";

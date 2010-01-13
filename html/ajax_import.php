@@ -28,13 +28,13 @@
  *
  */
 include_once ("constant.php");
-include_once ("postgres.php");
+require_once('class_database.php');
 require_once ('class_user.php');
 require_once ('class_dossier.php');
 
 
 
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
 
 $User=new User($cn);
 $User->check_dossier(dossier::id());
@@ -52,7 +52,7 @@ if ( isset ($_GET['action']) &&
     $sql = "update import_tmp set poste_comptable='$poste' ,status='w',".
       "jr_rapt='$concern' where code='$code'";
     
-    $Res=ExecSql($cn,$sql);
+    $Res=$cn->exec_sql($sql);
     exit();
   }
 
@@ -63,7 +63,7 @@ if ( isset ($_GET['action']) &&
   {
     $code=FormatString($_GET['code']);
     $sql="update import_tmp set status='d' where code='".$code."'";
-    ExecSql($cn,$sql);
+    $cn->exec_sql($sql);
     exit();
   }
 if ( isset ($_GET['action']) &&
@@ -73,6 +73,6 @@ if ( isset ($_GET['action']) &&
   {
     $code=FormatString($_GET['code']);
     $sql="update import_tmp set status='n' where code='".$code."'";
-    ExecSql($cn,$sql);
+    $cn->exec_sql($sql);
     exit();
   }

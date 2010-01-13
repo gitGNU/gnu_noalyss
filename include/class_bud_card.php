@@ -28,8 +28,9 @@
  *
  */
 
+require_once("class_itext.php");
 require_once ('constant.php');
-require_once ('postgres.php');
+require_once ('class_database.php');
 require_once ('class_dossier.php');
 
 class Bud_Card {
@@ -64,8 +65,8 @@ class Bud_Card {
     $sql="insert into bud_card (bc_code,bc_description,bc_price_unit,bc_unit,bh_id) ".
       " values (substr($1,1,10),$2,$3,substr($4,1,20),$5) returning bc_id ";
     try {
-      $a=ExecSqlParam($this->db,$sql,$array);
-      $x=pg_fetch_array($a,0);
+      $a=$this->db->exec_sql($sql,$array);
+      $x=Database::fetch_array($a,0);
       $this->bc_id=$x['bc_id'];
     } catch (Exception $e) {
 
@@ -98,7 +99,7 @@ class Bud_Card {
 		 $this->bc_id
 		 );
     try {
-      ExecSqlParam($this->db,$sql,$array);
+      $this->db->exec_sql($sql,$array);
 
     }catch (Exception $e) {
       if ( DEBUG == 'true' ) print_r($e);
@@ -126,7 +127,7 @@ class Bud_Card {
    *\return Efface
    */
   function delete() {
-    ExecSql($this->db,"delete from bud_card where bc_id=".$this->bc_id);
+    $this->db->exec_sql("delete from bud_card where bc_id=".$this->bc_id);
     return 'Efface';
   }
 
@@ -141,11 +142,11 @@ class Bud_Card {
       " from bud_card ".
       " where  ".
       " bc_id =".$this->bc_id;
-    $res=ExecSql($this->db,$sql);
+    $res=$this->db->exec_sql($sql);
 
-    if ( pg_NumRows($res) == 0 ) return null;
+    if ( Database::num_row($res) == 0 ) return null;
 
-    $a=pg_fetch_array($res,0);
+    $a=Database::fetch_array($res,0);
 	$this->get_from_array($a);  
   }
 
@@ -156,8 +157,8 @@ class Bud_Card {
    */
   static function get_list($p_cn,$p_bh_id) {	
     $sql="select * from bud_card where bh_id = $p_bh_id";
-    $r=ExecSql($p_cn,$sql);
-    $get=pg_fetch_all($r);
+    $r=$p_cn->exec_sql($sql);
+    $get=Database::fetch_all($r);
     
     if (empty ($get))
       return array();
@@ -178,10 +179,10 @@ class Bud_Card {
    */
   function form() {
 
-    $wCode=new widget("text","Code","bc_code",$this->bc_code);
-    $wDescription=new widget("text","Description","bc_description",$this->bc_description);
-    $wPriceUnit=new widget("text","Prix/unit","bc_price_unit",$this->bc_price_unit);
-    $wUnit=new widget("text","Unit","bc_unit",$this->bc_unit);
+    $wCode=new IText("Code","bc_code",$this->bc_code);
+    $wDescription=new IText("Description","bc_description",$this->bc_description);
+    $wPriceUnit=new IText("Prix/unit","bc_price_unit",$this->bc_price_unit);
+    $wUnit=new IText("Unit","bc_unit",$this->bc_unit);
 
     $wCode->table=1;
     $wDescription->table=1;
@@ -191,21 +192,21 @@ class Bud_Card {
 
     $r="";
     $r.="<table>";
-    $r.=widget::hidden('bc_id',$this->bc_id);
-    $r.=widget::hidden('bh_id',$this->bh_id);
+    $r.=HtmlInput::hidden('bc_id',$this->bc_id);
+    $r.=HtmlInput::hidden('bh_id',$this->bh_id);
     $r.="<tr>";
-    $r.=$wCode->IOValue('bc_code',$this->bc_code);
+    $r.=$wCode->input('bc_code',$this->bc_code);
     $r.="</tr>";
     $r.="<tr>";
-    $r.=$wDescription->IOValue();
-    $r.="</tr>";
-    $r.="<tr>";
-
-    $r.=$wPriceUnit->IOValue();
+    $r.=$wDescription->input();
     $r.="</tr>";
     $r.="<tr>";
 
-    $r.=$wUnit->IOValue();
+    $r.=$wPriceUnit->input();
+    $r.="</tr>";
+    $r.="<tr>";
+
+    $r.=$wUnit->input();
     $r.="</tr>";
     $r.="</table>";
 
@@ -213,7 +214,7 @@ class Bud_Card {
     return $r;
   }
   static function test_me() {
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $a=new Bud_Card($cn);
 
     echo "<h2> Ajout d'un bud_card</h2>";
@@ -221,6 +222,7 @@ class Bud_Card {
     $a->bc_description="Juste une description";
     $a->bc_unit="Euro";
     $a->bc_price_unit=0.55;
+    $a->bh_id=1;
     $a->add();
     print_r($a);
 

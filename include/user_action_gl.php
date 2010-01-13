@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -20,54 +20,67 @@
 /* $Revision$ */
 
 /*! \file
- * \brief included file for the great ledger 
+ * \brief included file for the great ledger
  */
 
-include_once ("preference.php");
 include_once ("user_common.php");
-include_once ("class_widget.php");
 include_once("class_user.php");
+require_once("class_iselect.php");
 require_once("jrn.php");
+require_once('class_acc_ledger.php');
+$cn=new Database($gDossier);
+echo js_include('accounting_item.js');
+echo js_include('prototype.js');
+echo js_include('scriptaculous.js');
+echo js_include('effects.js');
+echo js_include('controls.js');
+echo js_include('dragdrop.js');
+echo js_include('acc_ledger.js');
+echo js_include('scripts.js');
+echo JS_INFOBULLE;
+require_once('class_iposte.php');
+require_once('class_ipopup.php');
+$search_card=new IPopup('ipop_card');
+$search_card->title=_('Recherche de fiche');
+$search_card->value='';
+echo $search_card->input();
+echo JS_CARD;
+echo IPoste::ipopup('ipop_account');
 
-$cn=DbConnect($gDossier);
+echo '<div class="content">';
 
-echo '<div class="u_content">
-      <form method="GET">';  
-echo dossier::hidden();
-echo widget::hidden('p_action','gl');
+$Ledger=new Acc_Ledger($cn,0);
+if ( !isset($_REQUEST['p_jrn'])) {
+  $Ledger->id=-1;
+} else
+  $Ledger->id=$_REQUEST['p_jrn'];
+echo $Ledger->display_search_form();
 
-$w=new widget("select");
-// filter on the current year
-$filter_year=" where p_exercice='".$User->get_exercice()."'";
+/*  compute the sql stmt */
+list($sql,$where)=$Ledger->build_search_sql($_GET);
 
-$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end",1);
-$current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
-$w->selected=$current;
-echo 'Période  '.$w->IOValue("p_periode",$periode_start).widget::submit('gl_submit','Valider');
+$max_line=$cn->count_sql($sql);
 
-echo '</form>';
-
-if ( $current == -1) {
-  $cond=" and jr_tech_per in (select p_id from parm_periode where p_exercice='".$User->get_exercice()."')";
- } else {
-  $cond=" and jr_tech_per=".$current;
- }
-/* security filter on the ledger */
-$sql_ledger='';
-if ( $User->Admin() == 0 && $User->is_local_admin()==0) { $sql_ledger=' and  '.$User->get_ledger_sql();}
-$sql=SQL_LIST_ALL_INVOICE.$cond.$sql_ledger;
-// Nav. bar 
 $step=$_SESSION['g_pagesize'];
 $page=(isset($_GET['offset']))?$_GET['page']:1;
 $offset=(isset($_GET['offset']))?$_GET['offset']:0;
-
-list ($max_line,$list)=ListJrn($cn,0,$sql,null,$offset);
-
 $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
+
+echo HtmlInput::hidden("p_action",$_REQUEST['p_action']);
+if (isset($_REQUEST['sa'])) echo HtmlInput::hidden("sa",$_REQUEST['sa']);
+if (isset($_REQUEST['sb'])) echo HtmlInput::hidden("sb",$_REQUEST['sb']);
+if (isset($_REQUEST['sc'])) echo HtmlInput::hidden("sc",$_REQUEST['sc']);
+if (isset($_REQUEST['f_id'])) echo HtmlInput::hidden("f_id",$_REQUEST['f_id']);
+
+
+echo dossier::hidden();
 echo $bar;
-echo $list;
+list($count,$html)= $Ledger->list_operation($sql,$offset);
+echo $html;
 echo $bar;
 
+
 ?>
+
 </div>

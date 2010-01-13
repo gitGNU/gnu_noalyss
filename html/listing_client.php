@@ -19,7 +19,7 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once("ac_common.php");
-require_once("postgres.php");
+require_once('class_database.php');
 /*! \file
  * \brief Electronic declaration for VAT BELGIUM --> experimental
  */
@@ -30,7 +30,7 @@ include ('class_user.php');
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 $User=new User($cn);
 $User->Check();

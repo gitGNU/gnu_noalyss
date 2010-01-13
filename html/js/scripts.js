@@ -19,28 +19,34 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-
-/* \brief javascript script, always added to every page
+/*!\file
+ * \brief javascript script, always added to every page
  *
  */
 
-trim = function(p_value) {
-	return p_value.replace(/^\s+|\s+$/g,"");
-}//scripts library.
+/*!\brief remove trailing and heading space
+ * \param the string to modify
+ * \return string without heading and trailing space
+ */
+function trim(s) {
+    return s.replace(/^\s+/, '').replace(/\s+$/, '');
+}
 
-// Set the focus to the specified field,
-// and select it if requested by SelectIt
+/**
+ * @brief retrieve an element thanks its ID
+ * @param ID is a string
+ * @return the found object of undefined if not found
+ */
 function g(ID) {
-  if (document.all) {
-    return document.all[ID];
-  } else if (document.getElementById) {
+  if (document.getElementById) {
     return document.getElementById(ID);
-  } else {
+  } else   if (document.all) {
+    return document.all[ID];
+  }  else {
     return undefined;
   }
 }
+<<<<<<< .working
 function GetFormField(Field) {
   var elem = document.forms ? document.forms[0] : false;
   return elem.elements ? elem.elements[Field] : false;
@@ -303,68 +309,32 @@ function import_not_confirmed(p_sessid,p_dossier,p_count) {
   var form=$("form_"+p_count);
   form.hide();
 }
+=======
+>>>>>>> .merge-right.r2625
 /**
- * @brief add a line in the form for the report 
- * @param p_dossier dossier id to connect
- * @param p_sessid session id
+ *@brief enable the type of periode
  */
-function rapport_add_row(p_dossier,p_sessid){
-   style='style="border: 1px solid blue;"';
-   var table=$("rap1");
-   var line=table.rows.length;
-
-   var row=table.insertRow(line);
-   // left cell
-  var cellPos = row.insertCell(0);
-  cellPos.innerHTML='<input type="text" '+style+' size="3" id="pos'+line+'" name="pos'+line+'" value="'+line+'">';
-
-  // right cell
-  var cellName = row.insertCell(1);
-  cellName.innerHTML='<input type="text" '+style+' size="50" id="text'+line+'" name="text'+line+'">';
-
-  // Formula
-  var cellFormula = row.insertCell(2);
-  cellFormula.innerHTML='<input type="text" '+style+' size="35" id="form'+line+'"  name="form'+line+'">';
-
-  // Search Button
-  var cellSearch = row.insertCell(3);
-   cellSearch.innerHTML='<input type="button" value="Recherche Poste" onclick="SearchPoste(\''+p_sessid+'\','+p_dossier+',\'form'+line+'\',\'\',\'poste\',\'N\')" class="inp"/>';
-
+function enable_type_periode() {
+	if ( g('type_periode').value == 1 ) {
+		g('from_periode').disabled=true;
+		g('to_periode').disabled=true;
+		g('from_date').disabled=false;
+		g('to_date').disabled=false;
+		g('p_step').disabled=true;
+	} else {
+		g('from_periode').disabled=false;
+		g('to_periode').disabled=false;
+		g('from_date').disabled=true;
+		g('to_date').disabled=true;
+		g('p_step').disabled=false;
+	}
 }
 
 /**
- * @brief create a file to export a report
- * @param p_sessid the Session id
- * @param p_dossier the dossier id
+ *@brief will reload the window but it is dangerous if we have submitted
+ * a form
  */
-function report_export(p_sessid,p_dossier,p_fr_id) {
-  var queryString="?PHPSESSID="+p_sessid+"&gDossier="+p_dossier+"&f="+p_fr_id;
-  var action=new Ajax.Request(
-			      "ajax_report.php",
-			      {
-			      method:'get',
-			      parameters:queryString,
-			      onSuccess:report_export_success
-			      }
-			      );
-  
-}
-/**
- * @brief callback function for exporting a report
- * @param request object request
- * @param json json answer
- */
-function report_export_success(request,json) {
-  var answer = request.responseText.evalJSON(true);
-  var ok=answer.answer;
-  var link=answer.link;
-  $('export').hide();
-  $('export_link').innerHTML='<a class="mtitle" href="'+link+'"> Cliquez ici pour télécharger le rapport</a>';
-}
-
-/**
- * @brief add a line in the form for the sold ledger
- */
+<<<<<<< .working
 function ledger_sold_add_row(){
    style='class="input_text"';
    var mytable=$("sold_item").tBodies[0];
@@ -388,312 +358,115 @@ function ledger_sold_add_row(){
     $("e_quant"+nb.value).value="1";
    
   nb.value++;
+=======
+function refresh_window() {
+	window.location.reload();
+>>>>>>> .merge-right.r2625
 }
-function compute_all_sold() {
-    var loop=0;
-    for (loop=0;loop<$("nb_item").value;loop++){
-	compute_sold(loop);
-    }
 
-}
 /**
- * @brief compute the sum of a sold, update the span tvac, htva and tva
- * all the needed data are taken from the document (hidden field : phpsessid and gdossier)
- * @param the number of the changed ctrl
+ *@brief we receive a json object as parameter and the function returns the string
+ *       with the format variable=value&var2=val2...
  */
-function compute_sold(p_ctl_nb) {
-    var phpsessid=$("phpsessid").value;
-    var dossier=$("gDossier").value;
-
-    $("e_march"+p_ctl_nb).value=trim($("e_march"+p_ctl_nb).value);
-    var qcode=$("e_march"+p_ctl_nb).value;
-
-    if ( qcode.length == 0 ) {
-	clean_sold(p_ctl_nb);
-	refresh_sold();
-	return;
-    }
-    var tva_id=-1;
-    if ($('e_march'+p_ctl_nb+'_tva_id')) tva_id=$('e_march'+p_ctl_nb+'_tva_id').value;
-	
-    $('e_march'+p_ctl_nb+'_price').value=trim($('e_march'+p_ctl_nb+'_price').value);
-
-    var price=$('e_march'+p_ctl_nb+'_price').value;
-    $('e_quant'+p_ctl_nb).value=trim($('e_quant'+p_ctl_nb).value);
-    var quantity=$('e_quant'+p_ctl_nb).value;
-
-  var querystring='?PHPSESSID='+phpsessid+'&gDossier='+dossier+'&c='+qcode+'&t='+tva_id+'&p='+price+'&q='+quantity+'&n='+p_ctl_nb;
-    $('sum').hide();
-  var action=new Ajax.Request(
-			      "compute.php",
-			      { 
-			      method:'get',
-			      parameters:querystring,
-			      onFailure:error_compute_sold,
-			      onSuccess:success_compute_sold
-			      }
-			      );
-  }
-function refresh_sold () {
-  var tva=0; var htva=0;var tvac=0;
-
-  for (var i=0;i<$("nb_item").value;i++) {
-    if ( $('tva_march'+i) ) tva+=$('tva_march'+i).value*1;
-    if ($('htva_march'+i)) htva+=$('htva_march'+i).value*1;
-    if ($('tvac_march'+i)) tvac+=$('tvac_march'+i).value*1;
-    if ($('tva_march'+i+'_show')) $('tva_march'+i+'_show').value=$('tva_march'+i).value;
-
-  }
-
-    if ( $('tva')) $('tva').innerHTML=Math.round(tva*100)/100;
-    if ( $('htva')) $('htva').innerHTML=Math.round(htva*100)/100;
-    if ($('tvac')) $('tvac').innerHTML=Math.round(tvac*100)/100;
+var encodeJSON=function(obj) {
+	if (typeof obj != 'object') {alert('encodeParameter  obj n\'est pas  un objet');}
+	try{
+		var str='';var e=0;
+		for (i in obj){
+			if (e != 0 ) {str+='&';} else {e=1;}
+			str+=i;
+			str+='='+encodeURI(obj[i]);
+		}
+		return str;
+	} catch(e){alert('encodeParameter '+e.message);}
 }
+var hide=function(p_param){
+  g(p_param).style.display='none';
+}
+var show=function(p_param){
+  g(p_param).style.display='block';
+}
+
 /**
- * @brief update the field htva, tva_id and tvac, callback function for  compute_sold
+ *@brief set the focus on the selected field
+ *@param Field id of  the control
+ *@param selectIt : the value selected in case of Field is a object select, numeric
  */
-function success_compute_sold(request,json) {
-	var answer=request.responseText.evalJSON(true);
-	var rtva=answer.tva*1;
-	var rhtva=answer.htva*1;
-	var rtvac=answer.tvac*1;
-	var ctl=answer.ctl;
-	$('sum').show();
-	if($('tva_march'+ctl))  $('tva_march'+ctl).value=rtva;
-	if($('htva_march'+ctl))  $('htva_march'+ctl).value=rhtva;
-	if ($('tvac_march'+ctl)) $('tvac_march'+ctl).value=rtvac;
-	refresh_sold();
+function SetFocus(Field,SelectIt) {
+  var elem = g(Field);
+  if (elem) {
+    elem.focus();
+   }
+  return true;
 }
-
-/**
- * @brief callback error function for  compute_sold
+ /**
+ * @brief set a DOM id with a value in the parent window (the caller),
+  @param p_ctl is the name of the control
+  @param p_value is the value to set in
+ @param p_add if we don't replace the current value but we add something
  */
-function error_compute_sold(request,json) {
-  alert('Ajax does not work');
+function set_inparent(p_ctl,p_value,p_add) {
+    self.opener.set_value(p_ctl,p_value,p_add);
+ }
+
+ /**
+ * @brief set a DOM id with a value, it will consider if it the attribute
+ 	value or innerHTML has be used
+  @param p_ctl is the name of the control
+  @param p_value is the value to set in
+ @param p_add if we don't replace the current value but we add something
+ */
+function set_value(p_ctl,p_value,p_add) {
+	if ( g(p_ctl)) {
+		var g_ctrl=g(p_ctl);
+		if ( p_add != undefined && p_add==1 ) {
+		    if ( g_ctrl.value ) {p_value=g_ctrl.value+','+p_value;}
+		}
+		if ( g_ctrl.tagName=='INPUT' ) {g(p_ctl).value=p_value;}
+		if ( g_ctrl.tagName=='SPAN' ) { g(p_ctl).innerHTML=p_value;}
+		if ( g_ctrl.tagName=='SELECT' ) { g(p_ctl).value=p_value;}
+	}
 }
 /**
-* @brief update the list of available predefined operation when we change the ledger. 
+*@brief format the number change comma to point
+*@param HTML obj
 */
-function update_predef(p_type,p_direct) {
-    var jrn=$("p_jrn").value;
-    var phpsessid=$("phpsessid").value;
-    var dossier=$("gDossier").value;
-    var querystring='?PHPSESSID='+phpsessid+'&gDossier='+dossier+'&l='+jrn+'&t='+p_type+'&d='+p_direct;
-    $("p_jrn_predef").value=jrn;
-  var action=new Ajax.Request(
-			      "get_predef.php",
-			      { 
-			      method:'get',
-			      parameters:querystring,
-			      onFailure:error_get_predef,
-			      onSuccess:success_get_predef
-			      }
-  );
+function format_number(obj) {
+	var value=obj.value;
+	value=value.replace(/,/,'.');
+	value=parseFloat(value);
+	if (  isNaN(value) ) {	value=0; }
+	value=Math.round(value*100)/100;
+	$(obj).value=value;
 }
 /**
- * @brief update the field predef
- */
-function success_get_predef(request,json) {
-    var i=0;
-  var answer=request.responseText.evalJSON(true);
-    obj=$("pre_def");
-    obj.innerHTML='';
-    if ( answer.count == 0 ) return;
-
-    for ( i = 0 ; i < answer.count;i++) {
-	value=answer['value'+i];
-	label=answer['label'+i];
-	obj.options[obj.options.length]=new Option(label,value);
-    }
-
-}
-/**
- * @brief update the field predef
- */
-function error_get_predef(request,json) {
-    alert ("Erreur mise à jour champs non possible");
-
-}
-/**
-* @brief update the list of available predefined operation when we change the ledger. 
+ *@brief check if the object is hidden or show and perform the opposite,
+ * show the hidden obj or hide the shown one
+ *@param name of the object
 */
-function update_pj() {
-    var jrn=$("p_jrn").value;
-    var phpsessid=$("phpsessid").value;
-    var dossier=$("gDossier").value;
-    var querystring='?PHPSESSID='+phpsessid+'&gDossier='+dossier+'&l='+jrn;
-  var action=new Ajax.Request(
-			      "get_pj.php",
-			      { 
-			      method:'get',
-			      parameters:querystring,
-			      onFailure:error_get_pj,
-			      onSuccess:success_get_pj
-			      }
-  );
+function toggleHideShow(p_obj,p_button) {
+	var stat=g(p_obj).style.display;
+	var str=g(p_button).value;
+	if ( stat == 'none' ) {
+	show(p_obj);str=str.replace(/Afficher/,'Cacher');g(p_button).value=str;}
+	else {hide(p_obj);str=str.replace(/Cacher/,'Afficher');g(p_button).value=str;}
 }
 /**
- * @brief update the field predef
+ *@brief open popup with the search windows
+ *@param p_sessid,the PHPSESSID
+ *@param p_dossier the dossier where to search
+ *@param p_style style of the detail value are E for expert or S for simple
  */
-function success_get_pj(request,json) {
-
-    var answer=request.responseText.evalJSON(true);
-    obj=$("e_pj");
-    obj.value='';
-    if ( answer.count == 0 ) return;
-    obj.value=answer.pj;
-    $("e_pj_suggest").value=answer.pj;
+function openRecherche(p_sessid,p_dossier,p_style) {
+  if ( p_style == 'E' ) { p_style="expert";}
+  var w=window.open("recherche.php?gDossier="+p_dossier+"&PHPSESSID="+p_sessid+'&'+p_style,'','statusbar=no,scrollbars=yes,toolbar=no');
+  w.focus();
 }
+<<<<<<< .working
+
+<<<<<<< .working
 /**
- * @brief update the field predef
- */
-function error_get_pj(request,json) {
-	alert("Ajax a echoue");
-}
-
-/**
- * @brief add a line in the form for the ledger fin
- */
-function ledger_fin_add_row(){
-    style='class="input_text"';
-    var mytable=$("fin_item").tBodies[0];
-    var line=mytable.rows.length;
-    var row=mytable.insertRow(line);
-    var phpsessid=$("phpsessid");
-    var nb=$("nb_item");
-    
-    var newNode = mytable.rows[1].cloneNode(true);
-    var tt=newNode.innerHTML;
-    mytable.appendChild(newNode);
-    
-    
-    new_tt=tt.replace(/e_other0/g,"e_other"+nb.value);
-    new_tt=new_tt.replace(/e_other0_comment/g,"e_other"+nb.value+'_comment');
-    new_tt=new_tt.replace(/e_other0_amount/g,"e_other"+nb.value+'_amount');
-    new_tt=new_tt.replace(/e_concerned0/g,"e_concerned"+nb.value);
-    new_tt=new_tt.replace(/e_other0_label/g,"e_other"+nb.value+'_label');
-    newNode.innerHTML=new_tt;
-    $("e_other"+nb.value+'_label').innerHTML="";
-    nb.value++;
-
-}
-/**
- * @brief add a line in the form for the purchase ledger
- */
-function ledger_purchase_add_row(){
-	style='class="input_text"';
-	var mytable=$("sold_item").tBodies[0];
-	var line=mytable.rows.length;
-	var row=mytable.insertRow(line);
-	var phpsessid=$("phpsessid");
-	var nb=$("nb_item");
-	var newNode = mytable.rows[1].cloneNode(true);
-	var tt=newNode.innerHTML;
-	mytable.appendChild(newNode);
-	new_tt=tt.replace(/march0/g,"march"+nb.value);
-	new_tt=new_tt.replace(/quant0/g,"quant"+nb.value);
-	new_tt=new_tt.replace(/sold\(0\)/g,"sold("+nb.value+")");
-	newNode.innerHTML=new_tt;
-	$("e_march"+nb.value+"_label").innerHTML='&nbsp;';
-	$("e_march"+nb.value+"_price").value='0';
-	$("e_march"+nb.value).value="";
-	$("e_quant"+nb.value).value="1";
-	nb.value++;
-
-}
-/**
- * @brief compute the sum of a purchase, update the span tvac, htva and tva
- * all the needed data are taken from the document (hidden field : phpsessid and gdossier)
- * @param the number of the changed ctrl
- */
-function compute_purchase(p_ctl_nb) {
-    var phpsessid=$("phpsessid").value;
-    var dossier=$("gDossier").value;
-	var a=-1;
-	if ( document.getElementById("e_march"+p_ctl_nb+'_tva_amount')) {
-		a=trim($("e_march"+p_ctl_nb+'_tva_amount').value);
-		$("e_march"+p_ctl_nb+'_tva_amount').value=a;
-	}
-    $("e_march"+p_ctl_nb).value=trim($("e_march"+p_ctl_nb).value);
-    var qcode=$("e_march"+p_ctl_nb).value;
-
-    if ( qcode.length == 0 ) { clean_purchase(p_ctl_nb);refresh_purchase();return;}
-	var tva_id=-1;
-	if ( $('e_march'+p_ctl_nb+'_tva_id') ) {
-		tva_id=$('e_march'+p_ctl_nb+'_tva_id').value;
-	}
-
-    $('e_march'+p_ctl_nb+'_price').value=trim($('e_march'+p_ctl_nb+'_price').value);
-    var price=$('e_march'+p_ctl_nb+'_price').value;
-
-    $('e_quant'+p_ctl_nb).value=trim($('e_quant'+p_ctl_nb).value);
-    var quantity=$('e_quant'+p_ctl_nb).value;
-    var querystring='?PHPSESSID='+phpsessid+'&gDossier='+dossier+'&c='+qcode+'&t='+tva_id+'&p='+price+'&q='+quantity+'&n='+p_ctl_nb;
-    $('sum').hide();
-    var action=new Ajax.Request(
-			      "compute.php",
-	{ 
-	    method:'get',
-	    parameters:querystring,
-	    onFailure:error_compute_purchase,
-	    onSuccess:success_compute_purchase
-	}
-    );
-}
-function refresh_purchase() {
-  var tva=0; var htva=0;var tvac=0;
-
-  for (var i=0;i<$("nb_item").value;i++) {
-    if( $('tva_march'+i))  tva+=$('tva_march'+i).value*1;
-    htva+=$('htva_march'+i).value*1;
-    tvac+=$('tvac_march'+i).value*1;
-  }
-
-    if ( $('tva') ) $('tva').innerHTML=Math.round(tva*100)/100;
-    $('htva').innerHTML=Math.round(htva*100)/100;
-    if ($('tvac'))    $('tvac').innerHTML=Math.round(tvac*100)/100;
-}
-/**
- * @brief update the field htva, tva_id and tvac, callback function for  compute_sold
- * it the field TVA in the answer contains NA it means that VAT is appliable and then do not
- * update the VAT field except htva_martc
- */
-function success_compute_purchase(request,json) {
-
-  var answer=request.responseText.evalJSON(true);
-  var ctl=answer.ctl;
-  var rtva=answer.tva;
-  var rhtva=answer.htva*1;
-  var rtvac=answer.tvac*1;
-
-  if ( rtva == 'NA' ) {
-	var rhtva=answer.htva*1;
-	$('htva_march'+ctl).value=rhtva;
-	$('tvac_march'+ctl).value=rtvac;
-	$('sum').show();
-	refresh_purchase();
-
-	return;
-  }
-  rtva=answer.tva*1;
-  
- 
-  
-  $('sum').show();
-  if ( $('e_march'+ctl+'_tva_amount').value=="" ||  $('e_march'+ctl+'_tva_amount').value==0 ){
-			$('tva_march'+ctl).value=rtva;
-			$('e_march'+ctl+'_tva_amount').value=rtva;
-	}
-	else {
-		$('tva_march'+ctl).value=$('e_march'+ctl+'_tva_amount').value;
-	}
-	$('htva_march'+ctl).value=rhtva;
-	$('tvac_march'+ctl).value=parseFloat($('htva_march'+ctl).value)+parseFloat($('tva_march'+ctl).value);
-	
-    refresh_purchase();
-}
-
-/**
+<<<<<<< .working
  * @brief callback error function for  compute_sold
  */
 function error_compute_purchase(request,json) {
@@ -780,6 +553,7 @@ function my_clear(p_ctrl) {
     document.getElementById(p_ctrl).value="";
 	}
 }
+<<<<<<< .working
 /**
  *@brief enable the type of periode
  */
@@ -796,5 +570,165 @@ function enable_type_periode() {
 		g('to_date').disabled=true;
 	}
 }
+=======
+/**
+ *@brief enable the type of periode
+ */
+function enable_type_periode() {
+	if ( g('type_periode').value == 1 ) {
+		g('from_periode').disabled=true;
+		g('to_periode').disabled=true;
+		g('from_date').disabled=false;
+		g('to_date').disabled=false;
+		g('p_step').disabled=true;
+	} else {
+		g('from_periode').disabled=false;
+		g('to_periode').disabled=false;
+		g('from_date').disabled=true;
+		g('to_date').disabled=true;
+		g('p_step').disabled=false;
+	}
+}
+/**
+ *@brief remove an attached document of an action
+ *@param phpsessid
+ *@param dossier
+ *@param dt_id id of the document (pk document:d_id)
+*/
+function remove_document(p_sessid,p_dossier,p_id) {
+  queryString="?PHPSESSID="+p_sessid+"&gDossier="+p_dossier+"&a=rm&d_id="+p_id;
+  var action=new Ajax.Request (
+			       "show_document.php",
+			       {
+				 method:'get',
+				 parameters:queryString,
+				 onFailure:errorRemoveDoc,
+				 onSuccess:successRemoveDoc
+			       }
+			
+			       );
+>>>>>>> .merge-right.r2573
+
+}
+/**
+ *@brief error if a document if removed
+ */
+ function errorRemoveDoc() { alert('Impossible d\'effacer ce document');}
+ /**
+  *@brief success when removing a document
+  */
+  function successRemoveDoc(request,json){
+	  var answer=request.responseText.evalJSON(true);
+	  var action="ac"+answer.d_id;
+	  $(action).innerHTML="";
+	  var doc="doc"+answer.d_id;
+	  $(doc).style.color="red";
+	  $(doc).href="javascript:alert('Document Effacé')";
+	  $(doc).style.textDecoration="line-through";
+	  	
+  }
+ /**
+ * @brief check the format of the hour
+ * @param p_ctl is the control where the hour is encoded
+ */
+ function check_hour(p_ctl) {
+	 try { 
+	 	var h=document.getElementById(p_ctl);
+	 	var re = /^\d{1,2}:\d{2}$/;
+	 	 if ( trim(h.value) !='' && ! h.value.match(re)) 
+	 	 	alert("Format de l'heure est HH:MM ")
+	 }catch (erreur){
+	 	alert('fct : check_hour '+erreur);
+	 }
+	 
+ }
+=======
+>>>>>>> .merge-right.r2625
+=======
+/**
+ *@brief show the popup
+=======
+ *@brief show the popup. The top property is adapted if you've scrolled the window
+>>>>>>> .merge-right.r2857
+ *@param name of the object PHP IPopup
+ */
+function showIPopup(p_name) {
+    var sx=0;
+    if ( window.scrollY) { sx=window.scrollY+40;}
+	else { sx=document.body.scrollTop+40;}
+    $(p_name+'_border').style.top=sx;
+    show(p_name+'_fond');
+    show(p_name+'_border');
+    show(p_name+'_content');
+}
+<<<<<<< .working
+>>>>>>> .merge-right.r2645
+=======
+/**
+ *@brief hide the popup
+ *@param name of the object PHP IPopup
+ */
+function hideIPopup(p_name) {
+    hide(p_name+'_fond');
+    hide(p_name+'_border');
+    hide(p_name+'_content');
+    $(p_name+'_content').innerHTML='<image src="image/loading.gif" border="0" alt="Chargement...">';
+}
+/**
+ *@brief replace the special characters (><'") by their HTML representation
+ *@return a string without the offending char.
+ */
+function unescape_xml(code_html) {
+    code_html=code_html.replace(/\&lt;/,'<');
+    code_html=code_html.replace(/\&gt;/,'>');
+    code_html=code_html.replace(/\&quot;/,'"');
+    code_html=code_html.replace(/\&apos;/,"'");
+    code_html=code_html.replace(/\&amp;/,'&');
+    return code_html;
+}
+/**
+ *@brief Firefox splits the XML into 4K chunk, so to retrieve everything we need
+ * to get the different parts thanks textContent
+ *@param xmlNode a node (result of var data = =answer.getElementsByTagName('code'))
+ *@return all the content of the XML node
+*/
+function getNodeText(xmlNode)  
+ {  
+     if(!xmlNode) return '';  
+     if(typeof(xmlNode.textContent) != "undefined") return xmlNode.textContent;  
+     return xmlNode.firstChild.nodeValue;  
+ } 
+/**
+ *@brief change the periode in the calendar of the dashboard
+ *@param object select
+ */
+function change_month(obj) {
+    var queryString="PHPSESSID="+obj.phpsessid+"&gDossier="+obj.gDossier+"&op=cal"+"&per="+obj.value;
+    var action = new Ajax.Request(
+	"ajax_misc.php" , { method:'get', parameters:queryString,onFailure:ajax_misc_failure,onSuccess:change_month_success}
+    );
+   
+}
+function change_month_success(req) {
+        try{
+	var answer=req.responseXML;
+	var html=answer.getElementsByTagName('code');
+	if ( html.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
+	var nodeXml=html[0];
+	var code_html=getNodeText(nodeXml);
+	code_html=unescape_xml(code_html);
+	$("user_cal").innerHTML=code_html;
+	} 
+    catch (e) {
+	alert(e.message);}
+    try{
+	code_html.evalScripts();}
+    catch(e){
+	alert("Impossible executer script de la reponse\n"+e.message);}
 
 
+}
+
+function ajax_misc_failure() {
+    alert('Ajax Misc failed');
+}>>>>>>> .merge-right.r2857

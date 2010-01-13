@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+# This file is a part of PhpCompta under GPL
+# Author D. DE BONTRIDDER ddebontridder@yahoo.fr
+
 cat <<EOF
 This script create a list of all the function on only page,
 you must first run doxygen and call this file from the phpcompta directory

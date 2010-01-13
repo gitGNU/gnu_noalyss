@@ -18,7 +18,10 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-include_once("class_widget.php");
+require_once("class_ispan.php");
+require_once("class_icard.php");
+require_once("class_iselect.php");
+require_once("class_icheckbox.php");
 require_once('class_acc_operation.php');
 /*! \file
  * \brief Print account (html or pdf)
@@ -30,64 +33,102 @@ require_once('class_acc_operation.php');
 //-----------------------------------------------------
 // Show the jrn and date
 //-----------------------------------------------------
-include_once("postgres.php");
+require_once('class_database.php');
+echo JS_LEDGER;
+echo JS_PROTOTYPE;
+require_once('class_ipopup.php');
+echo js_include('accounting_item.js');
+echo js_include('prototype.js');
+echo js_include('scriptaculous.js');
+echo js_include('effects.js');
+echo js_include('controls.js');
+echo js_include('dragdrop.js');
+echo js_include('card.js');
+echo js_include('acc_ledger.js');
+echo IPoste::ipopup('ipop_account');
+echo ICard::ipopup('ipopcard');
+$search_card=new IPopup('ipop_card');
+$search_card->title=_('Recherche de fiche');
+$search_card->value='';
+echo $search_card->input();
+
 //-----------------------------------------------------
 // Form
 //-----------------------------------------------------
 echo '<div class="content">';
-echo JS_SEARCH_POSTE;
-echo JS_SEARCH_CARD;
-echo JS_PROTOTYPE;
-echo '<FORM action="?" METHOD="GET">';
-echo widget::hidden('p_action','impress');
-echo widget::hidden('type','poste');
-echo dossier::hidden();
-echo '<TABLE><TR>';
-$span=new widget("span");
 
-$w=new widget("js_search_poste");
-$w->table=1;
+echo '<FORM action="?" METHOD="GET">';
+echo HtmlInput::hidden('p_action','impress');
+echo HtmlInput::hidden('type','poste');
+echo dossier::hidden();echo HtmlInput::phpsessid();
+echo '<TABLE><TR>';
+$span=new ISpan();
+
+$w=new IPoste('poste_id');
+$w->set_attribute('ipopup','ipop_account');
+$w->set_attribute('label','poste_id_label');
+$w->set_attribute('account','poste_id');
+$w->table=0;
 $w->value=(isset($_REQUEST['poste_id']))?$_REQUEST['poste_id']:"";
 $w->label="Choississez le poste";
-print $w->IOValue("poste_id");
-echo $span->IOValue('poste_id_label');
-$w_poste=new widget("js_search_only");
-$w_poste->table=1;
-$w_poste->label="Ou Choississez la fiche";
-$w_poste->extra='all';
+print td('Choississez un poste ').td($w->input());
+echo td($span->input('poste_id_label'));
+echo '</tr><tr>';
+
+$w_poste=new ICard('f_id');
+$w_poste->table=0;
+$w_poste->jrn=0;
+echo td("Ou choississez la fiche");
+$w_poste->set_attribute('label','f_id_label');
+$w_poste->set_attribute('ipopup','ipop_card');
+$w_poste->set_attribute('gDossier',dossier::id());
+$w_poste->set_attribute('typecard','all');
+$w_poste->set_function('fill_data');
+$w_poste->set_dblclick("fill_ipopcard(this);");
+
+
 $w_poste->value=(isset($_REQUEST['f_id']))?$_REQUEST['f_id']:"";
-print $w_poste->IOValue("f_id");
-echo $span->IOValue('f_id_label');
+print td($w_poste->search().$w_poste->input());
+echo td($span->input('f_id_label'));
 print '</TR>';
 print '<TR>';
 // filter on the current year
-$select=new widget("select");
-$select->table=1;
+/*
+$select=new ISelect();
 $filter_year=" where p_exercice='".$User->get_exercice()."'";
-$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
+$periode_start=$cn->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 $select->label="Depuis";
 $select->selected=(isset($_REQUEST['from_periode']))?$_REQUEST['from_periode']:"";
-print $select->IOValue('from_periode',$periode_start);
+print td($select->input('from_periode',$periode_start));
 $select->label=" jusqu'à ";
-$periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode  $filter_year order by p_start,p_end");
+$periode_end=$cn->make_array("select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode  $filter_year order by p_start,p_end");
 $select->selected=(isset($_REQUEST['to_periode']))?$_REQUEST['to_periode']:"";
-print $select->IOValue('to_periode',$periode_end);
+print td($select->input('to_periode',$periode_end));
 print "</TR>";
+*/
+$date_from=new IDate('from_periode');
+$date_to=new IDate('to_periode');
+$year=$User->get_exercice();
+$date_from->value=(isset($_REQUEST['from_periode']))?$_REQUEST['from_periode']:"01.01.".$year;
+$date_to->value=(isset($_REQUEST['to_periode']))?$_REQUEST['to_periode']:"31.12.".$year;
+echo td(_('Depuis').$date_from->input());
+echo td(_('Jusque ').$date_to->input());
+//
 print "<TR><TD>";
-$all=new widget("checkbox");
+$all=new ICheckBox();
 $all->label="Tous les postes qui en dépendent";
 $all->disabled=false;
 $all->selected=(isset($_REQUEST['poste_fille']))?true:false;
-echo $all->IOValue("poste_fille");
+echo $all->input("poste_fille");
 echo '</TD></TR><TR><TD>';
-$detail=new widget("checkbox");
+$detail=new ICheckBox();
 $detail->label="D&eacute;tail des op&eacute;rations";
 $detail->disabled=false;
 $detail->selected=(isset($_REQUEST['oper_detail']))?true:false;
-echo $detail->IOValue("oper_detail");
+echo $detail->input("oper_detail");
 echo '</td></tr>';
 echo '</TABLE>';
-print widget::submit('bt_html','Visualisation');
+print HtmlInput::submit('bt_html','Visualisation');
 
 echo '</FORM>';
 echo '<hr>';
@@ -107,11 +148,11 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
       if ( isset ($_GET['poste_fille']) )
       {
 		$parent=$_GET['poste_id'];
-		$a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val::text like '$parent%' order by pcm_val::text");
+		$a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '$parent%' order by pcm_val::text");
 	$go=3;
       } 
       // Check if the post is numeric and exists
-      elseif (  CountSql($cn,'select * from tmp_pcmn where pcm_val='.FormatString($_GET['poste_id'])) != 0 )
+      elseif (  $cn->count_sql('select * from tmp_pcmn where pcm_val='.FormatString($_GET['poste_id'])) != 0 )
 	{
 	  $Poste=new Acc_Account_Ledger($cn,$_GET['poste_id']);$go=1;
 	}
@@ -141,10 +182,10 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
 	// Detail 
 	//----------------------------------------------------------------------
 	Acc_Account_Ledger::HtmlTableHeader();
-	$Poste->get_row( $_GET['from_periode'], $_GET['to_periode']);
+	$Poste->get_row_date( $_GET['from_periode'], $_GET['to_periode']);
 	if ( empty($Poste->row)) exit();
 	$Poste->load();
-	echo '<table "width=70%">';
+	echo '<table class="result">';
 	echo '<tr><td  class="mtitle" colspan="5"><h2 class="info">'. $_GET['poste_id'].' '.h($Poste->label).'</h2></td></tr>';
 
 	foreach ($Poste->row as $a) {
@@ -209,12 +250,12 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
 	// Detail 
 	//----------------------------------------------------------------------
 	echo Acc_Account_Ledger::HtmlTableHeader();
-	echo '<table "width=70%">';	    
+	echo '<table class="result">';	    
 	foreach ($a_poste as $poste_id ) 
 	  {
 	    $Poste=new Acc_Account_Ledger ($cn,$poste_id['pcm_val']);
 	    $Poste->load();
-	    $Poste->get_row( $_GET['from_periode'], $_GET['to_periode']);
+	    $Poste->get_row_date( $_GET['from_periode'], $_GET['to_periode']);
 	    if ( empty($Poste->row)) continue;
 	    echo '<tr><td  class="mtitle"  colspan="5"><h2 class="info">'. $poste_id['pcm_val'].' '.h($Poste->label).'</h2></td></tr>';
 

@@ -18,18 +18,17 @@
 */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 require_once('class_dossier.php');
-require_once ('class_widget.php');
 include_once ("ac_common.php");
 /* $Revision$ */
 include_once ("class_user.php");
-include_once ("postgres.php");
+require_once('class_database.php');
 /*! \file
  * \brief main page of the accountancy module
  */
 
-$User=new User(DbConnect());
+$User=new User(new Database());
 $User->check_dossier(dossier::id());
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
 $User->cn=$cn;
 $User->Check();
 
@@ -41,7 +40,7 @@ echo_debug('user_compta.php',__LINE__,"user is ".$_SESSION['g_user']);
 // Get The priv on the selected folder
 if ( $User->admin == 0 && $User->is_local_admin(dossier::id()) == 0 ) {
   
-  $r=$User->get_privilege($gDossier);
+  $r=$User->get_folder_access($gDossier);
   if ($r == 'X' ){
     /* Cannot Access */
     NoAccess(1);

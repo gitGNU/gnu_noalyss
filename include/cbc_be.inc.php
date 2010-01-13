@@ -26,7 +26,8 @@
 // Bank CBC 
 //-----------------------------------------------------
 $row=1;
-StartSql($p_cn);
+$p_cn->start();
+$p_cn->set_encoding('latin1');
 while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 	$num = count($data);
 	echo_debug('cbc_be',__LINE__,$num);
@@ -82,12 +83,12 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 				'n')";
 			try 
 			  {
-			    ExecSql($p_cn,$Sql,'latin1') ;
+			    $p_cn->exec_sql($Sql) ;
 			  }
 			catch(Exception $e)
 			  {
 			    echo_debug(__FILE__.":".__LINE__." Erreur : ".$e->getCode." msg ".$e->getMessage);
-			    Rollback($p_cn);
+			    $p_cn->rollback();
 			    break;
 			  }
 		} // for ($c=0;$c<$num;$c++)

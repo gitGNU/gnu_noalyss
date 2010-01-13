@@ -27,14 +27,15 @@
  * - gDossier
  * - PHPSESSID
  * Must return at least tva, htva and tvac
- * \todo must add the security
+
  */
 
 require_once ('constant.php');
-require_once ('postgres.php');
+require_once ('class_database.php');
 require_once ('debug.php');
 require_once('class_dossier.php');
 require_once('class_acc_ledger.php');
+require_once ('class_user.php');
 
 // Check if the needed field does exist
 extract ($_GET);
@@ -42,12 +43,14 @@ foreach (array('l','gDossier') as $a) {
   if ( ! isset (${$a}) )   { echo "error $a is not set "; exit();} 
 }
 if ( ereg('^[0-9]+$',$l) == false ) {exit();}
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
+$User=new User($cn);
+$User->Check();
+
 $Ledger=new Acc_Ledger($cn,$l);
 $prop=$Ledger->get_propertie();
-$pj_pref=$prop["jrn_def_pj_pref"];
-$pj_seq=$Ledger->get_last_pj();
-$string='{"pj":"'.$pj_pref.$pj_seq.'"}';
+$pj_seq=$Ledger->guess_pj();
+$string='{"pj":"'.$pj_seq.'"}';
 
 header("Content-type: text/json; charset: utf8",true);
 echo $string;

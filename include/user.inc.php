@@ -29,23 +29,25 @@
 
 // Add user
 if ( isset ($_POST["LOGIN"]) ) {
-  $cn=DbConnect();
+  $cn=new Database();
   $pass5=md5($_POST['PASS']);
 
-  $first_name=pg_escape_string($_POST['FNAME']);
-  $last_name=pg_escape_string($_POST['LNAME']);
+  $first_name=Database::escape_string($_POST['FNAME']);
+  $last_name=Database::escape_string($_POST['LNAME']);
   $login=$_POST['LOGIN'];
   $login=str_replace("'","",$login);
   $login=str_replace('"',"",$login);
   $login=str_replace(" ","",$login);
   $login=strtolower($login);
 
-  $Res=ExecSql($cn,"insert into ac_users(use_first_name,use_name,use_login,use_active,use_pass)
-                    values ('".$first_name."','".$last_name."','".$login."',1,'$pass5')");
+  $Res=$cn->exec_sql("insert into ac_users(use_first_name,use_name,use_login,use_active,use_pass)
+                    values ($1,$2,$3,1,$4)",
+		     array($first_name,$last_name,$login,$pass5));
 } //SET login
 
 // Show all the existing user on 7 columns
-$cn=GetAllUser();
+$repo=new Dossier(0);
+$cn=$repo->get_user();
 echo_debug('admin_repo.php',__LINE__,"Array = $cn");
 $compteur=0;
 ?>
@@ -74,14 +76,16 @@ $compteur=0;
 </TABLE>
 <TABLE> <TR> 
 <form action="admin_repo.php?action=user_mgt" method="POST">
-<TD><H3>Ajout d'utilisateur<H3></TD></TR>
-<?php   //'
-    echo '<TR><TD> First Name </TD><TD><INPUT TYPE="TEXT" NAME="FNAME"></TD>';
-    echo '<TD> Last Name </TD><TD><INPUT TYPE="TEXT" NAME="LNAME"></TD></TR>';
-    echo '<TR><TD> login </TD><TD><INPUT TYPE="TEXT" NAME="LOGIN"></TD>';
-    echo '<TD> password </TD><TD> <INPUT TYPE="TEXT" NAME="PASS"></TD></TR>';
-    echo '<TD> <INPUT TYPE="SUBMIT" Value="Create user" NAME="ADD"></TD>';
-    echo '</TABLE>';
+<TD><H3>
+<?php  
+  echo _("Ajout d'utilisateur");
+echo '<H3></TD></TR>';
+echo '<TR><TD> First Name </TD><TD><INPUT TYPE="TEXT" NAME="FNAME"></TD>';
+echo '<TD> Last Name </TD><TD><INPUT TYPE="TEXT" NAME="LNAME"></TD></TR>';
+echo '<TR><TD> login </TD><TD><INPUT TYPE="TEXT" NAME="LOGIN"></TD>';
+echo '<TD> password </TD><TD> <INPUT TYPE="TEXT" NAME="PASS"></TD></TR>';
+echo '<TD> <INPUT TYPE="SUBMIT" Value="Create user" NAME="ADD"></TD>';
+echo '</TABLE>';
 
 ?>
 </FORM>

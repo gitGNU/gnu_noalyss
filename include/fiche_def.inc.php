@@ -18,7 +18,9 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+require_once("class_ihidden.php");
 require_once("class_fiche_def.php");
+
 /*! \file
  * \brief Let customise the fiche_def_ref for the user
  */
@@ -35,6 +37,7 @@ if ( isset ($_POST['confirm_mod'])) {
 // Load All Fiche_def
 $fiche_def=new fiche_def_ref($cn);
 $all=$fiche_def->LoadAll();
+
 // Display Them
 echo '<table align="left">';
 for ($i=0;$i<sizeof($all);$i++) 
@@ -43,10 +46,11 @@ for ($i=0;$i<sizeof($all);$i++)
   echo $all[$i]->Display();
   echo "<TD>";
   echo '<form method="post">';
-  $w=new widget('hidden');
-  echo $w->IOValue('idx',$i);
-  echo widget::submit('mod','modifie');
-  echo $w->IOValue('fiche','p_action');
+  $w=new IHidden();
+  echo $w->input('idx',$all[$i]->frd_id);
+  echo HtmlInput::submit('mod','modifie');
+  echo $w->input($p_action,'p_action');
+  echo $w->input($sa,'sa');
   echo "</form>";
   echo "</TD>";
   echo '</TR>';
@@ -57,21 +61,25 @@ if ( isset ($_POST['mod']) )
 {
   extract ($_POST);
   echo '<div style="float:left;padding:2%">';
-  echo "Voulez-vous modifier ?<br><font color=\"red\"> Attention, ne changer pas la signification de ";
-  echo " ce poste, <i>par exemple ne pas changer Client par fournisseur</i>, <br>sinon le programme fonctionnera mal, utiliser uniquement des chiffres pour la classe de base ou rien</font>";
-  $idx=$_POST['idx'];
+  echo _("Voulez-vous modifier ?");
+  echo "<br><font color=\"red\"> ";
+  echo _("Attention, ne changer pas la signification de ce poste.");
+  echo hi(_("par exemple ne pas changer Client par fournisseur"))."<br>";
+  echo _("sinon le programme fonctionnera mal, ".
+	 "utiliser uniquement des chiffres pour la classe de base ou rien")."</font>";
+
   $mod=new fiche_def_ref($cn);
-  $mod->frd_id=$all[$idx]->frd_id;
-  $mod->frd_text=$all[$idx]->frd_text;
-  $mod->frd_class_base=$all[$idx]->frd_class_base;
+  $mod->frd_id=$idx;
+  $mod->Get();
   echo '<form method="post">';
   echo '<ul style="list-style-type:none"';
   echo $mod->Input();
   echo "</ul>";
-  $w=new widget("hidden");
-  echo $w->IOValue('p_action','fiche');
-  echo widget::submit('confirm_mod' ,'Confirme');
-  echo widget::submit('no','Cancel');
+  $w=new IHidden();
+  echo $w->input('p_action',$p_action);
+  echo $w->input('sa',$sa);
+  echo HtmlInput::submit('confirm_mod' ,'Confirme');
+  echo HtmlInput::submit('no','Cancel');
   echo '</form>';
   echo '</div>';
 }

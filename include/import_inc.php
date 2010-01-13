@@ -23,16 +23,33 @@
 // Modified Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
 include_once("jrn.php");
-include_once("preference.php");
 include_once("user_common.php");
+require_once("class_icard.php");
+require_once("class_iconcerned.php");
+require_once("class_ispan.php");
+require_once("class_iselect.php");
 require_once('class_user.php');
-require_once('class_widget.php');
 require_once('class_fiche.php');
 require_once('class_acc_ledger.php');
 require_once("class_acc_parm_code.php");
 require_once('class_acc_operation.php');
+require_once('class_ipopup.php');
+echo js_include('prototype.js');
+echo js_include('scriptaculous.js');
+echo js_include('effects.js');
+echo js_include('controls.js');
+echo js_include('dragdrop.js');
+echo js_include('bq_import.js');
+echo js_include('acc_ledger.js');
+
+echo JS_CARD;
+echo ICard::ipopup('ipopcard');
+$search_card=new IPopup('ipop_card');
+$search_card->title=_('Recherche de fiche');
+$search_card->value='';
+echo $search_card->input();
+
 /*! 
- **************************************************
  * \brief  Parse the file and insert the record
  *          into the table import_tmp. Insert in a temporary table, if
  *          no confirmation is given then the data are removed otherwise
@@ -52,34 +69,19 @@ function ImportCSV($p_cn,$file,$p_bq_account,$p_format_csv,$p_jrn)
     die;
   }
   
-StartSql($p_cn);
+$p_cn->start();
 
         
 // include the right format for CSV --> given by the <form
 require_once($p_format_csv);
 
 
-echo "Importation terminée.";
+echo _("Importation terminée");
 
 // if importation succeeds then we can commit the change
-Commit($p_cn);
+$p_cn->commit();
 
 }
-/*!\brief Update import_tmp with the bank account
- * 
- */
-function UpdateCSV($p_cn){
-  $code=FormatString($_POST['code']);
-  $count=FormatString($_POST['count']);
-  $poste=FormatString($_POST['poste'.$count]);
-  $concern=FormatString($_POST['e_concerned'.$count]);
-  $sql = utf8_encode("update import_tmp set poste_comptable='$poste' ,status='w',".
-		     "jr_rapt='$concern' where code='$code'");
-  $Res=ExecSql($p_cn,$sql);
-}
-
-
-
 
 /*!\brief This function show a record from the table import_tmp, the tag for the form
  *        are not included in the function and must set in the calling proc.
@@ -90,48 +92,54 @@ function UpdateCSV($p_cn){
  *        modify the Quick Code or remove record poss.value are form, remove
  */
 function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
-  $w=new widget('js_search_only');
+  $w=new ICard();
+  $w->jrn=$p_val['jrn'];
   $w->name='poste'.$counter;
   $w->extra='filter';
-  $w->extra2='QuickCode';
-  $w->label='';
+  $w->typecard='cred';
+  $w->set_dblclick("fill_ipopcard(this);");
+  $w->set_attribute('ipopup','ipopcard');
+  $w->set_callback('filter_card');
+  $w->set_function('fill_data');
+
   $w->table=0;
   if ( $p_form == 'remove' )
-    $w->readonly=true;
+    $w->readOnly=true;
 
-$oJrn=new Acc_Ledger($p_cn,$p_val['jrn']);
+  $oJrn=new Acc_Ledger($p_cn,$p_val['jrn']);
   // widget concerned
-  $wConcerned=new widget('js_concerned');
+  $wConcerned=new IConcerned();
   $wConcerned->name="e_concerned"+$counter;
   $wConcerned->extra=abs($p_val['montant']);
   $wConcerned->extra2='paid';
-  $wConcerned->label='op. concern&eacute;e';
+  $wConcerned->label=_('op. concernée');
   $wConcerned->table=0;
-  $s=new widget('span');
+  $wConcerned->value=$p_val['jr_rapt'];
+
+  $s=new ISpan();
 
   // if in readonly retrieve the conc. ope
   if ( $p_form== 'remove') {
-    $wConcerned->readonly=true;
-    $wConcerned->value=$p_val['jr_rapt'];
+    $wConcerned->readOnly=true;
   }
 
   if ( isset($p_val['poste_comptable']))
     {
       $w->value=$p_val['poste_comptable'];
-      $cn=DbConnect(dossier::id());
+      $cn=new Database(dossier::id());
       $f=new fiche($p_cn);
       $f->get_by_qcode($p_val['poste_comptable']);
       $s->value=$f->strAttribut(ATTR_DEF_NAME);
   }
   echo '<input type="hidden" id="code'.$counter.'" value="'.$p_val['code'].'">';
   echo '<input type="hidden" name="count" value="'.$counter.'">';
-  echo widget::hidden('p_jrn',$p_val['jrn']);
+  echo HtmlInput::hidden('p_jrn',$p_val['jrn']);
   echo '<table border="1" width="500">';
   echo '<tr><td width="200">'.$p_val['code'].'</td><td width="200">'.$p_val['date_exec'].'</td><td width="100">'.$p_val['montant'].' EUR</td><tr/>';
-  echo "<tr><td> Journal : ".$oJrn->get_name()."</TD><TD>poste comptable Destination : ".$p_val['bq_account']."</td><tr>";
+  echo "<tr><td>"._('Journal')." : ".$oJrn->get_name()."</TD><TD>"._('poste comptable Destination')." : ".$p_val['bq_account']."</td><tr>";
   echo '<tr colspan="3"><td height="50" colspan="3">'.$p_val['detail'].'</td></tr>';
-  echo '<tr><td  colspan="3"> '.$wConcerned->IOValue("e_concerned".$counter).'</td></tr>';
-  echo '<tr><td>'.$w->IOValue().' '.$s->IOValue('poste'.$counter.'_label').
+  echo '<tr><td  colspan="3"> '.$wConcerned->input("e_concerned".$counter).'</td></tr>';
+  echo '<tr><td>'.$w->search().$w->input().' '.$s->input('poste'.$counter.'_label').
    "</TD>";
 
   echo "<td>n° compte : ".$p_val['num_compte']."</td>";
@@ -156,7 +164,7 @@ $oJrn=new Acc_Ledger($p_cn,$p_val['jrn']);
 		 dossier::id(),
 		 $counter);
 
-    echo '<td><input type="button" value="Enlever" onClick="'.$str_notconfi.'"'.
+    echo '<td><input type="button" value='._("Enlever").' onClick="'.$str_notconfi.'"'.
       '></td><tr/>';
   }
 
@@ -169,16 +177,17 @@ $oJrn=new Acc_Ledger($p_cn,$p_val['jrn']);
 function VerifImport($p_cn){
 	$sql = "select * from import_tmp where status='n' ".
 	  " order by date_exec,code";
-	$Res=ExecSql($p_cn,$sql);
-	$Num=pg_NumRows($Res);
-	echo $Num." opérations à complèter.<br/><br/>";
+	echo HtmlInput::phpsessid();
+	$Res=$p_cn->exec_sql($sql);
+	$Num=Database::num_row($Res);
+	echo $Num._(" opérations à complèter")."<br/><br/>";
 	$i=1;
 	// include javascript for popup 
-	echo JS_SEARCH_CARD;
-	echo JS_CONCERNED_OP;
+	echo JS_CARD;
+	echo JS_LEDGER;
 	echo JS_AJAX_FICHE;
-	echo JS_PROTOTYPE;
-	while($val = pg_fetch_array($Res)){
+	for ( $i=0;$i< $Num;$i++){
+	  $val = Database::fetch_array($Res,$i);
 	  echo '<form METHOD="POST" id="form_'.$i.'"action="import.php?action=verif">'; 
 	  echo dossier::hidden();
 	  ShowBox($val,$i,$p_cn,'form');
@@ -196,13 +205,11 @@ function ConfirmTransfert($p_cn,$periode){
 
   $sql = "select to_char(p_start,'DD-MM-YYYY') as p_start,to_char(p_end,'DD-MM-YYYY') as p_end".
     " from parm_periode where p_id = '".$periode."'";
-  $Res=ExecSql($p_cn,$sql);
-  $val = pg_fetch_array($Res);
+  $Res=$p_cn->exec_sql($sql);
+  $val = Database::fetch_array($Res);
   if ( $val == false )
     {
-      echo "<script>".
-	"alert ('Vous devez selectionner votre période dans vos préférences');".
-	"</script>";
+      alert (_('Vous devez selectionner votre période dans vos préférences'));
       exit();
     }
   $start ="to_date('".$val['p_start']."','DD-MM-YYYY')";   
@@ -212,27 +219,30 @@ function ConfirmTransfert($p_cn,$periode){
     " montant,num_compte,poste_comptable,bq_account,jrn,detail,jr_rapt ".
     " from import_tmp where 
           status = 'w' AND date_exec BETWEEN ".$start." and ".$end;
-  
+    
 
 	
-  $Res=ExecSql($p_cn,$sql);
-  $Num=pg_NumRows($Res);
-  echo $Num." opérations à transfèrer.<br/><br/>";
+  $Res=$p_cn->exec_sql($sql);
+  $Num=Database::num_row($Res);
+  echo $Num." "._("opérations à transfèrer")."<br/><br/>";
   if ( $Num == 0 ) return;
-  $i=1;
-  while($val = pg_fetch_array($Res)){
 
+  for ( $i=0;$i<$Num;$i++){
+    $val = Database::fetch_array($Res,$i);
     echo '<form method="post" id="form_'.$i.'" action="import.php">';
 	echo dossier::hidden();
     echo '<input type="hidden" name="action" value="remove">';
     ShowBox($val,$i,$p_cn,'remove');
     echo '</form>';
-    $i++;
   }
   echo '<form method="post" id="form_'.$i.'" action="import.php">';
   echo dossier::hidden();
-  echo '<input type="hidden" name="action" value="transfer">';
-  echo '<input type="submit" name="sub" value="Commencer le transfert">';
+  /*  to avoid double post */
+  $mt=microtime(true);
+  echo HtmlInput::hidden('mt',$mt);
+  echo HtmlInput::hidden("action" ,"transfer");
+  echo HtmlInput::hidden("period" ,$periode);
+  echo HtmlInput::submit("sub",_("Commencer le transfert"));
   echo '</form>';
 
 }
@@ -254,13 +264,11 @@ function TransferCSV($p_cn, $periode){
   $sql = "select to_char(p_start,'DD-MM-YYYY') as p_start,to_char(p_end,'DD-MM-YYYY') as p_end".
     " from parm_periode where p_id = '".$periode."'";
 
-  $Res=ExecSql($p_cn,$sql);
-  $val = pg_fetch_array($Res);
+  $Res=$p_cn->exec_sql($sql);
+  $val = Database::fetch_array($Res);
   if ( $val == false )
     {
-      echo "<script>".
-	"alert ('Vous devez selectionner votre période dans vos préférences');".
-	"</script>";
+      alert (_('Vous devez selectionner votre période dans vos préférences'));
       exit();
     }
 
@@ -273,12 +281,12 @@ function TransferCSV($p_cn, $periode){
 
   try 
     {
-      StartSql($p_cn);
-      $ResAll=ExecSql($p_cn,$sql);
-      $Max=pg_NumRows($ResAll);
+      $p_cn->start();
+      $ResAll=$p_cn->exec_sql($sql);
+      $Max=Database::num_row($ResAll);
       echo $Max." opérations à transférer.<br/>";
       for ($i = 0;$i < $Max;$i++) {
-	$val=pg_fetch_array($ResAll,$i);
+	$val=Database::fetch_array($ResAll,$i);
 
 	$code=$val['code']; 
 	$date_exec=$val['date_exec']; 
@@ -299,28 +307,27 @@ function TransferCSV($p_cn, $periode){
 	$f->get_by_qcode($bq_account);
 	$bq_poste=$f->strAttribut(ATTR_DEF_ACCOUNT);
 	// Vérification que le poste comptable trouvé existe
-	if ( $poste_comptable == '- ERROR -')
+	if ( $poste_comptable == '- ERROR -' || strlen(trim($poste_comptable))==0)
 	  $test=0;
 	else
 	  {
-	    $sqltest = "select * from tmp_pcmn WHERE pcm_val='".$poste_comptable."'";
-	  
-	    $Restest=ExecSql($p_cn,$sqltest);
-	    $test=pg_NumRows($Restest);
+	    $sqltest = "select * from tmp_pcmn WHERE pcm_val=$1";
+	    $Restest=$p_cn->exec_sql($sqltest,array($poste_comptable));
+	    $test=Database::num_row($Restest);
 	  }
 
 	// Test it
 	if($test == 0) {
-	  $sqlupdate = "update import_tmp set status='n' WHERE code='".$code."' AND num_compte='".$num_compte."' or num_compte is null";
-	  $Resupdate=ExecSql($p_cn,$sqlupdate);
-	  echo "Poste comptable erronn&eacute; pour l'op&eacute;ration ".$num_compte."-".$code.", r&eacute;initialisation du poste comptable<br/>";
+	  $sqlupdate = "update import_tmp set status='n' WHERE code=$1  or num_compte is null";
+	  $Resupdate=$p_cn->exec_sql($sqlupdate,array($code));
+	  echo _("Poste comptable erronné pour l'opération ").$num_compte."-".$code.", ".("réinitialisation du poste comptable")."<br/>";
 	  continue;
 	}
 	 
       
 	// Finances
       
-	$seq=NextSequence($p_cn,'s_grpt');
+	$seq=$p_cn->get_next_seq('s_grpt');
 	$p_user = $_SESSION['g_user'];
 
 	$acc_op=new Acc_Operation($p_cn);
@@ -334,6 +341,7 @@ function TransferCSV($p_cn, $periode){
 	$acc_op->jrn=$jrn;
 	$acc_op->periode=$periode;
 	$acc_op->qcode=$bq_account;
+	$acc_op->mt=$_REQUEST['mt'];
 	$r=$acc_op->insert_jrnx();
 
       
@@ -354,7 +362,7 @@ function TransferCSV($p_cn, $periode){
 
       	$internal=$oJrn->compute_internal_code($seq);
 
-	$Res=ExecSql($p_cn,"update jrn set jr_internal='".$internal."' where ".
+	$Res=$p_cn->exec_sql("update jrn set jr_internal='".$internal."' where ".
                " jr_id = ".$jr_id);
       // insert rapt
 
@@ -362,60 +370,47 @@ function TransferCSV($p_cn, $periode){
 	$acc_reconc->set_jr_id=$jr_id;
 	$acc_reconc->insert($jr_rapt);
 	
-	echo "Tranfert de l'opération ".$code." effectué<br/>";
+	echo _("Tranfert de l'opération ").$code._(" effectué")."<br/>";
 	$sql2 = "update import_tmp set status='t' where code='".$code."'";
-	$Res2=ExecSql($p_cn,$sql2);
+	$Res2=$p_cn->exec_sql($sql2);
       } 
     }	catch (Exception $e) {
-      Rollback($p_cn);
+      $p_cn->rollback();
       echo '<span class="error">'.
 	'Erreur dans '.__FILE__.':'.__LINE__.
 	' Message = '.$e->getMessage().
 	'</span>';
     }
   
-  Commit($p_cn);
+  $p_cn->commit();
   
 }
 /*! 
-**************************************************
 * \brief  ShowForm for getting data about 
 *           the bank transfert in cvs
 *        
 * \param  $p_cn  database connection
-*	
-* \return none
 */
 
 function ShowFormTransfert($p_cn){
-$w=new widget("select");
+$w=new ISelect();
   echo '<FORM METHOD="POST" action="import.php?action=import" enctype="multipart/form-data">';
   echo dossier::hidden();
   echo '<INPUT TYPE="file" name="fupload" size="20"><br>';
   // ask for the journal target 
-  $jrn=make_array ($p_cn,"select jrn_def_id,jrn_def_name from jrn_def where jrn_def_type='FIN';");
-  $w->label='Journal';
-  echo $w->label." :".$w->IOValue('import_jrn',$jrn)."<br>";
+  $jrn=$p_cn->make_array ("select jrn_def_id,jrn_def_name from jrn_def where jrn_def_type='FIN';");
+  $w->label=_('Journal');
+  echo $w->label." :".$w->input('import_jrn',$jrn)."<br>";
   // choose the bank account
   $banque=new Acc_Parm_Code($p_cn,'BANQUE');
-  $bq=make_array($p_cn,"select j_qcode,vw_name from vw_poste_qcode join vw_fiche_attr on (j_qcode=quick_code) where j_poste::text like '".$banque->p_value."%'");
+  $bq=$p_cn->make_array("select j_qcode,vw_name from vw_poste_qcode join vw_fiche_attr on (j_qcode=quick_code) where j_poste::text like '".$banque->p_value."%'");
   $w->label='Banque';
-  echo "Compte en banque :".$w->IOValue('import_bq',$bq)."<br>";
-  $format_csv=make_array($p_cn,"select include_file,name from format_csv_banque;");
+  echo "Compte en banque :".$w->input('import_bq',$bq)."<br>";
+  $format_csv=$p_cn->make_array("select include_file,name from format_csv_banque;");
   $w->label="Format import";
-  echo $w->label.$w->IOValue('format_csv',$format_csv).'<br>';
-  echo '<INPUT TYPE="SUBMIT" Value="Import fiche">';
+  echo $w->label.$w->input('format_csv',$format_csv).'<br>';
+  echo HtmlInput::submit("Import fiche",_("Import fiche"));
   echo '</FORM>';
-}
-
-/*!\brief RemoveRow put a flag delete on a row of the table import_tmp
- *        (import_tmp.status)
- * \param $p_cn database connection
- * \param $p_code import_tmp.code must be unique
- */
-function DropRecord($p_cn,$p_code)
-{
-  ExecSql($p_cn,"update import_tmp set status='d' where code='".$p_code."'");
 }
 
 ?>

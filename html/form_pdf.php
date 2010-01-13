@@ -26,7 +26,7 @@
 
 include_once("class_acc_report.php");
 include_once("ac_common.php");
-include_once("postgres.php");
+require_once('class_database.php');
 include_once("class.ezpdf.php");
 include_once("impress_inc.php");
 require_once('class_user.php');
@@ -36,7 +36,7 @@ require_once('class_acc_report.php');
 
 $gDossier=dossier::id();
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 foreach ($_GET as $key=>$element) {
   ${"$key"}=$element;

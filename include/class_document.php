@@ -39,7 +39,6 @@ class Document
   var $d_lob;       /*!< $d_lob the oid of the lob */
   var $d_number;    /*!< $d_number number of the document */
   var $md_id;       /*!< $md_id document's template */
-  var $d_state;     /*!< $d_state document.d_state status of the document */
   /* Constructor
    * \param $p_cn Database connection
    */
@@ -52,32 +51,25 @@ class Document
    */
   function blank()
     {
-      $this->d_id=NextSequence($this->db,"document_d_id_seq");
+      $this->d_id=$this->db->get_next_seq("document_d_id_seq");
       // affect a number
-      $this->d_number=NextSequence($this->db,"seq_doc_type_".$this->md_type);
+      $this->d_number=$this->db->get_next_seq("seq_doc_type_".$this->md_type);
       $sql=sprintf('insert into document(d_id,ag_id,d_number) values(%d,%d,%d)',
 		   $this->d_id,
 		   $this->ag_id,
 		   $this->d_number);
-      ExecSql($this->db,$sql);
+      $this->db->exec_sql($sql);
 
     }
-  /*!\brief Save save the state of the document
+
+  /*!  
+   * \brief Generate the document, Call $this-\>Replace to replace
+   *        tag by value
+   *        
+   *
+   * \return an array : the url where the generated doc can be found, the name
+   * of the file and his mimetype
    */
-  function save()
-    {
-      $sql="update document set d_state=".$this->d_state.
-	" where d_id=".$this->d_id;
-      ExecSql($this->db,$sql);
-    }
-/*!  
- * \brief Generate the document, Call $this-\>Replace to replace
- *        tag by value
- *        
- *
- * \return an array : the url where the generated doc can be found, the name
- * of the file and his mimetype
- */
   function Generate() 
     {
       // create a temp directory in /tmp to unpack file and to parse it
@@ -88,12 +80,12 @@ class Document
       mkdir ($dirname);
       echo_debug('class_action',__LINE__,"Dirname is $dirname");
       // Retrieve the lob and save it into $dirname
-      StartSql($this->db);
+      $this->db->start();
       $dm_info="select md_type,md_lob,md_filename,md_mimetype 
                    from document_modele where md_id=".$this->md_id;
-      $Res=ExecSql($this->db,$dm_info);
+      $Res=$this->db->exec_sql($dm_info);
 
-      $row=pg_fetch_array($Res,0);
+      $row=Database::fetch_array($Res,0);
       $this->d_lob=$row['md_lob'];
       $this->d_filename=$row['md_filename'];
       $this->d_mimetype=$row['md_mimetype'];
@@ -102,7 +94,7 @@ class Document
 
       chdir($dirname);
       $filename=$row['md_filename'];
-      pg_lo_export($this->db,$row['md_lob'],$filename);
+      $this->db->lo_export($row['md_lob'],$filename);
       $type="n";
       echo_debug('class_document',__LINE__,'The document type is '.$row['md_mimetype']);
       // if the doc is a OOo, we need to unzip it first
@@ -110,9 +102,6 @@ class Document
       if ( strpos($row['md_mimetype'],'vnd.oasis') != 0 )
 	{
 	  echo_debug('class_document',__LINE__,'Unzip the OOo');
-	  echo '<span id="gen_msg">';
-	  echo '<blink><font color="red">Un moment de patience, le document se pr&eacute;pare...</font></blink>';
-	  echo '</span><br>';
 	  ob_start();
 	  system("unzip '".$filename."'");
 	  // Remove the file we do  not need anymore
@@ -124,13 +113,13 @@ class Document
       else 
 	$file_to_parse=$filename;
       // affect a number
-      $this->d_number=NextSequence($this->db,"seq_doc_type_".$row['md_type']);
+      $this->d_number=$this->db->get_next_seq("seq_doc_type_".$row['md_type']);
       echo_debug(__FILE__,__LINE__,"seq_doc_type_".$row['md_type'].' = '.$this->d_number);
 
       // parse the document - return the doc number ?
       $this->ParseDocument($dirname,$file_to_parse,$type);
 
-      Commit($this->db);
+      $this->db->commit();
       // if the doc is a OOo, we need to re-zip it 
       if ( strpos($row['md_mimetype'],'vnd.oasis') != 0 )
 	{
@@ -139,9 +128,6 @@ class Document
 	  ob_end_clean();
 	  echo "  ";
 ?>
-<script language="javascript">
-	this.document.getElementById('gen_msg').innerHTML='<font color="green">le document est pr&ecirc;t</color>';
-</script>
 
 <?php
 	  $file_to_parse=$filename;
@@ -152,6 +138,7 @@ class Document
       mkdir ($l_dir);
 
       // we need to rename the new generated file
+      echo_debug(__FILE__,__LINE__, "rename(".$dirname.DIRECTORY_SEPARATOR.$file_to_parse.",".$_SERVER['DOCUMENT_ROOT'].$dirname.DIRECTORY_SEPARATOR.$file_to_parse.")");
       rename($dirname.DIRECTORY_SEPARATOR.$file_to_parse,$_SERVER['DOCUMENT_ROOT'].$dirname.DIRECTORY_SEPARATOR.$file_to_parse);
       $this->SaveGenerated($_SERVER['DOCUMENT_ROOT'].$dirname.DIRECTORY_SEPARATOR.$file_to_parse);
       // Invoice
@@ -266,8 +253,11 @@ class Document
 	}
       fclose($h);
       fclose($output_file);
-      rename ($output_name,$infile_name);
-      // Save the document into the database
+      echo_debug(__FILE__,__LINE__,'rename file '.$output_name.' to '.$infile_name );
+      if ( ($ret=rename ($output_name,$infile_name)) == FALSE ){
+	echo _('Ne peut pas sauver '.$output_name.' vers '.$infile_name.' code d\'erreur ='.$ret);
+      }
+
 
     }
   /*! SaveGenerated
@@ -279,94 +269,81 @@ class Document
    */
   function SaveGenerated($p_file) 
     {
-      echo_debug('class_document',__LINE__,'Save generated');
+      echo_debug('class_document',__LINE__,'Save generated [p_file='.$p_file);
       // We save the generated file
       $doc=new Document($this->db);
-      StartSql($this->db);
-      $this->d_lob=pg_lo_import($this->db,$p_file);
+      $this->db->start();
+      $this->d_lob=$this->db->lo_import($p_file);
       if ( $this->d_lob == false ) { 
-	Rollback($this->db); echo_debug('class_document',__LINE__,"can't save file $p_file");
+	$this->db->rollback(); echo_debug('class_document',__LINE__,"can't save file $p_file");
 	return 1; }
     
-      $sql=sprintf("insert into document(ag_id,d_lob,d_number,d_filename,d_mimetype,d_state) 
-                        values (%d,%s,%d,'%s','%s',%d)",
-		   $this->ag_id,
-		   $this->d_lob,
-		   $this->d_number,
-		   $this->d_filename,
-		   $this->d_mimetype,
-		   $this->d_state
-		   );
-      ExecSql($this->db,$sql);
-      $this->d_id=GetSequence($this->db,"document_d_id_seq");
-      echo_debug('class_document',__LINE__,'document sauvï¿½ : d_id'.$this->d_id);
+      $sql="insert into document(ag_id,d_lob,d_number,d_filename,d_mimetype) 
+                        values ($1,$2,$3,$4,$5)";
+
+      $this->db->exec_sql($sql,      array($this->ag_id,
+				     $this->d_lob,
+				     $this->d_number,
+				     $this->d_filename,
+				     $this->d_mimetype));
+      $this->d_id=$this->db->get_current_seq("document_d_id_seq");
+      echo_debug('class_document',__LINE__,'document sauvé : d_id'.$this->d_id);
       // Clean the file
       unlink ($p_file);
-      Commit($this->db);
+      $this->db->commit();
       return 0;
     }
   /*! Upload
    * \brief Upload a file into document 
    *  all the needed data are in $_FILES we don't increment the seq
-   * 
+   * \param $p_file : array containing by default $_FILES
    *
    * \return
    */
-  function Upload() 
+  function Upload($p_ag_id) 
     {
-
       // nothing to save
       if ( sizeof($_FILES) == 0 ) return;
 
+      /* for several files  */
+      /* $_FILES is now an array */
       // Start Transaction
-      StartSql($this->db);
-      $new_name=tempnam($_ENV['TMP'],'doc_');
-
-
-      // check if a file is submitted
-      if ( strlen($_FILES['file_upload']['tmp_name']) != 0 )
-	{
-	  // upload the file and move it to temp directory
-	  if ( move_uploaded_file($_FILES['file_upload']['tmp_name'],$new_name))
+      $this->db->start();
+      $name=$_FILES['file_upload']['name'];
+      for ($i = 0; $i < sizeof($name);$i++) {
+	$new_name=tempnam($_ENV['TMP'],'doc_');
+	// check if a file is submitted
+	if ( strlen($_FILES['file_upload']['tmp_name'][$i]) != 0 )
 	  {
-	    $oid=pg_lo_import($this->db,$new_name);
-	    // check if the lob is in the database
-	    if ( $oid == false ) 
+	    // upload the file and move it to temp directory
+	    if ( move_uploaded_file($_FILES['file_upload']['tmp_name'][$i],$new_name))
 	      {
-		Rollback($this->db);
-		return 1;
+		$oid=$this->db->lo_import($new_name);
+		// check if the lob is in the database
+		if ( $oid == false ) 
+		  {
+		    $this->db->rollback();
+		    return 1;
+		  }
 	      }
+	    // the upload in the database is successfull
+	    $this->d_lob=$oid;
+	    $this->d_filename=$_FILES['file_upload']['name'][$i];
+	    $this->d_mimetype=$_FILES['file_upload']['type'][$i];
+	    
+	    // insert into  the table
+	    $sql="insert into document (ag_id, d_lob,d_filename,d_mimetype,d_number) values ($1,$2,$3,$4,5)";
+	    $this->db->exec_sql($sql,array($p_ag_id,$this->d_lob,$this->d_filename,$this->d_mimetype));
 	  }
-	  // the upload in the database is successfull
-	  $this->d_lob=$oid;
-	  $this->d_filename=$_FILES['file_upload']['name'];
-	  $this->d_mimetype=$_FILES['file_upload']['type'];
-	  // now we have to update the col.
-	  // We retrieve the row to remove a possible existing lob (replace)
-	  $sql="select d_lob from document where d_id=".$this->d_id;
-	  $ret=ExecSql($this->db,$sql);
-
-	  if (pg_num_rows($ret) != 0)  
-	    {
-	      // a result is found, the old oid is keept in order to
-	      // remove it later
-	      $r=pg_fetch_array($ret,0) ;
-	      $old_oid=$r['d_lob'] ;
-	      if (strlen($old_oid) != 0) { pg_lo_unlink ($this->db,$old_oid);}
-	    }
-	  // Update the table
-	  $sql=sprintf("update document set d_lob=%s,d_filename='%s',d_mimetype='%s' where d_id=%d",
-		       $this->d_lob,$this->d_filename,$this->d_mimetype,$this->d_id);
-	  ExecSql($this->db,$sql);
-	}
-      Commit($this->db);
-
+      } /* end for */
+      $this->db->commit();
+      
     }
-/*! a_ref
- * \brief create and compute a string for reference the doc <A ...>
- *
- * \return a string
- */
+  /*! a_ref
+   * \brief create and compute a string for reference the doc <A ...>
+   *
+   * \return a string
+   */
   function a_ref() 
     {
       if ( $this->d_id == 0 )
@@ -382,15 +359,15 @@ class Document
   function Send() 
     {
       // retrieve the template and generate document
-      StartSql($this->db);
-      $ret=ExecSql($this->db,
+      $this->db->start();
+      $ret=$this->db->exec_sql(
 		   "select d_id,d_lob,d_filename,d_mimetype from document where d_id=".$this->d_id );
-      if ( pg_num_rows ($ret) == 0 )
+      if ( Database::num_row ($ret) == 0 )
 	return;
-      $row=pg_fetch_array($ret,0);
+      $row=Database::fetch_array($ret,0);
       //the document  is saved into file $tmp
       $tmp=tempnam($_ENV['TMP'],'document_');
-      pg_lo_export($this->db,$row['d_lob'],$tmp);
+      $this->db->lo_export($row['d_lob'],$tmp);
       $this->d_mimetype=$row['d_mimetype'];
       $this->d_filename=$row['d_filename'];
 
@@ -412,23 +389,43 @@ class Document
       
       unlink ($tmp);
       
-      Commit($this->db);
+      $this->db->commit();
       
     }
+  /*!\brief get all the document of a given action
+   *\param $ag_id the ag_id from action::ag_id (primary key)
+   *\return an array of objects document or an empty array if nothing found
+   */
+  function get_all($ag_id) {
+    $res=$this->db->get_array('select d_id, ag_id, d_lob, d_number, d_filename,'.
+			      ' d_mimetype from document where ag_id=$1',array($ag_id));
+    $a=array();
+    for ($i=0;$i<sizeof($res); $i++ ) {
+      $doc=new Document($this->db);
+      $doc->d_id=$res[$i]['d_id'];
+      $doc->ag_id=$res[$i]['ag_id'];
+      $doc->d_lob=$res[$i]['d_lob'];
+      $doc->d_number=$res[$i]['d_number'];
+      $doc->d_filename=$res[$i]['d_filename'];
+      $doc->d_mimetype=$res[$i]['d_mimetype'];
+      $a[$i]=clone $doc;
+    }
+    return $a;
+  }
+
   /*!\brief Get  complete all the data member thx info from the database
    */
   function get()
     {
       $sql="select * from document where d_id=".$this->d_id;
-      $ret=ExecSql($this->db,$sql);
-      if ( pg_num_rows($ret) == 0 )
+      $ret=$this->db->exec_sql($sql);
+      if ( Database::num_row($ret) == 0 )
 	return;
-      $row=pg_fetch_array($ret,0);
+      $row=Database::fetch_array($ret,0);
       $this->ag_id=$row['ag_id'];
       $this->d_mimetype=$row['d_mimetype'];
       $this->d_filename=$row['d_filename'];
       $this->d_lob=$row['d_lob'];
-      $this->d_state=$row['ag_id'];
       $this->d_number=$row['d_number'];
 
     }
@@ -623,7 +620,7 @@ class Document
 	  
 	  break;
 	case 'REFERENCE':
-	  $act=new action($this->db);
+	  $act=new Action($this->db);
 	  $act->ag_id=$this->ag_id;
 	  $act->get();
 	  $r=$act->ag_ref;
@@ -709,10 +706,11 @@ class Document
 	  if ( !isset (${$id}) ) return "";
 	  $march_id='e_march'.$counter.'_price' ;
 	  if ( ! isset (${$march_id})) return '';
-	  if ( ${$march_id} == 0 )return '';
-	  $tva=GetTvaRate($this->db,${$id});
-	  if ( $tva == null || $tva==0 ) return "";
-	  $r=$tva['tva_label'];
+	  if ( ${$march_id} == 0) return '';
+	  $tva=new Acc_Tva($this->db,${$id});
+	  if ($tva->load() == -1 ) return "";
+	  $r=$tva->get_parameter('label');
+
 	  break;
 
 	  /* total VAT for one sold */
@@ -729,14 +727,9 @@ class Document
 	       || strlen(trim( $price )) ==0 
 	       || strlen(trim($qt)) ==0)
 	    return "";
-	  $a_tva=GetTvaRate($this->db,${$tva});
-	  echo_debug('class_document',__LINE__,'Tva  :'.var_export($a_tva,true));
-	  // if no vat returns 0
-	  if ( sizeof($a_tva) == 0 ) return "";
-	  $r=round(${$price},2)*${$qt}*$a_tva['tva_rate'];
-	  $r=round($r,2);
+	  $r=${'e_march'.$counter.'_tva_amount'};
 	  break;
-
+	  /* TVA automatically computed */
 	case 'VEN_ART_TVA':
 	  extract ($_POST);
 	  $qt='e_quant'.$counter;
@@ -748,11 +741,9 @@ class Document
 	       || strlen(trim( $price )) ==0 
 	       || strlen(trim($qt)) ==0)
 	    return "";
-	  $a_tva=GetTvaRate($this->db,${$tva});
-	  echo_debug('class_document',__LINE__,'Tva  :'.var_export($a_tva,true));
-	  // if no vat returns 0
-	  if ( sizeof($a_tva) == 0 ) return "";
-	  $r=round(${$price},2)*$a_tva['tva_rate'];
+	  $oTva=new Acc_Tva($cn,${$tva});
+	  if ($oTva->load() == null) return "";
+	  $r=round(${$price},2)*$oTva->get_parameter('rate');
 	  $r=round($r,2);
 	  break;
 
@@ -767,15 +758,13 @@ class Document
 	       || strlen(trim( $price )) ==0 
 	       || strlen(trim($qt)) ==0)
 	    return "";
-	  $a_tva=GetTvaRate($this->db,${$tva});
-	  echo_debug('class_document',__LINE__,'Tva  :'.var_export($a_tva,true));
-	  // if no vat returns 0
-	  if ( sizeof($a_tva) == 0 ) {
+	  $tva=new Acc_Tva($cn,${$id});
+	  if ($tva->load() == null) {
 	    $r=round(${$price},2);
 	  }else {
-	    $r=round(${$price}*$a_tva['tva_rate']+${$price},2);
+	    $r=round(${$price}*$tva->get_parameter('rate')+${$price},2);
 	  }
-
+	
 	  break;
 
 	case 'VEN_ART_QUANT':
@@ -808,27 +797,23 @@ class Document
 
 	case 'VEN_TVAC':
 	  extract ($_POST);
-	  $id='e_march'.$counter.'_price' ;
+	  $id='e_march'.$counter.'_tva_amount' ;
+	  $price='e_march'.$counter.'_price' ;
 	  $quant='e_quant'.$counter;
-	  // if it is exist
-	  if ( ! isset(${$id})) 
+	  if ( ! isset(${'e_march'.$counter.'_price'})|| !isset(${'e_quant'.$counter}))
 	    return "";
 	  // check that something is sold
 	  if ( ${'e_march'.$counter.'_price'} == 0 || ${'e_quant'.$counter} == 0 )
 	    return "";
-	  $r=${$id}*${$quant}; 
-	  $tva='e_march'.$counter.'_tva_id';
-	  /* if we do not use vat this var. is not set */
-	  if ( !isset(${$tva}) ) return $r;
 
-	  $tva=GetTvaRate($this->db,${$tva});
-	  // if there is no vat we return now
-	  if ( $tva == null || $tva == 0 ) return $r;
 
-	  // we compute with the vat included
-	  $r=$r+$r*$tva['tva_rate'];
-	  $r=round($r,2);
+	  // if it is exist
+	  if ( ! isset(${$id})) 
+	    $r=round(${$price}*${$quant},2); 
+	  else 
+	    $r=round(${$price}*${$quant}+$id,2);
 	  break;
+
 	case 'TOTAL_VEN_HTVA':
 	  extract($_POST);
 	  echo_debug('class_document',__LINE__,'TOTAL_VEN_TVA item :'.$nb_item);
@@ -861,20 +846,18 @@ class Document
 	  $sum=0.0;
 	  for ($i=0;$i<$nb_item;$i++)
 	    {
-	      $tva='e_march'.$counter.'_tva_id';
-	      $tva_rate=0;
+	      $tva='e_march'.$i.'_tva_amount';
+	      $tva_amount=0;
 	      /* if we do not use vat this var. is not set */
 	      if ( isset(${$tva}) )
 		{
-		  $tva=GetTvaRate($this->db,${'e_march'.$i.'_tva_id'});
-		  $tva_rate=( $tva == null || $tva == 0 )?0.0:$tva['tva_rate'];
-		  echo_debug('class_document',__LINE__,' :'.$i.' sur '.$nb_item);
+		  $tva_amount=${$tva};
 		}
 	      $sell=${'e_march'.$i.'_price'};
 	      $qt=${'e_quant'.$i};
-	      echo_debug('class_document',__LINE__,'sell :'.$sell.' qt = '.$qt);
+	     
 
-	      $sum+=$sell*$qt*(1+$tva_rate);
+	      $sum+=$sell*$qt+$tva_amount;
 	      $sum=round($sum,2);
 	    }
 	  $r=round($sum,2);
@@ -882,21 +865,12 @@ class Document
 	  break;
 	case 'TOTAL_TVA':
 	  extract($_POST);
-	  $tva='e_march'.$counter.'_tva_id';
-	  /* if we do not use vat this var. is not set */
-	  if ( !isset(${$tva}) ) return '0';
-
 	  $sum=0.0;
 	  for ($i=0;$i<$nb_item;$i++)
 	    {
-	      $tva=GetTvaRate($this->db,${'e_march'.$i.'_tva_id'});
-	      $tva_rate=( $tva == null || $tva == 0 )?0.0:$tva['tva_rate'];
-	      echo_debug('class_document',__LINE__,' :'.$i.' sur '.$nb_item);
-	      $sell=${'e_march'.$i.'_price'};
-	      $qt=${'e_quant'.$i};
-	      echo_debug('class_document',__LINE__,'sell :'.$sell.' qt = '.$qt);
-
-	      $sum+=$sell*$qt*$tva_rate;
+	      $tva='e_march'.$i.'_tva_amount';
+	      if (! isset(${$tva})) $tva_amount=0.0; else $tva_amount=${$tva};
+	      $sum+=$tva_amount;
 	      $sum=round($sum,2);
 	    }
 	  $r=$sum;
@@ -933,7 +907,9 @@ class Document
   function remove()
     {
       $sql='delete from document where d_id='.$this->d_id;
-      ExecSql($this->db,$sql);
+      $this->db->exec_sql($sql);
+      if ($this->d_lob != 0 ) 
+	$this->db->lo_unlink($this->d_lob);
     }
   /*!\brief Move a document from the table document into the concerned row
    *        the document is not copied : it is only a link
@@ -946,9 +922,12 @@ class Document
 
       $sql=sprintf("update jrn set jr_pj=%s,jr_pj_name='%s',jr_pj_type='%s' where jr_internal='%s'",
 		   $this->d_lob,$this->d_filename,$this->d_mimetype,$p_internal);
-      ExecSql($this->db,$sql);
+      $this->db->exec_sql($sql);
       // clean the table document
-      //$this->remove();
+      $sql='delete from document where d_id='.$this->d_id;
+      $this->db->exec_sql($sql);
+
+
     }
 
 

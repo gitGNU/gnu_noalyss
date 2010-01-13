@@ -48,7 +48,7 @@ class Bud_Detail_Periode{
    */
   function delete () {
     $sql="delete from bud_detail_periode where bdp_id=".$this->bdp_id;
-    ExecSql($this->cn,$sql);
+    $this->cn->exec_sql($sql);
   }
   /*!\brief add a row in the table bud_detail_periode and set the
      this->bdp_id with the value in the row
@@ -59,8 +59,8 @@ class Bud_Detail_Periode{
       " returning bdp_id";
     $value=array($this->bdp_amount,$this->p_id,$this->bd_id);
     try {
-      $r=ExecSqlParam($this->cn,$sql,$value);
-      $this->bdp_id=pg_fetch_result($r,0,0);
+      $r=$this->cn->exec_sql($sql,$value);
+      $this->bdp_id=Database::fetch_result($r,0,0);
     } catch (Exception $e) {
       echo "Erreur : ".$e->getMessage();
     }
@@ -69,7 +69,7 @@ class Bud_Detail_Periode{
    *
    */
   static function  test_me() {
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
 
     print_r($cn);
 

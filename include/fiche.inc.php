@@ -22,14 +22,26 @@
  * \brief module to manage the card (removing, listing, creating, modify attribut)
  */
 include_once ("ac_common.php");
+require_once("class_itext.php");
+require_once("class_ihidden.php");
 require_once('class_fiche.php');
-include_once ("postgres.php");
+require_once('class_database.php');
 include_once ("user_menu.php");
-require_once ("check_priv.php");
 require_once('class_dossier.php');
+require_once('class_ipopup.php');
+echo js_include('accounting_item.js');
+echo js_include('prototype.js');
+echo js_include('scriptaculous.js');
+echo js_include('effects.js');
+echo js_include('controls.js');
+echo js_include('dragdrop.js');
+echo JS_CARD;
+echo JS_INFOBULLE;
+echo IPoste::ipopup('ipop_account');
+
 $gDossier=dossier::id();
 $str_dossier=dossier::get();
-echo JS_SEARCH_POSTE;
+echo js_include('accounting_item.js');
 echo JS_AJAX_FICHE;
 
 if ( !isset($sessid)) 
@@ -39,9 +51,8 @@ if ( !isset($sessid))
 $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."',".dossier::id().",'class_base','')\">";
 
 
-include_once("fiche_inc.php");
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 echo_debug(__FILE__,__LINE__,"Connected");
 // Security check
 $write=$User->check_action(FICADD);
@@ -53,14 +64,14 @@ if ($write == 0 ){
 function ShowRecherche() {
   echo '<DIV class="u_redcontent">';
   echo '<form method="GET" action="?">';
-  echo dossier::hidden();
-  $w=new widget('text');
+  echo dossier::hidden().HtmlInput::phpsessid();
+  $w=new IText();
   $search_text=(isset($_REQUEST['search_text']))?$_REQUEST['search_text']:"";
-  $h=new widget('hidden');
-  echo $h->IOValue('p_action','fiche');
-  echo $h->IOValue('action','search');
-  echo "Recherche :".$w->IOValue('search_text',$search_text);
-  echo widget::submit('submit','Rechercher');
+  $h=new IHidden();
+  echo $h->input('p_action','fiche');
+  echo $h->input('action','search');
+  echo "Recherche :".$w->input('search_text',$search_text);
+  echo HtmlInput::submit('submit',_('Rechercher'));
   echo '</form>';
   echo '</div>';
 }
@@ -71,25 +82,44 @@ function ShowFicheDefInput($p_fiche_def)
   
   $p_fiche_def->Get();
   $p_fiche_def->GetAttribut();
-  if (isset ($_REQUEST['label']) )
+
+  /*  we change the main attribute */
+  if (isset ($_REQUEST['label']) ){
     $p_fiche_def->SaveLabel($_REQUEST['label']);
+    if ( isset($_REQUEST['create'])) {
+      $p_fiche_def->set_autocreate(true);
+    } else {
+      $p_fiche_def->set_autocreate(false);
+    }
+    $p_fiche_def->save_class_base($_REQUEST['class_base']);
+  }
+  $p_fiche_def->Get();
+
   $r.= '<H2 class="info">'.h($p_fiche_def->label).'</H2>';
-  
+  /* show the values label class_base and create account */
+  $r.='<form method="post">';
+  $r.=dossier::hidden().HtmlInput::phpsessid();
+  $r.=HtmlInput::hidden("fd_id",$p_fiche_def->id);
+  $r.=HtmlInput::hidden("p_action","fiche");
+  $r.= $p_fiche_def->input_base();
+  $r.='<hr>';
+  $r.=HtmlInput::submit('change_name',_('Sauver'));
+  $r.='</form>';
+  /* attributes */
   $r.= '<FORM action="?p_action=fiche" method="POST">';
-  $r.=dossier::hidden();
-  $r.= '<INPUT TYPE="HIDDEN" NAME="fd_id" VALUE="'.$p_fiche_def->id.'">';
-  
+  $r.=dossier::hidden().HtmlInput::phpsessid();
+  $r.=HtmlInput::hidden("fd_id",$p_fiche_def->id);
   $r.= $p_fiche_def->DisplayAttribut("remove");
-  $r.= ' <INPUT TYPE="SUBMIT" Value="Ajoute cet &eacute;l&eacute;ment" NAME="add_line">';
-  $r.= ' <INPUT TYPE="SUBMIT" Value="Sauver" NAME="save_line">';
-  $r.=widget::submit('remove_cat','Effacer cette catégorie','onclick="return confirm(\'Vous confirmez ?\')"');
+  $r.= HtmlInput::submit('add_line',_('Ajoutez cet élément'));
+  $r.= HtmlInput::submit("save_line",_("Sauvez"));
+  $r.=HtmlInput::submit('remove_cat',_('Effacer cette catégorie'),'onclick="return confirm(\''._('Vous confirmez ?').'\')"');
   // if there is nothing to remove then hide the button
   if ( strpos ($r,"chk_remove") != 0 ) {
-    $r.=' <INPUT TYPE="SUBMIT" Value="Enleve les &eacute;l&eacute;ments coch&eacute;s" NAME="remove_line">';
+    $r.=HtmlInput::submit('remove_line',_("Enleve les éléments cochés") );
   }
   $r.= "</form>";
-  $r.=" <p class=\"notice\"> Attention : il n'y aura pas de demande de confirmation pour enlèver les 
-attributs sélectionnés. Il ne sera pas possible de revenir en arrière</p>";
+  $r.=" <p class=\"notice\"> "._("Attention : il n'y aura pas de demande de confirmation pour enlever les 
+attributs sélectionnés. Il ne sera pas possible de revenir en arrière")."</p>";
 
   return $r;
 }
@@ -113,7 +143,7 @@ if ( isset ($_POST['remove_cat'] )  ) {
   $remains=$fd_id->remove();
   if ( $remains != 0 ) 
     /* some card are not removed because it is used */
-    alert('Impossible d\'enlever cette catégorie, certaines fiches sont encore utilisées\n'.
+    alert('Impossible d\'enlever cette catégorie, certaines fiches sont encore utilisées'."\n".
 	  'Les fiches non utilisées ont cependant été effacées');
 }
 // Add a line in the card model
@@ -182,7 +212,7 @@ if ( isset ($_POST["change_name"] )   ) {
   $User->can_request(FICCAT);
   $r= '<DIV class="u_redcontent">';
   if ( $write ==0)  
-    $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
+    $r.= "<h2 class=\"error\"> "._("Pas d'accès")." </h2>";
   else
     {
       $fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
@@ -190,6 +220,9 @@ if ( isset ($_POST["change_name"] )   ) {
     }
   $r.= '</DIV>';
   $recherche=false;
+  ShowMenuFiche($gDossier);
+  echo $r;
+  exit();
 }
 
 ShowMenuFiche($gDossier);
@@ -246,17 +279,17 @@ if ( isset ( $_GET["action"]) ) {
     }
     if ( $write != 0 )
       echo '<form method="post" action="?p_action=fiche&action=vue&fiche='.$_GET['fiche'].$str.'">';
-    echo dossier::hidden();
+    echo dossier::hidden().HtmlInput::phpsessid();
     echo $fiche->Display($t);
-    echo '<input type="hidden" name="f_id" value="'.$_GET['fiche_id'].'">';
+    echo HtmlInput::hidden("f_id",$_GET['fiche_id']);
     if ( $write != 0 ) {
-      echo '<input type="submit" name="update_fiche" value="Mise &agrave; jour">';
-      echo '<input type="submit" name="delete" value="Effacer cette fiche">';
+      echo HtmlInput::submit("update_fiche","Mise &agrave; jour");
+      echo HtmlInput::submit("delete" ,"Effacer cette fiche");
     }
     $str="";
 
     echo '<a class="mtitle" href="?p_action=fiche&action=vue&'.$str_dossier.'&fiche='.$fiche->fiche_def.$str.
-      '"><input type="button" value="Annuler"></A>';
+      '"><input type="button" value='._("Annuler").'></A>';
     if ( $write != 0 ) echo '</form>';
     echo '</DIV>';
     $recherche=false;
@@ -267,7 +300,14 @@ if ( isset ( $_GET["action"]) ) {
   if ($action == "add_modele" ) {
     $User->can_request(FICCAT);
     echo '<DIV class="u_redcontent">';
-    CreateCategory($cn,$search);
+    echo '<form method="post">';
+    $oFiche_Def=new fiche_def($cn);	
+    echo HtmlInput::hidden("p_action","fiche");
+    echo dossier::hidden().HtmlInput::phpsessid();
+    echo $oFiche_Def->input($search); //    CreateCategory($cn,$search);
+    echo HtmlInput::submit("add_modele" ,"Sauve");
+    
+    echo '</form>';
     echo '</DIV>';
     $recherche=false;
   }
@@ -287,16 +327,17 @@ if ( isset ( $_GET["action"]) ) {
   if ( $action == "search" ) 
     {
       ShowRecherche();
-      $sql="select distinct f_id,fd_id,av_text from fiche join jnt_fic_att_value using (f_id) 
+      $sql="select distinct f_id,fd_id from fiche join jnt_fic_att_value using (f_id) 
             join attr_value using (jft_id) where
-            upper(av_text) like upper('%".FormatString($_GET["search_text"])."%') order by av_text,f_id";
-      $all=get_array($cn,$sql);
+            upper(av_text) like upper('%".FormatString($_GET["search_text"])."%') order by f_id";
+
+      $all=$cn->get_array($sql);
       // test on the size
       //
       if ( sizeof($all) != 0 )
 	{
 	  echo '<DIV class="u_redcontent">';
-	  echo "Nombre de résultat : ".sizeof($all).'<br>';
+	  echo "Résultat : ".sizeof($all).'éléments trouvés <br>';
 	  foreach ($all as $f_id){
 	    $fiche=new fiche($cn,$f_id['f_id']);
 	    echo '<A class="mtitle" href="?p_action=fiche&'.$str_dossier.'&action=detail&fiche_id='.$f_id['f_id'].
@@ -332,11 +373,11 @@ if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) ) {
       $fiche=new fiche($cn,0);
 		
       echo '<form method="post" action="'.$url.'&fiche='.$_POST['fiche'].'">';
-      echo dossier::hidden();
+      echo dossier::hidden().HtmlInput::phpsessid();
       echo $fiche->blank($_POST['fiche']);
-      echo '<input type="submit" name="add_fiche" value="Ajout">';
+      echo HtmlInput::submit("add_fiche","Ajout");
       echo '<a class="mtitle" href="'.$url.'&fiche='.$_POST['fiche'].'&'.$str_dossier.'">'.
-	'<input type="button" value="Annuler"></A>';
+	'<input type="button" value='._("Annuler").'></A>';
 		
 
       echo '</form>';

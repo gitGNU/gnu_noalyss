@@ -51,8 +51,8 @@ class fiche_def_ref
   function LoadAll()
     {
       $sql="select * from fiche_def_ref order by frd_id";
-      $Res=ExecSql($this->db,$sql);
-      $all=pg_fetch_all($Res);
+      $Res=$this->db->exec_sql($sql);
+      $all=Database::fetch_all($Res);
       if ( $Res == false ) return array();
       $idx=0;
       $array=array();
@@ -93,12 +93,12 @@ class fiche_def_ref
   function Input()
     {
       $r="";
-      $h=new widget('hidden');
-      $r.='<li>Id          :'.$h->IOValue('frd_id',$this->frd_id).$this->frd_id."</li>";
-      $w=new widget("text");
-      $r.='<li>Commentaire  :'.$w->IOValue('frd_text',$this->frd_text)."</li>";
-      $t=new widget('text');
-      $r.='<li>Poste de base:'.$t->IOValue('frd_class_base',$this->frd_class_base)."</li>";
+      $h=new IHidden();
+      $r.='<li>Id          :'.$h->input('frd_id',$this->frd_id).$this->frd_id."</li>";
+      $w=new IText();
+      $r.='<li>Commentaire  :'.$w->input('frd_text',$this->frd_text)."</li>";
+      $t=new IText();
+      $r.='<li>Poste de base:'.$t->input('frd_class_base',$this->frd_class_base)."</li>";
 
       return $r;
     }
@@ -115,7 +115,7 @@ class fiche_def_ref
       $sql="update fiche_def_ref set frd_text='".
 	$this->frd_text."' ,  frd_class_base='".$this->frd_class_base."'".
 	" where frd_id=".$this->frd_id;
-      $Res=ExecSql($this->db,$sql);
+      $Res=$this->db->exec_sql($sql);
     }
 /*! 
  **************************************************
@@ -128,9 +128,9 @@ class fiche_def_ref
     {
       $sql="select * from  fiche_def_ref ".
 	" where frd_id=".$this->frd_id;
-      $Res=ExecSql($this->db,$sql);
-      if ( pg_NumRows($Res) == 0 ) return null;
-      $r=pg_fetch_array($Res,0);
+      $Res=$this->db->exec_sql($sql);
+      if ( Database::num_row($Res) == 0 ) return null;
+      $r=Database::fetch_array($Res,0);
       $this->frd_text=$r['frd_text'];
       $this->frd_class_base=$r['frd_class_base'];
     }

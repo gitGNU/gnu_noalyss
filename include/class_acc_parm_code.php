@@ -26,6 +26,7 @@
  * \brief Manage the table parm_code which contains the custom parameter
  * for the module accountancy
  */
+require_once("class_itext.php");
 require_once('class_acc_account_ledger.php');
 
 class Acc_Parm_Code {
@@ -52,8 +53,8 @@ class Acc_Parm_Code {
 
   function load_all() {
     $sql="select * from parm_code order by p_code";
-    $Res=ExecSql($this->db,$sql);
-    $r= pg_fetch_all($Res);
+    $Res=$this->db->exec_sql($sql);
+    $r= Database::fetch_all($Res);
     $idx=0;
     $array=array();
 
@@ -81,7 +82,7 @@ class Acc_Parm_Code {
       // check if the account exists
       $acc=new Acc_Account_Ledger($this->db,$this->p_value);
       if ( $acc->load() == false ) {
-	echo "<script> alert('Ce compte n\'existe pas')</script>";
+		alert("Ce compte n'existe pas");
       } else {
 	$this->p_comment=FormatString($this->p_comment);
 	$this->p_value=FormatString($this->p_value);
@@ -90,7 +91,7 @@ class Acc_Parm_Code {
 	  "p_comment='".$this->p_comment."'  ".
 	",p_value='".$this->p_value."'  ".
 	  "where p_code='".$this->p_code."'";
-	$Res=ExecSql($this->db,$sql);
+	$Res=$this->db->exec_sql($sql);
       }
     }
 /*! 
@@ -118,35 +119,37 @@ class Acc_Parm_Code {
  */
   function form() 
     {
-      $comment=new widget("text");
+      $comment=new IText();
       $comment->name='p_comment';
       $comment->value=$this->p_comment;
       $comment->size=45;
-      $value=new widget("js_search_poste");
+      $value=new IPoste();
       $value->name='p_value';
       $value->value=$this->p_value;
       $value->size=7;
-      $poste=new widget("text");
-      $poste->SetReadOnly(true);
+      $value->set_attribute('ipopup','ipop_account');
+      $value->set_attribute('account','p_value');
+      $poste=new IText();
+      $poste->setReadOnly(true);
       $poste->size=strlen($this->p_code)+1;
       $poste->name='p_code';
       $poste->value=$this->p_code;
       $r="";
-      $r.=JS_SEARCH_POSTE;
       $r.='<tr>';
       $r.='<td align="right"> Code </td>';
-      $r.= '<TD>'.$poste->IOValue().'</TD>';
+      $r.= '<TD>'.$poste->input().'</TD>';
       $r.='</tr>';
       $r.='<tr>';
       $r.='<td align="right"> Commentaire </td>';
-      $r.= '<TD>'.$comment->IOValue().'</TD>';
+      $r.= '<TD>'.$comment->input().'</TD>';
       $r.='</tr>';
       $r.='<tr>';
       $r.='<td align="right"> Poste comptable </td>';
-      $r.= '<TD>'.$value->IOValue();
+      $r.= '<TD>'.$value->input();
       $r.='<span id="p_value_label"></span></td>';
       $r.='</tr>';
-
+	$r.=HtmlInput::phpsessid();
+	$r.=Dossier::hidden();
       return $r;
       
     }
@@ -163,10 +166,10 @@ class Acc_Parm_Code {
     if ( $this->p_code == -1 ) return "p_code non initialisé";
     $sql='select * from parm_code where p_code=$1 ';
 
-    $Res=ExecSqlParam($this->db,$sql,array($this->p_code));
+    $Res=$this->db->exec_sql($sql,array($this->p_code));
 
-    if ( pg_NumRows($Res) == 0 ) return 'INCONNU';
-    $row= pg_fetch_array($Res,0);
+    if ( Database::num_row($Res) == 0 ) return 'INCONNU';
+    $row= Database::fetch_array($Res,0);
     $this->p_value=$row['p_value'];
     $this->p_comment=$row['p_comment'];
 

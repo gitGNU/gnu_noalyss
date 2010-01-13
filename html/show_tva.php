@@ -23,9 +23,9 @@
  */
 
 include_once ("ac_common.php");
-include_once ("postgres.php");
+require_once('class_database.php');
 /* Admin. Dossier */
-$rep=DbConnect();
+$rep=new Database();
 include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
@@ -43,12 +43,12 @@ function GetIt(ctl,tva_id) {
 <?php
 
 $condition="";
-$cn=DbConnect($gDossier);
-$Res=ExecSql($cn,"select * from tva_rate order by tva_rate desc");
-$Max=pg_NumRows($Res);
+$cn=new Database($gDossier);
+$Res=$cn->exec_sql("select * from tva_rate order by tva_rate desc");
+$Max=Database::num_row($Res);
 echo "<TABLE BORDER=\"1\">";
 for ($i=0;$i<$Max;$i++) {
-  $row=pg_fetch_array($Res,$i);
+  $row=Database::fetch_array($Res,$i);
   $set=sprintf( '<INPUT TYPE="BUTTON" Value="select" onClick="GetIt(\'%s\',\'%s\');">',
 	     $_GET['ctl'],$row['tva_id']);
   printf("<tr><TD BGCOLOR=\LIGHTGREEN\" >%s %d</TD><TD>%s</TD><TD>%s</TD></TR>",

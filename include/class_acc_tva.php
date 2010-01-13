@@ -24,7 +24,7 @@
  * \brief this class is used for the table tva_rate
  */
 require_once('class_dossier.php');
-require_once('postgres.php');
+require_once('class_database.php');
 
   /*!\brief Acc_Tva is used for to map the table tva_rate 
    * parameter are
@@ -38,16 +38,16 @@ require_once('postgres.php');
 */
 class Acc_Tva
 {
-  private static $cn;		/*!< $cn database connection */
+  private  $cn;		/*!< $cn database connection */
   private static $variable=array("id"=>"tva_id",
 				 "label"=>"tva_label",
 				 "rate"=>"tva_rate",
 				 "comment"=>"tva_comment",
 				 "account"=>"tva_poste");
 
-  function __construct ($p_init) {
+  function __construct ($p_init,$p_tva_id=0) {
     $this->cn=$p_init;
-    $this->tva_id=0;
+    $this->tva_id=$p_tva_id;
     $this->poste="";
   }
   public function get_parameter($p_string) {
@@ -85,22 +85,22 @@ class Acc_Tva
     if ( $this->verify() != 0 ) return;
     $sql="select tva_insert($1,$2,$3,$4)";
 
-    $res=ExecSqlParam($this->cn,
+    $res=$this->cn->exec_sql(
 		 $sql,
 		 array($this->tva_label,
 		       $this->tva_rate,
 		       $this->tva_comment,
 		       $this->tva_poste)
 		 );
-    $this->tva_id=GetSequence($this->cn,'s_tva');
-    $err=pg_fetch_result($res);
+    $this->tva_id=$this->cn->get_current_seq('s_tva');
+    $err=Database::fetch_result($res);
   }
 
   public function update() {
     if ( $this->verify() != 0 ) return;
     $sql="update tva_rate set tva_label=$1,tva_rate=$2,tva_comment=$3,tva_poste=$4 ".
       " where tva_id = $5";
-    $res=ExecSqlParam($this->cn,
+    $res=$this->cn->exec_sql(
 		 $sql,
 		 array($this->tva_label,
 		       $this->tva_rate,
@@ -113,15 +113,16 @@ class Acc_Tva
 
   public function load() {
     $sql="select tva_label,tva_rate, tva_comment,tva_poste from tva_rate where tva_id=$1";
-    $res=ExecSqlParam($this->cn,
-		 $sql,
-		 array($this->tva_id)
-		 );
+    $res=$this->cn->exec_sql(
+			     $sql,
+			     array($this->tva_id)
+			     );
 
-    if ( pg_NumRows($res) == 0 ) return;
+    if ( $this->cn->size() == 0 ) return -1;
 
-    $row=pg_fetch_array($res,0);
+    $row=Database::fetch_array($res,0);
     foreach ($row as $idx=>$value) { $this->$idx=$value; }
+    return 0;
   }
   /*!\brief get the account of the side (debit or credit)
    *\param $p_side is d or C
@@ -144,13 +145,13 @@ class Acc_Tva
   }
   public function delete() {
     $sql="delete from tva_rate where tva_id=$1";
-    $res=ExecSqlParam($this->cn,$sql,array($this->tva_id));
+    $res=$this->cn->exec_sql($sql,array($this->tva_id));
   }
   /*!\brief
    * Test function
    */	
   static function test_me() {
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $a=new Acc_Tva($cn);
     echo $a->get_info();
     $a->set_parameter("id",1);

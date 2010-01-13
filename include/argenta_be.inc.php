@@ -28,6 +28,7 @@
 // Bank Argenta 
 //-----------------------------------------------------
 $line=0;
+$p_cn->set_encoding('latin1');
 
 while (($data = fgetcsv($handle, 2000,"!")) !== FALSE) {
 	$num = count($data);
@@ -67,7 +68,7 @@ while (($data = fgetcsv($handle, 2000,"!")) !== FALSE) {
 //----------------------------------------------------
 	  $code=FormatString($code);
 	  $num_compte=FormatString($num_compte);
-	  if ( CountSql($p_cn,utf8_encode("select * from import_tmp where code='$code' and num_compte='$num_compte' limit 2")) != 0 )
+	  if ( $p_cn->count_sql(utf8_encode("select * from import_tmp where code='$code' and num_compte='$num_compte' limit 2")) != 0 )
 {
 	/* Skip it it already encoded */
 	echo "Doublon éliminé ".$detail;
@@ -104,7 +105,7 @@ echo "<br>";
 				'n')";
 			try 
 			  {
-			    ExecSql($p_cn,$Sql,'latin1');
+			    $p_cn->exec_sql($Sql);
 			  }
 
 
@@ -121,5 +122,5 @@ echo "<br>";
 } // file is read
 
 fclose($handle);
-commit($p_cn);
+$p_cn->commit();
 ?>

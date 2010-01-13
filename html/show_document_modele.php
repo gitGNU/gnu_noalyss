@@ -23,33 +23,33 @@
  * \brief send the document template
  */
 
-include_once ("postgres.php");
+require_once('class_database.php');
 require_once("ac_common.php");
 
 require_once('class_dossier.php');
 $gDossier=dossier::id();
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 
 require_once ('class_user.php');
-$User=new User(DbConnect());
+$User=new User(new Database());
 /*!\todo Add security here
  */
 $User->Check();
 // retrieve the document
-$r=ExecSql($cn,"select md_id,md_lob,md_filename,md_mimetype 
+$r=$cn->exec_sql("select md_id,md_lob,md_filename,md_mimetype 
                  from document_modele where md_id=".$_REQUEST['md_id']);
-if ( pg_num_rows($r) == 0 ) {
+if ( Database::num_row($r) == 0 ) {
   echo_error("Invalid Document");
   exit;
  }
-$row=pg_fetch_array($r,0);
+$row=Database::fetch_array($r,0);
 
 
-StartSql($cn);
+$cn->start();
 
 $tmp=tempnam($_ENV['TMP'],'document_');
-pg_lo_export($cn,$row['md_lob'],$tmp);
+$cn->lo_export($row['md_lob'],$tmp);
 ini_set('zlib.output_compression','Off');
 header("Pragma: public");
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
@@ -66,4 +66,4 @@ fclose($file);
 
 unlink ($tmp);
 
-Commit($cn);
+$cn->commit();

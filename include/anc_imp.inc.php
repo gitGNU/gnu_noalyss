@@ -20,30 +20,30 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  *
  *
  * \brief this file is included for printing the analytic
- * accountancy. 
+ * accountancy.
  *
  */
+require_once("class_ihidden.php");
 require_once('class_anc_operation.php');
 require_once('class_anc_plan.php');
 require_once('ac_common.php');
-require_once('class_widget.php');
 
 //-- the menu
-$menu=array(array("?p_action=ca_imp&sub=listing&$str_dossier","Listing","Listing des op&eacute;rations","listing"),
-			array("?p_action=ca_imp&sub=bs&$str_dossier","Balance simple","Balance simple d'un plan analytique","bs"),
-			array("?p_action=ca_imp&sub=bc2&$str_dossier","Balance crois&eacute;","Balance crois&eacute; de 2 plans analytiques","bc2")
+$menu=array(array("?p_action=ca_imp&sub=listing&$str_dossier",_("Listing"),_("Listing des opérations"),"listing"),
+			array("?p_action=ca_imp&sub=bs&$str_dossier",_("Balance simple"),_("Balance simple d'un plan analytique"),"bs"),
+			array("?p_action=ca_imp&sub=bc2&$str_dossier",_("Balance croisée"),_("Balance croisée de 2 plans analytiques"),"bc2")
 			);
 $sub=(isset($_GET['sub']))?$_GET['sub']:'no';
 echo '<div class="content">';
 echo ShowItem($menu,"H","mtitle","mtitle",$sub);
 echo '</div>';
-$hidden=new widget("hidden");
-$str_hidden=$hidden->IOValue("p_action","ca_imp");
-$str_hidden.=$hidden->IOValue("sub",$sub);
+$hidden=new IHidden();
+$str_hidden=$hidden->input("p_action","ca_imp");
+$str_hidden.=$hidden->input("sub",$sub);
 
 // select following the sub action
 //------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ if ( $sub=='listing') {
 	echo '<div class="u_redcontent">';
 
 	//--------------------------------
-	// export Buttons 
+	// export Buttons
 	//---------------------------------
 	echo $list->show_button($str_hidden);
 	echo $list->display_html();
@@ -68,7 +68,7 @@ if ( $sub=='listing') {
  }
 
 //------------------------------------------------------------------------------
-// Simple balance 
+// Simple balance
 if ($sub == 'bs') {
   require_once ('class_anc_balance_simple.php');
   $bs=new Anc_Balance_Simple($cn);

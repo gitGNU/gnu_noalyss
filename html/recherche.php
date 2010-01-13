@@ -18,25 +18,39 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-require_once('class_dossier.php');
-include_once("ac_common.php");
-require_once("user_menu.php");
-include_once ("constant.php");
-include_once("jrn.php");
-include_once("user_common.php");
-include_once("class_widget.php");
 /*! \file
  * \brief Search module
  */
-
+require_once('class_dossier.php');
+include_once("ac_common.php");
+include_once ("constant.php");
+require_once('class_acc_ledger.php');
+require_once('class_ipopup.php');
 html_page_start($_SESSION['g_theme']);
+
+
+
+echo js_include('prototype.js');
+echo js_include('acc_ledger.js');
+echo js_include('card.js');
+echo js_include('scripts.js');
+echo JS_INFOBULLE;
+echo js_include('accounting_item.js');
+echo js_include('scriptaculous.js');
+echo js_include('effects.js');
+echo js_include('controls.js');
+echo js_include('dragdrop.js');
+
+$search_card=new IPopup('ipop_card');
+$search_card->title=_('Recherche de fiche');
+$search_card->value='';
+
 $gDossier=dossier::id();
 
-include_once ("postgres.php");
-include_once ("check_priv.php");
+require_once('class_database.php');
 /* Admin. Dossier */
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 include_once ('class_user.php');
 $User=new User($cn);
 $User->Check();
@@ -45,10 +59,18 @@ $User->Check();
 $sessid=$_REQUEST['PHPSESSID'];
 
 // display a search box
-$search_box=u_ShowMenuRecherche($cn,0,$sessid,$_GET);
-echo '<DIV class="lextmenu">'; // class="recherche_form">';
+
+$ledger=new Acc_Ledger($cn,0);
+$search_box=$ledger->search_form('ALL',1);
+echo '<div class="content">';
+echo IPoste::ipopup('ipop_account');
+echo $search_card->input();
+
+echo '<form method="GET">';
 echo $search_box;
-echo "</div>";
+echo HtmlInput::submit("viewsearch","Recherche");
+echo '</form>';
+
 //-----------------------------------------------------
 // Display search result
 //-----------------------------------------------------
@@ -58,24 +80,22 @@ if ( isset ($_GET['viewsearch'])) {
   $step=$_SESSION['g_pagesize'];
   $page=(isset($_GET['offset']))?$_GET['page']:1;
   $offset=(isset($_GET['offset']))?$_GET['offset']:0;
-  if (count ($_GET) == 0) 
+  if (count ($_GET) == 0)
     $array=null;
   else
      $array=$_GET;
+  $array['p_action']='ALL';
+  list($sql,$where)=$ledger->build_search_sql($array);
+  // Count nb of line
+  $max_line=$cn->count_sql($sql);
 
-  list($max_line,$a)=ListJrn($cn,0,"",$array,$offset,2);
-
+  list($count,$a)=$ledger->list_operation($sql,$offset,0);
   $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
-
-
-  echo '<div class="u_redcontent">';
-
 
   echo $bar;
   echo $a;
   echo $bar;
-  echo '</div>';
+
 }
-echo '</DIV>'; 
- 
+echo '</div>';
 ?>

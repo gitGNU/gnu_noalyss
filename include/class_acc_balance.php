@@ -18,13 +18,13 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-include_once("poste.php");
 /*! \file
  * \brief Class for manipulating data to print the balance of account
  */
 /*!
  * \brief Class for manipulating data to print the balance of account
  */
+require_once('class_acc_account.php');
 
 class Acc_Balance {
   var $db;       /*! < database connection */
@@ -61,18 +61,19 @@ class Acc_Balance {
 
     // filter on requested periode
     $per_sql=sql_filter_per($this->db,$p_from_periode,$p_to_periode,'p_id','j_tech_per');
+
     // if centralized
     $cent="";	$and=""; $jrn="";
 	$from_poste="";$to_poste="";
 
     if ( $this->central=='Y' ) { $cent="j_centralized = true";$and=" and "; }
-	if ($this->jrn!= -1){	  $jrn=" $and  j_jrn_def=".$this->jrn;$and=" and ";}
-	if ( strlen(trim($this->from_poste)) != 0 ) {
-	  $from_poste=" $and j_poste::text >= '".$this->from_poste."'"; $and=" and ";
-	}
-	if ( strlen(trim($this->to_poste)) != 0 ) {
-	  $to_poste=" $and j_poste::text <= '".$this->to_poste."'"; $and=" and ";
-	}
+    if ($this->jrn!= -1){	  $jrn=" $and  j_jrn_def=".$this->jrn;$and=" and ";}
+    if ( strlen(trim($this->from_poste)) != 0 && $this->from_poste!=-1  ) {
+      $from_poste=" $and j_poste::text >= '".$this->from_poste."'"; $and=" and ";
+    }
+    if ( strlen(trim($this->to_poste)) != 0   && $this->to_poste!=-1 ) {
+      $to_poste=" $and j_poste::text <= '".$this->to_poste."'"; $and=" and ";
+    }
 
     // build query
     $sql="select j_poste,sum(deb) as sum_deb, sum(cred) as sum_cred from 
@@ -85,19 +86,22 @@ class Acc_Balance {
              $cent  $jrn $from_poste $to_poste
              $and
             $per_sql ) as m group by j_poste order by j_poste::text";
-
-    $Res=ExecSql($this->db,$sql);
+    $cn=clone $this->db;
+    $Res=$this->db->exec_sql($sql);
 
     $tot_cred=  0.0;
     $tot_deb=  0.0;
     $tot_deb_saldo=0.0;
     $tot_cred_saldo=0.0;
-    $M=pg_NumRows($Res);
+    $M=$this->db->size();
+
     // Load the array
     for ($i=0; $i <$M;$i++) {
-      $r=pg_fetch_array($Res,$i);
+      $r=$this->db->fetch($i);
+      $poste=new Acc_Account($cn,$r['j_poste']);
+
       $a['poste']=$r['j_poste'];
-      $a['label']=substr(GetPosteLibelle($this->db,$r['j_poste'],1),0,40);
+      $a['label']=substr($poste->get_lib(),0,40);
       $a['sum_deb']=round($r['sum_deb'],2);
       $a['sum_cred']=round($r['sum_cred'],2);
       $a['solde_deb']=round(( $a['sum_deb']  >=  $a['sum_cred'] )? $a['sum_deb']- $a['sum_cred']:0,2);
@@ -113,7 +117,7 @@ class Acc_Balance {
     // Add the saldo
     $i+=1;
     $a['poste']="";
-    $a['label']="<b> Totaux </b>";
+    $a['label']="Totaux ";
     $a['sum_deb']=$tot_deb;
     $a['sum_cred']=$tot_cred;
     $a['solde_deb']=$tot_deb_saldo;

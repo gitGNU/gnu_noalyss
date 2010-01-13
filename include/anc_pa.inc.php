@@ -20,7 +20,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  *
  * \brief Plan Analytique
  *
@@ -30,7 +30,7 @@ require_once("class_anc_account.php");
 $ret="";
 
 //---------------------------------------------------------------------------
-// action 
+// action
 // Compute the u_redcontent div
 //---------------------------------------------------------------------------
 if ( isset($_REQUEST['sa']))
@@ -40,7 +40,6 @@ if ( isset($_REQUEST['sa']))
 	// show the form for adding a pa
 	if ( $sa == "add_pa")
 	  {
-		$wAction=new widget("hidden","","p_action","ca_pa");
 		$new=new Anc_Plan($cn);
 		if ( $new->isAppend() == true)
 		  {
@@ -49,11 +48,9 @@ if ( isset($_REQUEST['sa']))
 			$ret.= '<form method="post">';
 			$ret.=dossier::hidden();
 			$ret.= $new->form();
-			$wSa=new widget("HIDDEN","","sa","pa_write");
-			$wSa->value="pa_write";
-			$ret.= $wSa->IOValue();
-			$ret.= $wAction->IOValue();
-			$ret.=widget::submit("submit","Enregistre");
+			$ret.= HtmlInput::hidden("sa","pa_write");
+			$ret.=HtmlInput::hidden("p_action","ca_pa"); ;
+			$ret.=HtmlInput::submit("submit","Enregistre");
 			$ret.= '</form>';
 			$ret.= '</div>';
 		  }
@@ -65,7 +62,7 @@ if ( isset($_REQUEST['sa']))
 			  "</h2></div>";
 		  }
 	  }
-	// Add 
+	// Add
 	if ( $sa == "pa_write")
 	  {
 		$new=new Anc_Plan($cn);
@@ -75,9 +72,9 @@ if ( isset($_REQUEST['sa']))
 		  {
 			$ret.= '<h2 class="info">'.
 			  "Maximum de plan analytique est atteint".
-			  "</h2>";			
+			  "</h2>";
 		  }
-		else 
+		else
 		  {
 			$new=new Anc_Plan($cn);
 			$new->name=$_POST['pa_name'];
@@ -89,20 +86,20 @@ if ( isset($_REQUEST['sa']))
 	if ( $sa == "pa_detail" )
 	  {
 		$new=new Anc_Plan($cn,$_GET['pa_id']);
-		$wAction=new widget("hidden","","p_action","ca_pa");
-		$wSa=new widget("HIDDEN","","sa","pa_update");
+		$wAction=HtmlInput::hidden("p_action","ca_pa");
+		$wSa=HtmlInput::hidden("sa","pa_update");
 
 		$new->get();
-   
+
 		$ret.= '<div class="u_redcontent">';
 		$ret.= '<h2 class="info">Mise &agrave; jour</h2>';
 		$ret.= '<form method="post">';
 		$ret.=dossier::hidden();
 
 		$ret.= $new->form();
-		$ret.= $wSa->IOValue();
-		$ret.= $wAction->IOValue();
-		$ret.=widget::submit("submit","Enregistre");
+		$ret.= $wSa;
+		$ret.= $wAction;
+		$ret.=HtmlInput::submit("submit","Enregistre");
 		$ret.=sprintf('<A class="mtitle" HREF="%s">'.
 					  '<input type="button" value="Efface"></A>',
 					  "?p_action=ca_pa&pa_id=".$_GET['pa_id']."&sa=pa_delete&$str_dossier");
@@ -127,13 +124,13 @@ if ( isset($_REQUEST['sa']))
 	  {
 		$po=new Anc_Account($cn);
 		$po->pa_id=$_REQUEST['pa_id'];
-		$wSa=new widget("hidden","sa","sa","po_write");
+		$wSa=HtmlInput::hidden("sa","po_write");
 		$ret.='<div class="u_redcontent">';
 		$ret.='<form method="post">';
 		$ret.=dossier::hidden();
 		$ret.=$po->form();
-		$ret.=$wSa->IOValue();
-		$ret.=widget::submit("add","Ajout");
+		$ret.=$wSa;
+		$ret.=HtmlInput::submit("add","Ajout");
 		$ret.="</form>";
 		$ret.="</div>";
 	  }
@@ -158,7 +155,6 @@ if ( isset($_REQUEST['sa']))
 	 */
 	if ( $sa=="po_detail")
 	  {
-		$wHidden=new widget('hidden','','sa','po_update');
 		$po=new Anc_Account($cn,$_GET['po_id']);
 		$po->get_by_id();
 		$ret.='<div class="u_redcontent">';
@@ -166,8 +162,8 @@ if ( isset($_REQUEST['sa']))
 		$ret.=dossier::hidden();
 
 		$ret.=$po->form();
-		$ret.=$wHidden->IOValue();
-		$ret.='<input type="submit" value="Correction">';
+		$ret.=HtmlInput::hidden('sa','po_update');
+		$ret.=HtmlInput::submit('Correction','Correction');
 		$ret.=sprintf('<A class="mtitle" HREF="?p_action=ca_pa&sa=po_delete&po_id=%s&pa_id=%s&'.$str_dossier.'">'.
 					  '<input type="button" value="Efface" onClick="return confirm(\' Voulez-vous vraiment effacer ce poste\');"></A>',
 					  $po->id,
@@ -208,7 +204,7 @@ if ( isset($_REQUEST['sa']))
 		$ret.="<th> Plan A </td>";
 		$ret.="</tr>";
 		$class="";
-		foreach ($array as $obj) 
+		foreach ($array as $obj)
 		  {
 			$count++;
 			if ( $count %2 == 0 )
@@ -231,7 +227,7 @@ if ( isset($_REQUEST['sa']))
 
 		  }
 		$ret.="</table>";
-		$ret.=widget::button_href('Ajout',"?p_action=ca_pa&sa=po_add&pa_id=".$_GET['pa_id']."&".$str_dossier);
+		$ret.=HtmlInput::button_anchor('Ajout',"?p_action=ca_pa&sa=po_add&pa_id=".$_GET['pa_id']."&".$str_dossier);
 		$ret.='</div>';
 
 	  }
@@ -257,7 +253,7 @@ if ( empty($list)  )
 	echo '<a class="mtitle" href="?p_action=ca_pa&sa=add_pa&'.$str_dossier.'">Ajout d\'un plan comptable</a>';
 	echo '</TD></TR>';
 	echo '</TABLE>';
-	
+
 	echo '</div>';
 	if ( ! isset ( $_REQUEST['sa']))
 	  echo '<div class="u_redcontent">'.

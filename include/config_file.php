@@ -24,7 +24,7 @@
  * \brief functions concerning the config file config.inc.php. The domain is not set into the form for security issues
  */
 
-require_once('class_widget.php');
+require_once("class_itext.php");
 
 
 /*!\brief
@@ -48,34 +48,34 @@ function config_file_form($p_array=null)
     $cdomain='';
   } else extract ($p_array);
 
-  $text=new widget('text');
+  $text=new IText();
   $r='';
   $r.='<div style="position:float;float:left;text-align:right;line-height:1.8em;padding:0 0.9em 0 0">';
 
   $r.='R&eacute;pertoire temporaire : ';
   $text->title='Indiquez ici le r&eacute;pertoire o&ugrave; les documents temporaires peuvent &ecirc;tre sauv&eacute; exemple c:\\\\temp, /tmp';
-  $r.=$text->IOValue('ctmp',$ctmp);
+  $r.=$text->input('ctmp',$ctmp);
   $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
   $r.='<br>';
 
   $r.='Chemin complet vers les executable de Postgresql : ';
   $text->title='Le chemin vers le repertoire contenant psql, pg_dump...';
-  $r.=$text->IOValue('cpath',$cpath);
+  $r.=$text->input('cpath',$cpath);
   $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
   $r.='<br>';
   $text->title="Utilisateur de la base de donn&eacute;e postgresql";
   $r.='Utilisateur de la base de donn&eacute;e : ';
-  $r.=$text->IOValue('cuser',$cuser);
+  $r.=$text->input('cuser',$cuser);
   $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
   $r.='<br>';
   $text->title="Mot de passe de l\' utilisateur";
   $r.='Mot de passe de l\'utilisateur : ';
-  $r.=$text->IOValue('cpasswd',$cpasswd);
+  $r.=$text->input('cpasswd',$cpasswd);
   $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
   $r.='<br>';
   $text->title="Port ";
   $r.='Port de postgresql : ';
-  $r.=$text->IOValue('cport',$cport);
+  $r.=$text->input('cport',$cport);
   $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
   $r.='<br>';
   $r.='</div>';
@@ -88,38 +88,39 @@ function config_file_create($p_array,$from_setup=1,$os=1) {
   $add=($from_setup==1)?'..'.DIRECTORY_SEPARATOR:'';
   $hFile=  fopen($add.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php','w');
   fputs($hFile,'<?php ');
-  fputs($hFile,"\n\r");
+  fputs($hFile,"\r\n");
   fputs($hFile, 'date_default_timezone_set (\'Europe/Brussels\');');
-  fputs($hFile,"\n\r");
+  fputs($hFile,"\r\n");
   fputs($hFile, "\$_ENV['TMP']='".$ctmp."';");
-  fputs($hFile,"\n\r");
+  fputs($hFile,"\r\n");
   fputs($hFile, 'define("PG_PATH","'.$cpath.'");');
-  fputs($hFile,"\n\r");
+  fputs($hFile,"\r\n");
   if ( $os == 1 ) {
     fputs($hFile, 'define("PG_RESTORE","'.$cpath.DIRECTORY_SEPARATOR.'pg_restore ");');
-    fputs($hFile,"\n\r");
+    fputs($hFile,"\r\n");
     fputs($hFile, 'define("PG_DUMP","'.$cpath.DIRECTORY_SEPARATOR.'pg_dump ");');
-    fputs($hFile,"\n\r");
+    fputs($hFile,"\r\n");
     fputs($hFile, 'define ("PSQL","'.$cpath.DIRECTORY_SEPARATOR.'psql");');
   }
   else {
     fputs($hFile, 'define("PG_RESTORE","pg_restore.exe");');
-    fputs($hFile,"\n\r");
+    fputs($hFile,"\r\n");
     fputs($hFile, 'define("PG_DUMP","pg_dump.exe");');
-    fputs($hFile,"\n\r");
+    fputs($hFile,"\r\n");
     fputs($hFile, 'define ("PSQL","psql.exe");');
   }
-  fputs($hFile,"\n\r");
+  fputs($hFile,"\r\n");
   fputs($hFile, 'define ("phpcompta_user","'.$cuser.'");');
-  fputs($hFile,"\n\r");
+  fputs($hFile,"\r\n");
   fputs($hFile, 'define ("phpcompta_password","'.$cpasswd.'");');
-  fputs($hFile,"\n\r");
+  fputs($hFile,"\r\n");
   fputs($hFile, 'define ("phpcompta_psql_port","'.$cport.'");');
-  fputs($hFile,"\n\r");
+  fputs($hFile,"\r\n");
   fputs($hFile, 'define ("phpcompta_psql_host","127.0.0.1");');
-  fputs($hFile,"\n\r");
+  fputs($hFile,"\r\n");
+
   fputs($hFile, 'define ("domaine","");');
-  fputs($hFile,"\n\r");
+  fputs($hFile,"\r\n");
   fputs($hFile,'?>');
   fclose($hFile);
 }

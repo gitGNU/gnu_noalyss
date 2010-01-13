@@ -20,6 +20,14 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once('class_acc_payment.php');
+echo JS_LEDGER;
+echo JS_AJAX_FICHE;
+echo JS_PROTOTYPE;
+echo JS_CARD;
+echo js_include('scriptaculous.js');
+echo js_include('effects.js');
+echo js_include('controls.js');
+
 //---------------------------------------------------------------------------
 // Common variable
 $td='<TD>';$etd='</td>';$tr='<tr>';$etr='</tr>';$th='<th>';$eth='</th>';
@@ -33,24 +41,21 @@ echo '<div class="content">';
 //----------------------------------------------------------------------
 // change
 if ( $sb=='change') {
-  echo JS_SEARCH_CARD;
-  echo JS_AJAX_FICHE;
-  echo JS_PROTOTYPE;
   if ( !isset($_GET['id'])) exit;
   $row=new Acc_Payment($cn,$_GET['id']);
   $row->load();
   echo '<form method="post" action="parametre.php">';
   echo dossier::hidden();
-  echo widget::hidden('p_jrn',0);
-  echo widget::hidden('p_action','divers');
-  echo widget::hidden('sa','mp');
-  echo widget::hidden('sb','save');
-  echo widget::hidden('mp_type',$row->get_parameter('type'));
-  echo widget::hidden('mp_lib',$row->get_parameter('lib'));
+  echo HtmlInput::hidden('p_jrn',0);
+  echo HtmlInput::hidden('p_action','divers');
+  echo HtmlInput::hidden('sa','mp');
+  echo HtmlInput::hidden('sb','save');
+  echo HtmlInput::hidden('mp_type',$row->get_parameter('type'));
+  echo HtmlInput::hidden('mp_lib',$row->get_parameter('lib'));
 
   echo $row->form();
-  echo widget::submit('save','Sauve');
-  echo widget::button_href('Retour sans sauvez',
+  echo HtmlInput::submit('save',_('Sauve'));
+  echo HtmlInput::button_anchor(_('Retour sans sauvez'),
 			   '?p_action=divers&sa=mp&'.dossier::get()
 			   );
   echo '</form>';
@@ -79,13 +84,13 @@ $array=$mp->get_all();
 /* if there are data show them in a table */
 if ( ! empty ($array)) {
   echo '<table style="border: 2px outset blue; width: 100%;" >';
-  echo $tr.$th.'Libell&eacute;'.$eth.$th.'Type de fiche'
-  .$eth.$th.'enregistr&eacute; dans le journal'.$eth.
-    $th.' Avec la fiche'.$eth.$th.'Action'.$eth.$etr;
+  echo $tr.$th._('Libellé').$eth.$th._('Type de fiche')
+    .$eth.$th._('enregistré dans le journal').$eth.
+    $th._(' Avec la fiche').$eth.$th.'Action'.$eth.$etr;
   foreach ($array as $row) {
     echo $tr;
     echo $row->row();
-    echo $td.widget::button_href('Modifie','?p_action=divers&sa=mp&sb=change&'.dossier::get().
+    echo $td.HtmlInput::button_anchor(_('Modifie'),'?p_action=divers&sa=mp&sb=change&'.dossier::get().
 				 '&id='.$row->get_parameter('id'));
     echo $etr;
 
@@ -112,7 +117,7 @@ if ( ! empty ($array)) {
   foreach ($array as $row) {
     echo $tr;
     echo $row->row();
-    echo $td.widget::button_href('Modifie','?p_action=divers&sa=mp&sb=change&'.dossier::get().
+    echo $td.HtmlInput::button_anchor('Modifie','?p_action=divers&sa=mp&sb=change&'.dossier::get().
 				 '&id='.$row->get_parameter('id'));
     echo $etr;
 

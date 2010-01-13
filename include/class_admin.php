@@ -19,9 +19,8 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once("constant.php");
-require_once("postgres.php");
+require_once('class_database.php');
 require_once("class_acc_parm_code.php");
-require_once("class_widget.php");
 
 require_once('class_fiche.php');
 require_once('class_acc_account_ledger.php');
@@ -52,81 +51,7 @@ class Admin extends fiche{
 
   }
 
-/*! \function  Summary
- **************************************************
- \Brief  show the default screen
- *        
- * parm : 
- *	- p_search (filter)
- * gen :
- *	-
- * return: string to display
- */
-  function Summary($p_search) 
-    {
-	  $str_dossier=dossier::get();
-      $p_search=FormatString($p_search);
-      $url=urlencode($_SERVER['REQUEST_URI']);
-      $script=$_SERVER['PHP_SELF'];
-      // Creation of the nav bar
-      // Get the max numberRow
-      $all_admin=$this->CountByDef($this->fiche_def_ref,$p_search); 
-      // Get offset and page variable
-      $offset=( isset ($_REQUEST['offset'] )) ?$_REQUEST['offset']:0;
-      $page=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
-      $bar=jrn_navigation_bar($offset,$all_admin,$_SESSION['g_pagesize'],$page);
-      // set a filter ?
-      $search="";
-      if ( trim($p_search) != "" )
-	{
-	  $search=" and f_id in
-(select f_id from jnt_fic_att_value 
-                  join fiche using (f_id) 
-                  join attr_value using (jft_id)
-                where
-                ad_id=1 and av_text ~* '$p_search')";
-	}
-      // Get The result Array
-      $step_admin=$this->GetAll($offset,$search);
-      if ( $all_admin == 0 ) return "";
-      $r=$bar;
-      $r.='<table  width="95%">
-<TR style="background-color:lightgrey;">
-<TH>Quick Code</TH>
-<th>Nom</th>
-<th>Adresse</th>
-<th>Action </th>
-</TR>';
-      if ( sizeof ($step_admin ) == 0 )
-	return $r;
-      foreach ($step_admin as $admin ) {
-	$r.="<TR>";
-	$e=sprintf('<A HREF="%s?p_action=admin&sa=detail&f_id=%d&%s&url=%s" title="Detail"> ',
-			   $script,$admin->id,$str_dossier,$url);
 
-	$r.="<TD> $e".$admin->strAttribut(ATTR_DEF_QUICKCODE)."</A></TD>";
-	$r.="<TD>".$admin->strAttribut(ATTR_DEF_NAME)."</TD>";
-	$r.="<TD>".$admin->strAttribut(ATTR_DEF_ADRESS).
-	  " ".$admin->strAttribut(ATTR_DEF_CP).
-	  " ".$admin->strAttribut(ATTR_DEF_PAYS).
-	  "</TD>";
-	$r.="<td>";
-	$r.=sprintf('<A class="mtitle" HREF="%s?p_action=contact&qcode=%s&%s&url=%s" title="Contact">Contact</A> - ',
-				$script,$admin->strAttribut(ATTR_DEF_QUICKCODE),$str_dossier,$url);
-	$r.=sprintf('<A class="mtitle" HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&%s&url=%s" title="Action">Action</A> - ',
-				$script,$admin->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
-	$r.=sprintf('<A class="mtitle" HREF="%s?liste&p_action=bank&sa=list&qcode=%s&%s&url=%s&p_periode=-1" title="Financier">Financier</A> - ',
-				$script,$admin->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
-
-	$r.='</TD>';
-
-	$r.="</TR>";
-
-      }
-      $r.="</TABLE>";
-      $r.=$bar;
-      return $r;
-    }
 
 }
 

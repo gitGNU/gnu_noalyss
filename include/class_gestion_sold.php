@@ -27,9 +27,7 @@
   /*! \brief this object handles the table quant_sold
    *
    */
-  /*!\todo the qs_valid field is not used it should be delete into
-   *   the table quant_sold
-   */
+
 require_once ('class_gestion_table.php');
 
 
@@ -64,9 +62,9 @@ class gestion_sold extends gestion_table
                   j_id
           from quant_sold left join tva_rate on (qs_vat_code=tva_id)
           where qs_internal='".$this->qs_internal."'";
-	$ret=ExecSql($this->db,$sql);
+	$ret=$this->db->exec_sql($sql);
 	// $res contains all the line
-	$res=pg_fetch_all($ret);
+	$res=Database::fetch_all($ret);
 
 	if ( sizeof($res)==0) return null;
 	$count=0;

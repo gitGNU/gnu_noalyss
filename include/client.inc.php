@@ -18,87 +18,73 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+  /*!\brief include from client.inc.php and concerned only the customer card and
+   * the customer category
+   */
+require_once("class_iselect.php");
+require_once("class_ihidden.php");
 require_once("class_customer.php");
-$sub_action=(isset($_REQUEST['sb']))?$_REQUEST['sb']:"list";
+require_once("class_ibutton.php");
+require_once('class_iaction.php');
+require_once('class_fiche_def.php');
+require_once('class_iaction.php');
+require_once('class_fiche_def.php');
+require_once('class_ipopup.php');
+echo js_include('accounting_item.js');
+echo js_include('prototype.js');
+echo js_include('scriptaculous.js');
+echo js_include('effects.js');
+echo js_include('controls.js');
+echo js_include('dragdrop.js');
+echo JS_CARD;
+echo JS_AJAX_FICHE;
+echo HtmlInput::phpsessid();
+echo ICard::ipopup('ipop_newcard');
+$ip_cat=new IPopup('ipop_cat');
+$ip_cat->title=_('Ajout d\'une catégorie');
+$ip_cat->value='';
+echo $ip_cat->input();
+echo IPoste::ipopup('ipop_account');
+$search_card=new IPopup('ipop_card');
+$search_card->title=_('Recherche de fiche');
+$search_card->value='';
+echo $search_card->input();
+echo ICard::ipopup('ipopcard');
 
+$low_action=(isset($_REQUEST['sb']))?$_REQUEST['sb']:"list";
 /*! \file
  * \brief Called from the module "Gestion" to manage the customer
  */
 $User->can_request(GECUST);
 $href=basename($_SERVER['PHP_SELF']);
 
-// Menu
+// by default open liste
+if ( $low_action  == "" ) 
+      $low_action="list";
+
+
+//-----------------------------------------------------
 // Remove a card
-if ( isset ($_POST['delete']) ) 
+//-----------------------------------------------------
+if ( isset($_POST['delete'] ) )
 {
+  if ( $User->check_action(FICADD) == 0 ) {
+    alert('Vous  ne pouvez pas enlever de fiche');
+    return;
+  }
 
   $f_id=$_REQUEST['f_id'];
 
   $fiche=new Customer($cn,$f_id);
   $fiche->remove();
-  $sub_action="list";
-}
-//-----------------------------------------------------
-// Add card
-if ( $sub_action=="insert" )
-{
-
-  $retour=widget::button_href("Retour", urldecode($_REQUEST['url']));
-
-  $customer=new Customer($cn);
-  $customer->Save($_REQUEST['fd_id']);
-
-  echo '<div class="content">';
-  echo $retour;
-  echo "<table>";
-  echo $customer->Display(true);
-  echo "</table>";
-  echo $retour;
-  echo '</div>';
+  $low_action="list";
 
 }
+
 //-----------------------------------------------------
-// Save modification
-if ( isset ($_POST['mod'])) 
-{
-
-  // modification is asked
-  $f_id=$_REQUEST['f_id'];
-
-  $client=new Customer($cn,$f_id);
-  $client->Save();
-}
-// by default open liste
-if ( $sub_action  == "" ) 
-      $sub_action="list";
+//    list of customer
 //-----------------------------------------------------
-//Display a blank card 
-if ( $sub_action=="blank") 
-{
-
-  $retour=widget::button_href('Retour',$href.'?p_action=client&'.dossier::get());
-
-  echo '<div class="content">';
-
-  echo $retour;
-  $c=new Customer($cn);
-  echo '<form method="post" action="'.$href.'"';
-  echo dossier::hidden();
-  echo '<input type="hidden" name="p_action" value="client">';
-  echo '<input type="hidden" name="sb" value="insert">';
-  echo '<input type="hidden" name="fd_id" value="'.$_GET['fd_id'].'">';
-  echo '<input type="hidden" name="url" value="'.$_GET['url'].'">';
-  echo $c->blank($_GET['fd_id']);
-  echo '<input type="Submit" value="Sauve">';
-  echo '</form>';
-  echo $retour;
-  echo '</div>';
-}
-//-----------------------------------------------------
-// list
-
-
-if ( $sub_action == "list" )
+if ( $low_action == "list" )
 {
 
 ?>
@@ -108,29 +94,11 @@ if ( $sub_action == "list" )
 <?php
 	echo dossier::hidden();  
    $a=(isset($_GET['query']))?$_GET['query']:"";
-   printf ('<input type="text" name="query" value="%s">',
+   printf ('Recherche <input type="text" name="query" value="%s">',
 	   $a);
 ?>
 <input type="submit" name="submit_query" value="recherche">
 <input type="hidden" name="p_action" value="client">
-</form>
-</span>
-<span  style="position:float;float:left">
-<form method="get" action="<?php echo $href;?>">
-   <?php echo dossier::hidden(); ?>
-<input type="hidden" name="p_action" value="client">
-
-<?php  
- $w=new widget("select");
- $w->name="fd_id";
- $w->value= make_array($cn,"select fd_id,fd_label from fiche_def where ".
-	     " frd_id=".FICHE_TYPE_CLIENT);
- echo $w->IOValue();
-?>
-<input type="hidden" name="sb" value="blank">
-<input type="submit" name="submit_query" value="Ajout Client">
-<input type="hidden" name="url" <?php        $url=urlencode($_SERVER['REQUEST_URI']);echo 'value="'.$url.'"'; ?>
-
 </form>
 </span>
 <?php  
@@ -138,40 +106,64 @@ if ( $sub_action == "list" )
  $search=(isset($_GET['query']))?$_GET['query']:"";
 
  echo '<div class="content">';
- echo $client->Summary($search);
+ echo $client->Summary($search,'client');
+
+
+ echo '<br>';
+ echo '<br>';
+ echo '<br>';
+ /* Add button */
+ $f_add_button=new IButton('add_card');
+ $f_add_button->label=_('Créer une nouvelle fiche');
+ $f_add_button->set_attribute('ipopup','ipop_newcard');
+ $f_add_button->set_attribute('win_refresh','yes');
+ // $list=$cn->make_list("select fd_id from fiche_def where frd_id=$1",array(FICHE_TYPE_CLIENT));
+ $f_add_button->set_attribute('type_cat',FICHE_TYPE_CLIENT);
+ $f_add_button->javascript=" select_card_type(this);";
+ echo $f_add_button->input();
+
+ $f_cat_button=new IButton('add_cat');
+ $f_cat_button->set_attribute('ipopup','ipop_cat');
+ $f_cat_button->set_attribute('type_cat',FICHE_TYPE_CLIENT);
+ $f_cat_button->label=_('Ajout d\'une catégorie');
+ $f_cat_button->javascript='add_category(this)';
+ echo $f_cat_button->input();
  echo '</div>';
  echo '</div>';
 
+
 }
-//-----------------------------------------------------
-// Show Detail
-if ( $sub_action == 'detail' )
+/*----------------------------------------------------------------------
+ * Detail for a card, Suivi, Contact, Operation,... *
+ * cc stands for customer card 
+ *----------------------------------------------------------------------*/
+if ( $low_action == 'detail') {
+  /* Menu */
+  require_once('client_card.inc.php');
+  exit();
+}
+
+if ( $low_action=="insert" )
 {
-  $f_id=$_REQUEST['f_id'];
+  /* security : check if user can add card */
+  if ( $User->check_action(FICADD) == 0 ) {
+    alert('Vous  ne pouvez pas ajouter de fiche');
+    return;
+  }
+
+  $customer=new Customer($cn);
+  $customer->Save($_REQUEST['fd_id']);
   echo '<div class="content">';
-  $client=new Customer($cn,$f_id);
-  $retour=widget::button_href("Retour", urldecode($_REQUEST['url']));
+  echo "<table>";
+  echo $customer->Display(true);
+  echo "</table>";
+  $retour=new IAction();
+  $retour->label="Retour";
+  $retour->value="?p_action=client&".dossier::get();
+  echo $retour->input();
+  echo '</div>';
 
-  echo $retour;
-  echo '<form action="'.$_REQUEST['url'].'" method="post">'; 
-  echo dossier::hidden();
-  echo $client->Display(false);
-  $w=new widget("hidden");
-  $w->name="p_action";
-  $w->value="client";
-  echo $w->IOValue();
-  $w->name="f_id";
-  $w->value=$f_id;
-  echo $w->IOValue();
-
-  
-  echo widget::submit('mod','Sauver les modifications');
-  echo widget::reset("Annuler");
-  echo widget::submit('delete','Effacer cette fiche','onclick="return confirm(\'Confirmer effacement ?\');"');
-  
-  echo '</form>';
-  echo $retour;
-  echo '<div>';
 }
+
 html_page_stop();
 ?>

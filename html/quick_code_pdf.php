@@ -25,7 +25,7 @@
  */
 include_once("class_acc_account_ledger.php");
 include_once("ac_common.php");
-include_once("postgres.php");
+require_once('class_database.php');
 include_once("class.ezpdf.php");
 include_once("impress_inc.php");
 require_once("class_fiche.php");
@@ -33,7 +33,7 @@ require_once ('header_print.php');
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 foreach ($_POST as $key=>$element) {
   ${"$key"}=$element;
 }
@@ -47,17 +47,17 @@ echo_debug("quick_code_pdf",__LINE__,$f_id);
 $Fiche=new fiche($cn,$f_id);
 
 
-list($array,$tot_deb,$tot_cred)=$Fiche->get_row($from_periode,$to_periode);
+list($array,$tot_deb,$tot_cred)=$Fiche->get_row_date($from_periode,$to_periode);
 // don't print empty account
 if ( count($array) == 0 ) {
   continue;
 }
-$Libelle=sprintf("(%s) %s ",$Fiche->id,$Fiche->getName());
+$Libelle=utf8_decode(sprintf("(%s) %s ",$Fiche->id,$Fiche->getName()));
 header_pdf($cn,$pdf);
 //  $pdf->ezText($Libelle,30);
 $pdf->ezTable($array,
 	      array ('jr_internal'=>'Operation',
-		     'j_date' => 'Date',
+		     'j_date_fmt' => 'Date',
 		     'jrn_name'=>'Journal',
 		     'description'=>'Description',
 		     'deb_montant'=> 'Montant',

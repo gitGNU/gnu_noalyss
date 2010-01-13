@@ -20,13 +20,12 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once("constant.php");
-require_once("postgres.php");
-require_once("class_widget.php");
+require_once('class_database.php');
 require_once  ("class_user.php");
 require_once ("debug.php");
 require_once ('ac_common.php');
 
-$rep=DbConnect();
+$rep=new Database();
 $User=new User($rep);
 $User->Check();
 
@@ -61,7 +60,7 @@ if ( isset ($_REQUEST['sa']) ) {
     echo_debug ("commande backup ".$cmd);
     if ( $_REQUEST['t'] == 'd' ) {
       $database=domaine."dossier".$_REQUEST['d'];
-      $args= " -Fc -Z9 -p ".phpcompta_psql_port." ".$database;
+      $args= " -Fc -Z9 --no-owner -p ".phpcompta_psql_port." ".$database;
       header('Content-type: application/octet');
       header('Content-Disposition:attachment;filename="'.$database.'.bin"',FALSE);
       
@@ -71,7 +70,7 @@ if ( isset ($_REQUEST['sa']) ) {
 
   if ( $_REQUEST['t'] == 'm' ) {
       $database=domaine."mod".$_REQUEST['d'];
-      $args= " -Fc -Z9 -p ".phpcompta_psql_port." ".$database;
+      $args= " -Fc -Z9 --no-owner -p ".phpcompta_psql_port." ".$database;
       header('Content-type: bin/x-application');
       header('Content-Disposition: attachment;filename="'.$database.'.bin"',FALSE);
       $a=passthru ($cmd.$args);

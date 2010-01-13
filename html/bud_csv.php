@@ -31,7 +31,7 @@ require_once ('class_dossier.php');
 
 if (! isset($_GET['do'])) return "";
 $do=$_GET['do'];
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
 /* First synthese */
 if ( $do == 'po') {
   require_once ('class_bud_synthese_anc.php');

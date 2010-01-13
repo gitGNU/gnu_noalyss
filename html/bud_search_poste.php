@@ -24,11 +24,11 @@
  */
 include_once ("ac_common.php");
 require_once('class_acc_ledger.php');
-
-include_once ("postgres.php");
+require_once('class_html_input.php');
+require_once('class_database.php');
 include_once("jrn.php");
 /* Admin. Dossier */
-$rep=DbConnect();
+$rep=new Database();
 
 
 html_page_start($_SESSION['g_theme'],'onLoad="window.focus();"');
@@ -48,7 +48,7 @@ $c_comment="";
 $c_class="";
 
 $condition="";
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 extract ($_GET);
 
 if ( isset($_GET['search']) ) {
@@ -84,14 +84,14 @@ echo '<TD> contient </TD>';
 if ( ! isset ($p_comment) ) $p_comment="";
 echo '<TD> <INPUT TYPE="text" name="p_comment" VALUE="'.$p_comment.'"></TD></TR>';
 echo '</TABLE>';
-echo '<INPUT TYPE="submit" name="search" value="cherche">';
+echo HtmlInput::submit('search','Cherche');
 echo '</FORM>';
 
 // if request search
 if ( isset($_GET['search'])){
-  $Res=ExecSql($cn,"select pcm_val,pcm_lib from tmp_pcmn $condition order by pcm_val::text");
+  $Res=$cn->exec_sql("select pcm_val,pcm_lib from tmp_pcmn $condition order by pcm_val::text");
   
-  $MaxLine=pg_NumRows($Res);
+  $MaxLine=Database::num_row($Res);
   if ( $MaxLine==0) { 
     html_page_stop();
     return;
@@ -100,7 +100,7 @@ if ( isset($_GET['search'])){
   $l_id="";
   
   for ( $i=0; $i < $MaxLine; $i++) {
-    $l_line=pg_fetch_array($Res,$i);
+    $l_line=Database::fetch_array($Res,$i);
     echo "<TR>";
     // if p_ctl is set we need to be able to return the value
     if (isset($p_ctl) && $p_ctl != 'not' ){

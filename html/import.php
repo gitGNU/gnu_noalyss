@@ -26,14 +26,12 @@
 include_once("ac_common.php");
 include_once("user_menu.php");
 include_once ("constant.php");
-include_once ("postgres.php");
-include_once ("check_priv.php");
-include_once ("class_widget.php");
+require_once('class_database.php');
 
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 include ('class_user.php');
 $User=new User($cn);
@@ -90,9 +88,23 @@ if ( isset ($_GET["action"]) ) {
   if ($action == "transfer" ) {
 
     echo '<DIV class="u_redcontent">';
-    echo '<span class="notice"> Seulement les opérations de la période par défaut (voir préférence) seront transfèrées</span><hr>';
+    /* show the possible period */
+    $default_period=$User->get_periode();
+    $ip=new IPeriod('period');
+    $ip->filter_year=true;
+    $ip->user=$User;
+    $ip->value=(isset($_GET['period']))?$_GET['period']:$default_period;
+    $ip->cn=$cn;
+    $ip->type=OPEN;
+    $ip->javascript="onchange=submit(this)";
+    echo '<form method="get" action="import.php" >';
+    echo dossier::hidden().HtmlInput::phpsessid();
+    echo HtmlInput::hidden('action','transfer');
+    echo _('Choississez la période à transfèrer');
+    echo $ip->input();
+    echo '</form>';
     //   TransferCSV($cn, 
-    ConfirmTransfert($cn,$User->get_periode());
+    ConfirmTransfert($cn,$ip->value);
     echo "</DIV>";
   }
 } 

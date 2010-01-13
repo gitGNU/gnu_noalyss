@@ -24,7 +24,9 @@
 /*!
  * \brief Class for the document template 
  */
-
+require_once('class_icheckbox.php');
+require_once('class_ihidden.php');
+require_once('class_ifile.php');
 class Document_modele {
   var $cn;         	/*!< $cn  database connection */
   var $md_id;	        /*!< $md_id pk */
@@ -49,9 +51,9 @@ class Document_modele {
   function myList() { 
 	$s=dossier::get();
     $sql="select md_id,md_name,dt_value from document_modele join document_type on(dt_id=md_type)";
-    $Res=ExecSql($this->cn,$sql);
-    $all=pg_fetch_all($Res);
-    if ( pg_NumRows($Res) == 0 ) return "";
+    $Res=$this->cn->exec_sql($sql);
+    $all=Database::fetch_all($Res);
+    if ( Database::num_row($Res) == 0 ) return "";
     $r='<p><form method="post">';
 	$r.=dossier::hidden();
     $r.="<table>";
@@ -69,20 +71,20 @@ class Document_modele {
       $r.='<A HREF="show_document_modele.php?md_id='.$row['md_id'].'&'.$s.'">Document</a>';
       $r.="</td>";
       $r.="<TD>";
-      $c=new widget("checkbox");
+      $c=new ICheckBox();
       $c->name="dm_remove_".$row['md_id'];
-      $r.=$c->IOValue();
+      $r.=$c->input();
       $r.="</td>";
       $r.="</tr>";
     } 
     $r.="</table>";
     
     // need hidden parameter for subaction
-    $a=new widget("hidden");
+    $a=new IHidden();
     $a->name="sa";
     $a->value="rm_template";
-    $r.=$a->IOValue();
-    $r.=widget::submit("rm_template","Effacer la sélection");
+    $r.=$a->input();
+    $r.=HtmlInput::submit("rm_template","Effacer la sélection");
     $r.="</form></p>";
     return $r;
   }
@@ -104,8 +106,8 @@ class Document_modele {
       try 
 	{
 	  // Start transaction
-	  StartSql($this->cn);
-	  // Save data into the table invoice
+	  $this->cn->start();
+	  // Save data into the table document_modele
 	  // if $this->md_id == -1 it means it is a new document model
 	  // so first we have to insert it
 	  // the name and the type must be set before calling save
@@ -114,13 +116,13 @@ class Document_modele {
 	      
 	      // insert into the table document_modele
 	      $this->name=FormatString($this->md_name);
-	      $this->md_id=NextSequence($this->cn,'document_modele_md_id_seq');
+	      $this->md_id=$this->cn->get_next_seq('document_modele_md_id_seq');
 	      $sql=sprintf("insert into document_modele(md_id,md_name,md_type) 
                               values (%d,'%s',%d)",
 			   $this->md_id,$this->name,$this->md_type);
-	      $Ret=ExecSql($this->cn,$sql);
+	      $Ret=$this->cn->exec_sql($sql);
 	      // create the sequence for this modele of document
-	      $this->md_sequence="document_".NextSequence($this->cn,"document_seq");
+	      $this->md_sequence="document_".$this->cn->get_next_seq("document_seq");
 	      // if start is not equal to 0 and he's a number than the user
 	      // request a number change
 	      echo_debug('class_document_modele',__LINE__, "this->start ".$this->start." a number ".isNumber($this->start));
@@ -128,7 +130,7 @@ class Document_modele {
 	      if ( $this->start != 0 && isNumber($this->start) == 1 )
 		{
 		  $sql="alter sequence seq_doc_type_".$this->md_type." restart ".$this->start;
-		  ExecSql($this->cn,$sql);
+		  $this->cn->exec_sql($sql);
 		}
 	      
 	    }
@@ -141,31 +143,31 @@ class Document_modele {
 				     $new_name)) 
 		{
 		  // echo "Image saved";
-		  $oid= pg_lo_import($this->cn,$new_name);
+		  $oid= $this->cn->lo_import($new_name);
 		  if ( $oid == false ) 
 		    {
 		      echo_error('class_document_modele.php',__LINE__,"cannot upload document");
-		      Rollback($cn);
+		      $this->cn->rollback();
 		      return;
 		    }
 		  echo_debug('class_document_modele.php',__LINE__,"Loading document");
 		  // Remove old document
-		  $ret=ExecSql($this->cn,"select md_lob from document_modele where md_id=".$this->md_id);
-		  if (pg_num_rows($ret) != 0) 
+		  $ret=$this->cn->exec_sql("select md_lob from document_modele where md_id=".$this->md_id);
+		  if (Database::num_row($ret) != 0) 
 		    {
-		      $r=pg_fetch_array($ret,0);
+		      $r=Database::fetch_array($ret,0);
 		      $old_oid=$r['md_lob'];
 		      if (strlen($old_oid) != 0) 
-			pg_lo_unlink($this->cn,$old_oid);
+			$this->cn->lo_unlink($old_oid);
 		    }
 		  // Load new document
-		  ExecSql($this->cn,"update document_modele set md_lob=".$oid.", md_mimetype='".$_FILES['doc']['type']."' ,md_filename='".$_FILES['doc']['name']."' where md_id=".$this->md_id);
-		  Commit($this->cn);
+		  $this->cn->exec_sql("update document_modele set md_lob=".$oid.", md_mimetype='".$_FILES['doc']['type']."' ,md_filename='".$_FILES['doc']['name']."' where md_id=".$this->md_id);
+		  $this->cn->commit();
 		}
 	      else 
 		{
 		  echo "<H1>Error</H1>";
-		  Rollback($this->cn);
+		  $this->cn->rollback();
 		  exit;
 		}
 	    }
@@ -183,68 +185,23 @@ class Document_modele {
    */
   function Delete() 
     {
-      StartSql($this->cn);
+      $this->cn->start();
       // first we unlink the document
       $sql="select md_lob from document_modele where md_id=".$this->md_id;
-      $res=ExecSql($this->cn,$sql);
-      $r=pg_fetch_array($res,0);
+      $res=$this->cn->exec_sql($sql);
+      $r=Database::fetch_array($res,0);
       // if a lob is found
       if ( strlen ($r['md_lob']) != 0 )
 	{
 	  // we remove it first
-	  pg_lo_unlink($this->cn,$r['md_lob']);
+	  $this->cn->lo_unlink($r['md_lob']);
 	}
       // now we can delete the row
       $sql="delete from document_modele where md_id =".$this->md_id;
-      $sql=ExecSql($this->cn,$sql);
-      Commit($this->cn);
+      $sql=$this->cn->exec_sql($sql);
+      $this->cn->commit();
     }
   
-  /*!
-   * \brief Parse and remplace the tag in the invoice 
-   *         By the value found in quant_sold
-   * \param p_id is the id of the invoice
-   * \param p_internal reference (quant_sold qs_internal)
-   */
-  function Get($p_id,$p_internal) 
-    {
-      // retrieve info from the table invoice
-      
-      // retrieve the template and generate document
-      StartSql($this->cn);
-      $ret=ExecSql($cn,"select iv_name,iv_file from invoice where iv_id".$this->iv_id);
-      if ( pg_num_rows ($ret) == 0 )
-	return;
-      $row=pg_fetch_array($ret,0);
-      //the template is saved into file $tmp
-      $tmp=tempnam($_ENV['TMP'],'invoice_');
-      pg_lo_export($cn,$row['iv_file'],$tmp);
-      // Parse the file 
-      
-      
-      
-      
-      // send it to stdout
-      ini_set('zlib.output_compression','Off');
-      header("Pragma: public");
-      header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-      header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-      header("Cache-Control: must-revalidate");
-      header('Content-type: rtf/x-application');
-      header('Content-Disposition: attachment;filename="invoice'.$p_internal.'.rtf"',FALSE);
-      header("Accept-Ranges: bytes");
-      $file=fopen($tmp,'r');
-      while ( !feof ($file) )
-	{
-	  echo fread($file,8192);
-	}
-      fclose($file);
-      
-      unlink ($tmp);
-      
-      Commit($cn);
-      
-    }
   /*!
    * \brief show the form for loading a template
    * \param p_action for the field action = destination url 
@@ -260,42 +217,51 @@ class Document_modele {
       $r.='<form enctype="multipart/form-data"  action="'.$p_action.'" method="post">';
       $r.=dossier::hidden();
       // we need to add the sub action as hidden
-      $h=new widget("hidden");
+      $h=new IHidden();
       $h->name="sa";
       $h->value="add_document";
 
-      $r.=$h->IOValue();
+      $r.=$h->input();
 
       $r.='<table>';
-      $t=new widget("text");
+      $t=new IText();
       $t->name="md_name";
-      $r.="<tr><td> Nom </td><td>".$t->IOValue()."</td>";
+      $r.="<tr><td> Nom </td><td>".$t->input()."</td>";
 
       $r.="</tr>";
       $r.="<tr><td>Type de document </td>";
-      $w=new widget("select");
+      $w=new ISelect();
       $w->name="md_type";
 
-      $w->value=make_array($this->cn,'select dt_id,dt_value from document_type');
-      $r.="<td>".$w->IOValue()."</td></tr>";
+      $w->value=$this->cn->make_array('select dt_id,dt_value from document_type');
+      $r.="<td>".$w->input()."</td></tr>";
 
-      $f=new widget("file");
+      $f=new IFile();
       $f->name="doc";
-      $r.="<tr><td>fichier</td><td> ".$f->IOValue()."</td></tr>";
+      $r.="<tr><td>fichier</td><td> ".$f->input()."</td></tr>";
 
-      $start=new widget("text");
+      $start=new IText();
       $start->name="start_seq";
       $start->size=9;
       $start->value="0";
 
-      $r.="<tr><td> Numerotation commence a</td><td> ".$start->IOValue()."</td>";
+      $r.="<tr><td> Numerotation commence a</td><td> ".$start->input()."</td>";
       $r.='<td class="notice">Si vous laissez &agrave; 0, la num&eacute;rotation ne changera pas, la prochaine facture sera n+1, n étant le n° que vous avez donn&eacute;</td>';
       $r.="</tr>";
       $r.='</table>';
-      $r.=widget::submit('add_document','Ajout');
+      $r.=HtmlInput::submit('add_document','Ajout');
       $r.="</form></p>";
       return $r;
     }
-
+  /*!\brief load the value of a document_modele,the ag_id variable must be set
+   */
+  function load() {
+    $array=$this->cn->get_array("SELECT md_id, md_name, md_lob, md_type, md_filename, md_mimetype".
+				" FROM document_modele where md_id=$1",array($this->md_id));
+    if ( count($array) == 0 ) return null;
+    foreach ( array('md_name', 'md_lob','md_type', 'md_filename', 'md_mimetype') as $idx) {
+      $this->$idx=$array[0][$idx];
+    }
+  }
 }
 ?>

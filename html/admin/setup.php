@@ -53,10 +53,10 @@ h2.error {
 /* $Revision*/
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /*!\file
- * \brief This file permit to upgrade a version of phpcompta, it should be 
+ * \brief This file permit to upgrade a version of phpcompta, it should be
  *        used and immediately delete after an upgrade.
  *        This file is included in each release  for a new upgrade
- * 
+ *
  */
 
 $inc_path=get_include_path();
@@ -76,26 +76,27 @@ if (isset($_POST['save_config'])) {
   $url=config_file_create($_POST,1,$os);
  }
 
-
-/* if the config file is not found we propose to create one */
-if ( is_writable ('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'constant.php') == false ) {
-echo '<h2 class="error"> On ne peut pas écrire dans le répertoire de phpcompta, changez-en les droits </h2>';
-exit();
-}
 if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php')) {
+  /* if the config file is not found we propose to create one */
+  if ( is_writable ('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'constant.php') == false ) {
+    echo '<h2 class="error"> On ne peut pas &eacute;crire dans le r&eacute;pertoire de phpcompta, changez-en les droits </h2>';
+    exit();
+  }
+
   echo '<form method="post">';
-echo '<h1 class="info">Entrez les informations n&eacute;cessaires &agrave; phpcompta</h1>';
+  echo '<h1 class="info">Entrez les informations n&eacute;cessaires &agrave; phpcompta</h1>';
   echo config_file_form();
-  echo widget::submit('save_config','Sauver la configuration');
+  echo HtmlInput::submit('save_config','Sauver la configuration');
   echo '</form>';
   exit();
   }
 include_once('constant.php');
-include_once('postgres.php');
+require_once('class_database.php');
+
 include_once('debug.php');
 include_once('ac_common.php');
 /* If htaccess file doesn't exists we create them here
- * if os == 1 then windows, 0 means Unix 
+ * if os == 1 then windows, 0 means Unix
  */
 $file='..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'.htaccess';
 if ( ! file_exists ( $file) ) {
@@ -165,13 +166,13 @@ foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
 
 }
 $module=get_loaded_extensions();
-if ( in_array('pgsql',$module) == false ) 
+if ( in_array('pgsql',$module) == false )
 {
   print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; le package  pour postgresql soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
   $flag_php++;
 }
 
-if ( in_array('bcmath',$module) == false ) 
+if ( in_array('bcmath',$module) == false )
 {
   print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; le package  pour bcmath soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
   $flag_php++;
@@ -205,58 +206,52 @@ if ( $flag_php==0 ) {
 	echo '<p class="error"> php mal configur&eacute;</p>';
 	exit -1;
 }
-$cn=DbConnect(-2,'template1');
+/* check user */
+$cn=new Database(-1,'template');
 
-if ($cn == false ) {
-  print "<p> Vous devez absolument taper dans une console la commande 'createuser -A -d -P  phpcompta et vous donnez dany comme mot de passe (voir la documentation)' </p>
-<p>Ces commandes cr&eacute;eront l'utilisateur phpcompta avec le droit de cr&eacute;er des bases de donn&eacute;.</p>";
-  exit();
- }
 ?>
 <h2>Database version </h2>
 <?php
  // Verify Psql version
  //--
 $sql="select setting from pg_settings where name='server_version'";
-$Res=ExecSql($cn,$sql);
-$row=pg_fetch_array($Res,0);
-$version=$row[0];
+$version=$cn->get_value($sql);
 
 var_dump($version);
 
 if ( $version[0]  != '8' ) {
 ?>
-  <p> Vous devez absolument utiliser au minimum une version 8 de PostGresql, si votre distribution n'en
+  <p> Vous devez absolument utiliser au minimum une version 8.2 de PostGresql, si votre distribution n'en
 offre pas, installez en une en la compilant. </p><p>Lisez attentivement la notice sur postgresql.org pour migrer
-vos bases de donn&eacute;es en 8
+vos bases de donn&eacute;es
 </p>
 <?php exit(); //'
 }
 
 ?>
-<h2>Database Setting</h2> 
+<h2>Database Setting</h2>
 <?php
-// Language plsql is installed 
+// Language plsql is installed
 //--
 $sql="select lanname from pg_language where lanname='plpgsql'";
-$Res=CountSql($cn,$sql);
+$Res=$cn->count_sql($sql);
 if ( $Res==0) { ?>
 <p> Vous devez installer le langage plpgsql pour permettre aux fonctions SQL de fonctionner.</p>
-<p>Pour cela, sur la ligne de commande, faites createlang plpgsql template1
+<p>Pour cela, sur la ligne de commande en tant qu\'utilisateur postgres, faites createlang plpgsql template1
 </p>
 
 <?php exit(); }
 
 // Memory setting
 //--
-$sql="select name,setting 
-      from pg_settings 
-      where 
+$sql="select name,setting
+      from pg_settings
+      where
       name in ('effective_cache_size','shared_buffers')";
-$Res=ExecSql($cn,$sql);
+$cn->exec_sql($sql);
 $flag=0;
-for ($e=0;$e<pg_NumRows($Res);$e++) {
-  $a=pg_fetch_array($Res,$e);
+for ($e=0;$e<$cn->size();$e++) {
+  $a=$cn->fetch($e);
   switch ($a['name']){
   case 'effective_cache_size':
     if ( $a['setting'] < 1000 ){
@@ -289,114 +284,103 @@ if ( ! isset($_POST['go']) ) {
 if ( ! isset($_POST['go']) )
 	exit();
 // Check if account_repository exists
-$account=CountSql($cn,
-		  "select * from pg_database where datname='".domaine."account_repository'");
+$account=$cn->count_sql("select * from pg_database where datname=lower('".domaine."account_repository')");
 
 // Create the account_repository
 if ($account == 0 ) {
 
   echo "Creation of ".domaine."account_repository";
-  if ( DEBUG=='false') ob_start();  
-  ExecSql($cn,"create database ".domaine."account_repository encoding='utf8'");
-  $cn=DbConnect();
-  StartSql($cn);
-  execute_script($cn,"sql/account_repository/schema.sql");
-  execute_script($cn,"sql/account_repository/data.sql");
-  execute_script($cn,"sql/account_repository/constraint.sql");
-  Commit($cn);
+  if ( DEBUG=='false') ob_start();
+  $cn->exec_sql("create database ".domaine."account_repository encoding='utf8'");
+  $cn=new Database();
+  $cn->start();
+  $cn->execute_script("sql/account_repository/schema.sql");
+  $cn->execute_script("sql/account_repository/data.sql");
+  $cn->execute_script("sql/account_repository/constraint.sql");
+  $cn->commit($cn);
 
  if ( DEBUG=='false') ob_end_clean();
 
   echo "Creation of Modele1";
-  if ( DEBUG=='false') ob_start();  
-  ExecSql($cn,"create database ".domaine."mod1 encoding='utf8'");
-  $cn=DbConnect(1,'mod');
-  StartSql($cn);
-  execute_script($cn,'sql/mod1/schema.sql');
-  execute_script($cn,'sql/mod1/data.sql');
-  execute_script($cn,'sql/mod1/constraint.sql');
-  Commit($cn);
+  if ( DEBUG=='false') ob_start();
+  $cn->exec_sql("create database ".domaine."mod1 encoding='utf8'");
+
+  $cn=new Database(1,'mod');
+  $cn->start();
+  $cn->execute_script('sql/mod1/schema.sql');
+  $cn->execute_script('sql/mod1/data.sql');
+  $cn->execute_script('sql/mod1/constraint.sql');
+  $cn->commit();
+
   if ( DEBUG=='false') ob_end_clean();
 
   echo "Creation of Modele2";
-  ExecSql($cn,"create database ".domaine."mod2 encoding='utf8'");
-  $cn=DbConnect(2,'mod');
-  StartSql($cn);
+  $cn->exec_sql("create database ".domaine."mod2 encoding='utf8'");
+  $cn=new Database(2,'mod');
+  $cn->start();
   if ( DEBUG=='false') { ob_start();  }
-  execute_script($cn,'sql/mod1/schema.sql');
-  execute_script($cn,'sql/mod2/data.sql');
-  execute_script($cn,'sql/mod1/constraint.sql');
-  Commit($cn);
+  $cn->execute_script('sql/mod1/schema.sql');
+  $cn->execute_script('sql/mod2/data.sql');
+  $cn->execute_script('sql/mod1/constraint.sql');
+  $cn->commit();
 
  if ( DEBUG=='false') ob_end_clean();
 
  }// end if
 // Add a french accountancy model
 //--
-$cn=DbConnect();
+$cn=new Database();
 
-// Test the connection
-//--
-$a=DbConnect();
-if ( $a==false) {
-   exit ("<h2 class=\"error\">".__LINE__." test has failed !!!</h2>");
-
-}
-if ( ($Res=ExecSql($a,"select  * from ac_users") ) == false ) {
-	exit ("<h2 class=\"error\">".__LINE__." test has failed !!!</h2>");
-} else 
-	print "Connect to database success <br>";
 echo "<h2 class=\"info\"> F&eacute;licitation : Installation r&eacute;ussie</h2>";
 
 echo '<hr>';
 echo "<h1>Mise a jour du systeme</h1>";
 echo "<h2 > Mise &agrave; jour dossier</h2>";
 
-$cn=DbConnect();
-$Resdossier=ExecSql($cn,"select dos_id, dos_name from ac_dossier");
-$MaxDossier=pg_NumRows($Resdossier);
+$Resdossier=$cn->exec_sql("select dos_id, dos_name from ac_dossier");
+$MaxDossier=$cn->size($Resdossier);
 
 //----------------------------------------------------------------------
 // Upgrade the folders
 //----------------------------------------------------------------------
 
 for ($e=0;$e < $MaxDossier;$e++) {
-  $db_row=pg_fetch_array($Resdossier,$e);
+  $db_row=$cn->fetch($e);
   echo "<h3>Patching ".$db_row['dos_name'].'</h3>';
-  $db=DbConnect($db_row['dos_id'],'dossier');
-  apply_patch($db,$db_row['dos_name']);
+  $db=new Database($db_row['dos_id'],'dos');
+  $db->apply_patch($db_row['dos_name']);
  }
 
 //----------------------------------------------------------------------
 // Upgrade the template
 //----------------------------------------------------------------------
-$Resdossier=ExecSql($cn,"select mod_id, mod_name from modeledef");
-$MaxDossier=pg_NumRows($Resdossier);
+$Resdossier=$cn->exec_sql("select mod_id, mod_name from modeledef");
+$MaxDossier=$cn->size();
 echo '<hr>';
 echo "<h2>Mise &agrave; jour mod&egrave;le</h2>";
 
 for ($e=0;$e < $MaxDossier;$e++) {
-  $db_row=pg_fetch_array($Resdossier,$e);
+  $db_row=$cn->fetch($e);
   echo "<h3>Patching ".$db_row['mod_name']."</h3>";
-  $db=DbConnect($db_row['mod_id'],'mod');
-  apply_patch($db,$db_row['mod_name']);
+  $db=new Database($db_row['mod_id'],'mod');
+  $db->apply_patch($db_row['mod_name']);
  }
 echo '</ul>';
 //----------------------------------------------------------------------
 // Upgrade the account_repository
 //----------------------------------------------------------------------
 echo '<hr>';
- echo "<h2>Mise &agrave; jour Repository</h2>"; 
- $cn=DbConnect(); 
- if ( DEBUG == 'false') ob_start(); 
- $MaxVersion=9; 
- for ($i=4;$i<= $MaxVersion;$i++) 
-   { 
- 	if ( get_version($cn) <= $i ) { 
- 	  execute_script($cn,'sql/patch/ac-upgrade'.$i.'.sql'); 
- 	} 
-   } 
+ echo "<h2>Mise &agrave; jour Repository</h2>";
+ $cn=new Database();
+ if ( DEBUG == 'false') ob_start();
+ $MaxVersion=10;
+ for ($i=4;$i<= $MaxVersion;$i++)
+   {
+ 	if ( $cn->get_version() <= $i ) {
+ 	  $cn->execute_script('sql/patch/ac-upgrade'.$i.'.sql');
+ 	}
+   }
 
- if (DEBUG=='false') ob_end_clean(); 
- echo "<h2 class=\"info\">Voil&agrave; tout est install&eacute; ;-) </H2>"; 
+ if (DEBUG=='false') ob_end_clean();
+ echo "<h2 class=\"info\">Voil&agrave; tout est install&eacute; ;-) </H2>";
 ?>

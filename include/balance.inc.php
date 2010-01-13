@@ -1,4 +1,3 @@
-
 <?php  
 /*
  *   This file is part of PHPCOMPTA.
@@ -27,36 +26,52 @@
  */
 
 include_once ("ac_common.php");
-include_once("preference.php");
-include_once ("class_widget.php");
 include_once("class_acc_balance.php");
+require_once("class_iselect.php");
+require_once("class_ispan.php");
+require_once("class_icheckbox.php");
+require_once("class_ihidden.php");
 require_once('class_acc_ledger.php');
+require_once('class_periode.php');
 
 $User->can_request(IMPBAL);
-
+echo JS_LEDGER;
+echo JS_PROTOTYPE;
+require_once('class_ipopup.php');
+echo js_include('accounting_item.js');
+echo js_include('prototype.js');
+echo js_include('scriptaculous.js');
+echo js_include('effects.js');
+echo js_include('controls.js');
+echo js_include('dragdrop.js');
+echo js_include('card.js');
+echo js_include('acc_ledger.js');
+echo IPoste::ipopup('ipop_account');
 
 echo '<div class="content">';
 
 // Show the form for period
 echo '<FORM action="?p_action=impress&type=bal" method="post">';
 echo dossier::hidden();
-$w=new widget("select");
-$w->table=1;
 // filter on the current year
-$filter_year=" where p_exercice='".$User->get_exercice()."'";
+$from=(isset($_POST["from_periode"]))?$_POST['from_periode']:"";
+$input_from=new IPeriod("from_periode",$from);
+$input_from->show_end_date=false;
+$input_from->type=ALL;
+$input_from->cn=$cn;
+$input_from->filter_year;
+$input_from->user=$User;
+echo 'Depuis :'.$input_from->input();
+// filter on the current year
+$to=(isset($_POST["to_periode"]))?$_POST['to_periode']:"";
+$input_to=new IPeriod("to_periode",$to);
+$input_to->show_start_date=false;
+$input_to->filter_year;
+$input_to->type=ALL;
+$input_to->cn=$cn;
+$input_to->user=$User;
+echo ' jusque :'.$input_to->input();
 
-$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
-$w->label="Depuis";
-if ( isset ($_POST['from_periode']) )
-  $w->selected=$_POST['from_periode'];
-
-echo $w->IOValue('from_periode',$periode_start);
-$w->label=" jusqu'à ";
-$periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
-if ( isset ($_POST['to_periode']) )
-  $w->selected=$_POST['to_periode'];
-
-echo $w->IOValue('to_periode',$periode_end);
 //-------------------------------------------------
 $l=new Acc_Ledger($cn,0);
 $journal=$l->select_ledger('ALL',3);
@@ -73,33 +88,37 @@ $journal->name="p_jrn";
 if ( isset($_POST['p_jrn'])) $journal->selected=$_POST['p_jrn'];
 	else
 	$journal->selected=-1;
-echo JS_SEARCH_POSTE;
-echo "Journal = ".$journal->IOValue();
-$from_poste=new widget("js_search_poste");
+echo HtmlInput::phpsessid();
+echo "Journal = ".$journal->input();
+$from_poste=new IPoste();
 $from_poste->name="from_poste";
-$from_poste->extra2=null;
-$from_poste->value=(isset($_POST['from_poste']))?$_POST['from_poste']:"";
-$from_span=new widget("span","from_poste_label","from_poste_label");
+$from_poste->set_attribute('ipopup','ipop_account');
+$from_poste->set_attribute('label','from_poste_label');
+$from_poste->set_attribute('account','from_poste');
 
-$to_poste=new widget("js_search_poste");
+$from_poste->value=(isset($_POST['from_poste']))?$_POST['from_poste']:"";
+$from_span=new ISpan("from_poste_label","");
+
+$to_poste=new IPoste();
 $to_poste->name="to_poste";
-$to_poste->extra2=null;
+$to_poste->set_attribute('ipopup','ipop_account');
+$to_poste->set_attribute('label','to_poste_label');
+$to_poste->set_attribute('account','to_poste');
+
 $to_poste->value=(isset($_POST['to_poste']))?$_POST['to_poste']:"";
-$to_span=new widget("span","to_poste_label","to_poste_label");
-$c=new widget("checkbox");
+$to_span=new ISpan("to_poste_label","");
+$c=new ICheckBox();
 $c->label="centralisé";
-echo $c->IOValue('central');
+echo $c->input('central');
 
 echo "<div>";
-echo "Plage de postes :".$from_poste->IOValue();
-echo $from_span->IOValue();
-echo " jusque :".$to_poste->IOValue();
-echo $to_span->IOValue();
+echo "Plage de postes :".$from_poste->input();
+echo $from_span->input();
+echo " jusque :".$to_poste->input();
+echo $to_span->input();
 echo "</div>";
-//$a=FormPeriodeMult($cn);
-//echo $a;
 
-echo '<input type="submit" name="view" value="Visualisation">';
+echo HtmlInput::submit("view","Visualisation");
 echo '</form>';
 echo '<hr>';
 //-----------------------------------------------------
@@ -107,30 +126,30 @@ echo '<hr>';
 //-----------------------------------------------------
 // Show the export button
 if ( isset ($_POST['view']  ) ) {
-  $submit=new widget();
-  $hid=new widget("hidden");
+
+  $hid=new IHidden();
 
   echo "<table>";
   echo '<TR>';
   echo '<TD><form method="POST" ACTION="print_balance.php">'.
 	dossier::hidden().
-    widget::submit('bt_pdf',"Export PDF").
-    $hid->IOValue("p_action","impress").
-    $hid->IOValue("from_periode",$_POST['from_periode']).
-    $hid->IOValue("to_periode",$_POST['to_periode']).
-    $hid->IOValue("p_jrn",$_POST['p_jrn']).
-    $hid->IOValue("from_poste",$_POST['from_poste']).
-    $hid->IOValue("to_poste",$_POST['to_poste']);
+    HtmlInput::submit('bt_pdf',"Export PDF").
+    $hid->input("p_action","impress").
+    $hid->input("from_periode",$_POST['from_periode']).
+    $hid->input("to_periode",$_POST['to_periode']).
+    $hid->input("p_jrn",$_POST['p_jrn']).
+    $hid->input("from_poste",$_POST['from_poste']).
+    $hid->input("to_poste",$_POST['to_poste']);
   echo "</form></TD>";
   echo '<TD><form method="POST" ACTION="bal_csv.php">'.
-    widget::submit('bt_csv',"Export CSV").
+    HtmlInput::submit('bt_csv',"Export CSV").
 	dossier::hidden().
-    $hid->IOValue("p_action","impress").
-    $hid->IOValue("from_periode",$_POST['from_periode']).
-    $hid->IOValue("to_periode",$_POST['to_periode']).
-    $hid->IOValue("p_jrn",$_POST['p_jrn']).
-    $hid->IOValue("from_poste",$_POST['from_poste']).
-    $hid->IOValue("to_poste",$_POST['to_poste']);
+    $hid->input("p_action","impress").
+    $hid->input("from_periode",$_POST['from_periode']).
+    $hid->input("to_periode",$_POST['to_periode']).
+    $hid->input("p_jrn",$_POST['p_jrn']).
+    $hid->input("from_poste",$_POST['from_poste']).
+    $hid->input("to_poste",$_POST['to_poste']);
 
   echo "</form></TD>";
 
@@ -160,8 +179,9 @@ if ( isset($_POST['view'] ) ) {
 
   $row=$bal->get_row($_POST['from_periode'],
 		  $_POST['to_periode']);
-    $a=get_periode($cn,$_POST['from_periode']);
-    $b=get_periode($cn,$_POST['to_periode']);
+	$periode=new Periode($cn);
+    $a=$periode->get_date_limit($_POST['from_periode']);
+    $b=$periode->get_date_limit($_POST['to_periode']);
     echo "<h2 class=\"info\"> période du ".$a['p_start']." au ".$b['p_end']."</h2>";
 
   echo '<table width="100%">';  
@@ -181,12 +201,12 @@ if ( isset($_POST['view'] ) ) {
       $tr="odd";
 
     echo '<TR class="'.$tr.'">';
-    echo '<TD>'.$r['poste'].'</TD>';
-    echo '<TD>'.$r['label'].'</TD>';
-    echo '<TD>'.$r['sum_deb'].'</TD>';
-    echo '<TD>'.$r['sum_cred'].'</TD>';
-    echo '<TD>'.$r['solde_deb'].'</TD>';
-    echo '<TD>'.$r['solde_cred'].'</TD>';
+    echo td($r['poste']);
+    echo td(h($r['label']));
+    echo td($r['sum_deb']);
+    echo td($r['sum_cred']);
+    echo td($r['solde_deb']);
+    echo td($r['solde_cred']);
     echo '</TR>';
   }
   echo '</table>';

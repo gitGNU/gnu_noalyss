@@ -22,11 +22,10 @@
  * \brief add, modify, close or delete a period
  */
 $gDossier=dossier::id();
-require_once ('class_widget.php');
-require_once("preference.php");
+require_once("class_iselect.php");
 require_once ('class_periode.php');
 echo '<div class="content">';
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 //-----------------------------------------------------
 // Periode
 //-----------------------------------------------------
@@ -65,7 +64,7 @@ if ( isset ($_POST["conf_chg_per"] ) ) {
       echo "<H2 class=\"error\"> Valeurs invalides</H2>";
       return;
     }
-  $Res=ExecSql($cn," update parm_periode ".
+  $Res=$cn->exec_sql(" update parm_periode ".
 	       "set p_start=to_date('". $p_date_start."','DD.MM.YYYY'),".
 	       " p_end=to_date('". $p_date_end."','DD.MM.YYYY'),".
 	       " p_exercice='".$p_exercice."'".
@@ -103,16 +102,16 @@ if ( $action== "delete_per" ) {
   $User->can_request(PARPER);
   $p_per=$_GET["p_per"];
 // Check if the periode is not used
-  if ( CountSql($cn,"select * from jrnx where j_tech_per=$p_per") != 0 ) {
+  if ( $cn->count_sql("select * from jrnx where j_tech_per=$p_per") != 0 ) {
   echo '<h2 class="error"> Désolé mais cette période est utilisée</h2>';
   } else
   {
-  $Res=ExecSql($cn,"delete from parm_periode where p_id=$p_per");
+  $Res=$cn->exec_sql("delete from parm_periode where p_id=$p_per");
   }
   $choose="yes";
 }
 if ( $choose=="yes" ) {
-  echo widget::button_href('Autre Journal ?','?choose=no&p_action=periode&gDossier='.dossier::id());
+  echo HtmlInput::button_anchor('Autre Journal ?','?choose=no&p_action=periode&gDossier='.dossier::id());
   $per=new Periode($cn);
   $jrn=(isset($_GET['jrn_def_id']))?$_GET['jrn_def_id']:0;
   $per->set_jrn($jrn);
@@ -121,15 +120,15 @@ if ( $choose=="yes" ) {
  }  else {
   echo '<form method="GET" action="?">';
   echo dossier::hidden();
-  $sel_jrn=make_array($cn,"select jrn_def_id, jrn_def_name from ".
+  $sel_jrn=$cn->make_array("select jrn_def_id, jrn_def_name from ".
 		      " jrn_def order by jrn_def_name");
   $sel_jrn[]=array('value'=>0,'label'=>'Global : periode pour tous les journaux');
-  $wSel=new widget("select");
+  $wSel=new ISelect();
   $wSel->value=$sel_jrn;
   $wSel->name='jrn_def_id';
-  echo "Choississez global ou uniquement le journal à fermer".$wSel->IOValue();
-  echo   widget::submit('choose','Valider');
-  echo widget::hidden('p_action','periode');
+  echo "Choississez global ou uniquement le journal à fermer".$wSel->input();
+  echo   HtmlInput::submit('choose','Valider');
+  echo HtmlInput::hidden('p_action','periode');
   echo "</form>";
   echo '<p class="info"> Pour ajouter, effacer ou modifier une p&eacute;riode, il faut choisir global</p>';
  }

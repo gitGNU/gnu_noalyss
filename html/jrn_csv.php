@@ -30,10 +30,9 @@ require_once('class_own.php');
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-include_once ("postgres.php");
-include_once("check_priv.php");
+require_once('class_database.php');
 require_once("class_acc_ledger.php");
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 
 require_once ('class_user.php');
@@ -101,7 +100,7 @@ if  ( $_GET['p_simple'] == 0 )
 		 '"montant";'.
 		 "\r\n");
 	  // set a filter for the FIN
-	  $a_parm_code=get_array($cn,"select p_value from parm_code where p_code in ('BANQUE','COMPTE_COURANT','CAISSE')");
+	  $a_parm_code=$cn->get_array("select p_value from parm_code where p_code in ('BANQUE','COMPTE_COURANT','CAISSE')");
 	  $sql_fin="(";
 	  $or="";
 	  foreach ($a_parm_code as $code) {
@@ -122,7 +121,7 @@ if  ( $_GET['p_simple'] == 0 )
 	     // the credit must be negative and written in red
 	     // Get the jrn type
 	     if ( $line['jrn_def_type'] == 'FIN' ) {
-	       $positive = CountSql($cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
+	       $positive = $cn->count_sql("select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
 				    " where jr_id=".$line['jr_id']." and $sql_fin ".
 			       " and j_debit='f'");
 	       
@@ -145,7 +144,7 @@ if  ( $_GET['p_simple'] == 0 )
 	 $col_tva="";
 
 	 if ( $own->MY_TVA_USE=='Y') {
-	   $a_Tva=get_array($cn,"select tva_id,tva_label from tva_rate where tva_rate != 0.0000 order by tva_rate");
+	   $a_Tva=$cn->get_array("select tva_id,tva_label from tva_rate where tva_rate != 0.0000 order by tva_rate");
 	   foreach($a_Tva as $line_tva)
 	     {
 	       $col_tva.='"Tva '.$line_tva['tva_label'].'";';

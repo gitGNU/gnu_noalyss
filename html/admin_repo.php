@@ -25,14 +25,13 @@
  */
 require_once("user_common.php");
 include_once("ac_common.php");
-include_once("postgres.php");
+require_once('class_database.php');
 include_once("debug.php");
 include_once("user_menu.php");
-$rep=DbConnect();
+$rep=new Database();
 include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
-
 
 html_page_start($User->theme);
 echo_debug('admin_repo.php',__LINE__,"entering admin_repo");

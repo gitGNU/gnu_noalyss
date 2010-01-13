@@ -27,6 +27,7 @@
 /*! 
 \brief Manage the hypothese for the budget module
 */
+require_once("class_iselect.php");
 require_once ('class_bud_synthese.php');
 require_once ('class_anc_account.php');
 require_once ('class_acc_account_ledger.php');
@@ -43,14 +44,14 @@ class Bud_Synthese_Anc extends Bud_Synthese {
   }
 
   function select_hypo() {
-    $hypo=make_array($this->cn,'select bh_id, bh_name from bud_hypothese '.
+    $hypo=$this->cn->make_array('select bh_id, bh_name from bud_hypothese '.
 		  ' where pa_id is not null order by bh_name');
-    $wSelect = new widget('select');
+    $wSelect =new ISelect();
     $wSelect->name='bh_id';
     $wSelect->value=$hypo;
     $wSelect->javascript='onChange=this.form.submit()';
     $wSelect->selected=(isset($this->bh_id))?$this->bh_id:'';
-    $r="Choississez l'hypoth&egrave;se :".$wSelect->IOValue();
+    $r="Choississez l'hypoth&egrave;se :".$wSelect->input();
     $r.=dossier::hidden();
     return $r;
   }
@@ -63,31 +64,31 @@ class Bud_Synthese_Anc extends Bud_Synthese {
     $hypo->bh_id=$this->bh_id;
     $hypo->load();
     $po_value=Anc_Account::make_array_name($this->cn,$hypo->pa_id);
-    $wPo_from=new widget("select");
+    $wPo_from=new ISelect();
     $wPo_from->name="po_from";
     $wPo_from->value=$po_value;
     $wPo_from->selected=$this->po_from;
-    $wPo_to=new widget("select");
+    $wPo_to=new ISelect();
     $wPo_to->name="po_to";
     $wPo_to->value=$po_value;
     $wPo_to->selected=$this->po_to;
 
-    $per=make_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') ".
+    $per=$this->cn->make_array("select p_id,to_char(p_start,'MM.YYYY') ".
 		    " from parm_periode order by p_start,p_end");
 
-    $wFrom=new widget('select');
+    $wFrom=new ISelect();
     $wFrom->name='from';
     $wFrom->value=$per;
     $wFrom->selected=$this->from;
 
-    $wto=new widget('select');
+    $wto=new ISelect();
     $wto->name='to';
     $wto->value=$per;
     $wto->selected=$this->to;
 
     $r="";
-    $r.="Periode de ".$wFrom->IOValue()." &agrave; ".$wto->IOValue();
-    $r.="Poste analytique de ".$wPo_from->IOValue()." &agrave; ".$wPo_to->IOValue();
+    $r.="Periode de ".$wFrom->input()." &agrave; ".$wto->input();
+    $r.="Poste analytique de ".$wPo_from->input()." &agrave; ".$wPo_to->input();
     $r.=dossier::hidden();
     return $r;
   }
@@ -146,13 +147,13 @@ class Bud_Synthese_Anc extends Bud_Synthese {
     " from bud_card join bud_detail using (bc_id) ".
       "join poste_analytique using(po_id) where po_name >= $1 and ".
       "po_name <=$2 and bud_card.bh_id=$3";
-    $res=ExecSqlParam($this->cn,$sql,array($this->po_from,$this->po_to,$this->bh_id));
-    $aBudCard=pg_fetch_all($res);
+    $res=$this->cn->exec_sql($sql,array($this->po_from,$this->po_to,$this->bh_id));
+    $aBudCard=Database::fetch_all($res);
     $array=array();
-    $cn=DbConnect(dossier::id());
-    pg_prepare($cn,"sql_detail","select distinct pcm_val from bud_detail ".
+    $cn=new Database(dossier::id());
+    $cn->prepare("sql_detail","select distinct pcm_val from bud_detail ".
 	       " where bc_id=$1");
-    pg_prepare($cn,"sql_detail_periode","select sum(bdp_amount) as amount,".
+    $cn->prepare("sql_detail_periode","select sum(bdp_amount) as amount,".
 	       "p_id from bud_card join bud_detail using (bc_id)".
 	       " join bud_detail_periode using (bd_id) ".
 	       " join parm_periode using (p_id) ".
@@ -168,16 +169,16 @@ class Bud_Synthese_Anc extends Bud_Synthese {
       $line['bc_description']=$rBudCard['bc_description'];
       $line['bc_unit']=$rBudCard['bc_unit'];
 
-      $res=pg_execute("sql_detail",array($line['bc_id']));
-      $row=pg_fetch_all($res);
+      $res=$cn->execute("sql_detail",array($line['bc_id']));
+      $row=Database::fetch_all($res);
       $idx=0;
       foreach ($row as $col) {
 	$sub=array();
 	$pcm_val=$col['pcm_val'];
 	$sub['pcm_val']=$pcm_val;
 	$periode=array();
-	$res2=pg_execute("sql_detail_periode",array($rBudCard['bc_id'],$pcm_val));
-	$col_per=pg_fetch_all($res2);
+	$res2=$cn->execute("sql_detail_periode",array($rBudCard['bc_id'],$pcm_val));
+	$col_per=Database::fetch_all($res2);
 	if ( empty ($col_per) ) continue;
 	$sub['unit']=0;
 	foreach ($col_per as $cPer) {
@@ -228,7 +229,7 @@ class Bud_Synthese_Anc extends Bud_Synthese {
     $r="";
     if (empty($p_array)) return;
     $persql=sql_filter_per($this->cn,$this->from,$this->to,'p_id','p_id');
-    $per=get_array($this->cn,"select to_char(p_start,'MM.YYYY') as d".
+    $per=$this->cn->get_array("select to_char(p_start,'MM.YYYY') as d".
 		   " from parm_periode ".
 		   " where $persql");
 
@@ -266,25 +267,25 @@ class Bud_Synthese_Anc extends Bud_Synthese {
   function hidden() {
     $r="";
     foreach (array('bh_id','po_from','po_to','from','to') as $e)
-      $r.=widget::hidden($e,$this->$e);
+      $r.=HtmlInput::hidden($e,$this->$e);
     return $r;
   }
   static function test_me() {
 
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     $obj=new Bud_Synthese_Anc($cn);
     echo '<form method="GET">';
-	echo widget::hidden('test_select',$_REQUEST['test_select']);
+	echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
     echo $obj->select_hypo();
-    echo widget::submit('recherche','recherche');
+    echo HtmlInput::submit('recherche','recherche');
     echo '</form>';
     if ( isset($_GET['recherche'])) {
       $obj->from_array($_GET);
       echo '<form method="GET">';
-	  echo widget::hidden('test_select',$_REQUEST['test_select']);
+	  echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
       echo $obj->form();
-      echo widget::hidden('bh_id',$obj->bh_id);
-      echo widget::submit('recherche2','recherche');
+      echo HtmlInput::hidden('bh_id',$obj->bh_id);
+      echo HtmlInput::submit('recherche2','recherche');
       echo '</form>';
     }
     if ( isset($_GET['recherche2'])){

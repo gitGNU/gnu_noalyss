@@ -22,7 +22,6 @@
 
 /*!\file 
  * \brief Ajax action for budget remove or save record
- *\todo the security must be added here
  *
  */
 extract ($_POST);
@@ -32,7 +31,7 @@ require_once ('debug.php');
 require_once('class_user.php');
 
 echo_debug(__FILE__.':'.__LINE__,' $POST ',$_POST);
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
 $User=new User($cn);
 $User->Check();
 $User->check_dossier(dossier::id());

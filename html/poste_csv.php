@@ -22,7 +22,7 @@
  * \brief Send the poste list in csv
  */
 include_once("ac_common.php");
-include_once ("postgres.php");
+require_once('class_database.php');
 include ('class_user.php');
 require_once("class_acc_account_ledger.php");
 require_once ('class_acc_operation.php');
@@ -33,7 +33,7 @@ require_once('class_dossier.php');
 $gDossier=dossier::id();
 
 /* Admin. Dossier */
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 
 $User=new User($cn);
@@ -43,11 +43,11 @@ $User->can_request(IMPPOSTE,0);
 
 if ( isset ( $_REQUEST['poste_fille']) )
 { //choisit de voir tous les postes
-  $a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val::text like '".$_REQUEST["poste_id"]."%'");
+  $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '".$_REQUEST["poste_id"]."%'");
 } 
 else 
 {
-  $a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val = '".$_REQUEST['poste_id']."'");
+  $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val = '".$_REQUEST['poste_id']."'");
 }
 
 if ( ! isset ($_REQUEST['oper_detail'])) {
@@ -58,7 +58,7 @@ if ( ! isset ($_REQUEST['oper_detail'])) {
     {
       $Poste=new Acc_Account_Ledger($cn,$pos['pcm_val']);
       $Poste->get_name();
-      list($array,$tot_deb,$tot_cred)=$Poste->get_row( $_REQUEST['from_periode'],
+      list($array,$tot_deb,$tot_cred)=$Poste->get_row_date( $_REQUEST['from_periode'],
 						       $_REQUEST['to_periode']
 						       );
       if ( count($Poste->row ) == 0 ) 
@@ -76,7 +76,7 @@ if ( ! isset ($_REQUEST['oper_detail'])) {
       foreach ( $Poste->row as $op ) { 
 	echo '"'.$pos['pcm_val'].'";'.
 	  '"'.$op['jr_internal'].'"'.";".
-	  '"'.$op['j_date'].'"'.";".
+	  '"'.$op['j_date_fmt'].'"'.";".
 	  '"'.$op['description']." ".$op['jr_pj_number'].'"'.";".
 	  sprintf("%8.4f",$op['deb_montant']).";".
 	  sprintf("%8.4f",$op['cred_montant']);
@@ -101,7 +101,7 @@ if ( ! isset ($_REQUEST['oper_detail'])) {
     {
       $Poste=new Acc_Account_Ledger($cn,$pos['pcm_val']);
       $Poste->get_name();
-      list($array,$tot_deb,$tot_cred)=$Poste->get_row( $_REQUEST['from_periode'],
+      list($array,$tot_deb,$tot_cred)=$Poste->get_row_date( $_REQUEST['from_periode'],
 						       $_REQUEST['to_periode']
 						       );
       if ( count($Poste->row ) == 0 ) 

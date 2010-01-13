@@ -22,7 +22,11 @@
  * \brief p_action contains the main action (always poste here)
  *  action contains the sub action 
  */
+require_once("class_ihidden.php");
 require_once("class_acc_parm_code.php");
+echo '<div class="content">';
+
+$gDossier=dossier::id();
 
 //-----------------------------------------------------
 // confirm mod
@@ -43,11 +47,11 @@ for ($i=0;$i<sizeof($all);$i++)  {
   echo '<TR>';
   echo $all[$i]->display();
   echo '<TD><FORM method="POST">';
-  $w=new widget('hidden');
+  $w=new IHidden();
   $w->name='id';
   $w->value=$i;
-  echo $w->IOValue();
-  echo widget::submit('mod','modifie');
+  echo $w->input();
+  echo HtmlInput::submit('mod','modifie');
   echo '</FORM>';
   echo '</TD>';
   echo "</TR>";
@@ -59,6 +63,7 @@ echo "</div>";
 if ( isset ($_POST['mod'] ))
 {
   echo '<div style="float:left;">';
+  echo IPoste::ipopup('ipop_account');
   echo '<fieldset>';
   echo "<legend>Voulez-vous vraiment modifier ?</legend>";
   echo '<FORM METHOD="POST">';
@@ -67,14 +72,16 @@ if ( isset ($_POST['mod'] ))
   $id=$_POST['id'];
   echo $all[$id]->form();
   echo "</TABLE>";
-  $h=new widget('hidden');
+  $h=new IHidden();
   $h->name='p_action';
-  $h->value='poste';
-  echo $h->IOValue();
-  echo widget::submit('confirm_mod','Confirme');
-  echo widget::submit('no','Cancel');
+  $h->value='divers';;
+  echo $h->input();
+  echo HtmlInput::hidden('sa','poste');
+  echo HtmlInput::submit('confirm_mod','Confirme');
+  echo HtmlInput::submit('no','Cancel');
   echo "</FORM>";
   echo '</fieldset>';
   echo "</div>";
 
 } 
+echo '</div>';

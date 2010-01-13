@@ -23,11 +23,12 @@
  */
 
 require_once ("ac_common.php");
-require_once ("postgres.php");
+require_once('class_database.php');
 require_once("user_common.php");
 /* Admin. Dossier */
-$rep=DbConnect();
+$rep=new Database();
 include_once ("class_user.php");
+require_once('class_html_input.php');
 $User=new User($rep);
 $User->Check();
 
@@ -38,7 +39,7 @@ require_once('class_dossier.php');
 $gDossier=dossier::id();
 
 // Javascript
-echo JS_CONCERNED_OP;
+echo JS_LEDGER;
 if ( isset( $p_jrn )) {
   $p_jrn=$p_jrn;
   $_SESSION[ "p_jrn"]=$p_jrn;
@@ -59,7 +60,7 @@ $c_internal="";
 $c_date="";
 $condition="";
 $part=" where ";
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 // if search then build the condition
 if ( isset ($_GET["search"]) ) {
   $c1=0;
@@ -148,7 +149,7 @@ echo '<TD> <INPUT TYPE="text" name="p_internal" VALUE="'.$p_internal.'"></TD>';
 echo "</TR>";
 
 echo '</TABLE>';
-echo '<INPUT TYPE="submit" name="search" value="cherche">';
+echo HtmlInput::submit('search','cherche');
 echo '<input type="button" name="update_concerned" value="Mise à jour des réconciliation" onClick="updateJrn(\''.$p_ctl.'\')">';
 echo '</FORM>';
 echo '<div class="content">';
@@ -165,9 +166,9 @@ if ( isset ($_GET["search"]) ) {
                  jrn on jr_grpt_id=j_grpt inner join tmp_pcmn on j_poste=pcm_val ".
     $jnt.
     $condition." order by jr_date,jr_id,j_debit desc";
-  $Res=ExecSql($cn,$sql);
+  $Res=$cn->exec_sql($sql);
 
-  $MaxLine=pg_NumRows($Res);
+  $MaxLine=Database::num_row($Res);
   $offset=(isset($_GET['offset']))?$_GET['offset']:0;
   $limit=$_SESSION['g_pagesize'];
   $sql_limit="";
@@ -185,12 +186,12 @@ if ( isset ($_GET["search"]) ) {
      html_page_stop();
      return;
    }
-  $Res=ExecSql($cn,$sql);
-  $MaxLine=pg_NumRows($Res);
+  $Res=$cn->exec_sql($sql);
+  $MaxLine=Database::num_row($Res);
 
   $col_vide="<TD></TD>";
 echo '<form id="form_jrn_concerned">';
-  echo widget::hidden('nb_item',$MaxLine);
+  echo HtmlInput::hidden('nb_item',$MaxLine);
   echo $bar;
   echo '<TABLE ALIGN="center" BORDER="0" CELLSPACING="O" width="100%">';
   $l_id="";
@@ -200,7 +201,7 @@ echo '<form id="form_jrn_concerned">';
 //     return;
 //   }
   for ( $i=0; $i < $MaxLine; $i++) {
-    $l_line=pg_fetch_array($Res,$i);
+    $l_line=Database::fetch_array($Res,$i);
     if ( $l_id == $l_line['j_grpt'] ) {
       echo $col_vide.$col_vide;
     } else {

@@ -17,7 +17,6 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /* $Revision$ */
-include_once("class_widget.php");
 /*! \file
  * \brief print the listing of customer for vat
  */
@@ -25,12 +24,13 @@ include_once("class_widget.php");
 //-----------------------------------------------------
 // Show the jrn and date
 //-----------------------------------------------------
+require_once("class_iselect.php");
+require_once("class_customer.php");
 
 //-----------------------------------------------------
 // Submit Html
 //-----------------------------------------------------
 if ( isset($_POST['bt_html'] )) {
-  require_once("class_customer.php");
   $customer=new Customer($cn);
   $a_Res=$customer->VatListing($_POST['year']);
 
@@ -72,7 +72,7 @@ $aPoste=array();
 //-----------------------------------------------------
 // Form
 //-----------------------------------------------------
-$w=new widget("select");
+$w=new ISelect();
 $w->table=1;
 
 echo '<div class="u_redcontent">';
@@ -81,17 +81,17 @@ echo dossier::hidden();
 echo '<TABLE>';
 
 print '<TR>';
-$year=make_array($cn,"select distinct extract(year from jr_date), extract(year from jr_date) from jrn");
+$year=$cn->make_array("select distinct extract(year from jr_date), extract(year from jr_date) from jrn");
 if ( sizeof($year) == 0 ) 
 {
   echo "Aucun enregistrement dans les journaux";
   exit();
 }
 $w->label="Année concernée";
-print $w->IOValue('year',$year);
+print $w->input('year',$year);
 print "</TR>";
 echo '</TABLE>';
-print widget::submit('bt_html','Impression');
+print HtmlInput::submit('bt_html','Impression');
 
 echo '</FORM>';
 

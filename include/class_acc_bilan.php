@@ -24,8 +24,8 @@
  * \brief this class handle the different bilan, from the table bilan
  *
  */
-require_once ('postgres.php');
-require_once ('class_widget.php');
+require_once("class_iselect.php");
+require_once ('class_database.php');
 require_once ('class_dossier.php');
 require_once ('impress_inc.php');
 require_once ('header_print.php');
@@ -58,28 +58,28 @@ class Acc_Bilan {
 
 	$r.='<TR>';
 // filter on the current year
-	$w=new widget("select");
+	$w=new ISelect();
 	$w->table=1;
 
-	$periode_start=make_array($this->db,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $p_filter_year order by p_start,p_end");
+	$periode_start=$this->db->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $p_filter_year order by p_start,p_end");
 	
-	$periode_end=make_array($this->db,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $p_filter_year order by p_start,p_end");
+	$periode_end=$this->db->make_array("select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $p_filter_year order by p_start,p_end");
 
 	$w->label="Depuis";
 	$w->value=$this->from;
 	$w->selected=$this->from;
-	$r.= $w->IOValue('from_periode',$periode_start);
+	$r.= $w->input('from_periode',$periode_start);
 	$w->label=" jusque ";
 	$w->value=$this->to;
 	$w->selected=$this->to;
-	$r.= $w->IOValue('to_periode',$periode_end);
+	$r.= $w->input('to_periode',$periode_end);
 	$r.= "</TR>";
 	$r.="<tr>";
-	$mod=new widget('select');
+	$mod=new ISelect();
 	$mod->table=1;
-	$mod->value=make_array($this->db,"select b_id, b_name from bilan order by b_name");
+	$mod->value=$this->db->make_array("select b_id, b_name from bilan order by b_name");
 	$mod->label="Choix du bilan";
-	$r.=$mod->IOValue('b_id');
+	$r.=$mod->input('b_id');
 	$r.="</tr>";
 	$r.= '</TABLE>';
 	return $r;
@@ -91,16 +91,16 @@ class Acc_Bilan {
    */
   private function warning($p_message,$p_type,$p_deb) {
     $sql="select pcm_val,pcm_lib from tmp_pcmn where pcm_type='$p_type'";
-    $res=ExecSql($this->db,$sql);
-    if ( pg_NumRows($res) ==0 ) 
+    $res=$this->db->exec_sql($sql);
+    if ( Database::num_row($res) ==0 ) 
       return;
     $count=0;
-    $nRow=pg_NumRows($res);
+    $nRow=Database::num_row($res);
     $ret="";
     $obj=new Acc_Account_Ledger($this->db,0);
     for ($i=0;$i<$nRow;$i++) {
 
-      $line=pg_fetch_array($res);
+      $line=Database::fetch_array($res);
       /* set the periode filter */
       $sql=sql_filter_per($this->db,$this->from,$this->to,'p_id','j_tech_per');
       $obj->id=$line['pcm_val'];
@@ -151,7 +151,7 @@ class Acc_Bilan {
     $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
       " where j_debit='t' and (pcm_type='ACT' or pcm_type='ACTINV')";
     $sql.="and $sql_periode";
-    $debit_actif=getDbValue($this->db,$sql);
+    $debit_actif=$this->db->get_value($sql);
 
     /* Credit Actif */
     $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
@@ -159,7 +159,7 @@ class Acc_Bilan {
 
     $sql.="and $sql_periode";
 
-    $credit_actif=getDbValue($this->db,$sql);
+    $credit_actif=$this->db->get_value($sql);
     $total_actif=abs($debit_actif-$credit_actif);
     echo 'Total actif '.$total_actif;
     echo '<br>';
@@ -168,13 +168,13 @@ class Acc_Bilan {
       " where j_debit='t' and (pcm_type='PAS' or pcm_type='PASINV') ";
     $sql.="and $sql_periode";
 
-    $debit_passif=getDbValue($this->db,$sql);
+    $debit_passif=$this->db->get_value($sql);
 
     /* Credit Actif */
     $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
       " where j_debit='f' and (pcm_type='PAS' or pcm_type='PASINV') ";
     $sql.="and $sql_periode";
-    $credit_passif=getDbValue($this->db,$sql);
+    $credit_passif=$this->db->get_value($sql);
     $total_passif=abs($debit_passif-$credit_passif);
     echo 'Total passif '.$total_passif;
     echo '<br>';
@@ -182,13 +182,13 @@ class Acc_Bilan {
     $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
       " where j_debit='t' and (pcm_type='CHA' or pcm_type='CHAINV')";
     $sql.="and $sql_periode";
-    $debit_charge=getDbValue($this->db,$sql);
+    $debit_charge=$this->db->get_value($sql);
 
     /* Credit charge */
     $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
       " where j_debit='f' and (pcm_type='CHA' or pcm_type='CHAINV')";
     $sql.="and $sql_periode";
-    $credit_charge=getDbValue($this->db,$sql);
+    $credit_charge=$this->db->get_value($sql);
     $total_charge=abs($debit_charge-$credit_charge);
     echo 'Total charge '.$total_charge;
     echo '<br>';
@@ -197,13 +197,13 @@ class Acc_Bilan {
     $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
       " where j_debit='t' and (pcm_type='PRO' or pcm_type='PROINV')";
     $sql.="and $sql_periode";
-    $debit_pro=getDbValue($this->db,$sql);
+    $debit_pro=$this->db->get_value($sql);
 
     /* Credit prod */
     $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
       " where j_debit='f' and (pcm_type='PRO' or pcm_type='PROINV')";
     $sql.="and $sql_periode";
-    $credit_pro=getDbValue($this->db,$sql);
+    $credit_pro=$this->db->get_value($sql);
     $total_pro=abs($debit_pro-$credit_pro);
     echo 'Total produit '.$total_pro;
     echo '<br>';
@@ -235,11 +235,11 @@ class Acc_Bilan {
 	  
 	  $sql="select b_name,b_file_template,b_file_form,lower(b_type) as b_type from bilan where".
 		" b_id = ".$this->id;
-	  $res=ExecSql($this->db,$sql);
+	  $res=$this->db->exec_sql($sql);
 	  
-	  if ( pg_NumRows($res)==0)
+	  if ( Database::num_row($res)==0)
 		throw new Exception ('Aucun enregistrement trouve');
-	  $array=pg_fetch_array($res,0);
+	  $array=Database::fetch_array($res,0);
 	  foreach ($array as $name=>$value)
 		$this->$name=$value;
 	  
@@ -380,11 +380,9 @@ class Acc_Bilan {
 	  if( ! isset($this->$f2_value)) {
 	    $a = "!!".$f2_value."!!";
 	    if( substr($f2_value, 0, 1) == "N" ) {
-	      $ret = get_array($this->db, "SELECT pcm_lib AS acct_name FROM tmp_pcmn WHERE pcm_val::text LIKE ".
+	      $ret = $this->db->get_array("SELECT pcm_lib AS acct_name FROM tmp_pcmn WHERE pcm_val::text LIKE ".
 			       " substr($1, 2)||'%' ORDER BY pcm_val ASC LIMIT 1",array($f2_value));
 	      if($ret[0]['acct_name']) {
-		// htmlentities() is not the best function to deal with XML
-		// $a = htmlentities($ret[0]['acct_name'], ENT_QUOTES, "UTF-8", false);
 		$a = $ret[0]['acct_name'];
 		$a=str_replace('<','&lt;',$a);
 		$a=str_replace('>','&gt;',$a);
@@ -457,7 +455,7 @@ class Acc_Bilan {
           if( ! isset($this->$f2_value)) {
             $a = "!!".$f2_value."!!";
             if( substr($f2_value, 0, 1) == "N" ) {
-                $ret = get_array($this->db, "SELECT pcm_lib AS acct_name FROM tmp_pcmn WHERE ".
+                $ret = $this->db->get_array("SELECT pcm_lib AS acct_name FROM tmp_pcmn WHERE ".
 				 " pcm_val::text LIKE substr($1, 2)||'%' ORDER BY pcm_val ASC LIMIT 1",
 				 array($f2_value));
                 if($ret[0]['acct_name']) {
@@ -623,7 +621,7 @@ class Acc_Bilan {
 
 	if ( isset($_GET['result'])) {
 	  ob_start();
-	  $cn=DbConnect(dossier::id());
+	  $cn=new Database(dossier::id());
 	  $a=new Acc_Bilan($cn);
 	  $a->get_request_get();
 
@@ -641,7 +639,7 @@ class Acc_Bilan {
 	  $a->send($r);
 	}
 	else {
-	$cn=DbConnect(dossier::id());
+	$cn=new Database(dossier::id());
 	$a=new Acc_Bilan($cn);
 	$a->get_request_get();
 

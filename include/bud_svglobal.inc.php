@@ -33,9 +33,9 @@ $obj->from_array($_GET);
 // if ( ! isset ($_GET['detail']) && ! isset ($_GET['display'])) {
   echo '<form METHOD="GET">';
   echo $obj->select_hypo();
-  echo widget::submit('detail','Accepter');
-  echo widget::hidden('do','vglobal');
- echo widget::hidden('p_action','synthese');
+  echo HtmlInput::submit('detail','Accepter');
+  echo HtmlInput::hidden('do','vglobal');
+ echo HtmlInput::hidden('p_action','synthese');
  echo '</form>';
 // }
 
@@ -45,10 +45,10 @@ if ( isset( $_GET['bh_id'])) {
 
   $obj->bh_id=$_GET['bh_id'];
   echo $obj->form();
-  echo widget::submit('display','Afficher');
-  echo widget::hidden('do','vglobal');
-  echo widget::hidden('p_action','synthese');
-  echo widget::hidden('bh_id',$obj->bh_id);
+  echo HtmlInput::submit('display','Afficher');
+  echo HtmlInput::hidden('do','vglobal');
+  echo HtmlInput::hidden('p_action','synthese');
+  echo HtmlInput::hidden('bh_id',$obj->bh_id);
   echo '</form>';
 
 
@@ -60,11 +60,11 @@ if ( isset($_GET['display'])) {
   echo $obj->display_html($res);
   echo '<form method="GET" action="bud_csv.php">';
   echo $obj->hidden();
-  echo widget::hidden('do','vglobal');
-  echo widget::hidden('p_action','synthese');
-  echo widget::hidden('bh_id',$obj->bh_id);
+  echo HtmlInput::hidden('do','vglobal');
+  echo HtmlInput::hidden('p_action','synthese');
+  echo HtmlInput::hidden('bh_id',$obj->bh_id);
   echo dossier::hidden();
-  echo widget::submit('display','Export CSV');
+  echo HtmlInput::submit('display','Export CSV');
   echo '</form>';
  }
 

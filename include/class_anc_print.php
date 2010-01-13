@@ -20,18 +20,22 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  *  \brief this class is the mother class for the CA printing
  */
 
 /*! \brief this class is the mother class for the CA printing
- *        
+ *
  *
  */
-require_once('postgres.php');
+require_once("class_idate.php");
+require_once("class_itext.php");
+require_once("class_ihidden.php");
+require_once("class_iselect.php");
+require_once("class_ibutton.php");
+require_once('class_database.php');
 require_once('debug.php');
 require_once('constant.php');
-require_once ('class_widget.php');
 require_once('class_dossier.php');
 require_once ('class_anc_plan.php');
 
@@ -41,7 +45,7 @@ class Anc_Print {
   var $from; 					/*!< $from end date */
   var $from_poste;				/*!< $from_poste from poste  */
   var $to_poste;				/*!< $to_poste to the poste */
-  
+
   function Anc_Print($p_cn) {
 	$this->db=$p_cn;
 	$this->from="";
@@ -50,8 +54,8 @@ class Anc_Print {
 	$this->to_poste="";
 
   }
-/*! 
- * \brief complete the object with the data in $_REQUEST 
+/*!
+ * \brief complete the object with the data in $_REQUEST
  */
   function get_request() {
 	if ( isset($_REQUEST['from']))
@@ -71,7 +75,7 @@ class Anc_Print {
 	  $this->pa_id="";
 
   }
-/*! 
+/*!
  * \brief Compute  the form to display
  * \param $p_hidden hidden tag to be included (gDossier,...)
  *
@@ -82,56 +86,56 @@ class Anc_Print {
 	/* if there is no analytic plan return */
 	$pa=new Anc_Plan($this->db);
 	if ( $pa->count() == 0 ) {
-	  echo '<h2 class="info"> Aucun plan d&eacute;fini</h2>';
+	  echo '<h2 class="info">'._('Aucun plan défini').'</h2>';
 	  exit();
 	}
 
-	$from=new widget  ('js_date','from','from');
+	$from=new IDate('from','from');
 	$from->size=10;
 	$from->value=$this->from;
-	
-	$to=new widget('js_date','to','to');
+
+	$to=new IDate('to','to');
 	$to->value=$this->to;
 	$to->size=10;
 
-	$from_poste=new widget  ('text','from_poste','from_poste');
+	$from_poste=new IText('from_poste','from_poste');
 	$from_poste->size=10;
 	$from_poste->value=$this->from_poste;
-	
-	$to_poste=new widget('text','to_poste','to_poste');
+
+	$to_poste=new IText('to_poste','to_poste');
 	$to_poste->value=$this->to_poste;
 	$to_poste->size=10;
 
-	$hidden=new widget("hidden");	
+	$hidden=new IHidden();
 	$r=dossier::hidden();
-	$r.=$hidden->IOValue("result","1");
-	$r.="Depuis : ".$from->IOValue();
-	$r.= "jusque : ".$to->IOValue();
-	$r.= '<span class="notice"> Les dates sont en format DD.MM.YYYY</span>';
+	$r.=$hidden->input("result","1");
+	$r.="Depuis : ".$from->input();
+	$r.= "jusque : ".$to->input();
+	$r.= '<span class="notice">'._('Les dates sont en format DD.MM.YYYY').'</span>';
 
 	$r.=$p_hidden;
 	$r.='<span style="padding:5px;margin:5px;border:2px double  blue;display:block;">';
 	$plan=new Anc_Plan($this->db);
-	$plan_id=new widget("select","","pa_id");
- 	$plan_id->value=make_array($this->db,"select pa_id, pa_name from plan_analytique order by pa_name");
+	$plan_id=new ISelect("pa_id");
+ 	$plan_id->value=$this->db->make_array("select pa_id, pa_name from plan_analytique order by pa_name");
 	$plan_id->selected=$this->pa_id;
-	$r.= "Plan Analytique :".$plan_id->IOValue();
+	$r.= "Plan Analytique :".$plan_id->input();
 
-	$poste=new widget("text");
+	$poste=new IText();
 	$poste->size=10;
-	$r.="Entre le poste ".$poste->IOValue("from_poste",$this->from_poste);
-	$choose=new widget("button");
+	$r.="Entre le poste ".$poste->input("from_poste",$this->from_poste);
+	$choose=new IButton();
 	$choose->name="Choix Poste";
 	$choose->label="Recherche";
 	$choose->javascript="onClick=search_ca('".$_REQUEST['PHPSESSID']."',".dossier::id().",'from_poste','pa_id')";
-	$r.=$choose->IOValue();
+	$r.=$choose->input();
 
-	$r.=" et le poste ".$poste->IOValue("to_poste",$this->to_poste);
+	$r.=" et le poste ".$poste->input("to_poste",$this->to_poste);
 	$choose->javascript="onClick=search_ca('".$_REQUEST['PHPSESSID']."',".dossier::id().",'to_poste','pa_id')";
-	$r.=$choose->IOValue();
-	$r.='<span class="notice" style="display:block">Selectionnez le plan qui vous int&eacute;resse avant de cliquer sur Recherche</span>';
+	$r.=$choose->input();
+	$r.='<span class="notice" style="display:block">'._('Selectionnez le plan qui vous intéresse avant de cliquer sur Recherche').'</span>';
 
 	$r.='</span>';
-	return $r;	
+	return $r;
   }
 }

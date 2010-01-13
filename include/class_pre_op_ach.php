@@ -57,7 +57,7 @@ class Pre_op_ach extends Pre_operation_detail {
  */
   function save() {
 	try {
-	  StartSql($this->db);
+	  $this->db->start();
 	  if ($this->operation->save() == false )
 		return;
 	  // save the client
@@ -67,7 +67,7 @@ class Pre_op_ach extends Pre_operation_detail {
 				   $this->operation->od_id,
 				   $this->e_client,
 				   "f");
-	  ExecSql($this->db,$sql);
+	  $this->db->exec_sql($sql);
 	  // save the selling
 	  for ($i=0;$i<$this->operation->nb_item;$i++) {
 		$sql=sprintf('insert into op_predef_detail (opd_poste,opd_amount,opd_tva_id,opd_quantity,'.
@@ -82,13 +82,13 @@ class Pre_op_ach extends Pre_operation_detail {
 					 $this->operation->od_id,
 					 $this->{"e_march".$i."_tva_amount"}
 					 );
-		ExecSql($this->db,$sql);
+		$this->db->exec_sql($sql);
 	  }
 	} catch (Exception $e) {
 	  echo ($e->getMessage());
-	  Rollback($this->db);
+	  $this->db->rollback();
 	}
-	Commit($this->db);
+	$this->db->commit();
   }
   /*!\brief compute an array accordingly with the FormVenView function
    */
@@ -119,8 +119,8 @@ class Pre_op_ach extends Pre_operation_detail {
 	$sql="select opd_id,opd_poste,opd_amount,opd_tva_id,opd_debit,".
 	  " opd_quantity,opd_tva_amount from op_predef_detail where od_id=".$this->operation->od_id.
 	  " order by opd_id";
-	$res=ExecSql($this->db,$sql);
-	$array=pg_fetch_all($res);
+	$res=$this->db->exec_sql($sql);
+	$array=Database::fetch_all($res);
 	return $array;
   }
   function set_od_id($p_id) {

@@ -24,49 +24,67 @@
  * \brief the class Acc_Ledger_Fin inherits from Acc_Ledger, this
  * object permit to manage the financial ledger
  */
+require_once("class_idate.php");
+require_once("class_icard.php");
+require_once("class_ispan.php");
+require_once("class_itext.php");
+require_once("class_iconcerned.php");
+require_once("class_ifile.php");
+require_once("class_ihidden.php");
+require_once("class_iselect.php");
 require_once('class_acc_ledger.php');
-require_once('poste.php');
 require_once('ac_common.php');
 require_once('class_acc_reconciliation.php');
 
 class Acc_Ledger_Fin extends Acc_Ledger {
+  function __construct ($p_cn,$p_init) {
+    parent::__construct($p_cn,$p_init);
+    $this->type='FIN';
+  }
+
   /*!\brief verify that the data are correct before inserting or confirming
    *\param an array (usually $_POST)
    *\return String
-   *\note return an AcException if an error occurs
+   *\throw Exception on error occurs
    */
   public function verify($p_array) {
     extract ($p_array);
+    /* check for a double reload */
+    if ( isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
+      throw new Exception (_('Double Encodage'),5);
+
     /* check if there is a customer */
     if ( strlen(trim($e_bank_account)) == 0 ) 
-      throw new AcException('Vous n\'avez pas donné de banque',11);
+      throw new Exception(_('Vous n\'avez pas donné de banque'),11);
 
     /*  check if the date is valid */
     if ( isDate($e_date) == null ) {
-      throw new AcException('Date invalide', 2);
+      throw new Exception('Date invalide', 2);
     }
-
+    $oPeriode=new Periode($this->db);
+    if ($this->check_periode()==false) {
+      $periode=$oPeriode->find_periode($e_date);
+    } else {
+      $oPeriode->p_id=$periode;
+      list ($min,$max)=$oPeriode->get_date_limit();
+      if ( cmpDate($e_date,$min) < 0 ||
+	   cmpDate($e_date,$max) > 0) 
+	throw new Exception(_('Date et periode ne correspondent pas'),6);
+    }
+	
     /* check if the periode is closed */
     if ( $this->is_closed($periode)==1 )
       {
-	throw new AcException('Periode fermee',6);
+	throw new Exception(_('Periode fermee'),6);
       }
-
-    /* check that the datum is in the choosen periode */
-    $per=new Periode($this->db);
-    list ($min,$max)=$per->get_date_limit($periode);
-    if ( cmpDate($e_date,$min) < 0 ||
-	 cmpDate($e_date,$max) > 0) 
-	throw new AcException('Date et periode ne correspondent pas',6);
-
     /* check if we are using the strict mode */
     if( $this->check_strict() == true) {
       /* if we use the strict mode, we get the date of the last
 	 operation */
       $last_date=$this->get_last_date();
       if ( $last_date != null  && cmpDate($e_date,$last_date) < 0 )
-	throw new AcException('Vous utilisez le mode strict la dernière operation est à la date du '
-			      .$last_date.' vous ne pouvez pas encoder à une date antérieure',15);
+	throw new Exception(_('Vous utilisez le mode strict la dernière operation est à la date du ')
+			      .$last_date._(' vous ne pouvez pas encoder à une date antérieure'),15);
 
     }
 
@@ -75,19 +93,19 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $fiche=new fiche($this->db);
     $fiche->get_by_qcode($e_bank_account);
     if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
-      throw new AcException('La fiche '.$e_bank_account.'n\'a pas de poste comptable',8);
+      throw new Exception('La fiche '.$e_bank_account.'n\'a pas de poste comptable',8);
 
     /* The account exists */
     $poste=new Acc_Account_Ledger($this->db,$fiche->strAttribut(ATTR_DEF_ACCOUNT));
     if ( $poste->load() == false ){
-      throw new AcException('Pour la fiche '.$e_bank_account.' le poste comptable ['.$poste->id.'] n\'existe pas',9);
+      throw new Exception('Pour la fiche '.$e_bank_account.' le poste comptable ['.$poste->id.'] n\'existe pas',9);
     }
 
     /* Check if the card belong to the ledger */
     $fiche=new fiche ($this->db);
     $fiche->get_by_qcode($e_bank_account);
     if ( $fiche->belong_ledger($p_jrn,'deb') !=1 )
-	throw new AcException('La fiche '.$e_bank_account.'n\'est pas accessible à ce journal',10);
+	throw new Exception('La fiche '.$e_bank_account.'n\'est pas accessible à ce journal',10);
 
     $nb=0;
     $tot_amount=0;
@@ -98,7 +116,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       if ( strlen(trim(${'e_other'.$i}))== 0) continue;
       /* check if amount are numeric and */
       if ( isNumber(${'e_other'.$i.'_amount'}) == 0 )
-	throw new AcException('La fiche '.${'e_other'.$i}.'a un montant invalide ['.${'e_other'.$i}.']',6);
+	throw new Exception('La fiche '.${'e_other'.$i}.'a un montant invalide ['.${'e_other'.$i}.']',6);
 
       /* compute the total */
       $tot_amount+=round(${'e_other'.$i.'_amount'},2);
@@ -107,21 +125,21 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       $fiche=new fiche($this->db);
       $fiche->get_by_qcode(${'e_other'.$i});
       if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
-	throw new AcException('La fiche '.${'e_other'.$i}.'n\'a pas de poste comptable',8);
+	throw new Exception('La fiche '.${'e_other'.$i}.'n\'a pas de poste comptable',8);
       /* The account exists */
       $poste=new Acc_Account_Ledger($this->db,$fiche->strAttribut(ATTR_DEF_ACCOUNT));
       if ( $poste->load() == false ){
-	throw new AcException('Pour la fiche '.${'e_other'.$i}.' le poste comptable ['.$poste->id.'n\'existe pas',9);
+	throw new Exception('Pour la fiche '.${'e_other'.$i}.' le poste comptable ['.$poste->id.'n\'existe pas',9);
       }
       /* Check if the card belong to the ledger */
       $fiche=new fiche ($this->db);
       $fiche->get_by_qcode(${'e_other'.$i});
       if ( $fiche->belong_ledger($p_jrn,'cred') !=1 )
-	throw new AcException('La fiche '.${'e_other'.$i}.'n\'est pas accessible à ce journal',10);
+	throw new Exception('La fiche '.${'e_other'.$i}.'n\'est pas accessible à ce journal',10);
       $nb++;
     }
     if ( $nb == 0 )
-      throw new AcException('Il n\'y a aucune opération',12);
+      throw new Exception('Il n\'y a aucune opération',12);
 
     /* Check if the last_saldo and first_saldo are correct */
     if ( strlen(trim($last_sold)) != 0 && isNumber($last_sold) &&
@@ -132,7 +150,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	$diff=round($diff,2)-round($tot_amount,2);
 	if ( $first_sold != 0 && $last_sold !=0) {
 	  if ( $diff != 0 )
-	    throw new AcException('Le montant de l\'extrait est incorrect'.
+	    throw new Exception('Le montant de l\'extrait est incorrect'.
 				  $tot_amount.' extrait '.$diff,13);
 	}
       }
@@ -145,12 +163,18 @@ class Acc_Ledger_Fin extends Acc_Ledger {
    *\return string with html code
    *\note the form tag are not  set here
    */
-  function display_form($p_array=null) {
+  function input($p_array=null) {
     if ( $p_array != null)
       extract ($p_array);
     $pview_only=false;
     $user = new User($this->db);
-    
+    $f_add_button=new IButton('add_card');
+    $f_add_button->label=_('Créer une nouvelle fiche');
+    $f_add_button->set_attribute('ipopup','ipop_newcard');
+    $f_add_button->set_attribute('filter',$this->get_all_fiche_def ());
+    $f_add_button->javascript=" select_card_type(this);";
+    $str_add_button=$f_add_button->input();
+
     // The first day of the periode 
     $pPeriode=new Periode($this->db);
     list ($l_date_start,$l_date_end)=$pPeriode->get_date_limit($user->get_periode());
@@ -160,45 +184,44 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     
     $r="";
 
-    $r.=JS_INFOBULLE;
-    $r.=JS_SEARCH_CARD;
-    $r.=JS_AJAX_FICHE;
-    $r.=JS_CONCERNED_OP;
-
     $r.=dossier::hidden();
-    $r.=widget::hidden('phpsessid',$_REQUEST['PHPSESSID']);
-
-
-    //$r.=widget::hidden('p_jrn',$this->id);
-    $r.='<fieldset><legend>Banque, caisse </legend>';
-    $r.='<TABLE  width="100%">';
+    $r.=HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);
+    $f_legend='Banque, caisse';
     //  Date
     //--
-    $Date=new widget("js_date");
-    $Date->SetReadOnly($pview_only);
-    $Date->table=1;
-    $Date->tabindex=1;
-    $r.="<tr>";
-    $r.=$Date->IOValue("e_date",$op_date,"Date");
-    // Periode 
-    //--
-    $l_user_per=(isset($periode))?$periode:$user->get_periode();
-    $l_form_per=FormPeriode($this->db,$l_user_per,OPEN);
+    $Date=new IDate("e_date",$op_date);
+    $Date->setReadOnly($pview_only);
+    $f_date=$Date->input();
+    $f_period='';
+    if ($this->check_periode() == true) {
+      // Periode 
+      //--
+      $l_user_per=(isset($periode))?$periode:$user->get_periode();
+      $period=new IPeriod();
+      $period->cn=$this->db;
+      $period->type=OPEN;
+      $period->value=$l_user_per;
+      $period->user=$user;
+      $period->name='periode';
+      try {
+	$l_form_per=$period->input();
+      } catch (Exception $e) {
+	if ($e->getCode() == 1 ) { 
+	  echo "Aucune période ouverte";
+	  exit();
+	}
+      }
+      $label=HtmlInput::infobulle(3);
+      $f_period="Période comptable $label".$l_form_per;
+    }
 
-    $r.="<td class=\"input_text\">";
-    $label=widget::infobulle(3);
-    $r.="Période comptable $label</td><td>".$l_form_per;
-    $r.="</td>";
-    $r.="</tr>";
     // Ledger (p_jrn)
     //--
-    $wLedger=$this->select_ledger('FIN',2);
+    $wLedger=$this->select_ledger('FIN',3);
     if ($wLedger == null) exit ('Pas de journal disponible');
-    $wLedger->table=1;
-    $wLedger->label=" Journal ".widget::infobulle(2) ;
-    $r.='<tr>';
-    $r.=$wLedger->IOValue();
-    $r.='</tr>';
+
+    $label=" Journal ".HtmlInput::infobulle(2) ;
+    $f_jrn=$label.$wLedger->input();
 
     //retrieve bank name
     $e_bank_account=( isset ($e_bank_account) )?$e_bank_account:"";
@@ -214,82 +237,53 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	$fBank->strAttribut(ATTR_DEF_CITY).' ';
       
     }  
+    $f_bank=$e_bank_account.$e_bank_account_label;
 
-    $W1=new widget("js_search_only");
-    $W1->readonly=$pview_only;
-    $W1->label="Banque ".widget::infobulle(0);
-    $W1->name="e_bank_account";
-    $W1->value=$e_bank_account;
-    $W1->extra='deb';  // credits
-    $W1->extra2="Recherche";
-    $W1->table=0;
-    $W1->javascript=  sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\');ajax_saldo(\'%s\',\'%s\')"',
-			      $W1->name,
-			      $W1->extra, //deb or cred
-			      $_REQUEST['PHPSESSID'],
-			      'js_search_only',
-			      'none',
-			      $_REQUEST['PHPSESSID'],
-			      $W1->name
-			      );
-    $r.="<TR><td colspan=\"4\">".$W1->IOValue();
-    $Span=new widget ("span");
-    $Span->SetReadOnly($pview_only);
-    $r.=$Span->IOValue("e_bank_account_label",$e_bank_account_label)."</TD>";
+    $ibank=new ICard();
+    $ibank->readonly=$pview_only;
+    $ibank->label="Banque ".HtmlInput::infobulle(0);
+    $ibank->name="e_bank_account";
+    $ibank->value=$e_bank_account;
+    $ibank->extra='deb';  // credits
+    $ibank->typecard='deb';
+    $ibank->set_dblclick("fill_ipopcard(this);");
+    $ibank->set_attribute('ipopup','ipopcard');
 
-    $r.="</TABLE>";
-  
-    $r.='</fieldset>';
+    // name of the field to update with the name of the card
+    $ibank->set_attribute('label','e_bank_account');
+    // Add the callback function to filter the card on the jrn
+    $ibank->set_callback('filter_card');
+    $ibank->set_function('fill_fin_data');
+    $ibank->javascript=sprintf(' onchange="fill_fin_data_onchange(\'%s\');" ',
+			    $ibank->name);
 
-
-
-
-    $r.='<fieldset><legend>Opérations financières</legend>';
+    $f_legend_detail='Opérations financières';
     //--------------------------------------------------
     // Saldo begin end 
     //-------------------------------------------------
-    $r.='<fieldset><legend>Extrait de compte</legend>';
-    $r.='<table>';
-    $r.='<tr>';
     // Extrait
     //--
-    $wExt=new widget('TEXT');
-    $label=widget::infobulle(5);
+    $wExt=new IText("ext_no",$ext_no);
+    $label=HtmlInput::infobulle(5);
     $wExt->label='Numéro d\'extrait '.$label;
-    $wExt->table=1;
-    $r.=$wExt->IOValue("ext_no",$ext_no);
-    $label=widget::infobulle(7);
-    $r.='<td class="input_text">Solde début extrait'.$label.' </td>';
-    $wFirst=new widget('text');
-    $wFist->table=0;
-    $first_sold=(isset($first_sold))?$first_sold:"";
+    $f_extrait=$wExt->input();
+    $label=HtmlInput::infobulle(7);
 
-    /*    $wFirst->javascript=sprintf(' onfocus="ajax_saldo(\'%s\',\'%s\');"',
-				    $_REQUEST['PHPSESSID'],
-				    $W1->name);
-    */
-    $r.='<td>'.$wFirst->IOValue('first_sold',$first_sold).'</td>';
-    $wLast=new widget('text');
-    $wLast->table=1;
+    $first_sold=(isset($first_sold))?$first_sold:"";
+    $wFirst=new INum('first_sold',$first_sold);
+
     $last_sold= isset($last_sold)?$last_sold:"";
-    $r.='<td  class="input_text">Solde fin extrait'.$label.' </td>';
-    $r.='<td>'.$wLast->IOValue('last_sold',$last_sold).'</td>';
-    $r.='</table>';
-    $r.='</fieldset>';
+    $wLast=new INum('last_sold',$last_sold);
+
+
     $max=(isset($nb_item))?$nb_item:MAX_ARTICLE;
 
-    $r.= widget::hidden('nb_item',$max);
+    $r.= HtmlInput::hidden('nb_item',$max);
     //--------------------------------------------------
     // financial operation
     //-------------------------------------------------
-    $r.='<TABLE id="fin_item">';
-    $r.="<TR>";
-    $r.="<th colspan=\"2\">code".widget::infobulle(0)."</TH>";
-    $r.="<th>Commentaire</TH>";
-    $r.="<th>Montant</TH>";
-    $r.='<th colspan="2"> Op. Concern&eacute;e(s)</th>';
-    $r.="</TR>";
 
+    $array=array();
     // Parse each " tiers" 
     for ($i=0; $i < $max; $i++) {
       $tiers=(isset(${"e_other".$i}))?${"e_other".$i}:"";
@@ -308,44 +302,57 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	}
       ${"e_other$i"."_amount"}=(isset (${"e_other$i"."_amount"}))?${"e_other$i"."_amount"}:0;
       
-      $W1=new widget("js_search_only");
+      $W1=new ICard();
       $W1->label="";
       $W1->name="e_other".$i;
       $W1->value=$tiers;
       $W1->extra='cred';  // credits
-      $W1->extra2='Recherche';
+      $W1->typecard='cred';
+      $W1->set_dblclick("fill_ipopcard(this);");
+      $W1->set_attribute('ipopup','ipopcard');
+
+      // name of the field to update with the name of the card
+      $W1->set_attribute('label','e_other'.$i.'_comment');
+      // name of the field to update with the name of the card
+      $W1->set_attribute('typecard','filter');
+      // Add the callback function to filter the card on the jrn
+      $W1->set_callback('filter_card');
+      $W1->set_function('fill_data');
+      $W1->javascript=sprintf(' onchange="fill_data_onchange(\'%s\');" ',
+			      $W1->name);
       $W1->readonly=$pview_only;
-      $r.="<TR><td>".$W1->IOValue()."</TD>";
+      $array[$i]['qcode']=$W1->input();
+      $array[$i]['search']=$W1->search();
+
       // label
-      $other=new widget("span");
-      $r.='<TD style="width:25%;border-bottom:1px dotted grey;">';
-      $r.=$other->IOValue("e_other$i"."_label", $tiers_label);
+      $other=new ISpan("e_other$i"."_label", $tiers_label);
+      $array[$i]['span']=$other->input();
       // Comment
-      $wComment=new widget("text");
-      $wComment->table=1;
+      $wComment=new IText("e_other$i"."_comment",$tiers_comment);
+
       $wComment->size=35;
-      $wComment->SetReadOnly($pview_only);
-      $r.=$wComment->IOValue("e_other$i"."_comment",$tiers_comment);
+      $wComment->setReadOnly($pview_only);
+      $array[$i]['comment']=$wComment->input();
       // amount
-      $wAmount=new widget("text");
-      $wAmount->table=1;
+      $wAmount=new INum("e_other$i"."_amount",$tiers_amount);
+
       $wAmount->size=7;
-      $wAmount->SetReadOnly($pview_only);
-      $r.=$wAmount->IOValue("e_other$i"."_amount",$tiers_amount);
+      $wAmount->setReadOnly($pview_only);
+      $array[$i]['amount']=$wAmount->input();
       // concerned
       ${"e_concerned".$i}=(isset(${"e_concerned".$i}))?${"e_concerned".$i}:"";
-      $wConcerned=new widget("js_concerned");
-      $wConcerned->SetReadOnly($pview_only);
+      $wConcerned=new IConcerned("e_concerned".$i,${"e_concerned".$i});
+      $wConcerned->setReadOnly($pview_only);
       $wConcerned->extra=0;
-      $wConcerned->table=1;
+
       $wConcerned->extra2='paid';
-      $r.=$wConcerned->IOValue("e_concerned".$i,${"e_concerned".$i});
-      $r.='</TR>';
+      $array[$i]['concerned']=$wConcerned->input();
     }
-    $r.="</TABLE>";
     
-    $r.='</fieldset>';
-    
+    ob_start();
+    require_once('template/form_ledger_fin.php');
+    $r.=ob_get_contents();
+    ob_clean();
 
     
     return $r;
@@ -361,9 +368,14 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $r="";
     bcscale(2);
     extract ($p_array);
-    $pPeriode=new Periode($this->db);
-    $pPeriode->id=$periode;
-    list ($l_date_start,$l_date_end)=$pPeriode->get_date_limit($periode);
+	$pPeriode=new Periode($this->db);
+	if ($this->check_periode() == true) {
+			$pPeriode->p_id=$periode;
+		} else {
+			$pPeriode->find_periode($e_date);
+		}
+	
+    list ($l_date_start,$l_date_end)=$pPeriode->get_date_limit();
     $exercice=$pPeriode->get_exercice();
     $r.='';
     $r.='<fieldset><legend>Banque, caisse </legend>';
@@ -400,10 +412,10 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       $fBank->strAttribut(ATTR_DEF_CP).' '.
       $fBank->strAttribut(ATTR_DEF_CITY).' ';
 
-    $filter_year=" and j_tech_per in (select p_id from parm_periode where  p_exercice='".$exercice."')";
+    $filter_year="  j_tech_per in (select p_id from parm_periode where  p_exercice='".$exercice."')";
 
-      
-    $solde=get_solde($this->db,$fBank->strAttribut(ATTR_DEF_ACCOUNT),$filter_year);
+    $acc_account=new Acc_Account_Ledger($this->db,$fBank->strAttribut(ATTR_DEF_ACCOUNT));
+    $solde=$acc_account->get_solde($filter_year);
     $new_solde=$solde;
 
     $r.="<TR><td colspan=\"4\"> Banque ";
@@ -462,7 +474,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 		
       $r.="<TR><td>".${'e_other'.$i}."</TD>";
       // label
-      $other=new widget("span");
+      $other=new ISpan();
       $r.='<TD style="width:25%;border-bottom:1px dotted grey;">';
       $r.=$fTiers->strAttribut(ATTR_DEF_NAME);
       $r.='</td>';
@@ -483,33 +495,36 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $new_solde+=$tot_amount;
     $r.='<br>Nouveau solde = '.$new_solde;
     // check for upload piece
-    $file=new widget("file");
-    $file->table=0;
+    $file=new IFile();
+
     $r.="<br>Ajoutez une pi&egrave;ce justificative ";
-    $r.=$file->IOValue("pj","");
+    $r.=$file->input("pj","");
     
     $r.='</fieldset>';
     //--------------------------------------------------
     // Hidden variables
     //--------------------------------------------------
     $r.=dossier::hidden();
-    $r.=widget::hidden('phpsessid',$_REQUEST['PHPSESSID']);
-    $r.=widget::hidden('p_jrn',$this->id);
-    $r.=widget::hidden('nb_item',$nb_item);
-    $r.=widget::hidden('last_sold',$last_sold);
-    $r.=widget::hidden('first_sold',$first_sold);
-    $r.=widget::hidden('e_bank_account',$e_bank_account);
-    $r.=widget::hidden('ext_no',$ext_no);
-    $r.=widget::hidden('e_date',$e_date);
-    $r.=widget::hidden('periode',$periode);
+    $r.=HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);
+    $r.=HtmlInput::hidden('p_jrn',$this->id);
+    $r.=HtmlInput::hidden('nb_item',$nb_item);
+    $r.=HtmlInput::hidden('last_sold',$last_sold);
+    $r.=HtmlInput::hidden('first_sold',$first_sold);
+    $r.=HtmlInput::hidden('e_bank_account',$e_bank_account);
+    $r.=HtmlInput::hidden('ext_no',$ext_no);
+    $r.=HtmlInput::hidden('e_date',$e_date);
+    $mt=microtime(true);
+    $r.=HtmlInput::hidden('mt',$mt);
+
+    if (isset($periode))    $r.=HtmlInput::hidden('periode',$periode);
     $r.=dossier::hidden();
-    $r.=widget::hidden('sa','n');
+    $r.=HtmlInput::hidden('sa','n');
     for ($i=0; $i < $nb_item; $i++) {      
       $tiers=(isset(${"e_other".$i}))?${"e_other".$i}:"";
-      $r.=widget::hidden('e_other'.$i,$tiers);
-      $r.=widget::hidden('e_other'.$i.'_comment',${'e_other'.$i.'_comment'});
-      $r.=widget::hidden('e_other'.$i.'_amount',${'e_other'.$i.'_amount'});
-      $r.=widget::hidden('e_concerned'.$i,${'e_concerned'.$i});
+      $r.=HtmlInput::hidden('e_other'.$i,$tiers);
+      $r.=HtmlInput::hidden('e_other'.$i.'_comment',${'e_other'.$i.'_comment'});
+      $r.=HtmlInput::hidden('e_other'.$i.'_amount',${'e_other'.$i.'_amount'});
+      $r.=HtmlInput::hidden('e_concerned'.$i,${'e_concerned'.$i});
     }
 
     return $r;
@@ -530,16 +545,21 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $fBank->get_by_qcode($e_bank_account);
     // Get the saldo
     $pPeriode=new Periode($this->db);
-    $pPeriode->id=$periode;
+	if ( $this->check_periode() == true ) {
+		$pPeriode->p_id=$periode;
+	} else {
+		$pPeriode->find_periode($e_date);
+		}
     $exercice=$pPeriode->get_exercice();
 
-    $filter_year=" and j_tech_per in (select p_id from parm_periode where  p_exercice='".$exercice."')";
-    $solde=get_solde($this->db,$fBank->strAttribut(ATTR_DEF_ACCOUNT),$filter_year);
+    $filter_year="  j_tech_per in (select p_id from parm_periode where  p_exercice='".$exercice."')";
+    $acc_account=new Acc_Account_Ledger($this->db,$fBank->strAttribut(ATTR_DEF_ACCOUNT));
+    $solde=$acc_account->get_solde($filter_year);
     $new_solde=$solde;
     
     try 
       {
-	StartSql($this->db);
+	$this->db->start();
 	$amount=0.0;  
 	// Credit = goods 
 	for ( $i = 0; $i < $nb_item;$i++) {
@@ -555,7 +575,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	  $amount+=${"e_other$i"."_amount"};
 	  // Record a line for the bank
 	  // Compute the j_grpt
-	  $seq=NextSequence($this->db,'s_grpt');
+	  $seq=$this->db->get_next_seq('s_grpt');
 
 	  $acc_operation=new Acc_Operation($this->db);
 	  $acc_operation->date=$e_date;
@@ -564,7 +584,16 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	  $acc_operation->grpt=$seq;
 	  $acc_operation->jrn=$p_jrn;
 	  $acc_operation->type='d';
-	  $acc_operation->periode=$periode;
+	  
+	  if ( isset($periode)) 
+	    $tperiode=$periode;
+	  else 
+	    {
+	      $per=new Periode($this->db);
+	      $tperiode=$per->find_periode($e_date);
+	      
+	    }
+	  $acc_operation->periode=$tperiode;
 	  $acc_operation->qcode=${"e_other".$i};
 	  $acc_operation->insert_jrnx();
 
@@ -575,7 +604,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	  $acc_operation->grpt=$seq;
 	  $acc_operation->jrn=$p_jrn;
 	  $acc_operation->type='d';
-	  $acc_operation->periode=$periode;
+	  $acc_operation->periode=$tperiode;
 	  $acc_operation->qcode=$e_bank_account;
 	  $acc_operation->insert_jrnx();
 
@@ -595,7 +624,8 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	  $acc_operation->date=$e_date;
 	  $acc_operation->desc=$comment;
 	  $acc_operation->grpt=$seq;
-	  $acc_operation->periode=$periode;
+	  $acc_operation->periode=$tperiode;
+	  $acc_operation->mt=$mt;
 	  $jr_id=$acc_operation->insert_jrn();
 
 	  $internal=$this->compute_internal_code($seq);
@@ -636,12 +666,12 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	    // first record we upload the files and
 	    // keep variable to update other row of jrn
 	    if ( isset ($_FILES))
-	      $oid=save_upload_document($this->db,$seq);
+	      $oid=$this->db->save_upload_document($seq);
 
 	  } else {
 	  if ( $oid  != 0 ) 
 	    {
-	      ExecSql($this->db,"update jrn set jr_pj=".$oid.", jr_pj_name='".$_FILES['pj']['name']."', ".
+	      $this->db->exec_sql("update jrn set jr_pj=".$oid.", jr_pj_name='".$_FILES['pj']['name']."', ".
 		      "jr_pj_type='".$_FILES['pj']['type']."'  where jr_grpt_id=$seq");
 	    }
 	}
@@ -654,11 +684,11 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	'Erreur dans l\'enregistrement '.
 	__FILE__.':'.__LINE__.' '.
 	$e->getMessage();
-      Rollback($this->db);
+      $this->db->rollback();
       exit();
  
     }
-  Commit($this->db);
+  $this->db->commit();
   $r="";
   $r.="<br>Ancien solde ".$solde;
   $new_solde+=$amount;
@@ -670,41 +700,55 @@ class Acc_Ledger_Fin extends Acc_Ledger {
    */
   function show_ledger() {
     echo dossier::hidden();
-    $hid=new widget("hidden");
+    $hid=new IHidden();
     
     $hid->name="p_action";
     $hid->value="bank";
-    echo $hid->IOValue();
+    echo $hid->input();
     
     
     $hid->name="sa";
     $hid->value="l";
-    echo $hid->IOValue();
+    echo $hid->input();
 
     $User=new User($this->db);
 
-    $w=new widget("select");
+    $w=new ISelect();
     // filter on the current year
     $filter_year=" where p_exercice='".$User->get_exercice()."'";
     
-    $periode_start=make_array($this->db,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end",1);
+    $periode_start=$this->db->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end",1);
   // User is already set User=new User($this->db);
-    $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
+    $current=(isset($_GET['p_periode']))?$_GET['p_periode']:-1;
     $w->selected=$current;
 
-    echo JS_SEARCH_CARD;
+    echo JS_LEDGER;
     echo JS_PROTOTYPE;
     echo JS_AJAX_FICHE;
     echo '<form>';
-    echo 'Période  '.$w->IOValue("p_periode",$periode_start);
+    echo 'Période  '.$w->input("p_periode",$periode_start);
     $wLedger=$this->select_ledger('fin',3);
-    if ($wLedger == null) exit ('Pas de journal disponible');
-    echo 'Journal '.$wLedger->IOValue();
-    $w=new widget('js_search_only');
+    if ($wLedger == null) exit (_('Pas de journal disponible'));
+    if ( count($wLedger->value) > 1) {
+      $aValue=$wLedger->value;
+      $wLedger->value[0]=array('value'=>-1,'label'=>_('Tous les journaux financiers'));
+      $idx=1;
+      foreach ($aValue as $a) {
+	$wLedger->value[$idx]=$a;
+	$idx++;
+      }
+    }
+
+
+
+    echo 'Journal '.$wLedger->input();
+    $w=new ICard();
+    $w->noadd='no';
+    $w->jrn=$this->id;
     $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
     echo dossier::hidden();
-    echo widget::hidden('p_action','bank');
-    echo widget::hidden('sa','l');
+    echo HtmlInput::hidden('p_action','bank');
+    echo HtmlInput::hidden('sa','l');
     $w->name='qcode';
     $w->value=$qcode;
     $w->label='';
@@ -712,11 +756,11 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $all=$this->get_all_fiche_def();
     $w->extra=$all;
     $w->extra2='QuickCode';
-    $sp= new widget("span");
-    echo $sp->IOValue("qcode_label","",$qcode);
-    echo $w->IOValue();
+    $sp=new ISpan();
+    echo $sp->input("qcode_label","",$qcode);
+    echo $w->input();
 
-    echo widget::submit('gl_submit','Rechercher');
+    echo HtmlInput::submit('gl_submit',_('Rechercher'));
     echo '</form>';
 
     // Show list of sell
@@ -731,8 +775,10 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	  $User->get_exercice().")";
       }
     /* security  */
-    $available_ledger=" and jr_def_id= ".$this->id." and ".$User->get_ledger_sql();
-    
+    if( $this->id != -1)
+      $available_ledger=" and jr_def_id= ".$this->id." and ".$User->get_ledger_sql();
+    else
+          $available_ledger=" and ".$User->get_ledger_sql();
     // Show list of sell
     // Date - date of payment - Customer - amount
     $sql=SQL_LIST_ALL_INVOICE.$filter_per." and jr_def_type='FIN'".
@@ -740,17 +786,17 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $step=$_SESSION['g_pagesize'];
     $page=(isset($_GET['offset']))?$_GET['page']:1;
     $offset=(isset($_GET['offset']))?$_GET['offset']:0;
-    
+
     $l="";
     
     // check if qcode contains something
     if ( $qcode != "" )
       {
 	// add a condition to filter on the quick code
-	$l=" and jr_grpt_id in (select j_grpt from jrnx where j_qcode='$qcode') ";
+	$l=" and jr_grpt_id in (select j_grpt from jrnx where j_qcode=upper('$qcode')) ";
       }
     
-    list($max_line,$list)=ListJrn($this->db,0,"where jrn_def_type='FIN' $filter_per $l $available_ledger "
+    list($max_line,$list)=ListJrn($this->db,"where jrn_def_type='FIN' $filter_per $l $available_ledger "
 				  ,null,$offset,0);
     $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
     

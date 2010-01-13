@@ -23,17 +23,39 @@
 /*!\file
  * \brief this file is to be included to handle the financial ledger
  */
+echo js_include('prototype.js');
+echo js_include('scriptaculous.js');
+echo js_include('effects.js');
+echo js_include('controls.js');
+echo JS_INFOBULLE;
+echo js_include('acc_ledger.js');
+echo js_include('ajax_fiche.js');
+echo JS_CARD;
+echo js_include('accounting_item.js');
+echo js_include('dragdrop.js');
+echo js_include('acc_ledger.js');
 require_once ('class_acc_ledger_fin.php');
+require_once('class_ipopup.php');
+
 $gDossier=dossier::id();
 $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 
-$cn=DbConnect(dossier::id());
-$menu_action="?p_action=bank&".dossier::get();
+echo ICard::ipopup('ipopcard');
+echo ICard::ipopup('ipop_newcard');
+echo IPoste::ipopup('ipop_account');
+$search_card=new IPopup('ipop_card');
+$search_card->title=_('Recherche de fiche');
+$search_card->value='';
+echo $search_card->input();
+
+
+$cn=new Database(dossier::id());
+$menu_action="?p_action=fin&".dossier::get();
 $menu=array(
-	    array($menu_action.'&sa=n','Nouvel extrait','Encodage d\'un nouvel extrait',1),
-	    array($menu_action.'&sa=l','Liste','Liste opération bancaire',2),
-	    array($menu_action.'&sa=s','Solde','Solde des comptes',3),
-	    array('?p_action=impress&type=jrn&'.dossier::get(),'Impression','Impression')
+	    array($menu_action.'&sa=n',_('Nouvel extrait'),_('Encodage d\'un nouvel extrait'),1),
+	    array($menu_action.'&sa=l',_('Liste'),_('Liste opération bancaire'),2),
+	    array($menu_action.'&sa=s',_('Solde'),_('Solde des comptes'),3),
+	    array('?p_action=impress&type=jrn&'.dossier::get(),_('Impression'),_('Impression'))
 	    );
 $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:-1;
 
@@ -51,7 +73,7 @@ default:
   $def=1;
 }
 echo '<div class="lmenu">';
-echo ShowItem($menu,'H','mtitle','mtitle',$def);
+	    echo ShowItem($menu,'H','mtitle','mtitle',$def);
 echo '</div>';
 
 $href=basename($_SERVER['PHP_SELF']);
@@ -83,17 +105,17 @@ if ( $def == 1 ) {
   if ( isset($_POST['save'])) {
     try {
       $Ledger->verify($_POST);
-    } catch (AcException $e) {
-      echo '<script> alert("'.$e->getMessage().'");</script>';
+    } catch (Exception $e) {
+      alert($e->getMessage());
       $correct=1;
     }
     if ( ! isset ($correct )) {
       echo '<div class="content">';
       echo '<form name="form_detail" enctype="multipart/form-data" ACTION="'.$href.'" METHOD="POST">';
-      echo widget::hidden('p_action','bank');
+      echo HtmlInput::hidden('p_action','fin');
       echo $Ledger->confirm($_POST);
-      echo widget::submit('confirm','Confirmer');
-      echo widget::submit('correct','Corriger');
+      echo HtmlInput::submit('confirm',_('Confirmer'));
+      echo HtmlInput::submit('correct',_('Corriger'));
 
       echo '</form>';
       echo '</div>';
@@ -107,15 +129,15 @@ if ( $def == 1 ) {
   if ( isset($_POST['confirm'])) {
     try {
       $Ledger->verify($_POST);
-    } catch (AcException $e) {
-      echo '<script> alert("'.$e->getMessage().'");</script>';
+    } catch (Exception $e) {
+      alert($e->getMessage());
       $correct=1;
     }
     if ( !isset($correct)) {
       echo '<div class="content">';
       $a= $Ledger->insert($_POST);
-      echo '<h2 class="info">Opération  sauvée </h2>';      
-      echo widget::button_href('Nouvelle extrait',$href.'?p_action=bank&sa=n&'.dossier::get());
+      echo '<h2 class="info">'._('Opération  sauvée').' </h2>';      
+      echo HtmlInput::button_anchor(_('Nouvel extrait'),$href.'?p_action=fin&sa=n&'.dossier::get());
       echo $a;
       echo '</div>';
       exit();
@@ -130,129 +152,114 @@ if ( $def == 1 ) {
   //----------------------------------------
   // Blank form
   //----------------------------------------
-  echo JS_PROTOTYPE;
   echo '<div class="content">';
 
   
   echo '<form name="form_detail" enctype="multipart/form-data" ACTION="'.$href.'" METHOD="POST">';
-  echo widget::hidden('p_action','bank');
-  echo widget::hidden('sa','n');
+  echo HtmlInput::hidden('p_action','fin');
+  echo HtmlInput::hidden('sa','n');
   $array=( isset($correct))?$_POST:null;
   // show select ledger
-  echo $Ledger->display_form($array);
-  echo widget::button('add_item','Ajout article',   ' onClick="ledger_fin_add_row()"');
-  echo widget::submit('save','Sauve');
-  echo widget::reset('Effacer ');
+  echo $Ledger->input($array);
+  echo HtmlInput::button('add_item',_('Ajout article'),   ' onClick="ledger_fin_add_row()"');
+  echo HtmlInput::submit('save',_('Sauve'));
+  echo HtmlInput::reset(_('Effacer'));
 
 
   echo '</form>';
   echo JS_CALC_LINE;
   echo '</div>';
   exit();
+
 }
 //--------------------------------------------------------------------------------
 // Show the listing
 //--------------------------------------------------------------------------------
 if ( $def == 2) {
 
-
-  echo '<div class="content">';
-  if ( isset($_REQUEST['p_jrn']))
+  $Ledger=new Acc_Ledger_Fin($cn,0);
+  if ( !isset($_REQUEST['p_jrn'])) {
+    $Ledger->id=-1;
+  } else 
     $Ledger->id=$_REQUEST['p_jrn'];
-  else {
-    $def_ledger=$Ledger->get_first('fin');
-    $Ledger->id=$def_ledger['jrn_def_id'];
+  echo '<div class="content">';
+  echo $Ledger->display_search_form();
+  $p_array=$_GET;
+  /* by default we should the default period */
+  if ( ! isset($p_array['date_start'])) {
+    $period=$User->get_periode();
+    $per=new Periode($cn,$period);
+    list($date_start,$date_end)=$per->get_date_limit();
+    $p_array['date_start']=$date_start;
+    $p_array['date_end']=$date_end;
   }
-  $jrn_priv=$User->get_ledger_access($Ledger->id);
+  /*  compute the sql stmt */
+  list($sql,$where)=$Ledger->build_search_sql($p_array);
 
- // Check privilege
-  if ( isset($_REQUEST['p_jrn']) && $jrn_priv=='X') {
-       NoAccess();
-       exit -1;
-  }
+  $max_line=$cn->count_sql($sql);
 
-  $Ledger->show_ledger();
-  echo '</div>';
+  $step=$_SESSION['g_pagesize'];
+  $page=(isset($_GET['offset']))?$_GET['page']:1;
+  $offset=(isset($_GET['offset']))?$_GET['offset']:0;
+  $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
+ 
+  echo HtmlInput::hidden("sa","lnp");
+  echo HtmlInput::hidden("p_action","ach");
+  echo dossier::hidden();
+  echo $bar;
+  list($count,$html)= $Ledger->list_operation($sql,$offset);
+  echo $html;
+  echo $bar;
+
+   echo '</div>';
   exit();
 }
 //--------------------------------------------------------------------------------
 // Show the saldo
 //--------------------------------------------------------------------------------
 if ( $def==3) {
-  require_once("poste.php");
   require_once ('class_acc_parm_code.php');
   echo '<div class="content">';
-  echo '<fieldset><legend>Par poste Comptable</legend>';
-  // find the bank account
-  // NOTE : those values are in a table because
-  // they are _national_ parameters
-  $banque=new Acc_Parm_Code($cn,'BANQUE');
-  $caisse=new Acc_Parm_Code($cn,'CAISSE');
-  $vir_interne=new Acc_Parm_Code($cn,'VIREMENT_INTERNE');
-  $accountSql="select distinct pcm_val::text as pcm_val,pcm_lib from 
-            tmp_pcmn 
-            where pcm_val::text like '".$banque->p_value."%' or pcm_val::text like '".$vir_interne->p_value."%' 
-            or pcm_val::text like '".$caisse->p_value."%'
-            order by pcm_val::text";
-  $aFinAccount=get_array($cn,$accountSql);
+  $fiche=new fiche_def($cn);
+  $array=$fiche->get_by_category(FICHE_TYPE_FIN);
+
   echo '<div class="content">';
 
-  echo "<table class=\"result\">";
+  echo '<table width="50%" class="result">';
   // Filter the saldo
   //  on the current year
   $filter_year="  j_tech_per in (select p_id from parm_periode where  p_exercice='".$User->get_exercice()."')";
-
+  // for highligting tje line
+  $idx=0;
   // for each account
-  for ( $i = 0; $i < count($aFinAccount);$i++) {
+  for ( $i = 0; $i < count($array);$i++) {
     // get the saldo
-    $m=get_solde($cn,$aFinAccount[$i]['pcm_val'],' and '.$filter_year);
+    $m=$array[$i]->get_solde_detail($filter_year);
+
+    $solde=$m['debit']-$m['credit'];
+
     // print the result if the saldo is not equal to 0
-    if ( $m != 0.0 ) {
-      echo "<tr>";
-      echo "<TD>".
-	$aFinAccount[$i]['pcm_val'].
+    if ( $m['debit'] != 0.0 || $m['credit'] != 0.0) {
+      if ( $idx%2 != 0 ) 
+	$odd="odd";
+      else
+	$odd="";
+      $idx++;
+      echo "<tr class=\"$odd\">";
+      echo "<TD >".
+	$array[$i]->strAttribut(ATTR_DEF_QUICKCODE).
+	"</TD>";
+
+      echo "<TD >".
+	$array[$i]->strAttribut(ATTR_DEF_NAME).
 	"</TD>".
-	"<TD>".
-	$aFinAccount[$i]['pcm_lib'].
-	"</TD>"."<TD>".
-	$m.
+	"<TD align=\"right\">".
+	$solde.
 	"</TD>"."</TR>";
     }
   }// for
   echo "</table>";
-  echo '</fieldset>';
-  echo '<fieldset><legend>Par fiche (quick_code)</legend>';
-
-  $strAccount='(';
-  foreach ($aFinAccount as $a) {
-    $strAccount.="'".$a['pcm_val']."',";
-  }
-  $strAccount.="'-1')";
-
-  /* find all the quick_code with the corresponding account */
-  $sql='select f_id from fiche join jnt_fic_att_value using (f_id) join attr_value using (jft_id) where ad_id='.ATTR_DEF_ACCOUNT.
-    ' and av_text in '.$strAccount;
-
-  $aFiche=get_array($cn,$sql);
-  echo '<table class="result">';
-  foreach ($aFiche as $k=>$f_id) {
-    
-    $fiche=new fiche($cn,$f_id['f_id']);
-    $saldo_detail=$fiche->get_solde_detail($filter_year);
-    $saldo=( $saldo_detail['debit']>=$saldo_detail['credit'])?$saldo_detail['solde']:$saldo_detail['solde']*(-1);
-    $name=$fiche->getName();
-    $qcode=$fiche->get_quick_code();
-
-?>
-<tr> 
-<td> <?=$qcode?></td>
-<td> <?=$name?> </td>
-<td> <?=$saldo?></td>
-</tr>
-<?php
-  }
-  echo '  </table>';
-  echo '</fieldset>';
   echo "</div>";
   exit();
 }
+

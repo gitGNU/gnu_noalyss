@@ -32,7 +32,7 @@ header('Content-Disposition: attachment;filename="ca_bal_croise.csv"',FALSE);
 
 require_once ('class_anc_balance_double.php');
 
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
 
 $bal=new Anc_Balance_Double($cn);
 $bal->get_request();

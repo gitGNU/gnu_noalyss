@@ -26,7 +26,7 @@
 
 
 require_once  ("constant.php");
-require_once  ("postgres.php");
+require_once('class_database.php');
 require_once ("user_common.php");
 require_once ("debug.php");
 require_once('class_dossier.php');
@@ -40,7 +40,7 @@ if ( ! isset($_GET['gDossier']) ||
     print $a;
     exit();
   }  
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
 
 $User=new User($cn);
 $User->Check();
@@ -54,7 +54,7 @@ if ( ! is_dir('tmp') ) {
   mkdir ('tmp');
 }
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
 { 
   $rap=new Acc_Report($cn,$_GET['f']);

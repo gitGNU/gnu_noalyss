@@ -14,7 +14,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with PhpCompta; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
 */
 /* $Revision: 1937 $ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
@@ -23,11 +23,36 @@
  */
 include_once ("ac_common.php");
 include_once ("user_menu.php");
+require_once("class_ifile.php");
+require_once("class_ibutton.php");
 require_once('class_acc_report.php');
 require_once('class_dossier.php');
-include_once ("postgres.php");
+require_once('class_database.php');
 include_once ("class_user.php");
 include_once ("user_menu.php");
+require_once('class_ipopup.php');
+
+/* Load all the needed javascript */
+echo js_include('prototype.js');
+echo js_include('scriptaculous.js');
+echo js_include('effects.js');
+echo js_include('controls.js');
+echo js_include('scripts.js');
+echo js_include('acc_ledger.js');
+echo js_include('card.js');
+echo js_include('accounting_item.js');
+echo JS_INFOBULLE;
+echo js_include('ajax_fiche.js');
+echo js_include('dragdrop.js');
+echo js_include('acc_report.js');
+
+echo ICard::ipopup('ipopcard');
+echo ICard::ipopup('ipop_newcard');
+echo IPoste::ipopup('ipop_account');
+$search_card=new IPopup('ipop_card');
+$search_card->title=_('Recherche de fiche');
+$search_card->value='';
+echo $search_card->input();
 
 
 
@@ -35,14 +60,14 @@ $gDossier=dossier::id();
 $str_dossier=dossier::get();
 
 /* Admin. Dossier */
-$rep=DbConnect($gDossier);
+$rep=new Database($gDossier);
 
 $User=new User($rep);
 $User->Check();
 $User->can_request(PARRAP,1);
 
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 $nocookie='&PHPSESSID='.$_REQUEST['PHPSESSID'];
 $rap=new Acc_Report($cn);
@@ -50,12 +75,10 @@ $rap=new Acc_Report($cn);
 if ( isset ($_POST["del_form"]) ) {
   $rap->id=$_POST['fr_id'];
   $rap->delete();
-  //   header('Location:'.$_SERVER["SCRIPT_URI"].'?'.$str_dossier.$nocookie);
 }
 if ( isset ($_POST["record"] )) {
   $rap->from_array($_POST);
   $rap->save();
-  //  header('Location:'.$_SERVER["SCRIPT_URI"].'?'.$str_dossier.$nocookie);
 }
 if ( isset($_POST['update'])) {
     $rap->from_array($_POST);
@@ -79,8 +102,6 @@ foreach ( $lis as $row) {
 }
 echo "</TABLE>";
 echo '</div>';
-  echo JS_SEARCH_POSTE;
-  echo JS_PROTOTYPE;
 if ( isset($_POST['upload'])) {
     exit();
   }
@@ -93,15 +114,15 @@ if ( isset ($_REQUEST["action"]) ) {
     {
 
       echo '<DIV class="u_redcontent">';
-      echo '<h1> Définition</h1>';
+      echo '<h1>'._('Définition').'</h1>';
       echo '<form method="post" >';
       echo dossier::hidden();
        $rap->id=0;
       echo $rap->form(15);
       
-      echo widget::submit("record","Sauve");
+      echo HtmlInput::submit("record",_("Sauve"));
       echo '</form>';
-      echo '<span class="notice">Les lignes vides seront effac&eacute;es</span>';
+      echo '<span class="notice">'._("Les lignes vides seront effacées").'</span>';
       echo "</DIV>";
       echo '<DIV class="u_redcontent">';
 
@@ -109,14 +130,14 @@ if ( isset ($_REQUEST["action"]) ) {
       echo '<h1> Importation</h1>';
       echo dossier::hidden();
       $rap->id=0;
-      $wUpload=new widget('file');
+      $wUpload=new IFile();
       $wUpload->name='report';
       $wUpload->value='report_value';
-      echo 'Importer ce rapport ';
-      echo $wUpload->IOValue();
-      echo widget::submit("upload","Sauve");
+      echo _('Importer ce rapport').' ';
+      echo $wUpload->input();
+      echo HtmlInput::submit("upload",_("Sauve"));
       echo '</form>';
-      echo '<span class="notice">Les lignes vides seront effac&eacute;es</span>';
+      echo '<span class="notice">'._("Les lignes vides seront effacées").'</span>';
       echo "</DIV>";
 
     }
@@ -127,18 +148,18 @@ if ( isset ($_REQUEST["action"]) ) {
 	echo '<form method="post">';
 	$rap->load();
 	echo $rap->form();
-	echo widget::hidden("fr_id",$rap->id);
-	echo widget::hidden("action","record");
-	echo widget::submit("update","Mise a jour");
-	echo widget::submit("del_form","Effacement");
-	$w=new widget('button');
+	echo HtmlInput::hidden("fr_id",$rap->id);
+	echo HtmlInput::hidden("action","record");
+	echo HtmlInput::submit("update",_("Mise a jour"));
+	echo HtmlInput::submit("del_form",_("Effacement"));
+	$w=new IButton();
 	$w->name="export";
 	$w->javascript="report_export('".$_REQUEST['PHPSESSID']."','".$gDossier."','".$rap->id."')";
 	$w->label='Export';
-	echo $w->IOValue();
+	echo $w->input();
 	echo '<span id="export_link"></span>';
 	echo '</form>';
-	echo '<span class="notice">Les lignes vides seront effac&eacute;es</span>';
+	echo '<span class="notice">'._("Les lignes vides seront effacées").'</span>';
 	echo "</DIV>";
       }
 

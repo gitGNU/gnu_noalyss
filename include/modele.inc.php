@@ -26,21 +26,22 @@
  * \brief concerne only the template
  *
  */
-require_once ('class_widget.php');
+require_once("class_itext.php");
+require_once("class_icheckbox.php");
 $sa=(isset ( $_REQUEST['sa']))?$_REQUEST['sa']:'list';
 if ( isset ($_POST['upd']) &&
      isset($_POST['m'])){
   if (  isset($_POST['name']) && isset($_POST['desc'])) {
     extract($_POST);
-    $cn=DbConnect();
+    $cn=new Database();
     if ( strlen(trim($name)) !=0 
-	 && getDbValue($cn,'select count(*) from modeledef where '.
+	 && $cn->get_value('select count(*) from modeledef where '.
 		       'mod_name=$1 and mod_id !=$2',
 		       array(trim($name),$m)) == 0
 	 )
       {
 
-	ExecSqlParam($cn,"update modeledef set mod_name=$1, ".
+	$cn->exec_sql("update modeledef set mod_name=$1, ".
 		     " mod_desc=$2 where mod_id=$3 ",
 		     array(trim($name),trim($desc),$m));
 	
@@ -51,79 +52,79 @@ if ( isset ($_POST['upd']) &&
  }
 echo  JS_CONFIRM;
 
-$cn=DbConnect();
+$cn=new Database();
 
 
 
 // IF FMOD_NAME is posted then must add a template
 if ( isset ($_POST["FMOD_NAME"]) ) {
-  $encoding=getDbValue($cn,"select encoding from pg_database  where ".
+  $encoding=$cn->get_value("select encoding from pg_database  where ".
 		       " datname='".domaine.'dossier'.FormatString($_POST["FMOD_DBID"])."'");
 
   if ( $encoding != 6 ) {
-    echo "<script> alert('Désolé vous devez migrer ce modèle en unicode')</script>";
+    alert('Désolé vous devez migrer ce modèle en unicode');
     echo '<span class="error">la base de donnée '.
       domaine.'mod'.$_POST["FMOD_DBID"]." doit être migrée en unicode</span>";
     echo '<span class="error"> Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu</span>';
 
-    echo widget::button_href('Retour','admin_repo.php?action=dossier_mgt');
+    echo HtmlInput::button_anchor('Retour','admin_repo.php?action=dossier_mgt');
     exit();
   }
 
   $mod_name=FormatString($_POST["FMOD_NAME"]);
   $mod_desc=FormatString($_POST["FMOD_DESC"]);
   if ( $mod_name != null) {
-    $Res=ExecSql($cn,"insert into modeledef(mod_name,mod_desc)
+    $Res=$cn->exec_sql("insert into modeledef(mod_name,mod_desc)
                         values ('".$mod_name."',".
 		 "'".$mod_desc."')");
     
     // get the mod_id
-    $l_id=GetSequence($cn,'s_modid');
+    $l_id=$cn->get_current_seq('s_modid');
     if ( $l_id != 0 ) {
       $Sql=sprintf("CREATE DATABASE %sMOD%d encoding='UTF8' TEMPLATE %sDOSSIER%s",domaine,$l_id,domaine,$_POST["FMOD_DBID"]);
       ob_start();
-      if ( pg_query($cn,$Sql)==false) {
+      if ( $cn->exec_sql($Sql)==false) {
 	ob_end_clean();
 	echo "<h2 class=\"error\"> Base de donn&eacute;e ".domaine."dossier".$_POST['FMOD_DBID']."  est accèd&eacute;e, d&eacute;connectez-vous en d'abord</h2>";
-	$Res=ExecSql($cn,"delete from modeledef where mod_id=".$l_id);
+	$Res=$cn->exec_sql("delete from modeledef where mod_id=".$l_id);
 
 	exit;
       }
     }
   }// if $mod_name != null
   
-  $cn_mod=dbconnect($l_id,'mod');
+  $cn_mod=new Database($l_id,'mod');
   
   // Clean some tables 
 
-  $Res=ExecSql($cn_mod,"select distinct jr_pj from jrn where jr_pj is not null ");
-  if ( pg_NumRows($Res) != 0 )
+  $Res=$cn_mod->exec_sql("select distinct jr_pj from jrn where jr_pj is not null ");
+  if ( Database::num_row($Res) != 0 )
     {
-      $a_lob=pg_fetch_all($Res);
-      foreach ($a_lob as $lob) 
-	@pg_lo_unlink($cn_mod,$lob['loid']);
+      $a_lob=Database::fetch_all($Res);
+      for($i=0;$i<count($a_lob);$i++) 
+	$cn_mod->lo_unlink($a_lob[$i]['jr_pj']);
     }
   
-  $Res=ExecSql($cn_mod,"truncate table quant_sold");
-  $Res=ExecSql($cn_mod,"truncate table quant_purchase");
-  $Res=ExecSql($cn_mod,"truncate table centralized");
-  $Res=ExecSql($cn_mod,"truncate table stock_goods");
-  $Res=ExecSql($cn_mod,"truncate jrn cascade");
-  $Res=ExecSql($cn_mod,"delete from jrnx");
-  $Res=ExecSql($cn_mod,"delete from del_jrn");
-  $Res=ExecSql($cn_mod,"delete from del_jrnx");
-  $Res=ExecSql($cn_mod,"delete from del_action");
+  $Res=$cn_mod->exec_sql("truncate table quant_sold");
+  $Res=$cn_mod->exec_sql("truncate table quant_purchase");
+  $Res=$cn_mod->exec_sql("truncate table centralized");
+  $Res=$cn_mod->exec_sql("truncate table stock_goods");
+  $Res=$cn_mod->exec_sql("truncate jrn cascade");
+  $Res=$cn_mod->exec_sql("delete from jrnx");
+  $Res=$cn_mod->exec_sql("delete from del_jrn");
+  $Res=$cn_mod->exec_sql("delete from del_jrnx");
+  $Res=$cn_mod->exec_sql("delete from del_action");
 
-  $Res=ExecSql($cn_mod,'delete from operation_analytique');
+  $Res=$cn_mod->exec_sql('delete from operation_analytique');
 
   // TODO 
   // Nettoyage table quant_*
-  $Res=ExecSql($cn_mod,"truncate table jrn_rapt");
-  $Res=ExecSql($cn_mod,"truncate table import_tmp");
+  $Res=$cn_mod->exec_sql("truncate table jrn_rapt");
+  $Res=$cn_mod->exec_sql("truncate table import_tmp");
   //	Reset the closed periode
-  $Res=ExecSql($cn_mod,"update parm_periode set p_closed='f'");
-  $Res=ExecSql($cn_mod,'delete from jrn_periode');
-  $Res=ExecSql($cn_mod,' insert into jrn_periode(p_id,jrn_def_id,status) '.
+  $Res=$cn_mod->exec_sql("update parm_periode set p_closed='f'");
+  $Res=$cn_mod->exec_sql('delete from jrn_periode');
+  $Res=$cn_mod->exec_sql(' insert into jrn_periode(p_id,jrn_def_id,status) '.
 	    ' select p_id,jrn_def_id,\'OP\' '.
 	    ' from '.
 	    ' parm_periode cross join jrn_def');
@@ -132,72 +133,72 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
   $a_seq=array('s_jrn','s_jrn_op','s_centralized','s_stock_goods','s_internal');
   foreach ($a_seq as $seq ) {
     $sql=sprintf("select setval('%s',1,false)",$seq);
-    $Res=ExecSql($cn_mod,$sql);
+    $Res=$cn_mod->exec_sql($sql);
   }
   $sql="select jrn_def_id from jrn_def ";
-  $Res=ExecSql($cn_mod,$sql);
-  $Max=pg_NumRows($Res);
+  $Res=$cn_mod->exec_sql($sql);
+  $Max=Database::num_row($Res);
   for ($seq=0;$seq<$Max;$seq++) {
-    $row=pg_fetch_array($Res,$seq);
+    $row=Database::fetch_array($Res,$seq);
     /* if seq doesn't exist create it */
-    if ( exist_sequence($cn_mod,'s_jrn_'.$row['jrn_def_id']) == false ) {
-      create_sequence($cn_mod,'s_jrn_'.$row['jrn_def_id']);
+    if ( $cn_mod->exist_sequence('s_jrn_'.$row['jrn_def_id']) == false ) {
+      $cn_mod->create_sequence('s_jrn_'.$row['jrn_def_id']);
     }
 
     
     $sql=sprintf ("select setval('s_jrn_%d',1,false)",$row['jrn_def_id']);
     $sql=sprintf ("select setval('s_jrn_pj%d',1,false)",$row['jrn_def_id']);
-    ExecSql($cn_mod,$sql);
+    $cn_mod->exec_sql($sql);
   }
   //---
   // Cleaning Action
   //-- 
   if ( isset($_POST['DOC'] ))
     {
-      $Res=ExecSql($cn_mod,"delete from action_gestion");
-      $Res=ExecSql($cn_mod,"delete from document");
+      $Res=$cn_mod->exec_sql("delete from action_gestion");
+      $Res=$cn_mod->exec_sql("delete from document");
       // Remove lob file
-      $Res=ExecSql($cn_mod,"select distinct loid from pg_largeobject");
-      if ( pg_NumRows($Res) != 0 )
+      $Res=$cn_mod->exec_sql("select distinct loid from pg_largeobject");
+      if ( Database::num_row($Res) != 0 )
 	{
-	  $a_lob=pg_fetch_all($Res);
+	  $a_lob=Database::fetch_all($Res);
 	  //var_dump($a_lob);
 	  foreach ($a_lob as $lob) {
-	    pg_lo_unlink($cn_mod,$lob['loid']);
+	    $cn_mod->lo_unlink($lob['loid']);
 	  }
 	}
     }
   if ( isset($_POST['CARD'])) 
     {
-      $Res=ExecSql($cn_mod,"delete from  attr_value");
-      $Res=ExecSql($cn_mod,"delete from  jnt_fic_att_value");
-      $Res=ExecSql($cn_mod,"delete from   fiche");
-      $Res=ExecSql($cn_mod,"delete from action_gestion");
-      $Res=ExecSql($cn_mod,"delete from document");
-      $Res=ExecSql($cn_mod,"delete from op_predef");
+      $Res=$cn_mod->exec_sql("delete from  attr_value");
+      $Res=$cn_mod->exec_sql("delete from  jnt_fic_att_value");
+      $Res=$cn_mod->exec_sql("delete from   fiche");
+      $Res=$cn_mod->exec_sql("delete from action_gestion");
+      $Res=$cn_mod->exec_sql("delete from document");
+      $Res=$cn_mod->exec_sql("delete from op_predef");
 
       // Remove lob file
-      $Res=ExecSql($cn_mod,"select distinct loid from pg_largeobject");
-      if ( pg_NumRows($Res) != 0 )
+      $Res=$cn_mod->exec_sql("select distinct loid from pg_largeobject");
+      if ( Database::num_row($Res) != 0 )
 			  {
-			    $a_lob=pg_fetch_all($Res);
+			    $a_lob=Database::fetch_all($Res);
 			    foreach ($a_lob as $lob) 
-			      pg_lo_unlink($cn_mod,$lob['loid']);
+			     $cn_mod->lo_unlink($lob['loid']);
 			  }
       
       
     }
   if ( isset($_POST['CANAL'])) {
-    $Res=ExecSql($cn_mod,'delete from poste_analytique');
-    $Res=ExecSql($cn_mod,'delete from plan_analytique');
+    $Res=$cn_mod->exec_sql('delete from poste_analytique');
+    $Res=$cn_mod->exec_sql('delete from plan_analytique');
   }  
   
  }
 // Show all available templates
 
-$Res=ExecSql($cn,"select mod_id,mod_name,mod_desc from 
+$Res=$cn->exec_sql("select mod_id,mod_name,mod_desc from 
                       modeledef order by mod_name");
-$count=pg_NumRows($Res);
+$count=Database::num_row($Res);
 echo '<div class="content">';
 echo "<H2>Modèles</H2>";
 if ( $sa=='list') {
@@ -206,8 +207,8 @@ if ( $sa=='list') {
   } else {
     
 
-    echo widget::button_href('Rafra&icirc;chir','admin_repo.php?action=modele_mgt');
-    echo widget::button_href('Ajouter','admin_repo.php?action=modele_mgt&sa=add');
+    echo HtmlInput::button_anchor('Rafra&icirc;chir','admin_repo.php?action=modele_mgt');
+    echo HtmlInput::button_anchor('Ajouter','admin_repo.php?action=modele_mgt&sa=add');
 
     echo '<table width="100%" >';
     echo "<TR><TH>Nom</TH>".
@@ -216,16 +217,16 @@ if ( $sa=='list') {
       "</TR>";
   
     for ($i=0;$i<$count;$i++) {
-      $mod=pg_fetch_array($Res,$i);
+      $mod=Database::fetch_array($Res,$i);
       printf('<TR>'.
 	     '<TD>%d <b> %s</b> </TD>'.
 	     '<TD><I> %s </I></TD>'.
 	     '<td> '.
-	     widget::button_href('Effacer','?action=modele_mgt&sa=del&m='.$mod['mod_id']).'</td>'.
+	     HtmlInput::button_anchor('Effacer','?action=modele_mgt&sa=del&m='.$mod['mod_id']).'</td>'.
 	     '</td>'.
-	     '<td>'.widget::button_href('Modifie','?action=modele_mgt&sa=mod&m='.$mod['mod_id']).'</td>'.
+	     '<td>'.HtmlInput::button_anchor('Modifie','?action=modele_mgt&sa=mod&m='.$mod['mod_id']).'</td>'.
 	     '</td>'.
-	     '<td>'.widget::button_href('Backup','backup.php?action=backup&sa=b&t=m&d='
+	     '<td>'.HtmlInput::button_anchor('Backup','backup.php?action=backup&sa=b&t=m&d='
 				      .$mod['mod_id']).'</td>'.
 	     '</TR>',
 	     $mod['mod_id'],
@@ -245,14 +246,14 @@ echo "Si vous voulez r&eacute;cup&eacute;rer toutes les adaptations d'un dossier
 //---------------------------------------------------------------------------
 if ( $sa == 'add') {
 // Show All available folder
-$Res=ExecSql($cn,"select dos_id, dos_name,dos_description from ac_dossier
+$Res=$cn->exec_sql("select dos_id, dos_name,dos_description from ac_dossier
                       order by dos_name");
-$count=pg_NumRows($Res);
+$count=Database::num_row($Res);
 $available="";
 if ( $count != 0 ) {
   $available='<SELECT NAME="FMOD_DBID">';
   for ($i=0;$i<$count;$i++) {
-    $db=pg_fetch_array($Res,$i);
+    $db=Database::fetch_array($Res,$i);
     $available.='<OPTION VALUE="'.$db['dos_id'].'">'.$db['dos_name'].':'.$db['dos_description'];
   }//for i
   $available.='</SELECT>';
@@ -282,7 +283,7 @@ if ( $count != 0 ) {
 
 <INPUT TYPE="SUBMIT" VALUE="Ajout d'un modele">
 <?php
-echo widget::button_href('Retour','?action=modele_mgt');
+echo HtmlInput::button_anchor('Retour','?action=modele_mgt');
 ?>
 
 </form>
@@ -291,29 +292,29 @@ echo widget::button_href('Retour','?action=modele_mgt');
 //---------------------------------------------------------------------------
 // Modify
  if ( $sa == 'mod' && isset($_GET['m']) ){
-   $cn=DbConnect();
+   $cn=new Database();
 
    echo '<form method="post">';
-   $name=getDbValue($cn,
+   $name=$cn->get_value(
 		    "select mod_name from modeledef where ".
 		    " mod_id=$1",
 		    array($_GET['m']));
 
-   $desc=getDbValue($cn,
+   $desc=$cn->get_value(
 		    "select mod_desc from modeledef where ".
 		    " mod_id=$1",
 		    array($_GET['m']));
-   $wText=new widget('text');
-   echo 'Nom : '.$wText->IOValue('name',$name);
-   $wDesc=new widget('textarea');
+   $wText=new IText();
+   echo 'Nom : '.$wText->input('name',$name);
+   $wDesc=new ITextArea();
    $wDesc->heigh=5;
    echo '<br>Description :<br>';
-   echo $wDesc->IOValue('desc',$desc);
-   echo widget::hidden('m',$_GET['m']);
-   echo widget::hidden('action','modele_mgt');
+   echo $wDesc->input('desc',$desc);
+   echo HtmlInput::hidden('m',$_GET['m']);
+   echo HtmlInput::hidden('action','modele_mgt');
    echo '<br>';
-   echo widget::button_href('Retour','?action=modele_mgt');
-   echo widget::submit('upd','Modifie');
+   echo HtmlInput::button_anchor('Retour','?action=modele_mgt');
+   echo HtmlInput::submit('upd','Modifie');
    echo '</form>';
  }
 
@@ -321,18 +322,18 @@ echo widget::button_href('Retour','?action=modele_mgt');
 // action = del
 //---------------------------------------------------------------------------
 if ( $sa == 'del' ) {
-  $cn=DbConnect();
-  $name=getDbValue($cn,'select mod_name from modeledef where mod_id=$1',array($_REQUEST['m']));
+  $cn=new Database();
+  $name=$cn->get_value('select mod_name from modeledef where mod_id=$1',array($_REQUEST['m']));
   echo '<form method="post">';
-  echo widget::hidden('d',$_REQUEST['m']);
-  echo widget::hidden('sa','remove');
+  echo HtmlInput::hidden('d',$_REQUEST['m']);
+  echo HtmlInput::hidden('sa','remove');
   echo '<h2 class="error">Etes vous sure et certain de vouloir effacer '.$name.' ???</h2>';
-  $confirm=new widget('checkbox');
+  $confirm=new ICheckBox();
   $confirm->name="p_confirm";
   echo 'Cochez la case si vous êtes sûr de vouloir effacer ce modèle';
-  echo $confirm->IOValue();
-  echo widget::submit('remove','Effacer');
-  echo widget::button_href('Retour','?action=modele_mgt');
+  echo $confirm->input();
+  echo HtmlInput::submit('remove','Effacer');
+  echo HtmlInput::button_anchor('Retour','?action=modele_mgt');
   echo '</form>';
  }
 //---------------------------------------------------------------------------
@@ -341,13 +342,13 @@ if ( $sa == 'del' ) {
 if ( $sa == 'remove' ) {
   if ( ! isset ($_REQUEST['p_confirm'])) {
     echo('Désolé, vous n\'avez pas coché la case');  
-    echo widget::button_href('Retour','?action=modele_mgt');
+    echo HtmlInput::button_anchor('Retour','?action=modele_mgt');
     exit();
   }
 
-  $cn=DbConnect();
+  $cn=new Database();
    $msg="dossier";
-   $name=getDbValue($cn,"select mod_name from modeledef where mod_id=$1",array($_REQUEST['m']));
+   $name=$cn->get_value("select mod_name from modeledef where mod_id=$1",array($_REQUEST['m']));
    if ( strlen(trim($name)) == 0 )
      {
        echo "<h2 class=\"error\"> $msg inexistant</h2>";
@@ -355,7 +356,7 @@ if ( $sa == 'remove' ) {
      }
    $sql="drop database ".domaine."mod".FormatString($_REQUEST['m']);
    ob_start();
-   if ( pg_query($cn,$sql)==false) {
+   if ( $cn->exec_sql($sql)==false) {
      ob_end_clean();
      
      echo "<h2 class=\"error\"> 
@@ -364,10 +365,10 @@ if ( $sa == 'remove' ) {
    }
    ob_flush();
    $sql="delete from modeledef where mod_id=$1";
-   ExecSqlParam($cn,$sql,array($_REQUEST['m']));
+   $cn->exec_sql($sql,array($_REQUEST['m']));
    print '<h2 class="info">';
    print "Voilà le modèle $name est effacé</H2>";
-   echo widget::button_href('Retour','?action=modele_mgt');
+   echo HtmlInput::button_anchor('Retour','?action=modele_mgt');
  }
  echo '</div>';
 ?>

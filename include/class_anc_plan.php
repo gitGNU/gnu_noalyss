@@ -20,16 +20,17 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief Concerns the Analytic plan (table plan_analytique)
  */
 
 /*! \brief
  *  Concerns the Analytic plan (table plan_analytique)
  */
+require_once("class_itext.php");
+require_once("class_ihidden.php");
 require_once("constant.php");
-require_once("postgres.php");
-require_once("class_widget.php");
+require_once('class_database.php');
 require_once("class_anc_account.php");
 require_once ('class_dossier.php');
 
@@ -48,7 +49,7 @@ class Anc_Plan
 	$this->description="";
 	$this->get();
   }
-  /*!\brief get the list of all existing PA 
+  /*!\brief get the list of all existing PA
    * \return an array of PA (not object)
    *
    */
@@ -57,8 +58,8 @@ class Anc_Plan
 	$array=array();
 	$sql="select pa_id as id,pa_name as name,".
 	  "pa_description as description from plan_analytique order by pa_name";
-	$ret=ExecSql($this->db,$sql);
-	$array=pg_fetch_all($ret);
+	$ret=$this->db->exec_sql($sql);
+	$array=Database::fetch_all($ret);
 	return $array;
   }
 
@@ -67,12 +68,12 @@ class Anc_Plan
 	if ( $this->id==0) return;
 
 	$sql="select pa_name,pa_description from plan_analytique where pa_id=".$this->id;
-	$ret= ExecSql($this->db,$sql);
-	if ( pg_NumRows($ret) == 0)
+	$ret= $this->db->exec_sql($sql);
+	if ( Database::num_row($ret) == 0)
 	  {
 		return;
 	  }
-	$a=  pg_fetch_array($ret,0);
+	$a=  Database::fetch_array($ret,0);
 	$this->name=$a['pa_name'];
 	$this->description=$a['pa_description'];
 
@@ -81,7 +82,7 @@ class Anc_Plan
   function delete()
   {
 	if ( $this->id == 0 ) return;
-	ExecSql($this->db,"delete from plan_analytique where pa_id=".$this->id);
+	$this->db->exec_sql("delete from plan_analytique where pa_id=".$this->id);
   }
 
   function update()
@@ -92,9 +93,8 @@ class Anc_Plan
 	  return;
 
 	$description=FormatString($this->description);
-	ExecSql($this->db,"update plan_analytique set pa_name='".$name."'".
-			", pa_description='".$description."'".
-			" where pa_id=".$this->id);
+	$this->db->exec_sql("update plan_analytique set pa_name=$1,
+			pa_description=$2 where pa_id=$3",array($name,$description,$this->id));
   }
 
   function add()
@@ -104,31 +104,32 @@ class Anc_Plan
 	  return;
 	if ( $this->isAppend() == false) return;
 	$description=FormatString($this->description);
-	ExecSql($this->db,"insert into plan_analytique(pa_name,pa_description)".
+	$this->db->exec_sql("insert into plan_analytique(pa_name,pa_description)".
 			" values (".
 			"'".$name."',".
 			"'".$description."')");
-	$this->id=getSequence($this->db,'plan_analytique_pa_id_seq');
+	$this->id=$this->db->get_current_seq('plan_analytique_pa_id_seq');
 
   }
   function form()
   {
 
-	$wName=new widget('TEXT','Nom','pa_name',$this->name);
+	$wName=new IText('pa_name',$this->name);
+
 	$wName->table=1;
-	$wDescription=new widget('TEXT','Description','pa_description',$this->description);
+	$wDescription=new IText('pa_description',$this->description);
 	$wDescription->table=1;
-	$wId=new widget("HIDDEN","pa_id",$this->id);
+	$wId=new IHidden("pa_id",$this->id);
 	$ret="<TABLE>";
-	$ret.='<tr>'.$wName->IOValue().'</tr>';
-	$ret.="<tr>".$wDescription->IOValue()."</tr>";
+	$ret.='<tr>'.td(_('Nom')).$wName->input().'</tr>';
+	$ret.="<tr>".td(_('Description')).$wDescription->input()."</tr>";
 	$ret.="</table>";
-	$ret.=$wId->IOValue();
+	$ret.=$wId->input();
 	return $ret;
   }
   function isAppend()
   {
-	$count=getDbValue($this->db,"select count(pa_id) from plan_analytique");
+	$count=$this->db->get_value("select count(pa_id) from plan_analytique");
 
 	if ( $count > 4)
 	  return false;
@@ -136,18 +137,18 @@ class Anc_Plan
 	  return true;
   }
   /*!\brief get all the poste related to the current
-   *        Analytic plan 
+   *        Analytic plan
    * \return an array of Poste_analytic object
    */
   function get_poste_analytique()
   {
 	$sql="select po_id from poste_analytique where pa_id=".$this->id;
-	$r=ExecSql($this->db,$sql);
+	$r=$this->db->exec_sql($sql);
 	$ret=array();
-	if ( pg_NumRows($r) == 0 ) 
+	if ( Database::num_row($r) == 0 )
 	  return $ret;
-	
-	$all=pg_fetch_all($r);
+
+	$all=Database::fetch_all($r);
 	foreach ($all as $line)
 	  {
 		$obj=new Anc_Account($this->db,$line['po_id']);
@@ -170,21 +171,21 @@ class Anc_Plan
 	  return $res;
   }
   function count() {
-	$a=CountSql($this->db,"select pa_id from plan_analytique");
+	$a=$this->db->count_sql("select pa_id from plan_analytique");
 	return $a;
   }
   function exist() {
-	$a=CountSql($this->db,"select pa_id from plan_analytique where pa_id=".
-				pg_escape_string($this->pa_id));
+	$a=$this->db->count_sql("select pa_id from plan_analytique where pa_id=".
+				Database::escape_string($this->pa_id));
 
 	return ($a==0)?false:true;
 
   }
   static function test_me() {
-    $cn=DbConnect(dossier::id());
+    $cn=new Database(dossier::id());
     echo "<h1>Plan analytique : test</h1>";
     echo "clean";
-    ExecSql($cn,"delete from plan_analytique");
+    $cn->exec_sql("delete from plan_analytique");
 
     $p=new Anc_Plan($cn);
     echo "<h2>Add</h2>";

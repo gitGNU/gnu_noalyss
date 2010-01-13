@@ -25,10 +25,9 @@
  */
 include_once("class_acc_account_ledger.php");
 include_once("ac_common.php");
-include_once("postgres.php");
+require_once('class_database.php');
 include_once("class.ezpdf.php");
 include_once("impress_inc.php");
-require_once("poste.php");
 require_once ('header_print.php');
 require_once('class_dossier.php');
 require_once('class_user.php');
@@ -36,7 +35,7 @@ require_once('class_user.php');
 $gDossier=dossier::id();
 
 /* Security */
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 $User=new User($cn);
 $User->Check();
 $User->check_dossier($gDossier);
@@ -45,9 +44,9 @@ $User->can_request(IMPPOSTE,0);
 extract($_POST);
 
  if ( isset ( $poste_fille) ){ //choisit de voir tous les postes
-   $a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val::text like '$poste_id%'");
+   $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '$poste_id%'");
  } else 
- $a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val::text = '$poste_id'");
+ $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text = '$poste_id'");
       
 
 $ret="";
@@ -64,7 +63,7 @@ foreach ($a_poste as $poste)
 {
   echo_debug("poste_pdf",__LINE__,$poste);
   $Poste=new Acc_Account_Ledger($cn,$poste['pcm_val']);
-  list($array,$tot_deb,$tot_cred)=$Poste->get_row($from_periode,$to_periode);
+  list($array,$tot_deb,$tot_cred)=$Poste->get_row_date($from_periode,$to_periode);
   // don't print empty account
   if ( count($array) == 0 ) {
      continue;
@@ -74,7 +73,7 @@ foreach ($a_poste as $poste)
     //  $pdf->ezText($Libelle,30);
   $pdf->ezTable($array,
 		array ('jr_internal'=>'Operation',
-		       'j_date' => 'Date',
+		       'j_date_fmt' => 'Date',
 		       'jrn_name'=>'Journal',
 		       'description'=>'Description',
 		       'deb_montant'=> 'Montant',

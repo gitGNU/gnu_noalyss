@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -21,17 +21,19 @@
 
 /*! \file
  * \brief Contains all the variable + the javascript
- * and some parameter 
+ * and some parameter
  */
 require_once ('config.inc.php');
 require_once('constant.security.php');
 
-define ("DBVERSION",59);
+define ("DBVERSION",62);
 
 define ("MAX_COMPTE",4);
-define ('MAX_BUD_DETAIL',20);
-define ('MAX_ARTICLE',8);
-define ("DEBUG","false"); 	/* value are true or false */
+define ('MAX_ARTICLE',9);
+define ('MAX_CAT',15);
+define ('MAX_FORECAST_ITEM',20);
+
+define ("DEBUG","false");
 
 // Erreur
 define ("NOERROR",0);
@@ -89,6 +91,11 @@ define ("ATTR_DEF_COMPANY",25);
 define ("ATTR_DEF_FAX",26);
 define ("ATTR_DEF_NUMBER_CUSTOMER",30);
 define ("ATTR_DEF_DEP_PRIV",31);
+define ("ATTR_DEF_DEPENSE_NON_DEDUCTIBLE",20);
+define ("ATTR_DEF_TVA_NON_DEDUCTIBLE",21);
+define ("ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP",22);
+define ("ATTR_DEF_QUICKCODE",23);
+
 
 define ("FICHE_TYPE_CLIENT",9);
 define ("FICHE_TYPE_VENTE",1);
@@ -102,35 +109,20 @@ define ("FICHE_TYPE_ACH_SER",3);
 
 
 
-define ("ATTR_DEF_DEPENSE_NON_DEDUCTIBLE",20);
-define ("ATTR_DEF_TVA_NON_DEDUCTIBLE",21);
-define ("ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP",22);
-define ("ATTR_DEF_QUICKCODE",23);
 define ("JS_CONFIRM",
 "<SCRIPT language=\"javascript\" src=\"js/confirm.js\">	</SCRIPT>");
-define ("JS_SEARCH_POSTE",
-"<SCRIPT language=\"javascript\" src=\"js/search_poste.js\">	</SCRIPT>");
-
-define ("JS_BUD_SCRIPT",
-"<SCRIPT language=\"javascript\" src=\"js/bud_script.js\">	</SCRIPT>");
-
-define ("JS_VIEW_JRN_CANCEL",
-"<script  language=\"javascript\" src=\"js/cancel_op.js\">	</script>");
-
-define ("JS_VIEW_JRN_MODIFY",
-"<script  language=\"javascript\" src=\"js/modify_op.js\">	</script>");
+define ("JS_ACCOUNTING_ITEM",
+"<SCRIPT language=\"javascript\" src=\"js/accounting_item.js\">	</SCRIPT>");
 
 
-define ("JS_UPDATE_PCMN",
-"<script  language=\"javascript\" src=\"js/update_pcmn.js\">	</script>");
-
-define ("JS_SEARCH_CARD","
-<script  language=\"javascript\" src=\"js/search_card.js\"></script>
+define ("JS_LEDGER","
+<script  language=\"javascript\" src=\"js/acc_ledger.js\"></script>
 ");
-// concerned operation
-define ("JS_CONCERNED_OP",'
-<script type="text/javascript" language="javascript"  src="js/jrn_concerned.js">
-</script>');
+define ("JS_CARD","
+<script  language=\"javascript\" src=\"js/card.js\"></script>
+");
+
+
 define ('JS_CALENDAR','
 <script type="text/javascript" language="javascript"  src="js/jrn_concerned.js">
 </script>');
@@ -174,15 +166,14 @@ define ("JS_COMPUTE_ODS",
  function ShowTva(p_sessid,p_dossier,ctl)
       {
         var win=window.open('show_tva.php?ctl='+ctl+'&PHPSESSID='+p_sessid+'&gDossier='+p_dossier,'Montre','scrollbar,toolbar=no,width=300,height=300,resizable=yes');
-     } 
+     }
   function GetIt(ctl,tva_id) {
     self.opener.SetValue(ctl,tva_id)
-    window.close();	
- } 
+    window.close();
+ }
 </script>");
 
 define ("JS_TVA","<script  language=\"javascript\">
-
 function ChangeTVA(p_ctl,p_value) {
         if (document.getElementById(p_ctl) ) {
           var f=document.getElementsByName(p_value);
@@ -197,16 +188,15 @@ define ("JS_AJAX_FICHE",'<script language="javascript" src="js/ajax_fiche.js"></
 define ("JS_TODO",'<script language="javascript" src="js/todo_list.js"></script>');
 define ("JS_AJAX_OP",'<script language="javascript" src="js/ajax_op.js"></script>');
 define ("JS_PROTOTYPE",'<script language="javascript" src="js/prototype.js"></script>');
-define ("JS_MINTOOLKIT",'<script language="javascript" src="js/mintoolkit.js"></script>');
 // Sql string
 define ("SQL_LIST_ALL_INVOICE","");
 
-define ("SQL_LIST_UNPAID_INVOICE"," where (jr_rapt is null or jr_rapt = '') and jr_valid = true  and jr_ech is null"
-); 
+define ("SQL_LIST_UNPAID_INVOICE","  (jr_rapt is null or jr_rapt = '') and jr_valid = true  and jr_ech is null"
+);
 
 
-define ("SQL_LIST_UNPAID_INVOICE_DATE_LIMIT" ," 
-   where (jr_rapt is null or jr_rapt = '') 
+define ("SQL_LIST_UNPAID_INVOICE_DATE_LIMIT" ,"
+   where (jr_rapt is null or jr_rapt = '')
        and to_date(to_char(jr_ech,'DD.MM.YYYY'),'DD.MM.YYYY') < to_date(to_char(now(),'DD.MM.YYYY'),'DD.MM.YYYY') and jr_ech is not null
        and jr_valid = true" );
 ?>

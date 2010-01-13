@@ -18,30 +18,46 @@
 */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 include_once ("ac_common.php");
-require_once("check_priv.php");
 require_once('class_dossier.php');
-require_once ('class_widget.php');
 require_once ('class_pre_operation.php');
 /* $Revision$ */
 /*! \file
- * \brief Obsolete
+ * \brief call the different advanced parameters as report creation, periode,
+ * ...
  */
 $gDossier=dossier::id();
 
 html_page_start($_SESSION['g_theme']);
 
-include_once ("postgres.php");
+require_once('class_database.php');
 /* Admin. Dossier */
-$rep=DbConnect();
+$rep=new Database();
 include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
 $User->check_dossier(dossier::id());
-$cn=DbConnect(dossier::id());
+$cn=new Database(dossier::id());
 $User->db=$cn;
 
-include_once ("postgres.php");
+require_once('class_database.php');
+require_once('class_ipopup.php');
 echo_debug('user_advanced.php',__LINE__,"user is ".$_SESSION['g_user']);
+echo js_include('accounting_item.js');
+echo js_include('prototype.js');
+echo js_include('scriptaculous.js');
+echo js_include('effects.js');
+echo js_include('controls.js');
+echo js_include('dragdrop.js');
+echo js_include('acc_ledger.js');
+echo js_include('ajax_fiche.js');
+echo JS_CARD;
+echo ICard::ipopup('ipopcard');
+echo IPoste::ipopup('ipop_account');
+$search_card=new IPopup('ipop_card');
+$search_card->title=_('Recherche de fiche');
+$search_card->value='';
+echo $search_card->input();
+
 
 
 // We don't check permissions here in fact, permission are tested in the

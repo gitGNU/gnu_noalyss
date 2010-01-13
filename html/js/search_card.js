@@ -20,13 +20,11 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*! \file 
- * \brief
- * 
+ * \brief javascript for searching a card
  */
 /*!\brief open a windows for showing a card
 * \param p_sessid must be given
 * \param the qcode 
-*\todo is obsolete ??
  */
 function showfiche(p_sessid,p_qcode)
 {
@@ -40,21 +38,28 @@ function showfiche(p_sessid,p_qcode)
 *\param  p_sessid is the PHPSESSID
 *\param type must be deb or cred
 *\param  name is the name of the control, it is used for computing the name of the VAT, Price field 
+*\param no_add to avoid to be able to add a card (for undefined or no)
+*\param p_ledger is the ledger id : 0 means no check
 * \see SetData()
 */
-function SearchCard(p_sessid,type,name,no_add)
+function SearchCard(p_sessid,type,name,p_ledger,no_add)
 {
   var search=document.getElementById(name).value;
   var gDossier=document.getElementById('gDossier').value;
+  
   var jrn=0;
-  if ( document.getElementById("p_jrn") ) {
-    jrn=document.getElementById("p_jrn").value;
-  }
+  if ( p_ledger == undefined ) {
+	if ( document.getElementById("p_jrn") ) {
+		jrn=document.getElementById("p_jrn").value;
+	}	
+  } else 
+	jrn=p_ledger;
+	
   var file='fiche_search.php';
-var qadd='';
-if ( no_add != undefined) { qadd="&noadd"}
-var
-query='?first&search&fic_search='+search+'&p_jrn='+jrn+'&PHPSESSID='+p_sessid
+var qadd='&add=yes';
+if ( no_add != undefined && no_add=='no' ) { qadd="&add=no"}
+
+var query='?first&search&fic_search='+search+'&p_jrn='+jrn+'&PHPSESSID='+p_sessid
 +'&type='+type+'&name='+name+'&gDossier='+gDossier+qadd;
   query+="&caller=searchcard";
    var a=window.open(file+query,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
@@ -63,16 +68,19 @@ query='?first&search&fic_search='+search+'&p_jrn='+jrn+'&PHPSESSID='+p_sessid
 }
 /*!\brief Open a window for adding a card
 *
-* Remark The ledger (jrn_id) must be in the calling form as a hidden field named p_jrn
+* Remark The ledger (jrn_id) must be in the calling form as a hidden field named p_jrn or passed as a parameter
 *\param  p_sessid is the PHPSESSID
 *\param type must be deb or cred
 *\param  name is the name of the control, it is used for computing the name of the VAT, Price field 
+*\param p_jrn ledger id
 */
-function NewCard(p_sessid,type,name)
+function NewCard(p_sessid,type,name,p_jrn)
 {
+
   var search=document.getElementById(name).value;
   var gDossier=document.getElementById('gDossier').value;
-  var jrn=$("p_jrn").value;
+  var jrn=0;
+  if ( p_jrn == undefined )  {  jrn=$("p_jrn").value; } else { jrn=p_jrn;}
   var a=window.open('fiche_new.php?p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name+'&gDossier='+gDossier,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
    return false;
 
@@ -112,8 +120,13 @@ function SetValue(p_ctl,p_value)
 
 	// Compute name of label ctl
 	var a=i+'_label';
+	
+	if (document.getElementById(a).tagName=='SPAN') {
 	document.getElementById(a).innerHTML=p_label;
 	document.getElementById(a).style.color='black';
+	} else {
+	 SetValue(a,p_label)
+	}
 	// Compute name of  sell  ctl 
  	var a=i+'_price';
 	// if the object exist

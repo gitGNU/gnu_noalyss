@@ -20,23 +20,27 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief
- *  Print the crossed balance between 2 plan 
+ *  Print the crossed balance between 2 plan
  */
 
 /*! \brief
- *  Print the crossed balance between 2 plan 
+ *  Print the crossed balance between 2 plan
  *
  */
+require_once("class_iselect.php");
+require_once("class_itext.php");
+require_once("class_ibutton.php");
+require_once("class_ihidden.php");
 require_once ('class_anc_print.php');
 require_once ('class_anc_plan.php');
 
-class Anc_Balance_Double extends Anc_Print 
+class Anc_Balance_Double extends Anc_Print
 {
-/*! 
+/*!
  * \brief compute the html display
- * 
+ *
  *
  * \return string
  */
@@ -75,7 +79,7 @@ class Anc_Balance_Double extends Anc_Print
 		$tot_deb=0;
 		$tot_cred=0;
 
-		// new 	
+		// new
 		$r.="</table>";
 		$r.="<table class=\"mtitle\">";
 		$r.="<tr>";
@@ -98,8 +102,8 @@ class Anc_Balance_Double extends Anc_Print
 	  $r.=sprintf("<td>%12.2f</td>",$row['a_c']);
 	  $r.=sprintf("<td>%12.2f</td>",$row['a_solde']);
 	  $r.=sprintf("<td>%s</td>",$row['a_debit']);
-	  $r.="</tr>";	  
-	}	
+	  $r.="</tr>";
+	}
 	if ( $tot_deb != 0 || $tot_cred !=0 ) {
 	  $r.="<tr>";
 	  $r.="<td>Total </td> <td></td><td> $tot_deb </td> <td>$tot_cred</td>";
@@ -125,7 +129,7 @@ class Anc_Balance_Double extends Anc_Print
 
 	return $r;
   }
-/*! 
+/*!
  * \brief Display the result in pdf
  *
  * \return none
@@ -133,6 +137,7 @@ class Anc_Balance_Double extends Anc_Print
   function display_pdf()
   {
 	$array=$this->load();
+	if (empty($array))return;
 	$offset=0;
 	$page=1;
 	$pagesize=50;
@@ -160,14 +165,14 @@ class Anc_Balance_Double extends Anc_Print
 	  $filtre_pa=sprintf("Filtre poste plan1  %s %s",
 			     ($this->from_poste!="")?"de ".$this->from_poste:" ",
 			     ($this->to_poste!="")?"jusque ".$this->to_poste:"");
-	
+
 	if ( $this->from_poste2 !="" ||$this->to_poste2 !="")
 	  $filtre_pb=sprintf("Filtre poste plan2   %s  %s",
 			     ($this->from_poste2!="")?"de ".$this->from_poste2:" ",
 			     ($this->to_poste2!="")?"jusque ".$this->to_poste2:"");
-	
-	
-	for ($i_loop=0;$i_loop<=$count;$i_loop++) {	
+
+
+	for ($i_loop=0;$i_loop<=$count;$i_loop++) {
 
 	  $view=$array;
 	  $view=array_splice($view,$offset,$pagesize);
@@ -188,10 +193,10 @@ class Anc_Balance_Double extends Anc_Print
 			      'cols'=>array('a_d'=> array('justification'=>'right'),
 					    'a_solde'=> array('justification'=>'right'),
 					    'a_c'=> array('justification'=>'right'))));
-	  
+
 	  $page++;
-	  $pdf->ezNewPage();					
-	  
+	  $pdf->ezNewPage();
+
 	  $offset+=$pagesize;
 	}
 	$sum=$this->show_sum($array);
@@ -213,7 +218,7 @@ class Anc_Balance_Double extends Anc_Print
   }
 
 
-/*! 
+/*!
  * \brief Compute the csv export
  * \return string with the csv
  */
@@ -243,13 +248,13 @@ class Anc_Balance_Double extends Anc_Print
 	  $r.=sprintf("%12.2f,",$row['a_c']);
 	  $r.=sprintf("%12.2f,",$row['a_solde']);
 	  $r.=sprintf('"%s"',$row['a_debit']);
-	  $r.="\r\n";	  
-	}	
+	  $r.="\r\n";
+	}
 
 	return $r;
 
   }
-/*! 
+/*!
  * \brief Compute  the form to display
  * \param $p_hidden hidden tag to be included (gDossier,...)
  *
@@ -262,76 +267,75 @@ class Anc_Balance_Double extends Anc_Print
 	// show the second plan
 	$r.='<span style="padding:5px;margin:5px;border:2px double  blue;display:block;">';
 	$plan=new Anc_Plan($this->db);
-	$plan_id=new widget("select","","pa_id2");
- 	$plan_id->value=make_array($this->db,"select pa_id, pa_name from plan_analytique order by pa_name");
+	$plan_id=new ISelect("pa_id2");
+ 	$plan_id->value=$this->db->make_array("select pa_id, pa_name from plan_analytique order by pa_name");
 	$plan_id->selected=$this->pa_id2;
-	$r.= "Plan Analytique :".$plan_id->IOValue();
+	$r.= "Plan Analytique :".$plan_id->input();
 
-	$poste=new widget("text");
+	$poste=new IText();
 	$poste->size=10;
-	$r.="Entre le poste ".$poste->IOValue("from_poste2",$this->from_poste2);
-	$choose=new widget("button");
+	$r.="Entre le poste ".$poste->input("from_poste2",$this->from_poste2);
+	$choose=new IButton();
 	$choose->name="Choix Poste";
-	$choose->label="Recherche";
+	$choose->label=_("Recherche");
 	$choose->javascript="onClick=search_ca('".$_REQUEST['PHPSESSID']."',".dossier::id().",'from_poste2','pa_id2')";
-	$r.=$choose->IOValue();
+	$r.=$choose->input();
 
-	$r.=" et le poste ".$poste->IOValue("to_poste2",$this->to_poste2);
+	$r.=" et le poste ".$poste->input("to_poste2",$this->to_poste2);
 	$choose->javascript="onClick=search_ca('".$_REQUEST['PHPSESSID']."',".dossier::id().",'to_poste2','pa_id2')";
-	$r.=$choose->IOValue();
-	$r.='<span class="notice" style="display:block">Selectionnez le plan qui vous int&eacute;resse avant de cliquer sur Recherche</span>';
+	$r.=$choose->input();
+	$r.='<span class="notice" style="display:block">'.
+	  _('Selectionnez le plan qui vous int&eacute;resse avant de cliquer sur Recherche').
+	  '</span>';
 
 	$r.='</span>';
-	$r.='<input type="SUBMIT" value="Afficher">';
+	$r.=HtmlInput::submit('Affiche','Affiche');
 	return $r;
   }
-/*! 
+/*!
  * \brief Show the button to export in PDF or CSV
  * \param $url_csv url of the csv
  * \param $url_pdf url of the pdf
- * \param $p_string hidden data to include in the form 
- * 
+ * \param $p_string hidden data to include in the form
+ *
  *
  * \return string with the button
  */
-  function show_button($url_csv,$url_pdf,$p_string="") 
+  function show_button($url_csv,$url_pdf,$p_string="")
   {
 	$r="";
-	$submit=new widget();
-	$submit->table=0;
-	$hidden=new widget("hidden");
 	$r.= '<form method="GET" action="'.$url_pdf.'" style="display:inline">';
 	$r.= $p_string;
-	$r.= dossier::hidden();
-	$r.= $hidden->IOValue("to",$this->to);
-	$r.= $hidden->IOValue("from",$this->from);
-	$r.= $hidden->IOValue("pa_id",$this->pa_id);
-	$r.= $hidden->IOValue("from_poste",$this->from_poste);
-	$r.= $hidden->IOValue("to_poste",$this->to_poste);
-	$r.= $hidden->IOValue("pa_id2",$this->pa_id2);
-	$r.= $hidden->IOValue("from_poste2",$this->from_poste2);
-	$r.= $hidden->IOValue("to_poste2",$this->to_poste2);
-	$r.=widget::submit('bt_pdf',"Export en PDF");
+	$r.= HtmlInput::hidden("to",$this->to);
+	$r.= HtmlInput::hidden("from",$this->from);
+	$r.= HtmlInput::hidden("pa_id",$this->pa_id);
+	$r.= HtmlInput::hidden("from_poste",$this->from_poste);
+	$r.= HtmlInput::hidden("to_poste",$this->to_poste);
+	$r.= HtmlInput::hidden("pa_id2",$this->pa_id2);
+	$r.= HtmlInput::hidden("from_poste2",$this->from_poste2);
+	$r.= HtmlInput::hidden("to_poste2",$this->to_poste2);
+	$r.=dossier::hidden();
+	$r.=HtmlInput::submit('bt_pdf',"Export en PDF");
 	$r.= '</form>';
 
 	$r.= '<form method="GET" action="'.$url_csv.'"  style="display:inline">';
-	$r.= $hidden->IOValue("to",$this->to);
-	$r.= $hidden->IOValue("from",$this->from);
-	$r.= $hidden->IOValue("pa_id",$this->pa_id);
-	$r.= $hidden->IOValue("from_poste",$this->from_poste);
-	$r.= $hidden->IOValue("to_poste",$this->to_poste);
-	$r.= $hidden->IOValue("pa_id2",$this->pa_id2);
-	$r.= $hidden->IOValue("from_poste2",$this->from_poste2);
-	$r.= $hidden->IOValue("to_poste2",$this->to_poste2);
+	$r.= HtmlInput::hidden("to",$this->to);
+	$r.= HtmlInput::hidden("from",$this->from);
+	$r.= HtmlInput::hidden("pa_id",$this->pa_id);
+	$r.= HtmlInput::hidden("from_poste",$this->from_poste);
+	$r.= HtmlInput::hidden("to_poste",$this->to_poste);
+	$r.= HtmlInput::hidden("pa_id2",$this->pa_id2);
+	$r.= HtmlInput::hidden("from_poste2",$this->from_poste2);
+	$r.= HtmlInput::hidden("to_poste2",$this->to_poste2);
 	$r.= $p_string;
 	$r.= dossier::hidden();
-	$r.=widget::submit('bt_csv',"Export en CSV");
+	$r.=HtmlInput::submit('bt_csv',"Export en CSV");
 	$r.= '</form>';
 	return $r;
 
 }
-/*! 
- * \brief complete the object with the data in $_REQUEST 
+/*!
+ * \brief complete the object with the data in $_REQUEST
  */
   function get_request()
   {
@@ -341,8 +345,8 @@ class Anc_Balance_Double extends Anc_Print
 	$this->pa_id2=(isset($_REQUEST['pa_id2']))?$_REQUEST['pa_id2']:"";
 
   }
-/*! 
- * \brief load the data from the database 
+/*!
+ * \brief load the data from the database
  *
  * \return array
  */
@@ -351,21 +355,21 @@ class Anc_Balance_Double extends Anc_Print
 	$filter_poste="";
 	$and="";
 	if ( $this->from_poste != "" ){
-	  $filter_poste.=" $and upper(pa.po_name)>= upper('".pg_escape_string($this->from_poste)."')";
+	  $filter_poste.=" $and upper(pa.po_name)>= upper('".Database::escape_string($this->from_poste)."')";
 	  $and=" and ";
 
 	}
 	if ( $this->to_poste != "" ){
-	  $filter_poste.=" $and upper(pa.po_name)<= upper('".pg_escape_string($this->to_poste)."')";
+	  $filter_poste.=" $and upper(pa.po_name)<= upper('".Database::escape_string($this->to_poste)."')";
 	  $and=" and ";
 	}
 
 	if ( $this->from_poste2 != "" ){
-	  $filter_poste.=" $and upper(pb.po_name)>= upper('".pg_escape_string($this->from_poste2)."')";
+	  $filter_poste.=" $and upper(pb.po_name)>= upper('".Database::escape_string($this->from_poste2)."')";
 	  $and=" and ";
 	}
 	if ( $this->to_poste2 != "" ){
-	  $filter_poste.=" $and upper(pb.po_name)<= upper('".pg_escape_string($this->to_poste2)."')";
+	  $filter_poste.=" $and upper(pb.po_name)<= upper('".Database::escape_string($this->to_poste2)."')";
 	  $and=" and ";
 	}
 	if ( $filter_poste != "")
@@ -379,33 +383,33 @@ b_po_id,
 pb.po_name as b_po_name,
 sum(a_oa_amount_c) as a_c,
 sum(a_oa_amount_d) as a_d
-from (select 
+from (select
 a.po_id as a_po_id,
 b.po_id as b_po_id,
 case when a.oa_debit='t' then a.oa_amount else 0 end as a_oa_amount_d,
 case when a.oa_debit='f' then a.oa_amount else 0 end as a_oa_amount_c
-from 
-operation_analytique as a join operation_analytique as b using (j_id) 
+from
+operation_analytique as a join operation_analytique as b using (j_id)
 where a.pa_id=".
 $this->pa_id."
  and b.pa_id=".$this->pa_id2."  ".$this->set_sql_filter()."
-) as m join poste_analytique as pa on ( a_po_id=pa.po_id) 
+) as m join poste_analytique as pa on ( a_po_id=pa.po_id)
 join poste_analytique as pb on (b_po_id=pb.po_id)
 
 $filter_poste
 
- group by a_po_id,b_po_id,pa.po_name,pa.po_description,pb.po_name 
+ group by a_po_id,b_po_id,pa.po_name,pa.po_description,pb.po_name
 order by 1;
 ";
 
 
-	$res=ExecSql($this->db,$sql);
+	$res=$this->db->exec_sql($sql);
 
-	if ( pg_NumRows($res) == 0 )
+	if ( Database::num_row($res) == 0 )
 	  return null;
 	$a=array();
 	$count=0;
-	$array=pg_fetch_all($res);
+	$array=Database::fetch_all($res);
 	foreach ($array as $row) {
 	  $a[$count]['a_po_id']=$row['a_po_id'];
 	  $a[$count]['a_d']=$row['a_d'];
@@ -424,8 +428,8 @@ order by 1;
 
 
   }
-/*! 
- * \brief Set the filter (account_date) 
+/*!
+ * \brief Set the filter (account_date)
  *
  * \return return the string to add to load
  */
@@ -442,10 +446,10 @@ order by 1;
 	}
 
 	return $sql;
-	  
+
   }
-  
-/*! 
+
+/*!
  * \brief add extra lines  with sum of each account
  * \param $p_array array returned by load()
  */
@@ -458,7 +462,7 @@ order by 1;
   $array=array();
 	foreach ( $p_array as $row) {
 
-	  if ( $old != $row['a_po_name'] && $first==false ) 
+	  if ( $old != $row['a_po_name'] && $first==false )
 
 		{
 		  $s=abs($tot_deb-$tot_cred);
@@ -475,7 +479,7 @@ order by 1;
 		  */
 		  $tot_deb=0;
 		  $tot_cred=0;
-		  
+
 		  $old=$row['a_po_name'];
 		  $old_desc=$row['a_po_description'];
 	  }
@@ -497,7 +501,7 @@ order by 1;
 		  ,'debit'=>$tot_deb,'credit'=>$tot_cred,
 
 		  'solde'=>$s,'dc'=>$d);
-	
+
 	/*	$r=sprintf(" %s Debit %12.2f Credit %12.2f solde %12.2f %s",
 		$old,
 		$tot_deb,
@@ -509,23 +513,23 @@ order by 1;
 	return $array;
 
 }
-/*! 
+/*!
  * \brief for testing and debuggind the class
  *        it must never be called from production system, it is
  *        intended only for developpers
  * \param
  * \param
  * \param
- * 
+ *
  *
  * \return none
  */
  static function test_me()
   {
-  $a=DbConnect(dossier::id());
-  
+  $a=new Database(dossier::id());
+
   $bal=new Anc_Balance_Double($a);
-  $bal->get_request();	
+  $bal->get_request();
 
   echo '<form method="GET">';
 

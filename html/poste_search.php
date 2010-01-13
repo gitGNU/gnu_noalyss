@@ -26,15 +26,13 @@ include_once ("ac_common.php");
 require_once('class_acc_ledger.php');
 
 html_min_page_start($_SESSION['g_theme'],'onLoad="window.focus();"');
-include_once ("postgres.php");
+require_once('class_database.php');
 include_once("jrn.php");
 /* Admin. Dossier */
-$rep=DbConnect();
+$rep=new Database();
 include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
-
-echo JS_SEARCH_POSTE;
 
 require_once('class_dossier.php');
 $gDossier=dossier::id();
@@ -44,14 +42,14 @@ $c_class="";
 extract ($_GET);
 
 $condition="";
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 if ( isset($_GET['search']) ) {
   $c1=0;
 
   $condition="";
   if ( strlen(trim($p_comment)) != 0 ) {
-    $condition=" where (upper(pcm_lib) like upper('%".pg_escape_string($p_comment)."%') or ".
-      " pcm_val::text like '%".pg_escape_string($p_comment)."%') ";
+    $condition=" where (upper(pcm_lib) like upper('%".Database::escape_string($p_comment)."%') or ".
+      " pcm_val::text like '%".Database::escape_string($p_comment)."%') ";
   }
 
 }
@@ -125,25 +123,25 @@ echo_debug('poste_search.php',__LINE__,"condition = $condition");
 echo '<FORM ACTION="poste_search.php'.$url.'" METHOD="GET">';
 echo dossier::hidden();
 
-echo widget::hidden('ctrl',$_GET['ctrl']);
+echo HtmlInput::hidden('ctrl',$_GET['ctrl']);
 if ( isset($p_ctl) ) {
     echo '<INPUT TYPE="hidden" name="p_ctl" value="'.$p_ctl.'">';
 }
-if (isset ($ret)) echo widget::hidden('ret',$ret);
+if (isset ($ret)) echo HtmlInput::hidden('ret',$ret);
 
 echo 'Libellé ou poste comptable ';
 echo ' contient ';
 if ( ! isset ($p_comment) ) $p_comment="";
 echo ' <INPUT TYPE="text" name="p_comment" VALUE="'.$p_comment.'"></TD></TR>';
-echo '<INPUT TYPE="submit" name="search" value="cherche">';
+echo HtmlInput::submit('search','cherche');
 echo '</FORM>';
 echo '<p class="notice">Nombre de lignes affichées est limité</p>';
 // if request search
 if ( isset($_GET['search']) || isset($_GET['filter']) ) {
-  $Res=ExecSql($cn,"select pcm_val,html_quote(pcm_lib) as pcm_lib from tmp_pcmn $condition order by pcm_val::text ".
+  $Res=$cn->exec_sql("select pcm_val,html_quote(pcm_lib) as pcm_lib from tmp_pcmn $condition order by pcm_val::text ".
 	       " limit 100");
   
-  $MaxLine=pg_NumRows($Res);
+  $MaxLine=Database::num_row($Res);
   if ( $MaxLine==0) { 
     html_page_stop();
     return;
@@ -153,15 +151,15 @@ if ( isset($_GET['search']) || isset($_GET['filter']) ) {
   $ahref="";
   $end_ahref="";  
   for ( $i=0; $i < $MaxLine; $i++) {
-    $l_line=pg_fetch_array($Res,$i);
+    $l_line=Database::fetch_array($Res,$i);
     $even=($i%2 == 0)?"odd":"even";
     echo "<TR class=\"$even\">";
     // if p_ctl is set we need to be able to return the value
     if (isset($ret) && $ret == 'label' ){
       $slabel=FormatString($l_line['pcm_lib']);
-	$ahref='<A href="#" class="mtitle" onClick="SetItChild(\''.$p_ctl.'\',\''.$l_line['pcm_val'].'\',\''.
-	  $slabel.'\',\''.$ctrl.'\')">';
-	
+      $set_pcmval='set_inparent(\''.$p_ctl.'\',\''.$l_line['pcm_val'].'\')';
+      $set_label='set_inparent(\''.$ctrl.'\',\''.$slabel.'\')';
+      $ahref='<A href="#" class="mtitle" onClick="'.$set_pcmval.';'.$set_label.'; window.close();">';
       $end_ahref='</A>';
 
     } else if     (isset($ret) && $ret == 'poste' ){

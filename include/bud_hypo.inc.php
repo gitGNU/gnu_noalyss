@@ -24,7 +24,6 @@
  * \brief Manage the hypothese for the budget module
  */
 require_once ('class_bud_hypo.php');
-require_once ('class_widget.php');
 
 
 if ( isset($_POST['remove'])){ 
@@ -64,7 +63,7 @@ if (! empty ($list)) {
   }
   echo ShowItem($row,'V','mtitle','mtitle',$bh_id);
  }
-echo widget::button_href('Ajout','?'.$str_dossier.'&sa=add&p_action=hypo');
+echo HtmlInput::button_href('Ajout','?'.$str_dossier.'&sa=add&p_action=hypo');
 echo '</div>';
 
 
@@ -78,7 +77,7 @@ if ( $sa == "add" ) {
   $obj=new Bud_Hypo($cn);
   echo '<form method="post">';
   echo $obj->form();
-  echo widget::submit('add','Ajout');
+  echo HtmlInput::submit('add','Ajout');
   echo '</form>';
   echo '</div>';
  }
@@ -93,8 +92,8 @@ if ( $sa == "detail" ) {
   echo '<div class="u_redcontent">';
   echo '<form method="post">';
   echo $obj->form(1);
-  echo widget::submit('remove','Effacer','onClick="return confirm(\'Vous confirmez cet effacement ?\')"');
-  echo widget::submit('update','Mise &agrave jour');
+  echo HtmlInput::submit('remove','Effacer','onClick="return confirm(\'Vous confirmez cet effacement ?\')"');
+  echo HtmlInput::submit('update','Mise &agrave jour');
 
   echo '</div>';
  }

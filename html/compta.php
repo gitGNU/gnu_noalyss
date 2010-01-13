@@ -24,41 +24,31 @@
  * \brief Main page for accountancy
  */
 require_once('class_dossier.php');
+require_once('user_common.php');
+
 $gDossier=dossier::id();
 include_once ("ac_common.php");
 $action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 $use_html=1;
-
-//----------------------------------------------------------------------
-/*!\todo find a way to improve performance : the calendar must not
- *   always be loaded and takes at least 50KB
- */
-if ( $action == 'ven' && ! isset ($_REQUEST['sa']) )
-  $use_html=1;
-
 if ( ! isset ($_SESSION['g_theme'])) {
-	echo '<h2 class="error"> Vous êtes déconnecté</h2>';
+  echo '<h2 class="error">'._(' Vous êtes déconnecté').'</h2>';
+	redirect('index.php',1);
 	exit();
 }
-if ( $action == 'ven' && isset ($_REQUEST['sa']) && in_array($_REQUEST['sa'],array('n','p')  ))
-  $use_html=1;
-if ( $use_html == 1) 
-  html_page_start($_SESSION['g_theme']);
-else 
-  html_min_page_start($_SESSION['g_theme']);
 //----------------------------------------------------------------------
 
-
-include_once ("postgres.php");
+require_once('class_database.php');
 /* Admin. Dossier */
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 
 require_once ('class_user.php');
 $User=new User($cn);
 $User->Check();
+$User->check_dossier($gDossier);
 
-require_once ("check_priv.php");
+html_page_start($_SESSION['g_theme']);
+
 include_once ("user_menu.php");
 echo '<div class="u_tmenu">';
 
@@ -67,11 +57,8 @@ echo ShowMenuCompta("user_advanced.php?".dossier::get());
 echo '</div>';
 // Get action
 
-
-
 // call impress sub-menu
 if ( $action == 'impress' ) {
-
   require_once('impress.inc.php');
 }
 
@@ -97,7 +84,7 @@ if ( $action == 'ach' ||
      $action == 'fournisseur') {
   require_once ('compta_ach.inc.php');
  }
-if ( $action == 'bank') {
+if ( $action == 'fin') {
   require_once ('compta_fin.inc.php');
  }
 

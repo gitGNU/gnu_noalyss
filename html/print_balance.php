@@ -33,17 +33,15 @@
 // $Revision$
  
 include_once("ac_common.php");
-include_once("postgres.php");
+require_once('class_database.php');
 include_once("class.ezpdf.php");
-include_once("poste.php");
 include_once("class_acc_balance.php");
-include_once("preference.php");
 require_once ('header_print.php');
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-$cn=DbConnect($gDossier);
-$rep=DbConnect();
+$cn=new Database($gDossier);
+$rep=new Database();
 include ('class_user.php');
 $User=new User($rep);
 $User->Check();
@@ -81,8 +79,9 @@ if ( sizeof($array)  == 0 ) {
   exit();
   
  }
-$a=get_periode($cn,$from_periode);
-$b=get_periode($cn,$to_periode);
+$pPeriode=new Periode($cn);
+$a=$pPeriode->get_date_limit($from_periode);
+$b=$pPeriode->get_date_limit($to_periode);
 $per_text=utf8_decode(" période du ").$a['p_start']." au ".$b['p_end'];
 $pdf=new Cezpdf('a4');
 $pdf->selectFont('./addon/fonts/Helvetica.afm');

@@ -1,0 +1,131 @@
+<h1><?php echo $str_name;?></h1>
+<?php  for ($i=0;$i<count($aCat);$i++): // foreach category ?>
+<?php if (count($aItem[$i])==0) continue;?>
+<fieldset>
+<legend>
+<?php echo $aCat[$i]['fc_desc'];$tot_cat_estm=0;$tot_cat_real=0;?>
+</legend>
+
+<?php for ($e=0;$e<count($aItem[$i]);$e++):?>
+<table class="result" style="margin-bottom:3px">
+<tr>
+<td>
+   <?php echo '<h2>'.h($aItem[$i][$e]['fi_text']).'</h2>';?>
+</td>
+</tr>
+<tr>
+<td>
+<table width="100%">
+<tr >
+<td style="font-weight:bold;border:1px solid black">
+<?php echo _('Période')?></td>
+<?php for ($h=0;$h<count($aPeriode);$h++):?>
+<td style="text-align:center;font-weight:bold;border:1px solid black">
+<?php echo $aPeriode[$h]['myear'];?>
+</td>
+<?php endfor;?>
+<td style="text-align:center;font-weight:bold;border:1px solid black;"><?php echo _('Totaux');?></td>
+</tr>
+
+<tr>
+<td>
+<?php echo _('Estimé');$tot_estm=0;?>
+</td>
+<?php for ($h=0;$h<count($aPeriode);$h++):?>
+<td style="text-align:right;">
+<?php
+$amount=$aItem[$i][$e]['fi_amount'];
+if (count($aPerMonth[$i]) != 0 ){
+	for ($x=0;$x<count($aPerMonth[$i]);$x++) {
+		$amount=$aItem[$i][$e]['fi_amount'];
+		if ($aPeriode[$h]['p_id']==$aPerMonth[$i][$x]['fi_pid'] &&
+			$aItem[$i][$e]['fi_card']==$aPerMonth[$i][$x]['fi_card'] &&
+			$aItem[$i][$e]['fi_account']==$aPerMonth[$i][$x]['fi_account']
+			)
+			{
+				$amount=$aPerMonth[$i][$x]['fi_amount'];
+				break;
+			}
+	}
+}
+$estm[$i][$e][$h]=$amount;
+printf("%10.2f", $amount);
+
+$tot_estm+=$amount;
+$tot_cat_estm+=$amount;
+?>
+
+</td>
+<?php endfor;?>
+<td style="text-align:right">
+<?php printf("%10.2f", $tot_estm);?>
+</td>
+</tr>
+
+<tr>
+<td>
+<?php echo _('Réel');$tot=0;?>
+</td>
+<?php for ($h=0;$h<count($aPeriode);$h++):?>
+<td align="right">
+<?php printf("%10.2f",  $aReal[$i][$e][$h]);$tot_cat_real+=$aReal[$i][$e][$h];$tot+=$aReal[$i][$e][$h];?>
+</td>
+<?php endfor;?>
+<td align="right">
+<?php printf("%10.2f", $tot);?>
+</td>
+</tr>
+
+<tr>
+<td>
+<?php echo _('Différence');?>
+</td>
+<?php for ($h=0;$h<count($aPeriode);$h++):?>
+<td align="right">
+<?php $diff=  $aReal[$i][$e][$h]-$estm[$i][$e][$h];
+printf("%10.2f",  $diff);
+?>
+</td>
+<?php endfor;?>
+</tr>
+<tr>
+<td>
+<?php echo _('Diff. cumul.'); $cum=0.0; ?>
+</td>
+<?php for ($h=0;$h<count($aPeriode);$h++):?>
+<td align="right">
+<?php
+$diff=  $aReal[$i][$e][$h]-$estm[$i][$e][$h];
+$cum+=$diff;
+printf("%10.2f",  $cum);
+?>
+</td>
+<?php endfor;?>
+<td align="right">
+<?php printf("%10.2f",  $cum);
+?>
+</td>
+</tr>
+
+
+</table>
+</td>
+</tr>
+<?php endfor;?>
+</table>
+
+<table>
+<tr>
+<?php echo td(_('Total Catégorie estimé'));echo td(sprintf('% 10.2f',$tot_cat_estm),'num');?>
+</tr>
+<tr>
+<?php echo td(_('Total Catégorie réel'));echo td(sprintf('% 10.2f',$tot_cat_real),'num');?>
+</tr>
+<tr>
+<?php echo td(_('Différence'));echo td(sprintf('% 10.2f',$tot_cat_real-$tot_cat_estm),'num');?>
+</tr>
+</table>
+</fieldset>
+
+
+<?php endfor;?>

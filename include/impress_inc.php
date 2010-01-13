@@ -23,329 +23,8 @@
  * \brief contains function for the printing
  * \todo the functions of impress_inc.php should be replaced in a OO way
 */
+require_once('class_periode.php');
 
-/*!
- * \brief  Get dat for poste 
- * 
- * \param connection
- * \param condition
- * \param position
- *
- */ 
-function get_dataPoste($p_cn,$p_poste,$p_condition)
-{
-  $Res=ExecSql($p_cn,"select to_char(j_date,'DD.MM.YYYY') as j_date,".
-	       "case when j_debit='t' then to_char(j_montant,'999999999.99') else ' ' end as deb_montant,".
-	       "case when j_debit='f' then to_char(j_montant,'999999999.99') else ' ' end as cred_montant,".
-	       " jr_comment as description,jrn_def_name as jrn_name,".
-	       "j_debit, jr_internal ".
-	       " from jrnx left join jrn_def on jrn_def_id=j_jrn_def ".
-	       " left join jrn on jr_grpt_id=j_grpt".
-	       " where j_poste=".$p_poste." and ".$p_condition.
-	       " order by j_date::date");
-  $array=array();
-  $tot_cred=0;
-  $tot_deb=0;
-  $Max=pg_NumRows($Res);
-  if ( $Max == 0 ) return null;
-  for ($i=0;$i<$Max;$i++) {
-    $array[]=pg_fetch_array($Res,$i);
-    if ($array[$i]['j_debit']=='t') {
-      $tot_deb+=$array[$i]['deb_montant'] ;
-    } else {
-      $tot_cred+=$array[$i]['cred_montant'] ;
-    }
-  }
-  return array($array,$tot_deb,$tot_cred);
-}
-/*!
- * \brief  Get data from the jrn table
- * 
- * \param connection
- * \param array periode
- * \param filter (default = YES)
- * \return error code if something code wrong
- *       otherwise the result
- *
- */ 
-function get_dataJrn($p_cn,$p_array,$filter=YES)
-{
-  if ( !isset ($p_array['periode']) ) return NO_PERIOD_SELECTED;
-
-  if ( $filter==YES) {
-    if ( ! isset ( $p_array['central'])){
-      $cond=CreatePeriodeCond($p_array['periode']);
-      $Res=ExecSql($p_cn,"select to_char(j_date,'DD.MM.YYYY') as j_date,
-                j_montant as montant,j_debit as debit,j_poste as poste,".
-	       "j_text as description,j_grpt as grp,jr_comment as comment,
-                j_rapt as oc,jr_internal from jrnx left join jrn on ".
-	       "jr_grpt_id=j_grpt where j_jrn_def=".$p_array['p_id'].
-	       " and ".$cond." order by j_date::date,j_grpt,j_debit desc");
-    } else {
-      // create 
-      $cond=CreatePeriodeCond($p_array['periode'],"c_periode");
-
-      $Res=ExecSql($p_cn,"select to_char(c_date,'DD.MM.YYYY') as j_date,
-                c_montant as montant,c_debit as debit,c_poste as poste,".
-		   "c_description as description,c_grp as grp,c_comment as comment,
-                c_rapt as oc,c_internal as jr_internal from centralized left join jrn on ".
-		   "jr_grpt_id=c_grp where c_jrn_def=".$p_array['p_id']." and ".
-		   $cond." order by c_id,c_date,c_grp,c_debit desc");
-    }
-    
-  } // if filter == YES
-  if ( $filter == NO) {
-    if ( ! isset ($p_array['central']) ) {
-      $cond=CreatePeriodeCond($p_array['periode']);
-      $Res=ExecSql($p_cn,"select to_char(j_date,'DD.MM.YYYY') as j_date,
-                j_montant as montant,j_debit as debit,j_poste as poste,".
-		   "j_text as description,j_grpt as grp,jr_comment as comment,
-                j_rapt as oc,jr_internal from jrnx left join jrn on ".
-		   "jr_grpt_id=j_grpt where ".
-		   $cond." order by j_date::date,j_grpt,j_debit desc");
-    } else {
-      $cond=CreatePeriodeCond($p_array['periode'],"c_periode");
-
-      $Res=ExecSql($p_cn,"select to_char(c_date,'DD.MM.YYYY') as j_date,
-                c_montant as montant,c_debit as debit,c_poste as poste,".
-		   "c_description as description,c_grp as grp,c_comment as comment,
-                c_rapt as oc,c_internal as jr_internal from centralized left join jrn on ".
-		   "jr_grpt_id=c_grp where ".
-		   $cond." order by c_id,c_date,c_grp,c_debit desc");
-    
-    } 
-  }// filter == no
-  $array=array();
-  $Max=pg_NumRows($Res);
-  for ($i=0;$i<$Max;$i++) {
-    $array[]=pg_fetch_array($Res,$i);
-  }
-  return $array;
-}
-/*! \function  CreatePeriodeCond
- * \brief  Create the sql query for the periode
- * 
- * \param p_periode
- * \param p_field (default = j_tech_per)
- * \return a string containing the query
- *
- */ 
-function CreatePeriodeCond($p_periode,$p_field=" j_tech_per") 
-{
-  if ( count($p_periode) == 1) {
-    return $p_field."=".$p_periode[0];
-  }
-
-  $cond_periode=" $p_field in (";
-  // condition periode
-  $old=0;
-  $follow=0;
-  foreach ( $p_periode as $per) {
-    if ( $old == 0) { 
-      $old=$per;
-      $follow=1;
-      continue;
-    }
-    if ( $per == $old+1 ) { 
-      $old=$per;
-      $follow++;
-    }
-    
-  }// foreach
-  if ( count($p_periode) == $follow) {
-    $cond=$p_field." >= ".$p_periode[0].' and '.$p_field.' <= '.$p_periode[count($p_periode)-1];
-    return $cond;
-  }
-
-  // condition periode
-  foreach ( $p_periode as $per) {
-    $cond_periode.=$per.",";
-  }
-  $cond_periode=substr($cond_periode,0,strlen($cond_periode)-1);
-  $cond_periode.=")";
-  return $cond_periode;
-}
-/*!
- * \brief  Get The data for the pdf printing
- * \param connection
- * \param array
- * \param p_limit starting line
- * \param p_offset number of lines
- * \return Array with the asked data
- *
- */ 
-function get_dataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
-{
-  echo_debug('impress_inc.php',__LINE__,"get_dataJrnPdf");
-
-  if ( !isset ($p_array['periode']) ) return NO_PERIOD_SELECTED;
-
-  if ( $p_array['filter']==YES) {
-    $cond=CreatePeriodeCond($p_array['periode']);
-    if ( ! isset ($p_array['central']) ) {
-      // Journaux non centralisés
-    $Res=ExecSql($p_cn,"select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
-                      jr_internal,
-                case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
-                case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
-                j_debit as debit,j_poste as poste,jr_montant , ".
-	       "pcm_lib as description,j_grpt as grp,jr_comment ,
-                jr_rapt as oc, j_tech_per as periode from jrnx left join jrn on ".
-		 "jr_grpt_id=j_grpt ".
-		 " left join tmp_pcmn on pcm_val=j_poste ".
-                " where j_jrn_def=".$p_array['p_id'].
-	       " and ".$cond." order by j_date::date asc,jr_internal,j_debit desc".
-	       " limit ".$p_limit." offset ".$p_offset);
-    }else {
-      // Journaux centralisés
-      $cond=CreatePeriodeCond($p_array['periode'],"c_periode");
-      $Sql="select c_id as j_id,
-            c_j_id,
-            to_char (c_date,'DD.MM.YYYY') as j_date ,
-            c_internal as jr_internal,
-            case c_debit when 't' then c_montant::text else '   ' end as deb_montant,
-            case c_debit when 'f' then c_montant::text else '   ' end as cred_montant,
-            c_debit as j_debit,
-            c_poste as poste,
-            pcm_lib as description,
-            jr_comment,
-            jr_montant,
-            c_grp as grp,
-            c_comment as comment,
-            c_rapt as oc,
-            c_periode as periode 
-            from centralized left join jrn on ".
-		"jr_grpt_id=c_grp left join tmp_pcmn on pcm_val=c_poste where ".
-          	" c_jrn_def=".$p_array['p_id']." and ".
-                $cond." order by c_id ";
-    $Res=ExecSql($p_cn,$Sql." limit ".$p_limit." offset ".$p_offset);
-
-    }
-  } else {
-    // Grand Livre
-    if (! isset($p_array['central'])) {
-      // Non centralisé
-      $cond=CreatePeriodeCond($p_array['periode']);
-      $Res=ExecSql($p_cn,"select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
-                      jr_internal,
-                case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
-                case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
-                j_debit as debit,j_poste as poste,".
-	       "pcm_lib as description,j_grpt as grp,jr_comment as jr_comment,
-                jr_montant,
-                jr_rapt as oc, j_tech_per as periode from jrnx left join jrn on ".
-		 "jr_grpt_id=j_grpt left join tmp_pcmn on pcm_val=j_poste where ".
-	       "  ".$cond." order by j_date::date,j_grpt,j_debit desc".
-	       " limit ".$p_limit." offset ".$p_offset);
-
-    } else {
-      // Centralisé
-      $cond=CreatePeriodeCond($p_array['periode'],"c_periode");
-      $Sql="select c_id as j_id,
-            c_j_id,
-            to_char (c_date,'DD.MM.YYYY') as j_date ,
-            c_internal as jr_internal,
-            case c_debit when 't' then c_montant::text else '   ' end as deb_montant,
-            case c_debit when 'f' then c_montant::text else '   ' end as cred_montant,
-            c_debit as j_debit,
-            c_poste as poste,
-            pcm_lib as description,
-            jr_comment,
-            jr_montant,
-            c_grp as grp,
-            c_comment as comment,
-            c_rapt as oc,
-            c_periode as periode 
-            from centralized left join jrn on ".
-		"jr_grpt_id=c_grp left join tmp_pcmn on pcm_val=c_poste where ".
-                $cond." order by c_id ";
-    $Res=ExecSql($p_cn,$Sql." limit ".$p_limit." offset ".$p_offset);
-    } // Grand Livre
-  }
-
-
-  $array=array();
-  $Max=pg_NumRows($Res);
-  if ($Max==0) return null;
-  $case="";
-  $tot_deb=0;
-  $tot_cred=0;
-  for ($i=0;$i<$Max;$i++) {
-    $line=pg_fetch_array($Res,$i);
-    $mont_deb=($line['deb_montant']!=0)?sprintf("% 8.2f",$line['deb_montant']):"";
-    $mont_cred=($line['cred_montant']!=0)?sprintf("% 8.2f",$line['cred_montant']):"";
-    $jr_montant=($line['jr_montant']!=0)?sprintf("% 8.2f",$line['jr_montant']):"";
-    $tot_deb+=$line['deb_montant'];
-    $tot_cred+=$line['cred_montant'];
-    echo_debug('impress_inc.php',__LINE__," GetJrnDataPdf : mont_Deb ".$mont_deb);
-    echo_debug('impress_inc.php',__LINE__," GetJrnDataPdf : mont_cred ".$mont_cred);
-
-    if ( $case != $line['grp'] ) {
-      $case=$line['grp'];
-      $array[]=array (
-		      'j_id'=>$line['j_id'],
-		      'j_date' => $line['j_date'],
-		      'internal'=>$line['jr_internal'],
-		      'deb_montant'=>'',
-		      'cred_montant'=>'<b><i>'.$jr_montant.'</i></b>',
-		      'description'=>'<b><i>'.$line['jr_comment'].'</i></b>',
-		      'poste' => $line['oc'],
-		      'periode' =>$line['periode'] );
-
-      $array[]=array (
-		      'j_id'=>$line['j_id'], 
-		      'j_date' => '',
-		      'internal'=>'',
-		      'deb_montant'=>$mont_deb,
-		      'cred_montant'=>$mont_cred,
-		      'description'=>$line['description'],
-		      'poste' => $line['poste'],
-		      'periode' => $line['periode']
-		      );
-    
-    }else {
-      $array[]=array (
-		      'j_id'=>$line['j_id'],
-		      'j_date' => '',
-		      'internal'=>'',
-		      'deb_montant'=>$mont_deb,
-		      'cred_montant'=>$mont_cred,
-		      'description'=>$line['description'],
-		      'poste' => $line['poste'],
-		      'periode' => $line['periode']);
-
-    }
-      
-
-  }
-  echo_debug('impress_inc.php',__LINE__,"Total debit $tot_deb,credit $tot_cred");
-  $a=array($array,$tot_deb,$tot_cred);
- return $a;
-}
-/*!
- * \brief  
- *        
- * \param 
- *	
- *\return
- */
-function get_dataGrpt($p_cn,$p_array)
-{
-  if ( !isset ($p_array['periode']) ) return NO_PERIOD_SELECTED;
-  $cond=CreatePeriodeCond($p_array['periode']);
-  $Res=ExecSql($p_cn,"select distinct ".
-	       " j_grpt as grp".
-               " from jrnx ".
-	       " where j_jrn_def=".$p_array['p_id'].
-	       " and ".$cond." order by j_grpt");
-  $array=array();
-  $Max=pg_NumRows($Res);
-  $case="";
-  for ($i=0;$i<$Max;$i++) {
-    $array[]=pg_fetch_array($Res,$i);
-  }
-  return $array;
-}
 /*! 
  * \brief
  * \param $p_cn database connection
@@ -368,13 +47,14 @@ function get_rappel_simple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,&$arap)
       exit;
     }
   // find the last operation of the previous periode
-  $min=getDbValue($p_cn,"select max (c_id) from centralized where c_jrn_def=$p_jrn_id ".
+  $min=$p_cn->get_value("select max (c_id) from centralized where c_jrn_def=$p_jrn_id ".
 		  " and c_date < (select p_start from parm_periode where p_id = $p_from)");
   if ($min == "" ) return 0;
   // Find Exercice
-  $Exercice=get_exercice($p_cn,$p_from);
+  $periode=new Periode($p_cn,$p_from);
+  $Exercice=$periode->get_exercice();
 
-  $a_Tva=get_array($p_cn,"select tva_id,tva_label,tva_poste from tva_rate where tva_rate != 0.0000 order by tva_id");
+  $a_Tva=$p_cn->get_array("select tva_id,tva_label,tva_poste from tva_rate where tva_rate != 0.0000 order by tva_id");
   
   // Compute VAT
   foreach ($a_Tva as $line_tva)
@@ -384,13 +64,13 @@ function get_rappel_simple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,&$arap)
 	$ctva=$deb;
       else
 	$ctva=$cred;
-      $sum_deb=getDbValue($p_cn,"select sum(j_montant) from (select distinct c_internal,j_montant ".
+      $sum_deb=$p_cn->get_value("select sum(j_montant) from (select distinct c_internal,j_montant ".
 			    " from jrnx join centralized on (j_grpt=c_grp) ".
 			   " where c_id < $min and j_poste = '$ctva' and j_debit='t' and ".
 			  " c_jrn_def=$p_jrn_id and j_tech_per in ".
 			  "    (select p_id from parm_periode where p_exercice='$Exercice') ) as w");
 
-      $sum_cred=getDbValue($p_cn,"select sum(j_montant) from (select distinct c_internal,j_montant ".
+      $sum_cred=$p_cn->get_value("select sum(j_montant) from (select distinct c_internal,j_montant ".
 			    " from jrnx join centralized on (j_grpt=c_grp) ".
 			   " where c_id < $min and j_poste = '$ctva' and j_debit='f' and ".
 			  " c_jrn_def=$p_jrn_id and j_tech_per in ".
@@ -402,7 +82,7 @@ function get_rappel_simple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,&$arap)
       $arap[$ix]=($p_jrn_type=='ACH')?$sum_deb-$sum_cred:$sum_cred-$sum_deb;
     }
   // Previous period
-  $previous=getDbValue($p_cn,"select max(p_id) from parm_periode where ".
+  $previous=$p_cn->get_value("select max(p_id) from parm_periode where ".
 		       "p_end < (select p_end from parm_periode where p_id=$p_from) ".
 		       " and p_start <= (select p_start from parm_periode where p_id=$p_from)");
 
@@ -429,8 +109,6 @@ function get_rappel_simple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,&$arap)
  */ 
 function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_central) 
 {
-  include_once("preference.php");
-
   if ( $which == LAST) 
     $cmp="<="; 
   else
@@ -444,7 +122,7 @@ function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cen
 
     //     Vue filtree => Journaux & Jrn centralisé 
     if ( $p_central == 1 ) {
-      $c_line=CountSql($p_cn,"select * from centralized left join parm_periode on c_periode=p_id ".
+      $c_line=$p_cn->count_sql("select * from centralized left join parm_periode on c_periode=p_id ".
 		       " where c_jrn_def=$p_jrn_id and  p_exercice='".$p_exercice."'".
 		       " and c_order $cmp $p_jrnx_id ");
       
@@ -456,20 +134,20 @@ function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cen
 	" where c_jrn_def=$p_jrn_id and ".
 	" p_exercice='".$p_exercice."'".
 	" and c_order $cmp $p_jrnx_id " ;
-      $Res=ExecSql($p_cn,$sql." and c_debit='t' ");
-      if ( pg_NumRows($Res) == 0 ) 
+      $Res=$p_cn->exec_sql($sql." and c_debit='t' ");
+      if ( Database::num_row($Res) == 0 ) 
 	$deb=0;
       else {
-	$line=pg_fetch_array($Res,0);
+	$line=Database::fetch_array($Res,0);
 	$deb=$line['tot_amount'];
       }
       
-      $Res=ExecSql($p_cn,$sql." and c_debit='f' ");
-      if ( pg_NumRows($Res) == 0 ) 
+      $Res=$p_cn->exec_sql($sql." and c_debit='f' ");
+      if ( Database::num_row($Res) == 0 ) 
 	$cred=0;
       else {
 	
-	$line=pg_fetch_array($Res,0);
+	$line=Database::fetch_array($Res,0);
 	$cred=$line['tot_amount'];
       }
       echo_debug('impress_inc.php',__LINE__,"MONTANT $deb,$cred");
@@ -480,7 +158,7 @@ function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cen
   } // Type = jrn
   if ($p_type==0 ) { // Si Grand Livre, prendre donnée centralisée{
     if ( $p_central == 1) {
-      $c_line=CountSql($p_cn,"select * from centralized left join parm_periode on c_periode=p_id ".
+      $c_line=$p_cn->count_sql("select * from centralized left join parm_periode on c_periode=p_id ".
 		       "where p_exercice='".$p_exercice."'".
 		       " and c_id $cmp $p_jrnx_id ");
       
@@ -491,20 +169,20 @@ function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cen
 	" where ".
 	" p_exercice='".$p_exercice."'".
 	" and c_order $cmp $p_jrnx_id " ;
-      $Res=ExecSql($p_cn,$sql." and c_debit='t' ");
-      if ( pg_NumRows($Res) == 0 ) 
+      $Res=$p_cn->exec_sql($sql." and c_debit='t' ");
+      if ( Database::num_row($Res) == 0 ) 
 	$deb=0;
       else {
-	$line=pg_fetch_array($Res,0);
+	$line=Database::fetch_array($Res,0);
 	$deb=$line['tot_amount'];
       }
       
-      $Res=ExecSql($p_cn,$sql." and c_debit='f' ");
-      if ( pg_NumRows($Res) == 0 ) 
+      $Res=$p_cn->exec_sql($sql." and c_debit='f' ");
+      if ( Database::num_row($Res) == 0 ) 
 	$cred=0;
       else {
 	
-	$line=pg_fetch_array($Res,0);
+	$line=Database::fetch_array($Res,0);
 	$cred=$line['tot_amount'];
       }
       echo_debug('impress_inc.php',__LINE__,"MONTANT $deb,$cred");
@@ -579,6 +257,7 @@ echo_debug(__FILE__,__LINE__,"receiving $p_formula");
       // then we must modify the cond for the periode
       $from=str_replace("FROM=","",$afrom[0]);
 
+
       // Get the periode 
       /*! \note special value for the clause FROM=00.0000
        */
@@ -586,20 +265,32 @@ echo_debug(__FILE__,__LINE__,"receiving $p_formula");
 		// retrieve the first month of this periode
 		$User=new User($p_cn);
 		$user_periode=$User->get_periode();
-		$periode=getDbValue($p_cn,
-				    "select p_exercice from parm_periode where p_id=$user_periode");
-		$sql_per="select to_char(p_start,'MM.YYYY') as start from parm_periode where ".
-		  " p_exercice='".$periode."' order by p_start";
-		$ret=get_array($p_cn,$sql_per);
-		$from=$ret[0]['start'];
+		$oPeriode=new Periode($p_cn);
+		$periode=$oPeriode->get_exercice($user_periode);
+		list($first,$last)=$oPeriode->get_limit($periode);
+		$ret=$first->get_date_limit();
+		if ($ret == null ) throw new Exception ('Pas de limite à cette période',1);
+		$cond=sql_filter_per($p_cn,$ret['p_start'],$p_end,'date','j_tech_per');	
 
-      } 
-      $from=getPeriodeFromMonth($p_cn,$from);
+      }  else {
+	$oPeriode=new Periode($p_cn);
+	try {
+	  $from=$oPeriode->find_periode('01'.$from);
+	} catch (Exception $exp)  {
+	  /* if none periode is found
+	     then we take the first periode of the year
+	     */
+	  $User=new User($p_cn);
+	  $user_periode=$User->get_periode();
 
-      // the clause from is something else
-      //  Compute the cond
-      $cond=sql_filter_per($p_cn,$from,$p_end,'p_id','j_tech_per');
+	  $year=$oPeriode->get_exercice($user_periode);
+	  list($first,$last)=$oPeriode->get_limit($year);
+	  $ret=$first->get_date_limit();
+	  if ($ret == null ) throw new Exception ('Pas de limite à cette période',1);
+	  $cond=sql_filter_per($p_cn,$ret['p_start'],$p_end,'date','j_tech_per');	
 
+	}
+      }
     } 
 
     if ( strpos($p_formula,"FROM") != 0) {
@@ -638,7 +329,7 @@ echo_debug(__FILE__,__LINE__,"p_formula = $p_formula ");
     while (ereg("\[([0-9]+)([Tt]*)\]",trim($p_label),$e) == true) {
         $nom = "!!".$e[1]."!!";
         if (CheckFormula($e[0])) {
-	  $nom = getDbValue ($p_cn, "SELECT pcm_lib AS acct_name FROM tmp_pcmn WHERE pcm_val::text LIKE $1||'%' ORDER BY pcm_val ASC LIMIT 1",array($e[1]));
+	  $nom = $p_cn->get_value ( "SELECT pcm_lib AS acct_name FROM tmp_pcmn WHERE pcm_val::text LIKE $1||'%' ORDER BY pcm_val ASC LIMIT 1",array($e[1]));
             if($nom) {
               if($e[2] == 'T') $nom = strtoupper($nom);
               if($e[2] == 't') $nom = strtolower($nom);
@@ -654,60 +345,6 @@ echo_debug(__FILE__,__LINE__,"p_formula = $p_formula ");
     // $p_eval is false we returns only the string
     return $p_formula;
   }
-}
-/*!
- * \brief  Parse the formula contained in the fo_formula 
- *           field and return a array containing all the columns
- * 
- * \param $p_cn connexion
- * \param $p_label
- * \param $p_formula
- * \return array
- *
- */ 
-function GetFormulaValue($p_cn,$p_label,$p_formula,$p_cond) 
-{
-  $aret=array();
-  $l_debit=0;
-  $l_credit=0;
-    // somme debit
-  $Res=ExecSql($p_cn,"select sum (j_montant) as montant from
-                      jrnx where $p_cond and j_debit='t' and j_poste::text like '$p_formula'");
-  if (pg_NumRows($Res)==0){
-    $l_debit=0;                   
-  } else {
-    $l=pg_fetch_array($Res,0);
-    $l_debit=$l['montant'];
-      }
-  // somme credit
-  $Res=ExecSql($p_cn,"select sum (j_montant) as montant from
-                      jrnx where $p_cond and j_debit='f' and j_poste::text like '$p_formula'");
-  if (pg_NumRows($Res)==0) {
-    $l_credit=0;                   
-  } else {
-    $l=pg_fetch_array($Res,0);
-    $l_credit=$l['montant'];
-  }
-
-  if ( $l_credit==$l_debit) {
-    $aret=array('desc' => $p_label,
-		'montant' => '0',
-		'cmontant'=>0);
-  }
-  if ( $l_credit < $l_debit) {
-    $l2=sprintf("% .2f",$l_debit-$l_credit);
-    $aret=array('desc' => $p_label,
-		'montant' => $l2,
-		'cmontant'=>$l2);
-  }
-  if ( $l_credit>$l_debit) {
-    $l2=sprintf("(% .2f)",$l_credit-$l_debit);
-    $aret=array('desc' => $p_label,
-		'montant' => $l2,
-		'cmontant'=> $l_debit-$l_credit);
-
-  }
-  return $aret;
 }
 /*!
  * \brief  Check if formula doesn't contain

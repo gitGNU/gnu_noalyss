@@ -17,6 +17,11 @@
 */
 /*!\file 
  * \brief create the infobulle, the internalization is not yet implemented
+ * \code 
+ // Example 
+  echo JS_INFOBULLE;
+  echo HtmlInput::infobulle(x);
+ \endcode
  */
 
 var posX=0,posy=0,offsetX=10,offsetY=10;
@@ -32,6 +37,11 @@ content[6]="Indiquez ici le prix hors tva si vous êtes affilié à la tva et qu
 content[7]="(optionnel) Ces champs servent à contrôler que les montants correspondent à l'extrait";
 content[8]="(optionnel) Ce montant correspond au total tva, si vous le laissez à vide, il sera calculé automatiquement en fonction du taux";
 content[9]="Tapez le numéro de poste ou une partie du poste ou du libellé puis sur recherche, Si vous avez donné un quickcode, le poste comptable ne sera pas utilisé";
+content[10]="ATTENTION changer le poste comptable d'une fiche modifiera <b>toutes les opérations</b> où cette fiche est utilisée";
+content[11]="ATTENTION si le poste comptable est  vide, il sera créé automatiquement";
+content[12]="Document généré uniquement si le mode de paiement est utilisé";
+content[13]="Vous pouvez utiliser le % pour indiquer le poste parent";
+
 function showBulle(p_ctl) {
 	d=document.getElementById('bulle');
 	d.innerHTML=content[p_ctl];

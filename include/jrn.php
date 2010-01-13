@@ -23,6 +23,9 @@
 /*! \file
  * \brief work with the ledger
  */
+require_once("class_itext.php");
+require_once("class_ifile.php");
+require_once("class_ihidden.php");
 require_once('class_fiche.php');
 require_once ('class_gestion_sold.php');
 require_once ('class_gestion_purchase.php');
@@ -59,7 +62,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
   }
   echo_debug('jrn.php',__LINE__,$l_array);
   // Javascript
-  $r=JS_VIEW_JRN_MODIFY;
+  $r=JS_LEDGER;
 
   // Build the form
   $col_vide="<TD></TD>";
@@ -87,24 +90,24 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 		
 		// comment can be changed
 		$r.="<TD>";
-		$comment=new widget("text");
+		$comment=new IText();
 		$comment->table=0;
 		$comment->name="comment";
 		$comment->readonly=($p_mode==0)?true:false;
 		$comment->value=$content['jr_comment'];
 		$comment->size=40;
-		$r.=$comment->IOValue();
+		$r.=$comment->input();
 		$r.="</TD>";
 
 		// pj can be changed
 		$r.="<TD> PJ Num. ";
-		$comment=new widget("text");
+		$comment=new IText();
 		$comment->table=0;
 		$comment->name="pj";
 		$comment->readonly=($p_mode==0)?true:false;
 		$comment->value=$content['jr_pj_number'];
 		$comment->size=10;
-		$r.=$comment->IOValue();
+		$r.=$comment->input();
 		$r.="</TD>";
 		
 
@@ -156,7 +159,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
       //    }//     foreach ($l_array[$i]  as $value=>$content) 
   }// for ( $i =0 ; $i < sizeof($l_array); $i++) 
   if ( $p_mode == 1) {
-    $file=new widget("file");
+    $file=new IFile();
     $file->table=1;
 	//doc
 	if ( $content['jr_pj_name'] != "")
@@ -175,7 +178,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	if ( $p_mode == 1 ) {
 	  $r.="<hr>";
 	  $r.= "<table>"; 
-	  $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+	  $r.="<TR>".$file->input("pj","","Pièce justificative")."</TR>";
 	  $r.="</table>";
 	}
 	$r.="<hr>";
@@ -228,7 +231,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."',".$gDossier.",'rapt','".$content['jr_montant']."')\">";
 	
 	$r.= '<H2 class="info">rapprochement </H2> 
-       <INPUT TYPE="TEXT" name="rapt" value="">'.$search;
+       <INPUT TYPE="TEXT" id="rapt" name="rapt" value="">'.$search;
 	
 	} // if mode == 1
 	
@@ -249,7 +252,6 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 {
 
-  echo_debug('jrn.php',__LINE__,"function ShowOperationUser($p_cn,$p_jr_id,$p_mode) ");
   $gDossier=dossier::id();  
   $l_array=get_dataJrnJrIdUser($p_cn,$p_jr_id);
   $str_dossier=dossier::get();
@@ -269,7 +271,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 
   echo_debug('jrn.php',__LINE__,$l_array);
   // Javascript
-  $r=JS_VIEW_JRN_MODIFY;
+  $r=JS_LEDGER;
 
   // Build the form
   $col_vide="<TD></TD>";
@@ -279,7 +281,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   // for the first line
   $internal=$content['jr_internal'];
 
-  $r.='<TABLE>';
+  $r.='<TABLE width="100%">';
   $r.="<TR>";
   // Date
   $r.='<TD ><h3>';
@@ -296,23 +298,23 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   $r.='<Input type="hidden" name="jr_grpt_id" value="'.$content['jr_grpt_id'].'">';
   $r.='</tr><tr>';
   // comment can be changed
-  $comment=new widget("text");
+  $comment=new IText();
   $comment->table=0;
   $comment->name="comment";
   $comment->readonly=($p_mode==0)?true:false;
   $comment->value=$content['jr_comment'];
   $comment->size=40;
-  $r.='<td>'.$comment->IOValue().'</td>';
+  $r.='<td>'.$comment->input().'</td>';
   
   // pj can be changed
   $r.="<TD> PJ Num. ";
-  $comment=new widget("text");
+  $comment=new IText();
   $comment->table=0;
   $comment->name="pj";
   $comment->readonly=($p_mode==0)?true:false;
   $comment->value=$content['jr_pj_number'];
   $comment->size=10;
-  $r.=$comment->IOValue();
+  $r.=$comment->input();
   $r.="</TD>";
 		
   // Is Paid
@@ -328,7 +330,8 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   // for purchase ledger
   if ( $content['jrn_def_type'] == 'ACH' )
 	{
-	  $r.='<tr><td><table>';
+	  $r.='</table>';
+	  $r.='<table width="100%">';
 	  echo_debug(__FILE__.":".__LINE__." content['qp_supplier'] ".$content['qp_supplier']);
 	  $client=new fiche($p_cn,$content['qp_supplier']);
 	  $r.="Client : ".$client->getName();
@@ -375,7 +378,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 		$tot_amount+=$row->qp_price;
 		$tot_dep_priv+=$row->qp_dep_priv;
 
-		//		$hid_jid=new widget("hidden","","p_jid_".$row->j_id,$row->j_id);
+		//		$hid_jid=new IHidden("","p_jid_".$row->j_id,$row->j_id);
 		$r.=($i%2==0)?"<tr class=\"odd\">":'<tr>';		$i++;
 		$pu=0.0;
 		if ( $row->qp_price != 0.0 && $row->qp_price != 0 ) 
@@ -411,42 +414,41 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	  $r.='<tr><td colspan="8"><hr style="color:blue;"></td></tr>';
 	  $r.='<tr  style="font-size:13px;color:green;">'.
 		'<td colspan="7">Total HTVA</td>'.
-		'<td>'.sprintf('% 12.2f',$tot_amount)."</td>".
+		'<td style="text-align:right">'.sprintf('% 12.2f',$tot_amount)."</td>".
 		"</tr>";
 	if ( $tot_tva != 0 ) 
 	  $r.='<tr  style="font-size:13px;color:green;">'.
 		'<td colspan="7">Total TVA</td>'.
-		'<td>'.sprintf('%12.2f',$tot_tva)
+		'<td style="text-align:right;">'.sprintf('%12.2f',$tot_tva)
 		."</td>".
 		"</tr>";
 	if ( $tot_nd !=0 )
 	  $r.='<tr  style="font-size:13px;color:green;">'.
 		'<td colspan="7">Total nd </td>'.
-		'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_nd)."</td>".
+		'<td style="font-size:13px;text-align:right;color:green;">'.sprintf('%12.2f',$tot_nd)."</td>".
 		"</tr>";
 	if ( $tot_tva_nd !=0 )
 	  $r.='<tr  style="font-size:13px;color:green;">'.
 		'<td colspan="7">Total tva nd</td>'.
-		'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_tva_nd)."</td>".
+		'<td style="font-size:13px;text-align:right;color:green;">'.sprintf('%12.2f',$tot_tva_nd)."</td>".
 		"</tr>";
 	if ( $tot_tva_nd_recup !=0 )
 	  $r.='<tr  style="font-size:13px;color:green;">'.
 		'<td colspan="7">Total tva nd recup. par impot</td>'.
-		'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_tva_nd_recup)."</td>".
+		'<td style="font-size:13px;text-align:right;color:green;">'.sprintf('%12.2f',$tot_tva_nd_recup)."</td>".
 		"</tr>";
 	if ( $tot_dep_priv !=0 )
 	  $r.='<tr  style="font-size:13px;color:green;">'.
 		'<td colspan="7">Total tva nd recup. par impot</td>'.
-		'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_dep_priv)."</td>".
+		'<td style="font-size:13px;text-align:right;color:green;">'.sprintf('%12.2f',$tot_dep_priv)."</td>".
 		"</tr>";
 
 	  $r.='<tr  style="font-size:13px;color:green;">'.
 		'<td colspan="7">Total </td>'.
-		'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_dep_priv+$tot_amount+$tot_tva+$tot_tva_nd_recup+$tot_nd+$tot_tva_nd)."</td>".
+		'<td style="font-size:13px;text-align:right;color:green;">'.sprintf('%12.2f',$tot_dep_priv+$tot_amount+$tot_tva+$tot_tva_nd_recup+$tot_nd+$tot_tva_nd)."</td>".
 		"</tr>";
 
-	  $r.= '</table></td></tr>';
-
+	
 	  
 	}
   
@@ -460,6 +462,8 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	  
 	  /* now we get the different lines for this operation thanks */
 	  /* the qs_internal == jr_internal */
+	  $r.'</table>';
+	  $r.='<table width="100%">';
 	  $r.='<tr>';
 	  $r.='<th>Nom</th>';
 	  $r.='<th>PU</th>';
@@ -513,20 +517,23 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 
 
 	  }
+	  $r.='</table>';
+	  $r.='<hr>';
 	  if ($own->MY_TVA_USE == 'Y' ) {
-		  $r.="<tr>".
+	    $r.='<table>';
+	    $r.="<tr>".
+	      "<td>"."</td>".
+	      "<td>"."</td>".
 			"<td>"."</td>".
-			"<td>"."</td>".
-			"<td>"."</td>".
-			"<td>Total HTVA</td>".
-			'<td style="font-size:13px;color:green;">'.sprintf('% 12.2f',$tot_amount)."</td>".
+	      "<td>Total HTVA</td>".
+			'<td style="text-align:right;font-size:13px;color:green;">'.sprintf('% 12.2f',$tot_amount)."</td>".
 			"</tr>";
 		  $r.="<tr>".
 			"<td>"."</td>".
 			"<td>"."</td>".
 			"<td>"."</td>".
 			"<td>Total TVA</td>".
-			'<td style="text-justify:right;font-size:13px;color:green;">'.sprintf('%12.2f',$tot_tva)
+			'<td style="text-align:right;font-size:13px;color:green;">'.sprintf('%12.2f',$tot_tva)
 			."</td>".
 			"</tr>";
 		
@@ -538,7 +545,8 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 			'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_amount+$tot_tva)."</td>".
 			"</tr>";
 		} else {  
-				  $r.="<tr>".
+	    $r.='<table>';
+	    $r.="<tr>".
 			"<td>"."</td>".
 			"<td>Total </td>".
 			'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_amount+$tot_tva)."</td>".
@@ -548,7 +556,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	
   $r.="</TABLE>";
       
-  $file=new widget("file");
+  $file=new IFile();
   $file->table=1;
   //doc
   if ( $p_mode ==1 && $content['jr_pj_name'] != "") 
@@ -582,7 +590,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   if ( $p_mode == 1 ) {
 	$r.= "<table>"; 
 
-	$r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+	$r.="<TR>".$file->input("pj","","Pièce justificative")."</TR>";
 	$r.="</table>";
 	$r.="<hr>";
 	
@@ -617,209 +625,13 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."',".$gDossier.",'rapt','".$content['jr_montant']."')\">";
 
   $r.= '<H2 class="info">rapprochement </H2> 
-       <INPUT TYPE="TEXT" name="rapt" value="">'.$search;
+       <INPUT TYPE="TEXT" id="rapt" name="rapt" value="">'.$search;
   } // if p_mode==1
   $r.='<input type="hidden" name="jr_id" value="'.$content['jr_id'].'">';
   //  echo $r;
   return $r;
 }
 
-/*! 
- * \brief  Vue des écritures comptables
- * 
- * parm : 
- *	- p_dossier,
- *      - p_user,
- *      - p_jrn
- *      - p_url for modif
- *      - array
- * gen :
- *	-
- * return:
- *	-
- *
- */ 
-function ViewJrn($p_dossier,$p_user,$p_jrn,$p_url,$p_array=null) {
-  echo_debug('jrn.php',__LINE__,"function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) ");
-
-  $db=sprintf("dossier%d",$p_dossier);
-  $cn=DbConnect($p_dossier);
-  $oJrn=new Acc_Ledger($cn,$p_jrn);
-  $l_prop=$oJrn->get_propertie();
-  echo "<H2 class=\"info\">".$l_prop['jrn_def_name']."( ".$l_prop['jrn_def_code'].")"."</H2>";
-  if ( $p_array == null) {
-    include_once("preference.php");
-    $l_periode=GetUserPeriode($cn,$p_user);
-    $Res=ExecSql($cn,"select jr_id,j_id,jr_internal,to_char(j_date,'DD.MM.YYYY') as j_date,
-                       j_montant,j_poste,pcm_lib,j_grpt,j_debit,j_centralized,j_tech_per,
-                       pcm_lib
-                   from jrnx inner join tmp_pcmn on j_poste=pcm_val
-                             inner join jrn on jr_grpt_id=j_grpt
-                   where 
-                   j_jrn_def=$p_jrn and j_tech_per=$l_periode
-                   order by j_id,j_grpt,j_debit desc");
-  } else {
-    // Construction Query 
-    foreach ( $p_array as $key=>$element) {
-      ${"l_$key"}=$element;
-      echo_debug ("l_$key $element");
-    }
-    $sql="select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,j_montant,j_poste,
-                 pcm_lib,j_grpt,jr_id,j_debit,j_centralized,j_tech_per,jr_internal
-                   from jrnx inner join tmp_pcmn on j_poste=pcm_val
-                        inner join jrn on jr_grpt_id=j_grpt
-                   where 
-                   j_jrn_def=$p_jrn";
-    $l_and="and ";
-    if ( ereg("^[0-9]+$", $l_s_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_s_montant) ) {
-    $sql.=" and jr_montant $l_mont_sel $l_s_montant";
-    }
-    if ( isDate($l_date_start) != null ) {
-      $sql.=$l_and." j_date >= to_date('".$l_date_start."','DD.MM.YYYY')";
-    }
-    if ( isDate($l_date_end) != null ) {
-      $sql.=$l_and." j_date <= to_date('".$l_date_end."','DD.MM.YYYY')";
-    }
-    $l_s_comment=FormatString($l_s_comment);
-    if ( $l_s_comment != null ) {
-      $sql.=$l_and." upper(jr_comment) like upper('%".$l_s_comment."%') ";
-    }
-
-    $sql.=" order by j_id,j_grpt,j_debit desc";
-    echo_debug ("search query is $sql");
-    $Res=ExecSql($cn,$sql);
-  }
-  $MaxLine=pg_NumRows($Res);
-  if ( $MaxLine == 0 ) return;
-  $col_vide="<TD></TD>";
-  echo '<TABLE ALIGN="center">';
-  $l_id=0;
-  for ( $i=0; $i < $MaxLine; $i++) {
-    $l_line=pg_fetch_array($Res,$i);
-    if ( $l_line['j_debit'] == 't' ) {
-      echo '<TR style="background-color:lightblue;">';
-    }
-    else {
-      echo '<TR>';
-    }
-    if ( $l_id == $l_line['j_grpt'] ) {
-      echo $col_vide.$col_vide.$col_vide;
-    } else {
-      echo "<TD>";
-      echo $l_line['j_date'];
-      echo "</TD>";
-      
-      
-	  echo "<TD>";
-	  if ( isset ($_GET["PHPSESSID"])  ) {
-	    $sessid=$_GET["PHPSESSID"];
-	  } else {
-	    $sessid=$_POST["PHPSESSID"];
-	  }
-
-	  list($z_type,$z_num,$num_op)=split("-",$l_line['jr_internal']);
-	  printf ('<INPUT TYPE="BUTTON" VALUE="%s" onClick="modifyOperation(\'%s\',\'%s\')">', 
-		  $num_op,$sessid,$l_line['jr_id']);
-	  //	  echo $num_op;
-	  echo "</TD>";
-
-
-	  // no modification only cancel of wrong op.
-	  echo '<TD class="mlltitle">';
-	  echo "<A class=\"mtitle\" HREF=$p_url?action=update&line=".$l_line['jr_id'].">";
-	  echo "M";
-	  echo "</A></TD>";
-      $l_id=$l_line['j_grpt'];
-    }
-    if ($l_line['j_debit']=='f')
-      echo $col_vide;
-    
-    echo '<TD>';
-    echo $l_line['j_poste'];
-    echo '</TD>';
-
-    echo '<TD>';
-    echo $l_line['pcm_lib'];
-    echo '</TD>';
-    echo $col_vide;
-
-    echo '<TD>';
-    echo $l_line['j_montant'];
-    echo '</TD>';
-
-    if ( $l_line['j_debit']=='t')
-      echo $col_vide;
-
-    echo "</TR>";
-
-
-  }
-  echo '</TABLE>';
-}
-/*! 
- * \brief  Get data from jrnx where p_grpt=jrnx(j_grpt)
- * 
- * parm : 
- *	- connection
- *      - p_grpt
- * gen :
- *	- none
- * return:
- *	- return array
- *
- */ 
-function get_data ($p_cn,$p_grpt) {
-  echo_debug('jrn.php',__LINE__,"get_data $p_cn $p_grpt");
-  $Res=ExecSql($p_cn,"select 
-                        to_char(j_date,'DD.MM.YYYY') as j_date,
-                        j_text,
-                        j_debit,
-                        j_poste,
-                        j_montant,
-                        j_id,
-                        jr_comment,
-			to_char(jr_ech,'DD.MM.YYYY') as jr_ech,
-                        to_char(jr_date,'DD.MM.YYYY') as jr_date,
-                        jr_id,jr_internal,jr_def_id,jr_pj
-                     from jrnx inner join jrn on j_grpt=jr_grpt_id where j_grpt=$p_grpt");
-  $MaxLine=pg_NumRows($Res);
-  if ( $MaxLine == 0 ) return null;
-  $deb=0;$cred=0;
-  for ( $i=0; $i < $MaxLine; $i++) {
-    
-    $l_line=pg_fetch_array($Res,$i);
-    $l_array['op_date']=$l_line['j_date'];
-    if ( $l_line['j_debit'] == 't' ) {
-      $l_class=sprintf("class_deb%d",$deb);
-      $l_montant=sprintf("mont_deb%d",$deb);
-      $l_text=sprintf("text_deb%d",$deb);
-      $l_array[$l_class]=$l_line['j_poste'];
-      $l_array[$l_montant]=$l_line['j_montant'];
-      $l_array[$l_text]=$l_line['j_text'];
-      $l_id=sprintf("op_deb%d",$deb);
-      $l_array[$l_id]=$l_line['j_id'];
-      $deb++;
-    }
-    if ( $l_line['j_debit'] == 'f' ) {
-      $l_class=sprintf("class_cred%d",$cred);
-      $l_montant=sprintf("mont_cred%d",$cred);
-      $l_array[$l_class]=$l_line['j_poste'];
-      $l_array[$l_montant]=$l_line['j_montant'];
-      $l_id=sprintf("op_cred%d",$cred);
-      $l_array[$l_id]=$l_line['j_id'];
-      $l_text=sprintf("text_cred%d",$deb);
-      $l_array[$l_text]=$l_line['j_text'];
-
-      $cred++;
-    }
-    $l_array['jr_internal']=$l_line['jr_internal'];
-    $l_array['comment']=$l_line['jr_comment'];
-    $l_array['ech']=$l_line['jr_ech'];
-    $l_array['jr_id']=$l_line['jr_id'];
-    $l_array['jr_def_id']=$l_line['jr_def_id'];
-   }
-  return array($l_array,$deb,$cred);
-}
 
 /*! 
  * \brief  Get data from jrn and jrnx thanks the jr_id
@@ -834,8 +646,7 @@ function get_data ($p_cn,$p_grpt) {
  */ 
 function get_dataJrnJrId ($p_cn,$p_jr_id) {
 
-  echo_debug('jrn.php',__LINE__,"get_dataJrn $p_cn $p_jr_id");
-  $Res=ExecSql($p_cn,"select 
+  $Res=$p_cn->exec_sql("select 
                         j_text,
                         j_debit,
                         j_poste,
@@ -859,12 +670,12 @@ function get_dataJrnJrId ($p_cn,$p_jr_id) {
                       where 
                          jr_id=$p_jr_id 
                       order by j_debit desc,j_id asc");
-  $MaxLine=pg_NumRows($Res);
+  $MaxLine=Database::num_row($Res);
   echo_debug('jrn.php',__LINE__,"Found $MaxLine lines");
   if ( $MaxLine == 0 ) return null;
 
   for ( $i=0; $i < $MaxLine; $i++) {
-    $line=pg_fetch_array($Res,$i);
+    $line=Database::fetch_array($Res,$i);
     $array['j_debit']=$line['j_debit'];
     // is there a name from this j_qcode
     //
@@ -916,7 +727,7 @@ function get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
 
   echo_debug(__FILE__.":".__LINE__."get_dataJrnJrIdUser");
 
-  $Res=ExecSql($p_cn,"select ".
+  $Res=$p_cn->exec_sql("select ".
 	       "*".
 	       "  from quant_sold join jrn on (qs_internal=jr_internal) ". 
 	       "       join jrn_def on (jr_def_id=jrn_def_id) ".
@@ -925,21 +736,21 @@ function get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
 	       " where jr_id=$p_jr_id order by jrnx.j_id");
 
 
-  $MaxLine=pg_NumRows($Res);
+  $MaxLine=Database::num_row($Res);
   echo_debug('jrn.php',__LINE__,"Found $MaxLine lines");
 
 
   // if no info found in quant_sold try in quant_purchase 
   if ( $MaxLine == 0 ) 
     {
-      $Res=ExecSql($p_cn,"select ".
+      $Res=$p_cn->exec_sql("select ".
 		   "*".
 		   "  from quant_purchase join jrn on (qp_internal=jr_internal)".
 		   "       join jrn_def on (jr_def_id=jrn_def_id) ".
 		   "   inner join jrnx on (j_grpt=jr_grpt_id) ".
 				   " join tmp_pcmn on (pcm_val=j_poste)".
 		   " where jr_id=$p_jr_id");
-      $MaxLine=pg_NumRows($Res);
+      $MaxLine=Database::num_row($Res);
       if ( $MaxLine == 0 ) 	  return null;
       
       
@@ -948,7 +759,7 @@ function get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
 
 
   for ( $i=0; $i < $MaxLine; $i++) {
-    $line=pg_fetch_array($Res,$i);
+    $line=Database::fetch_array($Res,$i);
 
 
     $array['j_debit']=$line['j_debit'];

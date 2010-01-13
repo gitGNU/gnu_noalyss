@@ -21,7 +21,7 @@
  * \brief Logout
  */
 require_once ("ac_common.php");
-require_once ("postgres.php");
+require_once('class_database.php');
 
 html_page_start("classic");
 

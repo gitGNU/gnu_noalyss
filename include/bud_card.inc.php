@@ -23,19 +23,19 @@
 /*! \file 
  * \brief Manage the card for the budget module
  */
+require_once("class_iselect.php");
 require_once ('class_bud_card.php');
-require_once ('class_widget.php');
 
 
 echo '<form method="get">';
-$wHypo=new widget("select","","bh_id");
-$wHypo->value=make_array($cn,"select bh_id,html_quote(bh_name) from bud_hypothese");
+$wHypo=new ISelect("","bh_id");
+$wHypo->value=$cn->make_array("select bh_id,html_quote(bh_name) from bud_hypothese");
 $wHypo->selected=(isset($_REQUEST['bh_id']))?$_REQUEST['bh_id']:"";
 $wHypo->javascript='onChange="this.form.submit();"';
-echo "Hypoth&egrave;se ".$wHypo->IOValue();
-echo widget::submit('recherche','recherche');
+echo "Hypoth&egrave;se ".$wHypo->input();
+echo HtmlInput::submit('recherche','recherche');
 echo dossier::hidden();
-echo widget::hidden("p_action","fiche");
+echo HtmlInput::hidden("p_action","fiche");
 echo '</form>';
 echo '<hr>';
 if ( ! isset($_REQUEST['bh_id'])) {
@@ -81,7 +81,7 @@ if (! empty ($list)) {
   }
   echo ShowItem($row,'V','mtitle','mtitle',$bc_id);
  }
-echo widget::button_href('Ajout','?'.$str_dossier.'&sa=add&p_action=fiche&bh_id='.$_REQUEST['bh_id']);
+echo HtmlInput::button_href('Ajout','?'.$str_dossier.'&sa=add&p_action=fiche&bh_id='.$_REQUEST['bh_id']);
 echo '</div>';
 
 
@@ -96,8 +96,8 @@ if ( $sa == "add" ) {
   $obj->bh_id=$_REQUEST['bh_id'];
   echo '<form method="post">';
   echo $obj->form();
-  echo widget::submit('add','Ajout');
-  echo widget::hidden("p_action","fiche");
+  echo HtmlInput::submit('add','Ajout');
+  echo HtmlInput::hidden("p_action","fiche");
   echo dossier::hidden();
   echo '</form>';
   echo '</div>';
@@ -115,8 +115,8 @@ if ( $sa == "detail" ) {
   echo dossier::hidden();
 
   echo $obj->form();
-  echo widget::submit('remove','Effacer','onClick="return confirm(\'Vous confirmez cet effacement ?\')"');
-  echo widget::submit('update','Mise &agrave jour');
+  echo HtmlInput::submit('remove','Effacer','onClick="return confirm(\'Vous confirmez cet effacement ?\')"');
+  echo HtmlInput::submit('update','Mise &agrave jour');
 
   echo '</div>';
  }

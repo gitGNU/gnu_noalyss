@@ -63,18 +63,18 @@ $sql="insert into centralized( c_j_id,
             order by j_date,j_grpt,j_debit desc ";
  try
    {
-     $Res=StartSql($p_cn);
-     $Res=ExecSql($p_cn,$sql);
-     $Res=ExecSql($p_cn,"update jrnx set j_centralized='t' where j_tech_per=".$p_periode);
+     $Res=$p_cn->start();
+     $Res=$p_cn->exec_sql($sql);
+     $Res=$p_cn->exec_sql("update jrnx set j_centralized='t' where j_tech_per=".$p_periode);
      
      // Set correctly the number of operation id (jr_opid) for each journal
      // get the existing jrn_def_id 
      //--
-     $Res = ExecSql($p_cn,"select jrn_def_id from jrn_def");
-     $MaxJrn=pg_NumRows($Res);
+     $Res = $p_cn->exec_sql("select jrn_def_id from jrn_def");
+     $MaxJrn=Database::num_row($Res);
      // for each jrn_def_id
      for ( $i=0; $i < $MaxJrn;$i++) {
-       $row=pg_fetch_array($Res,$i);
+       $row=Database::fetch_array($Res,$i);
        // get the op related to that jrn_def_id
        $sql=sprintf("select jr_id from jrn 
          where
@@ -85,24 +85,24 @@ $sql="insert into centralized( c_j_id,
 		$row['jrn_def_id']
 		);
 
-       $Res2=ExecSql($p_cn,$sql);
-       $MaxLine=pg_NumRows($Res2);
+       $Res2=$p_cn->exec_sql($sql);
+       $MaxLine=Database::num_row($Res2);
        $jrn_def_id=$row['jrn_def_id'];
 	 /* if seq doesn't exist create it */
-       if ( exist_sequence($p_cn,'s_jrn_'.$jrn_def_id) == false ) {
-	 create_sequence($p_cn,'s_jrn_'.$jrn_def_id);
+       if ( $p_cn->exist_sequence('s_jrn_'.$jrn_def_id) == false ) {
+	 $p_cn->create_sequence('s_jrn_'.$jrn_def_id);
        }
 		 
        for ($e=0;$e < $MaxLine;$e++) {
 		 // each line is updated with a sequence
-		 $line=pg_fetch_array($Res2,$e);
+		 $line=Database::fetch_array($Res2,$e);
 		 $jr_id=$line['jr_id'];
 		 $sql=sprintf ("update jrn set 
                  jr_opid = (select nextval('s_jrn_%d'))
                  where jr_id =%d",
 					   $jrn_def_id,
 					   $jr_id); 
-		 $Ret=ExecSql($p_cn,$sql);
+		 $Ret=$p_cn->exec_sql($sql);
      
        }
      }
@@ -116,31 +116,31 @@ $sql="insert into centralized( c_j_id,
 		  $p_periode
 		  );
      
-     $Res2=ExecSql($p_cn,$sql);
-     $MaxLine=pg_NumRows($Res2);
+     $Res2=$p_cn->exec_sql($sql);
+     $MaxLine=Database::num_row($Res2);
      for ($e=0;$e < $MaxLine;$e++) {
        // each line is updated with a sequence
-       $line=pg_fetch_array($Res2,$e);
+       $line=Database::fetch_array($Res2,$e);
        $jr_id=$line['jr_id'];
        $sql=sprintf ("update jrn set 
                  jr_c_opid = (select nextval('s_central'))
                  where jr_id =%d",
 		     $jr_id); 
-       $Ret=ExecSql($p_cn,$sql);
+       $Ret=$p_cn->exec_sql($sql);
      }
      // Set the order of the jrn
-     $Res=ExecSql($p_cn,"select c_id from centralized 
+     $Res=$p_cn->exec_sql("select c_id from centralized 
                  inner join jrn on c_grp = jr_grpt_id
                  order by jr_c_opid, c_debit desc");
-     for ( $e=0;$e < pg_NumRows($Res);$e++) {
-       $row=pg_fetch_array($Res,$e);
+     for ( $e=0;$e < Database::num_row($Res);$e++) {
+       $row=Database::fetch_array($Res,$e);
        $sql=sprintf ("update centralized set  
                  c_order = (select nextval('s_central_order'))
                  where c_id = %d",$row['c_id']);
-       $Res2=ExecSql($p_cn,$sql); 
+       $Res2=$p_cn->exec_sql($sql); 
 
      }
-     ExecSql($p_cn,"update parm_periode set p_central=true where p_id=$p_periode");
+     $p_cn->exec_sql("update parm_periode set p_central=true where p_id=$p_periode");
    }
  catch(Exception $e)
    { 
@@ -152,20 +152,8 @@ $sql="insert into centralized( c_j_id,
  
  
  
- Commit($p_cn);
- EndSql($p_cn);
+ $p_cn->commit();
  return NOERROR;
-}
-/*! 
- **************************************************
- * \brief  test if e jrn_jr.id is centralize or not 
- * \param $p_cn database connx
- * \param $p_jrn_id jrn.jr_id       
- * \return: 0 if not centralized otherwise > 0
- */
-function isCentralize($p_cn,$p_jrn_id) {
-  $Res=ExecSql($p_cn,"select c_id from centralized where c_j_id=$p_jrn_id");
-  return pg_NumRows($Res);
 }
 
 ?>

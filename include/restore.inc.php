@@ -20,10 +20,12 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
+require_once('class_iradio.php');
+require_once('class_ifile.php');
+
 /*!\file
  * \brief restaure a database 
  */
-
 if ( isset ($_REQUEST['sa'] )) {
   if ( defined ('PG_PATH') ) 
     putenv("PATH=".PG_PATH);
@@ -32,7 +34,7 @@ if ( isset ($_REQUEST['sa'] )) {
   putenv("PGPASSWORD=".phpcompta_password);
   putenv("PGUSER=".phpcompta_user);
   putenv("PGPORT=".phpcompta_psql_port);
-  $retour='<hr>'.widget::button_href("Retour","?action=restore&PHPSESSID=".$_REQUEST['PHPSESSID']);
+  $retour='<hr>'.HtmlInput::button_anchor("Retour","?action=restore&PHPSESSID=".$_REQUEST['PHPSESSID']);
   if ( ! isset($_REQUEST['t'])) {
     echo '<div class="content">';
     echo ("<span class=\"error\">Vous devez préciser s'il s'agit d'un modèle ou d'un dossier</span>");
@@ -53,11 +55,12 @@ if ( isset ($_REQUEST['sa'] )) {
   //---------------------------------------------------------------------------
   // Restore a folder (dossier)
   if ( $_REQUEST['t']=='d') {
-    ini_set('upload_max_filesize','5M');
+    ini_set('upload_max_filesize','25M');
+    ini_set('post_max_size','25M');
     echo '<div class="content">';
 
-    $cn=DbConnect();
-    $id=NextSequence($cn,'dossier_id');
+    $cn=new Database();
+    $id=$cn->get_next_seq('dossier_id');
 
     if ( strlen(trim($_REQUEST['database'])) == 0 )
       $lname=$id." Restauration :".FormatString($_FILES['file']['name']);
@@ -66,29 +69,28 @@ if ( isset ($_REQUEST['sa'] )) {
 
 
     $sql="insert into ac_dossier (dos_id,dos_name) values (".$id.",'".$lname."') ";
-    StartSql($cn);
+    $cn->start();
     try{
-      getDbValue($cn,$sql);
+      $cn->get_value($sql);
 
 
     } catch ( Exception $e) {
       echo '<span class="error">'."Echec de la restauration ".'</span>';
-      print_r($e);
-      Rollback($cn);
+      $cn->rollback();
       exit();
     }
-    Commit($cn);
+    $cn->commit();
     $name=domaine."dossier".$id;
     echo $name;
-    ExecSql($cn,"create database ".$name." encoding='utf8'");
-    $args="  -d $name ".$_FILES['file']['tmp_name'];
+    $cn->exec_sql("create database ".$name." encoding='utf8'");
+    $args=" --no-owner  -d $name ".$_FILES['file']['tmp_name'];
 
     $status=passthru(PG_RESTORE.$args);
     echo '<h2 class="info"> Restauration réussie du dossier '.$lname.'</h2>';
 
-    $new_cn=DbConnect($id);
+    $new_cn=new Database($id);
 
-    apply_patch($new_cn,$name,0);
+    $new_cn->apply_patch($name,0);
     echo '<span class="error">'.'Ne pas recharger la page, sinon votre base de données sera restaurée une fois de plus'.'</span>';
     echo $retour;
 
@@ -98,11 +100,13 @@ if ( isset ($_REQUEST['sa'] )) {
   // Restore a modele
 
   if ( $_REQUEST['t']=='m') {
-    ini_set('upload_max_filesize','5M');
+    ini_set('upload_max_filesize','25M');
+    ini_set('post_max_size','25M');
+
     echo '<div class="content">';
 
-    $cn=DbConnect();
-    $id=NextSequence($cn,'s_modid');
+    $cn=new Database();
+    $id=$cn->get_next_seq('s_modid');
 
     if ( strlen(trim($_REQUEST['database'])) == 0 )
       $lname=$id." Restauration :".FormatString($_FILES['file']['name']);
@@ -111,25 +115,24 @@ if ( isset ($_REQUEST['sa'] )) {
 
 
     $sql="insert into modeledef (mod_id,mod_name) values (".$id.",'Restauration".$lname."') ";
-    StartSql($cn);
+    $cn->start();
     try{
-      getDbValue($cn,$sql);
+      $cn->get_value($sql);
 
     } catch ( Exception $e) {
       echo '<span class="error">'."Echec de la restauration ".'</span>';
-      print_r($e);
-      Rollback($cn);
+      $cn->rollback();
       exit();
     }
-    Commit($cn);
+    $cn->commit();
 
     $name=domaine."mod".$id;
-    ExecSql($cn,"create database ".$name." encoding='utf8'");
+    $cn->exec_sql("create database ".$name." encoding='utf8'");
     $args="   -d $name ".$_FILES['file']['tmp_name'];
     $status=exec(PG_RESTORE.$args);
 
     echo '<h2 class="info"> Restauration réussie du modèle '.$lname.'</h2>';
-    $new_cn=DbConnect($id,'mod');
+    $new_cn=new Database($id,'mod');
 
     apply_patch($new_cn,$name,0);
 
@@ -140,35 +143,33 @@ if ( isset ($_REQUEST['sa'] )) {
   }
  } else  {
   echo '<div class="content">';
-  ini_set('upload_max_filesize','5M');
-  echo '<form method="POST" enctype="multipart/form-data" >';
-  echo widget::hidden('action','restore');
-  echo widget::hidden('sa','r');
+  echo '<form method="POST" action="admin_repo.php" enctype="multipart/form-data" >';
+  echo HtmlInput::hidden('action','restore');
+  echo HtmlInput::hidden('sa','r');
   echo '<table>';
   echo '<tr><td>'."Nom de la base de donnée".'</td>';
-  $wNom=new widget("text");
+  $wNom=new IText();
   $wNom->name="database";
   $wNom->size=12;
-  echo '<td>'.$wNom->IOValue().'</td></tr>';
+  echo '<td>'.$wNom->input().'</td></tr>';
   echo '<tr><td>'."Type de backup :".'</td>';
-  $chk=new widget("radio");
+  $chk=new IRadio();
   $chk->name="t";
   $chk->value="d";
-  echo '<td>'.$chk->IOValue()."Dossier".'</td>';
+  echo '<td> '.$chk->input()."Dossier".'</td>';
   echo '</tr><tr><td></td>';
   $chk->name="t";
   $chk->value="m";
-  echo '<td>'.$chk->IOValue()."Modele".'</td>';
+  echo '<td>'.$chk->input()."Modele".'</td>';
   echo '<tr>';
-  $file=new widget("file");
+  $file=new IFile();
   $file->name="file";
   $file->value="mod";
-  $file->label="Fichier";
-  $file->table=1;
-  echo $file->IOValue();
+  echo td('Fichier ').
+    td($file->input());
   echo '</tr>';
   echo '</table>';
-  echo widget::submit("","Restauration");
+  echo HtmlInput::submit("","Restauration");
   echo '</form>';
   echo '</div>';
  }

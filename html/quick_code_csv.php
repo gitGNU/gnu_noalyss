@@ -22,7 +22,7 @@
  * \brief Send the poste list in csv
  */
 include_once("ac_common.php");
-include_once ("postgres.php");
+require_once('class_database.php');
 include ('class_user.php');
 require_once("class_fiche.php");
 header('Content-type: application/csv');
@@ -31,7 +31,7 @@ require_once('class_dossier.php');
 $gDossier=dossier::id();
 
 /* Admin. Dossier */
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 
 $User=new User($cn);
@@ -39,7 +39,7 @@ $User->Check();
 
 $Fiche=new fiche($cn,$_REQUEST['f_id']);
 $Fiche->getName();
-list($array,$tot_deb,$tot_cred)=$Fiche->get_row( 
+list($array,$tot_deb,$tot_cred)=$Fiche->get_row_date( 
 					       $_POST['from_periode'],
 					       $_POST['to_periode']
 					       );
@@ -61,7 +61,7 @@ printf("\n");
   foreach ( $Fiche->row as $op ) { 
     echo '"'.$op['j_qcode'].'";'.
       '"'.$op['jr_internal'].'"'.";".
-      '"'.$op['j_date'].'"'.";".
+      '"'.$op['j_date_fmt'].'"'.";".
       '"'.$op['description'].'"'.";".
       sprintf("%8.4f",$op['deb_montant']).";".
       sprintf("%8.4f",$op['cred_montant']);

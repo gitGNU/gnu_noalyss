@@ -31,24 +31,26 @@ if ( !isset ($_GET['jrn'] ) ||
 	echo_error("Missing parameters");
 }
 
-include_once ("postgres.php");
+require_once('class_database.php');
 
 
 $jr_grpt_id=$_GET['jr_grpt_id'];
 
-$cn=DbConnect($gDossier);
+$cn=new Database($gDossier);
 
 
 include_once ('class_user.php');
 $User=new User($cn);
 $User->Check();
+$User->check_dossier($gDossier);
+
 // retrieve the jrn
-$r=ExecSql($cn,"select jr_def_id from jrn where jr_grpt_id=$jr_grpt_id");
-if ( pg_num_rows($r) == 0 ) {
+$r=$cn->exec_sql("select jr_def_id from jrn where jr_grpt_id=$jr_grpt_id");
+if ( Database::num_row($r) == 0 ) {
   echo_error("Invalid operation id jr_grpt_id=$jr_grpt_id");
   exit;
  }
-$a=pg_fetch_array($r,0);
+$a=Database::fetch_array($r,0);
 $jrn=$a['jr_def_id'];
 
 if ($User->check_jrn($jrn) == 'X' ){
@@ -57,13 +59,14 @@ if ($User->check_jrn($jrn) == 'X' ){
   exit -1;
  }
 
-StartSql($cn);
-$ret=ExecSql($cn,"select jr_pj,jr_pj_name,jr_pj_type from jrn where jr_grpt_id=$jr_grpt_id");
-if ( pg_num_rows ($ret) == 0 )
+$cn->start();
+$ret=$cn->exec_sql("select jr_pj,jr_pj_name,jr_pj_type from jrn where jr_grpt_id=$jr_grpt_id");
+if ( Database::num_row ($ret) == 0 )
 	return;
-$row=pg_fetch_array($ret,0);
+$row=Database::fetch_array($ret,0);
 $tmp=tempnam($_ENV['TMP'],'document_');
-pg_lo_export($cn,$row['jr_pj'],$tmp);
+$cn->lo_export($row['jr_pj'],$tmp);
+
 ini_set('zlib.output_compression','Off');
 header("Pragma: public");
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
@@ -80,4 +83,4 @@ fclose($file);
 
 unlink ($tmp);
 
-Commit($cn);
+$cn->commit();

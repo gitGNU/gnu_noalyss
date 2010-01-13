@@ -22,72 +22,93 @@
 
 /*!\file 
  * \brief Fid for the ajax request for cards
- *
+ * \see fiche_search.php
  * Valid parameter GET are 
- * -  d type = cred, deb, all or filter (see fiche_search.php')
- * -  j is the legdger
+ * - d type = cred, deb, all or filter or any sql where clause if the d starts with [sql]
+ * - j is the legdger
+ * - l field for the label
+ * - t field for the tva_id
+ * - p field for the price (sale)
+ * - b field for the price (purchase)
+ * - FID is the QuickCode
  * - PHPSESSID
- * - caller give you what is the caller
- *  	-  caller=searchcardCtrl : p_extra contains the control to update
- *	- caller =searchcard p_extra is not used
- * - extra extra data, its meaning depends of the caller
+   *\note if the j is -1 then all the card are shown
  */
 
 require_once('class_own.php');
 require_once  ("constant.php");
-require_once  ("postgres.php");
+require_once('class_database.php');
 require_once ("user_common.php");
 require_once ("debug.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
-$caller=$_GET['caller'];
-$extra=$_GET['extra'];
 
-echo_debug('fid.php',__LINE__,"Recherche fid.php".$_GET["FID"]);
-$cn=DbConnect($gDossier);
+require_once('class_user.php');
+
+$cn=new Database(dossier::id());
+$user=new User($cn);
+$user->check();
+$user->check_dossier(dossier::id());
+
+$fLabel=(isset($_REQUEST['l']))?$_REQUEST['l']:'none';
+$fTva_id=(isset($_REQUEST['t']))?$_REQUEST['t']:'none';
+$fPrice_sale=(isset($_REQUEST['p']))?$_REQUEST['p']:'none';
+$fPrice_purchase=(isset($_REQUEST['b']))?$_REQUEST['b']:'none';
+
+
+echo_debug('fid.php',__LINE__,"Recherche fid.php".$_REQUEST["FID"]);
+
 if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
 { 
-  $d=FormatString($_GET['d']);
   $jrn=FormatString($_GET['j']);
+  $d=FormatString($_GET['d']);
 
-  switch ($d) {
-  case 'cred':
-    $filter_jrn=getDbValue($cn,"select jrn_def_fiche_cred from jrn_def where jrn_def_id=$1",array($jrn));
-    $filter_card="and fd_id in ($filter_jrn)";
-    break;
-  case 'deb':
-    $filter_jrn=getDbValue($cn,"select jrn_def_fiche_deb from jrn_def where jrn_def_id=$1",array($jrn));
-    $filter_card="and fd_id in ($filter_jrn)";
-    break;
-  case 'all':
-    $filter_card="";
-    break;
-  case 'filter':
-    $get_cred='jrn_def_fiche_cred';
+  if ( $jrn == -1 ) 
+    $d='all'; 
+  if ( strpos($d,'sql') == false ) {
 
-    $get_deb='jrn_def_fiche_deb';
+    switch ($d) {
+    case 'cred':
+      $filter_jrn=$cn->make_list("select jrn_def_fiche_cred from jrn_def where jrn_def_id=$1",array($jrn));
+      $filter_card=($filter_jrn != "")?" and fd_id in ($filter_jrn)":' and false ';
+      
+      break;
+    case 'deb':
+      $filter_jrn=$cn->make_list("select jrn_def_fiche_deb from jrn_def where jrn_def_id=$1",array($jrn));
+      $filter_card=($filter_jrn != "")?" and fd_id in ($filter_jrn)":' and false ';
+      break;
+    case 'all':
+      $filter_card="";
+      break;
+    case 'filter':
+      $get_cred='jrn_def_fiche_cred';
+      $get_deb='jrn_def_fiche_deb';
+      $filter_jrn=$cn->make_list("select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_id=$1",array($jrn));
+      $filter_card=($filter_jrn != "")?" and fd_id in ($filter_jrn)":' and false ';
 
-    $filter_jrn=getDbValue($cn,"select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_id=$1",array($jrn));
+      break;
+    case 'all':
+      $filter_card='';
+      break;
 
-    $filter_card="and fd_id in ($filter_jrn)";
-    break;
-  default:
-    $filter_card="and frd_id in ($d)";
+    default:
+      $filter_card="and fd_id in ($d)";
+    }
+  } else {
+    $filter_card=$d;
+    $filter_card=str_replace('[sql]','',$d);
   }
-
   $sql="select vw_name,vw_addr,vw_cp,vw_buy,vw_sell,tva_id 
                     from vw_fiche_attr 
                     where quick_code=upper($1)". $filter_card;
 
-  $array=get_array($cn,$sql,  array($_GET['FID']));
+  $array=$cn->get_array($sql,  array($_REQUEST['FID']));
+
+  if ( empty($array)) { echo '{"answer":"nok","flabel":"'.$fLabel.'"}'; exit;}
 
   echo_debug("fid",__LINE__,$array);
-  /* Different behaviour depending of the caller */
-  if ( strcmp($caller,'searchcardCtrl') === 0 ){
-	$name=$array[0]['vw_name'];
-  } else
-  $name=$array[0]['vw_name']." ".$array[0]['vw_addr']." ".$array[0]['vw_cp'];
-	
+
+  $name=$array[0]['vw_name'];
   $sell=$array[0]['vw_sell'] ;
   $buy=$array[0]['vw_buy'];
   $tva_id=$array[0]['tva_id'];
@@ -97,15 +118,24 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
   $sell=($sell==null)?" ":str_replace('"','',$sell);
   $buy=($buy==null)?" ":str_replace('"','',$buy);
   $tva_id=($tva_id==null)?" ":str_replace('"','',$tva_id);
-
-
-  
-  $a='{"answer":"ok","name":"'.$name.'","sell":"'.$sell.'","buy":"'.$buy.'","tva_id":"'.$tva_id.'","ctl":"'.$_GET['ctl'].'","caller":"'.$caller.'","extra":"'.$extra.'"}';
-
+  /* store the answer in an array and transform it later into a JSON object */
+  $tmp=array();
+  $tmp[]=array('flabel',$fLabel);
+  $tmp[]=array('name',$name);
+  $tmp[]=array('ftva_id',$fTva_id);
+  $tmp[]=array('tva_id',$tva_id);
+  $tmp[]=array('fPrice_sale',$fPrice_sale);
+  $tmp[]=array('sell',$sell);
+  $tmp[]=array('fPrice_purchase',$fPrice_purchase);
+  $tmp[]=array('buy',$buy);
+  $a='{"answer":"ok"';
+  for ($o=0;$o < count($tmp);$o++) {
+    $a.=sprintf(',"%s":"%s"',$tmp[$o][0],$tmp[$o][1]);
+  }
+  $a.='}';
 }
      else
-     $a='{"answer":"nok"}';
-echo_debug("fid.php",__LINE__,"Answer is \n $a");
+       $a='{"answer":"unauthorized"}';
 header("Content-type: text/html; charset: utf8",true);
 print $a;
 ?>
