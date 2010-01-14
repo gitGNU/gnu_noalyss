@@ -1,118 +1,498 @@
-﻿begin;
- insert into parameter(pr_id,pr_value) values ('MY_CHECK_PERIODE','Y');
- alter table jrn add jr_mt text ;
- update jrn set jr_mt=	extract (microseconds from jr_tech_date);
- create   index x_mt on jrn(jr_mt);
- DROP FUNCTION insert_quant_purchase(text, numeric, character varying, numeric, numeric,numeric, integer, numeric, numeric, numeric, character varying);
- DROP FUNCTION insert_quant_sold(text, character varying, numeric, numeric, numeric, integer, character varying);
-alter table groupe_analytique add constraint fk_pa_id foreign key(pa_id)  references plan_analytique(pa_id) on delete cascade;
-alter table stock_goods add constraint fk_stock_good_f_id foreign key(f_id)  references fiche(f_id) ;
--- for belgium
-insert into parm_code values ('SUPPLIER',440,'Poste par défaut pour les fournisseurs');
--- for french
--- insert into parm_code values ('SUPPLIER',400,'Poste par défaut pour les fournisseurs');
-drop table invoice;
+begin;
 
--- IMPORTANT FOR LANG
--- for account_repository
--- insert into user_global_pref(user_id,parameter_type,parameter_value ) select use_login,'LANG','fr_FR.utf8' from ac_users ;
---
+DROP FUNCTION  account_add(p_id poste_comptable, p_name character varying) cascade;
+DROP FUNCTION  account_auto(p_fd_id integer) cascade;
+DROP FUNCTION  account_compute(p_f_id integer) cascade;
+DROP FUNCTION  account_insert(p_f_id integer, p_account poste_comptable) cascade;
+DROP FUNCTION  account_parent(p_account poste_comptable) cascade;
+DROP FUNCTION  account_update(p_f_id integer, p_account poste_comptable) cascade;
+DROP FUNCTION  action_gestion_ins_upd() cascade;
+DROP FUNCTION  attribut_insert(p_f_id integer, p_ad_id integer, p_value character varying) cascade;
+DROP FUNCTION  attribute_correct_order() cascade;
+DROP FUNCTION  bud_card_ins_upd() cascade;
+DROP FUNCTION  bud_detail_ins_upd() cascade;
+DROP FUNCTION  card_class_base(p_f_id integer) cascade;
+DROP FUNCTION  check_balance(p_grpt integer) cascade;
+DROP FUNCTION  correct_sequence(p_sequence text, p_col text, p_table text) cascade;
+DROP FUNCTION  create_missing_sequence() cascade;
+DROP FUNCTION  drop_index(p_constraint character varying) cascade;
+DROP FUNCTION  drop_it(p_constraint character varying) cascade;
+DROP FUNCTION  extension_ins_upd() cascade;
+DROP FUNCTION  fiche_account_parent(p_f_id integer) cascade;
+DROP FUNCTION  fiche_attribut_synchro(p_fd_id integer) cascade;
+DROP FUNCTION  find_pcm_type(pp_value numeric) cascade;
+DROP FUNCTION  group_analytic_ins_upd() cascade;
+DROP FUNCTION  group_analytique_del() cascade;
+DROP FUNCTION  html_quote(p_string text) cascade;
+DROP FUNCTION  info_def_ins_upd() cascade;
+DROP FUNCTION  insert_jrnx(p_date character varying, p_montant numeric, p_poste poste_comptable, p_grpt integer, p_jrn_def integer, p_debit boolean, p_tech_user text, p_tech_per integer, p_qcode text) cascade;
+DROP FUNCTION  insert_quant_purchase(p_internal text, p_j_id numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_nd_amount numeric, p_nd_tva numeric, p_nd_tva_recup numeric, p_dep_priv numeric, p_client character varying) cascade;
+DROP FUNCTION  insert_quant_sold(p_internal text, p_jid numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_client character varying) cascade;
+DROP FUNCTION  insert_quick_code(nf_id integer, tav_text text) cascade;
+DROP FUNCTION  jrn_check_periode() cascade;
+DROP FUNCTION  jrn_def_add() cascade;
+DROP FUNCTION  jrn_def_delete() cascade;
+DROP FUNCTION  jrn_del() cascade;
+DROP FUNCTION  jrnx_del() cascade;
+DROP FUNCTION  plan_analytic_ins_upd() cascade;
+DROP FUNCTION  poste_analytique_ins_upd() cascade;
+DROP FUNCTION  proc_check_balance() cascade;
+DROP FUNCTION  t_document_modele_validate() cascade;
+DROP FUNCTION  t_document_type_insert() cascade;
+DROP FUNCTION  t_document_validate() cascade;
+DROP FUNCTION  t_jrn_def_sequence() cascade;
+DROP FUNCTION  tmp_pcmn_ins() cascade;
+DROP FUNCTION  trim_cvs_quote() cascade;
+DROP FUNCTION  trim_space_format_csv_banque() cascade;
+DROP FUNCTION  tva_delete(integer) cascade;
+DROP FUNCTION  tva_insert(text, numeric, text, text) cascade;
+DROP FUNCTION  tva_modify(integer, text, numeric, text, text) cascade;
+DROP FUNCTION  update_quick_code(njft_id integer, tav_text text) cascade;
 
--- Function: account_parent(poste_comptable)
 
-DROP FUNCTION account_parent(poste_comptable);
+DROP VIEW vw_client ;
+DROP VIEW vw_fiche_attr ;
+DROP VIEW vw_fiche_def ;
+DROP VIEW vw_fiche_min ;
+DROP VIEW vw_poste_qcode ;
+DROP VIEW vw_supplier ;
 
-CREATE	FUNCTION account_parent(p_account poste_comptable)
-  RETURNS poste_comptable AS
-$BODY$
+create domain account_type varchar(30);
+alter table centralized alter c_poste  type account_type;
+alter table del_jrnx alter j_poste  type account_type;
+alter table fiche_def alter fd_class_base  type account_type;
+alter table jrnx alter j_poste  type account_type;
+alter table parm_poste alter p_value  type account_type;
+alter table tmp_pcmn alter pcm_val  type account_type;
+alter table tmp_pcmn alter pcm_val_parent  type account_type;
+
+CREATE VIEW vw_client AS
+    SELECT a.f_id, a.av_text AS name, a1.av_text AS quick_code, b.av_text AS tva_num, c.av_text AS poste_comptable, d.av_text AS rue, e.av_text AS code_postal, f.av_text AS pays, g.av_text AS telephone, h.av_text AS email FROM (((((((((SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 1)) a JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 13)) b USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 23)) a1 USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 5)) c USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 14)) d USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 15)) e USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 16)) f USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 17)) g USING (f_id)) LEFT JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 18)) h USING (f_id)) WHERE (a.frd_id = 9);
+CREATE VIEW vw_fiche_attr AS
+    SELECT a.f_id, a.fd_id, a.av_text AS vw_name, b.av_text AS vw_sell, c.av_text AS vw_buy, d.av_text AS tva_code, tva_rate.tva_id, tva_rate.tva_rate, tva_rate.tva_label, e.av_text AS vw_addr, f.av_text AS vw_cp, j.av_text AS quick_code, h.av_text AS vw_description, fiche_def.frd_id FROM ((((((((((SELECT fiche.f_id, fiche.fd_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 1)) a LEFT JOIN (SELECT fiche.f_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 6)) b ON ((a.f_id = b.f_id))) LEFT JOIN (SELECT fiche.f_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 7)) c ON ((a.f_id = c.f_id))) LEFT JOIN (SELECT fiche.f_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 2)) d ON ((a.f_id = d.f_id))) LEFT JOIN (SELECT fiche.f_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 14)) e ON ((a.f_id = e.f_id))) LEFT JOIN (SELECT fiche.f_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 15)) f ON ((a.f_id = f.f_id))) LEFT JOIN (SELECT fiche.f_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 23)) j ON ((a.f_id = j.f_id))) LEFT JOIN (SELECT fiche.f_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 9)) h ON ((a.f_id = h.f_id))) LEFT JOIN tva_rate ON ((d.av_text = (tva_rate.tva_id)::text))) JOIN fiche_def USING (fd_id));
+CREATE VIEW vw_fiche_def AS
+    SELECT jnt_fic_attr.fd_id, jnt_fic_attr.ad_id, attr_def.ad_text, attr_value.av_text, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def.frd_id FROM (((((jnt_fic_att_value JOIN attr_value USING (jft_id)) JOIN fiche USING (f_id)) JOIN jnt_fic_attr USING (fd_id)) JOIN attr_def ON ((attr_def.ad_id = jnt_fic_attr.ad_id))) JOIN fiche_def USING (fd_id));
+CREATE VIEW vw_fiche_min AS
+    SELECT attr_min.frd_id, attr_min.ad_id, attr_def.ad_text, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base FROM ((attr_min JOIN attr_def USING (ad_id)) JOIN fiche_def_ref USING (frd_id));
+CREATE VIEW vw_poste_qcode AS
+    SELECT a.f_id, a.av_text AS j_poste, b.av_text AS j_qcode FROM ((SELECT jnt_fic_att_value.f_id, attr_value.av_text FROM (attr_value JOIN jnt_fic_att_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 5)) a JOIN (SELECT jnt_fic_att_value.f_id, attr_value.av_text FROM (attr_value JOIN jnt_fic_att_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 23)) b USING (f_id));
+CREATE VIEW vw_supplier AS
+    SELECT a.f_id, a.av_text AS name, a1.av_text AS quick_code, b.av_text AS tva_num, c.av_text AS poste_comptable, d.av_text AS rue, e.av_text AS code_postal, f.av_text AS pays, g.av_text AS telephone, h.av_text AS email FROM (((((((((SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 1)) a JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 13)) b USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 23)) a1 USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 5)) c USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 14)) d USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 15)) e USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 16)) f USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 17)) g USING (f_id)) LEFT JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 18)) h USING (f_id)) WHERE (a.frd_id = 8);
+
+CREATE FUNCTION account_auto(p_fd_id integer) RETURNS boolean
+    AS $$
+declare
+	l_auto bool;
+begin
+
+	select fd_create_account into l_auto from fiche_def where fd_id=p_fd_id;
+	if l_auto is null then
+		l_auto:=false;
+	end if;
+	return l_auto;
+end;
+$$
+    LANGUAGE plpgsql;
+
+
+
+
+CREATE FUNCTION account_add(p_id account_type, p_name character varying) RETURNS void
+    AS $$
 declare
 	nParent tmp_pcmn.pcm_val_parent%type;
-	sParent varchar;
 	nCount integer;
 begin
-	sParent:=to_char(p_account,'9999999999999999');
-	sParent:=trim(sParent::text);
-	nParent:=0;
-	while nParent = 0 loop
-		select count(*) into nCount
-		from tmp_pcmn
-		where
-		pcm_val = to_number(sParent,'9999999999999999');
-		if nCount != 0 then
-			nParent:=to_number(sParent,'9999999999999999');
-			exit;
-		end if;
-		sParent:= substr(sParent,1,length(sParent)-1);
-		if length(sParent) <= 0 then
-			raise exception 'Impossible de trouver le compte parent pour %',p_account;
-		end if;
-	end loop;
-	raise notice 'account_parent : Parent is %',nParent;
-	return nParent;
-end;
-$BODY$
-LANGUAGE 'plpgsql';
+	select count(*) into nCount from tmp_pcmn where pcm_val=p_id;
+	if nCount = 0 then
+		nParent=account_parent(p_id);
+		insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent)
+			values (p_id, p_name,nParent);
+	end if;
+return;
+end ;
+$$
+    LANGUAGE plpgsql;
 
-alter table document drop column d_state;
 
---alter table action_gestion set ag_title type text;
-ALTER TABLE action_gestion ADD COLUMN ag_hour text default null;
-ALTER TABLE action_gestion ADD COLUMN ag_priority integer;
-ALTER TABLE action_gestion ALTER COLUMN ag_priority SET DEFAULT 2;
-ALTER TABLE action_gestion ADD COLUMN ag_dest text;
-ALTER TABLE action_gestion ADD COLUMN ag_owner text;
-ALTER TABLE action_gestion ADD COLUMN ag_contact int8;
 
-CREATE OR REPLACE FUNCTION action_gestion_ins_upd()
-  RETURNS trigger AS
-$BODY$
+CREATE FUNCTION action_gestion_ins_upd() RETURNS "trigger"
+    AS $$
 begin
 NEW.ag_title := substr(trim(NEW.ag_title),1,70);
 NEW.ag_hour := substr(trim(NEW.ag_hour),1,5);
 return NEW;
 end;
-$BODY$
-LANGUAGE 'plpgsql' VOLATILE;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION attribut_insert(p_f_id integer, p_ad_id integer, p_value character varying) RETURNS void
+    AS $$
+declare 
+	n_jft_id integer;
+begin
+	select nextval('s_jnt_fic_att_value') into n_jft_id;
+	 insert into jnt_fic_att_value (jft_id,f_id,ad_id) values (n_jft_id,p_f_id,p_ad_id);
+	 insert into attr_value (jft_id,av_text) values (n_jft_id,trim(p_value));
+return;
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION attribute_correct_order() RETURNS void
+    AS $$
+declare
+    crs_correct cursor for select A.jnt_id,A.jnt_order from jnt_fic_attr as A join jnt_fic_attr as B using (fd_id) where A.jnt_order=B.jnt_order and A.jnt_id > B.jnt_id;
+    rec record;
+begin
+	open crs_correct;
+	loop
+	fetch crs_correct into rec;
+	if NOT FOUND then
+		close crs_correct;
+		return;
+	end if;
+	update jnt_fic_attr set jnt_order=jnt_order + 1 where jnt_id = rec.jnt_id;
+	end loop;
+	close crs_correct;
+	perform attribute_correct_order ();
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION bud_card_ins_upd() RETURNS "trigger"
+    AS $$declare
+ sCode text;
+begin
 
-CREATE TRIGGER action_gestion_t_insert_update
-  BEFORE INSERT OR UPDATE
-  ON action_gestion
-  FOR EACH ROW
-  EXECUTE PROCEDURE action_gestion_ins_upd();
+sCode:=trim(upper(NEW.bc_code));
+sCode:=replace(sCode,' ','_');
+sCode:=substr(sCode,1,10);
+NEW.bc_code:=sCode;
+return NEW;
+end;$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION card_class_base(p_f_id integer) RETURNS account_type
+    AS $$
+declare
+	n_poste fiche_def.fd_class_base%type;
+begin
 
-COMMENT ON TRIGGER action_gestion_t_insert_update ON action_gestion IS 'Truncate the column ag_title to 70 char';
+	select fd_class_base into n_poste from fiche_def join fiche using
+(fd_id)
+	where f_id=p_f_id;
+	if not FOUND then 
+		raise exception 'Invalid fiche card_class_base(%)',p_f_id;
+	end if;
+return n_poste;
+end; 
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION check_balance(p_grpt integer) RETURNS numeric
+    AS $$
+declare 
+	amount_jrnx_debit numeric;
+	amount_jrnx_credit numeric;
+	amount_jrn numeric;
+begin
+	select sum (j_montant) into amount_jrnx_credit 
+	from jrnx 
+		where 
+	j_grpt=p_grpt
+	and j_debit=false;
 
-ALTER TABLE action_gestion   ADD COLUMN ag_state integer;
-update action_gestion set f_id_dest=f_id_exp where f_id_exp != 0;
-alter table action_gestion drop column f_id_exp;
-UPDATE document_state    SET s_value= 'Clôturé' WHERE s_id=1;
-UPDATE document_state    SET s_value= 'A suivre' WHERE s_id=2;
-UPDATE document_state    SET s_value= 'A faire' WHERE s_id=3;
-UPDATE document_state    SET s_value= 'Abandonné' WHERE s_id=4;
+	select sum (j_montant) into amount_jrnx_debit 
+	from jrnx 
+		where 
+	j_grpt=p_grpt
+	and j_debit=true;
+
+	select jr_montant into amount_jrn 
+	from jrn
+	where
+	jr_grpt_id=p_grpt;
+
+	if ( amount_jrnx_debit != amount_jrnx_credit ) 
+		then
+		return abs(amount_jrnx_debit-amount_jrnx_credit);
+		end if;
+	if ( amount_jrn != amount_jrnx_credit)
+		then
+		return -1*abs(amount_jrn - amount_jrnx_credit);
+		end if;
+	return 0;
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION correct_sequence(p_sequence text, p_col text, p_table text) RETURNS integer
+    AS $$
+declare
+last_sequence int8;
+max_sequence int8;
+n integer;
+begin
+	select count(*) into n from pg_class where relkind='S' and relname=lower(p_sequence);
+	if n = 0 then
+		raise exception  ' Unknow sequence  % ',p_sequence;
+	end if;
+	select count(*) into n from pg_class where relkind='r' and relname=lower(p_table);
+	if n = 0 then
+		raise exception ' Unknow table  % ',p_table;
+	end if;
+
+	execute 'select last_value   from '||p_sequence into last_sequence;
+	raise notice 'Last value of the sequence is %', last_sequence;
+
+	execute 'select max('||p_col||')  from '||p_table into max_sequence;
+	if  max_sequence is null then
+		max_sequence := 0;
+	end if;
+	raise notice 'Max value of the sequence is %', max_sequence;
+	max_sequence:= max_sequence +1;	
+	execute 'alter sequence '||p_sequence||' restart with '||max_sequence;
+return 0;
+
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION create_missing_sequence() RETURNS integer
+    AS $$
+declare
+p_sequence text;
+nSeq integer;
+c1 cursor for select jrn_def_id from jrn_def;
+begin
+	open c1;
+	loop
+	   fetch c1 into nSeq;
+	   if not FOUND THEN
+	   	close c1;
+	   	return 0;
+	   end if;
+	   p_sequence:='s_jrn_pj'||nSeq::text;
+	execute 'create sequence '||p_sequence;
+	end loop;
+close c1;
+return 0;
+
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION drop_index(p_constraint character varying) RETURNS void
+    AS $$
+declare 
+	nCount integer;
+begin
+	select count(*) into nCount from pg_indexes where indexname=p_constraint;
+	if nCount = 1 then
+	execute 'drop index '||p_constraint ;
+	end if;
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION drop_it(p_constraint character varying) RETURNS void
+    AS $$
+declare 
+	nCount integer;
+begin
+	select count(*) into nCount from pg_constraint where conname=p_constraint;
+	if nCount = 1 then
+	execute 'alter table parm_periode drop constraint '||p_constraint ;
+	end if;
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION extension_ins_upd() RETURNS "trigger"
+    AS $$
+declare
+ sCode text;
+ sFile text;
+begin
+sCode:=trim(upper(NEW.ex_code));
+sCode:=replace(sCode,' ','_');
+sCode:=substr(sCode,1,15);
+sCode=upper(sCode);
+NEW.ex_code:=sCode;
+sFile:=NEW.ex_file;
+sFile:=replace(sFile,';','_');
+sFile:=replace(sFile,'<','_');
+sFile:=replace(sFile,'>','_');
+sFile:=replace(sFile,'..','');
+sFile:=replace(sFile,'&','');
+sFile:=replace(sFile,'|','');
 
 
-CREATE TABLE action_detail
-(
-  ad_id serial,
-  f_id int8,
-  ad_text text,
-  ad_pu numeric(20,4) DEFAULT 0,
-   ad_quant numeric(20,4) DEFAULT 0,
-  ad_tva_id integer DEFAULT 0,
-  ad_tva_amount numeric(20,4) DEFAULT 0,
-  ad_total_amount numeric(20,4) DEFAULT 0,
-  ag_id integer NOT NULL DEFAULT 0,
-  CONSTRAINT action_detail_pkey PRIMARY KEY (ad_id),
-  CONSTRAINT action_detail_ag_id_fkey FOREIGN KEY (ag_id)
-      REFERENCES action_gestion (ag_id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE
-);
 
-COMMENT ON TABLE action_detail IS 'Detail of action_gestion, see class Action_Detail';
--- trim the qcode
-CREATE OR REPLACE FUNCTION insert_quant_purchase(p_internal text, p_j_id numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_nd_amount numeric, p_nd_tva numeric, p_nd_tva_recup numeric, p_dep_priv numeric, p_client character varying)
-  RETURNS void AS
-$BODY$
+return NEW;
+
+end;
+
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION fiche_account_parent(p_f_id integer) RETURNS account_type
+    AS $$
+declare
+ret account_type;
+begin
+	select fd_class_base into ret from fiche_def join fiche using (fd_id) where f_id=p_f_id;
+	if not FOUND then
+		raise exception '% N''existe pas',p_f_id;
+	end if;
+	return ret;
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION fiche_attribut_synchro(p_fd_id integer) RETURNS void
+    AS $$
+declare
+	-- this sql gives the f_id and the missing attribute (ad_id)
+	list_missing cursor for select f_id,fd_id,ad_id,jnt_order from jnt_fic_attr join fiche as A using (fd_id) where fd_id=p_fd_id and ad_id not in (select ad_id from fiche join jnt_fic_att_value using (f_id) where fd_id=jnt_fic_attr.fd_id and A.f_id=f_id);
+	rec record;
+	-- value of the last insert
+	jnt jnt_fic_att_value%ROWTYPE;
+begin
+	open list_missing;
+	loop
+	
+	fetch list_missing into rec;
+	IF NOT FOUND then
+		exit;
+	end if;
+	-- insert a value into jnt_fic_att_value
+	insert 	into jnt_fic_att_value (f_id,ad_id) values (rec.f_id,rec.ad_id) returning * into jnt;
+
+	-- now we insert into attr_value
+	insert into attr_value values (jnt.jft_id,'');
+	end loop;
+	close list_missing;
+end; 
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION find_pcm_type(pp_value numeric) RETURNS text
+    AS $$
+declare
+        str_type text;
+        str_value text;
+        n_value numeric;
+        nLength integer;
+begin 
+        str_value:=trim(to_char(pp_value,'99999999999999999999999999999'));
+        nLength:=length(str_value);
+	while nLength > 0 loop
+		n_value:=to_number(str_value,'99999999999999999999999999999');
+      		select p_type into str_type from parm_poste where p_value=n_value;
+		if FOUND then
+			return str_type;
+		end if;
+		nLength:=nLength-1;
+		str_value:=substring(str_value from 1 for nLength);	
+	end loop;
+return 'CON';
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION group_analytic_ins_upd() RETURNS "trigger"
+    AS $$
+declare 
+name text;
+begin
+name:=upper(NEW.ga_id);
+name:=trim(name);
+name:=replace(name,' ','');
+NEW.ga_id:=name;
+return NEW;
+end;$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION group_analytique_del() RETURNS "trigger"
+    AS $$
+begin
+update poste_analytique set ga_id=null
+where ga_id=OLD.ga_id;
+return OLD;
+end;$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION html_quote(p_string text) RETURNS text
+    AS $$
+declare
+	r text;
+begin
+	r:=p_string;
+	r:=replace(r,'<','&lt;');
+	r:=replace(r,'>','&gt;');
+	r:=replace(r,'''','&quot;');
+	return r;
+end;$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION info_def_ins_upd() RETURNS "trigger"
+    AS $$
+declare 
+	row_info_def info_def%ROWTYPE;
+	str_type text;
+begin
+row_info_def:=NEW;
+str_type:=upper(trim(NEW.id_type));
+str_type:=replace(str_type,' ','');
+str_type:=replace(str_type,',','');
+str_type:=replace(str_type,';','');
+if  length(str_type) =0 then
+	raise exception 'id_type cannot be null';
+end if;
+row_info_def.id_type:=str_type;
+return row_info_def;
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION insert_jrnx(p_date character varying, p_montant numeric, p_poste account_type, p_grpt integer, p_jrn_def integer, p_debit boolean, p_tech_user text, p_tech_per integer, p_qcode text) RETURNS void
+    AS $$
+declare
+	sCode varchar;
+	nCount_qcode integer;
+begin
+	sCode=trim(p_qcode);
+
+	-- if p_qcode is empty try to find one	
+	if length(sCode) = 0 or p_qcode is null then
+
+		select count(*) into nCount_qcode 	
+			from vw_poste_qcode where j_poste=p_poste;
+	-- if we find only one q_code for a accountancy account
+	-- then retrieve it
+		if nCount_qcode = 1 then
+			select j_qcode::text into sCode 
+			from vw_poste_qcode where j_poste=p_poste;
+		else 
+		 sCode=NULL;
+		end if;
+		
+	end if;
+
+	insert into jrnx 
+	(
+		j_date,
+		j_montant, 	
+		j_poste,
+		j_grpt, 
+		j_jrn_def,
+		j_debit,
+		j_tech_user,
+		j_tech_per,
+		j_qcode	
+	) values 
+	(
+		to_date(p_date,'DD.MM.YYYY'),
+		p_montant,
+		p_poste,	
+		p_grpt,
+		p_jrn_def,
+		p_debit,
+		p_tech_user,
+		p_tech_per,
+		sCode
+	);
+
+return;
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION insert_quant_purchase(p_internal text, p_j_id numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_nd_amount numeric, p_nd_tva numeric, p_nd_tva_recup numeric, p_dep_priv numeric, p_client character varying) RETURNS void
+    AS $$
 declare
 	fid_client integer;
 	fid_good   integer;
@@ -149,12 +529,10 @@ begin
 		p_dep_priv);
 	return;
 end;
- $BODY$
-LANGUAGE 'plpgsql';
-
-CREATE OR REPLACE FUNCTION insert_quant_sold(p_internal text, p_jid numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_client character varying)
-  RETURNS void AS
-$BODY$
+ $$
+    LANGUAGE plpgsql;
+CREATE FUNCTION insert_quant_sold(p_internal text, p_jid numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_client character varying) RETURNS void
+    AS $$
 declare
 	fid_client integer;
 	fid_good   integer;
@@ -170,252 +548,610 @@ begin
 		(p_internal,p_jid,fid_good,p_quant,p_price,p_vat,p_vat_code,fid_client,'Y');
 	return;
 end;
- $BODY$
-LANGUAGE 'plpgsql';
-drop view vw_fiche_attr;
+ $$
+    LANGUAGE plpgsql;
+CREATE FUNCTION insert_quick_code(nf_id integer, tav_text text) RETURNS integer
+    AS $$
+	declare
+	ns integer;
+	nExist integer;
+	tText text;
+	begin
+	tText := upper(trim(tav_text));
+	tText := replace(tText,' ','');
+	
+	loop
+		-- take the next sequence
+		select nextval('s_jnt_fic_att_value') into ns;
+		if length (tText) = 0 or tText is null then
+			tText := 'FID'||ns;
+		end if;
+		-- av_text already used ?
+		select count(*) into nExist 
+			from jnt_fic_att_value join attr_value using (jft_id) 
+		where 
+			ad_id=23 and  av_text=upper(tText);
 
-create view vw_fiche_attr
-as  SELECT a.f_id, a.fd_id, a.av_text AS vw_name, b.av_text AS vw_sell, c.av_text AS vw_buy, d.av_text AS tva_code, tva_rate.tva_id, tva_rate.tva_rate, tva_rate.tva_label, e.av_text AS vw_addr, f.av_text AS vw_cp, j.av_text AS quick_code, h.av_text as vw_description,fiche_def.frd_id
-   FROM ( SELECT fiche.f_id, fiche.fd_id, attr_value.av_text
-	   FROM fiche
-      JOIN jnt_fic_att_value USING (f_id)
-   JOIN attr_value USING (jft_id)
-   JOIN attr_def USING (ad_id)
-  WHERE jnt_fic_att_value.ad_id = 1) a
-   LEFT JOIN ( SELECT fiche.f_id, attr_value.av_text
-	   FROM fiche
-      JOIN jnt_fic_att_value USING (f_id)
-   JOIN attr_value USING (jft_id)
-   JOIN attr_def USING (ad_id)
-  WHERE jnt_fic_att_value.ad_id = 6) b ON a.f_id = b.f_id
-   LEFT JOIN ( SELECT fiche.f_id, attr_value.av_text
-      FROM fiche
-   JOIN jnt_fic_att_value USING (f_id)
-   JOIN attr_value USING (jft_id)
-   JOIN attr_def USING (ad_id)
-  WHERE jnt_fic_att_value.ad_id = 7) c ON a.f_id = c.f_id
-   LEFT JOIN ( SELECT fiche.f_id, attr_value.av_text
-   FROM fiche
-   JOIN jnt_fic_att_value USING (f_id)
-   JOIN attr_value USING (jft_id)
-   JOIN attr_def USING (ad_id)
-  WHERE jnt_fic_att_value.ad_id = 2) d ON a.f_id = d.f_id
-   LEFT JOIN ( SELECT fiche.f_id, attr_value.av_text
-   FROM fiche
-   JOIN jnt_fic_att_value USING (f_id)
-   JOIN attr_value USING (jft_id)
-   JOIN attr_def USING (ad_id)
-  WHERE jnt_fic_att_value.ad_id = 14) e ON a.f_id = e.f_id
-   LEFT JOIN ( SELECT fiche.f_id, attr_value.av_text
-   FROM fiche
-   JOIN jnt_fic_att_value USING (f_id)
-   JOIN attr_value USING (jft_id)
-   JOIN attr_def USING (ad_id)
-  WHERE jnt_fic_att_value.ad_id = 15) f ON a.f_id = f.f_id
-   LEFT JOIN ( SELECT fiche.f_id, attr_value.av_text
-   FROM fiche
-   JOIN jnt_fic_att_value USING (f_id)
-   JOIN attr_value USING (jft_id)
-   JOIN attr_def USING (ad_id)
-  WHERE jnt_fic_att_value.ad_id = 23) j ON a.f_id = j.f_id
-   LEFT JOIN ( SELECT fiche.f_id, attr_value.av_text
-   FROM fiche
-   JOIN jnt_fic_att_value USING (f_id)
-   JOIN attr_value USING (jft_id)
-   JOIN attr_def USING (ad_id)
-  WHERE jnt_fic_att_value.ad_id = 9) h ON a.f_id = h.f_id
-   LEFT JOIN tva_rate ON d.av_text = tva_rate.tva_id::text
-   JOIN fiche_def USING (fd_id);
-
--- ajout n client dans attr_min
-insert into attr_min values (2,30);
-update attr_def set ad_text='Dépense à charge du gérant (partie privée)' where ad_id=31;
-
-CREATE OR REPLACE FUNCTION update_account_item_card()
-  RETURNS void AS
-$BODY$
-declare
-cCard cursor  for select jft_id,fd_class_base from fiche join fiche_def using (fd_id)
-join jnt_fic_att_value using (f_id)
-join attr_value using (jft_id)
-where
-ad_id=5 and
-fd_create_account=false
-and av_text = '';
-njft_id integer;
-sClass_base text;
+		if nExist = 0 then
+			exit;
+		end if;
+		tText:='FID'||ns;
+	end loop;
+	-- insert into table jnt_fic_att_value
+	insert into jnt_fic_att_value values (ns,nf_id,23);
+	-- insert value into attr_value
+	insert into attr_value values (ns,upper(tText));
+	return ns;
+	end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION jrn_check_periode() RETURNS "trigger"
+    AS $$
+declare 
+bClosed bool;
+str_status text;
+ljr_tech_per jrn.jr_tech_per%TYPE;
+ljr_def_id jrn.jr_def_id%TYPE;
+lreturn jrn%ROWTYPE;
 begin
-open cCard;
-loop
-	fetch cCard into njft_id,sClass_base;
-	if NOT FOUND then
-	exit;
-	end if;
-	update attr_value set av_text=sClass_base where jft_id=njft_id;
-end loop;
+if TG_OP='INSERT' then
+	ljr_tech_per :=NEW.jr_tech_per;
+	ljr_def_id   :=NEW.jr_def_id;
+        lreturn      :=NEW;
+end if;
 
-end;
-$BODY$
-LANGUAGE 'plpgsql';
+if TG_OP='DELETE' then
+	ljr_tech_per :=OLD.jr_tech_per;
+	ljr_def_id   :=OLD.jr_def_id;
+        lreturn      :=OLD;
+end if;
 
-select update_account_item_card();
+select p_closed into bClosed from parm_periode 
+	where p_id=ljr_tech_per;
 
-drop function update_account_item_card();
+if bClosed = true then
+	raise exception 'Periode fermee';
+end if;
 
-delete from action where ac_module='budget';
+select status into str_status from jrn_periode 
+       where p_id =ljr_tech_per and jrn_def_id=ljr_def_id;
 
-drop table bud_hypothese cascade;
-drop table bud_detail_periode cascade;
-drop table bud_detail cascade;
-drop table bud_card cascade;
--- drop sequence bud_card_bc_id_seq;
--- drop sequence bud_detail_bd_id_seq
--- drop sequence bud_detail_bdp_id_seq;
--- drop sequence bud_detail_periode_bdp_id_seq;
-comment on column action.ac_code is 'this code will be used in the code with the function User::check_action ';
-comment on column action_detail.f_id is 'the concerned  card';
-comment on column action_detail.ad_text is ' Description ';
-comment on column action_detail.ad_pu is ' price per unit ';
-comment on column action_detail.ad_quant is 'quantity ';
-comment on column action_detail.ad_tva_id is ' tva_id ';
-comment on column action_detail.ad_tva_amount is ' tva_amount ';
-comment on column action_detail.ad_total_amount is ' total amount';
-comment on column action_gestion.ag_type is ' type of action: see document_type ';
-comment on column action_gestion.f_id_dest is ' third party ';
-comment on column action_gestion.ag_title is ' title ';
-comment on column action_gestion.ag_timestamp is ' ';
-comment on column action_gestion.ag_cal is ' visible in the calendar if = C';
-comment on column action_gestion.ag_ref_ag_id is ' concerning the action ';
-comment on column action_gestion.ag_comment is ' comment of the action';
-comment on column action_gestion.ag_ref is 'its reference ';
-comment on column action_gestion.ag_priority is 'Low, medium, important ';
-comment on column action_gestion.ag_dest is ' is the person who has to take care of this action ';
-comment on column action_gestion.ag_owner is ' is the owner of this action ';
-comment on column action_gestion.ag_contact is ' contact of the third part ';
-comment on column action_gestion.ag_state is 'state of the action same as document_state ';	  
-comment on table action_gestion  is 'Contains the details for the follow-up of customer, supplier, administration';
--- clean the bud part
-delete from document where ag_id=0;
+if str_status <> 'OP' then
+	raise exception 'Periode fermee';
+end if;
 
-INSERT INTO action(ac_id, ac_description, ac_module, ac_code) VALUES (313, 'Administration', 'gestion', 'GEADM');
-INSERT INTO action(ac_id, ac_description, ac_module, ac_code) VALUES (1600, 'Gestion des extensions', 'extension', 'EXTENSION');
-INSERT INTO action(ac_id, ac_description, ac_module, ac_code) VALUES (1701, 'Consultation', 'prévision', 'PREVCON');
-INSERT INTO action(ac_id, ac_description, ac_module, ac_code) VALUES (1702, 'Modification et création', 'prévision', 'PREVMOD');
-update action_gestion set ag_state=2,ag_priority=2,ag_owner='phpcompta';
--- Function: extension_ins_upd()
-
--- DROP FUNCTION extension_ins_upd();
-
-CREATE OR REPLACE FUNCTION extension_ins_upd()
-  RETURNS trigger AS
-$BODY$
-declare
- sCode text;
-begin
-sCode:=trim(upper(NEW.ex_code));
-sCode:=replace(sCode,' ','_');
-sCode:=substr(sCode,1,15);
-sCode=upper(sCode);
-NEW.ex_code:=sCode;
+return lreturn;
+end;$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION jrn_def_add() RETURNS "trigger"
+    AS $$begin
+execute 'insert into jrn_periode(p_id,jrn_def_id,status) select p_id,'||NEW.jrn_def_id||',
+	case when p_central=true then ''CE''
+	      when p_closed=true then ''CL''
+	else ''OP''
+	end
+from
+parm_periode ';
 return NEW;
+end;$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION jrn_def_delete() RETURNS "trigger"
+    AS $$
+declare 
+nb numeric;
+begin
+select count(*) into nb from jrn where jr_def_id=OLD.jrn_def_id;
 
+if nb <> 0 then
+	raise exception 'EFFACEMENT INTERDIT: JOURNAL UTILISE';
+end if;
+return OLD;
+end;$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION jrn_del() RETURNS "trigger"
+    AS $$
+declare
+row jrn%ROWTYPE;
+begin
+row:=OLD;
+insert into del_jrn ( jr_id,
+       jr_def_id,
+       jr_montant,
+       jr_comment,
+       jr_date,
+       jr_grpt_id,
+       jr_internal,
+       jr_tech_date,
+       jr_tech_per,
+       jrn_ech,
+       jr_ech,
+       jr_rapt,
+       jr_valid,
+       jr_opid,
+       jr_c_opid,
+       jr_pj,
+       jr_pj_name,
+       jr_pj_type,
+       jr_pj_number,
+       del_jrn_date) 
+       select  jr_id,
+	      jr_def_id,
+	      jr_montant,
+	      jr_comment,
+	      jr_date,
+	      jr_grpt_id,
+	      jr_internal,
+	      jr_tech_date,
+	      jr_tech_per,
+	      jrn_ech,
+	      jr_ech,
+	      jr_rapt,
+	      jr_valid,
+	      jr_opid,
+	      jr_c_opid,
+	      jr_pj,
+	      jr_pj_name,
+	      jr_pj_type,
+	      jr_pj_number
+	      ,now() from jrn where jr_id=row.jr_id;
+return row;
 end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION jrnx_del() RETURNS "trigger"
+    AS $$
+declare
+row jrnx%ROWTYPE;
+begin
+row:=OLD;
+insert into del_jrnx select * from jrnx where j_id=row.j_id;
+return row;
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION plan_analytic_ins_upd() RETURNS "trigger"
+    AS $$
+declare
+   name text;
+begin
+   name:=upper(NEW.pa_name);
+   name:=trim(name);
+   name:=replace(name,' ','');
+   NEW.pa_name:=name;
+return NEW;
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION poste_analytique_ins_upd() RETURNS "trigger"
+    AS $$declare
+name text;
+rCount record;
 
-$BODY$
-LANGUAGE 'plpgsql';
--- Table: extension
+begin
+name:=upper(NEW.po_name);
+name:=trim(name);
+name:=replace(name,' ','');		
+NEW.po_name:=name;
 
--- DROP TABLE extension;
+if NEW.ga_id is NULL then
+return NEW;
+end if;
 
-CREATE TABLE extension
-(
-  ex_id serial NOT NULL, 
-    ex_name character varying(30) NOT NULL,
-  ex_code character varying(15) NOT NULL, 
-  ex_desc character varying(250), 
-  ex_file character varying NOT NULL, 
-  ex_enable "char" NOT NULL DEFAULT 'Y'::"char", 
-  CONSTRAINT pk_extension PRIMARY KEY (ex_id),
-  CONSTRAINT idx_ex_code UNIQUE (ex_code)
-);
-COMMENT ON TABLE extension IS 'Content the needed information for the extension';
-COMMENT ON COLUMN extension.ex_id IS 'Primary key';
-COMMENT ON COLUMN extension.ex_code IS 'code of the extension ';
-COMMENT ON COLUMN extension.ex_name IS 'code of the extension ';
-COMMENT ON COLUMN extension.ex_desc IS 'Description of the extension ';
-COMMENT ON COLUMN extension.ex_file IS 'path to the extension to include';
-COMMENT ON COLUMN extension.ex_enable IS 'Y : enabled; N : disabled ';
+if length(trim(NEW.ga_id)) = 0 then
+  NEW.ga_id:=NULL;
+  return NEW;
+end if;
+perform 'select ga_id from groupe_analytique where ga_id='||NEW.ga_id;
+if NOT FOUND then
+   raise exception' Inexistent Group Analytic %',NEW.ga_id;
+end if;
+return NEW;
+end;$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION proc_check_balance() RETURNS "trigger"
+    AS $$
+declare 
+	diff numeric;
+	tt integer;
+begin
+	if TG_OP = 'INSERT' or TG_OP='UPDATE' then
+	tt=NEW.jr_grpt_id;
+	diff:=check_balance(tt);
+	if diff != 0 then
+		raise exception 'balance error %',diff ;
+	end if;
+	return NEW;
+	end if;
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION t_document_modele_validate() RETURNS "trigger"
+    AS $$
+declare 
+    lText text;
+    modified document_modele%ROWTYPE;
+begin
+    modified:=NEW;
+
+	modified.md_filename:=replace(NEW.md_filename,' ','_');
+	return modified;
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION t_document_type_insert() RETURNS "trigger"
+    AS $$
+declare
+nCounter integer;
+    BEGIN
+select count(*) into nCounter from pg_class where relname='seq_doc_type_'||NEW.dt_id;
+if nCounter = 0 then
+        execute  'create sequence seq_doc_type_'||NEW.dt_id;
+end if;
+        RETURN NEW;
+    END;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION t_document_validate() RETURNS "trigger"
+    AS $$
+declare
+  lText text;
+  modified document%ROWTYPE;
+begin
+    	modified:=NEW;
+	modified.d_filename:=replace(NEW.d_filename,' ','_');
+	return modified;
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION t_jrn_def_sequence() RETURNS "trigger"
+    AS $$
+declare
+nCounter integer;
+
+    BEGIN
+    select count(*) into nCounter 
+       from pg_class where relname='s_jrn_'||NEW.jrn_def_id;
+       if nCounter = 0 then
+       	   execute  'create sequence s_jrn_'||NEW.jrn_def_id;
+	   raise notice 'Creating sequence s_jrn_%',NEW.jrn_def_id;
+	 end if;
+
+        RETURN NEW;
+    END;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION tmp_pcmn_ins() RETURNS "trigger"
+    AS $$
+declare
+   r_record tmp_pcmn%ROWTYPE;
+begin
+r_record=NEW;
+if  length(trim(r_record.pcm_type))=0 or r_record.pcm_type is NULL then 
+   r_record.pcm_type:=find_pcm_type(NEW.pcm_val);
+   return r_record;
+end if;
+return NEW;
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION trim_cvs_quote() RETURNS "trigger"
+    AS $$
+declare
+        modified import_tmp%ROWTYPE;
+begin
+	modified:=NEW;
+	modified.devise=replace(new.devise,'"','');
+	modified.poste_comptable=replace(new.poste_comptable,'"','');
+        modified.compte_ordre=replace(NEW.COMPTE_ORDRE,'"','');
+        modified.detail=replace(NEW.DETAIL,'"','');
+        modified.num_compte=replace(NEW.NUM_COMPTE,'"','');
+        return modified;
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION trim_space_format_csv_banque() RETURNS "trigger"
+    AS $$
+declare
+        modified format_csv_banque%ROWTYPE;
+begin
+        modified.name=trim(NEW.NAME);
+        modified.include_file=trim(new.include_file);
+		if ( length(modified.name) = 0 ) then
+			modified.name=null;
+		end if;
+		if ( length(modified.include_file) = 0 ) then
+			modified.include_file=null;
+		end if;
+
+        return modified;
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION tva_delete(integer) RETURNS void
+    AS $_$ 
+declare
+	p_tva_id alias for $1;
+	nCount integer;
+begin
+	nCount=0;
+	select count(*) into nCount from quant_sold where qs_vat_code=p_tva_id;
+	if nCount != 0 then
+                 return;
+		
+	end if;
+	select count(*) into nCount from quant_purchase where qp_vat_code=p_tva_id;
+	if nCount != 0 then
+                 return;
+		
+	end if;
+
+delete from tva_rate where tva_id=p_tva_id;
+	return;
+end;
+$_$
+    LANGUAGE plpgsql;
+CREATE FUNCTION tva_insert(text, numeric, text, text) RETURNS integer
+    AS $_$
+declare
+l_tva_id integer;
+p_tva_label alias for $1;
+p_tva_rate alias for $2;
+p_tva_comment alias for $3;
+p_tva_poste alias for $4;
+debit text;
+credit text;
+nCount integer;
+begin
+if length(trim(p_tva_label)) = 0 then
+	return 3;
+end if;
+
+if length(trim(p_tva_poste)) != 0 then
+	if position (',' in p_tva_poste) = 0 then return 4; end if;
+	debit  = split_part(p_tva_poste,',',1);
+	credit  = split_part(p_tva_poste,',',2);
+	select count(*) into nCount from tmp_pcmn where pcm_val=debit::account_type;
+	if nCount = 0 then return 4; end if;
+	select count(*) into nCount from tmp_pcmn where pcm_val=credit::account_type;
+	if nCount = 0 then return 4; end if;
+ 
+end if;
+select into l_tva_id nextval('s_tva') ;
+insert into tva_rate(tva_id,tva_label,tva_rate,tva_comment,tva_poste)
+	values (l_tva_id,p_tva_label,p_tva_rate,p_tva_comment,p_tva_poste);
+return 0;
+end;
+$_$
+    LANGUAGE plpgsql;
+CREATE FUNCTION tva_modify(integer, text, numeric, text, text) RETURNS integer
+    AS $_$
+declare
+p_tva_id alias for $1;
+p_tva_label alias for $2;
+p_tva_rate alias for $3;
+p_tva_comment alias for $4;
+p_tva_poste alias for $5;
+debit text;
+credit text;
+nCount integer;
+begin
+if length(trim(p_tva_label)) = 0 then
+	return 3;
+end if;
+
+if length(trim(p_tva_poste)) != 0 then
+	if position (',' in p_tva_poste) = 0 then return 4; end if;
+	debit  = split_part(p_tva_poste,',',1);
+	credit  = split_part(p_tva_poste,',',2);
+	select count(*) into nCount from tmp_pcmn where pcm_val=debit::account_type;
+	if nCount = 0 then return 4; end if;
+	select count(*) into nCount from tmp_pcmn where pcm_val=credit::account_type;
+	if nCount = 0 then return 4; end if;
+ 
+end if;
+update tva_rate set tva_label=p_tva_label,tva_rate=p_tva_rate,tva_comment=p_tva_comment,tva_poste=p_tva_poste
+	where tva_id=p_tva_id;
+return 0;
+end;
+$_$
+    LANGUAGE plpgsql;
+CREATE FUNCTION update_quick_code(njft_id integer, tav_text text) RETURNS integer
+    AS $$
+	declare
+	ns integer;
+	nExist integer;
+	tText text;
+	old_qcode varchar;
+	begin
+	-- get current value
+	select av_text into old_qcode from attr_value where jft_id=njft_id;
+	-- av_text didn't change so no update
+	if tav_text = upper( trim(old_qcode)) then
+		return 0;
+	end if;
+	
+	tText := trim(upper(tav_text));
+	tText := replace(tText,' ','');
+	if length ( tText) = 0 or tText is null then
+		return 0;
+	end if;
+		
+	ns := njft_id;
+
+	loop
+		-- av_text already used ?
+		select count(*) into nExist 
+			from jnt_fic_att_value join attr_value using (jft_id) 
+		where 
+			ad_id=23 and av_text=tText;
+
+		if nExist = 0 then
+			exit;
+		end if;	
+		if tText = 'FID'||ns then
+			-- take the next sequence
+			select nextval('s_jnt_fic_att_value') into ns;
+		end if;
+		tText  :='FID'||ns;
+		
+	end loop;
+	update attr_value set av_text = tText where jft_id=njft_id;
+
+	-- update also the contact
+	update attr_value set av_text = tText 
+		where jft_id in 
+			( select jft_id 
+				from jnt_fic_att_value join attr_value using (jft_id) 
+			where ad_id=25 and av_text=old_qcode);
+
+
+	update jrnx set j_qcode=tText where j_qcode = old_qcode;
+	return ns;
+	end;
+$$
+    LANGUAGE plpgsql;
+
+CREATE TRIGGER action_gestion_t_insert_update
+    BEFORE INSERT OR UPDATE ON action_gestion
+    FOR EACH ROW
+    EXECUTE PROCEDURE action_gestion_ins_upd();
+
+
+
+COMMENT ON TRIGGER action_gestion_t_insert_update ON action_gestion IS 'Truncate the column ag_title to 70 char';
+
+
+
+CREATE TRIGGER document_modele_validate
+    BEFORE INSERT OR UPDATE ON document_modele
+    FOR EACH ROW
+    EXECUTE PROCEDURE t_document_modele_validate();
+
+
+
+CREATE TRIGGER document_validate
+    BEFORE INSERT OR UPDATE ON document
+    FOR EACH ROW
+    EXECUTE PROCEDURE t_document_validate();
+
+
+
+CREATE TRIGGER info_def_ins_upd_t
+    BEFORE INSERT OR UPDATE ON info_def
+    FOR EACH ROW
+    EXECUTE PROCEDURE info_def_ins_upd();
+
+
+
+CREATE TRIGGER t_check_balance
+    AFTER INSERT OR UPDATE ON jrn
+    FOR EACH ROW
+    EXECUTE PROCEDURE proc_check_balance();
+
+
+
+CREATE TRIGGER t_check_jrn
+    BEFORE INSERT OR DELETE ON jrn
+    FOR EACH ROW
+    EXECUTE PROCEDURE jrn_check_periode();
+
+
+
+CREATE TRIGGER t_group_analytic_del
+    BEFORE DELETE ON groupe_analytique
+    FOR EACH ROW
+    EXECUTE PROCEDURE group_analytique_del();
+
+
+
+CREATE TRIGGER t_group_analytic_ins_upd
+    BEFORE INSERT OR UPDATE ON groupe_analytique
+    FOR EACH ROW
+    EXECUTE PROCEDURE group_analytic_ins_upd();
+
+
+
+CREATE TRIGGER t_jrn_def_add_periode
+    AFTER INSERT ON jrn_def
+    FOR EACH ROW
+    EXECUTE PROCEDURE jrn_def_add();
+
+
+
+CREATE TRIGGER t_jrn_def_delete
+    BEFORE DELETE ON jrn_def
+    FOR EACH ROW
+    EXECUTE PROCEDURE jrn_def_delete();
+
+
+
+CREATE TRIGGER t_jrn_del
+    BEFORE DELETE ON jrn
+    FOR EACH ROW
+    EXECUTE PROCEDURE jrn_del();
+
+
+
+CREATE TRIGGER t_jrnx_del
+    BEFORE DELETE ON jrnx
+    FOR EACH ROW
+    EXECUTE PROCEDURE jrnx_del();
+
+
+
+CREATE TRIGGER t_plan_analytique_ins_upd
+    BEFORE INSERT OR UPDATE ON plan_analytique
+    FOR EACH ROW
+    EXECUTE PROCEDURE plan_analytic_ins_upd();
+
+
+
+CREATE TRIGGER t_poste_analytique_ins_upd
+    BEFORE INSERT OR UPDATE ON poste_analytique
+    FOR EACH ROW
+    EXECUTE PROCEDURE poste_analytique_ins_upd();
+
+
+
+CREATE TRIGGER t_tmp_pcmn_ins
+    BEFORE INSERT ON tmp_pcmn
+    FOR EACH ROW
+    EXECUTE PROCEDURE tmp_pcmn_ins();
+
+
 
 CREATE TRIGGER trg_extension_ins_upd
-  BEFORE INSERT OR UPDATE
-  ON extension
-  FOR EACH ROW
-  EXECUTE PROCEDURE extension_ins_upd();  
-  
-CREATE TABLE user_sec_extension
-(
-  use_id serial NOT NULL,
-  ex_id integer NOT NULL,
-  use_login text NOT NULL,
-  use_access character(1) NOT NULL DEFAULT 0,
-  CONSTRAINT user_sec_extension_pkey PRIMARY KEY (use_id),
-  CONSTRAINT user_sec_extension_ex_id_key UNIQUE (ex_id, use_login)
-);
-COMMENT ON TABLE user_sec_extension IS 'Security for extension';
-
-CREATE TABLE forecast
-(
-  f_id serial NOT NULL,
-  f_name text NOT NULL,
-  CONSTRAINT forecast_pk PRIMARY KEY (f_id)
-);
-
-COMMENT ON TABLE forecast IS 'contains the name of the forecast';
+    BEFORE INSERT OR UPDATE ON extension
+    FOR EACH ROW
+    EXECUTE PROCEDURE extension_ins_upd();
 
 
-CREATE TABLE forecast_cat
-(
-  fc_id serial NOT NULL, -- primary key
-  fc_desc text NOT NULL, -- text of the category
-  f_id bigint, -- Foreign key, it is the parent from the table forecast
-  fc_order integer NOT NULL DEFAULT 0, -- Order of the category, used when displaid
-  CONSTRAINT forecast_cat_pk PRIMARY KEY (fc_id),
-  CONSTRAINT forecast_child FOREIGN KEY (f_id)
-      REFERENCES forecast (f_id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE
-);
-COMMENT ON COLUMN forecast_cat.fc_id IS 'primary key';
-COMMENT ON COLUMN forecast_cat.fc_desc IS 'text of the category';
-COMMENT ON COLUMN forecast_cat.f_id IS 'Foreign key, it is the parent from the table forecast';
-COMMENT ON COLUMN forecast_cat.fc_order IS 'Order of the category, used when displaid';
 
-CREATE TABLE forecast_item
-(
-  fi_id serial NOT NULL,
-  fi_text text,
-  fi_account text,
-  fi_card integer,
-  fi_order integer,
-  fc_id integer,
-  fi_amount numeric(20,4) DEFAULT 0,
-  fi_debit "char" NOT NULL DEFAULT 'd'::"char",
-  fi_pid integer,
-  CONSTRAINT forecast_item_pkey PRIMARY KEY (fi_id),
-  CONSTRAINT card FOREIGN KEY (fi_card)
-      REFERENCES fiche (f_id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT fk_forecast FOREIGN KEY (fc_id)
-      REFERENCES forecast_cat (fc_id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE
-);
-COMMENT ON COLUMN forecast_item.fi_id IS 'Primary key';
-COMMENT ON COLUMN forecast_item.fi_text IS 'Label of the i	tem';
-COMMENT ON COLUMN forecast_item.fi_account IS 'Accountancy entry';
-COMMENT ON COLUMN forecast_item.fi_card IS 'Card (fiche.f_id)';
-COMMENT ON COLUMN forecast_item.fi_amount IS 'Amount';
-COMMENT ON COLUMN forecast_item.fi_debit IS 'possible values are D or C';
-COMMENT ON COLUMN forecast_item.fi_order IS 'Order of showing (not used)';
-COMMENT ON COLUMN forecast_item.fi_pid IS '0 for every month, or the value parm_periode.p_id ';
+CREATE TRIGGER trigger_document_type_i
+    AFTER INSERT ON document_type
+    FOR EACH ROW
+    EXECUTE PROCEDURE t_document_type_insert();
 
 
-rollback;
+
+CREATE TRIGGER trigger_jrn_def_sequence_i
+    AFTER INSERT ON jrn_def
+    FOR EACH ROW
+    EXECUTE PROCEDURE t_jrn_def_sequence();
+
+
+
+CREATE TRIGGER trim_quote
+    BEFORE INSERT OR UPDATE ON import_tmp
+    FOR EACH ROW
+    EXECUTE PROCEDURE trim_cvs_quote();
+
+
+
+CREATE TRIGGER trim_space
+    BEFORE INSERT OR UPDATE ON format_csv_banque
+    FOR EACH ROW
+    EXECUTE PROCEDURE trim_space_format_csv_banque();
+
+
+commit;
