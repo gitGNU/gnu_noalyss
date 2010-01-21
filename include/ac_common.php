@@ -448,15 +448,14 @@ function sql_filter_per($p_cn,$p_from,$p_to,$p_form='p_id',$p_field='jr_tech_per
 
       $p_from=$a_start['p_start'];
       $p_to=$a_end['p_end'];
-    }
+    } 
   if ( $p_from == $p_to ) 
     $periode=" $p_field = (select p_id from parm_periode ".
       " where ".
-      " p_start = to_date('$p_from','DD.MM.YYYY')) ";
+      " p_start = to_date('$p_from','DD.MM.YYYY')) ";   
   else
     $periode = "$p_field in (select p_id from parm_periode ".
       " where p_start >= to_date('$p_from','DD.MM.YYYY') and p_end <= to_date('$p_to','DD.MM.YYYY')) ";
-  
   return $periode;
 }
 

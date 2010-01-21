@@ -160,7 +160,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     echo "<h2> Acc_Ledger_Sold::save Not implemented</h2>";
   }
 
-  /*!\brief insert into the database, it calls first the verify function
+  /*!\brief insert into the database, it calls first the verify function,
+   * change the value of this->jr_id and this->jr_internal
    *\param $p_array is usually $_POST or a predefined operation
    *\return string
    *\note throw an Exception
@@ -174,6 +175,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $seq=$this->db->get_next_seq('s_grpt');
     $this->id=$p_jrn;
     $internal=$this->compute_internal_code($seq);
+    $this->internal=$internal;
 
     $oPeriode=new Periode($this->db);
     $check_periode=$this->check_periode();
@@ -331,7 +333,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $acc_operation->pj=$e_pj;
     $acc_operation->mt=$mt;
 
-    $acc_operation->insert_jrn();
+    $this->jr_id=$acc_operation->insert_jrn();
 
     $this->pj=$acc_operation->set_pj();
 

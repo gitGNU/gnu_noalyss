@@ -144,6 +144,26 @@ class Acc_Ledger_Info {
       return $this->jr_id;
     }
   }
+  /**
+   *@brief save all extra information in once, called by compta_ven and compta_ach
+   *@param $p_jr_id is the jrn.jr_id concerned, 
+   *@param $p_array is the array with the data usually it is $_POST
+   *@note will change this->jr_id
+   *@see compta_ven.inc.php compta_ach.inc.php
+   */
+  function save_extra($p_jr_id,$p_array) {
+    $this->jr_id=$p_jr_id;
+      if (strlen(trim($p_array['bon_comm'] )) != 0 ) {
+	$this->set_type('BON_COMMANDE');
+	$this->set_value($p_array['bon_comm']);
+	$this->insert();
+      }
+      if (strlen(trim($p_array['other_info'] )) != 0 ) {
+	$this->set_type('OTHER');
+	$this->set_value($p_array['other_info']);
+	$this->insert();
+      }
+  }
   static function test_me() {
     echo "Dossier = ".Dossier::id();
     $cn=new Database(Dossier::id());

@@ -36,9 +36,9 @@ html_min_page_start($User->theme,"onLoad='window.focus();'");
 ?>
 <script>
 function GetIt(ctl,tva_id) {
-           self.opener.SetValue(ctl,tva_id)
-	   window.close();	
-	} 
+  set_inparent(ctl,tva_id);
+  window.close();	
+ } 
 </script>
 <?php
 

@@ -185,7 +185,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	
 	$r.="</table>";
 	$r.="Total ".$content['jr_montant']."<br>";
-	if ( $content['jrn_def_type'] == 'VEN' ) {
+
 	  /* count the number of additionnal info */
 	  $acc_jrn_info=new Acc_Ledger_Info($p_cn);
 	  $acc_jrn_info->set_jrn_id($p_jr_id);
@@ -203,7 +203,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	      
 	    }
 	  }
-	}
+	
 	if ( $p_mode==1) {
 	// show all the related operation
 	  $rec=new Acc_Reconciliation($p_cn);
@@ -567,25 +567,25 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 		     $_REQUEST['PHPSESSID'],
 		     $content['jr_pj_name'])."</TD>";
   $r.="</TR></TABLE>";
-  if ( $content['jrn_def_type'] == 'VEN' ) {
-    /* count the number of additionnal info */
-    $acc_jrn_info=new Acc_Ledger_Info($p_cn);
-    $acc_jrn_info->set_jrn_id($p_jr_id);
 
-    /* if additional info > 0 show them */
-    if ( $acc_jrn_info->count() > 0 ) {
-      $array=$acc_jrn_info->load_all();
-      foreach ($array as $row) {
-	if ( strpos($row->id_type,'BON_COMMANDE') ===0) {
-	  $r.="Num bon de commande : ".$row->ji_value.'<br>';
-	}
-	if ( strpos($row->id_type,'OTHER') ===0) {
-	  $r.="Autre info : ".$row->ji_value.'<br>';
-	}
-
+  /* count the number of additionnal info */
+  $acc_jrn_info=new Acc_Ledger_Info($p_cn);
+  $acc_jrn_info->set_jrn_id($p_jr_id);
+  
+  /* if additional info > 0 show them */
+  if ( $acc_jrn_info->count() > 0 ) {
+    $array=$acc_jrn_info->load_all();
+    foreach ($array as $row) {
+      if ( strpos($row->id_type,'BON_COMMANDE') ===0) {
+	$r.="Num bon de commande : ".$row->ji_value.'<br>';
       }
+      if ( strpos($row->id_type,'OTHER') ===0) {
+	$r.="Autre info : ".$row->ji_value.'<br>';
+	}
+      
     }
   }
+  
   $r.="<hr>";
   if ( $p_mode == 1 ) {
 	$r.= "<table>"; 

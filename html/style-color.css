@@ -176,7 +176,7 @@ div.no span{
 }
 
 div.content span {
-	  margin-left:40px;	
+	  margin-left:10px;	
 }
 table.document {
 	border:solid blue 2px ;
@@ -234,7 +234,7 @@ tr.odd {
   border-size:0px;		
 }
 tr {
-	font-size:12px;
+	font-size:10px;
 }
 
 tr.odd:hover td

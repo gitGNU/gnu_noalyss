@@ -39,7 +39,7 @@ $search_card->title=_('Recherche de fiche');
 $search_card->value='';
 echo $search_card->input();
 echo ICard::ipopup('ipopcard');
-
+echo ICard::ipopup('ipop_newcard');
 
 $retour=HtmlInput::button_anchor(_('Retour'),'?p_action=suivi_courrier&my_action&'.dossier::get());
 //-----------------------------------------------------

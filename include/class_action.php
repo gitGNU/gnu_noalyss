@@ -255,6 +255,16 @@ class Action
       $ag_ref->value=FormatString($this->ag_ref);
       $client_label=new ISpan();
 
+      /* Add button */
+      $f_add_button=new IButton('add_card');
+      $f_add_button->label=_('Créer une nouvelle fiche');
+      $f_add_button->set_attribute('ipopup','ipop_newcard');
+      $filter=$this->db->make_list('select fd_id from fiche_def ');
+      $f_add_button->set_attribute('filter',$filter);
+
+      $f_add_button->javascript=" select_card_type(this);";
+      $str_add_button=$f_add_button->input();
+
       // f_id_dest sender
       if ( $this->qcode_dest != '- ERROR -' && strlen(trim($this->qcode_dest)) != 0)
 	{

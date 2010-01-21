@@ -189,7 +189,7 @@ font-color:red;
 }
 
 div.content span {
- margin-left:40px;
+ margin-left:0px;
 }
 table.document {
 border:solid blue 2px ;
@@ -248,7 +248,7 @@ font-size:12px;
  border-size:0px;
 }
 tr {
-font-size:12px;
+font-size:10px;
 }
 tr.odd:hover td
 {

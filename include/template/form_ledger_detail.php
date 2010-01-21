@@ -58,7 +58,7 @@ echo '</tr>';
 
 ?>
 </table>
-<?=$str_add_button2?>
+
 <div style="position:float;float:right;text-align:right;padding-right:5px;font-size:1.2em;font-weight:bold;color:blue">
       <?=HtmlInput::button('act',_('Actualiser'),'onClick="compute_all_ledger();"'); ?>
  </div>

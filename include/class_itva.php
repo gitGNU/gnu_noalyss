@@ -34,7 +34,8 @@ require_once('class_html_input.php');
     if ( $this->readOnly==true) return $this->display();
     
     $r=sprintf('Tva <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
-	       ' NAME="%s" VALUE="%s" SIZE="3" onChange="ChangeTVA(\'%s\',\'%s\');">',
+	       ' ID="%s" NAME="%s" VALUE="%s" SIZE="3" onChange="ChangeTVA(\'%s\',\'%s\');">',
+	       $this->name,
 	       $this->name,
 	       $this->value,
 	       $this->label,

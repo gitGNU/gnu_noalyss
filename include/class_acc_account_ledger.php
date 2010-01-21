@@ -209,6 +209,7 @@ function get_solde_detail($p_cond="") {
 
  $Res=$this->db->exec_sql($sql);
  $Max=Database::num_row($Res);
+
  if ($Max==0) {
    return array('debit'=>0,
 	       'credit'=>0,

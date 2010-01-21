@@ -266,6 +266,17 @@ function ShowActionList($cn,$p_base)
    printf (_('Titre ou référence').': <input type="text" name="query" value="%s">',
 	   $a);
    echo '<br/>';
+
+   /* type of documents */
+   $type_doc=new ISelect ('tdoc');
+   $aTDoc=$cn->make_array('select dt_id,dt_value from document_type');
+   $aTDoc[]=array('value'=>'-1','label'=>_('Tous les types'));
+   $type_doc->value=$aTDoc;
+   $type_doc->selected=(isset ($_GET['tdoc']))?$_GET['tdoc']:-1;
+   echo 'Type de document';
+   echo $type_doc->input();
+   echo '<br>';
+
    $see_all=new ICheckBox('see_all');
    $see_all->selected= (isset($_REQUEST['see_all']))?true:false;
    echo _('les actions fermées aussi:').$see_all->input().'<br/>';
@@ -298,7 +309,9 @@ function ShowActionList($cn,$p_base)
    if ( (isset($_GET['qcode']) && trim($_GET['qcode']) != '') ||
 	(isset($_GET['query']) && trim($_GET['query']) != '') ||
 	isset ($_GET['all_action']) ||
-	isset ($_GET['see_all'])) {
+	isset ($_GET['see_all']) || 
+	(isset ($_GET['tdoc']) && trim($_GET['tdoc']) !='-1'))
+       {
      /*  nothing */
    } else {
 ?>
@@ -353,6 +366,9 @@ function ShowActionList($cn,$p_base)
 	     $str=" and (f_id_dest= ".$fiche->id." ) ";
 	 }
      }
+   if (isset($_GET['tdoc']) && $_GET['tdoc'] != -1 ){
+     $query .= ' and dt_id = '.Formatstring($_GET['tdoc']);
+   }
    if ( ! isset($_REQUEST['see_all']))      $query .= ' and ag_state in (2,3) ';
    if ( ! isset($_REQUEST['all_action']))      $query .= " and (ag_owner='".$_SESSION['g_user']."' or ag_dest='".$_SESSION['g_user']."')";
    $r=$act->myList($p_base,ACTION,$query.$str);

@@ -72,7 +72,7 @@ if ( isset($_POST['start_import'])){
 	// $array contient toutes les valeurs nécessaires à Fiche::insert,
 	$array=$client->toArray($_POST['fd_id']);
 		
-	while ( $data=fgetcsv($f)) {
+	while ( ($data=fgetcsv($f))==true) {
 		// remarque : on a éliminé les traitements d'erreur
 		
 		// On  remet tous les attributs (propriétés) à vide

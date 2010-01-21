@@ -61,6 +61,8 @@
           </td>
           </Tr>
         </table>
+ <?echo $str_add_button;?>
+
 </div>
 <div style="float:left;width:50%">
         <table>
@@ -122,7 +124,9 @@
             </TD>
           </TR>
         </table>
+
 </div>
+
 </fieldset>
 <fieldset>
   <legend>

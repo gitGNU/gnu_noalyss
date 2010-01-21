@@ -257,11 +257,11 @@ echo_debug(__FILE__,__LINE__,"receiving $p_formula");
       // then we must modify the cond for the periode
       $from=str_replace("FROM=","",$afrom[0]);
 
-
       // Get the periode 
       /*! \note special value for the clause FROM=00.0000
        */
       if ( $from == '00.0000' ) {
+
 		// retrieve the first month of this periode
 		$User=new User($p_cn);
 		$user_periode=$User->get_periode();
@@ -269,8 +269,10 @@ echo_debug(__FILE__,__LINE__,"receiving $p_formula");
 		$periode=$oPeriode->get_exercice($user_periode);
 		list($first,$last)=$oPeriode->get_limit($periode);
 		$ret=$first->get_date_limit();
+		$end_date=$oPeriode->get_date_limit($p_end);
 		if ($ret == null ) throw new Exception ('Pas de limite à cette période',1);
-		$cond=sql_filter_per($p_cn,$ret['p_start'],$p_end,'date','j_tech_per');	
+		$cond=sql_filter_per($p_cn,$ret['p_start'],$end_date['p_end'],'date','j_tech_per');	
+
 
       }  else {
 	$oPeriode=new Periode($p_cn);
@@ -286,9 +288,9 @@ echo_debug(__FILE__,__LINE__,"receiving $p_formula");
 	  $year=$oPeriode->get_exercice($user_periode);
 	  list($first,$last)=$oPeriode->get_limit($year);
 	  $ret=$first->get_date_limit();
+	  $end_date=$oPeriode->get_date_limit($p_end);
 	  if ($ret == null ) throw new Exception ('Pas de limite à cette période',1);
-	  $cond=sql_filter_per($p_cn,$ret['p_start'],$p_end,'date','j_tech_per');	
-
+	  $cond=sql_filter_per($p_cn,$ret['p_start'],$end_date['p_end'],'date','j_tech_per');	
 	}
       }
     } 
@@ -300,8 +302,6 @@ echo_debug(__FILE__,__LINE__,"receiving $p_formula");
 
       // Get sum of account
     $P=new Acc_Account_Ledger($p_cn,$e[0]);
-    echo_debug(__FILE__.":".__LINE__."  condition is $cond");
-
     $detail=$P->get_solde_detail($cond);
 
 

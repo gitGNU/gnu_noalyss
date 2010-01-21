@@ -55,7 +55,9 @@ $str_dossier=dossier::get();
 $array=array(
 	     array('?p_action=ach&sa=n&'.$str_dossier,_('Nouvelle dépense'),_('Nouvel achat ou dépense'),1),
 	     array('?p_action=ach&sa=l&'.$str_dossier,_('Liste achat'),_('Liste des achats'),2),
-	     array('?p_action=ach&sa=lnp&'.$str_dossier,_('Liste dépenses non payées'),_('Liste des ventes non payées'),3)
+	     array('?p_action=ach&sa=lnp&'.$str_dossier,_('Liste dépenses non payées'),_('Liste des ventes non payées'),3),
+	     array('commercial.php?p_action=supplier&'.$str_dossier,_('Fournisseurs'),_('Fournisseurs')),
+	     array('?p_action=impress&type=jrn&'.$str_dossier,_('Impression'),_('Impression'))
 	      );
 
 $sa=(isset ($_REQUEST['sa']))?$_REQUEST['sa']:-1;
@@ -164,6 +166,10 @@ if ( $def==1 || $def == 4 ) {
       if (isset($Ledger->doc)) {
 	echo $Ledger->doc.'<hr>';
       }
+      /* Save the additional information into jrn_info */
+      $obj=new Acc_Ledger_Info($cn);
+      $obj->save_extra($Ledger->jr_id,$_POST);
+
       echo HtmlInput::button_anchor(_('Nouvelle dépense'),$href.'?p_action=ach&sa=n&'.dossier::get());
       echo '</div>';
       exit();

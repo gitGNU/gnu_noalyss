@@ -54,7 +54,9 @@ $str_dossier=dossier::get();
 $array=array(
 	     array('?p_action=ven&sa=n&'.$str_dossier,_('Nouvelle vente'),_('Nouvelle vente'),1),
 	     array('?p_action=ven&sa=l&'.$str_dossier,_('Liste ventes'),_('Liste des ventes'),2),
-	     array('?p_action=ven&sa=lnp&'.$str_dossier,_('Liste vente non payées'),_('Liste des ventes non payées'),3)
+	     array('?p_action=ven&sa=lnp&'.$str_dossier,_('Liste vente non payées'),_('Liste des ventes non payées'),3),
+	     array('commercial.php?p_action=client&'.$str_dossier,_('Clients'),_('Clients')),
+	     array('?p_action=impress&type=jrn&'.$str_dossier,_('Impression'),_('Impression'))
 	      );
 
 $sa=(isset ($_REQUEST['sa']))?$_REQUEST['sa']:-1;
@@ -175,17 +177,8 @@ if ( $def==1 || $def == 4 ) {
 
       /* Save the additional information into jrn_info */
       $obj=new Acc_Ledger_Info($cn);
-      $jr_id=$obj->search_id_internal($internal);
-      if (strlen(trim($_POST['bon_comm'] )) != 0 ) {
-	$obj->set_type('BON_COMMANDE');
-	$obj->set_value($_POST['bon_comm']);
-	$obj->insert();
-      }
-      if (strlen(trim($_POST['other_info'] )) != 0 ) {
-	$obj->set_type('OTHER');
-	$obj->set_value($_POST['other_info']);
-	$obj->insert();
-      }
+      $obj->save_extra($Ledger->jr_id,$_POST);
+
 
       echo HtmlInput::button_anchor(_('Nouvelle vente'),$href.'?p_action=ven&sa=n&'.dossier::get());
       echo '</div>';

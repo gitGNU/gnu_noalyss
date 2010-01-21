@@ -160,6 +160,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
   }
 
   /*!\brief insert into the database, it calls first the verify function
+   * change the value of this->jr_id and this->jr_internal
    *\param $p_array is usually $_POST or a predefined operation
    *\return string
    *\note throw an Exception
@@ -172,7 +173,10 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $group=$this->db->get_next_seq("s_oa_group"); /* for analytic */
     $seq=$this->db->get_next_seq('s_grpt');
     $this->id=$p_jrn;
+
     $internal=$this->compute_internal_code($seq);
+    $this->internal=$internal;
+
     $cust=new fiche($this->db);
     $cust->get_by_qcode($e_client);
     $poste=$cust->strAttribut(ATTR_DEF_ACCOUNT);
@@ -448,7 +452,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $acc_operation->periode=$tperiode;
     $acc_operation->pj=$e_pj;
     $acc_operation->mt=$mt;
-    $acc_operation->insert_jrn();
+    $this->jr_id=$acc_operation->insert_jrn();
     $this->pj=$acc_operation->set_pj();
 
     // Set Internal code
@@ -1115,11 +1119,17 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 
     }
     // check for upload piece
-    $file=new IFile();
+/**
+*@todo clean dead code
+*/
+    /*    $file=new IFile();
     $file->table=0;
     $r.=_("Ajoutez une pièce justificative ");
     $r.=$file->input("pj","");
+    */
     $r.=HtmlInput::warnbulle(12);
+    $r.=$this->extra_info();
+
     /* Propose to generate a note of fee */
     if ( $this->db->count_sql("select md_id,md_name from document_modele where md_type=10") > 0 &&
 	 $e_mp != 0)
@@ -1135,6 +1145,45 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	$r.=$doc_gen->input().'<br>';
       }
 
+    return $r;
+  }
+
+  /*!\brief the function extra info allows to
+   * - add a attachment
+   * - generate an invoice
+   * - insert extra info
+   *\return string
+   */
+  public function extra_info() {
+    $r="";
+    $r.='<div style="position:float;float:left;width:50%;text-align:right;line-height:3em;">';
+    $r.='<fieldset> <legend> '._('Document à générer').'</legend>';
+       // check for upload piece
+    $file=new IFile();
+    $file->table=0;
+    $r.=_("Ajoutez une pièce justificative ");
+    $r.=$file->input("pj","");
+
+    if ( $this->db->count_sql("select md_id,md_name from document_modele where md_type=4") > 0 )
+      {
+
+
+	$r.=_('ou générer un document').' <input type="checkbox" name="gen_invoice" CHECKED>';
+	// We propose to generate  the note of fee
+	$doc_gen=new ISelect();
+	$doc_gen->name="gen_doc";
+	$doc_gen->value=$this->db->make_array(
+				   "select md_id,md_name ".
+				   " from document_modele where md_type=4");
+	$r.=$doc_gen->input().'<br>';
+      }
+    $r.='<br>';
+    $obj=new IText();
+    $r.=_('Numero de bon de commande : ').$obj->input('bon_comm').'<br>';
+    $r.=_('Autre information : ').$obj->input('other_info').'<br>';
+
+    $r.="</fieldset>";
+    $r.='</div>';
     return $r;
   }
 
