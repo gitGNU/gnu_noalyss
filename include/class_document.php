@@ -673,6 +673,7 @@ class Document
 	  break;
 
 	case 'TVA_RATE':
+	case 'VEN_ART_TVA_RATE':
 	  extract ($_POST);
 	  $id='e_march'.$counter.'_tva_id';
 	  if ( !isset (${$id}) ) return "";
@@ -686,6 +687,7 @@ class Document
 	  break;
 
 	case 'TVA_CODE':
+	case 'VEN_ART_TVA_CODE':
 	  extract ($_POST);
 	  $id='e_march'.$counter.'_tva_id';
 	  if ( !isset (${$id}) ) return "";

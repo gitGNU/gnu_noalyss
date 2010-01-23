@@ -133,6 +133,20 @@
 	    <?=_('Description')?>
   </legend>
   <p>
+<script language="javascript">
+   function enlarge(p_id_textarea){
+   $(p_id_textarea).rows=40; $(p_id_textarea).cols=120;
+   $('bt_enlarge').style.display="none";
+   $('bt_small').style.display="inline";
+ }
+function small(p_id_textarea){
+   $(p_id_textarea).rows=5; $(p_id_textarea).cols=70;
+   $('bt_enlarge').style.display="inline";
+   $('bt_small').style.display="none";
+
+   }
+</script>
+
    <?=_('Titre')?>
     <br>
     <?php echo $title->input();
@@ -141,7 +155,11 @@
     <?=_('Commentaire')?>
     <br>
     <?php echo $desc->input();
-    ?>
+$style_enl='style="display:inline"';$style_small='style="display:none"';
+if (strlen($desc->value)>300) {$style_enl='style="display:none"';$style_small='style="display:inline"';}
+?>
+<input type="button" id="bt_enlarge" <?=$style_enl?> value="+" onclick="enlarge('ag_comment');return false;">
+<input type="button" id="bt_small"  <?=$style_small?> value="-" style="display:none" onclick="small('ag_comment');return false;">
   </p>
 </fieldset>
 <input type='button' value='Montrer articles' id="toggleButton" onclick='toggleShowDetail()'>

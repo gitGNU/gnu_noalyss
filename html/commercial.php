@@ -117,7 +117,7 @@ echo ShowItem(array(
 		    array('?p_action=stock&'.$str_dossier,_('Stock'),'',5),
 		    array('?p_action=fiche&'.$str_dossier,_('Fiche'),'',6),
 		    array('?p_action=prev&'.$str_dossier,_('Prevision'),'',7),
-		    array('?p_action=suivi_courrier&my_action&'.$str_dossier,_('Suivi Courrier'),'',8),
+		    array('?p_action=suivi_courrier&my_action&'.$str_dossier,_('Suivi'),'',8),
 		    ),
 	      'H',"mtitle","mtitle",$def,' width="100%"');
 

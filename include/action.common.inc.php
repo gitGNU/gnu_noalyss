@@ -371,6 +371,6 @@ function ShowActionList($cn,$p_base)
    }
    if ( ! isset($_REQUEST['see_all']))      $query .= ' and ag_state in (2,3) ';
    if ( ! isset($_REQUEST['all_action']))      $query .= " and (ag_owner='".$_SESSION['g_user']."' or ag_dest='".$_SESSION['g_user']."')";
-   $r=$act->myList($p_base,ACTION,$query.$str);
+   $r=$act->myList($p_base,"",$query.$str);
    echo $r;
  }

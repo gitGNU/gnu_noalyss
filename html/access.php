@@ -168,9 +168,12 @@ echo HtmlInput::button('add',_('Ajout'),'onClick="add_todo()"');
 if ( ! empty ($array) )  {
   echo '<table id="table_todo" width="100%">';
   $nb=0;
+  $today=date('d.m.Y');
+
   foreach ($array as $row) {
-if ( $nb % 2 == 0 ) $odd='class="odd" '; else $odd='class="even" ';
-$nb++;
+    if ( $nb % 2 == 0 ) $odd='class="odd" '; else $odd='class="even" ';
+    if ( strcmp($today,$row['tl_date'])==0) { $odd.=' style="background-color:#FFEA00"';}
+    $nb++;
     echo '<tr id="tr'.$row['tl_id'].'" '.$odd.'>'.
       '<td>'.
       $row['tl_date'].

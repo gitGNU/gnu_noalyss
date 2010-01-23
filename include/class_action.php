@@ -159,6 +159,7 @@ class Action
       $desc->name="ag_comment";
       $desc->readonly=$readonly;
       $desc->value=$this->ag_comment;
+      if ( strlen($desc->value) >300 ) { $desc->width=120;$desc->heigh=40;}
 
       // state
       // Retrieve the value
@@ -804,6 +805,7 @@ class Action
 	  return $r;
 
 	}
+      $today=date('d-m-Y');
       $r.=JS_LEDGER;
       $i=0;
       //show the sub_action
@@ -813,7 +815,9 @@ class Action
 	  $i++;
 	  $tr=($i%2==0)?'even':'odd';
 	  if ($row['ag_priority'] < 2) $tr='priority1';	
-	  $r.="<tr class=\"$tr\">";
+	  $st='';
+	  if ($row['my_date']==$today) $st=' style="font-family:bold; border:2px solid orange;"';
+	  $r.="<tr class=\"$tr\" $st>";
 	  $r.="<td>".$href.$row['my_date'].'</a>'."</td>";
 
 	  // Expediteur
@@ -1005,9 +1009,9 @@ class Action
    *\return $p_array of Action object
    */
   function get_last($p_limit) {
-    $sql="select vw_name,ag_id,ag_title,ag_ref, dt_value,to_char(ag_timestamp,'DD.MM.YYYY') as ag_timestamp_fmt,ag_timestamp ".
+    $sql="select coalesce(vw_name,'Interne') as vw_name,ag_id,ag_title,ag_ref, dt_value,to_char(ag_timestamp,'DD.MM.YYYY') as ag_timestamp_fmt,ag_timestamp ".
       " from action_gestion join document_type ".
-      " on (ag_type=dt_id) join vw_fiche_attr on (f_id=f_id_dest) where ag_state in (2,3) order by ag_timestamp desc limit $p_limit";
+      " on (ag_type=dt_id) left join vw_fiche_attr on (f_id=f_id_dest) where ag_state in (2,3) order by ag_timestamp desc limit $p_limit";
     $array=$this->db->get_array($sql);
     return $array;
   }

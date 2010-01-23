@@ -31,7 +31,7 @@ define ("DBVERSION",63);
 define ("MAX_COMPTE",4);
 define ('MAX_ARTICLE',9);
 define ('MAX_CAT',15);
-define ('MAX_FORECAST_ITEM',20);
+define ('MAX_FORECAST_ITEM',50);
 
 define ("DEBUG","false");
 
