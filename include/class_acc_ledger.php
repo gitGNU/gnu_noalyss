@@ -734,7 +734,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 
     if ( $row['jr_valid'] == 'f'  ) {
       $r.="<TD> Op&eacute;ration annul&eacute;e</TD>";
-    }    else if ( $own->MY_STRICT=='N' ) {
+    }    else {
       // all operations can be removed either by setting to 0 the amount
       // or by writing the opposite operation if the period is closed
       $r.="<TD>";

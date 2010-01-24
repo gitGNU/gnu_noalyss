@@ -6,41 +6,39 @@ BODY {
   font-family:arial,sans-serif;
 }
 .notice {
-  color:red;
-  font-weight:bold;
-
-}
+		color:red;
+        font-style: italic;
+        }
 
 table.result {
-  font-size:12px;
   color:blue;
-  border:blue solid 1px;
+  border:blue solid 1px; 
   width:100%;
-  
-  }
+}
 table.result th { 
-  font-size:11px;
   font-weight:bold;
+  font-family:arial,sans-serif;
   border-bottom:1px solid blue;
   padding-left:10px;
   padding-right:10px;
 }
 
 h2 {
+  font-family:arial,sans-serif;
   font-size:14px;
   color:grey;
 }
 div.info {
 	background:#879ed4;
 	color:white;
-	font-size:16pt;
+	font-size:120%;
   text-align:center;
 }
 
-h2.info {
-	background:green;
-	color:white;
-	font-size:12pt;
+content h2.info {
+	background:#879ed4;
+  color:black;
+  font-size:14pt;
   text-align:center;
   padding:0px;
   margin:0px;
@@ -53,6 +51,15 @@ u_redcontent h2.info {
   padding:0px;
   margin:0px;
 }
+h2.info {
+  background-color:#879ED4;
+	color:white;
+	font-size:16pt;
+  text-align:center;
+  padding:0px;
+  margin:0px;
+}
+
 h3.info {
   background:#879ed4;
   color:white;
@@ -78,25 +85,26 @@ h1.title {
 	color: blue;
 	font-size:25px;
 }
-div.mtitle {
-	position: absolute;
-	right:300px;
-	width:100px;
-background-color:yellow;
-}
 
 div.u_tmenu {
   position: float;
   margin-top:1px;
   width:100%;	
-  background-color:green;
+  background-color:#879ED4;
+  
   
 }
 div.u_subtmenu {
+  background-color:white	;
   float:left;
   clear:both;
-  background-color:pink;
+  left:10px;
 
+}
+div.u_tmenu div.u_tool {
+	   background-color:#879ED4;	
+	   float:left;
+	   
 }
 div.u_tool {
 	float:left;
@@ -104,48 +112,47 @@ div.u_tool {
 	
 	
 	}
-div.u_tmenu div.u_tool {
-	    background-color:green;	
-	   float:left;
-}
 div.u_tool div.name {
        float:left;
        margin-left:10px;
 }
 div.u_tool div.acces_direct{
-        float:right;
+	float:right;
 	margin-right:10px;
-	text-align:right
+	text-align:right;
+	
 }
 
 div.u_subt2menu {
+background-color:lightgrey;
   left:1%;	
-  background-color:orange;
+
 }
 div.lmenu {
 	 float:left;
 	 clear:left;
-	left:20px;
-	font-size:12px;
-	background-color:grey;
+	font-size:9px;
+
 }
 div.lextmenu {
 	position: float;
 	float:left;
-	font-size:12px;
-	background-color:blue;
+	font-family:arial,sans-serif;
+	font-size:9px;
+
 }
 div.searchmenu {
   left:30px;
   width:95px;
   top:100px;
   position:absolute;
-background-color:green;
+
 }
 
 div.recherche_form{
 	width:700px;
-	font-size:12px;
+	font-size:9px;
+	font-family:arial,sans-serif;
   border-style:outset;
   border-width:1px;
 
@@ -153,41 +160,57 @@ div.recherche_form{
 div.u_redcontent{ 	 
          position: float; 	 
          float:left; 	 
-         width:75%; 	 
 	 padding-top:7px;
 	 padding-left:8px;
-         font-size:12px; 	 
-	 background-color:lightgreen;
+         font-size:9px; 	 
+         font-family:arial,sans-serif; 	 
+	 width:75%;
+
 }
 div.content{ 	 
          position: float; 	 
          float:left; 	 
-         font-size:12px; 	 
-	 width:100%;
-	 background-color:lightgreen;
-	 clear:both;
+		padding-top:7px;
+         width:100%; 	 	 
+         font-family:arial,sans-serif; 	
+         clear:both;
+          
+
+}
+div.content30{ 	 
+         position: float; 	 
+         float:left; 	 
+	 padding-top:7px;
+         width:35%; 	  
+         font-family:arial,sans-serif; 	 
+
 }
 div.no span{
 	position:static;
-     	font-size:12px;	
+	font-family:arial,sans-serif;	
 	font-weight:bold;
 	font-color:red;	
 	
 }
 
-div.content span {
-	  margin-left:10px;	
-}
 table.document {
-	border:solid blue 2px ;
-	width:100%;
-	border-style:outset;
+	    border:solid blue 2px ;
+	    width:100%;
+	    border-style:outset;  
 }
 table.document th{
-  background-color:lightgrey;
-   color:darkblue;
+	      background-color:lightgrey;
+	      color:darkblue;
 }
-
+table.result th{
+	      background-color:lightgrey;
+	      color:darkblue;
+}
+span.error {
+color:black;  
+background-color:red;
+font-size:120%;
+}
 table.mtitle {
 	border:0;
 	text-align:center
@@ -204,14 +227,19 @@ td.mtitle {
 	text-align:center;
 	width:95px;
         height :30px; 
-	font-size:12px;
+	font-size:10px;
     background-color:#DDE6FF;
 }
-
+td.msubtitle {
+	text-align:center;
+	height:20px;
+	font-size:10px;
+    background-color:#DDE6FF;
+}
 span.mtitle {
 	color:gray;
 	background-color:blue;
-	font-size:12px;
+	font-size:10px;
 	border-style:groove
 }
 span.odd { 
@@ -222,42 +250,23 @@ span.even {
   background-color:#DDE6FF;
   display:block;
  }
-span.error {
-	   color:black;  
-	   background-color:red;
-	   font-size:120%;
-}
 
 tr.odd {
 	background-color:#DDE6FF;
-	font-size:12px;
+	font-size:10px;
   border-size:0px;		
 }
 tr {
 	font-size:10px;
 }
-
-tr.odd:hover td
-{
-   text-decoration:none;
-  background-color:blue;
-  color:white;
-}
-tr.even:hover td 
-{
-  text-decoration:none;
-  background-color:blue;
-  color:white;
-}
-
 td.odd{
 	background-color:#DDE6FF ;
 	border-size:0px;
-	font-size:12px;
+	font-size:10px;
 }
 td.even{
 	border:0px;
-	font-size:12px;
+	font-size:10px;
 }
 td.cell{
 	    height:32px;
@@ -267,36 +276,59 @@ td.selectedcell{
 	border-style:inset;
         border-color:blue;
 	border-width:1pt ;
-	font-size:12px;
+	font-size:10px;
         background:#5D90CD ;
         color:white;
         text-align:center;
 	     width:120px;
 }
-
 a.mtitle {
-  font-size:12px;
+  font-size:10px;
   text-decoration:none;
   display:inline;
-  color:blue;
+ color: blue;
+	
 }
 
-a.mtitle:hover {
+a.dossier {
+  font-size:10px;
   text-decoration:none;
-  display:inline;
-  border-style:groove;
-  border-color:gray;
+  display:block;
+   color: #202267;
+	
+}
+tr.odd:hover td
+{
+  text-decoration:none;
+  background-color: #a9d6e4;
+  color:white;
+}
+tr.even:hover td 
+{
+  text-decoration:none;
+  background-color: #a9d6e4;
+  color:white;
+}
+td.mtitle:hover,td.mtitle:hover a
+{
+  background-color:#a9d6e4;
+  color:white;
+}
+td.msubtitle:hover,td.msubtitle:hover a
+{
+  background-color:#a9d6e4;
+  color:white;
 }
 a.cell {
   text-decoration:none;
   display:block;
   color:blue;
   background-color:white;
-  font-size:12px;
+  font-size:9px;
 }
 
 a.cell:hover {
-  font-size:12px;
+  font-size:9px;
   color:white;
   background-color:#5D90CD;
   text-decoration:none;
@@ -326,7 +358,8 @@ a.one:hover {
 
 a.detail
 {
-  font-size:12px;
+  font-size:9px;
+  font-family:arial,sans-serif;
     text-decoration: none;
     display: block;
     color: blue;
@@ -334,7 +367,8 @@ a.detail
 
 a.detail:hover   
 {
-  font-size:12px;
+  font-size:9px;
+  font-family:arial,sans-serif;
     color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
@@ -346,33 +380,34 @@ li.menuv,ol.menuv {
 	 padding:1em 1em;
 }
 div.u_redcontent a {
-  font-size:12px;
+  font-family:arial,sans-serif;
   text-decoration: none;
   display: block;
-  color: darkblue;
-width:90%;
+  color: blue;
 
 }
 
 div.u_redcontent a:hover {
-  font-size:12px;
-    color: red;
+  font-family:arial,sans-serif;
+    color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
     display: block;
 
 }
 div.content a {
-  font-size:12px;
+  font-family:arial,sans-serif;
   text-decoration: none;
   display: block;
-  color: darkblue;
-
+  color: blue;
+padding: 1px ;
+	
 }
 
+
 div.content a:hover {
-  font-size:12px;
-    color: red;
+  font-family:arial,sans-serif;
+    color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
     display: block;
@@ -380,98 +415,116 @@ div.content a:hover {
 }
 
 div.u_redcontent a.mtitle {
-  font-size:12px;
   text-decoration:none;
   display:inline;
-  color:blue;
+
+  
+  color:black;
 
 }
 
 div.u_redcontent a.mtitle:hover {
   text-decoration:none;
   display:inline;
-  background-color:yellow;
+  color:white;
+  background-color:darkblue;
 
 
 }
 div.content a.mtitle {
-  font-size:12px;
+  font-size:10px;
   text-decoration:none;
   display:inline;
   color:blue;
+    
+
 
 }
 
 div.content a.mtitle:hover {
   text-decoration:none;
   display:inline;
-  background-color:yellow;
-
+  background-color:darkblue;
+  color:white;
+ 
 
 }
 div.u_redcontent input.text {
+   font-family:arial,sans-serif;
   font-weight:normal;
   border-color:336699;
   border-style:solid;
-  background-color:white;  
+  background-color:orange;  
   border-width:1px;
   color:blue; 
 }
 div.content input.text {
+   font-family:arial,sans-serif;
   font-weight:normal;
   border-color:336699;
   border-style:solid;
   border-width:1px;
-  background-color:white;
+  background-color:orange;
   color:blue; 
 }
 
+
+
 div.u_redcontent input:focus {
-  background-color:cfffe4;
+  background-color:orange;
 }
 div.content input:focus {
-  background-color:cfffe4;
+  background-color:orange;
 }
-div.u_redcontent textarea:focus{
+div.u_redcontent textarea:focus {
 background-color: orange;
 }
+.document {
+color: #1a207d;
+border-collapse:collapse;
+}
+a.document{
+  font-size:12px;
+  text-decoration:none;
+  display:block;
+}
+a.document:hover {
+  text-decoration:none;
+  display:block;
 
+
+}
 .input_text {
 	   border:groove 1px blue;
+	margin:1px;
 }
 legend {
 font-weight: bold;
 font-style: italic;
-font-size: 130% ;
+font-size: 120% ;
 	
 }
 fieldset fieldset legend { 
 	 font-size:110%;
 	 color:grey;
 	 }	
-.input_text {
-	   border:groove 1px blue;
+select {
+border: 1px solid blue;
+margin:2px;
+
 }
 
-div.infobulle {
+
+
+.infobulle {
 	   position:absolute;
 	   border:1px solid black;
 	   background-color:yellow;
 	   top:0;left:0;
 	   visibility:hidden;
-	   z-index:10;
+	   z-index:2;
 	   width:25em;
-}
-td.msubtitle {
-	text-align:center;
-	height:20px;
-	font-size:12px;
-    background-color:#DDE6FF;
-}
-td.msubtitle:hover,td.msubtitle:hover a
-{
-  background-color:#a9d6e4;
-  color:white;
+       
 }
 
 span.action {
@@ -571,7 +624,7 @@ div.popup_content {
 	height:90%;
 	overflow: auto;
 	background-color:lightblue;	
-	font-size:12px ;
+	font-size:10px ;
 	font-family: arial,sans-serif;
 	font-style: normal;
 	font-weight: normal;

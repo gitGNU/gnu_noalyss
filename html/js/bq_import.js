@@ -44,7 +44,7 @@ function import_update(p_sessid,p_dossier,p_count) {
 				url, 
 				{
 				method:'get',
-				parameters:query_string,
+				parameters:query_string
 				}
 				);
   var form=$("form_"+p_count);
@@ -70,7 +70,7 @@ function import_remove(p_sessid,p_dossier,p_count) {
 				url, 
 				{
 				method:'get',
-				parameters:query_string,
+				parameters:query_string
 				}
 				);
   var form=$("form_"+p_count);
@@ -94,7 +94,7 @@ function import_not_confirmed(p_sessid,p_dossier,p_count) {
 				url, 
 				{
 				method:'get',
-				parameters:query_string,
+				parameters:query_string
 				}
 				);
   var form=$("form_"+p_count);

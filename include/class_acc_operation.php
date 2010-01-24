@@ -299,4 +299,92 @@ function get_internal() {
    }
    return "ERROR PARAMETRE";
  }
+/*! 
+ * @brief  Get data from jrnx where p_grpt=jrnx(j_grpt)
+ * 
+ * @param connection
+ * @return array of 3 elements
+ *  - First Element is an array
+@verbatim
+Array
+(
+    [op_date] => 01.12.2009
+    [class_cred0] => 7000008
+    [mont_cred0] => 8880.0000
+    [op_cred0] => 754
+    [text_cred0] => 
+    [jr_internal] => 23VEN-01-302
+    [comment] => 
+    [ech] => 
+    [jr_id] => 302
+    [jr_def_id] => 2
+    [class_deb0] => 4000005
+    [mont_deb0] => 10744.8000
+    [text_deb0] => 
+    [op_deb0] => 755
+    [class_cred1] => 4511
+    [mont_cred1] => 1864.8000
+    [op_cred1] => 756
+    [text_cred1] => 
+)
+@endverbatim
+ *  - Second  : number of line with debit 
+ *  - Third  : number of line with credit
+ */ 
+ function get_data ($p_grpt) {
+   $Res=$this->db->exec_sql("select 
+                        to_char(j_date,'DD.MM.YYYY') as j_date,
+                        j_text,
+                        j_debit,
+                        j_poste,
+                        coalesce(j_qcode,'-') as qcode,
+                        j_montant,
+                        j_id,
+                        jr_comment,
+			to_char(jr_ech,'DD.MM.YYYY') as jr_ech,
+                        to_char(jr_date,'DD.MM.YYYY') as jr_date,
+                        jr_id,jr_internal,jr_def_id,jr_pj
+                     from jrnx inner join jrn on j_grpt=jr_grpt_id where j_grpt=$1",array($p_grpt));
+   $MaxLine=Database::num_row($Res);
+   if ( $MaxLine == 0 ) return null;
+   $deb=0;$cred=0;
+   for ( $i=0; $i < $MaxLine; $i++) {
+    
+     $l_line=Database::fetch_array($Res,$i);
+     $l_array['op_date']=$l_line['j_date'];
+     if ( $l_line['j_debit'] == 't' ) {
+       $l_class=sprintf("class_deb%d",$deb);
+       $l_montant=sprintf("mont_deb%d",$deb);
+       $l_text=sprintf("text_deb%d",$deb);
+       $l_qcode=sprintf("qcode_deb%d",$deb);
+       $l_array[$l_class]=$l_line['j_poste'];
+       $l_array[$l_montant]=$l_line['j_montant'];
+       $l_array[$l_text]=$l_line['j_text'];
+       $l_array[$l_qcode]=$l_line['qcode'];
+       $l_id=sprintf("op_deb%d",$deb);
+       $l_array[$l_id]=$l_line['j_id'];
+       $deb++;
+     }
+     if ( $l_line['j_debit'] == 'f' ) {
+       $l_class=sprintf("class_cred%d",$cred);
+       $l_montant=sprintf("mont_cred%d",$cred);
+       $l_array[$l_class]=$l_line['j_poste'];
+       $l_array[$l_montant]=$l_line['j_montant'];
+       $l_id=sprintf("op_cred%d",$cred);
+       $l_array[$l_id]=$l_line['j_id'];
+       $l_text=sprintf("text_cred%d",$cred);
+       $l_array[$l_text]=$l_line['j_text'];
+       $l_qcode=sprintf("qcode_cred%d",$cred);
+       $l_array[$l_qcode]=$l_line['qcode'];
+       $cred++;
+     }
+     $l_array['jr_internal']=$l_line['jr_internal'];
+     $l_array['comment']=$l_line['jr_comment'];
+     $l_array['ech']=$l_line['jr_ech'];
+     $l_array['jr_id']=$l_line['jr_id'];
+     $l_array['jr_def_id']=$l_line['jr_def_id'];
+   }
+   return array($l_array,$deb,$cred);
+ }
+
 }

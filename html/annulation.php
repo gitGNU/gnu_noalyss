@@ -19,7 +19,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 /*! \file
- * \brief in a popup window manage the deletion of the operations
+ * \brief in a popup window manage the removal of the operations
  */
 include_once ("ac_common.php");
 include_once("central_inc.php");
@@ -62,25 +62,14 @@ if ( $User->check_jrn($_GET['p_jrn']) != 'W') {
 }
 
 
-
-list ($l_array,$max_deb,$max_cred)=get_data($cn,$_GET['jrn_op']);
-foreach ($l_array as $key=>$element) {
-  ${"e_$key"}=$element;
-  echo_debug('annulation.php',__LINE__,"e_$key =$element");
-}
-
+$operation=new Acc_Operation($cn);
+list ($l_array,$max_deb,$max_cred)=$operation->get_data($_GET['jrn_op']);
+extract ($l_array,EXTR_PREFIX_ALL,'e_');
+foreach ($l_array as $key=>$element) { ${"e_".$key}=$element;}
 // cancel an operation
 if ( isset ($_POST['annul']) ) {
 	/* Confirm it first */
 	if ( ! isset ( $_POST['confirm'])) {
-	  $own=new Own($cn);
-	  if ( $own->MY_STRICT=='Y') {
-	    $msg="Vous utilisez le mode stricte, l'annulation est interdite";
-	    echo '<h2 class="info">Confirmation</h2>';
-	    echo '<p><span class="error">'.$msg.'</span></p>';
-	    exit();
-	  }
-
 ?>
 <p>
 <h2 class="info">Confirmation</h2>
@@ -97,6 +86,13 @@ soit par son &eacute;criture inverse ?
 					   <?php echo dossier::hidden(); ?>
 <INPUT TYPE="HIDDEN" NAME="annul">
 <INPUT TYPE="HIDDEN" NAME="p_id" value="<?php echo $_POST['p_id']; ?>">
+Date pour l'écriture inverse
+<?
+$idate=new IDate("idate");
+echo $idate->input();
+?>
+<span class="notice">Une écriture inverse sera faite si vous utilisez le mode strict ou si vous êtes dans une période fermée</span>
+<br>
 <INPUT TYPE="SUBMIT" NAME="confirm" value="Oui"> 
 </FORM>
 
@@ -110,7 +106,7 @@ soit par son &eacute;criture inverse ?
 </span>
 <?php
 return;
-} // end confirm
+} // end confirm'
 
 
 // Remove is confirmed
@@ -118,24 +114,7 @@ return;
     $p_id=$_POST['p_id'];
 
 if  ($p_id != -1 ) { // A
-   // userPref contient la periode par default
-   $userPref=$User->get_periode($cn);
-    list ($l_date_start,$l_date_end)=get_periode($cn,$userPref);
-    $per=new Periode($cn);
-    $per->set_jrn($p_jrn);
-    $per->set_periode($userPref);
-    
-    // Periode ferme
-    if ( $per->is_open()==0)
-      {
-	$msg="Votre periode par defaut est fermee, changez vos preferences";
-	echo_error($msg); 
-	echo "<SCRIPT>alert('$msg');</SCRIPT>";
-	$p_id=-1;
-      }
- 
- if ( $p_id != -1 ) { //B
-    // Test whether date of the operation is in a closed periode
+     // Test whether date of the operation is in a closed periode
     // get the period_id
    $p=$cn->exec_sql("select jr_tech_per from jrn where jr_grpt_id=$1",array($_REQUEST['jrn_op']));
    $period_id=Database::fetch_result($p,0,0);
@@ -151,6 +130,26 @@ if  ($p_id != -1 ) { // A
       // Check the period_id
     if ( $per->is_open() == 0 || $own->MY_STRICT=='Y')
 	  {
+	    if ( isDate($_POST['idate'])== 0 ) {
+	      alert(_('Date invalide'));
+	      echo create_Script('window.close()');
+	      exit();
+	    }
+	    // Find the periode of idate
+	    try {
+	      $periode=new Periode($cn);
+	      $periode->find_periode($_POST['idate']);
+	    } catch (Exception $e){
+	      alert(_('Période ou date incorrecte'));
+	      echo create_Script('window.close()');
+	      exit();
+	    }
+	    // if this periode is closed => end
+	    if ($periode->is_open()==0) {
+	      alert(_('Cette période est fermée'));
+	      echo create_Script('window.close()');
+	      exit();
+	    }
 	    try 
 	      {
 		
@@ -168,11 +167,11 @@ if  ($p_id != -1 ) { // A
 		,jr_tech_per, jr_valid
   		) select $seq,jr_def_id,jr_montant,'Annulation '||jr_comment,
 		to_date($1,'DD.MM.YYYY'),$grp_new,'$p_internal',
-		$userPref, true 
+		".$periode->p_id.", true 
           from
 	  jrn
 	  where   jr_grpt_id=$2";
-		$Res=$cn->exec_sql($sql,array($l_date_start,$_POST['p_id']));
+		$Res=$cn->exec_sql($sql,array($_POST['idate'],$_POST['p_id']));
    // Check return code
    if ( $Res == false) 
 	 throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
@@ -184,7 +183,7 @@ if  ($p_id != -1 ) { // A
                 j_jrn_def,j_debit,j_text,j_internal,j_tech_user,j_tech_per,j_qcode
   		) select now(),j_montant,j_poste,$grp_new,
                   j_jrn_def,not (j_debit),j_text,'$p_internal','".$User->id."',
-		  $userPref,j_qcode
+		  ".$periode->p_id.",j_qcode
 	  from
 	  jrnx
 	  where   j_grpt=".$_POST['p_id'];
@@ -380,9 +379,9 @@ self.opener.RefreshMe();
 	    }// if isValid
     } // else if period is closed
     }//B p_id == -1
-  }//A p_id == -1
   } // if Post['p_id']
-}// if annul
+ }//confirm
+	//}// if annul
 echo '<div align="center"> Op&eacute;ration '.$l_array['jr_internal'].'</div> 
 <div>
 <form action="'.$_SERVER['REQUEST_URI'].'" method="post" >';
@@ -392,28 +391,46 @@ $a->setReadOnly(false);
 
 echo '<div style="border-style:solid;border-width:1pt;">';
 
-$a->size=80;
-echo $a->input("comment",$e_comment,"Description");
+$a->size=40;
+
+echo 'Description :'.$a->input("comment",$e_comment);
+
 echo '</DIV>';
 
 if ( isset ($e_ech) ) {
   echo "<DIV> Echeance $e_ech </DIV>";
 }
+echo '<table width="95%">';
 for ( $i = 0; $i < $max_deb;$i++) {
-  $poste=new Acc_Account($gDossier,${"e_class_deb$i"});
-  $lib=$poste->get_lib();
+  echo '<tr style="background-color:#BFC2D5;">';
+  if ( ${"e_qcode_deb".$i} == "-" ) {
+    $poste=new Acc_Account($cn,${"e_class_deb$i"});
+    $lib=$poste->get_lib();
+  } else {
+    $fiche=new Fiche($cn);
+    $fiche->get_by_qcode(${"e_qcode_deb".$i},false);
+    $lib=$fiche->getName();
+  }
+  echo td(${"e_class_deb$i"}).td(${"e_qcode_deb".$i}).td($lib).td("<B>".${"e_mont_deb$i"}."</B>").td(_('Débit'));
+  echo '</tr>';
 
-  echo '<div style="background-color:#BFC2D5;">';
-  echo ${"e_class_deb$i"}." $lib    "."<B>".${"e_mont_deb$i"}."</B>";
-  echo "</div>";
 }
 for ( $i = 0; $i < $max_cred;$i++) {
-  $poste=new Acc_Account($gDossier,${"e_class_cred$i"});
-  $lib=$poste->get_lib();
-  echo '<div style="background-color:#E8F4FF;">';
-  echo ${"e_class_cred$i"}."  $lib   "."<B>".${"e_mont_cred$i"}."</B>";
-  echo '</div>';
+  if ( ${"e_qcode_cred".$i} == "-" ) {
+    $poste=new Acc_Account($cn,${"e_class_cred$i"});
+    $lib=$poste->get_lib();
+  } else {
+    $fiche=new Fiche($cn);
+    $fiche->get_by_qcode(${"e_qcode_cred".$i},false);
+    $lib=$fiche->getName();
+  }
+
+  echo '<tr>';
+  echo td(${"e_class_cred$i"}).td(${"e_qcode_cred".$i}).td($lib).td("<B>".${"e_mont_cred$i"}."</B>").td(_('Crédit'));
+  echo '</tr>';
+
 }
+echo '</table>';
 /* concerned operation */
 $rec=new Acc_Reconciliation($cn);
 $rec->set_jr_id($e_jr_id);

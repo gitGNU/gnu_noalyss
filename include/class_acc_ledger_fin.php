@@ -494,6 +494,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $r.='<br>Ancien solde = '.$solde;
     $new_solde+=$tot_amount;
     $r.='<br>Nouveau solde = '.$new_solde;
+    $r.='<br>Difference ='.$tot_amount;
     // check for upload piece
     $file=new IFile();
 
