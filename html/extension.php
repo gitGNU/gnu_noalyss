@@ -35,11 +35,11 @@ require_once('class_iselect.php');
 require_once ('constant.security.php');
 require_once ('class_user.php');
 
-html_page_start($_SESSION['g_theme']);
+@html_page_start($_SESSION['g_theme']);
 $cn=new Database(dossier::id());
 $user=new User($cn);
 $user->check();
-$user->check_dossier(dossier::id());
+$only_plugin=$user->check_dossier(dossier::id());
 
 
 /* javascript file */
@@ -58,16 +58,20 @@ echo JS_INFOBULLE;
 /* show button to return to access */
 echo "<h2 class=\"info\">".dossier::name()."</h2>";
 
+if ( $only_plugin != 'P' ) {
+	// user with only plugin cannot go back to the dashboard
 /* return button */
 $msg=_('Retour au tableau de bord');
 $hidden=dossier::hidden().HtmlInput::phpsessid();
 echo <<<EOF
-<form method="get" action="access.php">
+<div style="position:absolute;top:3px;left:3px">
+<form method="get" action="access.php" style="display:inline">
   $hidden
   <input type="SUBMIT" value="$msg">
 </form>
+</div>
 EOF;
-
+}
 /* show all the extension we can access */
 $a=new ISelect('code');
 $a->value=Extension::make_array($cn);

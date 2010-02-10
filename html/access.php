@@ -20,7 +20,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief first page
  */
 require_once("class_idate.php");
@@ -40,7 +40,9 @@ require_once('class_acc_ledger.php');
 $cn=new Database(dossier::id());
 $user=new User($cn);
 $user->Check();
-$user->check_dossier(dossier::id());
+if ( $user->check_dossier(dossier::id()) == 'P') {
+	redirect("extension.php?".dossier::get(),0);
+}
 
 html_page_start($_SESSION['g_theme']);
 /*  Check Browser version if < IE6 then unsupported */
@@ -80,7 +82,7 @@ echo '<div class="u_tmenu">';
 echo menu_tool('access.php');
 echo '</div>';
 echo '<div class="content">';
-/* 
+/*
  * Mini Report
  */
 $report=$user->get_mini_report();
@@ -101,7 +103,7 @@ if ( $report != 0 ) {
   } else {
     $periode=new Periode($cn);
     $limit=$periode->limit_year($exercice);
-    
+
     $result=$rapport->get_row($limit['start'],$limit['end'],'periode');
     $ix=0;
     echo '<table border="0" width="100%">';
@@ -125,7 +127,7 @@ if ( $report != 0 ) {
   echo '</fieldset>';
   echo '</div>';
  }
-/* 
+/*
  * Todo list
  */
 echo JS_TODO;

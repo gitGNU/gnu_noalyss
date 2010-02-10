@@ -52,17 +52,20 @@ function input ()
 {
   $ref=$this->cn->get_array("select * from fiche_def_ref order by frd_text");
   $iradio=new IRadio();
-  $p_js=" SearchPosteFilter('".$_REQUEST['PHPSESSID']."','".dossier::id()."','class_base','all','','class_base_label')";
+  /* the accounting item */
+  $class_base=new IPoste('class_base');
+  $class_base->set_attribute('ipopup','ipop_account');
+  $class_base->set_attribute('account','class_base');
+  $class_base->set_attribute('label','acc_label');
+  $f_class_base=$class_base->input();
   require_once ('template/fiche_def_input.php');
   return;
 }
 
 /*!
- **************************************************
  *  \brief  Get attribut of a fiche_def
  *        
  * \return string value of the attribute
- * none
  */
   function GetAttribut() {
     $sql="select * from jnt_fic_attr ".
@@ -84,7 +87,6 @@ function input ()
   }
 
  /*!
- **************************************************
  * \brief  Get attribut of the fiche_def
  *        
  */
@@ -173,11 +175,6 @@ function input ()
      // Format correctly the name of the cat. of card
      $p_nom_mod=FormatString($p_nom_mod);
      
-     // Format the p_class_base 
-     // must be an integer
-     if ( isNumber($p_class_base) == 0 && FormatString($p_class_base) != null ) {
-       echo_error ('p_class_base is NOT a number');
-     }
      // Name can't be empty
      if ( strlen(trim($p_nom_mod)) == 0 ) 
        return;
@@ -212,25 +209,26 @@ function input ()
        $p_create='false';
      
      // Class is valid ?
-     if ( FormatString($p_class_base) != null) {
+     if ( FormatString($p_class_base) != null || strpos(',',$p_class_base) != 0 ) {
        
        // p_class is a valid number
-       $sql=sprintf("insert into fiche_def(fd_label,fd_class_base,frd_id,fd_create_account) 
-                values ('%s',%s,%d,'%s')",
-		 $p_nom_mod,$p_class_base,$p_FICHE_REF,$p_create);
-       $Res=$this->cn->exec_sql($sql);
-       
-       // p_class must be added to tmp_pcmn 
-       $sql=sprintf("select account_add(%d,'%s')",
-		    $p_class_base,$p_nom_mod);
-       
-       $Res=$this->cn->exec_sql($sql);
-       
+       $sql="insert into fiche_def(fd_label,fd_class_base,frd_id,fd_create_account) 
+                values ($1,$2,$3,$4)";
+
+       $Res=$this->cn->exec_sql($sql,array($p_nom_mod,$p_class_base,$p_FICHE_REF,$p_create));
+
+       // p_class must be added to tmp_pcmn if it is a single accounting       
+       if ( strpos(',',$p_class_base) ==0) {
+	 $sql=sprintf("select account_add(%d,'%s')",
+		      $p_class_base,$p_nom_mod);
+	 
+	 $Res=$this->cn->exec_sql($sql);
+       }
+
        // Get the fd_id
        $fd_id=$this->cn->get_current_seq('s_fdef');
     
-       // Add the class_base if needed
-       
+       // update jnt_fic_attr       
        $sql=sprintf("insert into jnt_fic_attr(fd_id,ad_id,jnt_order) 
                      values (%d,%d,10)",$fd_id,ATTR_DEF_ACCOUNT);
        $Res=$this->cn->exec_sql($sql);

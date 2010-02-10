@@ -68,7 +68,7 @@ class Acc_Reconciliation {
       return;
       if ( strpos($jr_id2,',') !== 0 )
 	{
-	  $aRapt=split(',',$jr_id2);
+	  $aRapt=explode(',',$jr_id2);
 	  foreach ($aRapt as $rRapt) {
 	    if ( isNumber($rRapt) == 1 ) 
 	      {

@@ -31,23 +31,24 @@ require_once('class_html_input.php');
 class IPopup extends HtmlInput
 {
   var $name;			/*!< name name and id of the div */
-  function __construct($p_name) 
+  function __construct($p_name)
   {
     $this->name=$p_name;
     $this->parameter='';
     $this->attribute=array();
+    $this->drag=true;
   }
   function set_width($p_val) {
     $js=sprintf('$("%s'.'_border").style.width="%s";',
 		$this->name,$p_val);
     $this->parameter.=$js;
-    
+
   }
   function set_height($p_val) {
     $js=sprintf('$("%s'.'_border").style.height="%s";',
 		$this->name,$p_val);
     $this->parameter.=$js;
-    
+
   }
 
   function set_zindex($p_val) {
@@ -55,7 +56,10 @@ class IPopup extends HtmlInput
 		$this->name,$p_val);
     $js=sprintf('$("%s'.'_content").style.zIndex=%d;',
 		$this->name,$p_val);
-    $this->parameter.=$js;    
+    $this->parameter.=$js;
+  }
+  function set_dragguable($p_value){
+  	$this->drag=$p_value;
   }
   /*!\brief set the attribute thanks javascript as the width, the position ...
    *\param $p_name attribute name
@@ -99,10 +103,10 @@ class IPopup extends HtmlInput
 		$this->name,
 		$this->name,
 		$this->value);
-    
+
     /* Add properties at the widget */
     $attr=$this->parameter;
-    for ($i=0;$i< count($this->attribute);$i++){ 
+    for ($i=0;$i< count($this->attribute);$i++){
       list($name,$value)=$this->attribute[$i];
       $tmp1=sprintf("$('%s').%s='%s';",
 		    $this->name,
@@ -110,12 +114,15 @@ class IPopup extends HtmlInput
 		    $value);
       $attr.=$tmp1;
     }
-
+    $draggable='';
+    if ($this->drag==true){
     /* add draggable possibility */
     $draggable=sprintf("  new Draggable('%s_border',{starteffect:function(){
       new Effect.Highlight('%s_border',{scroll:window,queue:'end'});  } });"
 		       ,$this->name
 		       ,$this->name);
+
+    }
     $attr=create_script($attr.$draggable);
     $r.=$attr;
     return $r;

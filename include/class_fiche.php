@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -70,7 +70,7 @@ class fiche {
       if ( $p_qcode == null )
 	$p_qcode=$this->quick_code;
       $p_qcode=trim($p_qcode);
-      $sql="select f_id from jnt_fic_att_value join attr_value 
+      $sql="select f_id from jnt_fic_att_value join attr_value
            using (jft_id)  where ad_id=23 and av_text=upper($1)";
       $this->id=$this->cn->get_value($sql,array($p_qcode));
       if ( $this->cn->count()==0) {
@@ -93,9 +93,9 @@ class fiche {
     if ( $this->id == 0){
       return;
     }
-     $sql="select * 
-           from jnt_fic_att_value 
-               natural join fiche 
+     $sql="select *
+           from jnt_fic_att_value
+               natural join fiche
                natural join attr_value
                join jnt_fic_attr on (jnt_fic_attr.fd_id=fiche.fd_id and jnt_fic_attr.ad_id=jnt_fic_att_value.ad_id)
                join attr_def on (attr_def.ad_id=jnt_fic_att_value.ad_id) where f_id=".$this->id.
@@ -122,10 +122,10 @@ class fiche {
       foreach ($e->attribut as $f ) {
 	$flag=0;
 	foreach ($this->attribut as $g ) {
-	  if ( $g->ad_id == $f->ad_id ) 
+	  if ( $g->ad_id == $f->ad_id )
 	    $flag=1;
 	}
-	if ( $flag == 0 ) { 
+	if ( $flag == 0 ) {
 	  // there's a missing one, we insert it
 	  $t=new Attribut ($f->ad_id);
 	  $t->av_text="";
@@ -135,15 +135,26 @@ class fiche {
 	  $Max++;
 	} // if flag == 0
 
-      }// foreach 
+      }// foreach
       $this->attribut=SortAttributeById($this->attribut);
 
 
     }//missing attribut
   }
+  /**
+   * @brief find the card with the p_attribut equal to p_value, it is not case sensitive
+   * @param $p_attribut attribute to find see table attr_def
+   * @param $p_value value in attr_value.av_text
+   * @return return ARRAY OF jft_id,f_id,fd_id,ad_id,av_text
+   */
+  function seek($p_attribut,$p_value){
+  	$sql="select jft_id,f_id,fd_id,ad_id,av_text from fiche join jnt_fic_att_value using (f_id) join attr_value
+             using (jft_id)  where ad_id=$1 and upper(av_text)=upper($2)";
+  	$res=$this->cn->get_array($sql,array($p_attribut,$p_value));
+  	return $res;
+  }
 
-
-/*! 
+/*!
  * \brief give the size of a card object
  *
  * \return size
@@ -156,10 +167,10 @@ class fiche {
   }
 
 
-/*!  
+/*!
  **************************************************
  * \brief  Return array of card from the frd family
- *        
+ *
  * \param $p_frd_id the fiche_def_ref.frd_id
  * \param $p_search p_search is a filter on the name
  * \param $p_sql extra sql condition
@@ -167,11 +178,11 @@ class fiche {
  * \return array of fiche object
  */
   function CountByDef($p_frd_id,$p_search="",$p_sql="") {
-     $sql="select * 
+     $sql="select *
            from
                fiche join fiche_Def using (fd_id)
             where frd_id=".$p_frd_id;
-     if ( $p_search != "" ) 
+     if ( $p_search != "" )
        {
 	 $a=FormatString($p_search);
 	 $sql="select * from vw_fiche_attr where frd_id=".$p_frd_id.
@@ -179,14 +190,14 @@ class fiche {
        }
 
     $Ret=$this->cn->exec_sql($sql.$p_sql);
-    
+
     return Database::num_row($Ret) ;
   }
-/*!   
+/*!
  **************************************************
  * \brief  Return array of card from the frd family
- *        
- * 
+ *
+ *
  * \param  $p_frd_id the fiche_def_ref.frd_id
  * \param  $p_offset
  * \param  $p_search is an optional filter
@@ -194,17 +205,17 @@ class fiche {
  * \return array of fiche object
  */
   function GetByDef($p_frd_id,$p_offset=-1,$p_search="") {
-    if ( $p_offset == -1 ) 
+    if ( $p_offset == -1 )
       {
-		$sql="select * 
+		$sql="select *
            from
                fiche join fiche_Def using (fd_id)
             where frd_id=".$p_frd_id." $p_search order by f_id";
-      } 
-    else 
+      }
+    else
       {
 		$limit=($_SESSION['g_pagesize']!=-1)?"limit ".$_SESSION['g_pagesize']:"";
-		$sql="select * 
+		$sql="select *
            from
                fiche join fiche_Def using (fd_id)
             where frd_id=".$p_frd_id." $p_search order by f_id "
@@ -235,17 +246,17 @@ class fiche {
       "<TR> <TD>".
       $this->attribut_def."</TD></TR>";
   }
-/*! 
+/*!
  **************************************************
  * \brief  return the string of the given attribute
- *        (attr_def.ad_id) 
+ *        (attr_def.ad_id)
  * \param $p_ad_id the AD_ID from attr_def.ad_id
  * \see constant.php
  * \return string
  */
-  function strAttribut($p_ad_id) 
+  function strAttribut($p_ad_id)
     {
-      if ( sizeof ($this->attribut) == 0 ) 
+      if ( sizeof ($this->attribut) == 0 )
 	{
 
 	  if ($this->id==0) return '- ERROR -';
@@ -255,15 +266,15 @@ class fiche {
 	  $Res=$this->cn->exec_sql($sql);
 	  $row=Database::fetch_all($Res);
 	  // if not found return error
-	  if ( $row == false ) 
+	  if ( $row == false )
 	    return ' - ERROR -';
-	  
+
 	  return $row[0]['av_text'];
 	}
 
       foreach ($this->attribut as $e)
 	{
-	  if ( $e->ad_id == $p_ad_id ) 
+	  if ( $e->ad_id == $p_ad_id )
 	    return $e->av_text;
 	}
 	return '- ERROR -';
@@ -276,15 +287,15 @@ Example
 Array
 (
     [av_text1] => Nom
-    [av_text12] => Personne de contact 
+    [av_text12] => Personne de contact
     [av_text5] => Poste Comptable
-    [av_text13] => numéro de tva 
-    [av_text14] => Adresse 
+    [av_text13] => numéro de tva
+    [av_text14] => Adresse
     [av_text15] => code postal
     [av_text24] => Ville
-    [av_text16] => pays 
-    [av_text17] => téléphone 
-    [av_text18] => email 
+    [av_text16] => pays
+    [av_text17] => téléphone
+    [av_text18] => email
     [av_text23] => Quick Code
 )
 
@@ -310,15 +321,15 @@ Array
     return $array;
 
   }
-/*!   
+/*!
  * \brief  insert a new record
  *         show a blank card to be filled
- *        
+ *
  * \param  $p_fiche_def is the fiche_def.fd_id
- *     
+ *
  * \return HTML Code
  */
-  function blank($p_fiche_def) 
+  function blank($p_fiche_def)
     {
       // array = array of attribute object sorted on ad_id
       $f=new fiche_def($this->cn,$p_fiche_def);
@@ -328,7 +339,7 @@ Array
       foreach ($array as $attr)
 		{
 		  $msg="";
-		  if ( $attr->ad_id == ATTR_DEF_ACCOUNT) 
+		  if ( $attr->ad_id == ATTR_DEF_ACCOUNT)
 			{
 			  $w=new IPoste("av_text".$attr->ad_id);
 			  $w->set_attribute('ipopup','ipop_account');
@@ -340,26 +351,26 @@ Array
 			  $a=Database::fetch_array($ret_sql,0);
 			  $label=new ISpan();
 			  $label->name="av_text".$attr->ad_id."_label";
-			  
+
 			  if ( $a['account_auto'] == 't' )
 			    $msg.="<TD>".$label->input()."<br> <font color=\"red\">"._("Rappel: Poste créé automatiquement à partir de ").$f->class_base." </font></TD> ";
-			  else 
+			  else
 				{
 				  // if there is a class base in fiche_def_ref, this account will be the
 				  // the default one
-				  if ( strlen(trim($f->class_base)) != 0 ) 
+				  if ( strlen(trim($f->class_base)) != 0 )
 					{
 					  $msg.="<TD>".$label->input()."<br> <font color=\"red\">"._("Rappel: Poste par défaut sera ").
 						$f->class_base.
 						" !</font></TD> ";
 					  $w->value=$f->class_base;
 					}
-				  
+
 				}
 			  $r.="<TR>".td("Poste Comptable","input_text").td($w->input())."$msg </TR>";
 			  continue;
 	     }
-	  elseif ( $attr->ad_id == ATTR_DEF_TVA) 
+	  elseif ( $attr->ad_id == ATTR_DEF_TVA)
 	    {
 	      $r.=JS_SHOW_TVA;
 	      $w=new ITva();
@@ -370,7 +381,7 @@ Array
 	      $r.=JS_LEDGER;
 	      $w=new ICard();
 	      // filter on frd_id
-	      $sql=' select fd_id from fiche_def where frd_id in ('.FICHE_TYPE_CLIENT.','.FICHE_TYPE_FOURNISSEUR.','.FICHE_TYPE_ADM_TAX.')'; 
+	      $sql=' select fd_id from fiche_def where frd_id in ('.FICHE_TYPE_CLIENT.','.FICHE_TYPE_FOURNISSEUR.','.FICHE_TYPE_ADM_TAX.')';
 	      $filter=$this->cn->make_list($sql);
 	      $w->extra=$filter;
 	      $w->extra2=0;
@@ -393,16 +404,16 @@ Array
       return $r;
     }
 
-  
-/*!  
+
+/*!
  * \brief  Display object instance, getAttribute
  *        sort the attribute and add missing ones
  * \param $p_readonly true= if can not modify, otherwise false
- *	
+ *
  *
  * \return string to display
  */
-  function Display($p_readonly) 
+  function Display($p_readonly)
     {
       $this->GetAttribut();
       $attr=$this->attribut;
@@ -411,21 +422,21 @@ Array
 	if ( empty ($attr) ) {
 		return "Fiche non trouvée";
 	}
-      foreach ( $attr as $r) 
+      foreach ( $attr as $r)
 	{
 	  $msg="";
 	  $bulle="";
-	  if ( $p_readonly) 
+	  if ( $p_readonly)
 	    {
 	      $w=new IText();
 	      $w->table=1;
 	      $w->readOnly=true;
-	  
+
 	    }
 	  if ($p_readonly==false)
 	    {
 
-	      if ( $r->ad_id == ATTR_DEF_ACCOUNT) 
+	      if ( $r->ad_id == ATTR_DEF_ACCOUNT)
 		{
 		  $w=new IPoste("av_text".$r->ad_id);
 		  $w->set_attribute('ipopup','ipop_account');
@@ -443,7 +454,7 @@ Array
 		    $bulle.=HtmlInput::warnbulle(11);
 
 		}
-	      elseif ( $r->ad_id == ATTR_DEF_TVA) 
+	      elseif ( $r->ad_id == ATTR_DEF_TVA)
 		{
 		  $ret.=JS_SHOW_TVA;
 		  $w=new ITva();
@@ -455,16 +466,16 @@ Array
 		  $ret.=JS_LEDGER;
 		  $w=new ISearch();
 		  // filter on frd_id
-		  $w->extra=FICHE_TYPE_CLIENT.','.FICHE_TYPE_FOURNISSEUR.','.FICHE_TYPE_ADM_TAX; 
+		  $w->extra=FICHE_TYPE_CLIENT.','.FICHE_TYPE_FOURNISSEUR.','.FICHE_TYPE_ADM_TAX;
 		  $w->extra2=0;      // jrn = 0
 		  $w->table=1;
-	      
+
 		  $label=new ISpan();
 		  $label->name="av_text".$r->ad_id."_label";
 		  $msg=$label->input();
 		}
-	    
-	      else 
+
+	      else
 		{
 		  $w=new IText();
 		  $w->table=1;
@@ -480,42 +491,42 @@ Array
       $ret.="</table>";
       return $ret;
     }
-  /*!   
+  /*!
    * \brief  Save a card, call insert or update
-   *        
+   *
    * \param p_fiche_def (default 0)
    */
-  function Save($p_fiche_def=0) 
+  function Save($p_fiche_def=0)
   {
     // new card or only a update ?
-    if ( $this->id == 0 ) 
+    if ( $this->id == 0 )
       $this->insert($p_fiche_def);
     else
       $this->update();
     }
-/*! 
+/*!
  * \brief  insert a new record
- *        
+ *
  * \param p_fiche_def fiche_def.fd_id
  * \param p_array is the array containing the data
  */
-  function insert($p_fiche_def,$p_array=null) 
+  function insert($p_fiche_def,$p_array=null)
   {
     if ( $p_array == null)
       $p_array=$_POST;
-    
+
     $fiche_id=$this->cn->get_next_seq('s_fiche');
     $this->id=$fiche_id;
     // first we create the card
     $this->cn->start();
-    try 
+    try
       {
-	$sql=sprintf("insert into fiche(f_id,fd_id)". 
+	$sql=sprintf("insert into fiche(f_id,fd_id)".
 		     " values (%d,%d)",
 		     $fiche_id,$p_fiche_def);
 	  $Ret=$this->cn->exec_sql($sql);
 	  // parse the $p_array array
-	  foreach ($p_array as $name=>$value ) 
+	  foreach ($p_array as $name=>$value )
 	    {
 	      echo_debug ("class_fiche",__LINE__,"Name = $name value $value") ;
 	      /* avoid the button for searching an accounting item */
@@ -523,10 +534,10 @@ Array
 	      list ($id) = sscanf ($name,"av_text%d");
 	      if ( $id == null ) continue;
 	      echo_debug("class_fiche",__LINE__,"add $id");
-	      
+
 	      // Special traitement
 	      // quickcode
-	      if ( $id == ATTR_DEF_QUICKCODE) 
+	      if ( $id == ATTR_DEF_QUICKCODE)
 		{
 		  echo_debug("Modify ATTR_DEF_QUICKCODE");
 		  $sql=sprintf("select insert_quick_code(%d,'%s')",
@@ -534,7 +545,7 @@ Array
 		  $this->cn->exec_sql($sql);
 		  continue;
 		}
-	      // stock 
+	      // stock
 	      if ( $id == ATTR_DEF_STOCK ) {
 		$st=$this->cn->count_sql('select * from stock_goods where '.
 			     " upper(sg_code)=upper('$value')");
@@ -548,32 +559,30 @@ Array
 				     'initial',
 				     FormatString($value),
 				     $exercice);
-				     
+
 		  $this->cn->exec_sql($str_stock);
 		}
 	      }
 	      // name
-	      if ( $id == ATTR_DEF_NAME ) 
+	      if ( $id == ATTR_DEF_NAME )
 		{
 		  echo_debug("Modify ATTR_DEF_NAME");
 		  if ( strlen(trim($value)) == 0 )
 		$value="pas de nom";
-		  
+
 		}
 	      // account
-	      if ( $id == ATTR_DEF_ACCOUNT ) 
+	      if ( $id == ATTR_DEF_ACCOUNT )
 		{
 		  echo_debug("insert ATTR_DEF_ACCOUNT");
 		  $v=FormatString($value);
 		  try {
-		    if ( 
-			isNumber($v) == 1 
-			 )
+		    if (isNumber($v) == 1 || strpos($v,',') != 0)
 		      {
-			$sql=sprintf("select account_insert(%d,%f)",
+			$sql=sprintf("select account_insert(%d,'%s')",
 				     $this->id,$v);
 		      }
-		    else 
+		    else
 		      {
 			$sql=sprintf("select account_insert(%d,null)",
 				     $this->id);
@@ -588,13 +597,13 @@ Array
 		  continue;
 		}
 	      // TVA
-	      if ( $id == ATTR_DEF_TVA ) 
+	      if ( $id == ATTR_DEF_TVA )
 		{
 		  echo_debug("Modify ATTR_DEF_TVA");
 		  // Verify if the rate exists, if not then do not update
-		  if ( strlen(trim($value)) != 0 ) 
+		  if ( strlen(trim($value)) != 0 )
 		    {
-		      if ( $this->cn->count_sql("select * from tva_rate where tva_id=".$value) == 0) 
+		      if ( $this->cn->count_sql("select * from tva_rate where tva_id=".$value) == 0)
 			{
 			  echo_debug("class_fiche",__LINE__,"Tva invalide $value");
 			  continue;
@@ -602,25 +611,25 @@ Array
 		    }
 		}
 	      // The contact has a company attribut
-	      if ( $id == ATTR_DEF_COMPANY ) 
+	      if ( $id == ATTR_DEF_COMPANY )
 		{
 		  $exist=$this->cn->count_sql("select f_id from fiche join fiche_def using (fd_id) ".
 				  " join jnt_fic_att_value using (f_id) join attr_value using (jft_id) ".
 				  " where frd_id in (8,9,14) and ad_id=".ATTR_DEF_QUICKCODE.
 				  " and av_text='".FormatString($value)."'");
-		  if ( $exist == 0 && FormatString($value) != null ) 
+		  if ( $exist == 0 && FormatString($value) != null )
 		    {
 		      $value="";
 		    }
 		}
 	      // Normal traitement
 	      $value2=FormatString($value);
-	      
+
 	      $sql=sprintf("select attribut_insert(%d,%d,'%s')",
 			   $fiche_id,$id,trim($value2));
 	      $this->cn->exec_sql($sql);
 	    }
-	}  catch (Exception $e) 
+	}  catch (Exception $e)
 	     {
 	       $this->cn->rollback();
 	       throw ($e);
@@ -630,11 +639,11 @@ Array
       return;
     }
 
-   
+
 
   /*!\brief update a card
    */
- function update($p_array=null) 
+ function update($p_array=null)
      {
       if ( $p_array == null)
 	$p_array=$_POST;
@@ -642,13 +651,13 @@ Array
        try {
 	 $this->cn->start();
 	 // parse the $p_array array
-	 foreach ($p_array as $name=>$value ) 
+	 foreach ($p_array as $name=>$value )
 	   {
 	     echo_debug ("class_fiche",__LINE__,"Name = $name value $value") ;
 	     list ($id) = sscanf ($name,"av_text%d");
 	     if ( $id == null ) continue;
 	     echo_debug("class_fiche",__LINE__,"modify $id");
-	     
+
 	     // retrieve jft_id to update table attr_value
 	     $sql=" select jft_id from jnt_fic_att_value where ad_id=$id and f_id=$this->id";
 	     $Ret=$this->cn->exec_sql($sql);
@@ -656,23 +665,23 @@ Array
 	       // we need to insert this new attribut
 	       echo_debug ("class_fiche ".__LINE__." adding id !!! ");
 	       $jft_id=$this->cn->get_next_seq('s_jnt_fic_att_value');
-	       
+
 	       $sql2=sprintf("insert into jnt_fic_att_value(jft_id,ad_id,f_id) values (%s,%s,%s)",
 			     $jft_id,$id,$this->id);
-	       
+
 	       $ret2=$this->cn->exec_sql($sql2);
 	       // insert a null value for this attribut
 	       $sql3=sprintf("insert into attr_value(jft_id,av_text) values (%s,null)",
 			     $jft_id);
 	       $ret3=$this->cn->exec_sql($sql3);
-	     } else 
+	     } else
 	       {
 	       $tmp=Database::fetch_array($Ret,0);
 	       $jft_id=$tmp['jft_id'];
 	       }
 	     // Special traitement
 	     // quickcode
-	     if ( $id == ATTR_DEF_QUICKCODE) 
+	     if ( $id == ATTR_DEF_QUICKCODE)
 	       {
 		 echo_debug("Modify ATTR_DEF_QUICKCODE");
 		 $sql=sprintf("select update_quick_code(%d,'%s')",
@@ -681,13 +690,13 @@ Array
 		 continue;
              }
 	     // name
-	     if ( $id == ATTR_DEF_NAME ) 
+	     if ( $id == ATTR_DEF_NAME )
 	       {
 		 echo_debug("Modify ATTR_DEF_NAME");
 		 if ( strlen(trim($value)) == 0 )
 		   continue;
-		 
-               
+
+
 	       }
 	     	      if ( $id == ATTR_DEF_STOCK ) {
 		$st=$this->cn->count_sql('select * from stock_goods where '.
@@ -714,30 +723,24 @@ Array
 	      }
 
 	     // account
-	     if ( $id == ATTR_DEF_ACCOUNT ) 
+	     if ( $id == ATTR_DEF_ACCOUNT )
 	       {
 		 echo_debug("Modify ATTR_DEF_ACCOUNT");
 		 $v=FormatString($value);
 		 echo_debug("Value = $v");
-		 if ( isNumber($v) == 1 )
+		 if ( isNumber($v) == 1 || strpos($v,',') != 0  )
 		   {
-		     $sql=sprintf("select account_update(%d,%d)",
+		     $sql=sprintf("select account_update(%d,'%s')",
 				  $this->id,$v);
 		     try {
 		       $this->cn->exec_sql($sql);
-		     /* update also the jrnx  */
-		     $sql='update jrnx set j_poste=$1 where j_qcode in (select quick_code from vw_fiche_attr where f_id=$2)';
-		     $this->cn->exec_sql(
-				  $sql,
-				  array($v,$this->id));
-
 		     } catch (Exception $e) {
 		       throw new Exception(__LINE__."Erreur : ce compte [$v] n'a pas de compte parent.".
 					   "L'op&eacute;ration est annul&eacute;e");
 		     }
-		     continue;		   
+		     continue;
 		   }
-		 if ( strlen (trim($v)) == 0 ) 
+		 if ( strlen (trim($v)) == 0 )
                  {
 
                    $sql=sprintf("select account_update(%d,null)",
@@ -760,33 +763,33 @@ Array
                  }
              }
 	     // TVA
-	     if ( $id == ATTR_DEF_TVA ) 
+	     if ( $id == ATTR_DEF_TVA )
 	       {
 		 echo_debug("Modify ATTR_DEF_TVA");
 		 // Verify if the rate exists, if not then do not update
-		 if ( strlen(trim($value)) != 0 ) 
+		 if ( strlen(trim($value)) != 0 )
 		   {
-		     if ( $this->cn->count_sql("select * from tva_rate where tva_id=".$value) == 0) 
+		     if ( $this->cn->count_sql("select * from tva_rate where tva_id=".$value) == 0)
 		       {
 			 echo_debug("class_fiche",__LINE__,"Tva invalide $value");
 			 continue;
 		       }
 		   }
 	       }
-	     if ( $id == ATTR_DEF_COMPANY ) 
+	     if ( $id == ATTR_DEF_COMPANY )
 	       {
 		 $exist=$this->cn->count_sql("select f_id from fiche join fiche_def using (fd_id) ".
 				 " join jnt_fic_att_value using (f_id) join attr_value using (jft_id) ".
                                " where frd_id in (8,9,14) and ad_id=".ATTR_DEF_QUICKCODE.
 				 " and av_text='".FormatString($value)."'");
-		 
-		 
-		 if ( $exist == 0 && FormatString($value) != null ) 
+
+
+		 if ( $exist == 0 && FormatString($value) != null )
 		   {
 		     $value="Attention : pas de société ";
 		   }
 	       }
-	     
+
 	     // Normal traitement
 	     $value2=FormatString($value);
 	     $sql=sprintf("update attr_value set av_text='%s' where jft_id=%d",
@@ -802,11 +805,11 @@ Array
        }
        $this->cn->commit();
        return;
-       
+
      }
        /*!\brief  remove a card
 	*/
-   function remove() 
+   function remove()
      {
        if ( $this->id==0 ) return;
        // verify if that card has not been used is a ledger
@@ -821,7 +824,7 @@ Array
 
        if ( $this->cn->count_sql("select * from jrnx where j_qcode='".Database::escape_string($qcode)."'") != 0)
 	 {
-	   alert('Impossible cette fiche est utilisée dans un journal'); 
+	   alert('Impossible cette fiche est utilisée dans un journal');
 	   return;
 	 }
 
@@ -832,9 +835,9 @@ Array
 	 if ( trim(strlen($class)) != 0 && isNumber($class) == 1 )
 	 	$is_used_jrnx= $this->cn->count_sql("select * from jrnx where j_poste=$class");
 	 // if class is not NULL and if we use it before, we can't remove it
-	 if (FormatString($class) != null && $is_used_jrnx     != 0 ) 
+	 if (FormatString($class) != null && $is_used_jrnx     != 0 )
 	   {
-	     alert('Impossible ce poste est utilisée dans un journal'); 
+	     alert('Impossible ce poste est utilisée dans un journal');
 	     return;
 	   }
 	 else
@@ -843,22 +846,22 @@ Array
 	     {
 	       $this->cn->exec_sql("delete from tmp_pcmn where pcm_val=$class");
 	     }
-	 
+
        }
        $this->delete();
      }
 
 
    /*!\brief return the name of a card
-    * 
+    *
     */
-   function getName() 
+   function getName()
      {
-       $sql="select av_text from jnt_fic_att_value join attr_value 
+       $sql="select av_text from jnt_fic_att_value join attr_value
             using (jft_id)  where ad_id=1 and f_id=".$this->id;
        $Res=$this->cn->exec_sql($sql);
        $r=Database::fetch_all($Res);
-       if ( sizeof($r) == 0 ) 
+       if ( sizeof($r) == 0 )
          return 1;
        return $r[0]['av_text'];
      }
@@ -866,20 +869,20 @@ Array
    /*!\brief return the quick_code of a card
     * \return null if not quick_code is found
     */
-   function get_quick_code() 
+   function get_quick_code()
      {
-       $sql="select av_text from jnt_fic_att_value join attr_value 
+       $sql="select av_text from jnt_fic_att_value join attr_value
             using (jft_id)  where ad_id=23 and f_id=".$this->id;
        $Res=$this->cn->exec_sql($sql);
        $r=Database::fetch_all($Res);
-       if ( sizeof($r) == 0 ) 
+       if ( sizeof($r) == 0 )
          return null;
        return $r[0]['av_text'];
      }
 
    /*!\brief Synonum of fiche::getAttribut
     */
-   function Get() 
+   function Get()
      {
        echo_debug('class_client',__LINE__,'Get');
        fiche::getAttribut();
@@ -887,9 +890,9 @@ Array
    /*!\brief get all the card thanks the fiche_def_ref
     * \param $p_offset (default =-1)
     * \param $p_search sql condition
-    * \return array of fiche object 
+    * \return array of fiche object
     */
-   function GetAll($p_offset=-1,$p_search="") 
+   function GetAll($p_offset=-1,$p_search="")
      {
        return fiche::GetByDef($this->fiche_def_ref,$p_offset,$p_search);
     }
@@ -897,12 +900,12 @@ Array
     *        card (bank, purchase...)
     *        (fiche_def_ref primary key)
     */
-  function get_fiche_def_ref_id() 
+  function get_fiche_def_ref_id()
     {
       $result=$this->cn->get_array("select frd_id from fiche join fiche_Def using (fd_id) where f_id=".$this->id);
       if ( $result == null )
 	return null;
-      
+
       return $result[0]['frd_id'];
     }
   /**
@@ -926,18 +929,18 @@ Array
       $this->row=$array;
       return array($array,$tot_deb,$tot_cred);
   }
-  /*! 
-   * \brief  Get data for poste 
-   * 
+  /*!
+   * \brief  Get data for poste
+   *
    * \param  $p_from periode from
    * \param  $p_to   end periode
    * \return double array (j_date,deb_montant,cred_montant,description,jrn_name,j_debit,jr_internal)
    *         (tot_deb,tot_credit
    *
-   */ 
+   */
   function get_row_date($p_from,$p_to)
     {
-      if ( $this->id == 0 ) 
+      if ( $this->id == 0 )
 	{
 	  echo_error("class_fiche",__LINE__,"id is 0");
 	  return;
@@ -959,18 +962,18 @@ Array
       return $this->get_row_result($Res);
     }
 
-  /*! 
-   * \brief  Get data for poste 
-   * 
+  /*!
+   * \brief  Get data for poste
+   *
    * \param  $p_from periode from
    * \param  $p_to   end periode
    * \return double array (j_date,deb_montant,cred_montant,description,jrn_name,j_debit,jr_internal)
    *         (tot_deb,tot_credit
    *
-   */ 
+   */
   function get_row($p_from,$p_to)
     {
-      if ( $this->id == 0 ) 
+      if ( $this->id == 0 )
 	{
 	  echo_error("class_fiche",__LINE__,"id is 0");
 	  return;
@@ -988,28 +991,28 @@ Array
 	       " where j_qcode='".$qcode."' and ".$periode.
 	       " order by j_date::date");
       return $this->get_row_result($Res);
-      
+
     }
-  /*! 
+  /*!
    * \brief HtmlTable, display a HTML of a card for the asked period
    * \return none
    */
   function HtmlTableDetail($p_array=null)
-    {     
+    {
       if ( $p_array == null)
 	$p_array=$_REQUEST;
 
       $name=$this->getName();
-      
+
       list($array,$tot_deb,$tot_cred)=$this->get_row_date( $p_array['from_periode'],
 						     $p_array['to_periode']
 						     );
-      
-      if ( count($this->row ) == 0 ) 
+
+      if ( count($this->row ) == 0 )
 	return;
-      
+
       $rep="";
-      
+
       echo '<h2 class="info">'.$this->id." ".$name.'</h2>';
       echo "<TABLE class=\"result\" width=\"100%\">";
       echo "<TR>".
@@ -1019,8 +1022,8 @@ Array
 	"<TH> Montant  </TH>".
 	"<TH> Débit/Crédit </TH>".
 	"</TR>";
-     
-      foreach ( $this->row as $op ) { 
+
+      foreach ( $this->row as $op ) {
 	echo "<TR  style=\"text-align:center;background-color:lightgrey\">".
 	  "<td >".$op['jr_internal']."</td>".
 	  "<td >".$op['j_date']."</td>".
@@ -1031,7 +1034,7 @@ Array
 	$ac=new Acc_Operation($this->cn);
 	$ac->jr_id=$op['jr_id'];
 	echo $ac->display_jrnx_detail(1);
-	
+
       }
       $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
       $diff=round(abs($tot_deb-$tot_cred),2);
@@ -1042,31 +1045,31 @@ Array
 	"<TD>$tot_deb</TD>".
 	"<TD>$tot_cred</TD>".
 	"</TR>";
-      
+
       echo "</table>";
-      
+
       return;
     }
-  /*! 
+  /*!
    * \brief HtmlTable, display a HTML of a card for the asked period
-   * \param $p_array default = null keys = from_periode, to_periode 
+   * \param $p_array default = null keys = from_periode, to_periode
    */
   function HtmlTable($p_array=null)
-    {     
+    {
       if ( $p_array == null)
 	$p_array=$_REQUEST;
 
       $name=h($this->getName());
-      
+
       list($array,$tot_deb,$tot_cred)=$this->get_row_date( $p_array['from_periode'],
 						     $p_array['to_periode']
 						     );
-      
-      if ( count($this->row ) == 0 ) 
+
+      if ( count($this->row ) == 0 )
 	return;
-      
+
       $rep="";
-      
+
       echo '<h2 class="info">'.$this->id." ".$name.'</h2>';
       echo "<TABLE class=\"result\" width=\"100%\">";
       echo "<TR>".
@@ -1076,8 +1079,8 @@ Array
 	"<TH> Débit  </TH>".
 	"<TH> Crédit </TH>".
 	"</TR>";
-     
-      foreach ( $this->row as $op ) { 
+
+      foreach ( $this->row as $op ) {
 	echo "<TR>".
 	  "<TD>".$op['jr_internal']."</TD>".
 	  "<TD>".$op['j_date_fmt']."</TD>".
@@ -1085,7 +1088,7 @@ Array
 	  "<TD>".$op['deb_montant']."</TD>".
 	  "<TD>".$op['cred_montant']."</TD>".
 	  "</TR>";
-	
+
       }
       $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
       $diff=round(abs($tot_deb-$tot_cred),2);
@@ -1096,12 +1099,12 @@ Array
 	"<TD>$tot_deb</TD>".
 	"<TD>$tot_cred</TD>".
 	"</TR>";
-      
+
       echo "</table>";
-      
+
       return;
     }
- /*! 
+ /*!
   * \brief Display HTML Table Header (button)
   *
   * \return none
@@ -1115,12 +1118,12 @@ Array
      echo '<div class="noprint">';
      echo "<table >";
      echo '<TR>';
-     
+
      echo '<TD><form method="GET" ACTION="">'.
        HtmlInput::submit('bt_other',"Autre poste").
 	dossier::hidden().
        $hid->input("type","poste").$hid->input('p_action','impress')."</form></TD>";
-     
+
      echo '<TD><form method="POST" ACTION="quick_code_pdf.php">'.
        HtmlInput::submit('bt_pdf',"Export PDF").
 	dossier::hidden().
@@ -1134,7 +1137,7 @@ Array
        echo $hid->input('oper_detail','on');
 
      echo "</form></TD>";
-     
+
      echo '<TD><form method="POST" ACTION="quick_code_csv.php">'.
        HtmlInput::submit('bt_csv',"Export CSV").
 	dossier::hidden().
@@ -1145,36 +1148,36 @@ Array
        $hid->input("to_periode",$p_array['to_periode']);
      if (isset($p_array['oper_detail']))
        echo $hid->input('oper_detail','on');
-     
+
      echo "</form></TD>";
      echo "</table>";
      echo '</div>';
-     
+
    }
-  /*! 
+  /*!
    * \brief   give the balance of an card
    * \return
    *      balance of the card
    *
-   */ 
+   */
 function get_solde_detail($p_cond="") {
   if ( $this->id == 0 ) exit('fiche->id est nul');
   $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
 
 	if ( $p_cond != "") $p_cond=" and ".$p_cond;
-  $Res=$this->cn->exec_sql("select sum(deb) as sum_deb, sum(cred) as sum_cred from 
-          ( select j_poste, 
-             case when j_debit='t' then j_montant else 0 end as deb, 
-             case when j_debit='f' then j_montant else 0 end as cred 
-          from jrnx 
-              where  
+  $Res=$this->cn->exec_sql("select sum(deb) as sum_deb, sum(cred) as sum_cred from
+          ( select j_poste,
+             case when j_debit='t' then j_montant else 0 end as deb,
+             case when j_debit='f' then j_montant else 0 end as cred
+          from jrnx
+              where
             j_qcode = ('$qcode'::text)
             $p_cond
           ) as m  ");
   $Max=Database::num_row($Res);
   if ($Max==0) return 0;
   $r=Database::fetch_array($Res,0);
-  
+
   return array('debit'=>$r['sum_deb'],
 	       'credit'=>$r['sum_cred'],
 	       'solde'=>abs($r['sum_deb']-$r['sum_cred']));
@@ -1185,8 +1188,8 @@ function get_solde_detail($p_cond="") {
  */
 function empty_attribute($p_attr) {
   $sql="select av_text
-           from jnt_fic_att_value 
-               natural join fiche 
+           from jnt_fic_att_value
+               natural join fiche
                natural join attr_value
                left join attr_def using (ad_id) where f_id=".$this->id.
     " and ad_id = ".$p_attr.
@@ -1196,24 +1199,24 @@ function empty_attribute($p_attr) {
   $text=Database::fetch_result($res,0,0);
   return (strlen(trim($text)) > 0)?false:true;
 
-  
+
 }
 /*! Summary
  * \brief  show the default screen
- *        
- * \param p_search (filter) 
+ *
+ * \param p_search (filter)
  * \param p_action show the action column
- *	 
+ *
  * \return: string to display
  */
-  function Summary($p_search="",$p_action="") 
+  function Summary($p_search="",$p_action="")
     {
       $str_dossier=dossier::get();
       $p_search=FormatString($p_search);
       $script=$_SERVER['PHP_SELF'];
       // Creation of the nav bar
       // Get the max numberRow
-      $all_tiers=$this->CountByDef($this->fiche_def_ref,$p_search); 
+      $all_tiers=$this->CountByDef($this->fiche_def_ref,$p_search);
       // Get offset and page variable
       $offset=( isset ($_REQUEST['offset'] )) ?$_REQUEST['offset']:0;
       $page=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
@@ -1230,8 +1233,8 @@ function empty_attribute($p_attr) {
       if ( trim($p_search) != "" )
 	{
 	  $search=" and f_id in
-(select f_id from jnt_fic_att_value 
-                  join fiche using (f_id) 
+(select f_id from jnt_fic_att_value
+                  join fiche using (f_id)
                   join attr_value using (jft_id)
                 where
                 ad_id=1 and av_text ~* '$p_search')";
@@ -1275,7 +1278,7 @@ $r.='</TR>';
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['credit']);
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['solde']);
 
-	
+
 	$r.="</TR>";
 
       }
@@ -1283,10 +1286,10 @@ $r.='</TR>';
       $r.=$bar;
       return $r;
     }
-/*! 
+/*!
  * \brief get the fd_id of the card : fd_id, it set the attribute fd_id
  */
- function get_categorie() 
+ function get_categorie()
    {
      if ( $this->id == 0 ) exit('class_fiche : f_id = 0 ');
      $sql='select fd_id from fiche where f_id='.$this->id;
@@ -1296,39 +1299,39 @@ $r.='</TR>';
      else
        $this->fd_id=$R;
    }
-/*!  
+/*!
  ***************************************************
  * \brief   Check if a fiche is used by a jrn
  *  return 1 if the  fiche is in the range otherwise 0, the quick_code
  *  or the id  must be set
- *        
- * 
+ *
+ *
  * \param   $p_jrn journal_id
  * \param   $p_type : deb or cred default empty
- * 
+ *
  * \return 1 if the fiche is in the range otherwise < 1
  *        -1 the card doesn't exist
  *        -2 the ledger has no card to check
- * 
+ *
  */
 function belong_ledger($p_jrn,$p_type="")
 {
   // check if we have a quick_code or a f_id
-  if (($this->quick_code==null || $this->quick_code == "" ) 
+  if (($this->quick_code==null || $this->quick_code == "" )
       && $this->id == 0 ) {
     echo 'erreur ni quick_code ni f_id ne sont donnes';
     exit();
   }
 
   //retrieve the quick_code
-  if ( $this->quick_code=="") 
+  if ( $this->quick_code=="")
     $this->quick_code=$this->get_quick_code();
 
 
-  if ( $this->quick_code==null) 
+  if ( $this->quick_code==null)
     return -1;
 
-  if ( $this->id == 0 ) 
+  if ( $this->id == 0 )
     if ( $this->get_by_qcode(null,false) == 1)
       return -1;
 
@@ -1343,10 +1346,10 @@ function belong_ledger($p_jrn,$p_type="")
     $Res=$this->cn->exec_sql("select $get as fiche from jrn_def where jrn_def_id=$p_jrn");
   } else {
     // Get all the fiche type (deb and cred)
-    $Res=$this->cn->exec_sql(" select jrn_def_fiche_cred as fiche  
+    $Res=$this->cn->exec_sql(" select jrn_def_fiche_cred as fiche
                          from jrn_def where jrn_def_id=$p_jrn
                         union
-                         select jrn_def_fiche_deb 
+                         select jrn_def_fiche_deb
                          from jrn_def where jrn_def_id=$p_jrn"
 		 );
   }
@@ -1372,12 +1375,12 @@ function belong_ledger($p_jrn,$p_type="")
 
   $sql="select *
         from fiche
-        where  
+        where
            fd_id in (".$str_list.") and f_id= ".$this->id;
 
   $Res=$this->cn->exec_sql($sql);
   $Max=Database::num_row($Res);
-  if ($Max==0 ) 
+  if ($Max==0 )
     return 0;
   else
     return 1;
@@ -1404,22 +1407,22 @@ function is_used() {
   $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
   $sql='select count(*) as c from jrnx where j_qcode=$1';
   $count=$this->cn->get_value($sql,array($qcode));
-  if ( $count == 0 ) return false; 
+  if ( $count == 0 ) return false;
   return true;
 }
 /*\brief remove a card without verification */
  function delete() {
   // Remove from attr_value
-  $Res=$this->cn->exec_sql("delete from attr_value 
-                        where jft_id in (select jft_id 
-                                          from jnt_fic_att_value 
+  $Res=$this->cn->exec_sql("delete from attr_value
+                        where jft_id in (select jft_id
+                                          from jnt_fic_att_value
                                                 natural join fiche where f_id=".$this->id.")");
   // Remove from jnt_fic_att_value
   $Res=$this->cn->exec_sql("delete from jnt_fic_att_value where f_id=".$this->id);
-  
+
   // Remove from fiche
   $Res=$this->cn->exec_sql("delete from fiche where f_id=".$this->id);
-  
+
 }
  /*!\brief create the sql statement for retrieving all
   * the card
@@ -1473,7 +1476,7 @@ function is_used() {
    $and=" and ";
    if (isset($query)){
      $query=FormatString($query);
-     $filter_query=$and."(vw_name ilike '%$query%' or quick_code ilike ('%$query%') or vw_description ilike '%$query%')";
+     $filter_query=$and."(vw_name ilike '%$query%' or quick_code ilike ('%$query%') or vw_description ilike '%$query%' or tva_num ilike '%$query%')";
    }
    $sql="select * from vw_fiche_attr where ".$filter_fd_id.$filter_query;
    return $sql;

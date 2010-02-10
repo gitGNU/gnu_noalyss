@@ -18,7 +18,7 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /*! \file
- * \brief Users Security 
+ * \brief Users Security
  */
 include_once("ac_common.php");
 require_once('class_database.php');
@@ -57,7 +57,7 @@ echo '<DIV>';
 
 echo '<h2>Gestion Utilisateurs</h2>';
 
-// User is valid and you're an admin 
+// User is valid and you're an admin
 
 
 ?>
@@ -76,23 +76,23 @@ if ( isset ( $_GET['reset_passwd']) ){
 if ( isset ($_POST['SAVE']) ){
   $uid = $_POST['UID'];
 
-  // Update User 
+  // Update User
   $cn=new Database();
   $last_name=$_POST['fname'];
   $first_name=$_POST['lname'];
   $UserChange=new User($cn,$uid);
-  if ( $UserChange->load()==-1) { 
-	alert("Cet utilisateur n'existe pas");} 
+  if ( $UserChange->load()==-1) {
+	alert("Cet utilisateur n'existe pas");}
   else {
 	  $UserChange->first_name=$first_name;
 	  $UserChange->last_name=$last_name;
 	  $UserChange->active=$_POST['Actif'];
 	  $UserChange->admin=$_POST['Admin'];
 	  $UserChange->save();
-	 
+
 	  // Update Priv on Folder
 	  foreach ($_POST as $name=>$elem)
-	    { 
+	    {
 	      echo_debug('priv_user.php',__LINE__,"_POST $name $elem");
 	      if ( substr_count($name,'PRIV')!=0 )
 	      {
@@ -100,7 +100,7 @@ if ( isset ($_POST['SAVE']) ){
 			$db_id=substr($name,4);
 			$cn=new Database();
 			$UserChange->set_folder_access($db_id,$elem);
-			
+
 	     }
 
 	    }
@@ -132,7 +132,7 @@ $UserChange->load();
 <TR><TD>
 <?php printf('Nom de famille </TD><td><INPUT type="text" NAME="fname" value="%s"> ',$UserChange->name); ?>
 </TD></TR>
-<?php printf('<td>prénom</td><td> 
+<?php printf('<td>prénom</td><td>
 <INPUT type="text" NAME="lname" value="%s"> ',$UserChange->first_name); ?>
 </TD>
 </TR>
@@ -146,9 +146,9 @@ if ( $UserChange->active == 1 ) {
   $ACT="UNCHECKED";$NACT="CHECKED";
 }
 echo "<TR><TD>";
-printf('<INPUT type="RADIO" NAME="Actif" VALUE="1" %s> Actif',$ACT); 
+printf('<INPUT type="RADIO" NAME="Actif" VALUE="1" %s> Actif',$ACT);
 echo "</TD><TD>";
-printf('<INPUT type="RADIO" NAME="Actif" VALUE="0" %s> Non Actif',$NACT); 
+printf('<INPUT type="RADIO" NAME="Actif" VALUE="0" %s> Non Actif',$NACT);
 echo "</TD></TR>";
 ?>
 </TABLE>
@@ -162,9 +162,9 @@ if ( $UserChange->admin == 1 ) {
   $ACT="UNCHECKED";$NACT="CHECKED";
 }
 echo "<TR><TD>";
-printf('<INPUT type="RADIO" NAME="Admin" VALUE="1" %s> Administrateur global',$ACT); 
+printf('<INPUT type="RADIO" NAME="Admin" VALUE="1" %s> Administrateur global',$ACT);
 echo "</TD><TD>";
-printf('<INPUT type="RADIO" NAME="Admin" VALUE="0" %s> Pas administrateur global ',$NACT); 
+printf('<INPUT type="RADIO" NAME="Admin" VALUE="0" %s> Pas administrateur global ',$NACT);
 echo "</TD></TR>";
 ?>
 </TABLE>
@@ -178,10 +178,11 @@ echo "</TD></TR>";
 Les autres droits doivent être réglés dans les dossiers (paramètre->sécurité)
  </p>
 <TABLE>
-<?php 
+<?php
 $array=array(
 	     array('value'=>'X','label'=>'Aucun Accès'),
 	     array('value'=>'R','label'=>'Utilisateur normal'),
+	      array('value'=>'P','label'=>'Utilisateur uniquement extension'),
 	     array('value'=>'L','label'=>'Administrateur local(Tous les droits)')
 	     );
 $repo=new Dossier(0);
@@ -198,7 +199,7 @@ foreach ( $Dossier as $rDossier) {
 
   $priv=$mod_user->get_folder_access($rDossier['dos_id']);
   printf("<TR><TD> Dossier : %s </TD>",h($rDossier['dos_name']));
-  
+
   $select=new ISelect();
   $select->table=1;
   $select->name=sprintf('PRIV%s',$rDossier['dos_id']);
@@ -212,7 +213,7 @@ foreach ( $Dossier as $rDossier) {
 </TABLE>
 
 <?php echo HtmlInput::button_anchor('Reinitialiser le mot de passe',
-			  sprintf('priv_user.php?reset_passwd&UID=%s',$uid)); 
+			  sprintf('priv_user.php?reset_passwd&UID=%s',$uid));
 ?>
 
 

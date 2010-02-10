@@ -44,7 +44,8 @@ if ( $sb=='change') {
   if ( !isset($_GET['id'])) exit;
   $row=new Acc_Payment($cn,$_GET['id']);
   $row->load();
-  echo '<form method="post" action="parametre.php">';
+  $javascript="return confirm('"._('Vous confirmez')."')";
+  echo '<form method="post" action="parametre.php" onsubmit="'.$javascript.'">';
   echo dossier::hidden();
   echo HtmlInput::hidden('p_jrn',0);
   echo HtmlInput::hidden('p_action','divers');
@@ -55,6 +56,7 @@ if ( $sb=='change') {
 
   echo $row->form();
   echo HtmlInput::submit('save',_('Sauve'));
+  echo HtmlInput::submit('delete',_('Efface'));
   echo HtmlInput::button_anchor(_('Retour sans sauvez'),
 			   '?p_action=divers&sa=mp&'.dossier::get()
 			   );
@@ -70,7 +72,40 @@ if ( $sb=='save'){
   $row->update();
 
 }
+//---------------------------------------------------------------------------
+// Delete a card
+//---------------------------------------------------------------------------
+if (isset($_POST['delete'])) {
+  $row=new Acc_Payment($cn,$_POST['id']);
+  $row->from_array($_POST);
+  $row->delete();
+}
+//---------------------------------------------------------------------------
+// Show form to enter a new one
+//---------------------------------------------------------------------------
+if ($sb=='ins') {
+  $mp=new Acc_Payment($cn);
+  $r=$mp->blank();
+  echo '<form method="POST">';
+  echo dossier::hidden().HtmlInput::hidden('sa',$_REQUEST['sa']).
+    HtmlInput::hidden('p_action',$_REQUEST['p_action']).HtmlInput::hidden('sb','insert');
+  echo $r;
+  echo HtmlInput::submit('insert',_('Enregistre'));
+  echo '</form>';
+  echo HtmlInput::button_anchor(_('Retour sans sauvez'),
+			   '?p_action=divers&sa=mp&'.dossier::get()
+			   );
 
+  exit();
+}
+//---------------------------------------------------------------------------
+// Insert a new mod of payment
+//---------------------------------------------------------------------------
+if ( $sb=='insert') {
+  $row=new Acc_Payment($cn);
+  $row->from_array($_POST);
+  $row->insert();
+}
 //----------------------------------------------------------------------
 // LEDGER PURCHASE
 //----------------------------------------------------------------------
@@ -124,7 +159,9 @@ if ( ! empty ($array)) {
   }
   echo '</table>';
 }
-
 echo '</fieldset>';
+// Button to insert new one
+echo HtmlInput::button_anchor(_('Ajout'),'?p_action=divers&sa=mp&sb=ins&'.dossier::get());
+
 echo '</div>';
 ?>

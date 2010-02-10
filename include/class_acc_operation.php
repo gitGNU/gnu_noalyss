@@ -22,14 +22,14 @@
 
 /*!\file
  * \brief  this file match the tables jrn & jrnx the purpose is to
- *   remove or save accountant writing to these table. 
+ *   remove or save accountant writing to these table.
  */
 require_once ('class_user.php');
 /*! \brief  this file match the tables jrn & jrnx the purpose is to
- *   remove or save accountant writing to these table. 
+ *   remove or save accountant writing to these table.
  *
  */
-class Acc_Operation 
+class Acc_Operation
 {
   var $db; 				/*!< database connx */
 var $jr_id;	/*!< pk of jrn */
@@ -42,7 +42,7 @@ var $jr_id;	/*!< pk of jrn */
   var $periode;			/*!< periode to use */
   var $amount;			/*!< amount of the operatoin */
   var $grpt;			/*!< the group id */
-/*! 
+/*!
  * \brief constructor set automatically the attributes user and periode
  * \param $p_cn the databse connection
  */
@@ -54,12 +54,21 @@ var $jr_id;	/*!< pk of jrn */
     $this->periode=$user->get_periode();
     $this->jr_id=0;
   }
-  /* **************************************************
-   *\brief  Insert into the table Jrn
-   *        
-   *  
-   * \return  nothing
-   *
+  /**
+   *@brief  Insert into the table Jrn
+   *The needed data are :
+   * - this->date
+   * - this->amount
+   * - this->poste
+   * - this->grpt
+   * - this->jrn
+   * - this->type ( debit or credit)
+   * - this->user
+   * - this->periode
+   * - this->qcode
+   * - this->desc optional
+   *@note if the amount is less than 0 then side changes, for example debit becomes
+   *a credit and vice versa
    */
 
   function insert_jrnx()
@@ -71,23 +80,24 @@ var $jr_id;	/*!< pk of jrn */
     }
     $this->amount=abs($this->amount);
     $debit=($this->type=='c')?'false':'true';
-
+    $this->desc=(isset($this->desc))?$this->desc:'';
     $Res=$this->db->exec_sql("select insert_jrnx
-		 ($1::text,abs($2)::numeric,$3::poste_comptable,$4::integer,$5::integer,$6::bool,$7::text,$8::integer,upper($9))",
+		 ($1::text,abs($2)::numeric,$3::poste_comptable,$4::integer,$5::integer,$6::bool,$7::text,$8::integer,upper($9),$10::text)",
 		      array(
-			    $this->date,
-			    round($this->amount,2),
-			    $this->poste,
-			    $this->grpt,
-			    $this->jrn,
-			    $debit,
-			    $this->user,
-			    $this->periode,
-			    $this->qcode));
+			    $this->date, //$1
+			    round($this->amount,2), //$2
+			    $this->poste, //$3
+			    $this->grpt, //$4
+			    $this->jrn, //$5
+			    $debit, //$6
+			    $this->user, //$7
+			    $this->periode, //$8
+			    $this->qcode, // $9
+			    $this->desc)); //$10
     if ( $Res==false) return $Res;
     $this->jrnx_id=$this->db->get_current_seq('s_jrn_op');
     return $this->jrnx_id;
-    
+
   }
   /*!\brief set the pj of a operation in jrn. the jr_id must be set
    *\note if the jr_id it fails
@@ -120,10 +130,10 @@ var $jr_id;	/*!< pk of jrn */
 	/* check if the new pj numb exist */
 	$c=$this->db->count_sql("select jr_id from jrn where jr_pj_number=$1 and jr_def_id=$2",
 		    array($this->pj,$this->jrn)
-		    ); 
+		    );
 	if ( $c == 0 ) { $flag=1; break;}
 	$limit--;
-      }	
+      }
       /* a pj numb is found */
       if ( $flag == 1 ) {
         $sql="update jrn set jr_pj_number=$1 where jr_id=$2";
@@ -134,12 +144,11 @@ var $jr_id;	/*!< pk of jrn */
   }
 
 /*!
- **************************************************
- *\brief  Insert into the table Jrn, the amount is computed from jrnx thanks the 
+ *\brief  Insert into the table Jrn, the amount is computed from jrnx thanks the
  *        group id ($p_grpt)
- *        
- * \return  sequence
- *  
+ *
+ * \return  sequence of jr_id
+ *
  */
 
   function insert_jrn()
@@ -148,7 +157,7 @@ var $jr_id;	/*!< pk of jrn */
 
     $diff=$this->db->get_value("select check_balance ($1)",array($this->grpt));
     if ( $diff != 0 ) {
-      
+
       echo "Erreur : balance incorrecte :diff = $diff";
       return false;
     }
@@ -158,7 +167,7 @@ var $jr_id;	/*!< pk of jrn */
       $this->mt=microtime(true);
     }
     // if amount == -1then the triggers will throw an error
-    // 
+    //
     $Res=$this->db->exec_sql("insert into jrn (jr_def_id,jr_montant,jr_comment,".
 		      "jr_date,jr_ech,jr_grpt_id,jr_tech_per,jr_mt)   values (".
 		      "$1,$2,$3,".
@@ -177,7 +186,7 @@ var $jr_id;	/*!< pk of jrn */
  *
  */
 function get_internal() {
- if ( ! isset($this->jr_id) ) 
+ if ( ! isset($this->jr_id) )
 		throw new Exception('jr_id is not set',1);
   $Res=$this->db->exec_sql("select jr_internal from jrn where jr_id=".$this->jr_id);
   if ( Database::num_row($Res) == 0 ) return null;
@@ -196,7 +205,7 @@ function get_internal() {
    $this->jr_id=Database::fetch_result($Res,0,0);
    return 0;
  }
- /*!\brief retrieve data from jrnx 
+ /*!\brief retrieve data from jrnx
   * \return an array
   */
  function get_jrnx_detail() {
@@ -231,7 +240,7 @@ function get_internal() {
    return $row;
  }
  /*!\brief display_jrnx_detail : get the data from get_jrnx_data and
-    return a string with HTML code 
+    return a string with HTML code
   * \param table(=0 no code for table,1 code for table,2 code for CSV)
 
  */
@@ -253,7 +262,7 @@ function get_internal() {
        $r.=$a;
        $csv.='"'.$a.'";';
        $r.='</td>';
-       
+
        $r.='<td>';
        $a=$l['j_poste'];
        $r_notable.=$a;
@@ -268,14 +277,14 @@ function get_internal() {
        $r.=h($a);
        $csv.='"'.$a.'";';
        $r.='</td>';
-       
+
        $r.='<td>';
        $a=$l['j_montant'];
        $r_notable.=$a;
        $r.=$a;
        $csv.=$a.';';
        $r.='</td>';
-       
+
        $r.='<td>';
        $a=$l['debit'];
        $r_notable.=$a;
@@ -284,7 +293,7 @@ function get_internal() {
 
        $csv.="\r\n";
        $r.='</td>';
-     
+
        $r.='</tr>';
    }
    switch ($p_table) {
@@ -299,9 +308,9 @@ function get_internal() {
    }
    return "ERROR PARAMETRE";
  }
-/*! 
+/*!
  * @brief  Get data from jrnx where p_grpt=jrnx(j_grpt)
- * 
+ *
  * @param connection
  * @return array of 3 elements
  *  - First Element is an array
@@ -312,27 +321,27 @@ Array
     [class_cred0] => 7000008
     [mont_cred0] => 8880.0000
     [op_cred0] => 754
-    [text_cred0] => 
+    [text_cred0] =>
     [jr_internal] => 23VEN-01-302
-    [comment] => 
-    [ech] => 
+    [comment] =>
+    [ech] =>
     [jr_id] => 302
     [jr_def_id] => 2
     [class_deb0] => 4000005
     [mont_deb0] => 10744.8000
-    [text_deb0] => 
+    [text_deb0] =>
     [op_deb0] => 755
     [class_cred1] => 4511
     [mont_cred1] => 1864.8000
     [op_cred1] => 756
-    [text_cred1] => 
+    [text_cred1] =>
 )
 @endverbatim
- *  - Second  : number of line with debit 
+ *  - Second  : number of line with debit
  *  - Third  : number of line with credit
- */ 
+ */
  function get_data ($p_grpt) {
-   $Res=$this->db->exec_sql("select 
+   $Res=$this->db->exec_sql("select
                         to_char(j_date,'DD.MM.YYYY') as j_date,
                         j_text,
                         j_debit,
@@ -349,7 +358,7 @@ Array
    if ( $MaxLine == 0 ) return null;
    $deb=0;$cred=0;
    for ( $i=0; $i < $MaxLine; $i++) {
-    
+
      $l_line=Database::fetch_array($Res,$i);
      $l_array['op_date']=$l_line['j_date'];
      if ( $l_line['j_debit'] == 't' ) {

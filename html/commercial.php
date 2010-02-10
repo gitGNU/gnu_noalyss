@@ -22,7 +22,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /*! \file
  * \brief Base of the module "Gestion", the p_action indicates what
- *        file must included and this file will manage the request 
+ *        file must included and this file will manage the request
  *        (customer, supplier, contact,...)
  */
 include_once ("ac_common.php");
@@ -41,7 +41,7 @@ $rep=new Database($gDossier);
 require_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
-$User->check_dossier($gDossier);
+if ($User->check_dossier($gDossier)=='P')exit();
 
 //-----------------------------------------------------
 // update preference
@@ -132,14 +132,14 @@ echo JS_AJAX_FICHE;
 //-----------------------------------------------------
 // p_action == pref
 //-----------------------------------------------------
-if ( $p_action == "pref" ) 
+if ( $p_action == "pref" )
 {
   require_once("pref.inc.php");
 }
 //-----------------------------------------------------
 // p_action == impression
 //-----------------------------------------------------
-if ( $p_action == "impress" ) 
+if ( $p_action == "impress" )
 {
   require_once("impress.inc.php");
 }
@@ -148,7 +148,7 @@ if ( $p_action == "impress" )
 //-----------------------------------------------------
 // p_action == adm
 //-----------------------------------------------------
-if ( $p_action == "adm" ) 
+if ( $p_action == "adm" )
 {
   $User->can_request(GEADM,1);
   require_once("adm.inc.php");
@@ -156,7 +156,7 @@ if ( $p_action == "adm" )
 //-----------------------------------------------------
 // p_action == client
 //-----------------------------------------------------
-if ( $p_action == "client" ) 
+if ( $p_action == "client" )
 {
   $User->can_request(GECUST,1);
   require_once("client.inc.php");
@@ -164,7 +164,7 @@ if ( $p_action == "client" )
 // $p_action == fournisseur
 //-----------------------------------------------------
 // Fournisseur
-if ( $p_action == 'supplier') 
+if ( $p_action == 'supplier')
 {
   $User->can_request(GESUPPL,1);
   require_once("supplier.inc.php");
@@ -172,20 +172,20 @@ if ( $p_action == 'supplier')
 
 //-----------------------------------------------------
 // action
-if ( $p_action == 'suivi_courrier') 
+if ( $p_action == 'suivi_courrier')
 {
   $User->can_request(GECOUR,1);
   require_once("action.inc.php");
 }
 //-----------------------------------------------------
 // Contact
-if ( $p_action == 'fiche') 
+if ( $p_action == 'fiche')
 {
   require_once("fiche.inc.php");
 }
 //-----------------------------------------------------
 // Impression
-if ( $p_action == 'impress') 
+if ( $p_action == 'impress')
 {
   if ( $User->check_action(IMPRAP)==1 ||
        $User->check_action(IMPJRN)==1 ||
@@ -215,7 +215,7 @@ if ( $p_action=='central') {
  }
 //-----------------------------------------------------
 // Expense
-if ( $p_action == 'defreport') 
+if ( $p_action == 'defreport')
 {
   $User->can_request(PARPREDE,1);
   require_once("report.inc.php");

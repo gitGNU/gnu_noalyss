@@ -85,7 +85,7 @@ switch($action) {
    $enable->selected=$ext->get_parameter('enable');
    $str_enable=$enable->input();
    $r.='<div style="overflow:auto;">';
-   $r.='<form  id="extde" onsubmit="extension_save(this)">';
+   $r.='<form  id="formext" onsubmit="extension_save(this);return false">';
    $r.=dossier::hidden().HtmlInput::phpsessid();
    /* property of the extension */
    ob_start();
@@ -142,7 +142,7 @@ switch($action) {
    $enable->selected='Y';
    $str_enable=$enable->input();
    $r.='<div style="overflow:auto">';
-   $r.='<form id="extde" onsubmit="extension_save(this);">';
+   $r.='<form id="formext" onsubmit="extension_save(this);return false;">';
    $r.=dossier::hidden().HtmlInput::phpsessid();
    ob_start();
    require_once('template/extension-detail.php');

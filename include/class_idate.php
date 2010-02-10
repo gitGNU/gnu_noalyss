@@ -20,8 +20,8 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
- * \brief Html Input 
+/*!\file
+ * \brief Html Input
  */
 require_once('class_html_input.php');
  class IDate extends HtmlInput
@@ -50,14 +50,14 @@ require_once('class_html_input.php');
 		        singleClick    :    true
 		    });
 </script>
-'; 
+';
 	return $r;
 
 	}
 	/*!\brief print in html the readonly value of the widget*/
 	public function display()
  	{
-	 $r="<span> Date : ".$this->value;
+	 $r="<span>  : ".$this->value;
 	 $r.='<input type="hidden" name="'.$this->name.'"'.
 		'id="'.$this->name.'"'.
 		' value = "'.$this->value.'"></span>';

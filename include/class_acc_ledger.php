@@ -910,7 +910,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	{
 	  echo_debug('class_acc_ledger',__LINE__,'ICI');
 	  echo_debug('class_acc_ledger',__LINE__,'Montant TVA = '.$p_array['AMOUNT_TVA']);
-	  list($tva_deb,$tva_cred)=split(',',$line_tva['tva_poste']);
+	  list($tva_deb,$tva_cred)=explode(',',$line_tva['tva_poste']);
 	  if ( $code['j_poste'] == $tva_deb ||
 	       $code['j_poste'] == $tva_cred )
 	    {
@@ -1578,7 +1578,14 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	  if ( isset(${'qc_'.$i})) {
 	    $qc=new fiche($this->db);
 	    $qc->get_by_qcode(${'qc_'.$i},false);
-	    $poste=$qc->strAttribut(ATTR_DEF_ACCOUNT);
+	    $sposte=$qc->strAttribut(ATTR_DEF_ACCOUNT);
+	    /*  if there are 2 accounts take following the deb or cred */
+	    if (strpos($sposte,',') != 0 ){
+	      $array=explode(",",$sposte);
+	      $poste=(isset(${'ck'.$i}))?$array[0]:$array[1];
+	    } else {
+	      $poste=$sposte;
+	    }
 	    $quick_code=${'qc_'.$i};
 	  }
 	  else {
@@ -1588,6 +1595,8 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	  // compute the periode is do not check it
 	  if ($check_periode == false ) $acc_op->periode=$oPeriode->p_id;
 	  $acc_op->desc=$desc;
+	  if ( strlen(trim(${'ld'.$i})) != 0 )
+	    $acc_op->desc=${'ld'.$i};
 	  $acc_op->amount=round(${'amount'.$i},2);
 	  $acc_op->grpt=$seq;
 	  $acc_op->poste=$poste;
@@ -1595,8 +1604,6 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	  $acc_op->type=(isset (${'ck'.$i}))?'d':'c';
 	  $acc_op->qcode=$quick_code;
 	  $j_id=$acc_op->insert_jrnx();
-	  if ( strlen(trim(${'ld'.$i})) != 0 )
-	    $acc_op->update_comment(${'ld'.$i});
 	  $tot_amount+=round($acc_op->amount,2);
 	  $tot_deb+=($acc_op->type=='d')?$acc_op->amount:0;
 	  $tot_cred+=($acc_op->type=='c')?$acc_op->amount:0;
@@ -1851,9 +1858,11 @@ function get_last_date()
     $str_file=$doc->Generate();
     // Move the document to the jrn
     $doc->MoveDocumentPj($internal);
-    // Update the comment with invoice number
-    $sql="update jrn set jr_comment=' document ".$doc->d_number."' where jr_internal='$internal'";
-    $this->db->exec_sql($sql);
+    // Update the comment with invoice number, if the comment is empty
+    if ( ! isset ($e_comm) || strlen(trim($e_comm))== 0 ) {
+      $sql="update jrn set jr_comment=' document ".$doc->d_number."' where jr_internal='$internal'";
+      $this->db->exec_sql($sql);
+    }
     return '<h2 class="info">'.$str_file.'</h2>';
 
   }
@@ -1870,7 +1879,16 @@ function get_last_date()
       if ( $empl->empty_attribute(ATTR_DEF_ACCOUNT)== true) {
 	throw new Exception('Celui qui paie n\' a pas de poste comptable',20);
       }
-      $poste=new Acc_Account_Ledger($this->db,$empl->strAttribut(ATTR_DEF_ACCOUNT));
+      /* get the account and explode if necessary */
+      $sposte=$empl->strAttribut(ATTR_DEF_ACCOUNT);
+      // if 2 accounts, take only the debit one for customer
+      if ( strpos($sposte,',') != 0 ) {
+	$array=explode(',',$sposte);
+	$poste_val=$array[0];
+      } else {
+	$poste_val=$sposte;
+      }
+      $poste=new Acc_Account_Ledger($this->db,$poste_val);
       if ( $poste->load() == false ){
 	throw new Exception('Pour la fiche'.$empl->quick_code.'  le poste comptable ['.$poste->id.'n\'existe pas',9);
 
@@ -2075,9 +2093,10 @@ function get_last_date()
       if ( $p_action == 'client') $p_action='ALL';
       if ( $p_action == 'fournisseur') $p_action='ALL';
       if ( $p_action == 'adm') $p_action='ALL';
+      if ( $p_action == 'quick_writing') $p_action='ALL';
 
 
-      $fil_ledger=$user->get_ledger_sql($p_action,2);
+      $fil_ledger=$user->get_ledger_sql($p_action,3);
       $and=' and ';
     } else if ( $p_jrn != 0 ){
       $fil_ledger = ' jrn_def_id = '.$p_jrn;
@@ -2300,10 +2319,10 @@ function get_last_date()
     $array=$this->db->get_array($sql);
     return $array;
   }
-  /** 
+  /**
    *@brief retreive the jr_grpt_id from a ledger
    *@param $p_what the column to seek
-   *    possible values are 
+   *    possible values are
    *   - internal
    *@param $p_value the value of the col.
    */
@@ -2312,7 +2331,7 @@ function get_last_date()
     case 'internal':
       return $this->db->get_value('select jr_grpt_id from jrn where jr_internal=$1',
 				  array($p_value));
-      
+
     }
   }
 }

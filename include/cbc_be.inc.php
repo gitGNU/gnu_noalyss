@@ -36,7 +36,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 //-----------------------------------------------------
 // Parsing CSV comes here
 //-----------------------------------------------------
-	  $row=split(';',$data[$c]);
+	  $row=explode(';',$data[$c]);
 	  echo_debug('cbc_be',__LINE__,'$row = '.var_export($row,true));
 	  echo_debug('cbc_be',__LINE__,'sizeof($row)'.sizeof($row));
 	  if ( sizeof ($row) < 13 )

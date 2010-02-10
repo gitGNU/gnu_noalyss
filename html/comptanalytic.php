@@ -38,7 +38,7 @@ require_once ("class_user.php");
 require_once ('user_menu.php');
 $User=new User($cn);
 $User->Check();
-$User->check_dossier($gDossier);
+if ($User->check_dossier($gDossier) == 'P') exit();
 
 
 html_page_start($_SESSION['g_theme']);

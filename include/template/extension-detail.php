@@ -36,7 +36,7 @@
 </tr>
 <tr>
 <td style="text-align:right">
-<?=_('Actif')?>
+<?=_('Activé')?>
 </td>
 <td>
 <?=$str_enable?>

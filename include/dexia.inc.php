@@ -45,7 +45,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE)
   
   echo_debug('dexia_be',__LINE__,'$row = '.var_export($row,true));
   echo_debug('dexia_be',__LINE__,'sizeof($row)'.sizeof($row));
-  $row=split(';',$data[0]);
+  $row=explode(';',$data[0]);
   //to avoid a level of if
   if (!(isset($row[2]))) $row[2]='';
   

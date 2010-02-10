@@ -131,7 +131,7 @@ class Acc_Tva
    */
   public function get_side($p_side) {
     if ( strlen($this->tva_poste) == 0 ) $this->load();
-    list($deb,$cred)=split(",",$this->tva_poste);
+    list($deb,$cred)=explode(",",$this->tva_poste);
     switch ($p_side) {
     case 'd':
       return $deb;

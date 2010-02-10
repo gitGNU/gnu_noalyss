@@ -105,8 +105,19 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
       throw new Exception(_('La fiche ').$e_client._('n\'a pas de poste comptable'),8);
 
+    /* get the account and explode if necessary */
+    $sposte=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
+    // if 2 accounts, take only the debit one for customer
+    if ( strpos($sposte,',') != 0 ) {
+      $array=explode(',',$sposte);
+      $poste_val=$array[0];
+    } else {
+      $poste_val=$sposte;
+    }
     /* The account exists */
-    $poste=new Acc_Account_Ledger($this->db,$fiche->strAttribut(ATTR_DEF_ACCOUNT));
+
+    $poste=new Acc_Account_Ledger($this->db,$poste_val);
+
     if ( $poste->load() == false ){
       throw new Exception(_('Pour la fiche ').$e_client._(' le poste comptable [').$poste->id._('] n\'existe pas'),9);
     }
@@ -136,7 +147,16 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
 	throw new Exception(_('La fiche ').${'e_march'.$i}._('n\'a pas de poste comptable'),8);
       /* The account exists */
-      $poste=new Acc_Account_Ledger($this->db,$fiche->strAttribut(ATTR_DEF_ACCOUNT));
+      $sposte=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
+
+      // if 2 accounts, take only the credit one
+      if ( strpos($sposte,',') != 0 ) {
+	$array=explode(',',$sposte);
+	$poste_val=$array[1];
+      } else {
+	$poste_val=$sposte;
+      }
+      $poste=new Acc_Account_Ledger($this->db,$poste_val);
       if ( $poste->load() == false ){
 	throw new Exception(_('Pour la fiche ').${'e_march'.$i}._(' le poste comptable [').$poste->id._('n\'existe pas'),9);
       }
@@ -162,11 +182,14 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
   /*!\brief insert into the database, it calls first the verify function,
    * change the value of this->jr_id and this->jr_internal
+   * * It generates the document if gen_invoice is set and save the middle of payment if any ($e_mp)
+   *
    *\param $p_array is usually $_POST or a predefined operation
    *\return string
    *\note throw an Exception
    */
   public function insert($p_array) {
+
     extract ($p_array);
     $this->verify($p_array) ;
 
@@ -187,7 +210,17 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
     $cust=new fiche($this->db);
     $cust->get_by_qcode($e_client);
-    $poste=$cust->strAttribut(ATTR_DEF_ACCOUNT);
+    $sposte=$cust->strAttribut(ATTR_DEF_ACCOUNT);
+    
+    // if 2 accounts, take only the debit one for the customer
+    // 
+    if ( strpos($sposte,',') != 0 ) {
+      $array=explode(',',$sposte);
+      $poste=$array[0];
+    } else {
+      $poste=$sposte;
+    }
+
     bcscale(4);
     try {
       $tot_amount=0;
@@ -207,7 +240,17 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	$tot_amount+=$amount;
 	$acc_operation=new Acc_Operation($this->db);
 	$acc_operation->date=$e_date;
-	$acc_operation->poste=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
+	$sposte=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
+
+	// if 2 accounts, take only the credit one
+	if ( strpos($sposte,',') != 0 ) {
+	  $array=explode(',',$sposte);
+	  $poste_val=$array[1];
+	} else {
+	  $poste_val=$sposte;
+	}
+
+	$acc_operation->poste=$poste_val;
 	$acc_operation->amount=$amount;
 	$acc_operation->grpt=$seq;
 	$acc_operation->jrn=$p_jrn;
@@ -347,7 +390,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	    " jr_grpt_id = ".$seq);
 
     /* Save the attachment or generate doc*/
-    if ( isset ($_FILES)) {
+    if ( isset ($_FILES['pj'])) {
       if ( strlen(trim($_FILES['pj']['name'])) != 0 )
 	$this->db->save_upload_document($seq);
       else
@@ -379,7 +422,17 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       /* Insert paid by  */
       $acc_pay=new Acc_Operation($this->db);
       $acc_pay->date=$e_date;
-      $acc_pay->poste=$acfiche->strAttribut(ATTR_DEF_ACCOUNT);
+      /* get the account and explode if necessary */
+      $sposte=$acfiche->strAttribut(ATTR_DEF_ACCOUNT);
+      // if 2 accounts, take only the debit one for customer
+      if ( strpos($sposte,',') != 0 ) {
+	$array=explode(',',$sposte);
+	$poste_val=$array[0];
+      } else {
+	$poste_val=$sposte;
+      }
+
+      $acc_pay->poste=$poste_val;
       $acc_pay->qcode=$fqcode;
       $acc_pay->amount=abs(round($tot_debit,2));
       $acc_pay->desc=$e_comm;

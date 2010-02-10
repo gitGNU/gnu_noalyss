@@ -48,8 +48,6 @@ if ( !isset($sessid))
   {
     $sessid=$_REQUEST["PHPSESSID"];
   } 
-$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."',".dossier::id().",'class_base','')\">";
-
 
 
 $cn=new Database($gDossier);
@@ -304,7 +302,7 @@ if ( isset ( $_GET["action"]) ) {
     $oFiche_Def=new fiche_def($cn);	
     echo HtmlInput::hidden("p_action","fiche");
     echo dossier::hidden().HtmlInput::phpsessid();
-    echo $oFiche_Def->input($search); //    CreateCategory($cn,$search);
+    echo $oFiche_Def->input(); //    CreateCategory($cn,$search);
     echo HtmlInput::submit("add_modele" ,"Sauve");
     
     echo '</form>';

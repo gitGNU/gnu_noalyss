@@ -32,7 +32,8 @@ require_once("class_ispan.php");
 
 /*!
  * \brief   Show all the available folder  for the users
- *          at the login page
+ *          at the login page. For the special case 'E'
+ *          go directly to extension and bypasse the dashboard
  * \param $p_user user
  * \param $p_admin 1 if admin
  *
@@ -45,25 +46,34 @@ function u_ShowDossier($p_user,$p_admin,$p_filtre="")
 
   $result="";
   if ( $p_array == 0 ) return $result." * Aucun dossier *";
+  $cn=new Database();
+  $user=new User($cn);
+
+
   $result.="<TABLE style=\"width:75%;border-width:0px;border-collapse:collapse;\">";
   for ($i=0;$i<sizeof($p_array);$i++) {
+
     $id=$p_array[$i]['dos_id'];
     $name= $p_array[$i]['dos_name'];
     $desc=$p_array[$i]['dos_description'];
     if ( $i%2 == 0)
       $tr="odd";
     else $tr="even";
-
+    if ( $user->check_dossier($id)!='P') {
+    	$target="access.php?gDossier=$id";
+    } else {
+    	$target="extension.php?gDossier=$id";
+    }
 
     $result.="<TR class=\"$tr\">";
 
     $result.="<TD class=\"$tr\">";
-    $result.="<A class=\"dossier\" HREF=\"access.php?gDossier=$id\">";
+    $result.="<A class=\"dossier\" HREF=\"$target\">";
     $result.=$id."  <B>".h($name)."</B>";
     $result.="</A>";
     $result.="</TD>";
     $desc=($desc=="")?"<i>Aucune description</i>":h($desc);
-    $desc="<A  class=\"dossier\" HREF=\"access.php?gDossier=$id\">".$desc."</a>";
+    $desc="<A class=\"dossier\" HREF=\"$target\">$desc</A>";
     $result.="<TD class=\"$tr\">".$desc;
     $result.="</TD>";
     $result.="</TR>";

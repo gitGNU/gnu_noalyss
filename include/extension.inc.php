@@ -38,11 +38,6 @@ require_once('class_extension.php');
 require_once('class_html_input.php');
 require_once('class_ibutton.php');
 require_once('class_ipopup.php');
-echo js_include('scriptaculous.js');
-echo js_include('prototype.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('dragdrop.js');
 echo js_include('extension.js');
 
 $ipopup=new IPopup('dtext');

@@ -104,8 +104,18 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
       throw new Exception(_('La fiche ').$e_client._('n\'a pas de poste comptable'),8);
 
+    /* get the account and explode if necessary */
+    $sposte=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
+    // if 2 accounts, take only the credit one for supplier
+    if ( strpos($sposte,',') != 0 ) {
+      $array=explode(',',$sposte);
+      $poste_val=$array[1];
+    } else {
+      $poste_val=$sposte;
+    }
+
     /* The account exists */
-    $poste=new Acc_Account_Ledger($this->db,$fiche->strAttribut(ATTR_DEF_ACCOUNT));
+    $poste=new Acc_Account_Ledger($this->db,$poste_val);
     if ( $poste->load() == false ){
       throw new Exception(_('Pour la fiche ').$e_client._(' le poste comptable [').$poste->id.'] '._('n\'existe pas'),9);
     }
@@ -139,8 +149,19 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $fiche->get_by_qcode(${'e_march'.$i});
       if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
 	throw new Exception(_('La fiche ').${'e_march'.$i}._('n\'a pas de poste comptable'),8);
+
+      /* get the account and explode if necessary */
+      $sposte=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
+      // if 2 accounts, take only the  debit
+      if ( strpos($sposte,',') != 0 ) {
+	$array=explode(',',$sposte);
+	$poste_val=$array[0];
+      } else {
+	$poste_val=$sposte;
+      }
+
       /* The account exists */
-      $poste=new Acc_Account_Ledger($this->db,$fiche->strAttribut(ATTR_DEF_ACCOUNT));
+      $poste=new Acc_Account_Ledger($this->db,$poste_val);
       if ( $poste->load() == false ){
 	throw new Exception(_('Pour la fiche ').${'e_march'.$i}._(' le poste comptable').' ['.$poste->id._('n\'existe pas'),9);
       }
@@ -160,8 +181,37 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
   }
 
   /*!\brief insert into the database, it calls first the verify function
-   * change the value of this->jr_id and this->jr_internal
+   * change the value of this->jr_id and this->jr_internal.
+   * It generates the document and save the middle of payment, if 'gen_invoice is set
+   * and e_mp
    *\param $p_array is usually $_POST or a predefined operation
+\verbatim
+   Array
+(
+
+    [e_client] =>BELGACOM
+    [nb_item] =>9
+    [p_jrn] =>3
+    [period] =>117
+    [e_comm] =>Frais de téléphone
+    [e_date] =>01.09.2009
+    [e_ech] =>
+    [jrn_type] =>ACH
+    [e_pj] =>ACH53
+    [e_pj_suggest] =>ACH53
+    [mt] =>1265318941.39
+    [e_mp] =>0
+    [e_march0] =>TEL
+    [e_march0_price] =>63.6700
+    [e_march0_tva_id] =>1
+    [e_march0_tva_amount] =>13.3700
+    [e_quant0] =>1.000
+    ...
+    [bon_comm] =>
+    [other_info] =>
+    [record] =>Enregistrement
+)
+\endverbatim
    *\return string
    *\note throw an Exception
    */
@@ -179,7 +229,15 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 
     $cust=new fiche($this->db);
     $cust->get_by_qcode($e_client);
-    $poste=$cust->strAttribut(ATTR_DEF_ACCOUNT);
+    $sposte=$cust->strAttribut(ATTR_DEF_ACCOUNT);
+    // if 2 accounts, take only the credit Supplier
+    if ( strpos($sposte,',') != 0 ) {
+      $array=explode(',',$sposte);
+      $poste=$array[1];
+    } else {
+      $poste=$sposte;
+    }
+
     $oPeriode=new Periode($this->db);
     $check_periode=$this->check_periode();
 
@@ -276,7 +334,17 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	$acc_amount->correct();
 	$tot_amount+=$amount;
 
-	$acc_operation->poste=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
+	/* get the account and explode if necessary */
+	$sposte=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
+	// if 2 accounts, take only the debit one for customer
+	if ( strpos($sposte,',') != 0 ) {
+	  $array=explode(',',$sposte);
+	  $poste_val=$array[0];
+	} else {
+	  $poste_val=$sposte;
+	}
+
+	$acc_operation->poste=$poste_val;
 	$acc_operation->amount=$acc_amount->amount;
 	$acc_operation->qcode=${"e_march".$i};
 	if( $acc_amount->amount > 0 ) $tot_debit=bcadd($tot_debit,$acc_amount->amount);
@@ -504,7 +572,17 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       /* Insert paid by  */
       $acc_pay=new Acc_Operation($this->db);
       $acc_pay->date=$e_date;
-      $acc_pay->poste=$acfiche->strAttribut(ATTR_DEF_ACCOUNT);
+
+      /* get the account and explode if necessary */
+      $sposte=$acfiche->strAttribut(ATTR_DEF_ACCOUNT);
+      // if 2 accounts, take only the debit one for customer
+      if ( strpos($sposte,',') != 0 ) {
+	$array=explode(',',$sposte);
+	$poste_val=$array[1];
+      } else {
+	$poste_val=$sposte;
+      }
+      $acc_pay->poste=$poste_val;
       $acc_pay->qcode=$fqcode;
       $acc_pay->amount=abs(round($tot_debit,2));
       $acc_pay->desc=$e_comm;
@@ -872,7 +950,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
   // Set correctly the REQUEST param for jrn_type
   $r.= HtmlInput::hidden('jrn_type','ACH');
   $r.= HtmlInput::button('add_item',_('Ajout article'),      ' onClick="ledger_add_row()"');
-  
+
 
 
     /* if we suggest the pj n# the run the script */
@@ -1119,31 +1197,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 
     }
     // check for upload piece
-/**
-*@todo clean dead code
-*/
-    /*    $file=new IFile();
-    $file->table=0;
-    $r.=_("Ajoutez une pièce justificative ");
-    $r.=$file->input("pj","");
-    */
     $r.=HtmlInput::warnbulle(12);
     $r.=$this->extra_info();
-
-    /* Propose to generate a note of fee */
-    if ( $this->db->count_sql("select md_id,md_name from document_modele where md_type=10") > 0 &&
-	 $e_mp != 0)
-      {
-
-
-	$r.=_('ou générer une note de frais').' <input type="checkbox" name="gen_invoice" UNCHECKED>';
-	// We propose to generate  the invoice and some template
-	$doc_gen=new ISelect();
-	$doc_gen->name="gen_doc";
-	$doc_gen->value=$this->db->make_array(
-				   "select md_id,md_name from document_modele where md_type=10");
-	$r.=$doc_gen->input().'<br>';
-      }
 
     return $r;
   }
@@ -1152,7 +1207,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
    * - add a attachment
    * - generate an invoice
    * - insert extra info
-   *\return string
+   *\return html string
    */
   public function extra_info() {
     $r="";
@@ -1164,17 +1219,17 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $r.=_("Ajoutez une pièce justificative ");
     $r.=$file->input("pj","");
 
-    if ( $this->db->count_sql("select md_id,md_name from document_modele where md_type=4") > 0 )
+    if ( $this->db->count_sql("select md_id,md_name from document_modele where md_type=10") > 0 )
       {
 
-
+	$r.='<hr>';
 	$r.=_('ou générer un document').' <input type="checkbox" name="gen_invoice" CHECKED>';
 	// We propose to generate  the note of fee
 	$doc_gen=new ISelect();
 	$doc_gen->name="gen_doc";
 	$doc_gen->value=$this->db->make_array(
 				   "select md_id,md_name ".
-				   " from document_modele where md_type=4");
+				   " from document_modele where md_type=10");
 	$r.=$doc_gen->input().'<br>';
       }
     $r.='<br>';

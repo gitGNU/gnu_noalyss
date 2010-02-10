@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -35,7 +35,7 @@ function hi($p_string) { return '<i>'.htmlspecialchars($p_string).'</i>';}
 function hb($p_string) { return '<b>'.htmlspecialchars($p_string).'</b>';}
 function th($p_string) { return '<th>'.htmlspecialchars($p_string).'</th>';}
 
-/*!\brief surrond the string with td 
+/*!\brief surrond the string with td
 *\param string
 *\param class to use
 * \return string surrounded by td
@@ -43,15 +43,15 @@ function th($p_string) { return '<th>'.htmlspecialchars($p_string).'</th>';}
 function td($p_string,$p_class=''){ return '<td class="'.$p_class.'" >'.$p_string.'</td>';}
 /*!\brief escape correctly php string to javascript */
 function j($p_string) { $a=preg_replace("/\r?\n/", "\\n", addslashes($p_string)); return $a;}
-/*! 
+/*!
  * \brief  log error into the /tmp/phpcompta_error.log it doesn't work on windows
  *
  * \param p_log message
  * \param p_line line number
  * \param p_message is the message
- * 
+ *
  * \return nothing
- *  
+ *
  */
 function echo_error      ($p_log, $p_line="", $p_message="") {
   echo "ERREUR :".$p_log." ".$p_line." ".$p_message;
@@ -62,15 +62,15 @@ function echo_error      ($p_log, $p_line="", $p_message="") {
     echo_debug($p_log,$p_line,$p_message);
   }
 }
- 
-/*! 
+
+/*!
  * \brief  Compare 2 dates
- * \param p_date 
+ * \param p_date
  * \param p_date_oth
- * 
- * \return 
+ *
+ * \return
  *      - == 0 les dates sont identiques
- *      - > 0 date1 > date2 
+ *      - > 0 date1 > date2
  *      - < 0 date1 < date2
  */
 function cmpDate ($p_date,$p_date_oth) {
@@ -88,12 +88,12 @@ function cmpDate ($p_date,$p_date_oth) {
   // si $p_date > $p_date_oth return > 0
   return $l_mkdate-$l2_mkdate;
 }
-/*! 
+/*!
  * \brief check if the argument is a number
  *
  * \param $p_int number to test
  *
- * \return 
+ * \return
  *        - 1 it's a number
  *        - 0 it is not
  */
@@ -107,16 +107,16 @@ function isNumber(&$p_int) {
 
 }
 
-/*! 
+/*!
  * \brief Verifie qu'une date est bien formaté
  *           en d.m.y et est valable
  * \param $p_date
- *	
+ *
  * \return
  *	- null si la date est invalide ou malformaté
  *      - $p_date si tout est bon
  *
- */ 
+ */
 
 function isDate ( $p_date) {
   if ( strlen (trim($p_date)) == 0 ) return null;
@@ -141,9 +141,9 @@ function isDate ( $p_date) {
   }// !ereg
   return $p_date;
 }
-/*! 
+/*!
  * \brief Default page header for each page
- *        
+ *
  * \param p_theme default theme
  * \param $p_script
  * \param $p_script2  another js script
@@ -151,13 +151,13 @@ function isDate ( $p_date) {
  * \return none
  */
 function html_page_start($p_theme="",$p_script="",$p_script2="")
-{	
+{
 
  $cn=new Database();
  if ( $p_theme != "") {
    $Res=$cn->exec_sql("select the_filestyle from theme
                    where the_name='".$p_theme."'");
-    if (Database::num_row($Res)==0) 
+    if (Database::num_row($Res)==0)
       $style="style.css";
     else {
       $s=Database::fetch_array($Res,0);
@@ -172,7 +172,7 @@ function html_page_start($p_theme="",$p_script="",$p_script2="")
  if ( $p_script2 != "" )
    $p_script2='<script src="'.$p_script2.'" type="text/javascript"></script>';
 
- echo "<HEAD> 
+ echo "<HEAD>
       <TITLE>PhpCompta</TITLE>
       <META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF8\">
       <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$style\" media=\"screen\">
@@ -198,9 +198,9 @@ function html_page_start($p_theme="",$p_script="",$p_script2="")
  }
 
 }
-/*! 
+/*!
  * \brief Minimal  page header for each page, used for small popup window
- *        
+ *
  * \param p_theme default theme
  * \param $p_script
  * \param $p_script2  another js script
@@ -208,13 +208,13 @@ function html_page_start($p_theme="",$p_script="",$p_script2="")
  * \return none
  */
 function html_min_page_start($p_theme="",$p_script="",$p_script2="")
-{	
+{
 
  $cn=new Database();
  if ( $p_theme != "") {
    $Res=$cn->exec_sql("select the_filestyle from theme
                    where the_name='".$p_theme."'");
-    if (Database::num_row($Res)==0) 
+    if (Database::num_row($Res)==0)
       $style="style.css";
     else {
       $s=Database::fetch_array($Res,0);
@@ -230,7 +230,7 @@ function html_min_page_start($p_theme="",$p_script="",$p_script2="")
  if ( $p_script2 != "" )
    $p_script2='<script src="'.$p_script2.'" type="text/javascript"></script>';
 
- echo "<HEAD> 
+ echo "<HEAD>
       <TITLE>PhpCompta</TITLE>
       <META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF8\">
       <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$style\" media=\"screen\">
@@ -248,31 +248,31 @@ function html_min_page_start($p_theme="",$p_script="",$p_script2="")
 
 }
 
-/*! 
- * \brief end tag 
- *        
+/*!
+ * \brief end tag
+ *
  */
 function html_page_stop()
 {
 	echo "</BODY>";
 	echo "</HTML>";
 }
-/*! 
- * \brief Echo no access and stop 
- *        
+/*!
+ * \brief Echo no access and stop
+ *
  * \return nothing
  */
 
 
-function NoAccess($js=1) 
+function NoAccess($js=1)
 {
-  if ( $js == 1 ) 
+  if ( $js == 1 )
     {
       echo "<script>";
       echo "alert ('"._('Cette action ne vous est pas autorisée Contactez votre responsable')."');";
       echo "</script>";
     }
-  else 
+  else
     {
       echo '<div class="u_redcontent">';
       echo '<h2 class="error">'._(' Cette action ne vous est pas autorisée Contactez votre responsable').'</h2>';
@@ -280,13 +280,13 @@ function NoAccess($js=1)
     }
       exit -1;
 }
-/*! 
+/*!
  * \brief Fix the problem with the quote char for the database
- *        
- * \param $p_string 
+ *
+ * \param $p_string
  * \return a string which won't let strange char for the database
  */
-function FormatString($p_string) 
+function FormatString($p_string)
 {
   $p_string=trim($p_string);
   if (strlen($p_string) == 0 ) return null;
@@ -296,10 +296,10 @@ function FormatString($p_string)
   return $p_string;
 }
 
-/*! 
-/* \brief store the string which print 
- *           the content of p_array in a table 
- *           used to display the menu 
+/*!
+/* \brief store the string which print
+ *           the content of p_array in a table
+ *           used to display the menu
  * \param  $p_array array like ( HREF reference, visible item (name),Help(opt),
  * selected (opt)
  * \param $p_dir direction of the menu (H Horizontal  V vertical)
@@ -317,9 +317,9 @@ function ShowItem($p_array,$p_dir='V',$class="mtitle",$class_ref="mtitle",$defau
     foreach ($p_array as $all=>$href){
       $title="";
       $set="XX";
-      if ( isset ($href[2] )) 
+      if ( isset ($href[2] ))
 		$title=$href[2];
-      if ( isset($href[3] )) 
+      if ( isset($href[3] ))
 	$set=$href[3];
 
       if ( $set == $default )
@@ -336,7 +336,7 @@ function ShowItem($p_array,$p_dir='V',$class="mtitle",$class_ref="mtitle",$defau
       $title="";
 
 	  $set="A";
-      if ( isset ($href[2] )) 
+      if ( isset ($href[2] ))
 		$title=$href[2];
 
 	  if ( isset($href[3]))
@@ -356,31 +356,31 @@ function ShowItem($p_array,$p_dir='V',$class="mtitle",$class_ref="mtitle",$defau
     $ret.="</TABLE>";
   return $ret;
 }
-/*! 
+/*!
  * \brief warns
- *        
+ *
  * \param p_string error message
  * gen :
  *	- none
  * \return:
  *      - none
  */
-function echo_warning($p_string) 
+function echo_warning($p_string)
 {
   echo '<H2 class="info">'.$p_string."</H2>";
 }
-/*! 
+/*!
  * \brief Show the periode which found thanks its id
- *           
- *        
- * \param  $p_cn database connection 
+ *
+ *
+ * \param  $p_cn database connection
  * \param p_id
  * \param pos Start or end
  *
  * \return: string
  */
 function getPeriodeName($p_cn,$p_id,$pos='p_start') {
-  if ( $pos != 'p_start' and 
+  if ( $pos != 'p_start' and
        $pos != 'p_end')
     echo_error('ac_common.php'."-".__LINE__.'  UNDEFINED PERIODE');
   $ret=$p_cn->get_value("select to_char($pos,'Mon YYYY') as t from parm_periode where p_id=$p_id");
@@ -388,10 +388,10 @@ function getPeriodeName($p_cn,$p_id,$pos='p_start') {
 }
 
 
-/*! 
- * \brief Return the period corresponding to the 
+/*!
+ * \brief Return the period corresponding to the
  *           date
- *        
+ *
  * \param p_cn database connection
  * \param p_date the month + year 'MM.YYYY'
  *
@@ -401,7 +401,7 @@ function getPeriodeName($p_cn,$p_id,$pos='p_start') {
 function getPeriodeFromMonth($p_cn,$p_date) {
   $R=$p_cn->get_value("select p_id from parm_periode where
               to_char(p_start,'DD.MM.YYYY') = '01.$p_date'");
-  if ( $R == "" ) 
+  if ( $R == "" )
     return -1;
   return $R;
 }
@@ -422,13 +422,13 @@ function Decode($p_html){
  * \param $p_from start date (date)
  * \param $p_to  end date (date)
  * \param $p_form if the p_from and p_to are date or p_id
- * \param $p_field column name 
+ * \param $p_field column name
  * \return a string containg the query
  */
 function sql_filter_per($p_cn,$p_from,$p_to,$p_form='p_id',$p_field='jr_tech_per')
 {
 
-  if ( $p_form != 'p_id' && 
+  if ( $p_form != 'p_id' &&
        $p_form != 'date' )
     {
       echo_error (__FILE__,__LINE__,'Mauvais parametres ');
@@ -444,22 +444,22 @@ function sql_filter_per($p_cn,$p_from,$p_to,$p_form='p_id',$p_field='jr_tech_per
 		throw new Exception(__FILE__.__LINE__.'Attention periode '.
 			' non trouvee periode p_from='.$p_from.
 			'p_to_periode = '.$p_to);
-		
+
 
       $p_from=$a_start['p_start'];
       $p_to=$a_end['p_end'];
-    } 
-  if ( $p_from == $p_to ) 
+    }
+  if ( $p_from == $p_to )
     $periode=" $p_field = (select p_id from parm_periode ".
       " where ".
-      " p_start = to_date('$p_from','DD.MM.YYYY')) ";   
+      " p_start = to_date('$p_from','DD.MM.YYYY')) ";
   else
     $periode = "$p_field in (select p_id from parm_periode ".
       " where p_start >= to_date('$p_from','DD.MM.YYYY') and p_end <= to_date('$p_to','DD.MM.YYYY')) ";
   return $periode;
 }
 
-/*!\brief alert in javascript 
+/*!\brief alert in javascript
  *\param $p_msg is the message
  *\param $buffer if false, echo directly and execute the javascript, if $buffer is true, the alert javascript
  * is in the return string
@@ -482,7 +482,7 @@ function alert($p_msg,$buffer=false)
 function set_language() {
    $dir="";
    $dir=setlocale(LC_MESSAGES,$_SESSION['g_lang']);
-   
+
    if ( $dir == "") {
      $dir=setlocale(LC_MESSAGES,"fr_FR.utf8");
      echo '<span class="notice">'.$_SESSION['g_lang'].'domaine non supporté</h2>';

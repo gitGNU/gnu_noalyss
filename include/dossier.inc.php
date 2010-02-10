@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -20,7 +20,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
 * \brief Management of the folder
  *
  */
@@ -70,13 +70,13 @@ if ( isset ($_POST["DATABASE"]) ) {
 	   ' deux fois le même nom de dossier');
     alert($msg);;
     echo_debug(__FILE__.':'.__LINE__.'- echec ','Echec creation ',$e);
-    $l_id=0;	
+    $l_id=0;
     $cn->rollback();
-    
+
   }
   // If the id is not null, name successfully inserted
   // Database created
-  
+
   if ( $l_id != 0) {
 	//--
 	// setting the year
@@ -87,7 +87,7 @@ if ( isset ($_POST["DATABASE"]) ) {
 	    echo "$year"._(" est une année invalide");
 	    $Res=$cn->exec_sql("delete from ac_dossier where dos_id=$l_id");
 	  }
-	else 
+	else
 	  {
 	    $Sql=sprintf("CREATE DATABASE %sDOSSIER%d encoding='UTF8' TEMPLATE %sMOD%d",
 			 domaine,
@@ -111,7 +111,7 @@ if ( isset ($_POST["DATABASE"]) ) {
 	    $cn=new Database($l_id);
 	    //--year --
 	    $Res=$cn->exec_sql("delete from parm_periode");
-	    if ( ($year % 4 == 0 && $year % 100 != 0) || $year % 400 == 0 )  
+	    if ( ($year % 4 == 0 && $year % 100 != 0) || $year % 400 == 0 )
 	      $fev=29;
 	    else
 	      $fev=28;
@@ -119,7 +119,7 @@ if ( isset ($_POST["DATABASE"]) ) {
 	    $Res=$cn->exec_sql("delete from user_local_pref where parameter_type='PERIODE'");
 	    $nb_day=array(31,$fev,31,30,31,30,31,31,30,31,30,30);
 	    $m=1;
-	    foreach ($nb_day as $day) 
+	    foreach ($nb_day as $day)
 	      {
 			$p_start=sprintf("01-%d-%s",$m,$year);
 			$p_end=sprintf("%d-%d-%s",$day,$m,$year);
@@ -137,7 +137,7 @@ if ( isset ($_POST["DATABASE"]) ) {
 	      "select p_id,jrn_def_id, 'OP'".
 	      " from parm_periode cross join jrn_def";
 	    $Res=$cn->exec_sql($sql);
-	
+
 
 	  }
       } // if $l_id != 0
@@ -145,7 +145,7 @@ if ( isset ($_POST["DATABASE"]) ) {
 ?>
    <h2> Dossier Management</h2>
 
-<?php  
+<?php
     $cn=new Database();
 //---------------------------------------------------------------------------
 // List of folder
@@ -156,9 +156,9 @@ if ( $sa == 'list' ) {
   $offset=(isset($_REQUEST['offset']))?$_REQUEST['offset']:0;
   $page=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
   $count=$cn->get_value("select count(*) from ac_dossier");
-  $size=10; 
+  $size=10;
 
-    echo jrn_navigation_bar($offset,$count,$size,$page); 
+    echo jrn_navigation_bar($offset,$count,$size,$page);
     $repo=new Dossier(0);
     $Res=$repo->show_dossier('all',$offset,$size);
     $compteur=1;
@@ -169,8 +169,8 @@ if ( $sa == 'list' ) {
     // show all dossiers
     if ( $Res != null ) {
       foreach ( $Res as $Dossier) {
-	
-	if ( $compteur%2 == 0 ) 
+
+	if ( $compteur%2 == 0 )
 	  $cl='class="odd"';
 	else
 	  $cl='class="even"';
@@ -188,18 +188,18 @@ if ( $sa == 'list' ) {
 	echo '<td>'.HtmlInput::button_anchor(_('Backup'),'backup.php?action=backup&sa=b&t=d&d='
 					     .$Dossier['dos_id']).
 	  '</td>';
-	
+
 	echo '<tr>';
-	$compteur++; 
-	
+	$compteur++;
+
       }
 
       echo "</TR>";
-      
+
     }
     echo '</table>';
-    
-   echo jrn_navigation_bar($offset,$count,$size,$page); 
+
+   echo jrn_navigation_bar($offset,$count,$size,$page);
 
    }
 
@@ -207,10 +207,10 @@ if ( $sa == 'list' ) {
 // Add a new folder
  if ( $sa == 'add' ) {
    // Load the available Templates
-   $Res=$cn->exec_sql("select mod_id,mod_name,mod_desc from 
+   $Res=$cn->exec_sql("select mod_id,mod_name,mod_desc from
                       modeledef order by mod_name");
    $count=Database::num_row($Res);
-   
+
    if ( $count == 0 ) {
      echo _("pas de modèle disponible");
    } else {
@@ -222,7 +222,7 @@ if ( $sa == 'list' ) {
      $template.="</SELECT>";
    }// if count = 0
    $m_date=date('Y');
-   
+
 ?>
 
 </TABLE>
@@ -237,7 +237,7 @@ if ( $sa == 'list' ) {
 <TR> <TD><?php echo _('Modèle'); ?></td><td>  <?php   echo $template; ?> </TD></TR>
 <TR><TD>Année </TD><TD><input type="text" size=4 name="YEAR" value=<?php  echo '"'.$m_date.'"'; ?>></TD></TR>
     <TR>
-   <TD> <INPUT TYPE=SUBMIT VALUE="<?php echo _('Creation Dossier'); ?>" </TD>
+   <TD> <INPUT TYPE=SUBMIT VALUE="<?php echo _('Creation Dossier'); ?>"> </TD>
 <td>
     <?php  echo HtmlInput::button_anchor(_('Retour'),'admin_repo.php?action=dossier_mgt'); ?>
 </td>
@@ -304,7 +304,7 @@ if ( $sa == 'remove' ) {
    ob_start();
    if ( $cn->exec_sql($sql)==false) {
      ob_end_clean();
-     
+
      echo "<h2 class=\"error\"> ";
      echo _('Base de donnée ').domaine."dossier".$_REQUEST['d'].
 _("est accèdée, déconnectez-vous d'abord")."</h2>";

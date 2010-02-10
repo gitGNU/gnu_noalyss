@@ -35,7 +35,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 		// first line is skipped
 		if ( $row > 1) {
 		$code=""; $date_exec=""; $detail=""; $montant=""; 
-		list($code, $date_exec, $detail, $montant) = split(";", $data[$c]);
+		list($code, $date_exec, $detail, $montant) = explode(";", $data[$c]);
 		
 		$date_exec = str_replace("\t", "", $date_exec);
 		$date_exec = str_replace(" ", "", $date_exec);

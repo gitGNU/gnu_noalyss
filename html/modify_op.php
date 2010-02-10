@@ -215,7 +215,7 @@ if ( isset($_POST['update_record']) ) {
 
 	  if ( strpos($_POST['rapt'],',') != 0 )
 	    {
-	      $aRapt=split(',',$_POST['rapt']);
+	      $aRapt=explode(',',$_POST['rapt']);
 	      /* reconcialition */
 
 	      foreach ($aRapt as $rRapt) {

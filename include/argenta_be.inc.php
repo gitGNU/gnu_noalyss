@@ -34,7 +34,7 @@ while (($data = fgetcsv($handle, 2000,"!")) !== FALSE) {
 	$num = count($data);
 	for ($c=0; $c < $num; $c++) {
 	  if ( $line==1) {
-	    $row=split(';',$data[$c]);
+	    $row=explode(';',$data[$c]);
 	    $num_compte=$row[1];
 	  }
 	  if ( $line < 2 )
@@ -42,7 +42,7 @@ while (($data = fgetcsv($handle, 2000,"!")) !== FALSE) {
 //-----------------------------------------------------
 // Parsing CSV comes here
 //-----------------------------------------------------
-	  $row=split(';',$data[$c]);
+	  $row=explode(';',$data[$c]);
 	  echo 'ici sizeof $row = '.sizeof($row);
 	  echo_debug('argenta',__LINE__,'$row = '.var_export($row,true));
 	  echo_debug('argenta',__LINE__,'sizeof($row)'.sizeof($row));

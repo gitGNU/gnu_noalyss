@@ -243,7 +243,7 @@ function get_solde_detail($p_cond="") {
        {
 	 if ( $line_tva['tva_poste']  == '' )
 	   continue;
-	 list($tva_deb,$tva_cred)=split(',',$line_tva['tva_poste']);
+	 list($tva_deb,$tva_cred)=explode(',',$line_tva['tva_poste']);
 	 if ( $this->id == $tva_deb ||
 	      $this->id == $tva_cred )
 	   {
@@ -368,7 +368,7 @@ function get_solde_detail($p_cond="") {
    if ( trim ($filter) == '')
      return 0;
 
-    $valid_cred=split(" ",$filter);
+    $valid_cred=explode(" ",$filter);
     $sql="select count(*) as poste from tmp_pcmn where ";
     // Creation query
     $or="";
@@ -403,7 +403,7 @@ function get_solde_detail($p_cond="") {
    $l=new Acc_Ledger($this->db,$p_jrn);
    $row=$l->get_propertie();
    if ( strlen(trim($row['jrn_def_class_deb'])) == 0 ) return array();
-   $valid_account=split(" ",$row['jrn_def_class_deb']);
+   $valid_account=explode(" ",$row['jrn_def_class_deb']);
    return $valid_account;
  }
   /*!\brief build a sql statement thanks a array found with get_account_ledger

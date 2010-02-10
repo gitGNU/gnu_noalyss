@@ -20,8 +20,8 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
- * \brief Html Input 
+/*!\file
+ * \brief Html Input
  */
 require_once('class_iselect.php');
  class ITva_Select extends ISelect
@@ -39,15 +39,18 @@ require_once('class_iselect.php');
     $this->value=$select_tva;
     $r=parent::input();
     return $r;
-	  
+
   }
   /*!\brief print in html the readonly value of the widget*/
   public function display()
   {
-    throw new Exception ("Pas de function display pour la TVA",1);
+   $select_tva=$this->db->make_array("select tva_id,tva_label from tva_rate order by tva_label asc",0);
+    $this->value=$select_tva;
+    $r=parent::display();
+    return $r;
   }
   static public function test_me()
   {
-    
+
   }
 }

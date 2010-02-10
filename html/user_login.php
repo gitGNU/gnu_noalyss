@@ -77,7 +77,6 @@ $result.='<TR>';
 if ( $User->Admin()  == 1 ) {
   $result.="<TD  class=\"cell\" ><A class=\"cell\" HREF=\"admin_repo.php\"> Administration  </A></TD>";
 }
-$result.='<TD  class="cell" ><A class="cell" HREF="manuel-fr.pdf" >'._('Aide').' </a></TD>';
 $result.='<TD class="cell"><A class="cell" HREF="user_pref.php">'._('Préférence').'</a></TD>';
 $result.='<TD  class="cell" ><A class="cell" HREF="logout.php" >'._('Deconnexion').'</a></TD>';
 $result.="</TR>";

@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -37,27 +37,27 @@ $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
 // if this page is called from another menu (customer, supplier,...)
 // a button back is added
 // TODO add function for generating url, hidden tags...
-if ( isset ($_REQUEST['url'])) 
+if ( isset ($_REQUEST['url']))
 {
   $retour=HtmlInput::button_anchor('Retour',urldecode($_REQUEST['url']));
 
      $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
 }
-else 
-{ 
+else
+{
      $retour="";
      $h_url="";
 }
 
 // Menu
 // Remove a card
-if ( isset ($_POST['delete']) ) 
+if ( isset ($_POST['delete']) )
 {
   $f_id=$_REQUEST['f_id'];
 
   $fiche=new contact($cn,$f_id);
   $fiche->remove();
-  $sub_action="list"; 
+  $sub_action="list";
 }
 //-----------------------------------------------------
 // Add card
@@ -75,7 +75,7 @@ if ( $sub_action=="insert" )
 
 //-----------------------------------------------------
 // Save modification
-if ( isset ($_POST['mod'])) 
+if ( isset ($_POST['mod']))
 {
   // modification is asked
   $f_id=$_REQUEST['f_id'];
@@ -85,11 +85,11 @@ if ( isset ($_POST['mod']))
   $sub_action="list";
 }
 // by default open liste
-if ( $sub_action  == "" ) 
+if ( $sub_action  == "" )
       $sub_action="list";
 //-----------------------------------------------------
-//Display a blank card 
-if ( $sub_action=="blank") 
+//Display a blank card
+if ( $sub_action=="blank")
 {
   $retour_action=HtmlInput::button_anchor('Retour', "commercial.php?p_action=contact&$str_dossier");
 
@@ -118,7 +118,7 @@ if ( $sub_action == "list" )
 <span>
 <form method="get" action="commercial.php">
 <?php
-	echo dossier::hidden();  
+	echo dossier::hidden();
    $a=(isset($_GET['query']))?$_GET['query']:"";
    printf ('<input type="text" name="query" value="%s">',
 	   $a);
@@ -130,7 +130,7 @@ if ( $sub_action == "list" )
 
 <form>
 <?php
-   echo dossier::hidden();  
+   echo dossier::hidden();
    $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
  echo JS_LEDGER;
  $w=new ICard();
@@ -156,10 +156,10 @@ if ( $sub_action == "list" )
 <span>
 <form method="get" action="commercial.php">
    <? echo dossier::hidden(); ?>
-<input type="hidden" name="url" <?php        $url=urlencode($_SERVER['REQUEST_URI']);echo 'value="'.$url.'"'; ?>
+<input type="hidden" name="url" <?php        $url=urlencode($_SERVER['REQUEST_URI']);echo 'value="'.$url.'"'; ?>>
 <input type="hidden" name="p_action" value="contact">
 
-<?php  
+<?php
  $w=new ISelect();
  $w->name="fd_id";
  $w->value= $cn->make_array("select fd_id,fd_label from fiche_def where ".
@@ -178,7 +178,7 @@ if ( $sub_action == "list" )
 
 </form>
 </span>
-<?php  
+<?php
    $contact=new Contact($cn);
  $search=(isset($_GET['query']))?$_GET['query']:"";
  // check if a company is asked if yes, add a condition
@@ -202,7 +202,7 @@ if ( $sub_action == 'detail' )
   echo '<div class="u_redcontent">';
   $contact=new contact($cn,$f_id);
   echo $retour;
-  echo '<form action="'.$_SERVER['REQUEST_URI'].'" method="post">'; 
+  echo '<form action="'.$_SERVER['REQUEST_URI'].'" method="post">';
   echo dossier::hidden();
   echo $contact->Display(false);
   $w=new IHidden();

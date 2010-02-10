@@ -41,7 +41,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 			
 			
 				
-			list($code, $date_exec, $date_valeur, $montant, $devise, $compte_ordre, $detail, $num_compte) = split(";", $data[$c]);
+			list($code, $date_exec, $date_valeur, $montant, $devise, $compte_ordre, $detail, $num_compte) = explode(";", $data[$c]);
 			echo "line : $row > ".$data[$c]."<hr>";
 		
 			//corrige un bug de date

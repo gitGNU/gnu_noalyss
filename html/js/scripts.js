@@ -74,10 +74,11 @@ function refresh_window() {
 }
 
 /**
+ *@fn encodeJSON(obj)
  *@brief we receive a json object as parameter and the function returns the string
  *       with the format variable=value&var2=val2...
  */
-var encodeJSON=function(obj) {
+function encodeJSON(obj) {
 	if (typeof obj != 'object') {alert('encodeParameter  obj n\'est pas  un objet');}
 	try{
 		var str='';var e=0;
@@ -89,10 +90,10 @@ var encodeJSON=function(obj) {
 		return str;
 	} catch(e){alert('encodeParameter '+e.message);}
 }
-var hide=function(p_param){
+function  hide(p_param){
   g(p_param).style.display='none';
 }
-var show=function(p_param){
+function show(p_param){
   g(p_param).style.display='block';
 }
 
@@ -215,8 +216,9 @@ function unescape_xml(code_html) {
 function getNodeText(xmlNode)  
  {  
      if(!xmlNode) return '';  
-     if(typeof(xmlNode.textContent) != "undefined") return xmlNode.textContent;  
-     return xmlNode.firstChild.nodeValue;  
+     if(typeof(xmlNode.textContent) != "undefined") { return xmlNode.textContent;  }
+     if ( xmlNode.firstChild && xmlNode.firstChild.nodeValue )     return xmlNode.firstChild.nodeValue;  
+     return "";
  } 
 /**
  *@brief change the periode in the calendar of the dashboard
@@ -248,6 +250,7 @@ function change_month_success(req) {
 
 
 }
+function loading() { return '<image src="image/loading.gif" alt="chargement"></image>';}
 
 function ajax_misc_failure() {
     alert('Ajax Misc failed');

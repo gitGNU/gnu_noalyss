@@ -36,7 +36,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 	if ( $row > 1 ) {
 		
 		$code=""; $date_exec=""; $date_valeur=""; $montant=""; $devise=""; $compte_ordre=""; $detail=""; $num_compte=""; $iduser="";
-		list($num_compte, $code, $date_exec, $date_valeur, $montant, $devise, $montant2, $devise2, $rubriques, $detail, $zzz, $zzz, $date_comptable) = split(";", $data[$c]);
+		list($num_compte, $code, $date_exec, $date_valeur, $montant, $devise, $montant2, $devise2, $rubriques, $detail, $zzz, $zzz, $date_comptable) = explode(";", $data[$c]);
 		
 		# Bug CSV ING : "424 au lieu de 424
 #"

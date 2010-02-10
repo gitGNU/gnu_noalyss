@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -26,7 +26,7 @@
 
 
 //-----------------------------------------------------
-// Bank DEXIA 
+// Bank DEXIA
 //-----------------------------------------------------
 $LinesSkipped=0;
 $LinesImported=0;
@@ -44,7 +44,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 
 	echo_debug('dexia_be',__LINE__,'$row = '.var_export($row,true));
 	echo_debug('dexia_be',__LINE__,'sizeof($row)'.sizeof($row));
-	$row=split(';',$data[0]);
+	$row=explode(';',$data[0]);
 	//to avoid a level of if
 	if (!(isset($row[2]))) $row[2]='';
 
@@ -53,9 +53,9 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 	if (  $row[2] == '' || !(ereg('[0-9]{3}-[0-9]{7}-[0-9]{2}',$row[0],$r)))
 			{
 		 	$LinesSkipped++;
-			continue; 
+			continue;
 			}
-	// Alternative filter : import all the operations even without a reference 
+	// Alternative filter : import all the operations even without a reference
 	// !! Disable check of doubles as all the unreferenced operations have hte smae 'NULL' reference
 	// Just use the following test : if ( !(ereg('[0-9]{3}-[0-9]{7}-[0-9]{2}',$row[0],$r)))
 
@@ -67,24 +67,24 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 	$ref_extrait=$row[2];			        // Operation reference
 	$devise=$row[10];				// Curency used
 	$compte_ordre=$row[0];				// Your own bank account
-	$detail=trim($row[4]).' '.trim($row[5]).' '.trim($row[6]).' '.trim($row[7]); 
+	$detail=trim($row[4]).' '.trim($row[5]).' '.trim($row[6]).' '.trim($row[7]);
 										//Details-Communicaion
 
 //----------------------------------------------------
 // Skip dubbel
 //----------------------------------------------------
-	$Sql="select * from import_tmp where code='$ref_extrait' and compte_ordre='$compte_ordre' limit 2";  
+	$Sql="select * from import_tmp where code='$ref_extrait' and compte_ordre='$compte_ordre' limit 2";
 	if ( $p_cn->count_sql(utf8_encode($Sql)) > 0)
 	{
 		/* Skip it it already encoded */
 		echo "Double skipped : $ref_extrait $detail <BR>";
 		$LinesDup++;
 		continue;
-		}
-	
-	  
+	}
+
+
 //--------------------------------------------------------------------
-// SQL request to insert into import_tmp 
+// SQL request to insert into import_tmp
 // Adapt the format of the import's date in the ** to_date ** function
 //--------------------------------------------------------------------
 			$Sql="insert into import_tmp (code,
@@ -99,11 +99,11 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 				jrn,
 				status)
 			values ( '$ref_extrait',
-				to_date('$date_exec','DD/MM/YYYY'),		
-				to_date('$date_val' ,'DD/MM/YYYY'),	
+				to_date('$date_exec','DD/MM/YYYY'),
+				to_date('$date_val' ,'DD/MM/YYYY'),
 				$montant,
 				'$devise',
-				'" . addslashes($compte_ordre). "',	
+				'" . addslashes($compte_ordre). "',
 				'".addslashes($detail)."','" .$num_compte."	',
 				'$p_bq_account',
 				$p_jrn,
@@ -123,14 +123,12 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 //-----------------------------------------------------
 // The import is OK
 //-----------------------------------------------------
+			$LinesImported++;
+			$row++;
+			echo "Record imported: $ref_extrait $detail <BR>";
 
-			else {
-				$LinesImported++;
-				$row++;
-				echo "Record imported: $ref_extrait $detail <BR>";
-				}
 
-} 
+}
 //-----------------------------------------------------
 // Close and summary
 //-----------------------------------------------------

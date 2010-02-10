@@ -4,6 +4,8 @@ BODY {
  background-color:#C2D4D7;
  font-size:0.7em;
  font-family:Arial, Helvetica, sans-serif;
+ padding:0;
+ margin:0;
 }
 .notice {
 		color:red;
@@ -600,12 +602,12 @@ div.popup_border_notitle {
 
 div.popup_content {
 	position:absolute;
-	top:10%;
+	top:5%;
 	bottom:0;
 	left:0;
 	right:0;
 	width:100%;
-	height:90%;
+	height:95%;
 	overflow: auto;
 	background-color:lightblue;	
 	font-size:12px ;

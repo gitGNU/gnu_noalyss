@@ -231,6 +231,17 @@ class ICard extends HtmlInput
    *   - typecard (deb, cred, filter or list of value)
    * will be set
    * if ICard is in readOnly, the button disappears, so the return string is empty
+\code
+    // search ipopup
+$search_card=new IPopup('ipop_card');
+$search_card->title=_('Recherche de fiche');
+$search_card->value='';
+echo $search_card->input();
+
+$a=new ICard('test');
+$a->search();
+
+\endcode
    *\see ajax_card.php
    *\note the ipopup id is hard coded : ipop_card
    *@return HTML string with the button

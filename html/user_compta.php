@@ -39,9 +39,9 @@ echo_debug('user_compta.php',__LINE__,"user is ".$_SESSION['g_user']);
 
 // Get The priv on the selected folder
 if ( $User->admin == 0 && $User->is_local_admin(dossier::id()) == 0 ) {
-  
+
   $r=$User->get_folder_access($gDossier);
-  if ($r == 'X' ){
+  if ($r == 'X' ||$r=='P'){
     /* Cannot Access */
     NoAccess(1);
   }

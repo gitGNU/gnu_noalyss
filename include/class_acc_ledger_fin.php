@@ -95,8 +95,19 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
       throw new Exception('La fiche '.$e_bank_account.'n\'a pas de poste comptable',8);
 
+    /* get the account and explode if necessary */
+    $sposte=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
+    // if 2 accounts, take only the debit one for customer
+    if ( strpos($sposte,',') != 0 ) {
+      $array=explode(',',$sposte);
+      $poste_val=$array[0];
+    } else {
+      $poste_val=$sposte;
+    }
+
+    $acc_pay=new Acc_Operation($this->db);
     /* The account exists */
-    $poste=new Acc_Account_Ledger($this->db,$fiche->strAttribut(ATTR_DEF_ACCOUNT));
+    $poste=new Acc_Account_Ledger($this->db,$poste_val);
     if ( $poste->load() == false ){
       throw new Exception('Pour la fiche '.$e_bank_account.' le poste comptable ['.$poste->id.'] n\'existe pas',9);
     }
@@ -126,8 +137,17 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       $fiche->get_by_qcode(${'e_other'.$i});
       if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
 	throw new Exception('La fiche '.${'e_other'.$i}.'n\'a pas de poste comptable',8);
+
+      $sposte=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
+      // if 2 accounts, take only the debit one for customer
+      if ( strpos($sposte,',') != 0 ) {
+	$array=explode(',',$sposte);
+	$poste_val=$array[1];
+      } else {
+	$poste_val=$sposte;
+      }
       /* The account exists */
-      $poste=new Acc_Account_Ledger($this->db,$fiche->strAttribut(ATTR_DEF_ACCOUNT));
+      $poste=new Acc_Account_Ledger($this->db,$poste_val);
       if ( $poste->load() == false ){
 	throw new Exception('Pour la fiche '.${'e_other'.$i}.' le poste comptable ['.$poste->id.'n\'existe pas',9);
       }
@@ -554,7 +574,16 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $exercice=$pPeriode->get_exercice();
 
     $filter_year="  j_tech_per in (select p_id from parm_periode where  p_exercice='".$exercice."')";
-    $acc_account=new Acc_Account_Ledger($this->db,$fBank->strAttribut(ATTR_DEF_ACCOUNT));
+    $sposte=$fBank->strAttribut(ATTR_DEF_ACCOUNT);
+    // if 2 accounts, take only the debit one for customer
+    if ( strpos($sposte,',') != 0 ) {
+      $array=explode(',',$sposte);
+      $poste_val=$array[0];
+    } else {
+      $poste_val=$sposte;
+    }
+
+    $acc_account=new Acc_Account_Ledger($this->db,$poste_val);
     $solde=$acc_account->get_solde($filter_year);
     $new_solde=$solde;
     
@@ -580,7 +609,20 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 
 	  $acc_operation=new Acc_Operation($this->db);
 	  $acc_operation->date=$e_date;
-	  $acc_operation->poste=$fPoste->strAttribut(ATTR_DEF_ACCOUNT);
+	  $sposte=$fPoste->strAttribut(ATTR_DEF_ACCOUNT);
+	  // if 2 accounts
+	  if ( strpos($sposte,',') != 0 ) {
+	    $array=explode(',',$sposte);
+	    if ( ${"e_other$i"."_amount"} < 0 )
+	      $poste_val=$array[0];
+	    else
+	      $poste_val=$array[1];
+	  } else {
+	    $poste_val=$sposte;
+	  }
+	  
+	  
+	  $acc_operation->poste=$poste_val;
 	  $acc_operation->amount=${"e_other$i"."_amount"}*(-1);
 	  $acc_operation->grpt=$seq;
 	  $acc_operation->jrn=$p_jrn;
@@ -600,7 +642,20 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 
 	  $acc_operation=new Acc_Operation($this->db);
 	  $acc_operation->date=$e_date;
-	  $acc_operation->poste=$fBank->strAttribut(ATTR_DEF_ACCOUNT);
+	  $sposte=$fBank->strAttribut(ATTR_DEF_ACCOUNT);
+
+	  // if 2 accounts
+	  if ( strpos($sposte,',') != 0 ) {
+	    $array=explode(',',$sposte);
+	    if ( ${"e_other$i"."_amount"} < 0 )
+	      $poste_val=$array[1];
+	    else
+	      $poste_val=$array[0];
+	  } else {
+	    $poste_val=$sposte;
+	  }
+
+	  $acc_operation->poste=$poste_val;
 	  $acc_operation->amount=${"e_other$i"."_amount"};
 	  $acc_operation->grpt=$seq;
 	  $acc_operation->jrn=$p_jrn;
@@ -635,7 +690,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	  if ( trim(${"e_concerned".$i}) != "" ) {
 	    if ( strpos(${"e_concerned".$i},',') != 0 )
 	      {
-		$aRapt=split(',',${"e_concerned".$i});
+		$aRapt=explode(',',${"e_concerned".$i});
 		foreach ($aRapt as $rRapt) {
 		  // Add a "concerned operation to bound these op.together
 		  //

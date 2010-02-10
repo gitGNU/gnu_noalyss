@@ -186,8 +186,8 @@ $hidden.=HtmlInput::phpsessid();
 
 /* Load the card */
 $card=$Ledger->get_fiche_def();
-$rdeb=split(',',$card['deb']);
-$rcred=split(',',$card['cred']);
+$rdeb=explode(',',$card['deb']);
+$rcred=explode(',',$card['cred']);
 
 
 echo '<div class="u_redcontent">';

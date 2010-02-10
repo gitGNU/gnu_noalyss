@@ -28,7 +28,7 @@
 function todo_list_show(p_id) {
     var gDossier=$('gDossier').value;
     var phpsessid=$('phpsessid').value;
-
+    try {
     var action=new Ajax.Request(
 	'todo_list.php',
 	{
@@ -38,6 +38,9 @@ function todo_list_show(p_id) {
 	    onSuccess:todo_list_show_success
 	}
     );
+    } catch (e) { 
+	alert(" Envoi ajax non possible" + e.message);
+    }
     return false;
 }
 function todo_list_show_success(req) {

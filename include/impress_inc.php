@@ -59,7 +59,7 @@ function get_rappel_simple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,&$arap)
   // Compute VAT
   foreach ($a_Tva as $line_tva)
     {
-      list ($deb,$cred)=split(',',$line_tva['tva_poste']);
+      list ($deb,$cred)=explode(',',$line_tva['tva_poste']);
       if ( $p_jrn_type == 'ACH' )
 	$ctva=$deb;
       else

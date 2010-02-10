@@ -12,7 +12,9 @@ if (isset($_REQUEST['code']) ) {
       exit();
     }
     /* show name of extension */
-    echo "<h2>".$ext->get_parameter('name').'</h2>';
+    echo '<div style="position:absolute;right:3px;top:3px;margin:0;z-index:10">';
+    echo '<h2 class="error" style="padding:0px;margin:0px">'.$ext->get_parameter('name').'</h2>';
+    echo '</div>';
     require_once('ext'.DIRECTORY_SEPARATOR.trim($ext->get_parameter('filepath')));
   } else {
     alert(j(_("Cette extension n'existe pas ")));

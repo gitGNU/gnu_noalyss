@@ -90,25 +90,32 @@ function extDetail(req){
 /**
 *@brief save the extension (add or update)
 */
-function extension_save(p_obj){
+function extension_save(p_obj_form){
+    try{
 	var dossier=$("gDossier").value;
 	var phpsessid=$('phpsessid').value;
     	var queryString='?gDossier='+dossier;
     	queryString+='&PHPSESSID='+phpsessid;
         queryString+='&action=se'; 	// se save extension
-  // Data must be taken here
-	var data=p_obj.serialize(false);
+	// Data must be taken here
+	try{	
+	    var data=$(p_obj_form).serialize(false);
+	} catch(f){ 
+	    var sType=p_obj_form.tagName;
+	    var sName=p_obj_form.id;
+	    var nbElement=p_obj_form.elements.length;
+	    alert("Message"+sName+" "+sType+" Nb Element"+nbElement+" "+f.message+"\n");
+	    throw (f);
+	}
 	queryString+='&'+data;
-	$(content).innerHTML='<image src="image/loading.gif" alt="chargement"></image>';
-	var action=new Ajax.Request ( 'ajax_extension.php',
-				  {
-				 method:'POST',
-				 parameters:queryString,
-				 onFailure:errorExtension,
-				 onSuccess:successSave
-			       }
-			       );
-    hideIPopup('dtext');
+	$("dtext_content").innerHTML='<image src="image/loading.gif" alt="chargement"></image>';
+	var action=new Ajax.Request ( 'ajax_extension.php', { method:'POST', parameters:queryString,onFailure:errorExtension, 
+							      onSuccess:successSave  }      );
+	
+      	hideIPopup('dtext');
+    } catch(e) {
+	alert("Probleme extension_save "+e._message+"\n"+e.description);
+    }
 }
 function errorExtension(){
 alert('Ajax extension failed');

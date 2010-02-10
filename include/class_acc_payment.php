@@ -94,6 +94,15 @@ class Acc_Payment
 
   public function insert() {
     if ( $this->verify() != 0 ) return;
+    $sql='INSERT INTO mod_payment(
+            mp_lib, mp_jrn_def_id, mp_type, mp_fd_id, mp_qcode)
+    VALUES ($1, $2, $3, $4, upper($5)) returning mp_id';
+    $this->mp_id=$this->cn->exec_sql($sql,array(
+				   $this->mp_lib,
+				   $this->mp_jrn_def_id,
+				   $this->mp_type,
+				   $this->mp_fd_id,
+				   $this->mp_qcode));
   }
 
   public function update() {
@@ -140,8 +149,12 @@ class Acc_Payment
     $row=Database::fetch_array($res,0);
     foreach ($row as $idx=>$value) { $this->$idx=$value; }
   }
+  /**
+   *@brief remove a middle of payment
+   */
   public function delete() {
-
+    $sql="delete from mod_payment where mp_id=$1";
+    $this->cn->exec_sql($sql,array($this->mp_id));
   }
   /*!\brief retrieve all the data for a certain type
    *\param non
@@ -314,8 +327,44 @@ class Acc_Payment
    */
   public function from_array($p_array) {
     $idx=array('mp_id','mp_lib','mp_fd_id','mp_jrn_def_id','mp_qcode','mp_type');
-    foreach ($idx as $l) 
+    foreach ($idx as $l)
       if (isset($p_array[$l])) $this->$l=$p_array[$l];
+  }
+  /**
+   *@brief return an html with a form to add a new middle of payment
+   */
+  public function blank() {
+    //label
+    $lib=new IText('mp_lib');
+    $f_lib=$lib->input();  
+    // Type of ledger
+    $tledger=new ISelect('mp_type');
+    $tledger->value=array(array ('value'=>'ACH','label'=>_('Achat')),
+			  array ('value'=>'VEN','label'=>_('Vente')));
+    $f_type=$tledger->input();
+    
+    // type of card
+    $tcard=new ISelect('mp_fd_id');
+    $tcard->value=$this->cn->make_array('select fd_id,fd_label from fiche_def join fiche_def_ref '.
+				  ' using (frd_id) where frd_id in (25,4) order by fd_label');
+    $f_type_fiche=$tcard->input();
+    $ledger_record=new ISelect('mp_jrn_def_id');
+    $ledger_record->value=$this->cn->make_array("select jrn_def_id,jrn_Def_name from 
+ jrn_def where jrn_def_type  in ('ODS','FIN')");
+    $f_ledger_record=$ledger_record->input();
+
+    // the card
+    $qcode=new ICard();
+    $qcode->noadd=true;
+    $qcode->name='mp_qcode';
+    $list=$this->cn->make_list('select fd_id from fiche_def where frd_id in (25,4)');
+    $qcode->extra=$list;
+    $f_qcode=$qcode->input();
+    ob_start();
+    require_once('template/new_mod_payment.php');
+    $r=ob_get_contents();
+    ob_end_clean();
+    return $r;
   }
   /*!\brief test function
    */
