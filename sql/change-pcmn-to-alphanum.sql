@@ -3,9 +3,9 @@ begin;
 DROP FUNCTION  account_add(p_id poste_comptable, p_name character varying) cascade;
 DROP FUNCTION  account_auto(p_fd_id integer) cascade;
 DROP FUNCTION  account_compute(p_f_id integer) cascade;
-DROP FUNCTION  account_insert(p_f_id integer, p_account poste_comptable) cascade;
+DROP FUNCTION  account_insert(p_f_id integer, p_account text) cascade;
 DROP FUNCTION  account_parent(p_account poste_comptable) cascade;
-DROP FUNCTION  account_update(p_f_id integer, p_account poste_comptable) cascade;
+DROP FUNCTION  account_update(p_f_id integer, p_account text) cascade;
 DROP FUNCTION  action_gestion_ins_upd() cascade;
 DROP FUNCTION  attribut_insert(p_f_id integer, p_ad_id integer, p_value character varying) cascade;
 DROP FUNCTION  attribute_correct_order() cascade;
@@ -25,7 +25,8 @@ DROP FUNCTION  group_analytic_ins_upd() cascade;
 DROP FUNCTION  group_analytique_del() cascade;
 DROP FUNCTION  html_quote(p_string text) cascade;
 DROP FUNCTION  info_def_ins_upd() cascade;
-DROP FUNCTION  insert_jrnx(p_date character varying, p_montant numeric, p_poste poste_comptable, p_grpt integer, p_jrn_def integer, p_debit boolean, p_tech_user text, p_tech_per integer, p_qcode text) cascade;
+DROP FUNCTION  insert_jrnx (p_date character varying, p_montant numeric, p_poste poste_comptable, p_grpt integer, p_jrn_def integer, p_debit boolean, p_tech_user text, p_tech_per integer, p_qcode text, p_comment text) cascade;
+
 DROP FUNCTION  insert_quant_purchase(p_internal text, p_j_id numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_nd_amount numeric, p_nd_tva numeric, p_nd_tva_recup numeric, p_dep_priv numeric, p_client character varying) cascade;
 DROP FUNCTION  insert_quant_sold(p_internal text, p_jid numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_client character varying) cascade;
 DROP FUNCTION  insert_quick_code(nf_id integer, tav_text text) cascade;
@@ -68,8 +69,68 @@ alter table tmp_pcmn alter pcm_val_parent  type account_type;
 
 CREATE VIEW vw_client AS
     SELECT a.f_id, a.av_text AS name, a1.av_text AS quick_code, b.av_text AS tva_num, c.av_text AS poste_comptable, d.av_text AS rue, e.av_text AS code_postal, f.av_text AS pays, g.av_text AS telephone, h.av_text AS email FROM (((((((((SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 1)) a JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 13)) b USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 23)) a1 USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 5)) c USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 14)) d USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 15)) e USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 16)) f USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 17)) g USING (f_id)) LEFT JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 18)) h USING (f_id)) WHERE (a.frd_id = 9);
-CREATE VIEW vw_fiche_attr AS
-    SELECT a.f_id, a.fd_id, a.av_text AS vw_name, b.av_text AS vw_sell, c.av_text AS vw_buy, d.av_text AS tva_code, tva_rate.tva_id, tva_rate.tva_rate, tva_rate.tva_label, e.av_text AS vw_addr, f.av_text AS vw_cp, j.av_text AS quick_code, h.av_text AS vw_description, fiche_def.frd_id FROM ((((((((((SELECT fiche.f_id, fiche.fd_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 1)) a LEFT JOIN (SELECT fiche.f_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 6)) b ON ((a.f_id = b.f_id))) LEFT JOIN (SELECT fiche.f_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 7)) c ON ((a.f_id = c.f_id))) LEFT JOIN (SELECT fiche.f_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 2)) d ON ((a.f_id = d.f_id))) LEFT JOIN (SELECT fiche.f_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 14)) e ON ((a.f_id = e.f_id))) LEFT JOIN (SELECT fiche.f_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 15)) f ON ((a.f_id = f.f_id))) LEFT JOIN (SELECT fiche.f_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 23)) j ON ((a.f_id = j.f_id))) LEFT JOIN (SELECT fiche.f_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 9)) h ON ((a.f_id = h.f_id))) LEFT JOIN tva_rate ON ((d.av_text = (tva_rate.tva_id)::text))) JOIN fiche_def USING (fd_id));
+
+CREATE OR REPLACE VIEW vw_fiche_attr AS
+ SELECT a.f_id, a.fd_id, a.av_text AS vw_name, b.av_text AS vw_sell, c.av_text AS vw_buy, d.av_text AS tva_code, tva_rate.tva_id, tva_rate.tva_rate, tva_rate.tva_label, e.av_text AS vw_addr, f.av_text AS vw_cp, j.av_text AS quick_code, h.av_text AS vw_description, i.av_text AS tva_num, fiche_def.frd_id
+   FROM ( SELECT fiche.f_id, fiche.fd_id, attr_value.av_text
+	   FROM fiche
+      JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+   JOIN attr_def USING (ad_id)
+  WHERE jnt_fic_att_value.ad_id = 1) a
+   LEFT JOIN ( SELECT fiche.f_id, attr_value.av_text
+	   FROM fiche
+      JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+   JOIN attr_def USING (ad_id)
+  WHERE jnt_fic_att_value.ad_id = 6) b ON a.f_id = b.f_id
+   LEFT JOIN ( SELECT fiche.f_id, attr_value.av_text
+      FROM fiche
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+   JOIN attr_def USING (ad_id)
+  WHERE jnt_fic_att_value.ad_id = 7) c ON a.f_id = c.f_id
+   LEFT JOIN ( SELECT fiche.f_id, attr_value.av_text
+   FROM fiche
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+   JOIN attr_def USING (ad_id)
+  WHERE jnt_fic_att_value.ad_id = 2) d ON a.f_id = d.f_id
+   LEFT JOIN ( SELECT fiche.f_id, attr_value.av_text
+   FROM fiche
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+   JOIN attr_def USING (ad_id)
+  WHERE jnt_fic_att_value.ad_id = 14) e ON a.f_id = e.f_id
+   LEFT JOIN ( SELECT fiche.f_id, attr_value.av_text
+   FROM fiche
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+   JOIN attr_def USING (ad_id)
+  WHERE jnt_fic_att_value.ad_id = 15) f ON a.f_id = f.f_id
+   LEFT JOIN ( SELECT fiche.f_id, attr_value.av_text
+   FROM fiche
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+   JOIN attr_def USING (ad_id)
+  WHERE jnt_fic_att_value.ad_id = 23) j ON a.f_id = j.f_id
+   LEFT JOIN ( SELECT fiche.f_id, attr_value.av_text
+   FROM fiche
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+   JOIN attr_def USING (ad_id)
+  WHERE jnt_fic_att_value.ad_id = 9) h ON a.f_id = h.f_id
+   LEFT JOIN ( SELECT fiche.f_id, attr_value.av_text
+   FROM fiche
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+   JOIN attr_def USING (ad_id)
+  WHERE jnt_fic_att_value.ad_id = 13) i ON a.f_id = i.f_id
+   LEFT JOIN tva_rate ON d.av_text = tva_rate.tva_id::text
+   JOIN fiche_def USING (fd_id);
+
+
+
 CREATE VIEW vw_fiche_def AS
     SELECT jnt_fic_attr.fd_id, jnt_fic_attr.ad_id, attr_def.ad_text, attr_value.av_text, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def.frd_id FROM (((((jnt_fic_att_value JOIN attr_value USING (jft_id)) JOIN fiche USING (f_id)) JOIN jnt_fic_attr USING (fd_id)) JOIN attr_def ON ((attr_def.ad_id = jnt_fic_attr.ad_id))) JOIN fiche_def USING (fd_id));
 CREATE VIEW vw_fiche_min AS
@@ -439,49 +500,51 @@ return row_info_def;
 end;
 $$
     LANGUAGE plpgsql;
-CREATE FUNCTION insert_jrnx(p_date character varying, p_montant numeric, p_poste account_type, p_grpt integer, p_jrn_def integer, p_debit boolean, p_tech_user text, p_tech_per integer, p_qcode text) RETURNS void
-    AS $$
+CREATE OR REPLACE FUNCTION insert_jrnx(p_date character varying, p_montant numeric, p_poste account_type, p_grpt integer, p_jrn_def integer, p_debit boolean, p_tech_user text, p_tech_per integer, p_qcode text,p_comment text)
+  RETURNS void AS
+$BODY$
 declare
 	sCode varchar;
 	nCount_qcode integer;
 begin
 	sCode=trim(p_qcode);
 
-	-- if p_qcode is empty try to find one	
+	-- if p_qcode is empty try to find one
 	if length(sCode) = 0 or p_qcode is null then
-
-		select count(*) into nCount_qcode 	
-			from vw_poste_qcode where j_poste=p_poste;
+		select count(*) into nCount_qcode
+			from vw_poste_qcode where j_poste=p_poste::text;
 	-- if we find only one q_code for a accountancy account
 	-- then retrieve it
 		if nCount_qcode = 1 then
-			select j_qcode::text into sCode 
-			from vw_poste_qcode where j_poste=p_poste;
-		else 
+			select j_qcode::text into sCode
+			from vw_poste_qcode where j_poste=p_poste::text;
+		else
 		 sCode=NULL;
 		end if;
-		
+
 	end if;
 
-	insert into jrnx 
+	insert into jrnx
 	(
 		j_date,
-		j_montant, 	
+		j_montant,
 		j_poste,
-		j_grpt, 
+		j_grpt,
 		j_jrn_def,
 		j_debit,
+		j_text,
 		j_tech_user,
 		j_tech_per,
-		j_qcode	
-	) values 
+		j_qcode
+	) values
 	(
 		to_date(p_date,'DD.MM.YYYY'),
 		p_montant,
-		p_poste,	
+		p_poste,
 		p_grpt,
 		p_jrn_def,
 		p_debit,
+		p_comment,
 		p_tech_user,
 		p_tech_per,
 		sCode
@@ -489,8 +552,8 @@ begin
 
 return;
 end;
-$$
-    LANGUAGE plpgsql;
+$BODY$
+LANGUAGE plpgsql;
 CREATE FUNCTION insert_quant_purchase(p_internal text, p_j_id numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_nd_amount numeric, p_nd_tva numeric, p_nd_tva_recup numeric, p_dep_priv numeric, p_client character varying) RETURNS void
     AS $$
 declare
@@ -1011,6 +1074,135 @@ CREATE FUNCTION update_quick_code(njft_id integer, tav_text text) RETURNS intege
 $$
     LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION account_update(p_f_id integer, p_account account_type)
+  RETURNS integer AS
+$BODY$
+declare
+nMax fiche.f_id%type;
+nCount integer;
+nParent tmp_pcmn.pcm_val_parent%type;
+sName varchar;
+nJft_id attr_value.jft_id%type;
+first text;
+second text;
+begin
+	
+	if length(trim(p_account)) != 0 then
+		if position (',' in p_account) = 0 then
+			select count(*) into nCount from tmp_pcmn where pcm_val=p_account::account_type;
+			if nCount = 0 then
+			select av_text into sName from 
+				attr_value join jnt_fic_att_value using (jft_id)
+				where
+				ad_id=1 and f_id=p_f_id;
+			nParent:=account_parent(p_account::account_type);
+			insert into tmp_pcmn(pcm_val,pcm_lib,pcm_val_parent) values (p_account::account_type,sName,nParent);
+			end if;		
+		else 
+		raise info 'presence of a comma';
+		-- there is 2 accounts separated by a comma
+		first := split_part(p_account,',',1);
+		second := split_part(p_account,',',2);
+		-- check there is no other coma
+		raise info 'first value % second value %', first, second;
+		
+		if  position (',' in first) != 0 or position (',' in second) != 0 then
+			raise exception 'Too many comas, invalid account';
+		end if;
+		end if;		
+	end if;
+	select jft_id into njft_id from jnt_fic_att_value where f_id=p_f_id and ad_id=5;
+	update attr_value set av_text=p_account where jft_id=njft_id;
+		
+return njft_id;
+end;
+$BODY$
+LANGUAGE 'plpgsql' ;
+
+CREATE OR REPLACE FUNCTION account_insert(p_f_id integer, p_account account_type)
+  RETURNS integer AS
+$BODY$
+declare
+nParent tmp_pcmn.pcm_val_parent%type;
+sName varchar;
+nNew tmp_pcmn.pcm_val%type;
+bAuto bool;
+nFd_id integer;
+nCount integer;
+first text;
+second text;
+begin
+
+	if length(trim(p_account)) != 0 then
+	-- if there is coma in p_account, treat normally
+		if position (',' in p_account) = 0 then
+			raise info 'p_account is not empty';
+				select count(*)  into nCount from tmp_pcmn where pcm_val=p_account::account_type;
+				raise notice 'found in tmp_pcm %',nCount;
+				if nCount !=0  then
+					raise info 'this account exists in tmp_pcmn ';
+					perform attribut_insert(p_f_id,5,p_account);
+				   else
+				       -- account doesn't exist, create it
+					select av_text into sName from
+						attr_value join jnt_fic_att_value using (jft_id)
+					where
+					ad_id=1 and f_id=p_f_id;
+
+					nParent:=account_parent(p_account::account_type);
+					insert into tmp_pcmn(pcm_val,pcm_lib,pcm_val_parent) values (p_account::account_type,sName,nParent);
+					perform attribut_insert(p_f_id,5,p_account::text);
+
+				end if;
+		else
+		raise info 'presence of a comma';
+		-- there is 2 accounts separated by a comma
+		first := split_part(p_account,',',1);
+		second := split_part(p_account,',',2);
+		-- check there is no other coma
+		raise info 'first value % second value %', first, second;
+
+		if  position (',' in first) != 0 or position (',' in second) != 0 then
+			raise exception 'Too many comas, invalid account';
+		end if;
+		perform attribut_insert(p_f_id,5,p_account::text);
+		end if;
+	else
+	raise info 'p_account is  empty';
+		select fd_id into nFd_id from fiche where f_id=p_f_id;
+		bAuto:= account_auto(nFd_id);
+		if bAuto = true then
+			raise notice 'account generated automatically';
+			nNew:=account_compute(p_f_id);
+			raise notice 'nNew %', nNew;
+			select av_text into sName from
+			attr_value join jnt_fic_att_value using (jft_id)
+			where
+			ad_id=1 and f_id=p_f_id;
+			nParent:=account_parent(nNew);
+			perform account_add  (nNew,sName);
+			perform attribut_insert(p_f_id,5,nNew);
+
+		else
+		-- if there is an account_base then it is the default
+		      select fd_class_base::text into nNew from fiche_def join fiche using (fd_id) where f_id=p_f_id;
+			if nNew is null or length(trim(nNew)) = 0 then
+				raise notice 'count is null';
+				 perform attribut_insert(p_f_id,5,null);
+			else
+				 perform attribut_insert(p_f_id,5,nNew);
+			end if;
+		end if;
+	end if;
+
+return 0;
+end;
+$BODY$
+LANGUAGE 'plpgsql';
+
+
+
+
 CREATE TRIGGER action_gestion_t_insert_update
     BEFORE INSERT OR UPDATE ON action_gestion
     FOR EACH ROW
@@ -1152,6 +1344,211 @@ CREATE TRIGGER trim_space
     BEFORE INSERT OR UPDATE ON format_csv_banque
     FOR EACH ROW
     EXECUTE PROCEDURE trim_space_format_csv_banque();
+    
+DROP VIEW vw_fiche_def;
+DROP VIEW vw_supplier;
+DROP VIEW vw_client;
+
+CREATE OR REPLACE VIEW vw_fiche_def AS 
+ SELECT jnt_fic_attr.fd_id, jnt_fic_attr.ad_id, attr_def.ad_text, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def.frd_id
+   FROM fiche_def
+   JOIN jnt_fic_attr USING (fd_id)
+   JOIN attr_def ON attr_def.ad_id = jnt_fic_attr.ad_id;
+
+COMMENT ON VIEW vw_fiche_def IS 'all the attributs for  card family';
+
+CREATE OR REPLACE VIEW vw_supplier AS 
+ SELECT a.f_id, a.av_text AS name, a1.av_text AS quick_code, b.av_text AS tva_num, c.av_text AS poste_comptable, d.av_text AS rue, e.av_text AS code_postal, f.av_text AS pays, g.av_text AS telephone, h.av_text AS email
+   FROM ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+           FROM fiche
+      JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 1) a
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+           FROM fiche
+      JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 13) b USING (f_id)
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+      FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 23) a1 USING (f_id)
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+   FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 5) c USING (f_id)
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+   FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 14) d USING (f_id)
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+   FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 15) e USING (f_id)
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+   FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 16) f USING (f_id)
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+   FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 17) g USING (f_id)
+   LEFT JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+   FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 18) h USING (f_id)
+  WHERE a.frd_id = 8;
+CREATE OR REPLACE VIEW vw_client AS 
+ SELECT a.f_id, a.av_text AS name, a1.av_text AS quick_code, b.av_text AS tva_num, c.av_text AS poste_comptable, d.av_text AS rue, e.av_text AS code_postal, f.av_text AS pays, g.av_text AS telephone, h.av_text AS email
+   FROM ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+           FROM fiche
+      JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 1) a
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+           FROM fiche
+      JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 13) b USING (f_id)
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+      FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 23) a1 USING (f_id)
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+   FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 5) c USING (f_id)
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+   FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 14) d USING (f_id)
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+   FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 15) e USING (f_id)
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+   FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 16) f USING (f_id)
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+   FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 17) g USING (f_id)
+   LEFT JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+   FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 18) h USING (f_id)
+  WHERE a.frd_id = 9;
+
+CREATE OR REPLACE FUNCTION account_parent(p_account account_type)
+  RETURNS poste_comptable AS
+$BODY$
+declare
+	nParent tmp_pcmn.pcm_val_parent%type;
+	sParent varchar;
+	nCount integer;
+begin
+	sParent:=p_account;
+	sParent:=trim(sParent::text);
+	nParent:=0;
+	while nParent = 0 loop
+		select count(*) into nCount
+		from tmp_pcmn
+		where
+		pcm_val = sParent;
+		if nCount != 0 then
+			nParent:=sParent;
+			return nParent;
+		end if;
+		sParent:= substr(sParent,1,length(sParent)-1);
+		if length(sParent) <= 0 then
+			raise exception 'Impossible de trouver le compte parent pour %',p_account;
+		end if;
+	end loop;
+	raise notice 'account_parent : Parent is %',nParent;
+	return nParent;
+end;
+$BODY$
+LANGUAGE 'plpgsql' VOLATILE;
 
 
+CREATE OR REPLACE FUNCTION account_compute(p_f_id integer)
+  RETURNS account_type AS
+$BODY$
+declare
+        class_base account_type;
+        maxcode account_type;
+        nCount integer;
+begin
+        select fd_class_base into class_base
+        from
+                fiche_def join fiche using (fd_id)
+        where
+                f_id=p_f_id;
+        raise notice 'account_compute class base %',class_base;
+        select count (pcm_val) into nCount from tmp_pcmn where pcm_val_parent = class_base;
+        if nCount = 0  then
+                maxcode:=class_base;
+        else
+                select max (pcm_val) into maxcode from tmp_pcmn where pcm_val_parent = class_base;
+        end if;
+        if maxcode = class_base then
+                maxcode:=class_base::text||'0000';
+        end if;
+        maxcode:=to_char(to_number(maxcode,'999999999999999999999999999999')+1,'999999999999999999999999999999');
+        raise notice 'account_compute Max code %',maxcode;
+        return maxcode::text;
+end;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE;
 commit;
