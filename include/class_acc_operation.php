@@ -233,6 +233,12 @@ function get_internal() {
    $sql="update jrn set jr_comment=$1 where jr_id=$2";
    $this->db->exec_sql($sql,array($p_text,$this->jr_id));
  }
+ /*!\brief add a limit of payment to the operation (jrn.jr_ech) */
+ function operation_update_date_limit($p_text)
+ {
+   $sql="update jrn set jr_ech=to_date($1,'DD.MM.YYYY') where jr_id=$2";
+   $this->db->exec_sql($sql,array($p_text,$this->jr_id));
+ }
  /*!\brief return the jrn_def_id from jrn */
  function get_ledger() {
    $sql="select jr_def_id from jrn where jr_id=$1";

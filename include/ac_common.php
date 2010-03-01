@@ -478,17 +478,45 @@ function alert($p_msg,$buffer=false)
 /**
  *@brief set the lang thanks the _SESSION['g_lang'] var.
  */
-
 function set_language() {
    $dir="";
-   $dir=setlocale(LC_MESSAGES,$_SESSION['g_lang']);
-
+   // set differently the language depending of the operating system
+   if( what_os() == 1 ) {
+     $dir=setlocale(LC_MESSAGES,$_SESSION['g_lang']);
    if ( $dir == "") {
-     $dir=setlocale(LC_MESSAGES,"fr_FR.utf8");
-     echo '<span class="notice">'.$_SESSION['g_lang'].'domaine non supporté</h2>';
-   }
+     $g_lang='fr_FR.utf8';
+     $dir=setlocale(LC_MESSAGES,$g_lang);
+     echo '<span class="notice">'.$_SESSION['g_lang'].' domaine non supporté</h2>';
+     }
    bindtextdomain('messages','./lang');
    textdomain('messages');
    bind_textdomain_codeset('messages','UTF8');
+   
+   return; 
+   }
+   // for windows
+   putenv('LANG='.$_SESSION['g_lang']);
+   $dir=setlocale(LC_ALL,$_SESSION['g_lang']);
+   bindtextdomain('messages','.\\lang');
+   textdomain('messages');
+   bind_textdomain_codeset('messages','UTF8');
 }
+/**
+ *@brief try to determine on what os you are running the pĥpcompte
+ *server
+ *@return 
+ *  0 it is a windows
+ *  1 it is a Unix like
+ */
+function what_os() {
+  $inc_path=get_include_path();
+  
+  if ( strpos($inc_path,";") != 0 ) {
+    $os=0;			/* $os is 0 for windoz */
+  } else {
+    $os=1;			/* $os is 1 for unix */
+  }
+  return $os;
+}
+
 ?>

@@ -26,7 +26,7 @@
 require_once ('config.inc.php');
 require_once('constant.security.php');
 
-define ("DBVERSION",68);
+define ("DBVERSION",70);
 
 define ("MAX_COMPTE",4);
 define ('MAX_ARTICLE',9);
@@ -191,12 +191,12 @@ define ("JS_PROTOTYPE",'<script language="javascript" src="js/prototype.js"></sc
 // Sql string
 define ("SQL_LIST_ALL_INVOICE","");
 
-define ("SQL_LIST_UNPAID_INVOICE","  (jr_rapt is null or jr_rapt = '') and jr_valid = true  and jr_ech is null"
+define ("SQL_LIST_UNPAID_INVOICE","  (jr_rapt is null or jr_rapt = '') and jr_valid = true  "
 );
 
 
 define ("SQL_LIST_UNPAID_INVOICE_DATE_LIMIT" ,"
    where (jr_rapt is null or jr_rapt = '')
-       and to_date(to_char(jr_ech,'DD.MM.YYYY'),'DD.MM.YYYY') < to_date(to_char(now(),'DD.MM.YYYY'),'DD.MM.YYYY') and jr_ech is not null
+       and to_date(to_char(jr_ech,'DD.MM.YYYY'),'DD.MM.YYYY') < to_date(to_char(now(),'DD.MM.YYYY'),'DD.MM.YYYY') 
        and jr_valid = true" );
 ?>

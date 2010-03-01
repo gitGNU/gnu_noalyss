@@ -86,8 +86,8 @@ if ( isset ($_POST["add"]) ) {
       if ( isset    ($_POST["FICHEDEB"])) {
 	$p_jrn_fiche_deb=join(",",$_POST["FICHEDEB"]);
       }
-      if ( isset    ($_POST["FICHEDEB"])) {
-	$p_jrn_fiche_cred=join(",",$_POST["FICHEDEB"]);
+      if ( isset    ($_POST["FICHECRED"])) {
+	$p_jrn_fiche_cred=join(",",$_POST["FICHECRED"]);
       }
       $l_cred_max_line=$l_deb_max_line;
       $cn->start();

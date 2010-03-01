@@ -5,7 +5,10 @@
 #
 # This file is a part of PhpCompta under GPL
 # Author D. DE BONTRIDDER ddebontridder@yahoo.fr
-cd ..
-cd html/lang/en_US/LC_MESSAGES
+cd ../html/lang
+cd en_US/LC_MESSAGES
+msgfmt -c -v messages.po
+cd ../..
+cd nl_NL/LC_MESSAGES
 msgfmt -c -v messages.po
 

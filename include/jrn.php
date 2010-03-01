@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -37,9 +37,9 @@ require_once ('class_acc_ledger_info.php');
 require_once('class_acc_reconciliation.php');
 require_once('class_own.php');
 
-/*! 
+/*!
  * \brief  Display the form to UPDATE account operation in the expert view
- *          
+ *
  * \param $p_cn database connection
  * \param $jr_id pk of jrn
  * \param mode 1 editable, 0 for CA
@@ -47,7 +47,7 @@ require_once('class_own.php');
  * \return none
  *
  *
- */ 
+ */
 function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 {
 
@@ -85,9 +85,9 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 		$r.=$content['jr_internal'];
 		$r.="</h3></TD>";
 		$r.='</tr>';
-		// for upload document we need the grpt_id   
+		// for upload document we need the grpt_id
 		$r.='<Input type="hidden" name="jr_grpt_id" value="'.$content['jr_grpt_id'].'">';
-		
+
 		// comment can be changed
 		$r.="<TD>";
 		$comment=new IText();
@@ -109,9 +109,9 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 		$comment->size=10;
 		$r.=$comment->input();
 		$r.="</TD>";
-		
 
-		if ( $content['jrn_def_type'] == 'ACH' or 
+
+		if ( $content['jrn_def_type'] == 'ACH' or
 			 $content['jrn_def_type'] == 'VEN' )
 		  {
 			// Is Paid
@@ -134,30 +134,30 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
       $r.="<TR>";
       if ( $content['j_debit'] == 'f' ) $r.=$col_vide;
       //      $r.="<TD>".$content['j_debit']."</td>";
-      
+
       $r.="<TD>".$content['j_poste']."</td>";
       if ( $content['j_debit'] == 't' ) $r.=$col_vide;
       $qc=($content['j_qcode'] != "")?"  [".$content['j_qcode']."]":"";
-      if ( $content['j_text'] == '') 
+      if ( $content['j_text'] == '')
 	$r.="<TD>".$qc.h($content['vw_name'])."</td>";
       else
 	$r.="<TD>".$qc.h($content['j_text'])."</td>";
       if ( $content['j_debit'] == 'f' ) $r.=$col_vide;
       $r.="<TD>".$content['j_montant']."</td>";
       if ( $content['j_debit'] == 't' ) $r.=$col_vide;
-	  //-- add ca 
+	  //-- add ca
 	  //
 	  if ( $own->MY_ANALYTIC != "nu" && ereg("^[6,7]+",$content['j_poste']))
 	    {
-	      
+
 	      $r.=display_table_ca($p_cn,$count,$content['j_id'],$own,$p_mode,$content['j_montant']);
 		  $count++;
 	    }
-	  
+
 	  $r.="</TR>";
 
-      //    }//     foreach ($l_array[$i]  as $value=>$content) 
-  }// for ( $i =0 ; $i < sizeof($l_array); $i++) 
+      //    }//     foreach ($l_array[$i]  as $value=>$content)
+  }// for ( $i =0 ; $i < sizeof($l_array); $i++)
   if ( $p_mode == 1) {
     $file=new IFile();
     $file->table=1;
@@ -177,19 +177,19 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 
 	if ( $p_mode == 1 ) {
 	  $r.="<hr>";
-	  $r.= "<table>"; 
+	  $r.= "<table>";
 	  $r.="<TR>".$file->input("pj","","Pièce justificative")."</TR>";
 	  $r.="</table>";
 	}
 	$r.="<hr>";
-	
+
 	$r.="</table>";
 	$r.="Total ".$content['jr_montant']."<br>";
 
 	  /* count the number of additionnal info */
 	  $acc_jrn_info=new Acc_Ledger_Info($p_cn);
 	  $acc_jrn_info->set_jrn_id($p_jr_id);
-	  
+
 	  /* if additional info > 0 show them */
 	  if ( $acc_jrn_info->count() > 0 ) {
 	    $array=$acc_jrn_info->load_all();
@@ -200,24 +200,24 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	      if ( strpos($row->id_type,'OTHER') ===0) {
 		$r.="Autre info : ".$row->ji_value.'<br>';
 	      }
-	      
+
 	    }
 	  }
-	
+
 	if ( $p_mode==1) {
 	// show all the related operation
 	  $rec=new Acc_Reconciliation($p_cn);
 	  $rec->set_jr_id($content['jr_id']);
 	  $a=$rec->get();
-	  $sessid=$_REQUEST["PHPSESSID"];	  
+	  $sessid=$_REQUEST["PHPSESSID"];
 	  if ( $a != null ) {
 	    $r.="<b>Operation concernée</b> <br>";
-      
+
 	    $r.= '<div style="margin-left:30px;">';
 	    foreach ($a as $key => $element) {
 	      $operation=new Acc_operation($p_cn);
 	      $operation->jr_id=$element;
-	      $r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\',%d)">', 
+	      $r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\',%d)">',
 			   $operation->get_internal($p_cn,$element),
 			   $element,
 			   $sessid,
@@ -226,33 +226,30 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 			  $content['jr_id'],$element,$sessid,$gDossier);
 	    }//for
 	    $r.= "</div>";
-	  }// if ( $a != null ) 
-  
+	  }// if ( $a != null )
+
 	$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."',".$gDossier.",'rapt','".$content['jr_montant']."')\">";
-	
-	$r.= '<H2 class="info">rapprochement </H2> 
+
+	$r.= '<H2 class="info">rapprochement </H2>
        <INPUT TYPE="TEXT" id="rapt" name="rapt" value="">'.$search;
-	
+
 	} // if mode == 1
-	
+
   $r.='<input type="hidden" name="jr_id" value="'.$content['jr_id'].'">';
   return $r;
 }
 
-/*! 
+/*!
  * \brief  Display the form to UPDATE account operation in the user view
- *          
+ *
  * \param $p_cn database connection
  * \param $jr_id pk of jrn
  * \param mode 1 editable, 0 for CA
- * \return none
- *
- *
- */ 
+ */
 function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 {
 
-  $gDossier=dossier::id();  
+  $gDossier=dossier::id();
   $l_array=get_dataJrnJrIdUser($p_cn,$p_jr_id);
   $str_dossier=dossier::get();
   /* if the operation doesn't exist in the quant_xxx table then we
@@ -260,7 +257,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
    */
 
   if ( $l_array == null || empty($l_array) == true) {
-    // If the  operation is not in quant_sold or quant_purchase 
+    // If the  operation is not in quant_sold or quant_purchase
     // because those tables comes later
     $r=ShowOperationExpert($p_cn,$p_jr_id,$p_mode);
     return $r;
@@ -275,7 +272,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 
   // Build the form
   $col_vide="<TD></TD>";
-  
+
 
   $content=$l_array[0] ;
   // for the first line
@@ -288,13 +285,18 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   $r.=$content['jr_date'];
   $disable=($p_mode==0)?"disabled":"";
   $r.='</h3></td>';
+  // Limit Date
+  $ech=new IDate('e_ech');
+  $ech->value=$content['ech_fmt'];
+  $r.=td(_('Echéance ').$ech->input());
+
   // Internal
   // --
   $r.='<td><h3>';
   $r.=$content['jr_internal'];
   $r.="</h3></TD>";
 
-  // for upload document we need the grpt_id   
+  // for upload document we need the grpt_id
   $r.='<Input type="hidden" name="jr_grpt_id" value="'.$content['jr_grpt_id'].'">';
   $r.='</tr><tr>';
   // comment can be changed
@@ -305,7 +307,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   $comment->value=$content['jr_comment'];
   $comment->size=40;
   $r.='<td>'.$comment->input().'</td>';
-  
+
   // pj can be changed
   $r.="<TD> PJ Num. ";
   $comment=new IText();
@@ -316,14 +318,14 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   $comment->size=10;
   $r.=$comment->input();
   $r.="</TD>";
-		
+
   // Is Paid
   $r.="<TD>";
   $check=( $content['jr_rapt'] != null )?"CHECKED":"UNCHECKED";
   $r.='<TD>Payé <INPUT TYPE="CHECKBOX" '.$disable.' name="is_paid" '.$check.'></TD>';
-  
+
   $r.="</TR>";
-  
+
   echo_debug(__FILE__.":".__LINE__."jrn_Def_type =  ".$content['jrn_def_type']);
   // for others lines
   $own=new Own($p_cn);
@@ -335,8 +337,8 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	  echo_debug(__FILE__.":".__LINE__." content['qp_supplier'] ".$content['qp_supplier']);
 	  $client=new fiche($p_cn,$content['qp_supplier']);
 	  $r.="Client : ".$client->getName();
-	  echo_debug(__FILE__,__LINE__,$content);	  
-	  
+	  echo_debug(__FILE__,__LINE__,$content);
+
 	  /* now we get the different lines for this operation thanks */
 	  /* the qp_internal == jr_internal */
 	  $r.='<tr>';
@@ -344,7 +346,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	  $r.='<th>PU</th>';
 	  $r.='<th>Quantit&eacute;</th>';
 	  $r.='<th> Dep. priv. </th>';
-	if ( $own->MY_TVA_USE=='Y') {	  
+	if ( $own->MY_TVA_USE=='Y') {
 		  $r.='<th>tva</th>';
 		  $r.='<th>tva</th>';
 		  $r.='<th>non ded.</th>';
@@ -352,9 +354,9 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 		  $r.='<th>tva d impot</th>';
 		  $r.='<th>total htva</th>';
 		  $r.='<th>total tvac</th>';
-	} else 
+	} else
 		$r.='<th>total</th>';
-		
+
 	  $r.='</tr>';
 	  $object=new gestion_purchase($p_cn);
 	  $object->qp_internal=$internal;
@@ -381,7 +383,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 		//		$hid_jid=new IHidden("","p_jid_".$row->j_id,$row->j_id);
 		$r.=($i%2==0)?"<tr class=\"odd\">":'<tr>';		$i++;
 		$pu=0.0;
-		if ( $row->qp_price != 0.0 && $row->qp_price != 0 ) 
+		if ( $row->qp_price != 0.0 && $row->qp_price != 0 )
 		  $pu=round(($row->qp_nd_amount+$row->qp_price)/$row->qp_quantite,2);
 		$r.='<td> '.$fiche->strAttribut(ATTR_DEF_NAME).'</td>';
 		$r.='<tD>'.$pu.'</td>';
@@ -397,7 +399,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 		}
 		$r.='<td align="right">'.sprintf("% 12.2f",$row->qp_price).'</td>';
 		$r.='<td align="right">'.sprintf("% 12.2f",$row->qp_vat+$row->qp_nd_amount+$row->qp_nd_tva+$row->qp_nd_tva_recup+$row->qp_price).'</td>';
-		//-- add ca 
+		//-- add ca
 		//
 
 		$content['j_poste']=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
@@ -416,7 +418,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 		'<td colspan="7">Total HTVA</td>'.
 		'<td style="text-align:right">'.sprintf('% 12.2f',$tot_amount)."</td>".
 		"</tr>";
-	if ( $tot_tva != 0 ) 
+	if ( $tot_tva != 0 )
 	  $r.='<tr  style="font-size:13px;color:green;">'.
 		'<td colspan="7">Total TVA</td>'.
 		'<td style="text-align:right;">'.sprintf('%12.2f',$tot_tva)
@@ -448,18 +450,18 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 		'<td style="font-size:13px;text-align:right;color:green;">'.sprintf('%12.2f',$tot_dep_priv+$tot_amount+$tot_tva+$tot_tva_nd_recup+$tot_nd+$tot_tva_nd)."</td>".
 		"</tr>";
 
-	
-	  
+
+
 	}
-  
+
   // for selling ledger
   if ( $content['jrn_def_type'] == 'VEN' )
 	{
 	  echo_debug(__FILE__.":".__LINE__." content['qs_client'] ".$content['qs_client']);
 	  $client=new fiche($p_cn,$content['qs_client']);
 	  $r.="Client : ".$client->getName();
-	  echo_debug(__FILE__,__LINE__,$content);	  
-	  
+	  echo_debug(__FILE__,__LINE__,$content);
+
 	  /* now we get the different lines for this operation thanks */
 	  /* the qs_internal == jr_internal */
 	  $r.'</table>';
@@ -468,8 +470,8 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	  $r.='<th>Nom</th>';
 	  $r.='<th>PU</th>';
 	  $r.='<th>Quantit&eacute;</th>';
-	  if ($own->MY_TVA_USE == 'Y' ) { 
-		$r.='<th>tva</th>'; 
+	  if ($own->MY_TVA_USE == 'Y' ) {
+		$r.='<th>tva</th>';
 		$r.='<th>code tva</th>';
 		}
 	  $r.='<th>prix</th>';
@@ -500,12 +502,12 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 			$r.='<td align="center">'.$row->tva_label.'</td>';
 			}
 	    $r.='<td align="right">'.$row->qs_price.'</td>';
-	    //-- add ca 
+	    //-- add ca
 	    //
-	    
+
 	    $content['j_poste']=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
 	    echo_debug(__FILE__.':'.__LINE__,'$content["j_poste"]',$content['j_poste']);
-	    
+
 	    //		echo "j_poste= ".$content['j_poste'];
 	    if ( $own->MY_ANALYTIC != "nu" && ereg("^[6,7]+",$content['j_poste']))
 	      {
@@ -536,7 +538,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 			'<td style="text-align:right;font-size:13px;color:green;">'.sprintf('%12.2f',$tot_tva)
 			."</td>".
 			"</tr>";
-		
+
 		  $r.="<tr>".
 			"<td>"."</td>".
 			"<td>"."</td>".
@@ -544,7 +546,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 			"<td>Total </td>".
 			'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_amount+$tot_tva)."</td>".
 			"</tr>";
-		} else {  
+		} else {
 	    $r.='<table>';
 	    $r.="<tr>".
 			"<td>"."</td>".
@@ -553,13 +555,13 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 			"</tr>";
 			}
 	}
-	
+
   $r.="</TABLE>";
-      
+
   $file=new IFile();
   $file->table=1;
   //doc
-  if ( $p_mode ==1 && $content['jr_pj_name'] != "") 
+  if ( $p_mode ==1 && $content['jr_pj_name'] != "")
 	  $r.='<tr><TD>Effacer Pj <INPUT TYPE="CHECKBOX" name="to_remove" ></TD>';
   $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s&'.$str_dossier.'&PHPSESSID=%s">%s</A>',
 		     $content['jr_id'],
@@ -571,7 +573,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   /* count the number of additionnal info */
   $acc_jrn_info=new Acc_Ledger_Info($p_cn);
   $acc_jrn_info->set_jrn_id($p_jr_id);
-  
+
   /* if additional info > 0 show them */
   if ( $acc_jrn_info->count() > 0 ) {
     $array=$acc_jrn_info->load_all();
@@ -582,36 +584,36 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
       if ( strpos($row->id_type,'OTHER') ===0) {
 	$r.="Autre info : ".$row->ji_value.'<br>';
 	}
-      
+
     }
   }
-  
+
   $r.="<hr>";
   if ( $p_mode == 1 ) {
-	$r.= "<table>"; 
+	$r.= "<table>";
 
 	$r.="<TR>".$file->input("pj","","Pièce justificative")."</TR>";
 	$r.="</table>";
 	$r.="<hr>";
-	
+
 	$r.="</table>";
 	$r.="Total ".$content['jr_montant']."<br>";
 	// show all the related operation
 	$rec=new Acc_Reconciliation($p_cn);
 	$rec->set_jr_id($content['jr_id']);
 	$a=$rec->get();
-	
 
-	$sessid=$_REQUEST["PHPSESSID"];	  
-  
+
+	$sessid=$_REQUEST["PHPSESSID"];
+
 	if ( $a != null ) {
       $r.="<b>Operation concernée</b> <br>";
-      
+
       $r.= '<div style="margin-left:30px;">';
       foreach ($a as $key => $element) {
 		$operation=new Acc_operation($p_cn);
 		$operation->jr_id=$element;
-		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\',%d)">', 
+		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\',%d)">',
 					 $operation->get_internal(),
 					 $element,
 					 $sessid,
@@ -621,10 +623,10 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	  }//for
 	  $r.= "</div>";
   }// if ( $a != null )
-  
+
   $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."',".$gDossier.",'rapt','".$content['jr_montant']."')\">";
 
-  $r.= '<H2 class="info">rapprochement </H2> 
+  $r.= '<H2 class="info">rapprochement </H2>
        <INPUT TYPE="TEXT" id="rapt" name="rapt" value="">'.$search;
   } // if p_mode==1
   $r.='<input type="hidden" name="jr_id" value="'.$content['jr_id'].'">';
@@ -633,9 +635,9 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 }
 
 
-/*! 
+/*!
  * \brief  Get data from jrn and jrnx thanks the jr_id
- * 
+ *
  *
  *     \param connection
  *     \param p_jr_id (jrn.jr_id)
@@ -643,10 +645,10 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
  *
  * \return array
  *
- */ 
+ */
 function get_dataJrnJrId ($p_cn,$p_jr_id) {
 
-  $Res=$p_cn->exec_sql("select 
+  $Res=$p_cn->exec_sql("select
                         j_text,
                         j_debit,
                         j_poste,
@@ -662,13 +664,13 @@ function get_dataJrnJrId ($p_cn,$p_jr_id) {
                         jr_id,jr_internal, jr_rapt,jrn_def_type,
                         j_qcode,
                         jr_pj_number
-                     from 
-                          jrnx 
-                        inner join jrn on j_grpt=jr_grpt_id 
+                     from
+                          jrnx
+                        inner join jrn on j_grpt=jr_grpt_id
                         inner join jrn_def on jrn_def.jrn_def_id=jrn.jr_def_id
                         left outer join tmp_pcmn on  j_poste=pcm_val
-                      where 
-                         jr_id=$p_jr_id 
+                      where
+                         jr_id=$p_jr_id
                       order by j_debit desc,j_id asc");
   $MaxLine=Database::num_row($Res);
   echo_debug('jrn.php',__LINE__,"Found $MaxLine lines");
@@ -683,7 +685,7 @@ function get_dataJrnJrId ($p_cn,$p_jr_id) {
       {
 		$fiche=new fiche($p_cn);
 		$fiche->get_by_qcode($line['j_qcode']);
-		
+
 		$array['vw_name']=$fiche->getName();
       }
     else
@@ -711,10 +713,10 @@ function get_dataJrnJrId ($p_cn,$p_jr_id) {
     }
   return $ret_array;
 }
-/*! 
+/*!
  * \brief  Get data from quant_sold or quand_purchase for the user
  * view mode
- * 
+ *
  *
  * \param connection
  * \param p_jr_id (jrn.jr_id)
@@ -722,14 +724,14 @@ function get_dataJrnJrId ($p_cn,$p_jr_id) {
  *
  * \return array or  null if there is no value
  *
- */ 
+ */
 function get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
 
   echo_debug(__FILE__.":".__LINE__."get_dataJrnJrIdUser");
 
   $Res=$p_cn->exec_sql("select ".
-	       "*".
-	       "  from quant_sold join jrn on (qs_internal=jr_internal) ". 
+	       "*,to_char(jr_ech,'DD-MM-YYYY') as ech_fmt".
+	       "  from quant_sold join jrn on (qs_internal=jr_internal) ".
 	       "       join jrn_def on (jr_def_id=jrn_def_id) ".
 		   "   inner join jrnx on (j_grpt=jr_grpt_id )".
 			   " join tmp_pcmn on (pcm_val=j_poste)".
@@ -740,11 +742,11 @@ function get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
   echo_debug('jrn.php',__LINE__,"Found $MaxLine lines");
 
 
-  // if no info found in quant_sold try in quant_purchase 
-  if ( $MaxLine == 0 ) 
+  // if no info found in quant_sold try in quant_purchase
+  if ( $MaxLine == 0 )
     {
       $Res=$p_cn->exec_sql("select ".
-		   "*".
+		   "*,to_char(jr_ech,'DD-MM-YYYY') as ech_fmt".
 		   "  from quant_purchase join jrn on (qp_internal=jr_internal)".
 		   "       join jrn_def on (jr_def_id=jrn_def_id) ".
 		   "   inner join jrnx on (j_grpt=jr_grpt_id) ".
@@ -752,9 +754,9 @@ function get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
 		   " where jr_id=$p_jr_id");
       $MaxLine=Database::num_row($Res);
       if ( $MaxLine == 0 ) 	  return null;
-      
-      
-      
+
+
+
     }
 
 
@@ -769,15 +771,15 @@ function get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
       {
 		$fiche=new fiche($p_cn);
 		$fiche->get_by_qcode($line['j_qcode']);
-		
+
 		$array['vw_name']=$fiche->getName();
       }
     else
       {
 		$array['vw_name']=$line['pcm_lib'];
       }
-	
-    if ( isset ($line['qs_client'])) 
+
+    if ( isset ($line['qs_client']))
       {
 		/* It is an invoice */
 		$array['qs_client']=$line['qs_client'];
@@ -802,6 +804,8 @@ function get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
     $array['jr_grpt_id']=$line['jr_grpt_id'];
     $array['jr_pj_name']=$line['jr_pj_name'];
     $array['jr_pj_number']=$line['jr_pj_number'];
+    $array['jrn_ech']=$line['jrn_ech'];
+    $array['ech_fmt']=$line['ech_fmt'];
 
     //    $array['']=$line[''];
     echo_debug(__FILE__.':'.__LINE__," get_dataJrnjrIdUser ",$array);
@@ -813,10 +817,10 @@ function get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
  *       (detail of operation )
  *\param $p_cn database cnx
  *\param $p_seq sequence (nb item)
- *\param $p_jid the concerned j_id 
+ *\param $p_jid the concerned j_id
  *\param $p_own object own
  *\param $p_mode readonly or writable
- *\param $p_amount amount 
+ *\param $p_amount amount
  *\return string to display
  */
 function display_table_ca($p_cn,$p_seq,$p_jid,$p_own,$p_mode,$p_amount) {
@@ -834,6 +838,6 @@ function display_table_ca($p_cn,$p_seq,$p_jid,$p_own,$p_mode,$p_amount) {
     return '<td>'.$op->display_form_plan(null,1,$p_mode,$p_seq,$p_amount)."</TD>";
   }
   return "";
-  
+
 }
 ?>

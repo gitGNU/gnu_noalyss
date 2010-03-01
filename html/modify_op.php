@@ -207,6 +207,8 @@ if ( isset($_POST['update_record']) ) {
 	/* set the pj */
 	$acc->pj=$_POST['pj']; $acc->set_pj();
 	$acc->operation_update_comment($_POST['comment']);
+	$acc->operation_update_date_limit($_POST['e_ech']);
+
 	/* insert now the grouping */
 
 	if ( trim($_POST['rapt']) != "" ) {

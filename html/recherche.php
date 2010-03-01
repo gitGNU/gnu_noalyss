@@ -68,7 +68,7 @@ echo $search_card->input();
 
 echo '<form method="GET">';
 echo $search_box;
-echo HtmlInput::submit("viewsearch","Recherche");
+echo HtmlInput::submit("viewsearch",_("Recherche"));
 echo '</form>';
 
 //-----------------------------------------------------

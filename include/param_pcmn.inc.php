@@ -174,7 +174,7 @@ for ($i=0; $i <$MaxRow; $i++) {
   echo $A['pcm_val'];
   echo '</td>';
   echo "$td";
-  printf ("<A HREF=\"javascript:PcmnUpdate(%d,'%s','%s','%s','%s',%d)\">",
+  printf ("<A HREF=\"javascript:PcmnUpdate('%s','%s','%s','%s','%s',%d)\">",
 	  $A['pcm_val'],
 	  FormatString($A['pcm_lib']),
 	  $A['pcm_val_parent'],
@@ -192,7 +192,7 @@ for ($i=0; $i <$MaxRow; $i++) {
 
 
   echo $td;
-  printf ('<A href="?p_action=pcmn&l=%d&action=del&%s">Delete</A>',$A['pcm_val'],$str_dossier);
+  printf ('<A href="?p_action=pcmn&l=%s&action=del&%s">Delete</A>',$A['pcm_val'],$str_dossier);
   echo "</TD>";
 
   

@@ -53,6 +53,11 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     if ( isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
       throw new Exception (_('Double Encodage'),5);
 
+    /* check if we can write into this ledger */
+    $user=new User($this->db);
+    if ( $user->check_jrn($p_jrn) != 'W' )
+      throw new Exception (_('Accès interdit'),20);
+
     /* check if there is a customer */
     if ( strlen(trim($e_bank_account)) == 0 ) 
       throw new Exception(_('Vous n\'avez pas donné de banque'),11);
@@ -237,7 +242,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 
     // Ledger (p_jrn)
     //--
-    $wLedger=$this->select_ledger('FIN',3);
+    $wLedger=$this->select_ledger('FIN',2);
     if ($wLedger == null) exit ('Pas de journal disponible');
 
     $label=" Journal ".HtmlInput::infobulle(2) ;
@@ -270,7 +275,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $ibank->set_attribute('ipopup','ipopcard');
 
     // name of the field to update with the name of the card
-    $ibank->set_attribute('label','e_bank_account');
+    $ibank->set_attribute('label','e_bank_account_label');
     // Add the callback function to filter the card on the jrn
     $ibank->set_callback('filter_card');
     $ibank->set_function('fill_fin_data');

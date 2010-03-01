@@ -403,7 +403,10 @@ $w=new ISelect();
   echo $w->label." :".$w->input('import_jrn',$jrn)."<br>";
   // choose the bank account
   $banque=new Acc_Parm_Code($p_cn,'BANQUE');
-  $bq=$p_cn->make_array("select j_qcode,vw_name from vw_poste_qcode join vw_fiche_attr on (j_qcode=quick_code) where j_poste::text like '".$banque->p_value."%'");
+  $caisse=new Acc_Parm_Code($p_cn,'CAISSE');
+  $sql="select j_qcode,vw_name from vw_poste_qcode join vw_fiche_attr on (j_qcode=quick_code) where j_poste::text like ".$caisse->p_value."||'%'
+  or j_poste::text like ".$banque->p_value."::text||'%'";
+  $bq=$p_cn->make_array($sql);
   $w->label='Banque';
   echo "Compte en banque :".$w->input('import_bq',$bq)."<br>";
   $format_csv=$p_cn->make_array("select include_file,name from format_csv_banque;");

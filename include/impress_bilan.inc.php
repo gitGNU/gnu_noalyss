@@ -30,10 +30,7 @@ require_once ('class_acc_bilan.php');
 // Show the jrn and date
 //-----------------------------------------------------
 require_once('class_database.php');
-/*$ret=$cn->make_array("select fr_id,fr_label
-                 from formdef
-                 order by fr_label");
-*/
+
 //-----------------------------------------------------
 // Form
 //-----------------------------------------------------
@@ -46,7 +43,7 @@ echo HtmlInput::hidden('p_action','impress');
 echo HtmlInput::hidden('type','bilan');
 echo dossier::hidden();
 echo $bilan->display_form ($filter_year);
-echo HtmlInput::submit('verif','Verification comptabilite');
+echo HtmlInput::submit('verif',_('Verification comptabilite'));
 echo '</FORM>';
 
 
@@ -66,12 +63,12 @@ if ( isset($_GET['verif'])) {
   echo '</form>';
 
  }
-echo '<span class="notice"> Attention : si le bilan n\'est pas &eacute;quilibr&eacute;.<br> V&eacute;rifiez <ul>
-<li>L\'affectation du r&eacute;sultat est fait</li>
-<li>Vos comptes actifs ont  un solde d&eacute;biteur (sauf les comptes dit invers&eacute;s)</li> 
-<li> les comptes passifs ont un solde cr&eacute;diteur (sauf les comptes dit invers&eacute;s) </li>
+echo _('<span class="notice"> Attention : si le bilan n\'est pas équilibré.<br> Vérifiez <ul>
+<li>L\'affectation du résultat est fait</li>
+<li>Vos comptes actifs ont  un solde débiteur (sauf les comptes dit inversés)</li> 
+<li> les comptes passifs ont un solde créditeur (sauf les comptes dit inversés) </li>
 </ul> 
-Utilisez la balance des comptes pour v&eacute;rifier. </span>';
+Utilisez la balance des comptes pour vérifier. </span>');
 
 echo '</div>';
 ?>

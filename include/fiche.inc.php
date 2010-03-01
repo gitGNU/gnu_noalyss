@@ -68,7 +68,7 @@ function ShowRecherche() {
   $h=new IHidden();
   echo $h->input('p_action','fiche');
   echo $h->input('action','search');
-  echo "Recherche :".$w->input('search_text',$search_text);
+  echo _("Recherche :").$w->input('search_text',$search_text);
   echo HtmlInput::submit('submit',_('Rechercher'));
   echo '</form>';
   echo '</div>';

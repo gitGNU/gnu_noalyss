@@ -1429,6 +1429,12 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     extract ($p_array);
     $user=new User($this->db);
     $tot_cred=0;$tot_deb=0;
+
+    /* check if we can write into this ledger */
+    $user=new User($this->db);
+    if ( $user->check_jrn($p_jrn) != 'W' )
+      throw new Exception (_('Accès interdit'),20);
+
     /* check for a double reload */
     if ( isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
       throw new Exception ('Double Encodage',5);

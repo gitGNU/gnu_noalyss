@@ -94,10 +94,10 @@ if ( $low_action == "list" )
 <?php
 	echo dossier::hidden();  
    $a=(isset($_GET['query']))?$_GET['query']:"";
-   printf ('Recherche <input type="text" name="query" value="%s">',
+   printf (_('Recherche').' <input type="text" name="query" value="%s">',
 	   $a);
 ?>
-<input type="submit" name="submit_query" value="recherche">
+<input type="submit" name="submit_query" value="<?=_('recherche')?>">
 <input type="hidden" name="p_action" value="supplier">
 </form>
 </span>

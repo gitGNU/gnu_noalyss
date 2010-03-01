@@ -25,7 +25,7 @@
  */
 class Calendar {
   var $current_date;
-  private static $nb_day=array(31,29,31,30,31,30,31,31,30,31,30,31);
+  private static $nb_day=array(31,28,31,30,31,30,31,31,30,31,30,31);
 
   function __construct() {
     /* get the current month */
@@ -33,6 +33,8 @@ class Calendar {
     $this->month=$this->current_date['mon'];
     $this->day=self::$nb_day[$this->month-1];
     $this->year=$this->current_date['year'];
+    if ( $this->year % 4 == 0 && $this->month=2) 
+      $this->day=29;
   }
 
   /*!\brief fill the array given as parameter with the data from action_gestion

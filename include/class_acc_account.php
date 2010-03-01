@@ -131,7 +131,7 @@ class Acc_Account {
   function load()
   {
     $ret=$this->db->exec_sql("select pcm_lib,pcm_val_parent,pcm_type from 
-                              tmp_pcmn where pcm_val=".$this->pcm_val);
+                              tmp_pcmn where pcm_val=$1",array($this->pcm_val));
     $r=Database::fetch_all($ret);
     
     if ( ! $r ) return false;
@@ -164,11 +164,11 @@ class Acc_Account {
     }
     else {
       $ret='<TABLE><TR>';
-      $ret.=sprintf ('<TD>Numéro de classe </TD><TD><INPUT TYPE="TEXT" name="p_val" value="%s"></TD>',$this->pcm_val);
+      $ret.=sprintf ('<TD>'._('Numéro de classe').' </TD><TD><INPUT TYPE="TEXT" name="p_val" value="%s"></TD>',$this->pcm_val);
       $ret.="</TR><TR>";
-      $ret.=sprintf('<TD>Libellé </TD><TD><INPUT TYPE="TEXT" size="70" NAME="p_lib" value="%s"></TD>',h($this->pcm_lib));
+      $ret.=sprintf('<TD>'._('Libellé').' </TD><TD><INPUT TYPE="TEXT" size="70" NAME="p_lib" value="%s"></TD>',h($this->pcm_lib));
       $ret.= "</TR><TR>";
-      $ret.=sprintf ('<TD>Classe Parent</TD><TD><INPUT TYPE="TEXT" name="p_parent" value="%s"></TD>',$this->pcm_val_parent);
+      $ret.=sprintf ('<TD>'._('Classe Parent').'</TD><TD><INPUT TYPE="TEXT" name="p_parent" value="%s"></TD>',$this->pcm_val_parent);
       $ret.='</tr><tr>';
       $wType->selected=$this->pcm_type;
       $ret.="<td> Type de poste </td>";

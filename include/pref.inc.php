@@ -56,7 +56,7 @@ if ( isset($_POST['pass_1'])
 $url=$_SERVER['REQUEST_URI'];
 if ( ! isset ($_REQUEST['gDossier']) ) 
   {
-    echo '<A class="mtitle" href="user_login.php"><input type="button" value="Retour"></a>';
+	echo HtmlInput::button_anchor(_('Retour'),'user_login.php?');
   } else {
   echo '<h2 class="info">'._('Changez vos préférences').'</h2>';
   }
@@ -222,7 +222,7 @@ echo '</form>';
 
 if ( ! $inside_dossier ) 
 {
-    echo '<A class="mtitle" href="user_login.php"><input type="button" value="'._('Retour').'"></a>';
+   echo HtmlInput::button_anchor(_('Retour'),'user_login.php?');
 }
 
 

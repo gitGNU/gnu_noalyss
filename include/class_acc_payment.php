@@ -279,7 +279,7 @@ class Acc_Payment
     $array=$this->get_valide();
     $r.=HtmlInput::hidden('gDossier',dossier::id());
     $r.='<ol>';
-    $r.='<li ><input type="radio" name="e_mp" value="0" checked>Paiement encod&eacute; plus tard';
+    $r.='<li ><input type="radio" name="e_mp" value="0" checked>'._('Paiement encodé plus tard');
     if ( empty($array ) == false ){
       foreach ($array as $row) {
 	$f='';
@@ -298,7 +298,7 @@ class Acc_Payment
 
 	  $s=new ISpan();
 	  $s->name=$a->name.'_label';
-	  $f=$a->input().$s->input();
+	  $f=_(" paiement par ").$a->input().$s->input();
 	}else {
 	  /* if the qcode is not null then add a hidden variable with
 	     the qcode */
@@ -307,15 +307,11 @@ class Acc_Payment
 	  $fiche->get_by_qcode($row->mp_qcode);
 	  $f=HtmlInput::hidden('e_mp_qcode_'.$row->mp_id,$row->mp_qcode);
 
-	  $f.=$fiche->strAttribut(ATTR_DEF_NAME);
+	  //	  $f.=$fiche->strAttribut(ATTR_DEF_NAME);
 	}
 	$r.='<li><input type="radio" name="e_mp" value="'.$row->mp_id.'">';
-	$r.=' payement par '.$row->mp_lib.' - fiche '.$f;
+	$r.=$row->mp_lib.'  '.$f;
 
-	/* Show in which ledger the operation will be saved */
-	$jrn=new Acc_Ledger($this->cn,$row->mp_jrn_def_id);
-	$r.=' dans le journal '.$jrn->get_name();
-	  
       }
     }
     $r.='</ol>';

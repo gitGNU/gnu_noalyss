@@ -28,6 +28,7 @@
 // Bank Keytrade
 //-----------------------------------------------------
 $line=0;
+$p_cn->set_encoding('latin1');
 
 while (($data = fgetcsv($handle, 2000,"!")) !== FALSE) {
 	$num = count($data);
@@ -107,7 +108,7 @@ echo "<br>";
 			'n')";
 	  try 
 		  {
-		    ExecSql($p_cn,$Sql,'latin1');
+		    $p_cn->exec_sql($Sql);
 		  }
 
 

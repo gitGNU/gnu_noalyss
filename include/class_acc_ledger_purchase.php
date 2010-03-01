@@ -54,6 +54,11 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
    */
   public function verify($p_array) {
     extract ($p_array);
+    /* check if we can write into this ledger */
+    $user=new User($this->db);
+    if ( $user->check_jrn($p_jrn) != 'W' )
+      throw new Exception (_('Accès interdit'),20);
+
 
     /* check for a double reload */
     if ( isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )

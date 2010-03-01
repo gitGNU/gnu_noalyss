@@ -177,8 +177,6 @@ if ($sa == 'l' && $id != -1) {
   echo HtmlInput::submit("qwlist",_("Recherche"));
   echo '</form>';
   $array=$_GET;
-  $array["type"]=$type;
-  $array["p_jrn"]=$Ledger->id;
   list($sql,$where)=$Ledger->build_search_sql($array);
 
   $max_line=$cn->count_sql($sql);

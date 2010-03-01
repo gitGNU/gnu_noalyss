@@ -1073,11 +1073,11 @@ Array
       echo '<h2 class="info">'.$this->id." ".$name.'</h2>';
       echo "<TABLE class=\"result\" width=\"100%\">";
       echo "<TR>".
-	"<TH> Code interne </TH>".
-	"<TH> Date</TH>".
-	"<TH> Description </TH>".
-	"<TH> Débit  </TH>".
-	"<TH> Crédit </TH>".
+	"<TH>"._('Code interne')." </TH>".
+	"<TH>"._('Date')."</TH>".
+	"<TH>"._('Description')." </TH>".
+	"<TH>"._('Débit')."  </TH>".
+	"<TH>"._('Crédit')." </TH>".
 	"</TR>";
 
       foreach ( $this->row as $op ) {
@@ -1245,12 +1245,12 @@ function empty_attribute($p_attr) {
       $r=$bar;
       $r.='<table  width="95%">
 <TR style="background-color:lightgrey;">
-<TH>Quick Code</TH>
-<th>Nom</th>
-<th>Adresse</th>
-<th>Total d&eacute;bit</th>
-<th>Total cr&eacute;dit</th>
-<th>Solde</th>';
+<TH>'._('Quick Code').'</TH>
+<th>'._('Nom').'</th>
+<th>'._('Adresse').'</th>
+<th>'._('Total débit').'</th>
+<th>'._('Total crédit').'</th>
+<th>'._('Solde').'</th>';
 $r.='</TR>';
 	  echo_debug(__FILE__,__LINE__,$step_tiers);
       if ( sizeof ($step_tiers ) == 0 )

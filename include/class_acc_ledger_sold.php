@@ -58,6 +58,10 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     /* check for a double reload */
     if ( isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
       throw new Exception (_('Double Encodage'),5);
+    /* check if we can write into this ledger */
+    $user=new User($this->db);
+    if ( $user->check_jrn($p_jrn) != 'W' )
+      throw new Exception (_('Accès interdit'),20);
 
     /* check if there is a customer */
     if ( strlen(trim($e_client)) == 0 )
@@ -211,9 +215,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $cust=new fiche($this->db);
     $cust->get_by_qcode($e_client);
     $sposte=$cust->strAttribut(ATTR_DEF_ACCOUNT);
-    
+
     // if 2 accounts, take only the debit one for the customer
-    // 
+    //
     if ( strpos($sposte,',') != 0 ) {
       $array=explode(',',$sposte);
       $poste=$array[0];
@@ -303,7 +307,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 				       $j_id,	/* 2 */
 				       ${'e_march'.$i} , /* 3 */
 				       ${'e_quant'.$i},  /* 4 */
-				       $amount,	       /* 5 */
+				       round($amount,2),	       /* 5 */
 				       $tva_item,	       /* 6 */
 				       $idx_tva,	       /* 7 */
 				       $e_client));      /* 8 */
@@ -316,7 +320,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 				       ${'e_quant'.$i}, /* 4 */
 				       $amount,		// 5
 				       0,
-				       0,
+				       null,
 				       $e_client));
 
 	  }  // if ( $own->MY_TVA_USE=='Y') {
@@ -711,7 +715,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       /* needed for generating a invoice */
       $r.=HtmlInput::hidden('qcode_dest',${'e_mp_qcode_'.$e_mp});
 
-      $r.="Payé par ".${'e_mp_qcode_'.$e_mp};
+      $r.=_("Payé par ").${'e_mp_qcode_'.$e_mp};
       $r.='<br>';
     }
 

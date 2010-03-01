@@ -123,7 +123,7 @@ if ( $sub_action == "list" )
    printf ('<input type="text" name="query" value="%s">',
 	   $a);
 ?>
-<input type="submit" name="submit_query" value="recherche">
+<input type="submit" name="submit_query" value="<?_('recherche')?>">
 <input type="hidden" name="p_action" value="contact">
 </form>
 

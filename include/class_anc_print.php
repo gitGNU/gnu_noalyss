@@ -119,18 +119,18 @@ class Anc_Print {
 	$plan_id=new ISelect("pa_id");
  	$plan_id->value=$this->db->make_array("select pa_id, pa_name from plan_analytique order by pa_name");
 	$plan_id->selected=$this->pa_id;
-	$r.= "Plan Analytique :".$plan_id->input();
+	$r.=_( "Plan Analytique :").$plan_id->input();
 
 	$poste=new IText();
 	$poste->size=10;
-	$r.="Entre le poste ".$poste->input("from_poste",$this->from_poste);
+	$r.=_("Entre le poste ").$poste->input("from_poste",$this->from_poste);
 	$choose=new IButton();
-	$choose->name="Choix Poste";
-	$choose->label="Recherche";
+	$choose->name=_("Choix Poste");
+	$choose->label=_("Recherche");
 	$choose->javascript="onClick=search_ca('".$_REQUEST['PHPSESSID']."',".dossier::id().",'from_poste','pa_id')";
 	$r.=$choose->input();
 
-	$r.=" et le poste ".$poste->input("to_poste",$this->to_poste);
+	$r.=_(" et le poste ").$poste->input("to_poste",$this->to_poste);
 	$choose->javascript="onClick=search_ca('".$_REQUEST['PHPSESSID']."',".dossier::id().",'to_poste','pa_id')";
 	$r.=$choose->input();
 	$r.='<span class="notice" style="display:block">'._('Selectionnez le plan qui vous intéresse avant de cliquer sur Recherche').'</span>';

@@ -65,21 +65,21 @@ class Acc_Bilan {
 	
 	$periode_end=$this->db->make_array("select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $p_filter_year order by p_start,p_end");
 
-	$w->label="Depuis";
+	$w->label=_("Depuis");
 	$w->value=$this->from;
 	$w->selected=$this->from;
-	$r.= $w->input('from_periode',$periode_start);
-	$w->label=" jusque ";
+	$r.= td($w->input('from_periode',$periode_start));
+	$w->label=_(" jusque ");
 	$w->value=$this->to;
 	$w->selected=$this->to;
-	$r.= $w->input('to_periode',$periode_end);
+	$r.= td($w->input('to_periode',$periode_end));
 	$r.= "</TR>";
 	$r.="<tr>";
 	$mod=new ISelect();
 	$mod->table=1;
 	$mod->value=$this->db->make_array("select b_id, b_name from bilan order by b_name");
-	$mod->label="Choix du bilan";
-	$r.=$mod->input('b_id');
+	$mod->label=_("Choix du bilan");
+	$r.=td($mod->input('b_id'));
 	$r.="</tr>";
 	$r.= '</TABLE>';
 	return $r;

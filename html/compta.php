@@ -53,7 +53,7 @@ include_once ("user_menu.php");
 echo '<div class="u_tmenu">';
 
 echo ShowMenuCompta("user_advanced.php?".dossier::get());
-
+echo js_include('anc_script.js');
 echo '</div>';
 // Get action
 
