@@ -120,6 +120,8 @@ class HtmlInput {
   public function get_js_attr(){
   	require_once('function_javascript.php');
     $attr="";
+    if ( count($this->attribute) == 0) return "";
+
     /* Add properties at the widget */
     for ($i=0;$i< count($this->attribute);$i++){
       list($name,$value)=$this->attribute[$i];

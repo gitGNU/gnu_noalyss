@@ -25,6 +25,7 @@ define ("PARCA",1100);  //Mode comptabilité analytique
 define ("PARPER",1110);  //Ajout de période
 define ("PARFIC",1120);  //Catégorie des fiches
 define ("PARDOC",1130);  //Document
+define ("PARCATDOC",1135);  //Add Document category
 define ("PARJRN",1140);  //Modification journaux
 define ("PARSEC",1245);	 /* Sécurité */
 define ("PARTVA",1150);  //TVA

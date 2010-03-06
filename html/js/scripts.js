@@ -255,3 +255,25 @@ function loading() { return '<image src="image/loading.gif" alt="chargement"></i
 function ajax_misc_failure() {
     alert('Ajax Misc failed');
 }
+/**
+ *@brief remove a document_modele
+ */
+function cat_doc_remove(p_dt_id,phpsessid,p_dossier) {
+    var queryString="PHPSESSID="+phpsessid+"&gDossier="+p_dossier+"&op=rem_cat_doc"+"&dt_id="+p_dt_id;
+    var action = new Ajax.Request(
+	"ajax_misc.php" , { method:'get', parameters:queryString,onFailure:ajax_misc_failure,onSuccess:success_cat_doc_remove}
+				  );
+}
+function success_cat_doc_remove(req) {
+    try{
+	var answer=req.responseXML;
+	var html=answer.getElementsByTagName('dtid');
+	if ( html.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
+	nodeXML=html[0];
+	row_id=getNodeText(nodeXML);
+	if ( row_id == 'nok') {alert('Error');return;}
+	$('row'+row_id).style.textDecoration="line-through";
+	$('X'+row_id).style.display='none';
+	} 
+    catch (e) {	alert(e.message);}
+}

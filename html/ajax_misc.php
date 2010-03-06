@@ -53,13 +53,13 @@ $user=new User($cn); $user->check(true);$user->check_dossier($gDossier,true);
 $html=var_export($_REQUEST,true);
 switch($op) 
   { 
+    // display new calendar
   case 'cal':
     require_once('class_calendar.php');
     /* others report */
     $cal=new Calendar();
     $cal->set_periode($per);
 
-    
     $html="";
     $html=$cal->display();
     $html=escape_xml($html);
@@ -72,4 +72,46 @@ echo <<<EOF
 </data>
 EOF;
  break;
+ /* remove a cat of document */
+  case 'rem_cat_doc':
+    require_once('class_document_type.php');
+    // if user can not return error message
+    if(     $user->check_action(PARCATDOC)==0 ) {
+      $html="nok";
+      header('Content-type: text/xml; charset=UTF-8');
+echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<dtid>$html</dtid>
+</data>
+EOF;
+return;
+    }
+    // remove the cat if no action 
+    $count_md=$cn->get_value('select count(*) from document_modele where md_type=$1',array($dt_id));
+   $count_a=$cn->get_value('select count(*) from action_gestion where ag_type=$1',array($dt_id));		      
+
+    if ( $count_md != 0 || $count_a != 0 ) {
+      $html="nok";
+      header('Content-type: text/xml; charset=UTF-8');
+echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<dtid>$html</dtid>
+</data>
+EOF;
+exit;
+  }
+$cn->exec_sql('delete from document_type where dt_id=$1',array($dt_id));
+	 $html=$dt_id;
+      header('Content-type: text/xml; charset=UTF-8');
+echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<dtid>$html</dtid>
+</data>
+EOF;
+	 return;
+	 break;
+
   }

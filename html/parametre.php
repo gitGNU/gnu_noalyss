@@ -135,7 +135,8 @@ if ( $p_action == 'divers') {
 		  array('parametre.php?p_action=divers&sa=mp&'.$s,_('Moyen de paiement'),_('Moyen de paiement'),2),
 		  array('parametre.php?p_action=divers&sa=tva&'.$s,_('Tva'),_('Taux et poste comptable tva'),4),
 		  array('parametre.php?p_action=divers&sa=poste&'.$s,_('Poste Comptable'),_('Poste comptable constant'),7),
-		  array('parametre.php?p_action=divers&sa=fiche&'.$s,_('Catégorie de fiche'),_('Modifie les classe de base, les attribut,...'),5)
+		  array('parametre.php?p_action=divers&sa=fiche&'.$s,_('Catégorie de fiche'),_('Modifie les classe de base, les attribut,...'),5),
+		  array('parametre.php?p_action=divers&sa=cdoc&'.$s,_('Catégorie de documents'),_('Ajoute des catégories de documents,...'),6)
 		  );
   $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:'';
   $sb=(isset($_REQUEST['sb']))?$_REQUEST['sb']:'';
@@ -152,6 +153,9 @@ if ( $p_action == 'divers') {
     break;
   case 'fiche':
     $def=5;
+    break;
+  case 'cdoc':
+    $def=6;
     break;
   }
   echo '<div class="lmenu">';
@@ -192,7 +196,15 @@ if ( $p_action == 'divers') {
       require_once('fiche_def.inc.php');
       return;
     }
-  
+  //----------------------------------------------------
+  // Cat. Document
+  //----------------------------------------------------
+  if ( $def== 6) {
+    $User->can_request(PARCATDOC,1);
+    require_once('cat_document.inc.php');
+    return;
+  }
+
  }
 //-----------------------------------------------------
 // Extension

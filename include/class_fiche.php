@@ -577,21 +577,22 @@ Array
 		  echo_debug("insert ATTR_DEF_ACCOUNT");
 		  $v=FormatString($value);
 		  try {
+
 		    if (isNumber($v) == 1 || strpos($v,',') != 0)
 		      {
-			$sql=sprintf("select account_insert(%d,'%s')",
-				     $this->id,$v);
+			$parameter=array($this->id,$v);
+			//			$sql=sprintf("select account_insert(%d,'%s')",$this->id,$v);
 		      }
 		    else
 		      {
-			$sql=sprintf("select account_insert(%d,null)",
-				     $this->id);
+			$parameter=array($this->id,null);
+			//			$sql=sprintf("select account_insert(%d,null)", $this->id);
 		      }
-		    $this->cn->exec_sql($sql);
+		    $this->cn->exec_sql("select account_insert($1,$2)",$parameter);
 		    echo_debug(__FILE__,__LINE__,$sql);
 		  } catch (Exception $e) {
 		    throw new Exception ("Erreur : ce compte [$v] n'a pas de compte parent.".
-					 "L'op&eacute;ration est annul&eacute;e",
+					 "L'opération est annulée",
 					 1);
 		  }
 		  continue;
@@ -749,14 +750,15 @@ Array
 		     $Ret=$this->cn->exec_sql($sql);
 		     /* update also the jrnx  */
 
-		     $sql='update jrnx set j_poste=$1 where j_qcode in (select quick_code from vw_fiche_attr where f_id=$2)';
+		     /* The jrnx CANNOT BE UPDATED
+                     $sql='update jrnx set j_poste=$1 where j_qcode in (select quick_code from vw_fiche_attr where f_id=$2)';
 		     $this->cn->exec_sql(
 				  $sql,
 				  array($v,$this->id));
-
+		     */
 		   } catch (Exception $e) {
 		       throw new Exception(__LINE__."Erreur : ce compte [$v] n'a pas de compte parent.".
-					   "L'op&eacute;ration est annul&eacute;e");
+					   "L'opération est annulée");
 		   }
 
                    continue;

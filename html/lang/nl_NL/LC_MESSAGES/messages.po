@@ -2343,7 +2343,7 @@ msgstr ""
 #: include/user_menu.php:312
 #: include/ext_inc.php:17
 msgid "Sortie"
-msgstr ""
+msgstr "Uitgang"
 
 #: include/user_menu.php:336
 msgid "Sociétés"
@@ -3053,11 +3053,11 @@ msgstr ""
 
 #: include/fiche.inc.php:71
 msgid "Recherche :"
-msgstr ""
+msgstr "Zoeken"
 
 #: include/jrn.php:291
 msgid "Echéance "
-msgstr ""
+msgstr "Termijn"
 
 #: include/ext/stock/class_ext_stock.php:341
 #: include/ext/stock/class_ext_stock.php:347
