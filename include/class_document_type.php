@@ -59,8 +59,13 @@ class Document_type
     $array=array();
     for ($i=0;$i<count($r);$i++) {
       $tmp['dt_value']=$r[$i]['dt_value'];
-      $bt=new IButton('X'.$r[$i]['dt_id'],"X");
-      $bt->javascript="cat_doc_remove('".$r[$i]['dt_id']."','".$_REQUEST['PHPSESSID']."','".Dossier::id()."');";
+
+      $bt=new IButton('X'.$r[$i]['dt_id']);
+      $bt->label=_('Effacer');
+      $bt->javascript="if (confirm('"._('Vous confirmez')."')==true) {";
+      $bt->javascript.="cat_doc_remove('".$r[$i]['dt_id']."','".$_REQUEST['PHPSESSID']."','".Dossier::id()."');";
+      $bt->javascript.='}';
+
       $tmp['js_remove']=$bt->input();
       $tmp['dt_id']=$r[$i]['dt_id'];
       $array[$i]=$tmp;
