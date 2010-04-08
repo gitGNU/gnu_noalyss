@@ -236,6 +236,9 @@ function get_internal() {
  /*!\brief add a limit of payment to the operation (jrn.jr_ech) */
  function operation_update_date_limit($p_text)
  {
+   if ( isDate($p_text) == null ) {
+     $p_text=null;
+   }
    $sql="update jrn set jr_ech=to_date($1,'DD.MM.YYYY') where jr_id=$2";
    $this->db->exec_sql($sql,array($p_text,$this->jr_id));
  }

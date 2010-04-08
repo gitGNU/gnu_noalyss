@@ -97,7 +97,8 @@ de donn&eacute;es");
      */
     function exec_sql( $p_string,$p_array=null) {
       try {
-
+	$this->sql=$p_string;
+	$this->array=$p_array;
 	if ( $p_array==null ) {
 	  $this->ret=pg_query($this->db,$p_string);
 	} else {
@@ -440,7 +441,16 @@ de donn&eacute;es");
 	return false;
       return true;
     }
-    /*!
+    /*
+     *!\brief test if a schema exists 
+     * \return true if the schemas exists otherwise false
+     */
+    function exist_schema($p_name) {
+      $r=$this->count_sql("select nspname from pg_namespace where nspname=lower($1)",array($p_name));
+      if ( $r==0)
+	return false;
+      return true;
+    }    /*!
      *\brief create a string containing the value separated by comma
      * for use in a SQL in statement
      *\return the string or empty if nothing is found

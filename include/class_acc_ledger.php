@@ -2097,7 +2097,7 @@ function get_last_date()
       if ( $p_action == 'gl') $p_action='ALL';
       /* actions from commercial.php  */
       if ( $p_action == 'client') $p_action='ALL';
-      if ( $p_action == 'fournisseur') $p_action='ALL';
+      if ( $p_action == 'supplier') $p_action='ALL';
       if ( $p_action == 'adm') $p_action='ALL';
       if ( $p_action == 'quick_writing') $p_action='ALL';
 

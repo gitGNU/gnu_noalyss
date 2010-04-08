@@ -98,6 +98,7 @@ class Calendar {
     $wMonth->set_attribute('gDossier',dossier::id());
     $wMonth->set_attribute('phpsessid',$_REQUEST['PHPSESSID']);
     $month_year=$wMonth->input().$wMonth->get_js_attr();
+
     ob_start();
     require_once('template/calendar.php');
     $ret=ob_get_contents();
@@ -113,6 +114,9 @@ class Calendar {
 			  " from parm_periode where p_id=$1",array($this->default_periode));
     $this->month=$array[0]['month'];
     $this->year=$array[0]['year'];
+    $this->day=self::$nb_day[$this->month-1];
+    if ( $this->year % 4 == 0 && $this->month=2) 
+      $this->day=29;
   }
   /**
    *@brief get the periode from the preference of the current user

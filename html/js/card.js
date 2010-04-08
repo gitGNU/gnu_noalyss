@@ -188,7 +188,7 @@ function fill_data(text,li) {
  *@param the input field
  *@see ICard
  */
-function fill_data_fin_onchange(ctl) {
+function fill_fin_data_onchange(ctl) {
 	ajaxFid(ctl);
 ajax_saldo($('phpsessid'),ctl.id);
 }

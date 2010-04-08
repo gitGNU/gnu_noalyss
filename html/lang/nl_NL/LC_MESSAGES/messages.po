@@ -3,14 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-07 00:32+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2010-03-07 00:38+0100\n"
+"Last-Translator: Dany De Bontridder <dany@alchimerys.be>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2499,11 +2498,11 @@ msgstr "Eenheid prijs zonder BTW"
 
 #: include/template/form_ledger_detail.php:33
 msgid "tot.tva"
-msgstr ""
+msgstr "tot btw"
 
 #: include/template/form_ledger_detail.php:34
 msgid "tvac"
-msgstr ""
+msgstr "met btw"
 
 #: include/template/form_ledger_fin.php:11
 msgid "Extrait de compte"
@@ -2527,67 +2526,67 @@ msgstr ""
 
 #: include/template/ledger_search.php:1
 msgid "Critères de Recherche"
-msgstr ""
+msgstr "Zoeken criteria"
 
 #: include/template/ledger_search.php:5
 msgid "Dans le journal"
-msgstr ""
+msgstr "En in het boek"
 
 #: include/template/ledger_search.php:14
 msgid "Et Compris entre les date"
-msgstr ""
+msgstr "En tussen de datum"
 
 #: include/template/ledger_search.php:17 include/template/ledger_search.php:35
 msgid "et"
-msgstr ""
+msgstr "en"
 
 #: include/template/ledger_search.php:23
 msgid "Et contenant dans la description, pièce justificative ou n° interne"
-msgstr ""
+msgstr "En met de interne number, de beschrijving, "
 
 #: include/template/ledger_search.php:32
 msgid "Et compris entre les montants"
-msgstr ""
+msgstr "En tussen de bedragen"
 
 #: include/template/ledger_search.php:40
 msgid "Et utilisant la fiche (quick code)"
-msgstr ""
+msgstr "En met de blad (quick code)"
 
 #: include/template/ledger_search.php:48
 msgid "Et utilisant le poste comptable"
-msgstr ""
+msgstr "En met de rekening"
 
 #: include/template/ledger_search.php:58
 msgid "Et uniquement non payées"
-msgstr ""
+msgstr "En alleen niet betalend"
 
 #: include/template/new_mod_payment.php:2
 msgid "Nouveau moyen de paiement"
-msgstr ""
+msgstr "Niew methode van betaling"
 
 #: include/template/new_mod_payment.php:25
 msgid "Pour le type de journal"
-msgstr ""
+msgstr "Voor de soort van boek"
 
 #: include/template/new_mod_payment.php:34
 msgid "Paiement enregistré dans "
-msgstr ""
+msgstr "Betaling geregistreerd in"
 
 #: include/template/new_mod_payment.php:43
 msgid "Avec la fiche"
-msgstr ""
+msgstr "Met de blad"
 
 #: include/template/param_jrn.php:4
 msgid "Nom journal"
-msgstr ""
+msgstr "Boek naam"
 
 #: include/template/param_jrn.php:8
 msgid "Postes utilisables journal (débit/crédit)"
-msgstr ""
+msgstr "beschikbaar rekening (debit/credit) "
 
 #: include/template/param_jrn.php:22
 msgid "Type de journal"
-msgstr ""
+msgstr "Soort van boek"
 
 #: include/template/param_jrn.php:28
 msgid "Préfixe code interne"
@@ -2603,11 +2602,11 @@ msgstr ""
 
 #: include/template/param_jrn.php:40
 msgid "N° pièce justificative"
-msgstr ""
+msgstr "Nummer "
 
 #: include/template/param_jrn.php:44
 msgid "La numérotation est propre à chaque journal"
-msgstr ""
+msgstr "De nummering hangt journal"
 
 #: include/template/param_jrn.php:53
 msgid "Fiches Débit"
@@ -2844,19 +2843,19 @@ msgstr "BTW %"
 
 #: include/class_anc_print.php:122
 msgid "Plan Analytique :"
-msgstr ""
+msgstr "Analytische plan"
 
 #: include/class_anc_print.php:126
 msgid "Entre le poste "
-msgstr ""
+msgstr "Tussen de rekening"
 
 #: include/class_anc_print.php:128
 msgid "Choix Poste"
-msgstr ""
+msgstr "keuze van de rekening"
 
 #: include/class_anc_print.php:133
 msgid " et le poste "
-msgstr ""
+msgstr " en de rekening "
 
 #: include/fiche.inc.php:71
 msgid "Recherche :"
@@ -2870,59 +2869,59 @@ msgstr "Termijn"
 #: include/ext/stock/class_ext_stock.php:347
 #: include/ext/stock/class_ext_stock.php:326
 msgid "Discount"
-msgstr ""
+msgstr "Korting"
 
 #: include/class_fiche.php:1076 include/class_fiche.php:1078
 msgid "Code interne"
-msgstr ""
+msgstr "Interne code"
 
 #: include/class_fiche.php:1248 include/class_fiche.php:1250
 msgid "Quick Code"
-msgstr ""
+msgstr "Quick Code"
 
 #: include/class_fiche.php:1250 include/class_fiche.php:1252
 msgid "Adresse"
-msgstr ""
+msgstr "Adress"
 
 #: include/class_fiche.php:1251 include/class_fiche.php:1253
 msgid "Total débit"
-msgstr ""
+msgstr "Debit totaal"
 
 #: include/class_fiche.php:1252 include/class_fiche.php:1254
 msgid "Total crédit"
-msgstr ""
+msgstr "Credit totaal"
 
 #: include/client.inc.php:72
 msgid "Vous  ne pouvez pas enlever de fiche"
-msgstr ""
+msgstr "U mag geen blad verwijderen"
 
 #: include/class_acc_account.php:167
 #, php-format
 msgid "Numéro de classe"
-msgstr ""
+msgstr "rekeningsnummer"
 
 #: include/class_acc_account.php:171
 #, php-format
 msgid "Classe Parent"
-msgstr ""
+msgstr "Rekening "
 
 #: include/class_acc_bilan.php:72
 msgid " jusque "
-msgstr ""
+msgstr "tot"
 
 #: include/class_acc_bilan.php:81
 msgid "Choix du bilan"
-msgstr ""
+msgstr "Keuze van de handelsbalans"
 
 #: include/class_acc_ledger_fin.php:59 include/class_acc_ledger.php:1436
 #: include/class_acc_ledger_purchase.php:60
 #: include/class_acc_ledger_sold.php:64
 msgid "Accès interdit"
-msgstr ""
+msgstr "Verboden"
 
 #: include/impress_bilan.inc.php:46
 msgid "Verification comptabilite"
-msgstr ""
+msgstr "Verificatie vand de boekhouding"
 
 #: include/impress_bilan.inc.php:66
 msgid ""
@@ -2936,11 +2935,20 @@ msgid ""
 "</ul> \n"
 "Utilisez la balance des comptes pour vérifier. </span>"
 msgstr ""
+"<span class=\"notice\"> Opgelet: als de balans niet in evenwicht. <br>"
+"Check <ul> \n"
+"<li> verdeling van de inkomsten is gemaakt </ li> \n"
+"Uw <li> actieve accounts hebben een negatief saldo (exclusief rekeningen zei omgekeerd)"
+"</ Li> \n"
+"<li> passiva rekeningen hebben een tegoed (exclusief rekeningen zei"
+"omgekeerd) </ li> \n"
+"</ Ul> \n"
+"Gebruik de rekening van de betalingsbalans te controleren. </ Span>"
 
 #: html/parametre.php:139
 msgid "Catégorie de documents"
-msgstr ""
+msgstr "Categorie van documenten"
 
 #: html/parametre.php:139
 msgid "Ajoute des catégories de documents,..."
-msgstr ""
+msgstr "Voegt categorieën van documenten toe"

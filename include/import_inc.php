@@ -92,7 +92,7 @@ $p_cn->commit();
  *        modify the Quick Code or remove record poss.value are form, remove
  */
 function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
-  $w=new ICard();
+   $w=new ICard();
   $w->jrn=$p_val['jrn'];
   $w->name='poste'.$counter;
   $w->extra='filter';
@@ -181,7 +181,6 @@ function VerifImport($p_cn){
 	$Res=$p_cn->exec_sql($sql);
 	$Num=Database::num_row($Res);
 	echo $Num._(" opérations à complèter")."<br/><br/>";
-	$i=1;
 	// include javascript for popup 
 	echo JS_CARD;
 	echo JS_LEDGER;
@@ -192,7 +191,6 @@ function VerifImport($p_cn){
 	  echo dossier::hidden();
 	  ShowBox($val,$i,$p_cn,'form');
 	  echo '</form>';
-	  $i++;
 	}
 
 }

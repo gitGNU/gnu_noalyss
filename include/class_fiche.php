@@ -960,7 +960,6 @@ Array
 	       " ( to_date($2,'DD.MM.YYYY') <= j_date and ".
 			       "   to_date($3,'DD.MM.YYYY') >= j_date )".
 	       " order by j_date",array($qcode,$p_from,$p_to));
-
       return $this->get_row_result($Res);
     }
 

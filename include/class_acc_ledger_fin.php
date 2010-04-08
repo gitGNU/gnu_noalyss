@@ -279,8 +279,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     // Add the callback function to filter the card on the jrn
     $ibank->set_callback('filter_card');
     $ibank->set_function('fill_fin_data');
-    $ibank->javascript=sprintf(' onchange="fill_fin_data_onchange(\'%s\');" ',
-			    $ibank->name);
+    $ibank->javascript=sprintf(' onchange="fill_fin_data_onchange(this);" ');
 
     $f_legend_detail='Opérations financières';
     //--------------------------------------------------
@@ -337,7 +336,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       $W1->set_attribute('ipopup','ipopcard');
 
       // name of the field to update with the name of the card
-      $W1->set_attribute('label','e_other'.$i.'_comment');
+      $W1->set_attribute('label','e_other'.$i.'_label');
       // name of the field to update with the name of the card
       $W1->set_attribute('typecard','filter');
       // Add the callback function to filter the card on the jrn

@@ -134,7 +134,7 @@ if ( isset ($_REQUEST['sa'] )) {
     echo '<h2 class="info"> Restauration réussie du modèle '.$lname.'</h2>';
     $new_cn=new Database($id,'mod');
 
-    apply_patch($new_cn,$name,0);
+    $new_cn->apply_patch($name,0);
 
     echo '<span class="error">'.'Ne pas recharger la page, sinon votre base de données sera restaurée une fois de plus'.'</span>';
     echo $retour;

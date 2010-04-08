@@ -54,7 +54,7 @@ if ( count($array) == 0 ) {
 }
 $Libelle=utf8_decode(sprintf("(%s) %s ",$Fiche->id,$Fiche->getName()));
 header_pdf($cn,$pdf);
-//  $pdf->ezText($Libelle,30);
+
 $pdf->ezTable($array,
 	      array ('jr_internal'=>'Operation',
 		     'j_date_fmt' => 'Date',

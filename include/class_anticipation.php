@@ -237,7 +237,7 @@ class Anticipation
 		$periode=new Periode($this->cn);
 		$aPeriode=$this->cn->make_array("select p_id,to_char(p_start,'MM.YYYY') as label from parm_periode where to_char(p_start,'DD')!='31' order by p_start");
 		$aPeriode[]=array('value'=>0,'label'=>'Mensuel');
-		$value=$this->cn->get_array("select fi_id,fi_text,fi_account,fi_card,fc_id,fi_amount,fi_debit ".
+		$value=$this->cn->get_array("select fi_id,fi_text,fi_account,fi_card,fc_id,fi_amount,fi_debit,fi_pid ".
 			" from forecast_item ".
 			" 	where fc_id in (select fc_id from forecast_cat where f_id = $1)",array($this->f_id));
 		for ($i=0;$i<MAX_FORECAST_ITEM;$i++){
