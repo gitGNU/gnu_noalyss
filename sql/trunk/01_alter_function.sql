@@ -1,3 +1,4 @@
+create schema comptaproc;
 alter function account_add( p_id poste_comptable, p_name character varying) set schema comptaproc ;
 alter function account_auto( p_fd_id integer) set schema comptaproc ;
 alter function account_compute( p_f_id integer) set schema comptaproc ;
