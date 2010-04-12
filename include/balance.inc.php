@@ -134,22 +134,22 @@ if ( isset ($_POST['view']  ) ) {
   echo '<TD><form method="POST" ACTION="print_balance.php">'.
 	dossier::hidden().
     HtmlInput::submit('bt_pdf',"Export PDF").
-    $hid->input("p_action","impress").
-    $hid->input("from_periode",$_POST['from_periode']).
-    $hid->input("to_periode",$_POST['to_periode']).
-    $hid->input("p_jrn",$_POST['p_jrn']).
-    $hid->input("from_poste",$_POST['from_poste']).
-    $hid->input("to_poste",$_POST['to_poste']);
+    HtmlInput::hidden("p_action","impress").
+    HtmlInput::hidden("from_periode",$_POST['from_periode']).
+    HtmlInput::hidden("to_periode",$_POST['to_periode']).
+    HtmlInput::hidden("p_jrn",$_POST['p_jrn']).
+    HtmlInput::hidden("from_poste",$_POST['from_poste']).
+    HtmlInput::hidden("to_poste",$_POST['to_poste']);
   echo "</form></TD>";
   echo '<TD><form method="POST" ACTION="bal_csv.php">'.
     HtmlInput::submit('bt_csv',"Export CSV").
 	dossier::hidden().
-    $hid->input("p_action","impress").
-    $hid->input("from_periode",$_POST['from_periode']).
-    $hid->input("to_periode",$_POST['to_periode']).
-    $hid->input("p_jrn",$_POST['p_jrn']).
-    $hid->input("from_poste",$_POST['from_poste']).
-    $hid->input("to_poste",$_POST['to_poste']);
+    HtmlInput::hidden("p_action","impress").
+    HtmlInput::hidden("from_periode",$_POST['from_periode']).
+    HtmlInput::hidden("to_periode",$_POST['to_periode']).
+    HtmlInput::hidden("p_jrn",$_POST['p_jrn']).
+    HtmlInput::hidden("from_poste",$_POST['from_poste']).
+    HtmlInput::hidden("to_poste",$_POST['to_poste']);
 
   echo "</form></TD>";
 
@@ -179,10 +179,10 @@ if ( isset($_POST['view'] ) ) {
 
   $row=$bal->get_row($_POST['from_periode'],
 		  $_POST['to_periode']);
-	$periode=new Periode($cn);
-    $a=$periode->get_date_limit($_POST['from_periode']);
-    $b=$periode->get_date_limit($_POST['to_periode']);
-    echo "<h2 class=\"info\"> période du ".$a['p_start']." au ".$b['p_end']."</h2>";
+  $periode=new Periode($cn);
+  $a=$periode->get_date_limit($_POST['from_periode']);
+  $b=$periode->get_date_limit($_POST['to_periode']);
+  echo "<h2 class=\"info\"> période du ".$a['p_start']." au ".$b['p_end']."</h2>";
 
   echo '<table width="100%">';  
   echo '<th>Poste Comptable</th>';

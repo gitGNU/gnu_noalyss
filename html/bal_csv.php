@@ -51,14 +51,14 @@ if ( isset($_POST['central']) ) {
     $bal->central='Y';
     $t_cent="centralisée";
   }
-  else
+else
   $bal->central='N';
-  $bal->jrn=$_POST['p_jrn'];
-  $bal->from_poste=$_POST['from_poste'];
-  $bal->to_poste=$_POST['to_poste'];
+$bal->jrn=$_POST['p_jrn'];
+$bal->from_poste=$_POST['from_poste'];
+$bal->to_poste=$_POST['to_poste'];
 
-  $row=$bal->get_row($_POST['from_periode'],
-		  $_POST['to_periode']);
+$row=$bal->get_row($_POST['from_periode'],
+		   $_POST['to_periode']);
    foreach ($row as $r) {
  
     echo $r['poste'].';'.

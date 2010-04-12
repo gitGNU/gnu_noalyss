@@ -16,7 +16,7 @@ alter table tmp_pcmn alter pcm_val_parent  type account_type;
 alter table tmp_pcmn alter pcm_val  type account_type;
 alter table centralized alter c_poste  type account_type;
 alter table del_jrnx alter j_poste  type account_type;
-alter table fiche_def alter fd_class_base  type account_type;
+alter table fiche_def alter fd_class_base  type text;
 alter table jrnx alter j_poste  type account_type;
 alter table parm_poste alter p_value  type account_type;
 
@@ -185,8 +185,75 @@ CREATE OR REPLACE VIEW vw_poste_qcode AS
       JOIN jnt_fic_att_value USING (jft_id)
      WHERE jnt_fic_att_value.ad_id = 23) b USING (f_id);
 
-alter table centralized add CONSTRAINT fk_pcmn_val foreign key (c_poste) references tmp_pcmn (pcm_val);
+CREATE OR REPLACE VIEW vw_supplier AS 
+ SELECT a.f_id, a.av_text AS name, a1.av_text AS quick_code, b.av_text AS tva_num, c.av_text AS poste_comptable, d.av_text AS rue, e.av_text AS code_postal, f.av_text AS pays, g.av_text AS telephone, h.av_text AS email
+   FROM ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+           FROM fiche
+      JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 1) a
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+           FROM fiche
+      JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 13) b USING (f_id)
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+      FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 23) a1 USING (f_id)
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+   FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 5) c USING (f_id)
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+   FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 14) d USING (f_id)
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+   FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 15) e USING (f_id)
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+   FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 16) f USING (f_id)
+   JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+   FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 17) g USING (f_id)
+   LEFT JOIN ( SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text
+   FROM fiche
+   JOIN fiche_def USING (fd_id)
+   JOIN fiche_def_ref USING (frd_id)
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+  WHERE jnt_fic_att_value.ad_id = 18) h USING (f_id)
+  WHERE a.frd_id = 8;
+
 alter table jrnx add CONSTRAINT fk_pcmn_val foreign key (j_poste) references tmp_pcmn (pcm_val);
+alter table centralized add CONSTRAINT fk_pcmn_val foreign key (c_poste) references tmp_pcmn (pcm_val);
 
 
 commit;

@@ -817,7 +817,7 @@ Array
 	 $class=$this->strAttribut(ATTR_DEF_ACCOUNT);
 	 $is_used_jrnx=0;
 	 if ( trim(strlen($class)) != 0 && isNumber($class) == 1 )
-	 	$is_used_jrnx= $this->cn->count_sql("select * from jrnx where j_poste=$class");
+	   $is_used_jrnx= $this->cn->count_sql("select * from jrnx where j_poste=$1",array($class));
 	 // if class is not NULL and if we use it before, we can't remove it
 	 if (FormatString($class) != null && $is_used_jrnx     != 0 )
 	   {
@@ -828,7 +828,7 @@ Array
 	   // Remove in PCMN
 	   if ( trim(strlen($class)) != 0 && isNumber($class) == 1 && $is_used_jrnx == 0)
 	     {
-	       $this->cn->exec_sql("delete from tmp_pcmn where pcm_val=$class");
+	       $this->cn->exec_sql("delete from tmp_pcmn where pcm_val=$1",array($class));
 	     }
 
        }

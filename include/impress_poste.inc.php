@@ -152,7 +152,7 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
 	$go=3;
       } 
       // Check if the post is numeric and exists
-      elseif (  $cn->count_sql('select * from tmp_pcmn where pcm_val='.FormatString($_GET['poste_id'])) != 0 )
+      elseif (  $cn->count_sql('select * from tmp_pcmn where pcm_val=$1',array($_GET['poste_id'])) != 0 )
 	{
 	  $Poste=new Acc_Account_Ledger($cn,$_GET['poste_id']);$go=1;
 	}
