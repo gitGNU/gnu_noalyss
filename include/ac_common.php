@@ -367,7 +367,7 @@ function ShowItem($p_array,$p_dir='V',$class="mtitle",$class_ref="mtitle",$defau
  */
 function echo_warning($p_string)
 {
-  echo '<H2 class="info">'.$p_string."</H2>";
+  echo '<H2 class="error">'.$p_string."</H2>";
 }
 /*!
  * \brief Show the periode which found thanks its id

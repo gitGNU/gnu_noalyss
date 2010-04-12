@@ -117,6 +117,7 @@ if ( ! file_exists ( $file) ) {
 	       "php_value memory_limit 20M",
 	       "AddDefaultCharset utf-8",
 	       "php_value error_reporting 10239",
+	       "php_value post_max_size 15M",
 		  "php_flag short_open_tag on",
 	       "php_value upload_max_filesize 10M",
 		"php_value session.use_trans_sid 1");

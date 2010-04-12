@@ -21,9 +21,9 @@
 
 <? endfor; ?>
 </table>
-<span style="background-color:#9FFFF1;border:1px solid black">
+<span style="background-color:#9FFFF1;border:1px solid black;padding:2px">
    <? echo _("Nombre d'enregistrements:$i"); ?>
 </span>
-
+<br>
 </div>
 </fieldset>

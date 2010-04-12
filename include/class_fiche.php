@@ -545,24 +545,6 @@ Array
 		  $this->cn->exec_sql($sql);
 		  continue;
 		}
-	      // stock
-	      if ( $id == ATTR_DEF_STOCK ) {
-		$st=$this->cn->count_sql('select * from stock_goods where '.
-			     " upper(sg_code)=upper('$value')");
-		if ( $st == 0 ) {
-		  $user=new User($this->cn);
-		  if ( $exercice == 0 ) throw new Exception ('Veuillez choisir une période dans vos préférences ',1);
-
-		  $str_stock=sprintf('insert into stock_goods(f_id,sg_quantity,sg_comment,sg_code,sg_type,sg_exercice) '.
-				     ' values (%d,0,\'%s\',upper(\'%s\'),\'d\',\'%s\')',
-				     $fiche_id,
-				     'initial',
-				     FormatString($value),
-				     $exercice);
-
-		  $this->cn->exec_sql($str_stock);
-		}
-	      }
 	      // name
 	      if ( $id == ATTR_DEF_NAME )
 		{

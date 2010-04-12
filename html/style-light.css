@@ -580,14 +580,14 @@ div.popup_border_title {
 	/*background:lightgrey;*/
 	z-index:10;
 	/*border:dotted 1px black;*/
-	border: 3px groove black;
+	border: 2px outset #201e87;
 	background-color:#879ED4;
 	font-size: 110% ;
 	font-family: arial,sans-serif;
 	font-style: italic;
 	font-weight: bolder;
 	text-align:center;
-	border-bottom: 2px solid #201e87;
+	/*border-bottom: 2px solid #201e87;*/	
 	color: white;
 	display:none;
 	/*opacity:1;
@@ -618,12 +618,12 @@ div.popup_border_notitle {
 
 div.popup_content {
 	position:absolute;
-	top:5%;
+	top:4%;
 	bottom:0;
 	left:0;
 	right:0;
 	width:100%;
-	height:95%;
+	height:96%;
 	overflow: auto;
 	background-color:lightblue;	
 	font-size:10px ;

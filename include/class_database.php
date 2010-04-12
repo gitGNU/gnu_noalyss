@@ -450,7 +450,8 @@ de donn&eacute;es");
       if ( $r==0)
 	return false;
       return true;
-    }    /*!
+    }    
+    /*!
      *\brief create a string containing the value separated by comma
      * for use in a SQL in statement
      *\return the string or empty if nothing is found

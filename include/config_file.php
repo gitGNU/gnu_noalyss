@@ -25,6 +25,16 @@
  */
 
 require_once("class_itext.php");
+function is_unix() {
+  $inc_path=get_include_path();
+  
+  if ( strpos($inc_path,";") != 0 ) {
+    $os=0;			/* $os is 0 for windoz */
+  } else {
+    $os=1;			/* $os is 1 for unix */
+  }
+  return $os;
+}
 
 
 /*!\brief
@@ -39,9 +49,10 @@ require_once("class_itext.php");
 function config_file_form($p_array=null)
 {
   if ( $p_array == null ) {
-    /* default value */
-    $ctmp='/tmp';
-    $cpath='/usr/bin';
+    $os=is_unix();
+  /* default value */
+    $ctmp=($os==1)?'/tmp':'c:\tmp';
+    $cpath=($os==1)?'/usr/bin':'c:\phpcompta\postgresql\bin';
     $cuser='phpcompta';
     $cpasswd='dany';
     $cport=5432;
@@ -49,6 +60,7 @@ function config_file_form($p_array=null)
   } else extract ($p_array);
 
   $text=new IText();
+  $text->size=25;
   $r='';
   $r.='<div style="position:float;float:left;text-align:right;line-height:1.8em;padding:0 0.9em 0 0">';
 
