@@ -42,12 +42,8 @@ echo '<div class="content">';
        || isset ($_POST['confirm_add'])) 
     {
       extract($_POST);
-      $tva_label=FormatString($tva_label);
-      $tva_rate=FormatString($tva_rate);
-      $tva_comment=FormatString($tva_comment);
-      $tva_poste=FormatString($tva_poste);
-	  // remove space
-	  $tva_poste=str_replace (" ","",$tva_poste);
+      // remove space
+      $tva_poste=str_replace (" ","",$tva_poste);
       $err=0; // Error code
 
       if ( isNumber($tva_rate) == 0 ) {
@@ -74,6 +70,10 @@ echo '<div class="content">';
 	      $Res=$cn->exec_sql(
 		       "select tva_modify($tva_id,'$tva_label',
                        '$tva_rate','$tva_comment','$tva_poste')");
+	      $Res=$cn->exec_sql(
+				 "select tva_modify($1,$2,$3,$4,$5)",
+				 array($tva_id,$tva_label,$tva_rate,$tva_comment,$tva_poste)
+				 );
 	      $err=Database::fetch_result($Res);
 	    }
 
@@ -231,11 +231,11 @@ if (   ! isset ($_POST['add'])
 </tr>
 <tr>
 <td  align="right"> Commentaire </td>
-   <td> <?php   $w=new ITextarea; $w->heigh=2;$w->width=20;echo $w->input('tva_comment','') ?></td>
+   <td> <?php   $w=new ITextarea; $w->heigh=5;$w->width=50;echo $w->input('tva_comment','') ?></td>
 </tr>
 <tr>
    <td  align="right">Poste comptable utilisés format :debit,credit</td>
-   <td> <?php   $w=new IText(); $w->size=10;echo $w->input('tva_poste','') ?></td>
+   <td> <?php   $w=new IText(); $w->size=20;echo $w->input('tva_poste','') ?></td>
 </Tr>
 </table>
 <input type="submit" value="Confirme" name="confirm_add">
@@ -267,13 +267,13 @@ if (   ! isset ($_POST['add'])
 </tr>
 <tr>
 <td  align="right"> Commentaire </td>
-   <td> <?php   $w=new ITextarea(); $w->heigh=2;$w->width=20;
+   <td> <?php   $w=new ITextarea(); $w->heigh=5;$w->width=50;
    echo $w->input('tva_comment',$tva_array[$index]['tva_comment']) ?></td>
 </tr>
 <tr>
    <td  align="right">Poste comptable utilisés format :debit,credit</td>
 
-     <td> <?php   $w=new IText();$w->size=5; echo $w->input('tva_poste',$tva_array[$index]['tva_poste']) ?></td>
+     <td> <?php   $w=new IText();$w->size=20; echo $w->input('tva_poste',$tva_array[$index]['tva_poste']) ?></td>
 </Tr>
 </table>
 <input type="submit" value="Confirme" name="confirm_mod">

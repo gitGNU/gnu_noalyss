@@ -336,13 +336,22 @@ $ret['p_end']=>'31.01.2009'
 
   }
 /*!\brief return the first day of periode
-*the this->p_id must be said
-*\return a string with the date (DD.MM.YYYY)
-*/
+ *the this->p_id must be set
+ *\return a string with the date (DD.MM.YYYY)
+ */
   public function first_day()  {
     list($p_start,$p_end)=$this->get_date_limit($this->p_id);
     return $p_start;
   }
+  /*!\brief return the last day of periode
+   *the this->p_id must be set
+   *\return a string with the date (DD.MM.YYYY)
+   */
+  public function last_day()  {
+    list($p_start,$p_end)=$this->get_date_limit($this->p_id);
+    return $p_end;
+  }
+
   function get_exercice($p_id=0) {
   if ( $p_id == 0 )  $p_id=$this->p_id;
     $sql="select p_exercice from parm_periode where p_id=".$p_id;

@@ -51,6 +51,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
    *\param an array (usually $_POST)
    *\return String
    *\throw Exception if an error occurs
+   *\todo verify also the vat
    */
   public function verify($p_array) {
     extract ($p_array);
@@ -124,7 +125,13 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     if ( $poste->load() == false ){
       throw new Exception(_('Pour la fiche ').$e_client._(' le poste comptable [').$poste->id.'] '._('n\'existe pas'),9);
     }
-
+    /** 
+     *@todo we have to check also the different accounting 
+     define ("ATTR_DEF_DEP_PRIV",31);
+     define ("ATTR_DEF_DEPENSE_NON_DEDUCTIBLE",20);
+     define ("ATTR_DEF_TVA_NON_DEDUCTIBLE",21);
+     define ("ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP",22);
+    */
     /* Check if the card belong to the ledger */
     $fiche=new fiche ($this->db);
     $fiche->get_by_qcode($e_client,'cred');
@@ -921,11 +928,11 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 
 	// vat label
 	//--
-	$select_tva=$this->db->make_array("select tva_id,tva_label from tva_rate order by tva_rate desc",0);
-	$Tva=new ISelect();
-	$Tva->javascript="onChange=\"clean_tva($i);compute_ledger($i);\"";
+	$Tva=new ITva_Select($this->db);
+	$Tva->javascript="onChange=clean_tva($i);compute_ledger($i)";
 	$Tva->selected=$march_tva_id;
-	$array[$i]['tva']=$Tva->input("e_march$i"."_tva_id",$select_tva);
+	$array[$i]['tva']=$Tva->input("e_march$i"."_tva_id");
+
 	// Tva_amount
 
 	// price
@@ -979,6 +986,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
    *\param array contains normally $_POST. It proposes also to save
    * the Analytic accountancy
    *\return string
+   *\todo verify also the vat
    */
   function confirm($p_array) {
     extract ($p_array);

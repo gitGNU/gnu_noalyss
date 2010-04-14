@@ -113,5 +113,43 @@ echo <<<EOF
 EOF;
 	 return;
 	 break;
+  case 'dsp_tva':
+    $cn=new Database($gDossier);
+    $Res=$cn->exec_sql("select * from tva_rate order by tva_rate desc");
+    $Max=Database::num_row($Res);
+    $r="";
+    $r='<div style="margin-left:10%;margin-right:10%">';
+    $r= "<TABLE BORDER=\"1\">";
+    $r.=th('');
+    $r.=th(_('code'));
+    $r.=th(_('Taux'));
+    $r.=th(_('Symbole'));
+    $r.=th(_('Explication'));
 
+    for ($i=0;$i<$Max;$i++) {
+      $row=Database::fetch_array($Res,$i);
+      $script="onclick=\"$('$ctl').value='".$row['tva_id']."';hideIPopup('".$popup."');\"";
+      $set= '<INPUT TYPE="BUTTON" Value="select" '.$script.'>';
+      $r.='<tr>';
+      $r.=td($set);
+      $r.=td($row['tva_id']);
+      $r.=td($row['tva_rate']);
+      $r.=td($row['tva_label']);
+      $r.=td($row['tva_comment']);
+    $r.='</tr>';
+    }
+    $r.='</TABLE>';
+    $r.='</div>';
+    $html=escape_xml($r);
+
+header('Content-type: text/xml; charset=UTF-8');
+echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<code>$html</code>
+<popup>$popup</popup>
+</data>
+EOF;
+
+    break;
   }

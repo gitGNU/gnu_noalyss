@@ -64,7 +64,8 @@ $array=array(
 	array(25,'Search Ledger'),
 	array(26,'Gettext'),
 	array(27,'Card (class_fiche)'),
-	array(28,'Extension')
+	array(28,'Extension'),
+	array(29,'ITVA popup')
 	);
 $r='<form method="get">';
 $r.='<select name="test_select" >';
@@ -227,7 +228,18 @@ case 28:
   require_once('class_extension.php');
   Extension::test_me();
   break;
-
+case 29:
+  require_once('class_itva_popup.php');
+  echo JS_PROTOTYPE;
+  echo JS_AJAX_FICHE;
+  echo JS_CARD;
+  echo js_include('scripts.js');
+  echo js_include('scriptaculous.js');
+  echo js_include('effects.js');
+  echo js_include("controls.js");
+  echo js_include('dragdrop.js');
+  ITva_Popup::test_me();
+  break;
 }
 
 

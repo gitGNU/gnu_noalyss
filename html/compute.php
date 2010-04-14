@@ -50,10 +50,18 @@ $cn=new Database(dossier::id());
 $User=new User($cn);
 $User->Check();
 
+/** 
+ *@todo check with my_own if the vat must be computed instead of
+ *a special value
+ */
 // Retrieve the rate of vat, it $t == -1 it means no VAT
 if ( $t != -1 ){
 	$tva_rate=new Acc_Tva($cn);
 	$tva_rate->set_parameter('id',$t);
+	/** 
+	 *@todo if the tva_rate->load failed we have to return an
+	 *error message "invalid tva"
+	 */
 	$tva_rate->load();
 }
 

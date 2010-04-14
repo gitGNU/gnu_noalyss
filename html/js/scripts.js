@@ -277,3 +277,39 @@ function success_cat_doc_remove(req) {
 	} 
     catch (e) {	alert(e.message);}
 }
+/**
+ *@brief display the popup with vat and explanation
+ *@param obj with 4 attributes gdossier, ctl,popup and phpsessid
+ */
+function popup_select_tva(obj) {
+    try {
+	showIPopup(obj.popup);
+	var queryString="PHPSESSID="+obj.phpsessid+"&gDossier="+obj.gDossier+"&op=dsp_tva"+"&ctl="+obj.ctl+'&popup='+obj.popup;
+	var action = new Ajax.Request(
+				      "ajax_misc.php" , 
+				      { method:'get', 
+					parameters:queryString,
+					onFailure:ajax_misc_failure,
+					onSuccess:success_popup_select_tva
+				      }
+				      );
+    } catch (e) {alert(e.message);}
+}
+/**
+ *@brief display the popup with vat and explanations
+ */
+function success_popup_select_tva(req) {
+    try {
+	var answer=req.responseXML;
+	var popup=answer.getElementsByTagName('popup');
+	if ( popup.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
+	var html=answer.getElementsByTagName('code');
+
+	var name_ctl=popup[0].firstChild.nodeValue+'_content';
+	var nodeXml=html[0];
+	var code_html=getNodeText(nodeXml);
+	code_html=unescape_xml(code_html);
+	$(name_ctl).innerHTML=code_html;
+    } catch (e) {alert(e.message);}
+
+}
