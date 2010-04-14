@@ -14,9 +14,8 @@ SET search_path = comptaproc, pg_catalog,public;
 drop function account_add (p_id poste_comptable,t character varying) ;
 drop function account_parent (a poste_comptable) ;
 drop function insert_jrnx (p_date character varying, p_montant numeric, p_poste poste_comptable, p_grpt integer, p_jrn_def integer, p_debit boolean, p_tech_user text, p_tech_per integer, p_qcode text, p_comment text);
-drop function  account_update(integer,text);
-drop function  account_compute(p_f_id integer) ;
-drop function find_pcmn_type(numeric);
+drop function account_update(integer,text);
+drop function find_pcm_type(numeric);
 drop function account_compute(integer);
 --
 -- Name: account_add(public.account_type, character varying); Type: FUNCTION; Schema: comptaproc; Owner: -
