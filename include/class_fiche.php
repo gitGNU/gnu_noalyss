@@ -586,6 +586,7 @@ Array
 		  // Verify if the rate exists, if not then do not update
 		  if ( strlen(trim($value)) != 0 )
 		    {
+		      if ( isNumber($value) == 0 ) continue;
 		      if ( $this->cn->count_sql("select * from tva_rate where tva_id=".$value) == 0)
 			{
 			  echo_debug("class_fiche",__LINE__,"Tva invalide $value");

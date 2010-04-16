@@ -25,24 +25,53 @@
  */
 require_once ('class_ipopup.php');
 require_once('class_ibutton.php');
-
+require_once('class_ispan.php');
+/**
+ *@brief let you choose a TVA in a popup
+ *@code
+    $a=new IPopup('popup_tva');
+    $a->set_title('Choix de la tva');
+    echo $a->input();
+    $tva=new ITva_Popup("tva1");
+    $tva->with_button(true);
+    // We can add a label for the code
+    $tva->add_label('code');
+    $tva->js='onchange="set_tva_label(this);"';
+    echo $tva->input();
+@endcode
+*/
  class ITva_Popup extends HtmlInput
 {
   public function __construct($p_name=null) {
     $this->name=$p_name;
+    $this->button=true;
   }
-
+  function with_button($p) {
+    if ($p == true ) 
+      $this->button=true;
+    else
+      $this->button=false;
+  }
   /*!\brief show the html  input of the widget*/
   public function input($p_name=null,$p_value=null)
   {
     $this->name=($p_name==null)?$this->name:$p_name;
     $this->value=($p_value==null)?$this->value:$p_value;
-    $this->js=(isset($p_js))?$this->js:"";
+    $this->js=(isset($this->js))?$this->js:"";
     if ( $this->readOnly==true) return $this->display();
 
     $str='<input type="TEXT" name="%s" value="%s" id="%s" size="3" "%s">';
     $r=sprintf($str,$this->name,$this->value,$this->name,$this->js);
+    if ( $this->button==true)
+      $r.=$this->dbutton();
 
+    if ( isset($this->code)){
+      $r.=$this->code->input();
+      $this->set_attribute('jcode',$this->code->name);
+      $this->set_attribute('gDossier',dossier::id());
+      $this->set_attribute('ctl',$this->name);
+      $r.=$this->get_js_attr();
+    }
     return $r;
 
   }
@@ -61,9 +90,13 @@ require_once('class_ibutton.php');
     $bt->set_attribute('gDossier',dossier::id());
     $bt->set_attribute('ctl',$this->name);
     $bt->set_attribute('popup','popup_tva');
+    if ( isset($this->code))
+      $bt->set_attribute('jcode',$this->code->name);
     $bt->javascript='popup_select_tva(this)';
-    return $bt->input();
+    $r=$bt->input();
+    return $r;
   }
+
   /*!\brief print in html the readonly value of the widget*/
   public function display()
   {
@@ -71,12 +104,19 @@ require_once('class_ibutton.php');
     $res=sprinf($r,$this->name,$this->value,$this->name);
     return $res;
   }
+  public function add_label($p_code) {
+    $this->code=new ISpan($p_code);
+  }
   static public function test_me()
   {
     $a=new IPopup('popup_tva');
     $a->set_title('Choix de la tva');
     echo $a->input();
     $tva=new ITva_Popup("tva1");
+    $tva->with_button(true);
+    // We can add a label for the code
+    $tva->add_label('code');
+    $tva->js='onchange="set_tva_label(this);"';
     echo $tva->input();
     echo $tva->dbutton();
   }

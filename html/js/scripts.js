@@ -285,6 +285,8 @@ function popup_select_tva(obj) {
     try {
 	showIPopup(obj.popup);
 	var queryString="PHPSESSID="+obj.phpsessid+"&gDossier="+obj.gDossier+"&op=dsp_tva"+"&ctl="+obj.ctl+'&popup='+obj.popup;
+	if ( obj.jcode ) 
+	    queryString+='&code='+obj.jcode;
 	var action = new Ajax.Request(
 				      "ajax_misc.php" , 
 				      { method:'get', 
@@ -310,6 +312,42 @@ function success_popup_select_tva(req) {
 	var code_html=getNodeText(nodeXml);
 	code_html=unescape_xml(code_html);
 	$(name_ctl).innerHTML=code_html;
+    } catch (e) {alert(e.message);}
+
+}
+/**
+ *@brief display the popup with vat and explanation
+ *@param obj with 4 attributes gdossier, ctl,popup and phpsessid
+ */
+function set_tva_label(obj) {
+    try {
+	var queryString="PHPSESSID="+obj.phpsessid+"&gDossier="+obj.gDossier+"&op=label_tva"+"&id="+obj.value;
+	if ( obj.jcode ) 
+	    queryString+='&code='+obj.jcode;
+	var action = new Ajax.Request(
+				      "ajax_misc.php" , 
+				      { method:'get', 
+					parameters:queryString,
+					onFailure:ajax_misc_failure,
+					onSuccess:success_set_tva_label
+				      }
+				      );
+    } catch (e) {alert(e.message);}
+}
+/**
+ *@brief display the popup with vat and explanations
+ */
+function success_set_tva_label(req) {
+    try {
+	var answer=req.responseXML;
+	var code=answer.getElementsByTagName('code');
+	var value=answer.getElementsByTagName('value');
+
+	if ( code.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
+
+	var label_code=code[0].firstChild.nodeValue;
+	var label_value=value[0].firstChild.nodeValue;
+	set_value(label_code,label_value);
     } catch (e) {alert(e.message);}
 
 }

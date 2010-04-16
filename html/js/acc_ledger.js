@@ -190,6 +190,7 @@ function compute_ledger(p_ctl_nb) {
 	var tva_id=-1;
 	if ( g('e_march'+p_ctl_nb+'_tva_id') ) {
 		tva_id=g('e_march'+p_ctl_nb+'_tva_id').value;
+		if ( trim(tva_id) == '') {tva_id=-1;}
 	}
 
     g('e_march'+p_ctl_nb+'_price').value=trim(g('e_march'+p_ctl_nb+'_price').value);

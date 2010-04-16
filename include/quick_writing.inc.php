@@ -132,6 +132,7 @@ $ledger=new Acc_Ledger($cn,$id);
 
 $ledger->with_concerned=true;
 // no ledger selected, propose one
+// Only ODS
 if ($id == -1 )
   {
     echo '<div class="content">';
@@ -140,7 +141,7 @@ if ($id == -1 )
      echo '<FORM method="get" action="?">';
      echo dossier::hidden();
      echo HtmlInput::hidden('p_action',$_REQUEST['p_action']);
-     echo $ledger->select_ledger()->input();
+     echo $ledger->select_ledger('ODS',3)->input();
      echo HtmlInput::submit('show_form',_('Choix du journal'));
      echo '</form>';
      echo '</div>';

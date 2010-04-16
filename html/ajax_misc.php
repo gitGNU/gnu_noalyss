@@ -128,7 +128,11 @@ EOF;
 
     for ($i=0;$i<$Max;$i++) {
       $row=Database::fetch_array($Res,$i);
-      $script="onclick=\"$('$ctl').value='".$row['tva_id']."';hideIPopup('".$popup."');\"";
+      if ( ! isset($code)) {
+	$script="onclick=\"$('$ctl').value='".$row['tva_id']."';hideIPopup('".$popup."');\"";
+      } else {
+	$script="onclick=\"$('$ctl').value='".$row['tva_id']."';set_value('$code','".$row['tva_label']."');hideIPopup('".$popup."');\"";
+      }
       $set= '<INPUT TYPE="BUTTON" Value="select" '.$script.'>';
       $r.='<tr>';
       $r.=td($set);
@@ -141,13 +145,33 @@ EOF;
     $r.='</TABLE>';
     $r.='</div>';
     $html=escape_xml($r);
-
+      
 header('Content-type: text/xml; charset=UTF-8');
 echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
 <code>$html</code>
 <popup>$popup</popup>
+</data>
+EOF;
+break;
+  case 'label_tva':
+    $cn=new Database($gDossier);
+    if ( isNumber($id) == 0 ) 
+      $value = _('tva inconnue');
+    else {
+      $Res=$cn->get_array("select * from tva_rate where tva_id = $1",array($id));
+      if ( count($Res) == 0 ) 
+	$value=_('tva inconnue');
+      else 
+	$value=$Res[0]['tva_label'];
+    }
+header('Content-type: text/xml; charset=UTF-8');
+echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<code>$code</code>
+<value>$value</value>
 </data>
 EOF;
 

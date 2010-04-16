@@ -51,7 +51,7 @@ for ($i=0;$i<$Max;$i++) {
   $row=Database::fetch_array($Res,$i);
   $set=sprintf( '<INPUT TYPE="BUTTON" Value="select" onClick="GetIt(\'%s\',\'%s\');">',
 	     $_GET['ctl'],$row['tva_id']);
-  printf("<tr><TD BGCOLOR=\LIGHTGREEN\" >%s %d</TD><TD>%s</TD><TD>%s</TD></TR>",
+  printf("<tr><TD>%s %d</TD><TD>%s</TD><TD>%s</TD></TR>",
 	 $set,
 	 $row['tva_id'],
 	 $row['tva_label'],
