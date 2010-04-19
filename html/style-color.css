@@ -289,7 +289,12 @@ a.mtitle {
  color: blue;
 	
 }
-
+td.selectedcell a.mtitle {
+ font-size:1em;
+ text-decoration:none;
+ display:block;
+ color:white;
+}
 a.dossier {
   font-size:10px;
   text-decoration:none;
@@ -733,5 +738,12 @@ span.todo  {
 	text-align: left;
 	background-color:yellow;
 	
+}
+input[disabled], textarea[disabled], option[disabled], optgroup[disabled], select[disabled] {
+-moz-user-focus:ignore;
+-moz-user-input:disabled;
+background-color:white;
+color:blue;
+cursor:inherit;
 }
 /* </style> */

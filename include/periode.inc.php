@@ -50,7 +50,8 @@ if ( $action=="change_per") {
   echo '</FORM></TR>';
   echo "</TABLE>";
   //  $choose="yes";
-
+  echo HtmlInput::button_anchor(_('Retour'),'?p_action=periode&'.Dossier::get());
+  exit();
 }
 if ( isset ($_POST["conf_chg_per"] ) ) {
   $User->can_request(PARPER);
@@ -61,16 +62,15 @@ if ( isset ($_POST["conf_chg_per"] ) ) {
       strlen (trim($p_exercice)) == 0 ||
      (string) $p_exercice != (string)(int) $p_exercice)
     { 
-      echo "<H2 class=\"error\"> Valeurs invalides</H2>";
-      return;
-    }
+      alert(_('Valeurs invalides'));
+    } else {
   $Res=$cn->exec_sql(" update parm_periode ".
 	       "set p_start=to_date('". $p_date_start."','DD.MM.YYYY'),".
 	       " p_end=to_date('". $p_date_end."','DD.MM.YYYY'),".
 	       " p_exercice='".$p_exercice."'".
 	       " where p_id=".$p_per);
 
-
+  }
   $choose="yes";
 
 }
@@ -79,8 +79,7 @@ if ( isset ($_POST["add_per"] )) {
   extract($_POST);
   $obj=new Periode($cn);
   if ( $obj->insert($p_date_start,$p_date_end,$p_exercice) == 1 ){
-      echo "<H2 class=\"error\"> Valeurs invalides</H2>";
-      return;
+      alert(_('Valeurs invalides'));
   }
   $choose="yes";
 
@@ -103,7 +102,7 @@ if ( $action== "delete_per" ) {
   $p_per=$_GET["p_per"];
 // Check if the periode is not used
   if ( $cn->count_sql("select * from jrnx where j_tech_per=$p_per") != 0 ) {
-  echo '<h2 class="error"> Désolé mais cette période est utilisée</h2>';
+    alert(' Désolé mais cette période est utilisée');
   } else
   {
   $Res=$cn->exec_sql("delete from parm_periode where p_id=$p_per");

@@ -540,7 +540,7 @@ class Document
 	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
 	  $tiers->get_by_qcode($qcode,false);
 	  $p=$tiers->strAttribut(ATTR_DEF_ACCOUNT);
-	  $poste=new Poste($this->db,$p);
+	  $poste=new Acc_Account_Ledger($this->db,$p);
 	  $r=$poste->get_solde(' true' );
 	  break;
 	case 'CUST_NAME':

@@ -43,6 +43,7 @@ if ( $sub_action=='add_document')
   $doc->md_id=-1; // because it is a new model
   $doc->md_type=$_POST['md_type'];
   $doc->start=$_POST['start_seq'];
+  $doc->md_affect=$_POST['md_affect'];
   $doc->Save();
   }
 //-----------------------------------------------------

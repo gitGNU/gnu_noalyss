@@ -49,12 +49,20 @@ require_once('function_javascript.php');
  *  - query value to seek
  *\see ajax_poste.php
  *\code
+// must be done BEFORE any FORM
 require_once('class_iposte.php');
 echo IPoste::ipopup('ipop_account');
-// The popup 
-$value->set_attribute('ipopup','ipop_account');
-// the input text to update
-$value->set_attribute('account','p_value');
+
+// In the FORM
+$text=new IPoste('field');
+$text->value=$p_res[$i]['pvalue'];
+$text->set_attribute('ipopup','ipop_account');
+$text->set_attribute('gDossier',Dossier::id());
+$text->set_attribute('phpsessid',$_REQUEST['phpsessid']);
+$text->set_attribute('jrn',0);
+$text->set_attribute('account','field');
+
+
 \endcode
  */
 class IPoste extends HtmlInput

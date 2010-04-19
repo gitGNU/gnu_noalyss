@@ -157,8 +157,10 @@ class Periode {
     $str_dossier=dossier::get();
 
     if ( $this->jrn_def_id==0 ) {
-      $Res=$this->cn->exec_sql("select p_id,to_char(p_start,'DD.MM.YYYY') as date_start,to_char(p_end,'DD.MM.YYYY') as date_end,p_central,p_closed,p_exercice
-  from parm_periode order by p_start,p_end");
+      $Res=$this->cn->exec_sql("select p_id,to_char(p_start,'DD.MM.YYYY') as date_start,to_char(p_end,'DD.MM.YYYY') as date_end,p_central,p_closed,p_exercice,
+(select count(jr_id) as count_op from jrn where jr_tech_per = p_id) as count_op
+  from parm_periode 
+order by p_start,p_end");
       $Max=Database::num_row($Res);
       echo '<TABLE ALIGN="CENTER">';
       echo "</TR>";
@@ -180,16 +182,22 @@ class Periode {
 	  $remove='<TD></TD>';
 	} else {
 	  $closed='<TD class="mtitle">';
-	  $closed.='<A class="mtitle" HREF="?p_action=periode&action=closed&p_per='.$l_line['p_id'].'&'.$str_dossier.'"> Cloturer</A>';
+	  $closed.='<A class="mtitle" HREF="?p_action=periode&action=closed&p_per='.$l_line['p_id'].'&'.$str_dossier.'" onclick="return confirm(\''._('Confirmez cloture').' ?\')"> Cloturer</A>';
 	  $change='<TD class="mtitle">';
 	  $change.='<A class="mtitle" HREF="?p_action=periode&action=change_per&p_per='.
 	    $l_line['p_id']."&p_date_start=".$l_line['date_start'].
 	    "&p_date_end=".$l_line['date_end']."&p_exercice=".
 	    $l_line['p_exercice']."&$str_dossier\"> Changer</A>";
 	  $remove='<TD class="mtitle">';
-	  $remove.='<A class="mtitle" HREF="?p_action=periode&action=delete_per&p_per='.
-	    $l_line['p_id']."&$str_dossier\"> Efface</A>";
 
+
+	  if ($l_line['count_op'] == 0 ) {
+	    $remove.='<A class="mtitle" HREF="?p_action=periode&action=delete_per&p_per='.
+	      $l_line['p_id']."&$str_dossier\" onclick=\"return confirm('"._('Confirmez effacement ?')."')\" > Efface</A>";
+	  } else {
+	    $remove.=sprintf(_('Nombre opération %d'),$l_line['count_op']);
+	  }
+	  $remove.='</td>';
     }
 	echo "$closed";
 	echo $change;

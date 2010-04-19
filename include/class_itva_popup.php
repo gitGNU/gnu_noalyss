@@ -66,11 +66,18 @@ require_once('class_ispan.php');
       $r.=$this->dbutton();
 
     if ( isset($this->code)){
+      if ( $this->cn != NULL){ 
+	/* check if tva_id == integer */
+	if (trim($this->value)!='' &&  isNumber($this->value)==1 && strpos($this->value,',') === false)
+	  $this->code->value=$this->cn->get_value('select tva_label from tva_rate where tva_id=$1',
+						  array($this->value));;
+      }
       $r.=$this->code->input();
       $this->set_attribute('jcode',$this->code->name);
       $this->set_attribute('gDossier',dossier::id());
       $this->set_attribute('ctl',$this->name);
       $r.=$this->get_js_attr();
+      
     }
     return $r;
 
@@ -104,7 +111,13 @@ require_once('class_ispan.php');
     $res=sprinf($r,$this->name,$this->value,$this->name);
     return $res;
   }
-  public function add_label($p_code) {
+  /**
+   *@brief add a field to show the selected tva's label
+   *@param $p_code is the name of the label where you can see the label of VAT
+   *@param $p_cn is a database connection if NULL it doesn't seek in the database
+   */
+  public function add_label($p_code,$p_cn=null) {
+    $this->cn=$p_cn;
     $this->code=new ISpan($p_code);
   }
   static public function test_me()

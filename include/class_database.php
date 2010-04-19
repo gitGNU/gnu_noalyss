@@ -433,6 +433,16 @@ de donn&eacute;es");
 	return false;
       return true;
     }
+    /**
+     *@brief check if the large object exists
+     *@param $p_oid of the large object
+     *@return return true if the large obj exist or false if not
+     */
+    function exist_blob($p_oid) {
+      $r=$this->get_value('select count(loid) from pg_largeobject where loid=$1'
+			      ,array($p_oid)  );
+      if ($r > 0) return true; else return false;
+    }
     /*
      *!\brief test if a view exist 
      * \return true if the view. exist otherwise false

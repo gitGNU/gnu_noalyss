@@ -749,7 +749,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.=_("Ajoutez une pièce justificative ");
     $r.=$file->input("pj","");
 
-    if ( $this->db->count_sql("select md_id,md_name from document_modele where md_type=4") > 0 )
+    if ( $this->db->count_sql("select md_id,md_name from document_modele where md_affect='VEN'") > 0 )
       {
 
 
@@ -759,7 +759,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	$doc_gen->name="gen_doc";
 	$doc_gen->value=$this->db->make_array(
 				   "select md_id,md_name ".
-				   " from document_modele where md_type=4");
+				   " from document_modele where md_affect='VEN'");
 	$r.=$doc_gen->input().'<br>';
       }
     $r.='<br>';

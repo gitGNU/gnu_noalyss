@@ -12,7 +12,7 @@ if (isset($_REQUEST['code']) ) {
       exit();
     }
     /* show name of extension */
-    echo '<div style="position:absolute;right:3px;top:3px;margin:0;z-index:10">';
+    echo '<div style="position:absolute;right:3px;top:3px;margin:0;z-index:10" class="noprint">';
     echo '<h2 class="error" style="display:inline;padding:0px;margin:0px">'.$ext->get_parameter('name').'</h2>';
 	echo HtmlInput::button_anchor(_('Sortie'),'logout.php?');
 

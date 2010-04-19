@@ -64,7 +64,7 @@ if ( $only_plugin != 'P' ) {
 $msg=_('Retour au tableau de bord');
 $hidden=dossier::hidden().HtmlInput::phpsessid();
 echo <<<EOF
-<div style="position:absolute;top:3px;left:3px">
+<div style="position:absolute;top:3px;left:3px" class="noprint">
 <form method="get" action="access.php" style="display:inline">
   $hidden
   <input type="SUBMIT" value="$msg">

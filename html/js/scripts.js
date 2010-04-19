@@ -23,7 +23,19 @@
  * \brief javascript script, always added to every page
  *
  */
-
+ /**
+ *@brief delete a row from a table (tb) the input button send the this
+ as second parameter
+ */
+function deleteRow(tb,obj) { 
+if (confirm('Confirmez effacement')) 
+	{
+	var td=obj.parentNode;
+	var tr=td.parentNode;
+	var lidx=tr.rowIndex;
+	 g(tb).deleteRow(lidx);
+	}
+}
 /*!\brief remove trailing and heading space
  * \param the string to modify
  * \return string without heading and trailing space
@@ -295,7 +307,7 @@ function popup_select_tva(obj) {
 					onSuccess:success_popup_select_tva
 				      }
 				      );
-    } catch (e) {alert(e.message);}
+    } catch (e) {alert("popup_select_tva "+e.message);}
 }
 /**
  *@brief display the popup with vat and explanations
@@ -312,7 +324,7 @@ function success_popup_select_tva(req) {
 	var code_html=getNodeText(nodeXml);
 	code_html=unescape_xml(code_html);
 	$(name_ctl).innerHTML=code_html;
-    } catch (e) {alert(e.message);}
+    } catch (e) {alert("success_popup_select_tva "+e.message);}
 
 }
 /**
@@ -332,7 +344,7 @@ function set_tva_label(obj) {
 					onSuccess:success_set_tva_label
 				      }
 				      );
-    } catch (e) {alert(e.message);}
+    } catch (e) {alert("set_tva_label "+e.message);}
 }
 /**
  *@brief display the popup with vat and explanations
@@ -348,6 +360,6 @@ function success_set_tva_label(req) {
 	var label_code=code[0].firstChild.nodeValue;
 	var label_value=value[0].firstChild.nodeValue;
 	set_value(label_code,label_value);
-    } catch (e) {alert(e.message);}
+    } catch (e) {alert("success_set_tva_label "+e.message);}
 
 }

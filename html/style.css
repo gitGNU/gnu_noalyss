@@ -296,7 +296,12 @@ a.mtitle {
  display:block;
  color:blue;
 }
-
+td.selectedcell a.mtitle {
+ font-size:1em;
+ text-decoration:none;
+ display:block;
+ color:white;
+}
 a.mtitle:hover {
  text-decoration:none;
  display:block;
@@ -720,4 +725,13 @@ span.todo  {
 	background-color:yellow;
 	
 }
+input[disabled], textarea[disabled], option[disabled], optgroup[disabled], select[disabled] {
+-moz-user-focus:ignore;
+-moz-user-input:disabled;
+background-color:white;
+color:blue;
+cursor:inherit;
+}
+
+
 /* </style> */

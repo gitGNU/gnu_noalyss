@@ -61,32 +61,36 @@ function search_poste(obj) {
     var queryString="?gDossier="+dossier;
     queryString+="&PHPSESSID="+phpsessid;
     queryString+="&op=sf";
-
-    if ( obj.jrn) { queryString+="&j="+obj.jrn;}
-    if ( obj.account) { queryString+="&c="+obj.account;}
-    if ( obj.label) { queryString+="&l="+obj.label;}
-    if ( obj.bracket) { queryString+="&b="+obj.bracket;}
-    if( obj.noquery) {queryString+="&nq";}
-    if( obj.no_overwrite) {queryString+="&nover";}
-    if( obj.bracket) {queryString+="&bracket";}
-    if ( ! obj.noquery) {
-    	if( obj.query) {queryString+="&q="+obj.query;}
-    	else {
-	if ($(obj).account) {
-	    var e=$(obj).account;
-	    queryString+="&q="+$(e).value;
+    try {
+	if ( obj.jrn) { queryString+="&j="+obj.jrn;}
+	if ( obj.account) { queryString+="&c="+obj.account;}
+	if ( obj.label) { queryString+="&l="+obj.label;}
+	if ( obj.bracket) { queryString+="&b="+obj.bracket;}
+	if( obj.noquery) {queryString+="&nq";}
+	if( obj.no_overwrite) {queryString+="&nover";}
+	if( obj.bracket) {queryString+="&bracket";}
+	if ( ! obj.noquery) {
+	    if( obj.query) {queryString+="&q="+obj.query;}
+	    else {
+		if ($(obj).account) {
+		    var e=$(obj).account;
+		    var str_account=$(e).value;
+		    queryString+="&q="+str_account;
+		}
+	    }
 	}
-    }
-     }
-    queryString+="&ctl="+obj.ipopup;
-    var action=new Ajax.Request ( 'ajax_poste.php',
-				  {
-				      method:'get',
-				      parameters:queryString,
-				      onFailure:errorPoste,
-				      onSuccess:result_poste_search
-				  }
-				  );
+
+	queryString+="&ctl="+obj.ipopup;
+	queryString=encodeURI(queryString);
+	var action=new Ajax.Request ( 'ajax_poste.php',
+				      {
+					  method:'get',
+					  parameters:queryString,
+					  onFailure:errorPoste,
+					  onSuccess:result_poste_search
+				      }
+				      );
+    } catch (e) { alert(e.getMessage());}
 }
 /**
  *@brief when you submit the form for searching a accounting item

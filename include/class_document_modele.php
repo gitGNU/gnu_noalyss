@@ -35,6 +35,7 @@ class Document_modele {
   var $md_lob;          /*!< $md_lob Document file */
   var $md_sequence;     /*!<  $md_sequence sequence name (autogenerate) */
   var $sequence;        /*!< $sequence sequence number used by the create sequence start with */
+  var $md_affect;	/*!< $md_affect if you can use it in VEN for sale, ACH for purchase or GES for follow-up */
   //Constructor parameter = database connexion
   function Document_modele($p_cn,$p_id=-1) {
     $this->cn=$p_cn;	
@@ -50,14 +51,19 @@ class Document_modele {
    */
   function myList() { 
 	$s=dossier::get();
-    $sql="select md_id,md_name,dt_value from document_modele join document_type on(dt_id=md_type)";
+    $sql="select md_id,md_name,md_affect,dt_value from document_modele join document_type on(dt_id=md_type)";
     $Res=$this->cn->exec_sql($sql);
     $all=Database::fetch_all($Res);
     if ( Database::num_row($Res) == 0 ) return "";
     $r='<p><form method="post">';
 	$r.=dossier::hidden();
     $r.="<table>";
-    $r.="<tr> <th> Nom </th> <th>Type</Th><th>Fichier</th><th> Effacer</th>"; 
+    $r.="<tr> ";
+    $r.=th(_('Nom'));
+    $r.=th(_('Catégorie'));
+    $r.=th(_('Affect.'));
+    $r.=th(_('Fichier'));
+    $r.=th(_('Effacer'));
     $r.="</tr>";
     foreach ( $all as $row) {
       $r.="<tr>";
@@ -67,6 +73,7 @@ class Document_modele {
       $r.="<td>";
       $r.=$row['dt_value'];
       $r.="</td>";
+      $r.=td(h($row['md_affect']));
       $r.="<td>";
       $r.='<A HREF="show_document_modele.php?md_id='.$row['md_id'].'&'.$s.'">Document</a>';
       $r.="</td>";
@@ -115,12 +122,11 @@ class Document_modele {
 	    {
 	      
 	      // insert into the table document_modele
-	      $this->name=FormatString($this->md_name);
 	      $this->md_id=$this->cn->get_next_seq('document_modele_md_id_seq');
-	      $sql=sprintf("insert into document_modele(md_id,md_name,md_type) 
-                              values (%d,'%s',%d)",
-			   $this->md_id,$this->name,$this->md_type);
-	      $Ret=$this->cn->exec_sql($sql);
+	      $sql="insert into document_modele(md_id,md_name,md_type,md_affect) 
+                              values ($1,$2,$3,$4)";
+			   
+	      $Ret=$this->cn->exec_sql($sql,array($this->md_id,$this->md_name,$this->md_type,$this->md_affect));
 	      // create the sequence for this modele of document
 	      $this->md_sequence="document_".$this->cn->get_next_seq("document_seq");
 	      // if start is not equal to 0 and he's a number than the user
@@ -191,7 +197,8 @@ class Document_modele {
       $res=$this->cn->exec_sql($sql);
       $r=Database::fetch_array($res,0);
       // if a lob is found
-      if ( strlen ($r['md_lob']) != 0 )
+      if ( strlen ($r['md_lob']) &&
+	   $this->cn->exist_blob($r['md_lob']) )
 	{
 	  // we remove it first
 	  $this->cn->lo_unlink($r['md_lob']);
@@ -229,12 +236,25 @@ class Document_modele {
       $r.="<tr><td> Nom </td><td>".$t->input()."</td>";
 
       $r.="</tr>";
-      $r.="<tr><td>Type de document </td>";
+      $r.="<tr><td>Catégorie de document </td>";
       $w=new ISelect();
       $w->name="md_type";
 
       $w->value=$this->cn->make_array('select dt_id,dt_value from document_type');
       $r.="<td>".$w->input()."</td></tr>";
+
+      $r.='<tr>';
+      $r.=td(_('Affectation'));
+      $waffect=new ISelect();
+      $waffect->name='md_affect';
+      $waffect->value=array(
+		      array('value'=>'ACH','label'=>_('Uniquement journaux achat')),
+		      array('value'=>'VEN','label'=>_('Uniquement journaux vente')),
+		      array('value'=>'GES','label'=>_('Partie gestion'))
+		      );
+
+      $r.=td($waffect->input());
+      $r.='</tr>';
 
       $f=new IFile();
       $f->name="doc";
@@ -256,10 +276,10 @@ class Document_modele {
   /*!\brief load the value of a document_modele,the ag_id variable must be set
    */
   function load() {
-    $array=$this->cn->get_array("SELECT md_id, md_name, md_lob, md_type, md_filename, md_mimetype".
+    $array=$this->cn->get_array("SELECT md_id, md_name, md_lob, md_type, md_filename, md_mimetype,md_affect".
 				" FROM document_modele where md_id=$1",array($this->md_id));
     if ( count($array) == 0 ) return null;
-    foreach ( array('md_name', 'md_lob','md_type', 'md_filename', 'md_mimetype') as $idx) {
+    foreach ( array('md_name', 'md_lob','md_type', 'md_filename', 'md_mimetype','md_affect') as $idx) {
       $this->$idx=$array[0][$idx];
     }
   }

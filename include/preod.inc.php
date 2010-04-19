@@ -39,13 +39,8 @@ $user->can_request(PARPREDE,1);
 						 " jrn_def order by jrn_def_name");
   // Show a list of ledger
   $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
-  $sel->selected=$sa;
+$sel->selected=(isset($_REQUEST['jrn']))?$_REQUEST['jrn']:-1;
   echo 'Choississez un journal '.$sel->input();
-  $wCheck=new ICheckBox();
-  if ( isset($_REQUEST['direct'])) {
-    $wCheck->selected=true;
-  }
-  echo 'Ecriture directe'.$wCheck->input('direct');
 
   echo dossier::hidden();
   $hid=new IHidden();
@@ -58,8 +53,6 @@ $user->can_request(PARPREDE,1);
   // if $_REQUEST[sa] == del delete the predefined operation
   if ( $sa == 'del') {
 	$op=new Pre_operation($cn);
-	if ( isset($_REQUEST['direct']))
-	  $op->od_direct='t';
 	$op->od_id=$_REQUEST['od_id'];
 	$op->delete();
 	$sa='jrn';
