@@ -21,11 +21,14 @@ h2.error {
 	color:red;
  }
 .info {
-	color:green;
+	color:blue;
 	font-size:12px;
 	font-family:sans-serif;
 }
-
+a:hover{
+	background-color:lightblue;
+	color:black;
+	}
 -->
 </style>
 <p align="center">
@@ -385,3 +388,4 @@ echo '<hr>';
  if (DEBUG=='false') ob_end_clean();
  echo "<h2 class=\"info\">Voil&agrave; tout est install&eacute; ;-) </H2>";
 ?>
+<A style="padding:5px;font-size:15px;border:groove 2px blue;text-decoration:none;background-color:lightgrey" HREF="../index.php">Connectez-vous à PhpCompta</A>
