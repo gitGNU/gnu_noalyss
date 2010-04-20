@@ -66,27 +66,27 @@ $$
 CREATE FUNCTION account_compute(p_f_id integer) RETURNS public.poste_comptable
     AS $$
 declare
-        class_base poste_comptable;
-        maxcode poste_comptable;
+	class_base poste_comptable;
+	maxcode poste_comptable;
 begin
-        select fd_class_base into class_base
-        from
-                fiche_def join fiche using (fd_id)
-        where
-                f_id=p_f_id;
-        raise notice 'account_compute class base %',class_base;
-        select count (pcm_val) into maxcode from tmp_pcmn where pcm_val_parent = class_base;
-        if maxcode = 0  then
-                maxcode:=class_base;
-        else
-                select max (pcm_val) into maxcode from tmp_pcmn where pcm_val_parent = class_base;
-        end if;
-        if maxcode = class_base then
-                maxcode:=class_base*1000;
-        end if;
-        maxcode:=maxcode+1;
-        raise notice 'account_compute Max code %',maxcode;
-        return maxcode;
+	select fd_class_base into class_base
+	from
+		fiche_def join fiche using (fd_id)
+	where
+		f_id=p_f_id;
+	raise notice 'account_compute class base %',class_base;
+	select count (pcm_val) into maxcode from tmp_pcmn where pcm_val_parent = class_base;
+	if maxcode = 0	then
+		maxcode:=class_base;
+	else
+		select max (pcm_val) into maxcode from tmp_pcmn where pcm_val_parent = class_base;
+	end if;
+	if maxcode = class_base then
+		maxcode:=class_base*1000;
+	end if;
+	maxcode:=maxcode+1;
+	raise notice 'account_compute Max code %',maxcode;
+	return maxcode;
 end;
 $$
     LANGUAGE plpgsql;
@@ -227,34 +227,34 @@ nJft_id attr_value.jft_id%type;
 first text;
 second text;
 begin
-	
+
 	if length(trim(p_account)) != 0 then
 		if position (',' in p_account) = 0 then
 			select count(*) into nCount from tmp_pcmn where pcm_val=p_account::poste_comptable;
 			if nCount = 0 then
-			select av_text into sName from 
+			select av_text into sName from
 				attr_value join jnt_fic_att_value using (jft_id)
 				where
 				ad_id=1 and f_id=p_f_id;
 			nParent:=account_parent(p_account::poste_comptable);
 			insert into tmp_pcmn(pcm_val,pcm_lib,pcm_val_parent) values (p_account::poste_comptable,sName,nParent);
-			end if;		
-		else 
+			end if;
+		else
 		raise info 'presence of a comma';
 		-- there is 2 accounts separated by a comma
 		first := split_part(p_account,',',1);
 		second := split_part(p_account,',',2);
 		-- check there is no other coma
 		raise info 'first value % second value %', first, second;
-		
+
 		if  position (',' in first) != 0 or position (',' in second) != 0 then
 			raise exception 'Too many comas, invalid account';
 		end if;
-		end if;		
+		end if;
 	end if;
 	select jft_id into njft_id from jnt_fic_att_value where f_id=p_f_id and ad_id=5;
 	update attr_value set av_text=p_account where jft_id=njft_id;
-		
+
 return njft_id;
 end;
 $$
@@ -282,7 +282,7 @@ $$
 
 CREATE FUNCTION attribut_insert(p_f_id integer, p_ad_id integer, p_value character varying) RETURNS void
     AS $$
-declare 
+declare
 	n_jft_id integer;
 begin
 	select nextval('s_jnt_fic_att_value') into n_jft_id;
@@ -333,11 +333,11 @@ begin
 	select fd_class_base into n_poste from fiche_def join fiche using
 (fd_id)
 	where f_id=p_f_id;
-	if not FOUND then 
+	if not FOUND then
 		raise exception 'Invalid fiche card_class_base(%)',p_f_id;
 	end if;
 return n_poste;
-end; 
+end;
 $$
     LANGUAGE plpgsql;
 
@@ -348,29 +348,29 @@ $$
 
 CREATE FUNCTION check_balance(p_grpt integer) RETURNS numeric
     AS $$
-declare 
+declare
 	amount_jrnx_debit numeric;
 	amount_jrnx_credit numeric;
 	amount_jrn numeric;
 begin
-	select sum (j_montant) into amount_jrnx_credit 
-	from jrnx 
-		where 
+	select sum (j_montant) into amount_jrnx_credit
+	from jrnx
+		where
 	j_grpt=p_grpt
 	and j_debit=false;
 
-	select sum (j_montant) into amount_jrnx_debit 
-	from jrnx 
-		where 
+	select sum (j_montant) into amount_jrnx_debit
+	from jrnx
+		where
 	j_grpt=p_grpt
 	and j_debit=true;
 
-	select jr_montant into amount_jrn 
+	select jr_montant into amount_jrn
 	from jrn
 	where
 	jr_grpt_id=p_grpt;
 
-	if ( amount_jrnx_debit != amount_jrnx_credit ) 
+	if ( amount_jrnx_debit != amount_jrnx_credit )
 		then
 		return abs(amount_jrnx_debit-amount_jrnx_credit);
 		end if;
@@ -401,7 +401,7 @@ begin
 	end if;
 	select count(*) into n from pg_class where relkind='r' and relname=lower(p_table);
 	if n = 0 then
-		raise exception ' Unknow table  % ',p_table;
+		raise exception ' Unknow table	% ',p_table;
 	end if;
 
 	execute 'select last_value   from '||p_sequence into last_sequence;
@@ -412,7 +412,7 @@ begin
 		max_sequence := 0;
 	end if;
 	raise notice 'Max value of the sequence is %', max_sequence;
-	max_sequence:= max_sequence +1;	
+	max_sequence:= max_sequence +1;
 	execute 'alter sequence '||p_sequence||' restart with '||max_sequence;
 return 0;
 
@@ -443,8 +443,8 @@ begin
 	loop
 	   fetch c1 into nSeq;
 	   if not FOUND THEN
-	   	close c1;
-	   	return 0;
+		close c1;
+		return 0;
 	   end if;
 	   p_sequence:='s_jrn_pj'||nSeq::text;
 	execute 'create sequence '||p_sequence;
@@ -463,7 +463,7 @@ $$
 
 CREATE FUNCTION drop_index(p_constraint character varying) RETURNS void
     AS $$
-declare 
+declare
 	nCount integer;
 begin
 	select count(*) into nCount from pg_indexes where indexname=p_constraint;
@@ -481,7 +481,7 @@ $$
 
 CREATE FUNCTION drop_it(p_constraint character varying) RETURNS void
     AS $$
-declare 
+declare
 	nCount integer;
 begin
 	select count(*) into nCount from pg_constraint where conname=p_constraint;
@@ -560,19 +560,19 @@ declare
 begin
 	open list_missing;
 	loop
-	
+
 	fetch list_missing into rec;
 	IF NOT FOUND then
 		exit;
 	end if;
 	-- insert a value into jnt_fic_att_value
-	insert 	into jnt_fic_att_value (f_id,ad_id) values (rec.f_id,rec.ad_id) returning * into jnt;
+	insert	into jnt_fic_att_value (f_id,ad_id) values (rec.f_id,rec.ad_id) returning * into jnt;
 
 	-- now we insert into attr_value
 	insert into attr_value values (jnt.jft_id,'');
 	end loop;
 	close list_missing;
-end; 
+end;
 $$
     LANGUAGE plpgsql;
 
@@ -601,21 +601,21 @@ end;$$
 CREATE FUNCTION find_pcm_type(pp_value numeric) RETURNS text
     AS $$
 declare
-        str_type text;
-        str_value text;
-        n_value numeric;
-        nLength integer;
-begin 
-        str_value:=trim(to_char(pp_value,'99999999999999999999999999999'));
-        nLength:=length(str_value);
+	str_type text;
+	str_value text;
+	n_value numeric;
+	nLength integer;
+begin
+	str_value:=trim(to_char(pp_value,'99999999999999999999999999999'));
+	nLength:=length(str_value);
 	while nLength > 0 loop
 		n_value:=to_number(str_value,'99999999999999999999999999999');
-      		select p_type into str_type from parm_poste where p_value=n_value;
+		select p_type into str_type from parm_poste where p_value=n_value;
 		if FOUND then
 			return str_type;
 		end if;
 		nLength:=nLength-1;
-		str_value:=substring(str_value from 1 for nLength);	
+		str_value:=substring(str_value from 1 for nLength);
 	end loop;
 return 'CON';
 end;
@@ -629,7 +629,7 @@ $$
 
 CREATE FUNCTION group_analytic_ins_upd() RETURNS trigger
     AS $$
-declare 
+declare
 name text;
 begin
 name:=upper(NEW.ga_id);
@@ -686,7 +686,7 @@ COMMENT ON FUNCTION html_quote(p_string text) IS 'remove harmfull HTML char';
 
 CREATE FUNCTION info_def_ins_upd() RETURNS trigger
     AS $$
-declare 
+declare
 	row_info_def info_def%ROWTYPE;
 	str_type text;
 begin
@@ -848,7 +848,7 @@ CREATE FUNCTION insert_quick_code(nf_id integer, tav_text text) RETURNS integer
 	begin
 	tText := upper(trim(tav_text));
 	tText := replace(tText,' ','');
-	
+
 	loop
 		-- take the next sequence
 		select nextval('s_jnt_fic_att_value') into ns;
@@ -856,9 +856,9 @@ CREATE FUNCTION insert_quick_code(nf_id integer, tav_text text) RETURNS integer
 			tText := 'FID'||ns;
 		end if;
 		-- av_text already used ?
-		select count(*) into nExist 
-			from jnt_fic_att_value join attr_value using (jft_id) 
-		where 
+		select count(*) into nExist
+			from jnt_fic_att_value join attr_value using (jft_id)
+		where
 			ad_id=23 and  av_text=upper(tText);
 
 		if nExist = 0 then
@@ -882,7 +882,7 @@ $$
 
 CREATE FUNCTION jrn_check_periode() RETURNS trigger
     AS $$
-declare 
+declare
 bClosed bool;
 str_status text;
 ljr_tech_per jrn.jr_tech_per%TYPE;
@@ -892,23 +892,23 @@ begin
 if TG_OP='INSERT' then
 	ljr_tech_per :=NEW.jr_tech_per;
 	ljr_def_id   :=NEW.jr_def_id;
-        lreturn      :=NEW;
+	lreturn      :=NEW;
 end if;
 
 if TG_OP='DELETE' then
 	ljr_tech_per :=OLD.jr_tech_per;
 	ljr_def_id   :=OLD.jr_def_id;
-        lreturn      :=OLD;
+	lreturn      :=OLD;
 end if;
 
-select p_closed into bClosed from parm_periode 
+select p_closed into bClosed from parm_periode
 	where p_id=ljr_tech_per;
 
 if bClosed = true then
 	raise exception 'Periode fermee';
 end if;
 
-select status into str_status from jrn_periode 
+select status into str_status from jrn_periode
        where p_id =ljr_tech_per and jrn_def_id=ljr_def_id;
 
 if str_status <> 'OP' then
@@ -944,7 +944,7 @@ end;$$
 
 CREATE FUNCTION jrn_def_delete() RETURNS trigger
     AS $$
-declare 
+declare
 nb numeric;
 begin
 select count(*) into nb from jrn where jr_def_id=OLD.jrn_def_id;
@@ -986,7 +986,7 @@ insert into del_jrn ( jr_id,
        jr_pj_name,
        jr_pj_type,
        jr_pj_number,
-       del_jrn_date) 
+       del_jrn_date)
        select  jr_id,
 	      jr_def_id,
 	      jr_montant,
@@ -1061,7 +1061,7 @@ rCount record;
 begin
 name:=upper(NEW.po_name);
 name:=trim(name);
-name:=replace(name,' ','');		
+name:=replace(name,' ','');
 NEW.po_name:=name;
 
 if NEW.ga_id is NULL then
@@ -1087,7 +1087,7 @@ end;$$
 
 CREATE FUNCTION proc_check_balance() RETURNS trigger
     AS $$
-declare 
+declare
 	diff numeric;
 	tt integer;
 begin
@@ -1110,7 +1110,7 @@ $$
 
 CREATE FUNCTION t_document_modele_validate() RETURNS trigger
     AS $$
-declare 
+declare
     lText text;
     modified document_modele%ROWTYPE;
 begin
@@ -1134,9 +1134,9 @@ nCounter integer;
     BEGIN
 select count(*) into nCounter from pg_class where relname='seq_doc_type_'||NEW.dt_id;
 if nCounter = 0 then
-        execute  'create sequence seq_doc_type_'||NEW.dt_id;
+	execute  'create sequence seq_doc_type_'||NEW.dt_id;
 end if;
-        RETURN NEW;
+	RETURN NEW;
     END;
 $$
     LANGUAGE plpgsql;
@@ -1152,7 +1152,7 @@ declare
   lText text;
   modified document%ROWTYPE;
 begin
-    	modified:=NEW;
+	modified:=NEW;
 	modified.d_filename:=replace(NEW.d_filename,' ','_');
 	return modified;
 end;
@@ -1170,14 +1170,14 @@ declare
 nCounter integer;
 
     BEGIN
-    select count(*) into nCounter 
+    select count(*) into nCounter
        from pg_class where relname='s_jrn_'||NEW.jrn_def_id;
        if nCounter = 0 then
-       	   execute  'create sequence s_jrn_'||NEW.jrn_def_id;
+	   execute  'create sequence s_jrn_'||NEW.jrn_def_id;
 	   raise notice 'Creating sequence s_jrn_%',NEW.jrn_def_id;
 	 end if;
 
-        RETURN NEW;
+	RETURN NEW;
     END;
 $$
     LANGUAGE plpgsql;
@@ -1193,7 +1193,7 @@ declare
    r_record tmp_pcmn%ROWTYPE;
 begin
 r_record=NEW;
-if  length(trim(r_record.pcm_type))=0 or r_record.pcm_type is NULL then 
+if  length(trim(r_record.pcm_type))=0 or r_record.pcm_type is NULL then
    r_record.pcm_type:=find_pcm_type(NEW.pcm_val);
    return r_record;
 end if;
@@ -1210,14 +1210,14 @@ $$
 CREATE FUNCTION trim_cvs_quote() RETURNS trigger
     AS $$
 declare
-        modified import_tmp%ROWTYPE;
+	modified import_tmp%ROWTYPE;
 begin
 	modified:=NEW;
 	modified.devise=replace(new.devise,'"','');
 	modified.poste_comptable=replace(new.poste_comptable,'"','');
-        modified.compte_ordre=replace(NEW.COMPTE_ORDRE,'"','');
-        modified.detail=replace(NEW.DETAIL,'"','');
-        modified.num_compte=replace(NEW.NUM_COMPTE,'"','');
+	modified.compte_ordre=replace(NEW.COMPTE_ORDRE,'"','');
+	modified.detail=replace(NEW.DETAIL,'"','');
+	modified.num_compte=replace(NEW.NUM_COMPTE,'"','');
 	return modified;
 end;
 $$
@@ -1231,10 +1231,10 @@ $$
 CREATE FUNCTION trim_space_format_csv_banque() RETURNS trigger
     AS $$
 declare
-        modified format_csv_banque%ROWTYPE;
+	modified format_csv_banque%ROWTYPE;
 begin
-        modified.name=trim(NEW.NAME);
-        modified.include_file=trim(new.include_file);
+	modified.name=trim(NEW.NAME);
+	modified.include_file=trim(new.include_file);
 		if ( length(modified.name) = 0 ) then
 			modified.name=null;
 		end if;
@@ -1242,7 +1242,7 @@ begin
 			modified.include_file=null;
 		end if;
 
-        return modified;
+	return modified;
 end;
 $$
     LANGUAGE plpgsql;
@@ -1253,7 +1253,7 @@ $$
 --
 
 CREATE FUNCTION tva_delete(integer) RETURNS void
-    AS $_$ 
+    AS $_$
 declare
 	p_tva_id alias for $1;
 	nCount integer;
@@ -1261,13 +1261,13 @@ begin
 	nCount=0;
 	select count(*) into nCount from quant_sold where qs_vat_code=p_tva_id;
 	if nCount != 0 then
-                 return;
-		
+		 return;
+
 	end if;
 	select count(*) into nCount from quant_purchase where qp_vat_code=p_tva_id;
 	if nCount != 0 then
-                 return;
-		
+		 return;
+
 	end if;
 
 delete from tva_rate where tva_id=p_tva_id;
@@ -1300,12 +1300,12 @@ end if;
 if length(trim(p_tva_poste)) != 0 then
 	if position (',' in p_tva_poste) = 0 then return 4; end if;
 	debit  = split_part(p_tva_poste,',',1);
-	credit  = split_part(p_tva_poste,',',2);
+	credit	= split_part(p_tva_poste,',',2);
 	select count(*) into nCount from tmp_pcmn where pcm_val=debit::poste_comptable;
 	if nCount = 0 then return 4; end if;
 	select count(*) into nCount from tmp_pcmn where pcm_val=credit::poste_comptable;
 	if nCount = 0 then return 4; end if;
- 
+
 end if;
 select into l_tva_id nextval('s_tva') ;
 insert into tva_rate(tva_id,tva_label,tva_rate,tva_comment,tva_poste)
@@ -1339,12 +1339,12 @@ end if;
 if length(trim(p_tva_poste)) != 0 then
 	if position (',' in p_tva_poste) = 0 then return 4; end if;
 	debit  = split_part(p_tva_poste,',',1);
-	credit  = split_part(p_tva_poste,',',2);
+	credit	= split_part(p_tva_poste,',',2);
 	select count(*) into nCount from tmp_pcmn where pcm_val=debit::poste_comptable;
 	if nCount = 0 then return 4; end if;
 	select count(*) into nCount from tmp_pcmn where pcm_val=credit::poste_comptable;
 	if nCount = 0 then return 4; end if;
- 
+
 end if;
 update tva_rate set tva_label=p_tva_label,tva_rate=p_tva_rate,tva_comment=p_tva_comment,tva_poste=p_tva_poste
 	where tva_id=p_tva_id;
@@ -1372,39 +1372,39 @@ CREATE FUNCTION update_quick_code(njft_id integer, tav_text text) RETURNS intege
 	if tav_text = upper( trim(old_qcode)) then
 		return 0;
 	end if;
-	
+
 	tText := trim(upper(tav_text));
 	tText := replace(tText,' ','');
 	if length ( tText) = 0 or tText is null then
 		return 0;
 	end if;
-		
+
 	ns := njft_id;
 
 	loop
 		-- av_text already used ?
-		select count(*) into nExist 
-			from jnt_fic_att_value join attr_value using (jft_id) 
-		where 
+		select count(*) into nExist
+			from jnt_fic_att_value join attr_value using (jft_id)
+		where
 			ad_id=23 and av_text=tText;
 
 		if nExist = 0 then
 			exit;
-		end if;	
+		end if;
 		if tText = 'FID'||ns then
 			-- take the next sequence
 			select nextval('s_jnt_fic_att_value') into ns;
 		end if;
 		tText  :='FID'||ns;
-		
+
 	end loop;
 	update attr_value set av_text = tText where jft_id=njft_id;
 
 	-- update also the contact
-	update attr_value set av_text = tText 
-		where jft_id in 
-			( select jft_id 
-				from jnt_fic_att_value join attr_value using (jft_id) 
+	update attr_value set av_text = tText
+		where jft_id in
+			( select jft_id
+				from jnt_fic_att_value join attr_value using (jft_id)
 			where ad_id=25 and av_text=old_qcode);
 
 

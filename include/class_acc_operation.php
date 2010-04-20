@@ -82,7 +82,7 @@ var $jr_id;	/*!< pk of jrn */
     $debit=($this->type=='c')?'false':'true';
     $this->desc=(isset($this->desc))?$this->desc:'';
     $Res=$this->db->exec_sql("select insert_jrnx
-		 ($1::text,abs($2)::numeric,$3::poste_comptable,$4::integer,$5::integer,$6::bool,$7::text,$8::integer,upper($9),$10::text)",
+		 ($1::text,abs($2)::numeric,$3::account_type,$4::integer,$5::integer,$6::bool,$7::text,$8::integer,upper($9),$10::text)",
 		      array(
 			    $this->date, //$1
 			    round($this->amount,2), //$2

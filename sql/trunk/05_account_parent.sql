@@ -33,6 +33,4 @@ begin
 	return sSubParent;
 end;
 $BODY$
-  LANGUAGE 'plpgsql' VOLATILE
-  COST 100;
-ALTER FUNCTION comptaproc.account_parent(account_type) OWNER TO trunk;
+  LANGUAGE 'plpgsql';

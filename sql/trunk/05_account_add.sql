@@ -18,5 +18,4 @@ begin
 return;
 end ;
 $BODY$
-  LANGUAGE 'plpgsql' VOLATILE
-  COST 100;
+LANGUAGE 'plpgsql';

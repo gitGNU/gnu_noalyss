@@ -85,6 +85,4 @@ raise info 'sClass_Base : %',sClass_base;
 return 0;
 end;
 $BODY$
-  LANGUAGE 'plpgsql' VOLATILE
-  COST 100;
-ALTER FUNCTION comptaproc.account_insert(integer, text) OWNER TO trunk;
+  LANGUAGE 'plpgsql' ;

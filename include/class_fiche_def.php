@@ -219,10 +219,8 @@ function input ()
 
        // p_class must be added to tmp_pcmn if it is a single accounting       
        if ( strpos(',',$p_class_base) ==0) {
-	 $sql=sprintf("select account_add(%d,'%s')",
-		      $p_class_base,$p_nom_mod);
-	 
-	 $Res=$this->cn->exec_sql($sql);
+	 $sql="select account_add($1,$2)";
+	 $Res=$this->cn->exec_sql($sql,array($p_class_base,$p_nom_mod));
        }
 
        // Get the fd_id

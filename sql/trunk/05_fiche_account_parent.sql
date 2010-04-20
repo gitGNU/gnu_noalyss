@@ -1,4 +1,4 @@
-﻿-- Function: comptaproc.fiche_account_parent(integer)
+-- Function: comptaproc.fiche_account_parent(integer)
 
 -- DROP FUNCTION comptaproc.fiche_account_parent(integer);
 
@@ -15,6 +15,4 @@ begin
 	return ret;
 end;
 $BODY$
-  LANGUAGE 'plpgsql' VOLATILE
-  COST 100;
-ALTER FUNCTION comptaproc.fiche_account_parent(integer) OWNER TO trunk;
+  LANGUAGE 'plpgsql' ;

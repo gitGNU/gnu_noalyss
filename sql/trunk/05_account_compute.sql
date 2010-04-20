@@ -32,6 +32,4 @@ begin
 	return sResult;
 end;
 $BODY$
-  LANGUAGE 'plpgsql' VOLATILE
-  COST 100;
-ALTER FUNCTION comptaproc.account_compute(integer) OWNER TO trunk;
+  LANGUAGE 'plpgsql' ;

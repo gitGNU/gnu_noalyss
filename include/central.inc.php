@@ -66,7 +66,7 @@ $period->cn=$cn;
 $period->value=0;
 $period->type=NOTCENTRALIZED;
 try {
-$ret=$period->input();
+  $ret=$period->input();
 } catch (Exception $e) {
 	if ( $e->getCode() != 0 ) {
 		echo $e->getMessage();
