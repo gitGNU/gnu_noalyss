@@ -75,7 +75,7 @@ echo ShowItem(array(
 	array('?p_action=ca_groupe&'.$str_dossier,'Groupe','Regroupe les postes analytiques',3),
 	array('?p_action=ca_imp&'.$str_dossier,'Impression',"impression de rapport",2)
 		    ),
-	      'H',"mtitle","mtitle",$def,' width="100%"');
+	      'H',"mtitle","mtitle",$def,' style="width:75%;margin-left:12%"');
 echo '</div>';
 echo '</div>';
 echo '</div>';
