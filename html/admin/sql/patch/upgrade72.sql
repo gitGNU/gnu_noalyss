@@ -749,5 +749,8 @@ begin
 end;
 $BODY$
   LANGUAGE 'plpgsql' VOLATILE;
+
+drop domain poste_comptable;
+
 update version set val=73;
 commit;
