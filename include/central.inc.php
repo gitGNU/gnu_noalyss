@@ -51,12 +51,12 @@ echo '<H2 CLASS="info"> Centralise </H2><BR>';
 if ( isset ($_POST["central"] )) {
 
   //demande centralise
-if ( $_POST["periode"] != "" ) {
-    $ret=Centralise($cn,$_POST["periode"]);
+if ( $_POST["period"] != "" ) {
+    $ret=Centralise($cn,$_POST["period"]);
     if ($ret==NOERROR) {
-      echo '<H2 class="info">La p&eacute;riode '.$_POST["periode"].' est centralis&eacute;e</H2>';
+      echo '<H2 class="info">La p&eacute;riode '.$_POST["period"].' est centralis&eacute;e</H2>';
     } else {
-      echo '<H2 class="error">La p&eacute;riode '.$_POST["periode"].' n\' a pu être centralis&eacute;e</H2>';
+      echo '<H2 class="error">La p&eacute;riode '.$_POST["period"].' n\' a pu être centralis&eacute;e</H2>';
     }
   } 
 }// if ( isset ($_POST["central"] ))
