@@ -202,7 +202,6 @@ CREATE OR REPLACE VIEW vw_fiche_def AS
    JOIN jnt_fic_attr USING (fd_id)
    JOIN attr_def ON attr_def.ad_id = jnt_fic_attr.ad_id;
 
-ALTER TABLE vw_fiche_def OWNER TO trunk;
 COMMENT ON VIEW vw_fiche_def IS 'all the attributs for	card family';
 
 
