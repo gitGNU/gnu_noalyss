@@ -57,8 +57,13 @@ require_once('function_javascript.php');
  *\see ajax_poste.php
  *\code
 // must be done BEFORE any FORM
-echo js_include('prototype.js');
-echo js_include('accounting_item.js');
+ echo js_include('prototype.js');
+ echo js_include('scriptaculous.js');
+ echo js_include('effects.js');
+ echo js_include('controls.js');
+ echo js_include('dragdrop.js');
+ echo js_include('accounting_item.js');
+
 
 require_once('class_iposte.php');
 echo IPoste::ipopup('ipop_account');
