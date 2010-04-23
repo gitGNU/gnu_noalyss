@@ -47,14 +47,25 @@ require_once('function_javascript.php');
  *  - noquery don't start a search with the content
  *  - no_overwrite do not overwrite the existant content
  *  - query value to seek
+ *@note needed javascript are
+ - echo js_include('prototype.js');
+ - echo js_include('scriptaculous.js');
+ - echo js_include('effects.js');
+ - echo js_include('controls.js');
+ - echo js_include('dragdrop.js');
+ - echo js_include('accounting_item.js');
  *\see ajax_poste.php
  *\code
 // must be done BEFORE any FORM
+echo js_include('prototype.js');
+echo js_include('accounting_item.js');
+
 require_once('class_iposte.php');
 echo IPoste::ipopup('ipop_account');
 
 // In the FORM
-$text=new IPoste('field');
+$text=new IPoste();
+$text->name('field');
 $text->value=$p_res[$i]['pvalue'];
 $text->set_attribute('ipopup','ipop_account');
 $text->set_attribute('gDossier',Dossier::id());
