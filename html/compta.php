@@ -87,6 +87,8 @@ if ( $action == 'ach' ||
 if ( $action == 'fin') {
   require_once ('compta_fin.inc.php');
  }
-
+if ($action == 'let') {
+  require_once('letter.inc.php');
+}
 html_page_stop();
 ?>

@@ -45,7 +45,10 @@ $search_card=new IPopup('ipop_card');
 $search_card->title=_('Recherche de fiche');
 $search_card->value='';
 echo $search_card->input();
-
+$pop_tva=new IPopup('popup_tva');
+$pop_tva->title=_('Choix TVA');
+$pop_tva->value='';
+echo $pop_tva->input();
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 
 $cn=new Database(dossier::id());

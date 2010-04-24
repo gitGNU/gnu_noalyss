@@ -26,6 +26,11 @@
  * - PHPSESSID
  * - gDossier
  * - $op operation the file has to execute
+ * Part 1
+ * dsp_tva fill a ipopup with a choice of possible VAT
+ *     - if code is set then fill the field code
+ *     - if compute is set then add event to call clean_tva and compute_ledger
+@Acc_Ledger_Sold::input
  *
  */
 require_once('class_database.php');
@@ -128,11 +133,20 @@ EOF;
 
     for ($i=0;$i<$Max;$i++) {
       $row=Database::fetch_array($Res,$i);
-      if ( ! isset($code)) {
-	$script="onclick=\"$('$ctl').value='".$row['tva_id']."';hideIPopup('".$popup."');\"";
-      } else {
-	$script="onclick=\"$('$ctl').value='".$row['tva_id']."';set_value('$code','".$row['tva_label']."');hideIPopup('".$popup."');\"";
-      }
+      if ( ! isset($compute)) {
+	  if ( ! isset($code) ) {
+	    $script="onclick=\"$('$ctl').value='".$row['tva_id']."';hideIPopup('".$popup."');\"";
+	  } else {
+	    $script="onclick=\"$('$ctl').value='".$row['tva_id']."';set_value('$code','".$row['tva_label']."');hideIPopup('".$popup."');\"";
+	  }
+	} else {
+	  if ( ! isset($code) ) {
+	    $script="onclick=\"$('$ctl').value='".$row['tva_id']."';hideIPopup('".$popup."');clean_tva('$compute');compute_ledger('$compute');\"";
+	  } else {
+	    $script="onclick=\"$('$ctl').value='".$row['tva_id']."';set_value('$code','".$row['tva_label']."');hideIPopup('".$popup."');clean_tva('$compute');compute_ledger('$compute');\"";
+	  }
+
+	}
       $set= '<INPUT TYPE="BUTTON" Value="select" '.$script.'>';
       $r.='<tr>';
       $r.=td($set);

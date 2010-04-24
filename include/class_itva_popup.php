@@ -34,6 +34,11 @@ require_once('class_ispan.php');
     echo $a->input();
     $tva=new ITva_Popup("tva1");
     $tva->with_button(true);
+    // You must add the attributes gDossier, popup and phpsessid
+    $tva->set_attribute('popup','popup_tva');
+    $tva->set_attribute('phpsessid',$_REQUEST['PHPSESSID']);
+    $tva->set_attribute('gDossier',dossier::id());
+
     // We can add a label for the code
     $tva->add_label('code');
     $tva->js='onchange="set_tva_label(this);"';
@@ -42,9 +47,19 @@ require_once('class_ispan.php');
 */
  class ITva_Popup extends HtmlInput
 {
+  /**
+   *@brief by default, the p_name is the name/id of the input type
+   * the this->button is false (control if a button is visible) and
+   * this->in_table=false (return the widget inside a table)
+   * this->code is a span widget to display the code (in this case, you will
+   * to set this->cn as database connexion)
+   * to have its own javascript for the button you can use this->but_javascript)
+   * by default it is 'popup_select_tva(this)';
+   */
   public function __construct($p_name=null) {
     $this->name=$p_name;
     $this->button=true;
+    $this->in_table=false;
   }
   function with_button($p) {
     if ($p == true ) 
@@ -57,13 +72,20 @@ require_once('class_ispan.php');
   {
     $this->name=($p_name==null)?$this->name:$p_name;
     $this->value=($p_value==null)?$this->value:$p_value;
-    $this->js=(isset($this->js))?$this->js:"";
+    $this->js=(isset($this->js))?$this->js:"format_number(this);";
     if ( $this->readOnly==true) return $this->display();
 
     $str='<input type="TEXT" name="%s" value="%s" id="%s" size="3" "%s">';
     $r=sprintf($str,$this->name,$this->value,$this->name,$this->js);
-    if ( $this->button==true)
+
+    if ($this->in_table) 
+      $table='<table>'.'<tr>'.td($r);
+
+    if ( $this->button==true && ! $this->in_table)
       $r.=$this->dbutton();
+
+    if ( $this->button==true &&  $this->in_table)
+      $r=$table.td($this->dbutton()).'</tr></table>';
 
     if ( isset($this->code)){
       if ( $this->cn != NULL){ 
@@ -73,15 +95,17 @@ require_once('class_ispan.php');
 						  array($this->value));;
       }
       $r.=$this->code->input();
-      $this->set_attribute('jcode',$this->code->name);
-      $this->set_attribute('gDossier',dossier::id());
-      $this->set_attribute('ctl',$this->name);
-      $r.=$this->get_js_attr();
-      
-    }
-    return $r;
-
+    
+    $this->set_attribute('jcode',$this->code->name);
+    $this->set_attribute('gDossier',dossier::id());
+    $this->set_attribute('ctl',$this->name);
+    $r.=$this->get_js_attr();
+    
   }
+  
+  return $r;
+
+}
   /**
    *@brief show a button, if it is pushed show a popup to select the need vat
    *@note
@@ -99,7 +123,9 @@ require_once('class_ispan.php');
     $bt->set_attribute('popup','popup_tva');
     if ( isset($this->code))
       $bt->set_attribute('jcode',$this->code->name);
-    $bt->javascript='popup_select_tva(this)';
+    if ( isset($this->compute))
+      $bt->set_attribute('compute',$this->compute);
+    $bt->javascript=(isset($this->but_javascript))?$this->but_javascript:'popup_select_tva(this)';
     $r=$bt->input();
     return $r;
   }

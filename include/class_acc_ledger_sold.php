@@ -38,6 +38,7 @@ require_once('user_common.php');
 require_once('class_acc_payment.php');
 require_once('ac_common.php');
 require_once('class_own.php');
+require_once('class_itva_popup.php');
 
 /*!\brief Handle the ledger of sold,
  *
@@ -150,10 +151,20 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $fiche->get_by_qcode(${'e_march'.$i});
       if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
 	throw new Exception(_('La fiche ').${'e_march'.$i}._('n\'a pas de poste comptable'),8);
+
+      // Check if the given tva id is valid
+      if ( isNumber(${'e_march'.$i.'_tva_id'}) == 0 )
+	throw new Exception(_('La fiche ').${'e_march'.$i}._('a un code tva invalide').' ['.${'e_march'.$i.'_tva_id'}.']',13);
+      $tva_rate=new Acc_Tva($this->db);
+      $tva_rate->set_parameter('id',${'e_march'.$i.'_tva_id'});
+
+      if ( $tva_rate->load() != 0 ) 
+	throw new Exception(_('La fiche ').${'e_march'.$i}._('a un code tva invalide').' ['.${'e_march'.$i.'_tva_id'}.']',13);
+
+      // if 2 accounts, take only the credit one
       /* The account exists */
       $sposte=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
 
-      // if 2 accounts, take only the credit one
       if ( strpos($sposte,',') != 0 ) {
 	$array=explode(',',$sposte);
 	$poste_val=$array[1];
@@ -559,8 +570,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.="<th>"._('Code')."</th>";
     $r.="<th>"._('Dénomination')."</th>";
     $r.="<th>"._('prix')."</th>";
-    $r.="<th>"._('tva')."</th>";
     $r.="<th>"._('quantité')."</th>";
+    $r.="<th>"._('tva')."</th>";
+
 
     if ( $own->MY_TVA_USE=='Y') {
       $r.='<th> '._('Montant TVA').'</th>';
@@ -1068,9 +1080,12 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       if ( $flag_tva == 'Y' ) {
 	// vat label
 	//--
-	$Tva=new ITva_Select($this->db);
-	$Tva->javascript="onChange=clean_tva($i);compute_ledger($i)";
-	$Tva->selected=$march_tva_id;
+	$Tva=new ITva_Popup($this->db);
+	$Tva->in_table=true;
+	$Tva->set_attribute('compute',$i);
+
+	$Tva->js='onblur="format_number(this);clean_tva('.$i.');compute_ledger('.$i.')"';
+	$Tva->value=$march_tva_id;
 	$array[$i]['tva']=$Tva->input("e_march$i"."_tva_id");
 	// vat amount
 	//--

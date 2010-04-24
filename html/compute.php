@@ -50,7 +50,7 @@ $cn=new Database(dossier::id());
 $User=new User($cn);
 $User->Check();
 // Retrieve the rate of vat, it $t == -1 it means no VAT
-if ( $t != -1 ){
+if ( $t != -1 && isNumber($t) == 1 ){
 	$tva_rate=new Acc_Tva($cn);
 	$tva_rate->set_parameter('id',$t);
 	/** 
@@ -65,7 +65,7 @@ $total=new Acc_Compute();
 bcscale(4);
 $amount=round(bcmul($p,$q),2);
 $total->set_parameter('amount',$amount);
-if ( $t != -1 ) {
+if ( $t != -1 && isNumber($t) == 1 ) {
 	$total->set_parameter('amount_vat_rate',$tva_rate->get_parameter('rate'));
 	$total->compute_vat();
 	$tvac=bcadd($total->get_parameter('amount_vat'),$amount);

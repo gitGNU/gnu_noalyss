@@ -401,7 +401,8 @@ class Action
       $num=new INum();
 
       /* TVA */
-      $itva=new ITva_Select($this->db);
+      $itva=new ITva_Popup($this->db);
+      $itva->in_table=true;
 
       /* create aArticle for the detail section */
       for ($i=0;$i< MAX_ARTICLE;$i++) {
@@ -453,7 +454,9 @@ class Action
 
 	$itva->name='e_march'.$i.'_tva_id';
 	$itva->value=($tmp_ad)?$tmp_ad->get_parameter('tva_id'):0;
-	$itva->javascript=' onchange="clean_tva('.$i.');compute_ledger('.$i.')"';
+	$itva->javascript=' onchange="format_number(this);clean_tva('.$i.');compute_ledger('.$i.')"';
+	$itva->set_attribute('compute',$i);
+
 	$aArticle[$i]['tvaid']=$itva->input();
 
 	$num->name="e_march".$i."_tva_amount";

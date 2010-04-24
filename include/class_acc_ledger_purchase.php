@@ -38,6 +38,8 @@ require_once('user_common.php');
 require_once('class_acc_parm_code.php');
 require_once('class_acc_payment.php');
 require_once('ac_common.php');
+require_once('class_itva_popup.php');
+
 /*!\brief Handle the ledger of purchase,
  *
  *
@@ -156,6 +158,15 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       if ( isNumber(${'e_quant'.$i}) == 0 )
 	throw new Exception(_('La fiche ').${'e_march'.$i}._('a une quantité invalide').' ['.${'e_quant'.$i}.']',7);
 
+      // Check if the given tva id is valid
+      if ( isNumber(${'e_march'.$i.'_tva_id'}) == 0 )
+	throw new Exception(_('La fiche ').${'e_march'.$i}._('a un code tva invalide').' ['.${'e_march'.$i.'_tva_id'}.']',13);
+      $tva_rate=new Acc_Tva($this->db);
+      $tva_rate->set_parameter('id',${'e_march'.$i.'_tva_id'});
+
+      if ( $tva_rate->load() != 0 ) 
+	throw new Exception(_('La fiche ').${'e_march'.$i}._('a un code tva invalide').' ['.${'e_march'.$i.'_tva_id'}.']',13);
+	
       /* check if all card has a ATTR_DEF_ACCOUNT*/
       $fiche=new fiche($this->db);
       $fiche->get_by_qcode(${'e_march'.$i});
@@ -186,6 +197,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     }
     if ( $nb == 0 )
       throw new Exception(_('Il n\'y a aucune marchandise'),12);
+    
   }
 
   public function save($p_array) {
@@ -928,9 +940,11 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 
 	// vat label
 	//--
-	$Tva=new ITva_Select($this->db);
-	$Tva->javascript="onChange=clean_tva($i);compute_ledger($i)";
-	$Tva->selected=$march_tva_id;
+	$Tva=new ITva_Popup($this->db);
+	$Tva->js="onblur=\"format_number(this);onChange=clean_tva($i);compute_ledger($i)\"";
+	$Tva->in_table=true;
+	$Tva->set_attribute('compute',$i);
+	$Tva->value=$march_tva_id;
 	$array[$i]['tva']=$Tva->input("e_march$i"."_tva_id");
 
 	// Tva_amount

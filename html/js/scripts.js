@@ -299,6 +299,8 @@ function popup_select_tva(obj) {
 	var queryString="PHPSESSID="+obj.phpsessid+"&gDossier="+obj.gDossier+"&op=dsp_tva"+"&ctl="+obj.ctl+'&popup='+obj.popup;
 	if ( obj.jcode ) 
 	    queryString+='&code='+obj.jcode;
+	if (obj.compute)
+	    queryString+='&compute='+obj.compute;
 	var action = new Ajax.Request(
 				      "ajax_misc.php" , 
 				      { method:'get', 
