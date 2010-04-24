@@ -506,8 +506,10 @@ class Action
 
       // show the list of the concern operation
       if ( $this->db->count_sql('select * from action_gestion where ag_ref_ag_id!=0 and ag_ref_ag_id='.$this->ag_id.
-		    " limit 2") > 0 )
-	$r.=$this->myList($p_base,""," and ag_ref_ag_id=".$this->ag_id);
+				" limit 2") > 0 ) {
+	$sql=sprintf(" and ag_id in (select action_get_tree from comptaproc.action_get_tree(%s)) ",$this->ag_id);
+	$r.=$this->myList($p_base,"",$sql);
+      }
       return $r;
  
     }
