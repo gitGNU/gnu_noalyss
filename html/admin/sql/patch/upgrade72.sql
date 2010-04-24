@@ -1,4 +1,4 @@
-begin;
+begin; 
 create schema comptaproc;
 
  alter function account_add (poste_comptable,character varying) set  schema comptaproc;
@@ -314,7 +314,7 @@ drop function comptaproc.account_compute(integer);
 -- Name: account_update(integer, text); Type: FUNCTION; Schema: comptaproc; Owner: -
 --
 
-CREATE OR REPLACE FUNCTION account_update(p_f_id integer, p_account tmp_pcmn.pcm_val_parent%type ) RETURNS integer
+CREATE OR REPLACE FUNCTION comptaproc.account_update(p_f_id integer, p_account tmp_pcmn.pcm_val_parent%type ) RETURNS integer
     AS $$
 declare
 	nMax fiche.f_id%type;
@@ -363,7 +363,7 @@ $$
 -- Name: insert_jrnx(character varying, numeric, public.account_type, integer, integer, boolean, text, integer, text, text); Type: FUNCTION; Schema: comptaproc; Owner: -
 --
 
-CREATE OR REPLACE FUNCTION insert_jrnx(p_date character varying, p_montant numeric, p_poste tmp_pcmn.pcm_val_parent%type, p_grpt integer, p_jrn_def integer, p_debit boolean, p_tech_user text, p_tech_per integer, p_qcode text, p_comment text) RETURNS void
+CREATE OR REPLACE FUNCTION comptaproc.insert_jrnx(p_date character varying, p_montant numeric, p_poste tmp_pcmn.pcm_val_parent%type, p_grpt integer, p_jrn_def integer, p_debit boolean, p_tech_user text, p_tech_per integer, p_qcode text, p_comment text) RETURNS void
     AS $$
 declare
 	sCode varchar;
@@ -422,7 +422,7 @@ $$
 -- Name: tva_insert(text, numeric, text, text); Type: FUNCTION; Schema: comptaproc; Owner: -
 --
 
-CREATE OR REPLACE FUNCTION tva_insert(text, numeric, text, text) RETURNS integer
+CREATE OR REPLACE FUNCTION comptaproc.tva_insert(text, numeric, text, text) RETURNS integer
     AS $_$
 declare
 	l_tva_id integer;
@@ -457,7 +457,7 @@ $_$
     LANGUAGE plpgsql;
 
 
-CREATE OR REPLACE FUNCTION tva_modify(integer, text, numeric, text, text) RETURNS integer
+CREATE OR REPLACE FUNCTION comptaproc.tva_modify(integer, text, numeric, text, text) RETURNS integer
     AS $_$
 declare
 	p_tva_id alias for $1;
