@@ -391,7 +391,7 @@ de donn&eacute;es");
     {
       $this->ret=$this->exec_sql($p_sql,$p_array);
       if ( pg_NumRows($this->ret) == 0 ) return "";
-      if ( pg_NumRows($this->ret) > 1 ) echo "Attention $p_sql retourne plusieurs valeurs";
+      if ( pg_NumRows($this->ret) > 1 ) throw new Exception( "Attention $p_sql retourne plusieurs valeurs");
       $r=pg_fetch_row($this->ret,0);
       return $r[0];
 
