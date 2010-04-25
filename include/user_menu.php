@@ -178,7 +178,9 @@ function ShowMenuCompta($p_high="")
 	  case 'fin':
 	    $default=3;
 	    break;
-
+	  case 'let':
+	    $default=10;
+	    break;
 	  }
 	}
   echo_debug('user_menu.php',__LINE__,'defaut is '.$default);
@@ -193,6 +195,7 @@ function ShowMenuCompta($p_high="")
 
 		 array("compta.php?p_action=impress&".$str_dossier,_("Impression"),_("Impression"),5),
 		 array("compta.php?p_action=fiche&".$str_dossier,_("Fiche"),_("Ajouter, modifier ou effacer des fiches"),6),
+		 array("compta.php?p_action=let&".$str_dossier,_("Lettrage"),_("Ajouter, modifier ou effacer des lettrage"),10),
 		 array("user_advanced.php?".$str_dossier,_("Avancé"),_("Opérations délicates"),7),
 		 );
 

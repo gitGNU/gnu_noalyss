@@ -475,3 +475,48 @@ function filter_card(obj,queryString){
 	else {	    queryString=queryString+'&j='+jrn;}
 	return queryString;
 }
+  /**
+   *@brief to display the lettering for the operation, call
+   * ajax function
+   *@param obj object attribut : phpsessid, gDossier,j_id,obj_type
+   */
+function dsp_letter(obj) {
+    try {
+	var queryString='?gDossier='+obj.gDossier+'&PHPSESSID='+obj.phpsessid+'&j_id='+obj.j_id+'&op=dl'+'&ot='+this.obj_type;
+	var action=new Ajax.Request(
+				"ajax_misc.php",
+				{
+				    method:'get',
+				    parameters:queryString,
+				    onFailure:error_dsp_letter,
+				    onSuccess:success_dsp_letter
+				}
+				);
+    $('list').hide();
+    $('detail').innerHTML='<img src="image/loading.gif">';
+    $('detail').show();
+    } catch(e){alert('dsp_letter  '+e.message);}
+}
+
+function success_dsp_letter(req) {
+    try{
+	var answer=req.responseXML;
+	var a=answer.getElementsByTagName('code');
+	var html=answer.getElementsByTagName('value');
+	if ( a.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
+	var name_ctl=a[0].firstChild.nodeValue;
+	var code_html=getNodeText(html[0]);
+	code_html=unescape_xml(code_html);
+	$('detail').innerHTML=code_html;
+    } 
+    catch (e) {
+	alert(e.message);}
+    try{
+	code_html.evalScripts();}
+    catch(e){
+	alert("Impossible executer script de la reponse\n"+e.message);}
+
+}
+function error_dsp_letter(req) {
+    alert('Erreur AJAX DSP_LETTER');
+}

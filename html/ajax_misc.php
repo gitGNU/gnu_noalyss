@@ -31,6 +31,8 @@
  *     - if code is set then fill the field code
  *     - if compute is set then add event to call clean_tva and compute_ledger
 @Acc_Ledger_Sold::input
+* Part 2
+* dl : display form to modify, add and delete lettering for a given operation
  *
  */
 require_once('class_database.php');
@@ -190,4 +192,59 @@ echo <<<EOF
 EOF;
 
     break;
+    /**
+     *display the lettering
+     */
+case 'dl':
+  require_once('class_lettering.php');
+       $ret=new IButton('return');
+       $ret->label=_('Retour');
+       $ret->javascript="$('detail').hide();$('list').show();";
+       $r="";
+       // retrieve info for the given j_id (date, amount,side and comment)
+       $sql="select j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,J_POSTE,j_qcode,
+jr_comment,j_montant, j_debit,jr_internal from jrnx join jrn on (j_grpt=jr_grpt_id)
+     where j_id=$1";
+       $arow=$cn->get_array($sql,array($j_id));
+       $row=$arow[0];
+
+       $r.='<fieldset><legend>'._('Lettrage').'</legend>';
+       $r.='Poste '.$row['j_poste'].'  '.$row['j_qcode'].'<br>';
+       $r.='Date : '.$row['j_date_fmt'].' ref :'.$row['jr_internal'].' <br>  ';
+       $r.=h($row['jr_comment'])." montant: ".($row['j_montant'])." --  ".(($row['j_debit']=='t')?'D':'C');
+       $r.='</fieldset>';
+     
+       // display a list of operation from the other side + box button
+       if ( $ot == 'account') {
+	 $obj=new Lettering_Account($cn,$row['j_poste']);
+	 $r.=$obj->show_letter($j_id);
+       } else if ($ot=='card') {
+	 $obj=new Lettering_Card($cn,$row['j_qcode']);
+	 $r.=$obj->show_letter($j_id);
+       } else {
+	 $r.='Mauvais type objet';
+       }
+       $html='<FORM METHOD="post">';
+       $html.=HtmlInput::phpsessid();
+       $html.=dossier::hidden();
+       if ( isset($_REQUEST['p_action']))       $html.=HtmlInput::hidden('p_action',$_REQUEST['p_action']);
+       if ( isset($_REQUEST['sa']))       $html.=HtmlInput::hidden('sa',$_REQUEST['sa']);
+       if ( isset($_REQUEST['acc']))       $html.=HtmlInput::hidden('acc',$_REQUEST['acc']);
+
+       $html.=$r;
+       $html.=HtmlInput::submit('record',_('Sauver')).$ret->input();
+       $html.='</FORM>';
+       //       echo $html;exit;
+        $html=escape_xml($html);
+
+       header('Content-type: text/xml; charset=UTF-8');
+echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<code>detail</code>
+<value>$html</value>
+</data>
+EOF;
+
+       break;
   }
