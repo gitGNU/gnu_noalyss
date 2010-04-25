@@ -102,6 +102,7 @@ class Lettering
   'jnt_id' => string '-2' (length=2)
   'record' => string 'Sauver' (length=6)
 @endcode
+@todo if only one row, we delete completely the lettering
   */
   public function save($p_array) {
     $this->db->start();

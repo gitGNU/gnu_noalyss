@@ -35,13 +35,15 @@ echo HtmlInput::hidden('letter_j_id[]',$this->content[$i]['j_id']);
    if ($this->content[$i]['j_id']==$p_jid) continue;
 $check=new ICheckbox('ck'.$i);
 if ( $jnt_id == $this->content[$i]['letter'] ) $check->selected=true; else $check->selected=false;
-echo $check->input();
+
+if ( $this->content[$i]['letter'] == -1 ||  $check->selected == true )
+	echo $check->input();
 ?>
 </td>
-<td> 
+<td>
 <?php
 $letter=($this->content[$i]['letter']==-1)?" ":$this->content[$i]['letter'];
-?> 
+?>
 <?=$letter?>
 </td>
 <td> <?=$this->content[$i]['j_date_fmt']?> </td>
@@ -57,6 +59,7 @@ $letter=($this->content[$i]['letter']==-1)?" ":$this->content[$i]['letter'];
 
     endfor;
 ?>
+</TABLE>
 <h2 class="info2"><?=_('Total Debit')?>   <?=$amount_deb?></h2>
 <h2 class="info2"><?=_('Total Credit')?>   <?=$amount_cred?></h2>
 
