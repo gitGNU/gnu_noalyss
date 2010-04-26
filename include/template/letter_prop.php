@@ -60,7 +60,7 @@ $letter=($this->content[$i]['letter']==-1)?" ":$this->content[$i]['letter'];
     endfor;
 ?>
 </TABLE>
-<h2 class="info2"><?=_('Total Debit')?>   <?=$amount_deb?></h2>
-<h2 class="info2"><?=_('Total Credit')?>   <?=$amount_cred?></h2>
+<span style="display:block;font-size:14px"><?=_('Total Debit')?>   <?=$amount_deb?></span>
+<span style="display:block;font-size:14px"><?=_('Total Credit')?>   <?=$amount_cred?></span>
 
 </table>

@@ -195,49 +195,122 @@ EOF;
     /**
      *display the lettering
      */
-case 'dl':
-  require_once('class_lettering.php');
-       $ret=new IButton('return');
-       $ret->label=_('Retour');
-       $ret->javascript="$('detail').hide();$('list').show();";
-       $r="";
-       // retrieve info for the given j_id (date, amount,side and comment)
-       $sql="select j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,J_POSTE,j_qcode,
+  case 'dl':
+    require_once('class_lettering.php');
+    $exercice=$user->get_exercice();
+    $periode=new Periode($cn);
+    list($first_per,$last_per)=$periode->get_limit($exercice);
+
+    $ret=new IButton('return');
+    $ret->label=_('Retour');
+    $ret->javascript="$('detail').hide();$('list').show();$('search').show();";
+    $r="";
+    // retrieve info for the given j_id (date, amount,side and comment)
+    $sql="select j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,J_POSTE,j_qcode,
 jr_comment,j_montant, j_debit,jr_internal from jrnx join jrn on (j_grpt=jr_grpt_id)
      where j_id=$1";
-       $arow=$cn->get_array($sql,array($j_id));
-       $row=$arow[0];
+    $arow=$cn->get_array($sql,array($j_id));
+    $row=$arow[0];
 
-       $r.='<fieldset><legend>'._('Lettrage').'</legend>';
-       $r.='Poste '.$row['j_poste'].'  '.$row['j_qcode'].'<br>';
-       $r.='Date : '.$row['j_date_fmt'].' ref :'.$row['jr_internal'].' <br>  ';
-       $r.=h($row['jr_comment'])." montant: ".($row['j_montant'])." --  ".(($row['j_debit']=='t')?'D':'C');
-       $r.='</fieldset>';
-     
-       // display a list of operation from the other side + box button
-       if ( $ot == 'account') {
-	 $obj=new Lettering_Account($cn,$row['j_poste']);
-	 $r.=$obj->show_letter($j_id);
-       } else if ($ot=='card') {
-	 $obj=new Lettering_Card($cn,$row['j_qcode']);
-	 $r.=$obj->show_letter($j_id);
-       } else {
-	 $r.='Mauvais type objet';
-       }
-       $html='<FORM METHOD="post">';
-       $html.=HtmlInput::phpsessid();
-       $html.=dossier::hidden();
-       if ( isset($_REQUEST['p_action']))       $html.=HtmlInput::hidden('p_action',$_REQUEST['p_action']);
-       if ( isset($_REQUEST['sa']))       $html.=HtmlInput::hidden('sa',$_REQUEST['sa']);
-       if ( isset($_REQUEST['acc']))       $html.=HtmlInput::hidden('acc',$_REQUEST['acc']);
+    $r.='<fieldset><legend>'._('Lettrage').'</legend>';
+    $r.='Poste '.$row['j_poste'].'  '.$row['j_qcode'].'<br>';
+    $r.='Date : '.$row['j_date_fmt'].' ref :'.$row['jr_internal'].' <br>  ';
+    $r.=h($row['jr_comment'])." montant: ".($row['j_montant'])." ".(($row['j_debit']=='t')?'D':'C');
+    $r.='</fieldset>';
+    $r.='<div id="filtre" style="float:left;display:block">';
+    $r.='<form method="get" id="search_form" onsubmit="search_letter(this);return false">';
+    $r.='<div style="float:left;">';
+    // needed hidden var
+    $r.=HtmlInput::phpsessid();
+    $r.=dossier::hidden();
+    if ( isset($_REQUEST['p_action']))       $r.=HtmlInput::hidden('p_action',$_REQUEST['p_action']);
+    if ( isset($_REQUEST['sa']))       $r.=HtmlInput::hidden('sa',$_REQUEST['sa']);
+    if ( isset($_REQUEST['acc']))       $r.=HtmlInput::hidden('acc',$_REQUEST['acc']);
+    $r.=HtmlInput::hidden('j_id',$j_id);
+    $r.=HtmlInput::hidden('op',$op);
+    $r.=HtmlInput::hidden('ot',$ot);
 
-       $html.=$r;
-       $html.=HtmlInput::submit('record',_('Sauver')).$ret->input();
-       $html.='</FORM>';
-       //       echo $html;exit;
-        $html=escape_xml($html);
+    $r.='<table>';
+    //min amount
+    $line=td(_('Montant min. '));
+    $min=new INum('min_amount');
+    $min->value=(isset($min_amount))?$min_amount:0;
 
-       header('Content-type: text/xml; charset=UTF-8');
+    $line.=td($min->input());
+    // max amount
+    $line.=td(_('Montant max. '));
+    $max=new INum('max_amount');
+    $max->value=(isset($max_amount))?$max_amount:0;
+    $line.=td($max->input());
+    $r.=tr($line);
+
+    // start date
+    $start=new IDate('search_start');
+    $start->value=(isset($search_start))?$search_start:$first_per->first_day();
+
+
+    $line=td('Date Debut').td($start->input());
+    // end date
+    $end=new IDate('search_end');
+    $end->value=(isset($search_end))?$search_end:$last_per->last_day();
+    $line.=td('Date Fin').td($end->input());
+    $r.=tr($line);
+    // Side
+    $line=td('Debit / Credit');
+    $iside=new ISelect('side');
+    $iside->value=array(
+			array('label'=>_('Debit'),'value'=>0),
+			array('label'=>_('Credit'),'value'=>1),
+			array('label'=>_('Les 2'),'value'=>3)
+			);
+    $iside->selected=(isset($side))?$side:0;
+    $r.=tr($line.td($iside->input()));
+    $r.='</table>';
+    $r.='</div>';
+    $r.='<div style="float:left;padding-left:100">';
+    $r.=HtmlInput::submit('search','Rechercher');
+    $r.='</div>';
+    $r.='</form>';
+    $r.='</div>';
+
+    $form='<div id="result" style="float:top;clear:both">';
+
+    $form.='<FORM METHOD="post">';
+    $form.=HtmlInput::phpsessid();
+    $form.=dossier::hidden();
+    if ( isset($_REQUEST['p_action']))       $form.=HtmlInput::hidden('p_action',$_REQUEST['p_action']);
+    if ( isset($_REQUEST['sa']))       $form.=HtmlInput::hidden('sa',$_REQUEST['sa']);
+    if ( isset($_REQUEST['acc']))       $form.=HtmlInput::hidden('acc',$_REQUEST['acc']);
+    // display a list of operation from the other side + box button
+    if ( $ot == 'account') {
+      $obj=new Lettering_Account($cn,$row['j_poste']);
+      if ( isset($search_start))	 $obj->start=$search_start;
+      if ( isset ($search_end)) $obj->end=$search_end;
+      if ( isset ($max_amount)) $obj->fil_amount_max=$max_amount;
+      if ( isset ($min_amount)) $obj->fil_amount_min=$min_amount;
+      if ( isset ($side)) $obj->fil_deb=$side;
+
+      $form.=$obj->show_letter($j_id);
+    } else if ($ot=='card') {
+      $obj=new Lettering_Card($cn,$row['j_qcode']);
+      if ( isset($search_start))	 $obj->start=$search_start;
+      if ( isset ($search_end)) $obj->end=$search_end;
+      if ( isset ($max_amount)) $obj->fil_amount_max=$max_amount;
+      if ( isset ($min_amount)) $obj->fil_amount_min=$min_amount;
+      if ( isset ($side)) $obj->fil_deb=$side;
+      $form.=$obj->show_letter($j_id);
+    } else {
+      $form.='Mauvais type objet';
+    }
+
+    $form.=HtmlInput::submit('record',_('Sauver')).$ret->input();
+    $form.='</FORM>';
+    $form.='</div>';
+    $html=$r.$form;
+    //       echo $html;exit;
+    $html=escape_xml($html);
+
+    header('Content-type: text/xml; charset=UTF-8');
 echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
@@ -245,6 +318,5 @@ echo <<<EOF
 <value>$html</value>
 </data>
 EOF;
-
-       break;
+    break;
   }

@@ -105,8 +105,10 @@ class Lettering
 @todo if only one row, we delete completely the lettering
   */
   public function save($p_array) {
-    $this->db->start();
+
     $this->db->exec_sql('delete from jnt_letter where jl_id=$1',array($p_array['jnt_id']));
+
+    $this->db->start();
     $jl_id=$this->db->get_next_seq("jnt_letter_jl_id_seq");
     $this->db->exec_sql('insert into jnt_letter(jl_id) values($1)',
 			array($jl_id));
@@ -119,22 +121,26 @@ class Lettering
     }else {
       $lc_id=$this->db->get_value('insert into letter_cred(j_id,jl_id)  values($1,$2) returning lc_id',array($p_array['j_id'],$jl_id));
     }
-
+    $count=0;
     // save dest
     for($i=0;$i<count($p_array['letter_j_id']);$i++){
       if (isset($p_array['ck'.$i])) { //if 1
 	// save the dest 
 	$deb=$this->db->get_value('select j_debit,j_montant from jrnx where j_id=$1',array($p_array['letter_j_id'][$i]));
 	if ( $deb == 't') {
+	  $count++;
 	  // save into letter_deb
 	  $ld_id=$this->db->get_value('insert into letter_deb(j_id,jl_id) values($1,$2) returning ld_id',array($p_array['letter_j_id'][$i],$jl_id));
 	}else {
+	  $count++;
 	  $lc_id=$this->db->get_value('insert into letter_cred(j_id,jl_id)  values($1,$2) returning lc_id',array($p_array['letter_j_id'][$i],$jl_id));
 	}
       } //end if 1
     } //end for
     // save into jnt_letter
-
+    if ( $count==0) {
+      $this->db->rollback();
+    }
     $this->db->commit();
   }
   /**
@@ -161,12 +167,26 @@ class Lettering
 	);
     */
   }
-  protected function show_not_lettered() {
-  }
-  protected function show_lettered() {
-  }
   protected function show_all() {
     $this->get_all();
+    $r="";
+    ob_start();
+    require_once('template/letter_all.php');
+    $r=ob_get_contents();
+    ob_clean();
+    return $r;
+  }
+  protected function show_lettered() {
+    $this->get_letter();
+    $r="";
+    ob_start();
+    require_once('template/letter_all.php');
+    $r=ob_get_contents();
+    ob_clean();
+    return $r;
+  }
+  protected function show_not_lettered() {
+    $this->get_unletter();
     $r="";
     ob_start();
     require_once('template/letter_all.php');
@@ -180,7 +200,7 @@ class Lettering
     case 'all':
       return $this->show_all();
       break;
-    case 'notletter':
+    case 'unletter':
       return $this->show_not_lettered();
       break;
     case 'letter':
@@ -193,9 +213,9 @@ class Lettering
   public function show_letter($p_jid) {
     $j_debit=$this->db->get_value('select j_Debit from jrnx where j_id=$1',array($p_jid));
     $amount_init=$this->db->get_value('select j_montant from jrnx where j_id=$1',array($p_jid));
-    $this->get_other_side($j_debit);
+    $this->get_filter();
     // retrieve jnt_letter.id
-    $sql="select distinct(jl_id) from jnt_letter  join letter_deb using (jl_id) join letter_cred using (jl_id)
+    $sql="select distinct(jl_id) from jnt_letter  left outer join letter_deb using (jl_id) left outer join letter_cred using (jl_id)
         where letter_deb.j_id = $1 or letter_cred.j_id=$2";
     $jnt_id=$this->db->get_value($sql,array($p_jid,$p_jid));
 
@@ -210,6 +230,7 @@ class Lettering
 
     return $r;
   }
+
   public function update() {
     if ( $this->verify() != 0 ) return;
   }
@@ -244,7 +265,7 @@ class Lettering_Account extends Lettering{
    *@brief get other side 
    *@param $j_debit f for cred or t for debit
    */
-  public function get_other_side($j_debit) {
+  public function get_other_side_obsolete($j_debit) {
     $sql="
 select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
 j_montant,j_debit,jr_comment,jr_internal,
@@ -254,6 +275,43 @@ where j_poste = $1 and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date 
 and $this->sql_ledger -- and j_debit != $4
 
 order by j_date,j_id";
+    $this->content=$this->db->get_array($sql,array($this->account,$this->start,$this->end));
+  }
+
+  public function get_filter() {
+    $filter_deb='';
+    if (isset($this->fil_deb)) {
+      switch ($this->fil_deb) {
+    case 0:
+      $filter_deb=" and j_debit='t' ";
+      break;
+    case 1:
+      $filter_deb=" and j_debit='f' ";
+      break;
+    case 2:
+      $filter_deb=" ";
+      break;
+      }
+
+    }
+    $filter_amount="";
+    if ( isset ($this->fil_amount_max ) &&
+	 isset ($this->fil_amount_min ) && 
+	 isNumber($this->fil_amount_max)==1 &&
+	 isNumber($this->fil_amount_min)==1 &&
+	 ($this->fil_amount_max != 0 || $this->fil_amount_min != 0) )
+      $filter_amount=" and j_montant between $this->fil_amount_min and $this->fil_amount_max ";
+    $sql="
+select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
+j_montant,j_debit,jr_comment,jr_internal,
+coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter
+ from jrnx join jrn on (j_grpt = jr_grpt_id)
+where j_poste = $1 and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date ($3,'DD.MM.YYYY') 
+and $this->sql_ledger
+$filter_deb
+$filter_amount 
+order by j_date,j_id";
+
     $this->content=$this->db->get_array($sql,array($this->account,$this->start,$this->end));
   }
 
@@ -270,15 +328,112 @@ and $this->sql_ledger
 order by j_date,j_id";
     $this->content=$this->db->get_array($sql,array($this->account,$this->start,$this->end));
   }
+  public function get_letter() {
+    $sql="
+select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
+j_montant,j_debit,jr_comment,jr_internal,
+coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter
+ from jrnx join jrn on (j_grpt = jr_grpt_id)
+where j_poste = $1 and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date ($3,'DD.MM.YYYY') 
+and $this->sql_ledger
+and j_id in (select j_id from letter_deb join jnt_letter using (jl_id) union select j_id from letter_cred join jnt_letter using (jl_id) )
+order by j_date,j_id";
+    $this->content=$this->db->get_array($sql,array($this->account,$this->start,$this->end));
+  }
+  public function get_unletter() {
+    $sql="
+select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
+j_montant,j_debit,jr_comment,jr_internal,
+coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter
+ from jrnx join jrn on (j_grpt = jr_grpt_id)
+where j_poste = $1 and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date ($3,'DD.MM.YYYY') 
+and $this->sql_ledger
+and j_id not in (select j_id from letter_deb join jnt_letter using (jl_id) union select j_id from letter_cred join jnt_letter using (jl_id) )
+order by j_date,j_id";
+    $this->content=$this->db->get_array($sql,array($this->account,$this->start,$this->end));
+  }
 
 }
 
 class Lettering_Card extends Lettering{
-  function __construct($p_init,$p_account=null) {
+  function __construct($p_init,$p_qcode=null) {
     parent::__construct($p_init);
-    $this->qcode=$p_qcode;
+    $this->quick_code=$p_qcode;
     $this->object_type='card';
   }
 
+  public function get_filter() {
+    $filter_deb='';
+    if (isset($this->fil_deb)) {
+      switch ($this->fil_deb) {
+    case 0:
+      $filter_deb=" and j_debit='t' ";
+      break;
+    case 1:
+      $filter_deb=" and j_debit='f' ";
+      break;
+    case 2:
+      $filter_deb=" ";
+      break;
+      }
+
+    }
+    $filter_amount="";
+    if ( isset ($this->fil_amount_max ) &&
+	 isset ($this->fil_amount_min ) && 
+	 isNumber($this->fil_amount_max)==1 &&
+	 isNumber($this->fil_amount_min)==1 &&
+	 ($this->fil_amount_max != 0 || $this->fil_amount_min != 0) )
+      $filter_amount=" and j_montant between $this->fil_amount_min and $this->fil_amount_max ";
+    $sql="
+select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
+j_montant,j_debit,jr_comment,jr_internal,
+coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter
+ from jrnx join jrn on (j_grpt = jr_grpt_id)
+where j_qcode = upper($1) and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date ($3,'DD.MM.YYYY') 
+and $this->sql_ledger
+$filter_deb
+$filter_amount 
+order by j_date,j_id";
+
+    $this->content=$this->db->get_array($sql,array($this->quick_code,$this->start,$this->end));
+  }
+  public function get_all() {
+    $sql="
+select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
+j_montant,j_debit,jr_comment,jr_internal,
+coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter
+ from jrnx join jrn on (j_grpt = jr_grpt_id)
+where j_qcode = upper($1) and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date ($3,'DD.MM.YYYY') 
+and $this->sql_ledger
+
+order by j_date,j_id";
+    $this->content=$this->db->get_array($sql,array($this->quick_code,$this->start,$this->end));
+  }
+
+  public function get_letter() {
+    $sql="
+select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
+j_montant,j_debit,jr_comment,jr_internal,
+coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter
+ from jrnx join jrn on (j_grpt = jr_grpt_id)
+where j_qcode = upper($1) and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date ($3,'DD.MM.YYYY') 
+and $this->sql_ledger
+and j_id in (select j_id from letter_deb join jnt_letter using (jl_id) union select j_id from letter_cred join jnt_letter using (jl_id) )
+order by j_date,j_id";
+    $this->content=$this->db->get_array($sql,array($this->quick_code,$this->start,$this->end));
+  }
+  public function get_unletter() {
+    $sql="
+select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
+j_montant,j_debit,jr_comment,jr_internal,
+coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter
+ from jrnx join jrn on (j_grpt = jr_grpt_id)
+where j_qcode = upper($1) and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date ($3,'DD.MM.YYYY') 
+and $this->sql_ledger
+and j_id not in (select j_id from letter_deb join jnt_letter using (jl_id) union select j_id from letter_cred join jnt_letter using (jl_id) )
+order by j_date,j_id";
+    $this->content=$this->db->get_array($sql,array($this->quick_code,$this->start,$this->end));
+  }
 
 }

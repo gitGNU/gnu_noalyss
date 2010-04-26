@@ -30,32 +30,39 @@ echo js_include('controls.js');
 echo js_include('dragdrop.js');
 echo js_include('accounting_item.js');
 echo js_include('acc_ledger.js');
-
+require_once ('class_ipopup.php');
 require_once('class_lettering.php');
+echo JS_CARD;
 
-echo IPoste::ipopup('ipop_account');
+
+$search_card=new IPopup('ipop_card');
+$search_card->title=_('Recherche de fiche');
+$search_card->value='';
+echo $search_card->input();
+
 echo '<div class="content">';
 echo '<div id="search">';
 echo '<FORM METHOD="GET">';
 echo dossier::hidden();
 echo HtmlInput::phpsessid();
 echo HtmlInput::hidden('p_action','let');
-echo HtmlInput::hidden('sa','poste');
+echo HtmlInput::hidden('sa','qc');
+echo HtmlInput::hidden('p_jrn','0');
 echo '<table width="50%">';
 
-$poste=new IPoste();
+$poste=new ICard('acc');
 $poste->name="acc";
-$poste->table=1;
-$poste->set_attribute('phpsessid',$_REQUEST['PHPSESSID']);
-$poste->set_attribute('jrn',0);
-$poste->set_attribute('gDossier',dossier::id());
-$poste->set_attribute('ipopup','ipop_account');
-$poste->set_attribute('label','account_label');
-$poste->set_attribute('account','acc');
-if (isset($_GET['acc'])) $poste->value=$_GET['acc'];
+$poste->extra="all";
+$poste->set_attribute('popup','ipopcard');
+$poste->set_attribute('typecard','all');
+$poste->set_callback('filter_card');
+
+
+
+if (isset($_GET['acc'])) $poste->value=strtoupper(trim($_GET['acc']));
 $poste_span=new ISpan('account_label');
-$r= td(_('Lettrage pour le poste comptable ')).
-  $poste->input().
+$r= td(_('Lettrage pour la fiche ')).
+  td($poste->input().$poste->search()).
   td($poste_span->input());
 echo tr($r);
 // limit of the year
@@ -106,8 +113,9 @@ if ( isset($_POST['record'])) {
 // Show the result
 //--------------------------------------------------------------------------------
 echo '<div id="list">';
-$letter=new Lettering_Account($cn);
-$letter->set_parameter('account',$_GET['acc']);
+$letter=new Lettering_Card($cn);
+$quick_code=strtoupper(trim($_GET['acc']));
+$letter->set_parameter('quick_code',$quick_code);
 $letter->set_parameter('start',$_GET['start']);
 $letter->set_parameter('end',$_GET['end']);
 

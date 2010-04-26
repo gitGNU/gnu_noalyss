@@ -493,6 +493,7 @@ function dsp_letter(obj) {
 				}
 				);
     $('list').hide();
+    $('search').hide();
     $('detail').innerHTML='<img src="image/loading.gif">';
     $('detail').show();
     } catch(e){alert('dsp_letter  '+e.message);}
@@ -519,4 +520,35 @@ function success_dsp_letter(req) {
 }
 function error_dsp_letter(req) {
     alert('Erreur AJAX DSP_LETTER');
+}
+
+function search_letter(obj) {
+    try {
+	var str_query='';
+	if (obj.elements['gDossier'] ) str_query='gDossier='+obj.elements['gDossier'].value;
+	if (obj.elements['phpsessid'] ) str_query+='&PHPSESSID='+obj.elements['phpsessid'].value;
+	if (obj.elements['j_id'] ) str_query+='&j_id='+obj.elements['j_id'].value;
+	if (obj.elements['ot'] ) str_query+='&ot='+obj.elements['ot'].value;
+	if (obj.elements['op'] ) str_query+='&op='+obj.elements['op'].value;
+	if (obj.elements['min_amount'] ) str_query+='&min_amount='+obj.elements['min_amount'].value;
+	if (obj.elements['max_amount'] ) str_query+='&max_amount='+obj.elements['max_amount'].value;
+	if (obj.elements['search_start'] ) str_query+='&search_start='+obj.elements['search_start'].value;
+	if (obj.elements['search_end'] ) str_query+='&search_end='+obj.elements['search_end'].value;
+	if (obj.elements['side'] ) str_query+='&side='+obj.elements['side'].value;
+
+
+	var action=new Ajax.Request(
+				"ajax_misc.php",
+				{
+				    method:'get',
+				    parameters:str_query,
+				    onFailure:error_dsp_letter,
+				    onSuccess:success_dsp_letter
+				}
+				);
+    $('list').hide();
+    $('search').hide();
+    $('detail').innerHTML='<img src="image/loading.gif">';
+    $('detail').show();
+    } catch(e){alert('search_letter  '+e.message);}
 }

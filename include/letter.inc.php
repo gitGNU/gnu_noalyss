@@ -48,5 +48,6 @@ if ($sa == 'poste') {
 }
 
 if ($sa=='qc') {
+  require_once('lettering.card.inc.php');
   exit;
 }
