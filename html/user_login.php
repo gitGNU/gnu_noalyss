@@ -30,15 +30,6 @@ include_once ("class_user.php");
 $User=new User($rep);
 
 $User->Check();
-echo <<<EOF
-<script language="JavaScript">
-
-  window.moveTo(0,0);
-window.resizeTo(screen.width,screen.height);
-
-</script>
-EOF;
-
 /*  Check Browser version if < IE6 then unsupported */
 $browser=$_SERVER['HTTP_USER_AGENT'];
 if ( strpos($browser,'MSIE 6')!=false ||
