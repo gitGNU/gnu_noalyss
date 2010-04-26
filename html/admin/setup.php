@@ -121,9 +121,10 @@ if ( ! file_exists ( $file) ) {
 	       "AddDefaultCharset utf-8",
 	       "php_value error_reporting 10239",
 	       "php_value post_max_size 15M",
-		  "php_flag short_open_tag on",
+	       "php_flag short_open_tag on",
 	       "php_value upload_max_filesize 10M",
-		"php_value session.use_trans_sid 1");
+	       "php_value session.use_trans_sid 1",
+	       "php_flag session.use_only_cookies off");
 
   if ( $os == 0 )
     fwrite($hFile,'php_value include_path .;..\..\include;..\include;addon'."\n");
