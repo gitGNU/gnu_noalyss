@@ -47,18 +47,21 @@ if ( $user->check_dossier(dossier::id()) == 'P') {
 html_page_start($_SESSION['g_theme']);
 /*  Check Browser version if < IE6 then unsupported */
 $browser=$_SERVER['HTTP_USER_AGENT'];
+
 if ( strpos($browser,'MSIE 6')!=false ||
-     strpos($browser,'MSIE 5')!=false ) {
+     strpos($browser,'MSIE 5')!=false ||
+     strpos($browser,'MSIE 7')!=false 
+) {
 
 
 echo <<<EOF
-    <!--[if lt IE 7]>
+    <!--[if lt IE 8]>
   <div style='border: 1px solid #F7941D; background: #FEEFDA; text-align: center; clear: both; height: 75px; position: relative;'>
     <div style='position: absolute; right: 3px; top: 3px; font-family: courier new; font-weight: bold;'><a href='#' onclick='javascript:this.parentNode.parentNode.style.display="none"; return false;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-cornerx.jpg' style='border: none;' alt='Close this notice'/></a></div>
     <div style='width: 640px; margin: 0 auto; text-align: left; padding: 0; overflow: hidden; color: black;'>
       <div style='width: 75px; float: left;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-warning.jpg' alt='Warning!'/></div>
       <div style='width: 275px; float: left; font-family: Arial, sans-serif;'>
-        <div style='font-size: 14px; font-weight: bold; margin-top: 12px;'>Vous utilisez un navigateur dépassé depuis près de 8 ans!</div>
+        <div style='font-size: 14px; font-weight: bold; margin-top: 12px;'>Vous utilisez un navigateur dépassé !</div>
         <div style='font-size: 12px; margin-top: 6px; line-height: 12px;'>Pour une meilleure expérience web, prenez le temps de mettre votre navigateur à jour.</div>
       </div>
       <div style='width: 75px; float: left;'><a href='http://fr.www.mozilla.com/fr/' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-firefox.jpg' style='border: none;' alt='Get Firefox 3.5'/></a></div>
@@ -70,9 +73,12 @@ echo <<<EOF
 EOF;
 exit();
 }
-if ( DBVERSION!=dossier::get_version($cn)) {
 
-  echo '<h2 class="error">'._("Votre base de données n'est pas à jour");
+if ( DBVERSION < dossier::get_version($cn)) {
+  echo '<h2 class="error" style="font-size:12px">'._("Attention: la version de base de donnée est supérieure à la version du programme").'</h2>';
+ }
+if ( DBVERSION > dossier::get_version($cn)) {
+  echo '<h2 class="error" style="font-size:12px">'._("Votre base de données n'est pas à jour");
   $a=_("cliquez ici pour appliquer le patch");
   $base=dirname($_SERVER['REQUEST_URI']).'/admin/setup.php';
   echo '<a hreF="'.$base.'">'.$a.'</a></h2>';
