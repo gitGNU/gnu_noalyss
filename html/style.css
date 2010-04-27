@@ -56,7 +56,7 @@ background-color: #879ed4;
 h2.info {
 background-color:#36559b;
 color:white;
-font-size:16pt;
+font-size:14px;
  text-align:center;
  padding:0px;
  margin:0px;
@@ -65,7 +65,7 @@ font-size:16pt;
 u_redcontent h2.info {
  background:#879ed5;
  color:white;
- font-size:14pt;
+ font-size:14px;
  text-align:center;
  padding:0px;
  margin:0px;
@@ -88,7 +88,7 @@ background-color:#36559b;
 h2.error {
 background:red;
 color:white;
-font-size:20px;
+font-size:14px;
 }
 
 h1.title {
