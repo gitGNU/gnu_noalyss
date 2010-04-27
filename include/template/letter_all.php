@@ -44,7 +44,11 @@ $js="this.gDossier=".dossier::id().
 <A class="detail" href="javascript:<?=$js?>"><?=$letter?></A>
 </td>
 <td> <?=$this->content[$i]['j_date_fmt']?> </td>
-  <td> <?=h($this->content[$i]['jr_internal'])?> </td>
+<?php
+$r=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')" >%s</A>',
+	     $this->content[$i]['jr_id'], $_REQUEST['PHPSESSID'],dossier::id(), $this->content[$i]['jr_def_id'],'S',  $this->content[$i]['jr_internal']);
+?>
+  <td> <?=$r?> </td>
   <td> <?=h($this->content[$i]['jr_comment'])?> </td>
 <td> <?=$this->content[$i]['j_montant']?> </td>
 <td> <?=($this->content[$i]['j_debit']=='t')?'D':'C'?> </td>

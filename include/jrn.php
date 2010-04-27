@@ -177,8 +177,9 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 
 	if ( $p_mode == 1 ) {
 	  $r.="<hr>";
+	  $r.='<h2 class="info2">Document</h2>';
 	  $r.= "<table>";
-	  $r.="<TR>".$file->input("pj","","Pièce justificative")."</TR>";
+	  $r.=tr("<TD>Document</td>".$file->input("pj","","Pièce justificative"));
 	  $r.="</table>";
 	}
 	$r.="<hr>";
@@ -211,7 +212,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	  $a=$rec->get();
 	  $sessid=$_REQUEST["PHPSESSID"];
 	  if ( $a != null ) {
-	    $r.="<b>Operation concernée</b> <br>";
+	    $r.="<h2 class=\"info2\">Operation concernée</h2> <br>";
 
 	    $r.= '<div style="margin-left:30px;">';
 	    foreach ($a as $key => $element) {
@@ -230,7 +231,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 
 	$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."',".$gDossier.",'rapt','".$content['jr_montant']."')\">";
 
-	$r.= '<H2 class="info">rapprochement </H2>
+	$r.= 'Autre rapprochement :
        <INPUT TYPE="TEXT" id="rapt" name="rapt" value="">'.$search;
 
 	} // if mode == 1
@@ -590,9 +591,10 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 
   $r.="<hr>";
   if ( $p_mode == 1 ) {
+    $r.='<h2 class="info2">Document</h2>';
 	$r.= "<table>";
 
-	$r.="<TR>".$file->input("pj","","Pièce justificative")."</TR>";
+	$r.=tr($file->input("pj","","Pièce justificative"));
 	$r.="</table>";
 	$r.="<hr>";
 
@@ -607,7 +609,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	$sessid=$_REQUEST["PHPSESSID"];
 
 	if ( $a != null ) {
-      $r.="<b>Operation concernée</b> <br>";
+      $r.="<h2 class=\"info2\">Operation concernée</h2> <br>";
 
       $r.= '<div style="margin-left:30px;">';
       foreach ($a as $key => $element) {
@@ -626,7 +628,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 
   $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."',".$gDossier.",'rapt','".$content['jr_montant']."')\">";
 
-  $r.= '<H2 class="info">rapprochement </H2>
+  $r.= 'Autre rapprochement :
        <INPUT TYPE="TEXT" id="rapt" name="rapt" value="">'.$search;
   } // if p_mode==1
   $r.='<input type="hidden" name="jr_id" value="'.$content['jr_id'].'">';

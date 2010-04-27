@@ -110,7 +110,7 @@ if ( $action == 'update' ) {
 	else
 	  $view='<div id="simple" style="display:none">';
 
-	$view.='<h2 class="info">Vue simple</h2>';
+	$view.='<h2 class="info2">Vue simple</h2>';
 	$view.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="modify_op.php">';
 	$view.=dossier::hidden();
 	$readonly=($p_view=='E')?0:1;
@@ -124,7 +124,7 @@ if ( $action == 'update' ) {
 	if ( $User->check_jrn($p_jrn) == 'W')
 	  $view.=($p_view == 'S')?HtmlInput::submit('update_record','Enregistre'):'';
 	$view.="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-	$view.='<input type="button" value="Fermer" onClick="window.close();  self.opener.RefreshMe();">';
+	$view.='<input type="button" value="Fermer" onClick="window.close();  ">';
 	$view.='</FORM>';
 	$view.='</div>';
 
@@ -133,7 +133,7 @@ if ( $action == 'update' ) {
 	else
 	  $view.='<div id="expert" style="display:block">';
 
-	$view.='<h2 class="info">Vue expert</h2>';
+	$view.='<h2 class="info2">Vue expert</h2>';
 	$view.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="modify_op.php">';
 	$view.=dossier::hidden();
 	$readonly=($p_view=='S')?0:1;
@@ -147,7 +147,7 @@ if ( $action == 'update' ) {
 	if ( $User->check_jrn($p_jrn) == 'W')
 	  $view.=($p_view == 'E') ?HtmlInput::submit('update_record','Enregistre'):'';
 	$view.="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-	$view.='<input type="button" value="Fermer" onClick="window.close();  self.opener.RefreshMe();">';
+	$view.='<input type="button" value="Fermer" onClick="window.close(); ">';
 	$view.='</div>';
 
 
@@ -163,7 +163,7 @@ if ( $action=="view_ca") {
   $p_id=$_GET["line"];
 
   $view='<div id="simple">';
-  $view.='<h2 class="info">Vue simple</h2>';
+  $view.='<h2 class="info2">Vue simple</h2>';
   $view.=ShowOperationUser($cn,$p_id,0);
   $view.='<hr>';
   $view.='<input type="button" onclick="hide_div(\'simple\');show_div(\'expert\');" value="Vue Expert">';
@@ -174,7 +174,7 @@ if ( $action=="view_ca") {
 
   $view.='<div id="expert" style="display:none">';
 
-  $view.='<h2 class="info">Vue expert</h2>';
+  $view.='<h2 class="info2">Vue expert</h2>';
 
   $view.=ShowOperationExpert($cn,$p_id,0);
   $view.='<hr>';

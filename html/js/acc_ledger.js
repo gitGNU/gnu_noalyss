@@ -492,11 +492,11 @@ function dsp_letter(obj) {
 				    onSuccess:success_dsp_letter
 				}
 				);
-    $('list').hide();
-    $('search').hide();
+      g('search').style.display='none';
+      g('list').style.display='none';
     $('detail').innerHTML='<img src="image/loading.gif">';
-    $('detail').show();
-    } catch(e){alert('dsp_letter  '+e.message);}
+    g('detail').style.display='block';
+    } catch(e){alert('dsp_letter failed  '+e.message);}
 }
 
 function success_dsp_letter(req) {

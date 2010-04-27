@@ -35,5 +35,4 @@ $qcode=$f->get_quick_code();
 $_GET['qcode']=$qcode;
 $_REQUEST['qcode']=$qcode;
 require_once ('user_action_gl.php');
-echo $sql;
 

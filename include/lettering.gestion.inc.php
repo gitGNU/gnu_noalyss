@@ -79,4 +79,5 @@ echo '</div>';
 echo '<div id="detail" style="display:none">';
 echo '<IMG SRC=image/loading.gif>';
 echo '</div>';
+echo '</div>';
 ?>
