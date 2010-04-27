@@ -202,7 +202,7 @@ function ShowMenuCompta($p_high="")
   $result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' width="100%"');
   $str_dossier=dossier::get();
   $r="";
-  $r.=menu_tool("user_compta.php");
+  $r.=menu_tool("compta.php");
   $r.='<div style="float:left;background-color:#879ED4;width:100%;">';
   $r.=$result;
   $r.='</div>';
@@ -449,7 +449,7 @@ function menu_tool($p_from) {
 		 array('value'=>'user_login.php','label'=>_('Autre Dossier')),
 		 array('value'=>'logout.php','label'=>_('Deconnexion')),
 		 array('value'=>'new_line'),
-		 array('value'=>'user_compta.php','label'=>_('Compta Générale')),
+		 array('value'=>'compta.php','label'=>_('Compta Générale')),
 		 array('value'=>'commercial.php','label'=>_('Gestion')),
 		 array('value'=>'comptanalytic.php','label'=>_('Compt. Analytique')),
 		 array('value'=>'extension.php','label'=>_('Extension'))

@@ -144,3 +144,5 @@ return njft_id;
 end;
 $$
     LANGUAGE plpgsql;
+
+drop domain poste_comptable;
