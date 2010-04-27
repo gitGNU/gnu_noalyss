@@ -65,13 +65,13 @@ h2.info {
 h3.info {
   background:#879ed4;
   color:white;
-  font-size:10pt;
+  font-size:14px;
   text-align:center;
 }
 
 h2.info2 {
   color:blue;
-  font-size:20px;
+  font-size:14px;
   text-align:center;
 
 }
@@ -80,7 +80,7 @@ h2.info2 {
 h2.error {
 	background:red;
 	color:white;
-	font-size:20px;
+	font-size:14px;
 }
 
 h1.title {
