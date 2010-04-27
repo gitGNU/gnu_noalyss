@@ -1,0 +1,20 @@
+1. Plan comptable est maintenant alphanumérique, la numérotation automatique
+ne fonctionne pas si  le poste comptable contient autre chose que des chiffres
+
+2. Document : dans la liste des documents, on a dorénavant ceux qui en dépendent
+indirectement
+
+Exemple 
+Document A en relation avec Document B
+Document C en relation avec Document B
+Avant dans les documents liés, on ne voyait que le document B dans la liste 
+des documents liés de A
+Avec la nouvelle version, on voit dans la liste du document A, le document B &C
+ 
+3. Lettrage
+La réconciliation ou rapprochement fait correspondre une ou plusieurs opérations
+comptables
+Le lettrage lui, agit à un niveau plus bas en faisant correspondre, une ligne d'opération
+comptable à une autre. Typiquement, il s'agit d'un débit qui correspond à un débit
+
+4 TVA : Se choisit maintenant dans un popup au lieu d'une liste select
