@@ -64,7 +64,6 @@ default:
   $ss_action='dc';
 }
 $f=new fiche($cn,$_REQUEST['f_id']);
-echo '<span style="padding:2px"><h2 class="info2" style="display:inline">'.$f->get_quick_code()." ".$f->strAttribut(ATTR_DEF_NAME).'</span></h2>';
 echo '<div class="u_subtmenu">';
 echo ShowItem(array(
 		    array($root."&sc=dc",_('Fiche'),_('Détail de la fiche'),1),
@@ -73,7 +72,11 @@ echo ShowItem(array(
 		    array($root.'&sc=op',_('Opérations'),_('Toutes les opérations'),4),
 		    array('?p_action=adm&'.dossier::get(),_('Retour liste'),_('Retour à la liste des administration'),5)
 		    ),
-	      'H',"mtitle","mtitle",$def,' width="100%"');
+	      'H',"mtitle","mtitle",$def,' ');
+echo '</div>';
+echo '<div style="float:right;margin-right:50px;margin-top:15">';
+echo '<h2 class="info2" style="border:solid 2px blue;padding:5px">'.$f->get_quick_code()." ".$f->strAttribut(ATTR_DEF_NAME).'</h2>';
+echo '</div>';
 echo '</div>';
 
 //---------------------------------------------------------------------------
