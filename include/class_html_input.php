@@ -134,7 +134,35 @@ class HtmlInput {
     $attr=create_script($attr);
     return $attr;
   }
+  /**
+   * Make a JSON object, this method create a javascript object
+   * with the attribute set, it returns a javascript string with the object
+   * @param $p_name : name of the object
+   * @return javascript string with the object
+   * @code
+$a=new IButton()
+$a->set_attribute('prop','1');
+$a->set_attribute('prop','2');
+$a->set_attribute('prop','3');
+$string = $a->make_object('property');
+echo $string => property={'prop':'1','prop2':'2','prop3':'3'};
+@endcode
+  */
+  public function make_object($p_name) {
+    if ( count($this->attribute) == 0) return "$p_name={}";
+    $ret="$p_name={"; $and='';
 
+    for ($i=0;$i< count($this->attribute);$i++){
+      list($name,$value)=$this->attribute[$i];
+      $tmp1=sprintf($and."'%s':'%s'",
+		    $name,
+		    $value);
+      $ret.=$tmp1; $and=',';
+    }
+
+    $ret.='}';
+    return $ret;
+  }
   //#####################################################################
   /* Debug
    */

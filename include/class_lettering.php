@@ -28,24 +28,22 @@ require_once ('class_user.php');
   /**
    *@brief mother class for the lettering by account and by card
    * use the tables jnt_letter, letter_deb and letter_cred
-   *
-    @note by default start and end are the 1.1.exercice to 31.12.exercice
-   Example
-   @code
-
-   @endcode
   */
 class Lettering
 {
-  /* example private $variable=array("easy_name"=>column_name,"email"=>"column_name_email","val3"=>0); */
-  protected $variable=array("account"=>"account",
-			    "quick_code"=>"quick_code",
-			    "start"=>"start",
-			    "end"=>"end",
-			    "periode"=>"periode",
-			    "sql_ledger"=>"sql_ledger"
+ 
+  protected $variable=array("account"=>"account", /* the accounting of the j_id (use by Lettering_Account) */
+			    "quick_code"=>"quick_code", /* the quick_code of the j_id (used by Lettering_Card) */
+			    "start"=>"start",		/* date of the first day */
+			    "end"=>"end",		/* date of the last day */
+			    "sql_ledger"=>"sql_ledger"	/*   the sql clause to filter on the available ledgers */
 			    )
 			    ;
+  /**
+   * constructor
+   *@param $p_init resource to database
+   *@note by default start and end are the 1.1.exercice to 31.12.exercice
+   */
   function __construct ($p_init) {
     $this->db=$p_init;
     $a=new User($p_init);
@@ -102,7 +100,6 @@ class Lettering
   'jnt_id' => string '-2' (length=2)
   'record' => string 'Sauver' (length=6)
 @endcode
-@todo if only one row, we delete completely the lettering
   */
   public function save($p_array) {
 
@@ -138,6 +135,7 @@ class Lettering
       } //end if 1
     } //end for
     // save into jnt_letter
+    /* if only one row we delete the joint */
     if ( $count==0) {
       $this->db->rollback();
     }
@@ -167,6 +165,10 @@ class Lettering
 	);
     */
   }
+  /**
+   *show all the record from jrnx and their status (linked or not)
+   *it fills the array $this->content
+   */
   protected function show_all() {
     $this->get_all();
     $r="";
@@ -176,6 +178,10 @@ class Lettering
     ob_clean();
     return $r;
   }
+  /**
+   *show only the lettered records from jrnx 
+   *it fills the array $this->content
+   */
   protected function show_lettered() {
     $this->get_letter();
     $r="";
@@ -185,6 +191,10 @@ class Lettering
     ob_clean();
     return $r;
   }
+  /**
+   *show only the not lettered records from jrnx 
+   *it fills the array $this->content
+   */
   protected function show_not_lettered() {
     $this->get_unletter();
     $r="";
@@ -194,7 +204,11 @@ class Lettering
     ob_clean();
     return $r;
   }
-
+  /**
+   *wrapper : it call show_all, show_lettered or show_not_lettered depending
+   * of the parameter
+   *@param $p_type poss. values are all, unletter, letter
+   */
   public function show_list($p_type) {
     switch($p_type) {
     case 'all':
@@ -254,6 +268,10 @@ class Lettering
   }
   
 }
+/**
+ * only for operation retrieved thanks a account (jrnx.j_poste)
+ * manage the accounting entries for a given account
+ */
 
 class Lettering_Account extends Lettering{
   function __construct($p_init,$p_account=null) {
@@ -262,22 +280,14 @@ class Lettering_Account extends Lettering{
     $this->object_type='account';
   }
   /**
-   *@brief get other side 
-   *@param $j_debit f for cred or t for debit
+   * fills the this->content, datas are filtered thanks
+   * - fil_deb poss values t (debit), f(credit), ' ' (everything)
+   * - fil_amount_max max amount
+   * - fil_amount_min min amount
+   * - $this->start min date
+   * - $this->end max date
+   * - this->account: accounting
    */
-  public function get_other_side_obsolete($j_debit) {
-    $sql="
-select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
-j_montant,j_debit,jr_comment,jr_internal,
-coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter
- from jrnx join jrn on (j_grpt = jr_grpt_id)
-where j_poste = $1 and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date ($3,'DD.MM.YYYY') 
-and $this->sql_ledger -- and j_debit != $4
-
-order by j_date,j_id";
-    $this->content=$this->db->get_array($sql,array($this->account,$this->start,$this->end));
-  }
-
   public function get_filter() {
     $filter_deb='';
     if (isset($this->fil_deb)) {
@@ -315,7 +325,9 @@ order by j_date,j_id";
     $this->content=$this->db->get_array($sql,array($this->account,$this->start,$this->end));
   }
 
-
+  /** 
+   * fills this->content with all the operation for the this->account(jrnx.j_poste)
+   */
   public function get_all() {
     $sql="
 select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
@@ -328,6 +340,9 @@ and $this->sql_ledger
 order by j_date,j_id";
     $this->content=$this->db->get_array($sql,array($this->account,$this->start,$this->end));
   }
+  /**
+   * same as get_all but only for lettered operation
+   */
   public function get_letter() {
     $sql="
 select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
@@ -340,6 +355,10 @@ and j_id in (select j_id from letter_deb join jnt_letter using (jl_id) union sel
 order by j_date,j_id";
     $this->content=$this->db->get_array($sql,array($this->account,$this->start,$this->end));
   }
+  /**
+   * same as get_all but only for unlettered operation
+   */
+
   public function get_unletter() {
     $sql="
 select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
@@ -354,14 +373,30 @@ order by j_date,j_id";
   }
 
 }
-
+/**
+ * only for operation retrieved thanks a quick_code
+ * manage the accounting entries for a given card
+ */
 class Lettering_Card extends Lettering{
+  /**
+   *constructor
+   *@param $p_init db resource
+   *@param $p_qcode quick_code of the jrnx.j_id
+   */
   function __construct($p_init,$p_qcode=null) {
     parent::__construct($p_init);
     $this->quick_code=$p_qcode;
     $this->object_type='card';
   }
-
+  /**
+   * fills the this->content, datas are filtered thanks
+   * - fil_deb poss values t (debit), f(credit), ' ' (everything)
+   * - fil_amount_max max amount
+   * - fil_amount_min min amount
+   * - $this->start min date
+   * - $this->end max date
+   * - this->quick_code: quick_code
+   */
   public function get_filter() {
     $filter_deb='';
     if (isset($this->fil_deb)) {
@@ -398,6 +433,9 @@ order by j_date,j_id";
 
     $this->content=$this->db->get_array($sql,array($this->quick_code,$this->start,$this->end));
   }
+  /** 
+   * fills this->content with all the operation for the this->quick_code(j_qcode)
+   */
   public function get_all() {
     $sql="
 select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
@@ -410,6 +448,9 @@ and $this->sql_ledger
 order by j_date,j_id";
     $this->content=$this->db->get_array($sql,array($this->quick_code,$this->start,$this->end));
   }
+  /**
+   * same as get_all but only for lettered operation
+   */
 
   public function get_letter() {
     $sql="
@@ -423,6 +464,9 @@ and j_id in (select j_id from letter_deb join jnt_letter using (jl_id) union sel
 order by j_date,j_id";
     $this->content=$this->db->get_array($sql,array($this->quick_code,$this->start,$this->end));
   }
+  /**
+   * same as get_all but only for unlettered operation
+   */
   public function get_unletter() {
     $sql="
 select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,

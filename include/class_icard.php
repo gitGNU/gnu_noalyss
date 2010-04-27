@@ -87,6 +87,27 @@
 // Search button for card
     $f_client_bt=$W1->search(); 
   * \endcode
+For searching a card, you need a popup, the script card.js and set
+the values for card, popup filter_card callback
+@code
+echo JS_CARD;
+
+
+$search_card=new IPopup('ipop_card');
+$search_card->title=_('Recherche de fiche');
+$search_card->value='';
+echo $search_card->input();
+
+$card=new ICard('acc');
+$card->name="acc";
+$card->extra="all";
+$card->set_attribute('popup','ipopcard');
+$card->set_attribute('typecard','all');
+$card->set_callback('filter_card');
+
+echo $card->input();
+echo $card->search();
+@endcode
  */
 require_once('class_html_input.php');
 require_once('function_javascript.php');
