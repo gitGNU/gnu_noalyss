@@ -28,6 +28,11 @@ require_once ('class_user.php');
   /**
    *@brief mother class for the lettering by account and by card
    * use the tables jnt_letter, letter_deb and letter_cred
+   * - "account"=>"account",       => the accounting of the j_id (use by Lettering_Account) 
+   * - "quick_code"=>"quick_code", => the quick_code of the j_id (used by Lettering_Card) 
+   * - "start"=>"start",	   => date of the first day 
+   * - "end"=>"end",		   => date of the last day 
+   * - "sql_ledger"=>"sql_ledger"  => the sql clause to filter on the available ledgers 
   */
 class Lettering
 {
