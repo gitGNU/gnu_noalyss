@@ -72,7 +72,7 @@ exit();
 }
 if ( DBVERSION!=dossier::get_version($cn)) {
 
-  echo '<h2 class="error" style="font-size:14px">'._("Votre base de données n'est pas à jour").'   ';
+  echo '<h2 class="error" >'._("Votre base de données n'est pas à jour").'   ';
   $a=_("cliquez ici pour appliquer le patch");
   $base=dirname($_SERVER['REQUEST_URI']).'/admin/setup.php';
   echo '<a hreF="'.$base.'">'.$a.'</a></h2>';
