@@ -1,3 +1,10 @@
+<?php
+if ( count($this->content) == 0 ) :
+?>
+  <h2 class="info2"><?=_('Désolé aucun résultat trouvé')?></h2>
+
+<?      exit();
+endif;?>
 <table class="result">
 <tr>
 <th>

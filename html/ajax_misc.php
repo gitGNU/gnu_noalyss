@@ -234,13 +234,15 @@ jr_comment,j_montant, j_debit,jr_internal from jrnx join jrn on (j_grpt=jr_grpt_
     //min amount
     $line=td(_('Montant min. '));
     $min=new INum('min_amount');
-    $min->value=(isset($min_amount))?$min_amount:0;
+    $min->value=(isset($min_amount))?$min_amount:$row['j_montant'];
+    $min_amount=(isset($min_amount))?$min_amount:$row['j_montant'];
 
     $line.=td($min->input());
     // max amount
     $line.=td(_('Montant max. '));
     $max=new INum('max_amount');
-    $max->value=(isset($max_amount))?$max_amount:0;
+    $max->value=(isset($max_amount))?$max_amount:$row['j_montant'];
+    $max_amount=(isset($max_amount))?$max_amount:$row['j_montant'];
     $line.=td($max->input());
     $r.=tr($line);
 
@@ -263,7 +265,8 @@ jr_comment,j_montant, j_debit,jr_internal from jrnx join jrn on (j_grpt=jr_grpt_
 			array('label'=>_('Credit'),'value'=>1),
 			array('label'=>_('Les 2'),'value'=>3)
 			);
-    $iside->selected=(isset($side))?$side:0;
+    $iside->selected=(isset($side))?$side:($row['j_debit']=='t')?0:1;
+    $side=(isset($side))?$side:($row['j_debit']=='t')?0:1;
     $r.=tr($line.td($iside->input()));
     $r.='</table>';
     $r.='</div>';
@@ -281,6 +284,10 @@ jr_comment,j_montant, j_debit,jr_internal from jrnx join jrn on (j_grpt=jr_grpt_
     if ( isset($_REQUEST['p_action']))       $form.=HtmlInput::hidden('p_action',$_REQUEST['p_action']);
     if ( isset($_REQUEST['sa']))       $form.=HtmlInput::hidden('sa',$_REQUEST['sa']);
     if ( isset($_REQUEST['acc']))       $form.=HtmlInput::hidden('acc',$_REQUEST['acc']);
+    if ( isset($_REQUEST['sc']))       $form.=HtmlInput::hidden('sc',$_REQUEST['sc']);
+    if ( isset($_REQUEST['sb']))       $form.=HtmlInput::hidden('sb',$_REQUEST['sb']);
+    if ( isset($_REQUEST['f_id']))       $form.=HtmlInput::hidden('f_id',$_REQUEST['f_id']);
+
     // display a list of operation from the other side + box button
     if ( $ot == 'account') {
       $obj=new Lettering_Account($cn,$row['j_poste']);

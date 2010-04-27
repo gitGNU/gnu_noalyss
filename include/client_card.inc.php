@@ -59,21 +59,27 @@ case 'cn':
 case 'op':
   $def=4;
   break;
+case 'let':
+  $def=6;
+  break;
 default:
   $def=1;
   $ss_action='dc';
 }
 $f=new fiche($cn,$_REQUEST['f_id']);
-echo '<span style="padding:2px"><h2 class="info2" style="display:inline">'.$f->get_quick_code()." ".$f->strAttribut(ATTR_DEF_NAME).'</span></h2>';
 echo '<div class="u_subtmenu">';
 echo ShowItem(array(
 		    array($root."&sc=dc",_('Fiche'),_('Détail de la fiche'),1),
 		    array($root.'&sc=sv',_('Suivi'),_('Suivi client, devis, bon de commande, courrier'),2),
 		    array($root.'&sc=cn',_('Contact'),_('Liste de contacts de ce client'),3),
 		    array($root.'&sc=op',_('Opérations'),_('Toutes les opérations'),4),
+		    array($root.'&sc=let',_('Lettrage'),_('Opérations & Lettrages'),6),
 		    array('?p_action=client&'.dossier::get(),_('Retour liste'),_('Retour à la liste des clients'),5)
 		    ),
-	      'H',"mtitle","mtitle",$def,' width="100%"');
+	      'H',"mtitle","mtitle",$def,'');
+echo '</div>';
+echo '<div>';
+echo '<span style="border:solid 2px blue;padding:5px"><h2 class="info2" style="display:block">'.$f->get_quick_code()." ".$f->strAttribut(ATTR_DEF_NAME).'</span></h2>';
 echo '</div>';
 
 //---------------------------------------------------------------------------
@@ -127,4 +133,10 @@ if ( $ss_action == 'cn') {
 
   echo $f_add_button->input();
   echo '</div>';
+}
+/*----------------------------------------------------------------------------
+ * Lettering
+ *----------------------------------------------------------------------------*/
+if ( $def==6 ) {
+  require_once('lettering.gestion.inc.php');
 }

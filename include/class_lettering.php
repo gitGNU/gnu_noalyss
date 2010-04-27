@@ -315,7 +315,7 @@ class Lettering_Account extends Lettering{
 	 isNumber($this->fil_amount_max)==1 &&
 	 isNumber($this->fil_amount_min)==1 &&
 	 ($this->fil_amount_max != 0 || $this->fil_amount_min != 0) )
-      $filter_amount=" and j_montant between $this->fil_amount_min and $this->fil_amount_max ";
+      $filter_amount=" and j_montant >= $this->fil_amount_min and j_montant<=$this->fil_amount_max ";
     $sql="
 select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
 j_montant,j_debit,jr_comment,jr_internal,
