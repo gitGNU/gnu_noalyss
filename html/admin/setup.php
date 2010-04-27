@@ -7,12 +7,12 @@ body {
  }
 h2.info {
 	color:green;
-	font-size:20px;
+	font-size:14px;
 	font-family:sans-serif;
 }
 h2.error {
 	color:red;
-	font-size:20px;
+	font-size:14px;
 	font-family:sans-serif;
 }
 .warning  {
@@ -26,10 +26,18 @@ h2.error {
 	font-family:sans-serif;
 }
 a:hover{
-	background-color:lightblue;
-	color:black;
+color:blue;
+	background-color:blue;
+	color:lightgrey;
 	}
--->
+a { 
+color:blue;
+padding:5px;
+  font-size:15px;
+border:groove 2px blue;
+  text-decoration:none;
+  background-color:lightgrey;
+}
 </style>
 <p align="center">
   <IMG SRC="../image/logo7.jpg" alt="Logo">
@@ -389,4 +397,4 @@ echo '<hr>';
  if (DEBUG=='false') ob_end_clean();
  echo "<h2 class=\"info\">Voil&agrave; tout est install&eacute; ;-) </H2>";
 ?>
-<A style="padding:5px;font-size:15px;border:groove 2px blue;text-decoration:none;background-color:lightgrey" HREF="../index.php">Connectez-vous à PhpCompta</A>
+<A HREF="../index.php">Connectez-vous à PhpCompta</A>
