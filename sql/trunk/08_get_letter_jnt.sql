@@ -1,4 +1,4 @@
-﻿create or replace function comptaproc.get_letter_jnt(a bigint) returns bigint
+create or replace function comptaproc.get_letter_jnt(a bigint) returns bigint
 as
 $_$
 declare
