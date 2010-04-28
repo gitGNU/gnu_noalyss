@@ -107,7 +107,7 @@ class Lettering
 @endcode
   */
   public function save($p_array) {
-
+    if ( ! isset ($p_array['letter_j_id'])) return;
     $this->db->exec_sql('delete from jnt_letter where jl_id=$1',array($p_array['jnt_id']));
 
     $this->db->start();
