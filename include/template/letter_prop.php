@@ -65,8 +65,8 @@ $letter=($this->content[$i]['letter']==-1)?" ":$this->content[$i]['letter'];
 </td>
 <td> <?=$this->content[$i]['j_date_fmt']?> </td>
 <?php
-$r=sprintf('<A class="detail" style="text-decoration:underline"  HREF="javascript:modifyOperation(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')" >%s</A>',
-	   $this->content[$i]['jr_id'], $l_sessid,$gDossier, $this->content[$i]['jr_def_id'],'S',  $this->content[$i]['jr_internal']);
+$r=sprintf('<A class="detail" style="text-decoration:underline"  HREF="javascript:viewOperation(\'%s\',\'%s\',\'%s\')" >%s</A>',
+	   $this->content[$i]['jr_id'], $l_sessid,$gDossier,  $this->content[$i]['jr_internal']);
 ?>
 <td> <?=$r?> </td>
 <td> <?=$this->content[$i]['jr_comment']?> </td>
@@ -85,7 +85,7 @@ $r=sprintf('<A class="detail" style="text-decoration:underline"  HREF="javascrip
 	$operation->jr_id=$element;
 	$l_amount=$this->db->get_value("select jr_montant from jrn ".
 					 " where jr_id=$element");
-	echo "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."','".$l_sessid."',".$gDossier.")\" > ".$operation->get_internal()." [ $l_amount &euro; ]</A>";
+	echo "<A class=\"detail\" HREF=\"javascript:viewOperation('".$element."','".$l_sessid."',".$gDossier.")\" > ".$operation->get_internal()." [ $l_amount &euro; ]</A>";
       }//for
     }// if ( $a != null ) {
 

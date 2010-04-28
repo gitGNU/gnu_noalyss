@@ -58,7 +58,7 @@ $date_from=new IDate('from_periode');
 $date_to=new IDate('to_periode');
 $year=$User->get_exercice();
 $date_from->value=(isset($_REQUEST['from_periode']))?$_REQUEST['from_periode']:$first_day;
-$date_to->value=(isset($_REQUEST['to_periode']))?$_REQUEST['to_periode']:$last_day['p_end'];
+$date_to->value=(isset($_REQUEST['to_periode']))?$_REQUEST['to_periode']:$last_day;
 echo td(_('Depuis').$date_from->input());
 echo td(_('Jusque ').$date_to->input());
 //
