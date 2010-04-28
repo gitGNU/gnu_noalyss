@@ -32,7 +32,7 @@ require_once ('class_user.php');
 class Acc_Operation
 {
   var $db; 				/*!< database connx */
-var $jr_id;	/*!< pk of jrn */
+  var $jr_id;       	/*!< pk of jrn */
   var $jrn_id;			/*!< jrn_def_id */
   var $debit;			/*!< debit or credit */
   var $user;			/*!< current user */

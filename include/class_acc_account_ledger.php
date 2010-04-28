@@ -313,7 +313,7 @@ function get_solde_detail($p_cond="") {
   *
   * \return none
   */
- static function HtmlTableHeader()
+ static function HtmlTableHeader($actiontarget="poste")
    {
      $hid=new IHidden();
      echo '<div class="noprint">';
@@ -325,14 +325,16 @@ function get_solde_detail($p_cond="") {
        HtmlInput::submit('bt_other',"Autre poste").
        $hid->input("type","poste").$hid->input('p_action','impress')."</form></TD>";
 
-     echo '<TD><form method="POST" ACTION="poste_pdf.php">'.
+     echo '<TD><form method="POST" ACTION="'.$actiontarget.'_pdf.php">'.
 	   dossier::hidden().
        HtmlInput::submit('bt_pdf',"Export PDF").
        $hid->input("type","poste").
        $hid->input('p_action','impress').
-       $hid->input("poste_id",$_REQUEST['poste_id']).
        $hid->input("from_periode",$_REQUEST['from_periode']).
        $hid->input("to_periode",$_REQUEST['to_periode']);
+
+     if (isset($_REQUEST['poste_id'])) echo $hid->input("poste_id",$_REQUEST['poste_id']);
+
      if (isset($_REQUEST['poste_fille']))
        echo $hid->input('poste_fille','on');
      if (isset($_REQUEST['oper_detail']))
@@ -340,18 +342,18 @@ function get_solde_detail($p_cond="") {
 
      echo "</form></TD>";
 
-     echo '<TD><form method="POST" ACTION="poste_csv.php">'.
+     echo '<TD><form method="POST" ACTION="'.$actiontarget.'_csv.php">'.
 	   dossier::hidden().
        HtmlInput::submit('bt_csv',"Export CSV").
        $hid->input("type","poste").
        $hid->input('p_action','impress').
-       $hid->input("poste_id",$_REQUEST['poste_id']).
        $hid->input("from_periode",$_REQUEST['from_periode']).
        $hid->input("to_periode",$_REQUEST['to_periode']);
      if (isset($_REQUEST['poste_fille']))
        echo $hid->input('poste_fille','on');
      if (isset($_REQUEST['oper_detail']))
        echo $hid->input('oper_detail','on');
+     if (isset($_REQUEST['poste_id'])) echo $hid->input("poste_id",$_REQUEST['poste_id']);
 
      echo "</form></TD>";
      echo "</table>";

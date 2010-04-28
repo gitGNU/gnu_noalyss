@@ -30,6 +30,7 @@ echo "<DIV class=\"u_subtmenu\">";
 echo JS_AJAX_FICHE;
 
 $p_array=array(array ("?p_action=impress&type=jrn&".$str_dossier,_("Journaux")),
+	       array("?p_action=impress&type=gl_comptes&".$str_dossier,_("Grand Livre")), /* AG */
 	       array("?p_action=impress&type=poste&".$str_dossier,_("Poste")),
 	       array("?p_action=impress&type=fiche&".$str_dossier,_("Fiche")),
 	       array("?p_action=impress&type=rapport&".$str_dossier,_("Rapport")),
@@ -67,6 +68,10 @@ $default=( isset ($_REQUEST['type']))?$_REQUEST['type']:"";
   case "bilan":
     $User->can_request(IMPBIL,1);
     require_once ("impress_bilan.inc.php");
+    break;
+  case "gl_comptes": /* AG */
+    $User->can_request(IMPBIL,1);
+    require_once ("impress_gl_comptes.inc.php");
     break;
 
   case "bal":

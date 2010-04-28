@@ -1,0 +1,149 @@
+<?php
+/*
+ *   This file is part of PhpCompta.
+ *
+ *   PhpCompta is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *
+ *   PhpCompta is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with PhpCompta; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+// $Revision$
+
+/*! \file
+ * \brief create GL comptes as PDF
+ */
+
+include_once('class_acc_account_ledger.php');
+include_once('ac_common.php');
+require_once('class_database.php');
+include_once('impress_inc.php');
+require_once('class_own.php');
+require_once('class_dossier.php');
+require_once('class_user.php');
+require_once('class_pdf.php');
+
+
+$gDossier=dossier::id();
+
+/* Security */
+$cn=new Database($gDossier);
+$User=new User($cn);
+$User->Check();
+$User->check_dossier($gDossier);
+$User->can_request(IMPBIL,0);
+
+extract($_POST);
+
+$pdf = new PDF($cn);
+$pdf->setDossierInfo("  Periode : ".$from_periode." - ".$to_periode);
+$pdf->AliasNbPages();
+$pdf->AddPage();
+$a_poste=$cn->get_array("select pcm_val from tmp_pcmn order by pcm_val::text");
+
+if ( count($a_poste) == 0 ) {
+  $pdf->Output();
+  return;
+}
+
+// Header
+$header = array( "Date", "Référence", "Libellé", "Pièce", "Débit", "Crédit", "Solde" );
+// Left or Right aligned
+$lor    = array( "L"   , "L"        , "L"      , "L"    , "R"    , "R"     , "R"     );
+// Column widths (in mm)
+$width  = array( 20    , 25         , 70       , 10     , 20     , 20      , 20      );
+
+foreach ($a_poste as $poste) {
+
+    $Poste=new Acc_Account_Ledger($cn,$poste['pcm_val']);
+    list($array,$tot_deb,$tot_cred)=$Poste->get_row_date($from_periode,$to_periode);
+
+    // don't print empty account
+    if ( count($array) == 0 ) {
+      continue;
+    }
+
+    $pdf->SetFont('Arial','',10);
+    $Libelle=sprintf("%s - %s ",$Poste->id,$Poste->get_name());
+    $pdf->Cell(0, 7, $Libelle, 1, 1, 'C');
+
+    $pdf->SetFont('Arial','',6);
+    for($i=0;$i<count($header);$i++)
+      $pdf->Cell($width[$i], 4, $header[$i], 0, 0, $lor[$i]);
+    $pdf->Ln();
+
+    $pdf->SetFont('Arial','',8);
+
+
+    $solde = 0.0;
+    $solde_d = 0.0;
+    $solde_c = 0.0;
+
+    foreach ($Poste->row as $detail) {
+
+        /*
+               [0] => 1 [jr_id] => 1
+               [1] => 01.02.2009 [j_date_fmt] => 01.02.2009
+               [2] => 2009-02-01 [j_date] => 2009-02-01
+               [3] => 0 [deb_montant] => 0
+               [4] => 12211.9100 [cred_montant] => 12211.9100
+               [5] => Ecriture douverture [description] => Ecriture douverture
+               [6] => Opération Diverses [jrn_name] => Opération Diverses
+               [7] => f [j_debit] => f
+               [8] => 17OD-01-1 [jr_internal] => 17OD-01-1
+               [9] => ODS1 [jr_pj_number] => ODS1 ) 1
+         */
+
+          if ($detail['cred_montant'] > 0) {
+            $solde   += $detail['cred_montant'];
+            $solde_c += $detail['cred_montant'];
+          }
+          if ($detail['deb_montant'] > 0) {
+            $solde   -= $detail['deb_montant'];
+            $solde_d += $detail['deb_montant'];
+          }
+
+          $i = 0;
+
+          $pdf->Cell($width[$i], 6, $detail['j_date_fmt'], 0, 0, $lor[$i]); $i++;
+          $pdf->Cell($width[$i], 6, $detail['jr_internal'], 0, 0, $lor[$i]); $i++;
+	  /* limit set to 20 for the substring */
+          $pdf->Cell($width[$i], 6, substr($detail['description'],0,20), 0, 0, $lor[$i]); $i++;
+          $pdf->Cell($width[$i], 6, $detail['jr_pj_number'], 0, 0, $lor[$i]); $i++;
+          $pdf->Cell($width[$i], 6, ($detail['deb_montant']  > 0 ? sprintf("%.2f", $detail['deb_montant'])  : ''), 0, 0, $lor[$i]); $i++;
+          $pdf->Cell($width[$i], 6, ($detail['cred_montant'] > 0 ? sprintf("%.2f", $detail['cred_montant']) : ''), 0, 0, $lor[$i]); $i++;
+          $pdf->Cell($width[$i], 6, sprintf("%.2f", $solde), 0, 0, $lor[$i]); $i++;
+          $pdf->Ln();
+
+        }
+
+
+        $pdf->SetFont('Arial','B',8);
+
+        $i = 0;
+        $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]); $i++;
+        $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]); $i++;
+        $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]); $i++;
+        $pdf->Cell($width[$i], 6, 'Total du compte '.$Poste->id, 0, 0, 'R'); $i++;
+        $pdf->Cell($width[$i], 6, ($solde_d  > 0 ? sprintf("%.2f", $solde_d)  : ''), 0, 0, $lor[$i]); $i++;
+        $pdf->Cell($width[$i], 6, ($solde_c  > 0 ? sprintf("%.2f", $solde_c)  : ''), 0, 0, $lor[$i]); $i++;
+        $pdf->Cell($width[$i], 6, sprintf("%.2f", abs($solde_c-$solde_d)), 0, 0, $lor[$i]); $i++;
+        $pdf->Cell(5, 6, ($solde_c > $solde_d ? 'C' : 'D'), 0, 0, 'L');
+
+        $pdf->Ln();
+        $pdf->Ln();
+
+}
+//Save PDF to file
+$pdf->Output("gl_comptes.pdf", 'I');exit;
+?>
