@@ -16,5 +16,7 @@ ALTER TABLE ONLY modeledef
     ADD CONSTRAINT modeledef_pkey PRIMARY KEY (mod_id);
 ALTER TABLE ONLY user_global_pref
     ADD CONSTRAINT pk_user_global_pref PRIMARY KEY (user_id, parameter_type);
+ALTER TABLE ONLY priv_user
+    ADD CONSTRAINT priv_user_pkey PRIMARY KEY (priv_id);
 ALTER TABLE ONLY user_global_pref
     ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES ac_users(use_login) ON UPDATE CASCADE ON DELETE CASCADE;

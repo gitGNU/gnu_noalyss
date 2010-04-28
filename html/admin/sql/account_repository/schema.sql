@@ -1,7 +1,8 @@
-SET client_encoding = 'utf8';
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = off;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
-
+SET escape_string_warning = off;
 SET search_path = public, pg_catalog;
 SET default_tablespace = '';
 SET default_with_oids = false;
@@ -42,7 +43,6 @@ CREATE TABLE priv_user (
     priv_priv text
 );
 CREATE SEQUENCE s_modid
-    START WITH 6
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -81,3 +81,7 @@ CREATE TABLE version (
 );
 CREATE INDEX fk_jnt_dos_id ON jnt_use_dos USING btree (dos_id);
 CREATE INDEX fk_jnt_use_dos ON jnt_use_dos USING btree (use_id);
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;

@@ -1,4 +1,4 @@
-pg_dump -O -U phpcompta -s account_repository  | awk '!/--/ {if ( ! /^$/) print $0;}'|grep -v "COMMENT ON SCHEMA public IS 'Standard public schema';" > schema.sql
+pg_dump -O -U phpcompta -s ${DOMAIN}account_repository  | awk '!/--/ {if ( ! /^$/) print $0;}'|grep -v "COMMENT ON SCHEMA public IS 'Standard public schema';" > schema.sql
 awk '/SEQUENCE/,/;/ { print $0;}' < schema.sql > sequence.sql
 awk '/CREATE DOMAIN/,/;/ { print $0;}' < schema.sql > table.sql
 awk '/CREATE TABLE/,/;/ { print $0;}' < schema.sql >> table.sql
@@ -17,5 +17,5 @@ awk '/COMMENT/,/;/ {print $0;}' < schema.sql > comment.sql
 sed -i -e "/ALTER TABLE.*/d" -e "/ADD CONSTRAINT/d" -e "/CREATE PROCEDURAL.*/d" schema.sql
 
 grep setval schema.sql >> sequence.sql
-pg_dump -U phpcompta -D -a -O account_repository > data.sql
+pg_dump -U phpcompta -D -a -O ${DOMAIN}account_repository > data.sql
 
