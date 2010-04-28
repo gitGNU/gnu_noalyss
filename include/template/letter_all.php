@@ -1,7 +1,7 @@
 <?php
 require_once ('class_acc_operation.php');
 require_once ('class_acc_reconciliation.php');
-
+$amount_deb=0;$amount_cred=0;
 $gDossier=dossier::id();
 $l_sessid=$_REQUEST['PHPSESSID'];
 
@@ -77,6 +77,9 @@ $r=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript
 	echo "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."','".$l_sessid."',".$gDossier.")\" > ".$operation->get_internal()." [ $l_amount &euro; ]</A>";
       }//for
     }// if ( $a != null ) {
+// compute amount
+$amount_deb+=($this->content[$i]['j_debit']=='t')?$this->content[$i]['j_montant']:0;
+$amount_cred+=($this->content[$i]['j_debit']=='f')?$this->content[$i]['j_montant']:0;
 
 ?>
 </td>
@@ -86,3 +89,12 @@ $r=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript
     endfor;
 ?>
 </table>
+<h2 class="info2" style="margin:0 0"> Solde débit  : <?=$amount_deb?>
+<h2 class="info2"  style="margin:0 0"> Solde crédit : <?=$amount_cred?>
+ <? $solde=$amount_deb-$amount_cred; 
+if ( $solde > 0 ) :
+?>
+<h2 class="info2"  style="margin:0 0"> Solde débiteur       : <?=$solde?>
+<? else : ?>
+<h2 class="info2"  style="margin:0 0"> Solde créditeur       : <?=abs($solde)?>
+<? endif; ?>
