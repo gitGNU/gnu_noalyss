@@ -265,6 +265,13 @@ jr_comment,j_montant, j_debit,jr_internal from jrnx join jrn on (j_grpt=jr_grpt_
 			array('label'=>_('Credit'),'value'=>1),
 			array('label'=>_('Les 2'),'value'=>3)
 			);
+    /**
+     *@todo
+     * if $side is not then
+     * - if jl_id exist and is > 0 show by default all the operation (=3)
+     * - if jl_id does not exist or is < 0 then show by default the opposite
+     *  side
+     *  /
     $iside->selected=(isset($side))?$side:(($row['j_debit']=='t')?0:1);
     $side=(isset($side))?$side:(($row['j_debit']=='t')?1:0);
     $r.=tr($line.td($iside->input()));
