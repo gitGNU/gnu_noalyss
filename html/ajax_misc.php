@@ -266,14 +266,28 @@ jr_comment,j_montant, j_debit,jr_internal from jrnx join jrn on (j_grpt=jr_grpt_
 			array('label'=>_('Les 2'),'value'=>3)
 			);
     /**
-     *@todo
+     *
      * if $side is not then
      * - if jl_id exist and is > 0 show by default all the operation (=3)
      * - if jl_id does not exist or is < 0 then show by default the opposite
      *  side
-     *  /
-    $iside->selected=(isset($side))?$side:(($row['j_debit']=='t')?0:1);
-    $side=(isset($side))?$side:(($row['j_debit']=='t')?1:0);
+     */
+    if ( ! isset ($side )) {
+      // find the jl_id of the j_id
+      $jl_id=$cn->get_value('select comptaproc.get_letter_jnt($1)',array($j_id));
+      if ($jl_id == null ) {
+	// get the other side
+	$iside->selected=(isset($side))?$side:(($row['j_debit']=='t')?1:0);
+	$side=(isset($side))?$side:(($row['j_debit']=='t')?1:0);
+      } else {
+	// show everything
+	$iside->selected=3;
+	$side=3;
+      }
+    } else {
+      $iside->selected=$side;
+    }
+
     $r.=tr($line.td($iside->input()));
     $r.='</table>';
     $r.='</div>';

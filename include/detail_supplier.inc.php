@@ -19,7 +19,7 @@
 /* $Revision$ */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-
+require_once('class_customer.php');
 /*!\file
  * \brief this file will handle all the actions for a specific customer (
  * contact,operation,invoice and financial)

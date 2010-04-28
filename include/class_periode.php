@@ -125,9 +125,9 @@ class Periode {
       /* if all ledgers have this periode closed then synchro with
 	 the table parm_periode
       */
-      $nJrn=count_sql( $this->cn,"select * from jrn_periode where ".
+      $nJrn=$this->cn->count_sql( "select * from jrn_periode where ".
 			 " p_id=".$this->p_id);
-      $nJrnPeriode=count_sql( $this->cn,"select * from jrn_periode where ".
+      $nJrnPeriode=$this->cn->count_sql( "select * from jrn_periode where ".
 			 " p_id=".$this->p_id." and status='CL'");
 
       if ( $nJrnPeriode==$nJrn)
