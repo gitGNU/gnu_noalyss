@@ -266,7 +266,7 @@ jr_comment,j_montant, j_debit,jr_internal from jrnx join jrn on (j_grpt=jr_grpt_
 			array('label'=>_('Les 2'),'value'=>3)
 			);
     $iside->selected=(isset($side))?$side:(($row['j_debit']=='t')?0:1);
-    $side=(isset($side))?$side:($row['j_debit']=='t')?0:1;
+    $side=(isset($side))?$side:(($row['j_debit']=='t')?1:0);
     $r.=tr($line.td($iside->input()));
     $r.='</table>';
     $r.='</div>';
