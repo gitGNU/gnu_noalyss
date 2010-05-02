@@ -18,3 +18,7 @@ Le lettrage lui, agit à un niveau plus bas en faisant correspondre, une ligne d
 comptable à une autre. Typiquement, il s'agit d'un débit qui correspond à un débit
 
 4 TVA : Se choisit maintenant dans un popup au lieu d'une liste select
+
+5 Impression : nouveau menu Categorie, vous permet de visualiser par catégorie de fiche
+avec l'historique des opérations ou simplement le résumé.
+
