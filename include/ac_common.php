@@ -33,14 +33,14 @@ require_once('class_periode.php');
 function h($p_string) { return htmlspecialchars($p_string);}
 function hi($p_string) { return '<i>'.htmlspecialchars($p_string).'</i>';}
 function hb($p_string) { return '<b>'.htmlspecialchars($p_string).'</b>';}
-function th($p_string) { return '<th>'.htmlspecialchars($p_string).'</th>';}
+function th($p_string,$p_extra='') { return '<th  '.$p_extra.'>'.htmlspecialchars($p_string).'</th>';}
 function h2info($p_string) { return '<h2 class="info">'.htmlspecialchars($p_string).'</h2>';}
 /*!\brief surrond the string with td
 *\param string
 *\param class to use
 * \return string surrounded by td
 */
-function td($p_string,$p_class=''){ return '<td class="'.$p_class.'" >'.$p_string.'</td>';}
+function td($p_string,$p_class='',$p_extra=''){ return '<td class="'.$p_class.'" '.$p_extra.'>'.$p_string.'</td>';}
 function tr($p_string,$p_class=''){ return '<tr class="'.$p_class.'" >'.$p_string.'</tr>';}
 /*!\brief escape correctly php string to javascript */
 function j($p_string) { $a=preg_replace("/\r?\n/", "\\n", addslashes($p_string)); return $a;}
