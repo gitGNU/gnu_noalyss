@@ -30,7 +30,6 @@ require_once('class_database.php');
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-if (  isset ($_REQUEST['with_amount']))  include_once("class_acc_account_ledger.php");
 $cn=new Database($gDossier);
 
 require_once ('class_user.php');
@@ -40,8 +39,8 @@ $User->check_dossier($gDossier);
 $User->can_request(IMPFIC,0);
 
 
-if  ( isset ($_POST['fd_id'])) {
-  $fiche_def=new fiche_def($cn,$_POST['fd_id']);
+if  ( isset ($_GET['fd_id'])) {
+  $fiche_def=new fiche_def($cn,$_GET ['fd_id']);
   $fiche=new fiche($cn);
   $e=$fiche_def->GetByType();
   $o=0;
@@ -53,9 +52,6 @@ if  ( isset ($_POST['fd_id'])) {
 		$o=1;
 	  }else {
 	    printf(";%s",$attribut->ad_text);
-	    if ( $attribut->ad_id == ATTR_DEF_ACCOUNT 
-		 && isset ($_REQUEST['with_amount'])) 
-	      echo ";debit;credit;solde";
 	  }
     }
   printf("\n");
@@ -69,23 +65,7 @@ if  ( isset ($_POST['fd_id'])) {
 		$o=1;
 	  } else {
 	    printf (";%s",$dattribut->av_text);
-	    // if solde resquested
-	    //--
-	    if ( $dattribut->ad_id == ATTR_DEF_ACCOUNT 
-		 && isset ($_REQUEST['with_amount']))  {
 
-	      $sql_periode=sql_filter_per($cn,$_REQUEST['from_periode'],$_REQUEST['to_periode'],'p_id','j_tech_per');
-	      $solde=  $detail->get_solde_detail($sql_periode);
-
-	      
-	      printf(";% 10.2f;% 10.2f;% 10.2f",
-		     $solde['debit'],
-		     $solde['credit'],
-		     $solde['solde']
-		     );
-	    
-
-	    }
 	  }
       }
     printf("\n");

@@ -23,133 +23,157 @@
  */
 include_once('class_database.php');
 include_once('class_fiche.php');
+require_once('class_lettering.php');
 
 $gDossier=dossier::id();
 $cn=new Database($gDossier);
+/**
+ * Show first the form
+ */
+/* category */
+$categorie=new ISelect('cat');
+$categorie->value=$cn->make_array('select fd_id,fd_label from fiche_def order by fd_label');
+$categorie->selected=(isset($_GET['cat']))?$_GET['cat']:0;
+$str_categorie=$categorie->input();
 
+/* periode */
+$exercice=$User->get_exercice();
+$iperiode=new Periode($cn);
+list ($first,$last)=$iperiode->get_limit($exercice);
+
+$periode_start=new IDate('start');
+$periode_end=new IDate('end');
+
+$periode_start->value=(isset($_GET['start']))?$_GET['start']:$first->first_day();
+$periode_end->value=(isset($_GET['end']))?$_GET['end']:$last->last_day();
+
+$str_start=$periode_start->input();
+$str_end=$periode_end->input();
+
+/* histo ou summary */
+$histo=new ISelect('histo');
+$histo->value=array(
+		    array('value'=>0,'label'=>_('Historique')),
+		    array('value'=>1,'label'=>_('Historique Lettré')),
+		    array('value'=>2,'label'=>_('Historique non Lettré')),
+		    array('value'=>3,'label'=>_('Résumé'))
+		    );
+$histo->javascript='onchange="if (this.value==3) {
+g(&quot;trstart&quot;).style.display=&quot;none&quot;;g(&quot;trend&quot;).style.display=&quot;none&quot;;}
+else  {g(&quot;trstart&quot;).style.display=&quot;&quot;;g(&quot;trend&quot;).style.display=&quot;&quot;}"';
+
+$histo->selected=(isset($_GET['histo']))?$_GET['histo']:3;
+$str_histo=$histo->input();
+echo '<div class="content">';
+echo '<FORM method="GET">';
+echo dossier::hidden();
+echo HtmlInput::hidden('p_action',$_GET['p_action']);
+echo HtmlInput::hidden('type',$_GET['type']);
+require_once('template/impress_cat_card.php');
+echo HtmlInput::submit('cat_display',_('Recherche'));
+echo '</FORM>';
+$str="if (g('histo').value==3) {
+g('trstart').style.display='none';g('trend').style.display='none';}
+else  {g('trstart').style.display='';g('trend').style.display='';}";
+echo create_script($str);
+echo '<hr>';
 //-----------------------------------------------------
-if  ( isset ($_REQUEST['fd_id'])) {
-  // if amount requested
-  $with_amount= (isset($_REQUEST['with_amount']))?true:false;
-  if ($with_amount) 
-    include_once("class_acc_account_ledger.php");
+if ( ! isset($_GET['cat_display'])) 
+  exit();
 
-  echo '<div class="content">';
+$array=Fiche::get_fiche_def($cn,$_GET['cat']);
+
+/*
+ * You show now the result
+ */
+if ($array == null  ) {
+  echo '<h2 class="info2"> Aucune fiche trouvée</h2>';
+  exit();
+}
+// summary
+if ( $_GET['histo'] == 3 ) {
+  $cat_card=new Fiche_Def($cn);
+  $cat_card->id=$_GET['cat'];
+  $aHeading=$cat_card->getAttribut();
+  require_once('template/result_cat_card_summary.php');
+
   $hid=new IHidden();
-  $fiche_id=new IHidden();
-  $w=new ISelect();
-  $fiche_def=new fiche_def($cn);
-
-  echo '<form method="POST" ACTION="fiche_csv.php">'.dossier::hidden().
+  echo '<form method="GET" ACTION="fiche_csv.php">'.dossier::hidden().
     HtmlInput::submit('bt_csv',"Export CSV").
     $hid->input("type","fiche").
     $hid->input("p_action","impress").
-    $fiche_id->input("fd_id",$_REQUEST['fd_id']);
-  if ($with_amount) {
-    echo $hid->input("with_amount");
-    echo $hid->input("from_periode",$_REQUEST['from_periode']);
-    echo $hid->input("to_periode",$_REQUEST['to_periode']);
-  }
+    $hid->input("fd_id",$_REQUEST['cat']);
   echo "</form>";
-  echo '<form method="Post" action="?p_action=impress&type=fiche">'.HtmlInput::submit("bt_submit","Autres fiches").dossier::hidden()."</form>";
-  
-  $fiche_def->id=$_REQUEST['fd_id'];
 
-  // Si les fiches ont un poste comptable
-  // propose de calculer aussi le solde
-  //--
-  if ( $fiche_def->HasAttribute(ATTR_DEF_ACCOUNT) == true ) {
-    echo '<form method="POST" ACTION="?p_action=impress&type=fiche">'.dossier::hidden();
-    // filter on the current year
-    $filter_year=" where p_exercice='".$User->get_exercice()."'";
+  exit();
+} 
 
-    $periode_start=$cn->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
-    
-    $w->selected=(isset($_POST['from_periode']))?$_POST['from_periode']:"";
-    print "Depuis ".$w->input('from_periode',$periode_start);
-    $periode_end=$cn->make_array("select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
-    $w->selected=(isset($_POST['to_periode']))?$_POST['to_periode']:"";
-    print " Jusque ".$w->input('to_periode',$periode_end);
-    
-
-    print HtmlInput::submit('bt_solde',"Avec solde").
-    $hid->input("type","fiche").
-    $fiche_id->input("fd_id",$_REQUEST['fd_id']).
-      $hid->input("with_amount");
-    echo '<p><i> Attention: les soldes ne tiennent pas compte des journaux OD qui '.
-      'n\'utilisent pas les quick codes, les soldes des postes sont dans impression->poste</i></p>';
-         
-  echo "</form>";
+// for the lettering
+foreach($array as $row) {
+  $letter=new Lettering_Card($cn);
+  $letter->set_parameter('quick_code',$row->strAttribut(ATTR_DEF_QUICKCODE));
+  $letter->set_parameter('start',$_GET['start']);
+  $letter->set_parameter('end',$_GET['end']);
+  // all
+  if ( $_GET['histo'] == 0 ) {
+    $letter->get_all();
   }
-  
-  $fiche=new fiche($cn);
 
-  $old=-1;
-  echo "<TABLE border=1 class=\"result\">";
-  echo "<TR>";
-  $fiche_def->GetAttribut();
-  $r='';
-  foreach ($fiche_def->attribut as $attribut) {
-    echo "<TH>".$attribut->ad_text."</TH>";
-    // si solde demandé affiche la col
-    //--
-    if ($attribut->ad_id==ATTR_DEF_ACCOUNT 
-	&& $with_amount==true) {
-      $r='<TH  >Débit</TH><TH  >Crédit</TH><TH  >Solde</TH>';
+   // lettered
+  if ( $_GET['histo'] == 1 ) {
+    $letter->get_letter();
+  }
+  // unlettered
+  if ( $_GET['histo'] == 2 ) {
+    $letter->get_unletter();
+  }
+  /* skip if nothing to display */
+  if (count($letter->content) == 0 ) continue;
+  echo '<h2 style="font-size:14px;text-align:left;margin-left:10;padding-left:50;border:solid 1px blue;width:25%">'.$row->strAttribut(ATTR_DEF_NAME).'</h2>';
+
+  echo '<table style="width:80%;padding-left:10%;padding-right:10%">';
+  echo '<tr>';
+  echo th(_('Date'));
+  echo th(_('ref'));
+  echo th(_('Comm'));
+  echo th(_('Montant'),' colspan="2"');
+  echo th(_('Let.'));
+  echo '</tr>';
+  $amount_deb=0;$amount_cred=0;
+  for ($i=0;$i<count($letter->content);$i++){
+    if ($i%2 == 0 )
+      echo '<tr class="even">';
+    else
+      echo '<tr class="odd">';
+    $row=$letter->content[$i];
+    echo td($row['j_date_fmt']);
+    echo td($row['jr_internal']);
+    echo td($row['jr_comment']);
+    if ( $row['j_debit'] == 't') {
+      echo td($row['j_montant']);
+      $amount_deb+=$row['j_montant'];
+      echo td("");
+    } else {
+      echo td("");
+      echo td($row['j_montant']);
+      $amount_cred+=$row['j_montant'];
     }
+    if ($row['letter'] != -1 ) echo td($row['letter']); else echo td('');
+    echo '</tr>';
   }
-  echo $r;
+  echo '</table>';
+  echo '<table>';
+  echo '<tr>';
+  echo td(_('Debit'));echo td($amount_deb,'',' style="font-weight:bold;text-align:right"');
+  echo '</tr>';
+  echo '<tr>';
+  echo td(_('Credit'));echo td($amount_cred,'',' style="font-weight:bold;text-align:right"');
+  echo '</tr>';
+  echo '<tr>';
+  if ( $amount_deb>$amount_cred) $s='solde débiteur'; else $s='solde crediteur';
+  echo td($s);echo td(abs(round($amount_cred-$amount_deb,2)),'',' style="font-weight:bold;text-align:right"');
+  echo '</tr>';
+  echo '</table>';
 
-
-  echo "<TR></TR>";
-  $e=$fiche_def->GetByType($fiche_def->id);
-  $l=var_export($e,true);
-  echo_debug('impress_fiche.php',__LINE__,$l);
-
-  if ( count($e) != 0 ) {
-    foreach ($e as $detail) {
-      echo "<TR>";
-      foreach ( $detail->attribut as $dattribut ) {
-	echo "<TD>".h($dattribut->av_text)."</TD>";
-	// if amount requested
-	//---
-	if ( $dattribut->ad_id == ATTR_DEF_ACCOUNT && 
-	     $with_amount) {
-
-
-	  $sql_periode=sql_filter_per($cn,$_REQUEST['from_periode'],$_REQUEST['to_periode'],'p_id','j_tech_per');
-	  $solde=  $detail->get_solde_detail($sql_periode);
-
-			      
-	}
-      }
-      if ( isset($solde)) {
-	printf ("<td align=\"right\">% 10.2f</td>",$solde['debit']);
-	printf ("<td align=\"right\">% 10.2f</td>",$solde['credit']);
-	printf ("<td align=\"right\">% 10.2f</td>",$solde['solde']);
-      }
-    }
-    echo "</TR>";
-  }
- 
-  echo "</TABLE>";
-  echo "</div>";
- }
- else {
-   echo '<div class="lmenu">';
-   // only the menu
-   $fiche_def=new fiche_def($cn);
-
-
-   $fiche_def->GetAll();
-
-   $i=0;
-   foreach ($fiche_def->all as $l_fiche) {
-     $a[$i]=array("?".dossier::get()."&p_action=impress&type=fiche&fd_id=".$l_fiche->id,$l_fiche->label);
-     $i++;
-   }
-   echo ShowItem($a,'V');
-   echo '</div>';
- }
-
+}
 ?>

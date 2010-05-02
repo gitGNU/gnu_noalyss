@@ -178,7 +178,7 @@ class Lettering
     $this->get_all();
     $r="";
     ob_start();
-    require_once('template/letter_all.php');
+    include('template/letter_all.php');
     $r=ob_get_contents();
     ob_clean();
     return $r;
@@ -191,7 +191,7 @@ class Lettering
     $this->get_letter();
     $r="";
     ob_start();
-    require_once('template/letter_all.php');
+    include('template/letter_all.php');
     $r=ob_get_contents();
     ob_clean();
     return $r;
@@ -204,7 +204,7 @@ class Lettering
     $this->get_unletter();
     $r="";
     ob_start();
-    require_once('template/letter_all.php');
+    include('template/letter_all.php');
     $r=ob_get_contents();
     ob_clean();
     return $r;
