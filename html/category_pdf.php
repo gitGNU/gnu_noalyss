@@ -98,7 +98,7 @@ foreach($array as $row) {
   $amount_deb=0;$amount_cred=0;
   for ($i=0;$i<count($letter->content);$i++){
     if ( $i % 2 == 0 ) {
-      $pdf->SetFillColor(226,241,243);
+      $pdf->SetFillColor(220,221,255);
       $fill=1;
     } else {
       $pdf->SetFillColor(0,0,0);
