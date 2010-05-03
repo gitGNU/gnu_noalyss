@@ -107,7 +107,16 @@ if ( $_GET['histo'] == 3 ) {
 
   exit();
 } 
-
+$export_pdf='<FORM METHOD="get" ACTION="category_pdf.php">';
+$export_pdf.=HtmlInput::hidden('cat',$_GET['cat']);
+$export_pdf.=HtmlInput::hidden('start',$_GET['start']);
+$export_pdf.=HtmlInput::hidden('end',$_GET['end']);
+$export_pdf.=HtmlInput::hidden('histo',$_GET['histo']);
+$export_pdf.=dossier::hidden();
+$export_pdf.=HtmlInput::phpsessid();
+$export_pdf.=HtmlInput::submit('pdf','Export en PDF');
+$export_pdf.='</FORM>';
+  echo $export_pdf;
 // for the lettering
 foreach($array as $row) {
   $letter=new Lettering_Card($cn);
@@ -129,6 +138,7 @@ foreach($array as $row) {
   }
   /* skip if nothing to display */
   if (count($letter->content) == 0 ) continue;
+
   echo '<h2 style="font-size:14px;text-align:left;margin-left:10;padding-left:50;border:solid 1px blue;width:25%">'.$row->strAttribut(ATTR_DEF_NAME).'</h2>';
 
   echo '<table style="width:80%;padding-left:10%;padding-right:10%">';
@@ -174,6 +184,8 @@ foreach($array as $row) {
   echo td($s);echo td(abs(round($amount_cred-$amount_deb,2)),' style="font-weight:bold;text-align:right"');
   echo '</tr>';
   echo '</table>';
-
 }
+echo $export_pdf;
+
+
 ?>
