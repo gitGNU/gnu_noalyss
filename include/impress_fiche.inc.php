@@ -150,12 +150,12 @@ foreach($array as $row) {
     echo td($row['jr_internal']);
     echo td($row['jr_comment']);
     if ( $row['j_debit'] == 't') {
-      echo td($row['j_montant']);
+      echo td($row['j_montant'],' style="text-align:right"');
       $amount_deb+=$row['j_montant'];
       echo td("");
     } else {
       echo td("");
-      echo td($row['j_montant']);
+      echo td($row['j_montant'],' style="text-align:right"');
       $amount_cred+=$row['j_montant'];
     }
     if ($row['letter'] != -1 ) echo td($row['letter']); else echo td('');
@@ -164,14 +164,14 @@ foreach($array as $row) {
   echo '</table>';
   echo '<table>';
   echo '<tr>';
-  echo td(_('Debit'));echo td($amount_deb,'',' style="font-weight:bold;text-align:right"');
+  echo td(_('Debit'));echo td($amount_deb,' style="font-weight:bold;text-align:right"');
   echo '</tr>';
   echo '<tr>';
-  echo td(_('Credit'));echo td($amount_cred,'',' style="font-weight:bold;text-align:right"');
+  echo td(_('Credit'));echo td($amount_cred,' style="font-weight:bold;text-align:right"');
   echo '</tr>';
   echo '<tr>';
   if ( $amount_deb>$amount_cred) $s='solde débiteur'; else $s='solde crediteur';
-  echo td($s);echo td(abs(round($amount_cred-$amount_deb,2)),'',' style="font-weight:bold;text-align:right"');
+  echo td($s);echo td(abs(round($amount_cred-$amount_deb,2)),' style="font-weight:bold;text-align:right"');
   echo '</tr>';
   echo '</table>';
 

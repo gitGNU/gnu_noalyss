@@ -35,13 +35,13 @@ function hi($p_string) { return '<i>'.htmlspecialchars($p_string).'</i>';}
 function hb($p_string) { return '<b>'.htmlspecialchars($p_string).'</b>';}
 function th($p_string,$p_extra='') { return '<th  '.$p_extra.'>'.htmlspecialchars($p_string).'</th>';}
 function h2info($p_string) { return '<h2 class="info">'.htmlspecialchars($p_string).'</h2>';}
-/*!\brief surrond the string with td
-*\param string
-*\param class to use
+/*!\brief surround the string with td
+*\param $p_string string to surround by TD
+*\param $p_extra extra info (class, style, javascript...)
 * \return string surrounded by td
 */
-function td($p_string,$p_class='',$p_extra=''){ return '<td class="'.$p_class.'" '.$p_extra.'>'.$p_string.'</td>';}
-function tr($p_string,$p_class=''){ return '<tr class="'.$p_class.'" >'.$p_string.'</tr>';}
+function td($p_string,$p_extra=''){ return '<td  '.$p_extra.'>'.$p_string.'</td>';}
+function tr($p_string,$p_extra=''){ return '<tr  '.$p_extra.'>'.$p_string.'</tr>';}
 /*!\brief escape correctly php string to javascript */
 function j($p_string) { $a=preg_replace("/\r?\n/", "\\n", addslashes($p_string)); return $a;}
 /*!

@@ -16,7 +16,7 @@ foreach ($array as $row ) :
    echo '<tr class="even">';
  $row->getAttribut();
  foreach($row->attribut as $attr) :
-    echo td($attr->av_text,'','style="padding: 0 10 1 10"');
+    echo td($attr->av_text,'style="padding: 0 10 1 10"');
  endforeach;       
  echo '</tr>';
 endforeach;       

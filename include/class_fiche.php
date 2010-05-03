@@ -367,7 +367,7 @@ Array
 					}
 
 				}
-			  $r.="<TR>".td("Poste Comptable","input_text").td($w->input())."$msg </TR>";
+			  $r.="<TR>".td("Poste Comptable",' class="input_text" ' ).td($w->input())."$msg </TR>";
 			  continue;
 	     }
 	  elseif ( $attr->ad_id == ATTR_DEF_TVA)
@@ -398,7 +398,7 @@ Array
 	  $w->label=$attr->ad_text;
 	  $w->name="av_text".$attr->ad_id;
 
-	  $r.="<TR>".td($w->label,"input_text").$w->input()."$msg </TR>";
+	  $r.="<TR>".td($w->label,' class="input_text" ').$w->input()."$msg </TR>";
 	}
       $r.= '</table>';
       return $r;
