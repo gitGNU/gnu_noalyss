@@ -191,7 +191,7 @@ function ShowMenuCompta($p_high="")
 		 array("compta.php?p_action=ven&".$str_dossier ,_("Vente"),_("Journal de vente / produit"),1),
 		 array("compta.php?p_action=ach&".$str_dossier,_("Dépense"),_("Journaux de dépense, d'achat"),2 ),
 		 array("compta.php?p_action=fin&".$str_dossier,_("Financier"),_("Journaux financiers: les banques, la caisse"),3),
-		 array('compta.php?p_action=quick_writing&'.$str_dossier,_('Ecriture directe'),_('Ecriture directe dans les journaux'),4),
+		 array('compta.php?p_action=quick_writing&'.$str_dossier,_('Opération Diverses'),_('Journaux d\'OD: salaires, déclarations TVA,...'),4),
 
 		 array("compta.php?p_action=impress&".$str_dossier,_("Impression"),_("Impression"),5),
 		 array("compta.php?p_action=fiche&".$str_dossier,_("Fiche"),_("Ajouter, modifier ou effacer des fiches"),6),
