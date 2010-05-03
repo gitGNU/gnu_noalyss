@@ -147,8 +147,13 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
 
     
     $sql=sprintf ("select setval('s_jrn_%d',1,false)",$row['jrn_def_id']);
+    $cn_mod->exec_sql($sql);
+
     $sql=sprintf ("select setval('s_jrn_pj%d',1,false)",$row['jrn_def_id']);
     $cn_mod->exec_sql($sql);
+    $sql=sprintf ("select setval('jnt_letter_jl_id_seq',1,false)");
+    $cn_mod->exec_sql($sql);
+
   }
   //---
   // Cleaning Action
