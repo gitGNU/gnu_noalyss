@@ -62,11 +62,13 @@ class PDF extends FPDF {
     }
     function Footer() {
         //Position at 1.5 cm from bottom
-        $this->SetY(-15);
+        $this->SetY(-25);
         //Arial italic 8
         $this->SetFont('Arial', 'I', 8);
         //Page number
-        $this->Cell(0,10,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
+        $this->Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
+	// Created by PhpCompta
+        $this->Cell(0,8,'Created by Phpcompta, the most professional opensource accounting software',0,0,'C');
     }
     function Cell ($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link='') {
         $txt = str_replace("\\", "", $txt);
