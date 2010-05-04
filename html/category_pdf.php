@@ -31,6 +31,7 @@ require_once('class_database.php');
 require_once('class_pdf.php');
 require_once('class_lettering.php');
 require_once('class_dossier.php');
+require_once('ac_common.php');
 
 /* Security */
 $gDossier=dossier::id();
@@ -106,8 +107,8 @@ foreach($array as $row) {
     }
     $pdf->SetFont('Arial','',8);
     $row=$letter->content[$i];
-    $date=str_replace('.','',$row['j_date_fmt']);
-    $str_date=substr($date,0,4).substr($date,6,2);
+    $str_date=shrink_date($row['j_date_fmt']);
+
     $pdf->Cell($tab[0],4,$str_date,0,0,$align[0],$fill);
     $pdf->Cell($tab[1],4,$row['jr_internal'],0,0,$align[1],$fill);
     $pdf->Cell($tab[2],4,$row['jr_comment'],0,0,$align[2],$fill);

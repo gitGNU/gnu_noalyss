@@ -1539,7 +1539,6 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     $atype=$this->get_propertie();
     $type=$atype['jrn_def_code'];
     $internal_code=sprintf("%s-%s",$type,$num);
-    echo_debug (__FILE__,__LINE__,"internal_code = $internal_code");
     $this->jr_internal=$internal_code;
     return $internal_code;
   }

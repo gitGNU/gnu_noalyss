@@ -45,7 +45,7 @@ $User->Check();
 $User->check_dossier($gDossier);
 $User->can_request(IMPBIL,0);
 
-extract($_POST);
+extract($_GET);
 
 if ( isset($poste_id) && strlen(trim($poste_id)) != 0 && isNumber($poste_id) ) {
     if ( isset ($poste_fille) ) {

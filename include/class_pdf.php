@@ -24,9 +24,9 @@
  * \brief
  */
 
-require_once('fpdf/fpdf.php');
+require_once('sfpdf/sfpdf.php');
 
-class PDF extends FPDF {
+class PDF extends SFPDF {
 
     var $cn  = null;
     var $own = null;
@@ -38,8 +38,11 @@ class PDF extends FPDF {
 
         if($p_cn == null) die("No database connection. Abort.");
 
-        parent::FPDF($orientation, $unit, $format);
-
+        parent::SFPDF($orientation, $unit, $format);
+	$this->AddFont('DejaVu','','dejavusans.php',true);
+	$this->AddFont('DejaVu','B','dejavusansb.php',true);
+	$this->AddFont('DejaVuCond','','dejavusanscondensed.php',true);
+	$this->AddFont('DejaVuCond','B','dejavusanscondensedb.php',true);
         date_default_timezone_set ('Europe/Paris');
 
         $this->cn  = $p_cn;
@@ -49,7 +52,7 @@ class PDF extends FPDF {
     }
 
     function setDossierInfo($dossier = "n/a") {
-        $this->dossier = utf8_decode(dossier::name()." ".$dossier);
+        $this->dossier = dossier::name()." ".$dossier;
     }
 
     function Header() {
@@ -62,18 +65,18 @@ class PDF extends FPDF {
     }
     function Footer() {
         //Position at 1.5 cm from bottom
-        $this->SetY(-25);
+        $this->SetY(-20);
         //Arial italic 8
         $this->SetFont('Arial', 'I', 8);
         //Page number
         $this->Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
 	$this->Ln(3);
 	// Created by PhpCompta
-        $this->Cell(0,8,'Created by Phpcompta, the most professional opensource accounting software',0,0,'C',false,'http://www.phpcompta.eu');
+        $this->Cell(0,8,'Created by Phpcompta, the most professional opensource accounting software http://www.phpcompta.eu',0,0,'C',false,'http://www.phpcompta.eu');
     }
     function Cell ($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link='') {
         $txt = str_replace("\\", "", $txt);
-        return parent::Cell($w, $h, utf8_decode($txt), $border, $ln, $align, $fill, $link);
+        return parent::Cell($w, $h, $txt, $border, $ln, $align, $fill, $link);
     }
 }
 

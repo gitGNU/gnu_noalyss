@@ -74,11 +74,11 @@ foreach ($a_poste as $poste)
      continue;
    }
   $Libelle=sprintf("(%s) %s ",$Poste->id,$Poste->get_name());
-  $pdf->SetFont('Arial','',10);
+  $pdf->SetFont('DejaVuCond','',10);
   $pdf->Cell(0,8,$Libelle,1,0,'C');  
   $pdf->Ln();
 
-  $pdf->SetFont('Arial','',8);
+  $pdf->SetFont('DejaVuCond','',8);
   $l=0;
   $pdf->Cell($size[$l],6,'Date',0,0,'L');$l++;
   $pdf->Cell($size[$l],6,'Ref',0,0,'C');$l++;
@@ -105,8 +105,8 @@ foreach ($a_poste as $poste)
     $tot_cred+=$row['cred_montant'];
 
   }
-  $str_debit=sprintf("Débit  % 12.2f",$tot_deb);
-  $str_credit=sprintf("Crédit % 12.2f",$tot_cred);
+  $str_debit=sprintf("% 12.2f €",$tot_deb);
+  $str_credit=sprintf("% 12.2f €",$tot_cred);
   $diff_solde=$tot_deb-$tot_cred;
   if ( $diff_solde < 0 ) {
     $solde=" créditeur ";
@@ -115,13 +115,17 @@ foreach ($a_poste as $poste)
     {
       $solde=" débiteur ";
     }
- $str_solde=sprintf(" Solde %s %12.2f",$solde,$diff_solde);
+ $str_diff_solde=sprintf("%12.2f €",$diff_solde);
  
- $pdf->SetFont('Arial','',8);
+ $pdf->SetFont('DejaVu','B',8);
  
- $pdf->Cell(40,6,$str_debit);$pdf->Ln();
- $pdf->Cell(40,6,$str_credit);$pdf->Ln();
- $pdf->Cell(40,6,$str_solde);$pdf->Ln();
+ $pdf->Cell(160,5,'Débit',0,0,'R');
+ $pdf->Cell(30,5,$str_debit,0,0,'R');$pdf->Ln();
+ $pdf->Cell(160,5,'Crédit',0,0,'R');
+ $pdf->Cell(30,5,$str_credit,0,0,'R');$pdf->Ln();
+ $pdf->Cell(160,5,'Solde '.$solde,0,0,'R');
+ $pdf->Cell(30,5,$str_diff_solde,0,0,'R');$pdf->Ln();
+
 }    
 $fDate=date('dmy-Hi');
 $pdf->Output('poste-'.$fDate.'.pdf','I');
