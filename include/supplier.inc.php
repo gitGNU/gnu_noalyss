@@ -92,10 +92,18 @@ if ( $low_action == "list" )
 <span  style="position:float;float:left">
 <form method="get" action="<?php echo $href; ?>">
 <?php
-	echo dossier::hidden();  
+   echo dossier::hidden();  
+   echo HtmlInput::phpsessid();
    $a=(isset($_GET['query']))?$_GET['query']:"";
    printf (_('Recherche').' <input type="text" name="query" value="%s">',
 	   $a);
+  $sel_card=new ISelect('cat');
+  $sel_card->value=$cn->make_array('select fd_id, fd_label from fiche_def '.
+	' where  frd_id='.FICHE_TYPE_FOURNISSEUR.
+	' order by fd_label ',1);
+  $sel_card->selected=(isset($_GET['cat']))?$_GET['cat']:-1;
+  $sel_card->javascript=' onchange="submit(this);"';
+  echo _('Catégorie :').$sel_card->input();
 ?>
 <input type="submit" name="submit_query" value="<?=_('recherche')?>">
 <input type="hidden" name="p_action" value="supplier">
@@ -103,10 +111,13 @@ if ( $low_action == "list" )
 </span>
 <?php  
    $supplier=new Supplier($cn);
- $search=(isset($_GET['query']))?$_GET['query']:"";
-
+  $search=(isset($_GET['query']))?$_GET['query']:"";
+  $sql="";
+  if ( isset($_GET['cat'])) {
+    if ( $_GET['cat'] != -1) $sql=sprintf(" and fd_id = %d",$_GET['cat']);
+  }
  echo '<div class="content">';
- echo $supplier->Summary($search,'supplier');
+ echo $supplier->Summary($search,'supplier',$sql);
 
 
  echo '<br>';

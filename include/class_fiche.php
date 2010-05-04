@@ -1168,25 +1168,25 @@ function empty_attribute($p_attr) {
 /*! Summary
  * \brief  show the default screen
  *
- * \param p_search (filter)
- * \param p_action show the action column
- *
+ * \param $p_search (filter)
+ * \param $p_action show the action column
+ * \param $p_sql SQL to filter the number of card must start with AND
  * \return: string to display
  */
-  function Summary($p_search="",$p_action="")
+  function Summary($p_search="",$p_action="",$p_sql="")
     {
       $str_dossier=dossier::get();
       $p_search=FormatString($p_search);
       $script=$_SERVER['PHP_SELF'];
       // Creation of the nav bar
       // Get the max numberRow
-      $all_tiers=$this->CountByDef($this->fiche_def_ref,$p_search);
+      $all_tiers=$this->CountByDef($this->fiche_def_ref,$p_search,$p_sql);
       // Get offset and page variable
       $offset=( isset ($_REQUEST['offset'] )) ?$_REQUEST['offset']:0;
       $page=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
       $bar=jrn_navigation_bar($offset,$all_tiers,$_SESSION['g_pagesize'],$page);
       // set a filter ?
-      $search="";
+      $search=$p_sql;
 
       $user=new User($this->cn);
       $exercice=$user->get_exercice();
@@ -1196,7 +1196,7 @@ function empty_attribute($p_attr) {
 
       if ( trim($p_search) != "" )
 	{
-	  $search=" and f_id in
+	  $search.=" and f_id in
 (select f_id from jnt_fic_att_value
                   join fiche using (f_id)
                   join attr_value using (jft_id)

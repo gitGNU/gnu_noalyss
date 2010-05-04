@@ -96,6 +96,14 @@ if ( $low_action == "list" )
    $a=(isset($_GET['query']))?$_GET['query']:"";
    printf (_('Recherche').' <input type="text" name="query" value="%s">',
 	   $a);
+  $sel_card=new ISelect('cat');
+  $sel_card->value=$cn->make_array('select fd_id, fd_label from fiche_def '.
+	' where  frd_id='.FICHE_TYPE_CLIENT.
+	' order by fd_label ',1);
+  $sel_card->selected=(isset($_GET['cat']))?$_GET['cat']:-1;
+  $sel_card->javascript=' onchange="submit(this);"';
+  echo _('Catégorie :').$sel_card->input();
+
 ?>
 <input type="submit" name="submit_query" value="<?=_('recherche')?>">
 <input type="hidden" name="p_action" value="client">
@@ -103,10 +111,14 @@ if ( $low_action == "list" )
 </span>
 <?php  
    $client=new Customer($cn);
- $search=(isset($_GET['query']))?$_GET['query']:"";
-
+  $search=(isset($_GET['query']))?$_GET['query']:"";
+  $sql="";
+  if ( isset($_GET['cat'])) {
+    if ( $_GET['cat'] != -1) $sql=sprintf(" and fd_id = %d",$_GET['cat']);
+  }
+  
  echo '<div class="content">';
- echo $client->Summary($search,'client');
+ echo $client->Summary($search,'client',$sql);
 
 
  echo '<br>';
