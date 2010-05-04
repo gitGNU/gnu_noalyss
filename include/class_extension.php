@@ -74,7 +74,9 @@ class Extension
     // Verify that the elt we want to add is correct
     if (trim($this->ex_code)=="") throw new Exception('Le code ne peut pas être vide');
     if (trim($this->ex_name)=="") throw new Exception('Le nom ne peut pas être vide');
-
+    if (trim($this->ex_file)=="") throw new Exception('Chemin incorrect');
+    if (file_exists('..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'ext'.DIRECTORY_SEPARATOR.$this->ex_file) == false) 
+	throw new Exception ('Extension non trouvée, le chemin est-il correct?');
   }
   /*!\brief call insert for a new plugin or update if the plugin exist */
   public function save() {
