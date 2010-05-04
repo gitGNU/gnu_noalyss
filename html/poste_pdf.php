@@ -26,11 +26,12 @@
 include_once("class_acc_account_ledger.php");
 include_once("ac_common.php");
 require_once('class_database.php');
-include_once("class.ezpdf.php");
+//include_once("class.ezpdf.php");
 include_once("impress_inc.php");
 require_once ('header_print.php');
 require_once('class_dossier.php');
 require_once('class_user.php');
+require_once('class_pdf.php');
 
 $gDossier=dossier::id();
 
@@ -41,7 +42,7 @@ $User->Check();
 $User->check_dossier($gDossier);
 $User->can_request(IMPPOSTE,0);
 
-extract($_POST);
+extract($_GET);
 
  if ( isset ( $poste_fille) ){ //choisit de voir tous les postes
    $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '$poste_id%'");
@@ -50,14 +51,18 @@ extract($_POST);
       
 
 $ret="";
-$pdf=new Cezpdf();
-$pdf->selectFont('./addon/fonts/Helvetica.afm');
-header_pdf($cn,$pdf);
+
+$pdf=new PDF($cn);
+$pdf->setDossierInfo("  Periode : ".$_GET['from_periode']." - ".$_GET['to_periode']);
+$pdf->AliasNbPages();
+$pdf->AddPage();
 
 if ( count($a_poste) == 0 ) {
-  $pdf->ezStream();
-     return;
+  $pdf->Output('poste.pdf','I');
+     exit;
 }
+$size=array(13,25,20,80,12,20,20);
+$align=array('L','C','C','L','R','R','R');
 
 foreach ($a_poste as $poste) 
 {
@@ -69,40 +74,55 @@ foreach ($a_poste as $poste)
      continue;
    }
   $Libelle=sprintf("(%s) %s ",$Poste->id,$Poste->get_name());
-    
-    //  $pdf->ezText($Libelle,30);
-  $pdf->ezTable($array,
-		array ('jr_internal'=>'Operation',
-		       'j_date_fmt' => 'Date',
-		       'jrn_name'=>'Journal',
-		       'description'=>'Description',
-		       'deb_montant'=> 'Montant',
-		       'cred_montant'=> 'Montant'
-		       ),utf8_decode($Libelle),
-		array('shaded'=>1,'showHeadings'=>1,'width'=>500,
-		      'cols'=>array('montant'=> array('justification'=>'right'),
-				    )),true);
-  $str_debit=utf8_decode(sprintf("Débit  % 12.2f",$tot_deb));
-  $str_cred=utf8_decode(sprintf("Crédit % 12.2f",$tot_cred));
- $diff_solde=$tot_deb-$tot_cred;
- if ( $diff_solde < 0 ) {
-   $solde=" C ";
-   $diff_solde*=-1;
- } else 
-	{
-	  $solde=" D ";
-	}
+  $pdf->SetFont('Arial','',10);
+  $pdf->Cell(0,8,$Libelle,1,0,'C');  
+  $pdf->Ln();
+
+  $pdf->SetFont('Arial','',8);
+  $l=0;
+  $pdf->Cell($size[$l],6,'Date',0,0,'L');$l++;
+  $pdf->Cell($size[$l],6,'Ref',0,0,'C');$l++;
+  $pdf->Cell($size[$l],6,'Journal',0,0,'C');$l++;
+  $pdf->Cell($size[$l],6,'Libellé',0,0,'L');$l++;
+  $pdf->Cell($size[$l],6,'Let',0,0,'R');$l++;
+  $pdf->Cell($size[$l],6,'Debit',0,0,'R');$l++;
+  $pdf->Cell($size[$l],6,'Credit',0,0,'R');$l++;
+  $pdf->ln();
+  $tot_deb=0;$tot_cred=0;
+  for ($e=0;$e<count($array);$e++) {
+    $l=0;
+    $row=$array[$e];
+    $date=shrink_date($row['j_date_fmt']);
+    $pdf->Cell($size[$l],6,$date,0,0,$align[$l]);$l++;
+    $pdf->Cell($size[$l],6,$row['jr_internal'],0,0,$align[$l]);$l++;
+    $pdf->Cell($size[$l],6,substr($row['jrn_name'],0,14),0,0,$align[$l]);$l++;
+    $pdf->Cell($size[$l],6,$row['description'],0,0,$align[$l]);$l++;
+    $pdf->Cell($size[$l],6,(($row['letter']!=-1)?$row['letter']:''),0,0,$align[$l]);$l++;
+    $pdf->Cell($size[$l],6,(sprintf('% 12.2f',$row['deb_montant'])),0,0,$align[$l]);$l++;
+    $pdf->Cell($size[$l],6,(sprintf('% 12.2f',$row['cred_montant'])),0,0,$align[$l]);$l++;
+    $pdf->ln();
+    $tot_deb+=$row['deb_montant'];
+    $tot_cred+=$row['cred_montant'];
+
+  }
+  $str_debit=sprintf("Débit  % 12.2f",$tot_deb);
+  $str_credit=sprintf("Crédit % 12.2f",$tot_cred);
+  $diff_solde=$tot_deb-$tot_cred;
+  if ( $diff_solde < 0 ) {
+    $solde=" créditeur ";
+    $diff_solde*=-1;
+  } else 
+    {
+      $solde=" débiteur ";
+    }
  $str_solde=sprintf(" Solde %s %12.2f",$solde,$diff_solde);
  
- $pdf->ezText($str_debit,10,array('justification'=>'right'));
- $pdf->ezText($str_cred,10,array('justification'=>'right'));
- $pdf->ezText($str_solde,14,array('justification'=>'right'));
+ $pdf->SetFont('Arial','',8);
  
- //New page
- $pdf->ezNewPage();
- header_pdf($cn,$pdf);
+ $pdf->Cell(40,6,$str_debit);$pdf->Ln();
+ $pdf->Cell(40,6,$str_credit);$pdf->Ln();
+ $pdf->Cell(40,6,$str_solde);$pdf->Ln();
 }    
-
-$pdf->ezStream();
-
+$fDate=date('dmy-Hi');
+$pdf->Output('poste-'.$fDate.'.pdf','I');
 ?>
