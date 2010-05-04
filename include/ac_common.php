@@ -517,5 +517,14 @@ function what_os() {
   }
   return $os;
 }
-
+  /**
+   *@brief shrink the date, make a date shorter for the printing
+   *@param $p_date format DD.MM.YYYY
+   *@return date in the format DDMMYY (size = 13 mm in arial 8)
+   */
+function shrink_date ($p_date) {
+    $date=str_replace('.','',$p_date);
+    $str_date=substr($date,0,4).substr($date,6,2);
+    return $str_date;
+}
 ?>
