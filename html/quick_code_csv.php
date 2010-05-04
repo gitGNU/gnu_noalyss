@@ -40,8 +40,8 @@ $User->Check();
 $Fiche=new fiche($cn,$_REQUEST['f_id']);
 $Fiche->getName();
 list($array,$tot_deb,$tot_cred)=$Fiche->get_row_date( 
-					       $_POST['from_periode'],
-					       $_POST['to_periode']
+					       $_GET['from_periode'],
+					       $_GET['to_periode']
 					       );
 if ( count($Fiche->row ) == 0 ) 
 {

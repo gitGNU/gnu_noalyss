@@ -47,18 +47,18 @@ $bal=new Acc_Balance($cn);
   
 $t_cent="";
   //$per=join(',',$periode);
-if ( isset($_POST['central']) ) {
+if ( isset($_GET['central']) ) {
     $bal->central='Y';
     $t_cent="centralisée";
   }
 else
   $bal->central='N';
-$bal->jrn=$_POST['p_jrn'];
-$bal->from_poste=$_POST['from_poste'];
-$bal->to_poste=$_POST['to_poste'];
+$bal->jrn=$_GET['p_jrn'];
+$bal->from_poste=$_GET['from_poste'];
+$bal->to_poste=$_GET['to_poste'];
 
-$row=$bal->get_row($_POST['from_periode'],
-		   $_POST['to_periode']);
+$row=$bal->get_row($_GET['from_periode'],
+		   $_GET['to_periode']);
    foreach ($row as $r) {
  
     echo $r['poste'].';'.

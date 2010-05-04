@@ -27,27 +27,28 @@
 include_once("class_acc_report.php");
 include_once("ac_common.php");
 require_once('class_database.php');
-include_once("class.ezpdf.php");
 include_once("impress_inc.php");
 require_once('class_user.php');
 require_once ('header_print.php');
 require_once('class_dossier.php');
 require_once('class_acc_report.php');
+require_once('class_pdf.php');
 
 $gDossier=dossier::id();
 
 $cn=new Database($gDossier);
 
-foreach ($_GET as $key=>$element) {
-  ${"$key"}=$element;
-}
-
+extract($_GET);
 $ret="";
-$pdf=new Cezpdf();
-$pdf->selectFont('./addon/fonts/Helvetica.afm');
-header_pdf($cn,$pdf);
-
 $Form=new Acc_Report($cn,$form_id);
+$Libelle=sprintf("%s ",$Form->get_name());
+$pdf= new PDF($cn);
+$pdf->setDossierInfo($Libelle);
+$pdf->AliasNbPages();
+$pdf->AddPage();
+
+
+
 // Step ??
 //--
 if ( $_GET['p_step'] == 0 ) 
@@ -68,15 +69,15 @@ if ( $_GET['p_step'] == 0 )
        {
 		 $periode=getPeriodeName($cn,$e);
 		 if ( $periode == null ) continue;
-		 $array[]=$Form->get_row($e,$e);
+		 $array[]=$Form->get_row($e,$e,'periode');
 		 $periode_name[]=$periode;
        }
 
    }
 
-$Libelle=utf8_decode(sprintf("(%s) %s ",$Form->id,$Form->get_name()));
     
-$pdf->ezText($Libelle,30);
+$pdf->SetFont('DejaVuCond','',8);
+
 // without step 
 if ( $_GET['p_step'] == 0 ) 
   {
@@ -90,35 +91,29 @@ if ( $_GET['p_step'] == 0 )
     } else {
 	  $periode=sprintf("Date %s jusque %s",$_GET['from_date'],$_GET['to_date']);
   }
-	$periode=utf8_decode($periode);
-    $pdf->ezText($periode,25);
-    $pdf->ezTable($array,
-		  array ('desc'=>'Description',
-			 'montant' => 'Montant'
-		       ),$Libelle,
-		  array('shaded'=>0,'showHeadings'=>1,'width'=>500,
-			'cols'=>array('montant'=> array('justification'=>'right'),
-				      )),true);
-    //New page
-    //$pdf->ezNewPage();
-    //}    
+	$pdf->Cell(0,7,$periode,'B');$pdf->Ln();
+	for ($i=0;$i<count($array);$i++) {
+	  $pdf->Cell(160,6,$array[$i]['desc']);
+	  $pdf->Cell(30,6,sprintf('% 12.2f',$array[$i]['montant']),0,0,'R');
+	  $pdf->Ln();
+	}
   } 
  else 
    { // With Step 
      $a=0;
      foreach ($array as $e) 
        {
-		 $pdf->ezText($periode_name[$a],25);
-		 $a++;
-		 $pdf->ezTable($e,
-					   array ('desc'=>'Description',
-							  'montant' => 'Montant'
-							  ),$Libelle,
-					   array('shaded'=>0,'showHeadings'=>1,'width'=>500,
-							 'cols'=>array('montant'=> array('justification'=>'right'),
-								       )),true);
+	 $pdf->Cell(0,7,$periode_name[$a],'B');$pdf->Ln();
+	 $a++;
+	 for ($i=0;$i<count($e);$i++) {
+	   $pdf->Cell(160,6,$e[$i]['desc']);
+	   $pdf->Cell(30,6,sprintf('% 12.2f',$e[$i]['montant']),0,0,'R');
+	   $pdf->Ln();
+	 }
        }
    }
-$pdf->ezStream();
+
+$fDate=date('dmy-Hi');
+$pdf->Output('rapport-'.$fDate.'.pdf','I');
 
 ?>

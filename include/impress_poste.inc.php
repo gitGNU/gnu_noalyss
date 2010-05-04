@@ -92,20 +92,7 @@ print td($w_poste->search().$w_poste->input());
 echo td($span->input('f_id_label'));
 print '</TR>';
 print '<TR>';
-// filter on the current year
-/*
-$select=new ISelect();
-$filter_year=" where p_exercice='".$User->get_exercice()."'";
-$periode_start=$cn->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
-$select->label="Depuis";
-$select->selected=(isset($_REQUEST['from_periode']))?$_REQUEST['from_periode']:"";
-print td($select->input('from_periode',$periode_start));
-$select->label=" jusqu'à ";
-$periode_end=$cn->make_array("select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode  $filter_year order by p_start,p_end");
-$select->selected=(isset($_REQUEST['to_periode']))?$_REQUEST['to_periode']:"";
-print td($select->input('to_periode',$periode_end));
-print "</TR>";
-*/
+
 $date_from=new IDate('from_periode');
 $date_to=new IDate('to_periode');
 $year=$User->get_exercice();

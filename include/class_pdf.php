@@ -57,7 +57,7 @@ class PDF extends SFPDF {
 
     function Header() {
         //Arial bold 12
-        $this->SetFont('Arial', 'B', 12);
+        $this->SetFont('DejaVu', 'B', 12);
         //Title
         $this->Cell(0,10,$this->dossier, 'B', 0, 'C');
         //Line break

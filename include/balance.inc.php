@@ -131,7 +131,7 @@ if ( isset ($_POST['view']  ) ) {
 
   echo "<table>";
   echo '<TR>';
-  echo '<TD><form method="POST" ACTION="print_balance.php">'.
+  echo '<TD><form method="GET" ACTION="print_balance.php">'.
 	dossier::hidden().
     HtmlInput::submit('bt_pdf',"Export PDF").
     HtmlInput::hidden("p_action","impress").
@@ -141,7 +141,7 @@ if ( isset ($_POST['view']  ) ) {
     HtmlInput::hidden("from_poste",$_POST['from_poste']).
     HtmlInput::hidden("to_poste",$_POST['to_poste']);
   echo "</form></TD>";
-  echo '<TD><form method="POST" ACTION="bal_csv.php">'.
+  echo '<TD><form method="GET" ACTION="bal_csv.php">'.
     HtmlInput::submit('bt_csv',"Export CSV").
 	dossier::hidden().
     HtmlInput::hidden("p_action","impress").

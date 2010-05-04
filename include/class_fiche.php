@@ -916,7 +916,7 @@ Array
 	       "case when j_debit='t' then j_montant else 0 end as deb_montant,".
 	       "case when j_debit='f' then j_montant else 0 end as cred_montant,".
 	       " jr_comment as description,jrn_def_name as jrn_name,".
-	       "j_debit, jr_internal,jr_id ".
+	       "j_debit, jr_internal,jr_id,coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter ".
 	       " from jrnx left join jrn_def on jrn_def_id=j_jrn_def ".
 	       " left join jrn on jr_grpt_id=j_grpt".
 	       " where j_qcode=$1 and ".
@@ -1088,7 +1088,7 @@ Array
 	dossier::hidden().
        $hid->input("type","poste").$hid->input('p_action','impress')."</form></TD>";
 
-     echo '<TD><form method="POST" ACTION="quick_code_pdf.php">'.
+     echo '<TD><form method="GET" ACTION="quick_code_pdf.php">'.
        HtmlInput::submit('bt_pdf',"Export PDF").
 	dossier::hidden().
        $hid->input("type","poste").
@@ -1102,7 +1102,7 @@ Array
 
      echo "</form></TD>";
 
-     echo '<TD><form method="POST" ACTION="quick_code_csv.php">'.
+     echo '<TD><form method="GET" ACTION="quick_code_csv.php">'.
        HtmlInput::submit('bt_csv',"Export CSV").
 	dossier::hidden().
        $hid->input("type","poste").

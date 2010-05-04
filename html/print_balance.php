@@ -34,10 +34,10 @@
  
 include_once("ac_common.php");
 require_once('class_database.php');
-include_once("class.ezpdf.php");
 include_once("class_acc_balance.php");
 require_once ('header_print.php');
 require_once('class_dossier.php');
+require_once('class_pdf.php');
 $gDossier=dossier::id();
 
 $cn=new Database($gDossier);
@@ -50,47 +50,68 @@ $bal=new Acc_Balance($cn);
 $User->can_request(IMPBAL,1);
 
 echo_debug('print_balance.php',__LINE__,"imp pdf journaux");
-foreach ($_POST as $key=>$element) {
-  ${"$key"}=$element;
-  echo_debug('print_balance.php',__LINE__,"key => $key element $element");
-}
+extract ($_GET);
 // if centralized
 $t_cent="";
 
 if ( isset($central) ) {
     $bal->central='Y';
-    $t_cent=utf8_decode("centralisée");
+    $t_cent="centralisée";
  }
  else 
   $bal->central='N';
 
-$bal->jrn=$_POST['p_jrn'];
-$bal->from_poste=$_POST['from_poste'];
-$bal->to_poste=$_POST['to_poste'];
+$bal->jrn=$_GET['p_jrn'];
+$bal->from_poste=$_GET['from_poste'];
+$bal->to_poste=$_GET['to_poste'];
 
 $array=$bal->get_row($from_periode,$to_periode);
 
 if ( sizeof($array)  == 0 ) {
-  $pdf= new Cezpdf('a4');
-  $pdf->selectFont('./addon/fonts/Helvetica.afm');
-  $pdf->ezSetCmMargins(2,2,2,2);
-  $pdf->ezText("Balance compte -- vide");
-  $pdf->ezStream();
   exit();
   
  }
+
 $pPeriode=new Periode($cn);
 $a=$pPeriode->get_date_limit($from_periode);
 $b=$pPeriode->get_date_limit($to_periode);
-$per_text=utf8_decode(" période du ").$a['p_start']." au ".$b['p_end'];
-$pdf=new Cezpdf('a4');
-$pdf->selectFont('./addon/fonts/Helvetica.afm');
-$pdf->ezSetCmMargins(2,2,2,2);
-header_pdf($cn,$pdf);
-$pdf->ezTable($array,array('poste'=>'Poste','label'=>utf8_decode('Libellé'),'sum_deb'=>utf8_decode('Total Débit'),
-			   'sum_cred'=>utf8_decode('Total crédit'),'solde_deb'=>utf8_decode('Solde débiteur'),
-			   'solde_cred'=>utf8_decode('Solde créditeur')),'Balance des comptes '.$t_cent.$per_text,null,true);
-$pdf->ezStream();
+$per_text="  du ".$a['p_start']." au ".$b['p_end'];
+$pdf= new PDF($cn);
+$pdf->setDossierInfo(" Balance  ".$per_text);
+$pdf->AliasNbPages();
+$pdf->AddPage();
+$pdf->SetFont('DejaVuCond','',7);
+$pdf->Cell(30,6,'poste');
+$pdf->Cell(80,6,'Libellé');
+$pdf->Cell(20,6,'Total Débit',0,0,'R');
+$pdf->Cell(20,6,'Total Crédit',0,0,'R');
+$pdf->Cell(20,6,'Solde Débiteur',0,0,'R');
+$pdf->Cell(20,6,'Solde Créditeur',0,0,'R');
+$pdf->Ln();
+
+$pdf->SetFont('DejaVuCond','',8);
+
+for ($i=0;$i<count($array);$i++){
+  if ( $i % 2 == 0 ) {
+    $pdf->SetFillColor(220,221,255);
+    $fill=1;
+  } else {
+    $pdf->SetFillColor(0,0,0);
+    $fill=0;
+  }
+  if ( ! isset($array[$i]))continue;
+  $pdf->Cell(30,6,$array[$i]['poste'],0,0,'L',$fill);
+  $pdf->Cell(80,6,$array[$i]['label'],0,0,'L',$fill);
+  $pdf->Cell(20,6,$array[$i]['sum_deb'],0,0,'R',$fill);
+  $pdf->Cell(20,6,$array[$i]['sum_cred'],0,0,'R',$fill);
+  $pdf->Cell(20,6,$array[$i]['solde_deb'],0,0,'R',$fill);
+  $pdf->Cell(20,6,$array[$i]['solde_cred'],0,0,'R',$fill);
+  $pdf->Ln();
+}
+
+$fDate=date('dmy-Hi');
+$pdf->Output('balance-'.$fDate.'.pdf','I');
+
 
 
 ?>
