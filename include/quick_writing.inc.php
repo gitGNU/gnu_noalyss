@@ -71,7 +71,7 @@ function show_qw_menu($def=0) {
 			    _('Autre journal'),
 			    _('Choisir un autre journal')
 			    )),
-		'H',"mtitle","mtitle",$def,' width="100%"'
+		'H',"mtitle","mtitle",$def,' style="width:80%;margin-left:5;"'
 		);
 
   echo '</div>';
@@ -152,7 +152,9 @@ if ( $User->check_jrn($id) == 'X' ) {
   exit();
  }
 echo '<div class="content">';
+echo '<div style="float:right;right:10">
 echo '<h2 class="info"> '._('Journal').' : '.$ledger->get_name().'</h2>';
+echo '</div>';
 $sa=( isset ($_REQUEST['sa']))?$_REQUEST['sa']:'';
 //======================================================================
 // See the ledger listing
