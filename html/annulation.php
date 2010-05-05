@@ -81,7 +81,7 @@ if ( isset ($_POST['annul']) ) {
 <p> Voulez-vous vraiment annuler  cette information soit par une remise &agrave; z&eacute;ro des montants 
 soit par son &eacute;criture inverse ?
 </p>
-<span>
+<span  >
 <FORM METHOD="POST" ACTION="annulation.php?p_jrn=<?php echo $_GET['p_jrn'];?>&jrn_op=<?php echo $_GET['jrn_op'];?>">
 					   <?php echo dossier::hidden(); ?>
 <INPUT TYPE="HIDDEN" NAME="annul">
@@ -93,7 +93,7 @@ echo $idate->input();
 ?>
 <span class="notice">Une écriture inverse sera faite si vous utilisez le mode strict ou si vous êtes dans une période fermée</span>
 <br>
-<INPUT TYPE="SUBMIT" NAME="confirm" value="Oui"> 
+<INPUT TYPE="SUBMIT" class="button" NAME="confirm" value="Oui"> 
 </FORM>
 
 <FORM METHOD="GET" ACTION="annulation.php">
@@ -101,7 +101,7 @@ echo $idate->input();
 <INPUT TYPE="HIDDEN" NAME="p_jrn" value="<?php echo $_REQUEST['p_jrn']; ?>">
 <INPUT TYPE="HIDDEN" NAME="p_id" value="<?php echo $_REQUEST['p_id']; ?>">
 <INPUT TYPE="HIDDEN" NAME="jrn_op" value="<?php echo $_REQUEST['jrn_op']; ?>">
-<INPUT TYPE="SUBMIT" NAME="not_confirm" value="non">
+<INPUT TYPE="SUBMIT" class="button" NAME="not_confirm" value="non">
 </form>
 </span>
 <?php
@@ -454,7 +454,7 @@ $operation->jr_id=$element;
 echo dossier::hidden().
 '
 <input type="hidden" name="p_id" value="'.$_GET['jrn_op'].'">
-<input type="submit" name="annul"  value="Mise &agrave; z&eacute;ro ou effacement">
+<input type="submit" class="button" name="annul"  value="Mise &agrave; z&eacute;ro ou effacement">
 <input type="button" class="button" name="cancel" value="Retour" onClick="window.close();">
 </form>';
 

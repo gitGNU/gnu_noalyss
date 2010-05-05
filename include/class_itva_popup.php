@@ -117,7 +117,7 @@ require_once('class_ispan.php');
     if( trim($this->name)=='') throw new Exception (_('Le nom ne peut être vide'));
     // button
     $bt=new IButton('bt_'.$this->name);
-    $bt->label=_('tva');
+    $bt->label=_(' TVA ');
     $bt->set_attribute('gDossier',dossier::id());
     $bt->set_attribute('ctl',$this->name);
     $bt->set_attribute('popup','popup_tva');
