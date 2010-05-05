@@ -36,7 +36,7 @@ class IPopup extends HtmlInput
     $this->name=$p_name;
     $this->parameter='';
     $this->attribute=array();
-    $this->drag=true;
+    $this->drag=false;
   }
   function set_width($p_val) {
     $js=sprintf('$("%s'.'_border").style.width="%s";',

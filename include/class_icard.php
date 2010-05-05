@@ -155,6 +155,7 @@ class ICard extends HtmlInput
    */
   static function ipopup($p_name) {
     $ip_card=new IPopup ($p_name);
+    $ip_card->drag=true;
     $ip_card->set_width('30%');
     $ip_card->title='Fiche ';
     $ip_card->value='';
