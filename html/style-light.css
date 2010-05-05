@@ -749,4 +749,24 @@ color:black;
 cursor:inherit;
 }
 
+.button {
+	font-size:12;
+	color:black;
+	text-decoration:none;
+	font-family: arial,sans-serif;
+	background-color:lightblue;
+	border-style:  inset ;
+	border-color:  blue ;
+	border-width:1;
+	padding:2 4 2 4;
+	cursor:pointer;
+	margin:1 2 1 2;
+	
+}
+.button:hover{
+	cursor:pointer;
+	background-color:white;
+	font-color:blue;
+	margin:1 2 1 2;
+	}
 /* </style> */

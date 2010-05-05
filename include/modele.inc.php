@@ -286,7 +286,7 @@ if ( $count != 0 ) {
     
 '
 
-<INPUT TYPE="SUBMIT" VALUE="Ajout d'un modele">
+<INPUT TYPE="SUBMIT" class="button" VALUE="Ajout d'un modele">
 <?php
 echo HtmlInput::button_anchor('Retour','?action=modele_mgt');
 ?>

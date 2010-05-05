@@ -49,7 +49,7 @@ $Max=Database::num_row($Res);
 echo "<TABLE BORDER=\"1\">";
 for ($i=0;$i<$Max;$i++) {
   $row=Database::fetch_array($Res,$i);
-  $set=sprintf( '<INPUT TYPE="BUTTON" Value="select" onClick="GetIt(\'%s\',\'%s\');">',
+  $set=sprintf( '<INPUT TYPE="BUTTON" class="button" Value="select" onClick="GetIt(\'%s\',\'%s\');">',
 	     $_GET['ctl'],$row['tva_id']);
   printf("<tr><TD>%s %d</TD><TD>%s</TD><TD>%s</TD></TR>",
 	 $set,
@@ -59,7 +59,7 @@ for ($i=0;$i<$Max;$i++) {
 }
 echo '</TABLE>';
 ?>
-<input type='button' Value="fermer" onClick='window.close();'>
+<input type='button' class="button" Value="fermer" onClick='window.close();'>
 <?php
 html_page_stop();
 ?>

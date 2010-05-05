@@ -79,7 +79,7 @@ echo '<span style="position:absolute;right:10px;top:30px">'.$result.'</span>';
 echo '</div>';
 ?>
 <form method="get" action="?">
-<input type="submit" value="<?php echo _('Rechercher');?>">
+<input type="submit" class="button" value="<?php echo _('Rechercher');?>">
 <?php
 $w=new IText();
 $p_nom=isset($_GET ['p_nom'])?$_GET['p_nom']:"";

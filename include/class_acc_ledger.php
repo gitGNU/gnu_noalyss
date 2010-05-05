@@ -740,7 +740,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
       $r.="<TD>";
       // cancel operation
       if ( $user->check_action(GEOP)==1)
-	$r.=sprintf('<input TYPE="BUTTON" VALUE="%s" onClick="cancelOperation(\'%s\',\'%s\',%d,\'%s\')">',
+	$r.=sprintf('<input TYPE="BUTTON" class="button" VALUE="%s" onClick="cancelOperation(\'%s\',\'%s\',%d,\'%s\')">',
 		    _("Effacer"),$row['jr_grpt_id'],$l_sessid,$gDossier,$row['jrn_def_id']);
       $r.="</TD>";
     } // else

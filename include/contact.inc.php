@@ -123,7 +123,7 @@ if ( $sub_action == "list" )
    printf ('<input type="text" name="query" value="%s">',
 	   $a);
 ?>
-<input type="submit" name="submit_query" value="<?_('recherche')?>">
+<input type="submit" class="button" name="submit_query" value="<?_('recherche')?>">
 <input type="hidden" name="p_action" value="contact">
 </form>
 
@@ -148,7 +148,7 @@ if ( $sub_action == "list" )
 
 
 ?>
-<input type="submit" name="submit_query" value="recherche">
+<input type="submit" class="button" name="submit_query" value="recherche">
 <input type="hidden" name="p_action" value="contact">
 
 </FORM>
@@ -174,7 +174,7 @@ if ( $sub_action == "list" )
 
 ?>
 <input type="hidden" name="sa" value="blank">
-<input type="submit" name="submit_query" value="Ajout Contact">
+<input type="submit" class="button" name="submit_query" value="Ajout Contact">
 
 </form>
 </span>
@@ -214,7 +214,7 @@ if ( $sub_action == 'detail' )
   echo $w->input();
 
   echo HtmlInput::submit('mod','Sauver les modifications');
-  echo '<A HREF="commercial.php?p_action=contact&'.$str_dossier.'"><INPUT TYPE="button" value="Retour"></A>';
+  echo '<A HREF="commercial.php?p_action=contact&'.$str_dossier.'"><INPUT TYPE="button" class="button" value="Retour"></A>';
   echo HtmlInput::submit('delete','Effacer cette fiche');
   echo '</form>';
   echo $retour;

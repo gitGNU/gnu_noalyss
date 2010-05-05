@@ -75,7 +75,7 @@ require_once('class_ispan.php');
     $this->js=(isset($this->js))?$this->js:"format_number(this);";
     if ( $this->readOnly==true) return $this->display();
 
-    $str='<input type="TEXT" name="%s" value="%s" id="%s" size="3" %s>';
+    $str='<input type="TEXT" class="input_text" name="%s" value="%s" id="%s" size="3" %s>';
     $r=sprintf($str,$this->name,$this->value,$this->name,$this->js);
 
     if ($this->in_table) 

@@ -46,7 +46,7 @@ if ( $action=="change_per") {
   echo '<TD> <INPUT TYPE="text" NAME="p_date_start" VALUE="'.$p_date_start.'"></TD>';
   echo '<TD> <INPUT TYPE="text" NAME="p_date_end" VALUE="'.$p_date_end.'"></TD>';
   echo '<TD> <INPUT TYPE="text" NAME="p_exercice" VALUE="'.$p_exercice.'"></TD>';
-  echo '<TD> <INPUT TYPE="SUBMIT" NAME="conf_chg_per" Value="Change"</TD>';
+  echo '<TD> <INPUT TYPE="SUBMIT" class="button" NAME="conf_chg_per" Value="Change"</TD>';
   echo '</FORM></TR>';
   echo "</TABLE>";
   //  $choose="yes";

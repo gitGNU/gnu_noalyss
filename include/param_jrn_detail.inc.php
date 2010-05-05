@@ -194,9 +194,9 @@ echo '<div class="u_redcontent">';
 echo '<form method="POST">';
 echo $hidden;
 require_once('template/param_jrn.php');
-echo '<INPUT TYPE="SUBMIT" VALUE="Sauve" name="update">
-<INPUT TYPE="RESET" VALUE="Reset">
-<INPUT TYPE="submit" name="efface" value="Efface" onClick="return m_confirm();">';
+echo '<INPUT TYPE="SUBMIT" class="button" VALUE="Sauve" name="update">
+<INPUT TYPE="RESET" class="button" VALUE="Reset">
+<INPUT TYPE="submit" class="button"  name="efface" value="Efface" onClick="return m_confirm();">';
 
 echo '</FORM>';
 echo "</DIV>";

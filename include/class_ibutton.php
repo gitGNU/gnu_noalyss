@@ -36,6 +36,7 @@ require_once('class_html_input.php');
 		$extra= ( isset($this->extra))?$this->extra:"";
 
 		$r='<input type="BUTTON" name="'.$this->name.'"'.
+		  ' class="button" '.
 		  ' id="'.$this->name.'"'.
 		  ' value="'.$this->label.'"'.
 		  ' onClick="'.$this->javascript.'"'.$extra.'>';

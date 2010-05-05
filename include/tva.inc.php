@@ -173,7 +173,7 @@ if (   ! isset ($_POST['add'])
 
 ) { ?>
     <form method="post">
-    <input type="submit" name="add" value="Ajouter un taux de tva">
+    <input type="submit" class="button" name="add" value="Ajouter un taux de tva">
     <input type="hidden" name="p_action" value="divers">
     <input type="hidden" name="sa" value="tva">
      </form>
@@ -238,8 +238,8 @@ if (   ! isset ($_POST['add'])
    <td> <?php   $w=new IText(); $w->size=20;echo $w->input('tva_poste','') ?></td>
 </Tr>
 </table>
-<input type="submit" value="Confirme" name="confirm_add">
-<input type="submit" value="Cancel" name="no">
+<input type="submit" class="button" value="Confirme" name="confirm_add">
+<input type="submit" class="button" value="Cancel" name="no">
 
  </FORM>
 </fieldset>
@@ -276,8 +276,8 @@ if (   ! isset ($_POST['add'])
      <td> <?php   $w=new IText();$w->size=20; echo $w->input('tva_poste',$tva_array[$index]['tva_poste']) ?></td>
 </Tr>
 </table>
-<input type="submit" value="Confirme" name="confirm_mod">
-<input type="submit" value="Cancel" name="no">
+<input type="submit" class="button" value="Confirme" name="confirm_mod">
+<input type="submit" class="button" value="Cancel" name="no">
  </FORM>
 </fieldset>
 <?php   

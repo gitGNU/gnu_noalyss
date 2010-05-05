@@ -139,6 +139,27 @@ BODY {
   color:red;
 
 }
+
+.button {
+	font-size:12;
+	color:black;
+	text-decoration:none;
+	font-family: arial,sans-serif;
+	background-color:lightblue;
+	border-color:  grey ;
+	border-width:1 1 2 1;
+	padding:2 4 2 4;
+	cursor:pointer;
+	margin:1 2 1 2;
+	
+}
+.button:hover{
+	cursor:pointer;
+	background-color:white;
+	font-color:blue;
+	margin:1 2 1 2;
+	}
+
 </style>
 <script src="js/scripts.js" type="text/javascript"></script>
 </head>
@@ -176,7 +197,7 @@ version  5.0.build SVNINFO - '.$my_domain.'
 </TR>
 <TR>
 <TD COLSPAN=2 ALIGN=CENTER>
-<INPUT TYPE="SUBMIT"  NAME="login" value="Se connecter">
+<INPUT TYPE="SUBMIT"  class="button" NAME="login" value="Se connecter">
 </TD>
 </TR>
 </table>

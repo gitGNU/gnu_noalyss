@@ -105,7 +105,7 @@ if ( $low_action == "list" )
   $sel_card->javascript=' onchange="submit(this);"';
   echo _('Catégorie :').$sel_card->input();
 ?>
-<input type="submit" name="submit_query" value="<?=_('recherche')?>">
+<input type="submit" class="button" name="submit_query" value="<?=_('recherche')?>">
 <input type="hidden" name="p_action" value="supplier">
 </form>
 </span>

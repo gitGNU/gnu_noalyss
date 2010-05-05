@@ -47,7 +47,7 @@ class contact extends fiche
  *	
  * \return string to display
  */
-  function Summary($p_search="",$p_action="") 
+  function Summary($p_search="",$p_action="",$p_sql="") 
     {
       $p_search=FormatString($p_search);
       $extra_sql="";
@@ -77,7 +77,7 @@ attr_value using (jft_id) where av_text=upper('".$this->company."') and ad_id=".
                 ad_id=1 and av_text ~* '$p_search') ";
 	}
       // Get The result Array
-      $step_contact=$this->GetAll($offset,$search.$extra_sql);
+      $step_contact=$this->GetAll($offset,$search.$extra_sql.$p_sql);
       if ( $all_contact == 0 ) return "";
       $r=$bar;
       $r.='<table border="0"  width="95%">

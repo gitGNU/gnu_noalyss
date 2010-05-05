@@ -175,15 +175,15 @@ echo $string => property={'prop':'1','prop2':'2','prop3':'3'};
   }
   static   function submit ($p_name,$p_value,$p_javascript="") {
 
-    return '<INPUT TYPE="SUBMIT" NAME="'.$p_name.'" VALUE="'.$p_value.'" '.$p_javascript.'>';
+    return '<INPUT TYPE="SUBMIT" class="button" NAME="'.$p_name.'" VALUE="'.$p_value.'" '.$p_javascript.'>';
   }
   static   function button ($p_name,$p_value,$p_javascript="") {
 
-    return '<INPUT TYPE="button" NAME="'.$p_name.'" ID="'.$p_name.'" VALUE="'.$p_value.'" '.$p_javascript.'>';
+    return '<INPUT TYPE="button" class="button" NAME="'.$p_name.'" ID="'.$p_name.'" VALUE="'.$p_value.'" '.$p_javascript.'>';
   }
 
   static function reset ($p_value) {
-    return '<INPUT TYPE="RESET"  VALUE="'.$p_value.'">';
+    return '<INPUT TYPE="RESET" class="button" VALUE="'.$p_value.'">';
   }
   static function hidden($p_name,$p_value) {
     return '<INPUT TYPE="hidden" id="'.$p_name.'" NAME="'.$p_name.'" VALUE="'.$p_value.'">';
@@ -203,7 +203,7 @@ echo $string => property={'prop':'1','prop2':'2','prop3':'3'};
    */
   static function button_anchor($p_label,$p_value,$p_name="") {
     $str='&PHPSESSID='.$_REQUEST['PHPSESSID'];
-    $r=sprintf('<span id="%s" class="action"> <A class="action" href="%s">%s</A></span>',
+    $r=sprintf('<span id="%s"> <A class="button" href="%s" style="width:75;display:inline">%s</A></span>',
 	       $p_name,
 	       $p_value.$str,
 	       $p_label);

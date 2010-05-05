@@ -218,18 +218,18 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	    foreach ($a as $key => $element) {
 	      $operation=new Acc_operation($p_cn);
 	      $operation->jr_id=$element;
-	      $r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\',%d)">',
+	      $r.=sprintf ('%s <INPUT class="button" TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\',%d)">',
 			   $operation->get_internal($p_cn,$element),
 			   $element,
 			   $sessid,
 			   $gDossier);
-	      $r.=sprintf('<INPUT TYPE="button" value="Efface" onClick="dropLink(\'%s\',\'%s\',\'%s\',%d)"><BR>',
+	      $r.=sprintf('<INPUT class="button"  TYPE="button" value="Efface" onClick="dropLink(\'%s\',\'%s\',\'%s\',%d)"><BR>',
 			  $content['jr_id'],$element,$sessid,$gDossier);
 	    }//for
 	    $r.= "</div>";
 	  }// if ( $a != null )
 
-	$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."',".$gDossier.",'rapt','".$content['jr_montant']."')\">";
+	$search='<INPUT TYPE="BUTTON" class="button" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."',".$gDossier.",'rapt','".$content['jr_montant']."')\">";
 
 	$r.= 'Autre rapprochement :
        <INPUT TYPE="TEXT" id="rapt" name="rapt" value="">'.$search;
@@ -615,18 +615,18 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
       foreach ($a as $key => $element) {
 		$operation=new Acc_operation($p_cn);
 		$operation->jr_id=$element;
-		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\',%d)">',
+		$r.=sprintf ('%s <INPUT TYPE="BUTTON" class="button" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\',%d)">',
 					 $operation->get_internal(),
 					 $element,
 					 $sessid,
 					 $gDossier);
-		$r.=sprintf('<INPUT TYPE="button" value="Efface" onClick="dropLink(\'%s\',\'%s\',\'%s\',%d)"><BR>',
+		$r.=sprintf('<INPUT TYPE="button" class="button" value="Efface" onClick="dropLink(\'%s\',\'%s\',\'%s\',%d)"><BR>',
 					$content['jr_id'],$element,$sessid,$gDossier);
 	  }//for
 	  $r.= "</div>";
   }// if ( $a != null )
 
-  $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."',".$gDossier.",'rapt','".$content['jr_montant']."')\">";
+  $search='<INPUT TYPE="BUTTON" class="button" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."',".$gDossier.",'rapt','".$content['jr_montant']."')\">";
 
   $r.= 'Autre rapprochement :
        <INPUT TYPE="TEXT" id="rapt" name="rapt" value="">'.$search;

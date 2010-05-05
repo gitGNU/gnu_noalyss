@@ -237,7 +237,7 @@ if ( $sa == 'list' ) {
 <TR> <TD><?php echo _('Modèle'); ?></td><td>  <?php   echo $template; ?> </TD></TR>
 <TR><TD>Année </TD><TD><input type="text" size=4 name="YEAR" value=<?php  echo '"'.$m_date.'"'; ?>></TD></TR>
     <TR>
-   <TD> <INPUT TYPE=SUBMIT VALUE="<?php echo _('Creation Dossier'); ?>"> </TD>
+   <TD> <INPUT TYPE=SUBMIT class="button" VALUE="<?php echo _('Creation Dossier'); ?>"> </TD>
 <td>
     <?php  echo HtmlInput::button_anchor(_('Retour'),'admin_repo.php?action=dossier_mgt'); ?>
 </td>

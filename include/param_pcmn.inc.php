@@ -156,7 +156,7 @@ echo dossier::hidden();
   echo $line->form(false); 
 ?>
 <TD>
-<INPUT TYPE="SUBMIT" Value="Ajout" Name="Ajout">
+<INPUT TYPE="SUBMIT" class="button" Value="Ajout" Name="Ajout">
 </TD>
 </TR>
 <?php

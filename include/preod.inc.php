@@ -92,7 +92,7 @@ $sel->selected=(isset($_REQUEST['jrn']))?$_REQUEST['jrn']:-1;
 	  echo $hid->input("od_id",$row['od_id']);
 	  echo $hid->input("jrn",$_GET['jrn']);
 
-	  $b='<input type="submit" value="Effacer" '.
+	  $b='<input type="submit" class="button" value="Effacer" '.
 		' onClick="return confirm(\'Voulez-vous vraiment effacer cette operation ?\');" >';
 	  echo $b;
 	  echo '</form>';

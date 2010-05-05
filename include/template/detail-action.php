@@ -162,7 +162,7 @@ if (strlen($desc->value)>300) {$style_enl='style="display:none"';$style_small='s
 <input type="button" id="bt_small"  <?=$style_small?> value="-" style="display:none" onclick="small('ag_comment');return false;">
   </p>
 </fieldset>
-<input type='button' value='Montrer articles' id="toggleButton" onclick='toggleShowDetail()'>
+<input type='button' class="button" value='Montrer articles' id="toggleButton" onclick='toggleShowDetail()'>
 <fieldset id="fldDetail" style='display:block'>
    <LEGEND> <?=_('Détail des articles')?>
 </LEGEND>
@@ -214,7 +214,7 @@ function toggleShowDetail() {
 
 </script>
 <div style="float: left; text-align: right; padding-right: 5px; font-size: 1.2em; font-weight: bold; color: blue;">
-  <input name="act" id="act" value="<?=_('Actualiser')?>" onclick="compute_all_purchase();" type="button">
+  <input name="act" id="act" class="button" value="<?=_('Actualiser')?>" onclick="compute_all_purchase();" type="button">
 
     <div style="float: right; text-align: left; font-size: 1.2em; font-weight: bold; color: blue;" id="sum">
     <br><span id="htva">0.0</span>
@@ -279,5 +279,5 @@ catch(exception) { alert('<?=j(_('Je ne peux pas ajouter de fichier'))?>'); aler
       </li>
     </ol>
   </p>
-  <input type="button" onclick="addFiles();" value="Ajouter un fichier">
+  <input type="button" class="button" onclick="addFiles();" value="Ajouter un fichier">
 </fieldset>

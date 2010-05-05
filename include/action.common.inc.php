@@ -123,8 +123,8 @@ if ( $sub_action=="update" )
       
       echo '<input type="hidden" name="p_action" value="'.$p_action.'">';
       echo '<input type="hidden" name="sa" value="save_action_st2">';
-      echo '<input type="submit" name="save_action_st2" value="'._('Enregistrer').'">';
-      echo '<input type="submit" name="generate" value="'._('Génère le document').'"></p>';
+      echo '<input type="submit" class="button" name="save_action_st2" value="'._('Enregistrer').'">';
+      echo '<input type="submit" class="button" name="generate" value="'._('Génère le document').'"></p>';
       echo $supl_hidden;
       echo '</form>';
       echo '</div>';
@@ -206,7 +206,7 @@ if ( $sub_action == "add_action" )
   echo '<input type="hidden" name="p_action" value="'.$p_action.'">';
   echo '<input type="hidden" name="sa" value="save_action_st2">';
   echo '<input type="hidden" name="save_action_st2" value="save_action_st2">';
-  echo '<input type="submit" name="save_action_st2" value="'._('Enregistrer').'">';
+  echo '<input type="submit" class="button" name="save_action_st2" value="'._('Enregistrer').'">';
   echo '</form>';
   
   echo   '</div>';
@@ -289,7 +289,7 @@ function ShowActionList($cn,$p_base)
    $my_action->selected= (isset($_REQUEST['all_action']))?true:false;
    echo _('affecté à d\'autre:').$my_action->input().'<br/>';
 ?>
-<input type="submit" name="submit_query" value="<?=_('recherche')?>">
+<input type="submit" class="button" name="submit_query" value="<?=_('recherche')?>">
 <input type="hidden" name="sa" value="list">
 <input type="hidden" name="p_action" value="<?=$_REQUEST['p_action']?>">
 <?=$supl_hidden?>
@@ -302,11 +302,11 @@ function ShowActionList($cn,$p_base)
 <span style="float:left">
 <form  method="get" action="commercial.php">
    <?php echo dossier::hidden(); ?>
-<input type="submit" name="submit_query" value="<?=_("Ajout Action")?>">
+<input type="submit" class="button" name="submit_query" value="<?=_("Ajout Action")?>">
 <input type="hidden" name="p_action" value="<?=$_REQUEST['p_action']?>">
 <input type="hidden" name="sa" value="add_action">
 <?=$supl_hidden?>
-   <input id="bt_search" type="button" onclick="toggleShow(this,'<?=_('Afficher Recherche')?>','<?=_('Cache Recherche')?>','search_action')" value="">
+   <input id="bt_search" type="button" class="button" onclick="toggleShow(this,'<?=_('Afficher Recherche')?>','<?=_('Cache Recherche')?>','search_action')" value="">
 
 <script language="JavaScript">
 <?php

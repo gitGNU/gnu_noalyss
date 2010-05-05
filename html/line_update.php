@@ -111,7 +111,7 @@ echo $acc->form(true);
 <TD><INPUT TYPE="Submit" VALUE="Sauve">
 <INPUT TYPE="HIDDEN" name="update">
   <?php printf ('<INPUT TYPE="HIDDEN" name="p_old" value="%s">',h($acc->get_parameter('value'))); ?>
-</TD><TD><input type="button"  Value="Retour sans sauver" onClick='window.close();'></TD></TR>
+</TD><TD><input type="button"  class="button" Value="Retour sans sauver" onClick='window.close();'></TD></TR>
 </TABLE>
 </FORM>
 

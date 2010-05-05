@@ -150,7 +150,7 @@ echo "</TR>";
 
 echo '</TABLE>';
 echo HtmlInput::submit('search','cherche');
-echo '<input type="button" name="update_concerned" value="Mise à jour des réconciliation" onClick="updateJrn(\''.$p_ctl.'\')">';
+echo '<input type="button" class="button" name="update_concerned" value="Mise à jour des réconciliation" onClick="updateJrn(\''.$p_ctl.'\')">';
 echo '</FORM>';
 echo '<div class="content">';
 // if a search is asked otherwise don't show all the rows

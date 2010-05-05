@@ -116,7 +116,7 @@ if ( $action == 'update' ) {
 	$readonly=($p_view=='E')?0:1;
 	$view.=ShowOperationUser($cn,$p_id,$readonly);
 	$view.='<hr>';
-	$view.='<input type="button" onclick="hide_div(\'simple\');show_div(\'expert\');" value="Vue expert">';
+	$view.='<input type="button" class="button" onclick="hide_div(\'simple\');show_div(\'expert\');" value="Vue expert">';
 	$view.='<INPUT TYPE="Hidden" name="action" value="update_record">';
 	$view.="<br>";
 	$view.="<br>";
@@ -124,7 +124,7 @@ if ( $action == 'update' ) {
 	if ( $User->check_jrn($p_jrn) == 'W')
 	  $view.=($p_view == 'S')?HtmlInput::submit('update_record','Enregistre'):'';
 	$view.="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-	$view.='<input type="button" value="Fermer" onClick="window.close();  ">';
+	$view.='<input type="button" class="button" value="Fermer" onClick="window.close();  ">';
 	$view.='</FORM>';
 	$view.='</div>';
 
@@ -139,7 +139,7 @@ if ( $action == 'update' ) {
 	$readonly=($p_view=='S')?0:1;
 	$view.=ShowOperationExpert($cn,$p_id,$readonly);
 	$view.='<hr>';
-	$view.='<input type="button" onclick="hide_div(\'expert\');show_div(\'simple\')"  value="Vue simple">';
+	$view.='<input type="button" class="button" onclick="hide_div(\'expert\');show_div(\'simple\')"  value="Vue simple">';
 	$view.='<INPUT TYPE="Hidden" name="action" value="update_record">';
 	$view.="<br>";
 	$view.="<br>";
@@ -147,7 +147,7 @@ if ( $action == 'update' ) {
 	if ( $User->check_jrn($p_jrn) == 'W')
 	  $view.=($p_view == 'E') ?HtmlInput::submit('update_record','Enregistre'):'';
 	$view.="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-	$view.='<input type="button" value="Fermer" onClick="window.close(); ">';
+	$view.='<input type="button" class="button" value="Fermer" onClick="window.close(); ">';
 	$view.='</div>';
 
 
@@ -166,8 +166,8 @@ if ( $action=="view_ca") {
   $view.='<h2 class="info2">Vue simple</h2>';
   $view.=ShowOperationUser($cn,$p_id,0);
   $view.='<hr>';
-  $view.='<input type="button" onclick="hide_div(\'simple\');show_div(\'expert\');" value="Vue Expert">';
-  $view.='<input type="button" value="Fermer" onClick="window.close(); ">';
+  $view.='<input type="button" class="button" onclick="hide_div(\'simple\');show_div(\'expert\');" value="Vue Expert">';
+  $view.='<input type="button" class="button" value="Fermer" onClick="window.close(); ">';
   $view.='</div>';
 
 
@@ -178,8 +178,8 @@ if ( $action=="view_ca") {
 
   $view.=ShowOperationExpert($cn,$p_id,0);
   $view.='<hr>';
-  $view.='<input type="button" onclick="hide_div(\'expert\');show_div(\'simple\')"  value="Vue Simple">';
-  $view.='<input type="button" value="Fermer" onClick="window.close(); ">';
+  $view.='<input type="button" class="button" onclick="hide_div(\'expert\');show_div(\'simple\')"  value="Vue Simple">';
+  $view.='<input type="button" class="button" value="Fermer" onClick="window.close(); ">';
   $view.='</div>';
   echo $view;
   exit();

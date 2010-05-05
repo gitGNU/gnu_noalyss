@@ -455,7 +455,7 @@ echo dossier::hidden().
 '
 <input type="hidden" name="p_id" value="'.$_GET['jrn_op'].'">
 <input type="submit" name="annul"  value="Mise &agrave; z&eacute;ro ou effacement">
-<input type="button" name="cancel" value="Retour" onClick="window.close();">
+<input type="button" class="button" name="cancel" value="Retour" onClick="window.close();">
 </form>';
 
 html_page_stop();

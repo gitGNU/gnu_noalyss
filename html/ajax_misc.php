@@ -149,7 +149,7 @@ EOF;
 	  }
 
 	}
-      $set= '<INPUT TYPE="BUTTON" Value="select" '.$script.'>';
+      $set= '<INPUT TYPE="BUTTON" class="button" Value="select" '.$script.'>';
       $r.='<tr>';
       $r.=td($set);
       $r.=td($row['tva_id']);
