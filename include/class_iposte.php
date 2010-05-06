@@ -35,6 +35,7 @@ require_once('function_javascript.php');
  * - 0 no table, it means no TD tags
  * - 1 the button and the text are separated by TD tags
  * - 2 the button and the text are in the same column (TD)
+ * - 3 the button and the text are in the table (TD)
  *\note we use the set_attribute for giving parameter to search_account
  * attribute are
  *  - phpsessid
@@ -135,6 +136,11 @@ class IPoste extends HtmlInput
 
     /* create the button */
     $ibutton=$this->dsp_button();
+    if ( $this->table=3) {
+      $r='<table>'.tr(td($ibutton).td($itext->input()));
+      $r.='</table>';
+      return $r;
+    }
     $r=$ibutton.$itext->input();
     if ( $this->table==1) $r=td($r);
 
