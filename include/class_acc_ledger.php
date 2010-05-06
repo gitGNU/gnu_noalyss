@@ -509,12 +509,12 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	  case 'pja':
 	    // pj asc
 	  $sort_pj="<th>$image_sel_asc PJ <A class=\"mtitle\" HREF=\"?$url&o=pjd\">$image_desc</A></th>";
-	  $order=" order by jr_pj_number asc ";
+	  $order=' order by  substring(jr_pj_number,\'\\\d+$\')::numeric asc ';
 	  break;
 	case 'pjd':
 	  $sort_pj="<th> <A class=\"mtitle\" HREF=\"?$url&o=pja\">$image_asc</A> PJ $image_sel_desc</th>";
 	  // pj desc
-	  $order=" order by jr_pj_number desc ";
+	  $order=' order by  substring(jr_pj_number,\'\\\d+$\')::numeric desc ';
 	  break;
 
 	case 'da':
