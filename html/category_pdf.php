@@ -47,7 +47,7 @@ $pdf->AliasNbPages();
 $pdf->AddPage();
 $array=Fiche::get_fiche_def($cn,$_GET['cat']);
 $name=$cn->get_value('select fd_label from fiche_def where fd_id=$1',array($_GET['cat']));
-$pdf->SetFont('Arial','BI',14);
+$pdf->SetFont('DejaVu','BI',14);
 $pdf->Cell(0,8,$name,0,1,'C');
 $pdf->SetTitle($name,1);
 $pdf->SetAuthor('Phpcompta');
@@ -84,7 +84,7 @@ foreach($array as $row) {
   }
   /* skip if nothing to display */
   if (count($letter->content) == 0 ) continue;
-  $pdf->SetFont('Arial','',10);
+  $pdf->SetFont('DejaVu','',10);
   
   $pdf->Cell(0,7,$row->strAttribut(ATTR_DEF_NAME),1,1,'C');
 
@@ -105,7 +105,7 @@ foreach($array as $row) {
       $pdf->SetFillColor(0,0,0);
       $fill=0;
     }
-    $pdf->SetFont('Arial','',8);
+    $pdf->SetFont('DejaVuCond','',8);
     $row=$letter->content[$i];
     $str_date=shrink_date($row['j_date_fmt']);
 
@@ -125,7 +125,7 @@ foreach($array as $row) {
     $pdf->Ln();
   }
   $pdf->SetFillColor(0,0,0);
-  $pdf->SetFont('Arial','B',8);
+  $pdf->SetFont('DejaVuCond','B',8);
   $debit =sprintf('Debit  : % 12.2f',$amount_deb);
   $credit=sprintf('Credit : % 12.2f',$amount_cred);
   if ( $amount_deb>$amount_cred) $s='solde débiteur'; else $s='solde crediteur';
@@ -139,4 +139,5 @@ foreach($array as $row) {
 }
 
 //Save PDF to file
-$pdf->Output("category.pdf", 'I');exit;
+$fDate=date('dmy-Hi');
+$pdf->Output("category-$fDate.pdf", 'I');exit;

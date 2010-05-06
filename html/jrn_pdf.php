@@ -1,57 +1,51 @@
 <?php
 
-/*
- *   This file is part of PhpCompta.
- *
- *   PhpCompta is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   PhpCompta is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with PhpCompta; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+  /*
+   *   This file is part of PhpCompta.
+   *
+   *   PhpCompta is free software; you can redistribute it and/or modify
+   *   it under the terms of the GNU General Public License as published by
+   *   the Free Software Foundation; either version 2 of the License, or
+   *   (at your option) any later version.
+   *
+   *   PhpCompta is distributed in the hope that it will be useful,
+   *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   *   GNU General Public License for more details.
+   *
+   *   You should have received a copy of the GNU General Public License
+   *   along with PhpCompta; if not, write to the Free Software
+   *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   */
 
 
-// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-// $Revision$
-/*! \file
- * \brief Send a ledger in a pdf format
- *
-*/
+  // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+  // $Revision$
+  /*! \file
+   * \brief Send a ledger in a pdf format
+   *
+   */
 
 require_once('class_dossier.php');
 $gDossier=dossier::id();
-
+require_once('class_pdf.php');
 include_once('class_user.php');
 include_once("jrn.php");
 include_once("ac_common.php");
 require_once('class_database.php');
-include_once("class.ezpdf.php");
 include_once("impress_inc.php");
 include_once("class_acc_ledger.php");
-require_once ('header_print.php');
 require_once('class_own.php');
 require_once('class_periode.php');
 $cn=new Database($gDossier);
 $periode=new Periode($cn);
 
-
-echo_debug('jrn_pdf.php',__LINE__,"imp pdf journaux");
-
 $l_type="JRN";
 $centr=" Non centralisé";
 $l_centr=0;
 $own=new Own($cn);
-
 if ($_GET['central'] == 'on' ) {
-  $centr=utf8_decode(" centralisé ");
+  $centr=" centralisé ";
   $l_centr=1;
 }
 $Jrn=new Acc_Ledger($cn,$_GET['jrn_id']);
@@ -64,321 +58,482 @@ $User->can_request(IMPJRN,0);
 
 // Security
 if ( $_GET['jrn_id']!=0 &&  $User->check_jrn($_GET['jrn_id']) == 'X' ){
-    /* Cannot Access */
-    NoAccess();
- }
+  /* Cannot Access */
+  NoAccess();
+}
 
 $ret="";
 
 // filter : 0 for Grand Livre otherwise 1
 $filter=( $Jrn->id == 0)?0:1;
 $jrn_type=$Jrn->get_type();
-echo_debug('jrn_pdf',__LINE__,'Jrn type '.$jrn_type);
-echo_debug('jrn_pdf',__LINE__,'p_simple = '.$_REQUEST['p_simple']);
+
 //----------------------------------------------------------------------
 // Detailled Printing
 //---------------------------------------------------------------------
 if ( $Jrn->id==0  || $jrn_type=='FIN' || $jrn_type=='ODS' || $_REQUEST['p_simple']== 0 ) 
-{
-  $pdf= new Cezpdf("A4");
-  $pdf->selectFont('./addon/fonts/Helvetica.afm');
-  header_pdf($cn,$pdf);
-  // detailled printing
-  $offset=0;$limit=22;$step=22;
-  $rap_deb=0;$rap_cred=0;
-  while (1) {
-    $a=0;
-    list ($a_jrn,$tot_deb,$tot_cred)=$Jrn->get_row($_GET['from_periode'],
-						  $_GET['to_periode'],
-						  $_GET['central'],
-						  $limit,$offset);
-    echo_debug('jrn_pdf.php',__LINE__,"Total debit $tot_deb,credit $tot_cred");
-    
-    if ( $a_jrn==null) break;
-    $offset+=$step; 
-    $first_id=$a_jrn[0]['int_j_id'];
-    $Exercice=$periode->get_exercice($a_jrn[0]['periode']);
-    
+  {
+    $pdf=new PDF($cn);
+    $pdf->setDossierInfo($Jrn->name);
+    $pdf->AliasNbPages();
+    $pdf->AddPage();
 
-    list($rap_deb,$rap_cred)=get_rappel($cn,$first_id,$Jrn->id,$Exercice,FIRST,
-				     $filter,
-				     $l_centr
-				     );
-    $pdf->ezText(utf8_decode($Jrn->name),30);
-    
-    if (  $l_centr == 1 ) {
-    // si centralisé montre les montants de rappel
-      $str_debit=utf8_decode(sprintf( "report Débit  % 10.2f",$rap_deb));
-      $str_credit=utf8_decode(sprintf("report Crédit % 10.2f",$rap_cred));
-      $pdf->ezText($str_debit,12,array('justification'=>'right'));
-      $pdf->ezText($str_credit,12,array('justification'=>'right'));
-    }
-    $pdf->ezTable($a_jrn,
-		  array ('j_id'=>utf8_decode(' Numéro'),
-			 'j_date' => 'Date',
-			 'poste'=>'Poste',
-			 'description' => 'Description',
-			 'deb_montant'=>utf8_decode( 'Débit'),
-			 'cred_montant'=>utf8_decode('Crédit')),
-		  " ",
-		  array('shaded'=>0,'showHeadings'=>1,'width'=>500,
-			'cols'=>array('deb_montant'=> array('justification'=>'right'),
-				      'cred_montant'=> array('justification'=>'right'))),
-		  true);
-    $a=1;
-    // Total Page
-    $apage=array(array('deb'=>sprintf("%8.2f",$tot_deb),'cred'=>$tot_cred));
-    foreach ($apage as $key=>$element) echo_debug('jrn_pdf.php',__LINE__,"apage $key => $element");
-    $pdf->ezTable($apage,
-		array (
-		       'deb'=>utf8_decode( 'Total Débit'),
-		       'cred'=>utf8_decode('Total Crédit'))," ",
-		array('shaded'=>0,'showHeadings'=>1,'width'=>200,
-		      'xPos'=>'right','xOrientation'=>'left',
-		      'cols'=>array('deb'=> array('justification'=>'right'),
-				    'cred'=> array('justification'=>'right'))),true);
+    // detailled printing
+    $rap_deb=0;$rap_cred=0;
+    // take all operations from jrn or  centralized
+    $array=$Jrn->get_operation($_GET['from_periode'],$_GET['to_periode'],$l_centr);
 
-    $count=count($a_jrn)-1;
-    $last_id=$a_jrn[$count]['int_j_id'];
-    $Exercice=$periode->get_exercice($a_jrn[$count]['periode']);
-    if ( $l_centr == 1) {
-      // Montant de rappel si centralisé
-      list($rap_deb,$rap_cred)=get_rappel($cn,$last_id,$Jrn->id,$Exercice,LAST,$filter,$l_centr);
-      $str_debit=utf8_decode(sprintf( "à reporter Débit  % 10.2f",$rap_deb));
-      $str_credit=utf8_decode(sprintf("à reporter Crédit % 10.2f",$rap_cred));
-      $pdf->ezText($str_debit,12,array('justification'=>'right'));
-      $pdf->ezText($str_credit,12,array('justification'=>'right'));
-    }
-    //New page
-    $pdf->ezNewPage();
-	header_pdf($cn,$pdf);
+    $pdf->SetFont('DejaVu','BI',7);
+    $pdf->Cell(160,7,'report Débit',0,0,'R');
+    $pdf->Cell(30,7,sprintf('%10.2f',$rap_deb),0,0,'R');$pdf->Ln(4);
+    $pdf->Cell(160,7,'report Crédit',0,0,'R');
+    $pdf->Cell(30,7,sprintf('%10.2f',$rap_cred),0,0,'R');$pdf->Ln(4);
 
-  }    
-  if ( $a == 1 )   {
-    $apage=array('deb'=>$tot_deb,'cred'=>$tot_cred);
-    $pdf->ezTable($apage,
-		  array (
-			 'deb'=>utf8_decode( 'Total Débit'),
-			 'cred'=>utf8_decode('Total Crédit'))," ",
-		  array('shaded'=>0,'showHeadings'=>1,'width'=>500,
-			'cols'=>array('deb'=> array('justification'=>'right'),
-				      'cred'=> array('justification'=>'right'))),true);
-    $count=count($a_jrn)-1;
-    $last_id=$a_jrn[$count]['int_j_id'];
-    $Exercice=$periode->get_exercice($a_jrn[$count]['periode']);
-    
-    list($rap_deb,$rap_cred)=get_rappel($cn,$last_id,$Jrn->id,$Exercice,LAST,$filter,$l_centr);
-    $str_debit=utf8_decode(sprintf( "à reporter  Débit % 10.2f",$rap_deb));
-    $str_credit=utf8_deccode(sprintf("à reporter Crédit % 10.2f",$rap_cred));
-    $pdf->ezText($str_debit,12,array('justification'=>'right'));
-    $pdf->ezText($str_credit,12,array('justification'=>'right'));
-    
-  }
-  $pdf->ezStream();
-  exit(0);
-} // impression detaillé
-//----------------------------------------------------------------------
-// Simple Printing
-//---------------------------------------------------------------------
-if  ( ($jrn_type=='ACH' || $jrn_type=='VEN' ) && $_REQUEST['p_simple']== 1 ) 
-{
-  /* simple printing with vat */
-  if ( $own->MY_TVA_USE=='Y') {
-    echo_debug ('jrn_pdf',__LINE__,'here');
-    echo_debug('jrn_pdf',__LINE__,$Jrn);
-    $pdf= new Cezpdf("A4",'landscape');
-    //  $pdf->selectFont('./addon/fonts/Helvetica.afm');
-    $pdf->selectFont('./addon/fonts/Courier.afm');
-    header_pdf($cn,$pdf);
+    // print all operation
+    for ($i=0;$i< count($array);$i++) {
+      $pdf->SetFont('DejaVuCond','B',7);
+      $row=$array[$i];
 
-    $offset=0;$limit=30;$step=30;
-    $a_Tva=$cn->get_array("select tva_id,tva_label,tva_poste from tva_rate where tva_rate != 0.0000 order by tva_id");
-    $col_tva="TVA ";
-    $space=0;
-    $total_HTVA=0.0;
-    $total_TVAC=0.0;
-    foreach($a_Tva as $line_tva)
-      {
-	//initialize Amount TVA
-	$tmp1=$line_tva['tva_label'];
-	$rap_tva[$tmp1]=0.0;
-	if ( $space == 0 )
-	  $col_tva=str_repeat(" ",6).utf8_decode($line_tva['tva_label']);
-	else {
-	  $ecart=$space-strlen($line_tva['tva_label']);
-	  $ecart=($ecart<0)?0:$ecart;
-	  $col_tva.=str_repeat(" ",$ecart).utf8_decode($line_tva['tva_label']);
+      $pdf->Cell(15,7,$row['id']);
+      $pdf->Cell(20,7,$row['internal']);
+      $pdf->Cell(15,7,$row['date_fmt']);
+      $pdf->Cell(100,7,$row['comment']);
+      $pdf->Cell(20,7,$row['pj']);
+      $pdf->Cell(20,7,$row['montant'],0,0,'R');
+
+      $pdf->Ln(4);
+      // get the entries
+      $aEntry=$cn->get_array("select j_id,j_poste,j_qcode,j_montant,j_debit, ".
+			     " pcm_lib ".
+			     " from jrnx join tmp_pcmn on (j_poste=pcm_val) where j_grpt = $1".
+			     " order by j_debit,j_id",
+			     array($row['jr_grpt_id']));
+      for ($j=0;$j<count($aEntry);$j++) {
+	$pdf->SetFont('DejaVuCond','',7);
+	$entry=$aEntry[$j];
+	// $pdf->Cell(15,6,$entry['j_id'],0,0,'R');
+	$pdf->Cell(32,6,$entry['j_qcode'],0,0,'R');
+	$pdf->Cell(23,6,$entry['j_poste'],0,0,'R');
+
+	// if j_qcode is not empty retrieve name
+	if ( $entry['j_qcode'] != '') { 
+	  $f_id=$cn->get_value('select f_id from vw_poste_qcode where j_qcode=$1',array($entry['j_qcode']));
+	  $name=$cn->get_value('select av_text from attr_value join jnt_fic_att_value using(jft_id) where f_id=$1 and ad_id=1',
+			       array($f_id));
+	} else
+	  $name=$entry['pcm_lib'];
+	$pdf->Cell(80,6,$name,0,0,'L');
+
+	// print amount
+	$str_amount=sprintf('%10.2f',$entry['j_montant']);
+	if ( $entry['j_debit']=='t') {
+	  $pdf->Cell(20,6,$str_amount,0,0,'R');
+	  $pdf->Cell(20,6,'',0,0,'R');
+	} else {
+	  $pdf->Cell(20,6,'',0,0,'R');
+	  $pdf->Cell(20,6,$str_amount,0,0,'R');
 	}
-	$space=9;
-      } 
-
-    // if the period is centralized get the first amounts
-    if ( $l_centr==1) 
-      list($total_TVAC,$total_HTVA)=get_rappel_simple($cn,$Jrn->id,$jrn_type,$_GET['from_periode'],$rap_tva);
-
-
-
-    while (1) {
-
-      $a=0;
-      $a_jrn=$Jrn->get_rowSimple($_GET['from_periode'],
-				 $_GET['to_periode'],
-				 $_GET['central'],
-				 1,
-				 $limit,
-				 $offset);
-      if ( $a_jrn == null ) break;
-
-      // page Header 
-      $t=sprintf("Rappel TVAC = %.2f HTVA= %.2f",$total_TVAC,$total_HTVA);
-      foreach($rap_tva as $idx=>$am) {
-	$t.=utf8_decode(sprintf('[ %s = % .2f]',$idx,$am));
+	$pdf->Ln(4); 
       }
-      $pdf->ezText($t,9,array('justification'=>'left'));
+    }
+    $fDate=date('dmy-Hi');
+    $pdf->Output('journal-'.$fDate.'.pdf','I');
+    exit(0);
+  } // impression detaillé
+//----------------------------------------------------------------------
+// Simple Printing Purchase Ledger
+//---------------------------------------------------------------------
+if   ( ($jrn_type=='VEN' || $jrn_type=='ACH')  && $_REQUEST['p_simple']== 1 ) 
+  {
+    $pdf= new PDFLand($cn,'L');
+    $pdf->setDossierInfo($Jrn->name);
+    $pdf->AliasNbPages();
+    $pdf->AddPage();
+    $offset=0;$limit=30;$step=30;
 
-      $offset+=$step;
-      //total page
-      $total_htva_page=0.0;$total_tvac_page=0.0;
+    /* simple printing with vat */
+    if ( $own->MY_TVA_USE=='Y') {
+      $pdf->SetFont('DejaVu','BI',7);
+  
+
+      // Show column header, if $flag_tva is false then display vat as column
+      $a_Tva=$Jrn->existing_vat();
       foreach($a_Tva as $line_tva)
 	{
 	  //initialize Amount TVA
-	  $tmp1=$line_tva['tva_label'];
-	  $page_tva[$tmp1]=0.0;
-	}
-      $str_tva="";
+	  $tmp1=$line_tva['tva_id'];
+	  $rap_tva[$tmp1]=0;
+	} 
+      $flag_tva=(count($a_Tva) > 4)?true:false;
+      $pdf->Cell(15,6,'PJ');
+      $pdf->Cell(15,6,'Date');
+      if ( $jrn_type=='ACH')
+	$pdf->Cell(20,6,'Client');
+      else 
+	$pdf->Cell(20,6,'Fournisseur');
+      $pdf->Cell(65,6,'Description');
 
-
-      $pdf->ezTable($a_jrn,
-		    array('num'=>utf8_decode('Numéro'),
-			  'date'=>'Date',
-			  'jr_internal'=>'Int.',
-			  'client'=>'Client',
-			  'comment'=>'Description', 
-			  'HTVA'=>'HTVA',
-			  'TVA_INLINE'=>$col_tva,
-			  'TVAC'=>'TVAC'),
-		    utf8_decode($Jrn->name),
-		    array('shaded'=>0,'showHeadings'=>1,'fontSize'=>8,'width'=>750,'Maxwidth'=>750),
-		    true
-
-		       
-		  
-		    );
-      //--------------------------------------------------------------------------------
-      // Foot
-      // Set total foot page
-      // amount VAT
-      foreach ($a_jrn as $row) 
+      $pdf->Cell(15,6,'HTVA',0,0,'R');
+      if ( $jrn_type=='ACH') 
 	{
-	  $total_TVAC+=$row['TVAC'];
-	  $total_HTVA+=$row['HTVA'];
-	  $total_tvac_page+=$row['TVAC'];
-	  $total_htva_page+=$row['HTVA'];
-
-	  foreach ($row['TVA'] as $line)
-	    {
-	      $tva_id=$line[1][1];
-	      $rap_tva[$tva_id]+=$line[1][2];
-	      $page_tva[$tva_id]+=$line[1][2];
-	    }
+	  $pdf->Cell(15,6,'Privé',0,0,'R');
+	  $pdf->Cell(15,6,'TVA ND',0,0,'R');
 	}
-      //total page
-      $t=sprintf("total page TVAC = %.2f HTVA= %.2f",$total_tvac_page,$total_htva_page);
-      foreach($page_tva as $idx=>$am) {
-	$t.=utf8_decode(sprintf('[ %s = % .2f ]',$idx,$am));
+      if ( ! $flag_tva ) {
+	foreach($a_Tva as $line_tva) {
+	  $pdf->Cell(15,6,$line_tva['tva_label'],0,0,'R');
+	}
       }
-      $pdf->ezText($t,9,array('justification'=>'left'));
+      $pdf->Cell(15,6,'TVAC',0,0,'R');
+      $pdf->Ln(5);
 
-      $t=utf8_decode(sprintf("total à reporter TVAC = %.2f HTVA= %.2f",$total_TVAC,$total_HTVA));
-      foreach($rap_tva as $idx=>$am) {
-	$t.=utf8_decode(sprintf('[ %s = % .2f ]',$idx,$am));
-      }
-      $pdf->ezText($t,9,array('justification'=>'left'));
-
-      // New Page
-      $pdf->ezNewPage();
-      header_pdf($cn,$pdf);
-      echo_debug('jrn_pdf',__LINE__,$a_jrn);
-    }
-  } else { 			/* we do not use any vat */
-
-    $pdf= new Cezpdf("A4",'landscape');
-    //  $pdf->selectFont('./addon/fonts/Helvetica.afm');
-    $pdf->selectFont('./addon/fonts/Courier.afm');
-    header_pdf($cn,$pdf);
-
-    $offset=0;$limit=30;$step=30;
-    $space=0;
-    $total_HTVA=0.0;
-    $total_TVAC=0.0;
-
-    if ( $l_centr==1) 
-      list($total_TVAC,$total_HTVA)=get_rappel_simple($cn,$Jrn->id,$jrn_type,$_GET['from_periode'],$rap_tva);
-
-
-    while (1) {
-
-      $a=0;
-      $a_jrn=$Jrn->get_rowSimple($_GET['from_periode'],
+      // if the period is centralized get the first amounts
+      if ( $l_centr==1) 
+	$a=0;
+      $a_jrn=$Jrn->get_operation($_GET['from_periode'],
 				 $_GET['to_periode'],
-				 $_GET['central'],
-				 1,
-				 $limit,
-				 $offset);
-      if ( $a_jrn == null ) break;
-      // page Header 
-      $t=sprintf("Rappel Total = %.2f ",$total_TVAC);
+				 $_GET['central']);
+      if ( $a_jrn == null ) exit();
+      /*
+       * get rappel to initialize amount rap_xx
+       *the easiest way is to compute sum from quant_
+       */
+      $previous=$Jrn->previous_amount($_GET['from_periode']);
+      
+      /* initialize the amount to report */
+      foreach($previous['tva'] as $line_tva)
+	{
+	  //initialize Amount TVA
+	  $tmp1=$line_tva['tva_id'];
+	  $rap_tva[$tmp1]=$line_tva['sum_vat'];
+	} 
+      $rap_htva=$previous['price'];$rap_tvac=$previous['price']+$previous['vat'];$rap_priv=$previous['priv'];$rap_nd=$previous['tva_nd_recup'];
 
-      $pdf->ezText($t,9,array('justification'=>'left'));
+      $pdf->SetFont('DejaVu','',6);
+      // page Header 
+      $pdf->Cell(130,6,sprintf('%.2f',$previous['price']),0,0,'R'); /* HTVA */
+      if ( $jrn_type != 'VEN') {
+	$pdf->Cell(15,6,sprintf('%.2f',$previous['priv']),0,0,'R');  /* prive */
+	$pdf->Cell(15,6,sprintf('%.2f',$previous['tva_nd_recup']),0,0,'R');  /* Tva ND */
+      }
+      foreach($previous['tva'] as $line_tva)
+	$pdf->Cell(15,6,sprintf('%.2f',$line_tva['sum_vat']),0,0,'R');
+      $pdf->Cell(15,6,sprintf('%.2f',$previous['price']+$previous['vat']),0,0,'R'); /* Tvac */
+
+      $pdf->Ln(6);
+
 
       $offset+=$step;
+      $new_page=false;
+
       //total page
-      $total_htva_page=0.0;$total_tvac_page=0.0;
-
-
-      $pdf->ezTable($a_jrn,
-		    array('num'=>utf8_decode('Numéro'),
-			  'date'=>'Date',
-			  'client'=>'Client',
-			  'jr_internal'=>'Int.',
-			  'comment'=>'Description', 
-			  'TVAC'=>'Total'),
-		    utf8_decode($Jrn->name),
-		    array('shaded'=>0,'showHeadings'=>1,'fontSize'=>8,'width'=>750,'Maxwidth'=>750),
-		    true
-
-		       
-		  
-		    );
-      //--------------------------------------------------------------------------------
-      // Foot
-      // Set total foot page
-      // amount VAT
-      foreach ($a_jrn as $row) 
+      $tp_htva=0.0;$tp_tvac=0.0;$tp_priv=0;$tp_nd=0;
+      foreach($a_Tva as $line_tva)
 	{
-	  $total_TVAC+=$row['TVAC'];
-	  $total_tvac_page+=$row['TVAC'];
-	  
+	  //initialize Amount TVA
+	  $tmp1=$line_tva['tva_id'];
+	  $tp_tva[$tmp1]=0.0;
 	}
+
+      for ( $i=0;$i<count($a_jrn);$i++){
+
+	if ( $new_page ) {
+	  $new_page=false;
+	  /* reset total page */
+	  foreach($a_Tva as $line_tva)
+	    {
+	      //initialize Amount TVA
+	      $tmp1=$line_tva['tva_id'];
+	      $tp_tva[$tmp1]=0.0;
+	    }
+	  //total page
+	  $tp_htva=0.0;$tp_tvac=0.0;$tp_priv=0;$tp_nd=0;
+	  $pdf->SetFont('DejaVu','BI',7);
+	  $pdf->AddPage();
+	  // page Header 
+	  $pdf->Cell(15,6,'PJ');
+	  $pdf->Cell(15,6,'Date');
+	  if ( $jrn_type=='ACH')
+	    $pdf->Cell(20,6,'Client');
+	  else 
+	    $pdf->Cell(20,6,'Fournisseur');
+	  $pdf->Cell(65,6,'Description');
+
+	  $pdf->Cell(15,6,'HTVA',0,0,'R');
+	  if ($jrn_type !='VEN') {
+	    $pdf->Cell(15,6,'Privé',0,0,'R');
+	    $pdf->Cell(15,6,'TVA ND',0,0,'R');
+	  }
+	  if ( ! $flag_tva ) {
+	    foreach($a_Tva as $line_tva) {
+	      $pdf->Cell(15,6,$line_tva['tva_label'],0,0,'R');
+	    }
+	  }
+	  $pdf->Cell(15,6,'TVAC',0,0,'R');
+	  $pdf->Ln(5);
+	  $pdf->SetFont('DejaVu','',6);
+	  $pdf->Cell(130,6,sprintf('%.2f',$rap_htva),0,0,'R'); /* HTVA */
+	  if($jrn_type !='VEN') {
+	    $pdf->Cell(15,6,sprintf('%.2f',$rap_priv),0,0,'R');  /* prive */
+	    $pdf->Cell(15,6,sprintf('%.2f',$rap_nd),0,0,'R');  /* Tva ND */
+	  }
+	  foreach($a_Tva as $line_tva) {
+	    $l=$line_tva['tva_id'];
+	    $pdf->Cell(15,6,sprintf('%.2f',$rap_tva[$l]),0,0,'R');
+	  }
+	  $pdf->Cell(15,6,sprintf('%.2f',$rap_tvac),0,0,'R'); /* Tvac */
+	  
+	  $pdf->Ln(6);
+
+	}  
+
+	/* initialize tva */
+	for ($f=0;$f<count($a_Tva);$f++) {
+	  $l=$a_Tva[$f]['tva_id'];
+	  $atva_amount[$l]=0;
+	}
+	  
+	// retrieve info from ledger
+	$aAmountVat=$Jrn->vat_operation($a_jrn[$i]['jr_grpt_id']);
+
+	// put vat into array
+	for ($f=0;$f<count($aAmountVat);$f++) {
+	  $l=$aAmountVat[$f]['tva_id'];
+	  $atva_amount[$l]=$aAmountVat[$f]['sum_vat'];
+	  $tp_tva[$l]+=$aAmountVat[$f]['sum_vat'];
+	  $rap_tva[$l]+=$aAmountVat[$f]['sum_vat'];
+	}
+
+	$row=$a_jrn[$i];
+	$pdf->Cell(15,6,($row['pj']));
+	$pdf->Cell(15,6,shrink_date($row['date_fmt']));
+	$pdf->Cell(20,6,$row['internal']);
+	$pdf->Cell(65,6,$row['comment']);
+	/* get other amount (without vat, total vat included, private, ND */
+       	$other=$Jrn->get_other_amount($a_jrn[$i]['jr_grpt_id']);
+	$tp_htva+=$other['price'];
+	$tp_tvac+=$other['price']+$other['vat'];
+	$tp_priv+=$other['priv'];
+	$tp_nd+=$other['priv'];
+	$rap_htva+=$other['price'];
+	$rap_tvac+=$other['price']+$other['vat'];
+	$rap_priv+=$other['priv'];
+	$rap_nd+=$other['priv'];
+
+
+	$pdf->Cell(15,6,sprintf("%.2f",$other['price']),0,0,'R');
+	if ( $jrn_type !='VEN') {
+	  $pdf->Cell(15,6,sprintf("%.2f",$other['priv']),0,0,'R');
+	  $pdf->Cell(15,6,sprintf("%.2f",$other['tva_nd_recup']),0,0,'R');
+	}
+	foreach ($atva_amount  as $row_atva_amount) {
+	  $pdf->Cell(15,6,sprintf("%.2f",$row_atva_amount),0,0,'R');
+	}
+	$pdf->Cell(15,6,sprintf("%.2f",($other['price']+$other['vat'])),0,0,'R');
+	$pdf->Ln(5);
+	/* footer */
+	/* every  lines reset total page and print table footer and set flag new_page to true */
+	if ($i>0 && $i % 26 == 0) {
+	  $pdf->Cell(115,6,'total page',0,0,'R'); /* HTVA */
+	  $pdf->Cell(15,6,sprintf('%.2f',$tp_htva),0,0,'R'); /* HTVA */
+	  if ( $jrn_type !='VEN') {
+	    $pdf->Cell(15,6,sprintf('%.2f',$tp_priv),0,0,'R');  /* prive */
+	    $pdf->Cell(15,6,sprintf('%.2f',$tp_nd),0,0,'R');  /* Tva ND */
+	  }
+	  foreach($a_Tva as $line_tva) {
+	    $l=$line_tva['tva_id'];
+	    $pdf->Cell(15,6,sprintf('%.2f',$tp_tva[$l]),0,0,'R');
+	  }
+	  $pdf->Cell(15,6,sprintf('%.2f',$tp_tvac),0,0,'R'); /* Tvac */
+	  $pdf->Ln(2);
+
+	  $pdf->Cell(115,6,'report',0,0,'R'); /* HTVA */
+	  $pdf->Cell(15,6,sprintf('%.2f',$rap_htva),0,0,'R'); /* HTVA */
+	  if ( $jrn_type != 'VEN') {
+	    $pdf->Cell(15,6,sprintf('%.2f',$rap_priv),0,0,'R');  /* prive */
+	    $pdf->Cell(15,6,sprintf('%.2f',$rap_nd),0,0,'R');  /* Tva ND */
+	  }
+	  foreach($a_Tva as $line_tva) {
+	    $l=$line_tva['tva_id'];
+	    $pdf->Cell(15,6,sprintf('%.2f',$rap_tva[$l]),0,0,'R');
+	  }
+	  $pdf->Cell(15,6,sprintf('%.2f',$rap_tvac),0,0,'R'); /* Tvac */
+	  $pdf->Ln(2);
+	  $new_page=true;
+	}
+      }
+      /* last footer */
+      if ( ! $new_page) {
+	  $pdf->Cell(115,6,'Total page ',0,'T','R'); /* HTVA */
+	  $pdf->Cell(15,6,sprintf('%.2f',$tp_htva),0,'T','R'); /* HTVA */
+	  if ( $jrn_type !='VEN') {
+	    $pdf->Cell(15,6,sprintf('%.2f',$tp_priv),0,'T','R');  /* prive */
+	    $pdf->Cell(15,6,sprintf('%.2f',$tp_nd),0,'T','R');  /* Tva ND */
+	  }
+	  foreach($a_Tva as $line_tva) {
+	    $l=$line_tva['tva_id'];
+	    $pdf->Cell(15,6,sprintf('%.2f',$tp_tva[$l]),0,'T','R');
+	  }
+	  $pdf->Cell(15,6,sprintf('%.2f',$tp_tvac),0,'T','R'); /* Tvac */
+	  $pdf->Ln(2);
+
+	  $pdf->Cell(115,6,'report',0,0,'R'); /* HTVA */
+	  $pdf->Cell(15,6,sprintf('%.2f',$rap_htva),0,0,'R'); /* HTVA */
+	  if ( $jrn_type !='VEN') {
+	    $pdf->Cell(15,6,sprintf('%.2f',$rap_priv),0,0,'R');  /* prive */
+	    $pdf->Cell(15,6,sprintf('%.2f',$rap_nd),0,0,'R');  /* Tva ND */
+	  }
+	  foreach($a_Tva as $line_tva) {
+	    $l=$line_tva['tva_id'];
+	    $pdf->Cell(15,6,sprintf('%.2f',$rap_tva[$l]),0,0,'R');
+	  }
+	  $pdf->Cell(15,6,sprintf('%.2f',$rap_tvac),0,0,'R'); /* Tvac */
+	  $pdf->Ln(2);
+	  $new_page=true;
+      }
+    
+    } else { 		
+      /* ---------------------------------------------------------------------- */
+      /* we do not use any vat                                                  */
+      /* ---------------------------------------------------------------------- */
+      $pdf->SetFont('DejaVu','BI',7);
+      $pdf->Cell(15,6,'PJ');
+      $pdf->Cell(15,6,'Date');
+      if ( $jrn_type=='ACH')
+	$pdf->Cell(20,6,'Client');
+      else 
+	$pdf->Cell(20,6,'Fournisseur');
+      $pdf->Cell(65,6,'Description');
+
+      if ( $jrn_type=='ACH') 
+	{
+	  $pdf->Cell(15,6,'Privé',0,0,'R');
+	}
+      $pdf->Cell(15,6,'TVAC',0,0,'R');
+      $pdf->Ln(5);
+
+      $a_jrn=$Jrn->get_operation($_GET['from_periode'],
+				 $_GET['to_periode'],
+				 $_GET['central']);
+      if ( $a_jrn == null ) exit();
+      /*
+       * get rappel to initialize amount rap_xx
+       *the easiest way is to compute sum from quant_
+       */
+      $previous=$Jrn->previous_amount($_GET['from_periode']);
+      
+      $rap_htva=$previous['price'];$rap_tvac=$previous['price']+$previous['vat'];$rap_priv=$previous['priv'];$rap_nd=$previous['tva_nd_recup'];
+
+      $pdf->SetFont('DejaVu','',6);
+      // page Header 
+      $pdf->Cell(130,6,sprintf('%.2f',$previous['price']),0,0,'R'); /* HTVA */
+      if ( $jrn_type !='VEN') {
+	$pdf->Cell(15,6,sprintf('%.2f',$previous['priv']),0,0,'R');  /* prive */
+      }
+      $pdf->Ln(6);
+
+
+      $offset+=$step;
+      $new_page=false;
+
       //total page
-      $t=sprintf("total page  = %.2f ",$total_tvac_page);
+      $tp_htva=0.0;$tp_tvac=0.0;$tp_priv=0;$tp_nd=0;
+      for ( $i=0;$i<count($a_jrn);$i++){
 
-      $pdf->ezText($t,9,array('justification'=>'left'));
+	if ( $new_page ) {
+	  $new_page=false;
+	  /* reset total page */
+	  //total page
+	  $tp_htva=0.0;$tp_tvac=0.0;$tp_priv=0;$tp_nd=0;
+	  $pdf->SetFont('DejaVu','BI',7);
+	  $pdf->AddPage();
+	  // page Header 
+	  $pdf->Cell(15,6,'PJ');
+	  $pdf->Cell(15,6,'Date');
+	  if ( $jrn_type=='ACH')
+	    $pdf->Cell(20,6,'Client');
+	  else 
+	    $pdf->Cell(20,6,'Fournisseur');
+	  $pdf->Cell(65,6,'Description');
 
-      $t=utf8_decode(sprintf("total à reporter  = %.2f ",$total_TVAC));
+	  if ($jrn_type !='VEN') {
+	    $pdf->Cell(15,6,'Privé',0,0,'R');
+	  }
+	  $pdf->Cell(15,6,'TVAC',0,0,'R');
+	  $pdf->Ln(5);
+	  $pdf->SetFont('DejaVu','',6);
+	  if($jrn_type !='VEN') {
+	    $pdf->Cell(15,6,sprintf('%.2f',$rap_priv),0,0,'R');  /* prive */
+	  }
+	  $pdf->Cell(15,6,sprintf('%.2f',$rap_tvac),0,0,'R'); /* Tvac */
+	  
+	  $pdf->Ln(6);
 
-      $pdf->ezText($t,9,array('justification'=>'left'));
+	}  
+	$row=$a_jrn[$i];
+	$pdf->Cell(15,6,($row['pj']));
+	$pdf->Cell(15,6,shrink_date($row['date_fmt']));
+	$pdf->Cell(20,6,$row['internal']);
+	$pdf->Cell(65,6,$row['comment']);
+	/* get other amount (without vat, total vat included, private, ND */
+       	$other=$Jrn->get_other_amount($a_jrn[$i]['jr_grpt_id']);
+	$tp_htva+=$other['price'];
+	$tp_tvac+=$other['price']+$other['vat'];
+	$tp_priv+=$other['priv'];
+	$tp_nd+=$other['priv'];
+	$rap_htva+=$other['price'];
+	$rap_tvac+=$other['price']+$other['vat'];
+	$rap_priv+=$other['priv'];
+	$rap_nd+=$other['priv'];
 
-      // New Page
-      $pdf->ezNewPage();
-      header_pdf($cn,$pdf);
-      echo_debug('jrn_pdf',__LINE__,$a_jrn);
-    }
+	if ( $jrn_type !='VEN') {
+	  $pdf->Cell(15,6,sprintf("%.2f",$other['priv']),0,0,'R');
+	}
 
-  } /* else  */
-  
-  $pdf->ezStream();
-  exit(0);
+	$pdf->Cell(15,6,sprintf("%.2f",($other['price']+$other['vat'])),0,0,'R');
+	$pdf->Ln(5);
+	/* footer */
+	/* every  lines reset total page and print table footer and set flag new_page to true */
+	if ($i>0 && $i % 26 == 0) {
+	  $pdf->Cell(115,6,'total page',0,0,'R'); /* HTVA */
+	  if ( $jrn_type=='ACH') {
+	    $pdf->Cell(15,6,sprintf('%.2f',$tp_priv),0,0,'R');  /* prive */
+	  }
+	  $pdf->Cell(15,6,sprintf('%.2f',$tp_tvac),0,0,'R'); /* Tvac */
+	  $pdf->Ln(2);
 
-}
+	  $pdf->Cell(115,6,'report',0,0,'R'); /* HTVA */
+	  if ( $jrn_type=='ACH') {
+	    $pdf->Cell(15,6,sprintf('%.2f',$rap_priv),0,0,'R');  /* prive */
+	  }
+	  $pdf->Cell(15,6,sprintf('%.2f',$rap_tvac),0,0,'R'); /* Tvac */
+	  $pdf->Ln(2);
+	  $new_page=true;
+	}
+      }
+      /* last footer */
+      if ( ! $new_page) {
+	  $pdf->Cell(115,6,'Total page ',0,'T','R'); /* HTVA */
+	  if ( $jrn_type=='ACH') {
+	    $pdf->Cell(15,6,sprintf('%.2f',$tp_priv),0,'T','R');  /* prive */
+	  }
+	  $pdf->Cell(15,6,sprintf('%.2f',$tp_tvac),0,'T','R'); /* Tvac */
+	  $pdf->Ln(2);
+
+	  $pdf->Cell(115,6,'report',0,0,'R'); /* HTVA */
+	  if ( $jrn_type=='ACH') {
+	    $pdf->Cell(15,6,sprintf('%.2f',$rap_priv),0,0,'R');  /* prive */
+	  }
+	  $pdf->Cell(15,6,sprintf('%.2f',$rap_tvac),0,0,'R'); /* Tvac */
+	  $pdf->Ln(2);
+	  $new_page=true;
+      }
+
+    } /* else  */
+    $fDate=date('dmy-Hi');
+    $pdf->Output('journal-'.$fDate.'.pdf','I');
+
+    exit(0);
+
+  }
 ?>

@@ -141,21 +141,24 @@ BODY {
 }
 
 .button {
-	font-size:12;
+	font-size:10;
 	color:black;
 	text-decoration:none;
-	font-family: arial,sans-serif;
-	background-color:lightblue;
-	border-color:  grey ;
-	border-width:1 1 2 1;
+	font-family: helvetica,arial,sans-serif;
+	background-color:#DFDFDF;
+/*	border-style:  outset ;*/
+	border-color:  blue ;
+	border-width:1;
 	padding:2 4 2 4;
 	cursor:pointer;
 	margin:1 2 1 2;
+	-moz-border-radius:2 2;
 	
 }
-.button:hover{
+.button:hover {
 	cursor:pointer;
 	background-color:white;
+/*	border-style:  inset ;*/
 	font-color:blue;
 	margin:1 2 1 2;
 	}

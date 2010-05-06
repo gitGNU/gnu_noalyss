@@ -2339,4 +2339,189 @@ function get_last_date()
 
     }
   }
+  /**
+   *@brief retrieve operation from centralized or jrn 
+   *@param $p_from periode (id) 
+   *@param $p_to periode (id)
+   *@param $p_cent off or on
+   *@return an array 
+   */
+  function get_operation($p_from,$p_to,$cent) {
+    $jrn=($this->id==0)?'':' and jr_def_id = '.$this->id;
+    if ( $cent == 'off') {
+      $sql="select jr_id as id ,jr_internal as internal, ".
+	"jr_pj_number as pj,jr_grpt_id,".
+	" to_char(jr_date,'DDMMYY') as date_fmt, ".
+	" jr_comment as comment, jr_montant as montant ,".
+	" jr_grpt_id".
+	" from jrn where jr_tech_per >= $1 ".
+	' and jr_tech_per <=$2  '.$jrn.' order by jr_date,substring(jr_pj_number,\'\\\d+$\')::numeric asc';
+    } else {
+      $sql="select jr_c_opid as id ,jr_internal as internal, ".
+	"jr_pj_number as pj,jr_grpt_id,".
+	" to_char(jr_date,'DDMMYY') as date_fmt, ".
+	" jr_comment as comment, jr_montant as montant ,".
+	" jr_grpt_id".
+	" from jrn where jr_grpt_id in ( select c_grp from centralized) and jr_tech_per >= $1 ".
+	" and jr_tech_per <=$2  $jrn  order by jr_date,substring(jr_pj_number,'\\\d+$')::numeric";
+    }
+    $ret=$this->db->get_array($sql,array($p_from,$p_to));
+    return $ret;
+  }
+  /**
+   *@brief return the used VAT code with a rate > 0
+   *@return an array of tva_id,tva_label,tva_poste
+   */
+  public function existing_vat(){
+    if ( $this->type=='ACH') {
+      $array=$this->db->get_array("select tva_id,tva_label,tva_poste from tva_rate where tva_rate != 0.0000 ".
+				  " and  exists (select qp_vat_code from quant_purchase 
+                                     where  qp_vat_code=tva_id and  exists (select j_id from jrnx where j_jrn_def = $1)) order by tva_id",
+				  array($this->id));
+    }
+    if ( $this->type=='VEN') {
+      $array=$this->db->get_array("select tva_id,tva_label,tva_poste from tva_rate where tva_rate != 0.0000 ".
+				  " and  exists (select qs_vat_code from quant_sold 
+                                     where  qs_vat_code=tva_id and  exists (select j_id from jrnx where j_jrn_def = $1)) order by tva_id",
+				  array($this->id));
+
+    }
+    return $array;
+  }
+  /**
+   *@brief get the amount of vat for a given jr_grpt_id from the table
+   * quant_purchase
+   *@param the jr_grpt_id
+   *@return array price=htva, [1] =  vat,
+   *@note
+   *@see
+@code
+array
+  'price' => string '91.3500' (length=7)
+  'vat' => string '0.0000' (length=6)
+  'priv' => string '0.0000' (length=6)
+  'tva_nd_recup' => string '0.0000' (length=6)
+
+@endcode
+   */
+  function get_other_amount($p_jr_id) {
+    if ( $this->type=='ACH') {
+      $array=$this->db->get_array('select sum(qp_price) as price,sum(qp_vat) as vat '.
+				  ',sum(qp_dep_priv) as priv'.
+				  ',sum(qp_nd_tva_recup) as tva_nd_recup'.
+                                   '  from quant_purchase join jrnx using(j_id)
+                               where  j_grpt=$1 ',
+				  array($p_jr_id));
+      $ret=$array[0];
+    }
+    if ( $this->type=='VEN') {
+      $array=$this->db->get_array('select sum(qs_price) as price,sum(qs_vat) as vat '.
+				  ',0 as priv'.
+				  ',0 as tva_nd_recup'.
+                                   '  from quant_sold join jrnx using(j_id)
+                               where  j_grpt=$1 ',
+				  array($p_jr_id));
+      $ret=$array[0];
+
+    }
+    return $ret;
+  }
+
+  /**
+   *@brief get the amount of vat for a given jr_grpt_id from the table
+   * quant_purchase
+   *@param the jr_grpt_id
+   *@return array of sum_vat, tva_label
+   *@note
+   *@see
+@code
+
+@endcode
+   */
+  function vat_operation($p_jr_id) {
+    if ( $this->type=='ACH') {
+      $array=$this->db->get_array('select coalesce(sum(qp_vat),0) as sum_vat,tva_id 
+                                     from quant_purchase as p right join tva_rate on (qp_vat_code=tva_id)  join jrnx using(j_id)
+                               where tva_rate !=0.0 and j_grpt=$1 group by tva_id',
+				  array($p_jr_id));
+    }
+    if ( $this->type=='VEN') {
+      $array=$this->db->get_array('select coalesce(sum(qs_vat),0) as sum_vat,tva_id 
+                                     from quant_sold as p right join tva_rate on (qs_vat_code=tva_id)  join jrnx using(j_id)
+                               where tva_rate !=0.0 and j_grpt=$1 group by tva_id',
+				  array($p_jr_id));
+    }
+    return $array;
+  }
+  /**
+   *@brief retrieve amount of previous periode
+   *@param $p_to frmo the start of the exercise until $p_to
+   *@return $array with vat, price,other_amount
+   *@note
+   *@see
+@code
+array
+  'price' => string '446.1900' (length=8)
+  'vat' => string '21.7600' (length=7)
+  'priv' => string '0.0000' (length=6)
+  'tva_nd_recup' => string '0.0000' (length=6)
+  'tva' => 
+    array
+      0 => 
+        array
+          'sum_vat' => string '13.7200' (length=7)
+          'tva_id' => string '1' (length=1)
+      1 => 
+        array
+          'sum_vat' => string '8.0400' (length=6)
+          'tva_id' => string '3' (length=1)
+      2 => 
+        array
+          'sum_vat' => string '0.0000' (length=6)
+          'tva_id' => string '4' (length=1)
+
+@endcode
+   */
+  function previous_amount($p_to) {
+    /* get the first periode of exercise */
+    $periode=new Periode($this->db,$p_to);
+    $exercise=$periode->get_exercice();
+    list ($min,$max)=$periode->get_limit($exercise);
+    // min periode
+    if ($this->type=='ACH') {
+      /*  get all amount exclude vat */
+      $sql="select coalesce(sum(qp_price),0) as price".
+	" ,coalesce(sum(qp_vat),0) as vat ".
+	',coalesce(sum(qp_dep_priv),0) as priv'.
+	',coalesce(sum(qp_nd_tva_recup),0) as tva_nd_recup'.
+	'  from quant_purchase join jrnx using(j_id) '.
+	' where j_tech_per >= $1 and j_tech_per < $2';
+      $array=$this->db->get_array($sql,array($min->p_id,$p_to));
+      $ret=$array[0];
+      /* retrieve all vat code */
+      $array=$this->db->get_array('select coalesce(sum(qp_vat),0) as sum_vat,tva_id 
+                                     from quant_purchase as p right join tva_rate on (qp_vat_code=tva_id)  join jrnx using(j_id)
+                               where tva_rate !=0 and j_tech_per >= $1 and j_tech_per < $2 group by tva_id',
+			     array($min->p_id,$p_to));
+      $ret['tva']=$array;
+     }
+    if ($this->type=='VEN') {
+      /*  get all amount exclude vat */
+      $sql="select coalesce(sum(qs_price),0) as price".
+	" ,coalesce(sum(qs_vat),0) as vat ".
+	',0 as priv'.
+	',0 as tva_nd_recup'.
+	'  from quant_sold join jrnx using(j_id) '.
+	' where j_tech_per >= $1 and j_tech_per < $2';
+      $array=$this->db->get_array($sql,array($min->p_id,$p_to));
+      $ret=$array[0];
+      /* retrieve all vat code */
+      $array=$this->db->get_array('select coalesce(sum(qs_vat),0) as sum_vat,tva_id 
+                                     from quant_sold as p right join tva_rate on (qs_vat_code=tva_id)  join jrnx using(j_id)
+                               where tva_rate !=0 and j_tech_per >= $1 and j_tech_per < $2 group by tva_id',
+			     array($min->p_id,$p_to));
+      $ret['tva']=$array;
+     }
+    return $ret;
+  }
 }

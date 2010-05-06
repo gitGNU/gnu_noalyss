@@ -234,6 +234,7 @@ if ( isset ( $_GET["action"]) ) {
   if ( isset ($_GET["fiche"]) && $action=="vue" 
        && ! isset ($_POST['add_fiche']) 
        && ! isset ($_POST['update_fiche'])
+       && ! isset ($_POST['move'])
        && ! isset ($_POST['delete'])) {
      $User->can_request(FICADD);
 
@@ -281,13 +282,17 @@ if ( isset ( $_GET["action"]) ) {
     echo $fiche->Display($t);
     echo HtmlInput::hidden("f_id",$_GET['fiche_id']);
     if ( $write != 0 ) {
+      $iselect=new ISelect('move_to');
+      $iselect->value=$cn->make_array('select fd_id,fd_label from fiche_def '); //where frd_id='.$fiche->get_fiche_def_ref_id());
+     
       echo HtmlInput::submit("update_fiche","Mise &agrave; jour");
       echo HtmlInput::submit("delete" ,"Effacer cette fiche");
+      echo HtmlInput::submit('move',_('Déplacer vers'));
+      echo $iselect->input();
     }
     $str="";
+    echo HtmlInput::button_anchor(_('Retour'),'?p_action=fiche&action=vue&'.$str_dossier.'&fiche='.$fiche->fiche_def.$str);
 
-    echo '<a class="mtitle" href="?p_action=fiche&action=vue&'.$str_dossier.'&fiche='.$fiche->fiche_def.$str.
-      '"><input type="button" value='._("Annuler").'></A>';
     if ( $write != 0 ) echo '</form>';
     echo '</DIV>';
     $recherche=false;
@@ -374,9 +379,8 @@ if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) ) {
       echo dossier::hidden().HtmlInput::phpsessid();
       echo $fiche->blank($_POST['fiche']);
       echo HtmlInput::submit("add_fiche","Ajout");
-      echo '<a class="mtitle" href="'.$url.'&fiche='.$_POST['fiche'].'&'.$str_dossier.'">'.
-	'<input type="button" value='._("Annuler").'></A>';
-		
+      echo HtmlInput::button_anchor(_('Annuler'),$url.'&fiche='.$_POST['fiche'].'&'.$str_dossier);
+      
 
       echo '</form>';
     }
@@ -447,6 +451,16 @@ if ( isset ($_POST["update_fiche"])  ) {
 
   echo '</DIV>';
   $recherche=false;
+}
+//--------------------------------------------------------------------------------
+// Move a card to a new category
+if ( isset($_POST['move'])){
+  echo '<DIV class="u_redcontent">';
+  $fiche=new Fiche($cn,$_POST['f_id']);
+  $fiche->move_to($_POST['move_to']);
+  $fiche_def=new fiche_def($cn,$_GET['fiche']);
+  $fiche_def->myList();
+  echo '</div>';
 }
 //--Search menu
 if ( $recherche==true) {

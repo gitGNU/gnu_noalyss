@@ -40,7 +40,7 @@ $p_array=array(array ("?p_action=impress&type=jrn&".$str_dossier,_("Journaux")),
 $default=( isset ($_GET['type']))?"?p_action=impress&type=".$_GET['type']."&$str_dossier":"";
 
 
-$result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' width="100%"');
+$result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' ');
 echo $result;
 
 echo "</DIV>";

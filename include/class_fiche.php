@@ -1446,6 +1446,28 @@ function is_used() {
    return $sql;
 
  }
+  /**
+   *@brief move a card to another cat. The properties will changed
+   * and be removed
+   *@param $p_fdid the fd_id of destination
+   */
+ function move_to($p_fdid) {
+   $this->cn->start();
+   $this->cn->exec_sql('update fiche set fd_id=$1 where f_id=$2',array($p_fdid,$this->id));
+   // add missing 
+   $this->cn->exec_sql('select fiche_attribut_synchro($1)',array($p_fdid));
+   // remove not valid
+   $ajnt=$this->cn->get_array('select jft_id from jnt_fic_att_value where f_id=$1 and ad_id not in (select ad_id from jnt_fic_attr where fd_id=$2)',
+			array($this->id,$p_fdid));
+   if ( count($ajnt) == 0 ) return;
+   for ($i=0;$i<count($ajnt);$i++){
+     $this->cn->exec_sql('delete from attr_value where jft_id=$1',array($ajnt[$i]['jft_id']));
+     $this->cn->exec_sql('delete from jnt_fic_att_value where jft_id=$1',array($ajnt[$i]['jft_id']));
+
+   }
+   $this->cn->commit();
+ }
+
  static function test_me() {
    $cn=new Database(dossier::id());
    $a=new Fiche($cn);
