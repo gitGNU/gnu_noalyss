@@ -125,7 +125,8 @@ If ( isset ($_POST["update"] )) {
 		       );
     echo_debug($Sql);
     $Res=$cn->exec_sql($Sql,$sql_array);
-    $Res=$cn->alter_seq("s_jrn_pj".$_GET['p_jrn'],$_POST['jrn_def_pj_seq']);
+    if ( isNumber($_POST['jrn_def_pj_seq']) == 1 && $_POST['jrn_def_pj_seq']!=0)
+      $Res=$cn->alter_seq("s_jrn_pj".$_GET['p_jrn'],$_POST['jrn_def_pj_seq']);
   }
 }
 echo '<div class="lmenu">';
@@ -162,8 +163,9 @@ $wSearch->set_attribute('ipopup','ipop_account');
 $wSearch->set_attribute('account','p_jrn_class_deb');
 $wSearch->set_attribute('no_overwrite','1');
 $wSearch->set_attribute('noquery','1');
+$wSearch->table=3;
 $wSearch->name="p_jrn_class_deb";
-$wSearch->size=40;
+$wSearch->size=20;
 $wSearch->value=$prop['jrn_def_class_deb'];
 $search=$wSearch->input();
 
@@ -172,11 +174,11 @@ $wPjPref=new IText();
 $wPjPref->name='jrn_def_pj_pref';
 $wPjPref->value=$prop['jrn_def_pj_pref'];
 $pj_pref=$wPjPref->input();
-$wPjSeq=new IText();
-$wPjSeq->value=$Ledger->get_last_pj();
+$wPjSeq=new INum();
+$wPjSeq->value=0;
 $wPjSeq->name='jrn_def_pj_seq';
 $pj_seq=$wPjSeq->input();
-
+$last_seq=$Ledger->get_last_pj();
 $name=$l_line['jrn_def_name'];
 
 /* construct all the hidden */

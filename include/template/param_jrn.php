@@ -5,8 +5,9 @@
 		<TD> <INPUT TYPE="text" NAME="p_jrn_name" VALUE="<?php	echo $name;	?>"></TD>
 </TR>
 <TR>
-<TD><?=_('Postes utilisables journal (débit/crédit)')?> </TD>
-<TD>
+<td><?=_('Postes utilisables journal (débit/crédit)')?> 
+</TD>
+<td>
 <?php echo $search;?>
 </TD>
 </TR>
@@ -33,7 +34,19 @@
 </TD>
 <TD>
 <?php echo $pj_pref; ?>
-<span class="notice"><?=_('Le préfixe des pièces peut être différent pour chaque journal')?></span>
+</TD>
+<TD>
+<span class="notice"><?=_('Le préfixe des pièces peut être différent pour chaque journal')?></span><br>
+<span class="notice"><?=_('Uniquement des chiffres')?></span>
+</TD>
+
+</TR>
+<TR>
+<TD>
+  <?=_('Dernière pièce numérotée')?>
+</TD>
+<TD>
+<?=$last_seq?>
 </TD>
 </TR>
 <tr>
@@ -41,7 +54,10 @@
 </TD>
 <TD>
 <?php echo $pj_seq; ?>
+</TD>
+<TD>
 <span class="notice"><?=_('La numérotation est propre à chaque journal')?></span>
+<span class="notice"><?=_('Laissez à 0 pour ne pas changer le numéro')?></span>
 </TD>
 
 </TR>

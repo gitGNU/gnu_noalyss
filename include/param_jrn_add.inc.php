@@ -121,13 +121,14 @@ $sessid=$_REQUEST['PHPSESSID'];
 echo '<DIV CLASS="u_redcontent">';
 /* widget for searching an account */
 $wSearch=new IPoste();
+$wSearch->table=3;
 $wSearch->set_attribute('ipopup','ipop_account');
 $wSearch->set_attribute('account','p_jrn_class_deb');
 $wSearch->set_attribute('no_overwrite','1');
 $wSearch->set_attribute('noquery','1');
 
 $wSearch->name="p_jrn_class_deb";
-$wSearch->size=40;
+$wSearch->size=20;
 
 $search=$wSearch->input();
 
@@ -150,10 +151,8 @@ $rcred=$rdeb=array();
 $wPjPref=new IText();
 $wPjPref->name='jrn_def_pj_pref';
 $pj_pref=$wPjPref->input();
-$wPjSeq=new IText();
-$wPjSeq->value=0;
-$wPjSeq->name='jrn_def_pj_seq';
-$pj_seq=$wPjSeq->input();
+$pj_seq='';
+$last_seq=0;
 
 echo '<FORM METHOD="POST">';
 echo dossier::hidden().HtmlInput::phpsessid();
@@ -161,7 +160,7 @@ echo HtmlInput::hidden('p_action','jrn');
 echo HtmlInput::hidden('sa','add');
 require_once('template/param_jrn.php');
 echo HtmlInput::submit('add','Sauver');
-echo '<INPUT TYPE="RESET" VALUE="Reset">';
+echo '<INPUT TYPE="RESET" class="button" VALUE="Reset">';
 echo '</FORM>';
 echo "</DIV>";
 html_page_stop();
