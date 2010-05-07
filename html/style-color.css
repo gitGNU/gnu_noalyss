@@ -2,8 +2,10 @@
 
 BODY {
   background-color:#EDF3FF;
-  font-size:12px;
-  font-family:arial,sans-serif;
+ font-size:10;
+  font-family:helvetica,arial,sans-serif;
+  padding:0;
+  margin:0;
 }
 .notice {
 		color:red;
@@ -17,14 +19,14 @@ table.result {
 }
 table.result th { 
   font-weight:bold;
-  font-family:arial,sans-serif;
+  font-family:helvetica,arial,sans-serif;
   border-bottom:1px solid blue;
   padding-left:10px;
   padding-right:10px;
 }
 
 h2 {
-  font-family:arial,sans-serif;
+  font-family:Helvetica,arial,sans-serif;
   font-size:14px;
   color:grey;
 }
@@ -54,7 +56,7 @@ u_redcontent h2.info {
 h2.info {
   background-color:#879ED4;
 	color:white;
-	font-size:16pt;
+	font-size:14px;
   text-align:center;
   padding:0px;
   margin:0px;
@@ -63,13 +65,13 @@ h2.info {
 h3.info {
   background:#879ed4;
   color:white;
-  font-size:10pt;
+  font-size:14px;
   text-align:center;
 }
 
 h2.info2 {
   color:blue;
-  font-size:20px;
+  font-size:14px;
   text-align:center;
 
 }
@@ -78,7 +80,7 @@ h2.info2 {
 h2.error {
 	background:red;
 	color:white;
-	font-size:20px;
+	font-size:14px;
 }
 
 h1.title {
@@ -137,7 +139,7 @@ div.lmenu {
 div.lextmenu {
 	position: float;
 	float:left;
-	font-family:arial,sans-serif;
+	font-family:helvetica,arial,sans-serif;
 	font-size:9px;
 
 }
@@ -152,7 +154,7 @@ div.searchmenu {
 div.recherche_form{
 	width:700px;
 	font-size:9px;
-	font-family:arial,sans-serif;
+	font-family:Helvetica,arial,sans-serif;
   border-style:outset;
   border-width:1px;
 
@@ -163,7 +165,7 @@ div.u_redcontent{
 	 padding-top:7px;
 	 padding-left:8px;
          font-size:9px; 	 
-         font-family:arial,sans-serif; 	 
+         font-family:helvetica,arial,sans-serif; 	 
 	 width:75%;
 
 }
@@ -172,7 +174,7 @@ div.content{
          float:left; 	 
 		padding-top:7px;
          width:100%; 	 	 
-         font-family:arial,sans-serif; 	
+         font-family:helvetica,arial,sans-serif; 	
          clear:both;
           
 
@@ -182,12 +184,12 @@ div.content30{
          float:left; 	 
 	 padding-top:7px;
          width:35%; 	  
-         font-family:arial,sans-serif; 	 
+         font-family:helvetica,arial,sans-serif; 	 
 
 }
 div.no span{
 	position:static;
-	font-family:arial,sans-serif;	
+	font-family:helvetica,arial,sans-serif;	
 	font-weight:bold;
 	font-color:red;	
 	
@@ -364,7 +366,7 @@ a.one:hover {
 a.detail
 {
   font-size:9px;
-  font-family:arial,sans-serif;
+  font-family:helvetica,arial,sans-serif;
     text-decoration: none;
     display: block;
     color: blue;
@@ -373,7 +375,7 @@ a.detail
 a.detail:hover   
 {
   font-size:9px;
-  font-family:arial,sans-serif;
+  font-family:helvetica,arial,sans-serif;
     color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
@@ -385,7 +387,7 @@ li.menuv,ol.menuv {
 	 padding:1em 1em;
 }
 div.u_redcontent a {
-  font-family:arial,sans-serif;
+  font-family:helvetica,arial,sans-serif;
   text-decoration: none;
   display: block;
   color: blue;
@@ -393,7 +395,7 @@ div.u_redcontent a {
 }
 
 div.u_redcontent a:hover {
-  font-family:arial,sans-serif;
+  font-family:helvetica,arial,sans-serif;
     color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
@@ -401,7 +403,7 @@ div.u_redcontent a:hover {
 
 }
 div.content a {
-  font-family:arial,sans-serif;
+  font-family:helvetica,arial,sans-serif;
   text-decoration: none;
   display: block;
   color: blue;
@@ -411,7 +413,7 @@ padding: 1px ;
 
 
 div.content a:hover {
-  font-family:arial,sans-serif;
+  font-family:helvetica,arial,sans-serif;
     color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
@@ -455,7 +457,7 @@ div.content a.mtitle:hover {
 
 }
 div.u_redcontent input.text {
-   font-family:arial,sans-serif;
+   font-family:helvetica,arial,sans-serif;
   font-weight:normal;
   border-color:336699;
   border-style:solid;
@@ -464,7 +466,7 @@ div.u_redcontent input.text {
   color:blue; 
 }
 div.content input.text {
-   font-family:arial,sans-serif;
+   font-family:helvetica,arial,sans-serif;
   font-weight:normal;
   border-color:336699;
   border-style:solid;
@@ -583,14 +585,14 @@ div.popup_border_title {
 	/*background:lightgrey;*/
 	z-index:10;
 	/*border:dotted 1px black;*/
-	border: 3px groove black;
+	border: 2px outset #201e87;
 	background-color:#879ED4;
 	font-size: 110% ;
-	font-family: arial,sans-serif;
+	font-family: helvetica,arial,sans-serif;
 	font-style: italic;
 	font-weight: bolder;
 	text-align:center;
-	border-bottom: 2px solid #201e87;
+	/*border-bottom: 2px solid #201e87;*/	
 	color: white;
 	display:none;
 	/*opacity:1;
@@ -608,7 +610,7 @@ div.popup_border_notitle {
 	/*border:dotted 1px black;*/
 	border: 3px outset #201e87;
 	background-color:lightblue;	
-	font-family: arial,sans-serif;
+	font-family: helvetica,arial,sans-serif;
 	font-style: italic;
 	font-weight: bolder;
 	text-align:center;
@@ -621,16 +623,16 @@ div.popup_border_notitle {
 
 div.popup_content {
 	position:absolute;
-	top:5%;
+	top:4%;
 	bottom:0;
 	left:0;
 	right:0;
 	width:100%;
-	height:95%;
+	height:96%;
 	overflow: auto;
-	background-color:lightblue;	
+	background-color:#DFE7FF;	
 	font-size:10px ;
-	font-family: arial,sans-serif;
+	font-family: helvetica,arial,sans-serif;
 	font-style: normal;
 	font-weight: normal;
 	color: black;
@@ -742,8 +744,31 @@ span.todo  {
 input[disabled], textarea[disabled], option[disabled], optgroup[disabled], select[disabled] {
 -moz-user-focus:ignore;
 -moz-user-input:disabled;
-background-color:white;
-color:blue;
+background-color:lightgrey;
+color:black;
 cursor:inherit;
 }
+
+.button {
+	font-size:10;
+	color:black;
+	text-decoration:none;
+	font-family: helvetica,arial,sans-serif;
+	background-color:#DFDFDF;
+	border-style:  outset ;
+	border-color:  blue ;
+	border-width:1;
+	padding:2 4 2 4;
+	cursor:pointer;
+	margin:1 2 1 2;
+	-moz-border-radius:2 2;
+	
+}
+.button:hover {
+	cursor:pointer;
+	background-color:white;
+	border-style:  inset ;
+	font-color:blue;
+	margin:1 2 1 2;
+	}
 /* </style> */

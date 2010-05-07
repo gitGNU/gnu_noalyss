@@ -96,7 +96,7 @@ for ($e=0;$e < Database::num_row($Res);$e++) {
     break;
   case 'O':
     /**
-     *@todo uniquement opérations prédéfinies ?? A vérifier
+     *non implemente 
      */
     $pdf->Cell(30,6,"Opérations prédéfinies uniquement");
     break;
