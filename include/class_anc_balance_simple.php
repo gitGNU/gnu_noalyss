@@ -170,41 +170,24 @@ class Anc_Balance_Simple extends Anc_Print {
   function display_pdf()
   {
 	$array=$this->load();
-	$pdf=new PDF();
+	$pdf=new PDFBalance_Simple($this->db);
+	$pdf->set_info($this->from_poste,$this->to_poste,$this->from,$this->to);
 	$pdf->AliasNbPages();
 	$pdf->AddPage();
-	$pdf->SetFont('DejaVu','B',8);
 
-	$titre=sprintf("Balance simple poste %s %s date %s %s",
-				   $this->from_poste,
-				   $this->to_poste,
-				   $this->from,
-				   $this->to);
-	$pdf->Cell(0,7,$titre,1,0,'C');
-
-	$pdf->Ln();
 	$pdf->SetFont('DejaVu','',6);
-	$pdf->Cell(20,7,'id','B');
-	$pdf->Cell(40,7,'Poste Comptable');
-	$pdf->Cell(20,7,'Débit','B',0,'L');
-	$pdf->Cell(20,7,'Crédit','B',0,'L');
-	$pdf->Cell(20,7,'Solde','B',0,'L');
-	$pdf->Cell(20,7,'D/C','B',0,'L');
-	$pdf->Ln();
-	
-
 	for ($i=0;$i<count($array);$i++){
 	  $row=$array[$i];
-	  $pdf->Cell(20,6,$row['a_od'],0,0,'L');
-	  $pdf->Cell(40,6,$row['po_name'],0,0,'L');
-	  $pdf->Cell(20,6,$row['sum_deb'],0,0,'R');
-	  $pdf->Cell(20,6,$row['sum_cred'],0,0,'R');
-	  $pdf->Cell(20,6,$row['solde'],0,0,'R');
+	  $pdf->Cell(20,6,$row['po_id'],0,0,'L');
+	  $pdf->Cell(90,6,$row['po_name'],0,0,'L');
+	  $pdf->Cell(20,6,sprintf('%.2f',$row['sum_deb']),0,0,'R');
+	  $pdf->Cell(20,6,sprintf('%.2f',$row['sum_cred']),0,0,'R');
+	  $pdf->Cell(20,6,sprintf('%.2f',$row['solde']),0,0,'R');
 	  $pdf->Cell(20,6,$row['debit'],0,0,'R');
 	  $pdf->Ln();
 	}
     $fDate=date('dmy-Hi');
-    $pdf->output('simple-balance-'.$fDate.'.pdf');	
+    $pdf->output('simple-balance-'.$fDate.'.pdf','I');	
 
   }
 /*!

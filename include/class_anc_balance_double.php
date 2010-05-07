@@ -140,6 +140,7 @@ class Anc_Balance_Double extends Anc_Print
     $array=$this->load();
     if (empty($array))return;
     $pdf=new PDF($this->db);
+    $pdf->Setdossierinfo(dossier::name());
     $pdf->AliasNbPages();
     $pdf->AddPage();
 
@@ -177,7 +178,7 @@ class Anc_Balance_Double extends Anc_Print
 
     $pdf->SetFont('DejaVu','',6);
     $pdf->Cell(20,7,'id','B');
-    $pdf->Cell(40,7,'Poste Comptable');
+    $pdf->Cell(40,7,'Poste Comptable','B');
     $pdf->Cell(20,7,'Débit','B',0,'L');
     $pdf->Cell(20,7,'Crédit','B',0,'L');
     $pdf->Cell(20,7,'Solde','B',0,'L');
@@ -190,15 +191,19 @@ class Anc_Balance_Double extends Anc_Print
       $pdf->Cell(40,6,$row['b_po_name'],0,0,'L');
       $pdf->Cell(20,6,$row['a_d'],0,0,'R');
       $pdf->Cell(20,6,$row['a_c'],0,0,'R');
-      $pdf->Cell(20,6,$row['solde'],0,0,'R');
-      $pdf->Cell(20,6,$row['solde'],0,0,'R');
+      $pdf->Cell(20,6,$row['a_solde'],0,0,'R');
       $pdf->Cell(20,6,$row['a_debit'],0,0,'C');
       $pdf->Ln();
     }
 
     $sum=$this->show_sum($array);
+    $pdf->SetFont('DejaVu','B',8);
+    $pdf->Cell(70,6,'Somme',1,0,'C');
+    $pdf->Ln(5);
+    $pdf->SetFont('DejaVu','',6);
+
     $pdf->Cell(20,7,'Poste');
-    $pdf->Cell(60,7,'Description');
+    $pdf->Cell(60,7,'Description','B');
     $pdf->Cell(20,7,'Débit','B',0,'L');
     $pdf->Cell(20,7,'Crédit','B',0,'L');
     $pdf->Cell(20,7,'Solde','B',0,'L');
@@ -209,14 +214,14 @@ class Anc_Balance_Double extends Anc_Print
       $row=$sum[$i];
       $pdf->Cell(20,6,$row['poste'],0,0,'L');
       $pdf->Cell(60,6,$row['desc'],0,0,'L');
-      $pdf->Cell(20,6,$row['debit'],0,0,'R');
-      $pdf->Cell(20,6,$row['credit'],0,0,'R');
-      $pdf->Cell(20,6,$row['solde'],0,0,'R');
+      $pdf->Cell(20,6,sprintf('%.2f',$row['debit']),0,0,'R');
+      $pdf->Cell(20,6,sprintf('%.2f',$row['credit']),0,0,'R');
+      $pdf->Cell(20,6,sprintf('%.2f',$row['solde']),0,0,'R');
       $pdf->Cell(20,6,$row['dc'],0,0,'R');
       $pdf->Ln();
     }
     $fDate=date('dmy-Hi');
-    $pdf->output('crossbalance-'.$fDate.'.pdf');	
+    $pdf->output('crossbalance-'.$fDate.'.pdf','I');	
   }
   
 

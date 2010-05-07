@@ -90,7 +90,7 @@ $pdf->Cell(20,6,'Solde Créditeur',0,0,'R');
 $pdf->Ln();
 
 $pdf->SetFont('DejaVuCond','',8);
-
+$tp_deb=0;$tp_cred=0;$tp_sold=0;$tp_solc=0;
 for ($i=0;$i<count($array);$i++){
   if ( $i % 2 == 0 ) {
     $pdf->SetFillColor(220,221,255);
@@ -107,7 +107,21 @@ for ($i=0;$i<count($array);$i++){
   $pdf->Cell(20,6,$array[$i]['solde_deb'],0,0,'R',$fill);
   $pdf->Cell(20,6,$array[$i]['solde_cred'],0,0,'R',$fill);
   $pdf->Ln();
+  $tp_deb+=$array[$i]['sum_deb'];
+  $tp_cred+=$array[$i]['sum_cred'];
+  $tp_sold+=$array[$i]['solde_deb'];
+  $tp_solc+=$array[$i]['solde_cred'];
+
 }
+// Totaux
+$pdf->SetFont('DejaVuCond','B',8);
+$pdf->Cell(110,6,'Totaux');
+$pdf->Cell(20,6,$tp_deb,'T',0,'R',0);
+$pdf->Cell(20,6,$tp_cred,'T',0,'R',0);
+$pdf->Cell(20,6,$tp_solc,'T',0,'R',0);
+$pdf->Cell(20,6,$tp_sold,'T',0,'R',0);
+$pdf->Ln();
+
 
 $fDate=date('dmy-Hi');
 $pdf->Output('balance-'.$fDate.'.pdf','I');

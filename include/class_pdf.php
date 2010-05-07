@@ -120,3 +120,41 @@ class PDFLand extends PDF {
         $this->Cell(0,8,'Created by Phpcompta, the most professional opensource accounting software http://www.phpcompta.eu',0,0,'C',false,'http://www.phpcompta.eu');
     }
 }
+
+class PDFBalance_simple extends PDF {
+  /**
+   *@brief set_info(dossier,from poste,to poste, from periode, to periode)
+   *@param $p_from_poste start = poste
+   *@param $p_to_poste   end   = poste
+   *@param $p_from       periode start
+   *@param $p_to         periode end
+   */
+  function set_info($p_from_poste,$to_poste,$p_from,$p_to) {
+    $this->dossier='Balance simple '.dossier::name();
+    $this->from_poste=$p_from_poste;
+    $this->to_poste=$to_poste;
+    $this->from=$p_from;
+    $this->to=$p_to;
+  }
+  function Header() {
+    parent::Header();
+    $this->SetFont('DejaVu','B',8);
+    $titre=sprintf("Balance simple poste %s %s date %s %s",
+		   $this->from_poste,
+		   $this->to_poste,
+		   $this->from,
+		   $this->to);
+    $this->Cell(0,7,$titre,1,0,'C');
+    
+    $this->Ln();
+    $this->SetFont('DejaVu','',6);
+    $this->Cell(20,7,'id','B');
+    $this->Cell(90,7,'Poste Comptable','B');
+    $this->Cell(20,7,'Débit','B',0,'L');
+    $this->Cell(20,7,'Crédit','B',0,'L');
+    $this->Cell(20,7,'Solde','B',0,'L');
+    $this->Cell(20,7,'D/C','B',0,'L');
+    $this->Ln();
+	
+  }
+}
