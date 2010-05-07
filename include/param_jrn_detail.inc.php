@@ -20,10 +20,6 @@
 /* $Revision$ */
 /*! \file
  * \brief Show and let modify ledger parameter
-/**
-*@todo il manque une vérification pour la séquence, il faut entrer un numérique
-* de plus il faudrait un champs qui montre la séquence actuelle et un pour le
-* changement de séquence
  */
 require_once("class_itext.php");
 require_once('class_dossier.php');
