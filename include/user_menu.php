@@ -227,8 +227,6 @@ function ShowMenuAdvanced($default="") {
 
 			    array('user_advanced.php?'.$str_dossier.'&p_action=preod',_('Ecritures definies'),"",9),
 			    array('user_advanced.php?p_action=periode&'.$str_dossier,_('Periode'),_("Gestion des periodes"),2),
-			    array('user_advanced.php?p_action=central&'.$str_dossier,_('Centralise'),_("Centralisation"),3),
-
 			    array('compta.php?p_action=stock&'.$str_dossier,'Stock',_("Gestion des stocks"),5),
 			    array('user_advanced.php?p_action=defreport&'.$str_dossier,_('Rapport'),_("Rapport"),6),
 			    array('import.php?'.$str_dossier,_('Import Banque'),_("Banque"),7),
