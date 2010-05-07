@@ -73,7 +73,7 @@ exit();
 if ( DBVERSION < dossier::get_version($cn)) {
  echo '<h2 class="error" style="font-size:12px">'._("Attention: la version de base de donnée est supérieure à la version du programme, vous devriez mettre à jour").'</h2>';
  }
-if ( DBVERSION > dossier::get_version($cn);
+if ( DBVERSION > dossier::get_version($cn)) {
   echo '<h2 class="error" style="font-size:12px">'._("Votre base de données n'est pas à jour").'   ';
   $a=_("cliquez ici pour appliquer le patch");
   $base=dirname($_SERVER['REQUEST_URI']).'/admin/setup.php';
