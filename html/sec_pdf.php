@@ -1,5 +1,4 @@
 <?php
-
 /*
  *   This file is part of PhpCompta.
  *
@@ -28,7 +27,7 @@ require_once('class_dossier.php');
 $gDossier=dossier::id();
 include_once("ac_common.php");
 require_once('class_database.php');
-include_once("class.ezpdf.php");
+require_once("class_pdf.php");
 echo_debug('sec_pdf.php',__LINE__,"imp pdf securité");
 $cn=new Database($gDossier);
 //-----------------------------------------------------
@@ -53,52 +52,66 @@ $SecUser=new User($rep,$_GET['user_id']);
 //-----------------------------------------------------
 // Print result
 
-$pdf=new Cezpdf("A4");
-$pdf->selectFont('./addon/fonts/Helvetica.afm');
+$pdf=new PDF($cn);
+
 $str_user=sprintf("( %d ) %s %s [ %s ]",
 		  $SecUser->id,
 		  $SecUser->first_name,
 		  $SecUser->name,
 		  $SecUser->login);
 
-$pdf->ezText($str_user,14,array('justification'=>'center'));
+$pdf->SetFond('DejaVu','B',9);
+$pdf->Cell(0,7,$str_user,'B',0,'C');
 
-if ( $SecUser->active==0)
-  $pdf->ezText('Bloqué',12,array('justification'=>'center'));
+if ( $SecUser->active==0) {
+  $pdf->SetTextColor(255,0,34);
+  $pdf->Cell(0,7,'Bloqué',0,0,'R');
+  $pdf->Ln();
+ }
 
-if ( $SecUser->admin==1)
-  $pdf->ezText('Administrateur',12,array('justification'=>'center'));
+if ( $SecUser->admin==1) {
+  $pdf->SetTextColor(0,0,0);
+  $pdf->setFillColor(239,251,255);
+  $pdf->Cell(40,7,'Administrateur',1,1,'R');
+  $pdf->Ln();
+ }
+$pdf->SetTextColor(0,0,0);
+
 //-----------------------------------------------------
 // Journal
+$pdf->Cell(0,7,'Accès journaux',1,0,'C');
+$pdf->SetFond('DejaVu','',6);
 $Res=$cn->exec_sql("select jrn_def_id,jrn_def_name  from jrn_def ");
 $SecUser->db=$cn;
 for ($e=0;$e < Database::num_row($Res);$e++) {
   $row=Database::fetch_array($Res,$e);
-  $a_jrn[$e]['jrn_name']=utf8_decode($row['jrn_def_name']);
+  $pdf->Cell(40,6,$row['jrn_def_name']);
   $priv=$SecUser->check_jrn($row['jrn_def_id']);
   switch($priv) {
   case 'X':
-    $a_jrn[$e]['priv']=utf8_decode("pas d'accès");
+    $pdf->Cell(30,6,"Pas d'accès");
     break;
   case 'R':
-    $a_jrn[$e]['priv']=utf8_decode("lecture");
+    $pdf->Cell(30,6,"Lecture");
     break;
   case 'O':
-    $a_jrn[$e]['priv']=utf8_decode("Operation prédéfinie uniquement");
+    /**
+     *@todo uniquement opérations prédéfinies ?? A vérifier
+     */
+    $pdf->Cell(30,6,"Opérations prédéfinies uniquement");
     break;
   case 'W':
-    $a_jrn[$e]['priv']="Ecriture";
+    $pdf->Cell(30,6,'Ecriture');
     break;
   }
-
+  $pdf->Ln();
  }
-$pdf->ezTable($a_jrn,
-		array ('jrn_name'=>' Journal',
-		       'priv'=>utf8_decode('Privilège'))," ",
-		array('shaded'=>0,'showHeadings'=>1,'width'=>500));
-
 //-----------------------------------------------------
 // Action
+$pdf->SetFond('DejaVu','B',9);
+$pdf->Cell(0,7,'Accès action',1,0,'C');
+
+$pdf->SetFond('DejaVu','',6);
 $Res=$cn->exec_sql(
 	     "select ac_id, ac_description from action   order by ac_description ");
 
@@ -106,25 +119,19 @@ $Max=Database::num_row($Res);
 
 for ( $i =0 ; $i < $Max; $i++ ) {
    $l_line=Database::fetch_array($Res,$i);
-   $action['lib']=utf8_decode($l_line['ac_description']);
+   $pdf->Cell(50,6,$l_line['ac_description']);
    $right=$SecUser->check_action($l_line['ac_id']);
    switch ($right) {
    case 0:
-     $action['priv']=utf8_decode("Pas d'accès");
+    $pdf->Cell(30,6,"Pas d'accès");
      break;
    case 1:
    case 2:
-     $action['priv']=utf8_decode("Accès");
+    $pdf->Cell(30,6,"Pas d'accès");
      break;
    }
-   $a_action[$i]=$action;
+   $pdf->Ln();
  }
-$pdf->ezTable($a_action ,
-		array ('lib'=>'Description',
-		       'priv'=>utf8_decode('Privilège'))," ",
-		array('shaded'=>0,'showHeadings'=>1,'width'=>500));
-
-
-$pdf->ezStream();
-
+$fDate=date('dmy-HI');
+$pdf->Output('security-'.$fDate.'pdf','I');
 ?>

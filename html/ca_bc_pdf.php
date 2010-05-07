@@ -32,11 +32,7 @@ $cn=new Database(dossier::id());
 
 $balance=new Anc_Balance_Double($cn);
 
-
-
-$pdf= new Cezpdf("A4");
-$pdf->selectFont('./addon/fonts/Helvetica.afm');
-header_pdf($cn,$pdf);
 $balance->get_request();
+
 $balance->display_pdf();
 

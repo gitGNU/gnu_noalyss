@@ -28,7 +28,7 @@ require_once("class_ihidden.php");
 require_once ('class_anc_print.php');
 require_once ('class_anc_plan.php');
 require_once ('ac_common.php');
-include_once("class.ezpdf.php");
+include_once("class_pdf.php");
 require_once ('header_print.php');
 /*! \brief manage the simple balance for CA, inherit from balance_ca
  *
@@ -170,44 +170,42 @@ class Anc_Balance_Simple extends Anc_Print {
   function display_pdf()
   {
 	$array=$this->load();
-	$offset=0;
-	$page=1;
-	$pagesize=50;
+	$pdf=new PDF();
+	$pdf->AliasNbPages();
+	$pdf->AddPage();
+	$pdf->SetFont('DejaVu','B',8);
 
-	$count=ceil(count($array)/$pagesize);
-	$pdf= new Cezpdf("A4");
-	$pdf->selectFont('./addon/fonts/Helvetica.afm');
 	$titre=sprintf("Balance simple poste %s %s date %s %s",
 				   $this->from_poste,
 				   $this->to_poste,
 				   $this->from,
 				   $this->to);
+	$pdf->Cell(0,7,$titre,1,0,'C');
 
-	for ($i_loop=0;$i_loop<=$count;$i_loop++) {
+	$pdf->Ln();
+	$pdf->SetFont('DejaVu','',6);
+	$pdf->Cell(20,7,'id','B');
+	$pdf->Cell(40,7,'Poste Comptable');
+	$pdf->Cell(20,7,'Débit','B',0,'L');
+	$pdf->Cell(20,7,'Crédit','B',0,'L');
+	$pdf->Cell(20,7,'Solde','B',0,'L');
+	$pdf->Cell(20,7,'D/C','B',0,'L');
+	$pdf->Ln();
+	
 
-	$view=$array;
-	$view=array_splice($view,$offset,$pagesize);
-	header_pdf($this->db,$pdf);
-	$pdf->ezTable($view,
-				  array("po_id"=>"id",
-					"po_name"=>"Poste Comptable",
-					"sum_deb"=>"Debit",
-					"sum_cred"=>"Credit",
-					"solde"=>"Solde",
-					"debit"=>"Debit/Credit"),
-				  $titre,
-				    array('shaded'=>1,'showHeadings'=>1,'width'=>500,
-					  'cols'=>array('sum_deb'=> array('justification'=>'right'),
-							'solde'=> array('justification'=>'right'),
-							'sum_cred'=> array('justification'=>'right'))));
-
-	  $page++;
-	  $pdf->ezNewPage();
-
-
-	  $offset+=$pagesize;
+	for ($i=0;$i<count($array);$i++){
+	  $row=$array[$i];
+	  $pdf->Cell(20,6,$row['a_od'],0,0,'L');
+	  $pdf->Cell(40,6,$row['po_name'],0,0,'L');
+	  $pdf->Cell(20,6,$row['sum_deb'],0,0,'R');
+	  $pdf->Cell(20,6,$row['sum_cred'],0,0,'R');
+	  $pdf->Cell(20,6,$row['solde'],0,0,'R');
+	  $pdf->Cell(20,6,$row['debit'],0,0,'R');
+	  $pdf->Ln();
 	}
-	$pdf->ezStream();
+    $fDate=date('dmy-Hi');
+    $pdf->output('simple-balance-'.$fDate.'.pdf');	
+
   }
 /*!
  * \brief Compute the csv export

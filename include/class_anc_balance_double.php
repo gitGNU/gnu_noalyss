@@ -35,6 +35,7 @@ require_once("class_ibutton.php");
 require_once("class_ihidden.php");
 require_once ('class_anc_print.php');
 require_once ('class_anc_plan.php');
+require_once('class_pdf.php');
 
 class Anc_Balance_Double extends Anc_Print
 {
@@ -136,87 +137,88 @@ class Anc_Balance_Double extends Anc_Print
  */
   function display_pdf()
   {
-	$array=$this->load();
-	if (empty($array))return;
-	$offset=0;
-	$page=1;
-	$pagesize=50;
+    $array=$this->load();
+    if (empty($array))return;
+    $pdf=new PDF($this->db);
+    $pdf->AliasNbPages();
+    $pdf->AddPage();
 
-	$count=ceil(count($array)/$pagesize);
-	$pdf= new Cezpdf("A4");
-	$pdf->selectFont('./addon/fonts/Helvetica.afm');
-	$pa=new Anc_Plan($this->db,$this->pa_id);
-	$pa->get();
-	$pb=new Anc_Plan($this->db,$this->pa_id2);
-	$pb->get();
+    $pa=new Anc_Plan($this->db,$this->pa_id);
+    $pa->get();
+    $pb=new Anc_Plan($this->db,$this->pa_id2);
+    $pb->get();
+    $pdf->SetFont('DejaVu','B',9);
+    $pdf->Cell(0,7,sprintf("Balance croise plan %s %s ",
+			   $pa->name,
+			   $pb->name),1,0,'C');
+    $filtre_date="";
+    $filtre_pa="";
+    $filtre_pb="";
 
-	$titre=sprintf("Balance croise plan %s %s ",
-				   $pa->name,
-				   $pb->name);
-	$filtre_date="";
-	$filtre_pa="";
-	$filtre_pb="";
+    if ( $this->from !="" ||$this->to !="")
+      $filtre_date=sprintf("Filtre date  %s %s",
+			   $this->from,
+			   $this->to);
+    if ( $this->from_poste !="" ||$this->to_poste !="")
+      $filtre_pa=sprintf("Filtre poste plan1  %s %s",
+			 ($this->from_poste!="")?"de ".$this->from_poste:" ",
+			 ($this->to_poste!="")?"jusque ".$this->to_poste:"");
 
-	if ( $this->from !="" ||$this->to !="")
-	  $filtre_date=sprintf("Filtre date  %s %s",
-					  $this->from,
-					  $this->to);
-	if ( $this->from_poste !="" ||$this->to_poste !="")
-	  $filtre_pa=sprintf("Filtre poste plan1  %s %s",
-			     ($this->from_poste!="")?"de ".$this->from_poste:" ",
-			     ($this->to_poste!="")?"jusque ".$this->to_poste:"");
+    if ( $this->from_poste2 !="" ||$this->to_poste2 !="")
+      $filtre_pb=sprintf("Filtre poste plan2   %s  %s",
+			 ($this->from_poste2!="")?"de ".$this->from_poste2:" ",
+			 ($this->to_poste2!="")?"jusque ".$this->to_poste2:"");
 
-	if ( $this->from_poste2 !="" ||$this->to_poste2 !="")
-	  $filtre_pb=sprintf("Filtre poste plan2   %s  %s",
-			     ($this->from_poste2!="")?"de ".$this->from_poste2:" ",
-			     ($this->to_poste2!="")?"jusque ".$this->to_poste2:"");
+    $pdf->SetFont('DejaVu','',8);
+    $pdf->Cell(50,7,$filtre_date);
+    $pdf->Cell(50,7,$filtre_pa);
+    $pdf->Cell(50,7,$filtre_pb);
+    $pdf->Ln();
 
+    $pdf->SetFont('DejaVu','',6);
+    $pdf->Cell(20,7,'id','B');
+    $pdf->Cell(40,7,'Poste Comptable');
+    $pdf->Cell(20,7,'Débit','B',0,'L');
+    $pdf->Cell(20,7,'Crédit','B',0,'L');
+    $pdf->Cell(20,7,'Solde','B',0,'L');
+    $pdf->Cell(20,7,'D/C','B',0,'L');
+    $pdf->Ln();
+	
+    for ($i=0;$i<count($array);$i++){
+      $row=$array[$i];
+      $pdf->Cell(20,6,$row['a_po_name'],0,0,'L');
+      $pdf->Cell(40,6,$row['b_po_name'],0,0,'L');
+      $pdf->Cell(20,6,$row['a_d'],0,0,'R');
+      $pdf->Cell(20,6,$row['a_c'],0,0,'R');
+      $pdf->Cell(20,6,$row['solde'],0,0,'R');
+      $pdf->Cell(20,6,$row['solde'],0,0,'R');
+      $pdf->Cell(20,6,$row['a_debit'],0,0,'C');
+      $pdf->Ln();
+    }
 
-	for ($i_loop=0;$i_loop<=$count;$i_loop++) {
+    $sum=$this->show_sum($array);
+    $pdf->Cell(20,7,'Poste');
+    $pdf->Cell(60,7,'Description');
+    $pdf->Cell(20,7,'Débit','B',0,'L');
+    $pdf->Cell(20,7,'Crédit','B',0,'L');
+    $pdf->Cell(20,7,'Solde','B',0,'L');
+    $pdf->Cell(20,7,'D/C','B',0,'L');
+    $pdf->Ln();
 
-	  $view=$array;
-	  $view=array_splice($view,$offset,$pagesize);
-	  header_pdf($this->db,$pdf);
-	  $pdf->ezText($filtre_date,'8');
-	  $pdf->ezText($filtre_pa,'8');
-	  $pdf->ezText($filtre_pb,'8');
-
-	  $pdf->ezTable($view,
-			array("a_po_name"=>"id",
-			      "b_po_name"=>"Poste Comptable",
-			      "a_d"=>"Debit",
-			      "a_c"=>"Credit",
-			      "a_solde"=>"Solde",
-			      "a_debit"=>"Debit/Credit"),
-			$titre,
-			array('shaded'=>1,'showHeadings'=>1,'width'=>500,
-			      'cols'=>array('a_d'=> array('justification'=>'right'),
-					    'a_solde'=> array('justification'=>'right'),
-					    'a_c'=> array('justification'=>'right'))));
-
-	  $page++;
-	  $pdf->ezNewPage();
-
-	  $offset+=$pagesize;
-	}
-	$sum=$this->show_sum($array);
-	$pdf->ezTable($sum,
-		      array("poste"=>'Poste',
-			    'desc'=>'Description',
-			    'debit'=>'Debit',
-			    'credit'=>'Credit',
-			    'solde'=>'Solde',
-			    'dc'=>'D/C'),
-		      'Totaux',
-		      array('shaded'=>1,'showHeadings'=>1,'cols'=>array
-			    ('debit'=>array('justification'=>'right'),
-			     'credit'=>array('justification'=>'right'),
-			     'solde'=>array('justification'=>'right'),					    )
-			    )
-		      );
-	$pdf->ezStream();
+    for ($i=0;$i<count($sum);$i++) {
+      $row=$sum[$i];
+      $pdf->Cell(20,6,$row['poste'],0,0,'L');
+      $pdf->Cell(60,6,$row['desc'],0,0,'L');
+      $pdf->Cell(20,6,$row['debit'],0,0,'R');
+      $pdf->Cell(20,6,$row['credit'],0,0,'R');
+      $pdf->Cell(20,6,$row['solde'],0,0,'R');
+      $pdf->Cell(20,6,$row['dc'],0,0,'R');
+      $pdf->Ln();
+    }
+    $fDate=date('dmy-Hi');
+    $pdf->output('crossbalance-'.$fDate.'.pdf');	
   }
-
+  
 
 /*!
  * \brief Compute the csv export
