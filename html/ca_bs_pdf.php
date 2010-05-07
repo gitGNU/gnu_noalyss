@@ -25,17 +25,11 @@
  *
  */
 require_once ('class_anc_balance_simple.php');
-require_once ('header_print.php');
 
 $cn=new Database(dossier::id());
 
 $balance=new Anc_Balance_Simple($cn);
 
-
-
-$pdf= new Cezpdf("A4");
-$pdf->selectFont('./addon/fonts/Helvetica.afm');
-header_pdf($cn,$pdf);
 $balance->get_request();
 $balance->display_pdf();
-
+?>
