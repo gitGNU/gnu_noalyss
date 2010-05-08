@@ -28,7 +28,6 @@ $gDossier=dossier::id();
 include_once("ac_common.php");
 require_once('class_database.php');
 require_once("class_pdf.php");
-echo_debug('sec_pdf.php',__LINE__,"imp pdf securité");
 $cn=new Database($gDossier);
 //-----------------------------------------------------
 // Security 
@@ -53,6 +52,9 @@ $SecUser=new User($rep,$_GET['user_id']);
 // Print result
 
 $pdf=new PDF($cn);
+$pdf->setDossierInfo(dossier::name().' Sécurité');
+$pdf->AliasNbPages();
+$pdf->AddPage();
 
 $str_user=sprintf("( %d ) %s %s [ %s ]",
 		  $SecUser->id,
@@ -60,27 +62,27 @@ $str_user=sprintf("( %d ) %s %s [ %s ]",
 		  $SecUser->name,
 		  $SecUser->login);
 
-$pdf->SetFond('DejaVu','B',9);
+$pdf->SetFont('DejaVu','B',9);
 $pdf->Cell(0,7,$str_user,'B',0,'C');
 
 if ( $SecUser->active==0) {
-  $pdf->SetTextColor(255,0,34);
+  //  $pdf->SetTextColor(255,0,34);
   $pdf->Cell(0,7,'Bloqué',0,0,'R');
   $pdf->Ln();
  }
 
 if ( $SecUser->admin==1) {
-  $pdf->SetTextColor(0,0,0);
-  $pdf->setFillColor(239,251,255);
+  // $pdf->SetTextColor(0,0,0);
+  //$pdf->setFillColor(239,251,255);
   $pdf->Cell(40,7,'Administrateur',1,1,'R');
   $pdf->Ln();
  }
-$pdf->SetTextColor(0,0,0);
+//$pdf->SetTextColor(0,0,0);
 
 //-----------------------------------------------------
 // Journal
 $pdf->Cell(0,7,'Accès journaux',1,0,'C');
-$pdf->SetFond('DejaVu','',6);
+$pdf->SetFont('DejaVu','',6);
 $Res=$cn->exec_sql("select jrn_def_id,jrn_def_name  from jrn_def ");
 $SecUser->db=$cn;
 for ($e=0;$e < Database::num_row($Res);$e++) {
@@ -108,10 +110,10 @@ for ($e=0;$e < Database::num_row($Res);$e++) {
  }
 //-----------------------------------------------------
 // Action
-$pdf->SetFond('DejaVu','B',9);
+$pdf->SetFont('DejaVu','B',9);
 $pdf->Cell(0,7,'Accès action',1,0,'C');
 
-$pdf->SetFond('DejaVu','',6);
+$pdf->SetFont('DejaVu','',6);
 $Res=$cn->exec_sql(
 	     "select ac_id, ac_description from action   order by ac_description ");
 
@@ -119,7 +121,7 @@ $Max=Database::num_row($Res);
 
 for ( $i =0 ; $i < $Max; $i++ ) {
    $l_line=Database::fetch_array($Res,$i);
-   $pdf->Cell(50,6,$l_line['ac_description']);
+   $pdf->Cell(90,6,$l_line['ac_description']);
    $right=$SecUser->check_action($l_line['ac_id']);
    switch ($right) {
    case 0:
