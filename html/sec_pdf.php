@@ -64,24 +64,25 @@ $str_user=sprintf("( %d ) %s %s [ %s ]",
 
 $pdf->SetFont('DejaVu','B',9);
 $pdf->Cell(0,7,$str_user,'B',0,'C');
-
+$pdf->Ln();
 if ( $SecUser->active==0) {
-  //  $pdf->SetTextColor(255,0,34);
+    $pdf->SetTextColor(255,0,34);
   $pdf->Cell(0,7,'Bloqué',0,0,'R');
   $pdf->Ln();
  }
 
 if ( $SecUser->admin==1) {
-  // $pdf->SetTextColor(0,0,0);
-  //$pdf->setFillColor(239,251,255);
+   $pdf->SetTextColor(0,0,0);
+  $pdf->setFillColor(239,251,255);
   $pdf->Cell(40,7,'Administrateur',1,1,'R');
   $pdf->Ln();
  }
-//$pdf->SetTextColor(0,0,0);
+$pdf->SetTextColor(0,0,0);
 
 //-----------------------------------------------------
 // Journal
 $pdf->Cell(0,7,'Accès journaux',1,0,'C');
+$pdf->Ln();
 $pdf->SetFont('DejaVu','',6);
 $Res=$cn->exec_sql("select jrn_def_id,jrn_def_name  from jrn_def ");
 $SecUser->db=$cn;
@@ -91,9 +92,11 @@ for ($e=0;$e < Database::num_row($Res);$e++) {
   $priv=$SecUser->check_jrn($row['jrn_def_id']);
   switch($priv) {
   case 'X':
+    $pdf->SetTextColor(255,0,34);
     $pdf->Cell(30,6,"Pas d'accès");
     break;
   case 'R':
+    $pdf->SetTextColor(54,233,0);
     $pdf->Cell(30,6,"Lecture");
     break;
   case 'O':
@@ -103,16 +106,19 @@ for ($e=0;$e < Database::num_row($Res);$e++) {
     $pdf->Cell(30,6,"Opérations prédéfinies uniquement");
     break;
   case 'W':
+    $pdf->SetTextColor(54,233,0);
     $pdf->Cell(30,6,'Ecriture');
     break;
   }
+  $pdf->SetTextColor(0);
   $pdf->Ln();
  }
+
 //-----------------------------------------------------
 // Action
 $pdf->SetFont('DejaVu','B',9);
 $pdf->Cell(0,7,'Accès action',1,0,'C');
-
+$pdf->Ln();
 $pdf->SetFont('DejaVu','',6);
 $Res=$cn->exec_sql(
 	     "select ac_id, ac_description from action   order by ac_description ");
@@ -124,14 +130,19 @@ for ( $i =0 ; $i < $Max; $i++ ) {
    $pdf->Cell(90,6,$l_line['ac_description']);
    $right=$SecUser->check_action($l_line['ac_id']);
    switch ($right) {
-   case 0:
+   case 0:    
+     $pdf->SetTextColor(255,0,34);
+
     $pdf->Cell(30,6,"Pas d'accès");
      break;
    case 1:
    case 2:
-    $pdf->Cell(30,6,"Pas d'accès");
+    $pdf->SetTextColor(54,233,0);
+    $pdf->Cell(30,6,"Accès");
      break;
    }
+   $pdf->SetTextColor(0);
+
    $pdf->Ln();
  }
 $fDate=date('dmy-HI');
