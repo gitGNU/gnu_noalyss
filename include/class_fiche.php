@@ -478,7 +478,7 @@ Array
 	      else
 		{
 		  $w=new IText();
-		  $w->table=1;
+		  $w->table=0;
 		}
 	    }
 	  $w->value=$r->av_text;
@@ -486,7 +486,7 @@ Array
 	  $w->readonly=$p_readonly;
 
 
-	  $ret.="<TR>".td($r->ad_text.$bulle).$w->input()."$msg </TR>";
+	  $ret.="<TR>".td($r->ad_text.$bulle).td($w->input()).td($msg)." </TR>";
 	}
       $ret.="</table>";
       return $ret;
