@@ -55,7 +55,7 @@ $poste->set_attribute('account','acc');
 if (isset($_GET['acc'])) $poste->value=$_GET['acc'];
 $poste_span=new ISpan('account_label');
 $r= td(_('Lettrage pour le poste comptable ')).
-  $poste->input().
+  td($poste->input()).
   td($poste_span->input());
 echo tr($r);
 // limit of the year
