@@ -112,10 +112,10 @@ class fiche_def_ref
  */
   function Save()
     {
-      $sql="update fiche_def_ref set frd_text='".
-	$this->frd_text."' ,  frd_class_base='".$this->frd_class_base."'".
-	" where frd_id=".$this->frd_id;
-      $Res=$this->db->exec_sql($sql);
+      $sql="update fiche_def_ref set frd_text=$1 ".
+	" ,  frd_class_base=$2 ".
+	" where frd_id= $3";
+      $Res=$this->db->exec_sql($sql,array($this->frd_text,$this->frd_class_base,$this->frd_id));
     }
 /*! 
  **************************************************
