@@ -283,7 +283,6 @@ class Acc_Bilan {
   function compute_formula($p_handle) {
 	while (! feof ($p_handle)) {
 	  $buffer=trim(fgets($p_handle));
-	  echo_debug(__FILE__.":".__LINE__." get buffer = ",$buffer);
 	  // $a=(CheckFormula($buffer)  == true)?"$buffer ok<br>":'<font color="red">'.'Pas ok '.$buffer."</font><br>";
 	  // echo $a;
 	  // blank line are skipped
@@ -298,15 +297,10 @@ class Acc_Bilan {
 	  //  echo $e[0];
 	  //echo "<br>".$form;
 	  $a=ParseFormula($this->db,"$buffer",$buffer,$this->from,$this->to,false);
-	  echo_debug(__FILE__.":".__LINE__."  evaluate \$a",$a);
 	  $b=str_replace("$","\$this->",$a);
-	  echo_debug(__FILE__.":".__LINE__."  evaluate \$b",$b);
 	  
-	 if ( eval("$b;") === false ) 
-		echo_debug(__FILE__,__LINE__,"Code failed with $b");
 	  
 	}// end read form line per line
-	echo_debug(__FILE__.':'.__LINE__," End of reading form");
   }
   /*!\brief generate the ods document 
   * \param the handle to the template file 
@@ -322,10 +316,7 @@ class Acc_Bilan {
     mkdir ($dirname);
     chdir($dirname);
 
-    echo_debug(__FILE__.':'.__LINE__.'- ','dirname is ',$dirname);
     $file_base=dirname($_SERVER['SCRIPT_FILENAME']).DIRECTORY_SEPARATOR.$this->b_file_template;
-    echo_debug(__FILE__.':'.__LINE__.'-','$file_base',$file_base);
-    echo_debug(__FILE__.':'.__LINE__.'- ','this is ',$this->b_file_template);
     $work_file=basename($file_base);
     if ( copy ($file_base,$work_file) == false )
       {
@@ -349,27 +340,21 @@ class Acc_Bilan {
     $lt="&lt;";
     $gt="&gt;";
     while ( !feof($p_file) ) {
-      echo_debug(__FILE__.':'.__LINE__.'- ','read line OD FILE');
       $line_rtf=fgets($p_file);
-      //      echo_debug(__FILE__.':'.__LINE__.'-','$line_rtf',$line_rtf);
 
       /* replace the header tag */
       while( myereg('&lt;&lt;header&gt;&gt;',$line_rtf,$head) == true ) {
 	foreach ($head as $h) {
 	  // Create the header
 	  $line_rtf=str_replace($h,header_txt($this->db),$line_rtf);
-	  echo_debug(__FILE__.':'.__LINE__.'- ','Header : ');
 	}
       }
-      //	  echo_debug(__FILE__.':'.__LINE__.'- ','$r',$r);
       // the line contains the magic <<
       $tmp="";
       while (myereg($regex,$line_rtf,$f2) == true) {
-	echo_debug(__FILE__.':'.__LINE__.'- ','Pattern found',$f2);
 
 	// the f2 array contains all the magic << in the line
 	foreach ($f2 as $f2_str) {
-	  echo_debug(__FILE__.':'.__LINE__.'- ','f2_str',$f2_str);
 
 	  $to_remove=$f2_str;
 	  $f2_value=str_replace("&lt;","",$f2_str);
@@ -396,13 +381,11 @@ class Acc_Bilan {
 
 	  /*  allow numeric cel in ODT for the formatting and formula */
 	   if ( is_numeric($a) ) {
-	     echo_debug(__FILE__,__LINE__," a is numeric $a");
 	     $searched='office:value-type="string"><text:p>'.$f2_str;
 	     $replaced='office:value-type="float" office:value="'.$a.'"><text:p>'.$f2_str;
 	     $line_rtf=str_replace($searched, $replaced, $line_rtf);
 	   }		  
 	   
-	   echo_debug(__FILE__.':'.__LINE__.'- $a =',$a);
 	   
 	   $line_rtf=str_replace($f2_str,$a,$line_rtf);
 		  
@@ -429,19 +412,16 @@ class Acc_Bilan {
 
 	while ( !feof($p_file) ) {
 	  $line_rtf=fgets($p_file);
-	  echo_debug(__FILE__.':'.__LINE__.'-','$line_rtf',$line_rtf);
 	  if ( myereg($lt.$lt.'header'.$gt.$gt,$line_rtf) ) {
 		// Create the header
 		$line_rtf=str_replace($lt.$lt.'header'.$gt.$gt,header_txt($this->db),$line_rtf);
 		$r.=$line_rtf;
 		continue;
 	  }
-	  echo_debug(__FILE__.':'.__LINE__.'- ','$r',$r);
 	  // the line contains the magic <<
 	  if (myereg($lt.$lt."\\$[a-zA-Z]*[0-9]*".$gt.$gt,$line_rtf,$f2) == true) {
 		// DEBUG
 		//    echo $r.'<br>';
-		echo_debug(__FILE__.':'.__LINE__.'- ','Pattern found',$f2);
 		// the f2 array contains all the magic << in the line
 		foreach ($f2 as $f2_str) {
 		  // DEBUG
@@ -470,7 +450,6 @@ class Acc_Bilan {
 		  $a=$this->$f2_value;
           }
 		  // DEBUG      echo " a = $a";
-		  echo_debug(__FILE__.':'.__LINE__.'- $a =',$a);
 		  if ( $a=='-0' ) $a=0; 
 		  $line_rtf=str_replace($f2_str,$a,$line_rtf);
 		  
@@ -569,16 +548,12 @@ class Acc_Bilan {
 	  unlink($dirname);
 	  mkdir ($dirname);
 	  chdir($dirname);
-	  echo_debug(__FILE__.':'.__LINE__.'- ','dirname is ',$dirname);
 	  // create a temp directory in /tmp to unpack file and to parse it
 	  $file_base=dirname($_SERVER['SCRIPT_FILENAME']).DIRECTORY_SEPARATOR.$this->b_file_template;
-	  echo_debug(__FILE__.':'.__LINE__.'-','$file_base',$file_base);
-	  echo_debug(__FILE__.':'.__LINE__.'- ','this is ',$this->b_file_template);
 	  $work_file=basename($file_base);
 	  if ( copy ($file_base,$work_file) == false )
 		{
 		  echo "Je ne peux pas ouvrir ce fichier ";
-		  echo_debug(__FILE__.':'.__LINE__.'- Je ne peux pas ouvrir ce fichier ');
 		  exit();
 		}
 	  system('unzip "'.$work_file.'"');
@@ -589,24 +564,20 @@ class Acc_Bilan {
 	  // replace the file
 	  $p_file=fopen($dirname.DIRECTORY_SEPARATOR.'content.xml','wb');
 	  if ( $p_file == false ){
-		echo_debug(__FILE__.':'.__LINE__.'- Je ne peux pas ouvrir content.xml ');
 		exit('Je ne peux pas ouvrir content.xml');
 
 	  }
 	  $a=fwrite($p_file,$p_result);
 	  if ( $a==false) {
 		echo "Je ne peux pas ecrire dans content.xml";
-		echo_debug(__FILE__.':'.__LINE__.'- Je ne peux pas ecrire dans content.xml ');
 		exit();
 	  }
 	  // repack
 	  system ('zip -r "'.$this->b_name.'.'.$this->b_type.'" *');
 	  ob_end_clean();
 	  fclose($p_file);
-	  echo_debug(__FILE__.':'.__LINE__.'- ','Send the file');
 	  $fdoc=fopen($dirname.DIRECTORY_SEPARATOR.$this->b_name.'.'.$this->b_type,'r');
 	  if ( $fdoc == false ){
-		echo_debug(__FILE__.':'.__LINE__.'- Je ne peux pas ouvrir ce document');
 		exit('Je ne peux pas ouvrir ce document');
 	  }
 	  $buffer=fread ($fdoc,filesize($dirname.DIRECTORY_SEPARATOR.$this->b_name.'.'.$this->b_type));
@@ -635,7 +606,6 @@ class Acc_Bilan {
 	  fclose($templ);
 	  ob_end_clean();
 
-	  //	  echo_debug(__FILE__.':'.__LINE__,"resutl ",$r);
 	  $a->send($r);
 	}
 	else {

@@ -119,7 +119,6 @@ If ( isset ($_POST["update"] )) {
 		       $_POST['jrn_def_pj_pref'],
 		       $_GET['p_jrn']
 		       );
-    echo_debug($Sql);
     $Res=$cn->exec_sql($Sql,$sql_array);
     if ( isNumber($_POST['jrn_def_pj_seq']) == 1 && $_POST['jrn_def_pj_seq']!=0)
       $Res=$cn->alter_seq("s_jrn_pj".$_GET['p_jrn'],$_POST['jrn_def_pj_seq']);

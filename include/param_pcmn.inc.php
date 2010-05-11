@@ -107,7 +107,6 @@ if ( isset ( $_POST["Ajout"] ) ) {
 	     (string) $p_parent != (string)(int) $p_parent) {
 	  $p_parent=substr($p_val,0,strlen($p_val)-1);
 	}
-	echo_debug('pcmn_update.php',__LINE__,"Ajout valeur = $p_val parent = $p_parent");
       }
       /* Parent existe */
       $Ret=$cn->exec_sql("select pcm_val from tmp_pcmn where pcm_val=$1",array($p_parent));

@@ -142,7 +142,6 @@ class Action
 	  $doc_type->selected=$this->dt_id;
 	  $doc_type->readonly=false;
 	  $str_doc_type=$doc_type->input();
-	  echo_debug('class_action',__LINE__,var_export($doc_type,true));
 	}
       else {
 	// Doc Type
@@ -519,7 +518,6 @@ class Action
    */
   function get()
     {
-      echo_debug('class_action',__LINE__,'Action::Get() ');
       $sql="select ag_id, ag_comment,to_char (ag_timestamp,'DD-MM-YYYY') as ag_timestamp,".
 	" f_id_dest,ag_title,ag_comment,ag_ref,d_id,ag_type,ag_state,  ".
 	" ag_ref_ag_id, ag_dest, ag_hour, ag_priority, ag_cal,ag_contact ".
@@ -547,7 +545,6 @@ class Action
       $this->aAction_detail=$action_detail->load_all();
 
 
-      echo_debug('class_action',__LINE__,' Document id = '.$this->d_id);
       // if there is no document set 0 to d_id
       if ( $this->d_id == "" ) 
 	$this->d_id=0;
@@ -557,7 +554,6 @@ class Action
 	  $this->state=$row['0']['ag_state'];
 	  $this->ag_state=$row[0]['ag_state'];
 	}
-      echo_debug('class_action',__LINE__,' After test Document id = '.$this->d_id);
       $this->dt_id=$this->ag_type;
       $aexp=new fiche($this->db,$this->f_id_dest);
       $this->qcode_dest=$aexp->strAttribut(ATTR_DEF_QUICKCODE);
@@ -573,8 +569,6 @@ class Action
  */
   function save() 
     {
-      echo_debug('class_action',__LINE__,'save()  :'.var_export($_POST,true));
-      echo_debug('class_action',__LINE__,' save()  $this  :'.var_export($this,true));
 
       // Get The sequence id, 
       $seq_name="seq_doc_type_".$this->dt_id;
@@ -932,7 +926,6 @@ class Action
 				  $ag_cal,	      /* 12 */
 				  $contact->id   /* 13 */
 				  ));
-      echo_debug('class_action',__LINE__,$_FILES);
       // Upload  documents
       $doc=new Document($this->db);
       $doc->Upload($this->ag_id); 

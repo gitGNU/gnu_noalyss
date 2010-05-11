@@ -41,7 +41,6 @@ $User->db=$cn;
 
 require_once('class_database.php');
 require_once('class_ipopup.php');
-echo_debug('user_advanced.php',__LINE__,"user is ".$_SESSION['g_user']);
 echo js_include('accounting_item.js');
 echo js_include('prototype.js');
 echo js_include('scriptaculous.js');

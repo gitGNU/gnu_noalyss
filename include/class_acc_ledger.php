@@ -133,7 +133,6 @@ class Acc_Ledger {
    */
   function get_row($p_from,$p_to,$cent='off',$p_limit=-1,$p_offset=-1) {
 
-    echo_debug('class_acc_ledger.php',__LINE__,"get_row ( $p_from,$p_to,$cent,$p_limit,$p_offset)");
 
     $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
 
@@ -144,7 +143,6 @@ class Acc_Ledger {
     if ( $this->id != 0 ) {
 
       if ( $cent=='off' ) {
-	echo_debug('class_acc_ledger.php',__LINE__,"journaux non  centralise");
 	// Journaux non centralises
 	$Res=$this->db->exec_sql("select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
 	      jr_internal,
@@ -194,7 +192,6 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     } else {
       // Grand Livre
       if ( $cent == 'off') {
-	echo_debug('class_acc_ledger.php',__LINE__,"Grand livre non centralise");
 	// Non centralise
 	$Res=$this->db->exec_sql("select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
 	      jr_internal,
@@ -211,7 +208,6 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 		     $cond_limite);
 
       } else {
-	echo_debug('class_acc_ledger.php',__LINE__,"Grand livre  centralise");
 	// Centralise
 	$Sql="select jr_c_opid as j_id,
 	   c_order as int_j_id,
@@ -257,8 +253,6 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
       $tot_deb+=$line['deb_montant'];
       $tot_cred+=$line['cred_montant'];
       $tot_op=$line['jr_montant'];
-      echo_debug('class_acc_ledger.php',__LINE__," get_row : mont_Deb ".$mont_deb);
-      echo_debug('class_acc_ledger.php',__LINE__," get_row : mont_cred ".$mont_cred);
 
       /* Check first if there is a quickcode */
       if ( strlen(trim($line['j_qcode'])) != 0 )
@@ -272,17 +266,14 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	$case=$line['grp'];
 	// for financial, we show if the amount is or not in negative
 	if ( $this->type=='FIN') {
-	  echo_debug(__FILE__,__LINE__,"Journal FIN");
 	  $eMax=(($i+20) < $Max)?$i+20:$Max;
 	  // check in $row if the BQE is in deb or cred
 	  for ($e=$i;$e<$Max;$e++) {
-	    echo_debug(__FILE__,__LINE__,$row[$e]);
 	    if ( $row[$e]['grp'] != $case ) continue;
 	    if ( strlen(trim($row[$e]['j_qcode'])) == 0 ) continue;
 
 	    $f=new fiche($this->db);
 	    $f->get_by_qcode($row[$e]['j_qcode'],false);
-	    echo_debug(__FILE__,__LINE__,$f);
 	    if ( $f->get_fiche_def_ref_id() == FICHE_TYPE_FIN ) {
 	      $tot_op=($row[$e]['debit'] == 't')?$jr_montant:" - ".$jr_montant;
 	      break;
@@ -331,7 +322,6 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 
 
     }
-    echo_debug('class_acc_ledger.php',__LINE__,"Total debit $tot_deb,credit $tot_cred");
     $this->row=$array;
     $a=array($array,$tot_deb,$tot_cred);
     return $a;
@@ -634,7 +624,6 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     //
 
     $href=basename($_SERVER['PHP_SELF']);
-	echo_debug(__FILE__,__LINE__,"href = $href");
     switch ($href)
       {
 		// user_jrn.php
@@ -812,7 +801,6 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
    */
   function get_detail(&$p_array,$p_jrn_type,$trunc=0,$a_TVA=null,$a_ParmCode=null)
   {
-    echo_debug(__FILE__.':'.__LINE__.'- get_detail','$p_array',$p_array);
     if ( $a_TVA == null )
       {
 	//Load TVA array
@@ -842,14 +830,11 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     // Parse data from jrnx and fill diff. field
     foreach ( $data_jrnx as $code ) {
       $idx_tva=0;
-      echo_debug('class_acc_ledger',__LINE__,'Code is');
-      echo_debug('class_acc_ledger',__LINE__,$code);
       $poste=new Acc_Account_Ledger($this->db,$code['j_poste']);
 
       // if card retrieve name if the account is not a VAT account
       if ( strlen(trim($code['j_qcode'] )) != 0 && $poste->isTva() == 0 )
 	{
-	  echo_debug('class_acc_ledger',__LINE__,'fiche_def = '.$code['j_qcode']);
 	  $fiche=new fiche($this->db);
 	  $fiche->get_by_qcode(trim($code['j_qcode']),false);
 	  $fiche_def_id=$fiche->get_fiche_def_ref_id();
@@ -857,7 +842,6 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	  if ( $fiche_def_id == FICHE_TYPE_CLIENT ||
 	       $fiche_def_id == FICHE_TYPE_FOURNISSEUR )
 	    {
-	      echo_debug('class_acc_ledger',__LINE__,$code['j_qcode'].'est F ou C');
 	      $p_array['TVAC']=$code['j_montant'];
 
 	      $p_array['client']=($trunc==0)?$fiche->getName():substr($fiche->getName(),0,20);
@@ -880,7 +864,6 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	    if ( $fiche_def_id != FICHE_TYPE_VENTE &&
 		 $fiche_def_id != FICHE_TYPE_ACH_MAR &&
 		 $fiche_def_id != FICHE_TYPE_ACH_SER ) {
-	      echo_debug('class_acc_ledger',__LINE__,$code['j_qcode']."n 'est PAS F ou C");
 	      $p_array['TVAC']=$code['j_montant'];
 
 	      $p_array['client']=	($trunc==0)?$fiche->getName():substr($fiche->getName(),0,20);
@@ -903,12 +886,9 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	    }
 	  }
 	}
-      echo_debug('class_acc_ledger',__LINE__,$a_TVA);
       // if TVA, load amount, tva id and rate in array
       foreach ( $a_TVA as $line_tva)
 	{
-	  echo_debug('class_acc_ledger',__LINE__,'ICI');
-	  echo_debug('class_acc_ledger',__LINE__,'Montant TVA = '.$p_array['AMOUNT_TVA']);
 	  list($tva_deb,$tva_cred)=explode(',',$line_tva['tva_poste']);
 	  if ( $code['j_poste'] == $tva_deb ||
 	       $code['j_poste'] == $tva_cred )
@@ -927,7 +907,6 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	      $p_array['AMOUNT_TVA']+=$code['j_montant'];
 
 	      $p_array['TVA'][$c]=array($idx_tva,array($line_tva['tva_id'],$line_tva['tva_label'],$code['j_montant']));
-	      echo_debug('class_acc_ledger',__LINE__,'Montant TVA = '.$p_array['AMOUNT_TVA']);
 	      $c++;
 
 	      $idx_tva++;
@@ -942,7 +921,6 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	$purchase->search_by_jid($code['j_id']);
 	$purchase->load();
 	$dep_priv+=$purchase->qp_dep_priv;
-	echo_debug(__FILE__.':'.__LINE__.'- get_detail','$dep_priv',$dep_priv);
 	$p_array['dep_priv']=$dep_priv;
       }
 
@@ -1013,7 +991,6 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     $sql="select jrn_deb_max_line as value from jrn_def where jrn_def_id=$1";
     $r=$this->db->exec_sql($sql,array($this->id));
     $Res=Database::fetch_all($r);
-    echo_debug('class_acc_ledger',__LINE__,$Res);
     if ( sizeof($Res) == 0 ) return 1;
     return $Res[0]['value'];
   }
@@ -1408,7 +1385,6 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     $per->set_jrn($this->id);
     $per->set_periode($p_periode);
     $ret=$per->is_closed();
-    echo_debug(__FILE__.':'.__LINE__.'- is_closed','return',$ret);
     return $ret;
 
   }
@@ -1462,7 +1438,6 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     // Periode ferme
     if ( $this->is_closed($periode->p_id)==1 )
       {
-	echo_debug(__FILE__.':'.__LINE__.'- verify',' the periode is closed ');
 	throw new Exception('Periode fermee',6);
       }
     /* check if we are using the strict mode */

@@ -131,10 +131,8 @@ class User {
 				 where ac_users.use_id='$this->id'
 					and ac_users.use_active=1
 					and ac_users.use_pass='$pass5'";
-      echo_debug('class_user.php',__LINE__,"Sql = $sql");
       $ret=$cn->exec_sql($sql);
       $res=Database::num_row($ret);
-      echo_debug('class_user.php',__LINE__,"Number of found rows : $res");
       if ( $res >0 ) {
 	$r=Database::fetch_array($ret,0);
 	$_SESSION['use_admin']=$r['use_admin'];
@@ -443,7 +441,6 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
    */
   function load_global_pref()
   {
-    echo_debug('class_user.php',__LINE__,"function load_global_pref");
     $cn=new Database();
     // Load everything in an array
     $Res=$cn->exec_sql ("select parameter_type,parameter_value from
@@ -466,7 +463,6 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
     $array_pref=array ('g_theme'=>'THEME','g_pagesize'=>'PAGESIZE','g_topmenu'=>'TOPMENU','g_lang'=>'LANG');
     foreach ($array_pref as $name=>$parameter ) {
       if ( ! isset ($line[$parameter]) ) {
-	echo_debug("Missing pref : ".$parameter);
 	$this->insert_default_global_pref($parameter);
 	$this->load_global_pref();
 	return;
@@ -484,8 +480,6 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
    *
    */
   function insert_default_global_pref($p_type="",$p_value="") {
-    echo_debug('class_user.php',__LINE__,"function insert_default_global_pref");
-    echo_debug('class_user.php',__LINE__,"parameter p_type $p_type p_value  $p_value");
 
     $default_parameter= array("THEME"=>"Light",
 			      "PAGESIZE"=>"50",

@@ -85,7 +85,6 @@ if ( isset ($_POST["add_per"] )) {
 
 }
 
-echo_debug('periode.inc',__LINE__,"Action $p_action");
 if ( $action=="closed") {
   $User->can_request(PARCLO);
   $p_per=$_GET['p_per'];

@@ -78,7 +78,6 @@ class Document
 
       unlink($dirname);
       mkdir ($dirname);
-      echo_debug('class_action',__LINE__,"Dirname is $dirname");
       // Retrieve the lob and save it into $dirname
       $this->db->start();
       $dm_info="select md_type,md_lob,md_filename,md_mimetype 
@@ -90,18 +89,15 @@ class Document
       $this->d_filename=$row['md_filename'];
       $this->d_mimetype=$row['md_mimetype'];
 
-      echo_debug('class_document',__LINE__,"OID is ".$row['md_lob']);
 
       chdir($dirname);
       $filename=$row['md_filename'];
       $this->db->lo_export($row['md_lob'],$filename);
       $type="n";
-      echo_debug('class_document',__LINE__,'The document type is '.$row['md_mimetype']);
       // if the doc is a OOo, we need to unzip it first
       // and the name of the file to change is always content.xml
       if ( strpos($row['md_mimetype'],'vnd.oasis') != 0 )
 	{
-	  echo_debug('class_document',__LINE__,'Unzip the OOo');
 	  ob_start();
 	  system("unzip '".$filename."'");
 	  // Remove the file we do  not need anymore
@@ -114,7 +110,6 @@ class Document
 	$file_to_parse=$filename;
       // affect a number
       $this->d_number=$this->db->get_next_seq("seq_doc_type_".$row['md_type']);
-      echo_debug(__FILE__,__LINE__,"seq_doc_type_".$row['md_type'].' = '.$this->d_number);
 
       // parse the document - return the doc number ?
       $this->ParseDocument($dirname,$file_to_parse,$type);
@@ -134,11 +129,9 @@ class Document
 	}
       // Create a directory 
       $l_dir=$_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$dirname;
-      echo_debug('class_document','',"l_dir   = $l_dir");
       mkdir ($l_dir);
 
       // we need to rename the new generated file
-      echo_debug(__FILE__,__LINE__, "rename(".$dirname.DIRECTORY_SEPARATOR.$file_to_parse.",".$_SERVER['DOCUMENT_ROOT'].$dirname.DIRECTORY_SEPARATOR.$file_to_parse.")");
       rename($dirname.DIRECTORY_SEPARATOR.$file_to_parse,$_SERVER['DOCUMENT_ROOT'].$dirname.DIRECTORY_SEPARATOR.$file_to_parse);
       $this->SaveGenerated($_SERVER['DOCUMENT_ROOT'].$dirname.DIRECTORY_SEPARATOR.$file_to_parse);
       // Invoice
@@ -159,7 +152,6 @@ class Document
   function ParseDocument($p_dir,$p_file,$p_type)
     {
 
-      echo_debug('class_document',__LINE__,'Begin parsing of '.$p_dir.' '.$p_file.'Type = '.$p_type);
       
       /*!\note Replace in the doc the tags by their values.
        *  - MY_*   table parameter
@@ -169,7 +161,6 @@ class Document
        */ 
       // open the document
       $infile_name=$p_dir.DIRECTORY_SEPARATOR.$p_file;
-      echo_debug("class_document.php",__LINE__,"Open the document $p_dir/$p_file");
       $h=fopen($infile_name,"r");
 
       // check if tmpdir exist otherwise create it
@@ -212,20 +203,14 @@ class Document
       //read the file
       while(! feof($h)) 
 	{
-	  echo_debug(__FILE__,__LINE__,'Read a line');
 	  // replace the tag
 	  $buffer=fgets($h);
 	  // search in the buffer the magic << and >>
 	  // while myereg finds something to replace
 	  while ( myeregi ($regex,$buffer,$f) )
 	    {
-	      echo_debug(__FILE__,__LINE__,'Search for a regex');
-	    echo_debug('class_document',__LINE__,'var_export '.var_export( $f,true));
 	    foreach ( $f as $pattern )
 	      {
-		echo_debug(__FILE__,__LINE__,'for each pattern '.$pattern);
-		echo_debug('class_document',__LINE__, "pattern");
-		echo_debug('class_document',__LINE__, var_export($pattern,true));
 		$to_remove=$pattern;
 		// we remove the < and > from the pattern
 		$pattern=str_replace($lt,'',$pattern);
@@ -242,9 +227,7 @@ class Document
 		$len=strlen($to_remove);
 		$buffer=substr_replace($buffer,$value,$pos,$len);
 
-		//		echo_debug('class_document',__LINE__, $buffer);
 		// if the pattern if found we replace it
-		echo_debug('class_document',__LINE__,"Transform $pattern by $value");
 	      }
 	  }
 	  // write into the output_file
@@ -253,7 +236,6 @@ class Document
 	}
       fclose($h);
       fclose($output_file);
-      echo_debug(__FILE__,__LINE__,'rename file '.$output_name.' to '.$infile_name );
       if ( ($ret=rename ($output_name,$infile_name)) == FALSE ){
 	echo _('Ne peut pas sauver '.$output_name.' vers '.$infile_name.' code d\'erreur ='.$ret);
       }
@@ -269,13 +251,11 @@ class Document
    */
   function SaveGenerated($p_file) 
     {
-      echo_debug('class_document',__LINE__,'Save generated [p_file='.$p_file);
       // We save the generated file
       $doc=new Document($this->db);
       $this->db->start();
       $this->d_lob=$this->db->lo_import($p_file);
       if ( $this->d_lob == false ) { 
-	$this->db->rollback(); echo_debug('class_document',__LINE__,"can't save file $p_file");
 	return 1; }
     
       $sql="insert into document(ag_id,d_lob,d_number,d_filename,d_mimetype) 
@@ -287,7 +267,6 @@ class Document
 				     $this->d_filename,
 				     $this->d_mimetype));
       $this->d_id=$this->db->get_current_seq("document_d_id_seq");
-      echo_debug('class_document',__LINE__,'document sauvé : d_id'.$this->d_id);
       // Clean the file
       unlink ($p_file);
       $this->db->commit();
@@ -818,18 +797,14 @@ class Document
 
 	case 'TOTAL_VEN_HTVA':
 	  extract($_POST);
-	  echo_debug('class_document',__LINE__,'TOTAL_VEN_TVA item :'.$nb_item);
 
 	  $sum=0.0;
 	  for ($i=0;$i<$nb_item;$i++)
 	    {
 	      $sell='e_march'.$i.'_price';
 	      $qt='e_quant'.$i;
-	      echo_debug('class_document',__LINE__,'sell :'.$sell.' qt = '.$qt);
 
-	      echo_debug('class_document',__LINE__,'counter :'.$i.' sur '.$nb_item);
 	      if ( ! isset (${$sell}) ) break;
-	      echo_debug('class_document',__LINE__,'sell :'.${$sell}.' qt = '.${$qt});
 
 	      if ( strlen(trim(${$sell})) == 0 ||
 		   strlen(trim(${$qt})) == 0 ||
@@ -838,7 +813,6 @@ class Document
 	      $sum+=${$sell}*${$qt};
 	      $sum=round($sum,2);
 
-	      echo_debug('class_document',__LINE__,'sum :'.$sum);
 
 	    }
 	  $r=round($sum,2);

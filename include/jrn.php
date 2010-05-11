@@ -51,7 +51,6 @@ require_once('class_own.php');
 function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 {
 
-  echo_debug('jrn.php',__LINE__,"function UpdateJrn");
   // own
   $own=new own($p_cn);
   $gDossier=dossier::id();
@@ -60,7 +59,6 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
     echo_error ("Not data found for UpdateJrn p_jr_id = $p_jr_id");
     return ;
   }
-  echo_debug('jrn.php',__LINE__,$l_array);
   // Javascript
   $r=JS_LEDGER;
 
@@ -265,7 +263,6 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   // own
   $own=new own($p_cn);
 
-  echo_debug('jrn.php',__LINE__,$l_array);
   // Javascript
   $r=JS_LEDGER;
 
@@ -325,7 +322,6 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 
   $r.="</TR>";
 
-  echo_debug(__FILE__.":".__LINE__."jrn_Def_type =  ".$content['jrn_def_type']);
   // for others lines
   $own=new Own($p_cn);
   // for purchase ledger
@@ -333,10 +329,8 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	{
 	  $r.='</table>';
 	  $r.='<table width="100%">';
-	  echo_debug(__FILE__.":".__LINE__." content['qp_supplier'] ".$content['qp_supplier']);
 	  $client=new fiche($p_cn,$content['qp_supplier']);
 	  $r.="Client : ".$client->getName();
-	  echo_debug(__FILE__,__LINE__,$content);
 
 	  /* now we get the different lines for this operation thanks */
 	  /* the qp_internal == jr_internal */
@@ -456,10 +450,8 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   // for selling ledger
   if ( $content['jrn_def_type'] == 'VEN' )
 	{
-	  echo_debug(__FILE__.":".__LINE__." content['qs_client'] ".$content['qs_client']);
 	  $client=new fiche($p_cn,$content['qs_client']);
 	  $r.="Client : ".$client->getName();
-	  echo_debug(__FILE__,__LINE__,$content);
 
 	  /* now we get the different lines for this operation thanks */
 	  /* the qs_internal == jr_internal */
@@ -505,13 +497,10 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	    //
 
 	    $content['j_poste']=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
-	    echo_debug(__FILE__.':'.__LINE__,'$content["j_poste"]',$content['j_poste']);
 
 	    //		echo "j_poste= ".$content['j_poste'];
 	    if ( $own->MY_ANALYTIC != "nu" && myereg("^[6,7]+",$content['j_poste']))
 	      {
-		echo_debug(__FILE__.':'.__LINE__,'showUser VEN $content',$content);
-		echo_debug(__FILE__.':'.__LINE__,'showUser VEN $row ',$row);
 		$r.=display_table_ca($p_cn,$i_march,$row->j_id,$own,$p_mode,round($row->qs_price,2));
 	      }
 	    $i_march++;
@@ -670,7 +659,6 @@ function get_dataJrnJrId ($p_cn,$p_jr_id) {
                          jr_id=$p_jr_id
                       order by j_debit desc,j_id asc");
   $MaxLine=Database::num_row($Res);
-  echo_debug('jrn.php',__LINE__,"Found $MaxLine lines");
   if ( $MaxLine == 0 ) return null;
 
   for ( $i=0; $i < $MaxLine; $i++) {
@@ -724,7 +712,6 @@ function get_dataJrnJrId ($p_cn,$p_jr_id) {
  */
 function get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
 
-  echo_debug(__FILE__.":".__LINE__."get_dataJrnJrIdUser");
 
   $Res=$p_cn->exec_sql("select ".
 	       "*,to_char(jr_ech,'DD-MM-YYYY') as ech_fmt".
@@ -736,7 +723,6 @@ function get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
 
 
   $MaxLine=Database::num_row($Res);
-  echo_debug('jrn.php',__LINE__,"Found $MaxLine lines");
 
 
   // if no info found in quant_sold try in quant_purchase
@@ -805,7 +791,6 @@ function get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
     $array['ech_fmt']=$line['ech_fmt'];
 
     //    $array['']=$line[''];
-    echo_debug(__FILE__.':'.__LINE__," get_dataJrnjrIdUser ",$array);
     $ret_array[$i]=$array;
     }
   return $ret_array;
@@ -821,15 +806,11 @@ function get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
  *\return string to display
  */
 function display_table_ca($p_cn,$p_seq,$p_jid,$p_own,$p_mode,$p_amount) {
-  echo_debug(__FILE__.':'.__LINE__,'parameter $p_cn,$p_seq,$p_jid,$p_own,$p_mode',"$p_cn,$p_seq,$p_jid,p_own,$p_mode");
 
   $op=new Anc_Operation($p_cn);
   $array=$op->get_by_jid($p_jid) ;
-  echo_debug(__FILE__.':'.__LINE__,"display_table_ca \$p_jid",$p_jid);
-  echo_debug(__FILE__.':'.__LINE__,"display_table_ca \$array",$array);
   if ( $array != null ) {
     $request=$op->to_request($array,$p_seq);
-    echo_debug(__FILE__.':'.__LINE__,"request =",$request);
     return "<td>".$op->display_form_plan($request,1,$p_mode,$p_seq,$p_amount)."</td>";
   } else {
     return '<td>'.$op->display_form_plan(null,1,$p_mode,$p_seq,$p_amount)."</TD>";

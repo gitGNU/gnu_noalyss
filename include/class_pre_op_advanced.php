@@ -35,7 +35,6 @@ class Pre_Op_Advanced extends Pre_operation_detail {
     $this->operation->od_direct='t';
   }
   function get_post() {
-	echo_debug(__FILE__.':'.__LINE__.'- ','get_post');
 	parent::get_post();
 
 	extract($_POST);

@@ -36,7 +36,6 @@ class Pre_op_ods extends Pre_operation_detail {
   }
 
   function get_post() {
-	echo_debug(__FILE__.':'.__LINE__.'- ','get_post');
 	parent::get_post();
 	$this->operation->od_direct='f';
 	for ($i=0;$i<$this->operation->nb_item;$i++) {
@@ -92,7 +91,6 @@ class Pre_op_ods extends Pre_operation_detail {
 	  $count++;
 
 	}
-	echo_debug(__FILE__.':'.__LINE__.'- ','compute_array',$array);
 	return $array;
   }
   /*!\brief load the data from the database and return an array

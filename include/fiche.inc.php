@@ -45,7 +45,6 @@ echo js_include('accounting_item.js');
 echo JS_AJAX_FICHE;
 
 $cn=new Database($gDossier);
-echo_debug(__FILE__,__LINE__,"Connected");
 // Security check
 $write=$User->check_action(FICADD);
 if ($write == 0 ){

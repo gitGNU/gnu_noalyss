@@ -117,7 +117,6 @@ class Anc_Account
 	  $this->db->exec_sql($sql,array($this->name,$this->pa_id,$this->amount,$this->description,$ga_id));
 
 	} catch (Exception $e) {
-	  echo_debug(__FILE__,__LINE__,$e);
 	  if ( DEBUG ) print_r($e);
 	  echo "<p class=\"notice\">Doublon : l'enregistrement n'est pas sauve</p>";
 	}
@@ -145,7 +144,6 @@ class Anc_Account
 	  $this->db->exec_sql($sql,array($this->name,$this->pa_id,$this->amount,
 	  						$this->description,$this->ga_id,$this->id));
 	} catch (Exception $e) {
-	  echo_debug(__FILE__,__LINE__,$e);
 	  echo "<p class=\"notice\">Doublon : l'enregistrement n'est pas sauve</p>";
 	}
 

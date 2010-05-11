@@ -136,7 +136,6 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 
       /* compute the total */
       $tot_amount+=round(${'e_other'.$i.'_amount'},2);
-      echo_debug(__FILE__,__LINE__,' tot_amount =  '.$tot_amount.' e_other'.$i.'_amount'.${'e_other'.$i.'_amount'});
       /* check if all card has a ATTR_DEF_ACCOUNT*/
       $fiche=new fiche($this->db);
       $fiche->get_by_qcode(${'e_other'.$i});
@@ -171,7 +170,6 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	 strlen(trim($first_sold)) != 0 && isNumber($first_sold))
       {
 	$diff=$last_sold-$first_sold;
-	echo_debug(__FILE__,__LINE__,' Diff saldo = '.$last_sold.' - '.$first_sold.' = '.$diff);
 	$diff=round($diff,2)-round($tot_amount,2);
 	if ( $first_sold != 0 && $last_sold !=0) {
 	  if ( $diff != 0 )

@@ -34,7 +34,6 @@
 
 require_once ('constant.php');
 require_once ('class_database.php');
-require_once ('debug.php');
 require_once ('class_acc_compute.php');
 require_once('class_dossier.php');
 require_once ('class_acc_tva.php');

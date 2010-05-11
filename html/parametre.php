@@ -123,7 +123,6 @@ $action="";
 if ( isset ($_POST['action']) ) {
   $action=$_POST['action'];
 }
-echo_debug("parametre",__LINE__,$_POST);
 
 //-----------------------------------------------------
 // divers 

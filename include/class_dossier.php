@@ -35,7 +35,6 @@
  *
  */
 require_once('class_database.php');
-include_once('debug.php');
 require_once('ac_common.php');
 
 class dossier {
@@ -48,7 +47,6 @@ class dossier {
   }
   /*!\brief return the $_REQUEST['gDossier'] after a check */
   static function id() {
-	echo_debug(__FILE__,__LINE__,"id");
 	self::check();
 	return $_REQUEST['gDossier'];
   }
@@ -82,7 +80,6 @@ class dossier {
     $l_sql=$l_sql.$l_step;
     $p_res=$this->cn->exec_sql($l_sql);
 
-    echo_debug('postgres.php',__LINE__,"ShowDossier:".$p_res." Line = $p_Num");
 
     $Max=$this->cn->size();
     if ( $Max == 0 ) return null;
@@ -122,7 +119,6 @@ function get_user() {
   }
   /*!\brief return a string to put to gDossier into a GET */
   static function get() {
-	echo_debug(__FILE__,__LINE__,"get");
 	self::check();
     return "gDossier=".$_REQUEST['gDossier'];
 
@@ -130,13 +126,11 @@ function get_user() {
 
   /*!\brief return a string to set gDossier into a FORM */
   static function hidden() {
-	echo_debug(__FILE__,__LINE__,"hidden");
 	self::check();
 	return '<input type="hidden" id="gDossier" name="gDossier" value="'.$_REQUEST['gDossier'].'">';
   }
   /*!\brief retrieve the name of the current dossier */
   static function name($id=0) {
-	echo_debug(__FILE__,__LINE__,"get_name");
 	self::check();
 
 	$cn=new Database();

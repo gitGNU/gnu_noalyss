@@ -152,7 +152,6 @@ if ( $def==1 || $def == 4 ) {
 
       /* Save the predefined operation */
       if ( isset($_POST['opd_save']) && $User->check_action(PARPREDE)==1) {
-	echo_debug(__FILE__,__LINE__,'saving predefined op');
 	$opd=new Pre_op_ach($cn);
 	$opd->get_post();
 	$opd->save();

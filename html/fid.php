@@ -38,7 +38,6 @@ require_once('class_own.php');
 require_once  ("constant.php");
 require_once('class_database.php');
 require_once ("user_common.php");
-require_once ("debug.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
@@ -55,7 +54,6 @@ $fPrice_sale=(isset($_REQUEST['p']))?$_REQUEST['p']:'none';
 $fPrice_purchase=(isset($_REQUEST['b']))?$_REQUEST['b']:'none';
 
 
-echo_debug('fid.php',__LINE__,"Recherche fid.php".$_REQUEST["FID"]);
 
 if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
 { 
@@ -105,7 +103,6 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
 
   if ( empty($array)) { echo '{"answer":"nok","flabel":"'.$fLabel.'"}'; exit;}
 
-  echo_debug("fid",__LINE__,$array);
 
   $name=$array[0]['vw_name'];
   $sell=$array[0]['vw_sell'] ;

@@ -128,7 +128,6 @@ function isValid ($p_cn,$p_grpt_id) {
  */
 function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1,$p_javascript="")
 {
-  echo_debug('user_common',__LINE__,"function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)");
   // if the pagesize is unlimited return ""
   // in that case there is no nav. bar
   if ( $_SESSION['g_pagesize'] == -1  ) return "";
@@ -145,7 +144,6 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1,$p_javascript=
 
   // compute max of page
   $nb_page=($p_line-($p_line%$p_size))/$p_size;
-  echo_debug('user_common',__LINE__,"nb_page = $nb_page");
   // if something remains
   if ( $p_line % $p_size != 0 ) $nb_page+=1;
 

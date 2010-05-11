@@ -310,11 +310,9 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	  $acc_amount->set_parameter('amount_vat_rate',$oTva->get_parameter('rate'));
 	  if ( strlen(trim(${'e_march'.$i.'_tva_amount'})) ==0) {
 	    $acc_amount->compute_vat();
-	    echo_debug( 'vat is computed = '.$acc_amount->amount_vat);
 
 	  } else {
 	    $acc_amount->amount_vat= ${'e_march'.$i.'_tva_amount'};
-	    echo_debug( 'vat is given = '.$acc_amount->amount_vat);
 
 	  }
 	  $tot_tva+=$acc_amount->amount_vat;
@@ -407,7 +405,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	    $op->j_id=$j_id;
 	    $op->oa_date=$e_date;
 	    $op->oa_debit=($amount < 0 )?'t':'f';
-	    echo_debug(__FILE__.':'.__LINE__,"Description is $e_comm");
 	    $op->oa_description=FormatString($e_comm);
 	    $op->save_form_plan($_POST,$i);
 	  }

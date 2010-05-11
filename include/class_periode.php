@@ -27,7 +27,6 @@
  * \brief For the periode tables parm_periode and jrn_periode
  */
 require_once ('ac_common.php');
-require_once ('debug.php');
 require_once ('class_database.php');
 class Periode {
   var $cn;			/*!< database connection */
@@ -73,7 +72,6 @@ class Periode {
       " p_id =".$this->p_id;
     $res=$this->cn->exec_sql($sql);
     $status=Database::fetch_result($res,0,0);
-    echo_debug(__FILE__.':'.__LINE__.'- is_closed','return ',$status);
     if ( $status == 'CL' || $status=='t' ||$status=='CE')
       return 1;
     return 0;
@@ -282,8 +280,6 @@ order by p_start,p_end");
       $this->cn->commit();
     } catch (Exception $e) {
       $this->cn->rollback();
-      echo_debug(__FILE__.':'.__LINE__.'- Periode insert','Exception ',$e);
-      echo_debug(__FILE__.':'.__LINE__.'- Periode insert','Exception ',$e->getMessage());
       return 1;
     }
     return 0;

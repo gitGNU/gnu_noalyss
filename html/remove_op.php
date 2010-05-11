@@ -28,7 +28,6 @@
  */
 
 require_once('class_database.php');
-require_once ("debug.php");
 require_once ("class_user.php");
 require_once('class_dossier.php');
 require_once ('class_user.php');
@@ -40,5 +39,4 @@ $User->Check();
 
 
 $cn->exec_sql("delete from operation_analytique where oa_group=$1",array($_GET['oa']));
-echo_debug(__FILE__,__LINE__,$_GET);
 ?>

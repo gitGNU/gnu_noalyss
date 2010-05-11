@@ -65,7 +65,6 @@ $align=array('L','C','C','L','R','R','R');
 
 foreach ($a_poste as $poste) 
 {
-  echo_debug("poste_pdf",__LINE__,$poste);
   $Poste=new Acc_Account_Ledger($cn,$poste['pcm_val']);
   list($array,$tot_deb,$tot_cred)=$Poste->get_row_date($from_periode,$to_periode);
   // don't print empty account

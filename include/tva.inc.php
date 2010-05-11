@@ -109,7 +109,6 @@ if ( $own->MY_TVA_USE=='N' ){
 </tr>
 <?php  
   $val=Database::fetch_all($Res);
-  echo_debug('parametre',__LINE__,$val);
   foreach ( $val as $row)
     {
       // load value into an array
@@ -185,7 +184,6 @@ if (   ! isset ($_POST['add'])
     // remove
     if ( isset ( $_REQUEST['rm'])) 
       {
-	echo_debug("parametre",__LINE__,"efface ".$_POST['tva_id']);
 	echo "Voulez-vous vraiment effacer ce taux ? ";
 	$index=$_POST['tva_id'];
 	
@@ -216,7 +214,6 @@ if (   ! isset ($_POST['add'])
   // add
   if ( isset ( $_REQUEST['add'])) 
   {
-    echo_debug("parametre",__LINE__,"add a line ");
     echo "<fieldset><legend>Ajout d'un taux de tva </legend>";
     echo '<FORM method="post">';
 
@@ -250,7 +247,6 @@ if (   ! isset ($_POST['add'])
   if ( isset ( $_REQUEST['mod'])) 
     {
 
-      echo_debug("parametre",__LINE__,"modifie ".$_POST['tva_id']);
       echo "Tva à modifier";
       $index=$_POST['tva_id'];
       echo "<fieldset><legend>Modification d'un taux de tva </legend>";

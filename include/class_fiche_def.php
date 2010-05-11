@@ -186,7 +186,6 @@ function input ()
      }
      $fiche_Def_ref=new fiche_def_ref($this->cn,$p_FICHE_REF);
      $fiche_Def_ref->Get();
-     echo_debug('class_fiche_def',__LINE__,$fiche_Def_ref);
      // build the sql request for fiche_def
      // and insert into fiche_def
      // if p_class_base is null get the default class base from
@@ -195,7 +194,6 @@ function input ()
        { // p_class is null
 	 // So we take the default one
 	 $p_class_base=$fiche_Def_ref->frd_class_base;
-	 echo_debug('class_fiche_def',__LINE__,'Found class base ='.$p_class_base);
        }
      /* check if the cat. name already exists */
      $sql="select count(*) from fiche_Def where upper(fd_label)=upper($1)";
@@ -426,14 +424,12 @@ function input ()
    */
   function DisplayAttribut($str="")
     {
-      echo_debug("class_fiche_def",__LINE__,"DisplayAttribut");
       if ( $this->id == 0 )
 	return ;
       $this->cn->exec_sql('select fiche_attribut_synchro($1)',
 		   array($this->id));
 
       $MaxLine=sizeof($this->attribut);
-      echo_debug("class_fiche_def",__LINE__,"MaxLine = ".$MaxLine);
       $r="<TABLE>";
       // Display each attribute
       $add_action="";
@@ -505,7 +501,6 @@ function input ()
       if ( $this->id == 0 ) return;
       $p_label=FormatString($p_label);
       if (strlen(trim ($p_label)) == 0 ) {
-	echo_debug('class_fiche_def',__LINE__,'Name empty');
 	return;
       }
       $sql=sprintf("update   fiche_def set fd_label='%s' ".
@@ -600,7 +595,6 @@ function input ()
    */
      function save_order($p_array) {
        extract($p_array);
-       echo_debug('class_fiche_def::save_order',$p_array);
        $this->GetAttribut();
        foreach ($this->attribut as $row){
 	 if ( $row->ad_id == 1 ) continue;

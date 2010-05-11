@@ -26,7 +26,6 @@
  */
 require_once ('class_database.php');
 require_once ('constant.php');
-require_once ('debug.php');
 require_once ('class_dossier.php');
 
 /*! \brief class for the group of the analytic account

@@ -28,7 +28,6 @@
 require_once  ("constant.php");
 require_once('class_database.php');
 require_once ("user_common.php");
-require_once ("debug.php");
 require_once('class_dossier.php');
 require_once('class_acc_report.php');
 require_once('class_user.php');
@@ -72,7 +71,6 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
 }
      else
      $a='{"answer":"nok"}';
-echo_debug("fid.php",__LINE__,"Answer is \n $a");
 header("Content-type: text/html; charset: utf8",true);
 print $a;
 ?>

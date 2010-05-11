@@ -309,7 +309,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	    $op->j_id=$j_id;
 	    $op->oa_date=$e_date;
 	    $op->oa_debit=($amount < 0 )?'t':'f';
-	    echo_debug(__FILE__.':'.__LINE__,"Description is $e_comm");
 	    $op->oa_description=FormatString($e_comm);
 	    $op->save_form_plan($_POST,$i);
 	  }

@@ -127,7 +127,6 @@ require_once("class_acc_ledger.php");
  $p_cent=( isset ( $_GET ['cent']) )?'on':'off';
 
  $d=var_export($_GET,true);
- echo_debug('impress_jrn.php',__LINE__,$d);
   $Jrn=new Acc_Ledger($cn,$_GET['jrn_id']);
   $Jrn->get_name();
   if ( $_GET['p_simple']==0 ) 

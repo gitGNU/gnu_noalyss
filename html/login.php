@@ -24,11 +24,9 @@ include_once ("ac_common.php");
 /* $Revision$ */
 
 require_once('class_database.php');
-include_once("debug.php");
 
 
 if (  isset ($_POST["p_user"] ) ) {
-  echo_debug('login.php',__LINE__,"user is set");
   $g_user=FormatString($_POST["p_user"]);
   $g_pass=$_POST["p_pass"];
   $_SESSION['g_user']=$g_user; 

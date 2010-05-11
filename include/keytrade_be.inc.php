@@ -41,8 +41,6 @@ while (($data = fgetcsv($handle, 2000,"!")) !== FALSE) {
 // Parsing CSV comes here
 //-----------------------------------------------------
 	  $row=explode(';',$data[$c]);
-	  echo_debug('keytrade',__LINE__,'$row = '.var_export($row,true));
-	  echo_debug('keytrade',__LINE__,'sizeof($row)'.sizeof($row));
 	  if ( sizeof ($row) < 7 )
 	    continue;
 

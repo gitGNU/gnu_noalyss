@@ -22,7 +22,6 @@
 require_once("constant.php");
 require_once('class_database.php');
 require_once  ("class_user.php");
-require_once ("debug.php");
 require_once ('ac_common.php');
 
 $rep=new Database();
@@ -57,7 +56,6 @@ if ( isset ($_REQUEST['sa']) ) {
     putenv("PGPASSWORD=".phpcompta_password);
     putenv("PGUSER=".phpcompta_user);
     
-    echo_debug ("commande backup ".$cmd);
     if ( $_REQUEST['t'] == 'd' ) {
       $database=domaine."dossier".$_REQUEST['d'];
       $args= " -Fc -Z9 --no-owner -p ".phpcompta_psql_port." ".$database;

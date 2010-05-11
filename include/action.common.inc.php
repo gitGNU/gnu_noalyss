@@ -185,7 +185,6 @@ if ( $sub_action == "list" ) {
 // Add an action
 if ( $sub_action == "add_action" ) 
 {
-  echo_debug('action',__LINE__,var_export($_POST,true));
   $act=new Action($cn);
   $act->fromArray($_POST );
   $act->ag_id=0;
@@ -199,7 +198,6 @@ if ( $sub_action == "add_action" )
 
 
   $act->ag_comment=(isset($_POST['ag_comment']))?Decode($_POST['ag_comment']):"";
-  echo_debug("action.inc",__LINE__,"call display");
   if (isset($_REQUEST['qcode'])) $act->qcode_dest=$_REQUEST['qcode'];
   echo $act->Display('NEW',false,$base,$retour);
 

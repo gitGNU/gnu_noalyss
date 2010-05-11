@@ -44,8 +44,6 @@ while (($data = fgetcsv($handle, 2000,"!")) !== FALSE) {
 //-----------------------------------------------------
 	  $row=explode(';',$data[$c]);
 	  echo 'ici sizeof $row = '.sizeof($row);
-	  echo_debug('argenta',__LINE__,'$row = '.var_export($row,true));
-	  echo_debug('argenta',__LINE__,'sizeof($row)'.sizeof($row));
 	  if ( sizeof ($row) < 9 )
 	    continue;
 	  

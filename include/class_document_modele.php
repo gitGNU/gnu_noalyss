@@ -131,7 +131,6 @@ class Document_modele {
 	      $this->md_sequence="document_".$this->cn->get_next_seq("document_seq");
 	      // if start is not equal to 0 and he's a number than the user
 	      // request a number change
-	      echo_debug('class_document_modele',__LINE__, "this->start ".$this->start." a number ".isNumber($this->start));
 	      
 	      if ( $this->start != 0 && isNumber($this->start) == 1 )
 		{
@@ -142,7 +141,6 @@ class Document_modele {
 	    }
 	  // Save the file
 	  $new_name=tempnam($_ENV['TMP'],'document_');
-	  echo_debug('class_document_modele.php',__LINE__,"new name=".$new_name);
 	  if ( strlen ($_FILES['doc']['tmp_name']) != 0 ) 
 	    {
 	      if (move_uploaded_file($_FILES['doc']['tmp_name'],
@@ -156,7 +154,6 @@ class Document_modele {
 		      $this->cn->rollback();
 		      return;
 		    }
-		  echo_debug('class_document_modele.php',__LINE__,"Loading document");
 		  // Remove old document
 		  $ret=$this->cn->exec_sql("select md_lob from document_modele where md_id=".$this->md_id);
 		  if (Database::num_row($ret) != 0) 
@@ -180,7 +177,6 @@ class Document_modele {
 	}
       catch (Exception $e)
 	{
-	  echo_debug(__FILE__.":".__LINE__." Erreur : ".$e->getCode()." msg ".$e->getMessage());
 	  rollback($this->cn); 
 	  return ;
 	}

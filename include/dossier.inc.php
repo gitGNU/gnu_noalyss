@@ -69,7 +69,6 @@ if ( isset ($_POST["DATABASE"]) ) {
     $msg=_("Desole la creation de ce dossier a echoue,\n la cause la plus probable est".
 	   ' deux fois le même nom de dossier');
     alert($msg);;
-    echo_debug(__FILE__.':'.__LINE__.'- echec ','Echec creation ',$e);
     $l_id=0;
     $cn->rollback();
 
@@ -94,7 +93,6 @@ if ( isset ($_POST["DATABASE"]) ) {
 			 $l_id,
 			 domaine,
 			 FormatString($_POST["FMOD_ID"]));
-	    echo_debug("[".$Sql."]");
 	    ob_start();
 	    if ( $cn->exec_sql($Sql)==false) {
 	      echo   "[".$Sql."]";

@@ -26,7 +26,6 @@
  */
 
 require_once ('class_database.php');
-require_once ('debug.php');
 require_once ('class_own.php');
 require_once('class_dossier.php');
 

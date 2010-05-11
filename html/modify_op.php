@@ -88,7 +88,6 @@ function hide_div (p_div) {
 }
 </script>
 <?php
-echo_debug(__FILE__,__LINE__,"action is $action");
 //-----------------------------------------------------
 if ( $action == 'update' ) {
   if ( $User->check_jrn($p_jrn) =='X' ) {
@@ -100,7 +99,6 @@ if ( $action == 'update' ) {
     }
     // p_id is jrn.jr_id
     $p_id=$_GET["line"];
-    echo_debug('modify_op.php',__LINE__," action = update p_id = $p_id");
 
     $view='<h2 class="error">Erreur vue inconnue</h2>';
 
@@ -236,7 +234,6 @@ if ( isset($_POST['update_record']) ) {
 	}
 
 	if ( isset ($_FILES)) {
-	  echo_debug("modify_op.php",__LINE__, "start upload doc.");
 	  $cn->save_upload_document($_POST['jr_grpt_id']);
 	}
 	if ( isset ($_POST['is_paid'] ))
@@ -307,9 +304,7 @@ if ( isset($_POST['update_record']) ) {
 	    $group=$cn->get_next_seq("s_oa_group");
 
 	    foreach( $array_jid as $row_ca) {
-	      echo_debug(__FILE__.':'.__LINE__,"array is ",$row_ca);
 	      if ( myereg("^[6,7]+",$row_ca['j_poste'])) {
-			echo_debug(__FILE__.':'.__LINE__,"count is ",$count);
 			$op=new Anc_Operation($cn);
 			$op->delete_by_jid($row_ca['j_id']);
 			$op->j_id=$row_ca['j_id'];
@@ -327,7 +322,6 @@ if ( isset($_POST['update_record']) ) {
       'Erreur dans l\'enregistrement '.
       __FILE__.':'.__LINE__.' '.
       $e->getMessage();
-	echo_debug(__FILE__,__LINE__,$e->getMessage());
     $cn->rollback();
     exit();
   }

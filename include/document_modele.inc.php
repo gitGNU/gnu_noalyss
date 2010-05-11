@@ -50,21 +50,16 @@ if ( $sub_action=='add_document')
 // Document remove a template
 //-----------------------------------------------------
 if ( $sub_action=='rm_template') {
-  echo_debug (__FILE__,__LINE__,'Remove some templates');
   require_once("class_document_modele.php");
   // Get all the document to remove
 
   foreach ( $_POST as $name=>$value )
     {
-      echo_debug(__FILE__,__LINE__,"name = ".$name);
-      echo_debug(__FILE__,__LINE__,"value = ".$value);
       list ($id) = sscanf ($name,"dm_remove_%d");
-      echo_debug(__FILE__,__LINE__,"id = ".$id);
       if ( $id == null ) continue;
       // a document has to be removed
       $doc=new Document_modele($cn);
       $doc->md_id=$id;
-      echo_debug (__FILE__,__LINE__,'Removing');
       $doc->Delete();
     }
 

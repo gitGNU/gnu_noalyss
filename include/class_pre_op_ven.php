@@ -36,7 +36,6 @@ class Pre_op_ven extends Pre_operation_detail {
   }
 
   function get_post() {
-	echo_debug(__FILE__.':'.__LINE__.'- ','get_post');
 	parent::get_post();
 	$this->operation->od_direct='f';
 	$this->e_client=$_POST['e_client'];

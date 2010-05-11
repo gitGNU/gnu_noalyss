@@ -35,15 +35,11 @@ $row=1;
 $p_cn->start();
 while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 	$num = count($data);
-	echo_debug('dexia_be',__LINE__,$num);
-	echo_debug('dexia_be',__LINE__,var_export($data,true));
 
 //-----------------------------------------------------
 // Parsing CSV comes here
 //-----------------------------------------------------
 
-	echo_debug('dexia_be',__LINE__,'$row = '.var_export($row,true));
-	echo_debug('dexia_be',__LINE__,'sizeof($row)'.sizeof($row));
 	$row=explode(';',$data[0]);
 	//to avoid a level of if
 	if (!(isset($row[2]))) $row[2]='';

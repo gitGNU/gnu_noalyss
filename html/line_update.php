@@ -68,14 +68,12 @@ if ( isset ($_POST["update"] ) ) {
 	      exit();
 
 	}
-    echo_debug('line_update.php',__LINE__,"Update old : $old_line News = $p_val $p_lib");
     if ( strlen ($p_val) != 0 && strlen ($p_lib) != 0 && strlen($old_line)!=0 ) {
       if (strlen ($p_val) == 1 ) {
 	$p_parent=0;
       } else {
 	if ( strlen($p_parent)==0 ) {
 	  $p_parent=substr($p_val,0,strlen($p_val)-1);
-	  echo_debug('line_update.php',__LINE__,"Modif valeur = $p_val parent = $p_parent");
 	}
       }
       /* Parent existe */

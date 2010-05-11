@@ -65,7 +65,6 @@ $cn=new Database($gDossier);
 if ( isset ($_GET["search"]) ) {
   $c1=0;
   foreach( $_GET as $key=>$element){
-    echo_debug('jrn_search.php',__LINE__,"$key = $element");
     ${"$key"}=$element;
   }
   $c_comment="";
@@ -103,7 +102,6 @@ if ( isset ($_GET["search"]) ) {
 	$part=" and ";
   }
   $condition=$c_comment.$c_montant.$c_date.$c_internal.$c_paid;
-  echo_debug('jrn_search.php',__LINE__,"condition = $condition");
  }
 $condition=$condition." ".$part;
 

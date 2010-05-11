@@ -183,7 +183,6 @@ function ShowMenuCompta($p_high="")
 	    break;
 	  }
 	}
-  echo_debug('user_menu.php',__LINE__,'defaut is '.$default);
 
   $str_dossier=dossier::get();
   $p_array=array(

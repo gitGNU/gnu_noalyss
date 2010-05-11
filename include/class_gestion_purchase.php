@@ -116,7 +116,6 @@ class gestion_purchase extends gestion_table
 	if ( empty($res) ) return null;
 	foreach ($res[0] as $idx=>$value)
 	  $this->$idx=$value;
-	echo_debug(__FILE__.':'.__LINE__.'- gestion_purchase',	'load',$this);
 
   }
 

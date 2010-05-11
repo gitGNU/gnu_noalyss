@@ -287,8 +287,6 @@ class Anc_Operation
           j_id=$p_jid order by j_id,oa_row";
 	$ret=$this->db->exec_sql($sql);
 	$res=Database::fetch_all($ret);
-	echo_debug(__FILE__.":".__LINE__."count res is ",count($res));
-	echo_debug(__FILE__.":".__LINE__," res =",$res);
 	if ( $res== false) return null;
 
 	foreach ($res as $row) {
@@ -360,7 +358,6 @@ function get_balance($p_from,$p_to,$p_plan_id)
 	try {
 	  $res=$this->db->exec_sql($sql);
 	  $array=Database::fetch_all($res);
-	  echo_debug(__FILE__.":".__LINE__," array =",$array);
 	} catch (Exception $e) {
 	  var_dump($e);
 	}
@@ -373,7 +370,6 @@ function get_balance($p_from,$p_to,$p_plan_id)
    * \see save_form_plan
    */
  function display_form_plan($p_array,$p_null,$p_mode,$p_seq,$p_amount) {
-   echo_debug(__FILE__.':'.__LINE__,' display_form_plan($p_array,$p_null,$p_doc,$p_seq,$p_amount) '," $p_array,$p_null,$p_mode,$p_seq,$p_amount) ");
    if ( $p_array != null)
      extract ($p_array);
    $result="";
@@ -473,30 +469,23 @@ function get_balance($p_from,$p_to,$p_plan_id)
   *
   */
  function save_form_plan($p_array,$p_item) {
-   echo_debug(__FILE__.':'.__LINE__,"p_array is ",$p_array);
    extract($p_array);
    if ( !isset (${"nb_t".$p_item}) ) {
      //	 echo __FILE__.':'.__LINE."nb_t".$p_item." n'est pas defini !!!";
      return;
    }
    $max=${"nb_t".$p_item};
-   echo_debug(__FILE__.':'.__LINE__.'- ', "max of row for CA = ".$max);
    // get all the PA
    $plan=new Anc_Plan($this->db);
    $cplan=$plan->count();
-   echo_debug(__FILE__.':'.__LINE__," nb of PA $cplan");
    // foreach row
    for ($i=1;$i<=$max;$i++) {
-	 echo_debug(__FILE__.':'.__LINE__." loop i $i");
 
 	 // foreach col PA
 	 for ($e=1;$e<=$cplan+1;$e++)
 	   {
-		 echo_debug(__FILE__.':'.__LINE__."loop e $e");
-		 echo_debug(__FILE__.':'.__LINE__," Checking ta_".$p_item."o".$e."row_".$i);
 		 if ( isset(${"ta_".$p_item."o".$e."row_".$i}) && ${"ta_".$p_item."o".$e."row_".$i}!=-1)
 		   {
-		     echo_debug(__FILE__.':'.__LINE__,"Value is ".${"ta_".$p_item."o".$e."row_".$i});
 		     $op=new Anc_Operation($this->db);
 		     $val=${"ta_".$p_item."o".$e."row_".$i};
 		     list($op->pa_id,$op->po_id)=sscanf($val,"%d_%d");
@@ -522,7 +511,6 @@ function get_balance($p_from,$p_to,$p_plan_id)
   */
  function to_request ($p_array,$p_line){
    if ( count($p_array) == 0 ) {
-	 echo_debug(__FILE__.':'.__LINE__,"p_array est vide",$p_array);
 	 return null;
    }
    $result=array();
@@ -571,10 +559,8 @@ function get_balance($p_from,$p_to,$p_plan_id)
   */
  function test_me() {
    $array=$this->get_by_jid(442);
-   echo_debug(__FILE__.':'.__LINE__,"resultat get_by_jid",$array);
 
    $a=$this->to_request($array,1);
-   echo_debug(__FILE__.':'.__LINE__,"resultat to_request ligne 1",$a);
 
 
  }

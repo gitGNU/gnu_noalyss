@@ -40,7 +40,6 @@ require_once('class_periode.php');
  */
 function get_rappel_simple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,&$arap) 
 {
-  echo_debug("impress_inc",__LINE__,"function get_rappel_simple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,$arap) ");
   if ( $p_jrn_type !='VEN' && $p_jrn_type != "ACH")
     {
       echo "ERREUR Journal invalide $p_jrn_type __FILE__ __LINE__";
@@ -150,7 +149,6 @@ function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cen
 	$line=Database::fetch_array($Res,0);
 	$cred=$line['tot_amount'];
       }
-      echo_debug('impress_inc.php',__LINE__,"MONTANT $deb,$cred");
       $a=array($deb,$cred);
       return $a;
 
@@ -185,7 +183,6 @@ function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cen
 	$line=Database::fetch_array($Res,0);
 	$cred=$line['tot_amount'];
       }
-      echo_debug('impress_inc.php',__LINE__,"MONTANT $deb,$cred");
       $a=array($deb,$cred);
       return $a;
     } // central == 1
@@ -215,7 +212,6 @@ function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cen
 function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_type_date=0) 
 {
 
-  echo_debug('impress_inc',__LINE__,'ParseFormula');
   if ( CheckFormula($p_formula) == false) {
     if ( $p_eval == true)
       return array('desc'=>$p_label.'  Erreur Formule!',
@@ -228,7 +224,6 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_
 	$cond=sql_filter_per($p_cn,$p_start,$p_end,'p_id','j_tech_per');
   else
 	$cond="( j_date >= to_date('$p_start','DD.MM.YYYY') and j_date <= to_date('$p_end','DD.MM.YYYY'))";
-echo_debug(__FILE__,__LINE__,"receiving $p_formula");
   include_once("class_acc_account_ledger.php");  
   while (myereg("(\[[0-9]*%*D*C*S*\])",$p_formula,$e) == true) {
 
@@ -241,14 +236,11 @@ echo_debug(__FILE__,__LINE__,"receiving $p_formula");
       $compute='cred';
     if ( strpos($e[0],'S') != 0 )
       $compute='signed';
-    echo_debug(__FILE__,__LINE__,' $e = '.$e[0]);
-    echo_debug(__FILE__,__LINE__,' $e = '.$e[0]);
     $e[0]=str_replace ("[","",$e[0]);
     $e[0]=str_replace ("]","",$e[0]);
     $e[0]=str_replace ("D","",$e[0]);
     $e[0]=str_replace ("C","",$e[0]);
     $e[0]=str_replace ("S","",$e[0]);
-    echo_debug('impress_inc',__LINE__,"p_formula is $p_formula");
     // If there is a FROM clause we must recompute 
     // the time cond
 
@@ -313,16 +305,13 @@ echo_debug(__FILE__,__LINE__,"receiving $p_formula");
       $i=$detail['credit'];
     if ( $compute=='signed')
       $i=$detail['debit']-$detail['credit'];
-echo_debug(__FILE__,__LINE__,"Resultat = $i ");
     $p_formula=str_replace($x[0],$i,$p_formula);
-echo_debug(__FILE__,__LINE__,"p_formula = $p_formula ");
 
   }
 
   // $p_eval is true then we eval and returns result
   if ( $p_eval == true) {
     $p_formula="\$result=".$p_formula.";";
-    echo_debug('impress_inc.php',__LINE__, $p_formula);
 
     eval("$p_formula");
 

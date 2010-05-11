@@ -30,15 +30,11 @@ $p_cn->start();
 $p_cn->set_encoding('latin1');
 while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 	$num = count($data);
-	echo_debug('cbc_be',__LINE__,$num);
-	echo_debug('cbc_be',__LINE__,var_export($data,true));
 	for ($c=0; $c < $num; $c++) {
 //-----------------------------------------------------
 // Parsing CSV comes here
 //-----------------------------------------------------
 	  $row=explode(';',$data[$c]);
-	  echo_debug('cbc_be',__LINE__,'$row = '.var_export($row,true));
-	  echo_debug('cbc_be',__LINE__,'sizeof($row)'.sizeof($row));
 	  if ( sizeof ($row) < 13 )
 	    continue;
 
@@ -87,7 +83,6 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 			  }
 			catch(Exception $e)
 			  {
-			    echo_debug(__FILE__.":".__LINE__." Erreur : ".$e->getCode." msg ".$e->getMessage);
 			    $p_cn->rollback();
 			    break;
 			  }

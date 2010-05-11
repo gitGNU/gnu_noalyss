@@ -22,7 +22,6 @@
  * \brief common utilities for a lot of procedure, classe
  */
 
-include_once("debug.php");
 include_once("constant.php");
 require_once('class_database.php');
 require_once('class_periode.php');
@@ -60,7 +59,6 @@ function echo_error      ($p_log, $p_line="", $p_message="") {
   if ($fdebug != null ) {
     fwrite($fdebug,date("Ymd H:i:s").$p_log." ".$p_line." ".$p_message."\n");
     fclose($fdebug);
-    echo_debug($p_log,$p_line,$p_message);
   }
 }
 
@@ -133,7 +131,6 @@ function isDate ( $p_date) {
     if ( $l_date[2] > 2020 ) {
       return null;
     }
-    echo_debug('ac_common.php',__LINE__,' date = '.var_export($l_date,true));
 
     if ( checkdate ($l_date[1],$l_date[0],$l_date[2]) == false) {
       return null;

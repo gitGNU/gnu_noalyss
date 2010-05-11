@@ -78,7 +78,6 @@ class fiche {
 	return 1;
       }
 
-      echo_debug('class_fiche',__LINE__,'f_id = '.$this->id);
 
       if ( $p_all )
 	$this->getAttribut();
@@ -235,7 +234,6 @@ class fiche {
       $all[$i]=$t;
 
     }
-	echo_debug(__FILE__,__LINE__,$all);
     return $all;
   }
   function ShowTable() {
@@ -346,7 +344,6 @@ Array
 			  $w->set_attribute('account',"av_text".$attr->ad_id);
 			  //  account created automatically
 			  $sql="select account_auto($p_fiche_def)";
-			  echo_debug("class_fiche",__LINE__,$sql);
 			  $ret_sql=$this->cn->exec_sql($sql);
 			  $a=Database::fetch_array($ret_sql,0);
 			  $label=new ISpan();
@@ -445,7 +442,6 @@ Array
 		  $w->table=1;
 		  //  account created automatically
 		  $sql="select account_auto($this->fiche_def)";
-		  echo_debug("class_fiche",__LINE__,$sql);
 		  $ret_sql=$this->cn->exec_sql($sql);
 		  $a=Database::fetch_array($ret_sql,0);
 		  $bulle=HtmlInput::infobulle(10);
@@ -528,18 +524,15 @@ Array
 	  // parse the $p_array array
 	  foreach ($p_array as $name=>$value )
 	    {
-	      echo_debug ("class_fiche",__LINE__,"Name = $name value $value") ;
 	      /* avoid the button for searching an accounting item */
 	      if ( $name=='av_text5_bt') continue;
 	      list ($id) = sscanf ($name,"av_text%d");
 	      if ( $id == null ) continue;
-	      echo_debug("class_fiche",__LINE__,"add $id");
 
 	      // Special traitement
 	      // quickcode
 	      if ( $id == ATTR_DEF_QUICKCODE)
 		{
-		  echo_debug("Modify ATTR_DEF_QUICKCODE");
 		  $sql=sprintf("select insert_quick_code(%d,'%s')",
 			       $fiche_id,FormatString($value));
 		  $this->cn->exec_sql($sql);
@@ -548,7 +541,6 @@ Array
 	      // name
 	      if ( $id == ATTR_DEF_NAME )
 		{
-		  echo_debug("Modify ATTR_DEF_NAME");
 		  if ( strlen(trim($value)) == 0 )
 		$value="pas de nom";
 
@@ -556,7 +548,6 @@ Array
 	      // account
 	      if ( $id == ATTR_DEF_ACCOUNT )
 		{
-		  echo_debug("insert ATTR_DEF_ACCOUNT");
 		  $v=FormatString($value);
 		  try {
 
@@ -571,7 +562,6 @@ Array
 			//			$sql=sprintf("select account_insert(%d,null)", $this->id);
 		      }
 		    $this->cn->exec_sql("select account_insert($1,$2)",$parameter);
-		    echo_debug(__FILE__,__LINE__,$sql);
 		  } catch (Exception $e) {
 		    throw new Exception ("Erreur : ce compte [$v] n'a pas de compte parent.".
 					 "L'opération est annulée",
@@ -582,14 +572,12 @@ Array
 	      // TVA
 	      if ( $id == ATTR_DEF_TVA )
 		{
-		  echo_debug("Modify ATTR_DEF_TVA");
 		  // Verify if the rate exists, if not then do not update
 		  if ( strlen(trim($value)) != 0 )
 		    {
 		      if ( isNumber($value) == 0 ) continue;
 		      if ( $this->cn->count_sql("select * from tva_rate where tva_id=".$value) == 0)
 			{
-			  echo_debug("class_fiche",__LINE__,"Tva invalide $value");
 			  continue;
 			}
 		    }
@@ -637,17 +625,14 @@ Array
 	 // parse the $p_array array
 	 foreach ($p_array as $name=>$value )
 	   {
-	     echo_debug ("class_fiche",__LINE__,"Name = $name value $value") ;
 	     list ($id) = sscanf ($name,"av_text%d");
 	     if ( $id == null ) continue;
-	     echo_debug("class_fiche",__LINE__,"modify $id");
 
 	     // retrieve jft_id to update table attr_value
 	     $sql=" select jft_id from jnt_fic_att_value where ad_id=$id and f_id=$this->id";
 	     $Ret=$this->cn->exec_sql($sql);
 	     if ( Database::num_row($Ret) != 1 ) {
 	       // we need to insert this new attribut
-	       echo_debug ("class_fiche ".__LINE__." adding id !!! ");
 	       $jft_id=$this->cn->get_next_seq('s_jnt_fic_att_value');
 
 	       $sql2=sprintf("insert into jnt_fic_att_value(jft_id,ad_id,f_id) values (%s,%s,%s)",
@@ -667,7 +652,6 @@ Array
 	     // quickcode
 	     if ( $id == ATTR_DEF_QUICKCODE)
 	       {
-		 echo_debug("Modify ATTR_DEF_QUICKCODE");
 		 $sql=sprintf("select update_quick_code(%d,'%s')",
 			      $jft_id,FormatString($value));
 		 $this->cn->exec_sql($sql);
@@ -676,7 +660,6 @@ Array
 	     // name
 	     if ( $id == ATTR_DEF_NAME )
 	       {
-		 echo_debug("Modify ATTR_DEF_NAME");
 		 if ( strlen(trim($value)) == 0 )
 		   continue;
 
@@ -709,9 +692,7 @@ Array
 	     // account
 	     if ( $id == ATTR_DEF_ACCOUNT )
 	       {
-		 echo_debug("Modify ATTR_DEF_ACCOUNT");
 		 $v=FormatString($value);
-		 echo_debug("Value = $v");
 		 if ( isNumber($v) == 1 || strpos($v,',') != 0  )
 		   {
 		     $sql=sprintf("select account_update(%d,'%s')",
@@ -750,13 +731,11 @@ Array
 	     // TVA
 	     if ( $id == ATTR_DEF_TVA )
 	       {
-		 echo_debug("Modify ATTR_DEF_TVA");
 		 // Verify if the rate exists, if not then do not update
 		 if ( strlen(trim($value)) != 0 )
 		   {
 		     if ( $this->cn->count_sql("select * from tva_rate where tva_id=".$value) == 0)
 		       {
-			 echo_debug("class_fiche",__LINE__,"Tva invalide $value");
 			 continue;
 		       }
 		   }
@@ -849,7 +828,6 @@ Array
     */
    function Get()
      {
-       echo_debug('class_client',__LINE__,'Get');
        fiche::getAttribut();
      }
    /*!\brief get all the card thanks the fiche_def_ref
@@ -1216,7 +1194,6 @@ function empty_attribute($p_attr) {
 <th>'._('Total crédit').'</th>
 <th>'._('Solde').'</th>';
 $r.='</TR>';
-	  echo_debug(__FILE__,__LINE__,$step_tiers);
       if ( sizeof ($step_tiers ) == 0 )
 	return $r;
       foreach ($step_tiers as $tiers ) {

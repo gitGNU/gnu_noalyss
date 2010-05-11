@@ -25,7 +25,6 @@
    */
 require_once('constant.php');
 require_once('ac_common.php');
-require_once('debug.php');
 
 /*!\brief
  * This class allow you to connect to the postgresql database, execute sql, retrieve data
@@ -235,7 +234,6 @@ de donn&eacute;es");
 	  $buffer=str_replace (';','',$buffer);
 	}
 	$sql.=$buffer;
-	echo_debug('setup.php',__LINE__,"Execute sql $sql");
 	if ( $this->exec_sql($sql) == false ) {
 	  $this->rollback();
 	  if ( DEBUG=='false' ) ob_end_clean();
@@ -555,26 +553,21 @@ Array
       if ($_FILES["pj"]["error"] == UPLOAD_ERR_NO_FILE ){ return;}
 
       $new_name=tempnam($_ENV['TMP'],'pj');
-      echo_debug(__FILE__,__LINE__,"new name=".$new_name);
-      echo_debug(__FILE__.":".__LINE__.$_FILES);
       if ($_FILES["pj"]["error"] > 0)
 	{
 	  print_r($_FILES);
 	  echo_error(__FILE__.":".__LINE__."Error: " . $_FILES["pj"]["error"] );
 	}
       if ( strlen ($_FILES['pj']['tmp_name']) != 0 ) {
-	echo_debug(__FILE__.":".__LINE__.'_FILE is'.$_FILES['pj']['tmp_name']);
 	if (move_uploaded_file($_FILES['pj']['tmp_name'],
 			       $new_name)) {
 	  // echo "Image saved";
-	  echo_debug(__FILE__.":".__LINE__."Doc saved");
 	  $oid= pg_lo_import($this->db,$new_name);
 	  if ( $oid == false ) {
 	    echo_error('postgres.php',__LINE__,"cannot upload document");
 	    $this->rollback();
 	    return;
 	  }
-	  echo_debug(__FILE__,__LINE__,"Loading document");
 	  // Remove old document
 	  $ret=$this->exec_sql("select jr_pj from jrn where jr_grpt_id=$seq");
 	  if (pg_num_rows($ret) != 0) {

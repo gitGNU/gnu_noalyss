@@ -144,7 +144,6 @@ $sql="insert into centralized( c_j_id,
    }
  catch(Exception $e)
    { 
-     echo_debug(__FILE__.":".__LINE__." Erreur : ".$e->getCode." msg ".$e->getMessage);
      rollback($p_cn); 
      return ERROR;
    }

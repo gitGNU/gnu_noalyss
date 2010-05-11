@@ -44,7 +44,6 @@ class Pre_operation
   }
   /*!\brief fill the object with the $_POST variable */
   function get_post() {
-	echo_debug(__FILE__.':'.__LINE__.'-',' $_POST',$_POST);
 	$this->nb_item=$_POST['nb_item'];
 	$this->p_jrn=$_REQUEST['p_jrn'];
 	$this->jrn_type=$_POST['jrn_type'];
@@ -98,7 +97,6 @@ class Pre_operation
 	  " order by od_name";
 	$res=$this->db->exec_sql($sql);
 	$array=Database::fetch_all($res);
-	echo_debug(__FILE__.':'.__LINE__.'- ','load pre_op',$array);
 
 	return $array;
   }

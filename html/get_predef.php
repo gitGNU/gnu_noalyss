@@ -30,7 +30,6 @@
 
 require_once ('constant.php');
 require_once ('class_database.php');
-require_once ('debug.php');
 require_once('class_dossier.php');
 require_once('class_pre_operation.php');
 // Check if the needed field does exist

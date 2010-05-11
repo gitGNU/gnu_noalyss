@@ -22,7 +22,6 @@
  */
 include_once("ac_common.php");
 require_once('class_database.php');
-include_once("debug.php");
 include_once("user_menu.php");
 html_page_start($_SESSION['g_theme']);
 
@@ -93,10 +92,8 @@ if ( isset ($_POST['SAVE']) ){
 	  // Update Priv on Folder
 	  foreach ($_POST as $name=>$elem)
 	    {
-	      echo_debug('priv_user.php',__LINE__,"_POST $name $elem");
 	      if ( substr_count($name,'PRIV')!=0 )
 	      {
-			echo_debug('priv_user.php',__LINE__,"Found a priv");
 			$db_id=substr($name,4);
 			$cn=new Database();
 			$UserChange->set_folder_access($db_id,$elem);
