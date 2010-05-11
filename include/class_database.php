@@ -80,7 +80,7 @@ de donn&eacute;es");
 
       }
     $this->db=$a;
-    if ($p_type == 'dos'||$p_type=='mod') 
+    if ( $this->exist_schema('comptaproc') )
       pg_exec($this->db,'set search_path to public,comptaproc;');
     ob_end_clean();
   }

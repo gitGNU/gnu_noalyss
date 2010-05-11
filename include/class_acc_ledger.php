@@ -1199,7 +1199,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 
       if (  $own->MY_ANALYTIC!='nu') // use of AA
 	{
-	  if ( ereg("^[6,7]+",$strPoste)) {
+	  if ( myereg("^[6,7]+",$strPoste)) {
 	    // show form
 	    $op=new Anc_Operation($this->db);
 	    $null=($own->MY_ANALYTIC=='op')?1:0;
@@ -1614,7 +1614,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	  $tot_cred+=($acc_op->type=='c')?$acc_op->amount:0;
 	  if ( $own->MY_ANALYTIC != "nu" )
 	    {
-	      if ( ereg("^[6,7]+",$poste)) {
+	      if ( myereg("^[6,7]+",$poste)) {
 
 		// for each item, insert into operation_analytique */
 		$op=new Anc_Operation($this->db);

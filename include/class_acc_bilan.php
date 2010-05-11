@@ -294,7 +294,7 @@ class Acc_Bilan {
 		 continue; 
 	  // buffer contains a formula A$=....
 	  // We need to eval it 
-	  //ereg("\\$[a-zA-Z]+[0-9]*=",$buffer,$e);
+	  //myereg("\\$[a-zA-Z]+[0-9]*=",$buffer,$e);
 	  //  echo $e[0];
 	  //echo "<br>".$form;
 	  $a=ParseFormula($this->db,"$buffer",$buffer,$this->from,$this->to,false);
@@ -354,7 +354,7 @@ class Acc_Bilan {
       //      echo_debug(__FILE__.':'.__LINE__.'-','$line_rtf',$line_rtf);
 
       /* replace the header tag */
-      while( ereg('&lt;&lt;header&gt;&gt;',$line_rtf,$head) == true ) {
+      while( myereg('&lt;&lt;header&gt;&gt;',$line_rtf,$head) == true ) {
 	foreach ($head as $h) {
 	  // Create the header
 	  $line_rtf=str_replace($h,header_txt($this->db),$line_rtf);
@@ -364,7 +364,7 @@ class Acc_Bilan {
       //	  echo_debug(__FILE__.':'.__LINE__.'- ','$r',$r);
       // the line contains the magic <<
       $tmp="";
-      while (ereg($regex,$line_rtf,$f2) == true) {
+      while (myereg($regex,$line_rtf,$f2) == true) {
 	echo_debug(__FILE__.':'.__LINE__.'- ','Pattern found',$f2);
 
 	// the f2 array contains all the magic << in the line
@@ -407,7 +407,7 @@ class Acc_Bilan {
 	   $line_rtf=str_replace($f2_str,$a,$line_rtf);
 		  
 	}// foreach end
-      } // while ereg
+      } // while myereg
       $r.=$line_rtf;
 		
     }// odt file is read
@@ -430,7 +430,7 @@ class Acc_Bilan {
 	while ( !feof($p_file) ) {
 	  $line_rtf=fgets($p_file);
 	  echo_debug(__FILE__.':'.__LINE__.'-','$line_rtf',$line_rtf);
-	  if ( ereg($lt.$lt.'header'.$gt.$gt,$line_rtf) ) {
+	  if ( myereg($lt.$lt.'header'.$gt.$gt,$line_rtf) ) {
 		// Create the header
 		$line_rtf=str_replace($lt.$lt.'header'.$gt.$gt,header_txt($this->db),$line_rtf);
 		$r.=$line_rtf;
@@ -438,7 +438,7 @@ class Acc_Bilan {
 	  }
 	  echo_debug(__FILE__.':'.__LINE__.'- ','$r',$r);
 	  // the line contains the magic <<
-	  if (ereg($lt.$lt."\\$[a-zA-Z]*[0-9]*".$gt.$gt,$line_rtf,$f2) == true) {
+	  if (myereg($lt.$lt."\\$[a-zA-Z]*[0-9]*".$gt.$gt,$line_rtf,$f2) == true) {
 		// DEBUG
 		//    echo $r.'<br>';
 		echo_debug(__FILE__.':'.__LINE__.'- ','Pattern found',$f2);

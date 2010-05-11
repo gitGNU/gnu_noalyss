@@ -147,7 +147,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
       if ( $content['j_debit'] == 't' ) $r.=$col_vide;
 	  //-- add ca
 	  //
-	  if ( $own->MY_ANALYTIC != "nu" && ereg("^[6,7]+",$content['j_poste']))
+	  if ( $own->MY_ANALYTIC != "nu" && myereg("^[6,7]+",$content['j_poste']))
 	    {
 
 	      $r.=display_table_ca($p_cn,$count,$content['j_id'],$own,$p_mode,$content['j_montant']);
@@ -405,7 +405,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 
 		$content['j_poste']=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
 		//		echo "j_poste= ".$content['j_poste'];
-		if ( $own->MY_ANALYTIC != "nu" && ereg("^[6,7]+",$content['j_poste']))
+		if ( $own->MY_ANALYTIC != "nu" && myereg("^[6,7]+",$content['j_poste']))
 		  {
 		    $r.=display_table_ca($p_cn,$i_march,$row->j_id,$own,$p_mode,round($tot_amount,2));
 			$i_march++;
@@ -510,7 +510,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	    echo_debug(__FILE__.':'.__LINE__,'$content["j_poste"]',$content['j_poste']);
 
 	    //		echo "j_poste= ".$content['j_poste'];
-	    if ( $own->MY_ANALYTIC != "nu" && ereg("^[6,7]+",$content['j_poste']))
+	    if ( $own->MY_ANALYTIC != "nu" && myereg("^[6,7]+",$content['j_poste']))
 	      {
 		echo_debug(__FILE__.':'.__LINE__,'showUser VEN $content',$content);
 		echo_debug(__FILE__.':'.__LINE__,'showUser VEN $row ',$row);

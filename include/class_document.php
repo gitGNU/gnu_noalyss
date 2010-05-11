@@ -216,8 +216,8 @@ class Document
 	  // replace the tag
 	  $buffer=fgets($h);
 	  // search in the buffer the magic << and >>
-	  // while ereg finds something to replace
-	  while ( eregi ($regex,$buffer,$f) )
+	  // while myereg finds something to replace
+	  while ( myeregi ($regex,$buffer,$f) )
 	    {
 	      echo_debug(__FILE__,__LINE__,'Search for a regex');
 	    echo_debug('class_document',__LINE__,'var_export '.var_export( $f,true));

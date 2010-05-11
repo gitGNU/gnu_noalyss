@@ -52,7 +52,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE)
   
   // Skipping all the lines whith a blank operation reference ('numéro extrait')
   if ( $row[2] == '' ||
-       !(ereg('[0-9]{3}-[0-9]{7}-[0-9]{2}',$row[0],$r)))
+       !(myereg('[0-9]{3}-[0-9]{7}-[0-9]{2}',$row[0],$r)))
     {
       $LinesSkipped++;
       continue; 
@@ -61,7 +61,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE)
   // !! Disable check of doubles as all the unreferenced operations have hte smae
   //NULL' reference
   // Just use the following test : if (
-  //!(ereg('[0-9]{3}-[0-9]{7}-[0-9]{2}',$row[0],$r)))
+  //!(myereg('[0-9]{3}-[0-9]{7}-[0-9]{2}',$row[0],$r)))
   
   // Parsing the remaining lines
   $num_compte=$row[3]; // Third party bank account

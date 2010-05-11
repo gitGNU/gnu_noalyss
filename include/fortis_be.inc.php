@@ -48,12 +48,12 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 			$date_exec = str_replace(chr(34),"", $date_exec);
 			
 			// Si LTXXXXX ou LT XXXXX dans le détail
-			if ((ereg ("LT+([0-9]{5})", $detail, $regs)) || (ereg ("LT+[ ]+([0-9]{5})", $detail, $regs))) {
+			if ((myereg ("LT+([0-9]{5})", $detail, $regs)) || (myereg ("LT+[ ]+([0-9]{5})", $detail, $regs))) {
 				$iduser = $regs[1];
 			}
 			
 			// Si 00000XXXXXXX
-			if (ereg ("[0-9]{12}", $detail, $regs)){
+			if (myereg ("[0-9]{12}", $detail, $regs)){
 				if($regs[0] != "000000000000") {
 					$id = substr($regs[0], 5, 5);
 					$check = substr($regs[0], 10, 2);

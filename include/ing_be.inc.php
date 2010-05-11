@@ -48,17 +48,17 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 		$date_exec = str_replace("\"", "", $date_exec);
 		$date_valeur = str_replace("\"", "", $date_valeur);
 		$montant = str_replace("\"", "", $montant);
-		if ((ereg ("([0-9]{3})-([0-9]{7})-([0-9]{2})", $num_compte, $regs))){
+		if ((myereg ("([0-9]{3})-([0-9]{7})-([0-9]{2})", $num_compte, $regs))){
 			$num_compte = $regs[0];
 		}
 		
 		// Si LTXXXXX ou LT XXXXX dans le détail
-		if ((ereg ("LT+([0-9]{5})", $detail, $regs)) || (ereg ("LT+[ ]+([0-9]{5})", $detail, $regs))) {
+		if ((myereg ("LT+([0-9]{5})", $detail, $regs)) || (myereg ("LT+[ ]+([0-9]{5})", $detail, $regs))) {
 			$iduser = $regs[1];
 		}
 		
 		// Si XXXXXXXXXXXX
-		if (ereg ("[0-9]{12}", $detail, $regs)){
+		if (myereg ("[0-9]{12}", $detail, $regs)){
 			if($regs[0] != "000000000000") {
 				$id = substr($regs[0], 2, 5);
 				$longchiffre = substr($regs[0], 0, 10);

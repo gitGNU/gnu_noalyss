@@ -230,7 +230,7 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_
 	$cond="( j_date >= to_date('$p_start','DD.MM.YYYY') and j_date <= to_date('$p_end','DD.MM.YYYY'))";
 echo_debug(__FILE__,__LINE__,"receiving $p_formula");
   include_once("class_acc_account_ledger.php");  
-  while (ereg("(\[[0-9]*%*D*C*S*\])",$p_formula,$e) == true) {
+  while (myereg("(\[[0-9]*%*D*C*S*\])",$p_formula,$e) == true) {
 
     // remove the [ ] 
     $x=$e;
@@ -252,7 +252,7 @@ echo_debug(__FILE__,__LINE__,"receiving $p_formula");
     // If there is a FROM clause we must recompute 
     // the time cond
 
-    if ($p_type_date == 0 && ereg ("FROM=[0-9]+\.[0-9]+", $p_formula,$afrom) == true ){
+    if ($p_type_date == 0 && myereg ("FROM=[0-9]+\.[0-9]+", $p_formula,$afrom) == true ){
       // There is a FROM clause 
       // then we must modify the cond for the periode
       $from=str_replace("FROM=","",$afrom[0]);
@@ -326,7 +326,7 @@ echo_debug(__FILE__,__LINE__,"p_formula = $p_formula ");
 
     eval("$p_formula");
 
-    while (ereg("\[([0-9]+)([Tt]*)\]",trim($p_label),$e) == true) {
+    while (myereg("\[([0-9]+)([Tt]*)\]",trim($p_label),$e) == true) {
         $nom = "!!".$e[1]."!!";
         if (CheckFormula($e[0])) {
 	  $nom = $p_cn->get_value ( "SELECT pcm_lib AS acct_name FROM tmp_pcmn WHERE pcm_val::text LIKE $1||'%' ORDER BY pcm_val ASC LIMIT 1",array($e[1]));
@@ -354,7 +354,7 @@ echo_debug(__FILE__,__LINE__,"p_formula = $p_formula ");
  * \return true if the formula is good otherwise false
  */
 function CheckFormula($p_string) {
-  // the ereg gets too complex if we want to add a test
+  // the myereg gets too complex if we want to add a test
   // for parenthesis, math function...
   // So I prefer remove them before testing
   $p_string=str_replace("round","",$p_string);
@@ -378,7 +378,7 @@ function CheckFormula($p_string) {
   $p_string=str_replace("T","",$p_string);
   $p_string=str_replace("t","",$p_string);
 
-  if ( ereg ("^(\\$[a-zA-Z]*[0-9]*=){0,1}((\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})+ *([+-\*/])* *(\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})*)*(([+-\*/])*\\$([a-zA-Z])+[0-9]*([+-\*/])*)* *( *FROM=[0-9][0-0].20[0-9][0-9]){0,1}$",$p_string) == false)
+  if ( myereg ("^(\\$[a-zA-Z]*[0-9]*=){0,1}((\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})+ *([+-\*/])* *(\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})*)*(([+-\*/])*\\$([a-zA-Z])+[0-9]*([+-\*/])*)* *( *FROM=[0-9][0-0].20[0-9][0-9]){0,1}$",$p_string) == false)
     {
       return false;
     } else {

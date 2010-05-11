@@ -42,7 +42,7 @@ extract ($_GET);
 foreach (array('l','gDossier') as $a) {
   if ( ! isset (${$a}) )   { echo "error $a is not set "; exit();} 
 }
-if ( ereg('^[0-9]+$',$l) == false ) {exit();}
+if ( myereg('^[0-9]+$',$l) == false ) {exit();}
 $cn=new Database(dossier::id());
 $User=new User($cn);
 $User->Check();
