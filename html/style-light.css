@@ -518,6 +518,8 @@ fieldset fieldset legend {
 select {
 border: 1px solid blue;
 margin:2px;
+background-color:white;
+
 
 }
 
