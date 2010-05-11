@@ -132,6 +132,7 @@ if ( ! file_exists ( $file) ) {
 	       "php_flag short_open_tag on",
 	       "php_value upload_max_filesize 10M",
 	       "php_value session.use_trans_sid 1",
+	       "php_value session.use_cookies 0",
 	       "php_flag session.use_only_cookies off");
 
   if ( $os == 0 )
