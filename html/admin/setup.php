@@ -183,13 +183,18 @@ if ( in_array('pgsql',$module) == false )
 {
   print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; le package  pour postgresql soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
   $flag_php++;
-}
+} else echo 'module PGSQL ok <br>';
 
 if ( in_array('bcmath',$module) == false )
 {
   print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; le package  pour bcmath soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
   $flag_php++;
-}
+} else echo 'module BCMATH ok <br>';
+if ( in_array('gettext',$module) == false )
+{
+  print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; le package  pour gettext soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
+  $flag_php++;
+} else echo 'module GETTEXT ok <br>';
 
 if ( ini_get("max_execution_time") < 60 )  {
 	print '<h2 class="info"> max_execution_time should be set to 60 minimum</h2>';
@@ -201,14 +206,14 @@ if ( ini_get("session.auto_start") == false )  {
 if ( ini_get("session.use_trans_sid") == false )  {
 	print '<h2 class="error"> avertissement session.use_trans_sid should be set to true </h2>';
 }
-if ( ereg("..\/include",$inc_path) == 0 and ereg("..\\include",$inc_path) == 0)
+if ( strpos($inc_path,"../include") == 0 && strpos ($inc_path,'..\\include') == 0)
 {
-  print ("<h2 class=\"error\">include_path incorrect  !!!".$inc_path."</h2>");
+  print ("<h2 class=\"error\"> include_path incorrect  !!!".$inc_path."</h2>");
 	$flag_php++;
 }
  else
- if ( ereg("addon",$inc_path) == 0) {
-  print ("<h2 class=\"error\">include_path incorrect  !!!".$inc_path."</h2>");
+   if ( strpos($inc_path,"addon") == 0) {
+  print ("<h2 class=\"error\">2 include_path incorrect  !!!".$inc_path."</h2>");
 	$flag_php++;
  }else
    print 'include_path : ok ('.$inc_path.')<br>';
