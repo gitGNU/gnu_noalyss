@@ -115,7 +115,6 @@ echo '<div class="lmenu">';
 MenuJrn();
 echo '</div>';
 
-$sessid=$_REQUEST['PHPSESSID'];
 
 
 echo '<DIV CLASS="u_redcontent">';
@@ -155,7 +154,7 @@ $pj_seq='';
 $last_seq=0;
 
 echo '<FORM METHOD="POST">';
-echo dossier::hidden().HtmlInput::phpsessid();
+echo dossier::hidden();
 echo HtmlInput::hidden('p_action','jrn');
 echo HtmlInput::hidden('sa','add');
 require_once('template/param_jrn.php');

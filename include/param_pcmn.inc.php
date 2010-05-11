@@ -174,12 +174,11 @@ for ($i=0; $i <$MaxRow; $i++) {
   echo $A['pcm_val'];
   echo '</td>';
   echo "$td";
-  printf ("<A HREF=\"javascript:PcmnUpdate('%s','%s','%s','%s','%s',%d)\">",
+  printf ("<A HREF=\"javascript:PcmnUpdate('%s','%s','%s','%s',%d)\">",
 	  $A['pcm_val'],
 	  FormatString($A['pcm_lib']),
 	  $A['pcm_val_parent'],
 	  $A['pcm_type'],
-	  $_REQUEST['PHPSESSID'],
 	  dossier::id());
   echo h($A['pcm_lib']);
 

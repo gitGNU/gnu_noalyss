@@ -165,11 +165,10 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	if ( $content['jr_pj_name'] != "")
 	  $r.='<TD>Effacer PJ <INPUT TYPE="CHECKBOX" name="to_remove" ></TD>';
   }
-  $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s&%s&PHPSESSID=%s">%s</A>',
+  $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s">%s</A>',
 		     $content['jr_id'],
 		     $content['jr_grpt_id'],
 		     $str_dossier,
-		     $_REQUEST['PHPSESSID'],
 		     $content['jr_pj_name']
 
 		     )."</TD>";
@@ -210,7 +209,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	  $rec=new Acc_Reconciliation($p_cn);
 	  $rec->set_jr_id($content['jr_id']);
 	  $a=$rec->get();
-	  $sessid=$_REQUEST["PHPSESSID"];
+
 	  if ( $a != null ) {
 	    $r.="<h2 class=\"info2\">Operation concernée</h2> <br>";
 
@@ -218,18 +217,17 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	    foreach ($a as $key => $element) {
 	      $operation=new Acc_operation($p_cn);
 	      $operation->jr_id=$element;
-	      $r.=sprintf ('%s <INPUT class="button" TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\',%d)">',
+	      $r.=sprintf ('%s <INPUT class="button" TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',%d)">',
 			   $operation->get_internal($p_cn,$element),
 			   $element,
-			   $sessid,
 			   $gDossier);
-	      $r.=sprintf('<INPUT class="button"  TYPE="button" value="Efface" onClick="dropLink(\'%s\',\'%s\',\'%s\',%d)"><BR>',
-			  $content['jr_id'],$element,$sessid,$gDossier);
+	      $r.=sprintf('<INPUT class="button"  TYPE="button" value="Efface" onClick="dropLink(\'%s\',\'%s\',%d)"><BR>',
+			  $content['jr_id'],$element,$gDossier);
 	    }//for
 	    $r.= "</div>";
 	  }// if ( $a != null )
 
-	$search='<INPUT TYPE="BUTTON" class="button" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."',".$gDossier.",'rapt','".$content['jr_montant']."')\">";
+	$search='<INPUT TYPE="BUTTON" class="button" VALUE="Cherche" OnClick="SearchJrn('.$gDossier.",'rapt','".$content['jr_montant']."')\">";
 
 	$r.= 'Autre rapprochement :
        <INPUT TYPE="TEXT" id="rapt" name="rapt" value="">'.$search;
@@ -564,10 +562,9 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   //doc
   if ( $p_mode ==1 && $content['jr_pj_name'] != "")
 	  $r.='<tr><TD>Effacer Pj <INPUT TYPE="CHECKBOX" name="to_remove" ></TD>';
-  $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s&'.$str_dossier.'&PHPSESSID=%s">%s</A>',
+  $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s&'.$str_dossier.'">%s</A>',
 		     $content['jr_id'],
 		     $content['jr_grpt_id'],
-		     $_REQUEST['PHPSESSID'],
 		     $content['jr_pj_name'])."</TD>";
   $r.="</TR></TABLE>";
 
@@ -606,7 +603,6 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	$a=$rec->get();
 
 
-	$sessid=$_REQUEST["PHPSESSID"];
 
 	if ( $a != null ) {
       $r.="<h2 class=\"info2\">Operation concernée</h2> <br>";
@@ -615,18 +611,17 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
       foreach ($a as $key => $element) {
 		$operation=new Acc_operation($p_cn);
 		$operation->jr_id=$element;
-		$r.=sprintf ('%s <INPUT TYPE="BUTTON" class="button" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\',%d)">',
+		$r.=sprintf ('%s <INPUT TYPE="BUTTON" class="button" VALUE="Détail" onClick="modifyOperation(\'%s\',%d)">',
 					 $operation->get_internal(),
 					 $element,
-					 $sessid,
 					 $gDossier);
-		$r.=sprintf('<INPUT TYPE="button" class="button" value="Efface" onClick="dropLink(\'%s\',\'%s\',\'%s\',%d)"><BR>',
-					$content['jr_id'],$element,$sessid,$gDossier);
+		$r.=sprintf('<INPUT TYPE="button" class="button" value="Efface" onClick="dropLink(\'%s\',\'%s\',%d)"><BR>',
+					$content['jr_id'],$element,$gDossier);
 	  }//for
 	  $r.= "</div>";
   }// if ( $a != null )
 
-  $search='<INPUT TYPE="BUTTON" class="button" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."',".$gDossier.",'rapt','".$content['jr_montant']."')\">";
+  $search='<INPUT TYPE="BUTTON" class="button" VALUE="Cherche" OnClick="SearchJrn('.$gDossier.",'rapt','".$content['jr_montant']."')\">";
 
   $r.= 'Autre rapprochement :
        <INPUT TYPE="TEXT" id="rapt" name="rapt" value="">'.$search;

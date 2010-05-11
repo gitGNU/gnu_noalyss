@@ -34,7 +34,7 @@ if ( isset ($_REQUEST['sa'] )) {
   putenv("PGPASSWORD=".phpcompta_password);
   putenv("PGUSER=".phpcompta_user);
   putenv("PGPORT=".phpcompta_psql_port);
-  $retour='<hr>'.HtmlInput::button_anchor("Retour","?action=restore&PHPSESSID=".$_REQUEST['PHPSESSID']);
+  $retour='<hr>'.HtmlInput::button_anchor("Retour","?action=restore");
   if ( ! isset($_REQUEST['t'])) {
     echo '<div class="content">';
     echo ("<span class=\"error\">Vous devez préciser s'il s'agit d'un modèle ou d'un dossier</span>");

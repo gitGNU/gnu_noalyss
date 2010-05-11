@@ -368,8 +368,7 @@ class Action
       $upload->name="file_upload[]";
       $upload->value="";
       $aAttachedFile=$this->db->get_array('select d_id,d_filename,d_mimetype,'.
-					  '\'show_document.php?PHPSESSID='.
-					  $_REQUEST['PHPSESSID'].'&'.
+					  '\'show_document.php?'.
 					  Dossier::get().'&d_id=\'||d_id as link'.
 					  ' from document where ag_id=$1',
 					 array($this->ag_id));
@@ -485,7 +484,6 @@ class Action
 
       /* Add the needed hidden values */  
       $r.=dossier::hidden();
-      $r.=HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);  
 
       /* add the number of item */
       $Hid=new IHidden();
@@ -831,8 +829,8 @@ class Action
 	  $qcode_dest=$fexp->strAttribut(ATTR_DEF_QUICKCODE);
 
 	  $qexp=($qcode_dest=="- ERROR -")?"Interne":$qcode_dest;
-	  $jsexp=sprintf("javascript:showfiche('%s','%s')",
-		      $_REQUEST['PHPSESSID'],$qexp);
+	  $jsexp=sprintf("javascript:showfiche('%s')",
+		      $qexp);
 	  if ( $qexp != 'Interne' )
 	    {
 	      $r.="<td>$href".$qexp." : ".$fexp->getName().'</a></td>';

@@ -69,7 +69,6 @@ $User->can_request(PARRAP,1);
 
 $cn=new Database($gDossier);
 
-$nocookie='&PHPSESSID='.$_REQUEST['PHPSESSID'];
 $rap=new Acc_Report($cn);
 
 if ( isset ($_POST["del_form"]) ) {
@@ -154,7 +153,7 @@ if ( isset ($_REQUEST["action"]) ) {
 	echo HtmlInput::submit("del_form",_("Effacement"));
 	$w=new IButton();
 	$w->name="export";
-	$w->javascript="report_export('".$_REQUEST['PHPSESSID']."','".$gDossier."','".$rap->id."')";
+	$w->javascript="report_export('".$gDossier."','".$rap->id."')";
 	$w->label='Export';
 	echo $w->input();
 	echo '<span id="export_link"></span>';

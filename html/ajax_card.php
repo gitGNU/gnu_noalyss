@@ -27,7 +27,6 @@
  {'ctl':'','html':''}
 \endverbatim
  * The parameters are
- * - PHPSESSID
  * - gDossier
  * - op
       - dc Detail of a card
@@ -60,7 +59,7 @@ require_once('function_javascript.php');
 require_once('ac_common.php');
 require_once ('class_user.php');
 
-$var=array('PHPSESSID','gDossier','op','ctl');
+$var=array('gDossier','op','ctl');
 $cont=0;
 /*  check if mandatory parameters are given */
 foreach ($var as $v) {
@@ -95,7 +94,7 @@ case 'bc':
     $f=new Fiche($cn);
     $popup=str_replace('_content','',$ctl);
     $r.='<form id="save_card" method="POST" onsubmit="this.ipopup=\''.$popup.'\';save_card(this);return false;" >';
-    $r.=dossier::hidden();$r.=HtmlInput::phpsessid();
+    $r.=dossier::hidden();
     $r.=(isset($ref))?HtmlInput::hidden('ref',1):'';
     $r.=HtmlInput::hidden('fd_id',$fd_id);
     $r.=HtmlInput::hidden('ctl',$ctl);
@@ -131,7 +130,7 @@ case 'st':
     $isel->value=$array;
     $popup=str_replace('_content','',$ctl);
     $r.='<form id="sel_type" method="GET" onsubmit="this.ipopup=\''.$popup.'\';dis_blank_card(this);return false;" >';
-    $r.=dossier::hidden();$r.=HtmlInput::phpsessid();
+    $r.=dossier::hidden();
     $r.=(isset($ref))?HtmlInput::hidden('ref',1):'';
     $r.='<p>choisissez le type de fiche à ajouter</p>';
     $r.=$isel->input();
@@ -171,7 +170,7 @@ case 'fs':
   $r.=_('Fiche contenant');
   $r.=$q->input();
   $r.=HtmlInput::submit('fs',_('Recherche'));
-  $r.=dossier::hidden().HtmlInput::phpsessid().HtmlInput::hidden('op','fs');
+  $r.=dossier::hidden().HtmlInput::hidden('op','fs');
   $array=array();
   foreach (array('query','inp','jrn','label','typecard','price','tvaid') as $i) {
     if  (isset(${$i}) ){
@@ -253,7 +252,7 @@ case 'ac':
     $html.= '<div class="u_content">';
     $html.=$ctl;
     $html.= '<form id="newcat" name="newcat" method="post" onsubmit="this.ipopup=\''.$ipopup.'\';save_card_category(this);return false;">';
-    $html.= dossier::hidden().HtmlInput::phpsessid();
+    $html.= dossier::hidden();
     $html.=HtmlInput::hidden('cat',$cat);
     $search=new IPoste("class_base");
     $search->size=40;

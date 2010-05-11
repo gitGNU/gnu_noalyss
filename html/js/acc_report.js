@@ -26,9 +26,8 @@
 /**
  * @brief add a line in the form for the report 
  * @param p_dossier dossier id to connect
- * @param p_sessid session id
  */
-function rapport_add_row(p_dossier,p_sessid){
+function rapport_add_row(p_dossier){
    style='style="border: 1px solid blue;"';
    var table=$("rap1");
    var line=table.rows.length;
@@ -48,17 +47,16 @@ function rapport_add_row(p_dossier,p_sessid){
 
   // Search Button
   var cellSearch = row.insertCell(3);
-   cellSearch.innerHTML='<input type="button" value="Recherche Poste" onclick="SearchPoste(\''+p_sessid+'\','+p_dossier+',\'form'+line+'\',\'\',\'poste\',\'N\')" class="inp"/>';
+   cellSearch.innerHTML='<input type="button" value="Recherche Poste" onclick="SearchPoste('+p_dossier+',\'form'+line+'\',\'\',\'poste\',\'N\')" class="inp"/>';
 
 }
 
 /**
  * @brief create a file to export a report
- * @param p_sessid the Session id
  * @param p_dossier the dossier id
  */
-function report_export(p_sessid,p_dossier,p_fr_id) {
-  var queryString="?PHPSESSID="+p_sessid+"&gDossier="+p_dossier+"&f="+p_fr_id;
+function report_export(p_dossier,p_fr_id) {
+  var queryString="?&gDossier="+p_dossier+"&f="+p_fr_id;
   var action=new Ajax.Request(
 			      "ajax_report.php",
 			      {

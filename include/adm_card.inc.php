@@ -99,7 +99,6 @@ if ( $ss_action == 'op') {
 if ( $ss_action == 'cn') {
   echo '<div class="content">';
   echo dossier::hidden();
-  echo HtmlInput::phpsessid();
   $f=new fiche($cn,$_REQUEST['f_id']);
   $contact=new Contact($cn);
   $contact->company=$f->get_quick_code();

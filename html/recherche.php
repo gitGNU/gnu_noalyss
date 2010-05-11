@@ -55,9 +55,6 @@ include_once ('class_user.php');
 $User=new User($cn);
 $User->Check();
 
-   // PhpSessid
-$sessid=$_REQUEST['PHPSESSID'];
-
 // display a search box
 
 $ledger=new Acc_Ledger($cn,0);

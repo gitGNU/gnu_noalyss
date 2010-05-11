@@ -23,12 +23,11 @@
  */
 
 /*! \brief import : update a record (in ajax)
- *  \param $p_sessid : PHPSESSID
  * \param $p_dossier : the dossier id
  * \param $p_count : the item number
  */
-function import_update(p_sessid,p_dossier,p_count) {
-  var query_string="PHPSESSID="+p_sessid+"&count="+p_count+"&gDossier="+p_dossier;
+function import_update(p_dossier,p_count) {
+  var query_string="count="+p_count+"&gDossier="+p_dossier;
   var code=$("code"+p_count);
   var poste=$("poste"+p_count);
   var concerned=$("e_concerned"+p_count);
@@ -51,13 +50,12 @@ function import_update(p_sessid,p_dossier,p_count) {
   form.hide();
 }
 /*! \brief remove : remove a record (in ajax)
- *  \param $p_sessid : PHPSESSID
  * \param $p_dossier : the dossier id
  * \param $p_count : the item number
  */
 
-function import_remove(p_sessid,p_dossier,p_count) {
-  var query_string="PHPSESSID="+p_sessid+"&count="+p_count+"&gDossier="+p_dossier;
+function import_remove(p_dossier,p_count) {
+  var query_string="count="+p_count+"&gDossier="+p_dossier;
   var code=$("code"+p_count);
   var url="ajax_import.php";
   query_string+="&code="+code.value;
@@ -77,13 +75,12 @@ function import_remove(p_sessid,p_dossier,p_count) {
   form.hide();
 }
 /*! \brief remove : remove a record (in ajax)
- *  \param $p_sessid : PHPSESSID
  * \param $p_dossier : the dossier id
  * \param $p_count : the item number
  */
 
-function import_not_confirmed(p_sessid,p_dossier,p_count) {
-  var query_string="PHPSESSID="+p_sessid+"&count="+p_count+"&gDossier="+p_dossier;
+function import_not_confirmed(p_dossier,p_count) {
+  var query_string="count="+p_count+"&gDossier="+p_dossier;
   var code=$("code"+p_count);
   var url="ajax_import.php";
   query_string+="&code="+code.value;

@@ -82,6 +82,11 @@ if ( strpos($inc_path,";") != 0 ) {
 set_include_path($new_path);
 
 require_once('config_file.php');
+include_once('constant.php');
+require_once('class_database.php');
+
+include_once('debug.php');
+include_once('ac_common.php');
 /* The config file is created here */
 if (isset($_POST['save_config'])) {
   $url=config_file_create($_POST,1,$os);
@@ -101,25 +106,17 @@ if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.D
   echo '</form>';
   exit();
   }
-include_once('constant.php');
-require_once('class_database.php');
-
-include_once('debug.php');
-include_once('ac_common.php');
 /* If htaccess file doesn't exists we create them here
  * if os == 1 then windows, 0 means Unix
  */
 $file='..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'.htaccess';
-if ( ! file_exists ( $file) ) {
-  $hFile=@fopen($file,'a+');
-  if ( ! $hFile )     exit('Impossible d\'&eacute;crire dans le r&eacute;pertoire include');
-  fwrite($hFile,'order deny,allow'."\n");
-  fwrite($hFile,'deny from all'."\n");
-  fclose($hFile);
-}
+$hFile=@fopen($file,'a+');
+if ( ! $hFile )     exit('Impossible d\'&eacute;crire dans le r&eacute;pertoire include');
+fwrite($hFile,'order deny,allow'."\n");
+fwrite($hFile,'deny from all'."\n");
+fclose($hFile);
 
 $file='..'.DIRECTORY_SEPARATOR.'.htaccess';
-if ( ! file_exists ( $file) ) {
   $hFile=@fopen($file,'a+');
   if ( ! $hFile )     exit('Impossible d\'&eacute;crire dans le r&eacute;pertoire html');
   $array=array("php_flag  magic_quotes_gpc off",
@@ -132,8 +129,8 @@ if ( ! file_exists ( $file) ) {
 	       "php_flag short_open_tag on",
 	       "php_value upload_max_filesize 10M",
 	       "php_value session.use_trans_sid 1",
-	       "php_value session.use_cookies 0",
-	       "php_flag session.use_only_cookies off");
+	       "php_value session.use_cookies 1",
+	       "php_flag session.use_only_cookies on");
 
   if ( $os == 0 )
     fwrite($hFile,'php_value include_path .;..\..\include;..\include;addon'."\n");
@@ -141,15 +138,13 @@ if ( ! file_exists ( $file) ) {
     fwrite($hFile,'php_value include_path .:../../include:../include:addon'."\n");
   foreach ($array as $value ) fwrite($hFile,$value."\n");
   fclose($hFile);
-  copy ($file,'.htaccess');
-
 echo '
 <form method="post" >
     Les informations sont sauv&eacute;es vous pouvez continuer
 <input type="submit" value="Continuer">
 </form>';
 exit();
-}
+
 //----------------------------------------------------------------------
 // End functions
 //

@@ -148,7 +148,6 @@ class Acc_Parm_Code {
       $r.= '<TD>'.$value->input();
       $r.='<span id="p_value_label"></span></td>';
       $r.='</tr>';
-	$r.=HtmlInput::phpsessid();
 	$r.=Dossier::hidden();
       return $r;
       

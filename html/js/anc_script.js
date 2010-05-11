@@ -106,7 +106,6 @@ function verify_ca(p_style) {
 }
 /*! 
  * \brief open a window for searching a CA account, 
- * \param p_sessid PHPSESSID
  * \param p_dossier dossier id
  * \param p_target ctrl to update
  * \param p_source ctrl containing the pa_id
@@ -114,10 +113,10 @@ function verify_ca(p_style) {
  *
  * \return
  */
-function search_ca (p_sessid,p_dossier,p_target,p_source)
+function search_ca (p_dossier,p_target,p_source)
 {
   var pa_id=g(p_source).value;
-  var url="?PHPSESSID="+p_sessid+"&gDossier="+p_dossier+"&c1="+p_target+"&c2="+pa_id;
+  var url="?gDossier="+p_dossier+"&c1="+p_target+"&c2="+pa_id;
   var a=window.open("search_ca.php"+url,"CA recherche",'statusbar=no,scrollbars=yes,toolbar=no');
   a.focus();
 }
@@ -171,14 +170,13 @@ function caod_checkTotal() {
 
 /**
  *@brief remove an operation
- *@param p_sessid is the PHPSESSID
  *@param p_dossier is the folder
  *@param p_oa_group is the group of the analytic operation
  */
-function op_remove(p_sessid,p_dossier,p_oa_group) {
+function op_remove(p_dossier,p_oa_group) {
   var a=confirm("Etes-vous sur de vouloir effacer cette operation ?\n");
   if ( a == false ) return;
-  var obj={"PHPSESSID":p_sessid,"oa":p_oa_group,"gDossier":p_dossier};
+  var obj={"oa":p_oa_group,"gDossier":p_dossier};
   queryString=encodeJSON(obj);
   g(p_oa_group).style.display='none';
   var e=new Ajax.Request("remove_op.php",

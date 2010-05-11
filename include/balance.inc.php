@@ -88,7 +88,6 @@ $journal->name="p_jrn";
 if ( isset($_POST['p_jrn'])) $journal->selected=$_POST['p_jrn'];
 	else
 	$journal->selected=-1;
-echo HtmlInput::phpsessid();
 echo "Journal = ".$journal->input();
 $from_poste=new IPoste();
 $from_poste->name="from_poste";

@@ -44,12 +44,6 @@ $str_dossier=dossier::get();
 echo js_include('accounting_item.js');
 echo JS_AJAX_FICHE;
 
-if ( !isset($sessid)) 
-  {
-    $sessid=$_REQUEST["PHPSESSID"];
-  } 
-
-
 $cn=new Database($gDossier);
 echo_debug(__FILE__,__LINE__,"Connected");
 // Security check
@@ -62,7 +56,7 @@ if ($write == 0 ){
 function ShowRecherche() {
   echo '<DIV class="u_redcontent">';
   echo '<form method="GET" action="?">';
-  echo dossier::hidden().HtmlInput::phpsessid();
+  echo dossier::hidden();
   $w=new IText();
   $search_text=(isset($_REQUEST['search_text']))?$_REQUEST['search_text']:"";
   $h=new IHidden();
@@ -96,7 +90,7 @@ function ShowFicheDefInput($p_fiche_def)
   $r.= '<H2 class="info">'.h($p_fiche_def->label).'</H2>';
   /* show the values label class_base and create account */
   $r.='<form method="post">';
-  $r.=dossier::hidden().HtmlInput::phpsessid();
+  $r.=dossier::hidden();
   $r.=HtmlInput::hidden("fd_id",$p_fiche_def->id);
   $r.=HtmlInput::hidden("p_action","fiche");
   $r.= $p_fiche_def->input_base();
@@ -105,7 +99,7 @@ function ShowFicheDefInput($p_fiche_def)
   $r.='</form>';
   /* attributes */
   $r.= '<FORM action="?p_action=fiche" method="POST">';
-  $r.=dossier::hidden().HtmlInput::phpsessid();
+  $r.=dossier::hidden();
   $r.=HtmlInput::hidden("fd_id",$p_fiche_def->id);
   $r.= $p_fiche_def->DisplayAttribut("remove");
   $r.= HtmlInput::submit('add_line',_('Ajoutez cet élément'));
@@ -278,7 +272,7 @@ if ( isset ( $_GET["action"]) ) {
     }
     if ( $write != 0 )
       echo '<form method="post" action="?p_action=fiche&action=vue&fiche='.$_GET['fiche'].$str.'">';
-    echo dossier::hidden().HtmlInput::phpsessid();
+    echo dossier::hidden();
     echo $fiche->Display($t);
     echo HtmlInput::hidden("f_id",$_GET['fiche_id']);
     if ( $write != 0 ) {
@@ -306,7 +300,7 @@ if ( isset ( $_GET["action"]) ) {
     echo '<form method="post">';
     $oFiche_Def=new fiche_def($cn);	
     echo HtmlInput::hidden("p_action","fiche");
-    echo dossier::hidden().HtmlInput::phpsessid();
+    echo dossier::hidden();
     echo $oFiche_Def->input(); //    CreateCategory($cn,$search);
     echo HtmlInput::submit("add_modele" ,"Sauve");
     
@@ -376,7 +370,7 @@ if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) ) {
       $fiche=new fiche($cn,0);
 		
       echo '<form method="post" action="'.$url.'&fiche='.$_POST['fiche'].'">';
-      echo dossier::hidden().HtmlInput::phpsessid();
+      echo dossier::hidden();
       echo $fiche->blank($_POST['fiche']);
       echo HtmlInput::submit("add_fiche","Ajout");
       echo HtmlInput::button_anchor(_('Annuler'),$url.'&fiche='.$_POST['fiche'].'&'.$str_dossier);

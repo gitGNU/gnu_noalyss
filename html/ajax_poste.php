@@ -40,7 +40,7 @@ require_once('function_javascript.php');
 require_once('class_acc_account_ledger.php');
 
 extract($_REQUEST);
-$var=array('PHPSESSID','gDossier','op','ctl');
+$var=array('gDossier','op','ctl');
 $cont=0;
 /*  check if mandatory parameters are given */
 foreach ($var as $v) {
@@ -79,7 +79,7 @@ case "sf":
   require_once('template/account_search.php');
   $r.=ob_get_contents();
   ob_clean();
-  $r.=dossier::hidden();$r.=HtmlInput::phpsessid();
+  $r.=dossier::hidden();
   $r.=(isset ($c))?HtmlInput::hidden('account',$c):"";
   $r.=(isset ($l))?HtmlInput::hidden('label',$l):"";
   $r.=(isset ($j))?HtmlInput::hidden('jrn',$j):"";

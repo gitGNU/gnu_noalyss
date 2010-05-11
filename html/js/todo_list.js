@@ -21,19 +21,18 @@
 
 /*!\file
  * \brief this file contains all the javascript needed by the todo_list. 
- *      it requires prototype.js. The calling page must have the phpsessid and
+ *      it requires prototype.js. The calling page must have 
  *      the gDossier
  * 
  */
 function todo_list_show(p_id) {
     var gDossier=$('gDossier').value;
-    var phpsessid=$('phpsessid').value;
     try {
     var action=new Ajax.Request(
 	'todo_list.php',
 	{
 	    method:'get',
-	    parameters:{'show':1,'id':p_id,'PHPSESSID':phpsessid,'gDossier':gDossier},
+	    parameters:{'show':1,'id':p_id,'gDossier':gDossier},
 	    onFailure:todo_list_show_error,
 	    onSuccess:todo_list_show_success
 	}
@@ -77,13 +76,12 @@ function todo_list_remove(p_ctl) {
     if ( confirm('Effacer ?') == false ) {return;}
     $("tr"+p_ctl).hide();
     var gDossier=$('gDossier').value;
-    var phpsessid=$('phpsessid').value;
 
     var action=new Ajax.Request(
 	'todo_list.php',
 	{
 	    method:'get',
-	    parameters:{'del':1,'id':p_ctl,'PHPSESSID':phpsessid,'gDossier':gDossier}
+	    parameters:{'del':1,'id':p_ctl,'gDossier':gDossier}
 	}
     );
     return false;

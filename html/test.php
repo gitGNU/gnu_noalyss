@@ -78,7 +78,6 @@ foreach ($array as $value) {
 $r.='</select>';
 $r.= Dossier::hidden();
 $r.='<input type="submit" value="Testons">';
-$r.=HtmlInput::hidden('PHPSESSID',$_REQUEST['PHPSESSID']);
 $r.='</form>';
 
 echo $r;
@@ -133,7 +132,6 @@ case 18:
 	Todo_List::test_me();
 	echo '<script src="js/todo_list.js"></script>';
 	echo '<form method="get">';
-	echo HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);
 	echo dossier::hidden();
 	echo 'title : <input type="text" id="p_title"><br>';
 	echo 'desc : <input type="text" id="p_desc"><br>';

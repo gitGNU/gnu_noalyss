@@ -37,7 +37,6 @@
 function search_card(obj) {
     try{
     var gDossier=$('gDossier').value;
-    var phpsessid=$('phpsessid').value;
     var inp=obj.inp;
     var label=obj.label;
     var typecard=obj.typecard;
@@ -47,7 +46,7 @@ function search_card(obj) {
     if ( jrn==undefined) {
 	jrn=$('p_jrn').value;
     }
-    var query=encodeJSON({'gDossier':gDossier,'PHPSESSID':phpsessid,
+    var query=encodeJSON({'gDossier':gDossier,
 			  'inp':inp,'label':label,'price':price,'tvaid':tvaid,
 			  'ctl':obj.popup,'op':'fs','jrn':jrn,
 			  'typecard':typecard
@@ -73,10 +72,8 @@ function search_card(obj) {
  */
 function search_get_card(obj) {
     var dossier=$('gDossier').value;
-    var phpsessid=$('phpsessid').value;
 
     var queryString="?gDossier="+dossier;
-    queryString+="&PHPSESSID="+phpsessid;
     queryString+="&op=fs";
     
     if ( obj.elements['inp'] ) { queryString+="&inp="+$F('inp');}
@@ -161,8 +158,6 @@ function errorFid(request,json) {
   alert('erreur : ajax fiche');
 }
 function update_value(text,li) {
-	var phpsessid=$('phpsessid').value;
-	if ( ! phpsessid ) { alert ('Il manque HIDDEN PHPSESSID');}
 	
 }
 /**
@@ -190,7 +185,7 @@ function fill_data(text,li) {
  */
 function fill_fin_data_onchange(ctl) {
 	ajaxFid(ctl);
-ajax_saldo($('phpsessid'),ctl.id);
+ajax_saldo(ctl.id);
 }
 /**
  *@brief is called when something change in ICard
@@ -199,7 +194,7 @@ ajax_saldo($('phpsessid'),ctl.id);
  */
 function fill_fin_data(text,li) {
 	ajaxFid(text);
-ajax_saldo($('phpsessid'),text.id);
+ajax_saldo($(text.id));
 }
 /**
  *@brief show the ipopup window and display the details of a card,
@@ -215,7 +210,6 @@ function fill_ipopcard(obj) {
     $(content).innerHTML='<image src="image/loading.gif" alt="chargement"></image>';
     showIPopup($(obj).ipopup);
     var dossier=$('gDossier').value;
-    var phpsessid=$('phpsessid').value;
     var qcode='';
     if ( $(obj).qcode != undefined ) {
 	qcode=obj.qcode;
@@ -224,7 +218,6 @@ function fill_ipopcard(obj) {
     }
     //    ctl=$(obj).id;
     var queryString='?gDossier='+dossier;
-    queryString+='&PHPSESSID='+phpsessid;
     queryString+='&qcode='+qcode;
     queryString+='&ctl='+content;
     queryString+='&op=dc'; 	// dc for detail card
@@ -275,11 +268,9 @@ function select_card_type(obj) {
     $(content).innerHTML='<image src="image/loading.gif" alt="chargement"></image>';
     showIPopup($(obj).ipopup);
     var dossier=$('gDossier').value;
-    var phpsessid=$('phpsessid').value;
     var filter=$(obj).filter;
     if ( filter==undefined) {filter=-1;}
     var queryString='?gDossier='+dossier;
-    queryString+='&PHPSESSID='+phpsessid;
     queryString+='&ctl='+content;
     queryString+='&op=st'; 	// st for selecting type
     if ( $(obj).win_refresh!=undefined) { queryString+='&ref';}
@@ -315,10 +306,8 @@ function dis_blank_card(obj) {
     $(content).innerHTML='<image src="image/loading.gif" alt="chargement"></image>';
     showIPopup($(obj).ipopup);
     var dossier=$('gDossier').value;
-    var phpsessid=$('phpsessid').value;
 
     var queryString='?gDossier='+dossier;
-    queryString+='&PHPSESSID='+phpsessid;
     queryString+='&ctl='+content;
     queryString+='&fd_id='+fd_id;
     queryString+=ref;
@@ -347,9 +336,7 @@ function save_card(obj) {
     $(content).innerHTML='<image src="image/loading.gif" alt="chargement"></image>';
     showIPopup($(obj).ipopup);
     var dossier=$('gDossier').value;
-    var phpsessid=$('phpsessid').value;
     var queryString='?gDossier='+dossier;
-    queryString+='&PHPSESSID='+phpsessid;
     queryString+='&ctl='+content;
     queryString+=data;
     queryString+='&op=sc'; 	// sc for save card
@@ -373,9 +360,7 @@ function add_category(obj){
     // show ipopup
     showIPopup(obj.ipopup);
     var dossier=$('gDossier').value;
-    var phpsessid=$('phpsessid').value;
     var queryString='?gDossier='+dossier;
-    queryString+='&PHPSESSID='+phpsessid;
     queryString+='&op=ac';
     queryString+='&ctl='+obj.ipopup+'_content';
     if ( obj.type_cat) { queryString+='&cat='+obj.type_cat;}
@@ -401,7 +386,6 @@ function save_card_category(obj) {
     $(content).innerHTML='<image src="image/loading.gif" alt="chargement"></image>';
     showIPopup($(obj).ipopup);
     var dossier=$('gDossier').value;
-    var phpsessid=$('phpsessid').value;
     var queryString='?';
     queryString+='&ctl='+content+'&';
     queryString+=data;

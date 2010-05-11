@@ -144,12 +144,10 @@ function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
 
   echo "<td>n° compte : ".$p_val['num_compte']."</td>";
   if ( $p_form == 'form') {
-    $str_update=sprintf("import_update('%s','%s','%s');",
-		 $_REQUEST['PHPSESSID'],
+    $str_update=sprintf("import_update('%s','%s');",
 		 dossier::id(),
 		 $counter);
-    $str_remove=sprintf("import_remove('%s','%s','%s');",
-		 $_REQUEST['PHPSESSID'],
+    $str_remove=sprintf("import_remove('%s','%s');",
 		 dossier::id(),
 		 $counter);
 		 
@@ -159,8 +157,7 @@ function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
       '</td><tr/>';
   }
   if ($p_form == 'remove' ) {
-    $str_notconfi=sprintf("import_not_confirmed('%s','%s','%s');",
-		 $_REQUEST['PHPSESSID'],
+    $str_notconfi=sprintf("import_not_confirmed('%s','%s');",
 		 dossier::id(),
 		 $counter);
 
@@ -177,7 +174,6 @@ function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
 function VerifImport($p_cn){
 	$sql = "select * from import_tmp where status='n' ".
 	  " order by date_exec,code";
-	echo HtmlInput::phpsessid();
 	$Res=$p_cn->exec_sql($sql);
 	$Num=Database::num_row($Res);
 	echo $Num._(" opérations à complèter")."<br/><br/>";

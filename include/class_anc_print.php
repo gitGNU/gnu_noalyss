@@ -127,11 +127,11 @@ class Anc_Print {
 	$choose=new IButton();
 	$choose->name=_("Choix Poste");
 	$choose->label=_("Recherche");
-	$choose->javascript="onClick=search_ca('".$_REQUEST['PHPSESSID']."',".dossier::id().",'from_poste','pa_id')";
+	$choose->javascript="onClick=search_ca(".dossier::id().",'from_poste','pa_id')";
 	$r.=$choose->input();
 
 	$r.=_(" et le poste ").$poste->input("to_poste",$this->to_poste);
-	$choose->javascript="onClick=search_ca('".$_REQUEST['PHPSESSID']."',".dossier::id().",'to_poste','pa_id')";
+	$choose->javascript="onClick=search_ca(".dossier::id().",'to_poste','pa_id')";
 	$r.=$choose->input();
 	$r.='<span class="notice" style="display:block">'._('Selectionnez le plan qui vous intéresse avant de cliquer sur Recherche').'</span>';
 

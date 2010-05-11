@@ -30,9 +30,8 @@
 */
 function update_predef(p_type,p_direct) {
     var jrn=g("p_jrn").value;
-    var phpsessid=g("phpsessid").value;
     var dossier=g("gDossier").value;
-    var querystring='?PHPSESSID='+phpsessid+'&gDossier='+dossier+'&l='+jrn+'&t='+p_type+'&d='+p_direct;
+    var querystring='?&gDossier='+dossier+'&l='+jrn+'&t='+p_type+'&d='+p_direct;
     g("p_jrn_predef").value=jrn;
   var action=new Ajax.Request(
 			      "get_predef.php",
@@ -73,9 +72,8 @@ function error_get_predef(request,json) {
 */
 function update_pj() {
     var jrn=g("p_jrn").value;
-    var phpsessid=g("phpsessid").value;
     var dossier=g("gDossier").value;
-    var querystring='?PHPSESSID='+phpsessid+'&gDossier='+dossier+'&l='+jrn;
+    var querystring='?&gDossier='+dossier+'&l='+jrn;
   var action=new Ajax.Request(
 			      "get_pj.php",
 			      {
@@ -113,7 +111,6 @@ function ledger_fin_add_row(){
     var mytable=g("fin_item").tBodies[0];
     var line=mytable.rows.length;
     var row=mytable.insertRow(line);
-    var phpsessid=g("phpsessid");
     var nb=g("nb_item");
     var rowToCopy=mytable.rows[1];
     var nNumberCell=rowToCopy.cells.length;
@@ -143,7 +140,6 @@ function ledger_add_row(){
 	var line=mytable.rows.length;
 	var nCell=9;
 	var row=mytable.insertRow(line);
-	var phpsessid=g("phpsessid");
 	var nb=g("nb_item");
 	for (var e=0;e<nCell;e++) {
 		var newCell=row.insertCell(e);	
@@ -169,11 +165,10 @@ new_tt.evalScripts();
 }
 /**
  * @brief compute the sum of a purchase, update the span tvac, htva and tva
- * all the needed data are taken from the document (hidden field : phpsessid and gdossier)
+ * all the needed data are taken from the document (hidden field :  gdossier)
  * @param the number of the changed ctrl
  */
 function compute_ledger(p_ctl_nb) {
-    var phpsessid=g("phpsessid").value;
     var dossier=g("gDossier").value;
 	var a=-1;
 	if ( document.getElementById("e_march"+p_ctl_nb+'_tva_amount')) {
@@ -198,7 +193,7 @@ function compute_ledger(p_ctl_nb) {
 
     g('e_quant'+p_ctl_nb).value=trim(g('e_quant'+p_ctl_nb).value);
     var quantity=g('e_quant'+p_ctl_nb).value;
-    var querystring='?PHPSESSID='+phpsessid+'&gDossier='+dossier+'&c='+qcode+'&t='+tva_id+'&p='+price+'&q='+quantity+'&n='+p_ctl_nb;
+    var querystring='?&gDossier='+dossier+'&c='+qcode+'&t='+tva_id+'&p='+price+'&q='+quantity+'&n='+p_ctl_nb;
     $('sum').hide();
     var action=new Ajax.Request(
 			      "compute.php",
@@ -323,7 +318,6 @@ function quick_writing_add_row(){
    var oRow=mytable.insertRow(nNumberRow);
    var rowToCopy=mytable.rows[1];
    var nNumberCell=rowToCopy.cells.length;
-   var phpsessid=g("phpsessid");
    var nb=g("nb_item");
 
   var oNewRow = mytable.insertRow(nNumberRow);
@@ -346,21 +340,20 @@ function quick_writing_add_row(){
  * \brief
  * open a windows to confirm and cancel an operation
  */
-function cancelOperation(p_value,p_sessid,p_dossier,p_jrn)
+function cancelOperation(p_value,p_dossier,p_jrn)
 		{
-			var win=window.open('annulation.php?p_jrn='+p_jrn+'&jrn_op='+p_value+'&PHPSESSID='+p_sessid+'&gDossier='+p_dossier,'Annule','toolbar=no,width=400,height=400,scrollbars=yes,resizable=yes');
+			var win=window.open('annulation.php?p_jrn='+p_jrn+'&jrn_op='+p_value+'&gDossier='+p_dossier,'Annule','toolbar=no,width=400,height=400,scrollbars=yes,resizable=yes');
 		}
 function RefreshMe() {
 window.location.reload();
 }
 /*! \brief this function search into the ledger
- *  \param p_sessid PHPSESSID
  *  \param p_ctl ctl name
  *  \param p_montant amount to search (if 0 get it from the e_other_amount
  */
-function SearchJrn(p_sessid,p_dossier,p_ctl,p_montant,p_paid)
+function SearchJrn(p_dossier,p_ctl,p_montant,p_paid)
  {
- var url='jrn_search.php?p_ctl='+p_ctl+'&PHPSESSID='+p_sessid+'&gDossier='+p_dossier+'&'+p_paid;
+ var url='jrn_search.php?p_ctl='+p_ctl+'&gDossier='+p_dossier+'&'+p_paid;
 
 
  if ( p_montant == 0 ) {
@@ -437,30 +430,28 @@ return true;
 
 /*!\brief
  * \param p_value jrn.jr_id
- * \param p_sessid PHPSESSID
  * \param p_jrn ledger number
  * \param p_vue easy or expert view of the operation
  */
 
-function modifyOperation(p_value,p_sessid,p_dossier,p_jrn,p_vue)
+function modifyOperation(p_value,p_dossier,p_jrn,p_vue)
 		{
 
-			var win=window.open('modify_op.php?action=update&p_jrn='+p_jrn+'&line='+p_value+'&PHPSESSID='+p_sessid+'&p_view='+p_vue+'&gDossier='+p_dossier,'','toolbar=no,width=720,height=510,scrollbars=yes,resizable=yes');
+			var win=window.open('modify_op.php?action=update&p_jrn='+p_jrn+'&line='+p_value+'&p_view='+p_vue+'&gDossier='+p_dossier,'','toolbar=no,width=720,height=510,scrollbars=yes,resizable=yes');
 			win.focus();
 		}
 
 /*!\brief
  * \param p_value jrn.jr_id
- * \param p_sessid PHPSESSID
  */
 
-function viewOperation(p_value,p_sessid,p_dossier)
+function viewOperation(p_value,p_dossier)
 		{
-			var win=window.open('modify_op.php?action=view_ca&line='+p_value+'&PHPSESSID='+p_sessid+'&gDossier='+p_dossier,'','toolbar=no,width=690,height=410,scrollbars=yes,resizable=yes');
+			var win=window.open('modify_op.php?action=view_ca&line='+p_value+'&gDossier='+p_dossier,'','toolbar=no,width=690,height=410,scrollbars=yes,resizable=yes');
 			win.focus();
 		}
-function dropLink(p_value,p_value2,p_sessid,p_dossier) {
-	var win=window.open('modify_op.php?action=delete&line='+p_value+'&line2='+p_value2+'&PHPSESSID='+p_sessid+'&gDossier='+p_dossier,'Liaison','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
+function dropLink(p_value,p_value2,p_dossier) {
+	var win=window.open('modify_op.php?action=delete&line='+p_value+'&line2='+p_value2+'&gDossier='+p_dossier,'Liaison','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
 		}
 /**
  *@brief this function is called before the querystring is send to the
@@ -478,11 +469,11 @@ function filter_card(obj,queryString){
   /**
    *@brief to display the lettering for the operation, call
    * ajax function
-   *@param obj object attribut : phpsessid, gDossier,j_id,obj_type
+   *@param obj object attribut :  gDossier,j_id,obj_type
    */
 function dsp_letter(obj) {
     try {
-	var queryString='?gDossier='+obj.gDossier+'&PHPSESSID='+obj.phpsessid+'&j_id='+obj.j_id+'&op=dl'+'&ot='+this.obj_type;
+	var queryString='?gDossier='+obj.gDossier+'&j_id='+obj.j_id+'&op=dl'+'&ot='+this.obj_type;
 	var action=new Ajax.Request(
 				"ajax_misc.php",
 				{
@@ -526,7 +517,6 @@ function search_letter(obj) {
     try {
 	var str_query='';
 	if (obj.elements['gDossier'] ) str_query='gDossier='+obj.elements['gDossier'].value;
-	if (obj.elements['phpsessid'] ) str_query+='&PHPSESSID='+obj.elements['phpsessid'].value;
 	if (obj.elements['j_id'] ) str_query+='&j_id='+obj.elements['j_id'].value;
 	if (obj.elements['ot'] ) str_query+='&ot='+obj.elements['ot'].value;
 	if (obj.elements['op'] ) str_query+='&op='+obj.elements['op'].value;

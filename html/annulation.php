@@ -445,7 +445,7 @@ $operation->jr_id=$element;
 
     $w=new IButton();
     $w->label=$operation->get_internal();
-    $w->javascript="modifyOperation('".$element."','".$_REQUEST['PHPSESSID']."',".dossier::id().
+    $w->javascript="modifyOperation('".$element."',".dossier::id().
       ','.$_REQUEST['p_jrn'].",'S')";
     echo $w->input().'<br>';
   }//for

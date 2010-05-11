@@ -38,9 +38,9 @@ function set_jrn_parent(p_ctl,p_value) {
 }
 
 
-function PcmnUpdate(p_value,p_lib,p_parent,p_type,p_sessid,p_dossier)
+function PcmnUpdate(p_value,p_lib,p_parent,p_type,p_dossier)
 	{
-	var win=window.open('line_update.php?l='+p_value+'&n='+p_lib+'&p='+p_parent+'&m'+p_type+'&PHPSESSID='+p_sessid+'&gDossier='+p_dossier,'Modifie','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
+	var win=window.open('line_update.php?l='+p_value+'&n='+p_lib+'&p='+p_parent+'&m'+p_type+'&gDossier='+p_dossier,'Modifie','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
 	}
 /**
  *@brief show the popup for search an accounting item
@@ -56,10 +56,9 @@ function PcmnUpdate(p_value,p_lib,p_parent,p_type,p_sessid,p_dossier)
 function search_poste(obj) {
     showIPopup(obj.ipopup);
     var dossier=$('gDossier').value;
-    var phpsessid=$('phpsessid').value;
 
     var queryString="?gDossier="+dossier;
-    queryString+="&PHPSESSID="+phpsessid;
+
     queryString+="&op=sf";
     try {
 	if ( obj.jrn) { queryString+="&j="+obj.jrn;}
@@ -100,10 +99,8 @@ function search_poste(obj) {
  */
 function search_get_poste(obj) {
     var dossier=$('gDossier').value;
-    var phpsessid=$('phpsessid').value;
-
     var queryString="?gDossier="+dossier;
-    queryString+="&PHPSESSID="+phpsessid;
+
     queryString+="&op=sf";
 
     if ( obj.elements['jrn'] ) { queryString+="&j="+$F('jrn');}

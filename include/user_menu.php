@@ -329,9 +329,7 @@ function MenuAdmin()
  */
 function ShowMenuParam($p_action="")
 {
-  // The phpsessid is set manually to avoid problem when the server is
-  // misconfigured and the cookies are not sent (or accepted)
-  $s=dossier::get().'&PHPSESSID='.$_REQUEST['PHPSESSID'];
+  $s=dossier::get();
   $sub_menu=ShowItem(array(
 
 			   array('parametre.php?p_action=company&'.$s,_('Sociétés'),_('Parametre societe'),1),
@@ -474,7 +472,7 @@ function menu_tool($p_from) {
 
   }
    $r.='<td class="mtitle2">';
-  $r.= '<A class="cell" HREF="javascript:openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$gDossier.')">'.
+  $r.= '<A class="cell" HREF="javascript:openRecherche('.$gDossier.')">'.
     _('Recherche').'</a></td>';
   $r.='</tr>';
 

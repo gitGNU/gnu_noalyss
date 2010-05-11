@@ -54,7 +54,6 @@ function errorFid(request,json) {
 function ajaxFid(p_ctl) 
 {
   var gDossier=$('gDossier').value;
-  var phpsessid=$('phpsessid').value;
   var jrn=$(p_ctl).jrn;
   $(p_ctl).value=$(p_ctl).value.toUpperCase();
   if ( jrn == undefined ) { if ($('p_jrn')!=undefined) {jrn=$('p_jrn').value; } }
@@ -74,7 +73,7 @@ function ajaxFid(p_ctl)
   if ( $(p_ctl).purchase) { queryString+='&b='+$(p_ctl).purchase;}
   if ( $(p_ctl).typecard) { queryString+='&d='+$(p_ctl).typecard;}
   queryString=queryString+"&j="+jrn+'&gDossier='+gDossier;
-  queryString=queryString+'&ctl='+p_ctl.id+'&PHPSESSID='+phpsessid;
+  queryString=queryString+'&ctl='+p_ctl.id;
   
   var action=new Ajax.Request (
 			       "fid.php",
@@ -127,16 +126,15 @@ function ajax_error_saldo(request,json) {
 }
 /*!\brief this function get the saldo
  * \param p_ctl the ctrl where we take the quick_code 
- * \param phpsessid
  */
-function ajax_saldo(phpsessid,p_ctl) 
+function ajax_saldo(p_ctl) 
 {
   var gDossier=$('gDossier').value;
   var ctl_value=trim($(p_ctl).value);
   var jrn=$('p_jrn').value;
   queryString="?FID="+ctl_value;
   queryString=queryString+'&gDossier='+gDossier+'&j='+jrn;
-  queryString=queryString+'&ctl='+ctl_value+'&PHPSESSID='+phpsessid;
+  queryString=queryString+'&ctl='+ctl_value;
   /*  alert(queryString); */
   var action=new Ajax.Request (
 			       "get_saldo.php",
@@ -159,16 +157,15 @@ function ajax_success_saldo(request,json) {
   
 }
 /*!\brief this function get data from ajax_card.php and fill the hidden div with the return html string
-* \param phpsessid
 * \param p_dossier
 * \param f_id fiche.f_id
 * \param p_operation what to do : op : history of operation
 * \param ctl : id of the div to show
 * \param page
 */
-function ajax_card(phpsessid,p_dossier,f_id,p_operation,ctl,page) {
+function ajax_card(p_dossier,f_id,p_operation,ctl,page) {
 $(ctl).show();
-var queryString="PHPSESSID="+phpsessid+"&gDossier="+p_dossier+"&f_id="+f_id+"&op="+p_operation+"&p="+page+'&ctl='+ctl;
+var queryString="gDossier="+p_dossier+"&f_id="+f_id+"&op="+p_operation+"&p="+page+'&ctl='+ctl;
 var action = new Ajax.Request(
 	"ajax_card.php" , { method:'get', parameters:queryString,onFailure:ajax_get_failure,onSuccess:ajax_get_success}
     );

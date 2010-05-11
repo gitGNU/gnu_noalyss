@@ -188,21 +188,18 @@ echo $string => property={'prop':'1','prop2':'2','prop3':'3'};
   static function hidden($p_name,$p_value) {
     return '<INPUT TYPE="hidden" id="'.$p_name.'" NAME="'.$p_name.'" VALUE="'.$p_value.'">';
   }
-  static function phpsessid() {
-    return self::hidden('phpsessid',$_REQUEST['PHPSESSID']);
-  }
+
   static function extension() {
     return self::hidden('code',$_REQUEST['code']);
   }
 
   /*!\brief create a button with a ref
    *\param $p_label the text
-   *\param $p_value the location of the window, the PHPSESSID is added, but not the gDossier
+   *\param $p_value the location of the window, 
    *\param $p_name the id of the span
    *\return string with htmlcode
    */
   static function button_anchor($p_label,$p_value,$p_name="") {
-    $str='&PHPSESSID='.$_REQUEST['PHPSESSID'];
     $r=sprintf('<span id="%s"> <A class="button" href="%s" style="color:black;width:75;display:inline">%s</A></span>',
 	       $p_name,
 	       $p_value.$str,

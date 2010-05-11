@@ -83,7 +83,6 @@ class Lettering
    *@brief save from array
    *@param $p_array
 @code
-  'phpsessid' => string 'a2c261a2f48b0045a8c28276afd31f5c' (length=32)
   'gDossier' => string '13' (length=2)
   'letter_j_id' => 
     array

@@ -113,7 +113,6 @@ $export_pdf.=HtmlInput::hidden('start',$_GET['start']);
 $export_pdf.=HtmlInput::hidden('end',$_GET['end']);
 $export_pdf.=HtmlInput::hidden('histo',$_GET['histo']);
 $export_pdf.=dossier::hidden();
-$export_pdf.=HtmlInput::phpsessid();
 $export_pdf.=HtmlInput::submit('pdf','Export en PDF');
 $export_pdf.='</FORM>';
   echo $export_pdf;

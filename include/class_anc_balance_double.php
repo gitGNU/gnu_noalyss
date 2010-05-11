@@ -285,11 +285,11 @@ class Anc_Balance_Double extends Anc_Print
 	$choose=new IButton();
 	$choose->name="Choix Poste";
 	$choose->label=_("Recherche");
-	$choose->javascript="onClick=search_ca('".$_REQUEST['PHPSESSID']."',".dossier::id().",'from_poste2','pa_id2')";
+	$choose->javascript="onClick=search_ca(".dossier::id().",'from_poste2','pa_id2')";
 	$r.=$choose->input();
 
 	$r.=" et le poste ".$poste->input("to_poste2",$this->to_poste2);
-	$choose->javascript="onClick=search_ca('".$_REQUEST['PHPSESSID']."',".dossier::id().",'to_poste2','pa_id2')";
+	$choose->javascript="onClick=search_ca("dossier::id().",'to_poste2','pa_id2')";
 	$r.=$choose->input();
 	$r.='<span class="notice" style="display:block">'.
 	  _('Selectionnez le plan qui vous int&eacute;resse avant de cliquer sur Recherche').

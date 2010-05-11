@@ -32,7 +32,7 @@
    * - extra contents the type (all, deb or cred, a list of FD_ID between parent.  or a SQL clause
    * - attribute are the attribute to set (via ajax). The ledger is either a attribute (jrn) or a
    *  hidden field in the document, if none are set, there is no filter on the ledger
-   *\note you must in a hidden field PHPSESSID and the gDossier (dossier::hidden)
+   *\note you must in a hidden field gDossier (dossier::hidden)
    *\see ajaxFid
    *\see card.js
    *\see fid.php
@@ -177,7 +177,7 @@ class ICard extends HtmlInput
 	     
     $this->value=($p_value==null)?$this->value:$p_value;
     if ( $this->readOnly==true) return $this->display();
-    $l_sessid=$_REQUEST['PHPSESSID'];
+
 
     $attr=$this->get_js_attr();
 
@@ -204,7 +204,7 @@ class ICard extends HtmlInput
     $div=sprintf('<div id="%s_choices" class="autocomplete"></div>',
 		 $this->name);
 
-    $query=dossier::get().'&PHPSESSID='.$l_sessid.'&e='.urlencode($this->extra);
+    $query=dossier::get().'&e='.urlencode($this->extra);
 
     $javascript=sprintf('try { new Ajax.Autocompleter("%s","%s_choices","fid_card.php?%s",'.
 			'{paramName:"FID",minChars:1,indicator:null,'.

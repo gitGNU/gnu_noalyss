@@ -185,15 +185,15 @@ if ( $sa == 'new' || isset ($_POST['step3'])) {
 $aForecast=Forecast::load_all($cn);
 $menu=array();
 $get_dossier=dossier::get();
-$phpsessid="PHPSESSID=".$_REQUEST['PHPSESSID'];
+
 
 for ($i = 0;$i<count($aForecast);$i++){
-	$href="?p_action=prev&sa=vw&".$get_dossier."&".$phpsessid.'&f_id='.$aForecast[$i]['f_id'];
+	$href="?p_action=prev&sa=vw&".$get_dossier.'&f_id='.$aForecast[$i]['f_id'];
 	$name=h($aForecast[$i]['f_name']);
 	$menu[]=array($href,$name,$name,$aForecast[$i]['f_id']);
 }
 
-$href="?p_action=prev&sa=new&".$get_dossier.'&'.$phpsessid;
+$href="?p_action=prev&sa=new&".$get_dossier;
 $menu[]=array($href,_("Ajout prévision"),_("Ajout d'une prévision"),0);
 $def=(isset($_REQUEST['f_id']))?$_REQUEST['f_id']:-1;
 echo '<div class="lmenu">';
@@ -231,7 +231,7 @@ if ( $sa == 'new') {
 		echo $search_card->input();
 
 		echo '<form method="post" action="?">';
-		echo dossier::hidden().HtmlInput::phpsessid();
+		echo dossier::hidden();
 		echo HtmlInput::hidden('sa','new');
 		echo HtmlInput::hidden('p_action','prev');
 		echo HtmlInput::hidden('f_id',$id);
@@ -247,7 +247,7 @@ if ( $sa == 'new') {
 		echo '<div class="content">';
 		/* display a blank form for name and category */
 		echo '<form method="post" action="?">';
-		echo dossier::hidden().HtmlInput::phpsessid();
+		echo dossier::hidden();
 		echo HtmlInput::hidden('sa','new');
 		echo HtmlInput::hidden('p_action','prev');
 		echo $anc->form_cat();
@@ -267,7 +267,7 @@ if ( isset($_GET['mod_cat'])){
 	echo '<div class="content">';
 	/* display a blank form for name and category */
 	echo '<form method="post" action="?">';
-	echo dossier::hidden().HtmlInput::phpsessid();
+	echo dossier::hidden();
 	echo HtmlInput::hidden('sa','mod');
 	echo HtmlInput::hidden('p_action','prev');
 	echo $anc->form_cat();
@@ -304,7 +304,7 @@ if (isset($_GET['mod_item'])){
 		echo $search_card->input();
 
 		echo '<form method="post" action="?">';
-		echo dossier::hidden().HtmlInput::phpsessid();
+		echo dossier::hidden();
 		echo HtmlInput::hidden('sa','new');
 		echo HtmlInput::hidden('p_action','prev');
 		echo HtmlInput::hidden('f_id',$_GET['f_id']);
@@ -325,7 +325,7 @@ if ( isset($_REQUEST['f_id']) && $sa=="vw") {
 	echo $forecast->display();
 	echo '<div class="noprint">';
 	echo '<form method="get">';
-	echo dossier::hidden().HtmlInput::phpsessid();
+	echo dossier::hidden();
 	echo HtmlInput::hidden('f_id',$_REQUEST['f_id']);
 	echo HtmlInput::submit('mod_cat',_('Modifier nom ou catégories'));
 	echo HtmlInput::submit('mod_item',_('Modifier éléments'));

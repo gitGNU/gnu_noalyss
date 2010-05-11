@@ -39,7 +39,6 @@ echo js_include('controls.js');
 echo js_include('dragdrop.js');
 echo JS_CARD;
 echo JS_AJAX_FICHE;
-echo HtmlInput::phpsessid();
 echo ICard::ipopup('ipop_newcard');
 $ip_cat=new IPopup('ipop_cat');
 $ip_cat->title=_('Ajout d\'une catégorie');

@@ -129,7 +129,7 @@ echo_debug("parametre",__LINE__,$_POST);
 // divers 
 //-----------------------------------------------------
 if ( $p_action == 'divers') {
-  $s=dossier::get().'&PHPSESSID='.$_REQUEST['PHPSESSID'];
+  $s=dossier::get();
 
   $array = array (
 		  array('parametre.php?p_action=divers&sa=mp&'.$s,_('Moyen de paiement'),_('Moyen de paiement'),2),

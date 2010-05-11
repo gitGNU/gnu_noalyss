@@ -712,7 +712,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 
     $r="";
     $r.=dossier::hidden();
-    $r.=HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);
     $f_legend=_("En-tête facture fournisseur");
     $f_legend_detail=_("Détail articles acheté");
 

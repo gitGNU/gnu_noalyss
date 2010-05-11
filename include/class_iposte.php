@@ -38,7 +38,6 @@ require_once('function_javascript.php');
  * - 3 the button and the text are in the table (TD)
  *\note we use the set_attribute for giving parameter to search_account
  * attribute are
- *  - phpsessid
  *  - gDossier
  *  - jrn  if set there is a filter on a ledger, in  that case, contains the jrn_id (0 for no filter)
  *  - ipopup ipopup to open
@@ -75,7 +74,6 @@ $text->name('field');
 $text->value=$p_res[$i]['pvalue'];
 $text->set_attribute('ipopup','ipop_account');
 $text->set_attribute('gDossier',Dossier::id());
-$text->set_attribute('phpsessid',$_REQUEST['phpsessid']);
 $text->set_attribute('jrn',0);
 $text->set_attribute('account','field');
 
@@ -127,7 +125,7 @@ class IPoste extends HtmlInput
     if ( $this->readOnly==true) return $this->display();
     //--
     if ( ! isset($this->ctrl) ) $this->ctrl='none';
-    $l_sessid=$_REQUEST['PHPSESSID'];
+
     if ( ! isset($this->javascript)) $this->javascript=""; 
 
     /* create the text  */

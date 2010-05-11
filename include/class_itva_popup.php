@@ -34,9 +34,8 @@ require_once('class_ispan.php');
     echo $a->input();
     $tva=new ITva_Popup("tva1");
     $tva->with_button(true);
-    // You must add the attributes gDossier, popup and phpsessid
+    // You must add the attributes gDossier, popup
     $tva->set_attribute('popup','popup_tva');
-    $tva->set_attribute('phpsessid',$_REQUEST['PHPSESSID']);
     $tva->set_attribute('gDossier',dossier::id());
 
     // We can add a label for the code

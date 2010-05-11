@@ -62,7 +62,7 @@ if ( $only_plugin != 'P' ) {
 	// user with only plugin cannot go back to the dashboard
 /* return button */
 $msg=_('Retour au tableau de bord');
-$hidden=dossier::hidden().HtmlInput::phpsessid();
+$hidden=dossier::hidden();
 echo <<<EOF
 <div style="position:absolute;top:3px;left:3px" class="noprint">
 <form method="get" action="access.php" style="display:inline">

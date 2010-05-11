@@ -102,7 +102,6 @@ function form($p_line=0) {
   $r.= dossier::hidden();
   $r.= HtmlInput::hidden('line',$p_line);
   $r.= HtmlInput::hidden('fr_id',$this->id);
-  $r.=HtmlInput::phpsessid();
   $wForm=new IText();
   $r.="Nom du rapport : ";
   $r.=$wForm->input('form_nom',$this->name);
@@ -156,7 +155,7 @@ function form($p_line=0) {
 
   $r.= "</TABLE>";
   $wButton=new IButton();
-  $wButton->javascript=" rapport_add_row('".dossier::id()."','".$_REQUEST['PHPSESSID']."')";
+  $wButton->javascript=" rapport_add_row('".dossier::id()."')";
   $wButton->label="Ajout d'une ligne";
   $r.=$wButton->input();
   return $r;

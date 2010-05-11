@@ -202,8 +202,6 @@ $sql="select sg_code,
   $r.="<th>Quantité</th>";
   $r.="<th>Prix/Cout Unitaire</th>";
   $r.="</TR>";
-  // compute sessid
-  $l_sessid=$_REQUEST['PHPSESSID'];
 
   for ( $i=0; $i < $M;$i++) {
     $l=Database::fetch_array($Res,$i);
@@ -228,7 +226,7 @@ $sql="select sg_code,
     // jr_internal
     $r.="<TD>";
     if ( $l['jr_id'] != "")
-      $r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$l['jr_id']."','".$_REQUEST['PHPSESSID']."',".dossier::id().",0,'S')\" > ".$l['jr_internal']."</A>";
+      $r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$l['jr_id']."',".dossier::id().",0,'S')\" > ".$l['jr_internal']."</A>";
     else 
       $r.=$l['jr_internal'];
 

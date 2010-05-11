@@ -63,7 +63,7 @@ class Document_type
       $bt=new IButton('X'.$r[$i]['dt_id']);
       $bt->label=_('Effacer');
       $bt->javascript="if (confirm('"._('Vous confirmez')."')==true) {";
-      $bt->javascript.="cat_doc_remove('".$r[$i]['dt_id']."','".$_REQUEST['PHPSESSID']."','".Dossier::id()."');";
+      $bt->javascript.="cat_doc_remove('".$r[$i]['dt_id']."','".Dossier::id()."');";
       $bt->javascript.='}';
 
       $tmp['js_remove']=$bt->input();

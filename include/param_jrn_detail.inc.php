@@ -145,7 +145,6 @@ if ( Database::num_row($Res) == 0 ) exit();
 
 
 $l_line=Database::fetch_array($Res,0);
-$sessid = $_REQUEST['PHPSESSID'];
 
 /* Load all the properties of the ledger */
 $Ledger=new Acc_Ledger($cn,$_REQUEST['p_jrn']);
@@ -184,7 +183,6 @@ $hidden.= HtmlInput::hidden('sa','detail');
 $hidden.= dossier::hidden();
 $hidden.=HtmlInput::hidden('p_jrn_deb_max_line',10);
 $hidden.=HtmlInput::hidden('p_ech_lib','echeance');
-$hidden.=HtmlInput::phpsessid();
 
 /* Load the card */
 $card=$Ledger->get_fiche_def();

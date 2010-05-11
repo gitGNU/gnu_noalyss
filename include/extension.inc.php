@@ -43,7 +43,7 @@ echo js_include('extension.js');
 $ipopup=new IPopup('dtext');
 $ipopup->value='';
 $ipopup->title=_('Détail extension');
-echo HtmlInput::hidden('popup','dtext').dossier::hidden().HtmlInput::phpsessid();
+echo HtmlInput::hidden('popup','dtext').dossier::hidden();
 echo $ipopup->input();
 
 echo '<div class="content">';

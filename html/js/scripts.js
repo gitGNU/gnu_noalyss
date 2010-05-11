@@ -175,13 +175,12 @@ function toggleHideShow(p_obj,p_button) {
 }
 /**
  *@brief open popup with the search windows
- *@param p_sessid,the PHPSESSID
  *@param p_dossier the dossier where to search
  *@param p_style style of the detail value are E for expert or S for simple
  */
-function openRecherche(p_sessid,p_dossier,p_style) {
+function openRecherche(p_dossier,p_style) {
   if ( p_style == 'E' ) { p_style="expert";}
-  var w=window.open("recherche.php?gDossier="+p_dossier+"&PHPSESSID="+p_sessid+'&'+p_style,'','statusbar=no,scrollbars=yes,toolbar=no');
+  var w=window.open("recherche.php?gDossier="+p_dossier+'&'+p_style,'','statusbar=no,scrollbars=yes,toolbar=no');
   w.focus();
 }
 /**
@@ -237,7 +236,7 @@ function getNodeText(xmlNode)
  *@param object select
  */
 function change_month(obj) {
-    var queryString="PHPSESSID="+obj.phpsessid+"&gDossier="+obj.gDossier+"&op=cal"+"&per="+obj.value;
+    var queryString="gDossier="+obj.gDossier+"&op=cal"+"&per="+obj.value;
     var action = new Ajax.Request(
 	"ajax_misc.php" , { method:'get', parameters:queryString,onFailure:ajax_misc_failure,onSuccess:change_month_success}
     );
@@ -270,8 +269,8 @@ function ajax_misc_failure() {
 /**
  *@brief remove a document_modele
  */
-function cat_doc_remove(p_dt_id,phpsessid,p_dossier) {
-    var queryString="PHPSESSID="+phpsessid+"&gDossier="+p_dossier+"&op=rem_cat_doc"+"&dt_id="+p_dt_id;
+function cat_doc_remove(p_dt_id,p_dossier) {
+    var queryString="gDossier="+p_dossier+"&op=rem_cat_doc"+"&dt_id="+p_dt_id;
     var action = new Ajax.Request(
 	"ajax_misc.php" , { method:'get', parameters:queryString,onFailure:ajax_misc_failure,onSuccess:success_cat_doc_remove}
 				  );
@@ -291,12 +290,12 @@ function success_cat_doc_remove(req) {
 }
 /**
  *@brief display the popup with vat and explanation
- *@param obj with 4 attributes gdossier, ctl,popup and phpsessid
+ *@param obj with 4 attributes gdossier, ctl,popup 
  */
 function popup_select_tva(obj) {
     try {
 	showIPopup(obj.popup);
-	var queryString="PHPSESSID="+obj.phpsessid+"&gDossier="+obj.gDossier+"&op=dsp_tva"+"&ctl="+obj.ctl+'&popup='+obj.popup;
+	var queryString="gDossier="+obj.gDossier+"&op=dsp_tva"+"&ctl="+obj.ctl+'&popup='+obj.popup;
 	if ( obj.jcode ) 
 	    queryString+='&code='+obj.jcode;
 	if (obj.compute)
@@ -331,11 +330,11 @@ function success_popup_select_tva(req) {
 }
 /**
  *@brief display the popup with vat and explanation
- *@param obj with 4 attributes gdossier, ctl,popup and phpsessid
+ *@param obj with 4 attributes gdossier, ctl,popup 
  */
 function set_tva_label(obj) {
     try {
-	var queryString="PHPSESSID="+obj.phpsessid+"&gDossier="+obj.gDossier+"&op=label_tva"+"&id="+obj.value;
+	var queryString="gDossier="+obj.gDossier+"&op=label_tva"+"&id="+obj.value;
 	if ( obj.jcode ) 
 	    queryString+='&code='+obj.jcode;
 	var action = new Ajax.Request(

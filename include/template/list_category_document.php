@@ -29,7 +29,7 @@ endfor;
 
 </table>
 <?
-echo HtmlInput::phpsessid().dossier::hidden();
+echo dossier::hidden();
 echo HtmlInput::hidden('p_action',$_REQUEST['p_action']);
 echo HtmlInput::hidden('sa',$_REQUEST['sa']);
 ?>

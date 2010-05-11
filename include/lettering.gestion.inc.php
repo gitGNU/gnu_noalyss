@@ -4,7 +4,6 @@ echo '<div class="content">';
 echo '<div id="search">';
 echo '<FORM METHOD="GET">';
 echo dossier::hidden();
-echo HtmlInput::phpsessid();
 echo HtmlInput::hidden('p_action',$_REQUEST['p_action']);
 echo HtmlInput::hidden('sb',$_REQUEST['sb']);
 echo HtmlInput::hidden('sc',$_REQUEST['sc']);

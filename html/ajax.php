@@ -6,7 +6,6 @@
  * Required variable in $_REQUEST
  *  - gDossier
  *  - code
- *  - PHPSESSID
  */
 require_once('class_database.php');
 require_once('class_user.php');

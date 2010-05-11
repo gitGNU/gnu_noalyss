@@ -114,8 +114,7 @@ $back_url=urlencode($_SERVER['REQUEST_URI']);
 	// add popup for detail
 	if ( $l_company_name !="")
 	  {
-	    $l_company_name=sprintf("<A HREF=\"javascript:showfiche('%s','%s')\">%s  - %s</A>",
-				    $_REQUEST['PHPSESSID'],
+	    $l_company_name=sprintf("<A HREF=\"javascript:showfiche('%s')\">%s  - %s</A>",
 				    $contact->strAttribut(ATTR_DEF_COMPANY),
 				    $contact->strAttribut(ATTR_DEF_COMPANY),
 				    $l_company_name

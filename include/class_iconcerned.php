@@ -34,14 +34,13 @@ require_once('class_html_input.php');
 		 if ( $this->readOnly==true) return $this->display();
     $td="";$etd="";
   
-      $l_sessid=$_REQUEST['PHPSESSID'];
+
 
       $r=sprintf("$td
-     <INPUT TYPE=\"button\" onClick=SearchJrn('%s',".dossier::id().",'%s',%s,'%s') value=\"?\">
+     <INPUT TYPE=\"button\" onClick=SearchJrn(".dossier::id().",'%s',%s,'%s') value=\"?\">
         $etd  $td 
       <INPUT TYPE=\"text\"  style=\"color:black;background:lightyellow;border:solid 1px grey;\"  NAME=\"%s\" ID=\"%s\" VALUE=\"%s\" SIZE=\"8\" readonly>
                  $etd",
-				 $l_sessid, 
 				 $this->name, 
 				 $this->extra,
 				 $this->extra2, 

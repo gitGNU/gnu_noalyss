@@ -40,10 +40,10 @@ require_once('class_html_input.php');
 	       $this->value,
 	       $this->label,
 	       $this->name);
-    $l_sessid=$_REQUEST['PHPSESSID'];
+
      $r.=sprintf("<input type=\"button\" value=\"Tva\" 
-     	onClick=\"ShowTva('%s',%d,'%s');\"></TD>",
-		 $l_sessid,dossier::id(),$this->name);
+     	onClick=\"ShowTva(%d,'%s');\"></TD>",
+		 dossier::id(),$this->name);
      if ( $this->table == 1 ) $r=td($r);
      return $r;
      

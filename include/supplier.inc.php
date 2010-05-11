@@ -38,7 +38,6 @@ echo js_include('controls.js');
 echo js_include('dragdrop.js');
 echo JS_CARD;
 echo JS_AJAX_FICHE;
-echo HtmlInput::phpsessid();
 echo ICard::ipopup('ipop_newcard');
 $ip_cat=new IPopup('ipop_cat');
 $ip_cat->title=_('Ajout d\'une catégorie');
@@ -93,7 +92,6 @@ if ( $low_action == "list" )
 <form method="get" action="<?php echo $href; ?>">
 <?php
    echo dossier::hidden();  
-   echo HtmlInput::phpsessid();
    $a=(isset($_GET['query']))?$_GET['query']:"";
    printf (_('Recherche').' <input type="text" name="query" value="%s">',
 	   $a);

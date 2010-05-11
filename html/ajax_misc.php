@@ -23,7 +23,6 @@
 /*!\file
  * \brief this file respond to an ajax request 
  * The parameters are
- * - PHPSESSID
  * - gDossier
  * - $op operation the file has to execute
  * Part 1
@@ -42,7 +41,7 @@ require_once('function_javascript.php');
 require_once('ac_common.php');
 require_once ('class_user.php');
 
-$var=array('PHPSESSID','gDossier');
+$var=array('gDossier');
 $cont=0;
 /*  check if mandatory parameters are given */
 foreach ($var as $v) {
@@ -70,7 +69,6 @@ switch($op)
     $html="";
     $html=$cal->display();
     $html=escape_xml($html);
-
 header('Content-type: text/xml; charset=UTF-8');
 echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
@@ -221,7 +219,6 @@ jr_comment,j_montant, j_debit,jr_internal from jrnx join jrn on (j_grpt=jr_grpt_
     $r.='<form method="get" id="search_form" onsubmit="search_letter(this);return false">';
     $r.='<div style="float:left;">';
     // needed hidden var
-    $r.=HtmlInput::phpsessid();
     $r.=dossier::hidden();
     if ( isset($_REQUEST['p_action']))       $r.=HtmlInput::hidden('p_action',$_REQUEST['p_action']);
     if ( isset($_REQUEST['sa']))       $r.=HtmlInput::hidden('sa',$_REQUEST['sa']);
@@ -300,7 +297,6 @@ jr_comment,j_montant, j_debit,jr_internal from jrnx join jrn on (j_grpt=jr_grpt_
     $form='<div id="result" style="float:top;clear:both">';
 
     $form.='<FORM METHOD="post">';
-    $form.=HtmlInput::phpsessid();
     $form.=dossier::hidden();
     if ( isset($_REQUEST['p_action']))       $form.=HtmlInput::hidden('p_action',$_REQUEST['p_action']);
     if ( isset($_REQUEST['sa']))       $form.=HtmlInput::hidden('sa',$_REQUEST['sa']);

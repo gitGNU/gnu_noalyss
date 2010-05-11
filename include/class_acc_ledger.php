@@ -594,7 +594,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
   if ($Max==0) return array(0,_("Aucun enregistrement trouvé"));
 
   $r.='<table class="result">';
-  $l_sessid=$_REQUEST['PHPSESSID'];
+
 
   $r.="<tr >";
   $r.="<th>Internal</th>";
@@ -652,9 +652,9 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 		exit (-1);
       }
     //DEBUG
-    //    $r.=$l_sessid;
-    $r.=sprintf('<A class="detail" HREF="javascript:modifyOperation(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')" >%s</A>',
-				$row['jr_id'], $l_sessid,$gDossier, $row['jrn_def_id'],$vue, $row['jr_internal']);
+
+    $r.=sprintf('<A class="detail" HREF="javascript:modifyOperation(\'%s\',\'%s\',\'%s\',\'%s\')" >%s</A>',
+				$row['jr_id'], $gDossier, $row['jrn_def_id'],$vue, $row['jr_internal']);
     $r.="</TD>";
     if ( $this->type=='') $r.=td($row['jrn_def_name']);
     // date
@@ -727,7 +727,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	$operation->jr_id=$element;
 	$l_amount=$this->db->get_value("select jr_montant from jrn ".
 					 " where jr_id=$element");
-	$r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."','".$l_sessid."',".$gDossier.")\" > ".$operation->get_internal()." [ $l_amount &euro; ]</A>";
+	$r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."',".$gDossier.")\" > ".$operation->get_internal()." [ $l_amount &euro; ]</A>";
       }//for
     }// if ( $a != null ) {
     $r.="</TD>";
@@ -740,19 +740,18 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
       $r.="<TD>";
       // cancel operation
       if ( $user->check_action(GEOP)==1)
-	$r.=sprintf('<input TYPE="BUTTON" class="button" VALUE="%s" onClick="cancelOperation(\'%s\',\'%s\',%d,\'%s\')">',
-		    _("Effacer"),$row['jr_grpt_id'],$l_sessid,$gDossier,$row['jrn_def_id']);
+	$r.=sprintf('<input TYPE="BUTTON" class="button" VALUE="%s" onClick="cancelOperation(\'%s\',%d,\'%s\')">',
+		    _("Effacer"),$row['jr_grpt_id'],$gDossier,$row['jrn_def_id']);
       $r.="</TD>";
     } // else
     //document
     if ( $row['jr_pj_name'] != "")
       {
 	$image='<IMG SRC="image/insert_table.gif" title="'.$row['jr_pj_name'].'" border="0">';
-	$r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s&%s&PHPSESSID=%s">%s</A>',
+	$r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s&%s">%s</A>',
 			   $row['jrn_def_id'],
 			   $row['jr_grpt_id'],
 			   $str_dossier,
-			   $_REQUEST['PHPSESSID'],
 			   $image)
 			   ."</TD>";
       }
@@ -1295,7 +1294,6 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 
     $ret.=HtmlInput::hidden('p_jrn',$this->id);
     $ret.=dossier::hidden();
-    $ret.=HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);
 
     $ret.=HtmlInput::hidden('jrn_type',$this->get_type());
     $info= HtmlInput::infobulle(0);
@@ -1308,7 +1306,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
       '<th>'._('Montant').'</th>'.
       '<th>'._('Débit').'</th>'.
       '</tr>';
-    $l_sessid=$_REQUEST['PHPSESSID'];
+
 
     for ($i = 0 ;$i<$nb_row;$i++){
       // Quick Code
@@ -1994,7 +1992,6 @@ function get_last_date()
     $f_paid=new ICheckbox('unpaid');
     $f_paid->selected=(isset($_REQUEST['unpaid']))?true:false;
 
-    $r.=HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);
     $r.=dossier::hidden();
     $r.=HtmlInput::hidden('ledger_type',$this->type);
     ob_start();
@@ -2013,7 +2010,6 @@ function get_last_date()
    * struct array $p_array
 \verbatim
 (
-    [phpsessid] => 016710a766b3c7b137ce6ee5bfbacc00
     [gDossier] => 13
     [p_jrn] => -1
     [date_start] =>
@@ -2024,7 +2020,6 @@ function get_last_date()
     [search] => Rechercher
     [p_action] => ven
     [sa] => l
-    [PHPSESSID] => 016710a766b3c7b137ce6ee5bfbacc00
 )
 \endverbatim
    *\return an array with a valid sql statement, an the where clause => array[sql] array[where]

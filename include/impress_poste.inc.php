@@ -60,7 +60,7 @@ echo '<div class="content">';
 echo '<FORM action="?" METHOD="GET">';
 echo HtmlInput::hidden('p_action','impress');
 echo HtmlInput::hidden('type','poste');
-echo dossier::hidden();echo HtmlInput::phpsessid();
+echo dossier::hidden();
 echo '<TABLE><TR>';
 $span=new ISpan();
 

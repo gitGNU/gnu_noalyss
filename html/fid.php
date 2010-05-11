@@ -31,7 +31,6 @@
  * - p field for the price (sale)
  * - b field for the price (purchase)
  * - FID is the QuickCode
- * - PHPSESSID
    *\note if the j is -1 then all the card are shown
  */
 

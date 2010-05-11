@@ -10,7 +10,6 @@
  * Todo list
  */
 echo dossier::hidden();
-echo HtmlInput::phpsessid();
 if ( isset($_REQUEST['save_todo_list'])) {
   /* Save the new elt */
   $add_todo=new Todo_List($cn);
@@ -36,7 +35,6 @@ $wDesc->width=19;
 echo _("Date")." ".$wDate->input().'<br>';
 echo _("Titre")." ".$wTitle->input().'<br>';
 echo _("Description")."<br>".$wDesc->input().'<br>';
-echo HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);
 echo dossier::hidden();
 echo HtmlInput::hidden('tl_id',0);
 echo HtmlInput::submit('save_todo_list',_('Sauve'),'onClick="hide(\'add_todo_list\');show(\'add\');return true;"');

@@ -29,7 +29,6 @@
  * - q for quantity
  * - n for number of the ctrl
  * - gDossier
- * - PHPSESSID
  * Must return at least tva, htva and tvac
  */
 

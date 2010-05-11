@@ -210,7 +210,6 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $r="";
 
     $r.=dossier::hidden();
-    $r.=HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);
     $f_legend='Banque, caisse';
     //  Date
     //--
@@ -530,7 +529,6 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     // Hidden variables
     //--------------------------------------------------
     $r.=dossier::hidden();
-    $r.=HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);
     $r.=HtmlInput::hidden('p_jrn',$this->id);
     $r.=HtmlInput::hidden('nb_item',$nb_item);
     $r.=HtmlInput::hidden('last_sold',$last_sold);

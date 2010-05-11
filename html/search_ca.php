@@ -26,7 +26,7 @@
  *
  */
 
-  // parameter are gDossier,PHPSESSID , c1 : the control id to update,
+  // parameter are gDossier , c1 : the control id to update,
   // c2 the control id which contains the pa_id
 require_once("class_itext.php");
 require_once("class_ihidden.php");

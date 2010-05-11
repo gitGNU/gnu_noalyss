@@ -248,9 +248,8 @@ for ($i=0;$i<sizeof($aAttachedFile);$i++) :
   <p>
     <A class="mtitle" id="<?php echo "doc".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $aAttachedFile[$i]['link']?>"><?php echo $aAttachedFile[$i]['d_filename'];?>
     </A>
-<?php $rmDoc=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer le document')." %s')==true ) {remove_document('%s','%s','%s');}",
+<?php $rmDoc=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer le document')." %s')==true ) {remove_document('%s','%s');}",
 	$aAttachedFile[$i]['d_filename'],
-	$_REQUEST['PHPSESSID'],
 	dossier::id(),
 	$aAttachedFile[$i]['d_id']);
     ?>

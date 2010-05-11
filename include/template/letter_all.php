@@ -3,7 +3,7 @@ require_once ('class_acc_operation.php');
 require_once ('class_acc_reconciliation.php');
 $amount_deb=0;$amount_cred=0;
 $gDossier=dossier::id();
-$l_sessid=$_REQUEST['PHPSESSID'];
+
 
 if ( count($this->content) == 0 ) :
 ?>
@@ -44,7 +44,6 @@ for ($i=0;$i<count($this->content);$i++):
 <?php
 $letter=($this->content[$i]['letter']==-1)?"x":$this->content[$i]['letter'];
 $js="this.gDossier=".dossier::id().
-  ";this.phpsessid='".$_REQUEST['PHPSESSID']."'".
   ";this.j_id=".$this->content[$i]['j_id'].
   ";this.obj_type='".$this->object_type."'".
   ";dsp_letter(this)";
@@ -54,8 +53,8 @@ $js="this.gDossier=".dossier::id().
 </td>
 <td> <?=$this->content[$i]['j_date_fmt']?> </td>
 <?php
-$r=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:viewOperation(\'%s\',\'%s\',\'%s\')" >%s</A>',
-	     $this->content[$i]['jr_id'], $l_sessid,$gDossier, $this->content[$i]['jr_internal']);
+$r=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:viewOperation(\'%s\',\'%s\')" >%s</A>',
+	     $this->content[$i]['jr_id'], $gDossier, $this->content[$i]['jr_internal']);
 ?>
   <td> <?=$r?> </td>
   <td> <?=h($this->content[$i]['jr_comment'])?> </td>
@@ -74,7 +73,7 @@ $r=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript
 	$operation->jr_id=$element;
 	$l_amount=$this->db->get_value("select jr_montant from jrn ".
 					 " where jr_id=$element");
-	echo "<A class=\"detail\" HREF=\"javascript:viewOperation('".$element."','".$l_sessid."',".$gDossier.")\" > ".$operation->get_internal()." [ $l_amount &euro; ]</A>";
+	echo "<A class=\"detail\" HREF=\"javascript:viewOperation('".$element."',".$gDossier.")\" > ".$operation->get_internal()." [ $l_amount &euro; ]</A>";
       }//for
     }// if ( $a != null ) {
 // compute amount

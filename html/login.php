@@ -41,7 +41,7 @@ if (  isset ($_POST["p_user"] ) ) {
   $User=new User($rep);
    $User->Check();
 
-  echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=user_login.php?PHPSESSID=" . $_REQUEST["PHPSESSID"] . "\">";
+  echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=user_login.php\">";
 
 } else
 {
@@ -50,7 +50,7 @@ if (  isset ($_POST["p_user"] ) ) {
   $User=new User($rep);
   $User->Check();
   
-  echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=user_login.php?PHPSESSID=" . $_REQUEST["PHPSESSID"] . "\">";  
+  echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=user_login.php\">";  
     // }
 }
 html_page_stop();

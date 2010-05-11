@@ -25,7 +25,6 @@
  *  the value :
  * - l for ledger 
  * - gDossier
- * - PHPSESSID
  * Must return at least tva, htva and tvac
  */
 

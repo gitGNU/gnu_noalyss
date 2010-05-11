@@ -58,9 +58,6 @@ echo JS_AJAX_FICHE;
 echo '<div class="lmenu">';
 ShowMenuImport();
 echo '</div>';
-if ( isset( $_REQUEST['PHPSESSID'])) {
-  $sessid = $_REQUEST['PHPSESSID'];
-}
 
 
 // if action is set proceed to it
@@ -98,7 +95,7 @@ if ( isset ($_GET["action"]) ) {
     $ip->type=OPEN;
     $ip->javascript="onchange=submit(this)";
     echo '<form method="get" action="import.php" >';
-    echo dossier::hidden().HtmlInput::phpsessid();
+    echo dossier::hidden();
     echo HtmlInput::hidden('action','transfer');
     echo _('Choississez la période à transfèrer');
     echo $ip->input();

@@ -96,7 +96,6 @@ class Calendar {
     $wMonth->selected=$this->default_periode;
     $wMonth->javascript="onchange=change_month(this)";
     $wMonth->set_attribute('gDossier',dossier::id());
-    $wMonth->set_attribute('phpsessid',$_REQUEST['PHPSESSID']);
     $month_year=$wMonth->input().$wMonth->get_js_attr();
 
     ob_start();

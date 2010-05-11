@@ -861,7 +861,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
     $r='';
     $r.=dossier::hidden();
-    $r.=HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);
     $f_legend=_('En-tête facture client');
 
     $Echeance=new IDate();

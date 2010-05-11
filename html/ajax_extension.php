@@ -24,7 +24,7 @@
  * \brief this file answer to ajax
  * parameters :
  * - action =de  details extension
- *       parameters : dossier, phpsessid and ex_id
+ *       parameters : dossier, and ex_id
  *
  *
  */
@@ -43,7 +43,7 @@ $user=new User($cn);
 set_language();
 $user->check(true);$user->check_dossier(dossier::id(),true);
 if ($user->check_action(EXTENSION)==0 ) exit;
-$var=array('PHPSESSID','gDossier','action');
+$var=array('gDossier','action');
 $cont=0;
 /*  check if mandatory parameters are given */
 foreach ($var as $v) {
@@ -86,7 +86,7 @@ switch($action) {
    $str_enable=$enable->input();
    $r.='<div style="overflow:auto;">';
    $r.='<form  id="formext" onsubmit="extension_save(this);return false">';
-   $r.=dossier::hidden().HtmlInput::phpsessid();
+   $r.=dossier::hidden();
    /* property of the extension */
    ob_start();
    require_once('template/extension-detail.php');
@@ -143,7 +143,7 @@ switch($action) {
    $str_enable=$enable->input();
    $r.='<div style="overflow:auto">';
    $r.='<form id="formext" onsubmit="extension_save(this);return false;">';
-   $r.=dossier::hidden().HtmlInput::phpsessid();
+   $r.=dossier::hidden();
    ob_start();
    require_once('template/extension-detail.php');
    $r.=ob_get_contents();
