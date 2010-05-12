@@ -65,7 +65,8 @@ $array=array(
 	array(26,'Gettext'),
 	array(27,'Card (class_fiche)'),
 	array(28,'Extension'),
-	array(29,'ITVA popup')
+	array(29,'ITVA popup'),
+	array(30,'Ereg and preg_match')
 	);
 $r='<form method="get">';
 $r.='<select name="test_select" >';
@@ -237,6 +238,25 @@ case 29:
   echo js_include("controls.js");
   echo js_include('dragdrop.js');
   ITva_Popup::test_me();
+  break;
+case 30:
+  // Test on ereg and preg_match
+  $aString=array('[7%]','[67%]','[7%]-[6%]+[67%]','[7%]-[6%]','[55%] FROM=00.000');
+  echo '<h2> EREG </h2>';
+  foreach ($aString as $str)  {
+    echo $str." ====>";
+    @ereg ("^(\\$[a-zA-Z]*[0-9]*=){0,1}((\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})+*([+-\*/]){0,1} *(\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})*)*(([+-\*/])*\\$([a-zA-Z])+[0-9]*([+-\*/])*)* *( *FROM=[0-9][0-0].20[0-9][0-9]){0,1}$",$str,$p_result);
+  var_dump($p_result);
+  }
+  echo '<h2> EREG </h2>';
+  foreach ($aString as $str)  {
+    echo $str." ====>";
+    /// $a=70%+60%+... FROM=00.000
+    preg_match("/^(\\$[a-zA-Z]+[0-9]*=){0,1}(\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})(+|-|\*|\/)*/",$str,$p_result);
+    //    preg_match ("/^(\\$[a-zA-Z]+[0-9]*=){0,1}((\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})+ *([+-\*/])* *(\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})*)*(([+-\*/])*\\$([a-zA-Z])+[0-9]*([+-\*/])*)* *( *FROM=[0-9][0-0].20[0-9][0-9]){0,1}\$/",$str,$p_result);
+  var_dump($p_result);
+  }
+
   break;
 }
 
