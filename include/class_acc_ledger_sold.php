@@ -283,7 +283,13 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 		$oTva=new Acc_Tva($this->db);
 		$idx_tva=${'e_march'.$i.'_tva_id'};
 		$tva_item=${'e_march'.$i.'_tva_amount'};
-
+		/* if empty then we need to compute it */
+		if (trim($tva_item)=='') {
+		  /* retrieve tva */
+		  $l=new Acc_Tva($this->db,$idx_tva);
+		  $l->load();
+		  $tva_item=bcmul($amount,$l->get_parameter('rate'));
+		}
 		if (isset($tva[$idx_tva] ) )
 		  $tva[$idx_tva]+=$tva_item;
 		else
