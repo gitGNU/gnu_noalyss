@@ -53,7 +53,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
    *\param an array (usually $_POST)
    *\return String
    *\throw Exception if an error occurs
-   *\todo verify also the vat
    */
   public function verify($p_array) {
     extract ($p_array);
@@ -127,13 +126,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     if ( $poste->load() == false ){
       throw new Exception(_('Pour la fiche ').$e_client._(' le poste comptable [').$poste->id.'] '._('n\'existe pas'),9);
     }
-    /** 
-     *@todo we have to check also the different accounting 
-     define ("ATTR_DEF_DEP_PRIV",31);
-     define ("ATTR_DEF_DEPENSE_NON_DEDUCTIBLE",20);
-     define ("ATTR_DEF_TVA_NON_DEDUCTIBLE",21);
-     define ("ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP",22);
-    */
     /* Check if the card belong to the ledger */
     $fiche=new fiche ($this->db);
     $fiche->get_by_qcode($e_client,'cred');
@@ -162,7 +154,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       // Check if the given tva id is valid
       if ( $owner->MY_TVA=='Y') {
 	if (${'e_march'.$i.'_tva_id'} == 0 )
-	throw new Exception(_('La fiche ').${'e_march'.$i}._('a un code tva invalide').' ['.${'e_march'.$i.'_tva_id'}.']',13);
+	  throw new Exception(_('La fiche ').${'e_march'.$i}._('a un code tva invalide').' ['.${'e_march'.$i.'_tva_id'}.']',13);
       $tva_rate=new Acc_Tva($this->db);
       $tva_rate->set_parameter('id',${'e_march'.$i.'_tva_id'});
 
@@ -195,6 +187,24 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $fiche->get_by_qcode(${'e_march'.$i});
       if ( $fiche->belong_ledger($p_jrn,'deb') !=1 )
 	throw new Exception(_('La fiche ').${'e_march'.$i}._('n\'est pas accessible à ce journal'),10);
+    /** 
+     * we have to check also if the different accountings exist
+     "ATTR_DEF_DEP_PRIV"
+     "ATTR_DEF_DEPENSE_NON_DEDUCTIBLE"
+     "ATTR_DEF_TVA_NON_DEDUCTIBLE"
+     "ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP"
+    */
+      foreach (array(
+		     array(ATTR_DEF_DEPENSE_NON_DEDUCTIBLE,'DNA'),
+		     array(ATTR_DEF_DEP_PRIV,'DEP_PRIV'),
+		     array(ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP,'TVA_DED_IMPOT'),
+		     array(ATTR_DEF_TVA_NON_DEDUCTIBLE,'TVA_DNA')) as $key) {
+	if ( ! $fiche->empty_attribute($key[0])) {
+	  $a=new Acc_Parm_Code($this->db,$key[1]);
+	  if ( $this->db->count_sql('select pcm_val from tmp_pcmn where pcm_val=$1',array($a->p_value))==0)
+	    throw new Exception ($key._("ce code n'a pas de poste comptable, créez ce poste : [".$a->p_value."]"));
+	}
+      }
       $nb++;
     }
     if ( $nb == 0 )
