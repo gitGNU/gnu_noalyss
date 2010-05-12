@@ -614,9 +614,9 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	  if ( strpos($sposte,',') != 0 ) {
 	    $array=explode(',',$sposte);
 	    if ( ${"e_other$i"."_amount"} < 0 )
-	      $poste_val=$array[0];
-	    else
 	      $poste_val=$array[1];
+	    else
+	      $poste_val=$array[0];
 	  } else {
 	    $poste_val=$sposte;
 	  }
