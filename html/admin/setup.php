@@ -86,10 +86,6 @@ include_once('constant.php');
 require_once('class_database.php');
 
 include_once('ac_common.php');
-/* The config file is created here */
-if (isset($_POST['save_config'])) {
-  $url=config_file_create($_POST,1,$os);
- }
 
 if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php')) {
   /* if the config file is not found we propose to create one */
@@ -109,14 +105,14 @@ if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.D
  * if os == 1 then windows, 0 means Unix
  */
 $file='..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'.htaccess';
-$hFile=@fopen($file,'a+');
+$hFile=@fopen($file,'w+');
 if ( ! $hFile )     exit('Impossible d\'&eacute;crire dans le r&eacute;pertoire include');
 fwrite($hFile,'order deny,allow'."\n");
 fwrite($hFile,'deny from all'."\n");
 fclose($hFile);
 
 $file='..'.DIRECTORY_SEPARATOR.'.htaccess';
-  $hFile=@fopen($file,'a+');
+  $hFile=@fopen($file,'w+');
   if ( ! $hFile )     exit('Impossible d\'&eacute;crire dans le r&eacute;pertoire html');
   $array=array("php_flag  magic_quotes_gpc off",
 	       "php_flag session.auto_start on",
@@ -137,11 +133,16 @@ $file='..'.DIRECTORY_SEPARATOR.'.htaccess';
     fwrite($hFile,'php_value include_path .:../../include:../include:addon'."\n");
   foreach ($array as $value ) fwrite($hFile,$value."\n");
   fclose($hFile);
+/* The config file is created here */
+if (isset($_POST['save_config'])) {
+  $url=config_file_create($_POST,1,$os);
 echo '
 <form method="post" >
     Les informations sont sauv&eacute;es vous pouvez continuer
 <input type="submit" value="Continuer">
 </form>';
+ exit();
+ }
 
 //----------------------------------------------------------------------
 // End functions
