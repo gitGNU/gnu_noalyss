@@ -203,8 +203,6 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     list ($l_date_start,$l_date_end)=$pPeriode->get_date_limit($user->get_periode());
     
     $op_date=( ! isset($e_date) ) ?$l_date_start:$e_date;
-    $ext_no=( ! isset($ext_no) ) ?'':$ext_no;
-    
     $r="";
 
     $r.=dossier::hidden();
@@ -239,7 +237,14 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 
     // Ledger (p_jrn)
     //--
+    $add_js="";
+    $owner=new Own($this->db);
+
+    if ( $owner->MY_PJ_SUGGEST == 'Y') $add_js="onchange='update_pj();'";
+
     $wLedger=$this->select_ledger('FIN',2);
+    $wLedger->javascript=$add_js;
+
     if ($wLedger == null) exit ('Pas de journal disponible');
 
     $label=" Journal ".HtmlInput::infobulle(2) ;
@@ -283,11 +288,16 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     // Saldo begin end 
     //-------------------------------------------------
     // Extrait
-    //--
-    $wExt=new IText("ext_no",$ext_no);
-    $label=HtmlInput::infobulle(5);
-    $wExt->label='Numéro d\'extrait '.$label;
-    $f_extrait=$wExt->input();
+    $default_pj='';
+    if ( $owner->MY_PJ_SUGGEST=='Y') {
+      $default_pj=$this->guess_pj();
+    }
+    $wPJ=new IText('e_pj');
+    $wPJ->readonly=false;
+    $wPJ->size=10;
+    $wPJ->value=(isset($e_pj))?$e_pj:$default_pj;
+
+    $f_extrait=$wPJ->input().HtmlInput::hidden('e_pj_suggest',$default_pj);
     $label=HtmlInput::infobulle(7);
 
     $first_sold=(isset($first_sold))?$first_sold:"";
@@ -455,7 +465,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $r.='<tr>';
     // Extrait
     //--
-    $r.='<td> Numéro d\'extrait</td>'.h($ext_no);
+    $r.='<td> Numéro d\'extrait</td>'.h($e_pj);
     $r.='<td >Solde début extrait </td>';
     $r.='<td>'.$first_sold.'</td>';
     $r.='<td>Solde fin extrait </td>';
@@ -532,7 +542,8 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $r.=HtmlInput::hidden('last_sold',$last_sold);
     $r.=HtmlInput::hidden('first_sold',$first_sold);
     $r.=HtmlInput::hidden('e_bank_account',$e_bank_account);
-    $r.=HtmlInput::hidden('ext_no',$ext_no);
+    $r.=HtmlInput::hidden('e_pj',$e_pj);
+    $r.=HtmlInput::hidden('e_pj_suggest',$e_pj_suggest);
     $r.=HtmlInput::hidden('e_date',$e_date);
     $mt=microtime(true);
     $r.=HtmlInput::hidden('mt',$mt);
@@ -591,6 +602,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       {
 	$this->db->start();
 	$amount=0.0;  
+	$idx_operation=0;
 	// Credit = goods 
 	for ( $i = 0; $i < $nb_item;$i++) {
 	  // if tiers is set and amount != 0 insert it into the database 
@@ -667,10 +679,10 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	
 	  if ( FormatString(${"e_other$i"."_comment"}) == null ) {
 	    // if comment is blank set a default one
-	    $comment="ext :".$ext_no."  compte : ".$fBank->strAttribut(ATTR_DEF_NAME).' a '.
+	    $comment="  compte : ".$fBank->strAttribut(ATTR_DEF_NAME).' a '.
 	      $fPoste->strAttribut(ATTR_DEF_NAME);
 	  } else {
-	    $comment='ext: '.$ext_no.' '.${'e_other'.$i.'_comment'};
+	    $comment=${'e_other'.$i.'_comment'};
 	  }
 
 
@@ -682,7 +694,11 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	  $acc_operation->grpt=$seq;
 	  $acc_operation->periode=$tperiode;
 	  $acc_operation->mt=$mt;
+	  $idx_operation++;
+	  $acc_operation->pj=$e_pj.'.'.$idx_operation;
+	  error_log($acc_operation->pj."\n",3,"/tmp/phpcompta.log");
 	  $jr_id=$acc_operation->insert_jrn();
+ 	  $acc_operation->set_pj();
 
 	  $internal=$this->compute_internal_code($seq);
 
@@ -733,6 +749,12 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	}
 	
       } // for nbitem
+	// increment pj
+	      /* if e_suggest != e_pj then do not increment sequence */
+      if ( strlen(trim($e_pj)) !=0) {
+      	$this->inc_seq_pj();
+      }
+
     } 
   catch (Exception $e)
     {
