@@ -389,6 +389,7 @@ function ShowMenuPcmn($p_start=1)
 {
   $str_dossier="&".dossier::get();
     echo '<TABLE>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=0'.$str_dossier.'">0'._(' Hors Bilan').' </A></TD></TR>';
     echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=1'.$str_dossier.'">1'._(' Immobilisé').' </A></TD></TR>';
     echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=2'.$str_dossier.'">2 '._('Actif a un an au plus').'</A></TD></TR>';
     echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=3'.$str_dossier.'">3 '._('Stock et commande').'</A></TD></TR>';
