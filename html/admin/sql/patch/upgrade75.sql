@@ -149,5 +149,8 @@ create view vw_supplier as
    JOIN attr_value USING (jft_id)
   WHERE jnt_fic_att_value.ad_id = 18) h USING (f_id)
   WHERE a.frd_id = 8;
+  alter table attr_min add constraint frd_ad_attr_min_pk primary key (frd_id,ad_id);
+
+update version set val=76;
 
 commit;
