@@ -61,9 +61,9 @@ if ($array == null  ) {
   //  echo '<h2 class="info2"> Aucune fiche trouvée</h2>';
   exit();
 }
-$tab=array(13,25,100,20,20,12);
-$align=array('L','L','L','R','R','R');
-
+$tab=array(13,25,80,20,20,12,20);
+$align=array('L','L','L','R','R','R','R');
+ 
 foreach($array as $row) {
   $letter=new Lettering_Card($cn);
   $letter->set_parameter('quick_code',$row->strAttribut(ATTR_DEF_QUICKCODE));
@@ -94,6 +94,7 @@ foreach($array as $row) {
   $pdf->Cell($tab[2],7,'Comm');
   $pdf->Cell(40,7,'Montant',0,0,'C');
   $pdf->Cell($tab[5],7,'Let.',0,0,'R');
+  $pdf->Cell($tab[6],7,'Som. Let.',0,0,'R');
   $pdf->ln();
 
   $amount_deb=0;$amount_cred=0;
@@ -121,7 +122,17 @@ foreach($array as $row) {
       $pdf->Cell($tab[4],4,sprintf('%10.2f',$row['j_montant']),0,0,$align[4],$fill);
       $amount_cred+=$row['j_montant'];
     }
-    if ($row['letter'] != -1 ) $pdf->Cell($tab[5],4,$row['letter'],0,0,$align[5],$fill); else $pdf->Cell($tab[5],4,"",0,0,'R',$fill);
+    if ($row['letter'] != -1 ) {
+      $pdf->Cell($tab[5],4,$row['letter'],0,0,$align[5],$fill); 
+      // get sum for this lettering
+      $sql="select sum(j_montant) from jrnx where j_debit=$1 and j_id in ".
+	" (select j_id from jnt_letter join letter_deb using (jl_id) where jl_id=$2 union ".
+	"  select j_id from jnt_letter join letter_cred using (jl_id) where jl_id=$3)";
+      $sum=$cn->get_value($sql,array($row['j_debit'],$row['letter'],$row['letter']));
+      $pdf->Cell($tab[6],4,sprintf('%.2f',$sum),'0','0','R',$fill);
+    }
+    else 
+      $pdf->Cell($tab[5],4,"",0,0,'R',$fill);
     $pdf->Ln();
   }
   $pdf->SetFillColor(0,0,0);
