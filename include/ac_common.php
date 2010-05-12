@@ -540,10 +540,15 @@ function myereg($p_pattern,$p_string,&$p_array=null) {
     return ereg($p_pattern,$p_string,$p_array);
   } else {
     /* use the new preg_match */
-    $p_pattern="/$p_pattern/";
-    $a=preg_match($p_pattern,$p_string,$p_array);
+    /**
+     *@todo ereg are obsolete from the version 5.3.0
+     * we have to emulate it 
+     */
+    /*      $a=preg_match_all($p_pattern,$p_string,$p_array);
     if ( $a == 0 ) return false;
-    return true;
+    return true;*/
+    $a=@ereg($p_pattern,$p_string,$p_array);
+    return $a;
   }
 }
 ?>

@@ -211,7 +211,8 @@ function get_internal() {
  function get_jrnx_detail() {
    if ( $this->jr_id==0 ) return;
    $sql=" select distinct jr_date,j_qcode,j_poste,j_montant,jr_internal,case when j_debit = 'f' then 'C' else 'D' end as debit,jr_comment as description,
-                vw_name,pcm_lib,j_debit from jrnx join jrn on (jr_grpt_id=j_grpt)
+                vw_name,pcm_lib,j_debit,coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter ".
+                " from jrnx join jrn on (jr_grpt_id=j_grpt)
                 join tmp_pcmn on (j_poste=pcm_val)
                 left join vw_fiche_attr on (j_qcode=quick_code)
 		where
@@ -302,6 +303,15 @@ function get_internal() {
 
        $csv.="\r\n";
        $r.='</td>';
+       $r.='<td>';
+       $a=($l['letter']!=-1)?$l['letter']:'';
+       $r_notable.=$a;
+       $r.=$a;
+       $csv.='"'.$a.'"';
+
+       $csv.="\r\n";
+       $r.='</td>';
+
 
        $r.='</tr>';
    }

@@ -281,6 +281,7 @@ function get_solde_detail($p_cond="") {
        "<TH> Description </TH>".
        "<TH> D&eacute;bit  </TH>".
 	"<TH> Cr&eacute;dit </TH>".
+       th('Let.').
        "</TR>";
 
      foreach ( $this->row as $op ) {
@@ -290,6 +291,7 @@ function get_solde_detail($p_cond="") {
 	 "<TD>".h($op['description']).' '.h($op['jr_pj_number'])."</TD>".
 	 "<TD>".$op['deb_montant']."</TD>".
 	 "<TD>".$op['cred_montant']."</TD>".
+	 td($op['letter']).
 	 "</TR>";
 
      }
