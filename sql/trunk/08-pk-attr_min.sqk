@@ -1,0 +1,3 @@
+begin;
+alter table attr_min add constraint frd_ad_attr_min_pk primary key (frd_id,ad_id);
+commit;
