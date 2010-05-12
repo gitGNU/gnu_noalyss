@@ -86,6 +86,7 @@ echo '</div>';
 echo '<div class="content">';
 echo JS_TODO;
 echo js_include('prototype.js');
+echo js_include('infobulle.js');
 
 /* others report */
 $cal=new Calendar();

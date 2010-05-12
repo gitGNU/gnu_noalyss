@@ -21,27 +21,27 @@ if ( isset($_REQUEST['save_todo_list'])) {
 }
 $todo=new Todo_List($cn);
 $array=$todo->load_all();
-
-
-echo '<div style="float:left;width:30%;">';
-echo '<fieldset> <legend>'._('Pense-Bête').'</legend>';
-echo '<div id="add_todo_list" style="display:none;text-align:left;line-height:3em">';
+echo '<div id="add_todo_list" style="border:1px solid blue;width:40%;display:none;background-color:lightgrey;padding:3;position:absolute;text-align:left;line-height:3em;z-index:1">';
 echo '<form method="post">';
 $wDate=new IDate('p_date');
 $wTitle=new IText('p_title');
 $wDesc=new ITextArea('p_desc');
 $wDesc->heigh=5;
-$wDesc->width=19;
+$wDesc->width=40;
 echo _("Date")." ".$wDate->input().'<br>';
 echo _("Titre")." ".$wTitle->input().'<br>';
 echo _("Description")."<br>".$wDesc->input().'<br>';
 echo dossier::hidden();
 echo HtmlInput::hidden('tl_id',0);
-echo HtmlInput::submit('save_todo_list',_('Sauve'),'onClick="hide(\'add_todo_list\');show(\'add\');return true;"');
-echo HtmlInput::button('hide',_('Annuler'),'onClick="$(\'add_todo_list\').hide();$(\'add\').show();return true;"');
+echo HtmlInput::submit('save_todo_list',_('Sauve'),'onClick="$(\'add_todo_list\').hide();return true;"');
+echo HtmlInput::button('hide',_('Annuler'),'onClick="$(\'add_todo_list\').hide();return true;"');
 echo '</form>';
-
 echo '</div>';
+
+echo '<div style="float:left;width:30%;">';
+echo '<fieldset> <legend>'._('Pense-Bête').'</legend>';
+
+
 echo HtmlInput::button('add',_('Ajout'),'onClick="add_todo()"');
 if ( ! empty ($array) )  {
   echo '<table id="table_todo" width="100%">';
