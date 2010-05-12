@@ -85,7 +85,6 @@ require_once('config_file.php');
 include_once('constant.php');
 require_once('class_database.php');
 
-include_once('debug.php');
 include_once('ac_common.php');
 /* The config file is created here */
 if (isset($_POST['save_config'])) {
@@ -143,7 +142,6 @@ echo '
     Les informations sont sauv&eacute;es vous pouvez continuer
 <input type="submit" value="Continuer">
 </form>';
-exit();
 
 //----------------------------------------------------------------------
 // End functions
