@@ -163,7 +163,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	if ( $content['jr_pj_name'] != "")
 	  $r.='<TD>Effacer PJ <INPUT TYPE="CHECKBOX" name="to_remove" ></TD>';
   }
-  $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s">%s</A>',
+  $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s&%s">%s</A>',
 		     $content['jr_id'],
 		     $content['jr_grpt_id'],
 		     $str_dossier,
