@@ -1,4 +1,3 @@
-
 <?php  
 /*
  *   This file is part of PHPCOMPTA.
@@ -82,7 +81,7 @@ if ( isset ($_POST['sub_change']))
     } else 
       {
 	// Check if User Can change the stock 
-	if ( check_action($gDossier,$_SESSION['g_user'],STOCK_WRITE) == 0 ) {
+	if ( $User->check_action($gDossier,GESTOCK) == 0 ) {
 	  NoAccess();
 	  exit (-1);
     }
