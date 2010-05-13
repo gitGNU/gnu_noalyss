@@ -106,9 +106,6 @@ $to_poste->set_attribute('account','to_poste');
 
 $to_poste->value=(isset($_POST['to_poste']))?$_POST['to_poste']:"";
 $to_span=new ISpan("to_poste_label","");
-$c=new ICheckBox();
-$c->label="centralisé";
-echo $c->input('central');
 
 echo "<div>";
 echo "Plage de postes :".$from_poste->input();
@@ -166,15 +163,6 @@ if ( isset($_POST['view'] ) ) {
   $bal->jrn=$_POST['p_jrn'];  
   $bal->from_poste=$_POST['from_poste'];
   $bal->to_poste=$_POST['to_poste'];
-
-  $t_cent="";
-  //$per=join(',',$periode);
-  if ( isset($_POST['central']) ) {
-    $bal->central='Y';
-    $t_cent="centralisée";
-  }
-  else
-  $bal->central='N';
 
   $row=$bal->get_row($_POST['from_periode'],
 		  $_POST['to_periode']);

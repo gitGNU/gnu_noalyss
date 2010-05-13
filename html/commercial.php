@@ -209,10 +209,6 @@ if ( $p_action=='periode') {
   else
     $User->can_request(9999,1);
  }
-if ( $p_action=='central') {
-  $User->can_request(PARCENT,1);
-  require_once ('central.inc.php');
- }
 //-----------------------------------------------------
 // Expense
 if ( $p_action == 'defreport')

@@ -28,7 +28,6 @@ require_once('class_acc_account.php');
 
 class Acc_Balance {
   var $db;       /*! < database connection */
-  var $central; /*! < from centralized ledger if equal to Y */
   var $row;     /*! < row for ledger*/
   var $jrn;						/*!< jrn_def.jr_id or -1 for all of
 								  them */
@@ -36,10 +35,9 @@ class Acc_Balance {
   var $to_poste;				/*!< to_poste filter on the post*/
   function Acc_Balance($p_cn) {
     $this->db=$p_cn;
-    $this->central='N';
-	$this->jrn=-1;
-	$from_poste="";
-	$to_poste="";
+    $this->jrn=-1;
+    $from_poste="";
+    $to_poste="";
   }
 
 
@@ -62,11 +60,10 @@ class Acc_Balance {
     // filter on requested periode
     $per_sql=sql_filter_per($this->db,$p_from_periode,$p_to_periode,'p_id','j_tech_per');
 
-    // if centralized
-    $cent="";	$and=""; $jrn="";
-	$from_poste="";$to_poste="";
 
-    if ( $this->central=='Y' ) { $cent="j_centralized = true";$and=" and "; }
+    $and=""; $jrn="";
+    $from_poste="";$to_poste="";
+
     if ($this->jrn!= -1){	  $jrn=" $and  j_jrn_def=".$this->jrn;$and=" and ";}
     if ( strlen(trim($this->from_poste)) != 0 && $this->from_poste!=-1  ) {
       $from_poste=" $and j_poste::text >= '".$this->from_poste."'"; $and=" and ";
@@ -83,7 +80,7 @@ class Acc_Balance {
              from jrnx join tmp_pcmn on j_poste=pcm_val
                   left join parm_periode on j_tech_per = p_id
               where 
-             $cent  $jrn $from_poste $to_poste
+              $jrn $from_poste $to_poste
              $and
             $per_sql ) as m group by j_poste order by j_poste::text";
     $cn=clone $this->db;

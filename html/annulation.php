@@ -22,7 +22,6 @@
  * \brief in a popup window manage the removal of the operations
  */
 include_once ("ac_common.php");
-include_once("central_inc.php");
 include_once("user_common.php");
 require_once('class_database.php');
 include_once("jrn.php");

@@ -96,10 +96,6 @@ $periode_end=$cn->make_array("select p_id,to_char(p_end,'DD-MM-YYYY') from parm_
 $w->selected=(isset($_GET['to_periode']))?$_GET['to_periode']:'';
 print td('Jusque ').$w->input('to_periode',$periode_end);
 print "</TR><TR>";
-$centralise=new ICheckBox();
-print td("Depuis les journaux centralisés");
-$centralise->selected=(isset($_GET['cent']))?true:false;
-print td($centralise->input('cent'));
 $a=array(
 	 array('value'=>0,'label'=>'Detaillé'),
 	 array('value'=>1,'label'=>'Simple')
@@ -114,7 +110,7 @@ echo '</TABLE>';
 print HtmlInput::submit('bt_html','Visualisation');
 
 echo '</FORM>';
-  echo '<span class="notice"> Attention : en-cas d\'impression de journaux centralis&eacute;s, dans le PDF, les montants d&eacute;bit et cr&eacute;dit calcul&eacute;s  par page sont la somme des montants de la page uniquement. Si une op&eacute;ration est sur 2 pages ces montants diff&egrave;reront évidemment. Ces montants doivent &ecirc;tre &eacute;gaux sur la derni&egrave;re page. Pour v&eacute;rifier la balance, utilisez la balance des comptes ou Avanc&eacute;->V&eacute;rification</span>';
+
 
 
 //-----------------------------------------------------
@@ -124,7 +120,6 @@ echo '</FORM>';
 //-----------------------------------------------------
 if ( isset( $_REQUEST['bt_html'] ) ) {
 require_once("class_acc_ledger.php");
- $p_cent=( isset ( $_GET ['cent']) )?'on':'off';
 
  $d=var_export($_GET,true);
   $Jrn=new Acc_Ledger($cn,$_GET['jrn_id']);
@@ -132,15 +127,14 @@ require_once("class_acc_ledger.php");
   if ( $_GET['p_simple']==0 ) 
     {
       $Row=$Jrn->get_row( $_GET['from_periode'],
-		    $_GET['to_periode'],
-		    $p_cent);
+		    $_GET['to_periode']
+		    );
     }
   else 
     {
       $Row=$Jrn->get_rowSimple($_GET['from_periode'],
-			 $_GET['to_periode'],
-			 $p_cent);
-      //      var_dump($Row);
+			 $_GET['to_periode']
+			 );
     }
   $rep="";
   $hid=new IHidden();
@@ -155,7 +149,6 @@ require_once("class_acc_ledger.php");
     HtmlInput::submit('bt_pdf',"Export PDF").
     $hid->input("type","jrn").
     $hid->input("p_action","impress").
-    $hid->input("central",$p_cent).
     $hid->input("jrn_id",$Jrn->id).
     $hid->input("from_periode",$_GET['from_periode']).
     $hid->input("to_periode",$_GET['to_periode']);
@@ -166,7 +159,6 @@ require_once("class_acc_ledger.php");
     HtmlInput::submit('bt_csv',"Export CSV").
     $hid->input("type","jrn").
     $hid->input("p_action","impress").
-    $hid->input("central",$p_cent).
     $hid->input("jrn_id",$Jrn->id).
     $hid->input("from_periode",$_GET['from_periode']).
     $hid->input("to_periode",$_GET['to_periode']);
@@ -187,10 +179,6 @@ require_once("class_acc_ledger.php");
     //---
     foreach ( $Jrn->row as $op ) { 
       echo "<TR>";
-      // centralized
-      if ( $p_cent == 'on') {
-	echo "<TD>".$op['j_id']."</TD>";
-      }
       echo "<TD>".$op['internal']."</TD>".
 	"<TD>".$op['j_date']."</TD>".
 	"<TD>".$op['poste']."</TD>".
@@ -257,8 +245,8 @@ require_once("class_acc_ledger.php");
   // show the saldo
   
   $solde=$Jrn->get_solde( $_GET['from_periode'],
-						  $_GET['to_periode'],
-						  $p_cent);
+			  $_GET['to_periode']
+			  );
   echo "solde d&eacute;biteur:".$solde[0]."<br>";
   echo "solde cr&eacute;diteur:".$solde[1];
   

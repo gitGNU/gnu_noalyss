@@ -83,9 +83,6 @@ break;
 case 'verif';
 $high=10;
 break;
-case 'central';
-$high=3;
- break;
 case 'defreport':
   $high=6;
   break;
@@ -122,9 +119,6 @@ if ( $p_action=='verif' ) {
   require_once ('verif_bilan.inc.php');
   exit();
  }
-if ( $p_action=='central') 
-  require_once ('central.inc.php');
-
 
 if ($p_action=='defreport') {
   require_once('report.inc.php');

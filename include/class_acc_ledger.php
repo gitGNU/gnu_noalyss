@@ -125,13 +125,12 @@ class Acc_Ledger {
    *
    * \param p_from from periode
    * \param p_to to periode
-   * \param $p_cent (on or off)
    * \param p_limit starting line
    * \param p_offset number of lines
    * \return Array with the asked data
    *
    */
-  function get_row($p_from,$p_to,$cent='off',$p_limit=-1,$p_offset=-1) {
+  function get_row($p_from,$p_to,$p_limit=-1,$p_offset=-1) {
 
 
     $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
@@ -141,10 +140,7 @@ class Acc_Ledger {
     $this->get_type();
     // Grand livre == 0
     if ( $this->id != 0 ) {
-
-      if ( $cent=='off' ) {
-	// Journaux non centralises
-	$Res=$this->db->exec_sql("select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
+      $Res=$this->db->exec_sql("select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
 	      jr_internal,
 	case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
 	case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
@@ -159,40 +155,8 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 		     " where j_jrn_def=".$this->id.
 		     " and ".$periode." order by j_date::date asc,jr_internal,j_debit desc ".
 		     $cond_limite);
-      }else {
-	// Journaux centralises
-	//      echo'class_acc_ledger.php',__LINE__,"journaux centralise";
-	$Sql="select jr_opid as j_id,
-	    c_order as int_j_id,
-    to_char (c_date,'DD.MM.YYYY') as j_date ,
-    c_internal as jr_internal,
-    case c_debit when 't' then c_montant::text else '   ' end as deb_montant,
-    case c_debit when 'f' then c_montant::text else '   ' end as cred_montant,
-    c_debit as j_debit,
-    c_poste as poste,
-    coalesce(j_text,pcm_lib) as description,
-    j_qcode,
-jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_number  !='' then 'pj:'||coalesce(jr_pj_number,'-') else '' end  as jr_comment,
-    jr_montant,
-    c_grp as grp,
-    c_comment as comment,
-    c_rapt as oc,
-    c_periode as periode
-    from
-
-  centralized left join jrnx on j_id=c_j_id
- left join tmp_pcmn on pcm_val=c_poste
- left join jrn on jr_grpt_id=c_grp
-   where ".
-	  " c_jrn_def=".$this->id." and ".
-	  $periode." order by c_order ";
-	$Res=$this->db->exec_sql($Sql.$cond_limite);
-
-      }
+      
     } else {
-      // Grand Livre
-      if ( $cent == 'off') {
-	// Non centralise
 	$Res=$this->db->exec_sql("select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
 	      jr_internal,
 	case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
@@ -207,33 +171,6 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 		     "  ".$periode." order by j_date::date,j_grpt,j_debit desc   ".
 		     $cond_limite);
 
-      } else {
-	// Centralise
-	$Sql="select jr_c_opid as j_id,
-	   c_order as int_j_id,
-    c_j_id,
-    to_char (c_date,'DD.MM.YYYY') as j_date ,
-    c_internal as jr_internal,
-    case c_debit when 't' then c_montant::text else '   ' end as deb_montant,
-    case c_debit when 'f' then c_montant::text else '   ' end as cred_montant,
-    c_debit as j_debit,
-    c_poste as poste,
-    coalesce(j_text,pcm_lib) as description,
-jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_number  !='' then 'pj:'||coalesce(jr_pj_number,'-') else '' end as jr_comment,
-    jr_montant,
-    c_grp as grp,
-    c_comment||' ('||c_internal||' '||jr_opid||')'||'pj:'||coalesce(jr_pj_number,'-') as comment,
-    c_rapt as oc,
-    j_qcode,
-    c_periode as periode
-    from centralized left join jrn on ".
-	  "jr_grpt_id=c_grp left join tmp_pcmn ".
-	  " on (pcm_val=c_poste)  ".
-	  "            join jrnx on (j_id=c_j_id)".
-	  " where ".
-	  $periode." order by c_order ";
-	$Res=$this->db->exec_sql($Sql.$cond_limite);
-      } // Grand Livre
     }
 
 
@@ -330,22 +267,17 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
    *
    * \param from periode
    * \param to periode
-   * \param centralized (on or off)
    * \param p_limit starting line
    * \param p_offset number of lines
    * \param trunc if data must be truncated (pdf export)
    *
    * \return an Array with the asked data
    */
-  function get_rowSimple($p_from,$p_to,$cent='off',$trunc=0,$p_limit=-1,$p_offset=-1)
+  function get_rowSimple($p_from,$p_to,$trunc=0,$p_limit=-1,$p_offset=-1)
   {
     // Grand-livre : id= 0
     //---
     $jrn=($this->id == 0 )?"":"and jrn_def_id = ".$this->id;
-    // Non Centralise si cent=off
-    //--
-    if ($cent=='off')
-      {// Non centralise
 
 	$periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
 
@@ -365,46 +297,15 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	       jrn.jr_tech_per
 	  FROM jrn join jrn_def on (jrn_def_id=jr_def_id)
 	  WHERE $periode $jrn order by jr_date $cond_limite";
-      }
-    else
-      {
 
-	$periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
-
-	$cond_limite=($p_limit!=-1)?" limit ".$p_limit." offset ".$p_offset:"";
-	//Centralise
-	//---
-	$id=($this->id == 0 ) ?"jr_c_opid as num":"jr_opid as num";
-
-	$sql="
-    SELECT jrn.jr_id as jr_id ,
-	   $id ,
-	   jrn.jr_def_id as jr_def_id,
-	   jrn.jr_montant as montant,
-	      substr(jrn.jr_comment,1,30)|| case when jr_pj_number is not null and jr_pj_number  !='' then 'pj:'||coalesce(jr_pj_number,'-') else '' end as comment,
-	   to_char(jrn.jr_date,'DD-MM-YYYY') as date,
-	   jr_internal,
-	   jrn.jr_grpt_id as grpt_id,
-	   jrn.jr_pj_name as pj,
-	   jrn_def_type,
-	   jrn.jr_tech_per
-   FROM jrn join jrn_def on (jrn_def_id=jr_def_id)
-       where
-	 $periode $jrn and
-	 jr_opid is not null
-	 order by num  $cond_limite";
-      }// end else $cent=='off'
-    //load all data into an array
-    //---
-
-    $Res=$this->db->exec_sql($sql);
-    $Max=Database::num_row($Res);
-    if ( $Max == 0 )
-      {
-	return null;
-      }
-    $type=$this->get_type();
-    // for type ACH and Ven we take more info
+  $Res=$this->db->exec_sql($sql);
+  $Max=Database::num_row($Res);
+  if ( $Max == 0 )
+    {
+      return null;
+    }
+  $type=$this->get_type();
+  // for type ACH and Ven we take more info
     if (  $type == 'ACH' ||  	  $type == 'VEN')
       {
 	$a_ParmCode=$this->db->get_array('select p_code,p_value from parm_code');
@@ -472,7 +373,6 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     $gDossier=dossier::id();
     $amount_paid=0.0;
     $amount_unpaid=0.0;
-    include_once("central_inc.php");
     $limit=($_SESSION['g_pagesize']!=-1)?" LIMIT ".$_SESSION['g_pagesize']:"";
     $offset=($_SESSION['g_pagesize']!=-1)?" OFFSET ".Database::escape_string($offset):"";
     $order="  order by jr_date_order asc,jr_internal asc";
@@ -997,28 +897,17 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
   /*!\brief get the saldo of a ledger for a specific period
    * \param $p_from start period
    * \param $p_to end period
-   * \param $p_cent 1 for a centralized period otherwise 0
    */
-  function get_solde($p_from,$p_to,$p_cent) {
+  function get_solde($p_from,$p_to) {
     $ledger="";
-    if ( $this->id != 0 && $p_cent=='off') {
+    if ( $this->id != 0 ) {
       $ledger=" and j_jrn_def = ".$this->id;
     }
 
-    if ( $this->id != 0 && $p_cent=='on') {
-      $ledger=" and c_jrn_def = ".$this->id;
-    }
+    $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','j_tech_per');
+    $sql='select j_montant as montant,j_debit as deb from jrnx where '
+      .$periode.$ledger;
 
-    // we ask for a specific ledger
-    if ( $p_cent == 'off') {
-      $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','j_tech_per');
-      $sql='select j_montant as montant,j_debit as deb from jrnx where '
-	.$periode.$ledger;
-    }else {
-      $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','c_periode');
-      $sql='select c_montant as montant,c_debit as deb from centralized where '
-	.$periode.$ledger;
-    }
     $ret=$this->db->exec_sql($sql);
     $array=Database::fetch_all($ret);
     $deb=0.0;
@@ -2310,15 +2199,13 @@ function get_last_date()
     }
   }
   /**
-   *@brief retrieve operation from centralized or jrn 
+   *@brief retrieve operation from  jrn 
    *@param $p_from periode (id) 
    *@param $p_to periode (id)
-   *@param $p_cent off or on
    *@return an array 
    */
-  function get_operation($p_from,$p_to,$cent) {
+  function get_operation($p_from,$p_to) {
     $jrn=($this->id==0)?'':' and jr_def_id = '.$this->id;
-    if ( $cent == 'off') {
       $sql="select jr_id as id ,jr_internal as internal, ".
 	"jr_pj_number as pj,jr_grpt_id,".
 	" to_char(jr_date,'DDMMYY') as date_fmt, ".
@@ -2326,17 +2213,8 @@ function get_last_date()
 	" jr_grpt_id".
 	" from jrn where jr_tech_per >= $1 ".
 	' and jr_tech_per <=$2  '.$jrn.' order by jr_date,substring(jr_pj_number,\'\\\d+$\')::numeric asc';
-    } else {
-      $sql="select jr_c_opid as id ,jr_internal as internal, ".
-	"jr_pj_number as pj,jr_grpt_id,".
-	" to_char(jr_date,'DDMMYY') as date_fmt, ".
-	" jr_comment as comment, jr_montant as montant ,".
-	" jr_grpt_id".
-	" from jrn where jr_grpt_id in ( select c_grp from centralized) and jr_tech_per >= $1 ".
-	" and jr_tech_per <=$2  $jrn  order by jr_date,substring(jr_pj_number,'\\\d+$')::numeric";
-    }
-    $ret=$this->db->get_array($sql,array($p_from,$p_to));
-    return $ret;
+      $ret=$this->db->get_array($sql,array($p_from,$p_to));
+      return $ret;
   }
   /**
    *@brief return the used VAT code with a rate > 0

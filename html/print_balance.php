@@ -50,15 +50,6 @@ $bal=new Acc_Balance($cn);
 $User->can_request(IMPBAL,1);
 
 extract ($_GET);
-// if centralized
-$t_cent="";
-
-if ( isset($central) ) {
-    $bal->central='Y';
-    $t_cent="centralisée";
- }
- else 
-  $bal->central='N';
 
 $bal->jrn=$_GET['p_jrn'];
 $bal->from_poste=$_GET['from_poste'];

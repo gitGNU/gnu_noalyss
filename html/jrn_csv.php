@@ -44,8 +44,6 @@ $User->check_dossier($gDossier);
 if ($_GET['jrn_id']!=0 &&  $User->check_jrn($_GET['jrn_id']) =='X') {
   NoAccess(); exit();}
 
-$p_cent=( isset ( $_GET['central']) )?$_GET['central']:'off';
-
 $Jrn=new Acc_Ledger($cn,$_GET['jrn_id']);
 
 $Jrn->get_name();
@@ -56,8 +54,8 @@ $jrn_type=$Jrn->get_type();
 if  ( $_GET['p_simple'] == 0 ) 
   {
     $Jrn->get_row( $_GET['from_periode'],
-		  $_GET['to_periode'],
-		  $p_cent);
+		  $_GET['to_periode']
+		  );
 
     if ( count($Jrn->row) == 0) 
       exit;
@@ -88,7 +86,6 @@ if  ( $_GET['p_simple'] == 0 )
    {
      $Row=$Jrn->get_rowSimple($_GET['from_periode'],
 			     $_GET['to_periode'],
-			     $p_cent,
 			     0);
 //-----------------------------------------------------
      if ( $jrn_type == 'ODS' || $jrn_type == 'FIN' || $jrn_type=='GL')

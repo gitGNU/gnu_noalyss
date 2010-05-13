@@ -44,15 +44,6 @@ if ( $User->check_action(IMPBAL) == 0)
 echo 'poste;libelle;deb;cred;solde deb;solde cred';
 printf("\n");
 $bal=new Acc_Balance($cn);
-  
-$t_cent="";
-  //$per=join(',',$periode);
-if ( isset($_GET['central']) ) {
-    $bal->central='Y';
-    $t_cent="centralisée";
-  }
-else
-  $bal->central='N';
 $bal->jrn=$_GET['p_jrn'];
 $bal->from_poste=$_GET['from_poste'];
 $bal->to_poste=$_GET['to_poste'];

@@ -41,13 +41,8 @@ $cn=new Database($gDossier);
 $periode=new Periode($cn);
 
 $l_type="JRN";
-$centr=" Non centralisé";
-$l_centr=0;
 $own=new Own($cn);
-if ($_GET['central'] == 'on' ) {
-  $centr=" centralisé ";
-  $l_centr=1;
-}
+
 $Jrn=new Acc_Ledger($cn,$_GET['jrn_id']);
 
 $Jrn->get_name();
@@ -80,8 +75,8 @@ if ( $Jrn->id==0  || $jrn_type=='FIN' || $jrn_type=='ODS' || $_REQUEST['p_simple
 
     // detailled printing
     $rap_deb=0;$rap_cred=0;
-    // take all operations from jrn or  centralized
-    $array=$Jrn->get_operation($_GET['from_periode'],$_GET['to_periode'],$l_centr);
+    // take all operations from jrn 
+    $array=$Jrn->get_operation($_GET['from_periode'],$_GET['to_periode']);
 
     $pdf->SetFont('DejaVu','BI',7);
     $pdf->Cell(160,7,'report Débit',0,0,'R');
@@ -185,12 +180,9 @@ if   ( ($jrn_type=='VEN' || $jrn_type=='ACH')  && $_REQUEST['p_simple']== 1 )
       $pdf->Cell(15,6,'TVAC',0,0,'R');
       $pdf->Ln(5);
 
-      // if the period is centralized get the first amounts
-      if ( $l_centr==1) 
-	$a=0;
       $a_jrn=$Jrn->get_operation($_GET['from_periode'],
-				 $_GET['to_periode'],
-				 $_GET['central']);
+				 $_GET['to_periode']);
+
       if ( $a_jrn == null ) exit();
       /*
        * get rappel to initialize amount rap_xx
@@ -411,8 +403,7 @@ if   ( ($jrn_type=='VEN' || $jrn_type=='ACH')  && $_REQUEST['p_simple']== 1 )
       $pdf->Ln(5);
 
       $a_jrn=$Jrn->get_operation($_GET['from_periode'],
-				 $_GET['to_periode'],
-				 $_GET['central']);
+				 $_GET['to_periode']);
       if ( $a_jrn == null ) exit();
       /*
        * get rappel to initialize amount rap_xx
