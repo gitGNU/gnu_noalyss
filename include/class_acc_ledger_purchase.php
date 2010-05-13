@@ -820,6 +820,7 @@ array
     if ( $owner->MY_PJ_SUGGEST=='Y') {
       $default_pj=$this->guess_pj();
     }
+
     $pj=new IText();
     $pj->value=(isset($e_pj))?$e_pj:$default_pj;
 
@@ -828,7 +829,7 @@ array
     $pj->name="e_pj";
     $pj->size=10;
     $pj->readonly=false;
-    $pj->value=$default_pj;
+
     $f_pj=$pj->input().HtmlInput::hidden('e_pj_suggest',$default_pj);
 
     // Display the customer
