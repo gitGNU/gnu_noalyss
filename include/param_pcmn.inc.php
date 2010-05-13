@@ -25,11 +25,13 @@ require_once ('class_acc_account.php');
 include_once ("ac_common.php");
 require_once("constant.php");
 require_once('class_dossier.php');
+require_once('function_javascript.php');
+
 $gDossier=dossier::id();
-
+echo js_include('infobulle.js');
 require_once('class_database.php');
-/* Admin. Dossier */
 
+/* Admin. Dossier */
 $cn=new Database($gDossier);
 
 include_once ("class_user.php");
@@ -39,6 +41,30 @@ $User->check_dossier($gDossier);
 
 include_once ("user_menu.php");
 
+echo '<div id="acc_update" style="border:1px solid blue;width:40%;display:none;background-color:lightgrey;padding:3;position:absolute;text-align:left;line-height:3em;z-index:1">';
+echo '<form method="post">';
+$val=new IText('p_valu');
+$parent=new IText('p_parentu');
+$lib=new IText('p_libu');
+$lib->size=50;
+$type=new ISelect('p_typeu');
+$type->value=Acc_Account::$type;
+echo '<table>';
+$r= td(_('Poste comptable')).td($val->input());
+echo tr($r);
+$r= td(_('Description')).td($lib->input());
+echo tr($r);
+$r= td(_('Parent')).td($parent->input());
+echo tr($r);
+$r= td(_('Type ')).td($type->input());
+echo tr($r);
+echo '</table>';
+echo HtmlInput::hidden('p_oldu','');
+echo dossier::hidden();
+echo HtmlInput::submit('update',_('Sauve'));
+echo HtmlInput::button('hide',_('Annuler'),'onClick="$(\'acc_update\').hide();return true;"');
+echo '</form>';
+echo '</div>';
 
 
 
@@ -88,6 +114,48 @@ if (isset ($_GET['action'])) {
     } // isset ($l)
   } //$action == del
 } // isset action
+//----------------------------------------------------------------------
+// Modification
+//----------------------------------------------------------------------
+if ( isset ($_POST['update'])) {
+    $p_val=trim($_POST["p_valu"]);
+    $p_lib=trim($_POST["p_libu"]);
+    $p_parent=trim($_POST["p_parentu"]);
+    $old_line=trim($_POST["p_oldu"]);
+    $p_type=htmlentities($_POST['p_typeu']);
+    $acc=new Acc_Account($cn);
+    $acc->set_parameter('libelle',$p_lib);
+    $acc->set_parameter('value',$p_val);
+    $acc->set_parameter('parent',$p_parent);
+    $acc->set_parameter('type',$p_type);
+    // Check if the data are correct 
+    try {
+      $acc->check() ; 
+    }catch (Exception $e) {
+      $message="Valeurs invalides, pas de changement \n ".
+	$e->getMessage();
+      echo '<script> alert(\''.$message.'\'); 
+           </script>';
+    }
+    if ( strlen ($p_val) != 0 && strlen ($p_lib) != 0 && strlen($old_line)!=0 ) {
+      if (strlen ($p_val) == 1 ) {
+	$p_parent=0;
+      } else {
+	if ( strlen($p_parent)==0 ) {
+	  $p_parent=substr($p_val,0,strlen($p_val)-1);
+	}
+      }
+      /* Parent existe */
+      $Ret=$cn->exec_sql("select pcm_val from tmp_pcmn where pcm_val=$1",array($p_parent));
+      if ( ($p_parent != 0 && Database::num_row($Ret) == 0) || $p_parent==$old_line ) {
+	echo '<SCRIPT> alert(" Ne peut pas modifier; aucun poste parent"); </SCRIPT>';
+      } else {
+	$acc->update($old_line);	
+      }
+    } else {
+      echo '<script> alert(\'Update Valeurs invalides\'); </script>';
+    }
+}
 //-----------------------------------------------------
 /* Ajout d'une ligne */
 if ( isset ( $_POST["Ajout"] ) ) {

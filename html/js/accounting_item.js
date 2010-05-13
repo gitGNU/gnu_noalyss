@@ -39,9 +39,16 @@ function set_jrn_parent(p_ctl,p_value) {
 
 
 function PcmnUpdate(p_value,p_lib,p_parent,p_type,p_dossier)
-	{
-	var win=window.open('line_update.php?l='+p_value+'&n='+p_lib+'&p='+p_parent+'&m'+p_type+'&gDossier='+p_dossier,'Modifie','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
-	}
+{
+    $('p_valu').value=p_value;
+    $('p_oldu').value=p_value;
+    $('p_libu').value=p_lib;
+    $('p_parentu').value=p_parent;
+    $('p_typeu').value=p_type;
+    $('acc_update').style.top=posY+offsetY;
+    $('acc_update').style.left=posX+offsetX;
+    $('acc_update').show();
+}
 /**
  *@brief show the popup for search an accounting item
  *@param object this, it must contains some attribute as

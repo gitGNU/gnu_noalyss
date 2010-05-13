@@ -38,7 +38,7 @@ class Acc_Account {
   private  $pcm_type;
   private  $pcm_parent;
   private  $pcm_lib;   
-  static private $type=array(
+  static public $type=array(
 		 array('label'=>'Actif','value'=>'ACT'),
 		 array('label'=>'Passif','value'=>'PAS'),
 		 array('label'=>'Actif c. inverse','value'=>'ACTINV'),
