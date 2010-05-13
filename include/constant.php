@@ -26,7 +26,7 @@
 require_once ('config.inc.php');
 require_once('constant.security.php');
 
-define ("DBVERSION",76);
+define ("DBVERSION",77);
 
 define ("MAX_COMPTE",4);
 define ('MAX_ARTICLE',9);

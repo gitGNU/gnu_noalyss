@@ -730,6 +730,15 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	  
 	  // Set Internal code 
 	  $this->grpt_id=$seq;
+	  /** 
+	   * save also into quant_fin
+	   */
+	  $sql="INSERT INTO quant_fin(
+            qf_bank, jr_id, qf_other, qf_amount)
+                   VALUES ($1, $2, $3, $4);";
+	    
+	  $this->db->exec_sql($sql,array($fBank->id,$jr_id,$fPoste->id,${"e_other$i"."_amount"}));
+	  
 	  $this->update_internal_code($internal);
 
 

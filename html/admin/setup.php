@@ -120,9 +120,9 @@ $file='..'.DIRECTORY_SEPARATOR.'.htaccess';
 	       "php_value memory_limit 20M",
 	       "AddDefaultCharset utf-8",
 	       "php_value error_reporting 10239",
-	       "php_value post_max_size 15M",
+	       "php_value post_max_size 20M",
 	       "php_flag short_open_tag on",
-	       "php_value upload_max_filesize 10M",
+	       "php_value upload_max_filesize 20M",
 	       "php_value session.use_trans_sid 1",
 	       "php_value session.use_cookies 1",
 	       "php_flag session.use_only_cookies on");
