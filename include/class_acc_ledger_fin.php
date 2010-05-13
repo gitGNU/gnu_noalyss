@@ -695,7 +695,8 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	  $acc_operation->periode=$tperiode;
 	  $acc_operation->mt=$mt;
 	  $idx_operation++;
-	  $acc_operation->pj=$e_pj.'.'.$idx_operation;
+
+	  $acc_operation->pj=$e_pj.str_pad($idx_operation,2,0,STR_PAD_LEFT);
 	  error_log($acc_operation->pj."\n",3,"/tmp/phpcompta.log");
 	  $jr_id=$acc_operation->insert_jrn();
  	  $acc_operation->set_pj();
