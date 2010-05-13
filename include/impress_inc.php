@@ -195,7 +195,7 @@ function CheckFormula($p_string) {
   // Remove T,t
   $p_string=str_replace("T","",$p_string);
   $p_string=str_replace("t","",$p_string);
-  error_log($p_string."\n",3,'/tmp/phpcompta.log');
+
   if ( myereg ("^(\\$[a-zA-Z]*[0-9]*=){0,1}((\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})+ *([+-\*/])* *(\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})*)*(([+-\*/])*\\$([a-zA-Z])+[0-9]*([+-\*/])*)* *( *FROM=[0-9][0-0].20[0-9][0-9]){0,1}$",$p_string) == false)
     {
       return false;

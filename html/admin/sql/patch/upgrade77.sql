@@ -69,7 +69,8 @@ begin
 end;
 $_$
 language plpgsql;
-select  comptaproc.fill_quant_fin();
+
+select comptaproc.fill_quant_fin();
 
 alter table del_jrn drop constraint jr_id;
 alter table del_jrn add dj_id serial;
@@ -78,6 +79,5 @@ alter table del_jrn add constraint dj_id primary key(dj_id);
 alter table del_jrnx drop constraint j_id;
 alter table del_jrnx add djx_id serial;
 alter table del_jrnx add constraint djx_id primary key(djx_id);
-
-update version set val=77;
+update version set val=78;
 commit;

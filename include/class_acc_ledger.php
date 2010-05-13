@@ -1512,7 +1512,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 
       $this->db->exec_sql("update jrn set jr_internal='".$internal."' where ".
 	      " jr_grpt_id = ".$seq);
-
+      $this->internal=$internal;
       // Save now the predef op
       //------------------------
       if ( isset($save_opd)) {
