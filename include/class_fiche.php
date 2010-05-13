@@ -1399,18 +1399,31 @@ function is_used() {
      case 'filter':
        if ( ! isset($jrn)) throw ('Erreur pas de valeur pour jrn');
        $filter_jrn=$this->cn->make_list("select jrn_def_fiche_deb from jrn_Def where jrn_def_id=$1",array($jrn));
-       $fp1=" fd_id in (".$filter_jrn.")";
+
+       if ( trim($filter_jrn) !='')
+	 $fp1=" fd_id in (".$filter_jrn.")";
+       else 
+	 $fp1="fd_id < 0";
+
        $filter_jrn=$this->cn->make_list("select jrn_def_fiche_cred from jrn_Def where jrn_def_id=$1",array($jrn));
-       $fp2=" fd_id in (".$filter_jrn.")";
+
+       if ( trim($filter_jrn) !='')
+	 $fp2=" fd_id in (".$filter_jrn.")";
+       else 
+	 $fp2="fd_id < 0";
 
        $filter_fd_id='('.$fp1.' or '.$fp2.')';
+
        $and=" and ";
        break;
      case 'all':
        $filter_fd_id=' true';
        break;
      default:
-       $filter_fd_id=' fd_id in ('.$typecard.')';
+       if ( trim($typecard) != '') 
+	 $filter_fd_id=' fd_id in ('.$typecard.')';
+       else
+	 $filter_fd_id=' fd_id < 0';
      }
    }
 
