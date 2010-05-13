@@ -683,6 +683,34 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
   }
   /*!\brief display the form for entering data for invoice
    *\param $p_array is null or you can put the predef operation or the $_POST
+\code
+array
+  'sa' => string 'n' (length=1)
+  'p_action' => string 'ach' (length=3)
+  'gDossier' => string '28' (length=2)
+  'e_client' => string 'ASEKURA' (length=7)
+  'nb_item' => string '9' (length=1)
+  'p_jrn' => string '3' (length=1)
+  'period' => string '126' (length=3)
+  'e_comm' => string 'descriptio' (length=10)
+  'e_date' => string '01.05.2010' (length=10)
+  'e_ech' => string '' (length=0)
+  'jrn_type' => string 'ACH' (length=3)
+  'e_pj' => string 'ACH37' (length=5)
+  'e_pj_suggest' => string 'ACH37' (length=5)
+  'mt' => string '1273759434.5701' (length=15)
+  'e_mp' => string '0' (length=1)
+  'e_march0' => string 'DOC' (length=3)
+  'e_march0_price' => string '2000' (length=4)
+  'e_march0_tva_id' => string '3' (length=1)
+  'e_march0_tva_amount' => string '120' (length=3)
+  'e_quant0' => string '1' (length=1)
+  'gen_invoice' => string 'on' (length=2)
+  'gen_doc' => string '7' (length=1)
+  'bon_comm' => string '' (length=0)
+  'other_info' => string '' (length=0)
+  'correct' => string 'Corriger' (length=8)
+\encode
    *\return HTML string
    */
   public function input($p_array=null) {
