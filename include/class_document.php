@@ -207,7 +207,7 @@ class Document
 	  $buffer=fgets($h);
 	  // search in the buffer the magic << and >>
 	  // while myereg finds something to replace
-	  while ( myeregi ($regex,$buffer,$f) )
+	  while ( @eregi ($regex,$buffer,$f) )
 	    {
 	    foreach ( $f as $pattern )
 	      {
