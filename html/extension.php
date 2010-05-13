@@ -73,16 +73,16 @@ echo <<<EOF
 EOF;
 }
 /* show all the extension we can access */
-$a=new ISelect('code');
+$a=new ISelect('plugin_code');
 $a->value=Extension::make_array($cn);
-$a->selected=(isset($_REQUEST['code']))?strtoupper($_REQUEST['code']):'';
+$a->selected=(isset($_REQUEST['plugin_code']))?strtoupper($_REQUEST['plugin_code']):'';
 
 /* no plugin available */
 if ( count($a->value) == 0 ) {alert(j(_("Aucune extension  disponible")));exit;}
 
 /* only one plugin available then we don't propose a choice*/
 if ( count($a->value)==1 ) {
-  $_REQUEST['code']=$a->value[0]['value'];
+  $_REQUEST['plugin_code']=$a->value[0]['value'];
 } else {
   echo '<form method="get" action="extension.php">';
   echo $hidden;

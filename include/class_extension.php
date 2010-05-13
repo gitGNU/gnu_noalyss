@@ -31,7 +31,7 @@
    * - $variable :
    *    -  id (extension.ex_id)
    *    -  name (extension.ex_name)
-   *    - code (extension.ex_code)
+   *    - plugin_code (extension.ex_code)
    *    - desc (extension.ex_desc)
    *    - enable (extension.ex_enable)
    *    - filepath (extension.ex_file)

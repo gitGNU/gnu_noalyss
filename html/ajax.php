@@ -5,7 +5,7 @@
  * The code (of the plugin) is required
  * Required variable in $_REQUEST
  *  - gDossier
- *  - code
+ *  - plugin_code
  */
 require_once('class_database.php');
 require_once('class_user.php');
@@ -17,10 +17,10 @@ $user=new User($cn);
 $user->check(true);
 
 /* if a code has been asked */
-if (isset($_REQUEST['code']) ) {
+if (isset($_REQUEST['plugin_code']) ) {
 
   $ext=new Extension($cn);
-  $ext->search('code',$_REQUEST['code']);
+  $ext->search('code',$_REQUEST['plugin_code']);
   if ( $ext->get_parameter('id') != 0 ) {
     /* security */
     if ( !isset ($_SESSION['g_user']) || $ext->can_request($_SESSION['g_user']) == 0 ) {

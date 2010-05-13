@@ -1,10 +1,10 @@
 <?php
 
 /* if a code has been asked */
-if (isset($_REQUEST['code']) ) {
+if (isset($_REQUEST['plugin_code']) ) {
   $cn=new Database(dossier::id());
   $ext=new Extension($cn);
-  $ext->search('code',$_REQUEST['code']);
+  $ext->search('code',$_REQUEST['plugin_code']);
   if ( $ext->get_parameter('id') != 0 ) {
     /* security */
     if ( $ext->can_request($_SESSION['g_user']) == 0 ) {

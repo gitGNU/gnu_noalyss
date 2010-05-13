@@ -190,7 +190,7 @@ echo $string => property={'prop':'1','prop2':'2','prop3':'3'};
   }
 
   static function extension() {
-    return self::hidden('code',$_REQUEST['code']);
+    return self::hidden('plugin_code',$_REQUEST['plugin_code']);
   }
 
   /*!\brief create a button with a ref
