@@ -199,7 +199,7 @@ function get_internal() {
  * \return 0 ok -1 nok
  */
  function seek_internal($p_internal) {
-   $res=$this->db->exec_sql('select j_id from jrn where jr_internal=$1',
+   $res=$this->db->exec_sql('select jr_id from jrn where jr_internal=$1',
 		     array($p_internal));
    if ( Database::num_row($Res) == 0 ) return -1;
    $this->jr_id=Database::fetch_result($Res,0,0);
