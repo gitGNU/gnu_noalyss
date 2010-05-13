@@ -75,6 +75,7 @@ EOF;
 /* show all the extension we can access */
 $a=new ISelect('code');
 $a->value=Extension::make_array($cn);
+$a->selected=(isset($_REQUEST['code']))?strtoupper($_REQUEST['code']):'';
 
 /* no plugin available */
 if ( count($a->value) == 0 ) {alert(j(_("Aucune extension  disponible")));exit;}
