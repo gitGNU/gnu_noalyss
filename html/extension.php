@@ -80,7 +80,7 @@ $a->value=Extension::make_array($cn);
 if ( count($a->value) == 0 ) {alert(j(_("Aucune extension  disponible")));exit;}
 
 /* only one plugin available then we don't propose a choice*/
-if ( count($a->value==1) ) {
+if ( count($a->value)==1 ) {
   $_REQUEST['code']=$a->value[0]['value'];
 } else {
   echo '<form method="get" action="extension.php">';
