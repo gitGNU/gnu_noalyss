@@ -171,7 +171,7 @@ if   ( ($jrn_type=='VEN' || $jrn_type=='ACH')  && $_REQUEST['p_simple']== 1 )
 	$pdf->Cell(20,6,'Client');
       else 
 	$pdf->Cell(20,6,'Fournisseur');
-      $pdf->Cell(65,6,'Description');
+      if ( !$flag_tva )      $pdf->Cell(65,6,'Description');
 
       $pdf->Cell(15,6,'HTVA',0,0,'R');
       if ( $jrn_type=='ACH') 
@@ -179,10 +179,8 @@ if   ( ($jrn_type=='VEN' || $jrn_type=='ACH')  && $_REQUEST['p_simple']== 1 )
 	  $pdf->Cell(15,6,'Privé',0,0,'R');
 	  $pdf->Cell(15,6,'TVA ND',0,0,'R');
 	}
-      if ( ! $flag_tva ) {
-	foreach($a_Tva as $line_tva) {
-	  $pdf->Cell(15,6,$line_tva['tva_label'],0,0,'R');
-	}
+      foreach($a_Tva as $line_tva) {
+	$pdf->Cell(15,6,$line_tva['tva_label'],0,0,'R');
       }
       $pdf->Cell(15,6,'TVAC',0,0,'R');
       $pdf->Ln(5);
@@ -257,7 +255,7 @@ if   ( ($jrn_type=='VEN' || $jrn_type=='ACH')  && $_REQUEST['p_simple']== 1 )
 	    $pdf->Cell(20,6,'Client');
 	  else 
 	    $pdf->Cell(20,6,'Fournisseur');
-	  $pdf->Cell(65,6,'Description');
+	  if ( ! $flag_tva ) $pdf->Cell(65,6,'Description');
 
 	  $pdf->Cell(15,6,'HTVA',0,0,'R');
 	  if ($jrn_type !='VEN') {
