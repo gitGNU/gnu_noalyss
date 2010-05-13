@@ -279,8 +279,8 @@ if ( isset ( $_GET["action"]) ) {
       $iselect->value=$cn->make_array('select fd_id,fd_label from fiche_def '); //where frd_id='.$fiche->get_fiche_def_ref_id());
      
       echo HtmlInput::submit("update_fiche","Mise &agrave; jour");
-      echo HtmlInput::submit("delete" ,"Effacer cette fiche");
-      echo HtmlInput::submit('move',_('Déplacer vers'));
+      echo HtmlInput::submit("delete" ,"Effacer cette fiche","onclick=\"return confirm('"._('Vous confirmez ?')."');\"");
+      echo HtmlInput::submit('move',_('Déplacer vers'),"onclick=\"return confirm('"._('Attention, certains attributs pourraient être effacés, vous confirmez ?')."');\"");
       echo $iselect->input();
     }
     $str="";
