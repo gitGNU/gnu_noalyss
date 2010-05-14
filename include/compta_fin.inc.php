@@ -36,6 +36,10 @@ echo js_include('dragdrop.js');
 echo js_include('acc_ledger.js');
 require_once ('class_acc_ledger_fin.php');
 require_once('class_ipopup.php');
+$pop_tva=new IPopup('popup_tva');
+$pop_tva->title=_('Choix TVA');
+$pop_tva->value='';
+echo $pop_tva->input();
 
 $gDossier=dossier::id();
 $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:'';

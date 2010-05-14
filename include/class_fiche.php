@@ -23,7 +23,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 include_once("class_attribut.php");
 require_once("class_ispan.php");
-require_once("class_itva.php");
+require_once("class_itva_popup.php");
 require_once("class_itext.php");
 require_once("class_ihidden.php");
 require_once('class_fiche_def.php');
@@ -336,6 +336,7 @@ Array
       $r='<table>';
       foreach ($array as $attr)
 		{
+		  $table=1;
 		  $msg="";
 		  if ( $attr->ad_id == ATTR_DEF_ACCOUNT)
 			{
@@ -369,9 +370,8 @@ Array
 	     }
 	  elseif ( $attr->ad_id == ATTR_DEF_TVA)
 	    {
-	      $r.=JS_SHOW_TVA;
-	      $w=new ITva();
-
+	      $w=new ITva_Popup('popup_tva');
+	      $table=0;
 	    }
 	  elseif ( $attr->ad_id == ATTR_DEF_COMPANY )
 	    {
@@ -391,7 +391,7 @@ Array
 	    {
 	      $w=new IText();
 	    }
-	  $w->table=1;
+	  $w->table=$table;
 	  $w->label=$attr->ad_text;
 	  $w->name="av_text".$attr->ad_id;
 
@@ -452,9 +452,8 @@ Array
 		}
 	      elseif ( $r->ad_id == ATTR_DEF_TVA)
 		{
-		  $ret.=JS_SHOW_TVA;
-		  $w=new ITva();
-		  $w->table=1;
+		  $w=new ITva_Popup('popup_tva');
+		  $w->table=0;
 
 	    }
 	      elseif ( $r->ad_id == ATTR_DEF_COMPANY )
