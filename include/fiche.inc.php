@@ -85,8 +85,9 @@ function ShowFicheDefInput($p_fiche_def)
     $p_fiche_def->save_class_base($_REQUEST['class_base']);
   }
   $p_fiche_def->Get();
-
   $r.= '<H2 class="info">'.h($p_fiche_def->label).'</H2>';
+  $r.='<fieldset><legend>Données générales</legend>';
+  
   /* show the values label class_base and create account */
   $r.='<form method="post">';
   $r.=dossier::hidden();
@@ -96,7 +97,10 @@ function ShowFicheDefInput($p_fiche_def)
   $r.='<hr>';
   $r.=HtmlInput::submit('change_name',_('Sauver'));
   $r.='</form>';
+  $r.='</fieldset>';
   /* attributes */
+  $r.='<fieldset><legend>Attributs</legend>';
+
   $r.= '<FORM action="?p_action=fiche" method="POST">';
   $r.=dossier::hidden();
   $r.=HtmlInput::hidden("fd_id",$p_fiche_def->id);
@@ -111,6 +115,7 @@ function ShowFicheDefInput($p_fiche_def)
   $r.= "</form>";
   $r.=" <p class=\"notice\"> "._("Attention : il n'y aura pas de demande de confirmation pour enlever les 
 attributs sélectionnés. Il ne sera pas possible de revenir en arrière")."</p>";
+  $r.='</fieldset>';
 
   return $r;
 }
