@@ -28,6 +28,7 @@ avec l'historique des opérations ou simplement le résumé.
 * nouveau (contribution) une nouvelle possibilité est d'imprimer le grand livre
 * nouveau : support complet de l'unicode pour les impressions
 * Les impressions de journaux d'achat et de vente sont classés par numéro de pièces justificatives, sans tenir compte du préfixe. Dès lors la centralisation est considérée comme obsolète et sera supprimée.
+* Impression simple pour les journaux financiers et Opérations diverses
 
 6 Ecriture directe (re) devient Opérations Diverses
 
