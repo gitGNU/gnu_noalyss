@@ -79,6 +79,74 @@ class PDF extends SFPDF {
         $txt = str_replace("\\", "", $txt);
         return parent::Cell($w, $h, $txt, $border, $ln, $align, $fill, $link);
     }
+  /**
+   *@brief retrieve the client name and quick_code
+   *@param $p_jr_id jrn.jr_id
+   *@param $p_jrn_type ledger type ACH VEN FIN
+   *@return array (0=>qcode,1=>name) or for FIN 0=>customer qc 1=>customer name 2=>bank qc 3=>bank name
+   *@see class_print_ledger_simple, class_print_ledger_simple_without_vat
+   */
+  function get_tiers($p_jr_id,$p_jrn_type) {
+    if ( $p_jrn_type=='ACH' ){
+      $array=$this->cn->get_array('SELECT 
+  jrnx.j_grpt, 
+  quant_purchase.qp_supplier, 
+  quant_purchase.qp_internal, 
+  jrn.jr_internal
+FROM 
+  public.quant_purchase, 
+  public.jrnx, 
+  public.jrn
+WHERE 
+  quant_purchase.j_id = jrnx.j_id AND
+  jrnx.j_grpt = jrn.jr_grpt_id and jr_id=$1',array($p_jr_id));
+      if (count($array)==0) return array("ERREUR $p_jr_id",'');
+      $customer_id=$array[0]['qp_supplier'];
+      $fiche=new Fiche($this->cn,$customer_id);
+      $customer_qc=$fiche->get_quick_code($customer_id);
+      $customer_name=$fiche->getName();
+      return array($customer_qc,$customer_name);
+    }
+    if ( $p_jrn_type=='VEN' ){
+      $array=$this->cn->get_array('SELECT 
+  quant_sold.qs_client
+FROM 
+  public.quant_sold, 
+  public.jrnx, 
+  public.jrn
+WHERE 
+  quant_sold.j_id = jrnx.j_id AND
+  jrnx.j_grpt = jrn.jr_grpt_id and jr_id=$1',array($p_jr_id));
+      if (count($array)==0) return array("ERREUR $p_jr_id",'');
+      $customer_id=$array[0]['qs_client'];
+      $fiche=new Fiche($this->cn,$customer_id);
+      $customer_qc=$fiche->get_quick_code($customer_id);
+      $customer_name=$fiche->getName();
+      return array($customer_qc,$customer_name);
+    }
+   if ( $p_jrn_type=='FIN' ){
+      $array=$this->cn->get_array('SELECT 
+qf_other,qf_bank
+FROM 
+  public.quant_fin 
+WHERE 
+  quant_fin.jr_id =$1',array($p_jr_id));
+      if (count($array)==0) return array("ERREUR $p_jr_id",'','','');
+      $customer_id=$array[0]['qf_other'];
+      $fiche=new Fiche($this->cn,$customer_id);
+      $customer_qc=$fiche->get_quick_code($customer_id);
+      $customer_name=$fiche->getName();
+
+      $bank_id=$array[0]['qf_bank'];
+      $fiche=new Fiche($this->cn,$bank_id);
+      $bank_qc=$fiche->get_quick_code($bank_id);
+      $bank_name=$fiche->getName();
+
+      return array($customer_qc,$customer_name,$bank_qc,$bank_name);
+    }
+  }
+
+
 }
 
 class PDFLand extends PDF {
