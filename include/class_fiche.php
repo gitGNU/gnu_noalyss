@@ -371,7 +371,8 @@ Array
 	  elseif ( $attr->ad_id == ATTR_DEF_TVA)
 	    {
 	      $w=new ITva_Popup('popup_tva');
-	      $table=0;
+	      $msg='uhh?';
+	      $table=1;
 	    }
 	  elseif ( $attr->ad_id == ATTR_DEF_COMPANY )
 	    {
@@ -453,7 +454,7 @@ Array
 	      elseif ( $r->ad_id == ATTR_DEF_TVA)
 		{
 		  $w=new ITva_Popup('popup_tva');
-		  $w->table=0;
+		  $w->table=1;
 
 	    }
 	      elseif ( $r->ad_id == ATTR_DEF_COMPANY )

@@ -94,9 +94,9 @@ require_once('class_ispan.php');
 						  array($this->value));;
       }
       $r.=$this->code->input();
-    
-    $this->set_attribute('jcode',$this->code->name);
-    $this->set_attribute('gDossier',dossier::id());
+      if ($this->table==1) $r=td($r);
+      $this->set_attribute('jcode',$this->code->name);
+      $this->set_attribute('gDossier',dossier::id());
     $this->set_attribute('ctl',$this->name);
     $r.=$this->get_js_attr();
     
