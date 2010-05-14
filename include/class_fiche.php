@@ -336,7 +336,7 @@ Array
       $r='<table>';
       foreach ($array as $attr)
 		{
-		  $table=1;
+		  $table=0;
 		  $msg="";
 		  if ( $attr->ad_id == ATTR_DEF_ACCOUNT)
 			{
@@ -371,8 +371,7 @@ Array
 	  elseif ( $attr->ad_id == ATTR_DEF_TVA)
 	    {
 	      $w=new ITva_Popup('popup_tva');
-	      $msg='uhh?';
-	      $table=1;
+	      $w->table=1;
 	    }
 	  elseif ( $attr->ad_id == ATTR_DEF_COMPANY )
 	    {
@@ -396,7 +395,7 @@ Array
 	  $w->label=$attr->ad_text;
 	  $w->name="av_text".$attr->ad_id;
 
-	  $r.="<TR>".td($w->label,' class="input_text" ').$w->input()."$msg </TR>";
+	  $r.="<TR>".td($w->label,' class="input_text" ').td($w->input())."$msg </TR>";
 	}
       $r.= '</table>';
       return $r;

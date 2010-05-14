@@ -44,6 +44,11 @@ $str_dossier=dossier::get();
 echo js_include('accounting_item.js');
 echo JS_AJAX_FICHE;
 
+$pop_tva=new IPopup('popup_tva');
+$pop_tva->title=_('Choix TVA');
+$pop_tva->value='';
+echo $pop_tva->input();
+
 $cn=new Database($gDossier);
 // Security check
 $write=$User->check_action(FICADD);
