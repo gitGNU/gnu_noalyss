@@ -37,8 +37,19 @@ require_once('class_iselect.php');
 
     $select_tva=$this->db->make_array("select tva_id,tva_label from tva_rate order by tva_label asc",0);
     $this->value=$select_tva;
-    $r=parent::input();
-    return $r;
+    $a="<SELECT  id=\"$this->name\" NAME=\"$this->name\" $this->javascript $disabled>";
+
+    if (empty($this->value)) return '';
+    for ( $i=0;$i<sizeof($this->value);$i++)
+      {
+      	$checked=($this->selected==$this->value[$i]['value'])?"SELECTED":"";
+	$a.='<OPTION VALUE="'.$this->value[$i]['value'].'" '.$checked.'>';
+	$a.=$this->value[$i]['label'];
+      }
+    $a.="</SELECT>";
+    if ( $this->table == 1 )		  $a='<td>'.$a.'</td>';
+
+    return $a;
 
   }
   /*!\brief print in html the readonly value of the widget*/
