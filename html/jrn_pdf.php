@@ -129,7 +129,7 @@ if   (  $_REQUEST['p_simple']== 1 )
       $pdf->Output('journal-'.$fDate.'.pdf','I');
       exit(0);
     }
-    if ( $jrn_type=='ODS') {
+    if ( $jrn_type=='ODS' || $Jrn->id==0) {
       $pdf= new Print_Ledger_Misc($cn,$Jrn);
       $pdf->setDossierInfo($Jrn->name);
       $pdf->AliasNbPages();

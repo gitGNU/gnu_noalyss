@@ -87,7 +87,7 @@ class Print_Ledger_Simple extends PDF
       {
 	//initialize Amount TVA
 	  $tmp1=$line_tva['tva_id'];
-	  $rap_tva[$tmp1]=0;
+	  $this->rap_tva[$tmp1]=0;
       } 
       $this->Cell(15,6,'Pièce');
       $this->Cell(10,6,'Date');
