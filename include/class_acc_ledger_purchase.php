@@ -221,7 +221,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
    * It generates the document and save the middle of payment, if 'gen_invoice is set
    * and e_mp
    *\param $p_array is usually $_POST or a predefined operation
-\verbatim
+\code
    Array
 (
 
@@ -247,7 +247,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     [other_info] =>
     [record] =>Enregistrement
 )
-\endverbatim
+\endcode
    *\return string
    *\note throw an Exception
    */
@@ -710,7 +710,7 @@ array
   'bon_comm' => string '' (length=0)
   'other_info' => string '' (length=0)
   'correct' => string 'Corriger' (length=8)
-\encode
+\endcode
    *\return HTML string
    */
   public function input($p_array=null) {
