@@ -134,7 +134,6 @@ function show_direct_form($cn,$ledger,$p_array) {
 
   echo "<script>checkTotalDirect();</script>";
 
-   echo "<div>".JS_CALC_LINE."</div>";
 
   echo '</div>';
 
