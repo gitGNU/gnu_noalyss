@@ -1001,9 +1001,18 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
     $this->id=$p_array['p_jrn'];
     if ( empty($p_array)) return 'Aucun r&eacute;sultat';
     extract($p_array);
+    $lPeriode=new Periode($this->db);
+    if ($this->check_periode() == true) {
+      $lPeriode->p_id=$period;
+    } else {
+      $lPeriode->find_periode($e_date);
+    }
     $ret="";
     $ret.="<table>";
     $ret.="<tr><td>"._('Date')." : </td><td>$date</td></tr>";
+    /* display periode */
+    $date_limit=$lPeriode->get_date_limit();
+    $ret.='<tr><td> '._('Période Comptable').' '.$date_limit['p_start'].'-'.$date_limit['p_end'].'</td></tr>';
     $ret.="<tr><td>"._('Description')." </td><td>".h($desc)."</td></tr>";
     $ret.="<tr><td>"._('PJ Num')." </td><td>".h($e_pj)."</td></tr>";
     $ret.='</table>';
@@ -1018,6 +1027,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 
     $ret.=HtmlInput::hidden('date',$date);
     $ret.=HtmlInput::hidden('desc',$desc);
+    $ret.=HtmlInput::hidden('period',$period);
     $ret.=HtmlInput::hidden('e_pj',$e_pj);
     $ret.=HtmlInput::hidden('e_pj_suggest',$e_pj_suggest);
     $mt=microtime(true);
@@ -1086,13 +1096,15 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 
   /*!
    * \brief Show the form to encode your operation
-   * \param $p_array if you correct or use a predef operation
-   * \param $p_readonly 1 for readonly 0 for writable
+   * \param $p_array if you correct or use a predef operation (default = null)
+   * \param $p_readonly 1 for readonly 0 for writable (default 0)
    *
    * \return a string containing the form
    */
   function show_form($p_array=null,$p_readonly=0)
   {
+    $user = new User($this->db);
+
     if ( $p_readonly == 1 )
       return $this->show_summary($p_array);
 
@@ -1126,7 +1138,33 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
     $wDate->value=$date;
 
     $ret.=_("Date").' : '.$wDate->input();
-    $ret.= '</td></tr>';
+    $ret.= '</td>';
+    /* insert periode if needed */
+    // Periode
+     //--
+    if ($this->check_periode() == true) {
+      $l_user_per=$user->get_periode();
+      $def=(isset($periode))?$periode:$l_user_per;
+ 
+      $period=new IPeriod("period");
+      $period->user=$user;
+      $period->cn=$this->db;
+      $period->value=$def;
+      $period->type=OPEN;
+      try {
+	$l_form_per=$period->input();
+      } catch (Exception $e) {
+	if ($e->getCode() == 1 ) {
+	  echo _("Aucune période ouverte");
+	  exit();
+	}
+      }
+      $label=HtmlInput::infobulle(3);
+      $f_periode=_("Période comptable")." $label ".$l_form_per;
+      $ret.=td($f_periode);
+    }
+
+    echo '</tr>';
 
     $ret.= '<tr><td>'._('Description');
     $wDescription=new IText('desc');
@@ -1311,18 +1349,10 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
     if ($this->check_periode()==false) {
       $periode->find_periode($date);
     } else {
-      $periode->p_id=$user->get_periode();
-      list ($l_date_start,$l_date_end)=$periode->get_date_limit();
-      // Date dans la periode active
-      if ( cmpDate($date,$l_date_start)<0 ||
-	   cmpDate($date,$l_date_end)>0 )
-	{
-	  throw new Exception(_('Pas dans la periode active'),5);
-	}
-
+      $periode->p_id=$period;
     }
 
-
+  
 
     // Periode ferme
     if ( $this->is_closed($periode->p_id)==1 )
@@ -1428,11 +1458,13 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
       $tot_amount=0;
       $tot_deb=0;
       $tot_cred=0;
-	  $oPeriode=new Periode($this->db);
-	  $check_periode=$this->check_periode();
-	  if ( $check_periode == false) {
-		$oPeriode->find_periode($date);
-	  }
+      $oPeriode=new Periode($this->db);
+      $check_periode=$this->check_periode();
+      if ( $check_periode == false) {
+	$oPeriode->find_periode($date);
+      } else {
+	$oPeriode->id=$period;
+      }
 
       $count=0;
       for ($i=0;$i<$nb_item;$i++)
