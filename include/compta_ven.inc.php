@@ -54,8 +54,11 @@ echo $pop_tva->input();
 // create compute button
 $compute=new IPopup('compute');
 $compute->value=JS_CALC_LINE;
-$compute->title="Calculatrice";
-$compute->drag=true; $compute->blocking=false;
+//$compute->title="Calculatrice";
+$compute->drag=true; 
+$compute->blocking=false;
+$compute->set_height("350");
+$compute->set_width("500");
 echo $compute->input();
 
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
@@ -270,9 +273,6 @@ if ( $def==1 || $def == 4 ) {
   if ( $own->MY_PJ_SUGGEST=='Y') {
       echo '<script> update_pj();</script>';
     }
-  echo '</form>';
-  echo '<form onsubmit="cal();return false;" name="calc_line" method="get">';
-  echo JS_CALC_LINE;
   echo '</form>';
   echo '</div>';
   exit();

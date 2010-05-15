@@ -201,10 +201,10 @@ function showIPopup(p_name) {
  *@param name of the object PHP IPopup
  */
 function hideIPopup(p_name) {
-    hide(p_name+'_fond');
-    hide(p_name+'_border');
+    if (g(p_name+'_fond')) {hide(p_name+'_fond');}
+    if (g(p_name+'_border')) {hide(p_name+'_border');}
     hide(p_name+'_content');
-    $(p_name+'_content').innerHTML='<image src="image/loading.gif" border="0" alt="Chargement...">';
+   
 }
 /**
  *@brief replace the special characters (><'") by their HTML representation
@@ -363,4 +363,13 @@ function success_set_tva_label(req) {
 	set_value(label_code,label_value);
     } catch (e) {alert("success_set_tva_label "+e.message);}
 
+}
+/**
+ *@brief set loading for waiting
+ *@param name of ipopup
+ *@see showIPopup
+ */
+function set_wait(name) {
+    var content=name+"_content";
+    $(content).innerHTML= '<image src="image/loading.gif" border="0" alt="Chargement...">';
 }

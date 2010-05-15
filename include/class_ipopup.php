@@ -104,8 +104,7 @@ class IPopup extends HtmlInput
 	       $this->name,
 	       $this->name);
     }
-    $javascript=sprintf("javascript:hide('%s_border');hide('%s_fond')",
-			$this->name,
+    $javascript=sprintf("javascript:hideIPopup('%s')",
 			$this->name);
     $r.='<div style="position:absolute;top:0px;right:10px;font-weight:normal;font-size:9px;color:black;text-align:right">';
     $r.=sprintf('<a style="color:white;text-decoration:none" href="%s">'._('Fermer').'</a></div>',

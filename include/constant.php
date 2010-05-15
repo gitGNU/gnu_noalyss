@@ -157,7 +157,6 @@ exemple : 1+2+3*(1/5)
 <span id="result">  </span><br>
 <span id="sub_total">  Taper une formule (ex 20*5.1) puis enter  </span><br>
 <span id="listing"> </span>
-</div>
 '
 );
 define ("JS_COMPUTE_ODS",
