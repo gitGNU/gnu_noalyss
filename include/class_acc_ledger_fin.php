@@ -696,7 +696,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	  $acc_operation->mt=$mt;
 	  $idx_operation++;
 
-	  $acc_operation->pj=$e_pj.str_pad($idx_operation,2,0,STR_PAD_LEFT);
+	  $acc_operation->pj=$e_pj.str_pad($idx_operation,3,0,STR_PAD_LEFT);
 
 	  $jr_id=$acc_operation->insert_jrn();
  	  $acc_operation->set_pj();
