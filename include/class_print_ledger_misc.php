@@ -74,7 +74,7 @@ class Print_Ledger_Misc extends PDF
 	{
 	  $row=$a_jrn[$i];
 	  $this->Cell(30,5,$row['pj']);
-	  $this->Cell(10,5,shrink_date($row['date_fmt']));
+	  $this->Cell(10,5,$row['date_fmt']);
 	  $this->Cell(20,5,$row['internal']);
 
 	  $this->Cell(105,5,$row['comment'],0,0);

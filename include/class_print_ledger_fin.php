@@ -76,7 +76,7 @@ class Print_Ledger_Financial extends PDF
 	{
 	  $row=$a_jrn[$i];
 	  $this->Cell(30,5,$row['pj']);
-	  $this->Cell(10,5,shrink_date($row['date_fmt']));
+	  $this->Cell(10,5,$row['date_fmt']);
 	  $this->Cell(20,5,$row['internal']);
 
 	  list($qc,$name,$bank_qc,$bank_name)=$this->get_tiers($row['id'],$this->jrn_type);
