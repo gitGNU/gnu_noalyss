@@ -760,8 +760,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	
       } // for nbitem
 	// increment pj
-	      /* if e_suggest != e_pj then do not increment sequence */
-      if ( strlen(trim($e_pj)) !=0) {
+      if ( strlen(trim($e_pj)) !=0 ) {
       	$this->inc_seq_pj();
       }
 
