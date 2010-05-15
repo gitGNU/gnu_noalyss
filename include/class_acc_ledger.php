@@ -1104,6 +1104,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
   function show_form($p_array=null,$p_readonly=0)
   {
     $user = new User($this->db);
+    $owner=new Own($this->db);
 
     if ( $p_readonly == 1 )
       return $this->show_summary($p_array);
@@ -1134,7 +1135,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
     $wDate=new IDate('date');
     $wDate->readonly=$p_readonly;
     $date=(isset($date)&&trim($date)!='')?$date:'';
-    if (trim($date)=='') {
+    if (trim($date)=='' && $owner->MY_DATE_SUGGEST=='Y') {
       $user=new User($this->db);
       $periode=new Periode($this->db);
       list ($l_date_start,$l_date_end)=$periode->get_date_limit($user->get_periode());

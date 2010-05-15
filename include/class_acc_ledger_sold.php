@@ -859,8 +859,12 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     // The first day of the periode
     $oPeriode=new Periode($this->db);
     list ($l_date_start,$l_date_end)=$oPeriode->get_date_limit($user->get_periode());
+    if (  $owner->MY_DATE_SUGGEST=='Y' )
+      $op_date=( ! isset($e_date) ) ?$l_date_start:$e_date;
+    else 
+      $op_date=( ! isset($e_date) ) ?'':$e_date;
 
-    $op_date=( ! isset($e_date) ) ?$l_date_start:$e_date;
+
     $e_ech=(isset($e_ech))?$e_ech:"";
     $e_comm=(isset($e_comm))?$e_comm:"";
 

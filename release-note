@@ -52,3 +52,5 @@ il est préférable d'avoir un préfixe différent pour chaque banque, il est pl
 
 14. Pour le pense bête, changement cosmétique
 15. Opérations Diverses fonctionne comme les autres journaux : soit on spécifie la période soit la période est déduite de la date
+16. La calculatrice est dans un bouton
+17. Possibilité d'avoir la date de la periode ou vide pour les achat, ventes, opérations diverses et banque, à changer dans paramètre->société : suggérer date

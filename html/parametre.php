@@ -234,6 +234,7 @@ if ( $p_action=='company') {
     $m->MY_FAX=$p_fax;
     $m->MY_PAYS=$p_pays;
     $m->MY_CHECK_PERIODE=$p_check_periode;
+    $m->MY_DATE_SUGGEST=$p_date_suggest;
     if ( $User->check_action(PARCA)!=0)$m->MY_ANALYTIC=$p_compta;
     if ( $User->check_action(PARSTR)!=0) $m->MY_STRICT=$p_strict;
     if ( $User->check_action(PARTVA)!=0)$m->MY_TVA_USE=$p_tva_use;
@@ -268,7 +269,11 @@ if ( $p_action=='company') {
   $pj_suggest=new ISelect();
   $pj_suggest->table=1;
   $pj_suggest->selected=$my->MY_PJ_SUGGEST;
-  
+ 
+  $date_suggest=new ISelect();
+  $date_suggest->table=1;
+  $date_suggest->selected=$my->MY_DATE_SUGGEST;
+ 
   $check_periode=new ISelect();
   $check_periode->table=1;
   $check_periode->selected=$my->MY_CHECK_PERIODE;
@@ -295,6 +300,7 @@ if ( $p_action=='company') {
   if ( $User->check_action(PARTVA)==0) $tva_use->setReadonly(true);
   echo "<tr>".td(_("Assujetti à la tva")).$tva_use->input("p_tva_use",$strict_array)."</tr>";
   echo "<tr>".td(_("Suggérer le numéro de pièce justificative")).$pj_suggest->input("p_pj",$strict_array)."</tr>";
+  echo "<tr>".td(_("Suggérer la date")).$date_suggest->input("p_date_suggest",$strict_array)."</tr>";
   echo '<tr>'.td(_('Afficher la période comptable pour éviter les erreurs de date')).$check_periode->input('p_check_periode',$strict_array).'</tr>';
   echo "</table>";
   echo HtmlInput::submit("record_company",_("Sauve"));

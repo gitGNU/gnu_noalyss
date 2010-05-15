@@ -189,6 +189,8 @@ class Acc_Ledger_Fin extends Acc_Ledger {
   function input($p_array=null) {
     if ( $p_array != null)
       extract ($p_array);
+    $owner=new Own($this->db);
+
     $pview_only=false;
     $user = new User($this->db);
     $f_add_button=new IButton('add_card');
@@ -201,8 +203,11 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     // The first day of the periode 
     $pPeriode=new Periode($this->db);
     list ($l_date_start,$l_date_end)=$pPeriode->get_date_limit($user->get_periode());
-    
-    $op_date=( ! isset($e_date) ) ?$l_date_start:$e_date;
+    if (  $owner->MY_DATE_SUGGEST=='Y' )
+      $op_date=( ! isset($e_date) ) ?$l_date_start:$e_date;
+    else 
+      $op_date=( ! isset($e_date) ) ?'':$e_date;
+
     $r="";
 
     $r.=dossier::hidden();
