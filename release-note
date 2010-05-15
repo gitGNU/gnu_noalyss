@@ -45,9 +45,9 @@ avec l'historique des opérations ou simplement le résumé.
 
 13. Les banques utilisent des n° de PJ, chaque operation sera donc la PJ suivi du n° d'operation
 exemple PJ = FIN1
-operation 1 = FIN1.1
-operation 2 = FIN1.2
-operation 3 = FIN1.3
+operation 1 = FIN1001
+operation 2 = FIN1002
+operation 3 = FIN1003
 il est préférable d'avoir un préfixe différent pour chaque banque, il est plus facile d'utiliser un journal par compte en banque
 
 14. Pour le pense bête, changement cosmétique
