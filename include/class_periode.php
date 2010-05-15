@@ -365,7 +365,7 @@ $ret['p_end']=>'31.01.2009'
 
   }
 /*!\brief retrieve the periode thanks the date_end
-*\param date format DD.MM.YYYY
+*\param $p_date format DD.MM.YYYY
  * \return the periode id
  *\exception if not periode is found or if more than one periode is found
  */
