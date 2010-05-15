@@ -37,6 +37,7 @@ class IPopup extends HtmlInput
     $this->parameter='';
     $this->attribute=array();
     $this->drag=false;
+    $this->blocking=true;
   }
   function set_width($p_val) {
     $js=sprintf('$("%s'.'_border").style.width="%s";',
@@ -49,6 +50,14 @@ class IPopup extends HtmlInput
 		$this->name,$p_val);
     $this->parameter.=$js;
 
+  }
+  /** 
+   *@brief set or not a blocking fond
+   *@param $p_block if true if you want to avoid access to background,
+   *accept true or false
+   */
+  function set_block($p_block) {
+    $this->blocking=$p_block;
   }
 
   function set_zindex($p_val) {
@@ -81,8 +90,10 @@ class IPopup extends HtmlInput
   }
   function input() {
     $r="";
-    $r=sprintf('<div id="%s_fond" name="fond" class="popup_back">',$this->name);
-    $r.="</div>";
+    if ($this->blocking) {
+      $r.=sprintf('<div id="%s_fond" name="fond" class="popup_back">',$this->name);
+      $r.="</div>";
+    }
     if ( isset($this->title) && trim($this->title) != "" ) {
       $r.=sprintf('<div name ="%s_border" id="%s_border" class="popup_border_title">',
 	       $this->name,

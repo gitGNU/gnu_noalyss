@@ -192,7 +192,7 @@ function showIPopup(p_name) {
     if ( window.scrollY) { sx=window.scrollY+40;}
 	else { sx=document.body.scrollTop+40;}
     $(p_name+'_border').style.top=sx;
-    show(p_name+'_fond');
+    if ( g(p_name+'_fond') ) {show(p_name+'_fond');}
     show(p_name+'_border');
     show(p_name+'_content');
 }
