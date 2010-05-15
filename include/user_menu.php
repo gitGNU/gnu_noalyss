@@ -149,7 +149,7 @@ function ShowMenuCompta($p_high="")
   }
 
   if ( $p_high !== "" ) $default=$p_high;
-
+  $default=-1;
   if  ( isset($_REQUEST['p_action']))
 	{
 	  switch ($_REQUEST['p_action'] ) {
