@@ -1120,7 +1120,12 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
     //    $f_add_button->set_attribute('jrn',$this->id);
     $f_add_button->javascript=" select_card_type(this);";
     $ret.=$f_add_button->input();
-
+    // show compute
+    $cal=new IButton('calc');
+    $cal->label='Calculatrice';
+    $cal->javascript=" showIPopup('compute') ";
+    $str_cal_button=$cal->input();
+    $ret.=$str_cal_button;
 
     // Load the javascript
     //

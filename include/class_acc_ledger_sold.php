@@ -1112,6 +1112,13 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
     }// foreach article
     $f_type=_('Client');
+
+    // show compute
+    $cal=new IButton('calc');
+    $cal->label='Calculatrice';
+    $cal->javascript=" showIPopup('compute') ";
+    $str_cal_button=$cal->input();
+
     ob_start();
     require_once('template/form_ledger_detail.php');
     $r.=ob_get_contents();

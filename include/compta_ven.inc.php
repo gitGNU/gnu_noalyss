@@ -50,6 +50,13 @@ $pop_tva=new IPopup('popup_tva');
 $pop_tva->title=_('Choix TVA');
 $pop_tva->value='';
 echo $pop_tva->input();
+//----------------------------------------------------------------------
+// create compute button
+$compute=new IPopup('compute');
+$compute->value=JS_CALC_LINE;
+$compute->title="Calculatrice";
+$compute->drag=true; $compute->blocking=false;
+echo $compute->input();
 
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 $gDossier=dossier::id();

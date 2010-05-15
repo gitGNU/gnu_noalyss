@@ -16,7 +16,7 @@
 <?=$f_type?><?=$f_client_qcode?><?=$f_client_bt?> <?=$f_client?><br>
       <?=_('Description')?> <?=$f_desc?>
       <?=_('Num Pj')?> <?=$f_pj?><br>
-<?=$str_add_button?>
+<?=$str_add_button?><?=$str_cal_button?>
 </fieldset>
 
 <fieldset>
@@ -50,7 +50,7 @@ echo td($item['htva']);
 if ($flag_tva=='Y')  {
 	echo td($item['tva']);
 	echo td($item['amount_tva'].$item['hidden']);
-        
+
 }
 echo td($item['tvac']);
 echo '</tr>';

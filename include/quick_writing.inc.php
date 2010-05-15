@@ -59,6 +59,12 @@ $pop_tva->title=_('Choix TVA');
 $pop_tva->value='';
 echo $pop_tva->input();
 
+$compute=new IPopup('compute');
+$compute->value=JS_CALC_LINE;
+$compute->drag=true; $compute->blocking=false;
+$compute->title="Calculatrice";
+echo $compute->input();
+
 $cn=new Database(dossier::id());
 $id=(isset ($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
 /*!\brief show a form for quick_writing */

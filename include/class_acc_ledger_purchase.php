@@ -1004,6 +1004,11 @@ array
 
     }
     $f_type=_('Fournisseur');
+    // show compute
+    $cal=new IButton('calc');
+    $cal->label='Calculatrice';
+    $cal->javascript=" showIPopup('compute') ";
+    $str_cal_button=$cal->input();
 
     ob_start();
     require_once('template/form_ledger_detail.php');
