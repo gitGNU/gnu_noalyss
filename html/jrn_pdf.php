@@ -94,6 +94,25 @@ if   (  $_REQUEST['p_simple']== 1 )
   {
     if ( $jrn_type=='ACH' || $jrn_type=='VEN')
       {
+	if ( $jrn_type=='ACH' && $cn->get_value('select count(qp_id) from quant_purchase') == 0 ) {
+	  $pdf= new Print_Ledger_Simple_without_vat($cn,$Jrn);
+	  $pdf->setDossierInfo($Jrn->name);
+	  $pdf->AliasNbPages();
+	  $pdf->AddPage();
+	  $pdf->Cell(0,6,'Ce journal ne peut être imprimé en mode simple');
+	  $pdf->output('erreur.pdf','I');
+	  exit();
+	}
+	if ( $jrn_type=='VEN' && $cn->get_value('select count(qs_id) from quant_sold') == 0 ) {
+	  $pdf= new Print_Ledger_Simple_without_vat($cn,$Jrn);
+	  $pdf->setDossierInfo($Jrn->name);
+	  $pdf->AliasNbPages();
+	  $pdf->AddPage();
+	  $pdf->Cell(0,6,'Ce journal ne peut être imprimé en mode simple');
+	  $pdf->output('erreur.pdf','I');
+	  exit();
+	}
+
 	if ( $own->MY_TVA_USE=='Y') 
 	  {
 	    $pdf= new Print_Ledger_Simple($cn,$Jrn);
