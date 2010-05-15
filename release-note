@@ -51,3 +51,4 @@ operation 3 = FIN1.3
 il est préférable d'avoir un préfixe différent pour chaque banque, il est plus facile d'utiliser un journal par compte en banque
 
 14. Pour le pense bête, changement cosmétique
+15. Opérations Diverses fonctionne comme les autres journaux : soit on spécifie la période soit la période est déduite de la date

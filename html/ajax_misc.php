@@ -29,7 +29,7 @@
  * dsp_tva fill a ipopup with a choice of possible VAT
  *     - if code is set then fill the field code
  *     - if compute is set then add event to call clean_tva and compute_ledger
-@Acc_Ledger_Sold::input
+@see Acc_Ledger_Sold::input
 * Part 2
 * dl : display form to modify, add and delete lettering for a given operation
  *
