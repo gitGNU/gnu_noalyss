@@ -5,12 +5,12 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 5\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-09 21:26+0200\n"
-"PO-Revision-Date: 2010-05-09 21:40+0100\n"
+"POT-Creation-Date: 2010-05-16 12:48+0200\n"
+"PO-Revision-Date: 2010-05-16 12:50+0100\n"
 "Last-Translator: Dany De Bontridder <dany@alchimerys.be>\n"
-"Language-Team: English <LL@li.org>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -126,6 +126,8 @@ msgstr "Dashboard"
 #: include/class_acc_ledger_sold.php:1092
 #: include/class_acc_ledger_sold.php:563
 #: include/class_acc_ledger_sold.php:1108
+#: include/class_acc_ledger_sold.php:570
+#: include/class_acc_ledger_sold.php:1118
 msgid "Client"
 msgstr "Customer"
 
@@ -149,6 +151,8 @@ msgstr "Customer"
 #: include/class_acc_ledger_purchase.php:1021
 #: include/class_acc_ledger_purchase.php:969
 #: include/class_acc_ledger_purchase.php:1043
+#: include/class_acc_ledger_purchase.php:1009
+#: include/class_acc_ledger_purchase.php:1088
 msgid "Fournisseur"
 msgstr "Supplier"
 
@@ -193,6 +197,8 @@ msgstr "Stock"
 #: include/client_card.inc.php:65
 #: include/supplier_card.inc.php:66
 #: include/user_menu.php:197
+#: include/action.common.inc.php:267
+#: include/user_menu.php:196
 msgid "Fiche"
 msgstr "Card"
 
@@ -211,6 +217,7 @@ msgstr "Follow up"
 #: include/ac_common.php:282
 #: include/ac_common.php:272
 #: include/ac_common.php:273
+#: include/ac_common.php:270
 msgid "Cette action ne vous est pas autorisée Contactez votre responsable"
 msgstr "This action is not allowed, please contact your administrator"
 
@@ -220,11 +227,13 @@ msgstr "Session expired<br>User disconnected"
 
 #: include/class_user.php:153
 #: include/class_user.php:156
+#: include/class_user.php:154
 msgid "Utilisateur ou mot de passe incorrect"
 msgstr "User or password incorrect"
 
 #: include/class_user.php:336
 #: include/class_user.php:339
+#: include/class_user.php:337
 msgid "Aucune période trouvéee !!!"
 msgstr "No period found"
 
@@ -232,6 +241,7 @@ msgstr "No period found"
 #: include/class_user.php:660
 #: include/class_user.php:664
 #: include/class_user.php:668
+#: include/class_user.php:662
 msgid "Dossier non accessible"
 msgstr "Folder not accessible"
 
@@ -323,6 +333,11 @@ msgstr "Validate"
 #: html/ajax_misc.php:205
 #: include/fiche.inc.php:294
 #: include/periode.inc.php:53
+#: html/ajax_misc.php:203
+#: include/dossier.inc.php:240
+#: include/dossier.inc.php:266
+#: include/dossier.inc.php:284
+#: include/fiche.inc.php:297
 msgid "Retour"
 msgstr "Return"
 
@@ -331,6 +346,7 @@ msgstr "Return"
 #: include/user_menu.php:188
 #: include/impress.inc.php:33
 #: include/user_menu.php:190
+#: include/user_menu.php:189
 msgid "Grand Livre"
 msgstr "Ledger"
 
@@ -338,6 +354,7 @@ msgstr "Ledger"
 #: include/user_menu.php:178
 #: include/user_menu.php:188
 #: include/user_menu.php:190
+#: include/user_menu.php:189
 msgid "Grand livre : toutes les opérations"
 msgstr "Ledger : all entries"
 
@@ -347,6 +364,7 @@ msgstr "Ledger : all entries"
 #: include/user_menu.php:189
 #: include/class_acc_payment.php:339
 #: include/user_menu.php:191
+#: include/user_menu.php:190
 msgid "Vente"
 msgstr "Sale"
 
@@ -354,6 +372,7 @@ msgstr "Sale"
 #: include/user_menu.php:179
 #: include/user_menu.php:189
 #: include/user_menu.php:191
+#: include/user_menu.php:190
 msgid "Journal de vente / produit"
 msgstr "Ledger of sales"
 
@@ -363,6 +382,7 @@ msgstr "Ledger of sales"
 #: include/user_menu.php:180
 #: include/user_menu.php:190
 #: include/user_menu.php:192
+#: include/user_menu.php:191
 msgid "Dépense"
 msgstr "Purchase"
 
@@ -370,6 +390,7 @@ msgstr "Purchase"
 #: include/user_menu.php:180
 #: include/user_menu.php:190
 #: include/user_menu.php:192
+#: include/user_menu.php:191
 msgid "Journaux de dépense, d'achat"
 msgstr "Ledger of purchase"
 
@@ -377,6 +398,7 @@ msgstr "Ledger of purchase"
 #: include/user_menu.php:181
 #: include/user_menu.php:191
 #: include/user_menu.php:193
+#: include/user_menu.php:192
 msgid "Financier"
 msgstr "Financial"
 
@@ -384,6 +406,7 @@ msgstr "Financial"
 #: include/user_menu.php:181
 #: include/user_menu.php:191
 #: include/user_menu.php:193
+#: include/user_menu.php:192
 msgid "Journaux financiers: les banques, la caisse"
 msgstr "Financial ledger : bank,.."
 
@@ -418,6 +441,10 @@ msgstr "Write directly in a ledger"
 #: include/compta_ach.inc.php:63
 #: include/compta_ven.inc.php:64
 #: include/user_menu.php:196
+#: include/compta_ach.inc.php:73
+#: include/compta_fin.inc.php:70
+#: include/compta_ven.inc.php:74
+#: include/user_menu.php:195
 msgid "Impression"
 msgstr "Print"
 
@@ -425,6 +452,7 @@ msgstr "Print"
 #: include/user_menu.php:185
 #: include/user_menu.php:195
 #: include/user_menu.php:197
+#: include/user_menu.php:196
 msgid "Ajouter, modifier ou effacer des fiches"
 msgstr "Add,modifier or remove card"
 
@@ -432,6 +460,7 @@ msgstr "Add,modifier or remove card"
 #: include/user_menu.php:186
 #: include/user_menu.php:196
 #: include/user_menu.php:199
+#: include/user_menu.php:198
 msgid "Avancé"
 msgstr "Advanced"
 
@@ -439,6 +468,7 @@ msgstr "Advanced"
 #: include/user_menu.php:186
 #: include/user_menu.php:196
 #: include/user_menu.php:199
+#: include/user_menu.php:198
 msgid "Opérations délicates"
 msgstr "Advanced operation"
 
@@ -447,6 +477,7 @@ msgstr "Advanced operation"
 #: include/user_menu.php:215
 #: include/user_menu.php:225
 #: include/user_menu.php:228
+#: include/user_menu.php:227
 msgid "Ecritures definies"
 msgstr "Defined entries"
 
@@ -455,6 +486,7 @@ msgstr "Defined entries"
 #: include/user_menu.php:216
 #: include/user_menu.php:226
 #: include/user_menu.php:229
+#: include/user_menu.php:228
 msgid "Periode"
 msgstr "Period"
 
@@ -463,6 +495,7 @@ msgstr "Period"
 #: include/user_menu.php:216
 #: include/user_menu.php:226
 #: include/user_menu.php:229
+#: include/user_menu.php:228
 msgid "Gestion des periodes"
 msgstr "Period management"
 
@@ -651,6 +684,7 @@ msgstr "Currency, "
 #: include/user_menu.php:336
 #: html/parametre.php:157
 #: html/parametre.php:136
+#: html/parametre.php:135
 msgid "Tva"
 msgstr "VAT"
 
@@ -664,6 +698,7 @@ msgstr "Rate and accounting item for VAT"
 #: include/user_menu.php:336
 #: include/template/forecast-detail.php:8
 #: html/parametre.php:137
+#: html/parametre.php:136
 msgid "Poste Comptable"
 msgstr "Accounting item"
 
@@ -671,6 +706,7 @@ msgstr "Accounting item"
 #: include/user_menu.php:337
 #: include/user_menu.php:336
 #: html/parametre.php:137
+#: html/parametre.php:136
 msgid "Poste comptable constant"
 msgstr "Constant accounting item "
 
@@ -734,6 +770,7 @@ msgstr "Defined entries"
 #: include/user_menu.php:340
 #: include/user_menu.php:332
 #: include/user_menu.php:343
+#: include/class_acc_ledger.php:507
 msgid "Document"
 msgstr "Document"
 
@@ -895,6 +932,8 @@ msgstr "Management"
 #: include/class_acc_ledger_purchase.php:1063
 #: include/class_acc_ledger_sold.php:581
 #: include/user_menu.php:452
+#: include/class_acc_ledger_purchase.php:1108
+#: include/class_acc_ledger_sold.php:588
 msgid "Compt. Analytique"
 msgstr "Cost Accounting"
 
@@ -906,6 +945,7 @@ msgstr "Budget"
 #: include/ac_common.php:288
 #: include/ac_common.php:278
 #: include/ac_common.php:279
+#: include/ac_common.php:276
 msgid " Cette action ne vous est pas autorisée Contactez votre responsable"
 msgstr "This action is not authorized contact your administrator"
 
@@ -969,6 +1009,15 @@ msgstr "Todo list"
 #: include/template/dashboard.php:36
 #: include/template/letter_all.php:20
 #: include/template/letter_prop.php:23
+#: include/class_acc_ledger.php:387
+#: include/class_acc_ledger.php:1012
+#: include/class_acc_ledger.php:1146
+#: include/class_acc_ledger_purchase.php:1078
+#: include/class_acc_ledger_sold.php:560
+#: include/class_fiche.php:1018
+#: include/impress_fiche.inc.php:145
+#: include/template/dashboard.php:31
+#: include/template/letter_prop.php:22
 msgid "Date"
 msgstr "Date"
 
@@ -980,6 +1029,7 @@ msgstr "Date"
 #: include/template/detail-action.php:150
 #: html/access.php:159
 #: include/template/dashboard.php:37
+#: include/template/dashboard.php:32
 msgid "Titre"
 msgstr "Title"
 
@@ -1029,6 +1079,18 @@ msgstr "Title"
 #: include/template/dashboard.php:38
 #: include/template/letter_all.php:26
 #: include/template/letter_prop.php:29
+#: include/class_acc_ledger.php:388
+#: include/class_acc_ledger.php:1016
+#: include/class_acc_ledger.php:1175
+#: include/class_acc_ledger_purchase.php:1085
+#: include/class_acc_ledger_sold.php:567
+#: include/class_anc_account.php:264
+#: include/class_fiche.php:1019
+#: include/dossier.inc.php:233
+#: include/dossier.inc.php:262
+#: include/param_pcmn.inc.php:55
+#: include/template/dashboard.php:33
+#: include/template/letter_prop.php:28
 msgid "Description"
 msgstr "Description"
 
@@ -1051,6 +1113,13 @@ msgstr "Description"
 #: include/payment_middle.inc.php:58
 #: html/parametre.php:301
 #: include/template/dashboard.php:42
+#: html/ajax_card.php:270
+#: html/parametre.php:306
+#: include/compta_fin.inc.php:177
+#: include/param_pcmn.inc.php:64
+#: include/report.inc.php:122
+#: include/report.inc.php:137
+#: include/template/dashboard.php:36
 msgid "Sauve"
 msgstr "Save"
 
@@ -1067,6 +1136,9 @@ msgstr "Save"
 #: include/fiche.inc.php:378
 #: include/fiche.inc.php:382
 #: include/template/dashboard.php:43
+#: include/fiche.inc.php:385
+#: include/param_pcmn.inc.php:65
+#: include/template/dashboard.php:37
 msgid "Annuler"
 msgstr "Cancel"
 
@@ -1077,6 +1149,7 @@ msgstr "Cancel"
 #: include/payment_middle.inc.php:164
 #: include/cat_document.inc.php:37
 #: include/template/dashboard.php:47
+#: include/template/dashboard.php:45
 msgid "Ajout"
 msgstr "Add"
 
@@ -1085,6 +1158,7 @@ msgstr "Add"
 #: html/access.php:100
 #: html/access.php:102
 #: include/template/dashboard.php:92
+#: include/template/dashboard.php:90
 msgid "Aucune periode par defaut"
 msgstr "There is no default period"
 
@@ -1093,6 +1167,7 @@ msgstr "There is no default period"
 #: html/access.php:123
 #: html/access.php:125
 #: include/template/dashboard.php:115
+#: include/template/dashboard.php:113
 msgid "Aucun rapport défini"
 msgstr "No report defined"
 
@@ -1101,6 +1176,7 @@ msgstr "No report defined"
 #: html/access.php:124
 #: html/access.php:126
 #: include/template/dashboard.php:116
+#: include/template/dashboard.php:114
 msgid "Cliquez ici pour mettre à jour vos préférences"
 msgstr "Click here to update your preference"
 
@@ -1136,6 +1212,9 @@ msgstr "in PhpCompta"
 #: html/user_login.php:82
 #: include/class_acc_ledger_fin.php:823
 #: include/class_acc_ledger.php:2200
+#: include/class_acc_ledger_fin.php:860
+#: include/class_acc_ledger.php:2097
+#: include/fiche.inc.php:70
 msgid "Rechercher"
 msgstr "Search"
 
@@ -1242,6 +1321,7 @@ msgid " Immobilisé"
 msgstr "Fixed Asset"
 
 #: include/user.inc.php:81
+#: include/user.inc.php:80
 msgid "Ajout d'utilisateur"
 msgstr "Add users"
 
@@ -1274,23 +1354,29 @@ msgstr ""
 " it is likely due to "
 
 #: include/dossier.inc.php:87
+#: include/dossier.inc.php:86
 msgid " est une année invalide"
 msgstr " is an invalid year"
 
 #: include/dossier.inc.php:104
+#: include/dossier.inc.php:102
 msgid " Base de donnée "
 msgstr "Database"
 
 #: include/dossier.inc.php:105
 #: include/dossier.inc.php:310
+#: include/dossier.inc.php:103
+#: include/dossier.inc.php:308
 msgid "est accèdée, déconnectez-vous d'abord"
 msgstr "is accessed, disconnect first"
 
 #: include/dossier.inc.php:153
+#: include/dossier.inc.php:151
 msgid "Rafraîchir"
 msgstr "Refresh"
 
 #: include/dossier.inc.php:154
+#: include/dossier.inc.php:152
 msgid "Ajouter"
 msgstr "Add"
 
@@ -1302,30 +1388,40 @@ msgstr "Add"
 #: include/class_acc_ledger.php:744
 #: include/class_document_type.php:64
 #: include/class_document_modele.php:66
+#: include/class_acc_ledger.php:633
+#: include/compta_fin.inc.php:178
+#: include/dossier.inc.php:181
+#: include/dossier.inc.php:283
 msgid "Effacer"
 msgstr "Remove"
 
 #: include/dossier.inc.php:185
+#: include/dossier.inc.php:183
 msgid "Modifier"
 msgstr "Modify"
 
 #: include/dossier.inc.php:188
+#: include/dossier.inc.php:186
 msgid "Backup"
 msgstr "Backup"
 
 #: include/dossier.inc.php:215
+#: include/dossier.inc.php:213
 msgid "pas de modèle disponible"
 msgstr "No template"
 
 #: include/dossier.inc.php:233
+#: include/dossier.inc.php:231
 msgid "Nom du dossier"
 msgstr "Folder name"
 
 #: include/dossier.inc.php:237
+#: include/dossier.inc.php:235
 msgid "Modèle"
 msgstr "Template"
 
 #: include/dossier.inc.php:240
+#: include/dossier.inc.php:238
 msgid "Creation Dossier"
 msgstr "Folder Creation"
 
@@ -1340,32 +1436,41 @@ msgstr "Folder Creation"
 #: include/class_fiche.php:1251
 #: include/class_document_modele.php:62
 #: include/class_fiche.php:1213
+#: include/class_anc_account.php:253
+#: include/class_fiche.php:1190
+#: include/dossier.inc.php:257
 msgid "Nom"
 msgstr "Name"
 
 #: include/dossier.inc.php:267
 #: include/payment_middle.inc.php:93
 #: include/payment_middle.inc.php:128
+#: include/dossier.inc.php:265
 msgid "Modifie"
 msgstr "Modify"
 
 #: include/dossier.inc.php:283
+#: include/dossier.inc.php:281
 msgid "Cochez la case si vous êtes sûr de vouloir effacer ce dossier"
 msgstr "Check the box if you are sur to remove this folder"
 
 #: include/dossier.inc.php:293
+#: include/dossier.inc.php:291
 msgid "Désolé, vous n'avez pas coché la case"
 msgstr "Sorry the box is not checked"
 
 #: include/dossier.inc.php:309
+#: include/dossier.inc.php:307
 msgid "Base de donnée "
 msgstr "Database"
 
 #: include/dossier.inc.php:280
+#: include/dossier.inc.php:278
 msgid "Etes vous sûr et certain de vouloir effacer "
 msgstr "Are you sure to remove this folder"
 
 #: include/dossier.inc.php:300
+#: include/dossier.inc.php:298
 msgid "inexistant"
 msgstr "inexistent"
 
@@ -1466,6 +1571,8 @@ msgstr "Return to the customers list"
 #: include/adm_card.inc.php:112
 #: include/client_card.inc.php:117
 #: include/supplier_card.inc.php:118
+#: include/adm_card.inc.php:111
+#: include/supplier_card.inc.php:117
 msgid "Vous devez aller dans fiche et créer une catégorie pour les contacts"
 msgstr "You have to create first a category of card in the card menu"
 
@@ -1518,6 +1625,15 @@ msgstr "You have to create first a category of card in the card menu"
 #: include/client.inc.php:129
 #: include/supplier_card.inc.php:124
 #: include/supplier.inc.php:128
+#: include/adm_card.inc.php:117
+#: include/adm.inc.php:129
+#: include/class_acc_ledger.php:1118
+#: include/class_acc_ledger_purchase.php:724
+#: include/class_acc_ledger_purchase.php:731
+#: include/class_acc_ledger_sold.php:850
+#: include/client.inc.php:128
+#: include/supplier_card.inc.php:123
+#: include/supplier.inc.php:126
 msgid "Créer une nouvelle fiche"
 msgstr "Add a new card"
 
@@ -1536,54 +1652,69 @@ msgstr "Add a new card"
 #: include/impress_fiche.inc.php:149
 #: include/template/letter_all.php:29
 #: include/template/letter_prop.php:32
+#: include/class_acc_ledger.php:389
+#: include/class_acc_ledger.php:1023
+#: include/class_acc_ledger.php:1216
+#: include/class_anc_account.php:258
+#: include/impress_fiche.inc.php:148
+#: include/template/letter_prop.php:31
 msgid "Montant"
 msgstr "Amount"
 
 #: include/class_acc_ledger.php:501
 #: include/class_acc_ledger.php:500
+#: include/class_acc_ledger.php:390
 msgid "PJ"
 msgstr "Receipt"
 
 #: include/class_acc_ledger.php:502
 #: include/class_acc_ledger.php:501
+#: include/class_acc_ledger.php:391
 msgid "Ech"
 msgstr "Date limit"
 
 #: include/class_acc_ledger.php:595
 #: include/class_acc_ledger.php:594
+#: include/class_acc_ledger.php:484
 msgid "Aucun enregistrement trouvé"
 msgstr "No record found"
 
 #: include/class_acc_ledger.php:613
 #: include/class_acc_ledger.php:612
+#: include/class_acc_ledger.php:502
 msgid "Payé"
 msgstr "Paid"
 
 #: include/class_acc_ledger.php:615
 #: include/class_acc_ledger.php:614
+#: include/class_acc_ledger.php:504
 msgid "Op. Concernée"
 msgstr "Concerned entry"
 
 #: include/class_acc_ledger.php:617
 #: include/class_acc_ledger.php:616
+#: include/class_acc_ledger.php:506
 msgid "Action"
 msgstr "Action"
 
 #: include/class_acc_ledger.php:1074
 #: include/class_acc_ledger.php:1000
 #: include/class_acc_ledger.php:999
+#: include/class_acc_ledger.php:876
 msgid "Parametres journaux non trouves"
 msgstr "Ledger parameters not found"
 
 #: include/class_acc_ledger.php:1218
 #: include/class_acc_ledger.php:1144
 #: include/class_acc_ledger.php:1143
+#: include/class_acc_ledger.php:1017
 msgid "PJ Num"
 msgstr "Receipt #"
 
 #: include/class_acc_ledger.php:1222
 #: include/class_acc_ledger.php:1148
 #: include/class_acc_ledger.php:1147
+#: include/class_acc_ledger.php:1021
 msgid "Quick Code ou"
 msgstr "Quick code or"
 
@@ -1595,6 +1726,8 @@ msgstr "Quick code or"
 #: include/class_acc_ledger.php:1306
 #: include/impress.inc.php:33
 #: include/impress.inc.php:34
+#: include/class_acc_ledger.php:1022
+#: include/class_acc_ledger.php:1214
 msgid "Poste"
 msgstr "Account. Item"
 
@@ -1612,12 +1745,18 @@ msgstr "Account. Item"
 #: include/class_fiche.php:1079
 #: include/class_fiche.php:1081
 #: include/class_fiche.php:1043
+#: html/annulation.php:413
+#: include/class_acc_ledger.php:1024
+#: include/class_acc_ledger.php:1217
+#: include/class_fiche.php:1020
+#: include/quick_writing.inc.php:128
 msgid "Débit"
 msgstr "Debit"
 
 #: include/class_acc_ledger.php:1361
 #: include/class_acc_ledger.php:1287
 #: include/class_acc_ledger.php:1286
+#: include/class_acc_ledger.php:1195
 msgid "Pièce"
 msgstr "Receipt"
 
@@ -1629,6 +1768,7 @@ msgstr "Receipt"
 #: include/payment_middle.inc.php:122
 #: include/template/new_mod_payment.php:7
 #: include/class_acc_account.php:169
+#: include/class_acc_ledger.php:1215
 #, php-format
 msgid "Libellé"
 msgstr "Label"
@@ -1644,6 +1784,7 @@ msgstr "Not in the active period"
 #: include/class_acc_ledger.php:1471
 #: include/class_acc_ledger.php:1470
 #: include/class_acc_ledger.php:1476
+#: include/class_acc_ledger.php:1374
 msgid "Vous utilisez le mode strict la dernière operation est la date du "
 msgstr "You're using the strict mod and the last entry is on"
 
@@ -1651,6 +1792,7 @@ msgstr "You're using the strict mod and the last entry is on"
 #: include/class_acc_ledger.php:1472
 #: include/class_acc_ledger.php:1471
 #: include/class_acc_ledger.php:1477
+#: include/class_acc_ledger.php:1375
 msgid "vous ne pouvez pas encoder à une date antérieure"
 msgstr "You cannot record to an ealier date"
 
@@ -1658,6 +1800,7 @@ msgstr "You cannot record to an ealier date"
 #: include/class_acc_ledger.php:1504
 #: include/class_acc_ledger.php:1503
 #: include/class_acc_ledger.php:1509
+#: include/class_acc_ledger.php:1407
 msgid "Le poste"
 msgstr "The accounting item"
 
@@ -1665,6 +1808,7 @@ msgstr "The accounting item"
 #: include/class_acc_ledger.php:1504
 #: include/class_acc_ledger.php:1503
 #: include/class_acc_ledger.php:1509
+#: include/class_acc_ledger.php:1407
 msgid "n'est pas dans ce journal"
 msgstr "doesn't belong to this ledger"
 
@@ -1672,6 +1816,7 @@ msgstr "doesn't belong to this ledger"
 #: include/class_acc_ledger.php:1506
 #: include/class_acc_ledger.php:1505
 #: include/class_acc_ledger.php:1511
+#: include/class_acc_ledger.php:1409
 msgid "Poste invalide"
 msgstr "Invalid Accounting item"
 
@@ -1679,6 +1824,7 @@ msgstr "Invalid Accounting item"
 #: include/class_acc_ledger.php:1508
 #: include/class_acc_ledger.php:1507
 #: include/class_acc_ledger.php:1513
+#: include/class_acc_ledger.php:1411
 msgid "Poste Inexistant"
 msgstr "Inexistant accouting item"
 
@@ -1686,6 +1832,7 @@ msgstr "Inexistant accouting item"
 #: include/class_acc_ledger.php:1518
 #: include/class_acc_ledger.php:1515
 #: include/class_acc_ledger.php:1521
+#: include/class_acc_ledger.php:1419
 msgid "Balance incorrecte "
 msgstr "wrong balance"
 
@@ -1695,6 +1842,7 @@ msgstr "wrong balance"
 #: include/class_acc_ledger.php:2206
 #: include/class_acc_ledger.php:2212
 #: include/class_acc_ledger.php:2211
+#: include/class_acc_ledger.php:2108
 msgid "Afficher recherche"
 msgstr "Display search"
 
@@ -1707,6 +1855,8 @@ msgstr "Display search"
 #: include/compta_ach.inc.php:173
 #: include/compta_ach.inc.php:59
 #: include/compta_ach.inc.php:176
+#: include/compta_ach.inc.php:69
+#: include/compta_ach.inc.php:185
 msgid "Nouvelle dépense"
 msgstr "New expense"
 
@@ -1714,6 +1864,7 @@ msgstr "New expense"
 #: include/compta_ach.inc.php:55
 #: include/compta_ach.inc.php:56
 #: include/compta_ach.inc.php:59
+#: include/compta_ach.inc.php:69
 msgid "Nouvel achat ou dépense"
 msgstr "New purchase"
 
@@ -1721,6 +1872,7 @@ msgstr "New purchase"
 #: include/compta_ach.inc.php:56
 #: include/compta_ach.inc.php:57
 #: include/compta_ach.inc.php:60
+#: include/compta_ach.inc.php:70
 msgid "Liste achat"
 msgstr "List purchase"
 
@@ -1728,6 +1880,7 @@ msgstr "List purchase"
 #: include/compta_ach.inc.php:56
 #: include/compta_ach.inc.php:57
 #: include/compta_ach.inc.php:60
+#: include/compta_ach.inc.php:70
 msgid "Liste des achats"
 msgstr "List of purchase"
 
@@ -1735,6 +1888,7 @@ msgstr "List of purchase"
 #: include/compta_ach.inc.php:57
 #: include/compta_ach.inc.php:58
 #: include/compta_ach.inc.php:61
+#: include/compta_ach.inc.php:71
 msgid "Liste dépenses non payées"
 msgstr "List of unpaid purchase"
 
@@ -1746,6 +1900,8 @@ msgstr "List of unpaid purchase"
 #: include/compta_ven.inc.php:57
 #: include/compta_ach.inc.php:61
 #: include/compta_ven.inc.php:62
+#: include/compta_ach.inc.php:71
+#: include/compta_ven.inc.php:72
 msgid "Liste des ventes non payées"
 msgstr "List of unpaid sales"
 
@@ -1763,6 +1919,8 @@ msgstr "Supplier account"
 #: include/compta_ven.inc.php:127
 #: include/compta_ach.inc.php:127
 #: include/compta_ven.inc.php:132
+#: include/compta_ach.inc.php:137
+#: include/compta_ven.inc.php:142
 msgid "Enregistrement"
 msgstr "Record"
 
@@ -1777,6 +1935,9 @@ msgstr "Record"
 #: include/compta_ven.inc.php:128
 #: include/compta_ach.inc.php:128
 #: include/compta_ven.inc.php:133
+#: include/compta_ach.inc.php:138
+#: include/compta_fin.inc.php:130
+#: include/compta_ven.inc.php:143
 msgid "Corriger"
 msgstr "Correct"
 
@@ -1790,6 +1951,8 @@ msgstr "Correct"
 #: include/compta_ven.inc.php:169
 #: include/compta_ach.inc.php:163
 #: include/compta_ven.inc.php:174
+#: include/compta_ach.inc.php:172
+#: include/compta_ven.inc.php:184
 msgid "Opération sauvée"
 msgstr "Entry saved"
 
@@ -1806,6 +1969,9 @@ msgstr "Entry saved"
 #: include/compta_ach.inc.php:167
 #: include/compta_ven.inc.php:178
 #: include/quick_writing.inc.php:277
+#: include/compta_ach.inc.php:176
+#: include/compta_ven.inc.php:188
+#: include/quick_writing.inc.php:288
 msgid "Attention numéro pièce existante, elle a du être adaptée"
 msgstr "Caution, the receipt number already exists and has been changed"
 
@@ -1848,6 +2014,10 @@ msgstr "Caution, the receipt number already exists and has been changed"
 #: include/compta_ach.inc.php:367
 #: include/compta_ven.inc.php:326
 #: include/compta_ven.inc.php:385
+#: include/class_acc_ledger_purchase.php:1350
+#: include/class_acc_ledger_sold.php:827
+#: include/compta_ach.inc.php:317
+#: include/compta_ach.inc.php:373
 msgid "Mise à jour paiement"
 msgstr "Update payment"
 
@@ -1855,21 +2025,26 @@ msgstr "Update payment"
 #: include/compta_fin.inc.php:136
 #: include/compta_fin.inc.php:55
 #: include/compta_fin.inc.php:140
+#: include/compta_fin.inc.php:67
+#: include/compta_fin.inc.php:152
 msgid "Nouvel extrait"
 msgstr "new entry"
 
 #: include/compta_fin.inc.php:51
 #: include/compta_fin.inc.php:55
+#: include/compta_fin.inc.php:67
 msgid "Encodage d'un nouvel extrait"
 msgstr "Write an new entry"
 
 #: include/compta_fin.inc.php:52
 #: include/compta_fin.inc.php:56
+#: include/compta_fin.inc.php:68
 msgid "Liste"
 msgstr "List"
 
 #: include/compta_fin.inc.php:52
 #: include/compta_fin.inc.php:56
+#: include/compta_fin.inc.php:68
 msgid "Liste opération bancaire"
 msgstr "List financial entries"
 
@@ -1878,21 +2053,26 @@ msgstr "List financial entries"
 #: include/class_fiche.php:1253
 #: include/class_fiche.php:1255
 #: include/class_fiche.php:1217
+#: include/class_fiche.php:1194
+#: include/compta_fin.inc.php:69
 msgid "Solde"
 msgstr "Balance"
 
 #: include/compta_fin.inc.php:53
 #: include/compta_fin.inc.php:57
+#: include/compta_fin.inc.php:69
 msgid "Solde des comptes"
 msgstr "Balance of accounting system"
 
 #: include/compta_fin.inc.php:113
 #: include/compta_fin.inc.php:117
+#: include/compta_fin.inc.php:129
 msgid "Confirmer"
 msgstr "Confirmed"
 
 #: include/compta_fin.inc.php:135
 #: include/compta_fin.inc.php:139
+#: include/compta_fin.inc.php:151
 msgid "Opération  sauvée"
 msgstr "Entry saved"
 
@@ -1915,6 +2095,9 @@ msgstr "Entry saved"
 #: include/class_acc_ledger_sold.php:1103
 #: include/class_acc_ledger_purchase.php:978
 #: include/class_acc_ledger_sold.php:1119
+#: include/class_acc_ledger_purchase.php:1023
+#: include/class_acc_ledger_sold.php:1136
+#: include/compta_fin.inc.php:176
 msgid "Ajout article"
 msgstr "Add item"
 
@@ -1928,6 +2111,8 @@ msgstr "Add item"
 #: include/compta_ven.inc.php:183
 #: include/compta_ven.inc.php:60
 #: include/compta_ven.inc.php:188
+#: include/compta_ven.inc.php:70
+#: include/compta_ven.inc.php:198
 msgid "Nouvelle vente"
 msgstr "New sale"
 
@@ -1935,6 +2120,7 @@ msgstr "New sale"
 #: include/compta_ven.inc.php:55
 #: include/compta_ven.inc.php:56
 #: include/compta_ven.inc.php:61
+#: include/compta_ven.inc.php:71
 msgid "Liste ventes"
 msgstr "List Sales"
 
@@ -1942,6 +2128,7 @@ msgstr "List Sales"
 #: include/compta_ven.inc.php:55
 #: include/compta_ven.inc.php:56
 #: include/compta_ven.inc.php:61
+#: include/compta_ven.inc.php:71
 msgid "Liste des ventes"
 msgstr "List sales"
 
@@ -1949,12 +2136,14 @@ msgstr "List sales"
 #: include/compta_ven.inc.php:56
 #: include/compta_ven.inc.php:57
 #: include/compta_ven.inc.php:62
+#: include/compta_ven.inc.php:72
 msgid "Liste vente non payées"
 msgstr "List unpaid sales"
 
 #: include/compta_ven.inc.php:54
 #: include/compta_ven.inc.php:58
 #: include/compta_ven.inc.php:63
+#: include/compta_ven.inc.php:73
 msgid "Clients"
 msgstr "Customers"
 
@@ -1968,46 +2157,55 @@ msgstr "Customer balance"
 #: include/compta_ven.inc.php:121
 #: include/compta_ven.inc.php:124
 #: include/compta_ven.inc.php:129
+#: include/compta_ven.inc.php:139
 msgid "Sauvez cette opération comme modèle ?"
 msgstr "Save this entry as template"
 
 #: include/quick_writing.inc.php:62
 #: include/quick_writing.inc.php:66
+#: include/quick_writing.inc.php:78
 msgid "Encoder une Operation"
 msgstr "Write an entry"
 
 #: include/quick_writing.inc.php:63
 #: include/quick_writing.inc.php:67
+#: include/quick_writing.inc.php:79
 msgid "Encoder une operation dans  ce journal"
 msgstr "Write an entry in this ledger"
 
 #: include/quick_writing.inc.php:64
 #: include/quick_writing.inc.php:68
+#: include/quick_writing.inc.php:80
 msgid "Voir Operation"
 msgstr "See entries"
 
 #: include/quick_writing.inc.php:65
 #: include/quick_writing.inc.php:69
+#: include/quick_writing.inc.php:81
 msgid "Voir les operations de ce journal"
 msgstr "See entries of this ledger"
 
 #: include/quick_writing.inc.php:67
 #: include/quick_writing.inc.php:71
+#: include/quick_writing.inc.php:83
 msgid "Autre journal"
 msgstr "other ledger"
 
 #: include/quick_writing.inc.php:68
 #: include/quick_writing.inc.php:72
+#: include/quick_writing.inc.php:84
 msgid "Choisir un autre journal"
 msgstr "Choose another ledger"
 
 #: include/quick_writing.inc.php:93
 #: include/quick_writing.inc.php:97
+#: include/quick_writing.inc.php:109
 msgid "Utilisez une operation "
 msgstr "Use an operation"
 
 #: include/quick_writing.inc.php:108
 #: include/quick_writing.inc.php:112
+#: include/quick_writing.inc.php:124
 msgid "Ajout d'une ligne"
 msgstr "Add a row"
 
@@ -2015,6 +2213,7 @@ msgstr "Add a row"
 #: include/fiche.inc.php:114
 #: include/quick_writing.inc.php:114
 #: include/fiche.inc.php:112
+#: include/quick_writing.inc.php:126
 msgid "Sauvez"
 msgstr "Save"
 
@@ -2026,23 +2225,29 @@ msgstr "Save"
 #: include/class_fiche.php:1080
 #: include/class_fiche.php:1082
 #: include/class_fiche.php:1044
+#: html/annulation.php:428
+#: include/class_fiche.php:1021
+#: include/quick_writing.inc.php:129
 msgid "Crédit"
 msgstr "Credit"
 
 #: include/quick_writing.inc.php:114
 #: include/quick_writing.inc.php:118
+#: include/quick_writing.inc.php:130
 msgid "Difference"
 msgstr "Difference"
 
 #: include/quick_writing.inc.php:140
 #: include/quick_writing.inc.php:144
 #: include/quick_writing.inc.php:145
+#: include/quick_writing.inc.php:156
 msgid "Choix du journal"
 msgstr "Ledgers"
 
 #: include/quick_writing.inc.php:146
 #: include/quick_writing.inc.php:150
 #: include/quick_writing.inc.php:151
+#: include/quick_writing.inc.php:162
 msgid ""
 "L'acces a ce journal est interdit, \n"
 " contactez votre responsable"
@@ -2074,6 +2279,10 @@ msgstr ""
 #: include/class_acc_ledger_sold.php:557
 #: include/import_inc.php:400
 #: include/quick_writing.inc.php:156
+#: include/class_acc_ledger_purchase.php:1082
+#: include/class_acc_ledger_sold.php:564
+#: include/import_inc.php:396
+#: include/quick_writing.inc.php:167
 msgid "Journal"
 msgstr "Ledger"
 
@@ -2081,6 +2290,7 @@ msgstr "Ledger"
 #: include/quick_writing.inc.php:205
 #: include/quick_writing.inc.php:203
 #: include/quick_writing.inc.php:206
+#: include/quick_writing.inc.php:217
 msgid "Vous ne pouvez pas accèder à ce journal, contactez votre responsable"
 msgstr "You are not allowed to access this ledger, contact your administrator"
 
@@ -2088,6 +2298,7 @@ msgstr "You are not allowed to access this ledger, contact your administrator"
 #: include/quick_writing.inc.php:215
 #: include/quick_writing.inc.php:213
 #: include/quick_writing.inc.php:216
+#: include/quick_writing.inc.php:227
 msgid "Désolé mais cette periode est fermee pour ce journal"
 msgstr "Sorry but this period is closed"
 
@@ -2095,6 +2306,7 @@ msgstr "Sorry but this period is closed"
 #: include/quick_writing.inc.php:279
 #: include/quick_writing.inc.php:277
 #: include/quick_writing.inc.php:280
+#: include/quick_writing.inc.php:291
 msgid "Autre opération dans ce journal"
 msgstr "Other entry in this ledger"
 
@@ -2136,6 +2348,16 @@ msgstr "Card containing"
 #: include/supplier.inc.php:98
 #: include/user_menu.php:258
 #: include/user_menu.php:478
+#: html/ajax_card.php:172
+#: html/recherche.php:68
+#: include/adm.inc.php:97
+#: include/class_anc_print.php:128
+#: include/client.inc.php:96
+#: include/lettering.account.inc.php:91
+#: include/lettering.card.inc.php:99
+#: include/lettering.gestion.inc.php:47
+#: include/quick_writing.inc.php:191
+#: include/supplier.inc.php:96
 #, php-format
 msgid "Recherche"
 msgstr "Search"
@@ -2148,6 +2370,7 @@ msgstr "You must use a category"
 #: include/class_fiche_def.php:413
 #: include/class_fiche_def.php:407
 #: include/class_fiche_def.php:405
+#: include/class_fiche_def.php:403
 msgid "Label"
 msgstr "Label"
 
@@ -2155,6 +2378,7 @@ msgstr "Label"
 #: include/class_fiche_def.php:422
 #: include/class_fiche_def.php:416
 #: include/class_fiche_def.php:414
+#: include/class_fiche_def.php:412
 msgid "Poste Comptable de base"
 msgstr "Accounting item of base"
 
@@ -2162,6 +2386,7 @@ msgstr "Accounting item of base"
 #: include/class_fiche_def.php:428
 #: include/class_fiche_def.php:422
 #: include/class_fiche_def.php:420
+#: include/class_fiche_def.php:418
 msgid "Chaque fiche aura automatiquement son propre poste comptable : "
 msgstr "Each card will automatically have his own accounting item"
 
@@ -2183,6 +2408,11 @@ msgstr "Each card will automatically have his own accounting item"
 #: include/supplier.inc.php:49
 #: include/user_action_gl.php:44
 #: include/lettering.card.inc.php:39
+#: html/user_advanced.php:56
+#: include/adm.inc.php:49
+#: include/client.inc.php:48
+#: include/compta_fin.inc.php:51
+#: include/supplier.inc.php:48
 msgid "Recherche de fiche"
 msgstr "Search Card"
 
@@ -2213,6 +2443,8 @@ msgstr "Otherwise the programm may have misfunctions"
 #: include/forecast.inc.php:312
 #: include/fiche.inc.php:104
 #: html/ajax_misc.php:334
+#: html/ajax_misc.php:330
+#: include/fiche.inc.php:103
 msgid "Sauver"
 msgstr "Save"
 
@@ -2228,6 +2460,7 @@ msgstr "Remove this categorie"
 
 #: include/fiche.inc.php:115
 #: include/fiche.inc.php:113
+#: include/fiche.inc.php:292
 msgid "Vous confirmez ?"
 msgstr "Do you confirm ?"
 
@@ -2248,6 +2481,7 @@ msgstr ""
 #: include/fiche.inc.php:215
 #: include/template/security_list_action.php:4
 #: include/fiche.inc.php:213
+#: include/fiche.inc.php:216
 msgid "Pas d'accès"
 msgstr "No access"
 
@@ -2273,6 +2507,7 @@ msgstr ""
 "It is still in use\n"
 
 #: include/quick_writing.inc.php:99
+#: include/quick_writing.inc.php:111
 msgid "Utilisez une operation"
 msgstr "Use an entry"
 
@@ -2367,6 +2602,9 @@ msgstr "Action saved"
 #: include/action.common.inc.php:209
 #: include/compta_ach.inc.php:233
 #: include/compta_ven.inc.php:245
+#: include/action.common.inc.php:207
+#: include/compta_ach.inc.php:242
+#: include/compta_ven.inc.php:255
 msgid "Enregistrer"
 msgstr "Submit"
 
@@ -2411,6 +2649,7 @@ msgstr " removed"
 #: include/action.common.inc.php:265
 #: include/action.common.inc.php:266
 #: include/action.common.inc.php:271
+#: include/action.common.inc.php:268
 #, php-format
 msgid "Titre ou référence"
 msgstr "Title or reference"
@@ -2430,6 +2669,10 @@ msgstr "Only mes action"
 #: include/adm.inc.php:109
 #: include/client.inc.php:108
 #: include/supplier.inc.php:108
+#: include/action.common.inc.php:289
+#: include/adm.inc.php:108
+#: include/client.inc.php:107
+#: include/supplier.inc.php:106
 msgid "recherche"
 msgstr "Search"
 
@@ -2437,45 +2680,56 @@ msgstr "Search"
 #: include/action.common.inc.php:289
 #: include/action.common.inc.php:300
 #: include/action.common.inc.php:305
+#: include/action.common.inc.php:302
 msgid "Ajout Action"
 msgstr "Add action"
 
 #: include/class_fiche.php:305
 #: include/class_fiche.php:345
 #: include/class_fiche.php:356
+#: include/class_fiche.php:354
 msgid "Rappel: Poste créé automatiquement à partir de "
 msgstr "Warning : accounting item create automatically from "
 
 #: include/class_fiche.php:312
 #: include/class_fiche.php:352
 #: include/class_fiche.php:363
+#: include/class_fiche.php:361
 msgid "Rappel: Poste par défaut sera "
 msgstr "Warning : by default, the accounting item will be "
 
 #: include/report.inc.php:117
+#: include/report.inc.php:116
 msgid "Définition"
 msgstr "Definition"
 
 #: include/report.inc.php:125
 #: include/report.inc.php:140
 #: include/report.inc.php:162
+#: include/report.inc.php:124
+#: include/report.inc.php:139
+#: include/report.inc.php:161
 msgid "Les lignes vides seront effacées"
 msgstr "The empty rows will be removed"
 
 #: include/report.inc.php:136
+#: include/report.inc.php:135
 msgid "Importer ce rapport"
 msgstr "Import this report"
 
 #: include/report.inc.php:153
+#: include/report.inc.php:152
 msgid "Mise a jour"
 msgstr "Update"
 
 #: include/report.inc.php:154
+#: include/report.inc.php:153
 msgid "Effacement"
 msgstr "Remove"
 
 #: include/template/category_of_card.php:3
 #: html/parametre.php:138
+#: html/parametre.php:137
 msgid "Catégorie de fiche"
 msgstr "Card Category"
 
@@ -2599,6 +2853,9 @@ msgstr "Price unit"
 #: include/class_acc_ledger_purchase.php:1056
 #: include/class_acc_ledger_purchase.php:1060
 #: include/class_acc_ledger_sold.php:573
+#: include/class_acc_ledger_purchase.php:1101
+#: include/class_acc_ledger_purchase.php:1105
+#: include/class_acc_ledger_sold.php:580
 msgid "quantité"
 msgstr "quantity"
 
@@ -2628,6 +2885,8 @@ msgstr "VAT Code"
 #: include/class_acc_ledger_sold.php:565
 #: include/class_acc_ledger_purchase.php:1057
 #: include/class_acc_ledger_sold.php:578
+#: include/class_acc_ledger_purchase.php:1102
+#: include/class_acc_ledger_sold.php:585
 msgid "Montant TVA"
 msgstr "Amount VAT "
 
@@ -2662,6 +2921,8 @@ msgstr "Hide details"
 #: include/template/detail-action.php:217
 #: include/compta_ach.inc.php:232
 #: include/compta_ven.inc.php:244
+#: include/compta_ach.inc.php:241
+#: include/compta_ven.inc.php:254
 msgid "Actualiser"
 msgstr "Refresh"
 
@@ -2677,6 +2938,7 @@ msgstr "Would you remove this document"
 #: include/template/detail-action.php:248
 #: include/template/detail-action.php:252
 #: include/template/detail-action.php:270
+#: include/template/detail-action.php:269
 msgid "Je ne peux pas ajouter de fichier"
 msgstr "I can't add this file"
 
@@ -2698,6 +2960,8 @@ msgstr "I can't add this file"
 #: include/class_acc_ledger_sold.php:542
 #: include/class_acc_ledger_purchase.php:1034
 #: include/class_acc_ledger_sold.php:554
+#: include/class_acc_ledger_purchase.php:1079
+#: include/class_acc_ledger_sold.php:561
 msgid "Echeance"
 msgstr "Limit date"
 
@@ -2723,6 +2987,8 @@ msgstr "Receipt #"
 #: include/class_acc_ledger_sold.php:559
 #: include/class_acc_ledger_purchase.php:1051
 #: include/class_acc_ledger_sold.php:571
+#: include/class_acc_ledger_purchase.php:1096
+#: include/class_acc_ledger_sold.php:578
 msgid "Dénomination"
 msgstr "Name"
 
@@ -2740,6 +3006,7 @@ msgstr "price/unit without vat"
 #: include/class_acc_ledger_sold.php:557
 #: include/class_acc_ledger_sold.php:561
 #: include/class_acc_ledger_sold.php:574
+#: include/class_acc_ledger_sold.php:581
 msgid "tva"
 msgstr "vat"
 
@@ -2758,6 +3025,7 @@ msgstr "tot. vat"
 #: include/class_acc_ledger_purchase.php:1131
 #: include/class_acc_ledger_purchase.php:1136
 #: include/class_acc_ledger_purchase.php:1158
+#: include/class_acc_ledger_purchase.php:1203
 msgid "Total HTVA"
 msgstr "Total VAT excluded"
 
@@ -2771,6 +3039,7 @@ msgstr "Total VAT excluded"
 #: include/class_acc_ledger_purchase.php:1138
 #: include/class_acc_ledger_purchase.php:1143
 #: include/class_acc_ledger_purchase.php:1165
+#: include/class_acc_ledger_purchase.php:1210
 msgid "Total TVA"
 msgstr "Total VAT"
 
@@ -2784,6 +3053,7 @@ msgstr "Total VAT"
 #: include/class_acc_ledger_purchase.php:1141
 #: include/class_acc_ledger_purchase.php:1146
 #: include/class_acc_ledger_purchase.php:1168
+#: include/class_acc_ledger_purchase.php:1213
 msgid "Total TVAC"
 msgstr "Total VAT included"
 
@@ -2796,6 +3066,7 @@ msgstr "Total VAT included"
 #: include/class_acc_ledger_purchase.php:1034
 #: include/class_acc_ledger_purchase.php:1039
 #: include/class_acc_ledger_purchase.php:1061
+#: include/class_acc_ledger_purchase.php:1106
 msgid "Total"
 msgstr "Total"
 
@@ -2876,6 +3147,7 @@ msgstr "Cost Accounting"
 #: html/access.php:149
 #: html/access.php:151
 #: include/template/dashboard.php:28
+#: include/template/dashboard.php:42
 msgid "Pense-Bête"
 msgstr "Todo List"
 
@@ -2897,6 +3169,8 @@ msgstr "Todo List"
 #: include/class_acc_ledger_sold.php:850
 #: include/class_acc_ledger_sold.php:550
 #: include/class_acc_ledger_sold.php:863
+#: include/class_acc_ledger_sold.php:557
+#: include/class_acc_ledger_sold.php:873
 msgid "En-tête facture client"
 msgstr "Header invoice customer"
 
@@ -2917,6 +3191,9 @@ msgstr "Header invoice customer"
 #: include/class_acc_ledger_sold.php:543
 #: include/class_acc_ledger_purchase.php:1035
 #: include/class_acc_ledger_sold.php:555
+#: include/class_acc_ledger.php:1015
+#: include/class_acc_ledger_purchase.php:1080
+#: include/class_acc_ledger_sold.php:562
 msgid "Période Comptable"
 msgstr "Accounting Periode"
 
@@ -2938,6 +3215,8 @@ msgstr "Accounting Periode"
 #: include/class_acc_ledger_sold.php:980
 #: include/class_acc_ledger_sold.php:567
 #: include/class_acc_ledger_sold.php:993
+#: include/class_acc_ledger_sold.php:574
+#: include/class_acc_ledger_sold.php:1003
 msgid "Détail articles vendus"
 msgstr "Detail sold items"
 
@@ -2951,6 +3230,7 @@ msgstr "Detail sold items"
 #: include/class_acc_ledger_sold.php:554
 #: include/class_acc_ledger_sold.php:558
 #: include/class_acc_ledger_sold.php:570
+#: include/class_acc_ledger_sold.php:577
 msgid "Code"
 msgstr "Code"
 
@@ -2971,6 +3251,8 @@ msgstr "Code"
 #: include/class_acc_ledger_sold.php:560
 #: include/class_acc_ledger_purchase.php:1052
 #: include/class_acc_ledger_sold.php:572
+#: include/class_acc_ledger_purchase.php:1097
+#: include/class_acc_ledger_sold.php:579
 msgid "prix"
 msgstr "price"
 
@@ -2991,6 +3273,8 @@ msgstr "price"
 #: include/class_acc_ledger_sold.php:566
 #: include/class_acc_ledger_purchase.php:1058
 #: include/class_acc_ledger_sold.php:579
+#: include/class_acc_ledger_purchase.php:1103
+#: include/class_acc_ledger_sold.php:586
 msgid "Montant HTVA"
 msgstr "Amount without VAT"
 
@@ -3003,6 +3287,7 @@ msgstr "Amount without VAT"
 #: include/class_acc_ledger_sold.php:619
 #: include/class_acc_ledger_sold.php:623
 #: include/class_acc_ledger_sold.php:636
+#: include/class_acc_ledger_sold.php:643
 msgid "Attention Différence"
 msgstr "Warning difference"
 
@@ -3023,6 +3308,8 @@ msgstr "Warning difference"
 #: include/class_acc_ledger_sold.php:650
 #: include/class_acc_ledger_purchase.php:1151
 #: include/class_acc_ledger_sold.php:663
+#: include/class_acc_ledger_purchase.php:1196
+#: include/class_acc_ledger_sold.php:670
 msgid "verifie CA"
 msgstr "Check CA"
 
@@ -3042,6 +3329,9 @@ msgstr "Check CA"
 #: include/class_acc_ledger_sold.php:879
 #: include/class_acc_ledger_purchase.php:747
 #: include/class_acc_ledger_sold.php:892
+#: include/class_acc_ledger.php:1164
+#: include/class_acc_ledger_purchase.php:786
+#: include/class_acc_ledger_sold.php:902
 msgid "Aucune période ouverte"
 msgstr "No periode opened"
 
@@ -3061,6 +3351,9 @@ msgstr "No periode opened"
 #: include/class_acc_ledger_sold.php:884
 #: include/class_acc_ledger_purchase.php:754
 #: include/class_acc_ledger_sold.php:897
+#: include/class_acc_ledger.php:1169
+#: include/class_acc_ledger_purchase.php:793
+#: include/class_acc_ledger_sold.php:907
 msgid "Période comptable"
 msgstr "Accounting periode"
 
@@ -3086,6 +3379,9 @@ msgstr "Accounting periode"
 #: include/class_acc_ledger_fin.php:791
 #: include/class_acc_ledger_purchase.php:764
 #: include/class_acc_ledger_sold.php:907
+#: include/class_acc_ledger_fin.php:828
+#: include/class_acc_ledger_purchase.php:803
+#: include/class_acc_ledger_sold.php:917
 msgid "Pas de journal disponible"
 msgstr "No available ledger"
 
@@ -3102,6 +3398,8 @@ msgstr "No available ledger"
 #: include/compta_ven.inc.php:241
 #: include/compta_ach.inc.php:234
 #: include/compta_ven.inc.php:246
+#: include/compta_ach.inc.php:243
+#: include/compta_ven.inc.php:256
 msgid "Effacer "
 msgstr "Remove"
 
@@ -3121,6 +3419,8 @@ msgstr "Remove"
 #: include/class_acc_ledger_sold.php:1111
 #: include/class_acc_ledger_purchase.php:991
 #: include/class_acc_ledger_sold.php:1127
+#: include/class_acc_ledger_purchase.php:1036
+#: include/class_acc_ledger_sold.php:1144
 msgid "Payé par"
 msgstr "Paid by"
 
@@ -3133,12 +3433,14 @@ msgstr "No card category is matching"
 #: html/ajax_card.php:162
 #: html/ajax_card.php:173
 #: html/ajax_card.php:171
+#: html/ajax_card.php:170
 msgid "Fiche contenant"
 msgstr "Card containing"
 
 #: include/class_ipopup.php:94
 #: include/class_ipopup.php:96
 #: include/class_ipopup.php:100
+#: include/class_ipopup.php:110
 #, php-format
 msgid "Fermer"
 msgstr "close"
@@ -3149,12 +3451,14 @@ msgstr "close"
 #: include/class_acc_ledger_purchase.php:65
 #: include/class_acc_ledger_purchase.php:68
 #: include/class_acc_ledger_sold.php:61
+#: include/class_acc_ledger_purchase.php:67
 msgid "Double Encodage"
 msgstr "Double entries"
 
 #: include/class_acc_ledger_purchase.php:64
 #: include/class_acc_ledger_purchase.php:69
 #: include/class_acc_ledger_purchase.php:72
+#: include/class_acc_ledger_purchase.php:71
 msgid "Vous n'avez pas donné de fournisseur"
 msgstr "You haven't give any supplier"
 
@@ -3165,6 +3469,8 @@ msgstr "You haven't give any supplier"
 #: include/class_acc_ledger_sold.php:72
 #: include/class_acc_ledger_purchase.php:76
 #: include/class_acc_ledger_sold.php:73
+#: html/annulation.php:133
+#: include/class_acc_ledger_purchase.php:75
 msgid "Date invalide"
 msgstr "Invalid date"
 
@@ -3177,6 +3483,7 @@ msgstr "Invalid date"
 #: include/class_acc_ledger_sold.php:84
 #: include/class_acc_ledger_purchase.php:88
 #: include/class_acc_ledger_sold.php:85
+#: include/class_acc_ledger_purchase.php:87
 msgid "Date et periode ne correspondent pas"
 msgstr "Date and period do not match"
 
@@ -3189,6 +3496,7 @@ msgstr "Date and period do not match"
 #: include/class_acc_ledger_sold.php:93
 #: include/class_acc_ledger_purchase.php:93
 #: include/class_acc_ledger_sold.php:94
+#: include/class_acc_ledger_purchase.php:92
 msgid "Periode fermee"
 msgstr "Closed Periode"
 
@@ -3198,6 +3506,7 @@ msgstr "Closed Periode"
 #: include/class_acc_ledger_fin.php:91
 #: include/class_acc_ledger_purchase.php:99
 #: include/class_acc_ledger_purchase.php:102
+#: include/class_acc_ledger_purchase.php:101
 msgid "Vous utilisez le mode strict la dernière operation est à la date du "
 msgstr "You're using the strict the last accounting entry is on"
 
@@ -3263,6 +3572,13 @@ msgstr "You cannot enter an accounting entry"
 #: include/class_acc_ledger_sold.php:157
 #: include/class_acc_ledger_sold.php:162
 #: include/class_acc_ledger_sold.php:182
+#: include/class_acc_ledger_purchase.php:112
+#: include/class_acc_ledger_purchase.php:149
+#: include/class_acc_ledger_purchase.php:162
+#: include/class_acc_ledger_purchase.php:189
+#: include/class_acc_ledger_sold.php:159
+#: include/class_acc_ledger_sold.php:164
+#: include/class_acc_ledger_sold.php:184
 msgid "La fiche "
 msgstr "The card"
 
@@ -3284,6 +3600,8 @@ msgstr "The card"
 #: include/class_acc_ledger_purchase.php:174
 #: include/class_acc_ledger_sold.php:111
 #: include/class_acc_ledger_sold.php:153
+#: include/class_acc_ledger_purchase.php:112
+#: include/class_acc_ledger_purchase.php:168
 msgid "n'a pas de poste comptable"
 msgstr "has no accounting entry"
 
@@ -3307,6 +3625,9 @@ msgstr "has no accounting entry"
 #: include/class_acc_ledger_purchase.php:189
 #: include/class_acc_ledger_sold.php:127
 #: include/class_acc_ledger_sold.php:176
+#: include/class_acc_ledger_purchase.php:127
+#: include/class_acc_ledger_purchase.php:183
+#: include/class_acc_ledger_sold.php:178
 msgid "Pour la fiche "
 msgstr "For the card"
 
@@ -3325,6 +3646,8 @@ msgstr "For the card"
 #: include/class_acc_ledger_purchase.php:128
 #: include/class_acc_ledger_sold.php:127
 #: include/class_acc_ledger_sold.php:176
+#: include/class_acc_ledger_purchase.php:127
+#: include/class_acc_ledger_sold.php:178
 msgid " le poste comptable ["
 msgstr " The accounting item ["
 
@@ -3343,6 +3666,9 @@ msgstr " The accounting item ["
 #: include/class_acc_ledger_purchase.php:128
 #: include/class_acc_ledger_purchase.php:189
 #: include/class_acc_ledger_sold.php:176
+#: include/class_acc_ledger_purchase.php:127
+#: include/class_acc_ledger_purchase.php:183
+#: include/class_acc_ledger_sold.php:178
 msgid "n'existe pas"
 msgstr "does not exist"
 
@@ -3366,6 +3692,9 @@ msgstr "does not exist"
 #: include/class_acc_ledger_purchase.php:195
 #: include/class_acc_ledger_sold.php:134
 #: include/class_acc_ledger_sold.php:182
+#: include/class_acc_ledger_purchase.php:133
+#: include/class_acc_ledger_purchase.php:189
+#: include/class_acc_ledger_sold.php:184
 msgid "n'est pas accessible à ce journal"
 msgstr "is not allowed for this ledger"
 
@@ -3374,6 +3703,7 @@ msgstr "is not allowed for this ledger"
 #: include/class_acc_ledger_purchase.php:143
 #: include/class_acc_ledger_purchase.php:148
 #: include/class_acc_ledger_purchase.php:157
+#: include/class_acc_ledger_purchase.php:149
 msgid "a un montant invalide"
 msgstr "has an invalid amount"
 
@@ -3382,6 +3712,7 @@ msgstr "has an invalid amount"
 #: include/class_acc_ledger_purchase.php:145
 #: include/class_acc_ledger_purchase.php:150
 #: include/class_acc_ledger_purchase.php:159
+#: include/class_acc_ledger_purchase.php:151
 msgid "a une quantité invalide"
 msgstr "has an invalid quantity"
 
@@ -3390,6 +3721,7 @@ msgstr "has an invalid quantity"
 #: include/class_acc_ledger_purchase.php:166
 #: include/class_acc_ledger_purchase.php:171
 #: include/class_acc_ledger_purchase.php:189
+#: include/class_acc_ledger_purchase.php:183
 msgid " le poste comptable"
 msgstr " the accounting item"
 
@@ -3403,6 +3735,8 @@ msgstr " the accounting item"
 #: include/class_acc_ledger_sold.php:175
 #: include/class_acc_ledger_purchase.php:199
 #: include/class_acc_ledger_sold.php:186
+#: include/class_acc_ledger_purchase.php:211
+#: include/class_acc_ledger_sold.php:188
 msgid "Il n'y a aucune marchandise"
 msgstr "There is no item"
 
@@ -3425,6 +3759,8 @@ msgstr "All the purchase ledgers"
 #: include/class_acc_ledger_purchase.php:1008
 #: include/class_acc_ledger_purchase.php:714
 #: include/class_acc_ledger_purchase.php:1030
+#: include/class_acc_ledger_purchase.php:753
+#: include/class_acc_ledger_purchase.php:1075
 msgid "En-tête facture fournisseur"
 msgstr "Header invoice supplier"
 
@@ -3435,6 +3771,7 @@ msgstr "Header invoice supplier"
 #: include/class_acc_ledger_purchase.php:691
 #: include/class_acc_ledger_purchase.php:696
 #: include/class_acc_ledger_purchase.php:715
+#: include/class_acc_ledger_purchase.php:754
 msgid "Détail articles acheté"
 msgstr "Details item"
 
@@ -3445,6 +3782,7 @@ msgstr "Details item"
 #: include/class_acc_ledger_purchase.php:799
 #: include/class_acc_ledger_purchase.php:804
 #: include/class_acc_ledger_purchase.php:823
+#: include/class_acc_ledger_purchase.php:863
 msgid "Fournisseur "
 msgstr "Supplier"
 
@@ -3456,6 +3794,7 @@ msgstr "Supplier"
 #: include/class_acc_ledger_purchase.php:1020
 #: include/class_acc_ledger_purchase.php:1025
 #: include/class_acc_ledger_purchase.php:1047
+#: include/class_acc_ledger_purchase.php:1092
 msgid "Détail articles achetés"
 msgstr "Detail items"
 
@@ -3467,6 +3806,7 @@ msgstr "Detail items"
 #: include/class_acc_ledger_purchase.php:1137
 #: include/class_acc_ledger_purchase.php:1142
 #: include/class_acc_ledger_purchase.php:1164
+#: include/class_acc_ledger_purchase.php:1209
 msgid "TVA à "
 msgstr "VAT "
 
@@ -3487,6 +3827,8 @@ msgstr "VAT "
 #: include/class_acc_ledger_sold.php:748
 #: include/class_acc_ledger_purchase.php:1246
 #: include/class_acc_ledger_sold.php:761
+#: include/class_acc_ledger_purchase.php:1291
+#: include/class_acc_ledger_sold.php:768
 msgid "Ajoutez une pièce justificative "
 msgstr "Add a receipt"
 
@@ -3515,6 +3857,8 @@ msgstr "or generate an expense report"
 #: include/class_acc_ledger_sold.php:796
 #: include/class_acc_ledger_purchase.php:1294
 #: include/class_acc_ledger_sold.php:809
+#: include/class_acc_ledger_purchase.php:1339
+#: include/class_acc_ledger_sold.php:816
 msgid "Echeance dépassée"
 msgstr "Missed deadline"
 
@@ -3535,6 +3879,8 @@ msgstr "Missed deadline"
 #: include/class_acc_ledger_sold.php:798
 #: include/class_acc_ledger_purchase.php:1296
 #: include/class_acc_ledger_sold.php:811
+#: include/class_acc_ledger_purchase.php:1341
+#: include/class_acc_ledger_sold.php:818
 msgid "Non Payée"
 msgstr "Not paid"
 
@@ -3593,6 +3939,7 @@ msgstr " has an invalid quantity"
 #: include/class_acc_ledger_sold.php:751
 #: include/class_acc_ledger_sold.php:755
 #: include/class_acc_ledger_sold.php:768
+#: include/class_acc_ledger_sold.php:775
 msgid "ou générer une facture"
 msgstr "or generate an invoice"
 
@@ -3609,6 +3956,8 @@ msgstr "or generate an invoice"
 #: include/class_acc_ledger_sold.php:766
 #: include/class_acc_ledger_purchase.php:1264
 #: include/class_acc_ledger_sold.php:779
+#: include/class_acc_ledger_purchase.php:1309
+#: include/class_acc_ledger_sold.php:786
 msgid "Numero de bon de commande : "
 msgstr "Number of ordering"
 
@@ -3625,6 +3974,8 @@ msgstr "Number of ordering"
 #: include/class_acc_ledger_sold.php:767
 #: include/class_acc_ledger_purchase.php:1265
 #: include/class_acc_ledger_sold.php:780
+#: include/class_acc_ledger_purchase.php:1310
+#: include/class_acc_ledger_sold.php:787
 msgid "Autre information : "
 msgstr "Other info"
 
@@ -3637,6 +3988,7 @@ msgstr "Other info"
 #: include/class_acc_ledger_sold.php:853
 #: include/class_acc_ledger_sold.php:857
 #: include/class_acc_ledger_sold.php:870
+#: include/class_acc_ledger_sold.php:880
 msgid "Echéance"
 msgstr "Date Limit"
 
@@ -3645,14 +3997,17 @@ msgid "Aucune catégorie de fiche ne correspondant a votre demande"
 msgstr "No category matches your request"
 
 #: html/ajax_card.php:237
+#: html/ajax_card.php:236
 msgid " de clients"
 msgstr " of customes"
 
 #: html/ajax_card.php:241
+#: html/ajax_card.php:240
 msgid " de fournisseurs"
 msgstr " of suppliers"
 
 #: html/ajax_card.php:245
+#: html/ajax_card.php:244
 msgid " d'administration"
 msgstr " of administration"
 
@@ -3667,22 +4022,32 @@ msgstr " of administration"
 #: include/adm.inc.php:141
 #: include/client.inc.php:140
 #: include/supplier.inc.php:139
+#: html/ajax_card.php:250
+#: include/adm.inc.php:44
+#: include/adm.inc.php:140
+#: include/client.inc.php:43
+#: include/client.inc.php:139
+#: include/supplier.inc.php:43
+#: include/supplier.inc.php:137
 msgid "Ajout d'une catégorie"
 msgstr "Add a category"
 
 #: html/ajax_card.php:293
 #: html/ajax_card.php:295
 #: html/ajax_card.php:298
+#: html/ajax_card.php:297
 msgid "Catégorie sauvée"
 msgstr "Category saved"
 
 #: html/ajax_card.php:295
 #: html/ajax_card.php:298
 #: html/ajax_card.php:301
+#: html/ajax_card.php:300
 msgid "Le nom et la classe base ne peuvent être vide"
 msgstr "The name and the accounting base can not be empty"
 
 #: html/import.php:103
+#: html/import.php:100
 msgid "Choississez la période à transfèrer"
 msgstr "Choose the periode to transfert"
 
@@ -3690,6 +4055,7 @@ msgstr "Choose the periode to transfert"
 #: include/class_acc_ledger_purchase.php:95
 #: include/class_acc_ledger_purchase.php:100
 #: include/class_acc_ledger_purchase.php:103
+#: include/class_acc_ledger_purchase.php:102
 msgid " vous ne pouvez pas encoder à une  date antérieure dans ce journal"
 msgstr " You cannot add an entry before the last operation of this ledger"
 
@@ -3721,10 +4087,12 @@ msgid "poste comptable Destination"
 msgstr "Accounting item target"
 
 #: include/import_inc.php:167
+#: include/import_inc.php:164
 msgid "Enlever"
 msgstr "Remove"
 
 #: include/import_inc.php:183
+#: include/import_inc.php:179
 msgid " opérations à complèter"
 msgstr " operation to complete"
 
@@ -3732,37 +4100,45 @@ msgstr " operation to complete"
 #: include/import_inc.php:271
 #: include/import_inc.php:210
 #: include/import_inc.php:269
+#: include/import_inc.php:206
+#: include/import_inc.php:265
 msgid "Vous devez selectionner votre période dans vos préférences"
 msgstr "You have to select a period in your preference"
 
 #: include/import_inc.php:227
 #: include/import_inc.php:225
+#: include/import_inc.php:221
 msgid "opérations à transfèrer"
 msgstr "Operation to transfert"
 
 #: include/import_inc.php:245
 #: include/import_inc.php:243
+#: include/import_inc.php:239
 msgid "Commencer le transfert"
 msgstr "Start the transfert"
 
 #: include/import_inc.php:323
 #: include/import_inc.php:321
+#: include/import_inc.php:317
 msgid "Poste comptable erronné pour l'opération "
 msgstr "Wrong accounting item for the operation"
 
 #: include/import_inc.php:373
 #: include/import_inc.php:371
+#: include/import_inc.php:367
 msgid "Tranfert de l'opération "
 msgstr "Transfert of the operation"
 
 #: include/import_inc.php:373
 #: include/import_inc.php:371
+#: include/import_inc.php:367
 msgid " effectué"
 msgstr "Done"
 
 #: include/import_inc.php:412
 #: include/import_inc.php:415
 #: include/import_inc.php:413
+#: include/import_inc.php:409
 msgid "Import fiche"
 msgstr "Import Card"
 
@@ -3785,6 +4161,7 @@ msgstr "Except if you give another accounting item when you create the card"
 #: include/class_acc_ledger_purchase.php:1215
 #: include/class_acc_ledger_purchase.php:1220
 #: include/class_acc_ledger_purchase.php:1242
+#: include/class_acc_ledger_purchase.php:1287
 msgid "Document à générer"
 msgstr "Document to generate"
 
@@ -3801,11 +4178,13 @@ msgstr "No period found"
 
 #: html/ajax_card.php:131
 #: html/ajax_card.php:125
+#: html/ajax_card.php:124
 msgid "Aucune catégorie de fiche ne correspondant à votre demande"
 msgstr "No category of card is matching"
 
 #: html/ajax_card.php:293
 #: html/ajax_card.php:296
+#: html/ajax_card.php:295
 msgid "Catégorie existe déjà"
 msgstr "Category already exists"
 
@@ -3848,6 +4227,7 @@ msgstr "return to the dashboard"
 #: html/extension.php:78
 #: html/extension.php:76
 #: html/extension.php:80
+#: html/extension.php:81
 msgid "Aucune extension  disponible"
 msgstr "No available plugin"
 
@@ -3866,12 +4246,14 @@ msgstr "No available plugin"
 #: include/user_menu.php:452
 #: include/user_menu.php:340
 #: include/user_menu.php:453
+#: html/extension.php:89
 msgid "Extension"
 msgstr "Plugin"
 
 #: html/extension.php:86
 #: html/extension.php:84
 #: html/extension.php:88
+#: html/extension.php:89
 msgid "Choix de l'extension"
 msgstr "Choice of the plugin"
 
@@ -3885,16 +4267,19 @@ msgstr "You cannot use this plugin, contact your administrator"
 #: html/ajax.php:33
 #: include/ext_inc.php:20
 #: include/ext_inc.php:22
+#: html/ajax.php:32
 msgid "Cette extension n'existe pas "
 msgstr "This plugin do not exist"
 
 #: html/parametre.php:156
 #: html/parametre.php:135
+#: html/parametre.php:134
 msgid "Moyen de paiement"
 msgstr "Payment middle"
 
 #: html/parametre.php:157
 #: html/parametre.php:136
+#: html/parametre.php:135
 msgid "Taux et poste comptable tva"
 msgstr "Rate and accounting entry"
 
@@ -3919,95 +4304,111 @@ msgstr "not used"
 #: html/parametre.php:265
 #: html/parametre.php:271
 #: html/parametre.php:283
+#: html/parametre.php:287
 msgid "Nom société"
 msgstr "Company name"
 
 #: html/parametre.php:266
 #: html/parametre.php:272
 #: html/parametre.php:284
+#: html/parametre.php:288
 msgid "Téléphone"
 msgstr "Phone"
 
 #: html/parametre.php:267
 #: html/parametre.php:273
 #: html/parametre.php:285
+#: html/parametre.php:289
 msgid "Fax"
 msgstr "Fax"
 
 #: html/parametre.php:268
 #: html/parametre.php:274
 #: html/parametre.php:286
+#: html/parametre.php:290
 msgid "Rue "
 msgstr "Street"
 
 #: html/parametre.php:269
 #: html/parametre.php:275
 #: html/parametre.php:287
+#: html/parametre.php:291
 msgid "Numéro"
 msgstr "Number"
 
 #: html/parametre.php:270
 #: html/parametre.php:276
 #: html/parametre.php:288
+#: html/parametre.php:292
 msgid "Code Postal"
 msgstr "ZIP Code"
 
 #: html/parametre.php:271
 #: html/parametre.php:277
 #: html/parametre.php:289
+#: html/parametre.php:293
 msgid "Commune"
 msgstr "Department"
 
 #: html/parametre.php:272
 #: html/parametre.php:278
 #: html/parametre.php:290
+#: html/parametre.php:294
 msgid "Pays"
 msgstr "Country"
 
 #: html/parametre.php:273
 #: html/parametre.php:279
 #: html/parametre.php:291
+#: html/parametre.php:295
 msgid "Numéro de Tva"
 msgstr "VAT Number"
 
 #: html/parametre.php:275
 #: html/parametre.php:281
 #: html/parametre.php:293
+#: html/parametre.php:297
 msgid "Utilisation de la compta. analytique"
 msgstr "Use of the analytic accountancy"
 
 #: html/parametre.php:277
 #: html/parametre.php:283
 #: html/parametre.php:295
+#: html/parametre.php:299
 msgid "Utilisation du mode strict "
 msgstr "Use of the strict mode"
 
 #: html/parametre.php:279
 #: html/parametre.php:285
 #: html/parametre.php:297
+#: html/parametre.php:301
 msgid "Assujetti à la tva"
 msgstr "VAT users"
 
 #: html/parametre.php:280
 #: html/parametre.php:286
 #: html/parametre.php:298
+#: html/parametre.php:302
 msgid "Suggérer le numéro de pièce justificative"
 msgstr "Suggest the receipt number"
 
 #: html/parametre.php:281
 #: html/parametre.php:287
 #: html/parametre.php:299
+#: html/parametre.php:304
 msgid "Afficher la période comptable pour éviter les erreurs de date"
 msgstr "Display the accounting periode to avoid date errors"
 
 #: include/action.common.inc.php:235
 #: include/action.common.inc.php:240
+#: include/action.common.inc.php:238
 msgid "Recherche avancée"
 msgstr "Advanced search"
 
 #: include/action.common.inc.php:274
 #: include/action.common.inc.php:285
 #: include/action.common.inc.php:290
+#: include/action.common.inc.php:287
 msgid "affecté à d'autre:"
 msgstr "Concerned other"
 
@@ -4017,6 +4418,8 @@ msgstr "Concerned other"
 #: include/action.common.inc.php:318
 #: include/action.common.inc.php:309
 #: include/action.common.inc.php:323
+#: include/action.common.inc.php:306
+#: include/action.common.inc.php:320
 msgid "Afficher Recherche"
 msgstr "Display search"
 
@@ -4026,6 +4429,8 @@ msgstr "Display search"
 #: include/action.common.inc.php:318
 #: include/action.common.inc.php:309
 #: include/action.common.inc.php:323
+#: include/action.common.inc.php:306
+#: include/action.common.inc.php:320
 msgid "Cache Recherche"
 msgstr "Hide search"
 
@@ -4086,14 +4491,17 @@ msgstr "Operation list"
 #: include/class_action.php:376
 #: include/class_action.php:386
 #: include/class_action.php:387
+#: include/class_action.php:385
 msgid "Génére le document"
 msgstr "Generate the document"
 
 #: include/class_anc_account.php:271
+#: include/class_anc_account.php:269
 msgid "Plan Analytique"
 msgstr "Analytical"
 
 #: include/class_anc_account.php:276
+#: include/class_anc_account.php:274
 msgid "Groupe"
 msgstr "Group"
 
@@ -4110,14 +4518,17 @@ msgid "D/C"
 msgstr "D/C"
 
 #: include/class_anc_print.php:89
+#: include/class_anc_print.php:88
 msgid "Aucun plan défini"
 msgstr "No plan defined"
 
 #: include/class_anc_print.php:114
+#: include/class_anc_print.php:113
 msgid "Les dates sont en format DD.MM.YYYY"
 msgstr "The date format are DD.MM.YYYY"
 
 #: include/class_anc_print.php:136
+#: include/class_anc_print.php:135
 msgid "Selectionnez le plan qui vous intéresse avant de cliquer sur Recherche"
 msgstr "Select the plan before clicking on search"
 
@@ -4173,6 +4584,7 @@ msgstr "Sunday"
 
 #: include/class_fiche.php:304
 #: include/class_fiche.php:315
+#: include/class_fiche.php:313
 msgid "Cette categorie de card n'existe pas"
 msgstr "This category do not exist"
 
@@ -4255,11 +4667,13 @@ msgstr "return to suppliers"
 
 #: include/template/dashboard.php:10
 #: include/template/dashboard.php:125
+#: include/template/dashboard.php:123
 msgid "Dernières opérations"
 msgstr "Last entries"
 
 #: include/template/dashboard.php:40
 #: include/template/dashboard.php:155
+#: include/template/dashboard.php:153
 msgid "Dernières actions"
 msgstr "Last actions"
 
@@ -4366,6 +4780,7 @@ msgstr "You didn't give any bank"
 #: include/class_acc_ledger_fin.php:790
 #: include/class_acc_ledger_fin.php:795
 #: include/class_acc_ledger_fin.php:794
+#: include/class_acc_ledger_fin.php:831
 msgid "Tous les journaux financiers"
 msgstr "All the financial ledgers"
 
@@ -4393,6 +4808,10 @@ msgstr "Do you confirm the removal "
 #: html/ajax_card.php:158
 #: html/ajax_card.php:278
 #: html/ajax_card.php:309
+#: html/ajax_card.php:106
+#: html/ajax_card.php:157
+#: html/ajax_card.php:277
+#: html/ajax_card.php:308
 msgid "Action interdite"
 msgstr "Forbidden action"
 
@@ -4401,6 +4820,7 @@ msgid "Aucune catégorie de fiche ne correspondant à"
 msgstr "No category is matching"
 
 #: html/parametre.php:138
+#: html/parametre.php:137
 msgid "Modifie les classe de base, les attribut,..."
 msgstr "Modify the account base, attributes...."
 
@@ -4414,6 +4834,8 @@ msgstr "Modify the account base, attributes...."
 #: include/class_acc_ledger_sold.php:404
 #: include/class_acc_ledger_purchase.php:570
 #: include/class_acc_ledger_sold.php:415
+#: include/class_acc_ledger_purchase.php:579
+#: include/class_acc_ledger_sold.php:422
 msgid "Document généré"
 msgstr "Generated document"
 
@@ -4422,10 +4844,12 @@ msgstr "Generated document"
 #: include/class_acc_ledger_purchase.php:547
 #: include/class_acc_ledger_purchase.php:552
 #: include/class_acc_ledger_purchase.php:571
+#: include/class_acc_ledger_purchase.php:580
 msgid "Note de frais"
 msgstr "Note of free"
 
 #: include/class_document.php:258
+#: include/class_document.php:240
 msgid "Ne peut pas sauver "
 msgstr "Cannot save"
 
@@ -4459,6 +4883,8 @@ msgstr "Until"
 
 #: html/ajax_card.php:261
 #: include/class_acc_report.php:142
+#: html/ajax_card.php:260
+#: include/class_acc_report.php:141
 msgid "Recherche poste"
 msgstr "Search account"
 
@@ -4469,11 +4895,13 @@ msgstr "Select the plan you are interested before clicking on Search"
 
 #: include/action.common.inc.php:273
 #: include/action.common.inc.php:278
+#: include/action.common.inc.php:275
 msgid "Tous les types"
 msgstr "Any types"
 
 #: include/action.common.inc.php:282
 #: include/action.common.inc.php:287
+#: include/action.common.inc.php:284
 msgid "les actions fermées aussi:"
 msgstr "The closed items"
 
@@ -4481,19 +4909,23 @@ msgstr "The closed items"
 #: include/class_acc_ledger_purchase.php:1226
 #: include/class_acc_ledger_purchase.php:1231
 #: include/class_acc_ledger_purchase.php:1253
+#: include/class_acc_ledger_purchase.php:1298
 msgid "ou générer un document"
 msgstr "or generate a document"
 
 #: include/compta_ach.inc.php:59
 #: include/compta_ach.inc.php:62
+#: include/compta_ach.inc.php:72
 msgid "Fournisseurs"
 msgstr "Suppliers"
 
 #: html/annulation.php:143
+#: html/annulation.php:142
 msgid "Période ou date incorrecte"
 msgstr "Wrong date"
 
 #: html/annulation.php:149
+#: html/annulation.php:148
 msgid "Cette période est fermée"
 msgstr "This periode is closed"
 
@@ -4538,6 +4970,7 @@ msgstr "With the card"
 #: include/class_acc_ledger_sold.php:714
 #: include/class_acc_ledger_sold.php:718
 #: include/class_acc_ledger_sold.php:731
+#: include/class_acc_ledger_sold.php:738
 msgid "Payé par "
 msgstr "Paid by"
 
@@ -4551,61 +4984,73 @@ msgid " paiement par "
 msgstr "Paid by"
 
 #: include/class_anc_print.php:122
+#: include/class_anc_print.php:121
 msgid "Plan Analytique :"
 msgstr "Analytic Plan"
 
 #: include/class_anc_print.php:126
+#: include/class_anc_print.php:125
 msgid "Entre le poste "
 msgstr "Between the account"
 
 #: include/class_anc_print.php:128
+#: include/class_anc_print.php:127
 msgid "Choix Poste"
 msgstr "Account choice"
 
 #: include/class_anc_print.php:133
+#: include/class_anc_print.php:132
 msgid " et le poste "
 msgstr "and the account"
 
 #: include/fiche.inc.php:71
+#: include/fiche.inc.php:69
 msgid "Recherche :"
 msgstr "search :"
 
 #: include/jrn.php:291
 #: include/jrn.php:292
+#: include/jrn.php:287
 msgid "Echéance "
 msgstr "Limit of payment"
 
 #: include/class_fiche.php:1076
 #: include/class_fiche.php:1078
 #: include/class_fiche.php:1040
+#: include/class_fiche.php:1017
 msgid "Code interne"
 msgstr "Internal code"
 
 #: include/class_fiche.php:1248
 #: include/class_fiche.php:1250
 #: include/class_fiche.php:1212
+#: include/class_fiche.php:1189
 msgid "Quick Code"
 msgstr "Quick Code"
 
 #: include/class_fiche.php:1250
 #: include/class_fiche.php:1252
 #: include/class_fiche.php:1214
+#: include/class_fiche.php:1191
 msgid "Adresse"
 msgstr "Address"
 
 #: include/class_fiche.php:1251
 #: include/class_fiche.php:1253
 #: include/class_fiche.php:1215
+#: include/class_fiche.php:1192
 msgid "Total débit"
 msgstr "Total Debit"
 
 #: include/class_fiche.php:1252
 #: include/class_fiche.php:1254
 #: include/class_fiche.php:1216
+#: include/class_fiche.php:1193
 msgid "Total crédit"
 msgstr "Total credit"
 
 #: include/client.inc.php:72
+#: include/client.inc.php:71
 msgid "Vous  ne pouvez pas enlever de fiche"
 msgstr "You can not remove a card"
 
@@ -4633,6 +5078,8 @@ msgstr "Report choice"
 #: include/class_acc_ledger_sold.php:64
 #: include/class_acc_ledger_purchase.php:63
 #: include/class_acc_ledger_sold.php:65
+#: include/class_acc_ledger.php:1343
+#: include/class_acc_ledger_purchase.php:62
 msgid "Accès interdit"
 msgstr "Forbidden access"
 
@@ -4657,10 +5104,12 @@ msgstr ""
 "Use the report of accouting to check</span>"
 
 #: html/parametre.php:139
+#: html/parametre.php:138
 msgid "Catégorie de documents"
 msgstr "Document category"
 
 #: html/parametre.php:139
+#: html/parametre.php:138
 msgid "Ajoute des catégories de documents,..."
 msgstr "Add or remove category of documents"
 
@@ -4669,23 +5118,29 @@ msgid "Attention: la version de base de donnée est supérieure à la version du
 msgstr "Warning the database version is superior to the program, you must upgrade"
 
 #: html/ajax_misc.php:131
+#: html/ajax_misc.php:129
 msgid "code"
 msgstr "code"
 
 #: html/ajax_misc.php:132
+#: html/ajax_misc.php:130
 msgid "Taux"
 msgstr "Rate"
 
 #: html/ajax_misc.php:133
+#: html/ajax_misc.php:131
 msgid "Symbole"
 msgstr "Symbol"
 
 #: html/ajax_misc.php:134
+#: html/ajax_misc.php:132
 msgid "Explication"
 msgstr "Explanation"
 
 #: html/ajax_misc.php:177
 #: html/ajax_misc.php:181
+#: html/ajax_misc.php:175
+#: html/ajax_misc.php:179
 msgid "tva inconnue"
 msgstr "unknown VAT"
 
@@ -4695,40 +5150,56 @@ msgstr "unknown VAT"
 #: include/user_menu.php:198
 #: include/template/letter_all.php:17
 #: include/template/letter_prop.php:20
+#: html/ajax_misc.php:213
+#: include/user_menu.php:197
+#: include/template/letter_prop.php:19
 msgid "Lettrage"
 msgstr "Lettering"
 
 #: html/ajax_misc.php:235
+#: html/ajax_misc.php:232
 msgid "Montant min. "
 msgstr "min amount"
 
 #: html/ajax_misc.php:242
+#: html/ajax_misc.php:239
 msgid "Montant max. "
 msgstr "Max amount"
 
 #: html/ajax_misc.php:264
 #: include/impress_fiche.inc.php:177
+#: html/ajax_misc.php:261
+#: include/impress_fiche.inc.php:176
 msgid "Debit"
 msgstr "Debit"
 
 #: html/ajax_misc.php:265
 #: include/impress_fiche.inc.php:180
+#: html/ajax_misc.php:262
+#: include/impress_fiche.inc.php:179
 msgid "Credit"
 msgstr "Credit"
 
 #: html/ajax_misc.php:266
+#: html/ajax_misc.php:263
 msgid "Les 2"
 msgstr "Both"
 
 #: include/action.common.inc.php:35
 #: include/compta_ach.inc.php:49
 #: include/compta_ven.inc.php:50
+#: include/compta_fin.inc.php:40
+#: include/fiche.inc.php:48
+#: include/quick_writing.inc.php:58
 msgid "Choix TVA"
 msgstr "Choice VAT"
 
 #: include/adm.inc.php:106
 #: include/client.inc.php:105
 #: include/supplier.inc.php:106
+#: include/adm.inc.php:105
+#: include/client.inc.php:104
+#: include/supplier.inc.php:104
 msgid "Catégorie :"
 msgstr "Category"
 
@@ -4736,6 +5207,10 @@ msgstr "Category"
 #: include/class_acc_ledger_purchase.php:168
 #: include/class_acc_ledger_sold.php:157
 #: include/class_acc_ledger_sold.php:162
+#: include/class_acc_ledger_purchase.php:157
+#: include/class_acc_ledger_purchase.php:162
+#: include/class_acc_ledger_sold.php:159
+#: include/class_acc_ledger_sold.php:164
 msgid "a un code tva invalide"
 msgstr "has an invalid VAT code"
 
@@ -4748,38 +5223,47 @@ msgid "Fichier"
 msgstr "File"
 
 #: include/class_document_modele.php:247
+#: include/class_document_modele.php:243
 msgid "Affectation"
 msgstr "Affectation"
 
 #: include/class_document_modele.php:251
+#: include/class_document_modele.php:247
 msgid "Uniquement journaux achat"
 msgstr "Only ledger of purchase"
 
 #: include/class_document_modele.php:252
+#: include/class_document_modele.php:248
 msgid "Uniquement journaux vente"
 msgstr "Only ledger of sales"
 
 #: include/class_document_modele.php:253
+#: include/class_document_modele.php:249
 msgid "Partie gestion"
 msgstr "Management"
 
 #: include/class_itva_popup.php:117
+#: include/class_itva_popup.php:116
 msgid "Le nom ne peut être vide"
 msgstr "The name can not be empty"
 
 #: include/class_itva_popup.php:120
+#: include/class_itva_popup.php:119
 msgid " TVA "
 msgstr "VAT"
 
 #: include/class_periode.php:185
+#: include/class_periode.php:183
 msgid "Confirmez cloture"
 msgstr "Confirm closing"
 
 #: include/class_periode.php:196
+#: include/class_periode.php:194
 msgid "Confirmez effacement ?"
 msgstr "Confirm removal"
 
 #: include/class_periode.php:198
+#: include/class_periode.php:196
 #, php-format
 msgid "Nombre opération %d"
 msgstr "Number of operation %d"
@@ -4790,6 +5274,7 @@ msgid "Opérations & Lettrages"
 msgstr "Operation & Lettering"
 
 #: include/fiche.inc.php:290
+#: include/fiche.inc.php:293
 msgid "Déplacer vers"
 msgstr "Move to"
 
@@ -4810,14 +5295,17 @@ msgid "Résumé"
 msgstr "Summary"
 
 #: include/impress_fiche.inc.php:147
+#: include/impress_fiche.inc.php:146
 msgid "ref"
 msgstr "Ref"
 
 #: include/impress_fiche.inc.php:148
+#: include/impress_fiche.inc.php:147
 msgid "Comm"
 msgstr "Comment"
 
 #: include/impress_fiche.inc.php:150
+#: include/impress_fiche.inc.php:149
 msgid "Let."
 msgstr "Let."
 
@@ -4839,6 +5327,7 @@ msgstr "Lettering by card"
 
 #: include/lettering.account.inc.php:57
 #: include/lettering.card.php:57
+#: include/lettering.account.inc.php:55
 msgid "Lettrage pour le poste comptable "
 msgstr "Lettering for the accounting"
 
@@ -4846,6 +5335,9 @@ msgstr "Lettering for the accounting"
 #: include/lettering.card.inc.php:75
 #: include/lettering.card.php:68
 #: include/lettering.gestion.inc.php:22
+#: include/lettering.account.inc.php:66
+#: include/lettering.card.inc.php:74
+#: include/lettering.gestion.inc.php:21
 msgid "Date début"
 msgstr "Start date"
 
@@ -4853,6 +5345,9 @@ msgstr "Start date"
 #: include/lettering.card.inc.php:81
 #: include/lettering.card.php:74
 #: include/lettering.gestion.inc.php:28
+#: include/lettering.account.inc.php:72
+#: include/lettering.card.inc.php:80
+#: include/lettering.gestion.inc.php:27
 msgid "Date fin"
 msgstr "End date"
 
@@ -4860,6 +5355,9 @@ msgstr "End date"
 #: include/lettering.card.inc.php:88
 #: include/lettering.card.php:81
 #: include/lettering.gestion.inc.php:35
+#: include/lettering.account.inc.php:79
+#: include/lettering.card.inc.php:87
+#: include/lettering.gestion.inc.php:34
 msgid "Toutes opérations"
 msgstr "All operations"
 
@@ -4867,6 +5365,9 @@ msgstr "All operations"
 #: include/lettering.card.inc.php:89
 #: include/lettering.card.php:82
 #: include/lettering.gestion.inc.php:36
+#: include/lettering.account.inc.php:80
+#: include/lettering.card.inc.php:88
+#: include/lettering.gestion.inc.php:35
 msgid "Opérations lettrées"
 msgstr "Lettered operations"
 
@@ -4874,10 +5375,14 @@ msgstr "Lettered operations"
 #: include/lettering.card.inc.php:90
 #: include/lettering.card.php:83
 #: include/lettering.gestion.inc.php:37
+#: include/lettering.account.inc.php:81
+#: include/lettering.card.inc.php:89
+#: include/lettering.gestion.inc.php:36
 msgid "Opérations NON lettrées"
 msgstr "Not Lettered operations"
 
 #: include/lettering.card.inc.php:64
+#: include/lettering.card.inc.php:63
 msgid "Lettrage pour la fiche "
 msgstr "Lettering for the card"
 
@@ -4887,14 +5392,17 @@ msgid "Valeurs invalides"
 msgstr "invalid values"
 
 #: include/user_menu.php:194
+#: include/user_menu.php:193
 msgid "Opération Diverses"
 msgstr "Miscellaneous operation"
 
 #: include/user_menu.php:194
+#: include/user_menu.php:193
 msgid "Journaux d'OD: salaires, déclarations TVA,..."
 msgstr "Ledger for MO : salary, VAT ..."
 
 #: include/user_menu.php:198
+#: include/user_menu.php:197
 msgid "Ajouter, modifier ou effacer des lettrage"
 msgstr "Add, modify or remove lettering"
 
@@ -4908,29 +5416,35 @@ msgstr "until"
 
 #: include/template/letter_all.php:10
 #: include/template/letter_prop.php:10
+#: include/template/letter_prop.php:9
 msgid "Désolé aucun résultat trouvé"
 msgstr "Sorry no data found"
 
 #: include/template/letter_all.php:23
 #: include/template/letter_prop.php:26
+#: include/template/letter_prop.php:25
 msgid "Ref"
 msgstr "Ref"
 
 #: include/template/letter_all.php:32
 #: include/template/letter_prop.php:35
+#: include/template/letter_prop.php:34
 msgid "Debit / Credit"
 msgstr "Debit / Credit"
 
 #: include/template/letter_all.php:35
 #: include/template/letter_prop.php:38
+#: include/template/letter_prop.php:37
 msgid "Op. concerné"
 msgstr "Concerned Op."
 
 #: include/template/letter_prop.php:104
+#: include/template/letter_prop.php:103
 msgid "Total Debit"
 msgstr "Total Debit"
 
 #: include/template/letter_prop.php:105
+#: include/template/letter_prop.php:104
 msgid "Total Credit"
 msgstr "Only Credit"
 
@@ -4945,4 +5459,32 @@ msgstr "Last numbered receipt"
 #: include/template/param_jrn.php:60
 msgid "Laissez à 0 pour ne pas changer le numéro"
 msgstr "0 for no change"
+
+#: html/parametre.php:303
+msgid "Suggérer la date"
+msgstr "Suggest the date"
+
+#: include/class_acc_ledger_purchase.php:205
+msgid "ce code n'a pas de poste comptable, créez ce poste : ["
+msgstr "This code has no accounting, please create it ["
+
+#: include/fiche.inc.php:293
+msgid "Attention, certains attributs pourraient être effacés, vous confirmez ?"
+msgstr "Warning some attributes could be removed, do you confirm"
+
+#: include/param_pcmn.inc.php:53
+msgid "Poste comptable"
+msgstr "Accounting"
+
+#: include/param_pcmn.inc.php:57
+msgid "Parent"
+msgstr "Parent"
+
+#: include/param_pcmn.inc.php:59
+msgid "Type "
+msgstr "Type"
+
+#: include/user_menu.php:392
+msgid " Hors Bilan"
+msgstr "Out Balance Sheet"
 

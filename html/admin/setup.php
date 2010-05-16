@@ -71,6 +71,15 @@ border:groove 2px blue;
  */
 
 $inc_path=get_include_path();
+/**
+ *@brief create correctly the htaccess file
+ *@param
+ *@param
+ *@return
+ *@see
+ */
+function create_htaccess() {
+$inc_path=get_include_path();
 
 if ( strpos($inc_path,";") != 0 ) {
   $new_path=$inc_path.';..\..\include;addon';
@@ -79,28 +88,7 @@ if ( strpos($inc_path,";") != 0 ) {
   $new_path=$inc_path.':../../include:addon';
   $os=1;			/* $os is 1 for unix */
 }
-set_include_path($new_path);
 
-require_once('config_file.php');
-include_once('constant.php');
-require_once('class_database.php');
-
-include_once('ac_common.php');
-
-if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php')) {
-  /* if the config file is not found we propose to create one */
-  if ( is_writable ('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'constant.php') == false ) {
-    echo '<h2 class="error"> On ne peut pas &eacute;crire dans le r&eacute;pertoire de phpcompta, changez-en les droits </h2>';
-    exit();
-  }
-
-  echo '<form method="post">';
-  echo '<h1 class="info">Entrez les informations n&eacute;cessaires &agrave; phpcompta</h1>';
-  echo config_file_form();
-  echo HtmlInput::submit('save_config','Sauver la configuration');
-  echo '</form>';
-  exit();
-  }
 /* If htaccess file doesn't exists we create them here
  * if os == 1 then windows, 0 means Unix
  */
@@ -133,16 +121,46 @@ $file='..'.DIRECTORY_SEPARATOR.'.htaccess';
     fwrite($hFile,'php_value include_path .:../../include:../include:addon'."\n");
   foreach ($array as $value ) fwrite($hFile,$value."\n");
   fclose($hFile);
+}
+
+if ( strpos($inc_path,";") != 0 ) {
+  $new_path=$inc_path.';..\..\include;addon';
+  $os=0;			/* $os is 0 for windoz */
+} else {
+  $new_path=$inc_path.':../../include:addon';
+  $os=1;			/* $os is 1 for unix */
+}
+set_include_path($new_path);
 /* The config file is created here */
 if (isset($_POST['save_config'])) {
+  require_once('config_file.php');
   $url=config_file_create($_POST,1,$os);
 echo '
 <form method="post" >
     Les informations sont sauv&eacute;es vous pouvez continuer
 <input type="submit" value="Continuer">
 </form>';
+create_htaccess();
  exit();
  }
+
+if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php')) {
+  /* if the config file is not found we propose to create one */
+  if ( is_writable ('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'constant.php') == false ) {
+    echo '<h2 class="error"> On ne peut pas &eacute;crire dans le r&eacute;pertoire de phpcompta, changez-en les droits </h2>';
+    exit();
+  }
+
+  echo '<form method="post">';
+  echo '<h1 class="info">Entrez les informations n&eacute;cessaires &agrave; phpcompta</h1>';
+  require_once('config_file.php');
+  
+  echo config_file_form();
+  echo HtmlInput::submit('save_config','Sauver la configuration');
+  echo '</form>';
+  exit();
+  }
+create_htaccess();
 
 //----------------------------------------------------------------------
 // End functions
@@ -154,6 +172,12 @@ echo '
 // magic_quotes_runtime = Off
 // magic_quotes_sybase = Off
 // include_path
+
+?>
+<?
+require_once('config_file.php');
+include_once('constant.php');
+require_once('class_database.php');
 
 ?>
 <h2>Info</h2>
@@ -254,6 +278,8 @@ if ( $Res==0) { ?>
 </p>
 
 <?php exit(); }
+
+include_once('ac_common.php');
 
 // Memory setting
 //--

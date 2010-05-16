@@ -27,6 +27,9 @@
  */
 function todo_list_show(p_id) {
     var gDossier=$('gDossier').value;
+   $('add_todo_list').style.top=posY+offsetY;
+    $('add_todo_list').style.left=posX+offsetX;
+
     try {
     var action=new Ajax.Request(
 	'todo_list.php',

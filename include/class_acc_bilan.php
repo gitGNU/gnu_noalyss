@@ -298,6 +298,8 @@ class Acc_Bilan {
 	  //echo "<br>".$form;
 	  $a=ParseFormula($this->db,"$buffer",$buffer,$this->from,$this->to,false);
 	  $b=str_replace("$","\$this->",$a);
+	 if ( eval("$b;") === false ) 
+		echo_debug(__FILE__,__LINE__,"Code failed with $b");
 	  
 	  
 	}// end read form line per line

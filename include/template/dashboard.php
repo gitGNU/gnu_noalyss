@@ -57,7 +57,7 @@ if ( ! empty ($array) )  {
       $row['tl_date'].
       '</td>'.
       '<td>'.
-      '<a href="javascript:void" onclick="todo_list_show(\''.$row['tl_id'].'\')">'.
+      '<a href="javascript:void(0)" onclick="todo_list_show(\''.$row['tl_id'].'\')">'.
       htmlspecialchars($row['tl_title']).
       '</a>'.
        '</td>'.
