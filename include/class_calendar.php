@@ -51,7 +51,8 @@ class Calendar {
     $array=$cn->get_array($sql,array($this->month,$this->year,$_SESSION['g_user']));
     for ($i=0;$i<count($array);$i++) {
       $ind=$array[$i]['ag_timestamp_day'];
-      $p_array[$ind]='<A HREF="commercial.php?'.dossier::get().'&p_action=suivi_courrier&sa=detail&ag_id='.$array[$i]['ag_id'].'">';
+      $p_array[$ind]=(isset($p_array[$ind]))?$p_array[$ind]:'';
+      $p_array[$ind].='<A HREF="commercial.php?'.dossier::get().'&p_action=suivi_courrier&sa=detail&ag_id='.$array[$i]['ag_id'].'">';
       $p_array[$ind].="<span class=\"day\">".h($array[$i]['ag_title_fmt']).'</span>';
       $p_array[$ind].="</A>";
 

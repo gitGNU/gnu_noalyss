@@ -774,7 +774,8 @@ class Action
       $step=$_SESSION['g_pagesize'];
       $page=(isset($_GET['offset']))?$_GET['page']:1;
       $offset=(isset($_GET['offset']))?Database::escape_string($_GET['offset']):0;
-      $limit=" LIMIT $step OFFSET $offset ";  
+      if ( $step != -1 ) $limit=" LIMIT $step OFFSET $offset ";  
+      else $limit='';
       $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
       $Res=$this->db->exec_sql($sql.$limit);
@@ -796,7 +797,7 @@ class Action
       // if there are no records return a message
       if ( sizeof ($a_row) == 0 or $a_row == false ) 
 	{
-	  $r='<div class="u_redcontent">';
+	  $r='<div style="clear:both">';
 	  $r.='<hr>Aucun enregistrement trouvé';
 	  $r.="</div>";
 	  return $r;

@@ -57,7 +57,7 @@ function PcmnUpdate(p_value,p_lib,p_parent,p_type,p_dossier)
  * - account the tag which will contains the  number
  * - label the tag which will contains the label
  * - bracket if the value must be surrounded by [ ]
- * - query for the initial query
+ * - acc_query for the initial query
  *\see ajax_poste.php
  */
 function search_poste(obj) {
@@ -76,7 +76,7 @@ function search_poste(obj) {
 	if( obj.no_overwrite) {queryString+="&nover";}
 	if( obj.bracket) {queryString+="&bracket";}
 	if ( ! obj.noquery) {
-	    if( obj.query) {queryString+="&q="+obj.query;}
+	    if( obj.acc_query) {queryString+="&q="+obj.acc_query;}
 	    else {
 		if ($(obj).account) {
 		    var e=$(obj).account;
@@ -113,7 +113,7 @@ function search_get_poste(obj) {
     if ( obj.elements['jrn'] ) { queryString+="&j="+$F('jrn');}
     if ( obj.elements['account']) { queryString+="&c="+$F('account');}
     if ( obj.elements['label']) { queryString+="&l="+$F('label');}
-    if( obj.elements['query']) {queryString+="&q="+$F('query');}
+    if( obj.elements['acc_query']) {queryString+="&q="+$F('acc_query');}
     if (obj.ctl ) {queryString+="&ctl="+obj.ctl;}
     if( obj.elements['nosearch']) {queryString+="&nq";}
     if( obj.elements['nover']) {queryString+="&nover";}

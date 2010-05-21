@@ -1005,7 +1005,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
     if ($this->check_periode() == true) {
       $lPeriode->p_id=$period;
     } else {
-      $lPeriode->find_periode($e_date);
+      $lPeriode->find_periode($date);
     }
     $ret="";
     $ret.="<table>";
@@ -1027,7 +1027,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 
     $ret.=HtmlInput::hidden('date',$date);
     $ret.=HtmlInput::hidden('desc',$desc);
-    $ret.=HtmlInput::hidden('period',$period);
+    $ret.=HtmlInput::hidden('period',$lPeriode->p_id);
     $ret.=HtmlInput::hidden('e_pj',$e_pj);
     $ret.=HtmlInput::hidden('e_pj_suggest',$e_pj_suggest);
     $mt=microtime(true);

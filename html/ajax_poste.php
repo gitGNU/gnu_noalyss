@@ -28,7 +28,7 @@
          - param c : control for storing the pcm_val -> javascript account
          - param l : control for storing the pcm_lib -> javascript label
 	 - param ctl : the node to update (ipopup)
-	 - param q : the query -> javascript query
+	 - param q : the acc_query -> javascript query
  * - ctl (to return)
  *
  *
@@ -68,7 +68,7 @@ case "sf":
   $ipopup=$ctl;
   $attr=sprintf('this.ctl=\'%s\';',$ipopup);
   $ctl.='_content';
-  $it=new IText('query');
+  $it=new IText('acc_query');
   $it->size=30;
   $it->value=(isset($q))?$q:'';
   $str_poste=$it->input();
