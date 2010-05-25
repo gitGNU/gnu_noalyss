@@ -215,9 +215,9 @@ foreach ( $Dossier as $rDossier) {
 
 
 
-<input type="Submit" NAME="SAVE" VALUE="Sauver les changements changes">
+<input type="Submit" class="button" NAME="SAVE" VALUE="Sauver les changements changes">
 
-<input type="Submit" NAME="DELETE" VALUE="Effacer" onclick="return confirm('Confirmer effacement ?');" >
+<input type="Submit"  class="button" NAME="DELETE" VALUE="Effacer" onclick="return confirm('Confirmer effacement ?');" >
 
 </FORM>
 <A href='admin_repo.php?action=user_mgt'>Retour</a>

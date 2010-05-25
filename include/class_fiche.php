@@ -1448,11 +1448,12 @@ function is_used() {
    // remove not valid
    $ajnt=$this->cn->get_array('select jft_id from jnt_fic_att_value where f_id=$1 and ad_id not in (select ad_id from jnt_fic_attr where fd_id=$2)',
 			array($this->id,$p_fdid));
-   if ( count($ajnt) == 0 ) return;
-   for ($i=0;$i<count($ajnt);$i++){
-     $this->cn->exec_sql('delete from attr_value where jft_id=$1',array($ajnt[$i]['jft_id']));
-     $this->cn->exec_sql('delete from jnt_fic_att_value where jft_id=$1',array($ajnt[$i]['jft_id']));
-
+   if ( count($ajnt) != 0 ) {
+     for ($i=0;$i<count($ajnt);$i++){
+       $this->cn->exec_sql('delete from attr_value where jft_id=$1',array($ajnt[$i]['jft_id']));
+       $this->cn->exec_sql('delete from jnt_fic_att_value where jft_id=$1',array($ajnt[$i]['jft_id']));
+       
+     }
    }
    $this->cn->commit();
  }

@@ -23,6 +23,9 @@ endif;?>
    <?=_('Ref')?>
 </th>
 <th>
+   <?=_('Interne')?>
+</th>
+<th>
    <?=_('Description')?>
 </th>
 <th>
@@ -52,6 +55,8 @@ $js="this.gDossier=".dossier::id().
 <A class="detail" href="javascript:<?=$js?>"><?=$letter?></A>
 </td>
 <td> <?=$this->content[$i]['j_date_fmt']?> </td>
+<td> <?=$this->content[$i]['jr_pj_number']?> </td>
+
 <?php
 $r=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:viewOperation(\'%s\',\'%s\')" >%s</A>',
 	     $this->content[$i]['jr_id'], $gDossier, $this->content[$i]['jr_internal']);

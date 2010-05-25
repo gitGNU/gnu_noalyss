@@ -144,6 +144,7 @@ foreach($array as $row) {
   echo '<tr>';
   echo th(_('Date'));
   echo th(_('ref'));
+  echo th(_('Interne'));
   echo th(_('Comm'));
   echo th(_('Montant'),' colspan="2"');
   echo th(_('Let.'));
@@ -156,6 +157,7 @@ foreach($array as $row) {
       echo '<tr class="odd">';
     $row=$letter->content[$i];
     echo td($row['j_date_fmt']);
+    echo td($row['jr_pj_number']);
     echo td($row['jr_internal']);
     echo td($row['jr_comment']);
     if ( $row['j_debit'] == 't') {

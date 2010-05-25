@@ -188,14 +188,24 @@ class Acc_Account {
      $cn=new Database(dossier::id());
 
  }
+ /**
+  *@brief update an accounting, but you can update pcm_val only if
+  * this accounting has never been used before  */
   function update($p_old) {
+    if (strcmp(trim($p_old), trim($this->pcm_val)) !=0 ) {
+      $count=$this->db->get_value('select count(*) from jrnx where j_poste=$1',
+				  array($p_old)
+				  );
+      if ($count != 0) 
+	throw new Exception('Impossible de changer la valeur: poste déjà utilisé');
+    }
     $this->pcm_lib=substr($this->pcm_lib,0,150);
     $this->check();
     $sql="update tmp_pcmn set pcm_val=$1, pcm_lib=$2,pcm_val_parent=$3,pcm_type=$4 where pcm_val=$5";
     $Ret=$this->db->exec_sql($sql,array($this->pcm_val,
-					   $this->pcm_lib,
-					   $this->pcm_val_parent,
-					   $this->pcm_type,
-					   $p_old));
+					$this->pcm_lib,
+					$this->pcm_val_parent,
+				      $this->pcm_type,
+					$p_old));
   }
 }

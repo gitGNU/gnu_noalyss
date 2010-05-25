@@ -5,10 +5,10 @@
 <? for ($i=0;$i<sizeof($array);$i++) : ?>
 <li>
 <a href="javascript:void(0)" onclick="<?=$array[$i]['javascript']?>">
-<span>
+<span  id="val<?=$i?>">
 <?=$array[$i]['pcm_val']?>
 </span>
-<span>
+<span id="lib<?=$i?>">
 <?=$array[$i]['pcm_lib']?>
 </span>
 </a>

@@ -104,6 +104,7 @@ case "sf":
   }
   /* show result */
   if ( isset($q) && strlen(trim($q)) > 0) {
+    $q=sql_string($q);
     $sql.=sprintf(" $sep ( pcm_val::text like '%s%%' or pcm_lib::text ilike '%%%s%%') ",
 		  $q,$q);
   }
@@ -129,9 +130,8 @@ case "sf":
     }
 
     if ( isset($l) ){
-      $lib=str_replace("'","\'",$array[$i]['pcm_lib']);
-      $str.=sprintf("set_value('%s','%s');",
-		    $l,$lib);
+      $str.=sprintf("set_value('%s',g('%s').innerHTML);",
+		    $l,"lib$i");
 
     }
     $str.="hideIPopup('$ipopup');";

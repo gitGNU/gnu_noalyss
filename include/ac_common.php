@@ -551,4 +551,13 @@ function myereg($p_pattern,$p_string,&$p_array=null) {
     return $a;
   }
 }
+/**
+ *@brief remove the quote or double quote them
+ *@param $q string
+ *@return string correctly quoted
+ */
+function sql_string($q) {
+  $ret=str_replace("'","''",$q);
+  return $ret;
+}
 ?>

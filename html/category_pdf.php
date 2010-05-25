@@ -61,7 +61,7 @@ if ($array == null  ) {
   //  echo '<h2 class="info2"> Aucune fiche trouvée</h2>';
   exit();
 }
-$tab=array(13,25,80,20,20,12,20);
+$tab=array(13,25,55,20,20,12,20);
 $align=array('L','L','L','R','R','R','R');
  
 foreach($array as $row) {
@@ -91,6 +91,7 @@ foreach($array as $row) {
 
   $pdf->Cell($tab[0],7,'Date');
   $pdf->Cell($tab[1],7,'ref');
+  $pdf->Cell($tab[1],7,'Int.');
   $pdf->Cell($tab[2],7,'Comm');
   $pdf->Cell(40,7,'Montant',0,0,'C');
   $pdf->Cell($tab[5],7,'Let.',0,0,'R');
@@ -111,6 +112,7 @@ foreach($array as $row) {
     $str_date=shrink_date($row['j_date_fmt']);
 
     $pdf->Cell($tab[0],4,$str_date,0,0,$align[0],$fill);
+    $pdf->Cell($tab[1],4,$row['jr_pj_number'],0,0,$align[1],$fill);
     $pdf->Cell($tab[1],4,$row['jr_internal'],0,0,$align[1],$fill);
     $pdf->Cell($tab[2],4,$row['jr_comment'],0,0,$align[2],$fill);
     if ( $row['j_debit'] == 't') {

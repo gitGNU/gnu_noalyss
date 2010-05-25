@@ -150,7 +150,11 @@ if ( isset ($_POST['update'])) {
       if ( ($p_parent != 0 && Database::num_row($Ret) == 0) || $p_parent==$old_line ) {
 	echo '<SCRIPT> alert(" Ne peut pas modifier; aucun poste parent"); </SCRIPT>';
       } else {
-	$acc->update($old_line);	
+	try {
+	  $acc->update($old_line);	
+	} catch(Exception $e) {
+	  alert($e->getMessage());
+	}
       }
     } else {
       echo '<script> alert(\'Update Valeurs invalides\'); </script>';
@@ -165,7 +169,6 @@ if ( isset ( $_POST["Ajout"] ) ) {
 
   if ( isset ( $p_val) && isset ( $p_lib ) && isNumber($p_val) && isNumber($p_parent) ) {
     $p_val=trim($p_val);
-    $p_lib=FormatString(trim($p_lib));
     $p_parent=$_POST["p_parent"];
     if ( strlen ($p_val) != 0 && strlen ($p_lib) != 0 ) {
       if (strlen ($p_val) == 1 ) {
@@ -183,7 +186,7 @@ if ( isset ( $_POST["Ajout"] ) ) {
       } else {
 	// Check if the account already exists
 	
-	$Count=$cn->count_sql("select * from tmp_pcmn where pcm_val='".$p_val."'");
+	$Count=$cn->get_value("select count(*) from tmp_pcmn where pcm_val=$1",array($p_val));
 	if ( $Count != 0 ) 
 	  {
 	    // Alert message account already exists
