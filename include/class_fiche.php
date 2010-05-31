@@ -888,8 +888,7 @@ Array
 	  return;
 	}
       $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
-
-      $Res=$this->cn->exec_sql("select j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,j_qcode,".
+      $Res=$this->cn->exec_sql("select distinct j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,j_qcode,".
 	       "case when j_debit='t' then j_montant else 0 end as deb_montant,".
 	       "case when j_debit='f' then j_montant else 0 end as cred_montant,".
 	       " jr_comment as description,jrn_def_name as jrn_name,".
@@ -953,7 +952,7 @@ Array
 	return;
 
       $rep="";
-
+      $already_seen=array();
       echo '<h2 class="info">'.$this->id." ".$name.'</h2>';
       echo "<TABLE class=\"result\" width=\"100%\">";
       echo "<TR>".
@@ -965,6 +964,10 @@ Array
 	"</TR>";
 
       foreach ( $this->row as $op ) {
+	if ( in_array($op['jr_internal'],$already_seen) ) 
+	  continue;
+	else
+	  $already_seen[]=$op['jr_internal'];
 	echo "<TR  style=\"text-align:center;background-color:lightgrey\">".
 	  "<td >".$op['jr_internal']."</td>".
 	  "<td >".$op['j_date']."</td>".

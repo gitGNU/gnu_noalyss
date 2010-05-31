@@ -656,12 +656,12 @@ class Document
 	  extract ($_POST);
 	  $id='e_march'.$counter.'_tva_id';
 	  if ( !isset (${$id}) ) return "";
-	  if ( ${$id} == -1 ) return "";
+	  if ( ${$id} == -1 || ${$id}=='' ) return "";
 	  $march_id='e_march'.$counter.'_price' ;
 	  if ( ! isset (${$march_id})) return '';
 	  $tva=new Acc_Tva($this->db);
 	  $tva->set_parameter("id",${$id});
-	  $tva->load();
+	  if ( $tva->load() == -1) return '';
 	  return $tva->get_parameter("rate");
 	  break;
 
@@ -722,8 +722,8 @@ class Document
 	       || strlen(trim( $price )) ==0 
 	       || strlen(trim($qt)) ==0)
 	    return "";
-	  $oTva=new Acc_Tva($cn,${$tva});
-	  if ($oTva->load() == null) return "";
+	  $oTva=new Acc_Tva($this->db,${$tva});
+	  if ($oTva->load() == -1 ) return "";
 	  $r=round(${$price},2)*$oTva->get_parameter('rate');
 	  $r=round($r,2);
 	  break;
@@ -739,8 +739,9 @@ class Document
 	       || strlen(trim( $price )) ==0 
 	       || strlen(trim($qt)) ==0)
 	    return "";
-	  $tva=new Acc_Tva($cn,${$id});
-	  if ($tva->load() == null) {
+	  if ( ! isset (${$tva}) ) return '';
+	  $tva=new Acc_Tva($this->db,${$tva});
+	  if ($tva->load() == -1 ) {
 	    $r=round(${$price},2);
 	  }else {
 	    $r=round(${$price}*$tva->get_parameter('rate')+${$price},2);

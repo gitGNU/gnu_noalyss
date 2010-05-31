@@ -105,8 +105,10 @@ class Acc_Account_Ledger {
 	       "case when j_debit='f' then j_montant else 0 end as cred_montant,".
 	       " jr_comment as description,jrn_def_name as jrn_name,".
 	       "j_debit, jr_internal,jr_pj_number,coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter ".
-	       " from jrnx left join jrn_def on jrn_def_id=j_jrn_def ".
-	       " left join jrn on jr_grpt_id=j_grpt".
+	       ",pcm_lib ".
+	       " from jrnx left join jrn_def on (jrn_def_id=j_jrn_def )".
+	       " left join jrn on (jr_grpt_id=j_grpt)".
+	       " left join tmp_pcmn on (j_poste=pcm_val)".
 	       " where j_poste=$1 and ".
 	       " ( to_date($2,'DD.MM.YYYY') <= j_date and ".
 			       "   to_date($3,'DD.MM.YYYY') >= j_date )".

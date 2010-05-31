@@ -154,12 +154,11 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     
       // Check if the given tva id is valid
       $owner=new Own($this->db);
-      if ( $owner->MY_TVA=='Y') {
+      if ( $owner->MY_TVA_USE=='Y') {
 	if (  isNumber(${'e_march'.$i.'_tva_id'}) == 0 )
 	  throw new Exception(_('La fiche ').${'e_march'.$i}._('a un code tva invalide').' ['.${'e_march'.$i.'_tva_id'}.']',13);
 	$tva_rate=new Acc_Tva($this->db);
 	$tva_rate->set_parameter('id',${'e_march'.$i.'_tva_id'});
-	
 	if ( $tva_rate->load() != 0 ) 
 	  throw new Exception(_('La fiche ').${'e_march'.$i}._('a un code tva invalide').' ['.${'e_march'.$i.'_tva_id'}.']',13);
       }
@@ -997,14 +996,16 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
     // Record the current number of article
     $Hid=new IHidden();
-    $p_article= ( isset ($p_article))?$p_article:MAX_ARTICLE;
+    $p_article= ( isset ($nb_item))?$nb_item:MAX_ARTICLE;
     $r.=$Hid->input("nb_item",$p_article);
+    $max=($p_article < MAX_ARTICLE)?MAX_ARTICLE:$p_article;
+
 
     $f_legend_detail=_("Détail articles vendus");
 
     // For each article
     //--
-    for ($i=0;$i< MAX_ARTICLE;$i++) {
+    for ($i=0;$i< $max;$i++) {
       // Code id, price & vat code
       //--
       $march=(isset(${"e_march$i"}))?${"e_march$i"}:"";

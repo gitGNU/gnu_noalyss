@@ -333,6 +333,12 @@ function quick_writing_add_row(){
 	  new_tt.evalScripts();
    }
   $("qc_"+nb.value).value="";
+  $("amount"+nb.value).value="";
+  $("poste"+nb.value).value="";
+  $("ld"+nb.value).value="";
+
+
+  
   nb.value++;
 
 }

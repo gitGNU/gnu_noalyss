@@ -108,6 +108,7 @@ if ( ! isset ($_REQUEST['oper_detail'])) {
 	continue;
       
       echo '"Poste";'.
+	'"Lib.";'.
 	'"QuickCode";'.
 	"\"Code interne\";".
 	"\"Date\";".
@@ -122,8 +123,9 @@ if ( ! isset ($_REQUEST['oper_detail'])) {
 	$op->jr_id=$a['jr_id'];
 	$result=$op->get_jrnx_detail();
 	foreach ( $result as $r) {
-	  printf('"%s";"%s";"%s";"%s";"%s";%12.2f;"%s %s"',
+	  printf('"%s";"%s";"%s";"%s";"%s";"%s";"%s";%12.2f;"%s"',
 		 $r['j_poste'],
+		 $r['pcm_lib'],
 		 $r['j_qcode'],
 		 $r['jr_internal'],
 		 $r['jr_date'],

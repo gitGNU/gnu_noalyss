@@ -482,6 +482,7 @@ de donn&eacute;es");
 	$ret.=$f.$aArray[$i][$idx];
 	$f=',';
       }
+      $ret=trim($ret,',');
       return $ret;
     }
     /*!

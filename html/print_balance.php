@@ -1,5 +1,4 @@
 <?php
-
 /*
  *   This file is part of PhpCompta.
  *
@@ -108,8 +107,8 @@ $pdf->SetFont('DejaVuCond','B',8);
 $pdf->Cell(110,6,'Totaux');
 $pdf->Cell(20,6,$tp_deb,'T',0,'R',0);
 $pdf->Cell(20,6,$tp_cred,'T',0,'R',0);
-$pdf->Cell(20,6,$tp_solc,'T',0,'R',0);
 $pdf->Cell(20,6,$tp_sold,'T',0,'R',0);
+$pdf->Cell(20,6,$tp_solc,'T',0,'R',0);
 $pdf->Ln();
 
 
