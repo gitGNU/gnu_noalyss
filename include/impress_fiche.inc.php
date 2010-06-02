@@ -21,6 +21,10 @@
 /*!\file
  * \brief printing of card 
  */
+
+  /**
+   *@todo add the report of balance for category of card
+   */
 include_once('class_database.php');
 include_once('class_fiche.php');
 require_once('class_lettering.php');
@@ -56,7 +60,8 @@ $histo->value=array(
 		    array('value'=>0,'label'=>_('Historique')),
 		    array('value'=>1,'label'=>_('Historique Lettré')),
 		    array('value'=>2,'label'=>_('Historique non Lettré')),
-		    array('value'=>3,'label'=>_('Résumé'))
+		    array('value'=>3,'label'=>_('Résumé')),
+		    array('value'=>4,'label'=>_('Balance')),
 		    );
 $histo->javascript='onchange="if (this.value==3) {
 g(&quot;trstart&quot;).style.display=&quot;none&quot;;g(&quot;trend&quot;).style.display=&quot;none&quot;;}
@@ -106,7 +111,11 @@ if ( $_GET['histo'] == 3 ) {
   echo "</form>";
 
   exit();
-} 
+}
+// Balance
+if ( $_GET['histo'] == 4 ) {
+  var_dump('to be implemented');
+ } 
 $export_pdf='<FORM METHOD="get" ACTION="category_pdf.php">';
 $export_pdf.=HtmlInput::hidden('cat',$_GET['cat']);
 $export_pdf.=HtmlInput::hidden('start',$_GET['start']);
@@ -190,3 +199,4 @@ echo $export_pdf;
 
 
 ?>
+
