@@ -373,3 +373,32 @@ function set_wait(name) {
     var content=name+"_content";
     $(content).innerHTML= '<image src="image/loading.gif" border="0" alt="Chargement...">';
 }
+/**
+ *@brief add dynamically a object for AJAX
+ *@param obj. 
+ * the attributes are
+ * - style to add style
+ * - id to add an id
+ * - class to add a class
+ */
+function add_div(obj) {
+    try {
+	var top=document;
+	var elt=top.createElement('div');
+	if (obj.id ) { elt.setAttribute('id',obj.id);}
+	if (obj.style) {
+	    if (elt.style.setAttribute) { /* IE7 bug */
+		elt.style.setAttribute('cssText',obj.style);
+	    } else { /* good Browser */
+		elt.setAttribute('style',obj.style);
+	    }
+	}
+	if (obj.cssclass ) {
+	    elt.setAttribute('class',obj.cssclass);/* FF */
+	    elt.setAttribute('className',obj.cssclass); /* IE */
+	}
+	if (obj.html) { elt.innerHTML=obj.html;}
+	var bottom_div=document.body;
+	bottom_div.appendChild(elt);
+    } catch (e) { alert(e.message);}
+}
