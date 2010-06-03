@@ -402,3 +402,10 @@ function add_div(obj) {
 	bottom_div.appendChild(elt);
     } catch (e) { alert(e.message);}
 }
+/**
+ * remove a object created with add_div
+ * @param elt id of the elt 
+ */
+function removeDiv(elt) {
+    if (g(elt) ){ document.body.removeChild(g(elt)); }
+}
