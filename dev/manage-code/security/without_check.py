@@ -6,7 +6,6 @@
 # Author D. DE BONTRIDDER ddebontridder@yahoo.fr
 
 
-from transform import *
 import sys
 import os
 import glob

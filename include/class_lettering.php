@@ -157,17 +157,7 @@ class Lettering
   }
   public function insert() {
     if ( $this->verify() != 0 ) return;
-    /*  please adapt
-	$sql="insert into tva_rate (tva_label,tva_rate,tva_comment,tva_poste) ".
-	" values ($1,$2,$3,$4)  returning tva_id";
-	$this->tva_id=$this->cn->get_value(
-	$sql,
-	array($this->tva_label,
-	$this->tva_rate,
-	$this->tva_comment,
-	$this->tva_poste)
-	);
-    */
+  
   }
   /**
    *show all the record from jrnx and their status (linked or not)
@@ -254,16 +244,10 @@ class Lettering
   }
 
   public function load() {
-
-    $sql="select tva_label,tva_rate, tva_comment,tva_poste from tva_rate where tva_id=$1"; 
-    if ( Database::num_row($res) == 0 ) return;
-    foreach ($res as $idx=>$value) { $this->$idx=$value; }
   }
 
   public function delete() {
-    /*    $sql="delete from tva_rate where tva_id=$1"; 
-	  $res=$this->cn->exec_sql($sql,array($this->tva_id));
-    */
+    throw new Exception ('delete not implemented');
   }
   /**
    * Unit test for the class
