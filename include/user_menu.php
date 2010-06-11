@@ -202,7 +202,7 @@ function ShowMenuCompta($p_high="")
   $str_dossier=dossier::get();
   $r="";
   $r.=menu_tool("compta.php");
-  $r.='<div style="float:left;background-color:#879ED4;width:100%;">';
+  $r.='<div class="topmenu">';
   $r.=$result;
   $r.='</div>';
 
@@ -431,7 +431,7 @@ function menu_tool($p_from) {
 
   $r.= '<div class="u_tool">';
   $r.= '<div class="name">';
-  $r.= "<H2 class=\"info\"> Dossier : ".h(dossier::name())."</h2> ";
+  $r.= "<H2 class=\"dossier\"> Dossier : ".h(dossier::name())."</h2> ";
   $r.= '</div>';
   $r.= '<div class="acces_direct">';
   if ( $p_from == 'compta') $view='E';
@@ -465,13 +465,13 @@ function menu_tool($p_from) {
 	$r.='</tr><tr>';
 	continue;
       }
-      $r.= '<td>'.
+      $r.= '<td class="tool">'.
 	'<a class="cell" href="'.$url.'" >'.$col['label'].'</a>'.
 	'</td>';
     }
 
   }
-   $r.='<td class="mtitle2">';
+   $r.='<td class="tool">';
   $r.= '<A class="cell" HREF="javascript:openRecherche('.$gDossier.')">'.
     _('Recherche').'</a></td>';
   $r.='</tr>';

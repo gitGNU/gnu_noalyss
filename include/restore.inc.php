@@ -85,9 +85,18 @@ if ( isset ($_REQUEST['sa'] )) {
     $cn->exec_sql("create database ".$name." encoding='utf8'");
     $args=" --no-owner  -d $name ".$_FILES['file']['tmp_name'];
 
-    $status=passthru(PG_RESTORE.$args);
-    echo '<h2 class="info"> Restauration réussie du dossier '.$lname.'</h2>';
-
+    exec(PG_RESTORE.$args);
+    $test=new Database($id);
+    if ( $test->exist_table('version') ){
+      echo '<h2 class="info"> Restauration réussie du dossier '.$lname.'</h2>';
+      $test->close();
+    } else {
+      $test->close();
+      echo '<h2 class="error"> Problème lors de la restauration '.$lname.'</h2>';
+      $cn->exec_sql('delete from ac_dossier where dos_id=$1',array($id));
+      $cn->exec_sql('drop database '.$name);
+      exit();
+    }
     $new_cn=new Database($id);
 
     $new_cn->apply_patch($name,0);
@@ -131,7 +140,18 @@ if ( isset ($_REQUEST['sa'] )) {
     $args="   -d $name ".$_FILES['file']['tmp_name'];
     $status=exec(PG_RESTORE.$args);
 
-    echo '<h2 class="info"> Restauration réussie du modèle '.$lname.'</h2>';
+    $test=new Database($id,'mod');
+    if ( $test->exist_table('version') ){
+      echo '<h2 class="info"> Restauration réussie du dossier '.$lname.'</h2>';
+      $test->close();
+    } else {
+      $test->close();
+      echo '<h2 class="error"> Problème lors de la restauration '.$lname.'</h2>';
+      $cn->exec_sql('delete from modeledef where mod_id=$1',array($id));
+      $cn->exec_sql('drop database '.$name);
+      exit();
+    }
+
     $new_cn=new Database($id,'mod');
 
     $new_cn->apply_patch($name,0);

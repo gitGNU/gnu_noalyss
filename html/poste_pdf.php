@@ -44,7 +44,7 @@ $User->can_request(IMPPOSTE,0);
 extract($_GET);
 
  if ( isset ( $poste_fille) ){ //choisit de voir tous les postes
-   $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '$poste_id%'");
+   $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '$poste_id%' order by pcm_val");
  } else 
  $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text = '$poste_id'");
       

@@ -206,7 +206,7 @@ echo $string => {'prop':'1','prop2':'2','prop3':'3'};
    *\return string with htmlcode
    */
   static function button_anchor($p_label,$p_value,$p_name="") {
-    $r=sprintf('<span id="%s"> <A class="button" href="%s" style="color:black;width:75;display:inline">%s</A></span>',
+    $r=sprintf('<span id="%s"> <A id="anchorbutton" style="display:inline;" href="%s" >%s</A></span>',
 	       $p_name,
 	       $p_value,
 	       $p_label);

@@ -17,14 +17,17 @@ table.result {
   color:blue;
   border:blue solid 1px; 
   width:100%;
+ 
+  
 }
 table.result th { 
   font-weight:bold;
   font-family:helvetica,arial,sans-serif;
-  border-bottom:1px solid blue;
+  border-bottom:0;
   padding-left:10px;
   padding-right:10px;
-  background-color: silver;
+  background-color: #7CBBFF;
+	      color:darkblue;
 }
 
 h2 {
@@ -210,10 +213,7 @@ table.document th{
 	      background-color:lightgrey;
 	      color:darkblue;
 }
-table.result th{
-	      background-color:lightgrey;
-	      color:darkblue;
-}
+
 span.error {
 color:black;  
 background-color:red;
@@ -523,6 +523,7 @@ fieldset fieldset legend {
 select {
 border: 1px solid blue;
 margin:2px;
+background-color:white;
 
 }
 
@@ -751,10 +752,17 @@ cursor:inherit;
 
 .button {
 	font-size:10;
-	color:black;
+	color:white;
+	font-weight: bold;
+	
 	text-decoration:none;
 	font-family: helvetica,arial,sans-serif;
-	background-color:#DFDFDF;
+	background-image: url("image/bg-submit2.gif");
+	background-repeat: repeat-x;
+	background-position: left;
+	text-decoration:none;
+	font-family: helvetica,arial,sans-serif;
+	
 	border-style:  outset ;
 	border-color:  blue ;
 	border-width:1;
@@ -771,4 +779,55 @@ cursor:inherit;
 	font-color:blue;
 	margin:1 2 1 2;
 	}
+		td.tool {
+	border: 0;
+	
+	
+	}
+div.topmenu {
+	float:left;
+	width:100%;
+	
+}
+
+h2.dossier {
+	color:white;
+	font-style: italic;
+	
+font-size:14px;
+margin:0;
+padding:0;
+text-align:center;
+}
+a#anchorbutton {
+	font-size:10;
+	color:white;
+	font-weight: bold;
+	
+	text-decoration:none;
+	font-family: helvetica,arial,sans-serif;
+	background-image: url("image/bg-submit2.gif");
+	background-repeat: repeat-x;
+	background-position: left;
+	text-decoration:none;
+	font-family: helvetica,arial,sans-serif;
+	
+	border-style:  outset ;
+	border-color:  blue ;
+	border-width:1;
+	padding:2 4 2 4;
+	cursor:pointer;
+	margin:1 2 1 2;
+	-moz-border-radius:2 2;
+	display:inline;
+		
+}
+a#anchorbutton:hover{
+	cursor:pointer;
+	background-color:white;
+	border-style:  inset ;
+	font-color:blue;
+	margin:1 2 1 2;
+}
+
 /* </style> */

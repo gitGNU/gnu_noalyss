@@ -36,11 +36,7 @@ echo '<DIV class="content">';
 if ( isset($_POST['pass_1'])
      && strlen(trim($_POST['pass_1'])) != 0 ) {
   if ($_POST['pass_1'] != $_POST['pass_2'] ) {
-  ?>
-<script>
       alert(_("Les mots de passe ne correspondent pas. Mot de passe inchangé"));
-</script>
-<?php  
     }
     else {
       $Rep=new Database();

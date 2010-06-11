@@ -118,8 +118,11 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
   $Res=$cn_mod->exec_sql('delete from operation_analytique');
 
   // TODO 
-  // Nettoyage table quant_*
+
   $Res=$cn_mod->exec_sql("truncate table jrn_rapt");
+  $Res=$cn_mod->exec_sql("truncate table quant_fin");
+  $Res=$cn_mod->exec_sql("truncate table quant_purchase");
+  $Res=$cn_mod->exec_sql("truncate table quant_sold");
   $Res=$cn_mod->exec_sql("truncate table import_tmp");
   //	Reset the closed periode
   $Res=$cn_mod->exec_sql("update parm_periode set p_closed='f'");

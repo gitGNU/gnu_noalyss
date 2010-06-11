@@ -90,9 +90,9 @@ h1.title {
 
 div.u_tmenu {
   position: float;
-  margin-top:1px;
+  margin-top:0px;
   width:100%;	
-  background-color:#879ED4;
+ /* background-color:#879ED4; */
   
   
 }
@@ -104,7 +104,6 @@ div.u_subtmenu {
 
 }
 div.u_tmenu div.u_tool {
-	   background-color:#879ED4;	
 	   float:left;
 	   
 }
@@ -753,10 +752,15 @@ cursor:inherit;
 
 .button {
 	font-size:10;
-	color:black;
+	color:white;
+	font-weight: bold;
+	
 	text-decoration:none;
 	font-family: helvetica,arial,sans-serif;
-	background-color:#DFDFDF;
+	background-image: url("image/bg-submit3.gif");
+	background-repeat: repeat-x;
+	background-position: left;
+	
 	border-style:  outset ;
 	border-color:  blue ;
 	border-width:1;
@@ -767,6 +771,52 @@ cursor:inherit;
 	
 }
 .button:hover {
+	cursor:pointer;
+	background-color:white;
+	border-style:  inset ;
+	font-color:blue;
+	margin:1 2 1 2;
+	}
+	td.tool {
+	border: solid 1px gray;
+	
+	}
+div.topmenu {
+	float:left;
+	width:100%;
+	
+}
+
+h2.dossier {
+	color:darkblue;
+	font-style: italic;
+	
+font-size:14px;
+margin:0;
+padding:0;
+text-align:center;
+}
+a#anchorbutton {
+	font-size:10;
+	color:white;
+	font-weight: bold;
+	
+	text-decoration:none;
+	font-family: helvetica,arial,sans-serif;
+	background-image: url("image/bg-submit3.gif");
+	background-repeat: repeat-x;
+	background-position: left;
+	
+	border-style:  outset ;
+	border-color:  blue ;
+	border-width:1;
+	padding:2 4 2 4;
+	cursor:pointer;
+	margin:1 2 1 2;
+	-moz-border-radius:2 2;
+	
+}
+a#anchorbutton:hover {
 	cursor:pointer;
 	background-color:white;
 	border-style:  inset ;
