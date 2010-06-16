@@ -42,8 +42,10 @@ if ( count($this->content) == 0 ) :
    $amount_deb=($j_debit=='t')?$amount_init:0;
 $amount_cred=($j_debit=='f')?$amount_init:0;
 for ($i=0;$i<count($this->content);$i++):
+  $class="";
+if ( ($i % 2) == 0 ) $class="odd";
 ?>
-<tr>
+  <tr <? echo "class=\"$class\""; ?> >
 <td>
 <?php
 echo HtmlInput::hidden('letter_j_id[]',$this->content[$i]['j_id']);

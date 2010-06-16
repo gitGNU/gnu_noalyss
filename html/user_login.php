@@ -62,7 +62,23 @@ include_once("user_menu.php");
 
 $priv=($User->admin==1)?"Administrateur":"Utilisateur";
 echo '<div class="info"> ';
+/**
+ *
+ * If the user is NOT admin and can access only ONE folder,
+ * so it will be directly redirected to this folder or to the plugins of this
+ * folder if he's an "plugin user"
+ */
+if ( $User->admin == 0 ) {
+  // how many folder ?
+  $folder=GetAvailableFolder($_SESSION['g_user'],0);
+  if ( count($folder) == 1 ) {
+    if ( $User->check_dossier($folder[0]['dos_id']) == 'P') 
+      redirect('extension.php?gDossier='.$folder[0]['dos_id']);
+    else 
+      redirect('access.php?gDossier='.$folder[0]['dos_id']);
+  }
 
+}
 $result="<table border=\"0\">";
 $result.='<TR>';
 if ( $User->Admin()  == 1 ) {

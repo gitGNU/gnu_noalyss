@@ -174,14 +174,15 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
 	$Poste->load();
 	echo '<table class="result">';
 	echo '<tr><td  class="mtitle" colspan="5"><h2 class="info">'. $_GET['poste_id'].' '.h($Poste->label).'</h2></td></tr>';
-
-	foreach ($Poste->row as $a) {
-	  $detail=$a;
-	  
+	/* avoid duplicates */
+	$old=array();
+	foreach ($Poste->row as $detail) {
+	  if ( in_array($detail['jr_id'],$old) == TRUE ) continue;
+	  $old[]=$detail['jr_id'];
 	  echo '<tr><td class="mtitle" colspan="5">'.$detail['j_date'].' '.$detail['jr_internal'].h($detail['description']).'</td></tr>';
 
 	  $op=new Acc_Operation($cn);
-	  $op->jr_id=$a['jr_id'];
+	  $op->jr_id=$detail['jr_id'];
 	  $op->poste=$_GET['poste_id'];
 	  echo $op->display_jrnx_detail(1);
 	}
@@ -248,15 +249,18 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
 
 	    $detail=$Poste->row[0];
 	    
+	    $old=array();
 
-	    foreach ($Poste->row as $a) {
-	      $detail=$a;
-	      echo '<tr><td class="mtitle" colspan="5">'. $detail['j_date'].' '.$detail['jr_internal'].' '.hb($detail['description']).' '.hi($detail['jr_pj_number']).'</td></tr>';
+	    foreach ($Poste->row as $detail) {
+	      /* avoid duplicates */
+	  if ( in_array($detail['jr_id'],$old) == TRUE ) continue;
+	  $old[]=$detail['jr_id'];
+	  echo '<tr><td class="mtitle" colspan="5">'. $detail['j_date'].' '.$detail['jr_internal'].' '.hb($detail['description']).' '.hi($detail['jr_pj_number']).'</td></tr>';
 
 	      $op=new Acc_Operation($cn);
 	      $op->poste=$poste_id['pcm_val'];
 
-	      $op->jr_id=$a['jr_id'];
+	      $op->jr_id=$detail['jr_id'];
 	      echo $op->display_jrnx_detail(1);
 	    }
 	  }

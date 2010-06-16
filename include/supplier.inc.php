@@ -93,7 +93,7 @@ if ( $low_action == "list" )
 <?php
    echo dossier::hidden();  
    $a=(isset($_GET['query']))?$_GET['query']:"";
-   printf (_('Recherche').' <input type="text" name="query" value="%s">',
+   printf (_('Recherche').' <input class="input_text" type="text" name="query" value="%s">',
 	   $a);
   $sel_card=new ISelect('cat');
   $sel_card->value=$cn->make_array('select fd_id, fd_label from fiche_def '.

@@ -42,6 +42,7 @@ $user=new User($cn);
 $user->Check();
 if ( $user->check_dossier(dossier::id()) == 'P') {
 	redirect("extension.php?".dossier::get(),0);
+	exit();
 }
 
 html_page_start($_SESSION['g_theme']);
@@ -69,6 +70,12 @@ echo <<<EOF
   <![endif]-->
 EOF;
 exit();
+}
+if ( $cn->exist_table('version') == false ) {
+ echo '<h2 class="error" style="font-size:12px">'._("Base de donnée invalide").'</h2>';
+ $base=dirname($_SERVER['REQUEST_URI']);
+ echo HtmlInput::button_anchor('Retour',$base.'/user_login.php');
+ exit();
 }
 if ( DBVERSION < dossier::get_version($cn)) {
  echo '<h2 class="error" style="font-size:12px">'._("Attention: la version de base de donnée est supérieure à la version du programme, vous devriez mettre à jour").'</h2>';

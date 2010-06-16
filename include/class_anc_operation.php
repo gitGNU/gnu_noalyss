@@ -173,7 +173,11 @@ class Anc_Operation
 	$offset=(isset($_GET['offset']))?$_GET['offset']:0;
 	$bar=jrn_navigation_bar($offset+1,count($array),$step,$page);
 
-	$view=array_splice($array,$offset,$step);
+	if ( $step !=-1)
+	  $view=array_splice($array,$offset,$step);
+	else
+	  $view=$array;
+
 	$gDossier=dossier::id();
 	$ret="";
 	$ret.=$bar;
@@ -182,6 +186,7 @@ class Anc_Operation
 	$group=0;
 	$oldgroup=0;
 	$oldjrid=0;
+
 	foreach ($view as $row) {
 	  $group=$row['oa_group'];
 	  if ( $group !=$oldgroup ) {
@@ -189,7 +194,7 @@ class Anc_Operation
 		  {
 
 			  $efface=new IButton();
-			  $efface->javascript="op_remove('".$gDossier.",".$oldgroup.")";
+			  $efface->javascript="op_remove(".$gDossier.",".$oldgroup.")";
 			  $efface->name="Efface";
 			  $efface->label="Efface";
 			  $ret.="<td>".$efface->input()."</td>";

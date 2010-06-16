@@ -54,7 +54,7 @@ if ( ! isset ($_REQUEST['gDossier']) )
   {
 	echo HtmlInput::button_anchor(_('Retour'),'user_login.php?');
   } else {
-  echo '<h2 class="info">'._('Changez vos préférences').'</h2>';
+  echo '<h2 class="info2">'._('Changez vos préférences').'</h2>';
   }
 
 ?>

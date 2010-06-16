@@ -68,7 +68,7 @@ if ( isset ($_REQUEST['p_action']))
 	break;
       }
   }
-echo '<div style="float:left;background-color:#879ED4;width:100%;">';
+echo '<div class="topmenu">';
 echo ShowItem(array(
 	array('?p_action=ca_pa&'.$str_dossier,'Plan Analytique',"Plan Analytique",0),
 	array('?p_action=ca_od&'.$str_dossier,'Op&eacute;rations Diverses',"Permet d'enregistrer des operations sur la compta analytique",1),

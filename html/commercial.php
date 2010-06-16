@@ -41,7 +41,10 @@ $rep=new Database($gDossier);
 require_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
-if ($User->check_dossier($gDossier)=='P')exit();
+if ($User->check_dossier($gDossier)=='P')  { 	
+  redirect("extension.php?".dossier::get(),0);
+  exit();
+}
 
 //-----------------------------------------------------
 // update preference
@@ -72,7 +75,7 @@ $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:"";
 echo '<div class="u_tmenu">';
 echo menu_tool('commercial.php');
 
-echo '<div style="float:left;background-color:#879ED4;width:100%;">';
+echo '<div class="topmenu">';
 $def=0;
 if  ( isset($_REQUEST['p_action'])) {
   switch($_REQUEST['p_action']) {

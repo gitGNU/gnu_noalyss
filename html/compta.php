@@ -45,7 +45,10 @@ $cn=new Database($gDossier);
 require_once ('class_user.php');
 $User=new User($cn);
 $User->Check();
-if ($User->check_dossier($gDossier)=='P') exit();
+if ($User->check_dossier($gDossier)=='P') {	
+  redirect("extension.php?".dossier::get(),0);
+  exit();
+}
 
 html_page_start($_SESSION['g_theme']);
 

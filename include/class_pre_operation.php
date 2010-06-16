@@ -104,7 +104,7 @@ class Pre_operation
 	$p_array=$this->load();
 	$array=array(
 				 "e_comm"=>$p_array[0]["od_name"],
-				 "nb_item"=>$p_array[0]["od_item"],
+				 "nb_item"=>(($p_array[0]["od_item"]<10?10:$p_array[0]["od_item"]))   ,
 				 "p_jrn"=>$p_array[0]["jrn_def_id"],
 				 "jrn_type"=>$p_array[0]["od_jrn_type"]
 				 );

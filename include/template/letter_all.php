@@ -41,8 +41,10 @@ endif;?>
 
 <?php
 for ($i=0;$i<count($this->content);$i++):
+  $class="";
+if ( ($i % 2) == 0 ) $class="odd";
 ?>
-<tr>
+  <tr <? echo "class=\"$class\""; ?> >
 <td> 
 <?php
 $letter=($this->content[$i]['letter']==-1)?"x":$this->content[$i]['letter'];

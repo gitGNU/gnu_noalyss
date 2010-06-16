@@ -265,7 +265,7 @@ function ShowActionList($cn,$p_base)
    $list=$cn->make_list("select fd_id from fiche_def where frd_id in (4,8,9,14,15,16,25)");
    $w->extra=$list;
    echo _('Fiche').' :'.$w->search().$w->input().'<br/>';
-   printf (_('Titre ou référence').': <input type="text" name="query" value="%s">',
+   printf (_('Titre ou référence').': <input class="input_text" type="text" name="query" value="%s">',
 	   $a);
    echo '<br/>';
 

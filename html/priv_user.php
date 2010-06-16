@@ -127,10 +127,10 @@ $UserChange->load();
 <?php printf('<td>login</td><td> %s</td>',$UserChange->login); ?>
 </TD></tr>
 <TR><TD>
-<?php printf('Nom de famille </TD><td><INPUT type="text" NAME="fname" value="%s"> ',$UserChange->name); ?>
+<?php printf('Nom de famille </TD><td><INPUT class="input_text"  type="text" NAME="fname" value="%s"> ',$UserChange->name); ?>
 </TD></TR>
 <?php printf('<td>prénom</td><td>
-<INPUT type="text" NAME="lname" value="%s"> ',$UserChange->first_name); ?>
+<INPUT class="input_text" type="text" NAME="lname" value="%s"> ',$UserChange->first_name); ?>
 </TD>
 </TR>
 </table>
@@ -215,12 +215,12 @@ foreach ( $Dossier as $rDossier) {
 
 
 
-<input type="Submit" class="button" NAME="SAVE" VALUE="Sauver les changements changes">
+<input type="Submit" class="button" NAME="SAVE" VALUE="Sauver les changements">
 
 <input type="Submit"  class="button" NAME="DELETE" VALUE="Effacer" onclick="return confirm('Confirmer effacement ?');" >
 
 </FORM>
-<A href='admin_repo.php?action=user_mgt'>Retour</a>
+<?  echo HtmlInput::button_anchor('Retour','admin_repo.php?action=user_mgt'); ?>
 </DIV>
 
 

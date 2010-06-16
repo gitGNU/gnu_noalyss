@@ -57,7 +57,7 @@ echo '<div class="u_tmenu">';
 
 echo menu_tool('parametre.php');
 
-echo   '<div style="float:left;background-color:#879ED4;width:100%;">';
+echo   '<div class="topmenu">';
 
 
 $authorized =0;
@@ -283,33 +283,33 @@ if ( $p_action=='company') {
   $all->table=1;
   echo '<form method="post" action="?p_action=company">';
   echo dossier::hidden();
-  echo "<table class=\"result\" style=\"width:70%\">";
-  echo "<tr>".td(_('Nom société')).$all->input("p_name",$my->MY_NAME)."</tr>";
+  echo "<table class=\"result\" style=\"width:auto\">";
+  echo "<tr>".td(_('Nom société'),'style="text-align:right"').$all->input("p_name",$my->MY_NAME)."</tr>";
   $all->value='';
-  echo "<tr>".td(_("Téléphone")).$all->input("p_tel",$my->MY_TEL)."</tr>";
+  echo "<tr>".td(_("Téléphone"),'style="text-align:right"').$all->input("p_tel",$my->MY_TEL)."</tr>";
   $all->value='';
-  echo "<tr>".td(_("Fax")).$all->input("p_fax",$my->MY_FAX)."</tr>";
+  echo "<tr>".td(_("Fax"),'style="text-align:right"').$all->input("p_fax",$my->MY_FAX)."</tr>";
   $all->value='';
-  echo "<tr>".td(_("Rue ")).$all->input("p_street",$my->MY_STREET)."</tr>";
+  echo "<tr>".td(_("Rue "),'style="text-align:right"').$all->input("p_street",$my->MY_STREET)."</tr>";
   $all->value='';
-  echo "<tr>".td(_("Numéro")).$all->input("p_no",$my->MY_NUMBER)."</tr>";
+  echo "<tr>".td(_("Numéro"),'style="text-align:right"').$all->input("p_no",$my->MY_NUMBER)."</tr>";
   $all->value='';
-  echo "<tr>".td(_("Code Postal")).$all->input("p_cp",$my->MY_CP)."</tr>";
+  echo "<tr>".td(_("Code Postal"),'style="text-align:right"').$all->input("p_cp",$my->MY_CP)."</tr>";
   $all->value='';
-  echo "<tr>".td(_("Commune")).$all->input("p_Commune",$my->MY_COMMUNE)."</tr>";
+  echo "<tr>".td(_("Commune"),'style="text-align:right"').$all->input("p_Commune",$my->MY_COMMUNE)."</tr>";
   $all->value='';
-  echo "<tr>".td(_("Pays")).$all->input("p_pays",$my->MY_PAYS)."</tr>";
+  echo "<tr>".td(_("Pays"),'style="text-align:right"').$all->input("p_pays",$my->MY_PAYS)."</tr>";
   $all->value='';
-  echo "<tr>".td(_("Numéro de Tva")).$all->input("p_tva",$my->MY_TVA)."</tr>";
+  echo "<tr>".td(_("Numéro de Tva"),'style="text-align:right"').$all->input("p_tva",$my->MY_TVA)."</tr>";
   if ( $User->check_action(PARCA)==0) $compta->setReadonly(true);
-  echo "<tr>".td(_("Utilisation de la compta. analytique")).$compta->input("p_compta",$array)."</tr>";
+  echo "<tr>".td(_("Utilisation de la compta. analytique"),'style="text-align:right"').$compta->input("p_compta",$array)."</tr>";
   if ( $User->check_action(PARSTR)==0) $strict->setReadonly(true);
-  echo "<tr>".td(_("Utilisation du mode strict ")).$strict->input("p_strict",$strict_array)."</tr>";
+  echo "<tr>".td(_("Utilisation du mode strict "),'style="text-align:right"').$strict->input("p_strict",$strict_array)."</tr>";
   if ( $User->check_action(PARTVA)==0) $tva_use->setReadonly(true);
-  echo "<tr>".td(_("Assujetti à la tva")).$tva_use->input("p_tva_use",$strict_array)."</tr>";
-  echo "<tr>".td(_("Suggérer le numéro de pièce justificative")).$pj_suggest->input("p_pj",$strict_array)."</tr>";
-  echo "<tr>".td(_("Suggérer la date")).$date_suggest->input("p_date_suggest",$strict_array)."</tr>";
-  echo '<tr>'.td(_('Afficher la période comptable pour éviter les erreurs de date')).$check_periode->input('p_check_periode',$strict_array).'</tr>';
+  echo "<tr>".td(_("Assujetti à la tva"),'style="text-align:right"').$tva_use->input("p_tva_use",$strict_array)."</tr>";
+  echo "<tr>".td(_("Suggérer le numéro de pièce justificative"),'style="text-align:right"').$pj_suggest->input("p_pj",$strict_array)."</tr>";
+  echo "<tr>".td(_("Suggérer la date"),'style="text-align:right"').$date_suggest->input("p_date_suggest",$strict_array)."</tr>";
+  echo '<tr>'.td(_('Afficher la période comptable pour éviter les erreurs de date'),'style="text-align:right"').$check_periode->input('p_check_periode',$strict_array).'</tr>';
   echo "</table>";
   echo HtmlInput::submit("record_company",_("Sauve"));
   echo "</form>";

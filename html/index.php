@@ -139,14 +139,24 @@ BODY {
   color:red;
 
 }
-
+.input_text {
+	   border:groove 1px blue;
+	margin:1px;
+}
 .button {
 	font-size:10;
-	color:black;
+	color:white;
+	font-weight: bold;
+	
 	text-decoration:none;
 	font-family: helvetica,arial,sans-serif;
-	background-color:#DFDFDF;
-/*	border-style:  outset ;*/
+	background-image: url("image/bg-submit2.gif");
+	background-repeat: repeat-x;
+	background-position: left;
+	text-decoration:none;
+	font-family: helvetica,arial,sans-serif;
+	
+	border-style:  outset ;
 	border-color:  blue ;
 	border-width:1;
 	padding:2 4 2 4;
@@ -158,11 +168,10 @@ BODY {
 .button:hover {
 	cursor:pointer;
 	background-color:white;
-/*	border-style:  inset ;*/
+	border-style:  inset ;
 	font-color:blue;
 	margin:1 2 1 2;
 	}
-
 </style>
 <script src="js/scripts.js" type="text/javascript"></script>
 </head>
@@ -192,11 +201,11 @@ version  5.1.build SVNINFO - '.$my_domain.'
 <TABLE  BORDER=0 CELLSPACING=0>
 <TR>
 <TD class="cell">utilisateur</TD>
-<TD><input type="text" name="p_user" tabindex="1"></TD>
+<TD><input type="text" class="input_text" name="p_user" tabindex="1"></TD>
 </TR>
 <TR>
 <TD> mot de passe </TD>
-<TD><INPUT TYPE="PASSWORD" NAME="p_pass" tabindex="2"></TD>
+<TD><INPUT TYPE="PASSWORD"  class="input_text"  NAME="p_pass" tabindex="2"></TD>
 </TR>
 <TR>
 <TD COLSPAN=2 ALIGN=CENTER>
