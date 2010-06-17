@@ -1187,19 +1187,22 @@ function empty_attribute($p_attr) {
       $step_tiers=$this->GetAll($offset,$search);
       if ( $all_tiers == 0 ) return "";
       $r=$bar;
-      $r.='<table  width="95%">
-<TR style="background-color:lightgrey;">
+      $r.='<table  class="result">
+<TR >
 <TH>'._('Quick Code').'</TH>
 <th>'._('Nom').'</th>
 <th>'._('Adresse').'</th>
-<th>'._('Total débit').'</th>
-<th>'._('Total crédit').'</th>
-<th>'._('Solde').'</th>';
+<th style="text-align:right">'._('Total débit').'</th>
+<th style="text-align:right">'._('Total crédit').'</th>
+<th style="text-align:right">'._('Solde').'</th>';
 $r.='</TR>';
       if ( sizeof ($step_tiers ) == 0 )
 	return $r;
+      $i=0;
       foreach ($step_tiers as $tiers ) {
-	$r.="<TR>";
+	$i++;$odd="";
+	if ($i % 2 == 0 ) $odd='class="odd"';
+	$r.="<TR $odd>";
 	$e=sprintf('<A HREF="%s?p_action=%s&sb=detail&f_id=%d&%s&sc=sv" title="Détail"> ',
 		   $script,$p_action,$tiers->id,$str_dossier);
 

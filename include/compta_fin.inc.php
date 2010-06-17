@@ -149,8 +149,10 @@ if ( $def == 1 ) {
       echo '<div class="content">';
       $a= $Ledger->insert($_POST);
       echo '<h2 class="info">'._('Opération  sauvée').' </h2>';      
-      echo HtmlInput::button_anchor(_('Nouvel extrait'),$href.'?p_action=fin&sa=n&'.dossier::get());
       echo $a;
+      echo '</div>';
+      echo '<div class="content">';
+      echo HtmlInput::button_anchor(_('Nouvel extrait'),$href.'?p_action=fin&sa=n&'.dossier::get());
       echo '</div>';
       exit();
     }

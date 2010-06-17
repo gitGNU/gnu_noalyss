@@ -61,7 +61,7 @@ $header = array( "Date", "Référence", "Libellé", "Pièce","Let", "Débit", "C
 // Left or Right aligned
 $lor    = array( "L"   , "L"        , "L"      , "L"    , "R",   "R"    , "R"     , "R"     );
 // Column widths (in mm)
-$width  = array( 13    , 20         , 70       , 10     ,  7     , 20     , 20      , 20      );
+$width  = array( 13    , 20         , 60       , 15     ,  12     , 20     , 20      , 20      );
 
 foreach ($a_poste as $poste) {
 
@@ -82,7 +82,7 @@ foreach ($a_poste as $poste) {
       $pdf->Cell($width[$i], 4, $header[$i], 0, 0, $lor[$i]);
     $pdf->Ln();
 
-    $pdf->SetFont('DejaVuCond','',8);
+    $pdf->SetFont('DejaVuCond','',7);
 
 
     $solde = 0.0;
@@ -118,7 +118,7 @@ foreach ($a_poste as $poste) {
           $pdf->Cell($width[$i], 6, shrink_date($detail['j_date_fmt']), 0, 0, $lor[$i]); $i++;
           $pdf->Cell($width[$i], 6, $detail['jr_internal'], 0, 0, $lor[$i]); $i++;
 	  /* limit set to 20 for the substring */
-          $pdf->Cell($width[$i], 6, substr($detail['description'],0,54), 0, 0, $lor[$i]); $i++;
+          $pdf->Cell($width[$i], 6, substr($detail['description'],0,42), 0, 0, $lor[$i]); $i++;
           $pdf->Cell($width[$i], 6, $detail['jr_pj_number'], 0, 0, $lor[$i]); $i++;
           $pdf->Cell($width[$i], 6, ($detail['letter']!=-1)?$detail['letter']:'', 0, 0, $lor[$i]); $i++;
           $pdf->Cell($width[$i], 6, ($detail['deb_montant']  > 0 ? sprintf("%.2f", $detail['deb_montant'])  : ''), 0, 0, $lor[$i]); $i++;

@@ -49,6 +49,7 @@ echo js_include('controls.js');
 echo js_include('dragdrop.js');
 echo js_include('acc_ledger.js');
 echo js_include('ajax_fiche.js');
+echo JS_INFOBULLE;
 echo JS_CARD;
 echo ICard::ipopup('ipopcard');
 echo IPoste::ipopup('ipop_account');

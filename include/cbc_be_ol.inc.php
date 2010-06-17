@@ -32,7 +32,7 @@ while (($row = fgetcsv($handle, 2000,';')) !== FALSE) {
 
   $num = count($row);
   if ( $num != 10 ) continue;
-  if ( $row[2] != 'MC' || $row[3] != 'EUR') continue;
+  if (  $row[3] != 'EUR') continue;
   $line++;
   //-----------------------------------------------------
   // Parsing CSV comes here
@@ -45,7 +45,7 @@ while (($row = fgetcsv($handle, 2000,';')) !== FALSE) {
   // replace the coma by a period
   $montant=str_replace(',','.',$montant);
   // remove the sign
-  $montant=str_replace('-','',$montant);
+  $montant=str_replace('+','',$montant);
   $devise=$row[3];
   $ref_extrait=$row[4].'-'.$line;
   $detail=$line.'/'.$row[4].' '.$row[6];

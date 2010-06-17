@@ -1098,8 +1098,8 @@ array
     $r.="<th>"._('prix')."</th>";
         /* vat use */
     if ( $owner->MY_TVA_USE=='Y') {
-      $r.="<th>tva</th>";
       $r.="<th>"._('quantité')."</th>";
+      $r.="<th>tva</th>";
       $r.='<th> '._('Montant TVA').'</th>';
       $r.='<th>'._('Montant HTVA').'</th>';
     } else {

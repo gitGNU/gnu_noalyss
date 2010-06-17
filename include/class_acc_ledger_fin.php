@@ -52,7 +52,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     /* check for a double reload */
     if ( isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
       throw new Exception (_('Double Encodage'),5);
-
+    
     /* check if we can write into this ledger */
     $user=new User($this->db);
     if ( $user->check_jrn($p_jrn) != 'W' )
@@ -580,7 +580,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $internal_code="";
     $oid=0;
     extract ($p_array);
-    
+    $ret='';
     // Debit = banque
 
     $fBank=new fiche($this->db);
@@ -613,16 +613,23 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	$this->db->start();
 	$amount=0.0;  
 	$idx_operation=0;
+	$ret='<table class="result" style="width:75%">';
+	$ret.=tr(th('Quick Code').th('Nom').th('Libellé').th('Montant'));
 	// Credit = goods 
 	for ( $i = 0; $i < $nb_item;$i++) {
 	  // if tiers is set and amount != 0 insert it into the database 
 	  // and quit the loop ?
 	  if ( strlen(trim(${"e_other$i"}))==0 ) continue;
-
 	  $fPoste=new fiche($this->db);
 	  $fPoste->get_by_qcode(${"e_other$i"});
+
 	  // round it
 	  ${"e_other$i"."_amount"}=round( ${"e_other$i"."_amount"},2);
+
+	  // Compute display
+	  $row=td(${"e_other$i"}).td($fPoste->strAttribut(ATTR_DEF_NAME)).td(${"e_other".$i."_comment"}).td(${"e_other$i"."_amount"},'class="num"');
+
+	  $ret.=tr($row);
 
 	  $amount+=${"e_other$i"."_amount"};
 	  // Record a line for the bank
@@ -776,7 +783,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       if ( strlen(trim($e_pj)) !=0 ) {
       	$this->inc_seq_pj();
       }
-
+      $ret.='</table>';
     } 
   catch (Exception $e)
     {
@@ -793,7 +800,8 @@ class Acc_Ledger_Fin extends Acc_Ledger {
   $r.="<br>Ancien solde ".$solde;
   $new_solde+=$amount;
   $r.="<br>Nouveau solde ".$new_solde;
-  return $r;
+  $ret.=$r;
+  return $ret;
   }
   /*!\brief display operation of a FIN ledger
    *\return html code into a string

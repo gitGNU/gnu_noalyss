@@ -11,5 +11,5 @@ for reusing the same database
 ------------------------------
 * drop the database = dropdb database_name 
 * recreate it 
-	createdb -T mod1 -E latin1 -O phpcompta database_name
+	createdb -T mod1 -E UTF8 -O phpcompta database_name
 

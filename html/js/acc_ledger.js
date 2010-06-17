@@ -179,8 +179,8 @@ function compute_ledger(p_ctl_nb) {
     var qcode=g("e_march"+p_ctl_nb).value;
 
     if ( qcode.length == 0 ) { clean_ledger(p_ctl_nb);refresh_ledger();return;}
-    /** 
-     *@todo if tva_id is empty send a value of -1
+    /* 
+     * if tva_id is empty send a value of -1
      */
 	var tva_id=-1;
 	if ( g('e_march'+p_ctl_nb+'_tva_id') ) {

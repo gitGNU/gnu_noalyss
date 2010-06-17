@@ -28,7 +28,7 @@
 function todo_list_show(p_id) {
     var gDossier=$('gDossier').value;
    $('add_todo_list').style.top=posY+offsetY;
-    $('add_todo_list').style.left=posX+offsetX;
+    $('add_todo_list').style.left=posX+offsetX-200;
 
     try {
     var action=new Ajax.Request(
@@ -59,7 +59,7 @@ function todo_list_show_success(req) {
 	$('p_date').value=getNodeText(tl_date[0]);
 	$('p_desc').value=getNodeText(tl_desc[0]);
 	$('tl_id').value=getNodeText(tl_id[0]);
-	$('add_todo_list').show();
+	$('add_todo_list').style.display='block';
     } catch (e)  { alert(e.message);}
 }
 function todo_list_show_error(request_json) {
@@ -69,7 +69,7 @@ function add_todo() {
     $('add_todo_list').style.top=posY+offsetY;
     $('add_todo_list').style.left=posX+offsetX;
 
-    $('add_todo_list').show()
+    $('add_todo_list').style.display='block';
     $('p_title').value='';
 
     $('p_date').value='';

@@ -21,7 +21,7 @@ if ( isset($_REQUEST['save_todo_list'])) {
 }
 $todo=new Todo_List($cn);
 $array=$todo->load_all();
-echo '<div id="add_todo_list" style="border:1px solid blue;width:40%;display:none;background-color:lightgrey;padding:3;position:absolute;text-align:left;line-height:3em;z-index:1">';
+echo '<div id="add_todo_list" class="add_todo_list">';
 echo '<form method="post">';
 $wDate=new IDate('p_date');
 $wTitle=new IText('p_title');

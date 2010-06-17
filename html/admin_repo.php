@@ -40,7 +40,7 @@ if ($User->admin != 1) {
 }
 
 echo '<H2 class="info"> Administration Globale</H2>';
-echo '<div style="float:left;background-color:#879ED4;width:100%;">';
+echo '<div class="topmenu">';
 
 echo MenuAdmin()."</div>";
 

@@ -61,7 +61,7 @@ html_page_start($_SESSION['g_theme']);
 include_once("user_menu.php");
 
 $priv=($User->admin==1)?"Administrateur":"Utilisateur";
-echo '<div class="info"> ';
+echo '<div class="welcome"> ';
 /**
  *
  * If the user is NOT admin and can access only ONE folder,
@@ -82,10 +82,10 @@ if ( $User->admin == 0 ) {
 $result="<table border=\"0\">";
 $result.='<TR>';
 if ( $User->Admin()  == 1 ) {
-  $result.="<TD  class=\"cell\" ><A class=\"cell\" HREF=\"admin_repo.php\"> Administration  </A></TD>";
+  $result.="<TD  class=\"tool\" ><A class=\"cell\" HREF=\"admin_repo.php\"> Administration  </A></TD>";
 }
-$result.='<TD class="cell"><A class="cell" HREF="user_pref.php">'._('Préférence').'</a></TD>';
-$result.='<TD  class="cell" ><A class="cell" HREF="logout.php" >'._('Deconnexion').'</a></TD>';
+$result.='<TD class="tool"><A class="cell" HREF="user_pref.php">'._('Préférence').'</a></TD>';
+$result.='<TD  class="tool" ><A class="cell" HREF="logout.php" >'._('Deconnexion').'</a></TD>';
 $result.="</TR>";
 $result.="</table>";
 

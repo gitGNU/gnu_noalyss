@@ -50,7 +50,7 @@ function u_ShowDossier($p_user,$p_admin,$p_filtre="")
   $user=new User($cn);
 
 
-  $result.="<TABLE style=\"width:75%;border-width:0px;border-collapse:collapse;\">";
+  $result.="<TABLE style=\"width:auto;border-width:0px;border-collapse:collapse;\">";
   for ($i=0;$i<sizeof($p_array);$i++) {
 
     $id=$p_array[$i]['dos_id'];
@@ -74,7 +74,7 @@ function u_ShowDossier($p_user,$p_admin,$p_filtre="")
     $result.="</TD>";
     $desc=($desc=="")?"<i>Aucune description</i>":h($desc);
     $desc="<A class=\"dossier\" HREF=\"$target\">$desc</A>";
-    $result.="<TD class=\"$tr\">".$desc;
+    $result.="<TD class=\"$tr\" style=\"padding-left:50px\">".$desc;
     $result.="</TD>";
     $result.="</TR>";
 

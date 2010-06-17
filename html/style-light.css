@@ -14,15 +14,24 @@ BODY {
 
 table.result {
   color:blue;
-  border:blue solid 1px; 
+  /* border:blue solid 1px; */
   width:100%;
+   border-spacing:  0px;
+   border-collapse:collapse;
+   
 }
 table.result th { 
   font-weight:bold;
   font-family:helvetica,arial,sans-serif;
-  border-bottom:1px solid blue;
-  padding-left:10px;
-  padding-right:10px;
+ border-bottom:2px solid blue; 
+ border-top:0;
+ 
+  color:#25238F;
+  text-align: left;
+  	      background-color:#EDF3FF;
+  	      
+	      font-style: italic;
+	      
 }
 
 h2 {
@@ -60,6 +69,9 @@ h2.info {
   text-align:center;
   padding:0px;
   margin:0px;
+  display:compact;
+  border:1px solid grey;
+  
 }
 
 h3.info {
@@ -110,7 +122,7 @@ div.u_tmenu div.u_tool {
 div.u_tool {
 	float:left;
 	width:  100%;
-	
+	background-color:
 	
 	}
 div.u_tool div.name {
@@ -195,18 +207,23 @@ div.no span{
 }
 
 table.document {
-	    border:solid blue 2px ;
-	    width:100%;
-	    border-style:outset;  
+   color:blue;
+   width:100%;
+   border-spacing:  0px;
+   border-collapse:collapse;
+
 }
 table.document th{
-	      background-color:lightgrey;
-	      color:darkblue;
+  font-weight:bold;
+  font-family:helvetica,arial,sans-serif;
+  border-bottom:2px solid blue;
+  border-top:0;
+  color:#25238F;
+  text-align: left;
+  background-color:#EDF3FF;
+  font-style: italic;
 }
-table.result th{
-	      background-color:lightgrey;
-	      color:darkblue;
-}
+
 span.error {
 color:black;  
 background-color:red;
@@ -230,6 +247,7 @@ td.mtitle {
         height :30px; 
 	font-size:10px;
     background-color:#DDE6FF;
+    border:1px solid #99B1DF;
 }
 td.msubtitle {
 	text-align:center;
@@ -791,7 +809,7 @@ h2.dossier {
 	color:darkblue;
 	font-style: italic;
 	
-font-size:14px;
+font-size:20px;
 margin:0;
 padding:0;
 text-align:center;
@@ -824,3 +842,27 @@ a#anchorbutton:hover {
 	margin:1 2 1 2;
 	}
 /* </style> */
+div.add_todo_list { 
+                    border:1px solid blue;
+                    display:none;
+                    background-color:#BFD0FF;
+                    padding:3;
+                    position:absolute;
+                    text-align:left;
+                    line-height:3em;
+                    z-index:1}
+div.welcome {
+
+}
+div.gest_name {
+	float:right;
+	margin-right:150;
+	margin-top:15
+}
+h2.gest_name {
+	border-left: 5px solid  #403a8d;
+	border-bottom:1px solid  #b4bbc2;
+		border-top:1px solid  #b4bbc2;
+		border-right:1px solid  #b4bbc2;
+	padding: 5px;
+}

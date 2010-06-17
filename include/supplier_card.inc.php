@@ -73,8 +73,8 @@ echo ShowItem(array(
 	      'H',"mtitle","mtitle",$def,' ');
 echo '</div>';
 echo '<div>';
-echo '<div style="float:right;margin-right:50px;margin-top:15">';
-echo '<h2 class="info2" style="border:solid 2px blue;padding:2px">'.$f->get_quick_code()." ".$f->strAttribut(ATTR_DEF_NAME).'</h2>';
+echo '<div class="gest_name">';
+echo '<h2 class="gest_name">'.$f->get_quick_code()." ".$f->strAttribut(ATTR_DEF_NAME).'</h2>';
 echo '</div>';
 echo '</div>';
 

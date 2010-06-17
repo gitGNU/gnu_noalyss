@@ -84,10 +84,11 @@ foreach($array as $row) {
   }
   /* skip if nothing to display */
   if (count($letter->content) == 0 ) continue;
-  $pdf->SetFont('DejaVu','',10);
+  $pdf->SetFont('DejaVuCond','',10);
   
   $pdf->Cell(0,7,$row->strAttribut(ATTR_DEF_NAME),1,1,'C');
 
+  $pdf->SetFont('DejaVuCond','',7);
 
   $pdf->Cell($tab[0],7,'Date');
   $pdf->Cell($tab[1],7,'ref');
@@ -107,7 +108,7 @@ foreach($array as $row) {
       $pdf->SetFillColor(0,0,0);
       $fill=0;
     }
-    $pdf->SetFont('DejaVuCond','',8);
+    $pdf->SetFont('DejaVuCond','',7);
     $row=$letter->content[$i];
     $str_date=shrink_date($row['j_date_fmt']);
 

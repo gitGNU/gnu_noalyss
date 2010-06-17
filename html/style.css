@@ -1,7 +1,7 @@
 /* <style type="text/css"> */
 
 BODY {
-  background-color:#C2D4D7;
+background-color:#d2d5d8; 
  font-size:10;
   font-family:helvetica,arial,sans-serif;
   padding:0;
@@ -13,20 +13,23 @@ BODY {
         font-weight:bold;
         }
 
-table.result {
+table.result,table.document{
   color:blue;
-  border:blue solid 1px; 
+  border:1 solid blue ; 
   width:100%;
+  border-collapse:collapse;
+  
  
   
 }
-table.result th { 
+table.result th ,table.document th { 
   font-weight:bold;
   font-family:helvetica,arial,sans-serif;
-  border-bottom:0;
+  border-bottom:1px solid darkblue;
   padding-left:10px;
   padding-right:10px;
-  background-color: #7CBBFF;
+  background-color: #B5BCCF;
+  text-align: left;
 	      color:darkblue;
 }
 
@@ -113,7 +116,7 @@ div.u_subtmenu {
 
 }
 div.u_tmenu div.u_tool {
-	   background-color:#36559b;	
+	   background-color:#25238F;	
 	   float:left;
 	   
 }
@@ -143,8 +146,19 @@ div.lmenu {
 	 float:left;
 	 clear:left;
 	font-size:9px;
-	background-color:#EDF3FF;
+	
+	background-color:transparent;
 }
+div.lmenu table {
+	    border-collapse:collapse;
+	    margin-top:2px;
+	    
+		border:1px solid  #2e3951;
+    }
+div.lmenu table tr{    
+       border-bottom:1px solid  #2e3951;
+       }
+
 div.lextmenu {
 	position: float;
 	float:left;
@@ -220,8 +234,9 @@ background-color:red;
 font-size:120%;
 }
 table.mtitle {
-	border:0;
+	border:1 solid;
 	text-align:center
+
 }
 td.mshort { 
   height:15px;
@@ -236,7 +251,10 @@ td.mtitle {
 	width:95px;
         height :30px; 
 	font-size:10px;
-    background-color:#DDE6FF;
+    background-color:#C3D0DF;
+    border-collapse:collapse;
+    border:0;
+    
 }
 td.msubtitle {
 	text-align:center;
@@ -260,9 +278,13 @@ span.even {
  }
 
 tr.odd {
-	background-color:#DDE6FF;
+	background-color:inherit;
 	font-size:10px;
-  border-size:0px;		
+	border-bottom:1px dotted white;
+	
+}
+tr.even {
+		border-bottom:1px dotted white;
 }
 tr {
 	font-size:10px;
@@ -273,8 +295,8 @@ td.odd{
 	font-size:10px;
 }
 td.even{
-	border:0px;
 	font-size:10px;
+
 }
 td.cell{
 	    height:32px;
@@ -294,7 +316,8 @@ a.mtitle {
   font-size:10px;
   text-decoration:none;
   display:inline;
- color: blue;
+ color: darkblue;
+background-color:transparent;
 	
 }
 td.selectedcell a.mtitle {
@@ -516,6 +539,9 @@ font-style: italic;
 font-size: 120% ;
 	
 }
+fieldset {
+	border : 1px solid #25238F;
+	}
 fieldset fieldset legend { 
 	 font-size:110%;
 	 color:grey;
@@ -589,8 +615,8 @@ div.popup_border_title {
 	width:60%;
 	height:80%;
 	z-index:10;
-	border: 2px outset #201e87;
-	background-color:black;
+	border: 2px outset #25238F;
+	background-color:#25238F;
 	font-size: 110% ;
 	font-family: helvetica,arial,sans-serif;
 	font-style: italic;
@@ -631,7 +657,7 @@ div.popup_content {
 	width:100%;
 	height:96%;
 	overflow: auto;
-	background-color:#EFEFEF;	
+	background-color:#a1bcda;	
 	font-size:10px ;
 	font-family: helvetica,arial,sans-serif;
 	font-style: normal;
@@ -786,10 +812,15 @@ cursor:inherit;
 	}
 div.topmenu {
 	float:left;
-	width:100%;
-	
+	width:100%;	
 }
-
+div.topmenu table  {
+  border-collapse:collapse;
+      border:1px solid  #2e3951;
+}
+div.topmenu table tr {
+     border-bottom:2px solid  #2e3951;
+}
 h2.dossier {
 	color:white;
 	font-style: italic;
@@ -831,3 +862,33 @@ a#anchorbutton:hover{
 }
 
 /* </style> */
+div.add_todo_list { 
+                    border:1px solid blue;
+                    display:none;
+                    background-color:lightgrey;
+                    padding:3;
+                    position:absolute;
+                    text-align:left;
+                    line-height:3em;
+                    z-index:1}
+div.welcome {
+	background-color:#25238F;
+	color:white;
+	
+	}
+	div.gest_name {
+	float:right;
+	margin-right:150;
+	margin-top:15
+}
+h2.gest_name {
+	border-left: 1px solid  #403a8d;
+	border-bottom:1px solid  #403a8d;
+	border-top:1px solid  #403a8d;
+	border-right:1px solid  #403a8d;
+	padding: 5px;
+	font-size:160%;
+	color:black;
+	
+	
+}
