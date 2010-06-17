@@ -112,10 +112,6 @@ if ( $_GET['histo'] == 3 ) {
 
   exit();
 }
-// Balance
-if ( $_GET['histo'] == 4 ) {
-  var_dump('to be implemented');
- } 
 $export_pdf='<FORM METHOD="get" ACTION="category_pdf.php">';
 $export_pdf.=HtmlInput::hidden('cat',$_GET['cat']);
 $export_pdf.=HtmlInput::hidden('start',$_GET['start']);
@@ -125,6 +121,12 @@ $export_pdf.=dossier::hidden();
 $export_pdf.=HtmlInput::submit('pdf','Export en PDF');
 $export_pdf.='</FORM>';
   echo $export_pdf;
+// Balance
+if ( $_GET['histo'] == 4 ) {
+  var_dump('to be implemented');
+  exit();
+ } 
+
 // for the lettering
 foreach($array as $row) {
   $letter=new Lettering_Card($cn);
