@@ -164,7 +164,8 @@ if ( $_GET['histo'] == 4 ) {
     echo $export_pdf;
     exit();
   } 
-
+if ( isDate($_REQUEST['start']) == null || isDate ($_REQUEST['end']) == null ) {
+  alert('Date invalide !'); exit;}
 // for the lettering
 foreach($array as $row) {
   $letter=new Lettering_Card($cn);
