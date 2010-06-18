@@ -59,8 +59,8 @@ if ( $_GET['histo'] == 4 ) {
     $fDate=date('dmy-Hi');
     $pdf->Output("category-$fDate.pdf", 'I');exit;
   }
+  $aCard=$cn->get_array("select f_id from vw_fiche_attr where fd_id=$1 order by vw_name ",array($_REQUEST['cat']));
  
-  $aCard=$fd->GetByType();
   if ( empty($aCard)) { 
     $pdf->Cell(0,10, "Aucune fiche trouvée");//Save PDF to file
     $fDate=date('dmy-Hi');
@@ -69,17 +69,18 @@ if ( $_GET['histo'] == 4 ) {
   $pdf->SetFont('DejaVuCond','',7);
   $pdf->Cell(30,7,'Quick Code',0,0,'L',0);
   $pdf->Cell(80,7,'Libellé',0,0,'L',0);
-  $pdf->Cell(20,8,'Débit',0,0,'R',0);
-  $pdf->Cell(20,8,'Crédit',0,0,'R',0);
-  $pdf->Cell(20,8,'Solde',0,0,'R',0);
-  $pdf->Cell(20,8,'D/C',0,0,'C',0);
+  $pdf->Cell(20,7,'Débit',0,0,'R',0);
+  $pdf->Cell(20,7,'Crédit',0,0,'R',0);
+  $pdf->Cell(20,7,'Solde',0,0,'R',0);
+  $pdf->Cell(20,7,'D/C',0,0,'C',0);
   $pdf->Ln();
   $idx=0;
   for ($i=0;$i < count($aCard);$i++) {
     if ( isDate($_REQUEST['start']) == null || isDate ($_REQUEST['end']) == null ) 	 exit;
       $filter= " (j_date >= to_date('".$_REQUEST['start']."','DD.MM.YYYY') ".
 	" and  j_date <= to_date('".$_REQUEST['end']."','DD.MM.YYYY')) ";
-      $solde=$aCard[$i]->get_solde_detail($filter);
+      $oCard=new Fiche($cn,$aCard[$i]['f_id']);
+      $solde=$oCard->get_solde_detail($filter);
       if ( $solde['debit'] == 0 && $solde['credit']==0) continue;
 
       if ( $idx % 2 == 0 ) {
@@ -90,9 +91,9 @@ if ( $_GET['histo'] == 4 ) {
 	$fill=0;
       }
       $idx++;
-      
-      $pdf->Cell(30,7,$aCard[$i]->strAttribut(ATTR_DEF_QUICKCODE),0,0,'L',$fill);
-      $pdf->Cell(80,7,$aCard[$i]->strAttribut(ATTR_DEF_NAME),0,0,'L',$fill);
+   
+      $pdf->Cell(30,7,$oCard->strAttribut(ATTR_DEF_QUICKCODE),0,0,'L',$fill);
+      $pdf->Cell(80,7,$oCard->strAttribut(ATTR_DEF_NAME),0,0,'L',$fill);
       $pdf->Cell(20,7,sprintf('%.02f',$solde['debit']),0,0,'R',$fill);
       $pdf->Cell(20,7,sprintf('%.02f',$solde['credit']),0,0,'R',$fill);
       $pdf->Cell(20,7,sprintf('%.02f',abs($solde['solde'])),0,0,'R',$fill);
