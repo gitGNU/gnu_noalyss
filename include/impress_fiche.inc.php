@@ -120,12 +120,50 @@ $export_pdf.=HtmlInput::hidden('histo',$_GET['histo']);
 $export_pdf.=dossier::hidden();
 $export_pdf.=HtmlInput::submit('pdf','Export en PDF');
 $export_pdf.='</FORM>';
-  echo $export_pdf;
+echo $export_pdf;
 // Balance
 if ( $_GET['histo'] == 4 ) {
-  var_dump('to be implemented');
-  exit();
- } 
+  $fd=new Fiche_Def($cn,$_REQUEST['cat']);
+  if ( $fd->hasAttribute(ATTR_DEF_ACCOUNT) == false ) {
+    echo "Cette catégorie n'ayant pas de poste comptable n'a pas de balance"; 
+    exit;}
+  $aCard=$fd->GetByType();
+  if ( empty($aCard)) { echo "Aucune fiche trouvée";exit;}
+  echo '<table class="result">';
+  echo tr(
+	  th('Quick Code').
+	  th('Libellé').
+	  th('Débit','style="text-align:right"').
+	  th('Crédit','style="text-align:right"').
+	  th('Solde','style="text-align:right"').
+	  th('D/C','style="text-align:right"')
+	  );
+  $idx=0;
+  for ($i=0;$i < count($aCard);$i++) {
+    if ( isDate($_REQUEST['start']) == null || isDate ($_REQUEST['end']) == null ) {
+	alert('Date invalide !'); exit;}
+      $filter= " (j_date >= to_date('".$_REQUEST['start']."','DD.MM.YYYY') ".
+	" and  j_date <= to_date('".$_REQUEST['end']."','DD.MM.YYYY')) ";
+      $solde=$aCard[$i]->get_solde_detail($filter);
+      if ( $solde['debit'] == 0 && $solde['credit']==0) continue;
+      $class='';
+      if ( $idx%2 == 0) $class='class="odd"';
+      $idx++;
+      echo tr(
+	      td($aCard[$i]->strAttribut(ATTR_DEF_QUICKCODE)).
+	      td($aCard[$i]->strAttribut(ATTR_DEF_NAME)).
+	      td(sprintf('%.02f',$solde['debit']),'style="text-align:right"').
+	      td(sprintf('%.02f',$solde['credit']),'style="text-align:right"').
+	      td(sprintf('%.02f',abs($solde['solde'])),'style="text-align:right"').
+	      td((($solde['solde']<0)?'CRED':'DEB'),'style="text-align:right"'),
+	      $class
+	      );
+      
+      }
+    echo '</table>';
+    echo $export_pdf;
+    exit();
+  } 
 
 // for the lettering
 foreach($array as $row) {

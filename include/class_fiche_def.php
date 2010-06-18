@@ -266,7 +266,8 @@ function input ()
  * \param $step = 0 we don't use the offset, page_size,...
  *        $step = 1 we use the jnr_bar_nav
  *
- * \return double array (f_id,fd_id)
+ * \return array of object fiche
+ *\see fiche
  */
   function GetByType($step=0) {
     $sql="select * 
