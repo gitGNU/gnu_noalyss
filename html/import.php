@@ -125,5 +125,23 @@ if ( isset ($_POST['action'])) {
   }
 
 }
+if ( isset($_REQUEST['action']) && $_REQUEST['action']=='purge') {
+    if ( isset($_POST['ok'])) {
+      echo '<div class="u_redcontent">';
+      echo h2info('Toutes  les données CSV sont effacées');
+      $cn->exec_sql('truncate import_tmp');
+      echo '</DIV>';
+
+    } else {
+      echo '<div class="u_redcontent">';
+      echo '<p> En purgeant la table, vous effacez toutes les données des fichiers CSV que vous avez importés,
+cela n\' affecte pas les opérations déjà transfèrées dans la comptabilité</p>';
+      echo '<form method="POST">';
+      echo HtmlInput::hidden('action','purge');
+      echo HtmlInput::submit('ok','Purger');
+      echo '</FORM>';
+      echo '</DIV>';
+    }
+}
 html_page_stop();
 ?>

@@ -24,9 +24,9 @@
  * \brief
  */
 
-require_once('sfpdf/sfpdf.php');
+require_once('tfpdf/tfpdf.php');
 
-class PDF extends SFPDF {
+class PDF extends TFPDF {
 
     var $cn  = null;
     var $own = null;
@@ -38,12 +38,13 @@ class PDF extends SFPDF {
 
         if($p_cn == null) die("No database connection. Abort.");
 
-        parent::SFPDF($orientation, $unit, $format);
-	$this->AddFont('DejaVu','','dejavusans.php',true);
-	$this->AddFont('DejaVu','B','dejavusansb.php',true);
-	$this->AddFont('DejaVu','BI','dejavusansbi.php',true);
-	$this->AddFont('DejaVuCond','','dejavusanscondensed.php',true);
-	$this->AddFont('DejaVuCond','B','dejavusanscondensedb.php',true);
+        parent::TFPDF($orientation, $unit, $format);
+	$this->AddFont('DejaVu','','DejaVuSans.ttf',true);
+	$this->AddFont('DejaVu','B','DejaVuSans-Bold.ttf',true);
+	$this->AddFont('DejaVu','BI','DejaVuSans-BoldOblique.ttf',true);
+	$this->AddFont('DejaVuCond','','DejaVuSansCondensed.ttf',true);
+	$this->AddFont('DejaVuCond','B','DejaVuSansCondensed-Bold.ttf',true);
+	$this->AddFont('DejaVuCond','I','DejaVuSansCondensed-Oblique.ttf',true);
         date_default_timezone_set ('Europe/Paris');
 
         $this->cn  = $p_cn;
@@ -68,7 +69,7 @@ class PDF extends SFPDF {
         //Position at 2 cm from bottom
         $this->SetY(-20);
         //Arial italic 8
-        $this->SetFont('Arial', 'I', 8);
+        $this->SetFont('DejaVuCond', 'I', 8);
         //Page number
         $this->Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
 	$this->Ln(3);
@@ -155,13 +156,14 @@ class PDFLand extends PDF {
 
         if($p_cn == null) die("No database connection. Abort.");
 
-        parent::SFPDF('L', $unit, $format);
-	$this->AddFont('DejaVu','','dejavusans.php',true);
-	$this->AddFont('DejaVu','B','dejavusansb.php',true);
-	$this->AddFont('DejaVu','BI','dejavusansbi.php',true);
-	$this->AddFont('DejaVuCond','','dejavusanscondensed.php',true);
-	$this->AddFont('DejaVuCond','B','dejavusanscondensedb.php',true);
+        parent::TFPDF('L', $unit, $format);
         date_default_timezone_set ('Europe/Paris');
+	$this->AddFont('DejaVu','','DejaVuSans.ttf',true);
+	$this->AddFont('DejaVu','B','DejaVuSans-Bold.ttf',true);
+	$this->AddFont('DejaVu','BI','DejaVuSans-BoldItalique.ttf',true);
+	$this->AddFont('DejaVuCond','','DejaVuSansCondensed.ttf',true);
+	$this->AddFont('DejaVuCond','B','DejaVuSansCondensed-Bold.ttf',true);
+	$this->AddFont('DejaVuCond','I','DejaVuSansCondensed-Oblique.ttf',true);
 
         $this->cn  = $p_cn;
         $this->own = new own($this->cn);
@@ -180,7 +182,7 @@ class PDFLand extends PDF {
         //Position at 2 cm from bottom
         $this->SetY(-20);
         //Arial italic 8
-        $this->SetFont('Arial', 'I', 8);
+        $this->SetFont('DejaVuCond', 'I', 8);
         //Page number
         $this->Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
 	$this->Ln(3);

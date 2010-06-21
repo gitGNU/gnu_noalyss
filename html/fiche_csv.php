@@ -57,7 +57,7 @@ if  ( isset ($_GET['fd_id'])) {
   printf("\n");
   $o=0;
   // Details
-  // Save the accounting 
+  usort($e,'fiche::cmp_name');
   foreach ($e as $detail) {
     foreach ( $detail->attribut as $dattribut ) {
 	  if ( $o == 0 ) {

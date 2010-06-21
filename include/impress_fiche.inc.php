@@ -82,7 +82,7 @@ echo '<hr>';
 if ( ! isset($_GET['cat_display'])) 
   exit();
 
-$array=Fiche::get_fiche_def($cn,$_GET['cat']);
+$array=Fiche::get_fiche_def($cn,$_GET['cat'],'name_asc');
 
 /*
  * You show now the result

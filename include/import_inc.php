@@ -1,3 +1,4 @@
+
 <?php  
 /*
  *   This file is part of PhpCompta.
@@ -61,6 +62,9 @@ echo $search_card->input();
  * \param $file  the uploaded file
  * \param $p_bq_account the bank account (target)
  * \param $p_format_csv file to include (depending of the bank)
+ *@todo this function doesn't update the table quant_fin, it must be done
+ * Run first the fill_quant_fin 
+ *@see upgrade76.sql
  */
 function ImportCSV($p_cn,$file,$p_bq_account,$p_format_csv,$p_jrn)
 {
@@ -269,7 +273,7 @@ function TransferCSV($p_cn, $periode){
   $start ="to_date('".$val['p_start']."','DD-MM-YYYY')";   
   $end = "to_date('".$val['p_end']."','DD-MM-YYYY')";
   $sql = "select code,to_char(date_exec,'DD.MM.YYYY') as date_exec, ".
-    " montant,num_compte,poste_comptable,bq_account,jrn,detail,jr_rapt ".
+    " montant,num_compte,poste_comptable,bq_account,jrn,detail,jr_rapt,it_pj ".
     " from import_tmp where ".
          " status= 'w' AND date_exec BETWEEN ".$start." and ".$end;
 
@@ -353,11 +357,13 @@ function TransferCSV($p_cn, $periode){
 	$acc_op->comment=$detail.$num_compte." ".$code;
 
 	$jr_id=$acc_op->insert_jrn();
+	$sql="update jrn set jr_pj_number=$1 where jr_id=$2";
+	$p_cn->exec_sql($sql,array($val['it_pj'],$jr_id));
 
       	$internal=$oJrn->compute_internal_code($seq);
 
-	$Res=$p_cn->exec_sql("update jrn set jr_internal='".$internal."' where ".
-               " jr_id = ".$jr_id);
+	$Res=$p_cn->exec_sql("update jrn set jr_internal=$1 where jr_id = $2",array($internal,$jr_id));
+
       // insert rapt
 
 	$acc_reconc=new Acc_Reconciliation($p_cn);

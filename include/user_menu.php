@@ -415,6 +415,7 @@ function ShowMenuImport(){
   echo '<TR><TD class="mtitle"><A class="mtitle" HREF="import.php?action=import&'.$str_dossier.'">'._('Importer CSV').'</A></TD></TR>';
   echo '<TR><TD class="mtitle"><A class="mtitle" HREF="import.php?action=verif&'.$str_dossier.'">'._('Verif CSV').'</A></TD></TR>';
   echo '<TR><TD class="mtitle"><A class="mtitle" HREF="import.php?action=transfer&'.$str_dossier.'">'._('Transfert CSV').'</A></TD></TR>';
+  echo '<TR><TD class="mtitle"><A class="mtitle" HREF="import.php?action=purge&'.$str_dossier.'">'._('Purge CSV').'</A></TD></TR>';
 
   echo "</TABLE>";
 }

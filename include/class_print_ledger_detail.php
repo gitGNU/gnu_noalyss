@@ -33,11 +33,6 @@ class Print_Ledger_Detail extends PDF
     if($p_cn == null) die("No database connection. Abort.");
 
     parent::__construct($p_cn,'L', 'mm', 'A4');
-    $this->AddFont('DejaVu','','dejavusans.php',true);
-    $this->AddFont('DejaVu','B','dejavusansb.php',true);
-    $this->AddFont('DejaVu','BI','dejavusansbi.php',true);
-    $this->AddFont('DejaVuCond','','dejavusanscondensed.php',true);
-    $this->AddFont('DejaVuCond','B','dejavusanscondensedb.php',true);
     date_default_timezone_set ('Europe/Paris');
 
   }
@@ -111,8 +106,11 @@ class Print_Ledger_Detail extends PDF
 	// if j_qcode is not empty retrieve name
 	if ( $entry['j_qcode'] != '') { 
 	  $f_id=$this->cn->get_value('select f_id from vw_poste_qcode where j_qcode=$1',array($entry['j_qcode']));
-	  $name=$this->cn->get_value('select av_text from attr_value join jnt_fic_att_value using(jft_id) where f_id=$1 and ad_id=1',
-			       array($f_id));
+	  if ($f_id != '')
+	    $name=$this->cn->get_value('select av_text from attr_value join jnt_fic_att_value using(jft_id) where f_id=$1 and ad_id=1',
+				       array($f_id));
+	  else
+	    $name=$entry['pcm_lib'];
 	} else
 	  $name=$entry['pcm_lib'];
 	$this->Cell(80,6,$name,0,0,'L');

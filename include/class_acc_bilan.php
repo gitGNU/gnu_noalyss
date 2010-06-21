@@ -63,7 +63,7 @@ class Acc_Bilan {
 
 	$periode_start=$this->db->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $p_filter_year order by p_start,p_end");
 	
-	$periode_end=$this->db->make_array("select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $p_filter_year order by p_start,p_end");
+	$periode_end=$this->db->make_array("select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $p_filter_year order by p_end,p_start");
 
 	$w->label=_("Depuis");
 	$w->value=$this->from;
@@ -96,17 +96,19 @@ class Acc_Bilan {
       return;
     $count=0;
     $nRow=Database::num_row($res);
+
     $ret="";
     $obj=new Acc_Account_Ledger($this->db,0);
     for ($i=0;$i<$nRow;$i++) {
 
-      $line=Database::fetch_array($res);
+      $line=Database::fetch_array($res,$i);
       /* set the periode filter */
       $sql=sql_filter_per($this->db,$this->from,$this->to,'p_id','j_tech_per');
       $obj->id=$line['pcm_val'];
 
       $solde=$obj->get_solde_detail($sql);
       $solde_signed=$solde['debit']-$solde['credit'];
+
       if ( 
 	  ($solde_signed < 0 && $p_deb == 'D' ) ||
 	  ($solde_signed > 0 && $p_deb == 'C' )

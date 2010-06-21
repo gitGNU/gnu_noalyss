@@ -55,6 +55,13 @@ class fiche {
     $this->id=$p_id;
     $this->quick_code='';
   }
+  /**
+   *@brief used with a usort function, to sort an array of Fiche on the name
+   */
+  static function cmp_name($o1,$o2) {
+    return strcmp($o1->strAttribut(ATTR_DEF_NAME),$o2->strAttribut(ATTR_DEF_NAME));
+  }
+
 /*!   get_by_qcode($p_qcode)
  * \brief Retrieve a card thx his quick_code
  *        complete the object,, set the id member of the object or set it
@@ -64,7 +71,6 @@ class fiche {
  * are true, false retrieves only the f_id
  * \return 0 success 1 error not found
  */
-
   function get_by_qcode($p_qcode=null,$p_all=true)
     {
       if ( $p_qcode == null )
@@ -200,24 +206,34 @@ class fiche {
  * \param  $p_frd_id the fiche_def_ref.frd_id
  * \param  $p_offset
  * \param  $p_search is an optional filter
- *
+ *\param $p_order : possible values are name, f_id
  * \return array of fiche object
  */
-  function GetByDef($p_frd_id,$p_offset=-1,$p_search="") {
+  function GetByDef($p_frd_id,$p_offset=-1,$p_search="",$p_order='') {
+    switch($p_order) {
+    case 'name' :
+      $order=' order by name';
+      break;
+    case 'f_id':
+      $order='order by f_id';
+      break;
+    default:
+      $order='';
+    }
     if ( $p_offset == -1 )
       {
 		$sql="select *
            from
-               fiche join fiche_Def using (fd_id)
-            where frd_id=".$p_frd_id." $p_search order by f_id";
+               fiche join fiche_Def using (fd_id) join vw_fiche_name using(f_id)
+            where frd_id=".$p_frd_id." $p_search ".$order;
       }
     else
       {
 		$limit=($_SESSION['g_pagesize']!=-1)?"limit ".$_SESSION['g_pagesize']:"";
 		$sql="select *
            from
-               fiche join fiche_Def using (fd_id)
-            where frd_id=".$p_frd_id." $p_search order by f_id "
+               fiche join fiche_Def using (fd_id) join vw_fiche_name using(f_id)
+            where frd_id=".$p_frd_id." $p_search $order  "
 		  .$limit." offset ".$p_offset;
 
       }
@@ -834,9 +850,9 @@ Array
     * \param $p_search sql condition
     * \return array of fiche object
     */
-   function GetAll($p_offset=-1,$p_search="")
+   function GetAll($p_offset=-1,$p_search="",$p_order='')
      {
-       return fiche::GetByDef($this->fiche_def_ref,$p_offset,$p_search);
+       return fiche::GetByDef($this->fiche_def_ref,$p_offset,$p_search,$p_order);
     }
    /*!\brief retrieve the frd_id of the fiche it is the type of the
     *        card (bank, purchase...)
@@ -1184,7 +1200,7 @@ function empty_attribute($p_attr) {
                 ad_id=1 and av_text ~* '$p_search')";
 	}
       // Get The result Array
-      $step_tiers=$this->GetAll($offset,$search);
+      $step_tiers=$this->GetAll($offset,$search,'name');
       if ( $all_tiers == 0 ) return "";
       $r=$bar;
       $r.='<table  class="result">
@@ -1198,6 +1214,7 @@ function empty_attribute($p_attr) {
 $r.='</TR>';
       if ( sizeof ($step_tiers ) == 0 )
 	return $r;
+
       $i=0;
       foreach ($step_tiers as $tiers ) {
 	$i++;$odd="";
@@ -1334,10 +1351,20 @@ function belong_ledger($p_jrn,$p_type="")
 /*!\brief  get all the card from a categorie
  *\param $p_cn database connx
  *\param $pFd_id is the category id
+ *\param $p_order for the sort, possible values is name_asc,name_desc or nothing
  *\return an array of card, but only the fiche->id is set
  */
-static function get_fiche_def($p_cn,$pFd_id) {
-  $sql='select f_id from fiche where fd_id=$1';
+static function get_fiche_def($p_cn,$pFd_id,$p_order='') {
+  switch ($p_order) {
+  case 'name_asc':
+      $sql='select f_id from fiche join vw_fiche_name using (f_id) where fd_id=$1 order by name asc';
+      break;
+  case 'name_desc':
+      $sql='select f_id from fiche join vw_fiche_name using (f_id) where fd_id=$1 order by name desc';
+      break;
+  default:
+    $sql='select f_id from fiche  where fd_id=$1 ';
+  }
   $array=$p_cn->get_array($sql,array($pFd_id));
   if ( empty ($array) ) return null;
   foreach ($array as $ret ) {

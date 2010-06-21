@@ -36,6 +36,7 @@ require_once('class_database.php');
 //-----------------------------------------------------
 $filter_year=" where p_exercice='".$User->get_exercice()."'";
 $bilan=new Acc_Bilan($cn);
+$bilan->get_request_get();
 echo '<div class="content">';
 
 echo '<FORM  METHOD="GET">';

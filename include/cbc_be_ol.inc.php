@@ -31,7 +31,7 @@ $p_cn->set_encoding('latin1');
 while (($row = fgetcsv($handle, 2000,';')) !== FALSE) {
 
   $num = count($row);
-  if ( $num != 10 ) continue;
+  if ( $num != 11 ) continue;
   if (  $row[3] != 'EUR') continue;
   $line++;
   //-----------------------------------------------------
@@ -49,6 +49,7 @@ while (($row = fgetcsv($handle, 2000,';')) !== FALSE) {
   $devise=$row[3];
   $ref_extrait=$row[4].'-'.$line;
   $detail=$line.'/'.$row[4].' '.$row[6];
+  $pj=$row[10];
   //	  
   //-----------------------------------------------------
   // insert into import_tmp
@@ -61,7 +62,8 @@ while (($row = fgetcsv($handle, 2000,';')) !== FALSE) {
 				detail,
 				bq_account ,
 				jrn,
-				status)
+				status,
+                                it_pj)
 			values ('$ref_extrait',
 				to_date('$date_exec','DD/MM/YYYY'),
 				to_date('$date_exec','DD/MM/YYYY'),
@@ -70,7 +72,7 @@ while (($row = fgetcsv($handle, 2000,';')) !== FALSE) {
 				'$detail',
 				'$p_bq_account',
 				$p_jrn,
-				'n')";
+				'n',$pj)";
   try 
     {
       $p_cn->exec_sql($Sql) ;
