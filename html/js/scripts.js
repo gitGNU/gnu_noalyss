@@ -409,3 +409,68 @@ function add_div(obj) {
 function removeDiv(elt) {
     if (g(elt) ){ document.body.removeChild(g(elt)); }
 }
+/**
+*@brief call add_div to add a DIV and after call the ajax
+* the queryString, the callback for function for success and error management
+* the method is always GET
+*@param obj, the mandatory attributes are
+*  - obj.qs querystring
+*  - obj.js_success callback function in javascript for handling the xml answer
+*  - obj.js_error callback function for error
+*  - obj.callback the php file to call
+*  - obj.fixed optional let you determine the position, otherwise works like IPopup
+*@see add_div IBox
+*/
+function show_box(obj) {
+    add_div(obj) ;
+    if ( ! obj.fixed )  {
+	var sx=0;
+	if ( window.scrollY) { sx=window.scrollY+40;}
+	else { sx=document.body.scrollTop+40;}
+	g(obj.id).style.top=sx;
+	show(obj.id);
+    } else {
+	show(obj.id);
+    }
+    if ( obj.drag ) {
+	new Draggable(obj.id,{starteffect:function(){
+	    new Effect.Highlight(obj.id,{scroll:window,queue:'end'});  } }
+		     );
+    }
+    var action=new Ajax.Request (
+                               obj.callback,
+                               {
+                                 method:'GET',
+                                 parameters:obj.qs,
+                                 onFailure:eval(obj.js_error),
+                                 onSuccess:eval(obj.js_success)
+                               });
+}
+/**
+ *@brief receive answer from ajax and just display it into the IBox
+ * XML must contains at least 2 fields : code is the ID of the IBOX and 
+ * html which is the contain
+ */
+function success_box(req,json)
+{
+    try{
+	var answer=req.responseXML;
+	var a=answer.getElementsByTagName('ctl');
+	var html=answer.getElementsByTagName('code');
+	if ( a.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
+	var name_ctl=a[0].firstChild.nodeValue;
+	var code_html=getNodeText(html[0]);
+	code_html=unescape_xml(code_html);
+	g(name_ctl).innerHTML=code_html;
+    } 
+    catch (e) {
+	alert(e.message);}
+    try{
+	code_html.evalScripts();}
+    catch(e){
+	alert("answer_box Impossible executer script de la reponse\n"+e.message);}
+}
+
+function error_box () {
+    alert('IBOX : error_box ajax not implemented');
+}

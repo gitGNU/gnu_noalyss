@@ -1,4 +1,4 @@
-s﻿<?php
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -66,7 +66,8 @@ $array=array(
 	array(27,'Card (class_fiche)'),
 	array(28,'Extension'),
 	array(29,'ITVA popup'),
-	array(30,'Ereg and preg_match')
+	array(30,'Ereg and preg_match'),
+	array(31,'IBOX')
 	);
 $r='<form method="get">';
 $r.='<select name="test_select" >';
@@ -256,7 +257,9 @@ case 30:
     //    preg_match ("/^(\\$[a-zA-Z]+[0-9]*=){0,1}((\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})+ *([+-\*/])* *(\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})*)*(([+-\*/])*\\$([a-zA-Z])+[0-9]*([+-\*/])*)* *( *FROM=[0-9][0-0].20[0-9][0-9]){0,1}\$/",$str,$p_result);
   var_dump($p_result);
   }
-
+case 31:
+  require_once('class_ibox.php');
+  IBox::test_me();
   break;
 }
 
