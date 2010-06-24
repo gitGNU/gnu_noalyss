@@ -55,7 +55,24 @@ echo <<<EOF
 EOF;
 exit();
 }
+$ac=new Database();
 
+/* check if repo valid */
+if ( $ac->exist_table('version') == false) {
+  echo '<h2 class="error" style="font-size:12px">'._("Base de donnée invalide").'</h2>';
+  $base=dirname($_SERVER['REQUEST_URI']);
+  exit();
+}
+
+/* check repo version */
+$version = $ac->get_value('select val from version');
+if ( $version < DBVERSIONREPO ) {
+  echo '<h2 class="error" style="font-size:12px">'._("Votre base de données n'est pas à jour").'   ';
+  $a=_("cliquez ici pour appliquer le patch");
+  $base=dirname($_SERVER['REQUEST_URI']).'/admin/setup.php';
+  echo '<a hreF="'.$base.'">'.$a.'</a></h2>';
+
+}
 
 html_page_start($_SESSION['g_theme']);
 include_once("user_menu.php");
