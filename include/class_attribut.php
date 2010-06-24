@@ -36,28 +36,14 @@ class Attribut {
     $this->cn=-1;
   }
 
-}
+
 
 /*! 
- **************************************************
- * \brief  Sort an array of object attribut thx the
- *        ad_id
- * 
- *\param  p_attribut array of Attribut objects
- * 
- *	
- * \return the ordered array
+ *@brief used with a usort function, to sort an array of Attribut on the attribut_id (ad_id)
  */
-function SortAttributeById($p_attribut) {
-  for ($i=0;$i< sizeof($p_attribut)-1;$i++) {
-      if ( $p_attribut[$i]->ad_id > $p_attribut[$i+1]->ad_id ) {
-	// then swap them
-	$t=$p_attribut[$i];
-	$p_attribut[$i]=$p_attribut[$i+1];
-	$p_attribut[$i+1] = $t;
-	$i=0;
-      }
-    }
-  
-  return $p_attribut;
+  static function sort_by_id($o1,$o2) {  
+    if ( $o1->ad_id > $o2->ad_id ) return 1;
+    if ( $o1->ad_id == $o2->ad_id ) return 0;
+    return -1;
+  }
 }

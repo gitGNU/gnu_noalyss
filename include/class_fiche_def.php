@@ -211,9 +211,9 @@ function input ()
        
        // p_class is a valid number
        $sql="insert into fiche_def(fd_label,fd_class_base,frd_id,fd_create_account) 
-                values ($1,$2,$3,$4)";
+                values ($1,$2,$3,$4) returning fd_id";
 
-       $Res=$this->cn->exec_sql($sql,array($p_nom_mod,$p_class_base,$p_FICHE_REF,$p_create));
+       $this->id=$this->cn->get_value($sql,array($p_nom_mod,$p_class_base,$p_FICHE_REF,$p_create));
 
        // p_class must be added to tmp_pcmn if it is a single accounting       
        if ( strpos(',',$p_class_base) ==0) {
@@ -231,10 +231,10 @@ function input ()
 
      } else {
        //There is no class base not even as default
-       $sql=sprintf("insert into fiche_def(fd_label,frd_id,fd_create_account) values ('%s',%d,'%s')",
+       $sql=sprintf("insert into fiche_def(fd_label,frd_id,fd_create_account) values ('%s',%d,'%s') returning fd_id",
 		    $p_nom_mod,$p_FICHE_REF,$p_create);
        
-       $Res=$this->cn->exec_sql($sql);
+       $this->id=$this->cn->get_value($sql);
        
        // Get the fd_id
        $fd_id=$this->cn->get_current_seq('s_fdef');
@@ -258,6 +258,7 @@ function input ()
 	 $this->cn->exec_sql($sql);
        }
      }
+     $this->id=$fd_id;
      return 0;     
      
    }//--------------end function Add ----------------------------

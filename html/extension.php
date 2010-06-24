@@ -67,18 +67,25 @@ echo <<<EOF
 <div style="position:absolute;top:3px;right:30px" class="noprint">
 <form method="get" action="access.php" style="display:inline">
   $hidden
+<?php   echo HtmlInput::button_anchor(_('Préférence'),'user_pref.php'); ?>
   <input type="SUBMIT" class="button" value="$msg">
 </form>
 </div>
 EOF;
+
+
 } else {
   $msg=_('Retour accueil');
 ?>
     <div style="position:absolute;top:3px;right:30px" class="noprint">
     <form method="get" action="access.php" style="display:inline">
 <?php
-       echo HtmlInput::button_anchor('Retour Accueil','user_login.php');
+       if ($only_plugin !='P')
+	 echo HtmlInput::button_anchor('Retour Accueil','user_login.php');
+  echo HtmlInput::button_anchor(_('Préférence'),'user_pref.php');
   echo HtmlInput::button_anchor(_('Déconnexion'),'logout.php?');
+
+  
   ?>
     </form>
     </div>

@@ -72,10 +72,15 @@ if ( $User->admin == 0 ) {
   // how many folder ?
   $folder=GetAvailableFolder($_SESSION['g_user'],0);
   if ( count($folder) == 1 ) {
-    if ( $User->check_dossier($folder[0]['dos_id']) == 'P') 
+    if ( $User->check_dossier($folder[0]['dos_id']) == 'P')  {
       redirect('extension.php?gDossier='.$folder[0]['dos_id']);
+      exit();
+    }
     else 
-      redirect('access.php?gDossier='.$folder[0]['dos_id']);
+      {
+	redirect('access.php?gDossier='.$folder[0]['dos_id']);
+	exit();
+      }
   }
 
 }

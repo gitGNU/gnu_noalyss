@@ -17,6 +17,9 @@ if (isset($_REQUEST['plugin_code']) ) {
 
 
     echo '</div>';
+    if ( ! file_exists('../include/ext'.DIRECTORY_SEPARATOR.trim($ext->get_parameter('filepath')))) {
+	 alert(j(_("Ce fichier n'existe pas "))); exit();
+      }
     require_once('ext'.DIRECTORY_SEPARATOR.trim($ext->get_parameter('filepath')));
   } else {
     alert(j(_("Cette extension n'existe pas ")));

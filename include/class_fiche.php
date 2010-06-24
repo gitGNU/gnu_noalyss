@@ -89,11 +89,25 @@ class fiche {
 	$this->getAttribut();
       return 0;
     }
-/*!
- **************************************************
- * \brief  get all the attribute of a card, add missing ones
- *         and sort the array ($this-\>attribut) by ad_id
- */
+  /**
+   *@brief set an attribute by a value, if the attribut array is empty
+   * a call to getAttribut is performed
+   *@param the AD_ID
+   *@param the value
+   *@see constant.php table: attr_def
+   */
+  function setAttribut($p_ad_id,$p_value) {
+    if ( sizeof($this->attribut)==0 ) $this->getAttribut();
+    for ($e=0;$e <sizeof($this->attribut);$e++) {
+      if ( $this->attribut[$e]->ad_id == $p_ad_id )  {
+	$this->attribut[$e]->av_text=$p_value; break;
+      }
+    }
+  }
+  /**
+   *\brief  get all the attribute of a card, add missing ones
+   *         and sort the array ($this-\>attribut) by ad_id
+   */
   function getAttribut() {
     if ( $this->id == 0){
       return;
@@ -141,7 +155,7 @@ class fiche {
 	} // if flag == 0
 
       }// foreach
-      $this->attribut=SortAttributeById($this->attribut);
+      usort($this->attribut,'Attribut::cmp_id');
 
 
     }//missing attribut
@@ -520,6 +534,11 @@ Array
  *
  * \param p_fiche_def fiche_def.fd_id
  * \param p_array is the array containing the data
+ av_textX where X is the ad_id
+ *\verb
+example
+av_text1=>'name'
+\endverb
  */
   function insert($p_fiche_def,$p_array=null)
   {
