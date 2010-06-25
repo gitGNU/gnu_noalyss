@@ -39,16 +39,16 @@ function rapport_add_row(p_dossier){
 
   // right cell
   var cellName = row.insertCell(1);
-  cellName.innerHTML='<input type="text" '+style+' size="50" id="text'+line+'" name="text'+line+'">';
+  cellName.innerHTML='<input type="text" '+style+' size="40" id="text'+line+'" name="text'+line+'">';
 
-  // Formula
-  var cellFormula = row.insertCell(2);
-  cellFormula.innerHTML='<input type="text" '+style+' size="35" id="form'+line+'"  name="form'+line+'">';
+  // button + formula
+    var cellbutton = row.insertCell(2);
+    var but_html=table.rows[1].cells[2].innerHTML;
+    but_html=but_html.replace(/form0/g,"form"+line);
+    cellbutton.innerHTML=but_html;
+    but_html.evalScripts();
 
-  // Search Button
-  var cellSearch = row.insertCell(3);
-   cellSearch.innerHTML='<input type="button" value="Recherche Poste" onclick="SearchPoste('+p_dossier+',\'form'+line+'\',\'\',\'poste\',\'N\')" class="inp"/>';
-
+    g('form'+line).value='';
 }
 
 /**

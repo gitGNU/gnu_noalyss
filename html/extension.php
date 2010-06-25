@@ -57,21 +57,22 @@ echo JS_INFOBULLE;
 
 /* show button to return to access */
 echo "<h2 class=\"info\">".dossier::name()."</h2>";
-
 if ( $only_plugin != 'P' ) {
 	// user with only plugin cannot go back to the dashboard
 /* return button */
 $msg=_('Retour au tableau de bord');
 $hidden=dossier::hidden();
-echo <<<EOF
+echo '
 <div style="position:absolute;top:3px;right:30px" class="noprint">
-<form method="get" action="access.php" style="display:inline">
-  $hidden
-<?php   echo HtmlInput::button_anchor(_('Préférence'),'user_pref.php'); ?>
-  <input type="SUBMIT" class="button" value="$msg">
+<form method="get" action="access.php" style="display:inline">'.
+  $hidden;
+
+echo HtmlInput::button_anchor(_('Préférence'),'user_pref.php'); 
+echo '
+  <input type="SUBMIT" class="button" value="'.$msg.'">
 </form>
 </div>
-EOF;
+';
 
 
 } else {
