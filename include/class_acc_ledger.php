@@ -574,9 +574,9 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
     // Check ledger type :
      if (  $row['jrn_def_type'] == 'FIN' )
      {
-       $positive = $this->db->count_sql("select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
- 			   " where jr_id=".$row['jr_id']." and $sql_fin ".
- 			   " and j_debit='f'");
+       $positive = $this->db->get_value("select qf_amount from quant_fin where jr_id=$1",
+					array($row['jr_id']));
+       $positive=($positive < 0)?1:0;
      }
     $r.="<TD align=\"right\">";
 
