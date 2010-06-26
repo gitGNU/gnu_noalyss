@@ -34,11 +34,6 @@ require_once('class_user.php');
 require_once('class_acc_operation.php');
 require_once('class_acc_ledger.php');
 require_once ('class_fiche.php');
-require_once('function_javascript.php');
-echo js_include('scripts.js');
-echo js_include('prototype.js');
-echo js_include('effects.js');
-echo js_include('dragdrop.js');
 
   /**
    *@todo Check if we receive the needed data (jr_id...)
@@ -98,10 +93,23 @@ case 'de':
   $html=ob_get_contents();
   ob_clean();
   }
-  echo $html;
-  exit();
   break;
-
+  /////////////////////////////////////////////////////////////////////////////
+  // form for the file
+  /////////////////////////////////////////////////////////////////////////////
+  case 'file':
+      echo '<FORM METHOD="POST" ENCTYPE="multipart/form-data" id="form_file">';
+      echo HtmlInput::hidden('act','loadfile');
+      echo dossier::hidden();
+      echo HtmlInput::hidden('jr_id',$jr_id);
+      echo HtmlInput::hidden('div',$div);
+    
+      echo '<INPUT TYPE="FILE" id="file" onchange="submit(this)">';
+      echo '</FORM>';
+      exit();
+  case 'loadfile':
+    echo "save the file ";
+    exit();
 }
 $html=escape_xml($html);
 header('Content-type: text/xml; charset=UTF-8');

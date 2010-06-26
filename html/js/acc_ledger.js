@@ -442,11 +442,20 @@ return true;
 
 function modifyOperation(p_value,dossier)
 {
-	layer++;id='det'+layer;
-	var popup={'id':id,'cssclass':'op_detail','html':'<div class="op_detail_title"><div style="float:right;top:0"><A style="background-color:blue;color:white;text-decoration:none" HREF="#" onclick="removeDiv(\''+id+'\');">Fermer</A></div>Détail opérations</div><div style="border:0;width:100%;height:100%"><iframe id="if'+id+'" style="padding:0;margin:0;border:0;width:100%;height:auto%" src="ajax_ledger?gDossier='+dossier+'&act=de&jr_id='+p_value+'&div='+id+'"</iframe></div>','drag':true};
-	
-	add_div(popup);
-	g(id).style.top=posY;
+    layer++;id='det'+layer;
+    var popup={'id':id,'cssclass':'op_detail','html':loading(),'drag':true};
+    querystring='?gDossier='+dossier+'&act=de&jr_id='+p_value+'&div='+id;
+    add_div(popup);
+    var action=new Ajax.Request(
+	"ajax_ledger.php",
+	{
+	    method:'get',
+	    parameters:querystring,
+	    onFailure:error_box,
+	    onSuccess:success_box
+	}
+    );
+    g(id).style.top=posY;
 }
 
 /*!\brief

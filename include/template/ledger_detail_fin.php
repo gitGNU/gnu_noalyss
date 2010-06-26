@@ -1,4 +1,9 @@
-<? html_page_start($_SESSION['g_theme']);?>
+
+<div style="text-align:right">
+<? 
+echo '<A style="background-color:blue;color:white;text-decoration:none" HREF="#" onclick="removeDiv(\''.$div.'\');">Fermer</A>'; 
+?>
+</div>
 <div class="content">
 <h2> <? echo $oLedger->get_name(); ?></h2>
 <?
@@ -25,4 +30,8 @@ echo td($bk->get_quick_code());
 </tr>
 
 </table>
+<?
+ require_once('template/ledger_detail_file.php'); 
+?>
+
 </div>
