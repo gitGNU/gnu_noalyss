@@ -99,18 +99,106 @@ case 'de':
   // form for the file
   /////////////////////////////////////////////////////////////////////////////
   case 'file':
+    $op->get();   $obj=$op->get_quant();	/* return an obj. ACH / FIN or VEN or null if nothing is found*/
+
+    if ( $obj->det->jr_pj_name=='') {
       echo '<FORM METHOD="POST" ENCTYPE="multipart/form-data" id="form_file">';
       echo HtmlInput::hidden('act','loadfile');
       echo dossier::hidden();
       echo HtmlInput::hidden('jr_id',$jr_id);
       echo HtmlInput::hidden('div',$div);
     
-      echo '<INPUT TYPE="FILE" id="file" onchange="submit(this)">';
+      echo '<INPUT TYPE="FILE" name="pj" onchange="submit(this)">';
       echo '</FORM>';
       exit();
+    } else {
+      echo "<html><head>";
+      $repo=new Database();
+      $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
+      echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
+      echo "</head>";
+      echo '<div class="content">';
+      $h=sprintf('<a class="mtitle"  href="show_pj.php?gDossier=%d&jrn=%d&jr_grpt_id=%d">%s</a>',
+		 $gDossier,$ledger,$obj->det->jr_grpt_id,h( $obj->det->jr_pj_name));
+      echo $h;
+      $x=sprintf('<a class="mtitle" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">enlever</a>',
+		 $gDossier,$div,$jr_id);
+      echo $x;
+      echo '</div>';
+      exit();
+    }
+/////////////////////////////////////////////////////////////////////////////
+// load a file
+/////////////////////////////////////////////////////////////////////////////
   case 'loadfile':
-    echo "save the file ";
+    if ( isset ($_FILES)) {
+      $cn->start();
+      $grpt=$cn->get_value('select jr_grpt_id from jrn where jr_id=$1',array($jr_id));
+      $cn->save_upload_document($grpt);
+      $cn->commit();
+    }
     exit();
+/////////////////////////////////////////////////////////////////////////////
+// remove a file
+/////////////////////////////////////////////////////////////////////////////
+case 'rmf':
+      echo '<FORM METHOD="POST" ENCTYPE="multipart/form-data" id="form_file">';
+      echo HtmlInput::hidden('act','loadfile');
+      echo dossier::hidden();
+      echo HtmlInput::hidden('jr_id',$jr_id);
+      echo HtmlInput::hidden('div',$div);
+    
+      echo '<INPUT TYPE="FILE" name="pj" onchange="submit(this)">';
+      echo '</FORM>';
+      $ret=$cn->exec_sql("select jr_pj from jrn where jr_id=$1",array($jr_id));
+      if (Database::num_row($ret) != 0) {
+	$r=Database::fetch_array($ret,0);
+	$old_oid=$r['jr_pj'];
+	if (strlen($old_oid) != 0)
+	  {
+	    // check if this pj is used somewhere else
+	    $c=$cn->count_sql("select * from jrn where jr_pj=".$old_oid);
+	    if ( $c == 1 )
+	      $cn->lo_unlink($old_oid);
+	  }
+	$cn->exec_sql("update jrn set jr_pj=null, jr_pj_name=null, ".
+		      "jr_pj_type=null  where jr_id=$1",array($jr_id));
+      }
+      exit();
+/////////////////////////////////////////////////////////////////////////////
+// Save operation detail
+/////////////////////////////////////////////////////////////////////////////
+  case 'save':
+    $cn->exec_sql('update jrn set jr_comment=$1,jr_pj_number=$2 where jr_id=$3',
+		  array($_GET['lib'],$_GET['npj'],$jr_id));
+    $rapt=$_GET['rapt'];
+    if (trim($rapt) != '') {
+      $rec=new Acc_Reconciliation ($cn);
+      $rec->set_jr_id($jr_id);
+
+      if (strpos($rapt,",") != 0 ) {
+	$aRapt=explode(',',$rapt);
+	/* reconcialition */
+	foreach ($aRapt as $rRapt) {
+	  if ( isNumber($rRapt) == 1 )
+	    {
+	      // Add a "concerned operation to bound these op.together
+	      $rec->insert($rRapt);
+	    }
+	}
+      } else
+	if ( isNumber($rapt) == 1 )
+	  {
+	    $rec->insert($rapt);
+	  }
+    }
+    break;
+ /////////////////////////////////////////////////////////////////////////////
+    // remove a reconciliation
+///////////////////////////////////////////////////////////////////////////// 
+case 'rmr':
+  
+  break;
 }
 $html=escape_xml($html);
 header('Content-type: text/xml; charset=UTF-8');

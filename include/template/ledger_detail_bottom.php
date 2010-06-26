@@ -6,25 +6,33 @@ $oRap=new Acc_Reconciliation($cn);
 $oRap->jr_id=$jr_id;
 $aRap=$oRap->get();
 if ($aRap  != null ) {
-  echo '<table>';
-  echo '<tr>';
+  $tableid="tb"+$div;
+  echo '<table id="'.$tableid.'">';
   for ($e=0;$e<count($aRap);$e++)  {
     $opRap=new Acc_Operation($cn);
     $opRap->jr_id=$aRap[$e];
     $internal=$opRap->get_internal();
     $amount=$cn->get_value('select jr_montant from jrn where jr_id=$1',array($aRap[$e]));
     $str="modifyOperation(".$aRap[$e].",".$gDossier.")";
-
-    echo td('<a href="#" onclick="'.$str.'" >'.$internal.'</A>').td($amount);
+    $rmReconciliation=new IButton('rmr');
+    $rmReconciliation->label='enlever';
+    $rmReconciliation->javascript="if (confirm ('vous confirmez?') ) {";
+    $rmReconciliation->javascript.=sprintf('dropLink(%s,%s,%s,%s);deleteRowRec(\'%s\',this);}',
+					  $gDossier,
+					  $div,
+					  $jr_id,
+					   $aRap[$e],
+					   $tableid
+					  );
+    echo tr (td('<a href="#" onclick="'.$str.'" >'.$internal.'</A>').td($amount).td($rmReconciliation->input()));
   }
-  echo '</tr>';
   echo '</table>';
 }
 ?>
 </legend>
 <?
-$search='<INPUT TYPE="BUTTON" class="button" VALUE="Cherche" OnClick="SearchJrn('.$gDossier.",'rapt','".$obj->det->jr_montant."')\">";
-$rapt=new IText('rapt');
+$search='<INPUT TYPE="BUTTON" class="button" VALUE="Cherche" OnClick="SearchJrn('.$gDossier.",'rapt".$div."','".$obj->det->jr_montant."')\">";
+$rapt=new IText('rapt'.$div);
 echo $rapt->input().$search;
 ?>
 </fieldset>

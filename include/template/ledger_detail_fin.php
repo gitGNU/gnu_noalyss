@@ -48,7 +48,7 @@ echo td(_('Libellé')).td($itext->input());
 </tr>
 <tr>
 <? 
-$itext=new IText('pj');
+$itext=new IText('npj');
 $itext->value=$obj->det->jr_pj_number;
 echo td(_('Pièce')).td($itext->input());
 ?>

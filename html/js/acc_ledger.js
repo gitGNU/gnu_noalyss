@@ -467,9 +467,21 @@ function viewOperation(p_value,p_dossier)
 			var win=window.open('modify_op.php?action=view_ca&line='+p_value+'&gDossier='+p_dossier,'','toolbar=no,width=690,height=410,scrollbars=yes,resizable=yes');
 			win.focus();
 		}
-function dropLink(p_value,p_value2,p_dossier) {
-	var win=window.open('modify_op.php?action=delete&line='+p_value+'&line2='+p_value2+'&gDossier='+p_dossier,'Liaison','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
-		}
+function dropLink(p_dossier,p_div,p_jr_id,p_jr_id2) {
+    var querystring='?gDossier='+p_dossier;
+    querystring+='&div='+p_div;
+    querystring+='&jr_id='+p_jr_id;
+    querystring+='&act=rmr';
+    querystring+='&jr_id2='+p_jr_id2;
+    var action=new Ajax.Request ( 'ajax_ledger.php',
+				  {
+				      method:'get',
+				      parameters:querystring,
+				      onFailure:null,
+				      onSuccess:null
+				  }
+				);
+}
 /**
  *@brief this function is called before the querystring is send to the
  * fid2.php, add a filter based on the ledger 'p_jrn'
@@ -568,8 +580,9 @@ function search_letter(obj) {
 function op_save(obj) {
     queryString="?lib="+obj.lib.value;
     queryString+="&gDossier="+obj.gDossier.value;
-    queryString+="&rapt="+obj.rapt.value;
-    queryString+="&pj="+obj.pj.value;
+    var rapt2="rapt"+obj.whatdiv.value;
+    queryString+="&rapt="+g(rapt2).value;
+    queryString+="&npj="+obj.npj.value;
     queryString+='&jr_id='+obj.jr_id.value;
     queryString+='&div='+obj.whatdiv.value;
     queryString+='&act=save';
@@ -596,6 +609,7 @@ function op_success(req) {
        add_div(savebox);
        Effect.Fade(savebox.id,{duration:1.0} );
        Effect.Fade(name_ctl,{duration:1.5});
+// removeDiv(savebox.id); removeDiv(name_ctl);
    }
     catch (e) {
 	alert(e.message);

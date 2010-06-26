@@ -36,6 +36,12 @@ if (confirm('Confirmez effacement'))
 	 g(tb).deleteRow(lidx);
 	}
 }
+function deleteRowRec(tb,obj) { 
+	var td=obj.parentNode;
+	var tr=td.parentNode;
+	var lidx=tr.rowIndex;
+	 g(tb).deleteRow(lidx);
+}
 /*!\brief remove trailing and heading space
  * \param the string to modify
  * \return string without heading and trailing space
