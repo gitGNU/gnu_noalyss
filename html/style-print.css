@@ -9,6 +9,10 @@ form {
 .noprint  {
   display:none;
  }
+ 
+ .button {
+	display:none;
+	}
 div.recherche_form {
 	display:none;
 	}

@@ -24,7 +24,7 @@
  * compute the sum, add a row at the table..
  *
  */
-
+var layer=1;
 /**
 * @brief update the list of available predefined operation when we change the ledger.
 */
@@ -440,12 +440,14 @@ return true;
  * \param p_vue easy or expert view of the operation
  */
 
-function modifyOperation(p_value,p_dossier,p_jrn,p_vue)
-		{
-
-			var win=window.open('modify_op.php?action=update&p_jrn='+p_jrn+'&line='+p_value+'&p_view='+p_vue+'&gDossier='+p_dossier,'','toolbar=no,width=720,height=510,scrollbars=yes,resizable=yes');
-			win.focus();
-		}
+function modifyOperation(p_value,dossier)
+{
+	layer++;id='det'+layer;
+	var popup={'id':id,'cssclass':'op_detail','html':'<div class="op_detail_title"><div style="float:right;top:0"><A style="background-color:blue;color:white;text-decoration:none" HREF="#" onclick="removeDiv(\''+id+'\');">Fermer</A></div>Détail opérations</div><div style="border:0;width:100%;height:100%"><iframe id="if'+id+'" style="padding:0;margin:0;border:0;width:100%;height:auto%" src="ajax_ledger?gDossier='+dossier+'&act=de&jr_id='+p_value+'&div='+id+'"</iframe></div>','drag':true};
+	
+	add_div(popup);
+	g(id).style.top=posY;
+}
 
 /*!\brief
  * \param p_value jrn.jr_id

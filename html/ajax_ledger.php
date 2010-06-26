@@ -1,0 +1,114 @@
+<?php
+/*
+ *   This file is part of PhpCompta.
+ *
+ *   PhpCompta is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *
+ *   PhpCompta is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with PhpCompta; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+/* $Revision$ */
+
+// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+
+/*!\file
+ * \brief answer to the ajax request for the ledger 
+ * it means : 
+    - detail of an operation (expert, user and analytic view)
+    - removal of an operation
+    - load a receipt document
+    - for reconcialiation        
+    - update of analytic content
+ */
+require_once('class_database.php');
+require_once('class_user.php');
+require_once('class_acc_operation.php');
+require_once('class_acc_ledger.php');
+require_once ('class_fiche.php');
+require_once('function_javascript.php');
+echo js_include('scripts.js');
+echo js_include('prototype.js');
+echo js_include('effects.js');
+echo js_include('dragdrop.js');
+
+  /**
+   *@todo Check if we receive the needed data (jr_id...)
+   */
+$action=$_REQUEST['act'];
+$jr_id=$_REQUEST['jr_id'];
+$div=$_REQUEST['div'];		/* the div source and target for javascript */
+/**
+ *@todo if $_SESSION['g_user'] is not set : echo a warning
+ */
+
+$cn=new Database(dossier::id());
+
+// check if the user is valid and can access this folder
+$User=new User($cn);
+$User->check();
+if ( $User->check_dossier(dossier::id(),true)=='X' ) exit();
+
+
+// check if the user can access the ledger where the operation is (view) and
+// if he can modify it
+$op=new Acc_Operation($cn);
+$op->jr_id=$_GET['jr_id'];
+$ledger=$op->get_ledger();
+$access=$User->get_ledger_access($ledger);
+if ( $access == 'X' ) exit();
+$html=var_export($_REQUEST,true);
+
+switch ($action) {
+  //////////////////////////////////////////////////////////////////////
+  // DE Detail
+  //////////////////////////////////////////////////////////////////////
+case 'de':
+  $op->get();			/* get detail op (D/C) */
+  $obj=$op->get_quant();	/* return an obj. ACH / FIN or VEN or null if nothing is found*/
+  $oLedger=new Acc_Ledger($cn,$ledger);
+
+  if ( $obj == null ) {
+    /* only the details */
+    ob_start();
+    require_once('template/ledger_detail_misc.php');
+    $html=ob_get_contents();
+    ob_clean();
+  } elseif ( $obj->signature=='ACH') {
+    ob_start();
+    require_once('template/ledger_detail_ach.php');
+    $html=ob_get_contents();
+    ob_clean();
+  } elseif ($obj->signature=='FIN') {
+    ob_start();
+    require_once('template/ledger_detail_fin.php');
+    $html=ob_get_contents();
+    ob_clean();
+  }elseif ( $obj->signature=='VEN') {
+    ob_start();
+  require_once('template/ledger_detail_ach.php');
+  $html=ob_get_contents();
+  ob_clean();
+  }
+  echo $html;
+  exit();
+  break;
+
+}
+$html=escape_xml($html);
+header('Content-type: text/xml; charset=UTF-8');
+echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<ctl>$div</ctl>
+<code>$html</code>
+</data>
+EOF;

@@ -658,11 +658,11 @@ where
 
     $dossier=$cn->get_value("select priv_priv from jnt_use_dos join priv_user on (priv_jnt=jnt_id) where dos_id=$1 and use_id=$2",
 			array($p_dossier_id,$this->id));
-    if ( $dossier=='X' || $dossier=='') {
-      if ( ! $silent) alert(_('Dossier non accessible'));
-      exit();
+    $dossier=($dossier=='')?'X':$dossier;
+    if ( $dossier=='X') {
+      if ( ! $silent) { alert(_('Dossier non accessible'));      exit();}
     }
-      return $dossier;
+    return $dossier;
   }
 
 

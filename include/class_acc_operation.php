@@ -25,6 +25,8 @@
  *   remove or save accountant writing to these table.
  */
 require_once ('class_user.php');
+require_once('class_acc_ledger.php');
+
 /*! \brief  this file match the tables jrn & jrnx the purpose is to
  *   remove or save accountant writing to these table.
  *
@@ -53,6 +55,16 @@ class Acc_Operation
     $user=new User($this->db);
     $this->periode=$user->get_periode();
     $this->jr_id=0;
+  }
+  /**
+   *@brief retrieve the grpt_id from jrn for a jr_id
+   *@return jrn.jr_grpt_id or an empty string if not found
+   */
+  function seek_group()
+  {
+    $ret=$this->db->get_value('select jr_grpt_id from jrn where jr_id=$1',
+			      array($this->jr_id));
+    return $ret;
   }
   /**
    *@brief  Insert into the table Jrn
@@ -414,5 +426,164 @@ Array
    }
    return array($l_array,$deb,$cred);
  }
+   /**
+   *@brief retrieve data from jrnx and jrn
+   *@return return an object 
+   *@note
+   *@see
+@code
 
+@endcode
+   */
+ function get() {
+   $ret=new Acc_Misc($this->db,$this->jr_id);
+   $ret->get();
+   return $ret;
+ }
+  /**
+   *@brief retrieve data from the table QUANT_*
+   *@return return an object or null if there is no
+   * data from the QUANT table
+   *@see Acc_Sold Acc_Purchase Acc_Fin Acc_Detail Acc_Misc
+   */
+ function get_quant() {
+   $ledger_id=$this->get_ledger();
+   if ( $ledger_id=='') throw new Exception('Journal non trouvé');
+   $oledger=new Acc_Ledger($this->db,$ledger_id);
+
+   switch($oledger->get_type()) {
+     case 'VEN':
+       $ret=new Acc_Sold($this->db,$this->jr_id);
+       break;
+     case 'ACH':
+       $ret=new Acc_Purchase($this->db,$this->jr_id);
+       break;
+   case 'FIN':
+     $ret=new Acc_Fin($this->db,$this->jr_id);
+     break;
+   default:
+     return $this->get();
+   }
+   $ret->get();
+   return $ret;
+ }
+ static function test_me() {
+   $_SESSION['g_user']='phpcompta';
+   $_SESSION['g_pass']='dany';
+
+   $cn=new Database(dossier::id());
+   $a=new Acc_Operation($cn);
+   $a->jr_id=11;
+   $b=$a->get_quant();
+   var_dump($b->det);
+ }
+}
+/////////////////////////////////////////////////////////////////////////////
+class Acc_Detail extends Acc_Operation {
+  function __construct($p_cn,$p_jrid=0) {
+    parent::__construct($p_cn);
+    $this->jr_id=$p_jrid;
+  }
+  /**
+   *@brief retrieve some common data from jrnx / jrn as
+   * the datum, the comment,...
+   */
+  function get() {
+    $sql="SELECT jr_id, jr_def_id, jr_montant, jr_comment, jr_date, jr_grpt_id, 
+       jr_internal, jr_tech_date, jr_tech_per, jrn_ech, jr_ech, jr_rapt, 
+       jr_valid, jr_opid, jr_c_opid, jr_pj, jr_pj_name, jr_pj_type, 
+       jr_pj_number, jr_mt
+  FROM jrn where jr_id=$1";
+    $array=$this->db->get_array($sql,array($this->jr_id));
+    if ( count($array) == 0 ) throw new Exception('Aucune ligne trouvée');
+    foreach ($array[0] as $key=>$val) {
+      $this->det->$key=$val;
+    }
+  }    
+}
+/////////////////////////////////////////////////////////////////////////////
+/**
+ *@brief this class manage data from the JRNX and JRN
+ * table
+ *@note Data member are the column of the table 
+ */
+class Acc_Misc extends Acc_Detail
+{
+  var $signature;		/*!< signature of the obj ODS */
+  var $array;		/*!< an array containing the data from JRNX */
+  function __construct($p_cn,$p_jrid=0) {
+    parent::__construct($p_cn,$p_jrid);
+    $this->signature='ODS';
+  }
+  function get() {
+    parent::get();
+    $sql="SELECT j_id, j_date, j_montant, j_poste, j_grpt, j_rapt, j_jrn_def, 
+       j_debit, j_text, j_centralized, j_internal, j_tech_user, j_tech_date, 
+       j_tech_per, j_qcode
+  FROM jrnx where j_grpt = $1";
+    $this->det->array=$this->db->get_array($sql,array($this->det->jr_grpt_id));
+  }
+}
+/////////////////////////////////////////////////////////////////////////////
+/**
+ *@brief this class manage data from the QUANT_SOLD
+ * table
+ *@note Data member are the column of the table 
+ */
+class Acc_Sold extends Acc_Detail
+{
+  function __construct($p_cn,$p_jrid=0) {
+    parent::__construct($p_cn,$p_jrid);
+    $this->signature='SOLD';
+  }
+  function get() {
+    parent::get();   
+    $sql="SELECT qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, 
+       qs_vat_code, qs_client, qs_valid, j_id
+  FROM quant_sold where j_id in (select j_id from jrnx where j_grpt=$1)";
+    $this->det->array=$this->db->get_array($sql,array($this->det->jr_grpt_id));
+  }
+}
+/////////////////////////////////////////////////////////////////////////////
+/**
+ *@brief this class manage data from the QUANT_PURCHASE
+ * table
+ *@note Data member are the column of the table 
+
+ */
+class Acc_Purchase extends Acc_Detail
+{
+  function __construct($p_cn,$p_jrid=0) {
+    parent::__construct($p_cn,$p_jrid);
+    $this->signature='PURCHASE';
+  }
+
+  function get() {
+    parent::get();   
+    $sql="SELECT qp_id, qp_internal, j_id, qp_fiche, qp_quantite, qp_price, qp_vat, 
+       qp_vat_code, qp_nd_amount, qp_nd_tva, qp_nd_tva_recup, qp_supplier, 
+       qp_valid, qp_dep_priv
+  FROM quant_purchase  where j_id in (select j_id from jrnx where j_grpt=$1)";
+    $this->det->array=$this->db->get_array($sql,array($this->det->jr_grpt_id));
+  }
+}
+/////////////////////////////////////////////////////////////////////////////
+/**
+ *@brief this class manage data from the QUANT_FIN
+ * table
+ *@note Data member are the column of the table 
+ */
+class Acc_Fin extends Acc_Detail
+{
+  function __construct($p_cn,$p_jrid=0) {
+    parent::__construct($p_cn,$p_jrid);
+    $this->signature='FIN';
+  }
+
+  function get() {
+    parent::get();   
+    $sql="SELECT qf_id, qf_bank, jr_id, qf_other, qf_amount
+  FROM quant_fin where jr_id = $1";
+    $this->det->array=$this->db->get_array($sql,array($this->jr_id));
+  }
 }

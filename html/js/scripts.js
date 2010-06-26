@@ -398,9 +398,15 @@ function add_div(obj) {
 	    elt.setAttribute('className',obj.cssclass); /* IE */
 	}
 	if (obj.html) { elt.innerHTML=obj.html;}
+
 	var bottom_div=document.body;
 	bottom_div.appendChild(elt);
-    } catch (e) { alert(e.message);}
+		if ( obj.drag ) {
+		new Draggable(obj.id,{starteffect:function(){
+				new Effect.Highlight(obj.id,{scroll:window,queue:'end'});  } }
+		     );
+    	}
+    } catch (e) { alert("add_div"+e.message);}
 }
 /**
  * remove a object created with add_div
@@ -432,11 +438,7 @@ function show_box(obj) {
     } else {
 	show(obj.id);
     }
-    if ( obj.drag ) {
-	new Draggable(obj.id,{starteffect:function(){
-	    new Effect.Highlight(obj.id,{scroll:window,queue:'end'});  } }
-		     );
-    }
+
     var action=new Ajax.Request (
                                obj.callback,
                                {
@@ -460,11 +462,14 @@ function success_box(req,json)
 	if ( a.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
 	var name_ctl=a[0].firstChild.nodeValue;
 	var code_html=getNodeText(html[0]);
+	
 	code_html=unescape_xml(code_html);
 	g(name_ctl).innerHTML=code_html;
+	g(name_ctl).style.height='auto';
+	g(name_ctl).style.width='auto';
     } 
     catch (e) {
-	alert(e.message);}
+	alert("success_box"+e.message);}
     try{
 	code_html.evalScripts();}
     catch(e){

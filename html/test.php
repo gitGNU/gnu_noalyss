@@ -67,7 +67,8 @@ $array=array(
 	array(28,'Extension'),
 	array(29,'ITVA popup'),
 	array(30,'Ereg and preg_match'),
-	array(31,'IBOX')
+	array(31,'IBOX'),
+	array(32,'Acc_Operation & children')
 	);
 $r='<form method="get">';
 $r.='<select name="test_select" >';
@@ -260,6 +261,10 @@ case 30:
 case 31:
   require_once('class_ibox.php');
   IBox::test_me();
+  break;
+case 32:
+  require_once('class_acc_operation.php');
+  Acc_Operation::test_me();
   break;
 }
 

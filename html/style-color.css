@@ -833,3 +833,20 @@ h2.gest_name {
 	color:#403a8d;
 	
 }
+div.op_detail  {
+  background-color:#EDF3FF;
+ font-size:10;
+  font-family:helvetica,arial,sans-serif;
+  padding:0;
+  margin:0;
+  overflow:none;
+  
+position:absolute;width:500;height:200;left:20%;
+border:1px solid darkblue;	
+}
+div.op_detail_title {
+	background-color:grey;
+	width:500;
+	
+	
+}
