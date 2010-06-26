@@ -592,10 +592,10 @@ function op_success(req) {
 	var a=answer.getElementsByTagName('ctl');
 	if ( a.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
 	var name_ctl=a[0].firstChild.nodeValue;
-       savebox={'id':'save'+name_ctl,'html':'Sauvé','style':'font-size:12;text-align:center;background-color:red;color:white;width:120;height:20;position:absolute;top:5;left:200'};
+       savebox={'id':'save'+name_ctl,'html':'Sauvé','style':'font-size:12;text-align:center;background-color:red;color:white;width:120;height:20;position:absolute;top:'+posY+';left:'+posX};
        add_div(savebox);
-       Effect.Fade(savebox.id,{duration:1.5} );
-       removeDiv(name_ctl);
+       Effect.Fade(savebox.id,{duration:1.0} );
+       Effect.Fade(name_ctl,{duration:1.5});
    }
     catch (e) {
 	alert(e.message);
