@@ -11,6 +11,7 @@ $bk=new Fiche($cn,$obj->det->array[0]['qf_bank']);
 echo $bk->getName();
 echo $bk->get_quick_code();
 ?>
+<form method="POST" ACTION="b.php">
 <table>
 <tr>
 <? echo td('Date').td($obj->det->jr_date);?>
@@ -30,6 +31,8 @@ echo td($bk->get_quick_code());
 </tr>
 
 </table>
+<? echo HtmlInput::submit('Sauver','save'); ?>
+</form>
 <?
  require_once('template/ledger_detail_file.php'); 
 ?>
