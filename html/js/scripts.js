@@ -401,10 +401,10 @@ function add_div(obj) {
 
 	var bottom_div=document.body;
 	bottom_div.appendChild(elt);
-		if ( obj.drag ) {
-		new Draggable(obj.id,{starteffect:function(){
-				new Effect.Highlight(obj.id,{scroll:window,queue:'end'});  } }
-		     );
+	if ( obj.drag ) {
+	    new Draggable(obj.id,{starteffect:function(){
+		new Effect.Highlight(obj.id,{scroll:window,queue:'end'});  } }
+			 );
     	}
     } catch (e) { alert("add_div"+e.message);}
 }

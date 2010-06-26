@@ -34,13 +34,14 @@ require_once('class_user.php');
 require_once('class_acc_operation.php');
 require_once('class_acc_ledger.php');
 require_once ('class_fiche.php');
-
+require_once('class_acc_reconciliation.php');
   /**
    *@todo Check if we receive the needed data (jr_id...)
    */
 $action=$_REQUEST['act'];
 $jr_id=$_REQUEST['jr_id'];
 $div=$_REQUEST['div'];		/* the div source and target for javascript */
+$gDossier=dossier::id();
 /**
  *@todo if $_SESSION['g_user'] is not set : echo a warning
  */

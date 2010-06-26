@@ -559,3 +559,46 @@ function search_letter(obj) {
     $('detail').show();
     } catch(e){alert('search_letter  '+e.message);}
 }
+/**
+*@brief save an operation in ajax, it concerns only the 
+* comment, the pj and the rapt
+* the form elements are access by their name
+*@param form
+*/
+function op_save(obj) {
+    queryString="?lib="+obj.lib.value;
+    queryString+="&gDossier="+obj.gDossier.value;
+    queryString+="&rapt="+obj.rapt.value;
+    queryString+="&pj="+obj.pj.value;
+    queryString+='&jr_id='+obj.jr_id.value;
+    queryString+='&div='+obj.whatdiv.value;
+    queryString+='&act=save';
+    var action=new Ajax.Request ( 'ajax_ledger.php',
+				  {
+				 method:'get',
+				 parameters:queryString,
+				 onFailure:null,
+				 onSuccess:op_success
+			       }
+			       );
+    return false;
+}
+/**
+*@brief callback function after an op_save
+*/
+function op_success(req) {
+   try{
+	var answer=req.responseXML;
+	var a=answer.getElementsByTagName('ctl');
+	if ( a.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
+	var name_ctl=a[0].firstChild.nodeValue;
+       savebox={'id':'save'+name_ctl,'html':'Sauvé','style':'font-size:12;text-align:center;background-color:red;color:white;width:120;height:20;position:absolute;top:5;left:200'};
+       add_div(savebox);
+       Effect.Fade(savebox.id,{duration:1.5} );
+       removeDiv(name_ctl);
+   }
+    catch (e) {
+	alert(e.message);
+    }
+    
+}
