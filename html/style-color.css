@@ -834,14 +834,16 @@ h2.gest_name {
 	
 }
 div.op_detail  {
-  background-color:#EDF3FF;
+  background-color:#e4e7ed;
  font-size:10;
   font-family:helvetica,arial,sans-serif;
   padding:0;
   margin:0;
   overflow:none;
+  z-index:3;
   
-position:fixed;width:500;height:200;left:20%;
+position:absolute;width:500;height:200;left:200;
+
 border:1px solid darkblue;	
 }
 div.op_detail_title {

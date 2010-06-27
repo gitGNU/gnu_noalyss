@@ -1,7 +1,10 @@
 <? require_once('template/ledger_detail_top.php'); ?>
 <div class="content" style="padding:0">
 
+    <? if ( $access=='W') : ?>
 <form  onsubmit="return op_save(this);">
+   <? endif; ?>
+
     <? echo HtmlInput::hidden('whatdiv',$div).HtmlInput::hidden('jr_id',$jr_id).dossier::hidden();?>
 <table>
 <tr>
@@ -20,7 +23,7 @@ echo td($bk->get_quick_code());
  * et celui qui est ni client ni fournisseur est forcément le compte banque, insérer. 
  *@todo Ajouter une clef unique sur quant_fin.jr_id, quant_purchase.j_id et quant_sold.j_id
  */
-echo td($bk->getName());
+echo td(h($bk->getName()));
 ?>
 </tr>
 <tr>
@@ -29,16 +32,16 @@ echo td($bk->getName());
 $bk=new Fiche($cn,$obj->det->array[0]['qf_other']);
 
 echo td($bk->get_quick_code());
-echo td($bk->getName());
+echo td(h($bk->getName()));
 ?>
 </tr>
 
 <tr>
 <? 
-$itext=new IText('lib');
-$itext->value=$obj->det->jr_comment;
-$itext->size=40;
-echo td(_('Libellé')).td($itext->input());
+  $itext=new IText('lib');
+  $itext->value=$obj->det->jr_comment;
+  $itext->size=40;
+  echo td(_('Libellé')).td($itext->input());
 
 
 ?>
@@ -77,7 +80,7 @@ $detail->get();
     } else {
       // libellé du compte
       $name=$cn->get_value('select pcm_lib from tmp_pcmn where pcm_val=$1',array($q[$e]['j_poste']));
-      $row.=td($name);
+      $row.=td(h($name));
     }
     $montant=td($q[$e]['j_montant'],'class="num"');
     $row.=($q[$e]['j_debit']=='t')?$montant:td('');

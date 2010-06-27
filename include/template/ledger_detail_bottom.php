@@ -24,16 +24,22 @@ if ($aRap  != null ) {
 					   $aRap[$e],
 					   $tableid
 					  );
-    echo tr (td('<a href="#" onclick="'.$str.'" >'.$internal.'</A>').td($amount).td($rmReconciliation->input()));
+    if ( $access=='W') 
+      $remove=$rmReconciliation->input();
+    else 
+      $remove='';
+    echo tr (td('<a href="#" onclick="'.$str.'" >'.$internal.'</A>').td($amount).td($remove));
   }
   echo '</table>';
 }
 ?>
 </legend>
 <?
-$search='<INPUT TYPE="BUTTON" class="button" VALUE="Cherche" OnClick="SearchJrn('.$gDossier.",'rapt".$div."','".$obj->det->jr_montant."')\">";
-$rapt=new IText('rapt'.$div);
-echo $rapt->input().$search;
+if ( $access=='W') {
+  $search='<INPUT TYPE="BUTTON" class="button" VALUE="Cherche" OnClick="SearchJrn('.$gDossier.",'rapt".$div."','".$obj->det->jr_montant."')\">";
+  $rapt=new IText('rapt'.$div);
+  echo $rapt->input().$search;
+}
 ?>
 </fieldset>
 <?
@@ -45,5 +51,8 @@ $a->label="Fermer";
 $a->javascript="removeDiv('".$div."')";
 echo $a->input();
 ?>
-<? echo HtmlInput::submit('save','Sauver'); ?>
-</form>
+<?if ( $access=='W') { 
+  echo HtmlInput::submit('save','Sauver'); 
+  echo '</form>';
+}
+?>

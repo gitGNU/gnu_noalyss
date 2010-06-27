@@ -51,7 +51,22 @@ $cn=new Database(dossier::id());
 // check if the user is valid and can access this folder
 $User=new User($cn);
 $User->check();
-if ( $User->check_dossier(dossier::id(),true)=='X' ) exit();
+if ( $User->check_dossier(dossier::id(),true)=='X' ) {
+  ob_start();
+  require_once ('template/ledger_detail_forbidden.php');
+  $html=ob_get_contents();
+  ob_clean();
+  $html=escape_xml($html);
+  header('Content-type: text/xml; charset=UTF-8');
+echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<ctl>$div</ctl>
+<code>$html</code>
+</data>
+EOF;
+exit();  
+}
 
 
 // check if the user can access the ledger where the operation is (view) and
@@ -60,7 +75,23 @@ $op=new Acc_Operation($cn);
 $op->jr_id=$_GET['jr_id'];
 $ledger=$op->get_ledger();
 $access=$User->get_ledger_access($ledger);
-if ( $access == 'X' ) exit();
+if ( $access == 'X' )  {
+  ob_start();
+  require_once ('template/ledger_detail_forbidden.php');
+  $html=ob_get_contents();
+  ob_clean();
+
+  $html=escape_xml($html);
+  header('Content-type: text/xml; charset=UTF-8');
+echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<ctl>$div</ctl>
+<code>$html</code>
+</data>
+EOF;
+exit();  
+}
 $html=var_export($_REQUEST,true);
 
 switch ($action) {
@@ -102,14 +133,21 @@ case 'de':
     $op->get();   $obj=$op->get_quant();	/* return an obj. ACH / FIN or VEN or null if nothing is found*/
 
     if ( $obj->det->jr_pj_name=='') {
-      echo '<FORM METHOD="POST" ENCTYPE="multipart/form-data" id="form_file">';
-      echo HtmlInput::hidden('act','loadfile');
-      echo dossier::hidden();
-      echo HtmlInput::hidden('jr_id',$jr_id);
-      echo HtmlInput::hidden('div',$div);
+      if ( $access=='W') {
+	echo '<FORM METHOD="POST" ENCTYPE="multipart/form-data" id="form_file">';
+	$sp=new ISpan('file'.$div);$sp->style="display:none;width:155;height:15;background-color:red;color:white;font-size:14";
+	$sp->value="Chargement";
+	echo $sp->input();
+	echo HtmlInput::hidden('act','loadfile');
+	echo dossier::hidden();
+	echo HtmlInput::hidden('jr_id',$jr_id);
+	echo HtmlInput::hidden('div',$div);
     
-      echo '<INPUT TYPE="FILE" name="pj" onchange="submit(this)">';
-      echo '</FORM>';
+	echo '<INPUT TYPE="FILE" name="pj" onchange="getElementById(\'file'.$div.'\').style.display=\'block\';submit(this);">';
+	echo '</FORM>';
+      }	else {
+	  echo _('Aucun fichier');
+      }
       exit();
     } else {
       echo "<html><head>";
@@ -121,6 +159,8 @@ case 'de':
       $h=sprintf('<a class="mtitle"  href="show_pj.php?gDossier=%d&jrn=%d&jr_grpt_id=%d">%s</a>',
 		 $gDossier,$ledger,$obj->det->jr_grpt_id,h( $obj->det->jr_pj_name));
       echo $h;
+      $x='';
+      if ($access=='W')
       $x=sprintf('<a class="mtitle" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">enlever</a>',
 		 $gDossier,$div,$jr_id);
       echo $x;
@@ -131,7 +171,7 @@ case 'de':
 // load a file
 /////////////////////////////////////////////////////////////////////////////
   case 'loadfile':
-    if ( isset ($_FILES)) {
+    if ( $access == 'W' && isset ($_FILES)) {
       $cn->start();
       // remove the file
       $grpt=$cn->get_value('select jr_grpt_id from jrn where jr_id=$1',array($jr_id));
@@ -160,13 +200,18 @@ case 'de':
 // remove a file
 /////////////////////////////////////////////////////////////////////////////
 case 'rmf':
+  if (   $access == 'W' ){
       echo '<FORM METHOD="POST" ENCTYPE="multipart/form-data" id="form_file">';
+      $sp=new ISpan('file'.$div);$sp->style="display:none;width:155;height:15;background-color:red;color:white;font-size:14";
+      $sp->value="Chargement";
+      echo $sp->input();
+
       echo HtmlInput::hidden('act','loadfile');
       echo dossier::hidden();
       echo HtmlInput::hidden('jr_id',$jr_id);
       echo HtmlInput::hidden('div',$div);
     
-      echo '<INPUT TYPE="FILE" name="pj" onchange="submit(this)">';
+      echo '<INPUT TYPE="FILE" name="pj" onchange="getElementById(\'file'.$div.'\').style.display=\'block\';submit(this);">';
       echo '</FORM>';
       $ret=$cn->exec_sql("select jr_pj from jrn where jr_id=$1",array($jr_id));
       if (Database::num_row($ret) != 0) {
@@ -182,11 +227,13 @@ case 'rmf':
 	$cn->exec_sql("update jrn set jr_pj=null, jr_pj_name=null, ".
 		      "jr_pj_type=null  where jr_id=$1",array($jr_id));
       }
+  }
       exit();
 /////////////////////////////////////////////////////////////////////////////
 // Save operation detail
 /////////////////////////////////////////////////////////////////////////////
   case 'save':
+    if ( $access=="W") {
     $cn->exec_sql('update jrn set jr_comment=$1,jr_pj_number=$2 where jr_id=$3',
 		  array($_GET['lib'],$_GET['npj'],$jr_id));
     $rapt=$_GET['rapt'];
@@ -210,14 +257,17 @@ case 'rmf':
 	    $rec->insert($rapt);
 	  }
     }
+    }
     break;
  /////////////////////////////////////////////////////////////////////////////
     // remove a reconciliation
 ///////////////////////////////////////////////////////////////////////////// 
 case 'rmr':
-  $rec=new Acc_Reconciliation($cn);
-  $rec->set_jr_id($jr_id);
-  $rec->remove($_GET['jr_id2']);
+  if ( $access=='W') {
+    $rec=new Acc_Reconciliation($cn);
+    $rec->set_jr_id($jr_id);
+    $rec->remove($_GET['jr_id2']);
+  }
   break;
 }
 $html=escape_xml($html);
