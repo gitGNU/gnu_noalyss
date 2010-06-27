@@ -64,7 +64,20 @@ $ret=$cn->exec_sql("select jr_pj,jr_pj_name,jr_pj_type from jrn where jr_grpt_id
 if ( Database::num_row ($ret) == 0 )
 	return;
 $row=Database::fetch_array($ret,0);
+if ( $row['jr_pj']==null ) {
+  ini_set('zlib.output_compression','Off');
+  header("Pragma: public");
+  header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+  header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+  header("Cache-Control: must-revalidate");
+  header('Content-type: '.'text/plain');
+  header('Content-Disposition: attachment;filename=vide.txt',FALSE);
+  header("Accept-Ranges: bytes");
+  echo "Fichier effacé";
+  exit();
+}
 $tmp=tempnam($_ENV['TMP'],'document_');
+
 $cn->lo_export($row['jr_pj'],$tmp);
 
 ini_set('zlib.output_compression','Off');
