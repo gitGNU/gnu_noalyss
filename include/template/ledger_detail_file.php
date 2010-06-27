@@ -6,4 +6,4 @@
  */
 $str='?'.dossier::get()."&div=$div&act=file&jr_id=$jr_id";
 ?>
-<iframe style="border:0;width:500;height:1050;overflow:auto" src="<? echo 'ajax_ledger.php'.$str; ?>"> </iframe>
+<iframe style="border:0;width:500;height:50;overflow:hidden" src="<? echo 'ajax_ledger.php'.$str; ?>"> </iframe>

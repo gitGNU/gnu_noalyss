@@ -133,9 +133,27 @@ case 'de':
   case 'loadfile':
     if ( isset ($_FILES)) {
       $cn->start();
+      // remove the file
       $grpt=$cn->get_value('select jr_grpt_id from jrn where jr_id=$1',array($jr_id));
       $cn->save_upload_document($grpt);
       $cn->commit();
+      // Show a link to the new file
+      $op->get();   $obj=$op->get_quant();	/* return an obj. ACH / FIN or VEN or null if nothing is found*/
+
+      echo "<html><head>";
+      $repo=new Database();
+      $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
+      echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
+      echo "</head>";
+      echo '<div class="content">';
+      $h=sprintf('<a class="mtitle"  href="show_pj.php?gDossier=%d&jrn=%d&jr_grpt_id=%d">%s</a>',
+		 $gDossier,$ledger,$obj->det->jr_grpt_id,h( $obj->det->jr_pj_name));
+      echo $h;
+      $x=sprintf('<a class="mtitle" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">enlever</a>',
+		 $gDossier,$div,$jr_id);
+      echo $x;
+      echo '</div>';
+
     }
     exit();
 /////////////////////////////////////////////////////////////////////////////
@@ -197,7 +215,9 @@ case 'rmf':
     // remove a reconciliation
 ///////////////////////////////////////////////////////////////////////////// 
 case 'rmr':
-  
+  $rec=new Acc_Reconciliation($cn);
+  $rec->set_jr_id($jr_id);
+  $rec->remove($_GET['jr_id2']);
   break;
 }
 $html=escape_xml($html);

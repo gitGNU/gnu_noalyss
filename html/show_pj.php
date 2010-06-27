@@ -73,7 +73,9 @@ if ( $row['jr_pj']==null ) {
   header('Content-type: '.'text/plain');
   header('Content-Disposition: attachment;filename=vide.txt',FALSE);
   header("Accept-Ranges: bytes");
-  echo "Fichier effacé";
+  echo "******************";
+  echo _("Fichier effacé");
+  echo "******************";
   exit();
 }
 $tmp=tempnam($_ENV['TMP'],'document_');

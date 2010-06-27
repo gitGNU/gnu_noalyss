@@ -1,6 +1,6 @@
 <? require_once('template/ledger_detail_top.php'); ?>
 <div class="content" style="padding:0">
-   <? echo h2info($oLedger->get_name()); ?>
+
 <form  onsubmit="return op_save(this);">
     <? echo HtmlInput::hidden('whatdiv',$div).HtmlInput::hidden('jr_id',$jr_id).dossier::hidden();?>
 <table>

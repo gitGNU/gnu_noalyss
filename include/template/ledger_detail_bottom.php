@@ -6,7 +6,7 @@ $oRap=new Acc_Reconciliation($cn);
 $oRap->jr_id=$jr_id;
 $aRap=$oRap->get();
 if ($aRap  != null ) {
-  $tableid="tb"+$div;
+  $tableid="tb".$div;
   echo '<table id="'.$tableid.'">';
   for ($e=0;$e<count($aRap);$e++)  {
     $opRap=new Acc_Operation($cn);
@@ -17,7 +17,7 @@ if ($aRap  != null ) {
     $rmReconciliation=new IButton('rmr');
     $rmReconciliation->label='enlever';
     $rmReconciliation->javascript="if (confirm ('vous confirmez?') ) {";
-    $rmReconciliation->javascript.=sprintf('dropLink(%s,%s,%s,%s);deleteRowRec(\'%s\',this);}',
+    $rmReconciliation->javascript.=sprintf('dropLink(\'%s\',\'%s\',\'%s\',\'%s\');deleteRowRec(\'%s\',this);}',
 					  $gDossier,
 					  $div,
 					  $jr_id,
@@ -36,14 +36,14 @@ $rapt=new IText('rapt'.$div);
 echo $rapt->input().$search;
 ?>
 </fieldset>
+<?
+ require_once('template/ledger_detail_file.php'); 
+?>
 <? 
 $a=new IButton('Fermer','Fermer');
 $a->label="Fermer";
 $a->javascript="removeDiv('".$div."')";
 echo $a->input();
 ?>
-<? echo HtmlInput::submit('Sauver','save'); ?>
+<? echo HtmlInput::submit('save','Sauver'); ?>
 </form>
-<?
- require_once('template/ledger_detail_file.php'); 
-?>
