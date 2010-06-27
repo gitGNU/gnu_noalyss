@@ -845,12 +845,15 @@ div.op_detail  {
   font-family:helvetica,arial,sans-serif;
   padding:0;
   margin:0;
-  overflow:none;
+  overflow:hidden;
   z-index:3;
   
-position:absolute;width:500;height:200;left:200;
+position:absolute;
+left:10%;right:10%;
 
-border:1px solid darkblue;	
+
+border:1px solid darkblue;	width:300;
+
 }
 div.op_detail_title {
 	background-color:grey;

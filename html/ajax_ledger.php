@@ -103,7 +103,7 @@ case 'de':
   $obj=$op->get_quant();	/* return an obj. ACH / FIN or VEN or null if nothing is found*/
   $oLedger=new Acc_Ledger($cn,$ledger);
 
-  if ( $obj == null ) {
+  if ( $obj==null || $obj->signature == 'ODS'  ) {
     /* only the details */
     ob_start();
     require_once('template/ledger_detail_misc.php');

@@ -28,7 +28,7 @@ if ($aRap  != null ) {
       $remove=$rmReconciliation->input();
     else 
       $remove='';
-    echo tr (td('<a href="#" onclick="'.$str.'" >'.$internal.'</A>').td($amount).td($remove));
+    echo tr (td('<a href="javascript:void(0)" onclick="'.$str.'" >'.$internal.'</A>').td($amount).td($remove));
   }
   echo '</table>';
 }

@@ -556,7 +556,38 @@ function get_balance($p_from,$p_to,$p_plan_id)
    $sql="delete from operation_analytique where j_id=$p_jid";
    $this->db->exec_sql($sql);
  }
+ /**
+  *@brief return a HTML table with the data of a specific 
+  * operation (jrnx.j_id). First, it load data from the database
+  * and after it displays them
+  *@param $div is the div id used to give a name to the table
+  *@param $opt 0 if the CA is mandatory and 1 for optional
+  *@note the data must be first loaded
+  *@see Anc_Operation::get_by_jid
+  */ 
+ function print_table($array,$div,$opt,$j_id,$seq) {
+   $r='';
+   $col=0;
+   $r.=HtmlInput::hidden('ident['.$seq.']',$j_id);
+   $plan=new Anc_Plan($this->db);
+   $a_plan=$plan->get_list();
+   if (empty($a_plan)) return '';
+   /*  create the table */
+   $table_id="tb".$div."[$seq]";
+   $r.="<table id=\"$table_id\">";
+   $r.=tr($plan->header().th('Montant',' class="inum"'));
 
+   /*  numb. of rows for this operation */
+   $nb_row=$this->db->get_value('select max(oa_row) from operation_analytique where j_id=$1',array($j_id));
+   for ( $i=0;$i<$nb_row;$i++) {   
+
+     /* each plan is a column */
+     foreach ($a_plan as $r_plan) {
+       
+       
+     }
+   }
+ }
  /*\brief test the class
   *\param
   *\param
@@ -569,4 +600,5 @@ function get_balance($p_from,$p_to,$p_plan_id)
 
 
  }
+
 }
