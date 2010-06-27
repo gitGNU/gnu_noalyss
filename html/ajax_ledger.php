@@ -133,6 +133,13 @@ case 'de':
     $op->get();   $obj=$op->get_quant();	/* return an obj. ACH / FIN or VEN or null if nothing is found*/
 
     if ( $obj->det->jr_pj_name=='') {
+      echo "<html><head>";
+      $repo=new Database();
+      $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
+      echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
+      echo "</head>";
+      echo '<div class="op_detail_frame">';
+
       if ( $access=='W') {
 	echo '<FORM METHOD="POST" ENCTYPE="multipart/form-data" id="form_file">';
 	$sp=new ISpan('file'.$div);$sp->style="display:none;width:155;height:15;background-color:red;color:white;font-size:14";
@@ -148,6 +155,7 @@ case 'de':
       }	else {
 	  echo _('Aucun fichier');
       }
+      echo '</div>';
       exit();
     } else {
       echo "<html><head>";
@@ -155,13 +163,13 @@ case 'de':
       $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
       echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
       echo "</head>";
-      echo '<div class="content">';
+      echo '<div class="op_detail_frame">';
       $h=sprintf('<a class="mtitle"  href="show_pj.php?gDossier=%d&jrn=%d&jr_grpt_id=%d">%s</a>',
 		 $gDossier,$ledger,$obj->det->jr_grpt_id,h( $obj->det->jr_pj_name));
       echo $h;
       $x='';
       if ($access=='W')
-      $x=sprintf('<a class="mtitle" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">enlever</a>',
+      $x=sprintf('<a class="mtitle" style="margin-left:12" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">enlever</a>',
 		 $gDossier,$div,$jr_id);
       echo $x;
       echo '</div>';
@@ -185,7 +193,7 @@ case 'de':
       $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
       echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
       echo "</head>";
-      echo '<div class="content">';
+      echo '<div class="op_detail_frame">';
       $h=sprintf('<a class="mtitle"  href="show_pj.php?gDossier=%d&jrn=%d&jr_grpt_id=%d">%s</a>',
 		 $gDossier,$ledger,$obj->det->jr_grpt_id,h( $obj->det->jr_pj_name));
       echo $h;

@@ -833,6 +833,12 @@ h2.gest_name {
 	color:#403a8d;
 	
 }
+div.op_detail_frame  {
+  background-color:#e4e7ed;
+  height:100%; width:100%;
+  
+  
+}
 div.op_detail  {
   background-color:#e4e7ed;
  font-size:10;
