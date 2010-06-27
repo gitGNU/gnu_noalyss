@@ -52,12 +52,12 @@ echo td(_('Pièce')).td($itext->input());
     echo th(_('Poste Comptable'));
     echo th(_('Quick Code'));
     echo th(_('Libellé'));
-    echo th(_('Débit'));
-    echo th(_('Crédit'));
+echo th(_('Débit'), 'style="text-align:right"');
+echo th(_('Crédit'), 'style="text-align:right"');
     if ($owner->MY_ANALYTIC != 'nu'){
       echo th('Plan Analytique');
     }
-  
+echo '</tr>';  
     $idx_ca=0;
   for ($e=0;$e<count($obj->det->array);$e++) {
     $row=''; $q=$obj->det->array;

@@ -67,7 +67,14 @@ $detail->get();
 ?>
 </legend>
 <table class="result">
+<tr>
 <?
+ echo th(_('Poste Comptable'));
+    echo th(_('Quick Code'));
+    echo th(_('Libellé'));
+echo th(_('Débit'),' style="text-align:right"');
+echo th(_('Crédit'),' style="text-align:right"');
+echo '</tr>';
   for ($e=0;$e<count($detail->det->array);$e++) {
     $row=''; $q=$detail->det->array;
     $row=td($q[$e]['j_poste']);
