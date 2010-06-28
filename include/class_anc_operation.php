@@ -372,9 +372,11 @@ function get_balance($p_from,$p_to,$p_plan_id)
    * \param $p_mode == form 1 ==> read/write otherwise 0==>readonly
    * \param $p_seq number of the row
    * \param $p_amount amount
+   * \param $p_id operation is detailled in a HTML popup, if several
+   *  are opened, the tableid MUST be different. So we need to use a new parameter
    * \see save_form_plan
    */
- function display_form_plan($p_array,$p_null,$p_mode,$p_seq,$p_amount) {
+ function display_form_plan($p_array,$p_null,$p_mode,$p_seq,$p_amount,$p_id='') {
    if ( $p_array != null)
      extract ($p_array);
    $result="";
@@ -388,7 +390,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
 
    $result.=$hidden->input('amount_'.$table_id,$p_amount);
    if ( $p_mode==1 )
-     $result.='<table id="'.$table_id.'">';
+     $result.='<table id="'.$p_id.$table_id.'">';
    else
         $result.='<table>';
    $result.="<tr>".$plan->header()."<th>montant</th></tr>";
@@ -445,8 +447,8 @@ function get_balance($p_from,$p_to,$p_plan_id)
    $result.="</table>";
    // add a button to add a row
    $button=new IButton();
-   $button->javascript="onChange=add_row('$table_id',$p_seq,$count);";
-   $button->name="js".$p_seq;
+   $button->javascript="onChange=add_row('".$p_id."$table_id',$p_seq,$count);";
+   $button->name="js".$p_id.$p_seq;
    $button->label="Nouvelle ligne";
    if ( $p_mode == 1 )
 	 $result.=$button->input();
@@ -458,7 +460,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
   *  merchandise)
   * \param $p_array structure
   * \verbatim
-   nb_tA A is the number of the item contains the number of
+   nb_tA A is the number of the item it contains the number of
            rows of CA for this card
    valAlR amount for the CA (item A row R)
    ta_AoCrow_R contains the value of the pa_id and po_id for this
@@ -556,38 +558,31 @@ function get_balance($p_from,$p_to,$p_plan_id)
    $sql="delete from operation_analytique where j_id=$p_jid";
    $this->db->exec_sql($sql);
  }
- /**
-  *@brief return a HTML table with the data of a specific 
-  * operation (jrnx.j_id). First, it load data from the database
-  * and after it displays them
-  *@param $div is the div id used to give a name to the table
-  *@param $opt 0 if the CA is mandatory and 1 for optional
-  *@note the data must be first loaded
-  *@see Anc_Operation::get_by_jid
-  */ 
- function print_table($array,$div,$opt,$j_id,$seq) {
-   $r='';
-   $col=0;
-   $r.=HtmlInput::hidden('ident['.$seq.']',$j_id);
-   $plan=new Anc_Plan($this->db);
-   $a_plan=$plan->get_list();
-   if (empty($a_plan)) return '';
-   /*  create the table */
-   $table_id="tb".$div."[$seq]";
-   $r.="<table id=\"$table_id\">";
-   $r.=tr($plan->header().th('Montant',' class="inum"'));
+/*\brief Display a table with analytic accounting in
+ *       detail of operation 
+ *@note $this->j_id must be set
+ *\param $p_own object own
+ *\param $p_mode 0 = readonly or 1=writable
+ *\param $p_amount amount
+ *\param $p_id unique id
+ *@see display_form_plan
+ *\return string to display
+ */
+ function display_table($p_own,$p_mode,$p_amount,$p_id) {
+  static $seq=0;
+  $seq++;
 
-   /*  numb. of rows for this operation */
-   $nb_row=$this->db->get_value('select max(oa_row) from operation_analytique where j_id=$1',array($j_id));
-   for ( $i=0;$i<$nb_row;$i++) {   
+  $array=$this->get_by_jid($p_jid) ;
+  if ( $array != null ) {
+    $request=$this->to_request($array,$seq);
+    return "<td>".$this->display_form_plan($request,1,$p_mode,$seq,$p_amount,$id)."</td>";
+  } else {
+    return '<td>'.$this->display_form_plan(null,1,$p_mode,$seq,$p_amount,$id)."</TD>";
+  }
+  return "";
 
-     /* each plan is a column */
-     foreach ($a_plan as $r_plan) {
-       
-       
-     }
-   }
- }
+}
+
  /*\brief test the class
   *\param
   *\param

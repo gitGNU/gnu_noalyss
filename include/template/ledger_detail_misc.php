@@ -1,4 +1,6 @@
-<? require_once('template/ledger_detail_top.php'); ?>
+<? require_once('template/ledger_detail_top.php'); 
+require_once('class_anc_operation.php');
+?>
 <? 
 require_once('class_own.php'); 
 require_once ('jrn.php');
@@ -58,7 +60,6 @@ echo th(_('Crédit'), 'style="text-align:right"');
       echo th('Plan Analytique');
     }
 echo '</tr>';  
-    $idx_ca=0;
   for ($e=0;$e<count($obj->det->array);$e++) {
     $row=''; $q=$obj->det->array;
     $row=td($q[$e]['j_poste']);
@@ -79,9 +80,10 @@ echo '</tr>';
     /* Analytic accountancy */
     if ( $owner->MY_ANALYTIC != "nu"){
       if ( preg_match('/^(6|7)/',$q[$e]['j_poste'])) {
-	$row.=display_table_ca($cn,$idx_ca,$q[$e]['j_id'],$owner,1,$q[$e]['j_montant']);
+	$anc_op=new Anc_Operation($cn);
+	$anc_op->j_id=$q[$e]['j_id'];
+	$row.=display_table_ca($owner,1,$q[$e]['j_montant'],$div);
 	
-	$idx_ca++;
       }  else {
 	$row.=td('');
       }
