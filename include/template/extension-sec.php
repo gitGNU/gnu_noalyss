@@ -1,4 +1,4 @@
-<div style="overflow:auto">
+<div style="overflow:hidden">
 <fieldset>
 <legend><?=_('Sécurité')?></legend>
 <table class="result">

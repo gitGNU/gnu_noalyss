@@ -618,7 +618,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
     $sql="select distinct use_id,use_login,use_first_name,use_name from ac_users
  left outer join  jnt_use_dos using (use_id)
 where
-(dos_id=$1 or  use_admin=1) and use_active=1";
+(dos_id=$1 or  use_admin=1) and use_active=1 order by use_login,use_name";
     $repo=new Database();
     $array=$repo->get_array($sql,array($p_dossier));
     if ( $repo->size() == 0 ) throw new Exception ('Error inaccessible folder');

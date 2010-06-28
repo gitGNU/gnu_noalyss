@@ -46,6 +46,21 @@ if ( ! isset($_GET['user_id']) )
   return;
 
 $SecUser=new User($rep,$_GET['user_id']);
+$admin=0;
+$access=$SecUser->get_folder_access($gDossier);
+
+if ( $access == 'L') {
+  $str='Local Admin';$admin=1;
+} elseif ($access=='R') {
+  $str=' Utilisateur normal';
+}   elseif ($access=='P') {
+  $str=' Extension uniquement';
+}
+
+
+if ( $SecUser->admin==1 ) {
+  $str=' Super Admin';$admin=1;
+}
 
 
 //-----------------------------------------------------
@@ -56,11 +71,12 @@ $pdf->setDossierInfo(dossier::name().' Sécurité');
 $pdf->AliasNbPages();
 $pdf->AddPage();
 
-$str_user=sprintf("( %d ) %s %s [ %s ]",
+$str_user=sprintf("( %d ) %s %s [ %s ] - %s",
 		  $SecUser->id,
 		  $SecUser->first_name,
 		  $SecUser->name,
-		  $SecUser->login);
+		  $SecUser->login,
+		  $str);
 
 $pdf->SetFont('DejaVu','B',9);
 $pdf->Cell(0,7,$str_user,'B',0,'C');

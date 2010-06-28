@@ -84,7 +84,7 @@ switch($action) {
    $enable->value=$array;
    $enable->selected=$ext->get_parameter('enable');
    $str_enable=$enable->input();
-   $r.='<div style="overflow:auto;">';
+   $r.='<div style="overflow:hidden;">';
    $r.='<form  id="formext" onsubmit="extension_save(this);return false">';
    $r.=dossier::hidden();
    /* property of the extension */
@@ -97,6 +97,7 @@ switch($action) {
 	      array('value'=>'N','label'=>_('Interdit'))
 	      );
    $array=User::get_list(dossier::id());
+
    for ($i=0;$i<sizeof($array);$i++){
      $i_select=new ISelect("is_".$array[$i]['use_login']);
      $i_select->value=$ans;

@@ -51,9 +51,9 @@ if ( $User->check_action(PARSEC) == 0 ) {
 $cn=new Database();
 /*  Show all the users, included local admin */
 $user_sql=$cn->exec_sql("select  use_id,use_first_name,use_name,use_login,use_admin,priv_priv from ac_users natural join jnt_use_dos ".
-	      " join priv_user on (jnt_id=priv_jnt) where use_login != 'phpcompta' and dos_id=".$gDossier);
+			" join priv_user on (jnt_id=priv_jnt) where use_login != 'phpcompta' and dos_id=".$gDossier.' order by use_login,use_name');
 $MaxUser=Database::num_row($user_sql);
-
+if ( ! isset($_REQUEST['action'])) {
 echo '<DIV class="content" >';
 
 echo '<TABLE CELLSPACING="20" ALIGN="CENTER">';
@@ -62,7 +62,9 @@ for ($i = 0;$i < $MaxUser;$i++) {
   //  echo '<TR>';
   if ( $i % 3 == 0 && $i != 0)
     echo "</TR><TR>";
-  $str=($l_line['priv_priv'] == 'L')?'Local Admin':' Utilisateur normal';
+  $str=($l_line['priv_priv'] == 'L')?'Local Admin':' ';
+  $str=($l_line['priv_priv'] == 'P')?'Uniquement Extension':$str;
+  $str=($l_line['priv_priv'] == 'R')?'Utilisateur Normal':$str;
   if ( $l_line['use_admin'] == 1 ) 
     $str=' Super Admin';
 
@@ -76,6 +78,7 @@ for ($i = 0;$i < $MaxUser;$i++) {
 }
 echo "</TR>";
 echo '</TABLE>';
+}
 $action="";
 
 if ( isset ($_GET["action"] )) {
@@ -142,19 +145,24 @@ if ( $action == "view" ) {
 
   $cn=new Database();
   $User=new User($cn,$_GET['user_id']);
-
-  echo '<h2>'.h($User->first_name).' '.h($User->name).' '.hi($User->login);
-  $access=$User->get_folder_access($gDossier);
- 
   $admin=0;
+  $access=$User->get_folder_access($gDossier);
+
   if ( $access == 'L') {
     $str='Local Admin';$admin=1;
-  } else {
-    $str=' Utilisateur normal';}
+  } elseif ($access=='R') {
+    $str=' Utilisateur normal';
+  }   elseif ($access=='P') {
+    $str=' Extension uniquement';
+  }
+
 
   if ( $User->admin==1 ) {
     $str=' Super Admin';$admin=1;
   }
+
+  echo '<h2>'.h($User->first_name).' '.h($User->name).' '.hi($User->login)."($str)</h2>";
+ 
 
   if ( $admin != 0 ) {
     echo '<h2 class="info"> Cet utilisateur est administrateur, il a tous les droits</h2>';
@@ -167,6 +175,7 @@ if ( $action == "view" ) {
     $action="";
     return;
   }
+
   //--------------------------------------------------------------------------------
   // Show access for journal
   //--------------------------------------------------------------------------------
@@ -183,6 +192,8 @@ if ( $action == "view" ) {
   echo HtmlInput::button('Imprime','imprime',"onclick=\"window.open('".$sHref."');\"");
   echo HtmlInput::submit('ok','Sauve');
   echo HtmlInput::reset('Annule');
+  echo HtmlInput::button_anchor('Retour à la liste','?p_action=sec&'.dossier::get(),'retour');
+
   echo dossier::hidden();
   echo HtmlInput::hidden('action','sec');
   echo HtmlInput::hidden('user_id',$_GET['user_id']);

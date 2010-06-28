@@ -72,7 +72,7 @@ function extDetail(req){
 	if ( a.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
 	var html=answer.getElementsByTagName('code');
 	var name_ctl=a[0].firstChild.nodeValue+'_content';
-	var code_html=html[0].firstChild.nodeValue;
+	var code_html=getNodeText(html[0]);
 	code_html=unescape_xml(code_html);
 	$(name_ctl).innerHTML=code_html;} 
     catch (e) {
