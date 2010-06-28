@@ -1,5 +1,5 @@
 <? require_once('template/ledger_detail_top.php'); ?>
-<div class="content" style="padding:0">
+<div class="content" style="width:100%,padding:0">
 
     <? if ( $access=='W') : ?>
 <form  onsubmit="return op_save(this);">

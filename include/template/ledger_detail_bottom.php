@@ -46,10 +46,12 @@ if ( $access=='W') {
  require_once('template/ledger_detail_file.php'); 
 ?>
 <? 
-$a=new IButton('Fermer','Fermer');
-$a->label="Fermer";
-$a->javascript="removeDiv('".$div."')";
-echo $a->input();
+if ( $div != 'popup' ) {
+  $a=new IButton('Fermer','Fermer');
+  $a->label="Fermer";
+  $a->javascript="removeDiv('".$div."')";
+  echo $a->input();
+}
 ?>
 <?if ( $access=='W') { 
   echo HtmlInput::submit('save','Sauver'); 

@@ -1,4 +1,5 @@
-<? require_once('template/ledger_detail_top.php'); 
+<? 
+require_once('template/ledger_detail_top.php'); 
 require_once('class_anc_operation.php');
 ?>
 <? 
@@ -82,7 +83,7 @@ echo '</tr>';
       if ( preg_match('/^(6|7)/',$q[$e]['j_poste'])) {
 	$anc_op=new Anc_Operation($cn);
 	$anc_op->j_id=$q[$e]['j_id'];
-	$row.=display_table_ca($owner,1,$q[$e]['j_montant'],$div);
+	$row.=$anc_op->display_table($owner,1,$q[$e]['j_montant'],$div);
 	
       }  else {
 	$row.=td('');

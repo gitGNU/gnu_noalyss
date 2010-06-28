@@ -28,42 +28,29 @@
  * \param p_count count of col.
  */
 function add_row(p_table,p_seq,p_count) {
-  var elt=g("nb_"+p_table);
+  var mytable=g(p_table).tBodies[0];
 
-
-  if ( ! elt ) {return;}
-
-  // number of elt = elt.value
-  var old_value=elt.value;
-  var new_value=1*elt.value+1;
-  if ( new_value > 4 ) { 
-	alert("Maximum 4 lignes ");
+  if ( ! mytable ) {return;}
+    var new_value=mytable.rows.length+1;
+  if ( mytable.rows.length > 5 ) { 
+	alert("Maximum 5 lignes ");
 	return;
   }
-  elt.value=new_value;
-  // For the detail view (modify_op) there is several form and then several time the 
+  // For the detail view (modify_op) there is several form and then several time the
   // element
-  var all_elt=document.getElementsByName("nb_"+p_table);
-  for (var e=0;e<all_elt.length;e++) {
-    all_elt[e].value=new_value;
-  }
-  var tbody=g(p_table).getElementsByTagName("tbody")[0];
-  var row=document.createElement("TR");
-  for ( i=1;i<=p_count;i++) {
-	var cell=document.createElement("TD");
-	var col=g(p_table+"td"+i+'c1');
-	var txt=col.innerHTML;
+  var rowToCopy=mytable.rows[1];
+  var row=mytable.insertRow(mytable.rows.length);
+
+    for ( var i=0;i< rowToCopy.cells.length;i++) {
+      var cell=row.insertCell(i);
+	var txt=rowToCopy.cells[i].innerHTML;
 	txt=txt.replace(/row_1/g,"row_"+new_value);
 	cell.innerHTML=txt;
-
-	row.appendChild(cell); 
 	}
 
   // create the amount cell
-  var cell_montant=document.createElement("TD");
-  cell_montant.innerHTML='<input type="TEXT" name="val'+p_seq+"l"+new_value+'" id="val'+p_seq+"l"+new_value+'" size="6"  style="border:solid 1px blue;" >';
-  row.appendChild(cell_montant);
-  tbody.appendChild(row);
+
+  row.cells[i-1].innerHTML='<input type="TEXT" name="val'+p_seq+"l"+new_value+'" id="val'+p_seq+"l"+new_value+'" size="6"  style="border:solid 1px blue;color:black;background:#EDEDED;text-align:right" value="0">';
 
 }
 /*! 

@@ -578,7 +578,8 @@ function search_letter(obj) {
 *@param form
 */
 function op_save(obj) {
-    queryString="?lib="+obj.lib.value;
+    var queryString='?'+$(obj).serialize();
+    queryString+="&lib="+obj.lib.value;
     queryString+="&gDossier="+obj.gDossier.value;
     var rapt2="rapt"+obj.whatdiv.value;
     queryString+="&rapt="+g(rapt2).value;
@@ -586,14 +587,25 @@ function op_save(obj) {
     queryString+='&jr_id='+obj.jr_id.value;
     queryString+='&div='+obj.whatdiv.value;
     queryString+='&act=save';
-    var action=new Ajax.Request ( 'ajax_ledger.php',
-				  {
-				 method:'get',
-				 parameters:queryString,
-				 onFailure:null,
-				 onSuccess:op_success
-			       }
-			       );
+    if ( g('inpopup')) {
+	var action=new Ajax.Request ( 'ajax_ledger.php',
+				      {
+					  method:'post',
+					  parameters:queryString,
+					  onFailure:null,
+					  onSuccess:null
+				      }
+				    );
+	window.close();
+    } else {    var action=new Ajax.Request ( 'ajax_ledger.php',
+					      {
+						  method:'post',
+						  parameters:queryString,
+						  onFailure:null,
+						  onSuccess:op_success
+					      }
+					    );
+	   }
     return false;
 }
 /**

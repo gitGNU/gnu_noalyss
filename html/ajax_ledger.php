@@ -35,6 +35,7 @@ require_once('class_acc_operation.php');
 require_once('class_acc_ledger.php');
 require_once ('class_fiche.php');
 require_once('class_acc_reconciliation.php');
+require_once('class_anc_operation.php');
   /**
    *@todo Check if we receive the needed data (jr_id...)
    */
@@ -72,7 +73,7 @@ exit();
 // check if the user can access the ledger where the operation is (view) and
 // if he can modify it
 $op=new Acc_Operation($cn);
-$op->jr_id=$_GET['jr_id'];
+$op->jr_id=$_REQUEST['jr_id'];
 $ledger=$op->get_ledger();
 $access=$User->get_ledger_access($ledger);
 if ( $access == 'X' )  {
@@ -93,7 +94,6 @@ EOF;
 exit();  
 }
 $html=var_export($_REQUEST,true);
-
 switch ($action) {
   //////////////////////////////////////////////////////////////////////
   // DE Detail
@@ -242,29 +242,83 @@ case 'rmf':
 /////////////////////////////////////////////////////////////////////////////
   case 'save':
     if ( $access=="W") {
-    $cn->exec_sql('update jrn set jr_comment=$1,jr_pj_number=$2 where jr_id=$3',
-		  array($_GET['lib'],$_GET['npj'],$jr_id));
-    $rapt=$_GET['rapt'];
-    if (trim($rapt) != '') {
-      $rec=new Acc_Reconciliation ($cn);
-      $rec->set_jr_id($jr_id);
+      $cn->exec_sql('update jrn set jr_comment=$1,jr_pj_number=$2 where jr_id=$3',
+		    array($_POST['lib'],$_POST['npj'],$jr_id));
+      $rapt=$_POST['rapt'];
+      if (trim($rapt) != '') {
+	$rec=new Acc_Reconciliation ($cn);
+	$rec->set_jr_id($jr_id);
 
-      if (strpos($rapt,",") != 0 ) {
-	$aRapt=explode(',',$rapt);
-	/* reconcialition */
-	foreach ($aRapt as $rRapt) {
-	  if ( isNumber($rRapt) == 1 )
-	    {
-	      // Add a "concerned operation to bound these op.together
-	      $rec->insert($rRapt);
-	    }
-	}
-      } else
-	if ( isNumber($rapt) == 1 )
-	  {
-	    $rec->insert($rapt);
+	if (strpos($rapt,",") != 0 ) {
+	  $aRapt=explode(',',$rapt);
+	  /* reconcialition */
+	  foreach ($aRapt as $rRapt) {
+	    if ( isNumber($rRapt) == 1 )
+	      {
+		// Add a "concerned operation to bound these op.together
+		$rec->insert($rRapt);
+	      }
 	  }
-    }
+	} else
+	  if ( isNumber($rapt) == 1 )
+	    {
+	      $rec->insert($rapt);
+	    }
+      }
+      ////////////////////////////////////////////////////
+      // CA
+      //////////////////////////////////////////////////
+      $owner = new Own($cn);
+      if ( $owner->MY_ANALYTIC != "nu" )
+	{
+	  $err=0;
+	  $tab=0;	   	    $row=1;
+	  while (1) {
+	    if ( !isset ($_POST['nb_t'.$tab]))
+	      break;
+	    $tot_tab=0;
+
+	    for ($i_row=0;$i_row <= MAX_COMPTE;$i_row++) {
+	      if ( ! isset($_POST['val'.$tab.'l'.$i_row]))
+		continue;
+	      $tot_tab+=$_POST['val'.$tab.'l'.$i_row];
+	    }
+
+	    if ( $tot_tab != $_POST['amount_t'.$tab]) {
+	      $html='<script>alert ("Erreur montant dans Comptabilite analytique\n Operation non sauvée")</script>';
+	      $err=1;
+	    }
+	    $tot_tab=0;
+	    $tab++;
+	  }
+	  if ( $err==0 ) {
+	    // we need first old the j_id and j_poste
+	    // so we fetch them all from the db
+	    $sql="select j_id,j_poste,to_char(j_date,'DD.MM.YYYY') as j_date,j_debit ".
+	      "from jrn join jrnx on (j_grpt=jr_grpt_id) ".
+	      "where jr_id=$1";
+	    $res=$cn->exec_sql($sql,array($_POST['jr_id']));
+	    
+	    $array_jid=Database::fetch_all($res);
+	    // if j_poste match 6 or 7 we insert them
+	    $count=0;
+	    $group=$cn->get_next_seq("s_oa_group");
+	    
+	    foreach( $array_jid as $row_ca) {
+	      if ( preg_match("/^(6|7)/",$row_ca['j_poste'])) {
+		$op=new Anc_Operation($cn);
+		$op->delete_by_jid($row_ca['j_id']);
+		$op->j_id=$row_ca['j_id'];
+		$op->oa_debit=$row_ca['j_debit'];
+		$op->oa_date=$row_ca['j_date'];
+		$op->oa_group=$group;
+		$op->oa_description=$_REQUEST['lib'];
+		$op->save_form_plan($_REQUEST,$count);
+		$count++;
+	      } //if myereg
+	    }//foreach
+	  }//	if ( $err == 0 )
+	}
     }
     break;
  /////////////////////////////////////////////////////////////////////////////

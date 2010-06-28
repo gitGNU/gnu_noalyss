@@ -432,7 +432,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
 
 
 	   }
-	 $value=new IText();
+	 $value=new INum();
 	 $value->name="val".$p_seq."l$i";
 	 $value->size=6;
 	 $value->value=(isset(${"val".$p_seq."l$i"}))?round(${"val".$p_seq."l$i"},2):$p_amount;
@@ -447,7 +447,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
    $result.="</table>";
    // add a button to add a row
    $button=new IButton();
-   $button->javascript="onChange=add_row('".$p_id."$table_id',$p_seq,$count);";
+   $button->javascript="add_row('".$p_id."$table_id',$p_seq,$count);";
    $button->name="js".$p_id.$p_seq;
    $button->label="Nouvelle ligne";
    if ( $p_mode == 1 )
@@ -572,12 +572,12 @@ function get_balance($p_from,$p_to,$p_plan_id)
   static $seq=0;
   $seq++;
 
-  $array=$this->get_by_jid($p_jid) ;
+  $array=$this->get_by_jid($this->j_id) ;
   if ( $array != null ) {
     $request=$this->to_request($array,$seq);
-    return "<td>".$this->display_form_plan($request,1,$p_mode,$seq,$p_amount,$id)."</td>";
+    return "<td>".$this->display_form_plan($request,1,$p_mode,$seq,$p_amount,$p_id)."</td>";
   } else {
-    return '<td>'.$this->display_form_plan(null,1,$p_mode,$seq,$p_amount,$id)."</TD>";
+    return '<td>'.$this->display_form_plan(null,1,$p_mode,$seq,$p_amount,$p_id)."</TD>";
   }
   return "";
 
