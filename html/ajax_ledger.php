@@ -28,7 +28,7 @@
     - load a receipt document
     - for reconcialiation        
     - update of analytic content
- */
+*/
 require_once('class_database.php');
 require_once('class_user.php');
 require_once('class_acc_operation.php');
@@ -164,14 +164,19 @@ case 'de':
       echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
       echo "</head>";
       echo '<div class="op_detail_frame">';
-      $h=sprintf('<a class="mtitle"  href="show_pj.php?gDossier=%d&jrn=%d&jr_grpt_id=%d">%s</a>',
-		 $gDossier,$ledger,$obj->det->jr_grpt_id,h( $obj->det->jr_pj_name));
-      echo $h;
+
       $x='';
       if ($access=='W')
-      $x=sprintf('<a class="mtitle" style="margin-left:12" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">enlever</a>',
+      $x=sprintf('<a class="mtitle" style="margin-right:12" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">enlever</a>',
 		 $gDossier,$div,$jr_id);
       echo $x;
+      $filename= $obj->det->jr_pj_name;
+      if ( strlen($obj->det->jr_pj_name) > 20 ) {
+	$filename=substr($obj->det->jr_pj_name,1,20);
+      }
+      $h=sprintf('<a class="mtitle"  href="show_pj.php?gDossier=%d&jrn=%d&jr_grpt_id=%d">%s</a>',
+		 $gDossier,$ledger,$obj->det->jr_grpt_id,h( $filename));
+      echo $h;
       echo '</div>';
       exit();
     }
@@ -194,12 +199,16 @@ case 'de':
       echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
       echo "</head>";
       echo '<div class="op_detail_frame">';
-      $h=sprintf('<a class="mtitle"  href="show_pj.php?gDossier=%d&jrn=%d&jr_grpt_id=%d">%s</a>',
-		 $gDossier,$ledger,$obj->det->jr_grpt_id,h( $obj->det->jr_pj_name));
-      echo $h;
       $x=sprintf('<a class="mtitle" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">enlever</a>',
 		 $gDossier,$div,$jr_id);
       echo $x;
+      $filename= $obj->det->jr_pj_name;
+      if ( strlen($obj->det->jr_pj_name) > 20 ) {
+	$filename=substr($obj->det->jr_pj_name,1,20);
+      }
+      $h=sprintf('<a class="mtitle"  href="show_pj.php?gDossier=%d&jrn=%d&jr_grpt_id=%d">%s</a>',
+		 $gDossier,$ledger,$obj->det->jr_grpt_id,h($filename));
+      echo $h;
       echo '</div>';
 
     }

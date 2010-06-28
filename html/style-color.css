@@ -834,7 +834,7 @@ h2.gest_name {
 	
 }
 div.op_detail_frame  {
-  background-color:#e4e7ed;
+  background-color:#e4e7ed; 
   height:100%; width:100%;
   
   
@@ -852,7 +852,7 @@ position:absolute;
 left:10%;
 
 
-border:1px solid darkblue;	width:300;
+border:1px solid darkblue;	
 
 }
 div.op_detail_title {

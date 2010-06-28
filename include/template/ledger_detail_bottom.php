@@ -45,7 +45,9 @@ if ( $access=='W') {
 <?
  require_once('template/ledger_detail_file.php'); 
 ?>
+<hr>
 <? 
+
 if ( $div != 'popup' ) {
   $a=new IButton('Fermer','Fermer');
   $a->label="Fermer";
