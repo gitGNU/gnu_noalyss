@@ -1,20 +1,25 @@
 1. Ajout balance par catégorie de fiche
-TODO  réecriture de quant_* la liaison avec la jrn se fait à travers jr_id et non pas jr_internal qui n'est pas indexé. 
+TODO1  réecriture de quant_* la liaison avec la jrn se fait à travers jr_id et non pas jr_internal qui n'est pas indexé. 
 Conséquence : réécriture de code, correction modop, ...
 
-TODO Object pour extourner proprement une operation, le fichier annulation.php devient inutile (deprecated)
+TODO2 Object pour extourner proprement une operation, le fichier annulation.php devient inutile (deprecated) depend de TODO1 TODO10
 
-TODO changer le code pour ajouter de la CA ou la modifier dans un DIV HTML, le fichier jrn.php devient inutile (deprecated)
+TODO3 changer le code pour ajouter de la CA ou la modifier dans un DIV HTML, le fichier jrn.php devient inutile (deprecated)
 
-TODO Ajout d'un lien sur les postes et client pour accèder avec un DIV contenant l'historique (au moins une partie / présentation par slice)/ bouton suivant-précédent )
+TODO4 Ajout d'un lien sur les postes et client pour accèder avec un DIV contenant l'historique (au moins une partie / présentation par slice)/ bouton suivant-précédent )
 
-TODO bug IE : les DIV HTML n'ont pas la bonne taille
+TODO5 bug IE : les DIV HTML n'ont pas la bonne taille
 
-IDEE, categorie de fiche, changer la présentation
+IDEE6, categorie de fiche, changer la présentation
 
-TODO ajout bouton "ajoutez ligne" pour les OD en CA
+TODO7 ajout bouton "ajoutez ligne" pour les OD en CA
 
-TODO ajout bouton "ajoutez ligne" pour les prévisions
+TODO8 ajout bouton "ajoutez ligne" pour les prévisions
 
-IDEE Catégorie de fiche : changer la présentation ?
+IDEE1 Catégorie de fiche : changer la présentation ?
 
+TODO9 - dépend de TODO4 TODO2 - dans impressions, on peut avoir les détails de toutes les opérations
+
+TODO10 Enlever le bouton enlever dans les listes d'opération et le mettre dans le DIV HTML qui présente les détails de l'op 
+
+TODO11 Ajoutez aux classes Ledger_* une fonction pour obtenir un tableau vide qui répresente le tableau utilisé par confirm, insert et veriffy
