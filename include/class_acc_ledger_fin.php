@@ -132,7 +132,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       if ( strlen(trim(${'e_other'.$i}))== 0) continue;
       /* check if amount are numeric and */
       if ( isNumber(${'e_other'.$i.'_amount'}) == 0 )
-	throw new Exception('La fiche '.${'e_other'.$i}.'a un montant invalide ['.${'e_other'.$i}.']',6);
+	throw new Exception('La fiche '.${'e_other'.$i}.'a un montant invalide ['.${'e_other'.$i.'_amount'}.']',6);
 
       /* compute the total */
       $tot_amount+=round(${'e_other'.$i.'_amount'},2);
