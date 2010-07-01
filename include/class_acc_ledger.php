@@ -288,7 +288,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 	      jrn.jr_id as num ,
 	      jrn.jr_def_id as jr_def_id,
 	      jrn.jr_montant as montant,
-	      substr(jrn.jr_comment,1,30)|| case when jr_pj_number is not null and jr_pj_number  !='' then 'pj:'||coalesce(jr_pj_number,'-') else '' end as comment,
+	      substr(jrn.jr_comment,1,35)|| case when jr_pj_number is not null and jr_pj_number  !='' then 'pj:'||coalesce(jr_pj_number,'-') else '' end as comment,
 	      to_char(jrn.jr_date,'DD-MM-YYYY') as date,
 	      jr_internal,
 	      jrn.jr_grpt_id as grpt_id,
