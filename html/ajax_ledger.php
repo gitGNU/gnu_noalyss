@@ -136,13 +136,13 @@ case 'de':
       echo "<html><head>";
       $repo=new Database();
       $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
-      echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
+       echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
       echo "</head>";
       echo '<div class="op_detail_frame">';
-
+      
       if ( $access=='W') {
 	echo '<FORM METHOD="POST" ENCTYPE="multipart/form-data" id="form_file">';
-	$sp=new ISpan('file'.$div);$sp->style="display:none;width:155;height:15;background-color:red;color:white;font-size:14";
+	$sp=new ISpan('file'.$div);$sp->style="display:none;width:155;height:15;background-color:red;color:white;font-size:10";
 	$sp->value="Chargement";
 	echo $sp->input();
 	echo HtmlInput::hidden('act','loadfile');
@@ -150,19 +150,27 @@ case 'de':
 	echo HtmlInput::hidden('jr_id',$jr_id);
 	echo HtmlInput::hidden('div',$div);
     
-	echo '<INPUT TYPE="FILE" name="pj" onchange="getElementById(\'file'.$div.'\').style.display=\'block\';submit(this);">';
+	echo '<INPUT TYPE="FILE" name="pj" onchange="getElementById(\'file'.$div.'\').style.display=\'inline\';submit(this);">';
 	echo '</FORM>';
       }	else {
+      echo "<html><head>";
+      $repo=new Database();
+      $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
+       echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
+      echo "</head>";
+      echo '<div class="op_detail_frame">';
+
 	  echo _('Aucun fichier');
       }
       echo '</div>';
+      echo '</body></html>';
       exit();
     } else {
       echo "<html><head>";
       $repo=new Database();
       $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
       echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
-      echo "</head>";
+      echo "</head><body>";
       echo '<div class="op_detail_frame">';
 
       $x='';
@@ -172,12 +180,13 @@ case 'de':
       echo $x;
       $filename= $obj->det->jr_pj_name;
       if ( strlen($obj->det->jr_pj_name) > 20 ) {
-	$filename=substr($obj->det->jr_pj_name,1,20);
+	$filename=substr($obj->det->jr_pj_name,0,23);
       }
       $h=sprintf('<a class="mtitle"  href="show_pj.php?gDossier=%d&jrn=%d&jr_grpt_id=%d">%s</a>',
 		 $gDossier,$ledger,$obj->det->jr_grpt_id,h( $filename));
       echo $h;
       echo '</div>';
+      echo '</body></html>';
       exit();
     }
 /////////////////////////////////////////////////////////////////////////////
@@ -199,7 +208,7 @@ case 'de':
       echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
       echo "</head>";
       echo '<div class="op_detail_frame">';
-      $x=sprintf('<a class="mtitle" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">enlever</a>',
+      $x=sprintf('<a class="mtitle" style="margin-right:12px" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">enlever</a>',
 		 $gDossier,$div,$jr_id);
       echo $x;
       $filename= $obj->det->jr_pj_name;
@@ -218,8 +227,15 @@ case 'de':
 /////////////////////////////////////////////////////////////////////////////
 case 'rmf':
   if (   $access == 'W' ){
+     echo "<html><head>";
+      $repo=new Database();
+      $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
+       echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
+      echo "</head>";
+      echo '<div class="op_detail_frame">';
+      
       echo '<FORM METHOD="POST" ENCTYPE="multipart/form-data" id="form_file">';
-      $sp=new ISpan('file'.$div);$sp->style="display:none;width:155;height:15;background-color:red;color:white;font-size:14";
+      $sp=new ISpan('file'.$div);$sp->style="display:none;width:155;height:15;background-color:red;color:white;font-size:10";
       $sp->value="Chargement";
       echo $sp->input();
 
@@ -228,7 +244,7 @@ case 'rmf':
       echo HtmlInput::hidden('jr_id',$jr_id);
       echo HtmlInput::hidden('div',$div);
     
-      echo '<INPUT TYPE="FILE" name="pj" onchange="getElementById(\'file'.$div.'\').style.display=\'block\';submit(this);">';
+      echo '<INPUT TYPE="FILE" name="pj" onchange="getElementById(\'file'.$div.'\').style.display=\'inline\';submit(this);">';
       echo '</FORM>';
       $ret=$cn->exec_sql("select jr_pj from jrn where jr_id=$1",array($jr_id));
       if (Database::num_row($ret) != 0) {
@@ -244,7 +260,8 @@ case 'rmf':
 	$cn->exec_sql("update jrn set jr_pj=null, jr_pj_name=null, ".
 		      "jr_pj_type=null  where jr_id=$1",array($jr_id));
       }
-  }
+  }   
+  echo '</div>';
       exit();
 /////////////////////////////////////////////////////////////////////////////
 // Save operation detail
