@@ -396,11 +396,11 @@ function get_balance($p_from,$p_to,$p_plan_id)
    $result.="<tr>".$plan->header()."<th>montant</th></tr>";
 
    /* compute the number of rows */
-   $nb_row=count($p_array['pa_id'])/count($a_plan);
+   $nb_row=(isset($val[$p_seq]))?count($val[$p_seq]):1;
+   $count=0;
 
    for ( $i=0; $i < $nb_row;$i++) {
 	 $result.='<tr>';
-	 $count=0;
 
 	 foreach ($a_plan as $r_plan)
 	   {
@@ -433,7 +433,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
 	 $value=new INum();
 	 $value->name="val[".$p_seq."][]";
 	 $value->size=6;
-	 //	 $value->value=(isset(${"val".$p_seq."l$i"}))?round(${"val".$p_seq."l$i"},2):$p_amount;
+	 $value->value=(isset($val[$p_seq][$i]))?$val[$p_seq][$i]:$p_amount;
 	 $value->readonly=($p_mode==1)?false:true;
 
 	 $result.='<td>'.$value->input().'</td>';
@@ -474,6 +474,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
   */
  function save_form_plan($p_array,$p_item,$j_id) {
    extract($p_array);
+   var_dump($p_array);
    /* variable for in array
       pa_id array of existing pa_id
       hplan double array with the pa_id (column)
@@ -481,18 +482,21 @@ function get_balance($p_from,$p_to,$p_plan_id)
       op contains sequence
       p_item is used to identify what op is concerned
    */
+   echo "j_id = $j_id p_item = $p_item hplan=".var_export($hplan[$p_item],true)." val = ".var_export($val[$p_item],true).'<br>';
    /* for each row */
-   for ($i=0;$i<count($val[$p_item]);$i++) {
+   //   for ($i=0;$i<count($val[$p_item]);$i++) {
      $idx_pa_id=0;
+     $row=0;
      // foreach col PA
      for ($e=0;$e<count($hplan[$p_item]);$e++)
        {
-	 if ( $idx_pa_id >= (count($pa_id)-1)) {
+	 if ( $idx_pa_id == count($pa_id)) {
 	   $idx_pa_id=0;
+	   $row++;
 	 }
        echo "p_item[$p_item] e[$e]";
        echo $hplan[$p_item][$e];
-       if ($hplan[$p_item][$e] != -1 && $val[$p_item][$i] != '')
+       if ($hplan[$p_item][$e] != -1 && $val[$p_item][$row] != '')
 	 {
 	   echo "insert";
 	   $op=new Anc_Operation($this->db);
@@ -500,17 +504,17 @@ function get_balance($p_from,$p_to,$p_plan_id)
 	   $op->pa_id=$pa_id[$idx_pa_id];
 	   $op->oa_group=$this->oa_group;
 	   $op->j_id=$j_id;
-	   $op->oa_amount=$val[$p_item][$i];
+	   $op->oa_amount=$val[$p_item][$row];
 	   $op->oa_debit=$this->oa_debit;
 	   $op->oa_date=$this->oa_date;
 	     
 	   $op->oa_description=$this->oa_description;
-	   $op->oa_row=$i;
+	   $op->oa_row=$row;
 	   $op->add();
 	 }
        $idx_pa_id++;
      }
-   }
+     // }
  }
    
  
@@ -591,8 +595,8 @@ function get_balance($p_from,$p_to,$p_plan_id)
  function test_me() {
    $cn=new Database(dossier::id());
    $anco=new Anc_Operation($cn);
-   $anco->j_id=141;
-   $array=$anco->get_by_jid(141);
+   $anco->j_id=187;
+   $array=$anco->get_by_jid(187);
    $a=$anco->to_request($array,1);
    echo $anco->display_table(1,15002,0);
 
