@@ -36,7 +36,6 @@ $gDossier=dossier::id();
 $cn=new Database($gDossier);
 $User=new User($cn);
 $User->Check();
-
-
-$cn->exec_sql("delete from operation_analytique where oa_group=$1",array($_GET['oa']));
+if ($User->check_action(CAOD)) 
+  $cn->exec_sql("delete from operation_analytique where oa_group=$1",array($_GET['oa']));
 ?>

@@ -416,7 +416,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
    * \return
    *	- 0 no priv
    *      - 1 priv granted
-   *
+   *@see constant.security.php
    */
   function check_action ( $p_action_id)
   {

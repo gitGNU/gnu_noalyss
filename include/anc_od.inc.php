@@ -69,7 +69,6 @@ if ( isset($_GET['see'])) {
   // Show the list for the period
   // and exit
   //-----------------------------
-  echo JS_AJAX_OP;
   $a=new Anc_Operation($cn);
 
 echo '

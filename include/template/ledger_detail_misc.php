@@ -6,7 +6,6 @@ require_once('class_anc_plan.php');
 ?>
 <? 
 require_once('class_own.php'); 
-require_once ('jrn.php');
 require_once ('class_anc_plan.php');
 ?>
 <div class="content" style="padding:0">

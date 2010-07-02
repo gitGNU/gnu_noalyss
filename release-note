@@ -1,5 +1,5 @@
 1. Ajout balance par catégorie de fiche
-2. changer le code pour ajouter de la CA ou la modifier dans un DIV HTML, le fichier jrn.php devient inutile (deprecated)
+DONE3. changer le code pour ajouter de la CA ou la modifier dans un DIV HTML, le fichier jrn.php devient inutile (deprecated)
 
 TODO1  réecriture de quant_* la liaison avec la jrn se fait à travers jr_id et non pas jr_internal qui n'est pas indexé. 
 Conséquence : réécriture de code, correction modop, ...
@@ -33,3 +33,6 @@ TODO13 Bouton validate CA ne fonctionne plus
 TODO14 confirmation quand effacement d'un PA (comptabilité analytique -> Plan Analytique)
 
 TODO15 Ajoutez les détails pour l'impression en PDF pour impression poste / fiche
+TODO16 Détail opération dans DIV HTML
+
+TODO17 extourne depuis DIV HTML dépend de TODO16
