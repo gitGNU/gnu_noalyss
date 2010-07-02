@@ -541,8 +541,8 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
       }
     //DEBUG
 
-    $r.=sprintf('<A class="detail" HREF="javascript:modifyOperation(\'%s\',\'%s\',\'%s\',\'%s\')" >%s</A>',
-				$row['jr_id'], $gDossier, $row['jrn_def_id'],$vue, $row['jr_internal']);
+    $r.=sprintf('<A class="detail" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s</A>',
+				$row['jr_id'], $gDossier, $row['jr_internal']);
     $r.="</TD>";
     if ( $this->type=='') $r.=td($row['jrn_def_name']);
     // date

@@ -1038,7 +1038,7 @@ av_text1=>'name'
       if ( $p_array == null)
 	$p_array=$_REQUEST;
 
-      $name=h($this->getName());
+      $name=h($this->getName()).'['.$this->strAttribut(ATTR_DEF_QUICKCODE).']';
 
       list($array,$tot_deb,$tot_cred)=$this->get_row_date( $p_array['from_periode'],
 						     $p_array['to_periode']
@@ -1049,7 +1049,7 @@ av_text1=>'name'
 
       $rep="";
 
-      echo '<h2 class="info">'.$this->id." ".$name.'</h2>';
+      echo '<h2 class="info">'." ".$name.'</h2>';
       echo "<TABLE class=\"result\" width=\"100%\">";
       echo "<TR>".
 	"<TH>"._('Code interne')." </TH>".
@@ -1060,8 +1060,11 @@ av_text1=>'name'
 	"</TR>";
 
       foreach ( $this->row as $op ) {
+       $vw_operation=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s</A>',
+		  $op['jr_id'], dossier::id(), $op['jr_internal']);
+
 	echo "<TR>".
-	  "<TD>".$op['jr_internal']."</TD>".
+	  "<TD>".$vw_operation."</TD>".
 	  "<TD>".$op['j_date_fmt']."</TD>".
 	  "<TD>".h($op['description'])."</TD>".
 	  "<TD>".$op['deb_montant']."</TD>".

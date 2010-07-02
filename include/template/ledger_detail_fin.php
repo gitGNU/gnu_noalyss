@@ -14,25 +14,24 @@
 <tr>
 <?
 $bk=new Fiche($cn,$obj->det->array[0]['qf_bank']);
-echo td($bk->get_quick_code());
+$view_history= sprintf('<A class="detail" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
+				$bk->id, $gDossier, $bk->get_quick_code());
+echo td(h($bk->getName())).td($view_history);;
+
 /**
  *@file
- *@todo ajouter la possiblité d'avoir l'historique si on cliques sur le quick_code
- *@quant_fin les opérations avec visa ne sont pas rentrées dans quant_fin, donc il faut
- * faire une procédure pl/sql : chercher les enregistrements qui ne sont pas dans quant_fin
- * et celui qui est ni client ni fournisseur est forcément le compte banque, insérer. 
  *@todo Ajouter une clef unique sur quant_fin.jr_id, quant_purchase.j_id et quant_sold.j_id
  */
-echo td(h($bk->getName()));
 ?>
 </tr>
 <tr>
 <?
  
 $bk=new Fiche($cn,$obj->det->array[0]['qf_other']);
-
-echo td($bk->get_quick_code());
+$view_history= sprintf('<A class="detail" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
+				$bk->id, $gDossier, $bk->get_quick_code());
 echo td(h($bk->getName()));
+echo td($view_history);
 ?>
 </tr>
 
@@ -77,8 +76,19 @@ echo th(_('Crédit'),' style="text-align:right"');
 echo '</tr>';
   for ($e=0;$e<count($detail->det->array);$e++) {
     $row=''; $q=$detail->det->array;
-    $row=td($q[$e]['j_poste']);
-    $row.=td($q[$e]['j_qcode']);
+   $view_history= sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:view_history_account(\'%s\',\'%s\')" >%s</A>',
+			   $q[$e]['j_poste'], $gDossier, $q[$e]['j_poste']);
+
+    $row.=td($view_history);
+    if ( $q[$e]['j_qcode'] !=''){
+      $fiche=new Fiche($cn);
+      $fiche->get_by_qcode($q[$e]['j_qcode']);
+      $view_history= sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
+			     $fiche->id,$gDossier, $q[$e]['j_qcode']);
+    }
+    else
+      $view_history='';
+    $row.=td($view_history);
     if ( $q[$e]['j_qcode'] !='') {
       // nom de la fiche 
       $ff=new Fiche($cn);

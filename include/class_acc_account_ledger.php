@@ -264,11 +264,12 @@ function get_solde_detail($p_cond="") {
  */
 
 
- function HtmlTable()
+ function HtmlTable($p_array=null )
    {
+     if ( $p_array==null)$p_array=$_REQUEST;
      $this->get_name();
-     list($array,$tot_deb,$tot_cred)=$this->get_row_date( $_REQUEST['from_periode'],
-						     $_REQUEST['to_periode']
+     list($array,$tot_deb,$tot_cred)=$this->get_row_date( $p_array['from_periode'],
+						     $p_array['to_periode']
 						     );
 
      if ( count($this->row ) == 0 )
@@ -288,8 +289,11 @@ function get_solde_detail($p_cond="") {
        "</TR>";
 
      foreach ( $this->row as $op ) {
+       $vw_operation=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s</A>',
+		  $op['jr_id'], dossier::id(), $op['jr_internal']);
+
        echo "<TR>".
-	 "<TD>".$op['jr_internal']."</TD>".
+	 "<TD>".$vw_operation."</TD>".
 	 "<TD>".$op['j_date']."</TD>".
 	 "<TD>".h($op['description']).' '.h($op['jr_pj_number'])."</TD>".
 	 "<TD>".$op['deb_montant']."</TD>".

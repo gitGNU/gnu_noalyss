@@ -71,8 +71,20 @@ echo th(_('Crédit'), 'style="text-align:right"');
 echo '</tr>';  
   for ($e=0;$e<count($obj->det->array);$e++) {
     $row=''; $q=$obj->det->array;
-    $row=td($q[$e]['j_poste']);
-    $row.=td($q[$e]['j_qcode']);
+    $view_history= sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:view_history_account(\'%s\',\'%s\')" >%s</A>',
+			   $q[$e]['j_poste'], $gDossier, $q[$e]['j_poste']);
+
+    $row.=td($view_history);
+    if ( $q[$e]['j_qcode'] !='') {
+      $fiche=new Fiche($cn);
+      $fiche->get_by_qcode($q[$e]['j_qcode']);
+      $view_history= sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
+			   $fiche->id, $gDossier, $q[$e]['j_qcode']);
+    }
+    else
+      $view_history='';
+    $row.=td($view_history);
+
     if ( $q[$e]['j_qcode'] !='') {
       // nom de la fiche 
       $ff=new Fiche($cn);

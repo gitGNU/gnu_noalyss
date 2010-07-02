@@ -1,6 +1,7 @@
 1. Ajout balance par catégorie de fiche
 2. DONE3. changer le code pour ajouter de la CA ou la modifier dans un DIV HTML, le fichier jrn.php devient inutile (deprecated)
 3. DONE16 Détail opération dans DIV HTML
+4. Dans les détails d'opérations, on a aussi des liens vers les historiques par fiche ou par poste comptable
 
 TODO1  réecriture de quant_* la liaison avec la jrn se fait à travers jr_id et non pas jr_internal qui n'est pas indexé. 
 Conséquence : réécriture de code, correction modop, ...
