@@ -37,6 +37,7 @@ require_once('class_periode.php');
 $User->can_request(IMPBAL);
 echo JS_LEDGER;
 echo JS_PROTOTYPE;
+echo JS_INFOBULLE;
 require_once('class_ipopup.php');
 echo js_include('accounting_item.js');
 echo js_include('prototype.js');
@@ -186,9 +187,11 @@ if ( isset($_POST['view'] ) ) {
       $tr="even";
     else
       $tr="odd";
+    $view_history= sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:view_history_account(\'%s\',\'%s\')" >%s</A>',
+			   $r['poste'], $gDossier, $r['poste']);
 
     echo '<TR class="'.$tr.'">';
-    echo td($r['poste']);
+    echo td($view_history);
     echo td(h($r['label']));
     echo td($r['sum_deb']);
     echo td($r['sum_cred']);
