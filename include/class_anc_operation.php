@@ -107,18 +107,9 @@ class Anc_Operation
    * \note be carefull : do not delete a row when we have a group
    */
   function delete() {
-	$sql="delete from operation_analytique where oa_id=".$this->oa_id;
+    $sql="delete from operation_analytique where oa_id=$1";
 
-	$this->db->exec_sql($sql);
-  }
-
-  /*!\brief update a row in  the table operation_analytique
-   */
-  function update() {
-	if ( $this->po_id == -1) { $this->delete();return;}
-
-	  $sql="update operation_analytique set po_id=".$this->po_id." where oa_id=".$this->oa_id;
-	$this->db->exec_sql($sql);
+    $this->db->exec_sql($sql,array($this->oa_id));
   }
 
   /*!\brief get a list of row from a certain periode
@@ -289,7 +280,7 @@ class Anc_Operation
                   oa_row
           from operation_analytique
           where
-          j_id=$p_jid order by j_id,pa_id,oa_row";
+          j_id=$p_jid order by j_id,oa_row,pa_id";
 	$ret=$this->db->exec_sql($sql);
 	$res=Database::fetch_all($ret);
 	if ( $res== false) return null;
@@ -368,6 +359,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
 	}
   }
   /*!\brief display the form for PA
+   *\param $p_array contains POST (or GET) data (val[] hplan[][] op[])
    * \param $p_null = 1 if PA optional otherwise 0 mandatory
    * \param $p_mode == form 1 ==> read/write otherwise 0==>readonly
    * \param $p_seq number of the row
@@ -375,8 +367,35 @@ function get_balance($p_from,$p_to,$p_plan_id)
    * \param $p_id operation is detailled in a HTML popup, if several
    *  are opened, the tableid MUST be different. So we need to use a new parameter
    * \see save_form_plan
+@note 
+- op is an array containing the line number 
+- pa_id is an array of the existing array
+- hplan is an array of the POSTE ANALYTIQUE id used, the size of hplan from 0 to x,
+x can be bigger than the number of plan id
+- val contains the amount by row inside the table. One operation (j_id) you can have several rows
+@code
+  0 => 
+    array
+      'op' => int 200
+  'pa_id' => 
+    array
+      0 => string '14' (length=2)
+      1 => string '15' (length=2)
+  'hplan' => 
+    array
+      1 => 
+        array
+          0 => string '25' (length=2)
+          1 => string '26' (length=2)
+  'val' => 
+    array
+      1 => 
+        array
+          0 => string '100.0000' (length=8)
+
+@endcode
    */
- function display_form_plan($p_array,$p_null,$p_mode,$p_seq,$p_amount,$p_id='') {
+function display_form_plan($p_array,$p_null,$p_mode,$p_seq,$p_amount,$p_id='') {
    if ( $p_array != null)
      extract ($p_array);
    $result="";
@@ -384,7 +403,6 @@ function get_balance($p_from,$p_to,$p_plan_id)
    $a_plan=$plan->get_list();
    if ( empty ($a_plan) ) return "";
    $table_id="t".$p_seq;
-
    $hidden=new IHidden();
 
 
@@ -474,7 +492,6 @@ function get_balance($p_from,$p_to,$p_plan_id)
   */
  function save_form_plan($p_array,$p_item,$j_id) {
    extract($p_array);
-   var_dump($p_array);
    /* variable for in array
       pa_id array of existing pa_id
       hplan double array with the pa_id (column)
@@ -482,7 +499,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
       op contains sequence
       p_item is used to identify what op is concerned
    */
-   echo "j_id = $j_id p_item = $p_item hplan=".var_export($hplan[$p_item],true)." val = ".var_export($val[$p_item],true).'<br>';
+   /* echo "j_id = $j_id p_item = $p_item hplan=".var_export($hplan[$p_item],true)." val = ".var_export($val[$p_item],true).'<br>'; */
    /* for each row */
    //   for ($i=0;$i<count($val[$p_item]);$i++) {
      $idx_pa_id=0;
@@ -494,11 +511,8 @@ function get_balance($p_from,$p_to,$p_plan_id)
 	   $idx_pa_id=0;
 	   $row++;
 	 }
-       echo "p_item[$p_item] e[$e]";
-       echo $hplan[$p_item][$e];
        if ($hplan[$p_item][$e] != -1 && $val[$p_item][$row] != '')
 	 {
-	   echo "insert";
 	   $op=new Anc_Operation($this->db);
 	   $op->po_id=$hplan[$p_item][$e];
 	   $op->pa_id=$pa_id[$idx_pa_id];
@@ -517,7 +531,34 @@ function get_balance($p_from,$p_to,$p_plan_id)
      // }
  }
    
- 
+   /**
+   *@brief save a whole form from a update box
+   *@param $p_array  for ALL j_id
+   *@return
+   *@note
+   *@see save_form_plan to_request
+@code
+
+@endcode
+   */
+ function save_update_form($p_array){
+   extract ($p_array);
+   for ($i=0;$i < count($op);$i++) {
+     /* clean jrnx */
+     $this->db->exec_sql('delete from operation_analytique where j_id=$1',array($op[$i]));
+     /* get missing data for adding */
+     $a_missing=$this->db->get_array("select to_char(jr_date,'DD.MM.YYYY') as mdate,j_montant,j_debit,jr_comment from jrnx join jrn on (j_grpt=jr_grpt_id) where j_id=$1",
+				     array($op[$i]));
+     $missing=$a_missing[0];
+     $this->oa_debit=$missing['j_debit'];
+     $this->oa_description=$missing['jr_comment'];
+     $this->j_id=$op[$i];
+     $group=$this->db->get_next_seq("s_oa_group"); /* for analytic */
+     $this->oa_group=$group;
+     $this->oa_date=$missing['mdate'];
+     $this->save_form_plan($p_array,$i,$op[$i]);
+   }
+ }
  /*\brief transform a array of operation into a array usage by
   *display_form_plan & save_form_plan
   *\param $p_array array of operation
@@ -525,7 +566,6 @@ function get_balance($p_from,$p_to,$p_plan_id)
   *\return an array complying with \see save_form_plan
   */
  function to_request ($p_array,$p_line){
-   var_dump($p_array);
    $result=array();
    $result[]=array('op'=>$this->j_id);
    $pa_id=array();
@@ -571,7 +611,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
  *\return string to display
  */
  function display_table($p_mode,$p_amount,$p_id) {
-  static $seq=0;
+  static $seq=-1;		/* first seq == 0 */
   $seq++;
 
   $array=$this->get_by_jid($this->j_id) ;
@@ -595,11 +635,21 @@ function get_balance($p_from,$p_to,$p_plan_id)
  function test_me() {
    $cn=new Database(dossier::id());
    $anco=new Anc_Operation($cn);
-   $anco->j_id=187;
-   $array=$anco->get_by_jid(187);
+   $j_id=200;
+   $anco->j_id=$j_id;
+   $array=$anco->get_by_jid($j_id);
    $a=$anco->to_request($array,1);
+   echo '<form>';
+   echo dossier::hidden();
+   echo HtmlInput::hidden('j_id',$j_id);
+   echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
    echo $anco->display_table(1,15002,0);
-
+   echo '<input type="submit" name="save">';
+   echo '</form>';
+   if ( isset($_REQUEST['save'])){
+     echo "to_save";
+     var_dump($_REQUEST);
+   }
    var_dump($a);
 
  }

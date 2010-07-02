@@ -280,55 +280,11 @@ case 'rmf':
       $owner = new Own($cn);
       if ( $owner->MY_ANALYTIC != "nu" )
 	{
-	  $err=0;
-	  $tab=0;	   	    $row=1;
-	  while (1) {
-	    if ( !isset ($_POST['nb_t'.$tab]))
-	      break;
-	    $tot_tab=0;
-
-	    for ($i_row=0;$i_row <= MAX_COMPTE;$i_row++) {
-	      if ( ! isset($_POST['val'.$tab.'l'.$i_row]))
-		continue;
-	      $tot_tab+=$_POST['val'.$tab.'l'.$i_row];
-	    }
-
-	    if ( $tot_tab != $_POST['amount_t'.$tab]) {
-	      $html='<script>alert ("Erreur montant dans Comptabilite analytique\n Operation non sauvée")</script>';
-	      $err=1;
-	    }
-	    $tot_tab=0;
-	    $tab++;
+	  // for each item, insert into operation_analytique */
+	  $op=new Anc_Operation($cn);
+	  $op->save_update_form($_POST);
 	  }
-	  if ( $err==0 ) {
-	    // we need first old the j_id and j_poste
-	    // so we fetch them all from the db
-	    $sql="select j_id,j_poste,to_char(j_date,'DD.MM.YYYY') as j_date,j_debit ".
-	      "from jrn join jrnx on (j_grpt=jr_grpt_id) ".
-	      "where jr_id=$1";
-	    $res=$cn->exec_sql($sql,array($_POST['jr_id']));
-	    
-	    $array_jid=Database::fetch_all($res);
-	    // if j_poste match 6 or 7 we insert them
-	    $count=0;
-	    $group=$cn->get_next_seq("s_oa_group");
-	    
-	    foreach( $array_jid as $row_ca) {
-	      if ( preg_match("/^(6|7)/",$row_ca['j_poste'])) {
-		$op=new Anc_Operation($cn);
-		$op->delete_by_jid($row_ca['j_id']);
-		$op->j_id=$row_ca['j_id'];
-		$op->oa_debit=$row_ca['j_debit'];
-		$op->oa_date=$row_ca['j_date'];
-		$op->oa_group=$group;
-		$op->oa_description=$_REQUEST['lib'];
-		$op->save_form_plan($_REQUEST,$count,$row_ca['j_id']);
-		$count++;
-	      } //if myereg
-	    }//foreach
-	  }//	if ( $err == 0 )
 	}
-    }
     break;
  /////////////////////////////////////////////////////////////////////////////
     // remove a reconciliation

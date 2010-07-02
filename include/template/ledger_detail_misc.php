@@ -1,6 +1,8 @@
 <? 
 require_once('template/ledger_detail_top.php'); 
 require_once('class_anc_operation.php');
+require_once('class_anc_plan.php');
+
 ?>
 <? 
 require_once('class_own.php'); 
@@ -58,7 +60,14 @@ echo td(_('Pièce')).td($itext->input());
 echo th(_('Débit'), 'style="text-align:right"');
 echo th(_('Crédit'), 'style="text-align:right"');
     if ($owner->MY_ANALYTIC != 'nu'){
-      echo th('Plan Analytique');
+      $anc=new Anc_Plan($cn);
+      $a_anc=$anc->get_list();
+      $x=count($a_anc);
+      /* set the width of the col */
+      echo '<th colspan="'.$x.'">'._('Compt. Analytique').'</th>';
+
+      /* add hidden variables pa[] to hold the value of pa_id */
+      echo Anc_Plan::hidden($a_anc);
     }
 echo '</tr>';  
   for ($e=0;$e<count($obj->det->array);$e++) {
@@ -81,9 +90,12 @@ echo '</tr>';
     /* Analytic accountancy */
     if ( $owner->MY_ANALYTIC != "nu"){
       if ( preg_match('/^(6|7)/',$q[$e]['j_poste'])) {
+	
+
 	$anc_op=new Anc_Operation($cn);
 	$anc_op->j_id=$q[$e]['j_id'];
-	$row.=$anc_op->display_table($owner,1,$q[$e]['j_montant'],$div);
+	echo HtmlInput::hidden('op[]',$anc_op->j_id);
+	$row.=$anc_op->display_table(1,$q[$e]['j_montant'],$div);
 	
       }  else {
 	$row.=td('');

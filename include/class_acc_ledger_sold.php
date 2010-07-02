@@ -57,10 +57,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
   public function verify($p_array) {
     extract ($p_array);
     /* check for a double reload */
-    /**
-     *@todo REMOVE DEBUG FALSE
-     */
-    if ( false && isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
+    if ( isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
       throw new Exception (_('Double Encodage'),5);
 
     /* check if we can write into this ledger */
@@ -311,7 +308,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
 	if ( $owner->MY_ANALYTIC != "nu" )
 	  {
-	    var_dump("save anal");
 	    // for each item, insert into operation_analytique */
 	    $op=new Anc_Operation($this->db);
 	    $op->oa_group=$group;

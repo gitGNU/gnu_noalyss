@@ -190,7 +190,6 @@ class Anc_Plan
    *@see Anc_Plan::get_list
    */
   static function hidden($p_array) {
-    var_dump($p_array);
     $r='';
     for ($i_anc=0;$i_anc <count($p_array);$i_anc++){
       $r.=HtmlInput::hidden('pa_id[]',$p_array[$i_anc]['id']);
