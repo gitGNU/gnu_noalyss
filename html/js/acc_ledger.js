@@ -348,7 +348,7 @@ function quick_writing_add_row(){
  */
 function cancelOperation(p_value,p_dossier,p_jrn)
 		{
-			var win=window.open('annulation.php?p_jrn='+p_jrn+'&jrn_op='+p_value+'&gDossier='+p_dossier,'Annule','toolbar=no,width=400,height=400,scrollbars=yes,resizable=yes');
+alert('NOT IMPLEMENTED');
 		}
 function RefreshMe() {
 window.location.reload();
@@ -463,10 +463,9 @@ function modifyOperation(p_value,dossier)
  */
 
 function viewOperation(p_value,p_dossier)
-		{
-			var win=window.open('modify_op.php?action=view_ca&line='+p_value+'&gDossier='+p_dossier,'','toolbar=no,width=690,height=410,scrollbars=yes,resizable=yes');
-			win.focus();
-		}
+{
+	modifyOperation(p_value,p_dossier)
+}
 function dropLink(p_dossier,p_div,p_jr_id,p_jr_id2) {
     var querystring='?gDossier='+p_dossier;
     querystring+='&div='+p_div;

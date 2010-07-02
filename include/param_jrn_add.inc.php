@@ -24,7 +24,6 @@
  */
 
 include_once ("ac_common.php");
-include_once("jrn.php");
 require_once("class_itext.php");
 require_once("class_iselect.php");
 require_once ('class_acc_ledger.php');

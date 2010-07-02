@@ -26,7 +26,6 @@
 include_once ("user_common.php");
 include_once("class_user.php");
 require_once("class_iselect.php");
-require_once("jrn.php");
 require_once('class_acc_ledger.php');
 $cn=new Database($gDossier);
 echo js_include('accounting_item.js');

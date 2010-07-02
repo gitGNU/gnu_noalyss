@@ -30,7 +30,6 @@ require_once('class_dossier.php');
 $gDossier=dossier::id();
 require_once('class_pdf.php');
 include_once('class_user.php');
-include_once("jrn.php");
 include_once("ac_common.php");
 require_once('class_database.php');
 include_once("impress_inc.php");

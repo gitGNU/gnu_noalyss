@@ -34,7 +34,6 @@ require_once ('class_anc_operation.php');
 require_once ('class_acc_operation.php');
 require_once ('class_acc_account_ledger.php');
 require_once ('class_pre_op_advanced.php');
-require_once ('jrn.php');
 require_once ('class_acc_reconciliation.php');
 require_once ('class_periode.php');
 require_once ('class_gestion_purchase.php');

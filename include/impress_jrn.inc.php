@@ -190,7 +190,6 @@ require_once("class_acc_ledger.php");
   } // if
   else 
     {
-      include_once("jrn.php");
       // Simple printing
       //---
 
