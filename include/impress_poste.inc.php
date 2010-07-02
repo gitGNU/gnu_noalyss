@@ -36,6 +36,7 @@ require_once('class_acc_operation.php');
 require_once('class_database.php');
 echo JS_LEDGER;
 echo JS_PROTOTYPE;
+echo JS_INFOBULLE;
 require_once('class_ipopup.php');
 echo js_include('accounting_item.js');
 echo js_include('prototype.js');
@@ -45,6 +46,7 @@ echo js_include('controls.js');
 echo js_include('dragdrop.js');
 echo js_include('card.js');
 echo js_include('acc_ledger.js');
+
 echo IPoste::ipopup('ipop_account');
 echo ICard::ipopup('ipopcard');
 $search_card=new IPopup('ipop_card');

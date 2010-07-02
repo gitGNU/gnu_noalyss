@@ -1055,20 +1055,24 @@ av_text1=>'name'
 	"<TH>"._('Code interne')." </TH>".
 	"<TH>"._('Date')."</TH>".
 	"<TH>"._('Description')." </TH>".
-	"<TH>"._('Débit')."  </TH>".
-	"<TH>"._('Crédit')." </TH>".
+	"<TH style=\"text-align:right\">"._('Débit')."  </TH>".
+	"<TH style=\"text-align:right\">"._('Crédit')." </TH>".
+	th('Let.','style=\"text-align:right\"');
 	"</TR>";
 
       foreach ( $this->row as $op ) {
        $vw_operation=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s</A>',
 		  $op['jr_id'], dossier::id(), $op['jr_internal']);
+       $let='';
+       if ( $op['letter'] !=-1) $let=$op['letter'];
 
 	echo "<TR>".
 	  "<TD>".$vw_operation."</TD>".
 	  "<TD>".$op['j_date_fmt']."</TD>".
 	  "<TD>".h($op['description'])."</TD>".
-	  "<TD>".$op['deb_montant']."</TD>".
-	  "<TD>".$op['cred_montant']."</TD>".
+	  "<TD style=\"text-align:right\">".$op['deb_montant']."</TD>".
+	  "<TD style=\"text-align:right\">".$op['cred_montant']."</TD>".
+	  td($let,' style="color:red;text-align:right"').
 	  "</TR>";
 
       }

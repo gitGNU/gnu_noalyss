@@ -283,22 +283,23 @@ function get_solde_detail($p_cond="") {
        "<TH> Code interne </TH>".
        "<TH> Date</TH>".
        "<TH> Description </TH>".
-       "<TH> D&eacute;bit  </TH>".
-	"<TH> Cr&eacute;dit </TH>".
-       th('Let.').
+       "<TH style=\"text-align:right\"> D&eacute;bit  </TH>".
+	"<TH style=\"text-align:right\"> Cr&eacute;dit </TH>".
+       th('Let.','style=\"text-align:right\"').
        "</TR>";
 
      foreach ( $this->row as $op ) {
        $vw_operation=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s</A>',
 		  $op['jr_id'], dossier::id(), $op['jr_internal']);
-
+       $let='';
+       if ( $op['letter'] !=-1) $let=$op['letter'];
        echo "<TR>".
 	 "<TD>".$vw_operation."</TD>".
 	 "<TD>".$op['j_date']."</TD>".
 	 "<TD>".h($op['description']).' '.h($op['jr_pj_number'])."</TD>".
-	 "<TD>".$op['deb_montant']."</TD>".
-	 "<TD>".$op['cred_montant']."</TD>".
-	 td($op['letter']).
+	 "<TD style=\"text-align:right\">".$op['deb_montant']."</TD>".
+	 "<TD style=\"text-align:right\">".$op['cred_montant']."</TD>".
+	 td($let,' style="color:red;text-align:right"').
 	 "</TR>";
 
      }
