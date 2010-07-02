@@ -57,8 +57,12 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
   public function verify($p_array) {
     extract ($p_array);
     /* check for a double reload */
-    if ( isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
+    /**
+     *@todo REMOVE DEBUG FALSE
+     */
+    if ( false && isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
       throw new Exception (_('Double Encodage'),5);
+
     /* check if we can write into this ledger */
     $user=new User($this->db);
     if ( $user->check_jrn($p_jrn) != 'W' )
@@ -205,7 +209,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
    *\note throw an Exception
    */
   public function insert($p_array) {
-
     extract ($p_array);
     $this->verify($p_array) ;
 
@@ -308,6 +311,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
 	if ( $owner->MY_ANALYTIC != "nu" )
 	  {
+	    var_dump("save anal");
 	    // for each item, insert into operation_analytique */
 	    $op=new Anc_Operation($this->db);
 	    $op->oa_group=$group;
@@ -315,7 +319,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	    $op->oa_date=$e_date;
 	    $op->oa_debit=($amount < 0 )?'t':'f';
 	    $op->oa_description=FormatString($e_comm);
-	    $op->save_form_plan($_POST,$i);
+	    $op->save_form_plan($_POST,$i,$j_id);
 	  }
 	if ( $owner->MY_TVA_USE=='Y') {
 	  /* save into quant_sold */
@@ -531,7 +535,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
   function confirm($p_array) {
     extract ($p_array);
     $this->verify($p_array) ;
-
+    $anc=null;
     // to show a select list for the analytic & VAT USE
     // if analytic is op (optionnel) there is a blank line
     $owner = new Own($this->db);
@@ -584,7 +588,17 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $r.='<th> '._('Montant TVA').'</th>';
       $r.='<th>'._('Montant HTVA').'</th>';
     }
-    $r.=($owner->MY_ANALYTIC!='nu')?'<th>'._('Compt. Analytique').'</th>':'';
+    /* if we use the AC */
+    if ($owner->MY_ANALYTIC!='nu') {
+      $anc=new Anc_Plan($this->db);
+      $a_anc=$anc->get_list();
+      $x=count($a_anc);
+      /* set the width of the col */
+      $r.='<th colspan="'.$x.'">'._('Compt. Analytique').'</th>';
+
+      /* add hidden variables pa[] to hold the value of pa_id */
+      $r.=Anc_Plan::hidden($a_anc);
+    }
     $r.='</tr>';
     $tot_amount=0.0;
     $tot_tva=0.0;
@@ -654,6 +668,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	  $null=($owner->MY_ANALYTIC=='op')?1:0;
 	  $r.='<td>';
 	  $p_mode=1;
+	  $p_array['pa_id']=$a_anc;
+	  /* op is the operation it contains either a sequence or a jrnx.j_id */
+	  $r.=HtmlInput::hidden('op[]=',$i);
 	  $r.=$anc_op->display_form_plan($p_array,$null,$p_mode,$i,$amount);
 	  $r.='</td>';
 	}

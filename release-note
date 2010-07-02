@@ -23,3 +23,9 @@ TODO9 - dépend de TODO4 TODO2 - dans impressions, on peut avoir les détails de
 TODO10 Enlever le bouton enlever dans les listes d'opération et le mettre dans le DIV HTML qui présente les détails de l'op 
 
 TODO11 Ajoutez aux classes Ledger_* une fonction pour obtenir un tableau vide qui répresente le tableau utilisé par confirm, insert et veriffy
+
+TODO12 Pour les anouveaux, les mêmes comptes se retrouvent au crédit ET au débit, il faudrait en avoir la soustraction !!
+
+TODO13 Bouton validate CA ne fonctionne plus
+
+TODO14 confirmation quand effacement d'un PA (comptabilité analytique -> Plan Analytique)

@@ -993,13 +993,18 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
   }
 
   /*!
-   * \brief show the result of the array
+   * \brief show the result of the array to confirm
+   * before inserting
    * \param $p_array array from the form
    * \return string
    */
   function show_summary($p_array) {
+    /**
+     *@todo add a call to verify ???
+     */
     $this->id=$p_array['p_jrn'];
     if ( empty($p_array)) return 'Aucun r&eacute;sultat';
+    $anc=null;
     extract($p_array);
     $lPeriode=new Periode($this->db);
     if ($this->check_periode() == true) {
@@ -1007,6 +1012,8 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
     } else {
       $lPeriode->find_periode($date);
     }
+    $owner=new own($this->db);
+
     $ret="";
     $ret.="<table>";
     $ret.="<tr><td>"._('Date')." : </td><td>$date</td></tr>";
@@ -1022,8 +1029,18 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
     $ret.=_("Poste")." </th>";
     $ret.="<th> "._("Montant")." </th>";
     $ret.="<th>"._("Débit")."</th>";
+    /* if we use the AC */
+    if ($owner->MY_ANALYTIC!='nu') {
+      $anc=new Anc_Plan($this->db);
+      $a_anc=$anc->get_list();
+      $x=count($a_anc);
+      /* set the width of the col */
+      $ret.='<th colspan="'.$x.'">'._('Compt. Analytique').'</th>';
+
+      /* add hidden variables pa[] to hold the value of pa_id */
+      $ret.=Anc_Plan::hidden($a_anc);
+    }
     $ret.="</tr>";
-    $own=new own($this->db);
 
     $ret.=HtmlInput::hidden('date',$date);
     $ret.=HtmlInput::hidden('desc',$desc);
@@ -1072,14 +1089,18 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
       $ret.="</td>";
       // CA
 
-      if (  $own->MY_ANALYTIC!='nu') // use of AA
+      if (  $owner->MY_ANALYTIC!='nu') // use of AA
 	{
 	  if ( myereg("^[6,7]+",$strPoste)) {
 	    // show form
 	    $op=new Anc_Operation($this->db);
-	    $null=($own->MY_ANALYTIC=='op')?1:0;
+	    $null=($owner->MY_ANALYTIC=='op')?1:0;
+	    $p_array['pa_id']=$a_anc;
+	    /* op is the operation it contains either a sequence or a jrnx.j_id */
+	    $ret.=HtmlInput::hidden('op[]=',$i);
+
 	    $ret.='<td>';
-	    $ret.=$op->display_form_plan(null,$null,1,$count,round(${'amount'.$i},2));
+	    $ret.=$op->display_form_plan($p_array,$null,1,$count,round(${'amount'.$i},2));
 	    $ret.='</td>';
 	    $count++;
 	  }
@@ -1186,8 +1207,8 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 
     /* suggest PJ ? */
     $default_pj='';
-    $own=new Own($this->db);
-    if ( $own->MY_PJ_SUGGEST=='Y') {
+    $owner=new Own($this->db);
+    if ( $owner->MY_PJ_SUGGEST=='Y') {
       $default_pj=$this->guess_pj();
     }
     $wPJ->value=(isset($e_pj))?$e_pj:$default_pj;
@@ -1460,7 +1481,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
       $internal=$this->compute_internal_code($seq);
 
       $group=$this->db->get_next_seq("s_oa_group");
-      $own=new own($this->db);
+      $owner=new own($this->db);
       $tot_amount=0;
       $tot_deb=0;
       $tot_cred=0;
@@ -1512,7 +1533,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 	  $tot_amount+=round($acc_op->amount,2);
 	  $tot_deb+=($acc_op->type=='d')?$acc_op->amount:0;
 	  $tot_cred+=($acc_op->type=='c')?$acc_op->amount:0;
-	  if ( $own->MY_ANALYTIC != "nu" )
+	  if ( $owner->MY_ANALYTIC != "nu" )
 	    {
 	      if ( myereg("^[6,7]+",$poste)) {
 
@@ -1523,7 +1544,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 		$op->oa_date=$date;
 		$op->oa_debit=($acc_op->type=='d' )?'t':'f';
 		$op->oa_description=$desc;
-		$op->save_form_plan($p_array,$count);
+		$op->save_form_plan($p_array,$count,$j_id);
 		$count++;
 	      }
 	    }
@@ -1711,9 +1732,9 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
  * \return true if we are using the strict_mode
  */
 function check_strict() {
-	$own=new Own($this->db);
-	if ( $own->MY_STRICT=='Y') return true;
-	if ( $own->MY_STRICT=='N') return false;
+	$owner=new Own($this->db);
+	if ( $owner->MY_STRICT=='Y') return true;
+	if ( $owner->MY_STRICT=='N') return false;
 	exit("Valeur invalid ".__FILE__.':'.__LINE__);
 }
 /*!
@@ -1722,9 +1743,9 @@ function check_strict() {
  * \return true if we are using the double encoding (date+periode)
  */
 function check_periode() {
-	$own=new Own($this->db);
-	if ( $own->MY_CHECK_PERIODE=='Y') return true;
-	if ( $own->MY_CHECK_PERIODE=='N') return false;
+	$owner=new Own($this->db);
+	if ( $owner->MY_CHECK_PERIODE=='Y') return true;
+	if ( $owner->MY_CHECK_PERIODE=='N') return false;
 	exit("Valeur invalid ".__FILE__.':'.__LINE__);
 }
 

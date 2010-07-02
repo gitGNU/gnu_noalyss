@@ -322,7 +322,7 @@ case 'rmf':
 		$op->oa_date=$row_ca['j_date'];
 		$op->oa_group=$group;
 		$op->oa_description=$_REQUEST['lib'];
-		$op->save_form_plan($_REQUEST,$count);
+		$op->save_form_plan($_REQUEST,$count,$row_ca['j_id']);
 		$count++;
 	      } //if myereg
 	    }//foreach

@@ -416,7 +416,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	    $op->oa_date=$e_date;
 	    $op->oa_debit=($amount < 0 )?'t':'f';
 	    $op->oa_description=FormatString($e_comm);
-	    $op->save_form_plan($_POST,$i);
+	    $op->save_form_plan($_POST,$i,$j_id);
 	  }
 	// insert into quant_purchase
 	//-----
@@ -1051,7 +1051,7 @@ array
   function confirm($p_array) {
     extract ($p_array);
     $this->verify($p_array) ;
-
+    $anc=null;
     // to show a select list for the analytic
     // if analytic is op (optionnel) there is a blank line
     $owner = new Own($this->db);
@@ -1106,7 +1106,19 @@ array
       $r.="<th>"._('quantité')."</th>";
       $r.='<th> '._('Total')."</th>";
     }
-    $r.=($owner->MY_ANALYTIC!='nu')?'<th>'._('Compt. Analytique').'</th>':'';
+
+    /* if we use the AC */
+    if ($owner->MY_ANALYTIC!='nu') {
+      $anc=new Anc_Plan($this->db);
+      $a_anc=$anc->get_list();
+      $x=count($a_anc);
+      /* set the width of the col */
+      $r.='<th colspan="'.$x.'">'._('Compt. Analytique').'</th>';
+
+      /* add hidden variables pa[] to hold the value of pa_id */
+      $r.=Anc_Plan::hidden($a_anc);
+    }
+
     $r.='</tr>';
     $tot_amount=0.0;
     $tot_tva=0.0;
@@ -1182,6 +1194,9 @@ array
 	  $null=($owner->MY_ANALYTIC=='op')?1:0;
 	  $r.='<td>';
 	  $p_mode=1;
+	  $p_array['pa_id']=$a_anc;
+	  /* op is the operation it contains either a sequence or a jrnx.j_id */
+	  $r.=HtmlInput::hidden('op[]=',$i);
 	  $r.=$anc_op->display_form_plan($p_array,$null,$p_mode,$i,$amount);
 	  $r.='</td>';
 	}

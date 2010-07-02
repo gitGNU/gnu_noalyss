@@ -25,9 +25,8 @@
 /*!\brief add a row for the CA
  * \param p_table_id
  * \param p_amount amount to reach
- * \param p_count count of col.
  */
-function add_row(p_table,p_seq,p_count) {
+function add_row(p_table,p_seq) {
   var mytable=g(p_table).tBodies[0];
 
   if ( ! mytable ) {return;}
@@ -44,13 +43,13 @@ function add_row(p_table,p_seq,p_count) {
     for ( var i=0;i< rowToCopy.cells.length;i++) {
       var cell=row.insertCell(i);
 	var txt=rowToCopy.cells[i].innerHTML;
-	txt=txt.replace(/row_1/g,"row_"+new_value);
+//	txt=txt.replace(/row_1/g,"row_"+new_value);
 	cell.innerHTML=txt;
 	}
 
   // create the amount cell
 
-  row.cells[i-1].innerHTML='<input type="TEXT" name="val'+p_seq+"l"+new_value+'" id="val'+p_seq+"l"+new_value+'" size="6"  style="border:solid 1px blue;color:black;background:#EDEDED;text-align:right" value="0">';
+//  row.cells[i-1].innerHTML='<input type="TEXT" name="val'+p_seq+"l"+new_value+'" id="val'+p_seq+"l"+new_value+'" onchange="format_number(this)" size="6"  style="border:solid 1px blue;color:black;text-align:right" value="0">';
 
 }
 /*! 

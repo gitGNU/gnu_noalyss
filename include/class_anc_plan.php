@@ -181,6 +181,22 @@ class Anc_Plan
 	return ($a==0)?false:true;
 
   }
+    /**
+   *@brief return an HTML string containing hidden input type to
+   * hold the differant PA_ID
+   *@param $p_array contains a array, it is the result of the fct
+   * Anc_Plan::get_list
+   *@return html string
+   *@see Anc_Plan::get_list
+   */
+  static function hidden($p_array) {
+    var_dump($p_array);
+    $r='';
+    for ($i_anc=0;$i_anc <count($p_array);$i_anc++){
+      $r.=HtmlInput::hidden('pa_id[]',$p_array[$i_anc]['id']);
+    }
+    return $r;
+  }
   static function test_me() {
     $cn=new Database(dossier::id());
     echo "<h1>Plan analytique : test</h1>";

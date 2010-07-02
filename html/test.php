@@ -47,6 +47,7 @@ if ( ! isset($_REQUEST['gDossier'])) {
 $array=array(
 	array(1,'Plan Analytic'),
 	array(2,'Poste Analytic'),
+	array(3,'Opération Analytic'),
 	array(11,'Periode'),
 	array(12,'verif.inc.php'),
 	array(13,'Rapport(class_acc_report'),
@@ -100,6 +101,10 @@ case 2:
 	require_once("class_anc_account.php");
 	Anc_Account::test_me();
 	break;
+case 3:
+  require_once ('class_anc_operation.php');
+  Anc_Operation::test_me();
+  break;
 case 11:
 	require_once ('class_periode.php');
 	Periode::test_me();

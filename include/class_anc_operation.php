@@ -289,7 +289,7 @@ class Anc_Operation
                   oa_row
           from operation_analytique
           where
-          j_id=$p_jid order by j_id,oa_row";
+          j_id=$p_jid order by j_id,pa_id,oa_row";
 	$ret=$this->db->exec_sql($sql);
 	$res=Database::fetch_all($ret);
 	if ( $res== false) return null;
@@ -395,48 +395,45 @@ function get_balance($p_from,$p_to,$p_plan_id)
         $result.='<table>';
    $result.="<tr>".$plan->header()."<th>montant</th></tr>";
 
+   /* compute the number of rows */
+   $nb_row=count($p_array['pa_id'])/count($a_plan);
 
-
-   $nb_row=(!isset(${'nb_'.$table_id}))?1:${'nb_'.$table_id};
-   $result.=$hidden->input('nb_'.$table_id,$nb_row);
-
-   for ( $i=1; $i <= $nb_row;$i++) {
+   for ( $i=0; $i < $nb_row;$i++) {
 	 $result.='<tr>';
 	 $count=0;
 
 	 foreach ($a_plan as $r_plan)
 	   {
-		 $count++;
 
 		 $array=$this->db->make_array(
-						   "select pa_id||'_'||po_id as value,".
+						   "select po_id as value,".
 						   " html_quote(po_name) as label from poste_analytique ".
 						   " where pa_id = ".$r_plan['id'].
 						   " order by po_name",$p_null);
-		 $select =new ISelect("ta_".$p_seq."o".$count."row_".$i,$array);
+		 $select =new ISelect("hplan[".$p_seq."][]",$array);
 		 $select->table=0;
-		 // view only or editable
+		 // view only or editables
 		 if (  $p_mode==1 ) {
 		   // editable
 		   $select->readonly=false;
-	           $select->selected=(isset(${"ta_".$p_seq."o".$count."row_".$i}))?${"ta_".$p_seq."o".$count."row_".$i}:0;
+		   if ( isset($hplan) )
+		     $select->selected=$hplan[$p_seq][$count];
 		 } else {
 		   // view only
 		   $select->readonly=true;
-		   $select->selected=(isset(${"ta_".$p_seq."o".$count."row_".$i}))?${"ta_".$p_seq."o".$count."row_".$i}:0;
 		 }
 		 if ($p_mode==1)
-		   $result.='<td id="'.$table_id.'td'.$count.'c'.$i.'">'.$select->input().'</td>';
-		 else
 		   $result.='<td>'.$select->input().'</td>';
+		 else
+		   $result.='<td>'.$select->display().'</td>';
+		 $count++;
 
 
 	   }
 	 $value=new INum();
-	 $value->name="val".$p_seq."l$i";
+	 $value->name="val[".$p_seq."][]";
 	 $value->size=6;
-	 $value->value=(isset(${"val".$p_seq."l$i"}))?round(${"val".$p_seq."l$i"},2):$p_amount;
-	 //	 $value->value=($p_doc=="form")?$p_amount:round(${"val".$p_seq."l$i"},2);
+	 //	 $value->value=(isset(${"val".$p_seq."l$i"}))?round(${"val".$p_seq."l$i"},2):$p_amount;
 	 $value->readonly=($p_mode==1)?false:true;
 
 	 $result.='<td>'.$value->input().'</td>';
@@ -447,7 +444,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
    $result.="</table>";
    // add a button to add a row
    $button=new IButton();
-   $button->javascript="add_row('".$p_id."$table_id',$p_seq,$count);";
+   $button->javascript="add_row('".$p_id."$table_id',$p_seq);";
    $button->name="js".$p_id.$p_seq;
    $button->label="Nouvelle ligne";
    if ( $p_mode == 1 )
@@ -475,41 +472,48 @@ function get_balance($p_from,$p_to,$p_plan_id)
   *   -oa_description
   *
   */
- function save_form_plan($p_array,$p_item) {
+ function save_form_plan($p_array,$p_item,$j_id) {
    extract($p_array);
-   if ( !isset (${"nb_t".$p_item}) ) {
-     //	 echo __FILE__.':'.__LINE."nb_t".$p_item." n'est pas defini !!!";
-     return;
+   /* variable for in array
+      pa_id array of existing pa_id
+      hplan double array with the pa_id (column)
+      val double array by row with amount
+      op contains sequence
+      p_item is used to identify what op is concerned
+   */
+   /* for each row */
+   for ($i=0;$i<count($val[$p_item]);$i++) {
+     $idx_pa_id=0;
+     // foreach col PA
+     for ($e=0;$e<count($hplan[$p_item]);$e++)
+       {
+	 if ( $idx_pa_id >= (count($pa_id)-1)) {
+	   $idx_pa_id=0;
+	 }
+       echo "p_item[$p_item] e[$e]";
+       echo $hplan[$p_item][$e];
+       if ($hplan[$p_item][$e] != -1 && $val[$p_item][$i] != '')
+	 {
+	   echo "insert";
+	   $op=new Anc_Operation($this->db);
+	   $op->po_id=$hplan[$p_item][$e];
+	   $op->pa_id=$pa_id[$idx_pa_id];
+	   $op->oa_group=$this->oa_group;
+	   $op->j_id=$j_id;
+	   $op->oa_amount=$val[$p_item][$i];
+	   $op->oa_debit=$this->oa_debit;
+	   $op->oa_date=$this->oa_date;
+	     
+	   $op->oa_description=$this->oa_description;
+	   $op->oa_row=$i;
+	   $op->add();
+	 }
+       $idx_pa_id++;
+     }
    }
-   $max=${"nb_t".$p_item};
-   // get all the PA
-   $plan=new Anc_Plan($this->db);
-   $cplan=$plan->count();
-   // foreach row
-   for ($i=1;$i<=$max;$i++) {
-
-	 // foreach col PA
-	 for ($e=1;$e<=$cplan+1;$e++)
-	   {
-		 if ( isset(${"ta_".$p_item."o".$e."row_".$i}) && ${"ta_".$p_item."o".$e."row_".$i}!=-1)
-		   {
-		     $op=new Anc_Operation($this->db);
-		     $val=${"ta_".$p_item."o".$e."row_".$i};
-		     list($op->pa_id,$op->po_id)=sscanf($val,"%d_%d");
-		     $op->oa_group=$this->oa_group;
-		     $op->j_id=$this->j_id;
-		     $op->oa_amount=${"val".$p_item."l".$i};
-		     $op->oa_debit=$this->oa_debit;
-		     $op->oa_date=$this->oa_date;
-
-		     $op->oa_description=$this->oa_description;
-		     $op->oa_row=$i;
-		     $op->add();
-		   }
-	   }
-   }
-
  }
+   
+ 
  /*\brief transform a array of operation into a array usage by
   *display_form_plan & save_form_plan
   *\param $p_array array of operation
@@ -517,35 +521,30 @@ function get_balance($p_from,$p_to,$p_plan_id)
   *\return an array complying with \see save_form_plan
   */
  function to_request ($p_array,$p_line){
-   if ( count($p_array) == 0 ) {
-	 return null;
-   }
+   var_dump($p_array);
    $result=array();
-   $table="nb_t".$p_line;
+   $result[]=array('op'=>$this->j_id);
+   $pa_id=array();
 
-   $col=1;
-   $line=1;
-   $first=true;
-   $last_pa_id=0;
-   foreach ( $p_array as $row) {
-     $val="val".$p_line."l".$row->oa_row;
-     $result[$val]=$row->oa_amount;
-     if ( $first ) {
-       $first_pa_id=$row->pa_id;
-       $first=false;
-     }
-
-     if ( $first_pa_id != $row->pa_id )
-       $col++;
-     else {
-       $col=1;
-       $line++;
-     }
-     $po="ta_".$p_line."o".$col."row_".$row->oa_row;
-     $result[$po]=$row->pa_id."_".$row->po_id;
-     //     $last_pa_id=$row->pa_id;
+   /* First add the pa_id */
+   for ($i=0;$i < count($p_array);$i++){
+      if ( in_array($p_array[$i]->pa_id,$pa_id)==false)
+       $pa_id[]=$p_array[$i]->pa_id;
    }
-   $result[$table]=$line-1;
+   $result['pa_id']=$pa_id;
+   
+   /* add the hplan */
+   $seq=0;
+   for ($i=0;$i < count($p_array);$i++){
+     $hplan[$p_line][$i]=$p_array[$i]->po_id;
+   }
+   $result['hplan']=$hplan;
+   /* Add the amount */
+   $idx_pa=0;
+   for ($i=0;$i < count($p_array);$i++){
+     $val[$p_line][$p_array[$i]->oa_row]=$p_array[$i]->oa_amount;
+   }
+   $result['val']=$val;
    return $result;
  }
 /*!
@@ -561,14 +560,13 @@ function get_balance($p_from,$p_to,$p_plan_id)
 /*\brief Display a table with analytic accounting in
  *       detail of operation 
  *@note $this->j_id must be set
- *\param $p_own object own
  *\param $p_mode 0 = readonly or 1=writable
  *\param $p_amount amount
  *\param $p_id unique id
  *@see display_form_plan
  *\return string to display
  */
- function display_table($p_own,$p_mode,$p_amount,$p_id) {
+ function display_table($p_mode,$p_amount,$p_id) {
   static $seq=0;
   $seq++;
 
@@ -582,17 +580,23 @@ function get_balance($p_from,$p_to,$p_plan_id)
   return "";
 
 }
-
+///////////////////////////////////////////////////////////////////////////
+// TEST
+///////////////////////////////////////////////////////////////////////////
  /*\brief test the class
   *\param
   *\param
   *\return
   */
  function test_me() {
-   $array=$this->get_by_jid(442);
+   $cn=new Database(dossier::id());
+   $anco=new Anc_Operation($cn);
+   $anco->j_id=141;
+   $array=$anco->get_by_jid(141);
+   $a=$anco->to_request($array,1);
+   echo $anco->display_table(1,15002,0);
 
-   $a=$this->to_request($array,1);
-
+   var_dump($a);
 
  }
 
