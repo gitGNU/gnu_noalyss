@@ -455,7 +455,9 @@ function modifyOperation(p_value,dossier)
 	    onSuccess:success_box
 	}
     );
-    g(id).style.top=posY;
+    g(id).style.top=posY-40;
+    g(id).style.left=posX-10;
+
 }
 
 /*!\brief
