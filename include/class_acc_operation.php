@@ -536,7 +536,7 @@ class Acc_Sold extends Acc_Detail
 {
   function __construct($p_cn,$p_jrid=0) {
     parent::__construct($p_cn,$p_jrid);
-    $this->signature='SOLD';
+    $this->signature='VEN';
   }
   function get() {
     parent::get();   
@@ -557,7 +557,7 @@ class Acc_Purchase extends Acc_Detail
 {
   function __construct($p_cn,$p_jrid=0) {
     parent::__construct($p_cn,$p_jrid);
-    $this->signature='PURCHASE';
+    $this->signature='ACH';
   }
 
   function get() {

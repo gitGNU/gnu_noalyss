@@ -121,7 +121,7 @@ case 'de':
     ob_clean();
   }elseif ( $obj->signature=='VEN') {
     ob_start();
-  require_once('template/ledger_detail_ach.php');
+  require_once('template/ledger_detail_ven.php');
   $html=ob_get_contents();
   ob_clean();
   }
