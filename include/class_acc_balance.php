@@ -71,6 +71,8 @@ class Acc_Balance {
     if ( strlen(trim($this->to_poste)) != 0   && $this->to_poste!=-1 ) {
       $to_poste=" $and j_poste::text <= '".$this->to_poste."'"; $and=" and ";
     }
+    $user=new User($this->db);
+    $filter_sql=$user->get_ledger_sql('ALL',3);
 
     // build query
     $sql="select j_poste,sum(deb) as sum_deb, sum(cred) as sum_cred from 
@@ -79,9 +81,11 @@ class Acc_Balance {
              case when j_debit='f' then j_montant else 0 end as cred
              from jrnx join tmp_pcmn on j_poste=pcm_val
                   left join parm_periode on j_tech_per = p_id
+join jrn_def on (j_jrn_def=jrn_def_id)
               where 
               $jrn $from_poste $to_poste
-             $and
+$and $filter_sql
+             and
             $per_sql ) as m group by j_poste order by j_poste::text";
     $cn=clone $this->db;
     $Res=$this->db->exec_sql($sql);
