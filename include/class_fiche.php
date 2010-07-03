@@ -922,6 +922,9 @@ av_text1=>'name'
 	  echo_error("class_fiche",__LINE__,"id is 0");
 	  return;
 	}
+      $user=new User($this->cn);
+      $filter_sql=$user->get_ledger_sql('ALL',1);
+
       $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
       $Res=$this->cn->exec_sql("select distinct j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,j_qcode,".
 	       "case when j_debit='t' then j_montant else 0 end as deb_montant,".
@@ -933,6 +936,7 @@ av_text1=>'name'
 	       " where j_qcode=$1 and ".
 	       " ( to_date($2,'DD.MM.YYYY') <= j_date and ".
 			       "   to_date($3,'DD.MM.YYYY') >= j_date )".
+			       " and $filter_sql ".
 	       " order by j_date",array($qcode,$p_from,$p_to));
       return $this->get_row_result($Res);
     }

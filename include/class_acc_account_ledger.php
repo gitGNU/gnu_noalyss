@@ -94,13 +94,15 @@ class Acc_Account_Ledger {
    *
    * \param  $p_from date from
    * \param  $p_to   end date
+   *\note the data are filtered by the access of the current user
    * \return double array (j_date,deb_montant,cred_montant,description,jrn_name,j_debit,jr_internal)
    *         (tot_deb,tot_credit
    *
    */
   function get_row_date($p_from,$p_to)
     {
-   
+      $user=new User($this->db);
+      $filter_sql=$user->get_ledger_sql('ALL',1);
       $Res=$this->db->exec_sql("select  jr_id,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,j_date,".
 	       "case when j_debit='t' then j_montant else 0 end as deb_montant,".
 	       "case when j_debit='f' then j_montant else 0 end as cred_montant,".
@@ -113,6 +115,7 @@ class Acc_Account_Ledger {
 	       " where j_poste=$1 and ".
 	       " ( to_date($2,'DD.MM.YYYY') <= j_date and ".
 			       "   to_date($3,'DD.MM.YYYY') >= j_date )".
+			       " and $filter_sql ".
 	       " order by j_date",array($this->id,$p_from,$p_to));
       return $this->get_row_sql($Res);
     }
