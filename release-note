@@ -10,6 +10,7 @@
 9. Ajout d'une FK TODO1  réecriture de quant_* la liaison avec la jrn se fait à travers jr_id et non pas jr_internal qui n'est pas indexé. 
 Conséquence : réécriture de code, correction modop, ...
 10. TODO2 Object pour extourner proprement une operation, le fichier annulation.php devient inutile (deprecated) depend de TODO1 TODO10
+11.  TODO17 extourne depuis DIV HTML dépend de TODO16
 
 IDEE6, categorie de fiche, changer la présentation
 
@@ -31,7 +32,6 @@ TODO13 Bouton validate CA ne fonctionne plus
 
 TODO14 confirmation quand effacement d'un PA (comptabilité analytique -> Plan Analytique)
 
-TODO17 extourne depuis DIV HTML dépend de TODO16
 
 
 REFLEXION1  Pièce attachée uniquement depuis détail opération ?

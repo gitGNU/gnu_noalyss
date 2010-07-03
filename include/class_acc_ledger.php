@@ -118,12 +118,12 @@ class Acc_Ledger {
   function delete() {
     if ( $this->id == 0 ) return;
     $grpt_id=$this->db->get_value('select jr_grpt_id from jrn where jr_id=$1',
-				  array($this->id));
+				  array($this->jr_id));
     if ( $this->db->count()==0) return;
     $this->db->exec_sql('delete from jrnx where j_grpt=$1',
 			array($grpt_id));
     $this->db->exec_sql('delete from jrn where jr_id=$1',
-			array($this->id));
+			array($this->jr_id));
   }
   /**
    * reverse the operation by creating the opposite one,
@@ -692,8 +692,6 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
       $r.="<th> "._('Payé')."</th>";
     }
   $r.="<th>"._('Op. Concernée')."</th>";
-  if ($own->MY_STRICT=='N' &&  $user->check_action(GEOP)==1)
-    $r.='<th>'._('Action').'</th>';
   $r.="<th>"._('Document')."</th>";
   $r.="</tr>";
   // Total Amount
@@ -814,14 +812,6 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
     if ( $row['jr_valid'] == 'f'  ) {
       $r.="<TD> Op&eacute;ration annul&eacute;e</TD>";
     }    else {
-      // all operations can be removed either by setting to 0 the amount
-      // or by writing the opposite operation if the period is closed
-      $r.="<TD>";
-      // cancel operation
-      if ( $user->check_action(GEOP)==1)
-	$r.=sprintf('<input TYPE="BUTTON" class="button" VALUE="%s" onClick="cancelOperation(\'%s\',%d,\'%s\')">',
-		    _("Effacer"),$row['jr_grpt_id'],$gDossier,$row['jrn_def_id']);
-      $r.="</TD>";
     } // else
     //document
     if ( $row['jr_pj_name'] != "")

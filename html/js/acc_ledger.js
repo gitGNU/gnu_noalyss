@@ -475,6 +475,48 @@ function view_history_card(p_value,dossier)
     g(id).style.left=posX-10;
 
 }
+/**
+* remove an Operation
+*@param p_jr_id is the jrn.jr_id
+*@param dossier
+*@param the div
+*/
+function removeOperation(p_jr_id,dossier,div) {
+    var qs="?gDossier="+dossier+"&act=rmop&div="+div+"&jr_id="+p_jr_id;
+    var action=new Ajax.Request(
+	"ajax_ledger.php",
+	{
+	    method:'get',
+	    parameters:qs,
+	    onFailure:error_box,
+	    onSuccess:null
+	}
+    );
+
+}
+function reverseSuccess(req) {
+    alert('Extourné');
+}
+/**
+* remove an Operation
+*@param pointer to the FORM
+*/
+function reverseOperation(obj) {
+   var qs="?"+$(obj).serialize();
+
+    var action=new Ajax.Request(
+	"ajax_ledger.php",
+	{
+	    method:'get',
+	    parameters:qs,
+	    onFailure:error_box,
+	    onSuccess:success_box
+	}
+    );
+
+return false;
+}
+
 /*!\brief
  * \param p_value jrn.jr_id
  */
@@ -658,9 +700,7 @@ function op_success(req) {
 	var name_ctl=a[0].firstChild.nodeValue;
        savebox={'id':'save'+name_ctl,'html':'Sauvé','style':'font-size:12;text-align:center;background-color:red;color:white;width:120;height:20;position:absolute;top:'+posY+';left:'+posX};
        add_div(savebox);
-       Effect.Fade(savebox.id,{duration:1.0} );
-       Effect.Fade(name_ctl,{duration:1.5});
-// removeDiv(savebox.id); removeDiv(name_ctl);
+       removeDiv(savebox.id); removeDiv(name_ctl);
    }
     catch (e) {
 	alert(e.message);

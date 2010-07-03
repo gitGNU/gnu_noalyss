@@ -36,6 +36,8 @@ require_once('class_acc_ledger.php');
 require_once ('class_fiche.php');
 require_once('class_acc_reconciliation.php');
 require_once('class_anc_operation.php');
+require_once('class_idate.php');
+require_once('class_ibox.php');
   /**
    *@todo Check if we receive the needed data (jr_id...)
    */
@@ -95,36 +97,51 @@ exit();
 }
 $html=var_export($_REQUEST,true);
 switch ($action) {
+  ///////////////////////////////////////////////////////////////////////////
+  //  remove op
+  ///////////////////////////////////////////////////////////////////////////
+case 'rmop':
+  if ( $access=='W'){
+    /* get the ledger */
+    try {
+      $cn->start();
+      $oLedger=new Acc_Ledger($cn,$ledger);
+      $oLedger->jr_id=$_REQUEST['jr_id'];
+      $oLedger->delete();
+    } catch (Exception $e) {
+      var_dump($e);
+      $cn->rollback;
+    }
+    $cn->commit();
+  }
+  exit();
   //////////////////////////////////////////////////////////////////////
   // DE Detail
   //////////////////////////////////////////////////////////////////////
 case 'de':
-  $op->get();			/* get detail op (D/C) */
-  $obj=$op->get_quant();	/* return an obj. ACH / FIN or VEN or null if nothing is found*/
-  $oLedger=new Acc_Ledger($cn,$ledger);
-
-  if ( $obj==null || $obj->signature == 'ODS'  ) {
-    /* only the details */
+  try {
+    $op->get();			/* get detail op (D/C) */
+    $obj=$op->get_quant();	/* return an obj. ACH / FIN or VEN or null if nothing is found*/
+    
+    $oLedger=new Acc_Ledger($cn,$ledger);
     ob_start();
-    require_once('template/ledger_detail_misc.php');
-    $html=ob_get_contents();
-    ob_clean();
-  } elseif ( $obj->signature=='ACH') {
-    ob_start();
-    require_once('template/ledger_detail_ach.php');
-    $html=ob_get_contents();
-    ob_clean();
-  } elseif ($obj->signature=='FIN') {
-    ob_start();
-    require_once('template/ledger_detail_fin.php');
-    $html=ob_get_contents();
-    ob_clean();
+    if ( $obj==null || $obj->signature == 'ODS'  ) {
+      /* only the details */
+      require_once('template/ledger_detail_misc.php');
+    } elseif ( $obj->signature=='ACH') {
+      require_once('template/ledger_detail_ach.php');
+    } elseif ($obj->signature=='FIN') {
+      require_once('template/ledger_detail_fin.php');
   }elseif ( $obj->signature=='VEN') {
-    ob_start();
-  require_once('template/ledger_detail_ven.php');
+      require_once('template/ledger_detail_ven.php');
+    }
+  } catch (Exception $e) {
+    echo '<A style="background-color:blue;color:white;text-decoration:none" HREF="javascript:void(0)" onclick="removeDiv(\''.$div.'\');">Fermer</A>'; 
+    echo '<h2 class="error">Désolé il y a une erreur</h2>';
+  }
   $html=ob_get_contents();
   ob_clean();
-  }
+
   break;
   /////////////////////////////////////////////////////////////////////////////
   // form for the file
@@ -312,6 +329,35 @@ case 'rmr':
     $rec->set_jr_id($jr_id);
     $rec->remove($_GET['jr_id2']);
   }
+  break;
+  ////////////////////////////////////////////////////////////////////////////////
+  // ask for a date for reversing the operation
+case 'ask_extdate':
+  $date=new IDate('p_date');
+  $html= '<A style="background-color:blue;color:white;text-decoration:none" HREF="javascript:void(0)" onclick="removeDiv(\''.$div.'\');">Fermer</A>'; 
+  $html.="<form id=\"form_".$div."\" onsubmit=\"return reverseOperation(this);\">";
+  $html.=HtmlInput::hidden('jr_id',$_REQUEST['jr_id']).HtmlInput::hidden('div',$div).dossier::hidden().HtmlInput::hidden('act','reverseop');
+  $html.='<h2 class="info">entrez une date </H2>'.$date->input();
+  $html.=HtmlInput::submit('x','accepter');
+  $html.='</form>';
+  break;
+case 'reverseop':
+  if ( $access=='W') {
+    ob_start();
+    try {
+      $cn->start();
+      $oLedger=new Acc_Ledger($cn,$ledger);
+      $oLedger->jr_id=$_REQUEST['jr_id'];
+      $oLedger->reverse($_REQUEST['p_date']);
+      $html="<script>removeDiv('".$div."')</script>";
+    } catch (Exception $e) {
+      var_dump($e);
+      $cn->rollback;
+    }
+    $cn->commit();
+  }
+  $html=ob_get_contents();
+  ob_clean();
   break;
 }
 $html=escape_xml($html);

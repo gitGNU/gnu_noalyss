@@ -56,7 +56,24 @@ if ( $div != 'popup' ) {
 }
 ?>
 <?if ( $access=='W') { 
-  echo HtmlInput::submit('save','Sauver'); 
+  echo HtmlInput::submit('save',_('Sauver')); 
+  $owner=new Own($cn);
+  $per=new Periode($cn,$obj->det->jr_tech_per);
+  if ( $per->is_closed() == 0 && $owner->MY_STRICT=='N'){
+    $remove=new IButton('Effacer');
+    $remove->label=_('Effacer');
+    $remove->javascript="if ( confirm('Vous confirmez effacement ?')) {removeOperation('".$obj->det->jr_id."',".dossier::id().",'".$div."')}";
+    echo $remove->input();
+  }
+  $reverse=new IBox('Extourne'.$div,'Extourne');
+  $reverse->html='';
+  $reverse->cssclass="op_detail";
+  $reverse->style="height:300;width:250;position:absolute;";
+  $reverse->callback='ajax_ledger.php';
+  $reverse->queryString='?'.dossier::get().'&div=Extourne'.$div.'&parent_div='.$div.'&act=ask_extdate'.'&jr_id='.$obj->det->jr_id;
+  $reverse->set_attribute('drag',1);
+  echo $reverse->input();
+
   echo '</form>';
 }
 ?>

@@ -40,7 +40,7 @@ $ibox->queryString='?gDossier=15&id=5';
 $ibox->style='style_css',
 $ibox->cssclass='width:80%';
 $ibox->label='Cliquez moi';
-$ibox->onclick='add_div()'; // if you click
+$ibox->onclick='add_div'; // if you click  the function must take only one parameter : an object
 $ibox->ajax_success='autre'; // fonction qui affiche traite le callback, par défault, il s'agit de la fonction refresh_box qui afficher seulement  le contenu dans le div
 $ibox->ajax_error='ajax_error' // fonction pour traiter les erreurs ajax
 \endverbatim
@@ -65,6 +65,7 @@ class IBox extends HtmlInput
     $this->style='';
     $this->ajax_success='success_box';
     $this->ajax_error='error_box';
+    $this->onclick='show_box';
 
   }
   /*!\brief set the attribute thanks javascript as the width, the position ...
@@ -92,12 +93,13 @@ class IBox extends HtmlInput
     $this->set_attribute('drag',$this->drag);
     $obj=$this->make_object();
     $obj=str_replace('"',"&quot;",$obj);
-    $r='<a class="button" href="#" onclick="show_box(eval('.$obj.'))">'.$this->label.'</a>';
+    $r='<a class="button" style="display:inline" href="javascript:void(0)" onclick="'.$this->onclick.'('.$obj.')">'.$this->label.'</a>';
 
     return $r;
   }
 
   static function test_me() {
+    require_once('class_idate.php');
     echo js_include('prototype.js');
     echo js_include('scriptaculous.js');
     echo js_include('effects.js');
@@ -125,6 +127,11 @@ class IBox extends HtmlInput
     $ajax->queryString="?gDossier=48&op=sf&c=av_text5&q=58&ctl=drag";
     $ajax->callback="ajax_poste.php";
     echo $ajax->input();
+    $reverse=new IBox('Extourne','Extourne');
+    $reverse->set_attribute('drag',1);
+    $reverse->style="padding:20;height:300;width:250;position:absolute;background:red;display:none";
 
+    echo $reverse->input();
+  var_dump($reverse);
   }
 }
