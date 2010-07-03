@@ -923,7 +923,7 @@ av_text1=>'name'
 	  return;
 	}
       $user=new User($this->cn);
-      $filter_sql=$user->get_ledger_sql('ALL',1);
+      $filter_sql=$user->get_ledger_sql('ALL',3);
 
       $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
       $Res=$this->cn->exec_sql("select distinct j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,j_qcode,".

@@ -102,7 +102,7 @@ class Acc_Account_Ledger {
   function get_row_date($p_from,$p_to)
     {
       $user=new User($this->db);
-      $filter_sql=$user->get_ledger_sql('ALL',1);
+      $filter_sql=$user->get_ledger_sql('ALL',3);
       $Res=$this->db->exec_sql("select  jr_id,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,j_date,".
 	       "case when j_debit='t' then j_montant else 0 end as deb_montant,".
 	       "case when j_debit='f' then j_montant else 0 end as cred_montant,".

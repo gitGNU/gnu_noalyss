@@ -218,9 +218,13 @@ function get_internal() {
    return 0;
  }
  /*!\brief retrieve data from jrnx
+   *\note the data are filtered by the access of the current user
   * \return an array
   */
  function get_jrnx_detail() {
+   $user=new User($this->db);
+   $filter_sql=$user->get_ledger_sql('ALL',3);
+
    if ( $this->jr_id==0 ) return;
    $sql=" select  jr_date,j_qcode,j_poste,j_montant,jr_internal,case when j_debit = 'f' then 'C' else 'D' end as debit,jr_comment as description,
                 vw_name,pcm_lib,j_debit,coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter ".
@@ -228,7 +232,7 @@ function get_internal() {
                 join tmp_pcmn on (j_poste=pcm_val)
                 left join vw_fiche_attr on (j_qcode=quick_code)
 		where
-		jr_id=$1 order by j_debit desc";
+		jr_id=$1 and $filter_sql order by j_debit desc";
    $res=$this->db->exec_sql($sql,array($this->jr_id));
    if ( Database::num_row ($res) == 0 ) return array();
    $all=Database::fetch_all($res);
