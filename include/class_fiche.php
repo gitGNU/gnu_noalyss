@@ -42,7 +42,7 @@ require_once('class_iposte.php');
 //-----------------------------------------------------
 // class fiche
 //-----------------------------------------------------
-class fiche {
+class Fiche {
   var $cn;           /*! < $cn database connection */
   var $id;           /*! < $id fiche.f_id */
   var $fiche_def;    /*! < $fiche_def fd_id */
@@ -50,7 +50,7 @@ class fiche {
   var $fiche_def_ref; /*!< $fiche_def_ref Type */
   var $row;           /*! < All the row from the ledgers */
   var $quick_code;		/*!< quick_code of the card */
-  function fiche($p_cn,$p_id=0) {
+  function __construct($p_cn,$p_id=0) {
     $this->cn=$p_cn;
     $this->id=$p_id;
     $this->quick_code='';
@@ -68,7 +68,7 @@ class fiche {
  *        to 0 if no card is found
  * \param $p_qcode quick_code (ad_id=23)
  * \param $p_all retrieve all the attribut of the card, possible value
- * are true, false retrieves only the f_id
+ * are true or false. false retrieves only the f_id. By default true
  * \return 0 success 1 error not found
  */
   function get_by_qcode($p_qcode=null,$p_all=true)
