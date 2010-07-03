@@ -229,8 +229,17 @@ where use_id=$1 and dos_id=$2";
    * \brief get all the available ledgers for the current user
    * \param $p_type = ALL or the type of the ledger (ACH,VEN,FIN,ODS)
    * \param $p_access =3 for Read or WRITE, 2  write, 1 for readonly
-   *
-   * \return an array
+   *  \return a double array of available ledgers
+   @verbatim
+[0] => [jrn_def_id]
+       [jrn_def_type]
+       [jrn_def_name]
+       [jrn_def_class_deb]
+       [jrn_def_class_cred]
+       [jrn_type_id]
+       [jrn_desc]
+       [uj_priv]
+@endverbatim
    */
   function get_ledger($p_type='ALL',$p_access=3) {
     if ( $this->admin != 1 && $this->is_local_admin() != 1) {
