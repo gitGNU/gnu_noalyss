@@ -23,6 +23,30 @@
  * \brief javascript script, always added to every page
  *
  */
+/**
+* callback function when we just need to update a hidden div with an info 
+* message
+*/
+function infodiv(req,json) {
+        try{
+	var answer=req.responseXML;
+	var a=answer.getElementsByTagName('ctl');
+	var html=answer.getElementsByTagName('code');
+	if ( a.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
+	var name_ctl=a[0].firstChild.nodeValue;
+	var code_html=getNodeText(html[0]);
+	
+	code_html=unescape_xml(code_html);
+	g(name_ctl+"info").innerHTML=code_html;
+    } 
+    catch (e) {
+	alert("success_box"+e.message);}
+    try{
+	code_html.evalScripts();}
+    catch(e){
+	alert("answer_box Impossible executer script de la reponse\n"+e.message);}
+
+}
  /**
  *@brief delete a row from a table (tb) the input button send the this
  as second parameter

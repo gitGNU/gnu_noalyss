@@ -10,7 +10,8 @@
 9. Ajout d'une FK TODO1  réecriture de quant_* la liaison avec la jrn se fait à travers jr_id et non pas jr_internal qui n'est pas indexé. 
 Conséquence : réécriture de code, correction modop, ...
 10. TODO2 Object pour extourner proprement une operation, le fichier annulation.php devient inutile (deprecated) depend de TODO1 TODO10
-11.  TODO17 extourne depuis DIV HTML dépend de TODO16
+11. TODO17 extourne depuis DIV HTML dépend de TODO16
+12. TODO10 Enlever le bouton enlever dans les listes d'opération et le mettre dans le DIV HTML qui présente les détails de l'op 
 
 IDEE6, categorie de fiche, changer la présentation
 
@@ -22,7 +23,6 @@ IDEE1 Catégorie de fiche : changer la présentation ?
 
 TODO9 - dépend de TODO4 TODO2 - dans impressions, on peut avoir les détails de toutes les opérations
 
-TODO10 Enlever le bouton enlever dans les listes d'opération et le mettre dans le DIV HTML qui présente les détails de l'op 
 
 TODO11 Ajoutez aux classes Ledger_* une fonction pour obtenir un tableau vide qui répresente le tableau utilisé par confirm, insert et veriffy
 
@@ -31,7 +31,6 @@ TODO12 Pour les anouveaux, les mêmes comptes se retrouvent au crédit ET au dé
 TODO13 Bouton validate CA ne fonctionne plus
 
 TODO14 confirmation quand effacement d'un PA (comptabilité analytique -> Plan Analytique)
-
 
 
 REFLEXION1  Pièce attachée uniquement depuis détail opération ?

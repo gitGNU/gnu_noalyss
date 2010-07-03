@@ -102,19 +102,23 @@ switch ($action) {
   ///////////////////////////////////////////////////////////////////////////
 case 'rmop':
   if ( $access=='W'){
+    ob_start();
     /* get the ledger */
     try {
       $cn->start();
       $oLedger=new Acc_Ledger($cn,$ledger);
       $oLedger->jr_id=$_REQUEST['jr_id'];
       $oLedger->delete();
+      $cn->commit();
+      echo _("Opération Effacée");
     } catch (Exception $e) {
-      var_dump($e);
+      $e->getMessage();
       $cn->rollback;
     }
-    $cn->commit();
+    $html=ob_get_contents();
+    ob_clean();
   }
-  exit();
+  break;
   //////////////////////////////////////////////////////////////////////
   // DE Detail
   //////////////////////////////////////////////////////////////////////
@@ -279,12 +283,15 @@ case 'rmf':
       }
   }   
   echo '</div>';
-      exit();
+  exit();
 /////////////////////////////////////////////////////////////////////////////
 // Save operation detail
 /////////////////////////////////////////////////////////////////////////////
   case 'save':
-    if ( $access=="W") {
+    ob_start();
+    try {
+      $cn->start();
+      if ( $access=="W") {
       $cn->exec_sql('update jrn set jr_comment=$1,jr_pj_number=$2 where jr_id=$3',
 		    array($_POST['lib'],$_POST['npj'],$jr_id));
       $rapt=$_POST['rapt'];
@@ -319,6 +326,14 @@ case 'rmf':
 	  $op->save_update_form($_POST);
 	  }
 	}
+    echo _('Opération sauvée');
+    $cn->commit();
+    } catch (Exception $e) {
+      echo $e->getMessage();
+    }      
+    $html=ob_get_contents();
+    ob_clean();
+
     break;
  /////////////////////////////////////////////////////////////////////////////
     // remove a reconciliation
@@ -341,6 +356,9 @@ case 'ask_extdate':
   $html.=HtmlInput::submit('x','accepter');
   $html.='</form>';
   break;
+  ////////////////////////////////////////////////////////////////////////////////
+  // Reverse an operation
+  ////////////////////////////////////////////////////////////////////////////////
 case 'reverseop':
   if ( $access=='W') {
     ob_start();
@@ -349,12 +367,12 @@ case 'reverseop':
       $oLedger=new Acc_Ledger($cn,$ledger);
       $oLedger->jr_id=$_REQUEST['jr_id'];
       $oLedger->reverse($_REQUEST['p_date']);
-      $html="<script>removeDiv('".$div."')</script>";
+      $cn->commit();
+      echo _("Opération extournée");
     } catch (Exception $e) {
-      var_dump($e);
-      $cn->rollback;
+      $e->getMessage();
+      $cn->rollback();
     }
-    $cn->commit();
   }
   $html=ob_get_contents();
   ob_clean();

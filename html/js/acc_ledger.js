@@ -342,14 +342,6 @@ function quick_writing_add_row(){
   nb.value++;
 
 }
-/*! \file
- * \brief
- * open a windows to confirm and cancel an operation
- */
-function cancelOperation(p_value,p_dossier,p_jrn)
-		{
-alert('NOT IMPLEMENTED');
-		}
 function RefreshMe() {
 window.location.reload();
 }
@@ -489,16 +481,14 @@ function removeOperation(p_jr_id,dossier,div) {
 	    method:'get',
 	    parameters:qs,
 	    onFailure:error_box,
-	    onSuccess:null
+	    onSuccess:infodiv
 	}
     );
 
 }
-function reverseSuccess(req) {
-    alert('Extourné');
-}
+
 /**
-* remove an Operation
+* reverse an Operation
 *@param pointer to the FORM
 */
 function reverseOperation(obj) {
@@ -510,7 +500,7 @@ function reverseOperation(obj) {
 	    method:'get',
 	    parameters:qs,
 	    onFailure:error_box,
-	    onSuccess:success_box
+	    onSuccess:infodiv
 	}
     );
 
@@ -674,7 +664,7 @@ function op_save(obj) {
 					  method:'post',
 					  parameters:queryString,
 					  onFailure:null,
-					  onSuccess:null
+					  onSuccess:infodiv
 				      }
 				    );
 	window.close();
@@ -683,27 +673,9 @@ function op_save(obj) {
 						  method:'post',
 						  parameters:queryString,
 						  onFailure:null,
-						  onSuccess:op_success
+						  onSuccess:infodiv
 					      }
 					    );
 	   }
     return false;
-}
-/**
-*@brief callback function after an op_save
-*/
-function op_success(req) {
-   try{
-	var answer=req.responseXML;
-	var a=answer.getElementsByTagName('ctl');
-	if ( a.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
-	var name_ctl=a[0].firstChild.nodeValue;
-       savebox={'id':'save'+name_ctl,'html':'Sauvé','style':'font-size:12;text-align:center;background-color:red;color:white;width:120;height:20;position:absolute;top:'+posY+';left:'+posX};
-       add_div(savebox);
-       removeDiv(savebox.id); removeDiv(name_ctl);
-   }
-    catch (e) {
-	alert(e.message);
-    }
-    
 }

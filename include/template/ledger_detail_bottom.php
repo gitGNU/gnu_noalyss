@@ -40,10 +40,12 @@ if ( $access=='W') {
   $rapt=new IText('rapt'.$div);
   echo $rapt->input().$search;
 }
+
 ?>
 </fieldset>
 <?
- require_once('template/ledger_detail_file.php'); 
+
+require_once('template/ledger_detail_file.php'); 
 ?>
 <hr>
 <? 
@@ -54,6 +56,7 @@ if ( $div != 'popup' ) {
   $a->javascript="removeDiv('".$div."')";
   echo $a->input();
 }
+
 ?>
 <?if ( $access=='W') { 
   echo HtmlInput::submit('save',_('Sauver')); 
@@ -65,15 +68,26 @@ if ( $div != 'popup' ) {
     $remove->javascript="if ( confirm('Vous confirmez effacement ?')) {removeOperation('".$obj->det->jr_id."',".dossier::id().",'".$div."')}";
     echo $remove->input();
   }
-  $reverse=new IBox('Extourne'.$div,'Extourne');
-  $reverse->html='';
-  $reverse->cssclass="op_detail";
-  $reverse->style="height:300;width:250;position:absolute;";
-  $reverse->callback='ajax_ledger.php';
-  $reverse->queryString='?'.dossier::get().'&div=Extourne'.$div.'&parent_div='.$div.'&act=ask_extdate'.'&jr_id='.$obj->det->jr_id;
-  $reverse->set_attribute('drag',1);
-  echo $reverse->input();
 
-  echo '</form>';
+  $reverse=new IButton('Extourner');
+  $reverse->label=_('Extourner');
+  $reverse->javascript="g('ext".$div."').style.display='block'";
+  echo $reverse->input();
+  
+echo '</form>';
+  
+  echo '<div id="ext'.$div.'" style="display:none">';
+  $date=new IDate('p_date');
+  $r="<form id=\"form_".$div."\" onsubmit=\"return reverseOperation(this);\">";
+  $r.=HtmlInput::hidden('jr_id',$_REQUEST['jr_id']).HtmlInput::hidden('div',$div).dossier::hidden().HtmlInput::hidden('act','reverseop');
+  $r.='<h2 class="info">Extourner </H2>';
+  $r.="entrez une date :".$date->input();
+  $r.=HtmlInput::submit('x','accepter','onclick="return confirm(\'Vous confirmez  ? \');"');
+  $r.='</form>';
+  echo $r;
+  echo '</div>';
+
+
+
 }
 ?>
