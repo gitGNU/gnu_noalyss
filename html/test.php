@@ -69,7 +69,8 @@ $array=array(
 	array(29,'ITVA popup'),
 	array(30,'Ereg and preg_match'),
 	array(31,'IBOX'),
-	array(32,'Acc_Operation & children')
+	array(32,'Acc_Operation & children'),
+	array(33,'Ledger : reverse op')
 	);
 $r='<form method="get">';
 $r.='<select name="test_select" >';
@@ -270,6 +271,10 @@ case 31:
 case 32:
   require_once('class_acc_operation.php');
   Acc_Operation::test_me();
+  break;
+case 33:
+  require_once('class_acc_ledger.php');
+  Acc_Ledger::test_me('reverse');
   break;
 }
 

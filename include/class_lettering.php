@@ -75,6 +75,34 @@ class Lettering
     else 
       throw new Exception (__FILE__.":".__LINE__.$p_string.'Erreur attribut inexistant');
   }
+  /**
+   *Use to just insert a couple of lettered operation
+   */
+  function insert_couple($j_id1,$j_id2) {
+     $jl_id=$this->db->get_next_seq("jnt_letter_jl_id_seq");
+     $this->db->exec_sql('insert into jnt_letter(jl_id) values($1)',
+                         array($jl_id));
+     /*  take needed data */
+     $first=$this->db->get_value('select j_debit from jrnx where j_id=$1',array($j_id1));
+     if ( $this->db->count() == 0 ) throw new Exception ('Opération non existante');
+
+     $second=$this->db->get_value('select j_debit from jrnx where j_id=$1',array($j_id2));
+     if ( $this->db->count() == 0 ) throw new Exception ('Opération non existante');
+     /* insert */
+    if ( $first == 't') {
+      // save into letter_deb
+      $ld_id=$this->db->get_value('insert into letter_deb(j_id,jl_id) values($1,$2) returning ld_id',array($j_id1,$jl_id));
+    }else {
+      $lc_id=$this->db->get_value('insert into letter_cred(j_id,jl_id)  values($1,$2) returning lc_id',array($j_id1,$jl_id));
+    }
+    if ( $second == 't') {
+      // save into letter_deb
+      $ld_id=$this->db->get_value('insert into letter_deb(j_id,jl_id) values($1,$2) returning ld_id',array($j_id2,$jl_id));
+    }else {
+      $lc_id=$this->db->get_value('insert into letter_cred(j_id,jl_id)  values($1,$2) returning lc_id',array($j_id2,$jl_id));
+    }
+
+  }
   public function get_info() {    return var_export(self::$variable,true);  }
   public function verify() {
     // Verify that the elt we want to add is correct

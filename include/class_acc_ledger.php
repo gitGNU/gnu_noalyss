@@ -40,6 +40,8 @@ require_once ('class_gestion_purchase.php');
 require_once ('class_acc_account.php');
 require_once('ac_common.php');
 require_once('class_inum.php');
+require_once('class_lettering.php');
+
 /*!\file
 * \brief Class for jrn,  class acc_ledger for manipulating the ledger
 */
@@ -56,8 +58,11 @@ class Acc_Ledger {
 				  VEN or GL */
   var $nb;			/*!< default number of rows by
 				  default 10 */
-
-  function Acc_Ledger ($p_cn,$p_id){
+  /**
+   *@param $p_cn database connexion
+   *@param $p_id jrn.jrn_def_id
+   */
+  function __construct ($p_cn,$p_id){
     $this->id=$p_id;
     $this->db=$p_cn;
     $this->row=null;
@@ -96,6 +101,192 @@ class Acc_Ledger {
     $ret=Database::fetch_array($Res,0);
     $this->type=$ret['jrn_def_type'];
     return $ret['jrn_def_type'];
+  }
+  /**
+   *let you delete a operation
+   *@note by cascade it will delete also in 
+   * - jrnx
+   * - stock
+   * - quant_purchase
+   * - quant_fin
+   * - quant_sold
+   * - operation_analytique
+   * - letter
+   * - reconciliation
+   *@bug the attached document is not deleted
+   */
+  function delete() {
+    if ( $this->id == 0 ) return;
+    $grpt_id=$this->db->get_value('select jr_grpt_id from jrn where jr_id=$1',
+				  array($this->id));
+    if ( $this->db->count()==0) return;
+    $this->db->exec_sql('delete from jrnx where j_grpt=$1',
+			array($grpt_id));
+    $this->db->exec_sql('delete from jrn where jr_id=$1',
+			array($this->id));
+  }
+  /**
+   * reverse the operation by creating the opposite one,
+   * the result is to avoid it 
+   * it must be done in
+   * - jrn
+   * - jrnx
+   * - quant_fin
+   * - quant_sold
+   * - quant_purchase
+   * - stock
+   * - ANC
+   *@param $p_date is the date of the reversed op
+   *@exception if date is invalid or other prob
+   *@note automatically create a reconciliation between operation
+   *You must set the ledger_id $this->jrn_def_id
+   */
+  function reverse($p_date) {
+    if ( ! isset ($this->jr_id) || $this->jr_id=='') 
+      throw new Exception ("this->jr_id is not set ou opération inconnue");
+
+    $user=new User($this->db);
+    /* check if the date is valid */
+    if ( isDate($p_date) == null ) 
+      throw new Exception (_('Date invalide').$p_date);
+
+    // if the operation is in a closed or centralized period
+    // the operation is voided thanks the opposite operation
+    $grp_new=$this->db->get_next_seq('s_grpt');
+    $seq=$this->db->get_next_seq("s_jrn");
+    $p_internal=$this->compute_internal_code($seq);
+    $this->jr_grpt_id=$this->db->get_value('select jr_grpt_id from jrn where jr_id=$1',
+					   array($this->jr_id));
+    if ( $this->db->count()==0)
+      throw new Exception (_("Cette opération n'existe pas"));
+    $this->jr_internal=$this->db->get_value('select jr_internal from jrn where jr_id=$1',
+					    array($this->jr_id));
+    if ( $this->db->count()==0 || trim($this->jr_internal)=='')
+      throw new Exception (_("Cette opération n'existe pas"));
+
+    /* find the periode thanks the date */
+    $per=new Periode($this->db);
+    $per->jrn_def_id=$this->id;
+    $per->find_periode($p_date);
+
+    if ( $per->is_open() == 0 )
+      throw new Exception (_('PERIODE FERMEE'));
+
+    $sql= "insert into jrn (
+  		jr_id,
+               jr_def_id,
+                jr_montant,
+                jr_comment,               
+		jr_date,
+                jr_grpt_id,
+                jr_internal                 
+		,jr_tech_per, jr_valid
+  		) 
+              select $1,jr_def_id,jr_montant,'Annulation '||jr_comment,
+		to_date($2,'DD.MM.YYYY'),$3,$4,
+		$5, true 
+          from
+	  jrn
+	  where   jr_id=$6";
+    $Res=$this->db->exec_sql($sql,array($seq,$p_date,$grp_new,$p_internal,$per->p_id,$this->jr_id));
+    // Check return code
+    if ( $Res == false) 
+      throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
+
+ 
+
+   
+    // Mark the operation invalid into the ledger
+    // to avoid to nullify twice the same op.
+    $sql="update jrn set jr_comment='Annule : '||jr_comment where jr_id=$1";
+    $Res=$this->db->exec_sql($sql,array($this->jr_id));
+
+    // Check return code
+    if ( $Res == false) 
+      throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
+
+    //////////////////////////////////////////////////
+    // Reverse in QUANT_* tables
+    //////////////////////////////////////////////////
+    $a_jid=$this->db->get_array("select j_id,j_debit from jrnx where j_grpt=$1",array($this->jr_grpt_id));
+    for ($l=0;$l<count($a_jid);$l++) {	
+      $row=$a_jid[$l]['j_id'];
+    // Make also the change into jrnx
+    $sql= "insert into jrnx (
+  	        j_date,j_montant,j_poste,j_grpt,               
+                j_jrn_def,j_debit,j_text,j_internal,j_tech_user,j_tech_per,j_qcode
+  		) select to_date($1,'DD.MM.YYYY'),j_montant,j_poste,$2,
+                  j_jrn_def,not (j_debit),j_text,$3,$4,$5,
+		  j_qcode
+	  from
+	  jrnx
+	  where   j_id=$6 returning j_id";
+    $Res=$this->db->exec_sql($sql,array($p_date,$grp_new,$p_internal,$user->id,$per->p_id,$row));
+    // Check return code
+    if ( $Res == false) 
+      throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
+    $aj_id=$this->db->fetch(0);
+    $j_id=$aj_id['j_id'];
+
+    /* automatic lettering */
+    $let=new Lettering($this->db);
+    $let->insert_couple($j_id,$row);
+
+    // reverse in QUANT_SOLD
+    $Res=$this->db->exec_sql("INSERT INTO quant_sold(
+             qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, 
+            qs_vat_code, qs_client, qs_valid, j_id)
+    SELECT $1, qs_fiche, qs_quantite*(-1), qs_price, qs_vat, 
+       qs_vat_code, qs_client, qs_valid, $2
+  FROM quant_sold where j_id=$3",
+			     array($p_internal,$j_id,$row));
+
+    if ( $Res == false) 
+      throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
+    $Res=$this->db->exec_sql("INSERT INTO quant_purchase(
+            qp_internal, j_id, qp_fiche, qp_quantite, qp_price, qp_vat, 
+            qp_vat_code, qp_nd_amount, qp_nd_tva, qp_nd_tva_recup, qp_supplier, 
+            qp_valid, qp_dep_priv) 
+       SELECT  $1, $2, qp_fiche, qp_quantite*(-1), qp_price, qp_vat, 
+       qp_vat_code, qp_nd_amount, qp_nd_tva, qp_nd_tva_recup, qp_supplier, 
+       qp_valid, qp_dep_priv
+  FROM quant_purchase where j_id=$3",			     
+			     array($p_internal,$j_id,$row));
+						      
+    if ( $Res == false) 
+      throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
+    }
+    // reverse in QUANT_FIN table
+    $Res=$this->db->exec_sql("  INSERT INTO quant_fin(
+             qf_bank,  qf_other, qf_amount,jr_id)
+SELECT  qf_bank,  qf_other, qf_amount*(-1),$1
+  FROM quant_fin where jr_id=$2",array($seq,$this->jr_id));
+   if ( $Res == false) 
+      throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
+
+    // Add a "concerned operation to bound these op.together
+    //
+    $rec=new Acc_Reconciliation ($this->db);
+    $rec->set_jr_id($seq);
+    $rec->insert($this->jr_id);
+
+    // Check return code
+    if ( $Res == false ) { throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));}
+    
+
+    // the table stock must updated
+    // also in the stock table
+    $sql="delete from stock_goods where sg_id = any ( select sg_id
+  from stock_goods natural join jrnx  where j_grpt=".$this->jr_grpt_id.")";
+    $Res=$this->db->exec_sql($sql);
+    /**
+     *@function
+     *@todo  remove also from ANC */
+
+    // Check return code
+    if ( $Res == false) 
+      throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
+
   }
   /*!
    * \brief Return the name of a ledger
@@ -2132,101 +2323,7 @@ function get_last_date()
 
     return $r;
   }
-  /*!
-   * \brief this function is intended to test this class
-   */
-  static function test_me($pCase='')
-  {
-    if ( $pCase=='') {
-    echo Acc_Reconciliation::$javascript;
-    html_page_start();
-    $cn=new Database(dossier::id());
-    $_SESSION['g_user']='phpcompta';
-    $_SESSION['g_pass']='phpcompta';
-
-    $id=(isset ($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
-    $a=new Acc_Ledger($cn,$id);
-    $a->with_concerned=true;
-    // Vide
-    echo '<FORM method="post">';
-    echo $a->select_ledger()->input();
-    echo HtmlInput::submit('go','Test it');
-    echo '</form>';
-    if ( isset($_POST['go'])) {
-      echo "Ok ";
-      echo '<form method="post">';
-      echo $a->show_form();
-      echo HtmlInput::submit('post_id','Try me');
-      echo '</form>';
-      // Show the predef operation
-      // Don't forget the p_jrn
-      echo '<form>';
-      echo dossier::hidden();
-      echo '<input type="hidden" value="'.$id.'" name="p_jrn">';
-      $op=new Pre_operation($cn);
-      $op->p_jrn=$id;
-      $op->od_direct='t';
-      if ($op->count() != 0 ) {
-	echo HtmlInput::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
-	echo $op->show_button();
-      }
-      echo '</form>';
-      exit();
-    }
-
-    if ( isset($_POST['post_id' ])) {
-
-      echo '<form method="post">';
-      echo $a->show_form($_POST,1);
-      echo HtmlInput::button('add','Ajout d\'une ligne','onClick="quick_writing_add_row()"');
-      echo HtmlInput::submit('save_it',"Sauver");
-      echo '</form>';
-      exit();
-    }
-    if ( isset($_POST['save_it' ])) {
-      print 'saving';
-      $array=$_POST;
-      $array['save_opd']=1;
-      try {
-	$a->save($array);
-      } catch (Exception $e) {
-	alert($e->getMessage());
-	echo '<form method="post">';
-
-	echo $a->show_form($_POST);
-	echo HtmlInput::submit('post_id','Try me');
-	echo '</form>';
-
-      }
-      exit();
-    }
-    // The GET at the end because automatically repost when you don't
-    // specify the url in the METHOD field
-    if ( isset ($_GET['use_opd'])) {
-      $op=new Pre_op_advanced($cn);
-      $op->set_od_id($_REQUEST['pre_def']);
-      //$op->p_jrn=$id;
-
-      $p_post=$op->compute_array();
-
-      echo '<FORM method="post">';
-
-      echo $a->show_form($p_post);
-      echo HtmlInput::submit('post_id','Use predefined operation');
-      echo '</form>';
-      exit();
-
-    }
-    }// if case = ''
-    if ( $pCase  == 'search') {
-      html_page_start();
-      $cn=new Database(dossier::id());
-      $ledger=new Acc_Ledger($cn,0);
-      $_SESSION['g_user']='phpcompta';
-      $_SESSION['g_pass']='phpcompta';
-      echo $ledger->search_form('ALL');
-    }
-  }
+ 
   /*!\brief return the last p_limit operation into an array
    *\param $p_limit is the max of operation to return
    *\return $p_array of Action object
@@ -2429,5 +2526,127 @@ array
       $ret['tva']=$array;
      }
     return $ret;
+  }
+  ////////////////////////////////////////////////////////////////////////////////
+  // TEST MODULE
+  ////////////////////////////////////////////////////////////////////////////////
+   /*!
+   * \brief this function is intended to test this class
+   */
+  static function test_me($pCase='')
+  {
+    if ( $pCase=='') {
+    echo Acc_Reconciliation::$javascript;
+    html_page_start();
+    $cn=new Database(dossier::id());
+    $_SESSION['g_user']='phpcompta';
+    $_SESSION['g_pass']='phpcompta';
+
+    $id=(isset ($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
+    $a=new Acc_Ledger($cn,$id);
+    $a->with_concerned=true;
+    // Vide
+    echo '<FORM method="post">';
+    echo $a->select_ledger()->input();
+    echo HtmlInput::submit('go','Test it');
+    echo '</form>';
+    if ( isset($_POST['go'])) {
+      echo "Ok ";
+      echo '<form method="post">';
+      echo $a->show_form();
+      echo HtmlInput::submit('post_id','Try me');
+      echo '</form>';
+      // Show the predef operation
+      // Don't forget the p_jrn
+      echo '<form>';
+      echo dossier::hidden();
+      echo '<input type="hidden" value="'.$id.'" name="p_jrn">';
+      $op=new Pre_operation($cn);
+      $op->p_jrn=$id;
+      $op->od_direct='t';
+      if ($op->count() != 0 ) {
+	echo HtmlInput::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
+	echo $op->show_button();
+      }
+      echo '</form>';
+      exit();
+    }
+
+    if ( isset($_POST['post_id' ])) {
+
+      echo '<form method="post">';
+      echo $a->show_form($_POST,1);
+      echo HtmlInput::button('add','Ajout d\'une ligne','onClick="quick_writing_add_row()"');
+      echo HtmlInput::submit('save_it',"Sauver");
+      echo '</form>';
+      exit();
+    }
+    if ( isset($_POST['save_it' ])) {
+      print 'saving';
+      $array=$_POST;
+      $array['save_opd']=1;
+      try {
+	$a->save($array);
+      } catch (Exception $e) {
+	alert($e->getMessage());
+	echo '<form method="post">';
+
+	echo $a->show_form($_POST);
+	echo HtmlInput::submit('post_id','Try me');
+	echo '</form>';
+
+      }
+      exit();
+    }
+    // The GET at the end because automatically repost when you don't
+    // specify the url in the METHOD field
+    if ( isset ($_GET['use_opd'])) {
+      $op=new Pre_op_advanced($cn);
+      $op->set_od_id($_REQUEST['pre_def']);
+      //$op->p_jrn=$id;
+
+      $p_post=$op->compute_array();
+
+      echo '<FORM method="post">';
+
+      echo $a->show_form($p_post);
+      echo HtmlInput::submit('post_id','Use predefined operation');
+      echo '</form>';
+      exit();
+
+    }
+    }// if case = ''
+    ///////////////////////////////////////////////////////////////////////////
+    // search
+    if ( $pCase  == 'search') {
+      html_page_start();
+      $cn=new Database(dossier::id());
+      $ledger=new Acc_Ledger($cn,0);
+      $_SESSION['g_user']='phpcompta';
+      $_SESSION['g_pass']='phpcompta';
+      echo $ledger->search_form('ALL');
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    // reverse
+    // Give yourself the var and check in your tables
+    ///////////////////////////////////////////////////////////////////////////
+    if ( $pCase=='reverse') {
+      $cn=new Database (dossier::id());
+      $jr_internal='OD-01-272';
+      try {
+	$cn->start();
+	$jrn_def_id=$cn->get_value('select jr_def_id from jrn where jr_internal=$1',array($jr_internal));
+	$ledger=new Acc_Ledger($cn,$jrn_def_id);
+	$ledger->jr_id=$cn->get_value('select jr_id from jrn where jr_internal=$1',array($jr_internal));
+
+	echo "Ouvrez le fichier ".__FILE__." à la ligne ".__LINE__." pour changer jr_internal et vérifier le résultat de l'extourne";
+
+	$ledger->reverse('01.07.2010');
+      } catch (Exception $e) {
+	$cn->rollback();
+	var_dump($e);
+      }
+      $cn->commit(); 
+    }
   }
 }

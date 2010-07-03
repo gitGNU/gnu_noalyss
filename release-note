@@ -9,8 +9,7 @@
 8. TODO18 Acc_Account_Ledger::HtmlTable et Fiche::HtmlTable, il manque la sécurité pour filtrer les journaux
 9. Ajout d'une FK TODO1  réecriture de quant_* la liaison avec la jrn se fait à travers jr_id et non pas jr_internal qui n'est pas indexé. 
 Conséquence : réécriture de code, correction modop, ...
-
-TODO2 Object pour extourner proprement une operation, le fichier annulation.php devient inutile (deprecated) depend de TODO1 TODO10
+10. TODO2 Object pour extourner proprement une operation, le fichier annulation.php devient inutile (deprecated) depend de TODO1 TODO10
 
 IDEE6, categorie de fiche, changer la présentation
 
