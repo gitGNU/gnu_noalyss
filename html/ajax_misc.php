@@ -202,17 +202,20 @@ EOF;
     $ret=new IButton('return');
     $ret->label=_('Retour');
     $ret->javascript="$('detail').hide();$('list').show();$('search').show();";
-    $r="";
+
     // retrieve info for the given j_id (date, amount,side and comment)
-    $sql="select j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,J_POSTE,j_qcode,
+    $sql="select j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,J_POSTE,j_qcode,jr_id,
 jr_comment,j_montant, j_debit,jr_internal from jrnx join jrn on (j_grpt=jr_grpt_id)
      where j_id=$1";
     $arow=$cn->get_array($sql,array($j_id));
     $row=$arow[0];
-
+    $r='';
     $r.='<fieldset><legend>'._('Lettrage').'</legend>';
     $r.='Poste '.$row['j_poste'].'  '.$row['j_qcode'].'<br>';
-    $r.='Date : '.$row['j_date_fmt'].' ref :'.$row['jr_internal'].' <br>  ';
+
+    $detail="<A class=\"detail\" style=\"display:inline\" HREF=\"javascript:modifyOperation('".$row['jr_id']."',".$gDossier.")\" > ".$row['jr_internal']."</A>";
+
+    $r.='Date : '.$row['j_date_fmt'].' ref :'.$detail.' <br>  ';
     $r.=h($row['jr_comment'])." montant: ".($row['j_montant'])." ".(($row['j_debit']=='t')?'D':'C');
     $r.='</fieldset>';
     $r.='<div id="filtre" style="float:left;display:block">';

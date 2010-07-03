@@ -23,7 +23,7 @@
 /*!\file
  * \brief file to include for the "lettrage" (lettering?)
  */
-
+echo JS_INFOBULLE;
 $array=array(
 	     array('?'.dossier::get().'&p_action=let&sa=poste',_('Par poste'),
 		   _('Lettrage par poste'), 1),
