@@ -1103,12 +1103,16 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
     return $response;
   }
   /*!
-   * \brief Show a select list of the ledger you can access in
-   * writing, the security is taken in care but show the readable AND
-   * writable ledger.
+   * \brief Return an array  of the ledgers you can access in
+   * writing, reading or simply accessing.
    * \param $p_type = ALL or the type of the ledger (ACH,VEN,FIN,ODS)
    * \param $p_access =3 for READ and WRITE, 2 for write and 1 for readonly
-   * \return object HtmlInput select
+   * \return a double array of available ledgers
+   @verbatim
+[0] => (value=>jrn_def_id,label=>jrn_def_name)
+[1] => (value=>jrn_def_id,label=>jrn_def_name)
+[2] => (value=>jrn_def_id,label=>jrn_def_name)
+@endverbatim
    */
   function select_ledger($p_type="ALL",$p_access=3) {
     $user=new User($this->db);
