@@ -27,7 +27,7 @@
  *        fiche_def_ref
  */
 
-class fiche_def_ref 
+class Fiche_Def_Ref 
 {
   var $frd_id;           /*!< $frd_id fiche_def_ref.frd_id */
   var $frd_text;         /*!< $frd_text fiche_def_ref.frd_tex */
@@ -35,7 +35,7 @@ class fiche_def_ref
   var $attribut;         /*!< array which containing list of attr */
                          /* it is used with dynamic variables */
 
-  function fiche_def_ref($p_cn,$p_frd_id=-1)
+  function __construct($p_cn,$p_frd_id=-1)
     {
       $this->db=$p_cn;
       $this->frd_id=$p_frd_id;
