@@ -33,7 +33,7 @@ require_once('class_iradio.php');
  * \brief define Class fiche and fiche def, those class are using
  *        class attribut
  */
-class fiche_def {
+class Fiche_Def {
   var $cn;           // database connection
   var $id;			// id (fiche_def.fd_id
   var $label;			// fiche_def.fd_label
@@ -42,7 +42,7 @@ class fiche_def {
   var $create_account;		// fd_create_account: flag
   var $all;
   var $attribut;		// get from attr_xxx tables
-  function fiche_def($p_cn,$p_id = 0) {
+  function __construct($p_cn,$p_id = 0) {
     $this->cn=$p_cn;
     $this->id=$p_id;
   }
