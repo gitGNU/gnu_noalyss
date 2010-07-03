@@ -50,7 +50,7 @@ $User->can_request(IMPBAL,1);
 
 extract ($_GET);
 
-$bal->jrn=$_GET['p_jrn'];
+$bal->jrn=(isset($_GET['p_jrn']))?$_GET['p_jrn']:null;
 $bal->from_poste=$_GET['from_poste'];
 $bal->to_poste=$_GET['to_poste'];
 

@@ -514,3 +514,15 @@ function success_box(req,json)
 function error_box () {
     alert('IBOX : error_box ajax not implemented');
 }
+/**
+* show the ledger choice
+*/
+function show_ledger_choice() {
+    g('div_jrn').style.visibility='visible';
+}
+/**
+* hide the ledger choice
+*/
+function hide_ledger_choice() {
+    g('div_jrn').style.visibility='hidden';
+}

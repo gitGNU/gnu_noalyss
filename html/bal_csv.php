@@ -44,7 +44,7 @@ if ( $User->check_action(IMPBAL) == 0)
 echo 'poste;libelle;deb;cred;solde deb;solde cred';
 printf("\n");
 $bal=new Acc_Balance($cn);
-$bal->jrn=$_GET['p_jrn'];
+$bal->jrn=(isset($_GET['r_jrn']))?$_GET['r_jrn']:null;
 $bal->from_poste=$_GET['from_poste'];
 $bal->to_poste=$_GET['to_poste'];
 

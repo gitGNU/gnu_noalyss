@@ -48,14 +48,16 @@ echo js_include('dragdrop.js');
 echo js_include('card.js');
 echo js_include('acc_ledger.js');
 echo IPoste::ipopup('ipop_account');
-
 echo '<div class="content">';
 
 // Show the form for period
-echo '<FORM action="?p_action=impress&type=bal" method="post">';
+echo '<FORM  method="get">';
+echo HtmlInput::hidden('p_action','impress');
+echo HtmlInput::hidden('type','bal');
+
 echo dossier::hidden();
 // filter on the current year
-$from=(isset($_POST["from_periode"]))?$_POST['from_periode']:"";
+$from=(isset($_GET["from_periode"]))?$_GET['from_periode']:"";
 $input_from=new IPeriod("from_periode",$from);
 $input_from->show_end_date=false;
 $input_from->type=ALL;
@@ -64,7 +66,7 @@ $input_from->filter_year;
 $input_from->user=$User;
 echo 'Depuis :'.$input_from->input();
 // filter on the current year
-$to=(isset($_POST["to_periode"]))?$_POST['to_periode']:"";
+$to=(isset($_GET["to_periode"]))?$_GET['to_periode']:"";
 $input_to=new IPeriod("to_periode",$to);
 $input_to->show_start_date=false;
 $input_to->filter_year;
@@ -74,29 +76,43 @@ $input_to->user=$User;
 echo ' jusque :'.$input_to->input();
 
 //-------------------------------------------------
-$l=new Acc_Ledger($cn,0);
-$journal=$l->select_ledger('ALL',3);
+
 
 /*  add a all ledger choice */
-$blank=array('value'=>-1,'label'=>'Tous les journaux ');
-$array=$journal->value;
-$array[]=$blank;
-$journal->value=$array;
+$ledger=new IButton('l');
+$ledger->label="Journaux";
+$ledger->javascript=" show_ledger_choice()";
+echo $ledger->input();
 
-$journal->name="p_jrn";
+/* create a hidden div for the ledger */
+echo '<div id="div_jrn">';
+echo '<h2 class="info">Choix des journaux</h2>';
+$selected=(isset($_GET['r_jrn']))?$_GET['r_jrn']:null;
+$array_ledger=$User->get_ledger('ALL',3);
+echo '<ul>';
+for ($e=0;$e<count($array_ledger);$e++){
+  $row=$array_ledger[$e];
+  $r=new ICheckBox('r_jrn['.$e.']',$row['jrn_def_id']);
 
+  if ( $selected != null && isset($selected[$e])) { $r->selected=true;}
+  echo '<li style="list-style-type: none;">'.$r->input().$row['jrn_def_name'].'('.$row['jrn_def_type'].')</li>';
 
-if ( isset($_POST['p_jrn'])) $journal->selected=$_POST['p_jrn'];
-	else
-	$journal->selected=-1;
-echo "Journal = ".$journal->input();
+}
+echo '</ul>';
+$hide=new IButton('l');
+$hide->label="Cacher";
+$hide->javascript=" hide_ledger_choice() ";
+echo $hide->input();
+
+echo '</div>';
+
 $from_poste=new IPoste();
 $from_poste->name="from_poste";
 $from_poste->set_attribute('ipopup','ipop_account');
 $from_poste->set_attribute('label','from_poste_label');
 $from_poste->set_attribute('account','from_poste');
 
-$from_poste->value=(isset($_POST['from_poste']))?$_POST['from_poste']:"";
+$from_poste->value=(isset($_GET['from_poste']))?$_GET['from_poste']:"";
 $from_span=new ISpan("from_poste_label","");
 
 $to_poste=new IPoste();
@@ -105,7 +121,7 @@ $to_poste->set_attribute('ipopup','ipop_account');
 $to_poste->set_attribute('label','to_poste_label');
 $to_poste->set_attribute('account','to_poste');
 
-$to_poste->value=(isset($_POST['to_poste']))?$_POST['to_poste']:"";
+$to_poste->value=(isset($_GET['to_poste']))?$_GET['to_poste']:"";
 $to_span=new ISpan("to_poste_label","");
 
 echo "<div>";
@@ -122,7 +138,7 @@ echo '<hr>';
 // Form
 //-----------------------------------------------------
 // Show the export button
-if ( isset ($_POST['view']  ) ) {
+if ( isset ($_GET['view']  ) ) {
 
   $hid=new IHidden();
 
@@ -132,21 +148,26 @@ if ( isset ($_POST['view']  ) ) {
 	dossier::hidden().
     HtmlInput::submit('bt_pdf',"Export PDF").
     HtmlInput::hidden("p_action","impress").
-    HtmlInput::hidden("from_periode",$_POST['from_periode']).
-    HtmlInput::hidden("to_periode",$_POST['to_periode']).
-    HtmlInput::hidden("p_jrn",$_POST['p_jrn']).
-    HtmlInput::hidden("from_poste",$_POST['from_poste']).
-    HtmlInput::hidden("to_poste",$_POST['to_poste']);
+    HtmlInput::hidden("from_periode",$_GET['from_periode']).
+    HtmlInput::hidden("to_periode",$_GET['to_periode']);
+  for ($e=0;$e<count($array_ledger);$e++) 
+    if (isset($selected[$e]))
+      echo    HtmlInput::hidden("r_jrn[]",$e);
+    echo HtmlInput::hidden("from_poste",$_GET['from_poste']).
+    HtmlInput::hidden("to_poste",$_GET['to_poste']);
   echo "</form></TD>";
+
   echo '<TD><form method="GET" ACTION="bal_csv.php">'.
     HtmlInput::submit('bt_csv',"Export CSV").
 	dossier::hidden().
     HtmlInput::hidden("p_action","impress").
-    HtmlInput::hidden("from_periode",$_POST['from_periode']).
-    HtmlInput::hidden("to_periode",$_POST['to_periode']).
-    HtmlInput::hidden("p_jrn",$_POST['p_jrn']).
-    HtmlInput::hidden("from_poste",$_POST['from_poste']).
-    HtmlInput::hidden("to_poste",$_POST['to_poste']);
+    HtmlInput::hidden("from_periode",$_GET['from_periode']).
+    HtmlInput::hidden("to_periode",$_GET['to_periode']);
+    for ($e=0;$e<count($array_ledger);$e++) 
+      if (isset($selected[$e]))
+	echo    HtmlInput::hidden("r_jrn[]",$e);
+    echo   HtmlInput::hidden("from_poste",$_GET['from_poste']).
+    HtmlInput::hidden("to_poste",$_GET['to_poste']);
 
   echo "</form></TD>";
 
@@ -159,17 +180,20 @@ if ( isset ($_POST['view']  ) ) {
 //-----------------------------------------------------
 // Display result
 //-----------------------------------------------------
-if ( isset($_POST['view'] ) ) {
+if ( isset($_GET['view'] ) ) {
   $bal=new Acc_Balance($cn);
-  $bal->jrn=$_POST['p_jrn'];  
-  $bal->from_poste=$_POST['from_poste'];
-  $bal->to_poste=$_POST['to_poste'];
+  for ($e=0;$e<count($array_ledger);$e++) 
+    if (isset($selected[$e]))
+      $bal->jrn[]=$e;
 
-  $row=$bal->get_row($_POST['from_periode'],
-		  $_POST['to_periode']);
+  $bal->from_poste=$_GET['from_poste'];
+  $bal->to_poste=$_GET['to_poste'];
+
+  $row=$bal->get_row($_GET['from_periode'],
+		  $_GET['to_periode']);
   $periode=new Periode($cn);
-  $a=$periode->get_date_limit($_POST['from_periode']);
-  $b=$periode->get_date_limit($_POST['to_periode']);
+  $a=$periode->get_date_limit($_GET['from_periode']);
+  $b=$periode->get_date_limit($_GET['to_periode']);
   echo "<h2 class=\"info\"> période du ".$a['p_start']." au ".$b['p_end']."</h2>";
 
   echo '<table width="100%">';  

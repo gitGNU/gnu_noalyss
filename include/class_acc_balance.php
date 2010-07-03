@@ -29,13 +29,12 @@ require_once('class_acc_account.php');
 class Acc_Balance {
   var $db;       /*! < database connection */
   var $row;     /*! < row for ledger*/
-  var $jrn;						/*!< jrn_def.jr_id or -1 for all of
-								  them */
+  var $jrn;						/*!< idx of a table of ledger create by user->get_ledger */
   var $from_poste;				/*!< from_poste  filter on the post */
   var $to_poste;				/*!< to_poste filter on the post*/
   function Acc_Balance($p_cn) {
     $this->db=$p_cn;
-    $this->jrn=-1;
+    $this->jrn=null;
     $from_poste="";
     $to_poste="";
   }
@@ -63,8 +62,19 @@ class Acc_Balance {
 
     $and=""; $jrn="";
     $from_poste="";$to_poste="";
+    if ($this->jrn!= null){	  
+      $user=new User($this->db);
+      $ajrn=$user->get_ledger('ALL',3);
+      $jrn="  j_jrn_def in (";$comma='';
+      for ($e=0;$e<count($this->jrn);$e++) {
+	$idx=$this->jrn[$e];
+	$jrn.=$comma.$ajrn[$idx]['jrn_def_id'];
+	$comma=',';
+      }
+      $jrn.=')';
+      $and=" and ";
+    }
 
-    if ($this->jrn!= -1){	  $jrn=" $and  j_jrn_def=".$this->jrn;$and=" and ";}
     if ( strlen(trim($this->from_poste)) != 0 && $this->from_poste!=-1  ) {
       $from_poste=" $and j_poste::text >= '".$this->from_poste."'"; $and=" and ";
     }
@@ -79,9 +89,9 @@ class Acc_Balance {
           ( select j_poste,
              case when j_debit='t' then j_montant else 0 end as deb,
              case when j_debit='f' then j_montant else 0 end as cred
-             from jrnx join tmp_pcmn on j_poste=pcm_val
-                  left join parm_periode on j_tech_per = p_id
-join jrn_def on (j_jrn_def=jrn_def_id)
+             from jrnx join tmp_pcmn on (j_poste=pcm_val)
+                  left join parm_periode on (j_tech_per = p_id)
+                   join jrn_def on (j_jrn_def=jrn_def_id)
               where 
               $jrn $from_poste $to_poste
 $and $filter_sql
