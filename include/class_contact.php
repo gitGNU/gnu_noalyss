@@ -29,14 +29,14 @@ require_once("user_common.php");
  * \brief Class contact (customer, supplier...)
  */
 
-class contact extends fiche
+class contact extends Fiche
 {
   var $company; /*!< $company company of the contact (ad_id=ATTR_DEF_COMPANY)*/
   /*!\brief constructor */
   function contact($p_cn,$p_id=0)
     {
       $this->fiche_def_ref=FICHE_TYPE_CONTACT;
-      fiche::fiche($p_cn,$p_id) ;
+      parent::__construct($p_cn,$p_id) ;
       $this->company="";
     }
 /*!   Summary
@@ -107,7 +107,7 @@ $back_url=urlencode($_SERVER['REQUEST_URI']);
 	return $r;
       echo JS_LEDGER;
       foreach ($step_contact as $contact ) {
-	$l_company=new fiche($this->cn);
+	$l_company=new Fiche($this->cn);
 	$l_company->get_by_qcode($contact->strAttribut(ATTR_DEF_COMPANY),false);
 	$l_company_name=$l_company->strAttribut(ATTR_DEF_NAME);
 	if ( $l_company_name == '- ERROR -' ) $l_company_name="";

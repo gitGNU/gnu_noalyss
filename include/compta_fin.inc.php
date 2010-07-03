@@ -231,7 +231,7 @@ if ( $def == 2) {
 if ( $def==3) {
   require_once ('class_acc_parm_code.php');
   echo '<div class="content">';
-  $fiche=new fiche_def($cn);
+  $fiche=new Fiche_Def($cn);
   $array=$fiche->get_by_category(FICHE_TYPE_FIN);
 
   echo '<div class="content">';

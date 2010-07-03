@@ -372,7 +372,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
     $tot_cred=0;
     $row=Database::fetch_all($Res);
     for ($i=0;$i<$Max;$i++) {
-      $fiche=new fiche($this->db);
+      $fiche=new Fiche($this->db);
       $line=$row[$i];
       $mont_deb=($line['deb_montant']!=0)?sprintf("% 8.2f",$line['deb_montant']):"";
       $mont_cred=($line['cred_montant']!=0)?sprintf("% 8.2f",$line['cred_montant']):"";
@@ -399,7 +399,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 	    if ( $row[$e]['grp'] != $case ) continue;
 	    if ( strlen(trim($row[$e]['j_qcode'])) == 0 ) continue;
 
-	    $f=new fiche($this->db);
+	    $f=new Fiche($this->db);
 	    $f->get_by_qcode($row[$e]['j_qcode'],false);
 	    if ( $f->get_fiche_def_ref_id() == FICHE_TYPE_FIN ) {
 	      $tot_op=($row[$e]['debit'] == 't')?$jr_montant:" - ".$jr_montant;
@@ -915,7 +915,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
       // if card retrieve name if the account is not a VAT account
       if ( strlen(trim($code['j_qcode'] )) != 0 && $poste->isTva() == 0 )
 	{
-	  $fiche=new fiche($this->db);
+	  $fiche=new Fiche($this->db);
 	  $fiche->get_by_qcode(trim($code['j_qcode']),false);
 	  $fiche_def_id=$fiche->get_fiche_def_ref_id();
 	  // Customer or supplier
@@ -1241,7 +1241,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
     for ($i=0;$i<$nb_item;$i++) {
       $ret.="<tr>";
       if ( trim(${'qc_'.$i})!="") {
-	$oqc=new fiche($this->db);
+	$oqc=new Fiche($this->db);
 	$oqc->get_by_qcode(${'qc_'.$i},false);
 	$strPoste=$oqc->strAttribut(ATTR_DEF_ACCOUNT);
 	$ret.="<td>".
@@ -1443,7 +1443,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 
       $label='';
       if ( $quick_code->value != '' ) {
-	$Fiche=new fiche($this->db);
+	$Fiche=new Fiche($this->db);
 	$Fiche->get_by_qcode($quick_code->value);
 	$label=$Fiche->strAttribut(ATTR_DEF_NAME);
       }
@@ -1590,7 +1590,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 
 	// Check if the card is permitted
 	if ( isset (${'qc_'.$i}) && trim(${'qc_'.$i}) !="") {
-	  $f=new fiche($this->db);
+	  $f=new Fiche($this->db);
 	  $f->quick_code=${'qc_'.$i};
 	  if ( $f->belong_ledger($p_jrn) < 0 )
 	    throw new Exception("La fiche quick_code = ".
@@ -1681,7 +1681,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 	  $quick_code="";
 	  // First we save the jrnx
 	  if ( isset(${'qc_'.$i})) {
-	    $qc=new fiche($this->db);
+	    $qc=new Fiche($this->db);
 	    $qc->get_by_qcode(${'qc_'.$i},false);
 	    $sposte=$qc->strAttribut(ATTR_DEF_ACCOUNT);
 	    /*  if there are 2 accounts take following the deb or cred */
@@ -1979,7 +1979,7 @@ function get_last_date()
     /*   Check if the "paid by" is empty, */
     if (  $e_mp != 0) {
     /* the paid by is not empty then check if valid */
-      $empl=new fiche($this->db);
+      $empl=new Fiche($this->db);
       $empl->get_by_qcode($e_mp_qcode);
       if ( $empl->empty_attribute(ATTR_DEF_ACCOUNT)== true) {
 	throw new Exception('Celui qui paie n\' a pas de poste comptable',20);

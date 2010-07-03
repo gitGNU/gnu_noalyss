@@ -35,7 +35,7 @@ require_once('user_common.php');
 
 // Use the view vw_supplier
 // 
-class Admin extends fiche{
+class Admin extends Fiche{
 
   var $name;        /*!< $name name of the company */
   var $street;      /*!< $street Street */
@@ -47,8 +47,7 @@ class Admin extends fiche{
   /* only a db connection is needed */
   function Admin($p_cn,$p_id=0) {
       $this->fiche_def_ref=FICHE_TYPE_ADM_TAX;
-      fiche::fiche($p_cn,$p_id) ;
-
+      parent::__construct($p_cn,$p_id) ;
   }
 
 

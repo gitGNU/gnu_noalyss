@@ -268,7 +268,7 @@ class Action
       // f_id_dest sender
       if ( $this->qcode_dest != '- ERROR -' && strlen(trim($this->qcode_dest)) != 0)
 	{
-	  $tiers=new fiche($this->db);
+	  $tiers=new Fiche($this->db);
 	  $tiers->get_by_qcode($this->qcode_dest);
 	  $qcode_dest_label=$tiers->strAttribut(1);
 	  $this->f_id_dest=$tiers->id;
@@ -555,7 +555,7 @@ class Action
 	  $this->ag_state=$row[0]['ag_state'];
 	}
       $this->dt_id=$this->ag_type;
-      $aexp=new fiche($this->db,$this->f_id_dest);
+      $aexp=new Fiche($this->db,$this->f_id_dest);
       $this->qcode_dest=$aexp->strAttribut(ATTR_DEF_QUICKCODE);
   
   }
@@ -576,10 +576,10 @@ class Action
       $add_file='';
 
       // f_id exp
-      $exp=new fiche($this->db);
+      $exp=new Fiche($this->db);
       $exp->get_by_qcode($this->qcode_dest);
 
-      $contact=new fiche($this->db);
+      $contact=new Fiche($this->db);
       $contact->get_by_qcode($this->ag_contact);
 
       if ( trim($this->ag_title) == "") 
@@ -819,7 +819,7 @@ class Action
 	  $r.="<td>".$href.$row['my_date'].'</a>'."</td>";
 
 	  // Expediteur
-	  $fexp=new fiche($this->db);
+	  $fexp=new Fiche($this->db);
 	  $fexp->id=$row['f_id_dest'];
 	  $qcode_dest=$fexp->strAttribut(ATTR_DEF_QUICKCODE);
 
@@ -885,14 +885,14 @@ class Action
 	}
       else
 	{
-	  $tiers=new fiche($this->db);
+	  $tiers=new Fiche($this->db);
 	  if ( $tiers->get_by_qcode($this->qcode_dest) == -1 ) // Error we cannot retrieve this qcode
 	    return false; 
 	  else
 	    $this->f_id_dest=$tiers->id;
 
 	}
-      $contact=new fiche($this->db);
+      $contact=new Fiche($this->db);
       if ( $contact->get_by_qcode($this->ag_contact) == -1 ) 
 	$contact->id=0;
 

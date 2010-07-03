@@ -132,7 +132,7 @@ if ( isset($_POST['add_modele'])    )
   {
     $User->can_request(FICCAT);
     // insert the model of card in database
-    $fiche_def=new fiche_def($cn);
+    $fiche_def=new Fiche_Def($cn);
     $fiche_def->Add($_POST);
   }
 $r="";
@@ -140,7 +140,7 @@ $r="";
 if ( isset ($_POST['remove_cat'] )  ) {
     $User->can_request(FICCAT);
 
-  $fd_id=new fiche_def($cn,$_POST['fd_id']);
+  $fd_id=new Fiche_Def($cn,$_POST['fd_id']);
   $remains=$fd_id->remove();
   if ( $remains != 0 ) 
     /* some card are not removed because it is used */
@@ -156,7 +156,7 @@ if ( isset ($_POST["add_line"])  ) {
     $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
   else
     {
-      $fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
+      $fiche_def=new Fiche_Def($cn,$_REQUEST['fd_id']);
       // Insert Line
       $fiche_def->InsertAttribut($_REQUEST['ad_id']);
 		
@@ -172,14 +172,14 @@ if ( isset ($_POST["add_line"])  ) {
 
 if ( isset($_POST['save_line'])) {
   $User->can_request(FICCAT);
-  $fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
+  $fiche_def=new Fiche_Def($cn,$_REQUEST['fd_id']);
   $fiche_def->save_order($_POST);
   $r= '<DIV class="u_redcontent">';
   if ( $write ==0)  
     $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
   else
     {
-      $fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
+      $fiche_def=new Fiche_Def($cn,$_REQUEST['fd_id']);
       // Insert Line
       $r.=ShowFicheDefInput($fiche_def);
 
@@ -197,7 +197,7 @@ if ( isset ($_POST['remove_line'])   )
       $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
     else
       {
-	$fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
+	$fiche_def=new Fiche_Def($cn,$_REQUEST['fd_id']);
 	// Insert Line
 	// demander confirmation 
 
@@ -216,7 +216,7 @@ if ( isset ($_POST["change_name"] )   ) {
     $r.= "<h2 class=\"error\"> "._("Pas d'accès")." </h2>";
   else
     {
-      $fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
+      $fiche_def=new Fiche_Def($cn,$_REQUEST['fd_id']);
       $r.=ShowFicheDefInput($fiche_def);
     }
   $r.= '</DIV>';
@@ -242,7 +242,7 @@ if ( isset ( $_GET["action"]) ) {
      $User->can_request(FICADD);
 
     echo '<DIV class="u_redcontent">';
-    $fiche_def=new fiche_def($cn,$_GET['fiche']);
+    $fiche_def=new Fiche_Def($cn,$_GET['fiche']);
     $fiche_def->myList();
 
     echo '</DIV>';
@@ -260,9 +260,9 @@ if ( isset ( $_GET["action"]) ) {
 	$t=true;
       }
     $str="&".dossier::get();
-    $fiche=new fiche($cn,$_GET["fiche_id"]);
+    $fiche=new Fiche($cn,$_GET["fiche_id"]);
     $fiche->get_categorie();
-    $fiche_def=new fiche_def($cn,$fiche->fd_id);
+    $fiche_def=new Fiche_Def($cn,$fiche->fd_id);
     $fiche_def->Get();
     echo '<h2 class="info">'.$fiche_def->label.'</h2>';
 
@@ -307,7 +307,7 @@ if ( isset ( $_GET["action"]) ) {
     $User->can_request(FICCAT);
     echo '<DIV class="u_redcontent">';
     echo '<form method="post">';
-    $oFiche_Def=new fiche_def($cn);	
+    $oFiche_Def=new Fiche_Def($cn);	
     echo HtmlInput::hidden("p_action","fiche");
     echo dossier::hidden();
     echo $oFiche_Def->input(); //    CreateCategory($cn,$search);
@@ -322,7 +322,7 @@ if ( isset ( $_GET["action"]) ) {
   if ($action == "modifier" ) {
     $User->can_request(FICCAT);
     echo '<DIV class="u_redcontent">';
-    $fiche_def=new fiche_def($cn,$_GET['fiche']);
+    $fiche_def=new Fiche_Def($cn,$_GET['fiche']);
     
     echo ShowFicheDefInput($fiche_def);
     echo '</DIV>';
@@ -345,7 +345,7 @@ if ( isset ( $_GET["action"]) ) {
 	  echo '<DIV class="u_redcontent">';
 	  echo "Résultat : ".sizeof($all).'éléments trouvés <br>';
 	  foreach ($all as $f_id){
-	    $fiche=new fiche($cn,$f_id['f_id']);
+	    $fiche=new Fiche($cn,$f_id['f_id']);
 	    echo '<A class="mtitle" href="?p_action=fiche&'.$str_dossier.'&action=detail&fiche_id='.$f_id['f_id'].
 	      '&fiche='.$f_id['fd_id'].'">'.
 	      $fiche->getName().'</A><br>';
@@ -372,11 +372,11 @@ if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) ) {
     echo "<h2 class=\"error\"> Pas d'accès </h2>";
   else
     {
-      $fiche_def=new fiche_def($cn,$_POST['fiche']);
+      $fiche_def=new Fiche_Def($cn,$_POST['fiche']);
       $fiche_def->Get();
       echo '<h2 class="info">'.$fiche_def->label.'</h2>';
       $url=$_SERVER['REQUEST_URI'];
-      $fiche=new fiche($cn,0);
+      $fiche=new Fiche($cn,0);
 		
       echo '<form method="post" action="'.$url.'&fiche='.$_POST['fiche'].'">';
       echo dossier::hidden();
@@ -401,10 +401,10 @@ if (isset($_POST['delete']) ) {
     echo "<h2 class=\"error\"> Pas d'accès </h2>";
   else
     {
-      $fiche=new fiche($cn,$_POST["f_id"]);
+      $fiche=new Fiche($cn,$_POST["f_id"]);
       $fiche->remove();
     }
-  $fiche_def=new fiche_def($cn,$_GET['fiche']);
+  $fiche_def=new Fiche_Def($cn,$_GET['fiche']);
   $fiche_def->myList();
 
   echo "</DIV>";
@@ -422,9 +422,9 @@ if ( isset ($_POST["add_fiche"]) ) {
     {
       ShowRecherche();
       echo '<DIV class="u_redcontent">';
-      $fiche=new fiche($cn);
+      $fiche=new Fiche($cn);
       $fiche->Save($_REQUEST['fiche']);
-      $fiche_def=new fiche_def($cn,$_GET['fiche']);
+      $fiche_def=new Fiche_Def($cn,$_GET['fiche']);
       $fiche_def->myList();
 
 	
@@ -441,11 +441,11 @@ if ( isset ($_POST["update_fiche"])  ) {
     echo "<h2 class=\"error\"> Pas d'accès </h2>";
   else
     {
-      $fiche=new fiche($cn,$_POST['f_id']);
+      $fiche=new Fiche($cn,$_POST['f_id']);
       $fiche->Save();
 
     }
-  $fiche_def=new fiche_def($cn,$_GET['fiche']);
+  $fiche_def=new Fiche_Def($cn,$_GET['fiche']);
   $fiche_def->myList();
 
 
@@ -461,7 +461,7 @@ if ( isset($_POST['move'])){
   echo '<DIV class="u_redcontent">';
   $fiche=new Fiche($cn,$_POST['f_id']);
   $fiche->move_to($_POST['move_to']);
-  $fiche_def=new fiche_def($cn,$_GET['fiche']);
+  $fiche_def=new Fiche_Def($cn,$_GET['fiche']);
   $fiche_def->myList();
   echo '</div>';
 }

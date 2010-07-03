@@ -34,7 +34,7 @@ require_once('user_common.php');
 
 // Use the view vw_customer
 // 
-class Customer extends fiche{
+class Customer extends Fiche{
 
   var $poste;      /*!<  $poste poste comptable */
   var $name;        /*!<  $name name of the company */
@@ -47,7 +47,7 @@ class Customer extends fiche{
   /* only a db connection is needed */
   function Customer($p_cn,$p_id=0) {
       $this->fiche_def_ref=FICHE_TYPE_CLIENT;
-      fiche::fiche($p_cn,$p_id) ;
+      parent::__construct($p_cn,$p_id) ;
 
   }
   /*! \brief  Get all info contains in the view

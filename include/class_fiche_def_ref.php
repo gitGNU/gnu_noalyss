@@ -58,7 +58,7 @@ class Fiche_Def_Ref
       $array=array();
       foreach ($all as $row) 
 	{
-	  $o=new fiche_def_ref($this->db);
+	  $o=new Fiche_Def_Ref($this->db);
 
 	  foreach (  $this->attribut as  $value)
 	    {

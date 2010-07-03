@@ -40,8 +40,8 @@ $User->can_request(IMPFIC,0);
 
 
 if  ( isset ($_GET['fd_id'])) {
-  $fiche_def=new fiche_def($cn,$_GET ['fd_id']);
-  $fiche=new fiche($cn);
+  $fiche_def=new Fiche_Def($cn,$_GET ['fd_id']);
+  $fiche=new Fiche($cn);
   $e=$fiche_def->GetByType();
   $o=0;
   //  Heading

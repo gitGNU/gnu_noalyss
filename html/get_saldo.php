@@ -47,7 +47,7 @@ if ( $user->check_jrn($_GET['j'])=='X' ) return '{"saldo":"0"}';
 $filter_year="  j_tech_per in (select p_id from parm_periode ".
   "where p_exercice='".$user->get_exercice()."')";
 
-$acc=new fiche($cn);
+$acc=new Fiche($cn);
 $acc->get_by_qcode($_GET['ctl'],false);
 
 if ( $acc->belong_ledger($_GET['j']) == -1 )

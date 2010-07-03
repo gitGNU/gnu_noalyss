@@ -59,7 +59,7 @@ default:
   $def=1;
   $ss_action='dc';
 }
-$f=new fiche($cn,$_REQUEST['f_id']);
+$f=new Fiche($cn,$_REQUEST['f_id']);
 
 echo '<div class="u_subtmenu">';
 echo ShowItem(array(
@@ -105,7 +105,7 @@ if ( $ss_action == 'op') {
 if ( $ss_action == 'cn') {
   echo '<div class="content">';
   echo dossier::hidden();
-  $f=new fiche($cn,$_REQUEST['f_id']);
+  $f=new Fiche($cn,$_REQUEST['f_id']);
   $contact=new Contact($cn);
   $contact->company=$f->get_quick_code();
   echo $contact->summary("");

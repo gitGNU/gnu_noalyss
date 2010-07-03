@@ -303,7 +303,7 @@ class Acc_Payment
 	  /* if the qcode is not null then add a hidden variable with
 	     the qcode */
 
-	  $fiche=new fiche($this->cn);
+	  $fiche=new Fiche($this->cn);
 	  $fiche->get_by_qcode($row->mp_qcode);
 	  $f=HtmlInput::hidden('e_mp_qcode_'.$row->mp_id,$row->mp_qcode);
 

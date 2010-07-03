@@ -150,7 +150,7 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
     {
       require_once("class_fiche.php");
       // thanks the qcode we found the poste account
-      $fiche=new fiche($cn);
+      $fiche=new Fiche($cn);
       $qcode=$fiche->get_by_qcode($_GET['f_id']);
       $p=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
       if ( $p != "- ERROR -") {

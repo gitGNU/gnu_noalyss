@@ -106,7 +106,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     }
 
 
-    $fiche=new fiche($this->db);
+    $fiche=new Fiche($this->db);
     $fiche->get_by_qcode($e_client);
     if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
       throw new Exception(_('La fiche ').$e_client._('n\'a pas de poste comptable'),8);
@@ -129,7 +129,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     }
 
     /* Check if the card belong to the ledger */
-    $fiche=new fiche ($this->db);
+    $fiche=new Fiche ($this->db);
     $fiche->get_by_qcode($e_client,'deb');
     if ( $fiche->belong_ledger($p_jrn) !=1 )
 	throw new Exception(_('La fiche ').$e_client._('n\'est pas accessible à ce journal'),10);
@@ -148,7 +148,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	throw new Exception(_('La fiche ').${'e_march'.$i}._('a une quantité invalide [').${'e_quant'.$i}.']',7);
 
       /* check if all card has a ATTR_DEF_ACCOUNT*/
-      $fiche=new fiche($this->db);
+      $fiche=new Fiche($this->db);
       $fiche->get_by_qcode(${'e_march'.$i});
       if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
 	throw new Exception(_('La fiche ').${'e_march'.$i}._('n\'a pas de poste comptable'),8);
@@ -178,7 +178,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	throw new Exception(_('Pour la fiche ').${'e_march'.$i}._(' le poste comptable [').$poste->id._('n\'existe pas'),9);
       }
       /* Check if the card belong to the ledger */
-      $fiche=new fiche ($this->db);
+      $fiche=new Fiche ($this->db);
       $fiche->get_by_qcode(${'e_march'.$i});
       if ( $fiche->belong_ledger($p_jrn,'cred') !=1 )
 	throw new Exception(_('La fiche ').${'e_march'.$i}._('n\'est pas accessible à ce journal'),10);
@@ -224,7 +224,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     else
       $tperiode=$oPeriode->find_periode($e_date);
 
-    $cust=new fiche($this->db);
+    $cust=new Fiche($this->db);
     $cust->get_by_qcode($e_client);
     $sposte=$cust->strAttribut(ATTR_DEF_ACCOUNT);
 
@@ -250,7 +250,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	if ( ${'e_quant'.$i} == 0 ) continue;
 
 	/* First we save all the items without vat */
-	$fiche=new fiche($this->db);
+	$fiche=new Fiche($this->db);
 	$fiche->get_by_qcode(${"e_march".$i});
 	$amount=bcmul(${'e_march'.$i.'_price'},${'e_quant'.$i});
 	$tot_amount+=$amount;
@@ -432,7 +432,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
       /* fiche */
       $fqcode=${'e_mp_qcode_'.$e_mp};
-      $acfiche = new fiche($this->db);
+      $acfiche = new Fiche($this->db);
       $acfiche->get_by_qcode($fqcode);
 
       /* jrnx */
@@ -537,7 +537,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $owner = new Own($this->db);
 
     bcscale(4);
-    $client=new fiche($this->db);
+    $client=new Fiche($this->db);
     $client->get_by_qcode($e_client,true);
 
     $client_name=$client->getName().
@@ -602,7 +602,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       if ( strlen(trim(${"e_march".$i})) == 0 ) continue;
 
       /* retrieve information for card */
-      $fiche=new fiche($this->db);
+      $fiche=new Fiche($this->db);
       $fiche->get_by_qcode(${"e_march".$i});
       $fiche_name=h($fiche->getName());
       if ( $owner->MY_TVA_USE=='Y') {
@@ -971,7 +971,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     //--
 
     if ( strlen(trim($e_client)) !=  0)   {
-      $fClient=new fiche($this->db);
+      $fClient=new Fiche($this->db);
       $fClient->get_by_qcode($e_client);
       $e_client_label=$fClient->strAttribut(ATTR_DEF_NAME).' '.
 	' Adresse : '.$fClient->strAttribut(ATTR_DEF_ADRESS).' '.
@@ -1032,7 +1032,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       // retrieve the tva label and name
       //--
       if ( strlen(trim($march))!=0 ) {
-	$fMarch=new fiche($this->db);
+	$fMarch=new Fiche($this->db);
 	$fMarch->get_by_qcode($march);
 	$march_label=$fMarch->strAttribut(ATTR_DEF_NAME);
 	if ( $flag_tva=='Y') {

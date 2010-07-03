@@ -46,7 +46,7 @@ class Fiche_Def {
     $this->cn=$p_cn;
     $this->id=$p_id;
   }
-/*!\brief show the content of the form to create  a new fiche_def_ref
+/*!\brief show the content of the form to create  a new Fiche_Def_Ref
 */
 function input () 
 {
@@ -122,7 +122,7 @@ function input ()
 
     for ( $i = 0; $i < $Max;$i++) {
       $row=Database::fetch_array($Ret,$i);
-      $this->all[$i]=new fiche_def($this->cn,$row['fd_id']);
+      $this->all[$i]=new Fiche_Def($this->cn,$row['fd_id']);
       $this->all[$i]->label=$row['fd_label'];
       $this->all[$i]->class_base=$row['fd_class_base'];
       $this->all[$i]->fiche_def=$row['frd_id'];
@@ -184,7 +184,7 @@ function input ()
        alert (_('Vous devez choisir une categorie'));
        return;
      }
-     $fiche_Def_ref=new fiche_def_ref($this->cn,$p_FICHE_REF);
+     $fiche_Def_ref=new Fiche_Def_Ref($this->cn,$p_FICHE_REF);
      $fiche_Def_ref->Get();
      // build the sql request for fiche_def
      // and insert into fiche_def
@@ -287,11 +287,11 @@ function input ()
     $Ret=$this->cn->exec_sql($sql);
     if ( ($Max=Database::num_row($Ret)) == 0 )
       return ;
-    $all[0]=new fiche($this->cn);
+    $all[0]=new Fiche($this->cn);
 
     for ($i=0;$i<$Max;$i++) {
       $row=Database::fetch_array($Ret,$i);
-      $t=new fiche($this->cn,$row['f_id']);
+      $t=new Fiche($this->cn,$row['f_id']);
       $t->getAttribut();
       $all[$i]=$t;
 
@@ -311,11 +311,11 @@ function input ()
     $Ret=$this->cn->exec_sql($sql,array($p_cat));
     if ( ($Max=Database::num_row($Ret)) == 0 )
       return null;
-    $all[0]=new fiche($this->cn);
+    $all[0]=new Fiche($this->cn);
 
     for ($i=0;$i<$Max;$i++) {
       $row=Database::fetch_array($Ret,$i);
-      $t=new fiche($this->cn,$row['f_id']);
+      $t=new Fiche($this->cn,$row['f_id']);
       $t->getAttribut();
       $all[$i]=$t;
 

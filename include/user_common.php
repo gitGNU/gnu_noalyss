@@ -53,7 +53,7 @@ function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
 {
 
   // Retrieve the good account for stock
-  $code=new fiche($p_cn);
+  $code=new Fiche($p_cn);
   $code->get_by_qcode($p_good);
   $code_marchandise=$code->strAttribut(ATTR_DEF_STOCK);
   $p_good=FormatString($p_good);

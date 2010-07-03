@@ -132,7 +132,7 @@ class Fiche {
       $t->jnt_order=$row['jnt_order'];
       $this->attribut[$i]=$t;
     }
-    $e=new Fiche_def($this->cn,$this->fiche_def);
+    $e=new Fiche_Def($this->cn,$this->fiche_def);
     $e->GetAttribut();
 
     if ( sizeof($this->attribut) != sizeof($e->attribut ) ) {
@@ -255,11 +255,11 @@ class Fiche {
     $Ret=$this->cn->exec_sql($sql);
     if ( ($Max=Database::num_row($Ret)) == 0 )
       return ;
-    $all[0]=new fiche($this->cn);
+    $all[0]=new Fiche($this->cn);
 
     for ($i=0;$i<$Max;$i++) {
       $row=Database::fetch_array($Ret,$i);
-      $t=new fiche($this->cn,$row['f_id']);
+      $t=new Fiche($this->cn,$row['f_id']);
       $t->getAttribut();
       $all[$i]=$t;
 
@@ -360,7 +360,7 @@ Array
   function blank($p_fiche_def)
     {
       // array = array of attribute object sorted on ad_id
-      $f=new fiche_def($this->cn,$p_fiche_def);
+      $f=new Fiche_Def($this->cn,$p_fiche_def);
       $f->Get();
       $array=$f->getAttribut();
       $r='<table>';
@@ -814,7 +814,7 @@ av_text1=>'name'
        // if the card has its own account in PCMN
        // Get the fiche_def.fd_id from fiche.f_id
        $this->Get();
-       $fiche_def=new fiche_def($this->cn,$this->fiche_def);
+       $fiche_def=new Fiche_Def($this->cn,$this->fiche_def);
        $fiche_def->Get();
 
        // if the card is used do not removed it
@@ -1398,7 +1398,7 @@ static function get_fiche_def($p_cn,$pFd_id,$p_order='') {
   $array=$p_cn->get_array($sql,array($pFd_id));
   if ( empty ($array) ) return null;
   foreach ($array as $ret ) {
-    $r[]=new fiche($p_cn,$ret['f_id']);
+    $r[]=new Fiche($p_cn,$ret['f_id']);
   }
   return $r;
 }

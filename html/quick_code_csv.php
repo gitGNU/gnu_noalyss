@@ -37,7 +37,7 @@ $cn=new Database($gDossier);
 $User=new User($cn);
 $User->Check();
 
-$Fiche=new fiche($cn,$_REQUEST['f_id']);
+$Fiche=new Fiche($cn,$_REQUEST['f_id']);
 $Fiche->getName();
 list($array,$tot_deb,$tot_cred)=$Fiche->get_row_date( 
 					       $_GET['from_periode'],

@@ -329,7 +329,7 @@ function deprecated_ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	{
 	  $r.='</table>';
 	  $r.='<table width="100%">';
-	  $client=new fiche($p_cn,$content['qp_supplier']);
+	  $client=new Fiche($p_cn,$content['qp_supplier']);
 	  $r.="Client : ".$client->getName();
 
 	  /* now we get the different lines for this operation thanks */
@@ -364,7 +364,7 @@ function deprecated_ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	  $i_march=0;
 	  foreach ($array as $row) {
 
-		$fiche=new fiche($p_cn,$row->qp_fiche);
+		$fiche=new Fiche($p_cn,$row->qp_fiche);
 		// compute sum
 		$tot_tva+=$row->qp_vat;
 		$tot_nd+=$row->qp_nd_amount;
@@ -450,7 +450,7 @@ function deprecated_ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   // for selling ledger
   if ( $content['jrn_def_type'] == 'VEN' )
 	{
-	  $client=new fiche($p_cn,$content['qs_client']);
+	  $client=new Fiche($p_cn,$content['qs_client']);
 	  $r.="Client : ".$client->getName();
 
 	  /* now we get the different lines for this operation thanks */
@@ -478,7 +478,7 @@ function deprecated_ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	  $i=0;
 	  $i_march=0;
 	  foreach ($array as $row) {
-	    $fiche=new fiche($p_cn,$row->qs_fiche);
+	    $fiche=new Fiche($p_cn,$row->qs_fiche);
 	    $tot_tva+=$row->qs_vat;
 	    $tot_amount+=$row->qs_price;
 	    $r.=($i%2==0)?"<tr class=\"odd\">":'<tr>';		$i++;
@@ -668,7 +668,7 @@ function deprecated_get_dataJrnJrId ($p_cn,$p_jr_id) {
     //
     if ( strlen( $line['j_qcode']) != 0 )
       {
-		$fiche=new fiche($p_cn);
+		$fiche=new Fiche($p_cn);
 		$fiche->get_by_qcode($line['j_qcode']);
 
 		$array['vw_name']=$fiche->getName();
@@ -752,7 +752,7 @@ function deprecated_get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
     //
     if ( strlen( $line['j_qcode']) != 0 )
       {
-		$fiche=new fiche($p_cn);
+		$fiche=new Fiche($p_cn);
 		$fiche->get_by_qcode($line['j_qcode']);
 
 		$array['vw_name']=$fiche->getName();

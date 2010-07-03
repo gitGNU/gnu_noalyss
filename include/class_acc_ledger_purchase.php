@@ -105,7 +105,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     }
 
     /* check the account */
-    $fiche=new fiche($this->db);
+    $fiche=new Fiche($this->db);
     $fiche->get_by_qcode($e_client);
 
     if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
@@ -127,7 +127,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       throw new Exception(_('Pour la fiche ').$e_client._(' le poste comptable [').$poste->id.'] '._('n\'existe pas'),9);
     }
     /* Check if the card belong to the ledger */
-    $fiche=new fiche ($this->db);
+    $fiche=new Fiche ($this->db);
     $fiche->get_by_qcode($e_client,'cred');
     if ( $fiche->belong_ledger($p_jrn) !=1 )
       throw new Exception(_('La fiche ').$e_client._('n\'est pas accessible à ce journal'),10);
@@ -162,7 +162,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	throw new Exception(_('La fiche ').${'e_march'.$i}._('a un code tva invalide').' ['.${'e_march'.$i.'_tva_id'}.']',13);
     }
     /* check if all card has a ATTR_DEF_ACCOUNT*/
-    $fiche=new fiche($this->db);
+    $fiche=new Fiche($this->db);
     $fiche->get_by_qcode(${'e_march'.$i});
     if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
 	throw new Exception(_('La fiche ').${'e_march'.$i}._('n\'a pas de poste comptable'),8);
@@ -183,7 +183,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	throw new Exception(_('Pour la fiche ').${'e_march'.$i}._(' le poste comptable').' ['.$poste->id._('n\'existe pas'),9);
       }
       /* Check if the card belong to the ledger */
-      $fiche=new fiche ($this->db);
+      $fiche=new Fiche ($this->db);
       $fiche->get_by_qcode(${'e_march'.$i});
       if ( $fiche->belong_ledger($p_jrn,'deb') !=1 )
 	throw new Exception(_('La fiche ').${'e_march'.$i}._('n\'est pas accessible à ce journal'),10);
@@ -263,7 +263,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $internal=$this->compute_internal_code($seq);
     $this->internal=$internal;
 
-    $cust=new fiche($this->db);
+    $cust=new Fiche($this->db);
     $cust->get_by_qcode($e_client);
     $sposte=$cust->strAttribut(ATTR_DEF_ACCOUNT);
     // if 2 accounts, take only the credit Supplier
@@ -300,7 +300,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	if ( ${'e_quant'.$i} == 0 ) continue;
 
 	/* First we save all the items without vat */
-	$fiche=new fiche($this->db);
+	$fiche=new Fiche($this->db);
 	$fiche->get_by_qcode(${"e_march".$i});
 
 	/* tva */
@@ -594,7 +594,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       else
 	$fqcode=$mp->get_parameter('qcode');
 
-      $acfiche = new fiche($this->db);
+      $acfiche = new Fiche($this->db);
       $acfiche->get_by_qcode($fqcode);
 
       /* jrnx */
@@ -849,7 +849,7 @@ array
     //--
 
     if ( strlen(trim($e_client)) !=  0)   {
-      $fClient=new fiche($this->db);
+      $fClient=new Fiche($this->db);
       $fClient->get_by_qcode($e_client);
       $e_client_label=$fClient->strAttribut(ATTR_DEF_NAME).' '.
 	' Adresse : '.$fClient->strAttribut(ATTR_DEF_ADRESS).' '.
@@ -911,7 +911,7 @@ array
       // retrieve the tva label and name
       //--
       if ( strlen(trim($march))!=0 ) {
-	$fMarch=new fiche($this->db);
+	$fMarch=new Fiche($this->db);
 	$fMarch->get_by_qcode($march);
 	$march_label=$fMarch->strAttribut(ATTR_DEF_NAME);
 	/* vat use */
@@ -1057,7 +1057,7 @@ array
     $owner = new Own($this->db);
 
     bcscale(4);
-    $client=new fiche($this->db);
+    $client=new Fiche($this->db);
     $client->get_by_qcode($e_client,true);
 
     $client_name=h($client->getName().
@@ -1129,7 +1129,7 @@ array
       if ( strlen(trim(${"e_march".$i})) == 0 ) continue;
 
       /* retrieve information for card */
-      $fiche=new fiche($this->db);
+      $fiche=new Fiche($this->db);
       $fiche->get_by_qcode(${"e_march".$i});
       $fiche_name=h($fiche->getName());
 

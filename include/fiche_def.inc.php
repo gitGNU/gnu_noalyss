@@ -28,14 +28,14 @@ echo '<div class="content">';
 // record change
 if ( isset ($_POST['confirm_mod'])) {
   extract ($_POST);
-  $update=new fiche_def_ref($cn);
+  $update=new Fiche_Def_Ref($cn);
   $update->frd_id=FormatString($frd_id);
   $update->frd_text=FormatString($frd_text);
   $update->frd_class_base=FormatString($frd_class_base);
   $update->Save();
 }
 // Load All Fiche_def
-$fiche_def=new fiche_def_ref($cn);
+$fiche_def=new Fiche_Def_Ref($cn);
 $all=$fiche_def->LoadAll();
 
 // Display Them
@@ -68,7 +68,7 @@ if ( isset ($_POST['mod']) )
   echo _("sinon le programme fonctionnera mal, ".
 	 "utiliser uniquement des chiffres pour la classe de base ou rien")."</font>";
 
-  $mod=new fiche_def_ref($cn);
+  $mod=new Fiche_Def_Ref($cn);
   $mod->frd_id=$idx;
   $mod->Get();
   echo '<form method="post">';

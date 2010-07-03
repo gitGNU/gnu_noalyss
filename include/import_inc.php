@@ -130,7 +130,7 @@ function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
     {
       $w->value=$p_val['poste_comptable'];
       $cn=new Database(dossier::id());
-      $f=new fiche($p_cn);
+      $f=new Fiche($p_cn);
       $f->get_by_qcode($p_val['poste_comptable']);
       $s->value=$f->strAttribut(ATTR_DEF_NAME);
   }
@@ -297,7 +297,7 @@ function TransferCSV($p_cn, $periode){
 	$jr_rapt=$val['jr_rapt'];
     
 	// Retrieve the account thx the quick code    
-	$f=new fiche($p_cn);
+	$f=new Fiche($p_cn);
 	$quick_code=$poste_comptable;
 	$f->get_by_qcode($poste_comptable,false);
 	$poste_comptable=$f->strAttribut(ATTR_DEF_ACCOUNT);

@@ -44,7 +44,7 @@ $pdf->AliasNbPages();
 $pdf->AddPage();
 
 
-$Fiche=new fiche($cn,$f_id);
+$Fiche=new Fiche($cn,$f_id);
 
 
 list($array,$tot_deb,$tot_cred)=$Fiche->get_row_date($from_periode,$to_periode);

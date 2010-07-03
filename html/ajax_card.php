@@ -81,7 +81,7 @@ switch($op) {
   /* ------------------------------------------------------------ */
 
 case 'dc':
-   $f=new fiche($cn);
+   $f=new Fiche($cn);
    $f->get_by_qcode($qcode);
    $html=$f->Display(true);
   break;
@@ -184,7 +184,7 @@ case 'fs':
     $ledger=new Acc_Ledger($cn,$jrn);
     $type=$ledger->get_type();
   }
-  $fiche=new fiche($cn);
+  $fiche=new Fiche($cn);
   /* Build the SQL and show result */
   $sql=$fiche->build_sql($sql_array);
 
@@ -290,7 +290,7 @@ case 'scc':
 		   "nom_mod"=>$_POST['nom_mod'],
 		   "class_base"=>$_POST['class_base']);
       if ( isset ($_POST['create'])) $array['create']=1;
-      $catcard=new Fiche_def($cn);
+      $catcard=new Fiche_Def($cn);
       if ( $catcard->Add($array) == -1)
 	$html.="alert('"._('Catégorie existe déjà')."')";
       else

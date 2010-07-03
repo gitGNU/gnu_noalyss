@@ -30,7 +30,7 @@
  * - $ss_action
  */
 require_once('class_acc_ledger.php');
-$f=new fiche($cn,$_REQUEST['f_id']);
+$f=new Fiche($cn,$_REQUEST['f_id']);
 $qcode=$f->get_quick_code();
 $_GET['qcode']=$qcode;
 $_REQUEST['qcode']=$qcode;

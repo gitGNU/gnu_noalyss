@@ -95,7 +95,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 
 
 
-    $fiche=new fiche($this->db);
+    $fiche=new Fiche($this->db);
     $fiche->get_by_qcode($e_bank_account);
     if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
       throw new Exception('La fiche '.$e_bank_account.'n\'a pas de poste comptable',8);
@@ -118,7 +118,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     }
 
     /* Check if the card belong to the ledger */
-    $fiche=new fiche ($this->db);
+    $fiche=new Fiche ($this->db);
     $fiche->get_by_qcode($e_bank_account);
     if ( $fiche->belong_ledger($p_jrn,'deb') !=1 )
 	throw new Exception('La fiche '.$e_bank_account.'n\'est pas accessible à ce journal',10);
@@ -137,7 +137,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       /* compute the total */
       $tot_amount+=round(${'e_other'.$i.'_amount'},2);
       /* check if all card has a ATTR_DEF_ACCOUNT*/
-      $fiche=new fiche($this->db);
+      $fiche=new Fiche($this->db);
       $fiche->get_by_qcode(${'e_other'.$i});
       if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
 	throw new Exception('La fiche '.${'e_other'.$i}.'n\'a pas de poste comptable',8);
@@ -156,7 +156,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	throw new Exception('Pour la fiche '.${'e_other'.$i}.' le poste comptable ['.$poste->id.'n\'existe pas',9);
       }
       /* Check if the card belong to the ledger */
-      $fiche=new fiche ($this->db);
+      $fiche=new Fiche ($this->db);
       $fiche->get_by_qcode(${'e_other'.$i});
       if ( $fiche->belong_ledger($p_jrn,'cred') !=1 )
 	throw new Exception('La fiche '.${'e_other'.$i}.'n\'est pas accessible à ce journal',10);
@@ -261,7 +261,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 
     // retrieve e_bank_account_label
     if ( $e_bank_account != ""  ) {
-      $fBank=new fiche($this->db);
+      $fBank=new Fiche($this->db);
       $fBank->get_by_qcode($e_bank_account);
       $e_bank_account_label=$fBank->strAttribut(ATTR_DEF_NAME).' '.
 	' Adresse : '.$fBank->strAttribut(ATTR_DEF_ADRESS).' '.
@@ -330,7 +330,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       // If $tiers has a value
       if ( $tiers != ""  ) 
 	{
-	  $fTiers=new fiche($this->db);
+	  $fTiers=new Fiche($this->db);
 	  $fTiers->get_by_qcode($tiers);
 	
 	  $tiers_label=$fTiers->strAttribut(ATTR_DEF_NAME);
@@ -446,7 +446,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $e_bank_account=( isset ($e_bank_account) )?$e_bank_account:"";
     $e_bank_account_label="";  
 
-    $fBank=new fiche($this->db);
+    $fBank=new Fiche($this->db);
     $fBank->get_by_qcode($e_bank_account);
     $e_bank_account_label=$fBank->strAttribut(ATTR_DEF_NAME).' '.
       ' Adresse : '.$fBank->strAttribut(ATTR_DEF_ADRESS).' '.
@@ -508,7 +508,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       $tot_amount=bcadd($tot_amount,$tiers_amount);
       $tiers_comment=h(${"e_other$i"."_comment"});
       // If $tiers has a value
-      $fTiers=new fiche($this->db);
+      $fTiers=new Fiche($this->db);
       $fTiers->get_by_qcode($tiers);
       
       $tiers_label=$fTiers->strAttribut(ATTR_DEF_NAME);
@@ -583,7 +583,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $ret='';
     // Debit = banque
 
-    $fBank=new fiche($this->db);
+    $fBank=new Fiche($this->db);
     $fBank->get_by_qcode($e_bank_account);
     // Get the saldo
     $pPeriode=new Periode($this->db);
@@ -620,7 +620,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	  // if tiers is set and amount != 0 insert it into the database 
 	  // and quit the loop ?
 	  if ( strlen(trim(${"e_other$i"}))==0 ) continue;
-	  $fPoste=new fiche($this->db);
+	  $fPoste=new Fiche($this->db);
 	  $fPoste->get_by_qcode(${"e_other$i"});
 
 	  // round it
