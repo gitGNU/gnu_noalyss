@@ -20,7 +20,7 @@ function js_include($p_string) {
     alert("Erreur js/$p_string n existe pas");
   $script='<script type="text/javascript" charset="utf8" language="javascript" src="js/'.$p_string.'"></script>';
   // debug
-  echo "insert js $p_string  ";
+
   return $script;
 
 }

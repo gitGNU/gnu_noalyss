@@ -19,10 +19,7 @@
 <?
 $bk=new Fiche($cn,$obj->det->array[0]['qp_supplier']);
 echo td(_('Client'));
-/**
- *@file
- *@todo Ajouter une clef unique sur quant_fin.jr_id, quant_purchase.j_id et quant_sold.j_id
- */
+
 $view_history= sprintf('<A class="detail" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
 				$bk->id, $gDossier, $bk->get_quick_code());
 echo td(h($bk->getName())).td($view_history);;
@@ -54,14 +51,19 @@ echo td(_('Libellé')).td($itext->input(),' colspan="2" ');
   $total_htva=0;$total_tvac=0;
   echo th(_('Quick Code'));
 echo th(_('Description'));
-if ( $owner->MY_TVA_USE == 'Y')
+if ( $owner->MY_TVA_USE == 'Y') {
   echo th(_('Taux TVA'), 'style="text-align:right"');
+} else {
+  echo th('');
+}
 echo th(_('P.Unit.'), 'style="text-align:right"');
 echo th(_('Quantité'), 'style="text-align:right"');
 if ( $owner->MY_TVA_USE == 'Y') {
   echo th(_('HTVA'), 'style="text-align:right"');
   echo th(_('TVAC'), 'style="text-align:right"');
-}
+}else 
+  echo th(_('Total'), 'style="text-align:right"');
+
     if ($owner->MY_ANALYTIC != 'nu'){
       $anc=new Anc_Plan($cn);
       $a_anc=$anc->get_list();
@@ -80,10 +82,16 @@ echo '</tr>';
    $view_history= sprintf('<A class="detail" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
 				$fiche->id, $gDossier, $fiche->strAttribut(ATTR_DEF_QUICKCODE));
 
-    $row=td($view_history);
-
+   $row=td($view_history);
+   $sym_tva='noe';
+   if ( $owner->MY_TVA_USE=='Y') {
+     /* retrieve TVA symbol */
+     $tva=new Acc_Tva($cn,$q['qp_vat_code']);
+     $tva->load();
+     $sym_tva=h($tva->get_parameter('label'));
+   }
     $row.=td($fiche->strAttribut(ATTR_DEF_NAME));
-    $row.=td($q['qp_vat_code'],'class="num"');
+    $row.=td($sym_tva,'style="text-align:center"');
     $row.=td(sprintf("%.2f",$q['qp_price']),'class="num"');
     $row.=td(sprintf("%.2f",$q['qp_quantite']),'class="num"');
     $htva=bcmul($q['qp_price'],$q['qp_quantite']);
