@@ -12,13 +12,19 @@ BODY {
         font-style: italic;
         }
 
-table.result {
+table.result  ,table.resultfooter {
   color:blue;
   /* border:blue solid 1px; */
   width:100%;
    border-spacing:  0px;
    border-collapse:collapse;
    
+}
+table.resultfooter tfoot {
+	font-size:110%;
+	font-weight: bold;
+	
+	
 }
 table.result th { 
   font-weight:bold;
@@ -866,3 +872,42 @@ h2.gest_name {
 		border-right:1px solid  #b4bbc2;
 	padding: 5px;
 }
+div.op_detail_frame  {
+  background-color:#e4e7ed; 
+  height:100%; width:100%;
+  
+  
+}
+div.op_detail  {
+  background-color:#e4e7ed;
+ font-size:10;
+  font-family:helvetica,arial,sans-serif;
+  padding:0;
+  margin:0;
+  overflow:hidden;
+  z-index:3;
+  
+position:absolute;
+left:10%;
+
+
+border:1px solid darkblue;	
+
+}
+div.op_detail_title {
+	background-color:grey;
+/*	width:500;*/
+	
+	
+}
+div#div_jrn{ 
+              position:absolute;
+              border:1px solid black;
+               top:15%;left:100;
+              visibility:hidden;
+              z-index:2;
+              width:50em;
+		      background-color:#EDF3FF;
+		      
+}
+ 
