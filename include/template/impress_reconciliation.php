@@ -27,7 +27,7 @@ for ($i=0;$i<count($array);$i++) {
 	$detail=sprintf('<a class="detail" href="javascript:modifyOperation(\'%s\',%d)">%s</a>',
 			$array[$i]['first']['jr_id'],$gDossier,$array[$i]['first']['jr_internal']);
 	$r.=td($detail);
-	$r.=td($array[$i]['first']['jr_pj']);
+	$r.=td($array[$i]['first']['jr_pj_number']);
 	$r.=td($array[$i]['first']['jr_comment']);
 	$r.=td($array[$i]['first']['jr_montant']);
 	echo tr($r);
@@ -41,7 +41,7 @@ for ($i=0;$i<count($array);$i++) {
 			$detail=sprintf('<a class="detail" href="javascript:modifyOperation(\'%s\',%d)">%s</a>',
 					$array[$i]['depend'][$e]['jr_id'],$gDossier,$array[$i]['depend'][$e]['jr_internal']);
 			$r.=td($detail);
-			$r.=td($array[$i]['depend'][$e]['jr_pj']);
+			$r.=td($array[$i]['depend'][$e]['jr_pj_number']);
 			$r.=td($array[$i]['depend'][$e]['jr_comment']);
 			$r.=td($array[$i]['depend'][$e]['jr_montant']);
 			if ( $e==$limit)

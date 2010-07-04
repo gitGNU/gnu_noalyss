@@ -168,7 +168,7 @@ class Acc_Reconciliation {
     return $r;
   }
   function fill_info() {
-    $sql="select jr_id,jr_date,jr_comment,jr_internal,jr_montant,jr_pj,jr_def_id,jrn_def_name,jrn_def_type 
+    $sql="select jr_id,jr_date,jr_comment,jr_internal,jr_montant,jr_pj_number,jr_def_id,jrn_def_name,jrn_def_type 
          from jrn join jrn_def on (jrn_def_id=jr_def_id)
         where jr_id=$1";
     $a=$this->db->get_array($sql,array($this->jr_id));
@@ -185,7 +185,7 @@ class Acc_Reconciliation {
    @endcode
   */
   function get_not_reconciled($pa_jrn) {
-    $array=$this->db->get_array("select distinct jr_id from jrn where jr_id not in (select jr_id from jrn_rapt union select jra_concerned from jrn_rapt)");
+    $array=$this->db->get_array("select distinct jr_id,jr_date from jrn where jr_id not in (select jr_id from jrn_rapt union select jra_concerned from jrn_rapt) order by jr_date");
     $ret=array();
     for ($i=0;$i<count($array);$i++) {
       $this->jr_id=$array[$i]['jr_id'];
@@ -206,7 +206,7 @@ class Acc_Reconciliation {
   */
   function get_reconciled($pa_jrn)
   {
-    $array=$this->db->get_array("select distinct jr_id from jrn where jr_id  in (select jr_id from jrn_rapt union select jra_concerned from jrn_rapt)");
+    $array=$this->db->get_array("select distinct jr_id,jr_date from jrn where jr_id  in (select jr_id from jrn_rapt union select jra_concerned from jrn_rapt) order by jr_date");
     $ret=array();
     for ($i=0;$i<count($array);$i++) {
       $this->jr_id=$array[$i]['jr_id'];

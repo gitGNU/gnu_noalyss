@@ -12,7 +12,7 @@
     <? echo HtmlInput::hidden('whatdiv',$div).HtmlInput::hidden('jr_id',$jr_id).dossier::hidden();?>
 <table>
 <tr>
-<? echo td('Date').td($obj->det->jr_date);?>
+<? echo td('Date').td(format_date($obj->det->jr_date));?>
 </tr>
 
 <tr>
@@ -48,6 +48,7 @@ echo td(_('Libellé')).td($itext->input(),' colspan="2" ');
 <fieldset><legend><?=_('Détail')?></legend>
 <table class="result">
 <?
+  bcscale(2);
   $total_htva=0;$total_tvac=0;
   echo th(_('Quick Code'));
 echo th(_('Description'));
@@ -83,7 +84,7 @@ echo '</tr>';
 				$fiche->id, $gDossier, $fiche->strAttribut(ATTR_DEF_QUICKCODE));
 
    $row=td($view_history);
-   $sym_tva='noe';
+   $sym_tva='';
    if ( $owner->MY_TVA_USE=='Y') {
      /* retrieve TVA symbol */
      $tva=new Acc_Tva($cn,$q['qp_vat_code']);
