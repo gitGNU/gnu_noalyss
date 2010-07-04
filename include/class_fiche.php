@@ -1054,7 +1054,8 @@ av_text1=>'name'
       $rep="";
 
       echo '<h2 class="info">'." ".$name.'</h2>';
-      echo "<TABLE class=\"result\" width=\"100%\">";
+      echo "<TABLE class=\"resultfooter\" width=\"100%\">";
+      echo '<tbody>';
       echo "<TR>".
 	"<TH>"._('Code interne')." </TH>".
 	"<TH>"._('Date')."</TH>".
@@ -1069,10 +1070,9 @@ av_text1=>'name'
 		  $op['jr_id'], dossier::id(), $op['jr_internal']);
        $let='';
        if ( $op['letter'] !=-1) $let=$op['letter'];
-
 	echo "<TR>".
 	  "<TD>".$vw_operation."</TD>".
-	  "<TD>".$op['j_date_fmt']."</TD>".
+	  "<TD>".format_date($op['j_date_fmt'])."</TD>".
 	  "<TD>".h($op['description'])."</TD>".
 	  "<TD style=\"text-align:right\">".$op['deb_montant']."</TD>".
 	  "<TD style=\"text-align:right\">".$op['cred_montant']."</TD>".
@@ -1082,13 +1082,17 @@ av_text1=>'name'
       }
       $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
       $diff=round(abs($tot_deb-$tot_cred),2);
+      echo '<tfoot>';
+
       echo "<TR>".
 	"<TD>$solde_type</TD>".
-	"<TD>$diff</TD>".
+	"<TD style=\"text-align:right\">$diff</TD>".
 	"<TD></TD>".
-	"<TD>$tot_deb</TD>".
-	"<TD>$tot_cred</TD>".
+	"<TD  style=\"text-align:right\">$tot_deb</TD>".
+	"<TD  style=\"text-align:right\">$tot_cred</TD>".
 	"</TR>";
+       echo '</tfoot>';
+      echo '</tbody>';
 
       echo "</table>";
 

@@ -281,7 +281,8 @@ function get_solde_detail($p_cond="") {
      $rep="";
 
      echo '<h2 class="info">'.$this->id." ".$this->name.'</h2>';
-     echo "<TABLE class=\"result\" width=\"100%\">";
+     echo "<TABLE class=\"resultfooter\" width=\"100%\">";
+     echo '<tbody>';
      echo "<TR>".
        "<TH> Code interne </TH>".
        "<TH> Date</TH>".
@@ -306,15 +307,18 @@ function get_solde_detail($p_cond="") {
 	 "</TR>";
 
      }
+     echo '<tfoot>';
      $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
      $diff=round(abs($tot_deb-$tot_cred),2);
      echo "<TR>".
-       "<TD>$solde_type</TD>".
-       "<TD>$diff</TD>".
-       "<TD></TD>".
-       "<TD>$tot_deb</TD>".
-       "<TD>$tot_cred</TD>".
+	"<TD>$solde_type</TD>".
+	"<TD style=\"text-align:right\">$diff</TD>".
+	"<TD></TD>".
+	"<TD  style=\"text-align:right\">$tot_deb</TD>".
+	"<TD  style=\"text-align:right\">$tot_cred</TD>".
        "</TR>";
+      echo '</tfoot>';
+      echo '</tbody>';
 
      echo "</table>";
 

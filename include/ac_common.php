@@ -524,6 +524,18 @@ function shrink_date ($p_date) {
     $str_date=substr($date,0,4).substr($date,6,2);
     return $str_date;
 }
+  /**
+   *@brief format the date, when taken from the database the format
+   * is MM-DD-YYYY
+   *@param $p_date format YYYY-MM-DD
+   *@return date in the format DD.MM.YYYY
+   */
+function format_date ($p_date) {
+  $date=explode('-',$p_date);
+  if ( count($date) != 3) return $p_date;
+  $str_date=$date[2].'.'.$date[1].'.'.$date[0];
+  return $str_date;
+}
 /**
  *@brief ereg is not supported from the version 5.3 and is marked as
  *obsolete, this function will call preg_match and returns

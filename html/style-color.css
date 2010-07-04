@@ -12,12 +12,18 @@ BODY {
         font-style: italic;
         }
 
-table.result,table.document {
+table.result,table.document ,table.resultfooter{
   color:blue;
   border:1px solid blue ; 
   width:100%;
  border-spacing:  0px;
    border-collapse:collapse;
+}
+table.resultfooter tfoot {
+	font-size:110%;
+	font-weight: bold;
+	
+	
 }
 table.result th, table.document th { 
   font-weight:bold;

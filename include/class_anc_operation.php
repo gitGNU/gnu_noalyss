@@ -434,7 +434,7 @@ function display_form_plan($p_array,$p_null,$p_mode,$p_seq,$p_amount,$p_id='') {
 		 if (  $p_mode==1 ) {
 		   // editable
 		   $select->readonly=false;
-		   if ( isset($hplan) )
+		   if ( isset($hplan) && isset($hplan[$p_seq][$count]) )
 		     $select->selected=$hplan[$p_seq][$count];
 		 } else {
 		   // view only
