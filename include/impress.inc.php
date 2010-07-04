@@ -32,8 +32,9 @@ echo JS_AJAX_FICHE;
 $p_array=array(array ("?p_action=impress&type=jrn&".$str_dossier,_("Journaux")),
 	       array("?p_action=impress&type=gl_comptes&".$str_dossier,_("Grand Livre")), /* AG */
 	       array("?p_action=impress&type=poste&".$str_dossier,_("Poste")),
-	       array("?p_action=impress&type=fiche&".$str_dossier,_("Catégorie")),
+	       array("?p_action=impress&type=fiche&".$str_dossier,_("Catégorie de fiche")),
 	       array("?p_action=impress&type=rapport&".$str_dossier,_("Rapport")),
+	       array("?p_action=impress&type=rec&".$str_dossier,_("Réconciliation")),
                array('?p_action=impress&type=bal&'.$str_dossier,_('Balance des comptes')),
 	       array("?p_action=impress&type=bilan&".$str_dossier,_("Bilan"))
 	       );
@@ -53,6 +54,10 @@ include_once("impress_inc.php");
 // something is choosen
 $default=( isset ($_REQUEST['type']))?$_REQUEST['type']:"";
   switch ($default) {
+  case 'rec':
+    $User->can_request(IMPJRN,1);
+    require_once ("impress_rec.inc.php");
+    break;
   case "jrn":
     $User->can_request(IMPJRN,1);
     require_once ("impress_jrn.inc.php");

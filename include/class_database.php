@@ -624,18 +624,19 @@ Array
      */
     function lo_unlink($p_oid) { return pg_lo_unlink($this->db,$p_oid); }
 
-    /*!\brief wrapper for the function pg_lo_unlink
+    /*!\brief wrapper for the function pg_prepare
      *\param $p_string string name for pg_prepare function
      *\param $p_sql  is the sql to prepare
      *\return return the result of the operation
      */
     function prepare($p_string,$p_sql) { return pg_prepare($this->db,$p_string,$p_sql); }
-    /*!\brief wrapper for the function pg_lo_unlink
-     *\param $p_string string name for pg_prepare function
+    /*!\brief wrapper for the function pg_execute
+     *\param $p_string string name of the stmt given in pg_prepare function
      *\param $p_array contains the variables
-     *\return return the result of the operation
+     *\note set this->ret to the return of pg_execute
+     *\return return the result of the operation,
      */
-    function execute($p_string,$p_array) { return pg_execute($this->db,$p_string,$p_array); }
+    function execute($p_string,$p_array) { $this->ret=pg_execute($this->db,$p_string,$p_array); return $this->ret;}
 
   /*!\brief wrapper for the function pg_lo_export
    *\param $p_oid is the oid of the log

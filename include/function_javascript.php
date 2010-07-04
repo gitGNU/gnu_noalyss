@@ -6,6 +6,8 @@ License: GPL
 */
 /*!
  *\brief create the HTML for including of a javascript file
+ * if a file is included twice, the second time it will be discarded
+ * there is an alert if the file doesn't exist
  *\param $p_string name of the file
  *\return the HTML script
  */
@@ -809,5 +811,37 @@ function escape_xml($p_xml) {
   $xml=str_replace("'",'&apos;',$xml);
   $xml=str_replace('"','&quot;',$xml);
   return $xml;
+}
+/**
+ *load all the javascript in once
+ */
+function load_all_script()
+{
+  echo JS_INFOBULLE;
+  echo js_include('prototype.js');
+  echo js_include('scriptaculous.js');
+  echo js_include('scripts.js');
+  echo js_include('effects.js');
+  echo js_include('dragdrop.js');
+  echo js_include('controls.js');
+  echo js_include('slider.js');
+
+  echo js_include('acc_ledger.js');
+  echo js_include('accounting_item.js');
+  echo js_include('acc_report.js');
+  echo js_include('ajax_fiche.js');
+  echo js_include('anc_script.js');
+  echo js_include('bq_import.js');
+  echo js_include('builder.js');
+  echo js_include('calc.js');
+  echo js_include('card.js');
+  echo js_include('compute_direct.js');
+  echo js_include('compute.js');
+  echo js_include('confirm.js');
+  echo js_include('extension.js');
+  echo js_include('forecast.js');
+  echo js_include('gestion.js');
+  echo js_include('todo_list.js');
+
 }
 ?>

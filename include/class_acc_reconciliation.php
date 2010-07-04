@@ -167,6 +167,87 @@ class Acc_Reconciliation {
     }
     return $r;
   }
+  function fill_info() {
+    $sql="select jr_id,jr_date,jr_comment,jr_internal,jr_montant,jr_pj,jr_def_id,jrn_def_name,jrn_def_type 
+         from jrn join jrn_def on (jrn_def_id=jr_def_id)
+        where jr_id=$1";
+    $a=$this->db->get_array($sql,array($this->jr_id));
+    return $a[0];
+  }
+  /**
+   *@brief return array of not-reconciled operation
+   *@param
+   *@return
+   *@note
+   *@see
+   @code
+
+   @endcode
+  */
+  function get_not_reconciled($pa_jrn) {
+    $array=$this->db->get_array("select distinct jr_id from jrn where jr_id not in (select jr_id from jrn_rapt union select jra_concerned from jrn_rapt)");
+    $ret=array();
+    for ($i=0;$i<count($array);$i++) {
+      $this->jr_id=$array[$i]['jr_id'];
+      $ret[$i]['first']=$this->fill_info();
+    }
+
+    return $ret;
+  }
+  /**
+   *@brief return array of reconciled operation
+   *@param
+   *@return
+   *@note
+   *@see
+   @code
+
+   @endcode
+  */
+  function get_reconciled($pa_jrn)
+  {
+    $array=$this->db->get_array("select distinct jr_id from jrn where jr_id  in (select jr_id from jrn_rapt union select jra_concerned from jrn_rapt)");
+    $ret=array();
+    for ($i=0;$i<count($array);$i++) {
+      $this->jr_id=$array[$i]['jr_id'];
+      $ret[$i]['first']=$this->fill_info();
+      $atmp=$this->get();
+      for ( $e=0;$e<count($atmp);$e++){
+	$this->jr_id=$atmp[$e];
+	$ret[$i]['depend'][$e]=$this->fill_info();
+      }
+    }
+    return $ret;
+  }
+  /**
+   *@brief
+   *@param
+   *@return
+   *@note
+   *@see
+@code
+
+@endcode
+   */
+  function get_reconciled_amount($pa_jrn,$p_equal=false) 
+  {
+    $array=$this->get_reconciled($pa_jrn);
+    $ret=array();
+    for ($i=0;$i<count($array);$i++) {
+      $first_amount=$array[$i]['first']['jr_montant'];
+      $second_amount=0;
+      for ($e=0;$e<count($array[$i]['depend']);$e++){
+	$second_amount+=$array[$i]['depend'][$e]['jr_montant'];
+      }
+      if ( $p_equal &&  $first_amount==$second_amount) {
+	  $ret[]=$array[$i];
+	}
+      if ( ! $p_equal &&  $first_amount != $second_amount) {
+	  $ret[]=$array[$i];
+	}
+      }
+    return $ret;
+  }
   /*!\brief return the javascript function (static method)
    *
   static function javascript()  {
@@ -176,7 +257,7 @@ class Acc_Reconciliation {
   static function test_me() {
     $cn=new Database(dossier::id());
     $rap=new Acc_Reconciliation($cn);
-    $rap->set_jr_id(38);
+    /*    $rap->set_jr_id(38);
     $a=$rap->get();
     print_r($a);
     $rap->remove(4);
@@ -189,6 +270,9 @@ class Acc_Reconciliation {
 
     $w->extra2="";
     echo $w->input();
+    */
+    //var_dump($rap->get_reconciled(''));
+    var_dump($rap->get_reconciled_amount('',false));    
   }
 
 }

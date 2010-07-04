@@ -70,7 +70,8 @@ $array=array(
 	array(30,'Ereg and preg_match'),
 	array(31,'IBOX'),
 	array(32,'Acc_Operation & children'),
-	array(33,'Ledger : reverse op')
+	array(33,'Ledger : reverse op'),
+	array(34,'Reconciliation')
 	);
 $r='<form method="get">';
 $r.='<select name="test_select" >';
@@ -275,6 +276,10 @@ case 32:
 case 33:
   require_once('class_acc_ledger.php');
   Acc_Ledger::test_me('reverse');
+  break;
+case 34:
+  require_once('class_acc_reconciliation.php');
+  Acc_Reconciliation::test_me();
   break;
 }
 

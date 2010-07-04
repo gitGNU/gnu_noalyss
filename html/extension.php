@@ -54,6 +54,7 @@ echo js_include('card.js');
 echo js_include('compute.js');
 echo js_include('compute_direct.js');
 echo js_include('ajax_fiche.js');
+echo js_inc
 echo JS_INFOBULLE;
 
 /* show button to return to access */
