@@ -401,6 +401,28 @@ function save_card_category(obj) {
 			       );
 }
 /**
- *@brief Display a form to modify a category
- *
+ *@brief Remove a definition of an  attribut 
+ *@param attr_def.ad_id
+ *@param gDossier
+ *@param table_id to rm the row
+ *@param special this pointer of the row
  */
+
+function removeCardAttribut(ad_id,gDossier,table_id,row) {
+    var queryString='?gDossier='+gDossier;
+    queryString+='&op=rmfa';
+    queryString+='&ctl=debug'; 	// debug id
+    queryString+='&ad_id='+ad_id;
+    var action=new Ajax.Request ( 'ajax_card.php',
+				  {
+				      method:'get',
+				      parameters:queryString,
+				      onFailure:null,
+				      onSuccess:null
+			       }
+			       );
+    deleteRowRec(table_id,row);
+
+
+}
+

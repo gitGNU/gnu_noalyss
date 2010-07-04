@@ -24,8 +24,11 @@
  * \brief Manage the attributs 
  */
 require_once('class_fiche_attr.php');
-$fa=new Fiche_Attr($cn);
 
+echo js_include('card.js');
+
+$fa=new Fiche_Attr($cn);
+// echo '<div id="debug" style="position:absolute;top:0;right:0;border:1px solid red;"></div>';
 /////////////////////////////////////////////////////////////////////////////
 // If data are post we save them first
 /////////////////////////////////////////////////////////////////////////////
@@ -49,7 +52,7 @@ if ( isset($_POST['save'])) {
     { $e->getMessage();$cn->rollback();}
 }
 /* show list of existing */
-
+$gDossier=dossier::id();
 $array=$fa->seek();
 
 $select_type=new ISelect('type[]');
@@ -61,12 +64,14 @@ $select_type->value=array(
 		     array('value'=>'numeric','label'=>'Nombre'),
 		     array('value'=>'date','label'=>'Date')
 		     );
+$remove=new IButton('rmfa');
+$remove->label='Effacer';
 echo '<div class="content">';
 echo '<form method="post">';
 
 echo HtmlInput::hidden('sa','fat');
 echo HtmlInput::hidden('p_action','divers');
-echo '<table>';
+echo '<table id="tb_rmfa">';
 
 for ($e=0;$e<count($array);$e++) {
   $row=$array[$e];
@@ -79,14 +84,22 @@ for ($e=0;$e<count($array);$e++) {
     $select_type->readOnly=false;
     $desc->readOnly=false;
     $r.=td($desc->input());
+    $r.=td($select_type->input());
+
+    $remove->javascript=sprintf('if ( confirm(\'Vous  confirmez ?\')) { removeCardAttribut(%d,%d,\'tb_rmfa\',this);}',
+				$row->get_parameter('id'),$gDossier);
+    $msg='<span class="notice"> Attention : effacera les données qui y sont liées </span>';
+    $r.=td($remove->input().$msg);
   } else {
     $select_type->readOnly=true;
     $desc->readOnly=true;
     $r.=td($desc->input().HtmlInput::hidden('type[]',''));
+    $r.=td($select_type->input());
+    $r.=td("");
   }
 
 
-  $r.=td($select_type->input());
+
 
   echo tr($r);
   

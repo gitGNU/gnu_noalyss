@@ -58,6 +58,7 @@ require_once('class_iradio.php');
 require_once('function_javascript.php');
 require_once('ac_common.php');
 require_once ('class_user.php');
+require_once ('class_fiche_attr.php');
 
 $var=array('gDossier','op','ctl');
 $cont=0;
@@ -76,6 +77,26 @@ $cn=new Database($gDossier);
 $user=new User($cn); $user->check(true);$user->check_dossier($gDossier,true);
 $html=var_export($_REQUEST,true);
 switch($op) {
+  /* ------------------------------------------------------------ */
+  /* Remove a attribut */
+  /* ------------------------------------------------------------ */
+case 'rmfa':
+  ob_start();
+  if( ! isset($_GET['ad_id']) || isNumber($_GET['ad_id']) ==0)
+    throw new Exception ( "Parametre ad_id est invalide",11);
+  $ad_id=  $_GET['ad_id'];
+  try {
+    $cn->start();
+    $fa=new Fiche_Attr($cn,$ad_id);
+    $fa->delete();
+    $cn->commit();
+  } catch (Exception $e) {
+    $cn->rollback();
+    echo $e->getMessage();
+  }
+  $html=ob_get_contents();
+  ob_clean();
+  break;
   /* ------------------------------------------------------------ */
   /* Display card detail */
   /* ------------------------------------------------------------ */

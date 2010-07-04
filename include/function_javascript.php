@@ -10,8 +10,19 @@ License: GPL
  *\return the HTML script
  */
 function js_include($p_string) {
+  static $ajs=array();		/* avoid to add twice the same script */
+  static $seq=0;
+  if ( in_array($p_string,$ajs)) return '';
+  $ajs[$seq]=$p_string;
+  $seq++;
+
+  if ( !  file_exists('js/'.$p_string))
+    alert("Erreur js/$p_string n existe pas");
   $script='<script type="text/javascript" charset="utf8" language="javascript" src="js/'.$p_string.'"></script>';
+  // debug
+  echo "insert js $p_string  ";
   return $script;
+
 }
 /*!
  *\brief create the HTML for adding the script tags around of the script
