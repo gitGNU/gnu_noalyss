@@ -18,7 +18,10 @@ Conséquence : réécriture de code, correction modop, ...
 16. TODO19 Le menu Grand Livre devient recherche
 17. TODO20 Ajouter d'attribut avec type : text, nombre ou date; ajouter le javascript équivalent pour la saisie, le numéro de séquence
 commence à 10000, afin de ne pas mélanger les attributs que je créé avec ceux des utilisateurs. A ajouter dans la doc comme exemple pour la gestion d'abonnés dont on peut tirer un CSV par impression -> catégorie -> résume
+18. Impression - Rapprochement 
+19. TODO21 Dans DIV HTML donner le code de la TVA dans les détails VEN  et ACH
 
+TODO18 Rapprochement doivent avoir les journaux + sécurité
 
 IDEE6, categorie de fiche, changer la présentation
 
@@ -38,7 +41,10 @@ TODO14 confirmation quand effacement d'un PA (comptabilité analytique -> Plan A
 
 IDEE1  Pièce attachée uniquement depuis détail opération ?
 
+TODO19 Pour les fiches,suivant le type d'attributs, on peut utiliser le javascript pour les dates 
+et les numériques
 
 
 
-TODO21 Dans DIV HTML donner le code de la TVA dans les détails VEN  et ACH
+
+TODO20 DIV HTML dans le tableau de bord
