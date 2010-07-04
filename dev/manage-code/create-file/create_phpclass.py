@@ -105,13 +105,15 @@ class @class_name@  @mother_class@
   }
   /**
    *@brief retrieve array of object thanks a condition
-   *@param $cond condition (where clause)
+   *@param $cond condition (where clause) (optional by default all the rows are fetched
    *@param $p_array array for the SQL stmt
    *@see Database::get_array
    *@return an empty array if nothing is found
    */
-   public function seek($cond,$p_array=null) 
+   public function seek($cond='',$p_array=null) 
    {
+   $where="";
+   if ( trim($cond) != '') $where="where"
      $sql="select * from @table@ where $cond";
      $aobj=array();
      $array= $this->cn->get_array($cond,$p_array);
