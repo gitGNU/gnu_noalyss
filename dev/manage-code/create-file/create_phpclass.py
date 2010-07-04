@@ -116,7 +116,7 @@ class @class_name@  @mother_class@
    if ( trim($cond) != '') $where="where"
      $sql="select * from @table@ where $cond";
      $aobj=array();
-     $array= $this->cn->get_array($cond,$p_array);
+     $array= $this->cn->get_array($sql,$p_array);
      // map each row in a object
      $size=$this->cn->count();
      if ( $size == 0 ) return $aobj;
@@ -212,7 +212,7 @@ $cn->rollback();
   }
   
 }
-@class_name@::test_me();
+// @class_name@::test_me();
 
 """
     sChild="""<?php
