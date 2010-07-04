@@ -19,7 +19,13 @@ ALTER TABLE jrn_rapt
       ON UPDATE cascade ON DELETE cascade;
 ALTER TABLE jrn_rapt
   ADD CONSTRAINT jrn_rapt_jra_concerned_fkey FOREIGN KEY (jra_concerned)
-      REFERENCES jrn (jr_id) MATCH SIMPLE
+      REFERENCES jrn (jr_id) MATCH SIMPLE    
       ON UPDATE cascade ON DELETE cascade;
 
+ALTER TABLE attr_def ADD COLUMN ad_type text;
+
+update attr_def set ad_type='text';
+update attr_def set ad_type='numeric' where ad_id in (6,7,8,11,21,22);
+update attr_def set ad_type='date' where ad_id in (10);
+alter sequence s_attr_def restart with 9001;
 commit;

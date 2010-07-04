@@ -135,7 +135,8 @@ if ( $p_action == 'divers') {
 		  array('parametre.php?p_action=divers&sa=tva&'.$s,_('Tva'),_('Taux et poste comptable tva'),4),
 		  array('parametre.php?p_action=divers&sa=poste&'.$s,_('Poste Comptable'),_('Poste comptable constant'),7),
 		  array('parametre.php?p_action=divers&sa=fiche&'.$s,_('Catégorie de fiche'),_('Modifie les classe de base, les attribut,...'),5),
-		  array('parametre.php?p_action=divers&sa=cdoc&'.$s,_('Catégorie de documents'),_('Ajoute des catégories de documents,...'),6)
+		  array('parametre.php?p_action=divers&sa=cdoc&'.$s,_('Catégorie de documents'),_('Ajoute des catégories de documents,...'),6),
+		  array('parametre.php?p_action=divers&sa=fat&'.$s,_('Attribut de fiche'),_('Modifie les attributs des catégories de fiches'),10)
 		  );
   $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:'';
   $sb=(isset($_REQUEST['sb']))?$_REQUEST['sb']:'';
@@ -156,6 +157,9 @@ if ( $p_action == 'divers') {
   case 'cdoc':
     $def=6;
     break;
+  case 'fat':
+    $def=10;
+    break;
   }
   echo '<div class="lmenu">';
   echo ShowItem($array,'H','mtitle','mtitle',$def);
@@ -166,7 +170,14 @@ if ( $p_action == 'divers') {
     require_once('payment_middle.inc.php');
     exit;
   }
-
+  //---------------------------------------------------------------------------
+  // Add or remove attribut of card
+  //---------------------------------------------------------------------------
+  if ( $sa=='fat') {
+    $User->can_request('FICCAT');
+    require_once('card_attr.inc.php');
+    exit();
+  }
   //-----------------------------------------------------
   // TVA RATE
   //-----------------------------------------------------

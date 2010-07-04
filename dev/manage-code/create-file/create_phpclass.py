@@ -67,7 +67,7 @@ class @class_name@  @mother_class@
         $this->cn=$p_cn;
         if ( $p_id == 0 ) {
         /* Initialize an empty object */
-            foreach ($this->variable as $key=>$value) $this->$key='';
+            foreach ($this->variable as $key=>$value) $this->$value='';
         } else {
          /* load it */
          $this->@id@=$p_id;
@@ -75,8 +75,8 @@ class @class_name@  @mother_class@
       }
   }
   public function get_parameter($p_string) {
-    if ( array_key_exists($p_string,$this->$variable) ) {
-      $idx=$this->$variable[$p_string];
+    if ( array_key_exists($p_string,$this->variable) ) {
+      $idx=$this->variable[$p_string];
       return $this->$idx;
     }
     else 
@@ -90,7 +90,7 @@ class @class_name@  @mother_class@
     else 
       throw new Exception (__FILE__.":".__LINE__.$p_string.'Erreur attribut inexistant');
   }
-  public function get_info() {    return var_export(self::$variable,true);  }
+  public function get_info() {    return var_export($this,true);  }
   public function verify() {
     // Verify that the elt we want to add is correct
     /* verify only the datatype */
