@@ -24,6 +24,7 @@ def help():
     second line table name
     3rd PK type
     ... and after all the column names and column type (see create_file_table.sql)
+    see the file example
     """
 def main():
     try:

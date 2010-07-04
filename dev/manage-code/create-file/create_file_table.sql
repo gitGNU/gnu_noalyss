@@ -3,5 +3,5 @@ SELECT
 FROM 
   information_schema.columns
 WHERE 
- columns.table_name='table';
+ columns.table_name='attr_def';
 
