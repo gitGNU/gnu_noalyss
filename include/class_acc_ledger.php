@@ -2321,7 +2321,7 @@ function get_last_date()
     $user=new User($this->db);
     $filter_ledger=$user->get_ledger_sql('ALL',3);
     $filter_ledger=str_replace('jrn_def_id','jr_def_id',$filter_ledger);
-    $sql="select jr_date,to_char(jr_date,'DD.MM.YYYY') as jr_date_fmt,jr_montant, jr_comment,jr_internal from jrn ".
+    $sql="select jr_id,jr_date,to_char(jr_date,'DD.MM.YYYY') as jr_date_fmt,jr_montant, jr_comment,jr_internal from jrn ".
       " where $filter_ledger ".
       " order by jr_date desc limit $p_limit";
     $array=$this->db->get_array($sql);

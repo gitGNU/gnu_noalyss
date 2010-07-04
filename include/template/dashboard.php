@@ -137,7 +137,7 @@ for($i=0;$i<count($last_ledger);$i++):
 <?=$last_ledger[$i]['jr_montant']?>
 </td>
 <td>
-<?=$last_ledger[$i]['jr_internal']?>
+   <? echo $detail=HtmlInput::detail_op($last_ledger[$i]['jr_id'],$last_ledger[$i]['jr_internal']); ?>
 </td>
 
 </tr>

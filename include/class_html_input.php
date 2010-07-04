@@ -220,5 +220,11 @@ echo $string => {'prop':'1','prop2':'2','prop3':'3'};
     $r='<A HREF="#" style="display:inline;color:black;background-color:red;padding-left:4px;padding-right:4px;text-decoration:none;" onmouseover="showBulle(\''.$p_comment.'\')"  onclick="showBulle(\''.$p_comment.'\')" onmouseout="hideBulle(0)">XX</A>';
     return $r;
   }
-
+  /**
+   * return a string containing the html code for calling the modifyOperation
+   */
+  static function detail_op($p_jr_id,$p_mesg) {
+    return sprintf('<A class="detail" HREF="javascript:modifyOperation(%d,%d)">%s</A>',
+		   $p_jr_id,dossier::id(),$p_mesg);
+  }
 }

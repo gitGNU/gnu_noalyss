@@ -36,7 +36,8 @@ require_once('class_todo_list.php');
 require_once("class_itextarea.php");
 require_once('class_calendar.php');
 require_once('class_acc_ledger.php');
-
+require_once('function_javascript.php');
+load_all_script();
 $cn=new Database(dossier::id());
 $user=new User($cn);
 $user->Check();
@@ -91,9 +92,6 @@ echo '<div class="u_tmenu">';
 echo menu_tool('access.php');
 echo '</div>';
 echo '<div class="content">';
-echo JS_TODO;
-echo js_include('prototype.js');
-echo js_include('infobulle.js');
 
 /* others report */
 $cal=new Calendar();
