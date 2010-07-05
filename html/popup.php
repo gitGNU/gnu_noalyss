@@ -5,6 +5,7 @@ require_once('function_javascript.php');
 require_once('class_html_input.php');
 
 html_page_start($_SESSION['g_theme']);
+echo '<a class="button"  href="javascript:window.print()">Imprimer cette page</a>';
 echo HtmlInput::hidden('inpopup',1);
 echo js_include('scripts.js');
 echo js_include('prototype.js');
