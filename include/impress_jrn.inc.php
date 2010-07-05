@@ -61,7 +61,7 @@ if ( $User->Admin() == 0 && $User->is_local_admin()==0) {
     // Pour voir tout les journal ?
     if ( $NoPriv == 0 ) {
       $a=count($ret);
-      $all=array('value'=>0,'label'=>'Grand Livre');
+      $all=array('value'=>0,'label'=>'Tous les journaux');
       $ret[$a]=$all;
    }
 if ( count($ret) < 1 ) 
