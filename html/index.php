@@ -184,7 +184,7 @@ if ( strlen(domaine) > 0 ) {
 
 echo '
 <span style="background-color:#879ed4;color:white;padding-left:4px;padding-right:4px;">
-version  5.1.build SVNINFO - '.$my_domain.'
+version  5.2.version de developpement - '.$my_domain.'
 </span>
 <BR>
 <BR>
@@ -201,11 +201,11 @@ version  5.1.build SVNINFO - '.$my_domain.'
 <TABLE  BORDER=0 CELLSPACING=0>
 <TR>
 <TD class="cell">utilisateur</TD>
-<TD><input type="text" class="input_text" name="p_user" tabindex="1"></TD>
+<TD><input type="text" class="input_text" value="phpcompta" name="p_user" tabindex="1"></TD>
 </TR>
 <TR>
 <TD> mot de passe </TD>
-<TD><INPUT TYPE="PASSWORD"  class="input_text"  NAME="p_pass" tabindex="2"></TD>
+<TD><INPUT TYPE="PASSWORD"  class="input_text" value="phpcompta"  NAME="p_pass" tabindex="2"></TD>
 </TR>
 <TR>
 <TD COLSPAN=2 ALIGN=CENTER>
