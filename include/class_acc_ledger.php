@@ -88,7 +88,7 @@ class Acc_Ledger {
    */
   function get_type() {
     if ( $this->id==0 ) {
-      $this->name=" Grand Livre ";
+      $this->name=" Tous les journaux";
       $this->type="GL";
       return "GL";
     }
@@ -321,7 +321,9 @@ SELECT  qf_bank,  qf_other, qf_amount*(-1),$1
    *
    */
   function get_row($p_from,$p_to,$p_limit=-1,$p_offset=-1) {
-
+    /**
+     *@todo add a filter for security
+     */
 
     $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
 
@@ -330,7 +332,7 @@ SELECT  qf_bank,  qf_other, qf_amount*(-1),$1
     $this->get_type();
     // Grand livre == 0
     if ( $this->id != 0 ) {
-      $Res=$this->db->exec_sql("select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
+      $Res=$this->db->exec_sql("select jr_id,j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
 	      jr_internal,
 	case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
 	case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
@@ -347,7 +349,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 		     $cond_limite);
       
     } else {
-	$Res=$this->db->exec_sql("select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
+	$Res=$this->db->exec_sql("select jr_id,j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
 	      jr_internal,
 	case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
 	case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
@@ -408,6 +410,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 	  }
 	}
 	$array[]=array (
+			'jr_id'=>$line['jr_id'],
 			'int_j_id' => $line['int_j_id'],
 			'j_id'=>$line['j_id'],
 			'j_date' => $line['j_date'],
@@ -420,6 +423,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 			'periode' =>$line['periode'] );
 
 	$array[]=array (
+			'jr_id'=>'',
 			'int_j_id' => $line['int_j_id'],
 			'j_id'=>'',
 			'j_date' => '',
@@ -434,6 +438,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 
       }else {
 	$array[]=array (
+			'jr_id'=>$line['jr_id'],
 			'int_j_id' => $line['int_j_id'],
 			'j_id'=>'',
 			'j_date' => '',

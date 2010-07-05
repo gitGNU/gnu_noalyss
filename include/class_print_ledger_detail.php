@@ -72,9 +72,9 @@ class Print_Ledger_Detail extends PDF
     $array=$Jrn->get_operation($_GET['from_periode'],$_GET['to_periode']);
 
     $this->SetFont('DejaVu','BI',7);
-    $this->Cell(160,7,'report Débit',0,0,'R');
+    $this->Cell(145,7,'report Débit',0,0,'R');
     $this->Cell(30,7,sprintf('%10.2f',$rap_deb),0,0,'R');$this->Ln(4);
-    $this->Cell(160,7,'report Crédit',0,0,'R');
+    $this->Cell(145,7,'report Crédit',0,0,'R');
     $this->Cell(30,7,sprintf('%10.2f',$rap_cred),0,0,'R');$this->Ln(4);
 
     // print all operation
@@ -82,11 +82,10 @@ class Print_Ledger_Detail extends PDF
       $this->SetFont('DejaVuCond','B',7);
       $row=$array[$i];
 
-      $this->Cell(15,7,$row['id']);
-      $this->Cell(20,7,$row['internal']);
-      $this->Cell(15,7,$row['date_fmt']);
-      $this->Cell(100,7,$row['comment']);
       $this->Cell(20,7,$row['pj']);
+      $this->Cell(15,7,$row['date_fmt']);
+      $this->Cell(20,7,$row['internal']);
+      $this->Cell(100,7,$row['comment']);
       $this->Cell(20,7,$row['montant'],0,0,'R');
 
       $this->Ln(4);

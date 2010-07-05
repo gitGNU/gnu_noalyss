@@ -27,6 +27,7 @@ require_once("class_iselect.php");
 require_once("class_icheckbox.php");
 
 require_once('class_dossier.php');
+load_all_script();
 $gDossier=dossier::id();
 //-----------------------------------------------------
 // Show the jrn and date
@@ -178,10 +179,16 @@ require_once("class_acc_ledger.php");
     // detailled printing
     //---
     foreach ( $Jrn->row as $op ) { 
+      /*           var_dump($op);/*exit();*/
       echo "<TR>";
-      echo "<TD>".$op['internal']."</TD>".
-	"<TD>".$op['j_date']."</TD>".
-	"<TD>".$op['poste']."</TD>".
+      echo "<TD>".$op['j_date']."</TD>";
+
+      if ( $op['jr_id']!='')
+	echo "<TD>".HtmlInput::detail_op($op['jr_id'],$op['internal'])."</TD>";
+      else
+	echo td();
+
+	echo "<TD>".$op['poste']."</TD>".
 	"<TD>".$op['description']."</TD>".
 	"<TD>".$op['deb_montant']."</TD>".
 	"<TD>".$op['cred_montant']."</TD>".
