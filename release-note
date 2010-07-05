@@ -45,6 +45,9 @@ IDEE1  Pièce attachée uniquement depuis détail opération ?
 TODO19 Pour les fiches,suivant le type d'attributs, on peut utiliser le javascript pour les dates 
 et les numériques
 
+TODO22 Il y a deux façon pour les journaux soit selection d'un seul lors de l'achat vente... Soit de plusieurs : recherche, balance des comptes,
 
-
+TODO23 Idem que TODO22 pour les catégories de fiches : pour les balances Historique et lettré on devrait pouvoir sélectionner plusieurs catégories
+TODO24 : Dans impression -> poste , il faut avoir l'impression des détails des opérations 
+TODO25 : dans recherche de liste, utilisez des tableaux !
 
