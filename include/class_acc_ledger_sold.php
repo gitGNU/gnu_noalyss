@@ -320,7 +320,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	if ( $owner->MY_TVA_USE=='Y') {
 	  /* save into quant_sold */
 	  $r=$this->db->exec_sql("select insert_quant_sold ($1,$2,$3,$4,$5,$6,$7,$8)",
-				 array($internal, /* 1 */
+				 array(null, /* 1 */
 				       $j_id,	/* 2 */
 				       ${'e_march'.$i} , /* 3 */
 				       ${'e_quant'.$i},  /* 4 */
@@ -331,7 +331,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
       }    else {
 	  $r=$this->db->exec_sql("select insert_quant_sold ($1,$2,$3,$4,$5,$6,$7,$8) ",
-				 array($internal, /* 1 */
+				 array(null, /* 1 */
 				       $j_id,	  /* 2 */
 				       ${'e_march'.$i}, /* 3 */
 				       ${'e_quant'.$i}, /* 4 */
@@ -409,6 +409,10 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
     $this->db->exec_sql("update jrn set jr_internal='".$internal."' where ".
 	    " jr_grpt_id = ".$seq);
+
+    /* update quant_sold */
+    $this->db->exec_sql('update quant_sold set qs_internal = $1 where j_id in (select j_id from jrnx where j_grpt=$2)',
+			array($internal,$seq));
 
     /* Save the attachment or generate doc*/
     if ( isset ($_FILES['pj'])) {

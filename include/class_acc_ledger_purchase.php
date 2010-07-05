@@ -39,6 +39,7 @@ require_once('class_acc_parm_code.php');
 require_once('class_acc_payment.php');
 require_once('ac_common.php');
 require_once('class_itva_popup.php');
+require_once('class_acc_ledger_info.php');
 
 /*!\brief Handle the ledger of purchase,
  *
@@ -422,7 +423,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	//-----
 	if ( $owner->MY_TVA_USE=='Y') {
 	  $r=$this->db->exec_sql("select insert_quant_purchase ".
-		     "('".$internal."'". /* 1 */
+		     "(null".
 		     ",".$j_id.		 /* 2 */
 		     ",'".${"e_march".$i}."'". /* 3 */
 		     ",".${"e_quant".$i}.",".  /* 4 */
@@ -437,7 +438,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 
 	} else {
 	  $r=$this->db->exec_sql("select insert_quant_purchase ".
-		     "('".$internal."'".
+		     "(null".
 		     ",".$j_id.
 		     ",'".${"e_march".$i}."'".
 		     ",".${"e_quant".$i}.",".
@@ -559,7 +560,10 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     // Set Internal code
     $this->grpt_id=$seq;
     $this->update_internal_code($internal);
-
+    /* update quant_purchase */
+    $this->db->exec_sql('update quant_purchase set qp_internal = $1 where j_id in (select j_id from jrnx where j_grpt=$2)',
+			array($internal,$seq));
+  
     /* if e_suggest != e_pj then do not increment sequence */
       if ( strcmp($e_pj,$e_pj_suggest) == 0 && strlen(trim($e_pj)) != 0 ) {
       	$this->inc_seq_pj();
