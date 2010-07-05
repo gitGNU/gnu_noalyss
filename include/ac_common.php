@@ -39,7 +39,7 @@ function h2info($p_string) { return '<h2 class="info">'.htmlspecialchars($p_stri
 *\param $p_extra extra info (class, style, javascript...)
 * \return string surrounded by td
 */
-function td($p_string,$p_extra=''){ return '<td  '.$p_extra.'>'.$p_string.'</td>';}
+function td($p_string='',$p_extra=''){ return '<td  '.$p_extra.'>'.$p_string.'</td>';}
 function tr($p_string,$p_extra=''){ return '<tr  '.$p_extra.'>'.$p_string.'</tr>';}
 /*!\brief escape correctly php string to javascript */
 function j($p_string) { $a=preg_replace("/\r?\n/", "\\n", addslashes($p_string)); return $a;}
