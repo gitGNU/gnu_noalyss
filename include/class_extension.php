@@ -246,6 +246,14 @@ ex_id=>''
     $a=$cn->get_array($sql,array($_SESSION['g_user']));
     return $a;
   }
+  static function check_version($i) {
+    global $version_phpcompta;
+    if ( ! isset ($version_phpcompta) || $version_phpcompta < $i ) {
+      alert('Cette extension ne fonctionne pas sur cett version de PhpCompta'.
+	    ' Veuillez mettre votre programme a jour');
+      exit();
+    }
+  }
   /*!\brief test this class
    */	
   static function test_me() {

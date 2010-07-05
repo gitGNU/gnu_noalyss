@@ -25,6 +25,9 @@
  */
 require_once ('config.inc.php');
 require_once('constant.security.php');
+// SVNVERSION
+global $version_phpcompta;
+$version_phpcompta=3428;
 
 define ("DBVERSION",85);
 define ("DBVERSIONREPO",12);

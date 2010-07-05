@@ -423,13 +423,28 @@ de donn&eacute;es");
       return true;
     }
     /*!\brief test if a table exist 
+     *\param $p_name table name
+     *\param  $schema name of the schema default public
      * \return true if a table exist otherwise false
      */
-    function exist_table($p_name) {
-      $r=$this->count_sql("select tablename from pg_tables where tablename=lower($1)", array($p_name));
+    function exist_table($p_name,$p_schema='public') {
+      $r=$this->count_sql("select table_name from information_schema.tables where table_schema=$1 and table_name=lower($2)", array($p_schema,$p_name));
       if ( $r==0)
 	return false;
       return true;
+    }
+    /**
+     * Check if a column exists in a table
+     * @param $col : column name
+     * @param $table :table name
+     * @param $schema :schema name, default public
+     *@return true or false
+     */
+    function exist_column($col,$table,$schema) {
+      $r=$this->get_value('select count(*) from information_schema.columns where table_name=lower($1) and column_name=lower($2) and table_schema=lower($3)',
+			  array($col,$table,$schema));
+      if ( $r > 0 ) return true;
+      return false;
     }
     /**
      *@brief check if the large object exists
