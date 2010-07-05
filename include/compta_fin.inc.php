@@ -236,7 +236,7 @@ if ( $def==3) {
 
   echo '<div class="content">';
 
-  echo '<table width="50%" class="result">';
+  echo '<table style="margin-left:10%;width:30%" class="result">';
   // Filter the saldo
   //  on the current year
   $filter_year="  j_tech_per in (select p_id from parm_periode where  p_exercice='".$User->get_exercice()."')";
