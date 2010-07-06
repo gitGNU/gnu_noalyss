@@ -94,13 +94,13 @@ echo '</tr>';
    }
 
    $row.=td($sym_tva,'style="text-align:center"');
-    $row.=td(sprintf("%.2f",$q['qs_price']),'class="num"');
+   $row.=td(sprintf("%.2f ",bcdiv($q['qs_price'],$q['qs_quantite'])),'class="num"');
     $row.=td(sprintf("%.2f",$q['qs_quantite']),'class="num"');
-    $htva=bcmul($q['qs_price'],$q['qs_quantite']);
-    $row.=td($htva,'class="num"');
+    $htva=$q['qs_price'];
+    $row.=td(sprintf("%.2f",$htva),'class="num"');
     $tvac=bcadd($htva,$q['qs_vat']);
     if ($owner->MY_TVA_USE=='Y')
-      $row.=td($tvac,'class="num"');
+      $row.=td(sprintf("%.2f",$tvac),'class="num"');
     $total_tvac+=$tvac;
     $total_htva+=$htva;
     /* Analytic accountancy */
