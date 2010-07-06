@@ -23,6 +23,8 @@ ALTER TABLE jrn_rapt
       ON UPDATE cascade ON DELETE cascade;
 
 ALTER TABLE attr_def ADD COLUMN ad_type text;
+alter table quant_sold alter qs_internal drop not null;
+alter table quant_purchase alter qp_internal drop not null;
 
 update attr_def set ad_type='text';
 update attr_def set ad_type='numeric' where ad_id in (6,7,8,11,21,22);
