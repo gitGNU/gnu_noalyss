@@ -252,7 +252,7 @@ function ShowMenuFiche($p_dossier)
      echo '<div class="lmenu">';
      echo '<TABLE>';
 
-      echo '<TR><TD colspan="1" class="mtitle">
+      echo '<TR><TD colspan="1" class="mtitle"  style="width:auto" >
           <A class="mtitle" HREF="?p_action=fiche&action=add_modele&fiche=modele&'.$str_dossier.'">'._('Création').'</A></TD>
           <TD><A class="mtitle" HREF="?p_action=fiche&'.$str_dossier.'">'._('Recherche').'</A></TD>
            </TR>';
