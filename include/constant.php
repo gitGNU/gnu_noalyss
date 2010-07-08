@@ -31,6 +31,7 @@ $version_phpcompta=9000;
 
 define ("DBVERSION",85);
 define ("DBVERSIONREPO",12);
+define ('NOTFOUND','--not found--');
 
 define ("MAX_COMPTE",4);
 define ('MAX_ARTICLE',9);

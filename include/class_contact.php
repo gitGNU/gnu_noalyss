@@ -110,7 +110,7 @@ $back_url=urlencode($_SERVER['REQUEST_URI']);
 	$l_company=new Fiche($this->cn);
 	$l_company->get_by_qcode($contact->strAttribut(ATTR_DEF_COMPANY),false);
 	$l_company_name=$l_company->strAttribut(ATTR_DEF_NAME);
-	if ( $l_company_name == '- ERROR -' ) $l_company_name="";
+	if ( $l_company_name == NOTFOUND ) $l_company_name="";
 	// add popup for detail
 	if ( $l_company_name !="")
 	  {

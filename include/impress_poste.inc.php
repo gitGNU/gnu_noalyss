@@ -153,7 +153,7 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
       $fiche=new Fiche($cn);
       $qcode=$fiche->get_by_qcode($_GET['f_id']);
       $p=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
-      if ( $p != "- ERROR -") {
+      if ( $p != NOTFOUND) {
 	$go=2;  
       }
    }

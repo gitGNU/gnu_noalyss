@@ -304,7 +304,7 @@ function TransferCSV($p_cn, $periode){
 	$f->get_by_qcode($bq_account);
 	$bq_poste=$f->strAttribut(ATTR_DEF_ACCOUNT);
 	// Vérification que le poste comptable trouvé existe
-	if ( $poste_comptable == '- ERROR -' || strlen(trim($poste_comptable))==0)
+	if ( $poste_comptable == NOTFOUND || strlen(trim($poste_comptable))==0)
 	  $test=0;
 	else
 	  {

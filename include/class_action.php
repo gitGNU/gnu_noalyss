@@ -266,7 +266,7 @@ class Action
       $str_add_button=$f_add_button->input();
 
       // f_id_dest sender
-      if ( $this->qcode_dest != '- ERROR -' && strlen(trim($this->qcode_dest)) != 0)
+      if ( $this->qcode_dest != NOTFOUND && strlen(trim($this->qcode_dest)) != 0)
 	{
 	  $tiers=new Fiche($this->db);
 	  $tiers->get_by_qcode($this->qcode_dest);
@@ -823,7 +823,7 @@ class Action
 	  $fexp->id=$row['f_id_dest'];
 	  $qcode_dest=$fexp->strAttribut(ATTR_DEF_QUICKCODE);
 
-	  $qexp=($qcode_dest=="- ERROR -")?"Interne":$qcode_dest;
+	  $qexp=($qcode_dest==NOTFOUND)?"Interne":$qcode_dest;
 	  $jsexp=sprintf("javascript:showfiche('%s')",
 		      $qexp);
 	  if ( $qexp != 'Interne' )

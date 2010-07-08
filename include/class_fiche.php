@@ -287,7 +287,7 @@ class Fiche {
       if ( sizeof ($this->attribut) == 0 )
 	{
 
-	  if ($this->id==0) return '- ERROR -';
+	  if ($this->id==0) return NOTFOUND;
 	  // object is not in memory we need to look into the database
 	  $sql="select av_text from attr_value join jnt_fic_att_value using(jft_id)
                 where f_id=".FormatString($this->id)." and ad_id=".$p_ad_id;
@@ -295,7 +295,7 @@ class Fiche {
 	  $row=Database::fetch_all($Res);
 	  // if not found return error
 	  if ( $row == false )
-	    return ' - ERROR -';
+	    return NOTFOUND;
 
 	  return $row[0]['av_text'];
 	}
@@ -305,7 +305,7 @@ class Fiche {
 	  if ( $e->ad_id == $p_ad_id )
 	    return $e->av_text;
 	}
-	return '- ERROR -';
+	return NOTFOUND;
     }
   /*!\brief make an array of attributes of the category of card (FICHE_DEF.FD_ID)
    *The array can be used with the function insert, it will return a struct like this :
