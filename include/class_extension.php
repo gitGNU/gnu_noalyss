@@ -249,7 +249,7 @@ ex_id=>''
   static function check_version($i) {
     global $version_phpcompta;
     if ( ! isset ($version_phpcompta) || $version_phpcompta < $i ) {
-      alert('Cette extension ne fonctionne pas sur cett version de PhpCompta'.
+      alert('Cette extension ne fonctionne pas sur cette version de PhpCompta'.
 	    ' Veuillez mettre votre programme a jour');
       exit();
     }
