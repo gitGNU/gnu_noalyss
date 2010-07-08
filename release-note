@@ -50,5 +50,9 @@ TODO22 Il y a deux façon pour les journaux soit selection d'un seul lors de l'a
 TODO23 Idem que TODO22 pour les catégories de fiches : pour les balances Historique et lettré on devrait pouvoir sélectionner plusieurs catégories
 TODO24 : Dans impression -> poste , il faut avoir l'impression des détails des opérations 
 TODO25 : dans recherche de liste, utilisez des tableaux !
-
+TODO27 : Déplacement de fiche : les attributs manquant sont ajoutés !
 TODO26 : Manque l'impression pour les lettrages par poste comptables
+TODO28 : dans jrnx ajouter les f_id, le qcode n'est là que pour accèlèrer; constraint fk on update cascade on delete restrict
+Fiche::delete ajout d'un try catch, commencer par fiche.f_id, le catch rethrow
+TODO29 : ajout d'une taille pour numerique, texte, max 50 min 1, de plus on a une nouvelle option la zone texte: colonne 20, row 4
+changer dans Fiche::display et verify
