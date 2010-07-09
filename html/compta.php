@@ -49,9 +49,9 @@ if ($User->check_dossier($gDossier)=='P') {
   redirect("extension.php?".dossier::get(),0);
   exit();
 }
-
+require_once ('function_javascript.php');
 html_page_start($_SESSION['g_theme']);
-
+echo load_all_script();
 include_once ("user_menu.php");
 echo '<div class="u_tmenu">';
 
