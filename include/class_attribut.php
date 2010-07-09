@@ -33,6 +33,9 @@ class Attribut {
   var $cn;			/*!<  database connection */
   function Attribut($p_ad_id) {
     $this->ad_id=$p_ad_id;
+    $this->ad_type=0;
+    $this->ad_size=0;
+
     $this->cn=-1;
   }
 

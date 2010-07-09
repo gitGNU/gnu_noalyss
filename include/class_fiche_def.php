@@ -81,6 +81,8 @@ function input ()
       $t = new Attribut($row['ad_id']);
       $t->ad_text=$row['ad_text'];
       $t->jnt_order=$row['jnt_order'];
+      $t->ad_size=$row['ad_size'];
+      $t->ad_type=$row['ad_type'];
       $this->attribut[$i]=$t;
     }
     return $this->attribut;

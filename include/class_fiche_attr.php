@@ -15,7 +15,7 @@ class Fiche_Attr
 {
   /* example private $variable=array("easy_name"=>column_name,"email"=>"column_name_email","val3"=>0); */
   
-  protected $variable=array("id"=>"ad_id","desc"=>"ad_text","type"=>"ad_type");
+  protected $variable=array("id"=>"ad_id","desc"=>"ad_text","type"=>"ad_type","size"=>"ad_size");
   function __construct ($p_cn,$p_id=0) {
         $this->cn=$p_cn;
         if ( $p_id == 0 ) {
@@ -54,6 +54,24 @@ class Fiche_Attr
     $this->ad_type=strtolower($this->ad_type);
     if ( in_array($this->ad_type,array('date','text','numeric','zone'))==false)
       throw new Exception('Le type doit être text, numeric ou date',1);
+    if ( trim($this->ad_size)=='' || isNumber($this->ad_size)==0||$this->ad_size>22) {
+      switch ($this->ad_type) {
+      case 'text':
+	$this->ad_size=22;
+	break;
+      case 'numeric':
+	$this->ad_size=9;
+	break;
+      case 'date':
+	$this->ad_size=8;
+	break;
+      case 'zone':
+	$this->ad_size=22;
+	break;
+      default:
+	$this->ad_size=22;
+      }
+    }
   }
   public function save() {
   /* please adapt */
@@ -92,14 +110,14 @@ class Fiche_Attr
     $this->verify();
     /*  please adapt */
     $sql="insert into attr_def(ad_text
-,ad_type
+,ad_type,ad_size
 ) values ($1
-,$2
+,$2,$3
 ) returning ad_id";
     
     $this->ad_id=$this->cn->get_value(
 				      $sql,
-				      array( $this->ad_text,$this->ad_type
+				      array( $this->ad_text,$this->ad_type,$this->ad_size
 					     )
 				      );
 
@@ -110,13 +128,13 @@ class Fiche_Attr
     if ( $this->ad_id < 9000) return;
     /*   please adapt */
     $sql=" update attr_def set ad_text = $1
-,ad_type = $2
+,ad_type = $2,ad_size=$4
  where ad_id= $3";
     $res=$this->cn->exec_sql(
 		 $sql,
 		 array($this->ad_text
-,$this->ad_type
-,$this->ad_id)
+		       ,$this->ad_type
+		       ,$this->ad_id,$this->ad_size)
 		 );
 		 
   }

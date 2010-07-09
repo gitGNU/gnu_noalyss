@@ -129,6 +129,8 @@ class Fiche {
       $t=new Attribut ($row['ad_id']);
       $t->ad_text=$row['ad_text'];
       $t->av_text=$row['av_text'];
+      $t->ad_type=$row['ad_type'];
+      $t->ad_size=$row['ad_size'];
       $t->jnt_order=$row['jnt_order'];
       $this->attribut[$i]=$t;
     }
@@ -419,7 +421,26 @@ Array
 	    }
 	  else
 	    {
-	      $w=new IText();
+		  switch ($attr->ad_type) {
+		  case 'text':
+		    $w=new IText();
+		    $w->size=$attr->ad_size;
+		    break;
+		  case 'numeric':
+		    $w=new INum();
+		    $w->size=$attr->ad_size;
+		    break;
+		  case 'date':
+		    $w=new IDate();
+		    break;
+		  case 'zone':
+		    $w=new ITextArea();
+		    $w->width=$attr->ad_size;
+		    $w->heigh=2;
+		    break;
+		  }
+		  $w->table=0;
+
 	    }
 	  $w->table=$table;
 	  $w->label=$attr->ad_text;
@@ -502,7 +523,24 @@ Array
 
 	      else
 		{
-		  $w=new IText();
+		  switch ($r->ad_type) {
+		  case 'text':
+		    $w=new IText();
+		    $w->size=$r->ad_size;
+		    break;
+		  case 'numeric':
+		    $w=new INum();
+		    $w->size=$r->ad_size;
+		    break;
+		  case 'date':
+		    $w=new IDate();
+		    break;
+		  case 'zone':
+		    $w=new ITextArea();
+		    $w->width=$r->ad_size;
+		    $w->heigh=2;
+		    break;
+		  }
 		  $w->table=0;
 		}
 	    }
