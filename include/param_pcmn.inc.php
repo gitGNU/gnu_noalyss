@@ -28,7 +28,7 @@ require_once('class_dossier.php');
 require_once('function_javascript.php');
 
 $gDossier=dossier::id();
-echo js_include('infobulle.js');
+
 require_once('class_database.php');
 
 /* Admin. Dossier */

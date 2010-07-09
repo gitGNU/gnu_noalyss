@@ -26,12 +26,6 @@ require_once('class_dossier.php');
 require_once('class_acc_ledger.php');
 /* javascript for the search poste */
 require_once('class_ipopup.php');
-echo js_include('accounting_item.js');
-echo js_include('prototype.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('dragdrop.js');
 
 /* ipopup for search poste */
 echo IPoste::ipopup('ipop_account');

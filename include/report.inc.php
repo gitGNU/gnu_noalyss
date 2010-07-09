@@ -32,19 +32,6 @@ include_once ("class_user.php");
 include_once ("user_menu.php");
 require_once('class_ipopup.php');
 
-/* Load all the needed javascript */
-echo js_include('prototype.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('scripts.js');
-echo js_include('acc_ledger.js');
-echo js_include('card.js');
-echo js_include('accounting_item.js');
-echo JS_INFOBULLE;
-echo js_include('ajax_fiche.js');
-echo js_include('dragdrop.js');
-echo js_include('acc_report.js');
 
 echo ICard::ipopup('ipopcard');
 echo ICard::ipopup('ipop_newcard');

@@ -20,13 +20,6 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once('class_acc_payment.php');
-echo JS_LEDGER;
-echo JS_AJAX_FICHE;
-echo JS_PROTOTYPE;
-echo JS_CARD;
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
 
 //---------------------------------------------------------------------------
 // Common variable

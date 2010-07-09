@@ -25,10 +25,10 @@
  */
 require_once('class_fiche_attr.php');
 
-echo js_include('card.js');
+
 
 $fa=new Fiche_Attr($cn);
-// echo '<div id="debug" style="position:absolute;top:0;right:0;border:1px solid red;"></div>';
+
 /////////////////////////////////////////////////////////////////////////////
 // If data are post we save them first
 /////////////////////////////////////////////////////////////////////////////
