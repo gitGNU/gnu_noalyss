@@ -37,7 +37,6 @@ require_once("class_itextarea.php");
 require_once('class_calendar.php');
 require_once('class_acc_ledger.php');
 require_once('function_javascript.php');
-load_all_script();
 $cn=new Database(dossier::id());
 $user=new User($cn);
 $user->Check();
@@ -47,6 +46,7 @@ if ( $user->check_dossier(dossier::id()) == 'P') {
 }
 
 html_page_start($_SESSION['g_theme']);
+load_all_script();
 /*  Check Browser version if < IE6 then unsupported */
 $browser=$_SERVER['HTTP_USER_AGENT'];
 if ( strpos($browser,'MSIE 6')!=false ||
