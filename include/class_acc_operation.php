@@ -224,7 +224,7 @@ function get_internal() {
  function get_jrnx_detail() {
    $user=new User($this->db);
    $filter_sql=$user->get_ledger_sql('ALL',3);
-
+   $filter_sql=str_replace('jrn_def_id','jr_def_id',$filter_sql);
    if ( $this->jr_id==0 ) return;
    $sql=" select  jr_date,j_qcode,j_poste,j_montant,jr_internal,case when j_debit = 'f' then 'C' else 'D' end as debit,jr_comment as description,
                 vw_name,pcm_lib,j_debit,coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter ".
@@ -278,25 +278,25 @@ function get_internal() {
    $csv="";
    foreach ($show as $l) {
      if ( $l['j_poste'] == $this->poste)
-       $r.='<tr bgcolor="red">';
+       $border=' style="border-bottom:1px solid red;"';
      else
-       $r.='<tr>';
-
-       $r.='<td>';
+       $border='';
+     $r.='<tr>';
+       $r.='<td '.$border.'>';
        $a=$l['j_qcode'];;
        $r_notable.=$a;
        $r.=$a;
        $csv.='"'.$a.'";';
        $r.='</td>';
 
-       $r.='<td>';
+       $r.='<td  '.$border.'>';
        $a=$l['j_poste'];
        $r_notable.=$a;
        $r.=$a;
        $csv.='"'.$a.'";';
        $r.='</td>';
 
-       $r.='<td>';
+       $r.='<td  '.$border.'>';
        //       $a=($l['vw_name']=="")?$l['j_qcode']:$l['pcm_lib'];
        $a=(strlen(trim($l['j_qcode']))==0)?$l['pcm_lib']:$l['vw_name'];
        $r_notable.=$a;
@@ -304,14 +304,14 @@ function get_internal() {
        $csv.='"'.$a.'";';
        $r.='</td>';
 
-       $r.='<td>';
+       $r.='<td  '.$border.'>';
        $a=$l['j_montant'];
        $r_notable.=$a;
        $r.=$a;
        $csv.=$a.';';
        $r.='</td>';
 
-       $r.='<td>';
+       $r.='<td  '.$border.'>';
        $a=$l['debit'];
        $r_notable.=$a;
        $r.=$a;
@@ -319,7 +319,7 @@ function get_internal() {
 
        $csv.="\r\n";
        $r.='</td>';
-       $r.='<td>';
+       $r.='<td  '.$border.'>';
        $a=($l['letter']!=-1)?$l['letter']:'';
        $r_notable.=$a;
        $r.=$a;
