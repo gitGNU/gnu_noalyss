@@ -62,7 +62,8 @@ $desc->size=50;
 $select_type->value=array(
 		     array('value'=>'text','label'=>'Texte'),
 		     array('value'=>'numeric','label'=>'Nombre'),
-		     array('value'=>'date','label'=>'Date')
+		     array('value'=>'date','label'=>'Date'),
+		     array('value'=>'zone','label'=>'Zone de texte')
 		     );
 $remove=new IButton('rmfa');
 $remove->label='Effacer';
@@ -83,6 +84,7 @@ for ($e=0;$e<count($array);$e++) {
   if ( $row->get_parameter('id')>= 9000) {
     $select_type->readOnly=false;
     $desc->readOnly=false;
+    $desc->style=' class="input_text" ';
     $r.=td($desc->input());
     $r.=td($select_type->input());
 

@@ -59,9 +59,9 @@ require_once('class_html_input.php');
 
 		$extra=(isset($this->extra))?$this->extra:"";
 
-		$readonly=" readonly ";$this->style='style="border:solid 1px blue;color:black;background:#EDEDED"';
+		$readonly=" readonly ";$style='style="border:solid 1px blue;color:black;background:#EDEDED"';
 		$this->value=str_replace('"','',$this->value);
-		$r='<INPUT '.$this->style.' TYPE="TEXT" id="'.
+		$r='<INPUT '.$style.' TYPE="TEXT" id="'.
 		$this->name.'"'.$t.
 		'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
 		'SIZE="'.$this->size.'" '.$this->javascript." $readonly $this->extra >";

@@ -52,7 +52,7 @@ class Fiche_Attr
     if ( strlen(trim($this->ad_type))==0)
       throw new Exception('Le type ne peut pas être vide',1);
     $this->ad_type=strtolower($this->ad_type);
-    if ( in_array($this->ad_type,array('date','text','numeric'))==false)
+    if ( in_array($this->ad_type,array('date','text','numeric','zone'))==false)
       throw new Exception('Le type doit être text, numeric ou date',1);
   }
   public function save() {
