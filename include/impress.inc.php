@@ -34,7 +34,7 @@ $p_array=array(array ("?p_action=impress&type=jrn&".$str_dossier,_("Journaux")),
 	       array("?p_action=impress&type=poste&".$str_dossier,_("Poste")),
 	       array("?p_action=impress&type=fiche&".$str_dossier,_("Catégorie de fiche")),
 	       array("?p_action=impress&type=rapport&".$str_dossier,_("Rapport")),
-	       array("?p_action=impress&type=rec&".$str_dossier,_("Réconciliation")),
+	       array("?p_action=impress&type=rec&".$str_dossier,_("Rapprochement")),
                array('?p_action=impress&type=bal&'.$str_dossier,_('Balance des comptes')),
 	       array("?p_action=impress&type=bilan&".$str_dossier,_("Bilan"))
 	       );

@@ -34,18 +34,7 @@ require_once('class_acc_operation.php');
 // Show the jrn and date
 //-----------------------------------------------------
 require_once('class_database.php');
-echo JS_LEDGER;
-echo JS_PROTOTYPE;
-echo JS_INFOBULLE;
 require_once('class_ipopup.php');
-echo js_include('accounting_item.js');
-echo js_include('prototype.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('dragdrop.js');
-echo js_include('card.js');
-echo js_include('acc_ledger.js');
 
 echo IPoste::ipopup('ipop_account');
 echo ICard::ipopup('ipopcard');
@@ -175,13 +164,13 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
 	if ( empty($Poste->row)) exit();
 	$Poste->load();
 	echo '<table class="result">';
-	echo '<tr><td  class="mtitle" colspan="5"><h2 class="info">'. $_GET['poste_id'].' '.h($Poste->label).'</h2></td></tr>';
+	echo '<tr><td  class="mtitle" style="width:auto" colspan="6"><h2 class="info">'. $_GET['poste_id'].' '.h($Poste->label).'</h2></td></tr>';
 	/* avoid duplicates */
 	$old=array();
 	foreach ($Poste->row as $detail) {
 	  if ( in_array($detail['jr_id'],$old) == TRUE ) continue;
 	  $old[]=$detail['jr_id'];
-	  echo '<tr><td class="mtitle" colspan="5">'.$detail['j_date'].' '.$detail['jr_internal'].h($detail['description']).'</td></tr>';
+	  echo '<tr><td class="mtitle" style="width:auto" colspan="6">'.$detail['j_date'].' '.$detail['jr_internal'].h($detail['description']).'</td></tr>';
 
 	  $op=new Acc_Operation($cn);
 	  $op->jr_id=$detail['jr_id'];
@@ -240,14 +229,14 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
 	// Detail 
 	//----------------------------------------------------------------------
 	echo Acc_Account_Ledger::HtmlTableHeader();
-	echo '<table class="result">';	    
+	echo '<table class="result" style="width:80%;margin-left:10%">';	    
 	foreach ($a_poste as $poste_id ) 
 	  {
 	    $Poste=new Acc_Account_Ledger ($cn,$poste_id['pcm_val']);
 	    $Poste->load();
 	    $Poste->get_row_date( $_GET['from_periode'], $_GET['to_periode']);
 	    if ( empty($Poste->row)) continue;
-	    echo '<tr><td  class="mtitle"  colspan="5"><h2 class="info">'. $poste_id['pcm_val'].' '.h($Poste->label).'</h2></td></tr>';
+	    echo '<tr><td  class="mtitle" style="width:auto" colspan="6"><h2 class="info">'. $poste_id['pcm_val'].' '.h($Poste->label).'</h2></td></tr>';
 
 	    $detail=$Poste->row[0];
 	    
@@ -257,7 +246,7 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
 	      /* avoid duplicates */
 	  if ( in_array($detail['jr_id'],$old) == TRUE ) continue;
 	  $old[]=$detail['jr_id'];
-	  echo '<tr><td class="mtitle" colspan="5">'. $detail['j_date'].' '.$detail['jr_internal'].' '.hb($detail['description']).' '.hi($detail['jr_pj_number']).'</td></tr>';
+	  echo '<tr><td class="mtitle" style="width:auto" colspan="6">'. $detail['j_date'].' '.$detail['jr_internal'].' '.hb($detail['description']).' '.hi($detail['jr_pj_number']).'</td></tr>';
 
 	      $op=new Acc_Operation($cn);
 	      $op->poste=$poste_id['pcm_val'];

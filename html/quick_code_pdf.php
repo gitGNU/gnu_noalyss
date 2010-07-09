@@ -86,7 +86,38 @@ $pdf->Ln();
     $pdf->ln();
     $tot_deb+=$row['deb_montant'];
     $tot_cred+=$row['cred_montant'];
-
+    /* -------------------------------------- */
+    /* if details are asked we show them here */
+    /* -------------------------------------- */
+    if ( isset($_GET['oper_detail'])){
+      $detail=new Acc_Operation($cn);
+      $detail->jr_id=$row['jr_id'];
+      $a_detail=$detail->get_jrnx_detail();
+      for ($f=0;$f<count($a_detail);$f++) {
+	$l=0;
+	$pdf->Cell($size[$l],6,'',0,0,$align[$l]);$l++;
+	$pdf->Cell($size[$l],6,$a_detail[$f]['j_qcode'],0,0,'L');$l++;
+	$pdf->Cell($size[$l],6,$a_detail[$f]['j_poste'],0,0,'R');$l++;
+	if ( $a_detail[$f]['j_qcode']=='') 
+	  $lib=$a_detail[$f]['pcm_lib'];
+	else 
+	  {
+	    $f_id=$cn->get_value('select f_id from vw_poste_qcode where j_qcode=$1',array($a_detail[$f]['j_qcode'])) ;
+	    $lib=$cn->get_value('select av_text from jnt_fic_att_value join attr_value using (jft_id) where ad_id=$1 and f_id=$2',
+				array(ATTR_DEF_NAME,$f_id));
+	  }
+	$pdf->Cell($size[$l],6,$lib,0,0,$align[$l]);$l++;
+	$pdf->Cell($size[$l],6,(($a_detail[$f]['letter']!=-1)?$a_detail[$f]['letter']:''),0,0,$align[$l]);$l++;
+	
+	$deb=($a_detail[$f]['debit']=='D')?$a_detail[$f]['j_montant']:'';
+	$cred=($a_detail[$f]['debit']=='C')?$a_detail[$f]['j_montant']:'';
+	
+	$pdf->Cell($size[$l],6,(sprintf('% 12.2f',$deb)),0,0,$align[$l]);$l++;
+	$pdf->Cell($size[$l],6,(sprintf('% 12.2f',$cred)),0,0,$align[$l]);$l++;
+	$pdf->ln();
+      }
+    }
+  
   }
   $str_debit=sprintf("% 12.2f €",$tot_deb);
   $str_credit=sprintf("% 12.2f €",$tot_cred);

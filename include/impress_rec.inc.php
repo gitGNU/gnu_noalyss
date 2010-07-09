@@ -35,6 +35,7 @@ echo load_all_script();
  *@file
  *@todo add the export to PDF
  */ 
+echo '<div class="noprint">';
 echo '<div class="content">';
 $rjrn='';
 $radio=new IRadio('choice');
@@ -45,21 +46,22 @@ echo dossier::hidden().HtmlInput::hidden('p_action','impress').HtmlInput::hidden
 echo '<ol style="list-style-type:none;">';
 
 $radio->selected=($choice==0)?true:false;$radio->value=0;
-echo '<li>'.$radio->input().'Opérations réconcilées'.'</li>';
+echo '<li>'.$radio->input().'Opérations rapprochées'.'</li>';
 
 $radio->selected=($choice==1)?true:false;$radio->value=1;
-echo '<li>'.$radio->input().'Opérations réconcilées avec des montants différents'.'</li>';
+echo '<li>'.$radio->input().'Opérations rapprochées avec des montants différents'.'</li>';
 
 $radio->selected=($choice==2)?true:false;$radio->value=2;
-echo '<li>'.$radio->input().'Opérations réconcilées avec des montants identiques'.'</li>';
+echo '<li>'.$radio->input().'Opérations rapprochées avec des montants identiques'.'</li>';
 
 $radio->selected=($choice==3)?true:false;$radio->value=3;
-echo '<li>'.$radio->input().'Opérations non réconcilées'.'</li>';
+echo '<li>'.$radio->input().'Opérations non rapprochées'.'</li>';
 
 echo '<li>'.HtmlInput::submit('vis',_('Visualisation')).'</li>';
-echo '</lo>';
+echo '</ol>';
 echo '</form>';
 echo '<hr>';
+echo '</div>';
 echo '</div>';
 echo '<div class="content">';
 if ( ! isset($_GET['vis'])) exit();
