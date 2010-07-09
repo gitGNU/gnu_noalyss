@@ -1204,7 +1204,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
     /* display periode */
     $date_limit=$lPeriode->get_date_limit();
     $ret.='<tr><td> '._('Période Comptable').' '.$date_limit['p_start'].'-'.$date_limit['p_end'].'</td></tr>';
-    $ret.="<tr><td>"._('Description')." </td><td>".h($desc)."</td></tr>";
+    $ret.="<tr><td>"._('Libellé')." </td><td>".h($desc)."</td></tr>";
     $ret.="<tr><td>"._('PJ Num')." </td><td>".h($e_pj)."</td></tr>";
     $ret.='</table>';
     $ret.="<table>";
@@ -1377,7 +1377,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 
     echo '</tr>';
 
-    $ret.= '<tr><td>'._('Description');
+    $ret.= '<tr><td>'._('Libellé');
     $wDescription=new IText('desc');
     $wDescription->readonly=$p_readonly;
     $wDescription->size=100;

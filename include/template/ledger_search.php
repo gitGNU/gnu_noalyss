@@ -20,7 +20,7 @@
 
 <li>
 <span style='text-align:right;width:30em'>
-<?=_('Et contenant dans la description, pièce justificative ou n° interne')?>
+<?=_('Et contenant dans le libellé, pièce justificative ou n° interne')?>
 </span>
 
 <span>

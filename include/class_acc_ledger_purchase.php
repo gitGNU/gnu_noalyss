@@ -1087,7 +1087,7 @@ array
     $r.='<td> '._('Journal').' '.h($this->get_name()).'</td>';
     $r.='</tr>';
     $r.='<tr>';
-    $r.='<td colspan="2"> '._('Description').' '.h($e_comm).'</td><td> Pj :'.h($e_pj).'</td>';
+    $r.='<td colspan="2"> '._('Libellé').' '.h($e_comm).'</td><td> Pj :'.h($e_pj).'</td>';
     $r.='</tr>';
     $r.='<tr>';
     $r.='<td colspan="3"> '._('Fournisseur').' '.h($e_client.':'.$client_name).'</td>';

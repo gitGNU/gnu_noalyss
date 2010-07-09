@@ -567,7 +567,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.='<td> '._('Journal').' '.h($this->get_name()).'</td>';
     $r.='</tr>';
     $r.='<tr>';
-    $r.='<td colspan="3"> '._('Description').' '.h($e_comm).'</td><td>PJ Num:  '.h($e_pj).'</td>';
+    $r.='<td colspan="3"> '._('Libellé').' '.h($e_comm).'</td><td>PJ Num:  '.h($e_pj).'</td>';
     $r.='</tr>';
     $r.='<tr>';
     $r.='<td colspan="3"> '._('Client').' '.h($e_client.':'.$client_name).'</td>';

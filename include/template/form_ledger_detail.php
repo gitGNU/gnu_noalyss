@@ -14,7 +14,7 @@
 <?=$f_periode?><br>
       <?=_('Journal')?> <?=$f_jrn?><br><hr>
 <?=$f_type?><?=$f_client_qcode?><?=$f_client_bt?> <?=$f_client?><br>
-      <?=_('Description')?> <?=$f_desc?>
+      <?=_('Libellé')?> <?=$f_desc?>
       <?=_('Num Pj')?> <?=$f_pj?><br>
 <?=$str_add_button?><?=$str_cal_button?>
 </fieldset>
