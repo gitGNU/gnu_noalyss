@@ -301,8 +301,8 @@ function get_solde_detail($p_cond="") {
 	 "<TD>".$vw_operation."</TD>".
 	 "<TD>".$op['j_date']."</TD>".
 	 "<TD>".h($op['description']).' '.h($op['jr_pj_number'])."</TD>".
-	 "<TD style=\"text-align:right\">".$op['deb_montant']."</TD>".
-	 "<TD style=\"text-align:right\">".$op['cred_montant']."</TD>".
+	 "<TD style=\"text-align:right\">".sprintf("%.2f",$op['deb_montant'])."</TD>".
+	 "<TD style=\"text-align:right\">".sprintf("%.2f",$op['cred_montant'])."</TD>".
 	 td($let,' style="color:red;text-align:right"').
 	 "</TR>";
 

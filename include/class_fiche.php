@@ -926,7 +926,7 @@ av_text1=>'name'
       $filter_sql=$user->get_ledger_sql('ALL',3);
 
       $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
-      $Res=$this->cn->exec_sql("select distinct j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,j_qcode,".
+      $Res=$this->cn->exec_sql("select distinct j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,j_qcode,".
 	       "case when j_debit='t' then j_montant else 0 end as deb_montant,".
 	       "case when j_debit='f' then j_montant else 0 end as cred_montant,".
 	       " jr_comment as description,jrn_def_name as jrn_name,".
@@ -1074,8 +1074,8 @@ av_text1=>'name'
 	  "<TD>".$vw_operation."</TD>".
 	  "<TD>".format_date($op['j_date_fmt'])."</TD>".
 	  "<TD>".h($op['description'])."</TD>".
-	  "<TD style=\"text-align:right\">".$op['deb_montant']."</TD>".
-	  "<TD style=\"text-align:right\">".$op['cred_montant']."</TD>".
+	  "<TD style=\"text-align:right\">".sprintf("%.2f",$op['deb_montant'])."</TD>".
+	  "<TD style=\"text-align:right\">".sprintf("%.2f",$op['cred_montant'])."</TD>".
 	  td($let,' style="color:red;text-align:right"').
 	  "</TR>";
 
