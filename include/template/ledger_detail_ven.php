@@ -133,11 +133,26 @@ echo tr($row);
 <fieldset>
 <legend>
 <?=_('Ecritures comptables')?>
+</legend>
 <? 
+  /* if it is not in a popup, the details are hidden */
+  if ( $div != 'popup') {
+    $ib=new IButton ("a".$div);
+    $ib->label='Afficher';
+    $ib->javascript="g('detail_".$div."').style.display='block';g('a".$div."').style.display='none';";
+    echo $ib->input();
+    echo '<div id="detail_'.$div.'" style="display:none">';
+    $ib=new IButton ("h".$div);
+    $ib->label='Cacher';
+    $ib->javascript="g('detail_".$div."').style.display='none';g('a".$div."').style.display='block';";
+    echo $ib->input();
+  } else 
+    echo '<div>';
+
   $detail=new Acc_Misc($cn,$obj->jr_id);
 $detail->get();
 ?>
-</legend>
+
 <table class="result">
 <tr>
 <?
@@ -182,6 +197,7 @@ echo '</tr>';
 ?>
 </table>
 </fieldset>
+</div>
 <?
 require_once('ledger_detail_bottom.php');
 ?>
