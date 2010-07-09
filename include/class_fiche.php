@@ -1512,16 +1512,8 @@ function is_used() {
    $this->cn->exec_sql('update fiche set fd_id=$1 where f_id=$2',array($p_fdid,$this->id));
    // add missing 
    $this->cn->exec_sql('select fiche_attribut_synchro($1)',array($p_fdid));
-   // remove not valid
-   $ajnt=$this->cn->get_array('select jft_id from jnt_fic_att_value where f_id=$1 and ad_id not in (select ad_id from jnt_fic_attr where fd_id=$2)',
-			array($this->id,$p_fdid));
-   if ( count($ajnt) != 0 ) {
-     for ($i=0;$i<count($ajnt);$i++){
-       $this->cn->exec_sql('delete from attr_value where jft_id=$1',array($ajnt[$i]['jft_id']));
-       $this->cn->exec_sql('delete from jnt_fic_att_value where jft_id=$1',array($ajnt[$i]['jft_id']));
-       
-     }
-   }
+   // add to the destination missing fields
+   $this->cn->exec_sql("insert into jnt_fic_attr (fd_id,ad_id,jnt_order) select $1,ad_id,100 from jnt_fic_att_value where f_id=$2 and ad_id not in (select ad_id from jnt_fic_attr where fd_id=$3)",array($p_fdid,$this->id,$p_fdid));
    $this->cn->commit();
  }
 
