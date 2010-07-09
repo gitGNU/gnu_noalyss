@@ -16,14 +16,14 @@ if ( isset($_REQUEST['save_todo_list'])) {
   $add_todo->set_parameter('id',$_REQUEST['tl_id']);
   $add_todo->set_parameter('title',$_REQUEST['p_title']);
   $add_todo->set_parameter('desc',$_REQUEST['p_desc']);
-  $add_todo->set_parameter('date',$_REQUEST['p_date']);
+  $add_todo->set_parameter('date',$_REQUEST['p_date_todo']);
   $add_todo->save();
 }
 $todo=new Todo_List($cn);
 $array=$todo->load_all();
 echo '<div id="add_todo_list" class="add_todo_list">';
 echo '<form method="post">';
-$wDate=new IDate('p_date');
+$wDate=new IDate('p_date_todo');
 $wTitle=new IText('p_title');
 $wDesc=new ITextArea('p_desc');
 $wDesc->heigh=5;

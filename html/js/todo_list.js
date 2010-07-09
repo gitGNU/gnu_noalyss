@@ -56,7 +56,7 @@ function todo_list_show_success(req) {
 	if ( tl_id.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
 
 	$('p_title').value=getNodeText(tl_title[0]);
-	$('p_date').value=getNodeText(tl_date[0]);
+	$('p_date_todo').value=getNodeText(tl_date[0]);
 	$('p_desc').value=getNodeText(tl_desc[0]);
 	$('tl_id').value=getNodeText(tl_id[0]);
 	$('add_todo_list').style.display='block';
@@ -72,7 +72,7 @@ function add_todo() {
     $('add_todo_list').style.display='block';
     $('p_title').value='';
 
-    $('p_date').value='';
+    $('p_date_todo').value='';
     $('p_desc').value='';
     $('tl_id').value=0;
 }
