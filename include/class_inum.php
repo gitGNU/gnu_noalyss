@@ -42,9 +42,9 @@ class INum extends IText
   public function display()
   {
     $this->size=9;
-    $readonly=" readonly ";$this->style='style="border:solid 1px blue;color:black;background:#EDEDED;text-align:right"';
+    $readonly=" readonly ";$style='style="border:solid 1px blue;color:black;background:#EDEDED;text-align:right"';
     $this->value=str_replace('"','',$this->value);
-    $r='<INPUT '.$this->style.' TYPE="TEXT" id="'.
+    $r='<INPUT '.$style.' TYPE="TEXT" id="'.
       $this->name.'"'.
       'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
       'SIZE="'.$this->size.'" '.$this->javascript." $readonly $this->extra >";

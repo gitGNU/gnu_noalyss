@@ -34,7 +34,7 @@ require_once('class_html_input.php');
 		 if ( $this->readOnly==true) return $this->display();
 		 $r='<input type="text" name="'.$this->name.'" id="'.$this->name.'"'.
 				'style="border:solid 1px blue;"'.
-				'size="10"'.
+				'size="8"'.
 				' value ="'.$this->value.'"'.
 				'/>'.
 				'<img src="image/x-office-calendar.png" id="'.$this->name.'_trigger"'.
