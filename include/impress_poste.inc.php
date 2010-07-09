@@ -163,7 +163,7 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
 	$Poste->get_row_date( $_GET['from_periode'], $_GET['to_periode']);
 	if ( empty($Poste->row)) exit();
 	$Poste->load();
-	echo '<table class="result">';
+	echo '<table class="result"  style="width:80%;margin-left:10%">';
 	echo '<tr><td  class="mtitle" style="width:auto" colspan="6"><h2 class="info">'. $_GET['poste_id'].' '.h($Poste->label).'</h2></td></tr>';
 	/* avoid duplicates */
 	$old=array();
