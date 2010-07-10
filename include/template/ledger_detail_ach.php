@@ -141,13 +141,13 @@ echo tr($row);
     $ib->label='Afficher';
     $ib->javascript="g('detail_".$div."').style.display='block';g('a".$div."').style.display='none';";
     echo $ib->input();
-    echo '<div id="detail_'.$div.'" style="display:none">';
+    echo '<div id="detail_'.$div.'" class="content" style="display:none">';
     $ib=new IButton ("h".$div);
     $ib->label='Cacher';
     $ib->javascript="g('detail_".$div."').style.display='none';g('a".$div."').style.display='block';";
     echo $ib->input();
   } else 
-    echo '<div>';
+    echo '<div class="content">';
 $detail=new Acc_Misc($cn,$obj->jr_id);
 $detail->get();
 ?>
@@ -195,8 +195,9 @@ echo '</tr>';
   }
 ?>
 </table>
-</fieldset>
 </div>
+</fieldset>
+
 <?
 require_once('ledger_detail_bottom.php');
 ?>
