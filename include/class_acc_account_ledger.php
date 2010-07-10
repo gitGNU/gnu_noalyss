@@ -281,7 +281,7 @@ function get_solde_detail($p_cond="") {
      $rep="";
 
      echo '<h2 class="info">'.$this->id." ".$this->name.'</h2>';
-     echo "<TABLE class=\"resultfooter\" width=\"100%\">";
+     echo "<TABLE class=\"resultfooter\" style=\"border-collapse:separate;width:100%;border-spacing:5px\">";
      echo '<tbody>';
      echo "<TR>".
        "<TH> Code interne </TH>".

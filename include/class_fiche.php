@@ -1031,7 +1031,7 @@ av_text1=>'name'
       $rep="";
       $already_seen=array();
       echo '<h2 class="info">'.$this->id." ".$name.'</h2>';
-      echo "<TABLE class=\"result\" width=\"100%\">";
+      echo "<TABLE class=\"result\" style=\"width:100%;border-collapse:separate;border-spacing:5px\">";
       echo "<TR>".
 	"<TH> Code interne </TH>".
 	"<TH> Date</TH>".
@@ -1092,7 +1092,7 @@ av_text1=>'name'
       $rep="";
 
       echo '<h2 class="info">'." ".$name.'</h2>';
-      echo "<TABLE class=\"resultfooter\" width=\"100%\">";
+      echo "<TABLE class=\"resultfooter\" style=\"width:100%;border-collapse:separate;border-spacing:5px\">";
       echo '<tbody>';
       echo "<TR>".
 	"<TH>"._('Code interne')." </TH>".
