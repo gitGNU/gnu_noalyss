@@ -35,18 +35,7 @@ require_once('class_acc_ledger.php');
 require_once('class_periode.php');
 
 $User->can_request(IMPBAL);
-echo JS_LEDGER;
-echo JS_PROTOTYPE;
-echo JS_INFOBULLE;
 require_once('class_ipopup.php');
-echo js_include('accounting_item.js');
-echo js_include('prototype.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('dragdrop.js');
-echo js_include('card.js');
-echo js_include('acc_ledger.js');
 echo IPoste::ipopup('ipop_account');
 echo '<div class="content">';
 
@@ -71,7 +60,7 @@ $input_to=new IPeriod("to_periode",$to);
 $input_to->show_start_date=false;
 $input_to->filter_year;
 $input_to->type=ALL;
-$input_to->cn=$cn;
+$input_to->cn=$cn; 
 $input_to->user=$User;
 echo ' jusque :'.$input_to->input();
 
@@ -79,32 +68,21 @@ echo ' jusque :'.$input_to->input();
 
 
 /*  add a all ledger choice */
-$ledger=new IButton('l');
-$ledger->label="Journaux";
-$ledger->javascript=" show_ledger_choice()";
-echo $ledger->input();
-
-/* create a hidden div for the ledger */
-echo '<div id="div_jrn">';
-echo '<h2 class="info">Choix des journaux</h2>';
-$selected=(isset($_GET['r_jrn']))?$_GET['r_jrn']:null;
+echo 'Filtre ';
+$rad=new IRadio();
 $array_ledger=$User->get_ledger('ALL',3);
-echo '<ul>';
-for ($e=0;$e<count($array_ledger);$e++){
-  $row=$array_ledger[$e];
-  $r=new ICheckBox('r_jrn['.$e.']',$row['jrn_def_id']);
+$selected=(isset($_GET['r_jrn']))?$_GET['r_jrn']:null;
+$select_cat=(isset($_GET['r_cat']))?$_GET['r_cat']:null;
+$array_cat=Acc_Ledger::array_cat();
 
-  if ( $selected != null && isset($selected[$e])) { $r->selected=true;}
-  echo '<li style="list-style-type: none;">'.$r->input().$row['jrn_def_name'].'('.$row['jrn_def_type'].')</li>';
-
-}
+echo '<ul style="list-style-type:none">';
+if ( ! isset($_GET['p_filter']) || $_GET['p_filter']==0) $rad->selected='t';else $rad->selected=false;
+echo '<li>'.$rad->input('p_filter',0).'Aucun filtre, tous les journaux'.'</li>';
+if (  isset($_GET['p_filter']) && $_GET['p_filter']==1) $rad->selected='t'; else $rad->selected=false;
+echo '<li>'.$rad->input('p_filter',1).'Filtré par journal'.HtmlInput::select_ledger($array_ledger,$selected).'</li>';
+if (  isset($_GET['p_filter']) && $_GET['p_filter']==2) $rad->selected='t';else $rad->selected=false;
+echo '<li>'.$rad->input('p_filter',2).'Filtré par catégorie'.HtmlInput::select_cat($array_cat).'</li>';
 echo '</ul>';
-$hide=new IButton('l');
-$hide->label="Cacher";
-$hide->javascript=" hide_ledger_choice() ";
-echo $hide->input();
-
-echo '</div>';
 
 $from_poste=new IPoste();
 $from_poste->name="from_poste";
@@ -150,9 +128,14 @@ if ( isset ($_GET['view']  ) ) {
     HtmlInput::hidden("p_action","impress").
     HtmlInput::hidden("from_periode",$_GET['from_periode']).
     HtmlInput::hidden("to_periode",$_GET['to_periode']);
+  echo HtmlInput::hidden('p_filter',$_GET['p_filter']);
   for ($e=0;$e<count($array_ledger);$e++) 
     if (isset($selected[$e]))
-      echo    HtmlInput::hidden("r_jrn[]",$e);
+      echo    HtmlInput::hidden("r_jrn[$e]",$e);
+  for ($e=0;$e<count($array_cat);$e++) 
+    if (isset($select_cat[$e]))
+      echo    HtmlInput::hidden("r_cat[$e]",$e);
+
     echo HtmlInput::hidden("from_poste",$_GET['from_poste']).
     HtmlInput::hidden("to_poste",$_GET['to_poste']);
   echo "</form></TD>";
@@ -163,9 +146,14 @@ if ( isset ($_GET['view']  ) ) {
     HtmlInput::hidden("p_action","impress").
     HtmlInput::hidden("from_periode",$_GET['from_periode']).
     HtmlInput::hidden("to_periode",$_GET['to_periode']);
-    for ($e=0;$e<count($array_ledger);$e++) 
+  echo HtmlInput::hidden('p_filter',$_GET['p_filter']);
+  if (isset($_GET ['r_jrn']))
       if (isset($selected[$e]))
-	echo    HtmlInput::hidden("r_jrn[]",$e);
+	echo    HtmlInput::hidden("r_jrn[$e]",$e);
+    for ($e=0;$e<count($array_cat);$e++) 
+      if (isset($select_cat[$e]))
+	echo    HtmlInput::hidden("r_cat[$e]",$e);
+    
     echo   HtmlInput::hidden("from_poste",$_GET['from_poste']).
     HtmlInput::hidden("to_poste",$_GET['to_poste']);
 
@@ -182,10 +170,17 @@ if ( isset ($_GET['view']  ) ) {
 //-----------------------------------------------------
 if ( isset($_GET['view'] ) ) {
   $bal=new Acc_Balance($cn);
-  for ($e=0;$e<count($array_ledger);$e++) 
-    if (isset($selected[$e]))
-      $bal->jrn[]=$e;
-
+  if ( $_GET['p_filter']==1) {
+    for ($e=0;$e<count($array_ledger);$e++) 
+      if (isset($selected[$e]))
+	$bal->jrn[]=$array_ledger[$e]['jrn_def_id'];
+  }
+  if ( $_GET['p_filter'] == 0 ) {
+    $bal->jrn=null;
+  }
+  if ( $_GET['p_filter'] == 2 && isset ($_GET['r_cat'])) {
+    $bal->filter_cat($_GET['r_cat']);
+  }
   $bal->from_poste=$_GET['from_poste'];
   $bal->to_poste=$_GET['to_poste'];
 

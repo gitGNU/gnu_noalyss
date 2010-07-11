@@ -910,4 +910,14 @@ div#div_jrn{
 		      background-color:#EDF3FF;
 		      
 }
+ div#div_cat{ 
+              position:absolute;
+              border:1px solid black;
+               top:15%;left:100;
+              visibility:hidden;
+              z-index:2;
+              width:50em;
+             background-color:#EDF3FF;
+		      
+}
  

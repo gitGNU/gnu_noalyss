@@ -62,13 +62,18 @@ class Acc_Balance {
 
     $and=""; $jrn="";
     $from_poste="";$to_poste="";
-    if ($this->jrn!= null){	  
+    /* if several ledgers are asked then we filter here  */
+    if ($this->jrn!== null){	  
       $user=new User($this->db);
-      $ajrn=$user->get_ledger('ALL',3);
+    /**
+     *@file
+     *@bug the get_ledger here is not valid and useless we just need a list of the 
+     * asked ledgers
+     */
+
       $jrn="  j_jrn_def in (";$comma='';
       for ($e=0;$e<count($this->jrn);$e++) {
-	$idx=$this->jrn[$e];
-	$jrn.=$comma.$ajrn[$idx]['jrn_def_id'];
+	$jrn.=$comma.$this->jrn[$e];
 	$comma=',';
       }
       $jrn.=')';
@@ -136,6 +141,23 @@ $and $filter_sql
     $array[$i]=$a;
     $this->row=$array;
     return $array;
+
+  }
+  /**
+   * set the $this->jrn to the cat
+   */
+  function filter_cat($p_array) {
+    if ( empty($p_array) ) {      $bal->jn=null;return;}
+    /* get the list of jrn of the cat. */
+
+    $array=Acc_Ledger::array_cat();
+    $jrn=array();
+    for ($e=0;$e<count($array);$e++) {
+      if ( isset($p_array[$e])){
+	$t_a=$this->db->get_array('select jrn_def_id from jrn_def where jrn_def_type=$1',array($array[$e]['cat']));
+	for ( $f=0;$f < count($t_a);$f++) $this->jrn[]=$t_a[$f]['jrn_def_id'];
+      }
+    }
 
   }
 }

@@ -2643,4 +2643,18 @@ array
       $cn->commit(); 
     }
   }
+  /**
+   * create an array of the existing cat, to be used in a checkbox form
+   *
+   */
+  static function array_cat() {
+    $r= array(
+	      array('cat'=>'VEN','name'=>'Journaux de vente'),
+	      array('cat'=>'ACH','name'=>'Journaux d\'achat'),
+	      array('cat'=>'FIN','name'=>'Journaux Financier'),
+	      array('cat'=>'ODS','name'=>'Journaux d\'Opérations diverses')
+	      );
+    return $r;
+  }
+
 }

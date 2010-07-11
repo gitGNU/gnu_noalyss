@@ -227,4 +227,79 @@ echo $string => {'prop':'1','prop2':'2','prop3':'3'};
     return sprintf('<A class="detail" HREF="javascript:modifyOperation(%d,%d)">%s</A>',
 		   $p_jr_id,dossier::id(),$p_mesg);
   }
+  /**
+   * return the html code to create an hidden div and a button
+   * to show this DIV. This contains all the available ledgers
+   * for the user in READ or RW 
+   *@param $p_array is an array obtains thanks User::get_ledger
+   *@param $selected is an array of checkbox
+   *@note the choosen ledger are stored in the array r_jrn (_GET)
+   */
+  static function select_ledger($p_array,$p_selected) {
+    ob_start();
+    $ledger=new IButton('l');
+    $ledger->label="Journaux";
+    $ledger->javascript=" show_ledger_choice()";
+    echo $ledger->input();
+
+    /* create a hidden div for the ledger */
+    echo '<div id="div_jrn">';
+    echo '<h2 class="info">Choix des journaux</h2>';
+
+    echo '<ul>';
+    for ($e=0;$e<count($p_array);$e++){
+      $row=$p_array[$e];
+      $r=new ICheckBox('r_jrn['.$e.']',$row['jrn_def_id']);
+      $idx=$row['jrn_def_id'];
+      if ( $p_selected != null && isset($p_selected[$e])) { $r->selected=true;}
+      echo '<li style="list-style-type: none;">'.$r->input().$row['jrn_def_name'].'('.$row['jrn_def_type'].')</li>';
+
+    }
+    echo '</ul>';
+    $hide=new IButton('l');
+    $hide->label="Valider";
+    $hide->javascript=" hide_ledger_choice() ";
+    echo $hide->input();
+
+    echo '</div>';
+    $ret=ob_get_contents();
+    ob_clean();
+    return $ret;
+  }
+  /**
+   *create a hidden plus button to select the cat of ledger
+   *@note the selected value is stored in the array p_cat
+   */
+  static function select_cat($array_cat) {
+    ob_start();
+    $ledger=new IButton('l');
+    $ledger->label="Catégorie";
+    $ledger->javascript=" show_cat_choice()";
+    echo $ledger->input();
+
+    /* create a hidden div for the ledger */
+    echo '<div id="div_cat">';
+    echo '<h2 class="info">Choix des categories</h2>';
+    $selected=(isset($_GET['r_cat']))?$_GET['r_cat']:null;
+
+    echo '<ul>';
+    for ($e=0;$e<count($array_cat);$e++){
+      $row=$array_cat[$e];
+      $re=new ICheckBox('r_cat['.$e.']',$row['cat']);
+
+      if ( $selected != null && isset($selected[$e])) { $re->selected=true;}
+      echo '<li style="list-style-type: none;">'.$re->input().$row['name'].'('.$row['cat'].')</li>';
+
+    }
+    echo '</ul>';
+    $hide=new IButton('l');
+    $hide->label="Valider";
+    $hide->javascript=" hide_cat_choice() ";
+    echo $hide->input();
+
+    echo '</div>';
+    $r=ob_get_contents();
+    ob_clean();
+    return $r;
+  }
 }

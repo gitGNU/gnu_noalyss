@@ -34,7 +34,7 @@ $cn=new Database($gDossier);
 
 
 require_once ('class_user.php');
-$User=new User(new Database());
+$User=new User($cn);
 $User->Check();
 if ( $User->check_action(IMPBAL) == 0)
   {
@@ -44,7 +44,26 @@ if ( $User->check_action(IMPBAL) == 0)
 echo 'poste;libelle;deb;cred;solde deb;solde cred';
 printf("\n");
 $bal=new Acc_Balance($cn);
-$bal->jrn=(isset($_GET['r_jrn']))?$_GET['r_jrn']:null;
+$bal->jrn=null;
+switch( $_GET['p_filter']){
+case 0:
+  $bal->jrn=null;
+  break;
+case 1:
+  if (  isset($_GET['r_jrn'])) {
+    $selected=$_GET['r_jrn'];
+    $array_ledger=$User->get_ledger('ALL',3);
+    for ($e=0;$e<count($array_ledger);$e++){
+      if (isset ($selected[$e]))
+	$bal->jrn[]=$array_ledger[$e]['jrn_def_id'];
+    }
+  }
+  break;
+case 2:
+  if ( isset($_GET['r_cat']))   $bal->filter_cat($_GET['r_cat']);
+  break;
+}
+
 $bal->from_poste=$_GET['from_poste'];
 $bal->to_poste=$_GET['to_poste'];
 

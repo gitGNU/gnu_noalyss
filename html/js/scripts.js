@@ -526,3 +526,15 @@ function show_ledger_choice() {
 function hide_ledger_choice() {
     g('div_jrn').style.visibility='hidden';
 }
+/**
+* show the cat of ledger choice
+*/
+function show_cat_choice() {
+    g('div_cat').style.visibility='visible';
+}
+/**
+* hide the cat of ledger choice
+*/
+function hide_cat_choice() {
+    g('div_cat').style.visibility='hidden';
+}

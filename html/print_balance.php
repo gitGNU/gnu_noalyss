@@ -42,15 +42,33 @@ $gDossier=dossier::id();
 $cn=new Database($gDossier);
 $rep=new Database();
 include ('class_user.php');
-$User=new User($rep);
+$User=new User($cn);
 $User->Check();
 
 $bal=new Acc_Balance($cn);
 $User->can_request(IMPBAL,1);
 
 extract ($_GET);
+$bal->jrn=null;
+switch( $_GET['p_filter']){
+case 0:
+  $bal->jrn=null;
+  break;
+case 1:
+  if (  isset($_GET['r_jrn'])) {
+    $selected=$_GET['r_jrn'];
+    $array_ledger=$User->get_ledger('ALL',3);
+    for ($e=0;$e<count($array_ledger);$e++){
+      if (isset ($selected[$e]))
+	$bal->jrn[]=$array_ledger[$e]['jrn_def_id'];
+    }
+  }
+  break;
+case 2:
+  if ( isset($_GET['r_cat']))   $bal->filter_cat($_GET['r_cat']);
+  break;
+}
 
-$bal->jrn=(isset($_GET['p_jrn']))?$_GET['p_jrn']:null;
 $bal->from_poste=$_GET['from_poste'];
 $bal->to_poste=$_GET['to_poste'];
 
