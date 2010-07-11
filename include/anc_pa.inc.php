@@ -100,10 +100,11 @@ if ( isset($_REQUEST['sa']))
 		$ret.= $wSa;
 		$ret.= $wAction;
 		$ret.=HtmlInput::submit("submit","Enregistre");
-		$ret.=sprintf('<A class="mtitle" HREF="%s">'.
+/*		$ret.=sprintf('<A class="button" HREF="%s" onclick="return confirm(\'Effacer ?\')">'.
 					  '<input type="button" value="Efface"></A>',
 					  "?p_action=ca_pa&pa_id=".$_GET['pa_id']."&sa=pa_delete&$str_dossier");
-
+*/
+		$ret.=HtmlInput::button_anchor('Efface',"?p_action=ca_pa&pa_id=".$_GET['pa_id']."&sa=pa_delete&$str_dossier",'Efface','onclick="return confirm(\'Effacer ?\')"');
 		$ret.= '</form>';
 		$ret.= '</div>';
 

@@ -203,12 +203,14 @@ echo $string => {'prop':'1','prop2':'2','prop3':'3'};
    *\param $p_label the text
    *\param $p_value the location of the window, 
    *\param $p_name the id of the span
+   *\param $p_javascript javascript for this button
    *\return string with htmlcode
    */
-  static function button_anchor($p_label,$p_value,$p_name="") {
-    $r=sprintf('<span id="%s"> <A id="anchorbutton" style="display:inline;" href="%s" >%s</A></span>',
+  static function button_anchor($p_label,$p_value,$p_name="",$p_javascript="") {
+    $r=sprintf('<span id="%s"> <A id="anchorbutton" style="display:inline;"  href="%s" %s >%s</A></span>',
 	       $p_name,
 	       $p_value,
+	       $p_javascript,
 	       $p_label);
     return $r;
   }
