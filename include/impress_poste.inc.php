@@ -105,7 +105,18 @@ $detail->disabled=false;
 $detail->selected=(isset($_REQUEST['oper_detail']))?true:false;
 echo $detail->input("oper_detail");
 echo '</td></tr>';
+$a_let=array(
+	     array('value'=>0,'label'=>'Toutes les opérations'),
+	     array('value'=>1,'label'=>' Opérations lettrées'),
+	     array('value'=>2,'label'=>' Opérations non lettrées')
+	     );
 echo '</TABLE>';
+$salet=new ISelect('ople');
+$salet->value=$a_let;
+$salet->selected=(isset ($_GET['ople']))?$_GET['ople']:0;
+
+echo $salet->input();
+
 print HtmlInput::submit('bt_html','Visualisation');
 
 echo '</FORM>';
@@ -153,14 +164,14 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
       echo '<div class="content">';
       if ( ! isset($_REQUEST['oper_detail']) ) {
 	Acc_Account_Ledger::HtmlTableHeader();
-	$Poste->HtmlTable();
+	$Poste->HtmlTable(null,$_GET['ople']);
 	echo Acc_Account_Ledger::HtmlTableHeader();
       } else {
 	//----------------------------------------------------------------------
 	// Detail 
 	//----------------------------------------------------------------------
 	Acc_Account_Ledger::HtmlTableHeader();
-	$Poste->get_row_date( $_GET['from_periode'], $_GET['to_periode']);
+	$Poste->get_row_date( $_GET['from_periode'], $_GET['to_periode'],$_GET['ople']);
 	if ( empty($Poste->row)) exit();
 	$Poste->load();
 	echo '<table class="result"  style="width:80%;margin-left:10%">';
@@ -190,7 +201,7 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
       if ( ! isset($_REQUEST['oper_detail']) ) {
 	echo '<div class="content">';
 	$fiche->HtmlTableHeader();
-	$fiche->HtmlTable();
+	$fiche->HtmlTable(null,$_GET['ople']);
 	$fiche->HtmlTableHeader();
 	echo "</div>";
       } else {
@@ -220,7 +231,7 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
 	foreach ($a_poste as $poste_id ) 
 	  {
 	    $Poste=new Acc_Account_Ledger ($cn,$poste_id['pcm_val']);
-	    $Poste->HtmlTable();
+	    $Poste->HtmlTable(null,$_GET['ople']);
 	  }
 	echo Acc_Account_Ledger::HtmlTableHeader();
 	echo "</div>";

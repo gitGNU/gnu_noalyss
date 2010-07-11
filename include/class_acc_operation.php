@@ -277,7 +277,7 @@ function get_internal() {
    $r_notable='';
    $csv="";
    foreach ($show as $l) {
-     if ( $l['j_poste'] == $this->poste)
+     if ( $l['j_poste'] == $this->poste || $l['j_qcode']==$this->qcode)
        $border=' style="border-bottom:1px solid red;"';
      else
        $border='';

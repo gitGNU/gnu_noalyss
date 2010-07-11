@@ -99,10 +99,21 @@ class Acc_Account_Ledger {
    *         (tot_deb,tot_credit
    *
    */
-  function get_row_date($p_from,$p_to)
+  function get_row_date($p_from,$p_to,$let=0)
     {
       $user=new User($this->db);
       $filter_sql=$user->get_ledger_sql('ALL',3);
+      $sql_let='';
+      switch ($let) {
+      case 0:
+	break;
+      case 1:
+	$sql_let=' and j_id in (select j_id from letter_cred union select j_id from letter_deb)';
+	break;
+      case '2':
+	$sql_let=' and j_id not in (select j_id from letter_cred union select j_id from letter_deb) ';
+	break;
+      }
       $Res=$this->db->exec_sql("select  jr_id,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,j_date,".
 	       "case when j_debit='t' then j_montant else 0 end as deb_montant,".
 	       "case when j_debit='f' then j_montant else 0 end as cred_montant,".
@@ -115,7 +126,7 @@ class Acc_Account_Ledger {
 	       " where j_poste=$1 and ".
 	       " ( to_date($2,'DD.MM.YYYY') <= j_date and ".
 			       "   to_date($3,'DD.MM.YYYY') >= j_date )".
-			       " and $filter_sql ".
+			       " and $filter_sql  $sql_let ".
 	       " order by j_date",array($this->id,$p_from,$p_to));
       return $this->get_row_sql($Res);
     }
@@ -267,12 +278,12 @@ function get_solde_detail($p_cond="") {
  */
 
 
- function HtmlTable($p_array=null )
+ function HtmlTable($p_array=null,$let=0 )
    {
      if ( $p_array==null)$p_array=$_REQUEST;
      $this->get_name();
      list($array,$tot_deb,$tot_cred)=$this->get_row_date( $p_array['from_periode'],
-						     $p_array['to_periode']
+							  $p_array['to_periode'],$let
 						     );
 
      if ( count($this->row ) == 0 )

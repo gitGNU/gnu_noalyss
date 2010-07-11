@@ -948,12 +948,13 @@ av_text1=>'name'
    * \brief  Get data for poste
    *
    * \param  $p_from periode from
-   * \param  $p_to   end periode
+   * \param  $p_to   end periodeµ
+   *\param $op_let 0 all operation, 1 only lettered one, 2 only unlettered one
    * \return double array (j_date,deb_montant,cred_montant,description,jrn_name,j_debit,jr_internal)
    *         (tot_deb,tot_credit
    *
    */
-  function get_row_date($p_from,$p_to)
+  function get_row_date($p_from,$p_to,$op_let=0)
     {
       if ( $this->id == 0 )
 	{
@@ -962,6 +963,17 @@ av_text1=>'name'
 	}
       $user=new User($this->cn);
       $filter_sql=$user->get_ledger_sql('ALL',3);
+      $sql_let='';
+      switch ($op_let) {
+      case 0:
+	break;
+      case 1:
+	$sql_let=' and j_id in (select j_id from letter_cred union select j_id from letter_deb)';
+	break;
+      case '2':
+	$sql_let=' and j_id not in (select j_id from letter_cred union select j_id from letter_deb) ';
+	break;
+      }
 
       $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
       $Res=$this->cn->exec_sql("select distinct j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,j_qcode,".
@@ -974,7 +986,7 @@ av_text1=>'name'
 	       " where j_qcode=$1 and ".
 	       " ( to_date($2,'DD.MM.YYYY') <= j_date and ".
 			       "   to_date($3,'DD.MM.YYYY') >= j_date )".
-			       " and $filter_sql ".
+			       " and $filter_sql $sql_let ".
 	       " order by j_date",array($qcode,$p_from,$p_to));
       return $this->get_row_result($Res);
     }
@@ -1012,9 +1024,10 @@ av_text1=>'name'
     }
   /*!
    * \brief HtmlTable, display a HTML of a card for the asked period
+   *\param $op_let 0 all operation, 1 only lettered one, 2 only unlettered one
    * \return none
    */
-  function HtmlTableDetail($p_array=null)
+  function HtmlTableDetail($p_array=null,$op_let=0)
     {
       if ( $p_array == null)
 	$p_array=$_REQUEST;
@@ -1022,12 +1035,13 @@ av_text1=>'name'
       $name=$this->getName();
 
       list($array,$tot_deb,$tot_cred)=$this->get_row_date( $p_array['from_periode'],
-						     $p_array['to_periode']
+							   $p_array['to_periode'],
+							   $op_let
 						     );
 
       if ( count($this->row ) == 0 )
 	return;
-
+      $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
       $rep="";
       $already_seen=array();
       echo '<h2 class="info">'.$this->id." ".$name.'</h2>';
@@ -1046,14 +1060,15 @@ av_text1=>'name'
 	else
 	  $already_seen[]=$op['jr_internal'];
 	echo "<TR  style=\"text-align:center;background-color:lightgrey\">".
-	  "<td >".$op['jr_internal']."</td>".
-	  "<td >".$op['j_date']."</td>".
-	  "<td >".h($op['description'])."</td>".
-	  "<td >"."</td>".
-	  "<td >"."</td>".
+	  "<td>".$op['jr_internal']."</td>".
+	  "<td>".$op['j_date']."</td>".
+	  "<td>".h($op['description'])."</td>".
+	  "<td>"."</td>".
+	  "<td>"."</td>".
 	  "</TR>";
 	$ac=new Acc_Operation($this->cn);
 	$ac->jr_id=$op['jr_id'];
+	$ac->qcode=$qcode;
 	echo $ac->display_jrnx_detail(1);
 
       }
@@ -1075,7 +1090,7 @@ av_text1=>'name'
    * \brief HtmlTable, display a HTML of a card for the asked period
    * \param $p_array default = null keys = from_periode, to_periode
    */
-  function HtmlTable($p_array=null)
+  function HtmlTable($p_array=null,$op_let=0)
     {
       if ( $p_array == null)
 	$p_array=$_REQUEST;
@@ -1083,7 +1098,8 @@ av_text1=>'name'
       $name=h($this->getName()).'['.$this->strAttribut(ATTR_DEF_QUICKCODE).']';
 
       list($array,$tot_deb,$tot_cred)=$this->get_row_date( $p_array['from_periode'],
-						     $p_array['to_periode']
+							   $p_array['to_periode'],
+							   $op_let
 						     );
 
       if ( count($this->row ) == 0 )
