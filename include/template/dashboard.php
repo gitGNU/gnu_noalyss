@@ -131,10 +131,14 @@ for($i=0;$i<count($last_ledger);$i++):
 <?=$last_ledger[$i]['jr_date_fmt']?>
 </td>
 <td>
-   <?=h(substr($last_ledger[$i]['jr_comment'],0,20))?>
+   <?=h(substr($last_ledger[$i]['jr_comment'],0,30))?>
 </td>
 <td>
-<?=$last_ledger[$i]['jr_montant']?>
+   <?=h(substr($last_ledger[$i]['jr_pj_number'],0,10))?>
+</td>
+
+<td style="text-align:right">
+   <?=sprintf("%.2f",$last_ledger[$i]['jr_montant'])?>
 </td>
 <td>
    <? echo $detail=HtmlInput::detail_op($last_ledger[$i]['jr_id'],$last_ledger[$i]['jr_internal']); ?>
