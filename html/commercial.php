@@ -28,8 +28,10 @@
 include_once ("ac_common.php");
 require_once("constant.php");
 require_once('class_database.php');
-echo JS_AJAX_FICHE;
 require_once('class_dossier.php');
+require_once('function_javascript.php');
+echo load_all_script();
+
 $gDossier=dossier::id();
 
 $g_name=dossier::name();
