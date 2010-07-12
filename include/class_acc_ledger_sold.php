@@ -57,7 +57,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
   public function verify($p_array) {
     extract ($p_array);
     /* check for a double reload */
-    if ( isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
+    if (  isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
       throw new Exception (_('Double Encodage'),5);
 
     /* check if we can write into this ledger */

@@ -171,15 +171,21 @@ if ( $def==1 || $def == 4 ) {
       }
 
       /* Show button  */
-      echo '<h2 class="info">'.$Ledger->get_name().'</h2>';
-      echo "<h2 >"._('Opération sauvée')." $internal ";
+      echo '<h2 class="info" style="margin-left:20%;width:60%;margin-right:20%;">'.$Ledger->get_name().'</h2>';
+      $jr_id=$cn->get_value('select jr_id from jrn where jr_internal=$1',array($internal));
+
+      echo "<h2 >"._('Opération sauvée');
       if ( $Ledger->pj != '') echo ' Piece : '.h($Ledger->pj);
       echo "</h2>";
       if ( strcmp($Ledger->pj,$_POST['e_pj']) != 0 ) {
 	echo '<h3 class="notice"> '._('Attention numéro pièce existante, elle a du être adaptée').'</h3>';
       }
+
+      printf ('<a class="detail" style="display:inline" href="javascript:modifyOperation(%d,%d)">%s</a><hr>',
+	      $jr_id,dossier::id(),$internal);
       /* Show link for Invoice */
       if (isset ($Ledger->doc) ) { echo $Ledger->doc; echo '<hr>';}
+
 
       /* Save the additional information into jrn_info */
       $obj=new Acc_Ledger_Info($cn);

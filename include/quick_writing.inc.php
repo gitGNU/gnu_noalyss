@@ -283,10 +283,14 @@ if ( isset($_POST['save_it' ])) {
 
   try {
     $ledger->save($array);
-    echo '<h2> Op&eacute;ration enregistr&eacute;e '.$ledger->jr_internal.' Piece '.h($ledger->pj).'</h2>';
+    $jr_id=$cn->get_value('select jr_id from jrn where jr_internal=$1',array($ledger->internal));
+
+    echo '<h2> Op&eacute;ration enregistr&eacute;e  Piece '.h($ledger->pj).'</h2>';
     if ( strcmp($ledger->pj,$_POST['e_pj']) != 0 ) {
       echo '<h3 class="notice">'._('Attention numéro pièce existante, elle a du être adaptée').'</h3>';
       }
+    printf ('<a class="detail" style="display:inline" href="javascript:modifyOperation(%d,%d)">%s</a><hr>',
+	      $jr_id,dossier::id(),$ledger->internal);
 
     echo HtmlInput::button_anchor(_('Autre opération dans ce journal'),
 			     "?".dossier::get().

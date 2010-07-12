@@ -158,7 +158,9 @@ if ( $def==1 || $def == 4 ) {
       }
 
       /* Show button  */
-      echo '<h2 class="info">'.$Ledger->get_name().'</h2>';
+      $jr_id=$cn->get_value('select jr_id from jrn where jr_internal=$1',array($internal));
+
+      echo '<h2 class="info"  style="margin-left:20%;width:60%;margin-right:20%;">'.$Ledger->get_name().'</h2>';
       echo "<h2 >"._('Opération sauvée')." $internal ";
       if ( $Ledger->pj != '') echo ' Piece : '.h($Ledger->pj);
       echo "</h2>";
@@ -171,7 +173,8 @@ if ( $def==1 || $def == 4 ) {
       /* Save the additional information into jrn_info */
       $obj=new Acc_Ledger_Info($cn);
       $obj->save_extra($Ledger->jr_id,$_POST);
-
+      printf ('<a class="detail" style="display:inline" href="javascript:modifyOperation(%d,%d)">%s</a><hr>',
+	      $jr_id,dossier::id(),$internal);
       echo HtmlInput::button_anchor(_('Nouvelle dépense'),$href.'?p_action=ach&sa=n&'.dossier::get());
       echo '</div>';
       exit();

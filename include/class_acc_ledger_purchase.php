@@ -64,7 +64,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 
 
     /* check for a double reload */
-    if ( isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
+    if (  isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
       throw new Exception (_('Double Encodage'),5);
 
     /* check if there is a customer */

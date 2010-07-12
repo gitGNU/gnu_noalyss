@@ -148,7 +148,7 @@ if ( $def == 1 ) {
     if ( !isset($correct)) {
       echo '<div class="content">';
       $a= $Ledger->insert($_POST);
-      echo '<h2 class="info">'._('Opération  sauvée').' </h2>';      
+      echo '<h2 class="info"  style="margin-left:20%;width:60%;margin-right:20%;">'._('Opération  sauvée').' </h2>';      
       echo $a;
       echo '</div>';
       echo '<div class="content">';
