@@ -105,24 +105,17 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
 	$cn_mod->lo_unlink($a_lob[$i]['jr_pj']);
     }
   
-  $Res=$cn_mod->exec_sql("truncate table quant_sold");
-  $Res=$cn_mod->exec_sql("truncate table quant_purchase");
   $Res=$cn_mod->exec_sql("truncate table centralized");
-  $Res=$cn_mod->exec_sql("truncate table stock_goods");
-  $Res=$cn_mod->exec_sql("truncate jrn cascade");
-  $Res=$cn_mod->exec_sql("delete from jrnx");
+  $Res=$cn_mod->exec_sql("truncate table jrn cascade");
   $Res=$cn_mod->exec_sql("delete from del_jrn");
   $Res=$cn_mod->exec_sql("delete from del_jrnx");
+  $Res=$cn_mod->exec_sql("truncate table  jrnx cascade ");
   $Res=$cn_mod->exec_sql("delete from del_action");
 
   $Res=$cn_mod->exec_sql('delete from operation_analytique');
 
   // TODO 
 
-  $Res=$cn_mod->exec_sql("truncate table jrn_rapt");
-  $Res=$cn_mod->exec_sql("truncate table quant_fin");
-  $Res=$cn_mod->exec_sql("truncate table quant_purchase");
-  $Res=$cn_mod->exec_sql("truncate table quant_sold");
   $Res=$cn_mod->exec_sql("truncate table import_tmp");
   //	Reset the closed periode
   $Res=$cn_mod->exec_sql("update parm_periode set p_closed='f'");
@@ -165,8 +158,9 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
     {
       $Res=$cn_mod->exec_sql("delete from action_gestion");
       $Res=$cn_mod->exec_sql("delete from document");
+
       // Remove lob file
-      $Res=$cn_mod->exec_sql("select distinct loid from pg_largeobject");
+      $Res=$cn_mod->exec_sql("select distinct loid from pg_largeobject except select md_lob from document_modele");
       if ( Database::num_row($Res) != 0 )
 	{
 	  $a_lob=Database::fetch_all($Res);
@@ -183,6 +177,7 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
       $Res=$cn_mod->exec_sql("delete from   fiche");
       $Res=$cn_mod->exec_sql("delete from action_gestion");
       $Res=$cn_mod->exec_sql("delete from document");
+      $Res=$cn_mod->exec_sql("delete from document_modele");
       $Res=$cn_mod->exec_sql("delete from op_predef");
 
       // Remove lob file
@@ -282,7 +277,7 @@ if ( $count != 0 ) {
     <TD> <?php   echo $available ?></TD>
 </TR>
 <TR><TD>Nettoyage des Documents et courriers (ce qui  n'effacera pas les modèles de documents)</TD><TD> <input type="checkbox" name="DOC"></TD></TR>
-<TR><TD>Nettoyage de toutes les fiches (ce qui effacera client, op&eacute;rations pr&eacute;d&eacute;finies fournisseurs et documents)</TD><TD> <input type="checkbox" name="CARD"></TD></TR>
+<TR><TD>Nettoyage de toutes les fiches (ce qui effacera client, op&eacute;rations pr&eacute;d&eacute;finies fournisseurs modèles de documents et documents)</TD><TD> <input type="checkbox" name="CARD"></TD></TR>
 
 <TR><TD>Nettoyage de la comptabilit&eacute; analytique : effacement des plans et des postes, les op&eacute;rations sont de toute fa&ccedil;on effac&eacute;es </TD><TD> <input type="checkbox" name="CANAL"></TD></TR>
 </TABLE>
