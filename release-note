@@ -21,6 +21,17 @@ commence à 10000, afin de ne pas mélanger les attributs que je créé avec ceu
 18. Impression - Rapprochement 
 19. TODO21 Dans DIV HTML donner le code de la TVA dans les détails VEN  et ACH
 20. TODO20 DIV HTML dans le tableau de bord
+21. TODO14 confirmation quand effacement d'un PA (comptabilité analytique -> Plan Analytique)
+22. TODO19 Pour les fiches,suivant le type d'attributs, on peut utiliser le javascript pour les dates 
+23. On peut ajouter aux modèles de fiches, des détails qui sont soit du texte soit des nombres soit une date, soit une zone. La longueur peut-être définie mais limitée à 22 caractères, sauf les dates et les zones dont les tailles sont fixes
+24. TODO27 : Déplacement de fiche : les attributs manquant sont ajoutés !
+25 TODO24 : Dans impression -> poste , il faut avoir l'impression des détails des opérations 
+26.  TODO28 : dans jrnx ajouter les f_id, le qcode n'est là que pour accèlèrer; constraint fk on update cascade on delete restrict
+27. TODO25 : dans recherche de liste, utilisez des tableaux !
+28. Dans les balances, on peut choisir plusieurs journaux ou plusieurs cat. de journal. Les données sont filtrées en plus d'après la sécurité
+29. Dans impression -> poste, on peut filtrer les opérations suivant qu'elles sont lettrées ou non.
+
+IDEE1  Pièce attachée uniquement depuis détail opération ?
 
 TODO18 Rapprochement doivent avoir les journaux + sécurité
 
@@ -34,25 +45,12 @@ IDEE1 Catégorie de fiche : changer la présentation ?
 
 TODO11 Ajoutez aux classes Ledger_* une fonction pour obtenir un tableau vide qui répresente le tableau utilisé par confirm, insert et veriffy
 
-TODO12 Pour les anouveaux, les mêmes comptes se retrouvent au crédit ET au débit, il faudrait en avoir la soustraction !!
 
 TODO13 Bouton validate CA ne fonctionne plus
 
-TODO14 confirmation quand effacement d'un PA (comptabilité analytique -> Plan Analytique)
-
-IDEE1  Pièce attachée uniquement depuis détail opération ?
-
-TODO19 Pour les fiches,suivant le type d'attributs, on peut utiliser le javascript pour les dates 
-et les numériques
 
 TODO22 Il y a deux façon pour les journaux soit selection d'un seul lors de l'achat vente... Soit de plusieurs : recherche, balance des comptes,
 
 TODO23 Idem que TODO22 pour les catégories de fiches : pour les balances Historique et lettré on devrait pouvoir sélectionner plusieurs catégories
-TODO24 : Dans impression -> poste , il faut avoir l'impression des détails des opérations 
-TODO25 : dans recherche de liste, utilisez des tableaux !
-TODO27 : Déplacement de fiche : les attributs manquant sont ajoutés !
 TODO26 : Manque l'impression pour les lettrages par poste comptables
-TODO28 : dans jrnx ajouter les f_id, le qcode n'est là que pour accèlèrer; constraint fk on update cascade on delete restrict
 Fiche::delete ajout d'un try catch, commencer par fiche.f_id, le catch rethrow
-TODO29 : ajout d'une taille pour numerique, texte, max 50 min 1, de plus on a une nouvelle option la zone texte: colonne 20, row 4
-changer dans Fiche::display et verify
