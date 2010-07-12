@@ -66,8 +66,8 @@ if ( ! isset ($_REQUEST['gDossier']) )
 <table>
 <tr><td>
 Mot de passe :
-<td><input type="password" name="pass_1">
-<input type="password" name="pass_2">
+<td><input type="password" value="" class="input_type" name="pass_1">
+<input type="password" value="" class="input_type" name="pass_2">
 </td>
 </tr>
 <?php  
