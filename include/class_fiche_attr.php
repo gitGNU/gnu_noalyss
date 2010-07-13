@@ -215,3 +215,14 @@ $cn->rollback();
 }
 //Fiche_Attr::test_me();
 
+
+
+/*! 
+ *@brief used with a usort function, to sort an array of Attribut on the attribut_id (ad_id)
+ */
+  static function sort_by_id($o1,$o2) {  
+    if ( $o1->ad_id > $o2->ad_id ) return 1;
+    if ( $o1->ad_id == $o2->ad_id ) return 0;
+    return -1;
+  }
+}

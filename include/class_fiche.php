@@ -21,7 +21,7 @@
 
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-include_once("class_attribut.php");
+include_once("class_fiche_attr.php");
 require_once("class_ispan.php");
 require_once("class_itva_popup.php");
 require_once("class_itext.php");
@@ -126,7 +126,8 @@ class Fiche {
     for ($i=0;$i<$Max;$i++) {
       $row=Database::fetch_array($Ret,$i);
       $this->fiche_def=$row['fd_id'];
-      $t=new Attribut ($row['ad_id']);
+      $t=new Attribut ($this->cn);
+      $t->ad_id=$row['ad_id']);
       $t->ad_text=$row['ad_text'];
       $t->av_text=$row['av_text'];
       $t->ad_type=$row['ad_type'];

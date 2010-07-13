@@ -18,7 +18,7 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-include_once("class_attribut.php");
+include_once("class_fiche_attr.php");
 require_once("class_itext.php");
 require_once('class_fiche_def_ref.php');
 require_once('class_fiche.php');
@@ -78,7 +78,8 @@ function input ()
       return ;
     for ($i=0;$i < $Max;$i++) {
       $row=Database::fetch_array($Ret,$i);
-      $t = new Attribut($row['ad_id']);
+      $t = new Fiche_Attr($this->cn);
+      $t->ad_id=$row['ad_id']);
       $t->ad_text=$row['ad_text'];
       $t->jnt_order=$row['jnt_order'];
       $t->ad_size=$row['ad_size'];
