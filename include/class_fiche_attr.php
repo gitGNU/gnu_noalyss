@@ -211,12 +211,6 @@ $cn->start();
 $cn->rollback();
 
   }
-  
-}
-//Fiche_Attr::test_me();
-
-
-
 /*! 
  *@brief used with a usort function, to sort an array of Attribut on the attribut_id (ad_id)
  */
@@ -225,4 +219,10 @@ $cn->rollback();
     if ( $o1->ad_id == $o2->ad_id ) return 0;
     return -1;
   }
+
+  
 }
+//Fiche_Attr::test_me();
+
+
+

@@ -126,8 +126,8 @@ class Fiche {
     for ($i=0;$i<$Max;$i++) {
       $row=Database::fetch_array($Ret,$i);
       $this->fiche_def=$row['fd_id'];
-      $t=new Attribut ($this->cn);
-      $t->ad_id=$row['ad_id']);
+      $t=new Fiche_Attr ($this->cn);
+      $t->ad_id=$row['ad_id'];
       $t->ad_text=$row['ad_text'];
       $t->av_text=$row['av_text'];
       $t->ad_type=$row['ad_type'];
@@ -1043,6 +1043,7 @@ av_text1=>'name'
       if ( count($this->row ) == 0 )
 	return;
       $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
+
       $rep="";
       $already_seen=array();
       echo '<h2 class="info">'.$this->id." ".$name.'</h2>';
@@ -1172,10 +1173,11 @@ av_text1=>'name'
        HtmlInput::submit('bt_other',"Autre poste").
 	dossier::hidden().
        $hid->input("type","poste").$hid->input('p_action','impress')."</form></TD>";
+      $str_ople=(isset($_REQUEST['ople']))?HtmlInput::hidden('ople',$_REQUEST['ople']):'';
 
      echo '<TD><form method="GET" ACTION="quick_code_pdf.php">'.
        HtmlInput::submit('bt_pdf',"Export PDF").
-	dossier::hidden().
+	dossier::hidden().$str_ople.
        $hid->input("type","poste").
        $hid->input('p_action','impress').
        $hid->input("f_id",$this->id).
@@ -1189,7 +1191,7 @@ av_text1=>'name'
 
      echo '<TD><form method="GET" ACTION="quick_code_csv.php">'.
        HtmlInput::submit('bt_csv',"Export CSV").
-	dossier::hidden().
+	dossier::hidden().$str_ople.
        $hid->input("type","poste").
        $hid->input('p_action','impress').
        $hid->input("f_id",$this->id).

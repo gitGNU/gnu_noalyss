@@ -79,7 +79,7 @@ function input ()
     for ($i=0;$i < $Max;$i++) {
       $row=Database::fetch_array($Ret,$i);
       $t = new Fiche_Attr($this->cn);
-      $t->ad_id=$row['ad_id']);
+      $t->ad_id=$row['ad_id'];
       $t->ad_text=$row['ad_text'];
       $t->jnt_order=$row['jnt_order'];
       $t->ad_size=$row['ad_size'];
