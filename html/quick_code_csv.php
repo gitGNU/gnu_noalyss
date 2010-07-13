@@ -41,7 +41,8 @@ $Fiche=new Fiche($cn,$_REQUEST['f_id']);
 $Fiche->getName();
 list($array,$tot_deb,$tot_cred)=$Fiche->get_row_date( 
 					       $_GET['from_periode'],
-					       $_GET['to_periode']
+					       $_GET['to_periode'],
+					       $_GET['ople']
 					       );
 if ( count($Fiche->row ) == 0 ) 
 {

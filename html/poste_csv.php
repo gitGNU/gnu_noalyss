@@ -59,7 +59,8 @@ if ( ! isset ($_REQUEST['oper_detail'])) {
       $Poste=new Acc_Account_Ledger($cn,$pos['pcm_val']);
       $Poste->get_name();
       list($array,$tot_deb,$tot_cred)=$Poste->get_row_date( $_REQUEST['from_periode'],
-						       $_REQUEST['to_periode']
+							    $_REQUEST['to_periode'],
+							    $_GET['ople']
 						       );
       if ( count($Poste->row ) == 0 ) 
 	continue;

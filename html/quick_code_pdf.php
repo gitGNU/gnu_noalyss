@@ -47,7 +47,7 @@ $pdf->AddPage();
 $Fiche=new Fiche($cn,$f_id);
 
 
-list($array,$tot_deb,$tot_cred)=$Fiche->get_row_date($from_periode,$to_periode);
+list($array,$tot_deb,$tot_cred)=$Fiche->get_row_date($from_periode,$to_periode,$_GET['ople']);
 // don't print empty account
 if ( count($array) == 0 ) {
   exit;

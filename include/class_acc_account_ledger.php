@@ -347,7 +347,7 @@ function get_solde_detail($p_cond="") {
      echo '<div class="noprint">';
      echo "<table >";
      echo '<TR>';
-
+     $str_ople=(isset($_REQUEST['ople']))?HtmlInput::hidden('ople',$_REQUEST['ople']):'';
      echo '<TD><form method="GET" ACTION="">'.
 	   dossier::hidden().
        HtmlInput::submit('bt_other',"Autre poste").
@@ -356,7 +356,7 @@ function get_solde_detail($p_cond="") {
      echo '<TD><form method="GET" ACTION="'.$actiontarget.'_pdf.php">'.
 	   dossier::hidden().
        HtmlInput::submit('bt_pdf',"Export PDF").
-       $hid->input("type","poste").
+       $hid->input("type","poste").$str_ople.
        $hid->input('p_action','impress').
        $hid->input("from_periode",$_REQUEST['from_periode']).
        $hid->input("to_periode",$_REQUEST['to_periode']);
@@ -373,7 +373,7 @@ function get_solde_detail($p_cond="") {
      echo '<TD><form method="GET" ACTION="'.$actiontarget.'_csv.php">'.
 	   dossier::hidden().
        HtmlInput::submit('bt_csv',"Export CSV").
-       $hid->input("type","poste").
+       $hid->input("type","poste").$str_ople.
        $hid->input('p_action','impress').
        $hid->input("from_periode",$_REQUEST['from_periode']).
        $hid->input("to_periode",$_REQUEST['to_periode']);
