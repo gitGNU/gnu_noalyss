@@ -5,7 +5,7 @@
 <?=_('Dans le journal')?>
 </span>
 <span>
-<?php echo $f_ledger->input() ?>
+   <?php echo $f_ledger; ?>
 </span>
 </li>
 

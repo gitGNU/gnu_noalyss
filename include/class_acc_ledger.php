@@ -2027,24 +2027,12 @@ function get_last_date()
     $user=new User($this->db);
     $r='';
     /* security : filter ledger on user */
-    $filter_ledger=$user->get_ledger_sql($p_type,3);
+    $filter_ledger=$user->get_ledger($p_type,3);
 
-    $f_ledger=new ISelect('p_jrn');
-    $aLedger=$this->db->make_array('select jrn_def_id,jrn_def_name from jrn_def where '.$filter_ledger);
-    if ( $all_type_ledger==1)
-      $aLedger[]=array('value'=>-1,'label'=>'Tous les journaux');
-
-    /* if not p_jrn then all */
-    if( ! isset($_REQUEST['p_jrn'])) {
-      /* By default all ledger of this type */
-      $this->id=-1;
-    } else {
-      $this->id=$_REQUEST['p_jrn'];
-    }
-    $f_ledger->selected=$this->id;
-    $f_ledger->value=$aLedger;
-
-    /* widget for date_start */
+    $selected=(isset($_REQUEST['r_jrn']))?$_REQUEST['r_jrn']:null;
+    $f_ledger=HtmlInput::select_ledger($filter_ledger,$selected);
+  
+  /* widget for date_start */
     $f_date_start=new IDate('date_start');
     /* all periode or only the selected one */
     if ( isset($_REQUEST['date_start'])) {
@@ -2160,6 +2148,7 @@ function get_last_date()
 
     if ( $p_array != null )
       extract($p_array);
+    $r_jrn=(isset($r_jrn))?$r_jrn:-1;
 
     /* if no variable are set then give them a default
      * value */
@@ -2174,7 +2163,6 @@ function get_last_date()
 	list($date_start,$date_end)=$per->get_date_limit();
       }
       $desc='';
-      $p_jrn=(isset($p_jrn))?$p_jrn:-1;
       $qcode=(isset($qcode))?$qcode:"";
       $accounting=(isset($accounting))?$accounting:"";
 
@@ -2192,8 +2180,9 @@ function get_last_date()
     $fil_paid='';
 
     $and='';
-    if ( $p_jrn == -1 ) {
-      $user=new User($this->db);
+    $user=new User($this->db);
+
+    if ( $r_jrn == -1 ) {
       /* Specific action allow to see all the ledgers in once */
       if ( $p_action == 'gl') $p_action='ALL';
       /* actions from commercial.php  */
@@ -2205,11 +2194,24 @@ function get_last_date()
 
       $fil_ledger=$user->get_ledger_sql($p_action,3);
       $and=' and ';
-    } else if ( $p_jrn != 0 ){
-      $fil_ledger = ' jrn_def_id = '.$p_jrn;
-      $and=' and ';
-    }
+    } else {
+      if ( $p_action == 'gl') $p_action='ALL';
 
+      $aLedger=$user->get_ledger($p_action,3);
+      $fil_ledger='';$sp='';
+   
+      for ($i=0;$i < count($aLedger) ;$i ++) {
+	if ( isset($r_jrn[$i])) {$fil_ledger.=$sp.$aLedger[$i]['jrn_def_id'];$sp=',';}
+      }
+      $fil_ledger=' jrn_def_id in ('.$fil_ledger.')';
+      $and=' and ';
+
+      /* no ledger selected */
+      if ( $sp == '' ) {
+	$fil_ledger='';$and='';
+      }
+    }
+   
     /* format the number */
     $amount_min=toNumber($amount_min);
     $amount_max=toNumber($amount_max);

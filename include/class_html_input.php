@@ -240,7 +240,7 @@ echo $string => {'prop':'1','prop2':'2','prop3':'3'};
   static function select_ledger($p_array,$p_selected) {
     ob_start();
     $ledger=new IButton('l');
-    $ledger->label="Journaux";
+    $ledger->label="choix des journaux";
     $ledger->javascript=" show_ledger_choice()";
     echo $ledger->input();
 
