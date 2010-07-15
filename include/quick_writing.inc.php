@@ -152,7 +152,7 @@ if ( $User->check_jrn($id) == 'X' ) {
   exit();
  }
 echo '<div class="content">';
-echo '<div style="float:right;right:10">';
+echo '<div style="float:right;margin-right:30">';
 echo '<h2 class="info"> '._('Journal').' : '.$ledger->get_name().'</h2>';
 echo '</div>';
 $sa=( isset ($_REQUEST['sa']))?$_REQUEST['sa']:'';
