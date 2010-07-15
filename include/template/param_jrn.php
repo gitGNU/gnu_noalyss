@@ -24,6 +24,14 @@ endif;
 if ( $new || $type=='FIN') {
 ?>
 <tr>
+<td>
+    <?=_('Numérotation de chaque opération')?>
+</td>
+<td>
+    <?=$num_op->input();?>
+</td>
+</tr>
+<tr>
 <TD>
 <?=_('Compte en banque')?>
 </td>

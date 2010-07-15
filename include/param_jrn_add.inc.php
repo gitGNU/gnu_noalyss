@@ -92,6 +92,10 @@ if ( isset ($_POST["add"]) ) {
 	$bank=$a->id;
 	if ($bank==0) $bank=null;
       }
+      $nop=0;
+      if (isset($_POST['numb_operation'])) {
+	$nop=1;
+      }
 
       if ($_POST['p_jrn_type']=='FIN' && $bank==null)
 	{
@@ -99,14 +103,14 @@ if ( isset ($_POST["add"]) ) {
 	} else {
 
 	$Sql="insert into jrn_def(jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
-                  jrn_def_type,jrn_def_fiche_deb,jrn_def_fiche_cred,jrn_def_code,jrn_def_pj_pref,jrn_def_bank) 
-                  values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)";
+                  jrn_def_type,jrn_def_fiche_deb,jrn_def_fiche_cred,jrn_def_code,jrn_def_pj_pref,jrn_def_bank,jrn_def_num_op) 
+                  values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)";
 	$sql_array=array(   
 			 $p_jrn_name,$p_jrn_class_deb,$p_jrn_class_deb,
 			 $l_deb_max_line,$l_cred_max_line,$_POST['p_jrn_type'],
 			 $p_jrn_fiche_deb,$p_jrn_fiche_cred,
 			 $p_code,$_POST['jrn_def_pj_pref'],
-			    $bank);
+			 $bank,$nop);
 	$Res=$cn->exec_sql($Sql,$sql_array);
 	$ledger_id=$cn->get_current_seq('s_jrn_def');
 	$Res=$cn->create_sequence('s_jrn_pj'.$ledger_id);
@@ -164,6 +168,9 @@ $last_seq=0;
 $new=true;
 /* bank card */
 $qcode_bank='';
+/* Numbering (only FIN) */
+$num_op=new ICheckBox('numb_operation');
+
 
 echo '<FORM METHOD="POST">';
 echo dossier::hidden();

@@ -125,3 +125,4 @@ $BODY$
 select correct_quant_sale() ;
 
 ALTER TABLE jrn_def ADD COLUMN jrn_def_bank bigint;
+alter table jrn_def add jrn_def_num_op integer;

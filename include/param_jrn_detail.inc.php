@@ -84,7 +84,10 @@ If ( isset ($_POST["update"] )) {
       $p_ech='true';
       $p_ech_lib="'".$_POST['p_ech_lib']."'";
     }
-   
+    $nop=0;
+    if (isset($_POST['numb_operation'])) {
+      $nop=1;
+    }
     if ( strlen(trim($_POST['p_jrn_deb_max_line'])) == 0 || 
 	(string) (int)$_POST['p_jrn_deb_max_line'] != (string)$_POST['p_jrn_deb_max_line'] ||
 	 $_POST['p_jrn_deb_max_line'] <= 0
@@ -123,7 +126,7 @@ If ( isset ($_POST["update"] )) {
 	$p_jrn_class_deb=(isset($_POST['p_jrn_class_deb']))?$_POST['p_jrn_class_deb']:'';
 	$Sql="update jrn_def set jrn_def_name=$1,jrn_def_class_deb=$2,jrn_def_class_cred=$3,
                  jrn_deb_max_line=$4,jrn_cred_max_line=$5,jrn_def_ech=$6,jrn_def_ech_lib=$7,jrn_def_fiche_deb=$8,
-                  jrn_def_fiche_cred=$9, jrn_def_pj_pref=upper($10), jrn_def_bank=$12
+                  jrn_def_fiche_cred=$9, jrn_def_pj_pref=upper($10), jrn_def_bank=$12,jrn_def_num_op=$13
                  where jrn_def_id=$11";
       $sql_array=array(
 		       $p_jrn_name,$p_jrn_class_deb,$p_jrn_class_deb,
@@ -132,7 +135,8 @@ If ( isset ($_POST["update"] )) {
 		       $p_jrn_fiche_deb,$p_jrn_fiche_cred,
 		       $_POST['jrn_def_pj_pref'],
 		       $_GET['p_jrn'],
-		       $bank
+		       $bank,
+		       $nop
 		       );
       $Res=$cn->exec_sql($Sql,$sql_array);
       if ( isNumber($_POST['jrn_def_pj_seq']) == 1 && $_POST['jrn_def_pj_seq']!=0)
@@ -154,7 +158,7 @@ echo '</div>';
 $Res=$cn->exec_sql("select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
 	     "jrn_deb_max_line,jrn_cred_max_line,jrn_def_code".
                  ",jrn_def_type,jrn_def_ech, jrn_def_ech_lib,jrn_def_fiche_deb,jrn_def_fiche_cred".
-		 ",jrn_def_bank".
+		 ",jrn_def_bank,jrn_def_num_op".
                  " from jrn_def where".
                  " jrn_def_id=".$_REQUEST['p_jrn']);
 if ( Database::num_row($Res) == 0 ) exit();
@@ -205,7 +209,9 @@ $hidden.=HtmlInput::hidden('p_jrn_type',$type);
 $card=$Ledger->get_fiche_def();
 $rdeb=explode(',',$card['deb']);
 $rcred=explode(',',$card['cred']);
-
+/* Numbering (only FIN) */
+$num_op=new ICheckBox('numb_operation');
+if ( $l_line['jrn_def_num_op']==1) $num_op->selected=true;
 /* bank card */
 $qcode_bank='';
 if ( $type=='FIN')  {

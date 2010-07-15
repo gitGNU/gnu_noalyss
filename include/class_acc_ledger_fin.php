@@ -663,15 +663,18 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	  $acc_operation->periode=$tperiode;
 	  $acc_operation->mt=$mt;
 	  $idx_operation++;
+	  $acc_operation->pj='';
 
-	  if ( trim($e_pj) != '')
+	  if ( trim($e_pj) != '' && $this->numb_operation()==true)
 	    $acc_operation->pj=$e_pj.str_pad($idx_operation,3,0,STR_PAD_LEFT);
-	  else
-	    $acc_operation->pj='';
+
+	  if ( trim($e_pj) != '' && $this->numb_operation()==false)
+	    $acc_operation->pj=$e_pj;
 
 	  $jr_id=$acc_operation->insert_jrn();
- 	  $acc_operation->set_pj();
-
+	  // 	  $acc_operation->set_pj();
+	  $this->db->exec_sql('update jrn set jr_pj_number=$1 where jr_id=$2',
+			      array($acc_operation->pj,$jr_id));
 	  $internal=$this->compute_internal_code($seq);
 
 
@@ -862,11 +865,10 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     echo "<hr> $bar";
     echo $list;
     echo "$bar <hr>";
-
-    
-
-
   }
+  /**
+   * return a string with the bank account, name and quick_code
+   */
   function get_bank_name() {
     $bank_id=$this->db->get_value('select jrn_def_bank from jrn_def where jrn_def_id=$1',
 				  array($this->id));
@@ -876,9 +878,21 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $e_bank_qcode=": ".$fBank->strAttribut(ATTR_DEF_QUICKCODE);
     return $e_bank_qcode.$e_bank_name.$e_bank_account;
   }
+  /**
+   *return the fiche_id of the bank
+   */
   function get_bank() {
     $bank_id=$this->db->get_value('select jrn_def_bank from jrn_def where jrn_def_id=$1',
 				  array($this->id));
     return $bank_id;
+  }
+  /**
+   *return true is we numbere each operation
+   */
+  function numb_operation() {
+    $a=$this->db->get_value('select jrn_def_num_op from jrn_def where jrn_def_id=$1',
+			    array($this->id));
+    if ($a==1) return true;
+    return false;
   }
 }
