@@ -1368,17 +1368,6 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
       $f_periode=_("Période comptable")." $label ".$l_form_per;
       $ret.=td($f_periode);
     }
-
-    echo '</tr>';
-
-    $ret.= '<tr><td>'._('Libellé');
-    $wDescription=new IText('desc');
-    $wDescription->readonly=$p_readonly;
-    $wDescription->size=100;
-    $wDescription->value=(isset($desc))?$desc:'';
-    $ret.=$wDescription->input();
-    $ret.= '</td>';
-
     $wPJ=new IText('e_pj');
     $wPJ->readonly=false;
     $wPJ->size=10;
@@ -1393,7 +1382,18 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 
     $ret.='<td> '._('Pièce').' : '.$wPJ->input();
     $ret.=HtmlInput::hidden('e_pj_suggest',$default_pj);
-    $ret.= '</td></tr>';
+    $ret.= '</td>';
+    $ret.= '</tr>';
+
+    $ret.= '<tr><td >'._('Libellé');
+    $wDescription=new IText('desc');
+    $wDescription->readonly=$p_readonly;
+    $wDescription->size=100;
+    $wDescription->value=(isset($desc))?$desc:'';
+    $ret.='<td colspan="2" style="width:auto">';
+    $ret.=$wDescription->input();
+    $ret.= '</td>';
+    $ret.='</tr>';
 
     $ret.= '</table>';
     $nb_row=(isset($nb_item) )?$nb_item:$this->nb;
