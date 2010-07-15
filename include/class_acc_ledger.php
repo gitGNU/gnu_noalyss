@@ -1200,7 +1200,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 
     $ret="";
     $ret.="<table>";
-    $ret.="<tr><td>"._('Date')." : </td><td>$date</td></tr>";
+    $ret.="<tr><td>"._('Date')." : </td><td>$e_date</td></tr>";
     /* display periode */
     $date_limit=$lPeriode->get_date_limit();
     $ret.='<tr><td> '._('Période Comptable').' '.$date_limit['p_start'].'-'.$date_limit['p_end'].'</td></tr>';
@@ -1226,7 +1226,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
     }
     $ret.="</tr>";
 
-    $ret.=HtmlInput::hidden('date',$date);
+    $ret.=HtmlInput::hidden('e_date',$e_date);
     $ret.=HtmlInput::hidden('desc',$desc);
     $ret.=HtmlInput::hidden('period',$lPeriode->p_id);
     $ret.=HtmlInput::hidden('e_pj',$e_pj);
@@ -1337,16 +1337,10 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
     //
     $ret.="<table>";
     $ret.= '<tr><td>';
-    $wDate=new IDate('date');
+    $wDate=new IDate('e_date');
     $wDate->readonly=$p_readonly;
-    $date=(isset($date)&&trim($date)!='')?$date:'';
-    if (trim($date)=='' && $owner->MY_DATE_SUGGEST=='Y') {
-      $user=new User($this->db);
-      $periode=new Periode($this->db);
-      list ($l_date_start,$l_date_end)=$periode->get_date_limit($user->get_periode());
-      $date=$l_date_start;
-    }
-    $wDate->value=$date;
+    $e_date=(isset($e_date)&&trim($e_date)!='')?$e_date:'';
+    $wDate->value=$e_date;
 
     $ret.=_("Date").' : '.$wDate->input();
     $ret.= '</td>';
@@ -1552,15 +1546,20 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
       throw new Exception ('Double Encodage',5);
 
     // Check the periode and the date
-    if ( isDate($date) == null ) {
+    if ( isDate($e_date) == null ) {
       throw new Exception('Date invalide', 2);
     }
     $periode=new Periode($this->db);
     /* find the periode  if we have enabled the check_periode*/
     if ($this->check_periode()==false) {
-      $periode->find_periode($date);
+      $periode->find_periode($e_date);
     } else {
       $periode->p_id=$period;
+      list ($min,$max)=$periode->get_date_limit();
+      if ( cmpDate($e_date,$min) < 0 ||
+	   cmpDate($e_date,$max) > 0) 
+	throw new Exception(_('Date et periode ne correspondent pas'),6);
+
     }
 
   
@@ -1575,7 +1574,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
       /* if we use the strict mode, we get the date of the last
 	 operation */
       $last_date=$this->get_last_date();
-      if ( $last_date !=null && cmpDate($date,$last_date) < 0 )
+      if ( $last_date !=null && cmpDate($e_date,$last_date) < 0 )
 	throw new Exception(_('Vous utilisez le mode strict la dernière operation est la date du ')
 			    .$last_date.' '._('vous ne pouvez pas encoder à une date antérieure'),15);
 
@@ -1672,7 +1671,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
       $oPeriode=new Periode($this->db);
       $check_periode=$this->check_periode();
       if ( $check_periode == false) {
-	$oPeriode->find_periode($date);
+	$oPeriode->find_periode($e_date);
       } else {
 	$oPeriode->id=$period;
       }
@@ -1701,7 +1700,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 	  else {
 	    $poste=${'poste'.$i};
 	  }
-	  $acc_op->date=$date;
+	  $acc_op->date=$e_date;
 	  // compute the periode is do not check it
 	  if ($check_periode == false ) $acc_op->periode=$oPeriode->p_id;
 	  $acc_op->desc=$desc;
@@ -1725,7 +1724,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 		$op=new Anc_Operation($this->db);
 		$op->oa_group=$group;
 		$op->j_id=$j_id;
-		$op->oa_date=$date;
+		$op->oa_date=$e_date;
 		$op->oa_debit=($acc_op->type=='d' )?'t':'f';
 		$op->oa_description=$desc;
 		$op->save_form_plan($p_array,$count,$j_id);
@@ -1736,7 +1735,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
       $acc_end=new Acc_Operation($this->db);
       $acc_end->amount=$tot_deb;
 	  if ($check_periode == false ) $acc_end->periode=$oPeriode->p_id;
-      $acc_end->date=$date;
+      $acc_end->date=$e_date;
       $acc_end->desc=$desc;
       $acc_end->grpt=$seq;
       $acc_end->jrn=$this->id;

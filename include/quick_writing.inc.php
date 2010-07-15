@@ -34,18 +34,6 @@ require_once('ac_common.php');
 require_once('class_periode.php');
 require_once('function_javascript.php');
 require_once('class_ipopup.php');
-/* Load all the needed javascript */
-echo js_include('prototype.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('scripts.js');
-echo js_include('acc_ledger.js');
-echo js_include('card.js');
-echo js_include('accounting_item.js');
-echo JS_INFOBULLE;
-echo js_include('ajax_fiche.js');
-echo js_include('dragdrop.js');
 
 echo ICard::ipopup('ipopcard');
 echo ICard::ipopup('ipop_newcard');
@@ -134,6 +122,7 @@ function show_direct_form($cn,$ledger,$p_array) {
 
   echo "<script>checkTotalDirect();</script>";
 
+  echo create_script(" get_last_date()");
 
   echo '</div>';
 
