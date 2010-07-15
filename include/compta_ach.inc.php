@@ -129,6 +129,7 @@ if ( $def==1 || $def == 4 ) {
       echo '</form>';
 
       echo '</div>';
+
       exit();
     }
   }
@@ -249,8 +250,10 @@ if ( $def==1 || $def == 4 ) {
   echo $op->form_get();
 
   echo '</form>';
+  echo create_script(" get_last_date()");
 
   echo '</div>';
+
 
   exit();
 }

@@ -803,6 +803,8 @@ array
     if ( $owner->MY_PJ_SUGGEST=='Y') {
       $add_js="update_pj();";
     }
+    $add_js.='get_last_date();';
+
     $wLedger=$this->select_ledger('ACH',2);
     if ($wLedger == null) exit (_('Pas de journal disponible'));
     $wLedger->javascript="onChange='update_predef(\"ach\",\"f\");$add_js'";

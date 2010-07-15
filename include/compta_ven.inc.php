@@ -268,7 +268,7 @@ if ( $def==1 || $def == 4 ) {
   $own=new Own($cn);
   /* if we suggest the pj n# the run the script */
   if ( $own->MY_PJ_SUGGEST=='Y') {
-      echo '<script> update_pj();</script>';
+      echo '<script> update_pj();get_last_date()</script>';
     }
   echo '</form>';
   echo '</div>';

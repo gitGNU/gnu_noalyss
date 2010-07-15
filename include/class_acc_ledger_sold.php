@@ -927,6 +927,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     if ( $owner->MY_PJ_SUGGEST=='Y') {
       $add_js="update_pj();";
     }
+    $add_js.='get_last_date();';
 
     $wLedger=$this->select_ledger('VEN',2);
     if ( $wLedger == null )
