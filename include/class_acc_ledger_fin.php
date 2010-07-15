@@ -58,9 +58,21 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     if ( $user->check_jrn($p_jrn) != 'W' )
       throw new Exception (_('Accès interdit'),20);
 
-    /* check if there is a customer */
-    if ( strlen(trim($e_bank_account)) == 0 ) 
-      throw new Exception(_('Vous n\'avez pas donné de banque'),11);
+    /* check if there is a bank account linked to the ledger */
+    $bank_id=$this->get_bank();
+
+    if ($this->db->count()==0 ) 
+      throw new Exception("Ce journal n'a pas de compte en banque, allez dans paramètre->journal pour régler cela");
+    /* check if the accounting of the bank is correct */
+    $fBank=new Fiche($this->db,$bank_id);
+    $bank_accounting=$fBank->strAttribut(ATTR_DEF_ACCOUNT);
+    if ( trim($bank_accounting)=='' )
+      throw new Exception ('Le poste comptable du compte en banque de ce journal est invalide');
+
+    /* check if the account exists */
+    $poste=new Acc_Account_Ledger($this->db,$bank_accounting);
+    if ( $poste->load() == false )
+      throw new Exception ('Le poste comptable du compte en banque de ce journal est invalide');
 
     /*  check if the date is valid */
     if ( isDate($e_date) == null ) {
@@ -82,6 +94,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       {
 	throw new Exception(_('Periode fermee'),6);
       }
+
     /* check if we are using the strict mode */
     if( $this->check_strict() == true) {
       /* if we use the strict mode, we get the date of the last
@@ -93,35 +106,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 
     }
 
-
-
-    $fiche=new Fiche($this->db);
-    $fiche->get_by_qcode($e_bank_account);
-    if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
-      throw new Exception('La fiche '.$e_bank_account.'n\'a pas de poste comptable',8);
-
-    /* get the account and explode if necessary */
-    $sposte=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
-    // if 2 accounts, take only the debit one for customer
-    if ( strpos($sposte,',') != 0 ) {
-      $array=explode(',',$sposte);
-      $poste_val=$array[0];
-    } else {
-      $poste_val=$sposte;
-    }
-
     $acc_pay=new Acc_Operation($this->db);
-    /* The account exists */
-    $poste=new Acc_Account_Ledger($this->db,$poste_val);
-    if ( $poste->load() == false ){
-      throw new Exception('Pour la fiche '.$e_bank_account.' le poste comptable ['.$poste->id.'] n\'existe pas',9);
-    }
-
-    /* Check if the card belong to the ledger */
-    $fiche=new Fiche ($this->db);
-    $fiche->get_by_qcode($e_bank_account);
-    if ( $fiche->belong_ledger($p_jrn,'deb') !=1 )
-	throw new Exception('La fiche '.$e_bank_account.'n\'est pas accessible à ce journal',10);
 
     $nb=0;
     $tot_amount=0;
@@ -158,7 +143,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       /* Check if the card belong to the ledger */
       $fiche=new Fiche ($this->db);
       $fiche->get_by_qcode(${'e_other'.$i});
-      if ( $fiche->belong_ledger($p_jrn,'cred') !=1 )
+      if ( $fiche->belong_ledger($p_jrn,'deb') !=1 )
 	throw new Exception('La fiche '.${'e_other'.$i}.'n\'est pas accessible à ce journal',10);
       $nb++;
     }
@@ -243,9 +228,8 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     // Ledger (p_jrn)
     //--
     $add_js="";
-    $owner=new Own($this->db);
-
-    if ( $owner->MY_PJ_SUGGEST == 'Y') $add_js="onchange='update_pj();'";
+  
+    if ( $owner->MY_PJ_SUGGEST == 'Y') $add_js="onchange='update_pj();update_bank();get_last_date();'";
 
     $wLedger=$this->select_ledger('FIN',2);
     $wLedger->javascript=$add_js;
@@ -255,38 +239,10 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $label=" Journal ".HtmlInput::infobulle(2) ;
     $f_jrn=$label.$wLedger->input();
 
-    //retrieve bank name
-    $e_bank_account=( isset ($e_bank_account) )?$e_bank_account:"";
-    $e_bank_account_label="";  
+ 
+    // retrieve bank name, code and account from the jrn_def.jrn_def_bank
 
-    // retrieve e_bank_account_label
-    if ( $e_bank_account != ""  ) {
-      $fBank=new Fiche($this->db);
-      $fBank->get_by_qcode($e_bank_account);
-      $e_bank_account_label=$fBank->strAttribut(ATTR_DEF_NAME).' '.
-	' Adresse : '.$fBank->strAttribut(ATTR_DEF_ADRESS).' '.
-	$fBank->strAttribut(ATTR_DEF_CP).' '.
-	$fBank->strAttribut(ATTR_DEF_CITY).' ';
-      
-    }  
-    $f_bank=$e_bank_account.$e_bank_account_label;
-
-    $ibank=new ICard();
-    $ibank->readonly=$pview_only;
-    $ibank->label="Banque ".HtmlInput::infobulle(0);
-    $ibank->name="e_bank_account";
-    $ibank->value=$e_bank_account;
-    $ibank->extra='deb';  // credits
-    $ibank->typecard='deb';
-    $ibank->set_dblclick("fill_ipopcard(this);");
-    $ibank->set_attribute('ipopup','ipopcard');
-
-    // name of the field to update with the name of the card
-    $ibank->set_attribute('label','e_bank_account_label');
-    // Add the callback function to filter the card on the jrn
-    $ibank->set_callback('filter_card');
-    $ibank->set_function('fill_fin_data');
-    $ibank->javascript=sprintf(' onchange="fill_fin_data_onchange(this);" ');
+    $f_bank='<span id="bkname">'.$this->get_bank_name().'</span>';
 
     $f_legend_detail='Opérations financières';
     //--------------------------------------------------
@@ -443,15 +399,10 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $r.='</tr>';
 
     //retrieve bank name
-    $e_bank_account=( isset ($e_bank_account) )?$e_bank_account:"";
-    $e_bank_account_label="";  
+    $bk_id=$this->get_bank();
 
-    $fBank=new Fiche($this->db);
-    $fBank->get_by_qcode($e_bank_account);
-    $e_bank_account_label=$fBank->strAttribut(ATTR_DEF_NAME).' '.
-      ' Adresse : '.$fBank->strAttribut(ATTR_DEF_ADRESS).' '.
-      $fBank->strAttribut(ATTR_DEF_CP).' '.
-      $fBank->strAttribut(ATTR_DEF_CITY).' ';
+    $fBank=new Fiche($this->db,$bk_id);
+    $e_bank_account_label=$this->get_bank_name();
 
     $filter_year="  j_tech_per in (select p_id from parm_periode where  p_exercice='".$exercice."')";
 
@@ -551,7 +502,6 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $r.=HtmlInput::hidden('nb_item',$nb_item);
     $r.=HtmlInput::hidden('last_sold',$last_sold);
     $r.=HtmlInput::hidden('first_sold',$first_sold);
-    $r.=HtmlInput::hidden('e_bank_account',$e_bank_account);
     $r.=HtmlInput::hidden('e_pj',$e_pj);
     $r.=HtmlInput::hidden('e_pj_suggest',$e_pj_suggest);
     $r.=HtmlInput::hidden('e_date',$e_date);
@@ -582,16 +532,17 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     extract ($p_array);
     $ret='';
     // Debit = banque
+    $bank_id=$this->get_bank();
+    $fBank=new Fiche($this->db,$bank_id);
+    $e_bank_account=$fBank->strAttribut(ATTR_DEF_QUICKCODE);
 
-    $fBank=new Fiche($this->db);
-    $fBank->get_by_qcode($e_bank_account);
     // Get the saldo
     $pPeriode=new Periode($this->db);
-	if ( $this->check_periode() == true ) {
-		$pPeriode->p_id=$periode;
-	} else {
-		$pPeriode->find_periode($e_date);
-		}
+    if ( $this->check_periode() == true ) {
+      $pPeriode->p_id=$periode;
+    } else {
+      $pPeriode->find_periode($e_date);
+    }
     $exercice=$pPeriode->get_exercice();
 
     $filter_year="  j_tech_per in (select p_id from parm_periode where  p_exercice='".$exercice."')";
@@ -915,5 +866,19 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     
 
 
+  }
+  function get_bank_name() {
+    $bank_id=$this->db->get_value('select jrn_def_bank from jrn_def where jrn_def_id=$1',
+				  array($this->id));
+    $fBank=new Fiche($this->db,$bank_id);
+    $e_bank_account=" : ".$fBank->strAttribut(ATTR_DEF_BQ_NO);
+    $e_bank_name=" : ".$fBank->strAttribut(ATTR_DEF_NAME);
+    $e_bank_qcode=": ".$fBank->strAttribut(ATTR_DEF_QUICKCODE);
+    return $e_bank_qcode.$e_bank_name.$e_bank_account;
+  }
+  function get_bank() {
+    $bank_id=$this->db->get_value('select jrn_def_bank from jrn_def where jrn_def_id=$1',
+				  array($this->id));
+    return $bank_id;
   }
 }

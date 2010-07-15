@@ -31,6 +31,8 @@ commence à 10000, afin de ne pas mélanger les attributs que je créé avec ceu
 28. Dans les balances, on peut choisir plusieurs journaux ou plusieurs cat. de journal. Les données sont filtrées en plus d'après la sécurité
 29. Dans impression -> poste, on peut filtrer les opérations suivant qu'elles sont lettrées ou non.
 30. Après avoir sauvé une opération, vous pouvez avoir le détail de l'opération en cliquant sur le numéro interne qui s'affiche
+31. Les journaux FIN doivent être attachés à un compte en banque et uniquement un A propos du mode de paiement : on ne change rien mais il faut que dans la doc, il est précisé qu'il faut paramètrer le mdp comme le journal FIN
+
 
 IDEE1  Pièce attachée uniquement depuis détail opération ?
 

@@ -3,7 +3,7 @@
    <?=_('Date').' '.$f_date ?>
 <?=$f_period?><br>
 <?=$f_jrn?><br>
-<?=_('Banque')?><?=$ibank->input(); ?><?=$ibank->search()?> <span id='e_bank_account_label'><?$f_bank_label?></span>
+<?=_('Banque')?><?=$f_bank ?>
 </fieldset>
 
 <fieldset>

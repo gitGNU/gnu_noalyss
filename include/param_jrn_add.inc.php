@@ -30,6 +30,10 @@ require_once ('class_acc_ledger.php');
 
 /* ipopup for search poste */
 echo IPoste::ipopup('ipop_account');
+/* search card */
+$search_card=new IPopup('ipop_card');
+$search_card->title=_('Recherche de fiche');
+echo $search_card->input();
 
 html_page_start($_SESSION['g_theme']);
 require_once('class_dossier.php');
@@ -81,18 +85,33 @@ if ( isset ($_POST["add"]) ) {
       }
       $l_cred_max_line=$l_deb_max_line;
       $cn->start();
+      $bank=null;
+      if (isset($_POST['bank'])) {
+	$a=new Fiche($cn);
+	$a->get_by_qcode(trim(strtoupper($_POST['bank'])),false);
+	$bank=$a->id;
+	if ($bank==0) $bank=null;
+      }
+
+      if ($_POST['p_jrn_type']=='FIN' && $bank==null)
+	{
+	  alert("Vous devez donner un compte en banque");
+	} else {
+
 	$Sql="insert into jrn_def(jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
-                  jrn_def_type,jrn_def_fiche_deb,jrn_def_fiche_cred,jrn_def_code,jrn_def_pj_pref) 
-                  values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)";
+                  jrn_def_type,jrn_def_fiche_deb,jrn_def_fiche_cred,jrn_def_code,jrn_def_pj_pref,jrn_def_bank) 
+                  values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)";
 	$sql_array=array(   
 			 $p_jrn_name,$p_jrn_class_deb,$p_jrn_class_deb,
 			 $l_deb_max_line,$l_cred_max_line,$_POST['p_jrn_type'],
 			 $p_jrn_fiche_deb,$p_jrn_fiche_cred,
-			 $p_code,$_POST['jrn_def_pj_pref']);
+			 $p_code,$_POST['jrn_def_pj_pref'],
+			    $bank);
 	$Res=$cn->exec_sql($Sql,$sql_array);
 	$ledger_id=$cn->get_current_seq('s_jrn_def');
 	$Res=$cn->create_sequence('s_jrn_pj'.$ledger_id);
 	$cn->commit();
+      }
     }
   }
   echo '<div class="lmenu">';
@@ -142,10 +161,14 @@ $wPjPref->name='jrn_def_pj_pref';
 $pj_pref=$wPjPref->input();
 $pj_seq='';
 $last_seq=0;
+$new=true;
+/* bank card */
+$qcode_bank='';
 
 echo '<FORM METHOD="POST">';
 echo dossier::hidden();
 echo HtmlInput::hidden('p_action','jrn');
+echo HtmlInput::hidden('p_jrn',-1);
 echo HtmlInput::hidden('sa','add');
 require_once('template/param_jrn.php');
 echo HtmlInput::submit('add','Sauver');

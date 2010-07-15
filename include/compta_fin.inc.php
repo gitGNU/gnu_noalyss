@@ -23,17 +23,6 @@
 /*!\file
  * \brief this file is to be included to handle the financial ledger
  */
-echo js_include('prototype.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo JS_INFOBULLE;
-echo js_include('acc_ledger.js');
-echo js_include('ajax_fiche.js');
-echo JS_CARD;
-echo js_include('accounting_item.js');
-echo js_include('dragdrop.js');
-echo js_include('acc_ledger.js');
 require_once ('class_acc_ledger_fin.php');
 require_once('class_ipopup.php');
 $pop_tva=new IPopup('popup_tva');
@@ -179,7 +168,7 @@ if ( $def == 1 ) {
   echo HtmlInput::submit('save',_('Sauve'));
   echo HtmlInput::reset(_('Effacer'));
 
-
+  echo create_script(" get_last_date()");
   exit();
 
 }

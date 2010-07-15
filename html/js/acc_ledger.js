@@ -84,6 +84,80 @@ function update_pj() {
 			      }
   );
 }
+/** 
+ *ask the name, quick_code of the bank for the ledger
+ */
+function update_bank() {
+    var jrn=g('p_jrn').value;
+    var dossier=g('gDossier').value;
+    var qs='?&gDossier='+dossier+'&op=bkname&p_jrn='+jrn;
+  var action=new Ajax.Request(
+			      "ajax_misc.php",
+			      {
+			      method:'get',
+			      parameters:qs,
+			      onFailure:error_get_pj,
+			      onSuccess:success_update_bank
+			      }
+  );
+    
+}
+/**
+ * Put into the span, the name of the bank, the bank account
+ * and the quick_code
+ */
+function success_update_bank(req) 
+{
+    try{
+	var answer=req.responseXML;
+	var a=answer.getElementsByTagName('code');
+	var html=answer.getElementsByTagName('value');
+	if ( a.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
+	var name_ctl=a[0].firstChild.nodeValue;
+	var code_html=getNodeText(html[0]);
+	code_html=unescape_xml(code_html);
+	$(name_ctl).innerHTML=code_html;
+    }
+     catch (e) {
+	alert("success_update_bank".e.message);
+    }
+}
+/**
+ * call ajax, ask what is the last date for the current ledger
+ */
+function get_last_date() {
+    var jrn=g('p_jrn').value;
+    var dossier=g('gDossier').value;
+    var qs='?&gDossier='+dossier+'&op=lastdate&p_jrn='+jrn;
+    var action=new Ajax.Request(
+	"ajax_misc.php",
+	{
+	    method:'get',
+	    parameters:qs,
+	    onFailure:error_get_pj,
+	    onSuccess:success_get_last_date
+	}
+    );
+}
+/**
+ * callback ajax, set the ctl with the last date from the ledger
+ */
+function success_get_last_date(req) 
+{
+    try{
+	var answer=req.responseXML;
+	var a=answer.getElementsByTagName('code');
+	var html=answer.getElementsByTagName('value');
+	if ( a.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
+	var name_ctl=a[0].firstChild.nodeValue;
+	var code_html=getNodeText(html[0]);
+	code_html=unescape_xml(code_html);
+	$(name_ctl).value=code_html;
+    }
+     catch (e) {
+	alert(e.message);
+    }
+}
 /**
  * @brief update the field predef
  */

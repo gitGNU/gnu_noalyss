@@ -29,7 +29,10 @@ require_once('class_ipopup.php');
 
 /* ipopup for search poste */
 echo IPoste::ipopup('ipop_account');
-
+/* search card */
+$search_card=new IPopup('ipop_card');
+$search_card->title=_('Recherche de fiche');
+echo $search_card->input();
 $gDossier=dossier::id();
 
 include_once ("ac_common.php");
@@ -55,13 +58,16 @@ if ( isset( $_REQUEST['p_jrn'] )) {
 // remove ledger
 //--------------------------------------------------
 if ( isset($_POST["efface"])) {
-	if ( $cn->count_sql("select * from jrn where jr_def_id=".$_POST['p_jrn']." limit 3") == 0 )
-	  {
-	    $cn->exec_sql("delete from jrn_def where jrn_def_id=$1",array($_POST['p_jrn']));
-	  } else { 
-	  alert(_("Impossible d\'effacer ce journal.\n Il est utilisé\n"));
-	}
+  if ( isNumber($_POST['p_jrn'])==0) {
+    alert(_("Impossible d\'effacer ce journal.\n Il est utilisé\n"));
   }
+  else if ( $cn->get_value("select count(*) from jrn where jr_def_id=$1",array($_POST['p_jrn'])) == 0 )
+    {
+      $cn->exec_sql("delete from jrn_def where jrn_def_id=$1",array($_POST['p_jrn']));
+    } else { 
+    alert(_("Impossible d\'effacer ce journal.\n Il est utilisé\n"));
+  }
+}
 
 
 //--------------------------------------------------
@@ -94,28 +100,44 @@ If ( isset ($_POST["update"] )) {
      $p_jrn_name=FormatString($p_jrn_name);
        $p_jrn_fiche_deb="";
        $p_jrn_fiche_cred="";
-
-     if ( isset    ($_POST["FICHEDEB"])) {
+      $bank=null;
+      if (isset($_POST['bank'])) {
+	$a=new Fiche($cn);
+	$a->get_by_qcode(trim(strtoupper($_POST['bank'])),false);
+	$bank=$a->id;
+	if ($bank==0) $bank=null;
+      }
+      $err=0;
+      if ($_POST['p_jrn_type']=='FIN' && $bank==null)
+	{
+	  alert("Vous devez donner un compte en banque");
+	  $err=1;
+	}
+       if ( isset    ($_POST["FICHEDEB"])) {
        $p_jrn_fiche_deb=join(",",$_POST["FICHEDEB"]);
      }
       if ( isset    ($_POST["FICHECRED"])) {
        $p_jrn_fiche_cred=join(",",$_POST["FICHECRED"]);
       }
-    $Sql="update jrn_def set jrn_def_name=$1,jrn_def_class_deb=$2,jrn_def_class_cred=$3,
+      if ($err==0) {
+	$p_jrn_class_deb=(isset($_POST['p_jrn_class_deb']))?$_POST['p_jrn_class_deb']:'';
+	$Sql="update jrn_def set jrn_def_name=$1,jrn_def_class_deb=$2,jrn_def_class_cred=$3,
                  jrn_deb_max_line=$4,jrn_cred_max_line=$5,jrn_def_ech=$6,jrn_def_ech_lib=$7,jrn_def_fiche_deb=$8,
-                  jrn_def_fiche_cred=$9, jrn_def_pj_pref=upper($10)
+                  jrn_def_fiche_cred=$9, jrn_def_pj_pref=upper($10), jrn_def_bank=$12
                  where jrn_def_id=$11";
       $sql_array=array(
-		       $p_jrn_name,$_POST['p_jrn_class_deb'],$_POST['p_jrn_class_deb'],
+		       $p_jrn_name,$p_jrn_class_deb,$p_jrn_class_deb,
 		       $l_deb_max_line,$l_cred_max_line,
 		       $p_ech,$p_ech_lib,
 		       $p_jrn_fiche_deb,$p_jrn_fiche_cred,
 		       $_POST['jrn_def_pj_pref'],
-		       $_GET['p_jrn']
+		       $_GET['p_jrn'],
+		       $bank
 		       );
-    $Res=$cn->exec_sql($Sql,$sql_array);
-    if ( isNumber($_POST['jrn_def_pj_seq']) == 1 && $_POST['jrn_def_pj_seq']!=0)
-      $Res=$cn->alter_seq("s_jrn_pj".$_GET['p_jrn'],$_POST['jrn_def_pj_seq']);
+      $Res=$cn->exec_sql($Sql,$sql_array);
+      if ( isNumber($_POST['jrn_def_pj_seq']) == 1 && $_POST['jrn_def_pj_seq']!=0)
+	$Res=$cn->alter_seq("s_jrn_pj".$_GET['p_jrn'],$_POST['jrn_def_pj_seq']);
+      }
   }
 }
 echo '<div class="lmenu">';
@@ -132,6 +154,7 @@ echo '</div>';
 $Res=$cn->exec_sql("select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
 	     "jrn_deb_max_line,jrn_cred_max_line,jrn_def_code".
                  ",jrn_def_type,jrn_def_ech, jrn_def_ech_lib,jrn_def_fiche_deb,jrn_def_fiche_cred".
+		 ",jrn_def_bank".
                  " from jrn_def where".
                  " jrn_def_id=".$_REQUEST['p_jrn']);
 if ( Database::num_row($Res) == 0 ) exit();
@@ -156,7 +179,7 @@ $wSearch->name="p_jrn_class_deb";
 $wSearch->size=20;
 $wSearch->value=$prop['jrn_def_class_deb'];
 $search=$wSearch->input();
-
+$new=false;
 
 $wPjPref=new IText();
 $wPjPref->name='jrn_def_pj_pref';
@@ -176,13 +199,22 @@ $hidden.= HtmlInput::hidden('sa','detail');
 $hidden.= dossier::hidden();
 $hidden.=HtmlInput::hidden('p_jrn_deb_max_line',10);
 $hidden.=HtmlInput::hidden('p_ech_lib','echeance');
+$hidden.=HtmlInput::hidden('p_jrn_type',$type);
 
 /* Load the card */
 $card=$Ledger->get_fiche_def();
 $rdeb=explode(',',$card['deb']);
 $rcred=explode(',',$card['cred']);
 
-
+/* bank card */
+$qcode_bank='';
+if ( $type=='FIN')  {
+    $f_id=$l_line['jrn_def_bank'];
+  if ( isNumber($f_id)==1){
+    $fBank=new Fiche($cn,$f_id);
+    $qcode_bank=$fBank->get_quick_code();
+  }
+}
 echo '<div class="u_redcontent">';
 echo '<form method="POST">';
 echo $hidden;

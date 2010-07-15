@@ -123,3 +123,5 @@ $BODY$
   LANGUAGE 'plpgsql' VOLATILE;
 
 select correct_quant_sale() ;
+
+ALTER TABLE jrn_def ADD COLUMN jrn_def_bank bigint;

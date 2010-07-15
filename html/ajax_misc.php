@@ -59,6 +59,37 @@ $user=new User($cn); $user->check(true);$user->check_dossier($gDossier,true);
 $html=var_export($_REQUEST,true);
 switch($op) 
   { 
+    //--------------------------------------------------
+    // get the last date of a ledger
+  case 'lastdate':
+    require_once('class_acc_ledger_fin.php');
+    $ledger=new Acc_Ledger_Fin($cn,$_GET['p_jrn']);
+    $html=$ledger->get_last_date();
+    $html=escape_xml($html);
+    header('Content-type: text/xml; charset=UTF-8');
+echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<code>e_date</code>
+<value>$html</value>
+</data>
+EOF;
+
+    break;
+  case 'bkname':
+    require_once('class_acc_ledger_fin.php');
+    $ledger=new Acc_Ledger_Fin($cn,$_GET['p_jrn']);
+    $html=$ledger->get_bank_name();
+    $html=escape_xml($html);
+    header('Content-type: text/xml; charset=UTF-8');
+echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<code>bkname</code>
+<value>$html</value>
+</data>
+EOF;
+    break;
     // display new calendar
   case 'cal':
     require_once('class_calendar.php');
