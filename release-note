@@ -32,28 +32,8 @@ commence à 10000, afin de ne pas mélanger les attributs que je créé avec ceu
 29. Dans impression -> poste, on peut filtrer les opérations suivant qu'elles sont lettrées ou non.
 30. Après avoir sauvé une opération, vous pouvez avoir le détail de l'opération en cliquant sur le numéro interne qui s'affiche
 31. Les journaux FIN doivent être attachés à un compte en banque et uniquement un A propos du mode de paiement : on ne change rien mais il faut que dans la doc, il est précisé qu'il faut paramètrer le mdp comme le journal FIN
+32. Rapprochement doivent avoir les journaux + sécurité
+33. ajout bouton "ajoutez ligne" pour les OD en CA
+34. ajout bouton "ajoutez ligne" pour les prévisions
+35 : Manque l'impression pour les lettrages par poste comptables
 
-
-IDEE1  Pièce attachée uniquement depuis détail opération ?
-
-TODO18 Rapprochement doivent avoir les journaux + sécurité
-
-IDEE6, categorie de fiche, changer la présentation
-
-TODO7 ajout bouton "ajoutez ligne" pour les OD en CA
-
-TODO8 ajout bouton "ajoutez ligne" pour les prévisions
-
-IDEE1 Catégorie de fiche : changer la présentation ?
-
-TODO11 Ajoutez aux classes Ledger_* une fonction pour obtenir un tableau vide qui répresente le tableau utilisé par confirm, insert et veriffy
-
-
-TODO13 Bouton validate CA ne fonctionne plus
-
-
-TODO22 Il y a deux façon pour les journaux soit selection d'un seul lors de l'achat vente... Soit de plusieurs : recherche, balance des comptes,
-
-TODO23 Idem que TODO22 pour les catégories de fiches : pour les balances Historique et lettré on devrait pouvoir sélectionner plusieurs catégories
-TODO26 : Manque l'impression pour les lettrages par poste comptables
-Fiche::delete ajout d'un try catch, commencer par fiche.f_id, le catch rethrow
