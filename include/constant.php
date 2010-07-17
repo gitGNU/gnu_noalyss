@@ -29,7 +29,7 @@ require_once('constant.security.php');
 global $version_phpcompta;
 $version_phpcompta=9000;
 
-define ("DBVERSION",85);
+define ("DBVERSION",86);
 define ("DBVERSIONREPO",12);
 define ('NOTFOUND','--not found--');
 
