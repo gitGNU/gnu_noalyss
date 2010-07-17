@@ -1835,10 +1835,9 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 	foreach ($p_array as $name=>$paid)
 	  {
 	    list ($id) = sscanf ($name,"rd_paid%d");
-
 	    if ( $id == null ) continue;
-	    $paid=($paid=='on')?'paid':'';
-	    $sql="update jrn set jr_rapt='$paid' where jr_id=$id";
+
+	    $sql="update jrn set jr_rapt='paid' where jr_id=$id";
 	    $Res=$this->db->exec_sql($sql);
 	  }
 
