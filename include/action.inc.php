@@ -24,16 +24,6 @@
 require_once('class_ipopup.php');
 
 $User->can_request(GECOUR);
-echo js_include('prototype.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('infobulle.js');
-echo js_include('acc_ledger.js');
-echo js_include('ajax_fiche.js');
-echo js_include('dragdrop.js');
-
-echo JS_CARD;
 $search_card=new IPopup('ipop_card');
 $search_card->title=_('Recherche de fiche');
 $search_card->value='';

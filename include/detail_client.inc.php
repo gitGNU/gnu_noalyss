@@ -68,7 +68,7 @@ echo HtmlInput::submit('mod',_('Sauver les modifications'));
 echo HtmlInput::reset(_("Annuler"));
 echo HtmlInput::submit('delete',_('Effacer cette fiche'),'onclick="return confirm(\'Confirmer effacement ?\');"');
 echo '</form>';
-echo $return->input();
+echo $return;
 echo '</div>';
 
 
