@@ -114,7 +114,7 @@ function caod_checkTotal() {
   }// Ajouter getElementById par document.all[str]
   var total_deb=0.0;
   var total_cred=0.0;
-  var nb_item=10;
+  var nb_item=g('nbrow').value;
 
   for (var i=0;i <nb_item ;i++) {
     var doc_amount=g("pamount"+i);
@@ -169,4 +169,29 @@ function op_remove(p_dossier,p_oa_group) {
 		  	{method:'get',parameters:queryString});
 
 }
-
+/**
+* add a row in misc operation for ANC
+*@todo if we add a line, the number of lines become variables
+* the code must be adapted for that
+*/
+function anc_add_row(tableid) {
+    style='class="input_text"';
+    var mytable=g(tableid).tBodies[0];
+    var nNumberRow=mytable.rows.length;
+    var oRow=mytable.insertRow(nNumberRow);
+    var rowToCopy=mytable.rows[1];
+    var nNumberCell=rowToCopy.cells.length;
+    var nb=g("nbrow");
+    var oNewRow = mytable.insertRow(nNumberRow);
+    for ( var e=0;e < nNumberCell;e++) {
+	var newCell=oRow.insertCell(e);	
+	var tt=rowToCopy.cells[e].innerHTML;
+	new_tt=tt.replace(/pop0/g,"pop"+nb.value);
+	  new_tt=new_tt.replace(/pamount0/g,"pamount"+nb.value);
+	  new_tt=new_tt.replace(/pdeb0/g,"pdeb"+nb.value);
+	  newCell.innerHTML=new_tt;
+	  new_tt.evalScripts();
+   }
+  $("pamount"+nb.value).value="0";
+  nb.value++;
+}

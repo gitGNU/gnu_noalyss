@@ -107,7 +107,8 @@ class Anc_Group_Operation
 	  $wDescription->input()."</td></tr>";
 	$Plan=new Anc_Plan($this->db);
 	$aPlan=$Plan->get_list();
-	$ret.='</table><table  style="border: 2px outset blue; width: 100%;">';
+	$max=(count($this->a_operation)<$this->nMaxRow)?$this->nMaxRow:count($this->a_operation);
+	$ret.='</table><table  id="ago" style="border: 2px outset blue; width: 100%;">';
 	/* show 10 rows */
 	$ret.="<tr>";
 	foreach ($aPlan as $d)
@@ -127,7 +128,7 @@ class Anc_Group_Operation
 	  "<th>D&eacute;bit</th>".
 	  "</tr>";
 
-	for ($i = 0;$i < $this->nMaxRow;$i++)
+	for ($i = 0;$i < $max;$i++)
 	  {
 	    $ret.="<tr>";
 
@@ -170,6 +171,14 @@ class Anc_Group_Operation
 	    $ret.="</tr>";
 	  }
 	    $ret.="</table>";
+	    if ( $p_readonly==false) {
+	      $add_row=new IButton('Ajouter');
+	      $add_row->label=_('Ajouter une ligne');
+	      $add_row->javascript='anc_add_row(\'ago\');';
+	      $ret.=HtmlInput::hidden('nbrow',$max);
+	    
+	      $ret.=$add_row->input();
+	    }
 	    return $ret;
 	  }
   /*!\brief fill row from $_POST data
@@ -180,7 +189,7 @@ class Anc_Group_Operation
 	$aPlan=$Plan->get_list();
 
 
-	for ( $i = 0;$i <$this->nMaxRow;$i++) {
+	for ( $i = 0;$i <$p_array['nbrow'];$i++) {
 	  foreach ($aPlan as $d)
 	    {
 	      $idx=$d['id'];

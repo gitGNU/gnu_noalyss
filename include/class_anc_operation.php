@@ -245,7 +245,7 @@ class Anc_Operation
 
 
 	$efface=new IButton();
-	$efface->javascript="op_remove('"."$gDossier,".$oldgroup.")";
+	$efface->javascript="op_remove("."$gDossier,".$oldgroup.")";
 	$efface->name="Efface";
 	$efface->label="Efface";
 	$ret.="<td>".$efface->input()."</td>";
@@ -254,7 +254,7 @@ class Anc_Operation
 	$jr_id=$this->get_jrid();
 	if ( $jr_id != 0 ){
 	  $detail=new IButton();
-	  $detail->javascript="viewOperation($jr_id,'"."$gDossier)";
+	  $detail->javascript="modifyOperation($jr_id,'"."$gDossier)";
 	  $detail->name="Detail";
 	  $detail->label="Detail";
 	  $ret.="<td>".$detail->input()."</td>";
