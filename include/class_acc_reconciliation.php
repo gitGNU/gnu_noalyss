@@ -184,8 +184,11 @@ class Acc_Reconciliation {
 
    @endcode
   */
-  function get_not_reconciled($pa_jrn) {
-    $array=$this->db->get_array("select distinct jr_id,jr_date from jrn where jr_id not in (select jr_id from jrn_rapt union select jra_concerned from jrn_rapt) order by jr_date");
+  function get_not_reconciled() {
+    /* create ledger filter */
+    $sql_jrn=$this->ledger_filter();
+
+    $array=$this->db->get_array("select distinct jr_id,jr_date from jrn where $sql_jrn and jr_id not in (select jr_id from jrn_rapt union select jra_concerned from jrn_rapt) order by jr_date");
     $ret=array();
     for ($i=0;$i<count($array);$i++) {
       $this->jr_id=$array[$i]['jr_id'];
@@ -195,8 +198,30 @@ class Acc_Reconciliation {
     return $ret;
   }
   /**
+   *Create a sql condition to filter by security and by asked ledger 
+   * based on $this->a_jrn
+   *@return a valid sql stmt to include
+   *@see get_not_reconciled get_reconciled
+   */
+  function ledger_filter () {
+    /* get the available ledgers for current user */
+    $user=new User($this->db);
+    $sql=$user->get_ledger_sql('ALL',3);
+    $sql=str_replace('jrn_def_id','jr_def_id',$sql);
+    $r='';
+    /* filter by this->r_jrn */
+    if ($this->a_jrn != null ) {
+      $sep='';
+      $r='and jr_def_id in (';
+      foreach( $this->a_jrn as $key=>$value)    {
+	$r.=$sep.$value;$sep=',';
+      }
+      $r.=')';
+    }
+    return $sql.'  '.$r;
+  }
+  /**
    *@brief return array of reconciled operation
-   *@param
    *@return
    *@note
    *@see
@@ -204,9 +229,12 @@ class Acc_Reconciliation {
 
    @endcode
   */
-  function get_reconciled($pa_jrn)
+  function get_reconciled()
   {
-    $array=$this->db->get_array("select distinct jr_id,jr_date from jrn where jr_id  in (select jr_id from jrn_rapt union select jra_concerned from jrn_rapt) order by jr_date");
+    /* create ledger filter */
+    $sql_jrn=$this->ledger_filter();
+
+    $array=$this->db->get_array("select distinct jr_id,jr_date from jrn where $sql_jrn and jr_id  in (select jr_id from jrn_rapt union select jra_concerned from jrn_rapt) order by jr_date");
     $ret=array();
     for ($i=0;$i<count($array);$i++) {
       $this->jr_id=$array[$i]['jr_id'];
@@ -229,9 +257,9 @@ class Acc_Reconciliation {
 
 @endcode
    */
-  function get_reconciled_amount($pa_jrn,$p_equal=false) 
+  function get_reconciled_amount($p_equal=false) 
   {
-    $array=$this->get_reconciled($pa_jrn);
+    $array=$this->get_reconciled();
     $ret=array();
     for ($i=0;$i<count($array);$i++) {
       $first_amount=$array[$i]['first']['jr_montant'];

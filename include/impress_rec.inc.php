@@ -35,14 +35,16 @@ echo load_all_script();
  *@file
  *@todo add the export to PDF
  */ 
+$aledger=$User->get_ledger('ALL',3);
 echo '<div class="noprint">';
 echo '<div class="content">';
 $rjrn='';
 $radio=new IRadio('choice');
 $choice=(isset($_GET['choice']))?$_GET['choice']:0;
-
+$r_jrn=(isset($_GET['r_jrn']))?$_GET['r_jrn']:'';
 echo '<form method="GET">';
 echo dossier::hidden().HtmlInput::hidden('p_action','impress').HtmlInput::hidden('type','rec');
+echo 'Filtre par journal :'.HtmlInput::select_ledger($aledger,$r_jrn );
 echo '<ol style="list-style-type:none;">';
 
 $radio->selected=($choice==0)?true:false;$radio->value=0;
@@ -66,18 +68,20 @@ echo '</div>';
 echo '<div class="content">';
 if ( ! isset($_GET['vis'])) exit();
 $a=new Acc_Reconciliation($cn);
+$a->a_jrn=$r_jrn;
+
 switch ($choice) {
 case 0:
-  $array=$a->get_reconciled('');
+  $array=$a->get_reconciled();
   break;
 case 1:
-  $array=$a->get_reconciled_amount('',false);
+  $array=$a->get_reconciled_amount(false);
   break;
 case 2:
-  $array=$a->get_reconciled_amount('',true);
+  $array=$a->get_reconciled_amount(true);
   break;
 case 3:
-  $array=$a->get_not_reconciled('');
+  $array=$a->get_not_reconciled();
   break;
 default:
   echo "Choix invalid";
