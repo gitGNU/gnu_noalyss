@@ -176,6 +176,7 @@ switch($action) {
     *
     *----------------------------------------------------------------------*/
 case 'se':
+  ob_start();
   $ext=new Extension($cn);
   $ext->fromArray($_POST);
   try {
@@ -184,6 +185,8 @@ case 'se':
   }catch (Exception $e) {
     $r=alert(j( $e->getMessage()),true);
   }
+  $html=ob_get_contents();
+  ob_clean();
   break;
 case 're':
   $ext=new Extension($cn);
