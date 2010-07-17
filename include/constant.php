@@ -28,6 +28,7 @@ require_once('constant.security.php');
 // SVNVERSION
 global $version_phpcompta;
 $version_phpcompta=9000;
+//$version_phpcompta=SVNVERSION;
 
 define ("DBVERSION",86);
 define ("DBVERSIONREPO",12);

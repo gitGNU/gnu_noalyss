@@ -497,11 +497,10 @@ function success_box(req,json)
 	g(name_ctl).innerHTML=code_html;
 	g(name_ctl).style.height='auto';
 	// if IE set to 60 %
-	if(navigator.appName == "Microsoft Internet Explorer")
-	    g(name_ctl).style.width='60%';
+	if(name_ctl != 'popup')
+	    g(name_ctl).style.width='45%';
 	else
 	    g(name_ctl).style.width='auto';
-
     } 
     catch (e) {
 	alert("success_box"+e.message);}

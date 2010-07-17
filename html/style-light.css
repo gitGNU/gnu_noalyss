@@ -314,6 +314,15 @@ a.mtitle {
  color: blue;
 	
 }
+a.mtitle:hover {
+  font-size:10px;
+  text-decoration:none;
+  display:inline;
+  
+ color: darkblue;
+background-color:#5D90CD;
+	
+}
 td.selectedcell a.mtitle {
  font-size:1em;
  text-decoration:none;
@@ -787,7 +796,7 @@ cursor:inherit;
 	
 	border-style:  outset ;
 	border-color:  blue ;
-	border-width:1;
+	border-width:0;
 	padding:2 4 2 4;
 	cursor:pointer;
 	margin:1 2 1 2;

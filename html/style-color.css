@@ -292,6 +292,14 @@ a.mtitle {
  color: blue;
 	
 }
+a.mtitle:hover {
+  font-size:10px;
+  text-decoration:none;
+  display:inline;
+ color: darkblue;
+background-color:#5D90CD;
+	
+}
 td.selectedcell a.mtitle {
  font-size:1em;
  text-decoration:none;

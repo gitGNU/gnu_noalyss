@@ -201,11 +201,11 @@ version  5.2.version de developpement - '.$my_domain.'
 <TABLE  BORDER=0 CELLSPACING=0>
 <TR>
 <TD class="cell">utilisateur</TD>
-<TD><input type="text" class="input_text" value="phpcompta" name="p_user" tabindex="1"></TD>
+<TD><input type="text" class="input_text" value="" name="p_user" tabindex="1"></TD>
 </TR>
 <TR>
 <TD> mot de passe </TD>
-<TD><INPUT TYPE="PASSWORD"  class="input_text" value="phpcompta"  NAME="p_pass" tabindex="2"></TD>
+<TD><INPUT TYPE="PASSWORD"  class="input_text" value=""  NAME="p_pass" tabindex="2"></TD>
 </TR>
 <TR>
 <TD COLSPAN=2 ALIGN=CENTER>
