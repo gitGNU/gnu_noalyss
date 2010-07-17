@@ -186,7 +186,7 @@ function ShowMenuCompta($p_high="")
 
   $str_dossier=dossier::get();
   $p_array=array(
-		 array("compta.php?p_action=gl&".$str_dossier ,_("Recherche"),_("Recherches : toutes les opérations"),0),
+		 array("compta.php?p_action=gl&".$str_dossier ,_("Historique"),_("Historique : toutes les opérations"),0),
 		 array("compta.php?p_action=ven&".$str_dossier ,_("Vente"),_("Journal de vente / produit"),1),
 		 array("compta.php?p_action=ach&".$str_dossier,_("Dépense"),_("Journaux de dépense, d'achat"),2 ),
 		 array("compta.php?p_action=fin&".$str_dossier,_("Financier"),_("Journaux financiers: les banques, la caisse"),3),
