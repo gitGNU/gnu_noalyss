@@ -67,7 +67,7 @@ function input ()
  *        
  * \return string value of the attribute
  */
-  function GetAttribut() {
+  function getAttribut() {
     $sql="select * from jnt_fic_attr ".
       " natural join attr_def where fd_id=".$this->id.
       " order by jnt_order";

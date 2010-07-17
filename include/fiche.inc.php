@@ -29,20 +29,10 @@ require_once('class_database.php');
 include_once ("user_menu.php");
 require_once('class_dossier.php');
 require_once('class_ipopup.php');
-echo js_include('accounting_item.js');
-echo js_include('prototype.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('dragdrop.js');
-echo JS_CARD;
-echo JS_INFOBULLE;
 echo IPoste::ipopup('ipop_account');
 
 $gDossier=dossier::id();
 $str_dossier=dossier::get();
-echo js_include('accounting_item.js');
-echo JS_AJAX_FICHE;
 
 $pop_tva=new IPopup('popup_tva');
 $pop_tva->title=_('Choix TVA');
@@ -115,7 +105,7 @@ function ShowFicheDefInput($p_fiche_def)
   $r.=HtmlInput::submit('remove_cat',_('Effacer cette catégorie'),'onclick="return confirm(\''._('Vous confirmez ?').'\')"');
   // if there is nothing to remove then hide the button
   if ( strpos ($r,"chk_remove") != 0 ) {
-    $r.=HtmlInput::submit('remove_line',_("Enleve les éléments cochés") );
+    $r.=HtmlInput::submit('remove_line',_("Enleve les éléments cochés"),"onclick=\"return confirm('Vous confirmez?')\"" );
   }
   $r.= "</form>";
   $r.=" <p class=\"notice\"> "._("Attention : il n'y aura pas de demande de confirmation pour enlever les 
@@ -197,12 +187,14 @@ if ( isset ($_POST['remove_line'])   )
       $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
     else
       {
-	$fiche_def=new Fiche_Def($cn,$_REQUEST['fd_id']);
-	// Insert Line
-	// demander confirmation 
-
-	$fiche_def->RemoveAttribut($_REQUEST['chk_remove']);
-	$r.=ShowFicheDefInput($fiche_def);
+	if ( isset($_REQUEST['chk_remove'])) {
+	  $fiche_def=new Fiche_Def($cn,$_REQUEST['fd_id']);
+	  // Insert Line
+	  // demander confirmation 
+	  
+	  $fiche_def->RemoveAttribut($_REQUEST['chk_remove']);
+	  $r.=ShowFicheDefInput($fiche_def);
+	}
 
       }
     $r.= '</DIV>';

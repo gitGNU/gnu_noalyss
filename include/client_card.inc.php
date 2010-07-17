@@ -33,10 +33,7 @@ echo ICard::ipopup('ipopcard');
 
   /* $sub_action = sb = detail */
   /* $cn database conx */
-$return=new IAction();
-$return->name='retour';
-$return->label='Retour';
-$return->value='?p_action=client&'.$str_dossier;
+$return= HtmlInput::button_anchor('Retour','?p_action=client&'.$str_dossier);
 $root="?p_action=client&sb=detail&f_id=".$_REQUEST["f_id"].'&'.$str_dossier;
 $ss_action=( isset ($_REQUEST['sc'] ))? $_REQUEST['sc']: '';
 switch ($ss_action) {
