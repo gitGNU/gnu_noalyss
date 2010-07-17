@@ -195,8 +195,8 @@ echo '</tr>';
 
   }
 ?>
-</div>
 </table>
+</div>
 </fieldset>
 <?
 require_once('ledger_detail_bottom.php');
