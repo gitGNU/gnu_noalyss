@@ -64,8 +64,8 @@ printf("\n");
       '"'.$op['jr_internal'].'"'.";".
       '"'.$op['j_date_fmt'].'"'.";".
       '"'.$op['description'].'"'.";".
-      sprintf("%8.4f",$op['deb_montant']).";".
-      sprintf("%8.4f",$op['cred_montant']);
+      nb($op['deb_montant']).";".
+      nb($op['cred_montant']);
     printf("\n");
     
   }
@@ -83,13 +83,13 @@ printf("\n");
     $acc->jr_id=$op['jr_id'];
     $result= $acc->get_jrnx_detail();    
 	foreach ( $result as $r) {
-	  printf('"%s";"%s";"%s";"%s";"%s";%12.2f;"%s"',
+	  printf('"%s";"%s";"%s";"%s";"%s";%s;"%s"',
 		 $r['j_poste'],
 		 $r['j_qcode'],
 		 $r['jr_internal'],
 		 $r['jr_date'],
 		 $r['description'],
-		 $r['j_montant'],
+		 nb($r['j_montant']),
 		 $r['debit']);
 	  printf("\r\n");
 
@@ -103,9 +103,9 @@ $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
  $diff=abs($tot_deb-$tot_cred);
 printf(
        '"'."$solde_type".'"'.";".
-       sprintf("%8.4f",$diff).";".
-       sprintf("%8.4f",$tot_deb).";".
-       sprintf("%8.4f",$tot_cred)."\n");
+       nb($diff).";".
+       nb($tot_deb).";".
+       nb($tot_cred)."\n");
 
 exit;
 ?>
