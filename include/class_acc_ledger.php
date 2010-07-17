@@ -395,18 +395,13 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 	$case=$line['grp'];
 	// for financial, we show if the amount is or not in negative
 	if ( $this->type=='FIN') {
-	  $eMax=(($i+20) < $Max)?$i+20:$Max;
-	  // check in $row if the BQE is in deb or cred
-	  for ($e=$i;$e<$Max;$e++) {
-	    if ( $row[$e]['grp'] != $case ) continue;
-	    if ( strlen(trim($row[$e]['j_qcode'])) == 0 ) continue;
-
-	    $f=new Fiche($this->db);
-	    $f->get_by_qcode($row[$e]['j_qcode'],false);
-	    if ( $f->get_fiche_def_ref_id() == FICHE_TYPE_FIN ) {
-	      $tot_op=($row[$e]['debit'] == 't')?$jr_montant:" - ".$jr_montant;
-	      break;
-	    }
+	  $amount=$this->db->get_value('select qf_amount from quant_fin where jr_id=$1',
+				       array($line['jr_id']));
+	  /*  if nothing is found */
+	  if ( $this->db->count()==0 )
+	    $tot_op=$jr_montant;
+	  else if ( $amount < 0 ) {
+	    $tot_op=$amount;
 	  }
 	}
 	$array[]=array (
