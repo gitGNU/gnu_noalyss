@@ -567,6 +567,8 @@ function removeOperation(p_jr_id,dossier,div) {
 */
 function reverseOperation(obj) {
    var qs="?"+$(obj).serialize();
+    g('ext'+obj.divname).style.display='none';
+    g('bext'+obj.divname).style.display='none';
 
     var action=new Ajax.Request(
 	"ajax_ledger.php",

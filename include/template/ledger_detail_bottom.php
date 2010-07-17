@@ -69,7 +69,7 @@ if ( $div != 'popup' ) {
     echo $remove->input();
   }
 
-  $reverse=new IButton('Extourner');
+  $reverse=new IButton('bext'.$div);
   $reverse->label=_('Extourner');
   $reverse->javascript="g('ext".$div."').style.display='block'";
   echo $reverse->input();
@@ -78,7 +78,7 @@ echo '</form>';
   
   echo '<div id="ext'.$div.'" style="display:none">';
   $date=new IDate('p_date');
-  $r="<form id=\"form_".$div."\" onsubmit=\"return reverseOperation(this);\">";
+  $r="<form id=\"form_".$div."\" onsubmit=\"this.divname='$div';return reverseOperation(this);\">";
   $r.=HtmlInput::hidden('jr_id',$_REQUEST['jr_id']).HtmlInput::hidden('div',$div).dossier::hidden().HtmlInput::hidden('act','reverseop');
   $r.='<h2 class="info">Extourner </H2>';
   $r.="entrez une date :".$date->input();
