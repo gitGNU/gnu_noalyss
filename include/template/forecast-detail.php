@@ -2,7 +2,7 @@
 <fieldset>
 <legend><?php  echo $str_action;?></legend>
 
-<table>
+<table id="fortable">
 <tr>
 <th><?php echo _('Catégorie');?></th>
 <th><?php echo _('Poste Comptable');?></th>
@@ -24,6 +24,7 @@
 </tr>
 <?php endfor;?>
 </table>
+<?=$f_add_row ?>
 </fieldset>
 
 

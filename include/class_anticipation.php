@@ -240,7 +240,10 @@ class Anticipation
 		$value=$this->cn->get_array("select fi_id,fi_text,fi_account,fi_card,fc_id,fi_amount,fi_debit,fi_pid ".
 			" from forecast_item ".
 			" 	where fc_id in (select fc_id from forecast_cat where f_id = $1)",array($this->f_id));
-		for ($i=0;$i<MAX_FORECAST_ITEM;$i++){
+		$max=(count($value) < MAX_FORECAST_ITEM)?MAX_FORECAST_ITEM:count($value);
+		$r.=HtmlInput::hidden('nbrow',$max);
+
+		for ($i=0;$i<$max;$i++){
 			if (isset($value[$i]['fi_id'])){
 				$r.=HtmlInput::hidden('fi_id'.$i,$value[$i]['fi_id']);
 			}
@@ -305,6 +308,10 @@ class Anticipation
 			$isPeriode->selected=(isset($value[$i]["fi_pid"]))?$value[$i]["fi_pid"]:0;
 			$aCat[$i]['per']=$isPeriode->input();
 		}
+		$add_row=new IButton('add_row');
+		$add_row->label=_('Ajouter une ligne');
+		$add_row->javascript='for_add_row(\'fortable\')';
+		$f_add_row=$add_row->input();
 		ob_start();
 		require_once('template/forecast-detail.php');
 		$r.=ob_get_contents();

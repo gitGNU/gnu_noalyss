@@ -538,3 +538,34 @@ function show_cat_choice() {
 function hide_cat_choice() {
     g('div_cat').style.visibility='hidden';
 }
+/**
+* add a row for the forecast item
+*/
+function for_add_row(tableid) {
+    style='class="input_text"';
+    var mytable=g(tableid).tBodies[0];
+    var nNumberRow=mytable.rows.length;
+    var oRow=mytable.insertRow(nNumberRow);
+    var rowToCopy=mytable.rows[1];
+    var nNumberCell=rowToCopy.cells.length;
+    var nb=g("nbrow");
+    var oNewRow = mytable.insertRow(nNumberRow);
+    for ( var e=0;e < nNumberCell;e++) {
+	var newCell=oRow.insertCell(e);	
+	var tt=rowToCopy.cells[e].innerHTML;
+	new_tt=tt.replace(/an_cat0/g,"an_cat"+nb.value);
+	  new_tt=new_tt.replace(/an_cat_acc0/g,"an_cat_acc"+nb.value);
+	  new_tt=new_tt.replace(/an_qc0/g,"an_qc"+nb.value);
+	  new_tt=new_tt.replace(/an_label0/g,"an_label"+nb.value);
+	  new_tt=new_tt.replace(/month0/g,"month"+nb.value);
+	  new_tt=new_tt.replace(/an_cat_amount0/g,"an_cat_amount"+nb.value);
+	  new_tt=new_tt.replace(/an_deb0/g,"an_deb"+nb.value);
+	  newCell.innerHTML=new_tt;
+	  new_tt.evalScripts();
+   }
+  $("an_cat_acc"+nb.value).value="";
+  $("an_qc"+nb.value).value="";
+  $("an_label"+nb.value).value="";
+  $("an_cat_amount"+nb.value).value="0";
+  nb.value++;
+}
