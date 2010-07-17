@@ -44,7 +44,8 @@ function search_card(obj) {
     var tvaid=obj.tvaid;
     var jrn=obj.jrn;
     if ( jrn==undefined) {
-	jrn=$('p_jrn').value;
+	if ( g('p_jrn')) jrn=$('p_jrn').value;
+	else jrn=-1;
     }
     var query=encodeJSON({'gDossier':gDossier,
 			  'inp':inp,'label':label,'price':price,'tvaid':tvaid,
