@@ -43,6 +43,16 @@ function td($p_string='',$p_extra=''){ return '<td  '.$p_extra.'>'.$p_string.'</
 function tr($p_string,$p_extra=''){ return '<tr  '.$p_extra.'>'.$p_string.'</tr>';}
 /*!\brief escape correctly php string to javascript */
 function j($p_string) { $a=preg_replace("/\r?\n/", "\\n", addslashes($p_string)); return $a;}
+/**
+ * format the number for the CSV export
+ *@param $p_number number
+ */
+function nb($p_number) {
+  $r=sprintf('%.2f',$p_number);
+  $r=str_replace('.',',',$r);
+  return $r;
+}
+
 /*!
  * \brief  log error into the /tmp/phpcompta_error.log it doesn't work on windows
  *

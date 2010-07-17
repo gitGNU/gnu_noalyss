@@ -61,7 +61,7 @@ if ( $_GET['p_step'] == 0 )
 
     foreach ( $Form->row as $op ) { 
       echo '"'.$op['desc'].'"'.";".
-	sprintf("%8.2f",$op['montant']).
+	nb($op['montant']).
 	"\n";
       
     }
@@ -97,7 +97,7 @@ if ( $_GET['p_step'] == 0 )
 	 $a++;
 	 foreach ($e as $elt) 
 	   {
-	     printf(";%s",$elt['montant']);
+	     printf(";%s",nb($elt['montant']));
 	   }
 	 printf("\n");
        }

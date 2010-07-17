@@ -69,14 +69,14 @@ if  ( $_GET['p_simple'] == 0 )
       $desc=str_replace('"',"'",$desc);
       $desc=str_replace(";",",",$desc);
 
-      printf("\"%s\";\"%s\";\"%s\";\"%s\";\"%s\";%8.4f;%8.4f\n",
+      printf("\"%s\";\"%s\";\"%s\";\"%s\";\"%s\";%s;%s\n",
 	     $op['j_id'],
 	     $op['internal'],
 	     $op['j_date'],
 	     $op['poste'],
 	     $desc,
-	     $op['deb_montant'],
-	     $op['cred_montant']
+	     nb($op['deb_montant']),
+	     nb($op['cred_montant'])
 	     );
 	
     }
@@ -118,17 +118,15 @@ if  ( $_GET['p_simple'] == 0 )
 	     // the credit must be negative and written in red
 	     // Get the jrn type
 	     if ( $line['jrn_def_type'] == 'FIN' ) {
-	       $positive = $cn->count_sql("select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
-				    " where jr_id=".$line['jr_id']." and $sql_fin ".
-			       " and j_debit='f'");
+	       $positive = $cn->get_value("select qf_amount from quant_fin  ".
+					  " where jr_id=".$line['jr_id']);
 	       
-
-	       echo ( $positive != 0 )?sprintf("-%8.2f",$line['montant']):sprintf("%8.2f",$line['montant']);
+	       echo nb($positive);
 	       echo ";";
 	     }
 	     else 
 	       {
-		 printf("% 8.2f",$line['montant']).";";
+		 echo nb($line['montant']).";";
 	       }
 	     
 	     printf("\r\n");
@@ -150,13 +148,13 @@ if  ( $_GET['p_simple'] == 0 )
 	 echo '"Date";"operation";"Client/Fourn.";"Commentaire";"inter.";"HTVA";'.$col_tva.'"TVAC"'."\n\r";
 	 foreach ($Row as $line)
 	   {
-	     printf('"%s";"%s";"%s";"%s";"%s";% 10.2f;',
+	     printf('"%s";"%s";"%s";"%s";"%s";%s;',
 		    $line['date'],
 		    $line['num'],
 		    $line['client'],
 		    $line['comment'],
 		    $line['jr_internal'],
-		    $line['HTVA']);
+		    nb($line['HTVA']));
 	     $a_tva_amount=array();
 	     foreach ($line['TVA'] as $lineTVA)
 	       {
@@ -175,12 +173,12 @@ if  ( $_GET['p_simple'] == 0 )
 		 {
 		   $a=$line_tva['tva_id'];
 		   if ( isset($a_tva_amount[$a]))
-		     printf("% 8.2f;",$a_tva_amount[$a]);
+		     echo nb($a_tva_amount[$a]);
 		   else
 		     printf("0;");
 		 }
 	     }
-	     printf("% 9.2f\r\n",$line['TVAC']);
+	     echo nb ($line['TVAC']);
 	   }
        }
    }

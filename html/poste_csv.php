@@ -79,8 +79,8 @@ if ( ! isset ($_REQUEST['oper_detail'])) {
 	  '"'.$op['jr_internal'].'"'.";".
 	  '"'.$op['j_date_fmt'].'"'.";".
 	  '"'.$op['description']." ".$op['jr_pj_number'].'"'.";".
-	  sprintf("%8.4f",$op['deb_montant']).";".
-	  sprintf("%8.4f",$op['cred_montant']);
+	  nb($op['deb_montant']).";".
+	  nb($op['cred_montant']);
 	printf("\n");
     
     
@@ -89,9 +89,9 @@ if ( ! isset ($_REQUEST['oper_detail'])) {
   $diff=abs($tot_deb-$tot_cred);
   printf(
     '"'."$solde_type".'"'.";".
-    sprintf("%8.4f",$diff).";".
-    sprintf("%8.4f",$tot_deb).";".
-    sprintf("%8.4f",$tot_cred)."\n");
+    nb($diff).";".
+    nb($tot_deb).";".
+    nb($tot_cred)."\n");
     }
  } else {
   /* detail of all operation */
@@ -132,7 +132,7 @@ if ( ! isset ($_REQUEST['oper_detail'])) {
 		 $r['jr_date'],
 		 $a['description'],
 		 $a['jr_pj_number'],
-		 $r['j_montant'],
+		 nb($r['j_montant']),
 		 $r['debit']);
 	  printf("\r\n");
 
