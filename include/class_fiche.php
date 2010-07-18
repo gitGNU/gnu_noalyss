@@ -1096,7 +1096,7 @@ av_text1=>'name'
     {
       if ( $p_array == null)
 	$p_array=$_REQUEST;
-
+      $progress=0;
       $name=h($this->getName()).'['.$this->strAttribut(ATTR_DEF_QUICKCODE).']';
 
       list($array,$tot_deb,$tot_cred)=$this->get_row_date( $p_array['from_periode'],
@@ -1118,7 +1118,8 @@ av_text1=>'name'
 	"<TH>"._('Description')." </TH>".
 	"<TH style=\"text-align:right\">"._('Débit')."  </TH>".
 	"<TH style=\"text-align:right\">"._('Crédit')." </TH>".
-	th('Let.','style=\"text-align:right\"');
+	th('Prog.','style="text-align:right"').
+	th('Let.','style="text-align:right"');
 	"</TR>";
 
       foreach ( $this->row as $op ) {
@@ -1126,12 +1127,14 @@ av_text1=>'name'
 		  $op['jr_id'], dossier::id(), $op['jr_internal']);
        $let='';
        if ( $op['letter'] !=-1) $let=$op['letter'];
+       $progress+=$op['deb_montant']-$op['cred_montant'];
 	echo "<TR>".
 	  "<TD>".$vw_operation."</TD>".
 	  "<TD>".format_date($op['j_date_fmt'])."</TD>".
 	  "<TD>".h($op['description'])."</TD>".
 	  "<TD style=\"text-align:right\">".sprintf("%.2f",$op['deb_montant'])."</TD>".
 	  "<TD style=\"text-align:right\">".sprintf("%.2f",$op['cred_montant'])."</TD>".
+	  td(sprintf('%.2f',abs($progress)),'style="text-align:right"').
 	  td($let,' style="color:red;text-align:right"').
 	  "</TR>";
 

@@ -57,15 +57,20 @@ echo '"Qcode";'.
 "\"Date\";".
 "\"Description\";".
 "\"Débit\";".
-"\"Crédit\"";
+"\"Crédit\";".
+"\"Prog.\"";
 printf("\n");
+$progress=0;
   foreach ( $Fiche->row as $op ) { 
+    $progress+=$op['deb_montant']-$op['cred_montant'];
+
     echo '"'.$op['j_qcode'].'";'.
       '"'.$op['jr_internal'].'"'.";".
       '"'.$op['j_date_fmt'].'"'.";".
       '"'.$op['description'].'"'.";".
       nb($op['deb_montant']).";".
-      nb($op['cred_montant']);
+      nb($op['cred_montant']).";".
+      nb(abs($progress));
     printf("\n");
     
   }

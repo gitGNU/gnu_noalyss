@@ -300,20 +300,25 @@ function get_solde_detail($p_cond="") {
        "<TH> Description </TH>".
        "<TH style=\"text-align:right\"> D&eacute;bit  </TH>".
 	"<TH style=\"text-align:right\"> Cr&eacute;dit </TH>".
-       th('Let.','style=\"text-align:right\"').
+	th('Prog.','style="text-align:right"').
+	th('Let.','style="text-align:right"');
        "</TR>";
-
+       $progress=0;
      foreach ( $this->row as $op ) {
        $vw_operation=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s</A>',
 		  $op['jr_id'], dossier::id(), $op['jr_internal']);
        $let='';
        if ( $op['letter'] !=-1) $let=$op['letter'];
+       $progress+=$op['deb_montant']-$op['cred_montant'];
+
        echo "<TR>".
 	 "<TD>".$vw_operation."</TD>".
 	 "<TD>".$op['j_date']."</TD>".
 	 "<TD>".h($op['description']).' '.h($op['jr_pj_number'])."</TD>".
 	 "<TD style=\"text-align:right\">".sprintf("%.2f",$op['deb_montant'])."</TD>".
 	 "<TD style=\"text-align:right\">".sprintf("%.2f",$op['cred_montant'])."</TD>".
+	  td(sprintf('%.2f',abs($progress)),'style="text-align:right"').
+
 	 td($let,' style="color:red;text-align:right"').
 	 "</TR>";
 

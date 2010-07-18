@@ -9,6 +9,8 @@ ALTER TABLE quant_sold
       REFERENCES jrn (jr_internal) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE CASCADE;
 
+delete  from stock_goods where j_id not in (select j_id from jrnx);
+
 ALTER TABLE stock_goods
   ADD CONSTRAINT stock_goods_j_id_fkey FOREIGN KEY (j_id)
       REFERENCES jrnx (j_id) MATCH SIMPLE

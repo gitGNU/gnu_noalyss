@@ -60,8 +60,8 @@ if ( count($a_poste) == 0 ) {
   $pdf->Output('poste.pdf','I');
      exit;
 }
-$size=array(13,25,20,80,12,20,20);
-$align=array('L','C','C','L','R','R','R');
+$size=array(13,25,20,60,12,20,20,20);
+$align=array('L','C','C','L','R','R','R','R');
 
 foreach ($a_poste as $poste) 
 {
@@ -85,11 +85,14 @@ foreach ($a_poste as $poste)
   $pdf->Cell($size[$l],6,'Let',0,0,'R');$l++;
   $pdf->Cell($size[$l],6,'Debit',0,0,'R');$l++;
   $pdf->Cell($size[$l],6,'Credit',0,0,'R');$l++;
+  $pdf->Cell($size[$l],6,'Prog',0,0,'R');$l++;
   $pdf->ln();
-  $tot_deb=0;$tot_cred=0;
+  $tot_deb=0;$tot_cred=0;$prog=0;
   for ($e=0;$e<count($array);$e++) {
     $l=0;
     $row=$array[$e];
+    $prog+=$row['deb_montant']-$row['cred_montant'];
+
     $date=shrink_date($row['j_date_fmt']);
     $pdf->Cell($size[$l],6,$date,0,0,$align[$l]);$l++;
     $pdf->Cell($size[$l],6,$row['jr_internal'],0,0,$align[$l]);$l++;
@@ -98,6 +101,7 @@ foreach ($a_poste as $poste)
     $pdf->Cell($size[$l],6,(($row['letter']!=-1)?$row['letter']:''),0,0,$align[$l]);$l++;
     $pdf->Cell($size[$l],6,(sprintf('% 12.2f',$row['deb_montant'])),0,0,$align[$l]);$l++;
     $pdf->Cell($size[$l],6,(sprintf('% 12.2f',$row['cred_montant'])),0,0,$align[$l]);$l++;
+    $pdf->Cell($size[$l],6,(sprintf('% 12.2f',abs($prog))),0,0,$align[$l]);$l++;
     $pdf->ln();
     $tot_deb+=$row['deb_montant'];
     $tot_cred+=$row['cred_montant'];

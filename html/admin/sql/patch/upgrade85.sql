@@ -129,7 +129,6 @@ ALTER TABLE jrn_def ADD COLUMN jrn_def_bank bigint;
 alter table jrn_def add jrn_def_num_op integer;
 ALTER TABLE del_jrnx ADD COLUMN f_id bigint;
 
-DROP FUNCTION comptaproc.jrnx_del();
 
 CREATE OR REPLACE FUNCTION comptaproc.jrnx_del()
   RETURNS trigger AS

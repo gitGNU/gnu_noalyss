@@ -57,7 +57,7 @@ if ( ! isset ($_REQUEST['oper_detail'])) {
   foreach ($a_poste as $pos) 
     {
       $Poste=new Acc_Account_Ledger($cn,$pos['pcm_val']);
-      $Poste->get_name();
+      $name=$Poste->get_name();
       list($array,$tot_deb,$tot_cred)=$Poste->get_row_date( $_REQUEST['from_periode'],
 							    $_REQUEST['to_periode'],
 							    $_GET['ople']
@@ -65,22 +65,26 @@ if ( ! isset ($_REQUEST['oper_detail'])) {
       if ( count($Poste->row ) == 0 ) 
 	continue;
       
-      echo '"Poste";'.
+      echo '"Poste";'.'"Lib.";'.
 	"\"Code interne\";".
 	"\"Date\";".
 	"\"Description\";".
 	"\"Débit\";".
-	"\"Crédit\"";
+	"\"Crédit\";".
+	"\"Prog.\"";
       printf("\n");
   
-      
+      $prog=0;
       foreach ( $Poste->row as $op ) { 
+	$prog+=$op['deb_montant']-$op['cred_montant'];
 	echo '"'.$pos['pcm_val'].'";'.
+	  '"'.$name.'";'.
 	  '"'.$op['jr_internal'].'"'.";".
 	  '"'.$op['j_date_fmt'].'"'.";".
 	  '"'.$op['description']." ".$op['jr_pj_number'].'"'.";".
 	  nb($op['deb_montant']).";".
-	  nb($op['cred_montant']);
+	  nb($op['cred_montant']).";".
+	  nb(abs($prog));
 	printf("\n");
     
     

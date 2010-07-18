@@ -47,7 +47,7 @@ function ViewStock($p_cn,$p_year) {
 $sql=" select distinct sg_code
       from stock_goods 
 where
-      sg_code is not null and sg_code != '' and sg_code!='null'";
+      sg_code is not null and sg_code not in ('','null','--not found--','- ERROR -')";
 
 
 
@@ -202,7 +202,7 @@ $sql="select sg_code,
   $r.="<th>Quantité</th>";
   $r.="<th>Prix/Cout Unitaire</th>";
   $r.="</TR>";
-
+  $tot_quantity=0;
   for ( $i=0; $i < $M;$i++) {
     $l=Database::fetch_array($Res,$i);
     $r.="<tR>";
@@ -217,7 +217,12 @@ $sql="select sg_code,
     $r.=($l['sg_type']=='c')?'OUT':'IN';
     $r.="</TD>";
 
+    if ( $l['sg_type']=='c')
+      $quantity=(-1)*$l['sg_quantity'];
+    else 
+      $quantity=$l['sg_quantity'];
 
+    $tot_quantity+=$quantity;
     // comment
     $r.="<TD>";
     $r.=$l['comment'];
@@ -240,7 +245,7 @@ $sql="select sg_code,
     $r.="</TD>";
     //quantity
     $r.='<TD align="right">';
-    $r.=$l['sg_quantity'];
+    $r.=$quantity;
     $r.="</TD>";
 
     // Unit Price
@@ -253,6 +258,11 @@ $sql="select sg_code,
 
     $r.="</TR>";
   }// for ($i
+  // write the total
+  $row=td('Total',' colspan="4" style="width:auto;text-align:right"');
+  $row.=td($tot_quantity, 'style="text-align:right"');
+  $row.=td();
+  $r.=td($row);
   $r.="</table>";
 
 
