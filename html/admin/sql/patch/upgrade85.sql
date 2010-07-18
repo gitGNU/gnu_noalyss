@@ -149,6 +149,7 @@ return row;
 end;
 $BODY$
   LANGUAGE 'plpgsql' VOLATILE;
+ALTER TABLE stock_goods   ALTER COLUMN f_id DROP NOT NULL;
 
 update version set val=86;
 
