@@ -28,14 +28,6 @@ include_once("class_user.php");
 require_once("class_iselect.php");
 require_once('class_acc_ledger.php');
 $cn=new Database($gDossier);
-echo js_include('accounting_item.js');
-echo js_include('prototype.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('dragdrop.js');
-echo js_include('acc_ledger.js');
-echo js_include('scripts.js');
 echo JS_INFOBULLE;
 require_once('class_iposte.php');
 require_once('class_ipopup.php');
@@ -43,7 +35,7 @@ $search_card=new IPopup('ipop_card');
 $search_card->title=_('Recherche de fiche');
 $search_card->value='';
 echo $search_card->input();
-echo JS_CARD;
+
 echo IPoste::ipopup('ipop_account');
 
 echo '<div class="content">';

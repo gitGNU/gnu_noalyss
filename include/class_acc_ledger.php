@@ -2033,8 +2033,10 @@ function get_last_date()
     } else {
       $period=$user->get_periode();
       $per=new Periode($this->db,$period);
-      list($date_start,$date_end)=$per->get_date_limit();
-      $f_date_start->value=$date_start;
+	$exercice=$per->get_exercice();
+	list($per_start,$per_end)=$per->get_limit($exercice);
+	$f_date_start->value=$per_start->first_day();
+	$date_end=$per_end->last_day();
     }
 
     /* widget for date_end */
