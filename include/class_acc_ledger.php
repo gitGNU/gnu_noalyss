@@ -576,7 +576,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 
     $sort_date="<th>  <A class=\"mtitle\" HREF=\"?$url&o=da\">$image_asc</A>"._('Date')."<A class=\"mtitle\" HREF=\"?$url&o=dd\">$image_desc</A></th>";
     $sort_description="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ca\">$image_asc</A>"._('Description')."<A class=\"mtitle\" HREF=\"?$url&o=cd\">$image_desc</A></th>";
-    $sort_amount="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ma\">$image_asc</A>"._('Montant')." <A class=\"mtitle\" HREF=\"?$url&o=md\">$image_desc</A></th>";
+    $sort_amount="<th style=\"text-align:right\">  <A class=\"mtitle\" HREF=\"?$url&o=ma\">$image_asc</A>"._('Montant')." <A class=\"mtitle\" HREF=\"?$url&o=md\">$image_desc</A></th>";
     $sort_pj="<th>  <A class=\"mtitle\" HREF=\"?$url&o=pja\">$image_asc</A>"._('PJ')."<A class=\"mtitle\" HREF=\"?$url&o=pjd\">$image_desc</A></th>";
     $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>"._('Ech')." <A class=\"mtitle\" HREF=\"?$url&o=ed\">$image_desc</A> </th>";
 
@@ -609,12 +609,12 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 	  break;
 	case 'ma':
 	  // montant asc
-	  $sort_amount="<th> $image_sel_asc Montant <A class=\"mtitle\" HREF=\"?$url&o=md\">$image_desc</A></th>";
+	  $sort_amount="<th style=\"text-align:right\"> $image_sel_asc Montant <A class=\"mtitle\" HREF=\"?$url&o=md\">$image_desc</A></th>";
 	  $order=" order by jr_montant asc ";
 	  break;
 	case 'md':
 	  // montant desc
-	  $sort_amount="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ma\">$image_asc</A>Montant $image_sel_desc</th>";
+	  $sort_amount="<th style=\"text-align:right\">  <A class=\"mtitle\"  HREF=\"?$url&o=ma\">$image_asc</A>Montant $image_sel_desc</th>";
 	  $order=" order by jr_montant desc ";
 	  break;
 	case 'ca':
@@ -1178,9 +1178,6 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
    * \return string
    */
   function show_summary($p_array) {
-    /**
-     *@todo add a call to verify ???
-     */
     $this->id=$p_array['p_jrn'];
     if ( empty($p_array)) return 'Aucun r&eacute;sultat';
     $anc=null;
@@ -1206,7 +1203,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
     $ret.="<tr>";
     $ret.="<th>"._('Quick Code ou');
     $ret.=_("Poste")." </th>";
-    $ret.="<th> "._("Montant")." </th>";
+    $ret.="<th style=\"text-align:right\"> "._("Montant")." </th>";
     $ret.="<th>"._("Débit")."</th>";
     /* if we use the AC */
     if ($owner->MY_ANALYTIC!='nu') {
