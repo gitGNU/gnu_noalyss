@@ -103,7 +103,7 @@ if ( isset ($_POST['sub_change']))
                          sg_tech_user)
                     values (
                         null,
-                        0,
+                        null,
                         '$sg_code',
                         abs($change),
                         '$type',

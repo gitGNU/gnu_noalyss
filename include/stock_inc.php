@@ -282,14 +282,20 @@ $sql="select sg_code,
  */
 function ChangeStock($p_sg_code,$p_year){
 $sg_date=date("d.m.Y");
-$r='
-<input type="text" name="stock_change" value="0">
-<input type="hidden" name="sg_code" value="'.$p_sg_code.'">
-<input type="text" name="comment" value="">
-<input type="text" name="sg_date" value="'.$sg_date.'">
-<input type="hidden" name="year" value="'.$p_year.'">
-<br>
- ';
+$r='<table>';
+$row=td('Description');
+$row.=td(' <input type="text" class="input_text"  name="comment" value="">');
+$r.=tr($row);
+$row=td('Valeur(positive pour IN ou négative comme OUT)');
+$row.=td(' <input type="text" class="input_text" name="stock_change" value="0">');
+$r.=tr($row);
+$row=td('Date');
+$row.=td(' <input type="text" class="input_text"  name="sg_date" value="'.$sg_date.'">');
+$r.=tr($row);
+$r.='</table>';
+$r.='<input type="hidden" name="sg_code" value="'.$p_sg_code.'">
+<input type="hidden" name="year" value="'.$p_year.'">';
+
  return $r;
 
 }
