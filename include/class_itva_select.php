@@ -37,7 +37,7 @@ require_once('class_iselect.php');
 
     $select_tva=$this->db->make_array("select tva_id,tva_label from tva_rate order by tva_label asc",0);
     $this->value=$select_tva;
-    $a="<SELECT  id=\"$this->name\" NAME=\"$this->name\" $this->javascript $disabled>";
+    $a="<SELECT  id=\"$this->name\" NAME=\"$this->name\" $this->javascript >";
 
     if (empty($this->value)) return '';
     for ( $i=0;$i<sizeof($this->value);$i++)
