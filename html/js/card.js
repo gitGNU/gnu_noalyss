@@ -269,13 +269,23 @@ function select_card_type(obj) {
     $(content).innerHTML='<image src="image/loading.gif" alt="chargement"></image>';
     showIPopup($(obj).ipopup);
     var dossier=$('gDossier').value;
+
+    // give a filter, -1 if not
     var filter=$(obj).filter;
     if ( filter==undefined) {filter=-1;}
+
+
     var queryString='?gDossier='+dossier;
     queryString+='&ctl='+content;
     queryString+='&op=st'; 	// st for selecting type
     if ( $(obj).win_refresh!=undefined) { queryString+='&ref';}
     queryString+='&fil='+filter;
+    // filter on the ledger, -1 if not
+    var oledger=$(obj).jrn;
+    if (oledger==undefined) {ledger=-1;} else {ledger=g('p_jrn').value;}
+
+    queryString+='&ledger='+ledger;
+
     if ( obj.type_cat) { queryString+='&cat='+obj.type_cat;}
 
     var action=new Ajax.Request ( 'ajax_card.php',

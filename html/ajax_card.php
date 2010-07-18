@@ -133,13 +133,17 @@ case 'bc':
   /* ------------------------------------------------------------ */
 case 'st':
   $sql="select fd_id,fd_label from fiche_def";
-  if ( isset($cat)) {
-    $sql=$sql.sprintf(' where frd_id = '.FormatString ($cat));
-  }
-  if ( !isset($cat) && isset($fil) && strlen(trim($fil)) > 0 ){
-    $sql=$sql.sprintf(" where fd_id in (%s)",
-		      FormatString($fil));
-  }
+  if ( $ledger != -1 ) {
+    $l=new Acc_Ledger($cn,$ledger);
+    $sql.='  where fd_id in ('.$l->get_all_fiche_def().')';
+  } else
+    if ( isset($cat)) {
+      $sql=$sql.sprintf(' where frd_id = '.FormatString ($cat));
+    } else 
+      if ( isset($fil) && strlen(trim($fil)) > 0 ){
+	$sql=$sql.sprintf(" where fd_id in (%s)",
+			  FormatString($fil));
+      }
   $array=$cn->make_array($sql);
   if ( empty($array)) {
     $html=_("Aucune catégorie de fiche ne correspondant à".

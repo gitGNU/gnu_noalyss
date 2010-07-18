@@ -1314,8 +1314,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
     $f_add_button=new IButton('add_card');
     $f_add_button->label=_('Créer une nouvelle fiche');
     $f_add_button->set_attribute('ipopup','ipop_newcard');
-    $f_add_button->set_attribute('filter',$this->get_all_fiche_def ());
-    //    $f_add_button->set_attribute('jrn',$this->id);
+    $f_add_button->set_attribute('jrn',$this->id);
     $f_add_button->javascript=" select_card_type(this);";
     $ret.=$f_add_button->input();
     // show compute
@@ -1854,9 +1853,9 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
   function get_all_fiche_def() {
     $sql="select jrn_def_fiche_deb as deb,jrn_def_fiche_cred as cred ".
       " from jrn_def where ".
-      " jrn_def_type = $1 ";
+      " jrn_def_id = $1 ";
 
-    $r=$this->db->exec_sql($sql,array($this->type));
+    $r=$this->db->exec_sql($sql,array($this->id));
 
     $res=Database::fetch_all($r);
     if ( empty($res) ) return null;
