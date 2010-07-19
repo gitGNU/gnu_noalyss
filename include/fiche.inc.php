@@ -49,7 +49,7 @@ if ($write == 0 ){
 }
 
 function ShowRecherche() {
-  echo '<DIV class="u_redcontent">';
+  echo '<DIV class="u_redcontent" style="width:auto">';
   echo '<form method="GET" action="?">';
   echo dossier::hidden();
   $w=new IText();
