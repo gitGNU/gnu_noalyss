@@ -149,7 +149,29 @@ return row;
 end;
 $BODY$
   LANGUAGE 'plpgsql' VOLATILE;
+
 ALTER TABLE stock_goods   ALTER COLUMN f_id DROP NOT NULL;
+
+CREATE OR REPLACE FUNCTION comptaproc.jnt_fic_attr_ins()
+  RETURNS trigger AS
+$BODY$
+declare
+   r_record jnt_fic_attr%ROWTYPE;
+begin
+r_record=NEW;
+perform fiche_attribut_synchro(r_record.fd_id);
+
+return NEW;
+end;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE;
+
+CREATE TRIGGER t_jnt_fic_attr_ins
+  BEFORE INSERT
+  ON jnt_fic_attr
+  FOR EACH ROW
+  EXECUTE PROCEDURE comptaproc.jnt_fic_attr_ins();
+
 
 update version set val=86;
 

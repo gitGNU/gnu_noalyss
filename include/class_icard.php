@@ -107,6 +107,21 @@ $card->set_callback('filter_card');
 
 echo $card->input();
 echo $card->search();
+// example 2 
+ $w=new ICard("av_text".$attr->ad_id);
+ // filter on frd_id
+ $sql=' select fd_id from fiche_def where frd_id in ('.FICHE_TYPE_CLIENT.','.FICHE_TYPE_FOURNISSEUR.','.FICHE_TYPE_ADM_TAX.')';
+ $filter=$this->cn->make_list($sql);
+ $w->set_attribute('ipopup','ipopcard');
+ $w->set_attribute('typecard',$filter);
+ $w->set_attribute('inp',"av_text".$attr->ad_id);
+ $w->set_attribute('label',"av_text".$attr->ad_id."_label");
+ 
+ $w->extra=$filter;
+ $w->extra2=0;
+ $label=new ISpan();
+ $label->name="av_text".$attr->ad_id."_label";
+ $msg.=td($w->search().$label->input());
 @endcode
  */
 require_once('class_html_input.php');

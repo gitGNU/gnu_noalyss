@@ -149,16 +149,19 @@ class Fiche {
 	}
 	if ( $flag == 0 ) {
 	  // there's a missing one, we insert it
-	  $t=new Attribut ($f->ad_id);
+	  $t=new Fiche_Attr ($f->ad_id);
 	  $t->av_text="";
 	  $t->ad_text=$f->ad_text;
 	  $t->jnt_order=$f->jnt_order;
+	  $t->ad_type=$f->ad_type;
+	  $t->ad_size=$f->ad_size;
+
 	  $this->attribut[$Max]=$t;
 	  $Max++;
 	} // if flag == 0
 
       }// foreach
-      usort($this->attribut,'Attribut::cmp_id');
+      usort($this->attribut,'Fiche_Attr::sort_by_id');
 
 
     }//missing attribut
@@ -408,16 +411,21 @@ Array
 	    }
 	  elseif ( $attr->ad_id == ATTR_DEF_COMPANY )
 	    {
-	      $r.=JS_LEDGER;
-	      $w=new ICard();
+	      $w=new ICard("av_text".$attr->ad_id);
 	      // filter on frd_id
 	      $sql=' select fd_id from fiche_def where frd_id in ('.FICHE_TYPE_CLIENT.','.FICHE_TYPE_FOURNISSEUR.','.FICHE_TYPE_ADM_TAX.')';
 	      $filter=$this->cn->make_list($sql);
+	      $w->set_attribute('ipopup','ipopcard');
+	      $w->set_attribute('typecard',$filter);
+	      $w->set_attribute('inp',"av_text".$attr->ad_id);
+	      $w->set_attribute('label',"av_text".$attr->ad_id."_label");
+
 	      $w->extra=$filter;
 	      $w->extra2=0;
 	      $label=new ISpan();
 	      $label->name="av_text".$attr->ad_id."_label";
-	      $msg=$label->input();
+	      $msg.=td($w->search().$label->input());		  
+
 
 	    }
 	  else
@@ -471,6 +479,7 @@ Array
 	if ( empty ($attr) ) {
 		return "Fiche non trouvée";
 	}
+
       foreach ( $attr as $r)
 	{
 	  $msg="";
@@ -510,16 +519,24 @@ Array
 	    }
 	      elseif ( $r->ad_id == ATTR_DEF_COMPANY )
 		{
-		  $ret.=JS_LEDGER;
-		  $w=new ISearch();
+		  $w=new ICard("av_text".$r->ad_id);
 		  // filter on frd_id
-		  $w->extra=FICHE_TYPE_CLIENT.','.FICHE_TYPE_FOURNISSEUR.','.FICHE_TYPE_ADM_TAX;
-		  $w->extra2=0;      // jrn = 0
-		  $w->table=1;
-
+		  $sql=' select fd_id from fiche_def where frd_id in ('.FICHE_TYPE_CLIENT.','.FICHE_TYPE_FOURNISSEUR.','.FICHE_TYPE_ADM_TAX.')';
+		  $filter=$this->cn->make_list($sql);
+		  $w->extra=$filter;
+		  $w->extra2=0;
 		  $label=new ISpan();
 		  $label->name="av_text".$r->ad_id."_label";
-		  $msg=$label->input();
+		  $w->set_attribute('ipopup','ipopcard');
+		  $w->set_attribute('typecard',$filter);
+		  $w->set_attribute('inp',"av_text".$r->ad_id);
+		  $w->set_attribute('label',"av_text".$r->ad_id."_label");
+
+
+		  $msg=$w->search(); 
+		  $msg.=$label->input();
+
+
 		}
 
 	      else
@@ -541,6 +558,9 @@ Array
 		    $w->width=$r->ad_size;
 		    $w->heigh=2;
 		    break;
+		  default:
+		    var_dump($r);
+		    throw new Exception("Type invalide");
 		  }
 		  $w->table=0;
 		}
@@ -571,15 +591,18 @@ Array
 /*!
  * \brief  insert a new record
  *
- * \param p_fiche_def fiche_def.fd_id
- * \param p_array is the array containing the data
+ * \param $p_fiche_def fiche_def.fd_id
+ * \param $p_array is the array containing the data
+ *\param $transation if we want to manage the transaction in this function
+ * true for small insert and false for a larger loading, the BEGIN / COMMIT sql
+ * must be done into the caller
  av_textX where X is the ad_id
  *\verb
 example
 av_text1=>'name'
 \endverb
  */
-  function insert($p_fiche_def,$p_array=null)
+  function insert($p_fiche_def,$p_array=null,$transaction=true)
   {
     if ( $p_array == null)
       $p_array=$_POST;
@@ -587,7 +610,7 @@ av_text1=>'name'
     $fiche_id=$this->cn->get_next_seq('s_fiche');
     $this->id=$fiche_id;
     // first we create the card
-    $this->cn->start();
+    if ( $transaction)    $this->cn->start();
     try
       {
 	$sql=sprintf("insert into fiche(f_id,fd_id)".
@@ -680,9 +703,9 @@ av_text1=>'name'
 	       throw ($e);
 	       return;
 	     }
-      $this->cn->commit();
-      return;
-    }
+    if ( $transaction)         $this->cn->commit();
+    return;
+  }
 
 
 

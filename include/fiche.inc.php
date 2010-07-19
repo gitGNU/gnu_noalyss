@@ -30,6 +30,7 @@ include_once ("user_menu.php");
 require_once('class_dossier.php');
 require_once('class_ipopup.php');
 echo IPoste::ipopup('ipop_account');
+echo ICard::ipopup('ipop_card');
 
 $gDossier=dossier::id();
 $str_dossier=dossier::get();

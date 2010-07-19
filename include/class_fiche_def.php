@@ -96,9 +96,9 @@ function input ()
   function Get() {
     if ( $this->id == 0 ) 
       return 0;
-    $this->cn->exec_sql('select fiche_attribut_synchro($1)',
+    /*    $this->cn->exec_sql('select fiche_attribut_synchro($1)',
 		 array($this->id));
-
+    */
     $sql="select * from fiche_def ".
       " where fd_id=".$this->id;
     $Ret=$this->cn->exec_sql($sql);
@@ -431,9 +431,9 @@ function input ()
     {
       if ( $this->id == 0 )
 	return ;
-      $this->cn->exec_sql('select fiche_attribut_synchro($1)',
+      /*      $this->cn->exec_sql('select fiche_attribut_synchro($1)',
 		   array($this->id));
-
+      */
       $MaxLine=sizeof($this->attribut);
       $r="<TABLE>";
       // Display each attribute
