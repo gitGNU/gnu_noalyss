@@ -520,6 +520,7 @@ class Acc_Misc extends Acc_Detail
   function __construct($p_cn,$p_jrid=0) {
     parent::__construct($p_cn,$p_jrid);
     $this->signature='ODS';
+    $this->det=new stdClass();
   }
   function get() {
     parent::get();
@@ -541,6 +542,7 @@ class Acc_Sold extends Acc_Detail
   function __construct($p_cn,$p_jrid=0) {
     parent::__construct($p_cn,$p_jrid);
     $this->signature='VEN';
+    $this->det=new stdClass();
   }
   function get() {
     parent::get();   
