@@ -234,7 +234,7 @@ if ( isset ( $_GET["action"]) ) {
        && ! isset ($_POST['delete'])) {
      $User->can_request(FICADD);
 
-    echo '<DIV class="u_redcontent">';
+    echo '<DIV class="u_redcontent" style="width:auto">';
     $fiche_def=new Fiche_Def($cn,$_GET['fiche']);
     $fiche_def->myList();
 
@@ -245,7 +245,7 @@ if ( isset ( $_GET["action"]) ) {
   //_________________________________________________________________________
   // Display the detail of a card
   if ($action== "detail" ) {
-    echo '<DIV class="u_redcontent">';
+    echo '<DIV class="u_redcontent" style="width:auto">';
     $t=false;
     if ( $User->check_action(FICADD)==0) 
       { 
@@ -314,7 +314,7 @@ if ( isset ( $_GET["action"]) ) {
   // Modify a card Model
   if ($action == "modifier" ) {
     $User->can_request(FICCAT);
-    echo '<DIV class="u_redcontent">';
+    echo '<DIV class="u_redcontent" style="width:auto">';
     $fiche_def=new Fiche_Def($cn,$_GET['fiche']);
     
     echo ShowFicheDefInput($fiche_def);
