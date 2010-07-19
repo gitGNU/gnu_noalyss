@@ -113,7 +113,7 @@ class @class_name@  @mother_class@
    public function seek($cond='',$p_array=null) 
    {
    $where="";
-   if ( trim($cond) != '') $where="where"
+   if ( trim($cond) != '') $where="where";
      $sql="select * from @table@ where $cond";
      $aobj=array();
      $array= $this->cn->get_array($sql,$p_array);
@@ -129,6 +129,7 @@ class @class_name@  @mother_class@
    }
   public function insert() {
     if ( $this->verify() != 0 ) return;
+      if( $this->@id@==0 ){
     /*  please adapt */
     $sql="insert into @table@(@column_noid@) values (@column_insert@) returning @id@";
     
@@ -136,6 +137,15 @@ class @class_name@  @mother_class@
 		 $sql,
 		 array( @column_this@)
 		 );
+          } else {
+              $sql="insert into @table@(@column_noid@,@id@) values (@column_insert_id@) returning @id@";
+    
+    $this->@id@=$this->cn->get_value(
+		 $sql,
+		 array( @column_this_id@)
+		 );
+
+          }
    
   }
 
@@ -355,7 +365,7 @@ $cn->rollback();
         column_this=''
         column_select=''
         column_insert=''
-        fileoutput=open("class_"+class_name+".php",'w+')
+        fileoutput=open("class_"+class_name.lower()+".php",'w+')
         
         sep=''
         i=1
@@ -373,6 +383,8 @@ $cn->rollback();
                 column_insert=column_insert+sep+'$'+str(i)+"\n"
             i+=1                
             sep=','
+        column_insert_id=column_insert+sep+'$'+str(i)+"\n"
+        column_this_id=column_this+sep+'$this->'+id
         column_array=''
         sep=''
         for e in line [3:]:
@@ -420,9 +432,11 @@ $cn->rollback();
             sParent=sParent.replace('@sql_update@',sql_update)
             sParent=sParent.replace('@column_comma@',column_comma)
             sParent=sParent.replace('@column_this@',column_this)
+	    sParent=sParent.replace('@column_this_id@',column_this_id)	
             sParent=sParent.replace('@verify_data_type@',verify_data_type)
             sParent=sParent.replace('@column_select@',column_select)
             sParent=sParent.replace('@column_insert@',column_insert)
+            sParent=sParent.replace('@column_insert_id@',column_insert_id)
             sParent=sParent.replace('@mother_class@',mother_class)
             fileoutput.writelines(sParent)
         else:
@@ -434,11 +448,13 @@ $cn->rollback();
             sChild=sChild.replace('@sql_update@',sql_update)
             sChild=sChild.replace('@column_comma@',column_comma)
             sChild=sChild.replace('@column_this@',column_this)
+            sChild=sChild.replace('@column_this_id@',column_this_id)	
             sChild=sChild.replace('@verify_data_type@',verify_data_type)
             sChild=sChild.replace('@column_select@',column_select)
             sChild=sChild.replace('@column_insert@',column_insert)
             sChild=sChild.replace('@mother_name@',mother_name)
             sChild=sChild.replace('@mother_class@',mother_class)            
+            Child=sChild.replace('@column_insert_id@',column_insert_id)
             fileoutput.writelines(sChild)
 
     except :
