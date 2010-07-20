@@ -114,7 +114,7 @@ class @class_name@  @mother_class@
    {
    $where="";
    if ( trim($cond) != '') $where="where";
-     $sql="select * from @table@ where $cond";
+     $sql="select * from @table@ $where $cond";
      $aobj=array();
      $array= $this->cn->get_array($sql,$p_array);
      // map each row in a object

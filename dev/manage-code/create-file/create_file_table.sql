@@ -3,5 +3,5 @@ SELECT
 FROM 
   information_schema.columns
 WHERE 
- columns.table_name='section';
+ columns.table_name='member_record';
 
