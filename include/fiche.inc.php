@@ -335,7 +335,7 @@ if ( isset ( $_GET["action"]) ) {
       //
       if ( sizeof($all) != 0 )
 	{
-	  echo '<DIV class="u_redcontent">';
+	  echo '<DIV class="u_redcontent" style="width:auto">';
 	  echo "Résultat : ".sizeof($all).'éléments trouvés <br>';
 	  foreach ($all as $f_id){
 	    $fiche=new Fiche($cn,$f_id['f_id']);
