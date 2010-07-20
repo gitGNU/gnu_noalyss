@@ -142,7 +142,7 @@ if ( isset ($_POST['remove_cat'] )  ) {
 if ( isset ($_POST["add_line"])  ) {
     $User->can_request(FIC);
 
-  $r= '<DIV class="u_redcontent">';
+  $r= '<DIV class="u_redcontent" style="width:auto">';
   if ( $write ==0)  
     $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
   else
@@ -165,7 +165,7 @@ if ( isset($_POST['save_line'])) {
   $User->can_request(FICCAT);
   $fiche_def=new Fiche_Def($cn,$_REQUEST['fd_id']);
   $fiche_def->save_order($_POST);
-  $r= '<DIV class="u_redcontent">';
+  $r= '<DIV class="u_redcontent" style="width:auto">';
   if ( $write ==0)  
     $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
   else
@@ -183,7 +183,7 @@ if ( isset($_POST['save_line'])) {
 if ( isset ($_POST['remove_line'])   ) 
   {
     $User->can_request(FICCAT);
-    $r= '<DIV class="u_redcontent">';
+    $r= '<DIV class="u_redcontent" style="width:auto">';
     if ( $write ==0)  
       $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
     else
@@ -204,7 +204,7 @@ if ( isset ($_POST['remove_line'])   )
 // Change the name of the card  model
 if ( isset ($_POST["change_name"] )   ) {
   $User->can_request(FICCAT);
-  $r= '<DIV class="u_redcontent">';
+  $r= '<DIV class="u_redcontent" style="width:auto">';
   if ( $write ==0)  
     $r.= "<h2 class=\"error\"> "._("Pas d'accès")." </h2>";
   else
@@ -298,7 +298,7 @@ if ( isset ( $_GET["action"]) ) {
   // the property of the card model
   if ($action == "add_modele" ) {
     $User->can_request(FICCAT);
-    echo '<DIV class="u_redcontent">';
+    echo '<DIV class="u_redcontent" style="width:auto">';
     echo '<form method="post">';
     $oFiche_Def=new Fiche_Def($cn);	
     echo HtmlInput::hidden("p_action","fiche");
@@ -347,7 +347,7 @@ if ( isset ( $_GET["action"]) ) {
 	}
       else 
 	{
-	  echo '<DIV class="u_redcontent">';
+	  echo '<DIV class="u_redcontent" style="width:auto">';
 	  echo "Aucun résultat trouvé";
 		  
 	  echo '</div>';
@@ -360,7 +360,7 @@ if ( isset ( $_GET["action"]) ) {
 if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) ) {
   $User->can_request(FICADD);
 
-  echo '<DIV class="u_redcontent">';
+  echo '<DIV class="u_redcontent" style="width:auto">';
   if ( $write ==0)  
     echo "<h2 class=\"error\"> Pas d'accès </h2>";
   else
