@@ -47,6 +47,7 @@ def main():
         sys.exit(-2)
     sParent="""<?php
 /**
+ *@file
  *@brief Manage the table @table@
  *
  *
@@ -227,6 +228,7 @@ $cn->rollback();
 """
     sChild="""<?php
 /**
+ *@file
  *@brief Manage the table @table@
  *
  *
