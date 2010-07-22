@@ -64,7 +64,7 @@ if ( $owner->MY_TVA_USE == 'Y') {
 } else 
   echo th(_('Total'), 'style="text-align:right"');
 
-    if ($owner->MY_ANALYTIC != 'nu'){
+    if ($owner->MY_ANALYTIC != 'nu' && $div == 'popup'){
       $anc=new Anc_Plan($cn);
       $a_anc=$anc->get_list();
       $x=count($a_anc);
@@ -104,7 +104,7 @@ echo '</tr>';
     $total_tvac+=$tvac;
     $total_htva+=$htva;
     /* Analytic accountancy */
-    if ( $owner->MY_ANALYTIC != "nu"){
+    if ( $owner->MY_ANALYTIC != "nu" && $div == 'popup'){
       $poste=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
       if ( preg_match('/^(6|7)/',$poste)) {
 	$anc_op=new Anc_Operation($cn);

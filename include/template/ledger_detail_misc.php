@@ -58,7 +58,7 @@ echo td(_('Pièce')).td($itext->input());
     echo th(_('Libellé'));
 echo th(_('Débit'), 'style="text-align:right"');
 echo th(_('Crédit'), 'style="text-align:right"');
-    if ($owner->MY_ANALYTIC != 'nu'){
+    if ($owner->MY_ANALYTIC != 'nu' && $div == 'popup'){
       $anc=new Anc_Plan($cn);
       $a_anc=$anc->get_list();
       $x=count($a_anc);
@@ -99,7 +99,7 @@ echo '</tr>';
     $row.=($q[$e]['j_debit']=='t')?$montant:td('');
     $row.=($q[$e]['j_debit']=='f')?$montant:td('');
     /* Analytic accountancy */
-    if ( $owner->MY_ANALYTIC != "nu"){
+    if ( $owner->MY_ANALYTIC != "nu" && $div=='popup'){
       if ( preg_match('/^(6|7)/',$q[$e]['j_poste'])) {
 	
 
