@@ -308,13 +308,14 @@ function FormatString($p_string)
 /* \brief store the string which print
  *           the content of p_array in a table
  *           used to display the menu
- * \param  $p_array array like ( HREF reference, visible item (name),Help(opt),
- * selected (opt)
+ * \param  $p_array array like ( 0=>HREF reference, 1=>visible item (name),2=>Help(opt),
+ * 3=>selected (opt) 4=>javascript (normally a onclick event) (opt)
  * \param $p_dir direction of the menu (H Horizontal  V vertical)
  * \param $class CSS for TD tag
  * \param $class_ref CSS for the A tag
  * \param $default selected item
  * \param $p_extra extra code for the table tag (CSS or javascript)
+ *
 /* \return : string */
 function ShowItem($p_array,$p_dir='V',$class="mtitle",$class_ref="mtitle",$default="",$p_extra="")
 {
@@ -323,6 +324,7 @@ function ShowItem($p_array,$p_dir='V',$class="mtitle",$class_ref="mtitle",$defau
   // direction Vertical
   if ( $p_dir == 'V') {
     foreach ($p_array as $all=>$href){
+      $javascript=(isset ($href[4]))?$href[4]:"";
       $title="";
       $set="XX";
       if ( isset ($href[2] ))
@@ -331,9 +333,9 @@ function ShowItem($p_array,$p_dir='V',$class="mtitle",$class_ref="mtitle",$defau
 	$set=$href[3];
 
       if ( $set == $default )
-	$ret.='<TR><TD CLASS="selectedcell"><A class="'.$class_ref.'" HREF="'.$href[0].'" title="'.$title.'">'.$href[1].'</A></TD></TR>';
+	$ret.='<TR><TD CLASS="selectedcell"><A class="'.$class_ref.'" HREF="'.$href[0].'" title="'.$title.'" '.$javascript.'>'.$href[1].'</A></TD></TR>';
       else
-	$ret.='<TR><TD CLASS="'.$class.'"><A class="'.$class_ref.'" HREF="'.$href[0].'" title="'.$title.'">'.$href[1].'</A></TD></TR>';
+	$ret.='<TR><TD CLASS="'.$class.'"><A class="'.$class_ref.'" HREF="'.$href[0].'" title="'.$title.'" '.$javascript.'>'.$href[1].'</A></TD></TR>';
     }
   }
       //direction Horizontal
@@ -342,8 +344,9 @@ function ShowItem($p_array,$p_dir='V',$class="mtitle",$class_ref="mtitle",$defau
     $ret.="<TR>";
     foreach ($p_array as $all=>$href){
       $title="";
-
-	  $set="A";
+      $javascript=(isset ($href[4]))?$href[4]:"";
+      
+      $set="A";
       if ( isset ($href[2] ))
 		$title=$href[2];
 
@@ -351,9 +354,9 @@ function ShowItem($p_array,$p_dir='V',$class="mtitle",$class_ref="mtitle",$defau
 		$set=$href[3];
 
       if ( $default=== $href[0]||$set===$default ) {
-	$ret.='<TD CLASS="selectedcell"><A class="'.$class_ref.'" HREF="'.$href[0].'" title="'.$title.'">'.$href[1].'</A></TD>';
+	$ret.='<TD CLASS="selectedcell"><A class="'.$class_ref.'" HREF="'.$href[0].'" title="'.$title.'" '.$javascript.'>'.$href[1].'</A></TD>';
       } else {
-		$ret.='<TD CLASS="'.$class.'"><A class="'.$class_ref.'" HREF="'.$href[0].'" title="'.$title.'">'.$href[1].'</A></TD>';
+	$ret.='<TD CLASS="'.$class.'"><A class="'.$class_ref.'" HREF="'.$href[0].'" title="'.$title.'" '.$javascript.'>'.$href[1].'</A></TD>';
       }
 
     }
