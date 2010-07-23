@@ -1186,7 +1186,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
     if ($this->check_periode() == true) {
       $lPeriode->p_id=$period;
     } else {
-      $lPeriode->find_periode($date);
+      $lPeriode->find_periode($e_date);
     }
     $owner=new own($this->db);
 
