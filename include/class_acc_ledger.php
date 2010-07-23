@@ -1601,9 +1601,9 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 	  if ( $p->belong_ledger ($p_jrn) < 0 )
 	    throw new Exception(_("Le poste")." ".$p->id." "._("n'est pas dans ce journal"),5);
 	  if ( strlen(trim(${'poste'.$i}))!=0 &&  isNumber(${'amount'.$i} ) == 0 )
-	    throw new Exception(_('Poste invalide'),3);
+	    throw new Exception(_('Poste invalide ['.${'poste'.$i}.']'),3);
 	  if ( $p->do_exist() == 0 )
-	    throw new Exception(_('Poste Inexistant'),4);
+	    throw new Exception(_('Poste Inexistant ['.${'poste'.$i}.']'),4);
 	}
 
 
