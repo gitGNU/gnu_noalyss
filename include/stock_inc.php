@@ -98,7 +98,8 @@ where
 
     // diff
     $diff=$deb-$cred;
-    $result.="<td>".$diff."</td>";
+    $msg=($diff < 0)?_('Sortie'):_('Entré');
+    $result.="<td> $msg".(abs($diff))."</td>";
     $result.="</tr>";
 
   }
