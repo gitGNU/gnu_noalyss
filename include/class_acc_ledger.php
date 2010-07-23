@@ -1732,6 +1732,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
       $acc_end->jrn=$this->id;
       $acc_end->mt=$mt;
       $jr_id= $acc_end->insert_jrn();
+      $this->jr_id=$jr_id;
       if ($jr_id == false )
 	throw new Exception('Balance incorrecte');
       $acc_end->pj=$e_pj;
