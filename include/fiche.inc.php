@@ -95,7 +95,7 @@ function ShowFicheDefInput($p_fiche_def)
   $r.='</form>';
   $r.='</fieldset>';
   /* attributes */
-  $r.='<fieldset><legend>Attributs</legend>';
+  $r.='<fieldset><legend>Détails</legend>';
 
   $r.= '<FORM action="?p_action=fiche" method="POST">';
   $r.=dossier::hidden();
