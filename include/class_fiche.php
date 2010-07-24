@@ -155,13 +155,12 @@ class Fiche {
 	  $t->jnt_order=$f->jnt_order;
 	  $t->ad_type=$f->ad_type;
 	  $t->ad_size=$f->ad_size;
-
+	  $t->ad_id=$f->ad_id;
 	  $this->attribut[$Max]=$t;
 	  $Max++;
 	} // if flag == 0
 
       }// foreach
-      usort($this->attribut,'Fiche_Attr::sort_by_id');
 
 
     }//missing attribut
@@ -543,18 +542,18 @@ Array
 		{
 		  switch ($r->ad_type) {
 		  case 'text':
-		    $w=new IText();
+		    $w=new IText('av_text'.$r->ad_id);
 		    $w->size=$r->ad_size;
 		    break;
 		  case 'numeric':
-		    $w=new INum();
+		    $w=new INum('av_text'.$r->ad_id);
 		    $w->size=$r->ad_size;
 		    break;
 		  case 'date':
-		    $w=new IDate();
+		    $w=new IDate('av_text'.$r->ad_id);
 		    break;
 		  case 'zone':
-		    $w=new ITextArea();
+		    $w=new ITextArea('av_text'.$r->ad_id);
 		    $w->width=$r->ad_size;
 		    $w->heigh=2;
 		    break;
@@ -572,7 +571,9 @@ Array
 
 	  $ret.="<TR>".td($r->ad_text.$bulle).td($w->input()).td($msg)." </TR>";
 	}
+
       $ret.="</table>";
+
       return $ret;
     }
   /*!
