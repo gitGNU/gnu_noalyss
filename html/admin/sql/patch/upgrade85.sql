@@ -157,10 +157,13 @@ CREATE OR REPLACE FUNCTION comptaproc.jnt_fic_attr_ins()
 $BODY$
 declare
    r_record jnt_fic_attr%ROWTYPE;
+   i_max integer;
 begin
 r_record=NEW;
 perform comptaproc.fiche_attribut_synchro(r_record.fd_id);
-
+select coalesce(max(jnt_order),0) into i_max from jnt_fic_attr where fd_id=r_record.fd_id;
+i_max := i_max + 10;
+NEW.jnt_order=i_max;
 return NEW;
 end;
 $BODY$
