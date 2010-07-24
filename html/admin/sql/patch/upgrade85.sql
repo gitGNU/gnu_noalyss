@@ -159,7 +159,7 @@ declare
    r_record jnt_fic_attr%ROWTYPE;
 begin
 r_record=NEW;
-perform fiche_attribut_synchro(r_record.fd_id);
+perform comptaproc.fiche_attribut_synchro(r_record.fd_id);
 
 return NEW;
 end;

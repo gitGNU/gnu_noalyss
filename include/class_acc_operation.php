@@ -489,6 +489,7 @@ class Acc_Detail extends Acc_Operation {
   function __construct($p_cn,$p_jrid=0) {
     parent::__construct($p_cn);
     $this->jr_id=$p_jrid;
+    $this->det=new stdClass();
   }
   /**
    *@brief retrieve some common data from jrnx / jrn as
