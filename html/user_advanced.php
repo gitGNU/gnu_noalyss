@@ -41,16 +41,7 @@ $User->db=$cn;
 
 require_once('class_database.php');
 require_once('class_ipopup.php');
-echo js_include('accounting_item.js');
-echo js_include('prototype.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('dragdrop.js');
-echo js_include('acc_ledger.js');
-echo js_include('ajax_fiche.js');
-echo JS_INFOBULLE;
-echo JS_CARD;
+load_all_script();
 echo ICard::ipopup('ipopcard');
 echo IPoste::ipopup('ipop_account');
 $search_card=new IPopup('ipop_card');

@@ -38,7 +38,7 @@ echo HtmlInput::button('hide',_('Annuler'),'onClick="$(\'add_todo_list\').hide()
 echo '</form>';
 echo '</div>';
 
-echo '<div style="float:left;width:30%;">';
+echo '<div style="float:left;width:27%;">';
 echo '<fieldset> <legend>'._('Pense-Bête').'</legend>';
 
 
@@ -83,7 +83,7 @@ if ( $rapport->exist() == false ) {
 }
 
 if ( $report != 0 ) {
-  echo '<div style="float:left;width:27%">';
+  echo '<div style="float:left;width:30%">';
   echo '<fieldset style="background-color:white"><legend>'.$rapport->get_name().'</legend>';
   $exercice=$user->get_exercice();
   if ( $exercice == 0 ) {
@@ -101,7 +101,7 @@ if ( $report != 0 ) {
       echo '<tr'.$bgcolor.'">';
 
       echo '<td> '.$row['desc'].'</td>'.
-	'<td>'.sprintf("% 10.2f",$row['montant'])." &euro;</td>";
+	'<td style="text-align:right">'.sprintf("% 10.2f",$row['montant'])." &euro;</td>";
       echo '</tr>';
     }
     echo '</table>';
