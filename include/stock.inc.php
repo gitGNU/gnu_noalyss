@@ -145,19 +145,25 @@ if ( $action == 'detail' ) {
   $b="";
 
    
-  echo '<div class="u_redcontent">' ;
+  echo '<div class="u_redcontent" style="margin-left:10%">' ;
   echo $a;
+  echo '<div style="float:left;clear:both">';
+
   if ( $write != 0) 
     {
+      echo '<fieldset><legend>';
       echo 'Entrer la valeur qui doit augmenter ou diminuer le stock';
+      echo '</legend>';
       echo '<form action="?p_action=stock" method="POST">';
       echo ChangeStock($sg_code,$year);
       echo HtmlInput::submit("sub_change" ,"Valider");
 	  echo dossier::hidden();
 	  echo HtmlInput::button_anchor('Retour','?p_action=stock&'.dossier::get());
       echo '</form>';
+      echo '</fieldset>';
     }else 
     echo HtmlInput::button_anchor('Retour','?p_action=stock&'.dossier::get());
+  echo '</div>';
 
 
   

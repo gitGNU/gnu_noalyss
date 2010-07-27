@@ -100,7 +100,7 @@ where
 
     // diff
     $diff=$deb-$cred;
-    $msg=($diff < 0)?_('Sortie '):_('Entrée ');
+    $msg=($diff < 0)?_('Sortie /Vente '):_('Entrée/Achat ');
     $result.='<td style="text-align:right">'. $msg.(abs($diff))."</td>";
     $result.="</tr>";
 
@@ -179,7 +179,8 @@ $sql="select sg_code,
  " ;
     // name
 
-
+$in_quantity=0;$out_quantity=0;
+$in_amount=0;$out_amount=0;
   $r="";
   $a_name=getFicheNameCode($p_cn,$p_sg_code);
   $name="";
@@ -195,7 +196,7 @@ $sql="select sg_code,
   
   $Res=$p_cn->exec_sql($sql);
   if ( ($M=Database::num_row($Res)) == 0 ) return "no rows";
-  $r.='<table style="width:100%;border:solid blue 2px ;border-style:outset;">';
+  $r.='<table class="result" >';
   $r.="<TR>";
   $r.="<th>Date </th>";
   $r.="<th>Entrée / Sortie </th>";
@@ -220,11 +221,16 @@ $sql="select sg_code,
     $r.=($l['sg_type']=='c')?'OUT':'IN';
     $r.="</TD>";
 
-    if ( $l['sg_type']=='c')
+    if ( $l['sg_type']=='c') {
       $quantity=(-1)*$l['sg_quantity'];
-    else 
+      $out_quantity+=$l['sg_quantity'];
+      $out_amount+=$l['j_montant'];
+    }
+    else {
       $quantity=$l['sg_quantity'];
-
+      $in_quantity+=$l['sg_quantity'];
+      $in_amount+=$l['j_montant'];
+    }
     $tot_quantity+=$quantity;
     // comment
     $r.="<TD>";
@@ -262,14 +268,33 @@ $sql="select sg_code,
     $r.="</TR>";
   }// for ($i
   // write the total
-  $msg=($tot_quantity<0)?'Sortie ':'Entrée ';
+  $msg=($tot_quantity<0)?'Sortie / Vente ':'Entrée / Achat ';
   $row=td('Total '.$msg,' colspan="4" style="width:auto;text-align:right"');
   $row.=td(abs($tot_quantity), 'style="text-align:right"');
   $row.=td();
   $r.=td($row);
   $r.="</table>";
+  $r.='<div style="float:left">';
+  $r.='<table>';
+  $row=td('Quantité IN/Achetée').td($in_quantity,'style="text-align:right"');
+  $r.=tr($row);
+  $row=td('Quantité OUT/Vendue').td($out_quantity,'style="text-align:right"');
+  $r.=tr($row);
+  $row=td('Quantité ').td(abs($tot_quantity),'style="text-align:right"');
+  $r.=tr($row);
+  $r.='</table>';
+  $r.='</div>';
 
-
+  $r.='<div style="float:left;clear:right;margin-left:10%">';
+  $r.='<table>';
+  $row=td('Montant IN/Acheté').td($in_amount,'style="text-align:right"');
+  $r.=tr($row);
+  $row=td('Montant OUT/Vendu').td($out_amount,'style="text-align:right"');
+  $r.=tr($row);
+  $row=td('Montant ').td($out_amount-$in_amount,'style="text-align:right"');
+  $r.=tr($row);
+  $r.='</table>';
+  $r.='</div>';
 
   return $r;
 	 
