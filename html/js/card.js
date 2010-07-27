@@ -38,6 +38,7 @@ function search_card(obj) {
     try{
     var gDossier=$('gDossier').value;
     var inp=obj.inp;
+    var string_to_search=$(inp).value;
     var label=obj.label;
     var typecard=obj.typecard;
     var price=obj.price;
@@ -50,8 +51,8 @@ function search_card(obj) {
     var query=encodeJSON({'gDossier':gDossier,
 			  'inp':inp,'label':label,'price':price,'tvaid':tvaid,
 			  'ctl':obj.popup,'op':'fs','jrn':jrn,
-			  'typecard':typecard
-	});
+			  'typecard':typecard,'query':string_to_search
+			 });
     showIPopup(obj.popup);
     var action=new Ajax.Request ( 'ajax_card.php',
 				  {

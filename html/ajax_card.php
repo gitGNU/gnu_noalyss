@@ -40,6 +40,7 @@
       - fs  Form to search card
           parameter like
 	  - inp : the input text field to update
+	  - str : current content of the input text field (inp)
 	  - label : the element to put the name of the card
 	  - price : the element to put the price of the card (if exists)
 	  - tvaid : the element to put the tvaid of the card (if exists)
