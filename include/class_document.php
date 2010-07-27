@@ -225,6 +225,13 @@ class Document
 		$pos=strpos($buffer,$to_remove);
 		// get the length of the string to remove
 		$len=strlen($to_remove);
+		if ( $p_type=='OOo' ) {
+		  $value=str_replace('&','&amp;',$value);
+		  $value=str_replace('<','&lt;',$value);
+		  $value=str_replace('>','&gt;',$value);
+		  $value=str_replace('"','&quot;',$value);
+		  $value=str_replace("'",'&apos;',$value);
+		}
 		$buffer=substr_replace($buffer,$value,$pos,$len);
 
 		// if the pattern if found we replace it
