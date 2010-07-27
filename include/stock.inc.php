@@ -152,11 +152,14 @@ if ( $action == 'detail' ) {
       echo 'Entrer la valeur qui doit augmenter ou diminuer le stock';
       echo '<form action="?p_action=stock" method="POST">';
       echo ChangeStock($sg_code,$year);
-      echo HtmlInput::submit("sub_change" ,"Ok");
+      echo HtmlInput::submit("sub_change" ,"Valider");
 	  echo dossier::hidden();
+	  echo HtmlInput::button_anchor('Retour','?p_action=stock&'.dossier::get());
       echo '</form>';
-    }
-  echo '<A class="mtitle" HREF="?p_action=stock&'.dossier::get().'"><INPUT TYPE="BUTTON" value="Retour"</A>';
+    }else 
+    echo HtmlInput::button_anchor('Retour','?p_action=stock&'.dossier::get());
+
+
   
   
   echo '</div>';
@@ -169,10 +172,9 @@ $Res=$cn->exec_sql($sql);
 $r="";
 for ( $i = 0; $i < Database::num_row($Res);$i++) {
   $l=Database::fetch_array($Res,$i);
-  $r.=sprintf('<A class="mtitle" HREF="?p_action=stock&year=%d&'.dossier::get().'">%d</a> - ',
-	      $l['exercice'],
-	      $l['exercice']);
- 
+  $url=sprintf("?p_action=stock&year=%d&".dossier::get(),
+	       $l['exercice']);
+  $r.=HtmlInput::button_anchor($l['exercice'],$url);
 }
 // Check if User Can see the stock 
 

@@ -59,11 +59,11 @@ where
   // store it in a HTLM table
   $result='<table style="width:100%;border:solid blue 2px ;border-style:outset;">';
   $result.="<tr>";
-  $result.='<th>Code</th>';
-  $result.='<th>Noms</th>';
-  $result.='<th>Entrée</th>';
-  $result.='<th>Sortie</th>';
-  $result.='<th>Solde</th>';
+  $result.='<th style="text-align:left">Code</th>';
+  $result.='<th style="text-align:left">Noms</th>';
+  $result.='<th style="text-align:right">Entrée</th>';
+  $result.='<th style="text-align:right">Sortie</th>';
+  $result.='<th style="text-align:right">Solde</th>';
   $result.="</tr>";
 
   // Sql result => table
@@ -89,17 +89,19 @@ where
 
     // Debit (in)
     $deb=GetQuantity($p_cn,$r['sg_code'],$p_year,'d');
-    $result.="<td>".$deb."</td>";
+    $deb=($deb=='')?"0.0":$cred;
+    $result.='<td style="text-align:right">'.$deb."</td>";
 
     // Credit (out)
     $cred=GetQuantity($p_cn,$r['sg_code'],$p_year,'c');
-    $result.="<td>".$cred."</td>";
+    $cred=($cred=='')?"0.0":$cred;
+    $result.='<td style="text-align:right">'.$cred."</td>";
 
 
     // diff
     $diff=$deb-$cred;
-    $msg=($diff < 0)?_('Sortie'):_('Entré');
-    $result.="<td> $msg".(abs($diff))."</td>";
+    $msg=($diff < 0)?_('Sortie '):_('Entrée ');
+    $result.='<td style="text-align:right">'. $msg.(abs($diff))."</td>";
     $result.="</tr>";
 
   }
@@ -246,7 +248,7 @@ $sql="select sg_code,
     $r.="</TD>";
     //quantity
     $r.='<TD align="right">';
-    $r.=$quantity;
+    $r.=abs($quantity);
     $r.="</TD>";
 
     // Unit Price
@@ -260,8 +262,9 @@ $sql="select sg_code,
     $r.="</TR>";
   }// for ($i
   // write the total
-  $row=td('Total',' colspan="4" style="width:auto;text-align:right"');
-  $row.=td($tot_quantity, 'style="text-align:right"');
+  $msg=($tot_quantity<0)?'Sortie ':'Entrée ';
+  $row=td('Total '.$msg,' colspan="4" style="width:auto;text-align:right"');
+  $row.=td(abs($tot_quantity), 'style="text-align:right"');
   $row.=td();
   $r.=td($row);
   $r.="</table>";
