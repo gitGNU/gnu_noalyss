@@ -177,6 +177,7 @@ function input ()
      }
      // Format correctly the name of the cat. of card
      $p_nom_mod=FormatString($p_nom_mod);
+
      
      // Name can't be empty
      if ( strlen(trim($p_nom_mod)) == 0 ) 
@@ -184,11 +185,12 @@ function input ()
 
      // $p_FICHE_REF cannot be null !!! (== fiche_def_ref.frd_id
      if (! isset ($p_FICHE_REF) || strlen($p_FICHE_REF) == 0 ) {
-       alert (_('Vous devez choisir une categorie'));
+       echo alert (_('Vous devez choisir une categorie'));
        return;
      }
      $fiche_Def_ref=new Fiche_Def_Ref($this->cn,$p_FICHE_REF);
      $fiche_Def_ref->Get();
+
      // build the sql request for fiche_def
      // and insert into fiche_def
      // if p_class_base is null get the default class base from
@@ -201,6 +203,7 @@ function input ()
      /* check if the cat. name already exists */
      $sql="select count(*) from fiche_Def where upper(fd_label)=upper($1)";
      $count=$this->cn->get_value($sql,array(trim($p_nom_mod)));
+
      if ($count != 0 ) return -1;
      // Set the value of fiche_def.fd_create_account
      // automatic creation for 'poste comptable'
@@ -208,15 +211,14 @@ function input ()
        $p_create='true';
      else
        $p_create='false';
-     
+
      // Class is valid ?
      if ( FormatString($p_class_base) != null || strpos(',',$p_class_base) != 0 ) {
-       
        // p_class is a valid number
        $sql="insert into fiche_def(fd_label,fd_class_base,frd_id,fd_create_account) 
                 values ($1,$2,$3,$4) returning fd_id";
 
-       $this->id=$this->cn->get_value($sql,array($p_nom_mod,$p_class_base,$p_FICHE_REF,$p_create));
+       $fd_id=$this->cn->get_value($sql,array($p_nom_mod,$p_class_base,$p_FICHE_REF,$p_create));
 
        // p_class must be added to tmp_pcmn if it is a single accounting       
        if ( strpos(',',$p_class_base) ==0) {
