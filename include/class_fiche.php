@@ -651,12 +651,10 @@ av_text1=>'name'
 		    if (isNumber($v) == 1 || strpos($v,',') != 0)
 		      {
 			$parameter=array($this->id,$v);
-			//			$sql=sprintf("select account_insert(%d,'%s')",$this->id,$v);
 		      }
 		    else
 		      {
 			$parameter=array($this->id,null);
-			//			$sql=sprintf("select account_insert(%d,null)", $this->id);
 		      }
 		    $this->cn->exec_sql("select account_insert($1,$2)",$parameter);
 		  } catch (Exception $e) {
