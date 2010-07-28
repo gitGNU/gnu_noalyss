@@ -25,14 +25,15 @@
  */
 
 require_once ('class_user.php');
+require_once('class_acc_bilan.php');
 
 $cn=new Database(dossier::id());
 $User=new User($cn);
-
+$exercice=$User->get_exercice();
   echo '<div class="content">';
   $User->db=$cn;
   $sql_year=" and j_tech_per in (select p_id from parm_periode where p_exercice='".$User->get_exercice()."')";
-
+echo '<fieldset><legend>Vérification des journaux</legend>';
   echo '<ol>';
   $deb=$cn->get_value("select sum (j_montant) from jrnx where j_debit='t' $sql_year ");
   $cred=$cn->get_value("select sum (j_montant) from jrnx where j_debit='f' $sql_year ");
@@ -63,7 +64,7 @@ $User=new User($cn);
   }
   echo '</ol>';
   echo '<ol>';
-  $sql_year=" and j_tech_per in (select p_id from parm_periode where p_exercice='".$User->get_exercice()."')";
+  $sql_year=" and j_tech_per in (select p_id from parm_periode where p_exercice='".$exercice."')";
 
   $deb=$cn->get_value("select sum (j_montant) from jrnx where j_debit='t' $sql_year ");
   $cred=$cn->get_value("select sum (j_montant) from jrnx where j_debit='f' $sql_year ");
@@ -89,8 +90,17 @@ $User=new User($cn);
     $result ='<span style="color:red;font-size:120%;font-weight:bold;"> NON OK </span>';}
 
   printf ('<li> Journal %s total : debit %f credit %f %s</li>',$name,$deb,$cred,$result);
-    
+  
   }
+echo '</fieldset>';
+echo '<fieldset><legend>Vérification des comptes</legend>';
+$bilan=new Acc_Bilan($cn);
+$periode=new Periode($cn);
+list ($start_periode,$end_periode)=$periode->get_limit($exercice);
+$bilan->from=$start_periode->p_id;
+$bilan->to=$end_periode->p_id;
+ $bilan->verify();
+echo '</fieldset>';
+echo '</div>';
 
-  echo '</div>';
 ?>

@@ -163,8 +163,9 @@ class Acc_Bilan {
 
     $credit_actif=$this->db->get_value($sql);
     $total_actif=abs($debit_actif-$credit_actif);
-    echo 'Total actif '.$total_actif;
-    echo '<br>';
+    echo '<table >';
+    echo tr(td( 'Total actif ').td($total_actif,'style="text-align:right"'));
+
     /* debit passif */
     $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
       " where j_debit='t' and (pcm_type='PAS' or pcm_type='PASINV') ";
@@ -178,8 +179,14 @@ class Acc_Bilan {
     $sql.="and $sql_periode";
     $credit_passif=$this->db->get_value($sql);
     $total_passif=abs($debit_passif-$credit_passif);
-    echo 'Total passif '.$total_passif;
-    echo '<br>';
+
+    /* diff actif / passif */
+    echo tr(td('Total passif ').td($total_passif,'style="text-align:right"'));
+    if ( $total_actif != $total_passif ) {
+      $diff=$total_actif-$total_passif;
+      echo tr(td(' Difference Actif - Passif ').td($diff,'style="text-align:right"'),'style="font-weight:bolder"');
+    }
+
     /* debit charge */
     $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
       " where j_debit='t' and (pcm_type='CHA' or pcm_type='CHAINV')";
@@ -192,8 +199,8 @@ class Acc_Bilan {
     $sql.="and $sql_periode";
     $credit_charge=$this->db->get_value($sql);
     $total_charge=abs($debit_charge-$credit_charge);
-    echo 'Total charge '.$total_charge;
-    echo '<br>';
+    echo tr(td('Total charge ').td($total_charge,'style="text-align:right"'));
+
 
     /* debit prod */
     $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
@@ -207,17 +214,12 @@ class Acc_Bilan {
     $sql.="and $sql_periode";
     $credit_pro=$this->db->get_value($sql);
     $total_pro=abs($debit_pro-$credit_pro);
-    echo 'Total produit '.$total_pro;
-    echo '<br>';
-    if ( $total_actif != $total_passif ) {
-      $diff=$total_actif-$total_passif;
-      echo '<span >Difference Actif - Passif = '.$diff.'</span>';
-      echo '<br>';
-    }
+    echo tr(td('Total produit ').td($total_pro,'style="text-align:right"'));
+
     $diff=$total_pro-$total_charge;
-    echo '<span >';
-    echo "Difference Produit - Charge ".$diff;
-    echo '</span>';
+
+    echo tr( td("Difference Produit - Charge",'style="padding-right:20px"').td($diff,'style="text-align:right"'),'style="font-weight:bolder"');
+    echo '</table>';
   }
 /*! 
  * \brief get data from the $_GET
