@@ -117,7 +117,7 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
   /* store the answer in an array and transform it later into a JSON object */
   $tmp=array();
   $tmp[]=array('flabel',$fLabel);
-  $tmp[]=array('name',$name);
+  $tmp[]=array('name',h($name));
   $tmp[]=array('ftva_id',$fTva_id);
   $tmp[]=array('tva_id',$tva_id);
   $tmp[]=array('fPrice_sale',$fPrice_sale);

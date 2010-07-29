@@ -1,4 +1,4 @@
-<table class="result">
+<table class="result" style="width:80%;margin-left:10%">
 <tr>
 <th>
 N°

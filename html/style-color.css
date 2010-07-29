@@ -103,7 +103,7 @@ h1.title {
 }
 
 div.u_tmenu {
-  position: float;
+
   margin-top:1px;
   width:100%;	
   background-color:#879ED4;
@@ -151,7 +151,7 @@ div.lmenu {
 
 }
 div.lextmenu {
-	position: float;
+
 	float:left;
 	font-family:helvetica,arial,sans-serif;
 	font-size:9px;
@@ -174,7 +174,7 @@ div.recherche_form{
 
 }
 div.u_redcontent{ 	 
-         position: float; 	 
+
          float:left; 	 
 	 padding-top:7px;
 	 padding-left:8px;
@@ -184,7 +184,7 @@ div.u_redcontent{
 
 }
 div.content{ 	 
-         position: float; 	 
+
          float:left; 	 
 		padding-top:7px;
          width:100%; 	 	 
@@ -194,7 +194,7 @@ div.content{
 
 }
 div.content30{ 	 
-         position: float; 	 
+
          float:left; 	 
 	 padding-top:7px;
          width:35%; 	  
@@ -205,7 +205,7 @@ div.no span{
 	position:static;
 	font-family:helvetica,arial,sans-serif;	
 	font-weight:bold;
-	font-color:red;	
+	color:red;	
 	
 }
 
@@ -576,8 +576,6 @@ div.popup_back{
 	position:absolute;
 	top:0px;
 	left:0px;
-	opacity:0.6;
-	filter:alpha(opacity=60);	
 	width:100%;
 	height:100%;
 	z-index:1;
@@ -778,7 +776,7 @@ cursor:inherit;
 	cursor:pointer;
 	background-color:white;
 	border-style:  inset ;
-	font-color:blue;
+	color:blue;
 	margin:1 2 1 2;
 	}
 	td.tool {
@@ -819,7 +817,7 @@ a#anchorbutton :hover {
 	cursor:pointer;
 	background-color:white;
 	border-style:  inset ;
-	font-color:blue;
+	color:blue;
 	margin:1 2 1 2;
 	}
 /* </style> */

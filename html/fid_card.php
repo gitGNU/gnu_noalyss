@@ -68,7 +68,6 @@ if ( $jrn != -1 ) {
     case 'cred':
       $filter_jrn=$cn->make_list("select jrn_def_fiche_cred from jrn_def where jrn_def_id=$1",array($jrn));
       $filter_card=($filter_jrn != "")?" and fd_id in ($filter_jrn)":' and false ';
-      
       break;
     case 'deb':
       $filter_jrn=$cn->make_list("select jrn_def_fiche_deb from jrn_def where jrn_def_id=$1",array($jrn));
@@ -106,13 +105,14 @@ $sql_str="select f_id, vw_name,quick_code,vw_description ".
 
 $sql=$cn->get_array($sql_str
 		    ,array($_REQUEST['FID'],$_REQUEST['FID'],$_REQUEST['FID']));
+
 if (sizeof($sql) != 0 ) {
   echo "<ul>";
   for ($i =0;$i<12 && $i < count($sql) ;$i++) {
     /* Highlight the found pattern with bold format */
-    $name=str_ireplace($_REQUEST['FID'],'<em>'.$_REQUEST['FID'].'</em>',$sql[$i]['vw_name']);
-    $qcode=str_ireplace($_REQUEST['FID'],'<em>'.$_REQUEST['FID'].'</em>',$sql[$i]['quick_code']);
-    $desc=str_ireplace($_REQUEST['FID'],'<em>'.$_REQUEST['FID'].'</em>',$sql[$i]['vw_description']);
+    $name=str_ireplace($_REQUEST['FID'],'<em>'.$_REQUEST['FID'].'</em>',h($sql[$i]['vw_name']));
+    $qcode=str_ireplace($_REQUEST['FID'],'<em>'.$_REQUEST['FID'].'</em>',h($sql[$i]['quick_code']));
+    $desc=str_ireplace($_REQUEST['FID'],'<em>'.$_REQUEST['FID'].'</em>',h($sql[$i]['vw_description']));
     printf('<li id="%s">%s <span class="informal"> %s %s</span></li>',
 	   $sql[$i]['quick_code'],
 	   $qcode,

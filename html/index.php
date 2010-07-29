@@ -144,7 +144,7 @@ BODY {
 	margin:1px;
 }
 .button {
-	font-size:10;
+	font-size:10px;
 	color:white;
 	font-weight: bold;
 	
@@ -158,7 +158,7 @@ BODY {
 	
 	border-style:  outset ;
 	border-color:  blue ;
-	border-width:1;
+	border-width:1 1 1 1;
 	padding:2 4 2 4;
 	cursor:pointer;
 	margin:1 2 1 2;

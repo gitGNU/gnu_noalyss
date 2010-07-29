@@ -19,7 +19,7 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /*!\file
- * \brief printing of card 
+ * \brief printing of category of card  : balance, historic
  */
 include_once('class_database.php');
 include_once('class_fiche.php');
@@ -128,7 +128,7 @@ if ( $_GET['histo'] == 4 ) {
     exit;}
   $aCard=$cn->get_array("select f_id from vw_fiche_attr where fd_id=$1 order by vw_name ",array($_REQUEST['cat']));
   if ( empty($aCard)) { echo "Aucune fiche trouvée";exit;}
-  echo '<table class="result">';
+  echo '<table class="result" style="width:80%;margin-left:10%">';
   echo tr(
 	  th('Quick Code').
 	  th('Libellé').
@@ -195,9 +195,10 @@ foreach($array as $row) {
   echo th(_('Interne'));
   echo th(_('Comm'));
   echo th(_('Montant'),' colspan="2"');
+  echo th(_('Prog.'));
   echo th(_('Let.'));
   echo '</tr>';
-  $amount_deb=0;$amount_cred=0;
+  $amount_deb=0;$amount_cred=0;$prog=0;
   for ($i=0;$i<count($letter->content);$i++){
     if ($i%2 == 0 )
       echo '<tr class="even">';
@@ -209,14 +210,17 @@ foreach($array as $row) {
     echo td($row['jr_internal']);
     echo td($row['jr_comment']);
     if ( $row['j_debit'] == 't') {
-      echo td($row['j_montant'],' style="text-align:right"');
+      echo td(sprintf('%.2f',$row['j_montant']),' style="text-align:right"');
       $amount_deb+=$row['j_montant'];
+      $prog+=$row['j_montant'];
       echo td("");
     } else {
       echo td("");
-      echo td($row['j_montant'],' style="text-align:right"');
+      echo td(sprintf('%.2f',$row['j_montant']),' style="text-align:right"');
       $amount_cred+=$row['j_montant'];
+      $prog-=$row['j_montant'];
     }
+    echo td(sprintf('%.2f',$prog),'style="text-align:right"');
     if ($row['letter'] != -1 ) echo td($row['letter']); else echo td('');
     echo '</tr>';
   }

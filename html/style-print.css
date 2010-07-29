@@ -1,7 +1,3 @@
-/* <style type="text/css"> */
-
-@page { margin: 2cm; } ;
-
 form { 
   display:none;
  }
@@ -106,7 +102,7 @@ div.rmenu {
 }
 
 table.mtitle {
-	display;none;
+	display:	none;
 }
 td.mshort { 
 	display:none;

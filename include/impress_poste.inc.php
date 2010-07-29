@@ -129,6 +129,10 @@ echo '</div>';
 // after in pdf or cvs
 //-----------------------------------------------------
 if ( isset( $_REQUEST['bt_html'] ) ) {
+ if ( isDate($_REQUEST['from_periode'])==null || isDate($_REQUEST['to_periode'])==null){
+    echo alert('Date malformée, désolée');
+    exit();
+  }
   require_once("class_acc_account_ledger.php");
   $go=0;
 // we ask a poste_id

@@ -13,7 +13,7 @@ BODY {
         }
 
 table.result  ,table.resultfooter {
-  color:blue;
+  color:#0000ff;
   /* border:blue solid 1px; */
   width:100%;
    border-spacing:  0px;
@@ -29,7 +29,7 @@ table.resultfooter tfoot {
 table.result th { 
   font-weight:bold;
   font-family:helvetica,arial,sans-serif;
- border-bottom:2px solid blue; 
+ border-bottom:2px solid #0000ff; 
  border-top:0;
  
   color:#25238F;
@@ -75,7 +75,6 @@ h2.info {
   text-align:center;
   padding:0px;
   margin:0px;
-  display:compact;
   border:1px solid grey;
   
 }
@@ -88,7 +87,7 @@ h3.info {
 }
 
 h2.info2 {
-  color:blue;
+  color:#0000ff;
   font-size:14px;
   text-align:center;
 
@@ -102,12 +101,11 @@ h2.error {
 }
 
 h1.title {
-	color: blue;
+	color: #0000ff;
 	font-size:25px;
 }
 
 div.u_tmenu {
-  position: float;
   margin-top:0px;
   width:100%;	
  /* background-color:#879ED4; */
@@ -128,7 +126,6 @@ div.u_tmenu div.u_tool {
 div.u_tool {
 	float:left;
 	width:  100%;
-	background-color:
 	
 	}
 div.u_tool div.name {
@@ -154,7 +151,6 @@ div.lmenu {
 
 }
 div.lextmenu {
-	position: float;
 	float:left;
 	font-family:helvetica,arial,sans-serif;
 	font-size:9px;
@@ -176,8 +172,7 @@ div.recherche_form{
   border-width:1px;
 
 }
-div.u_redcontent{ 	 
-         position: float; 	 
+div.u_redcontent{ 	 	 
          float:left; 	 
 	 padding-top:7px;
 	 padding-left:8px;
@@ -187,7 +182,6 @@ div.u_redcontent{
 
 }
 div.content{ 	 
-         position: float; 	 
          float:left; 	 
 		padding-top:7px;
          width:100%; 	 	 
@@ -197,7 +191,6 @@ div.content{
 
 }
 div.content30{ 	 
-         position: float; 	 
          float:left; 	 
 	 padding-top:7px;
          width:35%; 	  
@@ -208,12 +201,12 @@ div.no span{
 	position:static;
 	font-family:helvetica,arial,sans-serif;	
 	font-weight:bold;
-	font-color:red;	
+	color:red;	
 	
 }
 
 table.document {
-   color:blue;
+   color:#0000ff;
    width:100%;
    border-spacing:  0px;
    border-collapse:collapse;
@@ -222,7 +215,7 @@ table.document {
 table.document th{
   font-weight:bold;
   font-family:helvetica,arial,sans-serif;
-  border-bottom:2px solid blue;
+  border-bottom:2px solid #0000ff;
   border-top:0;
   color:#25238F;
   text-align: left;
@@ -263,7 +256,7 @@ td.msubtitle {
 }
 span.mtitle {
 	color:gray;
-	background-color:blue;
+	background-color:#0000ff;
 	font-size:10px;
 	border-style:groove
 }
@@ -279,14 +272,14 @@ span.even {
 tr.odd {
 	background-color:#DDE6FF;
 	font-size:10px;
-  border-size:0px;		
+  border-width:0px;		
 }
 tr {
 	font-size:10px;
 }
 td.odd{
 	background-color:#DDE6FF ;
-	border-size:0px;
+	border-width:0px;
 	font-size:10px;
 }
 td.even{
@@ -299,7 +292,7 @@ td.cell{
 }
 td.selectedcell{
 	border-style:inset;
-        border-color:blue;
+        border-color:#0000ff;
 	border-width:1pt ;
 	font-size:10px;
         background:#5D90CD ;
@@ -311,7 +304,7 @@ a.mtitle {
   font-size:10px;
   text-decoration:none;
   display:inline;
- color: blue;
+ color: #0000ff;
 	
 }
 a.mtitle:hover {
@@ -361,7 +354,7 @@ td.msubtitle:hover,td.msubtitle:hover a
 a.cell {
   text-decoration:none;
   display:block;
-  color:blue;
+  color:#0000ff;
   background-color:white;
   font-size:9px;
 }
@@ -401,7 +394,7 @@ a.detail
   font-family:helvetica,arial,sans-serif;
     text-decoration: none;
     display: block;
-    color: blue;
+    color: #0000ff;
 }
 
 a.detail:hover   
@@ -422,7 +415,7 @@ div.u_redcontent a {
   font-family:helvetica,arial,sans-serif;
   text-decoration: none;
   display: block;
-  color: blue;
+  color: #0000ff;
 
 }
 
@@ -438,7 +431,7 @@ div.content a {
   font-family:helvetica,arial,sans-serif;
   text-decoration: none;
   display: block;
-  color: blue;
+  color: #0000ff;
 padding: 1px ;
 	
 }
@@ -474,7 +467,7 @@ div.content a.mtitle {
   font-size:10px;
   text-decoration:none;
   display:inline;
-  color:blue;
+  color:#0000ff;
     
 
 
@@ -495,7 +488,7 @@ div.u_redcontent input.text {
   border-style:solid;
   background-color:orange;  
   border-width:1px;
-  color:blue; 
+  color:#0000ff; 
 }
 div.content input.text {
    font-family:helvetica,arial,sans-serif;
@@ -504,7 +497,7 @@ div.content input.text {
   border-style:solid;
   border-width:1px;
   background-color:orange;
-  color:blue; 
+  color:#0000ff; 
 }
 
 
@@ -534,7 +527,7 @@ a.document:hover {
 
 }
 .input_text {
-	   border:groove 1px blue;
+	   border:groove 1px #0000ff;
 	margin:1px;
 }
 legend {
@@ -548,7 +541,7 @@ fieldset fieldset legend {
 	 color:grey;
 	 }	
 select {
-border: 1px solid blue;
+border: 1px solid #0000ff;
 margin:2px;
 background-color:white;
 
@@ -600,8 +593,6 @@ div.popup_back{
 	position:absolute;
 	top:0px;
 	left:0px;
-	opacity:0.6;
-	filter:alpha(opacity=60);	
 	width:100%;
 	height:100%;
 	z-index:1;
@@ -688,7 +679,7 @@ div.autocomplete {
   
 }
 div.autocomplete em {
-	color:blue;
+	color:#0000ff;
 	font-weight:bold;
 }
 div.autocomplete ul {
@@ -795,7 +786,7 @@ cursor:inherit;
 	background-position: left;
 	
 	border-style:  outset ;
-	border-color:  blue ;
+	border-color:  #0000ff ;
 	border-width:0;
 	padding:2 4 2 4;
 	cursor:pointer;
@@ -807,7 +798,7 @@ cursor:inherit;
 	cursor:pointer;
 	background-color:white;
 	border-style:  inset ;
-	font-color:blue;
+	color:#0000ff;
 	margin:1 2 1 2;
 	}
 	td.tool {
@@ -841,7 +832,7 @@ a#anchorbutton {
 	background-position: left;
 	
 	border-style:  outset ;
-	border-color:  blue ;
+	border-color:  #0000ff ;
 	border-width:1;
 	padding:2 4 2 4;
 	cursor:pointer;
@@ -853,12 +844,13 @@ a#anchorbutton:hover {
 	cursor:pointer;
 	background-color:white;
 	border-style:  inset ;
-	font-color:blue;
+	color:#0000ff;
+	
 	margin:1 2 1 2;
 	}
 /* </style> */
 div.add_todo_list { 
-                    border:1px solid blue;
+                    border:1px solid #0000ff;
                     display:none;
                     background-color:#BFD0FF;
                     padding:3;
