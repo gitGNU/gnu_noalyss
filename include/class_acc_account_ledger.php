@@ -78,7 +78,7 @@ class Acc_Account_Ledger {
     {
       $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
 
-      $Res=$this->db->exec_sql("select distinct jr_id,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,j_date,".
+      $Res=$this->db->exec_sql("select distinct j_id,jr_id,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,j_date,".
 	       "case when j_debit='t' then j_montant else 0 end as deb_montant,".
 	       "case when j_debit='f' then j_montant else 0 end as cred_montant,".
 	       " jr_comment as description,jrn_def_name as jrn_name,".

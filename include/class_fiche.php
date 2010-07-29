@@ -1011,6 +1011,7 @@ av_text1=>'name'
 			       "   to_date($3,'DD.MM.YYYY') >= j_date )".
 			       " and $filter_sql $sql_let ".
 	       " order by j_date",array($qcode,$p_from,$p_to));
+
       return $this->get_row_result($Res);
     }
 
