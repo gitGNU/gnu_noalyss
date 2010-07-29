@@ -256,7 +256,7 @@ if ( isset($_POST['summary'])) {
   echo dossier::hidden();
   echo HtmlInput::hidden('p_action',$_REQUEST['p_action']);
   
-  echo HtmlInput::submit('save_it',"Sauver");
+  echo HtmlInput::submit('save_it',"Sauver",'onClick="return verify_ca();"');
   echo HtmlInput::submit('correct_it','Corriger');
   
   $chk=new ICheckBox();

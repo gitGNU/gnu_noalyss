@@ -1280,6 +1280,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 	    $ret.='</td>';
 	    $count++;
 	  }
+	  
 
 	}
 
@@ -1288,6 +1289,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
       $ret.="</tr>";
     }
     $ret.="</table>";
+    $ret.='<input type="button" class="button" value="'._('verifie CA').'" onClick="verify_ca(\'\');">';
     return $ret;
   }
 

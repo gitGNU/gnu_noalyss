@@ -130,7 +130,7 @@ if ( $def==1 || $def == 4 ) {
       echo _("Sauvez cette opération comme modèle ?");
       echo $chk->input('opd_save');
       echo '<hr>';
-      echo HtmlInput::submit("record",_("Enregistrement"),'onClick="return verify_ca(\'error\');"');
+      echo HtmlInput::submit("record",_("Enregistrement"),'onClick="return verify_ca('');"');
       echo HtmlInput::submit('correct',_("Corriger"));
       echo '</form>';
 

@@ -1320,7 +1320,7 @@ function empty_attribute($p_attr) {
       $step_tiers=$this->GetAll($offset,$search,'name');
       if ( $all_tiers == 0 ) return "";
       $r=$bar;
-      $r.='<table  class="result">
+      $r.='<table  class="result" style="width:90%;margin-left:5%">
 <TR >
 <TH>'._('Quick Code').'</TH>
 <th>'._('Nom').'</th>

@@ -683,7 +683,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
     $r.='</table>';
       if ( $owner->MY_ANALYTIC!='nu') // use of AA
-	$r.='<input type="button" value="'._('verifie CA').'" onClick="verify_ca(\'ok\');">';
+	$r.='<input type="button" class="button" value="'._('verifie CA').'" onClick="verify_ca(\'\');">';
     $r.='</fieldset>';
     $r.=$this->extra_info();
 

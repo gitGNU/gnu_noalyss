@@ -59,7 +59,10 @@ if ( $div != 'popup' ) {
 
 ?>
 <?if ( $access=='W') { 
-  echo HtmlInput::submit('save',_('Sauver')); 
+  if ($owner->MY_ANALYTIC != 'nu' && $div=='popup'){
+    echo '<input type="button" class="button" value="'._('verifie CA').'" onClick="verify_ca(\'popup\');">';
+  }
+  echo HtmlInput::submit('save',_('Sauver'),'onClick="return verify_ca(\'popup\');"'); 
   $owner=new Own($cn);
   $per=new Periode($cn,$obj->det->jr_tech_per);
   if ( $per->is_closed() == 0 && $owner->MY_STRICT=='N'){

@@ -128,6 +128,9 @@ if ($owner->MY_TVA_USE=='Y')
 echo tr($row);
 ?>
 </table>
+
+
+
 </fieldset>
 <fieldset>
 <legend>

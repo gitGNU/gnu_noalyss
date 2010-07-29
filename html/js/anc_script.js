@@ -47,10 +47,6 @@ function add_row(p_table,p_seq) {
 	cell.innerHTML=txt;
 	}
 
-  // create the amount cell
-
-//  row.cells[i-1].innerHTML='<input type="TEXT" name="val'+p_seq+"l"+new_value+'" id="val'+p_seq+"l"+new_value+'" onchange="format_number(this)" size="6"  style="border:solid 1px blue;color:black;text-align:right" value="0">';
-
 }
 /*! 
  * \brief Check the amount of the CA
@@ -59,36 +55,41 @@ function add_row(p_table,p_seq) {
  *
  * \return true if the amounts are equal
  */
-function verify_ca(p_style) {
-  var nb_item=g('nb_item').value;
+function verify_ca(div) {
+    var idx=0;var amount_error=0;
+    // put a maximum
+    while (idx < 50 ) { 
+	var table=div+'t'+idx;
+	if ( g(table) ) {
+	    var total_amount=0;
+	    // table is found compute the different val[]
+	    var array_value=document.getElementsByName('val['+idx+'][]');
+	    
+	    for (var i=0;i < array_value.length;i++ ) {
+		if ( isNaN(array_value[i].value)) {
+		    array_value[i].value=0;
+		}
 
-  for ( var item=0;item<=nb_item-1;item++) {
-      if ( g('nb_t'+item) ) {
-	  var nb_row=1*g('nb_t'+item).value;
-	  var amount=1*g('amount_t'+item).value;
-	  var get=0;
-	  for (var row=1;row <= nb_row;row++) {
-	      
-	      if ( g('ta_'+item+'o1row_'+row).value != -1) {
-		  val=g('val'+item+'l'+row).value;
-		  if ( isNaN(val)) {		continue;}
-		  get=get+(val*1);
-	      } else {
-		  get=amount;
-	      }
-	  }
-	  if ( Math.round(get,2) != Math.round(amount,2) ) {
-	      diff=Math.round(get,2)-Math.round(amount,2);
-	      alert ("montant differents \ntotal CA="+get+"\ntotal Operation "+amount+"\nDiff = "+diff);
-	      return false;
-	  }else {
-	      if ( p_style=='ok') {
-		  alert('les montants correspondent');
-	      }
-	  }
-      }
-  }
-  return true;
+		total_amount+=parseFloat(array_value[i].value);
+	    }
+	    var amount=parseFloat(g('amount_t'+idx).value);
+	    var diff=amount-total_amount;
+
+	    if (  Math.round(diff,2)!= 0.0) {
+	 	g(table).style.backgroundColor='red';
+		amount_error++;
+	    } else {
+		g(table).style.backgroundColor='lightgreen';
+
+	    }
+	    idx++;
+	} else	break;
+    }
+    if ( amount_error != 0 ) {
+	alert('Désolé, les montants pour la comptabilité analytique sont incorrects');
+	return false;
+    }
+    return true;
 }
 /*! 
  * \brief open a window for searching a CA account, 
