@@ -176,6 +176,6 @@ CREATE TRIGGER t_jnt_fic_attr_ins
   EXECUTE PROCEDURE comptaproc.jnt_fic_attr_ins();
 
 
-update version set val=86;
+update version set val=87;
 
 commit;

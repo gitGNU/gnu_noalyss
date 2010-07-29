@@ -32,5 +32,5 @@ update attr_def set ad_type='text';
 update attr_def set ad_type='numeric' where ad_id in (6,7,8,11,21,22);
 update attr_def set ad_type='date' where ad_id in (10);
 alter sequence s_attr_def restart with 9001;
-update version set val=85;
+update version set val=86;
 commit;
