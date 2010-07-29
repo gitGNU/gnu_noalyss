@@ -223,11 +223,20 @@ function CleanUrl()
   if ( isset ($get) ) {
     foreach ($get as $name=>$value ) {
       // we clean the parameter offset, step, page and size
-      if (  ! in_array($name,array('offset','step','page','size','s','o'))) {
+      if (  ! in_array($name,array('offset','step','page','size','s','o','r_jrn'))) {
 	$url.=$and.$name."=".$value;
 	$and="&";
       }// if
     }//foreach
+    if ( isset($_GET['r_jrn'])) {
+      $r_jrn=$_GET['r_jrn'];
+      if (count($r_jrn) > 0 ){
+	foreach ($r_jrn as $key=>$value) {
+	  $url.=$and."r_jrn[$key]=".$value;
+	  $and="&";
+	}
+      }
+    }
   }// if
 return $url;
 }
