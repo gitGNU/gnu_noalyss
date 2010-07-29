@@ -51,12 +51,14 @@ echo '</FORM>';
 
 if ( isset($_GET['verif'])) {
   echo '<h2> Etape 2 :Impression </h2>';
+
   $bilan->get_request_get();
   $bilan->verify();
+
   require_once ('verif_bilan.inc.php');
   echo '<FORM METHOD="GET" ACTION="bilan.php">';
   echo dossier::hidden();
-  echo HtmlInput::hidden('b_id',$bilan->id);
+  echo HtmlInput::hidden('b_id',$_GET['b_id']);
 
   echo HtmlInput::hidden('from_periode',$bilan->from);
   echo HtmlInput::hidden('to_periode',$bilan->to);

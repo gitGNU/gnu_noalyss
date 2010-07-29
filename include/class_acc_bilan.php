@@ -226,19 +226,18 @@ class Acc_Bilan {
  *
  */
   function get_request_get() {
-	$this->id=(isset($_GET['b_id']))?$_GET['b_id']:"";
+	$this->b_id=(isset($_GET['b_id']))?$_GET['b_id']:"";
 	$this->from=( isset ($_GET['from_periode']))?$_GET['from_periode']:-1;
 	$this->to=( isset ($_GET['to_periode']))?$_GET['to_periode']:-1;
-
   }
   /*!\brief load from the database the document data  */
   function load(){
 	try {
-	  if ( $this->id=="") 
+	  if ( $this->b_id=="") 
 		throw new Exception("le formulaire id n'est pas donnee");
 	  
 	  $sql="select b_name,b_file_template,b_file_form,lower(b_type) as b_type from bilan where".
-		" b_id = ".$this->id;
+		" b_id = ".$this->b_id;
 	  $res=$this->db->exec_sql($sql);
 	  
 	  if ( Database::num_row($res)==0)
