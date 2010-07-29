@@ -112,6 +112,11 @@ if ( isset($_POST['record'])) {
 // Show the result
 //--------------------------------------------------------------------------------
 echo '<div id="list">';
+if ( isDate($_GET['start']) == null || isDate($_GET['end']) == null ) {
+  echo alert(_('Date malformée, désolé'));
+  exit();
+}
+
 $letter=new Lettering_Card($cn);
 $quick_code=strtoupper(trim($_GET['acc']));
 $letter->set_parameter('quick_code',$quick_code);

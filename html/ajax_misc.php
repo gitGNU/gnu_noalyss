@@ -338,6 +338,27 @@ jr_comment,j_montant, j_debit,jr_internal from jrnx join jrn on (j_grpt=jr_grpt_
     if ( isset($_REQUEST['sc']))       $form.=HtmlInput::hidden('sc',$_REQUEST['sc']);
     if ( isset($_REQUEST['sb']))       $form.=HtmlInput::hidden('sb',$_REQUEST['sb']);
     if ( isset($_REQUEST['f_id']))       $form.=HtmlInput::hidden('f_id',$_REQUEST['f_id']);
+    /*  check if date are valid */
+    if ( (isset($search_end) && isDate($search_end) == null) ||
+	 (isset($search_start) && isDate ($search_start) == null))
+      {
+      ob_start();
+      alert(_('Date malformée, désolé'));
+      $html=ob_get_contents();
+      ob_clean();
+
+    $html=escape_xml($html);
+
+    header('Content-type: text/xml; charset=UTF-8');
+echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<code>detail</code>
+<value>$html</value>
+</data>
+EOF;
+exit();
+    }
 
     // display a list of operation from the other side + box button
     if ( $ot == 'account') {

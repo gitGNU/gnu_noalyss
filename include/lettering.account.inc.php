@@ -104,6 +104,10 @@ if ( isset($_POST['record'])) {
 // Show the result
 //--------------------------------------------------------------------------------
 echo '<div id="list">';
+if ( isDate($_GET['start']) == null || isDate($_GET['end']) == null ) {
+  echo alert(_('Date malformée, désolé'));
+  exit();
+}
 $letter=new Lettering_Account($cn);
 $letter->set_parameter('account',$_GET['acc']);
 $letter->set_parameter('start',$_GET['start']);

@@ -59,6 +59,11 @@ if ( isset($_POST['record'])) {
 //--------------------------------------------------------------------------------
 // Show the result
 //--------------------------------------------------------------------------------
+if ( isDate($_GET['start']) == null || isDate($_GET['end']) == null ) {
+  echo alert(_('Date malformée, désolé'));
+  exit();
+}
+
 echo '<div id="list">';
 $fiche=new Fiche($cn,$_REQUEST['f_id']);
 $quick_code=$fiche->get_quick_code();
