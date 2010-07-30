@@ -10,7 +10,7 @@
 </a>
 </td>
 <td>
-<?=$array[$i]['name']?>
+   <?=$array[$i]['name']?>
 </td>
 <td>
 <?=$array[$i]['description']?>
@@ -21,7 +21,7 @@
 
 <? endfor; ?>
 </table>
-<span style="background-color:#9FFFF1;border:1px solid black;padding:2px">
+<span style="background-color:#9FFFF1;">
    <? echo _("Nombre d'enregistrements:$i"); ?>
 </span>
 <br>
