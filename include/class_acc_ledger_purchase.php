@@ -579,7 +579,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
      */
     if ( isset($_POST['gen_invoice']) && $e_mp != 0) {
       $this->create_document($internal,$p_array);
-      $p_array['e_client']=${'e_mp_qcode_'.$e_mp};
       $this->doc= _('Document généré');
       $this->doc.='<A style="display:inline" HREF="show_pj.php?'.dossier::get().'&jr_grpt_id='.$seq.'&jrn='.$this->id.'">'._('Note de frais').'</A>';
     }
