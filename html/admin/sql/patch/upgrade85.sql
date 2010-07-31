@@ -26,7 +26,7 @@ end;
 $BODY$
   LANGUAGE 'plpgsql' ;
 
-  ADD CONSTRAINT quant_purchase_qp_internal_fkey FOREIGN KEY (qp_internal)
+alter table quant_purchase  ADD CONSTRAINT quant_purchase_qp_internal_fkey FOREIGN KEY (qp_internal)
       REFERENCES jrn (jr_internal) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE CASCADE;
 
