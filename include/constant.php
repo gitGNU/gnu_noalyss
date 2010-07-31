@@ -32,7 +32,7 @@ $version_phpcompta=9000;
 error_reporting (E_ALL|E_STRICT);
 //$version_phpcompta=SVNVERSION;
 
-define ("DBVERSION",87);
+define ("DBVERSION",88);
 define ("DBVERSIONREPO",12);
 define ('NOTFOUND','--not found--');
 

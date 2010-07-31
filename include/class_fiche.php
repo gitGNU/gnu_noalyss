@@ -923,7 +923,7 @@ av_text1=>'name'
     */
    function Get()
      {
-       fiche::getAttribut();
+       $this->getAttribut();
      }
    /*!\brief get all the card thanks the fiche_def_ref
     * \param $p_offset (default =-1)
