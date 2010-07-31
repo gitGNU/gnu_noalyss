@@ -421,9 +421,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       else
 	/* Generate an invoice and save it into the database */
 	if ( isset($_POST['gen_invoice'])) {
-	  $this->create_document($internal,$p_array);
+	  $file=$this->create_document($internal,$p_array);
 	  $this->doc= _('Document généré');
-	  $this->doc.='<A STYLE="display:inline;" HREF="show_pj.php?'.dossier::get().'&jr_grpt_id='.$seq.'&jrn='.$this->id.'">Facture</A>';
+	  $this->doc.='<A STYLE="display:inline;" HREF="show_pj.php?'.dossier::get().'&jr_grpt_id='.$seq.'&jrn='.$this->id.'">'.$file.'</A>';
 	}
     }
     //----------------------------------------

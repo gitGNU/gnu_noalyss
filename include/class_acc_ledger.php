@@ -1957,7 +1957,7 @@ function get_last_date()
     $doc->f_id=$e_client;
     $doc->md_id=$gen_doc;
     $doc->ag_id=0;
-    $str_file=$doc->Generate();
+    $doc->Generate();
     // Move the document to the jrn
     $doc->MoveDocumentPj($internal);
     // Update the comment with invoice number, if the comment is empty
@@ -1965,7 +1965,7 @@ function get_last_date()
       $sql="update jrn set jr_comment=' document ".$doc->d_number."' where jr_internal='$internal'";
       $this->db->exec_sql($sql);
     }
-    return '<h2 class="info">'.$str_file.'</h2>';
+    return h($doc->d_name.' ('.$doc->d_filename.')');
 
   }
   /*!\brief check if the payment method is valid

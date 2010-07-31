@@ -80,7 +80,7 @@ class Document
       mkdir ($dirname);
       // Retrieve the lob and save it into $dirname
       $this->db->start();
-      $dm_info="select md_type,md_lob,md_filename,md_mimetype 
+      $dm_info="select md_name,md_type,md_lob,md_filename,md_mimetype 
                    from document_modele where md_id=".$this->md_id;
       $Res=$this->db->exec_sql($dm_info);
 
@@ -88,6 +88,7 @@ class Document
       $this->d_lob=$row['md_lob'];
       $this->d_filename=$row['md_filename'];
       $this->d_mimetype=$row['md_mimetype'];
+      $this->d_name=$row['md_name'];
 
 
       chdir($dirname);
@@ -424,7 +425,6 @@ class Document
  *  - [CUST_CP] customer's ZIP code
  *  - [CUST_CO] customer's country
  *  - [CUST_CITY] customer's city
- *  - [CUST_COUNTRY]
  *  - [CUST_VAT] customer's VAT
  *  - [MARCH_NEXT]   end this item and increment the counter $i
  *  - [DATE_LIMIT] 
@@ -446,15 +446,23 @@ class Document
  *  - [MY_TVA]
  *  - [MY_STREET]
  *  - [MY_NUMBER]
- *  - TVA_CODE
- *  - TVA_RATE
- *  - BON_COMMANDE
- *  - OTHER_INFO
- *  - CUST_NUM
- *  - CUST_BANQUE_NAME
- *  - CUST_BANQUE_NO
- *  - USER
- *  - REFERENCE
+ *  - [TVA_CODE]
+ *  - [TVA_RATE]
+ *  - [BON_COMMANDE]
+ *  - [OTHER_INFO]
+ *  - [CUST_NUM]
+ *  - [CUST_BANQUE_NAME]
+ *  - [CUST_BANQUE_NO]
+ *  - [USER]
+ *  - [REFERENCE]
+ *  - [BENEF_NAME]
+ *  - [BENEF_BANQUE_NAME]
+ *  - [BENEF_BANQUE_NO]
+ *  - [BENEF_ADDR_1]
+ *  - [BENEF_CP]
+ *  - [BENEF_CO]
+ *  - [BENEF_CITY]
+ *  - [BENEF_VAT]
  *
  * \param $p_tag TAG
  * \return String which must replace the tag
@@ -591,6 +599,82 @@ class Document
 	case 'CUST_BANQUE_NAME':
 	  $tiers=new Fiche($this->db);
 	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+	  $tiers->get_by_qcode($qcode,false);
+	  $r=$tiers->strAttribut(ATTR_DEF_BQ_NAME);
+	  break;
+	  /* -------------------------------------------------------------------------------- */
+	  /* BENEFIT (fee notes */
+	case 'BENEF_NAME':
+	  $tiers=new Fiche($this->db);
+	  $qcode=isset($_REQUEST['qcode_benef'])?$_REQUEST['qcode_benef']:'';
+	if ( $qcode=='') {$r='';break;}
+	  $tiers->get_by_qcode($qcode,false);
+	  $r=$tiers->strAttribut(ATTR_DEF_NAME);
+	  break;
+	case 'BENEF_ADDR_1':
+	  $tiers=new Fiche($this->db);
+	  $qcode=isset($_REQUEST['qcode_benef'])?$_REQUEST['qcode_benef']:'';
+	if ( $qcode=='') {$r='';break;}
+	  $tiers->get_by_qcode($qcode,false);
+	  $r=$tiers->strAttribut(ATTR_DEF_ADRESS);
+	  
+	  break ;
+	case 'BENEF_CP':
+	  $tiers=new Fiche($this->db);
+	 
+	  $qcode=isset($_REQUEST['qcode_benef'])?$_REQUEST['qcode_benef']:'';
+	if ( $qcode=='') {$r='';break;}
+	  $tiers->get_by_qcode($qcode,false);
+	  $r=$tiers->strAttribut(ATTR_DEF_CP);
+
+	  break;
+	case 'BENEF_CITY':
+	  $tiers=new Fiche($this->db);
+	 
+	  $qcode=isset($_REQUEST['qcode_benef'])?$_REQUEST['qcode_benef']:'';
+	if ( $qcode=='') {$r='';break;}
+	  $tiers->get_by_qcode($qcode,false);
+	  $r=$tiers->strAttribut(ATTR_DEF_CITY);
+
+	  break;
+
+	case 'BENEF_CO':
+	  $tiers=new Fiche($this->db);
+	 
+	  $qcode=isset($_REQUEST['qcode_benef'])?$_REQUEST['qcode_benef']:'';
+	if ( $qcode=='') {$r='';break;}
+	  $tiers->get_by_qcode($qcode,false);
+	  $r=$tiers->strAttribut(ATTR_DEF_PAYS);
+
+	  break; 
+	  // Marchandise in $_POST['e_march*']
+	  // \see user_form_achat.php or user_form_ven.php
+	case 'BENEF_VAT':
+	  $tiers=new Fiche($this->db);
+	 
+	  $qcode=isset($_REQUEST['qcode_benef'])?$_REQUEST['qcode_benef']:'';
+	if ( $qcode=='') {$r='';break;}
+	  $tiers->get_by_qcode($qcode,false);
+	  $r=$tiers->strAttribut(ATTR_DEF_NUMTVA);
+	  break; 
+	case 'BENEF_NUM':
+	  $tiers=new Fiche($this->db);
+	  $qcode=isset($_REQUEST['qcode_benef'])?$_REQUEST['qcode_benef']:'';
+	if ( $qcode=='') {$r='';break;}
+	  $tiers->get_by_qcode($qcode,false);
+	  $r=$tiers->strAttribut(ATTR_DEF_NUMBER_CUSTOMER);
+	  break;
+	case 'BENEF_BANQUE_NO':
+	  $tiers=new Fiche($this->db);
+	  $qcode=isset($_REQUEST['qcode_benef'])?$_REQUEST['qcode_benef']:'';
+	if ( $qcode=='') {$r='';break;}
+	  $tiers->get_by_qcode($qcode,false);
+	  $r=$tiers->strAttribut(ATTR_DEF_BQ_NO);
+	  break;
+	case 'BENEF_BANQUE_NAME':
+	  $tiers=new Fiche($this->db);
+	  $qcode=isset($_REQUEST['qcode_benef'])?$_REQUEST['qcode_benef']:'';
+	if ( $qcode=='') {$r='';break;}
 	  $tiers->get_by_qcode($qcode,false);
 	  $r=$tiers->strAttribut(ATTR_DEF_BQ_NAME);
 	  break;

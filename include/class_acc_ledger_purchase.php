@@ -577,10 +577,10 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $str_file="";
     /* Generate an document  and save it into the database (Note de frais only)
      */
-    if ( isset($_POST['gen_invoice']) && $e_mp != 0) {
-      $this->create_document($internal,$p_array);
+    if ( isset($_POST['gen_invoice']) ) {
+      $ref_doc= $this->create_document($internal,$p_array);
       $this->doc= _('Document généré');
-      $this->doc.='<A style="display:inline" HREF="show_pj.php?'.dossier::get().'&jr_grpt_id='.$seq.'&jrn='.$this->id.'">'._('Note de frais').'</A>';
+      $this->doc.='<A style="display:inline" HREF="show_pj.php?'.dossier::get().'&jr_grpt_id='.$seq.'&jrn='.$this->id.'">'.$ref_doc.'</A>';
     }
 
     //----------------------------------------
@@ -1273,7 +1273,7 @@ array
       $r.=HtmlInput::hidden('e_mp_qcode_'.$e_mp,${'e_mp_qcode_'.$e_mp});
 
       /* needed for generating a invoice */
-      $r.=HtmlInput::hidden('qcode_dest',${'e_mp_qcode_'.$e_mp});
+      $r.=HtmlInput::hidden('qcode_benef',${'e_mp_qcode_'.$e_mp});
 
       $r.="Payé par ".${'e_mp_qcode_'.$e_mp};
       $r.='<br>';
@@ -1316,7 +1316,7 @@ array
 
 	$r.='<hr>';
 	$r.=_('ou générer un document').' <input type="checkbox" name="gen_invoice" CHECKED>';
-	// We propose to generate  the note of fee
+	// We propose to generate  the fee note
 	$doc_gen=new ISelect();
 	$doc_gen->name="gen_doc";
 	$doc_gen->value=$this->db->make_array(
