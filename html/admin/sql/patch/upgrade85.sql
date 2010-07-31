@@ -25,6 +25,8 @@ return NEW;
 end;
 $BODY$
   LANGUAGE 'plpgsql' ;
+-- update jrn set jr_internal=jrn.jr_internal||jrn.jr_id::text from jrn as B where jrn.jr_internal=B.jr_internal and jrn.jr_id > B.jr_id;
+-- create unique index ux_jr_internal on jrn(jr_internal);
 
 alter table quant_purchase  ADD CONSTRAINT quant_purchase_qp_internal_fkey FOREIGN KEY (qp_internal)
       REFERENCES jrn (jr_internal) MATCH SIMPLE
