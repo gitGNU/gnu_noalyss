@@ -330,7 +330,10 @@ if ($def==4) {
     $r.=td(sprintf("%.2f",$row['jr_montant']),' class="num" ');
     $iradio->value=$row['jr_id'];
     $r.=td(HtmlInput::hidden('jrid[]',$row['jr_id']).$iradio->input(),' style="text-align:center" ');
-    echo tr($r);
+    if ( $i % 2 == 0 )
+      echo tr($r,' class="odd" ');
+    else 
+      echo tr($r);
   }
   echo '</table>';
 
