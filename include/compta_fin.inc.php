@@ -230,6 +230,7 @@ if ( $def==3) {
   echo '<div class="content">';
 
   echo '<table style="margin-left:10%;width:30%" class="result">';
+  echo tr(th('Quick Code').th('Compte en banque').th('solde').th('solde rapproché').th('solde non rapproché'));
   // Filter the saldo
   //  on the current year
   $filter_year="  j_tech_per in (select p_id from parm_periode where  p_exercice='".$User->get_exercice()."')";
@@ -244,10 +245,17 @@ if ( $def==3) {
 
     // print the result if the saldo is not equal to 0
     if ( $m['debit'] != 0.0 || $m['credit'] != 0.0) {
+      /*  get saldo for not reconcilied operations  */
+      $saldo_not_reconcilied=$array[$i]->get_solde_detail($filter_year." and j_grpt in (select jr_grpt_id from jrn where trim(jr_pj_number) ='' or jr_pj_number is null)" );
+      
+      /*  get saldo for reconcilied operation  */
+      $saldo_reconcilied=$array[$i]->get_solde_detail($filter_year." and j_grpt in (select jr_grpt_id from jrn where trim(jr_pj_number) != '' and jr_pj_number is not null)" );
+
       if ( $idx%2 != 0 ) 
 	$odd="odd";
       else
 	$odd="";
+
       $idx++;
       echo "<tr class=\"$odd\">";
       echo "<TD >".
@@ -259,7 +267,14 @@ if ( $def==3) {
 	"</TD>".
 	"<TD align=\"right\">".
 	$solde.
-	"</TD>"."</TR>";
+	"</TD>".
+	"<TD align=\"right\">".
+	sprintf('%.2f',($saldo_reconcilied['debit']-$saldo_reconcilied['credit'])).
+	"</TD>".
+	"<TD align=\"right\">".
+	sprintf('%.2f',($saldo_not_reconcilied['debit']-$saldo_not_reconcilied['credit'])).
+	"</TD>".
+	"</TR>";
     }
   }// for
   echo "</table>";
@@ -270,6 +285,7 @@ if ( $def==3) {
 // Reconcilied
 //--------------------------------------------------
 if ($def==4) {
+  echo '<div class="content">';
   $Ledger=new Acc_Ledger_Fin($cn,0);
   if ( !isset($_REQUEST['p_jrn'])) {
     $a=$Ledger->get_first('fin');
@@ -286,9 +302,15 @@ if ($def==4) {
   if (isset ($_POST['save'])) {
     if (trim($_POST['ext']) != '' && isset($_POST['op'])){
       $array=$_POST['op'];
+      $tot=0;
       for ($i=0;$i<count($array);$i++){
 	$cn->exec_sql('update jrn set jr_pj_number=$1 where jr_id=$2',
 		      array($_POST['ext'],$array[$i]));
+	$tot=bcadd($tot,$cn->get_value('select qf_amount from quant_fin where jr_id=$1',array($array[$i])));
+      }
+      $diff=bcsub($_POST['start_extrait'],$_POST['end_extrait']);
+      if ( $diff != 0 && $diff != $tot ) {
+	echo_warning("D'après l'extrait il y aurait du avoir un montant de $diff à rapprocher alors qu'il n'y a que $tot rapprochés");
       }
     }
   }
@@ -297,7 +319,7 @@ if ($def==4) {
   // without receipt number
   //-------------------------
   echo '<div class="content">';
-  echo '<form method="post">';
+  echo '<form method="post" id="rec1">';
 
   echo dossier::hidden();
   echo HtmlInput::hidden('sa','r');
@@ -310,8 +332,18 @@ if ($def==4) {
   echo '<span id="bkname">'.$Ledger->get_bank_name().'</span>';
   echo '<p>';
   $iextrait=new IText('ext');
+  $nstart_extrait=new INum('start_extrait');
+  $nend_extrait=new INum('end_extrait');
+
   echo "Extrait / relevé :".$iextrait->input();
+  echo 'solde Début'.$nstart_extrait->input();
+  echo 'solde Fin'.$nend_extrait->input();
+  $select_all=new IButton('select_all');
+  $select_all->label='Inverser la sélection';
+  $select_all->javascript="toggle_checkbox('rec1')";
+  echo $select_all->input();
   echo '</p>';
+
   echo '<table class="result" style="width:80%;margin-left:10%">';
   $r=th('Date');
   $r.=th('Libellé');
@@ -320,6 +352,7 @@ if ($def==4) {
   $r.=th('Selection',' style="text-align:center" ');
   echo tr($r);
   $iradio=new ICheckBox('op[]');
+  $tot_not_reconcilied=0;$diff=0;
   for ($i=0;$i<count($operation);$i++) {
     $row=$operation[$i];
     $r='';
@@ -328,6 +361,9 @@ if ($def==4) {
     $r.=td($row['jr_comment']);
     $r.=td($js);
     $r.=td(sprintf("%.2f",$row['jr_montant']),' class="num" ');
+
+    $tot_not_reconcilied+=$row['jr_montant'];
+    $diff+=$cn->get_value('select qf_amount from quant_fin where jr_id=$1',array($row['jr_id']));
     $iradio->value=$row['jr_id'];
     $r.=td(HtmlInput::hidden('jrid[]',$row['jr_id']).$iradio->input(),' style="text-align:center" ');
     if ( $i % 2 == 0 )
@@ -335,6 +371,42 @@ if ($def==4) {
     else 
       echo tr($r);
   }
+  echo '</table>';
+  $bk_card=new Fiche($cn);
+  $bk_card->id=$Ledger->get_bank();
+  $filter_year="  j_tech_per in (select p_id from parm_periode where  p_exercice='".$User->get_exercice()."')";
+
+  /*  get saldo for not reconcilied operations  */
+  $saldo_not_reconcilied=$bk_card->get_solde_detail($filter_year." and j_grpt in (select jr_grpt_id from jrn where trim(jr_pj_number) ='' or jr_pj_number is null)" );
+
+  /*  get saldo for reconcilied operation  */
+  $saldo_reconcilied=$bk_card->get_solde_detail($filter_year." and j_grpt in (select jr_grpt_id from jrn where trim(jr_pj_number) != '' and jr_pj_number is not null)" );
+
+  /* solde compte */
+  $saldo=$bk_card->get_solde_detail($filter_year);
+
+  echo '<table>';
+  echo '<tr>';
+  echo td("Solde compte  ");
+  echo td(sprintf('%.2f',($saldo['debit']-$saldo['credit'])),' style="text-align:right"');
+  echo '</tr>';
+
+  echo '<tr>';
+  echo td("Solde non rapproché ");
+  echo td(sprintf('%.2f',($saldo_not_reconcilied['debit']-$saldo_not_reconcilied['credit'])),' style="text-align:right"');
+  echo '</tr>';
+
+  echo '<tr>';
+  echo td("Solde  rapproché ");
+  echo td(sprintf('%.2f',($saldo_reconcilied['debit']-$saldo_reconcilied['credit'])),' style="text-align:right"');
+  echo '</tr>';
+
+
+  echo '<tr>';
+  echo td("Total montant ");
+  echo td(sprintf('%.2f',($tot_not_reconcilied)),' style="text-align:right"');
+  echo '</tr>';
+
   echo '</table>';
 
   echo HtmlInput::submit('save','Mettre à jour le n° de relevé banquaire');

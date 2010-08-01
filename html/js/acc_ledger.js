@@ -755,3 +755,16 @@ function op_save(obj) {
 	   }
     return false;
 }
+/**
+* toggle all the checkbox in a given form
+* @param form_id id of the form
+*/
+function toggle_checkbox(form_id) {
+    var form=g(form_id);
+    for (var i=0;i<form.length;i++) {
+	var e=form.elements[i];
+	if ( e.type=='checkbox') {
+	    if ( e.checked==true) {e.checked=false;   } else {e.checked=true;}
+	}
+}
+}
