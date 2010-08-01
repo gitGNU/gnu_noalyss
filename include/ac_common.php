@@ -30,6 +30,7 @@ require_once('class_periode.php');
 	the string to be diplayed must be protected
 */
 function h($p_string) { return htmlspecialchars($p_string);}
+function span($p_string,$p_extra='') { return '<span '.$p_extra.'>'.$p_string.'</span>';}
 function hi($p_string) { return '<i>'.htmlspecialchars($p_string).'</i>';}
 function hb($p_string) { return '<b>'.htmlspecialchars($p_string).'</b>';}
 function th($p_string,$p_extra='') { return '<th  '.$p_extra.'>'.htmlspecialchars($p_string).'</th>';}
