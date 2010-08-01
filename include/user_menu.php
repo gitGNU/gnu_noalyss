@@ -308,11 +308,10 @@ function MenuAdmin()
 	       array("admin_repo.php?action=dossier_mgt",_("Dossiers"),_('Gestion des dossiers'),1),
 	       array("admin_repo.php?action=modele_mgt",_("Modèles"),_('Gestion des modèles'),2),
 	       array("admin_repo.php?action=restore",_("Restaure"),_("Restaure une base de données"),3),
-	       array("login.php",_("Accueil")),
-	       array("logout.php",_("Sortie"))
+	       array("login.php",_("Accueil"))
 	       );
 
-  $menu=ShowItem($item,'H',"mtitle","mtitle",$def,' width="100%" ');
+  $menu=ShowItem($item,'H',"mtitle","mtitle",$def,' style="width:80%;margin-left:10%" ');
   return $menu;
 }
 /*!
