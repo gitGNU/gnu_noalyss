@@ -586,7 +586,7 @@ function toggle_checkbox(form_id) {
  * @param form_id id of the form
  */
 function select_checkbox(form_id) {
-    var form=g(form_id);
+    var form=$(form_id);
     for (var i=0;i<form.length;i++) {
 	var e=form.elements[i];
 	if ( e.type=='checkbox') {
@@ -599,7 +599,7 @@ function select_checkbox(form_id) {
  * @param form_id id of the form
  */
 function unselect_checkbox(form_id) {
-    var form=g(form_id);
+    var form=$(form_id);
     for (var i=0;i<form.length;i++) {
 	var e=form.elements[i];
 	if ( e.type=='checkbox') {
