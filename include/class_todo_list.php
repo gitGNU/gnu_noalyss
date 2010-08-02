@@ -104,6 +104,13 @@ class Todo_List
 
   public function insert() {
     if ( $this->verify() != 0 ) return;
+    if (trim($this->tl_title)=='')
+      $this->tl_title=substr(trim($this->tl_desc),0,40);
+                
+    if (trim($this->tl_title)=='') {alert('La note est vide');return;}
+
+    /*  limit the title to 35 char */
+      $this->tl_title=substr(trim($this->tl_desc),0,40);
 
     $sql="insert into todo_list (tl_date,tl_title,tl_desc,use_login) ".
       " values (to_date($1,'DD.MM.YYYY'),$2,$3,$4)  returning tl_id";
@@ -120,6 +127,14 @@ class Todo_List
 
   public function update() {
     if ( $this->verify() != 0 ) return;
+
+    if (trim($this->tl_title)=='')
+      $this->tl_title=substr(trim($this->tl_desc),0,40);
+
+    if (trim($this->tl_title)=='') {alert('La note est vide');return;}
+
+    /*  limit the title to 35 char */
+      $this->tl_title=substr(trim($this->tl_desc),0,40);
 
     $sql="update todo_list set tl_title=$1,tl_date=to_date($2,'DD.MM.YYYY'),tl_desc=$3 ".
       " where tl_id = $4";
