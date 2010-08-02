@@ -319,7 +319,7 @@ if ( $def == 2 ) {
   $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
 
-  echo '<form method="GET" action="'.$href.'">';
+  echo '<form method="GET" id="fpaidv" action="'.$href.'">';
   echo HtmlInput::hidden("sa","l");
   echo HtmlInput::hidden("p_action","ven");
   echo dossier::hidden();
@@ -327,8 +327,8 @@ if ( $def == 2 ) {
   list($count,$html)= $Ledger->list_operation($sql,$offset,1);
   echo $html;
   echo $bar;
-  echo '<p>'.HtmlInput::submit('paid',_('Mise à jour paiement')).'</p>';
-
+  echo '<p>'.HtmlInput::submit('paid',_('Mise à jour paiement')).IButton::select_checkbox('fpaidv').IButton::unselect_checkbox('fpaidv').'</p>';
+  echo IButton::select_checkbox('fpaid');
   echo '</form>';
 
   echo '</div>';
@@ -377,7 +377,7 @@ if ( $def==3 ) {
   $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
 
-  echo '<form method="GET" action="'.$href.'">';
+  echo '<form method="GET" id="fpaidv" action="'.$href.'">';
   echo HtmlInput::hidden("sa","lnp");
   echo HtmlInput::hidden("p_action","ven");
   echo dossier::hidden();
@@ -386,7 +386,7 @@ if ( $def==3 ) {
   echo $html;
   echo $bar;
 
-  echo '<p>'.HtmlInput::submit('paid',_('Mise à jour paiement')).'</p>';
+  echo '<p>'.HtmlInput::submit('paid',_('Mise à jour paiement')).IButton::select_checkbox('fpaidv').IButton::unselect_checkbox('fpaidv').'</p>';
   echo '</form>';
 
   echo '</div>';

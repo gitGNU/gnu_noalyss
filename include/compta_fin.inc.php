@@ -338,10 +338,7 @@ if ($def==4) {
   echo "Extrait / relevé :".$iextrait->input();
   echo 'solde Début'.$nstart_extrait->input();
   echo 'solde Fin'.$nend_extrait->input();
-  $select_all=new IButton('select_all');
-  $select_all->label='Inverser la sélection';
-  $select_all->javascript="toggle_checkbox('rec1')";
-  echo $select_all->input();
+  echo IButton::tooggle_checkbox('rec1');
   echo '</p>';
 
   echo '<table class="result" style="width:80%;margin-left:10%">';
