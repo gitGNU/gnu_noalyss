@@ -323,6 +323,7 @@ if ($def==4) {
   echo '<span id="bkname">'.$Ledger->get_bank_name().'</span>';
   echo '<p>';
   $iextrait=new IText('ext');
+  $iextrait->value=$Ledger->guess_pj();
   $nstart_extrait=new INum('start_extrait');
   $nend_extrait=new INum('end_extrait');
 
