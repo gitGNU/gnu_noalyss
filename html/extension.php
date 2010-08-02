@@ -43,17 +43,7 @@ $only_plugin=$user->check_dossier(dossier::id());
 
 
 /* javascript file */
-echo js_include('prototype.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('dragdrop.js');
-echo js_include('acc_ledger.js');
-echo js_include('accounting_item.js');
-echo js_include('card.js');
-echo js_include('compute.js');
-echo js_include('compute_direct.js');
-echo js_include('ajax_fiche.js');
+echo load_all_script();
 echo JS_INFOBULLE;
 
 /* show button to return to access */
