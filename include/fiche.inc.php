@@ -49,7 +49,6 @@ if ($write == 0 ){
 }
 
 function ShowRecherche() {
-  echo '<DIV class="u_redcontent" style="width:auto">';
   echo '<form method="GET" action="?">';
   echo dossier::hidden();
   $w=new IText();
@@ -60,7 +59,6 @@ function ShowRecherche() {
   echo _("Recherche :").$w->input('search_text',$search_text);
   echo HtmlInput::submit('submit',_('Rechercher'));
   echo '</form>';
-  echo '</div>';
 }
 function ShowFicheDefInput($p_fiche_def)
 {
@@ -325,6 +323,7 @@ if ( isset ( $_GET["action"]) ) {
   // Search a card
   if ( $action == "search" ) 
     {
+      echo '<DIV class="u_redcontent" style="float:top;width:auto;">';
       ShowRecherche();
       $sql="select distinct f_id,fd_id from fiche join jnt_fic_att_value using (f_id) 
             join attr_value using (jft_id) where
@@ -335,24 +334,24 @@ if ( isset ( $_GET["action"]) ) {
       //
       if ( sizeof($all) != 0 )
 	{
-	  echo '<DIV class="u_redcontent" style="width:auto">';
-	  echo "Résultat : ".sizeof($all).'éléments trouvés <br>';
+
+	  echo "<b>Résultat : ".sizeof($all).'éléments trouvés </b><br>';
 	  foreach ($all as $f_id){
 	    $fiche=new Fiche($cn,$f_id['f_id']);
-	    echo '<A class="mtitle" href="?p_action=fiche&'.$str_dossier.'&action=detail&fiche_id='.$f_id['f_id'].
+	    echo '<A  href="?p_action=fiche&'.$str_dossier.'&action=detail&fiche_id='.$f_id['f_id'].
 	      '&fiche='.$f_id['fd_id'].'">'.
-	      $fiche->getName().'</A><br>';
+	      $fiche->getName().'</A>';
 	  }
-	  echo '</div>';
 	}
       else 
 	{
 	  echo '<DIV class="u_redcontent" style="width:auto">';
 	  echo "Aucun résultat trouvé";
 		  
-	  echo '</div>';
-		  
 	}
+      	  echo '</div>';
+		  
+
     }
   $recherche=false;
 }
