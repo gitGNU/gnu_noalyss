@@ -29,7 +29,7 @@ $str_dossier=dossier::get();
 echo "<DIV class=\"lmenu\">";
 echo JS_AJAX_FICHE;
 
-$p_array=array(array ("?p_action=impress&type=jrn&".$str_dossier,_("Journaux")),
+$p_array=array(array ("?p_action=impress&type=jrn&".$str_dossier,_("Historique")),
 	       array("?p_action=impress&type=gl_comptes&".$str_dossier,_("Grand Livre")), /* AG */
 	       array("?p_action=impress&type=poste&".$str_dossier,_("Poste")),
 	       array("?p_action=impress&type=fiche&".$str_dossier,_("Catégorie de fiche")),
