@@ -340,11 +340,6 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       $wConcerned->extra2='paid';
       $array[$i]['concerned']=$wConcerned->input();
     }
-       // show compute
-    $cal=new IButton('calc');
-    $cal->label='Calculatrice';
-    $cal->javascript=" showIPopup('compute') ";
-    $str_cal_button=$cal->input();
  
     ob_start();
     require_once('template/form_ledger_fin.php');

@@ -16,7 +16,7 @@
 <?=$f_type?><?=$f_client_qcode?><?=$f_client_bt?> <?=$f_client?><br>
       <?=_('Libellé')?> <?=$f_desc?>
       <?=_('Num Pj')?> <?=$f_pj?><br>
-<?=$str_add_button?><?=$str_cal_button?>
+<?=$str_add_button?>
 </fieldset>
 
 <fieldset>

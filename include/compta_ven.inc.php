@@ -41,16 +41,6 @@ $pop_tva=new IPopup('popup_tva');
 $pop_tva->title=_('Choix TVA');
 $pop_tva->value='';
 echo $pop_tva->input();
-//----------------------------------------------------------------------
-// create compute button
-$compute=new IPopup('compute');
-$compute->value=JS_CALC_LINE;
-//$compute->title="Calculatrice";
-$compute->drag=true; 
-$compute->blocking=false;
-$compute->set_height("350");
-$compute->set_width("500");
-echo $compute->input();
 
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 $gDossier=dossier::id();
@@ -328,7 +318,7 @@ if ( $def == 2 ) {
   echo $html;
   echo $bar;
   echo '<p>'.HtmlInput::submit('paid',_('Mise à jour paiement')).IButton::select_checkbox('fpaidv').IButton::unselect_checkbox('fpaidv').'</p>';
-  echo IButton::select_checkbox('fpaid');
+
   echo '</form>';
 
   echo '</div>';

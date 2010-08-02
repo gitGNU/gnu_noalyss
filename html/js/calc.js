@@ -35,18 +35,20 @@ function cal()
 		return;
 		}
 	try {
-	Compute();
-	sub=eval(p_variable);
+	    Compute();
+	    sub=eval(p_variable);
+	    var result=parseFloat(sub);
+	    result=Math.round(result*100)/100;
 	} catch(exception) {
 	alert("Mauvaise formule\n"+p_variable);
 	return false;
 	}
 	p_history=p_history+'<hr>'+p_variable;
-	p_history+="="+sub;
-	var str_sub="<hr><b><i> Total :"+p_variable+" = "+sub+"<I></b>";
-	this.document.getElementById("sub_total").innerHTML=str_sub;
-  this.document.getElementById("listing").innerHTML=p_history;
-  this.document.getElementById('inp').value="";
+	p_history+="="+result.toString();
+	var str_sub="<hr><b><i> Total :"+p_variable+" = "+result.toString()+"<I></b>";
+    this.document.getElementById("sub_total").innerHTML=str_sub;
+    this.document.getElementById("listing").innerHTML=p_history;
+    this.document.getElementById('inp').value="";
 }
 // Clean 
 // 
@@ -62,12 +64,9 @@ function Clean()
 
 function Compute()
 {
-	var tot=0;
-	var ret="";
-	tot=eval(p_variable);
-	ret+="<hr>";
-	ret+="<b>Total   =  "+tot+'</b>';
-	this.document.getElementById('inp').value="";
-	//this.document.getElementById('result').innerHTML=ret;
-	this.document.getElementById('inp').focus();
+    var tot=0;
+    var ret="";
+ 
+    this.document.getElementById('inp').value="";
+    this.document.getElementById('inp').focus();
 }

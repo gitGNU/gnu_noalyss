@@ -40,16 +40,6 @@ $pop_tva->title=_('Choix TVA');
 $pop_tva->value='';
 echo $pop_tva->input();
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
-//----------------------------------------------------------------------
-// create compute button
-require_once ('class_ipopup.php');
-$compute=new IPopup('compute');
-$compute->value=JS_CALC_LINE;
-$compute->drag=true; $compute->blocking=false;
-$compute->title="Calculatrice";
-$compute->set_height("350");
-$compute->set_width("500");
-echo $compute->input();
 
 $cn=new Database(dossier::id());
   //menu = show a list of ledger

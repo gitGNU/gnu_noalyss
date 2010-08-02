@@ -68,6 +68,13 @@ require_once('class_html_input.php');
 	  $select_all->javascript="unselect_checkbox($p_form)";
 	  return $select_all->input();
 	}
+	static function show_calc() {
+	  $calc=new IButton('shcalc');
+	  $calc->label=_('Calculatrice');
+	  $calc->javascript="show_calc()";
+	  return $calc->input();
+
+	}
 	static public function test_me()
  	{
 

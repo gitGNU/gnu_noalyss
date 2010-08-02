@@ -431,6 +431,8 @@ function menu_tool($p_from) {
   $r.= '<div class="u_tool">';
   $r.= '<div class="name">';
   $r.= "<H2 class=\"dossier\"> Dossier : ".h(dossier::name())."</h2> ";
+  $r.=IButton::show_calc();
+
   $r.= '</div>';
   $r.= '<div class="acces_direct">';
   if ( $p_from == 'compta') $view='E';
@@ -451,7 +453,9 @@ function menu_tool($p_from) {
 		 ) ;
 
   $gDossier=dossier::id();
-  $r.=    '<table>';
+
+  $r.= '<table>';
+  $r.='<tr>';
   foreach($amodule as $col ) {
     $url=$col['value'].'?'.dossier::get();
     if ( $p_from==$col['value']) {
@@ -476,6 +480,7 @@ function menu_tool($p_from) {
   $r.='</tr>';
 
   $r.= '</table>';
+  $r.= '</div>';
   $r.= '</div>';
 
   $r.= '</div>';

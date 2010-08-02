@@ -41,15 +41,6 @@ $search_card->title=_('Recherche de fiche');
 $search_card->value='';
 echo $search_card->input();
 
-$compute=new IPopup('compute');
-$compute->value=JS_CALC_LINE;
-$compute->drag=true; $compute->blocking=false;
-$compute->title="Calculatrice";
-$compute->set_height("350");
-$compute->set_width("500");
-echo $compute->input();
-
-
 $cn=new Database(dossier::id());
 $menu_action="?p_action=fin&".dossier::get();
 $menu=array(

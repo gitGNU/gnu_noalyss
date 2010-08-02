@@ -825,7 +825,6 @@ function load_all_script()
   echo js_include('dragdrop.js');
   echo js_include('controls.js');
   echo js_include('slider.js');
-
   echo js_include('acc_ledger.js');
   echo js_include('accounting_item.js');
   echo js_include('acc_report.js');
