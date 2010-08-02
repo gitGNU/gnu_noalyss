@@ -250,7 +250,7 @@ if ( $def==3) {
       $idx++;
       echo "<tr class=\"$odd\">";
       echo "<TD >".
-	$array[$i]->strAttribut(ATTR_DEF_QUICKCODE).
+	IButton::history_card($array[$i]->id,$array[$i]->strAttribut(ATTR_DEF_QUICKCODE)).
 	"</TD>";
 
       echo "<TD >".
