@@ -148,7 +148,7 @@ if ( $_GET['histo'] == 4 ) {
       if ( $idx%2 == 0) $class='class="odd"';
       $idx++;
       echo tr(
-	      td($oCard->strAttribut(ATTR_DEF_QUICKCODE)).
+	      td(HtmlInput::history_card($oCard->id,$oCard->strAttribut(ATTR_DEF_QUICKCODE))).
 	      td($oCard->strAttribut(ATTR_DEF_NAME)).
 	      td(sprintf('%.02f',$solde['debit']),'style="text-align:right"').
 	      td(sprintf('%.02f',$solde['credit']),'style="text-align:right"').
@@ -207,7 +207,7 @@ foreach($array as $row) {
     $row=$letter->content[$i];
     echo td($row['j_date_fmt']);
     echo td($row['jr_pj_number']);
-    echo td($row['jr_internal']);
+    echo td(HtmlInput::detail_op($row['jr_id'],$row['jr_internal']));
     echo td($row['jr_comment']);
     if ( $row['j_debit'] == 't') {
       echo td(sprintf('%.2f',$row['j_montant']),' style="text-align:right"');

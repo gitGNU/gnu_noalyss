@@ -230,6 +230,26 @@ echo $string => {'prop':'1','prop2':'2','prop3':'3'};
 		   $p_jr_id,dossier::id(),$p_mesg);
   }
   /**
+   * display a div with the history of the card
+   */
+  static function history_card($f_id,$p_mesg) 
+    {
+            $view_history= sprintf('<A class="detail"  style="text-decoration:underline" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
+      			     $f_id, dossier::id(), $p_mesg);
+            return $view_history;
+    }
+  
+    /**
+     * display a div with the history of the account
+     */
+        static function history_account($p_account,$p_mesg) 
+    {
+    $view_history= sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:view_history_account(\'%s\',\'%s\')" >%s</A>',
+	  $p_account, dossier::id(), $p_mesg);
+      return $view_history;
+    }
+
+  /**
    * return the html code to create an hidden div and a button
    * to show this DIV. This contains all the available ledgers
    * for the user in READ or RW 
