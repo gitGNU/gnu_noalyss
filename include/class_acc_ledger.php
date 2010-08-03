@@ -2177,7 +2177,9 @@ function get_last_date()
       if ( $p_action == 'client') $p_action='ALL';
       if ( $p_action == 'supplier') $p_action='ALL';
       if ( $p_action == 'adm') $p_action='ALL';
-      if ( $p_action == 'quick_writing') $p_action='ALL';
+
+      /* from compta.php the p_action is quick_writing instead of ODS  */
+      if ( $p_action == 'quick_writing') $p_action='ODS';
 
 
       $fil_ledger=$user->get_ledger_sql($p_action,3);
