@@ -611,12 +611,13 @@ function unselect_checkbox(form_id) {
 * show the calculator
 */
 function show_calc() {
-    if ( g('calc1')) { this.document.getElementById('inp').value="";return;}
+    if ( g('calc1')) { this.document.getElementById('inp').value=""; this.document.getElementById('inp').focus();return;}
     var sid='calc1';
     var shtml='';
-    shtml+='<form name="calc_line"  method="GET" onSubmit="cal();return false;" >Cette calculatrice vous permet de calculer, écrivez simplement les opérations que vous voulez puis la touche retour. exemple : 1+2+3*(1/5) <input style="border:solid 1px;" type="text" size="30" id="inp" name="calculator"> <input type="button" value="Efface tout" onClick="Clean();return false;" > <input type="button" value="Fermer" onClick="removeDiv(\'calc1\')" >';
+    shtml+='<form name="calc_line"  method="GET" onSubmit="cal();return false;" >Cette calculatrice vous permet de calculer, écrivez simplement les opérations que vous voulez puis la touche retour. exemple : 1+2+3*(1/5) <input class="input_text" type="text" size="30" id="inp" name="calculator"> <input type="button" value="Efface tout" onClick="Clean();return false;" > <input type="button" value="Fermer" onClick="removeDiv(\'calc1\')" >';
 shtml+='</form><span id="result">  </span><br><span id="sub_total">  Taper une formule (ex 20*5.1) puis enter  </span><br><span id="listing"> </span>';
 
-    var obj={id:sid,html:shtml,drag:true,style:'position:absolute;display:block;top:30px;left:150px;width:250px;border:1px solid black;background-color:#99b1df;font-size:12'};
+    var obj={id:sid,html:shtml,drag:true,style:'position:absolute;display:block;top:30px;left:150px;width:250px;border:1px solid black;background-color:#99b1df;font-size:12;padding: 2 2 2 2;'};
     add_div(obj);
+ this.document.getElementById('inp').focus();
 }
