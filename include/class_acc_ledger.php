@@ -2186,6 +2186,7 @@ function get_last_date()
       $and=' and ';
     } else {
       if ( $p_action == 'gl') $p_action='ALL';
+      if ( $p_action == 'quick_writing') $p_action='ODS';
 
       $aLedger=$user->get_ledger($p_action,3);
       $fil_ledger='';$sp='';
