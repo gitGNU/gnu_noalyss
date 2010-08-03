@@ -197,7 +197,7 @@ function ShowMenuCompta($p_high="")
 		 array("user_advanced.php?".$str_dossier,_("Avancé"),_("Opérations délicates"),7),
 		 );
 
-  $result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' style="width:94%;margin-left:3%"');
+  $result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' style="width:100%;"');
   $str_dossier=dossier::get();
   $r="";
   $r.=menu_tool("compta.php");
