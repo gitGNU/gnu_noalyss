@@ -102,7 +102,7 @@ function extension_save(p_obj_form){
 	    throw (f);
 	}
 	queryString+='&'+data;
-	$("dtext_content").innerHTML='<image src="image/loading.gif" alt="chargement"></image>';
+	$("dtext_content").innerHTML=loading();
 	var action=new Ajax.Request ( 'ajax_extension.php', { method:'POST', parameters:queryString,onFailure:errorExtension, 
 							      onSuccess:successSave  }      );
 	

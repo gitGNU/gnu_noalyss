@@ -212,7 +212,7 @@ class ICard extends HtmlInput
 		   $this->javascript
 		   );
 
-    $ind=sprintf('<span id="%s_ind" style="display:none"> <img src="image/loading.gif" alt="Chargement..."/>'.
+    $ind=sprintf('<span id="%s_ind" style="display:none">Un instant... <img src="image/loading.gif" alt="Chargement..."/>'.
 		 '</span>',
 		 $this->name);
 

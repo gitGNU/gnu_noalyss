@@ -661,7 +661,7 @@ function dsp_letter(obj) {
 				);
       g('search').style.display='none';
       g('list').style.display='none';
-    $('detail').innerHTML='<img src="image/loading.gif">';
+      $('detail').innerHTML=loading();
     g('detail').style.display='block';
     } catch(e){alert('dsp_letter failed  '+e.message);}
 }
@@ -714,7 +714,7 @@ function search_letter(obj) {
 				);
     $('list').hide();
     $('search').hide();
-    $('detail').innerHTML='<img src="image/loading.gif">';
+    $('detail').innerHTML=loading();
     $('detail').show();
     } catch(e){alert('search_letter  '+e.message);}
 }

@@ -291,7 +291,7 @@ function change_month_success(req) {
 
 
 }
-function loading() { return '<image src="image/loading.gif" alt="chargement"></image>';}
+function loading() { return 'un instant...<image src="image/loading.gif" alt="chargement"></image>';}
 
 function ajax_misc_failure() {
     alert('Ajax Misc failed');
@@ -401,7 +401,7 @@ function success_set_tva_label(req) {
  */
 function set_wait(name) {
     var content=name+"_content";
-    $(content).innerHTML= '<image src="image/loading.gif" border="0" alt="Chargement...">';
+    $(content).innerHTML= 'Un instant...<image src="image/loading.gif" border="0" alt="Chargement...">';
 }
 /**
  *@brief add dynamically a object for AJAX

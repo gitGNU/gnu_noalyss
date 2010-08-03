@@ -57,7 +57,7 @@ class IBox extends HtmlInput
     $this->drag=false;
     $this->blocking=true;
     $this->queryString='';
-    $this->html='<img src="image/loading.gif">';
+    $this->html='Un instant...<img src="image/loading.gif">';
     $this->callback='';
     $this->label=$label;
     $this->handle_callback='refresh_box';

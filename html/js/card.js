@@ -86,7 +86,7 @@ function search_get_card(obj) {
     if ( obj.elements['tvaid']) { queryString+="&tvaid="+$F('tvaid');}
     if( obj.elements['query']) {queryString+="&query="+$F('query');}
     if (obj.ctl ) {queryString+="&ctl="+obj.ctl;}
-    $('asearch').innerHTML="<image src='image/loading.gif' border='0'>";
+    $('asearch').innerHTML=loading();
     var action=new Ajax.Request ( 'ajax_card.php',
      				  {  
      				      method:'get',
@@ -209,7 +209,7 @@ ajax_saldo($(text.id));
 function fill_ipopcard(obj) {
     if ( ! $(obj).ipopup) { alert('Erreur pas d\' attribut ipopup '+obj.id);return;};
     var content=$(obj).ipopup+'_content';
-    $(content).innerHTML='<image src="image/loading.gif" alt="chargement"></image>';
+    $(content).innerHTML=loading();
     showIPopup($(obj).ipopup);
     var dossier=$('gDossier').value;
     var qcode='';
@@ -267,7 +267,7 @@ function  successFill_ipopcard(req,json){
 function select_card_type(obj) {
     if ( ! $(obj).ipopup) { alert('Erreur pas d\' attribut ipopup '+obj.id);return;};
     var content=$(obj).ipopup+'_content';
-    $(content).innerHTML='<image src="image/loading.gif" alt="chargement"></image>';
+    $(content).innerHTML=loading();
     showIPopup($(obj).ipopup);
     var dossier=$('gDossier').value;
 
@@ -315,7 +315,7 @@ function dis_blank_card(obj) {
 	ref='&ref';
     }
     var content=$(obj).ipopup+'_content';
-    $(content).innerHTML='<image src="image/loading.gif" alt="chargement"></image>';
+    $(content).innerHTML=loading();
     showIPopup($(obj).ipopup);
     var dossier=$('gDossier').value;
 
@@ -345,7 +345,7 @@ function save_card(obj) {
     var content=$(obj).ipopup+'_content';
     // Data must be taken here
     data=$('save_card').serialize(false);
-    $(content).innerHTML='<image src="image/loading.gif" alt="chargement"></image>';
+    $(content).innerHTML=loading();
     showIPopup($(obj).ipopup);
     var dossier=$('gDossier').value;
     var queryString='?gDossier='+dossier;
@@ -395,7 +395,7 @@ function save_card_category(obj) {
     var content=$(obj).ipopup+'_content';
     // Data must be taken here
     data=$('newcat').serialize(false);
-    $(content).innerHTML='<image src="image/loading.gif" alt="chargement"></image>';
+    $(content).innerHTML=loading();
     showIPopup($(obj).ipopup);
     var dossier=$('gDossier').value;
     var queryString='?';

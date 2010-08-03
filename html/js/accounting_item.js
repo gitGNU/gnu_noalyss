@@ -119,7 +119,7 @@ function search_get_poste(obj) {
     if( obj.elements['nover']) {queryString+="&nover";}
     if( obj.elements['bracket']) {queryString+="&bracket";}
 
-    $('asearch').innerHTML="<image src='image/loading.gif' border='0'>";
+    $('asearch').innerHTML=loading();
     var action=new Ajax.Request ( 'ajax_poste.php',
      				  {
      				      method:'get',

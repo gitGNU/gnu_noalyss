@@ -122,5 +122,6 @@ if ( $sel->selected == 2 )
 
 echo '</div>';
 echo '<div id="detail" style="display:none">';
+echo 'Un instant...';
 echo '<IMG SRC=image/loading.gif>';
 echo '</div>';
