@@ -165,7 +165,7 @@ class Acc_Operation
 
   function insert_jrn()
   {
-    $p_comment=FormatString($this->desc);
+    $p_comment=$this->desc;
 
     $diff=$this->db->get_value("select check_balance ($1)",array($this->grpt));
     if ( $diff != 0 ) {
