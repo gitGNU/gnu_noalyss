@@ -124,7 +124,7 @@ echo ShowItem(array(
 		    array('?p_action=prev&'.$str_dossier,_('Prevision'),'',7),
 		    array('?p_action=suivi_courrier&my_action&'.$str_dossier,_('Suivi'),'',8),
 		    ),
-	      'H',"mtitle","mtitle",$def,' width="100%"');
+	      'H',"mtitle","mtitle",$def,' style="width:94%;margin-left:3%"');
 
 echo '</div>';
 echo '</div>';
