@@ -1,5 +1,5 @@
 begin;
-ALTER TABLE quant_purchase
+
 CREATE OR REPLACE FUNCTION comptaproc.jrnx_ins()
   RETURNS trigger AS
 $BODY$
@@ -28,9 +28,12 @@ $BODY$
 -- update jrn set jr_internal=jrn.jr_internal||jrn.jr_id::text from jrn as B where jrn.jr_internal=B.jr_internal and jrn.jr_id > B.jr_id;
 -- create unique index ux_jr_internal on jrn(jr_internal);
 
+delete from quant_purchase where qp_internal not in (select jr_internal from jrn);
 alter table quant_purchase  ADD CONSTRAINT quant_purchase_qp_internal_fkey FOREIGN KEY (qp_internal)
       REFERENCES jrn (jr_internal) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE CASCADE;
+
+delete from quant_sold where qs_internal not in (select jr_internal from jrn);
 
 ALTER TABLE quant_sold
   ADD CONSTRAINT quant_sold_qs_internal_fkey FOREIGN KEY (qs_internal)
@@ -39,6 +42,8 @@ ALTER TABLE quant_sold
 
 delete  from stock_goods where j_id not in (select j_id from jrnx);
 
+delete from stock_goods where j_id not in (select j_id from jrnx);
+
 ALTER TABLE stock_goods
   ADD CONSTRAINT stock_goods_j_id_fkey FOREIGN KEY (j_id)
       REFERENCES jrnx (j_id) MATCH SIMPLE
@@ -46,6 +51,9 @@ ALTER TABLE stock_goods
 
 delete from jrn_rapt where jr_id not in (select jr_id from jrn);
 delete from jrn_rapt where jra_id not in (select jr_id from jrn);
+
+delete from jrn_rapt where jr_id not in (select jr_id from jrn);
+delete from jrn_rapt where jra_concerned not in (select jr_id from jrn);
 
 ALTER TABLE jrn_rapt
   ADD CONSTRAINT jrn_rapt_jr_id_fkey FOREIGN KEY (jr_id)
