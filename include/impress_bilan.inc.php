@@ -55,7 +55,6 @@ if ( isset($_GET['verif'])) {
   $bilan->get_request_get();
   $bilan->verify();
 
-  require_once ('verif_bilan.inc.php');
   echo '<FORM METHOD="GET" ACTION="bilan.php">';
   echo dossier::hidden();
   echo HtmlInput::hidden('b_id',$_GET['b_id']);
