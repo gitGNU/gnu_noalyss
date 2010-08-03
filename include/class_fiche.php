@@ -1284,21 +1284,32 @@ function empty_attribute($p_attr) {
  * \param $p_search (filter)
  * \param $p_action show the action column
  * \param $p_sql SQL to filter the number of card must start with AND
+ * \param $p_amount true : only cards with at least one operation default : false
  * \return: string to display
  */
-  function Summary($p_search="",$p_action="",$p_sql="")
+function Summary($p_search="",$p_action="",$p_sql="",$p_amount=false)
     {
+
       $str_dossier=dossier::get();
       $p_search=FormatString($p_search);
       $script=$_SERVER['PHP_SELF'];
       // Creation of the nav bar
       // Get the max numberRow
-      $all_tiers=$this->CountByDef($this->fiche_def_ref,$p_search,$p_sql);
+      $filter_amount='';
+      $User=new User($this->cn);
+
+      $filter_year="  j_tech_per in (select p_id from parm_periode ".
+                     "where p_exercice='".$User->get_exercice()."')";
+
+      if ( $p_amount) $filter_amount=' and f_id in (select f_id from jrnx where  '.$filter_year.')';
+
+      $all_tiers=$this->CountByDef($this->fiche_def_ref,$p_search,$p_sql.$filter_amount);
       // Get offset and page variable
       $offset=( isset ($_REQUEST['offset'] )) ?$_REQUEST['offset']:0;
       $page=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
       $bar=jrn_navigation_bar($offset,$all_tiers,$_SESSION['g_pagesize'],$page);
-      // set a filter ?
+    
+  // set a filter ?
       $search=$p_sql;
 
       $user=new User($this->cn);
@@ -1317,8 +1328,9 @@ function empty_attribute($p_attr) {
                 ad_id=1 and av_text ~* '$p_search')";
 	}
       // Get The result Array
-      $step_tiers=$this->GetAll($offset,$search,'name');
-      if ( $all_tiers == 0 ) return "";
+      $step_tiers=$this->GetAll($offset,$search.$filter_amount,'name');
+
+      if ( $all_tiers == 0 || count($step_tiers)==0 ) return "";
       $r=$bar;
       $r.='<table  class="result" style="width:90%;margin-left:5%">
 <TR >
@@ -1333,9 +1345,17 @@ $r.='</TR>';
 	return $r;
 
       $i=0;
+
       foreach ($step_tiers as $tiers ) {
 	$i++;$odd="";
 	if ($i % 2 == 0 ) $odd='class="odd"';
+	/* Filter on the default year */
+
+	$amount=$tiers->get_solde_detail($filter_year);
+
+	/* skip the tiers without operation */
+	if ( $p_amount && $amount['debit']==0 && $amount['credit'] == 0 && $amount['solde'] == 0 ) continue;
+
 	$r.="<TR $odd>";
 	$e=sprintf('<A HREF="%s?p_action=%s&sb=detail&f_id=%d&%s&sc=sv" title="Détail"> ',
 		   $script,$p_action,$tiers->id,$str_dossier);
@@ -1348,15 +1368,10 @@ $r.='</TR>';
 	  "</TD>";
 
 
-	/* Filter on the default year */
-	$User=new User($this->cn);
-	$filter_year="  j_tech_per in (select p_id from parm_periode ".
-                     "where p_exercice='".$User->get_exercice()."')";
-	$a=$tiers->get_solde_detail($filter_year);
 
-	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['debit']);
-	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['credit']);
-	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['solde']);
+	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$amount['debit']);
+	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$amount['credit']);
+	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$amount['solde']);
 
 
 	$r.="</TR>";

@@ -102,6 +102,10 @@ if ( $low_action == "list" )
   $sel_card->selected=(isset($_GET['cat']))?$_GET['cat']:-1;
   $sel_card->javascript=' onchange="submit(this);"';
   echo _('Catégorie :').$sel_card->input();
+  $nooperation=new ICheckBox('noop');
+  $nooperation->selected=(isset($_GET['noop']))?true:false;
+  echo _('Inclure les fournisseurs sans opération :').$nooperation->input();
+
 ?>
 <input type="submit" class="button" name="submit_query" value="<?=_('recherche')?>">
 <input type="hidden" name="p_action" value="supplier">
@@ -114,8 +118,10 @@ if ( $low_action == "list" )
   if ( isset($_GET['cat'])) {
     if ( $_GET['cat'] != -1) $sql=sprintf(" and fd_id = %d",$_GET['cat']);
   }
+  $noop=(isset($_GET['noop']))?false:true;
+
  echo '<div class="content">';
- echo $supplier->Summary($search,'supplier',$sql);
+ echo $supplier->Summary($search,'supplier',$sql,$noop);
 
 
  echo '<br>';

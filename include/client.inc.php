@@ -30,14 +30,7 @@ require_once('class_fiche_def.php');
 require_once('class_iaction.php');
 require_once('class_fiche_def.php');
 require_once('class_ipopup.php');
-echo js_include('accounting_item.js');
-echo js_include('prototype.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('dragdrop.js');
-echo JS_CARD;
-echo JS_AJAX_FICHE;
+
 echo ICard::ipopup('ipop_newcard');
 $ip_cat=new IPopup('ipop_cat');
 $ip_cat->title=_('Ajout d\'une catégorie');
@@ -102,6 +95,10 @@ if ( $low_action == "list" )
   $sel_card->selected=(isset($_GET['cat']))?$_GET['cat']:-1;
   $sel_card->javascript=' onchange="submit(this);"';
   echo _('Catégorie :').$sel_card->input();
+  $nooperation=new ICheckBox('noop');
+  $nooperation->selected=(isset($_GET['noop']))?true:false;
+
+  echo _('Inclure les clients sans opération :').$nooperation->input();
 
 ?>
 <input type="submit" class="button" name="submit_query" value="<?=_('recherche')?>">
@@ -115,9 +112,9 @@ if ( $low_action == "list" )
   if ( isset($_GET['cat'])) {
     if ( $_GET['cat'] != -1) $sql=sprintf(" and fd_id = %d",$_GET['cat']);
   }
-  
- echo '<div class="content">';
- echo $client->Summary($search,'client',$sql);
+  $noop=(isset($_GET['noop']))?false:true;
+  echo '<div class="content">';
+  echo $client->Summary($search,'client',$sql,$noop);
 
 
  echo '<br>';
