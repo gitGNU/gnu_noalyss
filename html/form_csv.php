@@ -26,6 +26,7 @@ require_once('class_database.php');
 include ('class_user.php');
 require_once("class_acc_report.php");
 require_once("impress_inc.php");
+header('Pragma: public');
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="rapport.csv"',FALSE);
 require_once('class_dossier.php');

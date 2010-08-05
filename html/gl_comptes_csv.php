@@ -35,6 +35,8 @@ require_once('class_user.php');
 
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="gl_comptes.csv"',FALSE);
+header('Pragma: public');
+
 
 $gDossier=dossier::id();
 

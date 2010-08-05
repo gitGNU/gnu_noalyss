@@ -27,6 +27,7 @@ include ('class_user.php');
 require_once("class_acc_account_ledger.php");
 require_once ('class_acc_operation.php');
 
+header('Pragma: public');
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="poste.csv"',FALSE);
 require_once('class_dossier.php');

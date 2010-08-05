@@ -22,6 +22,7 @@
  * \brief Send a ledger in CSV format
  */
 
+header('Pragma: public');
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="jrn.csv"',FALSE);
 include_once ("ac_common.php");

@@ -22,6 +22,7 @@
  * \brief Send a CSV file with card
  */
 
+header('Pragma: public');
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="fiche.csv"',FALSE);
 include_once ("ac_common.php");

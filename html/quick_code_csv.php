@@ -26,6 +26,8 @@ require_once('class_database.php');
 include ('class_user.php');
 require_once("class_fiche.php");
 header('Content-type: application/csv');
+
+header('Pragma: public');
 header('Content-Disposition: attachment;filename="poste.csv"',FALSE);
 require_once('class_dossier.php');
 $gDossier=dossier::id();

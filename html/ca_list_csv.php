@@ -24,6 +24,7 @@
 * \brief  export the operation in pdf
  *
  */
+header('Pragma: public');
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="jrn.csv"',FALSE);
 
