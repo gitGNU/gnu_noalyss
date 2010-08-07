@@ -30,7 +30,7 @@ global $version_phpcompta;
 $version_phpcompta=9000;
 /* set to none for production */
 error_reporting (E_ALL|E_STRICT);
-//$version_phpcompta=SVNVERSION;
+//$version_phpcompta=SVNINFO;
 
 define ("DBVERSION",88);
 define ("DBVERSIONREPO",12);
