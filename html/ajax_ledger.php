@@ -123,12 +123,13 @@ case 'rmop':
   // DE Detail
   //////////////////////////////////////////////////////////////////////
 case 'de':
+    ob_start();
+
   try {
     $op->get();			/* get detail op (D/C) */
     $obj=$op->get_quant();	/* return an obj. ACH / FIN or VEN or null if nothing is found*/
     
     $oLedger=new Acc_Ledger($cn,$ledger);
-    ob_start();
     if ( $obj==null || $obj->signature == 'ODS'  ) {
       /* only the details */
       require_once('template/ledger_detail_misc.php');
