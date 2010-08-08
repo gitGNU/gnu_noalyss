@@ -231,6 +231,7 @@ function showIPopup(p_name) {
  *@param name of the object PHP IPopup
  */
 function hideIPopup(p_name) {
+    g(p_name+'_content').innerHTML=loading();
     if (g(p_name+'_fond')) {hide(p_name+'_fond');}
     if (g(p_name+'_border')) {hide(p_name+'_border');}
     hide(p_name+'_content');
