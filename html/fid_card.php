@@ -98,24 +98,40 @@ if ( $jrn != -1 ) {
 
 
 /* create a filter based on j */
-$sql_str="select f_id, vw_name,quick_code,vw_description ".
+/*$sql_str="select f_id, vw_name,quick_code,vw_description ".
   " from vw_fiche_attr where  ".
   " ( vw_name ilike '%'||$1||'%' or quick_code ilike $2||'%' or vw_description ilike '%'||$3||'%')    ".
   $filter_card;
+*/
 
-$sql=$cn->get_array($sql_str
-		    ,array($_REQUEST['FID'],$_REQUEST['FID'],$_REQUEST['FID']));
+$sql_str="select distinct f_id from fiche join jnt_fic_att_value using (f_id) join attr_value using(jft_id) where ad_id in (9,1,23) and av_text ilike '%'||$1||'%' ".$filter_card;
+
+$sql=$cn->get_array($sql_str		    ,array($_REQUEST['FID']));
 
 if (sizeof($sql) != 0 ) {
   echo "<ul>";
+  $sql_get=$cn->prepare('get_name',"select av_text from jnt_fic_att_value join attr_value using (jft_id) where f_id = $1 and ad_id=$2");
+
   for ($i =0;$i<12 && $i < count($sql) ;$i++) {
+    $name='';$quick_code='';$desc='';
+
+    $sql_name=$cn->execute('get_name',array($sql[$i]['f_id'],1));
+    if ( Database::num_row($sql_name) == 1) $name=Database::fetch_result($sql_name,0,0);
+
+    $sql_name=$cn->execute('get_name',array($sql[$i]['f_id'],9));
+    if ( Database::num_row($sql_name) == 1) $desc=Database::fetch_result($sql_name,0,0);
+
+    $sql_name=$cn->execute('get_name',array($sql[$i]['f_id'],23));
+    if (Database::num_row($sql_name) == 1) $quick_code=Database::fetch_result($sql_name,0,0);
+
+
     /* Highlight the found pattern with bold format */
-    $name=str_ireplace($_REQUEST['FID'],'<em>'.$_REQUEST['FID'].'</em>',h($sql[$i]['vw_name']));
-    $qcode=str_ireplace($_REQUEST['FID'],'<em>'.$_REQUEST['FID'].'</em>',h($sql[$i]['quick_code']));
-    $desc=str_ireplace($_REQUEST['FID'],'<em>'.$_REQUEST['FID'].'</em>',h($sql[$i]['vw_description']));
+    $name=str_ireplace($_REQUEST['FID'],'<em>'.$_REQUEST['FID'].'</em>',h($name));
+    $qcode=str_ireplace($_REQUEST['FID'],'<em>'.$_REQUEST['FID'].'</em>',h($quick_code));
+    $desc=str_ireplace($_REQUEST['FID'],'<em>'.$_REQUEST['FID'].'</em>',h($desc));
     printf('<li id="%s">%s <span class="informal"> %s %s</span></li>',
-	   $sql[$i]['quick_code'],
-	   $qcode,
+	   $quick_code,
+	   $quick_code,
 	   $name,
 	   $desc
 	   );
