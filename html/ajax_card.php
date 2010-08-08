@@ -104,8 +104,13 @@ case 'rmfa':
 
 case 'dc':
    $f=new Fiche($cn);
-   $f->get_by_qcode($qcode);
-   $html=$f->Display(true);
+   if ( $qcode != '')
+     {
+       $f->get_by_qcode($qcode);
+       $html=$f->Display(true);
+     }
+   else 
+     $html=h2info('Aucune fiche demandée');
   break;
   /* ------------------------------------------------------------ */
   /* Blank card */
@@ -134,17 +139,44 @@ case 'bc':
   /* ------------------------------------------------------------ */
 case 'st':
   $sql="select fd_id,fd_label from fiche_def";
-  if ( $ledger != -1 ) {
-    $l=new Acc_Ledger($cn,$ledger);
-    $sql.='  where fd_id in ('.$l->get_all_fiche_def().')';
-  } else
-    if ( isset($cat)) {
-      $sql=$sql.sprintf(' where frd_id = '.FormatString ($cat));
-    } else 
-      if ( isset($fil) && strlen(trim($fil)) > 0 ){
-	$sql=$sql.sprintf(" where fd_id in (%s)",
-			  FormatString($fil));
-      }
+  /*  if we filter  thanks the ledger*/
+  if ( $ledger != -1 ) 
+    {
+      /* we want the card for deb or cred or both of this ledger */
+      switch( $fil  ) 
+	{
+	case -1:
+	  $l=new Acc_Ledger($cn,$ledger);
+	  $sql.='  where fd_id in ('.$l->get_all_fiche_def().')';
+	  break;
+	case 'cred':
+	  $l=new Acc_Ledger($cn,$ledger);
+	  $prop=$l->get_propertie();
+	  if ( $prop['jrn_def_fiche_cred']=='')$prop=-1;
+	  $sql.='  where fd_id in ('.$prop['jrn_def_fiche_cred'].')';
+	  break;
+	case 'deb':
+	  $l=new Acc_Ledger($cn,$ledger);
+	  $prop=$l->get_propertie();
+	  if ( $prop=='')$prop=-1;
+	  $sql.='  where fd_id in ('.$prop['jrn_def_fiche_deb'].')';
+	  break;
+	}
+    } 
+  else
+    {
+      /* we filter thanks a given model of card */
+      if ( isset($cat)) {
+	$sql=$sql.sprintf(' where frd_id = '.FormatString ($cat));
+      } 
+      else 
+	/* we filter thanks a given list of category of card
+	 */
+	if ( isset($fil) && strlen(trim($fil)) > 0 ){
+	  $sql=$sql.sprintf(" where fd_id in (%s)",
+			    FormatString($fil));
+	}
+    }
   $array=$cn->make_array($sql);
   if ( empty($array)) {
     $html=_("Aucune catégorie de fiche ne correspondant à".
