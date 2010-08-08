@@ -182,7 +182,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $f_add_button->label=_('Créer une nouvelle fiche');
     $f_add_button->set_attribute('ipopup','ipop_newcard');
     $f_add_button->set_attribute('jrn',$this->id);
-    $f_add_button->javascript=" select_card_type(this);";
+    $f_add_button->javascript=" this.jrn=\$('p_jrn').value;select_card_type(this);";
     $str_add_button=$f_add_button->input();
 
     // The first day of the periode 

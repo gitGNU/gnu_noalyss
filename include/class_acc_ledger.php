@@ -1048,7 +1048,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
 
     $Res=$this->db->exec_sql("select jrn_Def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_def_type,
 	   jrn_deb_max_line,jrn_cred_max_line,jrn_def_ech,jrn_def_ech_lib,jrn_def_code,
-	   jrn_def_fiche_deb,jrn_def_fiche_deb,jrn_def_pj_pref
+	   jrn_def_fiche_deb,jrn_def_fiche_cred,jrn_def_pj_pref
 	   from jrn_Def
 	      where jrn_def_id=$1",array($this->id));
     $Count=Database::num_row($Res);
@@ -1317,7 +1317,7 @@ jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj
     $f_add_button->label=_('Créer une nouvelle fiche');
     $f_add_button->set_attribute('ipopup','ipop_newcard');
     $f_add_button->set_attribute('jrn',$this->id);
-    $f_add_button->javascript=" select_card_type(this);";
+    $f_add_button->javascript=" this.jrn=\$('p_jrn').value;select_card_type(this);";
     $ret.=$f_add_button->input();
 
     // Load the javascript

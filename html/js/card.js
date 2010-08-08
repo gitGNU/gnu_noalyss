@@ -54,6 +54,7 @@ function search_card(obj) {
 			  'typecard':typecard,'query':string_to_search
 			 });
     showIPopup(obj.popup);
+
     var action=new Ajax.Request ( 'ajax_card.php',
 				  {
 				 method:'get',
@@ -283,7 +284,7 @@ function select_card_type(obj) {
     queryString+='&fil='+filter;
     // filter on the ledger, -1 if not
     var oledger=$(obj).jrn;
-    if (oledger==undefined) {ledger=-1;} else {ledger=g('p_jrn').value;}
+    if (oledger==undefined) {ledger=-1;} else {ledger=$(obj).jrn;}
 
     queryString+='&ledger='+ledger;
 

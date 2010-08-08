@@ -859,14 +859,14 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $f_add_button->label=_('Créer une nouvelle fiche');
     $f_add_button->set_attribute('ipopup','ipop_newcard');
     $f_add_button->set_attribute('jrn',$this->id);
-    $f_add_button->javascript=" select_card_type(this);";
+    $f_add_button->javascript="this.jrn=\$('p_jrn').value; select_card_type(this);";
 
     $f_add_button2=new IButton('add_card2');
     $f_add_button2->label=_('Créer une nouvelle fiche');
     $f_add_button2->set_attribute('ipopup','ipop_newcard');
     $f_add_button2->set_attribute('filter',$this->get_all_fiche_def ());
     //    $f_add_button2->set_attribute('jrn',$this->id);
-    $f_add_button2->javascript=" select_card_type(this);";
+    $f_add_button2->javascript=" this.jrn=\$('p_jrn').value;select_card_type(this);";
 
     $str_add_button=$f_add_button->input();
     $str_add_button2=$f_add_button2->input();
