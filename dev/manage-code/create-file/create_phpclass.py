@@ -64,14 +64,16 @@ class @class_name@  @mother_class@
   /* example private $variable=array("easy_name"=>column_name,"email"=>"column_name_email","val3"=>0); */
   
   protected $variable=array(@column_array@);
-  function __construct ($p_cn,$p_id=0) {
+  function __construct ($p_cn,$p_id=-1) {
         $this->cn=$p_cn;
-        if ( $p_id == 0 ) {
+        $this->@id@=$p_id;
+        
+        if ( $p_id == -1 ) {
         /* Initialize an empty object */
             foreach ($this->variable as $key=>$value) $this->$value='';
         } else {
          /* load it */
-         $this->@id@=$p_id;
+
          $this->load();
       }
   }
@@ -99,7 +101,7 @@ class @class_name@  @mother_class@
   }
   public function save() {
   /* please adapt */
-    if (  $this->@id@ == 0 ) 
+    if (  $this->@id@ == -1 ) 
       $this->insert();
     else
       $this->update();
@@ -130,7 +132,7 @@ class @class_name@  @mother_class@
    }
   public function insert() {
     if ( $this->verify() != 0 ) return;
-      if( $this->@id@==0 ){
+      if( $this->@id@==-1 ){
     /*  please adapt */
     $sql="insert into @table@(@column_noid@) values (@column_insert@) returning @id@";
     
@@ -253,7 +255,7 @@ class @class_name@  @mother_class@
   }
   public function save() {
   /* please adapt */
-    if (  $this->@id@ == 0 ) 
+    if (  $this->@id@ == -1 ) 
       $this->insert();
     else
       $this->update();
