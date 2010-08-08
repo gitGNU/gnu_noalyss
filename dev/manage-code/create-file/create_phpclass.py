@@ -71,6 +71,7 @@ class @class_name@  @mother_class@
         if ( $p_id == -1 ) {
         /* Initialize an empty object */
             foreach ($this->variable as $key=>$value) $this->$value='';
+            $this->@id@=$p_id;
         } else {
          /* load it */
 
