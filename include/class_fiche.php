@@ -1594,6 +1594,10 @@ function is_used() {
    $and=" and ";
    if (isset($query)){
      $query=FormatString($query);
+     /**
+      *@function
+      *@todo FS#151 bad performance, to be changed with a prepare stmt
+      */
      $filter_query=$and."(vw_name ilike '%$query%' or quick_code ilike ('%$query%') or vw_description ilike '%$query%' or tva_num ilike '%$query%')";
    }
    $sql="select * from vw_fiche_attr where ".$filter_fd_id.$filter_query;
