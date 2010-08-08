@@ -104,7 +104,7 @@ if ( $jrn != -1 ) {
   $filter_card;
 */
 
-$sql_str="select distinct f_id from fiche join jnt_fic_att_value using (f_id) join attr_value using(jft_id) where ad_id in (9,1,23) and av_text ilike '%'||$1||'%' ".$filter_card;
+$sql_str="select distinct f_id from fiche join jnt_fic_att_value using (f_id) join attr_value using(jft_id) where ad_id in (9,1,23) and av_text ilike '%'||$1||'%' ".$filter_card.' limit 12';
 
 $sql=$cn->get_array($sql_str		    ,array($_REQUEST['FID']));
 
