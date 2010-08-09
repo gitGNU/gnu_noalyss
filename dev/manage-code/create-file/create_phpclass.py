@@ -58,7 +58,10 @@ Example
  */
 require_once('class_database.php');
 require_once('ac_common.php');
-
+/**
+ *@class
+ *@brief Manage the table @table@
+*/
 class @class_name@  @mother_class@
 {
   /* example private $variable=array("easy_name"=>column_name,"email"=>"column_name_email","val3"=>0); */
@@ -242,7 +245,11 @@ Example
  */
 require_once('class_database.php');
 require_once('ac_common.php');
-
+/**
+ *@class
+ *@brief Manage the table @table@
+ *@extends @mother_class@
+*/
 class @class_name@  @mother_class@
 {
   /* example private $variable=array("easy_name"=>column_name,"email"=>"column_name_email","val3"=>0); */
