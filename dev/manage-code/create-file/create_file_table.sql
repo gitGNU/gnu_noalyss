@@ -3,5 +3,5 @@ SELECT
 FROM 
   information_schema.columns
 WHERE 
- columns.table_name='section_ledger';
+ columns.table_name='operation';
 

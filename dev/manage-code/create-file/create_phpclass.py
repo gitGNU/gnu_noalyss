@@ -58,8 +58,9 @@ Example
  */
 require_once('class_database.php');
 require_once('ac_common.php');
+
+
 /**
- *@class
  *@brief Manage the table @table@
 */
 class @class_name@  @mother_class@
@@ -245,8 +246,8 @@ Example
  */
 require_once('class_database.php');
 require_once('ac_common.php');
+
 /**
- *@class
  *@brief Manage the table @table@
  *@extends @mother_class@
 */
