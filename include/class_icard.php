@@ -36,6 +36,8 @@
    *\see ajaxFid
    *\see card.js
    *\see fid.php
+   *\see fid_card.php
+   *\see ajax_card.php
    *
    * Set the hidden field or input field to be set by javascript with the function set_attribute
    * call the input method. After selecting a value the update_value function is called. If you need
@@ -247,14 +249,6 @@ class ICard extends HtmlInput
     $r.='<span>'.$this->value.'</span>';
     return $r;
 
-  }
-  static function javascript() {
-    $str='';
-    echo js_include('prototype.js');
-    echo js_include('scriptaculous.js');
-    echo js_include('effects.js');
-    echo js_include('controls.js');
-    return $str;
   }
   /**
    *@brief return a string containing the button for displaying

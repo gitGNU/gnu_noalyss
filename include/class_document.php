@@ -74,7 +74,7 @@ class Document
     {
       // create a temp directory in /tmp to unpack file and to parse it
       $dirname=tempnam($_ENV['TMP'],'doc_');
-      
+
 
       unlink($dirname);
       mkdir ($dirname);
@@ -93,7 +93,9 @@ class Document
 
       chdir($dirname);
       $filename=$row['md_filename'];
-      $this->db->lo_export($row['md_lob'],$filename);
+      $exp=$this->db->lo_export($row['md_lob'],$dirname.DIRECTORY_SEPARATOR.$filename);
+      if ( $exp === false ) echo_warning( __FILE__.":".__LINE__."Export NOK $filename");
+	      
       $type="n";
       // if the doc is a OOo, we need to unzip it first
       // and the name of the file to change is always content.xml
@@ -123,20 +125,14 @@ class Document
 	  system ("zip -r ".$filename." *");
 	  ob_end_clean();
 	  echo "  ";
-?>
 
-<?php
 	  $file_to_parse=$filename;
 	}
-      // Create a directory 
-      $l_dir=$_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$dirname;
-      mkdir ($l_dir);
 
-      // we need to rename the new generated file
-      rename($dirname.DIRECTORY_SEPARATOR.$file_to_parse,$_SERVER['DOCUMENT_ROOT'].$dirname.DIRECTORY_SEPARATOR.$file_to_parse);
-      $this->SaveGenerated($_SERVER['DOCUMENT_ROOT'].$dirname.DIRECTORY_SEPARATOR.$file_to_parse);
+      $this->SaveGenerated($dirname.DIRECTORY_SEPARATOR.$file_to_parse);
       // Invoice
       $ret='<A class="mtitle" HREF="show_document.php?d_id='.$this->d_id.'&'.dossier::get().'">Document g&eacute;n&eacute;r&eacute;</A>';
+      rmdir($dirname);
       return $ret;
     }
     
@@ -152,7 +148,6 @@ class Document
    */
   function ParseDocument($p_dir,$p_file,$p_type)
     {
-
       
       /*!\note Replace in the doc the tags by their values.
        *  - MY_*   table parameter
@@ -178,9 +173,9 @@ class Document
       $output_name=tempnam($temp_dir,"gen_doc_");
       $output_file=fopen($output_name,"w+");
       // check if the opening is sucessfull
-      if (  $h == false ) 
+      if (  $h === false ) 
 	{
-	  echo "cannot open $p_dir $p_file ";
+	  echo __FILE__.":".__LINE__."cannot open $p_dir $p_file ";
 	  exit();
 	}
       if ( $output_file == false) 
@@ -243,8 +238,8 @@ class Document
 
 	}
       fclose($h);
-      fclose($output_file);
-      if ( ($ret=rename ($output_name,$infile_name)) == FALSE ){
+      fclose($output_file);	
+      if ( ($ret=copy ($output_name,$infile_name)) == FALSE ){
 	echo _('Ne peut pas sauver '.$output_name.' vers '.$infile_name.' code d\'erreur ='.$ret);
       }
 
@@ -263,7 +258,7 @@ class Document
       $doc=new Document($this->db);
       $this->db->start();
       $this->d_lob=$this->db->lo_import($p_file);
-      if ( $this->d_lob == false ) { 
+      if ( $this->d_lob == false ) { echo "ne peut pas importer [$p_file]";
 	return 1; }
     
       $sql="insert into document(ag_id,d_lob,d_number,d_filename,d_mimetype) 
@@ -987,10 +982,9 @@ class Document
    */
   function MoveDocumentPj($p_internal)
     {
-
-      $sql=sprintf("update jrn set jr_pj=%s,jr_pj_name='%s',jr_pj_type='%s' where jr_internal='%s'",
-		   $this->d_lob,$this->d_filename,$this->d_mimetype,$p_internal);
-      $this->db->exec_sql($sql);
+      $sql="update jrn set jr_pj=$1,jr_pj_name=$2,jr_pj_type=$3 where jr_internal=$4";
+		   
+      $this->db->exec_sql($sql,array($this->d_lob,$this->d_filename,$this->d_mimetype,$p_internal));
       // clean the table document
       $sql='delete from document where d_id='.$this->d_id;
       $this->db->exec_sql($sql);

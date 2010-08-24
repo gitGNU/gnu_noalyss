@@ -29,8 +29,8 @@ require_once('constant.security.php');
 global $version_phpcompta;
 $version_phpcompta=9000;
 /* set to none for production */
-error_reporting (E_ALL|E_STRICT);
-//$version_phpcompta=SVNINFO;
+
+error_reporting (15);
 
 define ("DBVERSION",88);
 define ("DBVERSIONREPO",12);
