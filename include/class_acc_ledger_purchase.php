@@ -937,7 +937,9 @@ array
        // name of the field to update with the name of the card
       $W1->set_attribute('label','e_march'.$i.'_label');
       // name of the field with the price
-      $W1->set_attribute('purchase','e_march'.$i.'_price');
+      $W1->set_attribute('purchase','e_march'.$i.'_price'); /* autocomplete */
+      $W1->set_attribute('price','e_march'.$i.'_price');    /* via search */
+      
       // name of the field with the TVA_ID
       $W1->set_attribute('tvaid','e_march'.$i.'_tva_id');
       // Add the callback function to filter the card on the jrn

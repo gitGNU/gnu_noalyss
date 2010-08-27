@@ -116,8 +116,8 @@ function successFid(request,json) {
   
   if ( ftva_id != 'none') { set_value(ftva_id,answer.tva_id);}
   if ( flabel != 'none') { set_value(flabel,answer.name);}
-  if ( fpurchase != 'none') { set_value(fpurchase,answer.buy);}
   if ( fsale != 'none') { set_value(fsale,answer.sell);}
+  if ( fpurchase != 'none') { set_value(fpurchase,answer.buy);}
 
   
 }
