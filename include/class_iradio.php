@@ -1,3 +1,4 @@
+
 <?php
 /*
  *   This file is part of PhpCompta.
@@ -36,6 +37,7 @@ require_once('class_html_input.php');
 		$check=( $this->selected==true||$this->selected=='t' )?"checked":"unchecked";
 		$r='<input type="RADIO" name="'.$this->name.'"';
 		$r.=" VALUE=\"$this->value\"";
+		$r.=($this->javascript !='')? 'onclick="'.$this->javascript.'"':'';
 		$r.="  $check > ";
 		return $r;
 	}

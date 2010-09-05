@@ -3,5 +3,5 @@ SELECT
 FROM 
   information_schema.columns
 WHERE 
- columns.table_name='operation';
+ columns.table_name='bank';
 
