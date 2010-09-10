@@ -53,19 +53,19 @@ require_once('class_html_input.php');
 	static function tooggle_checkbox($p_form) {
 	  $select_all=new IButton('select_all');
 	  $select_all->label=_('Inverser la sélection');
-	  $select_all->javascript="toggle_checkbox($p_form)";
+	  $select_all->javascript="toggle_checkbox('$p_form')";
 	  return $select_all->input();
 	}
 	static function select_checkbox($p_form) {
 	  $select_all=new IButton('select_all');
 	  $select_all->label=_('Cocher tous');
-	  $select_all->javascript="select_checkbox($p_form)";
+	  $select_all->javascript="select_checkbox('$p_form')";
 	  return $select_all->input();
 	}
 	static function unselect_checkbox($p_form) {
 	  $select_all=new IButton('select_all');
 	  $select_all->label=_('Décocher tous');
-	  $select_all->javascript="unselect_checkbox($p_form)";
+	  $select_all->javascript="unselect_checkbox('$p_form')";
 	  return $select_all->input();
 	}
 	static function show_calc() {
