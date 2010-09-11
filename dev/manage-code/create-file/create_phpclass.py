@@ -376,10 +376,14 @@ require_once('ac_common.php');
 /**
  *@brief Manage the view @table@
 */
-class @class_name@ 
+class @class_name@
+{
   /* example private $variable=array("easy_name"=>column_name,"email"=>"column_name_email","val3"=>0); */
   
   protected $variable=array(@column_array@);
+  function __construct ($p_cn) {
+        $this->cn=$p_cn;
+  }
 
 
 /**
