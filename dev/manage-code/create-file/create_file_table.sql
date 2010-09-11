@@ -3,5 +3,6 @@ SELECT
 FROM 
   information_schema.columns
 WHERE 
- columns.table_name='bank';
+ columns.table_schema='syndicat'
+ and columns.table_name='vw_historic';
 

@@ -19,6 +19,7 @@ def help():
     option are -h for help
                -f input file containing the structure
                -c create the code for a child class
+               -v create the code for a view (so only load and seek)
     The input file contains :
     first  line class name : mother class separator : (optionnal)
     second line table name
@@ -28,12 +29,12 @@ def help():
     """
 def main():
     try:
-        opts,args=getopt.getopt(sys.argv[1:],'cf:h',['child','file','help'])
+        opts,args=getopt.getopt(sys.argv[1:],'cf:hv',['child','file','help','view'])
     except getopt.GetOptError, err:
         print str(err)
         help()
         sys.exit(-1)
-    filein='';child=False
+    filein='';child=False;view=False
     for option,value in opts:
         if option in ('-f','--file'):
             filein=value
@@ -42,6 +43,8 @@ def main():
             sys.exit(-1)
         elif option in ('-c','--child'):
             child=True
+        elif option in ('-v','--view'):
+            view=True
     if filein=='' :
         help()
         sys.exit(-2)
@@ -356,6 +359,78 @@ $cn->rollback();
 @class_name@::test_me();
 
 """
+    sView="""<?php
+/**
+ *@file
+ *@brief Manage the view @table@
+ *
+ *
+Example
+@code
+
+@endcode
+ */
+require_once('class_database.php');
+require_once('ac_common.php');
+
+/**
+ *@brief Manage the view @table@
+*/
+class @class_name@ 
+  /* example private $variable=array("easy_name"=>column_name,"email"=>"column_name_email","val3"=>0); */
+  
+  protected $variable=array(@column_array@);
+
+
+/**
+ *@brief load a object
+ *@return 0 on success -1 the object is not found
+ */
+  public function load($cond,$array=null) {
+
+   $sql="select @column_select@ from @table@ $cond"; 
+    /* please adapt */
+    $res=$this->cn->get_array(
+		 $sql,
+		 $array
+		 );
+		 
+    if ( count($res) == 0 ) {
+          /* Initialize an empty object */
+          foreach ($this->variable as $key=>$value) $this->$key='';
+
+          return -1;
+          }
+    foreach ($res[0] as $idx=>$value) { $this->$idx=$value; }
+    return 0;
+  }
+  /**
+   *@brief retrieve array of object thanks a condition
+   *@param $cond condition (where clause) (optional by default all the rows are fetched)
+   * you can use this parameter for the order or subselect
+   *@param $p_array array for the SQL stmt
+   *@see Database::get_array
+   *@return an empty array if nothing is found
+   */
+   public function seek($cond='',$p_array=null) 
+   {
+     $sql="select * from @table@  $cond";
+     $aobj=array();
+     $array= $this->cn->get_array($sql,$p_array);
+     // map each row in a object
+     $size=$this->cn->count();
+     if ( $size == 0 ) return $aobj;
+     for ($i=0;$i<$size;$i++) {
+         $oobj=new @class_name@ ($this->cn);
+         foreach ($array[$i] as $idx=>$value) { $oobj->$idx=$value; }
+         $aobj[]=clone $oobj;
+     }
+     return $aobj;
+   }
+}
+
+
+"""
 
     # read the file
     try :
@@ -435,7 +510,41 @@ $cn->rollback();
                    if col_type in ('date',' timestamp without time zone','timestamp with time zone'):
                        verify_data_type+=" if (isDate($this->"+col_id+") == null )\n \
             throw new Exception('DATATYPE "+col_id+" $this->"+col_id+" date invalide');\n"
-        if  child == False :
+        if  child == True :
+            sChild=sChild.replace('@id@',id)
+            sChild=sChild.replace('@table@',table)
+            sChild=sChild.replace('@class_name@',class_name)
+            sChild=sChild.replace('@column_noid@',column_noid)
+            sChild=sChild.replace('@column_array@',column_array)
+            sChild=sChild.replace('@sql_update@',sql_update)
+            sChild=sChild.replace('@column_comma@',column_comma)
+            sChild=sChild.replace('@column_this@',column_this)
+            sChild=sChild.replace('@column_this_id@',column_this_id)	
+            sChild=sChild.replace('@verify_data_type@',verify_data_type)
+            sChild=sChild.replace('@column_select@',column_select)
+            sChild=sChild.replace('@column_insert@',column_insert)
+            sChild=sChild.replace('@mother_name@',mother_name)
+            sChild=sChild.replace('@mother_class@',mother_class)            
+            sChild=sChild.replace('@column_insert_id@',column_insert_id)
+            fileoutput.writelines(sChild)
+        elif view == True:
+            sView=sView.replace('@id@',id)
+            sView=sView.replace('@table@',table)
+            sView=sView.replace('@class_name@',class_name)
+            sView=sView.replace('@column_noid@',column_noid)
+            sView=sView.replace('@column_array@',column_array)
+            sView=sView.replace('@sql_update@',sql_update)
+            sView=sView.replace('@column_comma@',column_comma)
+            sView=sView.replace('@column_this@',column_this)
+            sView=sView.replace('@column_this_id@',column_this_id)	
+            sView=sView.replace('@verify_data_type@',verify_data_type)
+            sView=sView.replace('@column_select@',column_select)
+            sView=sView.replace('@column_insert@',column_insert)
+            sView=sView.replace('@mother_name@',mother_name)
+            sView=sView.replace('@mother_class@',mother_class)            
+            sView=sView.replace('@column_insert_id@',column_insert_id)
+            fileoutput.writelines(sView)
+        else:
             sParent=sParent.replace('@id@',id)
             sParent=sParent.replace('@table@',table)
             sParent=sParent.replace('@class_name@',class_name)
@@ -451,23 +560,6 @@ $cn->rollback();
             sParent=sParent.replace('@column_insert_id@',column_insert_id)
             sParent=sParent.replace('@mother_class@',mother_class)
             fileoutput.writelines(sParent)
-        else:
-            sChild=sChild.replace('@id@',id)
-            sChild=sChild.replace('@table@',table)
-            sChild=sChild.replace('@class_name@',class_name)
-            sChild=sChild.replace('@column_noid@',column_noid)
-            sChild=sChild.replace('@column_array@',column_array)
-            sChild=sChild.replace('@sql_update@',sql_update)
-            sChild=sChild.replace('@column_comma@',column_comma)
-            sChild=sChild.replace('@column_this@',column_this)
-            sChild=sChild.replace('@column_this_id@',column_this_id)	
-            sChild=sChild.replace('@verify_data_type@',verify_data_type)
-            sChild=sChild.replace('@column_select@',column_select)
-            sChild=sChild.replace('@column_insert@',column_insert)
-            sChild=sChild.replace('@mother_name@',mother_name)
-            sChild=sChild.replace('@mother_class@',mother_class)            
-            Child=sChild.replace('@column_insert_id@',column_insert_id)
-            fileoutput.writelines(sChild)
 
     except :
         print "error "
