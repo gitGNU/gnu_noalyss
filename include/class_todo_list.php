@@ -26,7 +26,7 @@
 
 require_once('function_javascript.php');
 
-/*!\brief 
+/*!\brief
  * This class manages the table todo_list
  *
  *
@@ -43,172 +43,214 @@ require_once('function_javascript.php');
 class Todo_List
 {
 
-  private static $variable=array(
-				 "id"=>"tl_id",
-				 "date"=>"tl_date",
-				 "title"=>"tl_title",
-				 "desc"=>"tl_desc",
-				 "owner"=>"use_login");
-  private $cn;
-  private  $tl_id,$tl_date,$tl_title,$use_login;
-				 
-  function __construct ($p_init) {
-    $this->cn=$p_init;
-    $this->tl_id=0;
-    $this->tl_desc="";
-    $this->use_login=$_SESSION['g_user'];
+    private static $variable=array(
+                                 "id"=>"tl_id",
+                                 "date"=>"tl_date",
+                                 "title"=>"tl_title",
+                                 "desc"=>"tl_desc",
+                                 "owner"=>"use_login");
+    private $cn;
+    private  $tl_id,$tl_date,$tl_title,$use_login;
 
-  }
-  public function get_parameter($p_string) {
-    if ( array_key_exists($p_string,self::$variable) ) {
-      $idx=self::$variable[$p_string];
-      return $this->$idx;
+    function __construct ($p_init)
+    {
+        $this->cn=$p_init;
+        $this->tl_id=0;
+        $this->tl_desc="";
+        $this->use_login=$_SESSION['g_user'];
+
     }
-    else 
-      exit (__FILE__.":".__LINE__.'Erreur attribut inexistant');
-  }
-  public function check($p_idx,&$p_value) {
-	if ( strcmp ($p_idx, 'tl_id') == 0 ) { if ( strlen($p_value) > 6 || isNumber ($p_value) == false) return false;}
-	if ( strcmp ($p_idx, 'tl_date') == 0 ) { if ( strlen(trim($p_value)) ==0 ||strlen($p_value) > 12 || isDate ($p_value) == false) return false;}
-	if ( strcmp ($p_idx, 'tl_title') == 0 ) { 
-	  $p_value=substr($p_value,0,120) ;
-	  return true;
-	}
-	if ( strcmp ($p_idx, 'tl_desc') == 0 ) { $p_value=substr($p_value,0,400) ; return true;}
-	return true;
-  }
-  public function set_parameter($p_string,$p_value) {
-    if ( array_key_exists($p_string,self::$variable) ) {
-      $idx=self::$variable[$p_string];
-      if ($this->check($idx,$p_value) == true )      $this->$idx=$p_value;
+    public function get_parameter($p_string)
+    {
+        if ( array_key_exists($p_string,self::$variable) )
+        {
+            $idx=self::$variable[$p_string];
+            return $this->$idx;
+        }
+        else
+            exit (__FILE__.":".__LINE__.'Erreur attribut inexistant');
     }
-    else 
-      exit (__FILE__.":".__LINE__.'Erreur attribut inexistant');
-    
-    
-  }
-  public function get_info() {    return var_export(self::$variable,true);  }
-  public function verify() {
-    if ( isDate($this->tl_date) == false ) {
-      alert('Date est invalide');
-      return 1;
+    public function check($p_idx,&$p_value)
+    {
+        if ( strcmp ($p_idx, 'tl_id') == 0 )
+        {
+            if ( strlen($p_value) > 6 || isNumber ($p_value) == false) return false;
+        }
+        if ( strcmp ($p_idx, 'tl_date') == 0 )
+        {
+            if ( strlen(trim($p_value)) ==0 ||strlen($p_value) > 12 || isDate ($p_value) == false) return false;
+        }
+        if ( strcmp ($p_idx, 'tl_title') == 0 )
+        {
+            $p_value=substr($p_value,0,120) ;
+            return true;
+        }
+        if ( strcmp ($p_idx, 'tl_desc') == 0 )
+        {
+            $p_value=substr($p_value,0,400) ;
+            return true;
+        }
+        return true;
     }
-    return 0;
-  }
-  public function save() {
-    if (  $this->get_parameter("id") == 0 ) 
-      $this->insert();
-    else
-      $this->update();
-  }
+    public function set_parameter($p_string,$p_value)
+    {
+        if ( array_key_exists($p_string,self::$variable) )
+        {
+            $idx=self::$variable[$p_string];
+            if ($this->check($idx,$p_value) == true )      $this->$idx=$p_value;
+        }
+        else
+            exit (__FILE__.":".__LINE__.'Erreur attribut inexistant');
 
-  public function insert() {
-    if ( $this->verify() != 0 ) return;
-    if (trim($this->tl_title)=='')
-      $this->tl_title=substr(trim($this->tl_desc),0,40);
-                
-    if (trim($this->tl_title)=='') {alert('La note est vide');return;}
 
-    /*  limit the title to 35 char */
-      $this->tl_title=substr(trim($this->tl_desc),0,40);
+    }
+    public function get_info()
+    {
+        return var_export(self::$variable,true);
+    }
+    public function verify()
+    {
+        if ( isDate($this->tl_date) == false )
+        {
+            alert('Date est invalide');
+            return 1;
+        }
+        return 0;
+    }
+    public function save()
+    {
+        if (  $this->get_parameter("id") == 0 )
+            $this->insert();
+        else
+            $this->update();
+    }
 
-    $sql="insert into todo_list (tl_date,tl_title,tl_desc,use_login) ".
-      " values (to_date($1,'DD.MM.YYYY'),$2,$3,$4)  returning tl_id";
-    $res=$this->cn->exec_sql(
-		 $sql,
-		 array($this->tl_date,
-		       $this->tl_title,
-		       $this->tl_desc,
-		       $this->use_login)
-		 );
-    $this->tl_id=Database::fetch_result($res,0,0);
-    
-  }
+    public function insert()
+    {
+        if ( $this->verify() != 0 ) return;
+        if (trim($this->tl_title)=='')
+            $this->tl_title=substr(trim($this->tl_desc),0,40);
 
-  public function update() {
-    if ( $this->verify() != 0 ) return;
+        if (trim($this->tl_title)=='')
+        {
+            alert('La note est vide');
+            return;
+        }
 
-    if (trim($this->tl_title)=='')
-      $this->tl_title=substr(trim($this->tl_desc),0,40);
+        /*  limit the title to 35 char */
+        $this->tl_title=substr(trim($this->tl_desc),0,40);
 
-    if (trim($this->tl_title)=='') {alert('La note est vide');return;}
+        $sql="insert into todo_list (tl_date,tl_title,tl_desc,use_login) ".
+             " values (to_date($1,'DD.MM.YYYY'),$2,$3,$4)  returning tl_id";
+        $res=$this->cn->exec_sql(
+                 $sql,
+                 array($this->tl_date,
+                       $this->tl_title,
+                       $this->tl_desc,
+                       $this->use_login)
+             );
+        $this->tl_id=Database::fetch_result($res,0,0);
 
-    /*  limit the title to 35 char */
-      $this->tl_title=substr(trim($this->tl_desc),0,40);
+    }
 
-    $sql="update todo_list set tl_title=$1,tl_date=to_date($2,'DD.MM.YYYY'),tl_desc=$3 ".
-      " where tl_id = $4";
-    $res=$this->cn->exec_sql(
-		 $sql,
-		 array($this->tl_title,
-		       $this->tl_date,
-		       $this->tl_desc,
-		       $this->tl_id)
-		 );
-		 
-  }
-  /*!\brief load all the task
-   *\return an array of the existing tasks of the current user
-   */
-  public function load_all() {
-    $sql="select tl_id, tl_title,tl_desc,to_char( tl_date,'DD.MM.YYYY') as tl_date 
-from todo_list where use_login=$1".
-      " order by tl_date::date asc";
-    $res=$this->cn->exec_sql(
-		      $sql,
-		      array($this->use_login));	
-    $array=Database::fetch_all($res);
-    return $array;	   
-  }
-  public function load() {
+    public function update()
+    {
+        if ( $this->verify() != 0 ) return;
 
-   $sql="select tl_id,tl_title,tl_desc,to_char( tl_date,'DD.MM.YYYY') as tl_date
-from todo_list where tl_id=$1"; 
+        if (trim($this->tl_title)=='')
+            $this->tl_title=substr(trim($this->tl_desc),0,40);
 
-    $res=$this->cn->exec_sql(
-		 $sql,
-		 array($this->tl_id)
-		 );
+        if (trim($this->tl_title)=='')
+        {
+            alert('La note est vide');
+            return;
+        }
 
-    if ( Database::num_row($res) == 0 ) return;
-    $row=Database::fetch_array($res,0);
-    foreach ($row as $idx=>$value) { $this->$idx=$value; }
-  }
-  public function delete() {
-    $sql="delete from todo_list where tl_id=$1"; 
-    $res=$this->cn->exec_sql($sql,array($this->tl_id));
+        /*  limit the title to 35 char */
+        $this->tl_title=substr(trim($this->tl_desc),0,40);
 
-  }
-  /**
-   *@brief transform into xml
-   */
-  public function toXML() {
-    $id='<tl_id>'.$this->tl_id.'</tl_id>';
-    $title='<tl_title>'.escape_xml($this->tl_title).'</tl_title>';
-    $desc='<tl_desc>'.escape_xml($this->tl_desc).'</tl_desc>';
-    $date='<tl_date>'.$this->tl_date.'</tl_date>';
-    $ret='<data>'.$id.$title.$desc.$date.'</data>';
-    return $ret;
-  }
-  /*!\brief static testing function
-   */
-  static function test_me() {
-    $cn=new Database(dossier::id());
-    $r=new Todo_List($cn);
-    $r->set_parameter('title','test');
-    $r->use_login='phpcompta';
-    $r->set_parameter('date','02.03.2008');
-    $r->save();
-    $r->set_parameter('id',3);
-    $r->load();
-    print_r($r);
-    $r->set_parameter('title','Test UPDATE');
-    $r->save();
-    print_r($r);
-    $r->set_parameter('id',1);
-    $r->delete();
-  }
-  
+        $sql="update todo_list set tl_title=$1,tl_date=to_date($2,'DD.MM.YYYY'),tl_desc=$3 ".
+             " where tl_id = $4";
+        $res=$this->cn->exec_sql(
+                 $sql,
+                 array($this->tl_title,
+                       $this->tl_date,
+                       $this->tl_desc,
+                       $this->tl_id)
+             );
+
+    }
+    /*!\brief load all the task
+     *\return an array of the existing tasks of the current user
+     */
+    public function load_all()
+    {
+        $sql="select tl_id, tl_title,tl_desc,to_char( tl_date,'DD.MM.YYYY') as tl_date
+             from todo_list where use_login=$1".
+             " order by tl_date::date asc";
+        $res=$this->cn->exec_sql(
+                 $sql,
+                 array($this->use_login));
+        $array=Database::fetch_all($res);
+        return $array;
+    }
+    public function load()
+    {
+
+        $sql="select tl_id,tl_title,tl_desc,to_char( tl_date,'DD.MM.YYYY') as tl_date
+             from todo_list where tl_id=$1";
+
+        $res=$this->cn->exec_sql(
+                 $sql,
+                 array($this->tl_id)
+             );
+
+        if ( Database::num_row($res) == 0 ) return;
+        $row=Database::fetch_array($res,0);
+        foreach ($row as $idx=>$value)
+        {
+            $this->$idx=$value;
+        }
+
+    }
+    public function delete()
+    {
+        $sql="delete from todo_list where tl_id=$1";
+        $res=$this->cn->exec_sql($sql,array($this->tl_id));
+
+    }
+    /**
+     *@brief transform into xml
+     */
+    public function toXML()
+    {
+        $id='<tl_id>'.$this->tl_id.'</tl_id>';
+        $title='<tl_title>'.escape_xml($this->tl_title).'</tl_title>';
+        $desc='<tl_desc>'.escape_xml($this->tl_desc).'</tl_desc>';
+        $date='<tl_date>'.$this->tl_date.'</tl_date>';
+        $ret='<data>'.$id.$title.$desc.$date.'</data>';
+        return $ret;
+    }
+    /*!\brief static testing function
+     */
+    static function test_me()
+    {
+        $cn=new Database(dossier::id());
+        $r=new Todo_List($cn);
+        $r->set_parameter('title','test');
+        $r->use_login='phpcompta';
+        $r->set_parameter('date','02.03.2008');
+        $r->save();
+        $r->set_parameter('id',3);
+        $r->load();
+        print_r($r);
+        $r->set_parameter('title','Test UPDATE');
+        $r->save();
+        print_r($r);
+        $r->set_parameter('id',1);
+        $r->delete();
+    }
+
 }
 
 

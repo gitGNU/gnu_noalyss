@@ -30,7 +30,7 @@
  */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
- 
+
 include_once("ac_common.php");
 require_once('class_database.php');
 include_once("class_acc_balance.php");
@@ -50,23 +50,26 @@ $User->can_request(IMPBAL,1);
 
 extract ($_GET);
 $bal->jrn=null;
-switch( $_GET['p_filter']){
+switch( $_GET['p_filter'])
+{
 case 0:
-  $bal->jrn=null;
-  break;
+        $bal->jrn=null;
+    break;
 case 1:
-  if (  isset($_GET['r_jrn'])) {
-    $selected=$_GET['r_jrn'];
-    $array_ledger=$User->get_ledger('ALL',3);
-    for ($e=0;$e<count($array_ledger);$e++){
-      if (isset ($selected[$e]))
-	$bal->jrn[]=$array_ledger[$e]['jrn_def_id'];
+    if (  isset($_GET['r_jrn']))
+    {
+        $selected=$_GET['r_jrn'];
+        $array_ledger=$User->get_ledger('ALL',3);
+        for ($e=0;$e<count($array_ledger);$e++)
+        {
+            if (isset ($selected[$e]))
+                $bal->jrn[]=$array_ledger[$e]['jrn_def_id'];
+        }
     }
-  }
-  break;
+    break;
 case 2:
-  if ( isset($_GET['r_cat']))   $bal->filter_cat($_GET['r_cat']);
-  break;
+    if ( isset($_GET['r_cat']))   $bal->filter_cat($_GET['r_cat']);
+    break;
 }
 
 $bal->from_poste=$_GET['from_poste'];
@@ -74,10 +77,11 @@ $bal->to_poste=$_GET['to_poste'];
 
 $array=$bal->get_row($from_periode,$to_periode);
 
-if ( sizeof($array)  == 0 ) {
-  exit();
-  
- }
+if ( sizeof($array)  == 0 )
+{
+    exit();
+
+}
 
 $pPeriode=new Periode($cn);
 $a=$pPeriode->get_date_limit($from_periode);
@@ -97,27 +101,34 @@ $pdf->Cell(20,6,'Solde Créditeur',0,0,'R');
 $pdf->Ln();
 
 $pdf->SetFont('DejaVuCond','',8);
-$tp_deb=0;$tp_cred=0;$tp_sold=0;$tp_solc=0;
-for ($i=0;$i<count($array);$i++){
-  if ( $i % 2 == 0 ) {
-    $pdf->SetFillColor(220,221,255);
-    $fill=1;
-  } else {
-    $pdf->SetFillColor(0,0,0);
-    $fill=0;
-  }
-  if ( ! isset($array[$i]))continue;
-  $pdf->Cell(30,6,$array[$i]['poste'],0,0,'L',$fill);
-  $pdf->Cell(80,6,$array[$i]['label'],0,0,'L',$fill);
-  $pdf->Cell(20,6,$array[$i]['sum_deb'],0,0,'R',$fill);
-  $pdf->Cell(20,6,$array[$i]['sum_cred'],0,0,'R',$fill);
-  $pdf->Cell(20,6,$array[$i]['solde_deb'],0,0,'R',$fill);
-  $pdf->Cell(20,6,$array[$i]['solde_cred'],0,0,'R',$fill);
-  $pdf->Ln();
-  $tp_deb+=$array[$i]['sum_deb'];
-  $tp_cred+=$array[$i]['sum_cred'];
-  $tp_sold+=$array[$i]['solde_deb'];
-  $tp_solc+=$array[$i]['solde_cred'];
+$tp_deb=0;
+$tp_cred=0;
+$tp_sold=0;
+$tp_solc=0;
+for ($i=0;$i<count($array);$i++)
+{
+    if ( $i % 2 == 0 )
+    {
+        $pdf->SetFillColor(220,221,255);
+        $fill=1;
+    }
+    else
+    {
+        $pdf->SetFillColor(0,0,0);
+        $fill=0;
+    }
+    if ( ! isset($array[$i]))continue;
+    $pdf->Cell(30,6,$array[$i]['poste'],0,0,'L',$fill);
+    $pdf->Cell(80,6,$array[$i]['label'],0,0,'L',$fill);
+    $pdf->Cell(20,6,$array[$i]['sum_deb'],0,0,'R',$fill);
+    $pdf->Cell(20,6,$array[$i]['sum_cred'],0,0,'R',$fill);
+    $pdf->Cell(20,6,$array[$i]['solde_deb'],0,0,'R',$fill);
+    $pdf->Cell(20,6,$array[$i]['solde_cred'],0,0,'R',$fill);
+    $pdf->Ln();
+    $tp_deb+=$array[$i]['sum_deb'];
+    $tp_cred+=$array[$i]['sum_cred'];
+    $tp_sold+=$array[$i]['solde_deb'];
+    $tp_solc+=$array[$i]['solde_cred'];
 
 }
 // Totaux

@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -49,28 +49,29 @@ echo '</FORM>';
 
 
 
-if ( isset($_GET['verif'])) {
-  echo '<h2> Etape 2 :Impression </h2>';
+if ( isset($_GET['verif']))
+{
+    echo '<h2> Etape 2 :Impression </h2>';
 
-  $bilan->get_request_get();
-  $bilan->verify();
+    $bilan->get_request_get();
+    $bilan->verify();
 
-  echo '<FORM METHOD="GET" ACTION="bilan.php">';
-  echo dossier::hidden();
-  echo HtmlInput::hidden('b_id',$_GET['b_id']);
+    echo '<FORM METHOD="GET" ACTION="bilan.php">';
+    echo dossier::hidden();
+    echo HtmlInput::hidden('b_id',$_GET['b_id']);
 
-  echo HtmlInput::hidden('from_periode',$bilan->from);
-  echo HtmlInput::hidden('to_periode',$bilan->to);
-  echo HtmlInput::submit('Impression','Impression');
-  echo '</form>';
+    echo HtmlInput::hidden('from_periode',$bilan->from);
+    echo HtmlInput::hidden('to_periode',$bilan->to);
+    echo HtmlInput::submit('Impression','Impression');
+    echo '</form>';
 
- }
+}
 echo _('<span class="notice"> Attention : si le bilan n\'est pas équilibré.<br> Vérifiez <ul>
-<li>L\'affectation du résultat est fait</li>
-<li>Vos comptes actifs ont  un solde débiteur (sauf les comptes dit inversés)</li> 
-<li> les comptes passifs ont un solde créditeur (sauf les comptes dit inversés) </li>
-</ul> 
-Utilisez la balance des comptes pour vérifier. </span>');
+       <li>L\'affectation du résultat est fait</li>
+       <li>Vos comptes actifs ont  un solde débiteur (sauf les comptes dit inversés)</li>
+       <li> les comptes passifs ont un solde créditeur (sauf les comptes dit inversés) </li>
+       </ul>
+       Utilisez la balance des comptes pour vérifier. </span>');
 
 echo '</div>';
 ?>

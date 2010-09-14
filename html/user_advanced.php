@@ -52,7 +52,7 @@ echo $search_card->input();
 
 
 // We don't check permissions here in fact, permission are tested in the
-// functions 
+// functions
 
 // Show the top menus
 include_once ("user_menu.php");
@@ -65,61 +65,67 @@ $p_action="";
 
 
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:"";
-switch ($p_action) {
+switch ($p_action)
+{
 case 'preod':
-  $high=9;
-  break;
+    $high=9;
+    break;
 case 'periode';
-$high=2;
-break;
+    $high=2;
+    break;
 case 'verif';
-$high=10;
-break;
+    $high=10;
+    break;
 case 'defreport':
-  $high=6;
-  break;
+    $high=6;
+    break;
 case 'ouv':
-  $high=8;
-  break;
+    $high=8;
+    break;
 default:
-   $high=0;
-   
- }
+    $high=0;
+
+}
 echo ShowMenuAdvanced($high);
 
-if ($p_action == "periode" ) {
+if ($p_action == "periode" )
+{
 
-  if ( $User->check_action(PARPER) == 0 && $User->check_action(PARCLO) == 0 )
-    NoAccess();
-    
-  $p_action=$_REQUEST['p_action'];
-  include_once("periode.inc.php");
+    if ( $User->check_action(PARPER) == 0 && $User->check_action(PARCLO) == 0 )
+        NoAccess();
+
+    $p_action=$_REQUEST['p_action'];
+    include_once("periode.inc.php");
 }
 //--------------------------------------------------
 // Predefined operation
 //--------------------------------------------------
 
-if ($p_action=="preod") {
-  require_once('preod.inc.php');
+if ($p_action=="preod")
+{
+    require_once('preod.inc.php');
 
-  exit();
- }
+    exit();
+}
 //----------------------------------------------------------------------
 // Verification solde
 //----------------------------------------------------------------------
-if ( $p_action=='verif' ) {
-  require_once ('verif_bilan.inc.php');
-  exit();
- }
+if ( $p_action=='verif' )
+{
+    require_once ('verif_bilan.inc.php');
+    exit();
+}
 
-if ($p_action=='defreport') {
-  require_once('report.inc.php');
+if ($p_action=='defreport')
+{
+    require_once('report.inc.php');
 }
 /* --------------------------------------------------
 Import writing (opening exercice)
 -------------------------------------------------- */
-if ( $p_action == 'ouv') {
-  require_once('opening.inc.php');
+if ( $p_action == 'ouv')
+{
+    require_once('opening.inc.php');
 }
 html_page_stop();
 ?>

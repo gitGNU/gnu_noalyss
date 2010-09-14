@@ -18,7 +18,7 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/*! \file 
+/*! \file
  * \brief send a Bilan in RTF format
  */
 include_once("ac_common.php");
@@ -48,23 +48,23 @@ $bilan->load();
 /*\!bug the headers shouldn't be sent here, but it doesn't work
  * a html header is send before, to fix asap */
 if ( $bilan->b_type=='odt')
-  {
-	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-	header("Cache-Control: must-revalidate");
-	header('Content-type: application/vnd.oasis.opendocument.text');
-	header('Content-Disposition: attachment;filename="'.$bilan->b_name.'.odt"',FALSE);
-	header("Accept-Ranges: bytes");
+{
+    header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+    header("Cache-Control: must-revalidate");
+    header('Content-type: application/vnd.oasis.opendocument.text');
+    header('Content-Disposition: attachment;filename="'.$bilan->b_name.'.odt"',FALSE);
+    header("Accept-Ranges: bytes");
 
-  }
+}
 if ( $bilan->b_type=='ods')
-  {
-	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-	header("Cache-Control: must-revalidate");
-	header('Content-type: application/vnd.oasis.opendocument.spreadsheet');
-	header('Content-Disposition: attachment;filename="'.$bilan->b_name.'.ods"',FALSE);
-	header("Accept-Ranges: bytes");
+{
+    header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+    header("Cache-Control: must-revalidate");
+    header('Content-type: application/vnd.oasis.opendocument.spreadsheet');
+    header('Content-Disposition: attachment;filename="'.$bilan->b_name.'.ods"',FALSE);
+    header("Accept-Ranges: bytes");
 
-  }
+}
 
 $bilan->generate();
 ?>

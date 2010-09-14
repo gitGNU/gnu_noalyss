@@ -40,9 +40,10 @@ require_once('function_javascript.php');
 $cn=new Database(dossier::id());
 $user=new User($cn);
 $user->Check();
-if ( $user->check_dossier(dossier::id()) == 'P') {
-	redirect("extension.php?".dossier::get(),0);
-	exit();
+if ( $user->check_dossier(dossier::id()) == 'P')
+{
+    redirect("extension.php?".dossier::get(),0);
+    exit();
 }
 
 html_page_start($_SESSION['g_theme']);
@@ -50,42 +51,46 @@ load_all_script();
 /*  Check Browser version if < IE6 then unsupported */
 $browser=$_SERVER['HTTP_USER_AGENT'];
 if ( strpos($browser,'MSIE 6')!=false ||
-     strpos($browser,'MSIE 5')!=false ) {
+        strpos($browser,'MSIE 5')!=false )
+{
 
 
-echo <<<EOF
+    echo <<<EOF
     <!--[if lt IE 7]>
-  <div style='border: 1px solid #F7941D; background: #FEEFDA; text-align: center; clear: both; height: 75px; position: relative;'>
-    <div style='position: absolute; right: 3px; top: 3px; font-family: courier new; font-weight: bold;'><a href='#' onclick='javascript:this.parentNode.parentNode.style.display="none"; return false;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-cornerx.jpg' style='border: none;' alt='Close this notice'/></a></div>
-    <div style='width: 640px; margin: 0 auto; text-align: left; padding: 0; overflow: hidden; color: black;'>
-      <div style='width: 75px; float: left;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-warning.jpg' alt='Warning!'/></div>
-      <div style='width: 275px; float: left; font-family: Arial, sans-serif;'>
-        <div style='font-size: 14px; font-weight: bold; margin-top: 12px;'>Vous utilisez un navigateur dépassé depuis près de 8 ans!</div>
-        <div style='font-size: 12px; margin-top: 6px; line-height: 12px;'>Pour une meilleure expérience web, prenez le temps de mettre votre navigateur à jour.</div>
-      </div>
-      <div style='width: 75px; float: left;'><a href='http://fr.www.mozilla.com/fr/' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-firefox.jpg' style='border: none;' alt='Get Firefox 3.5'/></a></div>
-      <div style='width: 73px; float: left;'><a href='http://www.apple.com/fr/safari/download/' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-safari.jpg' style='border: none;' alt='Get Safari 4'/></a></div>
-      <div style='float: left;'><a href='http://www.google.com/chrome?hl=fr' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-chrome.jpg' style='border: none;' alt='Get Google Chrome'/></a></div>
-    </div>
-  </div>
-  <![endif]-->
+    <div style='border: 1px solid #F7941D; background: #FEEFDA; text-align: center; clear: both; height: 75px; position: relative;'>
+               <div style='position: absolute; right: 3px; top: 3px; font-family: courier new; font-weight: bold;'><a href='#' onclick='javascript:this.parentNode.parentNode.style.display="none"; return false;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-cornerx.jpg' style='border: none;' alt='Close this notice'/></a></div>
+                          <div style='width: 640px; margin: 0 auto; text-align: left; padding: 0; overflow: hidden; color: black;'>
+                                     <div style='width: 75px; float: left;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-warning.jpg' alt='Warning!'/></div>
+                                                <div style='width: 275px; float: left; font-family: Arial, sans-serif;'>
+                                                           <div style='font-size: 14px; font-weight: bold; margin-top: 12px;'>Vous utilisez un navigateur dépassé depuis près de 8 ans!</div>
+                                                                      <div style='font-size: 12px; margin-top: 6px; line-height: 12px;'>Pour une meilleure expérience web, prenez le temps de mettre votre navigateur à jour.</div>
+                                                                                 </div>
+                                                                                 <div style='width: 75px; float: left;'><a href='http://fr.www.mozilla.com/fr/' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-firefox.jpg' style='border: none;' alt='Get Firefox 3.5'/></a></div>
+                                                                                            <div style='width: 73px; float: left;'><a href='http://www.apple.com/fr/safari/download/' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-safari.jpg' style='border: none;' alt='Get Safari 4'/></a></div>
+                                                                                                       <div style='float: left;'><a href='http://www.google.com/chrome?hl=fr' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-chrome.jpg' style='border: none;' alt='Get Google Chrome'/></a></div>
+                                                                                                                                         </div>
+                                                                                                                                         </div>
+                                                                                                                                         <![endif]-->
 EOF;
 exit();
 }
-if ( $cn->exist_table('version') == false ) {
- echo '<h2 class="error" style="font-size:12px">'._("Base de donnée invalide").'</h2>';
- $base=dirname($_SERVER['REQUEST_URI']);
- echo HtmlInput::button_anchor('Retour',$base.'/user_login.php');
- exit();
+if ( $cn->exist_table('version') == false )
+{
+    echo '<h2 class="error" style="font-size:12px">'._("Base de donnée invalide").'</h2>';
+    $base=dirname($_SERVER['REQUEST_URI']);
+    echo HtmlInput::button_anchor('Retour',$base.'/user_login.php');
+    exit();
 }
-if ( DBVERSION < dossier::get_version($cn)) {
- echo '<h2 class="error" style="font-size:12px">'._("Attention: la version de base de donnée est supérieure à la version du programme, vous devriez mettre à jour").'</h2>';
- }
-if ( DBVERSION > dossier::get_version($cn)) {
-  echo '<h2 class="error" style="font-size:12px">'._("Votre base de données n'est pas à jour").'   ';
-  $a=_("cliquez ici pour appliquer le patch");
-  $base=dirname($_SERVER['REQUEST_URI']).'/admin/setup.php';
-  echo '<a hreF="'.$base.'">'.$a.'</a></h2>';
+if ( DBVERSION < dossier::get_version($cn))
+{
+    echo '<h2 class="error" style="font-size:12px">'._("Attention: la version de base de donnée est supérieure à la version du programme, vous devriez mettre à jour").'</h2>';
+}
+if ( DBVERSION > dossier::get_version($cn))
+{
+    echo '<h2 class="error" style="font-size:12px">'._("Votre base de données n'est pas à jour").'   ';
+    $a=_("cliquez ici pour appliquer le patch");
+    $base=dirname($_SERVER['REQUEST_URI']).'/admin/setup.php';
+    echo '<a hreF="'.$base.'">'.$a.'</a></h2>';
 }
 
 echo '<div class="u_tmenu">';

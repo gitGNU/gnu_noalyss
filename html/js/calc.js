@@ -19,7 +19,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*! \file 
+/*! \file
  * \brief This file show a little online calculator, in the caller
  *        the span id result, listing, the id form calc_line and the
  *        input id inp must exist see constant.php JS_CALC_LINE
@@ -27,38 +27,42 @@
  */
 var p_history="";
 var p_variable="";
-// add input 
+// add input
 function cal()
 {
-	p_variable=this.document.getElementById('inp').value;
-	if (p_variable.search(/^\s*$/) !=-1) {
-		return;
-		}
-	try {
-	    Compute();
-	    sub=eval(p_variable);
-	    var result=parseFloat(sub);
-	    result=Math.round(result*100)/100;
-	} catch(exception) {
-	alert("Mauvaise formule\n"+p_variable);
-	return false;
-	}
-	p_history=p_history+'<hr>'+p_variable;
-	p_history+="="+result.toString();
-	var str_sub="<hr><b><i> Total :"+p_variable+" = "+result.toString()+"<I></b>";
+    p_variable=this.document.getElementById('inp').value;
+    if (p_variable.search(/^\s*$/) !=-1)
+    {
+        return;
+    }
+    try
+    {
+        Compute();
+        sub=eval(p_variable);
+        var result=parseFloat(sub);
+        result=Math.round(result*100)/100;
+    }
+    catch(exception)
+    {
+        alert("Mauvaise formule\n"+p_variable);
+        return false;
+    }
+    p_history=p_history+'<hr>'+p_variable;
+    p_history+="="+result.toString();
+    var str_sub="<hr><b><i> Total :"+p_variable+" = "+result.toString()+"<I></b>";
     this.document.getElementById("sub_total").innerHTML=str_sub;
     this.document.getElementById("listing").innerHTML=p_history;
     this.document.getElementById('inp').value="";
 }
-// Clean 
-// 
-function Clean() 
+// Clean
+//
+function Clean()
 {
-	this.document.getElementById('listing').innerHTML="";
-	this.document.getElementById('result').innerHTML="";
-	this.document.getElementById('sub_total').innerHTML="";
-	this.document.getElementById('inp').value="";
-	this.document.getElementById('inp').focus();
+    this.document.getElementById('listing').innerHTML="";
+    this.document.getElementById('result').innerHTML="";
+    this.document.getElementById('sub_total').innerHTML="";
+    this.document.getElementById('inp').value="";
+    this.document.getElementById('inp').focus();
 
 }
 
@@ -66,7 +70,7 @@ function Compute()
 {
     var tot=0;
     var ret="";
- 
+
     this.document.getElementById('inp').value="";
     this.document.getElementById('inp').focus();
 }

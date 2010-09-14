@@ -19,7 +19,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*! \file 
+/*! \file
  * \brief javascript for searching a card
  */
 
@@ -34,37 +34,42 @@
  *  - label field to update with the name
  *  - ctl the id to fill with the HTML answer (ending with _content)
  */
-function search_card(obj) {
-    try{
-    var gDossier=$('gDossier').value;
-    var inp=obj.inp;
-    var string_to_search=$(inp).value;
-    var label=obj.label;
-    var typecard=obj.typecard;
-    var price=obj.price;
-    var tvaid=obj.tvaid;
-    var jrn=obj.jrn;
-    if ( jrn==undefined) {
-	if ( g('p_jrn')) jrn=$('p_jrn').value;
-	else jrn=-1;
-    }
-    var query=encodeJSON({'gDossier':gDossier,
-			  'inp':inp,'label':label,'price':price,'tvaid':tvaid,
-			  'ctl':obj.popup,'op':'fs','jrn':jrn,
-			  'typecard':typecard,'query':string_to_search
-			 });
-    showIPopup(obj.popup);
+function search_card(obj)
+{
+    try
+    {
+        var gDossier=$('gDossier').value;
+        var inp=obj.inp;
+        var string_to_search=$(inp).value;
+        var label=obj.label;
+        var typecard=obj.typecard;
+        var price=obj.price;
+        var tvaid=obj.tvaid;
+        var jrn=obj.jrn;
+        if ( jrn==undefined)
+        {
+            if ( g('p_jrn')) jrn=$('p_jrn').value;
+            else jrn=-1;
+        }
+var query=encodeJSON({'gDossier':gDossier,
+                      'inp':inp,'label':label,'price':price,'tvaid':tvaid,
+                      'ctl':obj.popup,'op':'fs','jrn':jrn,
+                      'typecard':typecard,'query':string_to_search
+                             });
+        showIPopup(obj.popup);
 
-    var action=new Ajax.Request ( 'ajax_card.php',
-				  {
-				 method:'get',
-				 parameters:query,
-				 onFailure:errorFid,
-				 onSuccess:result_card_search
-				  }
-				  );
-    }catch(e) {
-	alert('search_card failed'+e.message);
+        var action=new Ajax.Request ( 'ajax_card.php',
+                                      {
+                                  method:'get',
+                                  parameters:query,
+                                  onFailure:errorFid,
+                                  onSuccess:result_card_search
+                                      }
+                                    );
+    }
+    catch(e)
+    {
+        alert('search_card failed'+e.message);
     }
 }
 /**
@@ -73,53 +78,90 @@ function search_card(obj) {
  *@note the same as search_card, except it answer to a FORM and not
  * to a click event 
  */
-function search_get_card(obj) {
+function search_get_card(obj)
+{
     var dossier=$('gDossier').value;
 
     var queryString="?gDossier="+dossier;
     queryString+="&op=fs";
-    
-    if ( obj.elements['inp'] ) { queryString+="&inp="+$F('inp');}
-    if ( obj.elements['typecard'] ) { queryString+="&typecard="+$F('typecard');}
-    if ( obj.elements['jrn'] ) { queryString+="&jrn="+$F('jrn');}
-    if ( obj.elements['label']) { queryString+="&label="+$F('label');}
-    if ( obj.elements['price']) { queryString+="&price="+$F('price');}
-    if ( obj.elements['tvaid']) { queryString+="&tvaid="+$F('tvaid');}
-    if( obj.elements['query']) {queryString+="&query="+$F('query');}
-    if (obj.ctl ) {queryString+="&ctl="+obj.ctl;}
+
+    if ( obj.elements['inp'] )
+    {
+        queryString+="&inp="+$F('inp');
+    }
+    if ( obj.elements['typecard'] )
+    {
+        queryString+="&typecard="+$F('typecard');
+    }
+    if ( obj.elements['jrn'] )
+    {
+        queryString+="&jrn="+$F('jrn');
+    }
+    if ( obj.elements['label'])
+    {
+        queryString+="&label="+$F('label');
+    }
+    if ( obj.elements['price'])
+    {
+        queryString+="&price="+$F('price');
+    }
+    if ( obj.elements['tvaid'])
+    {
+        queryString+="&tvaid="+$F('tvaid');
+    }
+    if( obj.elements['query'])
+    {
+        queryString+="&query="+$F('query');
+    }
+    if (obj.ctl )
+    {
+        queryString+="&ctl="+obj.ctl;
+    }
     $('asearch').innerHTML=loading();
     var action=new Ajax.Request ( 'ajax_card.php',
-     				  {  
-     				      method:'get',
-     				      parameters:queryString,
-     				      onFailure:errorFid,
-     				      onSuccess:result_card_search
-     				  }
-     				  );
+                                  {
+                                  method:'get',
+                                  parameters:queryString,
+                                  onFailure:errorFid,
+                                  onSuccess:result_card_search
+                                  }
+                                );
 }
 /**
  *@brief show the answer of ajax request
  *@param  answer in XML
  */
-function result_card_search(req) {
-    try{
-	var answer=req.responseXML;
-	var a=answer.getElementsByTagName('ctl');
-	if ( a.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
-	var html=answer.getElementsByTagName('code');
+function result_card_search(req)
+{
+    try
+    {
+        var answer=req.responseXML;
+        var a=answer.getElementsByTagName('ctl');
+        if ( a.length == 0 )
+        {
+            var rec=req.responseText;
+            alert ('erreur :'+rec);
+        }
+        var html=answer.getElementsByTagName('code');
 
-	var name_ctl=a[0].firstChild.nodeValue;
-	var nodeXml=html[0];
-	var code_html=getNodeText(nodeXml);
-	code_html=unescape_xml(code_html);
-	$(name_ctl).innerHTML=code_html;
-	} 
-    catch (e) {
-	alert(e.message);}
-    try{
-	code_html.evalScripts();}
-    catch(e){
-	alert("Impossible executer script de la reponse\n"+e.message);}
+        var name_ctl=a[0].firstChild.nodeValue;
+        var nodeXml=html[0];
+        var code_html=getNodeText(nodeXml);
+        code_html=unescape_xml(code_html);
+        $(name_ctl).innerHTML=code_html;
+    }
+    catch (e)
+    {
+        alert(e.message);
+    }
+    try
+    {
+        code_html.evalScripts();
+    }
+    catch(e)
+    {
+        alert("Impossible executer script de la reponse\n"+e.message);
+    }
 
 }
 
@@ -135,11 +177,18 @@ function result_card_search(req) {
 *\param p_ctrlname the name of the input field with the label
 *\param p_label the label of the quickcode
 */
-function setCtrl(p_ctrl,p_quickcode,p_ctrlname,p_label){
-   var ctrl=g(p_ctrl);
-   if ( ctrl ) { ctrl.value=p_quickcode; }
-   var ctrl_name=g(p_ctrlname);
-   if ( ctrl_name ) { ctrl_name.value=p_label; }
+function setCtrl(p_ctrl,p_quickcode,p_ctrlname,p_label)
+{
+    var ctrl=g(p_ctrl);
+    if ( ctrl )
+    {
+        ctrl.value=p_quickcode;
+    }
+    var ctrl_name=g(p_ctrlname);
+    if ( ctrl_name )
+    {
+        ctrl_name.value=p_label;
+    }
 }
 
 
@@ -149,27 +198,38 @@ function setCtrl(p_ctrl,p_quickcode,p_ctrlname,p_label){
  */
 function clean_Fid(p_ctl)
 {
-   	nSell=p_ctl+"_price";	
-	nBuy=p_ctl+"_price";	
-	nTva_id=p_ctl+"_tva_id";
-	if ( $(nSell) ) {	  $(nSell).value="";	}
-	if ( $(nBuy) ) {	  $(nBuy).value="";}
-	if ( $(nTva_id) ) {  $(nTva_id).value="-1"; }
-	
+    nSell=p_ctl+"_price";
+    nBuy=p_ctl+"_price";
+    nTva_id=p_ctl+"_tva_id";
+    if ( $(nSell) )
+    {
+        $(nSell).value="";
+    }
+    if ( $(nBuy) )
+    {
+        $(nBuy).value="";
+    }
+    if ( $(nTva_id) )
+    {
+        $(nTva_id).value="-1";
+    }
+
 }
-function errorFid(request,json) {
-  alert('erreur : ajax fiche');
+function errorFid(request,json)
+{
+    alert('erreur : ajax fiche');
 }
-function update_value(text,li) {
-	
+function update_value(text,li)
+{
 }
 /**
  *@brief is called when something change in ICard
  *@param the input field
  *@see ICard
  */
-function fill_data_onchange(ctl) {
-	ajaxFid(ctl);
+function fill_data_onchange(ctl)
+{
+    ajaxFid(ctl);
 
 }
 /**
@@ -177,8 +237,9 @@ function fill_data_onchange(ctl) {
  *@param the input field
  *@see ICard
  */
-function fill_data(text,li) {
-	ajaxFid(text);
+function fill_data(text,li)
+{
+    ajaxFid(text);
 
 }
 /**
@@ -186,18 +247,20 @@ function fill_data(text,li) {
  *@param the input field
  *@see ICard
  */
-function fill_fin_data_onchange(ctl) {
-	ajaxFid(ctl);
-ajax_saldo(ctl.id);
+function fill_fin_data_onchange(ctl)
+{
+    ajaxFid(ctl);
+    ajax_saldo(ctl.id);
 }
 /**
  *@brief is called when something change in ICard
  *@param the input field
  *@see ICard
  */
-function fill_fin_data(text,li) {
-	ajaxFid(text);
-ajax_saldo($(text.id));
+function fill_fin_data(text,li)
+{
+    ajaxFid(text);
+    ajax_saldo($(text.id));
 }
 /**
  *@brief show the ipopup window and display the details of a card,
@@ -207,17 +270,25 @@ ajax_saldo($(text.id));
  *
  *@see ajax_card.php
  */
-function fill_ipopcard(obj) {
-    if ( ! $(obj).ipopup) { alert('Erreur pas d\' attribut ipopup '+obj.id);return;};
+function fill_ipopcard(obj)
+{
+    if ( ! $(obj).ipopup)
+    {
+        alert('Erreur pas d\' attribut ipopup '+obj.id);
+        return;
+    };
     var content=$(obj).ipopup+'_content';
     $(content).innerHTML=loading();
     showIPopup($(obj).ipopup);
     var dossier=$('gDossier').value;
     var qcode='';
-    if ( $(obj).qcode != undefined ) {
-	qcode=obj.qcode;
-    } else {
-	qcode=$(obj).value;
+    if ( $(obj).qcode != undefined )
+    {
+        qcode=obj.qcode;
+    }
+    else
+    {
+        qcode=$(obj).value;
     }
     //    ctl=$(obj).id;
     var queryString='?gDossier='+dossier;
@@ -226,13 +297,17 @@ function fill_ipopcard(obj) {
     queryString+='&op=dc'; 	// dc for detail card
 
     var action=new Ajax.Request ( 'ajax_card.php',
-				  {
-				 method:'get',
-				 parameters:queryString,
-				 onFailure:errorFid,
-				 onSuccess:successFill_ipopcard
-			       }
-			       );
+                                  {
+                                  method:'get'
+                                      ,
+                                  parameters:
+                                      queryString,
+                                  onFailure:
+                                      errorFid,
+                                  onSuccess:
+                                      successFill_ipopcard
+                                  }
+                                );
 }
 /**
  *@brief
@@ -241,19 +316,37 @@ function fill_ipopcard(obj) {
 \code
 \endcode
 */
-function  successFill_ipopcard(req,json){
-    try{
-    var answer=req.responseXML;
-    var a=answer.getElementsByTagName('ctl');
-    var html=answer.getElementsByTagName('code');
+function  successFill_ipopcard(req,json)
+{
+    try
+    {
+        var answer=req.responseXML;
+        var a=answer.getElementsByTagName('ctl');
+        var html=answer.getElementsByTagName('code');
 
-    if ( a.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
-    var name_ctl=a[0].firstChild.nodeValue;
-    var code_html=getNodeText(html[0]);
-    code_html=unescape_xml(code_html);
+        if ( a.length == 0 )
+        {
+            var rec=req.responseText;
+            alert ('erreur :'+rec);
+        }
+        var name_ctl=a[0].firstChild.nodeValue;
+        var code_html=getNodeText(html[0]);
+        code_html=unescape_xml(code_html);
 
-    $(name_ctl).innerHTML=code_html;} catch (e) {alert(e.message);}
-    try{code_html.evalScripts();}catch(e){alert("Impossible executer script de la reponse\n"+e.message);}
+        $(name_ctl).innerHTML=code_html;
+    }
+    catch (e)
+    {
+        alert(e.message);
+    }
+    try
+    {
+        code_html.evalScripts();
+    }
+    catch(e)
+    {
+        alert("Impossible executer script de la reponse\n"+e.message);
+    }
 }
 /**
  *@brief show the ipopup for selecting a card type, it is a needed step before adding 
@@ -265,8 +358,13 @@ function  successFill_ipopcard(req,json){
  *        - type type of card (supplier, customer...)
  *@see ajax_card.php
  */
-function select_card_type(obj) {
-    if ( ! $(obj).ipopup) { alert('Erreur pas d\' attribut ipopup '+obj.id);return;};
+function select_card_type(obj)
+{
+    if ( ! $(obj).ipopup)
+    {
+        alert('Erreur pas d\' attribut ipopup '+obj.id);
+        return;
+    };
     var content=$(obj).ipopup+'_content';
     $(content).innerHTML=loading();
     showIPopup($(obj).ipopup);
@@ -274,30 +372,46 @@ function select_card_type(obj) {
 
     // give a filter, -1 if not
     var filter=$(obj).filter;
-    if ( filter==undefined) {filter=-1;}
+    if ( filter==undefined)
+    {
+        filter=-1;
+    }
 
 
     var queryString='?gDossier='+dossier;
     queryString+='&ctl='+content;
     queryString+='&op=st'; 	// st for selecting type
-    if ( $(obj).win_refresh!=undefined) { queryString+='&ref';}
+    if ( $(obj).win_refresh!=undefined)
+    {
+        queryString+='&ref';
+    }
     queryString+='&fil='+filter;
     // filter on the ledger, -1 if not
     var oledger=$(obj).jrn;
-    if (oledger==undefined) {ledger=-1;} else {ledger=$(obj).jrn;}
+    if (oledger==undefined)
+    {
+        ledger=-1;
+    }
+    else
+    {
+        ledger=$(obj).jrn;
+    }
 
     queryString+='&ledger='+ledger;
 
-    if ( obj.type_cat) { queryString+='&cat='+obj.type_cat;}
+    if ( obj.type_cat)
+    {
+        queryString+='&cat='+obj.type_cat;
+    }
 
     var action=new Ajax.Request ( 'ajax_card.php',
-				  {
-				 method:'get',
-				 parameters:queryString,
-				 onFailure:errorFid,
-				 onSuccess:successFill_ipopcard
-			       }
-			       );
+                                  {
+                                  method:'get',
+                                  parameters:queryString,
+                                  onFailure:errorFid,
+                                  onSuccess:successFill_ipopcard
+                                  }
+                                );
 }
 /**
  *@brief Show a blank card
@@ -307,13 +421,19 @@ function select_card_type(obj) {
  *        - ref : reload the window after adding card
  *@see ajax_card.php
  */
-function dis_blank_card(obj) {
-    if ( ! $(obj).ipopup) { alert('Erreur pas d\' attribut ipopup '+obj.id);return;};
+function dis_blank_card(obj)
+{
+    if ( ! $(obj).ipopup)
+    {
+        alert('Erreur pas d\' attribut ipopup '+obj.id);
+        return;
+    };
     // first we have to take the form elt we need
     var fd_id=$F('fd_id');
     var ref="";
-    if ( obj.elements['ref'] ) {
-	ref='&ref';
+    if ( obj.elements['ref'] )
+    {
+        ref='&ref';
     }
     var content=$(obj).ipopup+'_content';
     $(content).innerHTML=loading();
@@ -327,13 +447,13 @@ function dis_blank_card(obj) {
     queryString+='&op=bc'; 	// bc for blank card
 
     var action=new Ajax.Request ( 'ajax_card.php',
-				  {
-				 method:'get',
-				 parameters:queryString,
-				 onFailure:errorFid,
-				 onSuccess:successFill_ipopcard
-			       }
-			       );
+                                  {
+                                  method:'get',
+                                  parameters:queryString,
+                                  onFailure:errorFid,
+                                  onSuccess:successFill_ipopcard
+                                  }
+                                );
 }
 /**
  *@brief save the data contained into the form 'save_card'
@@ -341,8 +461,13 @@ function dis_blank_card(obj) {
  *       possible attribute :
  *@see ajax_card.php
  */
-function save_card(obj) {
-    if ( ! $(obj).ipopup) { alert('Erreur pas d\' attribut ipopup '+obj.id);return;};
+function save_card(obj)
+{
+    if ( ! $(obj).ipopup)
+    {
+        alert('Erreur pas d\' attribut ipopup '+obj.id);
+        return;
+    };
     var content=$(obj).ipopup+'_content';
     // Data must be taken here
     data=$('save_card').serialize(false);
@@ -355,13 +480,13 @@ function save_card(obj) {
     queryString+='&op=sc'; 	// sc for save card
 
     var action=new Ajax.Request ( 'ajax_card.php',
-				  {
-				      method:'post',
-				      parameters:queryString,
-				      onFailure:errorFid,
-				      onSuccess:successFill_ipopcard
-			       }
-			       );
+                                  {
+                                  method:'post',
+                                  parameters:queryString,
+                                  onFailure:errorFid,
+                                  onSuccess:successFill_ipopcard
+                                  }
+                                );
 }
 /**
  *@brief add a category of card,
@@ -369,30 +494,39 @@ function save_card(obj) {
  * - ipopup the ipopup to show
  * - type_cat the category of card we want to add
  */
-function add_category(obj){
+function add_category(obj)
+{
     // show ipopup
     showIPopup(obj.ipopup);
     var dossier=$('gDossier').value;
     var queryString='?gDossier='+dossier;
     queryString+='&op=ac';
     queryString+='&ctl='+obj.ipopup+'_content';
-    if ( obj.type_cat) { queryString+='&cat='+obj.type_cat;}
+    if ( obj.type_cat)
+    {
+        queryString+='&cat='+obj.type_cat;
+    }
     var action=new Ajax.Request ( 'ajax_card.php',
-				  {
-				      method:'get',
-				      parameters:queryString,
-				      onFailure:errorFid,
-				      onSuccess:successFill_ipopcard
-				  }
-				  );
+                                  {
+                                  method:'get',
+                                  parameters:queryString,
+                                  onFailure:errorFid,
+                                  onSuccess:successFill_ipopcard
+                                  }
+                                );
 
 }
 /**
  * @brief save the form and add a new category of card
  * @param obj if the form object
  */
-function save_card_category(obj) {
-     if ( ! $(obj).ipopup) { alert('Erreur pas d\' attribut ipopup '+obj.id);return;};
+function save_card_category(obj)
+{
+    if ( ! $(obj).ipopup)
+    {
+        alert('Erreur pas d\' attribut ipopup '+obj.id);
+        return;
+    };
     var content=$(obj).ipopup+'_content';
     // Data must be taken here
     data=$('newcat').serialize(false);
@@ -405,13 +539,13 @@ function save_card_category(obj) {
     queryString+='&op=scc'; 	// sc for save card
 
     var action=new Ajax.Request ( 'ajax_card.php',
-				  {
-				      method:'post',
-				      parameters:queryString,
-				      onFailure:errorFid,
-				      onSuccess:successFill_ipopcard
-			       }
-			       );
+                                  {
+                                  method:'post',
+                                  parameters:queryString,
+                                  onFailure:errorFid,
+                                  onSuccess:successFill_ipopcard
+                                  }
+                                );
 }
 /**
  *@brief Remove a definition of an  attribut 
@@ -421,19 +555,20 @@ function save_card_category(obj) {
  *@param special this pointer of the row
  */
 
-function removeCardAttribut(ad_id,gDossier,table_id,row) {
+function removeCardAttribut(ad_id,gDossier,table_id,row)
+{
     var queryString='?gDossier='+gDossier;
     queryString+='&op=rmfa';
     queryString+='&ctl=debug'; 	// debug id
     queryString+='&ad_id='+ad_id;
     var action=new Ajax.Request ( 'ajax_card.php',
-				  {
-				      method:'get',
-				      parameters:queryString,
-				      onFailure:null,
-				      onSuccess:null
-			       }
-			       );
+                                  {
+                                  method:'get',
+                                  parameters:queryString,
+                                  onFailure:null,
+                                  onSuccess:null
+                                  }
+                                );
     deleteRowRec(table_id,row);
 
 

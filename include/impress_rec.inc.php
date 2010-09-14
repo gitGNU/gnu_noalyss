@@ -34,7 +34,7 @@ echo load_all_script();
 /**
  *@file
  *@todo add the export to PDF
- */ 
+ */
 $aledger=$User->get_ledger('ALL',3);
 echo '<div class="noprint">';
 echo '<div class="content">';
@@ -47,16 +47,20 @@ echo dossier::hidden().HtmlInput::hidden('p_action','impress').HtmlInput::hidden
 echo 'Filtre par journal :'.HtmlInput::select_ledger($aledger,$r_jrn );
 echo '<ol style="list-style-type:none;">';
 
-$radio->selected=($choice==0)?true:false;$radio->value=0;
+$radio->selected=($choice==0)?true:false;
+$radio->value=0;
 echo '<li>'.$radio->input().'Opérations rapprochées'.'</li>';
 
-$radio->selected=($choice==1)?true:false;$radio->value=1;
+$radio->selected=($choice==1)?true:false;
+$radio->value=1;
 echo '<li>'.$radio->input().'Opérations rapprochées avec des montants différents'.'</li>';
 
-$radio->selected=($choice==2)?true:false;$radio->value=2;
+$radio->selected=($choice==2)?true:false;
+$radio->value=2;
 echo '<li>'.$radio->input().'Opérations rapprochées avec des montants identiques'.'</li>';
 
-$radio->selected=($choice==3)?true:false;$radio->value=3;
+$radio->selected=($choice==3)?true:false;
+$radio->value=3;
 echo '<li>'.$radio->input().'Opérations non rapprochées'.'</li>';
 
 echo '<li>'.HtmlInput::submit('vis',_('Visualisation')).'</li>';
@@ -70,22 +74,25 @@ if ( ! isset($_GET['vis'])) exit();
 $a=new Acc_Reconciliation($cn);
 $a->a_jrn=$r_jrn;
 
-switch ($choice) {
+switch ($choice)
+{
 case 0:
-  $array=$a->get_reconciled();
-  break;
+    $array=$a->get_reconciled();
+    break;
 case 1:
-  $array=$a->get_reconciled_amount(false);
-  break;
+    $array=$a->get_reconciled_amount(false);
+    break;
 case 2:
-  $array=$a->get_reconciled_amount(true);
-  break;
+    $array=$a->get_reconciled_amount(true);
+    break;
 case 3:
-  $array=$a->get_not_reconciled();
-  break;
+    $array=$a->get_not_reconciled();
+    break;
 default:
-  echo "Choix invalid";
-  exit();
+    echo "Choix invalid";
+    exit();
 }
 require_once('template/impress_reconciliation.php');
+exit();
+exit();
 exit();

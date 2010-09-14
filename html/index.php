@@ -107,10 +107,11 @@
  * </ul>
  */
 
-if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php')) {
-  $p_string='admin/setup.php';
-  echo '<HTML><head><META HTTP-EQUIV="REFRESH" content="0;url='.$p_string.'"></head><body> Connecting... </body></html>';
-  exit(0);
+if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php'))
+{
+    $p_string='admin/setup.php';
+    echo '<HTML><head><META HTTP-EQUIV="REFRESH" content="0;url='.$p_string.'"></head><body> Connecting... </body></html>';
+    exit(0);
 }
 
 echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">
@@ -120,66 +121,67 @@ echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">
 <TITLE> PhpCompta </TITLE>
 <style>
 BODY {
-  background-color:white;
-  font-size:12px;
-  font-family:sans-serif;
-  color:blue;
+background-color:white;
+font-size:12px;
+font-family:sans-serif;
+color:blue;
 }
 .remark {
-	border: solid black 1px;
-	font-family:sans-serif;
-	font-size: 9px;
-	color:blue;
-	width:200px;
-	padding:3px;
+border: solid black 1px;
+font-family:sans-serif;
+font-size: 9px;
+color:blue;
+width:200px;
+padding:3px;
 }
 .gras {
-  font-size:12px;
-  font-family:sans-serif;
-  color:red;
+font-size:12px;
+font-family:sans-serif;
+color:red;
 
 }
 .input_text {
-	   border:groove 1px blue;
-	margin:1px;
+border:groove 1px blue;
+margin:1px;
 }
 .button {
-	font-size:10px;
-	color:white;
-	font-weight: bold;
-	
-	text-decoration:none;
-	font-family: helvetica,arial,sans-serif;
-	background-image: url("image/bg-submit2.gif");
-	background-repeat: repeat-x;
-	background-position: left;
-	text-decoration:none;
-	font-family: helvetica,arial,sans-serif;
-	
-	border-style:  outset ;
-	border-color:  blue ;
-	border-width:1 1 1 1;
-	padding:2 4 2 4;
-	cursor:pointer;
-	margin:1 2 1 2;
-	-moz-border-radius:2 2;
-	
+font-size:10px;
+color:white;
+font-weight: bold;
+
+text-decoration:none;
+font-family: helvetica,arial,sans-serif;
+background-image: url("image/bg-submit2.gif");
+background-repeat: repeat-x;
+background-position: left;
+text-decoration:none;
+font-family: helvetica,arial,sans-serif;
+
+border-style:  outset ;
+border-color:  blue ;
+border-width:1 1 1 1;
+padding:2 4 2 4;
+cursor:pointer;
+margin:1 2 1 2;
+-moz-border-radius:2 2;
+
 }
 .button:hover {
-	cursor:pointer;
-	background-color:white;
-	border-style:  inset ;
-	font-color:blue;
-	margin:1 2 1 2;
-	}
+cursor:pointer;
+background-color:white;
+border-style:  inset ;
+font-color:blue;
+margin:1 2 1 2;
+}
 </style>
 <script src="js/scripts.js" type="text/javascript"></script>
 </head>
 <BODY onLoad="SetFocus(\'p_user\')">';
 $my_domain="";
 require ('config.inc.php');
-if ( strlen(domaine) > 0 ) {
-  $my_domain="Domaine : ".domaine;
+if ( strlen(domaine) > 0 )
+{
+    $my_domain="Domaine : ".domaine;
 }
 
 echo '
@@ -191,7 +193,7 @@ version  5.2.SVNINFO - '.$my_domain.'
 <BR>
 <BR>
 <center>
-	<IMG SRC="image/logo7.jpg" alt="Logo">
+<IMG SRC="image/logo7.jpg" alt="Logo">
 <BR>
 <BR>
 <BR>
@@ -214,7 +216,7 @@ version  5.2.SVNINFO - '.$my_domain.'
 </TR>
 </table>
 </TD></TR></TABLE>
-</form> 
+</form>
 </Center>
 <div  style="position:fixed;bottom:5em;border:1px solid red;text-align:right;width:20em;">
 <span style="display:block">Pour une meilleure expérience web, nous vous conseillons <a href="http://www.mozilla.com/fr/">firefox</a></span>

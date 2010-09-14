@@ -25,29 +25,32 @@
  */
 echo JS_INFOBULLE;
 $array=array(
-	     array('?'.dossier::get().'&p_action=let&sa=poste',_('Par poste'),
-		   _('Lettrage par poste'), 1),
-	     array('?'.dossier::get().'&p_action=let&sa=qc',_('Par fiche'),
-		   _('Lettrage par fiche'), 2)
-	     );
+           array('?'.dossier::get().'&p_action=let&sa=poste',_('Par poste'),
+                     _('Lettrage par poste'), 1),
+               array('?'.dossier::get().'&p_action=let&sa=qc',_('Par fiche'),
+                         _('Lettrage par fiche'), 2)
+               );
 $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:0;
-switch($sa){
+switch($sa)
+{
 case 'poste':
-  $subdef=1;
-  break;
+    $subdef=1;
+    break;
 case 'qc':
-  $subdef=2;
-  break;
+    $subdef=2;
+    break;
 }
 echo '<div class="lmenu">';
 echo ShowItem($array,'H','mtitle','mtitle',$subdef);
 echo '</div>';
-if ($sa == 'poste') {
-  require_once('lettering.account.inc.php');
-  exit;
+if ($sa == 'poste')
+{
+    require_once('lettering.account.inc.php');
+    exit;
 }
 
-if ($sa=='qc') {
-  require_once('lettering.card.inc.php');
-  exit;
+if ($sa=='qc')
+{
+    require_once('lettering.card.inc.php');
+    exit;
 }

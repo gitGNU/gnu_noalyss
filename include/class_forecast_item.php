@@ -34,114 +34,134 @@
  */
 class Forecast_Item
 {
-  /* example private $variable=array("val1"=>1,"val2"=>"Seconde valeur","val3"=>0); */
-  private static $variable=array ("id"=>"fi_id","text"=>"fi_text","account"=>"fi_account",
-  	"card"=>"fi_card","order"=>"fi_order","cat_id"=>"fc_id","amount"=>"fi_amount","debit"=>"fi_debit","periode"=>"fi_pid");
-  private $cn;
-  /**
-   * @brief constructor
-   * @param $p_init Database object
-   */
-  function __construct ($p_init,$p_id=0) {
-    $this->cn=$p_init;
-    $this->fi_id=$p_id;
-  }
-  public function get_parameter($p_string) {
-    if ( array_key_exists($p_string,self::$variable) ) {
-      $idx=self::$variable[$p_string];
-      return $this->$idx;
+    /* example private $variable=array("val1"=>1,"val2"=>"Seconde valeur","val3"=>0); */
+    private static $variable=array ("id"=>"fi_id","text"=>"fi_text","account"=>"fi_account",
+                                    "card"=>"fi_card","order"=>"fi_order","cat_id"=>"fc_id","amount"=>"fi_amount","debit"=>"fi_debit","periode"=>"fi_pid");
+    private $cn;
+    /**
+     * @brief constructor
+     * @param $p_init Database object
+     */
+    function __construct ($p_init,$p_id=0)
+    {
+        $this->cn=$p_init;
+        $this->fi_id=$p_id;
     }
-    else
-      exit (__FILE__.":".__LINE__."[$p_string]".'Erreur attribut inexistant');
-  }
-  public function set_parameter($p_string,$p_value) {
-    if ( array_key_exists($p_string,self::$variable) ) {
-      $idx=self::$variable[$p_string];
-      $this->$idx=$p_value;
+    public function get_parameter($p_string)
+    {
+        if ( array_key_exists($p_string,self::$variable) )
+        {
+            $idx=self::$variable[$p_string];
+            return $this->$idx;
+        }
+        else
+            exit (__FILE__.":".__LINE__."[$p_string]".'Erreur attribut inexistant');
     }
-    else
-      exit (__FILE__.":".__LINE__."[$p_string]".'Erreur attribut inexistant');
+    public function set_parameter($p_string,$p_value)
+    {
+        if ( array_key_exists($p_string,self::$variable) )
+        {
+            $idx=self::$variable[$p_string];
+            $this->$idx=$p_value;
+        }
+        else
+            exit (__FILE__.":".__LINE__."[$p_string]".'Erreur attribut inexistant');
 
 
-  }
-  public function get_info() {    return var_export(self::$variable,true);  }
-  public function verify() {
-    // Verify that the elt we want to add is correct
-    // the f_name must be unique (case insensitive)
-    return 0;
-  }
-  public function save() {
-  /* please adapt */
-    if (  $this->get_parameter("id") == 0 )
-      $this->insert();
-    else
-      $this->update();
-  }
+    }
+    public function get_info()
+    {
+        return var_export(self::$variable,true);
+    }
+    public function verify()
+    {
+        // Verify that the elt we want to add is correct
+        // the f_name must be unique (case insensitive)
+        return 0;
+    }
+    public function save()
+    {
+        /* please adapt */
+        if (  $this->get_parameter("id") == 0 )
+            $this->insert();
+        else
+            $this->update();
+    }
 
-  public function insert() {
-    if ( $this->verify() != 0 ) return;
+    public function insert()
+    {
+        if ( $this->verify() != 0 ) return;
 
-   $sql="INSERT INTO forecast_item(
+        $sql="INSERT INTO forecast_item(
              fi_text, fi_account, fi_card, fi_order, fc_id, fi_amount,
-            fi_debit,fi_pid)
-    VALUES ($1, $2, $3, $4, $5, $6, $7,$8) returning fi_id;";
-    $res=$this->cn->exec_sql(
-		 $sql,
-		 array($this->fi_text,$this->fi_account,$this->fi_card,$this->fi_order,$this->fc_id,$this->fi_amount,$this->fi_debit,$this->fi_pid)
-		 );
-    $this->fi_id=Database::fetch_result($res,0,0);
-  }
+             fi_debit,fi_pid)
+             VALUES ($1, $2, $3, $4, $5, $6, $7,$8) returning fi_id;";
+        $res=$this->cn->exec_sql(
+                 $sql,
+                 array($this->fi_text,$this->fi_account,$this->fi_card,$this->fi_order,$this->fc_id,$this->fi_amount,$this->fi_debit,$this->fi_pid)
+             );
+        $this->fi_id=Database::fetch_result($res,0,0);
+    }
 
-  public function update() {
-    if ( $this->verify() != 0 ) return;
+    public function update()
+    {
+        if ( $this->verify() != 0 ) return;
 
-    $sql="UPDATE forecast_item
-   SET  fi_text=$1, fi_account=$2, fi_card=$3, fi_order=$4, fc_id=$5,
-       fi_amount=$6, fi_debit=$7,fi_pid=$8
- WHERE fi_id=$9;";
-    $res=$this->cn->exec_sql($sql,
-		 					 array($this->fi_text,
-		 					 $this->fi_account,
-		 					 $this->fi_card,
-		 					 $this->fi_order,
-		 					 $this->fc_id,
-		 					 $this->fi_amount,
-		 					 $this->fi_debit,
-		 					 $this->fi_pid,
-		 					 $this->fi_id)
-		 );
+        $sql="UPDATE forecast_item
+             SET  fi_text=$1, fi_account=$2, fi_card=$3, fi_order=$4, fc_id=$5,
+             fi_amount=$6, fi_debit=$7,fi_pid=$8
+             WHERE fi_id=$9;";
+        $res=$this->cn->exec_sql($sql,
+                                 array($this->fi_text,
+                                       $this->fi_account,
+                                       $this->fi_card,
+                                       $this->fi_order,
+                                       $this->fc_id,
+                                       $this->fi_amount,
+                                       $this->fi_debit,
+                                       $this->fi_pid,
+                                       $this->fi_id)
+                                );
 
-  }
+    }
 
-  public function load() {
+    public function load()
+    {
 
-   $sql="SELECT fi_id, fi_text, fi_account, fi_card, fi_order, fc_id, fi_amount,
-       fi_debit,fi_pid
-  FROM forecast_item where fi_id=$1";
+        $sql="SELECT fi_id, fi_text, fi_account, fi_card, fi_order, fc_id, fi_amount,
+             fi_debit,fi_pid
+             FROM forecast_item where fi_id=$1";
 
-    $res=$this->cn->exec_sql(
-		 $sql,
-		 array($this->fi_id)
-		 );
+        $res=$this->cn->exec_sql(
+                 $sql,
+                 array($this->fi_id)
+             );
 
-    if ( Database::num_row($res) == 0 ) return;
-    $row=Database::fetch_array($res,0);
-    foreach ($row as $idx=>$value) { $this->$idx=$value; }
-  }
+        if ( Database::num_row($res) == 0 ) return;
+        $row=Database::fetch_array($res,0);
+        foreach ($row as $idx=>$value)
+        {
+            $this->$idx=$value;
+        }
+
+    }
 
 
 
 
-  public function delete() {
-  	$sql="delete from forecast_item where fi_id=$1";
-    $res=$this->cn->exec_sql($sql,array($this->fi_id));
-  }
-  /**
-   * @brief unit test
-   */
-  static function test_me() {
-  }
+    public function delete()
+    {
+        $sql="delete from forecast_item where fi_id=$1";
+        $res=$this->cn->exec_sql($sql,array($this->fi_id));
+    }
+    /**
+     * @brief unit test
+     */
+    static function test_me()
+    {}
 
 }
 
- ?>
+?>
+?>
+?>

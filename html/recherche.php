@@ -71,27 +71,28 @@ echo '</form>';
 //-----------------------------------------------------
 // Display search result
 //-----------------------------------------------------
-if ( isset ($_GET['viewsearch'])) {
+if ( isset ($_GET['viewsearch']))
+{
 
-  // Navigation bar
-  $step=$_SESSION['g_pagesize'];
-  $page=(isset($_GET['offset']))?$_GET['page']:1;
-  $offset=(isset($_GET['offset']))?$_GET['offset']:0;
-  if (count ($_GET) == 0)
-    $array=null;
-  else
-     $array=$_GET;
-  $array['p_action']='ALL';
-  list($sql,$where)=$ledger->build_search_sql($array);
-  // Count nb of line
-  $max_line=$cn->count_sql($sql);
+    // Navigation bar
+    $step=$_SESSION['g_pagesize'];
+    $page=(isset($_GET['offset']))?$_GET['page']:1;
+    $offset=(isset($_GET['offset']))?$_GET['offset']:0;
+    if (count ($_GET) == 0)
+        $array=null;
+    else
+        $array=$_GET;
+    $array['p_action']='ALL';
+    list($sql,$where)=$ledger->build_search_sql($array);
+    // Count nb of line
+    $max_line=$cn->count_sql($sql);
 
-  list($count,$a)=$ledger->list_operation($sql,$offset,0);
-  $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
+    list($count,$a)=$ledger->list_operation($sql,$offset,0);
+    $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
-  echo $bar;
-  echo $a;
-  echo $bar;
+    echo $bar;
+    echo $a;
+    echo $bar;
 
 }
 echo '</div>';

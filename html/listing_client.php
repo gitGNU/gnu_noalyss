@@ -46,14 +46,15 @@ header('Content-Disposition: attachment;filename="declaration.bin"',FALSE);
 // Submit for a magnetic declaration
 // Belgium only
 //-----------------------------------------------------
-if ( isset($_POST['bt_disk'])) {
-  require_once("class_customer.php");
-  $customer=new Customer($cn);
-  $a_Res=$customer->VatListing($_POST['year']);
+if ( isset($_POST['bt_disk']))
+{
+    require_once("class_customer.php");
+    $customer=new Customer($cn);
+    $a_Res=$customer->VatListing($_POST['year']);
 
-  require_once("decla.BE.inc.php");
-  $a=MakeListingVat($cn,$a_Res,$_POST['year']);
-  echo "$a";
-  return;
- }
+    require_once("decla.BE.inc.php");
+    $a=MakeListingVat($cn,$a_Res,$_POST['year']);
+    echo "$a";
+    return;
+}
 ?>

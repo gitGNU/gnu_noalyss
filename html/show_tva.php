@@ -35,10 +35,11 @@ $gDossier=dossier::id();
 html_min_page_start($User->theme,"onLoad='window.focus();'");
 ?>
 <script>
-function GetIt(ctl,tva_id) {
-  set_inparent(ctl,tva_id);
-  window.close();	
- } 
+function GetIt(ctl,tva_id)
+{
+    set_inparent(ctl,tva_id);
+    window.close();
+}
 </script>
 <?php
 
@@ -47,19 +48,20 @@ $cn=new Database($gDossier);
 $Res=$cn->exec_sql("select * from tva_rate order by tva_rate desc");
 $Max=Database::num_row($Res);
 echo "<TABLE BORDER=\"1\">";
-for ($i=0;$i<$Max;$i++) {
-  $row=Database::fetch_array($Res,$i);
-  $set=sprintf( '<INPUT TYPE="BUTTON" class="button" Value="select" onClick="GetIt(\'%s\',\'%s\');">',
-	     $_GET['ctl'],$row['tva_id']);
-  printf("<tr><TD>%s %d</TD><TD>%s</TD><TD>%s</TD></TR>",
-	 $set,
-	 $row['tva_id'],
-	 $row['tva_label'],
-	 $row['tva_comment']);
+for ($i=0;$i<$Max;$i++)
+{
+    $row=Database::fetch_array($Res,$i);
+    $set=sprintf( '<INPUT TYPE="BUTTON" class="button" Value="select" onClick="GetIt(\'%s\',\'%s\');">',
+                  $_GET['ctl'],$row['tva_id']);
+    printf("<tr><TD>%s %d</TD><TD>%s</TD><TD>%s</TD></TR>",
+           $set,
+           $row['tva_id'],
+           $row['tva_label'],
+           $row['tva_comment']);
 }
 echo '</TABLE>';
 ?>
 <input type='button' class="button" Value="fermer" onClick='window.close();'>
-<?php
-html_page_stop();
+                                       <?php
+                                       html_page_stop();
 ?>

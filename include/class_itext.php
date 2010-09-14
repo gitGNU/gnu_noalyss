@@ -20,60 +20,61 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief Html Input 
  */
 require_once('class_html_input.php');
- class IText extends HtmlInput
+class IText extends HtmlInput
 {
-  function __construct($name='',$value='') {
-    parent::__construct($name,$value);
-    $this->style=' class="input_text" ';
-  }
-	/*!\brief show the html  input of the widget*/
-	public function input($p_name=null,$p_value=null)
- 	{
-		$this->name=($p_name==null)?$this->name:$p_name;
-		$this->value=($p_value==null)?$this->value:$p_value;
-		if ( $this->readOnly==true) return $this->display();
+    function __construct($name='',$value='')
+    {
+        parent::__construct($name,$value);
+        $this->style=' class="input_text" ';
+    }
+    /*!\brief show the html  input of the widget*/
+    public function input($p_name=null,$p_value=null)
+    {
+        $this->name=($p_name==null)?$this->name:$p_name;
+        $this->value=($p_value==null)?$this->value:$p_value;
+        if ( $this->readOnly==true) return $this->display();
 
-		$t= ((isset($this->title)))?'title="'.$this->title.'"   ':' ';
+        $t= ((isset($this->title)))?'title="'.$this->title.'"   ':' ';
 
-		$extra=(isset($this->extra))?$this->extra:"";
+        $extra=(isset($this->extra))?$this->extra:"";
 
-		$this->value=str_replace('"','',$this->value);
-		$r='<INPUT '.$this->style.' TYPE="TEXT" id="'.
-		$this->name.'"'.$t.
-		'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
-		'SIZE="'.$this->size.'" '.$this->javascript."  $this->extra >";
-		/* add tag for column if inside a table */
-		if ( $this->table == 1 )		  $r='<td>'.$r.'</td>';
+        $this->value=str_replace('"','',$this->value);
+        $r='<INPUT '.$this->style.' TYPE="TEXT" id="'.
+           $this->name.'"'.$t.
+           'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
+           'SIZE="'.$this->size.'" '.$this->javascript."  $this->extra >";
+        /* add tag for column if inside a table */
+        if ( $this->table == 1 )		  $r='<td>'.$r.'</td>';
 
-		return $r;
+        return $r;
 
-	}
-	/*!\brief print in html the readonly value of the widget*/
-	public function display()
- 	{
-		$t= ((isset($this->title)))?'title="'.$this->title.'"   ':' ';
+    }
+    /*!\brief print in html the readonly value of the widget*/
+    public function display()
+    {
+        $t= ((isset($this->title)))?'title="'.$this->title.'"   ':' ';
 
-		$extra=(isset($this->extra))?$this->extra:"";
+        $extra=(isset($this->extra))?$this->extra:"";
 
-		$readonly=" readonly ";$style='style="border:solid 1px blue;color:black;background:#EDEDED"';
-		$this->value=str_replace('"','',$this->value);
-		$r='<INPUT '.$style.' TYPE="TEXT" id="'.
-		$this->name.'"'.$t.
-		'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
-		'SIZE="'.$this->size.'" '.$this->javascript." $readonly $this->extra >";
+        $readonly=" readonly ";
+        $style='style="border:solid 1px blue;color:black;background:#EDEDED"';
+        $this->value=str_replace('"','',$this->value);
+        $r='<INPUT '.$style.' TYPE="TEXT" id="'.
+           $this->name.'"'.$t.
+           'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
+           'SIZE="'.$this->size.'" '.$this->javascript." $readonly $this->extra >";
 
-	/* add tag for column if inside a table */
-		if ( $this->table == 1 )		  $r='<td>'.$r.'</td>';
+        /* add tag for column if inside a table */
+        if ( $this->table == 1 )		  $r='<td>'.$r.'</td>';
 
-		return $r;
+        return $r;
 
-	}
-	static public function test_me()
- 	{
-
-	}
+    }
+    static public function test_me()
+    {
+    }
 }

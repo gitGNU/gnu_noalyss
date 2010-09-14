@@ -26,72 +26,89 @@
  * \param p_table_id
  * \param p_amount amount to reach
  */
-function add_row(p_table,p_seq) {
-  var mytable=g(p_table).tBodies[0];
+function add_row(p_table,p_seq)
+{
+    var mytable=g(p_table).tBodies[0];
 
-  if ( ! mytable ) {return;}
+    if ( ! mytable )
+    {
+        return;
+    }
     var new_value=mytable.rows.length+1;
-  if ( mytable.rows.length > 5 ) { 
-	alert("Maximum 5 lignes ");
-	return;
-  }
-  // For the detail view (modify_op) there is several form and then several time the
-  // element
-  var rowToCopy=mytable.rows[1];
-  var row=mytable.insertRow(mytable.rows.length);
+    if ( mytable.rows.length > 5 )
+    {
+        alert("Maximum 5 lignes ");
+        return;
+    }
+    // For the detail view (modify_op) there is several form and then several time the
+    // element
+    var rowToCopy=mytable.rows[1];
+    var row=mytable.insertRow(mytable.rows.length);
 
-    for ( var i=0;i< rowToCopy.cells.length;i++) {
-      var cell=row.insertCell(i);
-	var txt=rowToCopy.cells[i].innerHTML;
+    for ( var i=0;i< rowToCopy.cells.length;i++)
+    {
+        var cell=row.insertCell(i);
+        var txt=rowToCopy.cells[i].innerHTML;
 //	txt=txt.replace(/row_1/g,"row_"+new_value);
-	cell.innerHTML=txt;
-	}
+        cell.innerHTML=txt;
+    }
 
 }
-/*! 
+/*!
  * \brief Check the amount of the CA
  * \param p_style : error or ok, if ok show a ok box if the amount are equal
  *
  *
  * \return true if the amounts are equal
  */
-function verify_ca(div) {
-    var idx=0;var amount_error=0;
+function verify_ca(div)
+{
+    var idx=0;
+    var amount_error=0;
     // put a maximum
-    while (idx < 50 ) { 
-	var table=div+'t'+idx;
-	if ( g(table) ) {
-	    var total_amount=0;
-	    // table is found compute the different val[]
-	    var array_value=document.getElementsByName('val['+idx+'][]');
-	    
-	    for (var i=0;i < array_value.length;i++ ) {
-		if ( isNaN(array_value[i].value)) {
-		    array_value[i].value=0;
-		}
+    while (idx < 50 )
+    {
+        var table=div+'t'+idx;
+        if ( g(table) )
+        {
+            var total_amount=0;
+            // table is found compute the different val[]
+            var array_value=document.getElementsByName('val['+idx+'][]');
 
-		total_amount+=parseFloat(array_value[i].value);
-	    }
-	    var amount=parseFloat(g('amount_t'+idx).value);
-	    var diff=amount-total_amount;
+            for (var i=0;i < array_value.length;i++ )
+            {
+                if ( isNaN(array_value[i].value))
+                {
+                    array_value[i].value=0;
+                }
 
-	    if (  Math.round(diff,2)!= 0.0) {
-	 	g(table).style.backgroundColor='red';
-		amount_error++;
-	    } else {
-		g(table).style.backgroundColor='lightgreen';
+                total_amount+=parseFloat(array_value[i].value);
+            }
+            var amount=parseFloat(g('amount_t'+idx).value);
+            var diff=amount-total_amount;
 
-	    }
-	    idx++;
-	} else	break;
+            if (  Math.round(diff,2)!= 0.0)
+            {
+                g(table).style.backgroundColor='red';
+                amount_error++;
+            }
+            else
+            {
+                g(table).style.backgroundColor='lightgreen';
+
+            }
+            idx++;
+        }
+        else	break;
     }
-    if ( amount_error != 0 ) {
-	alert('Désolé, les montants pour la comptabilité analytique sont incorrects');
-	return false;
+    if ( amount_error != 0 )
+    {
+        alert('Désolé, les montants pour la comptabilité analytique sont incorrects');
+        return false;
     }
     return true;
 }
-/*! 
+/*!
  * \brief open a window for searching a CA account, 
  * \param p_dossier dossier id
  * \param p_target ctrl to update
@@ -102,57 +119,72 @@ function verify_ca(div) {
  */
 function search_ca (p_dossier,p_target,p_source)
 {
-  var pa_id=g(p_source).value;
-  var url="?gDossier="+p_dossier+"&c1="+p_target+"&c2="+pa_id;
-  var a=window.open("search_ca.php"+url,"CA recherche",'statusbar=no,scrollbars=yes,toolbar=no');
-  a.focus();
+    var pa_id=g(p_source).value;
+    var url="?gDossier="+p_dossier+"&c1="+p_target+"&c2="+pa_id;
+    var a=window.open("search_ca.php"+url,"CA recherche",'statusbar=no,scrollbars=yes,toolbar=no');
+    a.focus();
 }
 
-function caod_checkTotal() {
-  var ie4=false;
-  if ( document.all ) { 
-    ie4=true;
-  }// Ajouter getElementById par document.all[str]
-  var total_deb=0.0;
-  var total_cred=0.0;
-  var nb_item=g('nbrow').value;
+function caod_checkTotal()
+{
+    var ie4=false;
+    if ( document.all )
+    {
+        ie4=true;
+    }// Ajouter getElementById par document.all[str]
+    var total_deb=0.0;
+    var total_cred=0.0;
+    var nb_item=g('nbrow').value;
 
-  for (var i=0;i <nb_item ;i++) {
-    var doc_amount=g("pamount"+i);
-	if ( ! doc_amount ) { return;}
-    var side=g("pdeb"+i);
-	if ( ! side ) { return;}
-    var amount=parseFloat(doc_amount.value);
-  
-    if ( isNaN(amount) == true)  {
-      amount=0.0;
+    for (var i=0;i <nb_item ;i++)
+    {
+        var doc_amount=g("pamount"+i);
+        if ( ! doc_amount )
+        {
+            return;
+        }
+        var side=g("pdeb"+i);
+        if ( ! side )
+        {
+            return;
+        }
+        var amount=parseFloat(doc_amount.value);
+
+        if ( isNaN(amount) == true)
+        {
+            amount=0.0;
+        }
+        if ( side.checked == false )
+        {
+            total_cred+=amount;
+        }
+        if ( side.checked == true )
+        {
+            total_deb+=amount;
+        }
     }
-    if ( side.checked == false ) {
-      total_cred+=amount;
+
+
+
+    r_total_cred=Math.round(total_cred*100)/100;
+    r_total_deb=Math.round(total_deb*100)/100;
+    g('totalDeb').innerHTML=r_total_deb;
+    g('totalCred').innerHTML=r_total_cred;
+
+    if ( r_total_deb != r_total_cred )
+    {
+        g("totalDiff").style.color="red";
+        g("totalDiff").style.fontWeight="bold";
+        g("totalDiff").innerHTML="Différence";
+        diff=total_deb-total_cred;
+        diff=Math.round(diff*100)/100;
+        g("totalDiff").innerHTML=diff;
+
     }
-    if ( side.checked == true ) {
-      total_deb+=amount;
+    else
+    {
+        g("totalDiff").innerHTML="0.0";
     }
-  }
-
-
-
-  r_total_cred=Math.round(total_cred*100)/100;
-  r_total_deb=Math.round(total_deb*100)/100;
-  g('totalDeb').innerHTML=r_total_deb;
-  g('totalCred').innerHTML=r_total_cred;
-
-  if ( r_total_deb != r_total_cred ) {
-    g("totalDiff").style.color="red";
-    g("totalDiff").style.fontWeight="bold";
-    g("totalDiff").innerHTML="Différence";
-    diff=total_deb-total_cred;
-    diff=Math.round(diff*100)/100;
-    g("totalDiff").innerHTML=diff;
-    
-  } else {
-    g("totalDiff").innerHTML="0.0";
-  }
 }
 
 /**
@@ -160,14 +192,17 @@ function caod_checkTotal() {
  *@param p_dossier is the folder
  *@param p_oa_group is the group of the analytic operation
  */
-function op_remove(p_dossier,p_oa_group) {
-  var a=confirm("Etes-vous sur de vouloir effacer cette operation ?\n");
-  if ( a == false ) return;
-  var obj={"oa":p_oa_group,"gDossier":p_dossier};
-  queryString=encodeJSON(obj);
-  g(p_oa_group).style.display='none';
-  var e=new Ajax.Request("remove_op.php",
-		  	{method:'get',parameters:queryString});
+function op_remove(p_dossier,p_oa_group)
+{
+    var a=confirm("Etes-vous sur de vouloir effacer cette operation ?\n");
+    if ( a == false ) return;
+var obj={"oa":
+         p_oa_group,"gDossier":
+             p_dossier};
+    queryString=encodeJSON(obj);
+    g(p_oa_group).style.display='none';
+    var e=new Ajax.Request("remove_op.php",
+                       {method:'get',parameters:queryString});
 
 }
 /**
@@ -175,7 +210,8 @@ function op_remove(p_dossier,p_oa_group) {
 *@todo if we add a line, the number of lines become variables
 * the code must be adapted for that
 */
-function anc_add_row(tableid) {
+function anc_add_row(tableid)
+{
     style='class="input_text"';
     var mytable=g(tableid).tBodies[0];
     var nNumberRow=mytable.rows.length;
@@ -184,15 +220,16 @@ function anc_add_row(tableid) {
     var nNumberCell=rowToCopy.cells.length;
     var nb=g("nbrow");
     var oNewRow = mytable.insertRow(nNumberRow);
-    for ( var e=0;e < nNumberCell;e++) {
-	var newCell=oRow.insertCell(e);	
-	var tt=rowToCopy.cells[e].innerHTML;
-	new_tt=tt.replace(/pop0/g,"pop"+nb.value);
-	  new_tt=new_tt.replace(/pamount0/g,"pamount"+nb.value);
-	  new_tt=new_tt.replace(/pdeb0/g,"pdeb"+nb.value);
-	  newCell.innerHTML=new_tt;
-	  new_tt.evalScripts();
-   }
-  $("pamount"+nb.value).value="0";
-  nb.value++;
+    for ( var e=0;e < nNumberCell;e++)
+    {
+        var newCell=oRow.insertCell(e);
+        var tt=rowToCopy.cells[e].innerHTML;
+        new_tt=tt.replace(/pop0/g,"pop"+nb.value);
+        new_tt=new_tt.replace(/pamount0/g,"pamount"+nb.value);
+        new_tt=new_tt.replace(/pdeb0/g,"pdeb"+nb.value);
+        newCell.innerHTML=new_tt;
+        new_tt.evalScripts();
+    }
+    $("pamount"+nb.value).value="0";
+    nb.value++;
 }

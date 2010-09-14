@@ -74,62 +74,74 @@ echo '</div>';
 // First time in html
 // after in pdf or cvs
 //-----------------------------------------------------
-if ( isset( $_REQUEST['bt_html'] ) ) {
-  require_once("class_acc_account_ledger.php");
+if ( isset( $_REQUEST['bt_html'] ) )
+{
+    require_once("class_acc_account_ledger.php");
 
-  if ( isset($_GET['poste_id']) && strlen(trim($_GET['poste_id'])) != 0 && isNumber($_GET['poste_id']) ) {
-      if ( isset ($_GET['poste_fille']) ) {
-        $parent=$_GET['poste_id'];
-        $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '$parent%' order by pcm_val::text");
-      } elseif ( $cn->count_sql('select * from tmp_pcmn where pcm_val='.FormatString($_GET['poste_id'])) != 0 ) {
-        $a_poste=array( array('pcm_val' => $_GET['poste_id']));
-      }
-  } else {
-    $a_poste=$cn->get_array("select pcm_val from tmp_pcmn order by pcm_val::text");
-  }
+    if ( isset($_GET['poste_id']) && strlen(trim($_GET['poste_id'])) != 0 && isNumber($_GET['poste_id']) )
+    {
+        if ( isset ($_GET['poste_fille']) )
+        {
+            $parent=$_GET['poste_id'];
+            $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '$parent%' order by pcm_val::text");
+        }
+        elseif ( $cn->count_sql('select * from tmp_pcmn where pcm_val='.FormatString($_GET['poste_id'])) != 0 )
+        {
+            $a_poste=array( array('pcm_val' => $_GET['poste_id']));
+        }
+    }
+    else
+    {
+        $a_poste=$cn->get_array("select pcm_val from tmp_pcmn order by pcm_val::text");
+    }
 
-  if ( sizeof($a_poste) == 0 ) {
-      die("Nothing here. Strange.");
-      exit;
-  }
-  if ( isDate($_REQUEST['from_periode'])==null || isDate($_REQUEST['to_periode'])==null){
-    echo alert('Date malformée, désolée');
-    exit();
-  }
-  echo '<div class="content">';
+    if ( sizeof($a_poste) == 0 )
+    {
+        die("Nothing here. Strange.");
+        exit;
+    }
+    if ( isDate($_REQUEST['from_periode'])==null || isDate($_REQUEST['to_periode'])==null)
+    {
+        echo alert('Date malformée, désolée');
+        exit();
+    }
+    echo '<div class="content">';
 
 
     echo '<table class="result">';
-    foreach ($a_poste as $poste_id ) {
+    foreach ($a_poste as $poste_id )
+    {
         $Poste=new Acc_Account_Ledger ($cn, $poste_id['pcm_val']);
         $Poste->load();
         $Poste->get_row_date( $_GET['from_periode'], $_GET['to_periode']);
-        if ( empty($Poste->row)) {
+        if ( empty($Poste->row))
+        {
             continue;
         }
 
         echo '<tr>
-                <td colspan="8">
-                  <h2 class="info">'. $poste_id['pcm_val'].' '.h($Poste->label).'</h2>
-                </td>
-              </tr>';
+        <td colspan="8">
+        <h2 class="info">'. $poste_id['pcm_val'].' '.h($Poste->label).'</h2>
+        </td>
+        </tr>';
 
         echo '<tr>
-                <td>Date</td>
-                <td>R&eacute;f&eacute;rence</td>
-                <td>Libell&eacute;</td>
-                <td>Pi&egrave;ce</td>
-                <td align="right">D&eacute;bit</td>
-                <td align="right">Cr&eacute;dit</td>
-                <td align="right">Solde</td>
-                <td></td>
-              </tr>';
+        <td>Date</td>
+        <td>R&eacute;f&eacute;rence</td>
+        <td>Libell&eacute;</td>
+        <td>Pi&egrave;ce</td>
+        <td align="right">D&eacute;bit</td>
+        <td align="right">Cr&eacute;dit</td>
+        <td align="right">Solde</td>
+        <td></td>
+        </tr>';
 
         $solde = 0.0;
         $solde_d = 0.0;
         $solde_c = 0.0;
 
-        foreach ($Poste->row as $detail) {
+        foreach ($Poste->row as $detail)
+        {
 
             /*
                    [0] => 1 [jr_id] => 1
@@ -144,40 +156,42 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
                    [9] => ODS1 [jr_pj_number] => ODS1 ) 1
              */
 
-              if ($detail['cred_montant'] > 0) {
+            if ($detail['cred_montant'] > 0)
+            {
                 $solde   += $detail['cred_montant'];
                 $solde_c += $detail['cred_montant'];
-              }
-              if ($detail['deb_montant'] > 0) {
+            }
+            if ($detail['deb_montant'] > 0)
+            {
                 $solde   -= $detail['deb_montant'];
                 $solde_d += $detail['deb_montant'];
-              }
+            }
 
-              echo '<tr>
-                      <td>'.$detail['j_date_fmt'].'</td>
-                      <td>'.$detail['jr_internal'].'</td>
-                      <td>'.$detail['description'].'</td>
-                      <td>'.$detail['jr_pj_number'].'</td>
-                      <td align="right">'.($detail['deb_montant']  > 0 ? sprintf("%.2f", $detail['deb_montant'])  : '').'</td>
-                      <td align="right">'.($detail['cred_montant'] > 0 ? sprintf("%.2f", $detail['cred_montant']) : '').'</td>
-                      <td align="right">'.sprintf("%.2f", $solde).'</td>
-                      <td>'.''.'</td>
-                  </tr>';
+            echo '<tr>
+            <td>'.$detail['j_date_fmt'].'</td>
+            <td>'.$detail['jr_internal'].'</td>
+            <td>'.$detail['description'].'</td>
+            <td>'.$detail['jr_pj_number'].'</td>
+            <td align="right">'.($detail['deb_montant']  > 0 ? sprintf("%.2f", $detail['deb_montant'])  : '').'</td>
+            <td align="right">'.($detail['cred_montant'] > 0 ? sprintf("%.2f", $detail['cred_montant']) : '').'</td>
+            <td align="right">'.sprintf("%.2f", $solde).'</td>
+            <td>'.''.'</td>
+            </tr>';
         }
         echo '<tr>
-                <td>'.''.'</td>
-                <td>'.''.'</td>
-                <td>'.'<b>'.'Total du compte '.$poste_id['pcm_val'].'</b>'.'</td>
-                <td>'.''.'</td>
-                <td align="right">'.'<b>'.($solde_d  > 0 ? sprintf("%.2f", $solde_d)  : '').'</b>'.'</td>
-                <td align="right">'.'<b>'.($solde_c  > 0 ? sprintf("%.2f", $solde_c)  : '').'</b>'.'</td>
-                <td align="right">'.'<b>'.sprintf("%.2f", abs($solde_c-$solde_d)).'</b>'.'</td>
-                <td>'.($solde_c > $solde_d ? 'C' : 'D').'</td>
-            </tr>';
+        <td>'.''.'</td>
+        <td>'.''.'</td>
+        <td>'.'<b>'.'Total du compte '.$poste_id['pcm_val'].'</b>'.'</td>
+        <td>'.''.'</td>
+        <td align="right">'.'<b>'.($solde_d  > 0 ? sprintf("%.2f", $solde_d)  : '').'</b>'.'</td>
+        <td align="right">'.'<b>'.($solde_c  > 0 ? sprintf("%.2f", $solde_c)  : '').'</b>'.'</td>
+        <td align="right">'.'<b>'.sprintf("%.2f", abs($solde_c-$solde_d)).'</b>'.'</td>
+        <td>'.($solde_c > $solde_d ? 'C' : 'D').'</td>
+        </tr>';
     }
     echo '</table>';
     echo Acc_Account_Ledger::HtmlTableHeader("gl_comptes");
     echo "</div>";
-  exit;
+    exit;
 }
 ?>

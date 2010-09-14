@@ -38,22 +38,24 @@ require_once ('class_dossier.php');
 require_once ('class_todo_list.php');
 require_once ('class_database.php');
 
-  /*!\todo needs security for the users */
-if (isset($_REQUEST['show'])) {
-  $cn=new Database(dossier::id());
-  $todo=new Todo_list($cn);
-  $todo->set_parameter('id',$_REQUEST['id']);
-  $todo->load();
-  header('Content-type: text/xml; charset=UTF-8');
-  header ('<?xml version="1.0" encoding="UTF-8"?>');
-  echo $todo->toXML();
-  exit();
+/*!\todo needs security for the users */
+if (isset($_REQUEST['show']))
+{
+    $cn=new Database(dossier::id());
+    $todo=new Todo_list($cn);
+    $todo->set_parameter('id',$_REQUEST['id']);
+    $todo->load();
+    header('Content-type: text/xml; charset=UTF-8');
+    header ('<?xml version="1.0" encoding="UTF-8"?>');
+    echo $todo->toXML();
+    exit();
 }
-  /*!\todo needs security for the users */
-if (isset($_REQUEST['del'])) {
-  $cn=new Database(dossier::id());
-  $todo=new Todo_list($cn);
-  $todo->set_parameter('id',$_REQUEST['id']);
-  $todo->delete();
-  exit();
+/*!\todo needs security for the users */
+if (isset($_REQUEST['del']))
+{
+    $cn=new Database(dossier::id());
+    $todo=new Todo_list($cn);
+    $todo->set_parameter('id',$_REQUEST['id']);
+    $todo->delete();
+    exit();
 }

@@ -20,18 +20,19 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief definition of gestion_table
  */
 
-/*! \brief mother class for gestion 
+/*! \brief mother class for gestion
  *
  */
-class gestion_table 
+class gestion_table
 {
-  var $db; 						/*!< $db database connection */
-  /*!\brief contains only the dabase connx */
-  function gestion_table($p_cn) {
-	$this->db=$p_cn;
-  }
+    var $db; 						/*!< $db database connection */
+    /*!\brief contains only the dabase connx */
+    function gestion_table($p_cn)
+    {
+        $this->db=$p_cn;
+    }
 }

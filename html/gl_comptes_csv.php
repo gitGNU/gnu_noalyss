@@ -49,48 +49,58 @@ $User->can_request(IMPBIL,0);
 
 extract($_GET);
 
-if ( isset($poste_id) && strlen(trim($poste_id)) != 0 && isNumber($poste_id) ) {
-    if ( isset ($poste_fille) ) {
-      $parent=$poste_id;
-      $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '$parent%' order by pcm_val::text");
-    } elseif ( $cn->count_sql('select * from tmp_pcmn where pcm_val='.FormatString($poste_id)) != 0 ) {
-      $a_poste=array('pcm_val' => $poste_id);
+if ( isset($poste_id) && strlen(trim($poste_id)) != 0 && isNumber($poste_id) )
+{
+    if ( isset ($poste_fille) )
+    {
+        $parent=$poste_id;
+        $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '$parent%' order by pcm_val::text");
     }
-} else {
-  $a_poste=$cn->get_array("select pcm_val from tmp_pcmn order by pcm_val::text");
+    elseif ( $cn->count_sql('select * from tmp_pcmn where pcm_val='.FormatString($poste_id)) != 0 )
+    {
+        $a_poste=array('pcm_val' => $poste_id);
+    }
+}
+else
+{
+    $a_poste=$cn->get_array("select pcm_val from tmp_pcmn order by pcm_val::text");
 }
 
-if ( count($a_poste) == 0 ) {
-   echo 'Rien à rapporter.';
-   printf("\n");
-   exit;
+if ( count($a_poste) == 0 )
+{
+    echo 'Rien à rapporter.';
+    printf("\n");
+    exit;
 }
 
 // Header
 $header = array( "Date", "Référence", "Libellé", "Pièce", "Débit", "Crédit", "Solde" );
 
-foreach ($a_poste as $poste) {
+foreach ($a_poste as $poste)
+{
 
     $Poste=new Acc_Account_Ledger($cn,$poste['pcm_val']);
     list($array,$tot_deb,$tot_cred)=$Poste->get_row_date($from_periode,$to_periode);
 
     // don't print empty account
-    if ( count($array) == 0 ) {
-      continue;
+    if ( count($array) == 0 )
+    {
+        continue;
     }
 
     echo sprintf("%s - %s ",$Poste->id,$Poste->get_name());
     printf("\n");
 
     for($i=0;$i<count($header);$i++)
-      echo $header[$i].";";
+        echo $header[$i].";";
     printf("\n");
 
     $solde = 0.0;
     $solde_d = 0.0;
     $solde_c = 0.0;
 
-    foreach ($Poste->row as $detail) {
+    foreach ($Poste->row as $detail)
+    {
 
         /*
                [0] => 1 [jr_id] => 1
@@ -105,37 +115,39 @@ foreach ($a_poste as $poste) {
                [9] => ODS1 [jr_pj_number] => ODS1 ) 1
          */
 
-          if ($detail['cred_montant'] > 0) {
+        if ($detail['cred_montant'] > 0)
+        {
             $solde   += $detail['cred_montant'];
             $solde_c += $detail['cred_montant'];
-          }
-          if ($detail['deb_montant'] > 0) {
+        }
+        if ($detail['deb_montant'] > 0)
+        {
             $solde   -= $detail['deb_montant'];
             $solde_d += $detail['deb_montant'];
-          }
-
-          echo $detail['j_date_fmt'].";";
-          echo $detail['jr_internal'].";";
-          echo $detail['description'].";";
-          echo $detail['jr_pj_number'].";";
-          echo ($detail['deb_montant']  > 0 ? sprintf("%.2f", $detail['deb_montant'])  : '').";";
-          echo ($detail['cred_montant'] > 0 ? sprintf("%.2f", $detail['cred_montant']) : '').";";
-          echo sprintf("%.2f", $solde).";";
-          printf("\n");
-
         }
 
+        echo $detail['j_date_fmt'].";";
+        echo $detail['jr_internal'].";";
+        echo $detail['description'].";";
+        echo $detail['jr_pj_number'].";";
+        echo ($detail['deb_montant']  > 0 ? sprintf("%.2f", $detail['deb_montant'])  : '').";";
+        echo ($detail['cred_montant'] > 0 ? sprintf("%.2f", $detail['cred_montant']) : '').";";
+        echo sprintf("%.2f", $solde).";";
+        printf("\n");
 
-        echo ";";
-        echo ";";
-        echo ";";
-        echo 'Total du compte '.$Poste->id.";";
-        echo ($solde_d  > 0 ? sprintf("%.2f", $solde_d)  : '').";";
-        echo ($solde_c  > 0 ? sprintf("%.2f", $solde_c)  : '').";";
-        echo sprintf("%.2f", abs($solde_c-$solde_d)).";";
-        echo ($solde_c > $solde_d ? 'C' : 'D').";";
-        printf("\n");
-        printf("\n");
+    }
+
+
+    echo ";";
+    echo ";";
+    echo ";";
+    echo 'Total du compte '.$Poste->id.";";
+    echo ($solde_d  > 0 ? sprintf("%.2f", $solde_d)  : '').";";
+    echo ($solde_c  > 0 ? sprintf("%.2f", $solde_c)  : '').";";
+    echo sprintf("%.2f", abs($solde_c-$solde_d)).";";
+    echo ($solde_c > $solde_d ? 'C' : 'D').";";
+    printf("\n");
+    printf("\n");
 }
 
 exit;

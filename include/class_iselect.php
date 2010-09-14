@@ -24,55 +24,54 @@
  * \brief Html Input
  */
 require_once('class_html_input.php');
- class ISelect extends HtmlInput
+class ISelect extends HtmlInput
 {
-  /*!\brief show the html  input of the widget*/
-  public function input($p_name=null,$p_value=null)
-  {
-    $this->name=($p_name==null)?$this->name:$p_name;
-    $this->value=($p_value==null)?$this->value:$p_value;
-    if ( $this->readOnly==true) return $this->display();
+    /*!\brief show the html  input of the widget*/
+    public function input($p_name=null,$p_value=null)
+    {
+        $this->name=($p_name==null)?$this->name:$p_name;
+        $this->value=($p_value==null)?$this->value:$p_value;
+        if ( $this->readOnly==true) return $this->display();
 
 
-    $disabled=($this->disabled==true)?"disabled":"";
+        $disabled=($this->disabled==true)?"disabled":"";
 
-    //echo "<b>Selected <b>".$this->selected;
-    $r=(isset($this->label))?$this->label:'';
+        //echo "<b>Selected <b>".$this->selected;
+        $r=(isset($this->label))?$this->label:'';
 
-    //    if ( $this->table == 1 ) $r=td($r);
+        //    if ( $this->table == 1 ) $r=td($r);
 
-    $a="<SELECT  id=\"$this->name\" NAME=\"$this->name\" $this->javascript $disabled>";
+        $a="<SELECT  id=\"$this->name\" NAME=\"$this->name\" $this->javascript $disabled>";
 
-    if (empty($this->value)) return '';
-    for ( $i=0;$i<sizeof($this->value);$i++)
-      {
-      	$checked=($this->selected==$this->value[$i]['value'])?"SELECTED":"";
-	$a.='<OPTION VALUE="'.$this->value[$i]['value'].'" '.$checked.'>';
-	$a.=$this->value[$i]['label'];
-      }
-    $a.="</SELECT>";
-    if ( $this->table == 1 )		  $a='<td>'.$a.'</td>';
+        if (empty($this->value)) return '';
+        for ( $i=0;$i<sizeof($this->value);$i++)
+        {
+            $checked=($this->selected==$this->value[$i]['value'])?"SELECTED":"";
+            $a.='<OPTION VALUE="'.$this->value[$i]['value'].'" '.$checked.'>';
+            $a.=$this->value[$i]['label'];
+        }
+        $a.="</SELECT>";
+        if ( $this->table == 1 )		  $a='<td>'.$a.'</td>';
 
-    return $r.$a;
-  }
-  /*!\brief print in html the readonly value of the widget*/
-  public function display()
-  {
-    $r="";
-    for ( $i=0;$i<sizeof($this->value);$i++)
-      {
-	if ($this->selected==$this->value[$i]['value'] )
-	  {
-	    $r=h($this->value[$i]['label']);
+        return $r.$a;
+    }
+    /*!\brief print in html the readonly value of the widget*/
+    public function display()
+    {
+        $r="";
+        for ( $i=0;$i<sizeof($this->value);$i++)
+        {
+            if ($this->selected==$this->value[$i]['value'] )
+            {
+                $r=h($this->value[$i]['label']);
 
-	  }
-      }
-    return $r;
-  }
+            }
+        }
+        return $r;
+    }
 
 
-  static public function test_me()
-  {
-
-  }
+    static public function test_me()
+    {
+    }
 }

@@ -31,15 +31,15 @@ echo tr($r);
 // type of lettering : all, lettered, not lettered
 $sel=new ISelect('type_let');
 $sel->value=array(
-		  array('value'=>0,'label'=>_('Toutes opérations')),
-		  array('value'=>1,'label'=>_('Opérations lettrées')),
-		  array('value'=>2,'label'=>_('Opérations NON lettrées'))
-		  );
+                array('value'=>0,'label'=>_('Toutes opérations')),
+                array('value'=>1,'label'=>_('Opérations lettrées')),
+                array('value'=>2,'label'=>_('Opérations NON lettrées'))
+            );
 if (isset($_GET['type_let'])) $sel->selected=$_GET['type_let'];
 else $sel->selected=1;
 
 $r= td("Filtre ").
-  td($sel->input());
+    td($sel->input());
 
 echo tr($r);
 echo '</table>';
@@ -52,16 +52,18 @@ echo '<hr>';
 //--------------------------------------------------------------------------------
 // record the data
 //--------------------------------------------------------------------------------
-if ( isset($_POST['record'])) {
-  $letter=new Lettering_Account($cn);
-  $letter->save($_POST);
+if ( isset($_POST['record']))
+{
+    $letter=new Lettering_Account($cn);
+    $letter->save($_POST);
 }
 //--------------------------------------------------------------------------------
 // Show the result
 //--------------------------------------------------------------------------------
-if ( isDate($_GET['start']) == null || isDate($_GET['end']) == null ) {
-  echo alert(_('Date malformée, désolé'));
-  exit();
+if ( isDate($_GET['start']) == null || isDate($_GET['end']) == null )
+{
+    echo alert(_('Date malformée, désolé'));
+    exit();
 }
 
 echo '<div id="list">';
@@ -73,11 +75,11 @@ $letter->set_parameter('start',$start->value);
 $letter->set_parameter('end',$end->value);
 
 if ( $sel->selected == 0 )
-  echo $letter->show_list('all');
+    echo $letter->show_list('all');
 if ( $sel->selected == 1 )
-  echo $letter->show_list('letter');
+    echo $letter->show_list('letter');
 if ( $sel->selected == 2 )
-  echo $letter->show_list('unletter');
+    echo $letter->show_list('unletter');
 
 echo '</div>';
 echo '<div id="detail" style="display:none">';

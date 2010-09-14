@@ -20,23 +20,22 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief Html Input 
  */
 require_once('class_html_input.php');
- class IHidden extends HtmlInput
+class IHidden extends HtmlInput
 {
-	/*!\brief show the html  input of the widget*/
-	public function input($p_name=null,$p_value=null)
- 	{
-		 $this->name=($p_name==null)?$this->name:$p_name;
-		 $this->value=($p_value==null)?$this->value:$p_value;
-		 $r='<INPUT TYPE="HIDDEN" id="'.$this->name.'" name="'.$this->name.'" value="'.$this->value.'">';
-		return $r;
+    /*!\brief show the html  input of the widget*/
+    public function input($p_name=null,$p_value=null)
+    {
+        $this->name=($p_name==null)?$this->name:$p_name;
+        $this->value=($p_value==null)?$this->value:$p_value;
+        $r='<INPUT TYPE="HIDDEN" id="'.$this->name.'" name="'.$this->name.'" value="'.$this->value.'">';
+        return $r;
 
-	}
-	static public function test_me()
- 	{
-
-	}
+    }
+    static public function test_me()
+    {
+    }
 }

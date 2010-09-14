@@ -20,7 +20,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief ajax file called by the import screen
  */
 
@@ -41,38 +41,38 @@ $User->check_dossier(dossier::id());
 $User->can_request('GEBQ');
 $User->Check();
 if ( isset ($_GET['action']) &&
-     $_GET['action']=='update'
-     )
+        $_GET['action']=='update'
+   )
 
-  {
+{
     $code=FormatString($_GET['code']);
     $count=FormatString($_GET['count']);
     $poste=FormatString($_GET['poste']);
     $concern=FormatString($_GET['concerned']);
     $sql = "update import_tmp set poste_comptable='$poste' ,status='w',".
-      "jr_rapt='$concern' where code='$code'";
-    
+           "jr_rapt='$concern' where code='$code'";
+
     $Res=$cn->exec_sql($sql);
     exit();
-  }
+}
 
 if ( isset ($_GET['action']) &&
-     $_GET['action']=='delete'
-     )
+        $_GET['action']=='delete'
+   )
 
-  {
+{
     $code=FormatString($_GET['code']);
     $sql="update import_tmp set status='d' where code='".$code."'";
     $cn->exec_sql($sql);
     exit();
-  }
+}
 if ( isset ($_GET['action']) &&
-     $_GET['action']=='not_confirmed'
-     )
+        $_GET['action']=='not_confirmed'
+   )
 
-  {
+{
     $code=FormatString($_GET['code']);
     $sql="update import_tmp set status='n' where code='".$code."'";
     $cn->exec_sql($sql);
     exit();
-  }
+}

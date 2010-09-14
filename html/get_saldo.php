@@ -31,11 +31,13 @@ require_once('class_dossier.php');
 require_once('class_fiche.php');
 extract($_GET);
 /* check the parameters */
-foreach ( array('j','ctl') as $a ) {
-  if ( ! isset(${$a}) ) {
-    echo "missing $a";
-    return;
-  }
+foreach ( array('j','ctl') as $a )
+{
+    if ( ! isset(${$a}) )
+    {
+        echo "missing $a";
+        return;
+    }
 }
 
 $cn=new Database(dossier::id());
@@ -45,13 +47,13 @@ if ( $user->check_jrn($_GET['j'])=='X' ) return '{"saldo":"0"}';
 /*  make a filter on the exercice */
 
 $filter_year="  j_tech_per in (select p_id from parm_periode ".
-  "where p_exercice='".$user->get_exercice()."')";
+             "where p_exercice='".$user->get_exercice()."')";
 
 $acc=new Fiche($cn);
 $acc->get_by_qcode($_GET['ctl'],false);
 
 if ( $acc->belong_ledger($_GET['j']) == -1 )
-  return '{"saldo":"0"}';
+    return '{"saldo":"0"}';
 $res=$acc->get_solde_detail($filter_year);
 
 

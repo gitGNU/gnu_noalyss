@@ -17,21 +17,28 @@ $user=new User($cn);
 $user->check(true);
 
 /* if a code has been asked */
-if (isset($_REQUEST['plugin_code']) ) {
+if (isset($_REQUEST['plugin_code']) )
+{
 
-  $ext=new Extension($cn);
-  $ext->search('code',$_REQUEST['plugin_code']);
-  if ( $ext->get_parameter('id') != 0 ) {
-    /* security */
-    if ( !isset ($_SESSION['g_user']) || $ext->can_request($_SESSION['g_user']) == 0 ) {
-      exit();
+    $ext=new Extension($cn);
+    $ext->search('code',$_REQUEST['plugin_code']);
+    if ( $ext->get_parameter('id') != 0 )
+    {
+        /* security */
+        if ( !isset ($_SESSION['g_user']) || $ext->can_request($_SESSION['g_user']) == 0 )
+        {
+            exit();
+        }
+        /* call the ajax script */
+        require_once('ext'.DIRECTORY_SEPARATOR.dirname(trim($ext->get_parameter('filepath'))).DIRECTORY_SEPARATOR.'ajax.php');
     }
-    /* call the ajax script */
-    require_once('ext'.DIRECTORY_SEPARATOR.dirname(trim($ext->get_parameter('filepath'))).DIRECTORY_SEPARATOR.'ajax.php');
-  } else {
-    alert(j(_("Cette extension n'existe pas ")));
-    exit();
-  }
+    else
+    {
+        alert(j(_("Cette extension n'existe pas ")));
+        exit();
+    }
 
 }
+?>
+?>
 ?>

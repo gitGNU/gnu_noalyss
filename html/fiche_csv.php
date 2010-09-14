@@ -40,40 +40,50 @@ $User->check_dossier($gDossier);
 $User->can_request(IMPFIC,0);
 
 
-if  ( isset ($_GET['fd_id'])) {
-  $fiche_def=new Fiche_Def($cn,$_GET ['fd_id']);
-  $fiche=new Fiche($cn);
-  $e=$fiche_def->GetByType();
-  $o=0;
-  //  Heading
-  $fiche_def->GetAttribut();
-  foreach ($fiche_def->attribut as $attribut) {
-	  if ( $o == 0 ) {
-    		printf("%s",$attribut->ad_text);
-		$o=1;
-	  }else {
-	    printf(";%s",$attribut->ad_text);
-	  }
+if  ( isset ($_GET['fd_id']))
+{
+    $fiche_def=new Fiche_Def($cn,$_GET ['fd_id']);
+    $fiche=new Fiche($cn);
+    $e=$fiche_def->GetByType();
+    $o=0;
+    //  Heading
+    $fiche_def->GetAttribut();
+    foreach ($fiche_def->attribut as $attribut)
+    {
+        if ( $o == 0 )
+        {
+            printf("%s",$attribut->ad_text);
+            $o=1;
+        }
+        else
+        {
+            printf(";%s",$attribut->ad_text);
+        }
     }
-  printf("\n");
-  $o=0;
-  // Details
-  usort($e,'fiche::cmp_name');
-  foreach ($e as $detail) {
-    foreach ( $detail->attribut as $dattribut ) {
-	  if ( $o == 0 ) {
-    		printf("%s",$dattribut->av_text);
-		$o=1;
-	  } else {
-	    printf (";%s",$dattribut->av_text);
-
-	  }
-      }
     printf("\n");
     $o=0;
+    // Details
+    usort($e,'fiche::cmp_name');
+    foreach ($e as $detail)
+    {
+        foreach ( $detail->attribut as $dattribut )
+        {
+            if ( $o == 0 )
+            {
+                printf("%s",$dattribut->av_text);
+                $o=1;
+            }
+            else
+            {
+                printf (";%s",$dattribut->av_text);
+
+            }
+        }
+        printf("\n");
+        $o=0;
     }
 
 
- }
-  exit;
+}
+exit;
 ?>

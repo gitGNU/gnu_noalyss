@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PHPCOMPTA.
  *
@@ -60,7 +60,7 @@ $input_to=new IPeriod("to_periode",$to);
 $input_to->show_start_date=false;
 $input_to->filter_year;
 $input_to->type=ALL;
-$input_to->cn=$cn; 
+$input_to->cn=$cn;
 $input_to->user=$User;
 echo ' jusque :'.$input_to->input();
 
@@ -76,11 +76,14 @@ $select_cat=(isset($_GET['r_cat']))?$_GET['r_cat']:null;
 $array_cat=Acc_Ledger::array_cat();
 
 echo '<ul style="list-style-type:none">';
-if ( ! isset($_GET['p_filter']) || $_GET['p_filter']==0) $rad->selected='t';else $rad->selected=false;
+if ( ! isset($_GET['p_filter']) || $_GET['p_filter']==0) $rad->selected='t';
+else $rad->selected=false;
 echo '<li>'.$rad->input('p_filter',0).'Aucun filtre, tous les journaux'.'</li>';
-if (  isset($_GET['p_filter']) && $_GET['p_filter']==1) $rad->selected='t'; else $rad->selected=false;
+if (  isset($_GET['p_filter']) && $_GET['p_filter']==1) $rad->selected='t';
+else $rad->selected=false;
 echo '<li>'.$rad->input('p_filter',1).'Filtré par journal'.HtmlInput::select_ledger($array_ledger,$selected).'</li>';
-if (  isset($_GET['p_filter']) && $_GET['p_filter']==2) $rad->selected='t';else $rad->selected=false;
+if (  isset($_GET['p_filter']) && $_GET['p_filter']==2) $rad->selected='t';
+else $rad->selected=false;
 echo '<li>'.$rad->input('p_filter',2).'Filtré par catégorie'.HtmlInput::select_cat($array_cat).'</li>';
 echo '</ul>';
 
@@ -116,110 +119,116 @@ echo '<hr>';
 // Form
 //-----------------------------------------------------
 // Show the export button
-if ( isset ($_GET['view']  ) ) {
+if ( isset ($_GET['view']  ) )
+{
 
-  $hid=new IHidden();
+    $hid=new IHidden();
 
-  echo "<table>";
-  echo '<TR>';
-  echo '<TD><form method="GET" ACTION="print_balance.php">'.
-	dossier::hidden().
+    echo "<table>";
+    echo '<TR>';
+    echo '<TD><form method="GET" ACTION="print_balance.php">'.
+    dossier::hidden().
     HtmlInput::submit('bt_pdf',"Export PDF").
     HtmlInput::hidden("p_action","impress").
     HtmlInput::hidden("from_periode",$_GET['from_periode']).
     HtmlInput::hidden("to_periode",$_GET['to_periode']);
-  echo HtmlInput::hidden('p_filter',$_GET['p_filter']);
-  for ($e=0;$e<count($array_ledger);$e++) 
-    if (isset($selected[$e]))
-      echo    HtmlInput::hidden("r_jrn[$e]",$e);
-  for ($e=0;$e<count($array_cat);$e++) 
-    if (isset($select_cat[$e]))
-      echo    HtmlInput::hidden("r_cat[$e]",$e);
+    echo HtmlInput::hidden('p_filter',$_GET['p_filter']);
+    for ($e=0;$e<count($array_ledger);$e++)
+        if (isset($selected[$e]))
+            echo    HtmlInput::hidden("r_jrn[$e]",$e);
+    for ($e=0;$e<count($array_cat);$e++)
+        if (isset($select_cat[$e]))
+            echo    HtmlInput::hidden("r_cat[$e]",$e);
 
     echo HtmlInput::hidden("from_poste",$_GET['from_poste']).
     HtmlInput::hidden("to_poste",$_GET['to_poste']);
-  echo "</form></TD>";
+    echo "</form></TD>";
 
-  echo '<TD><form method="GET" ACTION="bal_csv.php">'.
+    echo '<TD><form method="GET" ACTION="bal_csv.php">'.
     HtmlInput::submit('bt_csv',"Export CSV").
-	dossier::hidden().
+    dossier::hidden().
     HtmlInput::hidden("p_action","impress").
     HtmlInput::hidden("from_periode",$_GET['from_periode']).
     HtmlInput::hidden("to_periode",$_GET['to_periode']);
-  echo HtmlInput::hidden('p_filter',$_GET['p_filter']);
-  if (isset($_GET ['r_jrn']))
-      if (isset($selected[$e]))
-	echo    HtmlInput::hidden("r_jrn[$e]",$e);
-    for ($e=0;$e<count($array_cat);$e++) 
-      if (isset($select_cat[$e]))
-	echo    HtmlInput::hidden("r_cat[$e]",$e);
-    
+    echo HtmlInput::hidden('p_filter',$_GET['p_filter']);
+    if (isset($_GET ['r_jrn']))
+        if (isset($selected[$e]))
+            echo    HtmlInput::hidden("r_jrn[$e]",$e);
+    for ($e=0;$e<count($array_cat);$e++)
+        if (isset($select_cat[$e]))
+            echo    HtmlInput::hidden("r_cat[$e]",$e);
+
     echo   HtmlInput::hidden("from_poste",$_GET['from_poste']).
     HtmlInput::hidden("to_poste",$_GET['to_poste']);
 
-  echo "</form></TD>";
+    echo "</form></TD>";
 
-  echo "</TR>";
+    echo "</TR>";
 
-  echo "</table>";
+    echo "</table>";
 }
 
 
 //-----------------------------------------------------
 // Display result
 //-----------------------------------------------------
-if ( isset($_GET['view'] ) ) {
-  $bal=new Acc_Balance($cn);
-  if ( $_GET['p_filter']==1) {
-    for ($e=0;$e<count($array_ledger);$e++) 
-      if (isset($selected[$e]))
-	$bal->jrn[]=$array_ledger[$e]['jrn_def_id'];
-  }
-  if ( $_GET['p_filter'] == 0 ) {
-    $bal->jrn=null;
-  }
-  if ( $_GET['p_filter'] == 2 && isset ($_GET['r_cat'])) {
-    $bal->filter_cat($_GET['r_cat']);
-  }
-  $bal->from_poste=$_GET['from_poste'];
-  $bal->to_poste=$_GET['to_poste'];
+if ( isset($_GET['view'] ) )
+{
+    $bal=new Acc_Balance($cn);
+    if ( $_GET['p_filter']==1)
+    {
+        for ($e=0;$e<count($array_ledger);$e++)
+            if (isset($selected[$e]))
+                $bal->jrn[]=$array_ledger[$e]['jrn_def_id'];
+    }
+    if ( $_GET['p_filter'] == 0 )
+    {
+        $bal->jrn=null;
+    }
+    if ( $_GET['p_filter'] == 2 && isset ($_GET['r_cat']))
+    {
+        $bal->filter_cat($_GET['r_cat']);
+    }
+    $bal->from_poste=$_GET['from_poste'];
+    $bal->to_poste=$_GET['to_poste'];
 
-  $row=$bal->get_row($_GET['from_periode'],
-		  $_GET['to_periode']);
-  $periode=new Periode($cn);
-  $a=$periode->get_date_limit($_GET['from_periode']);
-  $b=$periode->get_date_limit($_GET['to_periode']);
-  echo "<h2 class=\"info\"> période du ".$a['p_start']." au ".$b['p_end']."</h2>";
+    $row=$bal->get_row($_GET['from_periode'],
+                       $_GET['to_periode']);
+    $periode=new Periode($cn);
+    $a=$periode->get_date_limit($_GET['from_periode']);
+    $b=$periode->get_date_limit($_GET['to_periode']);
+    echo "<h2 class=\"info\"> période du ".$a['p_start']." au ".$b['p_end']."</h2>";
 
-  echo '<table width="100%">';  
-  echo '<th>Poste Comptable</th>';
-  echo '<th>Libell&eacute;</th>';
-  echo '<th>D&eacute;bit</th>';
-  echo '<th>Cr&eacute;dit</th>';
-  echo '<th>Solde D&eacute;biteur </th>';
-  echo '<th>Solde Cr&eacute;diteur</th>';
+    echo '<table width="100%">';
+    echo '<th>Poste Comptable</th>';
+    echo '<th>Libell&eacute;</th>';
+    echo '<th>D&eacute;bit</th>';
+    echo '<th>Cr&eacute;dit</th>';
+    echo '<th>Solde D&eacute;biteur </th>';
+    echo '<th>Solde Cr&eacute;diteur</th>';
 
-  $i=0;
-  foreach ($row as $r) {
-    $i++;
-    if ( $i%2 == 0 )
-      $tr="even";
-    else
-      $tr="odd";
-    $view_history= sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:view_history_account(\'%s\',\'%s\')" >%s</A>',
-			   $r['poste'], $gDossier, $r['poste']);
+    $i=0;
+    foreach ($row as $r)
+    {
+        $i++;
+        if ( $i%2 == 0 )
+            $tr="even";
+        else
+            $tr="odd";
+        $view_history= sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:view_history_account(\'%s\',\'%s\')" >%s</A>',
+                               $r['poste'], $gDossier, $r['poste']);
 
-    echo '<TR class="'.$tr.'">';
-    echo td($view_history);
-    echo td(h($r['label']));
-    echo td($r['sum_deb']);
-    echo td($r['sum_cred']);
-    echo td($r['solde_deb']);
-    echo td($r['solde_cred']);
-    echo '</TR>';
-  }
-  echo '</table>';
+        echo '<TR class="'.$tr.'">';
+        echo td($view_history);
+        echo td(h($r['label']));
+        echo td($r['sum_deb']);
+        echo td($r['sum_cred']);
+        echo td($r['solde_deb']);
+        echo td($r['solde_cred']);
+        echo '</TR>';
+    }
+    echo '</table>';
 
- }// end submit
-  echo "</div>";
+}// end submit
+echo "</div>";
 ?>

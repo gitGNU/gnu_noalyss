@@ -41,38 +41,49 @@ require_once ('class_user.php');
 
 // Check if the needed field does exist
 extract ($_GET);
-foreach (array('t','c','p','q','n','gDossier') as $a) {
-  if ( ! isset (${$a}) )   { echo "error $a is not set "; exit();} 
+foreach (array('t','c','p','q','n','gDossier') as $a)
+{
+    if ( ! isset (${$a}) )
+    {
+        echo "error $a is not set ";
+        exit();
+    }
+
 }
 $cn=new Database(dossier::id());
 $User=new User($cn);
 $User->Check();
 // Retrieve the rate of vat, it $t == -1 it means no VAT
-if ( $t != -1 && isNumber($t) == 1 ){
-	$tva_rate=new Acc_Tva($cn);
-	$tva_rate->set_parameter('id',$t);
-	/** 
-	 *if the tva_rate->load failed we don't compute tva
-	 */
-	if ( $tva_rate->load() != 0 ) {
-	  $tva_rate->set_parameter('rate',0);
-	}
+if ( $t != -1 && isNumber($t) == 1 )
+{
+    $tva_rate=new Acc_Tva($cn);
+    $tva_rate->set_parameter('id',$t);
+    /**
+     *if the tva_rate->load failed we don't compute tva
+     */
+    if ( $tva_rate->load() != 0 )
+    {
+        $tva_rate->set_parameter('rate',0);
+    }
 }
 
 $total=new Acc_Compute();
 bcscale(4);
 $amount=round(bcmul($p,$q),2);
 $total->set_parameter('amount',$amount);
-if ( $t != -1 && isNumber($t) == 1 ) {
-	$total->set_parameter('amount_vat_rate',$tva_rate->get_parameter('rate'));
-	$total->compute_vat();
-	$tvac=bcadd($total->get_parameter('amount_vat'),$amount);
-	header("Content-type: text/html; charset: utf8",true);
-	echo '{"ctl":"'.$n.'","htva":"'.$amount.'","tva":"'.$total->get_parameter('amount_vat').'","tvac":"'.$tvac.'"}';
-} else {
-/* there is no vat to compute */
-	header("Content-type: text/html; charset: utf8",true);
-	echo '{"ctl":"'.$n.'","htva":"'.$amount.'","tva":"NA","tvac":"'.$amount.'"}';
+if ( $t != -1 && isNumber($t) == 1 )
+{
+    $total->set_parameter('amount_vat_rate',$tva_rate->get_parameter('rate'));
+    $total->compute_vat();
+    $tvac=bcadd($total->get_parameter('amount_vat'),$amount);
+    header("Content-type: text/html; charset: utf8",true);
+    echo '{"ctl":"'.$n.'","htva":"'.$amount.'","tva":"'.$total->get_parameter('amount_vat').'","tvac":"'.$tvac.'"}';
+}
+else
+{
+    /* there is no vat to compute */
+    header("Content-type: text/html; charset: utf8",true);
+    echo '{"ctl":"'.$n.'","htva":"'.$amount.'","tva":"NA","tvac":"'.$amount.'"}';
 }
 ?>
 

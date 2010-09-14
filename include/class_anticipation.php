@@ -38,294 +38,325 @@ require_once 'class_acc_account_ledger.php';
 require_once 'class_periode.php';
 class Anticipation
 {
-	/* example private $variable=array("val1"=>1,"val2"=>"Seconde valeur","val3"=>0); */
-	private static $variable=array ("id"=>"f_id","name"=>"f_name");
-	private $cn;
-	var $cat; /*!< array of object categorie (forecast_cat)*/
-	var $item; /*< array of object item (forecast_item) */
-	/**
-	 * @brief constructor
-	 * @param $p_init Database object
-	 */
-	function __construct ($p_init,$p_id=0) {
-		$this->cn=$p_init;
-		$this->f_id=$p_id;
-	}
-	public function get_parameter($p_string) {
-		if ( array_key_exists($p_string,self::$variable) ) {
-			$idx=self::$variable[$p_string];
-			return $this->$idx;
-		}
-		else
-		exit (__FILE__.":".__LINE__."[$p_string]".'Erreur attribut inexistant');
-	}
-	public function set_parameter($p_string,$p_value) {
-		if ( array_key_exists($p_string,self::$variable) ) {
-			$idx=self::$variable[$p_string];
-			$this->$idx=$p_value;
-		}
-		else
-		exit (__FILE__.":".__LINE__."[$p_string]".'Erreur attribut inexistant');
+    /* example private $variable=array("val1"=>1,"val2"=>"Seconde valeur","val3"=>0); */
+    private static $variable=array ("id"=>"f_id","name"=>"f_name");
+    private $cn;
+    var $cat; /*!< array of object categorie (forecast_cat)*/
+    var $item; /*< array of object item (forecast_item) */
+    /**
+     * @brief constructor
+     * @param $p_init Database object
+     */
+    function __construct ($p_init,$p_id=0)
+    {
+        $this->cn=$p_init;
+        $this->f_id=$p_id;
+    }
+    public function get_parameter($p_string)
+    {
+        if ( array_key_exists($p_string,self::$variable) )
+        {
+            $idx=self::$variable[$p_string];
+            return $this->$idx;
+        }
+        else
+            exit (__FILE__.":".__LINE__."[$p_string]".'Erreur attribut inexistant');
+    }
+    public function set_parameter($p_string,$p_value)
+    {
+        if ( array_key_exists($p_string,self::$variable) )
+        {
+            $idx=self::$variable[$p_string];
+            $this->$idx=$p_value;
+        }
+        else
+            exit (__FILE__.":".__LINE__."[$p_string]".'Erreur attribut inexistant');
 
 
-	}
-	public function get_info() {    return var_export(self::$variable,true);  }
-	public function verify() {
-		// Verify that the elt we want to add is correct
-		// the f_name must be unique (case insensitive)
-		return 0;
-	}
-	public function save() {
-		/* please adapt */
-		if (  $this->get_parameter("id") == 0 )
-		$this->insert();
-		else
-		$this->update();
-	}
+    }
+    public function get_info()
+    {
+        return var_export(self::$variable,true);
+    }
+    public function verify()
+    {
+        // Verify that the elt we want to add is correct
+        // the f_name must be unique (case insensitive)
+        return 0;
+    }
+    public function save()
+    {
+        /* please adapt */
+        if (  $this->get_parameter("id") == 0 )
+            $this->insert();
+        else
+            $this->update();
+    }
 
-	public function insert() {
-		if ( $this->verify() != 0 ) return;
-	}
+    public function insert()
+    {
+        if ( $this->verify() != 0 ) return;
+    }
 
-	public function update() {
-	}
+    public function update()
+{}
 
-	public function load() {
-	}
-	/**
-	 *@brief Display the result of the forecast
-	 *@param $p_periode
-	 *@return HTML String with the code
-	 */
-	public function display(){
-		$forecast=new Forecast($this->cn,$this->f_id);
-		$forecast->load();
-		$str_name=h($forecast->get_parameter('name'));
-		$r="";
-		$aCat=$this->cn->get_array('select fc_id,fc_desc from forecast_cat where f_id=$1 order by fc_order',array($this->f_id));
-		$aItem=array();$aReal=array();$poste=new Acc_Account_Ledger($this->cn,0);$fiche=new Fiche($this->cn);
-		$aPeriode=$this->cn->get_array("select p_id,to_char(p_start,'MM.YYYY') as myear from parm_periode where to_char(p_start,'DD')!='31' order by p_start;");
-		for($j=0;$j<count($aCat);$j++){
-			$aItem[$j]=$this->cn->get_array('select fi_card,fi_account,fi_text,fi_amount,fi_debit from forecast_item where fc_id=$1  and fi_pid=0 order by fi_order ',array($aCat[$j]['fc_id']));
-			$aPerMonth[$j]=$this->cn->get_array('select fi_pid,fi_card,fi_account,fi_text,fi_amount,fi_debit from forecast_item where fc_id=$1 and fi_pid !=0 order by fi_order ',array($aCat[$j]['fc_id']));
-			/* compute the real amount for periode */
-			for($k=0;$k<count($aItem[$j]);$k++){
-				/* for each periode */
-				for ($l=0;$l<count($aPeriode);$l++){
-					if ($aItem[$j][$k]['fi_account']==''){
-						$fiche->id=$aItem[$j][$k]['fi_card'];
-						$amount=$fiche->get_solde_detail("j_tech_per = ".$aPeriode[$l]['p_id']);
+    public function load()
+    {}
+    /**
+     *@brief Display the result of the forecast
+     *@param $p_periode
+     *@return HTML String with the code
+     */
+    public function display()
+    {
+        $forecast=new Forecast($this->cn,$this->f_id);
+        $forecast->load();
+        $str_name=h($forecast->get_parameter('name'));
+        $r="";
+        $aCat=$this->cn->get_array('select fc_id,fc_desc from forecast_cat where f_id=$1 order by fc_order',array($this->f_id));
+        $aItem=array();
+        $aReal=array();
+        $poste=new Acc_Account_Ledger($this->cn,0);
+        $fiche=new Fiche($this->cn);
+        $aPeriode=$this->cn->get_array("select p_id,to_char(p_start,'MM.YYYY') as myear from parm_periode where to_char(p_start,'DD')!='31' order by p_start;");
+        for($j=0;$j<count($aCat);$j++)
+        {
+            $aItem[$j]=$this->cn->get_array('select fi_card,fi_account,fi_text,fi_amount,fi_debit from forecast_item where fc_id=$1  and fi_pid=0 order by fi_order ',array($aCat[$j]['fc_id']));
+            $aPerMonth[$j]=$this->cn->get_array('select fi_pid,fi_card,fi_account,fi_text,fi_amount,fi_debit from forecast_item where fc_id=$1 and fi_pid !=0 order by fi_order ',array($aCat[$j]['fc_id']));
+            /* compute the real amount for periode */
+            for($k=0;$k<count($aItem[$j]);$k++)
+            {
+                /* for each periode */
+                for ($l=0;$l<count($aPeriode);$l++)
+                {
+                    if ($aItem[$j][$k]['fi_account']=='')
+                    {
+                        $fiche->id=$aItem[$j][$k]['fi_card'];
+                        $amount=$fiche->get_solde_detail("j_tech_per = ".$aPeriode[$l]['p_id']);
 
-					}else {
-						$poste->id=$aItem[$j][$k]['fi_account'];
-						$amount=$poste->get_solde_detail("j_tech_per= ".$aPeriode[$l]['p_id']);
-					}
-					if ($aItem[$j][$k]['fi_debit']=='C' && $amount['debit']>$amount['credit'])  $amount['solde']=$amount["solde"]*(-1);
-					if ($aItem[$j][$k]['fi_debit']=='D' && $amount['debit']<$amount['credit'])  $amount['solde']=$amount["solde"]*(-1);
-					$aReal[$j][$k][$l]=$amount['solde'];
-				}
-			}
+                    }
+                    else
+                    {
+                        $poste->id=$aItem[$j][$k]['fi_account'];
+                        $amount=$poste->get_solde_detail("j_tech_per= ".$aPeriode[$l]['p_id']);
+                    }
+                    if ($aItem[$j][$k]['fi_debit']=='C' && $amount['debit']>$amount['credit'])  $amount['solde']=$amount["solde"]*(-1);
+                    if ($aItem[$j][$k]['fi_debit']=='D' && $amount['debit']<$amount['credit'])  $amount['solde']=$amount["solde"]*(-1);
+                    $aReal[$j][$k][$l]=$amount['solde'];
+                }
+            }
 
-		}
-		ob_start();
-		require_once('template/forecast_result.php');
-		$r.=ob_get_contents();
-		ob_clean();
-		return $r;
-	}
-	public static function div() {
-		$r='<div id="div_anti" style="display:none">';
-		$r.= '</div>';
-		return $r;
-	}
-	public function delete() {
-	}
-	/**
-	 *@brief Display a form for modifying the name or/and the category of an existing
-	 * anticipation
-	 *@return html string with the form
-	 */
-	private function form_cat_mod()
-	{
-		$a=new Forecast($this->cn,$this->f_id);
-		$a->load();
-		$name=new IText('an_name');
-		$name->value=$a->get_parameter("name");
-		$str_name=$name->input();
-		$str_action=_('Modification');
-		$r=HtmlInput::hidden('f_id',$this->f_id);
-		$array=Forecast_Cat::load_all($this->cn,$this->f_id);
+        }
+        ob_start();
+        require_once('template/forecast_result.php');
+        $r.=ob_get_contents();
+        ob_clean();
+        return $r;
+    }
+    public static function div()
+    {
+        $r='<div id="div_anti" style="display:none">';
+        $r.= '</div>';
+        return $r;
+    }
+    public function delete()
+    {}
+    /**
+     *@brief Display a form for modifying the name or/and the category of an existing
+     * anticipation
+     *@return html string with the form
+     */
+    private function form_cat_mod()
+    {
+        $a=new Forecast($this->cn,$this->f_id);
+        $a->load();
+        $name=new IText('an_name');
+        $name->value=$a->get_parameter("name");
+        $str_name=$name->input();
+        $str_action=_('Modification');
+        $r=HtmlInput::hidden('f_id',$this->f_id);
+        $array=Forecast_Cat::load_all($this->cn,$this->f_id);
 
-		for ($i=0;$i<MAX_CAT;$i++){
-		/* category name */
-			$name_name=(isset($array[$i]['fc_id']))?'fr_cat'.$array[$i]['fc_id']:'fr_cat_new_'.$i;
-			$name=new IText($name_name);
-			$name->value=(isset ($array[$i]['fc_desc']))?$array[$i]['fc_desc']:'';
-			$aCat[$i]['name']=$name->input();
-
-
-			/* category order */
-			$order_name=(isset($array[$i]['fc_id']))?'fc_order'.$array[$i]['fc_id']:'fc_order_new'.$i;
-			$order=new IText($order_name);
-			$order->value=(isset($array[$i]['fc_order']))?$array[$i]['fc_order']:$i+1;
-			$aCat[$i]['order']=$order->input();
-		}
-
-		ob_start();
-		require_once('template/forecast_cat.php');
-		$r.=ob_get_contents();
-		ob_clean();
-		return $r;
-	}
-	/**
-	 *@brief Display a form for adding an new anticipation
-	 *@return html string with the form
-	 */
-	private function form_cat_new()
-	{
-		$r="";
-		$str_action=_('Nouveau');
-
-		$name=new IText('an_name');
-		$str_name=$name->input();
-
-		$aLabel=array(_('Ventes'),_('Dépense'),_('Banque'));
-		$aCat=array();
-
-		for ($i=0;$i<MAX_CAT;$i++){
-			/* category name */
-			$name=new IText('fr_cat'.$i);
-			$name->value=(isset($aLabel[$i]))?$aLabel[$i]:'';
-			$aCat[$i]['name']=$name->input();
+        for ($i=0;$i<MAX_CAT;$i++)
+        {
+            /* category name */
+            $name_name=(isset($array[$i]['fc_id']))?'fr_cat'.$array[$i]['fc_id']:'fr_cat_new_'.$i;
+            $name=new IText($name_name);
+            $name->value=(isset ($array[$i]['fc_desc']))?$array[$i]['fc_desc']:'';
+            $aCat[$i]['name']=$name->input();
 
 
-			/* category order */
-			$order=new IText('fr_order'.$i);
-			$order->value=$i+1;
-			$aCat[$i]['order']=$order->input();
-		}
+            /* category order */
+            $order_name=(isset($array[$i]['fc_id']))?'fc_order'.$array[$i]['fc_id']:'fc_order_new'.$i;
+            $order=new IText($order_name);
+            $order->value=(isset($array[$i]['fc_order']))?$array[$i]['fc_order']:$i+1;
+            $aCat[$i]['order']=$order->input();
+        }
 
-		ob_start();
-		require_once('template/forecast_cat.php');
-		$r.=ob_get_contents();
-		ob_clean();
-		return $r;
+        ob_start();
+        require_once('template/forecast_cat.php');
+        $r.=ob_get_contents();
+        ob_clean();
+        return $r;
+    }
+    /**
+     *@brief Display a form for adding an new anticipation
+     *@return html string with the form
+     */
+    private function form_cat_new()
+    {
+        $r="";
+        $str_action=_('Nouveau');
 
-	}
-	/**
-	 * @brief create an empty object anticipation
-	 * @return html string with the form
-	 */
-	public  function form_cat() {
-		if ($this->f_id != 0)
-			return $this->form_cat_mod();
-			else
-		return $this->form_cat_new();
-	}
-	/**
-	 *@brief display a form for modifying or add a forecast
-	 *@return HTML code
-	 */
-	public function form_item(){
-		$forecast=new Forecast($this->cn,$this->f_id);
-		$forecast->load();
-		$str_name=$forecast->get_parameter('name');
-		$r="";
-		$str_action=_("Elements");
-		$cat=new Forecast_Cat($this->cn);
-		$array=$cat->make_array($this->f_id);
-		$periode=new Periode($this->cn);
-		$aPeriode=$this->cn->make_array("select p_id,to_char(p_start,'MM.YYYY') as label from parm_periode where to_char(p_start,'DD')!='31' order by p_start");
-		$aPeriode[]=array('value'=>0,'label'=>'Mensuel');
-		$value=$this->cn->get_array("select fi_id,fi_text,fi_account,fi_card,fc_id,fi_amount,fi_debit,fi_pid ".
-			" from forecast_item ".
-			" 	where fc_id in (select fc_id from forecast_cat where f_id = $1)",array($this->f_id));
-		$max=(count($value) < MAX_FORECAST_ITEM)?MAX_FORECAST_ITEM:count($value);
-		$r.=HtmlInput::hidden('nbrow',$max);
+        $name=new IText('an_name');
+        $str_name=$name->input();
 
-		for ($i=0;$i<$max;$i++){
-			if (isset($value[$i]['fi_id'])){
-				$r.=HtmlInput::hidden('fi_id'.$i,$value[$i]['fi_id']);
-			}
-			/* category*/
-			$category=new ISelect();
-			$category->name='an_cat'.$i;
-			$category->value=$array;
-			$category->selected=(isset($value[$i]["fc_id"]))?$value[$i]["fc_id"]:-1;
-			$aCat[$i]['cat']=$category->input();
+        $aLabel=array(_('Ventes'),_('Dépense'),_('Banque'));
+        $aCat=array();
 
-			/* amount 	 */
-			$amount=new INum('an_cat_amount'.$i);
-			$amount->value=(isset($value[$i]["fi_amount"]))?$value[$i]["fi_amount"]:0;
-			$aCat[$i]['amount']=$amount->input();
+        for ($i=0;$i<MAX_CAT;$i++)
+        {
+            /* category name */
+            $name=new IText('fr_cat'.$i);
+            $name->value=(isset($aLabel[$i]))?$aLabel[$i]:'';
+            $aCat[$i]['name']=$name->input();
 
-			/* Accounting*/
-			$account=new IPoste('an_cat_acc'.$i);
-			$account->set_attribute('ipopup','ipop_account');
-			$account->set_attribute('label','an_label'.$i);
-			$account->set_attribute('account','an_cat_acc'.$i);
-			$account->value=(isset($value[$i]["fi_account"]))?$value[$i]["fi_account"]:"";
-			$aCat[$i]['account']=$account->input();
-			/*Quick Code */
-			$qc=new ICard('an_qc'.$i);
-			// If double click call the javascript fill_ipopcard
-			$qc->set_dblclick("fill_ipopcard(this);");
 
-			// This attribute is mandatory, it is the name of the IPopup
-			$qc->set_attribute('ipopup','ipopcard');
+            /* category order */
+            $order=new IText('fr_order'.$i);
+            $order->value=$i+1;
+            $aCat[$i]['order']=$order->input();
+        }
 
-			// name of the field to update with the name of the card
-			$qc->set_attribute('label','an_label'.$i);
+        ob_start();
+        require_once('template/forecast_cat.php');
+        $r.=ob_get_contents();
+        ob_clean();
+        return $r;
 
-			// Type of card : all
-			$qc->set_attribute('typecard','all');
-			$qc->set_attribute('jrn',0);
-			$qc->extra='all';
+    }
+    /**
+     * @brief create an empty object anticipation
+     * @return html string with the form
+     */
+    public  function form_cat()
+    {
+        if ($this->f_id != 0)
+            return $this->form_cat_mod();
+        else
+            return $this->form_cat_new();
+    }
+    /**
+     *@brief display a form for modifying or add a forecast
+     *@return HTML code
+     */
+    public function form_item()
+    {
+        $forecast=new Forecast($this->cn,$this->f_id);
+        $forecast->load();
+        $str_name=$forecast->get_parameter('name');
+        $r="";
+        $str_action=_("Elements");
+        $cat=new Forecast_Cat($this->cn);
+        $array=$cat->make_array($this->f_id);
+        $periode=new Periode($this->cn);
+        $aPeriode=$this->cn->make_array("select p_id,to_char(p_start,'MM.YYYY') as label from parm_periode where to_char(p_start,'DD')!='31' order by p_start");
+        $aPeriode[]=array('value'=>0,'label'=>'Mensuel');
+        $value=$this->cn->get_array("select fi_id,fi_text,fi_account,fi_card,fc_id,fi_amount,fi_debit,fi_pid ".
+                                    " from forecast_item ".
+                                    " 	where fc_id in (select fc_id from forecast_cat where f_id = $1)",array($this->f_id));
+        $max=(count($value) < MAX_FORECAST_ITEM)?MAX_FORECAST_ITEM:count($value);
+        $r.=HtmlInput::hidden('nbrow',$max);
 
-			// when value selected in the autcomplete
-			$qc->set_function('fill_data');
-			if (isset($value[$i]["fi_card"])) {
-				$f=new Fiche($this->cn,$value[$i]["fi_card"]);
-				$qc->value=$f->strAttribut(ATTR_DEF_QUICKCODE);;
-			}
+        for ($i=0;$i<$max;$i++)
+        {
+            if (isset($value[$i]['fi_id']))
+            {
+                $r.=HtmlInput::hidden('fi_id'.$i,$value[$i]['fi_id']);
+            }
+            /* category*/
+            $category=new ISelect();
+            $category->name='an_cat'.$i;
+            $category->value=$array;
+            $category->selected=(isset($value[$i]["fc_id"]))?$value[$i]["fc_id"]:-1;
+            $aCat[$i]['cat']=$category->input();
 
-			$aCat[$i]['qc']=$qc->search().$qc->input();
-			/* Label */
-			$label=new IText('an_label'.$i);
-			$label->value=(isset($value[$i]["fi_text"]))?$value[$i]["fi_text"]:"";
-			$aCat[$i]['name']=$label->input();
+            /* amount 	 */
+            $amount=new INum('an_cat_amount'.$i);
+            $amount->value=(isset($value[$i]["fi_amount"]))?$value[$i]["fi_amount"]:0;
+            $aCat[$i]['amount']=$amount->input();
 
-			//Deb or Cred
-			$deb=new ISelect('an_deb'.$i);
-			$deb->selected=(isset($value[$i]["fi_debit"]))?$value[$i]["fi_debit"]:-1;
-			$deb->value=array(array('value'=>'D','label'=>_('Débit')),
-						array('value'=>'C','label'=>_('Crédit'))
-						);
-			$aCat[$i]['deb']=$deb->input();
-			//Periode
-			$isPeriode=new ISelect('month'.$i);
-			$isPeriode->value=$aPeriode;
-			$isPeriode->selected=(isset($value[$i]["fi_pid"]))?$value[$i]["fi_pid"]:0;
-			$aCat[$i]['per']=$isPeriode->input();
-		}
-		$add_row=new IButton('add_row');
-		$add_row->label=_('Ajouter une ligne');
-		$add_row->javascript='for_add_row(\'fortable\')';
-		$f_add_row=$add_row->input();
-		ob_start();
-		require_once('template/forecast-detail.php');
-		$r.=ob_get_contents();
-		ob_clean();
-		return $r;
-	}
-	/**
-	 * @brief unit test
-	 */
-	static function test_me() {
-		$cn=new Database(dossier::id());
-		$test=new Anticipation($cn);
+            /* Accounting*/
+            $account=new IPoste('an_cat_acc'.$i);
+            $account->set_attribute('ipopup','ipop_account');
+            $account->set_attribute('label','an_label'.$i);
+            $account->set_attribute('account','an_cat_acc'.$i);
+            $account->value=(isset($value[$i]["fi_account"]))?$value[$i]["fi_account"]:"";
+            $aCat[$i]['account']=$account->input();
+            /*Quick Code */
+            $qc=new ICard('an_qc'.$i);
+            // If double click call the javascript fill_ipopcard
+            $qc->set_dblclick("fill_ipopcard(this);");
 
-	}
+            // This attribute is mandatory, it is the name of the IPopup
+            $qc->set_attribute('ipopup','ipopcard');
+
+            // name of the field to update with the name of the card
+            $qc->set_attribute('label','an_label'.$i);
+
+            // Type of card : all
+            $qc->set_attribute('typecard','all');
+            $qc->set_attribute('jrn',0);
+            $qc->extra='all';
+
+            // when value selected in the autcomplete
+            $qc->set_function('fill_data');
+            if (isset($value[$i]["fi_card"]))
+            {
+                $f=new Fiche($this->cn,$value[$i]["fi_card"]);
+                $qc->value=$f->strAttribut(ATTR_DEF_QUICKCODE);
+                ;
+            }
+
+            $aCat[$i]['qc']=$qc->search().$qc->input();
+            /* Label */
+            $label=new IText('an_label'.$i);
+            $label->value=(isset($value[$i]["fi_text"]))?$value[$i]["fi_text"]:"";
+            $aCat[$i]['name']=$label->input();
+
+            //Deb or Cred
+            $deb=new ISelect('an_deb'.$i);
+            $deb->selected=(isset($value[$i]["fi_debit"]))?$value[$i]["fi_debit"]:-1;
+            $deb->value=array(array('value'=>'D','label'=>_('Débit')),
+                              array('value'=>'C','label'=>_('Crédit'))
+                             );
+            $aCat[$i]['deb']=$deb->input();
+            //Periode
+            $isPeriode=new ISelect('month'.$i);
+            $isPeriode->value=$aPeriode;
+            $isPeriode->selected=(isset($value[$i]["fi_pid"]))?$value[$i]["fi_pid"]:0;
+            $aCat[$i]['per']=$isPeriode->input();
+        }
+        $add_row=new IButton('add_row');
+        $add_row->label=_('Ajouter une ligne');
+        $add_row->javascript='for_add_row(\'fortable\')';
+        $f_add_row=$add_row->input();
+        ob_start();
+        require_once('template/forecast-detail.php');
+        $r.=ob_get_contents();
+        ob_clean();
+        return $r;
+    }
+    /**
+     * @brief unit test
+     */
+    static function test_me()
+    {
+        $cn=new Database(dossier::id());
+        $test=new Anticipation($cn);
+
+    }
 
 }
 

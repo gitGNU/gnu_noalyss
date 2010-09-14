@@ -30,7 +30,7 @@ define ("PARJRN",1140);  //Modification journaux
 define ("PARSEC",1245);	 /* Sécurité */
 define ("PARTVA",1150);  //TVA
 define ("PARMP",1160);  //Moyen de paiement
-define ("PARCLO",1180);  //Clôture 
+define ("PARCLO",1180);  //Clôture
 define ("PARPCMN",1185); /* Chagt plan comptable */
 define ("PARPOS",1170);  //Poste Comptable de base
 define ("PARCENT",1190);  //Centralisation

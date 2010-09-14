@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -18,14 +18,14 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/*!\file 
+/*!\file
  * \brief EXPERIMENTAL : listing VAT in xml form
  */
-  /*!
-   * \brief OBSOLETE ?
-   */
+/*!
+ * \brief OBSOLETE ?
+ */
 
-/*! 
+/*!
  **************************************************
  * \brief  Créer le fichier à déposer pour la TVA
  *           voir le fichier BE_fr_list_client_nonpapier.pdf
@@ -37,54 +37,57 @@
  * return:
  *     - none
  */
-function MakeListingVat($p_cn,$p_array,$p_year) {
-  // declarant
-  //--
-  require_once("class_own.php");
-  // load the data
-  $my=new Own($p_cn);
-  //Make the first record
-  $a="000000";
-  $a.=sprintf("% 32s",$my->MY_NAME);
-  $b=$my->MY_STREET.",".$my->MY_NUMBER;
-  $a.=sprintf("% 24s",$b);
-  $b=$my->MY_CP." ".$my->MY_COMMUNE;
-  $a.=sprintf("% 27s",$b);
-  $a.="BE";
-  $a.=sprintf("%9s",$my->MY_TVA);
-  // special zone
-  $a.=sprintf("% 20s",' ');
-  //
-  $a.="E";
-  $a.=$p_year;
-  $a.="\n";
-  // customer record
-  $rec_id=0;
-  $tot_amount=0;
-  $tot_tva=0;
-  foreach ($p_array as $client) {
-    if ( strlen(trim($client['tva'])) != 0 ) {
-      $rec_id++;
-      $a.=sprintf("%06d",$rec_id);
-      $a.=sprintf("% 32s",$client['name']);
-      $a.=str_repeat(" ",51);
-      $a.=sprintf("BE%s",$client['vat_number']);
-      $a.=sprintf("%010d",$client['amount']*100);
-      $a.=sprintf("%010d",$client['tva']*100);
-      $a.=str_repeat(" ",10);
-      $a.="\n";
-      $tot_amount=+$client['amount']*100;
-      $tot_tva+=$client['tva']*100;
+function MakeListingVat($p_cn,$p_array,$p_year)
+{
+    // declarant
+    //--
+    require_once("class_own.php");
+    // load the data
+    $my=new Own($p_cn);
+    //Make the first record
+    $a="000000";
+    $a.=sprintf("% 32s",$my->MY_NAME);
+    $b=$my->MY_STREET.",".$my->MY_NUMBER;
+    $a.=sprintf("% 24s",$b);
+    $b=$my->MY_CP." ".$my->MY_COMMUNE;
+    $a.=sprintf("% 27s",$b);
+    $a.="BE";
+    $a.=sprintf("%9s",$my->MY_TVA);
+    // special zone
+    $a.=sprintf("% 20s",' ');
+    //
+    $a.="E";
+    $a.=$p_year;
+    $a.="\n";
+    // customer record
+    $rec_id=0;
+    $tot_amount=0;
+    $tot_tva=0;
+    foreach ($p_array as $client)
+    {
+        if ( strlen(trim($client['tva'])) != 0 )
+        {
+            $rec_id++;
+            $a.=sprintf("%06d",$rec_id);
+            $a.=sprintf("% 32s",$client['name']);
+            $a.=str_repeat(" ",51);
+            $a.=sprintf("BE%s",$client['vat_number']);
+            $a.=sprintf("%010d",$client['amount']*100);
+            $a.=sprintf("%010d",$client['tva']*100);
+            $a.=str_repeat(" ",10);
+            $a.="\n";
+            $tot_amount=+$client['amount']*100;
+            $tot_tva+=$client['tva']*100;
+        }
     }
-  }
     //Last Record
-  $a.="999999";
-  $a.=sprintf("%016d",$tot_amount);
-  $a.=sprintf("%016d",$tot_tva);
-  $a.=str_repeat(" ",51);
-  $a.="BE";
-  $a.=$my->MY_TVA;
-  $a.=str_repeat(" ",28);
-  $a.="\r\n";
-  return $a;
+    $a.="999999";
+    $a.=sprintf("%016d",$tot_amount);
+    $a.=sprintf("%016d",$tot_tva);
+    $a.=str_repeat(" ",51);
+    $a.="BE";
+    $a.=$my->MY_TVA;
+    $a.=str_repeat(" ",28);
+    $a.="\r\n";
+    return $a;
 }

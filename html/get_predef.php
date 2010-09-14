@@ -34,8 +34,14 @@ require_once('class_dossier.php');
 require_once('class_pre_operation.php');
 // Check if the needed field does exist
 extract ($_GET);
-foreach (array('l','t','d','gDossier') as $a) {
-  if ( ! isset (${$a}) )   { echo "error $a is not set "; exit();} 
+foreach (array('l','t','d','gDossier') as $a)
+{
+    if ( ! isset (${$a}) )
+    {
+        echo "error $a is not set ";
+        exit();
+    }
+
 }
 $cn=new Database(dossier::id());
 $op=new Pre_operation_detail($cn);
@@ -46,11 +52,12 @@ $array=$op->get_operation();
 $string='{"count":"'.count($array).'"';
 $idx=0;
 if (! empty($array))
-  foreach ($array as $a) {
+    foreach ($array as $a)
+{
     $string.=',"value'.$idx.'":"'.$a['value'].'",';
     $string.='"label'.$idx.'":"'.$a['label'].'"';
     $idx++;
-  }
+}
 $string.="}";
 
 header("Content-type: text/json; charset: utf8",true);

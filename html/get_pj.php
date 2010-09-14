@@ -26,7 +26,7 @@
  * - l for ledger 
  * - gDossier
  * Must return at least tva, htva and tvac
-
+ 
  */
 
 require_once ('constant.php');
@@ -37,10 +37,19 @@ require_once ('class_user.php');
 
 // Check if the needed field does exist
 extract ($_GET);
-foreach (array('l','gDossier') as $a) {
-  if ( ! isset (${$a}) )   { echo "error $a is not set "; exit();} 
+foreach (array('l','gDossier') as $a)
+{
+    if ( ! isset (${$a}) )
+    {
+        echo "error $a is not set ";
+        exit();
+    }
+
 }
-if ( myereg('^[0-9]+$',$l) == false ) {exit();}
+if ( myereg('^[0-9]+$',$l) == false )
+{
+    exit();
+}
 $cn=new Database(dossier::id());
 $User=new User($cn);
 $User->Check();

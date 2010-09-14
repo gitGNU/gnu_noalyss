@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -50,12 +50,12 @@ require_once('class_iaction.php');
  */
 
 // We need a sub action (3rd level)
-  // show a list of already taken action 
-  // propose to add one 
-  // permit also a search
-  // show detail
+// show a list of already taken action
+// propose to add one
+// permit also a search
+// show detail
 $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
-/* if ag_id is set then we give it otherwise we have problem 
+/* if ag_id is set then we give it otherwise we have problem
  * with the generation of document
  */
 $ag_id=(isset($_REQUEST['ag_id']))?$_REQUEST['ag_id']:0;

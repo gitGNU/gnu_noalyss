@@ -63,67 +63,67 @@ echo '<div class="u_tmenu">';
 echo menu_tool('comptanalytic.php');
 $def=-1;
 if ( isset ($_REQUEST['p_action']))
-  {
+{
     switch ($_REQUEST['p_action'])
-      {
-      case 'ca_pa':
-	$def=0;
-	break;
-      case 'ca_od':
-	$def=1;
-	break;
-      case 'ca_imp':
-	$def=2;
-	break;
-      case 'ca_groupe':
-	$def=3;
-	break;
-      }
-  }
+    {
+    case 'ca_pa':
+            $def=0;
+        break;
+    case 'ca_od':
+        $def=1;
+        break;
+    case 'ca_imp':
+        $def=2;
+        break;
+    case 'ca_groupe':
+        $def=3;
+        break;
+    }
+}
 echo '<div class="topmenu">';
 echo ShowItem(array(
-	array('?p_action=ca_pa&'.$str_dossier,'Plan Analytique',"Plan Analytique",0),
-	array('?p_action=ca_od&'.$str_dossier,'Op&eacute;rations Diverses',"Permet d'enregistrer des operations sur la compta analytique",1),
-	array('?p_action=ca_groupe&'.$str_dossier,'Groupe','Regroupe les postes analytiques',3),
-	array('?p_action=ca_imp&'.$str_dossier,'Impression',"impression de rapport",2)
-		    ),
-	      'H',"mtitle","mtitle",$def,' style="width:75%;margin-left:12%"');
+                  array('?p_action=ca_pa&'.$str_dossier,'Plan Analytique',"Plan Analytique",0),
+                  array('?p_action=ca_od&'.$str_dossier,'Op&eacute;rations Diverses',"Permet d'enregistrer des operations sur la compta analytique",1),
+                  array('?p_action=ca_groupe&'.$str_dossier,'Groupe','Regroupe les postes analytiques',3),
+                  array('?p_action=ca_imp&'.$str_dossier,'Impression',"impression de rapport",2)
+              ),
+              'H',"mtitle","mtitle",$def,' style="width:75%;margin-left:12%"');
 echo '</div>';
 echo '</div>';
 echo '</div>';
 if ( isset ($_REQUEST['p_action']))
-  {
+{
     switch ($_REQUEST['p_action'])
-      {
-      case 'ca_pa':
-	$User->can_request(CAPA,1);
-	$def=0;
-	break;
-      case 'ca_od':
-	$User->can_request(CAOD,1);
-	$def=1;
-	break;
-      case 'ca_imp':
-	$User->can_request(CAIMP,1);
-	$def=2;
-	break;
-      case 'ca_groupe':
-	$User->can_request(CAGA,1);
-	$def=3;
-	break;
-      }
-  }
+    {
+    case 'ca_pa':
+        $User->can_request(CAPA,1);
+        $def=0;
+        break;
+    case 'ca_od':
+        $User->can_request(CAOD,1);
+        $def=1;
+        break;
+    case 'ca_imp':
+        $User->can_request(CAIMP,1);
+        $def=2;
+        break;
+    case 'ca_groupe':
+        $User->can_request(CAGA,1);
+        $def=3;
+        break;
+    }
+}
 
 if ( !isset($_REQUEST['p_action']))
-  exit();
+    exit();
 
 //-----------------------------------------------------
 // p_action == pref
 //-----------------------------------------------------
 if ( $_REQUEST['p_action'] == "pref" )
 {
-  require_once("pref.inc.php");
-  exit();
+    require_once("pref.inc.php");
+    exit();
 }
 
 //---------------------------------------------------------------------------
@@ -131,31 +131,31 @@ if ( $_REQUEST['p_action'] == "pref" )
 //---------------------------------------------------------------------------
 // Plan Analytique
 if ($_REQUEST['p_action'] == 'ca_pa' )
-  {
+{
     require_once('anc_pa.inc.php');
     exit();
-  }
+}
 
 // Operations Diverses
 if ($_REQUEST['p_action'] == 'ca_od' )
-  {
-	require_once('anc_od.inc.php');
-	exit();
-  }
+{
+    require_once('anc_od.inc.php');
+    exit();
+}
 // Impression
 if ($_REQUEST['p_action'] == 'ca_groupe' )
-  {
-	require_once('anc_group.inc.php');
-	exit();
-  }
+{
+    require_once('anc_group.inc.php');
+    exit();
+}
 
 // Impression
 if ($_REQUEST['p_action'] == 'ca_imp' )
-  {
+{
     echo '<div class="content">';
 
     require_once('anc_imp.inc.php');
     echo '</div>';
 
     exit();
-  }
+}

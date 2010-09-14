@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  * This file is part of PhpCompta.
  *
@@ -26,117 +26,119 @@
 
 
 //-----------------------------------------------------
-// Bank DEXIA 
+// Bank DEXIA
 //-----------------------------------------------------
 $LinesSkipped=0;
 $LinesImported=0;
 $LinesDup=0;
 $row=1;
 $p_cn->start();
-while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) 
+while (($data = fgetcsv($handle, 2000,'@')) !== FALSE)
 {
-  $num = count($data);
-  
-  //-----------------------------------------------------
-  // Parsing CSV comes here
-  //-----------------------------------------------------
-  
-  $row=explode(';',$data[0]);
-  //to avoid a level of if
-  if (!(isset($row[2]))) $row[2]='';
-  
-  
-  // Skipping all the lines whith a blank operation reference ('numéro extrait')
-  if ( $row[2] == '' ||
-       !(myereg('[0-9]{3}-[0-9]{7}-[0-9]{2}',$row[0],$r)))
-    {
-      $LinesSkipped++;
-      continue; 
-    }
-  // Alternative filter : import all the operations even without a reference 
-  // !! Disable check of doubles as all the unreferenced operations have hte smae
-  //NULL' reference
-  // Just use the following test : if (
-  //!(myereg('[0-9]{3}-[0-9]{7}-[0-9]{2}',$row[0],$r)))
-  
-  // Parsing the remaining lines
-  $num_compte=$row[3]; // Third party bank account
-  $date_exec=$row[1]; // Execution date of the operation
-  $date_val=$row[8]; // Effective date of the operation
-  // remove the thousand sep. ** UNUSED by DEXIA
-  //$montant=str_replace('.','',$row[9]);
-  // remove the sign ** UNUSED by DEXIA
-  //$montant=str_replace('+','',$montant); 
-  // replace the coma by a period 
-  $montant=str_replace(',','.',$row[9]); // Amount of the operation
-  $ref_extrait=$row[2]; // Operation reference
-  $devise=$row[10]; // Curency used
-  $compte_ordre=$row[0]; // Your own bank account
-  $detail=trim($row[4]).' '.trim($row[5]).' '.trim($row[6]).'
-'.trim($row[7]); 
-  //Details-Communicaion
+    $num = count($data);
 
-  //----------------------------------------------------
-  // Skip dubbel
-  //----------------------------------------------------
-  $Sql="select * from import_tmp where code='$ref_extrait' and
-compte_ordre='$compte_ordre' limit 2"; 
-  if ( $p_cn->count_sql($Sql) > 0)
+    //-----------------------------------------------------
+    // Parsing CSV comes here
+    //-----------------------------------------------------
+
+    $row=explode(';',$data[0]);
+    //to avoid a level of if
+    if (!(isset($row[2]))) $row[2]='';
+
+
+    // Skipping all the lines whith a blank operation reference ('numéro extrait')
+    if ( $row[2] == '' ||
+            !(myereg('[0-9]{3}-[0-9]{7}-[0-9]{2}',$row[0],$r)))
     {
-      /* Skip it it already encoded */
-      echo "Double skipped : $ref_extrait $detail <BR>";
-      $LinesDup++;
-      continue;
+        $LinesSkipped++;
+        continue;
     }
-  
-  
-  //--------------------------------------------------------------------
-  // SQL request to insert into import_tmp 
-  // Adapt the format of the import's date in the ** to_date ** function
-  //--------------------------------------------------------------------
-  $Sql="insert into import_tmp (code,
- date_exec ,
- date_valeur,
- montant,
- devise,
- compte_ordre,
- detail,
- num_compte,
- bq_account ,
- jrn,
- status)
- values ( '$ref_extrait',
- to_date('$date_exec','DD/MM/YYYY'), 
- to_date('$date_val' ,'DD/MM/YYYY'), 
- $montant,
- '$devise',
- '" . addslashes($compte_ordre). "', 
- '".addslashes($detail)."','" .$num_compte." ',
- '$p_bq_account',
- $p_jrn,
- 'n')";
+    // Alternative filter : import all the operations even without a reference
+    // !! Disable check of doubles as all the unreferenced operations have hte smae
+    //NULL' reference
+    // Just use the following test : if (
+    //!(myereg('[0-9]{3}-[0-9]{7}-[0-9]{2}',$row[0],$r)))
+
+    // Parsing the remaining lines
+    $num_compte=$row[3]; // Third party bank account
+    $date_exec=$row[1]; // Execution date of the operation
+    $date_val=$row[8]; // Effective date of the operation
+    // remove the thousand sep. ** UNUSED by DEXIA
+    //$montant=str_replace('.','',$row[9]);
+    // remove the sign ** UNUSED by DEXIA
+    //$montant=str_replace('+','',$montant);
+    // replace the coma by a period
+    $montant=str_replace(',','.',$row[9]); // Amount of the operation
+    $ref_extrait=$row[2]; // Operation reference
+    $devise=$row[10]; // Curency used
+    $compte_ordre=$row[0]; // Your own bank account
+    $detail=trim($row[4]).' '.trim($row[5]).' '.trim($row[6]).'
+            '.trim($row[7]);
+    //Details-Communicaion
+
+    //----------------------------------------------------
+    // Skip dubbel
+    //----------------------------------------------------
+    $Sql="select * from import_tmp where code='$ref_extrait' and
+         compte_ordre='$compte_ordre' limit 2";
+    if ( $p_cn->count_sql($Sql) > 0)
+    {
+        /* Skip it it already encoded */
+        echo "Double skipped : $ref_extrait $detail <BR>";
+        $LinesDup++;
+        continue;
+    }
+
+
+    //--------------------------------------------------------------------
+    // SQL request to insert into import_tmp
+    // Adapt the format of the import's date in the ** to_date ** function
+    //--------------------------------------------------------------------
+    $Sql="insert into import_tmp (code,
+         date_exec ,
+         date_valeur,
+         montant,
+         devise,
+         compte_ordre,
+         detail,
+         num_compte,
+         bq_account ,
+         jrn,
+         status)
+         values ( '$ref_extrait',
+         to_date('$date_exec','DD/MM/YYYY'),
+         to_date('$date_val' ,'DD/MM/YYYY'),
+         $montant,
+         '$devise',
+         '" . addslashes($compte_ordre). "',
+         '".addslashes($detail)."','" .$num_compte." ',
+         '$p_bq_account',
+         $p_jrn,
+         'n')";
 
 //-----------------------------------------------------
 // Check if no need to rollback when executing the SQL
 //-----------------------------------------------------
- try {
-   $p_cn->exec_sql($Sql);
- }
- catch (Exception $e) {
-   $p_cn->rollback();
-   echo "Rollbacking : $ref_extrait $detail <BR>";
-   $LinesSkipped++;
-   continue;
- }
+    try
+    {
+        $p_cn->exec_sql($Sql);
+    }
+    catch (Exception $e)
+    {
+        $p_cn->rollback();
+        echo "Rollbacking : $ref_extrait $detail <BR>";
+        $LinesSkipped++;
+        continue;
+    }
 //-----------------------------------------------------
 // The import is OK
 //-----------------------------------------------------
- 
- $LinesImported++;
- $row++;
- echo "Record imported: $ref_extrait $detail <BR>";
 
-} 
+    $LinesImported++;
+    $row++;
+    echo "Record imported: $ref_extrait $detail <BR>";
+
+}
 //-----------------------------------------------------
 // Close and summary
 //-----------------------------------------------------

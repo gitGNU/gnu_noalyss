@@ -20,35 +20,35 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief Html Input 
  */
 require_once('class_html_input.php');
- class ISpan extends HtmlInput
+class ISpan extends HtmlInput
 {
-  public function __construct($p_name="",$p_value="") {
-    parent::__construct($p_name,$p_value);
-    $this->style="display:inline";
-    
-  }
-	/*!\brief show the html  input of the widget, the span is always readonly */
-	public function input($p_name=null,$p_value=null)
- 	{
-		 $this->name=($p_name==null)?$this->name:$p_name;
-		 $this->value=($p_value==null)?$this->value:$p_value;
-		
+    public function __construct($p_name="",$p_value="")
+    {
+        parent::__construct($p_name,$p_value);
+        $this->style="display:inline";
 
-		$r=sprintf('<span style="%s" id="%s">%s </span>',
-			   $this->style,
-			   $this->name,
-			   $this->value
-	       );
+    }
+    /*!\brief show the html  input of the widget, the span is always readonly */
+    public function input($p_name=null,$p_value=null)
+    {
+        $this->name=($p_name==null)?$this->name:$p_name;
+        $this->value=($p_value==null)?$this->value:$p_value;
 
-		return $r;
-	}
-	
-	static public function test_me()
- 	{
 
-	}
+        $r=sprintf('<span style="%s" id="%s">%s </span>',
+                   $this->style,
+                   $this->name,
+                   $this->value
+                  );
+
+        return $r;
+    }
+
+    static public function test_me()
+    {
+    }
 }

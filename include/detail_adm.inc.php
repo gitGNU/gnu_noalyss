@@ -30,28 +30,28 @@
  *  - sb = detail 
  *  - sc = dc
  */
-  //----------------------------------------------------------------------------
-  // Save modification
-  //---------------------------------------------------------------------------
-if ( isset ($_POST['mod'])) 
+//----------------------------------------------------------------------------
+// Save modification
+//---------------------------------------------------------------------------
+if ( isset ($_POST['mod']))
 {
 
-  // modification is asked
-  $f_id=$_REQUEST['f_id'];
+    // modification is asked
+    $f_id=$_REQUEST['f_id'];
 
-  $adm=new Fiche($cn,$f_id);
-  $adm->Save();
- 
+    $adm=new Fiche($cn,$f_id);
+    $adm->Save();
+
 }
 
 echo '<div class="u_content">';
 $f_id=$_REQUEST['f_id'];
 echo '<div class="content">';
-if ( isset($_POST['mod'])) echo hb('Information sauvée'); 
+if ( isset($_POST['mod'])) echo hb('Information sauvée');
 
 $adm=new Fiche($cn,$f_id);
 echo JS_INFOBULLE;
-echo '<form method="post">'; 
+echo '<form method="post">';
 echo dossier::hidden();
 echo HtmlInput::hidden('sb','detail');
 echo HtmlInput::hidden('dc','cc');
@@ -63,7 +63,7 @@ echo $w->input();
 $w->name="f_id";
 $w->value=$f_id;
 echo $w->input();
-  
+
 echo HtmlInput::submit('mod',_('Sauver les modifications'));
 echo HtmlInput::reset(_("Annuler"));
 echo HtmlInput::submit('delete','Effacer cette fiche','onclick="return confirm(\'Confirmer effacement ?\');"');

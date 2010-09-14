@@ -20,7 +20,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief Html Input 
  * 
  */
@@ -63,11 +63,11 @@ require_once('function_javascript.php');
  echo js_include('controls.js');
  echo js_include('dragdrop.js');
  echo js_include('accounting_item.js');
-
-
+ 
+ 
 require_once('class_iposte.php');
 echo IPoste::ipopup('ipop_account');
-
+ 
 // In the FORM
 $text=new IPoste();
 $text->name('field');
@@ -76,95 +76,99 @@ $text->set_attribute('ipopup','ipop_account');
 $text->set_attribute('gDossier',Dossier::id());
 $text->set_attribute('jrn',0);
 $text->set_attribute('account','field');
-
-
+ 
+ 
 \endcode
  */
 class IPoste extends HtmlInput
 {
-  static function ipopup($p_name) {
-    $ip=new IPopup($p_name);
-    $ip->title='Plan comptable';
-    $ip->value='';
-    $ip->set_height('80%');
-    $ip->set_zindex(20);
-    return $ip->input();
-  }
-  /*!\brief create the javascript for adding the javascript properties
-   * onto the *button*
-   *\return a javascript surrounded by the tag <SCRIPT>
-   */
-  public function get_js_attr(){
-    $attr="";
-    /* Add properties at the widget */
-    for ($i=0;$i< count($this->attribute);$i++){ 
-      list($name,$value)=$this->attribute[$i];
-      $tmp1=sprintf("$('%s_bt').%s='%s';",
-		    $this->name,
-		    $name,
-		    $value);
-      $attr.=$tmp1;
+    static function ipopup($p_name)
+    {
+        $ip=new IPopup($p_name);
+        $ip->title='Plan comptable';
+        $ip->value='';
+        $ip->set_height('80%');
+        $ip->set_zindex(20);
+        return $ip->input();
     }
-    $attr=create_script($attr);
-    return $attr;
-  }
-
-  public function dsp_button() {
-    $ib=new IButton($this->name.'_bt');
-    $ib->javascript='search_poste(this)';
-
-    /*  add the property */
-    $sc=$this->get_js_attr();
-    return $ib->input().$sc;
-  }
-  /*!\brief show the html  input of the widget*/
-  public function input($p_name=null,$p_value=null)
-  {
-    $this->name=($p_name==null)?$this->name:$p_name;
-    $this->value=($p_value==null)?$this->value:$p_value;
-    if ( $this->readOnly==true) return $this->display();
-    //--
-    if ( ! isset($this->ctrl) ) $this->ctrl='none';
-
-    if ( ! isset($this->javascript)) $this->javascript=""; 
-
-    /* create the text  */
-    $itext=new IText($this->name,$this->value);
-    $itext->size=(isset($this->size))?$this->size:10;
-
-    /* create the button */
-    $ibutton=$this->dsp_button();
-    if ( $this->table=3) {
-      $r='<table>'.tr(td($ibutton).td($itext->input()));
-      $r.='</table>';
-      return $r;
+    /*!\brief create the javascript for adding the javascript properties
+     * onto the *button*
+     *\return a javascript surrounded by the tag <SCRIPT>
+     */
+    public function get_js_attr()
+    {
+        $attr="";
+        /* Add properties at the widget */
+        for ($i=0;$i< count($this->attribute);$i++)
+        {
+            list($name,$value)=$this->attribute[$i];
+            $tmp1=sprintf("$('%s_bt').%s='%s';",
+                          $this->name,
+                          $name,
+                          $value);
+            $attr.=$tmp1;
+        }
+        $attr=create_script($attr);
+        return $attr;
     }
-    $r=$ibutton.$itext->input();
-    if ( $this->table==1) $r=td($r);
 
-    return $r;
+    public function dsp_button()
+    {
+        $ib=new IButton($this->name.'_bt');
+        $ib->javascript='search_poste(this)';
+
+        /*  add the property */
+        $sc=$this->get_js_attr();
+        return $ib->input().$sc;
+    }
+    /*!\brief show the html  input of the widget*/
+    public function input($p_name=null,$p_value=null)
+    {
+        $this->name=($p_name==null)?$this->name:$p_name;
+        $this->value=($p_value==null)?$this->value:$p_value;
+        if ( $this->readOnly==true) return $this->display();
+        //--
+        if ( ! isset($this->ctrl) ) $this->ctrl='none';
+
+        if ( ! isset($this->javascript)) $this->javascript="";
+
+        /* create the text  */
+        $itext=new IText($this->name,$this->value);
+        $itext->size=(isset($this->size))?$this->size:10;
+
+        /* create the button */
+        $ibutton=$this->dsp_button();
+        if ( $this->table=3)
+        {
+            $r='<table>'.tr(td($ibutton).td($itext->input()));
+            $r.='</table>';
+            return $r;
+        }
+        $r=$ibutton.$itext->input();
+        if ( $this->table==1) $r=td($r);
+
+        return $r;
 
 
-    //--
+        //--
 
-  }
-  /*!\brief print in html the readonly value of the widget*/
-  public function display()
-  {
-    $r=sprintf('<TD><input type="hidden" name="%s" value="%s">
-                  %s
+    }
+    /*!\brief print in html the readonly value of the widget*/
+    public function display()
+    {
+        $r=sprintf('<TD><input type="hidden" name="%s" value="%s">
+                   %s
 
-                 </TD>',
-	       $this->name, 
-	       $this->value ,
-	       $this->value 
-	       );
+                   </TD>',
+                   $this->name,
+                   $this->value ,
+                   $this->value
+                  );
 
-    return $r;
+        return $r;
 
-  }
-  static public function test_me()
-  {
-
-  }
+    }
+    static public function test_me()
+    {
+    }
 }

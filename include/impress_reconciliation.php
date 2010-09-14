@@ -33,7 +33,7 @@ require_once ('class_acc_reconciliation.php');
 /**
  *@file
  *@todo add the export to PDF
- */ 
+ */
 $rjrn='';
 $radio=new IRadio('choice');
 echo '<form method="GET">';

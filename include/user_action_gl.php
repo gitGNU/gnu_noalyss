@@ -41,10 +41,12 @@ echo IPoste::ipopup('ipop_account');
 echo '<div class="content">';
 
 $Ledger=new Acc_Ledger($cn,0);
-if ( !isset($_REQUEST['p_jrn'])) {
-  $Ledger->id=-1;
-} else
-  $Ledger->id=$_REQUEST['p_jrn'];
+if ( !isset($_REQUEST['p_jrn']))
+{
+    $Ledger->id=-1;
+}
+else
+    $Ledger->id=$_REQUEST['p_jrn'];
 echo $Ledger->display_search_form();
 
 /*  compute the sql stmt */

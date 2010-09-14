@@ -18,63 +18,82 @@
 /*!\file
  *\brief common function for accountancy module
  */
-function checkTotal() {
-  var ie4=false;
-  if ( document.all ) { 
-    ie4=true;
-  }// Ajouter getElementById par document.all[str]
-  var total_deb=0.0;
-  var total_cred=0.0;
+function checkTotal()
+{
+    var ie4=false;
+    if ( document.all )
+    {
+        ie4=true;
+    }// Ajouter getElementById par document.all[str]
+    var total_deb=0.0;
+    var total_cred=0.0;
 
 
-  var nb_item_id=document.getElementById('nb_item');
-  if ( ! nb_item_id ) 
-	{return; }
-  var nb_item=nb_item_id.value;
-  
-  for (var i=0;i <nb_item ;i++) {
-    var doc_amount=document.getElementById("e_account"+i+"_amount");
-	if ( ! doc_amount ) { return;}
-    var side=document.getElementsByName("e_account"+i+"_type");
-	if ( ! side ) { return;}
-    var amount=parseFloat(doc_amount.value);
-  
-    if ( isNaN(amount) == true)  {
-      amount=0.0;
+    var nb_item_id=document.getElementById('nb_item');
+    if ( ! nb_item_id )
+    {
+        return;
     }
-    for (var e=0;e<side.length;e++) {
-      if ( side[e].checked == true) {
-	//	alert('checked !!! '+side[e].value);
-	deb=side[e].value;
-      }
+    var nb_item=nb_item_id.value;
+
+    for (var i=0;i <nb_item ;i++)
+    {
+        var doc_amount=document.getElementById("e_account"+i+"_amount");
+        if ( ! doc_amount )
+        {
+            return;
+        }
+        var side=document.getElementsByName("e_account"+i+"_type");
+        if ( ! side )
+        {
+            return;
+        }
+        var amount=parseFloat(doc_amount.value);
+
+        if ( isNaN(amount) == true)
+        {
+            amount=0.0;
+        }
+        for (var e=0;e<side.length;e++)
+        {
+            if ( side[e].checked == true)
+            {
+                //	alert('checked !!! '+side[e].value);
+                deb=side[e].value;
+            }
+        }
+        if ( deb == 'c' )
+        {
+            total_cred+=amount;
+        }
+        if ( deb == 'd' )
+        {
+            total_deb+=amount;
+        }
+
+        //    alert("amount ="+i+"="+amount+" cred/deb = "+deb+"total d/b"+total_deb+"/"+total_cred);
     }
-    if ( deb == 'c' ) {
-      total_cred+=amount;
+
+
+
+    r_total_cred=Math.round(total_cred*100)/100;
+    r_total_deb=Math.round(total_deb*100)/100;
+    document.getElementById('totalDeb').innerHTML=r_total_deb;
+    document.getElementById('totalCred').innerHTML=r_total_cred;
+
+    if ( r_total_deb != r_total_cred )
+    {
+        document.getElementById("totalDiff").style.color="red";
+        document.getElementById("totalDiff").style.fontWeight="bold";
+        document.getElementById("totalDiff").innerHTML="Différence";
+        diff=total_deb-total_cred;
+        diff=Math.round(diff*100)/100;
+        document.getElementById("totalDiff").innerHTML=diff;
+
     }
-    if ( deb == 'd' ) {
-      total_deb+=amount;
-    }
-
-    //    alert("amount ="+i+"="+amount+" cred/deb = "+deb+"total d/b"+total_deb+"/"+total_cred);
-  }
-
-
-
-  r_total_cred=Math.round(total_cred*100)/100;
-  r_total_deb=Math.round(total_deb*100)/100;
-  document.getElementById('totalDeb').innerHTML=r_total_deb;
-  document.getElementById('totalCred').innerHTML=r_total_cred;
-
-  if ( r_total_deb != r_total_cred ) {
-    document.getElementById("totalDiff").style.color="red";
-    document.getElementById("totalDiff").style.fontWeight="bold";
-    document.getElementById("totalDiff").innerHTML="Différence";
-    diff=total_deb-total_cred;
-    diff=Math.round(diff*100)/100;
-    document.getElementById("totalDiff").innerHTML=diff
-    
-  } else {
-    document.getElementById("totalDiff").innerHTML="0.0";
-  }
+    else
+	{
+	    document.getElementById("totalDiff").innerHTML="0.0";
+	}
 }
 

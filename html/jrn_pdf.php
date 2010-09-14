@@ -1,30 +1,30 @@
 <?php
 
-  /*
-   *   This file is part of PhpCompta.
-   *
-   *   PhpCompta is free software; you can redistribute it and/or modify
-   *   it under the terms of the GNU General Public License as published by
-   *   the Free Software Foundation; either version 2 of the License, or
-   *   (at your option) any later version.
-   *
-   *   PhpCompta is distributed in the hope that it will be useful,
-   *   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   *   GNU General Public License for more details.
-   *
-   *   You should have received a copy of the GNU General Public License
-   *   along with PhpCompta; if not, write to the Free Software
-   *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-   */
+/*
+ *   This file is part of PhpCompta.
+ *
+ *   PhpCompta is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *
+ *   PhpCompta is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with PhpCompta; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 
 
-  // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-  // $Revision$
-  /*! \file
-   * \brief Send a ledger in a pdf format
-   *
-   */
+// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+// $Revision$
+/*! \file
+ * \brief Send a ledger in a pdf format
+ *
+ */
 
 require_once('class_dossier.php');
 $gDossier=dossier::id();
@@ -58,9 +58,10 @@ $User->check_dossier($gDossier);
 $User->can_request(IMPJRN,0);
 
 // Security
-if ( $_GET['jrn_id']!=0 &&  $User->check_jrn($_GET['jrn_id']) == 'X' ){
-  /* Cannot Access */
-  NoAccess();
+if ( $_GET['jrn_id']!=0 &&  $User->check_jrn($_GET['jrn_id']) == 'X' )
+{
+    /* Cannot Access */
+    NoAccess();
 }
 
 $ret="";
@@ -72,8 +73,8 @@ $jrn_type=$Jrn->get_type();
 //----------------------------------------------------------------------
 // Detailled Printing
 //---------------------------------------------------------------------
-if ( $_REQUEST['p_simple']== 0 ) 
-  {
+if ( $_REQUEST['p_simple']== 0 )
+{
     $pdf=new Print_Ledger_Detail($cn);
     $pdf->setDossierInfo($Jrn->name);
     $pdf->AliasNbPages();
@@ -85,77 +86,81 @@ if ( $_REQUEST['p_simple']== 0 )
     $pdf->Output('journal-'.$fDate.'.pdf','I');
     exit(0);
 
-  } // impression detaillé
+} // impression detaillé
 //----------------------------------------------------------------------
 // Simple Printing Purchase Ledger
 //---------------------------------------------------------------------
-if   (  $_REQUEST['p_simple']== 1 ) 
-  {
+if   (  $_REQUEST['p_simple']== 1 )
+{
     if ( $jrn_type=='ACH' || $jrn_type=='VEN')
-      {
-	if ( $jrn_type=='ACH' && $cn->get_value('select count(qp_id) from quant_purchase') == 0 ) {
-	  $pdf= new Print_Ledger_Simple_without_vat($cn,$Jrn);
-	  $pdf->setDossierInfo($Jrn->name);
-	  $pdf->AliasNbPages();
-	  $pdf->AddPage();
-	  $pdf->Cell(0,6,'Ce journal ne peut être imprimé en mode simple');
-	  $pdf->output('erreur.pdf','I');
-	  exit();
-	}
-	if ( $jrn_type=='VEN' && $cn->get_value('select count(qs_id) from quant_sold') == 0 ) {
-	  $pdf= new Print_Ledger_Simple_without_vat($cn,$Jrn);
-	  $pdf->setDossierInfo($Jrn->name);
-	  $pdf->AliasNbPages();
-	  $pdf->AddPage();
-	  $pdf->Cell(0,6,'Ce journal ne peut être imprimé en mode simple');
-	  $pdf->output('erreur.pdf','I');
-	  exit();
-	}
+    {
+        if ( $jrn_type=='ACH' && $cn->get_value('select count(qp_id) from quant_purchase') == 0 )
+        {
+            $pdf= new Print_Ledger_Simple_without_vat($cn,$Jrn);
+            $pdf->setDossierInfo($Jrn->name);
+            $pdf->AliasNbPages();
+            $pdf->AddPage();
+            $pdf->Cell(0,6,'Ce journal ne peut être imprimé en mode simple');
+            $pdf->output('erreur.pdf','I');
+            exit();
+        }
+        if ( $jrn_type=='VEN' && $cn->get_value('select count(qs_id) from quant_sold') == 0 )
+        {
+            $pdf= new Print_Ledger_Simple_without_vat($cn,$Jrn);
+            $pdf->setDossierInfo($Jrn->name);
+            $pdf->AliasNbPages();
+            $pdf->AddPage();
+            $pdf->Cell(0,6,'Ce journal ne peut être imprimé en mode simple');
+            $pdf->output('erreur.pdf','I');
+            exit();
+        }
 
-	if ( $own->MY_TVA_USE=='Y') 
-	  {
-	    $pdf= new Print_Ledger_Simple($cn,$Jrn);
-	    $pdf->setDossierInfo($Jrn->name);
-	    $pdf->AliasNbPages();
-	    $pdf->AddPage();
-	    $pdf->export();
-	    $fDate=date('dmy-Hi');
-	    $pdf->Output('journal-'.$fDate.'.pdf','I');
-	    exit(0);
-	  }
-	if ( $own->MY_TVA_USE=='N') 
-	  {
-	    $pdf= new Print_Ledger_Simple_without_vat($cn,$Jrn);
-	    $pdf->setDossierInfo($Jrn->name);
-	    $pdf->AliasNbPages();
-	    $pdf->AddPage();
-	    $pdf->export($Jrn);
-	    $fDate=date('dmy-Hi');
-	    $pdf->Output('journal-'.$fDate.'.pdf','I');
-	    exit(0);
-	  }
+        if ( $own->MY_TVA_USE=='Y')
+        {
+            $pdf= new Print_Ledger_Simple($cn,$Jrn);
+            $pdf->setDossierInfo($Jrn->name);
+            $pdf->AliasNbPages();
+            $pdf->AddPage();
+            $pdf->export();
+            $fDate=date('dmy-Hi');
+            $pdf->Output('journal-'.$fDate.'.pdf','I');
+            exit(0);
+        }
+        if ( $own->MY_TVA_USE=='N')
+        {
+            $pdf= new Print_Ledger_Simple_without_vat($cn,$Jrn);
+            $pdf->setDossierInfo($Jrn->name);
+            $pdf->AliasNbPages();
+            $pdf->AddPage();
+            $pdf->export($Jrn);
+            $fDate=date('dmy-Hi');
+            $pdf->Output('journal-'.$fDate.'.pdf','I');
+            exit(0);
+        }
 
-      }
-    
-    if ($jrn_type=='FIN') {
-      $pdf= new Print_Ledger_Financial($cn,$Jrn);
-      $pdf->setDossierInfo($Jrn->name);
-      $pdf->AliasNbPages();
-      $pdf->AddPage();
-      $pdf->export();
-      $fDate=date('dmy-Hi');
-      $pdf->Output('journal-'.$fDate.'.pdf','I');
-      exit(0);
     }
-    if ( $jrn_type=='ODS' || $Jrn->id==0) {
-      $pdf= new Print_Ledger_Misc($cn,$Jrn);
-      $pdf->setDossierInfo($Jrn->name);
-      $pdf->AliasNbPages();
-      $pdf->AddPage();
-      $pdf->export();
-      $fDate=date('dmy-Hi');
-      $pdf->Output('journal-'.$fDate.'.pdf','I');
-      exit(0);
+
+    if ($jrn_type=='FIN')
+    {
+        $pdf= new Print_Ledger_Financial($cn,$Jrn);
+        $pdf->setDossierInfo($Jrn->name);
+        $pdf->AliasNbPages();
+        $pdf->AddPage();
+        $pdf->export();
+        $fDate=date('dmy-Hi');
+        $pdf->Output('journal-'.$fDate.'.pdf','I');
+        exit(0);
     }
-  }
+    if ( $jrn_type=='ODS' || $Jrn->id==0)
+    {
+        $pdf= new Print_Ledger_Misc($cn,$Jrn);
+        $pdf->setDossierInfo($Jrn->name);
+        $pdf->AliasNbPages();
+        $pdf->AddPage();
+        $pdf->export();
+        $fDate=date('dmy-Hi');
+        $pdf->Output('journal-'.$fDate.'.pdf','I');
+        exit(0);
+    }
+}
 ?>

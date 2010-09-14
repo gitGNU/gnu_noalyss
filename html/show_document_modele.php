@@ -37,12 +37,13 @@ $User=new User(new Database());
  */
 $User->Check();
 // retrieve the document
-$r=$cn->exec_sql("select md_id,md_lob,md_filename,md_mimetype 
+$r=$cn->exec_sql("select md_id,md_lob,md_filename,md_mimetype
                  from document_modele where md_id=".$_REQUEST['md_id']);
-if ( Database::num_row($r) == 0 ) {
-  echo_error("Invalid Document");
-  exit;
- }
+if ( Database::num_row($r) == 0 )
+{
+    echo_error("Invalid Document");
+    exit;
+}
 $row=Database::fetch_array($r,0);
 
 
@@ -60,7 +61,7 @@ header('Content-Disposition: attachment;filename="'.$row['md_filename'].'"',FALS
 header("Accept-Ranges: bytes");
 $file=fopen($tmp,'r');
 while ( !feof ($file) )
-	echo fread($file,8192);
+    echo fread($file,8192);
 
 fclose($file);
 

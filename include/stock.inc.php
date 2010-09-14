@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PHPCOMPTA.
  *
@@ -20,7 +20,7 @@
 
 /* $Revision$ */
 
-/*!\file 
+/*!\file
  * \brief Manage the stock by year
  */
 require_once('class_dossier.php');
@@ -46,13 +46,13 @@ $User->Check();
 $href=basename($_SERVER['PHP_SELF']);
 if ($href=='compta.php')
 {
-  //Show the top menu
-  include_once ("user_menu.php");
-  
-  // Show Menu Left
-  $left_menu=ShowMenuAdvanced(5);
-  //echo '<div class="lmenu">';
-  echo $left_menu;
+    //Show the top menu
+    include_once ("user_menu.php");
+
+    // Show Menu Left
+    $left_menu=ShowMenuAdvanced(5);
+    //echo '<div class="lmenu">';
+    echo $left_menu;
 }
 // Get The priv on the selected folder
 $User->can_request(STOLE,1);
@@ -62,135 +62,143 @@ $action= ( isset ($_GET['action']))? $_GET['action']:"";
 include_once("stock_inc.php");
 
 // Adjust the stock
-if ( isset ($_POST['sub_change'])) 
+if ( isset ($_POST['sub_change']))
 {
-  $User->can_request(STOWRITE,1);
-  $change=$_POST['stock_change'];
-  $sg_code=$_POST['sg_code'];
-  $sg_date=$_POST['sg_date'];
-  $year=$_POST['year'];
-  $comment=$_POST['comment'];
+    $User->can_request(STOWRITE,1);
+    $change=$_POST['stock_change'];
+    $sg_code=$_POST['sg_code'];
+    $sg_date=$_POST['sg_date'];
+    $year=$_POST['year'];
+    $comment=$_POST['comment'];
 
-  if ( isDate($sg_date) == null 
-       or isNumber($change) == 0 
-       or isNumber($year) == 0 ) 
+    if ( isDate($sg_date) == null
+            or isNumber($change) == 0
+            or isNumber($year) == 0 )
     {
-      $msg="Stock données non conformes";
-      alert('$msg');
-      echo_error($msg);
-    } else 
-      {
-	// Check if User Can change the stock 
-	if ( $User->check_action($gDossier,GESTOCK) == 0 ) {
-	  NoAccess();
-	  exit (-1);
+        $msg="Stock données non conformes";
+        alert('$msg');
+        echo_error($msg);
     }
+    else
+    {
+        // Check if User Can change the stock
+        if ( $User->check_action($gDossier,GESTOCK) == 0 )
+        {
+            NoAccess();
+            exit (-1);
+        }
 
-    // if neg the stock decrease => credit
-    $type=( $change < 0 )?'c':'d';
-    if ( $change != 0)
-      {
-	$comment=FormatString($comment);
-	$Res=$cn->exec_sql("insert into stock_goods
-                     (  j_id,
-                        f_id, 
-                        sg_code,
-                        sg_quantity,
-                        sg_type,
-                        sg_date,
-                        sg_exercice,
-                        sg_comment,
-                         sg_tech_user)
-                    values (
-                        null,
-                        null,
-                        '$sg_code',
-                        abs($change),
-                        '$type',
-                        to_date('$sg_date','DD.MM.YYYY'),
-                        '$year',
-                        '$comment',
-                        '".$_SESSION['g_user']."');
-                     ");
-      }
-  // to update the view
-  $action="detail";
-  }
+        // if neg the stock decrease => credit
+        $type=( $change < 0 )?'c':'d';
+        if ( $change != 0)
+        {
+            $comment=FormatString($comment);
+            $Res=$cn->exec_sql("insert into stock_goods
+                               (  j_id,
+                               f_id,
+                               sg_code,
+                               sg_quantity,
+                               sg_type,
+                               sg_date,
+                               sg_exercice,
+                               sg_comment,
+                               sg_tech_user)
+                               values (
+                               null,
+                               null,
+                               '$sg_code',
+                               abs($change),
+                               '$type',
+                               to_date('$sg_date','DD.MM.YYYY'),
+                               '$year',
+                               '$comment',
+                               '".$_SESSION['g_user']."');
+                               ");
+        }
+        // to update the view
+        $action="detail";
+    }
 }
 echo JS_LEDGER;
 // View the summary
 
 // if year is not set then use the year of the user's periode
-if ( ! isset ($_GET['year']) ) {
-  // get defaut periode
-  $a=$User->get_periode();
-  // get exercice of periode
+if ( ! isset ($_GET['year']) )
+{
+    // get defaut periode
+    $a=$User->get_periode();
+    // get exercice of periode
     $periode=new Periode($cn,$a);
-	$year=$periode->get_exercice();
- 
-  } else
-  { 
+    $year=$periode->get_exercice();
+
+}
+else
+{
     $year=$_GET['year'];
-  }
+}
 
 // View details
-if ( $action == 'detail' ) {
-  // Check if User Can see the stock 
-  $User->can_request(STOLE,1);
-  $sg_code=(isset ($_GET['sg_code'] ))?$_GET['sg_code']:$_POST['sg_code'];
-  $year=(isset($_GET['year']))?$_GET['year']:$_POST['year'];
-  $a=ViewDetailStock($cn,$sg_code,$year);
-  $write=$User->check_action(STOWRITE);
+if ( $action == 'detail' )
+{
+    // Check if User Can see the stock
+    $User->can_request(STOLE,1);
+    $sg_code=(isset ($_GET['sg_code'] ))?$_GET['sg_code']:$_POST['sg_code'];
+    $year=(isset($_GET['year']))?$_GET['year']:$_POST['year'];
+    $a=ViewDetailStock($cn,$sg_code,$year);
+    $write=$User->check_action(STOWRITE);
 
-  $b="";
+    $b="";
 
-   
-  echo '<div class="u_redcontent" style="margin-left:10%">' ;
-  echo $a;
-  echo '<div style="float:left;clear:both">';
 
-  if ( $write != 0) 
+    echo '<div class="u_redcontent" style="margin-left:10%">' ;
+    echo $a;
+    echo '<div style="float:left;clear:both">';
+
+    if ( $write != 0)
     {
-      echo '<fieldset><legend>';
-      echo 'Entrer la valeur qui doit augmenter ou diminuer le stock';
-      echo '</legend>';
-      echo '<form action="?p_action=stock" method="POST">';
-      echo ChangeStock($sg_code,$year);
-      echo HtmlInput::submit("sub_change" ,"Valider");
-	  echo dossier::hidden();
-	  echo HtmlInput::button_anchor('Retour','?p_action=stock&'.dossier::get());
-      echo '</form>';
-      echo '</fieldset>';
-    }else 
-    echo HtmlInput::button_anchor('Retour','?p_action=stock&'.dossier::get());
-  echo '</div>';
+        echo '<fieldset><legend>';
+        echo 'Entrer la valeur qui doit augmenter ou diminuer le stock';
+        echo '</legend>';
+        echo '<form action="?p_action=stock" method="POST">';
+        echo ChangeStock($sg_code,$year);
+        echo HtmlInput::submit("sub_change" ,"Valider");
+        echo dossier::hidden();
+        echo HtmlInput::button_anchor('Retour','?p_action=stock&'.dossier::get());
+        echo '</form>';
+        echo '</fieldset>';
+    }
+    else
+        echo HtmlInput::button_anchor('Retour','?p_action=stock&'.dossier::get());
+    echo '</div>';
 
 
-  
-  
-  echo '</div>';
-  exit();
+
+
+    echo '</div>';
+    exit();
 }
 
 // Show the possible years
 $sql="select distinct (p_exercice) as exercice from parm_periode ";
 $Res=$cn->exec_sql($sql);
 $r="";
-for ( $i = 0; $i < Database::num_row($Res);$i++) {
-  $l=Database::fetch_array($Res,$i);
-  $url=sprintf("?p_action=stock&year=%d&".dossier::get(),
-	       $l['exercice']);
-  $r.=HtmlInput::button_anchor($l['exercice'],$url);
+for ( $i = 0; $i < Database::num_row($Res);$i++)
+{
+    $l=Database::fetch_array($Res,$i);
+    $url=sprintf("?p_action=stock&year=%d&".dossier::get(),
+                     $l['exercice']);
+    $r.=HtmlInput::button_anchor($l['exercice'],$url);
 }
-// Check if User Can see the stock 
+// Check if User Can see the stock
 
 
 // Show the current stock
 echo '<div class="u_redcontent">';
 echo $r;
 $a=ViewStock($cn,$year);
-if ( $a != null ) {
-  echo $a;
+if ( $a != null )
+{
+    echo $a;
 }
 echo '</div>';
 html_page_stop();

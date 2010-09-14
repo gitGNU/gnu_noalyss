@@ -23,7 +23,12 @@ require_once('class_acc_payment.php');
 
 //---------------------------------------------------------------------------
 // Common variable
-$td='<TD>';$etd='</td>';$tr='<tr>';$etr='</tr>';$th='<th>';$eth='</th>';
+$td='<TD>';
+$etd='</td>';
+$tr='<tr>';
+$etr='</tr>';
+$th='<th>';
+$eth='</th>';
 
 /*!\file
  * \brief payment mode
@@ -33,71 +38,76 @@ echo '<div class="content">';
 
 //----------------------------------------------------------------------
 // change
-if ( $sb=='change') {
-  if ( !isset($_GET['id'])) exit;
-  $row=new Acc_Payment($cn,$_GET['id']);
-  $row->load();
-  $javascript="return confirm('"._('Vous confirmez')."')";
-  echo '<form method="post" action="parametre.php" onsubmit="'.$javascript.'">';
-  echo dossier::hidden();
-  echo HtmlInput::hidden('p_jrn',0);
-  echo HtmlInput::hidden('p_action','divers');
-  echo HtmlInput::hidden('sa','mp');
-  echo HtmlInput::hidden('sb','save');
-  echo HtmlInput::hidden('mp_type',$row->get_parameter('type'));
-  echo HtmlInput::hidden('mp_lib',$row->get_parameter('lib'));
+if ( $sb=='change')
+{
+    if ( !isset($_GET['id'])) exit;
+    $row=new Acc_Payment($cn,$_GET['id']);
+    $row->load();
+    $javascript="return confirm('"._('Vous confirmez')."')";
+    echo '<form method="post" action="parametre.php" onsubmit="'.$javascript.'">';
+    echo dossier::hidden();
+    echo HtmlInput::hidden('p_jrn',0);
+    echo HtmlInput::hidden('p_action','divers');
+    echo HtmlInput::hidden('sa','mp');
+    echo HtmlInput::hidden('sb','save');
+    echo HtmlInput::hidden('mp_type',$row->get_parameter('type'));
+    echo HtmlInput::hidden('mp_lib',$row->get_parameter('lib'));
 
-  echo $row->form();
-  echo HtmlInput::submit('save',_('Sauve'));
-  echo HtmlInput::submit('delete',_('Efface'));
-  echo HtmlInput::button_anchor(_('Retour sans sauvez'),
-			   '?p_action=divers&sa=mp&'.dossier::get()
-			   );
-  echo '</form>';
-  exit();
+    echo $row->form();
+    echo HtmlInput::submit('save',_('Sauve'));
+    echo HtmlInput::submit('delete',_('Efface'));
+    echo HtmlInput::button_anchor(_('Retour sans sauvez'),
+                                  '?p_action=divers&sa=mp&'.dossier::get()
+                                     );
+    echo '</form>';
+    exit();
 }
 //----------------------------------------------------------------------
 // Save the change
 //
-if ( $sb=='save'){
-  $row=new Acc_Payment($cn,$_POST ['id']);
-  $row->from_array($_POST);
-  $row->update();
+if ( $sb=='save')
+{
+    $row=new Acc_Payment($cn,$_POST ['id']);
+    $row->from_array($_POST);
+    $row->update();
 
 }
 //---------------------------------------------------------------------------
 // Delete a card
 //---------------------------------------------------------------------------
-if (isset($_POST['delete'])) {
-  $row=new Acc_Payment($cn,$_POST['id']);
-  $row->from_array($_POST);
-  $row->delete();
+if (isset($_POST['delete']))
+{
+    $row=new Acc_Payment($cn,$_POST['id']);
+    $row->from_array($_POST);
+    $row->delete();
 }
 //---------------------------------------------------------------------------
 // Show form to enter a new one
 //---------------------------------------------------------------------------
-if ($sb=='ins') {
-  $mp=new Acc_Payment($cn);
-  $r=$mp->blank();
-  echo '<form method="POST">';
-  echo dossier::hidden().HtmlInput::hidden('sa',$_REQUEST['sa']).
+if ($sb=='ins')
+{
+    $mp=new Acc_Payment($cn);
+    $r=$mp->blank();
+    echo '<form method="POST">';
+    echo dossier::hidden().HtmlInput::hidden('sa',$_REQUEST['sa']).
     HtmlInput::hidden('p_action',$_REQUEST['p_action']).HtmlInput::hidden('sb','insert');
-  echo $r;
-  echo HtmlInput::submit('insert',_('Enregistre'));
-  echo '</form>';
-  echo HtmlInput::button_anchor(_('Retour sans sauvez'),
-			   '?p_action=divers&sa=mp&'.dossier::get()
-			   );
+    echo $r;
+    echo HtmlInput::submit('insert',_('Enregistre'));
+    echo '</form>';
+    echo HtmlInput::button_anchor(_('Retour sans sauvez'),
+                                  '?p_action=divers&sa=mp&'.dossier::get()
+                                     );
 
-  exit();
+    exit();
 }
 //---------------------------------------------------------------------------
 // Insert a new mod of payment
 //---------------------------------------------------------------------------
-if ( $sb=='insert') {
-  $row=new Acc_Payment($cn);
-  $row->from_array($_POST);
-  $row->insert();
+if ( $sb=='insert')
+{
+    $row=new Acc_Payment($cn);
+    $row->from_array($_POST);
+    $row->insert();
 }
 //----------------------------------------------------------------------
 // LEDGER PURCHASE
@@ -110,20 +120,22 @@ $mp=new Acc_Payment($cn);
 $mp->set_parameter('type','ACH');
 $array=$mp->get_all();
 /* if there are data show them in a table */
-if ( ! empty ($array)) {
-  echo '<table style="border: 2px outset blue; width: 100%;" >';
-  echo $tr.$th._('Libellé').$eth.$th._('Type de fiche')
+if ( ! empty ($array))
+{
+    echo '<table style="border: 2px outset blue; width: 100%;" >';
+    echo $tr.$th._('Libellé').$eth.$th._('Type de fiche')
     .$eth.$th._('enregistré dans le journal').$eth.
     $th._(' Avec la fiche').$eth.$th.'Action'.$eth.$etr;
-  foreach ($array as $row) {
-    echo $tr;
-    echo $row->row();
-    echo $td.HtmlInput::button_anchor(_('Modifie'),'?p_action=divers&sa=mp&sb=change&'.dossier::get().
-				 '&id='.$row->get_parameter('id'));
-    echo $etr;
+    foreach ($array as $row)
+    {
+        echo $tr;
+        echo $row->row();
+        echo $td.HtmlInput::button_anchor(_('Modifie'),'?p_action=divers&sa=mp&sb=change&'.dossier::get().
+                                              '&id='.$row->get_parameter('id'));
+        echo $etr;
 
-  }
-  echo '</table>';
+    }
+    echo '</table>';
 }
 echo '</fieldset>';
 
@@ -137,24 +149,28 @@ $mp=new Acc_Payment($cn);
 $mp->set_parameter('type','VEN');
 $array=$mp->get_all();
 /* if there are data show them in a table */
-if ( ! empty ($array)) {
-  echo '<table style="border: 2px outset blue; width: 100%;" >';
-  echo $tr.$th.'Libell&eacute;'.$eth.$th.'Type de fiche'
-  .$eth.$th.'enregistr&eacute; dans le journal'.$eth.
+if ( ! empty ($array))
+{
+    echo '<table style="border: 2px outset blue; width: 100%;" >';
+    echo $tr.$th.'Libell&eacute;'.$eth.$th.'Type de fiche'
+    .$eth.$th.'enregistr&eacute; dans le journal'.$eth.
     $th.' Avec la fiche'.$eth.$th.'Action'.$eth.$etr;
-  foreach ($array as $row) {
-    echo $tr;
-    echo $row->row();
-    echo $td.HtmlInput::button_anchor('Modifie','?p_action=divers&sa=mp&sb=change&'.dossier::get().
-				 '&id='.$row->get_parameter('id'));
-    echo $etr;
+    foreach ($array as $row)
+    {
+        echo $tr;
+        echo $row->row();
+        echo $td.HtmlInput::button_anchor('Modifie','?p_action=divers&sa=mp&sb=change&'.dossier::get().
+                                              '&id='.$row->get_parameter('id'));
+        echo $etr;
 
-  }
-  echo '</table>';
+    }
+    echo '</table>';
 }
 echo '</fieldset>';
 // Button to insert new one
 echo HtmlInput::button_anchor(_('Ajout'),'?p_action=divers&sa=mp&sb=ins&'.dossier::get());
 
 echo '</div>';
+?>
+?>
 ?>

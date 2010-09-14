@@ -30,7 +30,7 @@ require_once('class_database.php');
 require_once("class_pdf.php");
 $cn=new Database($gDossier);
 //-----------------------------------------------------
-// Security 
+// Security
 
 // Check User
 $rep=new Database();
@@ -42,24 +42,32 @@ $User->can_request(PARSEC,1);
 
 //-----------------------------------------------------
 // Get User's info
-if ( ! isset($_GET['user_id']) ) 
-  return;
+if ( ! isset($_GET['user_id']) )
+    return;
 
 $SecUser=new User($rep,$_GET['user_id']);
 $admin=0;
 $access=$SecUser->get_folder_access($gDossier);
 
-if ( $access == 'L') {
-  $str='Local Admin';$admin=1;
-} elseif ($access=='R') {
-  $str=' Utilisateur normal';
-}   elseif ($access=='P') {
-  $str=' Extension uniquement';
+if ( $access == 'L')
+{
+    $str='Local Admin';
+    $admin=1;
+}
+elseif ($access=='R')
+{
+    $str=' Utilisateur normal';
+}
+elseif ($access=='P')
+{
+    $str=' Extension uniquement';
 }
 
 
-if ( $SecUser->admin==1 ) {
-  $str=' Super Admin';$admin=1;
+if ( $SecUser->admin==1 )
+{
+    $str=' Super Admin';
+    $admin=1;
 }
 
 
@@ -72,27 +80,29 @@ $pdf->AliasNbPages();
 $pdf->AddPage();
 
 $str_user=sprintf("( %d ) %s %s [ %s ] - %s",
-		  $SecUser->id,
-		  $SecUser->first_name,
-		  $SecUser->name,
-		  $SecUser->login,
-		  $str);
+                  $SecUser->id,
+                  $SecUser->first_name,
+                  $SecUser->name,
+                  $SecUser->login,
+                  $str);
 
 $pdf->SetFont('DejaVu','B',9);
 $pdf->Cell(0,7,$str_user,'B',0,'C');
 $pdf->Ln();
-if ( $SecUser->active==0) {
+if ( $SecUser->active==0)
+{
     $pdf->SetTextColor(255,0,34);
-  $pdf->Cell(0,7,'Bloqué',0,0,'R');
-  $pdf->Ln();
- }
+    $pdf->Cell(0,7,'Bloqué',0,0,'R');
+    $pdf->Ln();
+}
 
-if ( $SecUser->admin==1) {
-   $pdf->SetTextColor(0,0,0);
-  $pdf->setFillColor(239,251,255);
-  $pdf->Cell(40,7,'Administrateur',1,1,'R');
-  $pdf->Ln();
- }
+if ( $SecUser->admin==1)
+{
+    $pdf->SetTextColor(0,0,0);
+    $pdf->setFillColor(239,251,255);
+    $pdf->Cell(40,7,'Administrateur',1,1,'R');
+    $pdf->Ln();
+}
 $pdf->SetTextColor(0,0,0);
 
 //-----------------------------------------------------
@@ -102,33 +112,35 @@ $pdf->Ln();
 $pdf->SetFont('DejaVu','',6);
 $Res=$cn->exec_sql("select jrn_def_id,jrn_def_name  from jrn_def ");
 $SecUser->db=$cn;
-for ($e=0;$e < Database::num_row($Res);$e++) {
-  $row=Database::fetch_array($Res,$e);
-  $pdf->Cell(40,6,$row['jrn_def_name']);
-  $priv=$SecUser->check_jrn($row['jrn_def_id']);
-  switch($priv) {
-  case 'X':
-    $pdf->SetTextColor(255,0,34);
-    $pdf->Cell(30,6,"Pas d'accès");
-    break;
-  case 'R':
-    $pdf->SetTextColor(54,233,0);
-    $pdf->Cell(30,6,"Lecture");
-    break;
-  case 'O':
-    /**
-     *non implemente 
-     */
-    $pdf->Cell(30,6,"Opérations prédéfinies uniquement");
-    break;
-  case 'W':
-    $pdf->SetTextColor(54,233,0);
-    $pdf->Cell(30,6,'Ecriture');
-    break;
-  }
-  $pdf->SetTextColor(0);
-  $pdf->Ln();
- }
+for ($e=0;$e < Database::num_row($Res);$e++)
+{
+    $row=Database::fetch_array($Res,$e);
+    $pdf->Cell(40,6,$row['jrn_def_name']);
+    $priv=$SecUser->check_jrn($row['jrn_def_id']);
+    switch($priv)
+    {
+    case 'X':
+            $pdf->SetTextColor(255,0,34);
+        $pdf->Cell(30,6,"Pas d'accès");
+        break;
+    case 'R':
+        $pdf->SetTextColor(54,233,0);
+        $pdf->Cell(30,6,"Lecture");
+        break;
+    case 'O':
+        /**
+         *non implemente 
+         */
+        $pdf->Cell(30,6,"Opérations prédéfinies uniquement");
+        break;
+    case 'W':
+        $pdf->SetTextColor(54,233,0);
+        $pdf->Cell(30,6,'Ecriture');
+        break;
+    }
+    $pdf->SetTextColor(0);
+    $pdf->Ln();
+}
 
 //-----------------------------------------------------
 // Action
@@ -137,30 +149,32 @@ $pdf->Cell(0,7,'Accès action',1,0,'C');
 $pdf->Ln();
 $pdf->SetFont('DejaVu','',6);
 $Res=$cn->exec_sql(
-	     "select ac_id, ac_description from action   order by ac_description ");
+         "select ac_id, ac_description from action   order by ac_description ");
 
 $Max=Database::num_row($Res);
 
-for ( $i =0 ; $i < $Max; $i++ ) {
-   $l_line=Database::fetch_array($Res,$i);
-   $pdf->Cell(90,6,$l_line['ac_description']);
-   $right=$SecUser->check_action($l_line['ac_id']);
-   switch ($right) {
-   case 0:    
-     $pdf->SetTextColor(255,0,34);
+for ( $i =0 ; $i < $Max; $i++ )
+{
+    $l_line=Database::fetch_array($Res,$i);
+    $pdf->Cell(90,6,$l_line['ac_description']);
+    $right=$SecUser->check_action($l_line['ac_id']);
+    switch ($right)
+    {
+    case 0:
+        $pdf->SetTextColor(255,0,34);
 
-    $pdf->Cell(30,6,"Pas d'accès");
-     break;
-   case 1:
-   case 2:
-    $pdf->SetTextColor(54,233,0);
-    $pdf->Cell(30,6,"Accès");
-     break;
-   }
-   $pdf->SetTextColor(0);
+        $pdf->Cell(30,6,"Pas d'accès");
+        break;
+    case 1:
+    case 2:
+        $pdf->SetTextColor(54,233,0);
+        $pdf->Cell(30,6,"Accès");
+        break;
+    }
+    $pdf->SetTextColor(0);
 
-   $pdf->Ln();
- }
+    $pdf->Ln();
+}
 $fDate=date('dmy-HI');
 $pdf->Output('security-'.$fDate.'pdf','I');
 ?>

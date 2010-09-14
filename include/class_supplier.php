@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -28,46 +28,49 @@ require_once('user_common.php');
 /*! \file
  * \brief Derived from class fiche Supplier are a specific kind of card
  */
-/*! 
+/*!
  * \brief  class  Supplier are a specific kind of card
  */
 
 // Use the view vw_supplier
-// 
-class Supplier extends Fiche{
+//
+class Supplier extends Fiche
+{
 
-  var $poste;      /*!< $poste poste comptable */
-  var $name;        /*!< $name name of the company */
-  var $street;      /*!< $street Street */
-  var $country;     /*!< $country Country */
-  var $cp;          /*!< $cp Zip code */
-  var $vat_number;  /*!< $vat_number vat number */
+    var $poste;      /*!< $poste poste comptable */
+    var $name;        /*!< $name name of the company */
+    var $street;      /*!< $street Street */
+    var $country;     /*!< $country Country */
+    var $cp;          /*!< $cp Zip code */
+    var $vat_number;  /*!< $vat_number vat number */
 
-  /*! \brief Constructor 
-  /* only a db connection is needed */
-  function Supplier($p_cn,$p_id=0) {
-      $this->fiche_def_ref=FICHE_TYPE_FOURNISSEUR;
-      parent::__construct($p_cn,$p_id) ;
+    /*! \brief Constructor
+    /* only a db connection is needed */
+    function Supplier($p_cn,$p_id=0)
+    {
+        $this->fiche_def_ref=FICHE_TYPE_FOURNISSEUR;
+        parent::__construct($p_cn,$p_id) ;
 
-  }
-  /*! \brief  Get all info contains in the view
-   *  thanks to the poste elt (account)
-  */
-  function get_by_account($p_poste=0) {
-    $this->poste=($p_poste==0)?$this->poste:$p_poste;
-    $sql="select * from vw_supplier where poste_comptable=".$this->poste;
-    $Res=$this->cn->exec_sql($sql);
-    if ( Database::num_row($Res) == 0) return null;
-    // There is only _one_ row by supplier
-    $row=Database::fetch_array($Res,0);
-    $this->name=$row['name'];
-    $this->id=$row['f_id'];    
-    $this->street=$row['rue'];    
-    $this->cp=$row['code_postal'];
-    $this->country=$row['pays'];
-    $this->vat_number=$row['tva_num'];
+    }
+    /*! \brief  Get all info contains in the view
+     *  thanks to the poste elt (account)
+    */
+    function get_by_account($p_poste=0)
+    {
+        $this->poste=($p_poste==0)?$this->poste:$p_poste;
+        $sql="select * from vw_supplier where poste_comptable=".$this->poste;
+        $Res=$this->cn->exec_sql($sql);
+        if ( Database::num_row($Res) == 0) return null;
+        // There is only _one_ row by supplier
+        $row=Database::fetch_array($Res,0);
+        $this->name=$row['name'];
+        $this->id=$row['f_id'];
+        $this->street=$row['rue'];
+        $this->cp=$row['code_postal'];
+        $this->country=$row['pays'];
+        $this->vat_number=$row['tva_num'];
 
-  }
+    }
 
 
 

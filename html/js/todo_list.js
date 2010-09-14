@@ -25,47 +25,68 @@
  *      the gDossier
  * 
  */
-function todo_list_show(p_id) {
+function todo_list_show(p_id)
+{
     var gDossier=$('gDossier').value;
-   $('add_todo_list').style.top=posY+offsetY;
+    $('add_todo_list').style.top=posY+offsetY;
     $('add_todo_list').style.left=posX+offsetX-200;
 
-    try {
-    var action=new Ajax.Request(
-	'todo_list.php',
-	{
-	    method:'get',
-	    parameters:{'show':1,'id':p_id,'gDossier':gDossier},
-	    onFailure:todo_list_show_error,
-	    onSuccess:todo_list_show_success
-	}
-    );
-    } catch (e) { 
-	alert(" Envoi ajax non possible" + e.message);
+    try
+    {
+        var action=new Ajax.Request(
+                       'todo_list.php',
+                       {
+                   method:'get',
+                   parameters:
+                   {'show':
+                   1,'id':
+                   p_id,'gDossier':
+                               gDossier
+                           },
+                   onFailure:todo_list_show_error,
+                   onSuccess:todo_list_show_success
+                       }
+                   );
+    }
+    catch (e)
+    {
+        alert(" Envoi ajax non possible" + e.message);
     }
     return false;
 }
-function todo_list_show_success(req) {
-    try {
-	var answer=req.responseXML;
-	var tl_id=answer.getElementsByTagName('tl_id');
-	var tl_title=answer.getElementsByTagName('tl_title');
-	var tl_desc=answer.getElementsByTagName('tl_desc');
-	var tl_date=answer.getElementsByTagName('tl_date');
-	
-	if ( tl_id.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
+function todo_list_show_success(req)
+{
+    try
+    {
+        var answer=req.responseXML;
+        var tl_id=answer.getElementsByTagName('tl_id');
+        var tl_title=answer.getElementsByTagName('tl_title');
+        var tl_desc=answer.getElementsByTagName('tl_desc');
+        var tl_date=answer.getElementsByTagName('tl_date');
 
-	$('p_title').value=getNodeText(tl_title[0]);
-	$('p_date_todo').value=getNodeText(tl_date[0]);
-	$('p_desc').value=getNodeText(tl_desc[0]);
-	$('tl_id').value=getNodeText(tl_id[0]);
-	$('add_todo_list').style.display='block';
-    } catch (e)  { alert(e.message);}
+        if ( tl_id.length == 0 )
+        {
+            var rec=req.responseText;
+            alert ('erreur :'+rec);
+        }
+
+        $('p_title').value=getNodeText(tl_title[0]);
+        $('p_date_todo').value=getNodeText(tl_date[0]);
+        $('p_desc').value=getNodeText(tl_desc[0]);
+        $('tl_id').value=getNodeText(tl_id[0]);
+        $('add_todo_list').style.display='block';
+    }
+    catch (e)
+    {
+        alert(e.message);
+    }
 }
-function todo_list_show_error(request_json) {
+function todo_list_show_error(request_json)
+{
     alert ('failure');
 }
-function add_todo() {
+function add_todo()
+{
     $('add_todo_list').style.top=posY+offsetY;
     $('add_todo_list').style.left=posX+offsetX;
 
@@ -76,18 +97,27 @@ function add_todo() {
     $('p_desc').value='';
     $('tl_id').value=0;
 }
-function todo_list_remove(p_ctl) {
-    if ( confirm('Effacer ?') == false ) {return;}
+function todo_list_remove(p_ctl)
+{
+    if ( confirm('Effacer ?') == false )
+    {
+        return;
+    }
     $("tr"+p_ctl).hide();
     var gDossier=$('gDossier').value;
 
     var action=new Ajax.Request(
-	'todo_list.php',
-	{
-	    method:'get',
-	    parameters:{'del':1,'id':p_ctl,'gDossier':gDossier}
-	}
-    );
+                   'todo_list.php',
+                   {
+                   method:'get',
+                   parameters:
+                   {'del':
+                   1,'id':
+                   p_ctl,'gDossier':
+                           gDossier
+                       }
+                   }
+               );
     return false;
 
 }

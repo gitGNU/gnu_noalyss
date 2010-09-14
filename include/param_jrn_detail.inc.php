@@ -48,119 +48,138 @@ $User->check_dossier($gDossier);
 
 $User->can_request(PARJRN);
 
-if ( isset( $_REQUEST['p_jrn'] )) {
-  $p_jrn=$_REQUEST['p_jrn'];
- } else {
-  echo '<h2 class="error">'._('Journal inexistant').'</h2>';
-  exit();
- }
+if ( isset( $_REQUEST['p_jrn'] ))
+{
+    $p_jrn=$_REQUEST['p_jrn'];
+}
+else
+{
+    echo '<h2 class="error">'._('Journal inexistant').'</h2>';
+    exit();
+}
 //--------------------------------------------------
 // remove ledger
 //--------------------------------------------------
-if ( isset($_POST["efface"])) {
-  if ( isNumber($_POST['p_jrn'])==0) {
-    alert(_("Impossible d\'effacer ce journal.\n Il est utilisé\n"));
-  }
-  else if ( $cn->get_value("select count(*) from jrn where jr_def_id=$1",array($_POST['p_jrn'])) == 0 )
+if ( isset($_POST["efface"]))
+{
+    if ( isNumber($_POST['p_jrn'])==0)
     {
-      $cn->exec_sql("delete from jrn_def where jrn_def_id=$1",array($_POST['p_jrn']));
-    } else { 
-    alert(_("Impossible d\'effacer ce journal.\n Il est utilisé\n"));
-  }
+        alert(_("Impossible d\'effacer ce journal.\n Il est utilisé\n"));
+    }
+    else if ( $cn->get_value("select count(*) from jrn where jr_def_id=$1",array($_POST['p_jrn'])) == 0 )
+    {
+        $cn->exec_sql("delete from jrn_def where jrn_def_id=$1",array($_POST['p_jrn']));
+    }
+    else
+    {
+        alert(_("Impossible d\'effacer ce journal.\n Il est utilisé\n"));
+    }
 }
 
 
 //--------------------------------------------------
 // Update ledger
-If ( isset ($_POST["update"] )) {
-  if (  !isset($_POST["p_jrn_name"])  ) {
-    echo '<H2 CLASS="error">'._('Un paramètre manque').'</H2>';
-  }
-  else {
-    if ( isset ($_POST['p_ech']) && $_POST['p_ech'] == 'no' ) {
-      $p_ech='false';
-      $p_ech_lib='null';
-    } else {
-      $p_ech='true';
-      $p_ech_lib="'".$_POST['p_ech_lib']."'";
+If ( isset ($_POST["update"] ))
+{
+    if (  !isset($_POST["p_jrn_name"])  )
+    {
+        echo '<H2 CLASS="error">'._('Un paramètre manque').'</H2>';
     }
-    $nop=0;
-    if (isset($_POST['numb_operation'])) {
-      $nop=1;
-    }
-    if ( strlen(trim($_POST['p_jrn_deb_max_line'])) == 0 || 
-	(string) (int)$_POST['p_jrn_deb_max_line'] != (string)$_POST['p_jrn_deb_max_line'] ||
-	 $_POST['p_jrn_deb_max_line'] <= 0
-	 )
-      $l_deb_max_line=1;
     else
-      $l_deb_max_line=$_POST['p_jrn_deb_max_line'];
-    
-    $l_cred_max_line=$l_deb_max_line;
+    {
+        if ( isset ($_POST['p_ech']) && $_POST['p_ech'] == 'no' )
+        {
+            $p_ech='false';
+            $p_ech_lib='null';
+        }
+        else
+        {
+            $p_ech='true';
+            $p_ech_lib="'".$_POST['p_ech_lib']."'";
+        }
+        $nop=0;
+        if (isset($_POST['numb_operation']))
+        {
+            $nop=1;
+        }
+        if ( strlen(trim($_POST['p_jrn_deb_max_line'])) == 0 ||
+                (string) (int)$_POST['p_jrn_deb_max_line'] != (string)$_POST['p_jrn_deb_max_line'] ||
+                $_POST['p_jrn_deb_max_line'] <= 0
+           )
+            $l_deb_max_line=1;
+        else
+            $l_deb_max_line=$_POST['p_jrn_deb_max_line'];
 
-    $p_jrn_name=$_POST['p_jrn_name'];
-     if (strlen(trim($p_jrn_name))==0) return;
-     $p_jrn_name=FormatString($p_jrn_name);
-       $p_jrn_fiche_deb="";
-       $p_jrn_fiche_cred="";
-      $bank=null;
-      if (isset($_POST['bank'])) {
-	$a=new Fiche($cn);
-	$a->get_by_qcode(trim(strtoupper($_POST['bank'])),false);
-	$bank=$a->id;
-	if ($bank==0) $bank=null;
-      }
-      $err=0;
-      if ($_POST['p_jrn_type']=='FIN' && $bank==null)
-	{
-	  alert("Vous devez donner un compte en banque");
-	  $err=1;
-	}
-       if ( isset    ($_POST["FICHEDEB"])) {
-       $p_jrn_fiche_deb=join(",",$_POST["FICHEDEB"]);
-     }
-      if ( isset    ($_POST["FICHECRED"])) {
-       $p_jrn_fiche_cred=join(",",$_POST["FICHECRED"]);
-      }
-      if ($err==0) {
-	$p_jrn_class_deb=(isset($_POST['p_jrn_class_deb']))?$_POST['p_jrn_class_deb']:'';
-	$Sql="update jrn_def set jrn_def_name=$1,jrn_def_class_deb=$2,jrn_def_class_cred=$3,
+        $l_cred_max_line=$l_deb_max_line;
+
+        $p_jrn_name=$_POST['p_jrn_name'];
+        if (strlen(trim($p_jrn_name))==0) return;
+        $p_jrn_name=FormatString($p_jrn_name);
+        $p_jrn_fiche_deb="";
+        $p_jrn_fiche_cred="";
+        $bank=null;
+        if (isset($_POST['bank']))
+        {
+            $a=new Fiche($cn);
+            $a->get_by_qcode(trim(strtoupper($_POST['bank'])),false);
+            $bank=$a->id;
+            if ($bank==0) $bank=null;
+        }
+        $err=0;
+        if ($_POST['p_jrn_type']=='FIN' && $bank==null)
+        {
+            alert("Vous devez donner un compte en banque");
+            $err=1;
+        }
+        if ( isset    ($_POST["FICHEDEB"]))
+        {
+            $p_jrn_fiche_deb=join(",",$_POST["FICHEDEB"]);
+        }
+        if ( isset    ($_POST["FICHECRED"]))
+        {
+            $p_jrn_fiche_cred=join(",",$_POST["FICHECRED"]);
+        }
+        if ($err==0)
+        {
+            $p_jrn_class_deb=(isset($_POST['p_jrn_class_deb']))?$_POST['p_jrn_class_deb']:'';
+            $Sql="update jrn_def set jrn_def_name=$1,jrn_def_class_deb=$2,jrn_def_class_cred=$3,
                  jrn_deb_max_line=$4,jrn_cred_max_line=$5,jrn_def_ech=$6,jrn_def_ech_lib=$7,jrn_def_fiche_deb=$8,
-                  jrn_def_fiche_cred=$9, jrn_def_pj_pref=upper($10), jrn_def_bank=$12,jrn_def_num_op=$13
+                 jrn_def_fiche_cred=$9, jrn_def_pj_pref=upper($10), jrn_def_bank=$12,jrn_def_num_op=$13
                  where jrn_def_id=$11";
-      $sql_array=array(
-		       $p_jrn_name,$p_jrn_class_deb,$p_jrn_class_deb,
-		       $l_deb_max_line,$l_cred_max_line,
-		       $p_ech,$p_ech_lib,
-		       $p_jrn_fiche_deb,$p_jrn_fiche_cred,
-		       $_POST['jrn_def_pj_pref'],
-		       $_GET['p_jrn'],
-		       $bank,
-		       $nop
-		       );
-      $Res=$cn->exec_sql($Sql,$sql_array);
-      if ( isNumber($_POST['jrn_def_pj_seq']) == 1 && $_POST['jrn_def_pj_seq']!=0)
-	$Res=$cn->alter_seq("s_jrn_pj".$_GET['p_jrn'],$_POST['jrn_def_pj_seq']);
-      }
-  }
+            $sql_array=array(
+                           $p_jrn_name,$p_jrn_class_deb,$p_jrn_class_deb,
+                           $l_deb_max_line,$l_cred_max_line,
+                           $p_ech,$p_ech_lib,
+                           $p_jrn_fiche_deb,$p_jrn_fiche_cred,
+                           $_POST['jrn_def_pj_pref'],
+                           $_GET['p_jrn'],
+                           $bank,
+                           $nop
+                       );
+            $Res=$cn->exec_sql($Sql,$sql_array);
+            if ( isNumber($_POST['jrn_def_pj_seq']) == 1 && $_POST['jrn_def_pj_seq']!=0)
+                $Res=$cn->alter_seq("s_jrn_pj".$_GET['p_jrn'],$_POST['jrn_def_pj_seq']);
+        }
+    }
 }
 echo '<div class="lmenu">';
 MenuJrn();
 echo '</div>';
 ?>
 <script language="javascript">
-  function m_confirm() {
-  return confirm ("Etes-vous sur de vouloir effacer ce journal ?");
-}
-</script>
+                 function m_confirm()
+                 {
+                     return confirm ("Etes-vous sur de vouloir effacer ce journal ?");
+                 }
+                 </script>
 
-<?php
-$Res=$cn->exec_sql("select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
-	     "jrn_deb_max_line,jrn_cred_max_line,jrn_def_code".
-                 ",jrn_def_type,jrn_def_ech, jrn_def_ech_lib,jrn_def_fiche_deb,jrn_def_fiche_cred".
-		 ",jrn_def_bank,jrn_def_num_op".
-                 " from jrn_def where".
-                 " jrn_def_id=".$_REQUEST['p_jrn']);
+                 <?php
+                 $Res=$cn->exec_sql("select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
+                                    "jrn_deb_max_line,jrn_cred_max_line,jrn_def_code".
+                                    ",jrn_def_type,jrn_def_ech, jrn_def_ech_lib,jrn_def_fiche_deb,jrn_def_fiche_cred".
+                                    ",jrn_def_bank,jrn_def_num_op".
+                                    " from jrn_def where".
+                                    " jrn_def_id=".$_REQUEST['p_jrn']);
 if ( Database::num_row($Res) == 0 ) exit();
 
 
@@ -214,12 +233,14 @@ $num_op=new ICheckBox('numb_operation');
 if ( $l_line['jrn_def_num_op']==1) $num_op->selected=true;
 /* bank card */
 $qcode_bank='';
-if ( $type=='FIN')  {
+if ( $type=='FIN')
+{
     $f_id=$l_line['jrn_def_bank'];
-  if ( isNumber($f_id)==1){
-    $fBank=new Fiche($cn,$f_id);
-    $qcode_bank=$fBank->get_quick_code();
-  }
+    if ( isNumber($f_id)==1)
+    {
+        $fBank=new Fiche($cn,$f_id);
+        $qcode_bank=$fBank->get_quick_code();
+    }
 }
 echo '<div class="u_redcontent">';
 echo '<form method="POST">';

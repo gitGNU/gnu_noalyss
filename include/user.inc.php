@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -20,7 +20,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  *
  *
  * \brief user managemnt
@@ -28,21 +28,22 @@
  */
 
 // Add user
-if ( isset ($_POST["LOGIN"]) ) {
-  $cn=new Database();
-  $pass5=md5($_POST['PASS']);
+if ( isset ($_POST["LOGIN"]) )
+{
+    $cn=new Database();
+    $pass5=md5($_POST['PASS']);
 
-  $first_name=Database::escape_string($_POST['FNAME']);
-  $last_name=Database::escape_string($_POST['LNAME']);
-  $login=$_POST['LOGIN'];
-  $login=str_replace("'","",$login);
-  $login=str_replace('"',"",$login);
-  $login=str_replace(" ","",$login);
-  $login=strtolower($login);
+    $first_name=Database::escape_string($_POST['FNAME']);
+    $last_name=Database::escape_string($_POST['LNAME']);
+    $login=$_POST['LOGIN'];
+    $login=str_replace("'","",$login);
+    $login=str_replace('"',"",$login);
+    $login=str_replace(" ","",$login);
+    $login=strtolower($login);
 
-  $Res=$cn->exec_sql("insert into ac_users(use_first_name,use_name,use_login,use_active,use_pass)
-                    values ($1,$2,$3,1,$4)",
-		     array($first_name,$last_name,$login,$pass5));
+    $Res=$cn->exec_sql("insert into ac_users(use_first_name,use_name,use_login,use_active,use_pass)
+                       values ($1,$2,$3,1,$4)",
+                       array($first_name,$last_name,$login,$pass5));
 } //SET login
 
 // Show all the existing user on 7 columns
@@ -52,32 +53,37 @@ $compteur=0;
 ?>
 <h2>Gestion Utilisateurs</h2>
 <TABLE><TR>
-<?php  
-    if ( $cn != null ) {
-      foreach ( $cn as $rUser) {
-	$compteur++;
-	if ( $compteur==0 ) echo "<TR>";
-	if ( $compteur%3 == 0)     echo "</TR><TR>";
-	if ( $rUser['use_active'] == 0 ) {
-	  $Active="not actif";
-	} else {
-	  $Active="";
-	}
-	printf('<TD><A HREF=priv_user.php?UID=%s> %s %s ( %s )</A> %s </TD>',
-	       $rUser['use_id'],
-	       $rUser['use_first_name'],
-	       $rUser['use_name'],
-	       $rUser['use_login'],
-	       $Active);
-      }// foreach
-    } // $cn != null
+<?php
+if ( $cn != null )
+{
+    foreach ( $cn as $rUser)
+    {
+        $compteur++;
+        if ( $compteur==0 ) echo "<TR>";
+        if ( $compteur%3 == 0)     echo "</TR><TR>";
+        if ( $rUser['use_active'] == 0 )
+        {
+            $Active="not actif";
+        }
+        else
+        {
+            $Active="";
+        }
+        printf('<TD><A HREF=priv_user.php?UID=%s> %s %s ( %s )</A> %s </TD>',
+               $rUser['use_id'],
+               $rUser['use_first_name'],
+               $rUser['use_name'],
+               $rUser['use_login'],
+               $Active);
+    }// foreach
+} // $cn != null
 ?>
 </TABLE>
-<TABLE> <TR> 
+<TABLE> <TR>
 <form action="admin_repo.php?action=user_mgt" method="POST">
-<TD><H3>
-<?php  
-  echo _("Ajout d'utilisateur");
+             <TD><H3>
+             <?php
+             echo _("Ajout d'utilisateur");
 echo '<H3></TD></TR>';
 echo '<TR><TD> First Name </TD><TD><INPUT class="input_text" TYPE="TEXT" NAME="FNAME"></TD>';
 echo '<TD> Last Name </TD><TD><INPUT class="input_text"  TYPE="TEXT" NAME="LNAME"></TD></TR>';

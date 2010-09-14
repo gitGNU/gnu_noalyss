@@ -44,55 +44,59 @@ require_once ('class_user.php');
 $var=array('gDossier');
 $cont=0;
 /*  check if mandatory parameters are given */
-foreach ($var as $v) {
-  if ( ! isset ($_REQUEST [$v] ) ) {
-    echo "$v is not set ";
-    $cont=1;
-  }
+foreach ($var as $v)
+{
+    if ( ! isset ($_REQUEST [$v] ) )
+    {
+        echo "$v is not set ";
+        $cont=1;
+    }
 }
 if ( $cont != 0 ) exit();
 extract($_GET );
 set_language();
 
 $cn=new Database($gDossier);
-$user=new User($cn); $user->check(true);$user->check_dossier($gDossier,true);
+$user=new User($cn);
+$user->check(true);
+$user->check_dossier($gDossier,true);
 $html=var_export($_REQUEST,true);
-switch($op) 
-  { 
+switch($op)
+{
     //--------------------------------------------------
     // get the last date of a ledger
-  case 'lastdate':
+case 'lastdate':
     require_once('class_acc_ledger_fin.php');
     $ledger=new Acc_Ledger_Fin($cn,$_GET['p_jrn']);
     $html=$ledger->get_last_date();
     $html=escape_xml($html);
     header('Content-type: text/xml; charset=UTF-8');
-echo <<<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<data>
-<code>e_date</code>
-<value>$html</value>
-</data>
+    echo <<<EOF
+    <?xml version="1.0" encoding="UTF-8"?>
+                                 <data>
+                                 <code>e_date</code>
+                                 <value>$html</value>
+                                 </data>
 EOF;
 
     break;
-  case 'bkname':
+case 'bkname':
     require_once('class_acc_ledger_fin.php');
     $ledger=new Acc_Ledger_Fin($cn,$_GET['p_jrn']);
     $html=$ledger->get_bank_name();
     $html=escape_xml($html);
     header('Content-type: text/xml; charset=UTF-8');
-echo <<<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<data>
-<code>bkname</code>
-<value>$html</value>
-</data>
+    echo <<<EOF
+    <?xml version="1.0" encoding="UTF-8"?>
+                                 <data>
+                                 <code>bkname</code>
+                                 <value>$html</value>
+                                 </data>
 EOF;
     break;
     // display new calendar
-  case 'cal':
-    require_once('class_calendar.php');
+case 'cal':
+        require_once('class_calendar.php');
     /* others report */
     $cal=new Calendar();
     $cal->set_periode($per);
@@ -100,57 +104,59 @@ EOF;
     $html="";
     $html=$cal->display();
     $html=escape_xml($html);
-header('Content-type: text/xml; charset=UTF-8');
-echo <<<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<data>
-<code>$html</code>
-</data>
+    header('Content-type: text/xml; charset=UTF-8');
+    echo <<<EOF
+    <?xml version="1.0" encoding="UTF-8"?>
+                                 <data>
+                                 <code>$html</code>
+                                 </data>
 EOF;
- break;
- /* remove a cat of document */
-  case 'rem_cat_doc':
-    require_once('class_document_type.php');
+    break;
+    /* remove a cat of document */
+case 'rem_cat_doc':
+        require_once('class_document_type.php');
     // if user can not return error message
-    if(     $user->check_action(PARCATDOC)==0 ) {
-      $html="nok";
-      header('Content-type: text/xml; charset=UTF-8');
-echo <<<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<data>
-<dtid>$html</dtid>
-</data>
+    if(     $user->check_action(PARCATDOC)==0 )
+    {
+        $html="nok";
+        header('Content-type: text/xml; charset=UTF-8');
+        echo <<<EOF
+        <?xml version="1.0" encoding="UTF-8"?>
+                                     <data>
+                                     <dtid>$html</dtid>
+                                     </data>
 EOF;
-return;
+        return;
     }
-    // remove the cat if no action 
+    // remove the cat if no action
     $count_md=$cn->get_value('select count(*) from document_modele where md_type=$1',array($dt_id));
-   $count_a=$cn->get_value('select count(*) from action_gestion where ag_type=$1',array($dt_id));		      
+    $count_a=$cn->get_value('select count(*) from action_gestion where ag_type=$1',array($dt_id));
 
-    if ( $count_md != 0 || $count_a != 0 ) {
-      $html="nok";
-      header('Content-type: text/xml; charset=UTF-8');
-echo <<<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<data>
-<dtid>$html</dtid>
-</data>
+    if ( $count_md != 0 || $count_a != 0 )
+    {
+        $html="nok";
+        header('Content-type: text/xml; charset=UTF-8');
+        echo <<<EOF
+        <?xml version="1.0" encoding="UTF-8"?>
+                                     <data>
+                                     <dtid>$html</dtid>
+                                     </data>
 EOF;
-exit;
-  }
-$cn->exec_sql('delete from document_type where dt_id=$1',array($dt_id));
-	 $html=$dt_id;
-      header('Content-type: text/xml; charset=UTF-8');
-echo <<<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<data>
-<dtid>$html</dtid>
-</data>
+        exit;
+    }
+    $cn->exec_sql('delete from document_type where dt_id=$1',array($dt_id));
+    $html=$dt_id;
+    header('Content-type: text/xml; charset=UTF-8');
+    echo <<<EOF
+    <?xml version="1.0" encoding="UTF-8"?>
+                                 <data>
+                                 <dtid>$html</dtid>
+                                 </data>
 EOF;
-	 return;
-	 break;
-  case 'dsp_tva':
-    $cn=new Database($gDossier);
+    return;
+    break;
+case 'dsp_tva':
+        $cn=new Database($gDossier);
     $Res=$cn->exec_sql("select * from tva_rate order by tva_rate desc");
     $Max=Database::num_row($Res);
     $r="";
@@ -162,70 +168,81 @@ EOF;
     $r.=th(_('Symbole'));
     $r.=th(_('Explication'));
 
-    for ($i=0;$i<$Max;$i++) {
-      $row=Database::fetch_array($Res,$i);
-      if ( ! isset($compute)) {
-	  if ( ! isset($code) ) {
-	    $script="onclick=\"$('$ctl').value='".$row['tva_id']."';hideIPopup('".$popup."');\"";
-	  } else {
-	    $script="onclick=\"$('$ctl').value='".$row['tva_id']."';set_value('$code','".$row['tva_label']."');hideIPopup('".$popup."');\"";
-	  }
-	} else {
-	  if ( ! isset($code) ) {
-	    $script="onclick=\"$('$ctl').value='".$row['tva_id']."';hideIPopup('".$popup."');clean_tva('$compute');compute_ledger('$compute');\"";
-	  } else {
-	    $script="onclick=\"$('$ctl').value='".$row['tva_id']."';set_value('$code','".$row['tva_label']."');hideIPopup('".$popup."');clean_tva('$compute');compute_ledger('$compute');\"";
-	  }
+    for ($i=0;$i<$Max;$i++)
+    {
+        $row=Database::fetch_array($Res,$i);
+        if ( ! isset($compute))
+        {
+            if ( ! isset($code) )
+            {
+                $script="onclick=\"$('$ctl').value='".$row['tva_id']."';hideIPopup('".$popup."');\"";
+            }
+            else
+            {
+                $script="onclick=\"$('$ctl').value='".$row['tva_id']."';set_value('$code','".$row['tva_label']."');hideIPopup('".$popup."');\"";
+            }
+        }
+        else
+        {
+            if ( ! isset($code) )
+            {
+                $script="onclick=\"$('$ctl').value='".$row['tva_id']."';hideIPopup('".$popup."');clean_tva('$compute');compute_ledger('$compute');\"";
+            }
+            else
+            {
+                $script="onclick=\"$('$ctl').value='".$row['tva_id']."';set_value('$code','".$row['tva_label']."');hideIPopup('".$popup."');clean_tva('$compute');compute_ledger('$compute');\"";
+            }
 
-	}
-      $set= '<INPUT TYPE="BUTTON" class="button" Value="select" '.$script.'>';
-      $r.='<tr>';
-      $r.=td($set);
-      $r.=td($row['tva_id']);
-      $r.=td($row['tva_rate']);
-      $r.=td($row['tva_label']);
-      $r.=td($row['tva_comment']);
-    $r.='</tr>';
+        }
+        $set= '<INPUT TYPE="BUTTON" class="button" Value="select" '.$script.'>';
+        $r.='<tr>';
+        $r.=td($set);
+        $r.=td($row['tva_id']);
+        $r.=td($row['tva_rate']);
+        $r.=td($row['tva_label']);
+        $r.=td($row['tva_comment']);
+        $r.='</tr>';
     }
     $r.='</TABLE>';
     $r.='</div>';
     $html=escape_xml($r);
-      
-header('Content-type: text/xml; charset=UTF-8');
-echo <<<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<data>
-<code>$html</code>
-<popup>$popup</popup>
-</data>
-EOF;
-break;
-  case 'label_tva':
-    $cn=new Database($gDossier);
-    if ( isNumber($id) == 0 ) 
-      $value = _('tva inconnue');
-    else {
-      $Res=$cn->get_array("select * from tva_rate where tva_id = $1",array($id));
-      if ( count($Res) == 0 ) 
-	$value=_('tva inconnue');
-      else 
-	$value=$Res[0]['tva_label'];
+
+    header('Content-type: text/xml; charset=UTF-8');
+    echo <<<EOF
+    <?xml version="1.0" encoding="UTF-8"?>
+                                 <data>
+                                 <code>$html</code>
+                                 <popup>$popup</popup>
+                                 </data>
+                                 EOF;
+    break;
+case 'label_tva':
+        $cn=new Database($gDossier);
+    if ( isNumber($id) == 0 )
+        $value = _('tva inconnue');
+    else
+    {
+        $Res=$cn->get_array("select * from tva_rate where tva_id = $1",array($id));
+        if ( count($Res) == 0 )
+            $value=_('tva inconnue');
+        else
+            $value=$Res[0]['tva_label'];
     }
-header('Content-type: text/xml; charset=UTF-8');
-echo <<<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<data>
-<code>$code</code>
-<value>$value</value>
-</data>
+    header('Content-type: text/xml; charset=UTF-8');
+    echo <<<EOF
+    <?xml version="1.0" encoding="UTF-8"?>
+                                 <data>
+                                 <code>$code</code>
+                                 <value>$value</value>
+                                 </data>
 EOF;
 
     break;
     /**
      *display the lettering
      */
-  case 'dl':
-    require_once('class_lettering.php');
+case 'dl':
+        require_once('class_lettering.php');
     $exercice=$user->get_exercice();
     $periode=new Periode($cn);
     list($first_per,$last_per)=$periode->get_limit($exercice);
@@ -236,8 +253,8 @@ EOF;
 
     // retrieve info for the given j_id (date, amount,side and comment)
     $sql="select j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,J_POSTE,j_qcode,jr_id,
-jr_comment,j_montant, j_debit,jr_internal from jrnx join jrn on (j_grpt=jr_grpt_id)
-     where j_id=$1";
+         jr_comment,j_montant, j_debit,jr_internal from jrnx join jrn on (j_grpt=jr_grpt_id)
+         where j_id=$1";
     $arow=$cn->get_array($sql,array($j_id));
     $row=$arow[0];
     $r='';
@@ -292,10 +309,10 @@ jr_comment,j_montant, j_debit,jr_internal from jrnx join jrn on (j_grpt=jr_grpt_
     $line=td('Debit / Credit');
     $iside=new ISelect('side');
     $iside->value=array(
-			array('label'=>_('Debit'),'value'=>0),
-			array('label'=>_('Credit'),'value'=>1),
-			array('label'=>_('Les 2'),'value'=>3)
-			);
+                      array('label'=>_('Debit'),'value'=>0),
+                      array('label'=>_('Credit'),'value'=>1),
+                      array('label'=>_('Les 2'),'value'=>3)
+                  );
     /**
      *
      * if $side is not then
@@ -303,20 +320,26 @@ jr_comment,j_montant, j_debit,jr_internal from jrnx join jrn on (j_grpt=jr_grpt_
      * - if jl_id does not exist or is < 0 then show by default the opposite
      *  side
      */
-    if ( ! isset ($side )) {
-      // find the jl_id of the j_id
-      $jl_id=$cn->get_value('select comptaproc.get_letter_jnt($1)',array($j_id));
-      if ($jl_id == null ) {
-	// get the other side
-	$iside->selected=(isset($side))?$side:(($row['j_debit']=='t')?1:0);
-	$side=(isset($side))?$side:(($row['j_debit']=='t')?1:0);
-      } else {
-	// show everything
-	$iside->selected=3;
-	$side=3;
-      }
-    } else {
-      $iside->selected=$side;
+    if ( ! isset ($side ))
+    {
+        // find the jl_id of the j_id
+        $jl_id=$cn->get_value('select comptaproc.get_letter_jnt($1)',array($j_id));
+        if ($jl_id == null )
+        {
+            // get the other side
+            $iside->selected=(isset($side))?$side:(($row['j_debit']=='t')?1:0);
+            $side=(isset($side))?$side:(($row['j_debit']=='t')?1:0);
+        }
+        else
+        {
+            // show everything
+            $iside->selected=3;
+            $side=3;
+        }
+    }
+    else
+    {
+        $iside->selected=$side;
     }
 
     $r.=tr($line.td($iside->input()));
@@ -340,46 +363,51 @@ jr_comment,j_montant, j_debit,jr_internal from jrnx join jrn on (j_grpt=jr_grpt_
     if ( isset($_REQUEST['f_id']))       $form.=HtmlInput::hidden('f_id',$_REQUEST['f_id']);
     /*  check if date are valid */
     if ( (isset($search_end) && isDate($search_end) == null) ||
-	 (isset($search_start) && isDate ($search_start) == null))
-      {
-      ob_start();
-      alert(_('Date malformée, désolé'));
-      $html=ob_get_contents();
-      ob_clean();
+            (isset($search_start) && isDate ($search_start) == null))
+    {
+        ob_start();
+        alert(_('Date malformée, désolé'));
+        $html=ob_get_contents();
+        ob_clean();
 
-    $html=escape_xml($html);
+        $html=escape_xml($html);
 
-    header('Content-type: text/xml; charset=UTF-8');
-echo <<<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<data>
-<code>detail</code>
-<value>$html</value>
-</data>
+        header('Content-type: text/xml; charset=UTF-8');
+        echo <<<EOF
+        <?xml version="1.0" encoding="UTF-8"?>
+                                     <data>
+                                     <code>detail</code>
+                                     <value>$html</value>
+                                     </data>
 EOF;
-exit();
+        exit();
     }
 
     // display a list of operation from the other side + box button
-    if ( $ot == 'account') {
-      $obj=new Lettering_Account($cn,$row['j_poste']);
-      if ( isset($search_start))	 $obj->start=$search_start;
-      if ( isset ($search_end)) $obj->end=$search_end;
-      if ( isset ($max_amount)) $obj->fil_amount_max=$max_amount;
-      if ( isset ($min_amount)) $obj->fil_amount_min=$min_amount;
-      if ( isset ($side)) $obj->fil_deb=$side;
+    if ( $ot == 'account')
+    {
+        $obj=new Lettering_Account($cn,$row['j_poste']);
+        if ( isset($search_start))	 $obj->start=$search_start;
+        if ( isset ($search_end)) $obj->end=$search_end;
+        if ( isset ($max_amount)) $obj->fil_amount_max=$max_amount;
+        if ( isset ($min_amount)) $obj->fil_amount_min=$min_amount;
+        if ( isset ($side)) $obj->fil_deb=$side;
 
-      $form.=$obj->show_letter($j_id);
-    } else if ($ot=='card') {
-      $obj=new Lettering_Card($cn,$row['j_qcode']);
-      if ( isset($search_start))	 $obj->start=$search_start;
-      if ( isset ($search_end)) $obj->end=$search_end;
-      if ( isset ($max_amount)) $obj->fil_amount_max=$max_amount;
-      if ( isset ($min_amount)) $obj->fil_amount_min=$min_amount;
-      if ( isset ($side)) $obj->fil_deb=$side;
-      $form.=$obj->show_letter($j_id);
-    } else {
-      $form.='Mauvais type objet';
+        $form.=$obj->show_letter($j_id);
+    }
+    else if ($ot=='card')
+    {
+        $obj=new Lettering_Card($cn,$row['j_qcode']);
+        if ( isset($search_start))	 $obj->start=$search_start;
+        if ( isset ($search_end)) $obj->end=$search_end;
+        if ( isset ($max_amount)) $obj->fil_amount_max=$max_amount;
+        if ( isset ($min_amount)) $obj->fil_amount_min=$min_amount;
+        if ( isset ($side)) $obj->fil_deb=$side;
+        $form.=$obj->show_letter($j_id);
+    }
+    else
+    {
+        $form.='Mauvais type objet';
     }
 
     $form.=HtmlInput::submit('record',_('Sauver')).$ret->input();
@@ -390,12 +418,12 @@ exit();
     $html=escape_xml($html);
 
     header('Content-type: text/xml; charset=UTF-8');
-echo <<<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<data>
-<code>detail</code>
-<value>$html</value>
-</data>
+    echo <<<EOF
+    <?xml version="1.0" encoding="UTF-8"?>
+                                 <data>
+                                 <code>detail</code>
+                                 <value>$html</value>
+                                 </data>
 EOF;
     break;
-  }
+}

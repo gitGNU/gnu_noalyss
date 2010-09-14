@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -35,32 +35,33 @@ echo $doc->form('parametre.php?p_action=document');
 //-----------------------------------------------------
 // Document 	add a template
 //-----------------------------------------------------
-if ( $sub_action=='add_document') 
+if ( $sub_action=='add_document')
 {
-  require_once("class_document_modele.php");
-  $doc=new Document_modele($cn);
-  $doc->md_name=$_POST['md_name'];
-  $doc->md_id=-1; // because it is a new model
-  $doc->md_type=$_POST['md_type'];
-  $doc->start=$_POST['start_seq'];
-  $doc->md_affect=$_POST['md_affect'];
-  $doc->Save();
-  }
+    require_once("class_document_modele.php");
+    $doc=new Document_modele($cn);
+    $doc->md_name=$_POST['md_name'];
+    $doc->md_id=-1; // because it is a new model
+    $doc->md_type=$_POST['md_type'];
+    $doc->start=$_POST['start_seq'];
+    $doc->md_affect=$_POST['md_affect'];
+    $doc->Save();
+}
 //-----------------------------------------------------
 // Document remove a template
 //-----------------------------------------------------
-if ( $sub_action=='rm_template') {
-  require_once("class_document_modele.php");
-  // Get all the document to remove
+if ( $sub_action=='rm_template')
+{
+    require_once("class_document_modele.php");
+    // Get all the document to remove
 
-  foreach ( $_POST as $name=>$value )
+    foreach ( $_POST as $name=>$value )
     {
-      list ($id) = sscanf ($name,"dm_remove_%d");
-      if ( $id == null ) continue;
-      // a document has to be removed
-      $doc=new Document_modele($cn);
-      $doc->md_id=$id;
-      $doc->Delete();
+        list ($id) = sscanf ($name,"dm_remove_%d");
+        if ( $id == null ) continue;
+        // a document has to be removed
+        $doc=new Document_modele($cn);
+        $doc->md_id=$id;
+        $doc->Delete();
     }
 
 }
@@ -69,4 +70,6 @@ if ( $sub_action=='rm_template') {
 // Default action : Show the list
 //-----------------------------------------------------
 echo $doc->myList();
+?>
+?>
 ?>

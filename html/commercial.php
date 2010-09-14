@@ -43,32 +43,36 @@ $rep=new Database($gDossier);
 require_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
-if ($User->check_dossier($gDossier)=='P')  { 	
-  redirect("extension.php?".dossier::get(),0);
-  exit();
+if ($User->check_dossier($gDossier)=='P')
+{
+    redirect("extension.php?".dossier::get(),0);
+    exit();
 }
 
 //-----------------------------------------------------
 // update preference
 //-----------------------------------------------------
-if ( isset ( $_POST['style_user']) ) {
-	$User->update_global_pref('THEME',$_POST['style_user']);
-      $_SESSION['g_theme']=$_POST['style_user'];
+if ( isset ( $_POST['style_user']) )
+{
+    $User->update_global_pref('THEME',$_POST['style_user']);
+    $_SESSION['g_theme']=$_POST['style_user'];
 
 }
 // Met a jour le pagesize
-if ( isset ( $_POST['p_size']) ) {
-	$User->update_global_pref('PAGESIZE',$_POST['p_size']);
-      $_SESSION['g_pagesize']=$_POST['p_size'];
+if ( isset ( $_POST['p_size']) )
+{
+    $User->update_global_pref('PAGESIZE',$_POST['p_size']);
+    $_SESSION['g_pagesize']=$_POST['p_size'];
 
 }
 
 ///
 html_page_start($_SESSION['g_theme'],"","");
 
-if ( ! isset ( $gDossier ) ) {
-  echo _("Vous devez choisir un dossier ");
-  exit -2;
+if ( ! isset ( $gDossier ) )
+{
+    echo _("Vous devez choisir un dossier ");
+    exit -2;
 }
 include_once("user_menu.php");
 $str_dossier=dossier::get();
@@ -79,52 +83,54 @@ echo menu_tool('commercial.php');
 
 echo '<div class="topmenu">';
 $def=0;
-if  ( isset($_REQUEST['p_action'])) {
-  switch($_REQUEST['p_action']) {
-  case'tdb':
-    $def=1;
-   break;
-  case'client':
-    $def=2;
-    break;
-  case'tdb':
-    $def=1;
-    break;
-  case'supplier':
-    $def=3;
-    break;
-  case'adm':
-    $def=4;
-    break;
-  case'stock':
-    $def=5;
-    break;
-  case'fiche':
-    $def=6;
-    break;
-  case'prev':
-    $def=7;
-    break;
-  case'suivi_courrier':
-    $def=8;
-    break;
-  case'impress':
-    $def=9;
-    break;
+if  ( isset($_REQUEST['p_action']))
+{
+    switch($_REQUEST['p_action'])
+    {
+    case'tdb':
+        $def=1;
+        break;
+    case'client':
+        $def=2;
+        break;
+    case'tdb':
+        $def=1;
+        break;
+    case'supplier':
+        $def=3;
+        break;
+    case'adm':
+        $def=4;
+        break;
+    case'stock':
+        $def=5;
+        break;
+    case'fiche':
+        $def=6;
+        break;
+    case'prev':
+        $def=7;
+        break;
+    case'suivi_courrier':
+        $def=8;
+        break;
+    case'impress':
+        $def=9;
+        break;
 
-  }
+    }
 }
 echo ShowItem(array(
-		    array('?p_action=client&'.$str_dossier,_('Client'),'',2),
-		    array('?p_action=supplier&'.$str_dossier,_('Fournisseur'),'',3),
-		    array('?p_action=adm&'.$str_dossier,_('Administration'),'',4),
-		    array('?p_action=impress&'.$str_dossier,_('Impression'),'',9),
-		    array('?p_action=stock&'.$str_dossier,_('Stock'),'',5),
-		    array('?p_action=fiche&'.$str_dossier,_('Fiche'),'',6),
-		    array('?p_action=prev&'.$str_dossier,_('Prevision'),'',7),
-		    array('?p_action=suivi_courrier&my_action&'.$str_dossier,_('Suivi'),'',8),
-		    ),
-	      'H',"mtitle","mtitle",$def,' style="width:100%"');
+                  array('?p_action=client&'.$str_dossier,_('Client'),'',2),
+                  array('?p_action=supplier&'.$str_dossier,_('Fournisseur'),'',3),
+                  array('?p_action=adm&'.$str_dossier,_('Administration'),'',4),
+                  array('?p_action=impress&'.$str_dossier,_('Impression'),'',9),
+                  array('?p_action=stock&'.$str_dossier,_('Stock'),'',5),
+                  array('?p_action=fiche&'.$str_dossier,_('Fiche'),'',6),
+                  array('?p_action=prev&'.$str_dossier,_('Prevision'),'',7),
+                  array('?p_action=suivi_courrier&my_action&'.$str_dossier,_('Suivi'),'',8),
+              ),
+              'H',"mtitle","mtitle",$def,' style="width:100%"');
 
 echo '</div>';
 echo '</div>';
@@ -139,14 +145,14 @@ echo JS_AJAX_FICHE;
 //-----------------------------------------------------
 if ( $p_action == "pref" )
 {
-  require_once("pref.inc.php");
+    require_once("pref.inc.php");
 }
 //-----------------------------------------------------
 // p_action == impression
 //-----------------------------------------------------
 if ( $p_action == "impress" )
 {
-  require_once("impress.inc.php");
+    require_once("impress.inc.php");
 }
 
 
@@ -155,77 +161,81 @@ if ( $p_action == "impress" )
 //-----------------------------------------------------
 if ( $p_action == "adm" )
 {
-  $User->can_request(GEADM,1);
-  require_once("adm.inc.php");
+    $User->can_request(GEADM,1);
+    require_once("adm.inc.php");
 }
 //-----------------------------------------------------
 // p_action == client
 //-----------------------------------------------------
 if ( $p_action == "client" )
 {
-  $User->can_request(GECUST,1);
-  require_once("client.inc.php");
+    $User->can_request(GECUST,1);
+    require_once("client.inc.php");
 }
 // $p_action == fournisseur
 //-----------------------------------------------------
 // Fournisseur
 if ( $p_action == 'supplier')
 {
-  $User->can_request(GESUPPL,1);
-  require_once("supplier.inc.php");
+    $User->can_request(GESUPPL,1);
+    require_once("supplier.inc.php");
 }
 
 //-----------------------------------------------------
 // action
 if ( $p_action == 'suivi_courrier')
 {
-  $User->can_request(GECOUR,1);
-  require_once("action.inc.php");
+    $User->can_request(GECOUR,1);
+    require_once("action.inc.php");
 }
 //-----------------------------------------------------
 // Contact
 if ( $p_action == 'fiche')
 {
-  require_once("fiche.inc.php");
+    require_once("fiche.inc.php");
 }
 //-----------------------------------------------------
 // Impression
 if ( $p_action == 'impress')
 {
-  if ( $User->check_action(IMPRAP)==1 ||
-       $User->check_action(IMPJRN)==1 ||
-       $User->check_action(IMPFIC)==1 ||
-       $User->check_action(IMPPOSTE)==1 ||
-       $User->check_action(IMPBIL)==1 )
-    require_once("impress.inc.php");
-  else
-    $User->can_request(9999,1);
+    if ( $User->check_action(IMPRAP)==1 ||
+            $User->check_action(IMPJRN)==1 ||
+            $User->check_action(IMPFIC)==1 ||
+            $User->check_action(IMPPOSTE)==1 ||
+            $User->check_action(IMPBIL)==1 )
+        require_once("impress.inc.php");
+    else
+        $User->can_request(9999,1);
 }
-if ( $p_action == 'fiche') {
-  require_once('fiche.inc.php');
+if ( $p_action == 'fiche')
+{
+    require_once('fiche.inc.php');
 }
-if ( $p_action == 'stock') {
-  require_once('stock.inc.php');
+if ( $p_action == 'stock')
+{
+    require_once('stock.inc.php');
 }
-if ( $p_action=='periode') {
-  if ( $User->check_action(PARPER)==1 ||
-       $User->check_action(PARCLO)==1)
-    require_once ('periode.inc.php');
-  else
-    $User->can_request(9999,1);
- }
+if ( $p_action=='periode')
+{
+    if ( $User->check_action(PARPER)==1 ||
+            $User->check_action(PARCLO)==1)
+        require_once ('periode.inc.php');
+    else
+        $User->can_request(9999,1);
+}
 //-----------------------------------------------------
 // Expense
 if ( $p_action == 'defreport')
 {
-  $User->can_request(PARPREDE,1);
-  require_once("report.inc.php");
+    $User->can_request(PARPREDE,1);
+    require_once("report.inc.php");
 }
 /*----------------------------------------------------------------------
  * Prevision
  *
  *----------------------------------------------------------------------*/
-if ( $p_action=='prev') {
-  $User->can_request(PREVCON,1);
-  require_once ('forecast.inc.php');
+if ( $p_action=='prev')
+{
+    $User->can_request(PREVCON,1);
+    require_once ('forecast.inc.php');
 }

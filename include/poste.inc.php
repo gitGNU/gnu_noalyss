@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -32,29 +32,30 @@ $gDossier=dossier::id();
 // confirm mod
 if ( isset( $_POST['confirm_mod'] ) )
 {
-  extract($_POST);
-  $update=new Acc_Parm_Code($cn,$p_code);
-  $update->p_comment=$p_comment;
-  $update->p_value=$p_value;
-  $update->save();
+    extract($_POST);
+    $update=new Acc_Parm_Code($cn,$p_code);
+    $update->p_comment=$p_comment;
+    $update->p_value=$p_value;
+    $update->save();
 }
 $object=new Acc_Parm_Code($cn);
 
 $all=$object->load_all();
 echo '<div style="float:left; ">';
 echo '<table align="left">';
-for ($i=0;$i<sizeof($all);$i++)  {
-  echo '<TR>';
-  echo $all[$i]->display();
-  echo '<TD><FORM method="POST">';
-  $w=new IHidden();
-  $w->name='id';
-  $w->value=$i;
-  echo $w->input();
-  echo HtmlInput::submit('mod','modifie');
-  echo '</FORM>';
-  echo '</TD>';
-  echo "</TR>";
+for ($i=0;$i<sizeof($all);$i++)
+{
+    echo '<TR>';
+    echo $all[$i]->display();
+    echo '<TD><FORM method="POST">';
+    $w=new IHidden();
+    $w->name='id';
+    $w->value=$i;
+    echo $w->input();
+    echo HtmlInput::submit('mod','modifie');
+    echo '</FORM>';
+    echo '</TD>';
+    echo "</TR>";
 }
 echo "</table>";
 echo "</div>";
@@ -62,26 +63,27 @@ echo "</div>";
 // modifie
 if ( isset ($_POST['mod'] ))
 {
-  echo '<div style="float:left;">';
-  echo IPoste::ipopup('ipop_account');
-  echo '<fieldset>';
-  echo "<legend>Voulez-vous vraiment modifier ?</legend>";
-  echo '<FORM METHOD="POST">';
+    echo '<div style="float:left;">';
+    echo IPoste::ipopup('ipop_account');
+    echo '<fieldset>';
+    echo "<legend>Voulez-vous vraiment modifier ?</legend>";
+    echo '<FORM METHOD="POST">';
 
-  echo "<TABLE>";
-  $id=$_POST['id'];
-  echo $all[$id]->form();
-  echo "</TABLE>";
-  $h=new IHidden();
-  $h->name='p_action';
-  $h->value='divers';;
-  echo $h->input();
-  echo HtmlInput::hidden('sa','poste');
-  echo HtmlInput::submit('confirm_mod','Confirme');
-  echo HtmlInput::submit('no','Cancel');
-  echo "</FORM>";
-  echo '</fieldset>';
-  echo "</div>";
+    echo "<TABLE>";
+    $id=$_POST['id'];
+    echo $all[$id]->form();
+    echo "</TABLE>";
+    $h=new IHidden();
+    $h->name='p_action';
+    $h->value='divers';
+    ;
+    echo $h->input();
+    echo HtmlInput::hidden('sa','poste');
+    echo HtmlInput::submit('confirm_mod','Confirme');
+    echo HtmlInput::submit('no','Cancel');
+    echo "</FORM>";
+    echo '</fieldset>';
+    echo "</div>";
 
-} 
+}
 echo '</div>';

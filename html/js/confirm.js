@@ -19,14 +19,15 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief Manage the confirmation process for deleting a template 
  *
  */
 
 // \brief Confirm the removal of a template
-function confirm_remove(p_obj_id,p_type) {
-	 var
-	 a=open('confirm_remove.php?ob_id='+p_obj_id+'&p_type='+p_type,'Confirmez effacement','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
+function confirm_remove(p_obj_id,p_type)
+{
+    var
+    a=open('confirm_remove.php?ob_id='+p_obj_id+'&p_type='+p_type,'Confirmez effacement','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
 
 }

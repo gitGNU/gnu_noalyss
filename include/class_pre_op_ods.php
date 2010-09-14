@@ -20,91 +20,104 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief definition of the class Pre_op_ods
  */
 require_once ('class_pre_operation.php');
 
 /*---------------------------------------------------------------------- */
-/*!\brief concerns the predefined operation for ODS ledger 
+/*!\brief concerns the predefined operation for ODS ledger
 */
-class Pre_op_ods extends Pre_operation_detail {
-  var $op;
-  function __construct($cn) {
-    parent::__construct($cn);
-    $this->operation->od_direct='f';
-  }
+class Pre_op_ods extends Pre_operation_detail
+{
+    var $op;
+    function __construct($cn)
+    {
+        parent::__construct($cn);
+        $this->operation->od_direct='f';
+    }
 
-  function get_post() {
-	parent::get_post();
-	$this->operation->od_direct='f';
-	for ($i=0;$i<$this->operation->nb_item;$i++) {
+    function get_post()
+    {
+        parent::get_post();
+        $this->operation->od_direct='f';
+        for ($i=0;$i<$this->operation->nb_item;$i++)
+        {
 
-	  $this->{"e_account".$i}=$_POST['e_account'.$i];
-	  $this->{"e_account".$i."_amount"}=$_POST['e_account'.$i."_amount"];
-	  $this->{"e_account".$i."_type"}=$_POST['e_account'.$i."_type"];
+            $this->{"e_account".$i}=$_POST['e_account'.$i];
+            $this->{"e_account".$i."_amount"}=$_POST['e_account'.$i."_amount"];
+            $this->{"e_account".$i."_type"}=$_POST['e_account'.$i."_type"];
 
-	}
-  }
-/*! 
- * \brief save the detail and op in the database
- *
- */
-  function save() {
-	try {
-	  $this->db->start();
-	  if ($this->operation->save() == false )
-		return;
+        }
+    }
+    /*!
+     * \brief save the detail and op in the database
+     *
+     */
+    function save()
+    {
+        try
+        {
+            $this->db->start();
+            if ($this->operation->save() == false )
+                return;
 
-	  // save the selling
-	  for ($i=0;$i<$this->operation->nb_item;$i++) {
-		$sql=sprintf('insert into op_predef_detail (opd_poste,opd_amount,'.
-					 'opd_debit,od_id)'.
-					 ' values '.
-					 "('%s',%.2f,'%s',%d)",
-					 $this->{"e_account".$i},
-					 $this->{"e_account".$i."_amount"},
-					 ($this->{"e_account".$i."_type"}=='d')?'t':'f',
-					 $this->operation->od_id
-					 );
-		$this->db->exec_sql($sql);
-	  }
-	} catch (Exception $e) {
-	  echo ($e->getMessage());
-	  $this->db->rollback();
-	}
+            // save the selling
+            for ($i=0;$i<$this->operation->nb_item;$i++)
+            {
+                $sql=sprintf('insert into op_predef_detail (opd_poste,opd_amount,'.
+                             'opd_debit,od_id)'.
+                             ' values '.
+                             "('%s',%.2f,'%s',%d)",
+                             $this->{"e_account".$i},
+                             $this->{"e_account".$i."_amount"},
+                             ($this->{"e_account".$i."_type"}=='d')?'t':'f',
+                             $this->operation->od_id
+                            );
+                $this->db->exec_sql($sql);
+            }
+        }
+        catch (Exception $e)
+        {
+            echo ($e->getMessage());
+            $this->db->rollback();
+        }
 
-  }
-  /*!\brief compute an array accordingly with the FormVenView function
-   */
-  function compute_array() {
-	$count=0;
-	$a_op=$this->operation->load();
-	$array=$this->operation->compute_array($a_op);
-	$p_array=$this->load();
-	foreach ($p_array as $row) {
-	  $c=($row['opd_debit']=='t')?'d':'c';
-	  $array+=array("e_account".$count=>$row['opd_poste'],
-					"e_account".$count."_amount"=>$row['opd_amount'],
-					"e_account".$count."_type"=>$c
-					);
-	  $count++;
+    }
+    /*!\brief compute an array accordingly with the FormVenView function
+     */
+    function compute_array()
+    {
+        $count=0;
+        $a_op=$this->operation->load();
+        $array=$this->operation->compute_array($a_op);
+        $p_array=$this->load();
+        foreach ($p_array as $row)
+        {
+            $c=($row['opd_debit']=='t')?'d':'c';
+            $array+=array("e_account".$count=>$row['opd_poste'],
+                          "e_account".$count."_amount"=>$row['opd_amount'],
+                          "e_account".$count."_type"=>$c
+                         );
+            $count++;
 
-	}
-	return $array;
-  }
-  /*!\brief load the data from the database and return an array
-   * \return an array 
-   */
-  function load() {
-	$sql="select opd_id,opd_poste,opd_amount,opd_debit".
-	  "  from op_predef_detail where od_id=".$this->operation->od_id.
-	  " order by opd_debit, opd_id,opd_amount";
-	$res=$this->db->exec_sql($sql);
-	$array=Database::fetch_all($res);
-	return $array;
-  }
-  function set_od_id($p_id) {
-	$this->operation->od_id=$p_id;
-  }
+        }
+        return $array;
+    }
+    /*!\brief load the data from the database and return an array
+     * \return an array 
+     */
+    function load()
+    {
+        $sql="select opd_id,opd_poste,opd_amount,opd_debit".
+             "  from op_predef_detail where od_id=".$this->operation->od_id.
+             " order by opd_debit, opd_id,opd_amount";
+        $res=$this->db->exec_sql($sql);
+        $array=Database::fetch_all($res);
+        return $array;
+    }
+    function set_od_id($p_id)
+    {
+        $this->operation->od_id=$p_id;
+    }
 }

@@ -64,320 +64,350 @@ require_once ('class_fiche_attr.php');
 $var=array('gDossier','op','ctl');
 $cont=0;
 /*  check if mandatory parameters are given */
-foreach ($var as $v) {
-  if ( ! isset ($_REQUEST [$v] ) ) {
-    echo "$v is not set ";
-    $cont=1;
-  }
+foreach ($var as $v)
+{
+    if ( ! isset ($_REQUEST [$v] ) )
+    {
+        echo "$v is not set ";
+        $cont=1;
+    }
 }
 if ( $cont != 0 ) exit();
 extract($_REQUEST );
 set_language();
 
 $cn=new Database($gDossier);
-$user=new User($cn); $user->check(true);$user->check_dossier($gDossier,true);
+$user=new User($cn);
+$user->check(true);
+$user->check_dossier($gDossier,true);
 $html=var_export($_REQUEST,true);
-switch($op) {
-  /* ------------------------------------------------------------ */
-  /* Remove a attribut */
-  /* ------------------------------------------------------------ */
+switch($op)
+{
+    /* ------------------------------------------------------------ */
+    /* Remove a attribut */
+    /* ------------------------------------------------------------ */
 case 'rmfa':
-  ob_start();
-  if( ! isset($_GET['ad_id']) || isNumber($_GET['ad_id']) ==0)
-    throw new Exception ( "Parametre ad_id est invalide",11);
-  $ad_id=  $_GET['ad_id'];
-  try {
-    $cn->start();
-    $fa=new Fiche_Attr($cn,$ad_id);
-    $fa->delete();
-    $cn->commit();
-  } catch (Exception $e) {
-    $cn->rollback();
-    echo $e->getMessage();
-  }
-  $html=ob_get_contents();
-  ob_clean();
-  break;
-  /* ------------------------------------------------------------ */
-  /* Display card detail */
-  /* ------------------------------------------------------------ */
+        ob_start();
+    if( ! isset($_GET['ad_id']) || isNumber($_GET['ad_id']) ==0)
+        throw new Exception ( "Parametre ad_id est invalide",11);
+    $ad_id=  $_GET['ad_id'];
+    try
+    {
+        $cn->start();
+        $fa=new Fiche_Attr($cn,$ad_id);
+        $fa->delete();
+        $cn->commit();
+    }
+    catch (Exception $e)
+    {
+        $cn->rollback();
+        echo $e->getMessage();
+    }
+    $html=ob_get_contents();
+    ob_clean();
+    break;
+    /* ------------------------------------------------------------ */
+    /* Display card detail */
+    /* ------------------------------------------------------------ */
 
 case 'dc':
-   $f=new Fiche($cn);
-   if ( $qcode != '')
-     {
-       $f->get_by_qcode($qcode);
-       $html=$f->Display(true);
-     }
-   else 
-     $html=h2info('Aucune fiche demandée');
-  break;
-  /* ------------------------------------------------------------ */
-  /* Blank card */
-  /* ------------------------------------------------------------ */
-case 'bc':
-  if ( $user->check_action(FICADD)==1 ) {
-    $r='';
     $f=new Fiche($cn);
-    $popup=str_replace('_content','',$ctl);
-    $r.='<form id="save_card" method="POST" onsubmit="this.ipopup=\''.$popup.'\';save_card(this);return false;" >';
-    $r.=dossier::hidden();
-    $r.=(isset($ref))?HtmlInput::hidden('ref',1):'';
-    $r.=HtmlInput::hidden('fd_id',$fd_id);
-    $r.=HtmlInput::hidden('ctl',$ctl);
-    $r.=$f->blank($fd_id);
-    $r.=HtmlInput::submit('sc','Sauve');
-    $r.='</form>';
-    $html=$r;
-  } else {
-    $html=alert(_('Action interdite'),true);
-  }
-  break;
-  /* ------------------------------------------------------------ */
-  /* Show Type */
-  /* Before inserting a new card, the type must be selected */
-  /* ------------------------------------------------------------ */
-case 'st':
-  $sql="select fd_id,fd_label from fiche_def";
-  /*  if we filter  thanks the ledger*/
-  if ( $ledger != -1 ) 
+    if ( $qcode != '')
     {
-      /* we want the card for deb or cred or both of this ledger */
-      switch( $fil  ) 
-	{
-	case -1:
-	  $l=new Acc_Ledger($cn,$ledger);
-	  $sql.='  where fd_id in ('.$l->get_all_fiche_def().')';
-	  break;
-	case 'cred':
-	  $l=new Acc_Ledger($cn,$ledger);
-	  $prop=$l->get_propertie();
-	  if ( $prop['jrn_def_fiche_cred']=='')$prop=-1;
-	  $sql.='  where fd_id in ('.$prop['jrn_def_fiche_cred'].')';
-	  break;
-	case 'deb':
-	  $l=new Acc_Ledger($cn,$ledger);
-	  $prop=$l->get_propertie();
-	  if ( $prop=='')$prop=-1;
-	  $sql.='  where fd_id in ('.$prop['jrn_def_fiche_deb'].')';
-	  break;
-	}
-    } 
-  else
-    {
-      /* we filter thanks a given model of card */
-      if ( isset($cat)) {
-	$sql=$sql.sprintf(' where frd_id = '.FormatString ($cat));
-      } 
-      else 
-	/* we filter thanks a given list of category of card
-	 */
-	if ( isset($fil) && strlen(trim($fil)) > 0 ){
-	  $sql=$sql.sprintf(" where fd_id in (%s)",
-			    FormatString($fil));
-	}
+        $f->get_by_qcode($qcode);
+        $html=$f->Display(true);
     }
-  $array=$cn->make_array($sql);
-  if ( empty($array)) {
-    $html=_("Aucune catégorie de fiche ne correspondant à".
-	    " votre demande");
-    $html.=$sql;
-  } else {
-    $r='';
-    $isel=new ISelect('fd_id');
-    $isel->value=$array;
-    $popup=str_replace('_content','',$ctl);
-    $r.='<form id="sel_type" method="GET" onsubmit="this.ipopup=\''.$popup.'\';dis_blank_card(this);return false;" >';
-    $r.=dossier::hidden();
-    $r.=(isset($ref))?HtmlInput::hidden('ref',1):'';
-    $r.='<p>choisissez le type de fiche à ajouter</p>';
-    $r.=$isel->input();
-    $r.=HtmlInput::submit('st','choix');
-    $r.='</form>';
-    $html=$r;
-  }
-  break;
-  /*----------------------------------------------------------------------
-   * SC save card
-   * save the new card (insert)
-   *
-   ----------------------------------------------------------------------*/
-case 'sc':
-  if ( $user->check_action(FICADD)==1 ) {
-    $f=new Fiche($cn);
-    $f->insert($fd_id,$_POST);
-    $html='<h2 class="info">Fiche sauvée</h2>';
-    $html.=$f->Display(true);
-    $js="";
-    if ( isset( $_POST['ref'])) $js=create_script(' window.location.reload()');
-    $html.=$js;
-  } else {
-    $html=alert(_('Action interdite'),true);
-  }
+    else
+        $html=h2info('Aucune fiche demandée');
     break;
-  /*----------------------------------------------------------------------
-   * Search a card
-   *
-   *----------------------------------------------------------------------*/
-case 'fs':
-  require_once('class_acc_ledger.php');
-  $r='';
-  $r.='<form method="GET" onsubmit="this.ctl=\'ipop_card\';search_get_card(this);return false;">';
-  $q=new IText('query');
-  $q->value=(isset($query))?$query:'';
-  $r.=_('Fiche contenant');
-  $r.=$q->input();
-  $r.=HtmlInput::submit('fs',_('Recherche'));
-  $r.=dossier::hidden().HtmlInput::hidden('op','fs');
-  $array=array();
-  foreach (array('query','inp','jrn','label','typecard','price','tvaid') as $i) {
-    if  (isset(${$i}) ){
-      $r.=HtmlInput::hidden($i,${$i});
-      $sql_array[$i]=${$i};
+    /* ------------------------------------------------------------ */
+    /* Blank card */
+    /* ------------------------------------------------------------ */
+case 'bc':
+    if ( $user->check_action(FICADD)==1 )
+    {
+        $r='';
+        $f=new Fiche($cn);
+        $popup=str_replace('_content','',$ctl);
+        $r.='<form id="save_card" method="POST" onsubmit="this.ipopup=\''.$popup.'\';save_card(this);return false;" >';
+        $r.=dossier::hidden();
+        $r.=(isset($ref))?HtmlInput::hidden('ref',1):'';
+        $r.=HtmlInput::hidden('fd_id',$fd_id);
+        $r.=HtmlInput::hidden('ctl',$ctl);
+        $r.=$f->blank($fd_id);
+        $r.=HtmlInput::submit('sc','Sauve');
+        $r.='</form>';
+        $html=$r;
     }
-  }
-  /* what is the type of the ledger */
-  $type="GL";
-  if (isset($jrn) && $jrn > 1) {
-    $ledger=new Acc_Ledger($cn,$jrn);
-    $type=$ledger->get_type();
-  }
-  $fiche=new Fiche($cn);
-  /* Build the SQL and show result */
-  $sql=$fiche->build_sql($sql_array);
-
-  /* We limit the search to 20 records */
-  $sql=$sql.' order by vw_name limit 20';
-  $a=$cn->get_array($sql);
-
-  for($i=0;$i<count($a);$i++) {
-    $array[$i]['quick_code']=$a[$i]['quick_code'];
-    $array[$i]['name']=h($a[$i]['vw_name']);
-    $array[$i]['description']=h($a[$i]['vw_description']);
-    $array[$i]['javascript']=sprintf("set_value('%s','%s');",
-				 $inp,$array[$i]['quick_code']);
-    $array[$i]['javascript'].=sprintf("set_value('%s','%s');",
-				      $label,h(strip_tags($a[$i]['vw_name'])));
-
-    /* if it is a ledger of sales we use vw_buy
-       if it is a ledger of purchase we use vw_sell*/
-    if ( $type=="ACH" )
-      $array[$i]['javascript'].=sprintf("set_value('%s','%s');",
-				 $price,$a[$i]['vw_buy']);
-    if ( $type=="VEN" )
-      $array[$i]['javascript'].=sprintf("set_value('%s','%s');",
-				 $price,$a[$i]['vw_sell']);
-    $array[$i]['javascript'].=sprintf("set_value('%s','%s');",
-	    $tvaid,$a[$i]['tva_id']);
-      $array[$i]['javascript'].=sprintf("hideIPopup('%s')",
-					$ctl);
-
-  }//foreach
-
-  ob_start();
-  require_once('template/card_result.php');
-  $r.=ob_get_contents();
-  ob_clean();
-  $ctl=$ctl.'_content';
-  $html=$r;
-  break;
-case 'ac':
-  if ( $user->check_action(FICCAT)==1 ) {
-    
+    else
+    {
+        $html=alert(_('Action interdite'),true);
+    }
+    break;
+    /* ------------------------------------------------------------ */
+    /* Show Type */
+    /* Before inserting a new card, the type must be selected */
+    /* ------------------------------------------------------------ */
+case 'st':
+    $sql="select fd_id,fd_label from fiche_def";
+    /*  if we filter  thanks the ledger*/
+    if ( $ledger != -1 )
+    {
+        /* we want the card for deb or cred or both of this ledger */
+        switch( $fil  )
+        {
+        case -1:
+            $l=new Acc_Ledger($cn,$ledger);
+            $sql.='  where fd_id in ('.$l->get_all_fiche_def().')';
+            break;
+        case 'cred':
+            $l=new Acc_Ledger($cn,$ledger);
+            $prop=$l->get_propertie();
+            if ( $prop['jrn_def_fiche_cred']=='')$prop=-1;
+            $sql.='  where fd_id in ('.$prop['jrn_def_fiche_cred'].')';
+            break;
+        case 'deb':
+            $l=new Acc_Ledger($cn,$ledger);
+            $prop=$l->get_propertie();
+            if ( $prop=='')$prop=-1;
+            $sql.='  where fd_id in ('.$prop['jrn_def_fiche_deb'].')';
+            break;
+        }
+    }
+    else
+    {
+        /* we filter thanks a given model of card */
+        if ( isset($cat))
+        {
+            $sql=$sql.sprintf(' where frd_id = '.FormatString ($cat));
+        }
+        else
+            /* we filter thanks a given list of category of card
+             */
+            if ( isset($fil) && strlen(trim($fil)) > 0 )
+            {
+                $sql=$sql.sprintf(" where fd_id in (%s)",
+                                  FormatString($fil));
+            }
+    }
+    $array=$cn->make_array($sql);
+    if ( empty($array))
+    {
+        $html=_("Aucune catégorie de fiche ne correspondant à".
+                " votre demande");
+        $html.=$sql;
+    }
+    else
+    {
+        $r='';
+        $isel=new ISelect('fd_id');
+        $isel->value=$array;
+        $popup=str_replace('_content','',$ctl);
+        $r.='<form id="sel_type" method="GET" onsubmit="this.ipopup=\''.$popup.'\';dis_blank_card(this);return false;" >';
+        $r.=dossier::hidden();
+        $r.=(isset($ref))?HtmlInput::hidden('ref',1):'';
+        $r.='<p>choisissez le type de fiche à ajouter</p>';
+        $r.=$isel->input();
+        $r.=HtmlInput::submit('st','choix');
+        $r.='</form>';
+        $html=$r;
+    }
+    break;
     /*----------------------------------------------------------------------
-     * Add a category, display first the form
+     * SC save card
+     * save the new card (insert)
+     *
+     ----------------------------------------------------------------------*/
+case 'sc':
+    if ( $user->check_action(FICADD)==1 )
+    {
+        $f=new Fiche($cn);
+        $f->insert($fd_id,$_POST);
+        $html='<h2 class="info">Fiche sauvée</h2>';
+        $html.=$f->Display(true);
+        $js="";
+        if ( isset( $_POST['ref'])) $js=create_script(' window.location.reload()');
+        $html.=$js;
+    }
+    else
+    {
+        $html=alert(_('Action interdite'),true);
+    }
+    break;
+    /*----------------------------------------------------------------------
+     * Search a card
      *
      *----------------------------------------------------------------------*/
-    $ipopup=str_replace('_content','',$ctl);
-    switch($cat) {
-    case FICHE_TYPE_CLIENT:
-      $msg=_(' de clients');
-      $base=$cn->get_value("select p_value from parm_code where p_code='CUSTOMER'");
-      break;
-    case FICHE_TYPE_FOURNISSEUR:
-      $msg=_(' de fournisseurs');
-      $base=$cn->get_value("select p_value from parm_code where p_code='SUPPLIER'");
-      break;
-    case FICHE_TYPE_ADM_TAX:
-      $msg=_(' d\'administration');
-      $base='';
-      break;
+case 'fs':
+    require_once('class_acc_ledger.php');
+    $r='';
+    $r.='<form method="GET" onsubmit="this.ctl=\'ipop_card\';search_get_card(this);return false;">';
+    $q=new IText('query');
+    $q->value=(isset($query))?$query:'';
+    $r.=_('Fiche contenant');
+    $r.=$q->input();
+    $r.=HtmlInput::submit('fs',_('Recherche'));
+    $r.=dossier::hidden().HtmlInput::hidden('op','fs');
+    $array=array();
+    foreach (array('query','inp','jrn','label','typecard','price','tvaid') as $i)
+    {
+        if  (isset(${$i}) )
+        {
+            $r.=HtmlInput::hidden($i,${$i});
+            $sql_array[$i]=${$i};
+        }
     }
+    /* what is the type of the ledger */
+    $type="GL";
+    if (isset($jrn) && $jrn > 1)
+    {
+        $ledger=new Acc_Ledger($cn,$jrn);
+        $type=$ledger->get_type();
+    }
+    $fiche=new Fiche($cn);
+    /* Build the SQL and show result */
+    $sql=$fiche->build_sql($sql_array);
 
-    $html='';
-    $html.="<h2>"._("Ajout d'une catégorie")."  ".$msg."</h2>";
-    /*  show the form */
-    $html.= '<div class="u_content">';
-    $html.=$ctl;
-    $html.= '<form id="newcat" name="newcat" method="post" onsubmit="this.ipopup=\''.$ipopup.'\';save_card_category(this);return false;">';
-    $html.= dossier::hidden();
-    $html.=HtmlInput::hidden('cat',$cat);
-    $search=new IPoste("class_base");
-    $search->size=40;
-    $search->value=$base;
-    $search->label=_("Recherche poste");
-    $search->set_attribute('gDossier',dossier::id());
-    $search->set_attribute('account',$search->name);
-    $search->set_attribute('ipopup','ipop_account');
+    /* We limit the search to 20 records */
+    $sql=$sql.' order by vw_name limit 20';
+    $a=$cn->get_array($sql);
 
-    $str_poste=$search->input();
+    for($i=0;$i<count($a);$i++)
+    {
+        $array[$i]['quick_code']=$a[$i]['quick_code'];
+        $array[$i]['name']=h($a[$i]['vw_name']);
+        $array[$i]['description']=h($a[$i]['vw_description']);
+        $array[$i]['javascript']=sprintf("set_value('%s','%s');",
+                                         $inp,$array[$i]['quick_code']);
+        $array[$i]['javascript'].=sprintf("set_value('%s','%s');",
+                                          $label,h(strip_tags($a[$i]['vw_name'])));
+
+        /* if it is a ledger of sales we use vw_buy
+           if it is a ledger of purchase we use vw_sell*/
+        if ( $type=="ACH" )
+            $array[$i]['javascript'].=sprintf("set_value('%s','%s');",
+                                              $price,$a[$i]['vw_buy']);
+        if ( $type=="VEN" )
+            $array[$i]['javascript'].=sprintf("set_value('%s','%s');",
+                                              $price,$a[$i]['vw_sell']);
+        $array[$i]['javascript'].=sprintf("set_value('%s','%s');",
+                                          $tvaid,$a[$i]['tva_id']);
+        $array[$i]['javascript'].=sprintf("hideIPopup('%s')",
+                                          $ctl);
+
+    }//foreach
+
     ob_start();
-    require('template/category_of_card.php');
-    $html.=ob_get_contents();
+    require_once('template/card_result.php');
+    $r.=ob_get_contents();
     ob_clean();
-    $submit=HtmlInput::submit('save',_('Sauve'));
-    $html.= '<p>';
-    $html.= $submit;
-    $html.= '</p>';
-    $html.= '</form>';
-    $html.= '</div>';
-  } else {
-        $html=alert(_('Action interdite'),true);
-  }
-  break;
-case 'scc':
-  /*----------------------------------------------------------------------
-   * Save card Category into the database and return a ok message
-   *
-   *----------------------------------------------------------------------*/
-  $html='';
-  if ( $user->check_action(FICCAT) == 1 ) {
-    if ( strlen(trim($_POST['nom_mod'])) != 0 &&
-	 strlen(trim($_POST['class_base'])) != 0 ) {
-      $array=array("FICHE_REF"=>$cat,
-		   "nom_mod"=>$_POST['nom_mod'],
-		   "class_base"=>$_POST['class_base']);
-      if ( isset ($_POST['create'])) $array['create']=1;
-      $catcard=new Fiche_Def($cn);
-      if ( $catcard->Add($array) == -1)
-	$html.="alert('"._('Catégorie existe déjà')."')";
-      else
-	$html.="alert('"._('Catégorie sauvée')."')";
-      $html.=create_script($html);
-    } else {
-      $html.="alert('"._("Le nom et la classe base ne peuvent être vide")."')";
-      $html.=create_script($html);
+    $ctl=$ctl.'_content';
+    $html=$r;
+    break;
+case 'ac':
+    if ( $user->check_action(FICCAT)==1 )
+    {
 
-      $invalid=1;
+        /*----------------------------------------------------------------------
+         * Add a category, display first the form
+         *
+         *----------------------------------------------------------------------*/
+        $ipopup=str_replace('_content','',$ctl);
+        switch($cat)
+        {
+        case FICHE_TYPE_CLIENT:
+            $msg=_(' de clients');
+            $base=$cn->get_value("select p_value from parm_code where p_code='CUSTOMER'");
+            break;
+        case FICHE_TYPE_FOURNISSEUR:
+            $msg=_(' de fournisseurs');
+            $base=$cn->get_value("select p_value from parm_code where p_code='SUPPLIER'");
+            break;
+        case FICHE_TYPE_ADM_TAX:
+            $msg=_(' d\'administration');
+            $base='';
+            break;
+        }
+
+        $html='';
+        $html.="<h2>"._("Ajout d'une catégorie")."  ".$msg."</h2>";
+        /*  show the form */
+        $html.= '<div class="u_content">';
+        $html.=$ctl;
+        $html.= '<form id="newcat" name="newcat" method="post" onsubmit="this.ipopup=\''.$ipopup.'\';save_card_category(this);return false;">';
+        $html.= dossier::hidden();
+        $html.=HtmlInput::hidden('cat',$cat);
+        $search=new IPoste("class_base");
+        $search->size=40;
+        $search->value=$base;
+        $search->label=_("Recherche poste");
+        $search->set_attribute('gDossier',dossier::id());
+        $search->set_attribute('account',$search->name);
+        $search->set_attribute('ipopup','ipop_account');
+
+        $str_poste=$search->input();
+        ob_start();
+        require('template/category_of_card.php');
+        $html.=ob_get_contents();
+        ob_clean();
+        $submit=HtmlInput::submit('save',_('Sauve'));
+        $html.= '<p>';
+        $html.= $submit;
+        $html.= '</p>';
+        $html.= '</form>';
+        $html.= '</div>';
     }
-    $ipop=str_replace('_content','',$ctl);
-    $html.=create_script('hideIPopup(\''.$ipop.'\');');
-  } else {
-    $html=alert(_('Action interdite'),true);
-  }
-  break;
+    else
+    {
+        $html=alert(_('Action interdite'),true);
+    }
+    break;
+case 'scc':
+    /*----------------------------------------------------------------------
+     * Save card Category into the database and return a ok message
+     *
+     *----------------------------------------------------------------------*/
+    $html='';
+    if ( $user->check_action(FICCAT) == 1 )
+    {
+        if ( strlen(trim($_POST['nom_mod'])) != 0 &&
+                strlen(trim($_POST['class_base'])) != 0 )
+        {
+            $array=array("FICHE_REF"=>$cat,
+                         "nom_mod"=>$_POST['nom_mod'],
+                         "class_base"=>$_POST['class_base']);
+            if ( isset ($_POST['create'])) $array['create']=1;
+            $catcard=new Fiche_Def($cn);
+            if ( $catcard->Add($array) == -1)
+                $html.="alert('"._('Catégorie existe déjà')."')";
+            else
+                $html.="alert('"._('Catégorie sauvée')."')";
+            $html.=create_script($html);
+        }
+        else
+        {
+            $html.="alert('"._("Le nom et la classe base ne peuvent être vide")."')";
+            $html.=create_script($html);
+
+            $invalid=1;
+        }
+        $ipop=str_replace('_content','',$ctl);
+        $html.=create_script('hideIPopup(\''.$ipop.'\');');
+    }
+    else
+    {
+        $html=alert(_('Action interdite'),true);
+    }
+    break;
 } // switch
 $html=escape_xml($html);
 
 header('Content-type: text/xml; charset=UTF-8');
 echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
-<data>
-<ctl>$ctl</ctl>
-<code>$html</code>
-</data>
-
-
-
+                             <data>
+                             <ctl>$ctl</ctl>
+                             <code>$html</code>
+                             </data>
 
 EOF;

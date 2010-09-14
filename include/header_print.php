@@ -20,7 +20,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief contains several function to replace the header in generated document
  *
  */
@@ -32,13 +32,14 @@ require_once('class_dossier.php');
 
 date_default_timezone_set ('Europe/Brussels');
 
-function header_txt($p_cn) {
-  $own=new own($p_cn);
-  $soc=$own->MY_NAME;
+function header_txt($p_cn)
+{
+    $own=new own($p_cn);
+    $soc=$own->MY_NAME;
 
-  $date=date('d / m / Y H:i ');
-  $dossier=utf8_decode(" Dossier : ".dossier::name());
-  return $dossier." ".$soc." ".$date;
-  }
+    $date=date('d / m / Y H:i ');
+    $dossier=utf8_decode(" Dossier : ".dossier::name());
+    return $dossier." ".$soc." ".$date;
+}
 
 ?>

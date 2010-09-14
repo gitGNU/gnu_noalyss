@@ -34,9 +34,10 @@ $User->Check();
 
 html_page_start($User->theme);
 
-if ($User->admin != 1) {
-  html_page_stop();
-  return;
+if ($User->admin != 1)
+{
+    html_page_stop();
+    return;
 }
 
 echo '<H2 class="info"> Administration Globale</H2>';
@@ -50,33 +51,35 @@ echo MenuAdmin()."</div>";
 ?>
 <DIV >
 <?php
-if ( isset ($_REQUEST["action"]) ) {
-  if ( $_REQUEST["action"]=="user_mgt" ) 
+if ( isset ($_REQUEST["action"]) )
+{
+    if ( $_REQUEST["action"]=="user_mgt" )
     {
-      //----------------------------------------------------------------------
-      // User management
-     //----------------------------------------------------------------------
-      require_once("user.inc.php");
+        //----------------------------------------------------------------------
+        // User management
+        //----------------------------------------------------------------------
+        require_once("user.inc.php");
     }
-  // action=user_mgt
-  if ( $_REQUEST["action"]=="dossier_mgt") 
+    // action=user_mgt
+    if ( $_REQUEST["action"]=="dossier_mgt")
     {
-      //-----------------------------------------------------------------------
-      // action = dossier_mgt
-      //-----------------------------------------------------------------------
-      require_once("dossier.inc.php");
-    } 
-  if ( $_REQUEST["action"] == "modele_mgt" ) 
+        //-----------------------------------------------------------------------
+        // action = dossier_mgt
+        //-----------------------------------------------------------------------
+        require_once("dossier.inc.php");
+    }
+    if ( $_REQUEST["action"] == "modele_mgt" )
     {
-      //-----------------------------------------------------------------------
-      //  Template Management
-      //-----------------------------------------------------------------------
-      require_once("modele.inc.php");
+        //-----------------------------------------------------------------------
+        //  Template Management
+        //-----------------------------------------------------------------------
+        require_once("modele.inc.php");
     } // action is set
-  if ( $_REQUEST['action'] == 'restore') {
-    // Backup and restaure folders
-    require_once("restore.inc.php");
-  }
+    if ( $_REQUEST['action'] == 'restore')
+    {
+        // Backup and restaure folders
+        require_once("restore.inc.php");
+    }
 }// action = modele_mgt
 
 ?>

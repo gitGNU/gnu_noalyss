@@ -35,68 +35,71 @@ $cn=new Database();
  * account_repository database
  */
 
-if ( isset ($_REQUEST['gDossier'])) 
-  {
-	$cn=new Database($_REQUEST['gDossier']);
-  } 
+if ( isset ($_REQUEST['gDossier']))
+{
+    $cn=new Database($_REQUEST['gDossier']);
+}
 else
-  {
-	$cn=new Database();
-  }
+{
+    $cn=new Database();
+}
 
 
 $User=new User($cn);
 $User->Check();
 
 // Met a jour le theme utilisateur (style)
-if ( isset ( $_POST['style_user']) ) 
-  {
+if ( isset ( $_POST['style_user']) )
+{
     $User->update_global_pref('THEME',$_POST['style_user']);
     $_SESSION['g_theme']=$_POST['style_user'];
-    
-  }
+
+}
 // Update the language
-if ( isset($_POST ['lang'])) {
-  $User->update_global_pref('LANG',$_POST['lang']);
-  $_SESSION['g_lang']=$_POST['lang'];
- }
-    
+if ( isset($_POST ['lang']))
+{
+    $User->update_global_pref('LANG',$_POST['lang']);
+    $_SESSION['g_lang']=$_POST['lang'];
+}
+
 html_page_start($_SESSION['g_theme']);
 
 // Met a jour le pagesize
-if ( isset ( $_POST['p_size']) ) {
-	$User->update_global_pref('PAGESIZE',$_POST['p_size']);
-      $_SESSION['g_pagesize']=$_POST['p_size'];
+if ( isset ( $_POST['p_size']) )
+{
+    $User->update_global_pref('PAGESIZE',$_POST['p_size']);
+    $_SESSION['g_pagesize']=$_POST['p_size'];
 
 }
 
 // Topmenu
-//   not used for the moment  
+//   not used for the moment
 //---------------------------------------------------------------------------
 // Here we put all the changes
 //---------------------------------------------------------------------------
 
-if ( isset ($_POST['val']) ){
-  // Change the mini report
-   if ( isset ($_POST['minirap']))   $User->set_mini_report($_POST['minirap']);
+if ( isset ($_POST['val']) )
+{
+    // Change the mini report
+    if ( isset ($_POST['minirap']))   $User->set_mini_report($_POST['minirap']);
 }
 // show the top menu depending of the use_style
 // comta style
 
 include_once ("user_menu.php");
-if ( isset ($_REQUEST['gDossier']) ) 
-  {
-    if ( $_REQUEST['gDossier'] != 0 )  
-      {
-	echo '<div class="u_tmenu">';
-	echo menu_tool('user_pref.php');
-	echo "</div>";
-      }
-  }
- else
-  {
+if ( isset ($_REQUEST['gDossier']) )
+{
+    if ( $_REQUEST['gDossier'] != 0 )
+    {
+        echo '<div class="u_tmenu">';
+        echo menu_tool('user_pref.php');
+        echo "</div>";
+    }
+}
+else
+{
     echo "<h2 class=\"info\"> Pr&eacute;f&eacute;rences</h2>";
-  }
+}
 require_once("pref.inc.php");
 html_page_stop();
 ?>

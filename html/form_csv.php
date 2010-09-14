@@ -45,63 +45,64 @@ $Form->get_name();
 // Step ?
 //--
 if ( $_GET['p_step'] == 0 )
-  {
-	if ( $_GET ['type_periode'] == 0 )
-	  $array=$Form->get_row( $_GET['from_periode'],$_GET['to_periode'], $_GET['type_periode']);
-	else 
-	  $array=$Form->get_row( $_GET['from_date'],$_GET['to_date'], $_GET['type_periode']);
+{
+    if ( $_GET ['type_periode'] == 0 )
+        $array=$Form->get_row( $_GET['from_periode'],$_GET['to_periode'], $_GET['type_periode']);
+    else
+        $array=$Form->get_row( $_GET['from_date'],$_GET['to_date'], $_GET['type_periode']);
 
 
-    if ( count($Form->row ) == 0 ) 
-      exit;
-    
+    if ( count($Form->row ) == 0 )
+        exit;
+
     echo       "\"Description\";".
-      "\"Montant\"\n";
+    "\"Montant\"\n";
 
 
 
-    foreach ( $Form->row as $op ) { 
-      echo '"'.$op['desc'].'"'.";".
-	nb($op['montant']).
-	"\n";
-      
+    foreach ( $Form->row as $op )
+    {
+        echo '"'.$op['desc'].'"'.";".
+        nb($op['montant']).
+        "\n";
+
     }
-  } 
- else 
-   {
-     // Gather all the data
-     //---
-     for ($e=$_GET['from_periode'];$e<=$_GET['to_periode'];$e+=$_GET['p_step'])
-       {
-		 $periode=getPeriodeName($cn,$e);
-		 if ( $periode == null ) continue;
-		 $array[]=$Form->get_row($e,$e);
-		 $periode_name[]=$periode;
-       }
-     // Display column heading
-     //--
-     $x="";
-     printf ("Mois;");
-     foreach ($array[0] as $e) 
-       {
-	 printf("%s%s",$x,$e['desc']);
-	 $x=";";
+}
+else
+{
+    // Gather all the data
+    //---
+    for ($e=$_GET['from_periode'];$e<=$_GET['to_periode'];$e+=$_GET['p_step'])
+    {
+        $periode=getPeriodeName($cn,$e);
+        if ( $periode == null ) continue;
+        $array[]=$Form->get_row($e,$e);
+        $periode_name[]=$periode;
+    }
+    // Display column heading
+    //--
+    $x="";
+    printf ("Mois;");
+    foreach ($array[0] as $e)
+    {
+        printf("%s%s",$x,$e['desc']);
+        $x=";";
 
-       }
-     printf("\n");
-     // Display value for each line 
-     //--
-     $a=0;
-     foreach ($array as $e ) 
-       {
-	 print $periode_name[$a];
-	 $a++;
-	 foreach ($e as $elt) 
-	   {
-	     printf(";%s",nb($elt['montant']));
-	   }
-	 printf("\n");
-       }
-   }
-  exit;
+    }
+    printf("\n");
+    // Display value for each line
+    //--
+    $a=0;
+    foreach ($array as $e )
+    {
+        print $periode_name[$a];
+        $a++;
+        foreach ($e as $elt)
+        {
+            printf(";%s",nb($elt['montant']));
+        }
+        printf("\n");
+    }
+}
+exit;
 ?>

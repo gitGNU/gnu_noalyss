@@ -48,40 +48,43 @@ echo JS_INFOBULLE;
 
 /* show button to return to access */
 echo "<h2 class=\"info\">".dossier::name()."</h2>";
-if ( $only_plugin != 'P' ) {
-	// user with only plugin cannot go back to the dashboard
-/* return button */
-$msg=_('Retour au tableau de bord');
-$hidden=dossier::hidden();
-echo '
-<div style="position:absolute;top:3px;right:30px" class="noprint">
-<form method="get" action="access.php" style="display:inline">'.
-  $hidden;
-
-echo HtmlInput::button_anchor(_('Préférence'),'user_pref.php'); 
-echo '
-  <input type="SUBMIT" class="button" value="'.$msg.'">
-</form>
-</div>
-';
-
-
-} else {
-  $msg=_('Retour accueil');
-?>
+if ( $only_plugin != 'P' )
+{
+    // user with only plugin cannot go back to the dashboard
+    /* return button */
+    $msg=_('Retour au tableau de bord');
+    $hidden=dossier::hidden();
+    echo '
     <div style="position:absolute;top:3px;right:30px" class="noprint">
-    <form method="get" action="access.php" style="display:inline">
-<?php
-       if ($only_plugin !='P')
-	 echo HtmlInput::button_anchor('Retour Accueil','user_login.php');
-  echo HtmlInput::button_anchor(_('Préférence'),'user_pref.php');
-  echo HtmlInput::button_anchor(_('Déconnexion'),'logout.php?');
+    <form method="get" action="access.php" style="display:inline">'.
+    $hidden;
 
-  
-  ?>
+    echo HtmlInput::button_anchor(_('Préférence'),'user_pref.php');
+    echo '
+    <input type="SUBMIT" class="button" value="'.$msg.'">
     </form>
     </div>
-<?php
+    ';
+
+
+}
+else
+{
+    $msg=_('Retour accueil');
+    ?>
+    <div style="position:absolute;top:3px;right:30px" class="noprint">
+                           <form method="get" action="access.php" style="display:inline">
+                                                     <?php
+                                                     if ($only_plugin !='P')
+                                                         echo HtmlInput::button_anchor('Retour Accueil','user_login.php');
+    echo HtmlInput::button_anchor(_('Préférence'),'user_pref.php');
+    echo HtmlInput::button_anchor(_('Déconnexion'),'logout.php?');
+
+
+    ?>
+    </form>
+    </div>
+    <?php
 }
 /* show all the extension we can access */
 $a=new ISelect('plugin_code');
@@ -89,17 +92,24 @@ $a->value=Extension::make_array($cn);
 $a->selected=(isset($_REQUEST['plugin_code']))?strtoupper($_REQUEST['plugin_code']):'';
 
 /* no plugin available */
-if ( count($a->value) == 0 ) {alert(j(_("Aucune extension  disponible")));exit;}
+if ( count($a->value) == 0 )
+{
+    alert(j(_("Aucune extension  disponible")));
+    exit;
+}
 
 /* only one plugin available then we don't propose a choice*/
-if ( count($a->value)==1 ) {
-  $_REQUEST['plugin_code']=$a->value[0]['value'];
-} else {
-  echo '<form method="get" action="extension.php">';
-  echo $hidden;
-  echo _('Extension').$a->input().HtmlInput::submit('go',_("Choix de l'extension"));
-  echo '</form>';
-  echo '<hr>';
+if ( count($a->value)==1 )
+{
+    $_REQUEST['plugin_code']=$a->value[0]['value'];
+}
+else
+{
+    echo '<form method="get" action="extension.php">';
+    echo $hidden;
+    echo _('Extension').$a->input().HtmlInput::submit('go',_("Choix de l'extension"));
+    echo '</form>';
+    echo '<hr>';
 }
 
 require_once('ext_inc.php');

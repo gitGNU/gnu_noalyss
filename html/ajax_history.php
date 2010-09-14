@@ -41,51 +41,59 @@ $div=$_REQUEST['div'];
 ///////////////////////////////////////////////////////////////////////////
 /* first detail for a card */
 ///////////////////////////////////////////////////////////////////////////
-if ( isset($_GET['f_id'])){
-  $fiche=new Fiche($cn,$_GET['f_id']);
-  $year=$user->get_exercice();
-  if ( $year == 0 ) {
-    $html="erreur aucune période par défaut, allez dans préférence pour en choisir une";
-  } else {
-    $per=new Periode($cn);
-    $limit_periode=$per->get_limit($year);
-    $array['from_periode']=$limit_periode[0]->first_day();
-    $array['to_periode']=$limit_periode[1]->last_day();
+if ( isset($_GET['f_id']))
+{
+    $fiche=new Fiche($cn,$_GET['f_id']);
+    $year=$user->get_exercice();
+    if ( $year == 0 )
+    {
+        $html="erreur aucune période par défaut, allez dans préférence pour en choisir une";
+    }
+    else
+    {
+        $per=new Periode($cn);
+        $limit_periode=$per->get_limit($year);
+        $array['from_periode']=$limit_periode[0]->first_day();
+        $array['to_periode']=$limit_periode[1]->last_day();
 
-    ob_start();
-    require_once('template/history_top.php');
-    $fiche->HtmlTable($array);
-    $html=ob_get_contents();
-    ob_clean();
-  }
+        ob_start();
+        require_once('template/history_top.php');
+        $fiche->HtmlTable($array);
+        $html=ob_get_contents();
+        ob_clean();
+    }
 }
 ///////////////////////////////////////////////////////////////////////////
 // for an account
 ///////////////////////////////////////////////////////////////////////////
-if ( isset($_REQUEST['pcm_val'])) {
-  $poste=new Acc_Account_Ledger($cn,$_REQUEST['pcm_val']);
-  $year=$user->get_exercice();
-  if ( $year == 0 ) {
-    $html="erreur aucune période par défaut, allez dans préférence pour en choisir une";
-  } else {
-    $per=new Periode($cn);
-    $limit_periode=$per->get_limit($year);
-    $array['from_periode']=$limit_periode[0]->first_day();
-    $array['to_periode']=$limit_periode[1]->last_day();
+if ( isset($_REQUEST['pcm_val']))
+{
+    $poste=new Acc_Account_Ledger($cn,$_REQUEST['pcm_val']);
+    $year=$user->get_exercice();
+    if ( $year == 0 )
+    {
+        $html="erreur aucune période par défaut, allez dans préférence pour en choisir une";
+    }
+    else
+    {
+        $per=new Periode($cn);
+        $limit_periode=$per->get_limit($year);
+        $array['from_periode']=$limit_periode[0]->first_day();
+        $array['to_periode']=$limit_periode[1]->last_day();
 
-    ob_start();
-    require_once('template/history_top.php');
-    $poste->HtmlTable($array);
-    $html=ob_get_contents();
-    ob_clean();
-  }
+        ob_start();
+        require_once('template/history_top.php');
+        $poste->HtmlTable($array);
+        $html=ob_get_contents();
+        ob_clean();
+    }
 }
 $html=escape_xml($html);
 header('Content-type: text/xml; charset=UTF-8');
 echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
-<data>
-<ctl>$div</ctl>
-<code>$html</code>
-</data>
+                             <data>
+                             <ctl>$div</ctl>
+                             <code>$html</code>
+                             </data>
 EOF;

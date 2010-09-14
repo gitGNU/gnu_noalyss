@@ -38,46 +38,50 @@ require_once ('class_user.php');
 $User=new User($cn);
 $User->Check();
 if ( $User->check_action(IMPBAL) == 0)
-  {
+{
     NoAccess();
     exit;
-  }
+}
 echo 'poste;libelle;deb;cred;solde deb;solde cred';
 printf("\n");
 $bal=new Acc_Balance($cn);
 $bal->jrn=null;
-switch( $_GET['p_filter']){
+switch( $_GET['p_filter'])
+{
 case 0:
-  $bal->jrn=null;
-  break;
+        $bal->jrn=null;
+    break;
 case 1:
-  if (  isset($_GET['r_jrn'])) {
-    $selected=$_GET['r_jrn'];
-    $array_ledger=$User->get_ledger('ALL',3);
-    for ($e=0;$e<count($array_ledger);$e++){
-      if (isset ($selected[$e]))
-	$bal->jrn[]=$array_ledger[$e]['jrn_def_id'];
+    if (  isset($_GET['r_jrn']))
+    {
+        $selected=$_GET['r_jrn'];
+        $array_ledger=$User->get_ledger('ALL',3);
+        for ($e=0;$e<count($array_ledger);$e++)
+        {
+            if (isset ($selected[$e]))
+                $bal->jrn[]=$array_ledger[$e]['jrn_def_id'];
+        }
     }
-  }
-  break;
+    break;
 case 2:
-  if ( isset($_GET['r_cat']))   $bal->filter_cat($_GET['r_cat']);
-  break;
+    if ( isset($_GET['r_cat']))   $bal->filter_cat($_GET['r_cat']);
+    break;
 }
 
 $bal->from_poste=$_GET['from_poste'];
 $bal->to_poste=$_GET['to_poste'];
 
 $row=$bal->get_row($_GET['from_periode'],
-		   $_GET['to_periode']);
-foreach ($row as $r) {
-  echo $r['poste'].';'.
+                   $_GET['to_periode']);
+foreach ($row as $r)
+{
+    echo $r['poste'].';'.
     $r['label'].';'.
     nb($r['sum_deb']).';'.
     nb($r['sum_cred']).';'.
     nb($r['solde_deb']).';'.
     nb($r['solde_cred']);
-  printf("\n");
+    printf("\n");
 }
 
 

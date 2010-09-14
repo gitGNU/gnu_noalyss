@@ -70,13 +70,15 @@ echo '</div>';
 
 echo JS_ACCOUNTING_ITEM;
 /* Store the p_start parameter */
-if ( ! isset ( $_SESSION['g_start']) ) {
-  $_SESSION['g_start']="";
+if ( ! isset ( $_SESSION['g_start']) )
+{
+    $_SESSION['g_start']="";
 
 }
-if ( isset ($_GET['p_start'])) { 
-  $g_start=$_GET['p_start'];
-  $_SESSION["g_start"]=$g_start; 
+if ( isset ($_GET['p_start']))
+{
+    $g_start=$_GET['p_start'];
+    $_SESSION["g_start"]=$g_start;
 
 }
 
@@ -92,32 +94,41 @@ echo '</div>';
 echo '<DIV CLASS="u_redcontent">';
 /* Analyse ce qui est demandé */
 /* Effacement d'une ligne */
-if (isset ($_GET['action'])) {
+if (isset ($_GET['action']))
+{
 //-----------------------------------------------------
 // Action == remove a line
-  if ( $_GET['action']=="del" ) {
-    if ( isset ($_GET['l']) ) {
-      /* Ligne a enfant*/
-      $R=$cn->exec_sql("select pcm_val from tmp_pcmn where pcm_val_parent=$1",array($_GET['l']));
-      if ( Database::num_row($R) != 0 ) {
-		alert("Ne peut pas effacer le poste: d'autres postes en dépendent");
-      } else {
-	/* Vérifier que le poste n'est pas utilisé qq part dans les journaux */
-	$Res=$cn->exec_sql("select * from jrnx where j_poste=$1",array($_GET['l']));
-	if ( Database::num_row($Res) != 0 ) {
-	  alert("Ne peut pas effacer le poste: il est utilisé dans les journaux");
-	}
-	else {
-	  $Del=$cn->exec_sql("delete from tmp_pcmn where pcm_val=$1",array($_GET['l']));
-	} // if Database::num_row
-      } // if Database::num_row
-    } // isset ($l)
-  } //$action == del
+    if ( $_GET['action']=="del" )
+    {
+        if ( isset ($_GET['l']) )
+        {
+            /* Ligne a enfant*/
+            $R=$cn->exec_sql("select pcm_val from tmp_pcmn where pcm_val_parent=$1",array($_GET['l']));
+            if ( Database::num_row($R) != 0 )
+            {
+                alert("Ne peut pas effacer le poste: d'autres postes en dépendent");
+            }
+            else
+            {
+                /* Vérifier que le poste n'est pas utilisé qq part dans les journaux */
+                $Res=$cn->exec_sql("select * from jrnx where j_poste=$1",array($_GET['l']));
+                if ( Database::num_row($Res) != 0 )
+                {
+                    alert("Ne peut pas effacer le poste: il est utilisé dans les journaux");
+                }
+                else
+                {
+                    $Del=$cn->exec_sql("delete from tmp_pcmn where pcm_val=$1",array($_GET['l']));
+                } // if Database::num_row
+            } // if Database::num_row
+        } // isset ($l)
+    } //$action == del
 } // isset action
 //----------------------------------------------------------------------
 // Modification
 //----------------------------------------------------------------------
-if ( isset ($_POST['update'])) {
+if ( isset ($_POST['update']))
+{
     $p_val=trim($_POST["p_valu"]);
     $p_lib=trim($_POST["p_libu"]);
     $p_parent=trim($_POST["p_parentu"]);
@@ -128,79 +139,108 @@ if ( isset ($_POST['update'])) {
     $acc->set_parameter('value',$p_val);
     $acc->set_parameter('parent',$p_parent);
     $acc->set_parameter('type',$p_type);
-    // Check if the data are correct 
-    try {
-      $acc->check() ; 
-    }catch (Exception $e) {
-      $message="Valeurs invalides, pas de changement \n ".
-	$e->getMessage();
-      echo '<script> alert(\''.$message.'\'); 
-           </script>';
+    // Check if the data are correct
+    try
+    {
+        $acc->check() ;
     }
-    if ( strlen ($p_val) != 0 && strlen ($p_lib) != 0 && strlen($old_line)!=0 ) {
-      if (strlen ($p_val) == 1 ) {
-	$p_parent=0;
-      } else {
-	if ( strlen($p_parent)==0 ) {
-	  $p_parent=substr($p_val,0,strlen($p_val)-1);
-	}
-      }
-      /* Parent existe */
-      $Ret=$cn->exec_sql("select pcm_val from tmp_pcmn where pcm_val=$1",array($p_parent));
-      if ( ($p_parent != 0 && Database::num_row($Ret) == 0) || $p_parent==$old_line ) {
-	echo '<SCRIPT> alert(" Ne peut pas modifier; aucun poste parent"); </SCRIPT>';
-      } else {
-	try {
-	  $acc->update($old_line);	
-	} catch(Exception $e) {
-	  alert($e->getMessage());
-	}
-      }
-    } else {
-      echo '<script> alert(\'Update Valeurs invalides\'); </script>';
+    catch (Exception $e)
+    {
+        $message="Valeurs invalides, pas de changement \n ".
+                 $e->getMessage();
+        echo '<script> alert(\''.$message.'\');
+        </script>';
+    }
+    if ( strlen ($p_val) != 0 && strlen ($p_lib) != 0 && strlen($old_line)!=0 )
+    {
+        if (strlen ($p_val) == 1 )
+        {
+            $p_parent=0;
+        }
+        else
+        {
+            if ( strlen($p_parent)==0 )
+            {
+                $p_parent=substr($p_val,0,strlen($p_val)-1);
+            }
+        }
+        /* Parent existe */
+        $Ret=$cn->exec_sql("select pcm_val from tmp_pcmn where pcm_val=$1",array($p_parent));
+        if ( ($p_parent != 0 && Database::num_row($Ret) == 0) || $p_parent==$old_line )
+        {
+            echo '<SCRIPT> alert(" Ne peut pas modifier; aucun poste parent"); </SCRIPT>';
+        }
+        else
+        {
+            try
+            {
+                $acc->update($old_line);
+            }
+            catch(Exception $e)
+            {
+                alert($e->getMessage());
+            }
+        }
+    }
+    else
+    {
+        echo '<script> alert(\'Update Valeurs invalides\'); </script>';
     }
 }
 //-----------------------------------------------------
 /* Ajout d'une ligne */
-if ( isset ( $_POST["Ajout"] ) ) {
-	extract ($_POST);
-	$p_val=trim($p_val);
-	$p_parent=trim($p_parent);
-
-  if ( isset ( $p_val) && isset ( $p_lib ) && isNumber($p_val) && isNumber($p_parent) ) {
+if ( isset ( $_POST["Ajout"] ) )
+{
+    extract ($_POST);
     $p_val=trim($p_val);
-    $p_parent=$_POST["p_parent"];
-    if ( strlen ($p_val) != 0 && strlen ($p_lib) != 0 ) {
-      if (strlen ($p_val) == 1 ) {
-	$p_parent=0;
-      } else {
-	if ( strlen(trim($p_parent))==0 && 
-	     (string) $p_parent != (string)(int) $p_parent) {
-	  $p_parent=substr($p_val,0,strlen($p_val)-1);
-	}
-      }
-      /* Parent existe */
-      $Ret=$cn->exec_sql("select pcm_val from tmp_pcmn where pcm_val=$1",array($p_parent));
-      if ( $p_parent != 0 && Database::num_row($Ret) == 0 ) {
-		alert(" Ne peut pas modifier; aucun poste parent");
-      } else {
-	// Check if the account already exists
-	
-	$Count=$cn->get_value("select count(*) from tmp_pcmn where pcm_val=$1",array($p_val));
-	if ( $Count != 0 ) 
-	  {
-	    // Alert message account already exists
-	     alert(" Ce poste existe déjà ");
-	    
-	  } else 
-	    {
-	      $Ret=$cn->exec_sql("insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent,pcm_type) values ($1,$2,$3,$4)",array($p_val,$p_lib,$p_parent,$p_type));
-	    }
-      }
-    } else {
-      echo '<H2 class="error"> Valeurs invalides </H3>';
+    $p_parent=trim($p_parent);
+
+    if ( isset ( $p_val) && isset ( $p_lib ) && isNumber($p_val) && isNumber($p_parent) )
+    {
+        $p_val=trim($p_val);
+        $p_parent=$_POST["p_parent"];
+        if ( strlen ($p_val) != 0 && strlen ($p_lib) != 0 )
+        {
+            if (strlen ($p_val) == 1 )
+            {
+                $p_parent=0;
+            }
+            else
+            {
+                if ( strlen(trim($p_parent))==0 &&
+                        (string) $p_parent != (string)(int) $p_parent)
+                {
+                    $p_parent=substr($p_val,0,strlen($p_val)-1);
+                }
+            }
+            /* Parent existe */
+            $Ret=$cn->exec_sql("select pcm_val from tmp_pcmn where pcm_val=$1",array($p_parent));
+            if ( $p_parent != 0 && Database::num_row($Ret) == 0 )
+            {
+                alert(" Ne peut pas modifier; aucun poste parent");
+            }
+            else
+            {
+                // Check if the account already exists
+
+                $Count=$cn->get_value("select count(*) from tmp_pcmn where pcm_val=$1",array($p_val));
+                if ( $Count != 0 )
+                {
+                    // Alert message account already exists
+                    alert(" Ce poste existe déjà ");
+
+                }
+                else
+                {
+                    $Ret=$cn->exec_sql("insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent,pcm_type) values ($1,$2,$3,$4)",array($p_val,$p_lib,$p_parent,$p_type));
+                }
+            }
+        }
+        else
+        {
+            echo '<H2 class="error"> Valeurs invalides </H3>';
+        }
     }
-  }
 }
 
 $Ret=$cn->exec_sql("select pcm_val,pcm_lib,pcm_val_parent,pcm_type from tmp_pcmn where substr(pcm_val::text,1,1)='".$_SESSION['g_start']."' order by pcm_val::text");
@@ -209,63 +249,67 @@ $MaxRow=Database::num_row($Ret);
 ?>
 
 <FORM METHOD="POST">
-<?php
-echo HtmlInput::hidden('p_action','pcmn');
+             <?php
+             echo HtmlInput::hidden('p_action','pcmn');
 //echo HtmlInput::hidden('sa','detail');
 echo dossier::hidden();
 ?>
-<TABLE ALIGN="center" BORDER=0 CELLPADDING=0 CELLSPACING=0> 
-<TR>
-<TH> Classe </TH>
-<TH> Libellé </TH>
-<TH> Parent </TH>
-<TH> Type </TH>
-</TR>
-<?php
-  $line=new Acc_Account($cn);
-  echo $line->form(false); 
+<TABLE ALIGN="center" BORDER=0 CELLPADDING=0 CELLSPACING=0>
+                             <TR>
+                             <TH> Classe </TH>
+                             <TH> Libellé </TH>
+                             <TH> Parent </TH>
+                             <TH> Type </TH>
+                             </TR>
+                             <?php
+                             $line=new Acc_Account($cn);
+echo $line->form(false);
 ?>
 <TD>
 <INPUT TYPE="SUBMIT" class="button" Value="Ajout" Name="Ajout">
-</TD>
-</TR>
-<?php
-  $str_dossier=dossier::get();
-for ($i=0; $i <$MaxRow; $i++) {
-  $A=Database::fetch_array($Ret,$i);
+                                       </TD>
+                                       </TR>
+                                       <?php
+                                       $str_dossier=dossier::get();
+for ($i=0; $i <$MaxRow; $i++)
+{
+    $A=Database::fetch_array($Ret,$i);
 
-  if ( $i%2 == 0 ) {
-    $td ='<TD class="odd">';
-  } else {
-    $td='<TD class="even">';
-  }
-  echo "<TR> ";
-  echo "$td";
-  echo $A['pcm_val'];
-  echo '</td>';
-  echo "$td";
-  printf ("<A HREF=\"javascript:PcmnUpdate('%s','%s','%s','%s',%d)\">",
-	  $A['pcm_val'],
-	  FormatString($A['pcm_lib']),
-	  $A['pcm_val_parent'],
-	  $A['pcm_type'],
-	  dossier::id());
-  echo h($A['pcm_lib']);
+    if ( $i%2 == 0 )
+    {
+        $td ='<TD class="odd">';
+    }
+    else
+    {
+        $td='<TD class="even">';
+    }
+    echo "<TR> ";
+    echo "$td";
+    echo $A['pcm_val'];
+    echo '</td>';
+    echo "$td";
+    printf ("<A HREF=\"javascript:PcmnUpdate('%s','%s','%s','%s',%d)\">",
+            $A['pcm_val'],
+            FormatString($A['pcm_lib']),
+            $A['pcm_val_parent'],
+            $A['pcm_type'],
+            dossier::id());
+    echo h($A['pcm_lib']);
 
-  echo $td;
-  echo $A['pcm_val_parent'];
-  echo '</TD>';
-  echo "</td>$td";
-  echo $A['pcm_type'];
-  echo "</TD>";
+    echo $td;
+    echo $A['pcm_val_parent'];
+    echo '</TD>';
+    echo "</td>$td";
+    echo $A['pcm_type'];
+    echo "</TD>";
 
 
-  echo $td;
-  printf ('<A href="?p_action=pcmn&l=%s&action=del&%s">Delete</A>',$A['pcm_val'],$str_dossier);
-  echo "</TD>";
+    echo $td;
+    printf ('<A href="?p_action=pcmn&l=%s&action=del&%s">Delete</A>',$A['pcm_val'],$str_dossier);
+    echo "</TD>";
 
-  
-  echo "</TR>";
+
+    echo "</TR>";
 }
 echo "</TABLE>";
 echo "</FORM>";

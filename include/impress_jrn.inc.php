@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -34,38 +34,42 @@ $gDossier=dossier::id();
 //-----------------------------------------------------
 require_once('class_database.php');
 
-if ( $User->Admin() == 0 && $User->is_local_admin()==0) {
-  $sql="select jrn_def_id,jrn_def_name
-                             from jrn_def join jrn_type on jrn_def_type=jrn_type_id
-                             join user_sec_jrn on uj_jrn_id=jrn_def_id 
-                             where
-                             uj_login='$User->login'
-                             and uj_priv !='X'
-                             ";
-  $ret=$cn->make_array($sql);
-} else {
-  $ret=$cn->make_array("select jrn_def_id,jrn_def_name
-                             from jrn_def join jrn_type on jrn_def_type=jrn_type_id");
+if ( $User->Admin() == 0 && $User->is_local_admin()==0)
+{
+    $sql="select jrn_def_id,jrn_def_name
+         from jrn_def join jrn_type on jrn_def_type=jrn_type_id
+         join user_sec_jrn on uj_jrn_id=jrn_def_id
+         where
+         uj_login='$User->login'
+         and uj_priv !='X'
+         ";
+    $ret=$cn->make_array($sql);
+}
+else
+{
+    $ret=$cn->make_array("select jrn_def_id,jrn_def_name
+                         from jrn_def join jrn_type on jrn_def_type=jrn_type_id");
 
- } 
+}
 
 // Count the forbidden journaux
-    $NoPriv=$cn->count_sql("select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
-                                jrn_deb_max_line,jrn_cred_max_line
-                             from jrn_def join jrn_type on jrn_def_type=jrn_type_id
-                             join  user_sec_jrn on uj_jrn_id=jrn_def_id 
-                             where  
-                             uj_login='$User->id'
-                             and uj_priv ='X'
-                   ");
-    // Pour voir tout les journal ?
-    if ( $NoPriv == 0 ) {
-      $a=count($ret);
-      $all=array('value'=>0,'label'=>'Tous les journaux');
-      $ret[$a]=$all;
-   }
-if ( count($ret) < 1 ) 
-  NoAccess();
+$NoPriv=$cn->count_sql("select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
+                       jrn_deb_max_line,jrn_cred_max_line
+                       from jrn_def join jrn_type on jrn_def_type=jrn_type_id
+                       join  user_sec_jrn on uj_jrn_id=jrn_def_id
+                       where
+                       uj_login='$User->id'
+                       and uj_priv ='X'
+                       ");
+// Pour voir tout les journal ?
+if ( $NoPriv == 0 )
+{
+    $a=count($ret);
+    $all=array('value'=>0,'label'=>'Tous les journaux');
+    $ret[$a]=$all;
+}
+if ( count($ret) < 1 )
+    NoAccess();
 
 //-----------------------------------------------------
 // Form
@@ -98,9 +102,9 @@ $w->selected=(isset($_GET['to_periode']))?$_GET['to_periode']:'';
 print td('Jusque ').$w->input('to_periode',$periode_end);
 print "</TR><TR>";
 $a=array(
-	 array('value'=>0,'label'=>'Detaillé'),
-	 array('value'=>1,'label'=>'Simple')
-	 );
+       array('value'=>0,'label'=>'Detaillé'),
+       array('value'=>1,'label'=>'Simple')
+   );
 $w->selected=1;
 print '</TR>';
 print '<TR>';
@@ -119,145 +123,150 @@ echo '</FORM>';
 // First time in html
 // after in pdf or cvs
 //-----------------------------------------------------
-if ( isset( $_REQUEST['bt_html'] ) ) {
-require_once("class_acc_ledger.php");
+if ( isset( $_REQUEST['bt_html'] ) )
+{
+    require_once("class_acc_ledger.php");
 
- $d=var_export($_GET,true);
-  $Jrn=new Acc_Ledger($cn,$_GET['jrn_id']);
-  $Jrn->get_name();
-  if ( $_GET['p_simple']==0 ) 
+    $d=var_export($_GET,true);
+    $Jrn=new Acc_Ledger($cn,$_GET['jrn_id']);
+    $Jrn->get_name();
+    if ( $_GET['p_simple']==0 )
     {
-      $Row=$Jrn->get_row( $_GET['from_periode'],
-		    $_GET['to_periode']
-		    );
+        $Row=$Jrn->get_row( $_GET['from_periode'],
+                            $_GET['to_periode']
+                          );
     }
-  else 
+    else
     {
-      $Row=$Jrn->get_rowSimple($_GET['from_periode'],
-			 $_GET['to_periode']
-			 );
+        $Row=$Jrn->get_rowSimple($_GET['from_periode'],
+                                 $_GET['to_periode']
+                                );
     }
-  $rep="";
-  $hid=new IHidden();
-  echo '<div class="content">';
-  echo '<h2 class="info">'.h($Jrn->name).'</h2>';
-  echo "<table>";
-  echo '<TR>';
-  echo '<TD><form method="GET" ACTION="?">'.dossier::hidden().
+    $rep="";
+    $hid=new IHidden();
+    echo '<div class="content">';
+    echo '<h2 class="info">'.h($Jrn->name).'</h2>';
+    echo "<table>";
+    echo '<TR>';
+    echo '<TD><form method="GET" ACTION="?">'.dossier::hidden().
     $hid->input("type","jrn").$hid->input('p_action','impress')."</form></TD>";
 
-  echo '<TD><form method="GET" ACTION="jrn_pdf.php">'.dossier::hidden().
+    echo '<TD><form method="GET" ACTION="jrn_pdf.php">'.dossier::hidden().
     HtmlInput::submit('bt_pdf',"Export PDF").
     $hid->input("type","jrn").
     $hid->input("p_action","impress").
     $hid->input("jrn_id",$Jrn->id).
     $hid->input("from_periode",$_GET['from_periode']).
     $hid->input("to_periode",$_GET['to_periode']);
-  echo $hid->input("p_simple",$_GET['p_simple']);
+    echo $hid->input("p_simple",$_GET['p_simple']);
 
-  echo "</form></TD>";
-  echo '<TD><form method="GET" ACTION="jrn_csv.php">'.dossier::hidden().
+    echo "</form></TD>";
+    echo '<TD><form method="GET" ACTION="jrn_csv.php">'.dossier::hidden().
     HtmlInput::submit('bt_csv',"Export CSV").
     $hid->input("type","jrn").
     $hid->input("p_action","impress").
     $hid->input("jrn_id",$Jrn->id).
     $hid->input("from_periode",$_GET['from_periode']).
     $hid->input("to_periode",$_GET['to_periode']);
-  echo $hid->input("p_simple",$_GET['p_simple']);
-  echo "</form></TD>";
+    echo $hid->input("p_simple",$_GET['p_simple']);
+    echo "</form></TD>";
 
-  echo "</TR>";
+    echo "</TR>";
 
-  echo "</table>";
-  if ( count($Jrn->row ) == 0 
-       && $Row==null) 
-  	exit;
+    echo "</table>";
+    if ( count($Jrn->row ) == 0
+            && $Row==null)
+        exit;
 
-  echo '<TABLE class="result">';
+    echo '<TABLE class="result">';
 
-  if ( $_GET['p_simple'] == 0 ) {
-    // detailled printing
-    //---
-    foreach ( $Jrn->row as $op ) { 
-      /*           var_dump($op);/*exit();*/
-      echo "<TR>";
-      echo "<TD>".$op['j_date']."</TD>";
-
-      if ( $op['jr_id']!='')
-	echo "<TD>".HtmlInput::detail_op($op['jr_id'],$op['internal'])."</TD>";
-      else
-	echo td();
-
-	echo "<TD>".$op['poste']."</TD>".
-	"<TD>".$op['description']."</TD>".
-	"<TD>".$op['deb_montant']."</TD>".
-	"<TD>".$op['cred_montant']."</TD>".
-	"</TR>";
-    }// end loop
-  } // if
-  else 
+    if ( $_GET['p_simple'] == 0 )
     {
-      // Simple printing
-      //---
+        // detailled printing
+        //---
+        foreach ( $Jrn->row as $op )
+        {
+            /*           var_dump($op);/*exit();*/
+            echo "<TR>";
+            echo "<TD>".$op['j_date']."</TD>";
 
-      echo "<TR>".
-	"<th> operation </td>".
-	"<th>Date</th>".
-	"<th> commentaire </th>".
-	"<th>internal</th>".
-	/* "<th>Pièce justificative</th>". */
-	"<th> montant</th>".
-	"</TR>";
-  // set a filter for the FIN
-  $a_parm_code=$cn->get_array("select p_value from parm_code where p_code in ('BANQUE','COMPTE_COURANT','CAISSE')");
-  $sql_fin="(";
-  $or="";
-  foreach ($a_parm_code as $code) {
-    $sql_fin.="$or j_poste::text like '".$code['p_value']."%'";
-    $or=" or ";
-  }
-  $sql_fin.=")";
+            if ( $op['jr_id']!='')
+                echo "<TD>".HtmlInput::detail_op($op['jr_id'],$op['internal'])."</TD>";
+            else
+                echo td();
 
-      foreach ($Row as $line)
-	{
-	  echo "<tr>";
-	  echo "<TD>".$line['num']."</TD>";
-	  echo "<TD>".$line['date']."</TD>";
-	  echo "<TD>".h($line['comment'])."</TD>";
-	  echo "<TD>".$line['jr_internal']."</TD>";
-	  //	  echo "<TD>".$line['pj']."</TD>";
-	// If the ledger is financial :
-	// the credit must be negative and written in red
-  	// Get the jrn type
-	if ( $line['jrn_def_type'] == 'FIN' ) {
-	  $positive = $cn->count_sql("select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
-		   " where jr_id=".$line['jr_id']." and $sql_fin ".
-			       " and j_debit='f'");
-	
-        echo "<TD align=\"right\">";
-	echo ( $positive != 0 )?"<font color=\"red\">  - ".sprintf("%8.2f",$line['montant'])."</font>":sprintf("%8.2f",$line['montant']);
-	echo "</TD>";
-	}
-	else 
-	  {
-	    echo "<TD align=\"right\">".sprintf("% 8.2f",$line['montant'])."</TD>";
-	  }
+            echo "<TD>".$op['poste']."</TD>".
+            "<TD>".$op['description']."</TD>".
+            "<TD>".$op['deb_montant']."</TD>".
+            "<TD>".$op['cred_montant']."</TD>".
+            "</TR>";
+        }// end loop
+    } // if
+    else
+    {
+        // Simple printing
+        //---
 
-	  echo "</tr>";
-	}
-      
+        echo "<TR>".
+        "<th> operation </td>".
+        "<th>Date</th>".
+        "<th> commentaire </th>".
+        "<th>internal</th>".
+        /* "<th>Pièce justificative</th>". */
+        "<th> montant</th>".
+        "</TR>";
+        // set a filter for the FIN
+        $a_parm_code=$cn->get_array("select p_value from parm_code where p_code in ('BANQUE','COMPTE_COURANT','CAISSE')");
+        $sql_fin="(";
+        $or="";
+        foreach ($a_parm_code as $code)
+        {
+            $sql_fin.="$or j_poste::text like '".$code['p_value']."%'";
+            $or=" or ";
+        }
+        $sql_fin.=")";
+
+        foreach ($Row as $line)
+        {
+            echo "<tr>";
+            echo "<TD>".$line['num']."</TD>";
+            echo "<TD>".$line['date']."</TD>";
+            echo "<TD>".h($line['comment'])."</TD>";
+            echo "<TD>".$line['jr_internal']."</TD>";
+            //	  echo "<TD>".$line['pj']."</TD>";
+            // If the ledger is financial :
+            // the credit must be negative and written in red
+            // Get the jrn type
+            if ( $line['jrn_def_type'] == 'FIN' )
+            {
+                $positive = $cn->count_sql("select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
+                                           " where jr_id=".$line['jr_id']." and $sql_fin ".
+                                           " and j_debit='f'");
+
+                echo "<TD align=\"right\">";
+                echo ( $positive != 0 )?"<font color=\"red\">  - ".sprintf("%8.2f",$line['montant'])."</font>":sprintf("%8.2f",$line['montant']);
+                echo "</TD>";
+            }
+            else
+            {
+                echo "<TD align=\"right\">".sprintf("% 8.2f",$line['montant'])."</TD>";
+            }
+
+            echo "</tr>";
+        }
+
     } //else
-  echo "</table>";
-  // show the saldo
-  
-  $solde=$Jrn->get_solde( $_GET['from_periode'],
-			  $_GET['to_periode']
-			  );
-  echo "solde d&eacute;biteur:".$solde[0]."<br>";
-  echo "solde cr&eacute;diteur:".$solde[1];
-  
-  echo "</div>";
-  exit;
+    echo "</table>";
+    // show the saldo
+
+    $solde=$Jrn->get_solde( $_GET['from_periode'],
+                            $_GET['to_periode']
+                          );
+    echo "solde d&eacute;biteur:".$solde[0]."<br>";
+    echo "solde cr&eacute;diteur:".$solde[1];
+
+    echo "</div>";
+    exit;
 }
 
 echo '</div>';

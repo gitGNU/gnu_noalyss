@@ -20,46 +20,46 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief Html Input 
  */
 require_once('class_html_input.php');
- class IConcerned extends HtmlInput
+class IConcerned extends HtmlInput
 {
-	/*!\brief show the html  input of the widget*/
-	public function input($p_name=null,$p_value=null)
- 	{
-		 $this->name=($p_name==null)?$this->name:$p_name;
-		 $this->value=($p_value==null)?$this->value:$p_value;
-		 if ( $this->readOnly==true) return $this->display();
-    $td="";$etd="";
-  
+    /*!\brief show the html  input of the widget*/
+    public function input($p_name=null,$p_value=null)
+    {
+        $this->name=($p_name==null)?$this->name:$p_name;
+        $this->value=($p_value==null)?$this->value:$p_value;
+        if ( $this->readOnly==true) return $this->display();
+        $td="";
+        $etd="";
 
 
-      $r=sprintf("$td
-     <INPUT TYPE=\"button\" onClick=SearchJrn(".dossier::id().",'%s',%s,'%s') value=\"?\">
-        $etd  $td 
-      <INPUT TYPE=\"text\"  style=\"color:black;background:lightyellow;border:solid 1px grey;\"  NAME=\"%s\" ID=\"%s\" VALUE=\"%s\" SIZE=\"8\" readonly>
-                 $etd",
-				 $this->name, 
-				 $this->extra,
-				 $this->extra2, 
-				 $this->name, 
-				 $this->name,  
-				 $this->value 
-		 );
-	return $r;
-	}
-	/*!\brief print in html the readonly value of the widget*/
-	public function display()
- 	{
-    $r=sprintf("<span><b>%s</b></span>",$this->value);
-    $r.=sprintf('<input type="hidden" name="%s" value="%s">', $this->name,$this->value);
-	return $r;	
 
-	}
-	static public function test_me()
- 	{
+        $r=sprintf("$td
+                   <INPUT TYPE=\"button\" onClick=SearchJrn(".dossier::id().",'%s',%s,'%s') value=\"?\">
+                   $etd  $td
+                   <INPUT TYPE=\"text\"  style=\"color:black;background:lightyellow;border:solid 1px grey;\"  NAME=\"%s\" ID=\"%s\" VALUE=\"%s\" SIZE=\"8\" readonly>
+                   $etd",
+                   $this->name,
+                   $this->extra,
+                   $this->extra2,
+                   $this->name,
+                   $this->name,
+                   $this->value
+                  );
+        return $r;
+    }
+    /*!\brief print in html the readonly value of the widget*/
+    public function display()
+    {
+        $r=sprintf("<span><b>%s</b></span>",$this->value);
+        $r.=sprintf('<input type="hidden" name="%s" value="%s">', $this->name,$this->value);
+        return $r;
 
-	}
+    }
+    static public function test_me()
+    {
+    }
 }

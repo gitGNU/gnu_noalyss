@@ -20,30 +20,28 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief Html Input 
  */
 require_once('class_html_input.php');
- class IFile extends HtmlInput
+class IFile extends HtmlInput
 {
-	/*!\brief show the html  input of the widget*/
-	public function input($p_name=null,$p_value=null)
- 	{
-		 $this->name=($p_name==null)?$this->name:$p_name;
-		 $this->value=($p_value==null)?$this->value:$p_value;
-		 if ( $this->readOnly==true) return $this->display();
-		$r='<INPUT class="inp" TYPE="file" name="'.$this->name.'" VALUE="'.$this->value.'">';
-		return $r;
+    /*!\brief show the html  input of the widget*/
+    public function input($p_name=null,$p_value=null)
+    {
+        $this->name=($p_name==null)?$this->name:$p_name;
+        $this->value=($p_value==null)?$this->value:$p_value;
+        if ( $this->readOnly==true) return $this->display();
+        $r='<INPUT class="inp" TYPE="file" name="'.$this->name.'" VALUE="'.$this->value.'">';
+        return $r;
 
-	}
-	/*!\brief print in html the readonly value of the widget*/
-	public function display()
- 	{
+    }
+    /*!\brief print in html the readonly value of the widget*/
+    public function display()
+    {
 
-
-	}
-	static public function test_me()
- 	{
-
-	}
+    }
+    static public function test_me()
+    {
+    }
 }

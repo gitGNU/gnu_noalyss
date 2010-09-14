@@ -20,340 +20,364 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief Input HTML for the card show buttons, in the file, you have to add JS_CARD
  *
  */
 
-  /*!
-   * \brief Input HTML for the card show buttons, in the file, you have to add JS_CARD
-   * How to use :
-   * - label is the label in the button
-   * - extra contents the type (all, deb or cred, a list of FD_ID between parent.  or a SQL clause
-   * - attribute are the attribute to set (via ajax). The ledger is either a attribute (jrn) or a
-   *  hidden field in the document, if none are set, there is no filter on the ledger
-   *\note you must in a hidden field gDossier (dossier::hidden)
-   *\see ajaxFid
-   *\see card.js
-   *\see fid.php
-   *\see fid_card.php
-   *\see ajax_card.php
-   *
-   * Set the hidden field or input field to be set by javascript with the function set_attribute
-   * call the input method. After selecting a value the update_value function is called. If you need
-   * to modify the queryString before the request is sent, you'll use the set_callback; the first 
-   * parameter is the INPUT field and the second the queryString, the function must returns a 
-   * queryString
-   *\code
+/*!
+ * \brief Input HTML for the card show buttons, in the file, you have to add JS_CARD
+ * How to use :
+ * - label is the label in the button
+ * - extra contents the type (all, deb or cred, a list of FD_ID between parent.  or a SQL clause
+ * - attribute are the attribute to set (via ajax). The ledger is either a attribute (jrn) or a
+ *  hidden field in the document, if none are set, there is no filter on the ledger
+ *\note you must in a hidden field gDossier (dossier::hidden)
+ *\see ajaxFid
+ *\see card.js
+ *\see fid.php
+ *\see fid_card.php
+ *\see ajax_card.php
+ *
+ * Set the hidden field or input field to be set by javascript with the function set_attribute
+ * call the input method. After selecting a value the update_value function is called. If you need
+ * to modify the queryString before the request is sent, you'll use the set_callback; the first 
+ * parameter is the INPUT field and the second the queryString, the function must returns a 
+ * queryString
+ *\code
 // insert all the javascript files
-    echo js_include('prototype.js');
-    echo js_include('scriptaculous.js');
-    echo js_include('effects.js');
-    echo js_include('controls.js');
-
+  echo js_include('prototype.js');
+  echo js_include('scriptaculous.js');
+  echo js_include('effects.js');
+  echo js_include('controls.js');
+ 
 // 
-    $W1=new ICard();
-    $W1->label="Client ".HtmlInput::infobulle(0) ;
-    $W1->name="e_client";
-    $W1->tabindex=3;
-    $W1->value=$e_client;
-    $W1->table=0;
+  $W1=new ICard();
+  $W1->label="Client ".HtmlInput::infobulle(0) ;
+  $W1->name="e_client";
+  $W1->tabindex=3;
+  $W1->value=$e_client;
+  $W1->table=0;
 // If double click call the javascript fill_ipopcard
-    $W1->set_dblclick("fill_ipopcard(this);");
-
+  $W1->set_dblclick("fill_ipopcard(this);");
+ 
 // This attribute is mandatory, it is the name of the IPopup
-    $W1->set_attribute('ipopup','ipopcard');
-
-   // name of the field to update with the name of the card
-    $W1->set_attribute('label','e_client_label');
-
-    // Type of card : deb, cred,
-    $W1->set_attribute('typecard','deb');
-
-    $W1->extra='deb';
-
+  $W1->set_attribute('ipopup','ipopcard');
+ 
+ // name of the field to update with the name of the card
+  $W1->set_attribute('label','e_client_label');
+ 
+  // Type of card : deb, cred,
+  $W1->set_attribute('typecard','deb');
+ 
+  $W1->extra='deb';
+ 
 // Add the callback function to filter the card on the jrn
-    $W1->set_callback('filter_card');
-
+  $W1->set_callback('filter_card');
+ 
 // when value selected in the autcomplete
-    $W1->set_function('fill_data');
-
+  $W1->set_function('fill_data');
+ 
 // when the data change
-    $W1->javascript=sprintf(' onchange="fill_data_onchange(\'%s\');" ',
-			    $W1->name);
-    $f_client_qcode=$W1->input();
-    $client_label=new ISpan();
-    $client_label->table=0;
-    $f_client=$client_label->input("e_client_label",$e_client_label);
-
+  $W1->javascript=sprintf(' onchange="fill_data_onchange(\'%s\');" ',
+	    $W1->name);
+  $f_client_qcode=$W1->input();
+  $client_label=new ISpan();
+  $client_label->table=0;
+  $f_client=$client_label->input("e_client_label",$e_client_label);
+ 
 // Search button for card
-    $f_client_bt=$W1->search(); 
-  * \endcode
+  $f_client_bt=$W1->search(); 
+* \endcode
 For searching a card, you need a popup, the script card.js and set
 the values for card, popup filter_card callback
 @code
 echo JS_CARD;
-
-
+ 
+ 
 $search_card=new IPopup('ipop_card');
 $search_card->title=_('Recherche de fiche');
 $search_card->value='';
 echo $search_card->input();
-
+ 
 $card=new ICard('acc');
 $card->name="acc";
 $card->extra="all";
 $card->set_attribute('popup','ipopcard');
 $card->set_attribute('typecard','all');
 $card->set_callback('filter_card');
-
+ 
 echo $card->input();
 echo $card->search();
 // example 2 
- $w=new ICard("av_text".$attr->ad_id);
- // filter on frd_id
- $sql=' select fd_id from fiche_def where frd_id in ('.FICHE_TYPE_CLIENT.','.FICHE_TYPE_FOURNISSEUR.','.FICHE_TYPE_ADM_TAX.')';
- $filter=$this->cn->make_list($sql);
- $w->set_attribute('ipopup','ipopcard');
- $w->set_attribute('typecard',$filter);
- $w->set_attribute('inp',"av_text".$attr->ad_id);
- $w->set_attribute('label',"av_text".$attr->ad_id."_label");
+$w=new ICard("av_text".$attr->ad_id);
+// filter on frd_id
+$sql=' select fd_id from fiche_def where frd_id in ('.FICHE_TYPE_CLIENT.','.FICHE_TYPE_FOURNISSEUR.','.FICHE_TYPE_ADM_TAX.')';
+$filter=$this->cn->make_list($sql);
+$w->set_attribute('ipopup','ipopcard');
+$w->set_attribute('typecard',$filter);
+$w->set_attribute('inp',"av_text".$attr->ad_id);
+$w->set_attribute('label',"av_text".$attr->ad_id."_label");
  
- $w->extra=$filter;
- $w->extra2=0;
- $label=new ISpan();
- $label->name="av_text".$attr->ad_id."_label";
- $msg.=td($w->search().$label->input());
+$w->extra=$filter;
+$w->extra2=0;
+$label=new ISpan();
+$label->name="av_text".$attr->ad_id."_label";
+$msg.=td($w->search().$label->input());
 @endcode
- */
+*/
 require_once('class_html_input.php');
 require_once('function_javascript.php');
 
 class ICard extends HtmlInput
 {
-  function __construct($name="",$value="") {
-    parent::__construct($name,$value);
-    $this->fct='update_value';
-    $this->dblclick='';
-    $this->callback='null';
-    $this->javascript='';
-  }
-  /*!\brief set the javascript callback function
-   * by default it is update_value called BEFORE the querystring is send 
-   * 
-   *\param $p_name callback function name
-   */
-  function set_callback($p_name) {
-    $this->callback=$p_name;
-  }
-
-  /*!\brief set the javascript callback function
-   * by default it is update_value called AFTER an item has been selected
-   *\param $p_name callback function name
-   */
-  function set_function($p_name) {
-    $this->fct=$p_name;
-  }
-  /*!\brief return the html string for creating the ipopup, this ipopup 
-   * can be used for adding, modifying or display a card
-   *\param $p_name name of the ipopup, must be set after with set_attribute
-\code
-    $f_add_button=new IButton('add_card');
-    $f_add_button->label='Créer une nouvelle fiche';
-    $f_add_button->set_attribute('ipopup','ipop_newcard');
-    $f_add_button->set_attribute('filter',$this->get_all_fiche_def ());
-    $f_add_button->javascript=" select_card_type(this);";
-    $str_add_button=$f_add_button->input();
-
-\endcode
-   *\return html string
-   *\note must be one of first instruction on a new page, to avoid problem
-   * of position with IE
-   */
-  static function ipopup($p_name) {
-    $ip_card=new IPopup ($p_name);
-    $ip_card->drag=true;
-    $ip_card->set_width('45%');
-    $ip_card->title='Fiche ';
-    $ip_card->value='';
-    return $ip_card->input();
-  }
-  /*!\brief set the extra javascript property for a double click on
-   *  INPUT field
-   *\param $p_action action when a double click happens
-   *\note the $p_action cannot contain a double quote
-   */
-  function set_dblclick($p_action) {
-    $this->dblclick=$p_action;
-  }
-  /*!\brief show the html  input of the widget*/
-  public function input($p_name=null,$p_value=null)
-  {
-    if ( $p_name == null && $this->name == "") 
-      throw (new Exception('Le nom d une icard doit être donne'));
-	     
-    $this->value=($p_value==null)?$this->value:$p_value;
-    if ( $this->readOnly==true) return $this->display();
-
-
-    $attr=$this->get_js_attr();
-
-    $label='';
-    if ( $this->dblclick != '') {
-      $e=sprintf(' ondblclick="%s" ',
-		 $this->dblclick);
-      $this->dblclick=$e;
+    function __construct($name="",$value="")
+    {
+        parent::__construct($name,$value);
+        $this->fct='update_value';
+        $this->dblclick='';
+        $this->callback='null';
+        $this->javascript='';
     }
-    $input=sprintf('<INPUT TYPE="Text"  class="input_text"  '.
-		   ' NAME="%s" ID="%s" VALUE="%s" SIZE="%d" %s %s>',
-		   $this->name,
-		   $this->name,
-		   $this->value,
-		   $this->size,
-		   $this->dblclick,
-		   $this->javascript
-		   );
-
-    $ind=sprintf('<span id="%s_ind" style="display:none">Un instant... <img src="image/loading.gif" alt="Chargement..."/>'.
-		 '</span>',
-		 $this->name);
-
-    $div=sprintf('<div id="%s_choices" class="autocomplete"></div>',
-		 $this->name);
-
-    $query=dossier::get().'&e='.urlencode($this->extra);
-
-    $javascript=sprintf('try { new Ajax.Autocompleter("%s","%s_choices","fid_card.php?%s",'.
-			'{paramName:"FID",minChars:1,indicator:null,'.
-			'callback:%s, '.
-			' afterUpdateElement:%s});} catch (e){alert(e.message);};',
-			$this->name,$this->name,$query,
-			$this->callback,
-			$this->fct);
-
-    $javascript=create_script($javascript.$this->dblclick);
-
-    $r=$label.$input.$attr.$ind.$div.$javascript;
-    if ( $this->table == 1 ) 
-      $r=td($r);
-    return $r;
-    
-  }
-  /*!\brief print in html the readonly value of the widget*/
-  public function display()
-  {
-    $r=sprintf('         <INPUT TYPE="hidden" NAME="%s" VALUE="%s" SIZE="8">',
-	       $this->name,
-	       $this->value 
-	       );
-    $r.='<span>'.$this->value.'</span>';
-    return $r;
-
-  }
-  /**
-   *@brief return a string containing the button for displaying
-   * a search form. When clicking on the result, update the input text file
-   * the common used attribute as 
-   *   - jrn   the ledger
-   *   - label the field to update
-   *   - name name of the input text
-   *   - price amount
-   *   - tvaid
-   *   - typecard (deb, cred, filter or list of value)
-   * will be set
-   * if ICard is in readOnly, the button disappears, so the return string is empty
-\code
-    // search ipopup
-$search_card=new IPopup('ipop_card');
-$search_card->title=_('Recherche de fiche');
-$search_card->value='';
-echo $search_card->input();
-
-$a=new ICard('test');
-$a->search();
-
-\endcode
-   *\see ajax_card.php
-   *\note the ipopup id is hard coded : ipop_card
-   *@return HTML string with the button
-   */
-  function search() {
-    if ( $this->readOnly==true) return '';
-
-    $button=new IButton($this->name.'_bt');
-    $a="";
-    foreach (array('typecard','jrn','label','price','tvaid') as $att) {
-    if (isset($this->$att) )
-      $a.="this.".$att."='".$this->$att."';";
+    /*!\brief set the javascript callback function
+     * by default it is update_value called BEFORE the querystring is send 
+     * 
+     *\param $p_name callback function name
+     */
+    function set_callback($p_name)
+    {
+        $this->callback=$p_name;
     }
-    if (isset($this->name)) 
-      $a.="this.inp='".$this->name."';";
-    $a.="this.popup='ipop_card';";
 
-    $button->javascript=$a.' search_card(this)';
-    return $button->input();
-  }
+    /*!\brief set the javascript callback function
+     * by default it is update_value called AFTER an item has been selected
+     *\param $p_name callback function name
+     */
+    function set_function($p_name)
+    {
+        $this->fct=$p_name;
+    }
+    /*!\brief return the html string for creating the ipopup, this ipopup
+     * can be used for adding, modifying or display a card
+     *\param $p_name name of the ipopup, must be set after with set_attribute
+    \code
+      $f_add_button=new IButton('add_card');
+      $f_add_button->label='Créer une nouvelle fiche';
+      $f_add_button->set_attribute('ipopup','ipop_newcard');
+      $f_add_button->set_attribute('filter',$this->get_all_fiche_def ());
+      $f_add_button->javascript=" select_card_type(this);";
+      $str_add_button=$f_add_button->input();
 
-  static public function test_me()
-  {
-    require_once('class_itext.php');
-    $_SESSION['isValid']=1;
-    $a=new ICard('testme');
-    $a->extra="all";
-    $a->set_attribute('label','ctl_label');
-    $a->set_attribute('tvaid','ctl_tvaid');
-    $a->set_attribute('price','ctl_price');
-    $a->set_attribute('purchase','ctl_purchase');
-    $a->set_attribute('type','all');
-echo <<<EOF
-<div id="debug" style="border:solid 1px black;overflow:auto"></div>
-<script type="text/javascript" language="javascript"  src="js/prototype.js">
-</script>
-<script type="text/javascript" language="javascript"  src="js/scriptaculous.js">
-</script>
-<script type="text/javascript" language="javascript"  src="js/effects.js">
-</script>
-<script type="text/javascript" language="javascript"  src="js/controls.js">
-</script>
-<script type="text/javascript" language="javascript"  src="js/ajax_fid.js">
-</script>
-<script type="text/javascript" language="javascript"  >
-  function test_value(text,li) {
-  alert("premier"+li.id);
+    \endcode
+     *\return html string
+     *\note must be one of first instruction on a new page, to avoid problem
+     * of position with IE
+     */
+    static function ipopup($p_name)
+    {
+        $ip_card=new IPopup ($p_name);
+        $ip_card->drag=true;
+        $ip_card->set_width('45%');
+        $ip_card->title='Fiche ';
+        $ip_card->value='';
+        return $ip_card->input();
+    }
+    /*!\brief set the extra javascript property for a double click on
+     *  INPUT field
+     *\param $p_action action when a double click happens
+     *\note the $p_action cannot contain a double quote
+     */
+    function set_dblclick($p_action)
+    {
+        $this->dblclick=$p_action;
+    }
+    /*!\brief show the html  input of the widget*/
+    public function input($p_name=null,$p_value=null)
+    {
+        if ( $p_name == null && $this->name == "")
+            throw (new Exception('Le nom d une icard doit être donne'));
 
-  str="";
-  str=text.id+'<hr>';
-  if ( text.js_attr1) { str+=text.js_attr1;str+='<hr>';}
-  if ( text.js_attr2) { str+=text.js_attr2;str+='<hr>';}
-  if ( text.js_attr3) { str+=text.js_attr3;str+='<hr>';}
-  for (var i in text) { str+=i+'<br>';
-  }
+        $this->value=($p_value==null)?$this->value:$p_value;
+        if ( $this->readOnly==true) return $this->display();
 
-  // $('debug').innerHTML=str;
-  ajaxFid(text);
-}
-</script>
+
+        $attr=$this->get_js_attr();
+
+        $label='';
+        if ( $this->dblclick != '')
+        {
+            $e=sprintf(' ondblclick="%s" ',
+                       $this->dblclick);
+            $this->dblclick=$e;
+        }
+        $input=sprintf('<INPUT TYPE="Text"  class="input_text"  '.
+                       ' NAME="%s" ID="%s" VALUE="%s" SIZE="%d" %s %s>',
+                       $this->name,
+                       $this->name,
+                       $this->value,
+                       $this->size,
+                       $this->dblclick,
+                       $this->javascript
+                      );
+
+        $ind=sprintf('<span id="%s_ind" style="display:none">Un instant... <img src="image/loading.gif" alt="Chargement..."/>'.
+                     '</span>',
+                     $this->name);
+
+        $div=sprintf('<div id="%s_choices" class="autocomplete"></div>',
+                     $this->name);
+
+        $query=dossier::get().'&e='.urlencode($this->extra);
+
+        $javascript=sprintf('try { new Ajax.Autocompleter("%s","%s_choices","fid_card.php?%s",'.
+                            '{paramName:"FID",minChars:1,indicator:null,'.
+                            'callback:%s, '.
+                            ' afterUpdateElement:%s});} catch (e){alert(e.message);};',
+                            $this->name,$this->name,$query,
+                            $this->callback,
+                            $this->fct);
+
+        $javascript=create_script($javascript.$this->dblclick);
+
+        $r=$label.$input.$attr.$ind.$div.$javascript;
+        if ( $this->table == 1 )
+            $r=td($r);
+        return $r;
+
+    }
+    /*!\brief print in html the readonly value of the widget*/
+    public function display()
+    {
+        $r=sprintf('         <INPUT TYPE="hidden" NAME="%s" VALUE="%s" SIZE="8">',
+                   $this->name,
+                   $this->value
+                  );
+        $r.='<span>'.$this->value.'</span>';
+        return $r;
+
+    }
+    /**
+     *@brief return a string containing the button for displaying
+     * a search form. When clicking on the result, update the input text file
+     * the common used attribute as 
+     *   - jrn   the ledger
+     *   - label the field to update
+     *   - name name of the input text
+     *   - price amount
+     *   - tvaid
+     *   - typecard (deb, cred, filter or list of value)
+     * will be set
+     * if ICard is in readOnly, the button disappears, so the return string is empty
+    \code
+      // search ipopup
+    $search_card=new IPopup('ipop_card');
+    $search_card->title=_('Recherche de fiche');
+    $search_card->value='';
+    echo $search_card->input();
+
+    $a=new ICard('test');
+    $a->search();
+
+    \endcode
+     *\see ajax_card.php
+     *\note the ipopup id is hard coded : ipop_card
+     *@return HTML string with the button
+     */
+    function search()
+    {
+        if ( $this->readOnly==true) return '';
+
+        $button=new IButton($this->name.'_bt');
+        $a="";
+        foreach (array('typecard','jrn','label','price','tvaid') as $att)
+        {
+            if (isset($this->$att) )
+                $a.="this.".$att."='".$this->$att."';";
+        }
+        if (isset($this->name))
+            $a.="this.inp='".$this->name."';";
+        $a.="this.popup='ipop_card';";
+
+        $button->javascript=$a.' search_card(this)';
+        return $button->input();
+    }
+
+    static public function test_me()
+    {
+        require_once('class_itext.php');
+        $_SESSION['isValid']=1;
+        $a=new ICard('testme');
+        $a->extra="all";
+        $a->set_attribute('label','ctl_label');
+        $a->set_attribute('tvaid','ctl_tvaid');
+        $a->set_attribute('price','ctl_price');
+        $a->set_attribute('purchase','ctl_purchase');
+        $a->set_attribute('type','all');
+        echo <<<EOF
+	  <div id="debug" style="border:solid 1px black;overflow:auto"></div>
+	  <script type="text/javascript" language="javascript"  src="js/prototype.js">
+	  </script>
+	  <script type="text/javascript" language="javascript"  src="js/scriptaculous.js">
+	  </script>
+	  <script type="text/javascript" language="javascript"  src="js/effects.js">
+	  </script>
+	  <script type="text/javascript" language="javascript"  src="js/controls.js">
+	  </script>
+	  <script type="text/javascript" language="javascript"  src="js/ajax_fid.js">
+	  </script>
+	  <script type="text/javascript" language="javascript"  >
+	  function test_value(text,li)
+	  {
+	    alert("premier"+li.id);
+
+	    str="";
+	    str=text.id+'<hr>';
+	    if ( text.js_attr1)
+	      {
+		str+=text.js_attr1;
+		str+='<hr>';
+	      }
+	    if ( text.js_attr2)
+	      {
+		str+=text.js_attr2;
+		str+='<hr>';
+	      }
+	    if ( text.js_attr3)
+	      {
+		str+=text.js_attr3;
+		str+='<hr>';
+	      }
+	    for (var i in text)
+	      {
+		str+=i+'<br>';
+	      }
+
+	    // $('debug').innerHTML=str;
+	    ajaxFid(text);
+	  }
+	</script>
+	
 EOF;
-    echo "<form>";
-    $l=new IText('ctl_label');
-    $t=new IText('ctl_tvaid');
-    $p=new IText('ctl_price');
-    $b=new IText('ctl_purchase');
+        echo "<form>";
+        $l=new IText('ctl_label');
+        $t=new IText('ctl_tvaid');
+        $p=new IText('ctl_price');
+        $b=new IText('ctl_purchase');
 
-    echo "Label ".$l->input().'<br>';
-    echo "Tva id  ".$t->input().'<br>';
-    echo "Price ".$p->input().'<br>';
-    echo "Purchase ".$b->input().'<br>';
+        echo "Label ".$l->input().'<br>';
+        echo "Tva id  ".$t->input().'<br>';
+        echo "Price ".$p->input().'<br>';
+        echo "Purchase ".$b->input().'<br>';
 
-    if ( isset($_REQUEST['test_select']) )
-    	 echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
-    $a->set_function('test_value');
-    $a->javascript=' onchange="alert(\'onchange\');" onblur="alert(\'onblur\');" ';
-    echo $a->input();
-    echo dossier::hidden();
-    echo HtmlInput::submit('Entree','entree');
-    echo '</form>';
-echo <<<EOF
+        if ( isset($_REQUEST['test_select']) )
+            echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
+        $a->set_function('test_value');
+        $a->javascript=' onchange="alert(\'onchange\');" onblur="alert(\'onblur\');" ';
+        echo $a->input();
+        echo dossier::hidden();
+        echo HtmlInput::submit('Entree','entree');
+        echo '</form>';
+        echo <<<EOF
 EOF;
-  }
+    }
 }

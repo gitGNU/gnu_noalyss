@@ -20,7 +20,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  *\brief manage the group
  *
  */
@@ -32,23 +32,27 @@ $r=new Anc_Group($cn);
 
 //----------------------------------------------------------------------
 // REMOVE
-if ( isset ($_POST['remove'])) {
-  if (isset($_POST['ck'] )) {
-      foreach ($_POST['ck'] as $m ) {
-	$obj=new Anc_Group($cn);
-	$obj->ga_id=$m;
-	$obj->remove();
-      }
+if ( isset ($_POST['remove']))
+{
+    if (isset($_POST['ck'] ))
+    {
+        foreach ($_POST['ck'] as $m )
+        {
+            $obj=new Anc_Group($cn);
+            $obj->ga_id=$m;
+            $obj->remove();
+        }
     }
- }
+}
 
 //----------------------------------------------------------------------
 // INSERT
-if ( isset($_POST['add'])) {
-  $obj=new Anc_Group($cn);
-  $obj->get_from_array($_POST);
-  echo $obj->insert();
- }
+if ( isset($_POST['add']))
+{
+    $obj=new Anc_Group($cn);
+    $obj->get_from_array($_POST);
+    echo $obj->insert();
+}
 $array=$r->myList();
 
 echo '<div class="content">';
@@ -56,13 +60,14 @@ echo '<form method="post">';
 echo dossier::hidden();
 echo '<table style="border: 2px outset blue; width: 100%;"  >';
 echo '<tr> <th> Code </th><th>Plan </td><th>Description</th></tr>';
-foreach ($array as $idx=>$m) {
-  echo '<tr>';
-  echo '<td>'.h($m->ga_id).'</td>';
-  echo '<td>'.h($m->pa_name).'</td>';
-  echo '<td>'.h($m->ga_description).'</td>';
-  echo '<td> Effacer <input type="Checkbox" name="ck[]" value="'.$m->ga_id.'">'.'</td>';
-  echo '</tr>';
+foreach ($array as $idx=>$m)
+{
+    echo '<tr>';
+    echo '<td>'.h($m->ga_id).'</td>';
+    echo '<td>'.h($m->pa_name).'</td>';
+    echo '<td>'.h($m->ga_description).'</td>';
+    echo '<td> Effacer <input type="Checkbox" name="ck[]" value="'.$m->ga_id.'">'.'</td>';
+    echo '</tr>';
 }
 $w=new IText("ga_id");
 $wDesc=new IText("ga_description");
@@ -74,7 +79,8 @@ echo "<td>".$w->input()."</td>";
 echo "<td>".$wPa_id->input("pa_id")."</td>";
 echo "<td>".$wDesc->input("ga_description").
 HtmlInput::submit('add','Ajouter').
-"</td>";;
+"</td>";
+;
 
 echo '</table>';
 

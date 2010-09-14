@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -28,54 +28,60 @@
 //-----------------------------------------------------
 $row=1;
 $p_cn->set_encoding('latin1');
-while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
-	$num = count($data);
-	for ($c=0; $c < $num; $c++) {
+while (($data = fgetcsv($handle, 2000,'@')) !== FALSE)
+{
+    $num = count($data);
+    for ($c=0; $c < $num; $c++)
+    {
 
-		// first line is skipped
-		if ( $row > 1) {
-		$code=""; $date_exec=""; $detail=""; $montant=""; 
-		list($code, $date_exec, $detail, $montant) = explode(";", $data[$c]);
-		
-		$date_exec = str_replace("\t", "", $date_exec);
-		$date_exec = str_replace(" ", "", $date_exec);
-		
-		list($annee,$mois,$jour) = explode("-", $date_exec);
-		
-		$montant = str_replace(".", "", $montant);
-		$montant = str_replace(",", ".", $montant);
-		$montant = str_replace("+", "", $montant);
-		
-		if($code < 10) $code = "000".$code;
-		if($code >= 10 and $code < 100) $code = "00".$code;
-		if($code >= 100) $code = "0".$code;
-		
-		$code = $annee."-".$code;
-		
-		
-		$Sql="insert into import_tmp (code, 
-			date_exec ,
-			date_valeur,
-			montant,
-			devise,
-			detail,
-			num_compte,
-			bq_account 	,
-			jrn,
-			status)
-		values ('$code',
-			'$date_exec',
-			'$date_exec',
-			'$montant',
-			'EUR',
-			'".addslashes($detail)."',
-			'$p_bq_account',
-			$p_jrn,
-			'n')";
-		$Res=$p_cn->exec_sql($Sql);
-		}
-	} // for ($c=0;$c<$num;$c++)
-		$row++;
+        // first line is skipped
+        if ( $row > 1)
+        {
+            $code="";
+            $date_exec="";
+            $detail="";
+            $montant="";
+            list($code, $date_exec, $detail, $montant) = explode(";", $data[$c]);
+
+            $date_exec = str_replace("\t", "", $date_exec);
+            $date_exec = str_replace(" ", "", $date_exec);
+
+            list($annee,$mois,$jour) = explode("-", $date_exec);
+
+            $montant = str_replace(".", "", $montant);
+            $montant = str_replace(",", ".", $montant);
+            $montant = str_replace("+", "", $montant);
+
+            if($code < 10) $code = "000".$code;
+            if($code >= 10 and $code < 100) $code = "00".$code;
+            if($code >= 100) $code = "0".$code;
+
+            $code = $annee."-".$code;
+
+
+            $Sql="insert into import_tmp (code,
+                 date_exec ,
+                 date_valeur,
+                 montant,
+                 devise,
+                 detail,
+                 num_compte,
+                 bq_account 	,
+                 jrn,
+                 status)
+                 values ('$code',
+                 '$date_exec',
+                 '$date_exec',
+                 '$montant',
+                 'EUR',
+                 '".addslashes($detail)."',
+                 '$p_bq_account',
+                 $p_jrn,
+                 'n')";
+            $Res=$p_cn->exec_sql($Sql);
+        }
+    } // for ($c=0;$c<$num;$c++)
+    $row++;
 } // file is read
 fclose($handle);
 ?>

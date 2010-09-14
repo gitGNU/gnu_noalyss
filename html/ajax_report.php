@@ -20,7 +20,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief Fid for the ajax request for cards
  */
 
@@ -32,13 +32,13 @@ require_once('class_dossier.php');
 require_once('class_acc_report.php');
 require_once('class_user.php');
 if ( ! isset($_GET['gDossier']) ||
-     ! isset($_GET['f']) )
-  {
+        ! isset($_GET['f']) )
+{
     $a='{"answer":"nok"}';
     header("Content-type: text/html; charset: utf8",true);
     print $a;
     exit();
-  }  
+}
 $cn=new Database(dossier::id());
 
 $User=new User($cn);
@@ -46,31 +46,32 @@ $User->Check();
 $User->check_dossier(dossier::id());
 $User->can_request('PARRAP',0);
 
-  
+
 
 $gDossier=dossier::id();
-if ( ! is_dir('tmp') ) {
-  mkdir ('tmp');
+if ( ! is_dir('tmp') )
+{
+    mkdir ('tmp');
 }
 
 $cn=new Database($gDossier);
 if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
-{ 
-  $rap=new Acc_Report($cn,$_GET['f']);
+{
+    $rap=new Acc_Report($cn,$_GET['f']);
 
-  $name=tempnam('tmp','report_').'.bin';
+    $name=tempnam('tmp','report_').'.bin';
 
-  $file= fopen($name,"a+");
-  $rap->export($file);
-  fclose ($file);
-  $name='tmp'.DIRECTORY_SEPARATOR.basename($name);
-  $name=dirname($_SERVER['REQUEST_URI']).DIRECTORY_SEPARATOR.$name;
+    $file= fopen($name,"a+");
+    $rap->export($file);
+    fclose ($file);
+    $name='tmp'.DIRECTORY_SEPARATOR.basename($name);
+    $name=dirname($_SERVER['REQUEST_URI']).DIRECTORY_SEPARATOR.$name;
 
-  $a='{"answer":"ok","link":"'.$name.'"}';
+    $a='{"answer":"ok","link":"'.$name.'"}';
 
 }
-     else
-     $a='{"answer":"nok"}';
+else
+    $a='{"answer":"nok"}';
 header("Content-type: text/html; charset: utf8",true);
 print $a;
 ?>

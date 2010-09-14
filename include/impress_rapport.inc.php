@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -32,118 +32,126 @@ require_once("class_acc_report.php");
 // First time in html
 // after in pdf or cvs
 //-----------------------------------------------------
-if ( isset( $_GET['bt_html'] ) ) {
-  $Form=new Acc_Report($cn,$_GET['form_id']);
-  $Form->get_name();
-  // step asked ?
-  //--
+if ( isset( $_GET['bt_html'] ) )
+{
+    $Form=new Acc_Report($cn,$_GET['form_id']);
+    $Form->get_name();
+    // step asked ?
+    //--
 
-  if ( $_GET['type_periode'] == 1 )
-      $array=$Form->get_row( $_GET['from_date'],$_GET['to_date'], $_GET['type_periode']);
+    if ( $_GET['type_periode'] == 1 )
+        $array=$Form->get_row( $_GET['from_date'],$_GET['to_date'], $_GET['type_periode']);
 
-  if ($_GET['type_periode']  == 0  && $_GET['p_step'] == 0 ) 
-      $array=$Form->get_row( $_GET['from_periode'],$_GET['to_periode'], $_GET['type_periode']);
-      
-  
-  if ($_GET['type_periode']  == 0  && $_GET['p_step'] == 1 ) {
-      // step are asked
-      //--
-      for ($e=$_GET['from_periode'];$e<=$_GET['to_periode'];$e+=$_GET['p_step'])
-	{
+    if ($_GET['type_periode']  == 0  && $_GET['p_step'] == 0 )
+        $array=$Form->get_row( $_GET['from_periode'],$_GET['to_periode'], $_GET['type_periode']);
 
-	  $periode=getPeriodeName($cn,$e);
-	  if ( $periode == null ) continue;
-	  $array[]=$Form->get_row($e,$e,$_GET['type_periode']);
-	  $periode_name[]=$periode;
-	}
+
+    if ($_GET['type_periode']  == 0  && $_GET['p_step'] == 1 )
+    {
+        // step are asked
+        //--
+        for ($e=$_GET['from_periode'];$e<=$_GET['to_periode'];$e+=$_GET['p_step'])
+        {
+
+            $periode=getPeriodeName($cn,$e);
+            if ( $periode == null ) continue;
+            $array[]=$Form->get_row($e,$e,$_GET['type_periode']);
+            $periode_name[]=$periode;
+        }
     }
 
 
 
-  $rep="";
+    $rep="";
 
-  $hid=new IHidden();
-  echo '<div class="content">';
-  if ( $_GET['type_periode'] == 0) {
-	$t=($_GET['from_periode']==$_GET['to_periode'])?"":" -> ".getPeriodeName($cn,$_GET['to_periode'],'p_end');
-	echo '<h2 class="info">'.$Form->id." ".$Form->name.
-	  " - ".getPeriodeName($cn,$_GET['from_periode'],'p_start').
-	  " ".$t.
-	  '</h2>';
-  } else {
-	echo '<h2 class="info">'.$Form->id." ".$Form->name.
-	  ' Date :'.
-	  $_GET['from_date'].
-	  " au ".
-	  $_GET['to_date'].
-	  '</h2>';
-  }
-	echo '<table >';
-  echo '<TR>';
-  echo '<TD><form method="GET" ACTION="?">'.
-	dossier::hidden().
+    $hid=new IHidden();
+    echo '<div class="content">';
+    if ( $_GET['type_periode'] == 0)
+    {
+        $t=($_GET['from_periode']==$_GET['to_periode'])?"":" -> ".getPeriodeName($cn,$_GET['to_periode'],'p_end');
+        echo '<h2 class="info">'.$Form->id." ".$Form->name.
+        " - ".getPeriodeName($cn,$_GET['from_periode'],'p_start').
+        " ".$t.
+        '</h2>';
+    }
+    else
+    {
+        echo '<h2 class="info">'.$Form->id." ".$Form->name.
+        ' Date :'.
+        $_GET['from_date'].
+        " au ".
+        $_GET['to_date'].
+        '</h2>';
+    }
+    echo '<table >';
+    echo '<TR>';
+    echo '<TD><form method="GET" ACTION="?">'.
+    dossier::hidden().
     HtmlInput::submit('bt_other',"Autre Rapport").
     $hid->input("type","rapport").$hid->input("p_action","impress")."</form></TD>";
 
-  echo '<TD><form method="GET" ACTION="form_pdf.php">'.
+    echo '<TD><form method="GET" ACTION="form_pdf.php">'.
     HtmlInput::submit('bt_pdf',"Export PDF").
-	dossier::hidden().
+    dossier::hidden().
     $hid->input("type","rapport").
     $hid->input("p_action","impress").
     $hid->input("form_id",$Form->id);
-  if ( isset($_GET['from_periode'])) echo $hid->input("from_periode",$_GET['from_periode']);
-  if ( isset($_GET['to_periode'])) echo $hid->input("to_periode",$_GET['to_periode']);
-  if (isset($_GET['p_step'])) echo $hid->input("p_step",$_GET['p_step']);
-  if ( isset($_GET['from_date'])) echo $hid->input("from_date",$_GET['from_date']);
-  if ( isset($_GET['to_date'])) echo $hid->input("to_date",$_GET['to_date']);
+    if ( isset($_GET['from_periode'])) echo $hid->input("from_periode",$_GET['from_periode']);
+    if ( isset($_GET['to_periode'])) echo $hid->input("to_periode",$_GET['to_periode']);
+    if (isset($_GET['p_step'])) echo $hid->input("p_step",$_GET['p_step']);
+    if ( isset($_GET['from_date'])) echo $hid->input("from_date",$_GET['from_date']);
+    if ( isset($_GET['to_date'])) echo $hid->input("to_date",$_GET['to_date']);
     echo $hid->input("type_periode",$_GET['type_periode']);
 
 
 
 
-  echo "</form></TD>";
-  echo '<TD><form method="GET" ACTION="form_csv.php">'.
+    echo "</form></TD>";
+    echo '<TD><form method="GET" ACTION="form_csv.php">'.
     HtmlInput::submit('bt_csv',"Export CSV").
     dossier::hidden().
     $hid->input("type","form").
     $hid->input("p_action","impress").
     $hid->input("form_id",$Form->id);
-  if ( isset($_GET['from_periode'])) echo $hid->input("from_periode",$_GET['from_periode']);
-  if ( isset($_GET['to_periode'])) echo $hid->input("to_periode",$_GET['to_periode']);
-  if (isset($_GET['p_step'])) echo $hid->input("p_step",$_GET['p_step']);
-  if ( isset($_GET['from_date'])) echo $hid->input("from_date",$_GET['from_date']);
-  if ( isset($_GET['to_date'])) echo $hid->input("to_date",$_GET['to_date']);
-  echo	$hid->input("type_periode",$_GET['type_periode']);
+    if ( isset($_GET['from_periode'])) echo $hid->input("from_periode",$_GET['from_periode']);
+    if ( isset($_GET['to_periode'])) echo $hid->input("to_periode",$_GET['to_periode']);
+    if (isset($_GET['p_step'])) echo $hid->input("p_step",$_GET['p_step']);
+    if ( isset($_GET['from_date'])) echo $hid->input("from_date",$_GET['from_date']);
+    if ( isset($_GET['to_date'])) echo $hid->input("to_date",$_GET['to_date']);
+    echo	$hid->input("type_periode",$_GET['type_periode']);
 
 
-  echo "</form></TD>";
+    echo "</form></TD>";
 
-  echo "</TR>";
+    echo "</TR>";
 
-  echo "</table>";
-  if ( count($Form->row ) == 0 ) 
-  	exit;
-  if ( $_GET['type_periode']==0 ) {
-      if ( $_GET['p_step'] == 0) 
-	{ // check the step
-	  // show tables
-	  ShowReportResult($Form->row);
-	} 
-	else
-	  {
-	    $a=0;
-	    foreach ( $array as $e) {
-	      echo '<h2 class="info">Periode : '.$periode_name[$a]."</h2>";
-	      $a++;
-	      ShowReportResult($e);
-	    }
-	  }
+    echo "</table>";
+    if ( count($Form->row ) == 0 )
+        exit;
+    if ( $_GET['type_periode']==0 )
+    {
+        if ( $_GET['p_step'] == 0)
+        { // check the step
+            // show tables
+            ShowReportResult($Form->row);
+        }
+        else
+        {
+            $a=0;
+            foreach ( $array as $e)
+            {
+                echo '<h2 class="info">Periode : '.$periode_name[$a]."</h2>";
+                $a++;
+                ShowReportResult($e);
+            }
+        }
     }
-  else {
-    ShowReportResult($Form->row);
-  }
-  echo "</div>";
-  exit;
+    else
+    {
+        ShowReportResult($Form->row);
+    }
+    echo "</div>";
+    exit;
 }
 
 //-----------------------------------------------------
@@ -151,12 +159,13 @@ if ( isset( $_GET['bt_html'] ) ) {
 //-----------------------------------------------------
 require_once('class_database.php');
 $ret=$cn->make_array("select fr_id,fr_label
-                 from formdef
-                 order by fr_label");
-if ( sizeof($ret) == 0 ) {
-  echo "Aucun Rapport";
-  return;
- }
+                     from formdef
+                     order by fr_label");
+if ( sizeof($ret) == 0 )
+{
+    echo "Aucun Rapport";
+    return;
+}
 //-----------------------------------------------------
 // Form
 //-----------------------------------------------------
@@ -175,9 +184,9 @@ print $w->input("form_id",$ret);
 print '</TR>';
 //-- calendrier ou periode comptable
 $aCal=array(
-			   array('value'=>0,'label'=>'P&eacute;riode comptable'),
-			   array('value'=>1,'label'=>'Calendrier')
-			   );
+          array('value'=>0,'label'=>'P&eacute;riode comptable'),
+          array('value'=>1,'label'=>'Calendrier')
+      );
 
 $w->javascript=' onchange=enable_type_periode();';
 echo '<tr>';
@@ -206,9 +215,9 @@ echo td($date->input('to_date'));
 echo '</tr>';
 
 $aStep=array(
-	     array('value'=>0,'label'=>'Pas d\'étape'),
-	     array('value'=>1,'label'=>'1 mois')
-	     );
+           array('value'=>0,'label'=>'Pas d\'étape'),
+           array('value'=>1,'label'=>'1 mois')
+       );
 echo '<tr>';
 echo td('Par étape de');
 echo $w->input('p_step',$aStep);
@@ -227,25 +236,27 @@ echo '</div>';
 //-----------------------------------------------------
 // Function
 //-----------------------------------------------------
- function ShowReportResult($p_array) {
-   
-   echo '<TABLE class="result">';
-   echo "<TR>".
-     "<TH> Description </TH>".
-     "<TH> montant </TH>".
-     "</TR>";
-   $i=0;
-   foreach ( $p_array as $op ) { 
-     $i++;
-     $class= ( $i % 2 == 0 )?' class="odd"':"";
-   
-     echo "<TR $class>".
-       "<TD>".h($op['desc'])."</TD>".
-       "<TD align=\"right\">".sprintf("% 8.2f",$op['montant'])."</TD>".
-       "</TR>";
-   }
-   echo "</table>";
+function ShowReportResult($p_array)
+{
 
- }
+    echo '<TABLE class="result">';
+    echo "<TR>".
+    "<TH> Description </TH>".
+    "<TH> montant </TH>".
+    "</TR>";
+    $i=0;
+    foreach ( $p_array as $op )
+    {
+        $i++;
+        $class= ( $i % 2 == 0 )?' class="odd"':"";
+
+        echo "<TR $class>".
+        "<TD>".h($op['desc'])."</TD>".
+        "<TD align=\"right\">".sprintf("% 8.2f",$op['montant'])."</TD>".
+        "</TR>";
+    }
+    echo "</table>";
+
+}
 
 ?>

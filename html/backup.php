@@ -29,50 +29,55 @@ $User=new User($rep);
 $User->Check();
 
 
-if ($User->admin != 1) {
-  echo "<script>alert('"."Vous n\'êtes pas administrateur"."') </script>";
-  return;
+if ($User->admin != 1)
+{
+    echo "<script>alert('"."Vous n\'êtes pas administrateur"."') </script>";
+    return;
 }
 
 /*!\file
  * \brief Make and restore backup
  */
-if ( isset ($_REQUEST['sa']) ) {
-  if ( defined ('PG_PATH') ) 
-    putenv("PATH=".PG_PATH);
-  
+if ( isset ($_REQUEST['sa']) )
+{
+    if ( defined ('PG_PATH') )
+        putenv("PATH=".PG_PATH);
 
-  if ( ! isset ($_REQUEST['d']) ||
-       ! isset($_REQUEST['t']))
+
+    if ( ! isset ($_REQUEST['d']) ||
+            ! isset($_REQUEST['t']))
     {
-      echo "Erreur : paramètre manquant "; 
-      exit();
-    }
-      
-  $sa=$_REQUEST['sa'];
-  // backup
-  if ( $sa=='b') {
-    $cmd=escapeshellcmd (PG_DUMP);
-    putenv("PGPASSWORD=".phpcompta_password);
-    putenv("PGUSER=".phpcompta_user);
-    
-    if ( $_REQUEST['t'] == 'd' ) {
-      $database=domaine."dossier".$_REQUEST['d'];
-      $args= " -Fc -Z9 --no-owner -p ".phpcompta_psql_port." ".$database;
-      header('Content-type: application/octet');
-      header('Content-Disposition:attachment;filename="'.$database.'.bin"',FALSE);
-      
-      passthru ($cmd.$args,$a);
-
+        echo "Erreur : paramètre manquant ";
+        exit();
     }
 
-  if ( $_REQUEST['t'] == 'm' ) {
-      $database=domaine."mod".$_REQUEST['d'];
-      $args= " -Fc -Z9 --no-owner -p ".phpcompta_psql_port." ".$database;
-      header('Content-type: bin/x-application');
-      header('Content-Disposition: attachment;filename="'.$database.'.bin"',FALSE);
-      $a=passthru ($cmd.$args);
+    $sa=$_REQUEST['sa'];
+    // backup
+    if ( $sa=='b')
+    {
+        $cmd=escapeshellcmd (PG_DUMP);
+        putenv("PGPASSWORD=".phpcompta_password);
+        putenv("PGUSER=".phpcompta_user);
+
+        if ( $_REQUEST['t'] == 'd' )
+        {
+            $database=domaine."dossier".$_REQUEST['d'];
+            $args= " -Fc -Z9 --no-owner -p ".phpcompta_psql_port." ".$database;
+            header('Content-type: application/octet');
+            header('Content-Disposition:attachment;filename="'.$database.'.bin"',FALSE);
+
+            passthru ($cmd.$args,$a);
+
+        }
+
+        if ( $_REQUEST['t'] == 'm' )
+        {
+            $database=domaine."mod".$_REQUEST['d'];
+            $args= " -Fc -Z9 --no-owner -p ".phpcompta_psql_port." ".$database;
+            header('Content-type: bin/x-application');
+            header('Content-Disposition: attachment;filename="'.$database.'.bin"',FALSE);
+            $a=passthru ($cmd.$args);
+        }
     }
-  }
- }
+}
 

@@ -41,78 +41,84 @@ $User->Check();
 
 $Fiche=new Fiche($cn,$_REQUEST['f_id']);
 $Fiche->getName();
-list($array,$tot_deb,$tot_cred)=$Fiche->get_row_date( 
-					       $_GET['from_periode'],
-					       $_GET['to_periode'],
-					       $_GET['ople']
-					       );
-if ( count($Fiche->row ) == 0 ) 
+list($array,$tot_deb,$tot_cred)=$Fiche->get_row_date(
+                                    $_GET['from_periode'],
+                                    $_GET['to_periode'],
+                                    $_GET['ople']
+                                );
+if ( count($Fiche->row ) == 0 )
 {
-  echo "Aucune donnée";
-  return;
+    echo "Aucune donnée";
+    return;
 }
 
 
-if ( ! isset ($_REQUEST['oper_detail'])) {
-echo '"Qcode";'.
-"\"Code interne\";".
-"\"Date\";".
-"\"Description\";".
-"\"Débit\";".
-"\"Crédit\";".
-"\"Prog.\"";
-printf("\n");
-$progress=0;
-  foreach ( $Fiche->row as $op ) { 
-    $progress+=$op['deb_montant']-$op['cred_montant'];
-
-    echo '"'.$op['j_qcode'].'";'.
-      '"'.$op['jr_internal'].'"'.";".
-      '"'.$op['j_date_fmt'].'"'.";".
-      '"'.$op['description'].'"'.";".
-      nb($op['deb_montant']).";".
-      nb($op['cred_montant']).";".
-      nb(abs($progress));
+if ( ! isset ($_REQUEST['oper_detail']))
+{
+    echo '"Qcode";'.
+    "\"Code interne\";".
+    "\"Date\";".
+    "\"Description\";".
+    "\"Débit\";".
+    "\"Crédit\";".
+    "\"Prog.\"";
     printf("\n");
-    
-  }
-}else {
+    $progress=0;
+    foreach ( $Fiche->row as $op )
+    {
+        $progress+=$op['deb_montant']-$op['cred_montant'];
+
+        echo '"'.$op['j_qcode'].'";'.
+        '"'.$op['jr_internal'].'"'.";".
+        '"'.$op['j_date_fmt'].'"'.";".
+        '"'.$op['description'].'"'.";".
+        nb($op['deb_montant']).";".
+        nb($op['cred_montant']).";".
+        nb(abs($progress));
+        printf("\n");
+
+    }
+}
+else
+{
     echo '"Poste";"Qcode";"internal";';
     echo '"Date";'.
-      "\"Description\";".
-      "\"Montant\";".
-      "\"D/C\"";
+    "\"Description\";".
+    "\"Montant\";".
+    "\"D/C\"";
 
     printf("\r\n");
 
-  foreach ( $Fiche->row as $op ) { 
-    $acc=new Acc_Operation($cn);
-    $acc->jr_id=$op['jr_id'];
-    $result= $acc->get_jrnx_detail();    
-	foreach ( $result as $r) {
-	  printf('"%s";"%s";"%s";"%s";"%s";%s;"%s"',
-		 $r['j_poste'],
-		 $r['j_qcode'],
-		 $r['jr_internal'],
-		 $r['jr_date'],
-		 $r['description'],
-		 nb($r['j_montant']),
-		 $r['debit']);
-	  printf("\r\n");
+    foreach ( $Fiche->row as $op )
+    {
+        $acc=new Acc_Operation($cn);
+        $acc->jr_id=$op['jr_id'];
+        $result= $acc->get_jrnx_detail();
+        foreach ( $result as $r)
+        {
+            printf('"%s";"%s";"%s";"%s";"%s";%s;"%s"',
+                   $r['j_poste'],
+                   $r['j_qcode'],
+                   $r['jr_internal'],
+                   $r['jr_date'],
+                   $r['description'],
+                   nb($r['j_montant']),
+                   $r['debit']);
+            printf("\r\n");
 
-	}
+        }
 
 
 
-  }
- }
+    }
+}
 $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
- $diff=abs($tot_deb-$tot_cred);
+$diff=abs($tot_deb-$tot_cred);
 printf(
-       '"'."$solde_type".'"'.";".
-       nb($diff).";".
-       nb($tot_deb).";".
-       nb($tot_cred)."\n");
+    '"'."$solde_type".'"'.";".
+    nb($diff).";".
+    nb($tot_deb).";".
+    nb($tot_cred)."\n");
 
 exit;
 ?>

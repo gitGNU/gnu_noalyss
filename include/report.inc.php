@@ -14,7 +14,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with PhpCompta; if not, write to the Free Software
-
+ 
 */
 /* $Revision: 1937 $ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
@@ -58,21 +58,25 @@ $cn=new Database($gDossier);
 
 $rap=new Acc_Report($cn);
 
-if ( isset ($_POST["del_form"]) ) {
-  $rap->id=$_POST['fr_id'];
-  $rap->delete();
+if ( isset ($_POST["del_form"]) )
+{
+    $rap->id=$_POST['fr_id'];
+    $rap->delete();
 }
-if ( isset ($_POST["record"] )) {
-  $rap->from_array($_POST);
-  $rap->save();
+if ( isset ($_POST["record"] ))
+{
+    $rap->from_array($_POST);
+    $rap->save();
 }
-if ( isset($_POST['update'])) {
+if ( isset($_POST['update']))
+{
     $rap->from_array($_POST);
     $rap->save($_POST);
 
-  }
-if ( isset($_POST['upload'])) {
-  $rap->upload();
+}
+if ( isset($_POST['upload']))
+{
+    $rap->upload();
 
 }
 
@@ -82,72 +86,75 @@ echo '<div class="lmenu">';
 echo '<TABLE>';
 echo '<TR><TD class="mtitle"><A class="mtitle" HREF="?'.$p_action.'&action=add&'.$str_dossier.'">Ajout</A></TD></TR>';
 
-foreach ( $lis as $row) {
-  printf ('<TR><TD class="mtitle"><A class="mtitle" HREF="?'.$p_action.'&action=view&fr_id=%s&%s">%s</A></TD></TR>', $row->id,$str_dossier,$row->name);
+foreach ( $lis as $row)
+{
+    printf ('<TR><TD class="mtitle"><A class="mtitle" HREF="?'.$p_action.'&action=view&fr_id=%s&%s">%s</A></TD></TR>', $row->id,$str_dossier,$row->name);
 
 }
 echo "</TABLE>";
 echo '</div>';
-if ( isset($_POST['upload'])) {
+if ( isset($_POST['upload']))
+{
     exit();
-  }
-if ( isset ($_REQUEST["action"]) ) {
+}
+if ( isset ($_REQUEST["action"]) )
+{
 
-  $action=$_REQUEST ["action"];
-  $rap->id=(isset($_REQUEST ['fr_id']))?$_REQUEST['fr_id']:0;
+    $action=$_REQUEST ["action"];
+    $rap->id=(isset($_REQUEST ['fr_id']))?$_REQUEST['fr_id']:0;
 
-  if ($action == "add" && ! isset($_REQUEST['fr_id']))
+    if ($action == "add" && ! isset($_REQUEST['fr_id']))
     {
 
-      echo '<DIV class="u_redcontent">';
-      echo '<h1>'._('Définition').'</h1>';
-      echo '<form method="post" >';
-      echo dossier::hidden();
-       $rap->id=0;
-      echo $rap->form(15);
-      
-      echo HtmlInput::submit("record",_("Sauve"));
-      echo '</form>';
-      echo '<span class="notice">'._("Les lignes vides seront effacées").'</span>';
-      echo "</DIV>";
-      echo '<DIV class="u_redcontent">';
+        echo '<DIV class="u_redcontent">';
+        echo '<h1>'._('Définition').'</h1>';
+        echo '<form method="post" >';
+        echo dossier::hidden();
+        $rap->id=0;
+        echo $rap->form(15);
 
-      echo '<form method="post" enctype="multipart/form-data">';
-      echo '<h1> Importation</h1>';
-      echo dossier::hidden();
-      $rap->id=0;
-      $wUpload=new IFile();
-      $wUpload->name='report';
-      $wUpload->value='report_value';
-      echo _('Importer ce rapport').' ';
-      echo $wUpload->input();
-      echo HtmlInput::submit("upload",_("Sauve"));
-      echo '</form>';
-      echo '<span class="notice">'._("Les lignes vides seront effacées").'</span>';
-      echo "</DIV>";
+        echo HtmlInput::submit("record",_("Sauve"));
+        echo '</form>';
+        echo '<span class="notice">'._("Les lignes vides seront effacées").'</span>';
+        echo "</DIV>";
+        echo '<DIV class="u_redcontent">';
+
+        echo '<form method="post" enctype="multipart/form-data">';
+        echo '<h1> Importation</h1>';
+        echo dossier::hidden();
+        $rap->id=0;
+        $wUpload=new IFile();
+        $wUpload->name='report';
+        $wUpload->value='report_value';
+        echo _('Importer ce rapport').' ';
+        echo $wUpload->input();
+        echo HtmlInput::submit("upload",_("Sauve"));
+        echo '</form>';
+        echo '<span class="notice">'._("Les lignes vides seront effacées").'</span>';
+        echo "</DIV>";
 
     }
-  if ($action=="view"      ) 
-      {
-	echo '<DIV class="u_redcontent">';
-	$rap->id=$_REQUEST ['fr_id'];
-	echo '<form method="post">';
-	$rap->load();
-	echo $rap->form();
-	echo HtmlInput::hidden("fr_id",$rap->id);
-	echo HtmlInput::hidden("action","record");
-	echo HtmlInput::submit("update",_("Mise a jour"));
-	echo HtmlInput::submit("del_form",_("Effacement"));
-	$w=new IButton();
-	$w->name="export";
-	$w->javascript="report_export('".$gDossier."','".$rap->id."')";
-	$w->label='Export';
-	echo $w->input();
-	echo '<span id="export_link"></span>';
-	echo '</form>';
-	echo '<span class="notice">'._("Les lignes vides seront effacées").'</span>';
-	echo "</DIV>";
-      }
+    if ($action=="view"      )
+    {
+        echo '<DIV class="u_redcontent">';
+        $rap->id=$_REQUEST ['fr_id'];
+        echo '<form method="post">';
+        $rap->load();
+        echo $rap->form();
+        echo HtmlInput::hidden("fr_id",$rap->id);
+        echo HtmlInput::hidden("action","record");
+        echo HtmlInput::submit("update",_("Mise a jour"));
+        echo HtmlInput::submit("del_form",_("Effacement"));
+        $w=new IButton();
+        $w->name="export";
+        $w->javascript="report_export('".$gDossier."','".$rap->id."')";
+        $w->label='Export';
+        echo $w->input();
+        echo '<span id="export_link"></span>';
+        echo '</form>';
+        echo '<span class="notice">'._("Les lignes vides seront effacées").'</span>';
+        echo "</DIV>";
+    }
 
 }
 

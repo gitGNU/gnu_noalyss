@@ -20,41 +20,40 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief Html Input 
  */
 require_once('class_html_input.php');
- class ITva extends HtmlInput
+class ITva extends HtmlInput
 {
-  /*!\brief show the html  input of the widget*/
-  public function input($p_name=null,$p_value=null)
-  {
-    $this->name=($p_name==null)?$this->name:$p_name;
-    $this->value=($p_value==null)?$this->value:$p_value;
-    if ( $this->readOnly==true) return $this->display();
-    
-    $r=sprintf('Tva <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
-	       ' ID="%s" NAME="%s" VALUE="%s" SIZE="3" onChange="ChangeTVA(\'%s\',\'%s\');">',
-	       $this->name,
-	       $this->name,
-	       $this->value,
-	       $this->label,
-	       $this->name);
+    /*!\brief show the html  input of the widget*/
+    public function input($p_name=null,$p_value=null)
+    {
+        $this->name=($p_name==null)?$this->name:$p_name;
+        $this->value=($p_value==null)?$this->value:$p_value;
+        if ( $this->readOnly==true) return $this->display();
 
-     $r.=sprintf("<input type=\"button\" value=\"Tva\" 
-     	onClick=\"ShowTva(%d,'%s');\"></TD>",
-		 dossier::id(),$this->name);
-     if ( $this->table == 1 ) $r=td($r);
-     return $r;
-     
-  }
-  /*!\brief print in html the readonly value of the widget*/
-  public function display()
-  {
-    throw new Exception ("Pas de function display pour la TVA",1);
-  }
-  static public function test_me()
-  {
+        $r=sprintf('Tva <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
+                   ' ID="%s" NAME="%s" VALUE="%s" SIZE="3" onChange="ChangeTVA(\'%s\',\'%s\');">',
+                   $this->name,
+                   $this->name,
+                   $this->value,
+                   $this->label,
+                   $this->name);
 
-  }
+        $r.=sprintf("<input type=\"button\" value=\"Tva\"
+                    onClick=\"ShowTva(%d,'%s');\"></TD>",
+                    dossier::id(),$this->name);
+        if ( $this->table == 1 ) $r=td($r);
+        return $r;
+
+    }
+    /*!\brief print in html the readonly value of the widget*/
+    public function display()
+    {
+        throw new Exception ("Pas de function display pour la TVA",1);
+    }
+    static public function test_me()
+    {
+    }
 }

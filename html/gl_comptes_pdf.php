@@ -51,9 +51,10 @@ $pdf->AliasNbPages();
 $pdf->AddPage();
 $a_poste=$cn->get_array("select pcm_val from tmp_pcmn order by pcm_val::text");
 
-if ( count($a_poste) == 0 ) {
-  $pdf->Output();
-  return;
+if ( count($a_poste) == 0 )
+{
+    $pdf->Output();
+    return;
 }
 
 // Header
@@ -63,14 +64,16 @@ $lor    = array( "L"   , "L"        , "L"      , "L"    , "R",   "R"    , "R"   
 // Column widths (in mm)
 $width  = array( 13    , 20         , 60       , 15     ,  12     , 20     , 20      , 20      );
 
-foreach ($a_poste as $poste) {
+foreach ($a_poste as $poste)
+{
 
     $Poste=new Acc_Account_Ledger($cn,$poste['pcm_val']);
     list($array,$tot_deb,$tot_cred)=$Poste->get_row_date($from_periode,$to_periode);
 
     // don't print empty account
-    if ( count($array) == 0 ) {
-      continue;
+    if ( count($array) == 0 )
+    {
+        continue;
     }
 
     $pdf->SetFont('DejaVuCond','',10);
@@ -79,7 +82,7 @@ foreach ($a_poste as $poste) {
 
     $pdf->SetFont('DejaVuCond','',6);
     for($i=0;$i<count($header);$i++)
-      $pdf->Cell($width[$i], 4, $header[$i], 0, 0, $lor[$i]);
+        $pdf->Cell($width[$i], 4, $header[$i], 0, 0, $lor[$i]);
     $pdf->Ln();
 
     $pdf->SetFont('DejaVuCond','',7);
@@ -89,7 +92,8 @@ foreach ($a_poste as $poste) {
     $solde_d = 0.0;
     $solde_c = 0.0;
 
-    foreach ($Poste->row as $detail) {
+    foreach ($Poste->row as $detail)
+    {
 
         /*
                [0] => 1 [jr_id] => 1
@@ -104,48 +108,67 @@ foreach ($a_poste as $poste) {
                [9] => ODS1 [jr_pj_number] => ODS1 ) 1
          */
 
-          if ($detail['cred_montant'] > 0) {
+        if ($detail['cred_montant'] > 0)
+        {
             $solde   += $detail['cred_montant'];
             $solde_c += $detail['cred_montant'];
-          }
-          if ($detail['deb_montant'] > 0) {
+        }
+        if ($detail['deb_montant'] > 0)
+        {
             $solde   -= $detail['deb_montant'];
             $solde_d += $detail['deb_montant'];
-          }
-
-          $i = 0;
-
-          $pdf->Cell($width[$i], 6, shrink_date($detail['j_date_fmt']), 0, 0, $lor[$i]); $i++;
-          $pdf->Cell($width[$i], 6, $detail['jr_internal'], 0, 0, $lor[$i]); $i++;
-	  /* limit set to 20 for the substring */
-          $pdf->Cell($width[$i], 6, substr($detail['description'],0,42), 0, 0, $lor[$i]); $i++;
-          $pdf->Cell($width[$i], 6, $detail['jr_pj_number'], 0, 0, $lor[$i]); $i++;
-          $pdf->Cell($width[$i], 6, ($detail['letter']!=-1)?$detail['letter']:'', 0, 0, $lor[$i]); $i++;
-          $pdf->Cell($width[$i], 6, ($detail['deb_montant']  > 0 ? sprintf("%.2f", $detail['deb_montant'])  : ''), 0, 0, $lor[$i]); $i++;
-          $pdf->Cell($width[$i], 6, ($detail['cred_montant'] > 0 ? sprintf("%.2f", $detail['cred_montant']) : ''), 0, 0, $lor[$i]); $i++;
-          $pdf->Cell($width[$i], 6, sprintf("%.2f", $solde), 0, 0, $lor[$i]); $i++;
-          $pdf->Ln();
-
         }
 
-
-        $pdf->SetFont('DejaVuCond','B',8);
-
         $i = 0;
-        $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]); $i++;
-        $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]); $i++;
-        $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]); $i++;
-        $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]); $i++;
-        $pdf->Cell($width[$i], 6, 'Total du compte '.$Poste->id, 0, 0, 'R'); $i++;
-        $pdf->Cell($width[$i], 6, ($solde_d  > 0 ? sprintf("%.2f", $solde_d)  : ''), 0, 0, $lor[$i]); $i++;
-        $pdf->Cell($width[$i], 6, ($solde_c  > 0 ? sprintf("%.2f", $solde_c)  : ''), 0, 0, $lor[$i]); $i++;
-        $pdf->Cell($width[$i], 6, sprintf("%.2f", abs($solde_c-$solde_d)), 0, 0, $lor[$i]); $i++;
-        $pdf->Cell(5, 6, ($solde_c > $solde_d ? 'C' : 'D'), 0, 0, 'L');
 
+        $pdf->Cell($width[$i], 6, shrink_date($detail['j_date_fmt']), 0, 0, $lor[$i]);
+        $i++;
+        $pdf->Cell($width[$i], 6, $detail['jr_internal'], 0, 0, $lor[$i]);
+        $i++;
+        /* limit set to 20 for the substring */
+        $pdf->Cell($width[$i], 6, substr($detail['description'],0,42), 0, 0, $lor[$i]);
+        $i++;
+        $pdf->Cell($width[$i], 6, $detail['jr_pj_number'], 0, 0, $lor[$i]);
+        $i++;
+        $pdf->Cell($width[$i], 6, ($detail['letter']!=-1)?$detail['letter']:'', 0, 0, $lor[$i]);
+        $i++;
+        $pdf->Cell($width[$i], 6, ($detail['deb_montant']  > 0 ? sprintf("%.2f", $detail['deb_montant'])  : ''), 0, 0, $lor[$i]);
+        $i++;
+        $pdf->Cell($width[$i], 6, ($detail['cred_montant'] > 0 ? sprintf("%.2f", $detail['cred_montant']) : ''), 0, 0, $lor[$i]);
+        $i++;
+        $pdf->Cell($width[$i], 6, sprintf("%.2f", $solde), 0, 0, $lor[$i]);
+        $i++;
         $pdf->Ln();
-        $pdf->Ln();
+
+    }
+
+
+    $pdf->SetFont('DejaVuCond','B',8);
+
+    $i = 0;
+    $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]);
+    $i++;
+    $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]);
+    $i++;
+    $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]);
+    $i++;
+    $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]);
+    $i++;
+    $pdf->Cell($width[$i], 6, 'Total du compte '.$Poste->id, 0, 0, 'R');
+    $i++;
+    $pdf->Cell($width[$i], 6, ($solde_d  > 0 ? sprintf("%.2f", $solde_d)  : ''), 0, 0, $lor[$i]);
+    $i++;
+    $pdf->Cell($width[$i], 6, ($solde_c  > 0 ? sprintf("%.2f", $solde_c)  : ''), 0, 0, $lor[$i]);
+    $i++;
+    $pdf->Cell($width[$i], 6, sprintf("%.2f", abs($solde_c-$solde_d)), 0, 0, $lor[$i]);
+    $i++;
+    $pdf->Cell(5, 6, ($solde_c > $solde_d ? 'C' : 'D'), 0, 0, 'L');
+
+    $pdf->Ln();
+    $pdf->Ln();
 
 }
 //Save PDF to file
-$pdf->Output("gl_comptes.pdf", 'I');exit;
+$pdf->Output("gl_comptes.pdf", 'I');
+exit;
 ?>

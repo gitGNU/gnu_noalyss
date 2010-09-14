@@ -31,42 +31,43 @@ require_once('class_ipopup.php');
 
 echo ICard::ipopup('ipopcard');
 
-  /* $sub_action = sb = detail */
-  /* $cn database conx */
+/* $sub_action = sb = detail */
+/* $cn database conx */
 $return= HtmlInput::button_anchor('Retour','?p_action=client&'.$str_dossier);
 $root="?p_action=client&sb=detail&f_id=".$_REQUEST["f_id"].'&'.$str_dossier;
 $ss_action=( isset ($_REQUEST['sc'] ))? $_REQUEST['sc']: '';
-switch ($ss_action) {
+switch ($ss_action)
+{
 case 'dc':
-  $def=1;
-  break;
+    $def=1;
+    break;
 case 'sv':			/* all the actions (mail,meeting...) */
-  $def=2;
-  break;
+    $def=2;
+    break;
 case 'cn':
-  $def=3;
-  break;
+    $def=3;
+    break;
 case 'op':
-  $def=4;
-  break;
+    $def=4;
+    break;
 case 'let':
-  $def=6;
-  break;
+    $def=6;
+    break;
 default:
-  $def=1;
-  $ss_action='dc';
+    $def=1;
+    $ss_action='dc';
 }
 $f=new Fiche($cn,$_REQUEST['f_id']);
 echo '<div class="u_subtmenu">';
 echo ShowItem(array(
-		    array($root."&sc=dc",_('Fiche'),_('Détail de la fiche'),1),
-		    array($root.'&sc=sv',_('Suivi'),_('Suivi client, devis, bon de commande, courrier'),2),
-		    array($root.'&sc=cn',_('Contact'),_('Liste de contacts de ce client'),3),
-		    array($root.'&sc=op',_('Opérations'),_('Toutes les opérations'),4),
-		    array($root.'&sc=let',_('Lettrage'),_('Opérations & Lettrages'),6),
-		    array('?p_action=client&'.dossier::get(),_('Retour liste'),_('Retour à la liste des clients'),5)
-		    ),
-	      'H',"mtitle","mtitle",$def,'');
+                  array($root."&sc=dc",_('Fiche'),_('Détail de la fiche'),1),
+                  array($root.'&sc=sv',_('Suivi'),_('Suivi client, devis, bon de commande, courrier'),2),
+                  array($root.'&sc=cn',_('Contact'),_('Liste de contacts de ce client'),3),
+                  array($root.'&sc=op',_('Opérations'),_('Toutes les opérations'),4),
+                  array($root.'&sc=let',_('Lettrage'),_('Opérations & Lettrages'),6),
+                  array('?p_action=client&'.dossier::get(),_('Retour liste'),_('Retour à la liste des clients'),5)
+                  ),
+                  'H',"mtitle","mtitle",$def,'');
 echo '</div>';
 echo '<div>';
 echo '<div class="gest_name"">';
@@ -79,55 +80,60 @@ echo '</div>';
 //---------------------------------------------------------------------------
 if ( $ss_action == 'dc' )
 {
-  require_once('detail_client.inc.php');
+    require_once('detail_client.inc.php');
 }
 //---------------------------------------------------------------------------
 // Follow up : mail, bons de commande, livraison, rendez-vous...
 //---------------------------------------------------------------------------
-if ( $ss_action == 'sv' ) {
-  require_once('suivi_client.inc.php');
+if ( $ss_action == 'sv' )
+{
+    require_once('suivi_client.inc.php');
 }
 /*----------------------------------------------------------------------
  * Operation all the operation of this customer
  *
  * ----------------------------------------------------------------------*/
-if ( $ss_action == 'op') {
-  require_once('operation_client.inc.php');  
+if ( $ss_action == 'op')
+{
+    require_once('operation_client.inc.php');
 }
 /*----------------------------------------------------------------------
  * All the contact
  *
  *----------------------------------------------------------------------*/
-if ( $ss_action == 'cn') {
-  echo '<div class="content">';
-  echo dossier::hidden();
-  $f=new Fiche($cn,$_REQUEST['f_id']);
-  $contact=new Contact($cn);
-  $contact->company=$f->get_quick_code();
-  echo $contact->summary();
+if ( $ss_action == 'cn')
+{
+    echo '<div class="content">';
+    echo dossier::hidden();
+    $f=new Fiche($cn,$_REQUEST['f_id']);
+    $contact=new Contact($cn);
+    $contact->company=$f->get_quick_code();
+    echo $contact->summary();
 
-  $sql=' select fd_id from fiche_def where frd_id='.FICHE_TYPE_CONTACT;
-  $filter=$cn->make_list($sql);
-  if ( empty ($filter)) {
-    echo '<span class="notice">';
-    echo _("Vous devez aller dans fiche et créer une catégorie pour les contacts");
-    echo '</span>';
-    exit();
-  }
-  /* Add button */
-  $f_add_button=new IButton('add_card');
-  $f_add_button->label=_('Créer une nouvelle fiche');
-  $f_add_button->set_attribute('ipopup','ipopcard');
-  
-  $f_add_button->set_attribute('filter',$filter);
-  $f_add_button->javascript=" select_card_type(this);";
+    $sql=' select fd_id from fiche_def where frd_id='.FICHE_TYPE_CONTACT;
+    $filter=$cn->make_list($sql);
+    if ( empty ($filter))
+    {
+        echo '<span class="notice">';
+        echo _("Vous devez aller dans fiche et créer une catégorie pour les contacts");
+        echo '</span>';
+        exit();
+    }
+    /* Add button */
+    $f_add_button=new IButton('add_card');
+    $f_add_button->label=_('Créer une nouvelle fiche');
+    $f_add_button->set_attribute('ipopup','ipopcard');
 
-  echo $f_add_button->input();
-  echo '</div>';
+    $f_add_button->set_attribute('filter',$filter);
+    $f_add_button->javascript=" select_card_type(this);";
+
+    echo $f_add_button->input();
+    echo '</div>';
 }
 /*----------------------------------------------------------------------------
  * Lettering
  *----------------------------------------------------------------------------*/
-if ( $def==6 ) {
-  require_once('lettering.gestion.inc.php');
+if ( $def==6 )
+{
+    require_once('lettering.gestion.inc.php');
 }

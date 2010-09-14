@@ -26,74 +26,80 @@
  * \param $p_dossier : the dossier id
  * \param $p_count : the item number
  */
-function import_update(p_dossier,p_count) {
-  var query_string="count="+p_count+"&gDossier="+p_dossier;
-  var code=$("code"+p_count);
-  var poste=$("poste"+p_count);
-  var concerned=$("e_concerned"+p_count);
-  var url="ajax_import.php";
-  query_string+="&code="+code.value;
-  query_string+="&poste="+poste.value;
-  query_string+="&concerned="+concerned.value;
-  query_string+="&action=update";
+function import_update(p_dossier,p_count)
+{
+    var query_string="count="+p_count+"&gDossier="+p_dossier;
+    var code=$("code"+p_count);
+    var poste=$("poste"+p_count);
+    var concerned=$("e_concerned"+p_count);
+    var url="ajax_import.php";
+    query_string+="&code="+code.value;
+    query_string+="&poste="+poste.value;
+    query_string+="&concerned="+concerned.value;
+    query_string+="&action=update";
 
 
-  /* call the script which handle the query */
-  var update= new Ajax.Request (
-				url, 
-				{
-				method:'get',
-				parameters:query_string
-				}
-				);
-  var form=$("form_"+p_count);
-  form.hide();
+    /* call the script which handle the query */
+    var update= new Ajax.Request (
+                    url,
+                    {
+                    method:'get',
+                    parameters:query_string
+                    }
+                );
+    var form=$("form_"+p_count);
+    form.hide();
 }
 /*! \brief remove : remove a record (in ajax)
  * \param $p_dossier : the dossier id
  * \param $p_count : the item number
  */
 
-function import_remove(p_dossier,p_count) {
-  var query_string="count="+p_count+"&gDossier="+p_dossier;
-  var code=$("code"+p_count);
-  var url="ajax_import.php";
-  query_string+="&code="+code.value;
-  query_string+="&action=delete";
-  var a = confirm("Etes-vous certain d'effacer cette operation ?");
-  if ( a == false ) { return;}
+function import_remove(p_dossier,p_count)
+{
+    var query_string="count="+p_count+"&gDossier="+p_dossier;
+    var code=$("code"+p_count);
+    var url="ajax_import.php";
+    query_string+="&code="+code.value;
+    query_string+="&action=delete";
+    var a = confirm("Etes-vous certain d'effacer cette operation ?");
+    if ( a == false )
+    {
+        return;
+    }
 
-  /* call the script which handle the query */
-  var update= new Ajax.Request (
-				url, 
-				{
-				method:'get',
-				parameters:query_string
-				}
-				);
-  var form=$("form_"+p_count);
-  form.hide();
+    /* call the script which handle the query */
+    var update= new Ajax.Request (
+                    url,
+                    {
+                    method:'get',
+                    parameters:query_string
+                    }
+                );
+    var form=$("form_"+p_count);
+    form.hide();
 }
 /*! \brief remove : remove a record (in ajax)
  * \param $p_dossier : the dossier id
  * \param $p_count : the item number
  */
 
-function import_not_confirmed(p_dossier,p_count) {
-  var query_string="count="+p_count+"&gDossier="+p_dossier;
-  var code=$("code"+p_count);
-  var url="ajax_import.php";
-  query_string+="&code="+code.value;
-  query_string+="&action=not_confirmed";
+function import_not_confirmed(p_dossier,p_count)
+{
+    var query_string="count="+p_count+"&gDossier="+p_dossier;
+    var code=$("code"+p_count);
+    var url="ajax_import.php";
+    query_string+="&code="+code.value;
+    query_string+="&action=not_confirmed";
 
-  /* call the script which handle the query */
-  var update= new Ajax.Request (
-				url, 
-				{
-				method:'get',
-				parameters:query_string
-				}
-				);
-  var form=$("form_"+p_count);
-  form.hide();
+    /* call the script which handle the query */
+    var update= new Ajax.Request (
+                    url,
+                    {
+                    method:'get',
+                    parameters:query_string
+                    }
+                );
+    var form=$("form_"+p_count);
+    form.hide();
 }

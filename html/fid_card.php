@@ -8,7 +8,7 @@
  *   (at your option) any later version.
  *
  *   PhpCompta is distributed in the hope that it will be useful,
-
+ 
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
@@ -54,46 +54,53 @@ $user=new User($cn);
 $user->check();
 $user->check_dossier(dossier::id());
 
-switch ($d) {
-   case 'all':
-      $filter_card='';
-      break;
-    
-    default:
-      $filter_card="and fd_id in ($d)";
+switch ($d)
+{
+case 'all':
+    $filter_card='';
+    break;
+
+default:
+    $filter_card="and fd_id in ($d)";
 }
 
-if ( $jrn != -1 ) {
-    switch ($d) {
+if ( $jrn != -1 )
+{
+    switch ($d)
+    {
     case 'cred':
-      $filter_jrn=$cn->make_list("select jrn_def_fiche_cred from jrn_def where jrn_def_id=$1",array($jrn));
-      $filter_card=($filter_jrn != "")?" and fd_id in ($filter_jrn)":' and false ';
-      break;
+        $filter_jrn=$cn->make_list("select jrn_def_fiche_cred from jrn_def where jrn_def_id=$1",array($jrn));
+        $filter_card=($filter_jrn != "")?" and fd_id in ($filter_jrn)":' and false ';
+        break;
     case 'deb':
-      $filter_jrn=$cn->make_list("select jrn_def_fiche_deb from jrn_def where jrn_def_id=$1",array($jrn));
-      $filter_card=($filter_jrn != "")?" and fd_id in ($filter_jrn)":' and false ';
-      break;
+        $filter_jrn=$cn->make_list("select jrn_def_fiche_deb from jrn_def where jrn_def_id=$1",array($jrn));
+        $filter_card=($filter_jrn != "")?" and fd_id in ($filter_jrn)":' and false ';
+        break;
     case 'filter':
-      $get_cred='jrn_def_fiche_cred';
-      $get_deb='jrn_def_fiche_deb';
-      $filter_jrn=$cn->make_list("select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_id=$1",array($jrn));
-      $filter_card=($filter_jrn != "")?" and fd_id in ($filter_jrn)":' and false ';
+        $get_cred='jrn_def_fiche_cred';
+        $get_deb='jrn_def_fiche_deb';
+        $filter_jrn=$cn->make_list("select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_id=$1",array($jrn));
+        $filter_card=($filter_jrn != "")?" and fd_id in ($filter_jrn)":' and false ';
 
-      break;
- 
-    }
-} else {
-  if (isset($_REQUEST['type'])) {
-    if ($_REQUEST['type']=='gl' || $_REQUEST['type']=='') $filter_card='';
-    else {
-      $get_cred='jrn_def_fiche_cred';
-      $get_deb='jrn_def_fiche_deb';
-
-      $filter_jrn=$cn->make_list("select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_type=$1",array($_REQUEST['type']));
-      $filter_card=($filter_jrn != "")?" and fd_id in ($filter_jrn)":' and false ';
+        break;
 
     }
-  }
+}
+else
+{
+    if (isset($_REQUEST['type']))
+    {
+        if ($_REQUEST['type']=='gl' || $_REQUEST['type']=='') $filter_card='';
+        else
+        {
+            $get_cred='jrn_def_fiche_cred';
+            $get_deb='jrn_def_fiche_deb';
+
+            $filter_jrn=$cn->make_list("select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_type=$1",array($_REQUEST['type']));
+            $filter_card=($filter_jrn != "")?" and fd_id in ($filter_jrn)":' and false ';
+
+        }
+    }
 }
 
 
@@ -108,39 +115,46 @@ $sql_str="select distinct f_id from fiche join jnt_fic_att_value using (f_id) jo
 
 $sql=$cn->get_array($sql_str		    ,array($_REQUEST['FID']));
 
-if (sizeof($sql) != 0 ) {
-  echo "<ul>";
-  $sql_get=$cn->prepare('get_name',"select av_text from jnt_fic_att_value join attr_value using (jft_id) where f_id = $1 and ad_id=$2");
+if (sizeof($sql) != 0 )
+{
+    echo "<ul>";
+    $sql_get=$cn->prepare('get_name',"select av_text from jnt_fic_att_value join attr_value using (jft_id) where f_id = $1 and ad_id=$2");
 
-  for ($i =0;$i<12 && $i < count($sql) ;$i++) {
-    $name='';$quick_code='';$desc='';
+    for ($i =0;$i<12 && $i < count($sql) ;$i++)
+    {
+        $name='';
+        $quick_code='';
+        $desc='';
 
-    $sql_name=$cn->execute('get_name',array($sql[$i]['f_id'],1));
-    if ( Database::num_row($sql_name) == 1) $name=Database::fetch_result($sql_name,0,0);
+        $sql_name=$cn->execute('get_name',array($sql[$i]['f_id'],1));
+        if ( Database::num_row($sql_name) == 1) $name=Database::fetch_result($sql_name,0,0);
 
-    $sql_name=$cn->execute('get_name',array($sql[$i]['f_id'],9));
-    if ( Database::num_row($sql_name) == 1) $desc=Database::fetch_result($sql_name,0,0);
+        $sql_name=$cn->execute('get_name',array($sql[$i]['f_id'],9));
+        if ( Database::num_row($sql_name) == 1) $desc=Database::fetch_result($sql_name,0,0);
 
-    $sql_name=$cn->execute('get_name',array($sql[$i]['f_id'],23));
-    if (Database::num_row($sql_name) == 1) $quick_code=Database::fetch_result($sql_name,0,0);
+        $sql_name=$cn->execute('get_name',array($sql[$i]['f_id'],23));
+        if (Database::num_row($sql_name) == 1) $quick_code=Database::fetch_result($sql_name,0,0);
 
 
-    /* Highlight the found pattern with bold format */
-    $name=str_ireplace($_REQUEST['FID'],'<em>'.$_REQUEST['FID'].'</em>',h($name));
-    $qcode=str_ireplace($_REQUEST['FID'],'<em>'.$_REQUEST['FID'].'</em>',h($quick_code));
-    $desc=str_ireplace($_REQUEST['FID'],'<em>'.$_REQUEST['FID'].'</em>',h($desc));
-    printf('<li id="%s">%s <span class="informal"> %s %s</span></li>',
-	   $quick_code,
-	   $quick_code,
-	   $name,
-	   $desc
-	   );
-  }
-  echo '</ul>';
-  if (count($sql) > 12) {
-    printf ('<i>...Résultat limité à 12  ...</i>');
-  }
-} else {
-  echo "<ul><li>Non trouvé</li></ul>";
+        /* Highlight the found pattern with bold format */
+        $name=str_ireplace($_REQUEST['FID'],'<em>'.$_REQUEST['FID'].'</em>',h($name));
+        $qcode=str_ireplace($_REQUEST['FID'],'<em>'.$_REQUEST['FID'].'</em>',h($quick_code));
+        $desc=str_ireplace($_REQUEST['FID'],'<em>'.$_REQUEST['FID'].'</em>',h($desc));
+        printf('<li id="%s">%s <span class="informal"> %s %s</span></li>',
+               $quick_code,
+               $quick_code,
+               $name,
+               $desc
+              );
+    }
+    echo '</ul>';
+    if (count($sql) > 12)
+    {
+        printf ('<i>...Résultat limité à 12  ...</i>');
+    }
+}
+else
+{
+    echo "<ul><li>Non trouvé</li></ul>";
 }
 ?>

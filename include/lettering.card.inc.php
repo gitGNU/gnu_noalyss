@@ -61,8 +61,8 @@ $poste->set_callback('filter_card');
 if (isset($_GET['acc'])) $poste->value=strtoupper(trim($_GET['acc']));
 $poste_span=new ISpan('account_label');
 $r= td(_('Lettrage pour la fiche ')).
-  td($poste->input().$poste->search()).
-  td($poste_span->input());
+    td($poste->input().$poste->search()).
+    td($poste_span->input());
 echo tr($r);
 // limit of the year
 $exercice=$User->get_exercice();
@@ -84,14 +84,14 @@ echo tr($r);
 // type of lettering : all, lettered, not lettered
 $sel=new ISelect('type_let');
 $sel->value=array(
-		  array('value'=>0,'label'=>_('Toutes opérations')),
-		  array('value'=>1,'label'=>_('Opérations lettrées')),
-		  array('value'=>2,'label'=>_('Opérations NON lettrées'))
-		  );
+                array('value'=>0,'label'=>_('Toutes opérations')),
+                array('value'=>1,'label'=>_('Opérations lettrées')),
+                array('value'=>2,'label'=>_('Opérations NON lettrées'))
+            );
 if (isset($_GET['type_let'])) $sel->selected=$_GET['type_let'];
 
 $r= td("Filtre ").
-  td($sel->input());
+    td($sel->input());
 
 echo tr($r);
 echo '</table>';
@@ -104,17 +104,19 @@ echo '<hr>';
 //--------------------------------------------------------------------------------
 // record the data
 //--------------------------------------------------------------------------------
-if ( isset($_POST['record'])) {
-  $letter=new Lettering_Account($cn);
-  $letter->save($_POST);
+if ( isset($_POST['record']))
+{
+    $letter=new Lettering_Account($cn);
+    $letter->save($_POST);
 }
 //--------------------------------------------------------------------------------
 // Show the result
 //--------------------------------------------------------------------------------
 echo '<div id="list">';
-if ( isDate($_GET['start']) == null || isDate($_GET['end']) == null ) {
-  echo alert(_('Date malformée, désolé'));
-  exit();
+if ( isDate($_GET['start']) == null || isDate($_GET['end']) == null )
+{
+    echo alert(_('Date malformée, désolé'));
+    exit();
 }
 
 $letter=new Lettering_Card($cn);
@@ -124,11 +126,11 @@ $letter->set_parameter('start',$_GET['start']);
 $letter->set_parameter('end',$_GET['end']);
 
 if ( $sel->selected == 0 )
-  echo $letter->show_list('all');
+    echo $letter->show_list('all');
 if ( $sel->selected == 1 )
-  echo $letter->show_list('letter');
+    echo $letter->show_list('letter');
 if ( $sel->selected == 2 )
-  echo $letter->show_list('unletter');
+    echo $letter->show_list('unletter');
 
 echo '</div>';
 echo '<div id="detail" style="display:none">';

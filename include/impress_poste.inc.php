@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -106,10 +106,10 @@ $detail->selected=(isset($_REQUEST['oper_detail']))?true:false;
 echo $detail->input("oper_detail");
 echo '</td></tr>';
 $a_let=array(
-	     array('value'=>0,'label'=>'Toutes les opérations'),
-	     array('value'=>1,'label'=>' Opérations lettrées'),
-	     array('value'=>2,'label'=>' Opérations non lettrées')
-	     );
+           array('value'=>0,'label'=>'Toutes les opérations'),
+           array('value'=>1,'label'=>' Opérations lettrées'),
+           array('value'=>2,'label'=>' Opérations non lettrées')
+       );
 echo '</TABLE>';
 $salet=new ISelect('ople');
 $salet->value=$a_let;
@@ -128,153 +128,168 @@ echo '</div>';
 // First time in html
 // after in pdf or cvs
 //-----------------------------------------------------
-if ( isset( $_REQUEST['bt_html'] ) ) {
- if ( isDate($_REQUEST['from_periode'])==null || isDate($_REQUEST['to_periode'])==null){
-    echo alert('Date malformée, désolée');
-    exit();
-  }
-  require_once("class_acc_account_ledger.php");
-  $go=0;
+if ( isset( $_REQUEST['bt_html'] ) )
+{
+    if ( isDate($_REQUEST['from_periode'])==null || isDate($_REQUEST['to_periode'])==null)
+    {
+        echo alert('Date malformée, désolée');
+        exit();
+    }
+    require_once("class_acc_account_ledger.php");
+    $go=0;
 // we ask a poste_id
-  if ( isset($_GET['poste_id']) && strlen(trim($_GET['poste_id'])) != 0 && isNumber($_GET['poste_id']) )
+    if ( isset($_GET['poste_id']) && strlen(trim($_GET['poste_id'])) != 0 && isNumber($_GET['poste_id']) )
     {
-      if ( isset ($_GET['poste_fille']) )
-      {
-		$parent=$_GET['poste_id'];
-		$a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '$parent%' order by pcm_val::text");
-	$go=3;
-      } 
-      // Check if the post is numeric and exists
-      elseif (  $cn->count_sql('select * from tmp_pcmn where pcm_val=$1',array($_GET['poste_id'])) != 0 )
-	{
-	  $Poste=new Acc_Account_Ledger($cn,$_GET['poste_id']);$go=1;
-	}
+        if ( isset ($_GET['poste_fille']) )
+        {
+            $parent=$_GET['poste_id'];
+            $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '$parent%' order by pcm_val::text");
+            $go=3;
+        }
+        // Check if the post is numeric and exists
+        elseif (  $cn->count_sql('select * from tmp_pcmn where pcm_val=$1',array($_GET['poste_id'])) != 0 )
+        {
+            $Poste=new Acc_Account_Ledger($cn,$_GET['poste_id']);
+            $go=1;
+        }
     }
-  if ( strlen(trim($_GET['f_id'])) != 0 )
+    if ( strlen(trim($_GET['f_id'])) != 0 )
     {
-      require_once("class_fiche.php");
-      // thanks the qcode we found the poste account
-      $fiche=new Fiche($cn);
-      $qcode=$fiche->get_by_qcode($_GET['f_id']);
-      $p=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
-      if ( $p != NOTFOUND) {
-	$go=2;  
-      }
-   }
-  
-  // A account  is given
-  if ( $go == 1) 
-    {
-      echo '<div class="content">';
-      if ( ! isset($_REQUEST['oper_detail']) ) {
-	Acc_Account_Ledger::HtmlTableHeader();
-	$Poste->HtmlTable(null,$_GET['ople']);
-	echo Acc_Account_Ledger::HtmlTableHeader();
-      } else {
-	//----------------------------------------------------------------------
-	// Detail 
-	//----------------------------------------------------------------------
-	Acc_Account_Ledger::HtmlTableHeader();
-	$Poste->get_row_date( $_GET['from_periode'], $_GET['to_periode'],$_GET['ople']);
-	if ( empty($Poste->row)) exit();
-	$Poste->load();
-	echo '<table class="result"  style="width:80%;margin-left:10%">';
-	echo '<tr><td  class="mtitle" style="width:auto" colspan="6"><h2 class="info">'. $_GET['poste_id'].' '.h($Poste->label).'</h2></td></tr>';
-	/* avoid duplicates */
-	$old=array();
-	foreach ($Poste->row as $detail) {
-	  if ( in_array($detail['jr_id'],$old) == TRUE ) continue;
-	  $old[]=$detail['jr_id'];
-	  echo '<tr><td class="mtitle" style="width:auto" colspan="6">'.$detail['j_date'].' '.$detail['jr_internal'].h($detail['description']).'</td></tr>';
-
-	  $op=new Acc_Operation($cn);
-	  $op->jr_id=$detail['jr_id'];
-	  $op->poste=$_GET['poste_id'];
-	  echo $op->display_jrnx_detail(1);
-	}
-	echo '</table>';
-	echo Acc_Account_Ledger::HtmlTableHeader();
-      }
-      echo "</div>";
-      exit;
-   }
-  
-  // A QuickCode  is given
-  if ( $go == 2) 
-    {
-      if ( ! isset($_REQUEST['oper_detail']) ) {
-	echo '<div class="content">';
-	$fiche->HtmlTableHeader();
-	$fiche->HtmlTable(null,$_GET['ople']);
-	$fiche->HtmlTableHeader();
-	echo "</div>";
-      } else {
-	// Detail //
-	echo '<div class="content">';
-	$fiche->HtmlTableHeader();
-	$fiche->HtmlTableDetail();
-	$fiche->HtmlTableHeader();
-
-      }
-      exit;
-   }
-
-  // All the children account
-  if ( $go == 3 )
-    {
-
-      if ( sizeof($a_poste) == 0 ) 
-	exit;
-      echo '<div class="content">';
-
-
-      if ( ! isset ($_REQUEST['oper_detail'])) {
-	$Poste=new Acc_Account_Ledger($cn,$_GET['poste_id']);
-	echo Acc_Account_Ledger::HtmlTableHeader();
-		
-	foreach ($a_poste as $poste_id ) 
-	  {
-	    $Poste=new Acc_Account_Ledger ($cn,$poste_id['pcm_val']);
-	    $Poste->HtmlTable(null,$_GET['ople']);
-	  }
-	echo Acc_Account_Ledger::HtmlTableHeader();
-	echo "</div>";
-      } else {
-	//----------------------------------------------------------------------
-	// Detail 
-	//----------------------------------------------------------------------
-	echo Acc_Account_Ledger::HtmlTableHeader();
-	echo '<table class="result" style="width:80%;margin-left:10%">';	    
-	foreach ($a_poste as $poste_id ) 
-	  {
-	    $Poste=new Acc_Account_Ledger ($cn,$poste_id['pcm_val']);
-	    $Poste->load();
-	    $Poste->get_row_date( $_GET['from_periode'], $_GET['to_periode']);
-	    if ( empty($Poste->row)) continue;
-	    echo '<tr><td  class="mtitle" style="width:auto" colspan="6"><h2 class="info">'. $poste_id['pcm_val'].' '.h($Poste->label).'</h2></td></tr>';
-
-	    $detail=$Poste->row[0];
-	    
-	    $old=array();
-
-	    foreach ($Poste->row as $detail) {
-	      /* avoid duplicates */
-	  if ( in_array($detail['jr_id'],$old) == TRUE ) continue;
-	  $old[]=$detail['jr_id'];
-	  echo '<tr><td class="mtitle" style="width:auto" colspan="6">'. $detail['j_date'].' '.$detail['jr_internal'].' '.hb($detail['description']).' '.hi($detail['jr_pj_number']).'</td></tr>';
-
-	      $op=new Acc_Operation($cn);
-	      $op->poste=$poste_id['pcm_val'];
-
-	      $op->jr_id=$detail['jr_id'];
-	      echo $op->display_jrnx_detail(1);
-	    }
-	  }
-	echo '</table>';
-	echo Acc_Account_Ledger::HtmlTableHeader();
-      }
-      
-      exit;
+        require_once("class_fiche.php");
+        // thanks the qcode we found the poste account
+        $fiche=new Fiche($cn);
+        $qcode=$fiche->get_by_qcode($_GET['f_id']);
+        $p=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
+        if ( $p != NOTFOUND)
+        {
+            $go=2;
+        }
     }
-} 
+
+    // A account  is given
+    if ( $go == 1)
+    {
+        echo '<div class="content">';
+        if ( ! isset($_REQUEST['oper_detail']) )
+        {
+            Acc_Account_Ledger::HtmlTableHeader();
+            $Poste->HtmlTable(null,$_GET['ople']);
+            echo Acc_Account_Ledger::HtmlTableHeader();
+        }
+        else
+        {
+            //----------------------------------------------------------------------
+            // Detail
+            //----------------------------------------------------------------------
+            Acc_Account_Ledger::HtmlTableHeader();
+            $Poste->get_row_date( $_GET['from_periode'], $_GET['to_periode'],$_GET['ople']);
+            if ( empty($Poste->row)) exit();
+            $Poste->load();
+            echo '<table class="result"  style="width:80%;margin-left:10%">';
+            echo '<tr><td  class="mtitle" style="width:auto" colspan="6"><h2 class="info">'. $_GET['poste_id'].' '.h($Poste->label).'</h2></td></tr>';
+            /* avoid duplicates */
+            $old=array();
+            foreach ($Poste->row as $detail)
+            {
+                if ( in_array($detail['jr_id'],$old) == TRUE ) continue;
+                $old[]=$detail['jr_id'];
+                echo '<tr><td class="mtitle" style="width:auto" colspan="6">'.$detail['j_date'].' '.$detail['jr_internal'].h($detail['description']).'</td></tr>';
+
+                $op=new Acc_Operation($cn);
+                $op->jr_id=$detail['jr_id'];
+                $op->poste=$_GET['poste_id'];
+                echo $op->display_jrnx_detail(1);
+            }
+            echo '</table>';
+            echo Acc_Account_Ledger::HtmlTableHeader();
+        }
+        echo "</div>";
+        exit;
+    }
+
+    // A QuickCode  is given
+    if ( $go == 2)
+    {
+        if ( ! isset($_REQUEST['oper_detail']) )
+        {
+            echo '<div class="content">';
+            $fiche->HtmlTableHeader();
+            $fiche->HtmlTable(null,$_GET['ople']);
+            $fiche->HtmlTableHeader();
+            echo "</div>";
+        }
+        else
+        {
+            // Detail //
+            echo '<div class="content">';
+            $fiche->HtmlTableHeader();
+            $fiche->HtmlTableDetail();
+            $fiche->HtmlTableHeader();
+
+        }
+        exit;
+    }
+
+    // All the children account
+    if ( $go == 3 )
+    {
+
+        if ( sizeof($a_poste) == 0 )
+            exit;
+        echo '<div class="content">';
+
+
+        if ( ! isset ($_REQUEST['oper_detail']))
+        {
+            $Poste=new Acc_Account_Ledger($cn,$_GET['poste_id']);
+            echo Acc_Account_Ledger::HtmlTableHeader();
+
+            foreach ($a_poste as $poste_id )
+            {
+                $Poste=new Acc_Account_Ledger ($cn,$poste_id['pcm_val']);
+                $Poste->HtmlTable(null,$_GET['ople']);
+            }
+            echo Acc_Account_Ledger::HtmlTableHeader();
+            echo "</div>";
+        }
+        else
+        {
+            //----------------------------------------------------------------------
+            // Detail
+            //----------------------------------------------------------------------
+            echo Acc_Account_Ledger::HtmlTableHeader();
+            echo '<table class="result" style="width:80%;margin-left:10%">';
+            foreach ($a_poste as $poste_id )
+            {
+                $Poste=new Acc_Account_Ledger ($cn,$poste_id['pcm_val']);
+                $Poste->load();
+                $Poste->get_row_date( $_GET['from_periode'], $_GET['to_periode']);
+                if ( empty($Poste->row)) continue;
+                echo '<tr><td  class="mtitle" style="width:auto" colspan="6"><h2 class="info">'. $poste_id['pcm_val'].' '.h($Poste->label).'</h2></td></tr>';
+
+                $detail=$Poste->row[0];
+
+                $old=array();
+
+                foreach ($Poste->row as $detail)
+                {
+                    /* avoid duplicates */
+                    if ( in_array($detail['jr_id'],$old) == TRUE ) continue;
+                    $old[]=$detail['jr_id'];
+                    echo '<tr><td class="mtitle" style="width:auto" colspan="6">'. $detail['j_date'].' '.$detail['jr_internal'].' '.hb($detail['description']).' '.hi($detail['jr_pj_number']).'</td></tr>';
+
+                    $op=new Acc_Operation($cn);
+                    $op->poste=$poste_id['pcm_val'];
+
+                    $op->jr_id=$detail['jr_id'];
+                    echo $op->display_jrnx_detail(1);
+                }
+            }
+            echo '</table>';
+            echo Acc_Account_Ledger::HtmlTableHeader();
+        }
+
+        exit;
+    }
+}
 ?>

@@ -19,7 +19,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief javascript script for the report (in accountancy)
  *
  */
@@ -27,21 +27,22 @@
  * @brief add a line in the form for the report 
  * @param p_dossier dossier id to connect
  */
-function rapport_add_row(p_dossier){
-   style='style="border: 1px solid blue;"';
-   var table=$("rap1");
-   var line=table.rows.length;
+function rapport_add_row(p_dossier)
+{
+    style='style="border: 1px solid blue;"';
+    var table=$("rap1");
+    var line=table.rows.length;
 
-   var row=table.insertRow(line);
-   // left cell
-  var cellPos = row.insertCell(0);
-  cellPos.innerHTML='<input type="text" '+style+' size="3" id="pos'+line+'" name="pos'+line+'" value="'+line+'">';
+    var row=table.insertRow(line);
+    // left cell
+    var cellPos = row.insertCell(0);
+    cellPos.innerHTML='<input type="text" '+style+' size="3" id="pos'+line+'" name="pos'+line+'" value="'+line+'">';
 
-  // right cell
-  var cellName = row.insertCell(1);
-  cellName.innerHTML='<input type="text" '+style+' size="40" id="text'+line+'" name="text'+line+'">';
+    // right cell
+    var cellName = row.insertCell(1);
+    cellName.innerHTML='<input type="text" '+style+' size="40" id="text'+line+'" name="text'+line+'">';
 
-  // button + formula
+    // button + formula
     var cellbutton = row.insertCell(2);
     var but_html=table.rows[1].cells[2].innerHTML;
     but_html=but_html.replace(/form0/g,"form"+line);
@@ -55,27 +56,29 @@ function rapport_add_row(p_dossier){
  * @brief create a file to export a report
  * @param p_dossier the dossier id
  */
-function report_export(p_dossier,p_fr_id) {
-  var queryString="?&gDossier="+p_dossier+"&f="+p_fr_id;
-  var action=new Ajax.Request(
-			      "ajax_report.php",
-			      {
-			      method:'get',
-			      parameters:queryString,
-			      onSuccess:report_export_success
-			      }
-			      );
-  
+function report_export(p_dossier,p_fr_id)
+{
+    var queryString="?&gDossier="+p_dossier+"&f="+p_fr_id;
+    var action=new Ajax.Request(
+                   "ajax_report.php",
+                   {
+                   method:'get',
+                   parameters:queryString,
+                   onSuccess:report_export_success
+                   }
+               );
+
 }
 /**
  * @brief callback function for exporting a report
  * @param request object request
  * @param json json answer
  */
-function report_export_success(request,json) {
-  var answer = request.responseText.evalJSON(true);
-  var ok=answer.answer;
-  var link=answer.link;
-  $('export').hide();
-  $('export_link').innerHTML='<a class="mtitle" href="'+link+'"> Cliquez ici pour télécharger le rapport</a>';
+function report_export_success(request,json)
+{
+    var answer = request.responseText.evalJSON(true);
+    var ok=answer.answer;
+    var link=answer.link;
+    $('export').hide();
+    $('export_link').innerHTML='<a class="mtitle" href="'+link+'"> Cliquez ici pour télécharger le rapport</a>';
 }

@@ -30,10 +30,11 @@ $gDossier=dossier::id();
 include_once ("ac_common.php");
 $action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 $use_html=1;
-if ( ! isset ($_SESSION['g_theme'])) {
-  echo '<h2 class="error">'._(' Vous êtes déconnecté').'</h2>';
-	redirect('index.php',1);
-	exit();
+if ( ! isset ($_SESSION['g_theme']))
+{
+    echo '<h2 class="error">'._(' Vous êtes déconnecté').'</h2>';
+    redirect('index.php',1);
+    exit();
 }
 //----------------------------------------------------------------------
 
@@ -45,9 +46,10 @@ $cn=new Database($gDossier);
 require_once ('class_user.php');
 $User=new User($cn);
 $User->Check();
-if ($User->check_dossier($gDossier)=='P') {	
-  redirect("extension.php?".dossier::get(),0);
-  exit();
+if ($User->check_dossier($gDossier)=='P')
+{
+    redirect("extension.php?".dossier::get(),0);
+    exit();
 }
 require_once ('function_javascript.php');
 html_page_start($_SESSION['g_theme']);
@@ -61,37 +63,46 @@ echo '</div>';
 // Get action
 
 // call impress sub-menu
-if ( $action == 'impress' ) {
-  require_once('impress.inc.php');
+if ( $action == 'impress' )
+{
+    require_once('impress.inc.php');
 }
 
-if ( $action == 'fiche') {
+if ( $action == 'fiche')
+{
 
-  require_once('fiche.inc.php');
+    require_once('fiche.inc.php');
 }
 
-if ( $action == 'stock') {
-  require_once('stock.inc.php');
+if ( $action == 'stock')
+{
+    require_once('stock.inc.php');
 }
-if ( $action=='quick_writing') {
-  require_once ('quick_writing.inc.php');
- }
-if ( $action == 'gl' ) {
-  require_once ('user_action_gl.php');
- }
+if ( $action=='quick_writing')
+{
+    require_once ('quick_writing.inc.php');
+}
+if ( $action == 'gl' )
+{
+    require_once ('user_action_gl.php');
+}
 if ( $action == 'ven' ||
-     $action == 'client') {
-  require_once ('compta_ven.inc.php');
- }
+        $action == 'client')
+{
+    require_once ('compta_ven.inc.php');
+}
 if ( $action == 'ach' ||
-     $action == 'fournisseur') {
-  require_once ('compta_ach.inc.php');
- }
-if ( $action == 'fin') {
-  require_once ('compta_fin.inc.php');
- }
-if ($action == 'let') {
-  require_once('letter.inc.php');
+        $action == 'fournisseur')
+{
+    require_once ('compta_ach.inc.php');
+}
+if ( $action == 'fin')
+{
+    require_once ('compta_fin.inc.php');
+}
+if ($action == 'let')
+{
+    require_once('letter.inc.php');
 }
 html_page_stop();
 ?>

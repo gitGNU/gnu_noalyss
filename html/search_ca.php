@@ -26,8 +26,8 @@
  *
  */
 
-  // parameter are gDossier , c1 : the control id to update,
-  // c2 the control id which contains the pa_id
+// parameter are gDossier , c1 : the control id to update,
+// c2 the control id which contains the pa_id
 require_once("class_itext.php");
 require_once("class_ihidden.php");
 require_once("class_ibutton.php");
@@ -56,42 +56,43 @@ echo $hid->input("go");
 echo HtmlInput::submit("go",_("Recherche"));
 echo '</form>';
 //------------- FORM ----------------------------------
-if ( isset($_REQUEST['go'])) {
-  $cn=new Database(dossier::id());
-  $plan=new Anc_Plan($cn,$_REQUEST['c2']);
-  $plan->pa_id=$_REQUEST['c2'];
-  if ( $plan->exist()==false)
-	exit("Ce plan n'existe pas");
+if ( isset($_REQUEST['go']))
+{
+    $cn=new Database(dossier::id());
+    $plan=new Anc_Plan($cn,$_REQUEST['c2']);
+    $plan->pa_id=$_REQUEST['c2'];
+    if ( $plan->exist()==false)
+        exit("Ce plan n'existe pas");
 
-  $sql="select po_name , po_description from poste_analytique ".
-	"where pa_id=".$_REQUEST['c2']." and ".
-    " upper (po_name) like upper('%".Database::escape_string($_REQUEST['label'])."%') order by po_name";
-  $res=$cn->exec_sql($sql);
-  $array=Database::fetch_all($res);
-  if (empty($array) == true)
-	{
-	  echo "D&eacute;sol&eacute; aucun poste trouv&eacute;";
-	  return;
-	}
-  $button=new IButton();
-  $button->name="Choix";
-  $button->label="Choix";
+    $sql="select po_name , po_description from poste_analytique ".
+         "where pa_id=".$_REQUEST['c2']." and ".
+         " upper (po_name) like upper('%".Database::escape_string($_REQUEST['label'])."%') order by po_name";
+    $res=$cn->exec_sql($sql);
+    $array=Database::fetch_all($res);
+    if (empty($array) == true)
+    {
+        echo "D&eacute;sol&eacute; aucun poste trouv&eacute;";
+        return;
+    }
+    $button=new IButton();
+    $button->name="Choix";
+    $button->label="Choix";
 
-  echo '<table>';
-  foreach ($array as $line)
-	{
-	  $button->javascript=sprintf("set_inparent('%s','%s');window.close();",
-								  $_REQUEST['c1'],
-								  $line['po_name']);
-	 echo '<tr>'.
-	   '<td>'.
-	   $button->input().
-	   '</td>'.
-	   '<td>'.
-	   $line['po_name'].
-	   '</td><td>'.
-	   $line['po_description'].
-	   '</tr>';
-	}
-  echo '</table>';
- }
+    echo '<table>';
+    foreach ($array as $line)
+    {
+        $button->javascript=sprintf("set_inparent('%s','%s');window.close();",
+                                    $_REQUEST['c1'],
+                                    $line['po_name']);
+        echo '<tr>'.
+        '<td>'.
+        $button->input().
+        '</td>'.
+        '<td>'.
+        $line['po_name'].
+        '</td><td>'.
+        $line['po_description'].
+        '</tr>';
+    }
+    echo '</table>';
+}

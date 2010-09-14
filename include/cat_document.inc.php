@@ -25,11 +25,12 @@
  * table document_type
  */
 
-  // show list of document
+// show list of document
 require_once ('class_document_type.php');
-if ( isset($_POST['add']) ) {
-  $catDoc=new Document_Type($cn);
-  $catDoc->insert($_POST['cat']);
+if ( isset($_POST['add']) )
+{
+    $catDoc=new Document_Type($cn);
+    $catDoc->insert($_POST['cat']);
 }
 $aList=Document_Type::get_list($cn);
 $addCat=new IText('cat');
@@ -38,4 +39,6 @@ $str_submit=HtmlInput::submit('add',_('Ajout'));
 echo '<div class="content">';
 require_once('template/list_category_document.php');
 echo '</div>';
+?>
+?>
 ?>

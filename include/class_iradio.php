@@ -20,37 +20,36 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief Html Input 
  */
 require_once('class_html_input.php');
- class IRadio extends HtmlInput
+class IRadio extends HtmlInput
 {
-	/*!\brief show the html  input of the widget*/
-	public function input($p_name=null,$p_value=null)
- 	{
-		 $this->name=($p_name==null)?$this->name:$p_name;
-		 $this->value=($p_value==null)?$this->value:$p_value;
-		 if ( $this->readOnly==true) return $this->display();
+    /*!\brief show the html  input of the widget*/
+    public function input($p_name=null,$p_value=null)
+    {
+        $this->name=($p_name==null)?$this->name:$p_name;
+        $this->value=($p_value==null)?$this->value:$p_value;
+        if ( $this->readOnly==true) return $this->display();
 
-		$check=( $this->selected==true||$this->selected=='t' )?"checked":"unchecked";
-		$r='<input type="RADIO" name="'.$this->name.'"';
-		$r.=" VALUE=\"$this->value\"";
-		$r.=($this->javascript !='')? 'onclick="'.$this->javascript.'"':'';
-		$r.="  $check > ";
-		return $r;
-	}
-	/*!\brief print in html the readonly value of the widget*/
-	public function display()
- 	{
+        $check=( $this->selected==true||$this->selected=='t' )?"checked":"unchecked";
+        $r='<input type="RADIO" name="'.$this->name.'"';
+        $r.=" VALUE=\"$this->value\"";
+        $r.=($this->javascript !='')? 'onclick="'.$this->javascript.'"':'';
+        $r.="  $check > ";
+        return $r;
+    }
+    /*!\brief print in html the readonly value of the widget*/
+    public function display()
+    {
 
-	$check=( $this->selected==true || $this->selected=='t' )?"Yes":"no";
-	$r=$check;
-	return $r;
+        $check=( $this->selected==true || $this->selected=='t' )?"Yes":"no";
+        $r=$check;
+        return $r;
 
-	}
-	static public function test_me()
- 	{
-
-	}
+    }
+    static public function test_me()
+    {
+    }
 }

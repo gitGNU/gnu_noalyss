@@ -122,80 +122,80 @@ define ("FICHE_TYPE_ACH_SER",3);
 
 
 define ("JS_CONFIRM",
-"<SCRIPT language=\"javascript\" src=\"js/confirm.js\">	</SCRIPT>");
+        "<SCRIPT language=\"javascript\" src=\"js/confirm.js\">	</SCRIPT>");
 define ("JS_ACCOUNTING_ITEM",
-"<SCRIPT language=\"javascript\" src=\"js/accounting_item.js\">	</SCRIPT>");
+        "<SCRIPT language=\"javascript\" src=\"js/accounting_item.js\">	</SCRIPT>");
 
 
 define ("JS_LEDGER","
-<script  language=\"javascript\" src=\"js/acc_ledger.js\"></script>
-");
+        <script  language=\"javascript\" src=\"js/acc_ledger.js\"></script>
+        ");
 define ("JS_CARD","
-<script  language=\"javascript\" src=\"js/card.js\"></script>
-");
+        <script  language=\"javascript\" src=\"js/card.js\"></script>
+        ");
 
 
 define ('JS_CALENDAR','
-<script type="text/javascript" language="javascript"  src="js/jrn_concerned.js">
-</script>');
+        <script type="text/javascript" language="javascript"  src="js/jrn_concerned.js">
+        </script>');
 
 define ('JS_COMPUTE_DIRECT','
-<script type="text/javascript" language="javascript"  src="js/compute_direct.js">
-</script>');
+        <script type="text/javascript" language="javascript"  src="js/compute_direct.js">
+        </script>');
 
 
 define ('JS_CAOD_COMPUTE','
-<script type="text/javascript" language="javascript"  src="js/caod_compute.js">
-</script>');
+        <script type="text/javascript" language="javascript"  src="js/caod_compute.js">
+        </script>');
 
 define ('JS_INFOBULLE','
-<DIV id="bulle" class="infobulle"></DIV>
-<script type="text/javascript" language="javascript"  src="js/infobulle.js">
-</script>');
+        <DIV id="bulle" class="infobulle"></DIV>
+        <script type="text/javascript" language="javascript"  src="js/infobulle.js">
+        </script>');
 
 
 // One line calculator
 define ("JS_CALC_LINE",'
-<script type="text/javascript" language="javascript"  src="js/calc.js">
-</script>
-<form name="calc_line"  method="GET" onSubmit="cal();return false;" >
-Cette calculatrice vous permet de calculer, écrivez simplement les opérations que vous voulez puis
-la touche retour.
-exemple : 1+2+3*(1/5)
+        <script type="text/javascript" language="javascript"  src="js/calc.js">
+        </script>
+        <form name="calc_line"  method="GET" onSubmit="cal();return false;" >
+        Cette calculatrice vous permet de calculer, écrivez simplement les opérations que vous voulez puis
+        la touche retour.
+        exemple : 1+2+3*(1/5)
 
-<input style="border:solid 1px;" type="text" size="30" id="inp" name="calculator">
-<input type="button" value="Efface tout" onClick="Clean();return false;" >
-</form>
-<span id="result">  </span><br>
-<span id="sub_total">  Taper une formule (ex 20*5.1) puis enter  </span><br>
-<span id="listing"> </span>
-'
-);
+        <input style="border:solid 1px;" type="text" size="30" id="inp" name="calculator">
+        <input type="button" value="Efface tout" onClick="Clean();return false;" >
+        </form>
+        <span id="result">  </span><br>
+        <span id="sub_total">  Taper une formule (ex 20*5.1) puis enter  </span><br>
+        <span id="listing"> </span>
+        '
+       );
 define ("JS_COMPUTE_ODS",
-"<SCRIPT language=\"javascript\" src=\"js/compute.js\">	</SCRIPT>");
+        "<SCRIPT language=\"javascript\" src=\"js/compute.js\">	</SCRIPT>");
 
- define ("JS_SHOW_TVA","<SCRIPT language=\"javascript\">
- function ShowTva(p_dossier,ctl)
-      {
+define ("JS_SHOW_TVA","<SCRIPT language=\"javascript\">
+        function ShowTva(p_dossier,ctl)
+        {
         var win=window.open('show_tva.php?ctl='+ctl+'&gDossier='+p_dossier,'Montre','scrollbar,toolbar=no,width=300,height=300,resizable=yes');
-     }
-  function GetIt(ctl,tva_id) {
-    self.opener.SetValue(ctl,tva_id)
-    window.close();
- }
-</script>");
+        }
+        function GetIt(ctl,tva_id) {
+        self.opener.SetValue(ctl,tva_id)
+        window.close();
+        }
+        </script>");
 
 define ("JS_TVA","<script  language=\"javascript\">
-function ChangeTVA(p_ctl,p_value) {
+        function ChangeTVA(p_ctl,p_value) {
         if (document.getElementById(p_ctl) ) {
-          var f=document.getElementsByName(p_value);
-	  for ( var i=0; i < f.length ; i++) {
-		  document.getElementById(p_ctl).innerHTML=f[i].value;
-	}
-	}
-}
+        var f=document.getElementsByName(p_value);
+        for ( var i=0; i < f.length ; i++) {
+        document.getElementById(p_ctl).innerHTML=f[i].value;
+        }
+        }
+        }
 
-</script>");
+        </script>");
 define ("JS_AJAX_FICHE",'<script language="javascript" src="js/ajax_fiche.js"></script>');
 define ("JS_TODO",'<script language="javascript" src="js/todo_list.js"></script>');
 define ("JS_PROTOTYPE",'<script language="javascript" src="js/prototype.js"></script>');
@@ -203,11 +203,11 @@ define ("JS_PROTOTYPE",'<script language="javascript" src="js/prototype.js"></sc
 define ("SQL_LIST_ALL_INVOICE","");
 
 define ("SQL_LIST_UNPAID_INVOICE","  (jr_rapt is null or jr_rapt = '') and jr_valid = true  "
-);
+       );
 
 
 define ("SQL_LIST_UNPAID_INVOICE_DATE_LIMIT" ,"
-   where (jr_rapt is null or jr_rapt = '')
-       and to_date(to_char(jr_ech,'DD.MM.YYYY'),'DD.MM.YYYY') < to_date(to_char(now(),'DD.MM.YYYY'),'DD.MM.YYYY') 
-       and jr_valid = true" );
+        where (jr_rapt is null or jr_rapt = '')
+        and to_date(to_char(jr_ech,'DD.MM.YYYY'),'DD.MM.YYYY') < to_date(to_char(now(),'DD.MM.YYYY'),'DD.MM.YYYY')
+        and jr_valid = true" );
 ?>

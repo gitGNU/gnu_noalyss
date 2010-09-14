@@ -26,12 +26,14 @@
 require_once('class_pdf.php');
 class Print_Ledger_Misc extends PDF
 {
-  function __construct($p_cn,$p_jrn) {
-    parent::__construct($p_cn,'P','mm','A4');
-    $this->ledger=$p_jrn;
-    $this->jrn_type=$p_jrn->get_type();
-  }
-  function Header() {
+    function __construct($p_cn,$p_jrn)
+    {
+        parent::__construct($p_cn,'P','mm','A4');
+        $this->ledger=$p_jrn;
+        $this->jrn_type=$p_jrn->get_type();
+    }
+    function Header()
+    {
         //Arial bold 12
         $this->SetFont('DejaVu', 'B', 12);
         //Title
@@ -39,23 +41,24 @@ class Print_Ledger_Misc extends PDF
         //Line break
         $this->Ln(20);
         $this->SetFont('DejaVu', 'B', 7);
-	$this->Cell(30,6,'Piece');
-	$this->Cell(10,6,'Date');
-	$this->Cell(20,6,'Interne');
-	$this->Cell(105,6,'Commentaire');
-	$this->Cell(15,6,'Montant');
-	$this->Ln(6);
+        $this->Cell(30,6,'Piece');
+        $this->Cell(10,6,'Date');
+        $this->Cell(20,6,'Interne');
+        $this->Cell(105,6,'Commentaire');
+        $this->Cell(15,6,'Montant');
+        $this->Ln(6);
 
     }
-    function Footer() {
+    function Footer()
+    {
         //Position at 2 cm from bottom
         $this->SetY(-20);
         //Arial italic 8
         $this->SetFont('Arial', 'I', 8);
         //Page number
         $this->Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
-	$this->Ln(3);
-	// Created by PhpCompta
+        $this->Ln(3);
+        // Created by PhpCompta
         $this->Cell(0,8,'Created by Phpcompta, the most professional opensource accounting software http://www.phpcompta.eu',0,0,'C',false,'http://www.phpcompta.eu');
     }
     /**
@@ -65,22 +68,23 @@ class Print_Ledger_Misc extends PDF
      *@return
      *@see
      */
-    function export() {
-      $a_jrn=$this->ledger->get_operation($_GET['from_periode'],
-					  $_GET['to_periode']);
-     $this->SetFont('DejaVu', '', 6);
-      if ( $a_jrn == null ) return;
-      for ( $i=0;$i<count($a_jrn);$i++)
-	{
-	  $row=$a_jrn[$i];
-	  $this->Cell(30,5,$row['pj']);
-	  $this->Cell(10,5,$row['date_fmt']);
-	  $this->Cell(20,5,$row['internal']);
+    function export()
+    {
+        $a_jrn=$this->ledger->get_operation($_GET['from_periode'],
+                                            $_GET['to_periode']);
+        $this->SetFont('DejaVu', '', 6);
+        if ( $a_jrn == null ) return;
+        for ( $i=0;$i<count($a_jrn);$i++)
+        {
+            $row=$a_jrn[$i];
+            $this->Cell(30,5,$row['pj']);
+            $this->Cell(10,5,$row['date_fmt']);
+            $this->Cell(20,5,$row['internal']);
 
-	  $this->Cell(105,5,$row['comment'],0,0);
-	  $this->Cell(15,5,sprintf('%.2f',$row['montant']),0,0,'R');
-	  $this->Ln(5);
-	  
-	}
+            $this->Cell(105,5,$row['comment'],0,0);
+            $this->Cell(15,5,sprintf('%.2f',$row['montant']),0,0,'R');
+            $this->Ln(5);
+
+        }
     }
 }

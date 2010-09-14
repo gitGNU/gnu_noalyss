@@ -41,158 +41,169 @@ $cn=new Database(dossier::id());
 /* check user */
 $user=new User($cn);
 set_language();
-$user->check(true);$user->check_dossier(dossier::id(),true);
+$user->check(true);
+$user->check_dossier(dossier::id(),true);
 if ($user->check_action(EXTENSION)==0 ) exit;
 $var=array('gDossier','action');
 $cont=0;
 /*  check if mandatory parameters are given */
-foreach ($var as $v) {
-  if ( ! isset ($_REQUEST [$v] ) ) {
-    echo "$v is not set ";
-    $cont=1;
-  }
+foreach ($var as $v)
+{
+    if ( ! isset ($_REQUEST [$v] ) )
+    {
+        echo "$v is not set ";
+        $cont=1;
+    }
 }
 extract ($_REQUEST);
-$r="";$extra="";$ctl="";
-switch($action) {
-  /*----------------------------------------------------------------------
-   *detail of an extension 
-   *
-   *----------------------------------------------------------------------*/
- case 'de':
-   $ext=new Extension($cn);
-   $ext->set_parameter("id",$ex_id);
-   $ext->load();
-   $str_hidden=HtmlInput::hidden('ex_id',$ex_id);
-   $name=new IText('name',$ext->get_parameter("name"));
-   $str_name=$name->input();
+$r="";
+$extra="";
+$ctl="";
+switch($action)
+{
+    /*----------------------------------------------------------------------
+     *detail of an extension 
+     *
+     *----------------------------------------------------------------------*/
+case 'de':
+        $ext=new Extension($cn);
+    $ext->set_parameter("id",$ex_id);
+    $ext->load();
+    $str_hidden=HtmlInput::hidden('ex_id',$ex_id);
+    $name=new IText('name',$ext->get_parameter("name"));
+    $str_name=$name->input();
 
-   $code=new IText('code',$ext->get_parameter("code"));
-   $str_code=$code->input();
+    $code=new IText('code',$ext->get_parameter("code"));
+    $str_code=$code->input();
 
-   $desc=new IText('desc',$ext->get_parameter("desc"));
-   $str_desc=$desc->input();
+    $desc=new IText('desc',$ext->get_parameter("desc"));
+    $str_desc=$desc->input();
 
-   $file=new IText('file',$ext->get_parameter("filepath"));
-   $str_file=$file->input();
+    $file=new IText('file',$ext->get_parameter("filepath"));
+    $str_file=$file->input();
 
-   $enable=new ISelect('enable');
-   $array=array(
-		array ('label'=>_('Oui'),'value'=>'Y'),
-		array('label'=>_('Non'),'value'=>'N')
-		);
-   $enable->value=$array;
-   $enable->selected=$ext->get_parameter('enable');
-   $str_enable=$enable->input();
-   $r.='<div style="overflow:hidden;">';
-   $r.='<form  id="formext" onsubmit="extension_save(this);return false">';
-   $r.=dossier::hidden();
-   /* property of the extension */
-   ob_start();
-   require_once('template/extension-detail.php');
-   $r.=ob_get_contents();
-   ob_clean();
-   /* security */
-   $ans=array(array('value'=>'Y','label'=>_('Accès')),
-	      array('value'=>'N','label'=>_('Interdit'))
-	      );
-   $array=User::get_list(dossier::id());
+    $enable=new ISelect('enable');
+    $array=array(
+               array ('label'=>_('Oui'),'value'=>'Y'),
+               array('label'=>_('Non'),'value'=>'N')
+           );
+    $enable->value=$array;
+    $enable->selected=$ext->get_parameter('enable');
+    $str_enable=$enable->input();
+    $r.='<div style="overflow:hidden;">';
+    $r.='<form  id="formext" onsubmit="extension_save(this);return false">';
+    $r.=dossier::hidden();
+    /* property of the extension */
+    ob_start();
+    require_once('template/extension-detail.php');
+    $r.=ob_get_contents();
+    ob_clean();
+    /* security */
+    $ans=array(array('value'=>'Y','label'=>_('Accès')),
+               array('value'=>'N','label'=>_('Interdit'))
+              );
+    $array=User::get_list(dossier::id());
 
-   for ($i=0;$i<sizeof($array);$i++){
-     $i_select=new ISelect("is_".$array[$i]['use_login']);
-     $i_select->value=$ans;
-     $i_select->selected=($ext->can_request($array[$i]['use_login'])==1)?'Y':'N';
-     $array[$i]['access']=$i_select->input();
-   }
-   require_once('template/extension-sec.php');
-   $r.=ob_get_contents();
-   ob_clean();
+    for ($i=0;$i<sizeof($array);$i++)
+    {
+        $i_select=new ISelect("is_".$array[$i]['use_login']);
+        $i_select->value=$ans;
+        $i_select->selected=($ext->can_request($array[$i]['use_login'])==1)?'Y':'N';
+        $array[$i]['access']=$i_select->input();
+    }
+    require_once('template/extension-sec.php');
+    $r.=ob_get_contents();
+    ob_clean();
 
-   /* submit */
-   $r.=HtmlInput::submit('ex_save',_('Sauve'));
-   $r.='</form>';
-   $r.='</div>';
-   $ctl='dtext';
-   break;
-   /* ---------------------------------------------------------------------- 
-    * new  extension
-    *----------------------------------------------------------------------*/
- case 'ne':
-   $ext=new Extension($cn);
-   $ext->set_parameter("id",0);
-   $str_hidden=HtmlInput::hidden('ex_id',0);
+    /* submit */
+    $r.=HtmlInput::submit('ex_save',_('Sauve'));
+    $r.='</form>';
+    $r.='</div>';
+    $ctl='dtext';
+    break;
+    /* ----------------------------------------------------------------------
+     * new  extension
+     *----------------------------------------------------------------------*/
+case 'ne':
+    $ext=new Extension($cn);
+    $ext->set_parameter("id",0);
+    $str_hidden=HtmlInput::hidden('ex_id',0);
 
-   $name=new IText('name',"");
-   $str_name=$name->input();
+    $name=new IText('name',"");
+    $str_name=$name->input();
 
-   $code=new IText('code',"");
-   $str_code=$code->input();
+    $code=new IText('code',"");
+    $str_code=$code->input();
 
-   $desc=new IText('desc',"");
-   $str_desc=$desc->input();
+    $desc=new IText('desc',"");
+    $str_desc=$desc->input();
 
-   $file=new IText('file',"");
-   $str_file=$file->input();
+    $file=new IText('file',"");
+    $str_file=$file->input();
 
-   $enable=new ISelect('enable');
-   $array=array(
-		array ('label'=>_('Oui'),'value'=>'Y'),
-		array('label'=>_('Non'),'value'=>'N')
-		);
-   $enable->value=$array;
-   $enable->selected='Y';
-   $str_enable=$enable->input();
-   $r.='<div style="overflow:auto">';
-   $r.='<form id="formext" onsubmit="extension_save(this);return false;">';
-   $r.=dossier::hidden();
-   ob_start();
-   require_once('template/extension-detail.php');
-   $r.=ob_get_contents();
-   ob_clean();
+    $enable=new ISelect('enable');
+    $array=array(
+               array ('label'=>_('Oui'),'value'=>'Y'),
+               array('label'=>_('Non'),'value'=>'N')
+           );
+    $enable->value=$array;
+    $enable->selected='Y';
+    $str_enable=$enable->input();
+    $r.='<div style="overflow:auto">';
+    $r.='<form id="formext" onsubmit="extension_save(this);return false;">';
+    $r.=dossier::hidden();
+    ob_start();
+    require_once('template/extension-detail.php');
+    $r.=ob_get_contents();
+    ob_clean();
 
-   /* security */
-   $ans=array(array('value'=>'Y','label'=>_('Accès')),
-	      array('value'=>'N','label'=>_('Interdit'))
-	      );
-   $array=User::get_list(dossier::id());
-   for ($i=0;$i<sizeof($array);$i++){
-     $i_select=new ISelect("is_".$array[$i]['use_login']);
-     $i_select->value=$ans;
-     $i_select->selected=($ext->can_request($array[$i]['use_login'])==1)?'Y':'N';
-     $array[$i]['access']=$i_select->input();
-   }
-   require_once('template/extension-sec.php');
-   $r.=ob_get_contents();
-   ob_clean();
+    /* security */
+    $ans=array(array('value'=>'Y','label'=>_('Accès')),
+               array('value'=>'N','label'=>_('Interdit'))
+              );
+    $array=User::get_list(dossier::id());
+    for ($i=0;$i<sizeof($array);$i++)
+    {
+        $i_select=new ISelect("is_".$array[$i]['use_login']);
+        $i_select->value=$ans;
+        $i_select->selected=($ext->can_request($array[$i]['use_login'])==1)?'Y':'N';
+        $array[$i]['access']=$i_select->input();
+    }
+    require_once('template/extension-sec.php');
+    $r.=ob_get_contents();
+    ob_clean();
 
 
-   $r.=HtmlInput::submit('ex_save',_('Sauve'));
-   $r.='</form>';
-   $r.='</div>';
-   $ctl='dtext';
-   break;
-   /*----------------------------------------------------------------------
-    * save the extension
-    *
-    *----------------------------------------------------------------------*/
+    $r.=HtmlInput::submit('ex_save',_('Sauve'));
+    $r.='</form>';
+    $r.='</div>';
+    $ctl='dtext';
+    break;
+    /*----------------------------------------------------------------------
+     * save the extension
+     *
+     *----------------------------------------------------------------------*/
 case 'se':
-  ob_start();
-  $ext=new Extension($cn);
-  $ext->fromArray($_POST);
-  try {
-    $ext->save();
-    $ext->save_security($_POST);
-  }catch (Exception $e) {
-    $r=alert(j( $e->getMessage()),true);
-  }
-  $html=ob_get_contents();
-  ob_clean();
-  break;
+    ob_start();
+    $ext=new Extension($cn);
+    $ext->fromArray($_POST);
+    try
+    {
+        $ext->save();
+        $ext->save_security($_POST);
+    }
+    catch (Exception $e)
+    {
+        $r=alert(j( $e->getMessage()),true);
+    }
+    $html=ob_get_contents();
+    ob_clean();
+    break;
 case 're':
-  $ext=new Extension($cn);
-  $ext->set_parameter('id',$ex_id);
-  $ext->delete();
-  break;
+    $ext=new Extension($cn);
+    $ext->set_parameter('id',$ex_id);
+    $ext->delete();
+    break;
 }
 
 $html=escape_xml($r);
@@ -200,9 +211,9 @@ $html=escape_xml($r);
 header('Content-type: text/xml; charset=UTF-8');
 echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
-<data>
-<ctl>$ctl</ctl>
-<code>$html</code>
-<extra>$extra</extra>
-</data>
+                             <data>
+                             <ctl>$ctl</ctl>
+                             <code>$html</code>
+                             <extra>$extra</extra>
+                             </data>
 EOF;

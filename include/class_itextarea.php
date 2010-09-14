@@ -20,43 +20,42 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file 
+/*!\file
  * \brief Html Input 
  */
 require_once('class_html_input.php');
- class ITextarea extends HtmlInput
+class ITextarea extends HtmlInput
 {
-	/*!\brief show the html  input of the widget*/
-	public function input($p_name=null,$p_value=null)
- 	{
-		 $this->name=($p_name==null)?$this->name:$p_name;
-		 $this->value=($p_value==null)?$this->value:$p_value;
-		 if ( $this->readOnly==true) return $this->display();
+    /*!\brief show the html  input of the widget*/
+    public function input($p_name=null,$p_value=null)
+    {
+        $this->name=($p_name==null)?$this->name:$p_name;
+        $this->value=($p_value==null)?$this->value:$p_value;
+        if ( $this->readOnly==true) return $this->display();
 
-		$r="";
-		$r.='<TEXTAREA style="border:solid blue 1px" name="'.$this->name.'" id="'.$this->name.'"';
-		$r.=" rows=\"$this->heigh\" ";
-		$r.=" cols=\"$this->width\" ";
-		$r.='>';
-		$r.=$this->value;
+        $r="";
+        $r.='<TEXTAREA style="border:solid blue 1px" name="'.$this->name.'" id="'.$this->name.'"';
+        $r.=" rows=\"$this->heigh\" ";
+        $r.=" cols=\"$this->width\" ";
+        $r.='>';
+        $r.=$this->value;
 
-		$r.="</TEXTAREA>";
-	    return $r;
- 	}
-	
-	
-	/*!\brief print in html the readonly value of the widget*/
-	public function display()
- 	{
-		$r='<p>';
-		$r.=h($this->value);
-		$r.=sprintf('<input type="hidden" name="%s" value="%s">',
-			    $this->name,h($this->value));
-		$r.='</p>';
+        $r.="</TEXTAREA>";
+        return $r;
+    }
 
-	}
-	static public function test_me()
- 	{
 
-	}
+    /*!\brief print in html the readonly value of the widget*/
+    public function display()
+    {
+        $r='<p>';
+        $r.=h($this->value);
+        $r.=sprintf('<input type="hidden" name="%s" value="%s">',
+                    $this->name,h($this->value));
+        $r.='</p>';
+
+    }
+    static public function test_me()
+    {
+    }
 }
