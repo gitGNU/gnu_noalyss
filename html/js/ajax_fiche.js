@@ -19,7 +19,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*! \file 
+/*! \file
  * \brief This file permit to use the AJAX function to fill up 
  *        info from fiche
  *
@@ -30,19 +30,32 @@
  */
 function clean_Fid(p_ctl)
 {
-   	nSell=p_ctl+"_price";	
-   	nTvaAmount=p_ctl+"_tva_amount";
-	nBuy=p_ctl+"_price";	
-	nTva_id=p_ctl+"_tva_id";
-	if ( $(nSell) ) {	  $(nSell).value="";	}
-	if ( $(nBuy) ) {	  $(nBuy).value="";}
-	if ( $(nTva_id) ) {  $(nTva_id).value="-1"; }
-	if ( $(nTvaAmount)) {$(nTvaAmount).value=0;}
+    nSell=p_ctl+"_price";
+    nTvaAmount=p_ctl+"_tva_amount";
+    nBuy=p_ctl+"_price";
+    nTva_id=p_ctl+"_tva_id";
+    if ( $(nSell) )
+    {
+        $(nSell).value="";
+    }
+    if ( $(nBuy) )
+    {
+        $(nBuy).value="";
+    }
+    if ( $(nTva_id) )
+    {
+        $(nTva_id).value="-1";
+    }
+    if ( $(nTvaAmount))
+    {
+        $(nTvaAmount).value=0;
+    }
 }
-function errorFid(request,json) {
-  alert('erreur : ajax fiche');
+function errorFid(request,json)
+{
+    alert('erreur : ajax fiche');
 }
-/*!\brief this function fills the data from fid.php, 
+/*!\brief this function fills the data from fid.php,
  * \param p_ctl object : field of the input,
  *  possible object member
  * - label field to update with the card's name
@@ -51,41 +64,68 @@ function errorFid(request,json) {
  * - jrn field to force the ledger
   *\see successFid errorFid fid.php
  */
-function ajaxFid(p_ctl) 
+function ajaxFid(p_ctl)
 {
-  var gDossier=$('gDossier').value;
-  var jrn=$(p_ctl).jrn;
-  $(p_ctl).value=$(p_ctl).value.toUpperCase();
-  if ( jrn == undefined ) { if ($('p_jrn')!=undefined) {jrn=$('p_jrn').value; } }
-  if ( jrn == undefined ) { jrn=-1;}   
-  if ( trim($(p_ctl).value)=="" ) {
-    nLabel=$(p_ctl).label;
-    if ($(nLabel) ){$(nLabel).value="";
-    $(nLabel).innerHTML="&nbsp;";
-    clean_Fid(p_ctl);
-    return;
+    var gDossier=$('gDossier').value;
+    var jrn=$(p_ctl).jrn;
+    $(p_ctl).value=$(p_ctl).value.toUpperCase();
+    if ( jrn == undefined )
+    {
+        if ($('p_jrn')!=undefined)
+        {
+            jrn=$('p_jrn').value;
+        }
     }
-  }
-  var queryString="?FID="+trim($(p_ctl).value);
-  if ( $(p_ctl).label) { queryString+='&l='+$(p_ctl).label;}
-  if ( $(p_ctl).tvaid) { queryString+='&t='+$(p_ctl).tvaid;}
-  if ( $(p_ctl).price) { queryString+='&p='+$(p_ctl).price;}
-  if ( $(p_ctl).purchase) { queryString+='&b='+$(p_ctl).purchase;}
-  if ( $(p_ctl).typecard) { queryString+='&d='+$(p_ctl).typecard;}
-  queryString=queryString+"&j="+jrn+'&gDossier='+gDossier;
-  queryString=queryString+'&ctl='+p_ctl.id;
-  
-  var action=new Ajax.Request (
-			       "fid.php",
-			       {
-				 method:'get',
-				 parameters:queryString,
-				 onFailure:errorFid,
-				 onSuccess:successFid
-			       }
-			
-			       );
-  
+    if ( jrn == undefined )
+    {
+        jrn=-1;
+    }
+    if ( trim($(p_ctl).value)=="" )
+    {
+        nLabel=$(p_ctl).label;
+        if ($(nLabel) )
+        {
+            $(nLabel).value="";
+            $(nLabel).innerHTML="&nbsp;";
+            clean_Fid(p_ctl);
+            return;
+        }
+    }
+    var queryString="?FID="+trim($(p_ctl).value);
+    if ( $(p_ctl).label)
+    {
+        queryString+='&l='+$(p_ctl).label;
+    }
+    if ( $(p_ctl).tvaid)
+    {
+        queryString+='&t='+$(p_ctl).tvaid;
+    }
+    if ( $(p_ctl).price)
+    {
+        queryString+='&p='+$(p_ctl).price;
+    }
+    if ( $(p_ctl).purchase)
+    {
+        queryString+='&b='+$(p_ctl).purchase;
+    }
+    if ( $(p_ctl).typecard)
+    {
+        queryString+='&d='+$(p_ctl).typecard;
+    }
+    queryString=queryString+"&j="+jrn+'&gDossier='+gDossier;
+    queryString=queryString+'&ctl='+p_ctl.id;
+
+    var action=new Ajax.Request (
+                   "fid.php",
+                   {
+                   method:'get',
+                   parameters:queryString,
+                   onFailure:errorFid,
+                   onSuccess:successFid
+                   }
+
+               );
+
 }
 /*!\brief callback function for ajax
  * \param request : object request
@@ -102,59 +142,75 @@ function ajaxFid(p_ctl)
  "buy":" "}
 \endverbatim
  */
-function successFid(request,json) {
-  var answer=request.responseText.evalJSON(true);
-  var flabel=answer.flabel;
-  if ( answer.answer=='nok' ){
-      set_value(flabel," Fiche inexistante");
-      return;
-  }
+function successFid(request,json)
+{
+    var answer=request.responseText.evalJSON(true);
+    var flabel=answer.flabel;
+    if ( answer.answer=='nok' )
+    {
+        set_value(flabel," Fiche inexistante");
+        return;
+    }
 
-  var ftva_id=answer.ftva_id;
-  var fsale=answer.fPrice_sale;
-  var fpurchase=answer.fPrice_purchase;
-  
-  if ( ftva_id != 'none') { set_value(ftva_id,answer.tva_id);}
-  if ( flabel != 'none') { set_value(flabel,answer.name);}
-  if ( fsale != 'none') { set_value(fsale,answer.sell);}
-  if ( fpurchase != 'none') { set_value(fpurchase,answer.buy);}
+    var ftva_id=answer.ftva_id;
+    var fsale=answer.fPrice_sale;
+    var fpurchase=answer.fPrice_purchase;
 
-  
+    if ( ftva_id != 'none')
+    {
+        set_value(ftva_id,answer.tva_id);
+    }
+    if ( flabel != 'none')
+    {
+        set_value(flabel,answer.name);
+    }
+    if ( fsale != 'none')
+    {
+        set_value(fsale,answer.sell);
+    }
+    if ( fpurchase != 'none')
+    {
+        set_value(fpurchase,answer.buy);
+    }
+
+
 }
-function ajax_error_saldo(request,json) {
-  alert('erreur : ajax fiche');
+function ajax_error_saldo(request,json)
+{
+    alert('erreur : ajax fiche');
 }
 /*!\brief this function get the saldo
  * \param p_ctl the ctrl where we take the quick_code 
  */
-function ajax_saldo(p_ctl) 
+function ajax_saldo(p_ctl)
 {
-  var gDossier=$('gDossier').value;
-  var ctl_value=trim($(p_ctl).value);
-  var jrn=$('p_jrn').value;
-  queryString="?FID="+ctl_value;
-  queryString=queryString+'&gDossier='+gDossier+'&j='+jrn;
-  queryString=queryString+'&ctl='+ctl_value;
-  /*  alert(queryString); */
-  var action=new Ajax.Request (
-			       "get_saldo.php",
-			       {
-				 method:'get',
-				 parameters:queryString,
-				 onFailure:ajax_error_saldo,
-				 onSuccess:ajax_success_saldo
-			       }
-			
-			       );
-  
+    var gDossier=$('gDossier').value;
+    var ctl_value=trim($(p_ctl).value);
+    var jrn=$('p_jrn').value;
+    queryString="?FID="+ctl_value;
+    queryString=queryString+'&gDossier='+gDossier+'&j='+jrn;
+    queryString=queryString+'&ctl='+ctl_value;
+    /*  alert(queryString); */
+    var action=new Ajax.Request (
+                   "get_saldo.php",
+                   {
+                   method:'get',
+                   parameters:queryString,
+                   onFailure:ajax_error_saldo,
+                   onSuccess:ajax_success_saldo
+                   }
+
+               );
+
 }
 /*!\brief callback function for ajax
  * \param request : object request
  * \param json : json answer */
-function ajax_success_saldo(request,json) {
-  var answer=request.responseText.evalJSON(true);
-  $('first_sold').value=answer.saldo;
-  
+function ajax_success_saldo(request,json)
+{
+    var answer=request.responseText.evalJSON(true);
+    $('first_sold').value=answer.saldo;
+
 }
 /*!\brief this function get data from ajax_card.php and fill the hidden div with the return html string
 * \param p_dossier
@@ -163,26 +219,27 @@ function ajax_success_saldo(request,json) {
 * \param ctl : id of the div to show
 * \param page
 */
-function ajax_card(p_dossier,f_id,p_operation,ctl,page) {
-$(ctl).show();
-var queryString="gDossier="+p_dossier+"&f_id="+f_id+"&op="+p_operation+"&p="+page+'&ctl='+ctl;
-var action = new Ajax.Request(
-	"ajax_card.php" , { method:'get', parameters:queryString,onFailure:ajax_get_failure,onSuccess:ajax_get_success}
-    );
+function ajax_card(p_dossier,f_id,p_operation,ctl,page)
+{
+    $(ctl).show();
+    var queryString="gDossier="+p_dossier+"&f_id="+f_id+"&op="+p_operation+"&p="+page+'&ctl='+ctl;
+    var action = new Ajax.Request(
+                 "ajax_card.php" , { method:'get', parameters:queryString,onFailure:ajax_get_failure,onSuccess:ajax_get_success}
+                 );
 }
 /*!\brief callback function for ajax_get when successuf
 */
 function ajax_get_success(request,json)
 {
-var answer=request.responseText.evalJSON(false);
-$(answer.ctl).show();
-$(answer.ctl).innerHTML=answer.html;
+    var answer=request.responseText.evalJSON(false);
+    $(answer.ctl).show();
+    $(answer.ctl).innerHTML=answer.html;
 }
 /*!\brief callback function for ajax_get when fails
 */
 function ajax_get_failure(request,json)
 {
-alert("Ajax do not work for ajax_get");
+    alert("Ajax do not work for ajax_get");
 
 }
 

@@ -15,7 +15,7 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-/*!\file 
+/*!\file
  * \brief create the infobulle, the internalization is not yet implemented
  * \code 
  // Example 
@@ -42,24 +42,29 @@ content[11]="ATTENTION si le poste comptable est  vide, il sera créé automatiq
 content[12]="Document généré uniquement si le mode de paiement est utilisé";
 content[13]="Vous pouvez utiliser le % pour indiquer le poste parent";
 
-function showBulle(p_ctl) {
-	d=document.getElementById('bulle');
-	d.innerHTML=content[p_ctl];
-	d.style.top=posY+offsetY;
-	d.style.left=posX+offsetX;
-	d.style.visibility="visible";
+function showBulle(p_ctl)
+{
+    d=document.getElementById('bulle');
+    d.innerHTML=content[p_ctl];
+    d.style.top=posY+offsetY;
+    d.style.left=posX+offsetX;
+    d.style.visibility="visible";
 }
-function getPosition(e) {
- if (document.all) {
-  posX=event.x+document.body.scrollLeft;
-  posY=event.y+document.body.scrollTop;
-  }
-  else {
-  posX=e.pageX;
-  posY=e.pageY;
-  }
+function getPosition(e)
+{
+    if (document.all)
+    {
+        posX=event.x+document.body.scrollLeft;
+        posY=event.y+document.body.scrollTop;
+    }
+    else
+    {
+        posX=e.pageX;
+        posY=e.pageY;
+    }
 }
-function hideBulle(p_ctl) {
-	d=document.getElementById('bulle');
-	d.style.visibility="hidden";
-}	
+function hideBulle(p_ctl)
+{
+    d=document.getElementById('bulle');
+    d.style.visibility="hidden";
+}
