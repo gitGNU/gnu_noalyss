@@ -1422,7 +1422,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         {
 
             $r.='<hr>';
-            $r.=_('ou générer un document').' <input type="checkbox" name="gen_invoice" CHECKED>';
+            $r.=_('ou générer un document').' <input type="checkbox" name="gen_invoice" >';
             // We propose to generate  the fee note
             $doc_gen=new ISelect();
             $doc_gen->name="gen_doc";
@@ -1435,7 +1435,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         $obj=new IText();
         $r.=_('Numero de bon de commande : ').$obj->input('bon_comm').'<br>';
         $r.=_('Autre information : ').$obj->input('other_info').'<br>';
-
         $r.="</fieldset>";
         $r.='</div>';
         return $r;
