@@ -233,7 +233,7 @@ $cn->rollback();
   
 }
 // @class_name@::test_me();
-
+?>
 """
     sChild="""<?php
 /**
@@ -357,7 +357,7 @@ $cn->rollback();
   
 }
 @class_name@::test_me();
-
+?>
 """
     sView="""<?php
 /**
@@ -432,7 +432,7 @@ class @class_name@
      return $aobj;
    }
 }
-
+?>
 
 """
 
