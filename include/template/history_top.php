@@ -1,4 +1,4 @@
-<div style="text-align:right;height:13px">
+<div style="float:right;height:10px;margin-top:2;margin-right:2">
 <? 
    if ($div != "popup") {
      $callback=$_SERVER['PHP_SELF'];

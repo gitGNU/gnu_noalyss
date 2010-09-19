@@ -27,5 +27,3 @@ $script="
         ";
 echo create_script($script);
 ?>
-?>
-?>
