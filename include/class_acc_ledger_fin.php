@@ -756,11 +756,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
                 /**
                  * save also into quant_fin
                  */
-                $sql="INSERT INTO quant_fin(
-                     qf_bank, jr_id, qf_other, qf_amount)
-                     VALUES ($1, $2, $3, $4);";
-
-                $this->db->exec_sql($sql,array($fBank->id,$jr_id,$fPoste->id,${"e_other$i"."_amount"}));
+		$this->insert_quant_fin($fBank->id,$jr_id,$fPoste->id,${"e_other$i"."_amount"});
 
                 $this->update_internal_code($internal);
 
@@ -953,4 +949,18 @@ class Acc_Ledger_Fin extends Acc_Ledger
         if ($a==1) return true;
         return false;
     }
+  /**
+   * insert into the quant_fin table
+   *@param $bank_id is the f_id of the bank
+   *@param $jr_id is the jrn.jr_id of the operation
+   *@param $other is the f_id of the benefit
+   *@param $amount is the amount
+   */
+  function insert_quant_fin($p_bankid,$p_jrid,$p_otherid,$p_amount)
+  {
+    $sql="INSERT INTO quant_fin(qf_bank, jr_id, qf_other, qf_amount)
+                   VALUES ($1, $2, $3, $4);";
+    
+    $this->db->exec_sql($sql,array($p_bankid,$p_jrid,$p_otherid,round($p_amount,2)));
+  }
 }

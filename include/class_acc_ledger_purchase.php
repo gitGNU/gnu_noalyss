@@ -40,6 +40,7 @@ require_once('class_acc_payment.php');
 require_once('ac_common.php');
 require_once('class_itva_popup.php');
 require_once('class_acc_ledger_info.php');
+require_once('class_acc_ledger_fin.php');
 
 /*!\brief Handle the ledger of purchase,
  *
@@ -681,12 +682,12 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 }
                 $acc_pay->poste=$poste_val;
                 $acc_pay->qcode=$fqcode;
-                $acc_pay->amount=abs(round($tot_debit,2));
+                $acc_pay->amount=abs(round($cust_amount,2));
                 $acc_pay->desc=$e_comm;
                 $acc_pay->grpt=$acseq;
                 $acc_pay->jrn=$mp->get_parameter('ledger');
                 $acc_pay->periode=$tperiode;
-                $acc_pay->type='c';
+		$acc_pay->type=($cust_amount>=0)?'c':'d';
                 $acc_pay->insert_jrnx();
 
                 /* Insert supplier  */
@@ -694,17 +695,17 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $acc_pay->date=$e_date;
                 $acc_pay->poste=$poste;
                 $acc_pay->qcode=$e_client;
-                $acc_pay->amount=abs(round($tot_debit,2));
+                $acc_pay->amount=abs(round($cust_amount,2));
                 $acc_pay->desc=$e_comm;
                 $acc_pay->grpt=$acseq;
                 $acc_pay->jrn=$mp->get_parameter('ledger');
                 $acc_pay->periode=$tperiode;
-                $acc_pay->type='d';
+		$acc_pay->type=($cust_amount>=0)?'d':'c';
                 $acc_pay->insert_jrnx();
 
                 /* insert into jrn */
                 $acc_pay->mt=$mt;
-                $acc_pay->insert_jrn();
+                $mp_jr_id=$acc_pay->insert_jrn();
                 $acjrn->grpt_id=$acseq;
                 $acjrn->update_internal_code($acinternal);
 
@@ -718,6 +719,21 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $rec=new Acc_Reconciliation($this->db);
                 $rec->set_jr_id($r1);
                 $rec->insert($r2);
+		/*
+		 * save also into quant_fin
+		 */
+		
+		/* get ledger property */
+		$ledger=new Acc_Ledger_Fin($this->db,$acc_pay->jrn);
+		$prop=$ledger->get_propertie();
+		
+		/* if ledger is FIN then insert into quant_fin */
+		if ( $prop['jrn_def_type'] == 'FIN' )
+		  {
+		    $ledger->insert_quant_fin($acfiche->id,$mp_jr_id,$cust->id,bcmul($cust_amount,-1));
+		  }
+		
+		
             }
         }//end try
         catch (Exception $e)
