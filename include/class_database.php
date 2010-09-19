@@ -612,7 +612,7 @@ class Database
         {
             $row=pg_fetch_row($a);
             $r[$i]['value']=$row[0];
-            $r[$i]['label']=$row[1];
+            $r[$i]['label']=h($row[1]);
         }
         // add a blank item ?
         if ( $p_null == 1 )
@@ -620,7 +620,7 @@ class Database
             for ($i=$max;$i!=0;$i--)
             {
                 $r[$i]['value']=    $r[$i-1]['value'];
-                $r[$i]['label']=    $r[$i-1]['label'];
+                $r[$i]['label']=    h($r[$i-1]['label']);
             }
             $r[0]['value']=-1;
             $r[0]['label']=" ";
