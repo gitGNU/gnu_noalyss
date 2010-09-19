@@ -232,7 +232,7 @@ class Print_Ledger_Simple extends PDF
             $this->Cell(20,5,$qc,0,0);
             $this->Cell(40,5,$name,0,0);
 
-            $this->Cell(65,5,$row['comment'],0,0);
+            $this->Cell(65,5,substr($row['comment'],0,47),0,0);
 
             /* get other amount (without vat, total vat included, private, ND */
             $other=$this->ledger->get_other_amount($a_jrn[$i]['jr_grpt_id']);
@@ -246,17 +246,17 @@ class Print_Ledger_Simple extends PDF
             $this->rap_nd+=$other['priv'];
 
 
-            $this->Cell(15,6,sprintf("%.2f",$other['price']),0,0,'R');
+            $this->Cell(15,5,sprintf("%.2f",$other['price']),0,0,'R');
             if ( $this->jrn_type !='VEN')
             {
-                $this->Cell(15,6,sprintf("%.2f",$other['priv']),0,0,'R');
-                $this->Cell(15,6,sprintf("%.2f",$other['tva_nd_recup']),0,0,'R');
+                $this->Cell(15,5,sprintf("%.2f",$other['priv']),0,0,'R');
+                $this->Cell(15,5,sprintf("%.2f",$other['tva_nd_recup']),0,0,'R');
             }
             foreach ($atva_amount  as $row_atva_amount)
             {
-                $this->Cell(15,6,sprintf("%.2f",$row_atva_amount),0,0,'R');
+                $this->Cell(15,5,sprintf("%.2f",$row_atva_amount),0,0,'R');
             }
-            $this->Cell(15,6,sprintf("%.2f",($other['price']+$other['vat'])),0,0,'R');
+            $this->Cell(15,5,sprintf("%.2f",($other['price']+$other['vat'])),0,0,'R');
             $this->Ln(5);
         }
     }
