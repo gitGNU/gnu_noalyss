@@ -1,7 +1,9 @@
 form { 
   display:none;
  }
-
+.print {
+	display: block;
+	}
 .noprint  {
   display:none;
  }

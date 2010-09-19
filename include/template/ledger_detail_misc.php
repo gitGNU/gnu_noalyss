@@ -11,7 +11,7 @@ require_once ('class_anc_plan.php');
 <div class="content" style="padding:0">
 
     <? if ( $access=='W') : ?>
-<form  onsubmit="return op_save(this);">
+<form class="print" onsubmit="return op_save(this);">
    <? endif; ?>
 
     <? echo HtmlInput::hidden('whatdiv',$div).HtmlInput::hidden('jr_id',$jr_id).dossier::hidden();?>

@@ -6,7 +6,7 @@
 ?>
 
     <? if ( $access=='W') : ?>
-<form  onsubmit="return op_save(this);">
+<form  class="print" onsubmit="return op_save(this);">
    <? endif; ?>
 
     <? echo HtmlInput::hidden('whatdiv',$div).HtmlInput::hidden('jr_id',$jr_id).dossier::hidden();?>
@@ -57,10 +57,10 @@ if ( $owner->MY_TVA_USE == 'Y') {
 } else {
   echo th('');
 }
-echo th(_('P.Unit.'), 'style="text-align:right"');
 echo th(_('Quantité'), 'style="text-align:right"');
 if ( $owner->MY_TVA_USE == 'Y') {
   echo th(_('HTVA'), 'style="text-align:right"');
+  echo th(_('TVA'), 'style="text-align:right"');
   echo th(_('TVAC'), 'style="text-align:right"');
 }else 
   echo th(_('Total'), 'style="text-align:right"');
@@ -80,7 +80,7 @@ echo '</tr>';
     $row=''; 
     $q=$obj->det->array[$e];
     $fiche=new Fiche($cn,$q['qp_fiche']);
-   $view_history= sprintf('<A class="detail" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
+   $view_history= sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
 				$fiche->id, $gDossier, $fiche->strAttribut(ATTR_DEF_QUICKCODE));
 
    $row=td($view_history);
@@ -93,13 +93,15 @@ echo '</tr>';
    }
     $row.=td($fiche->strAttribut(ATTR_DEF_NAME));
     $row.=td($sym_tva,'style="text-align:center"');
-    $row.=td(sprintf("%.2f",$q['qp_price']),'class="num"');
     $row.=td(sprintf("%.2f",$q['qp_quantite']),'class="num"');
-    $htva=bcmul($q['qp_price'],$q['qp_quantite']);
+    $htva=$q['qp_price'];
     $row.=td($htva,'class="num"');
     $tvac=bcadd($htva,$q['qp_vat']);
     if ($owner->MY_TVA_USE=='Y')
-      $row.=td($tvac,'class="num"');
+      {
+	$row.=td(sprintf("%.2f",$q['qp_vat']),'class="num"');
+	$row.=td(sprintf("%.2f",$tvac),'class="num"');
+      }
     $total_tvac+=$tvac;
     $total_htva+=$htva;
     /* Analytic accountancy */
