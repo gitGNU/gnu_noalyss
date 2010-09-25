@@ -40,5 +40,3 @@ if (isset($_REQUEST['plugin_code']) )
 
 }
 ?>
-?>
-?>
