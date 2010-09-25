@@ -76,8 +76,7 @@ function check_hour(p_ctl)
     try
     {
         var h=document.getElementById(p_ctl);
-var re = /^\d{1,2}:
-                  \d{2}$/;
+	var re = /^\d{1,2}:\d{2}$/;
         if ( trim(h.value) !='' && ! h.value.match(re))
             alert("Format de l'heure est HH:MM ")
         }
