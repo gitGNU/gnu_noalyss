@@ -93,52 +93,43 @@ else
                              $_GET['to_periode'],
                              0);
 //-----------------------------------------------------
-    if ( $jrn_type == 'ODS' || $jrn_type == 'FIN' || $jrn_type=='GL')
-    {
-        printf ('" operation";'.
-                '"Date";'.
-                '"commentaire";'.
-                '"internal";'.
-                '"montant";'.
-                "\r\n");
-        // set a filter for the FIN
-        $a_parm_code=$cn->get_array("select p_value from parm_code where p_code in ('BANQUE','COMPTE_COURANT','CAISSE')");
-        $sql_fin="(";
-        $or="";
-        foreach ($a_parm_code as $code)
-        {
-            $sql_fin.="$or j_poste::text like '".$code['p_value']."%'";
-            $or=" or ";
-        }
-        $sql_fin.=")";
+     if ( $jrn_type == 'ODS' || $jrn_type == 'FIN' || $jrn_type=='GL')
+       {
+	 printf ('" operation";'.
+		 '"Date";'.
+		 '"N° Pièce";'.
+		 '"commentaire";'.
+		 '"internal";'.
+		 '"montant";'.
+		 "\r\n");
+	 foreach ($Row as $line)
+	   {
+	     
+	     echo $line['num'].";";
+	     echo $line['date'].";";
+	     echo $line['jr_pj_number'].";";
+	     echo $line['comment'].";";
+	     echo $line['jr_internal'].";";
+	     //	  echo "<TD>".$line['pj'].";";
+	     // If the ledger is financial :
+	     // the credit must be negative and written in red
+	     // Get the jrn type
+	     if ( $line['jrn_def_type'] == 'FIN' ) {
+	       $positive = $cn->get_value("select qf_amount from quant_fin  ".
+					  " where jr_id=".$line['jr_id']);
+	       
+	       echo nb($positive);
+	       echo ";";
+	     }
+	     else 
+	       {
+		 echo nb($line['montant']).";";
+	       }
+	     
+	     printf("\r\n");
+	   }
+       }  
 
-        foreach ($Row as $line)
-        {
-
-            echo $line['num'].";";
-            echo $line['date'].";";
-            echo $line['comment'].";";
-            echo $line['jr_internal'].";";
-            //	  echo "<TD>".$line['pj'].";";
-            // If the ledger is financial :
-            // the credit must be negative and written in red
-            // Get the jrn type
-            if ( $line['jrn_def_type'] == 'FIN' )
-            {
-                $positive = $cn->get_value("select qf_amount from quant_fin  ".
-                                           " where jr_id=".$line['jr_id']);
-
-                echo nb($positive);
-                echo ";";
-            }
-            else
-            {
-                echo nb($line['montant']).";";
-            }
-
-            printf("\r\n");
-        }
-    }
 //-----------------------------------------------------
     if ( $jrn_type=='ACH' || $jrn_type=='VEN')
     {

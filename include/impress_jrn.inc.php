@@ -212,7 +212,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
         "<th>Date</th>".
         "<th> commentaire </th>".
         "<th>internal</th>".
-        /* "<th>Pièce justificative</th>". */
+        "<th>Pièce justificative</th>".
         "<th> montant</th>".
         "</TR>";
         // set a filter for the FIN
@@ -231,6 +231,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
             echo "<tr>";
             echo "<TD>".$line['num']."</TD>";
             echo "<TD>".$line['date']."</TD>";
+            echo "<TD>".h($line['jr_pj_number'])."</TD>";
             echo "<TD>".h($line['comment'])."</TD>";
             echo "<TD>".$line['jr_internal']."</TD>";
             //	  echo "<TD>".$line['pj']."</TD>";

@@ -72,7 +72,7 @@ case 'lastdate':
     $html=escape_xml($html);
     header('Content-type: text/xml; charset=UTF-8');
     echo <<<EOF
-    <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
                                  <data>
                                  <code>e_date</code>
                                  <value>$html</value>
@@ -87,7 +87,7 @@ case 'bkname':
     $html=escape_xml($html);
     header('Content-type: text/xml; charset=UTF-8');
     echo <<<EOF
-    <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
                                  <data>
                                  <code>bkname</code>
                                  <value>$html</value>
@@ -106,7 +106,7 @@ case 'cal':
     $html=escape_xml($html);
     header('Content-type: text/xml; charset=UTF-8');
     echo <<<EOF
-    <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
                                  <data>
                                  <code>$html</code>
                                  </data>
@@ -121,7 +121,7 @@ case 'rem_cat_doc':
         $html="nok";
         header('Content-type: text/xml; charset=UTF-8');
         echo <<<EOF
-        <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
                                      <data>
                                      <dtid>$html</dtid>
                                      </data>
@@ -137,7 +137,7 @@ EOF;
         $html="nok";
         header('Content-type: text/xml; charset=UTF-8');
         echo <<<EOF
-        <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
                                      <data>
                                      <dtid>$html</dtid>
                                      </data>
@@ -148,7 +148,7 @@ EOF;
     $html=$dt_id;
     header('Content-type: text/xml; charset=UTF-8');
     echo <<<EOF
-    <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
                                  <data>
                                  <dtid>$html</dtid>
                                  </data>
@@ -209,7 +209,7 @@ case 'dsp_tva':
 
     header('Content-type: text/xml; charset=UTF-8');
     echo <<<EOF
-    <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
                                  <data>
                                  <code>$html</code>
                                  <popup>$popup</popup>
@@ -229,8 +229,8 @@ case 'label_tva':
             $value=$Res[0]['tva_label'];
     }
     header('Content-type: text/xml; charset=UTF-8');
-    echo <<<EOF
-    <?xml version="1.0" encoding="UTF-8"?>
+echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
                                  <data>
                                  <code>$code</code>
                                  <value>$value</value>
@@ -374,7 +374,7 @@ case 'dl':
 
         header('Content-type: text/xml; charset=UTF-8');
         echo <<<EOF
-        <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
                                      <data>
                                      <code>detail</code>
                                      <value>$html</value>
@@ -418,12 +418,13 @@ EOF;
     $html=escape_xml($html);
 
     header('Content-type: text/xml; charset=UTF-8');
-    echo <<<EOF
-    <?xml version="1.0" encoding="UTF-8"?>
+echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
                                  <data>
                                  <code>detail</code>
                                  <value>$html</value>
                                  </data>
+
 EOF;
     break;
 }

@@ -63,7 +63,7 @@ if ( $User->check_dossier(dossier::id(),true)=='X' )
     $html=escape_xml($html);
     header('Content-type: text/xml; charset=UTF-8');
     echo <<<EOF
-    <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
                                  <data>
                                  <ctl>$div</ctl>
                                  <code>$html</code>
@@ -89,7 +89,7 @@ if ( $access == 'X' )
     $html=escape_xml($html);
     header('Content-type: text/xml; charset=UTF-8');
     echo <<<EOF
-    <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
                                  <data>
                                  <ctl>$div</ctl>
                                  <code>$html</code>
