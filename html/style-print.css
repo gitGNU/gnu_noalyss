@@ -228,5 +228,10 @@ a.detail:hover
 {
 	display:none;
 }
-
+.popup_border_title {
+	display:none;
+}
+.ipop_card_fond {
+		display:none;
+}
 /* </style> */
