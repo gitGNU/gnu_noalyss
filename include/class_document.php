@@ -132,7 +132,7 @@ class Document
         $this->SaveGenerated($dirname.DIRECTORY_SEPARATOR.$file_to_parse);
         // Invoice
         $ret='<A class="mtitle" HREF="show_document.php?d_id='.$this->d_id.'&'.dossier::get().'">Document g&eacute;n&eacute;r&eacute;</A>';
-        rmdir($dirname);
+        @rmdir($dirname);
         return $ret;
     }
 
