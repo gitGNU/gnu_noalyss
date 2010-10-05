@@ -892,7 +892,6 @@ class Action
     {
         // if ag_id == 0 nothing to do
         if ( $this->ag_id == 0 ) return ;
-
         // retrieve customer
         // f_id
 
@@ -994,7 +993,7 @@ class Action
         $this->ag_hour=(isset($p_array['ag_hour']))?$p_array['ag_hour']:"";
         $this->ag_dest=(isset($p_array['ag_dest']))?$p_array['ag_dest']:"";
         $this->ag_priority=(isset($p_array['ag_priority']))?$p_array['ag_priority']:2;
-        $this->ag_cal=(isset($p_array['ag_cal']))?$p_array['ag_cal']:"";
+        $this->ag_cal=(isset($p_array['ag_cal']))?'on':"";
         $this->ag_contact=(isset($p_array['ag_contact']))?$p_array['ag_contact']:"";
         $this->ag_comment=(isset($p_array['ag_comment']))?$p_array['ag_comment']:"";
 
