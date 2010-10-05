@@ -1,38 +1,27 @@
-update quant_sold set qs_price=abs(qs_price)*(-1), qs_vat=abs(qs_vat)*(-1), qs_quantite=abs(qs_quantite)*(-1) where qs_price < 0 or qs_quantite < 0 or qs_vat < 0;
+update jrnx set f_id = (select f_id from vw_poste_qcode where vw_poste_qcode.j_qcode=jrnx.j_qcode) where j_qcode is not null;
+CREATE OR REPLACE FUNCTION comptaproc.jrnx_ins()
+  RETURNS trigger AS
+$BODY$
+declare
+n_fid bigint;
+begin
 
-update quant_purchase set qp_price=abs(qp_price)*(-1), qp_vat=abs(qp_vat)*(-1), qp_quantite=abs(qp_quantite)*(-1) where qp_price < 0 or qp_quantite < 0 or qp_vat < 0;
+if NEW.j_qcode is NULL then
+   return NEW;
+end if;
 
-set search_path=public,comptaproc;
-select fill_quant_fin();
+NEW.j_qcode=trim(upper(NEW.j_qcode));
 
-create function comptaproc.quant_purchase_ins_upd () returns trigger
-as
-$$
-	begin
-		if NEW.qp_price < 0 OR NEW.qp_quantite <0 THEN
-			NEW.qp_price := abs (NEW.qp_price)*(-1);
-			NEW.qp_quantite := abs (NEW.qp_quantite)*(-1);
-		end if;
+if length (NEW.j_qcode) = 0 then
+    NEW.j_qcode=NULL;
+    else
+   select f_id into n_fid from fiche join jnt_fic_att_value using (f_id) join attr_value using(jft_id) where ad_id=23 and av_text=NEW.j_qcode;
+        if NOT FOUND then 
+                raise exception 'La fiche dont le quick code est % n''existe pas',NEW.j_qcode;
+        end if;
+end if;
+NEW.f_id:=n_fid;
 return NEW;
 end;
-$$ 
-language plpgsql;
-
-drop trigger if exists quant_purchase_ins_upd_tr on quant_purchase ;
-create trigger quant_sold_ins_upd_tr after insert or update on quant_purchase for each row execute procedure comptaproc.quant_purchase_ins_upd();
-
-create function comptaproc.quant_sold_ins_upd () returns trigger
-as
-$$
-	begin
-		if NEW.qs_price < 0 OR NEW.qs_quantite <0 THEN
-			NEW.qs_price := abs (NEW.qs_price)*(-1);
-			NEW.qs_quantite := abs (NEW.qs_quantite)*(-1);
-		end if;
-return NEW;
-end;
-$$ 
-language plpgsql;
-
-drop trigger if exists quant_sold_ins_upd_tr on quant_sold ;
-create trigger quant_sold_ins_upd_tr after insert or update on quant_sold for each row execute procedure comptaproc.quant_sold_ins_upd();
+$BODY$
+LANGUAGE plpgsql;

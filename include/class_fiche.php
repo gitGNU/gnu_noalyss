@@ -278,6 +278,7 @@ class Fiche
         }
 
         $Ret=$this->cn->exec_sql($sql);
+
         if ( ($Max=Database::num_row($Ret)) == 0 )
             return ;
         $all[0]=new Fiche($this->cn);
@@ -287,7 +288,7 @@ class Fiche
             $row=Database::fetch_array($Ret,$i);
             $t=new Fiche($this->cn,$row['f_id']);
             $t->getAttribut();
-            $all[$i]=$t;
+            $all[$i]=clone $t;
 
         }
         return $all;
