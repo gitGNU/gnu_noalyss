@@ -106,6 +106,7 @@ class @class_name@  @mother_class@
     // Verify that the elt we want to add is correct
     /* verify only the datatype */
     @verify_data_type@
+    @set_tech_user@
   }
   public function save() {
   /* please adapt */
@@ -263,6 +264,7 @@ class @class_name@  @mother_class@
     // Verify that the elt we want to add is correct
     /* verify only the datatype */
     @verify_data_type@
+    @set_tech_user@
   }
   public function save() {
   /* please adapt */
@@ -460,17 +462,26 @@ class @class_name@
         
         sep=''
         i=1
+	set_tech_user=""
         for e in line[3:]:
             if e.find('|') < 0 :
                 continue
-            column_this=column_this+sep+'$this->'+(e.split('|'))[0].strip()+"\n"
-            column_noid=column_noid+sep+(e.split('|')[0]).strip()+"\n"
+            col_name=(e.split('|'))[0].strip()
+            col_type=(e.split('|'))[1].strip()
+	    if col_name == 'tech_date':
+		print "*"*80
+		print ('Warning : tech_date est un champs technique a utiliser avec un trigger')
+		print "*"*80
+            column_this=column_this+sep+'$this->'+col_name+"\n"
+            column_noid=column_noid+sep+col_name+"\n"
 
-            if (e.split('|'))[1].strip() == 'date':
-                column_select=column_select+sep+"to_char("+(e.split('|')[0]).strip()+",'DD.MM.YYYY') as "+(e.split('|')[0]).strip()+"\n"
-                column_insert=column_insert+sep+"to_date($"+str(i)+",'DD.MM.YYYY') \n "
+	    if col_name == 'tech_user' :
+		set_tech_user=" $this->tech_user=$_SESSION['g_user']; "
+            if col_type == 'date':
+                column_select=column_select+sep+"to_char("+col_name+",'DD.MM.YYYY') as "+col_name+"\n"
+		column_insert=column_insert+sep+"to_date($"+str(i)+",'DD.MM.YYYY') \n "
             else:
-                column_select=column_select+sep+(e.split('|')[0]).strip()+"\n"
+                column_select=column_select+sep+col_name+"\n"
                 column_insert=column_insert+sep+'$'+str(i)+"\n"
             i+=1                
             sep=','
@@ -481,7 +492,8 @@ class @class_name@
         for e in line [3:]:
             if e.find('|') < 0 :
                 continue
-            column_array+=sep+'"'+(e.split('|'))[0].strip()+'"=>"'+(e.split('|'))[0].strip()+'"'+"\n"
+            col_name=(e.split('|'))[0].strip()
+            column_array+=sep+'"'+col_name+'"=>"'+col_name+'"'+"\n"
             sep=','
         column_array='"'+id+'"=>"'+id+'",'+column_array
         sql_update=" update "+table
@@ -547,6 +559,7 @@ class @class_name@
             sView=sView.replace('@mother_name@',mother_name)
             sView=sView.replace('@mother_class@',mother_class)            
             sView=sView.replace('@column_insert_id@',column_insert_id)
+            sView=sView.replace('@set_tech_user@',set_tech_user)
             fileoutput.writelines(sView)
         else:
             sParent=sParent.replace('@id@',id)
@@ -563,6 +576,7 @@ class @class_name@
             sParent=sParent.replace('@column_insert@',column_insert)
             sParent=sParent.replace('@column_insert_id@',column_insert_id)
             sParent=sParent.replace('@mother_class@',mother_class)
+            sParent=sParent.replace('@set_tech_user@',set_tech_user)
             fileoutput.writelines(sParent)
 
     except :
