@@ -61,7 +61,7 @@ def main():
     print ('$_BODY_$ LANGUAGE plpgsql;')
 
 
-    print ('CREATE OR REPLACE TRIGGER on '+schema+'.'+table_name+"_trg")
+    print ('CREATE TRIGGER '+table_name+"_trg")
     print (" BEFORE / AFTER ")
     if action == '' and tech_date : 
 	print (" INSERT OR UPDATE ")
@@ -69,7 +69,7 @@ def main():
 	a_action=action.split(',')
 	str_or=''
 	for e in a_action:
-		print (e.upper())+str_or
+		print str_or+(e.upper())
 		str_or=" OR "
     else:
 	print (action.upper())
