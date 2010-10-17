@@ -73,10 +73,10 @@ case 'lastdate':
     header('Content-type: text/xml; charset=UTF-8');
     echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
-                                 <data>
-                                 <code>e_date</code>
-                                 <value>$html</value>
-                                 </data>
+<data>
+<code>e_date</code>
+<value>$html</value>
+</data>
 EOF;
 
     break;
@@ -88,10 +88,10 @@ case 'bkname':
     header('Content-type: text/xml; charset=UTF-8');
     echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
-                                 <data>
-                                 <code>bkname</code>
-                                 <value>$html</value>
-                                 </data>
+<data>
+<code>bkname</code>
+<value>$html</value>
+</data>
 EOF;
     break;
     // display new calendar
@@ -107,9 +107,9 @@ case 'cal':
     header('Content-type: text/xml; charset=UTF-8');
     echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
-                                 <data>
-                                 <code>$html</code>
-                                 </data>
+<data>
+<code>$html</code>
+</data>
 EOF;
     break;
     /* remove a cat of document */
@@ -122,9 +122,9 @@ case 'rem_cat_doc':
         header('Content-type: text/xml; charset=UTF-8');
         echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
-                                     <data>
-                                     <dtid>$html</dtid>
-                                     </data>
+<data>
+<dtid>$html</dtid>
+</data>
 EOF;
         return;
     }
@@ -138,9 +138,9 @@ EOF;
         header('Content-type: text/xml; charset=UTF-8');
         echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
-                                     <data>
-                                     <dtid>$html</dtid>
-                                     </data>
+<data>
+<dtid>$html</dtid>
+</data>
 EOF;
         exit;
     }
@@ -210,11 +210,11 @@ case 'dsp_tva':
     header('Content-type: text/xml; charset=UTF-8');
     echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
-                                 <data>
-                                 <code>$html</code>
-                                 <popup>$popup</popup>
-                                 </data>
-                                 EOF;
+<data>
+<code>$html</code>
+<popup>$popup</popup>
+</data>
+EOF;
     break;
 case 'label_tva':
         $cn=new Database($gDossier);
@@ -231,10 +231,10 @@ case 'label_tva':
     header('Content-type: text/xml; charset=UTF-8');
 echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
-                                 <data>
-                                 <code>$code</code>
-                                 <value>$value</value>
-                                 </data>
+<data>
+<code>$code</code>
+<value>$value</value>
+</data>
 EOF;
 
     break;
@@ -375,10 +375,10 @@ case 'dl':
         header('Content-type: text/xml; charset=UTF-8');
         echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
-                                     <data>
-                                     <code>detail</code>
-                                     <value>$html</value>
-                                     </data>
+<data>
+<code>detail</code>
+<value>$html</value>
+</data>
 EOF;
         exit();
     }
@@ -420,11 +420,10 @@ EOF;
     header('Content-type: text/xml; charset=UTF-8');
 echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
-                                 <data>
-                                 <code>detail</code>
-                                 <value>$html</value>
-                                 </data>
-
+<data>
+<code>detail</code>
+<value>$html</value>
+</data>
 EOF;
     break;
 }
