@@ -186,9 +186,11 @@ if ( isset( $_REQUEST['bt_html'] ) )
         //---
         foreach ( $Jrn->row as $op )
         {
-            /*           var_dump($op);/*exit();*/
+
             echo "<TR>";
             echo "<TD>".$op['j_date']."</TD>";
+            echo "<TD>".$op['jr_pj_number']."</TD>";
+
 
             if ( $op['jr_id']!='')
                 echo "<TD>".HtmlInput::detail_op($op['jr_id'],$op['internal'])."</TD>";

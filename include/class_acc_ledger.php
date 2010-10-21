@@ -354,14 +354,15 @@ class Acc_Ledger
                                      case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
                                      j_debit as debit,j_poste as poste,jr_montant , ".
                                      "coalesce(j_text,pcm_lib) as description,j_grpt as grp,
-                                     jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj_number  !='' then jr_pj_number else '' end  as jr_comment,
+                                     jr_comment||' ('||jr_internal||')'  as jr_comment,
+				     jr_pj_number,
                                      j_qcode,
                                      jr_rapt as oc, j_tech_per as periode
                                      from jrnx left join jrn on ".
                                      "jr_grpt_id=j_grpt ".
                                      " left join tmp_pcmn on pcm_val=j_poste ".
                                      " where j_jrn_def=".$this->id.
-                                     " and ".$periode." order by j_date::date asc,jr_internal,j_debit desc ".
+                                     " and ".$periode." order by j_date::date asc,substring(jr_pj_number,'\\\\d+$')::numeric asc,j_debit desc ".
                                      $cond_limite);
 
         }
@@ -373,12 +374,13 @@ class Acc_Ledger
                                      case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
                                      j_debit as debit,j_poste as poste,".
                                      "coalesce(j_text,pcm_lib) as description,j_grpt as grp,
-                                     jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj_number  !='' then 'pj:'||coalesce(jr_pj_number,'-') else '' end as jr_comment,
+                                     jr_comment||' ('||jr_internal||')' as jr_comment,
+				     jr_pj_number,
                                      jr_montant,
                                      j_qcode,
                                      jr_rapt as oc, j_tech_per as periode from jrnx left join jrn on ".
                                      "jr_grpt_id=j_grpt left join tmp_pcmn on pcm_val=j_poste where ".
-                                     "  ".$periode." order by j_date::date,j_grpt,j_debit desc   ".
+                                     "  ".$periode." order by j_date::date,substring(jr_pj_number,'\\\\d+$') asc,j_grpt,j_debit desc   ".
                                      $cond_limite);
 
         }
@@ -437,7 +439,8 @@ class Acc_Ledger
                              'description'=>'<b><i>'.h($line['jr_comment']).' ['.$tot_op.'] </i></b>',
                              'poste' => $line['oc'],
                              'qcode' => $line['j_qcode'],
-                             'periode' =>$line['periode'] );
+                             'periode' =>$line['periode'],
+			     'jr_pj_number' => $line ['jr_pj_number']);
 
                 $array[]=array (
                              'jr_id'=>'',
@@ -450,7 +453,8 @@ class Acc_Ledger
                              'description'=>$line['description'],
                              'poste' => $line['poste'],
                              'qcode' => $line['j_qcode'],
-                             'periode' => $line['periode']
+                             'periode' => $line['periode'],
+			     'jr_pj_number' => ''
                          );
 
             }
@@ -467,7 +471,8 @@ class Acc_Ledger
                              'description'=>$line['description'],
                              'poste' => $line['poste'],
                              'qcode' => $line['j_qcode'],
-                             'periode' => $line['periode']);
+                             'periode' => $line['periode'],
+			     'jr_pj_number' => '');
 
             }
 

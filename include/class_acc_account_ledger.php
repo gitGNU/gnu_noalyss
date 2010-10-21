@@ -135,7 +135,7 @@ class Acc_Account_Ledger
                                  " ( to_date($2,'DD.MM.YYYY') <= j_date and ".
                                  "   to_date($3,'DD.MM.YYYY') >= j_date )".
                                  " and $filter_sql  $sql_let ".
-                                 " order by j_date",array($this->id,$p_from,$p_to));
+                                 " order by j_date,substring(jr_pj_number,'\\\\d+$') asc",array($this->id,$p_from,$p_to));
         return $this->get_row_sql($Res);
     }
 
@@ -311,8 +311,9 @@ class Acc_Account_Ledger
         echo "<TABLE class=\"resultfooter\" style=\"border-collapse:separate;width:100%;border-spacing:5px\">";
         echo '<tbody>';
         echo "<TR>".
-        "<TH> Code interne </TH>".
         "<TH> Date</TH>".
+        "<TH> n° de pièce </TH>".
+        "<TH> Code interne </TH>".
         "<TH> Description </TH>".
         "<TH style=\"text-align:right\"> D&eacute;bit  </TH>".
         "<TH style=\"text-align:right\"> Cr&eacute;dit </TH>".
@@ -330,9 +331,10 @@ class Acc_Account_Ledger
             $progress+=$op['deb_montant']-$op['cred_montant'];
 
             echo "<TR>".
-            "<TD>".$vw_operation."</TD>".
             "<TD>".format_date($op['j_date'])."</TD>".
-            "<TD>".h($op['description']).' '.h($op['jr_pj_number'])."</TD>".
+	      td(h($op['jr_pj_number'])).
+            "<TD>".$vw_operation."</TD>".
+            "<TD>".h($op['description'])."</TD>".
             "<TD style=\"text-align:right\">".sprintf("%.2f",$op['deb_montant'])."</TD>".
             "<TD style=\"text-align:right\">".sprintf("%.2f",$op['cred_montant'])."</TD>".
             td(sprintf('%.2f',abs($progress)),'style="text-align:right"').

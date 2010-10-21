@@ -44,11 +44,11 @@ $User->can_request(IMPPOSTE,0);
 
 if ( isset ( $_REQUEST['poste_fille']) )
 { //choisit de voir tous les postes
-    $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '".$_REQUEST["poste_id"]."%'");
+  $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like $1||'%'",array($_REQUEST["poste_id"]));
 }
 else
 {
-    $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val = '".$_REQUEST['poste_id']."'");
+  $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val = $1",array($_REQUEST['poste_id']));
 }
 
 if ( ! isset ($_REQUEST['oper_detail']))
@@ -61,13 +61,15 @@ if ( ! isset ($_REQUEST['oper_detail']))
         $Poste=new Acc_Account_Ledger($cn,$pos['pcm_val']);
         $name=$Poste->get_name();
         list($array,$tot_deb,$tot_cred)=$Poste->get_row_date( $_REQUEST['from_periode'],
-                                        $_REQUEST['to_periode'],
-                                        $_GET['ople']
-                                                            );
+							      $_REQUEST['to_periode'],
+							      $_GET['ople']
+							      );
         if ( count($Poste->row ) == 0 )
             continue;
 
-        echo '"Poste";'.'"Lib.";'.
+        echo '"Poste";'.
+	  '"n° pièce";'.
+	  '"Lib.";'.
         "\"Code interne\";".
         "\"Date\";".
         "\"Description\";".
@@ -81,10 +83,11 @@ if ( ! isset ($_REQUEST['oper_detail']))
         {
             $prog+=$op['deb_montant']-$op['cred_montant'];
             echo '"'.$pos['pcm_val'].'";'.
+	     '"'.$op['jr_pj_number'].'"'.";".
             '"'.$name.'";'.
             '"'.$op['jr_internal'].'"'.";".
             '"'.$op['j_date_fmt'].'"'.";".
-            '"'.$op['description']." ".$op['jr_pj_number'].'"'.";".
+            '"'.$op['description'].'",'.
             nb($op['deb_montant']).";".
             nb($op['cred_montant']).";".
             nb(abs($prog));

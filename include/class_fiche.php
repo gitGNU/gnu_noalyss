@@ -1052,10 +1052,11 @@ class Fiche
         }
 
         $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
-        $Res=$this->cn->exec_sql("select distinct j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,j_qcode,".
+        $Res=$this->cn->exec_sql("select distinct substring(jr_pj_number,'\\\\d+$'),j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,j_qcode,".
                                  "case when j_debit='t' then j_montant else 0 end as deb_montant,".
                                  "case when j_debit='f' then j_montant else 0 end as cred_montant,".
                                  " jr_comment as description,jrn_def_name as jrn_name,".
+				 " jr_pj_number,".
                                  "j_debit, jr_internal,jr_id,coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter ".
                                  " from jrnx left join jrn_def on jrn_def_id=j_jrn_def ".
                                  " left join jrn on jr_grpt_id=j_grpt".
@@ -1063,7 +1064,7 @@ class Fiche
                                  " ( to_date($2,'DD.MM.YYYY') <= j_date and ".
                                  "   to_date($3,'DD.MM.YYYY') >= j_date )".
                                  " and $filter_sql $sql_let ".
-                                 " order by j_date",array($qcode,$p_from,$p_to));
+                                 " order by j_date,substring(jr_pj_number,'\\\\d+$')",array($qcode,$p_from,$p_to));
 
         return $this->get_row_result($Res);
     }
@@ -1125,7 +1126,7 @@ class Fiche
         echo '<h2 class="info">'.$this->id." ".$name.'</h2>';
         echo "<TABLE class=\"result\" style=\"width:100%;border-collapse:separate;border-spacing:5px\">";
         echo "<TR>".
-        "<TH> Code interne </TH>".
+        "<TH> n° de pièce / Code interne </TH>".
         "<TH> Date</TH>".
         "<TH> Description </TH>".
         "<TH> Montant  </TH>".
@@ -1139,7 +1140,7 @@ class Fiche
             else
                 $already_seen[]=$op['jr_internal'];
             echo "<TR  style=\"text-align:center;background-color:lightgrey\">".
-            "<td>".$op['jr_internal']."</td>".
+            "<td>".$op['jr_pj_number']." / ".$op['jr_internal']."</td>".
             "<td>".$op['j_date']."</td>".
             "<td>".h($op['description'])."</td>".
             "<td>"."</td>".
@@ -1190,8 +1191,9 @@ class Fiche
         echo "<TABLE class=\"resultfooter\" style=\"width:100%;border-collapse:separate;border-spacing:5px\">";
         echo '<tbody>';
         echo "<TR>".
-        "<TH>"._('Code interne')." </TH>".
         "<TH>"._('Date')."</TH>".
+        "<TH>"._('n° pièce')." </TH>".
+        "<TH>"._('Code interne')." </TH>".
         "<TH>"._('Description')." </TH>".
         "<TH style=\"text-align:right\">"._('Débit')."  </TH>".
         "<TH style=\"text-align:right\">"._('Crédit')." </TH>".
@@ -1208,8 +1210,9 @@ class Fiche
             if ( $op['letter'] !=-1) $let=$op['letter'];
             $progress+=$op['deb_montant']-$op['cred_montant'];
             echo "<TR>".
-            "<TD>".$vw_operation."</TD>".
             "<TD>".format_date($op['j_date_fmt'])."</TD>".
+	      td(h($op['jr_pj_number'])).
+            "<TD>".$vw_operation."</TD>".
             "<TD>".h($op['description'])."</TD>".
             "<TD style=\"text-align:right\">".sprintf("%.2f",$op['deb_montant'])."</TD>".
             "<TD style=\"text-align:right\">".sprintf("%.2f",$op['cred_montant'])."</TD>".

@@ -74,8 +74,9 @@ if  ( $_GET['p_simple'] == 0 )
         $desc=str_replace('"',"'",$desc);
         $desc=str_replace(";",",",$desc);
 
-        printf("\"%s\";\"%s\";\"%s\";\"%s\";\"%s\";%s;%s\n",
+        printf("\"%s\";\"%s\";\"%s\";\"%s\";\"%s\";\"%s\";%s;%s\n",
                $op['j_id'],
+               $op['jr_pj_number'],
                $op['internal'],
                $op['j_date'],
                $op['poste'],

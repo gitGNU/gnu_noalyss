@@ -56,12 +56,14 @@ if ( count($Fiche->row ) == 0 )
 if ( ! isset ($_REQUEST['oper_detail']))
 {
     echo '"Qcode";'.
-    "\"Code interne\";".
     "\"Date\";".
+      "\"n° pièce\";".
+    "\"Code interne\";".
     "\"Description\";".
     "\"Débit\";".
     "\"Crédit\";".
-    "\"Prog.\"";
+    "\"Prog.\";".
+    "\"Let.\""     ;
     printf("\n");
     $progress=0;
     foreach ( $Fiche->row as $op )
@@ -69,21 +71,22 @@ if ( ! isset ($_REQUEST['oper_detail']))
         $progress+=$op['deb_montant']-$op['cred_montant'];
 
         echo '"'.$op['j_qcode'].'";'.
-        '"'.$op['jr_internal'].'"'.";".
-        '"'.$op['j_date_fmt'].'"'.";".
-        '"'.$op['description'].'"'.";".
-        nb($op['deb_montant']).";".
-        nb($op['cred_montant']).";".
-        nb(abs($progress));
+	  '"'.$op['j_date_fmt'].'"'.";".
+	  '"'.$op['jr_pj_number'].'"'.";".
+	  '"'.$op['jr_internal'].'"'.";".
+	  '"'.$op['description'].'"'.";".
+	  nb($op['deb_montant']).";".
+	  nb($op['cred_montant']).";".
+	  nb(abs($progress)).';'.
+	  '"'.(($op['letter']==-1)?'':$op['letter']).'"';
         printf("\n");
 
     }
 }
 else
 {
-    echo '"Poste";"Qcode";"internal";';
-    echo '"Date";'.
-    "\"Description\";".
+    echo '"Poste";"Qcode";"date";"ref";"internal";';
+    echo    "\"Description\";".
     "\"Montant\";".
     "\"D/C\"";
 
@@ -99,8 +102,9 @@ else
             printf('"%s";"%s";"%s";"%s";"%s";%s;"%s"',
                    $r['j_poste'],
                    $r['j_qcode'],
-                   $r['jr_internal'],
                    $r['jr_date'],
+		   $op['jr_pj_number'],
+                   $r['jr_internal'],
                    $r['description'],
                    nb($r['j_montant']),
                    $r['debit']);

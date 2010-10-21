@@ -79,10 +79,10 @@ class Print_Ledger_Detail extends PDF
         $array=$Jrn->get_operation($_GET['from_periode'],$_GET['to_periode']);
 
         $this->SetFont('DejaVu','BI',7);
-        $this->Cell(145,7,'report Débit',0,0,'R');
+        $this->Cell(215,7,'report Débit',0,0,'R');
         $this->Cell(30,7,sprintf('%10.2f',$rap_deb),0,0,'R');
         $this->Ln(4);
-        $this->Cell(145,7,'report Crédit',0,0,'R');
+        $this->Cell(215,7,'report Crédit',0,0,'R');
         $this->Cell(30,7,sprintf('%10.2f',$rap_cred),0,0,'R');
         $this->Ln(4);
 
@@ -95,7 +95,7 @@ class Print_Ledger_Detail extends PDF
             $this->Cell(20,7,$row['pj']);
             $this->Cell(15,7,$row['date_fmt']);
             $this->Cell(20,7,$row['internal']);
-            $this->Cell(100,7,$row['comment']);
+            $this->Cell(170,7,$row['comment']);
             $this->Cell(20,7,$row['montant'],0,0,'R');
 
             $this->Ln(4);
@@ -103,7 +103,7 @@ class Print_Ledger_Detail extends PDF
             $aEntry=$this->cn->get_array("select j_id,j_poste,j_qcode,j_montant,j_debit, ".
                                          " pcm_lib ".
                                          " from jrnx join tmp_pcmn on (j_poste=pcm_val) where j_grpt = $1".
-                                         " order by j_debit,j_id",
+                                         " order by j_debit desc,j_id",
                                          array($row['jr_grpt_id']));
             for ($j=0;$j<count($aEntry);$j++)
             {
@@ -125,7 +125,7 @@ class Print_Ledger_Detail extends PDF
                 }
                 else
                     $name=$entry['pcm_lib'];
-                $this->Cell(80,6,$name,0,0,'L');
+                $this->Cell(150,6,$name,0,0,'L');
 
                 // print amount
                 $str_amount=sprintf('%10.2f',$entry['j_montant']);

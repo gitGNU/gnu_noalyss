@@ -111,7 +111,10 @@ foreach ($a_poste as $poste)
         $date=shrink_date($row['j_date_fmt']);
         $pdf->Cell($size[$l],6,$date,0,0,$align[$l]);
         $l++;
-        $pdf->Cell($size[$l],6,$row['jr_internal'],0,0,$align[$l]);
+	if ( $row['jr_pj_number'] == '')
+	  $pdf->Cell($size[$l],6,$row['jr_internal'],0,0,$align[$l]);
+	else
+	  $pdf->Cell($size[$l],6,$row['jr_pj_number'],0,0,$align[$l]);	  
         $l++;
         $pdf->Cell($size[$l],6,substr($row['jrn_name'],0,14),0,0,$align[$l]);
         $l++;
