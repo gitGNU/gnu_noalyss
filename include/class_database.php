@@ -804,7 +804,10 @@ class Database
     }
     static function test_me()
     {}
-
+    function status()
+    {
+      return pg_transaction_status($this->db);
+    }
 }
 
 /* test::test_me(); */
