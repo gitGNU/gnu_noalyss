@@ -176,6 +176,16 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 
                 if ( $tva_rate->load() != 0 )
                     throw new Exception(_('La fiche ').${'e_march'.$i}._('a un code tva invalide').' ['.${'e_march'.$i.'_tva_id'}.']',13);
+		/*
+		 * check if the accounting for VAT are valid
+		 */
+		$a_poste=split(',',$tva_rate->tva_poste);
+
+		if ( 
+		    $this->db->get_value('select count(*) from tmp_pcmn where pcm_val=$1',array($a_poste[0])) == 0 ||
+		    $this->db->get_value('select count(*) from tmp_pcmn where pcm_val=$1',array($a_poste[1])) == 0 )
+		  throw new Exception(_(" La TVA ".$tva_rate->tva_label." utilise des postes comptables inexistants"));
+		    
             }
             /* check if all card has a ATTR_DEF_ACCOUNT*/
             $fiche=new Fiche($this->db);
