@@ -27,13 +27,14 @@ require_once ('config.inc.php');
 require_once('constant.security.php');
 // SVNVERSION
 global $version_phpcompta;
-$version_phpcompta=9000;
+/* $version_phpcompta=9000;
 error_reporting (15);
 
+*/
 /* set to none for production */
 /* uncomment for production */
-#error_reporting (0);
-#$version_phpcompta=SVNINFO; 
+error_reporting (0);
+$version_phpcompta=SVNINFO; 
 
 define ("DBVERSION",90);
 define ("DBVERSIONREPO",12);
