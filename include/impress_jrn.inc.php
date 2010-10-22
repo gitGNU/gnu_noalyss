@@ -212,9 +212,9 @@ if ( isset( $_REQUEST['bt_html'] ) )
         echo "<TR>".
         "<th> operation </td>".
         "<th>Date</th>".
-        "<th> commentaire </th>".
+        "<th> n° de pièce </th>".
         "<th>internal</th>".
-        "<th>Pièce justificative</th>".
+        "<th>Commentaire</th>".
         "<th> montant</th>".
         "</TR>";
         // set a filter for the FIN
@@ -234,8 +234,9 @@ if ( isset( $_REQUEST['bt_html'] ) )
             echo "<TD>".$line['num']."</TD>";
             echo "<TD>".$line['date']."</TD>";
             echo "<TD>".h($line['jr_pj_number'])."</TD>";
+	    echo "<TD>".HtmlInput::detail_op($line['jr_id'],$line['jr_internal'])."</TD>";
             echo "<TD>".h($line['comment'])."</TD>";
-            echo "<TD>".$line['jr_internal']."</TD>";
+
             //	  echo "<TD>".$line['pj']."</TD>";
             // If the ledger is financial :
             // the credit must be negative and written in red
