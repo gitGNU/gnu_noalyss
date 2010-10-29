@@ -71,7 +71,7 @@ class @class_name@  @mother_class@
   /* example private $variable=array("easy_name"=>column_name,"email"=>"column_name_email","val3"=>0); */
   
   protected $variable=array(@column_array@);
-  function __construct ($p_cn,$p_id=-1) {
+  function __construct ( & $p_cn,$p_id=-1) {
         $this->cn=$p_cn;
         $this->@id@=$p_id;
         
@@ -383,7 +383,7 @@ class @class_name@
   /* example private $variable=array("easy_name"=>column_name,"email"=>"column_name_email","val3"=>0); */
   
   protected $variable=array(@column_array@);
-  function __construct ($p_cn) {
+  function __construct ( & $p_cn) {
         $this->cn=$p_cn;
   }
 
