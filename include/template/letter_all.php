@@ -65,7 +65,7 @@ $r=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript
 ?>
   <td> <?=$r?> </td>
   <td> <?=h($this->content[$i]['jr_comment'])?> </td>
-<td> <?=$this->content[$i]['j_montant']?> </td>
+  <td style="text-align:right"> <?=nb($this->content[$i]['j_montant'])?> </td>
 <td> <?=($this->content[$i]['j_debit']=='t')?'D':'C'?> </td>
 <td>
 <?php
@@ -95,12 +95,12 @@ $amount_cred+=($this->content[$i]['j_debit']=='f')?$this->content[$i]['j_montant
     endfor;
 ?>
 </table>
-<h2 class="info2" style="margin:0 0"> Solde débit  : <?=$amount_deb?>
-<h2 class="info2"  style="margin:0 0"> Solde crédit : <?=$amount_cred?>
- <? $solde=$amount_deb-$amount_cred; 
+<h2 class="info2" style="margin:0 0"> Solde débit  : <?=nb($amount_deb);?>
+<h2 class="info2"  style="margin:0 0"> Solde crédit : <?=nb($amount_cred);?>
+  <? $solde=bcsub($amount_deb,$amount_cred);
 if ( $solde > 0 ) :
 ?>
-<h2 class="info2"  style="margin:0 0"> Solde débiteur       : <?=$solde?>
+  <h2 class="info2"  style="margin:0 0"> Solde débiteur       : <?=nb($solde)?>
 <? else : ?>
-<h2 class="info2"  style="margin:0 0"> Solde créditeur       : <?=abs($solde)?>
+     <h2 class="info2"  style="margin:0 0"> Solde créditeur       : <?=nb(abs($solde))?>
 <? endif; ?>

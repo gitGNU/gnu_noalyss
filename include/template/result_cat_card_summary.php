@@ -14,8 +14,10 @@ foreach ($array as $row ) :
    echo '<tr class="odd">';
    else 
    echo '<tr class="even">';
- $row->getAttribut();
- foreach($row->attribut as $attr) :
+   $fiche=new Fiche($cn);
+   $fiche->id=$row['f_id'];
+ $fiche->getAttribut();
+ foreach($fiche->attribut as $attr) :
     echo td($attr->av_text,'style="padding: 0 10 1 10;white-space:nowrap;"');
  endforeach;       
  echo '</tr>';

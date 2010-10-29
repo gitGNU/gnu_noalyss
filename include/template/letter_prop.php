@@ -71,7 +71,7 @@ $r=sprintf('<A class="detail" style="text-decoration:underline"  HREF="javascrip
 ?>
 <td> <?=$r?> </td>
 <td> <?=$this->content[$i]['jr_comment']?> </td>
-<td> <?=$this->content[$i]['j_montant']?> </td>
+  <td> <?=nb($this->content[$i]['j_montant'])?> </td>
 <td> <?=($this->content[$i]['j_debit']=='t')?'D':'C'?> </td>
 <td>
 <?php
