@@ -78,9 +78,8 @@ function j($p_string)
  */
 function nb($p_number)
 {
-    $r=sprintf('%.2f',$p_number);
-    $r=str_replace('.',',',$r);
-    return $r;
+  $r=number_format($p_number,2,",",".");
+  return $r;
 }
 
 /*!
