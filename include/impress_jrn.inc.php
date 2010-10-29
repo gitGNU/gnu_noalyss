@@ -199,8 +199,8 @@ if ( isset( $_REQUEST['bt_html'] ) )
 
             echo "<TD>".$op['poste']."</TD>".
             "<TD>".$op['description']."</TD>".
-            "<TD>".$op['deb_montant']."</TD>".
-            "<TD>".$op['cred_montant']."</TD>".
+	      "<TD style=\"text-align:right\">".nbm($op['deb_montant'])."</TD>".
+	      "<TD style=\"text-align:right\">".nbm($op['cred_montant'])."</TD>".
             "</TR>";
         }// end loop
     } // if
@@ -248,12 +248,12 @@ if ( isset( $_REQUEST['bt_html'] ) )
                                            " and j_debit='f'");
 
                 echo "<TD align=\"right\">";
-                echo ( $positive != 0 )?"<font color=\"red\">  - ".sprintf("%8.2f",$line['montant'])."</font>":sprintf("%8.2f",$line['montant']);
+                echo ( $positive != 0 )?"<font color=\"red\">  - ".nbm($line['montant'])."</font>":nbm($line['montant']);
                 echo "</TD>";
             }
             else
             {
-                echo "<TD align=\"right\">".sprintf("% 8.2f",$line['montant'])."</TD>";
+	      echo "<TD align=\"right\">".nbm($line['montant'])."</TD>";
             }
 
             echo "</tr>";

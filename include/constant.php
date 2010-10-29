@@ -33,8 +33,9 @@ error_reporting (15);
 */
 /* set to none for production */
 /* uncomment for production */
-error_reporting (0);
+/*error_reporting (0);
 $version_phpcompta=SVNINFO; 
+*/
 
 define ("DBVERSION",90);
 define ("DBVERSIONREPO",12);

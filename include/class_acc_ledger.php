@@ -808,7 +808,7 @@ class Acc_Ledger
 
             $tot=($positive != 0)?$tot-$row['jr_montant']:$tot+$row['jr_montant'];
             //STAN $positive always == 0
-            $r.=( $positive != 0 )?"<font color=\"red\">  - ".sprintf("%8.2f",$row['jr_montant'])."</font>":sprintf("%8.2f",$row['jr_montant']);
+            $r.=( $positive != 0 )?"<font color=\"red\">  - ".nbm($row['jr_montant'])."</font>":nbm($row['jr_montant']);
             $r.="</TD>";
 
 
@@ -877,17 +877,17 @@ class Acc_Ledger
         $tot=round($tot,4);
         $r.="<TR>";
         $r.='<TD COLSPAN="5">Total</TD>';
-        $r.='<TD ALIGN="RIGHT">'.$tot."</TD>";
+        $r.='<TD ALIGN="RIGHT">'.nbm($tot)."</TD>";
         $r.="</tr>";
         if ( $p_paid != 0 )
         {
             $r.="<TR>";
             $r.='<TD COLSPAN="5">Pay&eacute;</TD>';
-            $r.='<TD ALIGN="RIGHT">'.$amount_paid."</TD>";
+            $r.='<TD ALIGN="RIGHT">'.nbm($amount_paid)."</TD>";
             $r.="</tr>";
             $r.="<TR>";
             $r.='<TD COLSPAN="5">Non pay&eacute;</TD>';
-            $r.='<TD ALIGN="RIGHT">'.$amount_unpaid."</TD>";
+            $r.='<TD ALIGN="RIGHT">'.nbm($amount_unpaid)."</TD>";
             $r.="</tr>";
         }
         $r.="</table>";
