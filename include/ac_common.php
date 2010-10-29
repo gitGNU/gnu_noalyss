@@ -89,9 +89,16 @@ function nb($p_number)
  */
 function nbm($p_number)
 {
-  if ($p_number=='') return '';
+
+  if (trim($p_number)=='') return '';
+  if ( $p_number==0) return 0;
   $a=doubleval($p_number);
+
   $r=number_format($a,2,",",".");
+  if (trim($r)=='') {
+    var_dump($r);var_dump($p_number);var_dump($a);exit();
+  }
+
   return $r;
 }
 /*!

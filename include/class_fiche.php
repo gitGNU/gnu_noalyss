@@ -1422,12 +1422,10 @@ class Fiche
                          " ".$tiers->strAttribut(ATTR_DEF_PAYS)).
                 "</TD>";
 
-
-
-            $r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$amount['debit']);
-            $r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$amount['credit']);
-            $r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$amount['solde']);
-
+            $r.='<TD align="right"> '.(($amount['debit']==0)?0:nbm($amount['debit'])).'&euro;</TD>';
+	    $r.='<TD align="right"> '.(($amount['credit']==0)?0:nbm($amount['credit'])).'&euro;</TD>';
+	    $r.='<TD align="right"> '.nbm($amount['solde'])."&euro;</TD>";
+				      
 
             $r.="</TR>";
 

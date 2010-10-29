@@ -81,11 +81,11 @@ if ( $low_action == "list" )
 {
 
     ?>
-    <div class="content">
-                           <span  style="position:float;float:left">
-                                        <form method="get" action="<?php echo $href; ?>">
-                                                                  <?php
-                                                                  echo dossier::hidden();
+  <div class="content">
+    <span  style="position:float;float:left">
+    <form method="get" action="<?php echo $href; ?>">
+<?php
+    echo dossier::hidden();
     $a=(isset($_GET['query']))?$_GET['query']:"";
     printf (_('Recherche').' <input class="input_text" type="text" name="query" value="%s">',
             $a);
