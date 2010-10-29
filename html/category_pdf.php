@@ -123,7 +123,7 @@ else
     $tab=array(13,25,55,20,20,12,20);
     $align=array('L','L','L','R','R','R','R');
 
-    foreach($array as $row)
+    foreach($array as $row_fiche)
     {
         $letter=new Lettering_Card($cn);
         $letter->set_parameter('quick_code',$row->strAttribut(ATTR_DEF_QUICKCODE));
@@ -148,8 +148,8 @@ else
         /* skip if nothing to display */
         if (count($letter->content) == 0 ) continue;
         $pdf->SetFont('DejaVuCond','',10);
-
-        $pdf->Cell(0,7,$row->strAttribut(ATTR_DEF_NAME),1,1,'C');
+	$fiche=new Fiche($cn,$row_fiche['f_id']);
+        $pdf->Cell(0,7,$fiche->strAttribut(ATTR_DEF_NAME),1,1,'C');
 
         $pdf->SetFont('DejaVuCond','',7);
 
