@@ -95,14 +95,14 @@ echo '</tr>';
 
    $row.=td($sym_tva,'style="text-align:center"');
 
-    $row.=td(sprintf("%.2f",$q['qs_quantite']),'class="num"');
+    $row.=td(nbm($q['qs_quantite']),'class="num"');
     $htva=$q['qs_price'];
-    $row.=td(sprintf("%.2f",$htva),'class="num"');
+    $row.=td(nbm($htva),'class="num"');
     $tvac=bcadd($htva,$q['qs_vat']);
     if ($owner->MY_TVA_USE=='Y')
       {
-	$row.=td(sprintf("%.2f",$q['qs_vat']),'class="num"');
-	$row.=td(sprintf("%.2f",$tvac),'class="num"');
+	$row.=td(nbm($q['qs_vat']),'class="num"');
+	$row.=td(nbm($tvac),'class="num"');
       }
     $total_tvac+=$tvac;
     $total_htva+=$htva;
@@ -126,9 +126,9 @@ echo '</tr>';
 
   }
 $row= td(_('Total'),' style="font-style:italic;text-align:right;font-weight: bolder;" colspan="5"');
-$row.=td($total_htva,'class="num" style="font-style:italic;font-weight: bolder;"');
+$row.=td(nbm($total_htva),'class="num" style="font-style:italic;font-weight: bolder;"');
 if ($owner->MY_TVA_USE=='Y')
-  $row.=td($total_tvac,'class="num" style="font-style:italic;font-weight: bolder;"');
+  $row.=td(nbm($total_tvac),'class="num" style="font-style:italic;font-weight: bolder;"');
 echo tr($row);
 ?>
 </table>
@@ -191,7 +191,7 @@ echo '</tr>';
       $name=$cn->get_value('select pcm_lib from tmp_pcmn where pcm_val=$1',array($q['j_poste']));
       $row.=td(h($name));
     }
-    $montant=td(sprintf("%.2f",$q['j_montant']),'class="num"');
+    $montant=td(nbm($q['j_montant']),'class="num"');
     $row.=($q['j_debit']=='t')?$montant:td('');
     $row.=($q['j_debit']=='f')?$montant:td('');
     echo tr($row);

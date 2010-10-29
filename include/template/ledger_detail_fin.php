@@ -99,7 +99,7 @@ echo '</tr>';
       $name=$cn->get_value('select pcm_lib from tmp_pcmn where pcm_val=$1',array($q[$e]['j_poste']));
       $row.=td(h($name));
     }
-    $montant=td($q[$e]['j_montant'],'class="num"');
+    $montant=td(nbm($q[$e]['j_montant']),'class="num"');
     $row.=($q[$e]['j_debit']=='t')?$montant:td('');
     $row.=($q[$e]['j_debit']=='f')?$montant:td('');
     echo tr($row);

@@ -78,10 +78,20 @@ function j($p_string)
  */
 function nb($p_number)
 {
+    $r=sprintf('%.2f',$p_number);
+    $r=str_replace('.',',',$r);
+
+  return $r;
+}
+/**
+ * format the number with a sep. for the thousand
+ *@param $p_number number
+ */
+function nbm($p_number)
+{
   $r=number_format($p_number,2,",",".");
   return $r;
 }
-
 /*!
  * \brief  log error into the /tmp/phpcompta_error.log it doesn't work on windows
  *
