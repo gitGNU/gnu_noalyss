@@ -1565,12 +1565,8 @@ class Fiche
             $sql='select f_id from fiche  where fd_id=$1 ';
         }
         $array=$p_cn->get_array($sql,array($pFd_id));
-        if ( empty ($array) ) return null;
-        foreach ($array as $ret )
-        {
-            $r[]=new Fiche($p_cn,$ret['f_id']);
-        }
-        return $r;
+
+	return $array;
     }
     /*!\brief check if a card is used
      *\return return true is a card is used otherwise false
