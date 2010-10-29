@@ -53,8 +53,8 @@ class contact extends Fiche
         $extra_sql="";
         if ( $this->company != "")
         {
-            $extra_sql="and f_id in (select f_id from jnt_fic_att_value join
-                       attr_value using (jft_id) where av_text=upper('".$this->company."') and ad_id=".ATTR_DEF_COMPANY.") ";
+            $extra_sql="and f_id in (select f_id from fiche_detail
+                       where ad_value=upper('".$this->company."') and ad_id=".ATTR_DEF_COMPANY.") ";
         }
         $url=urlencode($_SERVER['REQUEST_URI']);
         $script=$_SERVER['PHP_SELF'];
@@ -70,11 +70,9 @@ class contact extends Fiche
         if ( trim($p_search) != "" )
         {
             $search=" and f_id in
-                    (select f_id from jnt_fic_att_value
-                    join fiche using (f_id)
-                    join attr_value using (jft_id)
+                    (select f_id from fiche_Detail
                     where
-                    ad_id=1 and av_text ~* '$p_search') ";
+                    ad_id=1 and ad_value ~* '$p_search') ";
         }
         // Get The result Array
         $step_contact=$this->GetAll($offset,$search.$extra_sql.$p_sql);

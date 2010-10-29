@@ -345,9 +345,9 @@ if ( isset ( $_GET["action"]) )
     {
         echo '<DIV class="u_redcontent" style="float:top;width:auto;">';
         ShowRecherche();
-        $sql="select distinct f_id,fd_id from fiche join jnt_fic_att_value using (f_id)
-             join attr_value using (jft_id) where
-             upper(av_text) like upper('%".FormatString($_GET["search_text"])."%') order by f_id";
+        $sql="select distinct f_id,fd_id from fiche join fiche_detail using (f_id)
+                 where
+             upper(ad_value) like upper('%".FormatString($_GET["search_text"])."%') order by f_id";
 
         $all=$cn->get_array($sql);
         // test on the size

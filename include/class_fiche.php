@@ -79,8 +79,8 @@ class Fiche
         if ( $p_qcode == null )
             $p_qcode=$this->quick_code;
         $p_qcode=trim($p_qcode);
-        $sql="select f_id from jnt_fic_att_value join attr_value
-             using (jft_id)  where ad_id=23 and av_text=upper($1)";
+        $sql="select f_id from fiche_detail 
+             where ad_id=23 and ad_value=upper($1)";
         $this->id=$this->cn->get_value($sql,array($p_qcode));
         if ( $this->cn->count()==0)
         {
@@ -123,11 +123,11 @@ class Fiche
             return;
         }
         $sql="select *
-             from jnt_fic_att_value
-             natural join fiche
-             natural join attr_value
-             join jnt_fic_attr on (jnt_fic_attr.fd_id=fiche.fd_id and jnt_fic_attr.ad_id=jnt_fic_att_value.ad_id)
-             join attr_def on (attr_def.ad_id=jnt_fic_att_value.ad_id) where f_id=".$this->id.
+             from 
+                   fiche 
+             natural join fiche_detail
+	     join jnt_fic_attr on (jnt_fic_attr.fd_id=fiche.fd_id and fiche_detail.ad_id=jnt_fic_attr.ad_id)
+             join attr_def on (attr_def.ad_id=fiche_detail.ad_id) where f_id=".$this->id.
              " order by jnt_order";
 
         $Ret=$this->cn->exec_sql($sql);
@@ -140,7 +140,7 @@ class Fiche
             $t=new Fiche_Attr ($this->cn);
             $t->ad_id=$row['ad_id'];
             $t->ad_text=$row['ad_text'];
-            $t->av_text=$row['av_text'];
+            $t->av_text=$row['ad_value'];
             $t->ad_type=$row['ad_type'];
             $t->ad_size=$row['ad_size'];
             $t->jnt_order=$row['jnt_order'];
@@ -188,8 +188,8 @@ class Fiche
      */
     function seek($p_attribut,$p_value)
     {
-        $sql="select jft_id,f_id,fd_id,ad_id,av_text from fiche join jnt_fic_att_value using (f_id) join attr_value
-             using (jft_id)  where ad_id=$1 and upper(av_text)=upper($2)";
+        $sql="select jft_id,f_id,fd_id,ad_id,ad_value from fiche join fiche_detail using (f_id) 
+             where ad_id=$1 and upper(ad_value)=upper($2)";
         $res=$this->cn->get_array($sql,array($p_attribut,$p_value));
         return $res;
     }
@@ -317,7 +317,7 @@ class Fiche
 
             if ($this->id==0) return NOTFOUND;
             // object is not in memory we need to look into the database
-            $sql="select av_text from attr_value join jnt_fic_att_value using(jft_id)
+            $sql="select ad_value from fiche_detail
                  where f_id=".FormatString($this->id)." and ad_id=".$p_ad_id;
             $Res=$this->cn->exec_sql($sql);
             $row=Database::fetch_all($Res);
@@ -325,7 +325,7 @@ class Fiche
             if ( $row == false )
                 return NOTFOUND;
 
-            return $row[0]['av_text'];
+            return $row[0]['ad_value'];
         }
 
         foreach ($this->attribut as $e)
@@ -712,9 +712,9 @@ class Fiche
                 if ( $id == ATTR_DEF_COMPANY )
                 {
                     $exist=$this->cn->count_sql("select f_id from fiche join fiche_def using (fd_id) ".
-                                                " join jnt_fic_att_value using (f_id) join attr_value using (jft_id) ".
+                                                " join fiche_detail using(f_id) ".
                                                 " where frd_id in (8,9,14) and ad_id=".ATTR_DEF_QUICKCODE.
-                                                " and av_text='".FormatString($value)."'");
+                                                " and ad_value='".FormatString($value)."'");
                     if ( $exist == 0 && FormatString($value) != null )
                     {
                         $value="";
@@ -757,21 +757,17 @@ class Fiche
                 if ( $id == null ) continue;
 
                 // retrieve jft_id to update table attr_value
-                $sql=" select jft_id from jnt_fic_att_value where ad_id=$id and f_id=$this->id";
+                $sql=" select jft_id from fiche_detail where ad_id=$id and f_id=$this->id";
                 $Ret=$this->cn->exec_sql($sql);
                 if ( Database::num_row($Ret) != 1 )
                 {
                     // we need to insert this new attribut
                     $jft_id=$this->cn->get_next_seq('s_jnt_fic_att_value');
 
-                    $sql2=sprintf("insert into jnt_fic_att_value(jft_id,ad_id,f_id) values (%s,%s,%s)",
-                                  $jft_id,$id,$this->id);
+                    $sql2=sprintf("insert into fiche_detail(jft_id,ad_id,f_id,ad_value) values ($1,$2,$3,NULL)");
 
-                    $ret2=$this->cn->exec_sql($sql2);
-                    // insert a null value for this attribut
-                    $sql3=sprintf("insert into attr_value(jft_id,av_text) values (%s,null)",
-                                  $jft_id);
-                    $ret3=$this->cn->exec_sql($sql3);
+                    $ret2=$this->cn->exec_sql($sql2,array($jft_id,$id,$this->id));
+
                 }
                 else
                 {
@@ -883,9 +879,9 @@ class Fiche
                 if ( $id == ATTR_DEF_COMPANY )
                 {
                     $exist=$this->cn->count_sql("select f_id from fiche join fiche_def using (fd_id) ".
-                                                " join jnt_fic_att_value using (f_id) join attr_value using (jft_id) ".
+                                                " join fiche_detail using (f_id)  ".
                                                 " where frd_id in (8,9,14) and ad_id=".ATTR_DEF_QUICKCODE.
-                                                " and av_text='".FormatString($value)."'");
+                                                " and ad_value='".FormatString($value)."'");
 
 
                     if ( $exist == 0 && FormatString($value) != null )
@@ -896,7 +892,7 @@ class Fiche
 
                 // Normal traitement
                 $value2=FormatString($value);
-                $sql=sprintf("update attr_value set av_text='%s' where jft_id=%d",
+                $sql=sprintf("update fiche_detail set ad_value='%s' where jft_id=%d",
                              trim($value2),$jft_id);
                 $this->cn->exec_sql($sql);
             }
@@ -943,13 +939,13 @@ class Fiche
      */
     function getName()
     {
-        $sql="select av_text from jnt_fic_att_value join attr_value
-             using (jft_id)  where ad_id=1 and f_id=".$this->id;
+        $sql="select ad_value from fiche_detail
+             where ad_id=1 and f_id=".$this->id;
         $Res=$this->cn->exec_sql($sql);
         $r=Database::fetch_all($Res);
         if ( sizeof($r) == 0 )
             return 1;
-        return $r[0]['av_text'];
+        return $r[0]['ad_value'];
     }
 
     /*!\brief return the quick_code of a card
@@ -957,13 +953,12 @@ class Fiche
      */
     function get_quick_code()
     {
-        $sql="select av_text from jnt_fic_att_value join attr_value
-             using (jft_id)  where ad_id=23 and f_id=".$this->id;
+        $sql="select ad_value from fiche_detail where ad_id=23 and f_id=".$this->id;
         $Res=$this->cn->exec_sql($sql);
         $r=Database::fetch_all($Res);
         if ( sizeof($r) == 0 )
             return null;
-        return $r[0]['av_text'];
+        return $r[0]['ad_value'];
     }
 
     /*!\brief Synonum of fiche::getAttribut
@@ -1325,10 +1320,9 @@ class Fiche
      */
     function empty_attribute($p_attr)
     {
-        $sql="select av_text
-             from jnt_fic_att_value
+        $sql="select ad_value
+             from fiche_detail
              natural join fiche
-             natural join attr_value
              left join attr_def using (ad_id) where f_id=".$this->id.
              " and ad_id = ".$p_attr.
              " order by ad_id";
@@ -1382,11 +1376,9 @@ class Fiche
         if ( trim($p_search) != "" )
         {
             $search.=" and f_id in
-                     (select f_id from jnt_fic_att_value
-                     join fiche using (f_id)
-                     join attr_value using (jft_id)
+                     (select f_id from fiche_detail
                      where
-                     ad_id=1 and av_text ~* '$p_search')";
+                     ad_id=1 and ad_value ~* '$p_search')";
         }
         // Get The result Array
         $step_tiers=$this->GetAll($offset,$search.$filter_amount,'name');
@@ -1596,12 +1588,9 @@ class Fiche
     function delete()
     {
         // Remove from attr_value
-        $Res=$this->cn->exec_sql("delete from attr_value
-                                 where jft_id in (select jft_id
-                                 from jnt_fic_att_value
-                                 natural join fiche where f_id=".$this->id.")");
-        // Remove from jnt_fic_att_value
-        $Res=$this->cn->exec_sql("delete from jnt_fic_att_value where f_id=".$this->id);
+        $Res=$this->cn->exec_sql("delete from fiche_detail
+                                 where 
+                                   f_id=".$this->id);
 
         // Remove from fiche
         $Res=$this->cn->exec_sql("delete from fiche where f_id=".$this->id);
@@ -1706,7 +1695,7 @@ class Fiche
         // add missing
         $this->cn->exec_sql('select fiche_attribut_synchro($1)',array($p_fdid));
         // add to the destination missing fields
-        $this->cn->exec_sql("insert into jnt_fic_attr (fd_id,ad_id,jnt_order) select $1,ad_id,100 from jnt_fic_att_value where f_id=$2 and ad_id not in (select ad_id from jnt_fic_attr where fd_id=$3)",array($p_fdid,$this->id,$p_fdid));
+        $this->cn->exec_sql("insert into jnt_fic_attr (fd_id,ad_id,jnt_order) select $1,ad_id,100 from fiche_detail where f_id=$2 and ad_id not in (select ad_id from jnt_fic_attr where fd_id=$3)",array($p_fdid,$this->id,$p_fdid));
         $this->cn->commit();
     }
 

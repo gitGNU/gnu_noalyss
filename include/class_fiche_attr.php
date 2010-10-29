@@ -192,10 +192,8 @@ class Fiche_Attr
     public function delete()
     {
         if ($this->ad_id < 9000)  return;
-        $sql=$this->cn->exec_sql("delete from attr_value where jft_id in (select jft_id from jnt_fic_att_value where ad_id=$1 )",
+        $sql=$this->cn->exec_sql("delete from fiche_detail  where ad_id=$1 )",
                                  array($this->ad_id));
-        $sql="delete from jnt_fic_att_value where ad_id=$1";
-        $res=$this->cn->exec_sql($sql,array($this->ad_id));
 
         $sql="delete from jnt_fic_attr where ad_id=$1";
         $res=$this->cn->exec_sql($sql,array($this->ad_id));

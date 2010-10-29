@@ -183,8 +183,7 @@ if ( isset ($_POST["FMOD_NAME"]) )
     }
     if ( isset($_POST['CARD']))
     {
-        $Res=$cn_mod->exec_sql("delete from  attr_value");
-        $Res=$cn_mod->exec_sql("delete from  jnt_fic_att_value");
+        $Res=$cn_mod->exec_sql("delete from  fiche_detail");
         $Res=$cn_mod->exec_sql("delete from   fiche");
         $Res=$cn_mod->exec_sql("delete from action_gestion");
         $Res=$cn_mod->exec_sql("delete from document");

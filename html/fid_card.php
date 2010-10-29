@@ -111,14 +111,14 @@ else
   $filter_card;
 */
 
-$sql_str="select distinct f_id from fiche join jnt_fic_att_value using (f_id) join attr_value using(jft_id) where ad_id in (9,1,23) and av_text ilike '%'||$1||'%' ".$filter_card.' limit 12';
+$sql_str="select distinct f_id from fiche join fiche_detail using (f_id) where ad_id in (9,1,23) and ad_value ilike '%'||$1||'%' ".$filter_card.' limit 12';
 
 $sql=$cn->get_array($sql_str		    ,array($_REQUEST['FID']));
 
 if (sizeof($sql) != 0 )
 {
     echo "<ul>";
-    $sql_get=$cn->prepare('get_name',"select av_text from jnt_fic_att_value join attr_value using (jft_id) where f_id = $1 and ad_id=$2");
+    $sql_get=$cn->prepare('get_name',"select ad_value from fiche_detail where f_id = $1 and ad_id=$2");
 
     for ($i =0;$i<12 && $i < count($sql) ;$i++)
     {

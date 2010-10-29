@@ -364,9 +364,8 @@ class Fiche_Def
 
             $page=(isset($_GET['page']))?$_GET['page']:1;
             $offset=(isset($_GET['offset']))?$_GET['offset']:0;
-            $max_line=$this->cn->count_sql("select f_id,av_text  from
-                                           fiche join jnt_fic_att_value using (f_id)
-                                           join attr_value using (jft_id)
+            $max_line=$this->cn->count_sql("select f_id,ad_value  from
+                                           fiche join fiche_detail using (f_id)
                                            where fd_id='".$this->id."' and ad_id=".ATTR_DEF_NAME." order by f_id");
             $sql_limit=" limit ".$step;
             $sql_offset=" offset ".$offset;
@@ -611,20 +610,14 @@ class Fiche_Def
                  "   and ad_id=".$ch;
             $this->cn->exec_sql($sql);
 
-            $sql="delete from attr_value where jft_id in ( select ".
-                 " jft_id from attr_value join jnt_fic_att_value using (jft_id) ".
+            $sql="delete from fiche_detail  where jft_id in ( select ".
+                 " jft_id from fiche_Detail ".
                  " join fiche using(f_id) ".
                  " where ".
                  "fd_id = ".$this->id." and ".
                  "ad_id=".$ch.")";
             $this->cn->exec_sql($sql);
 
-            $sql="delete from jnt_fic_att_value where jft_id in (".
-                 " select jft_id from jnt_fic_att_value join fiche using (f_id) ".
-                 " where ".
-                 " fd_id = ".$this->id." and ".
-                 " ad_id = ".$ch.")";
-            $this->cn->exec_sql($sql);
             $this->cn->commit();
         }
     }

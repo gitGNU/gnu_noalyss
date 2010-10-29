@@ -138,7 +138,7 @@ for ($e=0;$e<count($array);$e++)
             else
             {
                 $f_id=$cn->get_value('select f_id from vw_poste_qcode where j_qcode=$1',array($a_detail[$f]['j_qcode'])) ;
-                $lib=$cn->get_value('select av_text from jnt_fic_att_value join attr_value using (jft_id) where ad_id=$1 and f_id=$2',
+                $lib=$cn->get_value('select ad_value from fiche_detail where ad_id=$1 and f_id=$2',
                                     array(ATTR_DEF_NAME,$f_id));
             }
             $pdf->Cell($size[$l],6,$lib,0,0,$align[$l]);

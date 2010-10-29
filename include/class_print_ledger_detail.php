@@ -118,7 +118,7 @@ class Print_Ledger_Detail extends PDF
                 {
                     $f_id=$this->cn->get_value('select f_id from vw_poste_qcode where j_qcode=$1',array($entry['j_qcode']));
                     if ($f_id != '')
-                        $name=$this->cn->get_value('select av_text from attr_value join jnt_fic_att_value using(jft_id) where f_id=$1 and ad_id=1',
+                        $name=$this->cn->get_value('select ad_value from fiche_detail where f_id=$1 and ad_id=1',
                                                    array($f_id));
                     else
                         $name=$entry['pcm_lib'];

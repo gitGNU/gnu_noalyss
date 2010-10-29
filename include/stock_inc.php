@@ -126,10 +126,9 @@ function ViewStock($p_cn,$p_year)
 function getFicheNameCode ($p_cn,$p_sg_code)
 {
     // Sql stmt
-    $sql="select distinct f_id,av_text
+    $sql="select distinct f_id,ad_value
          from stock_goods
-         join jnt_fic_att_value using (f_id )
-         join attr_value using (jft_id)
+         join fiche_detail
          where
          ad_id=".ATTR_DEF_STOCK."
          and sg_code='$p_sg_code'
