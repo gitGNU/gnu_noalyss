@@ -657,8 +657,9 @@ class Fiche_Def
         if ( $aFiche != null )
         {
             /* check if the card is used */
-            foreach ($aFiche as $fiche)
+            foreach ($aFiche as $dfiche)
             {
+	      $fiche=new Fiche($this->cn,$dfiche['f_id']);
 
                 /* if the card is not used then remove it otherwise increment remains */
                 if ( $fiche->is_used() == false )
