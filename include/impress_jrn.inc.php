@@ -192,7 +192,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
             echo "<TD>".$op['jr_pj_number']."</TD>";
 
 
-            if ( $op['jr_id']!='')
+            if ( $op['internal']!='')
                 echo "<TD>".HtmlInput::detail_op($op['jr_id'],$op['internal'])."</TD>";
             else
                 echo td();
@@ -234,7 +234,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
             echo "<TD>".$line['num']."</TD>";
             echo "<TD>".$line['date']."</TD>";
             echo "<TD>".h($line['jr_pj_number'])."</TD>";
-	    echo "<TD>".HtmlInput::detail_op($line['jr_id'],$line['jr_internal'])."</TD>";
+	    echo "<TD>".(( $line['jr_internal'] != '')?HtmlInput::detail_op($line['jr_id'],$line['jr_internal']):"")."</TD>";
             echo "<TD>".h($line['comment'])."</TD>";
 
             //	  echo "<TD>".$line['pj']."</TD>";
