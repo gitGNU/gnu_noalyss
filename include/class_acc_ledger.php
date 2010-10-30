@@ -768,7 +768,7 @@ class Acc_Ledger
             }
             //DEBUG
 
-            $r.=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s</A>',
+            $r.=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s </A>',
                         $row['jr_id'], $gDossier, $row['jr_internal']);
             $r.="</TD>";
             if ( $this->type=='') $r.=td($row['jrn_def_name']);
