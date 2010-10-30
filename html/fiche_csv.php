@@ -44,7 +44,7 @@ if  ( isset ($_GET['fd_id']))
 {
     $fiche_def=new Fiche_Def($cn,$_GET ['fd_id']);
     $fiche=new Fiche($cn);
-    $e=$fiche_def->GetByType();
+    $e=$fiche_def->get_by_type();
     $o=0;
     //  Heading
     $fiche_def->GetAttribut();
@@ -63,9 +63,13 @@ if  ( isset ($_GET['fd_id']))
     printf("\n");
     $o=0;
     // Details
-    usort($e,'fiche::cmp_name');
-    foreach ($e as $detail)
-    {
+
+    foreach ($e as $fiche)
+      {
+	$detail=new Fiche($cn,$fiche['f_id']);
+
+	$detail->getAttribut();
+
         foreach ( $detail->attribut as $dattribut )
         {
             if ( $o == 0 )

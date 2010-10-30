@@ -139,7 +139,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
         $solde = 0.0;
         $solde_d = 0.0;
         $solde_c = 0.0;
-
+	bcscale(2);
         foreach ($Poste->row as $detail)
         {
 
@@ -158,13 +158,13 @@ if ( isset( $_REQUEST['bt_html'] ) )
 
             if ($detail['cred_montant'] > 0)
             {
-                $solde   += $detail['cred_montant'];
-                $solde_c += $detail['cred_montant'];
+	      $solde=bcadd($solde, $detail['cred_montant']);
+	      $solde_c=bcadd($solde_c,$detail['cred_montant']);
             }
             if ($detail['deb_montant'] > 0)
             {
-                $solde   -= $detail['deb_montant'];
-                $solde_d += $detail['deb_montant'];
+	      $solde   = bcsub($solde,$detail['deb_montant']);
+	      $solde_d = bcadd($solde_d,$detail['deb_montant']);
             }
 
             echo '<tr>
@@ -172,9 +172,9 @@ if ( isset( $_REQUEST['bt_html'] ) )
             <td>'.$detail['jr_internal'].'</td>
             <td>'.$detail['description'].'</td>
             <td>'.$detail['jr_pj_number'].'</td>
-            <td align="right">'.($detail['deb_montant']  > 0 ? sprintf("%.2f", $detail['deb_montant'])  : '').'</td>
-            <td align="right">'.($detail['cred_montant'] > 0 ? sprintf("%.2f", $detail['cred_montant']) : '').'</td>
-            <td align="right">'.sprintf("%.2f", $solde).'</td>
+            <td align="right">'.($detail['deb_montant']  > 0 ? nbm($detail['deb_montant'])  : '').'</td>
+            <td align="right">'.($detail['cred_montant'] > 0 ? nbm($detail['cred_montant']) : '').'</td>
+            <td align="right">'.nbm($solde).'</td>
             <td>'.''.'</td>
             </tr>';
         }
@@ -183,11 +183,16 @@ if ( isset( $_REQUEST['bt_html'] ) )
         <td>'.''.'</td>
         <td>'.'<b>'.'Total du compte '.$poste_id['pcm_val'].'</b>'.'</td>
         <td>'.''.'</td>
-        <td align="right">'.'<b>'.($solde_d  > 0 ? sprintf("%.2f", $solde_d)  : '').'</b>'.'</td>
-        <td align="right">'.'<b>'.($solde_c  > 0 ? sprintf("%.2f", $solde_c)  : '').'</b>'.'</td>
-        <td align="right">'.'<b>'.sprintf("%.2f", abs($solde_c-$solde_d)).'</b>'.'</td>
-        <td>'.($solde_c > $solde_d ? 'C' : 'D').'</td>
-        </tr>';
+        <td align="right">'.'<b>'.($solde_d  > 0 ? nbm( $solde_d)  : '').'</b>'.'</td>
+        <td align="right">'.'<b>'.($solde_c  > 0 ? nbm( $solde_c)  : '').'</b>'.'</td>
+        <td align="right">'.'<b>'.nbm( abs($solde_c-$solde_d)).'</b>'.'</td>
+        <td>';
+	if ($solde_c > $solde_d ) echo "Crédit";
+	if ($solde_c < $solde_d )  echo "Débit";
+	if ($solde_c == $solde_d )  echo "=";
+
+      echo '</td>'.
+        '</tr>';
     }
     echo '</table>';
     echo Acc_Account_Ledger::HtmlTableHeader("gl_comptes");

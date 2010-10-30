@@ -62,7 +62,7 @@ if ( $_GET['histo'] == 4 )
         $pdf->Output("category-$fDate.pdf", 'I');
         exit;
     }
-    $aCard=$cn->get_array("select f_id from vw_fiche_attr where fd_id=$1 order by vw_name ",array($_REQUEST['cat']));
+    $aCard=$cn->get_array("select f_id,ad_value from fiche join fiche_Detail using (f_id)  where ad_id=1 and fd_id=$1 order by 2 ",array($_REQUEST['cat']));
 
     if ( empty($aCard))
     {
@@ -125,6 +125,7 @@ else
 
     foreach($array as $row_fiche)
     {
+      $row=new Fiche($cn,$row_fiche['f_id']);
         $letter=new Lettering_Card($cn);
         $letter->set_parameter('quick_code',$row->strAttribut(ATTR_DEF_QUICKCODE));
         $letter->set_parameter('start',$_GET['start']);

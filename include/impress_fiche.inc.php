@@ -134,7 +134,7 @@ if ( $_GET['histo'] == 4 )
         echo "Cette catégorie n'ayant pas de poste comptable n'a pas de balance";
         exit;
     }
-    $aCard=$cn->get_array("select f_id from vw_fiche_attr where fd_id=$1 order by vw_name ",array($_REQUEST['cat']));
+    $aCard=$cn->get_array("select f_id,ad_value from fiche join fiche_detail using(f_id) where fd_id=$1 and ad_id=1 order by 2 ",array($_REQUEST['cat']));
     if ( empty($aCard))
     {
         echo "Aucune fiche trouvée";
@@ -163,9 +163,9 @@ if ( $_GET['histo'] == 4 )
         echo tr(
             td(HtmlInput::history_card($oCard->id,$oCard->strAttribut(ATTR_DEF_QUICKCODE))).
             td($oCard->strAttribut(ATTR_DEF_NAME)).
-            td(sprintf('%.02f',$solde['debit']),'style="text-align:right"').
-            td(sprintf('%.02f',$solde['credit']),'style="text-align:right"').
-            td(sprintf('%.02f',abs($solde['solde'])),'style="text-align:right"').
+            td(nbm($solde['debit']),'style="text-align:right"').
+            td(nbm($solde['credit']),'style="text-align:right"').
+            td(nbm(abs($solde['solde'])),'style="text-align:right"').
             td((($solde['solde']<0)?'CRED':'DEB'),'style="text-align:right"'),
             $class
         );
@@ -181,8 +181,9 @@ if ( isDate($_REQUEST['start']) == null || isDate ($_REQUEST['end']) == null )
     exit;
 }
 // for the lettering
-foreach($array as $row)
+foreach($array as $card)
 {
+  $row=new Fiche($cn,$card['f_id']);
     $letter=new Lettering_Card($cn);
     $letter->set_parameter('quick_code',$row->strAttribut(ATTR_DEF_QUICKCODE));
     $letter->set_parameter('start',$_GET['start']);
@@ -214,7 +215,7 @@ foreach($array as $row)
     echo th(_('ref'));
     echo th(_('Interne'));
     echo th(_('Comm'));
-    echo th(_('Montant'),' colspan="2"');
+    echo th(_('Montant'),'style="width:auto" colspan="2"');
     echo th(_('Prog.'));
     echo th(_('Let.'));
     echo '</tr>';
@@ -234,19 +235,19 @@ foreach($array as $row)
         echo td($row['jr_comment']);
         if ( $row['j_debit'] == 't')
         {
-            echo td(sprintf('%.2f',$row['j_montant']),' style="text-align:right"');
+	  echo td(nbm($row['j_montant']),' style="text-align:right"');
             $amount_deb+=$row['j_montant'];
-            $prog+=$row['j_montant'];
+            $prog=bcadd($prog,$row['j_montant']);
             echo td("");
         }
         else
         {
             echo td("");
-            echo td(sprintf('%.2f',$row['j_montant']),' style="text-align:right"');
+            echo td(nbm($row['j_montant']),' style="text-align:right"');
             $amount_cred+=$row['j_montant'];
-            $prog-=$row['j_montant'];
+            $prog=bcsub($prog,$row['j_montant']);
         }
-        echo td(sprintf('%.2f',$prog),'style="text-align:right"');
+        echo td(nbm($prog),'style="text-align:right"');
         if ($row['letter'] != -1 ) echo td($row['letter']);
         else echo td('');
         echo '</tr>';

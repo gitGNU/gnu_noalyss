@@ -1554,10 +1554,10 @@ class Fiche
         switch ($p_order)
         {
         case 'name_asc':
-            $sql='select f_id from fiche join vw_fiche_name using (f_id) where fd_id=$1 order by name asc';
+            $sql='select f_id,ad_value from fiche join fiche_detail using (f_id) where ad_id=1 and fd_id=$1 order by 2 asc';
             break;
         case 'name_desc':
-            $sql='select f_id from fiche join vw_fiche_name using (f_id) where fd_id=$1 order by name desc';
+            $sql='select f_id,ad_value from fiche join fiche_detail using (f_id) where ad_id=1 and fd_id=$1 order by 2 desc';
             break;
         default:
             $sql='select f_id from fiche  where fd_id=$1 ';

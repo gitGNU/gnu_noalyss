@@ -288,15 +288,15 @@ class Fiche_Def
      * \param $step = 0 we don't use the offset, page_size,...
      *        $step = 1 we use the jnr_bar_nav
      *
-     * \return array of object fiche
+     * \return array ('f_id'=>..,'ad_value'=>..)
      *\see fiche
      */
-    function GetByType($step=0)
+    function get_by_type($step=0)
     {
-        $sql="select *
+        $sql="select f_id,ad_value
              from
-             fiche
-             where fd_id=".$this->id;
+             fiche join fiche_detail using(f_id)
+             where ad_id=1 and fd_id=".$this->id." order by 2";
 
         // we use jrn_navigation_bar
         if ($step == 1  && $_SESSION['g_pagesize'] != -1   )
@@ -306,20 +306,9 @@ class Fiche_Def
             $sql.=" offset $offset limit $step";
         }
 
-        $Ret=$this->cn->exec_sql($sql);
-        if ( ($Max=Database::num_row($Ret)) == 0 )
-            return ;
-        $all[0]=new Fiche($this->cn);
+        $Ret=$this->cn->get_array($sql);
 
-        for ($i=0;$i<$Max;$i++)
-        {
-            $row=Database::fetch_array($Ret,$i);
-            $t=new Fiche($this->cn,$row['f_id']);
-            $t->getAttribut();
-            $all[$i]=$t;
-
-        }
-        return $all;
+        return $Ret;
     }
     /*!
      * \brief Get all the card where the fiche_def.frd_id is given in parameter
@@ -327,10 +316,11 @@ class Fiche_Def
      */
     function get_by_category($p_cat)
     {
-        $sql="select f_id
+        $sql="select f_id,ad_value
              from
-             fiche join fiche_def using(fd_id)
-             where frd_id=$1";
+             fiche join fiche_def  using(fd_id)
+	     join fiche_detail using(f_id)
+             where ad_id=1 and frd_id=$1 order by 2 ";
 
         $Ret=$this->cn->exec_sql($sql,array($p_cat));
         if ( ($Max=Database::num_row($Ret)) == 0 )
