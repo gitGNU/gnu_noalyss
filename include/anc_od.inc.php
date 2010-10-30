@@ -48,7 +48,7 @@ if ( ! $m )
 // show the left menu
 //----------------------------------------------------------------------
 echo '
-<div class="content">
+<div class="content" style="margin-left:12%">
 <div class="lmenu">
 <table>
 <tr>
@@ -78,7 +78,7 @@ if ( isset($_GET['see']))
     $a=new Anc_Operation($cn);
 
     echo '
-    <div class="u_redcontent">
+    <div class="u_redcontent"  style="margin-left:12%">
     <form method= "get">
     ';
 
@@ -106,7 +106,7 @@ if ( isset($_GET['see']))
     echo $w->input();
     echo 'P&eacute;riode  '.HtmlInput::submit('gl_submit','Valider').'</form>';
 
-    echo '<div class="u_redcontent">';
+    echo '<div class="u_redcontent"  style="margin-left:12%">';
     echo $a->html_table($current);
     echo '</div>';
     exit();
@@ -116,7 +116,7 @@ if ( isset($_POST['save']))
     // record the operation and exit
     // and exit
     //-----------------------------
-    echo '<div class="u_redcontent">'.
+    echo '<div class="u_redcontent" style="margin-left:12%">'.
     _('Opération sauvée');
     $a=new Anc_Group_Operation($cn);
 
@@ -136,7 +136,7 @@ if ( isset($_GET['new']))
     echo JS_CAOD_COMPUTE;
     $wSubmit=new IHidden("p_action","ca_od");
     $wSubmit->table=0;
-    echo '<div class="u_redcontent">';
+    echo '<div class="u_redcontent"  style="margin-left:12%">';
     echo '<form method="post">';
     echo dossier::hidden();
     echo $wSubmit->input();
