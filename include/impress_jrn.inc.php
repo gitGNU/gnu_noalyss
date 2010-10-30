@@ -186,10 +186,16 @@ if ( isset( $_REQUEST['bt_html'] ) )
         //---
         foreach ( $Jrn->row as $op )
         {
+	    $class="";
+	    if ( $op['j_date'] != '' )
+	      {
+		$class="odd";
+	      }
 
-            echo "<TR>";
+            echo "<TR  class=\"$class\">";
+
             echo "<TD>".$op['j_date']."</TD>";
-            echo "<TD>".$op['jr_pj_number']."</TD>";
+            echo "<TD >".$op['jr_pj_number']."</TD>";
 
 
             if ( $op['internal']!='')
@@ -197,9 +203,9 @@ if ( isset( $_REQUEST['bt_html'] ) )
             else
                 echo td();
 
-            echo "<TD>".$op['poste']."</TD>".
-            "<TD>".$op['description']."</TD>".
-	      "<TD style=\"text-align:right\">".nbm($op['deb_montant'])."</TD>".
+            echo "<TD >".$op['poste']."</TD>".
+            "<TD  >".$op['description']."</TD>".
+	      "<TD   style=\"text-align:right\">".nbm($op['deb_montant'])."</TD>".
 	      "<TD style=\"text-align:right\">".nbm($op['cred_montant'])."</TD>".
             "</TR>";
         }// end loop
@@ -234,7 +240,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
             echo "<TD>".$line['num']."</TD>";
             echo "<TD>".$line['date']."</TD>";
             echo "<TD>".h($line['jr_pj_number'])."</TD>";
-	    echo "<TD>".(( $line['jr_internal'] != '')?HtmlInput::detail_op($line['jr_id'],$line['jr_internal']):"")."</TD>";
+	    echo "<TD>".HtmlInput::detail_op($line['jr_id'],$line['jr_internal'])."</TD>";
             echo "<TD>".h($line['comment'])."</TD>";
 
             //	  echo "<TD>".$line['pj']."</TD>";
