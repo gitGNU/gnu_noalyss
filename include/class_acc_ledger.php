@@ -1331,7 +1331,7 @@ class Acc_Ledger
 
             if (  $owner->MY_ANALYTIC!='nu') // use of AA
             {
-                if ( myereg("^[6,7]+",$strPoste))
+                if ( preg_match("/^[6,7]+/",$strPoste)==1)
                 {
                     // show form
                     $op=new Anc_Operation($this->db);
@@ -1804,7 +1804,7 @@ class Acc_Ledger
                 $tot_cred+=($acc_op->type=='c')?$acc_op->amount:0;
                 if ( $owner->MY_ANALYTIC != "nu" )
                 {
-                    if ( myereg("^[6,7]+",$poste))
+                    if ( preg_match("/^[6,7]+/",$poste)==1)
                     {
 
                         // for each item, insert into operation_analytique */

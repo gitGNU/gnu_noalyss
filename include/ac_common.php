@@ -183,7 +183,7 @@ function isNumber(&$p_int)
 function isDate ( $p_date)
 {
     if ( strlen (trim($p_date)) == 0 ) return null;
-    if (! myereg ("^[0-9]{1,2}\.[0-9]{1,2}\.20[0-9]{2}",$p_date) )
+    if ( preg_match("/^[0-9]{1,2}\.[0-9]{1,2}\.20[0-9]{2}$/",$p_date) == 0 )
     {
 
         return null;
@@ -642,7 +642,7 @@ function format_date ($p_date)
  *@brief ereg is not supported from the version 5.3 and is marked as
  *obsolete, this function will call preg_match and returns
  * false is nothing is found or the length of the string found
- *@param 
+ *@param  
  *@param
  *@return
  *@see

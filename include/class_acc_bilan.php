@@ -329,6 +329,11 @@ class Acc_Bilan
     /*!\brief generate the ods document
     * \param the handle to the template file 
     * \return the xml 
+    *@note 
+    * Sur une seule ligne il y a plusieurs données, donc il y a plusieurs boucles, pour les autres documents
+    * cela devrait être fait aussi, actuellement ces documents, n'acceptent qu'une formule par ligne.
+    *@note
+    * Pas de header dans les entêtes car n'est pas compris dans le document qu'on utilise
     */
     function generate_odt()
     {
@@ -361,75 +366,80 @@ class Acc_Bilan
         }
 
         $r="";
-        $regex="&lt;&lt;\\$[A-Z]*[0-9]*&gt;&gt;";
+        $regex="/&lt;&lt;\\$[A-Z]*[0-9]*&gt;&gt;/";
         $lt="&lt;";
         $gt="&gt;";
+	$header_txt=header_txt($this->db);
+
         while ( !feof($p_file) )
         {
             $line_rtf=fgets($p_file);
 
-            /* replace the header tag */
-            while( myereg('&lt;&lt;header&gt;&gt;',$line_rtf,$head) == true )
-            {
-                foreach ($head as $h)
-                {
-                    // Create the header
-                    $line_rtf=str_replace($h,header_txt($this->db),$line_rtf);
-                }
-            }
+            /*
+	     * replace the header tag, doesn't work if inside header
+	     */
+            $line_rtf=preg_replace('/&lt;&lt;header&gt;&gt;/',$header_txt,$line_rtf);
+
+
             // the line contains the magic <<
             $tmp="";
-            while (myereg($regex,$line_rtf,$f2) == true)
-            {
 
+	    
+	    while (preg_match_all($regex,$line_rtf,$f2) > 0 )
+	      {
                 // the f2 array contains all the magic << in the line
-                foreach ($f2 as $f2_str)
-                {
-
-                    $to_remove=$f2_str;
-                    $f2_value=str_replace("&lt;","",$f2_str);
-                    $f2_value=str_replace("&gt;","",$f2_value);
-                    $f2_value=str_replace("$","",$f2_value);
-
-                    // check for missing variables and labels (N vars)
-                    if( ! isset($this->$f2_value))
-                    {
-                        $a = "!!".$f2_value."!!";
-                        if( substr($f2_value, 0, 1) == "N" )
-                        {
-                            $ret = $this->db->get_array("SELECT pcm_lib AS acct_name FROM tmp_pcmn WHERE pcm_val::text LIKE ".
-                                                        " substr($1, 2)||'%' ORDER BY pcm_val ASC LIMIT 1",array($f2_value));
-                            if($ret[0]['acct_name'])
-                            {
-                                $a = $ret[0]['acct_name'];
-                                $a=str_replace('<','&lt;',$a);
-                                $a=str_replace('>','&gt;',$a);
-                            }
-                        }
-                    }
-                    else
-                    {
-
-                        $a=$this->$f2_value;
-                    }
-                    if ( $a=='-0' ) $a=0;
-
-                    /*  allow numeric cel in ODT for the formatting and formula */
-                    if ( is_numeric($a) )
-                    {
-                        $searched='office:value-type="string"><text:p>'.$f2_str;
-                        $replaced='office:value-type="float" office:value="'.$a.'"><text:p>'.$f2_str;
-                        $line_rtf=str_replace($searched, $replaced, $line_rtf);
-                    }
+                foreach ($f2 as $f2_array)
+		  {
+		    foreach ($f2_array as $f2_str)
+		      {
+			$to_remove=$f2_str;
+			$f2_value=str_replace("&lt;","",$f2_str);
+			$f2_value=str_replace("&gt;","",$f2_value);
+			$f2_value=str_replace("$","",$f2_value);
 
 
-                    $line_rtf=str_replace($f2_str,$a,$line_rtf);
 
-                }// foreach end
-            } // while myereg
+			// check for missing variables and labels (N vars)
+			if( ! isset($this->$f2_value))
+			  {
+
+			    $a = "!!".$f2_value."!!";
+			    if( substr($f2_value, 0, 1) == "N" )
+			      {
+				$ret = $this->db->get_array("SELECT pcm_lib AS acct_name FROM tmp_pcmn WHERE pcm_val::text LIKE ".
+							    " substr($1, 2)||'%' ORDER BY pcm_val ASC LIMIT 1",array($f2_value));
+				if($ret[0]['acct_name'])
+				  {
+				    $a = $ret[0]['acct_name'];
+				    $a=str_replace('<','&lt;',$a);
+				    $a=str_replace('>','&gt;',$a);
+				  }
+			      }
+			  }
+			else
+			  {
+			    $a=$this->$f2_value;
+			  }
+			if ( $a=='-0' ) $a=0;
+
+			/*  allow numeric cel in ODT for the formatting and formula */
+			if ( is_numeric($a) )
+			  {
+			    $searched='office:value-type="string"><text:p>'.$f2_str;
+			    $replaced='office:value-type="float" office:value="'.$a.'"><text:p>'.$f2_str;
+			    $line_rtf=str_replace($searched, $replaced, $line_rtf);
+			  }
+
+
+			$line_rtf=str_replace($f2_str,$a,$line_rtf);
+
+		      }// foreach end
+		  } // foreach
+	      } // preg_match_all
             $r.=$line_rtf;
 
         }// odt file is read
+
         return $r;
 
     }
@@ -445,25 +455,26 @@ class Acc_Bilan
         {
             $lt='&lt;';
             $gt='&gt;';
+	    $pattern='/&lt;&lt;header&gt;&gt;/';
         }
         else
         {
             $lt='<';
             $gt='>';
+	    $pattern='/<<header>>/';
         }
+
+	$header_txt=header_txt($this->db);
 
         while ( !feof($p_file) )
         {
             $line_rtf=fgets($p_file);
-            if ( myereg($lt.$lt.'header'.$gt.$gt,$line_rtf) )
-            {
-                // Create the header
-                $line_rtf=str_replace($lt.$lt.'header'.$gt.$gt,header_txt($this->db),$line_rtf);
-                $r.=$line_rtf;
-                continue;
-            }
+
+            $line_rtf=preg_replace($pattern,$header_txt,$line_rtf);
+
+
             // the line contains the magic <<
-            if (myereg($lt.$lt."\\$[a-zA-Z]*[0-9]*".$gt.$gt,$line_rtf,$f2) == true)
+            if (preg_match_all("/".$lt.$lt."\\$[a-zA-Z]*[0-9]*".$gt.$gt."/",$line_rtf,$f2) > 0)
             {
                 // DEBUG
                 //    echo $r.'<br>';
@@ -476,6 +487,7 @@ class Acc_Bilan
                     $f2_value=str_replace($lt,"",$f2_str);
                     $f2_value=str_replace($gt,"",$f2_value);
                     $f2_value=str_replace("$","",$f2_value);
+		    $f2_value=$f2_value[0];
 
                     // check for missing variables and labels (N vars)
                     if( ! isset($this->$f2_value))
@@ -511,6 +523,7 @@ class Acc_Bilan
         }// rtf file is read
         // DEBUG
         //  fwrite($out,$r);
+
         return $r;
 
 
@@ -676,6 +689,8 @@ class Acc_Bilan
 
             echo '<form method="get">';
             echo $a->display_form();
+	    echo HtmlInput::hidden('test_select',$_GET['test_select']).dossier::hidden();
+	    echo HtmlInput::submit('result','Sauve');
             echo '</form>';
         }
     }

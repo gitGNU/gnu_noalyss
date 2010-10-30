@@ -186,58 +186,68 @@ class Document
         // compute the regex
         if ( $p_type=='OOo')
         {
-            $regex="=*&lt;&lt;[A-Z]+_*[A-Z]*_*[A-Z]*_*[A-Z]*_*[0-9]*&gt;&gt;";
+            $regex="/=*&lt;&lt;[A-Z]+_*[A-Z]*_*[A-Z]*_*[A-Z]*_*[0-9]*&gt;&gt;/i";
             $lt="&lt;";
             $gt="&gt;";
         }
         else
         {
-            $regex="=*<<[A-Z]+_*[A-Z]*_*[A-Z]*_*[A-Z]*_*[0-9]*>>";
+            $regex="/=*<<[A-Z]+_*[A-Z]*_*[A-Z]*_*[A-Z]*_*[0-9]*>>/i";
             $lt="<";
             $gt=">";
         }
+
         //read the file
         while(! feof($h))
-        {
+	  {
             // replace the tag
             $buffer=fgets($h);
             // search in the buffer the magic << and >>
-            // while myereg finds something to replace
-            while ( @eregi ($regex,$buffer,$f) )
-            {
-                foreach ( $f as $pattern )
-                {
-                    $to_remove=$pattern;
-                    // we remove the < and > from the pattern
-                    $pattern=str_replace($lt,'',$pattern);
-                    $pattern=str_replace($gt,'',$pattern);
+            // while preg_match_all finds something to replace
+            while ( preg_match_all ($regex,$buffer,$f) >0  )
+	      {
+
+			    
+                foreach ( $f as $apattern )
+		  {
 
 
-                    // if the pattern if found we replace it
-                    $value=$this->Replace($pattern);
-                    if ( strpos($value,'ERROR') != false ) 		  $value="";
-                    // replace into the $buffer
-                    // take the position in the buffer
-                    $pos=strpos($buffer,$to_remove);
-                    // get the length of the string to remove
-                    $len=strlen($to_remove);
-                    if ( $p_type=='OOo' )
-                    {
-                        $value=str_replace('&','&amp;',$value);
-                        $value=str_replace('<','&lt;',$value);
-                        $value=str_replace('>','&gt;',$value);
-                        $value=str_replace('"','&quot;',$value);
-                        $value=str_replace("'",'&apos;',$value);
-                    }
-                    $buffer=substr_replace($buffer,$value,$pos,$len);
+		    foreach($apattern as $pattern)
+		      {
 
-                    // if the pattern if found we replace it
-                }
-            }
+
+			$to_remove=$pattern;
+			// we remove the < and > from the pattern
+			$pattern=str_replace($lt,'',$pattern);
+			$pattern=str_replace($gt,'',$pattern);
+
+
+			// if the pattern if found we replace it
+			$value=$this->Replace($pattern);
+			if ( strpos($value,'ERROR') != false ) 		  $value="";
+			// replace into the $buffer
+			// take the position in the buffer
+			$pos=strpos($buffer,$to_remove);
+			// get the length of the string to remove
+			$len=strlen($to_remove);
+			if ( $p_type=='OOo' )
+			  {
+			    $value=str_replace('&','&amp;',$value);
+			    $value=str_replace('<','&lt;',$value);
+			    $value=str_replace('>','&gt;',$value);
+			    $value=str_replace('"','&quot;',$value);
+			    $value=str_replace("'",'&apos;',$value);
+			  }
+			$buffer=substr_replace($buffer,$value,$pos,$len);
+
+			// if the pattern if found we replace it
+		      }
+		  }
+	      }
             // write into the output_file
             fwrite($output_file,$buffer);
 
-        }
+	  }
         fclose($h);
         fclose($output_file);
         if ( ($ret=copy ($output_name,$infile_name)) == FALSE )

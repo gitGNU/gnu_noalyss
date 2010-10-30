@@ -55,98 +55,102 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_
     else
         $cond="( j_date >= to_date('$p_start','DD.MM.YYYY') and j_date <= to_date('$p_end','DD.MM.YYYY'))";
     include_once("class_acc_account_ledger.php");
-    while (@ereg("(\[[0-9]*%*D*C*S*\])",$p_formula,$e) == true)
-    {
+
+    //    while (@ereg("(\[[0-9]*%*D*C*S*\])",$p_formula,$e) == true)
+    while (preg_match_all("(\[[0-9]*%*D*C*S*\])",$p_formula,$e) == true)
+      {
 
         // remove the [ ]
-        $x=$e;
-        $compute='all';
-        if ( strpos($e[0],'D') != 0 )
-            $compute='deb';
-        if ( strpos($e[0],'C') != 0 )
-            $compute='cred';
-        if ( strpos($e[0],'S') != 0 )
-            $compute='signed';
-        $e[0]=str_replace ("[","",$e[0]);
-        $e[0]=str_replace ("]","",$e[0]);
-        $e[0]=str_replace ("D","",$e[0]);
-        $e[0]=str_replace ("C","",$e[0]);
-        $e[0]=str_replace ("S","",$e[0]);
-        // If there is a FROM clause we must recompute
-        // the time cond
+        $x=$e[0];
+	foreach ($x as $line)
+	  {
+	    $compute='all';
+	    if ( strpos($line,'D') != 0 )
+	      $compute='deb';
+	    if ( strpos($line,'C') != 0 )
+	      $compute='cred';
+	    if ( strpos($line,'S') != 0 )
+	      $compute='signed';
+	    $line=str_replace ("[","",$line);
+	    $line=str_replace ("]","",$line);
+	    $line=str_replace ("D","",$line);
+	    $line=str_replace ("C","",$line);
+	    $line=str_replace ("S","",$line);
+	    // If there is a FROM clause we must recompute
+	    // the time cond
 
-        if ($p_type_date == 0 && @ereg ("FROM=[0-9]+\.[0-9]+", $p_formula,$afrom) == true )
-        {
-            // There is a FROM clause
-            // then we must modify the cond for the periode
-            $from=str_replace("FROM=","",$afrom[0]);
+	    if ($p_type_date == 0 && preg_match ("/FROM=[0-9]+\.[0-9]+/", $p_formula,$afrom) == 1 )
+	      {
+		// There is a FROM clause
+		// then we must modify the cond for the periode
+		$from=str_replace("FROM=","",$afrom[0]);
 
-            // Get the periode
-            /*! \note special value for the clause FROM=00.0000
-             */
-            if ( $from == '00.0000' )
-            {
+		// Get the periode
+		/*! \note special value for the clause FROM=00.0000
+		 */
+		if ( $from == '00.0000' )
+		  {
 
-                // retrieve the first month of this periode
-                $User=new User($p_cn);
-                $user_periode=$User->get_periode();
-                $oPeriode=new Periode($p_cn);
-                $periode=$oPeriode->get_exercice($user_periode);
-                list($first,$last)=$oPeriode->get_limit($periode);
-                $ret=$first->get_date_limit();
-                $end_date=$oPeriode->get_date_limit($p_end);
-                if ($ret == null ) throw new Exception ('Pas de limite à cette période',1);
-                $cond=sql_filter_per($p_cn,$ret['p_start'],$end_date['p_end'],'date','j_tech_per');
-
-
-            }
-            else
-            {
-                $oPeriode=new Periode($p_cn);
-                try
-                {
-                    $from=$oPeriode->find_periode('01'.$from);
-                }
-                catch (Exception $exp)
-                {
-                    /* if none periode is found
-                       then we take the first periode of the year
-                       */
-                    $User=new User($p_cn);
-                    $user_periode=$User->get_periode();
-
-                    $year=$oPeriode->get_exercice($user_periode);
-                    list($first,$last)=$oPeriode->get_limit($year);
-                    $ret=$first->get_date_limit();
-                    $end_date=$oPeriode->get_date_limit($p_end);
-                    if ($ret == null ) throw new Exception ('Pas de limite à cette période',1);
-                    $cond=sql_filter_per($p_cn,$ret['p_start'],$end_date['p_end'],'date','j_tech_per');
-                }
-            }
-        }
-
-        if ( strpos($p_formula,"FROM") != 0)
-        {
-            // We remove FROM out of the p_formula
-            $p_formula=substr_replace($p_formula,"",strpos($p_formula,"FROM"));
-        }
-
-        // Get sum of account
-        $P=new Acc_Account_Ledger($p_cn,$e[0]);
-        $detail=$P->get_solde_detail($cond);
+		    // retrieve the first month of this periode
+		    $User=new User($p_cn);
+		    $user_periode=$User->get_periode();
+		    $oPeriode=new Periode($p_cn);
+		    $periode=$oPeriode->get_exercice($user_periode);
+		    list($first,$last)=$oPeriode->get_limit($periode);
+		    $ret=$first->get_date_limit();
+		    $end_date=$oPeriode->get_date_limit($p_end);
+		    if ($ret == null ) throw new Exception ('Pas de limite à cette période',1);
+		    $cond=sql_filter_per($p_cn,$ret['p_start'],$end_date['p_end'],'date','j_tech_per');
 
 
-        if ( $compute=='all')
-            $i=$detail['solde'];
-        if ( $compute=='deb')
-            $i=$detail['debit'];
-        if ( $compute=='cred')
-            $i=$detail['credit'];
-        if ( $compute=='signed')
-            $i=$detail['debit']-$detail['credit'];
-        $p_formula=str_replace($x[0],$i,$p_formula);
+		  }
+		else
+		  {
+		    $oPeriode=new Periode($p_cn);
+		    try
+		      {
+			$from=$oPeriode->find_periode('01'.$from);
+		      }
+		    catch (Exception $exp)
+		      {
+			/* if none periode is found
+			   then we take the first periode of the year
+			*/
+			$User=new User($p_cn);
+			$user_periode=$User->get_periode();
 
-    }
+			$year=$oPeriode->get_exercice($user_periode);
+			list($first,$last)=$oPeriode->get_limit($year);
+			$ret=$first->get_date_limit();
+			$end_date=$oPeriode->get_date_limit($p_end);
+			if ($ret == null ) throw new Exception ('Pas de limite à cette période',1);
+			$cond=sql_filter_per($p_cn,$ret['p_start'],$end_date['p_end'],'date','j_tech_per');
+		      }
+		  }
+	      }
+
+	    if ( strpos($p_formula,"FROM") != 0)
+	      {
+		// We remove FROM out of the p_formula
+		$p_formula=substr_replace($p_formula,"",strpos($p_formula,"FROM"));
+	      }
+
+	    // Get sum of account
+	    $P=new Acc_Account_Ledger($p_cn,$line);
+	    $detail=$P->get_solde_detail($cond);
+
+
+	    if ( $compute=='all')
+	      $i=$detail['solde'];
+	    if ( $compute=='deb')
+	      $i=$detail['debit'];
+	    if ( $compute=='cred')
+	      $i=$detail['credit'];
+	    if ( $compute=='signed')
+	      $i=$detail['debit']-$detail['credit'];
+	    $p_formula=str_replace($x[0],$i,$p_formula);
+	  }
+      }
 
     // $p_eval is true then we eval and returns result
     if ( $p_eval == true)
@@ -155,7 +159,7 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_
 
         eval("$p_formula");
 
-        while (@ereg("\[([0-9]+)([Tt]*)\]",trim($p_label),$e) == true)
+        while (preg_match("/\[([0-9]+)([Tt]*)\]/",trim($p_label),$e) == 1)
         {
             $nom = "!!".$e[1]."!!";
             if (CheckFormula($e[0]))
