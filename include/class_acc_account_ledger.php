@@ -328,16 +328,17 @@ class Acc_Account_Ledger
                                   $op['jr_id'], dossier::id(), $op['jr_internal']);
             $let='';
             if ( $op['letter'] !=-1) $let=$op['letter'];
-            $progress+=$op['deb_montant']-$op['cred_montant'];
+	    $tmp_diff=bcsub($op['deb_montant'],$op['cred_montant']);
+            $progress=bcadd($progress,$tmp_diff);
 
             echo "<TR>".
             "<TD>".format_date($op['j_date'])."</TD>".
 	      td(h($op['jr_pj_number'])).
             "<TD>".$vw_operation."</TD>".
             "<TD>".h($op['description'])."</TD>".
-            "<TD style=\"text-align:right\">".sprintf("%.2f",$op['deb_montant'])."</TD>".
-            "<TD style=\"text-align:right\">".sprintf("%.2f",$op['cred_montant'])."</TD>".
-            td(sprintf('%.2f',abs($progress)),'style="text-align:right"').
+            "<TD style=\"text-align:right\">".nbm($op['deb_montant'])."</TD>".
+	      "<TD style=\"text-align:right\">".nbm($op['cred_montant'])."</TD>".
+	      td(nbm(abs($progress)),'style="text-align:right"').
 
             td($let,' style="color:red;text-align:right"').
             "</TR>";
@@ -347,11 +348,14 @@ class Acc_Account_Ledger
         $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
         $diff=round(abs($tot_deb-$tot_cred),2);
         echo "<TR>".
-        "<TD>$solde_type</TD>".
-        "<TD style=\"text-align:right\">$diff</TD>".
+        "<TD>Totaux</TD><td></td>".
+        "<TD ></TD>".
         "<TD></TD>".
         "<TD  style=\"text-align:right\">$tot_deb</TD>".
         "<TD  style=\"text-align:right\">$tot_cred</TD>".
+        "</TR>";
+	echo   "<TD>$solde_type</TD><td></td>".
+        "<TD style=\"text-align:right\">$diff</TD>".
         "</TR>";
         echo '</tfoot>';
         echo '</tbody>';

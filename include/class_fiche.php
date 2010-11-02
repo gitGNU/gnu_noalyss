@@ -1209,9 +1209,9 @@ class Fiche
 	      td(h($op['jr_pj_number'])).
             "<TD>".$vw_operation."</TD>".
             "<TD>".h($op['description'])."</TD>".
-            "<TD style=\"text-align:right\">".sprintf("%.2f",$op['deb_montant'])."</TD>".
-            "<TD style=\"text-align:right\">".sprintf("%.2f",$op['cred_montant'])."</TD>".
-            td(sprintf('%.2f',abs($progress)),'style="text-align:right"').
+            "<TD style=\"text-align:right\">".nbm($op['deb_montant'])."</TD>".
+	      "<TD style=\"text-align:right\">".nbm($op['cred_montant'])."</TD>".
+	      td(nbm(abs($progress)),'style="text-align:right"').
             td($let,' style="color:red;text-align:right"').
             "</TR>";
 
@@ -1219,13 +1219,18 @@ class Fiche
         $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
         $diff=round(abs($tot_deb-$tot_cred),2);
         echo '<tfoot>';
-
+       echo "<TR>".
+        "<TD>Totaux</TD>".
+        "<TD ></TD>".
+        "<TD ></TD>".
+        "<TD></TD>".
+	 "<TD  style=\"text-align:right\">".nbm($tot_deb)."</TD>".
+	 "<TD  style=\"text-align:right\">".nbm($tot_cred)."</TD>".
+        "</TR>";
         echo "<TR>".
         "<TD>$solde_type</TD>".
-        "<TD style=\"text-align:right\">$diff</TD>".
+	  "<TD style=\"text-align:right\">".nbm($diff)."</TD>".
         "<TD></TD>".
-        "<TD  style=\"text-align:right\">$tot_deb</TD>".
-        "<TD  style=\"text-align:right\">$tot_cred</TD>".
         "</TR>";
         echo '</tfoot>';
         echo '</tbody>';
