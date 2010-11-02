@@ -1219,7 +1219,7 @@ class Fiche
         $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
         $diff=round(abs($tot_deb-$tot_cred),2);
         echo '<tfoot>';
-       echo "<TR>".
+       echo "<TR style=\"font-weight:bold\">".
         "<TD>Totaux</TD>".
         "<TD ></TD>".
         "<TD ></TD>".
@@ -1227,7 +1227,7 @@ class Fiche
 	 "<TD  style=\"text-align:right\">".nbm($tot_deb)."</TD>".
 	 "<TD  style=\"text-align:right\">".nbm($tot_cred)."</TD>".
         "</TR>";
-        echo "<TR>".
+        echo "<TR style=\"font-weight:bold\">".
         "<TD>$solde_type</TD>".
 	  "<TD style=\"text-align:right\">".nbm($diff)."</TD>".
         "<TD></TD>".

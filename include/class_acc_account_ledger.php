@@ -347,15 +347,15 @@ class Acc_Account_Ledger
         echo '<tfoot>';
         $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
         $diff=round(abs($tot_deb-$tot_cred),2);
-        echo "<TR>".
-        "<TD>Totaux</TD><td></td>".
+        echo "<TR style=\"font-weight:bold\">".
+        "<TD >Totaux</TD><td></td>".
         "<TD ></TD>".
         "<TD></TD>".
-        "<TD  style=\"text-align:right\">$tot_deb</TD>".
-        "<TD  style=\"text-align:right\">$tot_cred</TD>".
+	  "<TD  style=\"text-align:right\">".nbm($tot_deb)."</TD>".
+	  "<TD  style=\"text-align:right\">".nbm($tot_cred)."</TD>".
         "</TR>";
-	echo   "<TD>$solde_type</TD><td></td>".
-        "<TD style=\"text-align:right\">$diff</TD>".
+	echo   "<tr><TD>$solde_type</TD><td></td>".
+	  "<TD style=\"text-align:right\">".nbm($diff)."</TD>".
         "</TR>";
         echo '</tfoot>';
         echo '</tbody>';
