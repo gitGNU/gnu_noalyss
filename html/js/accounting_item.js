@@ -65,7 +65,19 @@ function PcmnUpdate(p_value,p_lib,p_parent,p_type,p_dossier)
  */
 function search_poste(obj)
 {
-    showIPopup(obj.ipopup);
+	var sx=0;
+	if ( window.scrollY)
+	{
+            sx=window.scrollY+40;
+	}
+	else
+	{
+            sx=document.body.scrollTop+60;
+	}
+
+	var div_style="top:"+sx;
+	add_div({id:'search_account',cssclass:'op_detail',html:loading(),style:div_style});
+
     var dossier=$('gDossier').value;
 
     var queryString="?gDossier="+dossier;
@@ -118,7 +130,7 @@ function search_poste(obj)
             }
         }
 
-        queryString+="&ctl="+obj.ipopup;
+        queryString+="&ctl="+'search_account';
         queryString=encodeURI(queryString);
         var action=new Ajax.Request ( 'ajax_poste.php',
                                       {
@@ -212,7 +224,7 @@ function result_poste_search(req)
         var nodeXml=html[0];
         var code_html=getNodeText(nodeXml);
         code_html=unescape_xml(code_html);
-        $(name_ctl).innerHTML=code_html;
+        $('search_account').innerHTML=code_html;
     }
     catch (e)
     {

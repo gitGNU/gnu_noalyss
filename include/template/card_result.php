@@ -24,7 +24,7 @@
 
 <? endfor; ?>
 </table>
-<span style="background-color:#9FFFF1;">
+<span style="font-style: italic;">
    <? echo _("Nombre d'enregistrements:$i"); ?>
 </span>
 <br>

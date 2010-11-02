@@ -332,7 +332,7 @@ class Acc_Payment
                 {
                     $a=new ICard();
                     $a->jrn=$row->mp_jrn_def_id;
-                    $a->extra=$row->mp_fd_id;
+		    $a->set_attribute('typecard',$row->mp_fd_id);
                     $a->name='e_mp_qcode_'.$row->mp_id;
                     $a->set_dblclick("fill_ipopcard(this);");
                     $a->set_callback('filter_card');

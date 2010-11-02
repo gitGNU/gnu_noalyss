@@ -1488,7 +1488,7 @@ class Acc_Ledger
 
             // name of the field to update with the name of the card
             $quick_code->set_attribute('typecard','filter');
-            $quick_code->extra='filter';
+
             // Add the callback function to filter the card on the jrn
             $quick_code->set_callback('filter_card');
             $quick_code->set_function('fill_data');
@@ -2190,7 +2190,7 @@ class Acc_Ledger
 
         /* input quick code */
         $f_qcode=new ICard('qcode');
-        $f_qcode->extra='filter';
+
         $f_qcode->set_attribute('typecard','all');
         $f_qcode->set_callback('filter_card');
         $f_txt_qcode=new IText('qcode');

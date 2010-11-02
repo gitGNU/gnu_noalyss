@@ -975,7 +975,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         $W1->set_attribute('label','e_client_label');
         // name of the field to update with the name of the card
         $W1->set_attribute('typecard','cred');
-        $W1->extra='cred';
+
         // Add the callback function to filter the card on the jrn
         $W1->set_callback('filter_card');
         $W1->set_function('fill_data');
@@ -1039,7 +1039,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $W1->set_attribute('ipopup','ipopcard');
 
             $W1->set_attribute('typecard','deb');
-            $W1->extra='deb';  // debits
+
             // name of the field to update with the name of the card
             $W1->set_attribute('label','e_march'.$i.'_label');
             // name of the field with the price

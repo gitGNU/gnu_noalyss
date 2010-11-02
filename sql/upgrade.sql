@@ -95,7 +95,7 @@ CREATE OR REPLACE VIEW vw_fiche_name AS
 
   
 CREATE OR REPLACE VIEW vw_fiche_attr AS 
- SELECT a.f_id, a.fd_id, a.ad_value AS vw_name, b.ad_value AS vw_sell, c.ad_value AS vw_buy, d.ad_value AS tva_code, tva_rate.tva_id, tva_rate.tva_rate, tva_rate.tva_label, e.ad_value AS vw_addr, f.ad_value AS vw_cp, j.ad_value AS quick_code, h.ad_value AS vw_description, i.ad_value AS tva_num, fiche_def.frd_id
+ SELECT a.f_id, a.fd_id, a.ad_value AS vw_name, k.ad_value as vw_first_name, b.ad_value AS vw_sell, c.ad_value AS vw_buy, d.ad_value AS tva_code, tva_rate.tva_id, tva_rate.tva_rate, tva_rate.tva_label, e.ad_value AS vw_addr, f.ad_value AS vw_cp, j.ad_value AS quick_code, h.ad_value AS vw_description, i.ad_value AS tva_num, fiche_def.frd_id
    FROM ( SELECT fiche.f_id, fiche.fd_id, ad_value
            FROM fiche
     left join fiche_detail using (f_id)
@@ -117,6 +117,8 @@ CREATE OR REPLACE VIEW vw_fiche_attr AS
   WHERE ad_id = 9) h ON a.f_id = h.f_id
    LEFT JOIN ( select f_id,ad_value  from fiche_detail
   WHERE ad_id = 13) i ON a.f_id = i.f_id
+   LEFT JOIN ( select f_id,ad_value  from fiche_detail
+  WHERE ad_id = 32) k ON a.f_id = k.f_id
    LEFT JOIN tva_rate ON d.ad_value = tva_rate.tva_id::text
    JOIN fiche_def USING (fd_id);
      

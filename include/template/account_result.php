@@ -21,8 +21,8 @@
 
 <? endfor; ?>
 </table>
-<span style="padding:3;border:1px solid black">
-<? echo _("Nombre d'enregistrements").$i;?>
+<span style="font-style:italic">
+<? echo _("Nombre d'enregistrements")." ".$i;?>
 </span>
 
 </div>

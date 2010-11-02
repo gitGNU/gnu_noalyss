@@ -103,6 +103,10 @@ class IPopup extends HtmlInput
             $r.=sprintf('<div id="%s_fond" name="fond" class="popup_back">',$this->name);
             $r.="</div>";
         }
+        $javascript=sprintf("javascript:hideIPopup('%s')",
+                            $this->name);
+
+
         if ( isset($this->title) && trim($this->title) != "" )
         {
             $r.=sprintf('<div name ="%s_border" id="%s_border" class="popup_border_title">',
@@ -116,15 +120,15 @@ class IPopup extends HtmlInput
                         $this->name,
                         $this->name);
         }
-        $javascript=sprintf("javascript:hideIPopup('%s')",
-                            $this->name);
         $r.='<div style="position:absolute;top:0px;right:10px;font-weight:normal;font-size:9px;color:black;text-align:right">';
-        $r.=sprintf('<a style="color:white;text-decoration:none" href="%s">'._('Fermer').'</a></div>',
+        $r.=sprintf('<a style="background-color:blue;color:white;text-decoration:none" href="%s">'._('Fermer').'</a></div>',
                     $javascript);
+
         $r.=sprintf('<div name ="%s_content" id="%s_content" class="popup_content"> %s </div></div>',
                     $this->name,
                     $this->name,
                     $this->value);
+
 
         /* Add properties at the widget */
         $attr=$this->parameter;

@@ -48,16 +48,34 @@ function search_card(obj)
         var jrn=obj.jrn;
         if ( jrn==undefined)
         {
-            if ( g('p_jrn')) jrn=$('p_jrn').value;
-            else jrn=-1;
+            if ( g('p_jrn'))   {
+		jrn=$('p_jrn').value;
+	    }
+            else 	    {
+		jrn=-1;
+	    }
         }
-var query=encodeJSON({'gDossier':gDossier,
+	var query=encodeJSON({'gDossier':gDossier,
                       'inp':inp,'label':label,'price':price,'tvaid':tvaid,
-                      'ctl':obj.popup,'op':'fs','jrn':jrn,
+                      'ctl':'search_card','op':'fs','jrn':jrn,
                       'typecard':typecard,'query':string_to_search
                              });
-        showIPopup(obj.popup);
+	if (  $('search_card') ) {
+	    removeDiv('search_card');
+	}
+	var sx=0;
+	if ( window.scrollY)
+	{
+            sx=window.scrollY+40;
+	}
+	else
+	{
+            sx=document.body.scrollTop+60;
+	}
 
+	var div_style="top:"+sx;
+	add_div({id:'search_card',cssclass:'op_detail',html:loading(),style:div_style,drag:0});
+	
         var action=new Ajax.Request ( 'ajax_card.php',
                                       {
                                   method:'get',
@@ -148,7 +166,7 @@ function result_card_search(req)
         var nodeXml=html[0];
         var code_html=getNodeText(nodeXml);
         code_html=unescape_xml(code_html);
-        $(name_ctl).innerHTML=code_html;
+        $('search_card').innerHTML=code_html;
     }
     catch (e)
     {

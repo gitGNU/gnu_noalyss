@@ -177,7 +177,7 @@ class ICard extends HtmlInput
     {
         $ip_card=new IPopup ($p_name);
         $ip_card->drag=true;
-        $ip_card->set_width('45%');
+	$ip_card->set_width('45%');
         $ip_card->title='Fiche ';
         $ip_card->value='';
         return $ip_card->input();
@@ -220,17 +220,17 @@ class ICard extends HtmlInput
                        $this->javascript
                       );
 
-        $ind=sprintf('<span id="%s_ind" style="display:none">Un instant... <img src="image/loading.gif" alt="Chargement..."/>'.
+        $ind=sprintf('<span id="%s_ind" class="autocomplete" style="display:none">Un instant... <img src="image/loading.gif" alt="Chargement..."/>'.
                      '</span>',
                      $this->name);
 
         $div=sprintf('<div id="%s_choices" class="autocomplete"></div>',
                      $this->name);
 
-        $query=dossier::get().'&e='.urlencode($this->extra);
+        $query=dossier::get().'&e='.urlencode($this->typecard);
 
         $javascript=sprintf('try { new Ajax.Autocompleter("%s","%s_choices","fid_card.php?%s",'.
-                            '{paramName:"FID",minChars:1,indicator:null,'.
+                            '{paramName:"FID",minChars:1,indicator:null, '.
                             'callback:%s, '.
                             ' afterUpdateElement:%s});} catch (e){alert(e.message);};',
                             $this->name,$this->name,$query,

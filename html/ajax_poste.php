@@ -76,8 +76,13 @@ case "sf":
     $it->value=(isset($q))?$q:'';
     $str_poste=$it->input();
     $str_submit=HtmlInput::submit('sf',_('Recherche'));
+    $r='';
+    $r.='<div style="float:right;height:10px;display:block;margin-top:2px;margin-right:2px">';
+    $r.= '<A style="background-color:blue;color:white;text-decoration:none" HREF="javascript:void(0)" onclick="removeDiv(\'search_account\');">Fermer</A>'; 
+    $r.='</div>';
+    $r.='<div> '.h2info(_('Poste Comptable')).'</div>';
 
-    $r='<form id="sp" method="get" onsubmit="'.$attr.'search_get_poste(this);return false;">';
+    $r.='<form id="sp" method="get" onsubmit="'.$attr.'search_get_poste(this);return false;">';
     ob_start();
     require_once('template/account_search.php');
     $r.=ob_get_contents();
@@ -149,7 +154,7 @@ case "sf":
                           $l,"lib$i");
 
         }
-        $str.="hideIPopup('$ipopup');";
+        $str.="removeDiv('search_account');";
         $array[$i]['javascript']=$str;
     }
     ob_start();
