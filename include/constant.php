@@ -37,7 +37,7 @@ error_reporting (15);
 $version_phpcompta=SVNINFO; 
 */
 
-define ("DBVERSION",90);
+define ("DBVERSION",91);
 define ("DBVERSIONREPO",12);
 define ('NOTFOUND','--not found--');
 
