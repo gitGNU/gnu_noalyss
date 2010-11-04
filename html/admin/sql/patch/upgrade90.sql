@@ -129,7 +129,7 @@ CREATE OR REPLACE VIEW vw_fiche_attr AS
 -- Name: account_insert(integer, text); Type: FUNCTION; Schema: comptaproc; Owner: dany
 --
 
-CREATE FUNCTION account_insert(p_f_id integer, p_account text) RETURNS integer
+CREATE OR REPLACE FUNCTION COMPTAPROC.account_insert(p_f_id integer, p_account text) RETURNS integer
     AS $_$
 declare
 	nParent tmp_pcmn.pcm_val_parent%type;
@@ -211,12 +211,12 @@ raise info 'sClass_Base : %',sClass_base;
 return 0;
 end;
 $_$
-    LANGUAGE plpgsql;
+LANGUAGE plpgsql;
 --
 -- Name: account_update(integer, public.account_type); Type: FUNCTION; Schema: comptaproc; Owner: dany
 --
 
-CREATE FUNCTION account_update(p_f_id integer, p_account public.account_type) RETURNS integer
+CREATE OR REPLACE FUNCTION COMPTAPROC.account_update(p_f_id integer, p_account public.account_type) RETURNS integer
     AS $$
 declare
 	nMax fiche.f_id%type;
@@ -257,13 +257,13 @@ begin
 return 0;
 end;
 $$
-    LANGUAGE plpgsql;
+LANGUAGE plpgsql;
 
 --
 -- Name: attribut_insert(integer, integer, character varying); Type: FUNCTION; Schema: comptaproc; Owner: dany
 --
 
-CREATE FUNCTION attribut_insert(p_f_id integer, p_ad_id integer, p_value character varying) RETURNS void
+CREATE OR REPLACE FUNCTION COMPTAPROC.attribut_insert(p_f_id integer, p_ad_id integer, p_value character varying) RETURNS void
     AS $$
 begin
 	insert into fiche_detail (f_id,ad_id, ad_value) values (p_f_id,p_ad_id,p_value);
@@ -277,7 +277,7 @@ LANGUAGE plpgsql;
 -- Name: fiche_attribut_synchro(integer); Type: FUNCTION; Schema: comptaproc; Owner: dany
 --
 
-CREATE FUNCTION fiche_attribut_synchro(p_fd_id integer) RETURNS void
+CREATE OR REPLACE FUNCTION COMPTAPROC.fiche_attribut_synchro(p_fd_id integer) RETURNS void
     AS $$
 declare
 	-- this sql gives the f_id and the missing attribute (ad_id)
@@ -304,7 +304,7 @@ LANGUAGE plpgsql;
 -- Name: insert_quant_sold(text, numeric, character varying, numeric, numeric, numeric, integer, character varying); Type: FUNCTION; Schema: comptaproc; Owner: dany
 --
 
-CREATE FUNCTION insert_quant_sold(p_internal text, p_jid numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_client character varying) RETURNS void
+CREATE OR REPLACE FUNCTION COMPTAPROC.insert_quant_sold(p_internal text, p_jid numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_client character varying) RETURNS void
     AS $$
 declare
 	fid_client integer;
@@ -328,7 +328,7 @@ LANGUAGE plpgsql;
 -- Name: insert_quant_purchase(text, numeric, character varying, numeric, numeric, numeric, integer, numeric, numeric, numeric, numeric, character varying); Type: FUNCTION; Schema: comptaproc; Owner: dany
 --
 
-CREATE FUNCTION insert_quant_purchase(p_internal text, p_j_id numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_nd_amount numeric, p_nd_tva numeric, p_nd_tva_recup numeric, p_dep_priv numeric, p_client character varying) RETURNS void
+CREATE OR REPLACE FUNCTION COMPTAPROC.insert_quant_purchase(p_internal text, p_j_id numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_nd_amount numeric, p_nd_tva numeric, p_nd_tva_recup numeric, p_dep_priv numeric, p_client character varying) RETURNS void
     AS $$
 declare
 	fid_client integer;
@@ -373,7 +373,7 @@ LANGUAGE plpgsql;
 -- Name: insert_quick_code(integer, text); Type: FUNCTION; Schema: comptaproc; Owner: dany
 --
 
-CREATE FUNCTION insert_quick_code(nf_id integer, tav_text text) RETURNS integer
+CREATE OR REPLACE FUNCTION COMPTAPROC.insert_quick_code(nf_id integer, tav_text text) RETURNS integer
     AS $$
 	declare
 	ns integer;
@@ -413,7 +413,7 @@ LANGUAGE plpgsql;
 -- Name: update_quick_code(integer, text); Type: FUNCTION; Schema: comptaproc; Owner: dany
 --
 
-CREATE FUNCTION update_quick_code(njft_id integer, tav_text text) RETURNS integer
+CREATE OR REPLACE FUNCTION COMPTAPROC.update_quick_code(njft_id integer, tav_text text) RETURNS integer
     AS $$
 	declare
 	ns integer;
@@ -474,7 +474,7 @@ LANGUAGE plpgsql;
 -- Name: jrnx_ins(); Type: FUNCTION; Schema: comptaproc; Owner: dany
 --
 
-CREATE FUNCTION jrnx_ins() RETURNS trigger
+CREATE OR REPLACE FUNCTION COMPTAPROC.jrnx_ins() RETURNS trigger
     AS $$
 declare
 n_fid bigint;
