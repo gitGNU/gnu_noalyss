@@ -75,7 +75,7 @@ function search_poste(obj)
             sx=document.body.scrollTop+60;
 	}
 
-	var div_style="top:"+sx;
+	var div_style="z-index:15;top:"+sx;
 	add_div({id:'search_account',cssclass:'op_detail',html:loading(),style:div_style});
 
     var dossier=$('gDossier').value;
