@@ -130,7 +130,6 @@ CREATE OR REPLACE VIEW vw_fiche_attr AS
 --
 
 CREATE FUNCTION account_insert(p_f_id integer, p_account text) RETURNS integer
-    LANGUAGE plpgsql
     AS $_$
 declare
 	nParent tmp_pcmn.pcm_val_parent%type;
@@ -211,14 +210,13 @@ raise info 'sClass_Base : %',sClass_base;
 
 return 0;
 end;
-$_$;
-
+$_$
+    LANGUAGE plpgsql;
 --
 -- Name: account_update(integer, public.account_type); Type: FUNCTION; Schema: comptaproc; Owner: dany
 --
 
 CREATE FUNCTION account_update(p_f_id integer, p_account public.account_type) RETURNS integer
-    LANGUAGE plpgsql
     AS $$
 declare
 	nMax fiche.f_id%type;
@@ -258,28 +256,28 @@ begin
 
 return 0;
 end;
-$$;
+$$
+    LANGUAGE plpgsql;
 
 --
 -- Name: attribut_insert(integer, integer, character varying); Type: FUNCTION; Schema: comptaproc; Owner: dany
 --
 
 CREATE FUNCTION attribut_insert(p_f_id integer, p_ad_id integer, p_value character varying) RETURNS void
-    LANGUAGE plpgsql
     AS $$
 begin
 	insert into fiche_detail (f_id,ad_id, ad_value) values (p_f_id,p_ad_id,p_value);
 	
 return;
 end;
-$$;
+$$
+LANGUAGE plpgsql;
 
 --
 -- Name: fiche_attribut_synchro(integer); Type: FUNCTION; Schema: comptaproc; Owner: dany
 --
 
 CREATE FUNCTION fiche_attribut_synchro(p_fd_id integer) RETURNS void
-    LANGUAGE plpgsql
     AS $$
 declare
 	-- this sql gives the f_id and the missing attribute (ad_id)
@@ -299,14 +297,14 @@ begin
 	end loop;
 	close list_missing;
 end; 
-$$;
+$$
+LANGUAGE plpgsql;
 
 --
 -- Name: insert_quant_sold(text, numeric, character varying, numeric, numeric, numeric, integer, character varying); Type: FUNCTION; Schema: comptaproc; Owner: dany
 --
 
 CREATE FUNCTION insert_quant_sold(p_internal text, p_jid numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_client character varying) RETURNS void
-    LANGUAGE plpgsql
     AS $$
 declare
 	fid_client integer;
@@ -323,14 +321,14 @@ begin
 		(p_internal,p_jid,fid_good,p_quant,p_price,p_vat,p_vat_code,fid_client,'Y');
 	return;
 end;
- $$;
+ $$
+LANGUAGE plpgsql;
 
 --
 -- Name: insert_quant_purchase(text, numeric, character varying, numeric, numeric, numeric, integer, numeric, numeric, numeric, numeric, character varying); Type: FUNCTION; Schema: comptaproc; Owner: dany
 --
 
 CREATE FUNCTION insert_quant_purchase(p_internal text, p_j_id numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_nd_amount numeric, p_nd_tva numeric, p_nd_tva_recup numeric, p_dep_priv numeric, p_client character varying) RETURNS void
-    LANGUAGE plpgsql
     AS $$
 declare
 	fid_client integer;
@@ -368,14 +366,14 @@ begin
 		p_dep_priv);
 	return;
 end;
- $$;
+ $$
+LANGUAGE plpgsql;
 
 --
 -- Name: insert_quick_code(integer, text); Type: FUNCTION; Schema: comptaproc; Owner: dany
 --
 
 CREATE FUNCTION insert_quick_code(nf_id integer, tav_text text) RETURNS integer
-    LANGUAGE plpgsql
     AS $$
 	declare
 	ns integer;
@@ -407,7 +405,8 @@ CREATE FUNCTION insert_quick_code(nf_id integer, tav_text text) RETURNS integer
 	insert into fiche_detail(jft_id,f_id,ad_id,ad_value) values (ns,nf_id,23,upper(tText));
 	return ns;
 	end;
-$$;
+$$
+LANGUAGE plpgsql;
 
 
 --
@@ -415,7 +414,6 @@ $$;
 --
 
 CREATE FUNCTION update_quick_code(njft_id integer, tav_text text) RETURNS integer
-    LANGUAGE plpgsql
     AS $$
 	declare
 	ns integer;
@@ -468,7 +466,8 @@ CREATE FUNCTION update_quick_code(njft_id integer, tav_text text) RETURNS intege
 	update jrnx set j_qcode=tText where j_qcode = old_qcode;
 	return ns;
 	end;
-$$;
+$$
+LANGUAGE plpgsql;
 
 
 --
@@ -476,7 +475,6 @@ $$;
 --
 
 CREATE FUNCTION jrnx_ins() RETURNS trigger
-    LANGUAGE plpgsql
     AS $$
 declare
 n_fid bigint;
@@ -499,7 +497,8 @@ end if;
 NEW.f_id:=n_fid;
 return NEW;
 end;
-$$;
+$$
+LANGUAGE plpgsql;
 
 update version set val=91;
 commit;
