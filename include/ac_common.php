@@ -70,6 +70,7 @@ function tr($p_string,$p_extra='')
 function j($p_string)
 {
     $a=preg_replace("/\r?\n/", "\\n", addslashes($p_string));
+    $a=str_replace("'",'\'',$a);
     return $a;
 }
 /**
