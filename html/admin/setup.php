@@ -256,7 +256,10 @@ $version=$cn->get_value($sql);
 
 var_dump($version);
 
-if ( $version[0]  != '8' ) {
+if ( $version[0] < 8 ||
+     ($version[0]=='8' && $version[2]<2)
+     ) 
+  {
 ?>
   <p> Vous devez absolument utiliser au minimum une version 8.2 de PostGresql, si votre distribution n'en
 offre pas, installez en une en la compilant. </p><p>Lisez attentivement la notice sur postgresql.org pour migrer
