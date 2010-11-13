@@ -38,7 +38,7 @@ if ( isset ($_POST['upd']) && isset ($_POST['d']))
     $dos->set_parameter('desc',$_POST['desc']);
     $dos->save();
 }
-echo '<div class="u_redcontent">';
+echo '<div class="content" style="width:80%;margin-left:10%">';
 // check and add an new folder
 if ( isset ($_POST["DATABASE"]) )
 {
@@ -173,8 +173,10 @@ if ( $sa == 'list' )
     $compteur=1;
     $template="";
     echo JS_CONFIRM;
-    echo '<TABLE BORDER=1>';
-
+    echo '<TABLE class="result" style="border-collapse:separate;border-spacing:4">';
+    $r=th('ID').th('Nom du dossier ').th('Description').th('Nom base de données');
+    $r=tr($r);
+    echo $r;
     // show all dossiers
     if ( $Res != null )
     {
@@ -187,18 +189,19 @@ if ( $sa == 'list' )
                 $cl='class="even"';
 
             echo "<TR $cl><TD VALIGN=\"TOP\"> ".
-            $Dossier['dos_id']." <B>".h($Dossier['dos_name'])."</B> </TD>".
+            $Dossier['dos_id']."</td><td> <B>".h($Dossier['dos_name'])."</B> </TD>".
             "<TD><I>  ".h($Dossier['dos_description'])."</I>
-            </TD>
-            <TD>";
+            </TD>";
+	    echo td(domaine."dossier".$Dossier['dos_id']);
+            echo "<TD>";
             echo HtmlInput::button_anchor(_('Effacer'),'?action=dossier_mgt&sa=del&d='.$Dossier['dos_id']);
-            echo "</TD>";
-            echo '<td>'.HtmlInput::button_anchor(_('Modifier'),'?action=dossier_mgt&sa=mod&d='
-                                                 .$Dossier['dos_id']).
-            '</td>';
-            echo '<td>'.HtmlInput::button_anchor(_('Backup'),'backup.php?action=backup&sa=b&t=d&d='
-                                                 .$Dossier['dos_id']).
-            '</td>';
+
+            echo HtmlInput::button_anchor(_('Modifier'),'?action=dossier_mgt&sa=mod&d='
+					  .$Dossier['dos_id']);
+
+            echo HtmlInput::button_anchor(_('Backup'),'backup.php?action=backup&sa=b&t=d&d='
+					  .$Dossier['dos_id']);
+	    echo '</td>';
 
             echo '<tr>';
             $compteur++;

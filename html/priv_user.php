@@ -55,7 +55,7 @@ echo '<H2 class="info"> Administration Globale</H2>';
 
 echo "<div>".MenuAdmin()."</div>";
 
-echo '<DIV>';
+echo '<DIV class="content" style="width:80%;margin-left:10%">';
 
 echo '<h2>Gestion Utilisateurs</h2>';
 

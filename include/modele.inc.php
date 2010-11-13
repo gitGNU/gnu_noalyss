@@ -213,7 +213,7 @@ if ( isset ($_POST["FMOD_NAME"]) )
 $Res=$cn->exec_sql("select mod_id,mod_name,mod_desc from
                    modeledef order by mod_name");
 $count=Database::num_row($Res);
-echo '<div class="content">';
+echo '<div class="content" style="width:80%;margin-left:10%">';
 echo "<H2>Modèles</H2>";
 if ( $sa=='list')
 {
@@ -228,10 +228,13 @@ if ( $sa=='list')
         echo HtmlInput::button_anchor('Rafra&icirc;chir','admin_repo.php?action=modele_mgt');
         echo HtmlInput::button_anchor('Ajouter','admin_repo.php?action=modele_mgt&sa=add');
 
-        echo '<table width="100%" >';
+        echo '<table class="result" style="border-spacing:5;border-collapse:separate" >';
         echo "<TR><TH>Nom</TH>".
         "<TH>Description</TH>".
-        "<th></th>".
+        "<th> </th>".
+        "<th> </th>".
+        "<th> </th>".
+
         "</TR>";
 
         for ($i=0;$i<$count;$i++)
@@ -255,10 +258,10 @@ if ( $sa=='list')
         }// for
         echo "</table>";
     }// if count = 0
-    echo "Si vous voulez r&eacute;cup&eacute;rer toutes les adaptations d'un dossier ".
+    echo "<p class=\"notice\">Si vous voulez r&eacute;cup&eacute;rer toutes les adaptations d'un dossier ".
     " dans un autre dossier, vous pouvez en faire un modèle.".
     " Seules les fiches, la structure des journaux, les p&eacute;riodes,... seront reprises ".
-    "et aucune donn&eacute;e du dossier sur lequel le dossier est bas&eacute;.";
+    "et aucune donn&eacute;e du dossier sur lequel le dossier est bas&eacute;. Les données contenues dans les extensions ne sont pas effacées</p>";
 }
 //---------------------------------------------------------------------------
 // Add a template

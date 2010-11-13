@@ -51,7 +51,24 @@ $repo=new Dossier(0);
 $cn=$repo->get_user();
 $compteur=0;
 ?>
+<div class="content" style="width:80%;margin-left:10%">
 <h2>Gestion Utilisateurs</h2>
+<TABLE> <TR>
+<form action="admin_repo.php?action=user_mgt" method="POST">
+             <TD><H3>
+             <?php
+             echo _("Ajout d'utilisateur");
+echo '<H3></TD></TR>';
+echo '<TR><TD> First Name </TD><TD><INPUT class="input_text" TYPE="TEXT" NAME="FNAME"></TD>';
+echo '<TD> Last Name </TD><TD><INPUT class="input_text"  TYPE="TEXT" NAME="LNAME"></TD></TR>';
+echo '<TR><TD> login </TD><TD><INPUT class="input_text"  TYPE="TEXT" NAME="LOGIN"></TD>';
+echo '<TD> password </TD><TD> <INPUT class="input_text" TYPE="TEXT" NAME="PASS"></TD></TR>';
+echo '<TD> <INPUT TYPE="SUBMIT" class="button" Value="Create user" NAME="ADD"></TD>';
+echo '</TABLE>';
+
+?>
+</FORM>
+
 <TABLE><TR>
 <?php
 if ( $cn != null )
@@ -79,19 +96,5 @@ if ( $cn != null )
 } // $cn != null
 ?>
 </TABLE>
-<TABLE> <TR>
-<form action="admin_repo.php?action=user_mgt" method="POST">
-             <TD><H3>
-             <?php
-             echo _("Ajout d'utilisateur");
-echo '<H3></TD></TR>';
-echo '<TR><TD> First Name </TD><TD><INPUT class="input_text" TYPE="TEXT" NAME="FNAME"></TD>';
-echo '<TD> Last Name </TD><TD><INPUT class="input_text"  TYPE="TEXT" NAME="LNAME"></TD></TR>';
-echo '<TR><TD> login </TD><TD><INPUT class="input_text"  TYPE="TEXT" NAME="LOGIN"></TD>';
-echo '<TD> password </TD><TD> <INPUT class="input_text" TYPE="TEXT" NAME="PASS"></TD></TR>';
-echo '<TD> <INPUT TYPE="SUBMIT" class="button" Value="Create user" NAME="ADD"></TD>';
-echo '</TABLE>';
 
-?>
-</FORM>
-
+</div>
