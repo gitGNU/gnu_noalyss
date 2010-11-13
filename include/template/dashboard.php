@@ -101,7 +101,7 @@ if ( $report != 0 ) {
       echo '<tr'.$bgcolor.'">';
 
       echo '<td> '.$row['desc'].'</td>'.
-	'<td style="text-align:right">'.sprintf("% 10.2f",$row['montant'])." &euro;</td>";
+	'<td style="text-align:right">'.nbm($row['montant'])." &euro;</td>";
       echo '</tr>';
     }
     echo '</table>';
@@ -125,8 +125,9 @@ if ( $report != 0 ) {
 <table width="100%">
 <?php
 for($i=0;$i<count($last_ledger);$i++):
+ if ( $i % 2 == 0 ) $odd='class="odd" '; else $odd='class="even" ';
 ?>
-<tr>
+<tr <?=$odd?> >
 <td>
 <?=$last_ledger[$i]['jr_date_fmt']?>
 </td>
@@ -138,7 +139,7 @@ for($i=0;$i<count($last_ledger);$i++):
 </td>
 
 <td style="text-align:right">
-   <?=sprintf("%.2f",$last_ledger[$i]['jr_montant'])?>
+   <?=nbm($last_ledger[$i]['jr_montant'])?>
 </td>
 <td>
    <? echo $detail=HtmlInput::detail_op($last_ledger[$i]['jr_id'],$last_ledger[$i]['jr_internal']); ?>
@@ -159,8 +160,9 @@ for($i=0;$i<count($last_ledger);$i++):
 <table width="100%">
 <?php
 for($i=0;$i<count($last_operation);$i++):
+  if ( $i % 2 == 0 ) $odd='class="odd" '; else $odd='class="even" ';
 ?>
-<tr>
+<tr <?=$odd?>>
 <td>
    <?=h($last_operation[$i]['ag_timestamp_fmt'])?>
 </td>
