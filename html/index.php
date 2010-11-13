@@ -203,22 +203,51 @@ version  5.2.SVNINFO - '.$my_domain.'
 <TABLE  BORDER=0 CELLSPACING=0>
 <TR>
 <TD class="cell">utilisateur</TD>
-<TD><input type="text" class="input_text" value="" name="p_user" tabindex="1"></TD>
+<TD><input type="text" class="input_text" value="" id="p_user" name="p_user" tabindex="1"></TD>
 </TR>
 <TR>
 <TD> mot de passe </TD>
 <TD><INPUT TYPE="PASSWORD"  class="input_text" value=""  NAME="p_pass" tabindex="2"></TD>
-</TR>
+</TR>';
+
+require_once('constant.php');
+require_once('ac_common.php');
+
+if ( $g_captcha == true )
+  {
+    //    echo '<div style="position:absolute;top:50%;left:50%">';
+    //echo "<h2>Sécurité</h2>";
+    echo '<tr ><td colspan="2" style="width:auto">';
+    echo "<table style=\"border:1px solid black\">";
+    echo '<tr>';
+    echo '<td colspan="2" style="with:auto;font-size:12;text-align:center">';
+    echo "Indiquer le code que vous lisez dans l'image";
+    echo '</td>';
+    echo '</tr>';
+    echo '<tr>';
+    echo td('<img id="captcha" src="securimage/securimage_show.php" alt="CAPTCHA Image" />');
+    echo td('<input type="text" class="input_text" name="captcha_code" size="10" maxlength="6" />'.
+	    '<a href="#" onclick="document.getElementById(\'captcha\').src = \'securimage/securimage_show.php?\' + Math.random(); return false">Reload Image</a>');
+    echo '</tr>';
+    echo '</table>';
+    //    echo '</div>';
+    echo '</td>';
+    echo '<tr>';
+  }
+echo '
 <TR>
 <TD COLSPAN=2 ALIGN=CENTER>
 <INPUT TYPE="SUBMIT"  class="button" NAME="login" value="Se connecter">
 </TD>
 </TR>
 </table>
-</TD></TR></TABLE>
+</TD></TR>';
+
+echo '</table>';
+echo '
 </form>
 </Center>
-<div  style="position:fixed;bottom:5em;border:1px solid red;text-align:right;width:20em;">
+<div  style="position:absolute;bottom:0em;border:1px solid red;text-align:right;width:20em;">
 <span style="display:block">Pour une meilleure expérience web, nous vous conseillons <a href="http://www.mozilla.com/fr/">firefox</a></span>
 <span style="display:block">For a better web experience, we recommend you <a href="http://www.mozilla.com/en/">firefox</a></span>
 </body>

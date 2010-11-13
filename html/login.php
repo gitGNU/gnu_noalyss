@@ -18,6 +18,8 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 include_once ("ac_common.php");
+require_once('constant.php');
+
 /*! \file
  * \brief Login page
  */
@@ -39,7 +41,18 @@ if (  isset ($_POST["p_user"] ) )
     include_once ("class_user.php");
     $User=new User($rep);
     $User->Check();
-
+    if ($g_captcha == true) 
+      {
+	include("securimage/securimage.php");
+	$img = new Securimage();
+	$valid = $img->check($_POST['captcha_code']);
+	if ( $valid == false ) 
+	  {
+	    echo alert('Code invalide');
+	    echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=index.php\">";
+	    exit();
+	  }
+      }
     echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=user_login.php\">";
 
 }
