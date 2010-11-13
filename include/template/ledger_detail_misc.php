@@ -17,7 +17,13 @@ require_once ('class_anc_plan.php');
     <? echo HtmlInput::hidden('whatdiv',$div).HtmlInput::hidden('jr_id',$jr_id).dossier::hidden();?>
 <table>
 <tr>
-<? echo td('Date').td(format_date($obj->det->jr_date));?>
+<?php
+$date=new IDate('p_date');
+$date->value=format_date($obj->det->jr_date);
+ echo td('Date').td($date->input());
+ 
+ ?>
+
 </tr>
 
 <tr>
