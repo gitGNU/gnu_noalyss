@@ -1,4 +1,3 @@
-﻿
 CREATE OR REPLACE FUNCTION comptaproc.jrnx_ins()
   RETURNS trigger AS
 $BODY$
@@ -21,9 +20,9 @@ if length (NEW.j_qcode) = 0 then
     NEW.j_qcode=NULL;
     else
    select f_id into n_fid from fiche_detail  where ad_id=23 and ad_value=NEW.j_qcode;
-        if NOT FOUND then 
-                raise exception 'La fiche dont le quick code est % n''existe pas',NEW.j_qcode;
-        end if;
+	if NOT FOUND then
+		raise exception 'La fiche dont le quick code est % n''existe pas',NEW.j_qcode;
+	end if;
 end if;
 NEW.f_id:=n_fid;
 return NEW;
@@ -34,7 +33,7 @@ LANGUAGE 'plpgsql';
 CREATE OR REPLACE FUNCTION comptaproc.jrn_check_periode()
   RETURNS trigger AS
 $BODY$
-declare 
+declare
 bClosed bool;
 str_status text;
 ljr_tech_per jrn.jr_tech_per%TYPE;
@@ -55,23 +54,23 @@ if TG_OP='INSERT' then
 	NEW.jr_tech_per := comptaproc.find_periode(to_char(NEW.jr_date,'DD.MM.YYYY'));
 	ljr_tech_per :=NEW.jr_tech_per ;
 	ljr_def_id   :=NEW.jr_def_id;
-        lreturn      :=NEW;
+	lreturn      :=NEW;
 end if;
 
 if TG_OP='DELETE' then
 	ljr_tech_per :=OLD.jr_tech_per;
 	ljr_def_id   :=OLD.jr_def_id;
-        lreturn      :=OLD;
+	lreturn      :=OLD;
 end if;
 
-select p_closed into bClosed from parm_periode 
+select p_closed into bClosed from parm_periode
 	where p_id=ljr_tech_per;
 
 if bClosed = true then
 	raise exception 'Periode fermee';
 end if;
 
-select status into str_status from jrn_periode 
+select status into str_status from jrn_periode
        where p_id =ljr_tech_per and jrn_def_id=ljr_def_id;
 
 if str_status <> 'OP' then
@@ -90,14 +89,14 @@ declare n_p_id int4;
 
 begin
 
-select p_id into n_p_id 
-	from parm_periode 
-	where 
+select p_id into n_p_id
+	from parm_periode
+	where
 		p_start <= to_date(p_date,'DD.MM.YYYY')
 		and
 		p_end >= to_date(p_date,'DD.MM.YYYY');
 
-if NOT FOUND then 
+if NOT FOUND then
 	return -1;
 end if;
 
