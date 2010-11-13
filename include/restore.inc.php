@@ -61,7 +61,7 @@ if ( isset ($_REQUEST['sa'] ))
     {
         ini_set('upload_max_filesize','25M');
         ini_set('post_max_size','25M');
-        echo '<div class="content">';
+        echo '<div class="content" style="width:80%;margin-left:10%">';
 
         $cn=new Database();
         $id=$cn->get_next_seq('dossier_id');
@@ -181,7 +181,7 @@ if ( isset ($_REQUEST['sa'] ))
 }
 else
 {
-    echo '<div class="content">';
+    echo '<div class="content" style="width:80%;margin-left:10%">';
     echo '<form method="POST" action="admin_repo.php" enctype="multipart/form-data" >';
     echo HtmlInput::hidden('action','restore');
     echo HtmlInput::hidden('sa','r');
