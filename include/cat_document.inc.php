@@ -27,6 +27,7 @@
 
 // show list of document
 require_once ('class_document_type.php');
+
 if ( isset($_POST['add']) )
 {
     $catDoc=new Document_Type($cn);
@@ -39,6 +40,4 @@ $str_submit=HtmlInput::submit('add',_('Ajout'));
 echo '<div class="content">';
 require_once('template/list_category_document.php');
 echo '</div>';
-?>
-?>
 ?>
