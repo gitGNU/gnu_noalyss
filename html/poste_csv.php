@@ -81,13 +81,14 @@ if ( ! isset ($_REQUEST['oper_detail']))
         $prog=0;
         foreach ( $Poste->row as $op )
         {
-            $prog+=$op['deb_montant']-$op['cred_montant'];
-            echo '"'.$pos['pcm_val'].'";'.
-	     '"'.$op['jr_pj_number'].'"'.";".
+	  $diff=bcsub($op['deb_montant'],$op['cred_montant']);
+	  $prog=bcadd($prog,$diff);
+	  echo '"'.$pos['pcm_val'].'";'.
+	    '"'.$op['jr_pj_number'].'"'.";".
             '"'.$name.'";'.
             '"'.$op['jr_internal'].'"'.";".
             '"'.$op['j_date_fmt'].'"'.";".
-            '"'.$op['description'].'",'.
+            '"'.$op['description'].'";'.
             nb($op['deb_montant']).";".
             nb($op['cred_montant']).";".
             nb(abs($prog));
