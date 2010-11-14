@@ -31,8 +31,6 @@ echo "<hr>";
 //
 $doc=new Document_modele($cn);
 
-echo $doc->form('parametre.php?p_action=document');
-
 //-----------------------------------------------------
 // Document 	add a template
 //-----------------------------------------------------
@@ -79,4 +77,8 @@ if ( $sub_action == 'mod_template')
 // Default action : Show the list
 //-----------------------------------------------------
 echo $doc->myList();
+echo '<div id="add_modele" style="display:none">';
+echo $doc->form('parametre.php?p_action=document');
+echo '</div>';
+
 ?>

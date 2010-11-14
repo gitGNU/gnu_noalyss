@@ -5,13 +5,21 @@ function modifyModeleDocument(p_value,dossier)
 {
     layer++;
     id='det'+layer;
-var popup={'id':
-           'mod_doc','cssclass':'op_detail'
-           ,'html':
-           loading(),'drag':
-               true};
+    var pos_y=posY+offsetY-20;
+    var pos_x=posX+offsetX+40;
+    var style="position:absolute;top:"+pos_y+";left:"+pos_x;
+    var popup={'id':'mod_doc',
+	       'cssclass':'op_detail',
+               'html': loading(),
+	       'drag':false,
+	       'style':style
+	      };
+
     querystring='?gDossier='+dossier+'&op=mod_doc&id='+p_value+'&div=mod_doc';
-    add_div(popup);
+    if ( ! $('mod_doc'))
+    {
+	add_div(popup);
+    }
     var action=new Ajax.Request(
                    "ajax_misc.php",
                    {

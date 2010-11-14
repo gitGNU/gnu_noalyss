@@ -54,7 +54,7 @@ class Document_modele
     function myList()
     {
         $s=dossier::get();
-        $sql="select md_id,md_name,md_affect,dt_value from document_modele join document_type on(dt_id=md_type)";
+        $sql="select md_id,md_name,md_affect,dt_value from document_modele join document_type on(dt_id=md_type) order by md_name";
         $Res=$this->cn->exec_sql($sql);
         $all=Database::fetch_all($Res);
         if ( Database::num_row($Res) == 0 ) return "";
@@ -98,6 +98,10 @@ class Document_modele
         $a->value="rm_template";
         $r.=$a->input();
         $r.=HtmlInput::submit("rm_template","Effacer la sélection");
+	$b=new IButton('show');
+	$b->label="Ajout d'un document";
+	$b->javascript="$('add_modele').style.display='block';$('show').style.display='none';";
+	$r.=$b->input();
         $r.="</form></p>";
         return $r;
     }

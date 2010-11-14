@@ -54,15 +54,25 @@ Affectation
 </td>
 </tr>
 <tr>
+
+<tr>
 <td>
 Fichier
+<?php
+	        $s=dossier::get();
+
+           echo '<A HREF="show_document_modele.php?md_id='.$doc->md_id.'&'.$s.'">(fichier actuel)</a>';
+?>
 </td>
 <td>
 <?php
 $file=new IFile('doc');
 echo $file->input();
+
+
 ?>
 </td>
+</tr>
 
 <tr>
 <td>
