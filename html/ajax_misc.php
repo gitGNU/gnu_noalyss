@@ -41,7 +41,7 @@ require_once('function_javascript.php');
 require_once('ac_common.php');
 require_once ('class_user.php');
 
-$var=array('gDossier');
+$var=array('gDossier','op');
 $cont=0;
 /*  check if mandatory parameters are given */
 foreach ($var as $v)
@@ -426,4 +426,7 @@ echo <<<EOF
 </data>
 EOF;
     break;
+case 'mod_doc':
+  require_once('modify_mod_document.inc.php');
+  break;
 }

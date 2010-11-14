@@ -24,6 +24,7 @@
 
 require_once("class_document_modele.php");
 $sub_action=(isset ($_REQUEST['sa']))?$_REQUEST['sa']:"";
+echo js_include('modele_document.js');
 
 echo "<hr>";
 // show the form for adding a template
@@ -65,11 +66,17 @@ if ( $sub_action=='rm_template')
     }
 
 }
-
+//----------------------------------------------------------------------
+// Document modify a template
+//----------------------------------------------------------------------
+if ( $sub_action == 'mod_template')
+  {
+    require_once('class_document_modele.php');
+    $doc=new Document_modele($cn,$_POST['id']);
+    $doc->update($_POST);
+  }
 //-----------------------------------------------------
 // Default action : Show the list
 //-----------------------------------------------------
 echo $doc->myList();
-?>
-?>
 ?>

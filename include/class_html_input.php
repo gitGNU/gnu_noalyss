@@ -250,6 +250,15 @@ class HtmlInput
                        $p_jr_id,dossier::id(),$p_mesg);
     }
     /**
+     * return a string containing the html code for calling the modifyModeleDocument
+     */
+    static function detail_modele_document($p_id,$p_mesg)
+    {
+        return sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyModeleDocument(%d,%d)">%s</A>',
+                       $p_id,dossier::id(),$p_mesg);
+    }
+
+    /**
      * display a div with the history of the card
      */
     static function history_card($f_id,$p_mesg)

@@ -86,6 +86,8 @@ class Document_modele
             $c->name="dm_remove_".$row['md_id'];
             $r.=$c->input();
             $r.="</td>";
+	    $r.=td(HtmlInput::detail_modele_document($row['md_id'],'Modifier'));
+
             $r.="</tr>";
         }
         $r.="</table>";
@@ -100,7 +102,6 @@ class Document_modele
         return $r;
     }
     /*!
-     **************************************************
      * \brief :  Save a document_modele in the database, 
      *       if the document_modele doesn't exist yet it will be
      *       first created (-> insert into document_modele)
@@ -285,5 +286,72 @@ class Document_modele
             $this->$idx=$array[0][$idx];
         }
     }
+    /*!
+     * \brief :  update a document_modele in the database, 
+     */
+    function update($p_array)
+    {
+      $this->load();
+        // if name is empty return immediately
+        if ( trim(strlen($p_array['md_name']))==0)
+            return;
+        try
+        {
+            // Start transaction
+            $this->cn->start();
+	    $sql="update document_modele set md_name=$1,md_type=$2,md_affect=$3 where md_id=$4";
+	    $this->cn->exec_sql($sql,array(
+					   $p_array['md_name'],
+					   $p_array['md_type'],
+					   $p_array['md_affect'],
+					   $this->md_id
+					   ));
+	    if ( $p_array['seq'] != 0 )
+	      $this->cn->alter_seq('seq_doc_type_'.$p_array['md_type'],$p_array['seq']);
+					   
+            // Save the file
+            $new_name=tempnam($_ENV['TMP'],'document_');
+            if ( strlen ($_FILES['doc']['tmp_name']) != 0 )
+            {
+                if (move_uploaded_file($_FILES['doc']['tmp_name'],
+                                       $new_name))
+                {
+                    // echo "Image saved";
+                    $oid= $this->cn->lo_import($new_name);
+                    if ( $oid == false )
+                    {
+                        echo_error('class_document_modele.php',__LINE__,"cannot upload document");
+                        $this->cn->rollback();
+                        return;
+                    }
+                    // Remove old document
+                    $ret=$this->cn->exec_sql("select md_lob from document_modele where md_id=".$this->md_id);
+                    if (Database::num_row($ret) != 0)
+                    {
+                        $r=Database::fetch_array($ret,0);
+                        $old_oid=$r['md_lob'];
+                        if (strlen($old_oid) != 0)
+                            $this->cn->lo_unlink($old_oid);
+                    }
+                    // Load new document
+                    $this->cn->exec_sql("update document_modele set md_lob=".$oid.", md_mimetype='".$_FILES['doc']['type']."' ,md_filename='".$_FILES['doc']['name']."' where md_id=".$this->md_id);
+                    $this->cn->commit();
+                }
+                else
+                {
+                    echo "<H1>Error</H1>";
+                    $this->cn->rollback();
+                    exit;
+                }
+            }
+        }
+        catch (Exception $e)
+        {
+            rollback($this->cn);
+            return ;
+        }
+	$this->cn->commit();
+    }
+
 }
 ?>
