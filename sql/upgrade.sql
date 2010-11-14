@@ -66,6 +66,7 @@ end if;
 select p_closed into bClosed from parm_periode
 	where p_id=ljr_tech_per;
 
+raise notice 'bClosed = %',bClosed;
 if bClosed = true then
 	raise exception 'Periode fermee';
 end if;
@@ -86,7 +87,6 @@ CREATE OR REPLACE FUNCTION comptaproc.find_periode(p_date text)
 $BODY$
 
 declare n_p_id int4;
-
 begin
 
 select p_id into n_p_id
@@ -105,4 +105,12 @@ return n_p_id;
 end;$BODY$
   LANGUAGE 'plpgsql';
 
+
+DROP TRIGGER t_check_jrn ON jrn;
+
+CREATE TRIGGER t_check_jrn
+  BEFORE INSERT OR DELETE OR update
+  ON jrn
+  FOR EACH ROW
+  EXECUTE PROCEDURE comptaproc.jrn_check_periode();
 
