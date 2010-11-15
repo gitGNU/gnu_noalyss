@@ -66,6 +66,13 @@ ALTER TABLE ONLY audit_connect
 
 
 --
+-- Name: audit_connect_ac_user; Type: INDEX; Schema: public; Owner: danydb; Tablespace: 
+--
+
+CREATE INDEX audit_connect_ac_user ON audit_connect USING btree (ac_user);
+
+
+--
 -- Name: cut_user_trg; Type: TRIGGER; Schema: public; Owner: danydb
 --
 
