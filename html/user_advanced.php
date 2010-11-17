@@ -88,15 +88,7 @@ default:
 }
 echo ShowMenuAdvanced($high);
 
-if ($p_action == "periode" )
-{
 
-    if ( $User->check_action(PARPER) == 0 && $User->check_action(PARCLO) == 0 )
-        NoAccess();
-
-    $p_action=$_REQUEST['p_action'];
-    include_once("periode.inc.php");
-}
 //--------------------------------------------------
 // Predefined operation
 //--------------------------------------------------

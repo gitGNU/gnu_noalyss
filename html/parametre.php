@@ -53,7 +53,7 @@ echo   '<div class="topmenu">';
 
 $authorized =0;
 foreach ( array(PARCA,PARPER,PARFIC,PARDOC,PARJRN,PARTVA,
-                PARMP, PARPOS,PARCOORD,PARSEC,EXTENSION)
+                PARMP, PARPOS,PARCOORD,PARSEC,EXTENSION,PARPER,PARCLO)
           as $a)
 {
     if ( $User->check_action($a) == 1 )
@@ -74,6 +74,10 @@ if ( isset($_REQUEST["p_action"]) )
 }
 switch ($p_action)
 {
+case 'periode':
+  $default=25;
+  break;
+
 case 'ext':
         $default=3;
     break;
@@ -374,6 +378,19 @@ if ( $p_action == 'defrapport' )
 {
     $User->can_request(PARRAP,1);
     require_once('report.inc.php');
+}
+//---------------------------------------------------------------------------
+// Periode management
+//---------------------------------------------------------------------------
+
+if ($p_action == "periode" )
+{
+
+    if ( $User->check_action(PARPER) == 0 && $User->check_action(PARCLO) == 0 )
+        NoAccess();
+
+    $p_action=$_REQUEST['p_action'];
+    include_once("periode.inc.php");
 }
 //----------------------------------------------------------------------
 // Ledger parameter
