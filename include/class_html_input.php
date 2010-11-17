@@ -259,6 +259,15 @@ class HtmlInput
     }
 
     /**
+     * return a string containing the html code for calling the removeStock
+     */
+    static function remove_stock($p_id,$p_mesg)
+    {
+        return sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:removeStock(%d,%d)">%s</A>',
+                       $p_id,dossier::id(),$p_mesg);
+    }
+
+    /**
      * display a div with the history of the card
      */
     static function history_card($f_id,$p_mesg)

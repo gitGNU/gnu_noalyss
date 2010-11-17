@@ -128,7 +128,7 @@ function getFicheNameCode ($p_cn,$p_sg_code)
     // Sql stmt
     $sql="select distinct f_id,ad_value
          from stock_goods
-         join fiche_detail
+         join fiche_detail using(f_id)
          where
          ad_id=".ATTR_DEF_STOCK."
          and sg_code='$p_sg_code'
@@ -163,7 +163,8 @@ function getFicheNameCode ($p_cn,$p_sg_code)
  */
 function ViewDetailStock($p_cn,$p_sg_code,$p_year)
 {
-    $sql="select sg_code,
+    $sql="select sg_id,
+              sg_code,
          j_montant,
          coalesce(j_date,sg_date) as j_date,
          sg_quantity,
@@ -207,7 +208,7 @@ function ViewDetailStock($p_cn,$p_sg_code,$p_year)
     $Res=$p_cn->exec_sql($sql);
     if ( ($M=Database::num_row($Res)) == 0 ) return "no rows";
     $r.='<table class="result" >';
-    $r.="<TR>";
+    $r.="<TR >";
     $r.="<th>Date </th>";
     $r.="<th>Entrée / Sortie </th>";
     $r.="<th>Description</th>";
@@ -220,11 +221,11 @@ function ViewDetailStock($p_cn,$p_sg_code,$p_year)
     for ( $i=0; $i < $M;$i++)
     {
         $l=Database::fetch_array($Res,$i);
-        $r.="<tR>";
+        $r.="<tR id=\"stock".$l['sg_id']."\" >";
 
         // date
         $r.="<TD>";
-        $r.=$l['j_date'];
+        $r.=format_date($l['j_date']);
         $r.="</TD>";
 
         //type (deb = out cred=in)
@@ -247,13 +248,13 @@ function ViewDetailStock($p_cn,$p_sg_code,$p_year)
         $tot_quantity+=$quantity;
         // comment
         $r.="<TD>";
-        $r.=$l['comment'];
+        $r.=h($l['comment']);
         $r.="</TD>";
 
         // jr_internal
         $r.="<TD>";
         if ( $l['jr_id'] != "")
-            $r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$l['jr_id']."',".dossier::id().",0,'S')\" > ".$l['jr_internal']."</A>";
+            $r.= "<A class=\"detail\" style=\"text-decoration:underline\" HREF=\"javascript:modifyOperation('".$l['jr_id']."',".dossier::id().",0,'S')\" > ".$l['jr_internal']."</A>";
         else
             $r.=$l['jr_internal'];
 
@@ -263,7 +264,7 @@ function ViewDetailStock($p_cn,$p_sg_code,$p_year)
 
         //amount
         $r.='<TD align="right">';
-        $r.=$l['j_montant'];
+        $r.=nbm($l['j_montant']);
         $r.="</TD>";
         //quantity
         $r.='<TD align="right">';
@@ -275,9 +276,9 @@ function ViewDetailStock($p_cn,$p_sg_code,$p_year)
         $up="";
         if ( $l['sg_quantity'] != 0 )
             $up=round($l['j_montant']/$l['sg_quantity'],4);
-        $r.=sprintf("%.4f",$up);
+        $r.=nbm($up);
         $r.="</TD>";
-
+	$r.=td(HtmlInput::remove_stock($l['sg_id'],'Effacer'),'id="href'.$l['sg_id'].'"');
         $r.="</TR>";
     }// for ($i
     // write the total

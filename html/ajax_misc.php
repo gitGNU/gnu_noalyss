@@ -63,6 +63,19 @@ $user->check_dossier($gDossier,true);
 $html=var_export($_REQUEST,true);
 switch($op)
 {
+case "rm_stock":
+  require_once('constant.security.php');
+  if ( $user->check_action(GESTOCK) == 0 )
+    {
+      exit();
+    }
+  $cn->exec_sql('delete from stock_goods where sg_id=$1',
+		array($s_id));
+  $html=escape_xml($s_id);
+  header('Content-type: text/xml; charset=UTF-8');
+  printf('{"d_id":"%s"}',$s_id);
+  exit();
+  break;
     //--------------------------------------------------
     // get the last date of a ledger
 case 'lastdate':

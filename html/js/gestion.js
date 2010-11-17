@@ -86,3 +86,55 @@ function check_hour(p_ctl)
     }
 
 }
+/**
+ *@brief remove an attached document of an action
+ *@param dossier
+ *@param dt_id id of the document (pk document:d_id)
+*/
+
+function removeStock(s_id,p_dossier)
+{
+    if ( ! confirm("Confirmez-vous l'effacement de cette entrée dans le stock?") )
+    {
+	return;
+    }
+    queryString="?gDossier="+p_dossier+"&op=rm_stock&s_id="+s_id;
+    var action=new Ajax.Request (
+                   "ajax_misc.php",
+                   {
+                   method:'get',
+                   parameters:queryString,
+                   onFailure:errorRemoveStock,
+                   onSuccess:successRemoveStock
+                   }
+
+               );
+
+}
+/**
+ *@brief error if a document if removed
+ */
+function errorRemoveStock()
+{
+    alert('Impossible d\'effacer ');
+}
+/**
+ *@brief success when removing a document
+ */
+function successRemoveStock(request,json)
+{
+    try
+    {
+	var answer=request.responseText.evalJSON(true);
+	var doc="stock"+answer.d_id;
+	var href="href"+answer.d_id;
+	$(href).innerHTML='';
+
+	$(doc).style.color="red";
+	//    $(doc).href="javascript:alert('Stock Effacé')";
+	$(doc).style.textDecoration="line-through";
+    } catch (e)  
+    {
+	alert("success_box"+e.message);
+    }
+}
