@@ -40,7 +40,7 @@ if (  isset ($_POST["p_user"] ) )
     $rep=new Database();
     include_once ("class_user.php");
     $User=new User($rep);
-    $User->Check();
+    $User->Check(false,'LOGIN');
     if ($g_captcha == true) 
       {
 	include("securimage/securimage.php");

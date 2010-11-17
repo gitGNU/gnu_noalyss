@@ -44,4 +44,6 @@ define ("STOWRITE",1510);  //Stock (changement)
 define ("EXTENSION",1600);  //Extension
 define ("PREVCON",1701);  //Prevision
 define ("PREVMOD",1702);  //Prevision
+
+global $audit; $audit=true;
 ?>

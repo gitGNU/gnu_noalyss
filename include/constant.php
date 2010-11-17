@@ -31,7 +31,7 @@ global $version_phpcompta;
 error_reporting (15);
 
 global $g_captcha;
-$g_captcha=true;
+$g_captcha=false;
 
 /* set to none for production */
 /* uncomment for production */

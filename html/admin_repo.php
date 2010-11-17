@@ -80,6 +80,11 @@ if ( isset ($_REQUEST["action"]) )
         // Backup and restaure folders
         require_once("restore.inc.php");
     }
+    if ($_REQUEST['action'] == 'audit_log')
+      {
+	/* List the connexion successuf and failed */
+	require_once('audit_log.php');
+      }
 }// action = modele_mgt
 
 ?>

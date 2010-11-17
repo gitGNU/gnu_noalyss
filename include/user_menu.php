@@ -312,6 +312,9 @@ function MenuAdmin()
         case 'modele_mgt':
             $def=2;
             break;
+	case 'audit_log':
+	  $def=4;
+	  break;
         case 'restore';
             $def=3;
             break;
@@ -321,6 +324,7 @@ function MenuAdmin()
                  array("admin_repo.php?action=dossier_mgt",_("Dossiers"),_('Gestion des dossiers'),1),
                  array("admin_repo.php?action=modele_mgt",_("Modèles"),_('Gestion des modèles'),2),
                  array("admin_repo.php?action=restore",_("Restaure"),_("Restaure une base de données"),3),
+                 array("admin_repo.php?action=audit_log",_("Audit"),_("Utilisateurs qui se sont connectés"),4),
                  array("login.php",_("Accueil"))
                 );
 

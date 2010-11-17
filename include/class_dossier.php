@@ -95,7 +95,7 @@ class dossier
         if ( $Max == 0 ) return null;
         for ( $i=0;$i<$Max; $i++)
         {
-            $row[]=$this->cn->fetch($p_res);
+	  $row[]=$this->cn->fetch($i);
         }
         return $row;
     }

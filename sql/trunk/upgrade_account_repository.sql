@@ -23,6 +23,7 @@ CREATE TABLE audit_connect (
     ac_user text,
     ac_date timestamp without time zone DEFAULT now(),
     ac_ip text,
+    ac_module text,
     ac_state text,
     CONSTRAINT valid_state CHECK (((ac_state = 'FAIL'::text) OR (ac_state = 'SUCCESS'::text)))
 );

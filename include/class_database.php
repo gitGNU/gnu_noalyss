@@ -311,7 +311,7 @@ class Database
     function fetch($p_indice)
     {
         if ( $this->ret == false ) throw new Exception ('this->ret is empty');
-        return pg_fetch_array($this->ret ) ;
+        return pg_fetch_array($this->ret,$p_indice ) ;
     }
     /*!@brief return the number of rows found by the last query,
       synomym for count()*/
