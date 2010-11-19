@@ -171,5 +171,3 @@ class Forecast_Cat
 }
 
 ?>
-?>
-?>
