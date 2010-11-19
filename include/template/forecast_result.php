@@ -58,7 +58,7 @@ $tot_cat_estm=bcadd($amount,$tot_cat_estm);
 </td>
 <?php endfor;?>
 <td style="text-align:right">
-<?php printf("%10.2f", $tot_estm);?>
+<?php echo nbm($tot_estm);?>
 </td>
 </tr>
 
@@ -88,6 +88,10 @@ if ( ($aItem[$i][$e]['fi_debit'] == 'C' && $diff < 0) || ($aItem[$i][$e]['fi_deb
   {
     echo '<td style="text-align:right;background-color:red;color:white">';
   }
+else if ($diff==0)
+  {
+    echo '<td style="text-align:right;">';
+  }
 else
   {
     echo '<td style="text-align:right;background-color:green;color:white">';
@@ -111,6 +115,11 @@ if ( ($aItem[$i][$e]['fi_debit'] == 'C' && $cum < 0) || ($aItem[$i][$e]['fi_debi
   {
     echo '<td style="text-align:right;background-color:red;color:white">';
   }
+else if ($cum ==0)
+  {
+    echo '<td style="text-align:right;">';
+  }
+
 else
   {
     echo '<td style="text-align:right;background-color:green;color:white">';
