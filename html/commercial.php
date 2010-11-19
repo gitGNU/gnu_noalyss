@@ -239,3 +239,4 @@ if ( $p_action=='prev')
     $User->can_request(PREVCON,1);
     require_once ('forecast.inc.php');
 }
+?>

@@ -49,10 +49,10 @@ if (count($aPerMonth[$i]) != 0 ){
 	}
 }
 $estm[$i][$e][$h]=$amount;
-printf("%10.2f", $amount);
+echo nbm( $amount);
 
-$tot_estm+=$amount;
-$tot_cat_estm+=$amount;
+$tot_estm=bcadd($tot_estm,$amount);
+$tot_cat_estm=bcadd($amount,$tot_cat_estm);
 ?>
 
 </td>
@@ -68,11 +68,11 @@ $tot_cat_estm+=$amount;
 </td>
 <?php for ($h=0;$h<count($aPeriode);$h++):?>
 <td align="right">
-<?php printf("%10.2f",  $aReal[$i][$e][$h]);$tot_cat_real+=$aReal[$i][$e][$h];$tot+=$aReal[$i][$e][$h];?>
+   <?php echo nbm(  $aReal[$i][$e][$h]);$tot_cat_real=bcadd($tot_cat_real,$aReal[$i][$e][$h]);$tot=bcadd($tot,$aReal[$i][$e][$h]);?>
 </td>
 <?php endfor;?>
 <td align="right">
-<?php printf("%10.2f", $tot);?>
+<?php echo nbm( $tot);?>
 </td>
 </tr>
 
@@ -81,9 +81,19 @@ $tot_cat_estm+=$amount;
 <?php echo _('Différence');?>
 </td>
 <?php for ($h=0;$h<count($aPeriode);$h++):?>
-<td align="right">
-<?php $diff=  $aReal[$i][$e][$h]-$estm[$i][$e][$h];
-printf("%10.2f",  $diff);
+
+    <?php 
+ $diff= bcsub( $aReal[$i][$e][$h],$estm[$i][$e][$h]);
+if ( ($aItem[$i][$e]['fi_debit'] == 'C' && $diff < 0) || ($aItem[$i][$e]['fi_debit'] == 'D' && $diff > 0))
+  {
+    echo '<td style="text-align:right;background-color:red;color:white">';
+  }
+else
+  {
+    echo '<td style="text-align:right;background-color:green;color:white">';
+  }
+  
+echo nbm( $diff);
 ?>
 </td>
 <?php endfor;?>
@@ -93,16 +103,33 @@ printf("%10.2f",  $diff);
 <?php echo _('Diff. cumul.'); $cum=0.0; ?>
 </td>
 <?php for ($h=0;$h<count($aPeriode);$h++):?>
-<td align="right">
+
 <?php
-$diff=  $aReal[$i][$e][$h]-$estm[$i][$e][$h];
-$cum+=$diff;
-printf("%10.2f",  $cum);
+    $diff= bcsub($aReal[$i][$e][$h],$estm[$i][$e][$h]);
+$cum=bcadd($diff,$cum);
+if ( ($aItem[$i][$e]['fi_debit'] == 'C' && $cum < 0) || ($aItem[$i][$e]['fi_debit'] == 'D' && $cum > 0))
+  {
+    echo '<td style="text-align:right;background-color:red;color:white">';
+  }
+else
+  {
+    echo '<td style="text-align:right;background-color:green;color:white">';
+  }
+
+echo nbm( $cum);
 ?>
 </td>
 <?php endfor;?>
-<td align="right">
-<?php printf("%10.2f",  $cum);
+<?php
+if ( ($aItem[$i][$e]['fi_debit'] == 'C' && $cum < 0) || ($aItem[$i][$e]['fi_debit'] == 'D' && $cum > 0))
+  {
+    echo '<td style="text-align:right;background-color:red;color:white">';
+  }
+else
+  {
+    echo '<td style="text-align:right;background-color:green;color:white">';
+  }
+ echo nbm(  $cum);
 ?>
 </td>
 </tr>
