@@ -158,12 +158,12 @@ class User
 
 
         }
-	$sql="insert into audit_connect (ac_user,ac_ip,ac_module,ac_state) values ($1,$2,$3,$4)";
+	$sql="insert into audit_connect (ac_user,ac_ip,ac_module,ac_url,ac_state) values ($1,$2,$3,$4,$5)";
 	
         if ( $res == 0  )
         {
 	  if ( $from=='LOGIN')
-	    $cn->exec_sql($sql,array($_SESSION['g_user'],$_SERVER["REMOTE_ADDR"],$from,'FAIL'));
+	    $cn->exec_sql($sql,array($_SESSION['g_user'],$_SERVER["REMOTE_ADDR"],$from,$_SERVER['REQUEST_URI'],'FAIL'));
             if ( ! $silent)
             {
                 alert(_('Utilisateur ou mot de passe incorrect'));
@@ -175,7 +175,7 @@ class User
         else
         {
 	  if ( $from=='LOGIN')
-	    $cn->exec_sql($sql,array($_SESSION['g_user'],$_SERVER["REMOTE_ADDR"],$from,'SUCCESS'));
+	    $cn->exec_sql($sql,array($_SESSION['g_user'],$_SERVER["REMOTE_ADDR"],$from,$_SERVER['REQUEST_URI'],'SUCCESS'));
 	  $this->valid=1;
         }
 
@@ -487,8 +487,8 @@ class User
 	    if (isset ($audit) && $audit == true)
 	      {
 		$cn=new Database();
-		$sql="insert into audit_connect (ac_user,ac_ip,ac_module,ac_state) values ($1,$2,$3,$4)";
-		$cn->exec_sql($sql,array($_SESSION['g_user'],$_SERVER["REMOTE_ADDR"],$_SERVER['REQUEST_URI'],'FAIL'));
+		$sql="insert into audit_connect (ac_user,ac_ip,ac_module,ac_url,ac_state) values ($1,$2,$3,$4,$5)";
+		$cn->exec_sql($sql,array($_SESSION['g_user'],$_SERVER["REMOTE_ADDR"],$p_action_id,$_SERVER['REQUEST_URI'],'FAIL'));
 	      }
 	    return 0;
 	  }

@@ -65,6 +65,32 @@ class Fiche
         return strcmp($o1->strAttribut(ATTR_DEF_NAME),$o2->strAttribut(ATTR_DEF_NAME));
     }
 
+  /**
+   *@brief get the available bank_account filtered by the security
+   *@return array of card
+   */
+    function get_bk_account()
+    {
+      
+      $user=new User($this->cn);
+      $sql_ledger=$user->get_ledger_sql('FIN',3);
+      $avail=$this->cn->get_array("select jrn_def_id,jrn_def_bank from jrn_def where jrn_def_type='FIN' and $sql_ledger
+                            order by jrn_def_name");
+
+      if ( count($avail) == 0 )
+            return null;
+
+      for ($i=0;$i<count($avail);$i++)
+        {
+            $t=new Fiche($this->cn,$avail[$i]['jrn_def_bank']);
+            $t->getAttribut();
+            $all[$i]=$t;
+
+        }
+        return $all;
+    }
+
+
     /*!   get_by_qcode($p_qcode)
      * \brief Retrieve a card thx his quick_code
      *        complete the object,, set the id member of the object or set it

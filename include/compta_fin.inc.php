@@ -235,8 +235,9 @@ if ( $def==3)
 {
     require_once ('class_acc_parm_code.php');
     echo '<div class="content">';
-    $fiche=new Fiche_Def($cn);
-    $array=$fiche->get_by_category(FICHE_TYPE_FIN);
+    $fiche=new Fiche($cn);
+
+    $array=$fiche->get_bk_account();
 
     echo '<div class="content">';
 
@@ -346,6 +347,8 @@ if ($def==4)
     echo dossier::hidden();
     echo HtmlInput::hidden('sa','r');
     $wLedger=$Ledger->select_ledger('FIN',3);
+    if ($wLedger == null ) exit ('Pas de journal disponible');
+
     $wLedger->javascript="onchange='this.form.submit()';";
     echo $wLedger->input();
     $operation=$cn->get_array("select jr_id,jr_internal,jr_comment,to_char(jr_date,'DD.MM.YYYY') as fmt_date,jr_montant
