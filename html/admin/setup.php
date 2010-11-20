@@ -332,7 +332,7 @@ $account=$cn->count_sql("select * from pg_database where datname=lower('".domain
 if ($account == 0 ) {
 
   echo "Creation of ".domaine."account_repository";
-  if ( DEBUG=='false') ob_start();
+  if ( ! DEBUG) ob_start();
   $cn->exec_sql("create database ".domaine."account_repository encoding='utf8'");
   $cn=new Database();
   $cn->start();
@@ -341,10 +341,10 @@ if ($account == 0 ) {
   $cn->execute_script("sql/account_repository/constraint.sql");
   $cn->commit($cn);
 
- if ( DEBUG=='false') ob_end_clean();
+ if ( ! DEBUG) ob_end_clean();
 
   echo "Creation of Modele1";
-  if ( DEBUG=='false') ob_start();
+  if ( ! DEBUG) ob_start();
   $cn->exec_sql("create database ".domaine."mod1 encoding='utf8'");
 
   $cn=new Database(1,'mod');
@@ -354,19 +354,19 @@ if ($account == 0 ) {
   $cn->execute_script('sql/mod1/constraint.sql');
   $cn->commit();
 
-  if ( DEBUG=='false') ob_end_clean();
+  if ( ! DEBUG) ob_end_clean();
 
   echo "Creation of Modele2";
   $cn->exec_sql("create database ".domaine."mod2 encoding='utf8'");
   $cn=new Database(2,'mod');
   $cn->start();
-  if ( DEBUG=='false') { ob_start();  }
+  if ( ! DEBUG) { ob_start();  }
   $cn->execute_script('sql/mod1/schema.sql');
   $cn->execute_script('sql/mod2/data.sql');
   $cn->execute_script('sql/mod1/constraint.sql');
   $cn->commit();
 
- if ( DEBUG=='false') ob_end_clean();
+ if ( ! DEBUG) ob_end_clean();
 
  }// end if
 // Add a french accountancy model
@@ -423,7 +423,7 @@ echo '<hr>';
  	}
    }
 
- if (DEBUG=='false') ob_end_clean();
+ if (! DEBUG) ob_end_clean();
  echo "<h2 class=\"info\">Voil&agrave; tout est install&eacute; ;-) </H2>";
 ?>
 <A HREF="../index.php">Connectez-vous à PhpCompta</A>

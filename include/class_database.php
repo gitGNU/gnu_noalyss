@@ -118,11 +118,11 @@ class Database
             $this->array=$p_array;
             if ( $p_array==null )
             {
-                $this->ret=pg_query($this->db,$p_string);
+                $this->ret=@pg_query($this->db,$p_string);
             }
             else
             {
-                $this->ret=pg_query_params($this->db,$p_string,$p_array);
+                $this->ret=@pg_query_params($this->db,$p_string,$p_array);
             }
             if ( ! $this->ret )
             {
@@ -215,7 +215,7 @@ class Database
     function execute_script($script)
     {
 
-        if ( DEBUG=='false' ) ob_start();
+        if ( ! DEBUG ) ob_start();
         $hf=fopen($script,'r');
         if ( $hf == false )
         {
@@ -279,7 +279,7 @@ class Database
             if ( $this->exec_sql($sql) == false )
             {
                 $this->rollback();
-                if ( DEBUG=='false' ) ob_end_clean();
+                if ( ! DEBUG ) ob_end_clean();
                 print "ERROR : $sql";
                 exit();
             }
@@ -288,7 +288,7 @@ class Database
             print "<hr>";
         } // while (feof)
         fclose($hf);
-        if ( DEBUG=='false' ) ob_end_clean();
+        if ( ! DEBUG ) ob_end_clean();
     }
     /*!
      * \brief Get version of a database, the content of the
@@ -346,7 +346,7 @@ class Database
                 " from the version ".$this->get_version()." to $to</h3> </li>";
 
                 $this->execute_script($add.'sql/patch/upgrade'.$i.'.sql');
-                if ( DEBUG=='false' ) ob_start();
+                if ( ! DEBUG ) ob_start();
                 // specific for version 4
                 if ( $i == 4 )
                 {
@@ -425,7 +425,7 @@ class Database
                     $country=$this->get_value ("select pr_value from parameter where pr_id='MY_COUNTRY'");
                     $this->execute_script($add."sql/patch/upgrade61.".$country.".sql");
                 }
-                if ( DEBUG == 'false') ob_end_clean();
+                if ( ! DEBUG ) ob_end_clean();
             }
         }
         echo '</ul>';
