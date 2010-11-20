@@ -475,12 +475,6 @@ class User
     {
       /*  save it into the log */
       global $audit;
-      if (isset ($audit) && $audit == true)
-	{
-	  $cn=new Database();
-	  $sql="insert into audit_connect (ac_user,ac_ip,ac_module,ac_state) values ($1,$2,$3,$4)";
-	  $cn->exec_sql($sql,array($_SESSION['g_user'],$_SERVER["REMOTE_ADDR"],$_SERVER['REQUEST_URI'],'FAIL'));
-	}
         if ( $this->Admin()==1 ) return 1;
         if ( $this->is_local_admin(dossier::id()) == 1 ) return 1;
 
@@ -488,7 +482,16 @@ class User
                  "select * from user_sec_act where ua_login=$1 and ua_act_id=$2",
                  array($this->login,$p_action_id));
         $Count=Database::num_row($Res);
-        if ( $Count == 0 ) return 0;
+        if ( $Count == 0 )
+	  {
+	    if (isset ($audit) && $audit == true)
+	      {
+		$cn=new Database();
+		$sql="insert into audit_connect (ac_user,ac_ip,ac_module,ac_state) values ($1,$2,$3,$4)";
+		$cn->exec_sql($sql,array($_SESSION['g_user'],$_SERVER["REMOTE_ADDR"],$_SERVER['REQUEST_URI'],'FAIL'));
+	      }
+	    return 0;
+	  }
         if ( $Count == 1 ) return 1;
         echo "<H2 class=\"error\"> Action Invalide !!! $Count select * from user_sec_act where ua_login='$p_login' and ua_act_id=$p_action_id </H2>";
         exit();
