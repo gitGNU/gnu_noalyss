@@ -116,6 +116,38 @@ class Periode
             return 1;
         return 0;
     }
+    function reopen()
+    {
+        if ( $this->jrn_def_id == 0 )
+        {
+	  $this->cn->exec_sql("update parm_periode set p_closed='f',p_central='f' where p_id=$1",
+			    array($_GET['p_per']));
+
+	  $this->cn->exec_sql("update jrn_periode set status='OP' ".
+                                " where p_id = ".$this->p_id);
+
+	  return;
+        }
+        else
+        {
+            $this->cn->exec_sql("update jrn_periode set status='OP' ".
+                                " where jrn_def_id=".$this->jrn_def_id." and ".
+                                " p_id = ".$this->p_id);
+            /* if all ledgers have this periode open then synchro with
+            the table parm_periode
+            */
+            $nJrn=$this->cn->count_sql( "select * from jrn_periode where ".
+                                        " p_id=".$this->p_id);
+            $nJrnPeriode=$this->cn->count_sql( "select * from jrn_periode where ".
+                                               " p_id=".$this->p_id." and status='OP'");
+
+            if ( $nJrnPeriode==$nJrn)
+                $this->cn->exec_sql("update parm_periode set p_closed=false where p_id=".$this->p_id);
+            return;
+        }
+
+    }
+
     function close()
     {
         if ( $this->jrn_def_id == 0 )
@@ -188,7 +220,13 @@ class Periode
             for ($i=0;$i<$Max;$i++)
             {
                 $l_line=Database::fetch_array($Res,$i);
-                echo '<TR>';
+		$class="even";
+		if ( $i % 2 == 0 )
+		  $class="odd";
+		$style='';
+		if ( $l_line['p_closed'] == 't')
+		  $style="color:red";
+                echo '<TR class="'.$class.'" style="'.$style.'">';
                 echo '<TD ALIGN="CENTER"> '.$l_line['date_start'].'</TD>';
                 echo '<TD  ALIGN="CENTER"> '.$l_line['date_end'].'</TD>';
                 echo '<TD  ALIGN="CENTER"> '.$l_line['p_exercice'].'</TD>';
@@ -197,17 +235,24 @@ class Periode
                 {
                     $closed=($l_line['p_central']=='t')?'<TD>Centralis&eacute;e</TD>':'<TD>Ferm&eacute;e</TD>';
                     $change='<TD></TD>';
-                    $remove='<TD></TD>';
+		    $remove=sprintf(_('Nombre opérations %d'),$l_line['count_op']);
+                    $remove=td($remove,' class="mtitle" ');
+                    $change=td ('<A class="mtitle" HREF="?p_action=periode&action=reopen&p_per='.$l_line['p_id'].'&'.$str_dossier.'" onclick="return confirm(\''._('Confirmez Réouverture').' ?\')"> Réouverture</A>',' class="mtitle"');
+
                 }
                 else
                 {
                     $closed='<TD class="mtitle">';
-                    $closed.='<A class="mtitle" HREF="?p_action=periode&action=closed&p_per='.$l_line['p_id'].'&'.$str_dossier.'" onclick="return confirm(\''._('Confirmez cloture').' ?\')"> Cloturer</A>';
+                    $closed.='<A class="mtitle" HREF="?p_action=periode&action=closed&p_per='.$l_line['p_id'].'&'.$str_dossier.'" onclick="return confirm(\''._('Confirmez cloture').' ?\')"> Cloturer</A></td>';
                     $change='<TD class="mtitle">';
                     $change.='<A class="mtitle" HREF="?p_action=periode&action=change_per&p_per='.
                              $l_line['p_id']."&p_date_start=".$l_line['date_start'].
                              "&p_date_end=".$l_line['date_end']."&p_exercice=".
-                             $l_line['p_exercice']."&$str_dossier\"> Changer</A>";
+                             $l_line['p_exercice']."&$str_dossier\"> Changer</A></td>";
+
+		    $reopen=td("");
+
+
                     $remove='<TD class="mtitle">';
 
 
@@ -218,7 +263,7 @@ class Periode
                     }
                     else
                     {
-                        $remove.=sprintf(_('Nombre opération %d'),$l_line['count_op']);
+                        $remove.=sprintf(_('Nombre opérations %d'),$l_line['count_op']);
                     }
                     $remove.='</td>';
                 }
@@ -227,7 +272,7 @@ class Periode
 
                 echo $remove;
 
-                echo '</TR>';
+		echo '</TR>';
 
             }
             echo '<TR> <FORM ACTION="?p_action=periode" METHOD="POST">';
@@ -263,19 +308,23 @@ class Periode
             for ($i=0;$i<$Max;$i++)
             {
                 $l_line=Database::fetch_array($Res,$i);
-                echo '<TR>';
+                if ( $l_line['status'] != 'OP' )
+		  echo '<TR style="COLOR:RED">';
+		else
+		  echo '<TR>';
                 echo '<TD ALIGN="CENTER"> '.$l_line['date_start'].'</TD>';
                 echo '<TD  ALIGN="CENTER"> '.$l_line['date_end'].'</TD>';
                 echo '<TD  ALIGN="CENTER"> '.$l_line['p_exercice'].'</TD>';
 
                 if ( $l_line['status'] != 'OP' )
                 {
-                    $closed=($l_line['status']=='CE')?'<TD>Centralisee</TD>':'<TD>Ferm&eacute;e</TD>';
+		  $closed=td ('<A class="mtitle" HREF="?p_action=periode&action=reopen&p_per='.$l_line['p_id'].'&'.$str_dossier.'&jrn_def_id='.$this->jrn_def_id.'" onclick="return confirm(\''._('Confirmez Réouverture').' ?\')"> Réouverture</A>',' class="mtitle"');
+		  //                    $closed=($l_line['status']=='CE')?'<TD>Centralisee</TD>':'<TD>Ferm&eacute;e</TD>';
                 }
                 else
                 {
                     $closed='<TD class="mtitle">';
-                    $closed.='<A class="mtitle" HREF="?p_action=periode&action=closed&p_per='.$l_line['p_id'].'&'.$str_dossier.'&jrn_def_id='.$this->jrn_def_id.'"> Cloturer</A>';
+                    $closed.='<A class="mtitle" HREF="?p_action=periode&action=closed&p_per='.$l_line['p_id'].'&'.$str_dossier.'&jrn_def_id='.$this->jrn_def_id.'" onclick="return confirm(\''._('Confirmez Cloture').' ?\')"> Cloturer</A>';
                     $closed.='</td>';
                 }
                 echo "$closed";

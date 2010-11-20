@@ -118,6 +118,18 @@ if ( $action== "delete_per" )
     }
     $choose="yes";
 }
+if ( $action == 'reopen') 
+  {
+    $User->can_request(PARCLO);
+    $jrn_def_id=(isset($_GET['jrn_def_id']))?$_GET['jrn_def_id']:0;
+    $per=new Periode($cn);
+    $jrn_def_id=(isset($_GET['jrn_def_id']))?$_GET['jrn_def_id']:0;
+    $per->set_jrn($jrn_def_id);
+    $per->set_periode($_GET['p_per']);
+    $per->reopen();
+
+    $choose="yes";
+  }
 if ( $choose=="yes" )
 {
     echo HtmlInput::button_anchor('Autre Journal ?','?choose=no&p_action=periode&gDossier='.dossier::id());
