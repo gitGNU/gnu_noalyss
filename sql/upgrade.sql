@@ -48,6 +48,9 @@ if TG_OP='UPDATE' then
 	if NEW.jr_date = OLD.jr_date then
 		return NEW;
 	end if;
+	if comptaproc.is_closed(NEW.jr_tech_per,NEW.jr_def_id) = true then
+	      	raise exception 'Periode fermee';
+	end if;
 end if;
 
 if TG_OP='INSERT' then
@@ -63,24 +66,40 @@ if TG_OP='DELETE' then
 	lreturn      :=OLD;
 end if;
 
-select p_closed into bClosed from parm_periode
-	where p_id=ljr_tech_per;
-
-raise notice 'bClosed = %',bClosed;
-if bClosed = true then
-	raise exception 'Periode fermee';
-end if;
-
-select status into str_status from jrn_periode
-       where p_id =ljr_tech_per and jrn_def_id=ljr_def_id;
-
-if str_status <> 'OP' then
-	raise exception 'Periode fermee';
+if comptaproc.is_closed (ljr_def_id,ljr_def_id) = true then
+   	raise exception 'Periode fermee';
 end if;
 
 return lreturn;
 end;$BODY$
   LANGUAGE 'plpgsql';
+
+create or replace function comptaproc.is_closed (p_periode jrn.jr_tech_per%TYPE,p_jrn_def_id jrn.jr_def_id%TYPE)
+returns bool as 
+$BODY$
+declare
+bClosed bool;
+str_status text;
+begin
+-- return true is the periode is closed otherwise false
+select p_closed into bClosed from parm_periode
+	where p_id=p_periode;
+
+if bClosed = true then
+	return bClosed;
+end if;
+
+select status into str_status from jrn_periode
+       where p_id =p_periode and jrn_def_id=p_jrn_def_id;
+
+if str_status <> 'OP' then
+   return bClosed;
+end if;
+return false;
+end;
+$BODY$
+LANGUAGE 'plpgsql';
+
 
 CREATE OR REPLACE FUNCTION comptaproc.find_periode(p_date text)
   RETURNS integer AS
