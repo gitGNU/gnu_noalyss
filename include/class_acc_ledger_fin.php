@@ -252,9 +252,9 @@ class Acc_Ledger_Fin extends Acc_Ledger
         if ( $owner->MY_PJ_SUGGEST == 'Y') $add_js="onchange='update_pj();update_bank();get_last_date();'";
 
         $wLedger=$this->select_ledger('FIN',2);
-        $wLedger->javascript=$add_js;
+        if ($wLedger == null ) exit ('Pas de journal disponible');
 
-        if ($wLedger == null) exit ('Pas de journal disponible');
+        $wLedger->javascript=$add_js;
 
         $label=" Journal ".HtmlInput::infobulle(2) ;
         $f_jrn=$label.$wLedger->input();
@@ -839,7 +839,9 @@ class Acc_Ledger_Fin extends Acc_Ledger
         echo '<form>';
         echo 'Période  '.$w->input("p_periode",$periode_start);
         $wLedger=$this->select_ledger('fin',3);
+
         if ($wLedger == null) exit (_('Pas de journal disponible'));
+
         if ( count($wLedger->value) > 1)
         {
             $aValue=$wLedger->value;
