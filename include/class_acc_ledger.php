@@ -1354,7 +1354,7 @@ class Acc_Ledger
             $ret.="</tr>";
         }
         $ret.="</table>";
-        $ret.='<input type="button" class="button" value="'._('verifie CA').'" onClick="verify_ca(\'\');">';
+	if ( $owner->MY_ANALYTIC!='nu' )          $ret.='<input type="button" class="button" value="'._('verifie CA').'" onClick="verify_ca(\'\');">';
         return $ret;
     }
 
