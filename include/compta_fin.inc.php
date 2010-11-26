@@ -242,7 +242,7 @@ if ( $def==3)
     echo '<div class="content">';
 
     echo '<table style="margin-left:10%;width:30%" class="result">';
-    echo tr(th('Quick Code').th('Compte en banque').th('solde').th('solde rapproché').th('solde non rapproché'));
+    echo tr(th('Quick Code').th('Compte en banque').th('solde').th('solde rapproché').th('solde extrait / relevé'));
     // Filter the saldo
     //  on the current year
     $filter_year="  j_tech_per in (select p_id from parm_periode where  p_exercice='".$User->get_exercice()."')";
