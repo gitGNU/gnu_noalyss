@@ -2264,9 +2264,10 @@ class Acc_Ledger
              jr_tech_per,
              jr_pj_name,
              p_closed,
-             jr_pj_number
+             jr_pj_number,
+             n_text
              from
-             jrn
+             jrn right join jrn_note using(jr_id)
              join jrn_def on jrn_def_id=jr_def_id
              join parm_periode on p_id=jr_tech_per";
 
@@ -2285,7 +2286,8 @@ class Acc_Ledger
             {
                 $user=new User($this->db);
                 $period=$user->get_periode();
-                $per=new Periode($this->db);
+
+                $per=new Periode($this->db,$period);
                 list($date_start,$date_end)=$per->get_date_limit();
             }
             $desc='';
