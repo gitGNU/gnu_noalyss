@@ -133,3 +133,17 @@ CREATE TRIGGER t_check_jrn
   FOR EACH ROW
   EXECUTE PROCEDURE comptaproc.jrn_check_periode();
 
+
+CREATE TABLE jrn_note
+(
+  n_id integer NOT NULL DEFAULT nextval('jrnx_note_n_id_seq'::regclass),
+  n_text text,
+  jr_id bigint NOT NULL,
+  CONSTRAINT jrnx_note_pkey PRIMARY KEY (n_id),
+  CONSTRAINT jrnx_note_j_id_fkey FOREIGN KEY (jr_id)
+      REFERENCES jrn (jr_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE
+)
+;
+
+COMMENT ON TABLE jrn_note IS 'Note about operation';

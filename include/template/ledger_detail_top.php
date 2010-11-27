@@ -14,3 +14,4 @@
 </div>
 <? echo "Opération ID=".hb($obj->det->jr_internal); ?>
 <div id="<?=$div.'info'?>" class="divinfo"></div>
+<? require_once('class_itextarea.php');

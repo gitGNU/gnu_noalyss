@@ -877,6 +877,7 @@ function op_save(obj)
     queryString+='&jr_id='+obj.jr_id.value;
     queryString+='&div='+obj.whatdiv.value;
     queryString+='&act=save';
+
     if ( g('inpopup'))
     {
         var action=new Ajax.Request ( 'ajax_ledger.php',

@@ -722,6 +722,7 @@ class Acc_Ledger
         $r.=$sort_echeance;
         $r.=$sort_pj;
         $r.=$sort_description;
+	$r.=th('Notes');
         $r.=$sort_amount;
         // if $p_paid is not equal to 0 then we have a paid column
         if ( $p_paid != 0 )
@@ -791,7 +792,7 @@ class Acc_Ledger
             $tmp_jr_comment=h($row['jr_comment']);
             $r.=$tmp_jr_comment;
             $r.="</TD>";
-
+	    $r.=td(h($row['n_text']),' style="font-size:6"');
             // Amount
             // If the ledger is financial :
             // the credit must be negative and written in red
@@ -2267,7 +2268,7 @@ class Acc_Ledger
              jr_pj_number,
              n_text
              from
-             jrn right join jrn_note using(jr_id)
+             jrn left join jrn_note using(jr_id)
              join jrn_def on jrn_def_id=jr_def_id
              join parm_periode on p_id=jr_tech_per";
 
@@ -2289,6 +2290,7 @@ class Acc_Ledger
 
                 $per=new Periode($this->db,$period);
                 list($date_start,$date_end)=$per->get_date_limit();
+
             }
             $desc='';
             $qcode=(isset($qcode))?$qcode:"";

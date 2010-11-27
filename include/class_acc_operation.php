@@ -552,6 +552,9 @@ class Acc_Detail extends Acc_Operation
         {
             $this->det->$key=$val;
         }
+	$sql="select n_text from jrn_note where jr_id=$1";
+	$this->det->note=$this->db->get_value($sql,array($this->jr_id));
+	$this->det->note=preg_replace('/< *script/i','[script',$this->det->note);
     }
 }
 /////////////////////////////////////////////////////////////////////////////

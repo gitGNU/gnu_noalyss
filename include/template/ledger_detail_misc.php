@@ -15,6 +15,7 @@ require_once ('class_anc_plan.php');
    <? endif; ?>
 
     <? echo HtmlInput::hidden('whatdiv',$div).HtmlInput::hidden('jr_id',$jr_id).dossier::hidden();?>
+        <table style="width:100%"><tr><td>
 <table>
 <tr>
 <?php
@@ -122,6 +123,28 @@ echo '</tr>';
 
   }
 ?>
+</table>
+</td><td>
+<table style="border:solid 1px yellow">
+<tr>
+<td>
+	Note
+</td></tr>
+<tr>
+<td>
+<?
+$inote=new ITextarea('jrn_note');
+$inote->width=25;
+$inote->heigh=5;
+$inote->value=$obj->det->note;
+echo $inote->input();
+?>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
 </table>
 </fieldset>
 

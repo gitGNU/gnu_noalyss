@@ -114,11 +114,12 @@ class Database
     {
         try
         {
+	  
             $this->sql=$p_string;
             $this->array=$p_array;
             if ( $p_array==null )
             {
-                $this->ret=@pg_query($this->db,$p_string);
+	      $this->ret=@pg_query($this->db,$p_string);
             }
             else
             {
@@ -138,6 +139,7 @@ class Database
                 print_r($p_array);
                 echo $a->getMessage();
                 echo $a->getTrace();
+		echo pg_last_error($this->db);
             }
             throw ($a);
         }
