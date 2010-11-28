@@ -39,7 +39,7 @@ $g_captcha=false;
 $version_phpcompta=SVNINFO; 
 */
 
-define ("DBVERSION",91);
+define ("DBVERSION",92);
 define ("DBVERSIONREPO",12);
 define ('NOTFOUND','--not found--');
 

@@ -113,13 +113,30 @@ class Anticipation
         $forecast=new Forecast($this->cn,$this->f_id);
         $forecast->load();
         $str_name=h($forecast->get_parameter('name'));
+
+	$start=$forecast->get_parameter('start_date');
+	$end=$forecast->get_parameter('end_date');
+
+	if ( $start=='') throw new Exception (_('Période de début non valable'));
+	if ( $end=='') throw new Exception (_('Période de fin non valable'));
+
+	$per=new Periode($this->cn,$start);
+	$str_start=format_date($per->first_day());
+
+	$per=new Periode($this->cn,$end);
+	$str_end=format_date($per->last_day());
+
+
         $r="";
         $aCat=$this->cn->get_array('select fc_id,fc_desc from forecast_cat where f_id=$1 order by fc_order',array($this->f_id));
         $aItem=array();
         $aReal=array();
         $poste=new Acc_Account_Ledger($this->cn,0);
         $fiche=new Fiche($this->cn);
-        $aPeriode=$this->cn->get_array("select p_id,to_char(p_start,'MM.YYYY') as myear from parm_periode where to_char(p_start,'DD')!='31' order by p_start;");
+        $aPeriode=$this->cn->get_array("select p_id,to_char(p_start,'MM.YYYY') as myear from parm_periode
+	                                 where p_start >= (select p_start from parm_periode where p_id=$start)
+                                         and p_end <= (select p_end from parm_periode where p_id=$end)
+					 order by p_start;");
         for($j=0;$j<count($aCat);$j++)
         {
             $aItem[$j]=$this->cn->get_array('select fi_card,fi_account,fi_text,fi_amount,fi_debit from forecast_item where fc_id=$1  and fi_pid=0 order by fi_order ',array($aCat[$j]['fc_id']));
@@ -169,12 +186,35 @@ class Anticipation
      */
     private function form_cat_mod()
     {
+      $user=new User($this->cn);
         $a=new Forecast($this->cn,$this->f_id);
         $a->load();
         $name=new IText('an_name');
         $name->value=$a->get_parameter("name");
         $str_name=$name->input();
         $str_action=_('Modification');
+
+	$start_date=new IPeriod('start_date');
+	$start_date->type=ALL;
+	$start_date->cn=$this->cn;
+	$start_date->show_end_date=false;
+	$start_date->show_start_date=true;
+	$start_date->user=$user;
+
+	$end_date=new IPeriod('end_date');
+	$end_date->type=ALL;
+	$end_date->cn=$this->cn;
+	$end_date->show_end_date=true;
+	$end_date->show_start_date=false;
+	$end_date->user=$user;
+
+	$start_date->value=$a->f_start_date;
+	$end_date->value=$a->f_end_date;
+
+	$str_start_date=$start_date->input();
+	$str_end_date=$end_date->input();
+
+
         $r=HtmlInput::hidden('f_id',$this->f_id);
         $array=Forecast_Cat::load_all($this->cn,$this->f_id);
 
@@ -206,11 +246,37 @@ class Anticipation
      */
     private function form_cat_new()
     {
-        $r="";
+      $user=new User($this->cn);
+      $r="";
         $str_action=_('Nouveau');
 
         $name=new IText('an_name');
         $str_name=$name->input();
+
+	$start_date=new IPeriod('start_date');
+	$start_date->type=ALL;
+	$start_date->cn=$this->cn;
+	$start_date->show_end_date=false;
+	$start_date->show_start_date=true;
+	$start_date->user=$user;
+
+	$end_date=new IPeriod('end_date');
+	$end_date->type=ALL;
+	$end_date->cn=$this->cn;
+	$end_date->show_end_date=true;
+	$end_date->show_start_date=false;
+	$end_date->user=$user;
+
+	$period=$user->get_periode();
+	$per=new Periode($this->cn,$period);
+	$year=$per->get_exercice();
+
+	list($per_start,$per_end)=$per->get_limit($year);
+	$start_date->value=$per_start->p_id;
+	$end_date->value=$per_end->p_id;
+
+	$str_start_date=$start_date->input();
+	$str_end_date=$end_date->input();
 
         $aLabel=array(_('Ventes'),_('Dépense'),_('Banque'));
         $aCat=array();
@@ -256,12 +322,19 @@ class Anticipation
         $forecast=new Forecast($this->cn,$this->f_id);
         $forecast->load();
         $str_name=$forecast->get_parameter('name');
+        $str_start=$forecast->get_parameter('start_date');
+        $str_end=$forecast->get_parameter('end_date');
+
+
         $r="";
         $str_action=_("Elements");
         $cat=new Forecast_Cat($this->cn);
         $array=$cat->make_array($this->f_id);
         $periode=new Periode($this->cn);
-        $aPeriode=$this->cn->make_array("select p_id,to_char(p_start,'MM.YYYY') as label from parm_periode where to_char(p_start,'DD')!='31' order by p_start");
+        $aPeriode=$this->cn->make_array("select p_id,to_char(p_start,'MM.YYYY') as label from parm_periode 
+                                  where p_start >= (select p_start from parm_periode where p_id=$str_start)
+                                   and p_end <= (select p_end from parm_periode where p_id=$str_end)
+				   order by p_start");
         $aPeriode[]=array('value'=>0,'label'=>'Mensuel');
         $value=$this->cn->get_array("select fi_id,fi_text,fi_account,fi_card,fc_id,fi_amount,fi_debit,fi_pid ".
                                     " from forecast_item ".

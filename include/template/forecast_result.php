@@ -1,4 +1,5 @@
 <h1><?php echo $str_name;?></h1>
+Période de <?=$str_start?> à <?=$str_end;?>
 <?php  for ($i=0;$i<count($aCat);$i++): // foreach category ?>
 <?php if (count($aItem[$i])==0) continue;?>
 <fieldset>
@@ -152,13 +153,13 @@ else
 
 <table>
 <tr>
-<?php echo td(_('Total Catégorie estimé'));echo td(sprintf('% 10.2f',$tot_cat_estm),'num');?>
+<?php echo td(_('Total Catégorie estimé'));echo td(nbm($tot_cat_estm),'num');?>
 </tr>
 <tr>
-<?php echo td(_('Total Catégorie réel'));echo td(sprintf('% 10.2f',$tot_cat_real),'num');?>
+<?php echo td(_('Total Catégorie réel'));echo td(nbm($tot_cat_real),'num');?>
 </tr>
 <tr>
-<?php echo td(_('Différence'));echo td(sprintf('% 10.2f',$tot_cat_real-$tot_cat_estm),'num');?>
+<?php echo td(_('Différence'));echo td(nbm($tot_cat_real-$tot_cat_estm),'num');?>
 </tr>
 </table>
 </fieldset>

@@ -23,9 +23,10 @@
 /*!\file
  * \brief display, add, delete and modify forecast
  */
-echo js_include('scripts.js');
+  /*echo js_include('scripts.js');
 echo js_include('prototype.js');
 echo js_include('forecast.js');
+  */
 require_once 'class_anticipation.php';
 
 $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:'';
@@ -55,6 +56,9 @@ if ( isset($_POST['mod_cat_save']))
         $cn->start();
         /* Save forecast */
         $anti->set_parameter('name',$_POST['an_name']);
+        $anti->set_parameter('start_date',$_POST['start_date']);
+        $anti->set_parameter('end_date',$_POST['end_date']);
+
         $anti->save();
 
         /* add new category */
@@ -179,6 +183,10 @@ if ( $sa == 'new' || isset ($_POST['step3']))
             /* Save forecast */
             $a=new Forecast($cn);
             $a->set_parameter('name',$_POST['an_name']);
+            $a->set_parameter('start_date',$_POST['start_date']);
+            $a->set_parameter('end_date',$_POST['end_date']);
+
+
             $a->save();
             $id=$a->get_parameter("id");
             /* save cat */
@@ -338,20 +346,37 @@ if ( isset($_REQUEST['f_id']) && $sa=="vw")
     echo '<div class="content">';
     $forecast=new Anticipation($cn);
     $forecast->set_parameter("id",$_REQUEST['f_id']);
-    echo $forecast->display();
-    echo '<div class="noprint">';
-    echo '<form method="get">';
-    echo dossier::hidden();
-    echo HtmlInput::hidden('f_id',$_REQUEST['f_id']);
-    echo HtmlInput::submit('mod_cat',_('Modifier nom ou catégories'));
-    echo HtmlInput::submit('mod_item',_('Modifier éléments'));
-    //echo HtmlInput::submit('cvs',_('Export CVS'));
-    echo HtmlInput::submit('del',_('Effacer'),'onclick="return confirm(\''._('Vous confirmez l\\\' effacement').'\')"');
-    echo HtmlInput::hidden('p_action','prev');
-    echo '</form>';
-    echo '</div>';
-    echo '</div>';
-    exit();
+    try {
+      echo $forecast->display();
+      echo '<div class="noprint">';
+      echo '<form method="get">';
+      echo dossier::hidden();
+      echo HtmlInput::hidden('f_id',$_REQUEST['f_id']);
+      echo HtmlInput::submit('mod_cat',_('Modifier nom ou catégories'));
+      echo HtmlInput::submit('mod_item',_('Modifier éléments'));
+      //echo HtmlInput::submit('cvs',_('Export CVS'));
+      echo HtmlInput::submit('del',_('Effacer'),'onclick="return confirm(\''._('Vous confirmez l\\\' effacement').'\')"');
+      echo HtmlInput::hidden('p_action','prev');
+      echo '</form>';
+      echo '</div>';
+      echo '</div>';
+      exit();
+    } 
+    catch (Exception $e) 
+      {
+	echo "<div class=\"error\"><p>"._("Erreur : ").$e->getMessage().'</p><p>'._('Vous devez corriger').'</p></div>';
+	$anc=new Anticipation($cn,$_GET['f_id']);
+	echo '<div class="content">';
+	/* display a blank form for name and category */
+	echo '<form method="post" action="?">';
+	echo dossier::hidden();
+	echo HtmlInput::hidden('sa','mod');
+	echo HtmlInput::hidden('p_action','prev');
+	echo $anc->form_cat();
+	echo HtmlInput::submit('mod_cat_save',_('Sauver'));
+	echo '</form>';
+	echo '</div>';	
+      }
 }
 
 ?>

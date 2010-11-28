@@ -28,7 +28,7 @@
  */
 class Forecast
 {
-    private static $variable=array ("id"=>"f_id","name"=>"f_name");
+  private static $variable=array ("id"=>"f_id","name"=>"f_name","start_date"=>"f_start_date","end_date"=>"f_end_date");
     private $cn;
     /**
      * @brief constructor
@@ -69,6 +69,7 @@ class Forecast
         // Verify that the elt we want to add is correct
         // the f_name must be unique (case insensitive)
         if ( strlen(trim($this->f_name))==0) throw new Exception(_('Le nom ne peut pas être vide'));
+
         return 0;
     }
     public function save()
@@ -83,11 +84,11 @@ class Forecast
     public function insert()
     {
         if ( $this->verify() != 0 ) return;
-        $sql="insert into forecast (f_name) ".
-             " values ($1)  returning f_id";
+        $sql="insert into forecast (f_name,f_start_date,f_end_date) ".
+             " values ($1,$2,$3)  returning f_id";
         $res=$this->cn->exec_sql(
                  $sql,
-                 array($this->f_name)
+                 array($this->f_name,$this->f_start_date,$this->f_end_date)
              );
         $this->f_id=Database::fetch_result($res,0,0);
     }
@@ -99,11 +100,11 @@ class Forecast
     {
         if ( $this->verify() != 0 ) return;
 
-        $sql="update forecast set f_name=$1 ".
-             " where f_id = $2";
+        $sql="update forecast set f_name=$1,f_start_date=$2,f_end_date=$3 ".
+             " where f_id = $4";
         $res=$this->cn->exec_sql(
                  $sql,
-                 array($this->f_name, $this->f_id)
+                 array($this->f_name,$this->f_start_date,$this->f_end_date, $this->f_id)
              );
 
     }
@@ -114,13 +115,13 @@ class Forecast
      */
     public static function load_all($p_cn)
     {
-        $sql="select f_id, f_name from forecast";
+        $sql="select f_id, f_name,f_start_date,f_end_date from forecast";
         $ret=$p_cn->get_array($sql);
         return $ret;
     }
     public function load()
     {
-        $sql="select f_name from forecast where f_id=$1";
+        $sql="select f_name,f_start_date ,f_end_date from forecast where f_id=$1";
         $res=$this->cn->exec_sql(
                  $sql,
                  array($this->f_id)
