@@ -225,12 +225,17 @@ table.document th{
   background-color:#EDF3FF;
   font-style: italic;
 }
+.error {
+width:60%;
+margin-left:20%;
+text-align: center;
 
-span.error {
-color:black;  
+color:white;  
 background-color:red;
+font-weight: bolder;
 font-size:120%;
 }
+
 table.mtitle {
 	border:0;
 	text-align:center
