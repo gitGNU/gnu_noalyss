@@ -161,6 +161,31 @@ CREATE INDEX fki_f_end_date
   ON forecast
   USING btree
   (f_end_date);
+
+
+CREATE OR REPLACE FUNCTION comptaproc.jrn_add_note(p_jrid bigint, p_note text)
+  RETURNS void AS
+$BODY$
+declare
+	tmp bigint;
+begin
+	if length(trim(p_note)) = 0 then
+	   delete from jrn_note where jr_id= p_jrid;
+	   return;
+	end if;
+	
+	select n_id into tmp from jrn_note where jr_id = p_jrid;
+	
+	if FOUND then
+	   update jrn_note set n_text=trim(p_note) where jr_id = p_jrid;
+	else 
+	   insert into jrn_note (jr_id,n_text) values ( p_jrid, p_note);
+
+	end if;
+	
+	return;
+end;
+$BODY$  LANGUAGE 'plpgsql' ;
 update version set val=92;
 
 commit;
