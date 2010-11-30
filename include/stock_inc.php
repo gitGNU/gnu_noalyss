@@ -213,9 +213,9 @@ function ViewDetailStock($p_cn,$p_sg_code,$p_year)
     $r.="<th>Entrée / Sortie </th>";
     $r.="<th>Description</th>";
     $r.="<th>Op&eacute;ration</th>";
-    $r.="<th>Montant</th>";
-    $r.="<th>Quantité</th>";
-    $r.="<th>Prix/Cout Unitaire</th>";
+    $r.="<th style=\"text-align:right\">Montant</th>";
+    $r.="<th style=\"text-align:right\">Quantité</th>";
+    $r.="<th style=\"text-align:right\">Prix/Cout Unitaire</th>";
     $r.="</TR>";
     $tot_quantity=0;
     for ( $i=0; $i < $M;$i++)
