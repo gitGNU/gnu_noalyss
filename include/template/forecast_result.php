@@ -1,5 +1,5 @@
 <h1><?php echo $str_name;?></h1>
-Période de <?=$str_start?> à <?=$str_end;?>
+Période du <?=$str_start?> à <?=$str_end;?>
 <?php  for ($i=0;$i<count($aCat);$i++): // foreach category ?>
 <?php if (count($aItem[$i])==0) continue;?>
 <fieldset>
