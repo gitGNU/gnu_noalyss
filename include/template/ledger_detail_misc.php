@@ -15,40 +15,63 @@ require_once ('class_anc_plan.php');
    <? endif; ?>
 
     <? echo HtmlInput::hidden('whatdiv',$div).HtmlInput::hidden('jr_id',$jr_id).dossier::hidden();?>
-        <table style="width:100%"><tr><td>
-<table>
-<tr>
-<?php
-$date=new IDate('p_date');
-$date->value=format_date($obj->det->jr_date);
- echo td('Date').td($date->input());
- 
- ?>
-
-</tr>
-
-<tr>
-<? 
-  $itext=new IText('lib');
-  $itext->value=$obj->det->jr_comment;
-  $itext->size=40;
-  echo td(_('Libellé')).td($itext->input());
-
-
-?>
-</tr>
-<tr>
-<? echo td('montant').td(nbm($obj->det->jr_montant),' class="inum"');?>
-</tr>
-<tr>
-<? 
-$itext=new IText('npj');
-$itext->value=$obj->det->jr_pj_number;
-echo td(_('Pièce')).td($itext->input());
-?>
-
+  <table style="width:100%"><tr><td>
+					<table>
+								<tr><td>
+								<?php
+								$date=new IDate('p_date');
+								$date->value=format_date($obj->det->jr_date);
+								 echo td('Date').td($date->input());
+								 
+								 ?>
+								</td>
+								</tr>
+								
+								<tr><td>
+								<? 
+								  $itext=new IText('lib');
+								  $itext->value=$obj->det->jr_comment;
+								  $itext->size=40;
+								  echo td(_('Libellé')).td($itext->input());
+								
+								
+								?>
+								</td></tr>
+								<tr><td>
+								<? echo td('montant').td(nbm($obj->det->jr_montant),' class="inum"');?>
+								</td></tr>
+								<tr><td>
+								<? 
+								$itext=new IText('npj');
+								$itext->value=$obj->det->jr_pj_number;
+								echo td(_('Pièce')).td($itext->input());
+								?>
+								
+								</td></tr>
+			</table>
+			</td><td>
+						<table style="border:solid 1px yellow">
+						<tr>
+						<td>
+							Note
+						</td></tr>
+						<tr>
+						<td>
+						<?
+						$inote=new ITextarea('jrn_note');
+						$inote->width=25;
+						$inote->heigh=5;
+						$inote->value=$obj->det->note;
+						echo $inote->input();
+						?>
+						
+						</td>
+						</tr>
+						</table>
+</td>
 </tr>
 </table>
+
 <fieldset>
 <legend>
 <?=_('Détail')?>
@@ -123,28 +146,6 @@ echo '</tr>';
 
   }
 ?>
-</table>
-</td><td>
-<table style="border:solid 1px yellow">
-<tr>
-<td>
-	Note
-</td></tr>
-<tr>
-<td>
-<?
-$inote=new ITextarea('jrn_note');
-$inote->width=25;
-$inote->heigh=5;
-$inote->value=$obj->det->note;
-echo $inote->input();
-?>
-
-</td>
-</tr>
-</table>
-</td>
-</tr>
 </table>
 </fieldset>
 
