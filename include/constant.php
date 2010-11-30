@@ -27,7 +27,7 @@ require_once ('config.inc.php');
 require_once('constant.security.php');
 // SVNVERSION
 global $version_phpcompta;
- $version_phpcompta=9000;
+$version_phpcompta=9000;
 error_reporting (15);
 
 global $g_captcha;
@@ -40,7 +40,7 @@ $version_phpcompta=SVNINFO;
 */
 
 define ("DBVERSION",92);
-define ("DBVERSIONREPO",12);
+define ("DBVERSIONREPO",13);
 define ('NOTFOUND','--not found--');
 
 define ("MAX_COMPTE",4);
