@@ -176,7 +176,7 @@ margin:1 2 1 2;
 </style>
 <script src="js/scripts.js" type="text/javascript"></script>
 </head>
-<BODY onLoad="SetFocus(\'p_user\')">';
+<BODY>';
 $my_domain="";
 require ('config.inc.php');
 if ( strlen(domaine) > 0 )
@@ -243,14 +243,16 @@ echo '
 </table>
 </TD></TR>';
 
-echo '</table>';
-echo '
+?>
+</table>
+
 </form>
 </Center>
 <div  style="position:absolute;bottom:0em;border:1px solid red;text-align:right;width:20em;">
 <span style="display:block">Pour une meilleure expérience web, nous vous conseillons <a href="http://www.mozilla.com/fr/">firefox</a></span>
 <span style="display:block">For a better web experience, we recommend you <a href="http://www.mozilla.com/en/">firefox</a></span>
+ <script> SetFocus('p_user'); </script>
 </body>
-</html>';
+</html>
 
 ?>
