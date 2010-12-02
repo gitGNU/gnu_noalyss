@@ -24,7 +24,7 @@ begin
 NEW.ac_user := substring(NEW.ac_user from 1 for 80);   
 return NEW;                                            
 end; $BODY$
-  LANGUAGE 'plpgsql' ;
+LANGUAGE plpgsql;
 
 CREATE TRIGGER limit_user_trg
   BEFORE INSERT OR UPDATE
