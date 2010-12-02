@@ -859,11 +859,90 @@ function show_calc()
     shtml+='<form name="calc_line"  method="GET" onSubmit="cal();return false;" >Cette calculatrice vous permet de calculer, écrivez simplement les opérations que vous voulez puis la touche retour. exemple : 1+2+3*(1/5) <input class="input_text" type="text" size="30" id="inp" name="calculator"> <input type="button" value="Efface tout" onClick="Clean();return false;" > <input type="button" value="Fermer" onClick="removeDiv(\'calc1\')" >';
     shtml+='</form><span id="result">  </span><br><span id="sub_total">  Taper une formule (ex 20*5.1) puis enter  </span><br><span id="listing"> </span>';
 
-var obj={id:
-         sid,html:
-         shtml,drag:
-         true,style:'position:absolute;display:block;top:30px;left:150px;width:250px;border:1px solid black;background-color:#99b1df;font-size:12;padding: 2 2 2 2;'
-            };
+var obj={id:sid,html:shtml,
+	 drag:true,style:'position:absolute;display:block;top:30px;left:150px;width:250px;border:1px solid black;background-color:#99b1df;font-size:12;padding: 2 2 2 2;'
+        };
     add_div(obj);
     this.document.getElementById('inp').focus();
+}
+function display_periode(p_dossier,p_id)
+{
+
+     try
+    {
+        var queryString="gDossier="+p_dossier+"&op=input_per"+"&p_id="+p_id;
+	var popup={'id': 'mod_periode','cssclass':'op_detail','html':loading(),'style':'position:fixed;top:45%;left:45%',
+		   'drag':true};
+	if ( ! $('mod_periode') ) {
+	    add_div(popup);
+	}
+        var action = new Ajax.Request(
+            "ajax_misc.php" ,
+            { method:'get',
+              parameters:queryString,
+              onFailure:ajax_misc_failure,
+              onSuccess:success_display_periode
+            }
+        );
+    }
+    catch (e)
+    {
+        alert("display_periode "+e.message);
+    }
+   
+}
+function success_display_periode(req)
+{    try
+    {
+
+        var answer=req.responseXML;
+        var html=answer.getElementsByTagName('data');
+
+        if ( html.length == 0 )
+        {
+            var rec=req.responseText;
+            alert ('erreur :'+rec);
+        }
+
+        var code_html=getNodeText(html[0]);
+        code_html=unescape_xml(code_html);
+
+        $('mod_periode').innerHTML=code_html;
+    }
+    catch (e)
+    {
+        alert("success_display_periode".e.message);
+    }
+    try
+    {
+        code_html.evalScripts();
+    }
+    catch(e)
+    {
+        alert("success_display_periode Impossible executer script de la reponse\n"+e.message);
+    }
+
+}
+function save_periode(obj)
+{
+     try
+    {
+        var queryString="?"+$(obj).serialize()+"&op=save_per";
+
+        var action = new Ajax.Request(
+            "ajax_misc.php" ,
+            { method:'post',
+              parameters:queryString,
+              onFailure:ajax_misc_failure,
+              onSuccess:success_display_periode
+            }
+        );
+
+    }
+    catch (e)
+    {
+        alert("display_periode "+e.message);
+    }
+
+    return false;
 }

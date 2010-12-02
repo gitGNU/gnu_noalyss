@@ -372,4 +372,11 @@ class HtmlInput
         ob_clean();
         return $r;
     }
+    static function display_periode($p_id)
+    {
+      $r=sprintf('<a href="javascript:void(0)" onclick="display_periode(%d,%d)">Modifier</a>',
+		 dossier::id(),
+		 $p_id);
+      return $r;
+    }
 }

@@ -133,16 +133,8 @@ class Periode
             $this->cn->exec_sql("update jrn_periode set status='OP' ".
                                 " where jrn_def_id=".$this->jrn_def_id." and ".
                                 " p_id = ".$this->p_id);
-            /* if all ledgers have this periode open then synchro with
-            the table parm_periode
-            */
-            $nJrn=$this->cn->count_sql( "select * from jrn_periode where ".
-                                        " p_id=".$this->p_id);
-            $nJrnPeriode=$this->cn->count_sql( "select * from jrn_periode where ".
-                                               " p_id=".$this->p_id." and status='OP'");
-
-            if ( $nJrnPeriode==$nJrn)
-                $this->cn->exec_sql("update parm_periode set p_closed=false where p_id=".$this->p_id);
+	    /* if one ledger is open then the periode is open */
+	    $this->cn->exec_sql("update parm_periode set p_closed=false where p_id=".$this->p_id);
             return;
         }
 
@@ -244,12 +236,22 @@ class Periode
                 {
                     $closed='<TD class="mtitle">';
                     $closed.='<A class="mtitle" HREF="?p_action=periode&action=closed&p_per='.$l_line['p_id'].'&'.$str_dossier.'" onclick="return confirm(\''._('Confirmez cloture').' ?\')"> Cloturer</A></td>';
-                    $change='<TD class="mtitle">';
+
+                    if ($l_line['count_op'] == 0 )
+                    {
+		      $change=HtmlInput::display_periode($l_line['p_id']);
+                    }
+                    else
+                    {
+		      $change="Non modifiable";
+                    }
+		    $change=td($change);
+		    /*
                     $change.='<A class="mtitle" HREF="?p_action=periode&action=change_per&p_per='.
                              $l_line['p_id']."&p_date_start=".$l_line['date_start'].
                              "&p_date_end=".$l_line['date_end']."&p_exercice=".
                              $l_line['p_exercice']."&$str_dossier\"> Changer</A></td>";
-
+		    */
 		    $reopen=td("");
 
 

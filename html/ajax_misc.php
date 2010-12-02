@@ -53,7 +53,7 @@ foreach ($var as $v)
     }
 }
 if ( $cont != 0 ) exit();
-extract($_GET );
+extract($_REQUEST );
 set_language();
 
 $cn=new Database($gDossier);
@@ -441,5 +441,11 @@ EOF;
     break;
 case 'mod_doc':
   require_once('modify_mod_document.inc.php');
+  break;
+case 'input_per':
+  require_once('modify_periode.inc.php');
+  break;
+case 'save_per':
+  require_once('modify_periode.inc.php');
   break;
 }
