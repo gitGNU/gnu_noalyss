@@ -74,7 +74,7 @@ function search_card(obj)
 	}
 
 	var div_style="top:"+sx;
-	add_div({id:'search_card',cssclass:'op_detail',html:loading(),style:div_style,drag:0});
+	add_div({id:'search_card',cssclass:'op_detail',html:loading(),style:div_style,drag:true});
 	
         var action=new Ajax.Request ( 'ajax_card.php',
                                       {
