@@ -223,7 +223,7 @@ case 'sc':
     {
         $f=new Fiche($cn);
         $f->insert($fd_id,$_POST);
-        $html='<h2 class="info">Fiche sauvée</h2>';
+        $html='<h2 class="notice">Fiche sauvée</h2>';
         $html.=$f->Display(true);
         $js="";
         if ( isset( $_POST['ref'])) $js=create_script(' window.location.reload()');
