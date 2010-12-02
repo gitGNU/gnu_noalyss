@@ -27,8 +27,8 @@ require_once ('config.inc.php');
 require_once('constant.security.php');
 // SVNVERSION
 global $version_phpcompta;
-$version_phpcompta=9000;
-error_reporting (15);
+$version_phpcompta=3809;
+error_reporting (0);
 
 global $g_captcha;
 $g_captcha=false;
@@ -48,7 +48,7 @@ define ('MAX_ARTICLE',9);
 define ('MAX_CAT',15);
 define ('MAX_FORECAST_ITEM',10);
 
-define ("DEBUG",true);
+define ("DEBUG",false);
 
 // Erreur
 define ("NOERROR",0);
