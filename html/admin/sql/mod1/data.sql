@@ -839,10 +839,10 @@ INSERT INTO parameter (pr_id, pr_value) VALUES ('MY_PAYS', NULL);
 INSERT INTO parameter (pr_id, pr_value) VALUES ('MY_FAX', NULL);
 INSERT INTO parameter (pr_id, pr_value) VALUES ('MY_ANALYTIC', 'nu');
 INSERT INTO parameter (pr_id, pr_value) VALUES ('MY_COUNTRY', 'BE');
-INSERT INTO parameter (pr_id, pr_value) VALUES ('MY_STRICT', 'N');
+INSERT INTO parameter (pr_id, pr_value) VALUES ('MY_STRICT', 'Y');
 INSERT INTO parameter (pr_id, pr_value) VALUES ('MY_TVA_USE', 'Y');
 INSERT INTO parameter (pr_id, pr_value) VALUES ('MY_PJ_SUGGEST', 'Y');
-INSERT INTO parameter (pr_id, pr_value) VALUES ('MY_CHECK_PERIODE', 'Y');
+INSERT INTO parameter (pr_id, pr_value) VALUES ('MY_CHECK_PERIODE', 'N');
 
 
 
