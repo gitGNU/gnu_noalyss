@@ -414,7 +414,7 @@ echo '</ul>';
 echo '<hr>';
  echo "<h2>Mise &agrave; jour Repository</h2>";
  $cn=new Database();
- if ( DEBUG == 'false') ob_start();
+ if ( DEBUG == false ) ob_start();
  $MaxVersion=DBVERSIONREPO-1;
  for ($i=4;$i<= $MaxVersion;$i++)
    {
