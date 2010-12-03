@@ -42,12 +42,12 @@ $img = new securimage();
 
 $img->image_width = 205;
 $img->image_height = 50;
-$img->perturbation = 0.45; // 1.0 = high distortion, higher numbers = more distortion
+$img->perturbation = 0.35; // 1.0 = high distortion, higher numbers = more distortion
 $img->image_bg_color = new Securimage_Color("#000000");
 //$img->text_color = new Securimage_Color("#EAEAEA");
-$img->text_transparency_percentage = 25; // 100 = completely transparent
-$img->num_lines = 4;
-$img->line_color = new Securimage_Color("#ffff33");
+$img->text_transparency_percentage = 45; // 100 = completely transparent
+$img->num_lines = 0;
+$img->line_color = new Securimage_Color("#0033ff");
 $img->signature_color = new Securimage_Color(rand(0, 64), rand(64, 128), rand(128, 255));
 $img->image_type = SI_IMAGE_JPEG;
 $img->background_directory="./backgrounds";
