@@ -158,7 +158,7 @@ if ( $sub_action=='detail' )
     echo '<input type="hidden" name="sa" value="update">';
     echo HtmlInput::submit("save","Sauve");
     echo HtmlInput::submit("add_action_here",_("Ajoute une action à celle-ci"));
-    echo HtmlInput::submit("delete",_("Efface cette action")," onclick=\"return confirm("._('Vous confirmez l\'effacement').")\" )");
+    echo HtmlInput::submit("delete",_("Efface cette action"),' onclick="return confirm(\''._("Vous confirmez l\'effacement").'\')" ');
     echo '</form>';
     echo '</div>';
 
