@@ -29,7 +29,7 @@ NEW.f_id:=n_fid;
 return NEW;
 end;
 $BODY$
-LANGUAGE 'plpgsql';
+LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION comptaproc.jrn_check_periode()
   RETURNS trigger AS
@@ -99,7 +99,7 @@ end if;
 return false;
 end;
 $BODY$
-LANGUAGE 'plpgsql';
+LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION comptaproc.find_periode(p_date text)
@@ -123,7 +123,7 @@ end if;
 return n_p_id;
 
 end;$BODY$
-  LANGUAGE 'plpgsql';
+  LANGUAGE plpgsql;
 
 
 DROP TRIGGER t_check_jrn ON jrn;
@@ -185,7 +185,29 @@ begin
 	
 	return;
 end;
-$BODY$  LANGUAGE 'plpgsql' ;
-update version set val=92;
+$BODY$  LANGUAGE plpgsql ;
 
+
+delete from action_gestion where f_id_dest != 0 and f_id_dest not in (select f_id from fiche);
+
+CREATE OR REPLACE FUNCTION comptaproc.card_after_delete()
+  RETURNS trigger AS
+$BODY$
+
+begin
+
+	delete from action_gestion where f_id_dest = OLD.f_id;
+	return OLD;
+
+end;
+$BODY$
+LANGUAGE plpgsql ;
+
+CREATE TRIGGER remove_action_gestion
+  AFTER DELETE
+  ON fiche
+  FOR EACH ROW
+  EXECUTE PROCEDURE comptaproc.card_after_delete()
+
+update version set val=92;
 commit;
