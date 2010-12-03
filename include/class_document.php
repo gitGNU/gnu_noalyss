@@ -1035,10 +1035,12 @@ class Document
      */
     function remove()
     {
+      $d_lob=$this->db->get_value('select d_lob from document where d_id=$1',
+				  array($this->d_id));
         $sql='delete from document where d_id='.$this->d_id;
         $this->db->exec_sql($sql);
-        if ($this->d_lob != 0 )
-            $this->db->lo_unlink($this->d_lob);
+        if ( $d_lob != 0 )
+            $this->db->lo_unlink($d_lob);
     }
     /*!\brief Move a document from the table document into the concerned row
      *        the document is not copied : it is only a link
