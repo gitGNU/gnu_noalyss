@@ -722,7 +722,7 @@ class Acc_Ledger
         $r.=$sort_echeance;
         $r.=$sort_pj;
         $r.=$sort_description;
-	$r.=th('Notes');
+	$r.=th('Notes',' style="width:15%"');
         $r.=$sort_amount;
         // if $p_paid is not equal to 0 then we have a paid column
         if ( $p_paid != 0 )
