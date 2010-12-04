@@ -65,7 +65,7 @@ if ( $low_action  == "" )
 //-----------------------------------------------------
 // Remove a card
 //-----------------------------------------------------
-if ( isset($_POST['delete'] ) )
+if ( isset($_POST['delete_card'] ) )
 {
     if ( $User->check_action(FICADD) == 0 )
     {
