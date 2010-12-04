@@ -682,8 +682,9 @@ function show_box(obj)
 }
 /**
  *@brief receive answer from ajax and just display it into the IBox
- * XML must contains at least 2 fields : code is the ID of the IBOX and 
- * html which is the contain
+ * XML must contains at least 2 fields : ctl is the ID of the IBOX and 
+ * code is the HTML to put in it
+ *@see fill_box
  */
 function success_box(req,json)
 {
@@ -945,4 +946,33 @@ function save_periode(obj)
     }
 
     return false;
+}
+/**
+*@brief basic answer to ajax on success, it will fill the ctl with 
+* the code. In that case, you need to create the object before the Ajax.Request
+*The difference with success box is that 
+*@see add_div removeDiv success_box is that the width and height are not changed
+*@parameter ctl is the ID of the object containing the html (div, button...)
+*@parameter code is the html code, with it you fill the ctl element
+*/ 
+function fill_box(req)
+{
+    try{
+	var answer=req.responseXML;
+	var a=answer.getElementsByTagName('ctl');
+	var html=answer.getElementsByTagName('code');
+	if ( a.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
+	var name_ctl=a[0].firstChild.nodeValue;
+	var code_html=getNodeText(html[0]); // Firefox ne prend que les 4096 car.
+	code_html=unescape_xml(code_html);
+	$(name_ctl).innerHTML=code_html;
+    } 
+    catch (e) {
+	alert(e.message);}
+    try{
+	code_html.evalScripts();}
+    catch(e){
+	alert("Impossible executer script de la reponse\n"+e.message);}
+
+
 }
