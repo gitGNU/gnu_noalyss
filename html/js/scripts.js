@@ -461,8 +461,18 @@ function popup_select_tva(obj)
 {
     try
     {
-        showIPopup(obj.popup);
-        var queryString="gDossier="+obj.gDossier+"&op=dsp_tva"+"&ctl="+obj.ctl+'&popup='+obj.popup;
+	if ( $('tva_select')) {
+	    removeDiv('tva_select');
+	}
+
+
+	var nTop=posY-50;
+	var nLeft="35%";
+	var str_style="top:"+nTop+";left:"+nLeft+";width:50em;height:auto";
+
+	var popup={'id': 'tva_select','cssclass':'op_detail','style':str_style,'html':loading(),'drag':true};
+	add_div(popup);
+        var queryString="gDossier="+obj.gDossier+"&op=dsp_tva"+"&ctl="+obj.ctl+'&popup='+'tva_select';
         if ( obj.jcode )
             queryString+='&code='+obj.jcode;
         if (obj.compute)
@@ -473,8 +483,8 @@ function popup_select_tva(obj)
                    parameters:queryString,
                    onFailure:ajax_misc_failure,
                    onSuccess:success_popup_select_tva
-                         }
-                     );
+                 }
+        );
     }
     catch (e)
     {
@@ -497,7 +507,7 @@ function success_popup_select_tva(req)
         }
         var html=answer.getElementsByTagName('code');
 
-        var name_ctl=popup[0].firstChild.nodeValue+'_content';
+        var name_ctl=popup[0].firstChild.nodeValue;
         var nodeXml=html[0];
         var code_html=getNodeText(nodeXml);
         code_html=unescape_xml(code_html);
@@ -509,6 +519,7 @@ function success_popup_select_tva(req)
     }
 
 }
+
 /**
  *@brief display the popup with vat and explanation
  *@param obj with 4 attributes gdossier, ctl,popup 

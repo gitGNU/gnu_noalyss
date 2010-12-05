@@ -169,11 +169,13 @@ EOF;
     return;
     break;
 case 'dsp_tva':
-        $cn=new Database($gDossier);
+  $cn=new Database($gDossier);
     $Res=$cn->exec_sql("select * from tva_rate order by tva_rate desc");
     $Max=Database::num_row($Res);
     $r="";
-    $r='<div >';
+    $r=HtmlInput::button_close('tva_select');
+    $r.=h2info('Choississez la TVA ');
+    $r.='<div >';
     $r.= '<TABLE style="padding-left:10%;padding-right:10%;width:80%">';
     $r.=th('');
     $r.=th(_('code'));
@@ -188,22 +190,22 @@ case 'dsp_tva':
         {
             if ( ! isset($code) )
             {
-                $script="onclick=\"$('$ctl').value='".$row['tva_id']."';hideIPopup('".$popup."');\"";
+                $script="onclick=\"$('$ctl').value='".$row['tva_id']."';removeDiv('tva_select');\"";
             }
             else
             {
-                $script="onclick=\"$('$ctl').value='".$row['tva_id']."';set_value('$code','".$row['tva_label']."');hideIPopup('".$popup."');\"";
+                $script="onclick=\"$('$ctl').value='".$row['tva_id']."';set_value('$code','".$row['tva_label']."');removeDiv('tva_select');\"";
             }
         }
         else
         {
             if ( ! isset($code) )
             {
-                $script="onclick=\"$('$ctl').value='".$row['tva_id']."';hideIPopup('".$popup."');clean_tva('$compute');compute_ledger('$compute');\"";
+                $script="onclick=\"$('$ctl').value='".$row['tva_id']."';removeDiv('tva_select');clean_tva('$compute');compute_ledger('$compute');\"";
             }
             else
             {
-                $script="onclick=\"$('$ctl').value='".$row['tva_id']."';set_value('$code','".$row['tva_label']."');hideIPopup('".$popup."');clean_tva('$compute');compute_ledger('$compute');\"";
+                $script="onclick=\"$('$ctl').value='".$row['tva_id']."';set_value('$code','".$row['tva_label']."');removeDiv('tva_select');clean_tva('$compute');compute_ledger('$compute');\"";
             }
 
         }
