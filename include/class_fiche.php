@@ -519,7 +519,7 @@ class Fiche
      * \param $p_readonly true= if can not modify, otherwise false
      *
      *
-     * \return string to display
+     * \return string to display or FNT string for fiche non trouvé
      */
     function Display($p_readonly)
     {
@@ -529,7 +529,7 @@ class Fiche
         $ret="<table>";
         if ( empty ($attr) )
         {
-            return "Fiche non trouvée";
+	  return 'FNT';
         }
 
         foreach ( $attr as $r)

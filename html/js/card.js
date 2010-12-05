@@ -23,6 +23,7 @@
  * \brief javascript for searching a card
  */
 
+var card_layer=1;
 /**
  *@brief show the ipopup with the form to search a card
  * the properties
@@ -283,21 +284,23 @@ function fill_fin_data(text,li)
 /**
  *@brief show the ipopup window and display the details of a card,
  * to work some attribute must be set
- *@param input field (obj) it must have the attribute ipopup
- *            - ipopup 
+ *@note you must the gDossier as hidden in the calling page
  *
  *@see ajax_card.php
  */
 function fill_ipopcard(obj)
 {
-    if ( ! $(obj).ipopup)
-    {
-        alert('Erreur pas d\' attribut ipopup '+obj.id);
-        return;
-    };
-    var content=$(obj).ipopup+'_content';
-    $(content).innerHTML=loading();
-    showIPopup($(obj).ipopup);
+
+    card_layer++;
+
+    var content='card_'+card_layer;
+    var nTop=posY-40;
+    var nLeft=posX-20;
+    var str_style="top:"+nTop+";left:"+nLeft+";width:auto;height:auto";
+
+    var popup={'id':  content,'cssclass':'op_detail','style':str_style,'html':loading(),'drag':true};
+
+    add_div(popup);
     var dossier=$('gDossier').value;
     var qcode='';
     if ( $(obj).qcode != undefined )
@@ -316,14 +319,10 @@ function fill_ipopcard(obj)
 
     var action=new Ajax.Request ( 'ajax_card.php',
                                   {
-                                  method:'get'
-                                      ,
-                                  parameters:
-                                      queryString,
-                                  onFailure:
-                                      errorFid,
-                                  onSuccess:
-                                      successFill_ipopcard
+                                  method:'get',
+                                  parameters:queryString,
+                                  onFailure:errorFid,
+                                  onSuccess:fill_box
                                   }
                                 );
 }

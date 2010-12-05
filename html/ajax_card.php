@@ -112,13 +112,25 @@ case 'rmfa':
 
 case 'dc':
     $f=new Fiche($cn);
+    /* add title + close */
+    $html=HtmlInput::button_close($ctl);
+    $html.=h2info('Détail fiche');
     if ( $qcode != '')
     {
         $f->get_by_qcode($qcode);
-        $html=$f->Display(true);
+	$card=$f->Display(true);
+	if ( $card == 'FNT' ) 
+	  {
+	    $html.='<h2 class="error">'._('Fiche non trouvée').'</h2>';
+	  }
+	else
+	  {
+	    $html.=$card;
+	  }
     }
     else
-        $html=h2info('Aucune fiche demandée');
+      $html.='<h2 class="error">'._('Aucune fiche demandée').'</h2>';
+    $html.=HtmlInput::button('close_'.$ctl,'Fermer',"onclick=\"removeDiv('$ctl')\"");
     break;
     /* ------------------------------------------------------------ */
     /* Blank card */
