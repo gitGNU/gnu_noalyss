@@ -31,6 +31,8 @@ require_once("constant.php");
 require_once('class_database.php');
 require_once("ac_common.php");
 require_once('class_dossier.php');
+require_once('function_javascript.php');
+
 $gDossier=dossier::id();
 $str_dossier=dossier::get();
 $cn=new Database($gDossier);
@@ -40,22 +42,10 @@ $User=new User($cn);
 $User->Check();
 if ($User->check_dossier($gDossier) == 'P') exit();
 
+load_all_script();
 
 html_page_start($_SESSION['g_theme']);
 /* javascript file */
-echo js_include('prototype.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('dragdrop.js');
-echo js_include('acc_ledger.js');
-echo js_include('accounting_item.js');
-echo js_include('card.js');
-echo js_include('compute.js');
-echo js_include('compute_direct.js');
-echo js_include('ajax_fiche.js');
-echo JS_INFOBULLE;
-echo js_include('anc_script.js');
 //-----------------------------------------------------------------
 //Header
 echo '<div class="u_tmenu">';
