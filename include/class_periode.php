@@ -279,9 +279,14 @@ class Periode
             }
             echo '<TR> <FORM ACTION="?p_action=periode" METHOD="POST">';
             echo dossier::hidden();
-            echo '<TD> <INPUT TYPE="text" NAME="p_date_start" SIZE="10"></TD>';
-            echo '<TD> <INPUT TYPE="text" NAME="p_date_end" SIZE="10"></TD>';
-            echo '<TD> <INPUT TYPE="text" NAME="p_exercice" SIZE="10"></TD>';
+	    $istart=new IDate('p_date_start');
+	    $iend=new IDate('p_date_end');
+	    $iexercice=new INum('p_exercice');
+	    $iexercice->size=5;
+	    echo td($istart->input());
+	    echo td($iend->input());
+	    echo td($iexercice->input());
+
             echo '<TD> <INPUT TYPE="SUBMIT" NAME="add_per" Value="Ajout"</TD>';
             echo '<TD></TD>';
             echo '<TD></TD>';
@@ -343,7 +348,9 @@ class Periode
         if (isDate($p_date_start) == null ||
                 isDate($p_date_end) == null ||
                 strlen (trim($p_exercice)) == 0 ||
-                (string) $p_exercice != (string)(int) $p_exercice)
+                (string) $p_exercice != (string)(int) $p_exercice
+	  ||$p_exercice < 2000 || $p_exercice > 2099 )
+
         {
             return 1;
         }
