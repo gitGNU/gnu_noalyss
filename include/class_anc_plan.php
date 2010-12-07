@@ -131,7 +131,7 @@ class Anc_Plan
     {
         $count=$this->db->get_value("select count(pa_id) from plan_analytique");
 
-        if ( $count > 4)
+        if ( $count > 10 )
             return false;
         else
             return true;
