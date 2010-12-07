@@ -257,6 +257,7 @@ case 'sc':
     {
         $html.=alert(_('Action interdite'),true);
     }
+    $html.=HtmlInput::button('fermer','Fermer'," onclick=\"removeDiv('$ctl')\";");
     break;
     /*----------------------------------------------------------------------
      * Search a card
