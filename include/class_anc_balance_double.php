@@ -88,7 +88,7 @@ class Anc_Balance_Double extends Anc_Print
 
                 // new
                 $r.="</table>";
-                $r.="<table class=\"mtitle\">";
+                $r.="<table class=\"result\">";
                 $r.="<tr>";
                 $r.="<th>Poste comptable Analytique</th>";
                 $r.="<th>Poste comptable Analytique</th>";
@@ -105,19 +105,19 @@ class Anc_Balance_Double extends Anc_Print
             $tot_cred+=$row['a_c'];
 
             $r.=sprintf("<td>%s</td>",h($row['b_po_name']));
-            $r.=sprintf("<td>%12.2f</td>",$row['a_d']);
-            $r.=sprintf("<td>%12.2f</td>",$row['a_c']);
-            $r.=sprintf("<td>%12.2f</td>",$row['a_solde']);
+            $r.=td(nbm($row['a_d']));
+            $r.=td(nbm($row['a_c']));
+            $r.=td(nbm($row['a_solde']));
             $r.=sprintf("<td>%s</td>",$row['a_debit']);
             $r.="</tr>";
         }
         if ( $tot_deb != 0 || $tot_cred !=0 )
         {
             $r.="<tr>";
-            $r.="<td>Total </td> <td></td><td> $tot_deb </td> <td>$tot_cred</td>";
+            $r.="<td>Total </td> <td></td><td> ".nbm($tot_deb)." </td> <td>".nbm($tot_cred)."</td>";
             $s=abs($tot_deb-$tot_cred);
             $d=($tot_deb>$tot_cred)?'debit':'credit';
-            $r.="<td>$s</td><td>$d</td>";
+            $r.="<td>".nbm($s)."</td><td>$d</td>";
             $r.="</tr>";
         }
 
@@ -129,8 +129,8 @@ class Anc_Balance_Double extends Anc_Print
             $r.='<tr>';
             $r.='<td>'.$row['poste'].'</td>';
             $r.='<td>'.$row['desc'].'</td>';
-            $r.='<td>'.$row['debit'].'</td>';
-            $r.='<td>'.$row['credit'].'</td>';
+            $r.='<td>'.nbm($row['debit']).'</td>';
+            $r.='<td>'.nbm($row['credit']).'</td>';
             $r.='<td>'.$row['dc'].'</td>';
             $r.='</tr>';
         }

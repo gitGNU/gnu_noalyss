@@ -77,7 +77,7 @@ class Anc_Listing extends Anc_Print
             $r.= _("aucune donnée");
             return $r;
         }
-        $r.= '<table>';
+        $r.= '<table class="result">';
         $r.= '<tr>'.
              '<th>'._('Date').'</th>'.
              '<th>'._('Nom').'</th>'.
@@ -92,7 +92,7 @@ class Anc_Listing extends Anc_Print
                 '<td>'.$row['oa_date'].'</td>'.
                 '<td>'.h($row['po_name']).'</td>'.
                 '<td>'.h($row['oa_description']).'</td>'.
-                '<td>'.$row['oa_amount'].'</td>'.
+	      '<td>'.nbm($row['oa_amount']).'</td>'.
                 '<td>'.(($row['oa_debit']=='f')?'CREDIT':'DEBIT').'</td>';
             $r.= '</tr>';
         }

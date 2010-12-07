@@ -121,7 +121,7 @@ class Anc_Balance_Simple extends Anc_Print
      */
     function display_html()
     {
-        $r="<table class=\"mtitle\">";
+        $r="<table class=\"result\">";
         $r.="<tr>";
         $r.="<th>Poste comptable Analytique</th>";
         $r.="<th>D&eacute;bit</th>";
@@ -145,9 +145,9 @@ class Anc_Balance_Simple extends Anc_Print
             // the name and po_id
             //	  $r.=sprintf("<td>%s</td>",$row['po_id']);
             $r.=sprintf("<td align=\"left\">%s</td>",h($row['po_name']));
-            $r.=sprintf("<td>%12.2f</td>",$row['sum_deb']);
-            $r.=sprintf("<td>%12.2f</td>",$row['sum_cred']);
-            $r.=sprintf("<td>%12.2f</td>",$row['solde']);
+            $r.=td(nbm($row['sum_deb']));
+            $r.=td(nbm($row['sum_cred']));
+            $r.=td(nbm($row['solde']));
             $deb=($row['sum_deb'] > $row['sum_cred'])?"D":"C";
             $deb=($row['solde'] == 0 )?'':$deb;
             $r.=sprintf("<td>%s</td>",$deb);

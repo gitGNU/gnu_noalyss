@@ -38,9 +38,13 @@ $menu=array(array("?p_action=ca_imp&sub=listing&$str_dossier",_("Listing"),_("Li
             array("?p_action=ca_imp&sub=bc2&$str_dossier",_("Balance croisée"),_("Balance croisée de 2 plans analytiques"),"bc2")
            );
 $sub=(isset($_GET['sub']))?$_GET['sub']:'no';
-echo '<div class="content"  style="margin-left:12%">';
+
+echo '<div class="content"  style="width:88%;margin-left:12%">';
 echo ShowItem($menu,"H","mtitle","mtitle",$sub);
 echo '</div>';
+
+echo '<div class="content" style="width:80%;margin-left:10%">';
+
 $hidden=new IHidden();
 $str_hidden=$hidden->input("p_action","ca_imp");
 $str_hidden.=$hidden->input("sub",$sub);
@@ -67,6 +71,7 @@ if ( $sub=='listing')
         echo $list->display_html();
         echo '</div>';
     }
+    echo '</div>';
 }
 
 //------------------------------------------------------------------------------
