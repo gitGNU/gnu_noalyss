@@ -29,18 +29,6 @@ require_once ('class_pre_op_ven.php');
 require_once ('class_document.php');
 require_once ('class_acc_ledger_info.php');
 require_once('class_ipopup.php');
-echo ICard::ipopup('ipopcard');
-echo ICard::ipopup('ipop_newcard');
-echo IPoste::ipopup('ipop_account');
-$search_card=new IPopup('ipop_card');
-$search_card->title=_('Recherche de fiche');
-$search_card->value='';
-echo $search_card->input();
-
-$pop_tva=new IPopup('popup_tva');
-$pop_tva->title=_('Choix TVA');
-$pop_tva->value='';
-echo $pop_tva->input();
 
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 $gDossier=dossier::id();

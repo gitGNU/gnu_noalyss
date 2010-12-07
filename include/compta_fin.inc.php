@@ -25,21 +25,10 @@
  */
 require_once ('class_acc_ledger_fin.php');
 require_once('class_ipopup.php');
-$pop_tva=new IPopup('popup_tva');
-$pop_tva->title=_('Choix TVA');
-$pop_tva->value='';
-echo $pop_tva->input();
 
 $gDossier=dossier::id();
 $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 
-echo ICard::ipopup('ipopcard');
-echo ICard::ipopup('ipop_newcard');
-echo IPoste::ipopup('ipop_account');
-$search_card=new IPopup('ipop_card');
-$search_card->title=_('Recherche de fiche');
-$search_card->value='';
-echo $search_card->input();
 
 $cn=new Database(dossier::id());
 $menu_action="?p_action=fin&".dossier::get();

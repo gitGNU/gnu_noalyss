@@ -28,7 +28,7 @@ require_once('constant.security.php');
 // SVNVERSION
 global $version_phpcompta;
 $version_phpcompta=3809;
-error_reporting (0);
+error_reporting (15);
 
 global $g_captcha;
 $g_captcha=false;

@@ -35,56 +35,7 @@ if ( isset($_REQUEST['action']))
 $choose=(isset ($_GET['choose']))?$_GET['choose']:"no";
 
 if ($choose=='Valider') $choose='yes';
-if ( $action=="change_per")
-{
-    $User->can_request(PARPER);
-    foreach($_GET as $key=>$element)
-    ${"$key"}=$element;
-    echo "<TABLE>";
-    echo '<TR> <FORM ACTION="?p_action=periode" METHOD="POST">';
-    echo dossier::hidden();
-    echo ' <INPUT TYPE="HIDDEN" NAME="p_per" VALUE="'.$p_per.'">';
 
-    $istart=new IDate('p_date_start');
-    $iend=new IDate('p_date_end');
-    $iexercice=new INum('p_exercice');
-    $iexercice->size=5;
-    echo td($istart->input());
-    echo td($iend->input());
-    echo td($iexercice->input());
-
-    echo '<TD> <INPUT TYPE="SUBMIT" class="button" NAME="conf_chg_per" Value="Change"</TD>';
-    echo '</FORM></TR>';
-    echo "</TABLE>";
-    //  $choose="yes";
-    echo HtmlInput::button_anchor(_('Retour'),'?p_action=periode&'.Dossier::get());
-    exit();
-}
-if ( isset ($_POST["conf_chg_per"] ) )
-{
-    $User->can_request(PARPER);
-    extract($_POST);
-
-    if (isDate($p_date_start) == null ||
-            isDate($p_date_end) == null ||
-            strlen (trim($p_exercice)) == 0 ||
-            (string) $p_exercice != (string)(int) $p_exercice ||
-	$p_exercice < 2000 || $p_exercice > 2099 )
-    {
-        alert(_('Valeurs invalides'));
-    }
-    else
-    {
-        $Res=$cn->exec_sql(" update parm_periode ".
-                           "set p_start=to_date('". $p_date_start."','DD.MM.YYYY'),".
-                           " p_end=to_date('". $p_date_end."','DD.MM.YYYY'),".
-                           " p_exercice='".$p_exercice."'".
-                           " where p_id=".$p_per);
-
-    }
-    $choose="yes";
-
-}
 if ( isset ($_POST["add_per"] ))
 {
     $User->can_request(PARPER,1);
