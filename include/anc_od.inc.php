@@ -38,7 +38,8 @@ $pa=new Anc_Plan($cn);
 $m=$pa->get_list();
 if ( ! $m )
 {
-    echo '<h2 class="info">'._('Aucun plan analytique défini').'</h2>';
+
+    echo '<div style="float:left;width:60%;margin-left:20%"><h2 class="error">'._('Aucun plan analytique défini').'</h2></div>';
     exit();
 }
 

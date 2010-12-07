@@ -259,7 +259,7 @@ if ( empty($list)  )
 
     echo '</div>';
     if ( ! isset ( $_REQUEST['sa']))
-        echo '<div class="u_redcontent">'.
+        echo '<div class="notice">'.
         "Aucun plan analytique n'est d&eacute;fini".
         '</div>';
 
