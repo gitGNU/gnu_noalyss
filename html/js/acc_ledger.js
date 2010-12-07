@@ -690,7 +690,7 @@ function modifyOperation(p_value,dossier)
 {
     layer++;
     id='det'+layer;
-var popup={'id':
+    var popup={'id':
            id,'cssclass':'op_detail'
            ,'html':
            loading(),'drag':
@@ -707,7 +707,7 @@ var popup={'id':
                    }
                );
     g(id).style.top=posY-40;
-    g(id).style.left=posX-10;
+    g(id).style.left=300;
 
 }
 

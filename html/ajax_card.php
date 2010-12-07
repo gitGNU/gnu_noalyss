@@ -139,9 +139,13 @@ case 'bc':
     if ( $user->check_action(FICADD)==1 )
     {
         $r='';
+	$r=HtmlInput::button_close($ctl);
+	/* get cat. name */
+	$cat_name=$cn->get_value('select fd_label from fiche_def where fd_id=$1',
+				 array($fd_id));
+	$r.=h2info(_('Nouvelle fiche ').$cat_name);
         $f=new Fiche($cn);
-        $popup=str_replace('_content','',$ctl);
-        $r.='<form id="save_card" method="POST" onsubmit="this.ipopup=\''.$popup.'\';save_card(this);return false;" >';
+        $r.='<form id="save_card" method="POST" onsubmit="this.ipopup=\''.$ctl.'\';save_card(this);return false;" >';
         $r.=dossier::hidden();
         $r.=(isset($ref))?HtmlInput::hidden('ref',1):'';
         $r.=HtmlInput::hidden('fd_id',$fd_id);
@@ -203,26 +207,32 @@ case 'st':
             }
     }
     $array=$cn->make_array($sql);
+    $html=HtmlInput::button_close('select_card_div');
+    $html.=h2info('Choix de la catégorie');
     if ( empty($array))
     {
-        $html=_("Aucune catégorie de fiche ne correspondant à".
+        $html.=_("Aucune catégorie de fiche ne correspondant à".
                 " votre demande");
         $html.=$sql;
     }
     else
     {
         $r='';
+	$html.='<p class="notice"> Choississez la catégorie de fiche à laquelle vous aimeriez ajouter une fiche</p>';
         $isel=new ISelect('fd_id');
         $isel->value=$array;
-        $popup=str_replace('_content','',$ctl);
-        $r.='<form id="sel_type" method="GET" onsubmit="this.ipopup=\''.$popup.'\';dis_blank_card(this);return false;" >';
+        $r.='<form id="sel_type" method="GET" onsubmit="this.ipopup='.$ctl.';dis_blank_card(this);return false;" >';
         $r.=dossier::hidden();
         $r.=(isset($ref))?HtmlInput::hidden('ref',1):'';
-        $r.='<p>choisissez le type de fiche à ajouter</p>';
+
         $r.=$isel->input();
+	$r.='<p>';
         $r.=HtmlInput::submit('st','choix');
+	$r.=HtmlInput::button('Annuler','Annuler'," onclick=\"removeDiv('$ctl')\" ");
+	$r.='</p>';
         $r.='</form>';
-        $html=$r;
+        $html.=$r;
+
     }
     break;
     /*----------------------------------------------------------------------
@@ -231,11 +241,13 @@ case 'st':
      *
      ----------------------------------------------------------------------*/
 case 'sc':
+  $html=HtmlInput::button_close($ctl);
+  $html.=h2info('Nouvelle fiche');
     if ( $user->check_action(FICADD)==1 )
     {
         $f=new Fiche($cn);
         $f->insert($fd_id,$_POST);
-        $html='<h2 class="notice">Fiche sauvée</h2>';
+        $html.='<h2 class="notice">Fiche sauvée</h2>';
         $html.=$f->Display(true);
         $js="";
         if ( isset( $_POST['ref'])) $js=create_script(' window.location.reload()');
@@ -243,7 +255,7 @@ case 'sc':
     }
     else
     {
-        $html=alert(_('Action interdite'),true);
+        $html.=alert(_('Action interdite'),true);
     }
     break;
     /*----------------------------------------------------------------------

@@ -717,7 +717,7 @@ function success_box(req,json)
         g(name_ctl).style.height='auto';
         // if IE set to 60 %
         if(name_ctl != 'popup')
-            g(name_ctl).style.width='45%';
+            g(name_ctl).style.width='50%';
         else
             g(name_ctl).style.width='auto';
     }

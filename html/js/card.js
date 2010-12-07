@@ -377,14 +377,7 @@ function  successFill_ipopcard(req,json)
  */
 function select_card_type(obj)
 {
-    if ( ! $(obj).ipopup)
-    {
-        alert('Erreur pas d\' attribut ipopup '+obj.id);
-        return;
-    };
-    var content=$(obj).ipopup+'_content';
-    $(content).innerHTML=loading();
-    showIPopup($(obj).ipopup);
+    
     var dossier=$('gDossier').value;
 
     // give a filter, -1 if not
@@ -393,7 +386,23 @@ function select_card_type(obj)
     {
         filter=-1;
     }
+    var content="select_card_div";
+    if ( $(content)){ removeDiv(content);}
+    var sx=0;
+    if ( window.scrollY)
+    {
+            sx=window.scrollY+40;
+    }
+    else
+    {
+        sx=document.body.scrollTop+60;
+    }
 
+    var str_style="top:"+sx+";left:10%;width:80%;height:auto";
+
+    var popup={'id':  content,'cssclass':'op_detail','style':str_style,'html':loading(),'drag':true};
+
+    add_div(popup);
 
     var queryString='?gDossier='+dossier;
     queryString+='&ctl='+content;
@@ -426,7 +435,7 @@ function select_card_type(obj)
                                   method:'get',
                                   parameters:queryString,
                                   onFailure:errorFid,
-                                  onSuccess:successFill_ipopcard
+                                  onSuccess:fill_box
                                   }
                                 );
 }
@@ -440,11 +449,6 @@ function select_card_type(obj)
  */
 function dis_blank_card(obj)
 {
-    if ( ! $(obj).ipopup)
-    {
-        alert('Erreur pas d\' attribut ipopup '+obj.id);
-        return;
-    };
     // first we have to take the form elt we need
     var fd_id=$F('fd_id');
     var ref="";
@@ -452,9 +456,16 @@ function dis_blank_card(obj)
     {
         ref='&ref';
     }
-    var content=$(obj).ipopup+'_content';
-    $(content).innerHTML=loading();
-    showIPopup($(obj).ipopup);
+    var content='div_new_card';
+    var nTop=posY-40;
+    var nLeft=posX-20;
+    var str_style="top:"+nTop+";left:"+nLeft+";width:35em;height:auto";
+
+    var popup={'id':  content,'cssclass':'op_detail','style':str_style,'html':loading(),'drag':true};
+    if ( $(content)) {removeDiv(content);}
+    add_div(popup);
+
+
     var dossier=$('gDossier').value;
 
     var queryString='?gDossier='+dossier;
@@ -480,16 +491,11 @@ function dis_blank_card(obj)
  */
 function save_card(obj)
 {
-    if ( ! $(obj).ipopup)
-    {
-        alert('Erreur pas d\' attribut ipopup '+obj.id);
-        return;
-    };
-    var content=$(obj).ipopup+'_content';
+    var content=$(obj).ipopup;
     // Data must be taken here
     data=$('save_card').serialize(false);
     $(content).innerHTML=loading();
-    showIPopup($(obj).ipopup);
+
     var dossier=$('gDossier').value;
     var queryString='?gDossier='+dossier;
     queryString+='&ctl='+content;
@@ -501,7 +507,7 @@ function save_card(obj)
                                   method:'post',
                                   parameters:queryString,
                                   onFailure:errorFid,
-                                  onSuccess:successFill_ipopcard
+                                  onSuccess:fill_box
                                   }
                                 );
 }
