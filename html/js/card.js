@@ -296,7 +296,7 @@ function fill_ipopcard(obj)
     var content='card_'+card_layer;
     var nTop=posY-40;
     var nLeft=posX-20;
-    var str_style="top:"+nTop+";left:"+nLeft+";width:35em;height:auto";
+    var str_style="top:"+nTop+";left:"+nLeft+";width:40em;height:auto";
 
     var popup={'id':  content,'cssclass':'op_detail','style':str_style,'html':loading(),'drag':true};
 
@@ -459,7 +459,7 @@ function dis_blank_card(obj)
     var content='div_new_card';
     var nTop=posY-40;
     var nLeft=posX-20;
-    var str_style="top:"+nTop+";left:"+nLeft+";width:35em;height:auto";
+    var str_style="top:"+nTop+";left:"+nLeft+";width:70em;height:auto";
 
     var popup={'id':  content,'cssclass':'op_detail','style':str_style,'html':loading(),'drag':true};
     if ( $(content)) {removeDiv(content);}
