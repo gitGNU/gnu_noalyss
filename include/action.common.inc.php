@@ -29,7 +29,6 @@
    * - $sub_action sa from suivi courrier but sc from Suivi client, fournisseur...
    *
    */
-echo js_include('gestion.js');
 require_once('class_itva_popup.php');
 $pop_tva=new IPopup('popup_tva');
 $pop_tva->title=_('Choix TVA');
@@ -287,10 +286,10 @@ function ShowActionList($cn,$p_base)
   echo '<br>';
 
   $see_all=new ICheckBox('see_all');
-  $see_all->selected= (isset($_REQUEST['see_all']))?true:false;
+  $see_all->selected=true;
   echo _('les actions fermées aussi:').$see_all->input().'<br/>';
   $my_action=new ICheckBox('all_action');
-  $my_action->selected= (isset($_REQUEST['all_action']))?true:false;
+  $my_action->selected= true;
   echo _('affecté à d\'autre:').$my_action->input().'<br/>';
   ?>
     <input type="submit" class="button" name="submit_query" value="<?=_('recherche')?>">
