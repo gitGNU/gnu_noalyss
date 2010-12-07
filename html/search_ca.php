@@ -36,12 +36,13 @@ require_once ("ac_common.php");
 require_once ('class_dossier.php');
 require_once ('class_anc_account.php');
 require_once ('class_anc_plan.php');
+require_once('function_javascript.php');
 
 /*!\todo add security here : check user and access to CA
  */
 
 html_page_start();
-print_r($_REQUEST);
+load_all_script();
 //------------- FORM ----------------------------------
 echo '<FORM METHOD="GET">';
 $texte=new IText();
