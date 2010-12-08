@@ -883,8 +883,7 @@ function display_periode(p_dossier,p_id)
      try
     {
         var queryString="gDossier="+p_dossier+"&op=input_per"+"&p_id="+p_id;
-	var popup={'id': 'mod_periode','cssclass':'op_detail','html':loading(),'style':'position:fixed;top:45%;left:45%',
-		   'drag':true};
+	var popup={'id': 'mod_periode','cssclass':'op_detail','html':loading(),'style':'position:absolute;top:45%;left:45%;width:30em','drag':true};
 	if ( ! $('mod_periode') ) {
 	    add_div(popup);
 	}

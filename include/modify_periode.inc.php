@@ -57,7 +57,7 @@ $err=0;$html='';
 	 $html.=tr(td(' Début période : ').td($p_start->input()));
 	 $html.=tr(td(' Fin période : ').td($p_end->input()));
 	 $html.=tr(td(' Exercice : ').td($p_exercice->input()));
-
+	 $html.='</table>';
 	 $html.=HtmlInput::submit('sauver','sauver');
 	 $html.=HtmlInput::button('close','Fermer','onclick="removeDiv(\'mod_periode\')"');
 	 $html.=HtmlInput::hidden('p_id',$_GET['p_id']);
