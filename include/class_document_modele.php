@@ -57,47 +57,50 @@ class Document_modele
         $sql="select md_id,md_name,md_affect,dt_value from document_modele join document_type on(dt_id=md_type) order by md_name";
         $Res=$this->cn->exec_sql($sql);
         $all=Database::fetch_all($Res);
-        if ( Database::num_row($Res) == 0 ) return "";
-        $r='<p><form method="post">';
-        $r.=dossier::hidden();
-        $r.="<table>";
-        $r.="<tr> ";
-        $r.=th(_('Nom'));
-        $r.=th(_('Catégorie'));
-        $r.=th(_('Affect.'));
-        $r.=th(_('Fichier'));
-        $r.=th(_('Effacer'));
-        $r.="</tr>";
-        foreach ( $all as $row)
-        {
-            $r.="<tr>";
-            $r.="<td>";
-            $r.=h($row['md_name']);
-            $r.="</td>";
-            $r.="<td>";
-            $r.=$row['dt_value'];
-            $r.="</td>";
-            $r.=td(h($row['md_affect']));
-            $r.="<td>";
-            $r.='<A HREF="show_document_modele.php?md_id='.$row['md_id'].'&'.$s.'">Document</a>';
-            $r.="</td>";
-            $r.="<TD>";
-            $c=new ICheckBox();
-            $c->name="dm_remove_".$row['md_id'];
-            $r.=$c->input();
-            $r.="</td>";
-	    $r.=td(HtmlInput::detail_modele_document($row['md_id'],'Modifier'));
+	$r='';
+        if ( Database::num_row($Res) != 0 ) {
+	  
+	  $r.='<p><form method="post">';
+	  $r.=dossier::hidden();
+	  $r.="<table>";
+	  $r.="<tr> ";
+	  $r.=th(_('Nom'));
+	  $r.=th(_('Catégorie'));
+	  $r.=th(_('Affect.'));
+	  $r.=th(_('Fichier'));
+	  $r.=th(_('Effacer'));
+	  $r.="</tr>";
+	  foreach ( $all as $row)
+	    {
+	      $r.="<tr>";
+	      $r.="<td>";
+	      $r.=h($row['md_name']);
+	      $r.="</td>";
+	      $r.="<td>";
+	      $r.=$row['dt_value'];
+	      $r.="</td>";
+	      $r.=td(h($row['md_affect']));
+	      $r.="<td>";
+	      $r.='<A HREF="show_document_modele.php?md_id='.$row['md_id'].'&'.$s.'">Document</a>';
+	      $r.="</td>";
+	      $r.="<TD>";
+	      $c=new ICheckBox();
+	      $c->name="dm_remove_".$row['md_id'];
+	      $r.=$c->input();
+	      $r.="</td>";
+	      $r.=td(HtmlInput::detail_modele_document($row['md_id'],'Modifier'));
 
-            $r.="</tr>";
-        }
-        $r.="</table>";
+	      $r.="</tr>";
+	    }
+	  $r.="</table>";
 
-        // need hidden parameter for subaction
-        $a=new IHidden();
-        $a->name="sa";
-        $a->value="rm_template";
-        $r.=$a->input();
-        $r.=HtmlInput::submit("rm_template","Effacer la sélection");
+	  // need hidden parameter for subaction
+	  $a=new IHidden();
+	  $a->name="sa";
+	  $a->value="rm_template";
+	  $r.=$a->input();
+	  $r.=HtmlInput::submit("rm_template","Effacer la sélection");
+	}
 	$b=new IButton('show');
 	$b->label="Ajout d'un document";
 	$b->javascript="$('add_modele').style.display='block';$('show').style.display='none';";
