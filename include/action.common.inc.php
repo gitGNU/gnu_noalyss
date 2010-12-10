@@ -286,7 +286,6 @@ function ShowActionList($cn,$p_base)
   echo '<br>';
 
   $see_all=new ICheckBox('see_all');
-  echo _('les actions fermées aussi:').$see_all->input().'<br/>';
   $my_action=new ICheckBox('all_action');
   if ( $_GET['p_action'] != 'suivi_courrier')    
     {
@@ -298,6 +297,8 @@ function ShowActionList($cn,$p_base)
       $see_all->selected=(isset($_REQUEST ['see_all']))?true:false;
       $my_action->selected= (isset($_REQUEST ['all_action']))?true:false;
     }
+  echo _('les actions fermées aussi:').$see_all->input().'<br/>';
+
   echo _('affecté à d\'autre:').$my_action->input().'<br/>';
   ?>
     <input type="submit" class="button" name="submit_query" value="<?=_('recherche')?>">
