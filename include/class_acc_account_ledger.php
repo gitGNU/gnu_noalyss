@@ -322,6 +322,7 @@ class Acc_Account_Ledger
         "</TR>"
         ;
         $progress=0;
+	bcscale(2);
         foreach ( $this->row as $op )
         {
             $vw_operation=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s</A>',
