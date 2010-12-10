@@ -245,7 +245,7 @@ class Periode
                     {
 		      $change="Non modifiable";
                     }
-		    $change=td($change);
+		    $change=td($change,' class="mtitle" ');
 		    /*
                     $change.='<A class="mtitle" HREF="?p_action=periode&action=change_per&p_per='.
                              $l_line['p_id']."&p_date_start=".$l_line['date_start'].

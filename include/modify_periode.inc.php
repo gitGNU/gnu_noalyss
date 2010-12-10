@@ -48,7 +48,10 @@ $err=0;$html='';
 	 $p_exercice=new INum('p_exercice');
 	 $p_exercice->value=$per->p_exercice;
 
-	 $html='<h2 class="info"> Modifier les dates de début et fin de période</h2>';
+	 $html='';
+	 $html.=HtmlInput::anchor_close('mod_periode');
+	 $html.=h2info('Modification période');
+	 $html.='<p> Modifier les dates de début et fin de période</p>';
 	 $html.='<p class="notice">Cela pourrait avoir un impact sur les opérations déjà existantes</p>';
 	 $html.='<form method="post" onsubmit="return save_periode(this)">';
 	 $html.=dossier::hidden();
@@ -72,7 +75,9 @@ $err=0;$html='';
 	      $_POST['p_exercice'] > 2099 ||
 	      $_POST['p_exercice'] < 2000 )
 	   {
-	     $html='<h2 class="info"> Modifier les dates de début et fin de période</h2>';
+	     $html='';
+	     $html.=HtmlInput::anchor_close('mod_periode');
+	     $html.='<h2 class="info"> Modifier les dates de début et fin de période</h2>';
 	     $html.="<div class=\"error\">Erreur date invalide</div>";
 
 	     $html.=HtmlInput::button('close','Fermer','onclick="removeDiv(\'mod_periode\')"');
