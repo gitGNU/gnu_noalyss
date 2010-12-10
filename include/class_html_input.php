@@ -393,4 +393,17 @@ class HtmlInput
     return $html;
 
     }
+    /**
+     * Return a html string with an anchor which close the inside popup. (top-right corner)
+     *@param name of the DIV to close
+     */
+    static function anchor_close($div)
+    {
+	$r='';
+	$r.='<div style="float:right">';
+	$r.= '<A style="background-color:blue;color:white;text-decoration:none" HREF="javascript:void(0)" onclick="removeDiv(\''.$div.'\');">Fermer</A>';
+	$r.='</div>';
+	return $r;
+    }
 }
+    
