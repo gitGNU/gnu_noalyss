@@ -207,7 +207,7 @@ CREATE TRIGGER remove_action_gestion
   AFTER DELETE
   ON fiche
   FOR EACH ROW
-  EXECUTE PROCEDURE comptaproc.card_after_delete()
+  EXECUTE PROCEDURE comptaproc.card_after_delete();
 
 update version set val=92;
 commit;
