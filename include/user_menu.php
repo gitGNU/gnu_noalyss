@@ -348,7 +348,7 @@ function ShowMenuParam($p_action="")
     $sub_menu=ShowItem(array(
 
                            array('parametre.php?p_action=company&'.$s,_('Sociétés'),_('Parametre societe'),1),
-			   array('parametre?p_action=periode&'.$s,_('Periode'),_("Gestion des periodes"),25),
+			   array('parametre.php?p_action=periode&'.$s,_('Periode'),_("Gestion des periodes"),25),
                            array('parametre.php?p_action=divers&'.$s,_('Divers'),_('Devise, moyen de paiement'),2),
                            array('parametre.php?p_action=pcmn&'.$s,_('Plan Comptable'),_('Modification du plan comptable'),11),
                            array('parametre.php?p_action=ext&'.$s,_('Extension'),_('Extension'),3),
