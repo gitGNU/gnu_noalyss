@@ -1847,10 +1847,9 @@ class Acc_Ledger
             $this->internal=$internal;
             // Save now the predef op
             //------------------------
-            if ( isset($save_opd))
+            if ( isset($opd_save))
             {
                 $opd=new Pre_Op_Advanced($this->db);
-                $opd->name=(trim($desc)=='')?$internal:$desc;
                 $opd->get_post();
                 $opd->save();
             }

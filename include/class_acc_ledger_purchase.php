@@ -522,9 +522,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $acc_operation->jrn=$p_jrn;
             $acc_operation->type='c';
             $acc_operation->periode=$tperiode;
-            $acc_operation->qcode=$
-                                  {"e_client"
-                                  };
+            $acc_operation->qcode=${"e_client"};
             if ( $cust_amount < 0 ) $tot_debit=bcadd($tot_debit,abs($cust_amount));
             $acc_operation->insert_jrnx();
             /*
@@ -1421,7 +1419,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 
         }
         // check for upload piece
-        $r.=HtmlInput::warnbulle(12);
         $r.=$this->extra_info();
 
         return $r;

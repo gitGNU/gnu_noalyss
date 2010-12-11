@@ -56,15 +56,15 @@ function show_qw_menu($def=0)
     echo '<div class="lmenu">';
     $id=(isset ($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
     echo ShowItem(
-        array(
-            array('?p_action='.$_REQUEST['p_action'].'&'.dossier::get().'&p_jrn='.$id.'&show_form',_('Encoder une Operation'),
-                      _('Encoder une operation dans  ce journal'),0),
-                array('?p_action='.$_REQUEST['p_action'].'&'.dossier::get().'&p_jrn='.$id.'&sa=l',_('Voir Operation'),
-                          _('Voir les operations de ce journal'),1),
-                    array('?p_action='.$_REQUEST['p_action'].'&'.dossier::get(),
+		  array(
+			array('?p_action='.$_REQUEST['p_action'].'&'.dossier::get().'&p_jrn='.$id.'&show_form',_('Encoder une Operation'),
+			      _('Encoder une operation dans  ce journal'),0),
+			array('?p_action='.$_REQUEST['p_action'].'&'.dossier::get().'&p_jrn='.$id.'&sa=l',_('Voir Operation'),
+			      _('Voir les operations de ce journal'),1),
+			array('?p_action='.$_REQUEST['p_action'].'&'.dossier::get(),
                               _('Autre journal'),
                               _('Choisir un autre journal')
-                             )),
+			      )),
                     'H',"mtitle","mtitle",$def,' style="width:80%;margin-left:5;"'
                 );
 
@@ -265,13 +265,19 @@ if ( $User->check_jrn($id)=='W' )
         echo dossier::hidden();
         echo HtmlInput::hidden('p_action',$_REQUEST['p_action']);
 
+	echo '<hr>';
+	$chk=new ICheckBox();
+	$chk->selected=false;
+	echo $chk->input('opd_save');
+	echo "Sauvez cette op&eacute;ration comme modèle d'opération ?";
+	echo '<br/>';
+	$opd_name=new IText('opd_name');
+	echo "Nom du modèle ".$opd_name->input();
+
+	echo '<br/>';
         echo HtmlInput::submit('save_it',"Sauver",'onClick="return verify_ca();"');
         echo HtmlInput::submit('correct_it','Corriger');
 
-        $chk=new ICheckBox();
-        $chk->selected=false;
-        echo "Sauvez l'op&eacute;ration ?";
-        echo $chk->input('save_opd');
         echo '</form>';
         exit();
 

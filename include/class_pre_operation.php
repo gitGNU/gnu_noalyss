@@ -49,7 +49,11 @@ class Pre_operation
         $this->nb_item=$_POST['nb_item'];
         $this->p_jrn=$_REQUEST['p_jrn'];
         $this->jrn_type=$_POST['jrn_type'];
-        $this->name=(isset($_POST['e_comm']))?$_POST['e_comm']:"";
+
+	$this->name=$_POST['opd_name'];
+
+        $this->name=(trim($this->name)=='')?$_POST['e_comm']:$this->name;
+
         if ( $this->name=="")
         {
             $n=$this->db->get_next_seq('op_def_op_seq');
@@ -68,17 +72,18 @@ class Pre_operation
      */
     function save()
     {
+
         if (	$this->db->count_sql("select * from op_predef ".
                                   "where upper(od_name)=upper('".Database::escape_string($this->name)."')".
                                   "and jrn_def_id=".$this->p_jrn)
                 != 0 )
         {
-            echo "Cette op&eacute;ration a d&eacute;j&agrave; &eacute;t&eacute; sauv&eacute;e";
+            echo "<span class=\"notice\"> Ce modèle d' op&eacute;ration a d&eacute;j&agrave; &eacute;t&eacute; sauv&eacute;</span>";
             return false;
         }
-        if ( $this->count()  > 20 )
+        if ( $this->count()  > 30 )
         {
-            echo '<h2 class="info">Vous avez atteint le max. d\'op&eacute;ration pr&eacute;d&eacute;finie, d&eacute;sol&eacute;</h2>';
+            echo '<span class="notice">Vous avez atteint le max. d\'op&eacute;ration pr&eacute;d&eacute;finie, d&eacute;sol&eacute;</span>';
             return false;
         }
         $sql=sprintf('insert into op_predef (jrn_def_id,od_name,od_item,od_jrn_type,od_direct)'.
