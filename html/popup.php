@@ -7,9 +7,9 @@ require_once('class_dossier.php');
 require_once('class_database.php');
 require_once('class_user.php');
 require_once('class_periode.php');
+echo '<div style="float:left;">'.HtmlInput::print_window();
 
 html_page_start($_SESSION['g_theme']);
-echo '<a class="button"  href="javascript:window.print()">Imprimer cette page</a>';
 if ( basename($_GET['ajax']) == 'ajax_history.php' )
   {
     $href=dossier::get();
@@ -39,6 +39,7 @@ if ( basename($_GET['ajax']) == 'ajax_history.php' )
     echo '<a class="button"  href="'.$href_csv.'">Export CSV</a>';
     echo '<a class="button"  href="'.$href_pdf.'">Export PDF</a>';
   }
+echo '</div>';
 echo HtmlInput::hidden('inpopup',1);
 echo js_include('scripts.js');
 echo js_include('prototype.js');
