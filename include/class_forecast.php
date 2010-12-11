@@ -139,6 +139,26 @@ class Forecast
         $sql="delete from forecast where f_id=$1";
         $res=$this->cn->exec_sql($sql,array($this->f_id));
     }
+    public function object_clone()
+    {
+      $this->load();
+      /* save into the table forecast */
+      $sql="insert into forecast(f_name,f_start_date,f_end_date) select 'clone '||f_name,f_start_date,f_end_date from forecast where f_id=$1 returning f_id";
+      $new=$this->cn->get_value($sql,array($this->f_id));
+
+      /* save into forecast_cat */
+      $sql="insert into forecast_cat(fc_desc,f_id,fc_order)  select fc_desc,$new,fc_order from forecast_cat where f_id=$1 returning fc_id" ;
+      $array=$this->cn->get_array($sql,array($this->f_id));
+
+      $old=$this->cn->get_array("select fc_id from forecast_cat where f_id=$1",array($this->f_id));
+      /* save into forecast_item */
+      for ($i=0;$i<count($array);$i++)
+	{
+	  $this->cn->exec_sql("insert into forecast_item (fi_text,fi_account,fi_card,fi_order,fc_id,fi_amount,fi_debit,fi_pid) ".
+			      " select fi_text,fi_account,fi_card,fi_order,$1,fi_amount,fi_debit,fi_pid ".
+			      " from forecast_item where fc_id=$2",array($array[$i]['fc_id'],$old[$i]['fc_id']));
+	}
+    }
     /**
      * @brief unit test
      */

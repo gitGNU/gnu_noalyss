@@ -43,74 +43,89 @@ if ( isset($_GET['del']))
     $forecast=new Forecast($cn,$_GET['f_id']);
     $forecast->delete();
 }
+/*
+ * Cloning
+ */
+if (isset ($_POST['clone']))
+  {
+    /*
+     * We need to clone the forecast
+     */
+    $anti=new Forecast($cn,$_POST['f_id']);
+    $anti->object_clone();
+
+  }
 /**********************************************************************
  * Save the modification mod_cat_save
  *
  *
  **********************************************************************/
 if ( isset($_POST['mod_cat_save']))
-{
-    $anti=new Forecast($cn,$_POST['f_id']);
-    try
-    {
-        $cn->start();
-        /* Save forecast */
-        $anti->set_parameter('name',$_POST['an_name']);
-        $anti->set_parameter('start_date',$_POST['start_date']);
-        $anti->set_parameter('end_date',$_POST['end_date']);
+  {
+	/*
+	 * We save the forecast
+	 */
+	$anti=new Forecast($cn,$_POST['f_id']);
+	try
+	  {
+	    $cn->start();
+	    /* Save forecast */
+	    $anti->set_parameter('name',$_POST['an_name']);
+	    $anti->set_parameter('start_date',$_POST['start_date']);
+	    $anti->set_parameter('end_date',$_POST['end_date']);
 
-        $anti->save();
+	    $anti->save();
 
-        /* add new category */
-        for ($i=0;$i<MAX_CAT;$i++)
-        {
-            if( isset($_POST['fr_cat_new'.$i]))
-            {
-                if (strlen(trim($_POST['fr_cat_new'.$i])) != 0 )
-                {
-                    $c=new Forecast_Cat($cn);
-                    $c->set_parameter('order',$_POST['fr_order_new'.$i]);
-                    $c->set_parameter('desc',$_POST['fr_cat_new'.$i]);
-                    $c->set_parameter('forecast',$_POST['f_id']);
-                    $c->save();
-                }
-            }
-        }
+	    /* add new category */
+	    for ($i=0;$i<MAX_CAT;$i++)
+	      {
+		if( isset($_POST['fr_cat_new'.$i]))
+		  {
+		    if (strlen(trim($_POST['fr_cat_new'.$i])) != 0 )
+		      {
+			$c=new Forecast_Cat($cn);
+			$c->set_parameter('order',$_POST['fr_order_new'.$i]);
+			$c->set_parameter('desc',$_POST['fr_cat_new'.$i]);
+			$c->set_parameter('forecast',$_POST['f_id']);
+			$c->save();
+		      }
+		  }
+	      }
 
-        /* update existing cat */
-        foreach ($_POST as $key=>$value)
-        {
-            $var=sscanf($key,'fr_cat%d');
-            $idx=sprintf("fr_cat%d",$var[0]);
-            if (isset($_POST[$idx]))
-            {
-                $fc=new Forecast_Cat($cn,$var[0]);
-                if (strlen(trim($_POST[$idx]))==0)
-                {
-                    $fc->delete();
-                }
-                else
-                {
-                    $fc->set_parameter('order',$_POST['fc_order'.$var[0]]);
-                    $fc->set_parameter('desc',$_POST['fr_cat'.$var[0]]);
-                    $fc->set_parameter('forecast',$_POST['f_id']);
-                    $fc->save();
-                }
+	    /* update existing cat */
+	    foreach ($_POST as $key=>$value)
+	      {
+		$var=sscanf($key,'fr_cat%d');
+		$idx=sprintf("fr_cat%d",$var[0]);
+		if (isset($_POST[$idx]))
+		  {
+		    $fc=new Forecast_Cat($cn,$var[0]);
+		    if (strlen(trim($_POST[$idx]))==0)
+		      {
+			$fc->delete();
+		      }
+		    else
+		      {
+			$fc->set_parameter('order',$_POST['fc_order'.$var[0]]);
+			$fc->set_parameter('desc',$_POST['fr_cat'.$var[0]]);
+			$fc->set_parameter('forecast',$_POST['f_id']);
+			$fc->save();
+		      }
 
-            }
-        }
+		  }
+	      }
 
-        $cn->commit();
-    }
-    catch (Exception $e)
-    {
-        alert($e->getMessage());
-        $cn->rollback();
+	    $cn->commit();
+	  }
+	catch (Exception $e)
+	  {
+	    alert($e->getMessage());
+	    $cn->rollback();
 
-    }
-    $sa='vw';
-
-}
+	  }
+	$sa='vw';
+      
+  }
 /**********************************************************************
  * Save first the data for new
  *
@@ -304,6 +319,9 @@ if ( isset($_GET['mod_cat']))
     echo HtmlInput::hidden('p_action','prev');
     echo $anc->form_cat();
     echo HtmlInput::submit('mod_cat_save',_('Sauver'));
+    /*    $ck=new ICheckBox('p_clone');
+    echo $ck->input().'Cocher cette case si vous souhaitez cloner la prévision ';
+    */
     echo '</form>';
     echo '</div>';
 }
@@ -356,6 +374,8 @@ if ( isset($_REQUEST['f_id']) && $sa=="vw")
       echo HtmlInput::submit('mod_item',_('Modifier éléments'));
       //echo HtmlInput::submit('cvs',_('Export CVS'));
       echo HtmlInput::submit('del',_('Effacer'),'onclick="return confirm(\''._('Vous confirmez l\\\' effacement').'\')"');
+      echo HtmlInput::submit('clone',_('Cloner'),'onclick="return confirm(\''._('Vous confirmez le clonage ').'\')"');
+
       echo HtmlInput::hidden('p_action','prev');
       echo '</form>';
       echo '</div>';
