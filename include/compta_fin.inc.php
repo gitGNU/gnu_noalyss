@@ -230,13 +230,16 @@ if ( $def==3)
 
     echo '<div class="content">';
 
-    echo '<table style="margin-left:10%;width:30%" class="result">';
-    echo tr(th('Quick Code').th('Compte en banque').th('solde').th('solde rapproché').th('solde extrait / relevé'));
+    echo '<table style="margin-left:10%;width:60%" class="result">';
+    echo tr(th('Quick Code').th('Compte en banque',' style="text-align:left"').th('solde opération',' style="text-align:right"')
+	    .th('solde extrait/relevé',' style="text-align:right"')
+	    .th('différence',' style="text-align:right"'));
     // Filter the saldo
     //  on the current year
     $filter_year="  j_tech_per in (select p_id from parm_periode where  p_exercice='".$User->get_exercice()."')";
     // for highligting tje line
     $idx=0;
+    bcscale(2);
     // for each account
     for ( $i = 0; $i < count($array);$i++)
     {
@@ -249,10 +252,11 @@ if ( $def==3)
         if ( $m['debit'] != 0.0 || $m['credit'] != 0.0)
         {
             /*  get saldo for not reconcilied operations  */
-            $saldo_not_reconcilied=$array[$i]->get_solde_detail($filter_year." and j_grpt in (select jr_grpt_id from jrn where trim(jr_pj_number) ='' or jr_pj_number is null)" );
+            $saldo_not_reconcilied=$array[$i]->get_bk_balance($filter_year." and (trim(jr_pj_number) ='' or jr_pj_number is null)" );
 
             /*  get saldo for reconcilied operation  */
-            $saldo_reconcilied=$array[$i]->get_solde_detail($filter_year." and j_grpt in (select jr_grpt_id from jrn where trim(jr_pj_number) != '' and jr_pj_number is not null)" );
+	    
+	    $saldo_reconcilied=$array[$i]->get_bk_balance($filter_year." and ( trim(jr_pj_number) != '' and jr_pj_number is not null)" );
 
             if ( $idx%2 != 0 )
                 $odd="odd";
@@ -265,17 +269,19 @@ if ( $def==3)
             IButton::history_card($array[$i]->id,$array[$i]->strAttribut(ATTR_DEF_QUICKCODE)).
             "</TD>";
 
+	    $saldo_rec=bcsub($saldo_reconcilied['debit'],$saldo_reconcilied['credit']);
+	    $diff=bcsub($saldo_not_reconcilied['debit'],$saldo_not_reconcilied['credit']);
             echo "<TD >".
             $array[$i]->strAttribut(ATTR_DEF_NAME).
             "</TD>".
             "<TD align=\"right\">".
-            $solde.
+	      nbm($solde).
             "</TD>".
             "<TD align=\"right\">".
-            sprintf('%.2f',($saldo_reconcilied['debit']-$saldo_reconcilied['credit'])).
+	      nbm($saldo_rec).
             "</TD>".
             "<TD align=\"right\">".
-            sprintf('%.2f',($saldo_not_reconcilied['debit']-$saldo_not_reconcilied['credit'])).
+	      nbm($diff).
             "</TD>".
             "</TR>";
         }

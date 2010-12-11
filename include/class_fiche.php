@@ -1345,6 +1345,37 @@ class Fiche
                      'credit'=>$r['sum_cred'],
                      'solde'=>abs($r['sum_deb']-$r['sum_cred']));
     }
+    /**
+     *get the bank balance with receipt or not
+     *
+     */
+    function get_bk_balance($p_cond="")
+    {
+        if ( $this->id == 0 ) exit('fiche->id est nul');
+        $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
+
+        if ( $p_cond != "") $p_cond=" and ".$p_cond;
+	$sql="select sum(deb) as sum_deb, sum(cred) as sum_cred from
+                                 ( select j_poste,
+                                 case when j_debit='t' then j_montant else 0 end as deb,
+                                 case when j_debit='f' then j_montant else 0 end as cred
+                                 from jrnx 
+                                 join jrn on (jr_grpt_id=j_grpt)
+                                 where
+                                 j_qcode = ('$qcode'::text)
+                                 $p_cond
+                                 ) as m  ";
+
+        $Res=$this->cn->exec_sql($sql);
+        $Max=Database::num_row($Res);
+        if ($Max==0) return 0;
+        $r=Database::fetch_array($Res,0);
+
+        return array('debit'=>$r['sum_deb'],
+                     'credit'=>$r['sum_cred'],
+                     'solde'=>abs($r['sum_deb']-$r['sum_cred']));
+    
+    }
     /*!\brief check if an attribute is empty
      *\param $p_attr the id of the attribut to check (ad_id)
      *\return return true is the attribute is empty or missing
