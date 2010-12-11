@@ -405,5 +405,14 @@ class HtmlInput
 	$r.='</div>';
 	return $r;
     }
+    /**
+     * Javascript to print the current window
+     */
+    static function print_window()
+    {
+	$r='';
+	$r.=HtmlInput::button('print','Imprimer','onclick="window.print();"');
+	return $r;
+    }
 }
     
