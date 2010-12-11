@@ -319,9 +319,7 @@ if ( isset($_GET['mod_cat']))
     echo HtmlInput::hidden('p_action','prev');
     echo $anc->form_cat();
     echo HtmlInput::submit('mod_cat_save',_('Sauver'));
-    /*    $ck=new ICheckBox('p_clone');
-    echo $ck->input().'Cocher cette case si vous souhaitez cloner la prévision ';
-    */
+
     echo '</form>';
     echo '</div>';
 }
