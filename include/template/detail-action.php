@@ -147,20 +147,20 @@ function small(p_id_textarea){
    }
 </script>
 
-   <?=_('Titre')?>
-    <br>
+   <h4 class="info"><?=_('Titre')?></h4>
+    <p style="margin-left:100">
     <?php echo $title->input();
     ?>
-    <br>
-    <?=_('Commentaire')?>
-    <br>
+</p>
+<h4 class="info">   <?=_('Commentaire')?></h4>
+    <div style="margin-left:100">
     <?php echo $desc->input();
 $style_enl='style="display:inline"';$style_small='style="display:none"';
 if (strlen($desc->value)>300) {$style_enl='style="display:none"';$style_small='style="display:inline"';}
 ?>
 <input type="button" id="bt_enlarge" <?=$style_enl?> value="+" onclick="enlarge('ag_comment');return false;">
 <input type="button" id="bt_small"  <?=$style_small?> value="-" style="display:none" onclick="small('ag_comment');return false;">
-  </p>
+  </div>
 </fieldset>
 <input type='button' class="button" value='Montrer articles' id="toggleButton" onclick='toggleShowDetail()'>
 <fieldset id="fldDetail" style='display:block'>
