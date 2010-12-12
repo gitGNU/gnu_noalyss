@@ -195,7 +195,6 @@ if ( $sub_action == "add_action" )
     $act->ag_id=0;
     $act->d_id=0;
     echo '<div class="content">';
-    echo JS_LEDGER;
     // Add hidden tag
     echo '<form method="post" action="commercial.php" name="form_add" id="form_add" enctype="multipart/form-data" >';
     echo $supl_hidden;
@@ -260,7 +259,6 @@ function ShowActionList($cn,$p_base)
   if( isset($_REQUEST['sb']))
     $supl_hidden.=HtmlInput::hidden('sb',$_REQUEST['sb']);
 
-  echo JS_LEDGER;
   $w=new ICard();
   $w->name='qcode';
   $w->value=$qcode;
@@ -326,8 +324,8 @@ function ShowActionList($cn,$p_base)
 	  /* if criteria then show the search otherwise hide it */
 	  if ( (isset($_GET['qcode']) && trim($_GET['qcode']) != '') ||
 	       (isset($_GET['query']) && trim($_GET['query']) != '') ||
-	       isset ($_GET['all_action']) ||
-	       isset ($_GET['see_all']) ||
+	       $see_all->selected==true ||
+	       $my_action->selected==true ||
 	       (isset ($_GET['tdoc']) && trim($_GET['tdoc']) !='-1'))
 	    {
 	      /*  nothing */
@@ -407,8 +405,8 @@ function ShowActionList($cn,$p_base)
 	    {
 	      $query .= ' and dt_id = '.Formatstring($_GET['tdoc']);
 	    }
-	  if ( ! isset($_REQUEST['see_all']))      $query .= ' and ag_state in (2,3) ';
-	  if ( ! isset($_REQUEST['all_action']))      $query .= " and (ag_owner='".$_SESSION['g_user']."' or ag_dest='".$_SESSION['g_user']."')";
+	  if ( ! $see_all->selected )      $query .= ' and ag_state in (2,3) ';
+	  if ( ! $my_action->selected )      $query .= " and (ag_owner='".$_SESSION['g_user']."' or ag_dest='".$_SESSION['g_user']."')";
 	  $r=$act->myList($p_base,"",$query.$str);
 	  echo $r;
 }
