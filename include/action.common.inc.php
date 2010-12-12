@@ -29,11 +29,6 @@
    * - $sub_action sa from suivi courrier but sc from Suivi client, fournisseur...
    *
    */
-require_once('class_itva_popup.php');
-$pop_tva=new IPopup('popup_tva');
-$pop_tva->title=_('Choix TVA');
-$pop_tva->value='';
-echo $pop_tva->input();
 
 $supl_hidden='';
 if( isset($_REQUEST['sc']))
