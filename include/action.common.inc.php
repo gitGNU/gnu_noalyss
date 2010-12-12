@@ -111,7 +111,6 @@ if ( $sub_action=="update" )
 
         echo '<div class="content">';
 
-        echo JS_LEDGER;
         // Add hidden tag
         echo '<form  enctype="multipart/form-data" action="commercial.php" method="post"">';
 
@@ -146,7 +145,6 @@ if ( $sub_action=='detail' )
     echo $supl_hidden;
     echo HtmlInput::hidden('p_action',$_REQUEST['p_action']);
     echo dossier::hidden();
-    echo JS_LEDGER;
     echo $act->Display('UPD',false,$base,$retour);
     echo '<input type="hidden" name="p_action" value="'.$p_action.'">';
     echo '<input type="hidden" name="sa" value="update">';
