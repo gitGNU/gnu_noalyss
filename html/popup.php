@@ -41,18 +41,7 @@ if ( basename($_GET['ajax']) == 'ajax_history.php' )
   }
 echo '</div>';
 echo HtmlInput::hidden('inpopup',1);
-echo js_include('scripts.js');
-echo js_include('prototype.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('dragdrop.js');
-echo js_include('anc_script.js');
-echo js_include('acc_ledger.js');
-echo js_include('infobulle.js');
-echo js_include('accounting_item.js');
-echo js_include('card.js');
-
+load_all_script();
 
 $str="?".$_SERVER['QUERY_STRING']."&div=popup";
 $script="
