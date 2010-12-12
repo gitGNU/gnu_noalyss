@@ -370,7 +370,7 @@ class Action
         $str_ag_ref="<b>".(($this->ag_ref != "")?$this->ag_ref:" Nouveau ")."</b>";
         // Preparing the return string
         $r="";
-        $r.=JS_LEDGER;
+
         /* for new files */
         $upload=new IFile();
         $upload->name="file_upload[]";
@@ -486,12 +486,6 @@ class Action
 
 
         }
-        /* Add the javascript */
-        $r.=JS_INFOBULLE;
-        $r.=JS_LEDGER;
-        $r.=JS_SHOW_TVA;
-        $r.=JS_TVA;
-        $r.=JS_AJAX_FICHE;
 
         /* Add the needed hidden values */
         $r.=dossier::hidden();
