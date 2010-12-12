@@ -783,7 +783,7 @@ class Action
 
         $sql="
              select ag_id,to_char(ag_timestamp,'DD-MM-YYYY') as my_date,ag_ref_ag_id,f_id_dest".
-             ",ag_title,md_type,dt_value,ag_ref, ag_priority
+             ",ag_title,md_type,dt_value,ag_ref, ag_priority,ag_state
              from action_gestion
              left outer join document_modele on (ag_type=md_type)
              join document_type on (ag_type=dt_id)
@@ -807,6 +807,8 @@ class Action
         $r.=$sort_exp;
         $r.=$sort_titre;
         $r.='<th>type</th>';
+	$r.=th('Etat');
+	$r.=th('Priorité');
         $r.=$sort_reference;
         $r.=$sort_concerne;
         $r.="</tr>";
@@ -822,7 +824,6 @@ class Action
 
         }
         $today=date('d-m-Y');
-        $r.=JS_LEDGER;
         $i=0;
         //show the sub_action
         foreach ($a_row as $row )
@@ -872,6 +873,42 @@ class Action
             $r.='<td>'.$href.
                 h($row['ag_title'])."</A></td>";
             $r.="<td>".$row['dt_value']."</td>";
+	    /*
+	     * State
+	     */
+	    switch ( $row['ag_state'] ) 
+	      {
+	      case 1:
+		$state='Fermé';
+		break;
+	      case 2:
+		$state="A suivre";
+		break;
+	      case 3:
+		$state="A faire";
+		break;
+	      case 4:
+		$state="Abandonné";
+		break;
+	      }
+	    $r.=td($state);
+	    /*
+	     * State
+	     */
+	    switch ( $row['ag_priority'] ) 
+	      {
+	      case 1:
+		$priority='Haute';
+		break;
+	      case 2:
+		$priority="Moyenne";
+		break;
+	      case 3:
+		$priority="Important";
+		break;
+	      }
+	    $r.=td($priority);
+
             $r.="<td>".$row['ag_ref']."</td>";
             $r.="<td>".$ref."</td>";
             $r.="</tr>";
