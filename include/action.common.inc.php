@@ -278,7 +278,7 @@ function ShowActionList($cn,$p_base)
 
   $see_all=new ICheckBox('see_all');
   $my_action=new ICheckBox('all_action');
-  if ( $_GET['p_action'] != 'suivi_courrier')    
+  if ( $_REQUEST ['p_action'] != 'suivi_courrier')    
     {
       $see_all->selected=true;
       $my_action->selected= true;
