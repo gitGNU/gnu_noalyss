@@ -120,7 +120,7 @@ class @class_name@  @mother_class@
    *@param $cond condition (where clause) (optional by default all the rows are fetched)
    * you can use this parameter for the order or subselect
    *@param $p_array array for the SQL stmt
-   *@see Database::exec_sql get_object
+   *@see Database::exec_sql get_object  Database::num_row
    *@return the return value of exec_sql
    */
    public function seek($cond='',$p_array=null) 
@@ -131,7 +131,8 @@ class @class_name@  @mother_class@
      return $ret;
    }
    /**
-    *get_seek return the next object
+    *get_seek return the next object, the return of the query must have all the column
+    * of the object
     *@param $p_ret is the return value of an exec_sql
     *@param $idx is the index
     *@see seek
@@ -305,7 +306,7 @@ class @class_name@  @mother_class@
 		 
   }
 /**
- *@brief load a object
+ *@brief load ONE object, the pk must be set before calling
  *@return 0 on success -1 the object is not found
  */
   public function load() {
@@ -398,7 +399,7 @@ class @class_name@
 
 
 /**
- *@brief load a object
+ *@brief load ONE object
  *@return 0 on success -1 the object is not found
  */
   public function load($cond,$array=null) {
@@ -419,27 +420,39 @@ class @class_name@
     foreach ($res[0] as $idx=>$value) { $this->$idx=$value; }
     return 0;
   }
+
+
   /**
    *@brief retrieve array of object thanks a condition
    *@param $cond condition (where clause) (optional by default all the rows are fetched)
    * you can use this parameter for the order or subselect
    *@param $p_array array for the SQL stmt
-   *@see Database::get_array
-   *@return an empty array if nothing is found
+   *@see Database::exec_sql get_object  Database::num_row
+   *@return the return value of exec_sql
    */
    public function seek($cond='',$p_array=null) 
    {
      $sql="select * from @table@  $cond";
      $aobj=array();
-     $array= $this->cn->get_array($sql,$p_array);
+     $ret= $this->cn->exec_sql($sql,$p_array);
+     return $ret;
+   }
+   /**
+    *get_seek return the next object, the return of the query must have all the column
+    * of the object
+    *@param $p_ret is the return value of an exec_sql
+    *@param $idx is the index
+    *@see seek Database::num_row
+    *@return object 
+    */
+   public function get_object($p_ret,$idx)
+    {
      // map each row in a object
-     $size=$this->cn->count();
-     if ( $size == 0 ) return $aobj;
-     for ($i=0;$i<$size;$i++) {
-         $oobj=new @class_name@ ($this->cn);
-         foreach ($array[$i] as $idx=>$value) { $oobj->$idx=$value; }
-         $aobj[]=clone $oobj;
-     }
+     $oobj=new @class_name@ ($this->cn);
+     $array=Database::fetch_array($p_ret,$idx);
+     foreach ($array as $idx=>$value) { $oobj->$idx=$value; }
+     $aobj[]=clone $oobj;
+
      return $aobj;
    }
 }
@@ -551,6 +564,7 @@ class @class_name@
             sChild=sChild.replace('@mother_name@',mother_name)
             sChild=sChild.replace('@mother_class@',mother_class)            
             sChild=sChild.replace('@column_insert_id@',column_insert_id)
+            sChild=sChild.replace('@set_tech_user@',set_tech_user)
             fileoutput.writelines(sChild)
         elif view == True:
             sView=sView.replace('@id@',id)
