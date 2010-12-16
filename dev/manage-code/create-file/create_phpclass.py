@@ -120,22 +120,31 @@ class @class_name@  @mother_class@
    *@param $cond condition (where clause) (optional by default all the rows are fetched)
    * you can use this parameter for the order or subselect
    *@param $p_array array for the SQL stmt
-   *@see Database::get_array
-   *@return an empty array if nothing is found
+   *@see Database::exec_sql get_object
+   *@return the return value of exec_sql
    */
    public function seek($cond='',$p_array=null) 
    {
      $sql="select * from @table@  $cond";
      $aobj=array();
-     $array= $this->cn->get_array($sql,$p_array);
+     $ret= $this->cn->exec_sql($sql,$p_array);
+     return $ret;
+   }
+   /**
+    *get_seek return the next object
+    *@param $p_ret is the return value of an exec_sql
+    *@param $idx is the index
+    *@see seek
+    *@return object 
+    */
+   public function get_object($p_ret,$idx)
+    {
      // map each row in a object
-     $size=$this->cn->count();
-     if ( $size == 0 ) return $aobj;
-     for ($i=0;$i<$size;$i++) {
-         $oobj=new @class_name@ ($this->cn);
-         foreach ($array[$i] as $idx=>$value) { $oobj->$idx=$value; }
-         $aobj[]=clone $oobj;
-     }
+     $oobj=new @class_name@ ($this->cn);
+     $array=Database::fetch_array($p_ret,$idx);
+     foreach ($array as $idx=>$value) { $oobj->$idx=$value; }
+     $aobj[]=clone $oobj;
+
      return $aobj;
    }
   public function insert() {
