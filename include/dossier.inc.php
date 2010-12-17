@@ -174,7 +174,7 @@ if ( $sa == 'list' )
     $template="";
     echo JS_CONFIRM;
     echo '<TABLE class="result" style="border-collapse:separate;border-spacing:4">';
-    $r=th('ID').th('Nom du dossier ').th('Description').th('Nom base de données');
+    $r=th('ID').th('Nom du dossier ').th('Taille').th('Description').th('Nom base de données');
     $r=tr($r);
     echo $r;
     // show all dossiers
@@ -189,18 +189,22 @@ if ( $sa == 'list' )
                 $cl='class="even"';
 
             echo "<TR $cl><TD VALIGN=\"TOP\"> ".
-            $Dossier['dos_id']."</td><td> <B>".h($Dossier['dos_name'])."</B> </TD>".
-            "<TD><I>  ".h($Dossier['dos_description'])."</I>
+	      $Dossier['dos_id']."</td><td> <B>".h($Dossier['dos_name'])."</B> </TD>";
+	    $str_name=domaine.'dossier'.$Dossier['dos_id'];
+	    $size=$cn->get_value("select pg_database_size($1)/(1024*1024)::float",
+				 array($str_name));
+	    echo td(nbm($size)."MB");
+	    echo "<TD><I>  ".h($Dossier['dos_description'])."</I>
             </TD>";
-	    echo td(domaine."dossier".$Dossier['dos_id']);
+	    echo td($str_name);
             echo "<TD>";
-            echo HtmlInput::button_anchor(_('Effacer'),'?action=dossier_mgt&sa=del&d='.$Dossier['dos_id']);
+            echo td(HtmlInput::button_anchor(_('Effacer'),'?action=dossier_mgt&sa=del&d='.$Dossier['dos_id']));
 
-            echo HtmlInput::button_anchor(_('Modifier'),'?action=dossier_mgt&sa=mod&d='
-					  .$Dossier['dos_id']);
+	    echo td(HtmlInput::button_anchor(_('Modifier'),'?action=dossier_mgt&sa=mod&d='
+					     .$Dossier['dos_id']));
 
-            echo HtmlInput::button_anchor(_('Backup'),'backup.php?action=backup&sa=b&t=d&d='
-					  .$Dossier['dos_id']);
+	    echo td(HtmlInput::button_anchor(_('Backup'),'backup.php?action=backup&sa=b&t=d&d='
+					  .$Dossier['dos_id']));
 	    echo '</td>';
 
             echo '<tr>';
