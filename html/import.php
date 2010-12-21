@@ -39,7 +39,7 @@ $User->Check();
 $User->check_dossier(dossier::id());
 
 html_page_start($User->theme);
-echo JS_PROTOTYPE;
+
 
 /* Admin. Dossier */
 
@@ -54,7 +54,7 @@ echo '</div>';
 echo ShowMenuAdvanced(7);
 $User->can_request(GEBQ,1);
 
-echo JS_AJAX_FICHE;
+
 echo '<div class="lmenu">';
 ShowMenuImport();
 echo '</div>';

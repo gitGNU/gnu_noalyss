@@ -37,7 +37,7 @@ class Acc_Reconciliation
 {
     var $db;			/*!< database connection */
     var $jr_id;			/*!< jr_id */
-    public static  $javascript=JS_LEDGER;
+
     function   __construct($cn)
     {
         $this->db=$cn;
@@ -300,12 +300,7 @@ class Acc_Reconciliation
         }
         return $ret;
     }
-    /*!\brief return the javascript function (static method)
-     *
-    static function javascript()  {
-      return JS_LEDGER;
-    }
-    */
+
     static function test_me()
     {
         $cn=new Database(dossier::id());

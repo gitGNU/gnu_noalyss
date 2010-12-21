@@ -30,14 +30,6 @@
  */
 require_once('class_action.php');
 $User->can_request(GECOUR);
-echo js_include('prototype.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('infobulle.js');
-echo js_include('acc_ledger.js');
-echo js_include('ajax_fiche.js');
-echo JS_CARD;
 
 /**
  *\note problem with ShowActionList, this function is local

@@ -172,7 +172,7 @@ if ( $sa == 'list' )
     $Res=$repo->show_dossier('all',$offset,$size);
     $compteur=1;
     $template="";
-    echo JS_CONFIRM;
+
     echo '<TABLE class="result" style="border-collapse:separate;border-spacing:4">';
     $r=th('ID').th('Nom du dossier ').th('Description').th('Taille').th('Nom base de données');
     $r=tr($r);

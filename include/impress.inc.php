@@ -27,7 +27,6 @@ $str_dossier=dossier::get();
 // show sub menu
 
 echo "<DIV class=\"lmenu\">";
-echo JS_AJAX_FICHE;
 
 $p_array=array(array ("?p_action=impress&type=jrn&".$str_dossier,_("Historique")),
                array("?p_action=impress&type=gl_comptes&".$str_dossier,_("Grand Livre")), /* AG */

@@ -28,7 +28,7 @@ include_once("class_user.php");
 require_once("class_iselect.php");
 require_once('class_acc_ledger.php');
 $cn=new Database($gDossier);
-echo JS_INFOBULLE;
+
 require_once('class_iposte.php');
 require_once('class_ipopup.php');
 $search_card=new IPopup('ipop_card');

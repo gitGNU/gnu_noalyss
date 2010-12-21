@@ -52,7 +52,6 @@ if ( isset ($_POST['upd']) &&
     }
     $sa="list";
 }
-echo  JS_CONFIRM;
 
 $cn=new Database();
 

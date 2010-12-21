@@ -23,22 +23,9 @@
 /*!\file
  * \brief show the lettering by account
  */
-echo js_include('prototype.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('dragdrop.js');
-echo js_include('accounting_item.js');
-echo js_include('acc_ledger.js');
 require_once ('class_ipopup.php');
 require_once('class_lettering.php');
-echo JS_CARD;
 
-
-$search_card=new IPopup('ipop_card');
-$search_card->title=_('Recherche de fiche');
-$search_card->value='';
-echo $search_card->input();
 
 echo '<div class="content">';
 echo '<div id="search">';

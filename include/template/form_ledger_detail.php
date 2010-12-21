@@ -1,11 +1,5 @@
 <?php
 
-    echo JS_INFOBULLE;
-    echo JS_LEDGER;
-    echo JS_SHOW_TVA;
-    echo JS_TVA;
-    echo JS_AJAX_FICHE;
-
 ?>
 <fieldset>
 <legend><?=$f_legend ?>

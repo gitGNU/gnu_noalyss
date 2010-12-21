@@ -106,7 +106,7 @@ class contact extends Fiche
         $back_url=urlencode($_SERVER['REQUEST_URI']);
         if ( sizeof ($step_contact ) == 0 )
             return $r;
-        echo JS_LEDGER;
+
         foreach ($step_contact as $contact )
         {
             $l_company=new Fiche($this->cn);

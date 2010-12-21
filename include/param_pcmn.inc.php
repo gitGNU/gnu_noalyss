@@ -68,7 +68,6 @@ echo '</div>';
 
 
 
-echo JS_ACCOUNTING_ITEM;
 /* Store the p_start parameter */
 if ( ! isset ( $_SESSION['g_start']) )
 {

@@ -137,9 +137,6 @@ echo '</div>';
 
 $cn=new Database($gDossier);
 
-echo JS_LEDGER;
-echo JS_AJAX_FICHE;
-
 //-----------------------------------------------------
 // p_action == pref
 //-----------------------------------------------------

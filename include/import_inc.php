@@ -34,20 +34,6 @@ require_once('class_acc_ledger.php');
 require_once("class_acc_parm_code.php");
 require_once('class_acc_operation.php');
 require_once('class_ipopup.php');
-echo js_include('prototype.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('dragdrop.js');
-echo js_include('bq_import.js');
-echo js_include('acc_ledger.js');
-
-echo JS_CARD;
-echo ICard::ipopup('ipopcard');
-$search_card=new IPopup('ipop_card');
-$search_card->title=_('Recherche de fiche');
-$search_card->value='';
-echo $search_card->input();
 
 /*!
  * \brief  Parse the file and insert the record
@@ -187,9 +173,7 @@ function VerifImport($p_cn)
     $Num=Database::num_row($Res);
     echo $Num._(" opérations à complèter")."<br/><br/>";
     // include javascript for popup
-    echo JS_CARD;
-    echo JS_LEDGER;
-    echo JS_AJAX_FICHE;
+
     for ( $i=0;$i< $Num;$i++)
     {
         $val = Database::fetch_array($Res,$i);

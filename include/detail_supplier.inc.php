@@ -50,7 +50,7 @@ echo '<div class="content">';
 if ( isset($_POST['mod'])) echo hb(_('Information sauvée'));
 
 $supplier=new Supplier($cn,$f_id);
-echo JS_INFOBULLE;
+
 echo '<form method="post">';
 echo dossier::hidden();
 echo HtmlInput::hidden('sb','detail');

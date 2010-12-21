@@ -30,25 +30,6 @@ require_once('class_fiche_def.php');
 require_once('class_iaction.php');
 require_once('class_fiche_def.php');
 require_once('class_ipopup.php');
-echo js_include('accounting_item.js');
-echo js_include('prototype.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('dragdrop.js');
-echo JS_CARD;
-echo JS_AJAX_FICHE;
-echo ICard::ipopup('ipop_newcard');
-$ip_cat=new IPopup('ipop_cat');
-$ip_cat->title=_('Ajout d\'une catégorie');
-$ip_cat->value='';
-echo $ip_cat->input();
-echo IPoste::ipopup('ipop_account');
-$search_card=new IPopup('ipop_card');
-$search_card->title=_('Recherche de fiche');
-$search_card->value='';
-echo $search_card->input();
-echo ICard::ipopup('ipopcard');
 
 $low_action=(isset($_REQUEST['sb']))?$_REQUEST['sb']:"list";
 /*! \file

@@ -28,18 +28,7 @@ require_once('class_acc_ledger.php');
 require_once('class_ipopup.php');
 html_page_start($_SESSION['g_theme']);
 
-
-
-echo js_include('prototype.js');
-echo js_include('acc_ledger.js');
-echo js_include('card.js');
-echo js_include('scripts.js');
-echo JS_INFOBULLE;
-echo js_include('accounting_item.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('dragdrop.js');
+load_all_script();
 
 $search_card=new IPopup('ipop_card');
 $search_card->title=_('Recherche de fiche');

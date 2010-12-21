@@ -44,7 +44,6 @@ $only_plugin=$user->check_dossier(dossier::id());
 
 /* javascript file */
 echo load_all_script();
-echo JS_INFOBULLE;
 
 /* show button to return to access */
 echo "<h2 class=\"info\">".dossier::name()."</h2>";

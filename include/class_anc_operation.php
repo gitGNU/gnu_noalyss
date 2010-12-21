@@ -183,7 +183,7 @@ class Anc_Operation
         $gDossier=dossier::id();
         $ret="";
         $ret.=$bar;
-        $ret.=JS_LEDGER;
+
         $count=0;
         $group=0;
         $oldgroup=0;

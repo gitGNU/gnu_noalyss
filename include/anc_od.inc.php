@@ -134,7 +134,7 @@ if ( isset($_GET['new']))
     //show the form for entering a new Anc_Operation
     //------------------------------------------
     $a=new Anc_Group_Operation($cn);
-    echo JS_CAOD_COMPUTE;
+
     $wSubmit=new IHidden("p_action","ca_od");
     $wSubmit->table=0;
     echo '<div class="u_redcontent"  style="margin-left:12%">';
