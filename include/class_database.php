@@ -75,19 +75,26 @@ class Database
 
         if ( $a == false )
         {
-            ob_end_clean();
-            echo '<h2 class="error">Impossible de se connecter &agrave; postgreSql !</h2>';
-            echo '<p>';
-            echo "Vos param&egrave;tres sont incorrectes : <br>";
-            echo "<br>";
-            echo "base de donn&eacute;e : $l_dossier<br>";
-            echo "Domaine : ".domaine."<br>";
-            echo "Port $port <br>";
-            echo "Utilisateur : $phpcompta_user <br>";
-            echo '</p>';
+	  if (DEBUG) 
+	    {
+	      ob_end_clean();
+	      echo '<h2 class="error">Impossible de se connecter &agrave; postgreSql !</h2>';
+	      echo '<p>';
+	      echo "Vos param&egrave;tres sont incorrectes : <br>";
+	      echo "<br>";
+	      echo "base de donn&eacute;e : $l_dossier<br>";
+	      echo "Domaine : ".domaine."<br>";
+	      echo "Port $port <br>";
+	      echo "Utilisateur : $phpcompta_user <br>";
+	      echo '</p>';
 
-            exit ("Connection impossible : v&eacute;rifiez vos param&egrave;tres de base
+	      exit ("Connection impossible : v&eacute;rifiez vos param&egrave;tres de base
                   de donn&eacute;es");
+	    }
+	  else 
+	    {
+	      echo '<h2 class="error">Erreur de connexion !</h2>';
+	    }
 
         }
         $this->db=$a;

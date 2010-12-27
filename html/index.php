@@ -225,9 +225,12 @@ if ( $g_captcha == true )
     echo '</td>';
     echo '</tr>';
     echo '<tr>';
-    echo td('<img id="captcha" src="securimage/securimage_show.php" alt="CAPTCHA Image" border=1/>');
+    echo td('<img id="captcha" src="securimage/securimage_show.php" alt="CAPTCHA Image" border=1/>','colspan="2" style="width:auto;text-align:center"');
+    echo '</tr>';
+    echo '<tr>';
+
     echo td('<input type="text" class="input_text" name="captcha_code" size="10" maxlength="6" autocomplete="off"/>'.
-	    '<a href="#" onclick="document.getElementById(\'captcha\').src = \'securimage/securimage_show.php?\' + Math.random(); return false">Reload Image</a>');
+	    '<a href="#" onclick="document.getElementById(\'captcha\').src = \'securimage/securimage_show.php?\' + Math.random(); return false">Reload Image</a>','colspan="2" style="width:auto;text-align:center"');
     echo '</tr>';
     echo '</table>';
     //    echo '</div>';
