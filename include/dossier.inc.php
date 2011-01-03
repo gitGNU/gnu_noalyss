@@ -194,7 +194,7 @@ if ( $sa == 'list' )
 	    $size=$cn->get_value("select pg_database_size($1)/(1024*1024)::float",
 				 array($str_name));
 	    echo "<TD><I>  ".h($Dossier['dos_description'])."</I></td>";
-	    echo td(nbm($size)."MB");
+	    echo td(nbm($size)."MB",' style="text-align:right"');
 
 	    echo td($str_name);
             echo "<TD>";

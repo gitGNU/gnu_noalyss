@@ -29,7 +29,7 @@
 <?php
 
     $cn=new Database();
-$cn->exec_sql("select ac_user,ac_ip,to_char(ac_date,'DD.MM.YYYY HH24:MI') as fmt_date,ac_state,ac_module from audit_connect order by 3");
+$cn->exec_sql("select ac_user,ac_ip,to_char(ac_date,'DD.MM.YYYY HH24:MI') as fmt_date,ac_state,ac_module from audit_connect order by ac_datedesc ");
 ?>
 <TABLE CLASS="result" style="border-collapse:separate;border-spacing:2">
 <tr>

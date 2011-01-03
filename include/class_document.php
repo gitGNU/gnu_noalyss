@@ -492,8 +492,8 @@ class Document
                 $r=' Date inconnue ';
             // Date are in $_REQUEST['ag_date']
             // or $_POST['e_date']
-            if ( isset ($_REQUEST['ag_date']))
-                $r=$_REQUEST['ag_date'];
+            if ( isset ($_REQUEST['ag_timestamp']))
+                $r=$_REQUEST['ag_timestamp'];
             if ( isset ($_REQUEST['e_date']))
                 $r=$_REQUEST['e_date'];
 

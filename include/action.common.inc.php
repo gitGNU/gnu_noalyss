@@ -89,8 +89,10 @@ if ( $sub_action=="update" )
 	  }
         else
 	  {
-            ShowActionList($cn,$base);
             $url="?$base&sa=detail&ag_id=".$act2->ag_id.'&'.dossier::get();
+            echo '<p><a class="mtitle" href="'.$url.'">'.hb(_('Action sauvée').'  : '.$act2->ag_ref).'</a></p>';
+
+            ShowActionList($cn,$base);
             echo '<p><a class="mtitle" href="'.$url.'">'.hb(_('Action sauvée').'  : '.$act2->ag_ref).'</a></p>';
 	  }
       }
@@ -220,6 +222,10 @@ if  ( $sub_action == "save_action_st2" )
 
     // insert into action_gestion
     echo $act->save();
+    $url="?$base&sa=detail&ag_id=".$act2->ag_id.'&'.dossier::get();
+    echo '<p><a class="mtitle" href="'.$url.'">'.hb('Action Sauvée  : '.$act->ag_ref).'</a></p>';
+    
+
     ShowActionList($cn,$base);
     $url="?$base&sa=detail&ag_id=".$act->ag_id.'&'.dossier::get();
     echo '<p><a class="mtitle" href="'.$url.'">'.hb('Action Sauvée  : '.$act->ag_ref).'</a></p>';

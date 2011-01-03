@@ -46,12 +46,13 @@ if ( isset($_GET['del']))
 /*
  * Cloning
  */
-if (isset ($_POST['clone']))
+if (isset ($_REQUEST ['clone']))
   {
+    echo "<h2> cloning</h2>";
     /*
      * We need to clone the forecast
      */
-    $anti=new Forecast($cn,$_POST['f_id']);
+    $anti=new Forecast($cn,$_REQUEST ['f_id']);
     $anti->object_clone();
 
   }

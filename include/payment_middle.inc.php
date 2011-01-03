@@ -172,5 +172,3 @@ echo HtmlInput::button_anchor(_('Ajout'),'?p_action=divers&sa=mp&sb=ins&'.dossie
 
 echo '</div>';
 ?>
-?>
-?>

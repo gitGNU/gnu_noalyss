@@ -525,7 +525,7 @@ class Action
      */
     function get()
     {
-        $sql="select ag_id, ag_comment,to_char (ag_timestamp,'DD-MM-YYYY') as ag_timestamp,".
+        $sql="select ag_id, ag_comment,to_char (ag_timestamp,'DD.MM.YYYY') as ag_timestamp,".
              " f_id_dest,ag_title,ag_comment,ag_ref,d_id,ag_type,ag_state,  ".
              " ag_ref_ag_id, ag_dest, ag_hour, ag_priority, ag_cal,ag_contact ".
              " from action_gestion left join document using (ag_id) where ag_id=".$this->ag_id;
@@ -610,7 +610,7 @@ class Action
         $sql="insert into action_gestion".
              "(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_comment,ag_ref,ag_ref_ag_id, ag_dest, ".
              " ag_hour, ag_priority,ag_cal,ag_owner,ag_contact,ag_state) ".
-             " values ($1,to_date($2,'DD-MM-YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)";
+             " values ($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)";
         $this->db->exec_sql($sql,array($this->ag_id, /* 1 */
                                        $this->ag_timestamp, /* 2 */
                                        $this->dt_id,	/* 3 */
@@ -776,7 +776,7 @@ class Action
             $p_filter_doc=" 1=1 ";
 
         $sql="
-             select ag_id,to_char(ag_timestamp,'DD-MM-YYYY') as my_date,ag_ref_ag_id,f_id_dest".
+             select ag_id,to_char(ag_timestamp,'DD.MM.YYYY') as my_date,ag_ref_ag_id,f_id_dest".
              ",ag_title,md_type,dt_value,ag_ref, ag_priority,ag_state
              from action_gestion
              left outer join document_modele on (ag_type=md_type)
@@ -817,7 +817,7 @@ class Action
             return $r;
 
         }
-        $today=date('d-m-Y');
+        $today=date('d.m.Y');
         $i=0;
         //show the sub_action
         foreach ($a_row as $row )
@@ -1015,7 +1015,7 @@ class Action
         $this->qcode_dest=(isset($p_array['qcode_dest']))?$p_array['qcode_dest']:"";
         $this->f_id_dest=(isset($p_array['f_id_dest']))?$p_array['f_id_dest']:0;
         $this->ag_ref_ag_id=(isset($p_array['ag_ref_ag_id']))?$p_array['ag_ref_ag_id']:0;
-        $this->ag_timestamp=(isset($p_array['ag_timestamp']))?$p_array['ag_timestamp']:date('d-m-Y');
+        $this->ag_timestamp=(isset($p_array['ag_timestamp']))?$p_array['ag_timestamp']:date('d.m.Y');
         $this->qcode_dest=(isset($p_array['qcode_dest']))?$p_array['qcode_dest']:"";
         $this->dt_id=(isset($p_array['dt_id']))?$p_array['dt_id']:"";
         $this->ag_state=(isset($p_array['ag_state']))?$p_array['ag_state']:2;

@@ -502,7 +502,7 @@ class Fiche_Def
         $Res=$this->cn->exec_sql("select ad_id,ad_text from attr_def
                                  where
                                  ad_id not in (select ad_id from fiche_def natural join jnt_fic_attr
-                                 where fd_id=".$this->id.")");
+                                 where fd_id=$1) order by ad_text",array($this->id) );
         $M=Database::num_row($Res);
 
         // Show the unused attribute
