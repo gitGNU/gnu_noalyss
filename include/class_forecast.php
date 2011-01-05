@@ -147,8 +147,8 @@ class Forecast
       $new=$this->cn->get_value($sql,array($this->f_id));
 
       /* save into forecast_cat */
-      $sql="insert into forecast_cat(fc_desc,f_id,fc_order)  select fc_desc,$new,fc_order from forecast_cat where f_id=$1 returning fc_id" ;
-      $array=$this->cn->get_array($sql,array($this->f_id));
+      $sql="insert into forecast_cat(fc_desc,f_id,fc_order)  select fc_desc,$1,fc_order from forecast_cat where f_id=$2 returning fc_id" ;
+      $array=$this->cn->get_array($sql,array($new,$this->f_id));
 
       $old=$this->cn->get_array("select fc_id from forecast_cat where f_id=$1",array($this->f_id));
       /* save into forecast_item */

@@ -331,7 +331,7 @@ if ( $def == 2 )
     $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
 
-    echo '<form method="GET" id="fpaidv" action="'.$href.'">';
+    echo '<form method="GET" id="fpaidv" class="print" action="'.$href.'">';
     echo HtmlInput::hidden("sa","l");
     echo HtmlInput::hidden("p_action","ven");
     echo dossier::hidden();
@@ -394,7 +394,7 @@ if ( $def==3 )
     $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
 
-    echo '<form method="GET" id="fpaidv" action="'.$href.'">';
+    echo '<form method="GET" id="fpaidv" class="print" action="'.$href.'">';
     echo HtmlInput::hidden("sa","lnp");
     echo HtmlInput::hidden("p_action","ven");
     echo dossier::hidden();
