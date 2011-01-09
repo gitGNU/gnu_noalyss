@@ -745,7 +745,19 @@ class User
         }
         return $dossier;
     }
-
+  /**
+   *@brief return the first date and the last date of the current exercice for the current user
+   *@return and array ([0] => start_date,[1] => end_date)
+   */
+    function get_limit_current_exercice()
+    {
+      $current_exercice=$this->get_exercice();
+      $periode=new Periode($this->db);
+      list($per_start,$per_end)=$periode->get_limit($current_exercice);
+      $start=$per_start->first_day();
+      $end=$per_end->last_day();
+      return array($start,$end);
+    }
 
 }
 ?>
