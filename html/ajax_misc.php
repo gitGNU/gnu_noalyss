@@ -368,7 +368,7 @@ case 'dl':
 
     $form='<div id="result" style="float:top;clear:both">';
 
-    $form.='<FORM METHOD="post">';
+    $form.='<FORM id="letter_form" METHOD="post">';
     $form.=dossier::hidden();
     if ( isset($_REQUEST['p_action']))       $form.=HtmlInput::hidden('p_action',$_REQUEST['p_action']);
     if ( isset($_REQUEST['sa']))       $form.=HtmlInput::hidden('sa',$_REQUEST['sa']);

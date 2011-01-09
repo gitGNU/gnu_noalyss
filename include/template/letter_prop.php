@@ -107,3 +107,5 @@ $r=sprintf('<A class="detail" style="text-decoration:underline"  HREF="javascrip
 
 </table>
 <?php endif;?>
+<?=HtmlInput::button('check_all','Sélectionner tout',' onclick="select_checkbox(\'letter_form\')"');?>
+<?=HtmlInput::button('check_none','Tout Désélectionner ',' onclick="unselect_checkbox(\'letter_form\')"');?>

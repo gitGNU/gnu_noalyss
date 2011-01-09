@@ -370,7 +370,7 @@ if ( $def==3 )
     $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
 
-    echo '<form method="GET" id="fpaida" action="'.$href.'">';
+    echo '<form method="GET" id="fpaida" class="print" action="'.$href.'">';
     echo HtmlInput::hidden("sa","lnp");
     echo HtmlInput::hidden("p_action","ach");
     echo dossier::hidden();

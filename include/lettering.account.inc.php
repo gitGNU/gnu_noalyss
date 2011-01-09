@@ -23,17 +23,9 @@
 /*!\file
  * \brief show the lettering by account
  */
-echo js_include('prototype.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('dragdrop.js');
-echo js_include('accounting_item.js');
-echo js_include('acc_ledger.js');
 
 require_once('class_lettering.php');
 
-echo IPoste::ipopup('ipop_account');
 echo '<div class="content">';
 echo '<div id="search">';
 echo '<FORM METHOD="GET">';
