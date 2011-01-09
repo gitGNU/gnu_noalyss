@@ -15,7 +15,7 @@ n° pièce
 <th>
 Libellé
 </th>
-<th>
+<th style="text-align:right">
 Montant
 </th>
 </tr>
@@ -29,7 +29,7 @@ for ($i=0;$i<count($array);$i++) {
 	$r.=td($detail);
 	$r.=td($array[$i]['first']['jr_pj_number']);
 	$r.=td($array[$i]['first']['jr_comment']);
-	$r.=td($array[$i]['first']['jr_montant']);
+	$r.=td(nbm($array[$i]['first']['jr_montant']),'style="text-align:right"');
 	echo tr($r);
 	if ( isset($array[$i]['depend']) )
 	{
@@ -43,7 +43,7 @@ for ($i=0;$i<count($array);$i++) {
 			$r.=td($detail);
 			$r.=td($array[$i]['depend'][$e]['jr_pj_number']);
 			$r.=td($array[$i]['depend'][$e]['jr_comment']);
-			$r.=td($array[$i]['depend'][$e]['jr_montant']);
+			$r.=td(nbm($array[$i]['depend'][$e]['jr_montant']),'style="text-align:right"');
 			if ( $e==$limit)
 				echo '<tr style="border-bottom: 1px solid  #4f4f7d;">'.$r.'</tr>';
 			else

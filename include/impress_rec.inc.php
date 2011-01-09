@@ -28,11 +28,6 @@ require_once('function_javascript.php');
 echo load_all_script();
 /**
  *@file
- *@todo add a form to filter by available ledgers
- */
-
-/**
- *@file
  *@todo add the export to PDF
  */
 $aledger=$User->get_ledger('ALL',3);
@@ -45,6 +40,18 @@ $r_jrn=(isset($_GET['r_jrn']))?$_GET['r_jrn']:'';
 echo '<form method="GET">';
 echo dossier::hidden().HtmlInput::hidden('p_action','impress').HtmlInput::hidden('type','rec');
 echo 'Filtre par journal :'.HtmlInput::select_ledger($aledger,$r_jrn );
+echo '<br/>';
+/*
+ * Limit by date, default current exercice
+ */
+list($start,$end)=$User->get_limit_current_exercice();
+$dstart=new IDate('p_start');
+$dstart->value=(isset($_REQUEST['p_start']))?$_REQUEST['p_start']:$start;
+
+$dend=new IDate('p_end');
+$dend->value=(isset($_REQUEST['p_end']))?$_REQUEST['p_end']:$end;
+
+echo "Depuis ".$dstart->input()." jusque ".$dend->input();
 echo '<ol style="list-style-type:none;">';
 
 $radio->selected=($choice==0)?true:false;
@@ -63,8 +70,12 @@ $radio->selected=($choice==3)?true:false;
 $radio->value=3;
 echo '<li>'.$radio->input().'Opérations non rapprochées'.'</li>';
 
-echo '<li>'.HtmlInput::submit('vis',_('Visualisation')).'</li>';
 echo '</ol>';
+
+
+
+
+echo HtmlInput::submit('vis',_('Visualisation'));
 echo '</form>';
 echo '<hr>';
 echo '</div>';
@@ -73,6 +84,8 @@ echo '<div class="content">';
 if ( ! isset($_GET['vis'])) exit();
 $a=new Acc_Reconciliation($cn);
 $a->a_jrn=$r_jrn;
+$a->start_day=$dstart->value;
+$a->end_day=$dend->value;
 
 switch ($choice)
 {

@@ -198,10 +198,11 @@ class Acc_Reconciliation
     */
     function get_not_reconciled()
     {
-        /* create ledger filter */
-        $sql_jrn=$this->ledger_filter();
+      $filter_date=$this->filter_date();
+      /* create ledger filter */
+      $sql_jrn=$this->ledger_filter();
 
-        $array=$this->db->get_array("select distinct jr_id,jr_date from jrn where $sql_jrn and jr_id not in (select jr_id from jrn_rapt union select jra_concerned from jrn_rapt) order by jr_date");
+        $array=$this->db->get_array("select distinct jr_id,jr_date from jrn where $filter_date and $sql_jrn and jr_id not in (select jr_id from jrn_rapt union select jra_concerned from jrn_rapt) order by jr_date");
         $ret=array();
         for ($i=0;$i<count($array);$i++)
         {
@@ -249,10 +250,13 @@ class Acc_Reconciliation
     */
     function get_reconciled()
     {
+      $filter_date=$this->filter_date();
+
+
         /* create ledger filter */
         $sql_jrn=$this->ledger_filter();
 
-        $array=$this->db->get_array("select distinct jr_id,jr_date from jrn where $sql_jrn and jr_id  in (select jr_id from jrn_rapt union select jra_concerned from jrn_rapt) order by jr_date");
+        $array=$this->db->get_array("select distinct jr_id,jr_date from jrn where $filter_date and $sql_jrn and jr_id  in (select jr_id from jrn_rapt union select jra_concerned from jrn_rapt) order by jr_date");
         $ret=array();
         for ($i=0;$i<count($array);$i++)
         {
@@ -300,7 +304,30 @@ class Acc_Reconciliation
         }
         return $ret;
     }
+  /**
+   *@brief create a string to filter thanks the date
+   *@return a sql string like jr_date > ... and jr_date < ....
+   *@note use the data member start_day and end_day
+   *@see get_reconciled get_not_reconciled
+   */
+    function filter_date()
+    {
+      $user=new User($this->db);
+      list($start,$end)=$user->get_limit_current_exercice();
 
+      if (isDate($this->start_day) ==null) 
+	{
+	  $this->start_day=$start;
+	}
+      if ( isDate($this->end_day) == null)
+	{
+	  $this->end_day=$end;
+	}
+      $sql=" (jr_date >= to_date('".$this->start_day."','DD.MM.YYYY')
+		and jr_date <= to_date('".$this->end_day."','DD.MM.YYYY'))";
+      return $sql;
+
+    }
     static function test_me()
     {
         $cn=new Database(dossier::id());
