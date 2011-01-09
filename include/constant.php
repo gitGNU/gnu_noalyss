@@ -27,17 +27,17 @@ require_once ('config.inc.php');
 require_once('constant.security.php');
 // SVNVERSION
 global $version_phpcompta;
-$version_phpcompta=3872;
-error_reporting (0);
+
 
 global $g_captcha;
 $g_captcha=true;
 
 /* set to none for production */
 /* uncomment for production */
-/*error_reporting (0);
+/*
 $version_phpcompta=SVNINFO; 
 */
+$version_phpcompta=3872;
 
 define ("DBVERSION",92);
 define ("DBVERSIONREPO",13);
@@ -48,8 +48,8 @@ define ('MAX_ARTICLE',9);
 define ('MAX_CAT',15);
 define ('MAX_FORECAST_ITEM',10);
 
-define ("DEBUG",false);
-
+define ("DEBUG",true);
+if ( DEBUG ) error_reporting(15);  else error_reporting(0);
 // Erreur
 define ("NOERROR",0);
 define ("BADPARM",1);
