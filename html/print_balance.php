@@ -120,10 +120,10 @@ for ($i=0;$i<count($array);$i++)
     if ( ! isset($array[$i]))continue;
     $pdf->Cell(30,6,$array[$i]['poste'],0,0,'L',$fill);
     $pdf->Cell(80,6,$array[$i]['label'],0,0,'L',$fill);
-    $pdf->Cell(20,6,$array[$i]['sum_deb'],0,0,'R',$fill);
-    $pdf->Cell(20,6,$array[$i]['sum_cred'],0,0,'R',$fill);
-    $pdf->Cell(20,6,$array[$i]['solde_deb'],0,0,'R',$fill);
-    $pdf->Cell(20,6,$array[$i]['solde_cred'],0,0,'R',$fill);
+    $pdf->Cell(20,6,nbm($array[$i]['sum_deb']),0,0,'R',$fill);
+    $pdf->Cell(20,6,nbm($array[$i]['sum_cred']),0,0,'R',$fill);
+    $pdf->Cell(20,6,nbm($array[$i]['solde_deb']),0,0,'R',$fill);
+    $pdf->Cell(20,6,nbm($array[$i]['solde_cred']),0,0,'R',$fill);
     $pdf->Ln();
     $tp_deb+=$array[$i]['sum_deb'];
     $tp_cred+=$array[$i]['sum_cred'];

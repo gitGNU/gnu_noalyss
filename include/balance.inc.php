@@ -221,10 +221,10 @@ if ( isset($_GET['view'] ) )
         echo '<TR class="'.$tr.'">';
         echo td($view_history);
         echo td(h($r['label']));
-        echo td($r['sum_deb']);
-        echo td($r['sum_cred']);
-        echo td($r['solde_deb']);
-        echo td($r['solde_cred']);
+        echo td(nbm($r['sum_deb']),'style="text-align:right"');
+	echo td(nbm($r['sum_cred']),'style="text-align:right"');
+	echo td(nbm($r['solde_deb']),'style="text-align:right"');
+	echo td(nbm($r['solde_cred']),'style="text-align:right"');
         echo '</TR>';
     }
     echo '</table>';
