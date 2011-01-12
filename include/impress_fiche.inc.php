@@ -131,8 +131,8 @@ if ( $_GET['histo'] == 4 )
     $fd=new Fiche_Def($cn,$_REQUEST['cat']);
     if ( $fd->hasAttribute(ATTR_DEF_ACCOUNT) == false )
     {
-        echo "Cette catégorie n'ayant pas de poste comptable n'a pas de balance";
-        exit;
+      echo alert("Cette catégorie n'ayant pas de poste comptable n'a pas de balance");
+      exit;
     }
     $aCard=$cn->get_array("select f_id,ad_value from fiche join fiche_detail using(f_id) where fd_id=$1 and ad_id=1 order by 2 ",array($_REQUEST['cat']));
     if ( empty($aCard))
@@ -166,7 +166,7 @@ if ( $_GET['histo'] == 4 )
             td(nbm($solde['debit']),'style="text-align:right"').
             td(nbm($solde['credit']),'style="text-align:right"').
             td(nbm(abs($solde['solde'])),'style="text-align:right"').
-            td((($solde['solde']<0)?'CRED':'DEB'),'style="text-align:right"'),
+            td((($solde['debit']<$solde['credit'])?'CRED':'DEB'),'style="text-align:right"'),
             $class
         );
 
