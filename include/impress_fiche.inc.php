@@ -110,7 +110,7 @@ if ( $_GET['histo'] == 3 )
 
     exit();
 }
-$export_pdf='<FORM METHOD="get" ACTION="category_pdf.php">';
+$export_pdf='<FORM METHOD="get" ACTION="category_pdf.php" style="display:inline">';
 $export_pdf.=HtmlInput::hidden('cat',$_GET['cat']);
 $export_pdf.=HtmlInput::hidden('start',$_GET['start']);
 $export_pdf.=HtmlInput::hidden('end',$_GET['end']);
@@ -118,6 +118,15 @@ $export_pdf.=HtmlInput::hidden('histo',$_GET['histo']);
 $export_pdf.=dossier::hidden();
 $export_pdf.=HtmlInput::submit('pdf','Export en PDF');
 $export_pdf.='</FORM>';
+$export_csv='<FORM METHOD="get" ACTION="category_csv.php" style="display:inline">';
+$export_csv.=HtmlInput::hidden('cat',$_GET['cat']);
+$export_csv.=HtmlInput::hidden('start',$_GET['start']);
+$export_csv.=HtmlInput::hidden('end',$_GET['end']);
+$export_csv.=HtmlInput::hidden('histo',$_GET['histo']);
+$export_csv.=dossier::hidden();
+$export_csv.=HtmlInput::submit('CSV','Export en CSV');
+$export_csv.='</FORM>';
+
 echo $export_pdf;
 // Balance
 if ( $_GET['histo'] == 4 )
@@ -127,7 +136,7 @@ if ( $_GET['histo'] == 4 )
         alert('Date invalide !');
         exit;
     }
-
+    echo $export_csv;
     $fd=new Fiche_Def($cn,$_REQUEST['cat']);
     if ( $fd->hasAttribute(ATTR_DEF_ACCOUNT) == false )
     {
@@ -173,6 +182,8 @@ if ( $_GET['histo'] == 4 )
     }
     echo '</table>';
     echo $export_pdf;
+    echo $export_csv;
+
     exit();
 }
 if ( isDate($_REQUEST['start']) == null || isDate ($_REQUEST['end']) == null )
