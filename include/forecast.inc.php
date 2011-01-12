@@ -23,10 +23,7 @@
 /*!\file
  * \brief display, add, delete and modify forecast
  */
-  /*echo js_include('scripts.js');
-echo js_include('prototype.js');
-echo js_include('forecast.js');
-  */
+
 require_once 'class_anticipation.php';
 
 $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:'';
@@ -85,7 +82,7 @@ if ( isset($_POST['mod_cat_save']))
 		    if (strlen(trim($_POST['fr_cat_new'.$i])) != 0 )
 		      {
 			$c=new Forecast_Cat($cn);
-			$c->set_parameter('order',$_POST['fr_order_new'.$i]);
+			$c->set_parameter('order',$_POST['fc_order_new'.$i]);
 			$c->set_parameter('desc',$_POST['fr_cat_new'.$i]);
 			$c->set_parameter('forecast',$_POST['f_id']);
 			$c->save();

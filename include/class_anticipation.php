@@ -221,7 +221,7 @@ class Anticipation
         for ($i=0;$i<MAX_CAT;$i++)
         {
             /* category name */
-            $name_name=(isset($array[$i]['fc_id']))?'fr_cat'.$array[$i]['fc_id']:'fr_cat_new_'.$i;
+            $name_name=(isset($array[$i]['fc_id']))?'fr_cat'.$array[$i]['fc_id']:'fr_cat_new'.$i;
             $name=new IText($name_name);
             $name->value=(isset ($array[$i]['fc_desc']))?$array[$i]['fc_desc']:'';
             $aCat[$i]['name']=$name->input();
