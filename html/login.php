@@ -38,6 +38,16 @@ if (  isset ($_POST["p_user"] ) )
     // Verif if User and Pass match DB
     // if no, then redirect to the login page
     $rep=new Database();
+    /*
+     * Check repository version
+     */
+    if ( $rep->get_value('select val from version') != DBVERSIONREPO) 
+      {
+	echo alert('Version de base de données incorrectes, vous devez mettre à jour');
+	echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=admin/setup.php\">";
+	exit();
+
+      }
     include_once ("class_user.php");
     $User=new User($rep);
     $User->Check(false,'LOGIN');
@@ -59,12 +69,25 @@ if (  isset ($_POST["p_user"] ) )
 else
 {
     $rep=new Database();
+
+    /*
+     * Check repository version
+     */
+
+    if ( $rep->get_value('select val from version') != DBVERSIONREPO) 
+      {
+	echo alert('Version de base de données incorrectes, vous devez mettre à jour');
+	echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=admin/setup.php\">";
+	exit();
+
+      }
+
     include_once ("class_user.php");
+
     $User=new User($rep);
     $User->Check();
 
     echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=user_login.php\">";
-    // }
 }
 html_page_stop();
 ?>
