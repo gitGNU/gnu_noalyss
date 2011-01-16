@@ -1,5 +1,4 @@
 <?php
-
 /*
  *   This file is part of PhpCompta.
  *
@@ -93,4 +92,3 @@ if ( isset ($_REQUEST["action"]) )
 
 html_page_stop();
 ?>
->
