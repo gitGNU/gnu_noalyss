@@ -48,7 +48,18 @@ if ( isset ($_POST["add_per"] ))
     $choose="yes";
 
 }
+if (isset($_POST['add_exercice']))
+  {
+    $User->can_request(PARPER,1);
+    $obj=new Periode($cn);
+    $exercice=$cn->get_value('select max(p_exercice::float)+1 from parm_periode');
+    if ( $obj->insert_exercice($exercice) == 1 )
+    {
+        alert(_('Valeurs invalides'));
+    }
 
+    $choose="yes";
+  }
 if ( $action=="closed")
 {
     $User->can_request(PARCLO);
@@ -96,6 +107,7 @@ if ( $choose=="yes" )
     $per->set_jrn($jrn);
 
     $per->display_form_periode();
+    require_once('template/periode_add_exercice.php');
 }
 else
 {

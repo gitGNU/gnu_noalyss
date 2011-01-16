@@ -481,6 +481,30 @@ class Periode
         $this->p_id=$per;
         return $per;
     }
+    /**
+     *add a exerice of 13 periode
+     */
+    function insert_exercice($p_exercice)
+    {
+      try 
+	{
+	  $this->cn->start();
+	  for ($i=1;$i < 12;$i++)
+	    {
+	      $date_start=sprintf('01.%02d.%d',$i,$p_exercice);
+	      $date_end=$this->cn->get_value("select to_char(to_date('$date_start','DD.MM.YYYY')+interval '1 month'-interval '1 day','DD.MM.YYYY')");
+	      $this->insert($date_start,$date_end,$p_exercice);
+	    }
+	  $this->insert('01.12.'.$p_exercice,'30.12.'.$p_exercice,$p_exercice);
+	  $this->insert('31.12.'.$p_exercice,'31.12.'.$p_exercice,$p_exercice);
+
+	  $this->cn->commit();
+	}
+      catch (Exception $e)
+	{
+	  $this->cn->rollback();
+	}
+    }
     static function test_me()
     {
         $cn=new Database(dossier::id());
