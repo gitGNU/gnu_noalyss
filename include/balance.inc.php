@@ -51,14 +51,14 @@ $input_from=new IPeriod("from_periode",$from);
 $input_from->show_end_date=false;
 $input_from->type=ALL;
 $input_from->cn=$cn;
-$input_from->filter_year;
+$input_from->filter_year=true;
 $input_from->user=$User;
 echo 'Depuis :'.$input_from->input();
 // filter on the current year
 $to=(isset($_GET["to_periode"]))?$_GET['to_periode']:"";
 $input_to=new IPeriod("to_periode",$to);
 $input_to->show_start_date=false;
-$input_to->filter_year;
+$input_to->filter_year=true;
 $input_to->type=ALL;
 $input_to->cn=$cn;
 $input_to->user=$User;

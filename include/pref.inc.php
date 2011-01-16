@@ -135,6 +135,7 @@ if (  isset ($_REQUEST['gDossier']))
 
     // if periode is closed then warns the users
     $period=new Periode($cn,$l_user_per);
+
     $period->p_id=$l_user_per;
     $period->jrn_def_id=0;
     if ( $period->is_closed($l_user_per)==1)
@@ -147,6 +148,7 @@ if (  isset ($_REQUEST['gDossier']))
     $period=new IPeriod("period");
     $period->user=$User;
     $period->cn=$cn;
+    $period->filter_year=false;
     $period->value=$l_user_per;
     $period->type=ALL;
     $l_form_per=$period->input();

@@ -95,15 +95,19 @@ class IPeriod extends HtmlInput
              to_char(p_end,'DD.MM.YYYY') as p_end_string
              from parm_periode
              $sql_closed ";
+
+	$cond="";
+
         /* Create a filter on the current exercice */
         if ( ! isset($this->filter_year) || (isset($this->filter_year) && $this->filter_year==true))
         {
             if (! isset($this->user) ) throw new Exception (__FILE__.':'.__LINE__.' user is not set');
             $cond='';
-            if ($this->type == 'all' ) $cond='  where true ';
-            $cond.=" and p_exercice='".$this->user->get_exercice()."'";
+	    if ( $sql_closed=="") $and=" where " ; else $and=" and ";
+            if ($this->type == 'all' ) $cond=$and.'   true ';
+            $cond.=" $and p_exercice='".$this->user->get_exercice()."'";
         }
-        $sql.="  order by p_start,p_end";
+        $sql.=$cond."  order by p_start,p_end";
         $Res=$this->cn->exec_sql($sql);
         $Max=$this->cn->size($Res);
         if ( $Max == 0 )  throw new Exception(_('Aucune periode trouvée'),1);
