@@ -77,8 +77,6 @@ function show_direct_form($cn,$ledger,$p_array)
 
     $id=(isset ($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
 
-    echo Acc_Reconciliation::$javascript;
-
     // Show the predef operation
     // Don't forget the p_jrn
     echo '<form method="get">';
