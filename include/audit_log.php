@@ -26,10 +26,11 @@
 
 ?>
 <DIV class="content" style="width:80%;margin-left:10%">
+<span class="notice">Liste limitée aux 100 dernières connexions</span>
 <?php
 
     $cn=new Database();
-$cn->exec_sql("select ac_user,ac_ip,to_char(ac_date,'DD.MM.YYYY HH24:MI') as fmt_date,ac_state,ac_module from audit_connect order by ac_datedesc ");
+    $cn->exec_sql("select ac_user,ac_ip,to_char(ac_date,'DD.MM.YYYY HH24:MI') as fmt_date,ac_state,ac_module from audit_connect order by ac_date desc limit 100 ");
 ?>
 <TABLE CLASS="result" style="border-collapse:separate;border-spacing:2">
 <tr>
@@ -81,4 +82,5 @@ switch ( $r['ac_state'] )
 <?
   endfor;
 ?>
+
 </DIV>
