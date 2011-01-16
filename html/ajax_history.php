@@ -58,7 +58,9 @@ if ( isset($_GET['f_id']))
 
         ob_start();
         require_once('template/history_top.php');
-        $fiche->HtmlTable($array);
+	if (   $fiche->HtmlTable($array)==-1){
+	  echo h2info("Aucun opération pour l'exercice courant");
+	}
         $html=ob_get_contents();
         ob_clean();
     }
@@ -83,7 +85,10 @@ if ( isset($_REQUEST['pcm_val']))
 
         ob_start();
         require_once('template/history_top.php');
-        $poste->HtmlTable($array);
+        if ( $poste->HtmlTable($array) == -1)
+	  {
+	    echo h2info("Aucun opération pour l'exercice courant");
+	  }
         $html=ob_get_contents();
         ob_clean();
     }

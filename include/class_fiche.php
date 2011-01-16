@@ -1044,7 +1044,7 @@ class Fiche
      * \brief  Get data for poste
      *
      * \param  $p_from periode from
-     * \param  $p_to   end periodeµ
+     * \param  $p_to   end periode
      *\param $op_let 0 all operation, 1 only lettered one, 2 only unlettered one
      * \return double array (j_date,deb_montant,cred_montant,description,jrn_name,j_debit,jr_internal)
      *         (tot_deb,tot_credit
@@ -1190,6 +1190,8 @@ class Fiche
     /*!
      * \brief HtmlTable, display a HTML of a card for the asked period
      * \param $p_array default = null keys = from_periode, to_periode
+     * \param $op_let lettering of operation 0
+     * \return -1 if nothing is found otherwise 0
      */
     function HtmlTable($p_array=null,$op_let=0)
     {
@@ -1204,7 +1206,7 @@ class Fiche
                                                            );
 
         if ( count($this->row ) == 0 )
-            return;
+            return -1;
 
         $rep="";
 
@@ -1263,7 +1265,7 @@ class Fiche
 
         echo "</table>";
 
-        return;
+        return 0;
     }
     /*!
      * \brief Display HTML Table Header (button)

@@ -288,12 +288,10 @@ class Acc_Account_Ledger
     }
     /*!
      * \brief HtmlTable, display a HTML of a poste for the asked period
-     * \param none
-     *
-     * \return none
+     * \param $p_array array for filter 
+     * \param $let lettering of operation 0
+     * \return -1 if nothing is found otherwise 0
      */
-
-
     function HtmlTable($p_array=null,$let=0 )
     {
         if ( $p_array==null)$p_array=$_REQUEST;
@@ -303,7 +301,7 @@ class Acc_Account_Ledger
                                                            );
 
         if ( count($this->row ) == 0 )
-            return;
+            return -1;
 
         $rep="";
 
