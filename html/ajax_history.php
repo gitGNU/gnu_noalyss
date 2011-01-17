@@ -1,36 +1,37 @@
 <?php
-/*
- *   This file is part of PhpCompta.
- *
- *   PhpCompta is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   PhpCompta is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with PhpCompta; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
-/* $Revision$ */
+  /*
+   *   This file is part of PhpCompta.
+   *
+   *   PhpCompta is free software; you can redistribute it and/or modify
+   *   it under the terms of the GNU General Public License as published by
+   *   the Free Software Foundation; either version 2 of the License, or
+   *   (at your option) any later version.
+   *
+   *   PhpCompta is distributed in the hope that it will be useful,
+   *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   *   GNU General Public License for more details.
+   *
+   *   You should have received a copy of the GNU General Public License
+   *   along with PhpCompta; if not, write to the Free Software
+   *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   */
+  /* $Revision$ */
 
-// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+  // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file
- * \brief show the history of a card of an accounting
- * for the card f_id is set and for an accounting : pcm_val
- */
+  /*!\file
+   * \brief show the history of a card of an accounting
+   * for the card f_id is set and for an accounting : pcm_val
+   */
 require_once('class_database.php');
 require_once('class_user.php');
 require_once('class_dossier.php');
 require_once('class_periode.php');
 require_once('class_html_input.php');
 require_once('class_acc_account.php');
-
+require_once('class_exercice.php');
+//var_dump($_GET);
 $cn=new Database(dossier::id());
 $user=new User($cn);
 /* security */
@@ -42,57 +43,132 @@ $div=$_REQUEST['div'];
 /* first detail for a card */
 ///////////////////////////////////////////////////////////////////////////
 if ( isset($_GET['f_id']))
-{
+  {
+    $exercice=new Exercice($cn);
+    $old='';
     $fiche=new Fiche($cn,$_GET['f_id']);
     $year=$user->get_exercice();
     if ( $year == 0 )
-    {
+      {
         $html="erreur aucune période par défaut, allez dans préférence pour en choisir une";
-    }
+      }
     else
-    {
+      {
         $per=new Periode($cn);
         $limit_periode=$per->get_limit($year);
         $array['from_periode']=$limit_periode[0]->first_day();
         $array['to_periode']=$limit_periode[1]->last_day();
+	if (isset($_GET['ex']))
+	  {
+	    $limit_periode=$per->get_limit($_GET['ex']);
+	    $array['from_periode']=$limit_periode[0]->first_day();
+	  }
+
+	/*
+	 * Add button to select another year
+	 */
+	if ($exercice->count() > 1 )
+	  {
+	    $default=(isset($_GET['ex']))?$_GET['ex']:$year;
+	    $dossier=dossier::id();
+	    if ( $div != 'popup')
+	      {
+		$obj="{div:'$div',f_id:'".$_GET['f_id']."',gDossier:'$dossier',select:this}";
+		$is=$exercice->select('p_exercice',$default,' onchange="update_history_card('.$obj.');"');
+		$old="Autre exercice ".$is->input();
+	      } 
+	    else
+	      {
+		$old='<form method="get" action="popup.php">';
+		$is=$exercice->select('ex',$default,'onchange = "submit(this)"');
+		$old.="Autre exercice ".$is->input();
+		$old.=HtmlInput::hidden('div','popup');
+		$old.=HtmlInput::hidden('act',$_GET['act']);
+		$old.=HtmlInput::hidden('f_id',$_GET['f_id']);
+		$old.=HtmlInput::hidden('ajax',$_GET['ajax']);
+		$old.=dossier::hidden();
+		$old.='</form>';
+	      }
+	  }
 
         ob_start();
         require_once('template/history_top.php');
 	if (   $fiche->HtmlTable($array)==-1){
-	  echo h2info("Aucun opération pour l'exercice courant");
+	  echo h2info(  $fiche->getName().'['.$fiche->strAttribut(ATTR_DEF_QUICKCODE).']');
+	  echo h2("Aucun opération pour l'exercice courant",'class="error"');
 	}
+	echo $old;
+
         $html=ob_get_contents();
         ob_clean();
-    }
-}
+      }
+  }
 ///////////////////////////////////////////////////////////////////////////
 // for an account
 ///////////////////////////////////////////////////////////////////////////
 if ( isset($_REQUEST['pcm_val']))
-{
+  {
     $poste=new Acc_Account_Ledger($cn,$_REQUEST['pcm_val']);
     $year=$user->get_exercice();
     if ( $year == 0 )
-    {
+      {
         $html="erreur aucune période par défaut, allez dans préférence pour en choisir une";
-    }
+      }
     else
-    {
+      {
+	$exercice=new Exercice($cn);
+	$old='';
         $per=new Periode($cn);
         $limit_periode=$per->get_limit($year);
         $array['from_periode']=$limit_periode[0]->first_day();
         $array['to_periode']=$limit_periode[1]->last_day();
+	if (isset($_GET['ex']))
+	  {
+	    $limit_periode=$per->get_limit($_GET['ex']);
+	    $array['from_periode']=$limit_periode[0]->first_day();
+	  }
+	/*
+	 * Add button to select another year
+	 */
+	if ($exercice->count() > 1 )
+	  {
+	    $default=(isset($_GET['ex']))?$_GET['ex']:$year;
+	    $dossier=dossier::id();
+	    if ( $div != 'popup')
+	      {
+		$obj="{div:'$div',pcm_val:'".$_GET['pcm_val']."',gDossier:'$dossier',select:this}";
+		$is=$exercice->select('p_exercice',$default,' onchange="update_history_account('.$obj.');"');
+		$old="Autre exercice ".$is->input();
+	      }
+	    else
+	      {
+		$old='<form method="get" action="popup.php">';
+		$is=$exercice->select('ex',$default,'onchange = "submit(this)"');
+		$old.="Autre exercice ".$is->input();
+		$old.=HtmlInput::hidden('div','popup');
+		$old.=HtmlInput::hidden('act',$_GET['act']);
+		$old.=HtmlInput::hidden('pcm_val',$_GET['pcm_val']);
+		$old.=HtmlInput::hidden('ajax',$_GET['ajax']);
+		$old.=dossier::hidden();
+		$old.='</form>';
+	      }
+
+	  }
 
         ob_start();
         require_once('template/history_top.php');
+
         if ( $poste->HtmlTable($array) == -1)
 	  {
-	    echo h2info("Aucun opération pour l'exercice courant");
+	    echo h2info($poste->id." ".$poste->name);
+	    echo h2("Aucun opération pour l'exercice courant",'class="error"');
 	  }
+	echo $old;
+
         $html=ob_get_contents();
         ob_clean();
-    }
-}
+      }
+  }
 $html=escape_xml($html);
 header('Content-type: text/xml; charset=UTF-8');
 echo <<<EOF

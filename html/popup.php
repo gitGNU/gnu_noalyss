@@ -10,6 +10,7 @@ require_once('class_periode.php');
 echo '<div style="float:left;">'.HtmlInput::print_window();
 
 html_page_start($_SESSION['g_theme']);
+
 if ( basename($_GET['ajax']) == 'ajax_history.php' )
   {
     $href=dossier::get();
@@ -24,7 +25,12 @@ if ( basename($_GET['ajax']) == 'ajax_history.php' )
 
     $from_periode='from_periode='.format_date($limit[0]->p_start);
     $to_periode='to_periode='.format_date($limit[1]->p_end);
-
+    if (isset($_GET['ex']))
+      {
+	$limit_periode=$periode->get_limit($_GET['ex']);
+	$from_periode='from_periode='.format_date($limit_periode[0]->p_start);
+      }
+    
     if (isset($_GET['pcm_val']) )
       {
 	$href_csv="poste_csv.php?".$href.'&poste_id='.$_GET['pcm_val'].'&ople=0&type=poste&'.$from_periode.'&'.$to_periode;

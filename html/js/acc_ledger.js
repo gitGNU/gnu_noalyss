@@ -611,6 +611,26 @@ function view_history_account(p_value,dossier)
     g(id).style.left=posX-10;
 
 }
+
+function update_history_account(obj)
+{
+    try{
+	var querystring="?div="+obj.div+"&gDossier="+obj.gDossier+"&pcm_val="+obj.pcm_val+"&ex="+obj.select.options[obj.select.selectedIndex].text;
+	var action=new Ajax.Request(
+	    "ajax_history.php",
+	    {
+		method:'get',
+		parameters:querystring,
+		onFailure:error_box,
+		onSuccess:success_box
+	    });
+    } catch (e)
+    {
+        alert("update_history_account error "+e.message);
+    }
+
+    return false;
+}
 /*!\brief
  * \param p_value f_id of the card
  */
@@ -638,6 +658,26 @@ var popup={'id':
     g(id).style.top=posY-40;
     g(id).style.left=posX-10;
 
+}
+
+function update_history_card(obj)
+{
+    try{
+	var querystring="?div="+obj.div+"&gDossier="+obj.gDossier+"&f_id="+obj.f_id+"&ex="+obj.select.options[obj.select.selectedIndex].text;
+	var action=new Ajax.Request(
+	    "ajax_history.php",
+	    {
+		method:'get',
+		parameters:querystring,
+		onFailure:error_box,
+		onSuccess:success_box
+	    });
+    } catch (e)
+    {
+        alert("update_history_account error "+e.message);
+    }
+
+    return false;
 }
 /**
 * remove an Operation
