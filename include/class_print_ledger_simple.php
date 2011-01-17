@@ -63,7 +63,6 @@ class Print_Ledger_Simple extends PDF
         $this->rap_tvac=$this->previous['price']+$this->previous['vat'];
         $this->rap_priv=$this->previous['priv'];
         $this->rap_nd=$this->previous['tva_nd_recup'];
-
     }
 
     function setDossierInfo($dossier = "n/a")
@@ -89,7 +88,7 @@ class Print_Ledger_Simple extends PDF
         {
             //initialize Amount TVA
             $tmp1=$line_tva['tva_id'];
-            $this->rap_tva[$tmp1]=0;
+            $this->rap_tva[$tmp1]=(isset($this->rap_tva[$tmp1]))?$this->rap_tva[$tmp1]:0;
         }
         $this->Cell(15,6,'Pièce');
         $this->Cell(10,6,'Date');
