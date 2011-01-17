@@ -180,6 +180,8 @@ else
                 }
             }
             echo nb ($line['TVAC']);
+	    printf("\r\n");
+
         }
     }
 }
