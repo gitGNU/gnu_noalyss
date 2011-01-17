@@ -53,6 +53,11 @@ function h2info($p_string)
 {
     return '<h2 class="info">'.htmlspecialchars($p_string).'</h2>';
 }
+function h2($p_string,$p_class)
+{
+    return '<h2 '.$p_class.'>'.htmlspecialchars($p_string).'</h2>';
+}
+
 /*!\brief surround the string with td
 *\param $p_string string to surround by TD
 *\param $p_extra extra info (class, style, javascript...)
