@@ -233,6 +233,7 @@ foreach($array as $card)
     $amount_deb=0;
     $amount_cred=0;
     $prog=0;
+    bcscale(2);
     for ($i=0;$i<count($letter->content);$i++)
     {
         if ($i%2 == 0 )
