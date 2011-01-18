@@ -29,8 +29,6 @@
 require_once('class_contact.php');
 require_once('class_ipopup.php');
 
-echo ICard::ipopup('ipopcard');
-
 /* $sub_action = sb = detail */
 /* $cn database conx */
 $return=new IAction();
@@ -53,6 +51,12 @@ case 'cn':
 case 'op':
     $def=4;
     break;
+case 'bal':
+  $def=7;
+  break;
+case 'let':
+  $def=6;
+  break;
 default:
     $def=1;
     $ss_action='dc';
@@ -64,6 +68,8 @@ echo ShowItem(array(
                   array($root.'&sc=sv',_('Suivi'),_('Suivi adm, devis, bon de commande, courrier'),2),
                   array($root.'&sc=cn',_('Contact'),_('Liste de contacts de cette administration'),3),
                   array($root.'&sc=op',_('Opérations'),_('Toutes les opérations'),4),
+                  array($root.'&sc=bal',_('Balance'),_('Balance du fournisseur'),7),
+                  array($root.'&sc=let',_('Lettrage'),_('Opérations & Lettrages'),6),
                   array('?p_action=adm&'.dossier::get(),_('Retour liste'),_('Retour à la liste des administration'),5)
                   ),
                   'H',"mtitle","mtitle",$def,' ');
@@ -127,4 +133,18 @@ if ( $ss_action == 'cn')
 
     echo $f_add_button->input();
     echo '</div>';
+}
+/*-------------------------------------------------------------------------
+ * Balance of the card
+ *-------------------------------------------------------------------------*/
+if ( $ss_action=='bal')
+  {
+    require_once('balance_card.inc.php');
+  }
+/*----------------------------------------------------------------------------
+ * Lettering
+ *----------------------------------------------------------------------------*/
+if ( $def==6 )
+{
+    require_once('lettering.gestion.inc.php');
 }

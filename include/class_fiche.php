@@ -1190,10 +1190,11 @@ class Fiche
     /*!
      * \brief HtmlTable, display a HTML of a card for the asked period
      * \param $p_array default = null keys = from_periode, to_periode
-     * \param $op_let lettering of operation 0
-     * \return -1 if nothing is found otherwise 0
+     *\param $op_let 0 all operation, 1 only lettered one, 2 only unlettered one
+     *\return -1 if nothing is found otherwise 0     
+     *\see get_row_date
      */
-    function HtmlTable($p_array=null,$op_let=0)
+    function HtmlTable($p_array=null,$op_let=0,$from_div=1)
     {
         if ( $p_array == null)
             $p_array=$_REQUEST;
@@ -1209,9 +1210,15 @@ class Fiche
             return -1;
 
         $rep="";
-
-        echo '<h2 class="info">'." ".$name.'</h2>';
-        echo "<TABLE class=\"resultfooter\" style=\"width:100%;border-collapse:separate;border-spacing:5px\">";
+	if ( $from_div==1)
+	  {
+	    echo '<h2 class="info">'." ".$name.'</h2>';
+	    echo "<TABLE class=\"resultfooter\" style=\"width:100%;border-collapse:separate;border-spacing:5px\">";
+	  }
+	else
+	  {
+	    echo "<TABLE class=\"result\" style=\"width:100%;border-collapse:separate;border-spacing:5px\">";
+	  }
         echo '<tbody>';
         echo "<TR>".
         "<TH>"._('Date')."</TH>".

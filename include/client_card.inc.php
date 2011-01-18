@@ -29,7 +29,6 @@
 require_once('class_contact.php');
 require_once('class_ipopup.php');
 
-echo ICard::ipopup('ipopcard');
 
 /* $sub_action = sb = detail */
 /* $cn database conx */
@@ -53,6 +52,9 @@ case 'op':
 case 'let':
     $def=6;
     break;
+case 'bal':
+  $def=7;
+  break;
 default:
     $def=1;
     $ss_action='dc';
@@ -64,6 +66,7 @@ echo ShowItem(array(
                   array($root.'&sc=sv',_('Suivi'),_('Suivi client, devis, bon de commande, courrier'),2),
                   array($root.'&sc=cn',_('Contact'),_('Liste de contacts de ce client'),3),
                   array($root.'&sc=op',_('Opérations'),_('Toutes les opérations'),4),
+		  array($root.'&sc=bal',_('Balance'),_('Balance du client'),7),
                   array($root.'&sc=let',_('Lettrage'),_('Opérations & Lettrages'),6),
                   array('?p_action=client&'.dossier::get(),_('Retour liste'),_('Retour à la liste des clients'),5)
                   ),
@@ -137,3 +140,10 @@ if ( $def==6 )
 {
     require_once('lettering.gestion.inc.php');
 }
+/*-------------------------------------------------------------------------
+ * Balance of the card
+ *-------------------------------------------------------------------------*/
+if ( $ss_action=='bal')
+  {
+    require_once('balance_card.inc.php');
+  }
