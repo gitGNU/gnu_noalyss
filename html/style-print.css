@@ -1,6 +1,9 @@
 body {
 	font-size:7pt
 	}
+select { 
+border:1px solid #FFFFFF;
+ }
 form { 
   display:none;
  }
