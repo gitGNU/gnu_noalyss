@@ -596,4 +596,24 @@ function removeCardAttribut(ad_id,gDossier,table_id,row)
 
 
 }
-
+/**
+* update a card in ajax
+*/
+function update_card(obj)
+{
+try {
+    var qs=obj.serialize()+'&op=upc';
+    alert(qs);
+    var action=new Ajax.Request ( 'ajax_card.php',
+				  {
+				      method:'get',
+				      parameters:qs,
+				      onFailure:errorFid,
+				      onSuccess:successFill_ipopcard
+				  }
+				);
+    } catch (e) {
+	alert(e.message);
+	return false;
+    }
+}

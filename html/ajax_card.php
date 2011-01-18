@@ -36,6 +36,7 @@
       - st Show Type : select type of card
       parameter fil : possible values of fd_id if empty it means all the fiche cat.
       - sc Save Card : insert a new card (call first bc)
+      - upc  update a card
       specific parameter qcode
       - fs  Form to search card
           parameter like
@@ -118,14 +119,20 @@ case 'dc':
     if ( $qcode != '')
     {
         $f->get_by_qcode($qcode);
-	$card=$f->Display(true);
+	$card=$f->Display(false);
 	if ( $card == 'FNT' ) 
 	  {
 	    $html.='<h2 class="error">'._('Fiche non trouvée').'</h2>';
 	  }
 	else
 	  {
+	    $html.='<form method="get" onsubmit="update_card(this);return false;">';
+	    $html.=dossier::hidden();
+	    $html.=HtmlInput::hidden('f_id',$f->id);
+	    $html.=HtmlInput::hidden('ctl',$ctl);
 	    $html.=$card;
+	    $html.=HtmlInput::submit('save','Sauver');
+	    $html.='</form>';
 	  }
     }
     else
@@ -429,6 +436,35 @@ case 'scc':
         $html=alert(_('Action interdite'),true);
     }
     break;
+case 'upc':
+  $html=HtmlInput::button_close($ctl);
+  $html.=h2info('Détail fiche');
+  
+  if ( $user->check_action(FICADD)==0 )
+    {
+      $html.=alert(_('Action interdite'),true);
+    }  
+  else
+    {
+      if ($cn->get_value('select count(*) from fiche where f_id=$1',array($_GET['f_id'])) == '0' )
+	{
+	  $html.=alert(_('Fiche non valide'),true);
+	  }
+
+      else
+	{
+	  $html=HtmlInput::button_close($ctl);
+	  $html.=h2info('Détail fiche (sauvée)');
+
+	  $f=new Fiche($cn,$_GET['f_id']);
+	  ob_start();
+	  $f->update($_GET);
+	  $html.=ob_get_contents();
+	  ob_clean();
+	  $html.=$f->Display(true);
+	  $html.=HtmlInput::button('close_'.$ctl,'Fermer',"onclick=\"removeDiv('$ctl')\"");
+	}
+      }
 } // switch
 $html=escape_xml($html);
 
