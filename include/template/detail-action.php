@@ -182,8 +182,9 @@ endfor;
 <th><?=_('Code TVA')?></th>
 <th><?=_('Montant TVA')?></th>
 <th><?=_('Montant TVAC')?></th>
-<!-- <th>Montant TVAC</th> -->
+
 </tr>
+
 <?for ($i=0;$i<count($aArticle);$i++): ?>
 <TR>
 <TD><?php echo $aArticle[$i]['fid'] ?></TD>
@@ -194,16 +195,11 @@ endfor;
 <TD class="num"><?php echo $aArticle[$i]['tva'] ?></TD>
 <TD class="num"><?php echo $aArticle[$i]['tvac'] ?></TD>
 
-<!-- <TD class="num"><?php echo $aArticle[$i]['ctva'] ?></TD>
-<TD class="num"><?php echo $aArticle[$i]['htva'] ?></TD>
-<TD class="num"><?php echo $aArticle[$i]['atva'] ?></TD>
-<TD class="num"><?php echo $aArticle[$i]['totaltvac'] ?></TD>
--->
 </TR>
 <?php endfor; ?>
 </table>
 <script language="JavaScript">
-toggleShowDetail();
+if ( $('e_march0').value =='') { toggleShowDetail();}
 function toggleShowDetail() {
 	try {var detail=g('fldDetail');
 	var but=g('toggleButton');
@@ -266,7 +262,7 @@ try {
 	new_element.innerHTML='<input class="inp" type="file" value="" name="file_upload[]"/>';
 	docAdded.appendChild(new_element);
 }
-catch(exception) { alert('<?=j(_('Je ne peux pas ajouter de fichier'))?>'); alert(exception);}
+catch(exception) { alert('<?=j(_('Je ne peux pas ajouter de fichier'))?>'); alert(exception.message);}
 }
 </script>
   <p>

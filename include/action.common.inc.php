@@ -143,7 +143,7 @@ if ( $sub_action=='detail' )
     $act->ag_id=$ag_id;
     echo $act->get();
     $act->ag_comment=Decode($act->ag_comment);
-    echo '<form  enctype="multipart/form-data"  action="commercial.php"  method="post"   >';
+    echo '<form  enctype="multipart/form-data"  class="print" action="commercial.php"  method="post"   >';
     echo $supl_hidden;
     echo HtmlInput::hidden('p_action',$_REQUEST['p_action']);
     echo dossier::hidden();
