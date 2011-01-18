@@ -603,7 +603,6 @@ function update_card(obj)
 {
 try {
     var qs=obj.serialize()+'&op=upc';
-    alert(qs);
     var action=new Ajax.Request ( 'ajax_card.php',
 				  {
 				      method:'get',
