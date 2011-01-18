@@ -132,11 +132,11 @@ foreach ($a_poste as $poste)
         $i++;
         $pdf->Cell($width[$i], 6, ($detail['letter']!=-1)?$detail['letter']:'', 0, 0, $lor[$i]);
         $i++;
-        $pdf->Cell($width[$i], 6, ($detail['deb_montant']  > 0 ? sprintf("%.2f", $detail['deb_montant'])  : ''), 0, 0, $lor[$i]);
+        $pdf->Cell($width[$i], 6, ($detail['deb_montant']  > 0 ? nbm( $detail['deb_montant'])  : ''), 0, 0, $lor[$i]);
         $i++;
-        $pdf->Cell($width[$i], 6, ($detail['cred_montant'] > 0 ? sprintf("%.2f", $detail['cred_montant']) : ''), 0, 0, $lor[$i]);
+        $pdf->Cell($width[$i], 6, ($detail['cred_montant'] > 0 ? nbm( $detail['cred_montant']) : ''), 0, 0, $lor[$i]);
         $i++;
-        $pdf->Cell($width[$i], 6, sprintf("%.2f", $solde), 0, 0, $lor[$i]);
+        $pdf->Cell($width[$i], 6, nbm( $solde), 0, 0, $lor[$i]);
         $i++;
         $pdf->Ln();
 
@@ -156,11 +156,11 @@ foreach ($a_poste as $poste)
     $i++;
     $pdf->Cell($width[$i], 6, 'Total du compte '.$Poste->id, 0, 0, 'R');
     $i++;
-    $pdf->Cell($width[$i], 6, ($solde_d  > 0 ? sprintf("%.2f", $solde_d)  : ''), 0, 0, $lor[$i]);
+    $pdf->Cell($width[$i], 6, ($solde_d  > 0 ? nbm($solde_d)  : ''), 0, 0, $lor[$i]);
     $i++;
-    $pdf->Cell($width[$i], 6, ($solde_c  > 0 ? sprintf("%.2f", $solde_c)  : ''), 0, 0, $lor[$i]);
+    $pdf->Cell($width[$i], 6, ($solde_c  > 0 ? nbm( $solde_c)  : ''), 0, 0, $lor[$i]);
     $i++;
-    $pdf->Cell($width[$i], 6, sprintf("%.2f", abs($solde_c-$solde_d)), 0, 0, $lor[$i]);
+    $pdf->Cell($width[$i], 6, nbm(abs($solde_c-$solde_d)), 0, 0, $lor[$i]);
     $i++;
     $pdf->Cell(5, 6, ($solde_c > $solde_d ? 'C' : 'D'), 0, 0, 'L');
 
