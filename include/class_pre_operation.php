@@ -81,7 +81,7 @@ class Pre_operation
             echo "<span class=\"notice\"> Ce modèle d' op&eacute;ration a d&eacute;j&agrave; &eacute;t&eacute; sauv&eacute;</span>";
             return false;
         }
-        if ( $this->count()  > 30 )
+        if ( $this->count()  > MAX_PREDEFINED_OPERATION )
         {
             echo '<span class="notice">Vous avez atteint le max. d\'op&eacute;ration pr&eacute;d&eacute;finie, d&eacute;sol&eacute;</span>';
             return false;
