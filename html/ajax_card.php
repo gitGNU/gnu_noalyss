@@ -132,12 +132,15 @@ case 'dc':
 	    $html.=HtmlInput::hidden('ctl',$ctl);
 	    $html.=$card;
 	    $html.=HtmlInput::submit('save','Sauver');
+	    $html.=HtmlInput::button('close_'.$ctl,'Fermer',"onclick=\"removeDiv('$ctl')\"");
 	    $html.='</form>';
 	  }
     }
-    else
+    else 
+      {
       $html.='<h2 class="error">'._('Aucune fiche demandée').'</h2>';
-    $html.=HtmlInput::button('close_'.$ctl,'Fermer',"onclick=\"removeDiv('$ctl')\"");
+      $html.=HtmlInput::button('close_'.$ctl,'Fermer',"onclick=\"removeDiv('$ctl')\"");
+      }
     break;
     /* ------------------------------------------------------------ */
     /* Blank card */
