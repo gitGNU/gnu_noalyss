@@ -30,9 +30,6 @@ html_page_start($_SESSION['g_theme']);
 
 load_all_script();
 
-$search_card=new IPopup('ipop_card');
-$search_card->title=_('Recherche de fiche');
-$search_card->value='';
 
 $gDossier=dossier::id();
 
@@ -49,8 +46,6 @@ $User->Check();
 $ledger=new Acc_Ledger($cn,0);
 $search_box=$ledger->search_form('ALL',1);
 echo '<div class="content">';
-echo IPoste::ipopup('ipop_account');
-echo $search_card->input();
 
 echo '<form method="GET">';
 echo $search_box;
