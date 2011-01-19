@@ -68,7 +68,11 @@ if ( isset($_GET['f_id']))
 	if (isset($_GET['ex']))
 	  {
 	    $limit_periode=$per->get_limit($_GET['ex']);
-	    $array['from_periode']=$limit_periode[0]->first_day();
+	    if ( $_GET['ex'] < $year)
+	      $array['from_periode']=$limit_periode[0]->first_day();
+	    else
+	      $array['to_periode']=$limit_periode[1]->last_day();
+
 	  }
 
 	/*
@@ -136,7 +140,11 @@ if ( isset($_REQUEST['pcm_val']))
 	if (isset($_GET['ex']))
 	  {
 	    $limit_periode=$per->get_limit($_GET['ex']);
-	    $array['from_periode']=$limit_periode[0]->first_day();
+	    if ( $_GET['ex'] < $year)
+	      $array['from_periode']=$limit_periode[0]->first_day();
+	    else
+	      $array['to_periode']=$limit_periode[1]->last_day();
+
 	  }
 	/*
 	 * Add button to select another year
