@@ -77,7 +77,7 @@ class @class_name@  @mother_class@
         
         if ( $p_id == -1 ) {
         /* Initialize an empty object */
-            foreach ($this->variable as $key=>$value) $this->$value='';
+            foreach ($this->variable as $key=>$value) $this->$value='DEFAULT';
             $this->@id@=$p_id;
         } else {
          /* load it */
@@ -474,13 +474,14 @@ class @class_name@
             mother_name=''
             mother_class=''
         table=line[1].strip()
-        (id,type_id)=line[2].strip().split('|')
+        (id,type_id,default)=line[2].strip().split('|')
         id=id.strip()
         column_noid=''
         column_this=''
         column_select=''
         column_insert=''
         fileoutput=open("class_"+class_name.lower()+".php",'w+')
+	print "Create the file %s "+fileoutput.name
         
         sep=''
         i=1
@@ -539,7 +540,7 @@ class @class_name@
                if e.find('|') < 0 :
                          continue
 
-               (col_id,col_type)=e.split('|')
+               (col_id,col_type,default)=e.split('|')
                col_id=col_id.strip()
                col_type=col_type.strip()
                if col_type in ('float','integer','numeric','bigint') :
