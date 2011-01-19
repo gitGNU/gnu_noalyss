@@ -31,12 +31,6 @@ $cn=new Database($gDossier);
 
 require_once('class_iposte.php');
 require_once('class_ipopup.php');
-$search_card=new IPopup('ipop_card');
-$search_card->title=_('Recherche de fiche');
-$search_card->value='';
-echo $search_card->input();
-
-echo IPoste::ipopup('ipop_account');
 
 echo '<div class="content">';
 
@@ -48,7 +42,7 @@ if ( !isset($_REQUEST['p_jrn']))
 else
     $Ledger->id=$_REQUEST['p_jrn'];
 echo $Ledger->display_search_form();
-
+echo '<hr>';
 /*  compute the sql stmt */
 list($sql,$where)=$Ledger->build_search_sql($_GET);
 
@@ -72,6 +66,20 @@ echo $bar;
 list($count,$html)= $Ledger->list_operation($sql,$offset);
 echo $html;
 echo $bar;
+
+/*
+ * Export to csv
+ */
+$r=HtmlInput::get_to_hidden(array('l','date_start','date_end','desc','amount_min','amount_max','qcode','accounting','unpaid','gDossier','ledger_type'));
+if (isset($_GET['r_jrn'])) {
+  foreach ($_GET['r_jrn'] as $k=>$v)
+    $r.=HtmlInput::hidden('r_jrn['.$k.']',$v);
+}
+echo '<form action="histo_csv.php" method="get">';
+echo $r;
+echo HtmlInput::submit('viewsearch','Export vers CSV');
+echo HtmlInput::hidden('p_action','ALL');
+echo '</form>';
 
 
 ?>

@@ -425,5 +425,20 @@ class HtmlInput
 		  $p_qcode,$pname,$p_qcode);
       return $r;
     }
+    /**
+     *transform get to hidden
+     *@return html string with the hidden data
+     */
+    static function get_to_hidden($array)
+    {
+      if ( count($_GET) == 0) return "";
+      $r="";
+      foreach ( $array as $a)
+	{
+	  if (isset($_GET[$a])) $r.=HtmlInput::hidden($a,$_GET[$a]);
+	}
+      return $r;
+    }
+
 }
     

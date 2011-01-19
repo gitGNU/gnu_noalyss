@@ -191,6 +191,20 @@ if ($sa == 'l' && $id != -1)
     list($count,$html)= $Ledger->list_operation($sql,$offset,0);
     echo $html;
     echo $bar;
+   /*
+     * Export to csv
+     */
+    $r=HtmlInput::get_to_hidden(array('l','date_start','date_end','desc','amount_min','amount_max','qcode','accounting','unpaid','gDossier','ledger_type','p_action'));
+    if (isset($_GET['r_jrn'])) {
+      foreach ($_GET['r_jrn'] as $k=>$v)
+	$r.=HtmlInput::hidden('r_jrn['.$k.']',$v);
+    }
+    echo '<form action="histo_csv.php" method="get">';
+    echo $r;
+    echo HtmlInput::submit('viewsearch','Export vers CSV');
+
+    echo '</form>';
+
     echo '</div>';
     exit();
 }

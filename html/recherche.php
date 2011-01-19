@@ -40,7 +40,17 @@ $cn=new Database($gDossier);
 include_once ('class_user.php');
 $User=new User($cn);
 $User->Check();
-
+$act=$User->check_dossier($gDossier);
+if ($act =='P')
+{
+    redirect("extension.php?".dossier::get(),0);
+    exit();
+}
+if ( $act=='X')
+  {
+     alert('Accès interdit');
+     exit();
+  }
 // display a search box
 
 $ledger=new Acc_Ledger($cn,0);
@@ -77,7 +87,19 @@ if ( isset ($_GET['viewsearch']))
     echo $bar;
     echo $a;
     echo $bar;
-
+    /*
+     * Export to csv
+     */
+    $r=HtmlInput::get_to_hidden(array('l','date_start','date_end','desc','amount_min','amount_max','qcode','accounting','unpaid','gDossier','ledger_type'));
+    if (isset($_GET['r_jrn'])) {
+      foreach ($_GET['r_jrn'] as $k=>$v)
+	$r.=HtmlInput::hidden('r_jrn['.$k.']',$v);
+    }
+    echo '<form action="histo_csv.php" method="get">';
+    echo $r;
+    echo HtmlInput::submit('viewsearch','Export vers CSV');
+    echo HtmlInput::hidden('p_action','ALL');
+    echo '</form>';
 }
 echo '</div>';
 ?>

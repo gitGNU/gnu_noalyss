@@ -677,7 +677,7 @@ class Acc_Ledger
         {
             // date asc
             $sort_date="<th>$image_sel_asc Date <A class=\"mtitle\" HREF=\"?$url&o=dd\">$image_desc</A></th>";
-            $order=" order by jr_date_order asc ";
+            $order=" order by jr_date_order asc,substring(jr_pj_number,'\\d+$')::numeric asc ";
         }
         // set a filter for the FIN
         $a_parm_code=$this->db->get_array("select p_value from parm_code where p_code in ('BANQUE','COMPTE_COURANT','CAISSE')");
