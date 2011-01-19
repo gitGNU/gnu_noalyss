@@ -93,10 +93,14 @@ if ( isset($_GET['f_id']))
 
         ob_start();
         require_once('template/history_top.php');
-	if (   $fiche->HtmlTable($array)==-1){
-	  echo h2info(  $fiche->getName().'['.$fiche->strAttribut(ATTR_DEF_QUICKCODE).']');
+	$detail_card=HtmlInput::card_detail($fiche->strAttribut(ATTR_DEF_QUICKCODE),$fiche->getName());
+	echo h2info(  $fiche->getName().'['.$fiche->strAttribut(ATTR_DEF_QUICKCODE).']');
+	echo $detail_card;
+
+	if (   $fiche->HtmlTable($array,0,0)==-1){
 	  echo h2("Aucun opération pour l'exercice courant",'class="error"');
 	}
+
 	echo $old;
 
         $html=ob_get_contents();

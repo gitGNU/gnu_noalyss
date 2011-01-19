@@ -414,5 +414,16 @@ class HtmlInput
 	$r.=HtmlInput::button('print','Imprimer','onclick="window.print();"');
 	return $r;
     }
+    /**
+     *show the detail of a card
+     */
+    static function card_detail($p_qcode,$pname='')
+    {
+      if ($pname=='')$pname=$p_qcode;
+      $r="";
+      $r.=sprintf('<a href="javascript:void(0)" onclick="fill_ipopcard({qcode:\'%s\'})">%s[%s]</a>',
+		  $p_qcode,$pname,$p_qcode);
+      return $r;
+    }
 }
     
