@@ -79,7 +79,7 @@ set_language();
 /*
  *echo a warning if disconnected
  */
-ajax_disconnected($div);
+ajax_disconnected($_REQUEST['ctl']);
 
 $cn=new Database($gDossier);
 $user=new User($cn);
