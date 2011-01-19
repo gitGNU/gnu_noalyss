@@ -318,6 +318,13 @@ if ( $def == 2 )
     list($count,$html)= $Ledger->list_operation($sql,$offset,1);
     echo $html;
     echo $bar;
+    $r=HtmlInput::get_to_hidden(array('l','date_start','date_end','desc','amount_min','amount_max','qcode','accounting','unpaid','gDossier','ledger_type','p_action'));
+    if (isset($_GET['r_jrn'])) {
+      foreach ($_GET['r_jrn'] as $k=>$v)
+	$r.=HtmlInput::hidden('r_jrn['.$k.']',$v);
+    }
+    echo $r;
+
     echo '<p>'.HtmlInput::submit('paid',_('Mise à jour paiement')).IButton::select_checkbox('fpaida').IButton::unselect_checkbox('fpaida').'</p>';
 
     echo '</form>';
@@ -391,6 +398,13 @@ if ( $def==3 )
     list($count,$html)= $Ledger->list_operation($sql,$offset,1);
     echo $html;
     echo $bar;
+
+    $r=HtmlInput::get_to_hidden(array('l','date_start','date_end','desc','amount_min','amount_max','qcode','accounting','unpaid','gDossier','ledger_type','p_action'));
+    if (isset($_GET['r_jrn'])) {
+      foreach ($_GET['r_jrn'] as $k=>$v)
+	$r.=HtmlInput::hidden('r_jrn['.$k.']',$v);
+    }
+    echo $r;
 
     echo '<p>'.HtmlInput::submit('paid',_('Mise à jour paiement')).IButton::select_checkbox('fpaida').IButton::unselect_checkbox('fpaida').'</p>';
     echo '</form>';

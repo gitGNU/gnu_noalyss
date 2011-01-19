@@ -685,4 +685,27 @@ function sql_string($q)
     $ret=str_replace("'","''",$q);
     return $ret;
 }
+/**
+ *Should a dialog box that you are disconnected for ajax
+ */
+function ajax_disconnected($div)
+{
+/**
+ *if $_SESSION['g_user'] is not set : echo a warning
+ */
+if ( ! isset($_SESSION['g_user']))
+  {
+    $html=alert("Déconnecté",true);
+    $html=escape_xml($html);
+    header('Content-type: text/xml; charset=UTF-8');
+echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<ctl>$div</ctl>
+<code>Déconnecté</code>
+</data>
+EOF;
+exit();
+  }
+}
 ?>
