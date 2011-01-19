@@ -633,12 +633,12 @@ class Acc_Ledger
             case 'da':
                 // date asc
                 $sort_date="<th>$image_sel_asc Date <A class=\"mtitle\" HREF=\"?$url&o=dd\">$image_desc</A></th>";
-                $order=" order by jr_date_order asc ";
+                $order=" order by jr_date_order asc,substring(jr_pj_number,\'\\\d+$\')::numeric asc  ";
                 break;
             case 'dd':
                 $sort_date="<th> <A class=\"mtitle\" HREF=\"?$url&o=da\">$image_asc</A> Date $image_sel_desc</th>";
                 // date desc
-                $order=" order by jr_date_order desc ";
+                $order=" order by jr_date_order desc,substring(jr_pj_number,\'\\\d+$\')::numeric desc  ";
                 break;
             case 'ma':
                 // montant asc
