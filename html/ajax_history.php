@@ -31,13 +31,20 @@ require_once('class_periode.php');
 require_once('class_html_input.php');
 require_once('class_acc_account.php');
 require_once('class_exercice.php');
+$div=$_REQUEST['div'];
+
+/**
+ *if $_SESSION['g_user'] is not set : echo a warning
+ */
+ajax_disconnected($div);
+
 //var_dump($_GET);
 $cn=new Database(dossier::id());
 $user=new User($cn);
 /* security */
 if ( $user->check_dossier(dossier::id(),true) == 'X' ) exit();
 
-$div=$_REQUEST['div'];
+
 
 ///////////////////////////////////////////////////////////////////////////
 /* first detail for a card */

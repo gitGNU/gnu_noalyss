@@ -76,6 +76,10 @@ foreach ($var as $v)
 if ( $cont != 0 ) exit();
 extract($_REQUEST );
 set_language();
+/*
+ *echo a warning if disconnected
+ */
+ajax_disconnected($div);
 
 $cn=new Database($gDossier);
 $user=new User($cn);
