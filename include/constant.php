@@ -30,23 +30,24 @@ global $version_phpcompta;
 
 
 global $g_captcha;
-$g_captcha=true;
+$g_captcha=false;
 
 /* set to none for production */
 /* uncomment for production */
-/*
+
 $version_phpcompta=SVNINFO; 
-*/
-$version_phpcompta=3872;
+
+/* $version_phpcompta=3872;*/
 
 define ("DBVERSION",92);
 define ("DBVERSIONREPO",13);
 define ('NOTFOUND','--not found--');
 
 define ("MAX_COMPTE",4);
-define ('MAX_ARTICLE',9);
+define ('MAX_ARTICLE',12);
 define ('MAX_CAT',15);
 define ('MAX_FORECAST_ITEM',10);
+define ('MAX_PREDEFINED_OPERATION',30);
 
 define ("DEBUG",true);
 if ( DEBUG ) error_reporting(15);  else error_reporting(0);
