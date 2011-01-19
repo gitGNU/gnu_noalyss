@@ -119,21 +119,35 @@ case 'dc':
     if ( $qcode != '')
     {
         $f->get_by_qcode($qcode);
-	$card=$f->Display(false);
+	$can_modify=$user->check_action(FIC);
+
+	if ( $can_modify==1)
+	  $card=$f->Display(false);
+	else
+	  $card=$f->Display(true);
 	if ( $card == 'FNT' ) 
 	  {
 	    $html.='<h2 class="error">'._('Fiche non trouvée').'</h2>';
 	  }
 	else
 	  {
-	    $html.='<form method="get" onsubmit="update_card(this);return false;">';
-	    $html.=dossier::hidden();
-	    $html.=HtmlInput::hidden('f_id',$f->id);
-	    $html.=HtmlInput::hidden('ctl',$ctl);
+	    if ($can_modify==1)
+	      {
+		$html.='<form method="get" onsubmit="update_card(this);return false;">';
+		$html.=dossier::hidden();
+		$html.=HtmlInput::hidden('f_id',$f->id);
+		$html.=HtmlInput::hidden('ctl',$ctl);
+	      }
 	    $html.=$card;
-	    $html.=HtmlInput::submit('save','Sauver');
+	    if ( $can_modify==1)
+	      {
+		$html.=HtmlInput::submit('save','Sauver');
+	      }
 	    $html.=HtmlInput::button('close_'.$ctl,'Fermer',"onclick=\"removeDiv('$ctl')\"");
-	    $html.='</form>';
+	    if ($can_modify==1)
+	      {
+		$html.='</form>';
+	      }
 	  }
     }
     else 
