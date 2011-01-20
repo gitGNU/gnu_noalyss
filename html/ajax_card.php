@@ -135,6 +135,7 @@ case 'dc':
 	  }
 	else
 	  {
+	    
 	    if ($can_modify==1)
 	      {
 		$html.='<form method="get" onsubmit="update_card(this);return false;">';
@@ -148,6 +149,7 @@ case 'dc':
 		$html.=HtmlInput::submit('save','Sauver');
 	      }
 	    $html.=HtmlInput::button('close_'.$ctl,'Fermer',"onclick=\"removeDiv('$ctl')\"");
+	    $html.=HtmlInput::history_card_button($f->id,_('Historique'));
 	    if ($can_modify==1)
 	      {
 		$html.='</form>';
