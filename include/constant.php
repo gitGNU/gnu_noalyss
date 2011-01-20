@@ -35,9 +35,9 @@ $g_captcha=false;
 /* set to none for production */
 /* uncomment for production */
 
-// $version_phpcompta=SVNINFO; 
+$version_phpcompta=SVNINFO; 
 
-$version_phpcompta=3872;
+//$version_phpcompta=3872;
 
 define ("DBVERSION",93);
 define ("DBVERSIONREPO",13);
@@ -49,7 +49,7 @@ define ('MAX_CAT',15);
 define ('MAX_FORECAST_ITEM',10);
 define ('MAX_PREDEFINED_OPERATION',30);
 
-define ("DEBUG",true);
+define ("DEBUG",false);
 if ( DEBUG ) error_reporting(15);  else error_reporting(0);
 // Erreur
 define ("NOERROR",0);
