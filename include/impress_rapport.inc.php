@@ -27,6 +27,8 @@ require_once("class_ihidden.php");
 require_once("class_iselect.php");
 require_once("class_idate.php");
 require_once("class_acc_report.php");
+require_once('class_exercice.php');
+
 //-----------------------------------------------------
 // If print is asked
 // First time in html
@@ -170,6 +172,23 @@ if ( sizeof($ret) == 0 )
 // Form
 //-----------------------------------------------------
 echo '<div class="content">';
+$exercice=(isset($_GET['exercice']))?$_GET['exercice']:$User->get_exercice();
+
+/*
+ * Let you change the exercice
+ */
+echo '<fieldset><legend>'._('Choississez un autre exercice').'</legend>';;
+echo '<form method="GET">';
+echo 'Choississez un autre exercice :';
+$ex=new Exercice($cn);
+$wex=$ex->select('exercice',$exercice,' onchange="submit(this)"');
+echo $wex->input();
+echo dossier::hidden();
+echo HtmlInput::get_to_hidden(array('p_action','type'));
+echo '</form>';
+echo '</fieldset>';
+
+
 echo '<FORM METHOD="GET">';
 $hidden=new IHidden();
 echo $hidden->input("p_action","impress");
@@ -196,7 +215,7 @@ echo '</Tr>';
 $w->javascript='';
 print '<TR>';
 // filter on the current year
-$filter_year=" where p_exercice='".$User->get_exercice()."'";
+$filter_year=" where p_exercice='".FormatString($exercice)."'";
 
 $periode_start=$cn->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 print td("P&eacute;riode comptable : Depuis");
