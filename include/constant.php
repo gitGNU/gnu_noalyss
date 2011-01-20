@@ -35,9 +35,9 @@ $g_captcha=false;
 /* set to none for production */
 /* uncomment for production */
 
-$version_phpcompta=SVNINFO; 
+// $version_phpcompta=SVNINFO; 
 
-/* $version_phpcompta=3872;*/
+$version_phpcompta=3872;
 
 define ("DBVERSION",92);
 define ("DBVERSIONREPO",13);
@@ -112,6 +112,10 @@ define ("ATTR_DEF_TVA_NON_DEDUCTIBLE",21);
 define ("ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP",22);
 define ("ATTR_DEF_QUICKCODE",23);
 
+define( 'ATTR_DEF_ACCOUNT_ND_TVA',50);
+define('ATTR_DEF_ACCOUNT_ND_TVA_ND',51);
+define ('ATTR_DEF_ACCOUNT_ND_PERSO',52);
+define ('ATTR_DEF_ACCOUNT_ND',53);
 
 define ("FICHE_TYPE_CLIENT",9);
 define ("FICHE_TYPE_VENTE",1);

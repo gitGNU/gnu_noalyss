@@ -480,24 +480,48 @@ class Fiche
             }
             else
             {
-                switch ($attr->ad_type)
+	      switch ($attr->ad_type)
                 {
                 case 'text':
-                    $w=new IText();
-                    $w->size=$attr->ad_size;
-                    break;
+		  $w=new IText();
+		  $w->size=$attr->ad_size;
+		  break;
                 case 'numeric':
-                    $w=new INum();
-                    $w->size=$attr->ad_size;
-                    break;
+		  $w=new INum();
+		  $w->size=$attr->ad_size;
+		  break;
                 case 'date':
-                    $w=new IDate();
-                    break;
+		  $w=new IDate();
+		  break;
                 case 'zone':
-                    $w=new ITextArea();
-                    $w->width=$attr->ad_size;
-                    $w->heigh=2;
-                    break;
+		  $w=new ITextArea();
+		  $w->width=$attr->ad_size;
+		  $w->heigh=2;
+		  break;
+		case 'poste':
+		  $w=new IPoste("av_text".$r->ad_id);
+		  $w->set_attribute('ipopup','ipop_account');
+		  $w->set_attribute('account',"av_text".$r->ad_id);
+		  $w->table=1;
+		  $bulle=HtmlInput::infobulle(10);
+		  break;
+		case 'card':
+		  $w=new ICard("av_text".$r->ad_id);
+		  // filter on frd_id
+		  $sql=' select fd_id from fiche_def ';
+		  $filter=$this->cn->make_list($sql);
+		  $w->extra=$filter;
+		  $w->extra2=0;
+		  $label=new ISpan();
+		  $label->name="av_text".$r->ad_id."_label";
+		  $w->set_attribute('ipopup','ipopcard');
+		  $w->set_attribute('typecard',$filter);
+		  $w->set_attribute('inp',"av_text".$r->ad_id);
+		  $w->set_attribute('label',"av_text".$r->ad_id."_label");
+		  $msg=$w->search();
+		  $msg.=$label->input();
+		  break;
+
                 }
                 $w->table=0;
 
@@ -611,9 +635,33 @@ class Fiche
                         $w->width=$r->ad_size;
                         $w->heigh=2;
                         break;
+		    case 'poste':
+		      $w=new IPoste("av_text".$r->ad_id);
+		      $w->set_attribute('ipopup','ipop_account');
+		      $w->set_attribute('account',"av_text".$r->ad_id);
+		      $w->table=1;
+		      $bulle=HtmlInput::infobulle(10);
+		      break;
+		    case 'card':
+		      $w=new ICard("av_text".$r->ad_id);
+		      // filter on frd_id
+		      $sql=' select fd_id from fiche_def ';
+		      $filter=$this->cn->make_list($sql);
+		      $w->extra=$filter;
+		      $w->extra2=0;
+		      $label=new ISpan();
+		      $label->name="av_text".$r->ad_id."_label";
+		      $w->set_attribute('ipopup','ipopcard');
+		      $w->set_attribute('typecard',$filter);
+		      $w->set_attribute('inp',"av_text".$r->ad_id);
+		      $w->set_attribute('label',"av_text".$r->ad_id."_label");
+		      $msg=$w->search();
+		      $msg.=$label->input();
+		      break;
+		    
                     default:
-                        var_dump($r);
-                        throw new Exception("Type invalide");
+		      var_dump($r);
+		      throw new Exception("Type invalide");
                     }
                     $w->table=0;
                 }
