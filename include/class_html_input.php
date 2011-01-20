@@ -276,6 +276,18 @@ class HtmlInput
                                $f_id, dossier::id(), $p_mesg);
         return $view_history;
     }
+    /**
+     * display a div with the history of the card
+     */
+    static function history_card_button($f_id,$p_mesg)
+    {
+      static $e=0;
+      $e++;
+      $js= sprintf('onclick="view_history_card(\'%s\',\'%s\')"',
+                               $f_id, dossier::id());
+      $view_history=HtmlInput::button("hcb"+$e,$p_mesg,$js);
+      return $view_history;
+    }
 
     /**
      * display a div with the history of the account
