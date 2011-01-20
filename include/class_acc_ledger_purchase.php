@@ -252,6 +252,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 			  {
 			    $nd_msg=sprintf(_("Pour la fiche %s, le compte %s n'existe pas"),
 					      $fiche->getName,$poste_nd->id);
+			    $nd_msg=h($nd_msg);
 			    throw new Exception ($nd_msg);
 			  }
 		      }
