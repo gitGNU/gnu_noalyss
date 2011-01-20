@@ -240,7 +240,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 	    /*
 	     * Check that the compensation entry does exist
 	     */
-	    foreach (array(ATTR_DEF_ND_TVA,ATTR_DEF_ND_TVA_ND,ATTR_DEF_ND_PERSO,ATTR_DEF_ND) as $nd)
+	    foreach (array(ATTR_DEF_ACCOUNT_ND_TVA,ATTR_DEF_ACCOUNT_ND_TVA_ND,ATTR_DEF_ACCOUNT_ND_PERSO,ATTR_DEF_ACCOUNT_ND) as $nd)
 	      {
 		if ( ! $fiche->empty_attribute($nd))
 		  {
@@ -548,14 +548,14 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $acc_operation->insert_jrnx();
             /*
              * Save all the no deductible
-	     * ATTR_DEF_ND_TVA,ATTR_DEF_ND_TVA_ND,ATTR_DEF_ND_PERSO,ATTR_DEF_ND
+	     *     ATTR_DEF_ACCOUNT_ND_TVA,ATTR_DEF_ACCOUNT_ND_TVA_ND,ATTR_DEF_ACCOUNT_ND_PERSO,ATTR_DEF_ACCOUNT_ND
              */
             if ( $tot_nd != 0)
             {
                 /* save op. */
-	      if ( ! $fiche->empty_attribute(ATTR_DEF_ND))
+	      if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND))
 		{
-		  $dna=$fiche->strAttribut(ATTR_DEF_ND);
+		  $dna=$fiche->strAttribut(ATTR_DEF_ACCOUNT_ND);
 		}
 	      else
 		{
@@ -570,15 +570,15 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 
             }
 	    /*
-	     *ATTR_DEF_ND_PERSO
+	     *ATTR_DEF_ACCOUNT_ND_PERSO
 	     */
             if ( $tot_perso != 0)
             {
                 /* save op. */
                 $acc_operation->type='d';
-		if ( ! $fiche->empty_attribute(ATTR_DEF_ND_PERSO))
+		if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_PERSO))
 		  {
-		    $dna=$fiche->strAttribut(ATTR_DEF_ND_PERSO);
+		    $dna=$fiche->strAttribut(ATTR_DEF_ACCOUNT_ND_PERSO);
 		  }
 		else
 		  {
@@ -597,9 +597,9 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 /* save op. */
                 $acc_operation->type='d';
                 $acc_operation->qcode='';
-	      if ( ! $fiche->empty_attribute(ATTR_DEF_ND_TVA))
+	      if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA))
 		{
-		  $dna=$fiche->strAttribut(ATTR_DEF_ND_TVA);
+		  $dna=$fiche->strAttribut(ATTR_DEF_ACCOUNT_ND_TVA);
 		}
 	      else
 		{
@@ -615,9 +615,9 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             if ( $tot_tva_ndded != 0)
             {
                 /* save op. */
-	      if ( ! $fiche->empty_attribute(ATTR_DEF_ND_TVA_ND))
+	      if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA_ND))
 		{
-		  $dna=$fiche->strAttribut(ATTR_DEF_ND_TVA_ND);
+		  $dna=$fiche->strAttribut(ATTR_DEF_ACCOUNT_ND_TVA_ND);
 		}
 	      else
 		{
