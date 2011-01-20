@@ -200,6 +200,7 @@ class Anticipation
 	$start_date->show_end_date=false;
 	$start_date->show_start_date=true;
 	$start_date->user=$user;
+	$start_date->filter_year=false;
 
 	$end_date=new IPeriod('end_date');
 	$end_date->type=ALL;
@@ -207,6 +208,7 @@ class Anticipation
 	$end_date->show_end_date=true;
 	$end_date->show_start_date=false;
 	$end_date->user=$user;
+	$end_date->filter_year=false;
 
 	$start_date->value=$a->f_start_date;
 	$end_date->value=$a->f_end_date;
@@ -259,6 +261,7 @@ class Anticipation
 	$start_date->show_end_date=false;
 	$start_date->show_start_date=true;
 	$start_date->user=$user;
+	$start_date->filter_year=false;
 
 	$end_date=new IPeriod('end_date');
 	$end_date->type=ALL;
@@ -266,6 +269,7 @@ class Anticipation
 	$end_date->show_end_date=true;
 	$end_date->show_start_date=false;
 	$end_date->user=$user;
+	$end_date->filter_year=false;
 
 	$period=$user->get_periode();
 	$per=new Periode($this->cn,$period);
