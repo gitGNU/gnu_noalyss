@@ -39,7 +39,7 @@ $g_captcha=false;
 
 $version_phpcompta=3872;
 
-define ("DBVERSION",92);
+define ("DBVERSION",93);
 define ("DBVERSIONREPO",13);
 define ('NOTFOUND','--not found--');
 

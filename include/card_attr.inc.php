@@ -74,7 +74,11 @@ $select_type->value=array(
                         array('value'=>'text','label'=>'Texte'),
                         array('value'=>'numeric','label'=>'Nombre'),
                         array('value'=>'date','label'=>'Date'),
-                        array('value'=>'zone','label'=>'Zone de texte')
+                        array('value'=>'zone','label'=>'Zone de texte'),
+                        array('value'=>'poste','label'=>'Poste Comptable'),
+                        array('value'=>'card','label'=>'Fiche'),
+
+
                     );
 $remove=new IButton('rmfa');
 $remove->label='Effacer';

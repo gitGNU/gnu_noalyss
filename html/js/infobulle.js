@@ -41,6 +41,7 @@ content[10]="ATTENTION changer le poste comptable d'une fiche <b>ne modifiera pa
 content[11]="ATTENTION si le poste comptable est  vide, il sera créé automatiquement";
 content[12]="Document généré uniquement si le mode de paiement est utilisé";
 content[13]="Vous pouvez utiliser le % pour indiquer le poste parent";
+content[14]="Attention, le poste comptable doit exister, il ne sera pas vérifié";
 
 function showBulle(p_ctl)
 {

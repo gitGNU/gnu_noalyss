@@ -251,7 +251,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 			if ( $poste_nd->load() == false)
 			  {
 			    $nd_msg=sprintf(_("Pour la fiche %s, le compte %s n'existe pas"),
-					      $fiche->getName,$poste_nd->id);
+					    $fiche->getName(),$poste_nd->id);
 			    $nd_msg=h($nd_msg);
 			    throw new Exception ($nd_msg);
 			  }
@@ -552,6 +552,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
              */
             if ( $tot_nd != 0)
             {
+		  $dna_default=new Acc_Parm_Code($this->db,'DNA');
+		  
                 /* save op. */
 	      if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND))
 		{
@@ -559,11 +561,13 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 		}
 	      else
 		{
-		  $dna=new Acc_Parm_Code($this->db,'DNA');
+		  $dna=$dna_default->p_value;
 		}
+	      $dna=($dna=='')?$dna_default->p_value:$dna;
+
                 $acc_operation->type='d';
                 $acc_operation->amount=$tot_nd;
-                $acc_operation->poste=$dna->p_value;
+                $acc_operation->poste=$dna;
                 $acc_operation->qcode='';
                 if ( $tot_nd > 0 ) $tot_debit=bcadd($tot_debit,$tot_nd);
                 $j_id=$acc_operation->insert_jrnx();
@@ -574,6 +578,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 	     */
             if ( $tot_perso != 0)
             {
+	      $dna_default=new Acc_Parm_Code($this->db,'DEP_PRIV');
+
                 /* save op. */
                 $acc_operation->type='d';
 		if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_PERSO))
@@ -582,11 +588,12 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 		  }
 		else
 		  {
-		    $dna=new Acc_Parm_Code($this->db,'DEV_PRIV');
+		    $dna=$dna_default->p_value;
 		  }
-		
+		$dna=($dna=='')?$dna_default->p_value:$dna;
+
                 $acc_operation->amount=$tot_perso;
-                $acc_operation->poste=$dna->p_value;
+                $acc_operation->poste=$dna;
                 $acc_operation->qcode='';
                 if ( $tot_perso > 0 ) $tot_debit=bcadd($tot_debit,$tot_perso);
                 $j_id=$acc_operation->insert_jrnx();
@@ -594,42 +601,47 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             }
             if ( $tot_tva_nd != 0)
             {
+	      $dna_default=new Acc_Parm_Code($this->db,'TVA_DNA');
+
                 /* save op. */
                 $acc_operation->type='d';
                 $acc_operation->qcode='';
-	      if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA))
-		{
-		  $dna=$fiche->strAttribut(ATTR_DEF_ACCOUNT_ND_TVA);
-		}
-	      else
-		{
-		  $dna=new Acc_Parm_Code($this->db,'TVA_DNA');
-		}
-
-                $acc_operation->amount=$tot_tva_nd;
-                $acc_operation->poste=$dna->p_value;
-                if ( $tot_tva_nd > 0 ) $tot_debit=bcadd($tot_debit,$tot_tva_nd);
-                $j_id=$acc_operation->insert_jrnx();
-
-            }
-            if ( $tot_tva_ndded != 0)
-            {
-                /* save op. */
 	      if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA_ND))
 		{
 		  $dna=$fiche->strAttribut(ATTR_DEF_ACCOUNT_ND_TVA_ND);
 		}
 	      else
 		{
-		  $dna=new Acc_Parm_Code($this->db,'TVA_DED_IMPOT');
+		  $dna=$dna_default->p_value;
 		}
+	      $dna=($dna=='')?$dna_default->p_value:$dna;
+	      
+                $acc_operation->amount=$tot_tva_nd;
+                $acc_operation->poste=$dna;
+                if ( $tot_tva_nd > 0 ) $tot_debit=bcadd($tot_debit,$tot_tva_nd);
+                $j_id=$acc_operation->insert_jrnx();
+
+            }
+            if ( $tot_tva_ndded != 0)
+            {
+	      $dna_default=new Acc_Parm_Code($this->db,'TVA_DED_IMPOT');
+                /* save op. */
+	      if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA))
+		{
+		  $dna=$fiche->strAttribut(ATTR_DEF_ACCOUNT_ND_TVA);
+		}
+	      else
+		{
+		  $dna=$dna_default->p_value;
+		}
+	      $dna=($dna=='')?$dna_default->value:$dna;
 
 
 
                 $acc_operation->type='d';
                 $acc_operation->qcode='';
                 $acc_operation->amount=$tot_tva_ndded;
-                $acc_operation->poste=$dna->p_value;
+                $acc_operation->poste=$dna;
                 if ( $tot_tva_ndded > 0 ) $tot_debit=bcadd($tot_debit,$tot_tva_ndded);
                 $j_id=$acc_operation->insert_jrnx();
 

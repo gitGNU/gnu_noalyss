@@ -499,14 +499,14 @@ class Fiche
 		  $w->heigh=2;
 		  break;
 		case 'poste':
-		  $w=new IPoste("av_text".$r->ad_id);
+		  $w=new IPoste("av_text".$attr->ad_id);
 		  $w->set_attribute('ipopup','ipop_account');
-		  $w->set_attribute('account',"av_text".$r->ad_id);
+		  $w->set_attribute('account',"av_text".$attr->ad_id);
 		  $w->table=1;
-		  $bulle=HtmlInput::infobulle(10);
+		  $bulle=HtmlInput::infobulle(14);
 		  break;
 		case 'card':
-		  $w=new ICard("av_text".$r->ad_id);
+		  $w=new ICard("av_text".$attr->ad_id);
 		  // filter on frd_id
 		  $sql=' select fd_id from fiche_def ';
 		  $filter=$this->cn->make_list($sql);
@@ -640,7 +640,7 @@ class Fiche
 		      $w->set_attribute('ipopup','ipop_account');
 		      $w->set_attribute('account',"av_text".$r->ad_id);
 		      $w->table=1;
-		      $bulle=HtmlInput::infobulle(10);
+		      $bulle=HtmlInput::infobulle(14);
 		      break;
 		    case 'card':
 		      $w=new ICard("av_text".$r->ad_id);
