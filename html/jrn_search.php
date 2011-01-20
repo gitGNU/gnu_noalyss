@@ -29,6 +29,8 @@ require_once("user_common.php");
 $rep=new Database();
 include_once ("class_user.php");
 require_once('class_html_input.php');
+require_once('function_javascript.php');
+echo load_all_script();
 $User=new User($rep);
 $User->Check();
 
