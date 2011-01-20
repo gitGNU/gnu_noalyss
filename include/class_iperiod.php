@@ -41,7 +41,7 @@ class IPeriod extends HtmlInput
     var $show_start_date; /*!< $show_start_date is not set or false, do not show the start date */
     var $filter_year; /*!< $filter_year make a filter on the default exercice by default yes */
     var $user;  /*! $user if a filter is required then we need who is the user (object User)*/
-    function __construct($p_name="",$p_value="")
+    function __construct($p_name="",$p_value="",$p_exercice='')
     {
         $this->name=$p_name;
         $this->readOnly=false;
@@ -56,10 +56,13 @@ class IPeriod extends HtmlInput
         $this->extra2="all";
         $this->show_start_date=true;
         $this->show_end_date=true;
-
+	$this->exercice=$p_exercice;
     }
     /*!
      * \brief show the input html for a periode
+     *\param $p_name is the name of the widget
+     *\param $p_value is the default value
+     *\param $p_exercice is the exercice, if not set then the user preference is used
      * \return string containing html code for the HTML
      *       
      *
@@ -98,16 +101,24 @@ class IPeriod extends HtmlInput
 
 	$cond="";
 
+
         /* Create a filter on the current exercice */
         if ( ! isset($this->filter_year) || (isset($this->filter_year) && $this->filter_year==true))
         {
-            if (! isset($this->user) ) throw new Exception (__FILE__.':'.__LINE__.' user is not set');
+	  if ( $this->exercice=='')
+	    {
+	      if (! isset($this->user) ) throw new Exception (__FILE__.':'.__LINE__.' user is not set');
+	      $this->exercice=$this->user->get_exercice();
+	    }
+
             $cond='';
 	    if ( $sql_closed=="") $and=" where " ; else $and=" and ";
             if ($this->type == 'all' ) $cond=$and.'   true ';
-            $cond.=" $and p_exercice='".$this->user->get_exercice()."'";
+            $cond.=" $and p_exercice='".FormatString($this->exercice)."'";
         }
+
         $sql.=$cond."  order by p_start,p_end";
+
         $Res=$this->cn->exec_sql($sql);
         $Max=$this->cn->size($Res);
         if ( $Max == 0 )  throw new Exception(_('Aucune periode trouvée'),1);

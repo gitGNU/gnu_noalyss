@@ -33,30 +33,50 @@ require_once("class_icheckbox.php");
 require_once("class_ihidden.php");
 require_once('class_acc_ledger.php');
 require_once('class_periode.php');
+require_once('class_exercice.php');
 
 $User->can_request(IMPBAL);
-require_once('class_ipopup.php');
-echo IPoste::ipopup('ipop_account');
+$exercice=(isset($_GET['exercice']))?$_GET['exercice']:$User->get_exercice();
+
+
 echo '<div class="content">';
+/*
+ * Let you change the exercice
+ */
+echo '<fieldset><legend>'._('Choississez un autre exercice').'</legend>';;
+echo '<form method="GET">';
+echo 'Choississez un autre exercice :';
+$ex=new Exercice($cn);
+$wex=$ex->select('exercice',$exercice,' onchange="submit(this)"');
+echo $wex->input();
+echo dossier::hidden();
+echo HtmlInput::get_to_hidden(array('p_action','type'));
+echo '</form>';
+echo '</fieldset>';
+
 
 // Show the form for period
 echo '<FORM  method="get">';
 echo HtmlInput::hidden('p_action','impress');
 echo HtmlInput::hidden('type','bal');
-
+echo HtmlInput::get_to_hidden(array('exercice'));
 echo dossier::hidden();
+
+
+
 // filter on the current year
 $from=(isset($_GET["from_periode"]))?$_GET['from_periode']:"";
-$input_from=new IPeriod("from_periode",$from);
+$input_from=new IPeriod("from_periode",$from,$exercice);
 $input_from->show_end_date=false;
 $input_from->type=ALL;
 $input_from->cn=$cn;
 $input_from->filter_year=true;
 $input_from->user=$User;
+
 echo 'Depuis :'.$input_from->input();
 // filter on the current year
 $to=(isset($_GET["to_periode"]))?$_GET['to_periode']:"";
-$input_to=new IPeriod("to_periode",$to);
+$input_to=new IPeriod("to_periode",$to,$exercice);
 $input_to->show_start_date=false;
 $input_to->filter_year=true;
 $input_to->type=ALL;

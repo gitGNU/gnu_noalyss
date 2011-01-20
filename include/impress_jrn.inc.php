@@ -25,7 +25,7 @@
 require_once("class_ihidden.php");
 require_once("class_iselect.php");
 require_once("class_icheckbox.php");
-
+require_once('class_exercice.php');
 require_once('class_dossier.php');
 load_all_script();
 $gDossier=dossier::id();
@@ -70,16 +70,32 @@ if ( $NoPriv == 0 )
 }
 if ( count($ret) < 1 )
     NoAccess();
+$exercice=(isset($_GET['exercice']))?$_GET['exercice']:$User->get_exercice();
 
 //-----------------------------------------------------
 // Form
 //-----------------------------------------------------
-
 echo '<div class="content">';
+/*
+ * Let you change the exercice
+ */
+echo '<fieldset><legend>'._('Choississez un autre exercice').'</legend>';;
+echo '<form method="GET">';
+echo 'Choississez un autre exercice :';
+$ex=new Exercice($cn);
+$wex=$ex->select('exercice',$exercice,' onchange="submit(this)"');
+echo $wex->input();
+echo dossier::hidden();
+echo HtmlInput::get_to_hidden(array('p_action','type'));
+echo '</form>';
+echo '</fieldset>';
+
+
+
 echo '<FORM METHOD="GET">'.dossier::hidden();
 echo HtmlInput::hidden('p_action','impress');
 echo HtmlInput::hidden('type','jrn');
-
+echo HtmlInput::get_to_hidden(array('exercice'));
 echo '<TABLE  ><TR>';
 $w=new ISelect();
 $w->table=1;
@@ -89,7 +105,7 @@ print td($label).$w->input("jrn_id",$ret);
 print '</TR>';
 print '<TR>';
 // filter on the current year
-$filter_year=" where p_exercice='".$User->get_exercice()."'";
+$filter_year=" where p_exercice='".FormatString($exercice)."'";
 
 $periode_start=$cn->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 $w->selected=(isset($_GET['from_periode']))?$_GET['from_periode']:'';

@@ -18,6 +18,8 @@
 */
 /* $Revision$ */
 require_once ('class_acc_bilan.php');
+require_once('class_exercice.php');
+
 //ini_set("memory_limit","150M");
 /*! \file
  * \brief form who call the printing of the bilan in RTF
@@ -34,17 +36,34 @@ require_once('class_database.php');
 //-----------------------------------------------------
 // Form
 //-----------------------------------------------------
-$filter_year=" where p_exercice='".$User->get_exercice()."'";
+
 $bilan=new Acc_Bilan($cn);
 $bilan->get_request_get();
 echo '<div class="content">';
+$exercice=(isset($_GET['exercice']))?$_GET['exercice']:$User->get_exercice();
 
+/*
+ * Let you change the exercice
+ */
+echo '<fieldset><legend>'._('Choississez un autre exercice').'</legend>';;
+echo '<form method="GET">';
+echo 'Choississez un autre exercice :';
+$ex=new Exercice($cn);
+$wex=$ex->select('exercice',$exercice,' onchange="submit(this)"');
+echo $wex->input();
+echo dossier::hidden();
+echo HtmlInput::get_to_hidden(array('p_action','type'));
+echo '</form>';
+echo '</fieldset>';
+
+$filter_year=" where p_exercice='".FormatString($exercice)."'";
 echo '<FORM  METHOD="GET">';
 echo HtmlInput::hidden('p_action','impress');
 echo HtmlInput::hidden('type','bilan');
 echo dossier::hidden();
 echo $bilan->display_form ($filter_year);
 echo HtmlInput::submit('verif',_('Verification comptabilite'));
+echo HtmlInput::get_to_hidden(array('exercice'));
 echo '</FORM>';
 
 
@@ -58,6 +77,7 @@ if ( isset($_GET['verif']))
 
     echo '<FORM METHOD="GET" ACTION="bilan.php">';
     echo dossier::hidden();
+    echo HtmlInput::get_to_hidden(array('exercice'));
     echo HtmlInput::hidden('b_id',$_GET['b_id']);
 
     echo HtmlInput::hidden('from_periode',$bilan->from);
