@@ -1,7 +1,7 @@
 body {
 	font-size:7pt
 	}
-select { 
+select ,.input_text{ 
 border:1px solid #FFFFFF;
  }
 form { 
