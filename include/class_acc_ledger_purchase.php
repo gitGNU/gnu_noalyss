@@ -237,6 +237,26 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                         throw new Exception ($key._("ce code n'a pas de poste comptable, créez ce poste : [".$a->p_value."]"));
                 }
             }
+	    /*
+	     * Check that the compensation entry does exist
+	     */
+	    foreach (array(ATTR_DEF_ND_TVA,ATTR_DEF_ND_TVA_ND,ATTR_DEF_ND_PERSO,ATTR_DEF_ND) as $nd)
+	      {
+		if ( ! $fiche->empty_attribute($nd))
+		  {
+		    $nd_str=$fiche->strAttribut($nd);
+		    if ( $nd_str != '')
+		      {
+			$poste_nd=new Acc_Account_Ledger($this->db,$nd_str);
+			if ( $poste_nd->load() == false)
+			  {
+			    $nd_msg=sprintf(_("Pour la fiche %s, le compte %s n'existe pas"),
+					      $fiche->getName,$poste_nd->id);
+			    throw new Exception ($nd_msg);
+			  }
+		      }
+		  }
+	      }
             $nb++;
         }
         if ( $nb == 0 )
@@ -527,11 +547,19 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $acc_operation->insert_jrnx();
             /*
              * Save all the no deductible
+	     * ATTR_DEF_ND_TVA,ATTR_DEF_ND_TVA_ND,ATTR_DEF_ND_PERSO,ATTR_DEF_ND
              */
             if ( $tot_nd != 0)
             {
                 /* save op. */
-                $dna=new Acc_Parm_Code($this->db,'DNA');
+	      if ( ! $fiche->empty_attribute(ATTR_DEF_ND))
+		{
+		  $dna=$fiche->strAttribut(ATTR_DEF_ND);
+		}
+	      else
+		{
+		  $dna=new Acc_Parm_Code($this->db,'DNA');
+		}
                 $acc_operation->type='d';
                 $acc_operation->amount=$tot_nd;
                 $acc_operation->poste=$dna->p_value;
@@ -540,11 +568,22 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $j_id=$acc_operation->insert_jrnx();
 
             }
+	    /*
+	     *ATTR_DEF_ND_PERSO
+	     */
             if ( $tot_perso != 0)
             {
                 /* save op. */
                 $acc_operation->type='d';
-                $dna=new Acc_Parm_Code($this->db,'DEP_PRIV');
+		if ( ! $fiche->empty_attribute(ATTR_DEF_ND_PERSO))
+		  {
+		    $dna=$fiche->strAttribut(ATTR_DEF_ND_PERSO);
+		  }
+		else
+		  {
+		    $dna=new Acc_Parm_Code($this->db,'DEV_PRIV');
+		  }
+		
                 $acc_operation->amount=$tot_perso;
                 $acc_operation->poste=$dna->p_value;
                 $acc_operation->qcode='';
@@ -557,7 +596,15 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 /* save op. */
                 $acc_operation->type='d';
                 $acc_operation->qcode='';
-                $dna=new Acc_Parm_Code($this->db,'TVA_DNA');
+	      if ( ! $fiche->empty_attribute(ATTR_DEF_ND_TVA))
+		{
+		  $dna=$fiche->strAttribut(ATTR_DEF_ND_TVA);
+		}
+	      else
+		{
+		  $dna=new Acc_Parm_Code($this->db,'TVA_DNA');
+		}
+
                 $acc_operation->amount=$tot_tva_nd;
                 $acc_operation->poste=$dna->p_value;
                 if ( $tot_tva_nd > 0 ) $tot_debit=bcadd($tot_debit,$tot_tva_nd);
@@ -567,7 +614,16 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             if ( $tot_tva_ndded != 0)
             {
                 /* save op. */
-                $dna=new Acc_Parm_Code($this->db,'TVA_DED_IMPOT');
+	      if ( ! $fiche->empty_attribute(ATTR_DEF_ND_TVA_ND))
+		{
+		  $dna=$fiche->strAttribut(ATTR_DEF_ND_TVA_ND);
+		}
+	      else
+		{
+		  $dna=new Acc_Parm_Code($this->db,'TVA_DED_IMPOT');
+		}
+
+
 
                 $acc_operation->type='d';
                 $acc_operation->qcode='';
