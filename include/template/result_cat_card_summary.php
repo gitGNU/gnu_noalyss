@@ -1,7 +1,9 @@
 <div class="content">
 <table >
 <tr>
-<? for ($i=0;$i<count($aHeading);$i++) :
+<? 
+   echo th('Détail');
+for ($i=0;$i<count($aHeading);$i++) :
    echo th($aHeading[$i]->ad_text,'style="color:blue;padding: 0 5 1 10"');
    endfor;
 ?>
@@ -17,6 +19,8 @@ foreach ($array as $row ) :
    $fiche=new Fiche($cn);
    $fiche->id=$row['f_id'];
  $fiche->getAttribut();
+$detail=HtmlInput::card_detail($fiche->strAttribut(ATTR_DEF_QUICKCODE),$fiche->strAttribut(ATTR_DEF_QUICKCODE));
+echo td($detail);
  foreach($fiche->attribut as $attr) :
     echo td($attr->av_text,'style="padding: 0 10 1 10;white-space:nowrap;"');
  endforeach;       
