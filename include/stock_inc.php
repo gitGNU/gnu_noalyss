@@ -93,7 +93,7 @@ function ViewStock($p_cn,$p_year)
 
         // Debit (in)
         $deb=GetQuantity($p_cn,$r['sg_code'],$p_year,'d');
-        $deb=($deb=='')?"0.0":$cred;
+        $deb=($deb=='')?"0.0":$deb;
         $result.='<td style="text-align:right">'.$deb."</td>";
 
         // Credit (out)
