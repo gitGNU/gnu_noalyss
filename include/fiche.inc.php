@@ -299,6 +299,7 @@ if ( isset ( $_GET["action"]) )
 
             echo HtmlInput::submit("update_fiche","Mise &agrave; jour");
             echo HtmlInput::submit("delete" ,"Effacer cette fiche","onclick=\"return confirm('"._('Vous confirmez ?')."');\"");
+	    echo HtmlInput::history_card_button($_GET['fiche_id'],_('Historique'));
             echo HtmlInput::submit('move',_('Déplacer vers'),"onclick=\"return confirm('"._('Attention, certains attributs pourraient être ajoutés à la catégorie de destination, vous confirmez ?')."');\"");
             echo $iselect->input();
         }
