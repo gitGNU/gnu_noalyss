@@ -883,7 +883,7 @@ function display_periode(p_dossier,p_id)
      try
     {
         var queryString="gDossier="+p_dossier+"&op=input_per"+"&p_id="+p_id;
-	var popup={'id': 'mod_periode','cssclass':'op_detail','html':loading(),'style':'position:absolute;top:45%;left:45%;width:30em','drag':true};
+	var popup={'id': 'mod_periode','cssclass':'op_detail','html':loading(),'style':'width:30em','drag':true};
 	if ( ! $('mod_periode') ) {
 	    add_div(popup);
 	}
@@ -895,7 +895,9 @@ function display_periode(p_dossier,p_id)
               onSuccess:success_display_periode
             }
         );
-    }
+	$('mod_periode').style.top=posY-70;
+	$('mod_periode').style.left=posX-70;
+   }
     catch (e)
     {
         alert("display_periode "+e.message);
