@@ -418,6 +418,35 @@ class HtmlInput
 	return $r;
     }
     /**
+     * button Html with an action in the top
+     *@param $action action action to perform (message)
+     *@param $javascript javascript of the DIV to close
+     *@see Acc_Ledger::display_search_form
+     *@note not protected against html
+     *@param $div_name is the name of the div to remove
+     */
+    static function button_action($action,$javascript)
+    {
+
+
+    }
+    /**
+     * Return a html string with an anchor looking like anchor_button in the right corner
+     *@param $action action action to perform (message)
+     *@param $javascript javascript 
+     *@note not protected against html
+     *@see Acc_Ledger::display_search_form
+     */
+    static function anchor_action($action,$javascript)
+    {
+	$r='';
+	$r.='<div style="float:right">';
+	$r.= '<A style="background-color:blue;color:white;text-decoration:none" HREF="javascript:void(0)" onclick="'.$javascript.'");">'.$action.'</A>';
+	$r.='</div>';
+	return $r;
+    }
+
+    /**
      * Javascript to print the current window
      */
     static function print_window()

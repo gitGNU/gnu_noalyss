@@ -35,17 +35,6 @@ require_once('class_periode.php');
 require_once('function_javascript.php');
 require_once('class_ipopup.php');
 
-echo ICard::ipopup('ipopcard');
-echo ICard::ipopup('ipop_newcard');
-echo IPoste::ipopup('ipop_account');
-$search_card=new IPopup('ipop_card');
-$search_card->title=_('Recherche de fiche');
-$search_card->value='';
-echo $search_card->input();
-$pop_tva=new IPopup('popup_tva');
-$pop_tva->title=_('Choix TVA');
-$pop_tva->value='';
-echo $pop_tva->input();
 
 
 $cn=new Database(dossier::id());
@@ -165,6 +154,7 @@ if ($sa == 'l' && $id != -1)
     show_qw_menu(1);
     echo '<div class="content">';
     $Ledger=new Acc_Ledger($cn,$id);
+    
     $type=$Ledger->get_type();
     $href=basename($_SERVER['PHP_SELF']);
 
@@ -176,6 +166,7 @@ if ($sa == 'l' && $id != -1)
     echo $Ledger->search_form($type,0);
     echo HtmlInput::submit("qwlist",_("Recherche"));
     echo '</form>';
+    
     $array=$_GET;
     list($sql,$where)=$Ledger->build_search_sql($array);
 

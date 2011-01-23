@@ -2449,15 +2449,9 @@ class Acc_Ledger
         $type=$this->type;
 
         if ( $type=="" || $this->id==0) $type='ALL';
-        if ( isset($_GET['amount_min']) )
-        {
-            $display='block';
-        }
-        else
-        {
-            $display='none';
-        }
-        $r.='<div id="search_form" style="display:'.$display.'">';
+        $r.='<div id="search_form" style="display:none">';
+	$r.=HtmlInput::anchor_action('Fermer','$(\'search_form\').style.display=\'none\';');
+	$r.=h2info('Recherche');
         $r.='<FORM METHOD="GET">';
         $r.=$this->search_form($type);
         $r.=HtmlInput::submit('search',_('Rechercher'));
@@ -2468,14 +2462,17 @@ class Acc_Ledger
         if (isset($_REQUEST['sb'])) $r.= HtmlInput::hidden("sb",$_REQUEST['sb']);
         if (isset($_REQUEST['sc'])) $r.= HtmlInput::hidden("sc",$_REQUEST['sc']);
         if (isset($_REQUEST['f_id'])) $r.=HtmlInput::hidden("f_id",$_REQUEST['f_id']);
+	$r.=HtmlInput::button_anchor('Fermer','javascript:void(0)','fsearch_form','onclick="$(\'search_form\').style.display=\'none\';"');
 
         $r.='</FORM>';
-        $button=new IButton('tfs');
-        $button->label=_("Afficher recherche");
-        $button->javascript="toggleHideShow('search_form','tfs');";
-        $r.='</div>';
-        $r.=$button->input();
 
+        $r.='</div>';
+        $button=new IButton('tfs');
+        $button->label=_("Filtrer");
+        $button->javascript="toggleHideShow('search_form','tfs');";
+
+        $r.=$button->input();
+	$r.='<hr>';
         return $r;
     }
 
