@@ -549,13 +549,17 @@ class Fiche
     {
         $this->GetAttribut();
         $attr=$this->attribut;
+	/* show card type here */
+	$type_card=$this->cn->get_value('select fd_label from fiche_def join fiche using (fd_id) where f_id=$1',array($this->id));
+	$ret=h2("Type de fiche : ".h($type_card),"");
 
-        $ret="<table>";
+        $ret.="<table>";
         if ( empty ($attr) )
         {
 	  return 'FNT';
         }
 
+	/* for each attribute */
         foreach ( $attr as $r)
         {
             $msg="";
