@@ -2192,9 +2192,21 @@ class Acc_Ledger
         $f_qcode=new ICard('qcode');
 
         $f_qcode->set_attribute('typecard','all');
+	/*        $f_qcode->set_attribute('p_jrn','0');
+
         $f_qcode->set_callback('filter_card');
-        $f_txt_qcode=new IText('qcode');
+	*/
+	$f_qcode->set_dblclick("fill_ipopcard(this);");
+	// Add the callback function to filter the card on the jrn
+	//$f_qcode->set_callback('filter_card');
+	$f_qcode->set_function('fill_data');
+	$f_qcode->javascript=sprintf(' onchange="fill_data_onchange(\'%s\');" ',
+					$f_qcode->name);
+	$f_qcode->value=(isset($_REQUEST['qcode']))?$_REQUEST['qcode']:'';
+
+	/*        $f_txt_qcode=new IText('qcode');
         $f_txt_qcode->value=(isset($_REQUEST['qcode']))?$_REQUEST['qcode']:'';
+	*/
 
         /* input poste comptable */
         $f_accounting=new IPoste('accounting');
