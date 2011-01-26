@@ -91,6 +91,8 @@ if ( $owner->MY_TVA_USE == 'Y') {
   echo th('');
 }
 echo th(_('Quantité'), 'style="text-align:right"');
+echo th(_('Non ded'), 'style="text-align:right"');
+
 if ( $owner->MY_TVA_USE == 'Y') {
   echo th(_('HTVA'), 'style="text-align:right"');
   echo th(_('TVA'), 'style="text-align:right"');
@@ -118,6 +120,7 @@ echo '</tr>';
 
    $row=td($view_history);
    $sym_tva='';
+
    if ( $owner->MY_TVA_USE=='Y') {
      /* retrieve TVA symbol */
      $tva=new Acc_Tva($cn,$q['qp_vat_code']);
@@ -127,12 +130,23 @@ echo '</tr>';
     $row.=td($fiche->strAttribut(ATTR_DEF_NAME));
     $row.=td($sym_tva,'style="text-align:center"');
     $row.=td(nbm($q['qp_quantite']),'class="num"');
+
+    $no_ded=bcadd($q['qp_dep_priv'],$q['qp_nd_amount']);
+    $row.=td(nbm($no_ded),' style="text-align:right"');
     $htva=$q['qp_price'];
+
+
     $row.=td(nbm($htva),'class="num"');
     $tvac=bcadd($htva,$q['qp_vat']);
+    $tvac=bcadd($tvac,$q['qp_nd_tva']);
+    $tvac=bcadd($tvac,$q['qp_nd_tva_recup']);
+
+
     if ($owner->MY_TVA_USE=='Y')
       {
-	$row.=td(nbm($q['qp_vat']),'class="num"');
+	$tva_amount=bcadd($q['qp_vat'],$q['qp_nd_tva']);
+	$tva_amount=bcadd($tva_amount,$q['qp_nd_tva_recup']);
+	$row.=td(nbm($tva_amount),'class="num"');
 	$row.=td(nbm($tvac),'class="num"');
       }
     $total_tvac+=$tvac;
