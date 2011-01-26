@@ -350,19 +350,25 @@ if ($def==4)
     // without receipt number
     //-------------------------
     echo '<div class="content">';
+    echo '<form method="get">';
+    echo HtmlInput::get_to_hidden(array('gDossier','p_action','sa'));
+    $wLedger=$Ledger->select_ledger('FIN',3);
+    if ($wLedger == null ) exit ('Pas de journal disponible');
+    
+    $wLedger->javascript="onchange='this.form.submit()';";
+    echo $wLedger->input();
+    echo HtmlInput::submit('ref','Rafraîchir');
+    echo '</form>';
+
     echo '<form method="post" id="rec1">';
 
     echo dossier::hidden();
-    echo HtmlInput::hidden('sa','r');
-    $wLedger=$Ledger->select_ledger('FIN',3);
-    if ($wLedger == null ) exit ('Pas de journal disponible');
+    echo HtmlInput::get_to_hidden(array('sa','p_action','p_jrn'));
 
-    $wLedger->javascript="onchange='this.form.submit()';";
-    echo $wLedger->input();
     $operation=$cn->get_array("select jr_id,jr_internal,jr_comment,to_char(jr_date,'DD.MM.YYYY') as fmt_date,jr_montant
                               from jrn where jr_def_id=$1 and (jr_pj_number is null or jr_pj_number='') order by jr_date",
                               array($Ledger->id));
-    echo '<span id="bkname">'.$Ledger->get_bank_name().'</span>';
+    echo '<span id="bkname">'.hb(h($Ledger->get_bank_name())).'</span>';
     echo '<p>';
     $iextrait=new IText('ext');
     $iextrait->value=$Ledger->guess_pj();
