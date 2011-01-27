@@ -39,8 +39,13 @@ require_once('class_anc_operation.php');
 require_once('class_idate.php');
 require_once('class_ibox.php');
 /**
- *@todo Check if we receive the needed data (jr_id...)
+ * Check if we receive the needed data (jr_id...)
  */
+if ( ! isset ($_REQUEST['act'])|| ! isset ($_REQUEST['jr_id']) 
+     || ! isset ($_REQUEST['div']))
+  {
+    exit();
+  }
 $action=$_REQUEST['act'];
 $jr_id=$_REQUEST['jr_id'];
 $div=$_REQUEST['div'];		/* the div source and target for javascript */
