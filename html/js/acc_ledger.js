@@ -342,11 +342,6 @@ function refresh_ledger()
  */
 function success_compute_ledger(request,json)
 {
-    /**
-     *@todo add a control 
-     * - 0 everything is ok
-     * - 1 tva id  is invalid
-     */
     var answer=request.responseText.evalJSON(true);
     var ctl=answer.ctl;
     var rtva=answer.tva;

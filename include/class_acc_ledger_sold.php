@@ -607,7 +607,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger
      *\param array contains normally $_POST. It proposes also to save
      * the Analytic accountancy
      *\return string
-     *\todo verify also the vat
      */
     function confirm($p_array)
     {

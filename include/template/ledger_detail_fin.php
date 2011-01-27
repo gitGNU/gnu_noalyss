@@ -25,10 +25,6 @@ $view_history= sprintf('<A class="detail" HREF="javascript:view_history_card(\'%
 				$bk->id, $gDossier, $bk->get_quick_code());
 echo td(h($bk->getName())).td($view_history);;
 
-/**
- *@file
- *@todo Ajouter une clef unique sur quant_fin.jr_id, quant_purchase.j_id et quant_sold.j_id
- */
 ?>
 </tr>
 <tr>
