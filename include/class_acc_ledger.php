@@ -336,10 +336,6 @@ class Acc_Ledger
      */
     function get_row($p_from,$p_to,$p_limit=-1,$p_offset=-1)
     {
-        /**
-         *@todo add a filter for security
-         */
-
         $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
 
         $cond_limite=($p_limit!=-1)?" limit ".$p_limit." offset ".$p_offset:"";
