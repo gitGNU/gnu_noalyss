@@ -1783,10 +1783,6 @@ class Fiche
         {
             $query=FormatString($query);
 
-            /**
-             *@function
-             *@todo FS#151 bad performance, to be changed with a prepare stmt
-             */
             if (strlen(trim($query)) > 1)
             {
                 $filter_query=$and."(vw_name ilike '%$query%' or quick_code ilike ('%$query%') or vw_description ilike '%$query%' or tva_num ilike '%$query%')";
