@@ -28,10 +28,6 @@
  * - p_action is ext
  * - sb is nothing vw (view) or save
  * - $cn database connection
- *@todo Extension : ne doit faire de location.reload mais utiliser javascript pour metter
- * à jour la table présentant les extensions : delete -> enlève une ligne, add / update -> mettre
- *  la ligne à jour. 
- * Le bouton delete doit être déplacé dans le form AJAX
  */
 
 require_once('class_extension.php');
