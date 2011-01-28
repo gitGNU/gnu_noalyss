@@ -186,7 +186,7 @@ if ( strlen(domaine) > 0 )
 
 echo '
 <span style="background-color:#879ed4;color:white;padding-left:4px;padding-right:4px;">
-version  5.2.SVNINFO - '.$my_domain.'
+version  5.4.SVNINFO - '.$my_domain.'
 </span>
 <BR>
 <BR>
