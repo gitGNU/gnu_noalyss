@@ -79,7 +79,7 @@ if ( isset ($_POST["add"]) )
             $p_jrn_class_deb=FormatString($_POST["p_jrn_class_deb"]);
             if (strlen(trim($p_jrn_name))==0) return;
             // compute the jrn_def.jrn_def_code
-            $p_code=sprintf("%s-%02d",trim($_POST['p_jrn_type']),Acc_Ledger::next_number($cn,$_POST['p_jrn_type']));
+            $p_code=sprintf("%s%02d",trim(substr($_POST['p_jrn_type'],0,1)),Acc_Ledger::next_number($cn,$_POST['p_jrn_type']));
             $p_jrn_fiche_deb="";
             $p_jrn_fiche_cred="";
 

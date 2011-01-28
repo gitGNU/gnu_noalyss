@@ -1710,10 +1710,10 @@ class Acc_Ledger
     function compute_internal_code($p_grpt)
     {
         if ( $this->id==0) return;
-        $num = $this->db->get_next_seq('s_internal');
+        $num =$this->db->get_next_seq('s_internal');
         $atype=$this->get_propertie();
         $type=$atype['jrn_def_code'];
-        $internal_code=sprintf("%s-%s",$type,$num);
+        $internal_code=sprintf("%s%06X",$type,$num);
         $this->jr_internal=$internal_code;
         return $internal_code;
     }
