@@ -81,7 +81,7 @@ if ( $div != 'popup' ) {
 echo '</form>';
   
   echo '<div id="ext'.$div.'" style="display:none">';
-  $date=new IDate('p_date');
+  $date=new IDate('ext_date');
   $r="<form id=\"form_".$div."\" onsubmit=\"this.divname='$div';return reverseOperation(this);\">";
   $r.=HtmlInput::hidden('jr_id',$_REQUEST['jr_id']).HtmlInput::hidden('div',$div).dossier::hidden().HtmlInput::hidden('act','reverseop');
   $r.='<h2 class="info">Extourner </H2>';

@@ -433,7 +433,7 @@ case 'reverseop':
             $cn->start();
             $oLedger=new Acc_Ledger($cn,$ledger);
             $oLedger->jr_id=$_REQUEST['jr_id'];
-            $oLedger->reverse($_REQUEST['p_date']);
+            $oLedger->reverse($_REQUEST['ext_date']);
             $cn->commit();
             echo _("Opération extournée");
         }
