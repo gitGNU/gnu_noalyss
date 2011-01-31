@@ -284,6 +284,8 @@ function fill_fin_data(text,li)
 /**
  *@brief show the ipopup window and display the details of a card,
  * to work some attribute must be set
+ *@parameter obj.qcode is the qcode, obj.nohistory if you don't want to  display
+ * the history button, obj.ro is the popin is readonly
  *@note you must the gDossier as hidden in the calling page
  *
  *@see ajax_card.php
@@ -312,10 +314,18 @@ function fill_ipopcard(obj)
         qcode=$(obj).value;
     }
     //    ctl=$(obj).id;
+
     var queryString='?gDossier='+dossier;
     queryString+='&qcode='+qcode;
     queryString+='&ctl='+content;
     queryString+='&op=dc'; 	// dc for detail card
+    if ( obj.readonly != undefined) { 
+     queryString+='&ro';
+    }
+
+    if ( obj.nohistory != undefined) { 
+     queryString+='&nohistory';
+    }
 
     var action=new Ajax.Request ( 'ajax_card.php',
                                   {

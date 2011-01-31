@@ -30,7 +30,7 @@
  * - gDossier
  * - op
       - dc Detail of a card
-      parameter : $qcode
+      parameter : $qcode , optional ro for readonly and nohistory without the history button
       - bc Blank Card : display form for adding a card
       parameter fd_id (fiche_def:fd_id)
       - st Show Type : select type of card
@@ -124,7 +124,10 @@ case 'dc':
     {
         $f->get_by_qcode($qcode);
 	$can_modify=$user->check_action(FIC);
-
+	if ( isset($ro) )
+	  {
+	    $can_modify=0;
+	  }
 	if ( $can_modify==1)
 	  $card=$f->Display(false);
 	else
@@ -149,7 +152,7 @@ case 'dc':
 		$html.=HtmlInput::submit('save','Sauver');
 	      }
 	    $html.=HtmlInput::button('close_'.$ctl,'Fermer',"onclick=\"removeDiv('$ctl')\"");
-	    $html.=HtmlInput::history_card_button($f->id,_('Historique'));
+	    if ( ! isset ($nohistory))$html.=HtmlInput::history_card_button($f->id,_('Historique'));
 	    if ($can_modify==1)
 	      {
 		$html.='</form>';
