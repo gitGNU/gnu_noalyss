@@ -536,13 +536,13 @@ class Acc_Detail extends Acc_Operation
         $this->det=new stdClass();
     }
     /**
-     *@brief retrieve some common data from jrnx / jrn as
-     * the datum, the comment,...
+     *@brief retrieve some common data from jrn as
+     * the datum, the comment,payment limit...
      */
     function get()
     {
         $sql="SELECT jr_id, jr_def_id, jr_montant, jr_comment, jr_date, jr_grpt_id,
-             jr_internal, jr_tech_date, jr_tech_per, jrn_ech, jr_ech, jr_rapt,
+             jr_internal, jr_tech_date, jr_tech_per, jrn_ech, jr_ech, jr_rapt,jr_ech,
              jr_valid, jr_opid, jr_c_opid, jr_pj, jr_pj_name, jr_pj_type,
              jr_pj_number, jr_mt
              FROM jrn where jr_id=$1";

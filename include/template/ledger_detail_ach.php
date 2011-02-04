@@ -21,6 +21,15 @@
 							 
 							 ?>
 							</td>
+							<tr>
+							<td>
+							<?php
+							$date_ech=new IDate('p_ech');
+							$date_ech->value=format_date($obj->det->jr_ech);
+							 echo td('Echeance').td($date_ech->input());
+							 
+							 ?>
+							</td>
 							</tr>
 							
 							<tr><td>
