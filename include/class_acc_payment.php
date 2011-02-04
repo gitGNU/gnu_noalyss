@@ -299,7 +299,8 @@ class Acc_Payment
         $f->noadd=true;
         $f->name='mp_qcode';
         $list=$this->cn->make_list('select fd_id from fiche_def where frd_id in (25,4)');
-        $f->extra=$list;
+        $f->typecard=$list;
+	$f->dblclick='fill_ipopcard(this);';
         $f->extra2=_('Recherche');
         $f->value=(isset($this->mp_qcode))?$this->mp_qcode:'';
         $r.=$td.$f->input().$etd;
@@ -402,7 +403,9 @@ class Acc_Payment
         $qcode->noadd=true;
         $qcode->name='mp_qcode';
         $list=$this->cn->make_list('select fd_id from fiche_def where frd_id in (25,4)');
-        $qcode->extra=$list;
+        $qcode->typecard=$list;
+	$qcode->dblclick='fill_ipopcard(this);';
+
         $f_qcode=$qcode->input();
         ob_start();
         require_once('template/new_mod_payment.php');
