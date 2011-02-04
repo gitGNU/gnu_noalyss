@@ -400,11 +400,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger
             $acc_operation->jrn=$p_jrn;
             $acc_operation->type='d';
             $acc_operation->periode=$tperiode;
-            $acc_operation->qcode=$
-                                  {"e_client"
-                                  };
+            $acc_operation->qcode=${"e_client"};
             if ( $cust_amount > 0 ) $tot_debit=bcadd($tot_debit,$cust_amount);
-            $acc_operation->insert_jrnx();
+            $let_tiers=$acc_operation->insert_jrnx();
 
 
             /** save all vat
@@ -536,7 +534,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                 $acc_pay->jrn=$mp->get_parameter('ledger');
                 $acc_pay->periode=$tperiode;
 		$acc_pay->type=($cust_amount>=0)?'c':'d';
-                $acc_pay->insert_jrnx();
+                $let_other=$acc_pay->insert_jrnx();
 
                 /* insert into jrn */
                 $mp_jr_id=$acc_pay->insert_jrn();
@@ -545,6 +543,14 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 
                 $r1=$this->get_id($internal);
                 $r2=$this->get_id($acinternal);
+
+		/*
+		 * add lettering
+		 */
+		$oletter=new Lettering($this->db);
+		$oletter->insert_couple($let_tiers,$let_other);
+
+
                 /* set the flag paid */
                 $Res=$this->db->exec_sql("update jrn set jr_rapt='paid' where jr_id=$1",array($r1));
 
