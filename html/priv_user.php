@@ -72,8 +72,12 @@ if ( isset ( $_GET['reset_passwd']) )
 {
     $cn=new Database();
     $l_pass=md5('phpcompta');
-    $Res=$cn->exec_sql( "update ac_users set use_pass='$l_pass' where use_id=$uid");
-    echo '<H2 class="info"> Password remis à phpcompta</H2>';
+    /* prevent to change the password of superadmin */
+    if ( $uid != '1' )
+      {
+	$Res=$cn->exec_sql( "update ac_users set use_pass='$1' where use_id=$2",array($l_pass,$uid));
+	echo '<H2 class="info"> Password remis à phpcompta</H2>';
+      }
 }
 /*  Save the changes */
 if ( isset ($_POST['SAVE']) )
