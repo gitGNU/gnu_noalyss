@@ -77,23 +77,9 @@ echo '</div>';
 if ( isset( $_REQUEST['bt_html'] ) )
 {
     require_once("class_acc_account_ledger.php");
+    echo Acc_Account_Ledger::HtmlTableHeader("gl_comptes");
 
-    if ( isset($_GET['poste_id']) && strlen(trim($_GET['poste_id'])) != 0 && isNumber($_GET['poste_id']) )
-    {
-        if ( isset ($_GET['poste_fille']) )
-        {
-            $parent=$_GET['poste_id'];
-            $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '$parent%' order by pcm_val::text");
-        }
-        elseif ( $cn->count_sql('select * from tmp_pcmn where pcm_val='.FormatString($_GET['poste_id'])) != 0 )
-        {
-            $a_poste=array( array('pcm_val' => $_GET['poste_id']));
-        }
-    }
-    else
-    {
-        $a_poste=$cn->get_array("select pcm_val from tmp_pcmn order by pcm_val::text");
-    }
+    $a_poste=$cn->get_array("select pcm_val from tmp_pcmn order by pcm_val::text");
 
     if ( sizeof($a_poste) == 0 )
     {
@@ -109,6 +95,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
 
 
     echo '<table class="result">';
+
     foreach ($a_poste as $poste_id )
     {
         $Poste=new Acc_Account_Ledger ($cn, $poste_id['pcm_val']);
@@ -133,7 +120,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
         <td align="right">D&eacute;bit</td>
         <td align="right">Cr&eacute;dit</td>
         <td align="right">Solde</td>
-        <td></td>
+        <td align="right">Let.</td>
         </tr>';
 
         $solde = 0.0;
@@ -142,7 +129,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
 	bcscale(2);
         foreach ($Poste->row as $detail)
         {
-
+	  if ($a==0) {var_dump($detail);$a=1;}
             /*
                    [0] => 1 [jr_id] => 1
                    [1] => 01.02.2009 [j_date_fmt] => 01.02.2009
@@ -166,16 +153,16 @@ if ( isset( $_REQUEST['bt_html'] ) )
 	      $solde   = bcsub($solde,$detail['deb_montant']);
 	      $solde_d = bcadd($solde_d,$detail['deb_montant']);
             }
-
+	    $letter=($detail['letter']!=-1)?hi($detail['letter']):'';
             echo '<tr>
             <td>'.$detail['j_date_fmt'].'</td>
-            <td>'.$detail['jr_internal'].'</td>
+            <td>'.HtmlInput::detail_op($detail['jr_id'],$detail['jr_internal']).'</td>
             <td>'.$detail['description'].'</td>
             <td>'.$detail['jr_pj_number'].'</td>
             <td align="right">'.($detail['deb_montant']  > 0 ? nbm($detail['deb_montant'])  : '').'</td>
             <td align="right">'.($detail['cred_montant'] > 0 ? nbm($detail['cred_montant']) : '').'</td>
             <td align="right">'.nbm($solde).'</td>
-            <td>'.''.'</td>
+            <td  style="text-align:right;color:red">'.$letter.'</td>
             </tr>';
         }
         echo '<tr>

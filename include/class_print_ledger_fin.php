@@ -61,7 +61,8 @@ class Print_Ledger_Financial extends PDF
         $this->Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
         $this->Ln(3);
         // Created by PhpCompta
-        $this->Cell(0,8,'Created by Phpcompta, the most professional opensource accounting software http://www.phpcompta.eu',0,0,'C',false,'http://www.phpcompta.eu');
+        $this->Cell(0,8,'Created by Phpcompta, online on http://www.aevalys.eu',0,0,'C',false,'http://www.aevalys.eu');
+
     }
     /**
      *@brief print the pdf

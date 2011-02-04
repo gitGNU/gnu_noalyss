@@ -376,11 +376,13 @@ class Acc_Account_Ledger
         echo "<table >";
         echo '<TR>';
         $str_ople=(isset($_REQUEST['ople']))?HtmlInput::hidden('ople',$_REQUEST['ople']):'';
-        echo '<TD><form method="GET" ACTION="">'.
-        dossier::hidden().
-        HtmlInput::submit('bt_other',"Autre poste").
-        $hid->input("type","poste").$hid->input('p_action','impress')."</form></TD>";
-
+	if ($actiontarget=='poste')
+	  {
+	    echo '<TD><form method="GET" ACTION="">'.
+	      dossier::hidden().
+	      HtmlInput::submit('bt_other',"Autre poste").
+	      $hid->input("type","poste").$hid->input('p_action','impress')."</form></TD>";
+	  }
         echo '<TD><form method="GET" ACTION="'.$actiontarget.'_pdf.php">'.
         dossier::hidden().
         HtmlInput::submit('bt_pdf',"Export PDF").
