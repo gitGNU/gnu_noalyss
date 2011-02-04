@@ -82,6 +82,7 @@ class Acc_Operation
      * - this->desc optional
      *@note if the amount is less than 0 then side changes, for example debit becomes
      *a credit and vice versa
+     *@return jrnx.j_id
      */
 
     function insert_jrnx()
