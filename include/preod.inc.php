@@ -85,10 +85,12 @@ if ( $sa == 'jrn' )
     foreach ($array as $row )
     {
 
-        if ( $count %2 == 0 )
-            echo '<tr class="even">';
+      if ( $count %2 == 0 )
+            echo '<tr class="odd">';
         else
             echo '<tr>';
+      $count++;
+
         echo '<td>'.h($row['od_name']).'</td>';
         echo '<td>';
         echo '<form method="POST">';
@@ -105,6 +107,8 @@ if ( $sa == 'jrn' )
         echo '</form>';
 
         echo '</td>';
+	$b=HtmlInput::button('mod'.$row['od_id'],"Modifier","onclick=\"mod_predf_op('".dossier::id()."','".$row['od_id']."');\"");
+	echo td($b);
         echo '</tr>';
 
     }

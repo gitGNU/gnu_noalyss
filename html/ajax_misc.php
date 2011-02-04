@@ -450,4 +450,10 @@ case 'input_per':
 case 'save_per':
   require_once('modify_periode.inc.php');
   break;
+case 'mod_predf':
+  require_once('modify_predf_op.php');
+  break;
+case 'save_predf':
+  require_once('save_predf_op.php');
+  break;
 }

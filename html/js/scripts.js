@@ -373,11 +373,20 @@ function change_month(obj)
 {
     var queryString="gDossier="+obj.gDossier+"&op=cal"+"&per="+obj.value;
     var action = new Ajax.Request(
-                 "ajax_misc.php" , { method:'get', parameters:queryString,onFailure:ajax_misc_failure,onSuccess:change_month_success}
+                 "ajax_misc.php" , { method:'get', parameters:queryString,onFailure:ajax_misc_failure,onSuccess:success_misc}
                  );
 
 }
-function change_month_success(req)
+/**
+*@brief basic answer to ajax on success, it will fill the DOMID code with 
+* the code. In that case, you need to create the object before the Ajax.Request
+*The difference with success box is that 
+*@see add_div removeDiv success_box is that the width and height are not changed ajax_misc.php
+*@parameter code is the ID of the object containing the html (div, button...)
+*@parameter value is the html code, with it you fill the ctl element
+*/ 
+
+function success_misc(req)
 {
     try
     {
@@ -987,4 +996,52 @@ function fill_box(req)
 	alert("Impossible executer script de la reponse\n"+e.message);}
 
 
+}
+/**
+*display a popin to  let you modified a predefined operation
+*@param dossier_id 
+*@param od_id from table op_predef
+*/
+function mod_predf_op(dossier_id,od_id)
+{
+    var target="mod_predf_op";
+    if ( $(target)) 
+    {
+	removeDiv(target);
+    }
+    var sx=posY;
+    var sy=posX;
+    var str_style="top:"+sx+";left:"+sy;
+
+    var div={id:target, cssclass:'op_detail',style:str_style,html:loading(),drag:1};
+    
+    add_div(div);
+
+    var qs="?gDossier="+dossier_id+'&op=mod_predf&id='+od_id;
+    
+    var action=new Ajax.Request ( 'ajax_misc.php',
+				  {
+				      method:'get',
+				      parameters:qs,
+				      onFailure:null,
+				      onSuccess:fill_box
+				  }
+				);
+
+}
+
+function save_predf_op(obj)
+{
+    var querystring="?"+$(obj).serialize()+'&op=save_predf';
+    // Create a ajax request to get all the person
+    var action = new Ajax.Request ('ajax_misc.php',
+				   {
+				       method:			 'get',
+				       parameters:			 querystring,
+				       onFailure:			 null,
+				       onSuccess:			 refresh_window
+				   }
+                                  );
+
+    return false;   
 }
