@@ -93,7 +93,7 @@ if ( $sa == 'jrn' )
 
         echo '<td>'.h($row['od_name']).'</td>';
         echo '<td>';
-        echo '<form method="POST">';
+	echo '<form method="POST" style="margin:0;padding:0">';
         echo dossier::hidden();
         echo $hid->input("sa","del");
         echo $hid->input("p_action","preod");
@@ -101,10 +101,10 @@ if ( $sa == 'jrn' )
         echo $hid->input("od_id",$row['od_id']);
         echo $hid->input("jrn",$_GET['jrn']);
 
-        $b='<input type="submit" class="button" value="Effacer" '.
-           ' onClick="return confirm(\'Voulez-vous vraiment effacer cette operation ?\');" >';
-        echo $b;
-        echo '</form>';
+	$b='<input type="submit" class="button" value="Effacer" '.
+	  ' onClick="return confirm(\'Voulez-vous vraiment effacer cette operation ?\');" >';
+	   echo $b;
+	   echo '</form>';
 
         echo '</td>';
 	$b=HtmlInput::button('mod'.$row['od_id'],"Modifier","onclick=\"mod_predf_op('".dossier::id()."','".$row['od_id']."');\"");
