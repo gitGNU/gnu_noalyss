@@ -458,12 +458,12 @@ class HtmlInput
     /**
      *show the detail of a card
      */
-    static function card_detail($p_qcode,$pname='')
+    static function card_detail($p_qcode,$pname='',$p_style="")
     {
       if ($pname=='')$pname=$p_qcode;
       $r="";
-      $r.=sprintf('<a href="javascript:void(0)" onclick="fill_ipopcard({qcode:\'%s\'})">%s[%s]</a>',
-		  $p_qcode,$pname,$p_qcode);
+      $r.=sprintf('<a href="javascript:void(0)" onclick="fill_ipopcard({qcode:\'%s\'})">%s[%s]</a %s>',
+		  $p_qcode,$pname,$p_qcode,$p_style);
       return $r;
     }
     /**

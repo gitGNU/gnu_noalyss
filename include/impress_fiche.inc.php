@@ -217,8 +217,9 @@ foreach($array as $card)
     }
     /* skip if nothing to display */
     if (count($letter->content) == 0 ) continue;
+    $detail_card=HtmlInput::card_detail($row->strAttribut(ATTR_DEF_QUICKCODE),$row->strAttribut(ATTR_DEF_NAME));
 
-    echo '<h2 style="font-size:14px;text-align:left;margin-left:10;padding-left:50;border:solid 1px blue;width:25%">'.$row->strAttribut(ATTR_DEF_NAME).'</h2>';
+    echo '<h2 style="font-size:14px;text-align:left;margin-left:10;padding-left:50;border:solid 1px blue;width:25%;text-decoration:underline">'.$detail_card.'</h2>';
 
     echo '<table style="width:80%;padding-left:10%;padding-right:10%">';
     echo '<tr>';
