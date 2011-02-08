@@ -168,6 +168,7 @@ class User
                 alert(_('Utilisateur ou mot de passe incorrect'));
                 redirect('index.html');
             }
+	    $this->valid=0;
             session_unset();
             exit -1;
         }
