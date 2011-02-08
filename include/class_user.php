@@ -162,7 +162,6 @@ class User
 	
         if ( $res == 0  )
         {
-	  if ( $from=='LOGIN')
 	    $cn->exec_sql($sql,array($_SESSION['g_user'],$_SERVER["REMOTE_ADDR"],$from,$_SERVER['REQUEST_URI'],'FAIL'));
             if ( ! $silent)
             {
