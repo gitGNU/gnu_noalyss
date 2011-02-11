@@ -97,7 +97,7 @@ class Print_Ledger_Detail extends PDF
             $this->Cell(15,7,$row['date_fmt']);
             $this->Cell(20,7,$row['internal']);
             $this->Cell(170,7,$row['comment']);
-            $this->Cell(20,7,$row['montant'],0,0,'R');
+            $this->Cell(20,7,nbm($row['montant']),0,0,'R');
 
             $this->Ln(4);
             // get the entries
@@ -129,7 +129,7 @@ class Print_Ledger_Detail extends PDF
                 $this->Cell(150,6,$name,0,0,'L');
 
                 // print amount
-                $str_amount=sprintf('%10.2f',$entry['j_montant']);
+                $str_amount=nbm($entry['j_montant']);
                 if ( $entry['j_debit']=='t')
                 {
                     $this->Cell(20,6,$str_amount,0,0,'R');
