@@ -82,7 +82,7 @@ class Print_Ledger_Misc extends PDF
             $this->Cell(20,5,$row['internal']);
 
             $this->Cell(105,5,$row['comment'],0,0);
-            $this->Cell(15,5,sprintf('%.2f',$row['montant']),0,0,'R');
+            $this->Cell(15,5,nbm($row['montant']),0,0,'R');
             $this->Ln(5);
 
         }
