@@ -2580,7 +2580,7 @@ class Acc_Ledger
         {
             $array=$this->db->get_array('select sum(qp_price) as price,sum(qp_vat) as vat '.
                                         ',sum(qp_dep_priv) as priv'.
-                                        ',sum(qp_nd_tva_recup) as tva_nd_recup'.
+                                        ',sum(qp_nd_tva_recup)+sum(qp_nd_tva) as tva_nd'.
                                         '  from quant_purchase join jrnx using(j_id)
                                         where  j_grpt=$1 ',
                                         array($p_jr_id));
@@ -2590,7 +2590,7 @@ class Acc_Ledger
         {
             $array=$this->db->get_array('select sum(qs_price) as price,sum(qs_vat) as vat '.
                                         ',0 as priv'.
-                                        ',0 as tva_nd_recup'.
+                                        ',0 as tva_nd'.
                                         '  from quant_sold join jrnx using(j_id)
                                         where  j_grpt=$1 ',
                                         array($p_jr_id));
@@ -2671,10 +2671,11 @@ class Acc_Ledger
             $sql="select coalesce(sum(qp_price),0) as price".
                  " ,coalesce(sum(qp_vat),0) as vat ".
                  ',coalesce(sum(qp_dep_priv),0) as priv'.
-                 ',coalesce(sum(qp_nd_tva_recup),0) as tva_nd_recup'.
+                 ',coalesce(sum(qp_nd_tva_recup),0)+coalesce(sum(qp_nd_tva),0) as tva_nd'.
                  '  from quant_purchase join jrnx using(j_id) '.
                  ' where j_tech_per >= $1 and j_tech_per < $2';
             $array=$this->db->get_array($sql,array($min->p_id,$p_to));
+
             $ret=$array[0];
             /* retrieve all vat code */
             $array=$this->db->get_array('select coalesce(sum(qp_vat),0) as sum_vat,tva_id
@@ -2689,7 +2690,7 @@ class Acc_Ledger
             $sql="select coalesce(sum(qs_price),0) as price".
                  " ,coalesce(sum(qs_vat),0) as vat ".
                  ',0 as priv'.
-                 ',0 as tva_nd_recup'.
+                 ',0 as tva_nd'.
                  '  from quant_sold join jrnx using(j_id) '.
                  ' where j_tech_per >= $1 and j_tech_per < $2';
             $array=$this->db->get_array($sql,array($min->p_id,$p_to));

@@ -62,7 +62,7 @@ class Print_Ledger_Simple extends PDF
         $this->rap_htva=$this->previous['price'];
         $this->rap_tvac=$this->previous['price']+$this->previous['vat'];
         $this->rap_priv=$this->previous['priv'];
-        $this->rap_nd=$this->previous['tva_nd_recup'];
+        $this->rap_nd=$this->previous['tva_nd'];
     }
 
     function setDossierInfo($dossier = "n/a")
@@ -117,15 +117,15 @@ class Print_Ledger_Simple extends PDF
         $this->SetFont('DejaVu','',6);
         // page Header
         $this->Cell(170,6,'report',0,0,'R');
-        $this->Cell(15,6,sprintf('%.2f',$this->rap_htva),0,0,'R'); /* HTVA */
+        $this->Cell(15,6,nbm($this->rap_htva),0,0,'R'); /* HTVA */
         if ( $this->jrn_type != 'VEN')
         {
-            $this->Cell(15,6,sprintf('%.2f',$this->rap_priv),0,0,'R');  /* prive */
-            $this->Cell(15,6,sprintf('%.2f',$this->rap_nd),0,0,'R');  /* Tva ND */
+            $this->Cell(15,6,nbm($this->rap_priv),0,0,'R');  /* prive */
+            $this->Cell(15,6,nbm($this->rap_nd),0,0,'R');  /* Tva ND */
         }
         foreach($this->rap_tva as $line_tva)
-        $this->Cell(15,6,sprintf('%.2f',$line_tva),0,0,'R');
-        $this->Cell(15,6,sprintf('%.2f',$this->rap_tvac),0,0,'R'); /* Tvac */
+        $this->Cell(15,6,nbm($line_tva),0,0,'R');
+        $this->Cell(15,6,nbm($this->rap_tvac),0,0,'R'); /* Tvac */
 
         $this->Ln(6);
         //total page
@@ -149,33 +149,33 @@ class Print_Ledger_Simple extends PDF
         $this->SetY(-20);
         /* write reporting  */
         $this->Cell(170,6,'Total page ','T',0,'R'); /* HTVA */
-        $this->Cell(15,6,sprintf('%.2f',$this->tp_htva),'T',0,'R'); /* HTVA */
+        $this->Cell(15,6,nbm($this->tp_htva),'T',0,'R'); /* HTVA */
         if ( $this->jrn_type !='VEN')
         {
-            $this->Cell(15,6,sprintf('%.2f',$this->tp_priv),'T',0,'R');  /* prive */
-            $this->Cell(15,6,sprintf('%.2f',$this->tp_nd),'T',0,'R');  /* Tva ND */
+            $this->Cell(15,6,nbm($this->tp_priv),'T',0,'R');  /* prive */
+            $this->Cell(15,6,nbm($this->tp_nd),'T',0,'R');  /* Tva ND */
         }
         foreach($this->a_Tva as $line_tva)
         {
             $l=$line_tva['tva_id'];
-            $this->Cell(15,6,sprintf('%.2f',$this->tp_tva[$l]),'T',0,'R');
+            $this->Cell(15,6,nbm($this->tp_tva[$l]),'T',0,'R');
         }
-        $this->Cell(15,6,sprintf('%.2f',$this->tp_tvac),'T',0,'R'); /* Tvac */
+        $this->Cell(15,6,nbm($this->tp_tvac),'T',0,'R'); /* Tvac */
         $this->Ln(2);
 
         $this->Cell(170,6,'report',0,0,'R'); /* HTVA */
-        $this->Cell(15,6,sprintf('%.2f',$this->rap_htva),0,0,'R'); /* HTVA */
+        $this->Cell(15,6,nbm($this->rap_htva),0,0,'R'); /* HTVA */
         if ( $this->jrn_type !='VEN')
         {
-            $this->Cell(15,6,sprintf('%.2f',$this->rap_priv),0,0,'R');  /* prive */
-            $this->Cell(15,6,sprintf('%.2f',$this->rap_nd),0,0,'R');  /* Tva ND */
+            $this->Cell(15,6,nbm($this->rap_priv),0,0,'R');  /* prive */
+            $this->Cell(15,6,nbm($this->rap_nd),0,0,'R');  /* Tva ND */
         }
         foreach($this->a_Tva as $line_tva)
         {
             $l=$line_tva['tva_id'];
-            $this->Cell(15,6,sprintf('%.2f',$this->rap_tva[$l]),0,0,'R');
+            $this->Cell(15,6,nbm($this->rap_tva[$l]),0,0,'R');
         }
-        $this->Cell(15,6,sprintf('%.2f',$this->rap_tvac),0,0,'R'); /* Tvac */
+        $this->Cell(15,6,nbm($this->rap_tvac),0,0,'R'); /* Tvac */
         $this->Ln(2);
 
         //Arial italic 8
@@ -197,7 +197,7 @@ class Print_Ledger_Simple extends PDF
      */
     function export()
     {
-
+      bcscale(2);
         $a_jrn=$this->ledger->get_operation($_GET['from_periode'],
                                             $_GET['to_periode']);
 
@@ -238,24 +238,26 @@ class Print_Ledger_Simple extends PDF
             $this->tp_htva+=$other['price'];
             $this->tp_tvac+=$other['price']+$other['vat'];
             $this->tp_priv+=$other['priv'];
-            $this->tp_nd+=$other['priv'];
+            $this->tp_nd+=$other['tva_nd'];
             $this->rap_htva+=$other['price'];
             $this->rap_tvac+=$other['price']+$other['vat'];
             $this->rap_priv+=$other['priv'];
-            $this->rap_nd+=$other['priv'];
+            $this->rap_nd+=$other['tva_nd'];
 
 
-            $this->Cell(15,5,sprintf("%.2f",$other['price']),0,0,'R');
+            $this->Cell(15,5,nbm($other['price']),0,0,'R');
             if ( $this->jrn_type !='VEN')
             {
-                $this->Cell(15,5,sprintf("%.2f",$other['priv']),0,0,'R');
-                $this->Cell(15,5,sprintf("%.2f",$other['tva_nd_recup']),0,0,'R');
+	      $this->Cell(15,5,nbm($other['priv']),0,0,'R');
+	      $this->Cell(15,5,nbm($other['tva_nd']),0,0,'R');
             }
             foreach ($atva_amount  as $row_atva_amount)
             {
-                $this->Cell(15,5,sprintf("%.2f",$row_atva_amount),0,0,'R');
+	      $this->Cell(15,5,nbm($row_atva_amount),0,0,'R');
             }
-            $this->Cell(15,5,sprintf("%.2f",($other['price']+$other['vat'])),0,0,'R');
+
+	    $l_tvac=bcadd($other['price'],$other['vat']);
+            $this->Cell(15,5,nbm($l_tvac),0,0,'R');
             $this->Ln(5);
         }
     }
