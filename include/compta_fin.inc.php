@@ -242,7 +242,7 @@ if ( $def==3)
     $array=$fiche->get_bk_account();
 
     echo '<div class="content">';
-
+    echo dossier::hidden();
     echo '<table style="margin-left:10%;width:60%" class="result">';
     echo tr(th('Quick Code').th('Compte en banque',' style="text-align:left"').th('solde opération',' style="text-align:right"')
 	    .th('solde extrait/relevé',' style="text-align:right"')
