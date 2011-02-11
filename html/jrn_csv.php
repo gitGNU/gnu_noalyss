@@ -174,7 +174,7 @@ else
                 {
                     $a=$line_tva['tva_id'];
                     if ( isset($a_tva_amount[$a]))
-                        echo nb($a_tva_amount[$a]);
+                        echo nb($a_tva_amount[$a]).';';
                     else
                         printf("0;");
                 }
