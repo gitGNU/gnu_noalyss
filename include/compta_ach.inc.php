@@ -108,16 +108,19 @@ if ( $def==1 || $def == 4 )
 
             $chk=new ICheckBox();
             $chk->selected=false;
+	    echo '<div style="float:left;clear:both">';
+
             echo $chk->input('opd_save');
             echo "Sauvez cette op&eacute;ration comme modèle d'opération ?";
 	    echo '<br/>';
 	    $opd_name=new IText('opd_name');
 	    echo "Nom du modèle ".$opd_name->input();
+
             echo '<hr>';
             echo HtmlInput::submit("record",_("Enregistrement"),'onClick="return verify_ca(\'\');"');
             echo HtmlInput::submit('correct',_("Corriger"));
             echo '</form>';
-
+	    echo '</div>';
             echo '</div>';
 
             exit();

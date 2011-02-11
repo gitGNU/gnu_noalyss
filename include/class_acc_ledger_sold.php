@@ -731,7 +731,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
             $r.=$fiche_name;
             $r.='</td>';
             $r.='<td align="right">';
-            $r.=${"e_march".$i."_price"};
+            $r.=nbm(${"e_march".$i."_price"});
             $r.='</td>';
             $r.='<td align="right">';
             $r.=${"e_quant".$i};
@@ -742,7 +742,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                 $r.=$oTva->get_parameter('label');
                 $r.='</td>';
                 $r.='<td align="right">';
-                $r.=$tva_item;
+                $r.=nbm($tva_item);
                 /* warning if tva_computed and given are not the
                    same */
                 if ( bcsub($tva_item,$tva_computed) != 0)
@@ -752,7 +752,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                 $r.='</td>';
             }
             $r.='<td align="right">';
-            $r.=$amount;
+            $r.=nbm($amount);
             $r.='</td>';
 
             // encode the pa
@@ -808,16 +808,16 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         $r.='</div>';
 
         $r.='<div style="position:float;float:left;text-align:right;color:blue;font-size:1.2em;font-weight:bold">';
-        $r.='<br><span id="htva">'.$tot_amount.'</span>';
+        $r.='<br><span id="htva">'.nbm($tot_amount).'</span>';
 
         if ($owner->MY_TVA_USE == 'Y' )
         {
             foreach ($tva as $i=>$value)
             {
-                $r.='<br>'.$tva[$i];
+	      $r.='<br>'.nbm($tva[$i]);
             }
-            $r.='<br><span id="tva">'.$tot_tva.'</span>';
-            $r.='<br><span id="tvac">'.$tot.'</span>';
+            $r.='<br><span id="tva">'.nbm($tot_tva).'</span>';
+	    $r.='<br><span id="tvac">'.nbm($tot).'</span>';
         }
         $r.="</div>";
 

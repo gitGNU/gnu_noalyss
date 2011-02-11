@@ -1369,7 +1369,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $r.=$fiche_name;
             $r.='</td>';
             $r.='<td align="right">';
-            $r.=${"e_march".$i."_price"};
+            $r.=nbm(${"e_march".$i."_price"});
             $r.='</td>';
             $r.='<td align="right">';
             $r.=${"e_quant".$i};
@@ -1380,11 +1380,11 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $r.=$oTva->get_parameter('label');
                 $r.='</td>';
                 $r.='<td align="right">';
-                $r.=$tva_item;
+                $r.=nbm($tva_item);
                 $r.='</td>';
             }
             $r.='<td align="right">';
-            $r.=round($amount,2);
+            $r.=nbm(round($amount,2));
             $r.='</td>';
 
             // encode the pa
@@ -1413,10 +1413,12 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $r.='<input type="button" class="button" value="'._('verifie CA').'" onClick="verify_ca(\'\');">';
         $r.='</fieldset>';
 
+        $r.='<div style="width:40%;position:float;float:right;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
 
         $r.='<fieldset> <legend>Totaux</legend>';
         $tot=round(bcadd($tot_amount,$tot_tva),2);
         $r.='<div style="position:float;float:left;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
+
         $r.='<br>'._('Total HTVA');
         if ($owner->MY_TVA_USE=='Y')
         {
@@ -1426,31 +1428,33 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $oTva->load();
 
                 $r.='<br>  '._('TVA à ').$oTva->get_parameter('label');
-                $r.='<br>'._('Total TVA');
             }
 
-            $r.='<br>'._('Total TVAC');
+            $r.='<br>'._('Total TVA');
+            $r.='<br>'._(' TVAC');
+
         }
         $r.="</div>";
 
 
         $r.='<div style="position:float;float:left;text-align:right;color:blue;font-size:1.2em;font-weight:bold">';
-        $r.='<br><span id="htva">'.$tot_amount.'</span>';
+        $r.='<br><span id="htva">'.nbm($tot_amount).'</span>';
 
         if ( $owner->MY_TVA_USE=='Y')
         {
             foreach ($tva as $i=>$value)
             {
-                $r.='<br>'.$tva[$i];
+	      $r.='<br>'.nbm($tva[$i]);
             }
-            $r.='<br><span id="tva">'.$tot_tva.'</span>';
-            $r.='<br><span id="tvac">'.$tot.'</span>';
+            $r.='<br><span id="tva">'.nbm($tot_tva).'</span>';
+            $r.='<br><span id="tvac">'.nbm($tot).'</span>';
         }
         $r.="</div>";
 
 
 
         $r.='</fieldset>';
+	$r.='</div>';
         /*  Add hidden */
         $r.=HtmlInput::hidden('e_client',$e_client);
         $r.=HtmlInput::hidden('nb_item',$nb_item);
