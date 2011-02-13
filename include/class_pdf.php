@@ -74,7 +74,7 @@ class PDF extends TFPDF
         //Position at 2 cm from bottom
         $this->SetY(-20);
         //Arial italic 8
-        $this->SetFont('DejaVu', 'I', 8);
+        $this->SetFont('Arial', '', 8);
         //Page number
         $this->Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
         $this->Ln(3);
