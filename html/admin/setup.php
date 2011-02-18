@@ -198,22 +198,30 @@ foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
 
 }
 $module=get_loaded_extensions();
+
 if ( in_array('pgsql',$module) == false )
 {
-  print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; le package  pour postgresql soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
+  print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; ou activé l\'extension(pgsql)  pour postgresql soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
   $flag_php++;
 } else echo 'module PGSQL ok <br>';
 
 if ( in_array('bcmath',$module) == false )
 {
-  print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; le package  pour bcmath soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
+  print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; ou activé l\'extension (bcmath)  pour bcmath soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
   $flag_php++;
 } else echo 'module BCMATH ok <br>';
 if ( in_array('gettext',$module) == false )
 {
-  print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; le package  pour gettext soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
+  print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; ou activé l\'extension  (gettext) pour gettext soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
   $flag_php++;
 } else echo 'module GETTEXT ok <br>';
+
+if ( in_array('zip',$module) == false )
+{
+  print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; ou activé l\'extension (zip) pour zip soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
+  $flag_php++;
+} else echo 'module ZIP ok <br>';
+
 
 if ( ini_get("max_execution_time") < 60 )  {
 	print '<h2 class="info"> max_execution_time should be set to 60 minimum</h2>';
