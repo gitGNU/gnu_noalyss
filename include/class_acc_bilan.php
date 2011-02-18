@@ -353,8 +353,18 @@ class Acc_Bilan
             exit();
         }
         ob_start();
-        system('unzip "'.$work_file.'"');
-        ob_end_clean();
+	/* unzip the document */
+	$zip = new Zip_Extended;
+	if ($zip->open($work_file) === TRUE) 
+	  {
+	    $zip->extractTo($dirname.DIRECTORY_SEPARATOR);
+	    $zip->close();
+	  } else 
+	  {
+	    echo __FILE__.":".__LINE__."cannot unzip model ".$filename;	
+	  }
+
+	ob_end_clean();
         unlink($work_file);
         // remove the zip file
         $p_file=fopen('content.xml','r');
@@ -624,8 +634,22 @@ class Acc_Bilan
                 echo "Je ne peux pas ouvrir ce fichier ";
                 exit();
             }
-            system('unzip "'.$work_file.'"');
-            // remove the zip file
+	    /*
+	     * unzip the document
+	     */
+            ob_start();
+	    $zip = new Zip_Extended;
+	    if ($zip->open($work_file) === TRUE) 
+	      {
+		$zip->extractTo($dirname.DIRECTORY_SEPARATOR);
+		$zip->close();
+	      } 
+	    else 
+	      {
+		echo __FILE__.":".__LINE__."cannot unzip model ".$filename;	
+	      }
+
+            // Remove the file we do  not need anymore
             unlink ($work_file);
 
 
@@ -643,7 +667,16 @@ class Acc_Bilan
                 exit();
             }
             // repack
-            system ('zip -r "'.$this->b_name.'.'.$this->b_type.'" *');
+	    $zip = new Zip_Extended;
+            $res = $zip->open($this->b_name.".".$this->b_type, ZipArchive::CREATE);
+            if($res !== TRUE)
+	      {
+		echo __FILE__.":".__LINE__."cannot recreate zip";
+		exit;
+	      }
+	    $zip->add_recurse_folder($dirname.DIRECTORY_SEPARATOR);
+	    $zip->close();
+
             ob_end_clean();
             fclose($p_file);
             $fdoc=fopen($dirname.DIRECTORY_SEPARATOR.$this->b_name.'.'.$this->b_type,'r');

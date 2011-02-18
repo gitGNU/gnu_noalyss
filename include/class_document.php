@@ -23,6 +23,7 @@ require_once('class_acc_account_ledger.php');
 require_once('class_action.php');
 require_once('class_acc_tva.php');
 require_once('class_user.php');
+require_once('class_zip_extended.php');
 
 /*! \file
  * \brief Class Document corresponds to the table document
@@ -102,7 +103,14 @@ class Document
         if ( strpos($row['md_mimetype'],'vnd.oasis') != 0 )
         {
             ob_start();
-            system("unzip '".$filename."'");
+	    $zip = new Zip_Extended;
+	    if ($zip->open($filename) === TRUE) {
+	      $zip->extractTo($dirname.DIRECTORY_SEPARATOR);
+	      $zip->close();
+	    } else {
+	      echo __FILE__.":".__LINE__."cannot unzip model ".$filename;	
+	    }
+
             // Remove the file we do  not need anymore
             unlink($filename);
             ob_end_clean();
@@ -122,9 +130,17 @@ class Document
         if ( strpos($row['md_mimetype'],'vnd.oasis') != 0 )
         {
             ob_start();
-            system ("zip -r ".$filename." *");
+	    $zip = new Zip_Extended;
+            $res = $zip->open($filename, ZipArchive::CREATE);
+            if($res !== TRUE)
+	      {
+		echo __FILE__.":".__LINE__."cannot recreate zip";
+		exit;
+	      }
+	    $zip->add_recurse_folder($dirname.DIRECTORY_SEPARATOR);
+	    $zip->close();
+
             ob_end_clean();
-            echo "  ";
 
             $file_to_parse=$filename;
         }
