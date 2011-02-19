@@ -100,7 +100,7 @@ else
 
         foreach ( $result as $r)
         {
-            printf('"%s";"%s";"%s";"%s";"%s";%s;"%s";"%s"',
+            printf('"%s";"%s";"%s";"%s";"%s";%s;%s;"%s"',
                    $r['j_poste'],
                    $r['j_qcode'],
                    $r['jr_date'],
