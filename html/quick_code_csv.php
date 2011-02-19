@@ -97,9 +97,10 @@ else
         $acc=new Acc_Operation($cn);
         $acc->jr_id=$op['jr_id'];
         $result= $acc->get_jrnx_detail();
+
         foreach ( $result as $r)
         {
-            printf('"%s";"%s";"%s";"%s";"%s";%s;"%s"',
+            printf('"%s";"%s";"%s";"%s";"%s";%s;"%s";"%s"',
                    $r['j_poste'],
                    $r['j_qcode'],
                    $r['jr_date'],
