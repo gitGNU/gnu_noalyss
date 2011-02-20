@@ -85,7 +85,7 @@ function show_direct_form($cn,$ledger,$p_array)
 
 
 
-    echo '<form method="post" action="?">';
+    echo '<form method="post" action="?" class="print">';
     echo dossier::hidden();
     echo HtmlInput::hidden('p_action',$_REQUEST['p_action']);
 

@@ -105,7 +105,7 @@ if ( $def == 1 )
         if ( ! isset ($correct ))
         {
             echo '<div class="content">';
-            echo '<form name="form_detail" enctype="multipart/form-data" ACTION="'.$href.'" METHOD="POST">';
+            echo '<form name="form_detail" class="print" enctype="multipart/form-data" ACTION="'.$href.'" METHOD="POST">';
             echo HtmlInput::hidden('p_action','fin');
             echo $Ledger->confirm($_POST);
             echo HtmlInput::submit('confirm',_('Confirmer'));
@@ -157,7 +157,7 @@ if ( $def == 1 )
     echo '<div class="content">';
 
 
-    echo '<form name="form_detail" enctype="multipart/form-data" ACTION="'.$href.'" METHOD="POST">';
+    echo '<form class="print" name="form_detail" enctype="multipart/form-data" ACTION="'.$href.'" METHOD="POST">';
     echo HtmlInput::hidden('p_action','fin');
     echo HtmlInput::hidden('sa','n');
     $array=( isset($correct))?$_POST:null;

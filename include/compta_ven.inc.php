@@ -104,7 +104,7 @@ if ( $def==1 || $def == 4 )
         {
             echo '<div class="content">';
 
-            echo '<form action="'.$href.'"  enctype="multipart/form-data" method="post">';
+            echo '<form class="print" action="'.$href.'"  enctype="multipart/form-data" method="post">';
             echo HtmlInput::hidden('sa','n');
             echo HtmlInput::hidden('p_action','ven');
             echo dossier::hidden();
@@ -204,7 +204,7 @@ if ( $def==1 || $def == 4 )
     //  ------------------------------
 
     echo '<div class="content">';
-    echo "<FORM NAME=\"form_detail\" METHOD=\"POST\" >";
+    echo "<FORM class=\"print\" NAME=\"form_detail\" METHOD=\"POST\" >";
 
     $array=(isset($_POST['correct'])||isset ($correct))?$_POST:null;
     $Ledger=new Acc_Ledger_Sold($cn,0);
