@@ -47,7 +47,7 @@ if ($sa == '')
         echo '*** Aucun dossier ***';
         exit();
     }
-    echo '<form method="post">';
+    echo '<form class="print" method="post">';
     echo HtmlInput::hidden('p_action','ouv');
     echo HtmlInput::hidden('sa','step2');
     echo dossier::hidden();
@@ -80,7 +80,7 @@ if ( $sa=='step2')
     echo '<div class="content">'.
     '<fieldset><legend>Etape 2</legend>'.
     '<h2 class="info">'.dossier::name($_REQUEST['f']).'</h2>'.
-    '<form method="post">'.
+    '<form class="print" method="post">'.
     ' Choississez l\'exercice du dossier ';
     echo dossier::hidden();
     echo HtmlInput::hidden('p_action','ouv');
@@ -109,7 +109,7 @@ if ( $sa == 'step3')
     echo '<div class="content">'.
     '<fieldset><legend>Etape 3</legend>'.
     '<h2 class="info">'.dossier::name($_REQUEST['f']).'</h2>'.
-    '<form method="post">'.
+    '<form class="print" method="post">'.
     ' Choississez le journal qui contiendra l\'opération d\'ouverture ';
     echo dossier::hidden();
     echo HtmlInput::hidden('p_action','ouv');
@@ -171,7 +171,7 @@ if ( $sa=='step4')
     $cn=new Database(dossier::id());
     $User=new User($cn);
     $jrn=new Acc_Ledger($cn,$_REQUEST['p_jrn']);
-    echo '<form method="post" action="compta.php">';
+    echo '<form class="print" method="post" action="compta.php">';
     echo HtmlInput::hidden('p_action','quick_writing');
     echo dossier::hidden();
     echo HtmlInput::hidden('p_jrn',$_REQUEST['p_jrn']);
