@@ -1130,9 +1130,11 @@ class Fiche
                                  "case when j_debit='f' then j_montant else 0 end as cred_montant,".
                                  " jr_comment as description,jrn_def_name as jrn_name,".
 				 " jr_pj_number,".
-                                 "j_debit, jr_internal,jr_id,coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter ".
+                                 "j_debit, jr_internal,jr_id,coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter, ".
+				 " jr_tech_per,p_exercice".
                                  " from jrnx left join jrn_def on jrn_def_id=j_jrn_def ".
                                  " left join jrn on jr_grpt_id=j_grpt".
+				 " left join parm_periode on (p_id=jr_tech_per) ".
                                  " where j_qcode=$1 and ".
                                  " ( to_date($2,'DD.MM.YYYY') <= j_date and ".
                                  "   to_date($3,'DD.MM.YYYY') >= j_date )".
@@ -1283,14 +1285,23 @@ class Fiche
         th('Let.','style="text-align:right"');
         "</TR>"
         ;
-
+	$old_exercice="";
+	bcscale(2);
         foreach ( $this->row as $op )
         {
             $vw_operation=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s</A>',
                                   $op['jr_id'], dossier::id(), $op['jr_internal']);
             $let='';
             if ( $op['letter'] !=-1) $let=$op['letter'];
-            $progress+=$op['deb_montant']-$op['cred_montant'];
+
+	    $tmp_diff=bcsub($op['deb_montant'],$op['cred_montant']);
+            $progress=bcadd($progress,$tmp_diff);
+	    /*
+	     * reset prog. balance to zero if we change of exercice
+	     */
+	    if ( $old_exercice != $op['p_exercice'])
+	      $progress=$tmp_diff;
+
             echo "<TR>".
             "<TD>".format_date($op['j_date_fmt'])."</TD>".
 	      td(h($op['jr_pj_number'])).
@@ -1301,6 +1312,7 @@ class Fiche
 	      td(nbm(abs($progress)),'style="text-align:right"').
             td($let,' style="color:red;text-align:right"').
             "</TR>";
+	    $old_exercice=$op['p_exercice'];
 
         }
         $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";

@@ -128,9 +128,11 @@ class Acc_Account_Ledger
                                  " jr_comment as description,jrn_def_name as jrn_name,".
                                  "j_debit, jr_internal,jr_pj_number,coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter ".
                                  ",pcm_lib ".
+				 ",jr_tech_per,p_exercice ".
                                  " from jrnx left join jrn_def on (jrn_def_id=j_jrn_def )".
                                  " left join jrn on (jr_grpt_id=j_grpt)".
                                  " left join tmp_pcmn on (j_poste=pcm_val)".
+				 " left join parm_periode on (p_id=jr_tech_per) ".
                                  " where j_poste=$1 and ".
                                  " ( to_date($2,'DD.MM.YYYY') <= j_date and ".
                                  "   to_date($3,'DD.MM.YYYY') >= j_date )".
@@ -297,7 +299,7 @@ class Acc_Account_Ledger
         if ( $p_array==null)$p_array=$_REQUEST;
         $this->get_name();
         list($array,$tot_deb,$tot_cred)=$this->get_row_date( $p_array['from_periode'],
-                                        $p_array['to_periode'],$let
+							     $p_array['to_periode'],$let
                                                            );
 
         if ( count($this->row ) == 0 )
@@ -321,6 +323,7 @@ class Acc_Account_Ledger
         ;
         $progress=0;
 	bcscale(2);
+	$old_exercice="";
         foreach ( $this->row as $op )
         {
             $vw_operation=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s</A>',
@@ -329,7 +332,11 @@ class Acc_Account_Ledger
             if ( $op['letter'] !=-1) $let=$op['letter'];
 	    $tmp_diff=bcsub($op['deb_montant'],$op['cred_montant']);
             $progress=bcadd($progress,$tmp_diff);
-
+	    /*
+	     * reset prog. balance to zero if we change of exercice
+	     */
+	    if ( $old_exercice != $op['p_exercice'])
+	      $progress=$tmp_diff;
             echo "<TR>".
             "<TD>".format_date($op['j_date'])."</TD>".
 	      td(h($op['jr_pj_number'])).
@@ -341,7 +348,7 @@ class Acc_Account_Ledger
 
             td($let,' style="color:red;text-align:right"').
             "</TR>";
-
+	    $old_exercice=$op['p_exercice'];
         }
         echo '<tfoot>';
         $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
