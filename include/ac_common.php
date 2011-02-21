@@ -695,7 +695,7 @@ function ajax_disconnected($div)
  */
 if ( ! isset($_SESSION['g_user']))
   {
-    $html=alert("Déconnecté",true);
+    $html=alert("utilisateur déconnecté",true);
     $html=escape_xml($html);
     header('Content-type: text/xml; charset=UTF-8');
 echo <<<EOF
