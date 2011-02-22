@@ -321,7 +321,7 @@ class Acc_Account_Ledger
         th('Let.','style="text-align:right"');
         "</TR>"
         ;
-        $progress=0;
+        $progress=0;$sum_deb=0;$sum_cred=0;
 	bcscale(2);
 	$old_exercice="";
         foreach ( $this->row as $op )
@@ -331,34 +331,61 @@ class Acc_Account_Ledger
             $let='';
             if ( $op['letter'] !=-1) $let=$op['letter'];
 	    $tmp_diff=bcsub($op['deb_montant'],$op['cred_montant']);
-            $progress=bcadd($progress,$tmp_diff);
+
 	    /*
 	     * reset prog. balance to zero if we change of exercice
 	     */
 	    if ( $old_exercice != $op['p_exercice'])
-	      $progress=$tmp_diff;
-            echo "<TR>".
-            "<TD>".format_date($op['j_date'])."</TD>".
+	      {
+		if ( $old_exercice != '')
+		  {
+		    $progress=bcsub($sum_deb,$sum_cred);
+
+		    echo "<TR style=\"font-weight:bold\">".
+		      "<TD></TD>".
+		      td('').
+		      "<TD></TD>".
+		      "<TD>Totaux</TD>".
+		      "<TD style=\"text-align:right\">".nbm($sum_deb)."</TD>".
+		      "<TD style=\"text-align:right\">".nbm($sum_cred)."</TD>".
+		      td(nbm(abs($progress)),'style="text-align:right"').
+		      td('').
+		      "</TR>";
+		    $sum_cred=0;
+		    $sum_deb=0;
+		    $progress=0;
+
+		  }
+	      }
+	    $progress=bcadd($progress,$tmp_diff);
+	    $sum_cred=bcadd($sum_cred,$op['cred_montant']);
+	    $sum_deb=bcadd($sum_deb,$op['deb_montant']);
+	    
+	    echo "<TR>".
+	      "<TD>".format_date($op['j_date'])."</TD>".
 	      td(h($op['jr_pj_number'])).
-            "<TD>".$vw_operation."</TD>".
-            "<TD>".h($op['description'])."</TD>".
-            "<TD style=\"text-align:right\">".nbm($op['deb_montant'])."</TD>".
+	      "<TD>".$vw_operation."</TD>".
+	      "<TD>".h($op['description'])."</TD>".
+	      "<TD style=\"text-align:right\">".nbm($op['deb_montant'])."</TD>".
 	      "<TD style=\"text-align:right\">".nbm($op['cred_montant'])."</TD>".
 	      td(nbm(abs($progress)),'style="text-align:right"').
-
-            td($let,' style="color:red;text-align:right"').
-            "</TR>";
+	      
+	      td($let,' style="color:red;text-align:right"').
+	      "</TR>";
 	    $old_exercice=$op['p_exercice'];
         }
         echo '<tfoot>';
-        $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
-        $diff=round(abs($tot_deb-$tot_cred),2);
+        $solde_type=($sum_deb>$sum_cred)?"solde débiteur":"solde créditeur";
+        $diff=abs(bcsub($sum_deb,$sum_cred));
+
         echo "<TR style=\"font-weight:bold\">".
         "<TD >Totaux</TD><td></td>".
         "<TD ></TD>".
         "<TD></TD>".
-	  "<TD  style=\"text-align:right\">".nbm($tot_deb)."</TD>".
-	  "<TD  style=\"text-align:right\">".nbm($tot_cred)."</TD>".
+	  "<TD  style=\"text-align:right\">".nbm($sum_deb)."</TD>".
+	  "<TD  style=\"text-align:right\">".nbm($sum_cred)."</TD>".
+	  "<TD style=\"text-align:right\">".nbm($diff)."</TD>".
+
         "</TR>";
 	echo   "<tr><TD>$solde_type</TD><td></td>".
 	  "<TD style=\"text-align:right\">".nbm($diff)."</TD>".

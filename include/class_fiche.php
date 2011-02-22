@@ -1295,19 +1295,17 @@ class Fiche
             if ( $op['letter'] !=-1) $let=$op['letter'];
 
 	    $tmp_diff=bcsub($op['deb_montant'],$op['cred_montant']);
-            $progress=bcadd($progress,$tmp_diff);
-	    $sum_cred=bcadd($sum_cred,$op['cred_montant']);
-	    $sum_deb=bcadd($sum_deb,$op['deb_montant']);
 
 	    /*
 	     * reset prog. balance to zero if we change of exercice
 	     */
 	    if ( $old_exercice != $op['p_exercice'])
 	      {
-		$progress=$tmp_diff;
 		if ($old_exercice != '' )
 		  {
-		    echo "<TR>".
+		    $progress=bcsub($sum_deb,$sum_cred);
+
+		    echo "<TR  style=\"font-weight:bold\">".
 		      "<TD></TD>".
 		      td('').
 		      "<TD></TD>".
@@ -1317,10 +1315,14 @@ class Fiche
 		      td(nbm(abs($progress)),'style="text-align:right"').
 		      td('').
 		      "</TR>";
-		    $sum_cred=$op['cred_montant'];
-		    $sum_deb=$op['deb_montant'];
+		    $sum_cred=0;
+		    $sum_deb=0;
+		    $progress=0;
 		  }
 	      }
+            $progress=bcadd($progress,$tmp_diff);
+	    $sum_cred=bcadd($sum_cred,$op['cred_montant']);
+	    $sum_deb=bcadd($sum_deb,$op['deb_montant']);
 
             echo "<TR>".
             "<TD>".format_date($op['j_date_fmt'])."</TD>".
@@ -1345,6 +1347,8 @@ class Fiche
         "<TD></TD>".
 	 "<TD  style=\"text-align:right\">".nbm($sum_deb)."</TD>".
 	 "<TD  style=\"text-align:right\">".nbm($sum_cred)."</TD>".
+	  "<TD style=\"text-align:right\">".nbm($diff)."</TD>".
+
         "</TR>";
         echo "<TR style=\"font-weight:bold\">".
         "<TD>$solde_type</TD>".
