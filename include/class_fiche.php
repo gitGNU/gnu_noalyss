@@ -1285,7 +1285,7 @@ class Fiche
         th('Let.','style="text-align:right"');
         "</TR>"
         ;
-	$old_exercice="";
+	$old_exercice="";$sum_deb=0;$sum_cred=0;
 	bcscale(2);
         foreach ( $this->row as $op )
         {
@@ -1296,11 +1296,31 @@ class Fiche
 
 	    $tmp_diff=bcsub($op['deb_montant'],$op['cred_montant']);
             $progress=bcadd($progress,$tmp_diff);
+	    $sum_cred=bcadd($sum_cred,$op['cred_montant']);
+	    $sum_deb=bcadd($sum_deb,$op['deb_montant']);
+
 	    /*
 	     * reset prog. balance to zero if we change of exercice
 	     */
 	    if ( $old_exercice != $op['p_exercice'])
-	      $progress=$tmp_diff;
+	      {
+		$progress=$tmp_diff;
+		if ($old_exercice != '' )
+		  {
+		    echo "<TR>".
+		      "<TD></TD>".
+		      td('').
+		      "<TD></TD>".
+		      "<TD>Totaux</TD>".
+		      "<TD style=\"text-align:right\">".nbm($sum_deb)."</TD>".
+		      "<TD style=\"text-align:right\">".nbm($sum_cred)."</TD>".
+		      td(nbm(abs($progress)),'style="text-align:right"').
+		      td('').
+		      "</TR>";
+		    $sum_cred=$op['cred_montant'];
+		    $sum_deb=$op['deb_montant'];
+		  }
+	      }
 
             echo "<TR>".
             "<TD>".format_date($op['j_date_fmt'])."</TD>".
@@ -1315,16 +1335,16 @@ class Fiche
 	    $old_exercice=$op['p_exercice'];
 
         }
-        $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
-        $diff=round(abs($tot_deb-$tot_cred),2);
+        $solde_type=($sum_deb>$sum_cred)?"solde débiteur":"solde créditeur";
+        $diff=abs(bcsub($sum_deb,$sum_cred));
         echo '<tfoot>';
        echo "<TR style=\"font-weight:bold\">".
         "<TD>Totaux</TD>".
         "<TD ></TD>".
         "<TD ></TD>".
         "<TD></TD>".
-	 "<TD  style=\"text-align:right\">".nbm($tot_deb)."</TD>".
-	 "<TD  style=\"text-align:right\">".nbm($tot_cred)."</TD>".
+	 "<TD  style=\"text-align:right\">".nbm($sum_deb)."</TD>".
+	 "<TD  style=\"text-align:right\">".nbm($sum_cred)."</TD>".
         "</TR>";
         echo "<TR style=\"font-weight:bold\">".
         "<TD>$solde_type</TD>".
