@@ -27,8 +27,17 @@ if ( basename($_GET['ajax']) == 'ajax_history.php' )
     $to_periode='to_periode='.format_date($limit[1]->p_end);
     if (isset($_GET['ex']))
       {
-	$limit_periode=$periode->get_limit($_GET['ex']);
-	$from_periode='from_periode='.format_date($limit_periode[0]->p_start);
+	if ( $exercice > $_GET['ex'])
+	  {
+	    $limit_periode=$periode->get_limit($_GET['ex']);
+	    $from_periode='from_periode='.format_date($limit_periode[0]->p_start);
+	  }
+	else
+	  {
+	    $limit_periode=$periode->get_limit($_GET['ex']);
+	    $to_periode='to_periode='.format_date($limit_periode[1]->p_end);
+
+	  }
       }
     
     if (isset($_GET['pcm_val']) )
