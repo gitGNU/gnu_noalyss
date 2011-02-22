@@ -345,20 +345,22 @@ case 'save':
         $cn->start();
         if ( $access=="W")
         {
-	  $ech=$_POST['p_ech'];
-	  if ( trim($ech) != '' && isDate($ech) != null)
+	  if (isset($_POST['p_ech']) )
 	    {
-	      $cn->exec_sql("update jrn set jr_ech=to_date($1,'DD.MM.YYYY') where jr_id=$2",
-                          array($ech,$jr_id));
-
+	      $ech=$_POST['p_ech'];
+	      if ( trim($ech) != '' && isDate($ech) != null)
+		{
+		  $cn->exec_sql("update jrn set jr_ech=to_date($1,'DD.MM.YYYY') where jr_id=$2",
+				array($ech,$jr_id));
+		  
+		}
+	      else
+		{
+		  $cn->exec_sql("update jrn set jr_ech=null where jr_id=$1",
+				array($jr_id));
+		  
+		}
 	    }
-	  else
-	    {
-	      $cn->exec_sql("update jrn set jr_ech=null where jr_id=$1",
-                          array($jr_id));
-
-	    }
-
             $cn->exec_sql("update jrn set jr_comment=$1,jr_pj_number=$2,jr_date=to_date($4,'DD.MM.YYYY') where jr_id=$3",
                           array($_POST['lib'],$_POST['npj'],$jr_id,$_POST['p_date']));
 	    $cn->exec_sql("update jrnx set j_date=to_date($1,'DD.MM.YYYY') where j_grpt in (select jr_grpt_id from jrn where jr_id=$2)",
