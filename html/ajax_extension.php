@@ -37,8 +37,6 @@ require_once('class_user.php');
 require_once('class_iselect.php');
 require_once ('class_user.php');
 
-ajax_disconnected($_GET['ctl']);
-
 $cn=new Database(dossier::id());
 /* check user */
 $user=new User($cn);
