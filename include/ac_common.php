@@ -264,6 +264,7 @@ function html_page_start($p_theme="",$p_script="",$p_script2="")
     ';
 
     echo "<BODY $p_script>";
+    echo '<span id="body_info"></span>';
 // language
     if ( isset($_SESSION['g_lang']))
     {
@@ -695,14 +696,14 @@ function ajax_disconnected($div)
  */
 if ( ! isset($_SESSION['g_user']))
   {
-    $html=alert("utilisateur déconnecté",true);
+    $html=alert("Utilisateur déconnecté",true);
     $html=escape_xml($html);
     header('Content-type: text/xml; charset=UTF-8');
 echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
 <ctl>$div</ctl>
-<code>Déconnecté</code>
+<code>$html</code>
 </data>
 EOF;
 exit();
