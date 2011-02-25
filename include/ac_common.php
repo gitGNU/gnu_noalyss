@@ -264,7 +264,6 @@ function html_page_start($p_theme="",$p_script="",$p_script2="")
     ';
 
     echo "<BODY $p_script>";
-    echo '<span id="body_info"></span>';
 // language
     if ( isset($_SESSION['g_lang']))
     {
