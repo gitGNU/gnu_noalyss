@@ -32,20 +32,21 @@ class IDate extends HtmlInput
         $this->name=($p_name==null)?$this->name:$p_name;
         $this->value=($p_value==null)?$this->value:$p_value;
         if ( $this->readOnly==true) return $this->display();
-        $r='<input type="text" name="'.$this->name.'" id="'.$this->name.'"'.
+	$this->id=self::generate_id($this->name);
+        $r='<input type="text" name="'.$this->name.'" id="'.$this->id.'"'.
            'style="border:solid 1px blue;"'.
            'size="8"'.
            ' value ="'.$this->value.'"'.
            '/>'.
-           '<img src="image/x-office-calendar.png" id="'.$this->name.'_trigger"'.
+           '<img src="image/x-office-calendar.png" id="'.$this->id.'_trigger"'.
            ' style="cursor: pointer; border: 1px solid red;" '.
            'onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" />';
         $r.='<script type="text/javascript">'.
             'Calendar.setup({'.
             //	'date : "'.$this->value.'",
-            'inputField     :    "'.$this->name.'",     // id of the input field
+            'inputField     :    "'.$this->id.'",     // id of the input field
             ifFormat       :    "%d.%m.%Y",      // format of the input field
-            button         :    "'.$this->name.'_trigger",  // trigger for the calendar (button ID)
+            button         :    "'.$this->id.'_trigger",  // trigger for the calendar (button ID)
             align          :    "Bl",           // alignment (defaults to "Bl")
             singleClick    :    true
         });

@@ -467,19 +467,83 @@ class HtmlInput
       return $r;
     }
     /**
-     *transform get to hidden
+     *transform request data  to hidden
+     *@param $array is an of indices 
+     *@param $request name of the superglobal $_POST $_GET $_REQUEST(default) 
+     *@return html string with the hidden data
+     */
+    static function array_to_hidden($array,$global_array )
+    {
+
+      $r="";
+
+      if ( count($global_array )==0) return '';
+      foreach ($array  as $a)
+	{
+	  if (isset($global_array [$a])) $r.=HtmlInput::hidden($a,$global_array [$a]);
+	}
+      
+      return $r;
+    }
+    /**
+     *transform $_GET   data  to hidden
+     *@param $array is an of indices 
+     *@see HtmlInput::request_to_hidden
      *@return html string with the hidden data
      */
     static function get_to_hidden($array)
     {
-      if ( count($_GET) == 0) return "";
-      $r="";
-      foreach ( $array as $a)
-	{
-	  if (isset($_GET[$a])) $r.=HtmlInput::hidden($a,$_GET[$a]);
-	}
+      $r=self::array_to_hidden($array,$_GET );
+      return $r;
+    }
+    /**
+     *transform $_POST  data  to hidden
+     *@param $array is an of indices 
+     *@see HtmlInput::request_to_hidden
+     *@return html string with the hidden data
+     */
+
+    static function post_to_hidden($array)
+    {
+      $r=self::array_to_hidden($array,$_POST );
+      return $r;
+    }
+    /**
+     *transform $_REQUEST   data  to hidden
+     *@param $array is an of indices 
+     *@see HtmlInput::request_to_hidden
+     *@return html string with the hidden data
+     */
+
+    static function request_to_hidden($array)
+    {
+      $r=self::array_to_hidden($array,$_REQUEST  );
       return $r;
     }
 
+    /**
+     * generate an unique id for a widget, 
+     *@param $p_prefix prefix
+     *@see HtmlInput::IDate
+     *@return string with a unique id
+     */
+    static function generate_id($p_prefix)
+    {
+      $r=sprintf('%s_%d',$p_prefix,mt_rand(0,999999));
+      return $r;
+    }
+    /**
+     * return default if the value if the array doesn't exist
+     *@param $ind the index to check
+     *@param $default the value to return 
+     *@param $array the array
+     */
+    static function default_value($ind,$default,$array)
+    {
+      if ( ! isset($array[$ind]))
+	{
+	  return $default;
+	}
+      return $array[$ind];
+    }
 }
-    

@@ -165,8 +165,8 @@ if ( $sa == 'list' )
     $offset=(isset($_REQUEST['offset']))?$_REQUEST['offset']:0;
     $page=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
     $count=$cn->get_value("select count(*) from ac_dossier");
-    $size=10;
-
+    $size=(isset ($_SESSION['g_pagesize']))?$_SESSION['g_pagesize']:40;
+    if ( $size==-1) $size=200;
     echo jrn_navigation_bar($offset,$count,$size,$page);
     $repo=new Dossier(0);
     $Res=$repo->show_dossier('all',$offset,$size);

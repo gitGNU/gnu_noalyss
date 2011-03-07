@@ -167,7 +167,7 @@ if ( $def == 1 )
     echo HtmlInput::submit('save',_('Sauve'));
     echo HtmlInput::reset(_('Effacer'));
 
-    echo create_script(" get_last_date()");
+    echo create_script(" get_last_date();ajax_saldo('first_sold');");
     exit();
 
 }

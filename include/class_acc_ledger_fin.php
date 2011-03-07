@@ -247,9 +247,11 @@ class Acc_Ledger_Fin extends Acc_Ledger
 
         // Ledger (p_jrn)
         //--
-        $add_js="";
+	
+	$add_js='onchange="update_pj();update_bank();get_last_date();ajax_saldo(\'first_sold\')";';
 
-        if ( $owner->MY_PJ_SUGGEST == 'Y') $add_js="onchange='update_pj();update_bank();get_last_date();'";
+	if ( $owner->MY_DATE_SUGGEST == 'Y') 
+	  $add_js='onchange="update_pj();update_bank();get_last_date();ajax_saldo(\'first_sold\')";';
 
         $wLedger=$this->select_ledger('FIN',2);
         if ($wLedger == null ) exit ('Pas de journal disponible');

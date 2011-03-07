@@ -170,7 +170,7 @@ function success_get_last_date(req)
         var name_ctl=a[0].firstChild.nodeValue;
         var code_html=getNodeText(html[0]);
         code_html=unescape_xml(code_html);
-        $(name_ctl).value=code_html;
+        document.getElementsByName(name_ctl)[0].value=code_html;
     }
     catch (e)
     {

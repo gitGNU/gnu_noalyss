@@ -106,6 +106,31 @@ if (  isset($_GET['p_filter']) && $_GET['p_filter']==2) $rad->selected='t';
 else $rad->selected=false;
 echo '<li>'.$rad->input('p_filter',2).'Filtré par catégorie'.HtmlInput::select_cat($array_cat).'</li>';
 echo '</ul>';
+echo 'Totaux par sous-niveaux';
+$ck_lev1=new ICheckBox('lvl1');
+$ck_lev2=new ICheckBox('lvl2');
+$ck_lev3=new ICheckBox('lvl3');
+$ck_lev1->value=1;
+$ck_lev2->value=1;
+$ck_lev3->value=1;
+
+
+echo '<ul style="list-style-type:none">';
+
+if (HtmlInput::default_value('lvl1',false,$_GET) !== false)
+  $ck_lev1->selected=true;
+if (HtmlInput::default_value('lvl2',false,$_GET) !== false)
+  $ck_lev2->selected=true;
+if (HtmlInput::default_value('lvl3',false,$_GET) !== false)
+  $ck_lev3->selected=true;
+echo '<li>'.$ck_lev1->input().'Niveau 1</li>';
+echo '<li>'.$ck_lev2->input().'Niveau 2</li>';
+echo '<li>'.$ck_lev3->input().'Niveau 3</li>';
+
+
+
+echo '</ul>';
+
 
 $from_poste=new IPoste();
 $from_poste->name="from_poste";
@@ -162,6 +187,8 @@ if ( isset ($_GET['view']  ) )
 
     echo HtmlInput::hidden("from_poste",$_GET['from_poste']).
     HtmlInput::hidden("to_poste",$_GET['to_poste']);
+    echo HtmlInput::get_to_hidden(array('lvl1','lvl2','lvl3'));
+
     echo "</form></TD>";
 
     echo '<TD><form method="GET" ACTION="bal_csv.php">'.
@@ -228,6 +255,17 @@ if ( isset($_GET['view'] ) )
     echo '<th>Solde Cr&eacute;diteur</th>';
 
     $i=0;
+    foreach(array('sum_cred','sum_deb','solde_deb','solde_cred') as $a)
+      {
+	$lvl1[$a]=0;
+	$lvl2[$a]=0;
+	$lvl3[$a]=0;
+      }
+    $lvl1_old='';
+    $lvl2_old='';
+    $lvl3_old='';
+
+    bcscale(2);
     foreach ($row as $r)
     {
         $i++;
@@ -238,6 +276,38 @@ if ( isset($_GET['view'] ) )
         $view_history= sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:view_history_account(\'%s\',\'%s\')" >%s</A>',
                                $r['poste'], $gDossier, $r['poste']);
 
+	/*
+	 * level x
+	 */
+	foreach (array(3,2,1) as $ind)
+	  {	
+	    if ( ! isset($_GET['lvl'.$ind]))continue;
+	    if (${'lvl'.$ind.'_old'} == '')	  ${'lvl'.$ind.'_old'}=substr($r['poste'],0,$ind);
+	    if ( ${'lvl'.$ind.'_old'} != substr($r['poste'],0,$ind))
+	      {
+		
+		echo '<tr style="font-size:12px;font-height:bold">';
+		echo td("Total niveau ".$ind);
+		echo td(${'lvl'.$ind.'_old'});
+		echo td(nbm(${'lvl'.$ind}['sum_deb']),'style="text-align:right"');
+		echo td(nbm(${'lvl'.$ind}['sum_cred']),'style="text-align:right"');
+		echo td(nbm(${'lvl'.$ind}['solde_deb']),'style="text-align:right"');
+		echo td(nbm(${'lvl'.$ind}['solde_cred']),'style="text-align:right"');
+		
+		echo '</tr>';
+		${'lvl'.$ind.'_old'}=substr($r['poste'],0,$ind);
+		foreach(array('sum_cred','sum_deb','solde_deb','solde_cred') as $a)
+		  {
+		    ${'lvl'.$ind}[$a]=0;
+		  }
+	      }
+	  }
+	  foreach(array('sum_cred','sum_deb','solde_deb','solde_cred') as $a)
+	    {
+	      $lvl1[$a]=bcadd($lvl1[$a],$r[$a]);
+	      $lvl2[$a]=bcadd($lvl2[$a],$r[$a]);
+	      $lvl3[$a]=bcadd($lvl3[$a],$r[$a]);
+	    }
         echo '<TR class="'.$tr.'">';
         echo td($view_history);
         echo td(h($r['label']));
@@ -246,6 +316,7 @@ if ( isset($_GET['view'] ) )
 	echo td(nbm($r['solde_deb']),'style="text-align:right"');
 	echo td(nbm($r['solde_cred']),'style="text-align:right"');
         echo '</TR>';
+
     }
     echo '</table>';
 

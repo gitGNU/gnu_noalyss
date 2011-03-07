@@ -24,6 +24,7 @@ $array=$todo->load_all();
 echo '<div id="add_todo_list" class="add_todo_list">';
 echo '<form method="post">';
 $wDate=new IDate('p_date_todo');
+$wDate->id='p_date_todo';
 $wTitle=new IText('p_title');
 $wDesc=new ITextArea('p_desc');
 $wDesc->heigh=5;
