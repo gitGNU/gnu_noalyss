@@ -52,7 +52,7 @@ if ( $User->check_action(PARSEC) == 0 )
 $cn=new Database();
 /*  Show all the users, included local admin */
 $user_sql=$cn->exec_sql("select  use_id,use_first_name,use_name,use_login,use_admin,priv_priv from ac_users natural join jnt_use_dos ".
-                        " join priv_user on (jnt_id=priv_jnt) where use_login != 'phpcompta' and dos_id=".$gDossier.' order by use_login,use_name');
+                        " join priv_user on (jnt_id=priv_jnt) where use_login != 'phpcompta' and priv_priv <> 'X' and dos_id=".$gDossier.' order by use_login,use_name');
 $MaxUser=Database::num_row($user_sql);
 if ( ! isset($_REQUEST['action']))
 {
@@ -159,6 +159,8 @@ if ( $action == "view" )
     $admin=0;
     $access=$User->get_folder_access($gDossier);
 
+    $str="Aucun accès";
+
     if ( $access == 'L')
     {
         $str='Local Admin';
@@ -206,7 +208,7 @@ if ( $action == "view" )
     $sec_User=new User($cn_dossier,$_GET['user_id']);
 
     echo '<form method="post">';
-    $sHref=sprintf ('sec_pdf.php?p_action=sec&user_id=%s&'.$str_dossier ,
+    $sHref=sprintf ('export.php?p_action=sec&act=PDF/sec&user_id=%s&'.$str_dossier ,
                     $_GET ['user_id']
                    );
 
