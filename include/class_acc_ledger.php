@@ -358,7 +358,7 @@ class Acc_Ledger
                                      "jr_grpt_id=j_grpt ".
                                      " left join tmp_pcmn on pcm_val=j_poste ".
                                      " where j_jrn_def=".$this->id.
-                                     " and ".$periode." order by j_date::date asc,substring(jr_pj_number,'\\\\d+$')::numeric asc,j_debit desc ".
+                                     " and ".$periode." order by j_date::date asc,substring(jr_pj_number,'\\\\d+$')::numeric asc,j_grpt,j_debit desc ".
                                      $cond_limite);
 
         }
