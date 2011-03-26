@@ -36,7 +36,6 @@ $cn=new Database($gDossier);
 $rep=new Database();
 include_once ("class_user.php");
 $User=new User($rep);
-$User->Check();
 // Check Priv
 $User->can_request(PARSEC,1);
 
