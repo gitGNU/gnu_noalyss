@@ -86,7 +86,7 @@ if ($sub == 'bs')
     echo '</form>';
     if ( isset($_GET['result']))
     {
-        echo $bs->show_button('ca_bs_csv.php','ca_bs_pdf.php',$str_hidden);
+        echo $bs->show_button($str_hidden);
         echo $bs->display_html();
     }
 }
@@ -103,7 +103,7 @@ if ( $sub == 'bc2')
     echo '</form>';
     if ( isset($_GET['result']))
     {
-        echo $bc->show_button('ca_bc_csv.php','ca_bc_pdf.php',$str_hidden);
+        echo $bc->show_button($str_hidden);
         echo $bc->display_html();
     }
 }

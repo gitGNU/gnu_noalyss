@@ -80,7 +80,7 @@ if ( $action == 'stock')
 }
 if ( $action=='quick_writing')
 {
-    require_once ('quick_writing.inc.php');
+    require_once ('compta_ods.inc.php');
 }
 if ( $action == 'gl' )
 {

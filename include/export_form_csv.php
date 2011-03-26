@@ -21,9 +21,9 @@
 /*! \file
  * \brief Send a report in CSV format
  */
-include_once("ac_common.php");
+require_once ("ac_common.php");
 require_once('class_database.php');
-include ('class_user.php');
+require_once ('class_user.php');
 require_once("class_acc_report.php");
 require_once("impress_inc.php");
 header('Pragma: public');
@@ -34,11 +34,6 @@ $gDossier=dossier::id();
 
 /* Admin. Dossier */
 $cn=new Database($gDossier);
-
-
-$User=new User($cn);
-$User->Check();
-
 
 $Form=new Acc_Report($cn,$_GET['form_id']);
 $Form->get_name();

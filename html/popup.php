@@ -42,13 +42,13 @@ if ( basename($_GET['ajax']) == 'ajax_history.php' )
     
     if (isset($_GET['pcm_val']) )
       {
-	$href_csv="poste_csv.php?".$href.'&poste_id='.$_GET['pcm_val'].'&ople=0&type=poste&'.$from_periode.'&'.$to_periode;
-	$href_pdf="poste_pdf.php?".$href.'&poste_id='.$_GET['pcm_val'].'&ople=0&type=poste&'.$from_periode.'&'.$to_periode;
+	$href_csv="export.php?".$href.'&poste_id='.$_GET['pcm_val'].'&ople=0&type=poste&'.$from_periode.'&'.$to_periode."&act=CSV/postedetail";
+	$href_pdf="export.php?".$href.'&poste_id='.$_GET['pcm_val'].'&ople=0&type=poste&'.$from_periode.'&'.$to_periode."&act=PDF/postedetail";;
       }
     else 
       {
-	$href_csv="quick_code_csv.php?".$href.'&f_id='.$_GET['f_id'].'&ople=0&type=poste&'.$from_periode.'&'.$to_periode;
-	$href_pdf="quick_code_pdf.php?".$href.'&f_id='.$_GET['f_id'].'&ople=0&type=poste&'.$from_periode.'&'.$to_periode;
+	$href_csv="export.php?".$href.'&f_id='.$_GET['f_id'].'&ople=0&type=poste&'.$from_periode.'&'.$to_periode."&act=CSV/fichedetail";
+	$href_pdf="export.php?".$href.'&f_id='.$_GET['f_id'].'&ople=0&type=poste&'.$from_periode.'&'.$to_periode."&act=PDF/fichedetail";
       }
 
     echo '<a class="button"  href="'.$href_csv.'">Export CSV</a>';

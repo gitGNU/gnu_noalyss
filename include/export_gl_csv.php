@@ -42,10 +42,7 @@ $gDossier=dossier::id();
 
 /* Security */
 $cn=new Database($gDossier);
-$User=new User($cn);
-$User->Check();
-$User->check_dossier($gDossier);
-$User->can_request(IMPBIL,0);
+
 
 extract($_GET);
 

@@ -359,8 +359,9 @@ if ( $def == 2 )
       foreach ($_GET['r_jrn'] as $k=>$v)
 	$r.=HtmlInput::hidden('r_jrn['.$k.']',$v);
     }
-    echo '<form action="histo_csv.php" method="get">';
+    echo '<form action="export.php" method="get">';
     echo $r;
+    echo HtmlInput::hidden('act','CSV/histo');
     echo HtmlInput::submit('viewsearch','Export vers CSV');
 
     echo '</form>';

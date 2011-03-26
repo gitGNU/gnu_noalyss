@@ -167,8 +167,9 @@ if ( isset( $_REQUEST['bt_html'] ) )
     echo '<TD><form method="GET" ACTION="?">'.dossier::hidden().
     $hid->input("type","jrn").$hid->input('p_action','impress')."</form></TD>";
 
-    echo '<TD><form method="GET" ACTION="jrn_pdf.php">'.dossier::hidden().
+    echo '<TD><form method="GET" ACTION="export.php">'.dossier::hidden().
     HtmlInput::submit('bt_pdf',"Export PDF").
+      HtmlInput::hidden('act','PDF/ledger').
     $hid->input("type","jrn").
     $hid->input("p_action","impress").
     $hid->input("jrn_id",$Jrn->id).
@@ -177,8 +178,9 @@ if ( isset( $_REQUEST['bt_html'] ) )
     echo $hid->input("p_simple",$_GET['p_simple']);
 
     echo "</form></TD>";
-    echo '<TD><form method="GET" ACTION="jrn_csv.php">'.dossier::hidden().
+    echo '<TD><form method="GET" ACTION="export.php">'.dossier::hidden().
     HtmlInput::submit('bt_csv',"Export CSV").
+      HtmlInput::hidden('act','CSV/ledger').
     $hid->input("type","jrn").
     $hid->input("p_action","impress").
     $hid->input("jrn_id",$Jrn->id).

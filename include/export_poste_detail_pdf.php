@@ -36,11 +36,6 @@ $gDossier=dossier::id();
 
 /* Security */
 $cn=new Database($gDossier);
-$User=new User($cn);
-$User->Check();
-$User->check_dossier($gDossier);
-$User->can_request(IMPPOSTE,0);
-
 extract($_GET);
 
 if ( isset ( $poste_fille) )
@@ -201,6 +196,4 @@ foreach ($a_poste as $poste)
 }
 $fDate=date('dmy-Hi');
 $pdf->Output('poste-'.$fDate.'.pdf','I');
-?>
-?>
 ?>

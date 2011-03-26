@@ -239,13 +239,15 @@ class Anc_Balance_Simple extends Anc_Print
      *
      * \return string with the button
      */
-    function show_button($url_csv,$url_pdf,$p_string="")
+    function show_button($p_string="")
     {
         $r="";
-        $r.= '<form method="GET" action="'.$url_pdf.'" style="display:inline">';
+        $r.= '<form method="GET" action="export.php" style="display:inline">';
         $r.= $p_string;
         $r.= dossier::hidden();
         $r.= HtmlInput::hidden("to",$this->to);
+        $r.= HtmlInput::hidden("act","PDF/AncBalSimple");
+
         $r.= HtmlInput::hidden("from",$this->from);
         $r.= HtmlInput::hidden("pa_id",$this->pa_id);
         $r.= HtmlInput::hidden("from_poste",$this->from_poste);
@@ -253,7 +255,8 @@ class Anc_Balance_Simple extends Anc_Print
         $r.=HtmlInput::submit('bt_pdf',"Export en PDF");
         $r.= '</form>';
 
-        $r.= '<form method="GET" action="'.$url_csv.'"  style="display:inline">';
+        $r.= '<form method="GET" action="export.php"  style="display:inline">';
+        $r.= HtmlInput::hidden("act","CSV/AncBalSimple");
         $r.= HtmlInput::hidden("to",$this->to);
         $r.= HtmlInput::hidden("from",$this->from);
         $r.= HtmlInput::hidden("pa_id",$this->pa_id);

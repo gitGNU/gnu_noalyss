@@ -171,10 +171,12 @@ if ( isset ($_GET['view']  ) )
 
     echo "<table>";
     echo '<TR>';
-    echo '<TD><form method="GET" ACTION="print_balance.php">'.
+    echo '<TD><form method="GET" ACTION="export.php">'.
     dossier::hidden().
     HtmlInput::submit('bt_pdf',"Export PDF").
     HtmlInput::hidden("p_action","impress").
+    HtmlInput::hidden("act","PDF/balance").
+
     HtmlInput::hidden("from_periode",$_GET['from_periode']).
     HtmlInput::hidden("to_periode",$_GET['to_periode']);
     echo HtmlInput::hidden('p_filter',$_GET['p_filter']);
@@ -191,10 +193,11 @@ if ( isset ($_GET['view']  ) )
 
     echo "</form></TD>";
 
-    echo '<TD><form method="GET" ACTION="bal_csv.php">'.
+    echo '<TD><form method="GET" ACTION="export.php">'.
     HtmlInput::submit('bt_csv',"Export CSV").
     dossier::hidden().
     HtmlInput::hidden("p_action","impress").
+    HtmlInput::hidden("act","CSV/balance").
     HtmlInput::hidden("from_periode",$_GET['from_periode']).
     HtmlInput::hidden("to_periode",$_GET['to_periode']);
     echo HtmlInput::hidden('p_filter',$_GET['p_filter']);

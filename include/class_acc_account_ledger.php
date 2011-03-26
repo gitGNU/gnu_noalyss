@@ -405,6 +405,20 @@ class Acc_Account_Ledger
      */
     static function HtmlTableHeader($actiontarget="poste")
     {
+      switch($actiontarget)
+	{
+	case 'poste':
+	  $action_csv='CSV/postedetail';
+	  $action_pdf='PDF/postedetail';
+	  break;
+	case 'gl_comptes':
+	  $action_csv='CSV/glcompte';
+	  $action_pdf='PDF/glcompte';
+	  break;
+	default:
+	  throw new Exception(" Fonction HtmlTableHeader argument actiontarget invalid");
+	  exit;
+	}	  
         $hid=new IHidden();
         echo '<div class="noprint">';
         echo "<table >";
@@ -417,9 +431,10 @@ class Acc_Account_Ledger
 	      HtmlInput::submit('bt_other',"Autre poste").
 	      $hid->input("type","poste").$hid->input('p_action','impress')."</form></TD>";
 	  }
-        echo '<TD><form method="GET" ACTION="'.$actiontarget.'_pdf.php">'.
+        echo '<TD><form method="GET" ACTION="export.php">'.
         dossier::hidden().
         HtmlInput::submit('bt_pdf',"Export PDF").
+        HtmlInput::hidden('act',$action_pdf).
         $hid->input("type","poste").$str_ople.
         $hid->input('p_action','impress').
         $hid->input("from_periode",$_REQUEST['from_periode']).
@@ -434,9 +449,10 @@ class Acc_Account_Ledger
 
         echo "</form></TD>";
 
-        echo '<TD><form method="GET" ACTION="'.$actiontarget.'_csv.php">'.
+        echo '<TD><form method="GET" ACTION="export.php">'.
         dossier::hidden().
         HtmlInput::submit('bt_csv',"Export CSV").
+	HtmlInput::hidden('act',$action_csv).
         $hid->input("type","poste").$str_ople.
         $hid->input('p_action','impress').
         $hid->input("from_periode",$_REQUEST['from_periode']).

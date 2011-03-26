@@ -101,8 +101,9 @@ if ( $_GET['histo'] == 3 )
     require_once('template/result_cat_card_summary.php');
 
     $hid=new IHidden();
-    echo '<form method="GET" ACTION="fiche_csv.php">'.dossier::hidden().
+    echo '<form method="GET" ACTION="export.php">'.dossier::hidden().
     HtmlInput::submit('bt_csv',"Export CSV").
+    HtmlInput::hidden('act',"CSV/fiche").
     $hid->input("type","fiche").
     $hid->input("p_action","impress").
     $hid->input("fd_id",$_REQUEST['cat']);
@@ -110,16 +111,19 @@ if ( $_GET['histo'] == 3 )
 
     exit();
 }
-$export_pdf='<FORM METHOD="get" ACTION="category_pdf.php" style="display:inline">';
+$export_pdf='<FORM METHOD="get" ACTION="export.php" style="display:inline">';
 $export_pdf.=HtmlInput::hidden('cat',$_GET['cat']);
+$export_pdf.=HtmlInput::hidden('act',"PDF/fiche").
 $export_pdf.=HtmlInput::hidden('start',$_GET['start']);
 $export_pdf.=HtmlInput::hidden('end',$_GET['end']);
 $export_pdf.=HtmlInput::hidden('histo',$_GET['histo']);
 $export_pdf.=dossier::hidden();
 $export_pdf.=HtmlInput::submit('pdf','Export en PDF');
 $export_pdf.='</FORM>';
-$export_csv='<FORM METHOD="get" ACTION="category_csv.php" style="display:inline">';
+$export_csv='<FORM METHOD="get" ACTION="export.php" style="display:inline">';
+
 $export_csv.=HtmlInput::hidden('cat',$_GET['cat']);
+$export_csv.=HtmlInput::hidden('act','CSV/fiche_balance');
 $export_csv.=HtmlInput::hidden('start',$_GET['start']);
 $export_csv.=HtmlInput::hidden('end',$_GET['end']);
 $export_csv.=HtmlInput::hidden('histo',$_GET['histo']);

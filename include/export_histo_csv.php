@@ -24,27 +24,6 @@
  * \brief
  */
 
-require_once('class_database.php');
-require_once('class_acc_ledger.php');
-
-$gDossier=dossier::id();
-$cn=new Database($gDossier);
-
-$user=new User($cn);
-$user->Check();
-$act=$user->check_dossier($gDossier);
-if ( $act=='P')
-  {
-    redirect("extension.php?".dossier::get(),0);
-    exit();
-  }
-if ( $act=='X')
-  {
-    echo alert('Accès interdit');
-    exit();
-  }
-$user->can_request(IMPJRN,0);
-
 header('Pragma: public');
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="histo-export.csv"',FALSE);

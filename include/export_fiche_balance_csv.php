@@ -34,15 +34,6 @@ require_once('class_database.php');
 require_once('class_dossier.php');
 require_once('ac_common.php');
 
-/* Security */
-$gDossier=dossier::id();
-$cn=new Database($gDossier);
-$User=new User($cn);
-$User->Check();
-$User->check_dossier($gDossier);
-$User->can_request(IMPFIC,0);
-
-
 /* balance */
 if ( $_GET['histo'] == 4 )
 {

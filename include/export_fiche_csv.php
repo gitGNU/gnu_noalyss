@@ -34,10 +34,7 @@ $gDossier=dossier::id();
 $cn=new Database($gDossier);
 
 require_once ('class_user.php');
-$User=new User($cn);
-$User->Check();
-$User->check_dossier($gDossier);
-$User->can_request(IMPFIC,0);
+
 
 
 if  ( isset ($_GET['fd_id']))

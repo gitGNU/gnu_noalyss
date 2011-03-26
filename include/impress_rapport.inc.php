@@ -92,8 +92,9 @@ if ( isset( $_GET['bt_html'] ) )
     HtmlInput::submit('bt_other',"Autre Rapport").
     $hid->input("type","rapport").$hid->input("p_action","impress")."</form></TD>";
 
-    echo '<TD><form method="GET" ACTION="form_pdf.php">'.
+    echo '<TD><form method="GET" ACTION="export.php">'.
     HtmlInput::submit('bt_pdf',"Export PDF").
+      HtmlInput::hidden('act','PDF/report').
     dossier::hidden().
     $hid->input("type","rapport").
     $hid->input("p_action","impress").
@@ -109,7 +110,8 @@ if ( isset( $_GET['bt_html'] ) )
 
 
     echo "</form></TD>";
-    echo '<TD><form method="GET" ACTION="form_csv.php">'.
+    echo '<TD><form method="GET" ACTION="export.php">'.
+      HtmlInput::hidden('act','CSV/report').
     HtmlInput::submit('bt_csv',"Export CSV").
     dossier::hidden().
     $hid->input("type","form").

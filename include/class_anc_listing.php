@@ -167,13 +167,13 @@ class Anc_Listing extends Anc_Print
         $r.= '</form>';
         */
 
-        $r.= '<form method="GET" action="ca_list_csv.php"  style="display:inline">';
+        $r.= '<form method="GET" action="export.php"  style="display:inline">';
         $r.= HtmlInput::hidden("to",$this->to);
         $r.= HtmlInput::hidden("from",$this->from);
         $r.= HtmlInput::hidden("pa_id",$this->pa_id);
         $r.= HtmlInput::hidden("from_poste",$this->from_poste);
         $r.= HtmlInput::hidden("to_poste",$this->to_poste);
-
+	$r.=HtmlInput::hidden('act','CSV/AncList');
         $r.= $p_string;
         $r.= dossier::hidden();
         $r.=HtmlInput::submit('bt_csv',"Export en CSV");

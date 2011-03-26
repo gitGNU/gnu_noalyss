@@ -23,7 +23,6 @@
  */
 include_once("ac_common.php");
 require_once('class_database.php');
-include ('class_user.php');
 require_once("class_fiche.php");
 header('Content-type: application/csv');
 
@@ -35,9 +34,6 @@ $gDossier=dossier::id();
 /* Admin. Dossier */
 $cn=new Database($gDossier);
 
-
-$User=new User($cn);
-$User->Check();
 
 $Fiche=new Fiche($cn,$_REQUEST['f_id']);
 $Fiche->getName();
