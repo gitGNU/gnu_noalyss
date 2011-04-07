@@ -75,7 +75,7 @@ if ( isset ( $_GET['reset_passwd']) )
     /* prevent to change the password of superadmin */
     if ( $uid != '1' )
       {
-	$Res=$cn->exec_sql( "update ac_users set use_pass='$1' where use_id=$2",array($l_pass,$uid));
+	$Res=$cn->exec_sql( "update ac_users set use_pass=$1 where use_id=$2",array($l_pass,$uid));
 	echo '<H2 class="info"> Password remis à phpcompta</H2>';
       }
 }

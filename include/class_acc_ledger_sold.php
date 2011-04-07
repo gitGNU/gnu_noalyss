@@ -571,7 +571,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 		/* if ledger is FIN then insert into quant_fin */
 		if ( $prop['jrn_def_type'] == 'FIN' )
 		  {
-		    $ledger->insert_quant_fin($acfiche->id,$mp_jr_id,$cust->id,bcmul($cust_amount,-1));
+		    $ledger->insert_quant_fin($acfiche->id,$mp_jr_id,$cust->id,bcmul($cust_amount,1));
 		  }
 		
             }
@@ -851,7 +851,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
             $r.=HtmlInput::hidden('e_mp_qcode_'.$e_mp,${'e_mp_qcode_'.$e_mp});
 
             /* needed for generating a invoice */
-            $r.=HtmlInput::hidden('qcode_dest',${'e_mp_qcode_'.$e_mp});
+            $r.=HtmlInput::hidden('qcode_benef',${'e_mp_qcode_'.$e_mp});
 
             $r.=_("Payé par ").${'e_mp_qcode_'.$e_mp};
             $r.='<br>';
