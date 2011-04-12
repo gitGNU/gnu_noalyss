@@ -126,10 +126,11 @@ if (HtmlInput::default_value('lvl3',false,$_GET) !== false)
 echo '<li>'.$ck_lev1->input().'Niveau 1</li>';
 echo '<li>'.$ck_lev2->input().'Niveau 2</li>';
 echo '<li>'.$ck_lev3->input().'Niveau 3</li>';
-
-
-
 echo '</ul>';
+
+$unsold=new ICheckBox('unsold');
+if (HtmlInput::default_value('unsold',false,$_GET) !== false)
+  $unsold->selected=true;
 
 
 $from_poste=new IPoste();
@@ -156,7 +157,9 @@ echo $from_span->input();
 echo " jusque :".$to_poste->input();
 echo $to_span->input();
 echo "</div>";
-
+echo '<div>';
+echo "Uniquement comptes non soldés ".$unsold->input();
+echo '</div>';
 echo HtmlInput::submit("view","Visualisation");
 echo '</form>';
 echo '<hr>';
@@ -189,7 +192,7 @@ if ( isset ($_GET['view']  ) )
 
     echo HtmlInput::hidden("from_poste",$_GET['from_poste']).
     HtmlInput::hidden("to_poste",$_GET['to_poste']);
-    echo HtmlInput::get_to_hidden(array('lvl1','lvl2','lvl3'));
+    echo HtmlInput::get_to_hidden(array('lvl1','lvl2','lvl3','unsold'));
 
     echo "</form></TD>";
 
@@ -210,6 +213,7 @@ if ( isset ($_GET['view']  ) )
 
     echo   HtmlInput::hidden("from_poste",$_GET['from_poste']).
     HtmlInput::hidden("to_poste",$_GET['to_poste']);
+    echo HtmlInput::get_to_hidden(array('unsold'));
 
     echo "</form></TD>";
 
@@ -241,7 +245,8 @@ if ( isset($_GET['view'] ) )
     }
     $bal->from_poste=$_GET['from_poste'];
     $bal->to_poste=$_GET['to_poste'];
-
+    if ( isset($_GET['unsold']))
+      $bal->unsold=true;
     $row=$bal->get_row($_GET['from_periode'],
                        $_GET['to_periode']);
     $periode=new Periode($cn);

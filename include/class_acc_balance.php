@@ -33,12 +33,14 @@ class Acc_Balance
     var $jrn;						/*!< idx of a table of ledger create by user->get_ledger */
     var $from_poste;				/*!< from_poste  filter on the post */
     var $to_poste;				/*!< to_poste filter on the post*/
+    var $unsold;				/*!< if true only the no solded account (saldo != 0) */
     function Acc_Balance($p_cn)
     {
         $this->db=$p_cn;
         $this->jrn=null;
         $from_poste="";
         $to_poste="";
+	$unsold=false;
     }
 
 
@@ -135,6 +137,7 @@ class Acc_Balance
             $a['sum_cred']=round($r['sum_cred'],2);
             $a['solde_deb']=round(( $a['sum_deb']  >=  $a['sum_cred'] )? $a['sum_deb']- $a['sum_cred']:0,2);
             $a['solde_cred']=round(( $a['sum_deb'] <=  $a['sum_cred'] )?$a['sum_cred']-$a['sum_deb']:0,2);
+	    if ($this->unsold==true && $a['solde_cred']==0 && $a['solde_deb']==0) continue;
             $array[$i]=$a;
             $tot_cred+=  $a['sum_cred'];
             $tot_deb+= $a['sum_deb'];

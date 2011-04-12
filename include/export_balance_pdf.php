@@ -41,7 +41,7 @@ $gDossier=dossier::id();
 
 $cn=new Database($gDossier);
 $rep=new Database();
-include ('class_user.php');
+require_once ('class_user.php');
 $User=new User($cn);
 $User->Check();
 
@@ -74,6 +74,7 @@ case 2:
 
 $bal->from_poste=$_GET['from_poste'];
 $bal->to_poste=$_GET['to_poste'];
+if (isset($_GET['unsold'])) $bal->unsold=true;
 
 $array=$bal->get_row($from_periode,$to_periode);
 
@@ -126,8 +127,9 @@ for ($i=0;$i<count($array);$i++)
 
   foreach (array(3,2,1) as $ind)
     {	
-      if ( ! isset($_GET['lvl'.$ind]))continue;
       $r=$array[$i];
+      if ( ! isset($_GET['lvl'.$ind]))continue;
+
       if (${'lvl'.$ind.'_old'} == '')	  ${'lvl'.$ind.'_old'}=substr($r['poste'],0,$ind);
       if ( ${'lvl'.$ind.'_old'} != substr($r['poste'],0,$ind))
 	{
@@ -145,7 +147,6 @@ for ($i=0;$i<count($array);$i++)
 	    {
 	      ${'nlvl'.$ind}[$a]=0;
 	    }
-	  //	  xdebug_print_function_stack();exit();
 	}
     }
   foreach(array('sum_cred','sum_deb','solde_deb','solde_cred') as $a)

@@ -70,6 +70,7 @@ case 2:
 
 $bal->from_poste=$_GET['from_poste'];
 $bal->to_poste=$_GET['to_poste'];
+if (isset($_GET['unsold'])) $bal->unsold=true;
 
 $row=$bal->get_row($_GET['from_periode'],
                    $_GET['to_periode']);

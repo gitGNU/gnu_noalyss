@@ -35,7 +35,7 @@ require_once('class_dossier.php');
 require_once('ac_common.php');
 
 /* balance */
-if ( $_GET['histo'] == 4 )
+if ( $_GET['histo'] == 4 || $_GET['histo'] == 5)
 {
     $fd=new Fiche_Def($cn,$_REQUEST['cat']);
     if ( $fd->hasAttribute(ATTR_DEF_ACCOUNT) == false )
@@ -60,6 +60,11 @@ if ( $_GET['histo'] == 4 )
         $oCard=new Fiche($cn,$aCard[$i]['f_id']);
         $solde=$oCard->get_solde_detail($filter);
         if ( $solde['debit'] == 0 && $solde['credit']==0) continue;
+	/* only not purged card */
+	if ($_GET['histo'] == 5 && $solde['solde'] ==0) continue;
+	$side='';
+	if(bcsub($solde['credit'],$solde['debit']) < 0) $side='Deb.';
+	if(bcsub($solde['credit'],$solde['debit']) > 0) $side='Cred.';
 
         printf('"%s";"%s";%s;%s;%s;"%s"',
 	       $oCard->strAttribut(ATTR_DEF_QUICKCODE),
@@ -67,7 +72,7 @@ if ( $_GET['histo'] == 4 )
 	        nb($solde['debit']),
 	        nb($solde['credit']),
 	        nb(abs($solde['solde'])),
-	        (($solde['solde']<0)?'CRED':'DEB'));
+	        $side);
 	printf("\n");
     }
 }

@@ -93,7 +93,7 @@ switch( $_GET['act'])
     break;
   case 'PDF/fiche_balance':
     $user->can_request(IMPFIC,0);
-    require_once('export_fiche_balance_csv.php');
+    require_once('export_fiche_balance_pdf.php');
     exit();
     break;
   case 'CSV/report':

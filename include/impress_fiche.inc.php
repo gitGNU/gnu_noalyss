@@ -58,6 +58,7 @@ $histo->value=array(
                   array('value'=>2,'label'=>_('Historique non Lettré')),
                   array('value'=>3,'label'=>_('Résumé')),
                   array('value'=>4,'label'=>_('Balance')),
+                  array('value'=>5,'label'=>_('Balance non soldée' ))
               );
 $histo->javascript='onchange="if (this.value==3) {
                    g(&quot;trstart&quot;).style.display=&quot;none&quot;;g(&quot;trend&quot;).style.display=&quot;none&quot;;}
@@ -113,7 +114,7 @@ if ( $_GET['histo'] == 3 )
 }
 $export_pdf='<FORM METHOD="get" ACTION="export.php" style="display:inline">';
 $export_pdf.=HtmlInput::hidden('cat',$_GET['cat']);
-$export_pdf.=HtmlInput::hidden('act',"PDF/fiche").
+$export_pdf.=HtmlInput::hidden('act',"PDF/fiche_balance").
 $export_pdf.=HtmlInput::hidden('start',$_GET['start']);
 $export_pdf.=HtmlInput::hidden('end',$_GET['end']);
 $export_pdf.=HtmlInput::hidden('histo',$_GET['histo']);
@@ -133,7 +134,7 @@ $export_csv.='</FORM>';
 
 echo $export_pdf;
 // Balance
-if ( $_GET['histo'] == 4 )
+if ( $_GET['histo'] == 4 || $_GET['histo']==5 )
 {
     if ( isDate($_REQUEST['start']) == null || isDate ($_REQUEST['end']) == null )
     {
@@ -170,6 +171,8 @@ if ( $_GET['histo'] == 4 )
         $oCard=new Fiche($cn,$aCard[$i]['f_id']);
         $solde=$oCard->get_solde_detail($filter);
         if ( $solde['debit'] == 0 && $solde['credit']==0) continue;
+	/* only not purged card */
+	if ($_GET['histo'] == 5 && $solde['debit'] == $solde['credit']) continue;
         $class='';
         if ( $idx%2 == 0) $class='class="odd"';
         $idx++;
