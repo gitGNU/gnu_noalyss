@@ -242,15 +242,6 @@ if ( isset( $_REQUEST['bt_html'] ) )
         "<th> montant</th>".
         "</TR>";
         // set a filter for the FIN
-        $a_parm_code=$cn->get_array("select p_value from parm_code where p_code in ('BANQUE','COMPTE_COURANT','CAISSE')");
-        $sql_fin="(";
-        $or="";
-        foreach ($a_parm_code as $code)
-        {
-            $sql_fin.="$or j_poste::text like '".$code['p_value']."%'";
-            $or=" or ";
-        }
-        $sql_fin.=")";
 
         foreach ($Row as $line)
         {
@@ -267,9 +258,12 @@ if ( isset( $_REQUEST['bt_html'] ) )
             // Get the jrn type
             if ( $line['jrn_def_type'] == 'FIN' )
             {
-                $positive = $cn->count_sql("select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
-                                           " where jr_id=".$line['jr_id']." and $sql_fin ".
-                                           " and j_debit='f'");
+	      $positive = $this->db->get_value("select qf_amount from quant_fin where jr_id=$1",
+					       array($line['jr_id']));
+	      if ($this->db->count() != 0)
+		$positive = 1;
+	      else
+                $positive = ($positive > 0)?1:0;
 
                 echo "<TD align=\"right\">";
                 echo ( $positive != 0 )?"<font color=\"red\">  - ".nbm($line['montant'])."</font>":nbm($line['montant']);

@@ -799,7 +799,8 @@ class Acc_Ledger
             {
                 $positive = $this->db->get_value("select qf_amount from quant_fin where jr_id=$1",
                                                  array($row['jr_id']));
-                $positive=($positive < 0)?1:0;
+		if ( $this->db->count() != 0) 
+		  $positive=($positive < 0)?1:0;
             }
             $r.="<TD align=\"right\">";
 

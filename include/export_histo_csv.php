@@ -21,7 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file
- * \brief
+ * \brief  history of the accountancy exported in CSV
  */
 
 header('Pragma: public');
@@ -54,7 +54,17 @@ for ($i=0;$i<count($res);$i++)
     printf('"%s";',$res[$i]['jr_pj_number']);
     printf('"%s";',$res[$i]['jr_comment']);
     printf('"%s";',$res[$i]['n_text']);
-    printf('%s',nb($res[$i]['jr_montant']));
+
+    $amount=$res[$i]['jr_montant'];
+    
+    if ( $res[$i]['jrn_def_type'] == 'FIN')
+      {
+	$positive = $cn->get_value("select qf_amount from quant_fin where jr_id=$1",array($res[$i]['jr_id']));
+	if ( $positive !='' ) $amount=$positive;
+      }
+
+    printf('%s',nb($amount));
+
     printf("\r\n");
 
   }
