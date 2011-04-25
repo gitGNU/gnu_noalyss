@@ -1031,8 +1031,8 @@ class Fiche
      */
     function get_quick_code()
     {
-        $sql="select ad_value from fiche_detail where ad_id=23 and f_id=".$this->id;
-        $Res=$this->cn->exec_sql($sql);
+        $sql="select ad_value from fiche_detail where ad_id=23 and f_id=$1";
+        $Res=$this->cn->exec_sql($sql,array($this->id));
         $r=Database::fetch_all($Res);
         if ( sizeof($r) == 0 )
             return null;
