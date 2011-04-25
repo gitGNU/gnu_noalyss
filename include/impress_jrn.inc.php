@@ -238,6 +238,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
         "<th>Date</th>".
         "<th> n° de pièce </th>".
         "<th>internal</th>".
+	  th('Tiers').
         "<th>Commentaire</th>".
         "<th> montant</th>".
         "</TR>";
@@ -250,7 +251,10 @@ if ( isset( $_REQUEST['bt_html'] ) )
             echo "<TD>".$line['date']."</TD>";
             echo "<TD>".h($line['jr_pj_number'])."</TD>";
 	    echo "<TD>".HtmlInput::detail_op($line['jr_id'],$line['jr_internal'])."</TD>";
+	    $tiers=$Jrn->get_tiers($line['jrn_def_type'],$line['jr_id']);
+	    echo td($tiers);
             echo "<TD>".h($line['comment'])."</TD>";
+
 
             //	  echo "<TD>".$line['pj']."</TD>";
             // If the ledger is financial :

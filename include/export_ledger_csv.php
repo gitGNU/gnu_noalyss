@@ -99,6 +99,7 @@ else
 	 printf ('" operation";'.
 		 '"Date";'.
 		 '"N° Pièce";'.
+		 '"Tiers";'.
 		 '"commentaire";'.
 		 '"internal";'.
 		 '"montant";'.
@@ -109,6 +110,7 @@ else
 	     echo $line['num'].";";
 	     echo $line['date'].";";
 	     echo $line['jr_pj_number'].";";
+	     echo $Jrn->get_tiers($line['jrn_def_type'],$line['jr_id']).";";
 	     echo $line['comment'].";";
 	     echo $line['jr_internal'].";";
 	     //	  echo "<TD>".$line['pj'].";";
@@ -151,7 +153,7 @@ else
             printf('"%s";"%s";"%s";"%s";"%s";%s;',
                    $line['date'],
                    $line['num'],
-                   $line['client'],
+                   $Jrn->get_tiers($line['jrn_def_type'],$line['jr_id']),
                    $line['comment'],
                    $line['jr_internal'],
                    nb($line['HTVA']));

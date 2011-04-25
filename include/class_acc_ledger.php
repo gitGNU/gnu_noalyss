@@ -2855,5 +2855,31 @@ class Acc_Ledger
             );
         return $r;
     }
+    /**
+     *Retrieve the third : supplier for purchase, customer for sale, bank for fin, 
+     *@param $p_jrn_type type of the ledger FIN, VEN ACH or ODS
+     */
+    function get_tiers($p_jrn_type,$jr_id)
+    {
+      if ( $p_jrn_type == 'ODS') return ' ';
+      $tiers='';
+      switch ($p_jrn_type)
+	{
+	case 'VEN':
+	  $tiers=$this->db->get_value('select max(qs_client) from quant_sold join jrnx using (j_id) join jrn on (jr_grpt_id=j_grpt) where jrn.jr_id=$1',array($jr_id));
+	  break ;
+	case 'ACH':
+	  $tiers=$this->db->get_value('select max(qp_supplier) from quant_purchase join jrnx using (j_id) join jrn on (jr_grpt_id=j_grpt) where jrn.jr_id=$1',array($jr_id));
 
+	  break ;
+	case 'FIN':
+	  $tiers=$this->db->get_value('select qf_bank from quant_fin where jr_id=$1',array($jr_id));
+	  break ;
+
+	}
+      if ($this->db->count()==0) return '';
+      $name=$this->db->get_value('select ad_value from fiche_detail where ad_id=1 and f_id=$1',array($tiers));
+      $first_name=$this->db->get_value('select ad_value from fiche_detail where ad_id=32 and f_id=$1',array($tiers));
+      return $name.' '.$first_name;
+    }
 }

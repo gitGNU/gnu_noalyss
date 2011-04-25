@@ -23,6 +23,7 @@
 /*!\file
  * \brief this class extends PDF and let you export the detailled printing
  *  of any ledgers
+ * *\todo Must add the third part
  */
 require_once('class_pdf.php');
 
