@@ -41,14 +41,13 @@ class Print_Ledger_Financial extends PDF
         $this->Cell(0,10,$this->dossier, 'B', 0, 'C');
         //Line break
         $this->Ln(20);
-        $this->SetFont('DejaVu', '', 6);
-        $this->Cell(30,'Piece');
-        $this->Cell(10,'Date');
-        $this->Cell(20,'Interne');
-        $this->Cell(60,'Banque');
-        $this->Cell(60,'Dest/Orig');
-        $this->Cell(65,'Commentaire');
-        $this->Cell(15,'Montant');
+        $this->SetFont('DejaVu', 'B', 7);
+        $this->Cell(30,6,'Piece');
+        $this->Cell(10,6,'Date');
+        $this->Cell(20,6,'Interne');
+        $this->Cell(40,6,'Dest/Orig');
+        $this->Cell(105,6,'Commentaire');
+        $this->Cell(15,6,'Montant');
         $this->Ln(6);
 
     }
@@ -85,14 +84,11 @@ class Print_Ledger_Financial extends PDF
             $this->Cell(10,5,$row['date_fmt']);
             $this->Cell(20,5,$row['internal']);
 
-            list($qc,$name,$bank_qc,$bank_name)=$this->get_tiers($row['id'],$this->jrn_type);
-            $this->Cell(20,5,$bank_qc,0,0);
-            $this->Cell(40,5,$bank_name,0,0);
-            $this->Cell(20,5,$qc,0,0);
+            $name=$this->ledger->get_tiers($this->jrn_type,$row['id']);
             $this->Cell(40,5,$name,0,0);
 
 
-            $this->Cell(65,5,$row['comment'],0,0);
+            $this->Cell(105,5,$row['comment'],0,0);
             $amount=$this->cn->get_value('select qf_amount from quant_fin where jr_id=$1',array( $row['id']));
             $this->Cell(15,5,sprintf('%.2f',$amount),0,0,'R');
             $this->Ln(5);
