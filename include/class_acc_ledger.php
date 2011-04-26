@@ -675,16 +675,6 @@ class Acc_Ledger
             $sort_date="<th>$image_sel_asc Date <A class=\"mtitle\" HREF=\"?$url&o=dd\">$image_desc</A></th>";
             $order=" order by jr_date_order asc,substring(jr_pj_number,'\\d+$')::numeric asc ";
         }
-        // set a filter for the FIN
-        $a_parm_code=$this->db->get_array("select p_value from parm_code where p_code in ('BANQUE','COMPTE_COURANT','CAISSE')");
-        $sql_fin="(";
-        $or="";
-        foreach ($a_parm_code as $code)
-        {
-            $sql_fin.="$or j_poste::text like '".$code['p_value']."%'";
-            $or=" or ";
-        }
-        $sql_fin.=")";
 
         // Count
         $count=$this->db->count_sql($sql);
@@ -699,7 +689,6 @@ class Acc_Ledger
 
         $r="";
 
-        $r.=JS_LEDGER;
 
         $Max=Database::num_row($Res);
 
@@ -717,6 +706,7 @@ class Acc_Ledger
         $r.=$sort_date;
         $r.=$sort_echeance;
         $r.=$sort_pj;
+	$r.=th('tiers');
         $r.=$sort_description;
 	$r.=th('Notes',' style="width:15%"');
         $r.=$sort_amount;
@@ -783,6 +773,9 @@ class Acc_Ledger
             $r.=$row['jr_pj_number'];
             $r.="</TD>";
 
+	    // Tiers
+	    $other=$this->get_tiers($row['jrn_def_type'],$row['jr_id']);
+	    $r.=td($other);
             // comment
             $r.="<TD>";
             $tmp_jr_comment=h($row['jr_comment']);
@@ -2530,7 +2523,7 @@ class Acc_Ledger
              "jr_pj_number as pj,jr_grpt_id,".
              " to_char(jr_date,'DDMMYY') as date_fmt, ".
              " jr_comment as comment, jr_montant as montant ,".
-             " jr_grpt_id".
+             " jr_grpt_id,jr_def_id".
              " from jrn where jr_tech_per >= $1 ".
              ' and jr_tech_per <=$2  '.$jrn.' order by jr_date,substring(jr_pj_number,\'\\\d+$\')::numeric asc';
         $ret=$this->db->get_array($sql,array($p_from,$p_to));
@@ -2873,7 +2866,7 @@ class Acc_Ledger
 
 	  break ;
 	case 'FIN':
-	  $tiers=$this->db->get_value('select qf_bank from quant_fin where jr_id=$1',array($jr_id));
+	  $tiers=$this->db->get_value('select qf_other from quant_fin where jr_id=$1',array($jr_id));
 	  break ;
 
 	}

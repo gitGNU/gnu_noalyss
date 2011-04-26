@@ -262,9 +262,9 @@ if ( isset( $_REQUEST['bt_html'] ) )
             // Get the jrn type
             if ( $line['jrn_def_type'] == 'FIN' )
             {
-	      $positive = $this->db->get_value("select qf_amount from quant_fin where jr_id=$1",
+	      $positive = $cn->get_value("select qf_amount from quant_fin where jr_id=$1",
 					       array($line['jr_id']));
-	      if ($this->db->count() != 0)
+	      if ($cn->count() != 0)
 		$positive = 1;
 	      else
                 $positive = ($positive > 0)?1:0;

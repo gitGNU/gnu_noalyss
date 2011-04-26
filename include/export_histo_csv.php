@@ -40,6 +40,7 @@ printf('"%s";',"Journal");
 printf('"%s";',"Date");
 printf('"%s";',"Echeance");
 printf('"%s";',"Piece");
+printf('"%s";',"Tiers");
 printf('"%s";',"Description");
 printf('"%s";',"Note");
 printf('"%s"',"Montant");
@@ -52,6 +53,7 @@ for ($i=0;$i<count($res);$i++)
     printf('"%s";',$res[$i]['jr_date']);
     printf('"%s";',$res[$i]['jr_ech']);
     printf('"%s";',$res[$i]['jr_pj_number']);
+    printf('"%s";',$ledger->get_tiers($res[$i]['jrn_def_type'],$res[$i]['jr_id']));
     printf('"%s";',$res[$i]['jr_comment']);
     printf('"%s";',$res[$i]['n_text']);
 

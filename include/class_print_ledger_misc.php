@@ -44,7 +44,8 @@ class Print_Ledger_Misc extends PDF
         $this->Cell(30,6,'Piece');
         $this->Cell(10,6,'Date');
         $this->Cell(20,6,'Interne');
-        $this->Cell(105,6,'Commentaire');
+        $this->Cell(25,6,'Tiers');
+        $this->Cell(80,6,'Commentaire');
         $this->Cell(15,6,'Montant');
         $this->Ln(6);
 
@@ -80,8 +81,10 @@ class Print_Ledger_Misc extends PDF
             $this->Cell(30,5,$row['pj']);
             $this->Cell(10,5,$row['date_fmt']);
             $this->Cell(20,5,$row['internal']);
-
-            $this->Cell(105,5,$row['comment'],0,0);
+	    $type=$this->cn->get_value("select jrn_def_type from jrn_def where jrn_def_id=$1",array($a_jrn[$i]['jr_def_id']));
+	    $other=substr($this->ledger->get_tiers($type,$a_jrn[$i]['id']),0,25);
+	    $this->Cell(25,5,$other,0,0);
+            $this->Cell(80,5,$row['comment'],0,0);
             $this->Cell(15,5,nbm($row['montant']),0,0,'R');
             $this->Ln(5);
 
