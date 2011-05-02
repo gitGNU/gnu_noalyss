@@ -136,6 +136,7 @@ echo $export_pdf;
 // Balance
 if ( $_GET['histo'] == 4 || $_GET['histo']==5 )
 {
+  xdebug_start_trace();
     if ( isDate($_REQUEST['start']) == null || isDate ($_REQUEST['end']) == null )
     {
         alert('Date invalide !');
@@ -148,8 +149,8 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5 )
       echo alert("Cette catégorie n'ayant pas de poste comptable n'a pas de balance");
       exit;
     }
-    $aCard=$cn->get_array("select f_id,ad_value from fiche join fiche_detail using(f_id) where fd_id=$1 and ad_id=1 order by 2 ",array($_REQUEST['cat']));
-    if ( empty($aCard))
+    $ret=$cn->exec_sql("select f_id,ad_value from fiche join fiche_detail using(f_id) where fd_id=$1 and ad_id=1 order by 2 ",array($_REQUEST['cat']));
+    if ( $cn->count()==0)
     {
         echo "Aucune fiche trouvée";
         exit;
@@ -164,11 +165,12 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5 )
         th('D/C','style="text-align:right"')
     );
     $idx=0;
-    for ($i=0;$i < count($aCard);$i++)
+    for ($i=0;$i < Database::num_row($ret);$i++)
     {
         $filter= " (j_date >= to_date('".$_REQUEST['start']."','DD.MM.YYYY') ".
                  " and  j_date <= to_date('".$_REQUEST['end']."','DD.MM.YYYY')) ";
-        $oCard=new Fiche($cn,$aCard[$i]['f_id']);
+	$aCard=Database::fetch_array($ret,$i);
+        $oCard=new Fiche($cn,$aCard['f_id']);
         $solde=$oCard->get_solde_detail($filter);
         if ( $solde['debit'] == 0 && $solde['credit']==0) continue;
 	/* only not purged card */
