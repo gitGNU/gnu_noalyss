@@ -12,7 +12,8 @@ if ($aRap  != null ) {
     $opRap=new Acc_Operation($cn);
     $opRap->jr_id=$aRap[$e];
     $internal=$opRap->get_internal();
-    $amount=$cn->get_value('select jr_montant from jrn where jr_id=$1',array($aRap[$e]));
+    $array_jr=$cn->get_array('select jr_montant,jr_comment from jrn where jr_id=$1',array($aRap[$e]));
+    $amount=$array_jr[0]['jr_montant'];
     $str="modifyOperation(".$aRap[$e].",".$gDossier.")";
     $rmReconciliation=new IButton('rmr');
     $rmReconciliation->label='enlever';
@@ -28,7 +29,7 @@ if ($aRap  != null ) {
       $remove=$rmReconciliation->input();
     else 
       $remove='';
-    echo tr (td('<a href="javascript:void(0)" onclick="'.$str.'" >'.$internal.'</A>').td($amount).td($remove));
+    echo tr (td('<a href="javascript:void(0)" onclick="'.$str.'" >'.$internal.'</A>').td($amount).td($array_jr[0]['jr_comment']).td($remove));
   }
   echo '</table>';
 }
