@@ -115,7 +115,8 @@ class Database
      * \brief send a sql string to the database
      * \param $p_string     sql string
      * \param $p_array array for the SQL string (see pg_query_params)
-     * \return false if error otherwise true
+     * \return the result of the query, a resource or false if an
+     * error occured
      */
     function exec_sql( $p_string,$p_array=null)
     {
@@ -736,6 +737,15 @@ class Database
     static function fetch_result($ret,$p_row=0,$p_col=0)
     {
         return pg_fetch_result($ret,$p_row,$p_col);
+    }
+    /*!\brief wrapper for the function pg_fetch_row
+     *\param $ret is the result of pg_exec (exec_sql)
+     *\param $p_row is the indice of the row
+     *\return an array indexed from 0
+     */
+    static function fetch_row($ret,$p_row)
+    {
+        return pg_fetch_row($ret,$p_row);
     }
 
     /*!\brief wrapper for the function pg_lo_unlink
