@@ -522,6 +522,64 @@ class HtmlInput
     }
 
     /**
+     *transform request data  to string
+     *@param $array is an of indices 
+     *@param $request name of the superglobal $_POST $_GET $_REQUEST(default) 
+     *@return html string with the string data
+     */
+    static function array_to_string($array,$global_array )
+    {
+
+      $r="?";
+
+      if ( count($global_array )==0) return '';
+      $and=""; 
+      foreach ($array  as $a)
+	{
+	  if (isset($global_array [$a]))
+	     $r.=$and."&$a=".$global_array [$a];
+	  $and="";
+	}
+      
+      return $r;
+    }
+    /**
+     *transform $_GET   data  to string
+     *@param $array is an of indices 
+     *@see HtmlInput::request_to_string
+     *@return html string with the string data
+     */
+    static function get_to_string($array)
+    {
+      $r=self::array_to_string($array,$_GET );
+      return $r;
+    }
+
+    /**
+     *transform $_POST  data  to string
+     *@param $array is an of indices 
+     *@see HtmlInput::request_to_string
+     *@return html string with the string data
+     */
+    static function post_to_string($array)
+    {
+      $r=self::array_to_string($array,$_POST );
+      return $r;
+    }
+
+    /**
+     *transform $_REQUEST   data  to string
+     *@param $array is an of indices 
+     *@see HtmlInput::request_to_string
+     *@return html string with the string data
+     */
+    static function request_to_string($array)
+    {
+      $r=self::array_to_string($array,$_REQUEST  );
+      return $r;
+    }
+
+    /**
      * generate an unique id for a widget, 
      *@param $p_prefix prefix
      *@see HtmlInput::IDate
