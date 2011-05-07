@@ -44,6 +44,10 @@ class Html_Table
     for ( $i=0;$i <count($a_col);$i++)
       {
 	$content=h($a_col[$i]['name']);
+	if ( isset($a_col[$i]['image']) && $a_col[$i]['image'] != '')
+	  {
+	    $content=sprintf('<img src="%s" border="0"></img>%s',$a_col[$i]['image'],$content);
+	  }
 	if ( isset($a_col[$i]['link']) )
 	  {
 	    $content=sprintf('<a href="%s">%s</a>',
@@ -78,16 +82,18 @@ class Html_Table
   static function test_me()
   {
     $cn=new Database(Dossier::id());
-    $order=" order by name ";
+    $order=" order by f_id desc ";
     $url=HtmlInput::get_to_string(array("gDossier","test_select"));
 
     if ( isset($_GET['sb']))
       {
 	$order=" order by f_id";
+	$img="image/select1.gif";
       }
     else
       {
 	$url=$url."&sb=as";
+	$img="image/select2.gif";
       }
     $sql="select f_id,name,quick_code from vw_client  $order limit 10";
     echo $sql;
@@ -97,7 +103,8 @@ class Html_Table
 			       array(
 				     array('name'=>'N° de fiche',
 					   'style'=>'text-align:right',
-					   'link'=>$url),
+					   'link'=>$url,
+					   'image'=>$img),
 				     array('name'=>'Nom',
 					   'style'=>'text-align:right'),
 				     array('name'=>'QuickCode')
