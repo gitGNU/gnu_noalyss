@@ -122,7 +122,11 @@ class Acc_Tva
              );
 
     }
-
+    /**
+     *Load the VAT,
+     *@todo if the label is not found then we get an message error, so the best is probably
+     *to initialize the VAT object with default value
+     */
     public function load()
     {
         $sql="select tva_label,tva_rate, tva_comment,tva_poste from tva_rate where tva_id=$1";
