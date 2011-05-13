@@ -93,6 +93,18 @@ if ( DBVERSION > dossier::get_version($cn))
     echo '<a hreF="'.$base.'">'.$a.'</a></h2>';
 }
 
+/*
+ * Set a correct periode for the user
+ */
+$periode=$user->get_periode();
+$oPeriode=new Periode($cn,$periode);
+
+if ($oPeriode->load() == -1 )
+  {
+    $periode=$cn->get_value('select p_id from parm_periode order by p_start asc limit 1');
+    $user->set_periode($periode);
+  }
+
 echo '<div class="u_tmenu">';
 echo menu_tool('access.php');
 echo '</div>';
