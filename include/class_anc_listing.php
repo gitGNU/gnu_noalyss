@@ -82,16 +82,19 @@ class Anc_Listing extends Anc_Print
              '<th>'._('Date').'</th>'.
              '<th>'._('Nom').'</th>'.
              '<th>'._('Description').'</th>'.
+	  th(_('Operation')).
              '<th>'._('Montant').'</th>'.
              '<th>'._('D/C').'</th>'.
              '</tr>';
         foreach ( $array as $row )
         {
             $r.= '<tr>';
+	    $detail=($row['jr_id'] != null)?HtmlInput::detail_op($row['jr_id'],$row['jr_internal']):'';
             $r.=
                 '<td>'.$row['oa_date'].'</td>'.
                 '<td>'.h($row['po_name']).'</td>'.
                 '<td>'.h($row['oa_description']).'</td>'.
+	      '<td>'.$detail.'</td>'.
 	      '<td>'.nbm($row['oa_amount']).'</td>'.
                 '<td>'.(($row['oa_debit']=='f')?'CREDIT':'DEBIT').'</td>';
             $r.= '</tr>';
