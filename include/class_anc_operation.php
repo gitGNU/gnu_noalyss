@@ -137,7 +137,7 @@ class Anc_Operation
         if ( isset ( $this->pa_id) && $this->pa_id !='')
             $pa_id_cond= "B.pa_id=".$this->pa_id." and";
 
-        $sql="select oa_id,po_name,oa_description,".
+        $sql="select oa_id,po_name,oa_description,po_description,".
              "oa_debit,to_char(oa_date,'DD.MM.YYYY') as oa_date,oa_amount,oa_group,j_id ".
              " from operation_analytique as B".
              " join poste_analytique using(po_id) ".
@@ -218,19 +218,18 @@ class Anc_Operation
                     $ret.='</table>';
 
                 }
-                $ret.='<table id="'.$row['oa_group'].'" style="border: 2px outset blue; width: 70%;">';
+                $ret.='<table id="'.$row['oa_group'].'" style="margin-bottom:2px;border: 1px solid blue; width: 90%;">';
 
-                $ret.="<td>".
+                $ret.="<th>".
                       $row['oa_date'].
-                      "</td>".
-                      "<td>".
+                      "</th>".
+                      "<th>".
                       h($row['oa_description']).
-                      "</td>";
+                      "</th>";
 
-                $ret.="<td>".
+                $ret.="<th>".
                       "Groupe id : ".$row['oa_group'].
-                      "</td>";
-
+                      "</th>";
 
                 $oldgroup=$group;
 
@@ -240,15 +239,13 @@ class Anc_Operation
             $count++;
             $cred= ( $row['oa_debit'] == 'f')?"CREDIT":"DEBIT";
             $ret.="<tr class=\"$class\">";
-            if ( $cred=='CREDIT')
-                $ret.='<td></td>';
             $ret.= "<td>".
                    h($row['po_name']).
                    "</td>";
-            if ( $cred=='DEBIT')
-                $ret.='<td></td>';
 
-            $ret.='<td>'.	$row['oa_amount'].
+	    $ret.=td(h($row['po_description']));
+
+            $ret.='<td class="num">'.	nbm($row['oa_amount']).
                   "</td>".
                   "<td>".
                   $cred.
