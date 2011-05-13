@@ -269,7 +269,7 @@ class Anc_Operation
         if ( $jr_id != 0 )
         {
             $detail=new IButton();
-            $detail->javascript="modifyOperation($jr_id,'"."$gDossier)";
+            $detail->javascript="modifyOperation($jr_id,'".$gDossier."')";
             $detail->name="Detail";
             $detail->label="Detail";
             $ret.="<td>".$detail->input()."</td>";
