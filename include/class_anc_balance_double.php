@@ -74,10 +74,10 @@ class Anc_Balance_Double extends Anc_Print
             else
             {
 
-                if ( $tot_deb != 0 && $tot_cred !=0 )
+                if ( $tot_deb != 0 || $tot_cred !=0 )
                 {
-                    $r.="<tr>";
-                    $r.="<td>Total </td> <td></td><td> $tot_deb </td> <td>$tot_cred</td>";
+		  $r.="<tr>".td('');
+                    $r.="<td>Total </td> <td> $tot_deb </td> <td>$tot_cred</td>";
                     $s=abs($tot_deb-$tot_cred);
                     $d=($tot_deb>$tot_cred)?'debit':'credit';
                     $r.="<td>$s</td><td>$d</td>";
@@ -88,23 +88,27 @@ class Anc_Balance_Double extends Anc_Print
 
                 // new
                 $r.="</table>";
-                $r.="<table class=\"result\">";
+                $r.="<table class=\"result\" style=\"margin-bottom:3px\">";
                 $r.="<tr>";
-                $r.="<th>Poste comptable Analytique</th>";
-                $r.="<th>Poste comptable Analytique</th>";
+                $r.="<th style=\"width:30%\" >Poste comptable Analytique</th>";
+                $r.="<th style=\"width:30%\">Poste comptable Analytique</th>";
                 $r.="<th>D&eacute;bit</th>";
                 $r.="<th>Cr&eacute;dit</th>";
                 $r.="<th>Solde</th>";
                 $r.="<th>D/C</th>";
                 $r.="</tr>";
-
-                $r.=sprintf("<td>%s</td>",$row['a_po_name']);
+		$r.='<tr>';
+                $r.=td($row['a_po_name'].' '.$row['a_po_description']);
                 $old=$row['a_po_name'];
+		$r.= '</tr>';
+		$r.= '<tr>';
+		$r.=td('');
             }
             $tot_deb+=$row['a_d'];
             $tot_cred+=$row['a_c'];
 
-            $r.=sprintf("<td>%s</td>",h($row['b_po_name']));
+	    $r.=td($row['b_po_name']." ".$row['b_po_description']);
+
             $r.=td(nbm($row['a_d']));
             $r.=td(nbm($row['a_c']));
             $r.=td(nbm($row['a_solde']));
@@ -113,8 +117,8 @@ class Anc_Balance_Double extends Anc_Print
         }
         if ( $tot_deb != 0 || $tot_cred !=0 )
         {
-            $r.="<tr>";
-            $r.="<td>Total </td> <td></td><td> ".nbm($tot_deb)." </td> <td>".nbm($tot_cred)."</td>";
+	  $r.="<tr>".td('');
+            $r.="<td>Total </td> <td> ".nbm($tot_deb)." </td> <td>".nbm($tot_cred)."</td>";
             $s=abs($tot_deb-$tot_cred);
             $d=($tot_deb>$tot_cred)?'debit':'credit';
             $r.="<td>".nbm($s)."</td><td>$d</td>";
@@ -122,6 +126,7 @@ class Anc_Balance_Double extends Anc_Print
         }
 
         $r.="</table>";
+	$r.=h2info('Résumé');
         $r.='<table>';
         $sum=$this->show_sum($array);
         foreach ($sum as $row)
@@ -186,7 +191,7 @@ class Anc_Balance_Double extends Anc_Print
 
         $pdf->SetFont('DejaVu','',6);
         $pdf->Cell(20,7,'id','B');
-        $pdf->Cell(40,7,'Poste Comptable','B');
+        $pdf->Cell(100,7,'Poste Comptable','B');
         $pdf->Cell(20,7,'Débit','B',0,'L');
         $pdf->Cell(20,7,'Crédit','B',0,'L');
         $pdf->Cell(20,7,'Solde','B',0,'L');
@@ -197,7 +202,9 @@ class Anc_Balance_Double extends Anc_Print
         {
             $row=$array[$i];
             $pdf->Cell(20,6,$row['a_po_name'],0,0,'L');
-            $pdf->Cell(40,6,$row['b_po_name'],0,0,'L');
+            $pdf->Cell(40,6,substr($row['a_po_description'],0,31),0,0,'L');
+            $pdf->Cell(20,6,$row['b_po_name'],0,0,'L');
+            $pdf->Cell(40,6,substr($row['b_po_description'],0,31),0,0,'L');
             $pdf->Cell(20,6,$row['a_d'],0,0,'R');
             $pdf->Cell(20,6,$row['a_c'],0,0,'R');
             $pdf->Cell(20,6,$row['a_solde'],0,0,'R');
@@ -399,20 +406,23 @@ class Anc_Balance_Double extends Anc_Print
             $filter_poste=" where ".$filter_poste;
 
         $sql="
-             select  a_po_id ,
+             select  m.j_id,a_po_id ,
              pa.po_name as a_po_name,
              pa.po_description as a_po_description,
+             pb.po_description as b_po_description,
+
              b_po_id,
              pb.po_name as b_po_name,
              sum(a_oa_amount_c) as a_c,
              sum(a_oa_amount_d) as a_d
-             from (select
+             from (select 
+			a.j_id,
              a.po_id as a_po_id,
              b.po_id as b_po_id,
              case when a.oa_debit='t' then a.oa_amount else 0 end as a_oa_amount_d,
              case when a.oa_debit='f' then a.oa_amount else 0 end as a_oa_amount_c
              from
-             operation_analytique as a join operation_analytique as b using (j_id)
+             operation_analytique as a join operation_analytique as b on (a.j_id=b.j_id and a.oa_row=b.oa_row) 
              where a.pa_id=".
              $this->pa_id."
              and b.pa_id=".$this->pa_id2."  ".$this->set_sql_filter()."
@@ -421,8 +431,8 @@ class Anc_Balance_Double extends Anc_Print
 
              $filter_poste
 
-             group by a_po_id,b_po_id,pa.po_name,pa.po_description,pb.po_name
-             order by 1;
+             group by a_po_id,b_po_id,pa.po_name,pa.po_description,pb.po_name,pb.po_description,m.j_id
+             order by 2;
              ";
 
 
@@ -443,6 +453,7 @@ class Anc_Balance_Double extends Anc_Print
             $a[$count]['a_po_name']=$row['a_po_name'];
             $a[$count]['a_po_description']=$row['a_po_description'];
             $a[$count]['b_po_name']=$row['b_po_name'];
+            $a[$count]['b_po_description']=$row['b_po_description'];
             $a[$count]['a_solde']=abs($row['a_d']-$row['a_c']);
             $a[$count]['a_debit']=($row['a_d']>$row['a_c'])?"debit":"credit";
 
@@ -497,13 +508,7 @@ class Anc_Balance_Double extends Anc_Print
                 $array[]=array('poste'=>$old,'desc'=>$old_desc
                                                     ,'debit'=>$tot_deb,'credit'=>$tot_cred,
                                'solde'=>$s,'dc'=>$d);
-                /*	     $r=sprintf(" $old $old_desc Debit %12.2f Credit %12.2f solde %12.2f %s",
-                	 $tot_deb,
-                	 $tot_cred,
-                	 $s,
-                	 $d);
-                $pdf->ezText($r,9);
-                */
+      
                 $tot_deb=0;
                 $tot_cred=0;
 
@@ -530,14 +535,7 @@ class Anc_Balance_Double extends Anc_Print
 
                        'solde'=>$s,'dc'=>$d);
 
-        /*	$r=sprintf(" %s Debit %12.2f Credit %12.2f solde %12.2f %s",
-        	$old,
-        	$tot_deb,
-        	$tot_cred,
-        	$s,
-        	$d);
-        	$pdf->ezText($r,9);
-        	  */
+ 
         return $array;
 
     }
