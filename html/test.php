@@ -74,7 +74,8 @@ $array=array(
            array(32,'Acc_Operation & children'),
            array(33,'Ledger : reverse op'),
            array(34,'Reconciliation'),
-           array(35,'Bilan')
+           array(35,'Bilan'),
+	   array(36,'SQL2Table')
        );
 $r='<form method="get">';
 $r.='<select name="test_select" >';
@@ -297,6 +298,10 @@ case 34:
 case 35:
   require_once('class_acc_bilan.php');
   Acc_Bilan::test_me();
+  break;
+case 36:
+  require_once('class_html_table.php');
+  Html_Table::test_me();
   break;
 }
 

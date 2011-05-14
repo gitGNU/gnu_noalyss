@@ -32,9 +32,46 @@ class Html_Table
    * Simple table without any feature (link in certain cell, sort,...)
    * @param $cn database object 
    * @param $a_col header of the column it is an array of array
+   *        indexes are link, name,image, style 
    * @param $sql query to execute
    * @param $table_style style of the table
    * @parm $a_sql_var array variable for the $sql DEFAULT NULL
+@code
+ static function test_me()
+  {
+    $cn=new Database(Dossier::id());
+    $order=" order by f_id desc ";
+    $url=HtmlInput::get_to_string(array("gDossier","test_select"));
+
+    if ( isset($_GET['sb']))
+      {
+	$order=" order by f_id";
+	$img="image/select1.gif";
+      }
+    else
+      {
+	$url=$url."&sb=as";
+	$img="image/select2.gif";
+      }
+    $sql="select f_id,name,quick_code from vw_client  $order limit 10";
+    echo $sql;
+
+
+    echo Html_Table::sql2table($cn,
+			       array(
+				     array('name'=>'N° de fiche',
+					   'style'=>'text-align:right',
+					   'link'=>$url,
+					   'image'=>$img),
+				     array('name'=>'Nom',
+					   'style'=>'text-align:right'),
+				     array('name'=>'QuickCode')
+				     )
+			       ,
+			       $sql
+			       );		   
+  }
+@endcode
    */
   static function sql2table($cn,$a_col,$sql,$table_style="result",$a_sql_var=null)
   {
