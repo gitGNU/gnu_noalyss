@@ -490,7 +490,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     $op->oa_group=$group;
                     $op->j_id=$j_id;
                     $op->oa_date=$e_date;
-                    $op->oa_debit=($amount < 0 )?'t':'f';
+		    echo $amount;
+                    $op->oa_debit=($amount > 0 )?'t':'f';
                     $op->oa_description=FormatString($e_comm);
                     $op->save_form_plan($_POST,$i,$j_id);
                 }

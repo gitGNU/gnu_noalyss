@@ -118,7 +118,7 @@ class Anc_Print
         $r.= '<span class="notice">'._('Les dates sont en format DD.MM.YYYY').'</span>';
 
         $r.=$p_hidden;
-        $r.='<span style="padding:5px;margin:5px;border:2px double  blue;display:block;">';
+        $r.='<span style="padding:5px;margin:5px;display:block;">';
         $plan=new Anc_Plan($this->db);
         $plan_id=new ISelect("pa_id");
         $plan_id->value=$this->db->make_array("select pa_id, pa_name from plan_analytique order by pa_name");
@@ -142,4 +142,27 @@ class Anc_Print
         $r.='</span>';
         return $r;
     }
+    /*!
+     * \brief Set the filter (account_date)
+     *
+     * \return return the string to add to load
+     */
+
+    function set_sql_filter()
+    {
+        $sql="";
+        $and=" and ";
+        if ( $this->from != "" )
+        {
+            $sql.="$and a.oa_date >= to_date('".$this->from."','DD.MM.YYYY')";
+        }
+        if ( $this->to != "" )
+        {
+            $sql.=" $and a.oa_date <= to_date('".$this->to."','DD.MM.YYYY')";
+        }
+
+        return $sql;
+
+    }
+
 }

@@ -188,13 +188,7 @@ class Acc_Reconciliation
     }
     /**
      *@brief return array of not-reconciled operation
-     *@param
-     *@return
-     *@note
-     *@see
-     @code
-
-     @endcode
+ 
     */
     function get_not_reconciled()
     {

@@ -480,7 +480,7 @@ class Anc_Operation
             $value=new INum();
             $value->name="val[".$p_seq."][]";
             $value->size=6;
-            $value->value=(isset($val[$p_seq][$i]))?$val[$p_seq][$i]:$p_amount;
+            $value->value=abs((isset($val[$p_seq][$i]))?$val[$p_seq][$i]:$p_amount);
             $value->readonly=($p_mode==1)?false:true;
 
             $result.='<td>'.$value->input().'</td>';
@@ -549,7 +549,7 @@ class Anc_Operation
                 $op->po_id=$hplan[$p_item][$e];
                 $op->oa_group=$this->oa_group;
                 $op->j_id=$j_id;
-                $op->oa_amount=$val[$p_item][$row];
+                $op->oa_amount=abs($val[$p_item][$row]);
                 $op->oa_debit=$this->oa_debit;
                 $op->oa_date=$this->oa_date;
 

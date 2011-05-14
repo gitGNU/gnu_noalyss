@@ -87,7 +87,7 @@ class Acc_Operation
 
     function insert_jrnx()
     {
-        if ( $this->poste == "") return true;
+        if ( $this->poste == "") return false;
         /* for negative amount the operation is reversed */
         if ( $this->amount < 0 )
         {

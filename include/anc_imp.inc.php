@@ -35,7 +35,10 @@ require_once('ac_common.php');
 //-- the menu
 $menu=array(array("?p_action=ca_imp&sub=listing&$str_dossier",_("Listing"),_("Listing des opérations"),"listing"),
             array("?p_action=ca_imp&sub=bs&$str_dossier",_("Balance simple"),_("Balance simple d'un plan analytique"),"bs"),
-            array("?p_action=ca_imp&sub=bc2&$str_dossier",_("Balance croisée"),_("Balance croisée de 2 plans analytiques"),"bc2")
+            array("?p_action=ca_imp&sub=bc2&$str_dossier",_("Balance croisée"),_("Balance croisée de 2 plans analytiques"),"bc2"),
+	    array("?p_action=ca_imp&sub=tab&$str_dossier",_("Tableau"),_("Tableau lié à la comptabilité"),'tab'),
+	    array("?p_action=ca_imp&sub=groupe&$str_dossier",_("Groupe"),_("Balance par groupe"),'gr'),
+
            );
 $sub=(isset($_GET['sub']))?$_GET['sub']:'no';
 
@@ -107,4 +110,22 @@ if ( $sub == 'bc2')
         echo $bc->display_html();
     }
 }
+//----------------------------------------------------------------------
+// Table linked between accountancy and analytic
+//---------------------------------------------------------------------------
+if ( $sub == 'tab')
+  {
+    require_once('class_anc_table.php');
+    $tab=new Anc_Table($cn);
+    $tab->get_request();
+    echo '<form method="get">';
+    echo $tab->display_form($str_hidden);
+    echo '<p>'.HtmlInput::submit('Recherche','Recherche').'</p>';
 
+    echo '</form>';
+    if ( isset($_GET['result']))
+    {
+        echo $tab->show_button($str_hidden);
+	$tab->display_html();
+    }
+  }

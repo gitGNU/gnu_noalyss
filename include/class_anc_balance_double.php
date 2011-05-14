@@ -127,18 +127,40 @@ class Anc_Balance_Double extends Anc_Print
 
         $r.="</table>";
 	$r.=h2info('Résumé');
-        $r.='<table>';
+        $r.='<table class="result">';
+	$r.='<tr>';
+	$r.=th('Po').
+	  th('Nom').
+	  th('Débit',' style="text-align:right"').
+	  th('Crédit','style="text-align:right" ').
+	  th('Solde',' style="text-align:right"');
+
         $sum=$this->show_sum($array);
+	$tot_cred=0;$tot_deb=0;
         foreach ($sum as $row)
         {
             $r.='<tr>';
             $r.='<td>'.$row['poste'].'</td>';
             $r.='<td>'.$row['desc'].'</td>';
-            $r.='<td>'.nbm($row['debit']).'</td>';
-            $r.='<td>'.nbm($row['credit']).'</td>';
+            $r.='<td class="num">'.nbm($row['debit']).'</td>';
+            $r.='<td class="num">'.nbm($row['credit']).'</td>';
+	    $diff=bcsub($row['debit'],$row['credit']);
+	    $tot_cred=bcadd($tot_cred,$row['credit']);
+	    $tot_deb=bcadd($tot_deb,$row['debit']);
+
+	    $r.=td(nbm($diff),' class="num" ');
+	    
             $r.='<td>'.$row['dc'].'</td>';
             $r.='</tr>';
         }
+	$r.=td('');
+	$r.=td('total');
+	$r.=td(nbm($tot_deb),'class="num"');
+	$r.=td(nbm($tot_cred),'class="num"');
+	$solde=bcsub($tot_deb,$tot_cred);
+	$sign=($tot_cred<$tot_deb)?" - ":" + ";
+	$r.=td($sign.nbm($solde),'class="num" style="border:solid 1px blue;font-weight:bold"');
+	$r.='</tr>';
         $r.='</table>';
 
         return $r;
@@ -465,28 +487,7 @@ class Anc_Balance_Double extends Anc_Print
 
 
     }
-    /*!
-     * \brief Set the filter (account_date)
-     *
-     * \return return the string to add to load
-     */
 
-    function set_sql_filter()
-    {
-        $sql="";
-        $and=" and ";
-        if ( $this->from != "" )
-        {
-            $sql.="$and a.oa_date >= to_date('".$this->from."','DD.MM.YYYY')";
-        }
-        if ( $this->to != "" )
-        {
-            $sql.=" $and a.oa_date <= to_date('".$this->to."','DD.MM.YYYY')";
-        }
-
-        return $sql;
-
-    }
 
     /*!
      * \brief add extra lines  with sum of each account
@@ -533,8 +534,8 @@ class Anc_Balance_Double extends Anc_Print
         $s=abs($tot_deb-$tot_cred);
         $d=($tot_deb>$tot_cred)?'debit':'credit';
         $array[]=array('poste'=>$old,'desc'=>$old_desc
-                                            ,'debit'=>$tot_deb,'credit'=>$tot_cred,
-
+		       ,'debit'=>$tot_deb,'credit'=>$tot_cred,
+		       
                        'solde'=>$s,'dc'=>$d);
 
  
