@@ -85,7 +85,6 @@ class Anc_Operation
         $oa_row=(isset($this->oa_row))?$this->oa_row:"NULL";
         $sql='insert into operation_analytique (
              po_id,
-             pa_id,
              oa_amount,
              oa_description,
              oa_debit,
@@ -95,7 +94,6 @@ class Anc_Operation
              oa_row
              ) values ('.
              $this->po_id.",".
-             $this->pa_id.",".
              $this->oa_amount.",".
              "' ".Database::escape_string($this->oa_description)."',".
              "'".$this->oa_debit."',".
@@ -135,16 +133,17 @@ class Anc_Operation
             $cond_poste.=" and upper(po_name) <= upper('".$p_to_poste."')";
         $pa_id_cond="";
         if ( isset ( $this->pa_id) && $this->pa_id !='')
-            $pa_id_cond= "B.pa_id=".$this->pa_id." and";
+            $pa_id_cond= "pa_id=".$this->pa_id." and";
 
         $sql="select oa_id,po_name,oa_description,po_description,".
-             "oa_debit,to_char(oa_date,'DD.MM.YYYY') as oa_date,oa_amount,oa_group,j_id ".
+             "oa_debit,to_char(oa_date,'DD.MM.YYYY') as oa_date,oa_amount,oa_group,j_id ,".
+	  " ( select  jr_internal from jrn join jrnx on (j_grpt=jr_grpt_id) where jrnx.j_id=B.j_id) as jr_internal ,".
+	  " ( select  jr_id from jrn join jrnx on (j_grpt=jr_grpt_id) where jrnx.j_id=B.j_id) as jr_id ".
              " from operation_analytique as B".
              " join poste_analytique using(po_id) ".
              "where $pa_id_cond oa_amount <> 0.0 $cond $cond_poste".
              " order by oa_date ,oa_group,oa_debit desc,oa_id";
         $RetSql=$this->db->exec_sql($sql);
-
 
         $array=Database::fetch_all($RetSql);
         return $array;
@@ -291,7 +290,7 @@ class Anc_Operation
              oa_date,
              pa_id,
              oa_row
-             from operation_analytique
+             from operation_analytique join poste_analytique using (po_id)
              where
              j_id=$p_jid order by j_id,oa_row,pa_id";
         $ret=$this->db->exec_sql($sql);
@@ -361,7 +360,7 @@ class Anc_Operation
         // for the operation connected to jrnx
         $cond=sql_filter_per($this->db,$p_from,$p_to,'p_id','j_date');
         $sql="select oa_id, po_id, oa_amount, oa_debit, j_date from jrnx join operation_analytique using (j_id)
-             join poste_analytique using (pa_id)
+             join poste_analytique using (po_id)
              where
              $cond and j_id is not null and pa_id=$p_plan_id";
 
@@ -369,7 +368,7 @@ class Anc_Operation
         $cond=sql_filter_per($this->db,$p_from,$p_to,'p_id','oa_date');
         $sql="union select oa_id, po_id, oa_amount, oa_debit,oa_date from
              operation_analytique
-             join poste_analytique using (pa_id)
+             join poste_analytique using (po_id)
              where j_id is null and
              $cond and pa_id=$p_plan_id ";
         try
@@ -425,7 +424,7 @@ class Anc_Operation
             extract ($p_array);
         $result="";
         $plan=new Anc_Plan($this->db);
-        $a_plan=$plan->get_list();
+        $a_plan=$plan->get_list(" order by pa_id ");
         if ( empty ($a_plan) ) return "";
         $table_id="t".$p_seq;
         $hidden=new IHidden();
@@ -461,8 +460,9 @@ class Anc_Operation
                 {
                     // editable
                     $select->readonly=false;
-                    if ( isset($hplan) && isset($hplan[$p_seq][$count]) )
+                    if ( isset($hplan) && isset($hplan[$p_seq][$count]) ){
                         $select->selected=$hplan[$p_seq][$count];
+		    }
                 }
                 else
                 {
@@ -496,6 +496,7 @@ class Anc_Operation
         $button->label="Nouvelle ligne";
         if ( $p_mode == 1 )
             $result.=$button->input();
+
         return $result;
     }
     /*!\brief it called for each item, the data are taken from $p_array
@@ -546,7 +547,6 @@ class Anc_Operation
             {
                 $op=new Anc_Operation($this->db);
                 $op->po_id=$hplan[$p_item][$e];
-                $op->pa_id=$pa_id[$idx_pa_id];
                 $op->oa_group=$this->oa_group;
                 $op->j_id=$j_id;
                 $op->oa_amount=$val[$p_item][$row];

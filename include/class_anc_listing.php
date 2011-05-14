@@ -95,7 +95,7 @@ class Anc_Listing extends Anc_Print
                 '<td>'.h($row['po_name']).'</td>'.
                 '<td>'.h($row['oa_description']).'</td>'.
 	      '<td>'.$detail.'</td>'.
-	      '<td>'.nbm($row['oa_amount']).'</td>'.
+	      '<td class="num">'.nbm($row['oa_amount']).'</td>'.
                 '<td>'.(($row['oa_debit']=='f')?'CREDIT':'DEBIT').'</td>';
             $r.= '</tr>';
         }

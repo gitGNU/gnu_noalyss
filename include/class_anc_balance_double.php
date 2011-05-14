@@ -423,9 +423,11 @@ class Anc_Balance_Double extends Anc_Print
              case when a.oa_debit='f' then a.oa_amount else 0 end as a_oa_amount_c
              from
              operation_analytique as a join operation_analytique as b on (a.j_id=b.j_id and a.oa_row=b.oa_row) 
-             where a.pa_id=".
+		join poste_analytique as poa on (a.po_id=poa.po_id)
+		join poste_analytique as pob on (b.po_id=pob.po_id)
+             where poa.pa_id=".
              $this->pa_id."
-             and b.pa_id=".$this->pa_id2."  ".$this->set_sql_filter()."
+             and pob.pa_id=".$this->pa_id2."  ".$this->set_sql_filter()."
              ) as m join poste_analytique as pa on ( a_po_id=pa.po_id)
              join poste_analytique as pb on (b_po_id=pb.po_id)
 

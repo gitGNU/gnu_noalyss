@@ -90,7 +90,7 @@ echo th(_('Débit'), 'style="text-align:right"');
 echo th(_('Crédit'), 'style="text-align:right"');
     if ($owner->MY_ANALYTIC != 'nu' && $div == 'popup'){
       $anc=new Anc_Plan($cn);
-      $a_anc=$anc->get_list();
+      $a_anc=$anc->get_list(' order by pa_id ');
       $x=count($a_anc);
       /* set the width of the col */
       echo '<th colspan="'.$x.'">'._('Compt. Analytique').'</th>';

@@ -53,11 +53,11 @@ class Anc_Plan
      * \return an array of PA (not object)
      *
      */
-    function get_list()
+    function get_list($p_order=" order by pa_name")
     {
         $array=array();
         $sql="select pa_id as id,pa_name as name,".
-             "pa_description as description from plan_analytique order by pa_name";
+             "pa_description as description from plan_analytique $p_order";
         $ret=$this->db->exec_sql($sql);
         $array=Database::fetch_all($ret);
         return $array;
@@ -163,7 +163,7 @@ class Anc_Plan
     function header()
     {
         $res="";
-        $a_plan=$this->get_list();
+        $a_plan=$this->get_list(" order by pa_id");
         if ( empty($a_plan)) return "";
         foreach ($a_plan as $r_plan)
         {

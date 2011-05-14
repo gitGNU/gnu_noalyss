@@ -48,7 +48,7 @@ class Anc_Balance_Simple extends Anc_Print
         // sum debit
 
         $sql="select m.po_id,sum(deb) as sum_deb,sum(cred) as sum_cred,";
-        $sql.=" po_name||'  '||po_description as po_name";
+        $sql.=" po_name||'  '||coalesce(po_description,'') as po_name";
         $sql.=" from ";
         $sql.=" (select po_id,case when oa_debit='t' then oa_amount else 0 end as deb,";
         $sql.="case when oa_debit='f' then oa_amount else 0 end as cred ";
@@ -145,9 +145,9 @@ class Anc_Balance_Simple extends Anc_Print
             // the name and po_id
             //	  $r.=sprintf("<td>%s</td>",$row['po_id']);
             $r.=sprintf("<td align=\"left\">%s</td>",h($row['po_name']));
-            $r.=td(nbm($row['sum_deb']));
-            $r.=td(nbm($row['sum_cred']));
-            $r.=td(nbm($row['solde']));
+            $r.=td(nbm($row['sum_deb']),' class="num"');
+            $r.=td(nbm($row['sum_cred']),' class="num"');
+            $r.=td(nbm($row['solde']),' class="num"');
             $deb=($row['sum_deb'] > $row['sum_cred'])?"D":"C";
             $deb=($row['solde'] == 0 )?'':$deb;
             $r.=sprintf("<td>%s</td>",$deb);
