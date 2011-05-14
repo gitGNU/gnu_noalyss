@@ -21,16 +21,14 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file
-* \brief  export analytic list in csv
- *
+ * \brief export the anc tables in CSV
  */
+
 header('Pragma: public');
 header('Content-type: application/csv');
-header('Content-Disposition: attachment;filename="export-anc-list.csv"',FALSE);
+header('Content-Disposition: attachment;filename="anc-table-export.csv"',FALSE);
 
-require_once ('class_anc_acc_list.php');
-
-
-$bal=new Anc_Acc_List($cn);
-$bal->get_request();
-echo $bal->export_csv();
+require_once('class_anc_table.php');
+$atable=new Anc_Table($cn);
+$atable->get_request();
+$atable->export_csv();

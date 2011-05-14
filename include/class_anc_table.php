@@ -23,22 +23,10 @@
 /*!\file
  * \brief object to show a table: link between accountancy and analytic
  */
-require_once('class_anc_print.php');
+require_once('class_anc_acc_link.php');
 
-class Anc_Table extends Anc_Print
+class Anc_Table extends Anc_Acc_Link
 {
-  function __contruct($p_cn)
-  {
-    $this->cn=$p_cn;
-  }
-  /**
-   *@brief get the parameters
-   */
-  function get_request()
-  {
-    parent::get_request();
-    $this->card_poste=HtmlInput::default_value('card_poste',1,$_GET);
-  }
   /**
    *@brief display form to get the parameter 
    *  - card_poste 1 by card, 2 by account
@@ -61,41 +49,7 @@ class Anc_Table extends Anc_Print
     $r.=$icard->input();
     return $r;
   }
-  /**
-   * load the data
-   * does not return anything but give a value to this->aheader and this->arow
-   */
-  function load_card()
-  {
-    $date=$this->set_sql_filter();
-    $date=($date != '')?"  $date":'';
-    $sql_from_poste=($this->from_poste!='')?" and  po.po_name >= upper('".Database::escape_string($this->from_poste)."')":'';
-    $sql_to_poste=($this->to_poste!='')?" and  po.po_name <= upper('".Database::escape_string($this->to_poste)."')":'';
 
-    $header="select distinct po_id,po_name from v_table_analytic_card  where
-		pa_id=$1 ".$date.$sql_from_poste.$sql_to_poste." order by po_name";
-    $this->aheader=$this->db->get_array($header,array($this->pa_id));
-    
-    $this->arow=$this->db->get_array("select distinct f_id,j_qcode,name from v_table_analytic_card  where
-		pa_id=$1 ".$date.$sql_from_poste.$sql_to_poste." order by name",array($this->pa_id));
-    $this->sql='select sum_amount from v_table_analytic_card where f_id=$1 and po_id=$2 and pa_id='.$this->pa_id.' '.$date.$sql_from_poste.$sql_to_poste;
-  }
-    function set_sql_filter()
-    {
-        $sql="";
-        $and=" and ";
-        if ( $this->from != "" )
-        {
-            $sql.="$and oa_date >= to_date('".$this->from."','DD.MM.YYYY')";
-        }
-        if ( $this->to != "" )
-        {
-            $sql.=" $and oa_date <= to_date('".$this->to."','DD.MM.YYYY')";
-        }
-
-        return $sql;
-
-    }
 
   /**
    * load the data
@@ -116,6 +70,26 @@ class Anc_Table extends Anc_Print
 		pa_id=$1 ".$date.$sql_from_poste.$sql_to_poste." order by j_poste",array($this->pa_id));
     $this->sql='select sum_amount from v_table_analytic_account where j_poste=$1 and po_id=$2 and pa_id='.$this->pa_id.' '.$date.$sql_from_poste.$sql_to_poste;
   }
+
+  /**
+   * load the data
+   * does not return anything but give a value to this->aheader and this->arow
+   */
+  function load_card()
+  {
+    $date=$this->set_sql_filter();
+    $date=($date != '')?"  $date":'';
+    $sql_from_poste=($this->from_poste!='')?" and  po.po_name >= upper('".Database::escape_string($this->from_poste)."')":'';
+    $sql_to_poste=($this->to_poste!='')?" and  po.po_name <= upper('".Database::escape_string($this->to_poste)."')":'';
+
+    $header="select distinct po_id,po_name from v_table_analytic_card  where
+		pa_id=$1 ".$date.$sql_from_poste.$sql_to_poste." order by po_name";
+    $this->aheader=$this->db->get_array($header,array($this->pa_id));
+    
+    $this->arow=$this->db->get_array("select distinct f_id,j_qcode,name from v_table_analytic_card  where
+		pa_id=$1 ".$date.$sql_from_poste.$sql_to_poste." order by name",array($this->pa_id));
+    $this->sql='select sum_amount from v_table_analytic_card where f_id=$1 and po_id=$2 and pa_id='.$this->pa_id.' '.$date.$sql_from_poste.$sql_to_poste;
+  }
   /**
    *@brief display the button export CSV
    *@param $p_hidden is a string containing hidden items
@@ -131,6 +105,7 @@ class Anc_Table extends Anc_Print
     $r.= HtmlInput::hidden("pa_id",$this->pa_id);
     $r.= HtmlInput::hidden("from_poste",$this->from_poste);
     $r.= HtmlInput::hidden("to_poste",$this->to_poste);
+    $r.= HtmlInput::hidden("card_poste",$this->card_poste);
     $r.= $p_hidden;
     $r.= dossier::hidden();
     $r.=HtmlInput::submit('bt_csv',"Export en CSV");
@@ -264,7 +239,7 @@ class Anc_Table extends Anc_Print
 	  {
 	    echo ';"'.$h['po_name'].'"';
 	  }
-	echo ',"Total"';
+	echo ';"Total"';
 	printf("\r\n");
 	/*
 	 * Show all the result
@@ -296,6 +271,48 @@ class Anc_Table extends Anc_Print
 
 	  }
       }
+    if ( $this->card_poste=='2')
+      {
+	$this->load_poste();
+
+	echo '"Poste"';
+	foreach ($this->aheader as $h)
+	  {
+	    echo ';"'.$h['po_name'].'"';
+	  }
+	echo ';"Total"';
+	printf("\r\n");
+	/*
+	 * Show all the result
+	 */
+
+	for ($i=0;$i<count($this->arow);$i++)
+	  {
+
+	    printf('"%s"',$this->arow[$i]['j_poste'].' '.$this->arow[$i]['name']);
+	    $tot_row=0;
+	    for ($x=0;$x<count($this->aheader);$x++)
+	      {
+		$amount=$this->db->get_value($this->sql,array($this->arow[$i]['j_poste'],$this->aheader[$x]['po_id']));
+		if ($amount==null)$amount=0;
+		if ( isset($tot_col[$x]))
+		  {
+		    $tot_col[$x]=bcadd($tot_col[$x],$amount);
+		  }
+		else
+		  {
+		    $tot_col[$x]=$amount;
+		  }
+		printf(";%s",nb($amount));
+		$tot_row=bcadd($tot_row,$amount);
+	      }
+	    printf(";%s",nb($tot_row));
+	    printf("\r\n");
+		    
+
+	  }
+      }
    
   }
+
 }

@@ -21,16 +21,42 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file
-* \brief  export analytic list in csv
- *
+ * \brief link between accountancy and analytic, like table but as a listing
  */
-header('Pragma: public');
-header('Content-type: application/csv');
-header('Content-Disposition: attachment;filename="export-anc-list.csv"',FALSE);
+require_once('class_anc_print.php');
 
-require_once ('class_anc_acc_list.php');
+class Anc_Acc_Link extends Anc_Print
+{
+  function __contruct($p_cn)
+  {
+    $this->cn=$p_cn;
+  }
+  
+  /**
+   *@brief get the parameters
+   */
+  function get_request()
+  {
+    parent::get_request();
+    $this->card_poste=HtmlInput::default_value('card_poste',1,$_GET);
+  }
+    function set_sql_filter()
+    {
+        $sql="";
+        $and=" and ";
+        if ( $this->from != "" )
+        {
+            $sql.="$and oa_date >= to_date('".$this->from."','DD.MM.YYYY')";
+        }
+        if ( $this->to != "" )
+        {
+            $sql.=" $and oa_date <= to_date('".$this->to."','DD.MM.YYYY')";
+        }
+
+        return $sql;
+
+    }
 
 
-$bal=new Anc_Acc_List($cn);
-$bal->get_request();
-echo $bal->export_csv();
+}
+

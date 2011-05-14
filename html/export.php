@@ -157,9 +157,14 @@ switch( $_GET['act'])
     exit();
     break;
   case 'CSV/AncTable':
-    require_once('export_table_csv.php');
+    require_once('export_anc_table_csv.php');
     exit();
     break;
+  case 'CSV/AncAccList':
+    require_once('export_anc_acc_list_csv.php');
+    exit();
+    break;
+
    default:
     alert('Action inconnue '.$_GET['act']);
     exit();
