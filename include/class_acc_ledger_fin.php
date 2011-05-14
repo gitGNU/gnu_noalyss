@@ -390,6 +390,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
         bcscale(2);
         extract ($p_array);
         $pPeriode=new Periode($this->db);
+	$owner=new Own($this->db);
         if ($this->check_periode() == true)
         {
             $pPeriode->p_id=$periode;
@@ -470,6 +471,19 @@ class Acc_Ledger_Fin extends Acc_Ledger
         $r.="<th>Commentaire</TH>";
         $r.="<th>Montant</TH>";
         $r.='<th colspan="2"> Op. Concern&eacute;e(s)</th>';
+
+	/* if we use the AC */
+        if ($owner->MY_ANALYTIC!='nu')
+        {
+            $anc=new Anc_Plan($this->db);
+            $a_anc=$anc->get_list();
+            $x=count($a_anc);
+            /* set the width of the col */
+            $r.='<th colspan="'.$x.'">'._('Compt. Analytique').'</th>';
+
+            /* add hidden variables pa[] to hold the value of pa_id */
+            $r.=Anc_Plan::hidden($a_anc);
+        }
         $r.="</TR>";
         // Parse each " tiers"
         $tot_amount=0;
@@ -507,6 +521,21 @@ class Acc_Ledger_Fin extends Acc_Ledger
             $r.='<td>';
             $r.=${"e_concerned".$i};
             $r.='</td>';
+            // encode the pa
+            if ( $owner->MY_ANALYTIC!='nu' && preg_match("/^[6,7]/",$fTiers->strAttribut(ATTR_DEF_ACCOUNT))==1 ) // use of AA
+            {
+                // show form
+                $anc_op=new Anc_Operation($this->db);
+                $null=($owner->MY_ANALYTIC=='op')?1:0;
+                $r.='<td>';
+                $p_mode=1;
+                $p_array['pa_id']=$a_anc;
+                /* op is the operation it contains either a sequence or a jrnx.j_id */
+                $r.=HtmlInput::hidden('op[]=',$i);
+                $r.=$anc_op->display_form_plan($p_array,$null,$p_mode,$i,$tiers_amount);
+                $r.='</td>';
+            }
+
             $r.='</TR>';
         }
         $r.="</TABLE>";
@@ -567,7 +596,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
         $bank_id=$this->get_bank();
         $fBank=new Fiche($this->db,$bank_id);
         $e_bank_account=$fBank->strAttribut(ATTR_DEF_QUICKCODE);
-
+	$owner=new Own($this->db);
         // Get the saldo
         $pPeriode=new Periode($this->db);
         if ( $this->check_periode() == true )
@@ -660,7 +689,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
                 }
                 $acc_operation->periode=$tperiode;
                 $acc_operation->qcode=${"e_other".$i};
-                $acc_operation->insert_jrnx();
+                $j_id=$acc_operation->insert_jrnx();
 
                 $acc_operation=new Acc_Operation($this->db);
                 $acc_operation->date=$e_date;
@@ -759,6 +788,19 @@ class Acc_Ledger_Fin extends Acc_Ledger
                  * save also into quant_fin
                  */
 		$this->insert_quant_fin($fBank->id,$jr_id,$fPoste->id,${"e_other$i"."_amount"});
+
+                if ( $owner->MY_ANALYTIC != "nu" )
+                {
+                    // for each item, insert into operation_analytique */
+                    $op=new Anc_Operation($this->db);
+		    $op->oa_group=$this->db->get_next_seq("s_oa_group"); /* for analytic */
+                    $op->j_id=$j_id;
+                    $op->oa_date=$e_date;
+                    $op->oa_debit=($amount < 0 )?'t':'f';
+                    $op->oa_description=FormatString($comment);
+                    $op->save_form_plan($_POST,$i,$j_id);
+                }
+                
 
                 $this->update_internal_code($internal);
 
