@@ -23,7 +23,6 @@
 /*!\file
  * \brief manage all the export to CSV or PDF
  *   act can be 
- *    * CVS/histo
  *
  */
 
@@ -157,7 +156,10 @@ switch( $_GET['act'])
     require_once('export_balance_pdf.php');
     exit();
     break;
-
+  case 'CSV/AncTable':
+    require_once('export_table_csv.php');
+    exit();
+    break;
    default:
     alert('Action inconnue '.$_GET['act']);
     exit();

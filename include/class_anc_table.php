@@ -31,11 +31,23 @@ class Anc_Table extends Anc_Print
   {
     $this->cn=$p_cn;
   }
+  /**
+   *@brief get the parameters
+   */
   function get_request()
   {
     parent::get_request();
     $this->card_poste=HtmlInput::default_value('card_poste',1,$_GET);
   }
+  /**
+   *@brief display form to get the parameter 
+   *  - card_poste 1 by card, 2 by account
+   *  - from_poste 
+   *  - to_poste
+   *  - from from date
+   *  - to until date
+   *  - pa_id Analytic plan to use
+   */
   function display_form($p_hidden='')
   {
     $r=parent::display_form($p_hidden);
@@ -238,5 +250,52 @@ class Anc_Table extends Anc_Print
 
       }
 
+  }
+  function export_csv()
+  {
+   bcscale(2);
+
+    if ( $this->card_poste=='1')
+      {
+	$this->load_card();
+
+	echo '"Fiche"';
+	foreach ($this->aheader as $h)
+	  {
+	    echo ';"'.$h['po_name'].'"';
+	  }
+	echo ',"Total"';
+	printf("\r\n");
+	/*
+	 * Show all the result
+	 */
+
+	for ($i=0;$i<count($this->arow);$i++)
+	  {
+
+	    printf('"%s"',$this->arow[$i]['j_qcode'].' '.$this->arow[$i]['name']);
+	    $tot_row=0;
+	    for ($x=0;$x<count($this->aheader);$x++)
+	      {
+		$amount=$this->db->get_value($this->sql,array($this->arow[$i]['f_id'],$this->aheader[$x]['po_id']));
+		if ($amount==null)$amount=0;
+		if ( isset($tot_col[$x]))
+		  {
+		    $tot_col[$x]=bcadd($tot_col[$x],$amount);
+		  }
+		else
+		  {
+		    $tot_col[$x]=$amount;
+		  }
+		printf(";%s",nb($amount));
+		$tot_row=bcadd($tot_row,$amount);
+	      }
+	    printf(";%s",nb($tot_row));
+	    printf("\r\n");
+		    
+
+	  }
+      }
+   
   }
 }
