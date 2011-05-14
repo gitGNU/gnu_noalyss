@@ -428,7 +428,7 @@ class Anc_Balance_Double extends Anc_Print
             $filter_poste=" where ".$filter_poste;
 
         $sql="
-             select  m.j_id,a_po_id ,
+             select  a_po_id ,
              pa.po_name as a_po_name,
              pa.po_description as a_po_description,
              pb.po_description as b_po_description,
@@ -455,7 +455,7 @@ class Anc_Balance_Double extends Anc_Print
 
              $filter_poste
 
-             group by a_po_id,b_po_id,pa.po_name,pa.po_description,pb.po_name,pb.po_description,m.j_id
+             group by a_po_id,b_po_id,pa.po_name,pa.po_description,pb.po_name,pb.po_description
              order by 2;
              ";
 
