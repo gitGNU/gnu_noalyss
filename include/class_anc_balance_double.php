@@ -77,10 +77,10 @@ class Anc_Balance_Double extends Anc_Print
                 if ( $tot_deb != 0 || $tot_cred !=0 )
                 {
 		  $r.="<tr>".td('');
-                    $r.="<td>Total </td> <td> $tot_deb </td> <td>$tot_cred</td>";
+		  $r.="<td>Total </td>".td(nbm($tot_deb),' class="num"').td(nbm($tot_cred),' class="num"');
                     $s=abs($tot_deb-$tot_cred);
                     $d=($tot_deb>$tot_cred)?'debit':'credit';
-                    $r.="<td>$s</td><td>$d</td>";
+                    $r.="<td class=\"num\">".nbm($s)."</td><td>$d</td>";
                     $r.="</tr>";
                 }
                 $tot_deb=0;
@@ -92,9 +92,9 @@ class Anc_Balance_Double extends Anc_Print
                 $r.="<tr>";
                 $r.="<th style=\"width:30%\" >Poste comptable Analytique</th>";
                 $r.="<th style=\"width:30%\">Poste comptable Analytique</th>";
-                $r.="<th>D&eacute;bit</th>";
-                $r.="<th>Cr&eacute;dit</th>";
-                $r.="<th>Solde</th>";
+                $r.="<th style=\"text-align:right\">D&eacute;bit</th>";
+                $r.="<th style=\"text-align:right\">Cr&eacute;dit</th>";
+                $r.="<th style=\"text-align:right\">Solde</th>";
                 $r.="<th>D/C</th>";
                 $r.="</tr>";
 		$r.='<tr>';
@@ -109,19 +109,20 @@ class Anc_Balance_Double extends Anc_Print
 
 	    $r.=td($row['b_po_name']." ".$row['b_po_description']);
 
-            $r.=td(nbm($row['a_d']));
-            $r.=td(nbm($row['a_c']));
-            $r.=td(nbm($row['a_solde']));
+            $r.=td(nbm($row['a_d']),' class="num"');
+            $r.=td(nbm($row['a_c']),' class="num"');
+            $r.=td(nbm($row['a_solde']),' class="num"');
             $r.=sprintf("<td>%s</td>",$row['a_debit']);
             $r.="</tr>";
-        }
+        } /* end loop */
+
         if ( $tot_deb != 0 || $tot_cred !=0 )
         {
 	  $r.="<tr>".td('');
-            $r.="<td>Total </td> <td> ".nbm($tot_deb)." </td> <td>".nbm($tot_cred)."</td>";
+            $r.="<td>Total </td> <td ' class=\"num\"> ".nbm($tot_deb)." </td> <td ' class=\"num\">".nbm($tot_cred)."</td>";
             $s=abs($tot_deb-$tot_cred);
             $d=($tot_deb>$tot_cred)?'debit':'credit';
-            $r.="<td>".nbm($s)."</td><td>$d</td>";
+            $r.=td(nbm($s),' class="num"')."<td>$d</td>";
             $r.="</tr>";
         }
 
