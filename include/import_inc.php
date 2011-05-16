@@ -87,7 +87,7 @@ function ShowBox($p_val,$counter,$p_cn,$p_form='form')
     $w->jrn=$p_val['jrn'];
     $w->name='poste'.$counter;
     $w->extra='filter';
-    $w->typecard='cred';
+    $w->typecard='deb';
     $w->set_dblclick("fill_ipopcard(this);");
     $w->set_attribute('ipopup','ipopcard');
     $w->set_callback('filter_card');

@@ -27,7 +27,8 @@ include_once("ac_common.php");
 include_once("user_menu.php");
 include_once ("constant.php");
 require_once('class_database.php');
-
+require_once('function_javascript.php');
+load_all_script();
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
@@ -54,11 +55,13 @@ echo '</div>';
 echo ShowMenuAdvanced(7);
 $User->can_request(GEBQ,1);
 
+echo '</div>';
+echo '<div class="content"> <h2> Ce module est obsolète et est remplacé par un plugin. Il sera définitivement enlevé dans la prochaine
+ version. Si possible ne l\'utilisez plus</h2>';
+echo '</div>';
 
 echo '<div class="lmenu">';
 ShowMenuImport();
-echo '</div>';
-
 
 // if action is set proceed to it
 if ( isset ($_GET["action"]) )
