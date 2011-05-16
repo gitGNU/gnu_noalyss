@@ -32,3 +32,4 @@ require_once('class_anc_table.php');
 $atable=new Anc_Table($cn);
 $atable->get_request();
 $atable->export_csv();
+?>

@@ -258,7 +258,7 @@ class Anc_Table extends Anc_Acc_Link
 	for ($i=0;$i<count($this->arow);$i++)
 	  {
 
-	    printf('"%s"',$this->arow[$i]['j_qcode'].' '.$this->arow[$i]['name']);
+	    printf('"%s"',$this->arow[$i]['card_account'].' '.$this->arow[$i]['name']);
 	    $tot_row=0;
 	    for ($x=0;$x<count($this->aheader);$x++)
 	      {
@@ -299,11 +299,11 @@ class Anc_Table extends Anc_Acc_Link
 	for ($i=0;$i<count($this->arow);$i++)
 	  {
 
-	    printf('"%s"',$this->arow[$i]['j_poste'].' '.$this->arow[$i]['name']);
+	    printf('"%s"',$this->arow[$i]['card_account'].' '.$this->arow[$i]['name']);
 	    $tot_row=0;
 	    for ($x=0;$x<count($this->aheader);$x++)
 	      {
-		$amount=$this->db->get_value($this->sql,array($this->arow[$i]['j_poste'],$this->aheader[$x]['po_id']));
+		$amount=$this->db->get_value($this->sql,array($this->arow[$i]['card_account'],$this->aheader[$x]['po_id']));
 		if ($amount==null)$amount=0;
 		if ( isset($tot_col[$x]))
 		  {
