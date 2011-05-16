@@ -5,8 +5,6 @@ ALTER TABLE operation_analytique  ADD CONSTRAINT operation_analytique_oa_amount_
 
 create type anc_table_card_type as (po_id bigint,pa_id bigint,PO_NAME TEXT,po_description text,sum_amount numeric(25,4),f_id bigint,card_account text,name text);
 
-drop function comptaproc.table_analytic_card (p_from text,p_to text);
-
 create or replace function comptaproc.table_analytic_card (p_from text,p_to text)
 returns setof anc_table_card_type  
 as 
@@ -64,7 +62,6 @@ $BODY$ language plpgsql;
 
 create type anc_table_account_type as (po_id bigint,pa_id bigint,PO_NAME TEXT,po_description text,sum_amount numeric(25,4),card_account text,name text);
 
-drop function comptaproc.table_analytic_account (p_from text,p_to text);
 create or replace function comptaproc.table_analytic_account (p_from text,p_to text)
 returns setof anc_table_account_type 
 as 
