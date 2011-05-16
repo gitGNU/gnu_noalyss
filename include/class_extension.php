@@ -162,7 +162,7 @@ class Extension
      */
     static public function listing($p_cn)
     {
-        $sql="SELECT ex_id, ex_name,ex_code, ex_desc, ex_file, ex_enable  FROM extension";
+        $sql="SELECT ex_id, ex_name,ex_code, ex_desc, ex_file, ex_enable  FROM extension order by ex_code";
         $array=$p_cn->get_array($sql);
         return $array;
     }
