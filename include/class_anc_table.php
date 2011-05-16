@@ -115,6 +115,11 @@ class Anc_Table extends Anc_Acc_Link
   function display_html()
   {
     bcscale(2);
+    if ( $this->check()  != 0)
+      {
+	alert('Désolé mais une des dates données n\'est pas valide');
+	return;
+      }
 
     if ( $this->card_poste=='1')
       {
@@ -229,6 +234,7 @@ class Anc_Table extends Anc_Acc_Link
   function export_csv()
   {
    bcscale(2);
+   if ( $this->check () != 0 ) {echo "DATE INVALIDE";exit();}
 
     if ( $this->card_poste=='1')
       {

@@ -31,7 +31,20 @@ class Anc_Acc_Link extends Anc_Print
   {
     $this->cn=$p_cn;
   }
-  
+
+  function check()
+  {
+    
+    /*
+     * check date
+     */
+    if (($this->from != '' && isDate ($this->from) == 0)
+	|| 
+	($this->to != '' && isDate ($this->to) == 0))
+      return -1;
+
+    return 0;
+  }  
   /**
    *@brief get the parameters
    */

@@ -149,6 +149,11 @@ class Anc_Acc_List extends Anc_Acc_Link
   function display_html()
   {
     bcscale(2);
+    if ( $this->check()  != 0)
+      {
+	alert('Désolé mais une des dates données n\'est pas valide');
+	return;
+      }
     //---------------------------------------------------------------------------
     // Card  - Acc
     //---------------------------------------------------------------------------
@@ -365,7 +370,7 @@ class Anc_Acc_List extends Anc_Acc_Link
   function export_csv()
   {
    bcscale(2);
-
+   if ( $this->check () != 0 ) {echo "DATE INVALIDE";exit();}
       //---------------------------------------------------------------------------
     // Card  - Acc
     //---------------------------------------------------------------------------
