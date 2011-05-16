@@ -57,18 +57,21 @@ class Anc_Table extends Anc_Acc_Link
    */
   function load_poste()
   {
-    $date=$this->set_sql_filter();
-    $date=($date != '')?"  $date":'';
     $sql_from_poste=($this->from_poste!='')?" and  po.po_name >= upper('".Database::escape_string($this->from_poste)."')":'';
     $sql_to_poste=($this->to_poste!='')?" and  po.po_name <= upper('".Database::escape_string($this->to_poste)."')":'';
+    $this->db->exec_sql('create temporary table table_analytic as select * from comptaproc.table_analytic_account(\''.$this->from.'\',\''.$this->to.'\')');
 
-    $header="select distinct po_id,po_name from v_table_analytic_account where
-		pa_id=$1 ".$date.$sql_from_poste.$sql_to_poste." order by po_name";
+    $header="select distinct po_id,po_name  from table_analytic
+		where
+		pa_id=$1 ".$sql_from_poste.$sql_to_poste." order by po_name";
     $this->aheader=$this->db->get_array($header,array($this->pa_id));
     
-    $this->arow=$this->db->get_array("select distinct j_poste,name from v_table_analytic_account  where
-		pa_id=$1 ".$date.$sql_from_poste.$sql_to_poste." order by j_poste",array($this->pa_id));
-    $this->sql='select sum_amount from v_table_analytic_account where j_poste=$1 and po_id=$2 and pa_id='.$this->pa_id.' '.$date.$sql_from_poste.$sql_to_poste;
+    $this->arow=$this->db->get_array("select distinct card_account,name
+		from table_analytic
+		where
+		pa_id=$1 ".$sql_from_poste.$sql_to_poste." order by card_account",array($this->pa_id));
+
+    $this->sql='select sum_amount from  table_analytic where card_account=$1 and po_id=$2 and pa_id='.$this->pa_id.' '.$sql_from_poste.$sql_to_poste;
   }
 
   /**
@@ -77,18 +80,19 @@ class Anc_Table extends Anc_Acc_Link
    */
   function load_card()
   {
-    $date=$this->set_sql_filter();
-    $date=($date != '')?"  $date":'';
     $sql_from_poste=($this->from_poste!='')?" and  po.po_name >= upper('".Database::escape_string($this->from_poste)."')":'';
     $sql_to_poste=($this->to_poste!='')?" and  po.po_name <= upper('".Database::escape_string($this->to_poste)."')":'';
+    $this->db->exec_sql('create temporary table table_analytic as select * from comptaproc.table_analytic_card(\''.$this->from.'\',\''.$this->to.'\')');
 
-    $header="select distinct po_id,po_name from v_table_analytic_card  where
-		pa_id=$1 ".$date.$sql_from_poste.$sql_to_poste." order by po_name";
+    $header="select distinct po_id,po_name from table_analytic
+		where
+		pa_id=$1 ".$sql_from_poste.$sql_to_poste." order by po_name";
     $this->aheader=$this->db->get_array($header,array($this->pa_id));
     
-    $this->arow=$this->db->get_array("select distinct f_id,j_qcode,name from v_table_analytic_card  where
-		pa_id=$1 ".$date.$sql_from_poste.$sql_to_poste." order by name",array($this->pa_id));
-    $this->sql='select sum_amount from v_table_analytic_card where f_id=$1 and po_id=$2 and pa_id='.$this->pa_id.' '.$date.$sql_from_poste.$sql_to_poste;
+    $this->arow=$this->db->get_array("select distinct f_id,card_account,name from  table_analytic 
+			where
+		pa_id=$1 ".$sql_from_poste.$sql_to_poste." order by name",array($this->pa_id));
+    $this->sql='select sum_amount from table_analytic where f_id=$1 and po_id=$2 and pa_id='.$this->pa_id.' '.$sql_from_poste.$sql_to_poste;
   }
   /**
    *@brief display the button export CSV
@@ -141,7 +145,7 @@ class Anc_Table extends Anc_Acc_Link
 	for ($i=0;$i<count($this->arow);$i++)
 	  {
 	    echo '<tr>';
-	    echo td(HtmlInput::history_card($this->arow[$i]['f_id'],$this->arow[$i]['j_qcode'].' '.$this->arow[$i]['name']));
+	    echo td(HtmlInput::history_card($this->arow[$i]['f_id'],$this->arow[$i]['card_account'].' '.$this->arow[$i]['name']));
 	    $tot_row=0;
 	    for ($x=0;$x<count($this->aheader);$x++)
 	      {
@@ -194,11 +198,11 @@ class Anc_Table extends Anc_Acc_Link
 	for ($i=0;$i<count($this->arow);$i++)
 	  {
 	    echo '<tr>';
-	    echo td(HtmlInput::history_account($this->arow[$i]['j_poste'],$this->arow[$i]['j_poste'].' '.$this->arow[$i]['name']));
+	    echo td(HtmlInput::history_account($this->arow[$i]['card_account'],$this->arow[$i]['card_account'].' '.$this->arow[$i]['name']));
 	    $tot_row=0;
 	    for ($x=0;$x<count($this->aheader);$x++)
 	      {
-		$amount=$this->db->get_value($this->sql,array($this->arow[$i]['j_poste'],$this->aheader[$x]['po_id']));
+		$amount=$this->db->get_value($this->sql,array($this->arow[$i]['card_account'],$this->aheader[$x]['po_id']));
 		if ($amount==null)$amount=0;
 		if ( isset($tot_col[$x]))
 		  {
