@@ -1,3 +1,5 @@
+begin;
+
 alter table operation_analytique drop column pa_id;
 ALTER TABLE operation_analytique  ADD CONSTRAINT operation_analytique_oa_amount_check CHECK (oa_amount >= 0::numeric);
 
@@ -116,4 +118,5 @@ end;
 $BODY$ language plpgsql;
 
 
-
+update version set val=94;
+commit;

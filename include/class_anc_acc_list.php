@@ -63,10 +63,25 @@ class Anc_Acc_List extends Anc_Acc_Link
     $date=($date != '')?"  $date":'';
     $sql_from_poste=($this->from_poste!='')?" and  po.po_name >= upper('".Database::escape_string($this->from_poste)."')":'';
     $sql_to_poste=($this->to_poste!='')?" and  po.po_name <= upper('".Database::escape_string($this->to_poste)."')":'';
-    $this->arow=$this->db->get_array(" SELECT po_id, pa_id, po_name, po_description, sum_amount, j_poste, name
-					FROM v_table_analytic_account
-					where
-		pa_id=$1 ".$date.$sql_from_poste.$sql_to_poste." order by po_id,j_poste",array($this->pa_id));
+    $this->arow=$this->db->get_array(" 
+ SELECT po.po_id, po.pa_id, po.po_name, po.po_description, sum(
+        CASE
+            WHEN operation_analytique.oa_debit = true THEN operation_analytique.oa_amount * (-1)::numeric
+            ELSE operation_analytique.oa_amount
+        END) AS sum_amount, jrnx.j_poste, tmp_pcmn.pcm_lib AS name
+   FROM operation_analytique
+   JOIN poste_analytique po USING (po_id)
+   JOIN jrnx USING (j_id)
+   JOIN tmp_pcmn ON jrnx.j_poste::text = tmp_pcmn.pcm_val::text ".
+"					where
+		pa_id=$1 ".$date.$sql_from_poste.$sql_to_poste."
+
+  GROUP BY po.po_id, po.po_name, po.pa_id, jrnx.j_poste, tmp_pcmn.pcm_lib, po.po_description
+ HAVING sum(
+CASE
+    WHEN operation_analytique.oa_debit = true THEN operation_analytique.oa_amount * (-1)::numeric
+    ELSE operation_analytique.oa_amount
+END) <> 0::numeric  order by po_id,j_poste",array($this->pa_id));
 
   }
   /**
@@ -79,12 +94,26 @@ class Anc_Acc_List extends Anc_Acc_Link
     $date=($date != '')?"  $date":'';
     $sql_from_poste=($this->from_poste!='')?" and  po.po_name >= upper('".Database::escape_string($this->from_poste)."')":'';
     $sql_to_poste=($this->to_poste!='')?" and  po.po_name <= upper('".Database::escape_string($this->to_poste)."')":'';
-
-    $this->arow=$this->db->get_array(" SELECT po_id, pa_id, po_name, po_description, oa_date, sum_amount, f_id, 
-				       j_qcode, name
-					FROM v_table_analytic_card
-					where
-		pa_id=$1 ".$date.$sql_from_poste.$sql_to_poste." order by po_id,name",array($this->pa_id));
+    $this->arow=$this->db->get_array(" SELECT po.po_id, po.pa_id, po.po_name, po.po_description, sum(
+        CASE
+            WHEN operation_analytique.oa_debit = true THEN operation_analytique.oa_amount * (-1)::numeric
+            ELSE operation_analytique.oa_amount
+        END) AS sum_amount, jrnx.f_id, jrnx.j_qcode, ( SELECT fiche_detail.ad_value
+           FROM fiche_detail
+          WHERE fiche_detail.ad_id = 1 AND fiche_detail.f_id = jrnx.f_id) AS name
+   FROM operation_analytique
+   JOIN poste_analytique po USING (po_id)
+   JOIN jrnx USING (j_id) ".
+				     " where pa_id=$1 ".$date.$sql_from_poste.$sql_to_poste
+				     ."
+  GROUP BY po.po_id, po.po_name, po.pa_id, jrnx.f_id, jrnx.j_qcode, ( SELECT fiche_detail.ad_value
+   FROM fiche_detail
+  WHERE fiche_detail.ad_id = 1 AND fiche_detail.f_id = jrnx.f_id), po.po_description
+ HAVING sum(
+CASE
+    WHEN operation_analytique.oa_debit = true THEN operation_analytique.oa_amount * (-1)::numeric
+    ELSE operation_analytique.oa_amount
+END) <> 0::numeric order by po_name,name",array($this->pa_id));
     
   }
 
@@ -98,10 +127,24 @@ class Anc_Acc_List extends Anc_Acc_Link
     $date=($date != '')?"  $date":'';
     $sql_from_poste=($this->from_poste!='')?" and  po.po_name >= upper('".Database::escape_string($this->from_poste)."')":'';
     $sql_to_poste=($this->to_poste!='')?" and  po.po_name <= upper('".Database::escape_string($this->to_poste)."')":'';
-    $this->arow=$this->db->get_array(" SELECT po_id, pa_id, po_name, po_description, sum_amount, j_poste, name
-					FROM v_table_analytic_account
-					where
-		pa_id=$1 ".$date.$sql_from_poste.$sql_to_poste." order by j_poste,po_name",array($this->pa_id));
+  $this->arow=$this->db->get_array("SELECT po.po_id, po.pa_id, po.po_name, po.po_description, sum(
+        CASE
+            WHEN operation_analytique.oa_debit = true THEN operation_analytique.oa_amount * (-1)::numeric
+            ELSE operation_analytique.oa_amount
+        END) AS sum_amount, jrnx.j_poste, tmp_pcmn.pcm_lib AS name
+   FROM operation_analytique
+   JOIN poste_analytique po USING (po_id)
+   JOIN jrnx USING (j_id)
+   JOIN tmp_pcmn ON jrnx.j_poste::text = tmp_pcmn.pcm_val::text ".
+"					where
+		pa_id=$1 ".$date.$sql_from_poste.$sql_to_poste."
+
+  GROUP BY po.po_id, po.po_name, po.pa_id, jrnx.j_poste, tmp_pcmn.pcm_lib, po.po_description
+ HAVING sum(
+CASE
+    WHEN operation_analytique.oa_debit = true THEN operation_analytique.oa_amount * (-1)::numeric
+    ELSE operation_analytique.oa_amount
+END) <> 0::numeric  order by j_poste,po_name",array($this->pa_id));
 
   }
 
@@ -116,12 +159,26 @@ class Anc_Acc_List extends Anc_Acc_Link
     $sql_from_poste=($this->from_poste!='')?" and  po.po_name >= upper('".Database::escape_string($this->from_poste)."')":'';
     $sql_to_poste=($this->to_poste!='')?" and  po.po_name <= upper('".Database::escape_string($this->to_poste)."')":'';
 
-    $this->arow=$this->db->get_array(" SELECT po_id, pa_id, po_name, po_description, oa_date, sum_amount, f_id, 
-				       j_qcode, name
-					FROM v_table_analytic_card
-					where
-		pa_id=$1 ".$date.$sql_from_poste.$sql_to_poste." order by name,po_name",array($this->pa_id));
-    
+   $this->arow=$this->db->get_array(" SELECT po.po_id, po.pa_id, po.po_name, po.po_description, sum(
+        CASE
+            WHEN operation_analytique.oa_debit = true THEN operation_analytique.oa_amount * (-1)::numeric
+            ELSE operation_analytique.oa_amount
+        END) AS sum_amount, jrnx.f_id, jrnx.j_qcode, ( SELECT fiche_detail.ad_value
+           FROM fiche_detail
+          WHERE fiche_detail.ad_id = 1 AND fiche_detail.f_id = jrnx.f_id) AS name
+   FROM operation_analytique
+   JOIN poste_analytique po USING (po_id)
+   JOIN jrnx USING (j_id) ".
+				     " where pa_id=$1 ".$date.$sql_from_poste.$sql_to_poste
+				     ."
+  GROUP BY po.po_id, po.po_name, po.pa_id, jrnx.f_id, jrnx.j_qcode, ( SELECT fiche_detail.ad_value
+   FROM fiche_detail
+  WHERE fiche_detail.ad_id = 1 AND fiche_detail.f_id = jrnx.f_id), po.po_description
+ HAVING sum(
+CASE
+    WHEN operation_analytique.oa_debit = true THEN operation_analytique.oa_amount * (-1)::numeric
+    ELSE operation_analytique.oa_amount
+END) <> 0::numeric order by name,po_name",array($this->pa_id));
   }
   /**
    *@brief display the button export CSV
@@ -297,7 +354,7 @@ class Anc_Acc_List extends Anc_Acc_Link
 
 	    $tot_card=bcadd($tot_card,$amount);
 	    $tot_glob=bcadd($tot_glob,$amount);
-	    echo '<td style="padding-left:10">'.HtmlInput::history_card ($this->arow[$i]['f_id'],$this->arow[$i]['f_id'].' '.$this->arow[$i]['name'],' display:inline').'</td>';
+	    echo '<td style="padding-left:10">'.HtmlInput::history_card ($this->arow[$i]['f_id'],$this->arow[$i]['j_qcode'].' '.$this->arow[$i]['name'],' display:inline').'</td>';
 
 	    echo td(nbm($amount),' class="num" ');
 	    echo '</tr>';
