@@ -77,12 +77,15 @@ class Anc_Listing extends Anc_Print
             $r.= _("aucune donnée");
             return $r;
         }
-        $r.= '<table class="result">';
+        $r.= '<table class="result" style="width=100%">';
         $r.= '<tr>'.
              '<th>'._('Date').'</th>'.
-             '<th>'._('Nom').'</th>'.
-             '<th>'._('Description').'</th>'.
-	  th(_('Operation')).
+             '<th>'._('Poste').'</th>'.
+             '<th>'._('Quick_code').'</th>'.
+             '<th>'._('Analytique').'</th>'.
+	  th(_('Description')).
+             '<th>'._('libelle').'</th>'.
+             '<th>'._('Num.interne').'</th>'.
              '<th>'._('Montant').'</th>'.
              '<th>'._('D/C').'</th>'.
              '</tr>';
@@ -90,10 +93,16 @@ class Anc_Listing extends Anc_Print
         {
             $r.= '<tr>';
 	    $detail=($row['jr_id'] != null)?HtmlInput::detail_op($row['jr_id'],$row['jr_internal']):'';
+	    $post_detail=($row['j_poste'] != null)?HtmlInput::history_account($row['j_poste'],$row['j_poste']):'';
+	    $card_detail=($row['f_id'] != null)?HtmlInput::history_card($row['f_id'],$row['qcode']):'';
+
             $r.=
                 '<td>'.$row['oa_date'].'</td>'.
-                '<td>'.h($row['po_name']).'</td>'.
-                '<td>'.h($row['oa_description']).'</td>'.
+	      td($post_detail).
+	      td($card_detail).
+	      '<td>'.h($row['po_name']).'</td>'.
+	      '<td>'.h($row['oa_description']).'</td>'.
+	      td($row['jr_comment']).
 	      '<td>'.$detail.'</td>'.
 	      '<td class="num">'.nbm($row['oa_amount']).'</td>'.
                 '<td>'.(($row['oa_debit']=='f')?'CREDIT':'DEBIT').'</td>';
@@ -131,10 +140,14 @@ class Anc_Listing extends Anc_Print
         foreach ( $array as $row)
         {
             // the name and po_id
-            $r.=sprintf("'%s',",$row['oa_date']);
-            $r.=sprintf("'%s',",$row['po_name']);
-            $r.=sprintf("'%s',",$row['oa_description']);
-            $r.=sprintf("%12.2f,",$row['oa_amount']);
+            $r.=sprintf('"%s";',$row['oa_date']);
+            $r.=sprintf('"%s";',$row['j_poste']);
+            $r.=sprintf('"%s";',$row['qcode']);
+            $r.=sprintf('"%s";',$row['po_name']);
+            $r.=sprintf('"%s";',$row['oa_description']);
+            $r.=sprintf('"%s";',$row['oa_description']);
+
+            $r.=sprintf("%12.2f;",$row['oa_amount']);
             $r.=sprintf("'%s'",(($row['oa_debit']=='f')?'CREDIT':'DEBIT'));
             $r.="\r\n";
         }

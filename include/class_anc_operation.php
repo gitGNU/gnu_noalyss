@@ -134,15 +134,28 @@ class Anc_Operation
         $pa_id_cond="";
         if ( isset ( $this->pa_id) && $this->pa_id !='')
             $pa_id_cond= "pa_id=".$this->pa_id." and";
+	$sql="
+	select oa_id,	
+	po_name,
+	oa_description,
+	po_description,
+	oa_debit,
+	to_char(oa_date,'DD.MM.YYYY') as oa_date,
+	oa_amount,
+	oa_group,
+	j_id , 
+	jr_internal,  
+	jr_id, 
+	jr_comment,
+	j_poste,
+	jrnx.f_id,
+	( select ad_value from fiche_Detail where f_id=jrnx.f_id and ad_id=23) as qcode
+	from operation_analytique as B join poste_analytique using(po_id) 
+	left join jrnx using (j_id)
+	left join jrn on  (j_grpt=jr_grpt_id)
+             where $pa_id_cond oa_amount <> 0.0 $cond $cond_poste
+	order by oa_date ,oa_group,oa_debit desc,oa_id";
 
-        $sql="select oa_id,po_name,oa_description,po_description,".
-             "oa_debit,to_char(oa_date,'DD.MM.YYYY') as oa_date,oa_amount,oa_group,j_id ,".
-	  " ( select  jr_internal from jrn join jrnx on (j_grpt=jr_grpt_id) where jrnx.j_id=B.j_id) as jr_internal ,".
-	  " ( select  jr_id from jrn join jrnx on (j_grpt=jr_grpt_id) where jrnx.j_id=B.j_id) as jr_id ".
-             " from operation_analytique as B".
-             " join poste_analytique using(po_id) ".
-             "where $pa_id_cond oa_amount <> 0.0 $cond $cond_poste".
-             " order by oa_date ,oa_group,oa_debit desc,oa_id";
         $RetSql=$this->db->exec_sql($sql);
 
         $array=Database::fetch_all($RetSql);
