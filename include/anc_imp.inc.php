@@ -33,11 +33,12 @@ require_once('class_anc_plan.php');
 require_once('ac_common.php');
 
 //-- the menu
-$menu=array(array("?p_action=ca_imp&sub=listing&$str_dossier",_("Listing"),_("Listing des opérations"),"listing"),
+$menu=array(array("?p_action=ca_imp&sub=listing&$str_dossier",_("Historique"),_("Historique des opérations"),"listing"),
+            array("?p_action=ca_imp&sub=ancgl&$str_dossier",_("grand livre"),_("Grand livre d' plan analytique"),"ancgl"),
             array("?p_action=ca_imp&sub=bs&$str_dossier",_("Balance simple"),_("Balance simple d'un plan analytique"),"bs"),
             array("?p_action=ca_imp&sub=bc2&$str_dossier",_("Balance croisée"),_("Balance croisée de 2 plans analytiques"),"bc2"),
 	    array("?p_action=ca_imp&sub=tab&$str_dossier",_("Tableau"),_("Tableau lié à la comptabilité"),'tab'),
-	    array("?p_action=ca_imp&sub=lico&$str_dossier",_("Lien comptabilité"),_("Lien entre comptabilité et Comptabilité analytique"),'lico'),
+	    array("?p_action=ca_imp&sub=lico&$str_dossier",_("Balance comptabilité"),_("Lien entre comptabilité et Comptabilité analytique"),'lico'),
 	    array("?p_action=ca_imp&sub=groupe&$str_dossier",_("Groupe"),_("Balance par groupe"),'gr'),
 
            );
@@ -66,7 +67,7 @@ if ( $sub=='listing')
     //---- result
     if ( isset($_GET['result']) )
     {
-        echo '<div class="u_redcontent">';
+        echo '<div class="content">';
 
         //--------------------------------
         // export Buttons
@@ -151,3 +152,19 @@ if ( $sub == 'lico')
     }
   }
 
+//---------------------------------------------------------------------------
+if ( $sub == 'ancgl')
+  {
+    require_once('class_anc_grandlivre.php');
+    $gl=new Anc_GrandLivre($cn);
+    $gl->get_request();
+    echo '<form method="get">';
+    echo $gl->display_form($str_hidden);
+    echo '<p>'.HtmlInput::submit('Recherche','Recherche').'</p>';
+    echo '</form>';
+    if ( isset($_GET['result']))
+    {
+      //        echo $gl->show_button($str_hidden);
+	echo $gl->display_html();
+    }
+  }
