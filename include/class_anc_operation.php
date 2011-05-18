@@ -123,9 +123,9 @@ class Anc_Operation
         $cond_poste="";
 
         if ($p_from!="")
-            $cond="and oa_date >= to_date('$p_from','DD.MM.YYYY') ";
+            $cond="and jr_date >= to_date('$p_from','DD.MM.YYYY') ";
         if ( $p_to!="" )
-            $cond.="and oa_date <=to_date('$p_to','DD.MM.YYYY')";
+            $cond.="and jr_date <=to_date('$p_to','DD.MM.YYYY')";
 
         if ($p_from_poste != "" )
             $cond_poste=" and upper(po_name) >= upper('".$p_from_poste."')";
@@ -140,7 +140,7 @@ class Anc_Operation
 	oa_description,
 	po_description,
 	oa_debit,
-	to_char(oa_date,'DD.MM.YYYY') as oa_date,
+	to_char(jr_date,'DD.MM.YYYY') as oa_date,
 	oa_amount,
 	oa_group,
 	j_id , 
