@@ -289,7 +289,7 @@ END) <> 0::numeric order by name,po_name",array($this->pa_id));
 		echo  td('Total');
 		echo td(nbm($tot_card),' class="num"');
 		echo '</tr>';
-		echo '<tr  style="padding-top:5px"><td>'.HtmlInput::history_card($this->arow[$i]['j_poste'],$this->arow[$i]['j_poste'].' '.$this->arow[$i]['name'],' display:inline ').'</td></tr>';
+		echo '<tr  style="padding-top:5px"><td>'.HtmlInput::history_account($this->arow[$i]['j_poste'],$this->arow[$i]['j_poste'].' '.$this->arow[$i]['name'],' display:inline ').'</td></tr>';
 		$tot_card=0;
 		$prev = $this->arow[$i]['j_poste'];
 	      }
