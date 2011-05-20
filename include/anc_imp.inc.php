@@ -164,7 +164,6 @@ if ( $sub == 'ancgl')
     echo '</form>';
     if ( isset($_GET['result']))
     {
-      //        echo $gl->show_button($str_hidden);
 	echo $gl->display_html();
     }
   }

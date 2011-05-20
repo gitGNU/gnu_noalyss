@@ -167,7 +167,7 @@ if ( isset($_REQUEST['sa']))
         $ret.=HtmlInput::hidden('sa','po_update');
         $ret.=HtmlInput::submit('Correction','Correction');
         $ret.=sprintf('<A class="mtitle" HREF="?p_action=ca_pa&sa=po_delete&po_id=%s&pa_id=%s&'.$str_dossier.'">'.
-                      '<input type="button" value="Efface" onClick="return confirm(\' Voulez-vous vraiment effacer ce poste\');"></A>',
+                      '<input type="button" value="Efface" onClick="return confirm(\' Voulez-vous vraiment effacer cette activité\');"></A>',
                       $po->id,
                       $_REQUEST['pa_id']
                      );
@@ -195,7 +195,7 @@ if ( isset($_REQUEST['sa']))
 
         $new=new Anc_Plan($cn,$_REQUEST['pa_id']);
         $new->get();
-        $array=$new->get_poste_analytique();
+        $array=$new->get_poste_analytique(" order by po_name");
         $ret.='<div class="u_redcontent">';
         $ret.='<table style="width:100%;border:solid blue 2px ;border-style:outset;">';
         $ret.="<tr>";
@@ -215,8 +215,8 @@ if ( isset($_REQUEST['sa']))
                 $class="odd";
 
             $ret.="<TR class=\"$class\">";
-            $ret.="<TD>".
-                  '<a class="mtitle" href="?p_action=ca_pa&sa=po_detail&po_id='.$obj->id.'&pa_id='.$_REQUEST['pa_id'].'&'.
+            $ret.="<TD >".
+                  '<a style="text-decoration:underline;" href="?p_action=ca_pa&sa=po_detail&po_id='.$obj->id.'&pa_id='.$_REQUEST['pa_id'].'&'.
                   $str_dossier.'">'.
                   h($obj->name).
                   '</a>';
@@ -278,7 +278,7 @@ else
         '</TD>';
         echo '<td class="mtitle">'.
         '<a class="mtitle" href="?p_action=ca_pa&sa=list&pa_id='.$line['id'].'&'.$str_dossier.'">'.
-        "Postes".
+        "Activités".
         "</a>";
 
         echo '</TR>';

@@ -273,12 +273,12 @@ class Anc_Balance_Double extends Anc_Print
     {
         $r="";
 
-        $r.='"Poste comptable Analytique",';
-        $r.='"Poste comptable Analytique",';
-        $r.='"Debit",';
-        $r.='"Credit",';
-        $r.='"Solde",';
-        $r.='"D/C",';
+        $r.='"Poste comptable Analytique";';
+        $r.='"Poste comptable Analytique";';
+        $r.='"Debit";';
+        $r.='"Credit";';
+        $r.='"Solde";';
+        $r.='"D/C"';
 
         $r.="\r\n";
 
@@ -291,11 +291,11 @@ class Anc_Balance_Double extends Anc_Print
         foreach ( $array as $row)
         {
 
-            $r.=sprintf('"%s",',$row['a_po_name']);
-            $r.=sprintf('"%s",',$row['b_po_name']);
-            $r.=sprintf("%12.2f,",$row['a_d']);
-            $r.=sprintf("%12.2f,",$row['a_c']);
-            $r.=sprintf("%12.2f,",$row['a_solde']);
+            $r.=sprintf('"%s";',$row['a_po_name']);
+            $r.=sprintf('"%s";',$row['b_po_name']);
+            $r.=sprintf("%s;",nb($row['a_d']));
+            $r.=sprintf("%s;",nb($row['a_c']));
+            $r.=sprintf("%s;",nb($row['a_solde']));
             $r.=sprintf('"%s"',$row['a_debit']);
             $r.="\r\n";
         }

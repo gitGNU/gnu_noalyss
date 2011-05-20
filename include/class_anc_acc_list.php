@@ -42,10 +42,10 @@ class Anc_Acc_List extends Anc_Acc_Link
     $r=parent::display_form($p_hidden);
     $icard=new ISelect('card_poste');
     $icard->value=array(
-			array('value'=>1,'label'=>'Par fiche /Poste Analytique'),
-			array('value'=>2,'label'=>'Par poste comptable/Poste Analytique'),
-			array('value'=>3,'label'=>'Par poste Analytique/Fiche'),
-			array('value'=>4,'label'=>'Par poste Analytique/Poste Comptable')
+			array('value'=>1,'label'=>'Par fiche /Activité'),
+			array('value'=>2,'label'=>'Par poste comptable/Activité'),
+			array('value'=>3,'label'=>'Par activité/Fiche'),
+			array('value'=>4,'label'=>'Par activité/Poste Comptable')
 
 			);
     

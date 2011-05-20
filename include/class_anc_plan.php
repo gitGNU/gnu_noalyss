@@ -140,9 +140,9 @@ class Anc_Plan
      *        Analytic plan
      * \return an array of Poste_analytic object
      */
-    function get_poste_analytique()
+    function get_poste_analytique($p_order="")
     {
-        $sql="select po_id from poste_analytique where pa_id=".$this->id;
+        $sql="select po_id,po_name from poste_analytique where pa_id=".$this->id." $p_order";
         $r=$this->db->exec_sql($sql);
         $ret=array();
         if ( Database::num_row($r) == 0 )

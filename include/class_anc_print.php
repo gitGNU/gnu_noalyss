@@ -127,14 +127,14 @@ class Anc_Print
 
         $poste=new IText();
         $poste->size=10;
-        $r.=_("Entre le poste ").$poste->input("from_poste",$this->from_poste);
+        $r.=_("Entre l'activité ").$poste->input("from_poste",$this->from_poste);
         $choose=new IButton();
         $choose->name=_("Choix Poste");
         $choose->label=_("Recherche");
         $choose->javascript="onClick=search_ca(".dossier::id().",'from_poste','pa_id')";
         $r.=$choose->input();
 
-        $r.=_(" et le poste ").$poste->input("to_poste",$this->to_poste);
+        $r.=_(" et l'activité ").$poste->input("to_poste",$this->to_poste);
         $choose->javascript="onClick=search_ca(".dossier::id().",'to_poste','pa_id')";
         $r.=$choose->input();
         $r.='<span class="notice" style="display:block">'._('Selectionnez le plan qui vous intéresse avant de cliquer sur Recherche').'</span>';

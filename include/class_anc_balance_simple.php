@@ -191,9 +191,9 @@ class Anc_Balance_Simple extends Anc_Print
             $row=$array[$i];
             $pdf->Cell(20,6,$row['po_id'],0,0,'L');
             $pdf->Cell(90,6,$row['po_name'],0,0,'L');
-            $pdf->Cell(20,6,sprintf('%.2f',$row['sum_deb']),0,0,'R');
-            $pdf->Cell(20,6,sprintf('%.2f',$row['sum_cred']),0,0,'R');
-            $pdf->Cell(20,6,sprintf('%.2f',$row['solde']),0,0,'R');
+            $pdf->Cell(20,6,sprintf('%s',nbm($row['sum_deb'])),0,0,'R');
+            $pdf->Cell(20,6,sprintf('%s',nbm($row['sum_cred'])),0,0,'R');
+            $pdf->Cell(20,6,sprintf('%s',nbm($row['solde'])),0,0,'R');
             $pdf->Cell(20,6,$row['debit'],0,0,'R');
             $pdf->Ln();
         }
@@ -219,11 +219,11 @@ class Anc_Balance_Simple extends Anc_Print
             // the name and po_id
             $solde=($row['sum_cred']>$row['sum_deb'])?'C':'D';
             $solde=($row['sum_cred']==$row['sum_deb'])?'':$solde;
-            $r.=sprintf("'%s',",$row['po_id']);
-            $r.=sprintf("'%s',",$row['po_name']);
-            $r.=sprintf("%12.2f,",$row['sum_deb']);
-            $r.=sprintf("%12.2f,",$row['sum_cred']);
-            $r.=sprintf("%12.2f,",$row['solde']);
+            $r.=sprintf("'%s';",$row['po_id']);
+            $r.=sprintf("'%s';",$row['po_name']);
+            $r.=sprintf("%s;",nb($row['sum_deb']));
+            $r.=sprintf("%s;",nb($row['sum_cred']));
+            $r.=sprintf("%s;",nb($row['solde']));
             $r.=sprintf("'%s'",$row['debit']);
             $r.="\r\n";
         }
