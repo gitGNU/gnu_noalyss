@@ -164,6 +164,10 @@ switch( $_GET['act'])
     require_once('export_anc_acc_list_csv.php');
     exit();
     break;
+  case 'CSV/AncBalGroup':
+    require_once('export_anc_balance_group_csv.php');
+    exit();
+    break;
 
    default:
     alert('Action inconnue '.$_GET['act']);

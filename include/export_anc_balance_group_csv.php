@@ -21,42 +21,16 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file
- * \brief link between accountancy and analytic, like table but as a listing
+ * \brief export balance by group
  */
-require_once('class_anc_print.php');
 
-class Anc_Acc_Link extends Anc_Print
-{
-  function __contruct($p_cn)
-  {
-    $this->cn=$p_cn;
-  }
+require_once('class_anc_group.php');
 
-  /**
-   *@brief get the parameters
-   */
-  function get_request()
-  {
-    parent::get_request();
-    $this->card_poste=HtmlInput::default_value('card_poste',1,$_GET);
-  }
-    function set_sql_filter()
-    {
-        $sql="";
-        $and=" and ";
-        if ( $this->from != "" )
-        {
-            $sql.="$and oa_date >= to_date('".$this->from."','DD.MM.YYYY')";
-        }
-        if ( $this->to != "" )
-        {
-            $sql.=" $and oa_date <= to_date('".$this->to."','DD.MM.YYYY')";
-        }
+header('Pragma: public');
+header('Content-type: application/csv'); 
+header('Content-Disposition: attachment;filename="anc-balance-group-export.csv"',FALSE);
 
-        return $sql;
-
-    }
-
-
-}
-
+$a=new Anc_Group($cn);
+$a->get_request();
+$a->export_csv();
+?>

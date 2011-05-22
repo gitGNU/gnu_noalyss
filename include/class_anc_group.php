@@ -27,11 +27,12 @@
 require_once ('class_database.php');
 require_once ('constant.php');
 require_once ('class_dossier.php');
+require_once('class_anc_print.php');
 
 /*! \brief class for the group of the analytic account
  *
  */
-class Anc_Group
+class Anc_Group extends Anc_Print
 {
     var $db;
     var $ga_id;
@@ -126,6 +127,114 @@ class Anc_Group
         }
         return $res;
     }
+
+    function set_sql_filter()
+    {
+        $sql="";
+        $and="and ";
+        if ( $this->from != "" )
+        {
+            $sql.=" $and  oa_date >= to_date('".$this->from."','DD.MM.YYYY')";
+            $and=" and ";
+        }
+        if ( $this->to != "" )
+        {
+            $sql.=" $and oa_date <= to_date('".$this->to."','DD.MM.YYYY')";
+            $and=" and ";
+        }
+        if ( $this->from_poste != "" )
+        {
+            $sql.=" $and upper(po_name)>= upper('".$this->from_poste."')";
+            $and=" and ";
+        }
+        if ( $this->to_poste != "" )
+        {
+            $sql.=" $and upper(po_name)<= upper('".$this->to_poste."')";
+            $and=" and ";
+        }
+        return $sql;
+
+    }
+
+    function get_result()
+    {
+      $filter_date=$this->set_sql_filter();
+
+      $sql="with m as (select po_id,
+	po_name,
+	ga_id,
+	case when  oa_debit = 't' then oa_amount 
+	else 0
+	end  as amount_deb,
+	case when oa_debit = 'f' then oa_amount 
+	else 0
+	end as amount_cred,
+	oa_date
+	from operation_analytique 
+join poste_analytique using (po_id) 
+where pa_id=$1 $filter_date )
+select sum(amount_cred) as sum_cred, sum(amount_deb)as sum_deb,po_name,ga_id,ga_description
+from m left join groupe_analytique using (ga_id)
+group by ga_id,po_name,ga_description
+order by ga_description,po_name";
+      $ret=$this->db->get_array($sql,array($this->pa_id));
+
+      return $ret;
+    }
+
+    function display_html()
+    {
+      if ( $this->check()  != 0)
+	{
+	  alert('Désolé mais une des dates données n\'est pas valide');
+	  return;
+	}
+
+      $array=$this->get_result();
+      if ( empty ($array) ) return "";
+      require_once('template/anc_balance_group.php');
+
+      
+    }
+  /**
+   *@brief display the button export CSV
+   *@param $p_hidden is a string containing hidden items
+   *@return html string
+   */  
+  function show_button($p_hidden)
+  {
+    $r="";
+    $r.= '<form method="GET" action="export.php"  style="display:inline">';
+    $r.= HtmlInput::hidden("act","CSV/AncBalGroup");
+    $r.= HtmlInput::hidden("to",$this->to);
+    $r.= HtmlInput::hidden("from",$this->from);
+    $r.= HtmlInput::hidden("pa_id",$this->pa_id);
+    $r.= HtmlInput::hidden("from_poste",$this->from_poste);
+    $r.= HtmlInput::hidden("to_poste",$this->to_poste);
+    $r.= $p_hidden;
+    $r.= dossier::hidden();
+    $r.=HtmlInput::submit('bt_csv',"Export en CSV");
+    $r.= '</form>';
+    return $r;
+  }
+  function export_csv()
+  {
+    $array=$this->get_result();
+    printf('"groupe";"activité";"débit";"credit";"solde"');
+    printf("\r\n");
+    bcscale(2);
+    for ($i=0;$i<count($array);$i++)
+      {
+	printf('"%s";"%s";%s;%s;%s',
+	       $array[$i]['ga_id'],
+	       $array[$i]['po_name'],
+	       nb($array[$i]['sum_deb']),
+	       nb($array[$i]['sum_cred']),
+	       nb(bcsub($array[$i]['sum_cred'],$array[$i]['sum_deb']))
+	       );
+	printf("\r\n");
+      }
+  }
     static function test_me()
     {
 
