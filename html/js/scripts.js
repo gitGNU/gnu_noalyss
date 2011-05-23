@@ -419,7 +419,9 @@ function success_misc(req)
 }
 function loading()
 {
-    return 'un instant...<image src="image/loading.gif" alt="chargement"></image>';
+    var str = '<h2> Un instant ...</h2>';
+    str = str + '<image src="image/loading.gif" alt="chargement"></image>';
+    return str;
 }
 
 function ajax_misc_failure()
