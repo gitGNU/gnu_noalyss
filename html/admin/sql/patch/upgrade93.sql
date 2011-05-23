@@ -62,6 +62,7 @@ $BODY$ language plpgsql;
 
 create type anc_table_account_type as (po_id bigint,pa_id bigint,PO_NAME TEXT,po_description text,sum_amount numeric(25,4),card_account text,name text);
 
+
 create or replace function comptaproc.table_analytic_account (p_from text,p_to text)
 returns setof anc_table_account_type 
 as 
@@ -114,6 +115,12 @@ end loop;
 end;
 $BODY$ language plpgsql;
 
+update operation_analytique set oa_date=j_date
+       from jrnx
+       where operation_analytique.j_id=jrnx.j_id
+       and operation_analytique.j_id in (select j_id
+						from jrnx join jrn on (j_grpt=jr_grpt_id)
+					);
 
 update version set val=94;
 commit;
