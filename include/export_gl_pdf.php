@@ -44,12 +44,32 @@ $User->check_dossier($gDossier);
 $User->can_request(IMPBIL,0);
 
 extract($_GET);
+if ($from_poste != '') 
+  {
+    $cond_poste = '  where ';
+    $cond_poste .=' pcm_val >= upper (\''.Database::escape_string($from_poste).'\')';
+  }
+
+if ( $to_poste->value != '')
+  {
+    if  ( $cond_poste == '') 
+      {
+	$cond_poste =  ' where pcm_val <= upper (\''.Database::escape_string($from_poste).'\')';
+      }
+    else
+      {
+	$cond_poste.=' and pcm_val <= upper (\''.Database::escape_string($from_poste).'\')';
+      }
+  }
+
+$sql=$sql.$cond_poste.'  order by pcm_val::text';
+$a_poste=$cn->get_array($sql);
 
 $pdf = new PDF($cn);
 $pdf->setDossierInfo("  Periode : ".$from_periode." - ".$to_periode);
 $pdf->AliasNbPages();
 $pdf->AddPage();
-$a_poste=$cn->get_array("select pcm_val from tmp_pcmn order by pcm_val::text");
+
 
 if ( count($a_poste) == 0 )
 {
@@ -63,12 +83,14 @@ $header = array( "Date", "Référence", "Libellé", "Pièce","Let", "Débit", "C
 $lor    = array( "L"   , "L"        , "L"      , "L"    , "R",   "R"    , "R"     , "R"     );
 // Column widths (in mm)
 $width  = array( 13    , 20         , 60       , 15     ,  12     , 20     , 20      , 20      );
+$l=(isset($_REQUEST['letter']))?1:0;
 
 foreach ($a_poste as $poste)
 {
 
     $Poste=new Acc_Account_Ledger($cn,$poste['pcm_val']);
-    list($array,$tot_deb,$tot_cred)=$Poste->get_row_date($from_periode,$to_periode);
+
+    list($array,$tot_deb,$tot_cred)=$Poste->get_row_date($from_periode,$to_periode,$l);
 
     // don't print empty account
     if ( count($array) == 0 )

@@ -431,6 +431,9 @@ class Acc_Account_Ledger
 	      HtmlInput::submit('bt_other',"Autre poste").
 	      $hid->input("type","poste").$hid->input('p_action','impress')."</form></TD>";
 	  }
+
+	$letter=HtmlInput::default_value('letter',0,$_REQUEST);
+
         echo '<TD><form method="GET" ACTION="export.php">'.
         dossier::hidden().
         HtmlInput::submit('bt_pdf',"Export PDF").
@@ -438,7 +441,13 @@ class Acc_Account_Ledger
         $hid->input("type","poste").$str_ople.
         $hid->input('p_action','impress').
         $hid->input("from_periode",$_REQUEST['from_periode']).
-        $hid->input("to_periode",$_REQUEST['to_periode']);
+        $hid->input("to_periode",$_REQUEST['to_periode']).
+	  $hid->input('from_poste',$_REQUEST['from_poste']).
+	  $hid->input('to_poste',$_REQUEST['to_poste']).
+	  $hid->input('letter',$letter);
+
+
+
 
         if (isset($_REQUEST['poste_id'])) echo $hid->input("poste_id",$_REQUEST['poste_id']);
 
@@ -456,7 +465,11 @@ class Acc_Account_Ledger
         $hid->input("type","poste").$str_ople.
         $hid->input('p_action','impress').
         $hid->input("from_periode",$_REQUEST['from_periode']).
-        $hid->input("to_periode",$_REQUEST['to_periode']);
+        $hid->input("to_periode",$_REQUEST['to_periode']).
+	  $hid->input('from_poste',$_REQUEST['from_poste']).
+	  $hid->input('to_poste',$_REQUEST['to_poste']).
+	  $hid->input('letter',$letter);
+
         if (isset($_REQUEST['poste_fille']))
             echo $hid->input('poste_fille','on');
         if (isset($_REQUEST['oper_detail']))
