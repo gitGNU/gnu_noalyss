@@ -365,6 +365,13 @@ case 'save':
                           array($_POST['lib'],$_POST['npj'],$jr_id,$_POST['p_date']));
 	    $cn->exec_sql("update jrnx set j_date=to_date($1,'DD.MM.YYYY') where j_grpt in (select jr_grpt_id from jrn where jr_id=$2)",
 			  array($_POST['p_date'],$jr_id));
+	    $cn->exec_sql('update operation_analytique set oa_date=j_date from jrnx
+				where
+				operation_analytique.j_id=jrnx.j_id  and
+				operation_analytique.j_id in (select j_id
+						from jrnx join jrn on (j_grpt=jr_grpt_id)
+						where jr_id=$1)
+						',array($jr_id));
 	    $cn->exec_sql("select comptaproc.jrn_add_note($1,$2)",
 			  array($jr_id,$_POST['jrn_note']));
             $rapt=$_POST['rapt'];
