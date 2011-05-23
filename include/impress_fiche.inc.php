@@ -136,7 +136,6 @@ echo $export_pdf;
 // Balance
 if ( $_GET['histo'] == 4 || $_GET['histo']==5 )
 {
-  xdebug_start_trace();
     if ( isDate($_REQUEST['start']) == null || isDate ($_REQUEST['end']) == null )
     {
         alert('Date invalide !');
