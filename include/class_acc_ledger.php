@@ -1299,6 +1299,7 @@ class Acc_Ledger
                       ${'qc_'.$i}.' - '.
                       $oqc->strAttribut(ATTR_DEF_NAME).HtmlInput::hidden('qc_'.$i,${'qc_'.$i}).
                       '</td>';
+
             }
 
             if ( trim(${'qc_'.$i})=="" && trim(${'poste'.$i}) != "")
@@ -1667,6 +1668,12 @@ class Acc_Ledger
                 if ( strlen(trim(${'qc_'.$i}))!=0 &&  isNumber(${'amount'.$i} ) == 0 )
                     throw new Exception('Montant invalide',3);
 
+		$strPoste=$f->strAttribut(ATTR_DEF_ACCOUNT);
+		if ($strPoste=='') throw new Exception(sprintf(_("La fiche %s n'a pas de poste comptable"),${"qc_".$i}));
+
+		$p=new Acc_Account_Ledger($this->db,$strPoste);
+		if ($p->do_exist() == 0 )
+		  throw new Exception(_('Poste Inexistant pour la fiche ['.${'qc_'.$i}.']'),4);
             }
 
             // Check if the account is permitted
@@ -1770,6 +1777,7 @@ class Acc_Ledger
                     else
                     {
                         $poste=$sposte;
+			if ($poste=='') throw new Exception(sprintf(_("La fiche %s n'a pas de poste comptable"),${"qc_".$i}));
                     }
                     $quick_code=${'qc_'.$i};
                 }
@@ -1777,6 +1785,7 @@ class Acc_Ledger
                 {
                     $poste=${'poste'.$i};
                 }
+
                 $acc_op->date=$e_date;
                 // compute the periode is do not check it
                 if ($check_periode == false ) $acc_op->periode=$oPeriode->p_id;
