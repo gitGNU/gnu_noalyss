@@ -62,21 +62,23 @@ $date_to->value=(isset($_REQUEST['to_periode']))?$_REQUEST['to_periode']:$last_d
 echo td(_('Depuis').$date_from->input());
 echo td(_('Jusque ').$date_to->input());
 
-$letter=new ICheck('letter');
+$letter=new ICheckbox('letter');
 $letter->selected=(isset($_REQUEST['letter']))?true:false;
 
 $from_poste=new IPoste('from_poste');
 $from_poste->value=HtmlInput::default_value('from_poste','',$_REQUEST);
+$from_poste->set_attribute('account','from_poste');
 
 $to_poste=new IPoste('to_poste');
 $to_poste->value=HtmlInput::default_value('to_poste','',$_REQUEST);
+$to_poste->set_attribute('account','to_poste');
 
 echo '<tr>';
-echo td.(_('Depuis le poste')).td($from_poste->input()).td($from_poste->dsp_button());
+echo td(_('Depuis le poste')).td($from_poste->input());
 echo '</tr>';
 
 echo '<tr>';
-echo td.(_("Jusqu'au poste")).td($to_poste->input()).td($to_poste->dsp_button());
+echo td(_("Jusqu'au poste")).td($to_poste->input());
 echo '</tr>';
 
 echo '<tr>';
@@ -113,15 +115,16 @@ if ( isset( $_REQUEST['bt_html'] ) )
       {
 	if  ( $cond_poste == '') 
 	  {
-	    $cond_poste =  ' where pcm_val <= upper (\''.Database::escape_string($from_poste->value).'\')';
+	    $cond_poste =  ' where pcm_val <= upper (\''.Database::escape_string($to_poste->value).'\')';
 	  }
 	else
 	  {
-	    $cond_poste.=' and pcm_val <= upper (\''.Database::escape_string($from_poste->value).'\')';
+	    $cond_poste.=' and pcm_val <= upper (\''.Database::escape_string($to_poste->value).'\')';
 	  }
       }
 
     $sql=$sql.$cond_poste.'  order by pcm_val::text';
+
     $a_poste=$cn->get_array($sql);
 
     if ( sizeof($a_poste) == 0 )
@@ -143,7 +146,8 @@ if ( isset( $_REQUEST['bt_html'] ) )
     {
         $Poste=new Acc_Account_Ledger ($cn, $poste_id['pcm_val']);
         $Poste->load();
-	$l=(isset($_REQUEST['letter']))?1:0;
+	$l=(isset($_REQUEST['letter']))?2:0;
+
         $Poste->get_row_date( $_GET['from_periode'], $_GET['to_periode'],$l);
         if ( empty($Poste->row))
         {

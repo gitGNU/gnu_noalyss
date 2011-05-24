@@ -59,6 +59,7 @@ if ( isset($poste_id) && strlen(trim($poste_id)) != 0 && isNumber($poste_id) )
 }
 else
 {
+  $sql="select pcm_val from tmp_pcmn ";
     if ($from_poste != '') 
       {
 	$cond_poste = '  where ';
@@ -69,11 +70,11 @@ else
       {
 	if  ( $cond_poste == '') 
 	  {
-	    $cond_poste =  ' where pcm_val <= upper (\''.Database::escape_string($from_poste).'\')';
+	    $cond_poste =  ' where pcm_val <= upper (\''.Database::escape_string($to_poste).'\')';
 	  }
 	else
 	  {
-	    $cond_poste.=' and pcm_val <= upper (\''.Database::escape_string($from_poste).'\')';
+	    $cond_poste.=' and pcm_val <= upper (\''.Database::escape_string($to_poste).'\')';
 	  }
       }
 
@@ -92,11 +93,14 @@ if ( count($a_poste) == 0 )
 // Header
 $header = array( "Date", "Référence", "Libellé", "Pièce", "Débit", "Crédit", "Solde" );
 
+$let=(isset($_GET['letter']))?2:0;
+
 foreach ($a_poste as $poste)
 {
+ 
 
     $Poste=new Acc_Account_Ledger($cn,$poste['pcm_val']);
-    list($array,$tot_deb,$tot_cred)=$Poste->get_row_date($from_periode,$to_periode);
+    list($array,$tot_deb,$tot_cred)=$Poste->get_row_date($from_periode,$to_periode,$let);
 
     // don't print empty account
     if ( count($array) == 0 )
@@ -146,9 +150,9 @@ foreach ($a_poste as $poste)
         echo $detail['jr_internal'].";";
         echo $detail['description'].";";
         echo $detail['jr_pj_number'].";";
-        echo ($detail['deb_montant']  > 0 ? sprintf("%.2f", $detail['deb_montant'])  : '').";";
-        echo ($detail['cred_montant'] > 0 ? sprintf("%.2f", $detail['cred_montant']) : '').";";
-        echo sprintf("%.2f", $solde).";";
+        echo ($detail['deb_montant']  > 0 ? nb($detail['deb_montant'])  : '').";";
+        echo ($detail['cred_montant'] > 0 ? nb($detail['cred_montant']) : '').";";
+        echo nb($solde).";";
         printf("\n");
 
     }
@@ -158,9 +162,9 @@ foreach ($a_poste as $poste)
     echo ";";
     echo ";";
     echo 'Total du compte '.$Poste->id.";";
-    echo ($solde_d  > 0 ? sprintf("%.2f", $solde_d)  : '').";";
-    echo ($solde_c  > 0 ? sprintf("%.2f", $solde_c)  : '').";";
-    echo sprintf("%.2f", abs($solde_c-$solde_d)).";";
+    echo ($solde_d  > 0 ? nb($solde_d)  : '').";";
+    echo ($solde_c  > 0 ? nb( $solde_c)  : '').";";
+    echo nb(abs($solde_c-$solde_d)).";";
     echo ($solde_c > $solde_d ? 'C' : 'D').";";
     printf("\n");
     printf("\n");

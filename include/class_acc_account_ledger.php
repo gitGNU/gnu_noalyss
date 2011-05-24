@@ -101,6 +101,7 @@ class Acc_Account_Ledger
      *
      * \param  $p_from date from
      * \param  $p_to   end date
+     *\param $let 0 means all rows, 1 only lettered, 2 only unlettered
      *\note the data are filtered by the access of the current user
      * \return double array (j_date,deb_montant,cred_montant,description,jrn_name,j_debit,jr_internal)
      *         (tot_deb,tot_credit
@@ -432,7 +433,6 @@ class Acc_Account_Ledger
 	      $hid->input("type","poste").$hid->input('p_action','impress')."</form></TD>";
 	  }
 
-	$letter=HtmlInput::default_value('letter',0,$_REQUEST);
 
         echo '<TD><form method="GET" ACTION="export.php">'.
         dossier::hidden().
@@ -443,9 +443,10 @@ class Acc_Account_Ledger
         $hid->input("from_periode",$_REQUEST['from_periode']).
         $hid->input("to_periode",$_REQUEST['to_periode']).
 	  $hid->input('from_poste',$_REQUEST['from_poste']).
-	  $hid->input('to_poste',$_REQUEST['to_poste']).
-	  $hid->input('letter',$letter);
+	  $hid->input('to_poste',$_REQUEST['to_poste'])
+	  ;
 
+	if ( isset($_REQUEST['letter'] )) echo HtmlInput::hidden('letter','2');
 
 
 
@@ -467,8 +468,10 @@ class Acc_Account_Ledger
         $hid->input("from_periode",$_REQUEST['from_periode']).
         $hid->input("to_periode",$_REQUEST['to_periode']).
 	  $hid->input('from_poste',$_REQUEST['from_poste']).
-	  $hid->input('to_poste',$_REQUEST['to_poste']).
-	  $hid->input('letter',$letter);
+	  $hid->input('to_poste',$_REQUEST['to_poste']);
+
+
+	if ( isset($_REQUEST['letter'] )) echo HtmlInput::hidden('letter','2');
 
         if (isset($_REQUEST['poste_fille']))
             echo $hid->input('poste_fille','on');
