@@ -43,6 +43,8 @@ $User->Check();
 $User->check_dossier($gDossier);
 $User->can_request(IMPBIL,0);
 
+$sql="select pcm_val from tmp_pcmn ";
+
 extract($_GET);
 if ($from_poste != '') 
   {
@@ -50,15 +52,15 @@ if ($from_poste != '')
     $cond_poste .=' pcm_val >= upper (\''.Database::escape_string($from_poste).'\')';
   }
 
-if ( $to_poste->value != '')
+if ( $to_poste != '')
   {
     if  ( $cond_poste == '') 
       {
-	$cond_poste =  ' where pcm_val <= upper (\''.Database::escape_string($from_poste).'\')';
+	$cond_poste =  ' where pcm_val <= upper (\''.Database::escape_string($to_poste).'\')';
       }
     else
       {
-	$cond_poste.=' and pcm_val <= upper (\''.Database::escape_string($from_poste).'\')';
+	$cond_poste.=' and pcm_val <= upper (\''.Database::escape_string($to_poste).'\')';
       }
   }
 
@@ -83,20 +85,24 @@ $header = array( "Date", "Référence", "Libellé", "Pièce","Let", "Débit", "C
 $lor    = array( "L"   , "L"        , "L"      , "L"    , "R",   "R"    , "R"     , "R"     );
 // Column widths (in mm)
 $width  = array( 13    , 20         , 60       , 15     ,  12     , 20     , 20      , 20      );
-$l=(isset($_REQUEST['letter']))?1:0;
+$l=(isset($_REQUEST['letter']))?2:0;
+$s=(isset($_REQUEST['solded']))?1:0;
 
 foreach ($a_poste as $poste)
 {
 
-    $Poste=new Acc_Account_Ledger($cn,$poste['pcm_val']);
+  $Poste=new Acc_Account_Ledger($cn,$poste['pcm_val']);
 
-    list($array,$tot_deb,$tot_cred)=$Poste->get_row_date($from_periode,$to_periode,$l);
 
-    // don't print empty account
-    if ( count($array) == 0 )
+  $array1=$Poste->get_row_date($from_periode,$to_periode,$l,$s);
+  // don't print empty account
+  if ( count($array1) == 0 )
     {
         continue;
     }
+  $array=$array1[0];
+  $tot_deb=$array1[1];
+  $tot_cred=$array1[2];
 
     $pdf->SetFont('DejaVuCond','',10);
     $Libelle=sprintf("%s - %s ",$Poste->id,$Poste->get_name());

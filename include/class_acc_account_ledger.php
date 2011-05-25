@@ -101,12 +101,14 @@ class Acc_Account_Ledger
      *
      * \param  $p_from date from
      * \param  $p_to   end date
+     *\param $let 0 means all rows, 1 only lettered, 2 only unlettered
+	 * \param $solded 0 means all account, 1 means only accounts with a saldo <> 0
      *\note the data are filtered by the access of the current user
      * \return double array (j_date,deb_montant,cred_montant,description,jrn_name,j_debit,jr_internal)
      *         (tot_deb,tot_credit
      *
      */
-    function get_row_date($p_from,$p_to,$let=0)
+    function get_row_date($p_from,$p_to,$let=0,$solded=0)
     {
         $user=new User($this->db);
         $filter_sql=$user->get_ledger_sql('ALL',3);
@@ -122,11 +124,32 @@ class Acc_Account_Ledger
             $sql_let=' and j_id not in (select j_id from letter_cred union select j_id from letter_deb) ';
             break;
         }
+	if ( $solded == 1)
+	  {
+	    $filter=str_replace('jrn_def_id','jr_def_id',$filter_sql);
+	    $bal_sql="with signed_amount as 
+						(select case when j_debit='t' then j_montant else 0 end as amount_deb,
+								case when j_debit='f' then j_montant else 0 end as amount_cred,
+								j_poste 
+								from jrnx join jrn on (j_grpt = jr_grpt_id)
+								where 
+								j_poste=$1 and
+								$filter and
+								( to_date($2,'DD.MM.YYYY') <= j_date and 
+                                  to_date($3,'DD.MM.YYYY') >= j_date  ))
+						select sum(amount_deb) as s_deb,sum(amount_cred) as s_cred, j_poste from signed_amount
+						group by j_poste
+						";
+	    $r=$this->db->get_array($bal_sql,array($this->id,$p_from,$p_to));
+	    if ( $this->db->count() == 0 ) return array();
+	    if ($r[0]['s_deb']==$r[0]['s_cred']) return array(); 
+	  }
         $Res=$this->db->exec_sql("select  jr_id,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,j_date,".
                                  "case when j_debit='t' then j_montant else 0 end as deb_montant,".
                                  "case when j_debit='f' then j_montant else 0 end as cred_montant,".
                                  " jr_comment as description,jrn_def_name as jrn_name,".
-                                 "j_debit, jr_internal,jr_pj_number,coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter ".
+                                 "j_debit, jr_internal,jr_pj_number,
+								 coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter ".
                                  ",pcm_lib ".
 				 ",jr_tech_per,p_exercice ".
                                  " from jrnx left join jrn_def on (jrn_def_id=j_jrn_def )".
@@ -432,7 +455,6 @@ class Acc_Account_Ledger
 	      $hid->input("type","poste").$hid->input('p_action','impress')."</form></TD>";
 	  }
 
-	$letter=HtmlInput::default_value('letter',0,$_REQUEST);
 
         echo '<TD><form method="GET" ACTION="export.php">'.
         dossier::hidden().
@@ -441,15 +463,20 @@ class Acc_Account_Ledger
         $hid->input("type","poste").$str_ople.
         $hid->input('p_action','impress').
         $hid->input("from_periode",$_REQUEST['from_periode']).
-        $hid->input("to_periode",$_REQUEST['to_periode']).
-	  $hid->input('from_poste',$_REQUEST['from_poste']).
-	  $hid->input('to_poste',$_REQUEST['to_poste']).
-	  $hid->input('letter',$letter);
+        $hid->input("to_periode",$_REQUEST['to_periode'])
+	  ;
 
+	if ( isset($_REQUEST['letter'] )) echo HtmlInput::hidden('letter','2');
+	if ( isset($_REQUEST['solded'] )) echo HtmlInput::hidden('solded','1');
 
+	if (isset($_REQUEST['from_poste'])) 
+	  echo $hid->input('from_poste',$_REQUEST['from_poste']);
 
+	if (isset($_REQUEST['to_poste'])) 
+	  echo $hid->input('to_poste',$_REQUEST['to_poste']);
 
-        if (isset($_REQUEST['poste_id'])) echo $hid->input("poste_id",$_REQUEST['poste_id']);
+        if (isset($_REQUEST['poste_id'])) 
+	  echo $hid->input("poste_id",$_REQUEST['poste_id']);
 
         if (isset($_REQUEST['poste_fille']))
             echo $hid->input('poste_fille','on');
@@ -465,10 +492,16 @@ class Acc_Account_Ledger
         $hid->input("type","poste").$str_ople.
         $hid->input('p_action','impress').
         $hid->input("from_periode",$_REQUEST['from_periode']).
-        $hid->input("to_periode",$_REQUEST['to_periode']).
-	  $hid->input('from_poste',$_REQUEST['from_poste']).
-	  $hid->input('to_poste',$_REQUEST['to_poste']).
-	  $hid->input('letter',$letter);
+	  $hid->input("to_periode",$_REQUEST['to_periode']);
+
+	if (isset($_REQUEST['from_poste'])) 
+	  echo $hid->input('from_poste',$_REQUEST['from_poste']);
+
+	if (isset($_REQUEST['to_poste'])) 
+	  echo $hid->input('to_poste',$_REQUEST['to_poste']);
+
+	if ( isset($_REQUEST['letter'] )) echo HtmlInput::hidden('letter','2');
+	if ( isset($_REQUEST['solded'] )) echo HtmlInput::hidden('solded','1');
 
         if (isset($_REQUEST['poste_fille']))
             echo $hid->input('poste_fille','on');
