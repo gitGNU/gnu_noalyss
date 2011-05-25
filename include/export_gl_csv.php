@@ -93,14 +93,24 @@ if ( count($a_poste) == 0 )
 // Header
 $header = array( "Date", "Référence", "Libellé", "Pièce", "Débit", "Crédit", "Solde" );
 
-$let=(isset($_GET['letter']))?2:0;
+$l=(isset($_GET['letter']))?2:0;
+$s=(isset($_REQUEST['solded']))?1:0;
 
 foreach ($a_poste as $poste)
 {
  
 
-    $Poste=new Acc_Account_Ledger($cn,$poste['pcm_val']);
-    list($array,$tot_deb,$tot_cred)=$Poste->get_row_date($from_periode,$to_periode,$let);
+  $Poste=new Acc_Account_Ledger($cn,$poste['pcm_val']);
+  
+  $array1=$Poste->get_row_date($from_periode,$to_periode,$l,$s);
+  // don't print empty account
+  if ( count($array1) == 0 )
+    {
+      continue;
+    }
+  $array=$array1[0];
+  $tot_deb=$array1[1];
+  $tot_cred=$array1[2];
 
     // don't print empty account
     if ( count($array) == 0 )

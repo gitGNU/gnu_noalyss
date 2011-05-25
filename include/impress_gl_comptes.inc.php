@@ -57,8 +57,8 @@ $last_day=$a[1]->last_day();
 $date_from=new IDate('from_periode');
 $date_to=new IDate('to_periode');
 $year=$User->get_exercice();
-$date_from->value=(isset($_REQUEST['from_periode']))?$_REQUEST['from_periode']:$first_day;
-$date_to->value=(isset($_REQUEST['to_periode']))?$_REQUEST['to_periode']:$last_day;
+$date_from->value=(isset($_REQUEST['from_periode'])&& isDate($_REQUEST['from_periode'])!=0)?$_REQUEST['from_periode']:$first_day;
+$date_to->value=(isset($_REQUEST['to_periode']) && isDate($_REQUEST['to_periode']) !=0  )?$_REQUEST['to_periode']:$last_day;
 echo td(_('Depuis').$date_from->input());
 echo td(_('Jusque ').$date_to->input());
 
@@ -73,6 +73,9 @@ $to_poste=new IPoste('to_poste');
 $to_poste->value=HtmlInput::default_value('to_poste','',$_REQUEST);
 $to_poste->set_attribute('account','to_poste');
 
+$solded=new ICheckbox('solded');
+$solded->selected=(isset($_REQUEST['solded']))?true:false;
+
 echo '<tr>';
 echo td(_('Depuis le poste')).td($from_poste->input());
 echo '</tr>';
@@ -82,9 +85,16 @@ echo td(_("Jusqu'au poste")).td($to_poste->input());
 echo '</tr>';
 
 echo '<tr>';
-echo td('Uniquement les comptes non lettrés');
+echo td('Uniquement les opérations non lettrées');
 echo td($letter->input());
 echo '</tr>';
+
+echo '<tr>';
+echo td('Uniquement les comptes non soldés');
+echo td($solded->input());
+echo '</tr>';
+
+
 //
 echo '</TABLE>';
 print HtmlInput::submit('bt_html','Visualisation');
@@ -107,8 +117,8 @@ if ( isset( $_REQUEST['bt_html'] ) )
 
     if ($from_poste->value != '') 
       {
-	$cond_poste = '  where ';
-	$cond_poste .=' pcm_val >= upper (\''.Database::escape_string($from_poste->value).'\')';
+		$cond_poste = '  where ';
+		$cond_poste .=' pcm_val >= upper (\''.Database::escape_string($from_poste->value).'\')';
       }
 
     if ( $to_poste->value != '')
@@ -141,14 +151,16 @@ if ( isset( $_REQUEST['bt_html'] ) )
 
 
     echo '<table class="result">';
-
+	$l=(isset($_REQUEST['letter']))?2:0;
+	$s=(isset($_REQUEST['solded']))?1:0;
+	
     foreach ($a_poste as $poste_id )
     {
         $Poste=new Acc_Account_Ledger ($cn, $poste_id['pcm_val']);
         $Poste->load();
-	$l=(isset($_REQUEST['letter']))?2:0;
+	
 
-        $Poste->get_row_date( $_GET['from_periode'], $_GET['to_periode'],$l);
+        $Poste->get_row_date( $_GET['from_periode'], $_GET['to_periode'],$l,$s);
         if ( empty($Poste->row))
         {
             continue;
