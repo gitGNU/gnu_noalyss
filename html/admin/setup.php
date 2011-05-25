@@ -265,7 +265,7 @@ $version=$cn->get_value($sql);
 var_dump($version);
 
 if ( $version[0] < 8 ||
-     ($version[0]=='8' && $version[2]<2)
+     ($version[0]=='8' && $version[2]<4)
      ) 
   {
 ?>
