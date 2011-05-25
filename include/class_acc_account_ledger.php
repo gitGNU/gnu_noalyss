@@ -127,8 +127,7 @@ class Acc_Account_Ledger
 	if ( $solded == 1)
 	  {
 	    $filter=str_replace('jrn_def_id','jr_def_id',$filter_sql);
-	    $bal_sql="with signed_amount as 
-						(select case when j_debit='t' then j_montant else 0 end as amount_deb,
+	    $bal_sql="select sum(amount_deb) as s_deb,sum(amount_cred) as s_cred, j_poste from 						(select case when j_debit='t' then j_montant else 0 end as amount_deb,
 								case when j_debit='f' then j_montant else 0 end as amount_cred,
 								j_poste 
 								from jrnx join jrn on (j_grpt = jr_grpt_id)
@@ -136,8 +135,7 @@ class Acc_Account_Ledger
 								j_poste=$1 and
 								$filter and
 								( to_date($2,'DD.MM.YYYY') <= j_date and 
-                                  to_date($3,'DD.MM.YYYY') >= j_date  ))
-						select sum(amount_deb) as s_deb,sum(amount_cred) as s_cred, j_poste from signed_amount
+                                  to_date($3,'DD.MM.YYYY') >= j_date  )) as signed_amount
 						group by j_poste
 						";
 	    $r=$this->db->get_array($bal_sql,array($this->id,$p_from,$p_to));
@@ -443,7 +441,7 @@ class Acc_Account_Ledger
 	  exit;
 	}	  
         $hid=new IHidden();
-        echo '<div class="noprint">';
+        echo '<div class="content">';
         echo "<table >";
         echo '<TR>';
         $str_ople=(isset($_REQUEST['ople']))?HtmlInput::hidden('ople',$_REQUEST['ople']):'';
@@ -458,7 +456,7 @@ class Acc_Account_Ledger
 
         echo '<TD><form method="GET" ACTION="export.php">'.
         dossier::hidden().
-        HtmlInput::submit('bt_pdf',"Export PDF").
+        HtmlInput::submit('bt_pdf',"Export 1 PDF").
         HtmlInput::hidden('act',$action_pdf).
         $hid->input("type","poste").$str_ople.
         $hid->input('p_action','impress').
