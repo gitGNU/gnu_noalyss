@@ -468,13 +468,13 @@ class Acc_Account_Ledger
 	if ( isset($_REQUEST['solded'] )) echo HtmlInput::hidden('solded','1');
 
 	if (isset($_REQUEST['from_poste'])) 
-	  echo $hid->input('from_poste',$_REQUEST['from_poste']);
+	  echo HtmlInput::hidden('from_poste',$_REQUEST['from_poste']);
 
 	if (isset($_REQUEST['to_poste'])) 
-	  echo $hid->input('to_poste',$_REQUEST['to_poste']);
+	  echo HtmlInput::hidden('to_poste',$_REQUEST['to_poste']);
 
         if (isset($_REQUEST['poste_id'])) 
-	  echo $hid->input("poste_id",$_REQUEST['poste_id']);
+	  echo HtmlInput::hidden("poste_id",$_REQUEST['poste_id']);
 
         if (isset($_REQUEST['poste_fille']))
             echo $hid->input('poste_fille','on');
@@ -493,10 +493,13 @@ class Acc_Account_Ledger
 	  $hid->input("to_periode",$_REQUEST['to_periode']);
 
 	if (isset($_REQUEST['from_poste'])) 
-	  echo $hid->input('from_poste',$_REQUEST['from_poste']);
+	  echo HtmlInput::hidden('from_poste',$_REQUEST['from_poste']);
 
 	if (isset($_REQUEST['to_poste'])) 
-	  echo $hid->input('to_poste',$_REQUEST['to_poste']);
+	  echo HtmlInput::hidden('to_poste',$_REQUEST['to_poste']);
+
+        if (isset($_REQUEST['poste_id'])) 
+	  echo HtmlInput::hidden("poste_id",$_REQUEST['poste_id']);
 
 	if ( isset($_REQUEST['letter'] )) echo HtmlInput::hidden('letter','2');
 	if ( isset($_REQUEST['solded'] )) echo HtmlInput::hidden('solded','1');

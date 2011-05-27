@@ -46,6 +46,7 @@ $User->can_request(IMPBIL,0);
 $sql="select pcm_val from tmp_pcmn ";
 
 extract($_GET);
+$cond_poste="";
 if ($from_poste != '') 
   {
     $cond_poste = '  where ';
