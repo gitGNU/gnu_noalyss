@@ -282,7 +282,7 @@ class Lettering
     {
         $j_debit=$this->db->get_value('select j_Debit from jrnx where j_id=$1',array($p_jid));
         $amount_init=$this->db->get_value('select j_montant from jrnx where j_id=$1',array($p_jid));
-        $this->get_filter();
+        $this->get_filter($p_jid);
         // retrieve jnt_letter.id
         $sql="select distinct(jl_id) from jnt_letter  left outer join letter_deb using (jl_id) left outer join letter_cred using (jl_id)
              where letter_deb.j_id = $1 or letter_cred.j_id=$2";
@@ -341,7 +341,7 @@ class Lettering_Account extends Lettering
      * - $this->end max date
      * - this->account: accounting
      */
-    public function get_filter()
+    public function get_filter($p_jid=0)
     {
         $filter_deb='';
         if (isset($this->fil_deb))
@@ -366,7 +366,7 @@ class Lettering_Account extends Lettering
                 isNumber($this->fil_amount_max)==1 &&
                 isNumber($this->fil_amount_min)==1 &&
                 ($this->fil_amount_max != 0 || $this->fil_amount_min != 0) )
-            $filter_amount=" and j_montant >= $this->fil_amount_min and j_montant<=$this->fil_amount_max ";
+            $filter_amount=" and (j_montant >= $this->fil_amount_min and j_montant<=$this->fil_amount_max  or (coalesce(comptaproc.get_letter_jnt($p_jid),-1)= coalesce(comptaproc.get_letter_jnt(j_id),-1) and coalesce(comptaproc.get_letter_jnt($p_jid),-1) <> -1 )) ";
         $sql="
              select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
              j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
@@ -458,7 +458,7 @@ class Lettering_Card extends Lettering
      * - $this->end max date
      * - this->quick_code: quick_code
      */
-    public function get_filter()
+    public function get_filter($p_jid=0)
     {
         $filter_deb='';
         if (isset($this->fil_deb))
@@ -483,7 +483,7 @@ class Lettering_Card extends Lettering
                 isNumber($this->fil_amount_max)==1 &&
                 isNumber($this->fil_amount_min)==1 &&
                 ($this->fil_amount_max != 0 || $this->fil_amount_min != 0) )
-            $filter_amount=" and j_montant between $this->fil_amount_min and $this->fil_amount_max ";
+	  $filter_amount=" and (j_montant between $this->fil_amount_min and $this->fil_amount_max or (coalesce(comptaproc.get_letter_jnt($p_jid),-1)= coalesce(comptaproc.get_letter_jnt(j_id),-1) and coalesce(comptaproc.get_letter_jnt($p_jid),-1) <> -1 )) ";
         $sql="
              select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
              j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
