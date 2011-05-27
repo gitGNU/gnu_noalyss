@@ -441,7 +441,7 @@ class Acc_Account_Ledger
 	  exit;
 	}	  
         $hid=new IHidden();
-        echo '<div class="content">';
+     
         echo "<table >";
         echo '<TR>';
         $str_ople=(isset($_REQUEST['ople']))?HtmlInput::hidden('ople',$_REQUEST['ople']):'';
@@ -456,7 +456,7 @@ class Acc_Account_Ledger
 
         echo '<TD><form method="GET" ACTION="export.php">'.
         dossier::hidden().
-        HtmlInput::submit('bt_pdf',"Export 1 PDF").
+        HtmlInput::submit('bt_pdf',"Export PDF").
         HtmlInput::hidden('act',$action_pdf).
         $hid->input("type","poste").$str_ople.
         $hid->input('p_action','impress').
@@ -508,8 +508,9 @@ class Acc_Account_Ledger
         if (isset($_REQUEST['poste_id'])) echo $hid->input("poste_id",$_REQUEST['poste_id']);
 
         echo "</form></TD>";
+	echo '</tr>';
         echo "</table>";
-        echo '</div>';
+     
 
     }
     /*!
