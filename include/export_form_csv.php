@@ -29,6 +29,7 @@ require_once("impress_inc.php");
 header('Pragma: public');
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="rapport.csv"',FALSE);
+
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
@@ -71,7 +72,7 @@ else
     {
         $periode=getPeriodeName($cn,$e);
         if ( $periode == null ) continue;
-        $array[]=$Form->get_row($e,$e);
+        $array[]=$Form->get_row($e,$e,$_GET['type_periode']);
         $periode_name[]=$periode;
     }
     // Display column heading
