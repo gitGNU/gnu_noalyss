@@ -110,8 +110,10 @@ echo '</div>';
 //-----------------------------------------------------
 if ( isset( $_REQUEST['bt_html'] ) )
 {
-    require_once("class_acc_account_ledger.php");
+  require_once("class_acc_account_ledger.php");
+  echo '<div class="content">';
     echo Acc_Account_Ledger::HtmlTableHeader("gl_comptes");
+    echo '</div>';
     $sql='select pcm_val from tmp_pcmn ';
     $cond_poste='';
 

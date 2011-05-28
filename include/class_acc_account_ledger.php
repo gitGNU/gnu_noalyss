@@ -127,8 +127,7 @@ class Acc_Account_Ledger
 	if ( $solded == 1)
 	  {
 	    $filter=str_replace('jrn_def_id','jr_def_id',$filter_sql);
-	    $bal_sql="						select sum(amount_deb) as s_deb,sum(amount_cred) as s_cred, j_poste from 
-			(select case when j_debit='t' then j_montant else 0 end as amount_deb,
+	    $bal_sql="select sum(amount_deb) as s_deb,sum(amount_cred) as s_cred, j_poste from 						(select case when j_debit='t' then j_montant else 0 end as amount_deb,
 								case when j_debit='f' then j_montant else 0 end as amount_cred,
 								j_poste 
 								from jrnx join jrn on (j_grpt = jr_grpt_id)
@@ -136,7 +135,7 @@ class Acc_Account_Ledger
 								j_poste=$1 and
 								$filter and
 								( to_date($2,'DD.MM.YYYY') <= j_date and 
-                                  to_date($3,'DD.MM.YYYY') >= j_date  )) as m
+                                  to_date($3,'DD.MM.YYYY') >= j_date  )) as signed_amount
 						group by j_poste
 						";
 	    $r=$this->db->get_array($bal_sql,array($this->id,$p_from,$p_to));
@@ -442,7 +441,7 @@ class Acc_Account_Ledger
 	  exit;
 	}	  
         $hid=new IHidden();
-        echo '<div class="noprint">';
+     
         echo "<table >";
         echo '<TR>';
         $str_ople=(isset($_REQUEST['ople']))?HtmlInput::hidden('ople',$_REQUEST['ople']):'';
@@ -469,13 +468,13 @@ class Acc_Account_Ledger
 	if ( isset($_REQUEST['solded'] )) echo HtmlInput::hidden('solded','1');
 
 	if (isset($_REQUEST['from_poste'])) 
-	  echo $hid->input('from_poste',$_REQUEST['from_poste']);
+	  echo HtmlInput::hidden('from_poste',$_REQUEST['from_poste']);
 
 	if (isset($_REQUEST['to_poste'])) 
-	  echo $hid->input('to_poste',$_REQUEST['to_poste']);
+	  echo HtmlInput::hidden('to_poste',$_REQUEST['to_poste']);
 
         if (isset($_REQUEST['poste_id'])) 
-	  echo $hid->input("poste_id",$_REQUEST['poste_id']);
+	  echo HtmlInput::hidden("poste_id",$_REQUEST['poste_id']);
 
         if (isset($_REQUEST['poste_fille']))
             echo $hid->input('poste_fille','on');
@@ -494,10 +493,13 @@ class Acc_Account_Ledger
 	  $hid->input("to_periode",$_REQUEST['to_periode']);
 
 	if (isset($_REQUEST['from_poste'])) 
-	  echo $hid->input('from_poste',$_REQUEST['from_poste']);
+	  echo HtmlInput::hidden('from_poste',$_REQUEST['from_poste']);
 
 	if (isset($_REQUEST['to_poste'])) 
-	  echo $hid->input('to_poste',$_REQUEST['to_poste']);
+	  echo HtmlInput::hidden('to_poste',$_REQUEST['to_poste']);
+
+        if (isset($_REQUEST['poste_id'])) 
+	  echo HtmlInput::hidden("poste_id",$_REQUEST['poste_id']);
 
 	if ( isset($_REQUEST['letter'] )) echo HtmlInput::hidden('letter','2');
 	if ( isset($_REQUEST['solded'] )) echo HtmlInput::hidden('solded','1');
@@ -509,8 +511,9 @@ class Acc_Account_Ledger
         if (isset($_REQUEST['poste_id'])) echo $hid->input("poste_id",$_REQUEST['poste_id']);
 
         echo "</form></TD>";
+	echo '</tr>';
         echo "</table>";
-        echo '</div>';
+     
 
     }
     /*!

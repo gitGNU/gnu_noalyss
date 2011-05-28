@@ -173,7 +173,9 @@ if ( isset( $_REQUEST['bt_html'] ) )
         if ( ! isset($_REQUEST['oper_detail']) )
         {
             Acc_Account_Ledger::HtmlTableHeader();
+	    echo '<div class="content">';
             $Poste->HtmlTable(null,$_GET['ople']);
+	    echo '</div>';
             echo Acc_Account_Ledger::HtmlTableHeader();
         }
         else
@@ -182,9 +184,11 @@ if ( isset( $_REQUEST['bt_html'] ) )
             // Detail
             //----------------------------------------------------------------------
             Acc_Account_Ledger::HtmlTableHeader();
+
             $Poste->get_row_date( $_GET['from_periode'], $_GET['to_periode'],$_GET['ople']);
             if ( empty($Poste->row)) exit();
             $Poste->load();
+
             echo '<table class="result"  style="width:80%;margin-left:10%">';
             echo '<tr><td  class="mtitle" style="width:auto" colspan="6"><h2 class="info">'. $_GET['poste_id'].' '.h($Poste->label).'</h2></td></tr>';
             /* avoid duplicates */
@@ -201,6 +205,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
                 echo $op->display_jrnx_detail(1);
             }
             echo '</table>';
+
             echo Acc_Account_Ledger::HtmlTableHeader();
         }
         echo "</div>";
