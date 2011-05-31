@@ -454,7 +454,12 @@ class Database
     {
         $this->ret=$this->exec_sql($p_sql,$p_array);
         if ( pg_NumRows($this->ret) == 0 ) return "";
-        if ( pg_NumRows($this->ret) > 1 ) throw new Exception( "Attention $p_sql retourne plusieurs valeurs");
+        if ( pg_NumRows($this->ret) > 1 )
+	  {
+	    $array=pg_fetch_all($this->ret);
+          throw new Exception( "Attention $p_sql retourne ".pg_NumRows($this->ret)."  valeurs ".
+			       var_export($p_array,true)." values=".var_export($array,true));
+	  }
         $r=pg_fetch_row($this->ret,0);
         return $r[0];
 
