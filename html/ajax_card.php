@@ -73,8 +73,12 @@ foreach ($var as $v)
         $cont=1;
     }
 }
-if ( $cont != 0 ) exit();
 extract($_REQUEST );
+
+ajax_disconnected($ctl);
+
+if ( $cont != 0 ) exit();
+
 set_language();
 /*
  *echo a warning if disconnected

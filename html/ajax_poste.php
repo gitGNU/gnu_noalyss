@@ -51,6 +51,8 @@ foreach ($var as $v)
         $cont=1;
     }
 }
+ajax_disconnected($ctl);
+
 set_language();
 
 if ( $cont != 0 ) exit();

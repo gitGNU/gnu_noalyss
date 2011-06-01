@@ -53,20 +53,8 @@ $gDossier=dossier::id();
 /**
  *if $_SESSION['g_user'] is not set : echo a warning
  */
-if ( ! isset($_SESSION['g_user']))
-  {
-    $html=alert("Déconnecté",true);
-    $html=escape_xml($html);
-    header('Content-type: text/xml; charset=UTF-8');
-echo <<<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<data>
-<ctl>$div</ctl>
-<code>Déconnecté</code>
-</data>
-EOF;
-exit();
-  }
+ajax_disconnected($div);
+
 $cn=new Database(dossier::id());
 
 // check if the user is valid and can access this folder
