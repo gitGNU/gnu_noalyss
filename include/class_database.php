@@ -274,7 +274,7 @@ class Database
             if ( $flag_function )
             {
                 if ( strpos(strtolower($buffer), "language plpgsql") === false &&
-                        strpos(strtolower($buffer), "language 'plpgsql'") === false )
+                     strpos(strtolower($buffer), "language 'plpgsql'") === false )
                 {
                     $sql.=$buffer;
                     continue;
@@ -457,7 +457,7 @@ class Database
         if ( pg_NumRows($this->ret) > 1 )
 	  {
 	    $array=pg_fetch_all($this->ret);
-          throw new Exception( "Attention $p_sql retourne ".pg_NumRows($this->ret)."  valeurs ".
+	    throw new Exception( "Attention $p_sql retourne ".pg_NumRows($this->ret)."  valeurs ".
 			       var_export($p_array,true)." values=".var_export($array,true));
 	  }
         $r=pg_fetch_row($this->ret,0);
