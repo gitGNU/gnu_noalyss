@@ -126,15 +126,20 @@ class Database
             $this->sql=$p_string;
             $this->array=$p_array;
 
-            if ( $p_array==null )
+           if ( $p_array==null )
             {
-	      $PG_QUERY=(DEBUG==false)?'@pg_query':'pg_query';
-	      $this->ret=$PG_QUERY($this->db,$p_string);
+	      if ( ! DEBUG ) 
+		$this->ret=pg_query($this->db,$p_string);
+	      else
+		$this->ret=@pg_query($this->db,$p_string);
             }
             else
             {
-	      $PG_QUERY=(DEBUG==false)?'@pg_query_params':'pg_query_params';
-                $this->ret=$PG_QUERY($this->db,$p_string,$p_array);
+	      if ( ! DEBUG ) 
+		$this->ret=pg_query_params($this->db,$p_string,$p_array);
+	      else
+		$this->ret=@pg_query_params($this->db,$p_string,$p_array);
+
             }
             if ( ! $this->ret )
             {
