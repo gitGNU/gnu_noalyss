@@ -38,7 +38,7 @@ $g_captcha=false;
 //$version_phpcompta=SVNINFO; 
 //define ("DEBUG",false);
 
-define ("DEBUG",true);
+define ("DEBUG",false);
 $version_phpcompta=4014;
 
 
