@@ -544,7 +544,7 @@ class @class_name@
                col_id=col_id.strip()
                col_type=col_type.strip()
                if col_type in ('float','integer','numeric','bigint') :
-                   verify_data_type+="if ( settype($this->"+col_id+",'float') == false )\n \
+                   verify_data_type+="if ( $this->"+col_id+"!== null && settype($this->"+col_id+",'float') == false )\n \
             throw new Exception('DATATYPE "+col_id+" $this->"+col_id+" non numerique');\n"
                    if col_type in ('date',' timestamp without time zone','timestamp with time zone'):
                        verify_data_type+=" if (isDate($this->"+col_id+") == null )\n \
