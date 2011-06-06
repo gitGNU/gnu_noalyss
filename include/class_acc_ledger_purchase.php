@@ -234,7 +234,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 {
                     $a=new Acc_Parm_Code($this->db,$key[1]);
                     if ( $this->db->count_sql('select pcm_val from tmp_pcmn where pcm_val=$1',array($a->p_value))==0)
-                        throw new Exception ($key._("ce code n'a pas de poste comptable, créez ce poste : [".$a->p_value."]"));
+                        throw new Exception ($key[1]._("ce code n'a pas de poste comptable, créez ce poste : [".$a->p_value."]"));
                 }
             }
 	    /*
