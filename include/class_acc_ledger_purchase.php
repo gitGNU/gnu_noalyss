@@ -225,32 +225,26 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
              "ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP"
             */
             foreach (array(
-                         array(ATTR_DEF_DEPENSE_NON_DEDUCTIBLE,'DNA'),
-                         array(ATTR_DEF_DEP_PRIV,'DEP_PRIV'),
-                         array(ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP,'TVA_DED_IMPOT'),
-                         array(ATTR_DEF_TVA_NON_DEDUCTIBLE,'TVA_DNA')) as $key)
-            {
-                if ( ! $fiche->empty_attribute($key[0]))
-                {
+			   array(ATTR_DEF_DEPENSE_NON_DEDUCTIBLE,'DNA',ATTR_DEF_ACCOUNT_ND),
+			   array(ATTR_DEF_DEP_PRIV,'DEP_PRIV',ATTR_DEF_ACCOUNT_ND_PERSO),
+			   array(ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP,'TVA_DED_IMPOT',ATTR_DEF_ACCOUNT_ND_TVA),
+			   array(ATTR_DEF_TVA_NON_DEDUCTIBLE,'TVA_DNA',ATTR_DEF_ACCOUNT_ND_TVA_ND)) as $key)
+	      {
+                if ( ! $fiche->empty_attribute($key[0]) &&  $fiche->empty_attribute($key[2]))
+		  {
                     $a=new Acc_Parm_Code($this->db,$key[1]);
                     if ( $this->db->count_sql('select pcm_val from tmp_pcmn where pcm_val=$1',array($a->p_value))==0)
-                        throw new Exception ($key._("ce code n'a pas de poste comptable, créez ce poste : [".$a->p_value."]"));
-                }
-            }
-	    /*
-	     * Check that the compensation entry does exist
-	     */
-	    foreach (array(ATTR_DEF_ACCOUNT_ND_TVA,ATTR_DEF_ACCOUNT_ND_TVA_ND,ATTR_DEF_ACCOUNT_ND_PERSO,ATTR_DEF_ACCOUNT_ND) as $nd)
-	      {
-		if ( ! $fiche->empty_attribute($nd))
+		      throw new Exception ($key[1]._("ce code n'a pas de poste comptable, créez ce poste : [".$a->p_value."]"));
+		  } 
+		if ( ! $fiche->empty_attribute($key[0]) &&  ! $fiche->empty_attribute($key[2]))
 		  {
-		    $nd_str=$fiche->strAttribut($nd);
+		    $nd_str=$fiche->strAttribut($key[2]);
 		    if ( $nd_str != '')
-		      {
+		      {	
 			$poste_nd=new Acc_Account_Ledger($this->db,$nd_str);
 			if ( $poste_nd->load() == false)
 			  {
-			    $nd_msg=sprintf(_("Pour la fiche %s, le compte %s n'existe pas"),
+			    $nd_msg=sprintf(_("Pour la fiche %s, le compte contrepartie %s n'existe pas"),
 					    $fiche->getName(),$poste_nd->id);
 			    $nd_msg=h($nd_msg);
 			    throw new Exception ($nd_msg);
@@ -258,7 +252,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 		      }
 		  }
 	      }
-            $nb++;
+	    $nb++;
         }
         if ( $nb == 0 )
             throw new Exception(_('Il n\'y a aucune marchandise'),12);
@@ -490,7 +484,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     $op->oa_group=$group;
                     $op->j_id=$j_id;
                     $op->oa_date=$e_date;
-		    echo $amount;
+
                     $op->oa_debit=($amount > 0 )?'t':'f';
                     $op->oa_description=FormatString($e_comm);
                     $op->save_form_plan($_POST,$i,$j_id);

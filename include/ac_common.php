@@ -695,8 +695,17 @@ function ajax_disconnected($div)
  */
 if ( ! isset($_SESSION['g_user']))
   {
-    $html=alert("Utilisateur déconnecté",true);
+    $script='var a=$("'.$div.'");a.style.height="70%";a.style.width="70%";';
+    $script.='a.style.top=posY-20+offsetY;a.style.left=posX+offsetX;';
+    $script=create_script($script);
+    $html=$script;
+    $html.=HtmlInput::anchor_close($div);
+    $html.='<div>';
+    $html.=h2('Données non disponibles','class="info" style="width:auto"');
+    $html.=h2('Veuillez vous reconnecter','');
+    $html.=alert("Déconnecté",true);
     $html=escape_xml($html);
+
     header('Content-type: text/xml; charset=UTF-8');
 echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>

@@ -125,13 +125,21 @@ class Database
 	  
             $this->sql=$p_string;
             $this->array=$p_array;
-            if ( $p_array==null )
+
+           if ( $p_array==null )
             {
-	      $this->ret=@pg_query($this->db,$p_string);
+	      if ( ! DEBUG ) 
+		$this->ret=pg_query($this->db,$p_string);
+	      else
+		$this->ret=@pg_query($this->db,$p_string);
             }
             else
             {
-                $this->ret=@pg_query_params($this->db,$p_string,$p_array);
+	      if ( ! DEBUG ) 
+		$this->ret=pg_query_params($this->db,$p_string,$p_array);
+	      else
+		$this->ret=@pg_query_params($this->db,$p_string,$p_array);
+
             }
             if ( ! $this->ret )
             {
@@ -274,7 +282,7 @@ class Database
             if ( $flag_function )
             {
                 if ( strpos(strtolower($buffer), "language plpgsql") === false &&
-                        strpos(strtolower($buffer), "language 'plpgsql'") === false )
+                     strpos(strtolower($buffer), "language 'plpgsql'") === false )
                 {
                     $sql.=$buffer;
                     continue;
@@ -454,7 +462,12 @@ class Database
     {
         $this->ret=$this->exec_sql($p_sql,$p_array);
         if ( pg_NumRows($this->ret) == 0 ) return "";
-        if ( pg_NumRows($this->ret) > 1 ) throw new Exception( "Attention $p_sql retourne plusieurs valeurs");
+        if ( pg_NumRows($this->ret) > 1 )
+	  {
+	    $array=pg_fetch_all($this->ret);
+	    throw new Exception( "Attention $p_sql retourne ".pg_NumRows($this->ret)."  valeurs ".
+			       var_export($p_array,true)." values=".var_export($array,true));
+	  }
         $r=pg_fetch_row($this->ret,0);
         return $r[0];
 
