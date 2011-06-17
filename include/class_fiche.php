@@ -728,10 +728,11 @@ class Fiche
             foreach ($p_array as $name=>$value )
             {
                 /* avoid the button for searching an accounting item */
-                if ( $name=='av_text5_bt') continue;
-                list ($id) = sscanf ($name,"av_text%d");
-                if ( $id == null ) continue;
+	      if ( preg_match('/^av_text[0-9]+$/',$name) == 0) continue;
 
+	      list ($id) = sscanf ($name,"av_text%d");
+	      if ( $id == null ) continue;
+	      
                 // Special traitement
                 // quickcode
                 if ( $id == ATTR_DEF_QUICKCODE)
@@ -831,18 +832,21 @@ class Fiche
             // parse the $p_array array
             foreach ($p_array as $name=>$value )
             {
+		if ( preg_match('/^av_text[0-9]+$/',$name) == 0) continue;
+	      
                 list ($id) = sscanf ($name,"av_text%d");
+
                 if ( $id == null ) continue;
 
                 // retrieve jft_id to update table attr_value
                 $sql=" select jft_id from fiche_detail where ad_id=$id and f_id=$this->id";
                 $Ret=$this->cn->exec_sql($sql);
-                if ( Database::num_row($Ret) != 1 )
+                if ( Database::num_row($Ret) == 0 )
                 {
                     // we need to insert this new attribut
                     $jft_id=$this->cn->get_next_seq('s_jnt_fic_att_value');
 
-                    $sql2=sprintf("insert into fiche_detail(jft_id,ad_id,f_id,ad_value) values ($1,$2,$3,NULL)");
+                    $sql2="insert into fiche_detail(jft_id,ad_id,f_id,ad_value) values ($1,$2,$3,NULL)";
 
                     $ret2=$this->cn->exec_sql($sql2,array($jft_id,$id,$this->id));
 
@@ -956,23 +960,22 @@ class Fiche
                 }
                 if ( $id == ATTR_DEF_COMPANY )
                 {
-                    $exist=$this->cn->count_sql("select f_id from fiche join fiche_def using (fd_id) ".
+                    $exist=$this->cn->exec_sql("select f_id from fiche join fiche_def using (fd_id) ".
                                                 " join fiche_detail using (f_id)  ".
-                                                " where frd_id in (8,9,14) and ad_id=".ATTR_DEF_QUICKCODE.
-                                                " and ad_value='".FormatString($value)."'");
+                                                " where frd_id in (8,9,14) and ad_id=$1 ".
+                                                " and ad_value=upper($2)",
+					       array(ATTR_DEF_QUICKCODE,$value));
 
 
-                    if ( $exist == 0 && FormatString($value) != null )
+                    if ( Database::num_row($exist) == 0  && FormatString($value) != null )
                     {
                         $value="Attention : pas de société ";
                     }
                 }
 
                 // Normal traitement
-                $value2=FormatString($value);
-                $sql=sprintf("update fiche_detail set ad_value='%s' where jft_id=%d",
-                             trim($value2),$jft_id);
-                $this->cn->exec_sql($sql);
+                $sql="update fiche_detail set ad_value=upper($1) where jft_id=$2";
+		$this->cn->exec_sql($sql,array($value,$jft_id));
             }
         }
         catch (Exception $e )
