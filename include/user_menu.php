@@ -238,7 +238,6 @@ function ShowMenuAdvanced($default="")
                    
                             array('compta.php?p_action=stock&'.$str_dossier,'Stock',_("Gestion des stocks"),5),
                             array('user_advanced.php?p_action=defreport&'.$str_dossier,_('Rapport'),_("Rapport"),6),
-                            array('import.php?'.$str_dossier,_('Import Banque'),_("Banque"),7),
                             array('user_advanced.php?p_action=ouv&'.$str_dossier,_('Ecriture ouverture'),"",8),
                             array('user_advanced.php?p_action=verif&'.$str_dossier,_('Vérification'),"",10)
                         ),
