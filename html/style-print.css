@@ -240,4 +240,8 @@ a.detail:hover
 .ipop_card_fond {
 		display:none;
 }
+.num {
+	text-align:right;
+}
+
 /* </style> */

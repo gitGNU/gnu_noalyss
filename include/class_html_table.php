@@ -73,10 +73,10 @@ class Html_Table
   }
 @endcode
    */
-  static function sql2table($cn,$a_col,$sql,$table_style="result",$a_sql_var=null)
+  static function sql2table($cn,$a_col,$sql,$table_style='class="result"',$a_sql_var=null)
   {
     $r='';
-    $r=sprintf('<table style="%s">',$table_style);
+    $r=sprintf('<table %s>',$table_style);
     $r.='<tr>';
     for ( $i=0;$i <count($a_col);$i++)
       {
@@ -96,7 +96,7 @@ class Html_Table
 	  $r.= th($content);
       }
     $r.='</tr>';
-    $ret=$cn->exec_sql($sql);
+    $ret=$cn->exec_sql($sql,$a_sql_var);
     for ($i=0;$i<Database::num_row($ret);$i++)
       {
 	$r.='<tr>';

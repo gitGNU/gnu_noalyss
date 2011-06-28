@@ -536,6 +536,7 @@ class Anc_Operation
     function save_form_plan($p_array,$p_item,$j_id)
     {
         extract($p_array);
+	if (! isset ($hplan) ) return;
         /* variable for in array
            pa_id array of existing pa_id
            hplan double array with the pa_id (column)

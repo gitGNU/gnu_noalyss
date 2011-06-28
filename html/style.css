@@ -34,7 +34,7 @@ table.result th {
  
   color:#25238F;
   text-align: left;
-  	      background-color:#EDF3FF;
+  	     // background-color:#EDF3FF;
   	      
 	      font-style: italic;
 	      
@@ -941,4 +941,10 @@ div#search_form
               width:50%;
               display:none;
 	      background-color:#e4e7ed;
+}
+
+table.result td 
+{
+	padding-left:5px;
+	padding-right:5px;
 }

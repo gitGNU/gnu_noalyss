@@ -37,12 +37,12 @@ $g_captcha=false;
 
 $version_phpcompta=SVNINFO; 
 define ("DEBUG",false);
+/*
+define ("DEBUG",true);
+$version_phpcompta=4014;
+*/
 
-//define ("DEBUG",true);
-//$version_phpcompta=4014;
-
-
-define ("DBVERSION",95);
+define ("DBVERSION",97);
 define ("DBVERSIONREPO",13);
 define ('NOTFOUND','--not found--');
 

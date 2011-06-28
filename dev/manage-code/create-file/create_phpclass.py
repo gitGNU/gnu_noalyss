@@ -14,6 +14,8 @@
 # second line = pk
 
 import sys, getopt
+import pdb
+
 def help():
     print """
     option are -h for help
@@ -77,7 +79,7 @@ class @class_name@  @mother_class@
         
         if ( $p_id == -1 ) {
         /* Initialize an empty object */
-            foreach ($this->variable as $key=>$value) $this->$value='DEFAULT';
+            foreach ($this->variable as $key=>$value) $this->$value=null;
             $this->@id@=$p_id;
         } else {
          /* load it */
@@ -543,6 +545,7 @@ class @class_name@
                (col_id,col_type,default)=e.split('|')
                col_id=col_id.strip()
                col_type=col_type.strip()
+               verify_data_type+=" if ( trim($this->"+col_id+") == '') $this->"+col_id+"=null;\n"
                if col_type in ('float','integer','numeric','bigint') :
                    verify_data_type+="if ( $this->"+col_id+"!== null && settype($this->"+col_id+",'float') == false )\n \
             throw new Exception('DATATYPE "+col_id+" $this->"+col_id+" non numerique');\n"

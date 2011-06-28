@@ -912,3 +912,8 @@ div#search_form
               display:none;
 	      background-color:#e4e7ed;
 }
+table.result td 
+{
+	padding-left:5px;
+	padding-right:5px;
+}
