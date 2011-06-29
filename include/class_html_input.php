@@ -54,7 +54,6 @@
  *      - JS_SEARCH_ONLY like JS_SEARCH but without adding a quickcode
  *      - JS_LEDGER_CTRL like js_search_only but the tag to update is given
  *      - SPAN
- *      - JS_TVA        open a popup window for the VAT
  *      - JS_CONCERNED  open a popup window for search a operation, if extra == 0 then
  *                      get the amount thx javascript
  *      - js_DATE show a calendar

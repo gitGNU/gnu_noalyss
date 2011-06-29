@@ -184,28 +184,7 @@ define ("JS_CALC_LINE",'
 define ("JS_COMPUTE_ODS",
         "<SCRIPT language=\"javascript\" src=\"js/compute.js\">	</SCRIPT>");
 
-define ("JS_SHOW_TVA","<SCRIPT language=\"javascript\">
-        function ShowTva(p_dossier,ctl)
-        {
-        var win=window.open('show_tva.php?ctl='+ctl+'&gDossier='+p_dossier,'Montre','scrollbar,toolbar=no,width=300,height=300,resizable=yes');
-        }
-        function GetIt(ctl,tva_id) {
-        self.opener.SetValue(ctl,tva_id)
-        window.close();
-        }
-        </script>");
 
-define ("JS_TVA","<script  language=\"javascript\">
-        function ChangeTVA(p_ctl,p_value) {
-        if (document.getElementById(p_ctl) ) {
-        var f=document.getElementsByName(p_value);
-        for ( var i=0; i < f.length ; i++) {
-        document.getElementById(p_ctl).innerHTML=f[i].value;
-        }
-        }
-        }
-
-        </script>");
 define ("JS_AJAX_FICHE",'<script language="javascript" src="js/ajax_fiche.js"></script>');
 define ("JS_TODO",'<script language="javascript" src="js/todo_list.js"></script>');
 define ("JS_PROTOTYPE",'<script language="javascript" src="js/prototype.js"></script>');
