@@ -585,7 +585,7 @@ div.popup_back{
 	height:100%;
 	z-index:1;
 	/*background-color:lightgrey;*/
-	
+background-color: rgba(203, 203,203, 0.2);	
 	display:none;	
 }
 
