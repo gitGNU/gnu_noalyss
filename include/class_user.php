@@ -694,7 +694,7 @@ class User
              left outer join  jnt_use_dos using (use_id)
 	     left join priv_user on (priv_jnt=jnt_id)
               where
-              (dos_id=$1 or  use_admin=1) and use_active=1 and (use_admin=1 or priv_priv <> 'X') order by use_login,use_name";
+              (dos_id=$1 or  use_admin=1) and use_active=1 and (use_admin=1 or (priv_priv is not null and priv_priv <> 'X')) order by use_login,use_name";
 
 
         $repo=new Database();
