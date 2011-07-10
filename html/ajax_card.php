@@ -122,7 +122,8 @@ case 'rmfa':
 case 'dc':
     $f=new Fiche($cn);
     /* add title + close */
-    $html=HtmlInput::button_close($ctl);
+    $html="";
+    $html=HtmlInput::anchor_close($ctl);
     $html.=h2info('Détail fiche');
     if ( $qcode != '')
     {
@@ -176,7 +177,7 @@ case 'bc':
     if ( $user->check_action(FICADD)==1 )
     {
         $r='';
-	$r=HtmlInput::button_close($ctl);
+	$r=HtmlInput::anchor_close($ctl);
 	/* get cat. name */
 	$cat_name=$cn->get_value('select fd_label from fiche_def where fd_id=$1',
 				 array($fd_id));
@@ -244,7 +245,7 @@ case 'st':
             }
     }
     $array=$cn->make_array($sql);
-    $html=HtmlInput::button_close('select_card_div');
+    $html=HtmlInput::anchor_close('select_card_div');
     $html.=h2info('Choix de la catégorie');
     if ( empty($array))
     {

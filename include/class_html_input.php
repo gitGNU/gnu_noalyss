@@ -397,11 +397,12 @@ class HtmlInput
      */
     static function button_close($div_name)
     {
-    $html=' <div style="float:right;height:10px;display:block;margin-top:2px;margin-right:2px">';
+      $a=new IButton('Fermer','Fermer');
+      $a->label="Fermer";
+      $a->javascript="removeDiv('".$div_name."')";
+      $html=$a->input();
 
-    $html.= '<A style="background-color:blue;color:white;text-decoration:none" HREF="javascript:void(0)" onclick="removeDiv(\''.$div_name.'\');">Fermer</A>';
-    $html.='</div>';
-    return $html;
+      return $html;
 
     }
     /**
@@ -411,7 +412,7 @@ class HtmlInput
     static function anchor_close($div)
     {
 	$r='';
-	$r.='<div style="float:right">';
+	$r.='<div style="float:right;margin:2;">';
 	$r.= '<A style="background-color:blue;color:white;text-decoration:none" HREF="javascript:void(0)" onclick="removeDiv(\''.$div.'\');">Fermer</A>';
 	$r.='</div>';
 	return $r;

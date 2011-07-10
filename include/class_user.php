@@ -692,8 +692,11 @@ class User
     {
         $sql="select distinct use_id,use_login,use_first_name,use_name from ac_users
              left outer join  jnt_use_dos using (use_id)
-             where
-             (dos_id=$1 or  use_admin=1) and use_active=1 order by use_login,use_name";
+	     left join priv_user on (priv_jnt=jnt_id)
+              where
+              (dos_id=$1 or  use_admin=1) and use_active=1 and (use_admin=1  or priv_priv <> 'X') order by use_login,use_name";
+
+
         $repo=new Database();
         $array=$repo->get_array($sql,array($p_dossier));
         if ( $repo->size() == 0 ) throw new Exception ('Error inaccessible folder');

@@ -408,7 +408,7 @@ function select_card_type(obj)
         sx=document.body.scrollTop+60;
     }
 
-    var str_style="top:"+sx+";left:10%;width:80%;height:auto";
+    var str_style="top:"+sx+";left:25%;width:50%;height:auto";
 
     var popup={'id':  content,'cssclass':'op_detail','style':str_style,'html':loading(),'drag':true};
 
