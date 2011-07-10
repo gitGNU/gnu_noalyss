@@ -413,7 +413,7 @@ class HtmlInput
     static function anchor_close($div)
     {
 	$r='';
-	$r.='<div style="float:right">';
+	$r.='<div style="float:right;margin:2;">';
 	$r.= '<A style="background-color:blue;color:white;text-decoration:none" HREF="javascript:void(0)" onclick="removeDiv(\''.$div.'\');">Fermer</A>';
 	$r.='</div>';
 	return $r;
