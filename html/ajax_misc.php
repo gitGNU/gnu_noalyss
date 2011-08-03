@@ -173,7 +173,7 @@ case 'dsp_tva':
     $Res=$cn->exec_sql("select * from tva_rate order by tva_rate desc");
     $Max=Database::num_row($Res);
     $r="";
-    $r=HtmlInput::button_close('tva_select');
+    $r=HtmlInput::anchor_close('tva_select');
     $r.=h2info('Choississez la TVA ');
     $r.='<div >';
     $r.= '<TABLE style="padding-left:10%;padding-right:10%;width:80%">';
