@@ -61,13 +61,7 @@
 // If double click call the javascript fill_ipopcard
   $W1->set_dblclick("fill_ipopcard(this);");
  
-// This attribute is mandatory, it is the name of the IPopup
-  $W1->set_attribute('ipopup','ipopcard');
- 
- // name of the field to update with the name of the card
-  $W1->set_attribute('label','e_client_label');
- 
-  // Type of card : deb, cred,
+  // Type of card : deb, cred or all
   $W1->set_attribute('typecard','deb');
  
   $W1->extra='deb';
@@ -81,10 +75,14 @@
 // when the data change
   $W1->javascript=sprintf(' onchange="fill_data_onchange(\'%s\');" ',
 	    $W1->name);
-  $f_client_qcode=$W1->input();
+
+ // name of the field to update with the name of the card
+  $W1->set_attribute('label','e_client_label');
   $client_label=new ISpan();
   $client_label->table=0;
   $f_client=$client_label->input("e_client_label",$e_client_label);
+
+  $f_client_qcode=$W1->input();
  
 // Search button for card
   $f_client_bt=$W1->search(); 
@@ -92,18 +90,9 @@
 For searching a card, you need a popup, the script card.js and set
 the values for card, popup filter_card callback
 @code
-echo JS_CARD;
- 
- 
-$search_card=new IPopup('ipop_card');
-$search_card->title=_('Recherche de fiche');
-$search_card->value='';
-echo $search_card->input();
- 
 $card=new ICard('acc');
 $card->name="acc";
 $card->extra="all";
-$card->set_attribute('popup','ipopcard');
 $card->set_attribute('typecard','all');
 $card->set_callback('filter_card');
  
@@ -159,6 +148,7 @@ class ICard extends HtmlInput
     }
     /*!\brief return the html string for creating the ipopup, this ipopup
      * can be used for adding, modifying or display a card
+     *@note ipopup is obsolete, the popin is created by javascript
      *\param $p_name name of the ipopup, must be set after with set_attribute
     \code
       $f_add_button=new IButton('add_card');
