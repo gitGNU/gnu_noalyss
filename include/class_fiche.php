@@ -580,7 +580,7 @@ class Fiche
                     $w->set_attribute('ipopup','ipop_account');
                     $w->set_attribute('account',"av_text".$r->ad_id);
                     //  account created automatically
-                    $w->table=1;
+                    $w->table=0;
                     //  account created automatically
                     $sql="select account_auto($this->fiche_def)";
                     $ret_sql=$this->cn->exec_sql($sql);
@@ -643,7 +643,7 @@ class Fiche
 		      $w=new IPoste("av_text".$r->ad_id);
 		      $w->set_attribute('ipopup','ipop_account');
 		      $w->set_attribute('account',"av_text".$r->ad_id);
-		      $w->table=1;
+		      $w->table=0;
 		      $bulle=HtmlInput::infobulle(14);
 		      break;
 		    case 'card':
