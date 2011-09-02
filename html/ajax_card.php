@@ -279,7 +279,7 @@ case 'st':
      *
      ----------------------------------------------------------------------*/
 case 'sc':
-  $html=HtmlInput::button_close($ctl);
+  $html=HtmlInput::anchor_close($ctl);
   $html.=h2info('Nouvelle fiche');
     if ( $user->check_action(FICADD)==1 )
     {
