@@ -974,7 +974,7 @@ class Fiche
                 }
 
                 // Normal traitement
-                $sql="update fiche_detail set ad_value=upper($1) where jft_id=$2";
+                $sql="update fiche_detail set ad_value=$1 where jft_id=$2";
 		$this->cn->exec_sql($sql,array($value,$jft_id));
             }
         }
