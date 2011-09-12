@@ -114,6 +114,7 @@ echo '<div class="content">';
 $cal=new Calendar();
 $cal->get_preference();
 $Ledger=new Acc_Ledger($cn,0);
+$last_ledger=array();
 if ( $user->check_action(GESTION)==1)
   {
     $Operation=new Action($cn);
