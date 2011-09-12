@@ -35,11 +35,8 @@ $g_captcha=false;
 /*set to none for production */
 /* uncomment for production */
 
-//$version_phpcompta=SVNINFO; 
-//define ("DEBUG",false);
-
-define ("DEBUG",true);
-$version_phpcompta=4014;
+$version_phpcompta=SVNINFO; 
+define ("DEBUG",false);
 
 define ("DBVERSION",97);
 define ("DBVERSIONREPO",13);
