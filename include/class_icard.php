@@ -21,12 +21,12 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file
- * \brief Input HTML for the card show buttons, in the file, you have to add JS_CARD
+ * \brief Input HTML for the card show buttons
  *
  */
 
 /*!
- * \brief Input HTML for the card show buttons, in the file, you have to add JS_CARD
+ * \brief Input HTML for the card show buttons, in the file, you have to add card.js
  * How to use :
  * - label is the label in the button
  * - extra contents the type (all, deb or cred, a list of FD_ID between parent.  or a SQL clause
