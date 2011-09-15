@@ -22,7 +22,7 @@
 /*! \file
  * \brief This file show a little online calculator, in the caller
  *        the span id result, listing, the id form calc_line and the
- *        input id inp must exist see constant.php JS_CALC_LINE
+ *       
  *
  */
 var p_history="";

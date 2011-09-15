@@ -28,6 +28,8 @@ include_once("ac_common.php");
 require_once('class_database.php');
 require_once ('class_dossier.php');
 require_once('class_html_input.php');
+require_once ('function_javascript.php');
+load_all_script();
 
 if ( ! file_exists('authorized_debug') )
 {
@@ -144,7 +146,6 @@ case 17:
 case 18:
     require_once('class_todo_list.php');
     require_once ('constant.php');
-    echo JS_PROTOTYPE;
     Todo_List::test_me();
     echo '<script src="js/todo_list.js"></script>';
     echo '<form method="get">';
@@ -181,14 +182,10 @@ case 23:
 case 24:
     require_once('class_icard.php');
     require_once ('constant.php');
-    echo JS_PROTOTYPE;
-    echo JS_AJAX_FICHE;
-    echo JS_CARD;
     ICard::test_me();
     break;
 case 25:
     require_once('class_acc_ledger.php');
-    echo JS_PROTOTYPE;
 
     Acc_Ledger::test_me('search');
     break;
@@ -250,9 +247,6 @@ case 28:
     break;
 case 29:
     require_once('class_itva_popup.php');
-    echo JS_PROTOTYPE;
-    echo JS_AJAX_FICHE;
-    echo JS_CARD;
     echo js_include('scripts.js');
     echo js_include('scriptaculous.js');
     echo js_include('effects.js');
