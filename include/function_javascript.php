@@ -2741,7 +2741,6 @@ function load_all_script()
     echo js_include('acc_report.js');
     echo js_include('ajax_fiche.js');
     echo js_include('anc_script.js');
-    echo js_include('bq_import.js');
     echo js_include('builder.js');
     echo js_include('calc.js');
     echo js_include('card.js');
