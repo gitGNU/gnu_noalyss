@@ -55,6 +55,14 @@ class ICheckBox extends HtmlInput
         return $r;
 
     }
+    /**
+     *set selected to true (checked) if the value equal the parameter
+     * @param $p_value value to compare
+     */
+    public function set_check($p_value)
+        {
+        if ($this->value==$p_value)$this->selected=true;
+        }
     static public function test_me()
     {
     }
