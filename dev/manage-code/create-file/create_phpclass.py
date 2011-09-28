@@ -146,9 +146,7 @@ class @class_name@  @mother_class@
      $oobj=new @class_name@ ($this->cn);
      $array=Database::fetch_array($p_ret,$idx);
      foreach ($array as $idx=>$value) { $oobj->$idx=$value; }
-     $aobj[]=clone $oobj;
-
-     return $aobj;
+     return $oobj;
    }
   public function insert() {
     if ( $this->verify() != 0 ) return;
