@@ -315,9 +315,6 @@ class Acc_Bilan
                 continue;
             // buffer contains a formula A$=....
             // We need to eval it
-            //myereg("\\$[a-zA-Z]+[0-9]*=",$buffer,$e);
-            //  echo $e[0];
-            //echo "<br>".$form;
             $a=ParseFormula($this->db,"$buffer",$buffer,$this->from,$this->to,false);
             $b=str_replace("$","\$this->",$a);
             if ( eval("$b;") === false )

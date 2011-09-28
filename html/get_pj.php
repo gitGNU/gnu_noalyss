@@ -46,7 +46,7 @@ foreach (array('l','gDossier') as $a)
     }
 
 }
-if ( myereg('^[0-9]+$',$l) == false )
+if ( is_integer($l) == false  )
 {
     exit();
 }

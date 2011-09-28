@@ -644,37 +644,7 @@ function format_date ($p_date)
     $str_date=$date[2].'.'.$date[1].'.'.$date[0];
     return $str_date;
 }
-/**
- *@brief ereg is not supported from the version 5.3 and is marked as
- *obsolete, this function will call preg_match and returns
- * false is nothing is found or the length of the string found
- *@param  
- *@param
- *@return
- *@see
- */
-function myereg($p_pattern,$p_string,&$p_array=null)
-{
-    $version=phpversion();
-    if ( substr($version,0,3) == '5.2' )
-    {
-        /* mimic old ereg */
-        return ereg($p_pattern,$p_string,$p_array);
-    }
-    else
-    {
-        /* use the new preg_match */
-        /**
-         *@todo ereg are obsolete from the version 5.3.0
-         * we have to emulate it 
-         */
-        /*      $a=preg_match_all($p_pattern,$p_string,$p_array);
-        if ( $a == 0 ) return false;
-        return true;*/
-        $a=@ereg($p_pattern,$p_string,$p_array);
-        return $a;
-    }
-}
+
 /**
  *@brief remove the quote or double quote them
  *@param $q string

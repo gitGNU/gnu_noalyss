@@ -193,7 +193,7 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_
  */
 function CheckFormula($p_string)
 {
-    // the myereg gets too complex if we want to add a test
+    // the preg_match gets too complex if we want to add a test
     // for parenthesis, math function...
     // So I prefer remove them before testing
     $p_string=str_replace("round","",$p_string);
