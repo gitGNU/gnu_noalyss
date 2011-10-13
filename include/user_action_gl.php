@@ -54,12 +54,7 @@ $offset=(isset($_GET['offset']))?$_GET['offset']:0;
 $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
 
-echo HtmlInput::hidden("p_action",$_REQUEST['p_action']);
-if (isset($_REQUEST['sa'])) echo HtmlInput::hidden("sa",$_REQUEST['sa']);
-if (isset($_REQUEST['sb'])) echo HtmlInput::hidden("sb",$_REQUEST['sb']);
-if (isset($_REQUEST['sc'])) echo HtmlInput::hidden("sc",$_REQUEST['sc']);
-if (isset($_REQUEST['f_id'])) echo HtmlInput::hidden("f_id",$_REQUEST['f_id']);
-
+echo HtmlInput::request_to_hidden(array('sa','sb','sc','f_id','p_action'));
 
 echo dossier::hidden();
 echo $bar;

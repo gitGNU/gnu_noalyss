@@ -41,7 +41,7 @@ require_once ('class_acc_account.php');
 require_once('ac_common.php');
 require_once('class_inum.php');
 require_once('class_lettering.php');
-
+require_once 'class_sort_table.php';
 /*!\file
 * \brief Class for jrn,  class acc_ledger for manipulating the ledger
 */
@@ -110,7 +110,7 @@ class Acc_Ledger
     }
     /**
      *let you delete a operation
-     *@note by cascade it will delete also in 
+     *@note by cascade it will delete also in
      * - jrnx
      * - stock
      * - quant_purchase
@@ -134,7 +134,7 @@ class Acc_Ledger
     }
     /**
      * reverse the operation by creating the opposite one,
-     * the result is to avoid it 
+     * the result is to avoid it
      * it must be done in
      * - jrn
      * - jrnx
@@ -594,87 +594,40 @@ class Acc_Ledger
         $amount_unpaid=0.0;
         $limit=($_SESSION['g_pagesize']!=-1)?" LIMIT ".$_SESSION['g_pagesize']:"";
         $offset=($_SESSION['g_pagesize']!=-1)?" OFFSET ".Database::escape_string($offset):"";
-        $order="  order by jr_date_order asc,jr_internal asc";
         // Sort
-        $url=CleanUrl();
+        $url=basename($_SERVER['SCRIPT_NAME']).'?'.CleanUrl();
         $str_dossier=dossier::get();
-        $image_asc='<IMAGE SRC="image/down.gif" border="0" >';
-        $image_desc='<IMAGE SRC="image/up.gif" border="0">';
-        $image_sel_desc='<IMAGE SRC="image/select1.gif">';
-        $image_sel_asc='<IMAGE SRC="image/select2.gif">';
 
-        $sort_date="<th>  <A class=\"mtitle\" HREF=\"?$url&o=da\">$image_asc</A>"._('Date')."<A class=\"mtitle\" HREF=\"?$url&o=dd\">$image_desc</A></th>";
-        $sort_description="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ca\">$image_asc</A>"._('Description')."<A class=\"mtitle\" HREF=\"?$url&o=cd\">$image_desc</A></th>";
-        $sort_amount="<th style=\"text-align:right\">  <A class=\"mtitle\" HREF=\"?$url&o=ma\">$image_asc</A>"._('Montant')." <A class=\"mtitle\" HREF=\"?$url&o=md\">$image_desc</A></th>";
-        $sort_pj="<th>  <A class=\"mtitle\" HREF=\"?$url&o=pja\">$image_asc</A>"._('PJ')."<A class=\"mtitle\" HREF=\"?$url&o=pjd\">$image_desc</A></th>";
-        $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>"._('Ech')." <A class=\"mtitle\" HREF=\"?$url&o=ed\">$image_desc</A> </th>";
+	$sort=new Sort_Table();
+	$sort->add(_('Date'),
+		    $url,
+		' order by jr_date_order asc,substring(jr_pj_number,\'\\\d+$\')::numeric asc  ',
+		' order by jr_date_order desc,substring(jr_pj_number,\'\\\d+$\')::numeric desc  ','da','dd');
+	$sort->add(_('Echéance'),
+		    $url,
+		' order by jr_ech asc,substring(jr_pj_number,\'\\\d+$\')::numeric asc  ',
+		' order by jr_ech desc,substring(jr_pj_number,\'\\\d+$\')::numeric desc  ','ea','ed');
+	$sort->add(_('Pièce'),
+		    $url,
+		' order by substring(jr_pj_number,\'\\\d+$\')::numeric asc  ',
+		' order by substring(jr_pj_number,\'\\\d+$\')::numeric desc  ','pa','pd');
+	$sort->add(_('Description'),
+		    $url,
+		' order by jr_comment asc  ',
+		' order by jr_comment desc  ','dsa','dsd');
+	$sort->add(_('Montant'),
+		    $url,
+		' order by jr_montant asc  ',
+		' order by jr_montant desc  ','ma','md');
 
-        $own=new Own($this->db);
-        // if an order is asked
-        if ( isset ($_GET['o']) )
-        {
-            switch ($_GET['o'])
-            {
-            case 'pja':
-                // pj asc
-                $sort_pj="<th>$image_sel_asc PJ <A class=\"mtitle\" HREF=\"?$url&o=pjd\">$image_desc</A></th>";
-                $order=' order by  substring(jr_pj_number,\'\\\d+$\')::numeric asc ';
-                break;
-            case 'pjd':
-                $sort_pj="<th> <A class=\"mtitle\" HREF=\"?$url&o=pja\">$image_asc</A> PJ $image_sel_desc</th>";
-                // pj desc
-                $order=' order by  substring(jr_pj_number,\'\\\d+$\')::numeric desc ';
-                break;
+	$sort->add(_('Journal'),
+		    $url,
+		' order by jrn_def_name asc  ',
+		' order by jrn_def_name desc  ','la','ld');
 
-            case 'da':
-                // date asc
-                $sort_date="<th>$image_sel_asc Date <A class=\"mtitle\" HREF=\"?$url&o=dd\">$image_desc</A></th>";
-                $order=' order by jr_date_order asc,substring(jr_pj_number,\'\\\d+$\')::numeric asc  ';
-                break;
-            case 'dd':
-                $sort_date="<th> <A class=\"mtitle\" HREF=\"?$url&o=da\">$image_asc</A> Date $image_sel_desc</th>";
-                // date desc
-                $order=' order by jr_date_order desc,substring(jr_pj_number,\'\\\d+$\')::numeric desc  ';
-                break;
-            case 'ma':
-                // montant asc
-                $sort_amount="<th style=\"text-align:right\"> $image_sel_asc Montant <A class=\"mtitle\" HREF=\"?$url&o=md\">$image_desc</A></th>";
-                $order=" order by jr_montant asc ";
-                break;
-            case 'md':
-                // montant desc
-                $sort_amount="<th style=\"text-align:right\">  <A class=\"mtitle\"  HREF=\"?$url&o=ma\">$image_asc</A>Montant $image_sel_desc</th>";
-                $order=" order by jr_montant desc ";
-                break;
-            case 'ca':
-                // jr_comment asc
-                $sort_description="<th> $image_sel_asc Description <A class=\"mtitle\" HREF=\"?$url&o=cd\">$image_desc</A></th>";
-                $order=" order by jr_comment asc ";
-                break;
-            case 'cd':
-                // jr_comment desc
-                $sort_description="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ca\">$image_asc</A>Description $image_sel_desc</th>";
-                $order=" order by jr_comment desc ";
-                break;
-            case 'ea':
-                // jr_comment asc
-                $sort_echeance="<th> $image_sel_asc Ech. <A class=\"mtitle\" HREF=\"?$url&o=ed\">$image_desc</A></th>";
-                $order=" order by jr_ech asc ";
-                break;
-            case 'ed':
-                // jr_comment desc
-                $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A> Ech. $image_sel_desc</th>";
-                $order=" order by jr_ech desc ";
-                break;
+	$ord=(isset($_GET['ord']))?$_GET['ord']:'da';
 
-            }
-        }
-        else
-        {
-            // date asc
-            $sort_date="<th>$image_sel_asc Date <A class=\"mtitle\" HREF=\"?$url&o=dd\">$image_desc</A></th>";
-            $order=" order by jr_date_order asc,substring(jr_pj_number,'\\d+$')::numeric asc ";
-        }
+	$order=$sort->get_sql_order($ord);
 
         // Count
         $count=$this->db->count_sql($sql);
@@ -701,15 +654,16 @@ class Acc_Ledger
         $r.="<th>Internal</th>";
         if ( $this->type=='')
         {
-            $r.=th('Journal');
+            $r.='<th>'.$sort->get_header(5).'</td>';
         }
-        $r.=$sort_date;
-        $r.=$sort_echeance;
-        $r.=$sort_pj;
+        $r.='<th>'.$sort->get_header(0).'</th>';
+        $r.='<th>'.$sort->get_header(1).'</th>';
+        $r.='<th>'.$sort->get_header(2).'</th>';
 	$r.=th('tiers');
-        $r.=$sort_description;
+        $r.='<th>'.$sort->get_header(3).'</th>';
+
 	$r.=th('Notes',' style="width:15%"');
-        $r.=$sort_amount;
+        $r.='<th>'.$sort->get_header(4).'</th>';
         // if $p_paid is not equal to 0 then we have a paid column
         if ( $p_paid != 0 )
         {
@@ -733,27 +687,6 @@ class Acc_Ledger
             //internal code
             // button  modify
             $r.="<TD>";
-            // If url contains
-            //
-
-            $href=basename($_SERVER['PHP_SELF']);
-            switch ($href)
-            {
-                // user_jrn.php
-            case 'compta.php':
-                $vue="S"; //Expert View
-                break;
-            case 'commercial.php':
-                $vue="S"; //Simple View
-                break;
-            case 'recherche.php':
-                $vue=(isset($_GET['expert']))?'E':'S';
-                break;
-            default:
-                echo_error('user_form_ach.php',__LINE__,'Erreur invalid request uri');
-                exit (-1);
-            }
-            //DEBUG
 
             $r.=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s </A>',
                         $row['jr_id'], $gDossier, $row['jr_internal']);
@@ -792,7 +725,7 @@ class Acc_Ledger
             {
                 $positive = $this->db->get_value("select qf_amount from quant_fin where jr_id=$1",
                                                  array($row['jr_id']));
-		if ( $this->db->count() != 0) 
+		if ( $this->db->count() != 0)
 		  $positive=($positive < 0)?1:0;
             }
             $r.="<TD align=\"right\">";
@@ -1149,7 +1082,7 @@ class Acc_Ledger
      * writing, reading or simply accessing.
      * \param $p_type = ALL or the type of the ledger (ACH,VEN,FIN,ODS)
      * \param $p_access =3 for READ and WRITE, 2 for write and 1 for readonly
-     * \return     object HtmlInput select 
+     * \return     object HtmlInput select
      */
     function select_ledger($p_type="ALL",$p_access=3)
     {
@@ -2520,10 +2453,10 @@ class Acc_Ledger
         }
     }
     /**
-     *@brief retrieve operation from  jrn 
-     *@param $p_from periode (id) 
+     *@brief retrieve operation from  jrn
+     *@param $p_from periode (id)
      *@param $p_to periode (id)
-     *@return an array 
+     *@return an array
      */
     function get_operation($p_from,$p_to)
     {
@@ -2644,17 +2577,17 @@ class Acc_Ledger
     'vat' => string '21.7600' (length=7)
     'priv' => string '0.0000' (length=6)
     'tva_nd_recup' => string '0.0000' (length=6)
-    'tva' => 
+    'tva' =>
       array
-        0 => 
+        0 =>
           array
             'sum_vat' => string '13.7200' (length=7)
             'tva_id' => string '1' (length=1)
-        1 => 
+        1 =>
           array
             'sum_vat' => string '8.0400' (length=6)
             'tva_id' => string '3' (length=1)
-        2 => 
+        2 =>
           array
             'sum_vat' => string '0.0000' (length=6)
             'tva_id' => string '4' (length=1)
@@ -2858,7 +2791,7 @@ class Acc_Ledger
         return $r;
     }
     /**
-     *Retrieve the third : supplier for purchase, customer for sale, bank for fin, 
+     *Retrieve the third : supplier for purchase, customer for sale, bank for fin,
      *@param $p_jrn_type type of the ledger FIN, VEN ACH or ODS
      */
     function get_tiers($p_jrn_type,$jr_id)
