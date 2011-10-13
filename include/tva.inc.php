@@ -15,10 +15,10 @@
  *   You should have received a copy of the GNU General Public License
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/*! \file
+/* ! \file
  * \brief included file for customizing with the vat (account,rate...)
  */
 require_once('class_own.php');
@@ -27,101 +27,97 @@ require_once('class_ihidden.php');
 require_once('class_itextarea.php');
 echo '<div class="content">';
 // Confirm remove
-if ( isset ($_POST['confirm_rm']))
+if (isset($_POST['confirm_rm']))
 {
-    if ( $cn->count_sql('select * from tva_rate') > 1 )
-        $cn->exec_sql('select tva_delete($1)',array($_POST['tva_id']));
+    if ($cn->count_sql('select * from tva_rate') > 1)
+	$cn->exec_sql('select tva_delete($1)', array($_POST['tva_id']));
     else
-        echo '<p class="notice">Vous ne pouvez pas effacer tous taux'.
-        ' Si votre soci&eacute;t&eacute; n\'utilise pas la TVA, changer dans le menu soci&eacute;t&eacute</p>';
-
+	echo '<p class="notice">Vous ne pouvez pas effacer tous taux' .
+	' Si votre soci&eacute;t&eacute; n\'utilise pas la TVA, changer dans le menu soci&eacute;t&eacute</p>';
 }
 //-----------------------------------------------------
 // Record Change
-if ( isset ($_POST['confirm_mod'])
-        || isset ($_POST['confirm_add']))
+if (isset($_POST['confirm_mod'])
+	|| isset($_POST['confirm_add']))
 {
     extract($_POST);
     // remove space
-    $tva_poste=str_replace (" ","",$tva_poste);
-    $err=0; // Error code
+    $tva_poste = str_replace(" ", "", $tva_poste);
+    $err = 0; // Error code
 
-    if ( isNumber($tva_rate) == 0 )
+    if (isNumber($tva_rate) == 0)
     {
-        $err=2;
+	$err = 2;
     }
 
-    if ( $err == 0 )
+    if ($err == 0)
     {
-        if (  isset ($_POST['confirm_add']) )
-        {
-            $sql="select tva_insert($1,$2,$3,$4)";
+	if (isset($_POST['confirm_add']))
+	{
+	    $sql = "select tva_insert($1,$2,$3,$4)";
 
-            $res=$cn->exec_sql(
-                     $sql,
-                     array($tva_label,
-                           $tva_rate,
-                           $tva_comment,
-                           $tva_poste)
-                 );
-            $err=Database::fetch_result($res);
-        }
-        if (  isset ($_POST['confirm_mod']) )
-        {
-            $Res=$cn->exec_sql(
-                     "select tva_modify($tva_id,'$tva_label',
+	    $res = $cn->exec_sql(
+		    $sql, array($tva_label,
+		$tva_rate,
+		$tva_comment,
+		$tva_poste)
+	    );
+	    $err = Database::fetch_result($res);
+	}
+	if (isset($_POST['confirm_mod']))
+	{
+	    $Res = $cn->exec_sql(
+		    "select tva_modify($tva_id,'$tva_label',
                      '$tva_rate','$tva_comment','$tva_poste')");
-            $Res=$cn->exec_sql(
-                     "select tva_modify($1,$2,$3,$4,$5)",
-                     array($tva_id,$tva_label,$tva_rate,$tva_comment,$tva_poste)
-                 );
-            $err=Database::fetch_result($Res);
-        }
-
+	    $Res = $cn->exec_sql(
+		    "select tva_modify($1,$2,$3,$4,$5)", array($tva_id, $tva_label, $tva_rate, $tva_comment, $tva_poste)
+	    );
+	    $err = Database::fetch_result($Res);
+	}
     }
-    if ( $err != 0 )
+    if ($err != 0)
     {
-        $err_code=array(1=>"Tva id n\'est pas un nombre",
-                        2=>"Taux tva invalide",
-                        3=>"Label ne peut être vide",
-                        4=>"Poste invalide",
-                        5=>"Tva id doit être unique");
-        $str_err=$err_code[$err];
-        echo "<script>alert ('$str_err'); </script>";
-        ;
+	$err_code = array(1 => "Tva id n\'est pas un nombre",
+	    2 => "Taux tva invalide",
+	    3 => "Label ne peut être vide",
+	    4 => "Poste invalide",
+	    5 => "Tva id doit être unique");
+	$str_err = $err_code[$err];
+	echo "<script>alert ('$str_err'); </script>";
+	;
     }
 }
 // If company not use VAT
-$own=new Own($cn);
-if ( $own->MY_TVA_USE=='N' )
+$own = new Own($cn);
+if ($own->MY_TVA_USE == 'N')
 {
     echo '<h2 class="error"> Vous n\'êtes pas assujetti à la TVA</h2>';
     exit();
 }
 //-----------------------------------------------------
 // Display
-$sql="select tva_id,tva_label,tva_rate,tva_comment,tva_poste from tva_rate order by tva_label";
-$Res=$cn->exec_sql($sql);
+$sql = "select tva_id,tva_label,tva_rate,tva_comment,tva_poste from tva_rate order by tva_label";
+$Res = $cn->exec_sql($sql);
 ?>
 <TABLE>
-<TR>
-<th>Label</TH>
-<th>Taux</th>
-<th>Commentaire</th>
-<th>Poste</th>
-</tr>
+    <TR>
+	<th>Label</TH>
+	<th>Taux</th>
+	<th>Commentaire</th>
+	<th>Poste</th>
+    </tr>
 <?php
-$val=Database::fetch_all($Res);
-foreach ( $val as $row)
+$val = Database::fetch_all($Res);
+foreach ($val as $row)
 {
     // load value into an array
-    $index=$row['tva_id']     ;
-    $tva_array[$index]=array(
-                           'tva_label'=> $row['tva_label'],
-                           'tva_rate'=>$row['tva_rate'],
-                           'tva_comment'=>$row['tva_comment'],
-                           'tva_poste'=>$row['tva_poste']
-                       );
+    $index = $row['tva_id'];
+    $tva_array[$index] = array(
+	'tva_label' => $row['tva_label'],
+	'tva_rate' => $row['tva_rate'],
+	'tva_comment' => $row['tva_comment'],
+	'tva_poste' => $row['tva_poste']
+    );
 
     echo "<TR>";
     echo '<FORM METHOD="POST">';
@@ -129,7 +125,7 @@ foreach ( $val as $row)
 
 
     echo "<TD>";
-    echo HtmlInput::hidden('tva_id',$row['tva_id']);
+    echo HtmlInput::hidden('tva_id', $row['tva_id']);
     echo h($row['tva_label']);
     echo "</TD>";
 
@@ -146,19 +142,19 @@ foreach ( $val as $row)
     echo "</TD>";
 
     echo "<TD>";
-    echo HtmlInput::submit("rm" ,"Efface");
-    echo HtmlInput::submit("mod","Modifie");
-    $w=new IHidden();
-    $w->name="tva_id";
-    $w->value=$row['tva_id'];
+    echo HtmlInput::submit("rm", "Efface");
+    echo HtmlInput::submit("mod", "Modifie");
+    $w = new IHidden();
+    $w->name = "tva_id";
+    $w->value = $row['tva_id'];
     echo $w->input();
-    $w=new IHidden();
-    $w->name="p_action";
-    $w->value="divers";
+    $w = new IHidden();
+    $w->name = "p_action";
+    $w->value = "divers";
     echo $w->input();
-    $w=new IHidden();
-    $w->name="sa";
-    $w->value="tva";
+    $w = new IHidden();
+    $w->name = "sa";
+    $w->value = "tva";
     echo $w->input();
 
     echo "</TD>";
@@ -168,143 +164,150 @@ foreach ( $val as $row)
 }
 ?>
 </TABLE>
-<?php   // if we add / remove or modify a vat we don't show this button
-if (   ! isset ($_POST['add'])
-        &&   ! isset ($_POST['mod'])
-        &&   ! isset ($_POST['rm'])
-
-   )
-{
-    ?>
+    <?php
+    // if we add / remove or modify a vat we don't show this button
+    if (!isset($_POST['add'])
+	    && !isset($_POST['mod'])
+	    && !isset($_POST['rm'])
+    )
+    {
+	?>
     <form method="post">
-                 <input type="submit" class="button" name="add" value="Ajouter un taux de tva">
-                                                        <input type="hidden" name="p_action" value="divers">
-                                                                                  <input type="hidden" name="sa" value="tva">
-                                                                                                                       </form>
-                                                                                                                       <?php
-                                                                                                                   }
+        <input type="submit" class="button" name="add" value="Ajouter un taux de tva">
+        <input type="hidden" name="p_action" value="divers">
+        <input type="hidden" name="sa" value="tva">
+    </form>
+    <?php
+}
 
 
-                                                                                                       //-----------------------------------------------------
-                                                                                                       // remove
-                                                                                                       if ( isset ( $_REQUEST['rm']))
-                                                                                                       {
-                                                                                                           echo "Voulez-vous vraiment effacer ce taux ? ";
-                                                                                                           $index=$_POST['tva_id'];
+//-----------------------------------------------------
+// remove
+if (isset($_REQUEST['rm']))
+{
+    echo "Voulez-vous vraiment effacer ce taux ? ";
+    $index = $_POST['tva_id'];
+    ?>
+    <table>
+        <TR>
+    	<th>Label</TH>
+    	<th>Taux</th>
+    	<th>Commentaire</th>
+    	<th>Poste</th>
+        </tr>
+        <tr>
+    	<td> <?php echo $tva_array[$index]['tva_label'];?></td>
+    	<td> <?php echo $tva_array[$index]['tva_rate'];?></td>
+    	<td> <?php echo $tva_array[$index]['tva_comment'];?></td>
+    	<td> <?php echo $tva_array[$index]['tva_poste'];?></td>
+        </Tr>
+    </table>
+		<?php
+		echo '<FORM method="post">';
+		echo '<input type="hidden" name="tva_id" value="' . $index . '">';
+		echo HtmlInput::submit("confirm_rm", "Confirme");
+		echo HtmlInput::submit("Cancel", "no");
+		echo "</form>";
+	    }
+	    //-----------------------------------------------------
+	    // add
+	    if (isset($_REQUEST['add']))
+	    {
+		echo "<fieldset><legend>Ajout d'un taux de tva </legend>";
+		echo '<FORM method="post">';
+		?>
+    <table >
+        <tr> <td align="right"> Label (ce que vous verrez dans les journaux)</td>
+    	<td> <?php
+    $w = new IText();
+    $w->size = 20;
+    echo $w->input('tva_label', '')
+		?></td>
+        </tr>
+        <tr><td  align="right"> Taux de tva </td>
+    	<td> <?php
+    $w = new IText();
+    $w->size = 5;
+    echo $w->input('tva_rate', '')
+    ?></td>
+        </tr>
+        <tr>
+    	<td  align="right"> Commentaire </td>
+    	<td> <?php
+    $w = new ITextarea;
+    $w->heigh = 5;
+    $w->width = 50;
+    echo $w->input('tva_comment', '')
+		?></td>
+        </tr>
+        <tr>
+    	<td  align="right">Poste comptable utilisés format :debit,credit</td>
+    	<td> <?php
+	    $w = new IText();
+	    $w->size = 20;
+	    echo $w->input('tva_poste', '')
+	    ?></td>
+        </Tr>
+    </table>
+    <input type="submit" class="button" value="Confirme" name="confirm_add">
+    <input type="submit" class="button" value="Cancel" name="no">
 
-                                                                                                           ?>
-                                                                                                           <table>
-                                                                                                           <TR>
-                                                                                                           <th>Label</TH>
-                                                                                                           <th>Taux</th>
-                                                                                                           <th>Commentaire</th>
-                                                                                                           <th>Poste</th>
-                                                                                                           </tr>
-                                                                                                           <tr>
-                                                                                                           <td> <?php   echo $tva_array[$index]['tva_label'];
-                                                                                                           ?></td>
-                                                                                                           <td> <?php   echo $tva_array[$index]['tva_rate'];
-                                                                                                           ?></td>
-                                                                                                           <td> <?php   echo $tva_array[$index]['tva_comment'];
-                                                                                                           ?></td>
-                                                                                                           <td> <?php   echo $tva_array[$index]['tva_poste'];
-                                                                                                           ?></td>
-                                                                                                           </Tr>
-                                                                                                           </table>
-                                                                                                           <?php
-                                                                                                           echo '<FORM method="post">';
-                                                                                                           echo '<input type="hidden" name="tva_id" value="'.$index.'">';
-                                                                                                           echo HtmlInput::submit("confirm_rm" ,"Confirme");
-                                                                                                           echo HtmlInput::submit("Cancel" ,"no");
-                                                                                                           echo "</form>";
+    </FORM>
+    </fieldset>
+    <?php
+}
 
-                                                                                                       }
-                                                                                                       //-----------------------------------------------------
-                                                                                                       // add
-                                                                                                       if ( isset ( $_REQUEST['add']))
-                                                                                                       {
-                                                                                                           echo "<fieldset><legend>Ajout d'un taux de tva </legend>";
-                                                                                                           echo '<FORM method="post">';
+//-----------------------------------------------------
+// mod
+if (isset($_REQUEST['mod']))
+{
 
+    echo "Tva à modifier";
+    $index = $_POST['tva_id'];
+    echo "<fieldset><legend>Modification d'un taux de tva </legend>";
+    echo '<FORM method="post">';
+    echo '<input type="hidden" name="tva_id" value="' . $index . '">';
+    ?>
+    <table>
+        <tr> <td align="right"> Label (ce que vous verrez dans les journaux)</td>
+    	<td> <?php
+    $w = new Itext();
+    $w->size = 20;
+    echo $w->input('tva_label', $tva_array[$index]['tva_label'])
+    ?></td>
+        </tr>
+        <tr><td  align="right"> Taux de tva </td>
 
-                                                                                                           ?>
-                                                                                                           <table >
-                                                                                                           <tr> <td align="right"> Label (ce que vous verrez dans les journaux)</td>
-                                                                                                                          <td> <?php   $w=new IText();
-                                                                                                           $w->size=20;
-                                                                                                           echo $w->input('tva_label','') ?></td>
-                                                                                                           </tr>
-                                                                                                           <tr><td  align="right"> Taux de tva </td>
-                                                                                                                          <td> <?php   $w=new IText();
-                                                                                                           $w->size=5;
-                                                                                                           echo $w->input('tva_rate','') ?></td>
-                                                                                                           </tr>
-                                                                                                           <tr>
-                                                                                                           <td  align="right"> Commentaire </td>
-                                                                                                                      <td> <?php   $w=new ITextarea;
-                                                                                                           $w->heigh=5;
-                                                                                                           $w->width=50;
-                                                                                                           echo $w->input('tva_comment','') ?></td>
-                                                                                                           </tr>
-                                                                                                           <tr>
-                                                                                                           <td  align="right">Poste comptable utilisés format :debit,credit</td>
-                                                                                                                      <td> <?php   $w=new IText();
-                                                                                                           $w->size=20;
-                                                                                                           echo $w->input('tva_poste','') ?></td>
-                                                                                                           </Tr>
-                                                                                                           </table>
-                                                                                                           <input type="submit" class="button" value="Confirme" name="confirm_add">
-                                                                                                                                                  <input type="submit" class="button" value="Cancel" name="no">
+    	<td> <?php
+    $w = new Itext();
+    $w->size = 5;
+    echo $w->input('tva_rate', $tva_array[$index]['tva_rate'])
+    ?></td>
+        </tr>
+        <tr>
+    	<td  align="right"> Commentaire </td>
+    	<td> <?php
+	    $w = new ITextarea();
+	    $w->heigh = 5;
+	    $w->width = 50;
+	    echo $w->input('tva_comment', $tva_array[$index]['tva_comment'])
+	    ?></td>
+        </tr>
+        <tr>
+    	<td  align="right">Poste comptable utilisés format :debit,credit</td>
 
-                                                                                                                                                                                 </FORM>
-                                                                                                                                                                                 </fieldset>
-                                                                                                                                                                                 <?php
-                                                                                                                                                                             }
-
-                                                                                                                                                             //-----------------------------------------------------
-                                                                                                                                                             // mod
-                                                                                                                                                             if ( isset ( $_REQUEST['mod']))
-                                                                                                                                                             {
-
-                                                                                                                                                                 echo "Tva à modifier";
-                                                                                                                                                                 $index=$_POST['tva_id'];
-                                                                                                                                                                 echo "<fieldset><legend>Modification d'un taux de tva </legend>";
-                                                                                                                                                                 echo '<FORM method="post">';
-                                                                                                                                                                 echo '<input type="hidden" name="tva_id" value="'.$index.'">';
-                                                                                                                                                                 ?>
-                                                                                                                                                                 <table>
-                                                                                                                                                                 <tr> <td align="right"> Label (ce que vous verrez dans les journaux)</td>
-                                                                                                                                                                                <td> <?php   $w=new Itext();
-                                                                                                                                                                 $w->size=20;
-                                                                                                                                                                 echo $w->input('tva_label',$tva_array[$index]['tva_label']) ?></td>
-                                                                                                                                                                 </tr>
-                                                                                                                                                                 <tr><td  align="right"> Taux de tva </td>
-
-                                                                                                                                                                                <td> <?php   $w=new Itext();
-                                                                                                                                                                 $w->size=5;
-                                                                                                                                                                 echo $w->input('tva_rate',$tva_array[$index]['tva_rate']) ?></td>
-                                                                                                                                                                 </tr>
-                                                                                                                                                                 <tr>
-                                                                                                                                                                 <td  align="right"> Commentaire </td>
-                                                                                                                                                                            <td> <?php   $w=new ITextarea();
-                                                                                                                                                                 $w->heigh=5;
-                                                                                                                                                                 $w->width=50;
-                                                                                                                                                                 echo $w->input('tva_comment',$tva_array[$index]['tva_comment']) ?></td>
-                                                                                                                                                                 </tr>
-                                                                                                                                                                 <tr>
-                                                                                                                                                                 <td  align="right">Poste comptable utilisés format :debit,credit</td>
-
-                                                                                                                                                                            <td> <?php   $w=new IText();
-                                                                                                                                                                 $w->size=20;
-                                                                                                                                                                 echo $w->input('tva_poste',$tva_array[$index]['tva_poste']) ?></td>
-                                                                                                                                                                 </Tr>
-                                                                                                                                                                 </table>
-                                                                                                                                                                 <input type="submit" class="button" value="Confirme" name="confirm_mod">
-                                                                                                                                                                                                        <input type="submit" class="button" value="Cancel" name="no">
-                                                                                                                                                                                                                                       </FORM>
-                                                                                                                                                                                                                                       </fieldset>
-                                                                                                                                                                                                                                       <?php
-                                                                                                                                                                                                                                   }
-                                                                                                                                                                                                                   echo '</div>';
-
+    	<td> <?php
+	    $w = new IText();
+	    $w->size = 20;
+	    echo $w->input('tva_poste', $tva_array[$index]['tva_poste'])
+	    ?></td>
+        </Tr>
+    </table>
+    <input type="submit" class="button" value="Confirme" name="confirm_mod">
+    <input type="submit" class="button" value="Cancel" name="no">
+    </FORM>
+    </fieldset>
+    <?php
+}
+echo '</div>';
 ?>
