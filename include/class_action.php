@@ -20,7 +20,6 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.f
 require_once('class_itextarea.php');
 require_once("class_idate.php");
-require_once('class_itva_select.php');
 require_once("class_iselect.php");
 require_once("class_ihidden.php");
 require_once("class_itext.php");
@@ -89,17 +88,17 @@ class Action
     //----------------------------------------------------------------------
     /*!
      * \brief Display the object, the tags for the FORM
-     *        are in the caller. It will be used for adding and updating 
-     *        action 
+     *        are in the caller. It will be used for adding and updating
+     *        action
      *\note  If  ag_id is not equal to zero then it is an update otherwise
      *        it is a new document
      *
-     * \param $p_view if set to true the form will be in readonly mode (value: true or false) 
+     * \param $p_view if set to true the form will be in readonly mode (value: true or false)
      * \param $p_gen true we show the tag for generating a doc (value : true or false)
      *\param $p_base is the p_action parameter
      *\param $retour is the html code for the return button
      * \note  update the reference number or the document type is not allowed
-     *       
+     *
      *
      * \return string containing the html code
      */
@@ -568,7 +567,7 @@ class Action
     }
 
     /*!
-     * \brief Save the document and propose to save the generated document or  
+     * \brief Save the document and propose to save the generated document or
      *  to upload one, the data are included except the file. Temporary the generated
      * document is save
      *
@@ -870,7 +869,7 @@ class Action
 	    /*
 	     * State
 	     */
-	    switch ( $row['ag_state'] ) 
+	    switch ( $row['ag_state'] )
 	      {
 	      case 1:
 		$state='Fermé';
@@ -889,7 +888,7 @@ class Action
 	    /*
 	     * State
 	     */
-	    switch ( $row['ag_priority'] ) 
+	    switch ( $row['ag_priority'] )
 	      {
 	      case 1:
 		$priority='Haute';
