@@ -24,7 +24,6 @@
  * \brief class for the sold, herits from acc_ledger
  */
 require_once("class_iselect.php");
-require_once('class_itva_select.php');
 require_once("class_icard.php");
 require_once("class_ispan.php");
 require_once("class_ihidden.php");
@@ -182,8 +181,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 		 * check if the accounting for VAT are valid
 		 */
 		$a_poste=split(',',$tva_rate->tva_poste);
-		
-		if ( 
+
+		if (
 		    $this->db->get_value('select count(*) from tmp_pcmn where pcm_val=$1',array($a_poste[0])) == 0 ||
 		    $this->db->get_value('select count(*) from tmp_pcmn where pcm_val=$1',array($a_poste[1])) == 0 )
 		  throw new Exception(_(" La TVA ".$tva_rate->tva_label." utilise des postes comptables inexistants"));
@@ -563,17 +562,17 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 		/*
 		 * save also into quant_fin
 		 */
-		
+
 		/* get ledger property */
 		$ledger=new Acc_Ledger_Fin($this->db,$acc_pay->jrn);
 		$prop=$ledger->get_propertie();
-		
+
 		/* if ledger is FIN then insert into quant_fin */
 		if ( $prop['jrn_def_type'] == 'FIN' )
 		  {
 		    $ledger->insert_quant_fin($acfiche->id,$mp_jr_id,$cust->id,bcmul($cust_amount,1));
 		  }
-		
+
             }
 
         }
