@@ -54,10 +54,10 @@ class Own
     /*!
      **************************************************
      * \brief  save the parameter into the database by inserting or updating
-     *        
-     *  
+     *
+     *
      * \param $p_attr give the attribut name
-     * 
+     *
      */
     function save($p_attr)
     {
@@ -82,7 +82,7 @@ class Own
     /*!
      **************************************************
      * \brief  save data
-     *        
+     *
      *
      */
     function update()
@@ -103,6 +103,7 @@ class Own
         $this->save('MY_PJ_SUGGEST');
         $this->save('MY_CHECK_PERIODE');
         $this->save('MY_DATE_SUGGEST');
+        $this->save('MY_ALPHANUM');
 
 
     }

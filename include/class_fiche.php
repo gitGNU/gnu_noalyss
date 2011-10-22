@@ -71,7 +71,7 @@ class Fiche
    */
     function get_bk_account()
     {
-      
+
       $user=new User($this->cn);
       $sql_ledger=$user->get_ledger_sql('FIN',3);
       $avail=$this->cn->get_array("select jrn_def_id,jrn_def_bank from jrn_def where jrn_def_type='FIN' and $sql_ledger
@@ -105,7 +105,7 @@ class Fiche
         if ( $p_qcode == null )
             $p_qcode=$this->quick_code;
         $p_qcode=trim($p_qcode);
-        $sql="select f_id from fiche_detail 
+        $sql="select f_id from fiche_detail
              where ad_id=23 and ad_value=upper($1)";
         $this->id=$this->cn->get_value($sql,array($p_qcode));
         if ( $this->cn->count()==0)
@@ -149,8 +149,8 @@ class Fiche
             return;
         }
         $sql="select *
-             from 
-                   fiche 
+             from
+                   fiche
              natural join fiche_detail
 	     join jnt_fic_attr on (jnt_fic_attr.fd_id=fiche.fd_id and fiche_detail.ad_id=jnt_fic_attr.ad_id)
              join attr_def on (attr_def.ad_id=fiche_detail.ad_id) where f_id=".$this->id.
@@ -214,7 +214,7 @@ class Fiche
      */
     function seek($p_attribut,$p_value)
     {
-        $sql="select jft_id,f_id,fd_id,ad_id,ad_value from fiche join fiche_detail using (f_id) 
+        $sql="select jft_id,f_id,fd_id,ad_id,ad_value from fiche join fiche_detail using (f_id)
              where ad_id=$1 and upper(ad_value)=upper($2)";
         $res=$this->cn->get_array($sql,array($p_attribut,$p_value));
         return $res;
@@ -662,7 +662,7 @@ class Fiche
 		      $msg=$w->search();
 		      $msg.=$label->input();
 		      break;
-		    
+
                     default:
 		      var_dump($r);
 		      throw new Exception("Type invalide");
@@ -732,7 +732,7 @@ class Fiche
 
 	      list ($id) = sscanf ($name,"av_text%d");
 	      if ( $id == null ) continue;
-	      
+
                 // Special traitement
                 // quickcode
                 if ( $id == ATTR_DEF_QUICKCODE)
@@ -833,7 +833,7 @@ class Fiche
             foreach ($p_array as $name=>$value )
             {
 		if ( preg_match('/^av_text[0-9]+$/',$name) == 0) continue;
-	      
+
                 list ($id) = sscanf ($name,"av_text%d");
 
                 if ( $id == null ) continue;
@@ -905,8 +905,13 @@ class Fiche
                 if ( $id == ATTR_DEF_ACCOUNT )
                 {
                     $v=FormatString($value);
-                    if ( isNumber($v) == 1 || strpos($v,',') != 0  )
+                    if ( trim($v) != ''  )
                     {
+			if ( strpos($v,',') != 0)
+			{
+				$v=$this->cn->get_value('select format_account($1)',
+				    array($v));
+			}
                         $sql=sprintf("select account_update(%d,'%s')",
                                      $this->id,$v);
                         try
@@ -928,14 +933,6 @@ class Fiche
                         try
                         {
                             $Ret=$this->cn->exec_sql($sql);
-                            /* update also the jrnx  */
-
-                            /* The jrnx CANNOT BE UPDATED
-                                          $sql='update jrnx set j_poste=$1 where j_qcode in (select quick_code from vw_fiche_attr where f_id=$2)';
-                            $this->cn->exec_sql(
-                            $sql,
-                            array($v,$this->id));
-                            */
                         }
                         catch (Exception $e)
                         {
@@ -1248,7 +1245,7 @@ class Fiche
      * \brief HtmlTable, display a HTML of a card for the asked period
      * \param $p_array default = null keys = from_periode, to_periode
      *\param $op_let 0 all operation, 1 only lettered one, 2 only unlettered one
-     *\return -1 if nothing is found otherwise 0     
+     *\return -1 if nothing is found otherwise 0
      *\see get_row_date
      */
     function HtmlTable($p_array=null,$op_let=0,$from_div=1)
@@ -1461,7 +1458,7 @@ class Fiche
                                  ( select j_poste,
                                  case when j_debit='t' then j_montant else 0 end as deb,
                                  case when j_debit='f' then j_montant else 0 end as cred
-                                 from jrnx 
+                                 from jrnx
                                  join jrn on (jr_grpt_id=j_grpt)
                                  where
                                  j_qcode = ('$qcode'::text)
@@ -1476,7 +1473,7 @@ class Fiche
         return array('debit'=>$r['sum_deb'],
                      'credit'=>$r['sum_cred'],
                      'solde'=>abs($r['sum_deb']-$r['sum_cred']));
-    
+
     }
     /*!\brief check if an attribute is empty
      *\param $p_attr the id of the attribut to check (ad_id)
@@ -1589,7 +1586,7 @@ class Fiche
             $r.='<TD align="right"> '.(($amount['debit']==0)?0:nbm($amount['debit'])).'&euro;</TD>';
 	    $r.='<TD align="right"> '.(($amount['credit']==0)?0:nbm($amount['credit'])).'&euro;</TD>';
 	    $r.='<TD align="right"> '.nbm($amount['solde'])."&euro;</TD>";
-				      
+
 
             $r.="</TR>";
 
@@ -1747,7 +1744,7 @@ class Fiche
     {
         // Remove from attr_value
         $Res=$this->cn->exec_sql("delete from fiche_detail
-                                 where 
+                                 where
                                    f_id=".$this->id);
 
         // Remove from fiche

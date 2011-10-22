@@ -129,36 +129,36 @@ class Acc_Account_Ledger
 	    $filter=str_replace('jrn_def_id','jr_def_id',$filter_sql);
 	    $bal_sql="select sum(amount_deb) as s_deb,sum(amount_cred) as s_cred, j_poste from 						(select case when j_debit='t' then j_montant else 0 end as amount_deb,
 								case when j_debit='f' then j_montant else 0 end as amount_cred,
-								j_poste 
+								j_poste
 								from jrnx join jrn on (j_grpt = jr_grpt_id)
-								where 
+								where
 								j_poste=$1 and
 								$filter and
-								( to_date($2,'DD.MM.YYYY') <= j_date and 
+								( to_date($2,'DD.MM.YYYY') <= j_date and
                                   to_date($3,'DD.MM.YYYY') >= j_date  )) as signed_amount
 						group by j_poste
 						";
 	    $r=$this->db->get_array($bal_sql,array($this->id,$p_from,$p_to));
 	    if ( $this->db->count() == 0 ) return array();
-	    if ($r[0]['s_deb']==$r[0]['s_cred']) return array(); 
+	    if ($r[0]['s_deb']==$r[0]['s_cred']) return array();
 	  }
-        $Res=$this->db->exec_sql("select  jr_id,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,j_date,".
-                                 "case when j_debit='t' then j_montant else 0 end as deb_montant,".
-                                 "case when j_debit='f' then j_montant else 0 end as cred_montant,".
-                                 " jr_comment as description,jrn_def_name as jrn_name,".
-                                 "j_debit, jr_internal,jr_pj_number,
-								 coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter ".
-                                 ",pcm_lib ".
-				 ",jr_tech_per,p_exercice ".
-                                 " from jrnx left join jrn_def on (jrn_def_id=j_jrn_def )".
-                                 " left join jrn on (jr_grpt_id=j_grpt)".
-                                 " left join tmp_pcmn on (j_poste=pcm_val)".
-				 " left join parm_periode on (p_id=jr_tech_per) ".
-                                 " where j_poste=$1 and ".
-                                 " ( to_date($2,'DD.MM.YYYY') <= j_date and ".
-                                 "   to_date($3,'DD.MM.YYYY') >= j_date )".
-                                 " and $filter_sql  $sql_let ".
-                                 " order by j_date,substring(jr_pj_number,'\\\\d+$') asc",array($this->id,$p_from,$p_to));
+        $Res=$this->db->exec_sql("select  jr_id,to_char(j_date,'DDMMYYYY') as j_date_fmt,j_date,
+                                 case when j_debit='t' then j_montant else 0 end as deb_montant,
+                                 case when j_debit='f' then j_montant else 0 end as cred_montant,
+                                  jr_comment as description,jrn_def_name as jrn_name,
+                                 j_debit, jr_internal,jr_pj_number,
+				 coalesce(get_letter_jnt(j_id),-1) as letter
+                                 ,pcm_lib
+				 ,jr_tech_per,p_exercice
+                                  from jrnx left join jrn_def on (jrn_def_id=j_jrn_def )
+                                  left join jrn on (jr_grpt_id=j_grpt)
+                                  left join tmp_pcmn on (j_poste=pcm_val)
+				  left join parm_periode on (p_id=jr_tech_per)
+                                  where j_poste=$1 and
+                                  ( to_date($2,'DD.MM.YYYY') <= j_date and
+                                    to_date($3,'DD.MM.YYYY') >= j_date )
+                                  and $filter_sql  $sql_let
+                                  order by j_date,substring(jr_pj_number,'\\\\d+$') asc",array($this->id,$p_from,$p_to));
         return $this->get_row_sql($Res);
     }
 
@@ -240,7 +240,7 @@ class Acc_Account_Ledger
         if ($Max==0) return 0;
         $r=Database::fetch_array($Res,0);
 
-        return abs($r['sum_deb']-$r['sum_cred']);
+        return abs(bcsub($r['sum_deb'],$r['sum_cred']));
     }
     /*!
      * \brief   give the balance of an account
@@ -311,7 +311,7 @@ class Acc_Account_Ledger
     }
     /*!
      * \brief HtmlTable, display a HTML of a poste for the asked period
-     * \param $p_array array for filter 
+     * \param $p_array array for filter
      * \param $let lettering of operation 0
      * \return -1 if nothing is found otherwise 0
      */
@@ -381,7 +381,7 @@ class Acc_Account_Ledger
 	    $progress=bcadd($progress,$tmp_diff);
 	    $sum_cred=bcadd($sum_cred,$op['cred_montant']);
 	    $sum_deb=bcadd($sum_deb,$op['deb_montant']);
-	    
+
 	    echo "<TR>".
 	      "<TD>".format_date($op['j_date'])."</TD>".
 	      td(h($op['jr_pj_number'])).
@@ -390,7 +390,7 @@ class Acc_Account_Ledger
 	      "<TD style=\"text-align:right\">".nbm($op['deb_montant'])."</TD>".
 	      "<TD style=\"text-align:right\">".nbm($op['cred_montant'])."</TD>".
 	      td(nbm(abs($progress)),'style="text-align:right"').
-	      
+
 	      td($let,' style="color:red;text-align:right"').
 	      "</TR>";
 	    $old_exercice=$op['p_exercice'];
@@ -439,9 +439,9 @@ class Acc_Account_Ledger
 	default:
 	  throw new Exception(" Fonction HtmlTableHeader argument actiontarget invalid");
 	  exit;
-	}	  
+	}
         $hid=new IHidden();
-     
+
         echo "<table >";
         echo '<TR>';
         $str_ople=(isset($_REQUEST['ople']))?HtmlInput::hidden('ople',$_REQUEST['ople']):'';
@@ -464,17 +464,11 @@ class Acc_Account_Ledger
         $hid->input("to_periode",$_REQUEST['to_periode'])
 	  ;
 
+	echo HtmlInput::request_to_hidden(array('from_poste','to_poste',
+			'poste_id'));
+
 	if ( isset($_REQUEST['letter'] )) echo HtmlInput::hidden('letter','2');
 	if ( isset($_REQUEST['solded'] )) echo HtmlInput::hidden('solded','1');
-
-	if (isset($_REQUEST['from_poste'])) 
-	  echo HtmlInput::hidden('from_poste',$_REQUEST['from_poste']);
-
-	if (isset($_REQUEST['to_poste'])) 
-	  echo HtmlInput::hidden('to_poste',$_REQUEST['to_poste']);
-
-        if (isset($_REQUEST['poste_id'])) 
-	  echo HtmlInput::hidden("poste_id",$_REQUEST['poste_id']);
 
         if (isset($_REQUEST['poste_fille']))
             echo $hid->input('poste_fille','on');
@@ -492,14 +486,8 @@ class Acc_Account_Ledger
         $hid->input("from_periode",$_REQUEST['from_periode']).
 	  $hid->input("to_periode",$_REQUEST['to_periode']);
 
-	if (isset($_REQUEST['from_poste'])) 
-	  echo HtmlInput::hidden('from_poste',$_REQUEST['from_poste']);
-
-	if (isset($_REQUEST['to_poste'])) 
-	  echo HtmlInput::hidden('to_poste',$_REQUEST['to_poste']);
-
-        if (isset($_REQUEST['poste_id'])) 
-	  echo HtmlInput::hidden("poste_id",$_REQUEST['poste_id']);
+	echo HtmlInput::request_to_hidden(array('from_poste','to_poste',
+			'poste_id'));
 
 	if ( isset($_REQUEST['letter'] )) echo HtmlInput::hidden('letter','2');
 	if ( isset($_REQUEST['solded'] )) echo HtmlInput::hidden('solded','1');
@@ -513,7 +501,7 @@ class Acc_Account_Ledger
         echo "</form></TD>";
 	echo '</tr>';
         echo "</table>";
-     
+
 
     }
     /*!
@@ -523,7 +511,9 @@ class Acc_Account_Ledger
      */
     function belong_ledger($p_jrn)
     {
-        $filter=$this->db->get_value("select jrn_def_class_cred from jrn_def where jrn_def_id=$p_jrn");
+        $filter=$this->db->get_value("select jrn_def_class_cred from jrn_def where jrn_def_id=$1",
+		array($p_jrn));
+
         if ( trim ($filter) == '')
             return 0;
 

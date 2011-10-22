@@ -28,7 +28,7 @@ require_once('class_acc_operation.php');
  *        file included from user_impress
  *
  * some variable are already defined $cn, $User ...
- * 
+ *
  */
 //-----------------------------------------------------
 // Show the jrn and date
@@ -138,18 +138,19 @@ if ( isset( $_REQUEST['bt_html'] ) )
     require_once("class_acc_account_ledger.php");
     $go=0;
 // we ask a poste_id
-    if ( isset($_GET['poste_id']) && strlen(trim($_GET['poste_id'])) != 0 && isNumber($_GET['poste_id']) )
+    if ( isset($_GET['poste_id']) && strlen(trim($_GET['poste_id'])) != 0  )
     {
+	$poste=$cn->get_value('select format_account($1)',array($_GET['poste_id']));
+
         if ( isset ($_GET['poste_fille']) )
         {
-            $parent=$_GET['poste_id'];
-            $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '$parent%' order by pcm_val::text");
+            $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like $1||'%' order by pcm_val::text",array($poste));
             $go=3;
         }
         // Check if the post is numeric and exists
-        elseif (  $cn->count_sql('select * from tmp_pcmn where pcm_val=$1',array($_GET['poste_id'])) != 0 )
+        elseif (  $cn->count_sql('select * from tmp_pcmn where pcm_val=$1',array($poste)) != 0 )
         {
-            $Poste=new Acc_Account_Ledger($cn,$_GET['poste_id']);
+            $Poste=new Acc_Account_Ledger($cn,$poste);
             $go=1;
         }
     }
