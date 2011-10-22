@@ -14,4 +14,4 @@ tmp_pcmn_alphanum_ins_upd.sql
 tmp_pcmn_ins.sql
 trigger.tmp_pcmn.sql
 */
-create unique index test_qcode_idx on fiche_detail (ad_value) where ad_id=23;
+create unique index qcode_idx on fiche_detail (ad_value) where ad_id=23;
