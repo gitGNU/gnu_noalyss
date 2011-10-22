@@ -194,10 +194,10 @@ if ( isset ( $_POST["Ajout"] ) )
     $p_val=trim($p_val);
     $p_parent=trim($p_parent);
 
-    if ( isset ( $p_val) && isset ( $p_lib ) && isNumber($p_val) && isNumber($p_parent) )
+    if ( isset ( $p_val) && isset ( $p_lib )  )
     {
-        $p_val=trim($p_val);
-        $p_parent=$_POST["p_parent"];
+        $p_val=$cn->get_value('select format_account($1)',array($p_val));
+        $p_parent=$cn->get_value('select format_account($1)',array($_POST["p_parent"]));
         if ( strlen ($p_val) != 0 && strlen ($p_lib) != 0 )
         {
             if (strlen ($p_val) == 1 )

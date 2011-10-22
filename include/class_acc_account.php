@@ -19,7 +19,7 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /*! \file
- * \brief Manage the account 
+ * \brief Manage the account
  */
 /*!
  * \brief Manage the account from the table tmp_pcmn
@@ -117,16 +117,10 @@ class Acc_Account
             // otherwise we check only the value
             if ( strcmp ($p_member,'pcm_val') == 0 )
             {
-                if (is_numeric($p_value) ==0 )
-                    throw new Exception('Poste comptable incorrect '.$p_value);
-                else
                     return true;
             }
             else if ( strcmp ($p_member,'pcm_val_parent') == 0 )
             {
-                if ( is_numeric($p_value) == 0 || ($this->count($p_value) == 0 && $p_value !=0))
-                    throw new Exception('Poste comptable parent incorrect '.$p_value);
-                else
                     return true;
             }
             else if ( strcmp ($p_member,'pcm_lib') == 0 )
@@ -147,7 +141,7 @@ class Acc_Account
 
     }
     /*!\brief Get all the value for this object from the database
-     *        the data member are set 
+     *        the data member are set
      * \return false if this account doesn't exist otherwise true
      */
     function load()
