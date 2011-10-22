@@ -21,12 +21,12 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file
- * \brief answer to the ajax request for the ledger 
- * it means : 
+ * \brief answer to the ajax request for the ledger
+ * it means :
     - detail of an operation (expert, user and analytic view)
     - removal of an operation
     - load a receipt document
-    - for reconcialiation        
+    - for reconcialiation
     - update of analytic content
 */
 require_once('class_database.php');
@@ -37,11 +37,10 @@ require_once ('class_fiche.php');
 require_once('class_acc_reconciliation.php');
 require_once('class_anc_operation.php');
 require_once('class_idate.php');
-require_once('class_ibox.php');
 /**
  * Check if we receive the needed data (jr_id...)
  */
-if ( ! isset ($_REQUEST['act'])|| ! isset ($_REQUEST['jr_id']) 
+if ( ! isset ($_REQUEST['act'])|| ! isset ($_REQUEST['jr_id'])
      || ! isset ($_REQUEST['div']))
   {
     exit();
@@ -340,13 +339,13 @@ case 'save':
 		{
 		  $cn->exec_sql("update jrn set jr_ech=to_date($1,'DD.MM.YYYY') where jr_id=$2",
 				array($ech,$jr_id));
-		  
+
 		}
 	      else
 		{
 		  $cn->exec_sql("update jrn set jr_ech=null where jr_id=$1",
 				array($jr_id));
-		  
+
 		}
 	    }
             $cn->exec_sql("update jrn set jr_comment=$1,jr_pj_number=$2,jr_date=to_date($4,'DD.MM.YYYY') where jr_id=$3",
