@@ -1,9 +1,9 @@
 -- Function: comptaproc.account_insert(integer, text)
 
--- DROP FUNCTION comptaproc.account_insert(integer, text);
+ DROP FUNCTION comptaproc.account_insert(integer, text);
 
 CREATE OR REPLACE FUNCTION comptaproc.account_insert(p_f_id integer, p_account text)
-  RETURNS integer AS
+  RETURNS text  AS
 $BODY$
 declare
 	nParent tmp_pcmn.pcm_val_parent%type;
@@ -67,7 +67,7 @@ raise info 'sClass_Base : %',sClass_base;
 			where
 				ad_id=1 and f_id=p_f_id;
 			nParent:=account_parent(sNew);
-			perform account_add  (sNew,sName);
+			sNew := account_add  (sNew,sName);
 			perform attribut_insert(p_f_id,5,sNew);
 
 		else
