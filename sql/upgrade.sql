@@ -13,5 +13,6 @@ format_account.sql
 tmp_pcmn_alphanum_ins_upd.sql
 tmp_pcmn_ins.sql
 trigger.tmp_pcmn.sql
+account_add.sql
 */
 create unique index qcode_idx on fiche_detail (ad_value) where ad_id=23;
