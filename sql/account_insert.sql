@@ -8,7 +8,7 @@ $BODY$
 declare
 	nParent tmp_pcmn.pcm_val_parent%type;
 	sName varchar;
-	nNew tmp_pcmn.pcm_val%type;
+	sNew tmp_pcmn.pcm_val%type;
 	bAuto bool;
 	nFd_id integer;
 	sClass_Base fiche_def.fd_class_base%TYPE;
@@ -54,34 +54,30 @@ begin
 	else
 	raise info 'p_account is  empty';
 		select fd_id into nFd_id from fiche where f_id=p_f_id;
-
 		bAuto:= account_auto(nFd_id);
-		
-	
+
 		select fd_class_base into sClass_base from fiche_def where fd_id=nFd_id;
-		raise info 'sClass_Base : %',sClass_base;
-		if bAuto = true 
-		  then
+raise info 'sClass_Base : %',sClass_base;
+		if bAuto = true and sClass_base similar to '[[:digit:]]*'  then
 			raise info 'account generated automatically';
-			nNew:=account_compute(p_f_id);
-			raise info 'nNew %', nNew;
+			sNew:=account_compute(p_f_id);
+			raise info 'sNew %', sNew;
 			select ad_value into sName from
 				fiche_detail
 			where
 				ad_id=1 and f_id=p_f_id;
-			nParent:=account_parent(nNew);
-			perform account_add  (nNew,sName);
-			perform attribut_insert(p_f_id,5,nNew);
+			nParent:=account_parent(sNew);
+			perform account_add  (sNew,sName);
+			perform attribut_insert(p_f_id,5,sNew);
 
 		else
-		
 		-- if there is an account_base then it is the default
-		      select fd_class_base::account_type into nNew from fiche_def join fiche using (fd_id) where f_id=p_f_id;
-			if nNew is null or length(trim(nNew)) = 0 then
+		      select fd_class_base::account_type into sNew from fiche_def join fiche using (fd_id) where f_id=p_f_id;
+			if sNew is null or length(trim(sNew)) = 0 then
 				raise notice 'count is null';
 				 perform attribut_insert(p_f_id,5,null);
 			else
-				 perform attribut_insert(p_f_id,5,nNew);
+				 perform attribut_insert(p_f_id,5,sNew);
 			end if;
 		end if;
 	end if;

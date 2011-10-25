@@ -10,6 +10,7 @@ declare
 	maxcode numeric;
 	sResult account_type;
 	bAlphanum bool;
+	sName text;
 begin
 	select fd_class_base into class_base
 	from
