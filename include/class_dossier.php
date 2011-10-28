@@ -55,9 +55,9 @@ class dossier
     }
 
     /*!
-     * \param  p_type string : all for all dossiers lim for only the 
+     * \param  p_type string : all for all dossiers lim for only the
      *             dossier where we've got rights
-     * 
+     *
      * Show the folder where user have access. Return    : nothing
      ++*/
     function show_dossier($p_type,$p_first=0,$p_max=10,$p_Num=0)
@@ -229,5 +229,11 @@ class dossier
     static function get_version($p_cn)
     {
         return $p_cn->get_value('select val from version');
+    }
+    static function connect()
+    {
+	$id=Dossier::id();
+	$cn= new Database($id);
+	return $cn;
     }
 }
