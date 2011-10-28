@@ -61,7 +61,7 @@ function u_ShowDossier($p_user,$p_admin,$p_filtre="")
         else $tr="even";
         if ( $user->check_dossier($id)!='P')
         {
-            $target="access.php?gDossier=$id";
+            $target="do.php?gDossier=$id";
         }
         else
         {
@@ -235,7 +235,7 @@ function ShowMenuAdvanced_deprecated($default="")
                             //('rapprt.php','Rapprochement'),
 
                             array('user_advanced.php?'.$str_dossier.'&p_action=preod',_('Ecritures definies'),"",9),
-                   
+
                             array('compta.php?p_action=stock&'.$str_dossier,'Stock',_("Gestion des stocks"),5),
                             array('user_advanced.php?p_action=defreport&'.$str_dossier,_('Rapport'),_("Rapport"),6),
                             array('user_advanced.php?p_action=ouv&'.$str_dossier,_('Ecriture ouverture'),"",8),
@@ -444,7 +444,7 @@ function ShowMenuImport()
  * \note must include javascript : acc_ledger.js
  * \return string
 */
-function menu_tool($p_from)
+function menu_tool_deprecated($p_from)
 {
 
     if ( ! isset ($_REQUEST['gDossier']))

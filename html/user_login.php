@@ -102,7 +102,7 @@ if ( $User->admin == 0 )
         }
         else
         {
-            redirect('access.php?gDossier='.$folder[0]['dos_id']);
+            redirect('do.php?gDossier='.$folder[0]['dos_id']);
             exit();
         }
     }
