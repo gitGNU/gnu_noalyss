@@ -30,10 +30,10 @@ require_once('user_common.php');
 require_once('ac_common.php');
 require_once 'function_javascript.php';
 html_page_start();
-global $g_user,$cn;
+global $g_user, $cn;
 
-$cn=new Database(Dossier::id());
-$g_user=new User($cn);
+$cn = new Database(Dossier::id());
+$g_user = new User($cn);
 
 if ($g_user->check_dossier(dossier::id()) == 'P')
 {
@@ -112,14 +112,17 @@ if (isset($_REQUEST['ac']))
 
 // Show module and highligt selected one
     show_module($module_selected);
-   for ( $i=0;$i != count($all);$i++)
-	{   // show the menu
-	    show_menu($all,$i);
-	}
+    for ($i = 0; $i != count($all); $i++)
+    {   // show the menu
+	show_menu($all, $i);
+    }
 }
 else
 {
-    show_module(-1);
+    $default = find_default_module();
+    show_module($default);
+    $all[0] = $default;
+    show_menu($all, 0);
 }
 
 

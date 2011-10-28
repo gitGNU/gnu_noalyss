@@ -702,14 +702,50 @@ function show_module($selected)
 	user_name=$1
 	and p_type_display='M'
 	order by p_order",array($g_user->login));
-    require_once('template/module.php');
+
     if ( $selected != -1 )
     {
+	require_once('template/module.php');
 	$file=$cn->get_value("select me_file from v_all_menu where me_code=$1",array($selected));
 	if ($file != '')
+	{
 	    require_once $file;
+	    exit();
+	}
     }
+    else
+    {
 
+    }
+}
+function find_default_module()
+{
+    global $g_user;
+     $cn=Dossier::connect();
+
+   $default_module = $cn->get_array("select me_code
+	    from profile_menu join profile_user using (p_id)
+	    where
+	    user_name=$1 and pm_default=1", array($g_user->login));
+
+	if (empty($default_module))
+	{
+	 $default_module = $cn->get_array("select me_code
+	    from profile_menu join profile_user using (p_id)
+	    where
+	    user_name=$1 and p_order=(select min(p_order) from profile_menu
+		where user_name=$1) limit 1", array($g_user->login,$g_user->login));
+	    return $default_module;
+	}
+
+	if (count($default_module) > 1)
+	{
+	    echo_error("Plusieurs modules sont le module par défaut", __LINE__, __FILE__);
+	}
+	elseif (count($default_module) == 1)
+	{
+	    return $default_module[0]['me_code'];
+	}
 }
 /**
  * show default module
