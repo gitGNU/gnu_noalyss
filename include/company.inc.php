@@ -22,6 +22,8 @@ global $g_user;
         if ( $g_user->check_action(PARSTR)!=0) $m->MY_STRICT=$p_strict;
         if ( $g_user->check_action(PARTVA)!=0)$m->MY_TVA_USE=$p_tva_use;
         $m->MY_PJ_SUGGEST=$p_pj;
+	$m->MY_ALPHANUM=$p_alphanum;
+
         $m->Update();
     }
 
@@ -36,6 +38,9 @@ global $g_user;
                       array('value'=>'N','label'=>_('Non')),
                       array('value'=>'Y','label'=>_('Oui'))
                   );
+
+    $alpha_num_array[0]=array('value'=>'N','label'=>_('Non'));
+    $alpha_num_array[1]=array('value'=>'Y','label'=>_('Oui'));
 
     $compta=new ISelect();
     $compta->table=1;
@@ -60,6 +65,11 @@ global $g_user;
     $check_periode=new ISelect();
     $check_periode->table=1;
     $check_periode->selected=$my->MY_CHECK_PERIODE;
+    $alpha_num=new ISelect();
+    $alpha_num->table=1;
+    $alpha_num->value=$alpha_num_array;
+    $alpha_num->selected=$my->MY_ALPHANUM;
+
 
     // other parameters
     $all=new IText();
@@ -93,6 +103,8 @@ global $g_user;
     echo "<tr>".td(_("Suggérer le numéro de pièce justificative"),'style="text-align:right"').$pj_suggest->input("p_pj",$strict_array)."</tr>";
     echo "<tr>".td(_("Suggérer la date"),'style="text-align:right"').$date_suggest->input("p_date_suggest",$strict_array)."</tr>";
     echo '<tr>'.td(_('Afficher la période comptable pour éviter les erreurs de date'),'style="text-align:right"').$check_periode->input('p_check_periode',$strict_array).'</tr>';
+    echo '<tr>'.td(_('Utilisez des postes comptables alphanumérique'),'style="text-align:right"').$alpha_num->input('p_alphanum').'</tr>';
+
     echo "</table>";
     echo HtmlInput::submit("record_company",_("Sauve"));
     echo "</form>";

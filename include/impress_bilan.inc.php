@@ -32,9 +32,7 @@ require_once('class_exercice.php');
 // Show the jrn and date
 //-----------------------------------------------------
 require_once('class_database.php');
-
 global $g_user;
-
 //-----------------------------------------------------
 // Form
 //-----------------------------------------------------
@@ -54,18 +52,17 @@ $ex=new Exercice($cn);
 $wex=$ex->select('exercice',$exercice,' onchange="submit(this)"');
 echo $wex->input();
 echo dossier::hidden();
-echo HtmlInput::get_to_hidden(array('p_action','type'));
+echo HtmlInput::get_to_hidden(array('ac','type'));
 echo '</form>';
 echo '</fieldset>';
 
 $filter_year=" where p_exercice='".FormatString($exercice)."'";
 echo '<FORM  METHOD="GET">';
-echo HtmlInput::hidden('p_action','impress');
 echo HtmlInput::hidden('type','bilan');
 echo dossier::hidden();
 echo $bilan->display_form ($filter_year);
 echo HtmlInput::submit('verif',_('Verification comptabilite'));
-echo HtmlInput::get_to_hidden(array('exercice'));
+echo HtmlInput::get_to_hidden(array('ac','exercice'));
 echo '</FORM>';
 
 

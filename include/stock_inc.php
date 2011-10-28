@@ -25,8 +25,8 @@ require_once('class_fiche.php');
 
 /*!
  **************************************************
- * \brief  show the listing of all goods 
- *        
+ * \brief  show the listing of all goods
+ *
  *
  *\param  $cn  database connection
  * \param $p_year exercice
@@ -38,7 +38,7 @@ function ViewStock($p_cn,$p_year)
 // build sql -- get the different merchandise sold or bought
     // during the p_year
     /* $sql=" select distinct sg_code
-        from stock_goods 
+        from stock_goods
          left outer join  jrnx on (stock_goods.j_id=jrnx.j_id)
         right outer join parm_periode on (parm_periode.p_id=jrnx.j_tech_per)
       where
@@ -75,7 +75,7 @@ function ViewStock($p_cn,$p_year)
 
         // sg_code  and link to details
         $result.="<td>".'<a class="one"
-                 HREF="?p_action=stock&action=detail&sg_code='.$r['sg_code'].'&year='.$p_year.
+                 HREF="?ac='.$_REQUEST['ac'].'&action=detail&sg_code='.$r['sg_code'].'&year='.$p_year.
                  '&'.dossier::get().'">'.
                      $r['sg_code']."</A></td>";
 
@@ -116,12 +116,12 @@ function ViewStock($p_cn,$p_year)
 /*!
  ************************************************************
  * \brief  return an array of f_id and f_name
- *        
- * 
+ *
+ *
  * \param $p_cn database connection
  * \param _sg_code stock_goods.sg_code
  * \return
- *      - array (f_id, f_label) or null if nothing is found 
+ *      - array (f_id, f_label) or null if nothing is found
  */
 function getFicheNameCode ($p_cn,$p_sg_code)
 {
@@ -153,9 +153,9 @@ function getFicheNameCode ($p_cn,$p_sg_code)
 }
 /*!
  **************************************************
- * \brief View the details of a stock 
- *        
- * 
+ * \brief View the details of a stock
+ *
+ *
  *\param $p_cn database connection
  * \param$p_sg_code
  * \param $p_year
@@ -315,9 +315,9 @@ function ViewDetailStock($p_cn,$p_sg_code,$p_year)
 }
 /*!
  **************************************************
- * \brief  
- *        
- * parm : 
+ * \brief
+ *
+ * parm :
  *	-
  * gen :
  *	-
@@ -344,7 +344,7 @@ function ChangeStock($p_sg_code,$p_year)
 
 }
 /*!
- * \brief return the quantity of a sg_code for the period 
+ * \brief return the quantity of a sg_code for the period
  *
  * \return number or NULL
  */

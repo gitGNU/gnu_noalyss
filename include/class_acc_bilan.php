@@ -273,7 +273,7 @@ class Acc_Bilan
         $form=fopen($this->b_file_form,'r');
         if ( $form == false)
         {
-            echo __FILE__.":".__LINE__.'Cannot Open'.$this->b_file_form;
+            echo 'Cannot Open';
             exit();
         }
         return $form;
@@ -285,7 +285,7 @@ class Acc_Bilan
         $templ=fopen($this->b_file_template,'r');
         if ( $templ == false)
         {
-            echo __FILE__.":".__LINE__.'Cannot Open'.$this->b_file_template;
+            echo 'Cannot Open';
             exit();
         }
         return $templ;
@@ -296,7 +296,7 @@ class Acc_Bilan
      * \param $p_handle the handle to the file
      * \param
      * \param
-     *
+     * 
      *
      * \return
      */
@@ -305,8 +305,10 @@ class Acc_Bilan
         while (! feof ($p_handle))
         {
             $buffer=trim(fgets($p_handle));
-
-	    if (strlen(trim($buffer))==0)
+            // $a=(CheckFormula($buffer)  == true)?"$buffer ok<br>":'<font color="red">'.'Pas ok '.$buffer."</font><br>";
+            // echo $a;
+            // blank line are skipped
+            if (strlen(trim($buffer))==0)
                 continue;
             // skip comment
             if ( strpos($buffer,'#') === true )
@@ -322,9 +324,9 @@ class Acc_Bilan
         }// end read form line per line
     }
     /*!\brief generate the ods document
-    * \param the handle to the template file
-    * \return the xml
-    *@note
+    * \param the handle to the template file 
+    * \return the xml 
+    *@note 
     * Sur une seule ligne il y a plusieurs données, donc il y a plusieurs boucles, pour les autres documents
     * cela devrait être fait aussi, actuellement ces documents, n'acceptent qu'une formule par ligne.
     *@note
@@ -350,13 +352,13 @@ class Acc_Bilan
         ob_start();
 	/* unzip the document */
 	$zip = new Zip_Extended;
-	if ($zip->open($work_file) === TRUE)
+	if ($zip->open($work_file) === TRUE) 
 	  {
 	    $zip->extractTo($dirname.DIRECTORY_SEPARATOR);
 	    $zip->close();
-	  } else
+	  } else 
 	  {
-	    echo __FILE__.":".__LINE__."cannot unzip model ".$filename;
+	    echo __FILE__.":".__LINE__."cannot unzip model ".$filename;	
 	  }
 
 	ob_end_clean();
@@ -389,7 +391,7 @@ class Acc_Bilan
             // the line contains the magic <<
             $tmp="";
 
-
+	    
 	    while (preg_match_all($regex,$line_rtf,$f2) > 0 )
 	      {
                 // the f2 array contains all the magic << in the line
@@ -604,13 +606,13 @@ class Acc_Bilan
         case 'ods':
             /*   header("Pragma: public");
             header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-            header("Cache-Control: must-revalidate");
+            header("Cache-Control: must-revalidate"); 
             if ( $this->b_type == 'odt' )
             header('Content-type: application/vnd.oasis.opendocument.text');
             if ( $this->b_type == 'ods' )
             header('Content-type: application/vnd.oasis.opendocument.spreadsheet');
             header('Content-Disposition: attachment;filename="'.$this->b_name.'.odt"',FALSE);
-            header("Accept-Ranges: bytes");
+            header("Accept-Ranges: bytes"); 
             */
             ob_start();
             // save the file in a temp folder
@@ -634,14 +636,14 @@ class Acc_Bilan
 	     */
             ob_start();
 	    $zip = new Zip_Extended;
-	    if ($zip->open($work_file) === TRUE)
+	    if ($zip->open($work_file) === TRUE) 
 	      {
 		$zip->extractTo($dirname.DIRECTORY_SEPARATOR);
 		$zip->close();
-	      }
-	    else
+	      } 
+	    else 
 	      {
-		echo __FILE__.":".__LINE__."cannot unzip model ".$filename;
+		echo __FILE__.":".__LINE__."cannot unzip model ".$filename;	
 	      }
 
             // Remove the file we do  not need anymore

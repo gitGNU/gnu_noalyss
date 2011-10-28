@@ -25,6 +25,7 @@
  */
 require_once ('class_acc_ledger_fin.php');
 require_once('class_ipopup.php');
+global $g_user;
 
 $gDossier=dossier::id();
 
@@ -76,7 +77,7 @@ if ( $def == 1 )
         $def_ledger=$Ledger->get_first('fin');
         $Ledger->id=$def_ledger['jrn_def_id'];
     }
-    $jrn_priv=$User->get_ledger_access($Ledger->id);
+    $jrn_priv=$g_user->get_ledger_access($Ledger->id);
     // Check privilege
     if ( isset($_REQUEST['p_jrn']) && ( $jrn_priv == 'X'))
     {
@@ -187,7 +188,7 @@ if ( $def == 2)
     /* by default we should the default period */
     if ( ! isset($p_array['date_start']))
     {
-        $period=$User->get_periode();
+        $period=$g_user->get_periode();
         $per=new Periode($cn,$period);
         list($date_start,$date_end)=$per->get_date_limit();
         $p_array['date_start']=$date_start;
@@ -246,7 +247,7 @@ if ( $def==3)
 	    .th('différence',' style="text-align:right"'));
     // Filter the saldo
     //  on the current year
-    $filter_year="  j_tech_per in (select p_id from parm_periode where  p_exercice='".$User->get_exercice()."')";
+    $filter_year="  j_tech_per in (select p_id from parm_periode where  p_exercice='".$g_user->get_exercice()."')";
     // for highligting tje line
     $idx=0;
     bcscale(2);
@@ -265,7 +266,7 @@ if ( $def==3)
             $saldo_not_reconcilied=$array[$i]->get_bk_balance($filter_year." and (trim(jr_pj_number) ='' or jr_pj_number is null)" );
 
             /*  get saldo for reconcilied operation  */
-	    
+
 	    $saldo_reconcilied=$array[$i]->get_bk_balance($filter_year." and ( trim(jr_pj_number) != '' and jr_pj_number is not null)" );
 
             if ( $idx%2 != 0 )
@@ -314,7 +315,7 @@ if ($def==4)
     }
     else
         $Ledger->id=$_REQUEST['p_jrn'];
-    $jrn_priv=$User->get_ledger_access($Ledger->id);
+    $jrn_priv=$g_user->get_ledger_access($Ledger->id);
     if ( isset($_GET["p_jrn"]) && $jrn_priv=="X")
     {
         NoAccess();
@@ -351,7 +352,7 @@ if ($def==4)
     echo HtmlInput::get_to_hidden(array('gDossier','ledger_type','ac','sa'));
     $wLedger=$Ledger->select_ledger('FIN',3);
     if ($wLedger == null ) exit ('Pas de journal disponible');
-    
+
     $wLedger->javascript="onchange='this.form.submit()';";
     echo $wLedger->input();
     echo HtmlInput::submit('ref','Rafraîchir');
@@ -410,7 +411,7 @@ if ($def==4)
     echo '</table>';
     $bk_card=new Fiche($cn);
     $bk_card->id=$Ledger->get_bank();
-    $filter_year="  j_tech_per in (select p_id from parm_periode where  p_exercice='".$User->get_exercice()."')";
+    $filter_year="  j_tech_per in (select p_id from parm_periode where  p_exercice='".$g_user->get_exercice()."')";
 
     /*  get saldo for not reconcilied operations  */
     $saldo_not_reconcilied=$bk_card->get_solde_detail($filter_year." and j_grpt in (select jr_grpt_id from jrn where trim(jr_pj_number) ='' or jr_pj_number is null)" );
