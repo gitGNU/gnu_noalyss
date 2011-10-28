@@ -602,7 +602,7 @@ function set_language()
 /**
  *@brief try to determine on what os you are running the pĥpcompte
  *server
- *@return 
+ *@return
  *  0 it is a windows
  *  1 it is a Unix like
  */
@@ -686,5 +686,80 @@ echo <<<EOF
 EOF;
 exit();
   }
+}
+/**
+ *
+ * @param int $selected module selected
+ */
+function show_module($selected)
+{
+    global $g_user;
+    $cn=Dossier::connect();
+    $amodule=$cn->get_array("select
+	me_code,me_menu,me_url
+	from v_all_menu
+	where
+	user_name=$1
+	and p_type_display='M'
+	order by p_order",array($g_user->login));
+    require_once('template/module.php');
+    if ( $selected != -1 )
+    {
+	$file=$cn->get_value("select me_file from v_all_menu where me_code=$1",array($selected));
+	if ($file != '')
+	    require_once $file;
+    }
+
+}
+/**
+ * show default module
+ */
+function show_default()
+{
+    $cn=Dossier::connect();
+    $file=$cn->get_array('SELECT m_code FROM module where m_default=1');
+    if (! empty ($file) )
+    {
+	$selected=$file[0]['m_code'];
+	show_module($selected);
+    }
+}
+/**
+ *
+ */
+function show_menu($module,$idx)
+{
+    global $g_user;
+    $cn=Dossier::connect();
+    $amenu=$cn->get_array("select
+	me_menu,me_code
+	from v_all_menu
+	where
+	me_code_dep=$1 order by p_order",array($module[$idx]));
+
+    if (! empty ($amenu))
+    {
+	require 'template/menu.php';
+    }
+    else
+    {
+/**
+ * @todo add security
+ * check if user can access this module
+ */
+	$file=$cn->get_value("select me_file
+	from menu_ref
+	where
+	me_code=$1 and
+	(me_file is not null or trim(me_file) <>'')",
+	    array($module[$idx]));
+
+	if ( $file != "" )
+	{
+	    echo '<div class="content">';
+	    require_once "$file";
+	    echo '</div>';
+	}
+    }
 }
 ?>

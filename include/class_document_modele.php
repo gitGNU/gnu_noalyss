@@ -19,10 +19,10 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /*! \file
- * \brief Class for the document template 
+ * \brief Class for the document template
  */
 /*!
- * \brief Class for the document template 
+ * \brief Class for the document template
  */
 require_once('class_icheckbox.php');
 require_once('class_ihidden.php');
@@ -59,7 +59,7 @@ class Document_modele
         $all=Database::fetch_all($Res);
 	$r='';
         if ( Database::num_row($Res) != 0 ) {
-	  
+
 	  $r.='<p><form method="post">';
 	  $r.=dossier::hidden();
 	  $r.="<table>";
@@ -109,13 +109,13 @@ class Document_modele
         return $r;
     }
     /*!
-     * \brief :  Save a document_modele in the database, 
+     * \brief :  Save a document_modele in the database,
      *       if the document_modele doesn't exist yet it will be
      *       first created (-> insert into document_modele)
      *       in that case the name and the type must be set
      *       set before calling Save, the name will be modified
      *       with FormatString
-     *        
+     *
      */
     function Save()
     {
@@ -194,7 +194,7 @@ class Document_modele
         }
     }
     /*!
-     * \brief Remove a template 
+     * \brief Remove a template
      * \return nothing
      */
     function Delete()
@@ -219,17 +219,17 @@ class Document_modele
 
     /*!
      * \brief show the form for loading a template
-     * \param p_action for the field action = destination url 
-     * 
+     * \param p_action for the field action = destination url
+     *
      *
      * \return string containing the forms
      */
-    function form($p_action)
+    function form()
     {
         $r='<p class="notice">';
         $r.='Veuillez introduire les mod&egrave;les servant à g&eacute;n&eacute;rer vos documents';
         $r.='</p>';
-        $r.='<form enctype="multipart/form-data"  action="'.$p_action.'" method="post">';
+        $r.='<form enctype="multipart/form-data"  method="post">';
         $r.=dossier::hidden();
         // we need to add the sub action as hidden
         $h=new IHidden();
@@ -294,7 +294,7 @@ class Document_modele
         }
     }
     /*!
-     * \brief :  update a document_modele in the database, 
+     * \brief :  update a document_modele in the database,
      */
     function update($p_array)
     {
@@ -315,7 +315,7 @@ class Document_modele
 					   ));
 	    if ( $p_array['seq'] != 0 )
 	      $this->cn->alter_seq('seq_doc_type_'.$p_array['md_type'],$p_array['seq']);
-					   
+
             // Save the file
             $new_name=tempnam($_ENV['TMP'],'document_');
             if ( strlen ($_FILES['doc']['tmp_name']) != 0 )

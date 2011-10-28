@@ -50,8 +50,8 @@ for ($i=0;$i<sizeof($all);$i++)
     $w=new IHidden();
     echo $w->input('idx',$all[$i]->frd_id);
     echo HtmlInput::submit('mod','modifie');
-    echo $w->input($p_action,'p_action');
-    echo $w->input($sa,'sa');
+    echo $w->input($_REQUEST['ac'],'ac');
+    //echo $w->input($sa,'sa');
     echo "</form>";
     echo "</TD>";
     echo '</TR>';
@@ -77,8 +77,8 @@ if ( isset ($_POST['mod']) )
     echo $mod->Input();
     echo "</ul>";
     $w=new IHidden();
-    echo $w->input('p_action',$p_action);
-    echo $w->input('sa',$sa);
+    echo $w->input('ac',$_REQUEST['ac']);
+//    echo $w->input('sa',$sa);
     echo HtmlInput::submit('confirm_mod' ,'Confirme');
     echo HtmlInput::submit('no','Cancel');
     echo '</form>';

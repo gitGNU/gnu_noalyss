@@ -35,12 +35,11 @@ $gDossier=dossier::id();
 $cn=new Database(dossier::id());
 //menu = show a list of ledger
 $str_dossier=dossier::get();
+$ac="ac=".$_REQUEST['ac'];
 $array=array(
-           array('?p_action=ven&sa=n&'.$str_dossier,_('Nouvelle vente'),_('Nouvelle vente'),1),
-           array('?p_action=ven&sa=l&'.$str_dossier,_('Liste ventes'),_('Liste des ventes'),2),
-           array('?p_action=ven&sa=lnp&'.$str_dossier,_('Liste vente non payées'),_('Liste des ventes non payées'),3),
-           array('commercial.php?p_action=client&'.$str_dossier,_('Clients'),_('Clients')),
-           array('?p_action=impress&type=jrn&'.$str_dossier,_('Impression'),_('Impression'))
+           array('?ledger_type=ven&sa=n&'.$str_dossier."&$ac",_('Nouvelle vente'),_('Nouvelle vente'),1),
+           array('?ledger_type=ven&sa=l&'.$str_dossier."&$ac",_('Liste ventes'),_('Liste des ventes'),2),
+           array('?ledger_type=ven&sa=lnp&'.$str_dossier."&$ac",_('Liste vente non payées'),_('Liste des ventes non payées'),3)
        );
 
 $sa=(isset ($_REQUEST['sa']))?$_REQUEST['sa']:-1;
@@ -66,7 +65,7 @@ case 'lnp':
 echo '<div class="lmenu">';
 echo ShowItem($array,'H','mtitle','mtitle',$def);
 echo '</div>';
-$href=basename($_SERVER['PHP_SELF']);
+$href=basename($_SERVER['PHP_SELF'])."?$ac&$str_dossier";
 
 
 //----------------------------------------------------------------------
@@ -79,7 +78,7 @@ if ( $def==1 || $def == 4 )
 
     // Check privilege
     if ( isset($_REQUEST['p_jrn']) &&
-            $User->check_jrn($_REQUEST['p_jrn']) != 'W' )
+            $g_user->check_jrn($_REQUEST['p_jrn']) != 'W' )
     {
 
         NoAccess();
@@ -120,6 +119,7 @@ if ( $def==1 || $def == 4 )
 	    echo "Nom du modèle ".$opd_name->input();
 	    echo '</div>';
             echo '<hr>';
+	    echo HtmlInput::hidden('ac',$_REQUEST['ac']);
             echo HtmlInput::submit("record",_("Enregistrement"),'onClick="return verify_ca(\'\');"');
             echo HtmlInput::submit('correct',_("Corriger"));
             echo '</form>';
@@ -135,7 +135,7 @@ if ( $def==1 || $def == 4 )
     if ( isset($_POST['record']) )
     {
 // Check privilege
-        if ( $User->check_jrn($_REQUEST['p_jrn']) != 'W' )
+        if ( $g_user->check_jrn($_REQUEST['p_jrn']) != 'W' )
         {
 
             NoAccess();
@@ -243,7 +243,8 @@ if ( $def==1 || $def == 4 )
     }
     else
     {
-        echo HtmlInput::hidden("p_action","ven");
+        echo HtmlInput::hidden("ledger_type","VEN");
+	  echo HtmlInput::hidden("ac",$_REQUEST['ac']);
         echo HtmlInput::hidden("sa","p");
         echo $Ledger->input($array);
         echo '<div class="content">';
@@ -263,6 +264,7 @@ if ( $def==1 || $def == 4 )
     echo '<form method="GET" action="'.$href.'">';
     echo HtmlInput::hidden("sa","p");
     echo HtmlInput::hidden("p_action","ven");
+
     echo dossier::hidden();
     echo HtmlInput::hidden('p_jrn_predef',$Ledger->id);
     $op=new Pre_op_ven($cn);
@@ -289,7 +291,7 @@ if ( $def == 2 )
     echo '<div class="content">';
 // Check privilege
     if ( isset($_REQUEST['p_jrn']) &&
-            $User->check_jrn($_REQUEST['p_jrn']) == 'X')
+            $g_user->check_jrn($_REQUEST['p_jrn']) == 'X')
     {
 
         NoAccess();
@@ -315,7 +317,7 @@ if ( $def == 2 )
     /* by default we should the default period */
     if ( ! isset($p_array['date_start']))
     {
-        $period=$User->get_periode();
+        $period=$g_user->get_periode();
         $per=new Periode($cn,$period);
         list($date_start,$date_end)=$per->get_date_limit();
         $p_array['date_start']=$date_start;
@@ -336,6 +338,7 @@ if ( $def == 2 )
     echo HtmlInput::hidden("sa","l");
     echo HtmlInput::hidden("p_action","ven");
     echo dossier::hidden();
+      echo HtmlInput::hidden("ac",$_REQUEST['ac']);
     echo $bar;
     list($count,$html)= $Ledger->list_operation($sql,$offset,1);
     echo $html;
@@ -378,7 +381,7 @@ if ( $def==3 )
     echo '<div class="content">';
 // Check privilege
     if ( isset($_REQUEST['p_jrn']) &&
-            $User->check_jrn($_REQUEST['p_jrn']) == 'X')
+            $g_user->check_jrn($_REQUEST['p_jrn']) == 'X')
     {
         NoAccess();
         exit -1;

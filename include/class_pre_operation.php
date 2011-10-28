@@ -99,7 +99,7 @@ class Pre_operation
         return true;
     }
     /*!\brief load the data from the database and return an array
-     * \return an array 
+     * \return an array
      */
     function load()
     {
@@ -195,6 +195,7 @@ class Pre_operation_detail
 
         $hid=new IHidden();
         $r=$hid->input("action","use_opd");
+	echo HtmlInput::hidden('ac',$_REQUEST['ac']);
         $r.=dossier::hidden();
         $r.=$hid->input("p_jrn",$this->get("ledger"));
         $r.=$hid->input("jrn_type",$this->get("ledger_type"));

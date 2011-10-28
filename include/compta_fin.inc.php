@@ -27,17 +27,15 @@ require_once ('class_acc_ledger_fin.php');
 require_once('class_ipopup.php');
 
 $gDossier=dossier::id();
-$p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 
 
 $cn=new Database(dossier::id());
-$menu_action="?p_action=fin&".dossier::get();
+$menu_action="?ledger_type=fin&ac=".$_REQUEST['ac']."&".dossier::get();
 $menu=array(
           array($menu_action.'&sa=n',_('Nouvel extrait'),_('Encodage d\'un nouvel extrait'),1),
           array($menu_action.'&sa=l',_('Liste'),_('Liste opération bancaire'),2),
           array($menu_action.'&sa=s',_('Solde'),_('Solde des comptes'),3),
-          array($menu_action.'&sa=r',_('Rapprochements banquaires'),_('Rapprochements banquaires'),4),
-          array('?p_action=impress&type=jrn&'.dossier::get(),_('Impression'),_('Impression'))
+          array($menu_action.'&sa=r',_('Rapprochements banquaires'),_('Rapprochements banquaires'),4)
           );
 $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:-1;
 
@@ -70,8 +68,6 @@ $Ledger=new Acc_Ledger_Fin($cn,0);
 //--------------------------------------------------------------------------------
 if ( $def == 1 )
 {
-
-    $href=basename($_SERVER['PHP_SELF']);
 
     if ( isset($_REQUEST['p_jrn']))
         $Ledger->id=$_REQUEST['p_jrn'];
@@ -106,7 +102,7 @@ if ( $def == 1 )
         {
             echo '<div class="content">';
             echo '<form name="form_detail" class="print" enctype="multipart/form-data" ACTION="'.$href.'" METHOD="POST">';
-            echo HtmlInput::hidden('p_action','fin');
+            echo HtmlInput::hidden('ac',$_REQUEST['ac']);
             echo $Ledger->confirm($_POST);
             echo HtmlInput::submit('confirm',_('Confirmer'));
             echo HtmlInput::submit('correct',_('Corriger'));
@@ -139,7 +135,7 @@ if ( $def == 1 )
             echo $a;
             echo '</div>';
             echo '<div class="content">';
-            echo HtmlInput::button_anchor(_('Nouvel extrait'),$href.'?p_action=fin&sa=n&'.dossier::get());
+            echo HtmlInput::button_anchor(_('Nouvel extrait'),$href.'?ledger_type=fin&sa=n&'.dossier::get()."&ac=".$_REQUEST['ac']);
             echo '</div>';
             exit();
         }
@@ -158,8 +154,9 @@ if ( $def == 1 )
 
 
     echo '<form class="print" name="form_detail" enctype="multipart/form-data" ACTION="'.$href.'" METHOD="POST">';
-    echo HtmlInput::hidden('p_action','fin');
+    echo HtmlInput::hidden('ledger_type','fin');
     echo HtmlInput::hidden('sa','n');
+      echo HtmlInput::hidden('ac',$_REQUEST['ac']);
     $array=( isset($correct))?$_POST:null;
     // show select ledger
     echo $Ledger->input($array);
@@ -207,7 +204,6 @@ if ( $def == 2)
     $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
     echo HtmlInput::hidden("sa","lnp");
-    echo HtmlInput::hidden("p_action","ach");
     echo dossier::hidden();
     echo $bar;
     list($count,$html)= $Ledger->list_operation($sql,$offset);
@@ -216,7 +212,7 @@ if ( $def == 2)
    /*
      * Export to csv
      */
-    $r=HtmlInput::get_to_hidden(array('l','date_start','date_end','desc','amount_min','amount_max','qcode','accounting','unpaid','gDossier','ledger_type','p_action'));
+    $r=HtmlInput::get_to_hidden(array('l','ac','date_start','date_end','desc','amount_min','amount_max','qcode','accounting','unpaid','gDossier','ledger_type','p_action'));
     if (isset($_GET['r_jrn'])) {
       foreach ($_GET['r_jrn'] as $k=>$v)
 	$r.=HtmlInput::hidden('r_jrn['.$k.']',$v);
@@ -352,7 +348,7 @@ if ($def==4)
     //-------------------------
     echo '<div class="content">';
     echo '<form method="get">';
-    echo HtmlInput::get_to_hidden(array('gDossier','p_action','sa'));
+    echo HtmlInput::get_to_hidden(array('gDossier','ledger_type','ac','sa'));
     $wLedger=$Ledger->select_ledger('FIN',3);
     if ($wLedger == null ) exit ('Pas de journal disponible');
     

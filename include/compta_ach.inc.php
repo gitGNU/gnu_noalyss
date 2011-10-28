@@ -34,13 +34,11 @@ $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 $cn=new Database(dossier::id());
 //menu = show a list of ledger
 $str_dossier=dossier::get();
-
+$ac="ac=".$_REQUEST['ac'];
 $array=array(
-           array('?p_action=ach&sa=n&'.$str_dossier,_('Nouvelle dépense'),_('Nouvel achat ou dépense'),1),
-           array('?p_action=ach&sa=l&'.$str_dossier,_('Liste achat'),_('Liste des achats'),2),
-           array('?p_action=ach&sa=lnp&'.$str_dossier,_('Liste dépenses non payées'),_('Liste des ventes non payées'),3),
-           array('commercial.php?p_action=supplier&'.$str_dossier,_('Fournisseurs'),_('Fournisseurs')),
-           array('?p_action=impress&type=jrn&'.$str_dossier,_('Impression'),_('Impression'))
+           array('?ledger_type=ACH&sa=n&'.$str_dossier."&$ac",_('Nouvelle dépense'),_('Nouvel achat ou dépense'),1),
+           array('?ledger_type=ACH&sa=l&'.$str_dossier."&$ac",_('Liste achat'),_('Liste des achats'),2),
+           array('?ledger_type=ACH&sa=lnp&'.$str_dossier."&$ac",_('Liste dépenses non payées'),_('Liste des ventes non payées'),3)
        );
 
 $sa=(isset ($_REQUEST['sa']))?$_REQUEST['sa']:-1;
@@ -66,8 +64,7 @@ case 'lnp':
 echo '<div class="lmenu">';
 echo ShowItem($array,'H','mtitle','mtitle',$def);
 echo '</div>';
-$href=basename($_SERVER['PHP_SELF']);
-
+$href=basename($_SERVER['PHP_SELF'])."?$ac&$str_dossier";
 //----------------------------------------------------------------------
 // Encode a new invoice
 // empty form for encoding
@@ -76,7 +73,7 @@ if ( $def==1 || $def == 4 )
 {
 // Check privilege
     if ( isset($_REQUEST['p_jrn']))
-        if (     $User->check_jrn($_REQUEST['p_jrn']) != 'W' )
+        if (     $g_user->check_jrn($_REQUEST['p_jrn']) != 'W' )
         {
             NoAccess();
             exit -1;
@@ -105,7 +102,7 @@ if ( $def==1 || $def == 4 )
             echo HtmlInput::hidden('p_action','ach');
             echo dossier::hidden();
             echo $Ledger->confirm($_POST );
-
+	    echo HtmlInput::hidden('ac',$_REQUEST['ac']);
             $chk=new ICheckBox();
             $chk->selected=false;
 	    echo '<div style="float:left;clear:both">';
@@ -150,7 +147,7 @@ if ( $def==1 || $def == 4 )
 
 
             /* Save the predefined operation */
-            if ( isset($_POST['opd_save']) && $User->check_action(PARPREDE)==1)
+            if ( isset($_POST['opd_save']) && $g_user->check_action(PARPREDE)==1)
             {
                 $opd=new Pre_op_ach($cn);
                 $opd->get_post();
@@ -270,7 +267,7 @@ if ( $def == 2 )
     echo '<div class="content">';
 // Check privilege
     if ( isset($_REQUEST['p_jrn']) &&
-            $User->check_jrn($_REQUEST['p_jrn']) == 'X')
+            $g_user->check_jrn($_REQUEST['p_jrn']) == 'X')
     {
 
         NoAccess();
@@ -296,7 +293,7 @@ if ( $def == 2 )
     /* by default we should the default period */
     if ( ! isset($p_array['date_start']))
     {
-        $period=$User->get_periode();
+        $period=$g_user->get_periode();
         $per=new Periode($cn,$period);
         list($date_start,$date_end)=$per->get_date_limit();
         $p_array['date_start']=$date_start;
@@ -358,7 +355,7 @@ if ( $def==3 )
     echo '<div class="content">';
 // Check privilege
     if ( isset($_REQUEST['p_jrn']) &&
-            $User->check_jrn($_REQUEST['p_jrn']) == 'X')
+            $g_user->check_jrn($_REQUEST['p_jrn']) == 'X')
     {
         NoAccess();
         exit -1;

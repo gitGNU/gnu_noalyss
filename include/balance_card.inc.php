@@ -24,11 +24,12 @@
  * \brief show the status of a card
  */
 require_once('class_exercice.php');
+global $g_user;
 echo '<div class="content" style="width:80%;margin-left:10%">';
 $exercice=new Exercice($cn);
 $old='';
 $fiche=new Fiche($cn,$_GET['f_id']);
-$year=$User->get_exercice();
+$year=$g_user->get_exercice();
 if ( $year == 0 )
   {
     $html="erreur aucune période par défaut, allez dans préférence pour en choisir une";
@@ -53,11 +54,11 @@ else
 	$default=(isset($_GET['ex']))?$_GET['ex']:$year;
 	$dossier=dossier::id();
 
-	    $old='<form method="get" action="commercial.php">';
+	    $old='<form method="get" action="do.php">';
 	    $is=$exercice->select('ex',$default,'onchange = "submit(this)"');
 	    $old.="Autre exercice ".$is->input();
 	    $old.=HtmlInput::hidden('f_id',$_GET['f_id']);
-	    $old.=HtmlInput::hidden('p_action',$_GET['p_action']);
+	    $old.=HtmlInput::hidden('ac',$_GET['ac']);
 	    $old.=HtmlInput::hidden('sb',$_GET['sb']);
 	    $old.=HtmlInput::hidden('sc',$_GET['sc']);
 	    $old.=dossier::hidden();
@@ -70,5 +71,5 @@ else
     echo $old;
 
   }
- 
+
 echo '</div>';

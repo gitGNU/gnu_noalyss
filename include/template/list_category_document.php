@@ -30,7 +30,6 @@ endfor;
 </table>
 <?
 echo dossier::hidden();
-echo HtmlInput::hidden('p_action',$_REQUEST['p_action']);
-echo HtmlInput::hidden('sa',$_REQUEST['sa']);
+echo HtmlInput::hidden('ac',$_REQUEST['ac']);
 ?>
 </form>

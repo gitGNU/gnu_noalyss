@@ -22,7 +22,7 @@
  * \brief Show the balance and let you print it or export to PDF
  *        file included by user_impress
  *
- * some variable are already defined ($cn, $User ...)
+ * some variable are already defined ($cn, $g_user ...)
  */
 
 include_once ("ac_common.php");
@@ -34,9 +34,10 @@ require_once("class_ihidden.php");
 require_once('class_acc_ledger.php');
 require_once('class_periode.php');
 require_once('class_exercice.php');
-
-$User->can_request(IMPBAL);
-$exercice=(isset($_GET['exercice']))?$_GET['exercice']:$User->get_exercice();
+global $g_user;
+$gDossier=dossier::id();
+$g_user->can_request(IMPBAL);
+$exercice=(isset($_GET['exercice']))?$_GET['exercice']:$g_user->get_exercice();
 
 
 echo '<div class="content">';
@@ -50,14 +51,14 @@ $ex=new Exercice($cn);
 $wex=$ex->select('exercice',$exercice,' onchange="submit(this)"');
 echo $wex->input();
 echo dossier::hidden();
-echo HtmlInput::get_to_hidden(array('p_action','type'));
+echo HtmlInput::get_to_hidden(array('ac','type'));
 echo '</form>';
 echo '</fieldset>';
 
 
 // Show the form for period
 echo '<FORM  method="get">';
-echo HtmlInput::hidden('p_action','impress');
+echo HtmlInput::get_to_hidden(array('ac'));
 echo HtmlInput::hidden('type','bal');
 echo HtmlInput::get_to_hidden(array('exercice'));
 echo dossier::hidden();
@@ -71,7 +72,7 @@ $input_from->show_end_date=false;
 $input_from->type=ALL;
 $input_from->cn=$cn;
 $input_from->filter_year=true;
-$input_from->user=$User;
+$input_from->user=$g_user;
 
 echo 'Depuis :'.$input_from->input();
 // filter on the current year
@@ -81,7 +82,7 @@ $input_to->show_start_date=false;
 $input_to->filter_year=true;
 $input_to->type=ALL;
 $input_to->cn=$cn;
-$input_to->user=$User;
+$input_to->user=$g_user;
 echo ' jusque :'.$input_to->input();
 
 //-------------------------------------------------
@@ -90,7 +91,7 @@ echo ' jusque :'.$input_to->input();
 /*  add a all ledger choice */
 echo 'Filtre ';
 $rad=new IRadio();
-$array_ledger=$User->get_ledger('ALL',3);
+$array_ledger=$g_user->get_ledger('ALL',3);
 $selected=(isset($_GET['r_jrn']))?$_GET['r_jrn']:null;
 $select_cat=(isset($_GET['r_cat']))?$_GET['r_cat']:null;
 $array_cat=Acc_Ledger::array_cat();
@@ -177,7 +178,7 @@ if ( isset ($_GET['view']  ) )
     echo '<TD><form method="GET" ACTION="export.php">'.
     dossier::hidden().
     HtmlInput::submit('bt_pdf',"Export PDF").
-    HtmlInput::hidden("p_action","impress").
+    HtmlInput::hidden("ac",$_REQUEST['ac']).
     HtmlInput::hidden("act","PDF/balance").
 
     HtmlInput::hidden("from_periode",$_GET['from_periode']).
@@ -199,10 +200,10 @@ if ( isset ($_GET['view']  ) )
     echo '<TD><form method="GET" ACTION="export.php">'.
     HtmlInput::submit('bt_csv',"Export CSV").
     dossier::hidden().
-    HtmlInput::hidden("p_action","impress").
     HtmlInput::hidden("act","CSV/balance").
     HtmlInput::hidden("from_periode",$_GET['from_periode']).
     HtmlInput::hidden("to_periode",$_GET['to_periode']);
+    echo HtmlInput::get_to_hidden(array('ac'));
     echo HtmlInput::hidden('p_filter',$_GET['p_filter']);
     if (isset($_GET ['r_jrn']))
         if (isset($selected[$e]))
@@ -288,12 +289,12 @@ if ( isset($_GET['view'] ) )
 	 * level x
 	 */
 	foreach (array(3,2,1) as $ind)
-	  {	
+	  {
 	    if ( ! isset($_GET['lvl'.$ind]))continue;
 	    if (${'lvl'.$ind.'_old'} == '')	  ${'lvl'.$ind.'_old'}=substr($r['poste'],0,$ind);
 	    if ( ${'lvl'.$ind.'_old'} != substr($r['poste'],0,$ind))
 	      {
-		
+
 		echo '<tr style="font-size:12px;font-height:bold">';
 		echo td("Total niveau ".$ind);
 		echo td(${'lvl'.$ind.'_old'});
@@ -301,7 +302,7 @@ if ( isset($_GET['view'] ) )
 		echo td(nbm(${'lvl'.$ind}['sum_cred']),'style="text-align:right"');
 		echo td(nbm(${'lvl'.$ind}['solde_deb']),'style="text-align:right"');
 		echo td(nbm(${'lvl'.$ind}['solde_cred']),'style="text-align:right"');
-		
+
 		echo '</tr>';
 		${'lvl'.$ind.'_old'}=substr($r['poste'],0,$ind);
 		foreach(array('sum_cred','sum_deb','solde_deb','solde_cred') as $a)

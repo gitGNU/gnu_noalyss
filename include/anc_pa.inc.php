@@ -28,7 +28,7 @@
 require_once("class_anc_plan.php");
 require_once("class_anc_account.php");
 $ret="";
-
+$str_dossier=Dossier::get();
 //---------------------------------------------------------------------------
 // action
 // Compute the u_redcontent div
@@ -49,8 +49,6 @@ if ( isset($_REQUEST['sa']))
             $ret.=dossier::hidden();
             $ret.= $new->form();
             $ret.= HtmlInput::hidden("sa","pa_write");
-            $ret.=HtmlInput::hidden("p_action","ca_pa");
-            ;
             $ret.=HtmlInput::submit("submit","Enregistre");
             $ret.= '</form>';
             $ret.= '</div>';
@@ -87,7 +85,6 @@ if ( isset($_REQUEST['sa']))
     if ( $sa == "pa_detail" )
     {
         $new=new Anc_Plan($cn,$_GET['pa_id']);
-        $wAction=HtmlInput::hidden("p_action","ca_pa");
         $wSa=HtmlInput::hidden("sa","pa_update");
 
         $new->get();
@@ -99,13 +96,8 @@ if ( isset($_REQUEST['sa']))
 
         $ret.= $new->form();
         $ret.= $wSa;
-        $ret.= $wAction;
         $ret.=HtmlInput::submit("submit","Enregistre");
-        /*		$ret.=sprintf('<A class="button" HREF="%s" onclick="return confirm(\'Effacer ?\')">'.
-        					  '<input type="button" value="Efface"></A>',
-        					  "?p_action=ca_pa&pa_id=".$_GET['pa_id']."&sa=pa_delete&$str_dossier");
-        */
-        $ret.=HtmlInput::button_anchor('Efface',"?p_action=ca_pa&pa_id=".$_GET['pa_id']."&sa=pa_delete&$str_dossier",'Efface','onclick="return confirm(\'Effacer ?\')"');
+        $ret.=HtmlInput::button_anchor('Efface',"?ac=".$_REQUEST['ac']."&pa_id=".$_GET['pa_id']."&sa=pa_delete&$str_dossier",'Efface','onclick="return confirm(\'Effacer ?\')"');
         $ret.= '</form>';
         $ret.= '</div>';
 
@@ -166,7 +158,7 @@ if ( isset($_REQUEST['sa']))
         $ret.=$po->form();
         $ret.=HtmlInput::hidden('sa','po_update');
         $ret.=HtmlInput::submit('Correction','Correction');
-        $ret.=sprintf('<A class="mtitle" HREF="?p_action=ca_pa&sa=po_delete&po_id=%s&pa_id=%s&'.$str_dossier.'">'.
+        $ret.=sprintf('<A class="mtitle" HREF="?ac='.$_REQUEST['ac'].'&sa=po_delete&po_id=%s&pa_id=%s&'.$str_dossier.'">'.
                       '<input type="button" value="Efface" onClick="return confirm(\' Voulez-vous vraiment effacer cette activité\');"></A>',
                       $po->id,
                       $_REQUEST['pa_id']
@@ -216,7 +208,7 @@ if ( isset($_REQUEST['sa']))
 
             $ret.="<TR class=\"$class\">";
             $ret.="<TD >".
-                  '<a style="text-decoration:underline;" href="?p_action=ca_pa&sa=po_detail&po_id='.$obj->id.'&pa_id='.$_REQUEST['pa_id'].'&'.
+                  '<a style="text-decoration:underline;" href="?ac='.$_REQUEST['ac'].'&sa=po_detail&po_id='.$obj->id.'&pa_id='.$_REQUEST['pa_id'].'&'.
                   $str_dossier.'">'.
                   h($obj->name).
                   '</a>';
@@ -230,7 +222,7 @@ if ( isset($_REQUEST['sa']))
 
         }
         $ret.="</table>";
-        $ret.=HtmlInput::button_anchor('Ajout',"?p_action=ca_pa&sa=po_add&pa_id=".$_GET['pa_id']."&".$str_dossier);
+        $ret.=HtmlInput::button_anchor('Ajout',"?ac=".$_REQUEST['ac']."&sa=po_add&pa_id=".$_GET['pa_id']."&".$str_dossier);
         $ret.='</div>';
 
     }
@@ -253,7 +245,7 @@ if ( empty($list)  )
     echo '<div class="lmenu">';
     echo '<TABLE>';
     echo '<TR><TD class="mtitle">';
-    echo '<a class="mtitle" href="?p_action=ca_pa&sa=add_pa&'.$str_dossier.'">Ajout d\'un plan comptable</a>';
+    echo '<a class="mtitle" href="?ac='.$_REQUEST['ac'].'&sa=add_pa&'.$str_dossier.'">Ajout d\'un plan comptable</a>';
     echo '</TD></TR>';
     echo '</TABLE>';
 
@@ -273,11 +265,11 @@ else
     {
         echo '<TR>';
         echo '<TD >'.
-        '<a class="mtitle" href="?p_action=ca_pa&sa=pa_detail&pa_id='.$line['id'].'&'.$str_dossier.'">'.
+        '<a class="mtitle" href="?ac='.$_REQUEST['ac'].'&sa=pa_detail&pa_id='.$line['id'].'&'.$str_dossier.'">'.
         h($line['name']).
         '</TD>';
         echo '<td class="mtitle">'.
-        '<a class="mtitle" href="?p_action=ca_pa&sa=list&pa_id='.$line['id'].'&'.$str_dossier.'">'.
+        '<a class="mtitle" href="?ac='.$_REQUEST['ac'].'&sa=list&pa_id='.$line['id'].'&'.$str_dossier.'">'.
         "Activités".
         "</a>";
 
@@ -288,7 +280,7 @@ else
     {
         echo '<TABLE>';
         echo '<TR><TD class="mtitle">';
-        echo '<a class="mtitle" href="?p_action=ca_pa&sa=add_pa&'.$str_dossier.'">Ajout d\'un plan comptable</a>';
+        echo '<a class="mtitle" href="?ac='.$_REQUEST['ac'].'&sa=add_pa&'.$str_dossier.'">Ajout d\'un plan comptable</a>';
         echo '</TD></TR>';
         echo '</TABLE>';
     }

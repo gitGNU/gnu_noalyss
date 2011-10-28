@@ -229,13 +229,13 @@ class Periode
                     $change='<TD></TD>';
 		    $remove=sprintf(_('Nombre opérations %d'),$l_line['count_op']);
                     $remove=td($remove,' class="mtitle" ');
-                    $change=td ('<A class="mtitle" HREF="?p_action=periode&action=reopen&p_per='.$l_line['p_id'].'&'.$str_dossier.'" onclick="return confirm(\''._('Confirmez Réouverture').' ?\')"> Réouverture</A>',' class="mtitle"');
+                    $change=td ('<A class="mtitle" HREF="?ac='.$_REQUEST['ac'].'&action=reopen&p_per='.$l_line['p_id'].'&'.$str_dossier.'" onclick="return confirm(\''._('Confirmez Réouverture').' ?\')"> Réouverture</A>',' class="mtitle"');
 
                 }
                 else
                 {
                     $closed='<TD class="mtitle">';
-                    $closed.='<A class="mtitle" HREF="?p_action=periode&action=closed&p_per='.$l_line['p_id'].'&'.$str_dossier.'" onclick="return confirm(\''._('Confirmez cloture').' ?\')"> Cloturer</A></td>';
+                    $closed.='<A class="mtitle" HREF="?ac='.$_REQUEST['ac'].'&action=closed&p_per='.$l_line['p_id'].'&'.$str_dossier.'" onclick="return confirm(\''._('Confirmez cloture').' ?\')"> Cloturer</A></td>';
 
                     if ($l_line['count_op'] == 0 )
                     {
@@ -260,7 +260,7 @@ class Periode
 
                     if ($l_line['count_op'] == 0 )
                     {
-                        $remove.='<A class="mtitle" HREF="?p_action=periode&action=delete_per&p_per='.
+                        $remove.='<A class="mtitle" HREF="?ac='.$_REQUEST['ac'].'&action=delete_per&p_per='.
                                  $l_line['p_id']."&$str_dossier\" onclick=\"return confirm('"._('Confirmez effacement ?')."')\" > Efface</A>";
                     }
                     else
@@ -277,7 +277,7 @@ class Periode
 		echo '</TR>';
 
             }
-            echo '<TR> <FORM ACTION="?p_action=periode" METHOD="POST">';
+            echo '<TR> <FORM  METHOD="POST">';
             echo dossier::hidden();
 	    $istart=new IDate('p_date_start');
 	    $iend=new IDate('p_date_end');
@@ -325,13 +325,13 @@ class Periode
 
                 if ( $l_line['status'] != 'OP' )
                 {
-		  $closed=td ('<A class="mtitle" HREF="?p_action=periode&action=reopen&p_per='.$l_line['p_id'].'&'.$str_dossier.'&jrn_def_id='.$this->jrn_def_id.'" onclick="return confirm(\''._('Confirmez Réouverture').' ?\')"> Réouverture</A>',' class="mtitle"');
+		  $closed=td ('<A class="mtitle" HREF="?ac='.$_REQUEST['ac'].'&action=reopen&p_per='.$l_line['p_id'].'&'.$str_dossier.'&jrn_def_id='.$this->jrn_def_id.'" onclick="return confirm(\''._('Confirmez Réouverture').' ?\')"> Réouverture</A>',' class="mtitle"');
 		  //                    $closed=($l_line['status']=='CE')?'<TD>Centralisee</TD>':'<TD>Ferm&eacute;e</TD>';
                 }
                 else
                 {
                     $closed='<TD class="mtitle">';
-                    $closed.='<A class="mtitle" HREF="?p_action=periode&action=closed&p_per='.$l_line['p_id'].'&'.$str_dossier.'&jrn_def_id='.$this->jrn_def_id.'" onclick="return confirm(\''._('Confirmez Cloture').' ?\')"> Cloturer</A>';
+                    $closed.='<A class="mtitle" HREF="?ac='.$_REQUEST['ac'].'&action=closed&p_per='.$l_line['p_id'].'&'.$str_dossier.'&jrn_def_id='.$this->jrn_def_id.'" onclick="return confirm(\''._('Confirmez Cloture').' ?\')"> Cloturer</A>';
                     $closed.='</td>';
                 }
                 echo "$closed";
@@ -486,7 +486,7 @@ class Periode
      */
     function insert_exercice($p_exercice)
     {
-      try 
+      try
 	{
 	  $this->cn->start();
 	  for ($i=1;$i < 12;$i++)

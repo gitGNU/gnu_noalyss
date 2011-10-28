@@ -22,10 +22,10 @@
  * \brief Page who manage the different actions (meeting, letter)
  */
 require_once('class_ipopup.php');
+global $g_user;
+$g_user->can_request(GECOUR);
 
-$User->can_request(GECOUR);
-
-$retour=HtmlInput::button_anchor(_('Retour'),'?p_action=suivi_courrier&my_action&'.dossier::get());
+$retour=HtmlInput::button_anchor(_('Retour'),'?ac='.$_REQUEST['ac'].'&my_action&'.dossier::get());
 //-----------------------------------------------------
 // Action
 //-----------------------------------------------------
@@ -53,8 +53,8 @@ $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
  * with the generation of document
  */
 $ag_id=(isset($_REQUEST['ag_id']))?$_REQUEST['ag_id']:0;
-$p_action=$_REQUEST['p_action'];
-$base='p_action='.$p_action;
+$ac=$_REQUEST['ac'];
+$base='ac='.$ac;
 
 require_once('action.common.inc.php');
 echo "</div>";

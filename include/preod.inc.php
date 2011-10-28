@@ -45,7 +45,7 @@ echo 'Choississez un journal '.$sel->input();
 echo dossier::hidden();
 $hid=new IHidden();
 echo $hid->input("sa","jrn");
-echo $hid->input("p_action","preod");
+echo $hid->input("ac",$_REQUEST['ac']);
 echo '<hr>';
 echo HtmlInput::submit('Accepter','Accepter');
 echo '</form>';
@@ -96,7 +96,7 @@ if ( $sa == 'jrn' )
 	echo '<form method="POST" style="margin:0;padding:0">';
         echo dossier::hidden();
         echo $hid->input("sa","del");
-        echo $hid->input("p_action","preod");
+        echo $hid->input("ac",$_REQUEST['ac']);
         echo $hid->input("del","");
         echo $hid->input("od_id",$row['od_id']);
         echo $hid->input("jrn",$_GET['jrn']);

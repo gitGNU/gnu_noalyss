@@ -30,7 +30,7 @@ echo '<div class="content">';
 echo '<div id="search">';
 echo '<FORM METHOD="GET">';
 echo dossier::hidden();
-echo HtmlInput::hidden('p_action','let');
+echo HtmlInput::hidden('ac',$_REQUEST['ac']);
 echo HtmlInput::hidden('sa','poste');
 echo '<table width="50%">';
 
@@ -49,7 +49,7 @@ $r= td(_('Lettrage pour le poste comptable ')).
     td($poste_span->input());
 echo tr($r);
 // limit of the year
-$exercice=$User->get_exercice();
+$exercice=$g_user->get_exercice();
 $periode=new Periode($cn);
 list($first_per,$last_per)=$periode->get_limit($exercice);
 

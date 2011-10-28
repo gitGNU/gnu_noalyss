@@ -31,18 +31,14 @@ require_once('class_iaction.php');
 require_once('class_fiche_def.php');
 require_once('class_ipopup.php');
 require_once('class_admin.php');
-echo js_include('accounting_item.js');
-echo js_include('prototype.js');
-echo js_include('scriptaculous.js');
-echo js_include('effects.js');
-echo js_include('controls.js');
-echo js_include('dragdrop.js');
+
+global $g_user;
 
 $low_action=(isset($_REQUEST['sb']))?$_REQUEST['sb']:"list";
 /*! \file
  * \brief Called from the module "Gestion" to manage the customer
  */
-$User->can_request(GECUST);
+$g_user->can_request(GECUST);
 $href=basename($_SERVER['PHP_SELF']);
 
 // by default open liste
@@ -55,7 +51,7 @@ if ( $low_action  == "" )
 //-----------------------------------------------------
 if ( isset($_POST['delete_card'] ) )
 {
-    if ( $User->check_action(FICADD) == 0 )
+    if ( $g_user->check_action(FICADD) == 0 )
     {
         alert('Vous  ne pouvez pas enlever de fiche');
         return;
@@ -136,7 +132,7 @@ if ( $low_action == "list" )
 }
 /*----------------------------------------------------------------------
  * Detail for a card, Suivi, Contact, Operation,... *
- * cc stands for customer card 
+ * cc stands for customer card
  *----------------------------------------------------------------------*/
 if ( $low_action == 'detail')
 {
@@ -148,7 +144,7 @@ if ( $low_action == 'detail')
 if ( $low_action=="insert" )
 {
     /* security : check if user can add card */
-    if ( $User->check_action(FICADD) == 0 )
+    if ( $g_user->check_action(FICADD) == 0 )
     {
         alert('Vous  ne pouvez pas ajouter de fiche');
         return;

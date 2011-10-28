@@ -1,4 +1,5 @@
 <?php
+
 /*
  *   This file is part of PhpCompta.
  *
@@ -15,42 +16,44 @@
  *   You should have received a copy of the GNU General Public License
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 /* $Revision$ */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file
- * \brief file to include for the "lettrage" (lettering?)
+/* !\file
+ * \brief Main file
  */
 
-$array=array(
-           array('?'.dossier::get().'&p_action=let&sa=poste',_('Par poste'),
-                     _('Lettrage par poste'), 1),
-               array('?'.dossier::get().'&p_action=let&sa=qc',_('Par fiche'),
-                         _('Lettrage par fiche'), 2)
-               );
-$sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:0;
-switch($sa)
+require_once ('class_dossier.php');
+require_once('user_common.php');
+require_once('ac_common.php');
+require_once 'function_javascript.php';
+html_page_start();
+global $g_user,$cn;
+
+$cn=new Database(Dossier::id());
+$g_user=new User($cn);
+// Display available menu in the right order
+load_all_script();
+
+$module_selected = -1;
+
+if (isset($_REQUEST['ac']))
 {
-case 'poste':
-    $subdef=1;
-    break;
-case 'qc':
-    $subdef=2;
-    break;
+    $all = explode('/', $_REQUEST['ac']);
+    $module_selected = $all[0];
+
+// Show module and highligt selected one
+    show_module($module_selected);
+   for ( $i=0;$i != count($all);$i++)
+	{   // show the menu
+	    show_menu($all,$i);
+	}
 }
-echo '<div class="lmenu">';
-echo ShowItem($array,'H','mtitle','mtitle',$subdef);
-echo '</div>';
-if ($sa == 'poste')
+else
 {
-    require_once('lettering.account.inc.php');
-    exit;
+    show_module(-1);
 }
 
-if ($sa=='qc')
-{
-    require_once('lettering.card.inc.php');
-    exit;
-}
+

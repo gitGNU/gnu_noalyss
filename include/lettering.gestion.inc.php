@@ -1,10 +1,11 @@
 <?php
 require_once('class_lettering.php');
+global $g_user;
 echo '<div class="content">';
 echo '<div id="search">';
 echo '<FORM METHOD="GET">';
 echo dossier::hidden();
-echo HtmlInput::hidden('p_action',$_REQUEST['p_action']);
+echo HtmlInput::hidden('ac',$_REQUEST['ac']);
 echo HtmlInput::hidden('sb',$_REQUEST['sb']);
 echo HtmlInput::hidden('sc',$_REQUEST['sc']);
 echo HtmlInput::hidden('f_id',$_REQUEST['f_id']);
@@ -12,7 +13,7 @@ echo HtmlInput::hidden('f_id',$_REQUEST['f_id']);
 echo '<table width="50%">';
 
 // limit of the year
-$exercice=$User->get_exercice();
+$exercice=$g_user->get_exercice();
 $periode=new Periode($cn);
 list($first_per,$last_per)=$periode->get_limit($exercice);
 

@@ -27,6 +27,7 @@ include_once ("user_common.php");
 include_once("class_user.php");
 require_once("class_iselect.php");
 require_once('class_acc_ledger.php');
+$gDossier=Dossier::id();
 $cn=new Database($gDossier);
 
 require_once('class_iposte.php');
@@ -41,6 +42,10 @@ if ( !isset($_REQUEST['p_jrn']))
 }
 else
     $Ledger->id=$_REQUEST['p_jrn'];
+/*
+ * @todo usefull ?
+ */
+$_GET['ledger_type']='ALL';
 echo $Ledger->display_search_form();
 echo '<hr>';
 /*  compute the sql stmt */
@@ -54,7 +59,7 @@ $offset=(isset($_GET['offset']))?$_GET['offset']:0;
 $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
 
-echo HtmlInput::request_to_hidden(array('sa','sb','sc','f_id','p_action'));
+echo HtmlInput::request_to_hidden(array('sa','sb','sc','f_id','ac'));
 
 echo dossier::hidden();
 echo $bar;

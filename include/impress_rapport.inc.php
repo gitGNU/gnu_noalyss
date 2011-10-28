@@ -21,14 +21,14 @@
  * \brief print first the report in html and propose to print it in pdf
  *        file included by user_impress
  *
- * some variable are already defined ($cn, $User ...)
+ * some variable are already defined ($cn, $g_user ...)
  */
 require_once("class_ihidden.php");
 require_once("class_iselect.php");
 require_once("class_idate.php");
 require_once("class_acc_report.php");
 require_once('class_exercice.php');
-
+global $g_user;
 //-----------------------------------------------------
 // If print is asked
 // First time in html
@@ -90,14 +90,14 @@ if ( isset( $_GET['bt_html'] ) )
     echo '<TD><form method="GET" ACTION="?">'.
     dossier::hidden().
     HtmlInput::submit('bt_other',"Autre Rapport").
-    $hid->input("type","rapport").$hid->input("p_action","impress")."</form></TD>";
+    $hid->input("type","rapport").$hid->input("ac",$_GET['ac'])."</form></TD>";
 
     echo '<TD><form method="GET" ACTION="export.php">'.
     HtmlInput::submit('bt_pdf',"Export PDF").
       HtmlInput::hidden('act','PDF/report').
     dossier::hidden().
     $hid->input("type","rapport").
-    $hid->input("p_action","impress").
+    $hid->input("ac",$_GET['ac']).
     $hid->input("form_id",$Form->id);
     if ( isset($_GET['from_periode'])) echo $hid->input("from_periode",$_GET['from_periode']);
     if ( isset($_GET['to_periode'])) echo $hid->input("to_periode",$_GET['to_periode']);
@@ -115,7 +115,7 @@ if ( isset( $_GET['bt_html'] ) )
     HtmlInput::submit('bt_csv',"Export CSV").
     dossier::hidden().
     $hid->input("type","form").
-    $hid->input("p_action","impress").
+    $hid->input("ac",$_GET['ac']).
     $hid->input("form_id",$Form->id);
     if ( isset($_GET['from_periode'])) echo $hid->input("from_periode",$_GET['from_periode']);
     if ( isset($_GET['to_periode'])) echo $hid->input("to_periode",$_GET['to_periode']);
@@ -174,7 +174,7 @@ if ( sizeof($ret) == 0 )
 // Form
 //-----------------------------------------------------
 echo '<div class="content">';
-$exercice=(isset($_GET['exercice']))?$_GET['exercice']:$User->get_exercice();
+$exercice=(isset($_GET['exercice']))?$_GET['exercice']:$g_user->get_exercice();
 
 /*
  * Let you change the exercice
@@ -186,14 +186,14 @@ $ex=new Exercice($cn);
 $wex=$ex->select('exercice',$exercice,' onchange="submit(this)"');
 echo $wex->input();
 echo dossier::hidden();
-echo HtmlInput::get_to_hidden(array('p_action','type'));
+echo HtmlInput::get_to_hidden(array('ac','type'));
 echo '</form>';
 echo '</fieldset>';
 
 
 echo '<FORM METHOD="GET">';
 $hidden=new IHidden();
-echo $hidden->input("p_action","impress");
+echo $hidden->input("ac",$_GET['ac']);
 echo $hidden->input("type","rapport");
 echo 	dossier::hidden();
 

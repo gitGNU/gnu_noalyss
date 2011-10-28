@@ -25,13 +25,15 @@ require_once('class_exercice.php');
  * \brief form who call the printing of the bilan in RTF
  *        file included by user_impress
  *
- * some variable are already defined ($cn, $User ...)
+ * some variable are already defined ($cn, $g_user ...)
  */
 
 //-----------------------------------------------------
 // Show the jrn and date
 //-----------------------------------------------------
 require_once('class_database.php');
+
+global $g_user;
 
 //-----------------------------------------------------
 // Form
@@ -40,7 +42,7 @@ require_once('class_database.php');
 $bilan=new Acc_Bilan($cn);
 $bilan->get_request_get();
 echo '<div class="content">';
-$exercice=(isset($_GET['exercice']))?$_GET['exercice']:$User->get_exercice();
+$exercice=(isset($_GET['exercice']))?$_GET['exercice']:$g_user->get_exercice();
 
 /*
  * Let you change the exercice

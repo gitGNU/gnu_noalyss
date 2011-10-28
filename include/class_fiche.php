@@ -764,7 +764,7 @@ class Fiche
                         {
                             $parameter=array($this->id,null);
                         }
-                        $this->cn->exec_sql("select account_insert($1,$2)",$parameter);
+                        $v=$this->cn->get_value("select account_insert($1,$2)",$parameter);
                     }
                     catch (Exception $e)
                     {

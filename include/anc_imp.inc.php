@@ -31,15 +31,16 @@ require_once("class_ihidden.php");
 require_once('class_anc_operation.php');
 require_once('class_anc_plan.php');
 require_once('ac_common.php');
+$str_dossier=Dossier::get();
 
 //-- the menu
-$menu=array(array("?p_action=ca_imp&sub=listing&$str_dossier",_("Historique"),_("Historique des opérations"),"listing"),
-            array("?p_action=ca_imp&sub=ancgl&$str_dossier",_("grand livre"),_("Grand livre d' plan analytique"),"ancgl"),
-            array("?p_action=ca_imp&sub=bs&$str_dossier",_("Balance simple"),_("Balance simple d'un plan analytique"),"bs"),
-            array("?p_action=ca_imp&sub=bc2&$str_dossier",_("Balance croisée"),_("Balance croisée de 2 plans analytiques"),"bc2"),
-	    array("?p_action=ca_imp&sub=tab&$str_dossier",_("Tableau"),_("Tableau lié à la comptabilité"),'tab'),
-	    array("?p_action=ca_imp&sub=lico&$str_dossier",_("Balance comptabilité"),_("Lien entre comptabilité et Comptabilité analytique"),'lico'),
-	    array("?p_action=ca_imp&sub=group&$str_dossier",_("Groupe"),_("Balance par groupe"),'group'),
+$menu=array(array("?ac=".$_REQUEST['ac']."&sub=listing&$str_dossier",_("Historique"),_("Historique des opérations"),"listing"),
+            array("?ac=".$_REQUEST['ac']."&sub=ancgl&$str_dossier",_("grand livre"),_("Grand livre d' plan analytique"),"ancgl"),
+            array("?ac=".$_REQUEST['ac']."&sub=bs&$str_dossier",_("Balance simple"),_("Balance simple d'un plan analytique"),"bs"),
+            array("?ac=".$_REQUEST['ac']."&sub=bc2&$str_dossier",_("Balance croisée"),_("Balance croisée de 2 plans analytiques"),"bc2"),
+	    array("?ac=".$_REQUEST['ac']."&sub=tab&$str_dossier",_("Tableau"),_("Tableau lié à la comptabilité"),'tab'),
+	    array("?ac=".$_REQUEST['ac']."&sub=lico&$str_dossier",_("Balance comptabilité"),_("Lien entre comptabilité et Comptabilité analytique"),'lico'),
+	    array("?ac=".$_REQUEST['ac']."&sub=group&$str_dossier",_("Groupe"),_("Balance par groupe"),'group'),
 
            );
 $sub=(isset($_GET['sub']))?$_GET['sub']:'no';
@@ -170,7 +171,7 @@ if ( $sub == 'ancgl')
 //---------------------------------------------------------------------------
 // Balance by group
 //---------------------------------------------------------------------------
-if ( $sub == 'group') 
+if ( $sub == 'group')
   {
     require_once('class_anc_group.php');
     $gr=new Anc_Group($cn);
@@ -182,7 +183,7 @@ if ( $sub == 'group')
     if ( isset($_GET['result']))
     {
       echo $gr->show_button($str_hidden);
-      
+
       echo $gr->display_html();
     }
   }

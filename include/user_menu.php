@@ -142,7 +142,7 @@ function GetAvailableFolder($p_user,$p_admin,$p_filter="")
  * \return string
  *
  */
-function ShowMenuCompta($p_high="")
+function ShowMenuCompta_deprecated($p_high="")
 {
     require_once('class_database.php');
 
@@ -227,7 +227,7 @@ function ShowMenuCompta($p_high="")
  *
  * \return the menu
  */
-function ShowMenuAdvanced($default="")
+function ShowMenuAdvanced_deprecated($default="")
 {
     $str_dossier=dossier::get();
     // Show the left menu
@@ -257,7 +257,8 @@ function ShowMenuAdvanced($default="")
 function ShowMenuFiche($p_dossier)
 {
     $cn=new Database($p_dossier);
-    $str_dossier=dossier::get();
+    $mod="&ac=".$_REQUEST['ac'];
+    $str_dossier=dossier::get().$mod;
     echo '<div class="lmenu">';
     echo '<TABLE>';
 
@@ -402,20 +403,21 @@ function MenuJrn()
  *
  */
 
-function ShowMenuPcmn($p_start=1)
+function menu_acc_plan($p_start=1)
 {
+    $base="?ac=".$_REQUEST['ac'];
     $str_dossier="&".dossier::get();
     echo '<TABLE>';
-    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=0'.$str_dossier.'">0'._(' Hors Bilan').' </A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=1'.$str_dossier.'">1'._(' Immobilisé').' </A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=2'.$str_dossier.'">2 '._('Actif a un an au plus').'</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=3'.$str_dossier.'">3 '._('Stock et commande').'</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=4'.$str_dossier.'">4 '._('Compte tiers').'</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="?p_action=pcmn&p_start=5'.$str_dossier.'">5'._('Actif').'</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=6'.$str_dossier.'">6'._('Charges').'</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="?p_action=pcmn&p_start=7'.$str_dossier.'">7'._('Produits').'</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="?p_action=pcmn&p_start=8'.$str_dossier.'">8'._('Hors Comptabilité').'</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="?p_action=pcmn&p_start=9'.$str_dossier.'">9 '._('Hors Comptabilité').'</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="'.$base.'&p_start=0'.$str_dossier.'">0'._(' Hors Bilan').' </A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="'.$base.'&p_start=1'.$str_dossier.'">1'._(' Immobilisé').' </A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="'.$base.'&p_start=2'.$str_dossier.'">2 '._('Actif a un an au plus').'</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="'.$base.'&p_start=3'.$str_dossier.'">3 '._('Stock et commande').'</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="'.$base.'&p_start=4'.$str_dossier.'">4 '._('Compte tiers').'</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="'.$base.'&p_start=5'.$str_dossier.'">5'._('Actif').'</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="'.$base.'&p_start=6'.$str_dossier.'">6'._('Charges').'</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="'.$base.'&p_start=7'.$str_dossier.'">7'._('Produits').'</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="'.$base.'&p_start=8'.$str_dossier.'">8'._('Hors Comptabilité').'</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="'.$base.'&p_start=9'.$str_dossier.'">9 '._('Hors Comptabilité').'</A></TD></TR>';
     echo "</TABLE>";
 }
 

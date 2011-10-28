@@ -27,28 +27,28 @@ require_once('class_acc_operation.php');
  * \brief Print account (html or pdf)
  *        file included from user_impress
  *
- * some variable are already defined $cn, $User ...
+ * some variable are already defined $cn, $g_user ...
  *
  */
 //-----------------------------------------------------
 // Show the jrn and date
 //-----------------------------------------------------
 require_once('class_database.php');
-
+global $g_user;
 //-----------------------------------------------------
 // Form
 //-----------------------------------------------------
 echo '<div class="content">';
 
 echo '<FORM action="?" METHOD="GET">';
-echo HtmlInput::hidden('p_action','impress');
+echo HtmlInput::hidden('ac',$_REQUEST['ac']);
 echo HtmlInput::hidden('type','gl_comptes');
 echo dossier::hidden();
 echo '<TABLE><TR>';
 
 $cn=new Database(dossier::id());
 $periode=new Periode($cn);
-$a=$periode->get_limit($User->get_exercice());
+$a=$periode->get_limit($g_user->get_exercice());
 // $a is an array
 $first_day=$a[0]->first_day();
 $last_day=$a[1]->last_day();
@@ -56,7 +56,7 @@ $last_day=$a[1]->last_day();
 // filter on period
 $date_from=new IDate('from_periode');
 $date_to=new IDate('to_periode');
-$year=$User->get_exercice();
+$year=$g_user->get_exercice();
 $date_from->value=(isset($_REQUEST['from_periode'])&& isDate($_REQUEST['from_periode'])!=0)?$_REQUEST['from_periode']:$first_day;
 $date_to->value=(isset($_REQUEST['to_periode']) && isDate($_REQUEST['to_periode']) !=0  )?$_REQUEST['to_periode']:$last_day;
 echo td(_('Depuis').$date_from->input());
@@ -117,7 +117,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
     $sql='select pcm_val from tmp_pcmn ';
     $cond_poste='';
 
-    if ($from_poste->value != '') 
+    if ($from_poste->value != '')
       {
 		$cond_poste = '  where ';
 		$cond_poste .=' pcm_val >= upper (\''.Database::escape_string($from_poste->value).'\')';
@@ -125,7 +125,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
 
     if ( $to_poste->value != '')
       {
-	if  ( $cond_poste == '') 
+	if  ( $cond_poste == '')
 	  {
 	    $cond_poste =  ' where pcm_val <= upper (\''.Database::escape_string($to_poste->value).'\')';
 	  }
@@ -155,12 +155,12 @@ if ( isset( $_REQUEST['bt_html'] ) )
     echo '<table class="result">';
 	$l=(isset($_REQUEST['letter']))?2:0;
 	$s=(isset($_REQUEST['solded']))?1:0;
-	
+
     foreach ($a_poste as $poste_id )
     {
         $Poste=new Acc_Account_Ledger ($cn, $poste_id['pcm_val']);
         $Poste->load();
-	
+
 
         $Poste->get_row_date( $_GET['from_periode'], $_GET['to_periode'],$l,$s);
         if ( empty($Poste->row))

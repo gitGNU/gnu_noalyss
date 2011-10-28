@@ -118,6 +118,7 @@ class Anc_Print
         $r.= '<span class="notice">'._('Les dates sont en format DD.MM.YYYY').'</span>';
 
         $r.=$p_hidden;
+	$r.=HtmlInput::hidden('ac',$_REQUEST['ac']);
         $r.='<span style="padding:5px;margin:5px;display:block;">';
         $plan=new Anc_Plan($this->db);
         $plan_id=new ISelect("pa_id");
@@ -166,17 +167,17 @@ class Anc_Print
     }
   function check()
   {
-    
+
     /*
      * check date
      */
     if (($this->from != '' && isDate ($this->from) == 0)
-	|| 
+	||
 	($this->to != '' && isDate ($this->to) == 0))
       return -1;
 
     return 0;
-  }  
+  }
 
 
 }

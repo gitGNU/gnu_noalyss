@@ -27,6 +27,8 @@ require_once('class_lettering.php');
 
 $gDossier=dossier::id();
 $cn=new Database($gDossier);
+global $g_user;
+
 /**
  * Show first the form
  */
@@ -37,7 +39,7 @@ $categorie->selected=(isset($_GET['cat']))?$_GET['cat']:0;
 $str_categorie=$categorie->input();
 
 /* periode */
-$exercice=$User->get_exercice();
+$exercice=$g_user->get_exercice();
 $iperiode=new Periode($cn);
 list ($first,$last)=$iperiode->get_limit($exercice);
 
@@ -69,8 +71,7 @@ $str_histo=$histo->input();
 echo '<div class="content">';
 echo '<FORM method="GET">';
 echo dossier::hidden();
-echo HtmlInput::hidden('p_action',$_GET['p_action']);
-echo HtmlInput::hidden('type',$_GET['type']);
+echo HtmlInput::hidden('ac',$_GET['ac']);
 require_once('template/impress_cat_card.php');
 echo HtmlInput::submit('cat_display',_('Recherche'));
 echo '</FORM>';
@@ -106,7 +107,7 @@ if ( $_GET['histo'] == 3 )
     HtmlInput::submit('bt_csv',"Export CSV").
     HtmlInput::hidden('act',"CSV/fiche").
     $hid->input("type","fiche").
-    $hid->input("p_action","impress").
+    $hid->input("ac",$_REQUEST['ac']).
     $hid->input("fd_id",$_REQUEST['cat']);
     echo "</form>";
 

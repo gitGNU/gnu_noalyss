@@ -19,7 +19,7 @@
 /* $Revision$ */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-
+require_once 'user_menu.php';
 /*!\file
  * \brief The opening of the exercices. it takes the saldo of the
  * choosen foolder / exercice and import it as a misc operation in the
@@ -48,7 +48,7 @@ if ($sa == '')
         exit();
     }
     echo '<form class="print" method="post">';
-    echo HtmlInput::hidden('p_action','ouv');
+    echo HtmlInput::hidden('ac',$_REQUEST['ac']);
     echo HtmlInput::hidden('sa','step2');
     echo dossier::hidden();
     $wAvail=new ISelect();
@@ -74,7 +74,7 @@ if ($sa == '')
 /* --------------------------------------------------
  * Step 2 choose now the exercice of this folder
  */
-$back='user_advanced.php?p_action=ouv&'.dossier::get();
+$back='do.php?ac='.$_REQUEST['ac'].'&'.dossier::get();
 if ( $sa=='step2')
 {
     echo '<div class="content">'.
@@ -83,7 +83,7 @@ if ( $sa=='step2')
     '<form class="print" method="post">'.
     ' Choississez l\'exercice du dossier ';
     echo dossier::hidden();
-    echo HtmlInput::hidden('p_action','ouv');
+     echo HtmlInput::hidden('ac',$_REQUEST['ac']);
     echo HtmlInput::hidden('sa','step3');
     echo HtmlInput::hidden('f',$_REQUEST['f']);
     $cn=new Database($_REQUEST['f']);
@@ -131,9 +131,10 @@ if ( $sa == 'step3')
     $wLedger->value=$array;
     echo $wLedger->input('p_jrn');
     echo HtmlInput::submit('ok','Continuer');
+     echo HtmlInput::hidden('ac',$_REQUEST['ac']);
     echo dossier::hidden();
     echo "</form>";
-    echo HtmlInput::button_anchor('Retour',$back);
+    echo HtmlInput::button_anchor('Retour',$back.'&sa=step2&f='.$_REQUEST['f']);
     exit(0);
 
 }
@@ -171,8 +172,9 @@ if ( $sa=='step4')
     $cn=new Database(dossier::id());
     $User=new User($cn);
     $jrn=new Acc_Ledger($cn,$_REQUEST['p_jrn']);
-    echo '<form class="print" method="post" action="compta.php">';
-    echo HtmlInput::hidden('p_action','quick_writing');
+    echo '<form class="print" method="post" action="do.php">';
+    echo HtmlInput::hidden('ac',$_REQUEST['ac']);
+    echo HtmlInput::hidden('sa','step5');
     echo dossier::hidden();
     echo HtmlInput::hidden('p_jrn',$_REQUEST['p_jrn']);
     echo $jrn->show_form($result,0);
@@ -183,4 +185,14 @@ if ( $sa=='step4')
     echo HtmlInput::button_anchor('Retour',$back);
 
     echo '</div>';
+}
+// if sa=step4 then record it
+//
+/*
+ * @todo finir les ouvertures d'année
+ */
+if ( $_REQUEST['sa']=='step5')
+{
+    echo "<h2> A ENREGISTRER</H2>";
+
 }

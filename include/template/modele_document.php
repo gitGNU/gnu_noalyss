@@ -1,8 +1,8 @@
 <div style="float:right">
-<A style="background-color:blue;color:white;text-decoration:none" HREF="javascript:void(0)" onclick="removeDiv('mod_doc');">Fermer</A> 
+<A style="background-color:blue;color:white;text-decoration:none" HREF="javascript:void(0)" onclick="removeDiv('mod_doc');">Fermer</A>
 </div>
 <h2 class="info">Modèle de document</h2>
-<form action="parametre.php" method="post" enctype="multipart/form-data">
+<form  method="post" enctype="multipart/form-data">
 <table>
 
 <tr>
@@ -84,7 +84,7 @@ $last=0;
          if ( $cn->exist_sequence("seq_doc_type_".$doc->md_type) )
          {
              $ret= $cn->get_array("select last_value,is_called from seq_doc_type_".$doc->md_type) ;
-             
+
              $last=$ret[0]['last_value'];
              /*!
                   *\note  With PSQL sequence , the last_value column is 1 when before   AND after the first call, to make the difference between them

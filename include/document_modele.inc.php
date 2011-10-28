@@ -78,7 +78,7 @@ if ( $sub_action == 'mod_template')
 //-----------------------------------------------------
 echo $doc->myList();
 echo '<div id="add_modele" style="display:none">';
-echo $doc->form('parametre.php?p_action=document');
+echo $doc->form('');
 echo '</div>';
 
 ?>

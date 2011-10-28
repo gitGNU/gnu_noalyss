@@ -38,7 +38,7 @@ if ($choose=='Valider') $choose='yes';
 
 if ( isset ($_POST["add_per"] ))
 {
-    $User->can_request(PARPER,1);
+    $g_user->can_request(PARPER,1);
     extract($_POST);
     $obj=new Periode($cn);
     if ( $obj->insert($p_date_start,$p_date_end,$p_exercice) == 1 )
@@ -50,7 +50,7 @@ if ( isset ($_POST["add_per"] ))
 }
 if (isset($_POST['add_exercice']))
   {
-    $User->can_request(PARPER,1);
+    $g_user->can_request(PARPER,1);
     $obj=new Periode($cn);
     $exercice=$cn->get_value('select max(p_exercice::float)+1 from parm_periode');
     if ( $obj->insert_exercice($exercice) == 1 )
@@ -62,7 +62,7 @@ if (isset($_POST['add_exercice']))
   }
 if ( $action=="closed")
 {
-    $User->can_request(PARCLO);
+    $g_user->can_request(PARCLO);
     $p_per=$_GET['p_per'];
     $per=new Periode($cn);
     $jrn_def_id=(isset($_GET['jrn_def_id']))?$_GET['jrn_def_id']:0;
@@ -74,7 +74,7 @@ if ( $action=="closed")
 
 if ( $action== "delete_per" )
 {
-    $User->can_request(PARPER);
+    $g_user->can_request(PARPER);
     $p_per=$_GET["p_per"];
 // Check if the periode is not used
     if ( $cn->count_sql("select * from jrnx where j_tech_per=$p_per") != 0 )
@@ -87,9 +87,9 @@ if ( $action== "delete_per" )
     }
     $choose="yes";
 }
-if ( $action == 'reopen') 
+if ( $action == 'reopen')
   {
-    $User->can_request(PARCLO);
+    $g_user->can_request(PARCLO);
     $jrn_def_id=(isset($_GET['jrn_def_id']))?$_GET['jrn_def_id']:0;
     $per=new Periode($cn);
     $jrn_def_id=(isset($_GET['jrn_def_id']))?$_GET['jrn_def_id']:0;
@@ -101,7 +101,7 @@ if ( $action == 'reopen')
   }
 if ( $choose=="yes" )
 {
-    echo HtmlInput::button_anchor('Autre Journal ?','?choose=no&p_action=periode&gDossier='.dossier::id());
+    echo HtmlInput::button_anchor('Autre Journal ?','?choose=no&ac='.$_REQUEST['ac'].'&gDossier='.dossier::id());
     $per=new Periode($cn);
     $jrn=(isset($_GET['jrn_def_id']))?$_GET['jrn_def_id']:0;
     $per->set_jrn($jrn);
@@ -111,7 +111,7 @@ if ( $choose=="yes" )
 }
 else
 {
-    echo '<form method="GET" action="?">';
+    echo '<form method="GET" >';
     echo dossier::hidden();
     $sel_jrn=$cn->make_array("select jrn_def_id, jrn_def_name from ".
                              " jrn_def order by jrn_def_name");
@@ -121,7 +121,7 @@ else
     $wSel->name='jrn_def_id';
     echo "Choississez global ou uniquement le journal à fermer".$wSel->input();
     echo   HtmlInput::submit('choose','Valider');
-    echo HtmlInput::hidden('p_action','periode');
+    echo HtmlInput::hidden('ac',$_REQUEST['ac']);
     echo "</form>";
     echo '<p class="info"> Pour ajouter, effacer ou modifier une p&eacute;riode, il faut choisir global</p>';
 }

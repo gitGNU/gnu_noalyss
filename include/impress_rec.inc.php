@@ -25,12 +25,13 @@
  */
 require_once ('class_acc_reconciliation.php');
 require_once('function_javascript.php');
-echo load_all_script();
+global $g_user;
+
 /**
  *@file
  *@todo add the export to PDF
  */
-$aledger=$User->get_ledger('ALL',3);
+$aledger=$g_user->get_ledger('ALL',3);
 echo '<div class="noprint">';
 echo '<div class="content">';
 $rjrn='';
@@ -38,13 +39,13 @@ $radio=new IRadio('choice');
 $choice=(isset($_GET['choice']))?$_GET['choice']:0;
 $r_jrn=(isset($_GET['r_jrn']))?$_GET['r_jrn']:'';
 echo '<form method="GET">';
-echo dossier::hidden().HtmlInput::hidden('p_action','impress').HtmlInput::hidden('type','rec');
+echo dossier::hidden().HtmlInput::hidden('ac',$_GET['ac']).HtmlInput::hidden('type','rec');
 echo 'Filtre par journal :'.HtmlInput::select_ledger($aledger,$r_jrn );
 echo '<br/>';
 /*
  * Limit by date, default current exercice
  */
-list($start,$end)=$User->get_limit_current_exercice();
+list($start,$end)=$g_user->get_limit_current_exercice();
 $dstart=new IDate('p_start');
 $dstart->value=(isset($_REQUEST['p_start']))?$_REQUEST['p_start']:$start;
 
@@ -105,7 +106,6 @@ default:
     echo "Choix invalid";
     exit();
 }
+$gDossier=Dossier::id();
 require_once('template/impress_reconciliation.php');
-exit();
-exit();
 exit();

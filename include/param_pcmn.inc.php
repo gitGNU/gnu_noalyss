@@ -88,7 +88,7 @@ $User->can_request(PARPCMN);
 
 
 echo '<div class="lmenu">';
-ShowMenuPcmn($_SESSION['g_start']);
+menu_acc_plan($_SESSION['g_start']);
 echo '</div>';
 echo '<DIV CLASS="u_redcontent">';
 /* Analyse ce qui est demandé */
@@ -304,7 +304,7 @@ for ($i=0; $i <$MaxRow; $i++)
 
 
     echo $td;
-    printf ('<A href="?p_action=pcmn&l=%s&action=del&%s">Delete</A>',$A['pcm_val'],$str_dossier);
+    printf ('<A href="?ac='.$_REQUEST['ac'].'&l=%s&action=del&%s">Efface</A>',$A['pcm_val'],$str_dossier);
     echo "</TD>";
 
 

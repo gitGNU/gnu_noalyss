@@ -29,7 +29,7 @@
  *  - $cn = database connection 
  */
 require_once('class_action.php');
-$User->can_request(GECOUR);
+$g_user->can_request(GECOUR);
 
 /**
  *\note problem with ShowActionList, this function is local

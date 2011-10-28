@@ -34,28 +34,15 @@ $gDossier=dossier::id();
 html_page_start($_SESSION['g_theme']);
 
 require_once('class_database.php');
-/* Admin. Dossier */
-$gDossier=dossier::id();
 
 $cn=new Database($gDossier);
 include_once ("class_user.php");
-$User=new User($cn);
-$User->Check();
-
+global $g_user;
 
 $href=basename($_SERVER['PHP_SELF']);
-if ($href=='compta.php')
-{
-    //Show the top menu
-    include_once ("user_menu.php");
 
-    // Show Menu Left
-    $left_menu=ShowMenuAdvanced(5);
-    //echo '<div class="lmenu">';
-    echo $left_menu;
-}
 // Get The priv on the selected folder
-$User->can_request(STOLE,1);
+$g_user->can_request(STOLE,1);
 
 
 $action= ( isset ($_GET['action']))? $_GET['action']:"";
@@ -64,7 +51,7 @@ include_once("stock_inc.php");
 // Adjust the stock
 if ( isset ($_POST['sub_change']))
 {
-    $User->can_request(STOWRITE,1);
+    $g_user->can_request(STOWRITE,1);
     $change=$_POST['stock_change'];
     $sg_code=$_POST['sg_code'];
     $sg_date=$_POST['sg_date'];
@@ -82,7 +69,7 @@ if ( isset ($_POST['sub_change']))
     else
     {
         // Check if User Can change the stock
-        if ( $User->check_action($gDossier,GESTOCK) == 0 )
+        if ( $g_user->check_action($gDossier,GESTOCK) == 0 )
         {
             NoAccess();
             exit (-1);
@@ -126,7 +113,7 @@ if ( isset ($_POST['sub_change']))
 if ( ! isset ($_GET['year']) )
 {
     // get defaut periode
-    $a=$User->get_periode();
+    $a=$g_user->get_periode();
     // get exercice of periode
     $periode=new Periode($cn,$a);
     $year=$periode->get_exercice();
@@ -141,11 +128,11 @@ else
 if ( $action == 'detail' )
 {
     // Check if User Can see the stock
-    $User->can_request(STOLE,1);
+    $g_user->can_request(STOLE,1);
     $sg_code=(isset ($_GET['sg_code'] ))?$_GET['sg_code']:$_POST['sg_code'];
     $year=(isset($_GET['year']))?$_GET['year']:$_POST['year'];
     $a=ViewDetailStock($cn,$sg_code,$year);
-    $write=$User->check_action(STOWRITE);
+    $write=$g_user->check_action(STOWRITE);
 
     $b="";
 
@@ -159,16 +146,16 @@ if ( $action == 'detail' )
         echo '<fieldset><legend>';
         echo 'Entrer la valeur qui doit augmenter ou diminuer le stock';
         echo '</legend>';
-        echo '<form action="?p_action=stock" method="POST">';
+        echo '<form action="?ac='.$_GET['ac'].'" method="POST">';
         echo ChangeStock($sg_code,$year);
         echo HtmlInput::submit("sub_change" ,"Valider");
         echo dossier::hidden();
-        echo HtmlInput::button_anchor('Retour','?p_action=stock&'.dossier::get());
+        echo HtmlInput::button_anchor('Retour','?ac='.$_REQUEST['ac'].'&'.dossier::get());
         echo '</form>';
         echo '</fieldset>';
     }
     else
-        echo HtmlInput::button_anchor('Retour','?p_action=stock&'.dossier::get());
+        echo HtmlInput::button_anchor('Retour','?ac='.$_REQUEST['ac'].'&'.dossier::get());
     echo '</div>';
 
 
@@ -185,7 +172,7 @@ $r="";
 for ( $i = 0; $i < Database::num_row($Res);$i++)
 {
     $l=Database::fetch_array($Res,$i);
-    $url=sprintf("?p_action=stock&year=%d&".dossier::get(),
+    $url=sprintf("?ac=".$_REQUEST['ac']."&year=%d&".dossier::get(),
                      $l['exercice']);
     $r.=HtmlInput::button_anchor($l['exercice'],$url);
 }

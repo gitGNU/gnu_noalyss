@@ -32,17 +32,17 @@ require_once('class_ipopup.php');
 echo IPoste::ipopup('ipop_account');
 echo ICard::ipopup('ipop_card');
 
-$gDossier=dossier::id();
 $str_dossier=dossier::get();
+global $g_user,$cn;
 
 $pop_tva=new IPopup('popup_tva');
 $pop_tva->title=_('Choix TVA');
 $pop_tva->value='';
 echo $pop_tva->input();
 
-$cn=new Database($gDossier);
+
 // Security check
-$write=$User->check_action(FICADD);
+$write=$g_user->check_action(FICADD);
 if ($write == 0 )
 {
     /* Cannot Access */
@@ -53,11 +53,14 @@ function ShowRecherche()
 {
     echo '<form method="GET" action="?">';
     echo dossier::hidden();
+      echo HtmlInput::hidden('ac',$_REQUEST['ac']);
     $w=new IText();
     $search_text=(isset($_REQUEST['search_text']))?$_REQUEST['search_text']:"";
     $h=new IHidden();
     echo $h->input('p_action','fiche');
     echo $h->input('action','search');
+    echo $h->input('ac',$_REQUEST['ac']);
+
     echo _("Recherche :").$w->input('search_text',$search_text);
     echo HtmlInput::submit('submit',_('Rechercher'));
     echo '</form>';
@@ -90,8 +93,10 @@ function ShowFicheDefInput($p_fiche_def)
 
     /* show the values label class_base and create account */
     $r.='<form method="post">';
+    $r.= HtmlInput::hidden('ac',$_REQUEST['ac']);
     $r.=dossier::hidden();
     $r.=HtmlInput::hidden("fd_id",$p_fiche_def->id);
+    $r.=HtmlInput::hidden("ac",$_REQUEST['ac']);
     $r.=HtmlInput::hidden("p_action","fiche");
     $r.= $p_fiche_def->input_base();
     $r.='<hr>';
@@ -101,9 +106,11 @@ function ShowFicheDefInput($p_fiche_def)
     /* attributes */
     $r.='<fieldset><legend>Détails</legend>';
 
-    $r.= '<FORM action="?p_action=fiche" method="POST">';
+    $r.= '<FORM action="do.php" method="POST">';
     $r.=dossier::hidden();
+    $r.= HtmlInput::hidden('ac',$_REQUEST['ac']);
     $r.=HtmlInput::hidden("fd_id",$p_fiche_def->id);
+    $r.=HtmlInput::hidden("ac",$_REQUEST['ac']);
     $r.= $p_fiche_def->DisplayAttribut("remove");
     $r.= HtmlInput::submit('add_line',_('Ajoutez cet élément'));
     $r.= HtmlInput::submit("save_line",_("Sauvez"));
@@ -126,7 +133,7 @@ $recherche=true;
 // in the database
 if ( isset($_POST['add_modele'])    )
 {
-    $User->can_request(FICCAT);
+    $g_user->can_request(FICCAT);
     // insert the model of card in database
     $fiche_def=new Fiche_Def($cn);
     $fiche_def->Add($_POST);
@@ -135,7 +142,7 @@ $r="";
 
 if ( isset ($_POST['remove_cat'] )  )
 {
-    $User->can_request(FICCAT);
+    $g_user->can_request(FICCAT);
 
     $fd_id=new Fiche_Def($cn,$_POST['fd_id']);
     $remains=$fd_id->remove();
@@ -147,7 +154,7 @@ if ( isset ($_POST['remove_cat'] )  )
 // Add a line in the card model
 if ( isset ($_POST["add_line"])  )
 {
-    $User->can_request(FIC);
+    $g_user->can_request(FIC);
 
     $r= '<DIV class="u_redcontent" style="width:auto">';
     if ( $write ==0)
@@ -170,7 +177,7 @@ if ( isset ($_POST["add_line"])  )
 
 if ( isset($_POST['save_line']))
 {
-    $User->can_request(FICCAT);
+    $g_user->can_request(FICCAT);
     $fiche_def=new Fiche_Def($cn,$_REQUEST['fd_id']);
     $fiche_def->save_order($_POST);
     $r= '<DIV class="u_redcontent" style="width:auto">';
@@ -190,7 +197,7 @@ if ( isset($_POST['save_line']))
 // Remove lines from a card model
 if ( isset ($_POST['remove_line'])   )
 {
-    $User->can_request(FICCAT);
+    $g_user->can_request(FICCAT);
     $r= '<DIV class="u_redcontent" style="width:auto">';
     if ( $write ==0)
         $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
@@ -213,7 +220,7 @@ if ( isset ($_POST['remove_line'])   )
 // Change the name of the card  model
 if ( isset ($_POST["change_name"] )   )
 {
-    $User->can_request(FICCAT);
+    $g_user->can_request(FICCAT);
     $r= '<DIV class="u_redcontent" style="width:auto">';
     if ( $write ==0)
         $r.= "<h2 class=\"error\"> "._("Pas d'accès")." </h2>";
@@ -224,12 +231,12 @@ if ( isset ($_POST["change_name"] )   )
     }
     $r.= '</DIV>';
     $recherche=false;
-    ShowMenuFiche($gDossier);
+    ShowMenuFiche(Dossier::id());
     echo $r;
     exit();
 }
 
-ShowMenuFiche($gDossier);
+ShowMenuFiche(Dossier::id());
 echo $r;
 
 //------------------------------------------------------------------------------
@@ -244,7 +251,7 @@ if ( isset ( $_GET["action"]) )
             && ! isset ($_POST['move'])
             && ! isset ($_POST['delete']))
     {
-        $User->can_request(FICADD);
+        $g_user->can_request(FICADD);
 
         echo '<DIV class="u_redcontent" style="width:auto">';
         $fiche_def=new Fiche_Def($cn,$_GET['fiche']);
@@ -260,7 +267,7 @@ if ( isset ( $_GET["action"]) )
     {
         echo '<DIV class="u_redcontent" style="width:auto">';
         $t=false;
-        if ( $User->check_action(FICADD)==0)
+        if ( $g_user->check_action(FICADD)==0)
         {
             echo '<H2 class="info"> Vos changements ne seront pas sauvés</h2>';
             $t=true;
@@ -291,6 +298,7 @@ if ( isset ( $_GET["action"]) )
             echo '<form method="post" action="?p_action=fiche&action=vue&fiche='.$_GET['fiche'].$str.'">';
         echo dossier::hidden();
         echo $fiche->Display($t);
+	echo HtmlInput::hidden('ac',$_REQUEST['ac']);
         echo HtmlInput::hidden("f_id",$_GET['fiche_id']);
         if ( $write != 0 )
         {
@@ -304,7 +312,8 @@ if ( isset ( $_GET["action"]) )
             echo $iselect->input();
         }
         $str="";
-        echo HtmlInput::button_anchor(_('Retour'),'?p_action=fiche&action=vue&'.$str_dossier.'&fiche='.$fiche->fiche_def.$str);
+        echo HtmlInput::button_anchor(_('Retour'),'?p_action=fiche&action=vue&'.$str_dossier.'&fiche='.$fiche->fiche_def.$str.
+		"&ac=".$_REQUEST['ac']);
 
         if ( $write != 0 ) echo '</form>';
         echo '</DIV>';
@@ -315,9 +324,10 @@ if ( isset ( $_GET["action"]) )
     // the property of the card model
     if ($action == "add_modele" )
     {
-        $User->can_request(FICCAT);
+        $g_user->can_request(FICCAT);
         echo '<DIV class="u_redcontent" style="width:auto">';
         echo '<form method="post">';
+	echo HtmlInput::hidden('ac',$_REQUEST['ac']);
         $oFiche_Def=new Fiche_Def($cn);
         echo HtmlInput::hidden("p_action","fiche");
         echo dossier::hidden();
@@ -332,7 +342,7 @@ if ( isset ( $_GET["action"]) )
     // Modify a card Model
     if ($action == "modifier" )
     {
-        $User->can_request(FICCAT);
+        $g_user->can_request(FICCAT);
         echo '<DIV class="u_redcontent" style="width:auto">';
         $fiche_def=new Fiche_Def($cn,$_GET['fiche']);
 
@@ -361,7 +371,7 @@ if ( isset ( $_GET["action"]) )
             {
                 $fiche=new Fiche($cn,$f_id['f_id']);
                 echo '<A  href="?p_action=fiche&'.$str_dossier.'&action=detail&fiche_id='.$f_id['f_id'].
-                '&fiche='.$f_id['fd_id'].'">'.
+                '&fiche='.$f_id['fd_id']."&ac=".$_REQUEST['ac'].'">'.
                 $fiche->getName().'</A>';
             }
         }
@@ -380,7 +390,7 @@ if ( isset ( $_GET["action"]) )
 // Display a blank  card from the selected category
 if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) )
 {
-    $User->can_request(FICADD);
+    $g_user->can_request(FICADD);
 
     echo '<DIV class="u_redcontent" style="width:auto">';
     if ( $write ==0)
@@ -395,6 +405,7 @@ if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) )
 
         echo '<form method="post" action="'.$url.'&fiche='.$_POST['fiche'].'">';
         echo dossier::hidden();
+	echo HtmlInput::hidden('ac',$_REQUEST['ac']);
         echo $fiche->blank($_POST['fiche']);
         echo HtmlInput::submit("add_fiche","Ajout");
         echo HtmlInput::button_anchor(_('Annuler'),$url.'&fiche='.$_POST['fiche'].'&'.$str_dossier);
@@ -410,7 +421,7 @@ if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) )
 // delete a card
 if (isset($_POST['delete']) )
 {
-    $User->can_request(FIC);
+    $g_user->can_request(FIC);
     ShowRecherche();
     echo '<DIV class="u_redcontent">';
     if ( $write ==0)
@@ -430,7 +441,7 @@ if (isset($_POST['delete']) )
 // Add the data (attribute) of the card
 if ( isset ($_POST["add_fiche"]) )
 {
-    $User->can_request(FICADD);
+    $g_user->can_request(FICADD);
     if ( $write ==0)
     {
         echo '<DIV class="u_redcontent">';
@@ -454,7 +465,7 @@ if ( isset ($_POST["add_fiche"]) )
 // Update a card
 if ( isset ($_POST["update_fiche"])  )
 {
-    $User->can_request(FIC);
+    $g_user->can_request(FIC);
     echo '<DIV class="u_redcontent">';
     if ( $write ==0)
         echo "<h2 class=\"error\"> Pas d'accès </h2>";

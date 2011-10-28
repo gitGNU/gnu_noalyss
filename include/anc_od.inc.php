@@ -32,8 +32,9 @@ require_once("class_anc_account.php");
 require_once ("class_anc_operation.php");
 require_once ("class_anc_plan.php");
 require_once ("class_anc_group_operation.php");
+global $g_user;
 
-
+$str_dossier=Dossier::get();
 $pa=new Anc_Plan($cn);
 $m=$pa->get_list();
 if ( ! $m )
@@ -54,10 +55,10 @@ echo '
 <table>
 <tr>
 <td  class="mtitle" >
-<A class="mtitle" HREF="?p_action=ca_od&new&'.$str_dossier.'"> '._('Nouveau').' </A>
+<A class="mtitle" HREF="?ac='.$_REQUEST['ac'].'&new&'.$str_dossier.'"> '._('Nouveau').' </A>
 </td>
 <td  class="mtitle" >
-<A class="mtitle" HREF="?p_action=ca_od&see&'.$str_dossier.'">'._('Liste opérations').' </A
+<A class="mtitle" HREF="?ac='.$_REQUEST['ac'].'&see&'.$str_dossier.'">'._('Liste opérations').' </A
 </td>
 </tr>
 </table>
@@ -86,8 +87,8 @@ if ( isset($_GET['see']))
     echo dossier::hidden();
     $hid=new IHidden();
 
-    $hid->name="p_action";
-    $hid->value="ca_od";
+    $hid->name="ac";
+    $hid->value=$_REQUEST['ac'];
     echo $hid->input();
 
     $hid->name="see";
@@ -97,11 +98,11 @@ if ( isset($_GET['see']))
     $w=new ISelect();
     $w->name="p_periode";
 // filter on the current year
-    $filter_year=" where p_exercice='".$User->get_exercice()."'";
+    $filter_year=" where p_exercice='".$g_user->get_exercice()."'";
 
     $periode_start=$cn->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by  p_start,p_end",1);
-    $User=new User($cn);
-    $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
+    $g_user=new User($cn);
+    $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$g_user->get_periode();
     $w->value=$periode_start;
     $w->selected=$current;
     echo $w->input();

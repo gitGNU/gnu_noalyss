@@ -35,6 +35,7 @@ require_once('class_acc_operation.php');
 //-----------------------------------------------------
 require_once('class_database.php');
 require_once('class_ipopup.php');
+global $User;
 
 echo IPoste::ipopup('ipop_account');
 echo ICard::ipopup('ipopcard');
@@ -49,7 +50,7 @@ echo $search_card->input();
 echo '<div class="content">';
 
 echo '<FORM action="?" METHOD="GET">';
-echo HtmlInput::hidden('p_action','impress');
+echo HtmlInput::hidden('ac',$_REQUEST['ac']);
 echo HtmlInput::hidden('type','poste');
 echo dossier::hidden();
 echo '<TABLE><TR>';
@@ -86,7 +87,7 @@ print '<TR>';
 
 $date_from=new IDate('from_periode');
 $date_to=new IDate('to_periode');
-$year=$User->get_exercice();
+$year=$g_user->get_exercice();
 $date_from->value=(isset($_REQUEST['from_periode']))?$_REQUEST['from_periode']:"01.01.".$year;
 $date_to->value=(isset($_REQUEST['to_periode']))?$_REQUEST['to_periode']:"31.12.".$year;
 echo td(_('Depuis').$date_from->input());
@@ -138,19 +139,18 @@ if ( isset( $_REQUEST['bt_html'] ) )
     require_once("class_acc_account_ledger.php");
     $go=0;
 // we ask a poste_id
-    if ( isset($_GET['poste_id']) && strlen(trim($_GET['poste_id'])) != 0  )
+    if ( isset($_GET['poste_id']) && strlen(trim($_GET['poste_id'])) != 0 )
     {
-	$poste=$cn->get_value('select format_account($1)',array($_GET['poste_id']));
-
         if ( isset ($_GET['poste_fille']) )
         {
-            $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like $1||'%' order by pcm_val::text",array($poste));
+            $parent=$_GET['poste_id'];
+            $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '$parent%' order by pcm_val::text");
             $go=3;
         }
         // Check if the post is numeric and exists
-        elseif (  $cn->count_sql('select * from tmp_pcmn where pcm_val=$1',array($poste)) != 0 )
+        elseif (  $cn->count_sql('select * from tmp_pcmn where pcm_val=$1',array($_GET['poste_id'])) != 0 )
         {
-            $Poste=new Acc_Account_Ledger($cn,$poste);
+            $Poste=new Acc_Account_Ledger($cn,$_GET['poste_id']);
             $go=1;
         }
     }

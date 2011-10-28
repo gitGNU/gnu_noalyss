@@ -410,7 +410,7 @@ if ( $p_action == 'jrn' )
     $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
     //  echo '<div class="content">';
     if ( $sa == "add")
-        require_once ('param_jrn_add.inc.php');
+        require_once 'param_jrn_add.inc.php';
     elseif ($sa=='detail')
     require_once ('param_jrn_detail.inc.php');
     else

@@ -29,18 +29,19 @@ require_once('class_exercice.php');
 require_once('class_dossier.php');
 load_all_script();
 $gDossier=dossier::id();
+global $g_user;
 //-----------------------------------------------------
 // Show the jrn and date
 //-----------------------------------------------------
 require_once('class_database.php');
 
-if ( $User->Admin() == 0 && $User->is_local_admin()==0)
+if ( $g_user->Admin() == 0 && $g_user->is_local_admin()==0)
 {
     $sql="select jrn_def_id,jrn_def_name
          from jrn_def join jrn_type on jrn_def_type=jrn_type_id
          join user_sec_jrn on uj_jrn_id=jrn_def_id
          where
-         uj_login='$User->login'
+         uj_login='$g_user->login'
          and uj_priv !='X'
          ";
     $ret=$cn->make_array($sql);
@@ -58,7 +59,7 @@ $NoPriv=$cn->count_sql("select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def
                        from jrn_def join jrn_type on jrn_def_type=jrn_type_id
                        join  user_sec_jrn on uj_jrn_id=jrn_def_id
                        where
-                       uj_login='$User->id'
+                       uj_login='$g_user->id'
                        and uj_priv ='X'
                        ");
 // Pour voir tout les journal ?
@@ -70,7 +71,7 @@ if ( $NoPriv == 0 )
 }
 if ( count($ret) < 1 )
     NoAccess();
-$exercice=(isset($_GET['exercice']))?$_GET['exercice']:$User->get_exercice();
+$exercice=(isset($_GET['exercice']))?$_GET['exercice']:$g_user->get_exercice();
 
 //-----------------------------------------------------
 // Form
@@ -86,14 +87,14 @@ $ex=new Exercice($cn);
 $wex=$ex->select('exercice',$exercice,' onchange="submit(this)"');
 echo $wex->input();
 echo dossier::hidden();
-echo HtmlInput::get_to_hidden(array('p_action','type'));
+echo HtmlInput::get_to_hidden(array('ac','type'));
 echo '</form>';
 echo '</fieldset>';
 
 
 
 echo '<FORM METHOD="GET">'.dossier::hidden();
-echo HtmlInput::hidden('p_action','impress');
+echo HtmlInput::get_to_hidden(array('ac','type'));
 echo HtmlInput::hidden('type','jrn');
 echo HtmlInput::get_to_hidden(array('exercice'));
 echo '<TABLE  ><TR>';
@@ -171,22 +172,22 @@ if ( isset( $_REQUEST['bt_html'] ) )
     HtmlInput::submit('bt_pdf',"Export PDF").
       HtmlInput::hidden('act','PDF/ledger').
     $hid->input("type","jrn").
-    $hid->input("p_action","impress").
     $hid->input("jrn_id",$Jrn->id).
     $hid->input("from_periode",$_GET['from_periode']).
     $hid->input("to_periode",$_GET['to_periode']);
     echo $hid->input("p_simple",$_GET['p_simple']);
-
+    echo HtmlInput::get_to_hidden(array('ac','type'));
     echo "</form></TD>";
+
     echo '<TD><form method="GET" ACTION="export.php">'.dossier::hidden().
     HtmlInput::submit('bt_csv',"Export CSV").
       HtmlInput::hidden('act','CSV/ledger').
     $hid->input("type","jrn").
-    $hid->input("p_action","impress").
     $hid->input("jrn_id",$Jrn->id).
     $hid->input("from_periode",$_GET['from_periode']).
     $hid->input("to_periode",$_GET['to_periode']);
     echo $hid->input("p_simple",$_GET['p_simple']);
+    echo HtmlInput::get_to_hidden(array('ac','type'));
     echo "</form></TD>";
 
     echo "</TR>";

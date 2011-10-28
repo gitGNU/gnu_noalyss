@@ -33,7 +33,7 @@ $eth='</th>';
 /*!\file
  * \brief payment mode
  */
-
+$sb=HtmlInput::default_value('sb', "", $_REQUEST);
 echo '<div class="content">';
 
 //----------------------------------------------------------------------
@@ -44,7 +44,7 @@ if ( $sb=='change')
     $row=new Acc_Payment($cn,$_GET['id']);
     $row->load();
     $javascript="return confirm('"._('Vous confirmez')."')";
-    echo '<form method="post" action="parametre.php" onsubmit="'.$javascript.'">';
+    echo '<form method="post" onsubmit="'.$javascript.'">';
     echo dossier::hidden();
     echo HtmlInput::hidden('p_jrn',0);
     echo HtmlInput::hidden('p_action','divers');
@@ -90,7 +90,7 @@ if ($sb=='ins')
     $r=$mp->blank();
     echo '<form method="POST">';
     echo dossier::hidden().HtmlInput::hidden('sa',$_REQUEST['sa']).
-    HtmlInput::hidden('p_action',$_REQUEST['p_action']).HtmlInput::hidden('sb','insert');
+	HtmlInput::hidden('ac',$_REQUEST['ac']).HtmlInput::hidden('sb','insert');
     echo $r;
     echo HtmlInput::submit('insert',_('Enregistre'));
     echo '</form>';
@@ -130,7 +130,7 @@ if ( ! empty ($array))
     {
         echo $tr;
         echo $row->row();
-        echo $td.HtmlInput::button_anchor(_('Modifie'),'?p_action=divers&sa=mp&sb=change&'.dossier::get().
+        echo $td.HtmlInput::button_anchor(_('Modifie'),'?ac='.$_REQUEST['ac'].'&sa=mp&sb=change&'.dossier::get().
                                               '&id='.$row->get_parameter('id'));
         echo $etr;
 

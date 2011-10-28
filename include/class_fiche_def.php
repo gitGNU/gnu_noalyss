@@ -66,7 +66,7 @@ class Fiche_Def
 
     /*!
      *  \brief  Get attribut of a fiche_def
-     *        
+     *
      * \return string value of the attribute
      */
     function getAttribut()
@@ -95,7 +95,7 @@ class Fiche_Def
 
     /*!
     * \brief  Get attribut of the fiche_def
-    *        
+    *
     */
     function Get()
     {
@@ -118,8 +118,8 @@ class Fiche_Def
     /*!
      **************************************************
      * \brief  Get all the fiche_def
-     *        
-     * \return an array of fiche_def object 
+     *
+     * \return an array of fiche_def object
      */
     function GetAll()
     {
@@ -141,10 +141,10 @@ class Fiche_Def
     }
     /*!
      **************************************************
-     * \brief  Check in vw_fiche_def if a fiche has 
+     * \brief  Check in vw_fiche_def if a fiche has
      *           a attribut X
-     *        
-     *  
+     *
+     *
      * \param  $p_attr attribut to check
      * \return  true or false
      */
@@ -156,8 +156,8 @@ class Fiche_Def
     /*!
      **************************************************
      * \brief  Display a fiche_def object into a table
-     *        
-     * \return HTML row 
+     *
+     * \return HTML row
      */
     function Display()
     {
@@ -173,7 +173,7 @@ class Fiche_Def
      * table : insert into fiche_def
      *         insert into attr_def
      *
-     * \param $array array 
+     * \param $array array
      *        index FICHE_REF
      *              nom_mod
      *              class_base
@@ -384,6 +384,7 @@ class Fiche_Def
 
 
         echo '<FORM METHOD="POST" action="?p_action=fiche&action=vue'.$str.'">';
+	echo HtmlInput::hidden('ac',$_REQUEST['ac']);
         echo dossier::hidden();
         echo HtmlInput::hidden("fiche",$this->id);
         echo HtmlInput::submit('add','Ajout fiche');
@@ -398,13 +399,17 @@ class Fiche_Def
             else
                 echo '<TR class="even">';
 
-            $span_mod='<TD><A href="?p_action=fiche&'.$str_dossier.'&action=detail&fiche_id='.$l_line['f_id'].$str.'&fiche='.$_GET['fiche'].'">'.$l_line['quick_code'].'</A></TD>';
+            $span_mod='<TD><A href="?p_action=fiche&'.$str_dossier.
+		    '&action=detail&fiche_id='.$l_line['f_id'].$str.'&fiche='.
+		    $_GET['fiche'].'&ac='.$_REQUEST['ac'].'">'.$l_line['quick_code']
+		    .'</A></TD>';
 
             echo $span_mod.'<TD>'.h($l_line['vw_name'])."</TD>";
             echo '</tr>';
         }
         echo '</table>';
         echo '<FORM METHOD="POST" action="?p_action=fiche&action=vue'.$str.'">';
+	echo HtmlInput::hidden('ac',$_REQUEST['ac']);
         echo dossier::hidden();
         echo HtmlInput::hidden("fiche",$this->id);
         echo HtmlInput::submit('add','Ajout fiche');
@@ -414,7 +419,7 @@ class Fiche_Def
     }
     /*!\brief show input for the basic attribute : label, class_base, create_account
      * use only when we want to update
-     * 
+     *
      *\return HTML string with the form
      */
     function input_base()
@@ -440,7 +445,7 @@ class Fiche_Def
         return $r;
     }
     /*!\brief Display all the attribut of the fiche_def
-     *\param $str give the action possible values are remove, empty 
+     *\param $str give the action possible values are remove, empty
      */
     function DisplayAttribut($str="")
     {
@@ -674,8 +679,8 @@ class Fiche_Def
     }
     /*!
      * \brief  retrieve the mandatory field of the card model
-     *        
-     * \param $p_fiche_def_ref 
+     *
+     * \param $p_fiche_def_ref
      * \return array of ad_id  (attr_min.ad_id) and  labels (attr_def.ad_text)
      */
     function get_attr_min($p_fiche_def_ref)

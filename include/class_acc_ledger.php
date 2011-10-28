@@ -41,7 +41,7 @@ require_once ('class_acc_account.php');
 require_once('ac_common.php');
 require_once('class_inum.php');
 require_once('class_lettering.php');
-require_once 'class_sort_table.php';
+
 /*!\file
 * \brief Class for jrn,  class acc_ledger for manipulating the ledger
 */
@@ -594,40 +594,87 @@ class Acc_Ledger
         $amount_unpaid=0.0;
         $limit=($_SESSION['g_pagesize']!=-1)?" LIMIT ".$_SESSION['g_pagesize']:"";
         $offset=($_SESSION['g_pagesize']!=-1)?" OFFSET ".Database::escape_string($offset):"";
+        $order="  order by jr_date_order asc,jr_internal asc";
         // Sort
-        $url=basename($_SERVER['SCRIPT_NAME']).'?'.CleanUrl();
+        $url=CleanUrl();
         $str_dossier=dossier::get();
+        $image_asc='<IMAGE SRC="image/down.gif" border="0" >';
+        $image_desc='<IMAGE SRC="image/up.gif" border="0">';
+        $image_sel_desc='<IMAGE SRC="image/select1.gif">';
+        $image_sel_asc='<IMAGE SRC="image/select2.gif">';
 
-	$sort=new Sort_Table();
-	$sort->add(_('Date'),
-		    $url,
-		' order by jr_date_order asc,substring(jr_pj_number,\'\\\d+$\')::numeric asc  ',
-		' order by jr_date_order desc,substring(jr_pj_number,\'\\\d+$\')::numeric desc  ','da','dd');
-	$sort->add(_('Echéance'),
-		    $url,
-		' order by jr_ech asc,substring(jr_pj_number,\'\\\d+$\')::numeric asc  ',
-		' order by jr_ech desc,substring(jr_pj_number,\'\\\d+$\')::numeric desc  ','ea','ed');
-	$sort->add(_('Pièce'),
-		    $url,
-		' order by substring(jr_pj_number,\'\\\d+$\')::numeric asc  ',
-		' order by substring(jr_pj_number,\'\\\d+$\')::numeric desc  ','pa','pd');
-	$sort->add(_('Description'),
-		    $url,
-		' order by jr_comment asc  ',
-		' order by jr_comment desc  ','dsa','dsd');
-	$sort->add(_('Montant'),
-		    $url,
-		' order by jr_montant asc  ',
-		' order by jr_montant desc  ','ma','md');
+        $sort_date="<th>  <A class=\"mtitle\" HREF=\"?$url&o=da\">$image_asc</A>"._('Date')."<A class=\"mtitle\" HREF=\"?$url&o=dd\">$image_desc</A></th>";
+        $sort_description="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ca\">$image_asc</A>"._('Description')."<A class=\"mtitle\" HREF=\"?$url&o=cd\">$image_desc</A></th>";
+        $sort_amount="<th style=\"text-align:right\">  <A class=\"mtitle\" HREF=\"?$url&o=ma\">$image_asc</A>"._('Montant')." <A class=\"mtitle\" HREF=\"?$url&o=md\">$image_desc</A></th>";
+        $sort_pj="<th>  <A class=\"mtitle\" HREF=\"?$url&o=pja\">$image_asc</A>"._('PJ')."<A class=\"mtitle\" HREF=\"?$url&o=pjd\">$image_desc</A></th>";
+        $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>"._('Ech')." <A class=\"mtitle\" HREF=\"?$url&o=ed\">$image_desc</A> </th>";
 
-	$sort->add(_('Journal'),
-		    $url,
-		' order by jrn_def_name asc  ',
-		' order by jrn_def_name desc  ','la','ld');
+        $own=new Own($this->db);
+        // if an order is asked
+        if ( isset ($_GET['o']) )
+        {
+            switch ($_GET['o'])
+            {
+            case 'pja':
+                // pj asc
+                $sort_pj="<th>$image_sel_asc PJ <A class=\"mtitle\" HREF=\"?$url&o=pjd\">$image_desc</A></th>";
+                $order=' order by  substring(jr_pj_number,\'\\\d+$\')::numeric asc ';
+                break;
+            case 'pjd':
+                $sort_pj="<th> <A class=\"mtitle\" HREF=\"?$url&o=pja\">$image_asc</A> PJ $image_sel_desc</th>";
+                // pj desc
+                $order=' order by  substring(jr_pj_number,\'\\\d+$\')::numeric desc ';
+                break;
 
-	$ord=(isset($_GET['ord']))?$_GET['ord']:'da';
+            case 'da':
+                // date asc
+                $sort_date="<th>$image_sel_asc Date <A class=\"mtitle\" HREF=\"?$url&o=dd\">$image_desc</A></th>";
+                $order=' order by jr_date_order asc,substring(jr_pj_number,\'\\\d+$\')::numeric asc  ';
+                break;
+            case 'dd':
+                $sort_date="<th> <A class=\"mtitle\" HREF=\"?$url&o=da\">$image_asc</A> Date $image_sel_desc</th>";
+                // date desc
+                $order=' order by jr_date_order desc,substring(jr_pj_number,\'\\\d+$\')::numeric desc  ';
+                break;
+            case 'ma':
+                // montant asc
+                $sort_amount="<th style=\"text-align:right\"> $image_sel_asc Montant <A class=\"mtitle\" HREF=\"?$url&o=md\">$image_desc</A></th>";
+                $order=" order by jr_montant asc ";
+                break;
+            case 'md':
+                // montant desc
+                $sort_amount="<th style=\"text-align:right\">  <A class=\"mtitle\"  HREF=\"?$url&o=ma\">$image_asc</A>Montant $image_sel_desc</th>";
+                $order=" order by jr_montant desc ";
+                break;
+            case 'ca':
+                // jr_comment asc
+                $sort_description="<th> $image_sel_asc Description <A class=\"mtitle\" HREF=\"?$url&o=cd\">$image_desc</A></th>";
+                $order=" order by jr_comment asc ";
+                break;
+            case 'cd':
+                // jr_comment desc
+                $sort_description="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ca\">$image_asc</A>Description $image_sel_desc</th>";
+                $order=" order by jr_comment desc ";
+                break;
+            case 'ea':
+                // jr_comment asc
+                $sort_echeance="<th> $image_sel_asc Ech. <A class=\"mtitle\" HREF=\"?$url&o=ed\">$image_desc</A></th>";
+                $order=" order by jr_ech asc ";
+                break;
+            case 'ed':
+                // jr_comment desc
+                $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A> Ech. $image_sel_desc</th>";
+                $order=" order by jr_ech desc ";
+                break;
 
-	$order=$sort->get_sql_order($ord);
+            }
+        }
+        else
+        {
+            // date asc
+            $sort_date="<th>$image_sel_asc Date <A class=\"mtitle\" HREF=\"?$url&o=dd\">$image_desc</A></th>";
+            $order=" order by jr_date_order asc,substring(jr_pj_number,'\\d+$')::numeric asc ";
+        }
 
         // Count
         $count=$this->db->count_sql($sql);
@@ -654,16 +701,15 @@ class Acc_Ledger
         $r.="<th>Internal</th>";
         if ( $this->type=='')
         {
-            $r.='<th>'.$sort->get_header(5).'</td>';
+            $r.=th('Journal');
         }
-        $r.='<th>'.$sort->get_header(0).'</th>';
-        $r.='<th>'.$sort->get_header(1).'</th>';
-        $r.='<th>'.$sort->get_header(2).'</th>';
+        $r.=$sort_date;
+        $r.=$sort_echeance;
+        $r.=$sort_pj;
 	$r.=th('tiers');
-        $r.='<th>'.$sort->get_header(3).'</th>';
-
+        $r.=$sort_description;
 	$r.=th('Notes',' style="width:15%"');
-        $r.='<th>'.$sort->get_header(4).'</th>';
+        $r.=$sort_amount;
         // if $p_paid is not equal to 0 then we have a paid column
         if ( $p_paid != 0 )
         {
@@ -687,6 +733,27 @@ class Acc_Ledger
             //internal code
             // button  modify
             $r.="<TD>";
+            // If url contains
+            //
+
+            $href=basename($_SERVER['PHP_SELF']);
+          /*  switch ($href)
+            {
+                // user_jrn.php
+            case 'compta.php':
+                $vue="S"; //Expert View
+                break;
+            case 'commercial.php':
+                $vue="S"; //Simple View
+                break;
+            case 'recherche.php':
+                $vue=(isset($_GET['expert']))?'E':'S';
+                break;
+            default:
+                echo_error('user_form_ach.php',__LINE__,'Erreur invalid request uri');
+                exit (-1);
+            }*/
+	    //DEBUG
 
             $r.=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s </A>',
                         $row['jr_id'], $gDossier, $row['jr_internal']);
@@ -2156,6 +2223,7 @@ class Acc_Ledger
 
         $r.=dossier::hidden();
         $r.=HtmlInput::hidden('ledger_type',$this->type);
+        $r.=HtmlInput::hidden('ac',$_REQUEST['ac']);
         ob_start();
         require_once('template/ledger_search.php');
         $r.=ob_get_contents();
@@ -2254,11 +2322,12 @@ class Acc_Ledger
 
         $and='';
         $user=new User($this->db);
-
+	$p_action=$ledger_type;
         if ( $r_jrn == -1 )
         {
+
             /* Specific action allow to see all the ledgers in once */
-            if ( $p_action == 'gl') $p_action='ALL';
+           if ( $ledger_type== 'gl') $p_action='ALL';
             /* actions from commercial.php  */
             if ( $p_action == 'client') $p_action='ALL';
             if ( $p_action == 'supplier') $p_action='ALL';
@@ -2399,7 +2468,7 @@ class Acc_Ledger
         $r.='<FORM METHOD="GET">';
         $r.=$this->search_form($type);
         $r.=HtmlInput::submit('search',_('Rechercher'));
-        $r.=HtmlInput::hidden('p_action',$_REQUEST['p_action']);
+        $r.=HtmlInput::hidden('ac',$_REQUEST['ac']);
 
         /*  when called from commercial.php some hidden values are needed */
         if (isset($_REQUEST['sa'])) $r.= HtmlInput::hidden("sa",$_REQUEST['sa']);
