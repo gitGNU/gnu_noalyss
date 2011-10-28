@@ -32,8 +32,9 @@ require_once('class_ipopup.php');
 
 /* $sub_action = sb = detail */
 /* $cn database conx */
+$str_dossier=Dossier::get();
 $return= HtmlInput::button_anchor('Retour','?p_action=client&'.$str_dossier);
-$root="?p_action=client&sb=detail&f_id=".$_REQUEST["f_id"].'&'.$str_dossier;
+$root="?p_action=client&sb=detail&f_id=".$_REQUEST["f_id"].'&'.$str_dossier."&ac=".$_REQUEST["ac"];
 $ss_action=( isset ($_REQUEST['sc'] ))? $_REQUEST['sc']: '';
 switch ($ss_action)
 {
@@ -68,7 +69,7 @@ echo ShowItem(array(
                   array($root.'&sc=op',_('Opérations'),_('Toutes les opérations'),4),
 		  array($root.'&sc=bal',_('Balance'),_('Balance du client'),7),
                   array($root.'&sc=let',_('Lettrage'),_('Opérations & Lettrages'),6),
-                  array('?p_action=client&'.dossier::get(),_('Retour liste'),_('Retour à la liste des clients'),5)
+                  array('?ac='.$_REQUEST['ac'].'&'.dossier::get(),_('Retour liste'),_('Retour à la liste des clients'),5)
                   ),
                   'H',"mtitle","mtitle",$def,'');
 echo '</div>';

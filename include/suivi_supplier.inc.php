@@ -38,8 +38,7 @@ $g_user->can_request(GECOUR);
  */
 $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"list";
 $ag_id=(isset($_REQUEST['ag_id']))?$_REQUEST['ag_id']:0;
-$p_action=$_REQUEST['p_action'];
-$base="p_action=$p_action&sc=sv&sb=detail&f_id=".$_REQUEST['f_id'];
+$base="ac=".$_REQUEST['ac']."&sc=sv&sb=detail&f_id=".$_REQUEST['f_id'];
 $retour=HtmlInput::button_anchor('Retour','?'.dossier::get().'&'.$base);
 $fiche=new Fiche($cn,$_REQUEST['f_id']);
 

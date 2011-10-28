@@ -25,7 +25,6 @@
    * administration.
    * The needed variables are
    * - $cn for the database connection
-   * - $p_action the $_REQUEST['p_action']
    * - $sub_action sa from suivi courrier but sc from Suivi client, fournisseur...
    *
    */
@@ -37,6 +36,7 @@ if( isset($_REQUEST['f_id']))
   $supl_hidden.=HtmlInput::hidden('f_id',$_REQUEST['f_id']);
 if( isset($_REQUEST['sb']))
   $supl_hidden.=HtmlInput::hidden('sb',$_REQUEST['sb']);
+  $supl_hidden.=HtmlInput::hidden('ac',$_REQUEST['ac']);
 
 /*--------------------------------------------------------------------------- */
 /* We ask to generate the document */
@@ -114,14 +114,14 @@ if ( $sub_action=="update" )
         echo '<div class="content">';
 
         // Add hidden tag
-        echo '<form  enctype="multipart/form-data" action="commercial.php" method="post"">';
+        echo '<form  enctype="multipart/form-data" action="do.php" method="post"">';
 
         echo dossier::hidden();
         $act->ag_comment="";
         if (isset($_REQUEST['qcode_dest'])) $act->qcode_dest=$_REQUEST['qcode_dest'];
         echo $act->Display('NEW',false,$base,$retour);
 
-        echo '<input type="hidden" name="p_action" value="'.$p_action.'">';
+        echo '<input type="hidden" name="ac" value="'.$_REQUEST['ac'].'">';
         echo '<input type="hidden" name="sa" value="save_action_st2">';
         echo '<input type="submit" class="button" name="save_action_st2" value="'._('Enregistrer').'">';
         echo '<input type="submit" class="button" name="generate" value="'._('Génère le document').'"></p>';
@@ -143,12 +143,11 @@ if ( $sub_action=='detail' )
     $act->ag_id=$ag_id;
     echo $act->get();
     $act->ag_comment=Decode($act->ag_comment);
-    echo '<form  enctype="multipart/form-data"  class="print" action="commercial.php"  method="post"   >';
+    echo '<form  enctype="multipart/form-data"  class="print" action="do.php"  method="post"   >';
     echo $supl_hidden;
-    echo HtmlInput::hidden('p_action',$_REQUEST['p_action']);
+    echo HtmlInput::hidden('ac',$_REQUEST['ac']);
     echo dossier::hidden();
     echo $act->Display('UPD',false,$base,$retour);
-    echo '<input type="hidden" name="p_action" value="'.$p_action.'">';
     echo '<input type="hidden" name="sa" value="update">';
     echo HtmlInput::submit("save","Sauve");
     echo HtmlInput::submit("add_action_here",_("Ajoute une action à celle-ci"));
@@ -191,7 +190,7 @@ if ( $sub_action == "add_action" )
     $act->d_id=0;
     echo '<div class="content">';
     // Add hidden tag
-    echo '<form method="post" action="commercial.php" name="form_add" id="form_add" enctype="multipart/form-data" >';
+    echo '<form method="post" action="do.php" name="form_add" id="form_add" enctype="multipart/form-data" >';
     echo $supl_hidden;
     echo dossier::hidden();
 
@@ -200,7 +199,7 @@ if ( $sub_action == "add_action" )
     if (isset($_REQUEST['qcode'])) $act->qcode_dest=$_REQUEST['qcode'];
     echo $act->Display('NEW',false,$base,$retour);
 
-    echo '<input type="hidden" name="p_action" value="'.$p_action.'">';
+    echo '<input type="hidden" name="ac" value="'.$_REQUEST["ac"].'">';
     echo '<input type="hidden" name="sa" value="save_action_st2">';
     echo '<input type="hidden" name="save_action_st2" value="save_action_st2">';
     echo '<input type="submit" class="button" name="save_action_st2" value="'._('Enregistrer').'">';
@@ -224,7 +223,7 @@ if  ( $sub_action == "save_action_st2" )
     echo $act->save();
     $url="?$base&sa=detail&ag_id=".$act->ag_id.'&'.dossier::get();
     echo '<p><a class="mtitle" href="'.$url.'">'.hb('Action Sauvée  : '.$act->ag_ref).'</a></p>';
-    
+
 
     ShowActionList($cn,$base);
     $url="?$base&sa=detail&ag_id=".$act->ag_id.'&'.dossier::get();
@@ -240,7 +239,7 @@ function ShowActionList($cn,$p_base)
     <legend>
     <?=_('Recherche avancée')?>
     </legend>
-    <form method="get" action="commercial.php">
+    <form method="get" action="do.php">
     <?php
     echo dossier::hidden();
   $a=(isset($_GET['query']))?$_GET['query']:"";
@@ -257,6 +256,7 @@ function ShowActionList($cn,$p_base)
     }
   if( isset($_REQUEST['sb']))
     $supl_hidden.=HtmlInput::hidden('sb',$_REQUEST['sb']);
+    $supl_hidden.=HtmlInput::hidden('ac',$_REQUEST['ac']);
 
   $w=new ICard();
   $w->name='qcode';
@@ -284,7 +284,10 @@ function ShowActionList($cn,$p_base)
 
   $see_all=new ICheckBox('see_all');
   $my_action=new ICheckBox('all_action');
-  if ( $_REQUEST ['p_action'] != 'suivi_courrier')    
+/**
+ * @todo
+ *   if ( $_REQUEST ['p_action'] != 'suivi_courrier')
+ *
     {
       $see_all->selected=true;
       $my_action->selected= true;
@@ -294,13 +297,15 @@ function ShowActionList($cn,$p_base)
       $see_all->selected=(isset($_REQUEST ['see_all']))?true:false;
       $my_action->selected= (isset($_REQUEST ['all_action']))?true:false;
     }
+ *
+ */
   echo _('les actions fermées aussi:').$see_all->input().'<br/>';
 
   echo _('affecté à d\'autre:').$my_action->input().'<br/>';
   ?>
     <input type="submit" class="button" name="submit_query" value="<?=_('recherche')?>">
        <input type="hidden" name="sa" value="list">
-       <input type="hidden" name="p_action" value="<?=$_REQUEST['p_action']?>">
+
        <?=$supl_hidden?>
        </form>
 
@@ -309,11 +314,11 @@ function ShowActionList($cn,$p_base)
 
        <div class="content" >
        <span style="float:left">
-       <form  method="get" action="commercial.php">
+       <form  method="get" action="do.php">
        <?php echo dossier::hidden();
   ?>
        <input type="submit" class="button" name="submit_query" value="<?=_("Ajout Action")?>">
-	  <input type="hidden" name="p_action" value="<?=$_REQUEST['p_action']?>">
+	  <input type="hidden" name="ac" value="<?=$_REQUEST['ac']?>">
 	  <input type="hidden" name="sa" value="add_action">
 	  <?=$supl_hidden?>
 	  <input id="bt_search" type="button" class="button" onclick="toggleShow(this,'<?=_('Afficher Recherche')?>','<?=_('Cache Recherche')?>','search_action')" value="">

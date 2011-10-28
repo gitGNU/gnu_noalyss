@@ -95,7 +95,7 @@ class Action
      *
      * \param $p_view if set to true the form will be in readonly mode (value: true or false)
      * \param $p_gen true we show the tag for generating a doc (value : true or false)
-     *\param $p_base is the p_action parameter
+     *\param $p_base is the ac parameter
      *\param $retour is the html code for the return button
      * \note  update the reference number or the document type is not allowed
      *
@@ -296,7 +296,7 @@ class Action
             if( isset($_REQUEST['sb']))
                 $supl_hidden.='&sb='.$_REQUEST['sb'];
 
-            $lag_ref_ag_id='<a class="mtitle" href="?p_action='.$_REQUEST['p_action'].$supl_hidden.'&sa=detail&ag_id='.
+            $lag_ref_ag_id='<a class="mtitle" href="?ac='.$_REQUEST['ac'].$supl_hidden.'&sa=detail&ag_id='.
                            $this->ag_ref_ag_id.'&'.dossier::get().'">'.
                                $this->db->get_value("select ag_ref from action_gestion where ag_id=$1",array($this->ag_ref_ag_id)).
                                "</A>";
@@ -643,7 +643,7 @@ class Action
     }
     /*! myList($p_filter="")
      * \brief Show list of action by default if sorted on date
-     *\param $p_base base url with p_action...
+     *\param $p_base base url with ac...
      * \param $p_filter filters on the document_type
      * \param $p_search must a valid sql command ( ex 'and  ag_title like upper('%hjkh%'))
      * \return string containing html code
@@ -821,7 +821,7 @@ class Action
         //show the sub_action
         foreach ($a_row as $row )
         {
-            $href='<A class="document" HREF="commercial.php?'.$p_base.'&sa=detail&ag_id='.$row['ag_id'].'&'.$str_dossier.'">';
+            $href='<A class="document" HREF="do.php?'.$p_base.'&sa=detail&ag_id='.$row['ag_id'].'&'.$str_dossier.'&ac='.$_REQUEST['ac'].'">';
             $i++;
             $tr=($i%2==0)?'even':'odd';
             if ($row['ag_priority'] < 2) $tr='priority1';
@@ -857,7 +857,7 @@ class Action
                 {
                     foreach ($retSql as $line)
                     {
-                        $ref.='<A  href="commercial.php?'.$p_base.'&query='.$line['ag_ref'].'&'.$str_dossier.'">'.
+                        $ref.='<A  href="do.php?'.$p_base.'&query='.$line['ag_ref'].'&'.$str_dossier.'">'.
                               $line['ag_ref']."<A>";
                     }
                 }

@@ -21,7 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file
- * \brief this file respond to an ajax request 
+ * \brief this file respond to an ajax request
  * The parameters are
  * - gDossier
  * - $op operation the file has to execute
@@ -286,7 +286,7 @@ case 'dl':
     $r.='<div style="float:left;">';
     // needed hidden var
     $r.=dossier::hidden();
-    if ( isset($_REQUEST['p_action']))       $r.=HtmlInput::hidden('p_action',$_REQUEST['p_action']);
+    if ( isset($_REQUEST['ac']))       $r.=HtmlInput::hidden('ac',$_REQUEST['ac']);
     if ( isset($_REQUEST['sa']))       $r.=HtmlInput::hidden('sa',$_REQUEST['sa']);
     if ( isset($_REQUEST['acc']))       $r.=HtmlInput::hidden('acc',$_REQUEST['acc']);
     $r.=HtmlInput::hidden('j_id',$j_id);

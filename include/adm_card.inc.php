@@ -28,14 +28,15 @@
  */
 require_once('class_contact.php');
 require_once('class_ipopup.php');
+$str_dossier=Dossier::get();
 
 /* $sub_action = sb = detail */
 /* $cn database conx */
 $return=new IAction();
 $return->name='retour';
 $return->label='Retour';
-$return->value='?p_action=adm&'.$str_dossier;
-$root="?p_action=adm&sb=detail&f_id=".$_REQUEST["f_id"].'&'.$str_dossier;
+$return->value='?ac='.$_REQUEST['ac'].'&'.$str_dossier;
+$root='?ac='.$_REQUEST['ac']."&sb=detail&f_id=".$_REQUEST["f_id"].'&'.$str_dossier;
 $ss_action=( isset ($_REQUEST['sc'] ))? $_REQUEST['sc']: '';
 switch ($ss_action)
 {
@@ -70,7 +71,7 @@ echo ShowItem(array(
                   array($root.'&sc=op',_('Opérations'),_('Toutes les opérations'),4),
                   array($root.'&sc=bal',_('Balance'),_('Balance du fournisseur'),7),
                   array($root.'&sc=let',_('Lettrage'),_('Opérations & Lettrages'),6),
-                  array('?p_action=adm&'.dossier::get(),_('Retour liste'),_('Retour à la liste des administration'),5)
+                  array('?ac='.$_REQUEST['ac']."&".dossier::get(),_('Retour liste'),_('Retour à la liste des administration'),5)
                   ),
                   'H',"mtitle","mtitle",$def,' ');
 echo '</div>';

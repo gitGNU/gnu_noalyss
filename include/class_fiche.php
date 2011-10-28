@@ -1573,8 +1573,8 @@ class Fiche
             if ( $p_amount && $amount['debit']==0 && $amount['credit'] == 0 && $amount['solde'] == 0 ) continue;
 
             $r.="<TR $odd>";
-            $e=sprintf('<A HREF="%s?p_action=%s&sb=detail&f_id=%d&%s&sc=sv" title="Détail"> ',
-                       $script,$p_action,$tiers->id,$str_dossier);
+            $e=sprintf('<A HREF="%s?ac=%s&sb=detail&f_id=%d&%s&sc=sv" title="Détail"> ',
+                       $script,$_REQUEST['ac'],$tiers->id,$str_dossier);
 
             $r.="<TD> $e".$tiers->strAttribut(ATTR_DEF_QUICKCODE)."</A></TD>";
             $r.="<TD>".h($tiers->strAttribut(ATTR_DEF_NAME))."</TD>";

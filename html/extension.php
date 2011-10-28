@@ -55,7 +55,7 @@ if ( $only_plugin != 'P' )
     $hidden=dossier::hidden();
     echo '
     <div style="position:absolute;top:3px;right:30px" class="noprint">
-    <form method="get" action="access.php" style="display:inline">'.
+    <form method="get" action="do.php" style="display:inline">'.
     $hidden;
 
     echo HtmlInput::button_anchor(_('Préférence'),'user_pref.php');
@@ -72,7 +72,7 @@ else
     $msg=_('Retour accueil');
     ?>
     <div style="position:absolute;top:3px;right:30px" class="noprint">
-                           <form method="get" action="access.php" style="display:inline">
+                           <form method="get" action="do.php" style="display:inline">
        <?php
        if ($only_plugin !='P')
 	 echo HtmlInput::button_anchor('Retour Accueil','user_login.php');
