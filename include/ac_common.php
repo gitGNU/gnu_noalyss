@@ -760,13 +760,21 @@ function show_menu($module,$idx)
 	me_menu,me_code
 	from v_all_menu
 	where
-	me_code_dep=$1 order by p_order",array($module[$idx]));
+	me_code_dep=$1 and user_name=$2 order by p_order",array($module[$idx],$g_user->login));
 
-    if (! empty ($amenu))
+    if (! empty ($amenu) && count($amenu)>1)
     {
 	require 'template/menu.php';
     }
-    else
+    elseif (count($amenu)==1)
+    {
+	echo '<div class="topmenu">';
+	echo h2info($amenu[0]['me_menu']);
+	echo '</div>';
+	$module[$idx]=$amenu[0]['me_code'];
+    }
+
+    if (empty($amenu) || count($amenu)==1)
     {
 /**
  * @todo add security
@@ -784,6 +792,7 @@ function show_menu($module,$idx)
 	    echo '<div class="content">';
 	    require_once "$file";
 	    echo '</div>';
+	    exit();
 	}
     }
 }

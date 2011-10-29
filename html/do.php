@@ -32,6 +32,14 @@ require_once 'function_javascript.php';
 html_page_start();
 global $g_user, $cn;
 
+// if gDossier is not set redirect to form to choose a folder
+if ( ! isset($_REQUEST['gDossier']))
+{
+    redirect('user_login.php');
+    exit();
+}
+
+
 $cn = new Database(Dossier::id());
 $g_user = new User($cn);
 

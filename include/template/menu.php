@@ -14,7 +14,7 @@
 	global $g_user;
 	// Display the menu
 	for($i=0;$i < count($amenu);$i++):
-	    if ( isset($module[$idx+1]) && $module[$idx+1]==$amenu[$i]['me_code']):
+	    if ( (count($amenu)==1)|| (isset($module[$idx+1]) && $module[$idx+1]==$amenu[$i]['me_code'])):
 		$class="selectedcell";
 ?>
 	<td class="<?=$class?>">
