@@ -676,7 +676,6 @@ div.popup_content {
 }
 div.autocomplete {
   position:relative;
-  width:30em;
   background-color:white;
   border:1px solid #888;
   margin:0;
@@ -691,6 +690,9 @@ div.autocomplete em {
 }
 div.autocomplete ul {
   list-style-type:none;
+  background-color:white;
+  border:1px solid #888;
+  width:375px;
   margin:0;
   padding:0;
 }
@@ -704,6 +706,7 @@ div.autocomplete ul li {
   /*height:32px;*/
   cursor:pointer;
 }
+span.informal{ font-size:12; }
 
 ul.select_table  {
 	/*padding:5px;*/
