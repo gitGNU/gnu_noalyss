@@ -32,7 +32,7 @@ function update_predef(p_type,p_direct)
 {
     var jrn=g("p_jrn").value;
     var dossier=g("gDossier").value;
-    var querystring='?&gDossier='+dossier+'&l='+jrn+'&t='+p_type+'&d='+p_direct;
+    var querystring='gDossier='+dossier+'&l='+jrn+'&t='+p_type+'&d='+p_direct;
     g("p_jrn_predef").value=jrn;
     var action=new Ajax.Request(
                    "get_predef.php",
@@ -78,7 +78,7 @@ function update_pj()
 {
     var jrn=g("p_jrn").value;
     var dossier=g("gDossier").value;
-    var querystring='?&gDossier='+dossier+'&l='+jrn;
+    var querystring='gDossier='+dossier+'&l='+jrn;
     var action=new Ajax.Request(
                    "get_pj.php",
                    {
@@ -96,7 +96,7 @@ function update_bank()
 {
     var jrn=g('p_jrn').value;
     var dossier=g('gDossier').value;
-    var qs='?&gDossier='+dossier+'&op=bkname&p_jrn='+jrn;
+    var qs='gDossier='+dossier+'&op=bkname&p_jrn='+jrn;
     var action=new Ajax.Request(
                    "ajax_misc.php",
                    {
@@ -141,7 +141,7 @@ function get_last_date()
 {
     var jrn=g('p_jrn').value;
     var dossier=g('gDossier').value;
-    var qs='?&gDossier='+dossier+'&op=lastdate&p_jrn='+jrn;
+    var qs='gDossier='+dossier+'&op=lastdate&p_jrn='+jrn;
     var action=new Ajax.Request(
                    "ajax_misc.php",
                    {
@@ -303,7 +303,7 @@ function compute_ledger(p_ctl_nb)
 
     g('e_quant'+p_ctl_nb).value=trim(g('e_quant'+p_ctl_nb).value);
     var quantity=g('e_quant'+p_ctl_nb).value;
-    var querystring='?&gDossier='+dossier+'&c='+qcode+'&t='+tva_id+'&p='+price+'&q='+quantity+'&n='+p_ctl_nb;
+    var querystring='gDossier='+dossier+'&c='+qcode+'&t='+tva_id+'&p='+price+'&q='+quantity+'&n='+p_ctl_nb;
     $('sum').hide();
     var action=new Ajax.Request(
                    "compute.php",
@@ -591,7 +591,7 @@ function view_history_account(p_value,dossier)
     id='det'+layer;
     var popup={'id':  id,'cssclass':'op_detail','html':loading(),'drag':true};
 
-    querystring='?gDossier='+dossier+'&act=de&pcm_val='+p_value+'&div='+id;
+    querystring='gDossier='+dossier+'&act=de&pcm_val='+p_value+'&div='+id;
     add_div(popup);
     var action=new Ajax.Request(
                    "ajax_history.php",
@@ -610,7 +610,7 @@ function view_history_account(p_value,dossier)
 function update_history_account(obj)
 {
     try{
-	var querystring="?div="+obj.div+"&gDossier="+obj.gDossier+"&pcm_val="+obj.pcm_val+"&ex="+obj.select.options[obj.select.selectedIndex].text;
+	var querystring="div="+obj.div+"&gDossier="+obj.gDossier+"&pcm_val="+obj.pcm_val+"&ex="+obj.select.options[obj.select.selectedIndex].text;
 	var action=new Ajax.Request(
 	    "ajax_history.php",
 	    {
@@ -639,7 +639,7 @@ var popup={'id':
            ,'html':
            loading(),'drag':
                true};
-    querystring='?gDossier='+dossier+'&act=de&f_id='+p_value+'&div='+id;
+    querystring='gDossier='+dossier+'&act=de&f_id='+p_value+'&div='+id;
     add_div(popup);
     var action=new Ajax.Request(
                    "ajax_history.php",
@@ -658,7 +658,7 @@ var popup={'id':
 function update_history_card(obj)
 {
     try{
-	var querystring="?div="+obj.div+"&gDossier="+obj.gDossier+"&f_id="+obj.f_id+"&ex="+obj.select.options[obj.select.selectedIndex].text;
+	var querystring="div="+obj.div+"&gDossier="+obj.gDossier+"&f_id="+obj.f_id+"&ex="+obj.select.options[obj.select.selectedIndex].text;
 	var action=new Ajax.Request(
 	    "ajax_history.php",
 	    {
@@ -682,7 +682,7 @@ function update_history_card(obj)
 */
 function removeOperation(p_jr_id,dossier,div)
 {
-    var qs="?gDossier="+dossier+"&act=rmop&div="+div+"&jr_id="+p_jr_id;
+    var qs="gDossier="+dossier+"&act=rmop&div="+div+"&jr_id="+p_jr_id;
     var action=new Ajax.Request(
                    "ajax_ledger.php",
                    {
@@ -701,7 +701,7 @@ function removeOperation(p_jr_id,dossier,div)
 */
 function reverseOperation(obj)
 {
-    var qs="?"+$(obj).serialize();
+    var qs=$(obj).serialize();
     g('ext'+obj.divname).style.display='none';
     g('bext'+obj.divname).style.display='none';
 
@@ -730,7 +730,7 @@ function modifyOperation(p_value,dossier)
            ,'html':
            loading(),'drag':
                true};
-    querystring='?gDossier='+dossier+'&act=de&jr_id='+p_value+'&div='+id;
+    querystring='gDossier='+dossier+'&act=de&jr_id='+p_value+'&div='+id;
     add_div(popup);
     var action=new Ajax.Request(
                    "ajax_ledger.php",
@@ -756,7 +756,7 @@ function viewOperation(p_value,p_dossier)
 }
 function dropLink(p_dossier,p_div,p_jr_id,p_jr_id2)
 {
-    var querystring='?gDossier='+p_dossier;
+    var querystring='gDossier='+p_dossier;
     querystring+='&div='+p_div;
     querystring+='&jr_id='+p_jr_id;
     querystring+='&act=rmr';
@@ -800,7 +800,7 @@ function dsp_letter(obj)
 {
     try
     {
-        var queryString='?gDossier='+obj.gDossier+'&j_id='+obj.j_id+'&op=dl'+'&ot='+this.obj_type;
+        var queryString='gDossier='+obj.gDossier+'&j_id='+obj.j_id+'&op=dl'+'&ot='+this.obj_type;
         var action=new Ajax.Request(
                        "ajax_misc.php",
                        {
@@ -893,14 +893,14 @@ function search_letter(obj)
     }
 }
 /**
-*@brief save an operation in ajax, it concerns only the 
+*@brief save an operation in ajax, it concerns only the
 * comment, the pj and the rapt
 * the form elements are access by their name
 *@param form
 */
 function op_save(obj)
 {
-    var queryString='?'+$(obj).serialize();
+    var queryString=$(obj).serialize();
     queryString+="&lib="+obj.lib.value;
     queryString+="&gDossier="+obj.gDossier.value;
     var rapt2="rapt"+obj.whatdiv.value;

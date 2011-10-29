@@ -20,7 +20,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*! \file
- * \brief This file permit to use the AJAX function to fill up 
+ * \brief This file permit to use the AJAX function to fill up
  *        info from fiche
  *
  */
@@ -91,7 +91,7 @@ function ajaxFid(p_ctl)
             return;
         }
     }
-    var queryString="?FID="+trim($(p_ctl).value);
+    var queryString="FID="+trim($(p_ctl).value);
     if ( $(p_ctl).label)
     {
         queryString+='&l='+$(p_ctl).label;
@@ -129,7 +129,7 @@ function ajaxFid(p_ctl)
 }
 /*!\brief callback function for ajax
  * \param request : object request
- * \param json : json answer 
+ * \param json : json answer
 \verbatim
  {"answer":"ok",
  "flabel":"none",
@@ -180,14 +180,14 @@ function ajax_error_saldo(request,json)
     alert('erreur : ajax fiche');
 }
 /*!\brief this function get the saldo
- * \param p_ctl the ctrl where we take the quick_code 
+ * \param p_ctl the ctrl where we take the quick_code
  */
 function ajax_saldo(p_ctl)
 {
     var gDossier=$('gDossier').value;
     var ctl_value=trim($(p_ctl).value);
     var jrn=$('p_jrn').value;
-    queryString="?FID="+ctl_value;
+    queryString="FID="+ctl_value;
     queryString=queryString+'&gDossier='+gDossier+'&j='+jrn;
     queryString=queryString+'&ctl='+ctl_value;
     /*  alert(queryString); */

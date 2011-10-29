@@ -15,7 +15,7 @@ function modifyModeleDocument(p_value,dossier)
 	       'style':style
 	      };
 
-    querystring='?gDossier='+dossier+'&op=mod_doc&id='+p_value+'&div=mod_doc';
+    querystring='gDossier='+dossier+'&op=mod_doc&id='+p_value+'&div=mod_doc';
     if ( ! $('mod_doc'))
     {
 	add_div(popup);
@@ -32,7 +32,7 @@ function modifyModeleDocument(p_value,dossier)
 }
 /**
  *@brief receive answer from ajax and just display it into the IBox
- * XML must contains at least 2 fields : code is the ID of the IBOX and 
+ * XML must contains at least 2 fields : code is the ID of the IBOX and
  * html which is the contain
  */
 function modify_document_success_box(req,json)

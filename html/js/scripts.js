@@ -24,7 +24,7 @@
  *
  */
 /**
-* callback function when we just need to update a hidden div with an info 
+* callback function when we just need to update a hidden div with an info
 * message
 */
 function infodiv(req,json)
@@ -378,13 +378,13 @@ function change_month(obj)
 
 }
 /**
-*@brief basic answer to ajax on success, it will fill the DOMID code with 
+*@brief basic answer to ajax on success, it will fill the DOMID code with
 * the code. In that case, you need to create the object before the Ajax.Request
-*The difference with success box is that 
+*The difference with success box is that
 *@see add_div removeDiv success_box is that the width and height are not changed ajax_misc.php
 *@parameter code is the ID of the object containing the html (div, button...)
 *@parameter value is the html code, with it you fill the ctl element
-*/ 
+*/
 
 function success_misc(req)
 {
@@ -466,7 +466,7 @@ function success_cat_doc_remove(req)
 }
 /**
  *@brief display the popup with vat and explanation
- *@param obj with 4 attributes gdossier, ctl,popup 
+ *@param obj with 4 attributes gdossier, ctl,popup
  */
 function popup_select_tva(obj)
 {
@@ -533,7 +533,7 @@ function success_popup_select_tva(req)
 
 /**
  *@brief display the popup with vat and explanation
- *@param obj with 4 attributes gdossier, ctl,popup 
+ *@param obj with 4 attributes gdossier, ctl,popup
  */
 function set_tva_label(obj)
 {
@@ -595,7 +595,7 @@ function set_wait(name)
 }
 /**
  *@brief add dynamically a object for AJAX
- *@param obj. 
+ *@param obj.
  * the attributes are
  * - style to add style
  * - id to add an id
@@ -650,7 +650,7 @@ new Draggable(obj.id,{starteffect:function()
 }
 /**
  * remove a object created with add_div
- * @param elt id of the elt 
+ * @param elt id of the elt
  */
 function removeDiv(elt)
 {
@@ -704,7 +704,7 @@ function show_box(obj)
 }
 /**
  *@brief receive answer from ajax and just display it into the IBox
- * XML must contains at least 2 fields : ctl is the ID of the IBOX and 
+ * XML must contains at least 2 fields : ctl is the ID of the IBOX and
  * code is the HTML to put in it
  *@see fill_box
  */
@@ -913,7 +913,7 @@ function display_periode(p_dossier,p_id)
     {
         alert("display_periode "+e.message);
     }
-   
+
 }
 function success_display_periode(req)
 {    try
@@ -951,7 +951,7 @@ function save_periode(obj)
 {
      try
     {
-        var queryString="?"+$(obj).serialize()+"&op=save_per";
+        var queryString=$(obj).serialize()+"&op=save_per";
 
         var action = new Ajax.Request(
             "ajax_misc.php" ,
@@ -971,13 +971,13 @@ function save_periode(obj)
     return false;
 }
 /**
-*@brief basic answer to ajax on success, it will fill the ctl with 
+*@brief basic answer to ajax on success, it will fill the ctl with
 * the code. In that case, you need to create the object before the Ajax.Request
-*The difference with success box is that 
+*The difference with success box is that
 *@see add_div removeDiv success_box is that the width and height are not changed
 *@parameter ctl is the ID of the object containing the html (div, button...)
 *@parameter code is the html code, with it you fill the ctl element
-*/ 
+*/
 function fill_box(req)
 {
     try{
@@ -989,7 +989,7 @@ function fill_box(req)
 	var code_html=getNodeText(html[0]); // Firefox ne prend que les 4096 car.
 	code_html=unescape_xml(code_html);
 	$(name_ctl).innerHTML=code_html;
-    } 
+    }
     catch (e) {
 	alert(e.message);}
     try{
@@ -1001,13 +1001,13 @@ function fill_box(req)
 }
 /**
 *display a popin to  let you modified a predefined operation
-*@param dossier_id 
+*@param dossier_id
 *@param od_id from table op_predef
 */
 function mod_predf_op(dossier_id,od_id)
 {
     var target="mod_predf_op";
-    if ( $(target)) 
+    if ( $(target))
     {
 	removeDiv(target);
     }
@@ -1016,11 +1016,11 @@ function mod_predf_op(dossier_id,od_id)
     var str_style="top:"+sx+";left:"+sy;
 
     var div={id:target, cssclass:'op_detail',style:str_style,html:loading(),drag:1};
-    
+
     add_div(div);
 
-    var qs="?gDossier="+dossier_id+'&op=mod_predf&id='+od_id;
-    
+    var qs="gDossier="+dossier_id+'&op=mod_predf&id='+od_id;
+
     var action=new Ajax.Request ( 'ajax_misc.php',
 				  {
 				      method:'get',
@@ -1034,7 +1034,7 @@ function mod_predf_op(dossier_id,od_id)
 
 function save_predf_op(obj)
 {
-    var querystring="?"+$(obj).serialize()+'&op=save_predf';
+    var querystring=$(obj).serialize()+'&op=save_predf';
     // Create a ajax request to get all the person
     var action = new Ajax.Request ('ajax_misc.php',
 				   {
@@ -1045,5 +1045,5 @@ function save_predf_op(obj)
 				   }
                                   );
 
-    return false;   
+    return false;
 }

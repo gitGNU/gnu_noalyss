@@ -120,7 +120,7 @@ function verify_ca(div)
 function search_ca (p_dossier,p_target,p_source)
 {
     var pa_id=g(p_source).value;
-    var url="?gDossier="+p_dossier+"&c1="+p_target+"&c2="+pa_id;
+    var url="gDossier="+p_dossier+"&c1="+p_target+"&c2="+pa_id;
     var a=window.open("search_ca.php"+url,"CA recherche",'statusbar=no,scrollbars=yes,toolbar=no');
     a.focus();
 }

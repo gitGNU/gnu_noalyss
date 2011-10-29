@@ -33,7 +33,7 @@
 */
 function remove_document(p_dossier,p_id)
 {
-    queryString="?gDossier="+p_dossier+"&a=rm&d_id="+p_id;
+    queryString="gDossier="+p_dossier+"&a=rm&d_id="+p_id;
     var action=new Ajax.Request (
                    "show_document.php",
                    {
@@ -98,7 +98,7 @@ function removeStock(s_id,p_dossier)
     {
 	return;
     }
-    queryString="?gDossier="+p_dossier+"&op=rm_stock&s_id="+s_id;
+    queryString="gDossier="+p_dossier+"&op=rm_stock&s_id="+s_id;
     var action=new Ajax.Request (
                    "ajax_misc.php",
                    {
@@ -133,7 +133,7 @@ function successRemoveStock(request,json)
 	$(doc).style.color="red";
 	//    $(doc).href="javascript:alert('Stock Effacé')";
 	$(doc).style.textDecoration="line-through";
-    } catch (e)  
+    } catch (e)
     {
 	alert("success_box"+e.message);
     }

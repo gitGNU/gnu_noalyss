@@ -76,7 +76,7 @@ function search_card(obj)
 
 	var div_style="top:"+sx+";width:60%;heigth:80%";
 	add_div({id:'search_card',cssclass:'op_detail',html:loading(),style:div_style,drag:true});
-	
+
         var action=new Ajax.Request ( 'ajax_card.php',
                                       {
                                   method:'get',
@@ -95,13 +95,13 @@ function search_card(obj)
  *@brief when you submit the form for searching a card
  *@param obj form
  *@note the same as search_card, except it answer to a FORM and not
- * to a click event 
+ * to a click event
  */
 function search_get_card(obj)
 {
     var dossier=$('gDossier').value;
 
-    var queryString="?gDossier="+dossier;
+    var queryString="gDossier="+dossier;
     queryString+="&op=fs";
 
     if ( obj.elements['inp'] )
@@ -315,15 +315,15 @@ function fill_ipopcard(obj)
     }
     //    ctl=$(obj).id;
 
-    var queryString='?gDossier='+dossier;
+    var queryString='gDossier='+dossier;
     queryString+='&qcode='+qcode;
     queryString+='&ctl='+content;
     queryString+='&op=dc'; 	// dc for detail card
-    if ( obj.readonly != undefined) { 
+    if ( obj.readonly != undefined) {
      queryString+='&ro';
     }
 
-    if ( obj.nohistory != undefined) { 
+    if ( obj.nohistory != undefined) {
      queryString+='&nohistory';
     }
 
@@ -339,7 +339,7 @@ function fill_ipopcard(obj)
 /**
  *@brief
  * \param request : object request
- * \param json : json answer 
+ * \param json : json answer
 \code
 \endcode
 */
@@ -376,7 +376,7 @@ function  successFill_ipopcard(req,json)
     }
 }
 /**
- *@brief show the ipopup for selecting a card type, it is a needed step before adding 
+ *@brief show the ipopup for selecting a card type, it is a needed step before adding
  * a card
  *@param input field (obj) it must have the attribute ipopup
  *       possible attribute :
@@ -387,7 +387,7 @@ function  successFill_ipopcard(req,json)
  */
 function select_card_type(obj)
 {
-    
+
     var dossier=$('gDossier').value;
 
     // give a filter, -1 if not
@@ -414,7 +414,7 @@ function select_card_type(obj)
 
     add_div(popup);
 
-    var queryString='?gDossier='+dossier;
+    var queryString='gDossier='+dossier;
     queryString+='&ctl='+content;
     queryString+='&op=st'; 	// st for selecting type
     if ( $(obj).win_refresh!=undefined)
@@ -478,7 +478,7 @@ function dis_blank_card(obj)
 
     var dossier=$('gDossier').value;
 
-    var queryString='?gDossier='+dossier;
+    var queryString='gDossier='+dossier;
     queryString+='&ctl='+content;
     queryString+='&fd_id='+fd_id;
     queryString+=ref;
@@ -507,7 +507,7 @@ function save_card(obj)
     $(content).innerHTML=loading();
 
     var dossier=$('gDossier').value;
-    var queryString='?gDossier='+dossier;
+    var queryString='gDossier='+dossier;
     queryString+='&ctl='+content;
     queryString+=data;
     queryString+='&op=sc'; 	// sc for save card
@@ -532,7 +532,7 @@ function add_category(obj)
     // show ipopup
     showIPopup(obj.ipopup);
     var dossier=$('gDossier').value;
-    var queryString='?gDossier='+dossier;
+    var queryString='gDossier='+dossier;
     queryString+='&op=ac';
     queryString+='&ctl='+obj.ipopup+'_content';
     if ( obj.type_cat)
@@ -581,7 +581,7 @@ function save_card_category(obj)
                                 );
 }
 /**
- *@brief Remove a definition of an  attribut 
+ *@brief Remove a definition of an  attribut
  *@param attr_def.ad_id
  *@param gDossier
  *@param table_id to rm the row
@@ -590,7 +590,7 @@ function save_card_category(obj)
 
 function removeCardAttribut(ad_id,gDossier,table_id,row)
 {
-    var queryString='?gDossier='+gDossier;
+    var queryString='gDossier='+gDossier;
     queryString+='&op=rmfa';
     queryString+='&ctl=debug'; 	// debug id
     queryString+='&ad_id='+ad_id;

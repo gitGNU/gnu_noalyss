@@ -31,7 +31,7 @@ function detail_extension(p_code)
 {
     var dossier=$("gDossier").value;
     showIPopup("dtext");
-    var queryString='?gDossier='+dossier;
+    var queryString='gDossier='+dossier;
     queryString+='&ex_id='+p_code;
     queryString+='&action=de'; 	// de for detail extension
 
@@ -51,7 +51,7 @@ function new_extension()
 {
     var dossier=$("gDossier").value;
     showIPopup("dtext");
-    var queryString='?gDossier='+dossier;
+    var queryString='gDossier='+dossier;
     queryString+='&action=ne'; 	// ne for new extension
 
     var action=new Ajax.Request ( 'ajax_extension.php',
@@ -106,7 +106,7 @@ function extension_save(p_obj_form)
     try
     {
         var dossier=$("gDossier").value;
-        var queryString='?gDossier='+dossier;
+        var queryString='gDossier='+dossier;
         queryString+='&action=se'; 	// se save extension
         // Data must be taken here
         try
@@ -171,7 +171,7 @@ function successSave(req)
 function extension_remove(ex_id)
 {
     var dossier=$("gDossier").value;
-    var queryString='?gDossier='+dossier;
+    var queryString='gDossier='+dossier;
     queryString+='&ex_id='+ex_id;
     queryString+='&action=re'; 	// re for remove extension
     var action=new Ajax.Request ( 'ajax_extension.php',

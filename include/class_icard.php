@@ -41,8 +41,8 @@
  *
  * Set the hidden field or input field to be set by javascript with the function set_attribute
  * call the input method. After selecting a value the update_value function is called. If you need
- * to modify the queryString before the request is sent, you'll use the set_callback; the first 
- * parameter is the INPUT field and the second the queryString, the function must returns a 
+ * to modify the queryString before the request is sent, you'll use the set_callback; the first
+ * parameter is the INPUT field and the second the queryString, the function must returns a
  * queryString
  *\code
 // insert all the javascript files
@@ -50,8 +50,8 @@
   echo js_include('scriptaculous.js');
   echo js_include('effects.js');
   echo js_include('controls.js');
- 
-// 
+
+//
   $W1=new ICard();
   $W1->label="Client ".HtmlInput::infobulle(0) ;
   $W1->name="e_client";
@@ -60,18 +60,18 @@
   $W1->table=0;
 // If double click call the javascript fill_ipopcard
   $W1->set_dblclick("fill_ipopcard(this);");
- 
+
   // Type of card : deb, cred or all
   $W1->set_attribute('typecard','deb');
- 
+
   $W1->extra='deb';
- 
+
 // Add the callback function to filter the card on the jrn
   $W1->set_callback('filter_card');
- 
+
 // when value selected in the autcomplete
   $W1->set_function('fill_data');
- 
+
 // when the data change
   $W1->javascript=sprintf(' onchange="fill_data_onchange(\'%s\');" ',
 	    $W1->name);
@@ -83,9 +83,9 @@
   $f_client=$client_label->input("e_client_label",$e_client_label);
 
   $f_client_qcode=$W1->input();
- 
+
 // Search button for card
-  $f_client_bt=$W1->search(); 
+  $f_client_bt=$W1->search();
 * \endcode
 For searching a card, you need a popup, the script card.js and set
 the values for card, popup filter_card callback
@@ -95,10 +95,10 @@ $card->name="acc";
 $card->extra="all";
 $card->set_attribute('typecard','all');
 $card->set_callback('filter_card');
- 
+
 echo $card->input();
 echo $card->search();
-// example 2 
+// example 2
 $w=new ICard("av_text".$attr->ad_id);
 // filter on frd_id
 $sql=' select fd_id from fiche_def where frd_id in ('.FICHE_TYPE_CLIENT.','.FICHE_TYPE_FOURNISSEUR.','.FICHE_TYPE_ADM_TAX.')';
@@ -107,7 +107,7 @@ $w->set_attribute('ipopup','ipopcard');
 $w->set_attribute('typecard',$filter);
 $w->set_attribute('inp',"av_text".$attr->ad_id);
 $w->set_attribute('label',"av_text".$attr->ad_id."_label");
- 
+
 $w->extra=$filter;
 $w->extra2=0;
 $label=new ISpan();
@@ -129,8 +129,8 @@ class ICard extends HtmlInput
         $this->javascript='';
     }
     /*!\brief set the javascript callback function
-     * by default it is update_value called BEFORE the querystring is send 
-     * 
+     * by default it is update_value called BEFORE the querystring is send
+     *
      *\param $p_name callback function name
      */
     function set_callback($p_name)
@@ -214,7 +214,7 @@ class ICard extends HtmlInput
                      '</span>',
                      $this->name);
 
-        $div=sprintf('<div id="%s_choices" class="autocomplete"></div>',
+        $div=sprintf('<div id="%s_choices"  class="autocomplete"></div>',
                      $this->name);
 
         $query=dossier::get().'&e='.urlencode($this->typecard);
@@ -249,7 +249,7 @@ class ICard extends HtmlInput
     /**
      *@brief return a string containing the button for displaying
      * a search form. When clicking on the result, update the input text file
-     * the common used attribute as 
+     * the common used attribute as
      *   - jrn   the ledger
      *   - label the field to update
      *   - name name of the input text
@@ -346,7 +346,7 @@ class ICard extends HtmlInput
 	    ajaxFid(text);
 	  }
 	</script>
-	
+
 EOF;
         echo "<form>";
         $l=new IText('ctl_label');

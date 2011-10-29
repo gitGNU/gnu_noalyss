@@ -80,7 +80,7 @@ function search_poste(obj)
 
     var dossier=$('gDossier').value;
 
-    var queryString="?gDossier="+dossier;
+    var queryString="gDossier="+dossier;
 
     queryString+="&op=sf";
     try
@@ -155,7 +155,7 @@ function search_poste(obj)
 function search_get_poste(obj)
 {
     var dossier=$('gDossier').value;
-    var queryString="?gDossier="+dossier;
+    var queryString="gDossier="+dossier;
 
     queryString+="&op=sf";
 
