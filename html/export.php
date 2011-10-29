@@ -22,7 +22,7 @@
 
 /*!\file
  * \brief manage all the export to CSV or PDF
- *   act can be 
+ *   act can be
  *
  */
 
@@ -46,7 +46,7 @@ if ( $act=='X' || ! isset($_GET['act']) )
     exit();
   }
 
-switch( $_GET['act']) 
+switch( $_GET['act'])
   {
   case 'CSV/histo':
     $user->can_request(IMPJRN,0);
@@ -168,7 +168,11 @@ switch( $_GET['act'])
     require_once('export_anc_balance_group_csv.php');
     exit();
     break;
-
+  case 'OTH/Bilan':
+      $user->can_request(IMPBIL);
+      require_once 'export_bilan_oth.php';
+      exit();
+      break;
    default:
     alert('Action inconnue '.$_GET['act']);
     exit();

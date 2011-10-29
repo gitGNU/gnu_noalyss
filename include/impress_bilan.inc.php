@@ -74,10 +74,11 @@ if ( isset($_GET['verif']))
     $bilan->get_request_get();
     $bilan->verify();
 
-    echo '<FORM METHOD="GET" ACTION="bilan.php">';
+    echo '<FORM METHOD="GET" ACTION="export.php">';
     echo dossier::hidden();
     echo HtmlInput::get_to_hidden(array('exercice'));
     echo HtmlInput::hidden('b_id',$_GET['b_id']);
+    echo HtmlInput::hidden('act','OTH/Bilan');
 
     echo HtmlInput::hidden('from_periode',$bilan->from);
     echo HtmlInput::hidden('to_periode',$bilan->to);

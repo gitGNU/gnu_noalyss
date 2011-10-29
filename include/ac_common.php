@@ -886,7 +886,10 @@ function put_global($array)
 function compute_variable($p_string)
 {
     $array=array();
+    if ($p_string == '') return $array;
+    
     $var=explode("&",$p_string);
+    if (empty ($var))	return $array;
     for ($i=0;$i < count($var);$i++)
     {
 	$var2=explode('=',$var[$i]);
