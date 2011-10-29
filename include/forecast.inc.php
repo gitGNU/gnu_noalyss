@@ -33,9 +33,6 @@ $sa = (isset($_REQUEST['sa'])) ? $_REQUEST['sa'] : '';
  *
  *
  * ******************************************************************** */
-/**
- * @todo add security for forecast.inc.php
- */
 if (isset($_GET['del']))
 {
     $forecast = new Forecast($cn, $_GET['f_id']);

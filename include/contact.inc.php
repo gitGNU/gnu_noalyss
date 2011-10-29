@@ -36,7 +36,6 @@ $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
 
 // if this page is called from another menu (customer, supplier,...)
 // a button back is added
-// TODO add function for generating url, hidden tags...
 if ( isset ($_REQUEST['url']))
 {
     $retour=HtmlInput::button_anchor('Retour',urldecode($_REQUEST['url']));

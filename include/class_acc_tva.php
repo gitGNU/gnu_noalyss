@@ -28,13 +28,13 @@ require_once('class_database.php');
 
 /*!\brief Acc_Tva is used for to map the table tva_rate
  * parameter are
-- private static $cn;	database connection 
+- private static $cn;	database connection
 - private static $variable=array("id"=>"tva_id",
 		 "label"=>"tva_label",
 		 "rate"=>"tva_rate",
 		 "comment"=>"tva_comment",
 		 "account"=>"tva_poste");
- 
+
 */
 class Acc_Tva
 {
@@ -124,7 +124,7 @@ class Acc_Tva
     }
     /**
      *Load the VAT,
-     *@todo if the label is not found then we get an message error, so the best is probably
+     *@note if the label is not found then we get an message error, so the best is probably
      *to initialize the VAT object with default value
      */
     public function load()

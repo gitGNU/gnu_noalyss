@@ -284,21 +284,7 @@ function ShowActionList($cn,$p_base)
 
   $see_all=new ICheckBox('see_all');
   $my_action=new ICheckBox('all_action');
-/**
- * @todo
- *   if ( $_REQUEST ['p_action'] != 'suivi_courrier')
- *
-    {
-      $see_all->selected=true;
-      $my_action->selected= true;
-    }
-  else
-    {
-      $see_all->selected=(isset($_REQUEST ['see_all']))?true:false;
-      $my_action->selected= (isset($_REQUEST ['all_action']))?true:false;
-    }
- *
- */
+
   echo _('les actions fermées aussi:').$see_all->input().'<br/>';
 
   echo _('affecté à d\'autre:').$my_action->input().'<br/>';

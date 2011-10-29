@@ -109,11 +109,11 @@ function verify_ca(div)
     return true;
 }
 /*!
- * \brief open a window for searching a CA account, 
+ * \brief open a window for searching a CA account,
  * \param p_dossier dossier id
  * \param p_target ctrl to update
  * \param p_source ctrl containing the pa_id
- * 
+ *
  *
  * \return
  */
@@ -207,7 +207,6 @@ var obj={"oa":
 }
 /**
 * add a row in misc operation for ANC
-*@todo if we add a line, the number of lines become variables
 * the code must be adapted for that
 */
 function anc_add_row(tableid)

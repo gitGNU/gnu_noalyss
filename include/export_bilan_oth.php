@@ -34,14 +34,6 @@ $gDossier=dossier::id();
 /* Admin. Dossier */
 $cn=new Database($gDossier);
 
-$User=new User($cn);
-$User->Check();
-
-// TODO a specific level of security for the "bilan" ???
-// Change must be done here
-$User->can_request(IMPBIL);
-
-
 $bilan=new Acc_Bilan($cn);
 $bilan->get_request_get();
 $bilan->load();

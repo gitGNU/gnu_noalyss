@@ -22,7 +22,7 @@
 
 /*!\file
  *
- * 
+ *
  * \brief concerne only the template
  *
  */
@@ -119,8 +119,6 @@ if ( isset ($_POST["FMOD_NAME"]) )
     $Res=$cn_mod->exec_sql("delete from del_action");
 
     $Res=$cn_mod->exec_sql('delete from operation_analytique');
-
-    // TODO
 
     $Res=$cn_mod->exec_sql("truncate table import_tmp");
     //	Reset the closed periode
