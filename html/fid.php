@@ -57,8 +57,8 @@ $fPrice_purchase=(isset($_REQUEST['b']))?$_REQUEST['b']:'none';
 
 if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
 {
-    $jrn=FormatString($_GET['j']);
-    $d=FormatString($_GET['d']);
+    $jrn=sql_string($_GET['j']);
+    $d=sql_string($_GET['d']);
 
     if ( $jrn == -1 )
         $d='all';

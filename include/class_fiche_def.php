@@ -185,7 +185,7 @@ class Fiche_Def
             ${"p_$key"}=$element;
         }
         // Format correctly the name of the cat. of card
-        $p_nom_mod=FormatString($p_nom_mod);
+        $p_nom_mod=sql_string($p_nom_mod);
 
 
         // Name can't be empty
@@ -205,7 +205,7 @@ class Fiche_Def
         // and insert into fiche_def
         // if p_class_base is null get the default class base from
         // fiche_def_ref
-        if ( FormatString($p_class_base) == null )
+        if ( sql_string($p_class_base) == null )
         { // p_class is null
             // So we take the default one
             $p_class_base=$fiche_Def_ref->frd_class_base;
@@ -223,7 +223,7 @@ class Fiche_Def
             $p_create='false';
 
         // Class is valid ?
-        if ( FormatString($p_class_base) != null || strpos(',',$p_class_base) != 0 )
+        if ( sql_string($p_class_base) != null || strpos(',',$p_class_base) != 0 )
         {
             // p_class is a valid number
             $sql="insert into fiche_def(fd_label,fd_class_base,frd_id,fd_create_account)
@@ -531,7 +531,7 @@ class Fiche_Def
     function SaveLabel($p_label)
     {
         if ( $this->id == 0 ) return;
-        $p_label=FormatString($p_label);
+        $p_label=sql_string($p_label);
         if (strlen(trim ($p_label)) == 0 )
         {
             return;
@@ -566,7 +566,7 @@ class Fiche_Def
     function save_class_base($p_label)
     {
         if ( $this->id == 0 ) return;
-        $p_label=FormatString($p_label);
+        $p_label=sql_string($p_label);
 
         $sql="update   fiche_def set fd_class_base=$1 ".
              "where                    fd_id=$2";

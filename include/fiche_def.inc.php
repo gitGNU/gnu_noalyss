@@ -30,9 +30,9 @@ if ( isset ($_POST['confirm_mod']))
 {
     extract ($_POST);
     $update=new Fiche_Def_Ref($cn);
-    $update->frd_id=FormatString($frd_id);
-    $update->frd_text=FormatString($frd_text);
-    $update->frd_class_base=FormatString($frd_class_base);
+    $update->frd_id=sql_string($frd_id);
+    $update->frd_text=sql_string($frd_text);
+    $update->frd_class_base=sql_string($frd_class_base);
     $update->Save();
 }
 // Load All Fiche_def

@@ -52,7 +52,7 @@ if ( isset($poste_id) && strlen(trim($poste_id)) != 0 && isNumber($poste_id) )
         $parent=$poste_id;
         $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '$parent%' order by pcm_val::text");
     }
-    elseif ( $cn->count_sql('select * from tmp_pcmn where pcm_val='.FormatString($poste_id)) != 0 )
+    elseif ( $cn->count_sql('select * from tmp_pcmn where pcm_val='.sql_string($poste_id)) != 0 )
     {
         $a_poste=array('pcm_val' => $poste_id);
     }

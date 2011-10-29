@@ -106,7 +106,7 @@ print td($label).$w->input("jrn_id",$ret);
 print '</TR>';
 print '<TR>';
 // filter on the current year
-$filter_year=" where p_exercice='".FormatString($exercice)."'";
+$filter_year=" where p_exercice='".sql_string($exercice)."'";
 
 $periode_start=$cn->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 $w->selected=(isset($_GET['from_periode']))?$_GET['from_periode']:'';

@@ -2406,7 +2406,7 @@ class Acc_Ledger
             $and=" and ";
         }
         // comment
-        $desc=FormatString($desc);
+        $desc=sql_string($desc);
         if ( $desc != null )
         {
             $fil_desc=$and." ( upper(jr_comment) like upper('%".$desc."%') or upper(jr_pj_number) like upper('%".$desc."%') ".

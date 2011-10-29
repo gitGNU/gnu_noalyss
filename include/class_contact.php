@@ -49,7 +49,7 @@ class contact extends Fiche
      */
     function Summary($p_search="",$p_action="",$p_sql="")
     {
-        $p_search=FormatString($p_search);
+        $p_search=sql_string($p_search);
         $extra_sql="";
         if ( $this->company != "")
         {

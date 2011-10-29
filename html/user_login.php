@@ -142,7 +142,7 @@ echo $w->input('p_nom',$p_nom);
 $filtre="";
 if ( isset ($_GET ['p_nom']))
 {
-    $filtre=FormatString($_GET['p_nom']);
+    $filtre=sql_string($_GET['p_nom']);
 }
 
 // If admin show everything otherwise only the available dossier

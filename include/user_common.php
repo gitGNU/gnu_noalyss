@@ -56,7 +56,7 @@ function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
     $code=new Fiche($p_cn);
     $code->get_by_qcode($p_good);
     $code_marchandise=$code->strAttribut(ATTR_DEF_STOCK);
-    $p_good=FormatString($p_good);
+    $p_good=sql_string($p_good);
     $sql="select f_id from vw_poste_qcode where j_qcode=upper('$p_good')";
     $Res=$p_cn->exec_sql($sql);
     $r=Database::fetch_array($Res,0);

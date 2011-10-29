@@ -256,7 +256,7 @@ class Action
         $ag_ref=new IText();
         $ag_ref->readonly=$upd;
         $ag_ref->name="ag_ref";
-        $ag_ref->value=FormatString($this->ag_ref);
+        $ag_ref->value=sql_string($this->ag_ref);
         $client_label=new ISpan();
 
         /* Add button */

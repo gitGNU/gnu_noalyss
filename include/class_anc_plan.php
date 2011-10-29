@@ -88,22 +88,22 @@ class Anc_Plan
     function update()
     {
         if ( $this->id==0) return;
-        $name=FormatString($this->name);
+        $name=sql_string($this->name);
         if ( strlen($name) == 0)
             return;
 
-        $description=FormatString($this->description);
+        $description=sql_string($this->description);
         $this->db->exec_sql("update plan_analytique set pa_name=$1,
                             pa_description=$2 where pa_id=$3",array($name,$description,$this->id));
     }
 
     function add()
     {
-        $name=FormatString($this->name);
+        $name=sql_string($this->name);
         if ( strlen($name) == 0)
             return;
         if ( $this->isAppend() == false) return;
-        $description=FormatString($this->description);
+        $description=sql_string($this->description);
         $this->db->exec_sql("insert into plan_analytique(pa_name,pa_description)".
                             " values (".
                             "'".$name."',".

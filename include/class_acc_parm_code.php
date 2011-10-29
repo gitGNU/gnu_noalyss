@@ -89,9 +89,9 @@ class Acc_Parm_Code
         }
         else
         {
-            $this->p_comment=FormatString($this->p_comment);
-            $this->p_value=FormatString($this->p_value);
-            $this->p_code=FormatString($this->p_code);
+            $this->p_comment=sql_string($this->p_comment);
+            $this->p_value=sql_string($this->p_value);
+            $this->p_code=sql_string($this->p_code);
             $sql="update parm_code set ".
                  "p_comment='".$this->p_comment."'  ".
                  ",p_value='".$this->p_value."'  ".

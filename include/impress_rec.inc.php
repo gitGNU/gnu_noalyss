@@ -29,7 +29,6 @@ global $g_user;
 
 /**
  *@file
- *@todo add the export to PDF
  */
 $aledger=$g_user->get_ledger('ALL',3);
 echo '<div class="noprint">';

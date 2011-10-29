@@ -114,7 +114,7 @@ class Document_modele
      *       first created (-> insert into document_modele)
      *       in that case the name and the type must be set
      *       set before calling Save, the name will be modified
-     *       with FormatString
+     *       with sql_string
      *
      */
     function Save()

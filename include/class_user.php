@@ -268,7 +268,7 @@ class User
     {
         if ( $this->admin != 1 && $this->is_local_admin() != 1)
         {
-            $sql_type=($p_type=='ALL')?'':"and jrn_def_type=upper('".FormatString($p_type)."')";
+            $sql_type=($p_type=='ALL')?'':"and jrn_def_type=upper('".sql_string($p_type)."')";
             switch($p_access)
             {
             case 3:
@@ -296,7 +296,7 @@ class User
         }
         else
         {
-            $sql_type=($p_type=='ALL')?'':"where jrn_def_type=upper('".FormatString($p_type)."')";
+            $sql_type=($p_type=='ALL')?'':"where jrn_def_type=upper('".sql_string($p_type)."')";
             $sql="select jrn_def_id,jrn_def_type,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
                  jrn_type_id,jrn_desc,'W' as uj_priv
                  from jrn_def join jrn_type on jrn_def_type=jrn_type_id

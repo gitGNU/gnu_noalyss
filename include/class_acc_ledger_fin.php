@@ -719,7 +719,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
                 $acc_operation->insert_jrnx();
 
 
-                if ( FormatString(${"e_other$i"."_comment"}) == null )
+                if ( sql_string(${"e_other$i"."_comment"}) == null )
                 {
                     // if comment is blank set a default one
                     $comment="  compte : ".$fBank->strAttribut(ATTR_DEF_NAME).' a '.
@@ -797,7 +797,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
                     $op->j_id=$j_id;
                     $op->oa_date=$e_date;
                     $op->oa_debit=($amount < 0 )?'t':'f';
-                    $op->oa_description=FormatString($comment);
+                    $op->oa_description=sql_string($comment);
                     $op->save_form_plan($_POST,$i,$j_id);
                 }
                 

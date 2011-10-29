@@ -67,7 +67,7 @@ if ( isset ($_REQUEST['sa'] ))
         $id=$cn->get_next_seq('dossier_id');
 
         if ( strlen(trim($_REQUEST['database'])) == 0 )
-            $lname=$id." Restauration :".FormatString($_FILES['file']['name']);
+            $lname=$id." Restauration :".sql_string($_FILES['file']['name']);
         else
             $lname=$id." ".$_REQUEST['database'];
 
@@ -129,7 +129,7 @@ if ( isset ($_REQUEST['sa'] ))
         $id=$cn->get_next_seq('s_modid');
 
         if ( strlen(trim($_REQUEST['database'])) == 0 )
-            $lname=$id." Restauration :".FormatString($_FILES['file']['name']);
+            $lname=$id." Restauration :".sql_string($_FILES['file']['name']);
         else
             $lname=$id." ".$_REQUEST['database'];
 

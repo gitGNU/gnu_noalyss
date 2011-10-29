@@ -56,7 +56,7 @@ echo HtmlInput::get_to_hidden(array('ac','type'));
 echo '</form>';
 echo '</fieldset>';
 
-$filter_year=" where p_exercice='".FormatString($exercice)."'";
+$filter_year=" where p_exercice='".sql_string($exercice)."'";
 echo '<FORM  METHOD="GET">';
 echo HtmlInput::hidden('type','bilan');
 echo dossier::hidden();

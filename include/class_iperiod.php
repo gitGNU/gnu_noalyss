@@ -114,7 +114,7 @@ class IPeriod extends HtmlInput
             $cond='';
 	    if ( $sql_closed=="") $and=" where " ; else $and=" and ";
             if ($this->type == 'all' ) $cond=$and.'   true ';
-            $cond.=" $and p_exercice='".FormatString($this->exercice)."'";
+            $cond.=" $and p_exercice='".sql_string($this->exercice)."'";
         }
 
         $sql.=$cond."  order by p_start,p_end";

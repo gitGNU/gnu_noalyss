@@ -79,7 +79,7 @@ if ( isset ($_POST['sub_change']))
         $type=( $change < 0 )?'c':'d';
         if ( $change != 0)
         {
-            $comment=FormatString($comment);
+            $comment=sql_string($comment);
             $Res=$cn->exec_sql("insert into stock_goods
                                (  j_id,
                                f_id,

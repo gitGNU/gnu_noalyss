@@ -89,7 +89,7 @@ class Anc_Account
      */
     function get_by_name($p_name)
     {
-        $p_name=FormatString($p_name);
+        $p_name=sql_string($p_name);
         if ( $p_name == null )
             $p_name=$this->name;
 
@@ -158,15 +158,15 @@ class Anc_Account
     private function format_data()
     {
 
-        $this->name=FormatString($this->name);
-        $this->pa_id=FormatString($this->pa_id);
-        $this->amount=FormatString($this->amount);
+        $this->name=sql_string($this->name);
+        $this->pa_id=sql_string($this->pa_id);
+        $this->amount=sql_string($this->amount);
         if (strlen($this->amount) == 0 )
             $this->amount=0.0;
         if ( isNumber($this->amount) ==0 )
             $this->amount=0;
 
-        $this->description=FormatString($this->description);
+        $this->description=sql_string($this->description);
     }
     function delete()
     {

@@ -391,7 +391,14 @@ function NoAccess($js=1)
     }
     exit - 1;
 }
-
+/**
+ * replaced by sql_string
+ * @deprecated
+ */
+function FormatString($p_string)
+{
+    return sql_string($p_string);
+}
 /* !
  * \brief Fix the problem with the quote char for the database
  *
@@ -399,14 +406,13 @@ function NoAccess($js=1)
  * \return a string which won't let strange char for the database
  */
 
-function FormatString($p_string)
+function sql_string($p_string)
 {
     $p_string = trim($p_string);
     if (strlen($p_string) == 0)
 	return null;
-    $p_string = str_replace("\'", "'", $p_string);
-    $p_string = str_replace("''", "'", $p_string);
-    $p_string = str_replace("'", "\'", $p_string);
+    $p_string = str_replace("'", "''", $p_string);
+    $p_string = str_replace('\\', '\\\\', $p_string);
     return $p_string;
 }
 
@@ -688,16 +694,7 @@ function format_date($p_date)
     return $str_date;
 }
 
-/**
- * @brief remove the quote or double quote them
- * @param $q string
- * @return string correctly quoted
- */
-function sql_string($q)
-{
-    $ret = str_replace("'", "''", $q);
-    return $ret;
-}
+
 
 /**
  * Should a dialog box that you are disconnected for ajax
@@ -887,7 +884,7 @@ function compute_variable($p_string)
 {
     $array=array();
     if ($p_string == '') return $array;
-    
+
     $var=explode("&",$p_string);
     if (empty ($var))	return $array;
     for ($i=0;$i < count($var);$i++)

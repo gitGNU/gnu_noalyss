@@ -231,8 +231,8 @@ class Pre_operation_detail
     public function   get_operation()
     {
         $value=$this->db->make_array("select od_id,od_name from op_predef ".
-                                     " where jrn_def_id=".FormatString($this->jrn_def_id).
-                                     " and od_direct ='".FormatString($this->od_direct)."'".
+                                     " where jrn_def_id=".sql_string($this->jrn_def_id).
+                                     " and od_direct ='".sql_string($this->od_direct)."'".
                                      " order by od_name");
         return $value;
     }

@@ -233,7 +233,7 @@ case 'st':
         /* we filter thanks a given model of card */
         if ( isset($cat))
         {
-            $sql=$sql.sprintf(' where frd_id = '.FormatString ($cat));
+            $sql=$sql.sprintf(' where frd_id = '.sql_string ($cat));
         }
         else
             /* we filter thanks a given list of category of card
@@ -241,7 +241,7 @@ case 'st':
             if ( isset($fil) && strlen(trim($fil)) > 0 )
             {
                 $sql=$sql.sprintf(" where fd_id in (%s)",
-                                  FormatString($fil));
+                                  sql_string($fil));
             }
     }
     $array=$cn->make_array($sql);

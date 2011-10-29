@@ -114,7 +114,7 @@ If ( isset ($_POST["update"] ))
 
         $p_jrn_name=$_POST['p_jrn_name'];
         if (strlen(trim($p_jrn_name))==0) return;
-        $p_jrn_name=FormatString($p_jrn_name);
+        $p_jrn_name=sql_string($p_jrn_name);
         $p_jrn_fiche_deb="";
         $p_jrn_fiche_cred="";
         $bank=null;

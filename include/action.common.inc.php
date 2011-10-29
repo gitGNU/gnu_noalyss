@@ -368,9 +368,9 @@ function ShowActionList($cn,$p_base)
 	  if ( isset($_REQUEST['query']) )
 	    {
 	      // if a query is request build the sql stmt
-	      $query="and (ag_title ~* '".FormatString($_REQUEST['query'])."' ".
-		"or ag_ref ='".trim(FormatString($_REQUEST['query'])).
-		"' or ag_comment ~* '".trim(FormatString($_REQUEST['query']))."'".
+	      $query="and (ag_title ~* '".sql_string($_REQUEST['query'])."' ".
+		"or ag_ref ='".trim(sql_string($_REQUEST['query'])).
+		"' or ag_comment ~* '".trim(sql_string($_REQUEST['query']))."'".
 		")";
 	    }
 

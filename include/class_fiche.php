@@ -252,7 +252,7 @@ class Fiche
              where frd_id=".$p_frd_id;
         if ( $p_search != "" )
         {
-            $a=FormatString($p_search);
+            $a=sql_string($p_search);
             $sql="select * from vw_fiche_attr where frd_id=".$p_frd_id.
                  " and vw_name ~* '$p_search'";
         }
@@ -344,7 +344,7 @@ class Fiche
             if ($this->id==0) return NOTFOUND;
             // object is not in memory we need to look into the database
             $sql="select ad_value from fiche_detail
-                 where f_id=".FormatString($this->id)." and ad_id=".$p_ad_id;
+                 where f_id=".sql_string($this->id)." and ad_id=".$p_ad_id;
             $Res=$this->cn->exec_sql($sql);
             $row=Database::fetch_all($Res);
             // if not found return error
@@ -738,7 +738,7 @@ class Fiche
                 if ( $id == ATTR_DEF_QUICKCODE)
                 {
                     $sql=sprintf("select insert_quick_code(%d,'%s')",
-                                 $fiche_id,FormatString($value));
+                                 $fiche_id,sql_string($value));
                     $this->cn->exec_sql($sql);
                     continue;
                 }
@@ -752,7 +752,7 @@ class Fiche
                 // account
                 if ( $id == ATTR_DEF_ACCOUNT )
                 {
-                    $v=FormatString($value);
+                    $v=sql_string($value);
                     try
                     {
 
@@ -793,14 +793,14 @@ class Fiche
                     $exist=$this->cn->count_sql("select f_id from fiche join fiche_def using (fd_id) ".
                                                 " join fiche_detail using(f_id) ".
                                                 " where frd_id in (8,9,14) and ad_id=".ATTR_DEF_QUICKCODE.
-                                                " and ad_value='".FormatString($value)."'");
-                    if ( $exist == 0 && FormatString($value) != null )
+                                                " and ad_value='".sql_string($value)."'");
+                    if ( $exist == 0 && sql_string($value) != null )
                     {
                         $value="";
                     }
                 }
                 // Normal traitement
-                $value2=FormatString($value);
+                $value2=sql_string($value);
 
                 $sql=sprintf("select attribut_insert(%d,%d,'%s')",
                              $fiche_id,$id,trim($value2));
@@ -861,7 +861,7 @@ class Fiche
                 if ( $id == ATTR_DEF_QUICKCODE)
                 {
                     $sql=sprintf("select update_quick_code(%d,'%s')",
-                                 $jft_id,FormatString($value));
+                                 $jft_id,sql_string($value));
                     $this->cn->exec_sql($sql);
                     continue;
                 }
@@ -887,7 +887,7 @@ class Fiche
                                            ' values (%d,0,\'%s\',upper(\'%s\'),\'d\',\'%s\')',
                                            $this->id,
                                            'initial',
-                                           FormatString($value),
+                                           sql_string($value),
                                            $exercice);
 
                         $this->cn->exec_sql($str_stock);
@@ -895,7 +895,7 @@ class Fiche
                     else
                     {
                         $str_stock=sprintf("update stock_goods set sg_code=upper('%s') where f_id=%d",
-                                           FormatString($value),
+                                           sql_string($value),
                                            $this->id);
                         $this->cn->exec_sql($str_stock);
                     }
@@ -904,7 +904,7 @@ class Fiche
                 // account
                 if ( $id == ATTR_DEF_ACCOUNT )
                 {
-                    $v=FormatString($value);
+                    $v=sql_string($value);
                     if ( trim($v) != ''  )
                     {
 			if ( strpos($v,',') != 0)
@@ -964,7 +964,7 @@ class Fiche
 					       array(ATTR_DEF_QUICKCODE,$value));
 
 
-                    if ( Database::num_row($exist) == 0  && FormatString($value) != null )
+                    if ( Database::num_row($exist) == 0  && sql_string($value) != null )
                     {
                         $value="Attention : pas de société ";
                     }
@@ -1507,7 +1507,7 @@ class Fiche
     {
 
         $str_dossier=dossier::get();
-        $p_search=FormatString($p_search);
+        $p_search=sql_string($p_search);
         $script=$_SERVER['PHP_SELF'];
         // Creation of the nav bar
         // Get the max numberRow
@@ -1819,7 +1819,7 @@ class Fiche
         $and=" and ";
         if (isset($query))
         {
-            $query=FormatString($query);
+            $query=sql_string($query);
 
             if (strlen(trim($query)) > 1)
             {

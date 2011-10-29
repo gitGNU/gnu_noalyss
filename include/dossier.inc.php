@@ -44,14 +44,14 @@ if ( isset ($_POST["DATABASE"]) )
 {
     $cn=new Database();
     $dos=trim($_POST["DATABASE"]);
-    $dos=FormatString($dos);
+    $dos=sql_string($dos);
     if (strlen($dos)==0)
     {
         echo _("Le nom du dossier est vide");
         exit -1;
     }
     $encoding=$cn->get_value("select encoding from pg_database  where ".
-                             " datname='".domaine.'mod'.FormatString($_POST["FMOD_ID"])."'");
+                             " datname='".domaine.'mod'.sql_string($_POST["FMOD_ID"])."'");
     if ( $encoding != 6 )
     {
         alert(_('Désolé vous devez migrer ce modèle en unicode'));
@@ -62,7 +62,7 @@ if ( isset ($_POST["DATABASE"]) )
         exit();
     }
 
-    $desc=FormatString($_POST["DESCRIPTION"]);
+    $desc=sql_string($_POST["DESCRIPTION"]);
     try
     {
         $cn->start();
@@ -89,7 +89,7 @@ if ( isset ($_POST["DATABASE"]) )
         //--
         // setting the year
         //--
-        $year=FormatString($_POST['YEAR']);
+        $year=sql_string($_POST['YEAR']);
         if ( strlen($year) != 4 || isNumber($year) == 0 || $year > 2100 || $year < 2000 || $year != round($year,0))
         {
             echo "$year"._(" est une année invalide");
@@ -101,7 +101,7 @@ if ( isset ($_POST["DATABASE"]) )
                          domaine,
                          $l_id,
                          domaine,
-                         FormatString($_POST["FMOD_ID"]));
+                         sql_string($_POST["FMOD_ID"]));
             ob_start();
             if ( $cn->exec_sql($Sql)==false)
             {
@@ -336,7 +336,7 @@ if ( $sa == 'remove' )
         echo "<h2 class=\"error\"> $msg "._('inexistant')."</h2>";
         exit();
     }
-    $sql="drop database ".domaine."dossier".FormatString($_REQUEST['d']);
+    $sql="drop database ".domaine."dossier".sql_string($_REQUEST['d']);
     ob_start();
     if ( $cn->exec_sql($sql)==false)
     {

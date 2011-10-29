@@ -61,7 +61,7 @@ $cn=new Database();
 if ( isset ($_POST["FMOD_NAME"]) )
 {
     $encoding=$cn->get_value("select encoding from pg_database  where ".
-                             " datname='".domaine.'dossier'.FormatString($_POST["FMOD_DBID"])."'");
+                             " datname='".domaine.'dossier'.sql_string($_POST["FMOD_DBID"])."'");
 
     if ( $encoding != 6 )
     {
@@ -74,8 +74,8 @@ if ( isset ($_POST["FMOD_NAME"]) )
         exit();
     }
 
-    $mod_name=FormatString($_POST["FMOD_NAME"]);
-    $mod_desc=FormatString($_POST["FMOD_DESC"]);
+    $mod_name=sql_string($_POST["FMOD_NAME"]);
+    $mod_desc=sql_string($_POST["FMOD_DESC"]);
     if ( $mod_name != null)
     {
         $Res=$cn->exec_sql("insert into modeledef(mod_name,mod_desc)
@@ -381,7 +381,7 @@ if ( $sa == 'add')
                 echo "<h2 class=\"error\"> $msg inexistant</h2>";
                 exit();
             }
-            $sql="drop database ".domaine."mod".FormatString($_REQUEST['m']);
+            $sql="drop database ".domaine."mod".sql_string($_REQUEST['m']);
             ob_start();
             if ( $cn->exec_sql($sql)==false)
             {

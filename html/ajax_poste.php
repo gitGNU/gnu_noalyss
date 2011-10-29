@@ -80,7 +80,7 @@ case "sf":
     $str_submit=HtmlInput::submit('sf',_('Recherche'));
     $r='';
     $r.='<div style="float:right;height:10px;display:block;margin-top:2px;margin-right:2px">';
-    $r.= '<A style="background-color:blue;color:white;text-decoration:none" HREF="javascript:void(0)" onclick="removeDiv(\'search_account\');">Fermer</A>'; 
+    $r.= '<A style="background-color:blue;color:white;text-decoration:none" HREF="javascript:void(0)" onclick="removeDiv(\'search_account\');">Fermer</A>';
     $r.='</div>';
     $r.='<div> '.h2info(_('Poste Comptable')).'</div>';
 
@@ -117,7 +117,7 @@ case "sf":
     /* show result */
     if ( isset($q) && strlen(trim($q)) > 0)
     {
-        $q=sql_string($q);
+        $q= sql_string($q);
         $sql.=sprintf(" $sep ( pcm_val::text like '%s%%' or pcm_lib::text ilike '%%%s%%') ",
                       $q,$q);
     }

@@ -289,7 +289,7 @@ for ($i=0; $i <$MaxRow; $i++)
     echo "$td";
     printf ("<A HREF=\"javascript:PcmnUpdate('%s','%s','%s','%s',%d)\">",
             $A['pcm_val'],
-            FormatString($A['pcm_lib']),
+            sql_string($A['pcm_lib']),
             $A['pcm_val_parent'],
             $A['pcm_type'],
             dossier::id());

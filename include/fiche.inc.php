@@ -358,7 +358,7 @@ if ( isset ( $_GET["action"]) )
         ShowRecherche();
         $sql="select distinct f_id,fd_id from fiche join fiche_detail using (f_id)
                  where
-             upper(ad_value) like upper('%".FormatString($_GET["search_text"])."%') order by f_id";
+             upper(ad_value) like upper('%".sql_string($_GET["search_text"])."%') order by f_id";
 
         $all=$cn->get_array($sql);
         // test on the size

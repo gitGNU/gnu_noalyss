@@ -37,8 +37,7 @@ $cn=new Database($gDossier);
 $bilan=new Acc_Bilan($cn);
 $bilan->get_request_get();
 $bilan->load();
-/*\!bug the headers shouldn't be sent here, but it doesn't work
- * a html header is send before, to fix asap */
+
 if ( $bilan->b_type=='odt')
 {
     header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
