@@ -29,6 +29,7 @@ require_once ('class_dossier.php');
 require_once('user_common.php');
 require_once('ac_common.php');
 require_once 'function_javascript.php';
+if (isset ($_POST["style_user"])){$_SESSION['g_theme']=$_POST['style_user'];}
 html_page_start();
 global $g_user, $cn;
 

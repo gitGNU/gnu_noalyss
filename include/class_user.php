@@ -159,7 +159,7 @@ class User
 
         }
 	$sql="insert into audit_connect (ac_user,ac_ip,ac_module,ac_url,ac_state) values ($1,$2,$3,$4,$5)";
-	
+
         if ( $res == 0  )
         {
 	    $cn->exec_sql($sql,array($_SESSION['g_user'],$_SERVER["REMOTE_ADDR"],$from,$_SERVER['REQUEST_URI'],'FAIL'));
@@ -388,7 +388,7 @@ class User
 
         $sql=sprintf("insert into user_local_pref (user_id,parameter_value,parameter_type)
                      values ('%s','%d','PERIODE')",
-                     $this->id,$pid);
+                     $this->login,$pid);
         $Res=$this->db->exec_sql($sql);
     }
 
@@ -442,7 +442,26 @@ class User
 
 
     }
-
+    function   save_global_preference($key,$value)
+    {
+	$repo=new Database();
+	$count=$repo->get_value("select count(*)
+	    from
+	    user_global_pref
+	    where
+	    parameter_type=$1 and user_id=$2",
+		    array($key,$this->login));
+	if ( $count == 1 )
+	{
+	    $repo->exec_sql("update user_global_pref set parameter_value=$1
+		where parameter_type=$2 and user_id=$3",
+		        array($value,$key,$this->login));
+	} elseif($count == 0)
+	{
+	    $repo->exec_sql("insert into user_global_pref(user_id,parameter_type,parameter_value)
+		values($1,$2,$3)",array($this->login,$key,$value));
+	}
+    }
 
     /*!
      * \brief  Get the default user's preferences
@@ -450,8 +469,8 @@ class User
      */
     function get_preference ()
     {
-        $sql="select parameter_type,parameter_value from user_local_pref where user_id='".$this->id."'";
-        $Res=$this->db->exec_sql($sql);
+        $sql="select parameter_type,parameter_value from user_local_pref where user_id=$1";
+        $Res=$this->db->exec_sql($sql,array($this->id));
         $l_array=array();
         for ( $i =0;$i < Database::num_row($Res);$i++)
         {

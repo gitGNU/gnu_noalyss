@@ -768,7 +768,7 @@ input[disabled], textarea[disabled], option[disabled], optgroup[disabled], selec
 
 .button {
     font-size:10;
-    color:black;
+    color:white;
     text-decoration:none;
     font-family: helvetica,arial,sans-serif;
     background-color:#DFDFDF;
