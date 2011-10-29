@@ -120,6 +120,9 @@ if (isset($_REQUEST['ac']))
 else
 {
     $default = find_default_module();
+    $_GET['ac']=$default;
+    $_POST['ac']=$default;
+    $_REQUEST['ac']=$default;
     show_module($default);
     $all[0] = $default;
     show_menu($all, 0);
