@@ -34,7 +34,7 @@ require_once ('class_html_input.php');
 require_once('class_iselect.php');
 require_once ('constant.security.php');
 require_once ('class_user.php');
-
+echo '<div class="topmenu">';
 @html_page_start($_SESSION['g_theme']);
 $cn=new Database(dossier::id());
 $user=new User($cn);
@@ -46,45 +46,7 @@ $only_plugin=$user->check_dossier(dossier::id());
 echo load_all_script();
 
 /* show button to return to access */
-echo "<h2 class=\"info\">".dossier::name()."</h2>";
-if ( $only_plugin != 'P' )
-{
-    // user with only plugin cannot go back to the dashboard
-    /* return button */
-    $msg=_('Retour au tableau de bord');
-    $hidden=dossier::hidden();
-    echo '
-    <div style="position:absolute;top:3px;right:30px" class="noprint">
-    <form method="get" action="do.php" style="display:inline">'.
-    $hidden;
 
-    echo HtmlInput::button_anchor(_('Préférence'),'user_pref.php');
-    echo '
-    <input type="SUBMIT" class="button" value="'.$msg.'">
-    </form>
-    </div>
-    ';
-
-
-}
-else
-{
-    $msg=_('Retour accueil');
-    ?>
-    <div style="position:absolute;top:3px;right:30px" class="noprint">
-                           <form method="get" action="do.php" style="display:inline">
-       <?php
-       if ($only_plugin !='P')
-	 echo HtmlInput::button_anchor('Retour Accueil','user_login.php');
-    echo HtmlInput::button_anchor(_('Préférence'),'user_pref.php');
-    echo HtmlInput::button_anchor(_('Déconnexion'),'logout.php?');
-
-
-    ?>
-    </form>
-    </div>
-    <?php
-}
 /* show all the extension we can access */
 $a=new ISelect('plugin_code');
 $a->value=Extension::make_array($cn);
@@ -105,7 +67,7 @@ if ( count($a->value)==1 )
 else
 {
     echo '<form method="get" action="extension.php">';
-    echo $hidden;
+    echo Dossier::hidden();
     echo _('Extension').$a->input().HtmlInput::submit('go',_("Choix de l'extension"));
     echo '</form>';
     echo '<hr>';
