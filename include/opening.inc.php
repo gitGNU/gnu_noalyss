@@ -40,7 +40,7 @@ if ($sa == '')
     echo '<fieldset><legend> Etape 1 </legend>';
 
     echo 'Choississez le dossier où sont les soldes à importer';
-    $avail=GetAvailableFolder($User->id,$User->Admin());
+    $avail=$User->get_available_folder();
 
     if ( empty( $avail) )
     {

@@ -91,7 +91,7 @@ echo '<div class="welcome"> ';
 if ( $User->admin == 0 )
 {
     // how many folder ?
-    $folder=GetAvailableFolder($_SESSION['g_user'],0);
+    $folder=$User->get_available_folder();
     if ( $folder != null  && count($folder) == 1 )
     {
 
@@ -142,11 +142,11 @@ echo $w->input('p_nom',$p_nom);
 $filtre="";
 if ( isset ($_GET ['p_nom']))
 {
-    $filtre=sql_string($_GET['p_nom']);
+    $filtre=$_GET['p_nom'];
 }
 
 // If admin show everything otherwise only the available dossier
-$res=u_ShowDossier($_SESSION['g_user'],$User->Admin(),$filtre);
+$res=$User->show_dossier($filtre);
 echo $res;
 ?>
 <P>
