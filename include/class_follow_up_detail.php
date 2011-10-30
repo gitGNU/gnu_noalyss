@@ -22,10 +22,10 @@ require_once ('class_database.php');
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file
- * \brief Action details are the details for a actions
+ * \brief Follow_Up details are the details for a actions
  */
 
-/*!\brief Action Details are the details for an actions, it means
+/*!\brief Follow_Up Details are the details for an actions, it means
  * the details of an order, delivery order, submit a quote...
  * this class is linked to the table action_detail
  * - "id"=>"ad_id", primary key
@@ -34,12 +34,12 @@ require_once ('class_database.php');
  * - "price_unit"=>"ad_pu", price by unit
  * - "quantity"=>"ad_quant", quantity
  * - "tva_id"=>"ad_tva_id", tva_od
- * - "tva_amount"=>"ad_tva_amount", vat amount 
+ * - "tva_amount"=>"ad_tva_amount", vat amount
  * - "total"=>"ad_total_amount", total amount including vat
  * - "ag_id"=>"ag_id" => foreign key to action_gestion
  * -  db is the database connection
  */
-class Action_Detail
+class Follow_Up_Detail
 {
     private static $variable=array(
                                  "id"=>"ad_id",
@@ -140,9 +140,9 @@ class Action_Detail
 
 
     }
-    /*!\brief retrieve all the details of an Action
+    /*!\brief retrieve all the details of an Follow_Up
      *\return array of Action_Detail
-     *\see Action::get
+     *\see Follow_Up::get
      */
     public function load_all()
     {
@@ -157,7 +157,7 @@ class Action_Detail
         $aRet=array();
         for($i=0;$i<count($res);$i++)
         {
-            $a=new Action_Detail($this->db);
+            $a=new Follow_Up_Detail($this->db);
             $row=$res[$i];
             foreach ($row as $idx=>$value)
             {
@@ -191,7 +191,7 @@ class Action_Detail
         exit(__FILE__.__LINE__.' : Non implémenté');
     }
     /*!\brief Fill an Action_Detail Object with the data contained in an array
-    *\param $array 
+    *\param $array
      - [ad_id7] => ad_id
      - [e_march7] =>  f_id
      - [e_march7_label] => ad_text

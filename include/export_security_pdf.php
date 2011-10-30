@@ -142,7 +142,7 @@ for ($e=0;$e < Database::num_row($Res);$e++)
 }
 
 //-----------------------------------------------------
-// Action
+// Follow_Up
 $pdf->SetFont('DejaVu','B',9);
 $pdf->Cell(0,7,'Accès action',1,0,'C');
 $pdf->Ln();

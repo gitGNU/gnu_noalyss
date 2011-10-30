@@ -27,13 +27,13 @@ $g_user->can_request(GECOUR);
 
 $retour=HtmlInput::button_anchor(_('Retour'),'?ac='.$_REQUEST['ac'].'&my_action&'.dossier::get());
 //-----------------------------------------------------
-// Action
+// Follow_Up
 //-----------------------------------------------------
 require_once("class_icard.php");
 require_once("class_ispan.php");
 require_once("class_ifile.php");
 require_once("class_itext.php");
-require_once("class_action.php");
+require_once("class_follow_up.php");
 require_once('class_iaction.php');
 /*!\brief Show the list of action, this code should be common
  *        to several webpage. But for the moment we keep like that

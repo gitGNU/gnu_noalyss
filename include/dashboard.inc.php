@@ -21,7 +21,7 @@ $Ledger=new Acc_Ledger($cn,0);
 $last_ledger=array();
 if ( $g_user->check_action(GESTION)==1)
   {
-    $Operation=new Action($cn);
+    $Operation=new Follow_Up($cn);
     $last_ledger=$Ledger->get_last(10);
     $last_operation=$Operation->get_last(10);
   }

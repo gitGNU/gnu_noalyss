@@ -20,7 +20,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once('class_own.php');
 require_once('class_acc_account_ledger.php');
-require_once('class_action.php');
+require_once('class_follow_up.php');
 require_once('class_acc_tva.php');
 require_once('class_user.php');
 require_once('class_zip_extended.php');
@@ -755,7 +755,7 @@ class Document
 
             break;
         case 'REFERENCE':
-            $act=new Action($this->db);
+            $act=new Follow_Up($this->db);
             $act->ag_id=$this->ag_id;
             $act->get();
             $r=$act->ag_ref;

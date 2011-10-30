@@ -159,7 +159,7 @@ if ( isset ($_POST["FMOD_NAME"]) )
 
     }
     //---
-    // Cleaning Action
+    // Cleaning Follow_Up
     //--
     if ( isset($_POST['DOC'] ))
     {

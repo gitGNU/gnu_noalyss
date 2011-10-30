@@ -43,7 +43,7 @@ if( isset($_REQUEST['sb']))
 /*--------------------------------------------------------------------------- */
 if ( isset($_POST['generate']))
   {
-    $act=new Action($cn);
+    $act=new Follow_Up($cn);
     $act->fromArray($_POST);
     if ($act->ag_id == 0 )
       {
@@ -80,7 +80,7 @@ if ( $sub_action=="update" )
     // Update the modification
     if ( isset($_POST['save']))
       {
-        $act2=new Action($cn);
+        $act2=new Follow_Up($cn);
         $act2->fromArray($_POST );
 
         if ( $act2->Update() == false )
@@ -101,7 +101,7 @@ if ( $sub_action=="update" )
     //----------------------------------------------------------------------
     if ( isset ($_POST['add_action_here']) )
       {
-        $act=new Action($cn);
+        $act=new Follow_Up($cn);
 
 
         //----------------------------------------
@@ -139,7 +139,7 @@ if ( $sub_action=="update" )
 if ( $sub_action=='detail' )
   {
     echo '<div class="content">';
-    $act=new Action($cn);
+    $act=new Follow_Up($cn);
     $act->ag_id=$ag_id;
     echo $act->get();
     $act->ag_comment=Decode($act->ag_comment);
@@ -162,7 +162,7 @@ if ( $sub_action == 'delete' )
   {
     // confirmed
     $cn->start();
-    $act=new Action($cn);
+    $act=new Follow_Up($cn);
     $act->ag_id=$_REQUEST['ag_id'];
     $act->get();
     $act->remove();
@@ -184,7 +184,7 @@ if ( $sub_action == "list" )
 // Add an action
 if ( $sub_action == "add_action" )
   {
-    $act=new Action($cn);
+    $act=new Follow_Up($cn);
     $act->fromArray($_POST );
     $act->ag_id=0;
     $act->d_id=0;
@@ -208,12 +208,12 @@ if ( $sub_action == "add_action" )
     echo   '</div>';
   }
 //--------------------------------------------------------------------------------
-// Save Action
+// Save Follow_Up
 // Stage 2 : Save the action + Files and generate eventually a document
 //--------------------------------------------------------------------------------
 if  ( $sub_action == "save_action_st2" )
   {
-    $act=new Action($cn);
+    $act=new Follow_Up($cn);
     $act->fromArray($_POST);
     $act->d_id=0;
     $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:0;
@@ -359,7 +359,7 @@ function ShowActionList($cn,$p_base)
 
 	      <?php
 	      // show the  action in
-	      $act=new Action($cn);
+	      $act=new Follow_Up($cn);
 	  /*! \brief
 	   *  \note The field 'recherche' is   about a part of the title or a ref. number
 	   */

@@ -32,7 +32,7 @@ require_once("class_document.php");
 require_once("class_document_type.php");
 require_once("class_document_modele.php");
 require_once("user_common.php");
-require_once('class_action_detail.php');
+require_once('class_follow_up_detail.php');
 require_once('class_inum.php');
 
 /*!\file
@@ -57,7 +57,7 @@ require_once('class_inum.php');
  * The table document_type are the possible actions
  */
 
-class Action
+class Follow_Up
 {
     var $db;	      /*!<  $db  database connexion    */
     var $ag_comment;    /*!<  $ag_comment description (ag_gestion.ag_comment) */
@@ -121,7 +121,7 @@ class Action
         }
         else
         {
-            exit('class_action'.__LINE__.'Action::Display error unknown parameter'.$p_view);
+            exit('class_action'.__LINE__.'Follow_Up::Display error unknown parameter'.$p_view);
 
         }
         // Compute the widget
@@ -546,7 +546,7 @@ class Action
         $this->ag_priority=$row[0]['ag_priority'];
         $this->ag_cal=$row[0]['ag_cal'];
 
-        $action_detail=new Action_Detail($this->db);
+        $action_detail=new Follow_Up_Detail($this->db);
         $action_detail->set_parameter('ag_id',$this->ag_id);
         $this->aAction_detail=$action_detail->load_all();
 
@@ -982,7 +982,7 @@ class Action
         /* save action details */
         for ( $i = 0; $i < MAX_ARTICLE;$i++)
         {
-            $act=new Action_Detail($this->db);
+            $act=new Follow_Up_Detail($this->db);
             $act->from_array($_POST,$i);
             $act->save();
         }
@@ -1056,7 +1056,7 @@ class Action
     }
     /*!\brief return the last p_limit operation into an array
      *\param $p_limit is the max of operation to return
-     *\return $p_array of Action object
+     *\return $p_array of Follow_Up object
      */
     function get_last($p_limit)
     {

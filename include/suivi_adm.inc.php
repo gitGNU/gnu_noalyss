@@ -27,7 +27,7 @@
  *  - sd = this parameter is used here
  *  - $cn = database connection
  */
-require_once('class_action.php');
+require_once('class_follow_up.php');
 $g_user->can_request(GECOUR);
 
 /**

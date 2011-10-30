@@ -2498,7 +2498,7 @@ class Acc_Ledger
 
     /*!\brief return the last p_limit operation into an array
      *\param $p_limit is the max of operation to return
-     *\return $p_array of Action object
+     *\return $p_array of Follow_Up object
      */
     function get_last($p_limit)
     {
