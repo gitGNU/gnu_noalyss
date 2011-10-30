@@ -53,12 +53,13 @@ for ($i=0;$i<count($res);$i++)
     printf('"%s";',$res[$i]['jr_date']);
     printf('"%s";',$res[$i]['jr_ech']);
     printf('"%s";',$res[$i]['jr_pj_number']);
-    printf('"%s";',$ledger->get_tiers($res[$i]['jrn_def_type'],$res[$i]['jr_id']));
+    printf('"%s";',$res[$i]['quick_code']);
+    printf('"%s %s";',$res[$i]['name'],$res[$i]['first_name']);
     printf('"%s";',$res[$i]['jr_comment']);
     printf('"%s";',$res[$i]['n_text']);
 
     $amount=$res[$i]['jr_montant'];
-    
+
     if ( $res[$i]['jrn_def_type'] == 'FIN')
       {
 	$positive = $cn->get_value("select qf_amount from quant_fin where jr_id=$1",array($res[$i]['jr_id']));

@@ -737,23 +737,7 @@ class Acc_Ledger
             //
 
             $href=basename($_SERVER['PHP_SELF']);
-          /*  switch ($href)
-            {
-                // user_jrn.php
-            case 'compta.php':
-                $vue="S"; //Expert View
-                break;
-            case 'commercial.php':
-                $vue="S"; //Simple View
-                break;
-            case 'recherche.php':
-                $vue=(isset($_GET['expert']))?'E':'S';
-                break;
-            default:
-                echo_error('user_form_ach.php',__LINE__,'Erreur invalid request uri');
-                exit (-1);
-            }*/
-	    //DEBUG
+
 
             $r.=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s </A>',
                         $row['jr_id'], $gDossier, $row['jr_internal']);
@@ -774,7 +758,7 @@ class Acc_Ledger
             $r.="</TD>";
 
 	    // Tiers
-	    $other=$this->get_tiers($row['jrn_def_type'],$row['jr_id']);
+	    $other=($row['quick_code']!='')?'['.$row['quick_code'].'] '.$row['name'].' '.$row['first_name']:'';
 	    $r.=td($other);
             // comment
             $r.="<TD>";
@@ -2277,9 +2261,32 @@ class Acc_Ledger
              jr_pj_name,
              p_closed,
              jr_pj_number,
-             n_text
+             n_text,
+	     case
+	     when jrn_def_type='VEN' then
+		 (select ad_value from fiche_detail where ad_id=1
+		 and f_id=(select max(qs_client) from quant_sold join jrnx using (j_id) join jrn as e on (e.jr_grpt_id=j_grpt) where e.jr_id=x.jr_id))
+	    when jrn_def_type = 'ACH' then
+		(select ad_value from fiche_detail where ad_id=1
+		and f_id=(select max(qp_supplier) from quant_purchase join jrnx using (j_id) join jrn as e on (e.jr_grpt_id=j_grpt) where e.jr_id=x.jr_id))
+	    when jrn_def_type = 'FIN' then
+		(select ad_value from fiche_detail where ad_id=1
+		and f_id=(select qf_other from quant_fin where quant_fin.jr_id=x.jr_id))
+	    end as name,
+	   case
+	     when jrn_def_type='VEB' then (select ad_value from fiche_detail where ad_id=32 and f_id=(select max(qs_client) from quant_sold join jrnx using (j_id) join jrn as e on (e.jr_grpt_id=j_grpt) where e.jr_id=x.jr_id))
+	    when jrn_def_type = 'ACH' then (select ad_value from fiche_detail where ad_id=32 and f_id=(select max(qp_supplier) from quant_purchase join jrnx using (j_id) join jrn as e on (e.jr_grpt_id=j_grpt) where e.jr_id=x.jr_id))
+	    when jrn_def_type = 'FIN' then (select ad_value from fiche_detail where ad_id=32 and f_id=(select qf_other from quant_fin where quant_fin.jr_id=x.jr_id))
+	    end as first_name,
+	    case
+	     when jrn_def_type='VEN' then (select ad_value from fiche_detail where ad_id=23 and f_id=(select max(qs_client) from quant_sold join jrnx using (j_id) join jrn as e on (e.jr_grpt_id=j_grpt) where e.jr_id=x.jr_id))
+	    when jrn_def_type = 'ACH' then (select ad_value from fiche_detail where ad_id=23 and f_id=(select max(qp_supplier) from quant_purchase join jrnx using (j_id) join jrn as e on (e.jr_grpt_id=j_grpt) where e.jr_id=x.jr_id))
+	    when jrn_def_type = 'FIN' then (select ad_value from fiche_detail where ad_id=23 and f_id=(select qf_other from quant_fin where quant_fin.jr_id=x.jr_id))
+	    end as quick_code
+
+
              from
-             jrn left join jrn_note using(jr_id)
+             jrn as X left join jrn_note using(jr_id)
              join jrn_def on jrn_def_id=jr_def_id
              join parm_periode on p_id=jr_tech_per";
 

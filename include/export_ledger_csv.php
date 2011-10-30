@@ -106,7 +106,7 @@ else
 		 "\r\n");
 	 foreach ($Row as $line)
 	   {
-	     
+
 	     echo $line['num'].";";
 	     echo $line['date'].";";
 	     echo $line['jr_pj_number'].";";
@@ -120,18 +120,18 @@ else
 	     if ( $line['jrn_def_type'] == 'FIN' ) {
 	       $positive = $cn->get_value("select qf_amount from quant_fin  ".
 					  " where jr_id=".$line['jr_id']);
-	       
+
 	       echo nb($positive);
 	       echo ";";
 	     }
-	     else 
+	     else
 	       {
 		 echo nb($line['montant']).";";
 	       }
-	     
+
 	     printf("\r\n");
 	   }
-       }  
+       }
 
 //-----------------------------------------------------
     if ( $jrn_type=='ACH' || $jrn_type=='VEN')
