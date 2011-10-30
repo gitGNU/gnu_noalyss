@@ -244,7 +244,7 @@ class Fiche
      *
      * \return array of fiche object
      */
-    function CountByDef($p_frd_id,$p_search="",$p_sql="")
+    function count_by_modele($p_frd_id,$p_search="",$p_sql="")
     {
         $sql="select *
              from
@@ -1519,7 +1519,7 @@ class Fiche
 
         if ( $p_amount) $filter_amount=' and f_id in (select f_id from jrnx where  '.$filter_year.')';
 
-        $all_tiers=$this->CountByDef($this->fiche_def_ref,$p_search,$p_sql.$filter_amount);
+        $all_tiers=$this->count_by_modele($this->fiche_def_ref,$p_search,$p_sql.$filter_amount);
         // Get offset and page variable
         $offset=( isset ($_REQUEST['offset'] )) ?$_REQUEST['offset']:0;
         $page=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
