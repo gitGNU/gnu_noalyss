@@ -2708,7 +2708,7 @@ function unescapebycharacter($str)
 }
 /*!\brief When data are transfered thanks ajax in a xml document, the xml
  * can not contains some character, to escape those characters, we must use this
- * function 
+ * function
  *\param $p_xml the xml to escape
  *\return the xml string with the forbidden char escaped
  *\see ajax_card.js ajaxFid
@@ -2728,6 +2728,11 @@ function escape_xml($p_xml)
  */
 function load_all_script()
 {
+    // check not called twiced
+    static  $already_call=0;
+    if ( $already_call==1)return;
+    $already_call=1;
+
     echo JS_INFOBULLE;
     echo js_include('prototype.js');
     echo js_include('scriptaculous.js');

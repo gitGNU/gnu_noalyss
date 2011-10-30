@@ -245,12 +245,16 @@ function isDate($p_date)
  * \param p_theme default theme
  * \param $p_script
  * \param $p_script2  another js script
- *
+ * Must be called only once
  * \return none
  */
 
 function html_page_start($p_theme="", $p_script="", $p_script2="")
 {
+    // check not called twiced
+    static  $already_call=0;
+    if ( $already_call==1)return;
+    $already_call=1;
 
     $cn = new Database();
     if ($p_theme != "")

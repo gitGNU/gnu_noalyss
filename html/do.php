@@ -30,7 +30,9 @@ require_once('user_common.php');
 require_once('ac_common.php');
 require_once 'function_javascript.php';
 if (isset ($_POST["style_user"])){$_SESSION['g_theme']=$_POST['style_user'];}
-html_page_start();
+
+html_page_start($_SESSION['g_theme']);
+
 global $g_user, $cn;
 
 // if gDossier is not set redirect to form to choose a folder
@@ -50,7 +52,6 @@ if ($g_user->check_dossier(dossier::id()) == 'P')
     exit();
 }
 
-html_page_start($_SESSION['g_theme']);
 load_all_script();
 /*  Check Browser version if < IE6 then unsupported */
 $browser = $_SERVER['HTTP_USER_AGENT'];
