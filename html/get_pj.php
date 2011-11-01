@@ -23,10 +23,10 @@
 /*!\file
  * \brief respond ajax request, the get contains
  *  the value :
- * - l for ledger 
+ * - l for ledger
  * - gDossier
  * Must return at least tva, htva and tvac
- 
+
  */
 
 require_once ('constant.php');
@@ -46,7 +46,7 @@ foreach (array('l','gDossier') as $a)
     }
 
 }
-if ( is_integer($l) == false  )
+if ( is_numeric($l) == false  )
 {
     exit();
 }
