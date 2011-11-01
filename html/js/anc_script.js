@@ -29,17 +29,25 @@
 function add_row(p_table,p_seq)
 {
     var mytable=g(p_table).tBodies[0];
-
+	var max=parseFloat(g('amount_t'+p_seq).value);
     if ( ! mytable )
     {
         return;
     }
     var new_value=mytable.rows.length+1;
+
+
     if ( mytable.rows.length > 5 )
     {
         alert("Maximum 5 lignes ");
         return;
     }
+	amount=compute_total_table(p_table,p_seq);
+	if ( max < amount )
+	{
+		alert('Montant incorrect : max = '+max+" calculé="+amount);
+		return;
+	}
     // For the detail view (modify_op) there is several form and then several time the
     // element
     var rowToCopy=mytable.rows[1];
@@ -52,7 +60,32 @@ function add_row(p_table,p_seq)
 //	txt=txt.replace(/row_1/g,"row_"+new_value);
         cell.innerHTML=txt;
     }
+	var col=document.getElementsByName("val["+p_seq+"][]");
+	col[col.length-1].value=max-amount;
 
+}
+/**
+ *@bug cannot compute total for ANC_TABLE
+ *@todo fix this bug
+ */
+function compute_total_table(p_table,seq)
+{
+	try{
+
+	var i=0;var tot=0;
+	var col=document.getElementsByName("val["+seq+"][]");
+	for (i=0;i<col.length;i++)
+		{
+			// here is the problem
+			tot+=parseFloat(col[i].value);
+
+		}
+		return tot;
+	}
+	catch(e)
+	{
+		alert(e.message);
+	}
 }
 /*!
  * \brief Check the amount of the CA
