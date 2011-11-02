@@ -102,7 +102,12 @@ function anc_refresh_remain(p_table,p_seq)
 		var tot_line=parseFloat(g('amount_t'+p_seq).value);
 		var tot_table=compute_total_table(p_table,p_seq);
 		var remain = tot_line-tot_table;
+		remain=Math.round(remain *100)/100;
 		$('remain'+p_table).innerHTML=remain;
+		if (remain == 0)
+			{$('remain'+p_table).style.color="green"}
+			else
+			{$('remain'+p_table).style.color="red"}
 	}catch (a)
 	{
 		alert(a.message);
