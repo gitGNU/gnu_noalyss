@@ -181,11 +181,11 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 		 */
 		$a_poste=split(',',$tva_rate->tva_poste);
 
-		if ( 
+		if (
 		    $this->db->get_value('select count(*) from tmp_pcmn where pcm_val=$1',array($a_poste[0])) == 0 ||
 		    $this->db->get_value('select count(*) from tmp_pcmn where pcm_val=$1',array($a_poste[1])) == 0 )
 		  throw new Exception(_(" La TVA ".$tva_rate->tva_label." utilise des postes comptables inexistants"));
-		    
+
             }
             /* check if all card has a ATTR_DEF_ACCOUNT*/
             $fiche=new Fiche($this->db);
@@ -235,12 +235,12 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     $a=new Acc_Parm_Code($this->db,$key[1]);
                     if ( $this->db->count_sql('select pcm_val from tmp_pcmn where pcm_val=$1',array($a->p_value))==0)
 		      throw new Exception ($key[1]._("ce code n'a pas de poste comptable, créez ce poste : [".$a->p_value."]"));
-		  } 
+		  }
 		if ( ! $fiche->empty_attribute($key[0]) &&  ! $fiche->empty_attribute($key[2]))
 		  {
 		    $nd_str=$fiche->strAttribut($key[2]);
 		    if ( $nd_str != '')
-		      {	
+		      {
 			$poste_nd=new Acc_Account_Ledger($this->db,$nd_str);
 			if ( $poste_nd->load() == false)
 			  {
@@ -548,7 +548,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             if ( $tot_nd != 0)
             {
 		  $dna_default=new Acc_Parm_Code($this->db,'DNA');
-		  
+
                 /* save op. */
 	      if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND))
 		{
@@ -610,7 +610,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 		  $dna=$dna_default->p_value;
 		}
 	      $dna=($dna=='')?$dna_default->p_value:$dna;
-	      
+
                 $acc_operation->amount=$tot_tva_nd;
                 $acc_operation->poste=$dna;
                 if ( $tot_tva_nd > 0 ) $tot_debit=bcadd($tot_debit,$tot_tva_nd);
@@ -800,18 +800,18 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 		/*
 		 * save also into quant_fin
 		 */
-		
+
 		/* get ledger property */
 		$ledger=new Acc_Ledger_Fin($this->db,$acc_pay->jrn);
 		$prop=$ledger->get_propertie();
-		
+
 		/* if ledger is FIN then insert into quant_fin */
 		if ( $prop['jrn_def_type'] == 'FIN' )
 		  {
 		    $ledger->insert_quant_fin($acfiche->id,$mp_jr_id,$cust->id,bcmul($cust_amount,-1));
 		  }
-		
-		
+
+
             }
         }//end try
         catch (Exception $e)
@@ -967,7 +967,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $add_js="update_pj();";
         }
         $add_js.='get_last_date();';
-
+		$add_js.='update_name();';
         $wLedger=$this->select_ledger('ACH',2);
         if ($wLedger == null) exit (_('Pas de journal disponible'));
         $wLedger->javascript="onChange='update_predef(\"ach\",\"f\");$add_js'";
@@ -1222,16 +1222,21 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         return $r;
     }
 
-    /*!\brief show the summary of the operation and propose to save it
-     *\param array contains normally $_POST. It proposes also to save
+    /*!@brief show the summary of the operation and propose to save it
+     *@param array contains normally $_POST. It proposes also to save
      * the Analytic accountancy
-     *\return string
+	 * @param $p_summary true to confirm false, show only the result in RO
+     *@return string
      */
-    function confirm($p_array)
+    function confirm($p_array,$p_summary=false)
     {
         extract ($p_array);
-        $this->verify($p_array) ;
-        $anc=null;
+
+		// we don't need to verify if we need only a feedback
+        if ( ! $p_summary )
+			$this->verify($p_array) ;
+
+		$anc=null;
         // to show a select list for the analytic
         // if analytic is op (optionnel) there is a blank line
         $owner = new Own($this->db);
@@ -1286,6 +1291,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $r.="<th>tva</th>";
             $r.='<th> '._('Montant TVA').'</th>';
             $r.='<th>'._('Montant HTVA').'</th>';
+            $r.='<th>'._('Totaux').'</th>';
         }
         else
         {
@@ -1314,6 +1320,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         //--
         for ($i = 0; $i < $nb_item;$i++)
         {
+			$tot_row=0;
             if ( strlen(trim(${"e_march".$i})) == 0 ) continue;
 
             /* retrieve information for card */
@@ -1353,9 +1360,10 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 else
                     $tva[$idx_tva]=$tva_item;
                 $tot_tva=round(bcadd($tva_item,$tot_tva),2);
+				$tot_row=bcadd($tot_row,$tva_item);
             }
             $tot_amount=round(bcadd($tot_amount,$amount),2);
-
+			$tot_row=bcadd($tot_row,$amount);
             $r.='<tr>';
             $r.='<td>';
             $r.=${"e_march".$i};
@@ -1367,7 +1375,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $r.=nbm(${"e_march".$i."_price"});
             $r.='</td>';
             $r.='<td align="right">';
-            $r.=${"e_quant".$i};
+            $r.=nbm(${"e_quant".$i});
             $r.='</td>';
             if ($owner->MY_TVA_USE == 'Y')
             {
@@ -1377,11 +1385,13 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $r.='<td align="right">';
                 $r.=nbm($tva_item);
                 $r.='</td>';
+				$r.='<td align="right">';
+				$r.=nbm(round($amount,2));
+				$r.='</td>';
             }
-            $r.='<td align="right">';
-            $r.=nbm(round($amount,2));
+			$r.='<td align="right">';
+            $r.=nbm(round($tot_row,2));
             $r.='</td>';
-
             // encode the pa
             if ( $owner->MY_ANALYTIC!='nu') // use of AA
             {
@@ -1389,7 +1399,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $anc_op=new Anc_Operation($this->db);
                 $null=($owner->MY_ANALYTIC=='op')?1:0;
                 $r.='<td>';
-                $p_mode=1;
+                $p_mode=($p_summary==false)?1:0;
                 $p_array['pa_id']=$a_anc;
                 /* op is the operation it contains either a sequence or a jrnx.j_id */
                 $r.=HtmlInput::hidden('op[]=',$i);
@@ -1404,12 +1414,14 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 
 
         $r.='</table>';
-        if ( $owner->MY_ANALYTIC!='nu') // use of AA
-            $r.='<input type="button" class="button" value="'._('verifie CA').'" onClick="verify_ca(\'\');">';
+        if ( $owner->MY_ANALYTIC!='nu' && !$p_summary) // use of AA
+            $r.='<input type="button" class="button" value="'._('Vérifiez imputation analytique').'" onClick="verify_ca(\'\');">';
         $r.='</fieldset>';
 
-        $r.='<div style="width:40%;position:float;float:right;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
-
+		if ( ! $p_summary )
+				$r.='<div style="width:40%;position:float;float:right;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
+			else
+				$r.='<div style="width:60%;position:float;float:left;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
         $r.='<fieldset> <legend>Totaux</legend>';
         $tot=round(bcadd($tot_amount,$tot_tva),2);
         $r.='<div style="position:float;float:left;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
@@ -1492,7 +1504,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 
         }
         // check for upload piece
-        $r.=$this->extra_info();
+        if ( ! $p_summary ) $r.=$this->extra_info();
 
         return $r;
     }

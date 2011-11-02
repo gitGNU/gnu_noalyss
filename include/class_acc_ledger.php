@@ -2358,7 +2358,7 @@ class Acc_Ledger
 
         $and='';
         $user=new User($this->db);
-	$p_action=$ledger_type;
+		$p_action=$ledger_type;
         if ( $r_jrn == -1 )
         {
 

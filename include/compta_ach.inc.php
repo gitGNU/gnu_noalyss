@@ -29,48 +29,11 @@ require_once ('class_pre_op_ach.php');
 require_once('class_ipopup.php');
 $gDossier=dossier::id();
 
-$p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
-
 $cn=new Database(dossier::id());
 //menu = show a list of ledger
 $str_dossier=dossier::get();
 $ac="ac=".$_REQUEST['ac'];
-$array=array(
-           array('?ledger_type=ACH&sa=n&'.$str_dossier."&$ac",_('Nouvelle dépense'),_('Nouvel achat ou dépense'),1),
-           array('?ledger_type=ACH&sa=l&'.$str_dossier."&$ac",_('Liste achat'),_('Liste des achats'),2),
-           array('?ledger_type=ACH&sa=lnp&'.$str_dossier."&$ac",_('Liste dépenses non payées'),_('Liste des ventes non payées'),3)
-       );
 
-$sa=(isset ($_REQUEST['sa']))?$_REQUEST['sa']:-1;
-$def=1;
-switch ($sa)
-{
-case 'n':
-    $def=1;
-    $use_predef=0;
-    break;
-case 'p':
-    $def=1;
-    $use_predef=1;
-    break;
-case 'l':
-    $def=2;
-    break;
-case 'lnp':
-    $def=3;
-    break;
-}
-//if ( $_REQUEST['p_action'] == 'fournisseur') $def=5;
-echo '<div class="lmenu">';
-echo ShowItem($array,'H','mtitle','mtitle',$def);
-echo '</div>';
-$href=basename($_SERVER['PHP_SELF'])."?$ac&$str_dossier";
-//----------------------------------------------------------------------
-// Encode a new invoice
-// empty form for encoding
-//----------------------------------------------------------------------
-if ( $def==1 || $def == 4 )
-{
 // Check privilege
     if ( isset($_REQUEST['p_jrn']))
         if (     $g_user->check_jrn($_REQUEST['p_jrn']) != 'W' )
@@ -96,13 +59,14 @@ if ( $def==1 || $def == 4 )
         if ( ! isset($correct))
         {
             echo '<div class="content">';
+			echo h2info('Confirmation');
+			echo '<h2 id="jrn_name">'.$Ledger->get_name().'</h2>';
 
-            echo '<form action="'.$href.'"  enctype="multipart/form-data" method="post">';
-            echo HtmlInput::hidden('sa','n');
-            echo HtmlInput::hidden('p_action','ach');
+            echo '<form enctype="multipart/form-data" method="post">';
             echo dossier::hidden();
+
             echo $Ledger->confirm($_POST );
-	    echo HtmlInput::hidden('ac',$_REQUEST['ac']);
+			echo HtmlInput::hidden('ac',$_REQUEST['ac']);
             $chk=new ICheckBox();
             $chk->selected=false;
 	    echo '<div style="float:left;clear:both">';
@@ -139,9 +103,13 @@ if ( $def==1 || $def == 4 )
             alert($e->getMessage());
             $correct=1;
         }
+		// record the invoice
         if ( ! isset($correct))
         {
             echo '<div class="content">';
+
+			echo '<h2 id="jrn_name">'.$Ledger->get_name().'</h2>';
+
             $Ledger=new Acc_Ledger_Purchase($cn,$_POST['p_jrn']);
             $internal=$Ledger->insert($_POST);
 
@@ -157,7 +125,7 @@ if ( $def==1 || $def == 4 )
             /* Show button  */
             $jr_id=$cn->get_value('select jr_id from jrn where jr_internal=$1',array($internal));
 
-            echo '<h2 class="info"  style="margin-left:20%;width:60%;margin-right:20%;">'.$Ledger->get_name().'</h2>';
+            echo '<h2 class="info"> Enregistrement </h2>';
             echo "<h2 >"._('Opération sauvée')." $internal ";
             if ( $Ledger->pj != '') echo ' Piece : '.h($Ledger->pj);
             echo "</h2>";
@@ -174,7 +142,8 @@ if ( $def==1 || $def == 4 )
             $obj->save_extra($Ledger->jr_id,$_POST);
             printf ('<a class="detail" style="display:inline" href="javascript:modifyOperation(%d,%d)">%s</a><hr>',
                     $jr_id,dossier::id(),$internal);
-            echo HtmlInput::button_anchor(_('Nouvelle dépense'),$href.'?p_action=ach&sa=n&'.dossier::get());
+			// Feedback
+			echo $Ledger->confirm($_POST,true);
             echo '</div>';
             exit();
         }
@@ -185,13 +154,12 @@ if ( $def==1 || $def == 4 )
     //  ------------------------------
 
     echo '<div class="content">';
-    echo "<FORM class=\"print\"NAME=\"form_detail\" METHOD=\"POST\" >";
+	//
+
 
     $array=(isset($_POST['correct'])||isset ($correct))?$_POST:null;
     $Ledger=new Acc_Ledger_Purchase($cn,0);
-//
-// pre defined operation
-//
+
 
     if ( !isset($_REQUEST ['p_jrn']))
     {
@@ -201,9 +169,23 @@ if ( $def==1 || $def == 4 )
     else
         $Ledger->id=$_REQUEST ['p_jrn'];
 
+	echo '<h2 id="jrn_name">'.$Ledger->get_name().'</h2>';
+// pre defined operation
+//
+    echo '<form method="GET" action="do.php">';
+    echo dossier::hidden();
+    echo HtmlInput::hidden('p_jrn_predef',$Ledger->id);
+    echo HtmlInput::hidden('ac',$_REQUEST['ac']);
+    $op=new Pre_op_ach($cn);
+    $op->set('ledger',$Ledger->id);
+    $op->set('ledger_type',"ACH");
+    $op->set('direct','f');
+    echo $op->form_get();
 
+    echo '</form>';
+    echo "<FORM class=\"print\"NAME=\"form_detail\" METHOD=\"POST\" >";
     /* request for a predefined operation */
-    if ( isset($use_predef) && $use_predef == 1 && isset($_REQUEST['pre_def']) )
+    if ( isset($_GET['use_opd']) && isset($_REQUEST['pre_def']) && ! isset($_POST['correct']))
     {
         // used a predefined operation
         //
@@ -240,111 +222,21 @@ if ( $def==1 || $def == 4 )
     echo '</div>';
     echo "</FORM>";
 
-    echo '<form method="GET" action="'.$href.'">';
-    echo HtmlInput::hidden("sa","p");
-    echo HtmlInput::hidden("p_action","ach");
-    echo dossier::hidden();
-    echo HtmlInput::hidden('p_jrn_predef',$Ledger->id);
-    $op=new Pre_op_ach($cn);
-    $op->set('ledger',$Ledger->id);
-    $op->set('ledger_type',"ACH");
-    $op->set('direct','f');
-    echo $op->form_get();
-
-    echo '</form>';
-    echo create_script(" get_last_date()");
+    if ( ! isset ($_POST['e_date'])) echo create_script(" get_last_date()");
 
     echo '</div>';
 
 
     exit();
-}
+// end record invoice
+
+
 //-------------------------------------------------------------------------------
 // Listing
 //--------------------------------------------------------------------------------
 if ( $def == 2 )
 {
-    echo '<div class="content">';
-// Check privilege
-    if ( isset($_REQUEST['p_jrn']) &&
-            $g_user->check_jrn($_REQUEST['p_jrn']) == 'X')
-    {
 
-        NoAccess();
-        exit -1;
-    }
-
-    $Ledger=new Acc_Ledger_Purchase($cn,0);
-    if ( !isset($_REQUEST['p_jrn']))
-    {
-        $Ledger->id=-1;
-    }
-    else
-        $Ledger->id=$_REQUEST['p_jrn'];
-    echo $Ledger->display_search_form();
-    //------------------------------
-    // UPdate the payment
-    //------------------------------
-    if ( isset ( $_GET ['paid']))
-    {
-        $Ledger->update_paid($_GET);
-    }
-    $p_array=$_GET;
-    /* by default we should the default period */
-    if ( ! isset($p_array['date_start']))
-    {
-        $period=$g_user->get_periode();
-        $per=new Periode($cn,$period);
-        list($date_start,$date_end)=$per->get_date_limit();
-        $p_array['date_start']=$date_start;
-        $p_array['date_end']=$date_end;
-    }
-    /*  compute the sql stmt */
-    list($sql,$where)=$Ledger->build_search_sql($p_array);
-
-    $max_line=$cn->count_sql($sql);
-
-    $step=$_SESSION['g_pagesize'];
-    $page=(isset($_GET['offset']))?$_GET['page']:1;
-    $offset=(isset($_GET['offset']))?$_GET['offset']:0;
-    $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
-
-
-    echo '<form method="GET" id="fpaida" class="print" action="'.$href.'">';
-    echo HtmlInput::hidden("sa","l");
-    echo HtmlInput::hidden("p_action","ach");
-    echo dossier::hidden();
-    echo $bar;
-    list($count,$html)= $Ledger->list_operation($sql,$offset,1);
-    echo $html;
-    echo $bar;
-    $r=HtmlInput::get_to_hidden(array('l','date_start','date_end','desc','amount_min','amount_max','qcode','accounting','unpaid','gDossier','ledger_type','p_action'));
-    if (isset($_GET['r_jrn'])) {
-      foreach ($_GET['r_jrn'] as $k=>$v)
-	$r.=HtmlInput::hidden('r_jrn['.$k.']',$v);
-    }
-    echo $r;
-
-    echo '<p>'.HtmlInput::submit('paid',_('Mise à jour paiement')).IButton::select_checkbox('fpaida').IButton::unselect_checkbox('fpaida').'</p>';
-
-    echo '</form>';
-   /*
-     * Export to csv
-     */
-    $r=HtmlInput::get_to_hidden(array('l','date_start','date_end','desc','amount_min','amount_max','qcode','accounting','unpaid','gDossier','ledger_type','p_action'));
-    if (isset($_GET['r_jrn'])) {
-      foreach ($_GET['r_jrn'] as $k=>$v)
-	$r.=HtmlInput::hidden('r_jrn['.$k.']',$v);
-    }
-    echo '<form action="export.php" method="get">';
-    echo $r;
-    echo HtmlInput::hidden('act','CSV/histo');
-    echo HtmlInput::submit('viewsearch','Export vers CSV');
-
-    echo '</form>';
-
-    echo '</div>';
-    exit();
 
 }
 //---------------------------------------------------------------------------
