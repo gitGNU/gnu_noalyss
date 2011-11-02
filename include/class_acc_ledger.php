@@ -1308,9 +1308,9 @@ class Acc_Ledger
                 continue;
             $ret.="<td>".h(${"ld".$i}).HtmlInput::hidden('ld'.$i,${'ld'.$i})."</td>";
             if ( isset(${"ck$i"}))
-				$ret.="<td class=\"num\">".${"amount".$i}.HtmlInput::hidden('amount'.$i,${'amount'.$i})."</td>".td("");
+				$ret.="<td class=\"num\">".nbm(${"amount".$i}).HtmlInput::hidden('amount'.$i,${'amount'.$i})."</td>".td("");
 			else
-				$ret.=td("")."<td class=\"num\">".${"amount".$i}.HtmlInput::hidden('amount'.$i,${'amount'.$i})."</td>";
+				$ret.=td("")."<td class=\"num\">".nbm(${"amount".$i}).HtmlInput::hidden('amount'.$i,${'amount'.$i})."</td>";
 			$total=bcadd($total,${"amount".$i});
             $ret.="<td>";
             $ret.=(isset(${"ck$i"}))?HtmlInput::hidden('ck'.$i,${'ck'.$i}):"";
