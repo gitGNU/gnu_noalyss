@@ -1209,7 +1209,8 @@ class Acc_Ledger
      */
     function confirm($p_array,$p_readonly=false)
     {
-        $this->id=$p_array['p_jrn'];
+		if (! $p_readonly ) $this->verify($p_array);
+		$this->id=$p_array['p_jrn'];
         if ( empty($p_array)) return 'Aucun r&eacute;sultat';
         $anc=null;
         extract($p_array);
