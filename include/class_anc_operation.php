@@ -511,8 +511,9 @@ class Anc_Operation
         }
 
         $result.="</table>";
-		$result.=" Reste à imputer ".
-				'<span style="info" id="'.$ctrl_remain.'">'.
+		$style_remain=($remain==0)?'style="color:green"':' style="color:red"';
+		$result.=" Reste à imputer =  ".
+				'<span class="remain" '.$style_remain.' id="'.$ctrl_remain.'">'.
 				$remain.'</span>';
 
         // add a button to add a row
