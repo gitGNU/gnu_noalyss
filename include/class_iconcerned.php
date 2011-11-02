@@ -21,7 +21,10 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file
- * \brief Html Input 
+ * \brief Html Input
+ *  - name is the name and id of the input
+ *  - extra amount of the operation to reconcile
+ *  - extra2 ledger (all, ods,...)
  */
 require_once('class_html_input.php');
 class IConcerned extends HtmlInput
