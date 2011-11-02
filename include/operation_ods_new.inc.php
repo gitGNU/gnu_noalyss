@@ -44,7 +44,6 @@ if ( $g_user->check_jrn($ledger->id)=='X')
 }
 echo '<div class="content">';
 echo '<form method="GET" action="do.php">';
-echo HtmlInput::hidden("sa", "n");
 echo HtmlInput::hidden("action", "use_opd");
 echo HtmlInput::hidden("ac",$_REQUEST['ac']);
 echo dossier::hidden();
