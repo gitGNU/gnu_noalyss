@@ -184,6 +184,8 @@ $op->set('direct', 'f');
 echo $op->form_get();
 
 echo '</form>';
+echo '</div>';
+echo '<div class="content">';
 echo "<FORM class=\"print\"NAME=\"form_detail\" METHOD=\"POST\" >";
 /* request for a predefined operation */
 if (isset($_GET['use_opd']) && isset($_REQUEST['pre_def']) && !isset($_POST['correct']))

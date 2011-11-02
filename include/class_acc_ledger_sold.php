@@ -608,15 +608,17 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         echo "<h2> Acc_Ledger_Sold::delete Not implemented</h2>";
     }
 
-    /*!\brief show the summary of the operation and propose to save it
-     *\param array contains normally $_POST. It proposes also to save
+    /*!@brief show the summary of the operation and propose to save it
+     *@param array contains normally $_POST. It proposes also to save
      * the Analytic accountancy
-     *\return string
+     *@return string
      */
-    function confirm($p_array)
+    function confirm($p_array,$p_summary=false)
     {
         extract ($p_array);
-        $this->verify($p_array) ;
+
+		// don't need to verify for a summary
+        if ( ! $p_summary ) $this->verify($p_array) ;
         $anc=null;
         // to show a select list for the analytic & VAT USE
         // if analytic is op (optionnel) there is a blank line
@@ -761,7 +763,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                 $anc_op=new Anc_Operation($this->db);
                 $null=($owner->MY_ANALYTIC=='op')?1:0;
                 $r.='<td>';
-                $p_mode=1;
+                $p_mode=($p_summary==false)?1:0;
                 $p_array['pa_id']=$a_anc;
                 /* op is the operation it contains either a sequence or a jrnx.j_id */
                 $r.=HtmlInput::hidden('op[]=',$i);
@@ -777,12 +779,15 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 
         $r.='</table>';
         if ( $owner->MY_ANALYTIC!='nu') // use of AA
-            $r.='<input type="button" class="button" value="'._('verifie CA').'" onClick="verify_ca(\'\');">';
+            $r.='<input type="button" class="button" value="'._('Vérifiez Imputation Analytique').'" onClick="verify_ca(\'\');">';
         $r.='</fieldset>';
-        $r.=$this->extra_info();
-
-
-        $r.='<div style="width:40%;position:float;float:right;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
+        if (! $p_summary )
+		{
+			$r.=$this->extra_info();
+	        $r.='<div style="width:40%;position:float;float:right;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
+		}
+		else
+			$r.='<div style="width:60%;position:float;float:left;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
         $r.='<fieldset> <legend>Totaux</legend>';
         $tot=round(bcadd($tot_amount,$tot_tva),2);
         $r.='<div style="width:40%;position:float;float:left;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
@@ -1039,6 +1044,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
             $add_js="update_pj();";
         }
         $add_js.='get_last_date();';
+		$add_js.='update_name();';
 
         $wLedger=$this->select_ledger('VEN',2);
         if ( $wLedger == null )

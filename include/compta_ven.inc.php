@@ -30,50 +30,18 @@ require_once ('class_document.php');
 require_once ('class_acc_ledger_info.php');
 require_once('class_ipopup.php');
 
-$p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 $gDossier=dossier::id();
 $cn=new Database(dossier::id());
 //menu = show a list of ledger
 $str_dossier=dossier::get();
 $ac="ac=".$_REQUEST['ac'];
-$array=array(
-           array('?ledger_type=ven&sa=n&'.$str_dossier."&$ac",_('Nouvelle vente'),_('Nouvelle vente'),1),
-           array('?ledger_type=ven&sa=l&'.$str_dossier."&$ac",_('Liste ventes'),_('Liste des ventes'),2),
-           array('?ledger_type=ven&sa=lnp&'.$str_dossier."&$ac",_('Liste vente non payées'),_('Liste des ventes non payées'),3)
-       );
-
-$sa=(isset ($_REQUEST['sa']))?$_REQUEST['sa']:-1;
-$def=1;
-switch ($sa)
-{
-case 'n':
-    $def=1;
-    $use_predef=0;
-    break;
-case 'p':
-    $def=1;
-    $use_predef=1;
-    break;
-case 'l':
-    $def=2;
-    break;
-case 'lnp':
-    $def=3;
-    break;
-}
-
-echo '<div class="lmenu">';
-echo ShowItem($array,'H','mtitle','mtitle',$def);
-echo '</div>';
-$href=basename($_SERVER['PHP_SELF'])."?$ac&$str_dossier";
 
 
 //----------------------------------------------------------------------
 // Encode a new invoice
 // empty form for encoding
 //----------------------------------------------------------------------
-if ( $def==1 || $def == 4 )
-{
+
     $Ledger=new Acc_Ledger_Sold($cn,0);
 
     // Check privilege
@@ -102,13 +70,13 @@ if ( $def==1 || $def == 4 )
         if ( ! isset($correct))
         {
             echo '<div class="content">';
-
-            echo '<form class="print" action="'.$href.'"  enctype="multipart/form-data" method="post">';
-            echo HtmlInput::hidden('sa','n');
-            echo HtmlInput::hidden('p_action','ven');
+			echo h2info('Confirmation');
+			echo '<h2 id="jrn_name" style="display:inline">' . $Ledger->get_name() . '</h2>';
+			echo '<div class="content">';
+            echo '<form class="print" enctype="multipart/form-data" method="post">';
             echo dossier::hidden();
             echo $Ledger->confirm($_POST );
-
+			echo HtmlInput::hidden('ac',$_REQUEST['ac']);
             $chk=new ICheckBox();
             $chk->selected=false;
 	    echo '<div style="clear:both">';
@@ -124,6 +92,7 @@ if ( $def==1 || $def == 4 )
             echo HtmlInput::submit('correct',_("Corriger"));
             echo '</form>';
 
+            echo '</div>';
             echo '</div>';
             exit();
         }
@@ -156,6 +125,7 @@ if ( $def==1 || $def == 4 )
         if ( ! isset($correct))
         {
             echo '<div class="content">';
+			echo '<h2 id="jrn_name">' . $Ledger->get_name() . '</h2>';
             $Ledger=new Acc_Ledger_Sold($cn,$_POST['p_jrn']);
             $internal=$Ledger->insert($_POST);
 
@@ -168,7 +138,7 @@ if ( $def==1 || $def == 4 )
             }
 
             /* Show button  */
-            echo '<h2 class="info" style="margin-left:20%;width:60%;margin-right:20%;">'.$Ledger->get_name().'</h2>';
+            echo '<h2 class="info" Enregistrement </h2>';
             $jr_id=$cn->get_value('select jr_id from jrn where jr_internal=$1',array($internal));
 
             echo "<h2 >"._('Opération sauvée');
@@ -181,11 +151,11 @@ if ( $def==1 || $def == 4 )
 
             printf ('<a class="detail" style="display:inline" href="javascript:modifyOperation(%d,%d)">%s</a><hr>',
                     $jr_id,dossier::id(),$internal);
+			echo $Ledger->confirm($_POST,true);
             /* Show link for Invoice */
             if (isset ($Ledger->doc) )
             {
                 echo $Ledger->doc;
-                echo '<hr>';
             }
 
 
@@ -194,7 +164,6 @@ if ( $def==1 || $def == 4 )
             $obj->save_extra($Ledger->jr_id,$_POST);
 
 
-            echo HtmlInput::button_anchor(_('Nouvelle vente'),$href.'?p_action=ven&sa=n&'.dossier::get());
             echo '</div>';
             exit();
         }
@@ -202,9 +171,6 @@ if ( $def==1 || $def == 4 )
     //  ------------------------------
     /* Display a blank form or a form with predef operation */
     //  ------------------------------
-
-    echo '<div class="content">';
-    echo "<FORM class=\"print\" NAME=\"form_detail\" METHOD=\"POST\" >";
 
     $array=(isset($_POST['correct'])||isset ($correct))?$_POST:null;
     $Ledger=new Acc_Ledger_Sold($cn,0);
@@ -220,11 +186,24 @@ if ( $def==1 || $def == 4 )
     else
         $Ledger->id=$_REQUEST ['p_jrn'];
 
+   echo '<div class="u_redcontent">';
+   echo '<h2 id="jrn_name">' . $Ledger->get_name() . '</h2>';
+    echo '<form style="display:inline" method="GET" >';
+	echo HtmlInput::hidden('ac',$_REQUEST['ac']);
+    echo dossier::hidden();
+    echo HtmlInput::hidden('p_jrn_predef',$Ledger->id);
+    $op=new Pre_op_ven($cn);
+    $op->set('ledger',$Ledger->id);
+    $op->set('ledger_type',"VEN");
+    $op->set('direct','f');
+    echo $op->form_get();
+    echo '</form>';
+    echo '</div>';
 
-
-
+   echo '<div class="content">';
+ echo "<FORM class=\"print\" NAME=\"form_detail\" METHOD=\"POST\" >";
     /* request for a predefined operation */
-    if ( isset($use_predef) && $use_predef == 1 && isset($_REQUEST['pre_def']) )
+    if (  isset($_REQUEST['pre_def']) && ! isset($_POST['correct']) )
     {
         // used a predefined operation
         //
@@ -260,29 +239,19 @@ if ( $def==1 || $def == 4 )
     echo HtmlInput::reset(_('Effacer '));
     echo '</div>';
     echo "</FORM>";
-    echo '<div class="content">';
-    echo '<form method="GET" action="'.$href.'">';
-    echo HtmlInput::hidden("sa","p");
-    echo HtmlInput::hidden("p_action","ven");
 
-    echo dossier::hidden();
-    echo HtmlInput::hidden('p_jrn_predef',$Ledger->id);
-    $op=new Pre_op_ven($cn);
-    $op->set('ledger',$Ledger->id);
-    $op->set('ledger_type',"VEN");
-    $op->set('direct','f');
-    echo $op->form_get();
-    echo '</div>';
     $own=new Own($cn);
     /* if we suggest the pj n# the run the script */
     if ( $own->MY_PJ_SUGGEST=='Y')
     {
         echo '<script> update_pj();get_last_date()</script>';
     }
-    echo '</form>';
-    echo '</div>';
     exit();
-}
+
+
+
+exit();
+
 //-------------------------------------------------------------------------------
 // Listing
 //--------------------------------------------------------------------------------
