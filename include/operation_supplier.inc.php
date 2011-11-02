@@ -34,5 +34,7 @@ $f=new Fiche($cn,$_REQUEST['f_id']);
 $qcode=$f->get_quick_code();
 $_GET['qcode']=$qcode;
 $_REQUEST['qcode']=$qcode;
-require_once ('user_action_gl.php');
+$var_array=compute_variable('ledger_type=ALL');
+put_global($var_array);
+require_once ('history_operation.inc.php');
 

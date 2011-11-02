@@ -40,12 +40,16 @@ if ( isset ($_GET['ledger_type']))
 	{
 		case 'ACH':
 			$Ledger = new Acc_Ledger_Purchase($cn, 0);
+			$ask_pay=1;
 			break;
 		case 'ODS':
+		case 'ALL':
 			$Ledger=new Acc_Ledger($cn,0);
+			$ask_pay=0;
 			break;
 		case 'VEN':
 			$Ledger=new Acc_Ledger_Sold($cn,0);
+			$ask_pay=1;
 			break;
 
 	}
@@ -98,11 +102,12 @@ $bar = jrn_navigation_bar($offset, $max_line, $step, $page);
 
 
 echo '<form method="GET" id="fpaida" class="print">';
-echo HtmlInput::hidden("ledger_type", "ACH");
 echo HtmlInput::hidden("ac", $_REQUEST['ac']);
+echo HtmlInput::hidden('ledger_type',$_REQUEST['ledger_type']);
 echo dossier::hidden();
 echo $bar;
-list($count, $html) = $Ledger->list_operation($sql, $offset, 1);
+
+list($count, $html) = $Ledger->list_operation($sql, $offset, $ask_pay);
 echo $html;
 echo $bar;
 $r = HtmlInput::get_to_hidden(array('l', 'date_start', 'date_end', 'desc', 'amount_min', 'amount_max', 'qcode', 'accounting', 'unpaid', 'gDossier', 'ledger_type', 'p_action'));
@@ -113,7 +118,8 @@ if (isset($_GET['r_jrn']))
 }
 echo $r;
 
-echo '<p>' . HtmlInput::submit('paid', _('Mise à jour paiement')) . IButton::select_checkbox('fpaida') . IButton::unselect_checkbox('fpaida') . '</p>';
+if ($ask_pay)
+	echo '<p>' . HtmlInput::submit('paid', _('Mise à jour paiement')) . IButton::select_checkbox('fpaida') . IButton::unselect_checkbox('fpaida') . '</p>';
 
 echo '</form>';
 /*
