@@ -971,7 +971,9 @@ width:5%
 }
 h2#jrn_name
 {
-	margin-right:50%;
+	padding:0 ;
+	margin:0;
+	
 	float:right;
 	font-size:18;
 	display: inline;
