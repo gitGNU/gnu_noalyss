@@ -67,6 +67,7 @@ class ISelect extends HtmlInput
 
             }
         }
+		if ( $this->table == 1 )		  $a='<td>'.$r.'</td>';
         return $r;
     }
 
