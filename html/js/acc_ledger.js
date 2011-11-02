@@ -45,6 +45,13 @@ function update_predef(p_type,p_direct)
                );
 }
 /**
+ *@brief update ctl id =jrn_name with the value of p_jrn
+ */
+function update_name()
+{
+	$('jrn_name').innerHTML=$('p_jrn').options[$('p_jrn').selectedIndex].innerHTML;
+}
+/**
  * @brief update the field predef
  */
 function success_get_predef(request,json)

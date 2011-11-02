@@ -1207,7 +1207,7 @@ class Acc_Ledger
      * \param $p_array array from the form
      * \return string
      */
-    function show_summary($p_array)
+    function confirm($p_array,$p_readonly=false)
     {
         $this->id=$p_array['p_jrn'];
         if ( empty($p_array)) return 'Aucun r&eacute;sultat';
@@ -1223,22 +1223,25 @@ class Acc_Ledger
             $lPeriode->find_periode($e_date);
         }
         $owner=new own($this->db);
+		$total=0;
+		bcscale(2);
 
         $ret="";
-        $ret.="<table>";
+        $ret.="<table >";
         $ret.="<tr><td>"._('Date')." : </td><td>$e_date</td></tr>";
         /* display periode */
         $date_limit=$lPeriode->get_date_limit();
-        $ret.='<tr><td> '._('Période Comptable').' '.$date_limit['p_start'].'-'.$date_limit['p_end'].'</td></tr>';
+        $ret.='<tr> '.td(_('Période Comptable')).td($date_limit['p_start'].'-'.$date_limit['p_end']).'</tr>';
         $ret.="<tr><td>"._('Libellé')." </td><td>".h($desc)."</td></tr>";
         $ret.="<tr><td>"._('PJ Num')." </td><td>".h($e_pj)."</td></tr>";
         $ret.='</table>';
-        $ret.="<table>";
+        $ret.="<table class=\"result\">";
         $ret.="<tr>";
-        $ret.="<th>"._('Quick Code ou');
+        $ret.="<th>"._('Quick Code ou ');
         $ret.=_("Poste")." </th>";
-        $ret.="<th style=\"text-align:right\"> "._("Montant")." </th>";
-        $ret.="<th>"._("Débit")."</th>";
+        $ret.="<th style=\"text-align:left\"> "._("Libellé")." </th>";
+        $ret.="<th style=\"text-align:right\">"._("Débit")."</th>";
+        $ret.="<th style=\"text-align:right\">"._("Crédit")."</th>";
         /* if we use the AC */
         if ($owner->MY_ANALYTIC!='nu')
         {
@@ -1246,7 +1249,7 @@ class Acc_Ledger
             $a_anc=$anc->get_list();
             $x=count($a_anc);
             /* set the width of the col */
-            $ret.='<th colspan="'.$x.'">'._('Compt. Analytique').'</th>';
+            $ret.='<th colspan="'.$x.'" style="width:auto;text-align:center" >'._('Compt. Analytique').'</th>';
 
             /* add hidden variables pa[] to hold the value of pa_id */
             $ret.=Anc_Plan::hidden($a_anc);
@@ -1273,6 +1276,12 @@ class Acc_Ledger
         $count=0;
         for ($i=0;$i<$nb_item;$i++)
         {
+			if ( $p_readonly == true )
+			{
+				if ( ! isset (${'qc_'.$i})) ${'qc_'.$i}='';
+				if ( ! isset (${'poste'.$i})) ${'poste'.$i}='';
+				if ( ! isset (${'amount'.$i})) ${'amount'.$i}='';
+			}
             $ret.="<tr>";
             if ( trim(${'qc_'.$i})!="")
             {
@@ -1298,9 +1307,12 @@ class Acc_Ledger
             if ( trim(${'qc_'.$i})=="" && trim(${'poste'.$i}) == "")
                 continue;
             $ret.="<td>".h(${"ld".$i}).HtmlInput::hidden('ld'.$i,${'ld'.$i})."</td>";
-            $ret.="<td>".${"amount".$i}.HtmlInput::hidden('amount'.$i,${'amount'.$i})."</td>";
+            if ( isset(${"ck$i"}))
+				$ret.="<td class=\"num\">".${"amount".$i}.HtmlInput::hidden('amount'.$i,${'amount'.$i})."</td>".td("");
+			else
+				$ret.=td("")."<td class=\"num\">".${"amount".$i}.HtmlInput::hidden('amount'.$i,${'amount'.$i})."</td>";
+			$total=bcadd($total,${"amount".$i});
             $ret.="<td>";
-            $ret.=(isset(${"ck$i"}))?"D":"C";
             $ret.=(isset(${"ck$i"}))?HtmlInput::hidden('ck'.$i,${'ck'.$i}):"";
             $ret.="</td>";
             // CA
@@ -1316,8 +1328,9 @@ class Acc_Ledger
                     /* op is the operation it contains either a sequence or a jrnx.j_id */
                     $ret.=HtmlInput::hidden('op[]=',$i);
 
-                    $ret.='<td>';
-                    $ret.=$op->display_form_plan($p_array,$null,1,$count,round(${'amount'.$i},2));
+                    $ret.='<td style="text-align:center">';
+					$read=($p_readonly==true)?0:1;
+                    $ret.=$op->display_form_plan($p_array,$null,$read,$count,round(${'amount'.$i},2));
                     $ret.='</td>';
                     $count++;
                 }
@@ -1329,8 +1342,10 @@ class Acc_Ledger
 
             $ret.="</tr>";
         }
+		$ret.=tr(td('').td(_('Totaux')).td($total,'class="num"').td($total,'class="num"'),'class="footer"');
         $ret.="</table>";
-	if ( $owner->MY_ANALYTIC!='nu' )          $ret.='<input type="button" class="button" value="'._('verifie CA').'" onClick="verify_ca(\'\');">';
+		if ( $owner->MY_ANALYTIC!='nu'  && $p_readonly==false)
+			$ret.='<input type="button" class="button" value="'._('verifie Imputation Analytique').'" onClick="verify_ca(\'\');">';
         return $ret;
     }
 
@@ -1341,7 +1356,7 @@ class Acc_Ledger
      *
      * \return a string containing the form
      */
-    function show_form($p_array=null,$p_readonly=0)
+    function input($p_array=null,$p_readonly=0)
     {
         $user = new User($this->db);
         $owner=new Own($this->db);
@@ -1351,6 +1366,12 @@ class Acc_Ledger
 
         if ( $p_array != null )
             extract($p_array);
+        $add_js="";
+        if ( $owner->MY_PJ_SUGGEST=='Y')
+        {
+            $add_js="update_pj();";
+        }
+        $add_js.='get_last_date();';
 
         $ret="";
         /* Add button */
@@ -1359,7 +1380,15 @@ class Acc_Ledger
         $f_add_button->set_attribute('ipopup','ipop_newcard');
         $f_add_button->set_attribute('jrn',$this->id);
         $f_add_button->javascript=" this.jrn=\$('p_jrn').value;select_card_type(this);";
-        $ret.=$f_add_button->input();
+        $f_add_button->input();
+
+		$wLedger=$this->select_ledger('ODS',2);
+        if ($wLedger == null) exit (_('Pas de journal disponible'));
+        $wLedger->javascript="onChange='update_name();update_predef(\"ods\",\"t\");$add_js'";
+        $label=" Journal ".HtmlInput::infobulle(2) ;
+
+        $ret.=$label.$wLedger->input();
+
 
         // Load the javascript
         //
@@ -1435,12 +1464,12 @@ class Acc_Ledger
         $ret.=HtmlInput::hidden('nb_item',$nb_row);
         $ret.=dossier::hidden();
 
-        $ret.=HtmlInput::hidden('p_jrn',$this->id);
         $ret.=dossier::hidden();
 
         $ret.=HtmlInput::hidden('jrn_type',$this->get_type());
         $info= HtmlInput::infobulle(0);
         $info_poste=HtmlInput::infobulle(9);
+		$ret.=$f_add_button->input();
         $ret.='<table id="quick_item" style="width:100%">';
         $ret.='<tr>'.
               '<th >Quickcode'.$info.'</th>'.
@@ -2893,4 +2922,6 @@ class Acc_Ledger
       $first_name=$this->db->get_value('select ad_value from fiche_detail where ad_id=32 and f_id=$1',array($tiers));
       return $name.' '.$first_name;
     }
+
+
 }

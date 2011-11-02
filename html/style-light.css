@@ -184,10 +184,11 @@ div.u_redcontent{
 div.content{ 	 
          float:left; 	 
 		padding-top:7px;
-         width:100%; 	 	 
+         width:96%; 	 	 
          font-family:helvetica,arial,sans-serif; 	
          clear:both;
-          
+         margin-left:2%;
+         
 
 }
 div.content30{ 	 
@@ -954,4 +955,31 @@ table.result td
 {
 	padding-left:5px;
 	padding-right:5px;
+}
+table.info_op
+{
+	margin-left: 30%;
+	margin-right: 30%;
+	width:20%;
+	
+}
+table.info_op tr
+{
+font-size:14;
+background:white;
+width:5%
+}
+h2#jrn_name
+{
+	margin-right:50%;
+	float:right;
+	font-size:18;
+	display: inline;
+	color:#15158e;
+}
+tr.footer{
+	font-size:14;
+	font-style: italic;
+	font-weight: bold;
+	
 }
