@@ -39,13 +39,13 @@ if ( basename($_GET['ajax']) == 'ajax_history.php' )
 
 	  }
       }
-    
+
     if (isset($_GET['pcm_val']) )
       {
 	$href_csv="export.php?".$href.'&poste_id='.$_GET['pcm_val'].'&ople=0&type=poste&'.$from_periode.'&'.$to_periode."&act=CSV/postedetail";
 	$href_pdf="export.php?".$href.'&poste_id='.$_GET['pcm_val'].'&ople=0&type=poste&'.$from_periode.'&'.$to_periode."&act=PDF/postedetail";;
       }
-    else 
+    else
       {
 	$href_csv="export.php?".$href.'&f_id='.$_GET['f_id'].'&ople=0&type=poste&'.$from_periode.'&'.$to_periode."&act=CSV/fichedetail";
 	$href_pdf="export.php?".$href.'&f_id='.$_GET['f_id'].'&ople=0&type=poste&'.$from_periode.'&'.$to_periode."&act=PDF/fichedetail";
@@ -58,7 +58,7 @@ echo '</div>';
 echo HtmlInput::hidden('inpopup',1);
 load_all_script();
 
-$str="?".$_SERVER['QUERY_STRING']."&div=popup";
+$str=$_SERVER['QUERY_STRING']."&div=popup";
 $script="
         var obj={'id':'popup','fixed':1,'class':'content',style:'width:auto','html':loading(),'qs':'$str',js_success:'success_box','js_error':null,'callback':'".$_GET['ajax']."'};
         show_box(obj);
