@@ -62,11 +62,13 @@ function add_row(p_table,p_seq)
     }
 	var col=document.getElementsByName("val["+p_seq+"][]");
 	col[col.length-1].value=max-amount;
-
+	anc_refresh_remain(p_table,p_seq);
 }
 /**
- *@bug cannot compute total for ANC_TABLE
- *@todo fix this bug
+ *Compute total of a form from Anc_Operation::display_form_plan
+ *@param p_table table id
+ *@param seq sequence of the line
+ *@see Anc_Operation::display_form_plan
  */
 function compute_total_table(p_table,seq)
 {
@@ -85,6 +87,25 @@ function compute_total_table(p_table,seq)
 	catch(e)
 	{
 		alert(e.message);
+	}
+}
+/**
+ * Refresh remain of account. analytic
+ *@param p_table table id
+ *@param p_seq sequence of the line
+ *@see Anc_Operation::display_form_plan
+ */
+function anc_refresh_remain(p_table,p_seq)
+{
+	try
+	{
+		var tot_line=parseFloat(g('amount_t'+p_seq).value);
+		var tot_table=compute_total_table(p_table,p_seq);
+		var remain = tot_line-tot_table;
+		$('remain'+p_table).innerHTML=remain;
+	}catch (a)
+	{
+		alert(a.message);
 	}
 }
 /*!

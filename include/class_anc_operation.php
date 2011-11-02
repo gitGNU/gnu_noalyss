@@ -135,7 +135,7 @@ class Anc_Operation
         if ( isset ( $this->pa_id) && $this->pa_id !='')
             $pa_id_cond= "pa_id=".$this->pa_id." and";
 	$sql="
-	select oa_id,	
+	select oa_id,
 	po_name,
 	oa_description,
 	po_description,
@@ -143,14 +143,14 @@ class Anc_Operation
 	to_char(jr_date,'DD.MM.YYYY') as oa_date,
 	oa_amount,
 	oa_group,
-	j_id , 
-	jr_internal,  
-	jr_id, 
+	j_id ,
+	jr_internal,
+	jr_id,
 	jr_comment,
 	j_poste,
 	jrnx.f_id,
 	( select ad_value from fiche_Detail where f_id=jrnx.f_id and ad_id=23) as qcode
-	from operation_analytique as B join poste_analytique using(po_id) 
+	from operation_analytique as B join poste_analytique using(po_id)
 	left join jrnx using (j_id)
 	left join jrn on  (j_grpt=jr_grpt_id)
              where $pa_id_cond oa_amount <> 0.0 $cond $cond_poste
@@ -403,29 +403,29 @@ class Anc_Operation
      * \param $p_id operation is detailled in a HTML popup, if several
      *  are opened, the tableid MUST be different. So we need to use a new parameter
      * \see save_form_plan
-    @note 
-    - op is an array containing the line number 
+    @note
+    - op is an array containing the line number
     - pa_id is an array of the existing array
     - hplan is an array of the POSTE ANALYTIQUE id used, the size of hplan from 0 to x,
     x can be bigger than the number of plan id
     - val contains the amount by row inside the table. One operation (j_id) you can have several rows
     @code
-    0 => 
+    0 =>
       array
         'op' => int 200
-    'pa_id' => 
+    'pa_id' =>
       array
         0 => string '14' (length=2)
         1 => string '15' (length=2)
-    'hplan' => 
+    'hplan' =>
       array
-        1 => 
+        1 =>
           array
             0 => string '25' (length=2)
             1 => string '26' (length=2)
-    'val' => 
+    'val' =>
       array
-        1 => 
+        1 =>
           array
             0 => string '100.0000' (length=8)
 
@@ -442,6 +442,7 @@ class Anc_Operation
         $table_id="t".$p_seq;
         $hidden=new IHidden();
 
+		$readonly=($p_mode==1)?false:true;
 
         $result.=$hidden->input('amount_'.$table_id,$p_amount);
         if ( $p_mode==1 )
@@ -453,6 +454,9 @@ class Anc_Operation
         /* compute the number of rows */
         $nb_row=(isset($val[$p_seq]))?count($val[$p_seq]):1;
         $count=0;
+
+		$remain=$p_amount;
+		$ctrl_remain="remain".$table_id;
 
         for ( $i=0; $i < $nb_row;$i++)
         {
@@ -475,12 +479,16 @@ class Anc_Operation
                     $select->readonly=false;
                     if ( isset($hplan) && isset($hplan[$p_seq][$count]) ){
                         $select->selected=$hplan[$p_seq][$count];
-		    }
+
+					}
                 }
                 else
                 {
+					if ( isset($hplan) && isset($hplan[$p_seq][$count]) ){
+                        $select->selected=$hplan[$p_seq][$count];
+					}
                     // view only
-                    $select->readonly=true;
+                    $select->readOnly=true;
                 }
                 if ($p_mode==1)
                     $result.='<td>'.$select->input().'</td>';
@@ -491,24 +499,29 @@ class Anc_Operation
 
             }
             $value=new INum();
+			$value->javascript='onchange="format_number(this);anc_refresh_remain(\''.$table_id.'\',\''.$p_seq.'\')"';
             $value->name="val[".$p_seq."][]";
             $value->size=6;
             $value->value=abs((isset($val[$p_seq][$i]))?$val[$p_seq][$i]:$p_amount);
-            $value->readonly=($p_mode==1)?false:true;
-
+            $value->readOnly=($p_mode==1)?false:true;
+			$remain=bcsub($remain,$value->value);
             $result.='<td>'.$value->input().'</td>';
 
             $result.="</tr>";
         }
 
         $result.="</table>";
+		$result.=" Reste à imputer ".
+				'<span style="info" id="'.$ctrl_remain.'">'.
+				$remain.'</span>';
+
         // add a button to add a row
         $button=new IButton();
         $button->javascript="add_row('".$p_id."$table_id',$p_seq);";
         $button->name="js".$p_id.$p_seq;
         $button->label="Nouvelle ligne";
         if ( $p_mode == 1 )
-            $result.=$button->input();
+            $result.="<br>".$button->input();
 
         return $result;
     }
@@ -654,7 +667,7 @@ class Anc_Operation
         $this->db->exec_sql($sql);
     }
     /*\brief Display a table with analytic accounting in
-     *       detail of operation 
+     *       detail of operation
      *@note $this->j_id must be set
      *\param $p_mode 0 = readonly or 1=writable
      *\param $p_amount amount
