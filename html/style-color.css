@@ -1,11 +1,13 @@
 /* <style type="text/css"> */
 
 BODY {
-    background-color:#EDF3FF;
+    background-color:#E3FFE0;
     font-size:10;
     font-family:helvetica,arial,sans-serif;
     padding:0;
     margin:0;
+    color:#0E7E0E;
+    
 }
 .notice {
     color:red;
@@ -70,7 +72,7 @@ u_redcontent h2.info {
     margin:0px;
 }
 h2.info {
-    background-color:#879ED4;
+    background-color:#0E7E0E;
     color:white;
     font-size:14px;
     text-align:center;
@@ -422,7 +424,7 @@ div.content a {
     font-family:helvetica,arial,sans-serif;
     text-decoration: none;
     display: block;
-    color: blue;
+    color: #0E7E0E;
     padding: 1px ;
 
 }
@@ -768,7 +770,7 @@ input[disabled], textarea[disabled], option[disabled], optgroup[disabled], selec
 
 .button {
     font-size:10;
-    color:white;
+    color:black;
     text-decoration:none;
     font-family: helvetica,arial,sans-serif;
     background-color:#DFDFDF;
@@ -861,7 +863,7 @@ div.op_detail_frame  {
 
 }
 div.op_detail  {
-    background-color:#e4e7ed;
+    background-color:#ccffcc;
     font-size:10;
     font-family:helvetica,arial,sans-serif;
     padding:0;
