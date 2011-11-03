@@ -297,14 +297,9 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
 // language
     if (isset($_SESSION['g_lang']))
     {
-	set_language();
+		set_language();
     }
 
-    /* If we are on the user_login page */
-    if (basename($_SERVER['PHP_SELF']) == 'user_login.php')
-    {
-	return;
-    }
 }
 
 /* !
@@ -754,6 +749,15 @@ function show_module($selected)
 	require_once('template/module.php');
 	$file = $cn->get_array("select me_file,me_parameter from v_all_menu
 	    where me_code=$1 and user_name=$2", array($selected,$g_user->login));
+	if ( count($file ) == 0 )
+	{
+		echo '</div>';
+		echo '</div>';
+		echo '<div class="content">';
+		echo_warning("Module inexistant [$selected");
+		echo '</div>';
+		exit();
+	}
 	if ($file[0]['me_file'] != '')
 	{
 	    if ($file[0]['me_parameter'] !== "")

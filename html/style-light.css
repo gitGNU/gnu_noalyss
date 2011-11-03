@@ -1001,3 +1001,17 @@ div#jrn_name_div
 	width:60%;
 	
 }
+#direct
+{
+	display:inline;
+	float:right;
+	
+	
+}
+.direct 
+{
+		font-size:6px;
+	   border:groove 1px #33378d;
+	margin:1px;
+}
+

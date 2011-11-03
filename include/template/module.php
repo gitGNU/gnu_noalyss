@@ -3,6 +3,19 @@
 
 	<H2 class="dossier"> Dossier : <?=h(dossier::name())?></h2>
 	<?=IButton::show_calc()?>
+	<div id="direct">
+	<form method="get">
+		<?=Dossier::hidden()?>
+		<?
+			$direct=new IText('ac');
+			$direct->style='class="direct"';
+			$direct->value=HtmlInput::default_value('ac', '', $_REQUEST);
+			$direct->size=(strlen($direct->value)<10)?10:strlen($direct->value);
+			echo $direct->input();
+			echo HtmlInput::submit('go','aller');
+			?>
+	</form>
+	</div>
     </div>
     <div class="acces_direct">
 	<table>

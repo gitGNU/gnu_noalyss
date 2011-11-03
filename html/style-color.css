@@ -956,3 +956,20 @@ div#jrn_name_div
 	
 	
 }
+#predef_form {
+	margin-left:20%;
+	width:60%;
+	
+}
+#direct
+{
+	display:inline;
+	float:right;
+	
+	
+}
+.direct 
+{
+		font-size:6px;
+	   border:groove 1px #00ff00;
+}
