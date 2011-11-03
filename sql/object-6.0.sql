@@ -171,7 +171,7 @@ ALTER SEQUENCE profile_menu_pm_id_seq OWNED BY profile_menu.pm_id;
 -- Name: profile_menu_pm_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dany
 --
 
-SELECT pg_catalog.setval('profile_menu_pm_id_seq', 91, true);
+SELECT pg_catalog.setval('profile_menu_pm_id_seq', 95, true);
 
 
 --
@@ -310,7 +310,6 @@ INSERT INTO menu_ref VALUES ('STOCK', 'Stock', 'stock.inc.php', NULL, NULL, NULL
 INSERT INTO menu_ref VALUES ('ODSIMP', 'Historique opérations diverses', 'history_operation.inc.php', NULL, NULL, 'ledger_type=ODS');
 INSERT INTO menu_ref VALUES ('VEN', 'Vente', 'compta_ven.inc.php', NULL, NULL, NULL);
 INSERT INTO menu_ref VALUES ('ACH', 'Achat', 'compta_ach.inc.php', NULL, NULL, NULL);
-INSERT INTO menu_ref VALUES ('FIN', 'Financier', 'compta_fin.inc.php', NULL, NULL, NULL);
 INSERT INTO menu_ref VALUES ('LET', 'Lettrage', 'letter.inc.php', NULL, NULL, NULL);
 INSERT INTO menu_ref VALUES ('PREOD', 'Opérations prédéfinies', 'preod.inc.php', NULL, NULL, NULL);
 INSERT INTO menu_ref VALUES ('VERIFBIL', 'Vérification ', 'verif_bilan.inc.php', NULL, NULL, NULL);
@@ -364,12 +363,17 @@ INSERT INTO menu_ref VALUES ('ANCIMP', 'Impression', 'anc_imp.inc.php', NULL, NU
 INSERT INTO menu_ref VALUES ('VENMENU', 'Vente / Recette', NULL, NULL, NULL, NULL);
 INSERT INTO menu_ref VALUES ('PREFERENCE', 'Préférence', 'pref.inc.php', NULL, NULL, NULL);
 INSERT INTO menu_ref VALUES ('HIST', 'Historique', 'history_operation.inc.php', NULL, NULL, 'ledger_type=ALL');
+INSERT INTO menu_ref VALUES ('MENUFIN', 'Financier', NULL, NULL, NULL, NULL);
 INSERT INTO menu_ref VALUES ('TVA', 'Tva', 'extension_get.inc.php', NULL, NULL, 'plugin_code=AMORTIS');
 INSERT INTO menu_ref VALUES ('EXTENSION', 'Extension', 'extension_choice.inc.php', NULL, NULL, NULL);
 INSERT INTO menu_ref VALUES ('MENUACH', 'Achat', NULL, NULL, NULL, NULL);
 INSERT INTO menu_ref VALUES ('MENUODS', 'Opérations diverses', NULL, NULL, NULL, NULL);
 INSERT INTO menu_ref VALUES ('ODS', 'Opérations Diverses', 'compta_ods.inc.php', NULL, NULL, NULL);
+INSERT INTO menu_ref VALUES ('FINIMP', 'Historique financier', 'history_operation.inc.php', NULL, NULL, 'ledger_type=FIN');
 INSERT INTO menu_ref VALUES ('ADM', 'Administration', 'adm.inc.php', NULL, NULL, NULL);
+INSERT INTO menu_ref VALUES ('FIN', 'Nouvel extrait', 'compta_fin.inc.php', NULL, NULL, NULL);
+INSERT INTO menu_ref VALUES ('FINSALDO', 'Soldes', 'compta_fin_saldo.inc.php', NULL, NULL, NULL);
+INSERT INTO menu_ref VALUES ('FINREC', 'Rapprochement', 'compta_fin_rec.inc.php', NULL, NULL, NULL);
 
 
 --
@@ -436,7 +440,8 @@ INSERT INTO profile_menu VALUES (33, 'REPORT', 'ADV', 1, 25, 'E', NULL);
 INSERT INTO profile_menu VALUES (5, 'CARD', 'COMPTA', 1, 7, 'E', NULL);
 INSERT INTO profile_menu VALUES (43, 'HIST', 'COMPTA', 1, 1, 'E', NULL);
 INSERT INTO profile_menu VALUES (34, 'GESTION', NULL, 1, 6, 'M', NULL);
-INSERT INTO profile_menu VALUES (19, 'FIN', 'COMPTA', 1, 4, 'E', NULL);
+INSERT INTO profile_menu VALUES (94, 'FINSALDO', 'MENUFIN', 1, 3, 'E', NULL);
+INSERT INTO profile_menu VALUES (95, 'FINREC', 'MENUFIN', 1, 4, 'E', NULL);
 INSERT INTO profile_menu VALUES (6, 'IMP', 'COMPTA', 1, 6, 'E', NULL);
 INSERT INTO profile_menu VALUES (28, 'ADV', 'COMPTA', 1, 20, 'E', NULL);
 INSERT INTO profile_menu VALUES (79, 'PREFERENCE', 'ANC', 1, 2, 'M', NULL);
@@ -457,6 +462,9 @@ INSERT INTO profile_menu VALUES (89, 'ODSIMP', 'MENUODS', 1, 2, 'E', NULL);
 INSERT INTO profile_menu VALUES (4, 'VENMENU', 'COMPTA', 1, 2, 'E', NULL);
 INSERT INTO profile_menu VALUES (90, 'VEN', 'VENMENU', 1, 1, 'E', NULL);
 INSERT INTO profile_menu VALUES (91, 'VENIMP', 'VENMENU', 1, 2, 'E', NULL);
+INSERT INTO profile_menu VALUES (19, 'FIN', 'MENUFIN', 1, 1, 'E', NULL);
+INSERT INTO profile_menu VALUES (92, 'MENUFIN', 'COMPTA', 1, 4, 'E', NULL);
+INSERT INTO profile_menu VALUES (93, 'FINIMP', 'MENUFIN', 1, 2, 'E', NULL);
 
 
 --
