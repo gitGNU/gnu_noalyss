@@ -51,6 +51,10 @@ if ( isset ($_GET['ledger_type']))
 			$Ledger=new Acc_Ledger_Sold($cn,0);
 			$ask_pay=1;
 			break;
+		case 'FIN':
+			$Ledger=new Acc_Ledger_Fin($cn,0);
+			$ask_pay=0;
+			break;
 
 	}
 }

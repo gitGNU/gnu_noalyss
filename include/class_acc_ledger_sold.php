@@ -645,6 +645,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         $r="";
         $r.="<fieldset>";
         $r.="<legend>"._('En-tête facture client')."  </legend>";
+		$r.='<div id="jrn_name_div">';
+		$r.='<h2 id="jrn_name" style="display:inline">' . $this->get_name() . '</h2>';
+		$r.= '</div>';
         $r.='<TABLE  width="100%">';
         $r.='<tr>';
         $r.='<td> '._('Date').' '.$e_date.'</td>';
@@ -778,7 +781,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 
 
         $r.='</table>';
-        if ( $owner->MY_ANALYTIC!='nu') // use of AA
+        if ( $owner->MY_ANALYTIC!='nu' && $p_summary ) // use of AA
             $r.='<input type="button" class="button" value="'._('Vérifiez Imputation Analytique').'" onClick="verify_ca(\'\');">';
         $r.='</fieldset>';
         if (! $p_summary )

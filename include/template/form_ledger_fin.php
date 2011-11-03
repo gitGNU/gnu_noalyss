@@ -1,9 +1,13 @@
 <fieldset>
+	<div id="jrn_name_div">
+	<h2 id="jrn_name"> <?=$this->get_name()?></h2>
+</div>
 <legend><?=$f_legend ?> </legend>
    <?=_('Date').' '.$f_date ?>
 <?=$f_period?><br>
 <?=$f_jrn?><br>
 <?=_('Banque')?><?=$f_bank ?>
+
 </fieldset>
 
 <fieldset>

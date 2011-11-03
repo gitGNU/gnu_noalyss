@@ -841,25 +841,31 @@ function show_menu($module, $idx)
 	 * @todo add security
 	 * check if user can access this module
 	 */
-	$file = $cn->get_array("select me_file,me_parameter
-	from menu_ref
-	where
-	me_code=$1 and
-	(me_file is not null or trim(me_file) <>'')", array($module[$idx]));
+		$file = $cn->get_array("select me_file,me_parameter
+		from menu_ref
+		where
+		me_code=$1 and
+		(me_file is not null or trim(me_file) <>'')", array($module[$idx]));
 
-	if ($file[0]['me_file'] != "")
-	{
-	    if ($file[0]['me_parameter'] !== "")
-	    {
-		// if there are paramter put them in superglobal
-		$array=compute_variable($file[0]['me_parameter']);
-		put_global($array);
-	    }
-	    echo '<div class="content">';
-	    require_once $file[0]['me_file'];
-	    echo '</div>';
-	    exit();
-	}
+		if (count($file)==0)
+		{
+			echo "Configuration incorrecte pour ce module ".$module[$idx];
+			exit;
+		}
+
+		if ($file[0]['me_file'] != "")
+		{
+			if ($file[0]['me_parameter'] !== "")
+			{
+			// if there are paramter put them in superglobal
+			$array=compute_variable($file[0]['me_parameter']);
+			put_global($array);
+			}
+			echo '<div class="content">';
+			require_once $file[0]['me_file'];
+			echo '</div>';
+			exit();
+		}
     }
 }
 /**

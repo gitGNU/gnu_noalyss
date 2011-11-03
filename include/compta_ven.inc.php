@@ -71,7 +71,8 @@ $ac="ac=".$_REQUEST['ac'];
         {
             echo '<div class="content">';
 			echo h2info('Confirmation');
-			echo '<h2 id="jrn_name" style="display:inline">' . $Ledger->get_name() . '</h2>';
+
+
 			echo '<div class="content">';
             echo '<form class="print" enctype="multipart/form-data" method="post">';
             echo dossier::hidden();
@@ -125,7 +126,6 @@ $ac="ac=".$_REQUEST['ac'];
         if ( ! isset($correct))
         {
             echo '<div class="content">';
-			echo '<h2 id="jrn_name">' . $Ledger->get_name() . '</h2>';
             $Ledger=new Acc_Ledger_Sold($cn,$_POST['p_jrn']);
             $internal=$Ledger->insert($_POST);
 
@@ -138,7 +138,7 @@ $ac="ac=".$_REQUEST['ac'];
             }
 
             /* Show button  */
-            echo '<h2 class="info" Enregistrement </h2>';
+            echo '<h2 class="info"> Enregistrement </h2>';
             $jr_id=$cn->get_value('select jr_id from jrn where jr_internal=$1',array($internal));
 
             echo "<h2 >"._('Opération sauvée');
@@ -186,8 +186,7 @@ $ac="ac=".$_REQUEST['ac'];
     else
         $Ledger->id=$_REQUEST ['p_jrn'];
 
-   echo '<div class="u_redcontent">';
-   echo '<h2 id="jrn_name">' . $Ledger->get_name() . '</h2>';
+   echo '<div id="predef_form">';
     echo '<form style="display:inline" method="GET" >';
 	echo HtmlInput::hidden('ac',$_REQUEST['ac']);
     echo dossier::hidden();

@@ -1262,6 +1262,9 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         $r="";
         $r.="<fieldset>";
         $r.="<legend>"._('En-tête facture fournisseur')."  </legend>";
+		$r.='<div id="jrn_name_div">';
+		$r.='<h2 id="jrn_name">'.$this->get_name().'</h2>';
+		$r.='</div>';
         $r.='<TABLE  width="100%">';
         $r.='<tr>';
         $r.='<td> '._('Date').' '.$e_date.'</td>';

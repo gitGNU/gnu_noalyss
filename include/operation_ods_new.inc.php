@@ -43,6 +43,7 @@ if ( $g_user->check_jrn($ledger->id)=='X')
 	exit();
 }
 echo '<div class="content">';
+echo '<div id="predef_form">';
 echo '<form method="GET" action="do.php">';
 echo HtmlInput::hidden("action", "use_opd");
 echo HtmlInput::hidden("ac",$_REQUEST['ac']);
@@ -53,10 +54,12 @@ $op->set('ledger', $ledger->id);
 $op->set('ledger_type', "ODS");
 $op->set('direct', 't');
 echo $op->form_get();
-echo '<h2 id="jrn_name">'.$ledger->get_name().'</h2>';
+
 echo '</form>';
-
-
+echo '</div>';
+echo '<div id="jrn_name_div">';
+echo '<h2 id="jrn_name" style="display:inline">' . $ledger->get_name() . '</h2>';
+echo '</div>';
 
 // Show the predef operation
 // Don't forget the p_jrn

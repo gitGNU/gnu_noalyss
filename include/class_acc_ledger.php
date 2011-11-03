@@ -1394,7 +1394,7 @@ class Acc_Ledger
         // Load the javascript
         //
         $ret.="<table>";
-        $ret.= '<tr><td>';
+        $ret.= '<tr ><td colspan="2" style="width:auto">';
         $wDate=new IDate('e_date');
         $wDate->readonly=$p_readonly;
         $e_date=(isset($e_date)&&trim($e_date)!='')?$e_date:'';
@@ -1443,11 +1443,12 @@ class Acc_Ledger
             $default_pj=$this->guess_pj();
         }
         $wPJ->value=(isset($e_pj))?$e_pj:$default_pj;
-
-        $ret.='<td> '._('Pièce').' : '.$wPJ->input();
-        $ret.=HtmlInput::hidden('e_pj_suggest',$default_pj);
-        $ret.= '</td>';
         $ret.= '</tr>';
+		$ret.='<tr >';
+        $ret.='<td colspan="2" style="width:auto"> '._('Pièce').' : '.$wPJ->input();
+        $ret.=HtmlInput::hidden('e_pj_suggest',$default_pj);
+        $ret.= '</tr>';
+        $ret.= '</td>';
 
         $ret.= '<tr><td >'._('Libellé');
         $wDescription=new IText('desc');

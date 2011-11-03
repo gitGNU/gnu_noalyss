@@ -181,7 +181,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 
 
     /*!\brief
-    *\param $p_array contains the value usually it is $_POST 
+    *\param $p_array contains the value usually it is $_POST
      *\return string with html code
      *\note the form tag are not  set here
      */
@@ -247,10 +247,10 @@ class Acc_Ledger_Fin extends Acc_Ledger
 
         // Ledger (p_jrn)
         //--
-	
-	$add_js='onchange="update_pj();update_bank();get_last_date();ajax_saldo(\'first_sold\')";';
 
-	if ( $owner->MY_DATE_SUGGEST == 'Y') 
+	$add_js='onchange="update_pj();update_bank();get_last_date();ajax_saldo(\'first_sold\');update_name();"';
+
+	if ( $owner->MY_DATE_SUGGEST == 'Y')
 	  $add_js='onchange="update_pj();update_bank();get_last_date();ajax_saldo(\'first_sold\')";';
 
         $wLedger=$this->select_ledger('FIN',2);
@@ -381,7 +381,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
     /*!\brief show the summary before inserting into the database, it
      *calls the function for adding a attachment. The function verify
      *should be called before
-     *\param $p_array an array usually is $_POST 
+     *\param $p_array an array usually is $_POST
      *\return string with code html
      */
     public function confirm($p_array)
@@ -404,6 +404,9 @@ class Acc_Ledger_Fin extends Acc_Ledger
         $exercice=$pPeriode->get_exercice();
         $r.='';
         $r.='<fieldset><legend>Banque, caisse </legend>';
+		$r.= '<div id="jrn_name_div">';
+		$r.='<h2 id="jrn_name" style="display:inline">' . $this->get_name() . '</h2>';
+		$r.= '</div>';
         $r.='<TABLE  width="100%">';
         //  Date
         //--
@@ -516,7 +519,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
             // Comment
             $r.='<td style="width:40%">'.$tiers_comment.'</td>';
             // amount
-            $r.='<td>'.$tiers_amount.'</td>';
+            $r.='<td class="num">'.nbm($tiers_amount).'</td>';
             // concerned
             $r.='<td>';
             $r.=${"e_concerned".$i};
@@ -583,11 +586,12 @@ class Acc_Ledger_Fin extends Acc_Ledger
     }
     /*!\brief save the data into the database, included the attachment,
      *and the reconciliations
-     *\param $p_array usually $_POST 
+     *\param $p_array usually $_POST
      *\return string with HTML code
      */
     public function insert($p_array)
     {
+		bcscale(2);
         $internal_code="";
         $oid=0;
         extract ($p_array);
@@ -646,7 +650,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
                 ${"e_other$i"."_amount"}=round( ${"e_other$i"."_amount"},2);
 
                 // Compute display
-                $row=td(${"e_other$i"}).td($fPoste->strAttribut(ATTR_DEF_NAME)).td(${"e_other".$i."_comment"}).td(${"e_other$i"."_amount"},'class="num"');
+                $row=td(${"e_other$i"}).td($fPoste->strAttribut(ATTR_DEF_NAME)).td(${"e_other".$i."_comment"}).td(nbm(${"e_other$i"."_amount"}),'class="num"');
 
                 $ret.=tr($row);
 
@@ -800,7 +804,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
                     $op->oa_description=sql_string($comment);
                     $op->save_form_plan($_POST,$i,$j_id);
                 }
-                
+
 
                 $this->update_internal_code($internal);
 
@@ -843,9 +847,9 @@ class Acc_Ledger_Fin extends Acc_Ledger
         }
         $this->db->commit();
         $r="";
-        $r.="<br>Ancien solde ".$solde;
-        $new_solde+=$amount;
-        $r.="<br>Nouveau solde ".$new_solde;
+        $r.="<br>Ancien solde ".nbm($solde);
+        $new_solde=bcadd($new_solde,$amount);
+        $r.="<br>Nouveau solde ".nbm($new_solde);
         $ret.=$r;
         return $ret;
     }
@@ -1003,7 +1007,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
   {
     $sql="INSERT INTO quant_fin(qf_bank, jr_id, qf_other, qf_amount)
                    VALUES ($1, $2, $3, $4);";
-    
+
     $this->db->exec_sql($sql,array($p_bankid,$p_jrid,$p_otherid,round($p_amount,2)));
   }
 }

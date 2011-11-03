@@ -61,7 +61,6 @@ if (isset($_POST['view_invoice']))
 	{
 		echo '<div class="content">';
 		echo h2info('Confirmation');
-		echo '<h2 id="jrn_name">' . $Ledger->get_name() . '</h2>';
 
 		echo '<form enctype="multipart/form-data" method="post">';
 		echo dossier::hidden();
@@ -108,8 +107,6 @@ if (isset($_POST['record']))
 	if (!isset($correct))
 	{
 		echo '<div class="content">';
-
-		echo '<h2 id="jrn_name">' . $Ledger->get_name() . '</h2>';
 
 		$Ledger = new Acc_Ledger_Purchase($cn, $_POST['p_jrn']);
 		$internal = $Ledger->insert($_POST);
@@ -170,9 +167,9 @@ if (!isset($_REQUEST ['p_jrn']))
 else
 	$Ledger->id = $_REQUEST ['p_jrn'];
 
-echo '<h2 id="jrn_name">' . $Ledger->get_name() . '</h2>';
 // pre defined operation
 //
+echo '<div id="predef_form">';
 echo '<form method="GET" action="do.php">';
 echo dossier::hidden();
 echo HtmlInput::hidden('p_jrn_predef', $Ledger->id);
@@ -182,9 +179,10 @@ $op->set('ledger', $Ledger->id);
 $op->set('ledger_type', "ACH");
 $op->set('direct', 'f');
 echo $op->form_get();
-
 echo '</form>';
 echo '</div>';
+echo '</div>';
+
 echo '<div class="content">';
 echo "<FORM class=\"print\"NAME=\"form_detail\" METHOD=\"POST\" >";
 /* request for a predefined operation */

@@ -30,9 +30,10 @@
 
 echo '<div class="content">';
 echo h2("Confirmation",'class="info"');
+echo '<div id="jrn_name_div">';
+echo '<h2 id="jrn_name" style="display:inline">' . $ledger->get_name() . '</h2>';
+echo '</div>';
 
-
-echo '<h2 id="jrn_name">'.$ledger->get_name().'</h2>';
 echo '<FORM METHOD="POST">';
 echo $ledger->confirm($_POST,false);
 
