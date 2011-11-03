@@ -137,13 +137,13 @@ case 'dc':
 	  $card=$f->Display(false);
 	else
 	  $card=$f->Display(true);
-	if ( $card == 'FNT' ) 
+	if ( $card == 'FNT' )
 	  {
 	    $html.='<h2 class="error">'._('Fiche non trouvée').'</h2>';
 	  }
 	else
 	  {
-	    
+
 	    if ($can_modify==1)
 	      {
 		$html.='<form method="get" onsubmit="update_card(this);return false;">';
@@ -164,7 +164,7 @@ case 'dc':
 	      }
 	  }
     }
-    else 
+    else
       {
       $html.='<h2 class="error">'._('Aucune fiche demandée').'</h2>';
       $html.=HtmlInput::button('close_'.$ctl,'Fermer',"onclick=\"removeDiv('$ctl')\"");
@@ -305,7 +305,7 @@ case 'fs':
     require_once('class_acc_ledger.php');
     $r='';
     $r.='<div style="float:right;height:10px;display:block;margin-top:2px;margin-right:2px">';
-    $r.= '<A style="background-color:blue;color:white;text-decoration:none" HREF="javascript:void(0)" onclick="removeDiv(\'search_card\');">Fermer</A>'; 
+    $r.= '<A style="background-color:blue;color:white;text-decoration:none" HREF="javascript:void(0)" onclick="removeDiv(\'search_card\');">Fermer</A>';
     $r.='</div>';
     $r.='<div> '.h2info(_('Recherche de fiche')).'</div>';
 
@@ -468,13 +468,13 @@ case 'scc':
     }
     break;
 case 'upc':
-  $html=HtmlInput::button_close($ctl);
+  $html=HtmlInput::anchor_close($ctl);
   $html.=h2info('Détail fiche');
-  
+
   if ( $user->check_action(FICADD)==0 )
     {
       $html.=alert(_('Action interdite'),true);
-    }  
+    }
   else
     {
       if ($cn->get_value('select count(*) from fiche where f_id=$1',array($_GET['f_id'])) == '0' )
@@ -484,7 +484,7 @@ case 'upc':
 
       else
 	{
-	  $html=HtmlInput::button_close($ctl);
+	  $html=HtmlInput::anchor_close($ctl);
 	  $html.=h2info('Détail fiche (sauvée)');
 
 	  $f=new Fiche($cn,$_GET['f_id']);
