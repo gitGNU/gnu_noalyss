@@ -41,7 +41,7 @@ require_once ('class_acc_account.php');
 require_once('ac_common.php');
 require_once('class_inum.php');
 require_once('class_lettering.php');
-
+require_once 'class_sort_table.php';
 /*!\file
 * \brief Class for jrn,  class acc_ledger for manipulating the ledger
 */
@@ -556,7 +556,178 @@ class Acc_Ledger
         $pj_seq=$this->get_last_pj()+1;
         return $pj_pref.$pj_seq;
     }
+/*!\brief Show all the operation
+     *\param $sql is the sql stmt, normally created by build_search_sql
+     *\param $offset the offset
+     *\param $p_paid if we want to see info about payment
+    \code
+    // Example
+    // Build the sql
+    list($sql,$where)=$Ledger->build_search_sql($_GET);
+    // Count nb of line
+    $max_line=$cn->count_sql($sql);
 
+    $step=$_SESSION['g_pagesize'];
+    $page=(isset($_GET['offset']))?$_GET['page']:1;
+    $offset=(isset($_GET['offset']))?$_GET['offset']:0;
+    // create the nav. bar
+    $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
+    // show a part
+    list($count,$html)= $Ledger->list_operation($sql,$offset,0);
+    echo $html;
+    // show nav bar
+    echo $bar;
+
+    \endcode
+     *\see build_search_sql
+     *\see display_search_form
+     *\see search_form
+
+     *\return HTML string
+     */
+    public function list_operation_to_reconcile($sql)
+    {
+        $user=new User($this->db);
+        $gDossier=dossier::id();
+        $limit=" LIMIT 25";
+        // Sort
+        $own=new Own($this->db);
+
+		// Count
+        $count=$this->db->count_sql($sql);
+        // Add the limit
+        $sql.=$limit;
+
+        // Execute SQL stmt
+        $Res=$this->db->exec_sql($sql);
+
+        //starting from here we can refactor, so that instead of returning the generated HTML,
+        //this function returns a tree structure.
+
+        $r="";
+
+
+        $Max=Database::num_row($Res);
+
+        if ($Max==0) return array(0,_("Aucun enregistrement trouvé"));
+
+        $r.='<table class="result">';
+
+
+        $r.="<tr >";
+        $r.="<th>Internal</th>";
+        if ( $this->type=='')
+        {
+            $r.=th('Journal');
+        }
+		$r.="<th>Selection</th>";
+        $r.='<th>Date</th>';
+        $r.='<th>Pièce</td>';
+		$r.=th('tiers');
+        $r.='<th>Description</th>';
+		$r.=th('Notes',' style="width:15%"');
+        $r.='<th>Montant</th>';
+        $r.="<th>"._('Op. Concernée')."</th>";
+        $r.="</tr>";
+        // Total Amount
+        $tot=0.0;
+        $gDossier=dossier::id();
+		$str_dossier=Dossier::id();
+        for ($i=0; $i < $Max;$i++)
+        {
+
+
+            $row=Database::fetch_array($Res,$i);
+
+            if ( $i % 2 == 0 ) $tr='<TR class="odd">';
+            else $tr='<TR class="even">';
+            $r.=$tr;
+			// Radiobox
+			//
+
+			$r.='<td><INPUT TYPE="CHECKBOX" name="jr_concerned'.$row['jr_id'].'" ID="jr_concerned'.$row['jr_id'].'"> </td>';
+            //internal code
+            // button  modify
+            $r.="<TD>";
+            // If url contains
+            //
+
+            $href=basename($_SERVER['PHP_SELF']);
+
+
+            $r.=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s </A>',
+                        $row['jr_id'], $gDossier, $row['jr_internal']);
+            $r.="</TD>";
+            if ( $this->type=='') $r.=td($row['jrn_def_name']);
+            // date
+            $r.="<TD>";
+            $r.=$row['jr_date'];
+            $r.="</TD>";
+
+            // pj
+            $r.="<TD>";
+            $r.=$row['jr_pj_number'];
+            $r.="</TD>";
+
+	    // Tiers
+	    $other=($row['quick_code']!='')?'['.$row['quick_code'].'] '.$row['name'].' '.$row['first_name']:'';
+	    $r.=td($other);
+            // comment
+            $r.="<TD>";
+            $tmp_jr_comment=h($row['jr_comment']);
+            $r.=$tmp_jr_comment;
+            $r.="</TD>";
+	    $r.=td(h($row['n_text']),' style="font-size:6"');
+            // Amount
+            // If the ledger is financial :
+            // the credit must be negative and written in red
+            $positive=0;
+
+            // Check ledger type :
+            if (  $row['jrn_def_type'] == 'FIN' )
+            {
+                $positive = $this->db->get_value("select qf_amount from quant_fin where jr_id=$1",
+                                                 array($row['jr_id']));
+		if ( $this->db->count() != 0)
+		  $positive=($positive < 0)?1:0;
+            }
+            $r.="<TD align=\"right\">";
+
+            $r.=( $positive != 0 )?"<font color=\"red\">  - ".nbm($row['jr_montant'])."</font>":nbm($row['jr_montant']);
+            $r.="</TD>";
+
+
+
+            // Rapprochement
+            $rec=new Acc_Reconciliation($this->db);
+            $rec->set_jr_id($row['jr_id']);
+            $a=$rec->get();
+            $r.="<TD>";
+            if ( $a != null )
+            {
+
+                foreach ($a as $key => $element)
+                {
+                    $operation=new Acc_Operation($this->db);
+                    $operation->jr_id=$element;
+                    $l_amount=$this->db->get_value("select jr_montant from jrn ".
+                                                   " where jr_id=$element");
+                    $r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."',".$gDossier.")\" > ".$operation->get_internal()." [ $l_amount &euro; ]</A>";
+                }//for
+            }// if ( $a != null ) {
+            $r.="</TD>";
+
+            if ( $row['jr_valid'] == 'f'  )
+            {
+                $r.="<TD> Op&eacute;ration annul&eacute;e</TD>";
+            }
+            // end row
+            $r.="</tr>";
+
+        }
+		echo '</table>';
+        return array ($count,$r);
+    }
     /*!\brief Show all the operation
      *\param $sql is the sql stmt, normally created by build_search_sql
      *\param $offset the offset
@@ -588,6 +759,7 @@ class Acc_Ledger
      */
     public function list_operation($sql,$offset,$p_paid=0)
     {
+		$table=new Sort_Table();
         $user=new User($this->db);
         $gDossier=dossier::id();
         $amount_paid=0.0;
@@ -596,87 +768,24 @@ class Acc_Ledger
         $offset=($_SESSION['g_pagesize']!=-1)?" OFFSET ".Database::escape_string($offset):"";
         $order="  order by jr_date_order asc,jr_internal asc";
         // Sort
-        $url=CleanUrl();
+        $url="?".CleanUrl();
         $str_dossier=dossier::get();
-        $image_asc='<IMAGE SRC="image/down.gif" border="0" >';
-        $image_desc='<IMAGE SRC="image/up.gif" border="0">';
-        $image_sel_desc='<IMAGE SRC="image/select1.gif">';
-        $image_sel_asc='<IMAGE SRC="image/select2.gif">';
-
-        $sort_date="<th>  <A class=\"mtitle\" HREF=\"?$url&o=da\">$image_asc</A>"._('Date')."<A class=\"mtitle\" HREF=\"?$url&o=dd\">$image_desc</A></th>";
-        $sort_description="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ca\">$image_asc</A>"._('Description')."<A class=\"mtitle\" HREF=\"?$url&o=cd\">$image_desc</A></th>";
-        $sort_amount="<th style=\"text-align:right\">  <A class=\"mtitle\" HREF=\"?$url&o=ma\">$image_asc</A>"._('Montant')." <A class=\"mtitle\" HREF=\"?$url&o=md\">$image_desc</A></th>";
-        $sort_pj="<th>  <A class=\"mtitle\" HREF=\"?$url&o=pja\">$image_asc</A>"._('PJ')."<A class=\"mtitle\" HREF=\"?$url&o=pjd\">$image_desc</A></th>";
-        $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>"._('Ech')." <A class=\"mtitle\" HREF=\"?$url&o=ed\">$image_desc</A> </th>";
+		$table->add("Date",$url, 'order by jr_date asc,substring(jr_pj_number,\'\\\d+$\')::numeric asc',
+				'order by  jr_date desc,substring(jr_pj_number,\'\\\d+$\')::numeric desc', "da", "dd");
+		$table->add('Echeance',$url," order by  jr_ech asc"," order by  jr_ech desc",'ea','ed');
+		$table->add('PJ',$url,' order by  substring(jr_pj_number,\'\\\d+$\')::numeric asc ',
+				' order by  substring(jr_pj_number,\'\\\d+$\')::numeric desc ' ,
+				"pja","pjd");
+		$table->add('Montant',$url," order by jr_montant asc"," order by jr_montant desc",
+				"ma","md");
+		$table->add("Description",$url,"order by jr_comment asc",
+				"order by jr_comment desc","ca","cd");
 
         $own=new Own($this->db);
-        // if an order is asked
-        if ( isset ($_GET['o']) )
-        {
-            switch ($_GET['o'])
-            {
-            case 'pja':
-                // pj asc
-                $sort_pj="<th>$image_sel_asc PJ <A class=\"mtitle\" HREF=\"?$url&o=pjd\">$image_desc</A></th>";
-                $order=' order by  substring(jr_pj_number,\'\\\d+$\')::numeric asc ';
-                break;
-            case 'pjd':
-                $sort_pj="<th> <A class=\"mtitle\" HREF=\"?$url&o=pja\">$image_asc</A> PJ $image_sel_desc</th>";
-                // pj desc
-                $order=' order by  substring(jr_pj_number,\'\\\d+$\')::numeric desc ';
-                break;
+		$ord= ( ! isset ($_GET['ord']))?'da':$_GET['ord'];
+		$order=$table->get_sql_order($ord);
 
-            case 'da':
-                // date asc
-                $sort_date="<th>$image_sel_asc Date <A class=\"mtitle\" HREF=\"?$url&o=dd\">$image_desc</A></th>";
-                $order=' order by jr_date_order asc,substring(jr_pj_number,\'\\\d+$\')::numeric asc  ';
-                break;
-            case 'dd':
-                $sort_date="<th> <A class=\"mtitle\" HREF=\"?$url&o=da\">$image_asc</A> Date $image_sel_desc</th>";
-                // date desc
-                $order=' order by jr_date_order desc,substring(jr_pj_number,\'\\\d+$\')::numeric desc  ';
-                break;
-            case 'ma':
-                // montant asc
-                $sort_amount="<th style=\"text-align:right\"> $image_sel_asc Montant <A class=\"mtitle\" HREF=\"?$url&o=md\">$image_desc</A></th>";
-                $order=" order by jr_montant asc ";
-                break;
-            case 'md':
-                // montant desc
-                $sort_amount="<th style=\"text-align:right\">  <A class=\"mtitle\"  HREF=\"?$url&o=ma\">$image_asc</A>Montant $image_sel_desc</th>";
-                $order=" order by jr_montant desc ";
-                break;
-            case 'ca':
-                // jr_comment asc
-                $sort_description="<th> $image_sel_asc Description <A class=\"mtitle\" HREF=\"?$url&o=cd\">$image_desc</A></th>";
-                $order=" order by jr_comment asc ";
-                break;
-            case 'cd':
-                // jr_comment desc
-                $sort_description="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ca\">$image_asc</A>Description $image_sel_desc</th>";
-                $order=" order by jr_comment desc ";
-                break;
-            case 'ea':
-                // jr_comment asc
-                $sort_echeance="<th> $image_sel_asc Ech. <A class=\"mtitle\" HREF=\"?$url&o=ed\">$image_desc</A></th>";
-                $order=" order by jr_ech asc ";
-                break;
-            case 'ed':
-                // jr_comment desc
-                $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A> Ech. $image_sel_desc</th>";
-                $order=" order by jr_ech desc ";
-                break;
-
-            }
-        }
-        else
-        {
-            // date asc
-            $sort_date="<th>$image_sel_asc Date <A class=\"mtitle\" HREF=\"?$url&o=dd\">$image_desc</A></th>";
-            $order=" order by jr_date_order asc,substring(jr_pj_number,'\\d+$')::numeric asc ";
-        }
-
-        // Count
+		// Count
         $count=$this->db->count_sql($sql);
         // Add the limit
         $sql.=$order.$limit.$offset;
@@ -703,13 +812,13 @@ class Acc_Ledger
         {
             $r.=th('Journal');
         }
-        $r.=$sort_date;
-        $r.=$sort_echeance;
-        $r.=$sort_pj;
+        $r.='<th>'.$table->get_header(0).'</th>';
+        $r.='<th>'.$table->get_header(1).'</td>';
+        $r.='<th>'.$table->get_header(2).'</th>';
 	$r.=th('tiers');
-        $r.=$sort_description;
+        $r.='<th>'.$table->get_header(4).'</th>';
 	$r.=th('Notes',' style="width:15%"');
-        $r.=$sort_amount;
+        $r.='<th>'.$table->get_header(3).'</th>';
         // if $p_paid is not equal to 0 then we have a paid column
         if ( $p_paid != 0 )
         {
@@ -2138,26 +2247,28 @@ class Acc_Ledger
         $sql="select nextval('s_jrn_pj".$this->id."')";
         $this->db->exec_sql($sql);
     }
-    /*!\brief return a HTML string with the form for the search
-     *\param $p_type if the type of ledger possible values=ALL,VEN,ACH,ODS,FIN
-     *\param $all_type_ledger
+    /*!@brief return a HTML string with the form for the search
+     *@param $p_type if the type of ledger possible values=ALL,VEN,ACH,ODS,FIN
+     *@param $all_type_ledger
      *       values :
      *         - 1 means all the ledger of this type
      *         - 0 No have the "Tous les journaux" availables
-     *\return a HTML String without the tag FORM or DIV
-     *\see build_search_sql
-     *\see display_search_form
-     *\see list_operation
+	 *@param $div is the div (for reconciliation)
+     *@return a HTML String without the tag FORM or DIV
+	 *
+     *@see build_search_sql
+     *@see display_search_form
+     *@see list_operation
      */
-    function  search_form($p_type,$all_type_ledger=1)
+    function  search_form($p_type,$all_type_ledger=1,$div="")
     {
         $user=new User($this->db);
         $r='';
         /* security : filter ledger on user */
         $filter_ledger=$user->get_ledger($p_type,3);
 
-        $selected=(isset($_REQUEST['r_jrn']))?$_REQUEST['r_jrn']:null;
-        $f_ledger=HtmlInput::select_ledger($filter_ledger,$selected);
+        $selected=(isset($_REQUEST['r_jrn'.$div]))?$_REQUEST['r_jrn'.$div]:null;
+        $f_ledger=HtmlInput::select_ledger($filter_ledger,$selected,$div);
 
         /* widget for date_start */
         $f_date_start=new IDate('date_start');
@@ -2203,7 +2314,7 @@ class Acc_Ledger
         $f_amount_max->value=(isset($_REQUEST['amount_max']))?$_REQUEST['amount_max']:0;
 
         /* input quick code */
-        $f_qcode=new ICard('qcode');
+        $f_qcode=new ICard('qcode'.$div);
 
         $f_qcode->set_attribute('typecard','all');
 	/*        $f_qcode->set_attribute('p_jrn','0');
@@ -2214,9 +2325,9 @@ class Acc_Ledger
 	// Add the callback function to filter the card on the jrn
 	//$f_qcode->set_callback('filter_card');
 	$f_qcode->set_function('fill_data');
-	$f_qcode->javascript=sprintf(' onchange="fill_data_onchange(\'%s\');" ',
-					$f_qcode->name);
-	$f_qcode->value=(isset($_REQUEST['qcode']))?$_REQUEST['qcode']:'';
+	$f_qcode->javascript=sprintf(' onchange="fill_data_onchange(%s);" ',
+						$f_qcode->name);
+	$f_qcode->value=(isset($_REQUEST['qcode'.$div]))?$_REQUEST['qcode'.$div]:'';
 
 	/*        $f_txt_qcode=new IText('qcode');
         $f_txt_qcode->value=(isset($_REQUEST['qcode']))?$_REQUEST['qcode']:'';
@@ -2343,6 +2454,7 @@ class Acc_Ledger
             }
             $desc='';
             $qcode=(isset($qcode))?$qcode:"";
+			if ( isset($qcodesearch_op)) $qcode=$qcodesearch_op;
             $accounting=(isset($accounting))?$accounting:"";
 
         }
@@ -2370,6 +2482,7 @@ class Acc_Ledger
             if ( $p_action == 'client') $p_action='ALL';
             if ( $p_action == 'supplier') $p_action='ALL';
             if ( $p_action == 'adm') $p_action='ALL';
+            if ( $p_action == 'ALL') $p_action='ALL';
 
             /* from compta.php the p_action is quick_writing instead of ODS  */
             if ( $p_action == 'quick_writing') $p_action='ODS';
@@ -2459,6 +2572,7 @@ class Acc_Ledger
             $and=" and ";
         }
         // Quick Code
+		if ( isset ($qcodesearch_op)) $qcode=$qcodesearch_op;
         if ( $qcode != null )
         {
             $fil_qcode=$and."  jr_grpt_id in ( select j_grpt from

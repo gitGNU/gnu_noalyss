@@ -291,7 +291,7 @@ class HtmlInput
      *@param $selected is an array of checkbox
      *@note the choosen ledger are stored in the array r_jrn (_GET)
      */
-    static function select_ledger($p_array,$p_selected)
+    static function select_ledger($p_array,$p_selected,$div='')
     {
         ob_start();
         $ledger=new IButton('l');
@@ -300,7 +300,7 @@ class HtmlInput
         echo $ledger->input();
 
         /* create a hidden div for the ledger */
-        echo '<div id="div_jrn">';
+        echo '<div id="div_jrn'.$div.'">';
         echo '<h2 class="info">Choix des journaux</h2>';
 
         echo '<ul>';

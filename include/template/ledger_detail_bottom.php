@@ -25,9 +25,9 @@ if ($aRap  != null ) {
 					   $aRap[$e],
 					   $tableid
 					  );
-    if ( $access=='W') 
+    if ( $access=='W')
       $remove=$rmReconciliation->input();
-    else 
+    else
       $remove='';
     echo tr (td('<a href="javascript:void(0)" onclick="'.$str.'" >'.$internal.'</A>').td($amount).td($array_jr[0]['jr_comment']).td($remove));
   }
@@ -37,7 +37,7 @@ if ($aRap  != null ) {
 </legend>
 <?
 if ( $access=='W') {
-  $search='<INPUT TYPE="BUTTON" class="button" VALUE="Cherche" OnClick="SearchJrn('.$gDossier.",'rapt".$div."','".$obj->det->jr_montant."')\">";
+  $search='<INPUT TYPE="BUTTON" class="button" VALUE="Cherche" OnClick="search_reconcile('.$gDossier.",'rapt".$div."','".$obj->det->jr_montant."')\">";
   $rapt=new IText('rapt'.$div);
   echo $rapt->input().$search;
 }
@@ -46,10 +46,10 @@ if ( $access=='W') {
 </fieldset>
 <?
 
-require_once('template/ledger_detail_file.php'); 
+require_once('template/ledger_detail_file.php');
 ?>
 <hr>
-<? 
+<?
 
 if ( $div != 'popup' ) {
   $a=new IButton('Fermer','Fermer');
@@ -59,8 +59,8 @@ if ( $div != 'popup' ) {
 }
 
 ?>
-<?if ( $access=='W') { 
-  echo HtmlInput::submit('save',_('Sauver'),'onClick="return verify_ca(\'popup\');"'); 
+<?if ( $access=='W') {
+  echo HtmlInput::submit('save',_('Sauver'),'onClick="return verify_ca(\'popup\');"');
   $owner=new Own($cn);
   if ($owner->MY_ANALYTIC != 'nu' && $div=='popup'){
     echo '<input type="button" class="button" value="'._('verifie CA').'" onClick="verify_ca(\'popup\');">';
@@ -78,9 +78,9 @@ if ( $div != 'popup' ) {
   $reverse->label=_('Extourner');
   $reverse->javascript="g('ext".$div."').style.display='block'";
   echo $reverse->input();
-  
+
 echo '</form>';
-  
+
   echo '<div id="ext'.$div.'" style="display:none">';
   $date=new IDate('ext_date');
   $r="<form id=\"form_".$div."\" onsubmit=\"this.divname='$div';return reverseOperation(this);\">";

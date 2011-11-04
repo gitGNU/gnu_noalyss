@@ -29,25 +29,30 @@
 require_once('class_html_input.php');
 class IConcerned extends HtmlInput
 {
+
+	public function __construct($p_name='',$p_value='')
+	{
+		$this->name=$p_name;
+		$this->value=$p_value;
+		$this->amount_id=null;
+		$this->ledger='ALL';
+	}
     /*!\brief show the html  input of the widget*/
     public function input($p_name=null,$p_value=null)
     {
         $this->name=($p_name==null)?$this->name:$p_name;
         $this->value=($p_value==null)?$this->value:$p_value;
         if ( $this->readOnly==true) return $this->display();
-        $td="";
-        $etd="";
 
 
 
-        $r=sprintf("$td
-                   <INPUT TYPE=\"button\" onClick=SearchJrn(".dossier::id().",'%s',%s,'%s') value=\"?\">
-                   $etd  $td
+        $r=sprintf("
+                   <INPUT TYPE=\"button\" onClick=search_reconcile(".dossier::id().",'%s','%s','%s') value=\"?\">
                    <INPUT TYPE=\"text\"  style=\"color:black;background:lightyellow;border:solid 1px grey;\"  NAME=\"%s\" ID=\"%s\" VALUE=\"%s\" SIZE=\"8\" readonly>
-                   $etd",
+                   ",
                    $this->name,
-                   $this->extra,
-                   $this->extra2,
+                   $this->amount_id,
+                   $this->ledger,
                    $this->name,
                    $this->name,
                    $this->value

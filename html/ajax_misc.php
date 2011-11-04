@@ -460,4 +460,23 @@ case 'mod_predf':
 case 'save_predf':
   require_once('save_predf_op.php');
   break;
+case 'search_op':
+	/*put_global(array
+				(array('key'=>'ac','value'=>'JSSEARCH')),
+				(array('key'=>'ledger_type','value'=>'ALL'))
+			   );*/
+	ob_start();
+	require_once 'search.inc.php';
+	$content=ob_get_contents();
+	ob_clean();
+	$html=escape_xml($content);
+	header('Content-type: text/xml; charset=UTF-8');
+	echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<ctl>$ctl</ctl>
+<code>$html</code>
+</data>
+EOF;
+	break;
 }

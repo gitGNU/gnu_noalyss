@@ -286,13 +286,10 @@ function toggleHideShow(p_obj,p_button)
  *@param p_dossier the dossier where to search
  *@param p_style style of the detail value are E for expert or S for simple
  */
-function openRecherche(p_dossier,p_style)
+function popup_recherche()
 {
-    if ( p_style == 'E' )
-    {
-        p_style="expert";
-    }
-    var w=window.open("recherche.php?gDossier="+p_dossier+'&'+p_style,'','statusbar=no,scrollbars=yes,toolbar=no');
+	p_dossier=$('gDossier').value;
+    var w=window.open("recherche.php?gDossier="+p_dossier+"&ac=SEARCH",'','statusbar=no,scrollbars=yes,toolbar=no');
     w.focus();
 }
 /**
@@ -373,7 +370,7 @@ function change_month(obj)
 {
     var queryString="gDossier="+obj.gDossier+"&op=cal"+"&per="+obj.value;
     var action = new Ajax.Request(
-                 "ajax_misc.php" , { method:'get', parameters:queryString,onFailure:ajax_misc_failure,onSuccess:success_misc}
+                 "ajax_misc.php" , {method:'get', parameters:queryString,onFailure:ajax_misc_failure,onSuccess:success_misc}
                  );
 
 }
@@ -435,7 +432,7 @@ function cat_doc_remove(p_dt_id,p_dossier)
 {
     var queryString="gDossier="+p_dossier+"&op=rem_cat_doc"+"&dt_id="+p_dt_id;
     var action = new Ajax.Request(
-                 "ajax_misc.php" , { method:'get', parameters:queryString,onFailure:ajax_misc_failure,onSuccess:success_cat_doc_remove}
+                 "ajax_misc.php" , {method:'get', parameters:queryString,onFailure:ajax_misc_failure,onSuccess:success_cat_doc_remove}
                  );
 }
 function success_cat_doc_remove(req)
@@ -490,7 +487,7 @@ function popup_select_tva(obj)
             queryString+='&compute='+obj.compute;
         var action = new Ajax.Request(
                          "ajax_misc.php" ,
-                 { method:'get',
+                 {method:'get',
                    parameters:queryString,
                    onFailure:ajax_misc_failure,
                    onSuccess:success_popup_select_tva
@@ -544,7 +541,7 @@ function set_tva_label(obj)
             queryString+='&code='+obj.jcode;
         var action = new Ajax.Request(
                          "ajax_misc.php" ,
-                 { method:'get',
+                 {method:'get',
                    parameters:queryString,
                    onFailure:ajax_misc_failure,
                    onSuccess:success_set_tva_label
@@ -600,6 +597,7 @@ function set_wait(name)
  * - style to add style
  * - id to add an id
  * - class to add a class
+ * - html is the content
  */
 function add_div(obj)
 {
@@ -639,7 +637,7 @@ function add_div(obj)
 new Draggable(obj.id,{starteffect:function()
                                   {
                       new Effect.Highlight(obj.id,{scroll:window,queue:'end'});
-                                  } }
+                                  }}
                          );
         }
     }
@@ -658,6 +656,22 @@ function removeDiv(elt)
     {
         document.body.removeChild(g(elt));
     }
+}
+/**
+ *show a box while loading
+ *must be remove when ajax is successfull
+ * the id is wait_box
+ */
+function waiting_box()
+{
+	obj={
+		id:'wait_box',html:loading()
+		};
+	if ($('wait_box')){
+		removeDiv('wait_box');
+		}
+	add_div(obj);
+
 }
 /**
 *@brief call add_div to add a DIV and after call the ajax
@@ -755,7 +769,8 @@ function error_box ()
 */
 function show_ledger_choice()
 {
-    g('div_jrn').style.visibility='visible';
+   if ($('div_jrn')) g('div_jrn').style.visibility='visible';
+   if ($('div_jrnsearch_op')) $('div_jrnsearch_op').style.display='block';
 }
 /**
 * hide the ledger choice
@@ -763,6 +778,7 @@ function show_ledger_choice()
 function hide_ledger_choice()
 {
     g('div_jrn').style.visibility='hidden';
+	if ($('div_jrnsearch_op')) $('div_jrnsearch_op').style.display='none';
 }
 /**
 * show the cat of ledger choice
@@ -900,7 +916,7 @@ function display_periode(p_dossier,p_id)
 	}
         var action = new Ajax.Request(
             "ajax_misc.php" ,
-            { method:'get',
+            {method:'get',
               parameters:queryString,
               onFailure:ajax_misc_failure,
               onSuccess:success_display_periode
@@ -916,7 +932,7 @@ function display_periode(p_dossier,p_id)
 
 }
 function success_display_periode(req)
-{    try
+{try
     {
 
         var answer=req.responseXML;
@@ -955,7 +971,7 @@ function save_periode(obj)
 
         var action = new Ajax.Request(
             "ajax_misc.php" ,
-            { method:'post',
+            {method:'post',
               parameters:queryString,
               onFailure:ajax_misc_failure,
               onSuccess:success_display_periode
@@ -981,10 +997,14 @@ function save_periode(obj)
 function fill_box(req)
 {
     try{
+
+	if ( $('wait_box')){
+			removeDiv('wait_box');
+			}
 	var answer=req.responseXML;
 	var a=answer.getElementsByTagName('ctl');
 	var html=answer.getElementsByTagName('code');
-	if ( a.length == 0 ) { var rec=req.responseText;alert ('erreur :'+rec);}
+	if ( a.length == 0 ) {var rec=req.responseText;alert ('erreur :'+rec);}
 	var name_ctl=a[0].firstChild.nodeValue;
 	var code_html=getNodeText(html[0]); // Firefox ne prend que les 4096 car.
 	code_html=unescape_xml(code_html);
@@ -1047,3 +1067,98 @@ function save_predf_op(obj)
 
     return false;
 }
+/**
+ *ctl_concern is the widget to update
+ */
+function search_reconcile(dossier,ctl_concern,amount_id,ledger)
+{
+	var dossier=g('gDossier').value;
+	if ( amount_id == undefined ) { amount_id=0; }
+	  var target="search_op";
+    if ( $(target))
+    {
+	removeDiv(target);
+    }
+    var sx=77;
+    var sy=99;
+	if ( window.scrollY)
+        {
+            sx=window.scrollY+40;
+        }
+        else
+        {
+            sx=document.body.scrollTop+40;
+        }
+    var str_style="top:"+sx+";left:"+sy;
+
+    var div={id:target, cssclass:'op_detail',style:str_style,html:loading(),drag:1};
+
+    add_div(div);
+	var target={gDossier:dossier,
+				ctlc:ctl_concern,
+				op:'search_op',
+				ctl:'search_op',
+				ac:'JSSEARCH',
+				amount_id:amount_id,
+				ledger:ledger};
+
+    var qs=encodeJSON(target);
+
+    var action=new Ajax.Request ( 'ajax_misc.php',
+				  {
+				      method:'get',
+				      parameters:qs,
+				      onFailure:null,
+				      onSuccess:fill_box
+				  }
+				);
+}
+/**
+ * search in a popin obj if the object form
+ */
+function search_operation(obj)
+{
+	var dossier=g('gDossier').value;
+	waiting_box();
+	var target="search_op";
+
+    var qs=obj.serialize()+"&op=search_op&ctl=search_op";
+
+    var action=new Ajax.Request ( 'ajax_misc.php',
+				  {
+				      method:'get',
+				      parameters:qs,
+				      onFailure:null,
+				      onSuccess:fill_box
+				  }
+				);
+}
+
+function set_reconcile(obj)
+ {
+	 try
+	{
+		var ctlc=obj.elements['ctlc'];
+
+		for (var e=0;e<obj.elements.length;e++)
+		{
+
+			var elmt=obj.elements[e];
+			if ( elmt.type == "checkbox")
+			{
+				if (elmt.checked==true )
+				{
+					var str_name=elmt.name;
+					var nValue=str_name.replace("jr_concerned","");
+					if ( $(ctlc.value).value != '') {	$(ctlc.value).value+=',';}
+					$(ctlc.value).value+=nValue;
+				}
+			}
+		}
+		removeDiv('search_op');
+	}
+	catch(e)
+	{
+		alert(e.message)
+	}
+ }

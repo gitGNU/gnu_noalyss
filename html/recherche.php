@@ -41,6 +41,7 @@ include_once ('class_user.php');
 $User=new User($cn);
 $User->Check();
 $act=$User->check_dossier($gDossier);
+// AC CODE = SEARCH
 if ($act =='P')
 {
     redirect("extension.php?".dossier::get(),0);
@@ -54,6 +55,7 @@ if ( $act=='X')
 // display a search box
 
 $ledger=new Acc_Ledger($cn,0);
+$ledger->type='ALL';
 $search_box=$ledger->search_form('ALL',1);
 echo '<div class="content">';
 
