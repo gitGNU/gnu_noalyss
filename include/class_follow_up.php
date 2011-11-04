@@ -34,6 +34,7 @@ require_once("class_document_modele.php");
 require_once("user_common.php");
 require_once('class_follow_up_detail.php');
 require_once('class_inum.php');
+require_once 'class_sort_table.php';
 
 /*!\file
  * \brief class_action for manipulating actions
@@ -652,122 +653,18 @@ class Follow_Up
     {
         $str_dossier=dossier::get();
         // for the sort
-        $sort="";
-        $image_asc='<IMAGE SRC="image/down.gif" border="0" >';
-        $image_desc='<IMAGE SRC="image/up.gif" border="0" >';
-        $image_sel_desc='<IMAGE SRC="image/select1.gif" border="0" >';
-        $image_sel_asc='<IMAGE SRC="image/select2.gif" border="0" >';
-        $url=CleanUrl();
-        $url=$str_dossier.'&'.$p_base;
-
-        $sort_date='<th><A class="mtitle" href="?'.$url.'&s=date_a">'.$image_asc.'</A>'.
-                   'Date'.
-                   '<A class="mtitle"  href="?'.$url.'&s=date_d&'.$str_dossier.'">'.$image_desc.'</A></th>';
-        $sort_exp='<th><A  class="mtitle"  href="?'.$url.'&s=exp&'.$str_dossier.'">'.$image_asc.'</A>'.
-                  'Expéditeur'.
-                  '<A  class="mtitle"  href="?'.$url.'&s=exp_d&'.$str_dossier.'">'.$image_desc.'</A></th>';
-        $sort_titre='<th><A  class="mtitle"  href="?'.$url.'&s=ti&'.$str_dossier.'">'.$image_asc.'</A>'.
-                    'Titre'.
-                    '<A  class="mtitle"  href="?'.$url.'&s=ti_d&'.$str_dossier.'">'.$image_desc.'</A></th>';
-        $sort_concerne='<th><A  class="mtitle"  href="?'.$url.'&s=conc&'.$str_dossier.'">'.$image_asc.'</A>'.
-                       'Concerne'.
-                       '<A class="mtitle"  href="?'.$url.'&s=conc_d&'.$str_dossier.'">'.$image_desc.'</A></th>';
-        $sort_reference='<th><A class="mtitle"  href="?'.$url.'&s=ref&'.$str_dossier.'">'.$image_asc.'</A>'.
-                        'Référence'.
-                        '<A  class="mtitle"  href="?'.$url.'&s=ref_d&'.$str_dossier.'">'.$image_desc.'</A></th>';
-
-        if ( isset($_GET['s']))
-        {
-            switch ($_GET['s'])
-            {
-            case "date_a":
-                $sort=" ag_timestamp asc";
-                $sort_date='<th>'.$image_sel_asc.'</A>'.
-                           'Date'.
-                           '<A  class="mtitle"  href="?'.$url.'&s=date_d">'.$image_desc.'</A></th>';
-                break;
-
-            case "date_d":
-                $sort=" ag_timestamp desc";
-                $sort_date='<th><A class="mtitle"  href="?'.$url.'&s=date_a">'.$image_asc.'</A>'.
-                           'Date'.
-                           $image_sel_desc.'</th>';
-                break;
-
-            case "exp":
-                $sort_exp='<th>'.$image_sel_asc.'</A>'.
-                          'Expéditeur'.
-                          '<A  class="mtitle"  href="?'.$url.'&s=exp_d">'.$image_asc.'</A></th>';
-                $sort=" f_id_dest asc";
-                break;
-
-            case "exp_d":
-                $sort_exp='<th><A  class="mtitle"  href="?'.$url.'&s=exp">'.$image_asc.'</A>'.
-                          'Expéditeur'.
-                          $image_sel_desc.'</th>';
-
-                $sort=" f_id_dest desc";
-                break;
-
-            case "ti":
-                $sort_titre='<th>'.$image_sel_asc.
-                            'Titre'.
-                            '<A class="mtitle"  href="?'.$url.'&s=ti_d">'.$image_desc.'</A></th>';
-
-                $sort=" ag_title  asc";
-                break;
-            case "ti_d":
-                $sort_titre='<th><A  class="mtitle" href="?'.$url.'&s=ti">'.$image_asc.'</A>'.
-                            'Titre'.
-                            $image_sel_desc.'</th>';
-
-                $sort=" ag_title desc";
-                break;
-
-            case "conc":
-                $sort_concerne='<th>'.$image_sel_asc.
-                               'Concerne'.
-                               '<A  class="mtitle" href="?'.$url.'&s=conc_d">'.$image_desc.'</A></th>';
-
-                $sort=" ag_ref_ag_id asc";
-                break;
-            case "conc_d":
-                $sort_concerne='<th><A  class="mtitle"  href="?'.$url.'&s=conc">'.$image_asc.'</A>'.
-                               'Concerne'.
-                               $image_sel_desc.'</th>';
-
-                $sort=" ag_ref_ag_id desc";
-                break;
-
-            case "ref":
-                $sort_reference='<th>'.$image_sel_asc.
-                                'Référence'.
-                                '<A  class="mtitle"  href="?'.$url.'&s=ref_d">'.$image_desc.'</A></th>';
-
-                $sort=" ag_ref ";
-                break;
-
-            case "ref_d":
-                $sort_reference='<th><A class="mtitle"  href="?'.$url.'&s=ref">'.$image_asc.'</A>'.
-                                'Référence'.
-                                $image_sel_desc.'</th>';
-
-                $sort=" ag_ref desc";
-                break;
+        $url="?".$str_dossier.'&'.$p_base;
 
 
-            }
+		$table=new Sort_Table();
+		$table->add('Date',$url,'order by ag_timestamp asc','order by ag_timestamp desc','da','dd');
+		$table->add('Expéditeur',$url,'order by name asc','order by name desc','ea','ed');
+		$table->add('Titre',$url,'order by ag_title asc','order by ag_title desc','ta','td');
+		$table->add('Concerne',$url,'order by ag_ref_ag_id asc','order by ag_ref_ag_id desc','ca','cd');
+		$table->add('Réf.',$url,'order by ag_ref asc','order by ag_ref desc','ra','rd');
 
-        }
-        else
-        {
-            $sort=" ag_timestamp desc";
-            $sort_date='<th><A class="mtitle"  href="?'.$url.'&s=date_a">'.$image_asc.'</A>'.
-                       'Date'.
-                       $image_sel_desc.'</th>';
-        }
-
-        $sort=" order by ".$sort;
+		$ord=(! isset($_GET['ord']))?"dd":$_GET['ord'];
+		$sort=$table->get_sql_order($ord);
 
         if ( strlen(trim($p_filter)) != 0 )
             $p_filter_doc=" dt_id in ( $p_filter )";
@@ -776,7 +673,8 @@ class Follow_Up
 
         $sql="
              select ag_id,to_char(ag_timestamp,'DD.MM.YYYY') as my_date,ag_ref_ag_id,f_id_dest".
-             ",ag_title,md_type,dt_value,ag_ref, ag_priority,ag_state
+             ",ag_title,md_type,dt_value,ag_ref, ag_priority,ag_state,
+				(select ad_value from fiche_Detail where f_id=action_gestion.f_id_dest and ad_id=1) as name
              from action_gestion
              left outer join document_modele on (ag_type=md_type)
              join document_type on (ag_type=dt_id)
@@ -796,14 +694,14 @@ class Follow_Up
         $r.=$bar;
         $r.='<table class="document">';
         $r.="<tr>";
-        $r.=$sort_date;
-        $r.=$sort_exp;
-        $r.=$sort_titre;
+        $r.='<th>'.$table->get_header(0).'</th>';
+        $r.='<th>'.$table->get_header(1).'</th>';
+        $r.='<th>'.$table->get_header(2).'</th>';
         $r.='<th>type</th>';
-	$r.=th('Etat');
-	$r.=th('Priorité');
-        $r.=$sort_reference;
-        $r.=$sort_concerne;
+		$r.=th('Etat');
+		$r.=th('Priorité');
+        $r.='<th>'.$table->get_header(4).'</th>';
+        $r.='<th>'.$table->get_header(3).'</th>';
         $r.="</tr>";
 
 
