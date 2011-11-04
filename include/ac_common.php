@@ -747,7 +747,7 @@ function show_module($selected)
     if ($selected != -1)
     {
 	require_once('template/module.php');
-	$file = $cn->get_array("select me_file,me_parameter from v_all_menu
+	$file = $cn->get_array("select me_file,me_parameter,me_javascript from v_all_menu
 	    where me_code=$1 and user_name=$2", array($selected,$g_user->login));
 	if ( count($file ) == 0 )
 	{
@@ -768,6 +768,10 @@ function show_module($selected)
 	    }
 	    require_once $file[0]['me_file'];
 	    exit();
+	}
+	if ( $file[0]['me_javascript'] != '')
+	{
+		create_script($file[0]['me_javascript']);
 	}
     }
     else
@@ -845,11 +849,12 @@ function show_menu($module, $idx)
 	 * @todo add security
 	 * check if user can access this module
 	 */
-		$file = $cn->get_array("select me_file,me_parameter
+		$file = $cn->get_array("select me_file,me_parameter,me_javascript
 		from menu_ref
 		where
-		me_code=$1 and
-		(me_file is not null or trim(me_file) <>'')", array($module[$idx]));
+		me_code=$1 and 
+		(me_file is not null or trim(me_file) <>'' or
+		me_javascript is not null or trim (me_javascript) <> '')", array($module[$idx]));
 
 		if (count($file)==0)
 		{
@@ -869,6 +874,10 @@ function show_menu($module, $idx)
 			require_once $file[0]['me_file'];
 			echo '</div>';
 			exit();
+		}
+		if ( $file[0]['me_javascript'] != '')
+		{
+		echo create_script($file[0]['me_javascript']);
 		}
     }
 }
