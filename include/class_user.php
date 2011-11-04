@@ -315,7 +315,7 @@ class User
                  jrn_type_id,jrn_desc,'W' as uj_priv
                  from jrn_def join jrn_type on jrn_def_type=jrn_type_id
                  $sql_type
-                 order by jrn_Def_id";
+                 order by jrn_Def_name";
 		}
 		$res = $this->db->exec_sql($sql);
 		if (Database::num_row($res) == 0)
