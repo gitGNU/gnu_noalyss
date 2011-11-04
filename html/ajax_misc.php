@@ -63,6 +63,10 @@ $user->check_dossier($gDossier,true);
 $html=var_export($_REQUEST,true);
 switch($op)
 {
+	case "remove_anc":
+		if ($user->check_action(CAOD))
+		$cn->exec_sql("delete from operation_analytique where oa_group=$1",array($_GET['oa']));
+		break;
 case "rm_stock":
   require_once('constant.security.php');
   if ( $user->check_action(GESTOCK) == 0 )

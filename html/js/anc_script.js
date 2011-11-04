@@ -251,16 +251,16 @@ function caod_checkTotal()
  *@param p_dossier is the folder
  *@param p_oa_group is the group of the analytic operation
  */
-function op_remove(p_dossier,p_oa_group)
+function anc_remove_operation(p_dossier,p_oa_group)
 {
     var a=confirm("Etes-vous sur de vouloir effacer cette operation ?\n");
     if ( a == false ) return;
 var obj={"oa":
          p_oa_group,"gDossier":
-             p_dossier};
-    queryString=encodeJSON(obj);
+             p_dossier,"op":"remove_anc"};
+    var queryString=encodeJSON(obj);
     g(p_oa_group).style.display='none';
-    var e=new Ajax.Request("remove_op.php",
+    var e=new Ajax.Request("ajax_misc.php",
                        {method:'get',parameters:queryString});
 
 }

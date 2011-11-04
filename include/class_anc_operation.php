@@ -210,7 +210,7 @@ class Anc_Operation
                 {
 
                     $efface=new IButton();
-                    $efface->javascript="op_remove(".$gDossier.",".$oldgroup.")";
+                    $efface->javascript="anc_remove_operation(".$gDossier.",".$oldgroup.")";
                     $efface->name="Efface";
                     $efface->label="Efface";
                     $ret.="<td>".$efface->input()."</td>";
@@ -268,7 +268,7 @@ class Anc_Operation
 
 
         $efface=new IButton();
-        $efface->javascript="op_remove("."$gDossier,".$oldgroup.")";
+        $efface->javascript="anc_remove_operation("."$gDossier,".$oldgroup.")";
         $efface->name="Efface";
         $efface->label="Efface";
         $ret.="<td>".$efface->input()."</td>";
