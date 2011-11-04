@@ -31,17 +31,7 @@ require_once('class_iaction.php');
 require_once('class_fiche_def.php');
 require_once('class_ipopup.php');
 
-echo ICard::ipopup('ipop_newcard');
-$ip_cat = new IPopup('ipop_cat');
-$ip_cat->title = _('Ajout d\'une catégorie');
-$ip_cat->value = '';
-echo $ip_cat->input();
-echo IPoste::ipopup('ipop_account');
-$search_card = new IPopup('ipop_card');
-$search_card->title = _('Recherche de fiche');
-$search_card->value = '';
-echo $search_card->input();
-echo ICard::ipopup('ipopcard');
+
 
 $low_action = (isset($_REQUEST['sb'])) ? $_REQUEST['sb'] : "list";
 /* ! \file
@@ -134,14 +124,15 @@ if ($low_action == "list")
     $f_cat_button->label=_('Ajout d\'une catégorie');
     $f_cat_button->javascript='add_category(this)';
     echo $f_cat_button->input();
-    echo '</div>';
+
+	echo '</div>';
     echo '</div>';
 
 
 }
 /*----------------------------------------------------------------------
  * Detail for a card, Suivi, Contact, Operation,... *
- * cc stands for customer card 
+ * cc stands for customer card
  *----------------------------------------------------------------------*/
 if ( $low_action == 'detail')
 {

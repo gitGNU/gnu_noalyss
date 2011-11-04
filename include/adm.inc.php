@@ -80,9 +80,10 @@ if ( $low_action == "list" )
     $a=(isset($_GET['query']))?$_GET['query']:"";
     printf (_('Recherche').' <input class="input_text" type="text" name="query" value="%s">',
             $a);
+	echo HtmlInput::request_to_hidden(array('ac'));
     $sel_card=new ISelect('cat');
     $sel_card->value=$cn->make_array('select fd_id, fd_label from fiche_def '.
-                                     ' where  frd_id='.FICHE_TYPE_ADM_TAX.
+                                     ' where  frd_id='.FICHE_TYPE_ADM_TAX.' or frd_id ='.FICHE_TYPE_FIN.
                                      ' order by fd_label ',1);
     $sel_card->selected=(isset($_GET['cat']))?$_GET['cat']:-1;
     $sel_card->javascript=' onchange="submit(this);"';
@@ -90,7 +91,7 @@ if ( $low_action == "list" )
 
     ?>
     <input type="submit" class="button" name="submit_query" value="<?=_('recherche')?>">
-                                           <input type="hidden" name="p_action" value="adm">
+	 <input type="hidden" name="p_action" value="adm">
                                                                      </form>
                                                                      </span>
                                                                      <?php
@@ -98,7 +99,7 @@ if ( $low_action == "list" )
     $search=(isset($_GET['query']))?$_GET['query']:"";
     $sql="";
     if ( isset($_GET['cat']))
-{
+	{
         if ( $_GET['cat'] != -1) $sql=sprintf(" and fd_id = %d",$_GET['cat']);
     }
 

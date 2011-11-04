@@ -397,7 +397,7 @@ function select_card_type(obj)
         filter=-1;
     }
     var content="select_card_div";
-    if ( $(content)){ removeDiv(content);}
+    if ( $(content)){removeDiv(content);}
     var sx=0;
     if ( window.scrollY)
     {
@@ -529,12 +529,29 @@ function save_card(obj)
  */
 function add_category(obj)
 {
+    var sx=0;
+	if ( window.scrollY)
+	{
+            sx=window.scrollY+120;
+	}
+	else
+	{
+            sx=document.body.scrollTop+120;
+	}
+
+	var div_style="top:"+sx+";width:60%;heigth:80%";
     // show ipopup
-    showIPopup(obj.ipopup);
+	var div={id:obj.ipopup,
+			cssclass:"op_detail",drag:1,style:div_style};
+	if ( $(div) ) {
+		removeDiv(div);
+	}
+	add_div(div);
+	waiting_box();
     var dossier=$('gDossier').value;
     var queryString='gDossier='+dossier;
     queryString+='&op=ac';
-    queryString+='&ctl='+obj.ipopup+'_content';
+    queryString+='&ctl='+obj.ipopup;
     if ( obj.type_cat)
     {
         queryString+='&cat='+obj.type_cat;
@@ -544,7 +561,7 @@ function add_category(obj)
                                   method:'get',
                                   parameters:queryString,
                                   onFailure:errorFid,
-                                  onSuccess:successFill_ipopcard
+                                  onSuccess:fill_box
                                   }
                                 );
 
@@ -560,25 +577,29 @@ function save_card_category(obj)
         alert('Erreur pas d\' attribut ipopup '+obj.id);
         return;
     };
-    var content=$(obj).ipopup+'_content';
-    // Data must be taken here
+	try {
+		// Data must be taken here
+
     data=$('newcat').serialize(false);
-    $(content).innerHTML=loading();
-    showIPopup($(obj).ipopup);
     var dossier=$('gDossier').value;
-    var queryString='?';
-    queryString+='&ctl='+content+'&';
+    queryString='ctl='+obj.ipopup+'&';
     queryString+=data;
     queryString+='&op=scc'; 	// sc for save card
 
     var action=new Ajax.Request ( 'ajax_card.php',
                                   {
-                                  method:'post',
+                                  method:'get',
                                   parameters:queryString,
                                   onFailure:errorFid,
-                                  onSuccess:successFill_ipopcard
+                                  onSuccess:fill_box
                                   }
                                 );
+	} catch(e)
+	{
+		alert(e.message);
+		return false;
+	}
+	return false;
 }
 /**
  *@brief Remove a definition of an  attribut

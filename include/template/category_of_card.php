@@ -1,7 +1,20 @@
-<TABLE BORDER="0" CELLSPACING="0">
+<div style="float:right;height:10px;display:block;margin-top:2px;margin-right:2px">
+<?
+     echo '<A style="background-color:blue;color:white;text-decoration:none" HREF="javascript:void(0)" onclick="removeDiv(\''.$ctl.'\');">Fermer</A>';
+?>
+</div>
+   <? echo h2info(_("Ajout d'une catégorie").$msg); ?>
+
+<div class="content">
+<form id="newcat" name="newcat" method="get" onsubmit="this.ipopup='<?=$ipopup?>';save_card_category(this);return false;">
+<?
+ echo HtmlInput::get_to_hidden(array('gDossier','cat'));
+ ?>
+
+	<TABLE BORDER="0" CELLSPACING="0">
 <TR>
    <TD><?=_('Nom de la catégorie de fiche')?> </TD>
-<TD><INPUT TYPE="INPUT" NAME="nom_mod"></TD>
+<TD><?=$nom_mod->input()?></TD>
 </TR>
 <TR>
    <TD> <?=_('Classe de base')?> </TD>
@@ -23,3 +36,9 @@
 <p class="info">
 <?=_(' A moins qu\'en créant la fiche, vous forcez un autre poste comptable')?>
 </p>
+
+<p>
+<?=$submit?> <?=HtmlInput::button_close($ipopup)?>
+</p>
+</form>
+</div>

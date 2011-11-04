@@ -293,47 +293,6 @@ function popup_recherche()
     w.focus();
 }
 /**
- *@brief show the popup. The top property is adapted if you've scrolled the window
- *@param name of the object PHP IPopup
- */
-function showIPopup(p_name)
-{
-    var sx=0;
-    if ( window.scrollY)
-    {
-        sx=window.scrollY+40;
-    }
-    else
-    {
-        sx=document.body.scrollTop+40;
-    }
-    $(p_name+'_border').style.top=sx;
-    if ( g(p_name+'_fond') )
-    {
-        show(p_name+'_fond');
-    }
-    show(p_name+'_border');
-    show(p_name+'_content');
-}
-/**
- *@brief hide the popup
- *@param name of the object PHP IPopup
- */
-function hideIPopup(p_name)
-{
-    g(p_name+'_content').innerHTML=loading();
-    if (g(p_name+'_fond'))
-    {
-        hide(p_name+'_fond');
-    }
-    if (g(p_name+'_border'))
-    {
-        hide(p_name+'_border');
-    }
-    hide(p_name+'_content');
-
-}
-/**
  *@brief replace the special characters (><'") by their HTML representation
  *@return a string without the offending char.
  */

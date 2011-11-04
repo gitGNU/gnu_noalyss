@@ -398,13 +398,8 @@ case 'ac':
         }
 
         $html='';
-        $html.="<h2>"._("Ajout d'une catégorie")."  ".$msg."</h2>";
         /*  show the form */
-        $html.= '<div class="u_content">';
-        $html.=$ctl;
-        $html.= '<form id="newcat" name="newcat" method="post" onsubmit="this.ipopup=\''.$ipopup.'\';save_card_category(this);return false;">';
-        $html.= dossier::hidden();
-        $html.=HtmlInput::hidden('cat',$cat);
+
         $search=new IPoste("class_base");
         $search->size=40;
         $search->value=$base;
@@ -413,17 +408,14 @@ case 'ac':
         $search->set_attribute('account',$search->name);
         $search->set_attribute('ipopup','ipop_account');
 
+		$nom_mod=new IText("nom_mod");
         $str_poste=$search->input();
+        $submit=HtmlInput::submit('save',_('Sauve'));
         ob_start();
         require('template/category_of_card.php');
         $html.=ob_get_contents();
         ob_clean();
-        $submit=HtmlInput::submit('save',_('Sauve'));
-        $html.= '<p>';
-        $html.= $submit;
-        $html.= '</p>';
-        $html.= '</form>';
-        $html.= '</div>';
+
     }
     else
     {
@@ -438,29 +430,29 @@ case 'scc':
     $html='';
     if ( $user->check_action(FICCAT) == 1 )
     {
-        if ( strlen(trim($_POST['nom_mod'])) != 0 &&
-                strlen(trim($_POST['class_base'])) != 0 )
+		$script=create_script("removeDiv('$ctl')");
+		$html.=$script;
+        if ( strlen(trim($_GET['nom_mod'])) != 0 &&
+                strlen(trim($_GET['class_base'])) != 0 )
         {
             $array=array("FICHE_REF"=>$cat,
-                         "nom_mod"=>$_POST['nom_mod'],
-                         "class_base"=>$_POST['class_base']);
+                         "nom_mod"=>$_GET['nom_mod'],
+                         "class_base"=>$_GET['class_base']);
             if ( isset ($_POST['create'])) $array['create']=1;
             $catcard=new Fiche_Def($cn);
             if ( $catcard->Add($array) == -1)
-                $html.="alert('"._('Catégorie existe déjà')."')";
+                $script="alert('"._('Catégorie existe déjà')."')";
             else
-                $html.="alert('"._('Catégorie sauvée')."')";
-            $html.=create_script($html);
+                $script="alert('"._('Catégorie sauvée')."')";
+            $html.=create_script($script);
         }
         else
         {
-            $html.="alert('"._("Le nom et la classe base ne peuvent être vide")."')";
-            $html.=create_script($html);
+            $script="alert('"._("Le nom et la classe base ne peuvent être vide")."')";
+            $html.=create_script($script);
 
             $invalid=1;
         }
-        $ipop=str_replace('_content','',$ctl);
-        $html.=create_script('hideIPopup(\''.$ipop.'\');');
     }
     else
     {
