@@ -42,6 +42,7 @@ require_once('ac_common.php');
 require_once('class_inum.php');
 require_once('class_lettering.php');
 require_once 'class_sort_table.php';
+require_once 'class_jrn_def_sql.php';
 /*!\file
 * \brief Class for jrn,  class acc_ledger for manipulating the ledger
 */
@@ -49,7 +50,7 @@ require_once 'class_sort_table.php';
 /*!\brief Class for jrn,  class acc_ledger for manipulating the ledger
 *
 */
-class Acc_Ledger
+class Acc_Ledger extends jrn_def_sql
 {
     var $id;			/*!< jrn_def.jrn_def_id */
     var $name;			/*!< jrn_def.jrn_def_name */
@@ -66,10 +67,13 @@ class Acc_Ledger
     function __construct ($p_cn,$p_id)
     {
         $this->id=$p_id;
+		$this->name=&$this->jrn_def_name;
+        $this->jrn_def_id=&$this->id;
         $this->db=$p_cn;
         $this->row=null;
         $this->nb=10;
     }
+
     function get_last_pj()
     {
         if ( $this->db->exist_sequence("s_jrn_pj".$this->id) )
@@ -313,8 +317,8 @@ class Acc_Ledger
         }
 
         $Res=$this->db->exec_sql("select jrn_def_name from ".
-                                 " jrn_def where jrn_def_id=".
-                                 $this->id);
+                                 " jrn_def where jrn_def_id=$1",
+                                 array($this->id));
         $Max=Database::num_row($Res);
         if ($Max==0) return null;
         $ret=Database::fetch_array($Res,0);
@@ -565,7 +569,7 @@ class Acc_Ledger
     // Build the sql
     list($sql,$where)=$Ledger->build_search_sql($_GET);
     // Count nb of line
-    $max_line=$cn->count_sql($sql);
+    $max_line=$this->db->count_sql($sql);
 
     $step=$_SESSION['g_pagesize'];
     $page=(isset($_GET['offset']))?$_GET['page']:1;
@@ -3038,6 +3042,297 @@ class Acc_Ledger
       $first_name=$this->db->get_value('select ad_value from fiche_detail where ad_id=32 and f_id=$1',array($tiers));
       return $name.' '.$first_name;
     }
+	/**
+	 * @brief listing of all ledgers
+	 * @return HTML string
+	 */
+	function listing()
+	{
+		$str_dossier = dossier::get();
+		$base_url="?".dossier::get()."&ac=".$_REQUEST['ac'];
+
+		$r="";
+		$r.='<TABLE>';
+		$r.='<TR><TD class="mtitle"><A class="mtitle" HREF="'.$base_url.'&sa=add">' . _('Création') . ' </A></TD></TR>';
+		$ret = $this->db->exec_sql("select jrn_def_id,jrn_def_name,
+                       jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc
+                       from jrn_def join jrn_type on jrn_def_type=jrn_type_id order by jrn_def_name");
+		$Max = Database::num_row($ret);
 
 
-}
+		for ($i = 0; $i < $Max; $i++)
+		{
+			$l_line = Database::fetch_array($ret, $i);
+			$url=$base_url."&sa=detail&p_jrn=".$l_line['jrn_def_id'];
+			$r.=sprintf('<TR><TD class="mtitle"><A class="mtitle" HREF="%s">%s</A></TD></TR>', $url, h($l_line['jrn_def_name']));
+		}
+		$r.= "</TABLE>";
+		return $r;
+	}
+	/**
+	 * display detail of a ledger
+	 *
+	 */
+	function display_ledger()
+	{
+		if ( $this->load() == -1 ) {
+			throw new Exception(_("Journal n'existe pas"),-1);
+		}
+		$type=$this->jrn_def_type;
+		$name=$this->jrn_def_name;
+		$code=$this->jrn_def_code;
+
+				/* widget for searching an account */
+		$wSearch=new IPoste();
+		$wSearch->set_attribute('ipopup','ipop_account');
+		$wSearch->set_attribute('account','p_jrn_class_deb');
+		$wSearch->set_attribute('no_overwrite','1');
+		$wSearch->set_attribute('noquery','1');
+		$wSearch->table=3;
+		$wSearch->name="p_jrn_class_deb";
+		$wSearch->size=20;
+		$wSearch->value=$this->jrn_def_class_deb;
+		$search=$wSearch->input();
+
+		$wPjPref=new IText();
+		$wPjPref->name='jrn_def_pj_pref';
+		$wPjPref->value=$this->jrn_def_pj_pref;
+		$pj_pref=$wPjPref->input();
+
+		$wPjSeq=new INum();
+		$wPjSeq->value=0;
+		$wPjSeq->name='jrn_def_pj_seq';
+		$pj_seq=$wPjSeq->input();
+		$last_seq=$this->get_last_pj();
+		$name=$this->jrn_def_name;
+
+		$hidden= HtmlInput::hidden('p_jrn',$this->id);
+		$hidden.= HtmlInput::hidden('sa','detail');
+		$hidden.= dossier::hidden();
+		$hidden.=HtmlInput::hidden('p_jrn_deb_max_line',10);
+		$hidden.=HtmlInput::hidden('p_ech_lib','echeance');
+		$hidden.=HtmlInput::hidden('p_jrn_type',$type);
+
+				/* Load the card */
+		$card=$this->get_fiche_def();
+		$rdeb=explode(',',$card['deb']);
+		$rcred=explode(',',$card['cred']);
+		/* Numbering (only FIN) */
+		$num_op=new ICheckBox('numb_operation');
+		if ( $this->jrn_def_num_op==1) $num_op->selected=true;
+		/* bank card */
+		$qcode_bank='';
+		if ( $type=='FIN')
+		{
+			$f_id=$this->jrn_def_bank;
+			if ( isNumber($f_id)==1)
+			{
+				$fBank=new Fiche($this->db,$f_id);
+				$qcode_bank=$fBank->get_quick_code();
+			}
+		}
+		$new=false;
+		$cn=$this->db;
+		echo $hidden;
+		require_once('template/param_jrn.php');
+
+	}
+	/**
+	 * Verify before update
+	 *
+	 * @param type $array
+	 *   'p_jrn' => string '3' (length=1)
+		  'sa' => string 'detail' (length=6)
+		  'gDossier' => string '82' (length=2)
+		  'p_jrn_deb_max_line' => string '10' (length=2)
+		  'p_ech_lib' => string 'echeance' (length=8)
+		  'p_jrn_type' => string 'ACH' (length=3)
+		  'p_jrn_name' => string 'Achat' (length=5)
+		  'jrn_def_pj_pref' => string 'ACH' (length=3)
+		  'jrn_def_pj_seq' => string '0' (length=1)
+		  'FICHECRED' =>
+			array
+			  0 => string '4' (length=1)
+		  'FICHEDEB' =>
+			array
+			  0 => string '7' (length=1)
+			  1 => string '5' (length=1)
+			  2 => string '13' (length=2)
+		  'update' => string 'Sauve' (length=5
+	 *@exception is throw is test are not valid
+	 */
+	function verify_ledger($array)
+	{
+		extract ($array);
+		try
+		{
+			if (isNumber($p_jrn ) == 0)			throw new Exception("Id invalide");
+			if (isNumber($p_jrn_deb_max_line) == 0) throw new Exception ("Nombre de ligne incorrect");
+			if (trim($p_jrn_name) == "") throw new Exception ("Nom de journal invalide");
+			if ($this->db->get_value("select count(*) from jrn_def where jrn_def_name=$1 and jrn_Def_id<>$2",
+					array($p_jrn_name,$p_jrn)) > 0) throw new Exception ("Un journal avec ce nom existe déjà");
+			if ($p_jrn_type=='FIN')
+			{
+				$a=new Fiche($this->db);
+				$result=$a->get_by_qcode(trim(strtoupper($_POST['bank'])),false);
+				if	 ( $result==1)throw new Exception ("Aucun compte en banque n'est donné");
+			}
+
+		} catch(Exception $e)
+		{
+			throw $e;
+		}
+	}
+	/**
+	 * update a ledger
+	 * @param type $array  normally post
+	 * @see verify_ledger
+	 */
+	function update($array)
+	{
+		extract ($array);
+		$this->jrn_def_id=$p_jrn;
+		$this->jrn_def_name=$p_jrn_name;
+		$this->jrn_def_ech_lib=$p_ech_lib;
+		$this->jrn_def_max_line_deb=$p_jrn_deb_max_line;
+		$this->jrn_def_type=$p_jrn_type;
+		$this->jrn_def_pj_pref=$jrn_def_pj_pref;
+		$this->jrn_def_fiche_deb=(isset($FICHEDEB))?join($FICHEDEB,','):"";
+		switch($this->jrn_def_type)
+		{
+			case 'ACH':
+			case 'VEN':
+				$this->jrn_def_fiche_cred=(isset($FICHECRED))?join($FICHECRED,','):'';
+				break;
+			case 'ODS':
+				$this->jrn_def_class_deb=$p_jrn_class_deb;
+				break;
+			case 'FIN':
+				$a=new Fiche($this->db);
+				$result=$a->get_by_qcode(trim(strtoupper($_POST['bank'])),false);
+				$bank=$a->id;
+				$this->jrn_def_bank=$bank;
+				if ( $result==-1)throw new Exception ("Aucun compte en banque n'est donné");
+				$this->jrn_def_num_op=(isset($numb_operation))?1:0;
+				break;
+		}
+
+		parent::update();
+		//Reset sequence if needed
+		if ($jrn_def_pj_seq != 0)
+		{
+			$Res=$this->db->alter_seq("s_jrn_pj".$p_jrn,$jrn_def_pj_seq);
+		}
+	}
+	/**
+	 * display screen to enter a new ledger
+	 */
+	function input_new()
+	{
+			$wSearch=new IPoste();
+			$wSearch->table=3;
+			$wSearch->set_attribute('ipopup','ipop_account');
+			$wSearch->set_attribute('account','p_jrn_class_deb');
+			$wSearch->set_attribute('no_overwrite','1');
+			$wSearch->set_attribute('noquery','1');
+
+			$wSearch->name="p_jrn_class_deb";
+			$wSearch->size=20;
+
+			$search=$wSearch->input();
+
+			/* construct all the hidden */
+			$hidden= HtmlInput::hidden('p_jrn',-1);
+			$hidden.= HtmlInput::hidden('p_action','jrn');
+			$hidden.= HtmlInput::hidden('sa','add');
+			$hidden.= dossier::hidden();
+			$hidden.=HtmlInput::hidden('p_jrn_deb_max_line',10);
+			$hidden.=HtmlInput::hidden('p_ech_lib','echeance');
+
+			/* properties of the ledger */
+			$name="";
+			$code="";
+			$wType=new ISelect();
+			$wType->value=$this->db->make_array('select jrn_type_id,jrn_desc from jrn_type');
+			$wType->name="p_jrn_type";
+			$type=$wType->input();
+			$rcred=$rdeb=array();
+			$wPjPref=new IText();
+			$wPjPref->name='jrn_def_pj_pref';
+			$pj_pref=$wPjPref->input();
+			$pj_seq='';
+			$last_seq=0;
+			$new=true;
+			/* bank card */
+			$qcode_bank='';
+			/* Numbering (only FIN) */
+			$num_op=new ICheckBox('numb_operation');
+			echo dossier::hidden();
+			echo HtmlInput::hidden('ac',$_REQUEST['ac']);
+			echo HtmlInput::hidden('p_jrn',-1);
+			echo HtmlInput::hidden('sa','add');
+
+			$cn=$this->db;
+
+			require_once('template/param_jrn.php');
+
+	}
+	/**
+	 * Insert a new ledger
+	 * @param type $array normally $_POST
+	 * @see verify_ledger
+	 */
+	function save_new($array)
+	{
+		$this->load();
+		extract ($array);
+		$this->jrn_def_id=-1;
+		$this->jrn_def_name=$p_jrn_name;
+		$this->jrn_def_ech_lib=$p_ech_lib;
+		$this->jrn_def_max_line_deb=$p_jrn_deb_max_line;
+		$this->jrn_def_type=$p_jrn_type;
+		$this->jrn_def_pj_pref=$jrn_def_pj_pref;
+		$this->jrn_def_fiche_deb=(isset($FICHEDEB))?join($FICHEDEB,','):"";
+		$this->jrn_def_code=sprintf("%s%02d",trim(substr($this->jrn_def_type,0,1)),Acc_Ledger::next_number($this->db,$this->jrn_def_type));
+
+		switch($this->jrn_def_type)
+		{
+			case 'ACH':
+			case 'VEN':
+				$this->jrn_def_fiche_cred=(isset($FICHECRED))?join($FICHECRED,','):'';
+
+				break;
+			case 'ODS':
+				$this->jrn_def_class_deb=$p_jrn_class_deb;
+				break;
+			case 'FIN':
+				$a=new Fiche($this->db);
+				$result=$a->get_by_qcode(trim(strtoupper($_POST['bank'])),false);
+				$bank=$a->id;
+				$this->jrn_def_bank=$bank;
+				if ( $result==-1)throw new Exception ("Aucun compte en banque n'est donné");
+				$this->jrn_def_num_op=(isset($numb_operation))?1:0;
+				break;
+		}
+
+		parent::insert();
+	}
+	/**
+	 * delete a ledger IF is not already used
+	 * @exeption : cannot delete
+	 */
+	function delete_ledger()
+	{
+		try
+		{
+			if ( $this->db->get_value("select count(jr_id) from jrn where jr_def_id=$1",array($this->jrn_def_id))>0)
+					throw new Exception("Impossible d'effacer un journal qui contient des opérations");
+			parent::delete();
+		}
+		catch(Exception $e)
+		{
+			throw $e;
+		}
+	}
+
+	}

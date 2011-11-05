@@ -14,7 +14,8 @@ if ($new || $type=='ODS' ):
 <?php echo $search;?>
 </TD>
 <TD CLASS="notice">
-<?=_("Uniquement pour les journaux d'Opérations Diverses")?>
+<?=_("Uniquement pour les journaux d'Opérations Diverses, les valeurs sont séparées par des espaces, on peut aussi
+	utiliser le * pour indiquer 'tous les postes qui en dépendent' exemple: 4*")?>
 </TD>
 </TR>
 <?
@@ -84,7 +85,7 @@ echo $card->input();
 <?php echo $pj_pref; ?>
 </TD>
 <TD>
-<span class="notice"><?=_('Le préfixe des pièces peut être différent pour chaque journal')?></span><br>
+<span class="notice"><?=_('Le préfixe des pièces doit être différent pour chaque journal, on peut aussi utiliser l\'année')?></span><br>
 <span class="notice"><?=_('Uniquement des chiffres')?></span>
 </TD>
 
