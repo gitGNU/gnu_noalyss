@@ -688,6 +688,51 @@ class User
 		}
 	}
 
+	/**
+	 *  !\brief Check if the user can print (in menu_ref p_type_display=p)
+	 * 	otherwise warn and exit
+	 * \param $p_action requested action
+	 * \return nothing the program exits automatically
+	 */
+	function check_print($p_action)
+	{
+		global $audit,$cn;
+		if ($this->Admin() == 1)
+			return 1;
+		if ($this->is_local_admin(dossier::id()) == 1)
+			return 1;
+		$res=$cn->get_value("select count(*) from profile_menu
+			join profile_user using (p_id)
+			where user_name=$1 and me_code=$2 ",
+				array($this->login,$p_action));
+		return $res;
+
+	}
+	/* !\brief Check if the user can print (in menu_ref p_type_display=p)
+	 * otherwise warn and exit
+	 * \param $p_action requested action
+	 * \return nothing the program exits automatically
+	 */
+
+	function can_print($p_action, $p_js=0)
+	{
+		if ($this->check_print($p_action) == 0)
+		{
+			if ($p_js == 1)
+			{
+				echo "<script>";
+				echo "alert ('Cette action ne vous est pas autorisée. Contactez votre responsable');";
+				echo "</script>";
+			}
+			else
+			{
+				echo '<div class="u_redcontent">';
+				echo '<h2 class="error"> Cette action ne vous est pas autorisée Contactez votre responsable</h2>';
+				echo '</div>';
+			}
+			exit(-1);
+		}
+	}
 	/* !
 	 * \brief  Check if an user is an local administrator
 	 *

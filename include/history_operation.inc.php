@@ -137,7 +137,7 @@ if (isset($_GET['r_jrn']))
 }
 echo '<form action="export.php" method="get">';
 echo $r;
-echo HtmlInput::hidden('act', 'CSV/histo');
+echo HtmlInput::hidden('act', 'CSV:histo');
 echo HtmlInput::submit('viewsearch', 'Export vers CSV');
 
 echo '</form>';

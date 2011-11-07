@@ -26,14 +26,27 @@
 	    else:
 		$class="mtitle";
 	    $url="";$pt="";
-
+		$js="";
 	    for ($e=0;$e <= $idx;$e++):
-		$url.=$pt.$module[$e];
-		$pt="/";
+			$url.=$pt.$module[$e];
+			$pt="/";
 	    endfor;
-	    $url.=$pt.$amenu[$i]['me_code'];
+		if ( $amenu[$i]['me_url']!='')
+		{
+			$url=$row['me_url'];
+		}
+		elseif ($amenu[$i]['me_javascript'] != '')
+		{
+			$url="javascript:void(0)";
+			$js=sprintf(' onclick="%s"',$amenu[$i]['me_javascript']);
+		}
+		else
+		{
+			$url.=$pt.$amenu[$i]['me_code'];
+		}
+
 ?>	<td class="<?=$class?>">
-	    <a class="mtitle" href="do.php?gDossier=<?=Dossier::id()?>&ac=<?=$url?>">
+	    <a class="mtitle" href="do.php?gDossier=<?=Dossier::id()?>&ac=<?=$url?>" <?=$js?> >
 	    <?=$amenu[$i]['me_menu']?>
 	    </a>
 	</td>

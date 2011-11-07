@@ -78,7 +78,7 @@ if ( isset($_GET['verif']))
     echo dossier::hidden();
     echo HtmlInput::get_to_hidden(array('exercice'));
     echo HtmlInput::hidden('b_id',$_GET['b_id']);
-    echo HtmlInput::hidden('act','OTH/Bilan');
+    echo HtmlInput::hidden('act','OTH:Bilan');
 
     echo HtmlInput::hidden('from_periode',$bilan->from);
     echo HtmlInput::hidden('to_periode',$bilan->to);

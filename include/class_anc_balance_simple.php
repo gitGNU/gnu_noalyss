@@ -246,7 +246,7 @@ class Anc_Balance_Simple extends Anc_Print
         $r.= $p_string;
         $r.= dossier::hidden();
         $r.= HtmlInput::hidden("to",$this->to);
-        $r.= HtmlInput::hidden("act","PDF/AncBalSimple");
+        $r.= HtmlInput::hidden("act","PDF:AncBalSimple");
 
         $r.= HtmlInput::hidden("from",$this->from);
         $r.= HtmlInput::hidden("pa_id",$this->pa_id);
@@ -256,7 +256,7 @@ class Anc_Balance_Simple extends Anc_Print
         $r.= '</form>';
 
         $r.= '<form method="GET" action="export.php"  style="display:inline">';
-        $r.= HtmlInput::hidden("act","CSV/AncBalSimple");
+        $r.= HtmlInput::hidden("act","CSV:AncBalSimple");
         $r.= HtmlInput::hidden("to",$this->to);
         $r.= HtmlInput::hidden("from",$this->from);
         $r.= HtmlInput::hidden("pa_id",$this->pa_id);

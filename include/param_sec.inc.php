@@ -208,7 +208,7 @@ if ( $action == "view" )
     $sec_User=new User($cn_dossier,$_GET['user_id']);
 
     echo '<form method="post">';
-    $sHref=sprintf ('export.php?p_action=sec&act=PDF/sec&user_id=%s&'.$str_dossier ,
+    $sHref=sprintf ('export.php?p_action=sec&act=PDF:sec&user_id=%s&'.$str_dossier ,
                     $_GET ['user_id']
                    );
 

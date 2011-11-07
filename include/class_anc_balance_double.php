@@ -354,7 +354,7 @@ class Anc_Balance_Double extends Anc_Print
         $r.= '<form method="GET" action="export.php" style="display:inline">';
         $r.= $p_string;
         $r.= HtmlInput::hidden("to",$this->to);
-        $r.= HtmlInput::hidden("act","PDF/AncBalDouble");
+        $r.= HtmlInput::hidden("act","PDF:AncBalDouble");
         $r.= HtmlInput::hidden("from",$this->from);
         $r.= HtmlInput::hidden("pa_id",$this->pa_id);
         $r.= HtmlInput::hidden("from_poste",$this->from_poste);
@@ -368,7 +368,7 @@ class Anc_Balance_Double extends Anc_Print
 
         $r.= '<form method="GET" action="export.php"  style="display:inline">';
         $r.= HtmlInput::hidden("to",$this->to);
-        $r.= HtmlInput::hidden("act","CSV/AncBalDouble");
+        $r.= HtmlInput::hidden("act","CSV:AncBalDouble");
         $r.= HtmlInput::hidden("from",$this->from);
         $r.= HtmlInput::hidden("pa_id",$this->pa_id);
         $r.= HtmlInput::hidden("from_poste",$this->from_poste);

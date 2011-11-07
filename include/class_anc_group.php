@@ -205,7 +205,7 @@ order by ga_description,po_name";
   {
     $r="";
     $r.= '<form method="GET" action="export.php"  style="display:inline">';
-    $r.= HtmlInput::hidden("act","CSV/AncBalGroup");
+    $r.= HtmlInput::hidden("act","CSV:AncBalGroup");
     $r.= HtmlInput::hidden("to",$this->to);
     $r.= HtmlInput::hidden("from",$this->from);
     $r.= HtmlInput::hidden("pa_id",$this->pa_id);

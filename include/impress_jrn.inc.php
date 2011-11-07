@@ -170,7 +170,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
 
     echo '<TD><form method="GET" ACTION="export.php">'.dossier::hidden().
     HtmlInput::submit('bt_pdf',"Export PDF").
-      HtmlInput::hidden('act','PDF/ledger').
+      HtmlInput::hidden('act','PDF:ledger').
     $hid->input("type","jrn").
     $hid->input("jrn_id",$Jrn->id).
     $hid->input("from_periode",$_GET['from_periode']).
@@ -181,7 +181,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
 
     echo '<TD><form method="GET" ACTION="export.php">'.dossier::hidden().
     HtmlInput::submit('bt_csv',"Export CSV").
-      HtmlInput::hidden('act','CSV/ledger').
+      HtmlInput::hidden('act','CSV:ledger').
     $hid->input("type","jrn").
     $hid->input("jrn_id",$Jrn->id).
     $hid->input("from_periode",$_GET['from_periode']).

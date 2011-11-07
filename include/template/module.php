@@ -22,9 +22,9 @@
 	    <tr>
 		<?php
 		foreach ($amodule as $row):
-
+			$js="";
 		    $style="background:white";
-		    if ( $row['me_menu']=='new_line')
+		    if ( $row['me_code']=='new_line')
 		    {
 			echo "</tr><tr>";
 			continue;
@@ -37,12 +37,17 @@
 		    {
 			$url=$row['me_url'];
 		    }
-		    else
+		    elseif ($row['me_javascript'] != '')
+			{
+				$url="javascript:void(0)";
+				$js=sprintf(' onclick="%s"',$row['me_javascript']);
+			}
+			else
 		    {
-			$url="do.php?gDossier=".Dossier::id()."&ac=".$row['me_code'];
+				$url="do.php?gDossier=".Dossier::id()."&ac=".$row['me_code'];
 		    }
 		    ?>
-		<td class="tool" style="<?=$style?>"><a class="mtitle" href="<?=$url?>"><?=$row['me_menu']?></td>
+		<td class="tool" style="<?=$style?>"><a class="mtitle" href="<?=$url?>" <?=$js?> ><?=$row['me_menu']?></td>
 		<?
 		    endforeach;
 		?>

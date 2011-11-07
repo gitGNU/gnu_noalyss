@@ -94,7 +94,7 @@ if ( isset( $_GET['bt_html'] ) )
 
     echo '<TD><form method="GET" ACTION="export.php">'.
     HtmlInput::submit('bt_pdf',"Export PDF").
-      HtmlInput::hidden('act','PDF/report').
+      HtmlInput::hidden('act','PDF:report').
     dossier::hidden().
     $hid->input("type","rapport").
     $hid->input("ac",$_GET['ac']).
@@ -111,7 +111,7 @@ if ( isset( $_GET['bt_html'] ) )
 
     echo "</form></TD>";
     echo '<TD><form method="GET" ACTION="export.php">'.
-      HtmlInput::hidden('act','CSV/report').
+      HtmlInput::hidden('act','CSV:report').
     HtmlInput::submit('bt_csv',"Export CSV").
     dossier::hidden().
     $hid->input("type","form").

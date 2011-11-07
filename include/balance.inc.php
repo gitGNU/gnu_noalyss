@@ -179,7 +179,7 @@ if ( isset ($_GET['view']  ) )
     dossier::hidden().
     HtmlInput::submit('bt_pdf',"Export PDF").
     HtmlInput::hidden("ac",$_REQUEST['ac']).
-    HtmlInput::hidden("act","PDF/balance").
+    HtmlInput::hidden("act","PDF:balance").
 
     HtmlInput::hidden("from_periode",$_GET['from_periode']).
     HtmlInput::hidden("to_periode",$_GET['to_periode']);
@@ -200,7 +200,7 @@ if ( isset ($_GET['view']  ) )
     echo '<TD><form method="GET" ACTION="export.php">'.
     HtmlInput::submit('bt_csv',"Export CSV").
     dossier::hidden().
-    HtmlInput::hidden("act","CSV/balance").
+    HtmlInput::hidden("act","CSV:balance").
     HtmlInput::hidden("from_periode",$_GET['from_periode']).
     HtmlInput::hidden("to_periode",$_GET['to_periode']);
     echo HtmlInput::get_to_hidden(array('ac'));

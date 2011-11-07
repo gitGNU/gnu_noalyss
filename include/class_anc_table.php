@@ -103,7 +103,7 @@ class Anc_Table extends Anc_Acc_Link
   {
     $r="";
     $r.= '<form method="GET" action="export.php"  style="display:inline">';
-    $r.= HtmlInput::hidden("act","CSV/AncTable");
+    $r.= HtmlInput::hidden("act","CSV:AncTable");
     $r.= HtmlInput::hidden("to",$this->to);
     $r.= HtmlInput::hidden("from",$this->from);
     $r.= HtmlInput::hidden("pa_id",$this->pa_id);

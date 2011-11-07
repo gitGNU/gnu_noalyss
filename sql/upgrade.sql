@@ -15,5 +15,6 @@ tmp_pcmn_ins.sql
 trigger.tmp_pcmn.sql
 account_add.sql
 object-6.0.sql
+epad-style.css
 */
 create unique index qcode_idx on fiche_detail (ad_value) where ad_id=23;

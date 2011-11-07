@@ -189,7 +189,7 @@ END) <> 0::numeric order by name,po_name",array($this->pa_id));
   {
     $r="";
     $r.= '<form method="GET" action="export.php"  style="display:inline">';
-    $r.= HtmlInput::hidden("act","CSV/AncAccList");
+    $r.= HtmlInput::hidden("act","CSV:AncAccList");
     $r.= HtmlInput::hidden("to",$this->to);
     $r.= HtmlInput::hidden("from",$this->from);
     $r.= HtmlInput::hidden("pa_id",$this->pa_id);

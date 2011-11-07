@@ -1386,7 +1386,7 @@ class Fiche
         echo '<TD><form method="GET" ACTION="export.php">'.
         HtmlInput::submit('bt_pdf',"Export PDF").
         dossier::hidden().$str_ople.
-	  HtmlInput::hidden('act','PDF/fichedetail').
+	  HtmlInput::hidden('act','PDF:fichedetail').
         $hid->input("type","poste").
         $hid->input('p_action','impress').
         $hid->input("f_id",$this->id).
@@ -1400,7 +1400,7 @@ class Fiche
 
         echo '<TD><form method="GET" ACTION="export.php">'.
         HtmlInput::submit('bt_csv',"Export CSV").
-	  HtmlInput::hidden('act','PDF/fichedetail').
+	  HtmlInput::hidden('act','PDF:fichedetail').
         dossier::hidden().$str_ople.
         $hid->input("type","poste").
         $hid->input('p_action','impress').

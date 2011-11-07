@@ -99,7 +99,7 @@ if ( isset ($_GET['viewsearch']))
     }
     echo '<form action="export.php" method="get">';
     echo $r;
-    echo HtmlInput::hidden('act','CSV/histo');
+    echo HtmlInput::hidden('act','CSV:histo');
     echo HtmlInput::submit('viewsearch','Export vers CSV');
     echo HtmlInput::hidden('p_action','ALL');
     echo '</form>';

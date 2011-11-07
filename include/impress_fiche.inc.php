@@ -105,7 +105,7 @@ if ( $_GET['histo'] == 3 )
     $hid=new IHidden();
     echo '<form method="GET" ACTION="export.php">'.dossier::hidden().
     HtmlInput::submit('bt_csv',"Export CSV").
-    HtmlInput::hidden('act',"CSV/fiche").
+    HtmlInput::hidden('act',"CSV:fiche").
     $hid->input("type","fiche").
     $hid->input("ac",$_REQUEST['ac']).
     $hid->input("fd_id",$_REQUEST['cat']);
@@ -115,7 +115,7 @@ if ( $_GET['histo'] == 3 )
 }
 $export_pdf='<FORM METHOD="get" ACTION="export.php" style="display:inline">';
 $export_pdf.=HtmlInput::hidden('cat',$_GET['cat']);
-$export_pdf.=HtmlInput::hidden('act',"PDF/fiche_balance").
+$export_pdf.=HtmlInput::hidden('act',"PDF:fiche_balance").
 $export_pdf.=HtmlInput::hidden('start',$_GET['start']);
 $export_pdf.=HtmlInput::hidden('end',$_GET['end']);
 $export_pdf.=HtmlInput::hidden('histo',$_GET['histo']);
@@ -125,7 +125,7 @@ $export_pdf.='</FORM>';
 $export_csv='<FORM METHOD="get" ACTION="export.php" style="display:inline">';
 
 $export_csv.=HtmlInput::hidden('cat',$_GET['cat']);
-$export_csv.=HtmlInput::hidden('act','CSV/fiche_balance');
+$export_csv.=HtmlInput::hidden('act','CSV:fiche_balance');
 $export_csv.=HtmlInput::hidden('start',$_GET['start']);
 $export_csv.=HtmlInput::hidden('end',$_GET['end']);
 $export_csv.=HtmlInput::hidden('histo',$_GET['histo']);

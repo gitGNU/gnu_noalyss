@@ -429,12 +429,12 @@ class Acc_Account_Ledger
       switch($actiontarget)
 	{
 	case 'poste':
-	  $action_csv='CSV/postedetail';
-	  $action_pdf='PDF/postedetail';
+	  $action_csv='CSV:postedetail';
+	  $action_pdf='PDF:postedetail';
 	  break;
 	case 'gl_comptes':
-	  $action_csv='CSV/glcompte';
-	  $action_pdf='PDF/glcompte';
+	  $action_csv='CSV:glcompte';
+	  $action_pdf='PDF:glcompte';
 	  break;
 	default:
 	  throw new Exception(" Fonction HtmlTableHeader argument actiontarget invalid");
