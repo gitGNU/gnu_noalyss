@@ -41,16 +41,16 @@ $user->check();
 $only_plugin=$user->check_dossier(dossier::id());
 
 $ext=new Extension($cn);
-$ext->search('code',$_REQUEST['plugin_code']);
-if ( $ext->get_parameter('id') != 0 )
+
+if ( $ext->search($_REQUEST['plugin_code']) != -1 )
   {
     /* security */
     if ( !isset ($_SESSION['g_user']) || $ext->can_request($_SESSION['g_user']) == 0 )
       {
-	exit();
+		exit();
       }
     /* call the ajax script */
-    require_once('ext'.DIRECTORY_SEPARATOR.dirname(trim($ext->get_parameter('filepath'))).DIRECTORY_SEPARATOR.'raw.php');
+    require_once('ext'.DIRECTORY_SEPARATOR.dirname(trim($ext->get_parameter('me_file'))).DIRECTORY_SEPARATOR.'raw.php');
   }
 else
   {

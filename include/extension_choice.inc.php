@@ -47,6 +47,8 @@ else
     echo '</form>';
     echo '<hr>';
 }
-require_once 'extension_get.inc.php';
+
+if ( isset($_REQUEST['plugin_code']))
+	require_once 'extension_get.inc.php';
 
 ?>

@@ -737,7 +737,7 @@ function show_module($selected)
     global $g_user;
     $cn = Dossier::connect();
     $amodule = $cn->get_array("select
-	me_code,me_menu,me_url,me_javascript,p_order
+	me_code,me_menu,me_url,me_javascript,p_order,me_type
 	from v_all_menu
 	where
 	user_name=$1
@@ -747,7 +747,7 @@ function show_module($selected)
     if ($selected != -1)
     {
 	require_once('template/module.php');
-	$file = $cn->get_array("select me_file,me_parameter,me_javascript from v_all_menu
+	$file = $cn->get_array("select me_file,me_parameter,me_javascript,me_type from v_all_menu
 	    where me_code=$1 and user_name=$2", array($selected,$g_user->login));
 	if ( count($file ) == 0 )
 	{
@@ -766,6 +766,9 @@ function show_module($selected)
 		$array=compute_variable($file[0]['me_parameter']);
 		put_global($array);
 	    }
+
+		// if file is not a plugin, include the file, otherwise
+		// include the plugin launcher
 		if ( $file[0]['me_type'] != 'PL')
 			require_once $file[0]['me_file'];
 		else
@@ -810,7 +813,7 @@ function find_default_module()
 
     if (count($default_module) > 1)
     {
-	echo_error("Plusieurs modules sont le module par défaut", __LINE__, __FILE__);
+		echo_error("Plusieurs modules sont le module par défaut", __LINE__, __FILE__);
     }
     elseif (count($default_module) == 1)
     {
@@ -829,21 +832,21 @@ function show_menu($module, $idx)
     global $g_user;
     $cn = Dossier::connect();
     $amenu = $cn->get_array("select
-	me_menu,me_code,me_url,me_javascript
+	me_menu,me_code,me_url,me_javascript,me_type
 	from v_all_menu
 	where
 	me_code_dep=$1 and user_name=$2 order by p_order", array($module[$idx], $g_user->login));
 
     if (!empty($amenu) && count($amenu) > 1)
     {
-	require 'template/menu.php';
+		require 'template/menu.php';
     }
     elseif (count($amenu) == 1)
     {
-	echo '<div class="topmenu">';
-	echo h2info($amenu[0]['me_menu']);
-	echo '</div>';
-	$module[$idx] = $amenu[0]['me_code'];
+		echo '<div class="topmenu">';
+		echo h2info($amenu[0]['me_menu']);
+		echo '</div>';
+		$module[$idx] = $amenu[0]['me_code'];
     }
 
     if (empty($amenu) || count($amenu) == 1)
@@ -852,7 +855,7 @@ function show_menu($module, $idx)
 	 * @todo add security
 	 * check if user can access this module
 	 */
-		$file = $cn->get_array("select me_file,me_parameter,me_javascript
+		$file = $cn->get_array("select me_file,me_parameter,me_javascript,me_type
 		from menu_ref
 		where
 		me_code=$1 and
@@ -869,24 +872,29 @@ function show_menu($module, $idx)
 		{
 			if ($file[0]['me_parameter'] !== "")
 			{
-			// if there are paramter put them in superglobal
-			$array=compute_variable($file[0]['me_parameter']);
-			put_global($array);
+				// if there are paramter put them in superglobal
+				$array=compute_variable($file[0]['me_parameter']);
+				put_global($array);
 			}
-			echo '<div class="content">';
-			require_once $file[0]['me_file'];
-			echo '</div>';
+
+			// if file is not a plugin, include the file, otherwise
+			// include the plugin launcher
+			if ( $file[0]['me_type'] != 'PL')
+				require_once $file[0]['me_file'];
+			else
+				require 'extension_get.inc.php';
+
 			exit();
 		}
 		if ( $file[0]['me_javascript'] != '')
 		{
-		echo create_script($file[0]['me_javascript']);
+			echo create_script($file[0]['me_javascript']);
 		}
     }
 }
 /**
  * Put in superglobal (get,post,request) the value contained in
- * the superglobal
+ * the parameter field (me_parameter)
  * @param $array [key] [value]
  */
 function put_global($array)

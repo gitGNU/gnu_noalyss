@@ -10,33 +10,32 @@ require_once('class_iselect.php');
 require_once ('constant.security.php');
 require_once ('class_user.php');
 
-/* if a code has been asked */
-if (isset($_REQUEST['plugin_code']) )
-{
-    $cn=new Database(dossier::id());
-    $ext=new Extension($cn);
-    $ext->search('code',$_REQUEST['plugin_code']);
-    if ( $ext->get_parameter('id') != 0 )
-    {
-        /* security */
-        if ( $ext->can_request($_SESSION['g_user']) == 0 )
-        {
-            alert(j(_("Vous ne pouvez pas utiliser cette extension. Contactez votre responsable")));
-            exit();
-        }
+/**
+ * included from do.php + extension_choice.inc.php
+ */
 
-        if ( ! file_exists('../include/ext'.DIRECTORY_SEPARATOR.trim($ext->get_parameter('filepath'))))
-        {
-            alert(j(_("Ce fichier n'existe pas ")));
-            exit();
-        }
-        require_once('ext'.DIRECTORY_SEPARATOR.trim($ext->get_parameter('filepath')));
-    }
-    else
-    {
-        alert(j(_("Cette extension n'existe pas ")));
-        exit();
-    }
+// find file and check security
+global $cn,$g_user;
 
+$ext=new Extension($cn);
+;
+if ($ext->search($_REQUEST['plugin_code']) == -1)
+	{
+		echo_warning("plugin non trouvé");
+		exit();
 }
+if ($ext->can_request($g_user->login)==-1)
+{
+	alert("Plugin non authorisé");
+	exit();
+}
+if ( ! file_exists('../include/ext'.DIRECTORY_SEPARATOR.trim($ext->me_file)))
+	{
+		alert(j(_("Ce fichier n'existe pas ")));
+		exit();
+	}
+echo '<div class="content">';
+require_once('ext'.DIRECTORY_SEPARATOR.trim($ext->me_file));
+
+
 ?>
