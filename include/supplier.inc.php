@@ -36,7 +36,6 @@ $low_action=(isset($_REQUEST['sb']))?$_REQUEST['sb']:"list";
 /*! \file
  * \brief Called from the module "Gestion" to manage the supplier
  */
-$g_user->can_request(GECUST);
 $href=basename($_SERVER['PHP_SELF']);
 
 // by default open liste

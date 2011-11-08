@@ -28,7 +28,6 @@ require_once 'user_menu.php';
 $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:'';
 $User=new User(new Database(dossier::id()));
 $User->Check();
-$User->can_request(PAREO,1);
 require_once("class_iselect.php");
 require_once('class_acc_ledger.php');
 /* --------------------------------------------------

@@ -28,7 +28,6 @@
  *  - $cn = database connection
  */
 require_once('class_follow_up.php');
-$g_user->can_request(GECOUR);
 
 /**
  *\note fix problem with ShowActionList, this function is local

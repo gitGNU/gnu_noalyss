@@ -36,7 +36,6 @@ require_once('class_periode.php');
 require_once('class_exercice.php');
 global $g_user;
 $gDossier=dossier::id();
-$g_user->can_request(IMPBAL);
 $exercice=(isset($_GET['exercice']))?$_GET['exercice']:$g_user->get_exercice();
 
 

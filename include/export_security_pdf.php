@@ -36,8 +36,6 @@ $cn=new Database($gDossier);
 $rep=new Database();
 include_once ("class_user.php");
 $User=new User($rep);
-// Check Priv
-$User->can_request(PARSEC,1);
 
 //-----------------------------------------------------
 // Get User's info
@@ -128,7 +126,7 @@ for ($e=0;$e < Database::num_row($Res);$e++)
         break;
     case 'O':
         /**
-         *non implemente 
+         *non implemente
          */
         $pdf->Cell(30,6,"Opérations prédéfinies uniquement");
         break;

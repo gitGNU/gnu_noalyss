@@ -84,7 +84,6 @@ if ( isset ($_GET['p_start']))
 echo '<div class="u_subtmenu">';
 
 echo '</div>';
-$User->can_request(PARPCMN);
 
 
 echo '<div class="lmenu">';

@@ -39,7 +39,6 @@ $cn=new Database($gDossier);
 $User=new User($cn);
 $User->Check();
 $User->check_dossier($gDossier);
-$User->can_request(IMPFIC,0);
 
 $pdf=new PDF($cn);
 $pdf->setDossierInfo("  Periode : ".$_GET['start']." - ".$_GET['end']);

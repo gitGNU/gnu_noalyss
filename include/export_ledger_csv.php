@@ -39,7 +39,6 @@ $cn=new Database($gDossier);
 require_once ('class_user.php');
 $User=new User($cn);
 $User->Check();
-$User->can_request(IMPJRN,0);
 $User->check_dossier($gDossier);
 
 if ($_GET['jrn_id']!=0 &&  $User->check_jrn($_GET['jrn_id']) =='X')

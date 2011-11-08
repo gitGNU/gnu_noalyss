@@ -41,13 +41,12 @@ $cn=new Database($gDossier);
 $User=new User($cn);
 $User->Check();
 $User->check_dossier($gDossier);
-$User->can_request(IMPBIL,0);
 
 $sql="select pcm_val from tmp_pcmn ";
 
 extract($_GET);
 $cond_poste="";
-if ($from_poste != '') 
+if ($from_poste != '')
   {
     $cond_poste = '  where ';
     $cond_poste .=' pcm_val >= upper (\''.Database::escape_string($from_poste).'\')';
@@ -55,7 +54,7 @@ if ($from_poste != '')
 
 if ( $to_poste != '')
   {
-    if  ( $cond_poste == '') 
+    if  ( $cond_poste == '')
       {
 	$cond_poste =  ' where pcm_val <= upper (\''.Database::escape_string($to_poste).'\')';
       }

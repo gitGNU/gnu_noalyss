@@ -30,7 +30,6 @@ require_once('class_database.php');
 require_once('ac_common.php');
 require_once('class_pre_operation.php');
 $user=new User(new Database(dossier::id()));
-$user->can_request(PARPREDE,1);
 echo '<div class="content">';
 echo '<form method="GET">';
 $sel=new ISelect();

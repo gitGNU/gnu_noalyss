@@ -1,6 +1,5 @@
 <?php
 global $g_user;
- $g_user->can_request(PARCOORD,1);
     echo '<div class="content">';
     require_once("class_own.php");
     if ( isset ($_POST['record_company'] ))

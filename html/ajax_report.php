@@ -44,7 +44,6 @@ $cn=new Database(dossier::id());
 $User=new User($cn);
 $User->Check();
 $User->check_dossier(dossier::id());
-$User->can_request('PARRAP',0);
 
 
 

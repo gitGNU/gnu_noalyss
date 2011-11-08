@@ -40,7 +40,6 @@ $cn=new Database($gDossier);
 $User=new User($cn);
 $User->Check();
 $User->check_dossier($gDossier);
-$User->can_request(IMPPOSTE,0);
 
 if ( isset ( $_REQUEST['poste_fille']) )
 { //choisit de voir tous les postes

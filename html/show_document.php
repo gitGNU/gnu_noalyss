@@ -35,7 +35,6 @@ require_once ('class_user.php');
 $User=new User(new Database());
 $User->Check();
 $User->check_dossier($gDossier);
-$User->can_request(GECOUR);
 /* Show the document */
 if ( $action == 'sh')
 {

@@ -14,7 +14,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with PhpCompta; if not, write to the Free Software
- 
+
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
@@ -51,7 +51,6 @@ $rep=new Database($gDossier);
 
 $User=new User($rep);
 $User->Check();
-$User->can_request(PARRAP,1);
 
 
 $cn=new Database($gDossier);

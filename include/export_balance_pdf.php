@@ -46,7 +46,6 @@ $User=new User($cn);
 $User->Check();
 
 $bal=new Acc_Balance($cn);
-$User->can_request(IMPBAL,1);
 
 extract ($_GET);
 $bal->jrn=null;
@@ -126,12 +125,12 @@ if (! empty($array))
 	/*
 	 * level x
 	 */
-	if ( $value['poste']=='') continue;	
+	if ( $value['poste']=='') continue;
 	foreach (array(3,2,1) as $ind)
-	  {	
+	  {
 	    $r=$value;
 	    if ( ! isset($_GET['lvl'.$ind]))continue;
-	    
+
 	    if (${'lvl'.$ind.'_old'} == '')	  ${'lvl'.$ind.'_old'}=substr($r['poste'],0,$ind);
 	    if ( ${'lvl'.$ind.'_old'} != substr($r['poste'],0,$ind))
 	      {
@@ -157,7 +156,7 @@ if (! empty($array))
 	    $nlvl2[$a]=bcadd($nlvl2[$a],$r[$a]);
 	    $nlvl3[$a]=bcadd($nlvl3[$a],$r[$a]);
 	  }
-	
+
 	if ( $i % 2 == 0 )
 	  {
 	    $pdf->SetFillColor(220,221,255);
@@ -168,7 +167,7 @@ if (! empty($array))
 	    $pdf->SetFillColor(0,0,0);
 	    $fill=0;
 	  }
-	
+
 	$pdf->Cell(30,6,$value['poste'],0,0,'L',$fill);
 	$pdf->Cell(80,6,$value['label'],0,0,'L',$fill);
 	$pdf->Cell(20,6,nbm($value['sum_deb']),0,0,'R',$fill);
@@ -183,10 +182,10 @@ if (! empty($array))
 
       }
     foreach (array(3,2,1) as $ind)
-      {	
+      {
 	$r=$value;
 	if ( ! isset($_GET['lvl'.$ind]))continue;
-	
+
 	if (${'lvl'.$ind.'_old'} == '')	  ${'lvl'.$ind.'_old'}=substr($r['poste'],0,$ind);
 	if ( ${'lvl'.$ind.'_old'} != substr($r['poste'],0,$ind))
 	  {
@@ -206,7 +205,7 @@ if (! empty($array))
 	      }
 	  }
       }
-    
+
     // Totaux
     $pdf->SetFont('DejaVuCond','B',8);
     $pdf->Cell(110,6,'Totaux');

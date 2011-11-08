@@ -55,7 +55,6 @@ $Jrn->get_name();
 $User=new User($cn);
 $User->Check();
 $User->check_dossier($gDossier);
-$User->can_request(IMPJRN,0);
 
 // Security
 if ( $_GET['jrn_id']!=0 &&  $User->check_jrn($_GET['jrn_id']) == 'X' )

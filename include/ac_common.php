@@ -766,7 +766,10 @@ function show_module($selected)
 		$array=compute_variable($file[0]['me_parameter']);
 		put_global($array);
 	    }
-	    require_once $file[0]['me_file'];
+		if ( $file[0]['me_type'] != 'PL')
+			require_once $file[0]['me_file'];
+		else
+			require 'extension_get.inc.php';
 	    exit();
 	}
 	if ( $file[0]['me_javascript'] != '')
