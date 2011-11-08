@@ -9,7 +9,7 @@ function modifyModeleDocument(p_value,dossier)
     var pos_x=posX+offsetX+40;
     var style="position:absolute;top:"+pos_y+";left:"+pos_x;
     var popup={'id':'mod_doc',
-	       'cssclass':'op_detail',
+	       'cssclass':'inner_box',
                'html': loading(),
 	       'drag':false,
 	       'style':style

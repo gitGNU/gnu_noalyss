@@ -519,7 +519,7 @@ function view_history_account(p_value,dossier)
 {
     layer++;
     id='det'+layer;
-    var popup={'id':  id,'cssclass':'op_detail','html':loading(),'drag':true};
+    var popup={'id':  id,'cssclass':'inner_box','html':loading(),'drag':true};
 
     querystring='gDossier='+dossier+'&act=de&pcm_val='+p_value+'&div='+id;
     add_div(popup);
@@ -565,7 +565,7 @@ function view_history_card(p_value,dossier)
     layer++;
     id='det'+layer;
 var popup={'id':
-           id,'cssclass':'op_detail'
+           id,'cssclass':'inner_box'
            ,'html':
            loading(),'drag':
                true};
@@ -656,7 +656,7 @@ function modifyOperation(p_value,dossier)
     layer++;
     id='det'+layer;
     var popup={'id':
-           id,'cssclass':'op_detail'
+           id,'cssclass':'inner_box'
            ,'html':
            loading(),'drag':
                true};

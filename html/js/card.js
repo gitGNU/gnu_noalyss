@@ -75,7 +75,7 @@ function search_card(obj)
 	}
 
 	var div_style="top:"+sx+";width:60%;heigth:80%";
-	add_div({id:'search_card',cssclass:'op_detail',html:loading(),style:div_style,drag:true});
+	add_div({id:'search_card',cssclass:'inner_box',html:loading(),style:div_style,drag:true});
 
         var action=new Ajax.Request ( 'ajax_card.php',
                                       {
@@ -300,7 +300,7 @@ function fill_ipopcard(obj)
     var nLeft=posX-20;
     var str_style="top:"+nTop+";left:"+nLeft+";width:40em;height:auto";
 
-    var popup={'id':  content,'cssclass':'op_detail','style':str_style,'html':loading(),'drag':true};
+    var popup={'id':  content,'cssclass':'inner_box','style':str_style,'html':loading(),'drag':true};
 
     add_div(popup);
     var dossier=$('gDossier').value;
@@ -410,7 +410,7 @@ function select_card_type(obj)
 
     var str_style="top:"+sx+";left:25%;width:50%;height:auto";
 
-    var popup={'id':  content,'cssclass':'op_detail','style':str_style,'html':loading(),'drag':true};
+    var popup={'id':  content,'cssclass':'inner_box','style':str_style,'html':loading(),'drag':true};
 
     add_div(popup);
 
@@ -471,7 +471,7 @@ function dis_blank_card(obj)
     var nLeft=posX-20;
     var str_style="top:"+nTop+";left:"+nLeft+";width:70em;height:auto";
 
-    var popup={'id':  content,'cssclass':'op_detail','style':str_style,'html':loading(),'drag':true};
+    var popup={'id':  content,'cssclass':'inner_box','style':str_style,'html':loading(),'drag':true};
     if ( $(content)) {removeDiv(content);}
     add_div(popup);
 
@@ -542,7 +542,7 @@ function add_category(obj)
 	var div_style="top:"+sx+";width:60%;heigth:80%";
     // show ipopup
 	var div={id:obj.ipopup,
-			cssclass:"op_detail",drag:1,style:div_style};
+			cssclass:"inner_box",drag:1,style:div_style};
 	if ( $(div) ) {
 		removeDiv(div);
 	}

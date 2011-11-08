@@ -437,7 +437,7 @@ function popup_select_tva(obj)
 	var nLeft="35%";
 	var str_style="top:"+nTop+";left:"+nLeft+";width:50em;height:auto";
 
-	var popup={'id': 'tva_select','cssclass':'op_detail','style':str_style,'html':loading(),'drag':true};
+	var popup={'id': 'tva_select','cssclass':'inner_box','style':str_style,'html':loading(),'drag':true};
 	add_div(popup);
         var queryString="gDossier="+obj.gDossier+"&op=dsp_tva"+"&ctl="+obj.ctl+'&popup='+'tva_select';
         if ( obj.jcode )
@@ -869,7 +869,7 @@ function display_periode(p_dossier,p_id)
      try
     {
         var queryString="gDossier="+p_dossier+"&op=input_per"+"&p_id="+p_id;
-	var popup={'id': 'mod_periode','cssclass':'op_detail','html':loading(),'style':'width:30em','drag':true};
+	var popup={'id': 'mod_periode','cssclass':'inner_box','html':loading(),'style':'width:30em','drag':true};
 	if ( ! $('mod_periode') ) {
 	    add_div(popup);
 	}
@@ -994,7 +994,7 @@ function mod_predf_op(dossier_id,od_id)
     var sy=posX;
     var str_style="top:"+sx+";left:"+sy;
 
-    var div={id:target, cssclass:'op_detail',style:str_style,html:loading(),drag:1};
+    var div={id:target, cssclass:'inner_box',style:str_style,html:loading(),drag:1};
 
     add_div(div);
 
@@ -1050,7 +1050,7 @@ function search_reconcile(dossier,ctl_concern,amount_id,ledger)
         }
     var str_style="top:"+sx+";left:"+sy;
 
-    var div={id:target, cssclass:'op_detail',style:str_style,html:loading(),drag:1};
+    var div={id:target, cssclass:'inner_box',style:str_style,html:loading(),drag:1};
 
     add_div(div);
 	var target={gDossier:dossier,
