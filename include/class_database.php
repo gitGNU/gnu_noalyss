@@ -75,7 +75,7 @@ class Database
 
         if ( $a == false )
         {
-	  if (DEBUG) 
+	  if (DEBUG)
 	    {
 	      ob_end_clean();
 	      echo '<h2 class="error">Impossible de se connecter &agrave; postgreSql !</h2>';
@@ -91,7 +91,7 @@ class Database
 	      exit ("Connection impossible : v&eacute;rifiez vos param&egrave;tres de base
                   de donn&eacute;es");
 	    }
-	  else 
+	  else
 	    {
 	      echo '<h2 class="error">Erreur de connexion !</h2>';
 	    }
@@ -122,20 +122,20 @@ class Database
     {
         try
         {
-	  
+
             $this->sql=$p_string;
             $this->array=$p_array;
 
            if ( $p_array==null )
             {
-	      if ( ! DEBUG ) 
+	      if ( ! DEBUG )
 		$this->ret=pg_query($this->db,$p_string);
 	      else
 		$this->ret=@pg_query($this->db,$p_string);
             }
             else
             {
-	      if ( ! DEBUG ) 
+	      if ( ! DEBUG )
 		$this->ret=pg_query_params($this->db,$p_string,$p_array);
 	      else
 		$this->ret=@pg_query_params($this->db,$p_string,$p_array);
@@ -542,7 +542,7 @@ class Database
         else return false;
     }
     /*
-     *!\brief test if a view exist 
+     *!\brief test if a view exist
      * \return true if the view. exist otherwise false
      */
     function exist_view($p_name)
@@ -553,7 +553,7 @@ class Database
         return true;
     }
     /*
-     *!\brief test if a schema exists 
+     *!\brief test if a schema exists
      * \return true if the schemas exists otherwise false
      */
     function exist_schema($p_name)
@@ -630,7 +630,7 @@ class Database
     {
         $a=$this->exec_sql($p_sql);
         $max=pg_NumRows($a);
-        if ( $max==0) return null;
+        if ( $max==0 && $p_null==0) return null;
         for ($i=0;$i<$max;$i++)
         {
             $row=pg_fetch_row($a);
