@@ -22,6 +22,7 @@ def help():
                -f input file containing the structure
                -c create the code for a child class
                -v create the code for a view (so only load and seek)
+               -n the PK is not serial
     The input file contains :
     first  line class name : mother class separator : (optionnal)
     second line table name
@@ -31,7 +32,7 @@ def help():
     """
 def main():
     try:
-        opts,args=getopt.getopt(sys.argv[1:],'cf:hv',['child','file','help','view'])
+        opts,args=getopt.getopt(sys.argv[1:],'cf:hv',['child','file','help','view','pk-not-serial'])
     except getopt.GetOptError, err:
         print str(err)
         help()
@@ -47,6 +48,8 @@ def main():
             child=True
         elif option in ('-v','--view'):
             view=True
+        elif option in ('-n','--pk-not-serial'):
+	    nopk=True
     if filein=='' :
         help()
         sys.exit(-2)
@@ -451,7 +454,7 @@ class @class_name@
      $oobj=new @class_name@ ($this->cn);
      $array=Database::fetch_array($p_ret,$idx);
      foreach ($array as $idx=>$value) { $oobj->$idx=$value; }
-     $aobj[]=clone $oobj;
+     $aobj=clone $oobj;
 
      return $aobj;
    }

@@ -92,7 +92,7 @@ if ( $sub_action=="blank")
 {
     $retour_action=HtmlInput::button_anchor('Retour', "commercial.php?p_action=contact&$str_dossier");
 
-    echo '<div class="u_redcontent">';
+    echo '<div class="redcontent">';
 
     echo $retour_action;
     $c=new contact($cn);
@@ -191,7 +191,7 @@ if ( $sub_action == "list" )
         $contact->company=$qcode;
     }
     echo $retour;
-    echo '<div class="u_redcontent">';
+    echo '<div class="redcontent">';
     echo $contact->Summary($search);
     echo '</div>';
     echo $retour;
@@ -203,7 +203,7 @@ if ( $sub_action == "list" )
 if ( $sub_action == 'detail' )
 {
     $f_id=$_REQUEST['f_id'];
-    echo '<div class="u_redcontent">';
+    echo '<div class="redcontent">';
     $contact=new contact($cn,$f_id);
     echo $retour;
     echo '<form action="'.$_SERVER['REQUEST_URI'].'" method="post">';

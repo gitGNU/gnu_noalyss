@@ -5,10 +5,6 @@
  * @brief Manage the table public.menu_ref
  *
  *
-  Example
-  @code
-
-  @endcode
  */
 require_once('class_database.php');
 require_once('ac_common.php');

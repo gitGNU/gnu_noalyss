@@ -63,7 +63,7 @@ content h2.info {
     padding:0px;
     margin:0px;
 }
-u_redcontent h2.info {
+redcontent h2.info {
     background:#879ed4;
     color:white;
     font-size:14pt;
@@ -177,7 +177,7 @@ div.recherche_form{
     border-width:1px;
 
 }
-div.u_redcontent{ 	 
+div.redcontent{ 	 
 
     float:left; 	 
     padding-top:7px;
@@ -404,7 +404,7 @@ li.menuv,ol.menuv {
     display:inline;
     padding:1em 1em;
 }
-div.u_redcontent a {
+div.redcontent a {
     font-family:helvetica,arial,sans-serif;
     text-decoration: none;
     display: block;
@@ -412,7 +412,7 @@ div.u_redcontent a {
 
 }
 
-div.u_redcontent a:hover {
+div.redcontent a:hover {
     font-family:helvetica,arial,sans-serif;
     color: white;
     background-color: rgb(93, 144, 205);
@@ -439,7 +439,7 @@ div.content a:hover {
 
 }
 
-div.u_redcontent a.mtitle {
+div.redcontent a.mtitle {
     text-decoration:none;
     display:inline;
 
@@ -448,7 +448,7 @@ div.u_redcontent a.mtitle {
 
 }
 
-div.u_redcontent a.mtitle:hover {
+div.redcontent a.mtitle:hover {
     text-decoration:none;
     display:inline;
     color:white;
@@ -474,7 +474,7 @@ div.content a.mtitle:hover {
 
 
 }
-div.u_redcontent input.text {
+div.redcontent input.text {
     font-family:helvetica,arial,sans-serif;
     font-weight:normal;
     border-color:336699;
@@ -495,13 +495,13 @@ div.content input.text {
 
 
 
-div.u_redcontent input:focus {
+div.redcontent input:focus {
     background-color:orange;
 }
 div.content input:focus {
     background-color:orange;
 }
-div.u_redcontent textarea:focus {
+div.redcontent textarea:focus {
     background-color: orange;
 }
 .document {

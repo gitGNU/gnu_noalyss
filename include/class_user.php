@@ -680,7 +680,7 @@ class User
 			}
 			else
 			{
-				echo '<div class="u_redcontent">';
+				echo '<div class="redcontent">';
 				echo '<h2 class="error"> Cette action ne vous est pas autorisée Contactez votre responsable</h2>';
 				echo '</div>';
 			}
@@ -726,7 +726,7 @@ class User
 			}
 			else
 			{
-				echo '<div class="u_redcontent">';
+				echo '<div class="redcontent">';
 				echo '<h2 class="error"> Cette action ne vous est pas autorisée Contactez votre responsable</h2>';
 				echo '</div>';
 			}
@@ -963,6 +963,16 @@ class User
 			$array[] = Database::fetch_array($Res, $i);
 		}
 		return $array;
+	}
+	function audit()
+	{
+		global $audit;
+		$cn = new Database();
+		$sql = "insert into audit_connect (ac_user,ac_ip,ac_module,ac_url,ac_state) values ($1,$2,$3,$4,$5)";
+		if ($audit)
+		{
+				$cn->exec_sql($sql, array($_SESSION['g_user'], $_SERVER["REMOTE_ADDR"], $_REQUEST['ac'], $_SERVER['REQUEST_URI'], 'AUDIT'));
+		}
 	}
 
 }

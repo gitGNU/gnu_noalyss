@@ -363,9 +363,9 @@ class Acc_Ledger_Fin extends Acc_Ledger
                                 ;
             $wConcerned=new IConcerned("e_concerned".$i,${"e_concerned".$i});
             $wConcerned->setReadOnly($pview_only);
-            $wConcerned->extra=0;
+            $wConcerned->amount_id="e_other".$i."_amount";
 
-            $wConcerned->extra2='paid';
+            $wConcerned->paid='paid';
             $array[$i]['concerned']=$wConcerned->input();
         }
 

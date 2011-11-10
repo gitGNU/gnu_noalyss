@@ -15,8 +15,10 @@ tmp_pcmn_ins.sql
 trigger.tmp_pcmn.sql
 account_add.sql
 object-6.0.sql
+-- for account repository
 epad-style.sql
 extension.sql
-
+-- for account repository
+change_account_repo.sql
 */
 create unique index qcode_idx on fiche_detail (ad_value) where ad_id=23;

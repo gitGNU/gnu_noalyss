@@ -137,7 +137,7 @@ if ( $action == 'detail' )
     $b="";
 
 
-    echo '<div class="u_redcontent" style="margin-left:10%">' ;
+    echo '<div class="redcontent" style="margin-left:10%">' ;
     echo $a;
     echo '<div style="float:left;clear:both">';
 
@@ -180,7 +180,7 @@ for ( $i = 0; $i < Database::num_row($Res);$i++)
 
 
 // Show the current stock
-echo '<div class="u_redcontent">';
+echo '<div class="redcontent">';
 echo $r;
 $a=ViewStock($cn,$year);
 if ( $a != null )

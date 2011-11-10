@@ -29,15 +29,45 @@
  */
 require_once 'class_menu_ref_sql.php';
 require_once 'class_sort_table.php';
+require_once 'class_extension.php';
+
+
 echo '<div class="content">';
 /**
  * if post save then we save a new one
  */
-
+if ( isset($_POST['save_plugin']))
+{
+	extract($_POST);
+	$plugin=new Extension($cn);
+	$plugin->me_code=$me_code;
+	$plugin->me_menu=$me_menu;
+	$plugin->me_file=$me_file;
+	$plugin->me_description=$me_description;
+	$plugin->me_parameter='plugin_code='.$me_code;
+	$plugin->insert_plugin();
+}
 /**
  * if post update then we update
  */
-
+if (isset($_POST['mod_plugin']))
+{
+	extract ($_POST);
+	$plugin=new Extension($cn);
+	$plugin->me_code=$me_code;
+	$plugin->me_menu=$me_menu;
+	$plugin->me_file=$me_file;
+	$plugin->me_description=$me_description;
+	$plugin->me_parameter='plugin_code='.$me_code;
+	if ( !isset ($delete_pl))
+	{
+		$plugin->update_plugin();
+	}
+	else
+	{
+		$plugin->remove_plugin();
+	}
+}
 /**
  * if delete then delete
  */
@@ -70,7 +100,11 @@ echo '<p class="info"> le type vaut :
 	<li> PR pour les impressions </li>
 	<li> PL pour les plugins</li>
 	<li> SP pour des valeurs spéciales</li>
+	</ul>
+
 	</p>';
+$gDossier=Dossier::id();
+echo HtmlInput::button("Add_plugin", "Ajout d'un plugin", "onclick=add_plugin($gDossier)");
 echo '<table class="result">';
 echo '<tr>';
 echo '<th>'.$table->get_header(0).'</th>';
@@ -85,8 +119,17 @@ echo '</tr>';
 for ($i=0;$i<Database::num_row($ret);$i++)
 {
 	$row=$menu->get_object($ret, $i);
+	$js=$row->me_code;
+	switch ($row->me_type)
+	{
+		case 'PL':
+			$js=sprintf('<A class="line" href="javascript:void(0)"  onclick="mod_plugin(\'%s\',\'%s\')">%s</A>',
+					$gDossier,$row->me_code,$row->me_code);
+			break;
+
+	}
 	echo '<tr>';
-	echo td($row->me_code);
+	echo td($js);
 	echo td($row->me_menu);
 	echo td($row->me_description);
 	echo td($row->me_url);

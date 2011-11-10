@@ -736,7 +736,7 @@ function show_ledger_choice()
 */
 function hide_ledger_choice()
 {
-    g('div_jrn').style.visibility='hidden';
+    if ($('div_jrn')) g('div_jrn').style.visibility='hidden';
 	if ($('div_jrnsearch_op')) $('div_jrnsearch_op').style.display='none';
 }
 /**
@@ -957,9 +957,8 @@ function fill_box(req)
 {
     try{
 
-	if ( $('wait_box')){
-			removeDiv('wait_box');
-			}
+	remove_waiting_box();
+
 	var answer=req.responseXML;
 	var a=answer.getElementsByTagName('ctl');
 	var html=answer.getElementsByTagName('code');
@@ -986,10 +985,7 @@ function fill_box(req)
 function mod_predf_op(dossier_id,od_id)
 {
     var target="mod_predf_op";
-    if ( $(target))
-    {
 	removeDiv(target);
-    }
     var sx=posY;
     var sy=posX;
     var str_style="top:"+sx+";left:"+sy;
@@ -1032,23 +1028,16 @@ function save_predf_op(obj)
 function search_reconcile(dossier,ctl_concern,amount_id,ledger)
 {
 	var dossier=g('gDossier').value;
-	if ( amount_id == undefined ) { amount_id=0; }
-	  var target="search_op";
-    if ( $(target))
-    {
+	if ( amount_id == undefined )
+		{amount_id=0;}
+	else if ($(amount_id))
+		{
+			if ($(amount_id).value) {amount_id=$(amount_id).value;}
+			else if ($(amount_id).innerHTML) {amount_id=$(amount_id).innerHTML;}
+		}
+	var target="search_op";
 	removeDiv(target);
-    }
-    var sx=77;
-    var sy=99;
-	if ( window.scrollY)
-        {
-            sx=window.scrollY+40;
-        }
-        else
-        {
-            sx=document.body.scrollTop+40;
-        }
-    var str_style="top:"+sx+";left:"+sy;
+	var str_style=fixed_position(77, 99)
 
     var div={id:target, cssclass:'inner_box',style:str_style,html:loading(),drag:1};
 
@@ -1056,7 +1045,7 @@ function search_reconcile(dossier,ctl_concern,amount_id,ledger)
 	var target={gDossier:dossier,
 				ctlc:ctl_concern,
 				op:'search_op',
-				ctl:'search_op',
+				ctl:target,
 				ac:'JSSEARCH',
 				amount_id:amount_id,
 				ledger:ledger};
@@ -1068,7 +1057,11 @@ function search_reconcile(dossier,ctl_concern,amount_id,ledger)
 				      method:'get',
 				      parameters:qs,
 				      onFailure:null,
-				      onSuccess:fill_box
+				      onSuccess:function (req){
+						  remove_waiting_box();
+						  $('search_op').innerHTML=req.responseText;
+						  req.responseText.evalScripts();
+					  }
 				  }
 				);
 }
@@ -1088,13 +1081,18 @@ function search_operation(obj)
 				      method:'get',
 				      parameters:qs,
 				      onFailure:null,
-				      onSuccess:fill_box
+				      onSuccess:function (req){
+						  remove_waiting_box();
+						  $('search_op').innerHTML=req.responseText;
+						  req.responseText.evalScripts();
+					  }
 				  }
 				);
 }
 
 function set_reconcile(obj)
  {
+
 	 try
 	{
 		var ctlc=obj.elements['ctlc'];
@@ -1109,7 +1107,7 @@ function set_reconcile(obj)
 				{
 					var str_name=elmt.name;
 					var nValue=str_name.replace("jr_concerned","");
-					if ( $(ctlc.value).value != '') {	$(ctlc.value).value+=',';}
+					if ( $(ctlc.value).value != '') {$(ctlc.value).value+=',';}
 					$(ctlc.value).value+=nValue;
 				}
 			}
@@ -1121,3 +1119,146 @@ function set_reconcile(obj)
 		alert(e.message)
 	}
  }
+function remove_waiting_box()
+{
+			removeDiv('wait_box');
+}
+function get_profile_detail(gDossier,profile_id)
+{
+	waiting_box();
+	var qs="op=display_profile&gDossier="+gDossier+"&p_id="+profile_id+"&ctl=detail_profile";
+	var action=new Ajax.Request ( 'ajax_misc.php',
+				  {
+				      method:'get',
+				      parameters:qs,
+				      onFailure:null,
+				      onSuccess:function(req){
+						  remove_waiting_box();
+						  $('detail_profile').innerHTML=req.responseText;
+						  req.responseText.evalScripts();
+						  $('detail_profile').show();
+					  }
+				  }
+				);
+}
+function get_profile_detail_success(xml)
+{
+	remove_waiting_box();
+
+}
+/**
+ * @brief compute the string to position a div in a fixed way
+ * @return string
+ */
+function fixed_position(p_sx,p_sy)
+{
+	var sx=p_sx;
+	var sy=calcy(p_sy);
+
+    var str_style="top:"+sy+";left:"+sx+"position:absolute";
+	return str_style;
+
+}
+function calcy(p_sy)
+{
+	var sy=p_sy;
+	if ( window.scrollY)
+        {
+            sy=window.scrollY+p_sy;
+        }
+        else
+        {
+            sy=document.body.scrollTop+p_sy;
+        }
+	return sy;
+
+}
+function mod_menu(gdossier,pm_id)
+{
+	waiting_box();
+	removeDiv('divdm'+pm_id);
+	var qs="op=det_menu&gDossier="+gdossier+"&pm_id="+pm_id+"&ctl=divdm"+pm_id;
+	var pos=fixed_position(250,150);
+	var action=new Ajax.Request ( 'ajax_misc.php',
+				  {
+				      method:'get',
+				      parameters:qs,
+				      onFailure:null,
+				      onSuccess:function(req){
+						  try{
+							  remove_waiting_box();
+							  add_div({id:"divdm"+pm_id,drag:1,cssclass:"inner_box",style:pos});
+							  $('divdm'+pm_id).innerHTML=req.responseText;
+						  } catch(e){alert(e.message);}
+					  }
+				  }
+				);
+}
+function add_menu(obj)
+{
+	pdossier=obj.dossier;
+	p_id=obj.p_id
+	waiting_box();
+	removeDiv('divdm'+p_id);
+	var qs="op=add_menu&gDossier="+pdossier+"&p_id="+p_id+"&ctl=divdm"+p_id;
+	var pos=fixed_position(250,150);
+	var action=new Ajax.Request ( 'ajax_misc.php',
+				  {
+				      method:'get',
+				      parameters:qs,
+				      onFailure:null,
+				      onSuccess:function(req){
+						  try{
+							  remove_waiting_box();
+							  add_div({id:"divdm"+p_id,drag:1,cssclass:"inner_box",style:pos});
+							  $('divdm'+p_id).innerHTML=req.responseText;
+						  } catch(e){alert(e.message);}
+					  }
+				  }
+				);
+}
+function add_plugin(p_dossier)
+{
+	waiting_box();
+	removeDiv('divplugin');
+	var qs="op=add_plugin&gDossier="+p_dossier+"&ctl=divplugin";
+
+	var action=new Ajax.Request ( 'ajax_misc.php',
+				  {
+				      method:'get',
+				      parameters:qs,
+				      onFailure:null,
+				      onSuccess:function(req){
+						  try{
+							  remove_waiting_box();
+							  var pos=fixed_position(250,150)+";width:30%";;
+							add_div({id:"divplugin",drag:1,cssclass:"inner_box",style:pos});
+							  $('divplugin').innerHTML=req.responseText;
+						  } catch(e){alert(e.message);}
+					  }
+				  }
+				);
+}
+function mod_plugin(p_dossier,me_code)
+{
+	waiting_box();
+	removeDiv('divplugin');
+	var qs="op=mod_plugin&gDossier="+p_dossier+"&ctl=divplugin&me_code="+me_code;
+
+	var action=new Ajax.Request ( 'ajax_misc.php',
+				  {
+				      method:'get',
+				      parameters:qs,
+				      onFailure:null,
+				      onSuccess:function(req){
+						  try{
+							  remove_waiting_box();
+							  var pos=fixed_position(250,150)+";width:30%";
+							  add_div({id:"divplugin",drag:1,cssclass:"inner_box",style:pos});
+							  $('divplugin').innerHTML=req.responseText;
+
+						  } catch(e){alert(e.message);}
+					  }
+				  }
+				);
+}

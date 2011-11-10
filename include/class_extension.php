@@ -47,30 +47,10 @@ class Extension extends Menu_Ref_sql
     {
         // Verify that the elt we want to add is correct
         if (trim($this->me_code)=="") throw new Exception('Le code ne peut pas être vide');
-        if (trim($this->me_name)=="") throw new Exception('Le nom ne peut pas être vide');
+        if (trim($this->me_menu)=="") throw new Exception('Le nom ne peut pas être vide');
         if (trim($this->me_file)=="") throw new Exception('Chemin incorrect');
         if (file_exists('..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'ext'.DIRECTORY_SEPARATOR.$this->me_file) == false)
             throw new Exception ('Extension non trouvée, le chemin est-il correct?');
-    }
-    /*!\brief transform an array into a valid object
-     *\param $array with the value
-     *\verbatim
-    code => ''
-    desc =>''
-    enable=>''
-    file=>''
-    actif=>''
-    ex_id=>''
-    \endverbatim
-     *\see ajax_extension.php
-     */
-    function fromArray($p_array)
-    {
-        $this->me_menu=$p_array['name'];
-        $this->me_code=$p_array['code'];
-        $this->me_desc=$p_array['desc'];
-        $this->me_file=$p_array['file'];
-		$this->me_type='PL';
     }
     /*!@brief search a extension, the what is the column (extends_code */
     function search($p_what)
@@ -119,5 +99,61 @@ class Extension extends Menu_Ref_sql
             exit();
         }
     }
+	function insert_plugin()
+	{
+		try
+		{
+			$this->cn->start();
+			$this->verify();
+			// check if duplicate
+			$this->me_code = strtoupper($this->me_code);
+			$count = $this->cn->get_value("select count(*) from menu_ref where me_code=$1", array($this->me_code));
+			if ($count != 0)
+				throw new Exception("Doublon");
+			$this->me_type = 'PL';
+			$this->insert();
+			/**
+			 * insert into default profile
+			 */
+			$this->cn->exec_sql("insert into profile_menu(me_code,me_code_dep,p_type_display,p_id)
+					values ($1,$2,$3,$4)",array($this->me_code,'EXTENSION','S',1));
+			$this->cn->commit();
+		}
+		catch (Exception $exc)
+		{
+			echo alert($exc->getMessage());
+			echo $exc->getTraceAsString();
+		}
+	}
+	function update_plugin()
+	{
+		try
+		{
+			$this->cn->start();
+			$this->verify();
+			$this->me_type = 'PL';
+			$this->update();
+			$this->cn->commit();
+		}
+		catch (Exception $exc)
+		{
+			echo alert($exc->getMessage());
+			echo $exc->getTraceAsString();
+		}
+	}
+	function remove_plugin()
+	{
+		try
+		{
+			$this->cn->start();
+			$this->delete();
+			$this->cn->commit();
+		}
+		catch (Exception $exc)
+		{
+			echo alert($exc->getMessage());
+			echo $exc->getTraceAsString();
+		}
+	}
 }
 

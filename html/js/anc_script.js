@@ -103,6 +103,8 @@ function anc_refresh_remain(p_table,p_seq)
 		var tot_table=compute_total_table(p_table,p_seq);
 		var remain = tot_line-tot_table;
 		remain=Math.round(remain *100)/100;
+		var popup_table=p_table.toString();
+		p_table=popup_table.replace("popup","");
 		$('remain'+p_table).innerHTML=remain;
 		if (remain == 0)
 			{$('remain'+p_table).style.color="green"}

@@ -105,7 +105,7 @@ if ( isset ($_REQUEST["action"]) )
     if ($action == "add" && ! isset($_REQUEST['fr_id']))
     {
 
-        echo '<DIV class="u_redcontent">';
+        echo '<DIV class="redcontent">';
         echo '<h1>'._('Définition').'</h1>';
         echo '<form method="post" >';
         echo dossier::hidden();
@@ -116,7 +116,7 @@ if ( isset ($_REQUEST["action"]) )
         echo '</form>';
         echo '<span class="notice">'._("Les lignes vides seront effacées").'</span>';
         echo "</DIV>";
-        echo '<DIV class="u_redcontent">';
+        echo '<DIV class="redcontent">';
 
         echo '<form method="post" enctype="multipart/form-data">';
         echo '<h1> Importation</h1>';
@@ -135,7 +135,7 @@ if ( isset ($_REQUEST["action"]) )
     }
     if ($action=="view"      )
     {
-        echo '<DIV class="u_redcontent">';
+        echo '<DIV class="redcontent">';
         $rap->id=$_REQUEST ['fr_id'];
         echo '<form method="post">';
         $rap->load();

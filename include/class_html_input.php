@@ -88,7 +88,7 @@ class HtmlInput
     }
     function setReadOnly($p_read)
     {
-        $this->readonly=$p_read;
+        $this->readOnly=$p_read;
     }
     /*!\brief set the extra javascript property for the INPUT field
      *\param $p_name name of the parameter
@@ -589,4 +589,10 @@ class HtmlInput
 	}
       return $array[$ind];
     }
+	static function title_box($name,$div)
+	{
+		$r=HtmlInput::anchor_close($div);
+		$r.=h2info($name);
+		return $r;
+	}
 }

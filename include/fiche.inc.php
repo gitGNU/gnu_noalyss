@@ -156,7 +156,7 @@ if ( isset ($_POST["add_line"])  )
 {
     $g_user->can_request(FIC);
 
-    $r= '<DIV class="u_redcontent" style="width:auto">';
+    $r= '<DIV class="redcontent" style="width:auto">';
     if ( $write ==0)
         $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
     else
@@ -180,7 +180,7 @@ if ( isset($_POST['save_line']))
     $g_user->can_request(FICCAT);
     $fiche_def=new Fiche_Def($cn,$_REQUEST['fd_id']);
     $fiche_def->save_order($_POST);
-    $r= '<DIV class="u_redcontent" style="width:auto">';
+    $r= '<DIV class="redcontent" style="width:auto">';
     if ( $write ==0)
         $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
     else
@@ -198,7 +198,7 @@ if ( isset($_POST['save_line']))
 if ( isset ($_POST['remove_line'])   )
 {
     $g_user->can_request(FICCAT);
-    $r= '<DIV class="u_redcontent" style="width:auto">';
+    $r= '<DIV class="redcontent" style="width:auto">';
     if ( $write ==0)
         $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
     else
@@ -221,7 +221,7 @@ if ( isset ($_POST['remove_line'])   )
 if ( isset ($_POST["change_name"] )   )
 {
     $g_user->can_request(FICCAT);
-    $r= '<DIV class="u_redcontent" style="width:auto">';
+    $r= '<DIV class="redcontent" style="width:auto">';
     if ( $write ==0)
         $r.= "<h2 class=\"error\"> "._("Pas d'accès")." </h2>";
     else
@@ -253,7 +253,7 @@ if ( isset ( $_GET["action"]) )
     {
         $g_user->can_request(FICADD);
 
-        echo '<DIV class="u_redcontent" style="width:auto">';
+        echo '<DIV class="redcontent" style="width:auto">';
         $fiche_def=new Fiche_Def($cn,$_GET['fiche']);
         $fiche_def->myList();
 
@@ -265,7 +265,7 @@ if ( isset ( $_GET["action"]) )
     // Display the detail of a card
     if ($action== "detail" )
     {
-        echo '<DIV class="u_redcontent" style="width:auto">';
+        echo '<DIV class="redcontent" style="width:auto">';
         $t=false;
         if ( $g_user->check_action(FICADD)==0)
         {
@@ -325,7 +325,7 @@ if ( isset ( $_GET["action"]) )
     if ($action == "add_modele" )
     {
         $g_user->can_request(FICCAT);
-        echo '<DIV class="u_redcontent" style="width:auto">';
+        echo '<DIV class="redcontent" style="width:auto">';
         echo '<form method="post">';
 	echo HtmlInput::hidden('ac',$_REQUEST['ac']);
         $oFiche_Def=new Fiche_Def($cn);
@@ -343,7 +343,7 @@ if ( isset ( $_GET["action"]) )
     if ($action == "modifier" )
     {
         $g_user->can_request(FICCAT);
-        echo '<DIV class="u_redcontent" style="width:auto">';
+        echo '<DIV class="redcontent" style="width:auto">';
         $fiche_def=new Fiche_Def($cn,$_GET['fiche']);
 
         echo ShowFicheDefInput($fiche_def);
@@ -354,7 +354,7 @@ if ( isset ( $_GET["action"]) )
     // Search a card
     if ( $action == "search" )
     {
-        echo '<DIV class="u_redcontent" style="float:top;width:auto;">';
+        echo '<DIV class="redcontent" style="float:top;width:auto;">';
         ShowRecherche();
         $sql="select distinct f_id,fd_id from fiche join fiche_detail using (f_id)
                  where
@@ -377,7 +377,7 @@ if ( isset ( $_GET["action"]) )
         }
         else
         {
-            echo '<DIV class="u_redcontent" style="width:auto">';
+            echo '<DIV class="redcontent" style="width:auto">';
             echo "Aucun résultat trouvé";
 
         }
@@ -392,7 +392,7 @@ if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) )
 {
     $g_user->can_request(FICADD);
 
-    echo '<DIV class="u_redcontent" style="width:auto">';
+    echo '<DIV class="redcontent" style="width:auto">';
     if ( $write ==0)
         echo "<h2 class=\"error\"> Pas d'accès </h2>";
     else
@@ -423,7 +423,7 @@ if (isset($_POST['delete']) )
 {
     $g_user->can_request(FIC);
     ShowRecherche();
-    echo '<DIV class="u_redcontent">';
+    echo '<DIV class="redcontent">';
     if ( $write ==0)
         echo "<h2 class=\"error\"> Pas d'accès </h2>";
     else
@@ -444,13 +444,13 @@ if ( isset ($_POST["add_fiche"]) )
     $g_user->can_request(FICADD);
     if ( $write ==0)
     {
-        echo '<DIV class="u_redcontent">';
+        echo '<DIV class="redcontent">';
         echo "<h2 class=\"error\"> Pas d'accès </h2>";
     }
     else
     {
         ShowRecherche();
-        echo '<DIV class="u_redcontent">';
+        echo '<DIV class="redcontent">';
         $fiche=new Fiche($cn);
         $fiche->Save($_REQUEST['fiche']);
         $fiche_def=new Fiche_Def($cn,$_GET['fiche']);
@@ -466,7 +466,7 @@ if ( isset ($_POST["add_fiche"]) )
 if ( isset ($_POST["update_fiche"])  )
 {
     $g_user->can_request(FIC);
-    echo '<DIV class="u_redcontent">';
+    echo '<DIV class="redcontent">';
     if ( $write ==0)
         echo "<h2 class=\"error\"> Pas d'accès </h2>";
     else
@@ -489,7 +489,7 @@ if ( isset ($_POST["update_fiche"])  )
 // Move a card to a new category
 if ( isset($_POST['move']))
 {
-    echo '<DIV class="u_redcontent">';
+    echo '<DIV class="redcontent">';
     $fiche=new Fiche($cn,$_POST['f_id']);
     $fiche->move_to($_POST['move_to']);
     $fiche_def=new Fiche_Def($cn,$_GET['fiche']);

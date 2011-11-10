@@ -29,6 +29,8 @@ require_once ('class_dossier.php');
 require_once('user_common.php');
 require_once('ac_common.php');
 require_once 'function_javascript.php';
+require_once 'constant.security.php';
+
 if (isset ($_POST["style_user"])){$_SESSION['g_theme']=$_POST['style_user'];}
 
 html_page_start($_SESSION['g_theme']);
@@ -119,12 +121,12 @@ if (isset($_REQUEST['ac']))
 {
     $all = explode('/', $_REQUEST['ac']);
     $module_selected = $all[0];
-
+	$g_user->audit();
 // Show module and highligt selected one
     show_module($module_selected);
     for ($i = 0; $i != count($all); $i++)
     {   // show the menu
-	show_menu($all, $i);
+		show_menu($all, $i);
     }
 }
 elseif (isset($_REQUEST['plugin_code']))

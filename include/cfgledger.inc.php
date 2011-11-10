@@ -116,7 +116,7 @@ switch ($sa)
 		try
 		{
 			$ledger->id=$_REQUEST['p_jrn'];
-			echo '<div class="u_redcontent">';
+			echo '<div class="redcontent">';
 			echo '<form method="POST">';
 			echo $ledger->display_ledger();
 			echo '<INPUT TYPE="SUBMIT" class="button" VALUE="Sauve" name="update">
@@ -131,7 +131,7 @@ switch ($sa)
 		}
 		break;
 	case 'add': /* Add a new ledger */
-		echo '<div class="u_redcontent">';
+		echo '<div class="redcontent">';
 		echo '<FORM METHOD="POST">';
 		$ledger->input_new();
 		echo HtmlInput::submit('add','Sauver');

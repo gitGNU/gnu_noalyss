@@ -384,7 +384,7 @@ function NoAccess($js=1)
     }
     else
     {
-	echo '<div class="u_redcontent">';
+	echo '<div class="redcontent">';
 	echo '<h2 class="error">' . _(' Cette action ne vous est pas autorisée Contactez votre responsable') . '</h2>';
 	echo '</div>';
     }
@@ -754,7 +754,7 @@ function show_module($selected)
 		echo '</div>';
 		echo '</div>';
 		echo '<div class="content">';
-		echo_warning("Module inexistant [$selected");
+		echo_warning("Module inexistant [$selected ] ");
 		echo '</div>';
 		exit();
 	}
@@ -857,10 +857,13 @@ function show_menu($module, $idx)
 	 */
 		$file = $cn->get_array("select me_file,me_parameter,me_javascript,me_type
 		from menu_ref
+		join profile_menu using (me_code)
+		join profile_user using (p_id)
 		where
 		me_code=$1 and
+		user_name=$2 and
 		(me_file is not null or trim(me_file) <>'' or
-		me_javascript is not null or trim (me_javascript) <> '')", array($module[$idx]));
+		me_javascript is not null or trim (me_javascript) <> '')", array($module[$idx],$g_user->login));
 
 		if (count($file)==0)
 		{

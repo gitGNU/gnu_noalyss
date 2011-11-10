@@ -89,7 +89,7 @@ echo '</div>';
 echo '<div class="lmenu">';
 menu_acc_plan($_SESSION['g_start']);
 echo '</div>';
-echo '<DIV CLASS="u_redcontent">';
+echo '<DIV CLASS="redcontent">';
 /* Analyse ce qui est demandé */
 /* Effacement d'une ligne */
 if (isset ($_GET['action']))

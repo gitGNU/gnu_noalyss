@@ -31,7 +31,7 @@ $ret="";
 $str_dossier=Dossier::get();
 //---------------------------------------------------------------------------
 // action
-// Compute the u_redcontent div
+// Compute the redcontent div
 //---------------------------------------------------------------------------
 if ( isset($_REQUEST['sa']))
 {
@@ -43,7 +43,7 @@ if ( isset($_REQUEST['sa']))
         $new=new Anc_Plan($cn);
         if ( $new->isAppend() == true)
         {
-            $ret.= '<div class="u_redcontent">';
+            $ret.= '<div class="redcontent">';
             $ret.= '<h2 class="info">Nouveau plan</h2>';
             $ret.= '<form method="post">';
             $ret.=dossier::hidden();
@@ -55,7 +55,7 @@ if ( isset($_REQUEST['sa']))
         }
         else
         {
-            $ret.= '<div class="u_redcontent">'.
+            $ret.= '<div class="redcontent">'.
                    '<h2 class="info">'.
                    "Maximum de plan analytique est atteint".
                    "</h2></div>";
@@ -89,7 +89,7 @@ if ( isset($_REQUEST['sa']))
 
         $new->get();
 
-        $ret.= '<div class="u_redcontent">';
+        $ret.= '<div class="redcontent">';
         $ret.= '<h2 class="info">Mise &agrave; jour</h2>';
         $ret.= '<form method="post">';
         $ret.=dossier::hidden();
@@ -109,7 +109,7 @@ if ( isset($_REQUEST['sa']))
         $new->name=$_POST['pa_name'];
         $new->description=$_POST['pa_description'];
         $new->update();
-        $ret='<div class="u_redcontent">';
+        $ret='<div class="redcontent">';
         $ret.='<h2 class="info">Mis &agrave; jour</h2>';
         $ret.="</div>";
     }
@@ -119,7 +119,7 @@ if ( isset($_REQUEST['sa']))
         $po=new Anc_Account($cn);
         $po->pa_id=$_REQUEST['pa_id'];
         $wSa=HtmlInput::hidden("sa","po_write");
-        $ret.='<div class="u_redcontent">';
+        $ret.='<div class="redcontent">';
         $ret.='<form method="post">';
         $ret.=dossier::hidden();
         $ret.=$po->form();
@@ -151,7 +151,7 @@ if ( isset($_REQUEST['sa']))
     {
         $po=new Anc_Account($cn,$_GET['po_id']);
         $po->get_by_id();
-        $ret.='<div class="u_redcontent">';
+        $ret.='<div class="redcontent">';
         $ret.='<form method="post">';
         $ret.=dossier::hidden();
 
@@ -188,7 +188,7 @@ if ( isset($_REQUEST['sa']))
         $new=new Anc_Plan($cn,$_REQUEST['pa_id']);
         $new->get();
         $array=$new->get_poste_analytique(" order by po_name");
-        $ret.='<div class="u_redcontent">';
+        $ret.='<div class="redcontent">';
         $ret.='<table style="width:100%;border:solid blue 2px ;border-style:outset;">';
         $ret.="<tr>";
         $ret.="<th> Nom </td>";
@@ -289,7 +289,7 @@ else
     echo '</div>';
 }
 //---------------------------------------------------------------------------
-// show the u_redcontent part
+// show the redcontent part
 //
 //
 //---------------------------------------------------------------------------

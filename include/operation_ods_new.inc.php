@@ -91,14 +91,16 @@ echo HtmlInput::button('add', _('Ajout d\'une ligne'), 'onClick="quick_writing_a
 
 echo HtmlInput::submit('summary', _('Sauvez'));
 
+echo '<div style="position:absolute;right:20px">';
 echo '<table class="info_op">'.
  '<tr>'.td(_('Débit')) . '<td id="totalDeb"></td>' .
  td(_('Crédit')) . ' <td id="totalCred"></td>' .
  td(_('Difference')) . ' <td id="totalDiff"></td>';
 echo '</table>';
+echo '</div>';
 
 $iconcerned=new IConcerned('jrn_concerned');
-$iconcerned->extra=0;
+$iconcerned->amount_id="totalDeb";
 echo "Opération rapprochée : ".$iconcerned->input();
 echo '</form>';
 
