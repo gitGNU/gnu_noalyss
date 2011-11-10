@@ -24,7 +24,7 @@
  * \brief Html Input
  *  - name is the name and id of the input
  *  - extra amount of the operation to reconcile
- *  - extra2 ledger (all, ods,...)
+ *  - extra2 ledger paid
  */
 require_once('class_html_input.php');
 class IConcerned extends HtmlInput
@@ -35,7 +35,7 @@ class IConcerned extends HtmlInput
 		$this->name=$p_name;
 		$this->value=$p_value;
 		$this->amount_id=null;
-		$this->ledger='ALL';
+		$this->paid='';
 	}
     /*!\brief show the html  input of the widget*/
     public function input($p_name=null,$p_value=null)
@@ -47,15 +47,18 @@ class IConcerned extends HtmlInput
 
 
         $r=sprintf("
-                   <INPUT TYPE=\"button\" onClick=search_reconcile(".dossier::id().",'%s','%s','%s') value=\"?\">
+                   <INPUT TYPE=\"button\" onClick=\"search_reconcile(".dossier::id().",'%s','%s','%s')\" value=\"?\">
                    <INPUT TYPE=\"text\"  style=\"color:black;background:lightyellow;border:solid 1px grey;\"  NAME=\"%s\" ID=\"%s\" VALUE=\"%s\" SIZE=\"8\" readonly>
+				   <INPUT TYPE=\"button\" onClick=\"$('%s').value=''\" value=\"X\">
+
                    ",
                    $this->name,
                    $this->amount_id,
-                   $this->ledger,
+                   $this->paid,
                    $this->name,
                    $this->name,
-                   $this->value
+                   $this->value,
+                   $this->name
                   );
         return $r;
     }
