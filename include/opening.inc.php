@@ -254,9 +254,6 @@ if ($sa == 'step4')
 }
 // if sa=step4 then record it
 //
-/*
- * @todo finir les ouvertures d'année
- */
 if ($_REQUEST['sa'] == 'step5')
 {
 	$ledger = new Acc_Ledger($cn, $_REQUEST['p_jrn']);
