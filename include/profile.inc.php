@@ -76,6 +76,7 @@ if ( isset($_POST['clone']))
 				where p_id=$2
 			",array($new_id,$p_id));
 		$cn->commit();
+		$p_id=$new_id;
 
 	}
 	catch (Exception $exc)
