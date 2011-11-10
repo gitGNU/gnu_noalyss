@@ -62,7 +62,7 @@ $pm_default=new ICheckBox('pm_default','1');
 $pm_default->set_check($array[0]['pm_default']);
 
 ?>
-<form method="POST">
+<form method="POST" onsubmit="return confirm('Vous confirmez ?')">
 	<?=HtmlInput::hidden('pm_id',$array[0]['pm_id'])?>
 	<?=HtmlInput::hidden('p_id',$array[0]['p_id'])?>
 <table>
