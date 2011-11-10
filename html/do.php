@@ -30,6 +30,19 @@ require_once('user_common.php');
 require_once('ac_common.php');
 require_once 'function_javascript.php';
 require_once 'constant.security.php';
+// if gDossier is not set redirect to form to choose a folder
+if ( ! isset($_REQUEST['gDossier']))
+{
+    redirect('user_login.php');
+    exit();
+}
+if ( ! isset ($_SESSION['g_theme']))
+  {
+    echo "<h2> Vous  êtes déconnecté</h2>";
+    redirect('user_login.php');
+    exit();
+
+  }
 
 if (isset ($_POST["style_user"])){$_SESSION['g_theme']=$_POST['style_user'];}
 
@@ -37,12 +50,6 @@ html_page_start($_SESSION['g_theme']);
 
 global $g_user, $cn;
 
-// if gDossier is not set redirect to form to choose a folder
-if ( ! isset($_REQUEST['gDossier']))
-{
-    redirect('user_login.php');
-    exit();
-}
 
 
 $cn = new Database(Dossier::id());
