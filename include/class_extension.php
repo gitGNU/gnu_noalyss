@@ -40,9 +40,6 @@ require_once 'class_menu_ref_sql.php';
 
 class Extension extends Menu_Ref_sql
 {
-	/**
-	 * @todo to be rewritten
-	 */
     public function verify()
     {
         // Verify that the elt we want to add is correct
