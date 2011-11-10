@@ -122,7 +122,6 @@ class Extension extends Menu_Ref_sql
 		catch (Exception $exc)
 		{
 			echo alert($exc->getMessage());
-			echo $exc->getTraceAsString();
 		}
 	}
 	function update_plugin()
@@ -138,7 +137,6 @@ class Extension extends Menu_Ref_sql
 		catch (Exception $exc)
 		{
 			echo alert($exc->getMessage());
-			echo $exc->getTraceAsString();
 		}
 	}
 	function remove_plugin()
@@ -152,7 +150,6 @@ class Extension extends Menu_Ref_sql
 		catch (Exception $exc)
 		{
 			echo alert($exc->getMessage());
-			echo $exc->getTraceAsString();
 		}
 	}
 }

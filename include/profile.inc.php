@@ -81,7 +81,7 @@ if ( isset($_POST['clone']))
 	}
 	catch (Exception $exc)
 	{
-		echo $exc->getTraceAsString();
+		echo alert($exc->getMessage());
 		$cn->rollback();
 	}
 
@@ -220,7 +220,6 @@ if ( isset ($_POST['add_menu']))
 	}
 	catch (Exception $exc)
 	{
-		echo $exc->getTraceAsString();
 		alert($exc->getMessage());
 	}
 
