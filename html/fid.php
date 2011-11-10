@@ -23,7 +23,7 @@
 /*!\file
  * \brief Fid for the ajax request for cards
  * \see fiche_search.php
- * Valid parameter GET are 
+ * Valid parameter GET are
  * - d type = cred, deb, all or filter or any sql where clause if the d starts with [sql]
  * - j is the legdger
  * - l field for the label
@@ -80,11 +80,21 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
             $filter_card="";
             break;
         case 'filter':
-            $get_cred='jrn_def_fiche_cred';
-            $get_deb='jrn_def_fiche_deb';
-            $filter_jrn=$cn->make_list("select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_id=$1",array($jrn));
-            $filter_card=($filter_jrn != "")?" and fd_id in ($filter_jrn)":' and false ';
+			 $get_cred='jrn_def_fiche_cred';
+        $get_deb='jrn_def_fiche_deb';
+		$deb=$cn->get_value("select $get_deb from jrn_def where jrn_def_id=$1",array($jrn));
+		$cred=$cn->get_value("select $get_cred from jrn_def where jrn_def_id=$1",array($jrn));
 
+		$filter_jrn="";
+
+		if ($deb!=='' && $cred!='')
+			$filter_jrn	=$deb.','.$cred;
+		elseif($deb != '')
+			$filter_jrn=$deb;
+		elseif($cred != '')
+			$filter_jrn=$cred;
+
+		$filter_card=($filter_jrn != "")?" and fd_id in ($filter_jrn)":' and false ';
             break;
         case 'all':
             $filter_card='';

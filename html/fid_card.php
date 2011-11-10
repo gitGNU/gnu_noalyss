@@ -8,7 +8,7 @@
  *   (at your option) any later version.
  *
  *   PhpCompta is distributed in the hope that it will be useful,
- 
+
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
@@ -30,17 +30,17 @@
 require_once('class_database.php');
 require_once('class_dossier.php');
 /*!\brief
- *  Received parameters are 
+ *  Received parameters are
  *   - j for the ledger
  *   - e for extra (typecard)
- *   - type is the ledger type (ach, ven, fin, gl or nothing) 
+ *   - type is the ledger type (ach, ven, fin, gl or nothing)
  *   - FID contains the string the user is typing
  *\note the typecard can be
  *   - cred card for the debit only if j is set
  *   - deb card for the debit only if j is set
  *   - filter card for debit and credit only if j OR type is set
  *   - list of fd_id
- *     
+ *
  */
 
 $jrn= ( ! isset($_REQUEST['j']))?-1:$_REQUEST['j'];
@@ -79,8 +79,19 @@ if ( $jrn != -1 )
     case 'filter':
         $get_cred='jrn_def_fiche_cred';
         $get_deb='jrn_def_fiche_deb';
-        $filter_jrn=$cn->make_list("select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_id=$1",array($jrn));
-        $filter_card=($filter_jrn != "")?" and fd_id in ($filter_jrn)":' and false ';
+		$deb=$cn->get_value("select $get_deb from jrn_def where jrn_def_id=$1",array($jrn));
+		$cred=$cn->get_value("select $get_cred from jrn_def where jrn_def_id=$1",array($jrn));
+
+		$filter_jrn="";
+
+		if ($deb!=='' && $cred!='')
+			$filter_jrn	=$deb.','.$cred;
+		elseif($deb != '')
+			$filter_jrn=$deb;
+		elseif($cred != '')
+			$filter_jrn=$cred;
+
+		$filter_card=($filter_jrn != "")?" and fd_id in ($filter_jrn)":' and false ';
 
         break;
 
