@@ -38,7 +38,7 @@ $User=new User(new Database());
 $User->Check();
 // retrieve the document
 $r=$cn->exec_sql("select md_id,md_lob,md_filename,md_mimetype
-                 from document_modele where md_id=".$_REQUEST['md_id']);
+                 from document_modele where md_id=$1",array($_REQUEST['md_id']));
 if ( Database::num_row($r) == 0 )
 {
     echo_error("Invalid Document");
