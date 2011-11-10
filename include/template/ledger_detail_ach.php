@@ -35,7 +35,7 @@
 							<tr><td>
 							<?
 							$bk=new Fiche($cn,$obj->det->array[0]['qp_supplier']);
-							echo td(_('Client'));
+							echo td(_('Fournisseur'));
 
 							$view_history= sprintf('<A class="detail" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
 											$bk->id, $gDossier, $bk->get_quick_code());
