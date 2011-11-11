@@ -21,7 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file
- * \brief Fid for the ajax request for cards
+ * \brief export definition of a report
  */
 
 
