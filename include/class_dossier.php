@@ -104,18 +104,35 @@ class dossier
      * \brief Return all the users
      * as an array
      */
-    function get_user()
+    function get_user_folder($sql="")
     {
-        $sql="select * from ac_users where use_login!='phpcompta'";
-        $Res=$this->cn->exec_sql($sql);
-        $Num=$this->cn->size();
-        if ( $Num == 0 ) return null;
-        for ($i=0;$i < $Num; $i++)
-        {
-            $User[]=$this->cn->fetch($i);
+        
+        $sql="
+            select
+                use_id,
+                use_first_name,
+                use_name,
+                use_login,
+                use_active,
+                use_admin,
+                ag_dossier
+            from
+            ac_users  as ac
+            left join    (select array_to_string(array_agg(dos_name),',') as ag_dossier,jt.use_id as jt_use_id
+                        from ac_dossier as ds
+                        join  jnt_use_dos as jt on (jt.dos_id=ds.dos_id)
+                        join priv_user as pu on (pu.priv_jnt=jt.jnt_id)
+                        where
+                        pu.priv_priv != 'X'
+                        group by jt.use_id) as dossier_name on (jt_use_id=ac.use_id)
+            where
+            use_login!='phpcompta'
+            $sql
+            ";
+        
+        $res=$this->cn->get_array($sql);
+        return $res;
         }
-        return $User;
-    }
 
     /*!\brief check if gDossier is set */
     static function check()

@@ -187,12 +187,12 @@ function ajax_saldo(p_ctl)
     var gDossier=$('gDossier').value;
     var ctl_value=trim($(p_ctl).value);
     var jrn=$('p_jrn').value;
-    queryString="FID="+ctl_value;
+    queryString="FID="+ctl_value+"&op=saldo";
     queryString=queryString+'&gDossier='+gDossier+'&j='+jrn;
     queryString=queryString+'&ctl='+ctl_value;
     /*  alert(queryString); */
     var action=new Ajax.Request (
-                   "get_saldo.php",
+                   "ajax_misc.php",
                    {
                    method:'get',
                    parameters:queryString,

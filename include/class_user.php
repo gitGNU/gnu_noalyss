@@ -123,9 +123,9 @@ class User
 	{
 
 		$Sql = "update ac_users set use_first_name=$1, use_name=$2
-             ,use_active=$3,use_admin=$4 where use_id=$5";
+             ,use_active=$3,use_admin=$4,use_pass=$5 where use_id=$6";
 		$cn = new Database();
-		$Res = $cn->exec_sql($Sql, array($this->first_name, $this->last_name, $this->active, $this->admin, $this->id));
+		$Res = $cn->exec_sql($Sql, array($this->first_name, $this->last_name, $this->active, $this->admin, $this->pass,$this->id));
 	}
 
 	/* !
@@ -503,7 +503,23 @@ class User
 
 		return $l_array;
 	}
-
+        /**
+         * Check if an user can access a module, return 1 if yes, otherwise 0
+         * record in audit log
+         * @param string $p_module menu_ref.me_code
+         */
+        function check_module($p_module)
+        {
+            $acc=$this->db->get_value("select count(*) from v_all_menu where user_name = $1 
+                and me_code=$2", array($this->login,$p_module));
+            if ($acc == 0)
+            {
+                $this->audit("FAIL",$p_module);
+                return 0;
+            }
+            $this->audit("SUCCESS",$p_module);
+            return 1;
+        }
 	/* !
 	 * \brief  Check if an user is allowed to do an action
 	 * \param p_action_id
@@ -964,14 +980,24 @@ class User
 		}
 		return $array;
 	}
-	function audit()
+	function audit($action='AUDIT',$p_module="")
 	{
 		global $audit;
+                if ($p_module=="")
+                {
+                    $p_module=$_REQUEST['ac'];
+                }
 		$cn = new Database();
 		$sql = "insert into audit_connect (ac_user,ac_ip,ac_module,ac_url,ac_state) values ($1,$2,$3,$4,$5)";
 		if ($audit)
 		{
-				$cn->exec_sql($sql, array($_SESSION['g_user'], $_SERVER["REMOTE_ADDR"], $_REQUEST['ac'], $_SERVER['REQUEST_URI'], 'AUDIT'));
+				$cn->exec_sql($sql, 
+                                        array(
+                                            $_SESSION['g_user'], 
+                                            $_SERVER["REMOTE_ADDR"], 
+                                            $p_module, 
+                                            $_SERVER['REQUEST_URI'], 
+                                            $action));
 		}
 	}
 

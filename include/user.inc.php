@@ -23,11 +23,14 @@
 /*!\file
  *
  *
- * \brief user managemnt
+ * \brief user managemnt, included from admin_repo, 
+ * action=user_mgt
  *
  */
-
+require_once 'class_sort_table.php';
+/******************************************************/
 // Add user
+/******************************************************/
 if ( isset ($_POST["LOGIN"]) )
 {
     $cn=new Database();
@@ -46,10 +49,6 @@ if ( isset ($_POST["LOGIN"]) )
                        array($first_name,$last_name,$login,$pass5));
 } //SET login
 
-// Show all the existing user on 7 columns
-$repo=new Dossier(0);
-$cn=$repo->get_user();
-$compteur=0;
 ?>
 <div class="content" style="width:80%;margin-left:10%">
 <h2>Gestion Utilisateurs</h2>
@@ -68,33 +67,69 @@ echo '</TABLE>';
 
 ?>
 </FORM>
-
-<TABLE><TR>
 <?php
-if ( $cn != null )
+// Show all the existing user on 7 columns
+$repo=new Dossier(0);
+/******************************************************/
+// Detail of a user
+/******************************************************/
+if ( isset($_REQUEST['det']))
 {
-    foreach ( $cn as $rUser)
+    require_once("user_detail.inc.php");
+  
+    exit();
+}
+
+    
+$compteur=0;
+$header=new Sort_Table();
+$url=basename($_SERVER['PHP_SELF'])."&action=".$_REQUEST['action'];
+$header->add("Login", $url," order by use_login asc", "order by use_login desc","la", "ld");
+$header->add("Nom", $url," order by use_login asc", "order by use_login desc","la", "ld");
+$header->add('Dossier',$url,' order by dossier_ag asc','order by dossier_ag desc',
+        'da','dd');        
+$ord=(isset($_REQUEST['ord']))?$_REQUEST['ord']:'la';
+$sql=$header->get_sql_order($ord);
+
+$a_user=$repo->get_user_folder($sql);
+
+if ( !empty ($a_user) )
+{
+    echo '<table class="result">';
+    echo '<tr>';
+    echo '<th>'.$header->get_header(0).'</th>';
+    echo '<th>'.$header->get_header(1).'</th>';
+    echo th("Prénom");
+    echo th("Actif");
+    echo '<th>'.$header->get_header(2).'</th>';
+    echo '</tr>';
+    
+    foreach ( $a_user as $r_user)
     {
         $compteur++;
-        if ( $compteur==0 ) echo "<TR>";
-        if ( $compteur%3 == 0)     echo "</TR><TR>";
+        $class=($compteur%2==0)?"odd":"even";
+        
+        echo "<tr $class>";
         if ( $rUser['use_active'] == 0 )
         {
-            $Active="not actif";
+            $Active="non actif";
         }
         else
         {
-            $Active="";
+            $Active="Actif";
         }
-        printf('<TD><A HREF=priv_user.php?UID=%s> %s %s ( %s )</A> %s </TD>',
-               $rUser['use_id'],
-               $rUser['use_first_name'],
-               $rUser['use_name'],
-               $rUser['use_login'],
-               $Active);
+        $det_url=$url."&det&use_id=".$r_user['use_id'];
+        echo "<td>";
+        echo HtmlInput::anchor($r_user['use_login'],$det_url);
+        echo "</td>";
+        
+        echo td($r_user['use_name']);
+        echo td($r_user['use_first_name']);
+        echo td($Active);
+        echo '</tr>';
     }// foreach
+    echo '</table>';
 } // $cn != null
 ?>
-</TABLE>
 
 </div>

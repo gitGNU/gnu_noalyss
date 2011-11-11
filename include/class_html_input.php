@@ -595,4 +595,25 @@ class HtmlInput
 		$r.=h2info($name);
 		return $r;
 	}
+        /**
+         *Return a simple anchor with a url or a javascript
+         * if $p_js is not null then p_url will be javascript:void(0)
+         * we don't add the event onclick. You must give p_url OR p_js
+         * default CSS class=line
+         * @param string $p_text text of the anchor
+         * @param string $p_url  url
+         * @param string $p_js javascript
+         */
+      static function anchor($p_text,$p_url="",$p_js="")
+      {
+          if ($p_js != "")
+          {
+              $p_url="javascript:void(0)";
+          }
+          
+  
+          $str=sprintf('<a class="line" href="%s" %s>%s</a>',
+                  $p_url,$p_js,$p_text);
+          return $str;
+      }
 }

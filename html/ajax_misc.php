@@ -521,4 +521,7 @@ EOF;
 		$new=false;
 		require_once 'template/plugin_detail.php';
 		break;
+         case 'saldo':
+             require_once 'ajax_bank_saldo.inc.php';
+             break;
 }

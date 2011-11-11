@@ -32,10 +32,11 @@ $cn=new Database($gDossier);
 
 
 require_once ('class_user.php');
-$User=new User(new Database());
+$User=new User($cn);
 /*!\todo Add security here
  */
 $User->Check();
+if ( $User->check_module("CFGDOCUMENT") == 0 ) exit();
 // retrieve the document
 $r=$cn->exec_sql("select md_id,md_lob,md_filename,md_mimetype
                  from document_modele where md_id=$1",array($_REQUEST['md_id']));
