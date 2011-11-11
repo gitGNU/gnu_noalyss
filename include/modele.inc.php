@@ -308,92 +308,92 @@ if ($sa == 'add')
 				?>
 
 		            </form>
-					<?php
-				}
-				//---------------------------------------------------------------------------
-				// Modify
-				if ($sa == 'mod' && isset($_GET['m']))
-				{
-					$cn = new Database();
+		<?php
+	}
+	//---------------------------------------------------------------------------
+	// Modify
+	if ($sa == 'mod' && isset($_GET['m']))
+	{
+		$cn = new Database();
 
-					echo '<form method="post">';
-					$name = $cn->get_value(
-							"select mod_name from modeledef where " .
-							" mod_id=$1", array($_GET['m']));
+		echo '<form method="post">';
+		$name = $cn->get_value(
+				"select mod_name from modeledef where " .
+				" mod_id=$1", array($_GET['m']));
 
-					$desc = $cn->get_value(
-							"select mod_desc from modeledef where " .
-							" mod_id=$1", array($_GET['m']));
-					$wText = new IText();
-					echo 'Nom : ' . $wText->input('name', $name);
-					$wDesc = new ITextArea();
-					$wDesc->heigh = 5;
-					echo '<br>Description :<br>';
-					echo $wDesc->input('desc', $desc);
-					echo HtmlInput::hidden('m', $_GET['m']);
-					echo HtmlInput::hidden('action', 'modele_mgt');
-					echo '<br>';
-					echo HtmlInput::button_anchor('Retour', '?action=modele_mgt');
-					echo HtmlInput::submit('upd', 'Modifie');
-					echo '</form>';
-				}
+		$desc = $cn->get_value(
+				"select mod_desc from modeledef where " .
+				" mod_id=$1", array($_GET['m']));
+		$wText = new IText();
+		echo 'Nom : ' . $wText->input('name', $name);
+		$wDesc = new ITextArea();
+		$wDesc->heigh = 5;
+		echo '<br>Description :<br>';
+		echo $wDesc->input('desc', $desc);
+		echo HtmlInput::hidden('m', $_GET['m']);
+		echo HtmlInput::hidden('action', 'modele_mgt');
+		echo '<br>';
+		echo HtmlInput::button_anchor('Retour', '?action=modele_mgt');
+		echo HtmlInput::submit('upd', 'Modifie');
+		echo '</form>';
+	}
 
-				//---------------------------------------------------------------------------
-				// action = del
-				//---------------------------------------------------------------------------
-				if ($sa == 'del')
-				{
-					$cn = new Database();
-					$name = $cn->get_value('select mod_name from modeledef where mod_id=$1', array($_REQUEST['m']));
-					echo '<form method="post">';
-					echo HtmlInput::hidden('d', $_REQUEST['m']);
-					echo HtmlInput::hidden('sa', 'remove');
-					echo '<h2 class="error">Etes vous sure et certain de vouloir effacer ' . $name . ' ???</h2>';
-					$confirm = new ICheckBox();
-					$confirm->name = "p_confirm";
-					echo 'Cochez la case si vous êtes sûr de vouloir effacer ce modèle';
-					echo $confirm->input();
-					echo HtmlInput::submit('remove', 'Effacer');
-					echo HtmlInput::button_anchor('Retour', '?action=modele_mgt');
-					echo '</form>';
-				}
-				//---------------------------------------------------------------------------
-				// action = del
-				//---------------------------------------------------------------------------
-				if ($sa == 'remove')
-				{
-					if (!isset($_REQUEST['p_confirm']))
-					{
-						echo('Désolé, vous n\'avez pas coché la case');
-						echo HtmlInput::button_anchor('Retour', '?action=modele_mgt');
-						exit();
-					}
+	//---------------------------------------------------------------------------
+	// action = del
+	//---------------------------------------------------------------------------
+	if ($sa == 'del')
+	{
+		$cn = new Database();
+		$name = $cn->get_value('select mod_name from modeledef where mod_id=$1', array($_REQUEST['m']));
+		echo '<form method="post">';
+		echo HtmlInput::hidden('d', $_REQUEST['m']);
+		echo HtmlInput::hidden('sa', 'remove');
+		echo '<h2 class="error">Etes vous sure et certain de vouloir effacer ' . $name . ' ???</h2>';
+		$confirm = new ICheckBox();
+		$confirm->name = "p_confirm";
+		echo 'Cochez la case si vous êtes sûr de vouloir effacer ce modèle';
+		echo $confirm->input();
+		echo HtmlInput::submit('remove', 'Effacer');
+		echo HtmlInput::button_anchor('Retour', '?action=modele_mgt');
+		echo '</form>';
+	}
+	//---------------------------------------------------------------------------
+	// action = del
+	//---------------------------------------------------------------------------
+	if ($sa == 'remove')
+	{
+		if (!isset($_REQUEST['p_confirm']))
+		{
+			echo('Désolé, vous n\'avez pas coché la case');
+			echo HtmlInput::button_anchor('Retour', '?action=modele_mgt');
+			exit();
+		}
 
-					$cn = new Database();
-					$msg = "dossier";
-					$name = $cn->get_value("select mod_name from modeledef where mod_id=$1", array($_REQUEST['m']));
-					if (strlen(trim($name)) == 0)
-					{
-						echo "<h2 class=\"error\"> $msg inexistant</h2>";
-						exit();
-					}
-					$sql = "drop database " . domaine . "mod" . sql_string($_REQUEST['m']);
-					ob_start();
-					if ($cn->exec_sql($sql) == false)
-					{
-						ob_end_clean();
+		$cn = new Database();
+		$msg = "dossier";
+		$name = $cn->get_value("select mod_name from modeledef where mod_id=$1", array($_REQUEST['m']));
+		if (strlen(trim($name)) == 0)
+		{
+			echo "<h2 class=\"error\"> $msg inexistant</h2>";
+			exit();
+		}
+		$sql = "drop database " . domaine . "mod" . sql_string($_REQUEST['m']);
+		ob_start();
+		if ($cn->exec_sql($sql) == false)
+		{
+			ob_end_clean();
 
-						echo "<h2 class=\"error\">
-                Base de donnée " . domaine . "mod" . $_REQUEST['m'] . "  est accèdée, déconnectez-vous d'abord</h2>";
-						exit;
-					}
-					ob_flush();
-					$sql = "delete from modeledef where mod_id=$1";
-					$cn->exec_sql($sql, array($_REQUEST['m']));
-					print '<h2 class="info">';
-					print "Voilà le modèle $name est effacé</H2>";
-					echo HtmlInput::button_anchor('Retour', '?action=modele_mgt');
-				}
-				echo '</div>';
-				?>
+			echo "<h2 class=\"error\">
+	Base de donnée " . domaine . "mod" . $_REQUEST['m'] . "  est accèdée, déconnectez-vous d'abord</h2>";
+			exit;
+		}
+		ob_flush();
+		$sql = "delete from modeledef where mod_id=$1";
+		$cn->exec_sql($sql, array($_REQUEST['m']));
+		print '<h2 class="info">';
+		print "Voilà le modèle $name est effacé</H2>";
+		echo HtmlInput::button_anchor('Retour', '?action=modele_mgt');
+	}
+	echo '</div>';
+	?>
 
