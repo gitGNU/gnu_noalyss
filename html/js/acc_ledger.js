@@ -32,10 +32,10 @@ function update_predef(p_type,p_direct)
 {
     var jrn=g("p_jrn").value;
     var dossier=g("gDossier").value;
-    var querystring='gDossier='+dossier+'&l='+jrn+'&t='+p_type+'&d='+p_direct;
+    var querystring='gDossier='+dossier+'&l='+jrn+'&t='+p_type+'&d='+p_direct+"&op=up_predef";
     g("p_jrn_predef").value=jrn;
     var action=new Ajax.Request(
-                   "get_predef.php",
+                   "ajax_misc.php",
                    {
                    method:'get',
                    parameters:querystring,

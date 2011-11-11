@@ -522,6 +522,9 @@ EOF;
 		require_once 'template/plugin_detail.php';
 		break;
          case 'saldo':
-             require_once 'ajax_bank_saldo.inc.php';
+             require_once 'ajax_bank_saldo.php';
+             break;
+         case 'up_predef':
+             require_once 'ajax_update_predef.php';
              break;
 }
