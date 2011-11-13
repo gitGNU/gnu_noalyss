@@ -435,7 +435,7 @@ div.content a {
   font-family:helvetica,arial,sans-serif;
   text-decoration: none;
   display: block;
-  color: #0000ff;
+  color: blue;
 padding: 1px ;
 
 }
@@ -565,6 +565,10 @@ background-color:white;
 	   visibility:hidden;
 	   z-index:2;
 	   width:25em;
+	   padding-bottom: 10;
+	   padding-top: 10;
+	   padding-left: 10;
+	   padding-right: 10;
 
 }
 

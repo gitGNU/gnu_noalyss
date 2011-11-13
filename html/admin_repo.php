@@ -19,7 +19,7 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /*! \file
- * \brief Administration of the repository : creation of user, folder, security, 
+ * \brief Administration of the repository : creation of user, folder, security,
  *        templates... Accessible only by the administrator
  */
 require_once("user_common.php");
@@ -38,7 +38,7 @@ if ($User->admin != 1)
     html_page_stop();
     return;
 }
-
+load_all_script();
 echo '<H2 class="info"> Administration Globale</H2>';
 echo '<div class="topmenu">';
 

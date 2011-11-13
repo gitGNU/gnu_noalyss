@@ -85,9 +85,9 @@ function update_pj()
 {
     var jrn=g("p_jrn").value;
     var dossier=g("gDossier").value;
-    var querystring='gDossier='+dossier+'&l='+jrn;
+    var querystring='gDossier='+dossier+'&l='+jrn+"&op=upd_receipt";
     var action=new Ajax.Request(
-                   "get_pj.php",
+                   "ajax_misc.php",
                    {
                    method:'get',
                    parameters:querystring,

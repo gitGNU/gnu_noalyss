@@ -72,7 +72,8 @@ switch ( $r['ac_state'] )
   case 'SUCCESS';
   echo '<td style="background-color:green;color:white">';
   break;
-
+  default:
+	  echo '<td>';
   }
 ?>
 <?=$r['ac_state']?>

@@ -37,7 +37,7 @@
 require_once('class_database.php');
 require_once('ac_common.php');
 
-class dossier
+class Dossier
 {
     private static $variable=array("id"=>"dos_id",
                                    "name"=>"dos_name",
@@ -60,7 +60,7 @@ class dossier
      *
      * Show the folder where user have access. Return    : nothing
      ++*/
-    function show_dossier($p_type,$p_first=0,$p_max=10,$p_Num=0)
+    function show_dossier($p_type,$p_first=0,$p_max=0,$p_Num=0)
     {
         $l_user=$_SESSION['g_user'];
         if ( $p_max == 0 )
@@ -106,7 +106,7 @@ class dossier
      */
     function get_user_folder($sql="")
     {
-        
+
         $sql="
             select
                 use_id,
@@ -129,7 +129,7 @@ class dossier
             use_login!='phpcompta'
             $sql
             ";
-        
+
         $res=$this->cn->get_array($sql);
         return $res;
         }
@@ -244,13 +244,57 @@ class dossier
     }
 
     static function get_version($p_cn)
-    {
-        return $p_cn->get_value('select val from version');
-    }
-    static function connect()
-    {
-	$id=Dossier::id();
-	$cn= new Database($id);
-	return $cn;
-    }
+	{
+		return $p_cn->get_value('select val from version');
+	}
+
+	static function connect()
+	{
+		$id = Dossier::id();
+		$cn = new Database($id);
+		return $cn;
+	}
+	/**
+	 *connect to folder and give to admin. the profile Admin(builtin)
+	 * @param int $p_id dossier::id()
+	 */
+	static function synchro_admin($p_id)
+	{
+		// connect to target
+		$cn=new Database($p_id);
+
+		if (! $cn->exist_table("profile_menu"))
+		{
+			echo_warning("Dossier invalide");
+			return;
+		}
+		// connect to repo
+		$repo=new Database();
+
+		$a_admin=$repo->get_array("select use_login from ac_users where
+			use_admin=1 and use_active=1");
+		try
+		{
+			/**
+			 * synchro global
+			 */
+			$cn->start();
+			for ($i=0;$i<count($a_admin);$i++)
+			{
+				$exist=$cn->get_value("select p_id from profile_user
+					where user_name=$1",array($a_admin[$i]['use_login']));
+				if ( $exist == "")
+				{
+					$cn->exec_sql("insert into profile_user(user_name,p_id) values($1,1)",
+							array($a_admin[$i]['use_login']));
+				}
+
+			}
+			$cn->commit();
+		} catch(Exception $e)
+		{
+			echo_warning($e->getMessage());
+			$cn->rollback();
+		}
+	}
 }

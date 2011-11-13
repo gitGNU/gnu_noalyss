@@ -17,8 +17,8 @@
 */
 /*!\file
  * \brief create the infobulle, the internalization is not yet implemented
- * \code 
- // Example 
+ * \code
+ // Example
   echo JS_INFOBULLE;
   echo HtmlInput::infobulle(x);
  \endcode
@@ -27,10 +27,10 @@
 var posX=0,posy=0,offsetX=10,offsetY=10;
 document.onmousemove=getPosition;
 var content=new Array();
-content[0]="Donnez le quickcode ou tapez une partie du nom de la fiche puis cliquer sur rechercher, si la recherche ne donne rien, il vous sera proposé de créer une nouvelle fiche";
+content[0]="Donnez le quickcode ou tapez une partie du nom de la fiche, en appuyant sur le bouton, vous pourrez la chercher";
 content[1]="(optionnel) La description est un commentaire libre qui sert à identifier cette opération";
 content[2]="Selectionnez le journal où l'opération doit être sauvée";
-content[3]="Les périodes comptables servent comme un second contrôle pour la date de l'opération. Modifiez dans vos préférence pour avoir une autre période par défaut";
+content[3]="Les périodes comptables servent comme un second contrôle pour la date de l'opération. Modifiez dans vos préférence pour avoir une autre période par défaut. Pour ne plus avoir à changer la période aller dans COMPANY, et mettez \"Afficher la période comptable\" à non";
 content[4]="(optionnel) L'échéance est la date limite de paiement";
 content[5]="(optionnel)Le numéro d'extrait permet de retrouver plus facilement l'extrait de banque";
 content[6]="Indiquez ici le prix hors tva si vous êtes affilié à la tva et que vous  pouvez la déduire , sinon indiquez ici le total tva incluse et utilisez un taux tva de 0%";

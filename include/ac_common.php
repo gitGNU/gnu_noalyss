@@ -803,12 +803,20 @@ function find_default_module()
 
     if (empty($default_module))
     {
-	$default_module = $cn->get_array("select me_code
-	    from profile_menu join profile_user using (p_id)
-	    where
-	    user_name=$1 and p_order=(select min(p_order) from profile_menu
-		where user_name=$2) limit 1", array($g_user->login, $g_user->login));
-	return $default_module[0]['me_code'];
+		$default_module = $cn->get_array("select me_code
+			from profile_menu join profile_user using (p_id)
+			where
+			user_name=$1 and p_order=(select min(p_order) from profile_menu
+			where user_name=$2) limit 1", array($g_user->login, $g_user->login));
+		/*
+		 * if nothing found, there is no profile for this user => exit
+		 */
+		if ( empty ($default_module))
+		{
+			echo_warning("Utilisateur n'a pas de profile");
+			exit();
+		}
+		return $default_module[0]['me_code'];
     }
 
     if (count($default_module) > 1)

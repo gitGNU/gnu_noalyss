@@ -8,7 +8,7 @@
 	$gDossier=dossier::id();
 	?>
 <fieldset><legend><?php echo $p_legend;?></legend>
-	<TABLE align="right">
+	<TABLE >
 
 		<?php
 			foreach  ( $p_array as $l_line){
@@ -36,65 +36,16 @@
 			</td>
 		</tr>
 		<?php
-			}
-
+} // end loop
 
 			?>
 	</table>
 </fieldset>
-<?php } ?>
-<div style="float:left;width:33%">
-<div style="float:top">
-			<?php   $array=$cn_dossier->get_array(
-				"select ac_id, ac_description from action  where ac_id >=$1 and ac_id <=$2 order by ac_id ",
-				array(1100,1400));
-                                display_security_fieldset(_('Paramètre'),$array,$sec_User); ?>
+<?php
 
-</div>
-</div>
-<div style="float:left;width:33%">
-<div style="float:top">
-			<?php   $array=$cn_dossier->get_array("select ac_id, ac_description from action  where ac_id >=$1 and ac_id <=$2 order by ac_id ",
+}// end function
+
+?>
+			<?php   $array=$cn->get_array("select ac_id, ac_description from action  where ac_id >=$1 and ac_id <=$2 order by ac_id ",
 				array(800,1000));
                                 display_security_fieldset(_('Fiche'),$array,$sec_User); ?>
-</div>
-	<div style="float:top">
-			<?php   $array=$cn_dossier->get_array(
-				"select ac_id, ac_description from action  where ac_id >=$1 and ac_id <=$2 order by ac_id ",
-				array(200,299));
-                                display_security_fieldset(_('Comptabilité Analytique'),$array,$sec_User); ?>
-</div>
-
-<div style="float:top">
-
-			<?php   $array=$cn_dossier->get_array(
-				"select ac_id, ac_description from action  where ac_id >=$1 and ac_id <=$2 order by ac_id ",
-				array(700,799));
-                                display_security_fieldset(_('Impression'),$array,$sec_User); ?>
-</div>
-</div>
-<div style="float:left;">
-<div style="float:top">
-			<?php   $array=$cn_dossier->get_array(
-				"select ac_id, ac_description from action  where ac_id >=$1 and ac_id <$2 order by ac_id ",
-				array(1500,1600));
-                                display_security_fieldset(_('Stock'),$array,$sec_User); ?>
-</div>
-<div style="float:top">
-		<?php   $array=$cn_dossier->get_array(
-				"select ac_id, ac_description from action  where ac_id >=$1 and ac_id <=$2 order by ac_id ",
-				array(1700,1799));
-                                display_security_fieldset(_('Prévision'),$array,$sec_User); ?>
-<div style="float:top">
-			<?php   $array=$cn_dossier->get_array(
-				"select ac_id, ac_description from action  where ac_id >=$1 and ac_id <=$2 order by ac_id ",
-				array(1600,1699));
-                                display_security_fieldset(_('Extension'),$array,$sec_User); ?>
-</div>
-<div style="float:top">
-			<?php   $array=$cn_dossier->get_array(
-				"select ac_id, ac_description from action  where ac_id >=$1 and ac_id <=$2 order by ac_id ",
-				array(300,400));
-                                display_security_fieldset(_('Gestion'),$array,$sec_User); ?>
-</div>
-</div>

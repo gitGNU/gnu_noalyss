@@ -123,9 +123,9 @@ if ( isset ($_POST["DATABASE"]) )
                 $fev=29;
             else
                 $fev=28;
-
+			xdebug_break();
             $Res=$cn->exec_sql("delete from user_local_pref where parameter_type='PERIODE'");
-            $nb_day=array(31,$fev,31,30,31,30,31,31,30,31,30,30);
+            $nb_day=array(31,$fev,31,30,31,30,31,31,30,31,30,31);
             $m=1;
             foreach ($nb_day as $day)
             {
@@ -137,14 +137,12 @@ if ( isset ($_POST["DATABASE"]) )
                 $Res=$cn->exec_sql($sql);
                 $m++;
             }
-            $sql=sprintf("insert into parm_periode (p_start,p_end,p_exercice)
-                         values (to_date('31-12-%s','DD-MM-YYYY'),to_date('31-12-%s','DD-MM-YYYY'),'%s')",
-                         $year,$year,$year);
-            $Res=$cn->exec_sql($sql);
             $sql="	insert into jrn_periode(p_id,jrn_def_id,status) ".
                  "select p_id,jrn_def_id, 'OP'".
                  " from parm_periode cross join jrn_def";
             $Res=$cn->exec_sql($sql);
+
+			Dossier::synchro_admin($l_id);
 
 
         }
@@ -162,14 +160,8 @@ if ( $sa == 'list' )
     echo HtmlInput::button_anchor(_('Rafraîchir'),'admin_repo.php?action=dossier_mgt');
     echo HtmlInput::button_anchor(_('Ajouter'),'admin_repo.php?action=dossier_mgt&sa=add');
 
-    $offset=(isset($_REQUEST['offset']))?$_REQUEST['offset']:0;
-    $page=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
-    $count=$cn->get_value("select count(*) from ac_dossier");
-    $size=(isset ($_SESSION['g_pagesize']))?$_SESSION['g_pagesize']:40;
-    if ( $size==-1) $size=200;
-    echo jrn_navigation_bar($offset,$count,$size,$page);
     $repo=new Dossier(0);
-    $Res=$repo->show_dossier('all',$offset,$size);
+    $Res=$repo->show_dossier('all');
     $compteur=1;
     $template="";
 
@@ -188,7 +180,7 @@ if ( $sa == 'list' )
             else
                 $cl='class="even"';
 
-            echo "<TR $cl><TD VALIGN=\"TOP\"> ".
+            echo "<TR $cl><TD style=\"vertical-align:top\"> ".
 	      $Dossier['dos_id']."</td><td> <B>".h($Dossier['dos_name'])."</B> </TD>";
 	    $str_name=domaine.'dossier'.$Dossier['dos_id'];
 	    $size=$cn->get_value("select pg_database_size($1)/(1024*1024)::float",
@@ -217,7 +209,6 @@ if ( $sa == 'list' )
     }
     echo '</table>';
 
-    echo jrn_navigation_bar($offset,$count,$size,$page);
 
 }
 

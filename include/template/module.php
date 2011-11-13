@@ -17,14 +17,28 @@ if ( $cn->get_value("select count(*) from profile join profile_user using (p_id)
 		<?=HtmlInput::default_value('ac', '', $_REQUEST)?>
 		<?=Dossier::hidden()?>
 		<?
+
 			$direct=new IText('ac');
 			$direct->style='class="direct"';
 			$direct->value='';
 			$direct->size=(strlen($direct->value)<10)?10:strlen($direct->value);
 			echo $direct->input();
+			$gDossier=dossier::id();
+			?>
+		<div id="ac_choices" class="autocomplete" ></div>
+		<?
 			echo HtmlInput::submit('go','aller');
 			?>
-	</form>
+
+	</form
+	<script type="text/javascript" charset="utf8" language="javascript">
+
+		try {
+			new Ajax.Autocompleter("ac","ac_choices","direct.php?gDossier=<?=$gDossier?>",
+                            {paramName:"acs",minChars:1,indicator:null,
+                            callback:null,
+                             afterUpdateElement:null});} catch (e){alert(e.message);};
+		</script>
 	</div>
 <?
 endif;

@@ -35,9 +35,7 @@ table.result th {
 
   color:#25238F;
   text-align: left;
-  	     // background-color:#EDF3FF;
-
-	      font-style: italic;
+  font-style: italic;
 
 }
 
@@ -566,11 +564,15 @@ background-color:white;
 	   position:absolute;
 	   border:1px solid black;
 	   background-color:yellow;
+	   padding-bottom: 10;
+	   padding-top: 10;
+	   padding-left: 10;
+	   padding-right: 10;
+	   color:black;
 	   top:0;left:0;
 	   visibility:hidden;
-	   z-index:2;
 	   width:25em;
-
+		z-index:20;
 }
 
 span.action {
@@ -790,7 +792,7 @@ color:black;
 cursor:inherit;
 }
 
-.button, a.button,div.content a.button {
+a#anchorbutton, .button, a.button,div.content a.button {
 	font-size:10;
 	color:white;
 	font-weight: bold;
@@ -804,13 +806,17 @@ cursor:inherit;
 	border-style:  outset ;
 	border-color:  blue ;
 	border-width:0;
-	padding:2 4 2 4;
+	padding-bottom: 4;
+	padding-top: 4;
+	padding-right: 6;
+	padding-left:  6;
+	margin-top:3px;
 	cursor:pointer;
 	margin:1 2 1 2;
 	-moz-border-radius:2 2;
 
 }
-.button:hover,a.button:hover,div.content a.button:hover  {
+a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
 	cursor:pointer;
 	background-color:white;
 	border-style:  inset ;
@@ -836,33 +842,6 @@ margin:0;
 padding:0;
 text-align:center;
 }
-a#anchorbutton {
-	font-size:10;
-	color:white;
-	font-weight: bold;
-
-	text-decoration:none;
-	font-family: helvetica,sans-serif;
-	background-image: url("image/bg-submit3.gif");
-	background-repeat: repeat-x;
-	background-position: left;
-
-	border-style:  outset ;
-	border-color:  blue ;
-	border-width:1;
-	padding:2 4 2 4;
-	cursor:pointer;
-	margin:1 2 1 2;
-	-moz-border-radius:2 2;
-
-}
-a#anchorbutton:hover {
-	cursor:pointer;
-	background-color:white;
-	border-style:  inset ;
-	color:blue;
-	margin:1 2 1 2;
-	}
 /* </style> */
 div.add_todo_list {
                     border:1px solid blue;
@@ -1059,4 +1038,10 @@ font-size:110%;
   display:inline;
   color: #0000ff;
      background-color: rgb(93, 144, 205);
+}
+#close_div
+{
+ background-color:blue;
+ color:white;
+ text-decoration:none
 }

@@ -119,7 +119,7 @@ $result.='<TD  class="tool" ><A class="cell" HREF="logout.php" >'._('Deconnexion
 $result.="</TR>";
 $result.="</table>";
 
-echo '<h2 class="info">'._('Bienvenue').$User->first_name.'  '.$User->name.' '._("dans PhpCompta")."</h2>";
+echo '<h2 class="info">'._('Bienvenue    ').$User->first_name.'  '.$User->name.'   '._("dans PhpCompta")."</h2>";
 echo '<br>'._('Choississez votre dossier');
 echo '<span style="position:absolute;right:10px;top:30px">'.$result.'</span>';
 echo '</div>';

@@ -135,6 +135,10 @@ class Database
             }
             else
             {
+				if ( !is_array($p_array))
+				{
+					throw new Exception("Erreur : exec_sql attend un array");
+				}
 	      if ( ! DEBUG )
 		$this->ret=pg_query_params($this->db,$p_string,$p_array);
 	      else
@@ -143,7 +147,8 @@ class Database
             }
             if ( ! $this->ret )
             {
-                throw new Exception ("  SQL ERROR $p_string ",1);
+				$str_error=pg_last_error($this->db);
+                throw new Exception ("  SQL ERROR $p_string ".$str_error,1);
             }
 
         }
@@ -155,7 +160,8 @@ class Database
                 print_r($p_array);
                 echo $a->getMessage();
                 echo $a->getTrace();
-		echo pg_last_error($this->db);
+				echo $a->getTraceAsString();
+				echo pg_last_error($this->db);
             }
             throw ($a);
         }

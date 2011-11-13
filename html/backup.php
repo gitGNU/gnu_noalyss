@@ -58,7 +58,7 @@ if ( isset ($_REQUEST['sa']) )
         $cmd=escapeshellcmd (PG_DUMP);
         putenv("PGPASSWORD=".phpcompta_password);
         putenv("PGUSER=".phpcompta_user);
-
+		putenv("PGHOST=".phpcompta_psql_host);
         if ( $_REQUEST['t'] == 'd' )
         {
             $database=domaine."dossier".$_REQUEST['d'];

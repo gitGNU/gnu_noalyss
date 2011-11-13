@@ -24,7 +24,7 @@ require_once('class_iradio.php');
 require_once('class_ifile.php');
 
 /*!\file
- * \brief restaure a database 
+ * \brief restaure a database
  */
 if ( isset ($_REQUEST['sa'] ))
 {
@@ -111,6 +111,7 @@ if ( isset ($_REQUEST['sa'] ))
 
         $new_cn->apply_patch($name,0);
         echo '<span class="error">'.'Ne pas recharger la page, sinon votre base de données sera restaurée une fois de plus'.'</span>';
+		Dossier::synchro_admin($id);
         echo $retour;
 
         echo '</div>';

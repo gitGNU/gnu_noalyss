@@ -200,7 +200,7 @@ ALTER SEQUENCE profile_menu_pm_id_seq OWNED BY profile_menu.pm_id;
 -- Name: profile_menu_pm_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dany
 --
 
-SELECT pg_catalog.setval('profile_menu_pm_id_seq', 302, true);
+SELECT pg_catalog.setval('profile_menu_pm_id_seq', 647, true);
 
 
 --
@@ -240,7 +240,7 @@ ALTER SEQUENCE profile_p_id_seq OWNED BY profile.p_id;
 -- Name: profile_p_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dany
 --
 
-SELECT pg_catalog.setval('profile_p_id_seq', 7, true);
+SELECT pg_catalog.setval('profile_p_id_seq', 10, true);
 
 
 --
@@ -302,7 +302,7 @@ ALTER SEQUENCE profile_user_pu_id_seq OWNED BY profile_user.pu_id;
 -- Name: profile_user_pu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dany
 --
 
-SELECT pg_catalog.setval('profile_user_pu_id_seq', 1, true);
+SELECT pg_catalog.setval('profile_user_pu_id_seq', 5, true);
 
 
 --
@@ -346,7 +346,6 @@ INSERT INTO menu_ref VALUES ('TOOLPLAN', 'Import/export plan', 'tool_pcmn/index.
 INSERT INTO menu_ref VALUES ('IMPORTBANK', 'Importation banque', 'importbank/index.php', NULL, 'Import. fichier CVS de la banque', 'plugin_code=IMPORTBANK', NULL, 'PL');
 INSERT INTO menu_ref VALUES ('TOOL', 'Outil comptable', 'tools/index.php', NULL, 'Outil comptable', 'plugin_code=TOOL', NULL, 'PL');
 INSERT INTO menu_ref VALUES ('TVA', 'Module de TVA', 'tva/index.php', NULL, 'Cette extension permet de faire les listings et declarations TVA', 'plugin_code=TVA', NULL, 'PL');
-INSERT INTO menu_ref VALUES ('TEST', 'Cela va marcher', 'amortis/index.php', NULL, 'Test description', '0', NULL, 'PL');
 INSERT INTO menu_ref VALUES ('ACH', 'Achat', 'compta_ach.inc.php', NULL, NULL, NULL, NULL, 'ME');
 INSERT INTO menu_ref VALUES ('CSV:AncBalGroup', 'Export Balance groupe analytique', NULL, NULL, NULL, NULL, NULL, 'PR');
 INSERT INTO menu_ref VALUES ('OTH:Bilan', 'Export Bilan', NULL, NULL, NULL, NULL, NULL, 'PR');
@@ -357,7 +356,6 @@ INSERT INTO menu_ref VALUES ('CSV:fichedetail', 'Export Fiche détail', NULL, NU
 INSERT INTO menu_ref VALUES ('CFGMENU', 'Config. Menu', 'menu.inc.php', NULL, NULL, NULL, NULL, 'ME');
 INSERT INTO menu_ref VALUES ('MODULARITY', 'Menu et profile', NULL, NULL, NULL, NULL, NULL, 'ME');
 INSERT INTO menu_ref VALUES ('CFGPROFILE', 'Profile', 'profile.inc.php', NULL, NULL, NULL, NULL, 'ME');
-INSERT INTO menu_ref VALUES ('TESTTVA', 'Test TVA', 'tva/index.php', NULL, 'Test description', 'plugin_code=TESTTVA', NULL, 'PL');
 INSERT INTO menu_ref VALUES ('SEARCH', 'Recherche', NULL, NULL, NULL, NULL, 'popup_recherche()', 'ME');
 INSERT INTO menu_ref VALUES ('COMPANY', 'Sociétés', 'company.inc.php', NULL, 'Parametre societe', NULL, NULL, 'ME');
 INSERT INTO menu_ref VALUES ('PERIODE', 'Période', 'periode.inc.php', NULL, 'Gestion des périodes', NULL, NULL, 'ME');
@@ -406,7 +404,6 @@ INSERT INTO menu_ref VALUES ('ADM', 'Administration', 'adm.inc.php', NULL, NULL,
 INSERT INTO menu_ref VALUES ('FIN', 'Nouvel extrait', 'compta_fin.inc.php', NULL, NULL, NULL, NULL, 'ME');
 INSERT INTO menu_ref VALUES ('FINSALDO', 'Soldes', 'compta_fin_saldo.inc.php', NULL, NULL, NULL, NULL, 'ME');
 INSERT INTO menu_ref VALUES ('FINREC', 'Rapprochement', 'compta_fin_rec.inc.php', NULL, NULL, NULL, NULL, 'ME');
-INSERT INTO menu_ref VALUES ('ACCESS', 'Dossier', NULL, 'user_login.php', NULL, NULL, NULL, 'ME');
 INSERT INTO menu_ref VALUES ('JSSEARCH', 'Recherche', NULL, NULL, NULL, NULL, 'search_reconcile()', 'ME');
 INSERT INTO menu_ref VALUES ('CFGLEDGER', 'journaux', 'cfgledger.inc.php', NULL, NULL, NULL, NULL, 'ME');
 INSERT INTO menu_ref VALUES ('CUSTDET', 'Fiche', 'detail_client.inc.php', NULL, NULL, NULL, NULL, 'ME');
@@ -456,6 +453,7 @@ INSERT INTO menu_ref VALUES ('PRINTBAL', 'Balance', 'balance.inc.php', NULL, NUL
 INSERT INTO menu_ref VALUES ('PRINTCARD', 'Catégorie de Fiches', 'impress_fiche.inc.php', NULL, NULL, NULL, NULL, 'ME');
 INSERT INTO menu_ref VALUES ('PRINT', 'Impression', NULL, NULL, NULL, NULL, NULL, 'ME');
 INSERT INTO menu_ref VALUES ('MODOP', 'Modification d''opérations', 'modop/index.php', NULL, 'Modification opérations', 'plugin_code=MODOP', NULL, 'PL');
+INSERT INTO menu_ref VALUES ('ACCESS', 'Accueil', NULL, 'user_login.php', NULL, NULL, NULL, 'ME');
 
 
 --
@@ -470,60 +468,46 @@ INSERT INTO profile VALUES ('Utilisateur', 6, 'Profil par défaut pour les Utili
 -- Data for Name: profile_menu; Type: TABLE DATA; Schema: public; Owner: dany
 --
 
-INSERT INTO profile_menu VALUES (54, 'COMPANY', 'PARAM', 1, 1, 'E', 0);
-INSERT INTO profile_menu VALUES (173, 'COMPTA', NULL, 1, 40, 'M', NULL);
-INSERT INTO profile_menu VALUES (55, 'PERIODE', 'PARAM', 1, 2, 'E', 0);
-INSERT INTO profile_menu VALUES (56, 'DIVPARM', 'PARAM', 1, 3, 'E', 0);
-INSERT INTO profile_menu VALUES (59, 'CFGPAYMENT', 'DIVPARM', 1, 4, 'E', 0);
-INSERT INTO profile_menu VALUES (60, 'CFGTVA', 'DIVPARM', 1, 5, 'E', 0);
-INSERT INTO profile_menu VALUES (61, 'CFGACCOUNT', 'DIVPARM', 1, 6, 'E', 0);
-INSERT INTO profile_menu VALUES (67, 'CFGCATDOC', 'DIVPARM', 1, 8, 'E', 0);
 INSERT INTO profile_menu VALUES (175, 'COMPTA', NULL, 6, 40, 'M', NULL);
-INSERT INTO profile_menu VALUES (68, 'CFGATTRIBCARD', 'DIVPARM', 1, 9, 'E', 0);
-INSERT INTO profile_menu VALUES (69, 'CFGPCMN', 'PARAM', 1, 4, 'E', 0);
-INSERT INTO profile_menu VALUES (70, 'CFGEXTENSION', 'PARAM', 1, 5, 'E', 0);
+INSERT INTO profile_menu VALUES (54, 'COMPANY', 'PARAM', 1, 1, 'E', 0);
 INSERT INTO profile_menu VALUES (178, 'CFGPAYMENT', 'DIVPARM', 6, 4, 'E', 0);
 INSERT INTO profile_menu VALUES (179, 'CFGTVA', 'DIVPARM', 6, 5, 'E', 0);
 INSERT INTO profile_menu VALUES (180, 'CFGACCOUNT', 'DIVPARM', 6, 6, 'E', 0);
 INSERT INTO profile_menu VALUES (181, 'CFGCATDOC', 'DIVPARM', 6, 8, 'E', 0);
-INSERT INTO profile_menu VALUES (71, 'CFGSECURITY', 'PARAM', 1, 6, 'E', 0);
 INSERT INTO profile_menu VALUES (182, 'CFGATTRIBCARD', 'DIVPARM', 6, 9, 'E', 0);
+INSERT INTO profile_menu VALUES (173, 'COMPTA', NULL, 1, 40, 'M', 0);
+INSERT INTO profile_menu VALUES (55, 'PERIODE', 'PARAM', 1, 2, 'E', 0);
+INSERT INTO profile_menu VALUES (56, 'DIVPARM', 'PARAM', 1, 3, 'E', 0);
+INSERT INTO profile_menu VALUES (59, 'CFGPAYMENT', 'DIVPARM', 1, 4, 'E', 0);
 INSERT INTO profile_menu VALUES (189, 'PLANANC', 'ANC', 6, 1, 'E', 0);
 INSERT INTO profile_menu VALUES (190, 'CFGCARDCAT', 'DIVPARM', 6, 7, 'E', 0);
 INSERT INTO profile_menu VALUES (191, 'ANCODS', 'ANC', 6, 2, 'E', 0);
 INSERT INTO profile_menu VALUES (192, 'ANCGROUP', 'ANC', 6, 3, 'E', 0);
 INSERT INTO profile_menu VALUES (193, 'ANCIMP', 'ANC', 6, 4, 'E', 0);
 INSERT INTO profile_menu VALUES (194, 'LETTER', 'COMPTA', 6, 8, 'E', 0);
+INSERT INTO profile_menu VALUES (60, 'CFGTVA', 'DIVPARM', 1, 5, 'E', 0);
 INSERT INTO profile_menu VALUES (196, 'PREFERENCE', NULL, 6, 15, 'M', 1);
 INSERT INTO profile_menu VALUES (197, 'LETTERCARD', 'LETTER', 6, 1, 'E', 0);
-INSERT INTO profile_menu VALUES (72, 'PREDOP', 'PARAM', 1, 7, 'E', 0);
 INSERT INTO profile_menu VALUES (198, 'LETTERACC', 'LETTER', 6, 2, 'E', 0);
 INSERT INTO profile_menu VALUES (199, 'CUST', 'GESTION', 6, 1, 'E', 0);
 INSERT INTO profile_menu VALUES (200, 'SUPPL', 'GESTION', 6, 2, 'E', 0);
 INSERT INTO profile_menu VALUES (201, 'ADM', 'GESTION', 6, 3, 'E', 0);
 INSERT INTO profile_menu VALUES (202, 'CARD', 'GESTION', 6, 6, 'E', 0);
-INSERT INTO profile_menu VALUES (73, 'CFGDOCUMENT', 'PARAM', 1, 8, 'E', 0);
 INSERT INTO profile_menu VALUES (203, 'STOCK', 'GESTION', 6, 5, 'E', 0);
 INSERT INTO profile_menu VALUES (204, 'FORECAST', 'GESTION', 6, 7, 'E', 0);
 INSERT INTO profile_menu VALUES (205, 'FOLLOW', 'GESTION', 6, 8, 'E', 0);
-INSERT INTO profile_menu VALUES (74, 'CFGLEDGER', 'PARAM', 1, 9, 'E', 0);
 INSERT INTO profile_menu VALUES (206, 'VERIFBIL', 'ADV', 6, 21, 'E', 0);
 INSERT INTO profile_menu VALUES (207, 'STOCK', 'ADV', 6, 22, 'E', 0);
 INSERT INTO profile_menu VALUES (208, 'PREDOP', 'ADV', 6, 23, 'E', 0);
-INSERT INTO profile_menu VALUES (75, 'PLANANC', 'ANC', 1, 1, 'E', 0);
 INSERT INTO profile_menu VALUES (209, 'OPEN', 'ADV', 6, 24, 'E', 0);
-INSERT INTO profile_menu VALUES (65, 'CFGCARDCAT', 'DIVPARM', 1, 7, 'E', 0);
-INSERT INTO profile_menu VALUES (76, 'ANCODS', 'ANC', 1, 2, 'E', 0);
 INSERT INTO profile_menu VALUES (210, 'REPORT', 'ADV', 6, 25, 'E', 0);
 INSERT INTO profile_menu VALUES (211, 'CARD', 'COMPTA', 6, 7, 'E', 0);
-INSERT INTO profile_menu VALUES (77, 'ANCGROUP', 'ANC', 1, 3, 'E', 0);
 INSERT INTO profile_menu VALUES (212, 'HIST', 'COMPTA', 6, 1, 'E', 0);
 INSERT INTO profile_menu VALUES (213, 'FINSALDO', 'MENUFIN', 6, 3, 'E', 0);
 INSERT INTO profile_menu VALUES (214, 'FINREC', 'MENUFIN', 6, 4, 'E', 0);
 INSERT INTO profile_menu VALUES (215, 'ADV', 'COMPTA', 6, 20, 'E', 0);
 INSERT INTO profile_menu VALUES (216, 'ACCESS', NULL, 6, 25, 'M', 0);
 INSERT INTO profile_menu VALUES (217, 'CSV:histo', NULL, 6, NULL, 'P', 0);
-INSERT INTO profile_menu VALUES (78, 'ANCIMP', 'ANC', 1, 4, 'E', 0);
 INSERT INTO profile_menu VALUES (218, 'LOGOUT', NULL, 6, 30, 'M', 0);
 INSERT INTO profile_menu VALUES (219, 'PRINT', 'GESTION', 6, 4, 'E', 0);
 INSERT INTO profile_menu VALUES (220, 'new_line', NULL, 6, 35, 'M', 0);
@@ -536,11 +520,10 @@ INSERT INTO profile_menu VALUES (226, 'MENUACH', 'COMPTA', 6, 3, 'E', 0);
 INSERT INTO profile_menu VALUES (227, 'ACHIMP', 'MENUACH', 6, 2, 'E', 0);
 INSERT INTO profile_menu VALUES (228, 'GESTION', NULL, 6, 45, 'M', 0);
 INSERT INTO profile_menu VALUES (229, 'MENUODS', 'COMPTA', 6, 5, 'E', 0);
-INSERT INTO profile_menu VALUES (23, 'LETTER', 'COMPTA', 1, 8, 'E', 0);
-INSERT INTO profile_menu VALUES (45, 'PARAM', NULL, 1, 20, 'M', 0);
 INSERT INTO profile_menu VALUES (230, 'ODS', 'MENUODS', 6, 1, 'E', 0);
 INSERT INTO profile_menu VALUES (231, 'ODSIMP', 'MENUODS', 6, 2, 'E', 0);
 INSERT INTO profile_menu VALUES (232, 'ANC', NULL, 6, 50, 'M', 0);
+INSERT INTO profile_menu VALUES (61, 'CFGACCOUNT', 'DIVPARM', 1, 6, 'E', 0);
 INSERT INTO profile_menu VALUES (234, 'VENMENU', 'COMPTA', 6, 2, 'E', 0);
 INSERT INTO profile_menu VALUES (235, 'VEN', 'VENMENU', 6, 1, 'E', 0);
 INSERT INTO profile_menu VALUES (236, 'VENIMP', 'VENMENU', 6, 2, 'E', 0);
@@ -564,12 +547,16 @@ INSERT INTO profile_menu VALUES (253, 'PRINTCARD', 'IMP', 6, 12, 'E', 0);
 INSERT INTO profile_menu VALUES (254, 'IMPORTBANK', 'EXTENSION', 6, NULL, 'S', 0);
 INSERT INTO profile_menu VALUES (255, 'TOOL', 'EXTENSION', 6, NULL, 'S', 0);
 INSERT INTO profile_menu VALUES (256, 'AMORTIS', 'MENUACH', 6, 10, 'E', 0);
+INSERT INTO profile_menu VALUES (67, 'CFGCATDOC', 'DIVPARM', 1, 8, 'E', 0);
 INSERT INTO profile_menu VALUES (258, 'CFGMENU', 'MODULARITY', 6, NULL, 'E', 0);
 INSERT INTO profile_menu VALUES (259, 'CFGPROFILE', 'MODULARITY', 6, NULL, 'E', 0);
 INSERT INTO profile_menu VALUES (260, 'PDF:postedetail', NULL, 6, NULL, 'P', 0);
+INSERT INTO profile_menu VALUES (68, 'CFGATTRIBCARD', 'DIVPARM', 1, 9, 'E', 0);
 INSERT INTO profile_menu VALUES (261, 'CSV:fichedetail', NULL, 6, NULL, 'P', 0);
 INSERT INTO profile_menu VALUES (262, 'PDF:fichedetail', NULL, 6, NULL, 'P', 0);
+INSERT INTO profile_menu VALUES (69, 'CFGPCMN', 'PARAM', 1, 4, 'E', 0);
 INSERT INTO profile_menu VALUES (263, 'CSV:fiche_balance', NULL, 6, NULL, 'P', 0);
+INSERT INTO profile_menu VALUES (70, 'CFGEXTENSION', 'PARAM', 1, 5, 'E', 0);
 INSERT INTO profile_menu VALUES (264, 'PDF:fiche_balance', NULL, 6, NULL, 'P', 0);
 INSERT INTO profile_menu VALUES (265, 'CSV:report', NULL, 6, NULL, 'P', 0);
 INSERT INTO profile_menu VALUES (266, 'PDF:report', NULL, 6, NULL, 'P', 0);
@@ -580,6 +567,7 @@ INSERT INTO profile_menu VALUES (270, 'PDF:glcompte', NULL, 6, NULL, 'P', 0);
 INSERT INTO profile_menu VALUES (271, 'PDF:sec', NULL, 6, NULL, 'P', 0);
 INSERT INTO profile_menu VALUES (272, 'CSV:AncList', NULL, 6, NULL, 'P', 0);
 INSERT INTO profile_menu VALUES (273, 'CSV:AncBalSimple', NULL, 6, NULL, 'P', 0);
+INSERT INTO profile_menu VALUES (526, 'PRINTGL', 'PRINT', 1, 20, 'E', 0);
 INSERT INTO profile_menu VALUES (274, 'PDF:AncBalSimple', NULL, 6, NULL, 'P', 0);
 INSERT INTO profile_menu VALUES (275, 'CSV:AncBalDouble', NULL, 6, NULL, 'P', 0);
 INSERT INTO profile_menu VALUES (276, 'PDF:AncBalDouble', NULL, 6, NULL, 'P', 0);
@@ -589,7 +577,23 @@ INSERT INTO profile_menu VALUES (279, 'CSV:AncTable', NULL, 6, NULL, 'P', 0);
 INSERT INTO profile_menu VALUES (280, 'CSV:AncAccList', NULL, 6, NULL, 'P', 0);
 INSERT INTO profile_menu VALUES (281, 'CSV:AncBalGroup', NULL, 6, NULL, 'P', 0);
 INSERT INTO profile_menu VALUES (282, 'OTH:Bilan', NULL, 6, NULL, 'P', 0);
-INSERT INTO profile_menu VALUES (79, 'PREFERENCE', NULL, 1, 15, 'M', 1);
+INSERT INTO profile_menu VALUES (71, 'CFGSECURITY', 'PARAM', 1, 6, 'E', 0);
+INSERT INTO profile_menu VALUES (523, 'PRINTBAL', 'PRINT', 1, 50, 'E', 0);
+INSERT INTO profile_menu VALUES (529, 'PRINTREPORT', 'PRINT', 1, 85, 'E', 0);
+INSERT INTO profile_menu VALUES (72, 'PREDOP', 'PARAM', 1, 7, 'E', 0);
+INSERT INTO profile_menu VALUES (73, 'CFGDOCUMENT', 'PARAM', 1, 8, 'E', 0);
+INSERT INTO profile_menu VALUES (74, 'CFGLEDGER', 'PARAM', 1, 9, 'E', 0);
+INSERT INTO profile_menu VALUES (75, 'PLANANC', 'ANC', 1, 1, 'E', 0);
+INSERT INTO profile_menu VALUES (65, 'CFGCARDCAT', 'DIVPARM', 1, 7, 'E', 0);
+INSERT INTO profile_menu VALUES (76, 'ANCODS', 'ANC', 1, 2, 'E', 0);
+INSERT INTO profile_menu VALUES (77, 'ANCGROUP', 'ANC', 1, 3, 'E', 0);
+INSERT INTO profile_menu VALUES (78, 'ANCIMP', 'ANC', 1, 4, 'E', 0);
+INSERT INTO profile_menu VALUES (23, 'LETTER', 'COMPTA', 1, 8, 'E', 0);
+INSERT INTO profile_menu VALUES (45, 'PARAM', NULL, 1, 20, 'M', 0);
+INSERT INTO profile_menu VALUES (527, 'PRINTJRN', 'PRINT', 1, 10, 'E', 0);
+INSERT INTO profile_menu VALUES (530, 'PRINTREC', 'PRINT', 1, 100, 'E', 0);
+INSERT INTO profile_menu VALUES (524, 'PRINTBILAN', 'PRINT', 1, 90, 'E', 0);
+INSERT INTO profile_menu VALUES (79, 'PREFERENCE', NULL, 1, 15, 'M', 0);
 INSERT INTO profile_menu VALUES (24, 'LETTERCARD', 'LETTER', 1, 1, 'E', 0);
 INSERT INTO profile_menu VALUES (27, 'LETTERACC', 'LETTER', 1, 2, 'E', 0);
 INSERT INTO profile_menu VALUES (37, 'CUST', 'GESTION', 1, 1, 'E', 0);
@@ -675,8 +679,9 @@ INSERT INTO profile_menu VALUES (146, 'CSV:AncTable', NULL, 1, NULL, 'P', 0);
 INSERT INTO profile_menu VALUES (147, 'CSV:AncAccList', NULL, 1, NULL, 'P', 0);
 INSERT INTO profile_menu VALUES (148, 'CSV:AncBalGroup', NULL, 1, NULL, 'P', 0);
 INSERT INTO profile_menu VALUES (149, 'OTH:Bilan', NULL, 1, NULL, 'P', 0);
-INSERT INTO profile_menu VALUES (1, 'DASHBOARD', NULL, 1, 10, 'M', 0);
-INSERT INTO profile_menu VALUES (302, 'TESTTVA', 'EXTENSION', 1, NULL, 'S', NULL);
+INSERT INTO profile_menu VALUES (528, 'PRINTPOSTE', 'PRINT', 1, 30, 'E', 0);
+INSERT INTO profile_menu VALUES (525, 'PRINTCARD', 'PRINT', 1, 40, 'E', 0);
+INSERT INTO profile_menu VALUES (1, 'DASHBOARD', NULL, 1, 10, 'M', 1);
 
 
 --
@@ -694,6 +699,8 @@ INSERT INTO profile_menu_type VALUES ('M', 'Module');
 --
 
 INSERT INTO profile_user VALUES ('phpcompta', 1, 1);
+INSERT INTO profile_user VALUES ('acama-viramar', 2, 1);
+INSERT INTO profile_user VALUES ('adama', 5, 6);
 
 
 --

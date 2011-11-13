@@ -42,7 +42,7 @@ class User
 	var $admin;
 	var $valid;
 
-	function User($p_cn, $p_id=-1)
+	function User(&$p_cn, $p_id=-1)
 	{
 		// if p_id is not set then check the connected user
 		if ($p_id == -1)
@@ -104,7 +104,8 @@ class User
              use_name,
              use_login,
              use_active,
-             use_admin
+             use_admin,
+			 use_pass
              from ac_users ";
 		$cn = new Database();
 		$Res = $cn->exec_sql($sql . $sql_cond, $sql_array);
@@ -117,6 +118,7 @@ class User
 		$this->active = $row['use_active'];
 		$this->login = $row['use_login'];
 		$this->admin = $row['use_admin'];
+		$this->password = $row['use_pass'];
 	}
 
 	function save()
@@ -409,7 +411,7 @@ class User
 		}
 
 		$sql = sprintf("insert into user_local_pref (user_id,parameter_value,parameter_type)
-                     values ('%s','%d','PERIODE')", $this->login, $pid);
+                     values ('%s','%d','PERIODE')", $this->id, $pid);
 		$Res = $this->db->exec_sql($sql);
 	}
 
@@ -510,7 +512,7 @@ class User
          */
         function check_module($p_module)
         {
-            $acc=$this->db->get_value("select count(*) from v_all_menu where user_name = $1 
+            $acc=$this->db->get_value("select count(*) from v_all_menu where user_name = $1
                 and me_code=$2", array($this->login,$p_module));
             if ($acc == 0)
             {
@@ -624,14 +626,14 @@ class User
 		{
 			foreach ($default_parameter as $name => $value)
 			{
-				$Insert = sprintf($Sql, $this->login, $name, $value);
+				$Insert = sprintf($Sql, $this->id, $name, $value);
 				$cn->exec_sql($Insert);
 			}
 		}
 		else
 		{
 			$value = ($p_value == "") ? $default_parameter[$p_type] : $p_value;
-			$Insert = sprintf($Sql, $this->login, $p_type, $value);
+			$Insert = sprintf($Sql, $this->id, $p_type, $value);
 			$cn->exec_sql($Insert);
 		}
 	}
@@ -991,14 +993,35 @@ class User
 		$sql = "insert into audit_connect (ac_user,ac_ip,ac_module,ac_url,ac_state) values ($1,$2,$3,$4,$5)";
 		if ($audit)
 		{
-				$cn->exec_sql($sql, 
+				$cn->exec_sql($sql,
                                         array(
-                                            $_SESSION['g_user'], 
-                                            $_SERVER["REMOTE_ADDR"], 
-                                            $p_module, 
-                                            $_SERVER['REQUEST_URI'], 
+                                            $_SESSION['g_user'],
+                                            $_SERVER["REMOTE_ADDR"],
+                                            $p_module,
+                                            $_SERVER['REQUEST_URI'],
                                             $action));
 		}
+	}
+	function save_profile($p_id)
+	{
+		$count=$this->db->get_value("select count(*) from profile_user where user_name=$1",  array($this->login));
+		if ($count==0)
+		{
+			$this->db->exec_sql("insert into profile_user(p_id,user_name)
+								values ($1,$2)",
+								array($p_id,$this->login));
+
+		} else {
+			$this->db->exec_sql("update profile_user set p_id=$1 where user_name=$2",
+								array($p_id,$this->login));
+
+		}
+	}
+	function get_profile()
+	{
+		$profile=$this->db->get_value("select p_id from profile_user where
+				user_name=$1",array($this->login));
+		return $profile;
 	}
 
 }

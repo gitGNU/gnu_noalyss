@@ -27,59 +27,91 @@
 include_once ("ac_common.php");
 require_once("class_iselect.php");
 require_once('class_dossier.php');
+include_once ("class_user.php");
+require_once('class_database.php');
+require_once 'class_sort_table.php';
+
 $gDossier=dossier::id();
 $str_dossier=dossier::get();
 
-require_once('class_database.php');
 /* Admin. Dossier */
 $cn=new Database($gDossier);
-include_once ("class_user.php");
 $User=new User($cn);
+
 $User->Check();
 $User->check_dossier($gDossier);
 
 include_once ("user_menu.php");
-$cn_dossier=new Database($gDossier);
 
-
-if ( $User->check_action(PARSEC) == 0 )
-{
-    /* Cannot Access */
-    NoAccess();
-    exit -1;
-}
-
-$cn=new Database();
-/*  Show all the users, included local admin */
-$user_sql=$cn->exec_sql("select  use_id,use_first_name,use_name,use_login,use_admin,priv_priv from ac_users natural join jnt_use_dos ".
-                        " join priv_user on (jnt_id=priv_jnt) where use_login != 'phpcompta' and priv_priv <> 'X' and dos_id=".$gDossier.' order by use_login,use_name');
-$MaxUser=Database::num_row($user_sql);
+/////////////////////////////////////////////////////////////////////////
+// List users
+/////////////////////////////////////////////////////////////////////////
 if ( ! isset($_REQUEST['action']))
 {
-    echo '<DIV class="content" >';
+	$base_url=$_SERVER['PHP_SELF']."?ac=".$_REQUEST['ac']."&".dossier::get();
 
-    echo '<TABLE CELLSPACING="20" ALIGN="CENTER">';
+    echo '<DIV class="content" >';
+	$header=new Sort_Table();
+	$header->add('Login',$base_url,"order by use_login asc","order by use_login desc",'la','ld');
+	$header->add('Nom',$base_url,"order by use_name asc,use_first_name asc","order by use_name desc,use_first_name desc",'na','nd');
+	$header->add('Type d\'utilisateur',$base_url,"order by use_admin asc,use_login asc","order by use_admin desc,use_login desc",'ta','td');
+
+
+	$order=(isset($_REQUEST['ord']))?$_REQUEST['ord']:'la';
+
+	$ord_sql=$header->get_sql_order($order);
+
+
+	$repo=new Database();
+	/*  Show all the users, included local admin */
+	$user_sql=$repo->exec_sql("select  use_id,
+										use_first_name,
+										use_name,
+										use_login,
+										use_admin,
+										priv_priv
+										from ac_users natural join jnt_use_dos ".
+							" join priv_user on (jnt_id=priv_jnt)
+								where use_login != 'phpcompta' and priv_priv <> 'X'
+								and dos_id=$1  ".$ord_sql,
+								array($gDossier));
+
+	$MaxUser=Database::num_row($user_sql);
+
+
+    echo '<TABLE class="result" style="width:80%;margin-left:10%">';
+	echo "<tr>";
+	echo '<th>'.$header->get_header(0).'</th>';
+	echo '<th>'.$header->get_header(1).'</th>';
+	echo th('prénom');
+	echo th('profile');
+	echo '<th>'.$header->get_header(2).'</th>';
     for ($i = 0;$i < $MaxUser;$i++)
     {
+		echo '<tr>';
         $l_line=Database::fetch_array($user_sql,$i);
-        //  echo '<TR>';
-        if ( $i % 3 == 0 && $i != 0)
-            echo "</TR><TR>";
-        $str=($l_line['priv_priv'] == 'L')?'Local Admin':' ';
-        $str=($l_line['priv_priv'] == 'P')?'Uniquement Extension':$str;
+
+
+		$str="";
         $str=($l_line['priv_priv'] == 'R')?'Utilisateur Normal':$str;
         if ( $l_line['use_admin'] == 1 )
-            $str=' Super Admin';
+            $str=' Administrateur global';
 
-        printf ('<TD><A href="?p_action=sec&action=view&user_id=%s&'.$str_dossier.'">%s %s ( %s )[%s]</A></TD>',
-                $l_line['use_id'],
-                $l_line['use_first_name'],
-                $l_line['use_name'],
-                $l_line['use_login'],
-                $str);
+		// get profile
+		$profile=$cn->get_value("select p_name from profile
+				join profile_user using(p_id) where user_name=$1",array($l_line['use_login']));
 
+		$url=$base_url."&action=view&user_id=".$l_line['use_id'];
+		echo "<td>";
+		echo HtmlInput::anchor($l_line['use_login'], $url);
+		echo "</td>";
+		echo td($l_line['use_name']);
+		echo td($l_line['use_first_name']);
+		echo td($profile);
+		echo td($str);
+
+		echo "</TR>";
     }
-    echo "</TR>";
     echo '</TABLE>';
 }
 $action="";
@@ -94,52 +126,70 @@ if ( isset ($_GET["action"] ))
 //----------------------------------------------------------------------
 if ( isset($_POST['ok']))
 {
+	try
+	{
+	$cn->start();
+    $sec_User=new User($cn,$_POST['user_id']);
 
-    $sec_User=new User($cn_dossier,$_POST['user_id']);
-    /* Save first the ledger */
-    $cn_dossier=new Database(dossier::id());
-    $a=$cn_dossier->get_array('select jrn_def_id from jrn_def');
-    foreach ($a as $key)
+	// save profile
+	$sec_User->save_profile($_POST['profile']);
+
+	/* Save first the ledger */
+    $a=$cn->get_array('select jrn_def_id from jrn_def');
+
+	foreach ($a as $key)
     {
         $id=$key['jrn_def_id'];
         $priv=sprintf("jrn_act%d",$id);
-        $count=$cn_dossier->get_value('select count(*) from user_sec_jrn where uj_login=$1 '.
+        $count=$cn->get_value('select count(*) from user_sec_jrn where uj_login=$1 '.
                                       ' and uj_jrn_id=$2',array($sec_User->login,$id));
         if ( $count == 0 )
         {
-            $cn_dossier->exec_sql('insert into user_sec_jrn (uj_login,uj_jrn_id,uj_priv)'.
+            $cn->exec_sql('insert into user_sec_jrn (uj_login,uj_jrn_id,uj_priv)'.
                                   ' values ($1,$2,$3)',
                                   array($sec_User->login,$id,$_POST[$priv]));
 
         }
         else
         {
-            $cn_dossier->exec_sql('update user_sec_jrn set uj_priv=$1 where uj_login=$2 and uj_jrn_id=$3',
+            $cn->exec_sql('update user_sec_jrn set uj_priv=$1 where uj_login=$2 and uj_jrn_id=$3',
                                   array($_POST[$priv],$sec_User->login,$id));
         }
     }
     /* now save all the actions */
-    $a=$cn_dossier->get_array('select ac_id from action');
+    $a=$cn->get_array('select ac_id from action');
 
     foreach ($a as $key)
     {
         $id=$key['ac_id'];
         $priv=sprintf("action%d",$id);
-        $count=$cn_dossier->get_value('select count(*) from user_sec_act where ua_login=$1 '.
+		if ( ! isset ($_POST[$priv]))
+		{
+			$cn->exec_sql("delete from user_sec_act where ua_act_id=$1",array($id));
+			continue;
+		}
+        $count=$cn->get_value('select count(*) from user_sec_act where ua_login=$1 '.
                                       ' and ua_act_id=$2',array($sec_User->login,$id));
         if ( $_POST[$priv] == 1 && $count == 0)
         {
-            $cn_dossier->exec_sql('insert into user_sec_act (ua_login,ua_act_id)'.
+            $cn->exec_sql('insert into user_sec_act (ua_login,ua_act_id)'.
                                   ' values ($1,$2)',
                                   array($sec_User->login,$id));
 
         }
         if ($_POST[$priv] == 0 )
         {
-            $cn_dossier->exec_sql('delete from user_sec_act  where ua_login=$1 and ua_act_id=$2',
+            $cn->exec_sql('delete from user_sec_act  where ua_login=$1 and ua_act_id=$2',
                                   array($sec_User->login,$id));
         }
-    }
+	 }
+	 $cn->commit();
+	} // end try
+	catch (Exception $e)
+	{
+		echo_warning ($e->getTraceAsString());
+		$cn->rollback();
+	}
 
 }
 
@@ -153,32 +203,23 @@ if ( isset($_POST['ok']))
 if ( $action == "view" )
 {
     $l_Db=sprintf("dossier%d",$gDossier);
+    $return= HtmlInput::button_anchor('Retour à la liste','?&ac='.$_REQUEST['ac'].'&'.dossier::get(),'retour');
 
-    $cn=new Database();
-    $User=new User($cn,$_GET['user_id']);
+    $repo=new Database();
+    $User=new User($repo,$_GET['user_id']);
     $admin=0;
     $access=$User->get_folder_access($gDossier);
 
     $str="Aucun accès";
 
-    if ( $access == 'L')
-    {
-        $str='Local Admin';
-        $admin=1;
-    }
-    elseif ($access=='R')
+	if ($access=='R')
     {
         $str=' Utilisateur normal';
     }
-    elseif ($access=='P')
-    {
-        $str=' Extension uniquement';
-    }
-
 
     if ( $User->admin==1 )
     {
-        $str=' Super Admin';
+        $str=' Administrateur';
         $admin=1;
     }
 
@@ -187,14 +228,22 @@ if ( $action == "view" )
 
     if ( $admin != 0 )
     {
-        echo '<h2 class="info"> Cet utilisateur est administrateur, il a tous les droits</h2>';
-        exit();
+        echo '<h2 class="notice"> Cet utilisateur est administrateur, il a tous les droits</h2>';
+		echo "<p> Impossible de modifier cet utilisateur dans cet écran, il faut passer par
+			l'écran administration -> utilisateur.
+			</p>";
+		echo $return;
+		exit();
     }
     //
     // Check if the user can access that folder
     if ( $access == 'X' )
     {
         echo "<H2 class=\"error\">L'utilisateur n'a pas accès à ce dossier</H2>";
+			echo "<p> Impossible de modifier cet utilisateur dans cet écran, il faut passer par
+			l'écran administration -> utilisateur.
+			</p>";
+		echo $return;
         $action="";
         return;
     }
@@ -203,32 +252,34 @@ if ( $action == "view" )
     // Show access for journal
     //--------------------------------------------------------------------------------
 
-    $Res=$cn_dossier->exec_sql("select jrn_def_id,jrn_def_name  from jrn_def ".
+    $Res=$cn->exec_sql("select jrn_def_id,jrn_def_name  from jrn_def ".
                                " order by jrn_def_name");
-    $sec_User=new User($cn_dossier,$_GET['user_id']);
+    $sec_User=new User($cn,$_GET['user_id']);
 
     echo '<form method="post">';
-    $sHref=sprintf ('export.php?p_action=sec&act=PDF:sec&user_id=%s&'.$str_dossier ,
+    $sHref=sprintf ('export.php?act=PDF:sec&user_id=%s&'.$str_dossier ,
                     $_GET ['user_id']
                    );
-
-    echo HtmlInput::button('Imprime','imprime',"onclick=\"window.open('".$sHref."');\"");
-    echo HtmlInput::submit('ok','Sauve');
-    echo HtmlInput::reset('Annule');
-    echo HtmlInput::button_anchor('Retour à la liste','?p_action=sec&'.dossier::get(),'retour');
 
     echo dossier::hidden();
     echo HtmlInput::hidden('action','sec');
     echo HtmlInput::hidden('user_id',$_GET['user_id']);
+	$i_profile=new ISelect ('profile');
+	$i_profile->value=$cn->make_array("select p_id,p_name from profile
+			order by p_name");
 
+	$i_profile->selected=$sec_User->get_profile();
+
+	echo "<p>";
+	echo " Profile ".$i_profile->input();
+	echo "</p>";
     echo '<Fieldset><legend>Journaux </legend>';
-    echo '<table align="CENTER" width="100%">';
+    echo '<table>';
     $MaxJrn=Database::num_row($Res);
     $jrn_priv=new ISelect();
     $array=array(
                array ('value'=>'R','label'=>'Uniquement lecture'),
                array ('value'=>'W','label'=>'Lecture et écriture'),
-               //	       array ('value'=>'O','label'=>'Uniquement opérations prédéfinies'),
                array ('value'=>'X','label'=>'Aucun accès')
            );
 
@@ -238,9 +289,9 @@ if ( $action == "view" )
         $l_line=Database::fetch_array($Res,$i);
 
         echo '<TR> ';
-        if ( $i == 0 ) echo '<TD> <B> Journal </B> </TD>';
+        if ( $i == 0 ) echo '<TD class="num"> <B> Journal </B> </TD>';
         else echo "<TD></TD>";
-        echo "<TD> $l_line[jrn_def_name] </TD>";
+        echo "<TD class=\"num\"> $l_line[jrn_def_name] </TD>";
 
         $jrn_priv->name='jrn_act'.$l_line['jrn_def_id'];
         $jrn_priv->value=$array;
@@ -263,6 +314,7 @@ if ( $action == "view" )
     echo HtmlInput::button('Imprime','imprime',"onclick=\"window.open('".$sHref."');\"");
     echo HtmlInput::submit('ok','Sauve');
     echo HtmlInput::reset('Annule');
+	echo $return;
     echo '</form>';
 } // end of the form
 echo "</DIV>";

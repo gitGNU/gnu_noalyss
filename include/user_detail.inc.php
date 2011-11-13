@@ -61,8 +61,11 @@ if (isset($_POST['SAVE']))
         $UserChange->admin = $_POST['Admin'];
         if ( trim($_POST['password'])<>'')
         {
-                    $UserChange->pass = md5($_POST['pass']);
-        }
+                    $UserChange->pass = md5($_POST['password']);
+        }		else
+		{
+			$UserChange->pass=$UserChange->password;
+		}
         $UserChange->save();
 
         // Update Priv on Folder
@@ -73,6 +76,7 @@ if (isset($_POST['SAVE']))
                 $db_id = substr($name, 4);
                 $cn = new Database();
                 $UserChange->set_folder_access($db_id, $elem);
+				Dossier::synchro_admin($db_id);
             }
         }
     }
@@ -97,6 +101,8 @@ $UserChange->load();
 $it_pass=new IText('password');
 $it_pass->value="";
 ?>
+<h1 class="info">Modification</h1>
+<? echo HtmlInput::button_anchor('Retour', 'admin_repo.php?action=user_mgt'); ?>
 <FORM  METHOD="POST">
 
 <?=HtmlInput::hidden('UID',$uid)?>
@@ -174,14 +180,15 @@ echo "</TD></TR>";
         <!-- Show all database and rights -->
         <H2 class="info"> Droit sur les dossiers pour les utilisateurs normaux </H2>
         <p class="notice">
-            Les autres droits doivent être réglés dans les dossiers (paramètre->sécurité)
+            Les autres droits doivent être réglés dans les dossiers (paramètre->sécurité), le fait de changer un utilisateur d'administrateur à utilisateur
+			normal ne change pas le profil administrateur dans les dossiers.
+			Il faut aller dans CFGSECURITY pour diminuer ses privilèges.
         </p>
         <TABLE>
 <?php
 $array = array(
     array('value' => 'X', 'label' => 'Aucun Accès'),
-    array('value' => 'R', 'label' => 'Utilisateur normal'),
-    array('value' => 'L', 'label' => 'Administrateur local(Tous les droits)')
+    array('value' => 'R', 'label' => 'Utilisateur normal')
 );
 $repo = new Dossier(0);
 
@@ -218,9 +225,9 @@ foreach ($Dossier as $rDossier)
         <input type="Submit" class="button" NAME="SAVE" VALUE="Sauver les changements" onclick="return confirm('Confirmer changement ?');">
 
         <input type="Submit"  class="button" NAME="DELETE" VALUE="Effacer" onclick="return confirm('Confirmer effacement ?');" >
-
-</FORM>
 <? echo HtmlInput::button_anchor('Retour', 'admin_repo.php?action=user_mgt'); ?>
+</FORM>
+
 </DIV>
 
 
