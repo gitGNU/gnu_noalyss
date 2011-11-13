@@ -21,11 +21,11 @@ if ( $cn->get_value("select count(*) from profile join profile_user using (p_id)
 			$direct=new IText('ac');
 			$direct->style='class="direct"';
 			$direct->value='';
-			$direct->size=(strlen($direct->value)<10)?10:strlen($direct->value);
+			$direct->size=20;
 			echo $direct->input();
 			$gDossier=dossier::id();
 			?>
-		<div id="ac_choices" class="autocomplete" ></div>
+		<div id="ac_choices" class="autocomplete" style="width:150"></div>
 		<?
 			echo HtmlInput::submit('go','aller');
 			?>

@@ -37,7 +37,7 @@
 							$bk=new Fiche($cn,$obj->det->array[0]['qp_supplier']);
 							echo td(_('Fournisseur'));
 
-							$view_history= sprintf('<A class="detail" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
+							$view_history= sprintf('<A class="line" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
 											$bk->id, $gDossier, $bk->get_quick_code());
 							echo td(h($bk->getName())).td($view_history);;
 							?>
@@ -99,6 +99,7 @@ if ( $owner->MY_TVA_USE == 'Y') {
 } else {
   echo th('');
 }
+echo th(_('Prix/Un.'), 'style="text-align:right"');
 echo th(_('Quantité'), 'style="text-align:right"');
 echo th(_('Non ded'), 'style="text-align:right"');
 
@@ -138,6 +139,8 @@ echo '</tr>';
    }
     $row.=td($fiche->strAttribut(ATTR_DEF_NAME));
     $row.=td($sym_tva,'style="text-align:center"');
+	$pu=bcdiv($q['qp_price'],$q['qp_quantite']);
+    $row.=td(nbm($pu),'class="num"');
     $row.=td(nbm($q['qp_quantite']),'class="num"');
 
     $no_ded=bcadd($q['qp_dep_priv'],$q['qp_nd_amount']);

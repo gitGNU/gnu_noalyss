@@ -22,6 +22,7 @@ script SQL to run
 \i account_add.sql
 \i object-6.0.sql
 \i extension.sql
+\i ajax-direct-form.sql
 -- for account repository
 \i change_account_repo.sql
 \i style-epad.sql

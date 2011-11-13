@@ -18,7 +18,7 @@
 						$date=new IDate('p_date');
 						$date->value=format_date($obj->det->jr_date);
 						 echo td('Date').td($date->input());
-						 
+
 						 ?>
 						 </td>
 						</tr>
@@ -28,15 +28,15 @@
 							$date_ech=new IDate('p_ech');
 							$date_ech->value=format_date($obj->det->jr_ech);
 							 echo td('Echeance').td($date_ech->input());
-							 
+
 							 ?>
-							</td>			
+							</td>
 						<tr>
 						<td>
 						<?
 						$bk=new Fiche($cn,$obj->det->array[0]['qs_client']);
 						echo td(_('Client'));
-						
+
 						$view_history= sprintf('<A class="detail" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
 										$bk->id, $gDossier, $bk->get_quick_code());
 						echo td(h($bk->getName())).td($view_history);;
@@ -45,7 +45,7 @@
 						</tr>
 						<tr>
 						<td>
-						<? 
+						<?
 						$itext=new IText('npj');
 						$itext->value=$obj->det->jr_pj_number;
 						echo td(_('Pièce')).td($itext->input());
@@ -53,13 +53,13 @@
 						</td>
 						<tr>
 						<td>
-						<? 
+						<?
 						  $itext=new IText('lib');
 						  $itext->value=$obj->det->jr_comment;
 						  $itext->size=40;
 						echo td(_('Libellé')).td($itext->input(),' colspan="2" ');
-						
-						
+
+
 						?>
 						</td>
 						</tr>
@@ -80,7 +80,7 @@
 			$inote->value=$obj->det->note;
 			echo $inote->input();
 			?>
-			
+
 			</td>
 			</tr>
 			</table>
@@ -95,16 +95,17 @@
   $total_htva=0;$total_tvac=0;
   echo th(_('Quick Code'));
 echo th(_('Description'));
+echo th(_('Prix/Un'), 'style="text-align:right"');
+echo th(_('Quantité'), 'style="text-align:right"');
 if ( $owner->MY_TVA_USE == 'Y')
   echo th(_('Taux TVA'), 'style="text-align:right"');
-else 
+else
   echo th('');
-echo th(_('Quantité'), 'style="text-align:right"');
 if ( $owner->MY_TVA_USE == 'Y') {
   echo th(_('HTVA'), 'style="text-align:right"');
   echo th(_('TVA'), 'style="text-align:right"');
   echo th(_('TVAC'), 'style="text-align:right"');
-} else 
+} else
   echo th(_('Total'), 'style="text-align:right"');
 
     if ($owner->MY_ANALYTIC != 'nu' && $div == 'popup'){
@@ -118,17 +119,20 @@ if ( $owner->MY_TVA_USE == 'Y') {
       echo Anc_Plan::hidden($a_anc);
     }
 
-echo '</tr>';  
+echo '</tr>';
   for ($e=0;$e<count($obj->det->array);$e++) {
-    $row=''; 
+    $row='';
     $q=$obj->det->array[$e];
     $fiche=new Fiche($cn,$q['qs_fiche']);
-    $view_history= sprintf('<A class="detail" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
+    $view_history= sprintf('<A class="line" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
 				$fiche->id, $gDossier, $fiche->strAttribut(ATTR_DEF_QUICKCODE));
 
     $row=td($view_history);
     $row.=td($fiche->strAttribut(ATTR_DEF_NAME));
     $sym_tva='';
+	$pu=bcdiv($q['qs_price'],$q['qs_quantite']);
+    $row.=td(nbm($pu),'class="num"');
+    $row.=td(nbm($q['qs_quantite']),'class="num"');
    if ( $owner->MY_TVA_USE=='Y') {
      /* retrieve TVA symbol */
      $tva=new Acc_Tva($cn,$q['qs_vat_code']);
@@ -139,7 +143,6 @@ echo '</tr>';
 
    $row.=td($sym_tva,'style="text-align:center"');
 
-    $row.=td(nbm($q['qs_quantite']),'class="num"');
     $htva=$q['qs_price'];
     $row.=td(nbm($htva),'class="num"');
     $tvac=bcadd($htva,$q['qs_vat']);
@@ -159,9 +162,9 @@ echo '</tr>';
 	echo HtmlInput::hidden('op[]',$anc_op->j_id);
 	/* compute total price */
 	bcscale(2);
-	
+
 	$row.=$anc_op->display_table(1,$htva,$div);
-	
+
       }  else {
 	$row.=td('');
       }
@@ -188,7 +191,7 @@ echo tr($row);
 <legend>
 <?=_('Ecritures comptables')?>
 </legend>
-<? 
+<?
   /* if it is not in a popup, the details are hidden */
   if ( $div != 'popup') {
     $ib=new IButton ("a".$div);
@@ -200,7 +203,7 @@ echo tr($row);
     $ib->label='Cacher';
     $ib->javascript="g('detail_".$div."').style.display='none';g('a".$div."').style.display='block';";
     echo $ib->input();
-  } else 
+  } else
     echo '<div>';
 
   $detail=new Acc_Misc($cn,$obj->jr_id);
@@ -233,7 +236,7 @@ echo '</tr>';
     $row.=td($view_history);
 
     if ( $q['j_qcode'] !='') {
-      // nom de la fiche 
+      // nom de la fiche
       $ff=new Fiche($cn);
       $ff->get_by_qcode( $q['j_qcode']);
       $row.=td($ff->strAttribut(h(ATTR_DEF_NAME)));

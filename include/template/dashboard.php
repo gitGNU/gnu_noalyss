@@ -1,10 +1,11 @@
-<div style="float:left;width:42%">
+<div>
+	<div style="float:left;width:50%">
 <fieldset>
 <legend><?=_('Calendrier')?>
 </legend>
 <?php echo $cal->display(); ?>
 </fieldset>
-</div>
+
 <?php
 /*
  * Todo list
@@ -21,14 +22,20 @@ if ( isset($_REQUEST['save_todo_list'])) {
 }
 $todo=new Todo_List($cn);
 $array=$todo->load_all();
-echo '<div id="add_todo_list" class="add_todo_list">';
-echo '<form method="post">';
+?>
+<div id="add_todo_list" class="add_todo_list">
+	<script charset="utf8" type="text/javascript" language="javascript">
+		new Draggable($('add_todo_list'),{});
+	</script>
+<form method="post">
+<?php
 $wDate=new IDate('p_date_todo');
 $wDate->id='p_date_todo';
 $wTitle=new IText('p_title');
 $wDesc=new ITextArea('p_desc');
 $wDesc->heigh=5;
 $wDesc->width=40;
+echo h2info("Note");
 echo _("Date")." ".$wDate->input().'<br>';
 echo _("Titre")." ".$wTitle->input().'<br>';
 echo _("Description")."<br>".$wDesc->input().'<br>';
@@ -36,13 +43,14 @@ echo dossier::hidden();
 echo HtmlInput::hidden('tl_id',0);
 echo HtmlInput::submit('save_todo_list',_('Sauve'),'onClick="$(\'add_todo_list\').hide();return true;"');
 echo HtmlInput::button('hide',_('Annuler'),'onClick="$(\'add_todo_list\').hide();return true;"');
-echo '</form>';
-echo '</div>';
+?>
+</form>
+</div>
+</div>
+<div style="float:left;width:50%">'
+<fieldset> <legend><?=_('Pense-Bête')?></legend>
 
-echo '<div style="float:left;width:27%;">';
-echo '<fieldset> <legend>'._('Pense-Bête').'</legend>';
-
-
+<?php
 echo HtmlInput::button('add',_('Ajout'),'onClick="add_todo()"');
 if ( ! empty ($array) )  {
   echo '<table id="table_todo" width="100%">';
@@ -69,8 +77,11 @@ if ( ! empty ($array) )  {
   }
   echo '</table>';
 }
-echo '</fieldset>';
-echo '</div>';
+?>
+</fieldset>
+</div>
+	<div style="clear:both"></div>
+<?php
 /*
  * Mini Report
  */
@@ -84,7 +95,6 @@ if ( $rapport->exist() == false ) {
 }
 
 if ( $report != 0 ) {
-  echo '<div style="float:left;width:30%">';
   echo '<fieldset style="background-color:white"><legend>'.$rapport->get_name().'</legend>';
   $exercice=$g_user->get_exercice();
   if ( $exercice == 0 ) {
@@ -110,80 +120,10 @@ if ( $report != 0 ) {
   echo '</fieldset>';
   echo '</div>';
  } else {
-  echo '<div style="float:right;width:20%">';
   echo '<fieldset style="background-color:white"><legend>'._('Aucun rapport défini').'</legend>';
   echo '<a href="user_pref.php?'.dossier::get().'">'._('Cliquez ici pour mettre à jour vos préférences').'</a>';
   echo '</fieldset>';
-  echo '</div>';
  }
 
 ?>
-<div style="float:left;clear:both;width:100%">
-<div style="float:left;width:49%">
-<fieldset>
-<legend><?=_('Dernières opérations')?>
-</legend>
-<table width="100%">
-<?php
-for($i=0;$i<count($last_ledger);$i++):
- if ( $i % 2 == 0 ) $odd='class="odd" '; else $odd='class="even" ';
-?>
-<tr <?=$odd?> >
-<td>
-<?=$last_ledger[$i]['jr_date_fmt']?>
-</td>
-<td>
-   <?=h(substr($last_ledger[$i]['jr_comment'],0,30))?>
-</td>
-<td>
-   <?=h(substr($last_ledger[$i]['jr_pj_number'],0,10))?>
-</td>
-
-<td style="text-align:right">
-   <?=nbm($last_ledger[$i]['jr_montant'])?>
-</td>
-<td>
-   <? echo $detail=HtmlInput::detail_op($last_ledger[$i]['jr_id'],$last_ledger[$i]['jr_internal']); ?>
-</td>
-
-</tr>
-<? endfor;?>
-</table>
-
-</fieldset>
-</div>
-
-
-<div style="float:left;width:49%">
-<fieldset>
-<legend><?=_('Dernières actions')?>
-</legend>
-<table width="100%">
-<?php
-for($i=0;$i<count($last_operation);$i++):
-  if ( $i % 2 == 0 ) $odd='class="odd" '; else $odd='class="even" ';
-?>
-<tr <?=$odd?>>
-<td>
-   <?=h($last_operation[$i]['ag_timestamp_fmt'])?>
-</td>
-<td>
-   <?=h($last_operation[$i]['vw_name'])?>
-</td>
-
-<td>
-<? echo '<A HREF="commercial.php?'.dossier::get().'&p_action=suivi_courrier&sa=detail&ag_id='.$last_operation[$i]['ag_id'].'">'; ?>
-<?=h(substr($last_operation[$i]['ag_title'],0,40))?>
-</a>
-</td>
-<td>
-<?=$last_operation[$i]['dt_value']?>
-</tr>
-
-<? endfor;?>
-</table>
-</fieldset>
-</div>
-
-</div>
 </div>
