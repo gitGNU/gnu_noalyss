@@ -187,9 +187,9 @@ class Acc_Ledger_Fin extends Acc_Ledger
      */
     function input($p_array=null)
     {
+        global $g_parameter;
         if ( $p_array != null)
             extract ($p_array);
-        $owner=new Own($this->db);
 
         $pview_only=false;
         $user = new User($this->db);
@@ -203,7 +203,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
         // The first day of the periode
         $pPeriode=new Periode($this->db);
         list ($l_date_start,$l_date_end)=$pPeriode->get_date_limit($user->get_periode());
-        if (  $owner->MY_DATE_SUGGEST=='Y' )
+        if (  $g_parameter->MY_DATE_SUGGEST=='Y' )
             $op_date=( ! isset($e_date) ) ?$l_date_start:$e_date;
         else
             $op_date=( ! isset($e_date) ) ?'':$e_date;
@@ -250,7 +250,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 
 	$add_js='onchange="update_pj();update_bank();get_last_date();ajax_saldo(\'first_sold\');update_name();"';
 
-	if ( $owner->MY_DATE_SUGGEST == 'Y')
+	if ( $g_parameter->MY_DATE_SUGGEST == 'Y')
 	  $add_js='onchange="update_pj();update_bank();get_last_date();ajax_saldo(\'first_sold\')";';
 
         $wLedger=$this->select_ledger('FIN',2);
@@ -272,7 +272,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
         //-------------------------------------------------
         // Extrait
         $default_pj='';
-        if ( $owner->MY_PJ_SUGGEST=='Y')
+        if ( $g_parameter->MY_PJ_SUGGEST=='Y')
         {
             $default_pj=$this->guess_pj();
         }
@@ -386,11 +386,11 @@ class Acc_Ledger_Fin extends Acc_Ledger
      */
     public function confirm($p_array)
     {
+        global $g_parameter;
         $r="";
         bcscale(2);
         extract ($p_array);
         $pPeriode=new Periode($this->db);
-	$owner=new Own($this->db);
         if ($this->check_periode() == true)
         {
             $pPeriode->p_id=$periode;
@@ -476,7 +476,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
         $r.='<th colspan="2"> Op. Concern&eacute;e(s)</th>';
 
 	/* if we use the AC */
-        if ($owner->MY_ANALYTIC!='nu')
+        if ($g_parameter->MY_ANALYTIC!='nu')
         {
             $anc=new Anc_Plan($this->db);
             $a_anc=$anc->get_list();
@@ -525,11 +525,11 @@ class Acc_Ledger_Fin extends Acc_Ledger
             $r.=${"e_concerned".$i};
             $r.='</td>';
             // encode the pa
-            if ( $owner->MY_ANALYTIC!='nu' && preg_match("/^[6,7]/",$fTiers->strAttribut(ATTR_DEF_ACCOUNT))==1 ) // use of AA
+            if ( $g_parameter->MY_ANALYTIC!='nu' && preg_match("/^[6,7]/",$fTiers->strAttribut(ATTR_DEF_ACCOUNT))==1 ) // use of AA
             {
                 // show form
                 $anc_op=new Anc_Operation($this->db);
-                $null=($owner->MY_ANALYTIC=='op')?1:0;
+                $null=($g_parameter->MY_ANALYTIC=='op')?1:0;
                 $r.='<td>';
                 $p_mode=1;
                 $p_array['pa_id']=$a_anc;
@@ -591,6 +591,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
      */
     public function insert($p_array)
     {
+        global $g_parameter;
 		bcscale(2);
         $internal_code="";
         $oid=0;
@@ -600,7 +601,6 @@ class Acc_Ledger_Fin extends Acc_Ledger
         $bank_id=$this->get_bank();
         $fBank=new Fiche($this->db,$bank_id);
         $e_bank_account=$fBank->strAttribut(ATTR_DEF_QUICKCODE);
-	$owner=new Own($this->db);
         // Get the saldo
         $pPeriode=new Periode($this->db);
         if ( $this->check_periode() == true )
@@ -793,7 +793,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
                  */
 		$this->insert_quant_fin($fBank->id,$jr_id,$fPoste->id,${"e_other$i"."_amount"});
 
-                if ( $owner->MY_ANALYTIC != "nu" )
+                if ( $g_parameter->MY_ANALYTIC != "nu" )
                 {
                     // for each item, insert into operation_analytique */
                     $op=new Anc_Operation($this->db);

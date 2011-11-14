@@ -58,6 +58,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
      */
     public function verify($p_array)
     {
+        global $g_parameter;
         extract ($p_array);
         /* check for a double reload */
         if (  isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
@@ -167,8 +168,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                 throw new Exception(_('La fiche ').${'e_march'.$i}._('n\'a pas de poste comptable'),8);
 
             // Check if the given tva id is valid
-            $owner=new Own($this->db);
-            if ( $owner->MY_TVA_USE=='Y')
+            if ( $g_parameter->MY_TVA_USE=='Y')
             {
                 if (  isNumber(${'e_march'.$i.'_tva_id'}) == 0 )
                     throw new Exception(_('La fiche ').${'e_march'.$i}._('a un code tva invalide').' ['.${'e_march'.$i.'_tva_id'}.']',13);
@@ -236,10 +236,10 @@ class  Acc_Ledger_Sold extends Acc_Ledger
      */
     public function insert($p_array)
     {
+        global $g_parameter;
         extract ($p_array);
         $this->verify($p_array) ;
 
-        $owner=new own($this->db);
         $group=$this->db->get_next_seq("s_oa_group"); /* for analytic */
         $seq=$this->db->get_next_seq('s_grpt');
         $this->id=$p_jrn;
@@ -315,7 +315,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 
                 $j_id=$acc_operation->insert_jrnx();
 
-                if ($owner->MY_TVA_USE == 'Y' )
+                if ($g_parameter->MY_TVA_USE == 'Y' )
                 {
                     /* Compute sum vat */
                     $oTva=new Acc_Tva($this->db);
@@ -349,7 +349,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                 // what card need a stock management
                 InsertStockGoods($this->db,$j_id,${'e_march'.$i},$nNeg*${'e_quant'.$i},'c') ;
 
-                if ( $owner->MY_ANALYTIC != "nu" )
+                if ( $g_parameter->MY_ANALYTIC != "nu" )
                 {
                     // for each item, insert into operation_analytique */
                     $op=new Anc_Operation($this->db);
@@ -360,7 +360,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                     $op->oa_description=sql_string($e_comm);
                     $op->save_form_plan($_POST,$i,$j_id);
                 }
-                if ( $owner->MY_TVA_USE=='Y')
+                if ( $g_parameter->MY_TVA_USE=='Y')
                 {
                     /* save into quant_sold */
                     $r=$this->db->exec_sql("select insert_quant_sold ($1,$2,$3,$4,$5,$6,$7,$8)",
@@ -386,7 +386,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                                                  null,
                                                  $e_client));
 
-                }  // if ( $owner->MY_TVA_USE=='Y') {
+                }  // if ( $g_parameter->MY_TVA_USE=='Y') {
             }// end loop : save all items
 
             /*  save total customer */
@@ -406,9 +406,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 
             /** save all vat
              * $i contains the tva_id and value contains the vat amount
-             * if if ($owner->MY_TVA_USE == 'Y' )
+             * if if ($g_parameter->MY_TVA_USE == 'Y' )
              */
-            if ($owner->MY_TVA_USE == 'Y' )
+            if ($g_parameter->MY_TVA_USE == 'Y' )
             {
                 foreach ($tva as $i => $value)
                 {
@@ -432,7 +432,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 
 
                 }
-            } // if ($owner->MY_TVA_USE=='Y')
+            } // if ($g_parameter->MY_TVA_USE=='Y')
             /* insert into jrn */
             $acc_operation=new Acc_Operation($this->db);
             $acc_operation->date=$e_date;
@@ -615,6 +615,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
      */
     function confirm($p_array,$p_summary=false)
     {
+        global $g_parameter;
         extract ($p_array);
 
 		// don't need to verify for a summary
@@ -622,7 +623,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         $anc=null;
         // to show a select list for the analytic & VAT USE
         // if analytic is op (optionnel) there is a blank line
-        $owner = new Own($this->db);
 
         bcscale(4);
         $client=new Fiche($this->db);
@@ -674,13 +674,13 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         $r.="<th>"._('tva')."</th>";
 
 
-        if ( $owner->MY_TVA_USE=='Y')
+        if ( $g_parameter->MY_TVA_USE=='Y')
         {
             $r.='<th> '._('Montant TVA').'</th>';
             $r.='<th>'._('Montant HTVA').'</th>';
         }
         /* if we use the AC */
-        if ($owner->MY_ANALYTIC!='nu')
+        if ($g_parameter->MY_ANALYTIC!='nu')
         {
             $anc=new Anc_Plan($this->db);
             $a_anc=$anc->get_list();
@@ -702,7 +702,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
             $fiche=new Fiche($this->db);
             $fiche->get_by_qcode(${"e_march".$i});
             $fiche_name=h($fiche->getName());
-            if ( $owner->MY_TVA_USE=='Y')
+            if ( $g_parameter->MY_TVA_USE=='Y')
             {
                 $oTva=new Acc_Tva($this->db);
                 $idx_tva=${"e_march".$i."_tva_id"};
@@ -713,7 +713,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
             $op=new Acc_Compute();
             $amount=bcmul(${"e_march".$i."_price"},${'e_quant'.$i});
             $op->set_parameter("amount",$amount);
-            if ( $owner->MY_TVA_USE=='Y')
+            if ( $g_parameter->MY_TVA_USE=='Y')
             {
                 $op->set_parameter('amount_vat_rate',$oTva->get_parameter('rate'));
                 $op->compute_vat();
@@ -740,7 +740,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
             $r.='<td align="right">';
             $r.=${"e_quant".$i};
             $r.='</td>';
-            if ( $owner->MY_TVA_USE=='Y')
+            if ( $g_parameter->MY_TVA_USE=='Y')
             {
                 $r.='<td align="right">';
                 $r.=$oTva->get_parameter('label');
@@ -760,11 +760,11 @@ class  Acc_Ledger_Sold extends Acc_Ledger
             $r.='</td>';
 
             // encode the pa
-            if ( $owner->MY_ANALYTIC!='nu') // use of AA
+            if ( $g_parameter->MY_ANALYTIC!='nu') // use of AA
             {
                 // show form
                 $anc_op=new Anc_Operation($this->db);
-                $null=($owner->MY_ANALYTIC=='op')?1:0;
+                $null=($g_parameter->MY_ANALYTIC=='op')?1:0;
                 $r.='<td>';
                 $p_mode=($p_summary==false)?1:0;
                 $p_array['pa_id']=$a_anc;
@@ -781,7 +781,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 
 
         $r.='</table>';
-        if ( $owner->MY_ANALYTIC!='nu' && $p_summary ) // use of AA
+        if ( $g_parameter->MY_ANALYTIC!='nu' && $p_summary ) // use of AA
             $r.='<input type="button" class="button" value="'._('Vérifiez Imputation Analytique').'" onClick="verify_ca(\'\');">';
         $r.='</fieldset>';
         if (! $p_summary )
@@ -795,7 +795,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         $tot=round(bcadd($tot_amount,$tot_tva),2);
         $r.='<div style="width:40%;position:float;float:left;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
         /* use VAT */
-        if ($owner->MY_TVA_USE == 'Y' )
+        if ($g_parameter->MY_TVA_USE == 'Y' )
         {
             $r.='<br>Total HTVA';
             foreach ($tva as $i=>$value)
@@ -817,7 +817,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         $r.='<div style="position:float;float:left;text-align:right;color:blue;font-size:1.2em;font-weight:bold">';
         $r.='<br><span id="htva">'.nbm($tot_amount).'</span>';
 
-        if ($owner->MY_TVA_USE == 'Y' )
+        if ($g_parameter->MY_TVA_USE == 'Y' )
         {
             foreach ($tva as $i=>$value)
             {
@@ -869,7 +869,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         {
             $r.=HtmlInput::hidden("e_march".$i,${"e_march".$i});
             $r.=HtmlInput::hidden("e_march".$i."_price",${"e_march".$i."_price"});
-            if ( $owner->MY_TVA_USE=='Y')
+            if ( $g_parameter->MY_TVA_USE=='Y')
             {
                 $r.=HtmlInput::hidden("e_march".$i."_tva_id",${"e_march".$i."_tva_id"});
                 $r.=HtmlInput::hidden("e_march".$i."_tva_amount",${"e_march".$i."_tva_amount"});
@@ -964,10 +964,10 @@ class  Acc_Ledger_Sold extends Acc_Ledger
     */
     function input($p_array=null)
     {
+        global $g_parameter;
         if ( $p_array != null ) extract($p_array);
         $user = new User($this->db);
-        $owner=new Own($this->db);
-        $flag_tva=$owner->MY_TVA_USE;
+        $flag_tva=$g_parameter->MY_TVA_USE;
         /* Add button */
         $f_add_button=new IButton('add_card');
         $f_add_button->label=_('Créer une nouvelle fiche');
@@ -988,7 +988,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         // The first day of the periode
         $oPeriode=new Periode($this->db);
         list ($l_date_start,$l_date_end)=$oPeriode->get_date_limit($user->get_periode());
-        if (  $owner->MY_DATE_SUGGEST=='Y' )
+        if (  $g_parameter->MY_DATE_SUGGEST=='Y' )
             $op_date=( ! isset($e_date) ) ?$l_date_start:$e_date;
         else
             $op_date=( ! isset($e_date) ) ?'':$e_date;
@@ -1042,7 +1042,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         }
         /* if we suggest the next pj, then we need a javascript */
         $add_js="";
-        if ( $owner->MY_PJ_SUGGEST=='Y')
+        if ( $g_parameter->MY_PJ_SUGGEST=='Y')
         {
             $add_js="update_pj();";
         }
@@ -1071,7 +1071,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         //--
         /* suggest PJ ? */
         $default_pj='';
-        if ( $owner->MY_PJ_SUGGEST=='Y')
+        if ( $g_parameter->MY_PJ_SUGGEST=='Y')
         {
             $default_pj=$this->guess_pj();
         }
@@ -1211,7 +1211,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
             $htva->value=0;
             $array[$i]['htva']=$htva->input();
 
-            if ( $owner->MY_TVA_USE=='Y')
+            if ( $g_parameter->MY_TVA_USE=='Y')
                 $tvac=new INum('tvac_march'.$i);
             else
                 $tvac=new IHidden('tvac_march'.$i);

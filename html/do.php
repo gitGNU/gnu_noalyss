@@ -48,7 +48,7 @@ if (isset ($_POST["style_user"])){$_SESSION['g_theme']=$_POST['style_user'];}
 
 html_page_start($_SESSION['g_theme']);
 
-global $g_user, $cn;
+global $g_user, $cn,$g_parameter;
 
 
 
@@ -60,6 +60,7 @@ if ($g_user->check_dossier(dossier::id()) == 'P')
     redirect("extension.php?" . dossier::get(), 0);
     exit();
 }
+$g_parameter=new Own($cn);
 
 load_all_script();
 /*  Check Browser version if < IE6 then unsupported */

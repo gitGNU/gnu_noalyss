@@ -35,7 +35,7 @@ $cn=new Database(dossier::id());
 //menu = show a list of ledger
 $str_dossier=dossier::get();
 $ac="ac=".$_REQUEST['ac'];
-
+global $g_parameter;
 
 //----------------------------------------------------------------------
 // Encode a new invoice
@@ -239,9 +239,8 @@ $ac="ac=".$_REQUEST['ac'];
     echo '</div>';
     echo "</FORM>";
 
-    $own=new Own($cn);
     /* if we suggest the pj n# the run the script */
-    if ( $own->MY_PJ_SUGGEST=='Y')
+    if ( $g_parameter->MY_PJ_SUGGEST=='Y')
     {
         echo '<script> update_pj();get_last_date()</script>';
     }

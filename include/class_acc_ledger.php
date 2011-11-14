@@ -29,7 +29,6 @@ require_once('class_iperiod.php');
 require_once('class_fiche.php');
 require_once('class_user.php');
 require_once ('class_dossier.php');
-require_once ('class_own.php');
 require_once ('class_anc_operation.php');
 require_once ('class_acc_operation.php');
 require_once ('class_acc_account_ledger.php');
@@ -591,11 +590,11 @@ class Acc_Ledger extends jrn_def_sql
      */
     public function list_operation_to_reconcile($sql)
     {
+        global $g_parameter;
         $user=new User($this->db);
         $gDossier=dossier::id();
         $limit=" LIMIT 25";
         // Sort
-        $own=new Own($this->db);
 
 		// Count
         $count=$this->db->count_sql($sql);
@@ -763,6 +762,7 @@ class Acc_Ledger extends jrn_def_sql
      */
     public function list_operation($sql,$offset,$p_paid=0)
     {
+        global $g_parameter;
 		$table=new Sort_Table();
         $user=new User($this->db);
         $gDossier=dossier::id();
@@ -785,7 +785,6 @@ class Acc_Ledger extends jrn_def_sql
 		$table->add("Description",$url,"order by jr_comment asc",
 				"order by jr_comment desc","ca","cd");
 
-        $own=new Own($this->db);
 		$ord= ( ! isset ($_GET['ord']))?'da':$_GET['ord'];
 		$order=$table->get_sql_order($ord);
 
@@ -1322,6 +1321,7 @@ class Acc_Ledger extends jrn_def_sql
      */
     function confirm($p_array,$p_readonly=false)
     {
+        global $g_parameter;
 		if (! $p_readonly ) $this->verify($p_array);
 		$this->id=$p_array['p_jrn'];
         if ( empty($p_array)) return 'Aucun r&eacute;sultat';
@@ -1336,7 +1336,6 @@ class Acc_Ledger extends jrn_def_sql
         {
             $lPeriode->find_periode($e_date);
         }
-        $owner=new own($this->db);
 		$total=0;
 		bcscale(2);
 
@@ -1357,7 +1356,7 @@ class Acc_Ledger extends jrn_def_sql
         $ret.="<th style=\"text-align:right\">"._("Débit")."</th>";
         $ret.="<th style=\"text-align:right\">"._("Crédit")."</th>";
         /* if we use the AC */
-        if ($owner->MY_ANALYTIC!='nu')
+        if ($g_parameter->MY_ANALYTIC!='nu')
         {
             $anc=new Anc_Plan($this->db);
             $a_anc=$anc->get_list();
@@ -1431,13 +1430,13 @@ class Acc_Ledger extends jrn_def_sql
             $ret.="</td>";
             // CA
 
-            if (  $owner->MY_ANALYTIC!='nu') // use of AA
+            if (  $g_parameter->MY_ANALYTIC!='nu') // use of AA
             {
                 if ( preg_match("/^[6,7]+/",$strPoste)==1)
                 {
                     // show form
                     $op=new Anc_Operation($this->db);
-                    $null=($owner->MY_ANALYTIC=='op')?1:0;
+                    $null=($g_parameter->MY_ANALYTIC=='op')?1:0;
                     $p_array['pa_id']=$a_anc;
                     /* op is the operation it contains either a sequence or a jrnx.j_id */
                     $ret.=HtmlInput::hidden('op[]=',$i);
@@ -1458,7 +1457,7 @@ class Acc_Ledger extends jrn_def_sql
         }
 		$ret.=tr(td('').td(_('Totaux')).td($total,'class="num"').td($total,'class="num"'),'class="footer"');
         $ret.="</table>";
-		if ( $owner->MY_ANALYTIC!='nu'  && $p_readonly==false)
+		if ( $g_parameter->MY_ANALYTIC!='nu'  && $p_readonly==false)
 			$ret.='<input type="button" class="button" value="'._('verifie Imputation Analytique').'" onClick="verify_ca(\'\');">';
         return $ret;
     }
@@ -1472,8 +1471,8 @@ class Acc_Ledger extends jrn_def_sql
      */
     function input($p_array=null,$p_readonly=0)
     {
+        global $g_parameter;
         $user = new User($this->db);
-        $owner=new Own($this->db);
 
         if ( $p_readonly == 1 )
             return $this->show_summary($p_array);
@@ -1481,7 +1480,7 @@ class Acc_Ledger extends jrn_def_sql
         if ( $p_array != null )
             extract($p_array);
         $add_js="";
-        if ( $owner->MY_PJ_SUGGEST=='Y')
+        if ( $g_parameter->MY_PJ_SUGGEST=='Y')
         {
             $add_js="update_pj();";
         }
@@ -1550,8 +1549,7 @@ class Acc_Ledger extends jrn_def_sql
 
         /* suggest PJ ? */
         $default_pj='';
-        $owner=new Own($this->db);
-        if ( $owner->MY_PJ_SUGGEST=='Y')
+        if ( $g_parameter->MY_PJ_SUGGEST=='Y')
         {
             $default_pj=$this->guess_pj();
         }
@@ -1857,6 +1855,7 @@ class Acc_Ledger extends jrn_def_sql
      */
     function save ($p_array)
     {
+        global $g_parameter;
         extract ($p_array);
         try
         {
@@ -1868,7 +1867,6 @@ class Acc_Ledger extends jrn_def_sql
             $internal=$this->compute_internal_code($seq);
 
             $group=$this->db->get_next_seq("s_oa_group");
-            $owner=new own($this->db);
             $tot_amount=0;
             $tot_deb=0;
             $tot_cred=0;
@@ -1930,7 +1928,7 @@ class Acc_Ledger extends jrn_def_sql
                 $tot_amount+=round($acc_op->amount,2);
                 $tot_deb+=($acc_op->type=='d')?$acc_op->amount:0;
                 $tot_cred+=($acc_op->type=='c')?$acc_op->amount:0;
-                if ( $owner->MY_ANALYTIC != "nu" )
+                if ( $g_parameter->MY_ANALYTIC != "nu" )
                 {
                     if ( preg_match("/^[6,7]+/",$poste)==1)
                     {
@@ -2143,9 +2141,9 @@ class Acc_Ledger extends jrn_def_sql
      */
     function check_strict()
     {
-        $owner=new Own($this->db);
-        if ( $owner->MY_STRICT=='Y') return true;
-        if ( $owner->MY_STRICT=='N') return false;
+        global $g_parameter;
+        if ( $g_parameter->MY_STRICT=='Y') return true;
+        if ( $g_parameter->MY_STRICT=='N') return false;
         exit("Valeur invalid ".__FILE__.':'.__LINE__);
     }
     /*!
@@ -2155,9 +2153,9 @@ class Acc_Ledger extends jrn_def_sql
      */
     function check_periode()
     {
-        $owner=new Own($this->db);
-        if ( $owner->MY_CHECK_PERIODE=='Y') return true;
-        if ( $owner->MY_CHECK_PERIODE=='N') return false;
+        global $g_parameter;
+        if ( $g_parameter->MY_CHECK_PERIODE=='Y') return true;
+        if ( $g_parameter->MY_CHECK_PERIODE=='N') return false;
         exit("Valeur invalid ".__FILE__.':'.__LINE__);
     }
 
