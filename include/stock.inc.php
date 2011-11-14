@@ -68,12 +68,6 @@ if ( isset ($_POST['sub_change']))
     }
     else
     {
-        // Check if User Can change the stock
-        if ( $g_user->check_action($gDossier,GESTOCK) == 0 )
-        {
-            NoAccess();
-            exit (-1);
-        }
 
         // if neg the stock decrease => credit
         $type=( $change < 0 )?'c':'d';
@@ -132,7 +126,7 @@ if ( $action == 'detail' )
     $sg_code=(isset ($_GET['sg_code'] ))?$_GET['sg_code']:$_POST['sg_code'];
     $year=(isset($_GET['year']))?$_GET['year']:$_POST['year'];
     $a=ViewDetailStock($cn,$sg_code,$year);
-    $write=$g_user->check_action(STOWRITE);
+    $write=1;
 
     $b="";
 

@@ -25,8 +25,6 @@
  * included from ajax_misc
  */
 
-if ( $user->check_action(PARPREDE)==0) exit();
-
 if ( trim($_GET['predf_name']) != '')
   {
     $cn->exec_sql('update op_predef set od_name =$1 where od_id=$2',

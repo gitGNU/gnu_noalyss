@@ -35,13 +35,6 @@ $cn=new Database($gDossier);
 
 
 require_once ('class_user.php');
-$User=new User($cn);
-$User->Check();
-if ( $User->check_action(IMPBAL) == 0)
-{
-    NoAccess();
-    exit;
-}
 echo 'poste;libelle;deb;cred;solde deb;solde cred';
 printf("\n");
 $bal=new Acc_Balance($cn);

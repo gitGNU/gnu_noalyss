@@ -1,4 +1,5 @@
 <?php
+
 /*
  *   This file is part of PhpCompta.
  *
@@ -15,39 +16,33 @@
  *   You should have received a copy of the GNU General Public License
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 /* $Revision$ */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file
+/* !\file
  * \brief display a form to change the name of a predefined operation
  */
 ob_start();
-if ( $user->check_action(PARPREDE)==0)
-  {
-    echo alert('Action interdite');
-  }
-else
-  {
-    echo HtmlInput::anchor_close('mod_predf_op');
-    echo h2info('Modification du nom');
-    echo '
+echo HtmlInput::anchor_close('mod_predf_op');
+echo h2info('Modification du nom');
+echo '
     <form method="get" onsubmit="save_predf_op(this);return false;">';
-    $name=new IText('predf_name');
-    $name->value=$cn->get_value('select od_name from op_predef where od_id=$1',array($_GET['id']));
-    $name->size=60;
-    echo "Nom =".$name->input();
-    echo dossier::hidden().HtmlInput::hidden('od_id',$_GET['id']);
-    echo "<hr>";
-    echo HtmlInput::submit('save','Sauve');
-    echo HtmlInput::button('close','Annuler','onclick="removeDiv(\'mod_predf_op\')"');
-    echo '</form>';
+$name = new IText('predf_name');
+$name->value = $cn->get_value('select od_name from op_predef where od_id=$1', array($_GET['id']));
+$name->size = 60;
+echo "Nom =" . $name->input();
+echo dossier::hidden() . HtmlInput::hidden('od_id', $_GET['id']);
+echo "<hr>";
+echo HtmlInput::submit('save', 'Sauve');
+echo HtmlInput::button('close', 'Annuler', 'onclick="removeDiv(\'mod_predf_op\')"');
+echo '</form>';
 
-  }
-$html=ob_get_contents();
+
+$html = ob_get_contents();
 ob_clean();
-$html=escape_xml($html);
+$html = escape_xml($html);
 
 header('Content-type: text/xml; charset=UTF-8');
 echo <<<EOF

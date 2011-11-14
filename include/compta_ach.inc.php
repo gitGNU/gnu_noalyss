@@ -113,7 +113,7 @@ if (isset($_POST['record']))
 
 
 		/* Save the predefined operation */
-		if (isset($_POST['opd_save']) && $g_user->check_action(PARPREDE) == 1)
+		if (isset($_POST['opd_save']) )
 		{
 			$opd = new Pre_op_ach($cn);
 			$opd->get_post();
