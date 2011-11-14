@@ -16,6 +16,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: menu_ref; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE menu_ref (
@@ -30,32 +31,36 @@ CREATE TABLE menu_ref (
 );
 
 
-
 --
+-- Name: COLUMN menu_ref.me_code; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN menu_ref.me_code IS 'Menu Code ';
 
 
 --
+-- Name: COLUMN menu_ref.me_menu; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN menu_ref.me_menu IS 'Label to display';
 
 
 --
+-- Name: COLUMN menu_ref.me_file; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN menu_ref.me_file IS 'if not empty file to include';
 
 
 --
+-- Name: COLUMN menu_ref.me_url; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN menu_ref.me_url IS 'url ';
 
 
 --
+-- Name: COLUMN menu_ref.me_type; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN menu_ref.me_type IS 'ME for menu
@@ -65,6 +70,7 @@ PL for plugin';
 
 
 --
+-- Name: profile; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE profile (
@@ -76,38 +82,43 @@ CREATE TABLE profile (
 );
 
 
-
 --
+-- Name: TABLE profile; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON TABLE profile IS 'Available profile ';
 
 
 --
+-- Name: COLUMN profile.p_name; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN profile.p_name IS 'Name of the profile';
 
 
 --
+-- Name: COLUMN profile.p_desc; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN profile.p_desc IS 'description of the profile';
 
 
 --
+-- Name: COLUMN profile.with_calc; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN profile.with_calc IS 'show the calculator';
 
 
 --
+-- Name: COLUMN profile.with_direct_form; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN profile.with_direct_form IS 'show the direct form';
 
 
 --
+-- Name: profile_menu; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE profile_menu (
@@ -121,32 +132,36 @@ CREATE TABLE profile_menu (
 );
 
 
-
 --
+-- Name: TABLE profile_menu; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON TABLE profile_menu IS 'Join  between the profile and the menu ';
 
 
 --
+-- Name: COLUMN profile_menu.me_code_dep; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN profile_menu.me_code_dep IS 'menu code dependency';
 
 
 --
+-- Name: COLUMN profile_menu.p_id; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN profile_menu.p_id IS 'link to profile';
 
 
 --
+-- Name: COLUMN profile_menu.p_order; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN profile_menu.p_order IS 'order of displaying menu';
 
 
 --
+-- Name: COLUMN profile_menu.p_type_display; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN profile_menu.p_type_display IS 'M is a module
@@ -155,6 +170,7 @@ S is a select (for plugin)';
 
 
 --
+-- Name: profile_menu_pm_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE profile_menu_pm_id_seq
@@ -165,20 +181,22 @@ CREATE SEQUENCE profile_menu_pm_id_seq
     CACHE 1;
 
 
-
 --
+-- Name: profile_menu_pm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE profile_menu_pm_id_seq OWNED BY profile_menu.pm_id;
 
 
 --
+-- Name: profile_menu_pm_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('profile_menu_pm_id_seq', 647, true);
+SELECT pg_catalog.setval('profile_menu_pm_id_seq', 648, true);
 
 
 --
+-- Name: profile_menu_type; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE profile_menu_type (
@@ -187,8 +205,8 @@ CREATE TABLE profile_menu_type (
 );
 
 
-
 --
+-- Name: profile_p_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE profile_p_id_seq
@@ -199,20 +217,22 @@ CREATE SEQUENCE profile_p_id_seq
     CACHE 1;
 
 
-
 --
+-- Name: profile_p_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE profile_p_id_seq OWNED BY profile.p_id;
 
 
 --
+-- Name: profile_p_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('profile_p_id_seq', 10, true);
 
 
 --
+-- Name: profile_user; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE profile_user (
@@ -222,26 +242,29 @@ CREATE TABLE profile_user (
 );
 
 
-
 --
+-- Name: TABLE profile_user; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON TABLE profile_user IS 'Contains the available profile for users';
 
 
 --
+-- Name: COLUMN profile_user.user_name; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN profile_user.user_name IS 'fk to available_user : login';
 
 
 --
+-- Name: COLUMN profile_user.p_id; Type: COMMENT; Schema: public; Owner: -
 --
 
 COMMENT ON COLUMN profile_user.p_id IS 'fk to profile';
 
 
 --
+-- Name: profile_user_pu_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE profile_user_pu_id_seq
@@ -252,54 +275,59 @@ CREATE SEQUENCE profile_user_pu_id_seq
     CACHE 1;
 
 
-
 --
+-- Name: profile_user_pu_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE profile_user_pu_id_seq OWNED BY profile_user.pu_id;
 
 
 --
+-- Name: profile_user_pu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('profile_user_pu_id_seq', 5, true);
 
 
 --
+-- Name: v_all_menu; Type: VIEW; Schema: public; Owner: -
 --
 
 CREATE VIEW v_all_menu AS
-    SELECT pm.me_code, pm.pm_id, pm.me_code_dep, pm.p_order, pm.p_type_display, pu.user_name, pu.pu_id, p.p_name, p.p_desc, mr.me_menu, mr.me_file, mr.me_url, mr.me_parameter, mr.me_javascript, mr.me_type FROM (((profile_menu pm JOIN profile_user pu ON ((pu.p_id = pm.p_id))) JOIN profile p ON ((p.p_id = pm.p_id))) JOIN menu_ref mr USING (me_code)) ORDER BY pm.p_order;
-
+    SELECT pm.me_code, pm.pm_id, pm.me_code_dep, pm.p_order, pm.p_type_display, pu.user_name, pu.pu_id, p.p_name, p.p_desc, mr.me_menu, mr.me_file, mr.me_url, mr.me_parameter, mr.me_javascript, mr.me_type, pm.p_id, mr.me_description FROM (((profile_menu pm JOIN profile_user pu ON ((pu.p_id = pm.p_id))) JOIN profile p ON ((p.p_id = pm.p_id))) JOIN menu_ref mr USING (me_code)) ORDER BY pm.p_order;
 
 
 --
+-- Name: p_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE profile ALTER COLUMN p_id SET DEFAULT nextval('profile_p_id_seq'::regclass);
 
 
 --
+-- Name: pm_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE profile_menu ALTER COLUMN pm_id SET DEFAULT nextval('profile_menu_pm_id_seq'::regclass);
 
 
 --
+-- Name: pu_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE profile_user ALTER COLUMN pu_id SET DEFAULT nextval('profile_user_pu_id_seq'::regclass);
 
 
 --
+-- Data for Name: menu_ref; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO menu_ref VALUES ('IMPCARD', 'Import Fiche', 'import_card/index.php', NULL, 'Importation de fiches', 'plugin_code=IMPCARD', NULL, 'PL');
 INSERT INTO menu_ref VALUES ('AMORTIS', 'Amortissement', 'amortis/index.php', NULL, 'Amortissement', 'plugin_code=AMORTIS', NULL, 'PL');
 INSERT INTO menu_ref VALUES ('TOOLPLAN', 'Import/export plan', 'tool_pcmn/index.php', NULL, 'Importation /export de plan comptable', 'plugin_code=TOOLPLAN', NULL, 'PL');
-INSERT INTO menu_ref VALUES ('IMPORTBANK', 'Importation banque', 'importbank/index.php', NULL, 'Import. fichier CVS de la banque', 'plugin_code=IMPORTBANK', NULL, 'PL');
 INSERT INTO menu_ref VALUES ('TOOL', 'Outil comptable', 'tools/index.php', NULL, 'Outil comptable', 'plugin_code=TOOL', NULL, 'PL');
 INSERT INTO menu_ref VALUES ('TVA', 'Module de TVA', 'tva/index.php', NULL, 'Cette extension permet de faire les listings et declarations TVA', 'plugin_code=TVA', NULL, 'PL');
+INSERT INTO menu_ref VALUES ('IMPORTBANK', 'Importation banque', 'importbank/index.php', NULL, 'Import. fichier CVS de la banque', 'plugin_code=IMPORTBANK', NULL, 'PL');
 INSERT INTO menu_ref VALUES ('ACH', 'Achat', 'compta_ach.inc.php', NULL, NULL, NULL, NULL, 'ME');
 INSERT INTO menu_ref VALUES ('CSV:AncBalGroup', 'Export Balance groupe analytique', NULL, NULL, NULL, NULL, NULL, 'PR');
 INSERT INTO menu_ref VALUES ('OTH:Bilan', 'Export Bilan', NULL, NULL, NULL, NULL, NULL, 'PR');
@@ -411,6 +439,7 @@ INSERT INTO menu_ref VALUES ('ACCESS', 'Accueil', NULL, 'user_login.php', NULL, 
 
 
 --
+-- Data for Name: profile; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO profile VALUES ('Administrateur', 1, 'Profil par défaut pour les adminstrateurs', true, true);
@@ -418,8 +447,10 @@ INSERT INTO profile VALUES ('Utilisateur', 6, 'Profil par défaut pour les Utili
 
 
 --
+-- Data for Name: profile_menu; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO profile_menu VALUES (648, 'MODOP', 'EXTENSION', 1, 10, 'E', 0);
 INSERT INTO profile_menu VALUES (175, 'COMPTA', NULL, 6, 40, 'M', NULL);
 INSERT INTO profile_menu VALUES (54, 'COMPANY', 'PARAM', 1, 1, 'E', 0);
 INSERT INTO profile_menu VALUES (178, 'CFGPAYMENT', 'DIVPARM', 6, 4, 'E', 0);
@@ -488,14 +519,6 @@ INSERT INTO profile_menu VALUES (242, 'AMORTIS', 'EXTENSION', 6, NULL, 'S', 0);
 INSERT INTO profile_menu VALUES (243, 'TOOLPLAN', 'EXTENSION', 6, NULL, 'S', 0);
 INSERT INTO profile_menu VALUES (244, 'SEARCH', NULL, 6, 60, 'M', 0);
 INSERT INTO profile_menu VALUES (245, 'ACH', 'MENUACH', 6, 1, 'E', 0);
-INSERT INTO profile_menu VALUES (246, 'PRINTJRN', 'IMP', 6, 14, 'E', 0);
-INSERT INTO profile_menu VALUES (247, 'PRINTREC', 'IMP', 6, 9, 'E', 0);
-INSERT INTO profile_menu VALUES (248, 'PRINTPOSTE', 'IMP', 6, 8, 'E', 0);
-INSERT INTO profile_menu VALUES (249, 'PRINTREPORT', 'IMP', 6, 10, 'E', 0);
-INSERT INTO profile_menu VALUES (250, 'PRINTBILAN', 'IMP', 6, 11, 'E', 0);
-INSERT INTO profile_menu VALUES (251, 'PRINTGL', 'IMP', 6, 13, 'E', 0);
-INSERT INTO profile_menu VALUES (252, 'PRINTBAL', 'IMP', 6, 15, 'E', 0);
-INSERT INTO profile_menu VALUES (253, 'PRINTCARD', 'IMP', 6, 12, 'E', 0);
 INSERT INTO profile_menu VALUES (254, 'IMPORTBANK', 'EXTENSION', 6, NULL, 'S', 0);
 INSERT INTO profile_menu VALUES (255, 'TOOL', 'EXTENSION', 6, NULL, 'S', 0);
 INSERT INTO profile_menu VALUES (256, 'AMORTIS', 'MENUACH', 6, 10, 'E', 0);
@@ -594,14 +617,6 @@ INSERT INTO profile_menu VALUES (160, 'AMORTIS', 'EXTENSION', 1, NULL, 'S', 0);
 INSERT INTO profile_menu VALUES (161, 'TOOLPLAN', 'EXTENSION', 1, NULL, 'S', 0);
 INSERT INTO profile_menu VALUES (151, 'SEARCH', NULL, 1, 60, 'M', 0);
 INSERT INTO profile_menu VALUES (85, 'ACH', 'MENUACH', 1, 1, 'E', 0);
-INSERT INTO profile_menu VALUES (16, 'PRINTJRN', 'IMP', 1, 14, 'E', 0);
-INSERT INTO profile_menu VALUES (10, 'PRINTREC', 'IMP', 1, 9, 'E', 0);
-INSERT INTO profile_menu VALUES (9, 'PRINTPOSTE', 'IMP', 1, 8, 'E', 0);
-INSERT INTO profile_menu VALUES (11, 'PRINTREPORT', 'IMP', 1, 10, 'E', 0);
-INSERT INTO profile_menu VALUES (13, 'PRINTBILAN', 'IMP', 1, 11, 'E', 0);
-INSERT INTO profile_menu VALUES (15, 'PRINTGL', 'IMP', 1, 13, 'E', 0);
-INSERT INTO profile_menu VALUES (17, 'PRINTBAL', 'IMP', 1, 15, 'E', 0);
-INSERT INTO profile_menu VALUES (14, 'PRINTCARD', 'IMP', 1, 12, 'E', 0);
 INSERT INTO profile_menu VALUES (162, 'IMPORTBANK', 'EXTENSION', 1, NULL, 'S', 0);
 INSERT INTO profile_menu VALUES (163, 'TOOL', 'EXTENSION', 1, NULL, 'S', 0);
 INSERT INTO profile_menu VALUES (157, 'AMORTIS', 'MENUACH', 1, 10, 'E', 0);
@@ -637,6 +652,7 @@ INSERT INTO profile_menu VALUES (1, 'DASHBOARD', NULL, 1, 10, 'M', 1);
 
 
 --
+-- Data for Name: profile_menu_type; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO profile_menu_type VALUES ('P', 'Impression');
@@ -646,6 +662,7 @@ INSERT INTO profile_menu_type VALUES ('M', 'Module');
 
 
 --
+-- Data for Name: profile_user; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 INSERT INTO profile_user VALUES ('phpcompta', 1, 1);
@@ -654,6 +671,7 @@ INSERT INTO profile_user VALUES ('adama', 5, 6);
 
 
 --
+-- Name: menu_ref_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY menu_ref
@@ -661,6 +679,7 @@ ALTER TABLE ONLY menu_ref
 
 
 --
+-- Name: profile_menu_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY profile_menu
@@ -668,6 +687,7 @@ ALTER TABLE ONLY profile_menu
 
 
 --
+-- Name: profile_menu_type_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY profile_menu_type
@@ -675,6 +695,7 @@ ALTER TABLE ONLY profile_menu_type
 
 
 --
+-- Name: profile_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY profile
@@ -682,6 +703,7 @@ ALTER TABLE ONLY profile
 
 
 --
+-- Name: profile_user_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY profile_user
@@ -689,6 +711,7 @@ ALTER TABLE ONLY profile_user
 
 
 --
+-- Name: profile_user_user_name_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY profile_user
@@ -696,24 +719,28 @@ ALTER TABLE ONLY profile_user
 
 
 --
+-- Name: fki_profile_menu_me_code; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX fki_profile_menu_me_code ON profile_menu USING btree (me_code);
 
 
 --
+-- Name: fki_profile_menu_profile; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX fki_profile_menu_profile ON profile_menu USING btree (p_id);
 
 
 --
+-- Name: fki_profile_menu_type_fkey; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX fki_profile_menu_type_fkey ON profile_menu USING btree (p_type_display);
 
 
 --
+-- Name: profile_menu_me_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY profile_menu
@@ -721,6 +748,7 @@ ALTER TABLE ONLY profile_menu
 
 
 --
+-- Name: profile_menu_p_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY profile_menu
@@ -728,6 +756,7 @@ ALTER TABLE ONLY profile_menu
 
 
 --
+-- Name: profile_menu_type_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY profile_menu
@@ -735,6 +764,7 @@ ALTER TABLE ONLY profile_menu
 
 
 --
+-- Name: profile_user_p_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY profile_user

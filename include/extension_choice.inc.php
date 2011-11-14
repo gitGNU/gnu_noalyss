@@ -40,6 +40,7 @@ if ( count($a->value)==1  )
 }
 else
 {
+	if (!isset($_REQUEST['ac'])) echo_warning ("ac non positionné");
     echo '<form method="get" action="do.php">';
     echo Dossier::hidden();
     echo HtmlInput::request_to_hidden(array('plugin_code','ac'));

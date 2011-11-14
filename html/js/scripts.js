@@ -1032,9 +1032,12 @@ function search_reconcile(dossier,ctl_concern,amount_id,ledger)
 		{amount_id=0;}
 	else if ($(amount_id))
 		{
-			if ($(amount_id).value) {amount_id=$(amount_id).value;}
-			else if ($(amount_id).innerHTML) {amount_id=$(amount_id).innerHTML;}
+			if ($(amount_id).value)
+			{amount_id=$(amount_id).value;}
+			else if
+			($(amount_id).innerHTML) {amount_id=$(amount_id).innerHTML;}
 		}
+
 	var target="search_op";
 	removeDiv(target);
 	var str_style=fixed_position(77, 99)

@@ -1475,7 +1475,7 @@ class Acc_Ledger extends jrn_def_sql
         $user = new User($this->db);
 
         if ( $p_readonly == 1 )
-            return $this->show_summary($p_array);
+            return $this->confirm($p_array);
 
         if ( $p_array != null )
             extract($p_array);
