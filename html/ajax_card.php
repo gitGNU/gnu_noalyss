@@ -96,6 +96,7 @@ switch($op)
     /* Remove a attribut */
     /* ------------------------------------------------------------ */
 case 'rmfa':
+    if ($user->check_action(FICCAT)==0)exit();
         ob_start();
     if( ! isset($_GET['ad_id']) || isNumber($_GET['ad_id']) ==0)
         throw new Exception ( "Parametre ad_id est invalide",11);

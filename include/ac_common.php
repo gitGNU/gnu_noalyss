@@ -940,4 +940,17 @@ function compute_variable($p_string)
     }
     return $array;
 }
+function ajax_xml_error($p_code,$p_string)
+{
+    $html = escape_xml($p_string);
+    header('Content-type: text/xml; charset=UTF-8');
+		echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<code>$p_code</code>
+<value>$html</value>
+</data>
+EOF;
+}
+
 ?>

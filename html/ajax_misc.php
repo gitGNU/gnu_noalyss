@@ -71,7 +71,7 @@ switch ($op)
 		break;
 	case "rm_stock":
 		require_once('constant.security.php');
-		if ($user->check_action(GESTOCK) == 0)
+		if ($user->check_action(STOWRITE) == 0)
 		{
 			exit();
 		}
@@ -263,6 +263,7 @@ EOF;
 	case 'dl':
 		require_once('class_lettering.php');
 		$exercice = $user->get_exercice();
+                if ($user->check_module("LETTERCARD") == 0 && $user->check_module("LETTERACC") == 0) exit();
 		$periode = new Periode($cn);
 		list($first_per, $last_per) = $periode->get_limit($exercice);
 
