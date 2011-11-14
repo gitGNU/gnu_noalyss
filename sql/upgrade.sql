@@ -24,8 +24,8 @@ script SQL to run
 \i extension.sql
 \i ajax-direct-form.sql
 -- for account repository
-\i change_account_repo.sql
-\i style-epad.sql
+-- \i change_account_repo.sql
+-- \i style-epad.sql
 
 create unique index qcode_idx on fiche_detail (ad_value) where ad_id=23;
 commit;

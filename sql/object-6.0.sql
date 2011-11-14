@@ -16,7 +16,6 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: menu_ref; Type: TABLE; Schema: public; Owner: dany; Tablespace: 
 --
 
 CREATE TABLE menu_ref (
@@ -31,38 +30,32 @@ CREATE TABLE menu_ref (
 );
 
 
-ALTER TABLE public.menu_ref OWNER TO dany;
 
 --
--- Name: COLUMN menu_ref.me_code; Type: COMMENT; Schema: public; Owner: dany
 --
 
 COMMENT ON COLUMN menu_ref.me_code IS 'Menu Code ';
 
 
 --
--- Name: COLUMN menu_ref.me_menu; Type: COMMENT; Schema: public; Owner: dany
 --
 
 COMMENT ON COLUMN menu_ref.me_menu IS 'Label to display';
 
 
 --
--- Name: COLUMN menu_ref.me_file; Type: COMMENT; Schema: public; Owner: dany
 --
 
 COMMENT ON COLUMN menu_ref.me_file IS 'if not empty file to include';
 
 
 --
--- Name: COLUMN menu_ref.me_url; Type: COMMENT; Schema: public; Owner: dany
 --
 
 COMMENT ON COLUMN menu_ref.me_url IS 'url ';
 
 
 --
--- Name: COLUMN menu_ref.me_type; Type: COMMENT; Schema: public; Owner: dany
 --
 
 COMMENT ON COLUMN menu_ref.me_type IS 'ME for menu
@@ -72,7 +65,6 @@ PL for plugin';
 
 
 --
--- Name: profile; Type: TABLE; Schema: public; Owner: dany; Tablespace: 
 --
 
 CREATE TABLE profile (
@@ -84,45 +76,38 @@ CREATE TABLE profile (
 );
 
 
-ALTER TABLE public.profile OWNER TO dany;
 
 --
--- Name: TABLE profile; Type: COMMENT; Schema: public; Owner: dany
 --
 
 COMMENT ON TABLE profile IS 'Available profile ';
 
 
 --
--- Name: COLUMN profile.p_name; Type: COMMENT; Schema: public; Owner: dany
 --
 
 COMMENT ON COLUMN profile.p_name IS 'Name of the profile';
 
 
 --
--- Name: COLUMN profile.p_desc; Type: COMMENT; Schema: public; Owner: dany
 --
 
 COMMENT ON COLUMN profile.p_desc IS 'description of the profile';
 
 
 --
--- Name: COLUMN profile.with_calc; Type: COMMENT; Schema: public; Owner: dany
 --
 
 COMMENT ON COLUMN profile.with_calc IS 'show the calculator';
 
 
 --
--- Name: COLUMN profile.with_direct_form; Type: COMMENT; Schema: public; Owner: dany
 --
 
 COMMENT ON COLUMN profile.with_direct_form IS 'show the direct form';
 
 
 --
--- Name: profile_menu; Type: TABLE; Schema: public; Owner: dany; Tablespace: 
 --
 
 CREATE TABLE profile_menu (
@@ -136,38 +121,32 @@ CREATE TABLE profile_menu (
 );
 
 
-ALTER TABLE public.profile_menu OWNER TO dany;
 
 --
--- Name: TABLE profile_menu; Type: COMMENT; Schema: public; Owner: dany
 --
 
 COMMENT ON TABLE profile_menu IS 'Join  between the profile and the menu ';
 
 
 --
--- Name: COLUMN profile_menu.me_code_dep; Type: COMMENT; Schema: public; Owner: dany
 --
 
 COMMENT ON COLUMN profile_menu.me_code_dep IS 'menu code dependency';
 
 
 --
--- Name: COLUMN profile_menu.p_id; Type: COMMENT; Schema: public; Owner: dany
 --
 
 COMMENT ON COLUMN profile_menu.p_id IS 'link to profile';
 
 
 --
--- Name: COLUMN profile_menu.p_order; Type: COMMENT; Schema: public; Owner: dany
 --
 
 COMMENT ON COLUMN profile_menu.p_order IS 'order of displaying menu';
 
 
 --
--- Name: COLUMN profile_menu.p_type_display; Type: COMMENT; Schema: public; Owner: dany
 --
 
 COMMENT ON COLUMN profile_menu.p_type_display IS 'M is a module
@@ -176,7 +155,6 @@ S is a select (for plugin)';
 
 
 --
--- Name: profile_menu_pm_id_seq; Type: SEQUENCE; Schema: public; Owner: dany
 --
 
 CREATE SEQUENCE profile_menu_pm_id_seq
@@ -187,24 +165,20 @@ CREATE SEQUENCE profile_menu_pm_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.profile_menu_pm_id_seq OWNER TO dany;
 
 --
--- Name: profile_menu_pm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dany
 --
 
 ALTER SEQUENCE profile_menu_pm_id_seq OWNED BY profile_menu.pm_id;
 
 
 --
--- Name: profile_menu_pm_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dany
 --
 
 SELECT pg_catalog.setval('profile_menu_pm_id_seq', 647, true);
 
 
 --
--- Name: profile_menu_type; Type: TABLE; Schema: public; Owner: dany; Tablespace: 
 --
 
 CREATE TABLE profile_menu_type (
@@ -213,10 +187,8 @@ CREATE TABLE profile_menu_type (
 );
 
 
-ALTER TABLE public.profile_menu_type OWNER TO dany;
 
 --
--- Name: profile_p_id_seq; Type: SEQUENCE; Schema: public; Owner: dany
 --
 
 CREATE SEQUENCE profile_p_id_seq
@@ -227,24 +199,20 @@ CREATE SEQUENCE profile_p_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.profile_p_id_seq OWNER TO dany;
 
 --
--- Name: profile_p_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dany
 --
 
 ALTER SEQUENCE profile_p_id_seq OWNED BY profile.p_id;
 
 
 --
--- Name: profile_p_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dany
 --
 
 SELECT pg_catalog.setval('profile_p_id_seq', 10, true);
 
 
 --
--- Name: profile_user; Type: TABLE; Schema: public; Owner: dany; Tablespace: 
 --
 
 CREATE TABLE profile_user (
@@ -254,31 +222,26 @@ CREATE TABLE profile_user (
 );
 
 
-ALTER TABLE public.profile_user OWNER TO dany;
 
 --
--- Name: TABLE profile_user; Type: COMMENT; Schema: public; Owner: dany
 --
 
 COMMENT ON TABLE profile_user IS 'Contains the available profile for users';
 
 
 --
--- Name: COLUMN profile_user.user_name; Type: COMMENT; Schema: public; Owner: dany
 --
 
 COMMENT ON COLUMN profile_user.user_name IS 'fk to available_user : login';
 
 
 --
--- Name: COLUMN profile_user.p_id; Type: COMMENT; Schema: public; Owner: dany
 --
 
 COMMENT ON COLUMN profile_user.p_id IS 'fk to profile';
 
 
 --
--- Name: profile_user_pu_id_seq; Type: SEQUENCE; Schema: public; Owner: dany
 --
 
 CREATE SEQUENCE profile_user_pu_id_seq
@@ -289,55 +252,46 @@ CREATE SEQUENCE profile_user_pu_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.profile_user_pu_id_seq OWNER TO dany;
 
 --
--- Name: profile_user_pu_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: dany
 --
 
 ALTER SEQUENCE profile_user_pu_id_seq OWNED BY profile_user.pu_id;
 
 
 --
--- Name: profile_user_pu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dany
 --
 
 SELECT pg_catalog.setval('profile_user_pu_id_seq', 5, true);
 
 
 --
--- Name: v_all_menu; Type: VIEW; Schema: public; Owner: dany
 --
 
 CREATE VIEW v_all_menu AS
     SELECT pm.me_code, pm.pm_id, pm.me_code_dep, pm.p_order, pm.p_type_display, pu.user_name, pu.pu_id, p.p_name, p.p_desc, mr.me_menu, mr.me_file, mr.me_url, mr.me_parameter, mr.me_javascript, mr.me_type FROM (((profile_menu pm JOIN profile_user pu ON ((pu.p_id = pm.p_id))) JOIN profile p ON ((p.p_id = pm.p_id))) JOIN menu_ref mr USING (me_code)) ORDER BY pm.p_order;
 
 
-ALTER TABLE public.v_all_menu OWNER TO dany;
 
 --
--- Name: p_id; Type: DEFAULT; Schema: public; Owner: dany
 --
 
 ALTER TABLE profile ALTER COLUMN p_id SET DEFAULT nextval('profile_p_id_seq'::regclass);
 
 
 --
--- Name: pm_id; Type: DEFAULT; Schema: public; Owner: dany
 --
 
 ALTER TABLE profile_menu ALTER COLUMN pm_id SET DEFAULT nextval('profile_menu_pm_id_seq'::regclass);
 
 
 --
--- Name: pu_id; Type: DEFAULT; Schema: public; Owner: dany
 --
 
 ALTER TABLE profile_user ALTER COLUMN pu_id SET DEFAULT nextval('profile_user_pu_id_seq'::regclass);
 
 
 --
--- Data for Name: menu_ref; Type: TABLE DATA; Schema: public; Owner: dany
 --
 
 INSERT INTO menu_ref VALUES ('IMPCARD', 'Import Fiche', 'import_card/index.php', NULL, 'Importation de fiches', 'plugin_code=IMPCARD', NULL, 'PL');
@@ -457,7 +411,6 @@ INSERT INTO menu_ref VALUES ('ACCESS', 'Accueil', NULL, 'user_login.php', NULL, 
 
 
 --
--- Data for Name: profile; Type: TABLE DATA; Schema: public; Owner: dany
 --
 
 INSERT INTO profile VALUES ('Administrateur', 1, 'Profil par défaut pour les adminstrateurs', true, true);
@@ -465,7 +418,6 @@ INSERT INTO profile VALUES ('Utilisateur', 6, 'Profil par défaut pour les Utili
 
 
 --
--- Data for Name: profile_menu; Type: TABLE DATA; Schema: public; Owner: dany
 --
 
 INSERT INTO profile_menu VALUES (175, 'COMPTA', NULL, 6, 40, 'M', NULL);
@@ -685,7 +637,6 @@ INSERT INTO profile_menu VALUES (1, 'DASHBOARD', NULL, 1, 10, 'M', 1);
 
 
 --
--- Data for Name: profile_menu_type; Type: TABLE DATA; Schema: public; Owner: dany
 --
 
 INSERT INTO profile_menu_type VALUES ('P', 'Impression');
@@ -695,7 +646,6 @@ INSERT INTO profile_menu_type VALUES ('M', 'Module');
 
 
 --
--- Data for Name: profile_user; Type: TABLE DATA; Schema: public; Owner: dany
 --
 
 INSERT INTO profile_user VALUES ('phpcompta', 1, 1);
@@ -704,7 +654,6 @@ INSERT INTO profile_user VALUES ('adama', 5, 6);
 
 
 --
--- Name: menu_ref_pkey; Type: CONSTRAINT; Schema: public; Owner: dany; Tablespace: 
 --
 
 ALTER TABLE ONLY menu_ref
@@ -712,7 +661,6 @@ ALTER TABLE ONLY menu_ref
 
 
 --
--- Name: profile_menu_pkey; Type: CONSTRAINT; Schema: public; Owner: dany; Tablespace: 
 --
 
 ALTER TABLE ONLY profile_menu
@@ -720,7 +668,6 @@ ALTER TABLE ONLY profile_menu
 
 
 --
--- Name: profile_menu_type_pkey; Type: CONSTRAINT; Schema: public; Owner: dany; Tablespace: 
 --
 
 ALTER TABLE ONLY profile_menu_type
@@ -728,7 +675,6 @@ ALTER TABLE ONLY profile_menu_type
 
 
 --
--- Name: profile_pkey; Type: CONSTRAINT; Schema: public; Owner: dany; Tablespace: 
 --
 
 ALTER TABLE ONLY profile
@@ -736,7 +682,6 @@ ALTER TABLE ONLY profile
 
 
 --
--- Name: profile_user_pkey; Type: CONSTRAINT; Schema: public; Owner: dany; Tablespace: 
 --
 
 ALTER TABLE ONLY profile_user
@@ -744,7 +689,6 @@ ALTER TABLE ONLY profile_user
 
 
 --
--- Name: profile_user_user_name_key; Type: CONSTRAINT; Schema: public; Owner: dany; Tablespace: 
 --
 
 ALTER TABLE ONLY profile_user
@@ -752,28 +696,24 @@ ALTER TABLE ONLY profile_user
 
 
 --
--- Name: fki_profile_menu_me_code; Type: INDEX; Schema: public; Owner: dany; Tablespace: 
 --
 
 CREATE INDEX fki_profile_menu_me_code ON profile_menu USING btree (me_code);
 
 
 --
--- Name: fki_profile_menu_profile; Type: INDEX; Schema: public; Owner: dany; Tablespace: 
 --
 
 CREATE INDEX fki_profile_menu_profile ON profile_menu USING btree (p_id);
 
 
 --
--- Name: fki_profile_menu_type_fkey; Type: INDEX; Schema: public; Owner: dany; Tablespace: 
 --
 
 CREATE INDEX fki_profile_menu_type_fkey ON profile_menu USING btree (p_type_display);
 
 
 --
--- Name: profile_menu_me_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: dany
 --
 
 ALTER TABLE ONLY profile_menu
@@ -781,7 +721,6 @@ ALTER TABLE ONLY profile_menu
 
 
 --
--- Name: profile_menu_p_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: dany
 --
 
 ALTER TABLE ONLY profile_menu
@@ -789,7 +728,6 @@ ALTER TABLE ONLY profile_menu
 
 
 --
--- Name: profile_menu_type_fkey; Type: FK CONSTRAINT; Schema: public; Owner: dany
 --
 
 ALTER TABLE ONLY profile_menu
@@ -797,7 +735,6 @@ ALTER TABLE ONLY profile_menu
 
 
 --
--- Name: profile_user_p_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: dany
 --
 
 ALTER TABLE ONLY profile_user

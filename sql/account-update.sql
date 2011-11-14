@@ -52,4 +52,3 @@ end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION comptaproc.account_update(integer, account_type) OWNER TO dany;

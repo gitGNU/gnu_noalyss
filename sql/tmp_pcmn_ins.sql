@@ -18,4 +18,3 @@ end;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION comptaproc.tmp_pcmn_ins() OWNER TO dany;
