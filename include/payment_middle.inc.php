@@ -95,7 +95,7 @@ if ($sb=='ins')
     echo HtmlInput::submit('insert',_('Enregistre'));
     echo '</form>';
     echo HtmlInput::button_anchor(_('Retour sans sauvez'),
-                                  '?p_action=divers&sa=mp&'.dossier::get()
+                                  '?p_action=divers&sa=mp&'.dossier::get()."&ac=".$_REQUEST['ac']
                                      );
 
     exit();
@@ -121,7 +121,7 @@ $array=$mp->get_all();
 /* if there are data show them in a table */
 if ( ! empty ($array))
 {
-    echo '<table style="border: 2px outset blue; width: 100%;" >';
+    echo '<table >';
     echo $tr.$th._('Libellé').$eth.$th._('Type de fiche')
     .$eth.$th._('enregistré dans le journal').$eth.
     $th._(' Avec la fiche').$eth.$th.'Action'.$eth.$etr;
