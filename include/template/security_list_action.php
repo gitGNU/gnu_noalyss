@@ -49,3 +49,6 @@
 			<?php   $array=$cn->get_array("select ac_id, ac_description from action  where ac_id >=$1 and ac_id <=$2 order by ac_id ",
 				array(800,1000));
                                 display_security_fieldset(_('Fiche'),$array,$sec_User); ?>
+                        <?php   $array=$cn->get_array("select ac_id, ac_description from action  where ac_id >=$1 and ac_id <=$2 order by ac_id ",
+				array(1050,1100));
+                                display_security_fieldset(_('Suivi'),$array,$sec_User); ?>

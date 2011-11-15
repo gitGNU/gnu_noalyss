@@ -39,16 +39,22 @@ $User->check_dossier($gDossier);
 /* Show the document */
 if ( $action == 'sh')
 {
-    // retrieve the document
-    $doc=new Document($cn,$_REQUEST['d_id']);
-    $doc->Send();
+    if ( $User->check_action(VIEWDOC)==1)
+    {
+        // retrieve the document
+        $doc=new Document($cn,$_REQUEST['d_id']);
+        $doc->Send();
+    }
 }
 /* remove the document */
 if ( $action == 'rm' )
 {
-    $doc=new Document($cn,$_REQUEST['d_id']);
-    $doc->remove();
-    $json=sprintf('{"d_id":"%s"}',$_REQUEST['d_id']);
-    header("Content-type: text/html; charset: utf8",true);
-    print $json;
+    if ($User->check_action(RMDOC)==1)
+    {
+        $doc=new Document($cn,$_REQUEST['d_id']);
+        $doc->remove();
+        $json=sprintf('{"d_id":"%s"}',$_REQUEST['d_id']);
+        header("Content-type: text/html; charset: utf8",true);
+        print $json;
+    }
 }

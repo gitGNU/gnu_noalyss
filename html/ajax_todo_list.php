@@ -38,7 +38,12 @@ require_once ('class_dossier.php');
 require_once ('class_todo_list.php');
 require_once ('class_database.php');
 
-/*!\todo needs security for the users */
+$cn=new Database($gDossier);
+$user=new User($cn);
+$user->check(true);
+$user->check_dossier($gDossier,true);
+ajax_disconnected('add_todo_list');
+
 if (isset($_REQUEST['show']))
 {
     $cn=new Database(dossier::id());
@@ -50,7 +55,7 @@ if (isset($_REQUEST['show']))
     echo $todo->toXML();
     exit();
 }
-/*!\todo needs security for the users */
+
 if (isset($_REQUEST['del']))
 {
     $cn=new Database(dossier::id());

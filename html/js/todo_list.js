@@ -34,7 +34,7 @@ function todo_list_show(p_id)
     try
     {
         var action=new Ajax.Request(
-                       'todo_list.php',
+                       'ajax_todo_list.php',
                        {
                    method:'get',
                    parameters:
@@ -107,7 +107,7 @@ function todo_list_remove(p_ctl)
     var gDossier=$('gDossier').value;
 
     var action=new Ajax.Request(
-                   'todo_list.php',
+                   'ajax_todo_list.php',
                    {
                    method:'get',
                    parameters:

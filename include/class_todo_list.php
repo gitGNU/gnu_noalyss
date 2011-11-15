@@ -198,11 +198,11 @@ class Todo_List
     {
 
         $sql="select tl_id,tl_title,tl_desc,to_char( tl_date,'DD.MM.YYYY') as tl_date
-             from todo_list where tl_id=$1";
+             from todo_list where tl_id=$1 and use_login=$2";
 
         $res=$this->cn->exec_sql(
                  $sql,
-                 array($this->tl_id)
+                 array($this->tl_id,$_SESSION['g_user'])
              );
 
         if ( Database::num_row($res) == 0 ) return;
@@ -215,8 +215,8 @@ class Todo_List
     }
     public function delete()
     {
-        $sql="delete from todo_list where tl_id=$1";
-        $res=$this->cn->exec_sql($sql,array($this->tl_id));
+        $sql="delete from todo_list where tl_id=$1 and use_login=$2";
+        $res=$this->cn->exec_sql($sql,array($this->tl_id,$_SESSION['g_user']));
 
     }
     /**

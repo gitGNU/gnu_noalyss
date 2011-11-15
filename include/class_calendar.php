@@ -135,9 +135,21 @@ class Calendar
     function get_preference()
     {
         $cn=new Database(dossier::id());
-        $user=new User($cn);
-        $this->default_periode=$user->get_periode();
-        return  $this->default_periode;
+        $today=date('d.m.Y');
+        $p_id=$cn->get_value("
+                select p_id from parm_periode 
+                where 
+                p_start <= to_date($1,'DD.MM.YYYY')
+                and 
+                p_end >= to_date($1,'DD.MM.YYYY')",
+                array($today));
+        if ( $p_id == '')
+        {
+            $user=new User($cn);
+            $this->default_periode=$user->get_periode();
+            $p_id=$this->default_periode;
+        }
+        return  $p_id;
     }
     /**
      *@brief set the periode to the parameter, change the value of $this->default_periode

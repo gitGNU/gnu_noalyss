@@ -6,7 +6,8 @@ drop table public.import_tmp;
 drop table public.format_csv_banque;
 insert into parameter values ('MY_ALPHANUM','N');
 delete from action where ac_id not in (800,805,910);
-
+insert into action (ac_id,ac_description, ac_module, ac_code) values(1020,'Effacer les documents du suivi','followup','RMDOC');
+insert into action (ac_id,ac_description, ac_module, ac_code) values(1010,'Voir les documents du suivi','followup','VIEWDOC');
 /*
 script SQL to run
 */
