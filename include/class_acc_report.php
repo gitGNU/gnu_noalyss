@@ -25,7 +25,7 @@
 require_once("class_itext.php");
 require_once("class_ibutton.php");
 require_once('class_acc_report_row.php');
-require_once('impress_inc.php');
+require_once('class_impress.php');
 
 /*!
  * \brief Class rapport  Create, view, modify and parse report
@@ -85,7 +85,7 @@ class Acc_Report
         for ($i=0;$i<$Max;$i++)
         {
             $l_line=Database::fetch_array($Res,$i);
-            $col[]=ParseFormula($this->db,
+            $col[]=Impress::parse_formula($this->db,
                                 $l_line['fo_label'],
                                 $l_line['fo_formula'],
                                 $p_start,

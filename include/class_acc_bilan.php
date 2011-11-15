@@ -27,7 +27,7 @@
 require_once("class_iselect.php");
 require_once ('class_database.php');
 require_once ('class_dossier.php');
-require_once ('impress_inc.php');
+require_once ('class_impress.php');
 require_once ('header_print.php');
 require_once ('class_acc_account_ledger.php');
 
@@ -305,7 +305,7 @@ class Acc_Bilan
         while (! feof ($p_handle))
         {
             $buffer=trim(fgets($p_handle));
-            // $a=(CheckFormula($buffer)  == true)?"$buffer ok<br>":'<font color="red">'.'Pas ok '.$buffer."</font><br>";
+            // $a=(Impress::check_formula($buffer)  == true)?"$buffer ok<br>":'<font color="red">'.'Pas ok '.$buffer."</font><br>";
             // echo $a;
             // blank line are skipped
             if (strlen(trim($buffer))==0)
@@ -315,7 +315,7 @@ class Acc_Bilan
                 continue;
             // buffer contains a formula A$=....
             // We need to eval it
-            $a=ParseFormula($this->db,"$buffer",$buffer,$this->from,$this->to,false);
+            $a=Impress::parse_formula($this->db,"$buffer",$buffer,$this->from,$this->to,false);
             $b=str_replace("$","\$this->",$a);
             if ( eval("$b;") === false )
                 echo_debug(__FILE__,__LINE__,"Code failed with $b");

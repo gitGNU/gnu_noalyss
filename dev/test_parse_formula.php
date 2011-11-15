@@ -1,10 +1,10 @@
 <?
 /*
-# check the CheckFormula and the ParseFormula
+# check the Impress::check_formula and the parse_formula
 # This file is a part of PhpCompta under GPL
 # Author D. DE BONTRIDDER ddebontridder@yahoo.fr
 */
-include_once('impress_inc.php');
+include_once('class_impress.php');
 
 echo '<hr>';
 foreach ( array('1',
@@ -30,21 +30,21 @@ foreach ( array('1',
 		'ls -1')
 	as $a ) {
   echo "Testing :".$a;
-  echo (CheckFormula($a)==false)?'Non valide ':'ok';
+  echo (Impress::check_formula($a)==false)?'Non valide ':'ok';
 
   echo '<br>';
   
   foreach (array('+','-','/') as $b ) {
     $ee=str_replace('*',$b,$a);
     echo "Testing :".$ee;
-    echo (CheckFormula($ee)==false)?'Non valide ':'ok';
+    echo (Impress::check_formula($ee)==false)?'Non valide ':'ok';
     echo '<br>';
 
   }
   for($e=0;$e<3;$e++) {
     $a.="*".$a;
   echo "Testing :".$a;
-  echo (CheckFormula($a)==false)?'Non valide ':'ok';
+  echo (Impress::check_formula($a)==false)?'Non valide ':'ok';
   echo '<br>';
 
   }

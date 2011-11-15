@@ -619,6 +619,8 @@ function alert($p_msg, $buffer=false)
  */
 function set_language()
 {
+    // desactivate local check
+    if ( defined(LOCALE) && LOCALE==0 ) return;
     $dir = "";
     // set differently the language depending of the operating system
     if (what_os() == 1)
@@ -859,10 +861,6 @@ function show_menu($module, $idx)
 
     if (empty($amenu) || count($amenu) == 1)
     {
-	/**
-	 * @todo add security
-	 * check if user can access this module
-	 */
 		$file = $cn->get_array("select me_file,me_parameter,me_javascript,me_type
 		from menu_ref
 		join profile_menu using (me_code)

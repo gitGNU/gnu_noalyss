@@ -36,3 +36,4 @@ define ("phpcompta_psql_port","5432");
 //
 // the domain can't start by a number !!!
 define ("domaine","");
+define ("LOCALE",1);

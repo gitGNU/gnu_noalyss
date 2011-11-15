@@ -25,7 +25,7 @@ require_once ("ac_common.php");
 require_once('class_database.php');
 require_once ('class_user.php');
 require_once("class_acc_report.php");
-require_once("impress_inc.php");
+require_once("class_impress.php");
 header('Pragma: public');
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="rapport.csv"',FALSE);

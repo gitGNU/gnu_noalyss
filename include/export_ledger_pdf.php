@@ -32,7 +32,7 @@ require_once('class_pdf.php');
 include_once('class_user.php');
 include_once("ac_common.php");
 require_once('class_database.php');
-include_once("impress_inc.php");
+include_once("class_impress.php");
 include_once("class_acc_ledger.php");
 require_once('class_own.php');
 require_once('class_periode.php');
