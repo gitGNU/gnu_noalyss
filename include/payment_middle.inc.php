@@ -50,7 +50,7 @@ if ( $sb=='change')
     echo HtmlInput::hidden('p_action','divers');
     echo HtmlInput::hidden('sa','mp');
     echo HtmlInput::hidden('sb','save');
-    echo HtmlInput::hidden('mp_type',$row->get_parameter('type'));
+    echo HtmlInput::hidden('jrn_def_id',$row->get_parameter('ledger_source'));
     echo HtmlInput::hidden('mp_lib',$row->get_parameter('lib'));
 
     echo $row->form();

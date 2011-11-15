@@ -1216,7 +1216,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         $r.='<fieldset>';
         $r.='<legend> '._('Payé par').' </legend>';
         $mp=new Acc_Payment($this->db);
-        $mp->set_parameter('type','ACH');
+        $mp->set_parameter('ledger_source',$this->id);
         $r.=$mp->select();
         $r.='</fieldset>';
         return $r;
