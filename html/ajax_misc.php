@@ -466,19 +466,19 @@ EOF;
 EOF;
 		break;
 	case 'mod_doc':
-		require_once('modify_mod_document.inc.php');
+		require_once('ajax_mod_document.php');
 		break;
 	case 'input_per':
-		require_once('modify_periode.inc.php');
+		require_once('ajax_mod_periode.php');
 		break;
 	case 'save_per':
-		require_once('modify_periode.inc.php');
+		require_once('ajax_mod_periode.php');
 		break;
 	case 'mod_predf':
-		require_once('modify_predf_op.php');
+		require_once('ajax_mod_predf_op.php');
 		break;
 	case 'save_predf':
-		require_once('save_predf_op.php');
+		require_once('ajax_save_predf_op.php');
 		break;
 	case 'search_op':
 		/* put_global(array
@@ -488,13 +488,13 @@ EOF;
 		require_once 'search.inc.php';
 		break;
 	case 'display_profile':
-		require_once("show_profile.inc.php");
+		require_once("ajax_get_profile.php");
 		break;
 	case 'det_menu':
-		require_once("detail_menu.inc.php");
+		require_once("ajax_detail_menu.php");
 		break;
 	case 'add_menu':
-		require_once 'template/add_menu.php';
+		require_once 'ajax_add_menu.php';
 		break;
 	case 'add_plugin':
 		$me_code=new IText('me_code');
@@ -503,7 +503,7 @@ EOF;
 		$me_description=new IText("me_description");
 		$me_parameter=new IText("me_parameter");
 		$new=true;
-		require_once 'template/plugin_detail.php';
+		require_once 'ajax_plugin_detail.php';
 		break;
 	case 'mod_plugin':
 		$m=$cn->get_array("select me_code,me_file,me_menu,me_description,me_parameter
@@ -520,7 +520,7 @@ EOF;
 		$me_description=new IText("me_description",$m[0] ['me_description']);
 		$me_parameter=new IText("me_parameter",$m[0] ['me_parameter']);
 		$new=false;
-		require_once 'template/plugin_detail.php';
+		require_once 'ajax_plugin_detail.php';
 		break;
 	 case 'saldo':
 		 require_once 'ajax_bank_saldo.php';
