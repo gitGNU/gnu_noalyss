@@ -124,7 +124,7 @@ if ( isset ($_GET['viewsearch']) )
 	    if ($step<$max_line ) echo '<span class="notice">Nombre d\'enregistrements trouvés =' .$max_line.' limite =  '.$step.'</SPAN>';
    }
 	echo '<form method="get" onsubmit="set_reconcile(this);return false">';
-
+	echo HtmlInput::submit("upd_rec","Mettre à jour");
     echo $content;
 	echo HtmlInput::submit("upd_rec","Mettre à jour");
 	echo '</form>';

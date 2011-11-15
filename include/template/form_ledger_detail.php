@@ -20,7 +20,7 @@
 <legend><?=$f_legend_detail?></legend>
 <table id="sold_item" width="100%" border="0">
 <tr>
-<th colspan="2">Code <?=HtmlInput::infobulle(0)?></th>
+<th style="width:auto"colspan="2">Code <?=HtmlInput::infobulle(0)?></th>
       <th><?=_('Dénomination')?></th>
       <th><?=_('prix/unité htva')?><?=HtmlInput::infobulle(6)?></th>
       <th><?=_('quantité')?></th>

@@ -25,8 +25,7 @@
 require_once("class_document_modele.php");
 $sub_action=(isset ($_REQUEST['sa']))?$_REQUEST['sa']:"";
 echo js_include('modele_document.js');
-
-echo "<hr>";
+echo '<div class="content">';
 // show the form for adding a template
 //
 $doc=new Document_modele($cn);

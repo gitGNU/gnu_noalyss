@@ -1,6 +1,4 @@
-<div style="float:right">
-<A style="background-color:blue;color:white;text-decoration:none" HREF="javascript:void(0)" onclick="removeDiv('mod_doc');">Fermer</A>
-</div>
+<?=HtmlInput::anchor_close('mod_doc');?>
 <h2 class="info">Modèle de document</h2>
 <form  method="post" enctype="multipart/form-data">
 <table>

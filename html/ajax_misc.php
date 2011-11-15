@@ -263,7 +263,7 @@ EOF;
 	case 'dl':
 		require_once('class_lettering.php');
 		$exercice = $user->get_exercice();
-                if ($user->check_module("LETTERCARD") == 0 && $user->check_module("LETTERACC") == 0) exit();
+                if ($user->check_module("LETCARD") == 0 && $user->check_module("LETACC") == 0) exit();
 		$periode = new Periode($cn);
 		list($first_per, $last_per) = $periode->get_limit($exercice);
 
@@ -481,10 +481,6 @@ EOF;
 		require_once('ajax_save_predf_op.php');
 		break;
 	case 'search_op':
-		/* put_global(array
-		  (array('key'=>'ac','value'=>'JSSEARCH')),
-		  (array('key'=>'ledger_type','value'=>'ALL'))
-		  ); */
 		require_once 'search.inc.php';
 		break;
 	case 'display_profile':

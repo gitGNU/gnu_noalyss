@@ -21,10 +21,10 @@
    <fieldset><legend><?=_('Opérations')?></legend>
 <table id="fin_item" width="100%" border="0">
 <tr>
-<th colspan="2">code<?HtmlInput::infobulle(0)?></TH>
-   <th><?=_('Commentaire')?></TH>
-   <th><?=_('Montant')?></TH>
-   <th colspan="2"> <?=_('Op. Concernée(s)')?></th>
+<th style="text-align: left;width: auto"colspan="2">code<?HtmlInput::infobulle(0)?></TH>
+   <th style="text-align: left"><?=_('Commentaire')?></TH>
+   <th style="text-align: left"><?=_('Montant')?></TH>
+   <th style="text-align: left;width:auto"colspan="2"> <?=_('Op. Concernée(s)')?></th>
 </tr>
 
 <? foreach ($array as $item) {

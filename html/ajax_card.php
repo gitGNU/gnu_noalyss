@@ -305,9 +305,7 @@ case 'sc':
 case 'fs':
     require_once('class_acc_ledger.php');
     $r='';
-    $r.='<div style="float:right;height:10px;display:block;margin-top:2px;margin-right:2px">';
-    $r.= '<A style="background-color:blue;color:white;text-decoration:none" HREF="javascript:void(0)" onclick="removeDiv(\'search_card\');">Fermer</A>';
-    $r.='</div>';
+	$r.=HtmlInput::anchor_close('search_card');
     $r.='<div> '.h2info(_('Recherche de fiche')).'</div>';
 
     $r.='<form method="GET" onsubmit="this.ctl=\'ipop_card\';search_get_card(this);return false;">';

@@ -714,7 +714,7 @@ div.autocomplete ul li {
   /*height:32px;*/
   cursor:pointer;
 }
-span.informal{ font-size:12; }
+span.informal{ font-size:95%; color:black;}
 
 ul.select_table  {
 	/*padding:5px;*/
@@ -813,7 +813,7 @@ a#anchorbutton, .button, a.button,div.content a.button {
 	margin-top:3px;
 	cursor:pointer;
 	margin:1 2 1 2;
-	-moz-border-radius:2 2;
+	-moz-border-radius:4 4;
 
 }
 a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
@@ -1041,11 +1041,28 @@ font-size:110%;
 }
 #close_div
 {
- background-color:blue;
- color:white;
- text-decoration:none
+ background-color:white;
+ color:blue;
+ text-decoration:none;
+ border:1px solid blue;
+ margin-left: 2px;
+ margin-right:2px;
+ margin-top:2px;
+ font-size:10px;
 }
 table.table_large tr.odd ,table.table_large tr.even {
 
 	height:32px;
+}
+#calc1
+{
+	position:absolute;
+	display:block;
+	top:30px;
+	left:150px;
+	width:300px;
+	border:1px solid black;
+	background-color:#aec3e8;
+	font-size:16;
+	padding: 20 20;
 }

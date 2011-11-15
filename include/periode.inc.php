@@ -38,7 +38,6 @@ if ($choose=='Valider') $choose='yes';
 
 if ( isset ($_POST["add_per"] ))
 {
-    $g_user->can_request(PARPER,1);
     extract($_POST);
     $obj=new Periode($cn);
     if ( $obj->insert($p_date_start,$p_date_end,$p_exercice) == 1 )
@@ -50,7 +49,6 @@ if ( isset ($_POST["add_per"] ))
 }
 if (isset($_POST['add_exercice']))
   {
-    $g_user->can_request(PARPER,1);
     $obj=new Periode($cn);
     $exercice=$cn->get_value('select max(p_exercice::float)+1 from parm_periode');
     if ( $obj->insert_exercice($exercice) == 1 )
@@ -62,7 +60,6 @@ if (isset($_POST['add_exercice']))
   }
 if ( $action=="closed")
 {
-    $g_user->can_request(PARCLO);
     $p_per=$_GET['p_per'];
     $per=new Periode($cn);
     $jrn_def_id=(isset($_GET['jrn_def_id']))?$_GET['jrn_def_id']:0;
@@ -74,7 +71,6 @@ if ( $action=="closed")
 
 if ( $action== "delete_per" )
 {
-    $g_user->can_request(PARPER);
     $p_per=$_GET["p_per"];
 // Check if the periode is not used
     if ( $cn->count_sql("select * from jrnx where j_tech_per=$p_per") != 0 )
@@ -89,7 +85,6 @@ if ( $action== "delete_per" )
 }
 if ( $action == 'reopen')
   {
-    $g_user->can_request(PARCLO);
     $jrn_def_id=(isset($_GET['jrn_def_id']))?$_GET['jrn_def_id']:0;
     $per=new Periode($cn);
     $jrn_def_id=(isset($_GET['jrn_def_id']))?$_GET['jrn_def_id']:0;

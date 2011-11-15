@@ -275,7 +275,7 @@ echo '</div>';
 echo '<div id="detail_profile" class="content">';
 if (isset($_POST['p_id']))
 {
-	require_once 'show_profile.inc.php';
+	require_once 'ajax_get_profile.php';
 }
 echo '</div>';
 ?>

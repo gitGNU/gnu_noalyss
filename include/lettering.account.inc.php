@@ -36,7 +36,7 @@ echo '<table width="50%">';
 
 $poste=new IPoste();
 $poste->name="acc";
-$poste->table=1;
+$poste->table=0;
 $poste->set_attribute('jrn',0);
 $poste->set_attribute('gDossier',dossier::id());
 $poste->set_attribute('ipopup','ipop_account');

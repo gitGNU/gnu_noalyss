@@ -163,7 +163,7 @@ case 'de':
     }
     catch (Exception $e)
     {
-        echo '<A style="background-color:blue;color:white;text-decoration:none" HREF="javascript:void(0)" onclick="removeDiv(\''.$div.'\');">Fermer</A>';
+        echo HtmlInput::anchor_close($div);
         echo '<h2 class="error">Désolé il y a une erreur</h2>';
     }
     $html=ob_get_contents();
@@ -424,11 +424,11 @@ case 'rmr':
     // ask for a date for reversing the operation
 case 'ask_extdate':
     $date=new IDate('p_date');
-    $html= '<A style="background-color:blue;color:white;text-decoration:none" HREF="javascript:void(0)" onclick="removeDiv(\''.$div.'\');">Fermer</A>';
     $html.="<form id=\"form_".$div."\" onsubmit=\"return reverseOperation(this);\">";
     $html.=HtmlInput::hidden('jr_id',$_REQUEST['jr_id']).HtmlInput::hidden('div',$div).dossier::hidden().HtmlInput::hidden('act','reverseop');
     $html.='<h2 class="info">entrez une date </H2>'.$date->input();
     $html.=HtmlInput::submit('x','accepter');
+	$html=HtmlInput::button_close($div);
     $html.='</form>';
     break;
     ////////////////////////////////////////////////////////////////////////////////

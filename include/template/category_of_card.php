@@ -1,8 +1,6 @@
-<div style="float:right;height:10px;display:block;margin-top:2px;margin-right:2px">
 <?
-     echo '<A style="background-color:blue;color:white;text-decoration:none" HREF="javascript:void(0)" onclick="removeDiv(\''.$ctl.'\');">Fermer</A>';
+     echo HtmlInput::anchor_close($ctl);
 ?>
-</div>
    <? echo h2info(_("Ajout d'une catégorie").$msg); ?>
 
 <div class="content">

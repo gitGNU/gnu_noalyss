@@ -101,10 +101,10 @@ if ($sb=='ins')
 	HtmlInput::hidden('ac',$_REQUEST['ac']).HtmlInput::hidden('sb','insert');
     echo $r;
     echo HtmlInput::submit('insert',_('Enregistre'));
-    echo '</form>';
     echo HtmlInput::button_anchor(_('Retour sans sauver'),
                                   '?p_action=divers&sa=mp&'.dossier::get()."&ac=".$_REQUEST['ac']
                                      );
+    echo '</form>';
 
     exit();
 }
