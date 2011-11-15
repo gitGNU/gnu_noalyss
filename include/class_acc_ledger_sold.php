@@ -493,7 +493,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 
                 /* jrnx */
                 $acseq=$this->db->get_next_seq('s_grpt');
-                $acjrn=new Acc_Ledger($this->db,$mp->get_parameter('ledger'));
+                $acjrn=new Acc_Ledger($this->db,$mp->get_parameter('ledger_target'));
                 $acinternal=$acjrn->compute_internal_code($acseq);
 
                 /* Insert paid by  */
@@ -517,7 +517,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                 $acc_pay->amount=abs(round($cust_amount,2));
                 $acc_pay->desc=$e_comm;
                 $acc_pay->grpt=$acseq;
-                $acc_pay->jrn=$mp->get_parameter('ledger');
+                $acc_pay->jrn=$mp->get_parameter('ledger_target');
                 $acc_pay->periode=$tperiode;
                 $acc_pay->type=($cust_amount>=0)?'d':'c';
                 $acc_pay->insert_jrnx();
@@ -530,7 +530,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                 $acc_pay->amount=abs(round($cust_amount,2));
                 $acc_pay->desc=$e_comm;
                 $acc_pay->grpt=$acseq;
-                $acc_pay->jrn=$mp->get_parameter('ledger');
+                $acc_pay->jrn=$mp->get_parameter('ledger_target');
                 $acc_pay->periode=$tperiode;
 		$acc_pay->type=($cust_amount>=0)?'c':'d';
                 $let_other=$acc_pay->insert_jrnx();
@@ -1284,7 +1284,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         $r.="</DIV>";
         return $r;
     }
- 
+
     /*!\brief test function
      */
     static function test_me($p_string='')
