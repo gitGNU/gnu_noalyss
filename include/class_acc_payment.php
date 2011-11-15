@@ -234,12 +234,18 @@ class Acc_Payment
         $eth='</th>';
 
         $r='';
-        $r.=$td.$this->mp_lib.$etd;
+        if ( $this->jrn_def_id != '' )
+        {
+            $name=$this->cn->get_value("select jrn_def_name from jrn_def where jrn_def_id=$1",
+                    array($this->jrn_def_id));
+        }
+        $r.=td($this->mp_lib);
+        
         if ( $this->mp_fd_id != NULL && $this->mp_fd_id !=0)
         {
             $fiche=new Fiche_Def($this->cn,$this->mp_fd_id);
             $fiche->Get();
-            $r.=$td.$fiche->label.$etd;
+            $r.=td($fiche->label);
         }
         else
             $r.=$td.$etd;
@@ -249,7 +255,7 @@ class Acc_Payment
         {
             $f=new Fiche($this->cn);
             $f->get_by_qcode($this->mp_qcode);
-            $r.=$td.$f->strAttribut(ATTR_DEF_NAME).$etd;
+            $r.=td($f->strAttribut(ATTR_DEF_NAME));
 
         }
         else
