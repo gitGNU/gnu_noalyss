@@ -137,18 +137,18 @@ class Calendar
         $cn=new Database(dossier::id());
         $today=date('d.m.Y');
         $p_id=$cn->get_value("
-                select p_id from parm_periode 
-                where 
+                select p_id from parm_periode
+                where
                 p_start <= to_date($1,'DD.MM.YYYY')
-                and 
+                and
                 p_end >= to_date($1,'DD.MM.YYYY')",
                 array($today));
         if ( $p_id == '')
         {
             $user=new User($cn);
-            $this->default_periode=$user->get_periode();
-            $p_id=$this->default_periode;
+            $p_id=$user->get_periode();
         }
+		$this->default_periode=$p_id;
         return  $p_id;
     }
     /**

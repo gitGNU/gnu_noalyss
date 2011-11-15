@@ -44,6 +44,31 @@ function update_predef(p_type,p_direct)
                    }
                );
 }
+
+/**
+* @brief update the list of payment method when we change the ledger.
+*/
+function update_pay_method()
+{
+	waiting_box();
+    var jrn=g("p_jrn").value;
+    var dossier=g("gDossier").value;
+    var querystring='gDossier='+dossier+'&l='+jrn+"&op=up_pay_method";
+    var action=new Ajax.Request(
+                   "ajax_misc.php",
+                   {
+                   method:'get',
+                   parameters:querystring,
+                   onFailure:error_get_predef,
+                   onSuccess:function(req){
+										remove_waiting_box();
+										var answer=req.responseText;
+										$('payment').innerHTML=answer;
+								}
+                   }
+               );
+}
+
 /**
  *@brief update ctl id =jrn_name with the value of p_jrn
  */

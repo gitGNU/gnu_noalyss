@@ -42,6 +42,7 @@ require_once('class_inum.php');
 require_once('class_lettering.php');
 require_once 'class_sort_table.php';
 require_once 'class_jrn_def_sql.php';
+require_once 'class_acc_payment.php';
 /*!\file
 * \brief Class for jrn,  class acc_ledger for manipulating the ledger
 */
@@ -3222,6 +3223,22 @@ class Acc_Ledger extends jrn_def_sql
 			$Res=$this->db->alter_seq("s_jrn_pj".$p_jrn,$jrn_def_pj_seq);
 		}
 	}
+	function input_paid($nofieldset=0)
+    {
+        $r='';
+		if ( $nofieldset==0)
+		{
+			$r.='<fieldset id="payment"> ';
+		}
+        $r.='<legend> '._('Payé par').' </legend>';
+        $mp=new Acc_Payment($this->db);
+        $mp->set_parameter('ledger_source',$this->id);
+        $r.=$mp->select();
+        if ( $nofieldset==0)
+			$r.='</fieldset>';
+        return $r;
+    }
+
 	/**
 	 * display screen to enter a new ledger
 	 */

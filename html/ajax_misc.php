@@ -531,4 +531,7 @@ EOF;
 	 case 'upd_receipt':
 		 require_once 'ajax_get_receipt.php';
 		 break;
+	 case 'up_pay_method':
+		 require_once 'ajax_update_payment.php';
+		 break;
 }

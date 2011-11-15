@@ -1048,6 +1048,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         }
         $add_js.='get_last_date();';
 		$add_js.='update_name();';
+		$add_js.='update_pay_method()';
 
         $wLedger=$this->select_ledger('VEN',2);
         if ( $wLedger == null )
@@ -1283,18 +1284,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         $r.="</DIV>";
         return $r;
     }
-    function input_paid()
-    {
-        $r='';
-        $r.='<fieldset>';
-        $r.='<legend> '._('Payé par').' </legend>';
-        $mp=new Acc_Payment($this->db);
-        $mp->set_parameter('ledger_source',$this->id);
-        $r.=$mp->select();
-        $r.='</fieldset>';
-        return $r;
-    }
-
+ 
     /*!\brief test function
      */
     static function test_me($p_string='')

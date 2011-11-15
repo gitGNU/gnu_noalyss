@@ -620,7 +620,7 @@ function alert($p_msg, $buffer=false)
 function set_language()
 {
     // desactivate local check
-    if ( defined(LOCALE) && LOCALE==0 ) return;
+    if ( defined("LOCALE") && LOCALE==0 ) return;
     $dir = "";
     // set differently the language depending of the operating system
     if (what_os() == 1)

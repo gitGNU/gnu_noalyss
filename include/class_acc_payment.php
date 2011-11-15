@@ -222,7 +222,7 @@ class Acc_Payment
         }
         return $ret;
     }
-    public function row()
+    public function row_deprecated()
     {
         //---------------------------------------------------------------------------
         // Common variable
@@ -240,7 +240,7 @@ class Acc_Payment
                     array($this->jrn_def_id));
         }
         $r.=td($this->mp_lib);
-        
+
         if ( $this->mp_fd_id != NULL && $this->mp_fd_id !=0)
         {
             $fiche=new Fiche_Def($this->cn,$this->mp_fd_id);
@@ -264,57 +264,51 @@ class Acc_Payment
     }
     /*!\brief return a string with a form (into a table)
      *\param none
-     *\return a html string 
+     *\return a html string
      */
     public function form()
     {
-        $td='<TD>';
-        $etd='</td>';
-        $tr='<tr>';
-        $etr='</tr>';
-        $th='<th>';
-        $eth='</th>';
-        $r='';
-        $r.=HtmlInput::hidden('id',$this->mp_id);
-        $r.=HtmlInput::hidden('jrn_def_id',$this->jrn_def_id);
-        $r.='<table>';
-        $r.=$tr.$td.'Libell&eacute;'.$etd;
-        $r.=$td;
-        $r.=$this->mp_lib;
-        $r.=$etd.$etr;
-        $r.=$tr.$td;
-        $r.='Type de fiche '.$etd;
-        $array=$this->cn->make_array('select fd_id,fd_label from fiche_def join fiche_def_ref '.
-                                     ' using (frd_id) where frd_id in (25,4) order by fd_label');
-        $fd=new ISelect();
-        $fd->name='mp_fd_id';
-        $fd->value=$array;
-        $fd->selected=$this->mp_fd_id;
-        $r.=$td.$fd->input();
-        $r.=$etd;
-        $r.=$tr.$td.'Enregistre dans le journal '.$etd;
-        $array=$this->cn->make_array('select jrn_def_id,jrn_def_name from '.
-                                     ' jrn_def where jrn_def_type = \'ODS\' or jrn_def_type=\'FIN\'');
-        $jrn=new ISelect();
-        $jrn->value=$array;
-        $jrn->name='mp_jrn_def_id';
-        $jrn->selected=(isset ($this->mp_jrn_def_id))?$this->mp_jrn_def_id:0;
-        $r.=$td.$jrn->input().$etd;
-        $r.=$etr.$tr;
-        $r.=$td.'Avec la fiche'.$etd;
-        $f=new ICard();
-        $f->jrn=$jrn->selected;
-        $f->noadd=true;
-        $f->name='mp_qcode';
+	//label
+        $lib=new IText('mp_lib');
+        $lib->value=$this->mp_lib;
+		$f_lib=$lib->input();
+
+
+        $ledger_source=new ISelect('jrn_def_id');
+        $ledger_source->value=$this->cn->make_array("select jrn_def_id,jrn_Def_name from
+                              jrn_def where jrn_def_type  in ('ACH','VEN') order by jrn_def_name");
+		$ledger_source->selected=$this->jrn_def_id;
+        $f_source=$ledger_source->input();
+
+        // type of card
+        $tcard=new ISelect('mp_fd_id');
+        $tcard->value=$this->cn->make_array('select fd_id,fd_label from fiche_def join fiche_def_ref '.
+                                            ' using (frd_id) where frd_id in (25,4) order by fd_label');
+		$tcard->selected=$this->mp_fd_id;
+
+        $f_type_fiche=$tcard->input();
+        $ledger_record=new ISelect('mp_jrn_def_id');
+        $ledger_record->value=$this->cn->make_array("select jrn_def_id,jrn_Def_name from
+                              jrn_def where jrn_def_type  in ('ODS','FIN')");
+		$ledger_record->selected=$this->mp_jrn_def_id;
+        $f_ledger_record=$ledger_record->input();
+
+        // the card
+        $qcode=new ICard();
+        $qcode->noadd=true;
+        $qcode->name='mp_qcode';
         $list=$this->cn->make_list('select fd_id from fiche_def where frd_id in (25,4)');
-        $f->typecard=$list;
-	$f->dblclick='fill_ipopcard(this);';
-        $f->extra2=_('Recherche');
-        $f->value=(isset($this->mp_qcode))?$this->mp_qcode:'';
-        $r.=$td.$f->input().$etd;
-        $s=new ISpan();
-        $r.=$td.$s->input('mp_qcode_label');
-        $r.='</table>';
+        $qcode->typecard=$list;
+		$qcode->dblclick='fill_ipopcard(this);';
+		$qcode->value=$this->mp_qcode;
+
+        $f_qcode=$qcode->input();
+
+		$msg="Modification de ".$this->mp_lib;
+        ob_start();
+        require_once('template/new_mod_payment.php');
+        $r=ob_get_contents();
+        ob_end_clean();
         return $r;
 
     }
@@ -395,7 +389,7 @@ class Acc_Payment
         $ledger_source->value=$this->cn->make_array("select jrn_def_id,jrn_Def_name from
                               jrn_def where jrn_def_type  in ('ACH','VEN') order by jrn_def_name");
         $f_source=$ledger_source->input();
-        
+
         // type of card
         $tcard=new ISelect('mp_fd_id');
         $tcard->value=$this->cn->make_array('select fd_id,fd_label from fiche_def join fiche_def_ref '.
@@ -412,9 +406,10 @@ class Acc_Payment
         $qcode->name='mp_qcode';
         $list=$this->cn->make_list('select fd_id from fiche_def where frd_id in (25,4)');
         $qcode->typecard=$list;
-	$qcode->dblclick='fill_ipopcard(this);';
+		$qcode->dblclick='fill_ipopcard(this);';
 
         $f_qcode=$qcode->input();
+		$msg="Ajout d'un nouveau moyen de paiement";
         ob_start();
         require_once('template/new_mod_payment.php');
         $r=ob_get_contents();

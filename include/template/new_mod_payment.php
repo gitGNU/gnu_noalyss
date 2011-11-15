@@ -1,5 +1,5 @@
 <fieldset>
-<legend><?=_('Nouveau moyen de paiement')?>
+<legend><?=$msg?>
 </legend>
 <table>
 <tr>

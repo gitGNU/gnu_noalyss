@@ -968,7 +968,9 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         }
         $add_js.='get_last_date();';
 		$add_js.='update_name();';
-        $wLedger=$this->select_ledger('ACH',2);
+		$add_js.='update_pay_method()';
+
+		$wLedger=$this->select_ledger('ACH',2);
         if ($wLedger == null) exit (_('Pas de journal disponible'));
         $wLedger->javascript="onChange='update_predef(\"ach\",\"f\");$add_js'";
         $label=" Journal ".HtmlInput::infobulle(2) ;
@@ -1208,17 +1210,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         {
             $r.='<script> update_pj();</script>';
         }
-        return $r;
-    }
-    function input_paid()
-    {
-        $r='';
-        $r.='<fieldset>';
-        $r.='<legend> '._('Payé par').' </legend>';
-        $mp=new Acc_Payment($this->db);
-        $mp->set_parameter('ledger_source',$this->id);
-        $r.=$mp->select();
-        $r.='</fieldset>';
         return $r;
     }
 
