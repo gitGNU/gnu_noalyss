@@ -194,7 +194,7 @@ class Impress
      *
      * \return true if the formula is good otherwise false
      */
-    static function Impress::check_formula($p_string)
+    static function check_formula($p_string)
     {
         // the preg_match gets too complex if we want to add a test
         // for parenthesis, math function...
@@ -230,4 +230,3 @@ class Impress
         }
     }
 }
-?>
