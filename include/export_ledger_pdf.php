@@ -78,7 +78,9 @@ if ( $_REQUEST['p_simple']== 0 )
     $pdf->setDossierInfo($Jrn->name);
     $pdf->AliasNbPages();
     $pdf->AddPage();
-
+    $pdf->SetAuthor('Phpcompta');
+    $pdf->setTitle("Journal",true);
+    
     $pdf->export($Jrn);
 
     $fDate=date('dmy-Hi');
@@ -99,6 +101,9 @@ if   (  $_REQUEST['p_simple']== 1 )
             $pdf->setDossierInfo($Jrn->name);
             $pdf->AliasNbPages();
             $pdf->AddPage();
+            $pdf->SetAuthor('Phpcompta');
+            $pdf->setTitle("Journal",true);
+
             $pdf->Cell(0,6,'Ce journal ne peut être imprimé en mode simple');
             $pdf->output('erreur.pdf','I');
             exit();
@@ -120,6 +125,9 @@ if   (  $_REQUEST['p_simple']== 1 )
             $pdf->setDossierInfo($Jrn->name);
             $pdf->AliasNbPages();
             $pdf->AddPage();
+            $pdf->SetAuthor('Phpcompta');
+            $pdf->setTitle("Journal",true);
+
             $pdf->export();
             $fDate=date('dmy-Hi');
             $pdf->Output('journal-'.$fDate.'.pdf','I');
@@ -131,6 +139,9 @@ if   (  $_REQUEST['p_simple']== 1 )
             $pdf->setDossierInfo($Jrn->name);
             $pdf->AliasNbPages();
             $pdf->AddPage();
+            $pdf->SetAuthor('Phpcompta');
+            $pdf->setTitle("Journal", true);
+
             $pdf->export($Jrn);
             $fDate=date('dmy-Hi');
             $pdf->Output('journal-'.$fDate.'.pdf','I');
@@ -145,6 +156,9 @@ if   (  $_REQUEST['p_simple']== 1 )
         $pdf->setDossierInfo($Jrn->name);
         $pdf->AliasNbPages();
         $pdf->AddPage();
+        $pdf->SetAuthor('Phpcompta');
+        $pdf->setTitle("Journal",true);
+        
         $pdf->export();
         $fDate=date('dmy-Hi');
         $pdf->Output('journal-'.$fDate.'.pdf','I');
@@ -155,6 +169,9 @@ if   (  $_REQUEST['p_simple']== 1 )
         $pdf= new Print_Ledger_Misc($cn,$Jrn);
         $pdf->setDossierInfo($Jrn->name);
         $pdf->AliasNbPages();
+        $pdf->SetAuthor('Phpcompta');
+        $pdf->setTitle("Journal",true);
+        
         $pdf->AddPage();
         $pdf->export();
         $fDate=date('dmy-Hi');

@@ -184,6 +184,7 @@ class Anc_Balance_Simple extends Anc_Print
         $pdf->set_info($this->from_poste,$this->to_poste,$this->from,$this->to);
         $pdf->AliasNbPages();
         $pdf->AddPage();
+        $pdf->setTitle("Balance analytique",true);
 
         $pdf->SetFont('DejaVu','',6);
         for ($i=0;$i<count($array);$i++)

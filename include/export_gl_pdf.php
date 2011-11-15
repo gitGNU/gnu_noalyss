@@ -71,7 +71,8 @@ $pdf = new PDF($cn);
 $pdf->setDossierInfo("  Periode : ".$from_periode." - ".$to_periode);
 $pdf->AliasNbPages();
 $pdf->AddPage();
-
+$pdf->setTitle("Grand Livre",true);
+$pdf->SetAuthor('Phpcompta');
 
 if ( count($a_poste) == 0 )
 {

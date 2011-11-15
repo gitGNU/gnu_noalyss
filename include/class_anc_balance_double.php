@@ -177,6 +177,8 @@ class Anc_Balance_Double extends Anc_Print
         if (empty($array))return;
         $pdf=new PDF($this->db);
         $pdf->Setdossierinfo(dossier::name());
+        $pdf->setTitle("Balance analytique",true);
+        $pdf->SetAuthor('Phpcompta');
         $pdf->AliasNbPages();
         $pdf->AddPage();
 

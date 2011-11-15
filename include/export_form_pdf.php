@@ -46,8 +46,8 @@ $pdf= new PDF($cn);
 $pdf->setDossierInfo($Libelle);
 $pdf->AliasNbPages();
 $pdf->AddPage();
-
-
+$pdf->SetAuthor('Phpcompta');
+$pdf->setTitle("Rapport ".$Libelle,true);
 
 // Step ??
 //--

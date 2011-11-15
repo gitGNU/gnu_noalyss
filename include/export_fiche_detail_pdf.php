@@ -42,6 +42,8 @@ $pdf= new PDF($cn);
 $pdf->setDossierInfo("  Periode : ".$_GET['from_periode']." - ".$_GET['to_periode']);
 $pdf->AliasNbPages();
 $pdf->AddPage();
+$pdf->SetAuthor('Phpcompta');
+$pdf->setTitle("Détail fiche",true);
 
 
 $Fiche=new Fiche($cn,$f_id);

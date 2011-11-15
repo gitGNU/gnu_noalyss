@@ -52,6 +52,9 @@ $pdf=new PDF($cn);
 $pdf->setDossierInfo("  Periode : ".$_GET['from_periode']." - ".$_GET['to_periode']);
 $pdf->AliasNbPages();
 $pdf->AddPage();
+$pdf->SetAuthor('Phpcompta');
+$pdf->setTitle("Détail poste comptable",true);
+
 
 if ( count($a_poste) == 0 )
 {
