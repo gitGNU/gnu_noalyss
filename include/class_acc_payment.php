@@ -177,16 +177,15 @@ class Acc_Payment
         $sql="delete from mod_payment where mp_id=$1";
         $this->cn->exec_sql($sql,array($this->mp_id));
     }
-    /*!\brief retrieve all the data for a certain ledger
+    /*!\brief retrieve all the data for all ledgers
      *\param non
      *\return an array of row
      */
     public function get_all()
     {
-        $sql='select mp_id '.
-             ' from mod_payment '.
-             ' where jrn_def_id=$1';
-        $array=$this->cn->get_array($sql,array($this->jrn_def_id));
+        $sql='select mp_id,mp_lib '.
+             ' from mod_payment order by mp_lib';
+        $array=$this->cn->get_array($sql);
         $ret=array();
         if ( !empty($array) )
         {

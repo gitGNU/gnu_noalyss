@@ -114,10 +114,9 @@ if ( $sb=='insert')
 //----------------------------------------------------------------------
 
 echo '<fieldset>';
-echo '<legend>Journaux d\' achat</legend>';
+echo '<legend>Journaux </legend>';
 /* Get the data from database */
 $mp=new Acc_Payment($cn);
-$mp->set_parameter('type','ACH');
 $array=$mp->get_all();
 /* if there are data show them in a table */
 if ( ! empty ($array))
@@ -138,37 +137,5 @@ if ( ! empty ($array))
     echo '</table>';
 }
 echo '</fieldset>';
-
-//----------------------------------------------------------------------
-// LEDGER SOLD
-//----------------------------------------------------------------------
-
-echo '<fieldset>';
-echo '<legend>Journaux de vente</legend>';
-$mp=new Acc_Payment($cn);
-$mp->set_parameter('type','VEN');
-$array=$mp->get_all();
-/* if there are data show them in a table */
-if ( ! empty ($array))
-{
-    echo '<table style="border: 2px outset blue; width: 100%;" >';
-    echo $tr.$th.'Libell&eacute;'.$eth.$th.'Type de fiche'
-    .$eth.$th.'enregistr&eacute; dans le journal'.$eth.
-    $th.' Avec la fiche'.$eth.$th.'Action'.$eth.$etr;
-    foreach ($array as $row)
-    {
-        echo $tr;
-        echo $row->row();
-        echo $td.HtmlInput::button_anchor('Modifie','?p_action=divers&sa=mp&sb=change&'.dossier::get().
-                                              '&id='.$row->get_parameter('id'));
-        echo $etr;
-
-    }
-    echo '</table>';
-}
-echo '</fieldset>';
-// Button to insert new one
-echo HtmlInput::button_anchor(_('Ajout'),'?p_action=divers&sa=mp&sb=ins&'.dossier::get());
-
 echo '</div>';
 ?>
