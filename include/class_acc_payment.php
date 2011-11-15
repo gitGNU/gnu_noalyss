@@ -34,7 +34,6 @@ require_once('constant.php');
  *\note the private data member are accessed via
   - mp_id  ==> id ( Primary key )
   - mp_lib ==> lib (label)
-  - mp_type ==> type (type of the ledger ACH or VEN )
   - mp_jrn_def_id ==> ledger (Number of the ledger where to save)
   - mp_fd_id ==> fiche_def (fiche class to use)
   - mp_qcode ==> qcode (quick_code of the card)
@@ -46,16 +45,15 @@ class Acc_Payment
     private static $variable=array("id"=>"mp_id",
                                    "lib"=>"mp_lib",
                                    "qcode"=>"mp_qcode",
-                                   "type"=>"mp_type",
-                                   "ledger"=>"mp_jrn_def_id",
+                                   "ledger_target"=>"mp_jrn_def_id",
+                                   "ledger_source"=>"jrn_def_id",
                                    "fiche_def"=>"mp_fd_id");
 
 
     private  $mp_lib;
     private  $mp_qcode;
-    private  $mp_type;
     private  $mp_jrn_def_if;
-
+    private  $jrn_def_id;
     private  $mp_fd_id;
 
     function __construct ($p_cn,$p_init=0)
@@ -106,32 +104,37 @@ class Acc_Payment
     {
         if ( $this->verify() != 0 ) return;
         $sql='INSERT INTO mod_payment(
-             mp_lib, mp_jrn_def_id, mp_type, mp_fd_id, mp_qcode)
-             VALUES ($1, $2, $3, $4, upper($5)) returning mp_id';
+             mp_lib, mp_jrn_def_id, mp_fd_id, mp_qcode,jrn_def_id)
+             VALUES ($1, $2, $3, upper($4),$5) returning mp_id';
         $this->mp_id=$this->cn->exec_sql($sql,array(
                                              $this->mp_lib,
                                              $this->mp_jrn_def_id,
-                                             $this->mp_type,
                                              $this->mp_fd_id,
-                                             $this->mp_qcode));
+                                             $this->mp_qcode,
+                                             $this->jrn_def_id));
     }
 
     public function update()
     {
         if ( $this->verify() != 0 ) return;
 
-        $sql="update mod_payment set mp_lib=$1,mp_qcode=$2,mp_type=$3,mp_jrn_def_id=$4,mp_fd_id=$5 ".
+        $sql="update mod_payment set mp_lib=$1,mp_qcode=$2,mp_jrn_def_id=$3,mp_fd_id=$4,jrn_def_id=$5 ".
              " where mp_id = $6";
         $res=$this->cn->exec_sql(
                  $sql,
                  array($this->mp_lib,
                        $this->mp_qcode,
-                       $this->mp_type,
                        $this->mp_jrn_def_id,
                        $this->mp_fd_id,
+                       $this->jrn_def_id,
                        $this->mp_id)
              );
         if ( strlen (trim($this->mp_jrn_def_id))==0)
+            $this->cn->exec_sql(
+                'update mod_payment '.
+                'set mp_jrn_def_id = null where mp_id=$1',
+                array($this->mp_id));
+        if ( strlen (trim($this->jrn_def_id))==0)
             $this->cn->exec_sql(
                 'update mod_payment '.
                 'set mp_jrn_def_id = null where mp_id=$1',
@@ -151,7 +154,7 @@ class Acc_Payment
 
     public function load()
     {
-        $sql='select mp_id,mp_lib,mp_fd_id,mp_jrn_def_id,mp_qcode,mp_type from mod_payment '.
+        $sql='select mp_id,mp_lib,mp_fd_id,mp_jrn_def_id,mp_qcode,jrn_def_id from mod_payment '.
              ' where mp_id = $1';
         $res=$this->cn->exec_sql(
                  $sql,
@@ -174,7 +177,7 @@ class Acc_Payment
         $sql="delete from mod_payment where mp_id=$1";
         $this->cn->exec_sql($sql,array($this->mp_id));
     }
-    /*!\brief retrieve all the data for a certain type
+    /*!\brief retrieve all the data for a certain ledger
      *\param non
      *\return an array of row
      */
@@ -182,8 +185,8 @@ class Acc_Payment
     {
         $sql='select mp_id '.
              ' from mod_payment '.
-             ' where mp_type=$1';
-        $array=$this->cn->get_array($sql,array($this->mp_type));
+             ' where jrn_def_id=$1';
+        $array=$this->cn->get_array($sql,array($this->jrn_def_id));
         $ret=array();
         if ( !empty($array) )
         {
@@ -196,7 +199,7 @@ class Acc_Payment
         }
         return $ret;
     }
-    /*!\brief retrieve all the data for a certain type but filter on the
+    /*!\brief retrieve all the data for a ledger but filter on the
      *valid record (jrn and fd not null
      *\param non
      *\return an array of row
@@ -205,9 +208,9 @@ class Acc_Payment
     {
         $sql='select mp_id '.
              ' from mod_payment '.
-             ' where mp_type=$1 and mp_jrn_def_id is not null and '.
+             ' where jrn_def_id=$1 and mp_jrn_def_id is not null and '.
              ' (mp_fd_id is not null or mp_qcode is not null)';
-        $array=$this->cn->get_array($sql,array($this->mp_type));
+        $array=$this->cn->get_array($sql,array($this->jrn_def_id));
         $ret=array();
         if ( !empty($array) )
         {
@@ -220,7 +223,6 @@ class Acc_Payment
         }
         return $ret;
     }
-
     public function row()
     {
         //---------------------------------------------------------------------------
@@ -269,6 +271,7 @@ class Acc_Payment
         $eth='</th>';
         $r='';
         $r.=HtmlInput::hidden('id',$this->mp_id);
+        $r.=HtmlInput::hidden('jrn_def_id',$this->jrn_def_id);
         $r.='<table>';
         $r.=$tr.$td.'Libell&eacute;'.$etd;
         $r.=$td;
@@ -370,7 +373,7 @@ class Acc_Payment
      */
     public function from_array($p_array)
     {
-        $idx=array('mp_id','mp_lib','mp_fd_id','mp_jrn_def_id','mp_qcode','mp_type');
+        $idx=array('mp_id','mp_lib','mp_fd_id','mp_jrn_def_id','mp_qcode','jrn_def_id');
         foreach ($idx as $l)
         if (isset($p_array[$l])) $this->$l=$p_array[$l];
     }
@@ -382,12 +385,12 @@ class Acc_Payment
         //label
         $lib=new IText('mp_lib');
         $f_lib=$lib->input();
-        // Type of ledger
-        $tledger=new ISelect('mp_type');
-        $tledger->value=array(array ('value'=>'ACH','label'=>_('Achat')),
-                              array ('value'=>'VEN','label'=>_('Vente')));
-        $f_type=$tledger->input();
 
+        $ledger_source=new ISelect('jrn_def_id');
+        $ledger_source->value=$this->cn->make_array("select jrn_def_id,jrn_Def_name from
+                              jrn_def where jrn_def_type  in ('ACH','VEN') order by jrn_def_name");
+        $f_source=$ledger_source->input();
+        
         // type of card
         $tcard=new ISelect('mp_fd_id');
         $tcard->value=$this->cn->make_array('select fd_id,fd_label from fiche_def join fiche_def_ref '.
@@ -418,16 +421,6 @@ class Acc_Payment
     static function test_me()
     {
 
-        $cn=new Database(dossier::id());
-        $ac=new Acc_Payment($cn);
-        $ac->set_parameter('type','ACH');
-        echo '<form method="post">';
-        echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
-        echo $ac->select();
-        echo HtmlInput::submit('go','go');
-        echo '</form>';
-        if ( isset($_POST['go']))
-            print_r($_POST);
     }
 
 }

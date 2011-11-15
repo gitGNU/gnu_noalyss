@@ -4,6 +4,15 @@
 <table>
 <tr>
 <td>
+   <?=_('Pour le journal')?>
+</td>
+<td>
+<?=$f_source?>
+</td>
+</tr>
+
+<tr>
+<td>
    <?=_('Libellé')?>
 </td>
 <td>
@@ -20,14 +29,6 @@
 </td>
 </tr>
 
-<tr>
-<td>
-   <?=_('Pour le type de journal')?>
-</td>
-<td>
-<?=$f_type?>
-</td>
-</tr>
 
 <tr>
 <td>

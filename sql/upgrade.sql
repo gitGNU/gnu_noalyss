@@ -28,6 +28,7 @@ script SQL to run
 -- for account repository
 -- \i change_account_repo.sql
 -- \i style-epad.sql
+\i mode_paiement.sql
 
 create unique index qcode_idx on fiche_detail (ad_value) where ad_id=23;
 commit;
