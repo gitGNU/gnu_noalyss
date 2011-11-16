@@ -42,7 +42,7 @@ echo '<div class="content" style="width:80%;margin-left:10%">';
 // check and add an new folder
 if ( isset ($_POST["DATABASE"]) )
 {
-    $cn=new Database();
+    $repo=new Database();
     $dos=trim($_POST["DATABASE"]);
     $dos=sql_string($dos);
     if (strlen($dos)==0)
@@ -50,7 +50,7 @@ if ( isset ($_POST["DATABASE"]) )
         echo _("Le nom du dossier est vide");
         exit -1;
     }
-    $encoding=$cn->get_value("select encoding from pg_database  where ".
+    $encoding=$repo->get_value("select encoding from pg_database  where ".
                              " datname='".domaine.'mod'.sql_string($_POST["FMOD_ID"])."'");
     if ( $encoding != 6 )
     {
@@ -65,20 +65,19 @@ if ( isset ($_POST["DATABASE"]) )
     $desc=sql_string($_POST["DESCRIPTION"]);
     try
     {
-        $cn->start();
-        $Res=$cn->exec_sql("insert into ac_dossier(dos_name,dos_description)
+        $repo->start();
+        $Res=$repo->exec_sql("insert into ac_dossier(dos_name,dos_description)
                            values ('".$dos."','$desc')");
-        $l_id=$cn->get_current_seq('dossier_id');
-        $cn->commit();
+        $l_id=$repo->get_current_seq('dossier_id');
+        $repo->commit();
     }
     catch (Exception $e)
     {
         $msg=_("Desole la creation de ce dossier a echoue,\n la cause la plus probable est".
                ' deux fois le même nom de dossier');
         alert($msg);
-        ;
         $l_id=0;
-        $cn->rollback();
+        $repo->rollback();
 
     }
     // If the id is not null, name successfully inserted
@@ -93,7 +92,7 @@ if ( isset ($_POST["DATABASE"]) )
         if ( strlen($year) != 4 || isNumber($year) == 0 || $year > 2100 || $year < 2000 || $year != round($year,0))
         {
             echo "$year"._(" est une année invalide");
-            $Res=$cn->exec_sql("delete from ac_dossier where dos_id=$l_id");
+            $Res=$repo->exec_sql("delete from ac_dossier where dos_id=$l_id");
         }
         else
         {
@@ -103,18 +102,18 @@ if ( isset ($_POST["DATABASE"]) )
                          domaine,
                          sql_string($_POST["FMOD_ID"]));
             ob_start();
-            if ( $cn->exec_sql($Sql)==false)
+            if ( $repo->exec_sql($Sql)==false)
             {
                 echo   "[".$Sql."]";
 
                 //ob_end_clean();
-                $cn->exec_sql("delete from ac_dossier where dos_id=$l_id");
+                $repo->exec_sql("delete from ac_dossier where dos_id=$l_id");
                 echo "<h2 class=\"error\">"._(" Base de donnée ").domaine."mod".$_POST['FMOD_ID']."  ".
                 _("est accèdée, déconnectez-vous d'abord")."</h2>";
                 exit;
             }
             ob_flush();
-            $Res=$cn->exec_sql("insert into jnt_use_dos (use_id,dos_id) values (1,$l_id)");
+            $Res=$repo->exec_sql("insert into jnt_use_dos (use_id,dos_id) values (1,$l_id)");
             // Connect to the new database
             $cn=new Database($l_id);
             //--year --
@@ -141,7 +140,7 @@ if ( isset ($_POST["DATABASE"]) )
                  " from parm_periode cross join jrn_def";
             $Res=$cn->exec_sql($sql);
 
-			Dossier::synchro_admin($l_id);
+	    Dossier::synchro_admin($l_id);
 
 
         }
