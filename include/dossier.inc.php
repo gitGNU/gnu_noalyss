@@ -123,7 +123,6 @@ if ( isset ($_POST["DATABASE"]) )
                 $fev=29;
             else
                 $fev=28;
-			xdebug_break();
             $Res=$cn->exec_sql("delete from user_local_pref where parameter_type='PERIODE'");
             $nb_day=array(31,$fev,31,30,31,30,31,31,30,31,30,31);
             $m=1;
