@@ -50,7 +50,7 @@ if ( ! $m )
 // show the left menu
 //----------------------------------------------------------------------
 echo '
-<div class="content" style="width:88%;margin-left:12%">
+<div class="content" >
 <div class="lmenu">
 <table>
 <tr>

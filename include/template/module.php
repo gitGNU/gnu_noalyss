@@ -6,7 +6,9 @@
 
 if ( $cn->get_value("select count(*) from profile join profile_user using (p_id)
 		where user_name=$1 and with_calc=true",array($_SESSION['g_user'])) ==1):
+  echo '<div id="calc">';
 	echo IButton::show_calc();
+echo '</div>';
 endif;
 
 if ( $cn->get_value("select count(*) from profile join profile_user using (p_id)
@@ -19,7 +21,7 @@ if ( $cn->get_value("select count(*) from profile join profile_user using (p_id)
 		<?
 
 			$direct=new IText('ac');
-			$direct->style='class="direct"';
+			$direct->style='class="input_text"';
 			$direct->value='';
 			$direct->size=20;
 			echo $direct->input();
@@ -30,8 +32,8 @@ if ( $cn->get_value("select count(*) from profile join profile_user using (p_id)
 			echo HtmlInput::submit('go','aller');
 			?>
 
-	</form
-	<script type="text/javascript" charset="utf8" language="javascript">
+	</form>
+	<script charset="utf8" language="javascript">
 
 		try {
 			new Ajax.Autocompleter("ac","ac_choices","direct.php?gDossier=<?=$gDossier?>",

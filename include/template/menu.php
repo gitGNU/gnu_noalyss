@@ -4,7 +4,17 @@
     ?>
 <table style="<?=$style?>" >
     <? else:
-        $style="width:80%;margin-right:10%"
+switch (count($amenu))
+{
+case 4:
+case 3:
+   $width=count($amenu)*15;
+   $left=round((100-$width)/2);
+$style="width:$width%;margin-left:$left%";
+break;
+default:
+$style="";
+}
 	?>
 <table style="<?=$style?>" >
     <? endif;?>
@@ -19,7 +29,7 @@
 		$class="selectedcell";
 ?>
 	<td class="<?=$class?>">
-	    <a class="mtitle" href="do.php?gDossier=<?=Dossier::id()?>&ac=<?=$_REQUEST['ac']?>">
+	    <a class="mtitle" href="do.php?gDossier=<?=Dossier::id()?>&ac=<?=$_REQUEST['ac']?>" alt="<?=h($amenu[$i]['me_description'])?>" >
 	    <?=$amenu[$i]['me_menu']?>
 	    </a>
 	</td>

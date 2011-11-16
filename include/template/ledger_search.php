@@ -1,4 +1,4 @@
-<fieldset><legend><?=_('Critères de Recherche')?></legend>
+
 <table>
 <tr>
 <td style='text-align:right;width:30em'>
@@ -64,4 +64,4 @@
 </tr>
 
 </table>
-</fieldset>
+
