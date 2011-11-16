@@ -66,7 +66,7 @@ if ( isset ($_POST["DATABASE"]) )
     try
     {
         $repo->start();
-        
+
         $Res=$repo->exec_sql("insert into ac_dossier(dos_name,dos_description)
                            values ('".$dos."','$desc')");
         $l_id=$repo->get_current_seq('dossier_id');
@@ -159,6 +159,7 @@ if ( $sa == 'list' )
     echo HtmlInput::button_anchor(_('Ajouter'),'admin_repo.php?action=dossier_mgt&sa=add');
 
     $repo=new Dossier(0);
+	$repocn=new Database();
     $Res=$repo->show_dossier('all');
     $compteur=1;
     $template="";
@@ -181,7 +182,7 @@ if ( $sa == 'list' )
             echo "<TR $cl><TD style=\"vertical-align:top\"> ".
 	      $Dossier['dos_id']."</td><td> <B>".h($Dossier['dos_name'])."</B> </TD>";
 	    $str_name=domaine.'dossier'.$Dossier['dos_id'];
-	    $size=$cn->get_value("select pg_database_size($1)/(1024*1024)::float",
+	    $size=$repocn->get_value("select pg_database_size($1)/(1024*1024)::float",
 				 array($str_name));
 	    echo "<TD><I>  ".h($Dossier['dos_description'])."</I></td>";
 	    echo td(nbm($size)."MB",' style="text-align:right"');
