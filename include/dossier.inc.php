@@ -66,6 +66,7 @@ if ( isset ($_POST["DATABASE"]) )
     try
     {
         $repo->start();
+        
         $Res=$repo->exec_sql("insert into ac_dossier(dos_name,dos_description)
                            values ('".$dos."','$desc')");
         $l_id=$repo->get_current_seq('dossier_id');
@@ -150,7 +151,6 @@ if ( isset ($_POST["DATABASE"]) )
 <h2> Dossier Management</h2>
 
 <?php
-$cn=new Database();
 //---------------------------------------------------------------------------
 // List of folder
 if ( $sa == 'list' )
@@ -163,7 +163,7 @@ if ( $sa == 'list' )
     $compteur=1;
     $template="";
 
-    echo '<TABLE class="result" style="border-collapse:separate;border-spacing:4">';
+    echo '<TABLE class="table_large" >';
     $r=th('ID').th('Nom du dossier ').th('Description').th('Taille').th('Nom base de données');
     $r=tr($r);
     echo $r;
@@ -214,8 +214,9 @@ if ( $sa == 'list' )
 // Add a new folder
 if ( $sa == 'add' )
 {
+    $repo=new Database();
     // Load the available Templates
-    $Res=$cn->exec_sql("select mod_id,mod_name,mod_desc from
+    $Res=$repo->exec_sql("select mod_id,mod_name,mod_desc from
                        modeledef order by mod_name");
     $count=Database::num_row($Res);
 

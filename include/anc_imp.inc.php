@@ -45,11 +45,11 @@ $menu=array(array("?ac=".$_REQUEST['ac']."&sub=listing&$str_dossier",_("Historiq
            );
 $sub=(isset($_GET['sub']))?$_GET['sub']:'no';
 
-echo '<div class="content"  style="width:88%;margin-left:12%">';
+echo '<div class="content"  >';
 echo ShowItem($menu,"H","mtitle","mtitle",$sub);
 echo '</div>';
 
-echo '<div class="content" style="width:80%;margin-left:10%">';
+echo '<div class="content" >';
 
 $hidden=new IHidden();
 $str_hidden=$hidden->input("p_action","ca_imp");

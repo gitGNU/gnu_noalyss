@@ -1,11 +1,12 @@
 <div class="topmenu">
     <? if ( count($amenu) > 4 && $idx == 0) :
-	$width = 100;
+	$style = "width:100%";
     ?>
-<table style="width:<?=$width?>%">
+<table style="<?=$style?>" >
     <? else:
+        $style="width:80%;margin-right:10%"
 	?>
-<table>
+<table style="<?=$style?>" >
     <? endif;?>
 
 

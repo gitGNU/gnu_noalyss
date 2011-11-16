@@ -55,10 +55,10 @@ if ( isset($_POST['add']))
 }
 $array=$r->myList();
 
-echo '<div class="content" style="width:80%;margin-left:10%">';
+echo '<div class="content" >';
 echo '<form method="post">';
 echo dossier::hidden();
-echo '<table style="border: 2px outset blue; width: 100%;"  >';
+echo '<table class="result"  >';
 echo '<tr> <th> Code </th><th>Plan </td><th>Description</th></tr>';
 foreach ($array as $idx=>$m)
 {
