@@ -820,7 +820,7 @@ a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
 	cursor:pointer;
 	background-color:white;
 	border-style:  inset ;
-	color:blue;
+	color:red;
 	margin:1 2 1 2;
 	}
 	td.tool {
