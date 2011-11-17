@@ -3,7 +3,7 @@
 	$style = "width:100%";
     ?>
 <table style="<?=$style?>" >
-    <? else:
+    <? elseif ($idx==0):
 switch (count($amenu))
 {
 case 4:
@@ -15,9 +15,11 @@ break;
 default:
 $style="";
 }
-	?>
+	else:
+		$style=" class=\"mtitle\"";
+
+    	endif;?>
 <table style="<?=$style?>" >
-    <? endif;?>
 
 
     <tr>
@@ -29,7 +31,7 @@ $style="";
 		$class="selectedcell";
 ?>
 	<td class="<?=$class?>">
-	    <a class="mtitle" href="do.php?gDossier=<?=Dossier::id()?>&ac=<?=$_REQUEST['ac']?>" alt="<?=h($amenu[$i]['me_description'])?>" >
+	    <a class="mtitle" href="do.php?gDossier=<?=Dossier::id()?>&ac=<?=$_REQUEST['ac']?>" title="<?=h($amenu[$i]['me_description'])?>" >
 	    <?=$amenu[$i]['me_menu']?>
 	    </a>
 	</td>
@@ -57,7 +59,7 @@ $style="";
 		}
 
 ?>	<td class="<?=$class?>">
-	    <a class="mtitle" href="do.php?gDossier=<?=Dossier::id()?>&ac=<?=$url?>" <?=$js?> >
+	    <a class="mtitle" href="do.php?gDossier=<?=Dossier::id()?>&ac=<?=$url?>" <?=$js?> title="<?=h($amenu[$i]['me_description'])?>">
 	    <?=$amenu[$i]['me_menu']?>
 	    </a>
 	</td>

@@ -739,7 +739,7 @@ function show_module($selected)
     global $g_user;
     $cn = Dossier::connect();
     $amodule = $cn->get_array("select
-	me_code,me_menu,me_url,me_javascript,p_order,me_type
+	me_code,me_menu,me_url,me_javascript,p_order,me_type,me_description
 	from v_all_menu
 	where
 	user_name=$1
@@ -749,7 +749,7 @@ function show_module($selected)
     if ($selected != -1)
     {
 	require_once('template/module.php');
-	$file = $cn->get_array("select me_file,me_parameter,me_javascript,me_type from v_all_menu
+	$file = $cn->get_array("select me_file,me_parameter,me_javascript,me_type,me_description from v_all_menu
 	    where me_code=$1 and user_name=$2", array($selected,$g_user->login));
 	if ( count($file ) == 0 )
 	{
@@ -842,7 +842,7 @@ function show_menu($module, $idx)
     global $g_user;
     $cn = Dossier::connect();
     $amenu = $cn->get_array("select
-	me_menu,me_code,me_url,me_javascript,me_type
+	me_menu,me_code,me_url,me_javascript,me_type,me_description
 	from v_all_menu
 	where
 	me_code_dep=$1 and user_name=$2 order by p_order", array($module[$idx], $g_user->login));
