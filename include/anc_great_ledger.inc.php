@@ -9,6 +9,8 @@ echo '<p>' . HtmlInput::submit('Recherche', 'Recherche') . '</p>';
 echo '</form>';
 if (isset($_GET['result']))
 {
+    echo $gl->display_form();
     echo $gl->display_html();
+    echo $gl->display_form();
 }
 ?>
