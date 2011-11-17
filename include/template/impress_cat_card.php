@@ -14,5 +14,9 @@
 <tr id="trend">
   <td><?=_('Jusque')?></td>
   <td><?=$str_end?></td>
+<tr id="allcard">
+	<td>Toutes les fiches</td>
+	<td><?=$str_icall?></td>
+</tr>
 </tr>
 </table>

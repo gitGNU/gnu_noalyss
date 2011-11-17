@@ -95,7 +95,7 @@ if ( $rapport->exist() == false ) {
 }
 
 if ( $report != 0 ) {
-  echo '<fieldset style="background-color:white"><legend>'.$rapport->get_name().'</legend>';
+  echo '<fieldset style="width:50%;background-color:white"><legend>'.$rapport->get_name().'</legend>';
   $exercice=$g_user->get_exercice();
   if ( $exercice == 0 ) {
     alert(_('Aucune periode par defaut'));
@@ -120,7 +120,7 @@ if ( $report != 0 ) {
   echo '</fieldset>';
   echo '</div>';
  } else {
-  echo '<fieldset style="background-color:white"><legend>'._('Aucun rapport défini').'</legend>';
+  echo '<fieldset style="width:50%;background-color:white"><legend>'._('Aucun rapport défini').'</legend>';
   echo '<a href="user_pref.php?'.dossier::get().'">'._('Cliquez ici pour mettre à jour vos préférences').'</a>';
   echo '</fieldset>';
  }

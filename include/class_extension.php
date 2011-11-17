@@ -79,10 +79,10 @@ class Extension extends Menu_Ref_sql
      */
     static function make_array($cn)
     {
-        $sql="select me_code as value, me_menu as label from ".
+        $sql="select DISTINCT me_code as value, me_menu as label from ".
              " menu_ref join profile_menu using (me_code)
 				 join profile_user using (p_id) where ".
-             " user_name=$1 and me_type='PL' and me_code_dep='EXTENSION'";
+             " user_name=$1 and me_type='PL' ORDER BY ME_MENU";
         $a=$cn->get_array($sql,array($_SESSION['g_user']));
         return $a;
     }
