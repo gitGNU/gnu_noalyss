@@ -44,9 +44,9 @@ class Anc_Table extends Anc_Acc_Link
 			array('value'=>1,'label'=>'Par fiche'),
 			array('value'=>2,'label'=>'Par poste comptable')
 			);
-    
     $icard->selected=$this->card_poste;
     $r.=$icard->input();
+    $r.=HtmlInput::request_to_hidden(array('ac'));
     return $r;
   }
 

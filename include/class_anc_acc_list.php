@@ -51,6 +51,7 @@ class Anc_Acc_List extends Anc_Acc_Link
     
     $icard->selected=$this->card_poste;
     $r.=$icard->input();
+    $r.=HtmlInput::request_to_hidden(array('ac'));
     return $r;
   }
  /**

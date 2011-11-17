@@ -322,7 +322,7 @@ class Anc_Balance_Double extends Anc_Print
         $plan_id->value=$this->db->make_array("select pa_id, pa_name from plan_analytique order by pa_name");
         $plan_id->selected=$this->pa_id2;
         $r.= "Plan Analytique :".$plan_id->input();
-
+        $r.=HtmlInput::request_to_hidden(array('ac'));
         $poste=new IText();
         $poste->size=10;
         $r.="Entre le poste ".$poste->input("from_poste2",$this->from_poste2);

@@ -116,9 +116,8 @@ class Anc_Print
         $r.="Depuis : ".$from->input();
         $r.= "jusque : ".$to->input();
         $r.= '<span class="notice">'._('Les dates sont en format DD.MM.YYYY').'</span>';
-
+        $r.=HtmlInput::request_to_hidden(array('ac'));
         $r.=$p_hidden;
-	$r.=HtmlInput::hidden('ac',$_REQUEST['ac']);
         $r.='<span style="padding:5px;margin:5px;display:block;">';
         $plan=new Anc_Plan($this->db);
         $plan_id=new ISelect("pa_id");
@@ -141,6 +140,7 @@ class Anc_Print
         $r.='<span class="notice" style="display:block">'._('Selectionnez le plan qui vous intéresse avant de cliquer sur Recherche').'</span>';
 
         $r.='</span>';
+        $r.=HtmlInput::request_to_hidden(array('ac'));
         return $r;
     }
     /*!
