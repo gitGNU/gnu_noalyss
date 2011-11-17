@@ -24,6 +24,7 @@
  * \brief show the Grand Livre for analytic
  */
 require_once('class_anc_print.php');
+require_once 'class_impress.php';
 
 class Anc_GrandLivre extends Anc_Print
 {
@@ -63,7 +64,7 @@ class Anc_GrandLivre extends Anc_Print
 	left join jrn on  (j_grpt=jr_grpt_id)
              where $pa_id_cond oa_amount <> 0.0  $cond_poste
 	order by po_name,oa_date ,qcode,j_poste");
-
+        
 	
         return $array;
     }
@@ -148,5 +149,72 @@ class Anc_GrandLivre extends Anc_Print
 
         $r.= '</table>';
         return $r;
+    }
+      /*!
+     * \brief Show the button to export in PDF or CSV
+     * \param $url_csv url of the csv
+     * \param $url_pdf url of the pdf
+     * \param $p_string hidden data to include in the form
+     *
+     *
+     * \return string with the button
+     */
+    function show_button($p_string="")
+    {
+        $r="";
+   /*     $r.= '<form method="GET" action="export.php" style="display:inline">';
+        $r.= $p_string;
+        $r.= dossier::hidden();
+        $r.= HtmlInput::hidden("to",$this->to);
+        $r.= HtmlInput::hidden("act","PDF:AncGrandLivre");
+
+        $r.= HtmlInput::hidden("from",$this->from);
+        $r.= HtmlInput::hidden("pa_id",$this->pa_id);
+        $r.= HtmlInput::hidden("from_poste",$this->from_poste);
+        $r.= HtmlInput::hidden("to_poste",$this->to_poste);
+        $r.=HtmlInput::submit('bt_pdf',"Export en PDF");
+        $r.= '</form>';
+*/
+        $r.= '<form method="GET" action="export.php"  style="display:inline">';
+        $r.= HtmlInput::hidden("act","CSV:AncGrandLivre");
+        $r.= HtmlInput::hidden("to",$this->to);
+        $r.= HtmlInput::hidden("from",$this->from);
+        $r.= HtmlInput::hidden("pa_id",$this->pa_id);
+        $r.= HtmlInput::hidden("from_poste",$this->from_poste);
+        $r.= HtmlInput::hidden("to_poste",$this->to_poste);
+        $r.= $p_string;
+        $r.= dossier::hidden();
+        $r.=HtmlInput::submit('bt_csv',"Export en CSV");
+        $r.= '</form>';
+        return $r;
+    }
+    function display_csv()
+    {
+        $r="";
+        //---Html
+        $array=$this->load();
+        if ( is_array($array) == false )
+        {
+            return $array;
+
+        }
+
+        if ( empty($array) )
+        {
+            $r.= _("aucune donnée");
+            return $r;
+        }
+
+        $ix=0;$prev='xx';
+	$tot_deb=$tot_cred=0;
+        $aheader=array();
+        $aheader=array("title"=>'Date','type'=>'string');
+        $aheader=array("title"=>'Poste','type'=>'string');
+        $aheader=array("title"=>'Quick_Code','type'=>'string');
+        $aheader=array("title"=>'libelle','type'=>'string');
+        $aheader=array("title"=>'Num.interne','type'=>'string');
+        $aheader=array("title"=>'Debit','type'=>'num');
+        $aheader=array("title"=>'Credit','type'=>'num');
+        Impress::array_to_csv($array, $aheader);
     }
 }

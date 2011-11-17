@@ -39,7 +39,7 @@ $act=$user->check_dossier($gDossier);
 if ( $act=='X' || ! isset($_GET['act']) || $user->check_print($_GET['act'])==0 )
   {
     echo alert('Accès interdit');
-	redirect("do.php?".dossier::get());
+    redirect("do.php?".dossier::get());
     exit();
   }
 
@@ -155,6 +155,9 @@ if ( $act=='X' || ! isset($_GET['act']) || $user->check_print($_GET['act'])==0 )
   case 'OTH:Bilan':
       require_once 'export_bilan_oth.php';
       exit();
+      break;
+  case 'CSV:AncGrandLivre':
+      require_once 'export_anc_grandlivre_csv.php';
       break;
    default:
     alert('Action inconnue '.$_GET['act']);

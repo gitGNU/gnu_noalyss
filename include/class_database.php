@@ -846,6 +846,45 @@ class Database
     {
       return pg_transaction_status($this->db);
     }
+    /**
+     * with the handle of a successull query, echo each row into CSV and
+     * send it directly
+     * @param type $ret handle to a query
+     * @param type $aheader  double array, each item of the array contains 
+     * a key type (num) and a key title
+     */
+    function query_to_csv($ret,$aheader)
+    {
+        $seq="";
+        for ($i=0;$i<count($i);$i++)
+        {
+            echo '"'.$aheader[$i]['title'].'"';
+            $seq=";";
+        }
+        printf("\n\r");
+        
+        $seq="";
+        // fetch all the rows
+        for ($i=0;$i<count(Database::num_row($ret));$i++)
+        {
+            $row=Database::fetch_array($ret, $i);
+            $sep2="";
+            // for each rows, for each value
+            for ($e=0;$e<count($row);$e++)
+            {
+                switch ($aheader[$e]['type'])
+                {
+                    case 'num':
+                        echo nb($row[$e]).$sep2;
+                        break;
+                    default:
+                        echo '"'.$row[$e].'"'.$sep2;
+                }
+                $sep2=";";
+            }
+            printf("\n\r");
+        }
+    }
 }
 
 /* test::test_me(); */
