@@ -487,7 +487,7 @@ EOF;
 		require_once("ajax_get_profile.php");
 		break;
 	case 'det_menu':
-		require_once("ajax_detail_menu.php");
+		require_once("ajax_get_menu_detail.php");
 		break;
 	case 'add_menu':
 		require_once 'ajax_add_menu.php';
