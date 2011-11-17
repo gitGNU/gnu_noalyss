@@ -90,7 +90,9 @@ class Anc_Print
         $pa=new Anc_Plan($this->db);
         if ( $pa->count() == 0 )
         {
+            echo '<div class="content">';
             echo '<h2 class="error">'._('Aucun plan défini').'</h2>';
+            echo '</div>';
             exit();
         }
 
