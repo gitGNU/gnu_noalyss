@@ -44,7 +44,7 @@ class Anc_GrandLivre extends Anc_Print
         $pa_id_cond="";
         if ( isset ( $this->pa_id) && $this->pa_id !='')
             $pa_id_cond= "pa_id=".$this->pa_id." and";
-        $array=$this->db->get_array("	select oa_id,	
+        $array=$this->db->get_array("	select oa_id,
 	po_name,
 	oa_description,
 	po_description,
@@ -52,22 +52,53 @@ class Anc_GrandLivre extends Anc_Print
 	to_char(oa_date,'DD.MM.YYYY') as oa_date,
 	oa_amount,
 	oa_group,
-	j_id , 
-	jr_internal,  
-	jr_id, 
+	j_id ,
+	jr_internal,
+	jr_id,
 	jr_comment,
 	j_poste,
 	jrnx.f_id,
 	( select ad_value from fiche_Detail where f_id=jrnx.f_id and ad_id=23) as qcode
-	from operation_analytique as B join poste_analytique using(po_id) 
+	from operation_analytique as B join poste_analytique using(po_id)
 	left join jrnx using (j_id)
 	left join jrn on  (j_grpt=jr_grpt_id)
              where $pa_id_cond oa_amount <> 0.0  $cond_poste
 	order by po_name,oa_date ,qcode,j_poste");
-        
-	
+
+
         return $array;
     }
+
+	function load_csv()
+    {
+      $filter_date=$this->set_sql_filter();
+      $cond_poste='';
+      if ($this->from_poste != "" )
+            $cond_poste=" and upper(po_name) >= upper('".$this->from_poste."')";
+        if ($this->to_poste != "" )
+            $cond_poste.=" and upper(po_name) <= upper('".$this->to_poste."')";
+        $pa_id_cond="";
+        if ( isset ( $this->pa_id) && $this->pa_id !='')
+            $pa_id_cond= "pa_id=".$this->pa_id." and";
+        $array=$this->db->get_array("	select
+	po_name,
+	to_char(oa_date,'DD.MM.YYYY') as oa_date,
+	j_poste,
+	( select ad_value from fiche_Detail where f_id=jrnx.f_id and ad_id=23) as qcode,
+	jr_comment,
+	jr_internal,
+	case when oa_debit='t' then 'D' else 'C' end,
+	oa_amount
+	from operation_analytique as B join poste_analytique using(po_id)
+	left join jrnx using (j_id)
+	left join jrn on  (j_grpt=jr_grpt_id)
+             where $pa_id_cond oa_amount <> 0.0  $cond_poste
+	order by po_name,oa_date ,qcode,j_poste");
+
+
+        return $array;
+    }
+
    /*!
      * \brief compute the html display
      *
@@ -120,7 +151,7 @@ class Anc_GrandLivre extends Anc_Print
 	      $prev=$row['po_name'];
 	      $ix++;
 	    }
-	      
+
             $r.= '<tr>';
 	    $detail=($row['jr_id'] != null)?HtmlInput::detail_op($row['jr_id'],$row['jr_internal']):'';
 	    $post_detail=($row['j_poste'] != null)?HtmlInput::history_account($row['j_poste'],$row['j_poste']):'';
@@ -192,7 +223,7 @@ class Anc_GrandLivre extends Anc_Print
     {
         $r="";
         //---Html
-        $array=$this->load();
+        $array=$this->load_csv();
         if ( is_array($array) == false )
         {
             return $array;
@@ -208,13 +239,14 @@ class Anc_GrandLivre extends Anc_Print
         $ix=0;$prev='xx';
 	$tot_deb=$tot_cred=0;
         $aheader=array();
-        $aheader=array("title"=>'Date','type'=>'string');
-        $aheader=array("title"=>'Poste','type'=>'string');
-        $aheader=array("title"=>'Quick_Code','type'=>'string');
-        $aheader=array("title"=>'libelle','type'=>'string');
-        $aheader=array("title"=>'Num.interne','type'=>'string');
-        $aheader=array("title"=>'Debit','type'=>'num');
-        $aheader=array("title"=>'Credit','type'=>'num');
+        $aheader[]=array("title"=>'Imp. Analytique','type'=>'string');
+        $aheader[]=array("title"=>'Date','type'=>'string');
+        $aheader[]=array("title"=>'Poste','type'=>'string');
+        $aheader[]=array("title"=>'Quick_Code','type'=>'string');
+        $aheader[]=array("title"=>'libelle','type'=>'string');
+        $aheader[]=array("title"=>'Num.interne','type'=>'string');
+        $aheader[]=array("title"=>'Debit','type'=>'string');
+        $aheader[]=array("title"=>'Credit','type'=>'num');
         Impress::array_to_csv($array, $aheader);
     }
 }

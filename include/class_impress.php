@@ -29,7 +29,7 @@ require_once('class_periode.php');
 class Impress
 {
     /*! \brief   Purpose Parse a formula
-     * 
+     *
      * \param $p_cn connexion
      * \param $p_label
      * \param $p_formula
@@ -233,39 +233,47 @@ class Impress
      * with the handle of a successull query, echo each row into CSV and
      * send it directly
      * @param type $array of data
-     * @param type $aheader  double array, each item of the array contains 
+     * @param type $aheader  double array, each item of the array contains
      * a key type (num) and a key title
      */
     static function array_to_csv($array,$aheader)
     {
         $seq="";
-        for ($i=0;$i<count($i);$i++)
+        for ($i=0;$i<count($aheader);$i++)
         {
-            echo '"'.$aheader[$i]['title'].'"';
+            echo $seq.'"'.$aheader[$i]['title'].'"';
             $seq=";";
         }
-        printf("\n\r");
-        
+        printf("\r");
+
         $seq="";
         // fetch all the rows
         for ($i=0;$i<count($array);$i++)
         {
             $row=$array[$i];
             $sep2="";
+			$e=0;
             // for each rows, for each value
-            for ($e=0;$e<count($row);$e++)
+            foreach ($array[$i] as $key=>$value)
             {
-                switch ($aheader[$e]['type'])
-                {
-                    case 'num':
-                        echo nb($row[$e]).$sep2;
-                        break;
-                    default:
-                        echo '"'.$row[$e].'"'.$sep2;
-                }
-                $sep2=";";
+				if ($e > count($aheader)) $e=0;
+
+				if ( isset ($aheader[$e]['type']))
+				{
+					switch ($aheader[$e]['type'])
+					{
+						case 'num':
+							echo $sep2.nb($value);
+							break;
+						default:
+							echo $sep2.'"'.$value.'"';
+					}
+				} else {
+					echo '"'.$value.'"'.$sep2;
+				}
+                $sep2=";";$e++;
             }
-            printf("\n\r");
+            printf("\r");
         }
     }
 }

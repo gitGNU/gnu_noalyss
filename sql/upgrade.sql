@@ -29,7 +29,7 @@ script SQL to run
 
 \i mode_paiement.sql
 \i anc-modularity-imp.sql
-
+\i anc-grandlivre.sql
 
 create unique index qcode_idx on fiche_detail (ad_value) where ad_id=23;
 
