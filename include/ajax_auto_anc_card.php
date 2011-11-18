@@ -12,7 +12,7 @@ if ( isset($_REQUEST['pa_id']) )
 }
 else
 {
-       $res=$cn->exec_sql("select po_id,po_description from  poste_analytique where po_description ~*$2 or po_id ~* $3 order by po_id limit 12 ",
+       $res=$cn->exec_sql("select po_id,po_description from  poste_analytique where po_description ~*$1 or po_id ~* $2 order by po_id limit 12 ",
         array($_POST['anccard'],$_POST['anccard']));
 }
 $nb=Database::num_row($res);
