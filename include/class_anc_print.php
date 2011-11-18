@@ -109,7 +109,7 @@ class Anc_Print
         $from_poste->plan_ctl='pa_id';
         $from_poste->value=$this->from_poste;
 
-        $to_poste=new IText('to_poste','to_poste');
+        $to_poste=new IAncCard('to_poste','to_poste');
         $to_poste->value=$this->to_poste;
         $to_poste->size=10;
 
@@ -128,16 +128,14 @@ class Anc_Print
         $plan_id->selected=$this->pa_id;
         $r.=_( "Plan Analytique :").$plan_id->input();
 
-        $poste=new IText();
-        $poste->size=10;
-        $r.=_("Entre l'activité ").$poste->input("from_poste",$this->from_poste);
+        $r.=_("Entre l'activité ").$from_poste->input();
         $choose=new IButton();
         $choose->name=_("Choix Poste");
         $choose->label=_("Recherche");
         $choose->javascript="onClick=search_ca(".dossier::id().",'from_poste','pa_id')";
         $r.=$choose->input();
 
-        $r.=_(" et l'activité ").$poste->input("to_poste",$this->to_poste);
+        $r.=_(" et l'activité ").$to_poste->input();
         $choose->javascript="onClick=search_ca(".dossier::id().",'to_poste','pa_id')";
         $r.=$choose->input();
         $r.='<span class="notice" style="display:block">'._('Selectionnez le plan qui vous intéresse avant de cliquer sur Recherche').'</span>';

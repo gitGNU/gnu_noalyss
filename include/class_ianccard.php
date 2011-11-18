@@ -118,7 +118,7 @@ class IAncCard extends HtmlInput
         }
 
         $javascript=sprintf('try { new Ajax.Autocompleter("%s","%s_choices","ajax_misc.php?%s",'.
-                            '{paramName:"anccard",minChars:2,indicator:null, '.
+                            '{paramName:"anccard",minChars:1,indicator:null, '.
                             'callback:%s, '.
                             ' afterUpdateElement:%s});} catch (e){alert(e.message);};',
                             $this->name,
