@@ -35,7 +35,7 @@ if (isset($_POST['confirm_rm']))
 	echo '<p class="notice">Vous ne pouvez pas effacer tous taux' .
 	' Si votre soci&eacute;t&eacute; n\'utilise pas la TVA, changer dans le menu soci&eacute;t&eacute</p>';
 }
-$both=(isset($_REQUEST['both']))?1:0;
+$both_side=(isset($_REQUEST['both']))?1:0;
 //-----------------------------------------------------
 // Record Change
 if (isset($_POST['confirm_mod'])
@@ -50,7 +50,7 @@ if (isset($_POST['confirm_mod'])
     {
 	$err = 2;
     }
-
+    var_dump($_POST);
     if ($err == 0)
     {
 	if (isset($_POST['confirm_add']))
@@ -62,14 +62,14 @@ if (isset($_POST['confirm_mod'])
 		$tva_rate,
 		$tva_comment,
 		$tva_poste,
-                        $both)
+                        $both_side)
 	    );
 	    $err = Database::fetch_result($res);
 	}
 	if (isset($_POST['confirm_mod']))
 	{
 	    $Res = $cn->exec_sql(
-		    "select tva_modify($1,$2,$3,$4,$5,$6)", array($tva_id, $tva_label, $tva_rate, $tva_comment, $tva_poste,$both)
+		    "select tva_modify($1,$2,$3,$4,$5,$6)", array($tva_id, $tva_label, $tva_rate, $tva_comment, $tva_poste,$both_side)
 	    );
 	    $err = Database::fetch_result($Res);
 	}

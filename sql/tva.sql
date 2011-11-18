@@ -9,7 +9,6 @@ drop FUNCTION comptaproc.tva_modify(integer, text, numeric, text, text);
 
 CREATE OR REPLACE FUNCTION comptaproc.tva_modify(integer, text, numeric, text, text,integer)
  RETURNS integer
- LANGUAGE plpgsql
 AS $function$
 declare
 	p_tva_id alias for $1;
@@ -41,6 +40,7 @@ update tva_rate set tva_label=p_tva_label,tva_rate=p_tva_rate,tva_comment=p_tva_
 return 0;
 end;
 $function$
+ LANGUAGE plpgsql;
 
 ----------------------------------------------------------------------
 -- TVA INSERT
@@ -50,7 +50,6 @@ drop FUNCTION comptaproc.tva_insert(text, numeric, text, text);
 
 CREATE OR REPLACE FUNCTION comptaproc.tva_insert(text, numeric, text, text,integer)
  RETURNS integer
- LANGUAGE plpgsql
 AS $function$
 declare
 	l_tva_id integer;
@@ -83,3 +82,4 @@ insert into tva_rate(tva_id,tva_label,tva_rate,tva_comment,tva_poste,tva_both_si
 return 0;
 end;
 $function$
+ LANGUAGE plpgsql;

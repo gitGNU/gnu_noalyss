@@ -288,7 +288,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                 $fiche=new Fiche($this->db);
                 $fiche->get_by_qcode(${"e_march".$i});
                 $amount=bcmul(${'e_march'.$i.'_price'},${'e_quant'.$i});
-                $tot_amount+=$amount;
+                $tot_amount=bcadd($tot_amount,$amount);
                 $acc_operation=new Acc_Operation($this->db);
                 $acc_operation->date=$e_date;
                 $sposte=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
@@ -321,6 +321,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                     $oTva=new Acc_Tva($this->db);
                     $idx_tva=${'e_march'.$i.'_tva_id'};
                     $tva_item=${'e_march'.$i.'_tva_amount'};
+		    $oTva->set_parameter("id",$idx_tva);
+		    $oTva->load();
                     /* if empty then we need to compute it */
                     if (trim($tva_item)=='')
                     {
@@ -333,6 +335,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                         $tva[$idx_tva]+=$tva_item;
                     else
                         $tva[$idx_tva]=$tva_item;
+		    var_dump($oTva->get_parameter("both_side"));
                     if ($oTva->get_parameter("both_side")==0) $tot_tva=round(bcadd($tva_item,$tot_tva),2);
                 }
 
@@ -433,6 +436,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                     // if TVA is on both side, we deduce it immediately
                     if ( $oTva->get_parameter("both_side")==1)
                     {
+		      echo "remove_tva";
                         $poste_vat=$oTva->get_side('d');
                         $cust_amount=bcadd($tot_amount,$tot_tva);
                         $acc_operation=new Acc_Operation($this->db);
@@ -443,6 +447,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                         $acc_operation->jrn=$p_jrn;
                         $acc_operation->type='d';
                         $acc_operation->periode=$tperiode;
+			$acc_operation->insert_jrnx();
+			$tot_debit=bcadd($tot_debit,$value);
                     }
 
 
