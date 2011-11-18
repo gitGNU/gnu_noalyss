@@ -89,9 +89,9 @@ if ( isset($_REQUEST['go']))
         $button->input().
         '</td>'.
         '<td>'.
-        $line['po_name'].
+        h($line['po_name']).
         '</td><td>'.
-        $line['po_description'].
+        h($line['po_description']).
         '</tr>';
     }
     echo '</table>';
