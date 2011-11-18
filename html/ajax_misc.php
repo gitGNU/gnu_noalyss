@@ -534,5 +534,8 @@ EOF;
          case 'resultancsearch':
                  require_once('ajax_anc_search.php');
                  break;
+         case 'autoanc':
+                require_once('ajax_auto_anc_card.php');
+                break;
             
 }
