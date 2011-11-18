@@ -194,7 +194,7 @@ function search_ca (p_dossier,p_target,p_source)
         onSuccess:function(req){
             try{
                 remove_waiting_box();
-                var pos=fixed_position(250,150)+";width:30%";
+                var pos=fixed_position(250,150)+";width:30%;height:50%";
                 add_div({
                     id:"searchanc",
                     drag:1,
@@ -210,6 +210,30 @@ function search_ca (p_dossier,p_target,p_source)
     }
     );
     
+}
+function search_anc_form(obj)
+{
+    var qs="op=resultancsearch&ctl=searchanc&gDossier="+obj.gDossier;
+    qs+=obj.serialize(false);
+    waiting_box();
+    var action=new Ajax.Request ( 'ajax_misc.php',
+    {
+        method:'get',
+        parameters:qs,
+        onFailure:null,
+        onSuccess:function(req){
+            try{
+                remove_waiting_box();
+                $('searchanc').innerHTML=req.responseText;
+                req.responseText.evalScripts();
+
+            } catch(e){
+                alert(e.message);
+            }
+        }
+    }
+    );
+    return false;
 }
 function caod_checkTotal()
 {

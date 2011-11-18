@@ -38,10 +38,14 @@ require_once ('class_anc_account.php');
 require_once ('class_anc_plan.php');
 require_once('function_javascript.php');
 
+echo HtmlInput::title_box("Recherche activité", $ctl);
+
 //------------- FORM ----------------------------------
 echo '<FORM METHOD="GET" onsubmit="search_anc_form(this);return false">';
-$texte=new IText();
 echo '<span>'._('Recherche').':';
+
+$texte=new IText();
+$texte->value=HtmlInput::default_value('label',"", $_GET);
 echo $texte->input('label');
 echo '</span>';
 echo dossier::hidden();
@@ -77,7 +81,7 @@ if ( isset($_REQUEST['go']))
     echo '<table>';
     foreach ($array as $line)
     {
-        $button->javascript=sprintf("set_inparent('%s','%s');window.close();",
+        $button->javascript=sprintf("$('%s').value='%s'",
                                     $_REQUEST['c1'],
                                     $line['po_name']);
         echo '<tr>'.
