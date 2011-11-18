@@ -37,16 +37,16 @@ require_once ('class_dossier.php');
 require_once ('class_anc_account.php');
 require_once ('class_anc_plan.php');
 require_once('function_javascript.php');
-var_dump($_GET);
+
 echo HtmlInput::title_box("Recherche activité", $ctl);
 
 //------------- FORM ----------------------------------
 echo '<FORM METHOD="GET" onsubmit="search_anc_form(this);return false">';
 echo '<span>'._('Recherche').':';
 
-$texte=new IText();
-$texte->value=HtmlInput::default_value('label',"", $_GET);
-echo $texte->input('label');
+$texte=new IText('plabel');
+$texte->value=HtmlInput::default_value('plabel',"", $_GET);
+echo $texte->input();
 echo '</span>';
 echo dossier::hidden();
 $hid=new IHidden();
@@ -66,9 +66,9 @@ if ( isset($_REQUEST['go']))
 
     $sql="select po_name , po_description from poste_analytique ".
          "where pa_id=$1 and ".
-         " upper (po_name) like upper('%'||$2||'%') order by po_name";
-    $res=$cn->exec_sql($sql,array($_REQUEST['c2'],$_REQUEST['label']));
-    $array=Database::fetch_all($res);
+         " (po_name ~* $2 or po_description ~* $3) order by po_name";
+    $array=$cn->get_array($sql,array($_REQUEST['c2'],$_REQUEST['plabel'],$_REQUEST['plabel']));
+
     if (empty($array) == true)
     {
         echo "D&eacute;sol&eacute; aucun poste trouv&eacute;";
@@ -81,9 +81,9 @@ if ( isset($_REQUEST['go']))
     echo '<table>';
     foreach ($array as $line)
     {
-        $button->javascript=sprintf("$('%s').value='%s'",
+        $button->javascript=sprintf("$('%s').value='%s';removeDiv('%s')",
                                     $_REQUEST['c1'],
-                                    $line['po_name']);
+                                    $line['po_name'],$ctl);
         echo '<tr>'.
         '<td>'.
         $button->input().

@@ -181,10 +181,10 @@ function verify_ca(div)
 function search_ca (p_dossier,p_target,p_source)
 {
     var pa_id=g(p_source).value;
-    var url="gDossier="+p_dossier+"&c1="+p_target+"&c2="+pa_id;
     waiting_box();
     removeDiv('search_anc');
     var qs="op=openancsearch&gDossier="+p_dossier+"&ctl=searchanc";
+    qs+="&c2="+pa_id+"&c1="+p_target;
 
     var action=new Ajax.Request ( 'ajax_misc.php',
     {
@@ -213,7 +213,7 @@ function search_ca (p_dossier,p_target,p_source)
 }
 function search_anc_form(obj)
 {
-    var qs="op=resultancsearch&ctl=searchanc&gDossier="+obj.gDossier;
+    var qs="op=resultancsearch&ctl=searchanc&";
     qs+=obj.serialize(false);
     waiting_box();
     var action=new Ajax.Request ( 'ajax_misc.php',

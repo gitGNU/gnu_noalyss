@@ -189,7 +189,7 @@ if ( isset($_REQUEST['sa']))
         $new->get();
         $array=$new->get_poste_analytique(" order by po_name");
         $ret.='<div class="redcontent">';
-        $ret.='<table style="width:100%;border:solid blue 2px ;border-style:outset;">';
+        $ret.='<table class="table_large">';
         $ret.="<tr>";
         $ret.="<th> Nom </td>";
         $ret.="<th> Montant </td>";
