@@ -127,7 +127,7 @@ class Jrn_Def_sql
 			throw new Exception('DATATYPE jrn_def_num_op $this->jrn_def_num_op non numerique');
 	}
 
-	public function save()
+	public function save($p_string='')
 	{
 		/* please adapt */
 		if ($this->jrn_def_id == -1)
@@ -280,7 +280,7 @@ class Jrn_Def_sql
 		}
 	}
 
-	public function update()
+	public function update($p_string='')
 	{
 		if ($this->verify_sql() != 0)
 			return;
