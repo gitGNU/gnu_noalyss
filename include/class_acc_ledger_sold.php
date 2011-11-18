@@ -473,8 +473,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                     if ( isset($_POST['gen_invoice']))
                     {
                         $file=$this->create_document($internal,$p_array);
-                        $this->doc= _('Document généré');
-                        $this->doc.='<A STYLE="display:inline;" HREF="show_pj.php?'.dossier::get().'&jr_grpt_id='.$seq.'&jrn='.$this->id.'">'.$file.'</A>';
+                        $this->doc= _('Document généré')."  : ";
+                        $this->doc.='<A class="line" HREF="show_pj.php?'.dossier::get().'&jr_grpt_id='.$seq.'&jrn='.$this->id.'">'.$file.'</A>';
                     }
             }
             //----------------------------------------
