@@ -1,6 +1,11 @@
 alter table tva_rate add tva_both_side integer ;
 alter table tva_rate alter tva_both_side set default 0;
-update tva_rate set tva_both_side=0;drop FUNCTION comptaproc.tva_modify(integer, text, numeric, text, text);
+update tva_rate set tva_both_side=0;
+
+----------------------------------------------------------------------
+-- TVA MODIFY
+----------------------------------------------------------------------
+drop FUNCTION comptaproc.tva_modify(integer, text, numeric, text, text);
 
 CREATE OR REPLACE FUNCTION comptaproc.tva_modify(integer, text, numeric, text, text,integer)
  RETURNS integer
@@ -36,7 +41,13 @@ update tva_rate set tva_label=p_tva_label,tva_rate=p_tva_rate,tva_comment=p_tva_
 return 0;
 end;
 $function$
+
+----------------------------------------------------------------------
+-- TVA INSERT
+----------------------------------------------------------------------
+
 drop FUNCTION comptaproc.tva_insert(text, numeric, text, text);
+
 CREATE OR REPLACE FUNCTION comptaproc.tva_insert(text, numeric, text, text,integer)
  RETURNS integer
  LANGUAGE plpgsql

@@ -384,7 +384,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                         $acc_amount->amount_vat= ${'e_march'.$i.'_tva_amount'};
 
                     }
-                    $tot_tva+=$acc_amount->amount_vat;
+                    if ($oTva->get_parameter("both_side")==0) $tot_tva=bcadd($tot_tva,$acc_amount->amount_vat);
                 }
 
                 $acc_operation=new Acc_Operation($this->db);
@@ -667,6 +667,20 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     $acc_operation->periode=$tperiode;
                     if ( $value > 0 ) $tot_debit=bcadd($tot_debit,$value);
                     $acc_operation->insert_jrnx();
+                    // if TVA is on both side, we deduce it immediately
+                    if ( $oTva->get_parameter("both_side")==1)
+                    {
+                        $poste_vat=$oTva->get_side('c');
+                        $cust_amount=bcadd($tot_amount,$tot_tva);
+                        $acc_operation=new Acc_Operation($this->db);
+                        $acc_operation->date=$e_date;
+                        $acc_operation->poste=$poste_vat;
+                        $acc_operation->amount=$value;
+                        $acc_operation->grpt=$seq;
+                        $acc_operation->jrn=$p_jrn;
+                        $acc_operation->type='c';
+                        $acc_operation->periode=$tperiode;
+                    }
 
                 }
             }

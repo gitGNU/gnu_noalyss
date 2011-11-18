@@ -333,7 +333,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                         $tva[$idx_tva]+=$tva_item;
                     else
                         $tva[$idx_tva]=$tva_item;
-                    $tot_tva=round(bcadd($tva_item,$tot_tva),2);
+                    if ($oTva->get_parameter("both_side")==0) $tot_tva=round(bcadd($tva_item,$tot_tva),2);
                 }
 
                 /* Save the stock */
@@ -429,6 +429,21 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                     $acc_operation->periode=$tperiode;
                     if ($value < 0 ) $tot_debit=bcadd($tot_debit,abs($value));
                     $acc_operation->insert_jrnx();
+                    
+                    // if TVA is on both side, we deduce it immediately
+                    if ( $oTva->get_parameter("both_side")==1)
+                    {
+                        $poste_vat=$oTva->get_side('d');
+                        $cust_amount=bcadd($tot_amount,$tot_tva);
+                        $acc_operation=new Acc_Operation($this->db);
+                        $acc_operation->date=$e_date;
+                        $acc_operation->poste=$poste_vat;
+                        $acc_operation->amount=$value;
+                        $acc_operation->grpt=$seq;
+                        $acc_operation->jrn=$p_jrn;
+                        $acc_operation->type='d';
+                        $acc_operation->periode=$tperiode;
+                    }
 
 
                 }

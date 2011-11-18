@@ -43,7 +43,8 @@ class Acc_Tva
                                    "label"=>"tva_label",
                                    "rate"=>"tva_rate",
                                    "comment"=>"tva_comment",
-                                   "account"=>"tva_poste");
+                                   "account"=>"tva_poste",
+                                    "both_side"=>'tva_both_side');
 
     function __construct ($p_init,$p_tva_id=0)
     {
@@ -94,14 +95,15 @@ class Acc_Tva
     public function insert()
     {
         if ( $this->verify() != 0 ) return;
-        $sql="select tva_insert($1,$2,$3,$4)";
+        $sql="select tva_insert($1,$2,$3,$4,$5)";
 
         $res=$this->cn->exec_sql(
                  $sql,
                  array($this->tva_label,
                        $this->tva_rate,
                        $this->tva_comment,
-                       $this->tva_poste)
+                       $this->tva_poste,
+                        $this->tva_both_side)
              );
         $this->tva_id=$this->cn->get_current_seq('s_tva');
         $err=Database::fetch_result($res);
@@ -110,14 +112,15 @@ class Acc_Tva
     public function update()
     {
         if ( $this->verify() != 0 ) return;
-        $sql="update tva_rate set tva_label=$1,tva_rate=$2,tva_comment=$3,tva_poste=$4 ".
-             " where tva_id = $5";
+        $sql="update tva_rate set tva_label=$1,tva_rate=$2,tva_comment=$3,tva_poste=$4,tva_both_side=$5 ".
+             " where tva_id = $6";
         $res=$this->cn->exec_sql(
                  $sql,
                  array($this->tva_label,
                        $this->tva_rate,
                        $this->tva_comment,
                        $this->tva_poste,
+                       $this->tva_both_side,
                        $this->tva_id)
              );
 
@@ -129,7 +132,7 @@ class Acc_Tva
      */
     public function load()
     {
-        $sql="select tva_label,tva_rate, tva_comment,tva_poste from tva_rate where tva_id=$1";
+        $sql="select tva_label,tva_rate, tva_comment,tva_poste,tva_both_side from tva_rate where tva_id=$1";
         $res=$this->cn->exec_sql(
                  $sql,
                  array($this->tva_id)

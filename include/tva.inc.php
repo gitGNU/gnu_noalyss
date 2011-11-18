@@ -35,6 +35,7 @@ if (isset($_POST['confirm_rm']))
 	echo '<p class="notice">Vous ne pouvez pas effacer tous taux' .
 	' Si votre soci&eacute;t&eacute; n\'utilise pas la TVA, changer dans le menu soci&eacute;t&eacute</p>';
 }
+$both=(isset($_REQUEST['both']))?1:0;
 //-----------------------------------------------------
 // Record Change
 if (isset($_POST['confirm_mod'])
@@ -54,23 +55,21 @@ if (isset($_POST['confirm_mod'])
     {
 	if (isset($_POST['confirm_add']))
 	{
-	    $sql = "select tva_insert($1,$2,$3,$4)";
+	    $sql = "select tva_insert($1,$2,$3,$4,$5)";
 
 	    $res = $cn->exec_sql(
 		    $sql, array($tva_label,
 		$tva_rate,
 		$tva_comment,
-		$tva_poste)
+		$tva_poste,
+                        $both)
 	    );
 	    $err = Database::fetch_result($res);
 	}
 	if (isset($_POST['confirm_mod']))
 	{
 	    $Res = $cn->exec_sql(
-		    "select tva_modify($tva_id,'$tva_label',
-                     '$tva_rate','$tva_comment','$tva_poste')");
-	    $Res = $cn->exec_sql(
-		    "select tva_modify($1,$2,$3,$4,$5)", array($tva_id, $tva_label, $tva_rate, $tva_comment, $tva_poste)
+		    "select tva_modify($1,$2,$3,$4,$5,$6)", array($tva_id, $tva_label, $tva_rate, $tva_comment, $tva_poste,$both)
 	    );
 	    $err = Database::fetch_result($Res);
 	}
@@ -96,7 +95,7 @@ if ($own->MY_TVA_USE == 'N')
 }
 //-----------------------------------------------------
 // Display
-$sql = "select tva_id,tva_label,tva_rate,tva_comment,tva_poste from tva_rate order by tva_label";
+$sql = "select tva_id,tva_label,tva_rate,tva_comment,tva_poste,tva_both_side from tva_rate order by tva_label";
 $Res = $cn->exec_sql($sql);
 ?>
 <TABLE>
@@ -105,6 +104,7 @@ $Res = $cn->exec_sql($sql);
 	<th>Taux</th>
 	<th>Commentaire</th>
 	<th>Poste</th>
+	<th>Utilisé en même temps au crédit et au débit</th>
     </tr>
 <?php
 $val = Database::fetch_all($Res);
@@ -116,7 +116,8 @@ foreach ($val as $row)
 	'tva_label' => $row['tva_label'],
 	'tva_rate' => $row['tva_rate'],
 	'tva_comment' => $row['tva_comment'],
-	'tva_poste' => $row['tva_poste']
+	'tva_poste' => $row['tva_poste'],
+	'tva_both_side' => $row['tva_both_side']
     );
 
     echo "<TR>";
@@ -141,6 +142,11 @@ foreach ($val as $row)
     echo $row['tva_poste'];
     echo "</TD>";
 
+    echo "<TD>";
+    $str_msg=( $row['tva_both_side']==1)?'Employé au crédit et débit':'normal' ;
+    echo $str_msg;
+    echo "</TD>";
+    
     echo "<TD>";
     echo HtmlInput::submit("rm", "Efface");
     echo HtmlInput::submit("mod", "Modifie");
@@ -194,12 +200,14 @@ if (isset($_REQUEST['rm']))
     	<th>Taux</th>
     	<th>Commentaire</th>
     	<th>Poste</th>
+    	<th>Double côté</th>
         </tr>
         <tr>
     	<td> <?php echo $tva_array[$index]['tva_label'];?></td>
     	<td> <?php echo $tva_array[$index]['tva_rate'];?></td>
     	<td> <?php echo $tva_array[$index]['tva_comment'];?></td>
     	<td> <?php echo $tva_array[$index]['tva_poste'];?></td>
+    	<td> <?php echo $tva_array[$index]['tva_both_side'];?></td>
         </Tr>
     </table>
 		<?php
@@ -246,6 +254,14 @@ if (isset($_REQUEST['rm']))
 	    $w = new IText();
 	    $w->size = 20;
 	    echo $w->input('tva_poste', '')
+	    ?></td>
+        </Tr>
+        <tr>
+    	<td  align="right">Utilisé au débit et au crédit afin d'annuler cette tva </td>
+    	<td> <?php
+	    $w = new ICheckBox("both", 1);
+	    $w->size = 20;
+	    echo $w->input('both', '')
 	    ?></td>
         </Tr>
     </table>
@@ -300,6 +316,15 @@ if (isset($_REQUEST['mod']))
 	    $w = new IText();
 	    $w->size = 20;
 	    echo $w->input('tva_poste', $tva_array[$index]['tva_poste'])
+	    ?></td>
+        </Tr>
+        <tr>
+    	<td  align="right">Utilisé au débit et au crédit afin d'annuler cette tva </td>
+    	<td> <?php
+	    $w = new ICheckBox("both",$tva_array[$index]['tva_both_side'] );
+            $w->selected=$tva_array[$index]['tva_both_side'];
+	    $w->size = 20;
+	    echo $w->input('both', '')
 	    ?></td>
         </Tr>
     </table>
