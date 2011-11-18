@@ -37,7 +37,7 @@ require_once('class_database.php');
 require_once('constant.php');
 require_once('class_dossier.php');
 require_once ('class_anc_plan.php');
-
+require_once 'class_ianccard.php';
 class Anc_Print
 {
     var $db;						/*!< $db database connection */
@@ -104,8 +104,9 @@ class Anc_Print
         $to->value=$this->to;
         $to->size=10;
 
-        $from_poste=new IText('from_poste','from_poste');
+        $from_poste=new IAncCard('from_poste','from_poste');
         $from_poste->size=10;
+        $from_poste->plan_ctl='pa_id';
         $from_poste->value=$this->from_poste;
 
         $to_poste=new IText('to_poste','to_poste');
