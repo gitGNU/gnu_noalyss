@@ -47,7 +47,7 @@ class IAncCard extends HtmlInput
     }
     /*!\brief set the javascript callback function
      * by default it is update_value called BEFORE the querystring is send
-     *
+     * If you use the plan ctl must be set to filter_anc
      *\param $p_name callback function name
      */
     function set_callback($p_name)
@@ -83,7 +83,7 @@ class IAncCard extends HtmlInput
         if ( $this->readOnly==true) return $this->display();
 
 
-        $attr=$this->get_js_attr();
+       
 
         $label='';
         if ( $this->dblclick != '')
@@ -114,9 +114,9 @@ class IAncCard extends HtmlInput
             $query.="&pa_id=".$this->plan;
         } elseif ( $this->plan_ctl <> '')
         {
-            $query.="&pa_ctl=".$this->plan_ctl;
+               $this->set_attribute("plan_ctl", $this->plan_ctl);
         }
-
+        $attr=$this->get_js_attr();
         $javascript=sprintf('try { new Ajax.Autocompleter("%s","%s_choices","ajax_misc.php?%s",'.
                             '{paramName:"anccard",minChars:1,indicator:null, '.
                             'callback:%s, '.

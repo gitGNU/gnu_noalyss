@@ -342,3 +342,16 @@ function anc_add_row(tableid)
     $("pamount"+nb.value).value="0";
     nb.value++;
 }
+/**
+ *@brief this function is called before the querystring is send to the
+ * fid2.php, add a filter based on the ledger 'p_jrn'
+ *@param obj is the input field
+ *@param queryString is the queryString to modify
+ *@see ICard::input
+ */
+function filter_anc(obj,queryString)
+{
+    var pa_id=obj.plan_ctl;
+    queryString=queryString+"&pa_id="+pa_id;
+    return queryString;
+}
