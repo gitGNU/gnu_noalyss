@@ -7,12 +7,12 @@ $user->Check();
 $user->check_dossier($_GET['gDossier']);
 if ( isset($_REQUEST['pa_id']) )
 {   
-    $res=$cn->exec_sql("select po_id,po_description from  poste_analytique where pa_id=$1 ~* and (po_description ~* $2 or po_id ~* $3 order by po_id limit 12",
+    $res=$cn->exec_sql("select po_id,po_description from  poste_analytique where pa_id=$1 ~* and (po_description ~* $2 or po_name ~* $3 order by po_id limit 12",
         array($_REQUEST['pa_id'],$_POST['anccard'],$_POST['anccard']));
 }
 else
 {
-       $res=$cn->exec_sql("select po_id,po_description from  poste_analytique where po_description ~* $1 or po_id ~* $2 order by po_id limit 12 ",
+       $res=$cn->exec_sql("select po_id,po_description from  poste_analytique where po_description ~* $1 or po_name ~* $2 order by po_id limit 12 ",
         array($_POST['anccard'],$_POST['anccard']));
 }
 $nb=Database::num_row($res);
@@ -21,7 +21,7 @@ for ($i = 0;$i< $nb;$i++)
 {
 	$row=Database::fetch_array($res,$i);
 	echo "<li>";
-	echo $row['po_id'];
+	echo $row['po_name'];
 	echo '<span class="informal"> '.$row['po_description'].'</span></li>';
 }
 	echo "</ul>";
