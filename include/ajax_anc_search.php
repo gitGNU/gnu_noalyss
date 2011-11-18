@@ -37,7 +37,7 @@ require_once ('class_dossier.php');
 require_once ('class_anc_account.php');
 require_once ('class_anc_plan.php');
 require_once('function_javascript.php');
-
+var_dump($_GET);
 echo HtmlInput::title_box("Recherche activité", $ctl);
 
 //------------- FORM ----------------------------------
@@ -65,9 +65,9 @@ if ( isset($_REQUEST['go']))
         exit("Ce plan n'existe pas");
 
     $sql="select po_name , po_description from poste_analytique ".
-         "where pa_id=".$_REQUEST['c2']." and ".
-         " upper (po_name) like upper('%".Database::escape_string($_REQUEST['label'])."%') order by po_name";
-    $res=$cn->exec_sql($sql);
+         "where pa_id=$1 and ".
+         " upper (po_name) like upper('%'||$2||'%') order by po_name";
+    $res=$cn->exec_sql($sql,array($_REQUEST['c2'],$_REQUEST['label']));
     $array=Database::fetch_all($res);
     if (empty($array) == true)
     {
