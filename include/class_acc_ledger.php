@@ -1854,8 +1854,9 @@ class Acc_Ledger extends jrn_def_sql
      * \return array with [0] = false if failed otherwise true, [1] error
      * code
      */
-    function save ($p_array)
+    function save ($p_array=null)
     {
+      if ($p_array == null) throw new Exception ('save cannot use a empty array');
         global $g_parameter;
         extract ($p_array);
         try
@@ -3187,8 +3188,10 @@ class Acc_Ledger extends jrn_def_sql
 	 * @param type $array  normally post
 	 * @see verify_ledger
 	 */
-	function update($array)
+	function update($array='')
 	{
+	        if ($array == null) throw new Exception ('save cannot use a empty array');
+
 		extract ($array);
 		$this->jrn_def_id=$p_jrn;
 		$this->jrn_def_name=$p_jrn_name;
