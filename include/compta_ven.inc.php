@@ -155,7 +155,9 @@ global $g_parameter;
             /* Show link for Invoice */
             if (isset ($Ledger->doc) )
             {
+                echo '<span class="invoice">';
                 echo $Ledger->doc;
+                echo '</span>';
             }
 
 

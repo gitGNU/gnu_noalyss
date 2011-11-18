@@ -1065,3 +1065,10 @@ table.table_large tr.odd ,table.table_large tr.even {
 	font-size:16;
 	padding: 20 20;
 }
+span.invoice
+{
+    font-size: 120%;
+    font-style: italic;
+    display:inline;
+    padding : 20;
+}

@@ -134,7 +134,9 @@ if (isset($_POST['record']))
 		}
 		if (isset($Ledger->doc))
 		{
-			echo $Ledger->doc . '<hr>';
+                     echo '<span class="invoice">';
+                     echo $Ledger->doc;
+                     echo '</span>';
 		}
 		/* Save the additional information into jrn_info */
 		$obj = new Acc_Ledger_Info($cn);
