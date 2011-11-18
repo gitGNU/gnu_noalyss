@@ -53,7 +53,7 @@ define ('MAX_CAT',15);
 define ('MAX_FORECAST_ITEM',10);
 define ('MAX_PREDEFINED_OPERATION',30);
 
-if ( DEBUG ) error_reporting(15);  else error_reporting(0);
+if ( DEBUG ) error_reporting(2147483647);  else error_reporting(0);
 // Erreur
 define ("NOERROR",0);
 define ("BADPARM",1);
