@@ -38,13 +38,8 @@ require_once ('class_anc_account.php');
 require_once ('class_anc_plan.php');
 require_once('function_javascript.php');
 
-/*!\todo add security here : check user and access to CA
- */
-
-html_page_start();
-load_all_script();
 //------------- FORM ----------------------------------
-echo '<FORM METHOD="GET">';
+echo '<FORM METHOD="GET" onsubmit="search_anc_form(this);return false">';
 $texte=new IText();
 echo '<span>'._('Recherche').':';
 echo $texte->input('label');
@@ -59,7 +54,7 @@ echo '</form>';
 //------------- FORM ----------------------------------
 if ( isset($_REQUEST['go']))
 {
-    $cn=new Database(dossier::id());
+    $cn=Dossier::connect();
     $plan=new Anc_Plan($cn,$_REQUEST['c2']);
     $plan->pa_id=$_REQUEST['c2'];
     if ( $plan->exist()==false)

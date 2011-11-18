@@ -530,4 +530,7 @@ EOF;
 	 case 'up_pay_method':
 		 require_once 'ajax_update_payment.php';
 		 break;
+         case 'openancsearch':
+                 require_once('ajax_anc_search.php');
+                 break;
 }

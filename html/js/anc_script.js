@@ -182,10 +182,35 @@ function search_ca (p_dossier,p_target,p_source)
 {
     var pa_id=g(p_source).value;
     var url="gDossier="+p_dossier+"&c1="+p_target+"&c2="+pa_id;
-    var a=window.open("search_ca.php"+url,"CA recherche",'statusbar=no,scrollbars=yes,toolbar=no');
-    a.focus();
-}
+    waiting_box();
+    removeDiv('search_anc');
+    var qs="op=openancsearch&gDossier="+p_dossier+"&ctl=searchanc";
 
+    var action=new Ajax.Request ( 'ajax_misc.php',
+    {
+        method:'get',
+        parameters:qs,
+        onFailure:null,
+        onSuccess:function(req){
+            try{
+                remove_waiting_box();
+                var pos=fixed_position(250,150)+";width:30%";
+                add_div({
+                    id:"searchanc",
+                    drag:1,
+                    cssclass:"inner_box",
+                    style:pos
+                });
+                $('searchanc').innerHTML=req.responseText;
+
+            } catch(e){
+                alert(e.message);
+            }
+        }
+    }
+    );
+    
+}
 function caod_checkTotal()
 {
     var ie4=false;
