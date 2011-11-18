@@ -1062,13 +1062,14 @@ table.table_large tr.odd ,table.table_large tr.even {
 	width:300px;
 	border:1px solid black;
 	background-color:#aec3e8;
-	font-size:16;
-	padding: 20 20;
+	font-size:16px;
+	padding: 20px 20px;
 }
 span.invoice
 {
     font-size: 120%;
     font-style: italic;
-    display:inline;
-    padding : 20;
+    display:block;
+    margin: 20px;
+    font-weight: bold;
 }
