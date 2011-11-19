@@ -23,25 +23,26 @@
 /*!\file
  * \brief handle the ajax request for the todo_list (delete, update
  * and insert)
- * for add, needed parameters 
+ * for add, needed parameters
  * - gDossier
- * - d date, 
- * - t title 
+ * - d date,
+ * - t title
  * - de description
- * for update, same as ADD + 
+ * for update, same as ADD +
  * - i id
  * for delete
- * - gDossier 
+ * - gDossier
  * - i id
  */
 require_once ('class_dossier.php');
 require_once ('class_todo_list.php');
 require_once ('class_database.php');
+require_once ('class_user.php');
 
-$cn=new Database($gDossier);
+$cn= Dossier::connect();
 $user=new User($cn);
 $user->check(true);
-$user->check_dossier($gDossier,true);
+$user->check_dossier(Dossier::id(),true);
 ajax_disconnected('add_todo_list');
 
 if (isset($_REQUEST['show']))
