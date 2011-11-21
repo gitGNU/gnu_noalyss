@@ -27,6 +27,8 @@ h1 {
 	font-family:Verdana,arial,sans-serif;
         border : 1px solid blue;
         text-align: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
 }
 h2 {
 	color:blue;
