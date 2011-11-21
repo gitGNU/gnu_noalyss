@@ -3,18 +3,18 @@
 BODY {
   background-color:#EDF3FF;
  font-size:10;
- color:blue;
-  font-family:helvetica,arial,sans-serif;
+  font-family:helvetica,sans-serif;
   padding: 0px 10px 0px 10px ;
   margin:0;
+  color:blue;
 }
 .notice {
 		color:red;
         font-style: italic;
         }
 
-table.result  ,table.resultfooter {
-  color:#0000ff;
+table.table_large, table.result  ,table.resultfooter {
+  color:blue;
   /* border:blue solid 1px; */
   width:100%;
    border-spacing:  0px;
@@ -27,10 +27,10 @@ table.resultfooter tfoot {
 
 
 }
-table.result th {
+table.table_large th,table.result th {
   font-weight:bold;
-  font-family:helvetica,arial,sans-serif;
- border-bottom:1px solid black;
+  font-family:helvetica,sans-serif;
+ border-bottom:1px solid blue;
  border-top:0;
 
   color:#25238F;
@@ -40,7 +40,7 @@ table.result th {
 }
 
 h2 {
-  font-family:Helvetica,arial,sans-serif;
+  font-family:helvetica,sans-serif;
   font-size:14px;
   color:grey;
 }
@@ -86,7 +86,7 @@ h3.info {
 }
 
 h2.info2 {
-  color:#0000ff;
+  color:blue;
   font-size:14px;
   text-align:center;
 
@@ -100,7 +100,7 @@ h2.error {
 }
 
 h1.title {
-	color: #0000ff;
+	color: blue;
 	font-size:25px;
 }
 
@@ -125,7 +125,6 @@ div.u_tmenu div.u_tool {
 div.u_tool {
 	float:left;
 	width:  100%;
-
 	}
 div.u_tool div.name {
        float:left;
@@ -150,8 +149,9 @@ div.lmenu {
 
 }
 div.lextmenu {
+
 	float:left;
-	font-family:helvetica,arial,sans-serif;
+	font-family:helvetica,sans-serif;
 	font-size:9px;
 
 }
@@ -166,47 +166,49 @@ div.searchmenu {
 div.recherche_form{
 	width:700px;
 	font-size:9px;
-	font-family:Helvetica,arial,sans-serif;
+	font-family:helvetica,sans-serif;
   border-style:outset;
   border-width:1px;
 
 }
 div.redcontent{
+
          float:left;
 	 padding-top:7px;
 	 padding-left:8px;
          font-size:9px;
-         font-family:helvetica,arial,sans-serif;
+         font-family:helvetica,sans-serif;
 	 width:75%;
 
 }
 div.content{
+
          float:left;
 		padding-top:7px;
-         width:96%;
-         font-family:helvetica,arial,sans-serif;
+         width:100%;
+         font-family:helvetica,sans-serif;
          clear:both;
-         margin-left:2%;
 
 
 }
 div.content30{
+
          float:left;
 	 padding-top:7px;
          width:35%;
-         font-family:helvetica,arial,sans-serif;
+         font-family:helvetica,sans-serif;
 
 }
 div.no span{
 	position:static;
-	font-family:helvetica,arial,sans-serif;
+	font-family:helvetica,sans-serif;
 	font-weight:bold;
 	color:red;
 
 }
 
 table.document {
-   color:#0000ff;
+   color:blue;
    width:100%;
    border-spacing:  0px;
    border-collapse:collapse;
@@ -214,8 +216,8 @@ table.document {
 }
 table.document th{
   font-weight:bold;
-  font-family:helvetica,arial,sans-serif;
-  border-bottom:2px solid #0000ff;
+  font-family:helvetica,sans-serif;
+  border-bottom:2px solid blue;
   border-top:0;
   color:#25238F;
   text-align: left;
@@ -225,9 +227,10 @@ table.document th{
 .error {
 width:60%;
 margin-left:20%;
+text-align: center;
+
 color:white;
 background-color:red;
-text-align: center;
 font-weight: bolder;
 font-size:120%;
 }
@@ -260,7 +263,7 @@ td.msubtitle {
 }
 span.mtitle {
 	color:gray;
-	background-color:#0000ff;
+	background-color:blue;
 	font-size:10px;
 	border-style:groove
 }
@@ -276,14 +279,12 @@ span.even {
 tr.odd {
 	background-color:#DDE6FF;
 	font-size:10px;
-  border-width:0px;
 }
 tr {
 	font-size:10px;
 }
 td.odd{
 	background-color:#DDE6FF ;
-	border-width:0px;
 	font-size:10px;
 }
 td.even{
@@ -296,7 +297,7 @@ td.cell{
 }
 td.selectedcell{
 	border-style:inset;
-        border-color:#0000ff;
+        border-color:blue;
 	border-width:1pt ;
 	font-size:10px;
         background:#5D90CD ;
@@ -308,7 +309,7 @@ a.mtitle {
   font-size:10px;
   text-decoration:none;
   display:inline;
- color: #0000ff;
+ color: blue;
 
 }
 a.mtitle:hover {
@@ -316,7 +317,7 @@ a.mtitle:hover {
   text-decoration:none;
   display:inline;
 
- color: darkblue;
+ color: yellow;
 background-color:#5D90CD;
 
 }
@@ -337,35 +338,35 @@ tr.odd:hover td
 {
   text-decoration:none;
   background-color: #a9d6e4;
-  color:white;
+  color:yellow;
 }
 tr.even:hover td
 {
   text-decoration:none;
   background-color: #a9d6e4;
-  color:white;
+  color:yellow;
 }
 td.mtitle:hover,td.mtitle:hover a
 {
   background-color:#a9d6e4;
-  color:white;
+  color:yellow;
 }
 td.msubtitle:hover,td.msubtitle:hover a
 {
   background-color:#a9d6e4;
-  color:white;
+  color:yellow;
 }
 a.cell {
   text-decoration:none;
   display:block;
-  color:#0000ff;
+  color:blue;
   background-color:white;
   font-size:9px;
 }
 
 a.cell:hover {
   font-size:9px;
-  color:white;
+  color:yellow;
   background-color:#5D90CD;
   text-decoration:none;
   display:block;
@@ -395,16 +396,16 @@ a.one:hover {
 a.detail
 {
   font-size:9px;
-  font-family:helvetica,arial,sans-serif;
+  font-family:helvetica,sans-serif;
     text-decoration: none;
     display: block;
-    color: #0000ff;
+    color: blue;
 }
 
 a.detail:hover
 {
   font-size:9px;
-  font-family:helvetica,arial,sans-serif;
+  font-family:helvetica,sans-serif;
     color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
@@ -416,15 +417,15 @@ li.menuv,ol.menuv {
 	 padding:1em 1em;
 }
 div.redcontent a {
-  font-family:helvetica,arial,sans-serif;
+  font-family:helvetica,sans-serif;
   text-decoration: none;
   display: block;
-  color: #0000ff;
+  color: blue;
 
 }
 
 div.redcontent a:hover {
-  font-family:helvetica,arial,sans-serif;
+  font-family:helvetica,sans-serif;
     color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
@@ -432,17 +433,17 @@ div.redcontent a:hover {
 
 }
 div.content a {
-  font-family:helvetica,arial,sans-serif;
+  font-family:helvetica,sans-serif;
   text-decoration: none;
   display: block;
   color: blue;
-padding: 1px ;
+padding: 0;
 
 }
 
 
 div.content a:hover {
-  font-family:helvetica,arial,sans-serif;
+  font-family:helvetica,sans-serif;
     color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
@@ -471,7 +472,7 @@ div.content a.mtitle {
   font-size:10px;
   text-decoration:none;
   display:inline;
-  color:#0000ff;
+  color:blue;
 
 
 
@@ -486,34 +487,34 @@ div.content a.mtitle:hover {
 
 }
 div.redcontent input.text {
-   font-family:helvetica,arial,sans-serif;
+   font-family:helvetica,sans-serif;
   font-weight:normal;
   border-color:336699;
   border-style:solid;
-  background-color:orange;
+  background-color:greenyellow;
   border-width:1px;
-  color:#0000ff;
+  color:blue;
 }
 div.content input.text {
-   font-family:helvetica,arial,sans-serif;
+   font-family:helvetica,sans-serif;
   font-weight:normal;
   border-color:336699;
   border-style:solid;
   border-width:1px;
-  background-color:orange;
-  color:#0000ff;
+  background-color:greenyellow;
+  color:blue;
 }
 
 
 
 div.redcontent input:focus {
-  background-color:orange;
+  background-color:greenyellow;
 }
 div.content input:focus {
-  background-color:orange;
+  background-color:greenyellow;
 }
 div.redcontent textarea:focus {
-background-color: orange;
+background-color: greenyellow;
 }
 .document {
 color: #1a207d;
@@ -531,11 +532,13 @@ a.document:hover {
 
 }
 .input_text {
-	   border:groove 1px #0000ff;
+	   border:groove 1px blue;
 	margin:1px;
 }
 .input_text:hover {
-	background-color: yellow;
+	border:groove 1px blue;
+	margin:1px;
+	background-color: greenyellow;
 }
 legend {
 font-weight: bold;
@@ -548,7 +551,7 @@ fieldset fieldset legend {
 	 color:grey;
 	 }
 select {
-border: 1px solid #0000ff;
+border: 1px solid blue;
 margin:2px;
 background-color:white;
 
@@ -561,15 +564,15 @@ background-color:white;
 	   position:absolute;
 	   border:1px solid black;
 	   background-color:yellow;
-	   top:0;left:0;
-	   visibility:hidden;
-	   z-index:2;
-	   width:25em;
 	   padding-bottom: 10;
 	   padding-top: 10;
 	   padding-left: 10;
 	   padding-right: 10;
-
+	   color:black;
+	   top:0;left:0;
+	   visibility:hidden;
+	   width:25em;
+		z-index:20;
 }
 
 span.action {
@@ -604,12 +607,12 @@ div.popup_back{
 	position:absolute;
 	top:0px;
 	left:0px;
+	opacity:0.6;
 	width:100%;
-height: 150%;
-
+	height:100%;
 	z-index:1;
 	/*background-color:lightgrey;*/
-	/*background-color: rgba(203, 203,203, 0.2);*/
+
 	display:none;
 }
 
@@ -625,7 +628,7 @@ div.popup_border_title {
 	border: 2px outset #201e87;
 	background-color:#879ED4;
 	font-size: 110% ;
-	font-family: helvetica,arial,sans-serif;
+	font-family: helvetica,sans-serif;
 	font-style: italic;
 	font-weight: bolder;
 	text-align:center;
@@ -647,7 +650,7 @@ div.popup_border_notitle {
 	/*border:dotted 1px black;*/
 	border: 3px outset #201e87;
 	background-color: #879ED4;
-	font-family: helvetica,arial,sans-serif;
+	font-family: helvetica,sans-serif;
 	font-style: italic;
 	font-weight: bolder;
 	text-align:center;
@@ -667,9 +670,9 @@ div.popup_content {
 	width:100%;
 	height:96%;
 	overflow: auto;
-  background-color:#e4e7ed;
+	background-color:#DFE7FF;
 	font-size:10px ;
-	font-family: helvetica,arial,sans-serif;
+	font-family: helvetica,sans-serif;
 	font-style: normal;
 	font-weight: normal;
 	color: black;
@@ -682,41 +685,36 @@ div.popup_content {
 div.autocomplete {
   position:relative;
   background-color:white;
+  border:1px solid #888;
   margin:0;
   padding:0;
   text-align:left;
   font-size:12px;
 
 }
-span.informal {
-    font-size:12px;
-
- }
 div.autocomplete em {
-	color:#0000ff;
+	color:blue;
 	font-weight:bold;
 }
 div.autocomplete ul {
   list-style-type:none;
-  width: 350px;
   background-color:white;
+  border:1px solid #888;
+  width:375px;
   margin:0;
   padding:0;
-  border:1px solid #888;
 }
 div.autocomplete ul li.selected { background-color: lightblue;}
 
 div.autocomplete ul li {
   list-style-type:none;
-  width: auto;
   display:block;
   margin:0;
   padding:0px;
   /*height:32px;*/
-  border:1px dotted  #e6e6fa;
-
   cursor:pointer;
 }
+span.informal{ font-size:95%; color:black;}
 
 ul.select_table  {
 	/*padding:5px;*/
@@ -794,32 +792,37 @@ color:black;
 cursor:inherit;
 }
 
-.button , a.button,div.content a.button {
+a#anchorbutton, .button, a.button,div.content a.button {
 	font-size:10;
-	color:white;
+	color:black;
 	font-weight: bold;
 
 	text-decoration:none;
-	font-family: helvetica,arial,sans-serif;
-	background-image: url("image/bg-submit3.gif");
+	font-family: helvetica,sans-serif,arial;
+	background-color: #DFDFDF;
 	background-repeat: repeat-x;
 	background-position: left;
-
-	border-style:  outset ;
-	border-color:  #0000ff ;
-	border-width:0;
-	padding:2 4 2 4;
+	height:32px;
+	border-color:  gray;
+	border-style: outset;
+	border-width:2;
+	padding-bottom: 4;
+	padding-top: 4;
+	padding-right: 6;
+	padding-left:  6;
+	margin-top:3px;
 	cursor:pointer;
 	margin:1 2 1 2;
-	-moz-border-radius:2 2;
+	-moz-border-radius:6;
+	border-radius:6;
 
 }
-.button:hover, a.button:hover,div.content a.button:hover  {
+a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
 	cursor:pointer;
 	background-color:white;
-	border-style:  inset ;
-	color:#0000ff;
+	color:black;
 	margin:1 2 1 2;
+	border-style: inset;
 	}
 	td.tool {
 	border: solid 1px gray;
@@ -840,37 +843,9 @@ margin:0;
 padding:0;
 text-align:center;
 }
-a#anchorbutton {
-	font-size:10;
-	color:white;
-	font-weight: bold;
-
-	text-decoration:none;
-	font-family: helvetica,arial,sans-serif;
-	background-image: url("image/bg-submit3.gif");
-	background-repeat: repeat-x;
-	background-position: left;
-
-	border-style:  outset ;
-	border-color:  #0000ff ;
-	border-width:1;
-	padding:2 4 2 4;
-	cursor:pointer;
-	margin:1 2 1 2;
-	-moz-border-radius:2 2;
-
-}
-a#anchorbutton:hover {
-	cursor:pointer;
-	background-color:white;
-	border-style:  inset ;
-	color:#0000ff;
-
-	margin:1 2 1 2;
-	}
 /* </style> */
 div.add_todo_list {
-                    border:1px solid #0000ff;
+                    border:1px solid blue;
                     display:none;
                     background-color:#BFD0FF;
                     padding:3;
@@ -900,9 +875,9 @@ div.op_detail_frame  {
 
 }
 div.inner_box  {
-  background-color:#e4e7ed;
+  background-color:whitesmoke;
  font-size:10;
-  font-family:helvetica,arial,sans-serif;
+  font-family:helvetica,sans-serif;
   padding:0;
   margin:0;
   overflow:hidden;
@@ -945,27 +920,27 @@ div#div_jrn{
 div.divinfo
 {  color:red;text-align:right;display:block;width:30em;height:13;font-weight:bold}
 
-
 div#search_form
 {
               position:absolute;
               border:1px solid black;
               top:15%;left:100;
-              margin-left:25%;
+              margin-left:25%
               z-index:2;
               width:50%;
               display:none;
 	      background-color:#e4e7ed;
 }
-table.result td
+
+table.table_large td, table.result td
 {
 	padding-left:5px;
 	padding-right:5px;
 }
 table.info_op
 {
-	margin-left: 30%;
-	margin-right: 30%;
+	font-size:18;
+	margin-right:30%;
 	width:20%;
 
 }
@@ -973,17 +948,12 @@ table.info_op tr
 {
 font-size:14;
 background:white;
-width:5%
 }
 h2#jrn_name
 {
-	padding:0 ;
-	margin:0;
+	margin-right:30%;
+	float: right;
 
-	float:right;
-	font-size:18;
-	display: inline;
-	color:#15158e;
 }
 tr.footer{
 	font-size:14;
@@ -995,6 +965,7 @@ span.remain {
 	font-weight: bold;
 	color:black;
 	}
+
 div#jrn_name_div
 {
 	float: right;
@@ -1010,17 +981,15 @@ div#jrn_name_div
 #direct
 {
 	display:inline;
-	float:right;
-
+	float:left;
+	width:400px;
 
 }
-.direct
+#calc
 {
-		font-size:6px;
-	   border:groove 1px #33378d;
-	margin:1px;
+	display:inline;
+	float:left;
 }
-
 div#wait_box
 {
   background-color:#F1E6E6;
@@ -1053,5 +1022,55 @@ div#div_jrnsearch_op{
 
 }
 ul {
-	padding-left: 100px;
+	padding-left: 110px;
+}
+a.line,div.content a.line
+{
+font-size:110%;
+  text-decoration:underline;
+  display:inline;
+ color: #0000ff;
+}
+a.line:hover,div_content a.line
+{
+font-size:110%;
+  text-decoration:underline;
+  display:inline;
+  color: #0000ff;
+     background-color: rgb(93, 144, 205);
+}
+#close_div
+{
+ background-color:white;
+ color:blue;
+ text-decoration:none;
+ border:1px solid blue;
+ margin-left: 2px;
+ margin-right:2px;
+ margin-top:0px;
+ font-size:10px;
+}
+table.table_large tr.odd ,table.table_large tr.even {
+
+	height:32px;
+}
+#calc1
+{
+	position:absolute;
+	display:block;
+	top:30px;
+	left:150px;
+	width:300px;
+	border:1px solid black;
+	background-color:#aec3e8;
+	font-size:16px;
+	padding: 20px 20px;
+}
+span.invoice
+{
+    font-size: 120%;
+    font-style: italic;
+    display:block;
+    margin: 20px;
+    font-weight: bold;
 }

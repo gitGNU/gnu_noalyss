@@ -185,7 +185,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
      *\return string with html code
      *\note the form tag are not  set here
      */
-    function input($p_array=null)
+    function input($p_array=null,$notused=0)
     {
         global $g_parameter;
         if ( $p_array != null)
@@ -384,7 +384,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
      *\param $p_array an array usually is $_POST
      *\return string with code html
      */
-    public function confirm($p_array)
+    public function confirm($p_array,$p_nothing=0)
     {
         global $g_parameter;
         $r="";
@@ -589,7 +589,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
      *\param $p_array usually $_POST
      *\return string with HTML code
      */
-    public function insert($p_array)
+    public function insert($p_array=null)
     {
         global $g_parameter;
 		bcscale(2);

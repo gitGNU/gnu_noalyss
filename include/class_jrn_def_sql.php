@@ -172,7 +172,7 @@ class Jrn_Def_sql
 		return $oobj;
 	}
 
-	public function insert()
+	public function insert($p_array=null)
 	{
 		if ($this->verify_sql() != 0)
 			return;

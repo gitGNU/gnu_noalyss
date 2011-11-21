@@ -30,7 +30,7 @@
  *  ce fichier deviendra l'un des patch </li>
  * <li>Faire de la doc </li>
  * </ol>
- * 
+ *
  * </p>
  * \section conseil Conseils
  * <p>
@@ -63,7 +63,7 @@
  *
  * \section convention_code Coding convention
  * <p>
- * Some coding conventions to have a homogene code 
+ * Some coding conventions to have a homogene code
  * <ol>
  * <li>Reuse the existing code , </li>
  * <li>Improve and check that the function is still working</li>
@@ -71,7 +71,7 @@
  * <li>In the folder include: filenames ending by  *.inc.php will be executer after being included</li>
  * <li>Dans le répertoire include: Les noms de fichiers sont *.php pour les fichiers contenant des fonctions uniquement</li>
  * <li>In the folder include: filenames end by  *.php if they contains only function</li>
- * <li>In the folder include: filenames starting with 
+ * <li>In the folder include: filenames starting with
  * class_*.php if it is related to a class.</li>
  * <li>In the folder include/template: files for the HTML presentation
  * </li>
@@ -79,7 +79,7 @@
  *  </li>
  * <li>Write documentation </li>
  * </ol>
- * 
+ *
  * </p>
  * \section advice Advices
  * <p>
@@ -122,8 +122,8 @@ echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">
 <style>
 BODY {
 background-color:white;
-font-size:12px;
-font-family:sans-serif;
+font-size:14px;
+font-family:sans-serif,arial;
 color:blue;
 }
 .remark {
@@ -136,7 +136,7 @@ padding:3px;
 }
 .gras {
 font-size:12px;
-font-family:sans-serif;
+font-family:sans-serif,arial;
 color:red;
 
 }
@@ -186,7 +186,7 @@ if ( strlen(domaine) > 0 )
 
 echo '
 <span style="background-color:#879ed4;color:white;padding-left:4px;padding-right:4px;">
-version  5.6.SVNINFO - '.$my_domain.'
+version  6.0.SVNINFO - '.$my_domain.'
 </span>
 <BR>
 <BR>
@@ -238,9 +238,9 @@ if ( $g_captcha == true )
     echo '<tr>';
   }
 echo '
-<TR>
-<TD COLSPAN=2 ALIGN=CENTER>
-<INPUT TYPE="SUBMIT"  class="button" NAME="login" value="Se connecter">
+<TR style="height:50px;vertical-align:bottom">
+<TD style="width:auto;text-align:center" colspan="2">
+<INPUT TYPE="SUBMIT"  style="width:60%;height:32px;-moz-border-radius:10px;border-radius:10px" class="button" NAME="login" value="Se connecter">
 </TD>
 </TR>
 </table>

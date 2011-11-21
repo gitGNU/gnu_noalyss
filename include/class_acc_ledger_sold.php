@@ -180,7 +180,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 		/*
 		 * check if the accounting for VAT are valid
 		 */
-		$a_poste=split(',',$tva_rate->tva_poste);
+		$a_poste=explode(',',$tva_rate->tva_poste);
 
 		if (
 		    $this->db->get_value('select count(*) from tmp_pcmn where pcm_val=$1',array($a_poste[0])) == 0 ||
@@ -221,10 +221,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 
     }
 
-    public function save($p_array)
-    {
-        echo "<h2> Acc_Ledger_Sold::save Not implemented</h2>";
-    }
 
     /*!\brief insert into the database, it calls first the verify function,
      * change the value of this->jr_id and this->jr_internal
@@ -234,7 +230,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
      *\return string
      *\note throw an Exception
      */
-    public function insert($p_array)
+    public function insert($p_array=null)
     {
         global $g_parameter;
         extract ($p_array);
@@ -432,7 +428,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                     $acc_operation->periode=$tperiode;
                     if ($value < 0 ) $tot_debit=bcadd($tot_debit,abs($value));
                     $acc_operation->insert_jrnx();
-                    
+
                     // if TVA is on both side, we deduce it immediately
                     if ( $oTva->get_parameter("both_side")==1)
                     {
@@ -613,21 +609,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         return $internal;
     }
 
-    public function update()
-    {
-        echo "<h2> Acc_Ledger_Sold::update Not implemented</h2>";
-    }
-
-    public function load()
-    {
-        echo "<h2> Acc_Ledger_Sold::load Not implemented</h2>";
-
-    }
-
-    public function delete()
-    {
-        echo "<h2> Acc_Ledger_Sold::delete Not implemented</h2>";
-    }
 
     /*!@brief show the summary of the operation and propose to save it
      *@param array contains normally $_POST. It proposes also to save
@@ -983,7 +964,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
     *
     *\return HTML string
     */
-    function input($p_array=null)
+    function input($p_array=null,$p_readonly=0)
     {
         global $g_parameter;
         if ( $p_array != null ) extract($p_array);

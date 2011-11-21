@@ -179,7 +179,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 		/*
 		 * check if the accounting for VAT are valid
 		 */
-		$a_poste=split(',',$tva_rate->tva_poste);
+		$a_poste=explode(',',$tva_rate->tva_poste);
 
 		if (
 		    $this->db->get_value('select count(*) from tmp_pcmn where pcm_val=$1',array($a_poste[0])) == 0 ||
@@ -259,10 +259,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 
     }
 
-    public function save($p_array)
-    {
-        echo "<h2> Acc_Ledger_Purchase::save Not implemented</h2>";
-    }
 
     /*!\brief insert into the database, it calls first the verify function
      * change the value of this->jr_id and this->jr_internal.
@@ -299,7 +295,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
      *\return string
      *\note throw an Exception
      */
-    public function insert($p_array)
+    public function insert($p_array=null)
     {
         global $g_parameter;
         extract ($p_array);
@@ -467,10 +463,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 /* if the quantity is < 0 then the stock increase (return of
                  *  material)
                  */
-                $nNeg=($
-                       {"e_quant".$i
-                       }
-                       <0)?-1:1;
+                $nNeg=(${"e_quant" . $i}< 0) ? -1 : 1;
 
                 // always save quantity but in withStock we can find
                 // what card need a stock management
@@ -680,6 +673,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                         $acc_operation->jrn=$p_jrn;
                         $acc_operation->type='c';
                         $acc_operation->periode=$tperiode;
+						$acc_operation->insert_jrnx();
                     }
 
                 }
@@ -842,21 +836,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         return $internal;
     }
 
-    public function update()
-    {
-        echo "<h2> Acc_Ledger_Purchase::update Not implemented</h2>";
-    }
-
-    public function load()
-    {
-        echo "<h2> Acc_Ledger_Purchase::load Not implemented</h2>";
-
-    }
-
-    public function delete()
-    {
-        echo "<h2> Acc_Ledger_Purchase::delete Not implemented</h2>";
-    }
     /*!\brief display the form for entering data for invoice
      *\param $p_array is null or you can put the predef operation or the $_POST
     \code
@@ -889,7 +868,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
     \endcode
      *\return HTML string
      */
-    public function input($p_array=null)
+    public function input($p_array=null,$p_readonly=0)
     {
         global $g_parameter;
         if ( $p_array != null ) extract($p_array);
