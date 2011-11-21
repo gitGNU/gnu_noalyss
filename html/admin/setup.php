@@ -15,17 +15,22 @@ p.info {
 }
 h2.error {
 	color:red;
-	font-size:14px;
+	font-size:12px;
 	font-family:Verdana,arial,sans-serif;
 }
 h1 {
 	color:blue;
-	font-size:14px;
+	font-size:16px;
 	font-family:Verdana,arial,sans-serif;
-        border : 1px solid green;
+        border : 1px solid blue;
         text-align: center;
 }
-
+h2 {
+	color:blue;
+	font-size:14px;
+	font-family:Verdana,arial,sans-serif;
+        font-style: italic;
+}
 p.warning  {
    	font-family:Verdana,arial,sans-serif;
 	font-size:12px;
@@ -437,7 +442,6 @@ $cn=new Database();
 echo "<p class=\"info\"> F&eacute;licitation : Installation r&eacute;ussie</p>";
 
 
-echo '<hr>';
 echo "<h1>Mise a jour du systeme</h1>";
 echo "<h2 > Mise &agrave; jour dossier</h2>";
 
@@ -460,7 +464,6 @@ for ($e=0;$e < $MaxDossier;$e++) {
 //----------------------------------------------------------------------
 $Resdossier=$cn->exec_sql("select mod_id, mod_name from modeledef");
 $MaxDossier=$cn->size();
-echo '<hr>';
 echo "<h2>Mise &agrave; jour mod&egrave;le</h2>";
 
 for ($e=0;$e < $MaxDossier;$e++) {
@@ -473,7 +476,6 @@ for ($e=0;$e < $MaxDossier;$e++) {
 //----------------------------------------------------------------------
 // Upgrade the account_repository
 //----------------------------------------------------------------------
-echo '<hr>';
  echo "<h2>Mise &agrave; jour Repository</h2>";
  $cn=new Database();
  if ( DEBUG == false ) ob_start();
