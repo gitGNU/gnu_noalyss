@@ -99,8 +99,8 @@ border:groove 2px blue;
  *        This file is included in each release  for a new upgrade
  *
  */
-$failed="<span style=\"font-size:18px;color;red\">&#x2716;</span>";
-$succeed="<span style=\"font-size:18px;color;green\">&#x2713;</span>";
+$failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
+$succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 
 $inc_path=get_include_path();
 /**
