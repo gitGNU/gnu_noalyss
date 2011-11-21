@@ -275,7 +275,7 @@ echo "<li>";
 if ( strpos($inc_path,"../include") == 0 && strpos ($inc_path,'..\\include') == 0)
 {
     echo 'variable include_path: '.$failed;
-  print ("<span class=\"warning"> include_path incorrect  !!!".$inc_path."</span>");
+  print ("<span class=\"warning\"> include_path incorrect  !!!".$inc_path."</span>");
 	$flag_php++;
 }
  else
