@@ -40,7 +40,7 @@ h3 {
 	color:blue;
 	font-size:12px;
 	font-family:Verdana,arial,sans-serif;
-        font-style: italic;
+        font-style: normal;
         text-decoration: underline;
 }
 p.warning  {
