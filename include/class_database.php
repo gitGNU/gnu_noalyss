@@ -359,7 +359,7 @@ class Database
     function apply_patch($p_name,$from_setup=1)
     {
         $MaxVersion=DBVERSION-1;
-        echo '<ul>';
+        echo '<ul style="list-type-style:square">';
         $add=($from_setup==0)?'admin/':'';
         for ( $i = 4;$i <= $MaxVersion;$i++)
         {
@@ -367,9 +367,11 @@ class Database
             if ( $this->get_version() <= $i )
             {
                 echo "<li>Patching ".$p_name.
-                " from the version ".$this->get_version()." to $to</h3> </li>";
+                " from the version ".$this->get_version()." to $to ";
 
                 $this->execute_script($add.'sql/patch/upgrade'.$i.'.sql');
+                echo $succeed;
+                
                 if ( ! DEBUG ) ob_start();
                 // specific for version 4
                 if ( $i == 4 )
