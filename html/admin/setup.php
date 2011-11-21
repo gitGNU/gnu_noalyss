@@ -18,6 +18,13 @@ h2.error {
 	font-size:14px;
 	font-family:Verdana,arial,sans-serif;
 }
+h1 {
+	color:blue;
+	font-size:14px;
+	font-family:Verdana,arial,sans-serif;
+        border : 1px solid green;
+        text-align: center;
+}
 
 p.warning  {
    	font-family:Verdana,arial,sans-serif;
@@ -191,7 +198,7 @@ create_htaccess();
 require_once('config_file.php');
 include_once('constant.php');
 require_once('class_database.php');
-
+echo "<h1>Configuration</h1>";
 ?>
 <h2>Info</h2>
 Vous utilisez le domaine <?php echo domaine; ?> 
@@ -428,6 +435,7 @@ if ($account == 0 ) {
 $cn=new Database();
 
 echo "<p class=\"info\"> F&eacute;licitation : Installation r&eacute;ussie</p>";
+
 
 echo '<hr>';
 echo "<h1>Mise a jour du systeme</h1>";
