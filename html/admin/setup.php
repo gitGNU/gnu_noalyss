@@ -459,7 +459,7 @@ for ($e=0;$e < $MaxDossier;$e++) {
   $db=new Database($db_row['mod_id'],'mod');
   $db->apply_patch($db_row['mod_name']);
  }
-echo '</ul>';
+
 //----------------------------------------------------------------------
 // Upgrade the account_repository
 //----------------------------------------------------------------------
@@ -476,6 +476,6 @@ echo '<hr>';
    }
 
  if (! DEBUG) ob_end_clean();
- echo "<h2 class=\"info\">Voil&agrave; tout est install&eacute; ;-) </H2>";
+ echo "<p class=\"warning\">Tout est install&eacute;</p>";
 ?>
 <A HREF="../index.php">Connectez-vous à PhpCompta</A>
