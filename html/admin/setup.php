@@ -11,6 +11,9 @@ p.info {
 	font-family:Verdana,arial,sans-serif;
         padding: 30px;
         border : 1px solid green;
+        width:70%;
+        margin-left: 15%;
+        margin-right: 15%;
             
 }
 h2.error {
@@ -439,9 +442,6 @@ if ($account == 0 ) {
 //--
 $cn=new Database();
 
-echo "<p class=\"info\"> F&eacute;licitation : Installation r&eacute;ussie</p>";
-
-
 echo "<h1>Mise a jour du systeme</h1>";
 echo "<h2 > Mise &agrave; jour dossier</h2>";
 
@@ -488,6 +488,7 @@ for ($e=0;$e < $MaxDossier;$e++) {
    }
 
  if (! DEBUG) ob_end_clean();
- echo "<p class=\"info\">Tout est install&eacute; $succeed</p>";
+ echo "<p class=\"info\">Tout est install&eacute; $succeed";
 ?>
 <A HREF="../index.php">Connectez-vous à PhpCompta</A>
+</p>
