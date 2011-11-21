@@ -3,7 +3,7 @@
 BODY {
   background-color:#EDF3FF;
  font-size:10;
-  font-family:helvetica,sans-serif;
+  font-family:verdana,helvetica,sans-serif;
   padding: 0px 10px 0px 10px ;
   margin:0;
   color:blue;
@@ -29,7 +29,7 @@ table.resultfooter tfoot {
 }
 table.table_large th,table.result th {
   font-weight:bold;
-  font-family:helvetica,sans-serif;
+  font-family:verdana,helvetica,sans-serif;
  border-bottom:1px solid blue;
  border-top:0;
 
@@ -40,7 +40,7 @@ table.table_large th,table.result th {
 }
 
 h2 {
-  font-family:helvetica,sans-serif;
+  font-family:verdana,helvetica,sans-serif;
   font-size:14px;
   color:grey;
 }
@@ -151,7 +151,7 @@ div.lmenu {
 div.lextmenu {
 
 	float:left;
-	font-family:helvetica,sans-serif;
+	font-family:verdana,helvetica,sans-serif;
 	font-size:9px;
 
 }
@@ -166,7 +166,7 @@ div.searchmenu {
 div.recherche_form{
 	width:700px;
 	font-size:9px;
-	font-family:helvetica,sans-serif;
+	font-family:verdana,helvetica,sans-serif;
   border-style:outset;
   border-width:1px;
 
@@ -177,7 +177,7 @@ div.redcontent{
 	 padding-top:7px;
 	 padding-left:8px;
          font-size:9px;
-         font-family:helvetica,sans-serif;
+         font-family:verdana,helvetica,sans-serif;
 	 width:75%;
 
 }
@@ -186,7 +186,7 @@ div.content{
          float:left;
 		padding-top:7px;
          width:100%;
-         font-family:helvetica,sans-serif;
+         font-family:verdana,helvetica,sans-serif;
          clear:both;
 
 
@@ -196,12 +196,12 @@ div.content30{
          float:left;
 	 padding-top:7px;
          width:35%;
-         font-family:helvetica,sans-serif;
+         font-family:verdana,helvetica,sans-serif;
 
 }
 div.no span{
 	position:static;
-	font-family:helvetica,sans-serif;
+	font-family:verdana,helvetica,sans-serif;
 	font-weight:bold;
 	color:red;
 
@@ -216,7 +216,7 @@ table.document {
 }
 table.document th{
   font-weight:bold;
-  font-family:helvetica,sans-serif;
+  font-family:verdana,helvetica,sans-serif;
   border-bottom:2px solid blue;
   border-top:0;
   color:#25238F;
@@ -396,7 +396,7 @@ a.one:hover {
 a.detail
 {
   font-size:9px;
-  font-family:helvetica,sans-serif;
+  font-family:verdana,helvetica,sans-serif;
     text-decoration: none;
     display: block;
     color: blue;
@@ -405,7 +405,7 @@ a.detail
 a.detail:hover
 {
   font-size:9px;
-  font-family:helvetica,sans-serif;
+  font-family:verdana,helvetica,sans-serif;
     color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
@@ -417,7 +417,7 @@ li.menuv,ol.menuv {
 	 padding:1em 1em;
 }
 div.redcontent a {
-  font-family:helvetica,sans-serif;
+  font-family:verdana,helvetica,sans-serif;
   text-decoration: none;
   display: block;
   color: blue;
@@ -425,7 +425,7 @@ div.redcontent a {
 }
 
 div.redcontent a:hover {
-  font-family:helvetica,sans-serif;
+  font-family:verdana,helvetica,sans-serif;
     color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
@@ -433,7 +433,7 @@ div.redcontent a:hover {
 
 }
 div.content a {
-  font-family:helvetica,sans-serif;
+  font-family:verdana,helvetica,sans-serif;
   text-decoration: none;
   display: block;
   color: blue;
@@ -443,7 +443,7 @@ padding: 0;
 
 
 div.content a:hover {
-  font-family:helvetica,sans-serif;
+  font-family:verdana,helvetica,sans-serif;
     color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
@@ -487,7 +487,7 @@ div.content a.mtitle:hover {
 
 }
 div.redcontent input.text {
-   font-family:helvetica,sans-serif;
+   font-family:verdana,helvetica,sans-serif;
   font-weight:normal;
   border-color:336699;
   border-style:solid;
@@ -496,7 +496,7 @@ div.redcontent input.text {
   color:blue;
 }
 div.content input.text {
-   font-family:helvetica,sans-serif;
+   font-family:verdana,helvetica,sans-serif;
   font-weight:normal;
   border-color:336699;
   border-style:solid;
@@ -876,7 +876,7 @@ div.op_detail_frame  {
 div.inner_box  {
   background-color:#e4e7ed;
  font-size:10;
-  font-family:helvetica,sans-serif;
+  font-family:verdana,helvetica,sans-serif;
   padding:0;
   margin:0;
   overflow:hidden;
