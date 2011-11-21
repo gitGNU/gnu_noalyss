@@ -4,6 +4,7 @@ body {
    	font-family:sans-serif;
 	font-size:12px;
 	color:blue;
+        background-color:#EDF3FF;
  }
 h2.info {
 	color:green;
@@ -15,10 +16,13 @@ h2.error {
 	font-size:14px;
 	font-family:sans-serif;
 }
-.warning  {
+
+p.warning  {
    	font-family:sans-serif;
 	font-size:12px;
 	color:red;
+        border: 1px solid red;
+        padding:30px;
  }
 .info {
 	color:blue;
@@ -40,7 +44,7 @@ border:groove 2px blue;
 }
 </style>
 <p align="center">
-  <IMG SRC="../image/logo7.jpg" alt="Logo">
+  <IMG SRC="../image/logo7.gif" alt="Logo PhpCompta">
 </p>
 <?php
 
@@ -69,6 +73,8 @@ border:groove 2px blue;
  *        This file is included in each release  for a new upgrade
  *
  */
+$failed="<span style=\"font-size:18px;color;red\">&#x2716;</span>";
+$succeed="<span style=\"font-size:18px;color;green\">&#x2713;</span>";
 
 $inc_path=get_include_path();
 /**
@@ -152,7 +158,7 @@ create_htaccess();
 if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php')) {
   /* if the config file is not found we propose to create one */
   if ( is_writable ('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'constant.php') == false ) {
-    echo '<h2 class="error"> On ne peut pas &eacute;crire dans le r&eacute;pertoire de phpcompta, changez-en les droits </h2>';
+    echo '<h2 class="error"> Ecriture non possible </h2><p class="warning"> On ne peut pas &eacute;crire dans le r&eacute;pertoire de phpcompta, changez-en les droits </p>';
     exit();
   }
 
@@ -186,74 +192,106 @@ require_once('class_database.php');
 
 ?>
 <h2>Info</h2>
-Vous utilisez le domaine <?php echo domaine; ?>
+Vous utilisez le domaine <?php echo domaine; ?> <?=$succeed?> 
 <h2>Php setting</h2>
 <?php
 
 $flag_php=0;
 
 //ini_set("memory_limit","200M");
+echo "<ul>";
 foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
-
-  if ( ini_get($a) == false ) print $a.': Ok  <br>';
+echo "<li>";
+  if ( ini_get($a) == false ) print $a.': '.$succeed;
   else {
-	print ("<h2 class=\"error\">$a has a bad value  !!!</h2>");
+        print $a.': '.$failed;
+	print ("<h2 class=\"error\">$a a une mauvaise valeur !</h2>");
 	$flag_php++;
   }
 
+echo "</li>";
 }
 $module=get_loaded_extensions();
 
+echo "<li>";
 if ( in_array('pgsql',$module) == false )
 {
-  print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; ou activé l\'extension(pgsql)  pour postgresql soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
+  echo 'module PGSQL '.$failed;
+  print '<span class="warning">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; ou activé l\'extension(pgsql)  pour postgresql soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </span>';
   $flag_php++;
-} else echo 'module PGSQL ok <br>';
+} else echo 'module PGSQL '.$succeed;
+echo "</li>";
 
+echo "<li>";
 if ( in_array('bcmath',$module) == false )
 {
-  print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; ou activé l\'extension (bcmath)  pour bcmath soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
+  echo 'module BCMATH ok '.$failed;
+  print '<span class="warning">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; ou activé l\'extension (bcmath)  pour bcmath soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </span>';
   $flag_php++;
-} else echo 'module BCMATH ok <br>';
+} else echo 'module BCMATH '.$succeed;
+echo "</li>";
+
+echo "<li>";
 if ( in_array('gettext',$module) == false )
 {
-  print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; ou activé l\'extension  (gettext) pour gettext soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
+  echo 'module GETTEXT '.$failed;
+  print '<span class="warning">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; ou activé l\'extension  (gettext) pour gettext soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </span>';
   $flag_php++;
-} else echo 'module GETTEXT ok <br>';
+} else echo 'module GETTEXT '.$succeed;
+echo "</li>";
 
+echo "<li>";
 if ( in_array('zip',$module) == false )
 {
-  print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; ou activé l\'extension (zip) pour zip soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
+  echo 'module ZIP '.$failed;
+  print '<span class="warning">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; ou activé l\'extension (zip) pour zip soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </span>';
   $flag_php++;
-} else echo 'module ZIP ok <br>';
+} else echo 'module ZIP '.$succeed;
+echo "</li>";
 
-
+echo "<li>";
 if ( ini_get("max_execution_time") < 60 )  {
-	print '<h2 class="info"> max_execution_time should be set to 60 minimum</h2>';
+        echo 'Avertissement : '.$failed;
+	print '<span class="info"> max_execution_time devrait être de 60 minimum</span>';
 }
+echo "</li>";
+
+echo "<li>";
 if ( ini_get("session.auto_start") == false )  {
-	print '<h2 class="error"> session.auto_start must be set to true </h2>';
+        echo 'Avertissement : '.$failed;
+	print '<span class="warning"> session.auto_start doit être mis à vrai</span>';
 	$flag_php++;
 }
+echo "</li>";
+
+echo "<li>";
 if ( ini_get("session.use_trans_sid") == false )  {
-	print '<h2 class="error"> avertissement session.use_trans_sid should be set to true </h2>';
+        echo 'Avertissement : '.$failed;
+	print '<span class="warning"> avertissement session.use_trans_sid should be set to true </span>';
 }
+echo "</li>";
+
+echo "<li>";
 if ( strpos($inc_path,"../include") == 0 && strpos ($inc_path,'..\\include') == 0)
 {
-  print ("<h2 class=\"error\"> include_path incorrect  !!!".$inc_path."</h2>");
+    echo 'variable include_path: '.$failed;
+  print ("<span class=\"warning"> include_path incorrect  !!!".$inc_path."</span>");
 	$flag_php++;
 }
  else
    if ( strpos($inc_path,"addon") == 0) {
-  print ("<h2 class=\"error\">2 include_path incorrect  !!!".$inc_path."</h2>");
+       echo 'variable include_path: '.$failed;
+    print ("<span class=\"warning\">2 include_path incorrect  !!!".$inc_path."</span>");
 	$flag_php++;
  }else
-   print 'include_path : ok ('.$inc_path.')<br>';
+   echo 'variable include_path: '.$succeed;
+echo "</li>";
 
+ echo "</ul>";
 if ( $flag_php==0 ) {
-	echo '<p class="info">php.ini est bien configur&eacute;</p>';
+	echo '<p class="info">'.$succeed.' php.ini est bien configur&eacute;</p>';
 } else {
-	echo '<p class="error"> php mal configur&eacute;</p>';
+	echo '<p class="warning">'.$failed.' php mal configur&eacute;</p>';
 	exit -1;
 }
 /* check user */
@@ -274,7 +312,7 @@ if ( $version[0] < 8 ||
      ) 
   {
 ?>
-  <p> Vous devez absolument utiliser au minimum une version 8.4 de PostGresql, si votre distribution n'en
+  <p><?=$failed?> Vous devez absolument utiliser au minimum une version 8.4 de PostGresql, si votre distribution n'en
 offre pas, installez en une en la compilant. </p><p>Lisez attentivement la notice sur postgresql.org pour migrer
 vos bases de donn&eacute;es
 </p>
@@ -289,7 +327,7 @@ vos bases de donn&eacute;es
 $sql="select lanname from pg_language where lanname='plpgsql'";
 $Res=$cn->count_sql($sql);
 if ( $Res==0) { ?>
-<p> Vous devez installer le langage plpgsql pour permettre aux fonctions SQL de fonctionner.</p>
+<p><?=$failed?> Vous devez installer le langage plpgsql pour permettre aux fonctions SQL de fonctionner.</p>
 <p>Pour cela, sur la ligne de commande en tant qu\'utilisateur postgres, faites createlang plpgsql template1
 </p>
 
@@ -310,14 +348,15 @@ for ($e=0;$e<$cn->size();$e++) {
   switch ($a['name']){
   case 'effective_cache_size':
     if ( $a['setting'] < 1000 ){
-      print '<p class="warning">Attention le param&egrave;tre effective_cache_size est de '.
+      
+      print '<p class="warning">'.$failed.'Attention le param&egrave;tre effective_cache_size est de '.
 	$a['setting']." au lieu de 1000 </p>";
       $flag++;
     }
     break;
   case 'shared_buffers':
     if ( $a['setting'] < 640 ){
-      print '<p class="warning">Attention le param&egrave;tre shared_buffer est de '.
+      print '<p class="warning">'.$failed.'Attention le param&egrave;tre shared_buffer est de '.
 	$a['setting']."au lieu de 640</p>";
       $flag++;
     }
@@ -325,9 +364,9 @@ for ($e=0;$e<$cn->size();$e++) {
   }
  }
 if ( $flag == 0 ) {
-  echo '<p class="info">La base de donn&eacute;es est bien configur&eacute;e</p>';
+  echo '<p class="info"> La base de donn&eacute;es est bien configur&eacute;e '.$succeed.'</p>';
  } else {
-  echo '<p class="warning">Il y a '.$flag.' param&egrave;tre qui sont trop bas</p>';
+  echo '<p class="warning">'.$failed.'Il y a '.$flag.' param&egrave;tre qui sont trop bas</p>';
  }
 if ( ! isset($_POST['go']) ) {
 ?>
