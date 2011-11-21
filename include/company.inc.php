@@ -18,7 +18,7 @@ global $g_user;
         $m->MY_CHECK_PERIODE=$p_check_periode;
         $m->MY_DATE_SUGGEST=$p_date_suggest;
         $m->MY_ANALYTIC=$p_compta;
-        if ( $g_user->check_action(PARSTR)!=0) $m->MY_STRICT=$p_strict;
+        $m->MY_STRICT=$p_strict;
         $m->MY_TVA_USE=$p_tva_use;
         $m->MY_PJ_SUGGEST=$p_pj;
 	$m->MY_ALPHANUM=$p_alphanum;
