@@ -628,7 +628,7 @@ div.popup_border_title {
 	border: 2px outset #201e87;
 	background-color:#879ED4;
 	font-size: 110% ;
-	font-family: helvetica,sans-serif;
+	font-family: verdana,helvetica,sans-serif;
 	font-style: italic;
 	font-weight: bolder;
 	text-align:center;
@@ -650,7 +650,7 @@ div.popup_border_notitle {
 	/*border:dotted 1px black;*/
 	border: 3px outset #201e87;
 	background-color: #879ED4;
-	font-family: helvetica,sans-serif;
+	font-family: verdana,helvetica,sans-serif;
 	font-style: italic;
 	font-weight: bolder;
 	text-align:center;
@@ -672,7 +672,7 @@ div.popup_content {
 	overflow: auto;
 	background-color:#DFE7FF;
 	font-size:10px ;
-	font-family: helvetica,sans-serif;
+	font-family: verdana,helvetica,sans-serif;
 	font-style: normal;
 	font-weight: normal;
 	color: black;
@@ -798,7 +798,7 @@ a#anchorbutton, .button, a.button,div.content a.button {
 	font-weight: bold;
 
 	text-decoration:none;
-	font-family: helvetica,sans-serif;
+	font-family: verdana,helvetica,sans-serif;
 	background-image: url("image/bg-submit2.gif");
 	background-repeat: repeat-x;
 	background-position: left;
@@ -993,7 +993,7 @@ div#wait_box
 {
   background-color:#F1E6E6;
  font-size:10;
-  font-family:helvetica,arial,sans-serif;
+  font-family: verdana,helvetica,arial,sans-serif;
   padding:0;
   margin:0;
   overflow:hidden;
