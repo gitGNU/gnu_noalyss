@@ -92,6 +92,11 @@ if ( strpos($inc_path,";") != 0 ) {
 /* If htaccess file doesn't exists we create them here
  * if os == 1 then windows, 0 means Unix
  */
+/**
+ *@todo remove this test for production
+ */
+if ( ! DEBUG )
+{
 $file='..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'.htaccess';
 $hFile=@fopen($file,'w+');
 if ( ! $hFile )     exit('Impossible d\'&eacute;crire dans le r&eacute;pertoire include');
@@ -172,7 +177,7 @@ create_htaccess();
 // magic_quotes_runtime = Off
 // magic_quotes_sybase = Off
 // include_path
-
+}
 ?>
 <?
 require_once('config_file.php');
