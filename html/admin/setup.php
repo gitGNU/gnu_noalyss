@@ -6,10 +6,12 @@ body {
 	color:blue;
         background-color:#EDF3FF;
  }
-h2.info {
-	color:green;
-	font-size:14px;
+p.info {
+	color:blue;
 	font-family:Verdana,arial,sans-serif;
+        padding: 30px;
+        border : 1px solid green;
+            
 }
 h2.error {
 	color:red;
@@ -425,7 +427,7 @@ if ($account == 0 ) {
 //--
 $cn=new Database();
 
-echo "<h2 class=\"info\"> F&eacute;licitation : Installation r&eacute;ussie</h2>";
+echo "<p class=\"info\"> F&eacute;licitation : Installation r&eacute;ussie</p>";
 
 echo '<hr>';
 echo "<h1>Mise a jour du systeme</h1>";
@@ -476,6 +478,6 @@ echo '<hr>';
    }
 
  if (! DEBUG) ob_end_clean();
- echo "<p class=\"warning\">Tout est install&eacute;</p>";
+ echo "<p class=\"info\">Tout est install&eacute; $succeed</p>";
 ?>
 <A HREF="../index.php">Connectez-vous à PhpCompta</A>
