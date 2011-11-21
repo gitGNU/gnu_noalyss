@@ -836,6 +836,7 @@ div.topmenu {
 h2.dossier {
 	color:darkblue;
 	font-style: italic;
+display:inline;
 
 font-size:20px;
 margin:0;

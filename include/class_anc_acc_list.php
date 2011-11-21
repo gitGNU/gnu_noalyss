@@ -29,9 +29,9 @@ require_once('class_anc_acc_link.php');
 class Anc_Acc_List extends Anc_Acc_Link
 {
   /**
-   *@brief display form to get the parameter 
+   *@brief display form to get the parameter
    *  - card_poste 1 by card, 2 by account
-   *  - from_poste 
+   *  - from_poste
    *  - to_poste
    *  - from from date
    *  - to until date
@@ -48,7 +48,7 @@ class Anc_Acc_List extends Anc_Acc_Link
 			array('value'=>4,'label'=>'Par activité/Poste Comptable')
 
 			);
-    
+
     $icard->selected=$this->card_poste;
     $r.=$icard->input();
     $r.=HtmlInput::request_to_hidden(array('ac'));
@@ -64,7 +64,7 @@ class Anc_Acc_List extends Anc_Acc_Link
     $date=($date != '')?"  $date":'';
     $sql_from_poste=($this->from_poste!='')?" and  po.po_name >= upper('".Database::escape_string($this->from_poste)."')":'';
     $sql_to_poste=($this->to_poste!='')?" and  po.po_name <= upper('".Database::escape_string($this->to_poste)."')":'';
-    $this->arow=$this->db->get_array(" 
+    $this->arow=$this->db->get_array("
  SELECT po.po_id, po.pa_id, po.po_name, po.po_description, sum(
         CASE
             WHEN operation_analytique.oa_debit = true THEN operation_analytique.oa_amount * (-1)::numeric
@@ -115,7 +115,7 @@ CASE
     WHEN operation_analytique.oa_debit = true THEN operation_analytique.oa_amount * (-1)::numeric
     ELSE operation_analytique.oa_amount
 END) <> 0::numeric order by po_name,name",array($this->pa_id));
-    
+
   }
 
   /**
@@ -185,8 +185,8 @@ END) <> 0::numeric order by name,po_name",array($this->pa_id));
    *@brief display the button export CSV
    *@param $p_hidden is a string containing hidden items
    *@return html string
-   */  
-  function show_button($p_hidden)
+   */
+  function show_button($p_hidden="")
   {
     $r="";
     $r.= '<form method="GET" action="export.php"  style="display:inline">';
@@ -224,7 +224,7 @@ END) <> 0::numeric order by name,po_name",array($this->pa_id));
 	 * Show all the result
 	 */
 	$tot_card=0;$prev='';
-	echo '<table class="result" style="margin-left:20px;margin-top:5px">';
+	echo '<table class="result" style="margin-left:5px;margin-top:5px">';
 	$tot_glob=0;
 	for ($i=0;$i<count($this->arow);$i++)
 	  {
@@ -538,9 +538,9 @@ END) <> 0::numeric order by name,po_name",array($this->pa_id));
 	  }
       }
 
-		    
 
-   
+
+
   }
 
 }
