@@ -1,7 +1,7 @@
 <style type="text/css">
 <!--
 body {
-   	font-family:sans-serif;
+   	font-family:Verdana,arial,sans-serif;
 	font-size:12px;
 	color:blue;
         background-color:#EDF3FF;
@@ -9,16 +9,16 @@ body {
 h2.info {
 	color:green;
 	font-size:14px;
-	font-family:sans-serif;
+	font-family:Verdana,arial,sans-serif;
 }
 h2.error {
 	color:red;
 	font-size:14px;
-	font-family:sans-serif;
+	font-family:Verdana,arial,sans-serif;
 }
 
 p.warning  {
-   	font-family:sans-serif;
+   	font-family:Verdana,arial,sans-serif;
 	font-size:12px;
 	color:red;
         border: 1px solid red;
@@ -27,7 +27,7 @@ p.warning  {
 .info {
 	color:blue;
 	font-size:12px;
-	font-family:sans-serif;
+	font-family:Verdana,arial,sans-serif;
 }
 a:hover{
 color:blue;
@@ -192,14 +192,14 @@ require_once('class_database.php');
 
 ?>
 <h2>Info</h2>
-Vous utilisez le domaine <?php echo domaine; ?> <?=$succeed?> 
+Vous utilisez le domaine <?php echo domaine; ?> 
 <h2>Php setting</h2>
 <?php
 
 $flag_php=0;
 
 //ini_set("memory_limit","200M");
-echo "<ul>";
+echo "<ul style=\"list-style-type: square;\">";
 foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
 echo "<li>";
   if ( ini_get($a) == false ) print $a.': '.$succeed;
@@ -249,27 +249,27 @@ if ( in_array('zip',$module) == false )
 } else echo 'module ZIP '.$succeed;
 echo "</li>";
 
-echo "<li>";
 if ( ini_get("max_execution_time") < 60 )  {
+        echo "<li>";
         echo 'Avertissement : '.$failed;
 	print '<span class="info"> max_execution_time devrait être de 60 minimum</span>';
+        echo "</li>";
 }
-echo "</li>";
 
-echo "<li>";
 if ( ini_get("session.auto_start") == false )  {
+        echo "<li>";
         echo 'Avertissement : '.$failed;
 	print '<span class="warning"> session.auto_start doit être mis à vrai</span>';
+        echo "</li>";
 	$flag_php++;
 }
-echo "</li>";
 
-echo "<li>";
 if ( ini_get("session.use_trans_sid") == false )  {
+        echo "<li>";
         echo 'Avertissement : '.$failed;
 	print '<span class="warning"> avertissement session.use_trans_sid should be set to true </span>';
+        echo "</li>";
 }
-echo "</li>";
 
 echo "<li>";
 if ( strpos($inc_path,"../include") == 0 && strpos ($inc_path,'..\\include') == 0)
