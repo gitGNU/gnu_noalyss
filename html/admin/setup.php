@@ -34,6 +34,13 @@ h2 {
 	font-family:Verdana,arial,sans-serif;
         font-style: italic;
 }
+h3 {
+	color:blue;
+	font-size:12px;
+	font-family:Verdana,arial,sans-serif;
+        font-style: italic;
+        text-decoration: underline;
+}
 p.warning  {
    	font-family:Verdana,arial,sans-serif;
 	font-size:12px;
