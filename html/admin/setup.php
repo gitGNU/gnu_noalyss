@@ -499,5 +499,5 @@ for ($e=0;$e < $MaxDossier;$e++) {
  if (! DEBUG) ob_end_clean();
  echo "<p class=\"info\">Tout est install&eacute; $succeed";
 ?>
-<A HREF="../index.php">Connectez-vous à PhpCompta</A>
+<A style="display:block;text-align: center" HREF="../index.php">Connectez-vous à PhpCompta</A>
 </p>
