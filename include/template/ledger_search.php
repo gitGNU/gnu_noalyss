@@ -1,14 +1,8 @@
 
-<table>
-<tr>
-<td style='text-align:right;width:30em'>
 <?=_('Dans le journal')?>
-</td>
-<td>
    <?php echo $f_ledger; ?>
-</td>
-</tr>
 
+<table>
 <tr>
 <td style='text-align:right;width:30em'>
 <?=_('Et Compris entre les date')?>
