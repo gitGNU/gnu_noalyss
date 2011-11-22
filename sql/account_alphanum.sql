@@ -1,7 +1,3 @@
--- Function: comptaproc.account_auto(integer)
-
--- DROP FUNCTION comptaproc.account_auto(integer);
-
 CREATE OR REPLACE FUNCTION comptaproc.account_alphanum()
   RETURNS boolean AS
 $BODY$
@@ -16,5 +12,4 @@ begin
 	return l_auto;
 end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
+  LANGUAGE plpgsql;

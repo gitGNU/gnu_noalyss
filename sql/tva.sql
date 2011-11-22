@@ -40,7 +40,7 @@ update tva_rate set tva_label=p_tva_label,tva_rate=p_tva_rate,tva_comment=p_tva_
 return 0;
 end;
 $function$
- LANGUAGE plpgsql;
+LANGUAGE plpgsql;
 
 ----------------------------------------------------------------------
 -- TVA INSERT
@@ -82,4 +82,4 @@ insert into tva_rate(tva_id,tva_label,tva_rate,tva_comment,tva_poste,tva_both_si
 return 0;
 end;
 $function$
- LANGUAGE plpgsql;
+LANGUAGE plpgsql;

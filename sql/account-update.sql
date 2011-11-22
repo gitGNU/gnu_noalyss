@@ -1,7 +1,3 @@
--- Function: comptaproc.account_update(integer, account_type)
-
--- DROP FUNCTION comptaproc.account_update(integer, account_type);
-
 CREATE OR REPLACE FUNCTION comptaproc.account_update(p_f_id integer, p_account account_type)
   RETURNS integer AS
 $BODY$
@@ -50,5 +46,4 @@ begin
 return 0;
 end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
+LANGUAGE plpgsql;

@@ -57,5 +57,5 @@ begin
 	return;
 end;
 $BODY$
-  LANGUAGE plpgsql;
+LANGUAGE plpgsql;
 	

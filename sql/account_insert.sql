@@ -1,5 +1,3 @@
--- Function: comptaproc.account_insert(integer, text)
-
  DROP FUNCTION comptaproc.account_insert(integer, text);
 
 CREATE OR REPLACE FUNCTION comptaproc.account_insert(p_f_id integer, p_account text)
@@ -85,5 +83,5 @@ raise info 'sClass_Base : %',sClass_base;
 return 0;
 end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
+LANGUAGE plpgsql;
+

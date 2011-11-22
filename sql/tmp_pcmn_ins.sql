@@ -1,8 +1,4 @@
--- Function: comptaproc.tmp_pcmn_ins()
-
--- DROP FUNCTION comptaproc.tmp_pcmn_ins();
-
-CREATE OR REPLACE FUNCTION comptaproc.tmp_pcmn_ins()
+ZCREATE OR REPLACE FUNCTION comptaproc.tmp_pcmn_ins()
   RETURNS trigger AS
 $BODY$
 declare
@@ -16,5 +12,5 @@ end if;
 return NEW;
 end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
+LANGUAGE plpgsql;
+

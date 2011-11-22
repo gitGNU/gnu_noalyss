@@ -11,5 +11,4 @@ r_record.pcm_val:=format_account(NEW.pcm_val);
 return r_record;
 end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
+LANGUAGE plpgsql;

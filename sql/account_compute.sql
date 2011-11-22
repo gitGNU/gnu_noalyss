@@ -1,7 +1,3 @@
--- Function: comptaproc.account_compute(integer)
-
--- DROP FUNCTION comptaproc.account_compute(integer);
-
 CREATE OR REPLACE FUNCTION comptaproc.account_compute(p_f_id integer)
   RETURNS account_type AS
 $BODY$
@@ -44,5 +40,5 @@ begin
 	return sResult;
 end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
+LANGUAGE plpgsql;
+  

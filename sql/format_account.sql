@@ -1,7 +1,3 @@
--- Function: comptaproc.format_account(account_type)
-
--- DROP FUNCTION comptaproc.format_account(account_type);
-
 CREATE OR REPLACE FUNCTION comptaproc.format_account(p_account account_type)
   RETURNS account_type AS
 $BODY$
@@ -22,10 +18,10 @@ end if;
 
 return upper(sResult);
 
-end;$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100;
-
+end;
+$BODY$
+LANGUAGE plpgsql;
+  
 COMMENT ON FUNCTION comptaproc.format_account(account_type) IS 'format the accounting :
 - upper case
 - remove space and special char.
