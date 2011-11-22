@@ -31,6 +31,7 @@ function infodiv(req,json)
 {
     try
     {
+        remove_waiting_box();
         var answer=req.responseXML;
         var a=answer.getElementsByTagName('ctl');
         var html=answer.getElementsByTagName('code');

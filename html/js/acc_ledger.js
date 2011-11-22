@@ -50,23 +50,23 @@ function update_predef(p_type,p_direct)
 */
 function update_pay_method()
 {
-	waiting_box();
+    waiting_box();
     var jrn=g("p_jrn").value;
     var dossier=g("gDossier").value;
     var querystring='gDossier='+dossier+'&l='+jrn+"&op=up_pay_method";
     var action=new Ajax.Request(
-                   "ajax_misc.php",
-                   {
-                   method:'get',
-                   parameters:querystring,
-                   onFailure:error_get_predef,
-                   onSuccess:function(req){
-										remove_waiting_box();
-										var answer=req.responseText;
-										$('payment').innerHTML=answer;
-								}
-                   }
-               );
+        "ajax_misc.php",
+        {
+            method:'get',
+            parameters:querystring,
+            onFailure:error_get_predef,
+            onSuccess:function(req){
+                remove_waiting_box();
+                var answer=req.responseText;
+                $('payment').innerHTML=answer;
+            }
+        }
+        );
 }
 
 /**
@@ -637,6 +637,7 @@ function update_history_card(obj)
 */
 function removeOperation(p_jr_id,dossier,div)
 {
+    waiting_box();
     var qs="gDossier="+dossier+"&act=rmop&div="+div+"&jr_id="+p_jr_id;
     var action=new Ajax.Request(
                    "ajax_ledger.php",
@@ -659,7 +660,7 @@ function reverseOperation(obj)
     var qs=$(obj).serialize();
     g('ext'+obj.divname).style.display='none';
     g('bext'+obj.divname).style.display='none';
-
+    waiting_box();
     var action=new Ajax.Request(
                    "ajax_ledger.php",
                    {
@@ -864,7 +865,7 @@ function op_save(obj)
     queryString+='&jr_id='+obj.jr_id.value;
     queryString+='&div='+obj.whatdiv.value;
     queryString+='&act=save';
-
+    waiting_box();
     if ( g('inpopup'))
     {
         var action=new Ajax.Request ( 'ajax_ledger.php',
