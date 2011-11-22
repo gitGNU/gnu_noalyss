@@ -64,6 +64,7 @@
 							</td>
 							</tr>
                                                            <tr>
+															   <td></td>
                                                             <td>Payé</td>
                                                             <td>
                                                                 <?
@@ -95,7 +96,7 @@
 				</table>
 				</td>
 				</tr>
-                                
+
 </table>
 
 <fieldset><legend><?=_('Détail')?></legend>

@@ -145,7 +145,7 @@ border:groove 1px blue;
 margin:1px;
 }
 .button {
-font-size:10px;
+font-size:12px;
 color:white;
 font-weight: bold;
 
@@ -164,6 +164,7 @@ padding:2 4 2 4;
 cursor:pointer;
 margin:1 2 1 2;
 -moz-border-radius:2 2;
+border-radius:2 2;
 
 }
 .button:hover {
