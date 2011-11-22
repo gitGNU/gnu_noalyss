@@ -94,7 +94,7 @@ global $g_user;
     $all->value='';
     echo "<tr>".td(_("Numéro de Tva"),'style="text-align:right"').$all->input("p_tva",$my->MY_TVA)."</tr>";
     echo "<tr>".td(_("Utilisation de la compta. analytique"),'style="text-align:right"').$compta->input("p_compta",$array)."</tr>";
-    if ( $g_user->check_action(PARSTR)==0) $strict->setReadonly(true);
+    
     echo "<tr>".td(_("Utilisation du mode strict "),'style="text-align:right"').$strict->input("p_strict",$strict_array)."</tr>";
     echo "<tr>".td(_("Assujetti à la tva"),'style="text-align:right"').$tva_use->input("p_tva_use",$strict_array)."</tr>";
     echo "<tr>".td(_("Suggérer le numéro de pièce justificative"),'style="text-align:right"').$pj_suggest->input("p_pj",$strict_array)."</tr>";

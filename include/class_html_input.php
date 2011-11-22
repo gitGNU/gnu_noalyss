@@ -300,7 +300,7 @@ class HtmlInput
         echo $ledger->input();
 
         /* create a hidden div for the ledger */
-        echo '<div id="div_jrn'.$div.'">';
+        echo '<div id="div_jrn'.$div.'" >';
         echo '<h2 class="info">Choix des journaux</h2>';
 
         echo '<ul>';
