@@ -63,6 +63,16 @@
 						?>
 						</td>
 						</tr>
+                                               <tr>
+                                                        <td>Payé</td>
+                                                        <td>
+                                                            <?
+                                                            $ipaid=new ICheckBox("ipaid",'paid');
+                                                            $ipaid->value=$obj->det->jr_rapt;
+                                                            echo $ipaid->input();
+                                                            ?>
+                                                        </td>
+                                                    </tr>
 						</table>
 </td>
 <td>

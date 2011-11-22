@@ -385,6 +385,14 @@ case 'save':
                     {
                         $rec->insert($rapt);
                     }
+              if ( isset($_POST['ipaid']))
+              {
+                  $cn->exec_sql("update jrn set jr_rapt='paid' where jr_id=$1",array($jr_id));
+              }
+              else
+              {
+                  $cn->exec_sql("update jrn set jr_rapt=null where jr_id=$1",array($jr_id));
+              }
             }
             ////////////////////////////////////////////////////
             // CA
