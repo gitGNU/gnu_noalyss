@@ -52,7 +52,6 @@ if (isset($_GET['amount_id']))
 }
 
 $search_box=$ledger->search_form('ALL',1,'search_op');
-var_dump($search_box);
 
 if ($base == 'recherche.php' || $base == 'do.php')
 	{
