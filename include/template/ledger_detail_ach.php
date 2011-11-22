@@ -68,7 +68,7 @@
                                                             <td>
                                                                 <?
                                                                 $ipaid=new ICheckBox("ipaid",'paid');
-                                                                $ipaid->value=$obj->det->jr_rapt;
+                                                                $ipaid->selected=($obj->det->jr_rapt=='paid');
                                                                 echo $ipaid->input();
                                                                 ?>
                                                             </td>
