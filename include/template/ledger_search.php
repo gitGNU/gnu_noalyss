@@ -1,8 +1,14 @@
 
-<?=_('Dans le journal')?>
-   <?php echo $f_ledger; ?>
-
 <table>
+<tr>
+<td style='text-align:right;width:30em'>
+<?=_('Dans le journal')?>
+</td>
+<td>
+   <?php echo $f_ledger; ?>
+</td>
+</tr>
+
 <tr>
 <td style='text-align:right;width:30em'>
 <?=_('Et Compris entre les date')?>
