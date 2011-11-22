@@ -39,10 +39,6 @@ $act=$User->check_dossier($gDossier);
 // display a search box
 
 
-/**
- * @todo si ajax alors pas de form GET mais plutot une fonction
- * javascript pour chercher
- */
 $base=basename($_SERVER['SCRIPT_NAME']);
 $inside=false;
 $ledger=new Acc_Ledger($cn,0);
@@ -56,6 +52,7 @@ if (isset($_GET['amount_id']))
 }
 
 $search_box=$ledger->search_form('ALL',1,'search_op');
+var_dump($search_box);
 
 if ($base == 'recherche.php' || $base == 'do.php')
 	{
@@ -121,21 +118,21 @@ if ( isset ($_GET['viewsearch']) )
 
    }   else
    {
-	    if ($step<$max_line ) echo '<span class="notice">Nombre d\'enregistrements trouvés =' .$max_line.' limite =  '.$step.'</SPAN>';
+	    if ($step<$max_line ) echo '<span class="notice">Nombre d\'enregistrements trouvés =' .$max_line.' limite =  '.$step.'</span>';
    }
 	echo '<form method="get" onsubmit="set_reconcile(this);return false">';
 	echo HtmlInput::submit("upd_rec","Mettre à jour");
-    echo $content;
-	echo HtmlInput::submit("upd_rec","Mettre à jour");
-	echo '</form>';
-    if (! $inside )echo $bar;
-
 	echo HtmlInput::get_to_hidden(array('ctlc','amount_id','ledger'));
 	echo HtmlInput::get_to_hidden(array('l','date_start','date_end','desc','amount_min','amount_max','qcodesearch_op','accounting','unpaid','gDossier','ledger_type'));
+        echo $content;
+	echo HtmlInput::submit("upd_rec","Mettre à jour");
+    if (! $inside )echo $bar;
+
     if (isset($_GET['r_jrn'])) {
       foreach ($_GET['r_jrn'] as $k=>$v)
 		echo HtmlInput::hidden('r_jrn['.$k.']',$v);
     }
+    echo '</form>';
 }
 echo '</div>';
 ?>
