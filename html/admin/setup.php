@@ -112,10 +112,6 @@ $succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 $inc_path=get_include_path();
 /**
  *@brief create correctly the htaccess file
- *@param
- *@param
- *@return
- *@see
  */
 function create_htaccess() {
 $inc_path=get_include_path();
@@ -131,11 +127,6 @@ if ( strpos($inc_path,";") != 0 ) {
 /* If htaccess file doesn't exists we create them here
  * if os == 1 then windows, 0 means Unix
  */
-/**
- *@todo remove this test for production
- */
-if ( ! DEBUG )
-{
 $file='..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'.htaccess';
 $hFile=@fopen($file,'w+');
 if ( ! $hFile )     exit('Impossible d\'&eacute;crire dans le r&eacute;pertoire include');
@@ -165,7 +156,6 @@ $file='..'.DIRECTORY_SEPARATOR.'.htaccess';
     fwrite($hFile,'php_value include_path .:../../include:../include:addon'."\n");
   foreach ($array as $value ) fwrite($hFile,$value."\n");
   fclose($hFile);
-}
 
 if ( strpos($inc_path,";") != 0 ) {
   $new_path=$inc_path.';..\..\include;addon';
@@ -217,8 +207,6 @@ create_htaccess();
 // magic_quotes_sybase = Off
 // include_path
 }
-?>
-<?
 require_once('config_file.php');
 include_once('constant.php');
 require_once('class_database.php');
