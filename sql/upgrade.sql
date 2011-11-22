@@ -17,7 +17,6 @@ script SQL to run
 \i account_compute.sql
 \i account_insert.sql
 \i account-update.sql
--- \i change-pcmn-to-alphanum.sql
 \i format_account.sql
 \i tmp_pcmn_alphanum_ins_upd.sql
 \i tmp_pcmn_ins.sql
