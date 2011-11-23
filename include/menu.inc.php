@@ -92,9 +92,33 @@ $ord=(isset($_REQUEST['ord']))?$_REQUEST['ord']:'codea';
 
 $order=$table->get_sql_order($ord);
 
+
+
+$iselect=new ISelect('p_type');
+$iselect->value=array(
+	array("value"=>'',"label"=>"Tout"),
+	array("value"=>'ME',"label"=>"Menu"),
+	array("value"=>'PR',"label"=>"Impression"),
+	array("value"=>'PL',"label"=>"Extension / Plugin"),
+	array("value"=>'SP',"label"=>"Valeurs spéciales")
+	);
+$iselect->selected=(isset($_REQUEST['p_type']))?$_REQUEST['p_type']:'';
+$sql="";
+if ( $iselect->selected != '')
+{
+	$sql="where me_type='".sql_string($_REQUEST['p_type'])."'  ";
+}
 $menu=new Menu_Ref_sql($cn);
-$ret=$menu->seek($order);
-echo '<p class="info"> le type vaut :
+$ret=$menu->seek($sql.$order);
+?>
+<fieldset><legend>Recherche</legend>
+<form method="GET">
+	<?=$iselect->input()?>
+	<?=HtmlInput::submit("search", "Recherche")?>
+	<?=HtmlInput::request_to_hidden(array('ac','gDossier','ord'))?>
+</form>
+</fieldset>
+<p class="info"> le type vaut :
 	<ul>
 	<li> ME pour Menu</li>
 	<li> PR pour les impressions </li>
@@ -102,7 +126,8 @@ echo '<p class="info"> le type vaut :
 	<li> SP pour des valeurs spéciales</li>
 	</ul>
 
-	</p>';
+	</p>
+<?
 $gDossier=Dossier::id();
 echo HtmlInput::button("Add_plugin", "Ajout d'un plugin", "onclick=add_plugin($gDossier)");
 echo '<table class="result">';
