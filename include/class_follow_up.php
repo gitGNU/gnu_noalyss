@@ -145,11 +145,17 @@ class Follow_Up
         }
         else
         {
-            // Doc Type
+            /*// Doc Type
             $doc_type=new IHidden();
             $doc_type->name="dt_id";
             $doc_type->value=$this->dt_id;
-            $str_doc_type=$doc_type->input().$this->db->get_value("select dt_value from document_type where dt_id=".$this->dt_id);
+            $str_doc_type=$doc_type->input().$this->db->get_value("select dt_value from document_type where dt_id=".$this->dt_id);*/
+             $doc_type=new ISelect();
+            $doc_type->name="dt_id";
+            $doc_type->value=$this->db->make_array("select dt_id,dt_value from document_type");
+            $doc_type->selected=$this->dt_id;
+            $doc_type->readonly=false;
+            $str_doc_type=$doc_type->input();
         }
 
         // Description
