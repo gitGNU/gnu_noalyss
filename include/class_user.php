@@ -626,14 +626,14 @@ class User
 		{
 			foreach ($default_parameter as $name => $value)
 			{
-				$Insert = sprintf($Sql, $this->id, $name, $value);
+				$Insert = sprintf($Sql, $this->login, $name, $value);
 				$cn->exec_sql($Insert);
 			}
 		}
 		else
 		{
 			$value = ($p_value == "") ? $default_parameter[$p_type] : $p_value;
-			$Insert = sprintf($Sql, $this->id, $p_type, $value);
+			$Insert = sprintf($Sql, $this->login, $p_type, $value);
 			$cn->exec_sql($Insert);
 		}
 	}
