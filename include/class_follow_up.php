@@ -638,7 +638,7 @@ class Follow_Up
         /* insert also the details */
         for ( $i = 0; $i < MAX_ARTICLE;$i++)
         {
-            $act=new Action_Detail($this->db);
+            $act=new Follow_Up_Detail($this->db);
             $act->from_array($_POST,$i);
             $act->ag_id=$this->ag_id;
             $act->save();
