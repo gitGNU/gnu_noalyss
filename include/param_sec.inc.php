@@ -64,19 +64,18 @@ if ( ! isset($_REQUEST['action']))
 
 	$repo=new Database();
 	/*  Show all the users, included local admin */
-	$user_sql=$repo->exec_sql("select  use_id,
-										use_first_name,
-										use_name,
-										use_login,
-										use_admin,
-										priv_priv
-										from ac_users natural join jnt_use_dos ".
-							" join priv_user on (jnt_id=priv_jnt)
-								where use_login != 'phpcompta' and priv_priv <> 'X'
-								and dos_id=$1  ".$ord_sql,
-								array($gDossier));
+	$user_sql = $repo->exec_sql("select use_id,
+                                            use_first_name,
+                                            use_name,
+                                            use_login,
+                                            use_admin,
+                                            priv_priv
+                                                from ac_users natural join jnt_use_dos " .
+                                               " join priv_user on (jnt_id=priv_jnt)
+					where use_login != 'phpcompta' and priv_priv <> 'X'
+					and dos_id=$1  " . $ord_sql, array($gDossier));
 
-	$MaxUser=Database::num_row($user_sql);
+    $MaxUser = Database::num_row($user_sql);
 
 
     echo '<TABLE class="result" style="width:80%;margin-left:10%">';
@@ -226,7 +225,7 @@ if ( $action == "view" )
     echo '<h2>'.h($User->first_name).' '.h($User->name).' '.hi($User->login)."($str)</h2>";
 
 
-    if ( $admin != 0 )
+    if ( $_GET['user_id'] == 1 )
     {
         echo '<h2 class="notice"> Cet utilisateur est administrateur, il a tous les droits</h2>';
 		echo "<p> Impossible de modifier cet utilisateur dans cet écran, il faut passer par
@@ -295,7 +294,11 @@ if ( $action == "view" )
 
         $jrn_priv->name='jrn_act'.$l_line['jrn_def_id'];
         $jrn_priv->value=$array;
-        $jrn_priv->selected=$sec_User->get_ledger_access($l_line['jrn_def_id']);
+        if ($admin != 1)
+            $jrn_priv->selected=$sec_User->get_ledger_access($l_line['jrn_def_id']);
+        else
+            $jrn_priv->selected='W';
+            
 
         echo '<td>';
         echo $jrn_priv->input();
