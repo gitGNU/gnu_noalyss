@@ -1019,6 +1019,8 @@ div#div_jrnsearch_op{
               display:none;
               width:50em;
 		      background-color:#EDF3FF;
+			  position:absolute;
+			  z-index: 5;
 
 }
 ul {

@@ -1014,7 +1014,8 @@ color:black;
 text-align:center;
 }
 div#div_jrnsearch_op{
-
+  position:absolute;
+			  z-index: 5;
               border:1px solid black;
               display:none;
               width:50em;
