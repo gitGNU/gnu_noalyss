@@ -671,15 +671,15 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         $r.='<TR>';
         $r.="<th>"._('Code')."</th>";
         $r.="<th>"._('Dénomination')."</th>";
-        $r.="<th>"._('prix')."</th>";
-        $r.="<th>"._('quantité')."</th>";
-        $r.="<th>"._('tva')."</th>";
+        $r.="<th style=\"text-align:right\">"._('prix')."</th>";
+        $r.="<th style=\"text-align:right\">"._('quantité')."</th>";
+        $r.="<th style=\"text-align:right\">"._('tva')."</th>";
 
 
         if ( $g_parameter->MY_TVA_USE=='Y')
         {
-            $r.='<th> '._('Montant TVA').'</th>';
-            $r.='<th>'._('Montant HTVA').'</th>';
+            $r.='<th style="text-align:right"> '._('Montant TVA').'</th>';
+            $r.='<th style="text-align:right">'._('Montant HTVA').'</th>';
         }
         /* if we use the AC */
         if ($g_parameter->MY_ANALYTIC!='nu')
@@ -736,18 +736,18 @@ class  Acc_Ledger_Sold extends Acc_Ledger
             $r.='<TD style="width:60%;border-bottom:1px dotted grey;">';
             $r.=$fiche_name;
             $r.='</td>';
-            $r.='<td align="right">';
+            $r.='<td class="num">';
             $r.=nbm(${"e_march".$i."_price"});
             $r.='</td>';
-            $r.='<td align="right">';
-            $r.=${"e_quant".$i};
+            $r.='<td class="num">';
+            $r.=nbm(${"e_quant".$i});
             $r.='</td>';
             if ( $g_parameter->MY_TVA_USE=='Y')
             {
-                $r.='<td align="right">';
+                $r.='<td class="num">';
                 $r.=$oTva->get_parameter('label');
                 $r.='</td>';
-                $r.='<td align="right">';
+                $r.='<td class="num">';
                 $r.=nbm($tva_item);
                 /* warning if tva_computed and given are not the
                    same */
@@ -757,7 +757,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                 }
                 $r.='</td>';
             }
-            $r.='<td align="right">';
+            $r.='<td class="num">';
             $r.=nbm($amount);
             $r.='</td>';
 
@@ -789,7 +789,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         if (! $p_summary )
 		{
 			$r.=$this->extra_info();
-	        $r.='<div style="width:40%;position:float;float:right;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
+                         $r.='<div style="width:40%;position:float;float:right;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
 		}
 		else
 			$r.='<div style="width:60%;position:float;float:left;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';

@@ -1271,20 +1271,20 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         $r.='<TR>';
         $r.="<th>Code</th>";
         $r.="<th>"._('Dénomination')."</th>";
-        $r.="<th>"._('prix')."</th>";
+        $r.="<th style=\"text-align:right\">"._('prix')."</th>";
         /* vat use */
         if ( $g_parameter->MY_TVA_USE=='Y')
         {
-            $r.="<th>"._('quantité')."</th>";
-            $r.="<th>tva</th>";
-            $r.='<th> '._('Montant TVA').'</th>';
-            $r.='<th>'._('Montant HTVA').'</th>';
-            $r.='<th>'._('Totaux').'</th>';
+            $r.="<th style=\"text-align:right\">"._('quantité')."</th>";
+            $r.="<th style=\"text-align:right\">tva</th>";
+            $r.='<th style="text-align:right"> '._('Montant TVA').'</th>';
+            $r.='<th style="text-align:right">'._('Montant HTVA').'</th>';
+            $r.='<th style="text-align:right">'._('Totaux').'</th>';
         }
         else
         {
-            $r.="<th>"._('quantité')."</th>";
-            $r.='<th> '._('Total')."</th>";
+            $r.="<th style=\"text-align:right\">"._('quantité')."</th>";
+            $r.='<th style="text-align:right"> '._('Total')."</th>";
         }
 
         /* if we use the AC */
@@ -1359,25 +1359,25 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $r.='<TD style="width:60%;border-bottom:1px dotted grey;">';
             $r.=$fiche_name;
             $r.='</td>';
-            $r.='<td align="right">';
+            $r.='<td class="num">';
             $r.=nbm(${"e_march".$i."_price"});
             $r.='</td>';
-            $r.='<td align="right">';
+            $r.='<td class="num">';
             $r.=nbm(${"e_quant".$i});
             $r.='</td>';
             if ($g_parameter->MY_TVA_USE == 'Y')
             {
-                $r.='<td align="right">';
+                $r.='<td class="num">';
                 $r.=$oTva->get_parameter('label');
                 $r.='</td>';
-                $r.='<td align="right">';
+                $r.='<td class="num">';
                 $r.=nbm($tva_item);
                 $r.='</td>';
-				$r.='<td align="right">';
+				$r.='<td class="num">';
 				$r.=nbm(round($amount,2));
 				$r.='</td>';
             }
-			$r.='<td align="right">';
+			$r.='<td class="num">';
             $r.=nbm(round($tot_row,2));
             $r.='</td>';
             // encode the pa
