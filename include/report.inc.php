@@ -33,16 +33,6 @@ include_once ("user_menu.php");
 require_once('class_ipopup.php');
 
 
-echo ICard::ipopup('ipopcard');
-echo ICard::ipopup('ipop_newcard');
-echo IPoste::ipopup('ipop_account');
-$search_card=new IPopup('ipop_card');
-$search_card->title=_('Recherche de fiche');
-$search_card->value='';
-echo $search_card->input();
-
-
-
 $gDossier=dossier::id();
 $str_dossier=dossier::get();
 
@@ -80,14 +70,15 @@ if ( isset($_POST['upload']))
 }
 
 $lis=$rap->get_list();
+$ac="&ac=".$_REQUEST['ac'];
 $p_action='p_action=defreport';
 echo '<div class="lmenu">';
 echo '<TABLE>';
-echo '<TR><TD class="mtitle"><A class="mtitle" HREF="?'.$p_action.'&action=add&'.$str_dossier.'">Ajout</A></TD></TR>';
+echo '<TR><TD class="mtitle"><A class="mtitle" HREF="?'.$p_action.$ac.'&action=add&'.$str_dossier.'">Ajout</A></TD></TR>';
 
 foreach ( $lis as $row)
 {
-    printf ('<TR><TD class="mtitle"><A class="mtitle" HREF="?'.$p_action.'&action=view&fr_id=%s&%s">%s</A></TD></TR>', $row->id,$str_dossier,$row->name);
+    printf ('<TR><TD class="mtitle"><A class="mtitle" HREF="?'.$p_action.$ac.'&action=view&fr_id=%s&%s">%s</A></TD></TR>', $row->id,$str_dossier,$row->name);
 
 }
 echo "</TABLE>";
