@@ -72,7 +72,7 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5)
 		$afiche[0]=array('fd_id'=>$_REQUEST['cat']);
 	}
 
-	if ( $allcard==0 && empty($aCard))
+	if ( $allcard==0 && empty($afiche))
     {
         $pdf->Cell(0,10, "Aucune fiche trouvée");//Save PDF to file
         $fDate=date('dmy-Hi');

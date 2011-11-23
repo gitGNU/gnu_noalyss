@@ -144,6 +144,7 @@ class Acc_Bilan
     /*!\brief verify that the saldo is good for the type of account */
     function verify()
     {
+		bcscale(2);
         echo '<h3> Comptes normaux </h3>';
         $this->warning('Actif avec un solde crediteur','ACT','D');
         $this->warning('Passif avec un solde debiteur','PAS','C');
@@ -171,7 +172,7 @@ class Acc_Bilan
         $sql.="and $sql_periode";
 
         $credit_actif=$this->db->get_value($sql);
-        $total_actif=abs($debit_actif-$credit_actif);
+        $total_actif=abs(bcsub($debit_actif,$credit_actif));
         echo '<table >';
         echo tr(td( 'Total actif ').td($total_actif,'style="text-align:right"'));
 
@@ -187,13 +188,13 @@ class Acc_Bilan
              " where j_debit='f' and (pcm_type='PAS' or pcm_type='PASINV') ";
         $sql.="and $sql_periode";
         $credit_passif=$this->db->get_value($sql);
-        $total_passif=abs($debit_passif-$credit_passif);
+        $total_passif=abs(bcsub($debit_passif,$credit_passif));
 
         /* diff actif / passif */
         echo tr(td('Total passif ').td($total_passif,'style="text-align:right"'));
         if ( $total_actif != $total_passif )
         {
-            $diff=$total_actif-$total_passif;
+            $diff=bcsub($total_actif,$total_passif);
             echo tr(td(' Difference Actif - Passif ').td($diff,'style="text-align:right"'),'style="font-weight:bolder"');
         }
 
@@ -208,7 +209,7 @@ class Acc_Bilan
              " where j_debit='f' and (pcm_type='CHA' or pcm_type='CHAINV')";
         $sql.="and $sql_periode";
         $credit_charge=$this->db->get_value($sql);
-        $total_charge=abs($debit_charge-$credit_charge);
+        $total_charge=abs(bcsub($debit_charge,$credit_charge));
         echo tr(td('Total charge ').td($total_charge,'style="text-align:right"'));
 
 
@@ -223,10 +224,10 @@ class Acc_Bilan
              " where j_debit='f' and (pcm_type='PRO' or pcm_type='PROINV')";
         $sql.="and $sql_periode";
         $credit_pro=$this->db->get_value($sql);
-        $total_pro=abs($debit_pro-$credit_pro);
+        $total_pro=abs(bcsub($debit_pro,$credit_pro));
         echo tr(td('Total produit ').td($total_pro,'style="text-align:right"'));
 
-        $diff=$total_pro-$total_charge;
+        $diff=bcsub($total_pro,$total_charge);
 
         echo tr( td("Difference Produit - Charge",'style="padding-right:20px"').td($diff,'style="text-align:right"'),'style="font-weight:bolder"');
         echo '</table>';
@@ -296,7 +297,7 @@ class Acc_Bilan
      * \param $p_handle the handle to the file
      * \param
      * \param
-     * 
+     *
      *
      * \return
      */
@@ -324,9 +325,9 @@ class Acc_Bilan
         }// end read form line per line
     }
     /*!\brief generate the ods document
-    * \param the handle to the template file 
-    * \return the xml 
-    *@note 
+    * \param the handle to the template file
+    * \return the xml
+    *@note
     * Sur une seule ligne il y a plusieurs données, donc il y a plusieurs boucles, pour les autres documents
     * cela devrait être fait aussi, actuellement ces documents, n'acceptent qu'une formule par ligne.
     *@note
@@ -352,13 +353,13 @@ class Acc_Bilan
         ob_start();
 	/* unzip the document */
 	$zip = new Zip_Extended;
-	if ($zip->open($work_file) === TRUE) 
+	if ($zip->open($work_file) === TRUE)
 	  {
 	    $zip->extractTo($dirname.DIRECTORY_SEPARATOR);
 	    $zip->close();
-	  } else 
+	  } else
 	  {
-	    echo __FILE__.":".__LINE__."cannot unzip model ".$filename;	
+	    echo __FILE__.":".__LINE__."cannot unzip model ".$filename;
 	  }
 
 	ob_end_clean();
@@ -391,7 +392,7 @@ class Acc_Bilan
             // the line contains the magic <<
             $tmp="";
 
-	    
+
 	    while (preg_match_all($regex,$line_rtf,$f2) > 0 )
 	      {
                 // the f2 array contains all the magic << in the line
@@ -606,13 +607,13 @@ class Acc_Bilan
         case 'ods':
             /*   header("Pragma: public");
             header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-            header("Cache-Control: must-revalidate"); 
+            header("Cache-Control: must-revalidate");
             if ( $this->b_type == 'odt' )
             header('Content-type: application/vnd.oasis.opendocument.text');
             if ( $this->b_type == 'ods' )
             header('Content-type: application/vnd.oasis.opendocument.spreadsheet');
             header('Content-Disposition: attachment;filename="'.$this->b_name.'.odt"',FALSE);
-            header("Accept-Ranges: bytes"); 
+            header("Accept-Ranges: bytes");
             */
             ob_start();
             // save the file in a temp folder
@@ -636,14 +637,14 @@ class Acc_Bilan
 	     */
             ob_start();
 	    $zip = new Zip_Extended;
-	    if ($zip->open($work_file) === TRUE) 
+	    if ($zip->open($work_file) === TRUE)
 	      {
 		$zip->extractTo($dirname.DIRECTORY_SEPARATOR);
 		$zip->close();
-	      } 
-	    else 
+	      }
+	    else
 	      {
-		echo __FILE__.":".__LINE__."cannot unzip model ".$filename;	
+		echo __FILE__.":".__LINE__."cannot unzip model ".$filename;
 	      }
 
             // Remove the file we do  not need anymore

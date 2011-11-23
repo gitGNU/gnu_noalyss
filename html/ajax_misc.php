@@ -66,15 +66,10 @@ $html = var_export($_REQUEST, true);
 switch ($op)
 {
 	case "remove_anc":
-		if ($user->check_action(CAOD))
 			$cn->exec_sql("delete from operation_analytique where oa_group=$1", array($_GET['oa']));
 		break;
 	case "rm_stock":
 		require_once('constant.security.php');
-		if ($user->check_action(STOWRITE) == 0)
-		{
-			exit();
-		}
 		$cn->exec_sql('delete from stock_goods where sg_id=$1', array($s_id));
 		$html = escape_xml($s_id);
 		header('Content-type: text/xml; charset=UTF-8');
@@ -537,5 +532,5 @@ EOF;
          case 'autoanc':
                 require_once('ajax_auto_anc_card.php');
                 break;
-            
+
 }

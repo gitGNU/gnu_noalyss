@@ -42,12 +42,12 @@ class contact extends Fiche
     /*!   Summary
      **************************************************
      * \brief  show the default screen
-     *        
+     *
      * \param  p_search (filter)
-     *	
+     *
      * \return string to display
      */
-    function Summary($p_search="",$p_action="",$p_sql="")
+    function Summary($p_search="",$p_action="",$p_sql="",$p_nothing=false)
     {
         $p_search=sql_string($p_search);
         $extra_sql="";

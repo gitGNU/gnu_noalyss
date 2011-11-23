@@ -180,14 +180,17 @@ global $g_parameter;
 // pre defined operation
 //
 
-    if ( !isset($_REQUEST ['p_jrn']))
+    if ( !isset($_REQUEST ['p_jrn']) )
     {
         $def_ledger=$Ledger->get_first('ven');
         $Ledger->id=$def_ledger['jrn_def_id'];
     }
     else
         $Ledger->id=$_REQUEST ['p_jrn'];
-
+	if (isset ($_REQUEST['p_jrn_predef'])){
+		$Ledger->id=$_REQUEST['p_jrn_predef'];
+	}
+	
    echo '<div id="predef_form">';
     echo '<form style="display:inline" method="GET" >';
 	echo HtmlInput::hidden('ac',$_REQUEST['ac']);

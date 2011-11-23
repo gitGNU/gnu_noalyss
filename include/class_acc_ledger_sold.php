@@ -331,7 +331,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                         $tva[$idx_tva]+=$tva_item;
                     else
                         $tva[$idx_tva]=$tva_item;
-		    var_dump($oTva->get_parameter("both_side"));
                     if ($oTva->get_parameter("both_side")==0) $tot_tva=round(bcadd($tva_item,$tot_tva),2);
                 }
 
@@ -1283,7 +1282,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 
         $r.=HtmlInput::button('add_item',_('Ajout article'),      ' onClick="ledger_add_row()"');
 
-        $r.="</DIV>";
         return $r;
     }
 

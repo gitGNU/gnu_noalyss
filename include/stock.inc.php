@@ -41,17 +41,12 @@ global $g_user;
 
 $href=basename($_SERVER['PHP_SELF']);
 
-// Get The priv on the selected folder
-$g_user->can_request(STOLE,1);
-
-
 $action= ( isset ($_GET['action']))? $_GET['action']:"";
 include_once("stock_inc.php");
 
 // Adjust the stock
 if ( isset ($_POST['sub_change']))
 {
-    $g_user->can_request(STOWRITE,1);
     $change=$_POST['stock_change'];
     $sg_code=$_POST['sg_code'];
     $sg_date=$_POST['sg_date'];
@@ -121,8 +116,6 @@ else
 // View details
 if ( $action == 'detail' )
 {
-    // Check if User Can see the stock
-    $g_user->can_request(STOLE,1);
     $sg_code=(isset ($_GET['sg_code'] ))?$_GET['sg_code']:$_POST['sg_code'];
     $year=(isset($_GET['year']))?$_GET['year']:$_POST['year'];
     $a=ViewDetailStock($cn,$sg_code,$year);

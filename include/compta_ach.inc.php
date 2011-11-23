@@ -169,6 +169,9 @@ if (!isset($_REQUEST ['p_jrn']))
 else
 	$Ledger->id = $_REQUEST ['p_jrn'];
 
+if (isset ($_REQUEST['p_jrn_predef'])){
+	$Ledger->id=$_REQUEST['p_jrn_predef'];
+}
 // pre defined operation
 //
 echo '<div id="predef_form">';

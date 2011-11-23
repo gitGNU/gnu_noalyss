@@ -154,7 +154,7 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5 )
 
 
     $fd=new Fiche_Def($cn,$_REQUEST['cat']);
-    if ( $allcard==1 && $fd->hasAttribute(ATTR_DEF_ACCOUNT) == false )
+    if ( $allcard==0 && $fd->hasAttribute(ATTR_DEF_ACCOUNT) == false )
     {
       echo alert("Cette catégorie n'ayant pas de poste comptable n'a pas de balance");
       exit;
@@ -172,10 +172,13 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5 )
 	for ($e=0;$e<count($afiche);$e++)
 	{
 		$ret=$cn->exec_sql("select f_id,ad_value from fiche join fiche_detail using(f_id) where fd_id=$1 and ad_id=1 order by 2 ",array($afiche[$e]['fd_id']));
-		if ( $cn->count()==0)
+		if ( $cn->count()==0 )
 		{
-			echo "Aucune fiche trouvée";
-			exit;
+			if ( $allcard==0) {
+				echo "Aucune fiche trouvée";
+				exit;
+			} else
+				continue;
 		}
 		echo '<h2>'.$cn->get_value("select fd_label from fiche_def where fd_id=$1",array($afiche[$e]['fd_id'])).'</h2>';
 		echo '<table class="result" style="width:80%;margin-left:10%">';

@@ -31,7 +31,8 @@ require_once 'class_iconcerned.php';
 global $g_user;
 $cn=new Database(dossier::id());
 
-$id=(isset ($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
+$id = (isset($_REQUEST['p_jrn'])) ? $_REQUEST['p_jrn'] : -1;
+$id = (isset($_REQUEST['p_jrn_predef'])) ? $_REQUEST['p_jrn_predef'] : -1;
 $ledger=new Acc_Ledger($cn,$id);
 $first_ledger=$ledger->get_first('ODS');
 $ledger->id=($ledger->id==-1)?$first_ledger['jrn_def_id']:$id;

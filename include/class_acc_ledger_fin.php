@@ -472,7 +472,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
         $r.="<TR>";
         $r.="<th colspan=\"2\">code</TH>";
         $r.="<th>Commentaire</TH>";
-        $r.="<th>Montant</TH>";
+        $r.="<th style=\"text-align:right\">Montant</TH>";
         $r.='<th colspan="2"> Op. Concern&eacute;e(s)</th>';
 
 	/* if we use the AC */
@@ -521,8 +521,12 @@ class Acc_Ledger_Fin extends Acc_Ledger
             // amount
             $r.='<td class="num">'.nbm($tiers_amount).'</td>';
             // concerned
-            $r.='<td>';
-            $r.=${"e_concerned".$i};
+            $r.='<td style="text-align:center">';
+			if (${"e_concerned".$i} != '')
+			{
+				$jr_internal=$this->db->get_value("select jr_internal from jrn where jr_id=$1",array(${"e_concerned".$i}));
+	            $r.=HtmlInput::detail_op(${"e_concerned".$i},$jr_internal);
+			}
             $r.='</td>';
             // encode the pa
             if ( $g_parameter->MY_ANALYTIC!='nu' && preg_match("/^[6,7]/",$fTiers->strAttribut(ATTR_DEF_ACCOUNT))==1 ) // use of AA
@@ -636,7 +640,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
             $amount=0.0;
             $idx_operation=0;
             $ret='<table class="result" style="width:75%">';
-            $ret.=tr(th('Quick Code').th('Nom').th('Libellé').th('Montant'));
+            $ret.=tr(th('Quick Code').th('Nom').th('Libellé').th('Montant',' style="text-align:right"'));
             // Credit = goods
             for ( $i = 0; $i < $nb_item;$i++)
             {
