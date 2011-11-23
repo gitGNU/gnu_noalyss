@@ -43,7 +43,6 @@ if ( $act=='X' || ! isset($_GET['act']) || $user->check_print($_GET['act'])==0 )
     exit();
   }
 
-
   switch( $_GET['act'])
   {
   case 'CSV:histo':

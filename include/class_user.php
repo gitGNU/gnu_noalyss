@@ -715,6 +715,7 @@ class User
 	function check_print($p_action)
 	{
 		global $audit,$cn;
+		$this->audit('AUDIT', $p_action);
 		if ($this->Admin() == 1)
 			return 1;
 		if ($this->is_local_admin(dossier::id()) == 1)
