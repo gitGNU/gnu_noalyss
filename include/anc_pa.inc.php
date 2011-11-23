@@ -159,7 +159,7 @@ if ( isset($_REQUEST['sa']))
         $ret.=HtmlInput::hidden('sa','po_update');
         $ret.=HtmlInput::submit('Correction','Correction');
         $ret.=sprintf('<A class="mtitle" HREF="?ac='.$_REQUEST['ac'].'&sa=po_delete&po_id=%s&pa_id=%s&'.$str_dossier.'">'.
-                      '<input type="button" value="Efface" onClick="return confirm(\' Voulez-vous vraiment effacer cette activité\');"></A>',
+                      '<input type="button" class="button" value="Efface" onClick="return confirm(\' Voulez-vous vraiment effacer cette activité\');"></A>',
                       $po->id,
                       $_REQUEST['pa_id']
                      );
