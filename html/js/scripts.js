@@ -1082,7 +1082,7 @@ function search_operation(obj)
 	var target="search_op";
         
         var qs=obj.serialize()+"&op=search_op&ctl=search_op";
-        
+        alert(qs);
         var action=new Ajax.Request ( 'ajax_misc.php',
         {
             method:'get',
