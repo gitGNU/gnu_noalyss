@@ -1337,8 +1337,8 @@ class Acc_Ledger extends jrn_def_sql
         {
             $lPeriode->find_periode($e_date);
         }
-		$total=0;
-		bcscale(2);
+	$total_deb=0;$total_cred=0;
+	bcscale(2);
 
         $ret="";
         $ret.="<table >";
@@ -1422,10 +1422,15 @@ class Acc_Ledger extends jrn_def_sql
                 continue;
             $ret.="<td>".h(${"ld".$i}).HtmlInput::hidden('ld'.$i,${'ld'.$i})."</td>";
             if ( isset(${"ck$i"}))
-				$ret.="<td class=\"num\">".nbm(${"amount".$i}).HtmlInput::hidden('amount'.$i,${'amount'.$i})."</td>".td("");
-			else
-				$ret.=td("")."<td class=\"num\">".nbm(${"amount".$i}).HtmlInput::hidden('amount'.$i,${'amount'.$i})."</td>";
-			$total=bcadd($total,${"amount".$i});
+	      {
+		$ret.="<td class=\"num\">".nbm(${"amount".$i}).HtmlInput::hidden('amount'.$i,${'amount'.$i})."</td>".td("");
+		$total_deb=bcadd($total_deb,${'amount'.$i});
+	      }
+	    else
+	      {
+		$ret.=td("")."<td class=\"num\">".nbm(${"amount".$i}).HtmlInput::hidden('amount'.$i,${'amount'.$i})."</td>";
+		$total_cred=bcadd($total_cred,${"amount".$i});
+	      }
             $ret.="<td>";
             $ret.=(isset(${"ck$i"}))?HtmlInput::hidden('ck'.$i,${'ck'.$i}):"";
             $ret.="</td>";
@@ -1456,7 +1461,7 @@ class Acc_Ledger extends jrn_def_sql
 
             $ret.="</tr>";
         }
-		$ret.=tr(td('').td(_('Totaux')).td($total,'class="num"').td($total,'class="num"'),'class="footer"');
+		$ret.=tr(td('').td(_('Totaux')).td($total_deb,'class="num"').td($total_cred,'class="num"'),'class="footer"');
         $ret.="</table>";
 		if ( $g_parameter->MY_ANALYTIC!='nu'  && $p_readonly==false)
 			$ret.='<input type="button" class="button" value="'._('verifie Imputation Analytique').'" onClick="verify_ca(\'\');">';
@@ -1586,11 +1591,11 @@ class Acc_Ledger extends jrn_def_sql
 		$ret.=$f_add_button->input();
         $ret.='<table id="quick_item" style="width:100%">';
         $ret.='<tr>'.
-              '<th >Quickcode'.$info.'</th>'.
-              '<th >'._('Poste').$info_poste.'</th>'.
-              '<th >'._('Libellé').'</th>'.
-              '<th>'._('Montant').'</th>'.
-              '<th>'._('Débit').'</th>'.
+              '<th style="text-align:left">Quickcode'.$info.'</th>'.
+              '<th style="text-align:left">'._('Poste').$info_poste.'</th>'.
+              '<th style="text-align:left">'._('Libellé').'</th>'.
+              '<th style="text-align:left">'._('Montant').'</th>'.
+              '<th style="text-align:left">'._('Débit').'</th>'.
               '</tr>';
 
 

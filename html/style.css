@@ -940,9 +940,7 @@ table.table_large td, table.result td
 table.info_op
 {
 	font-size:18;
-	margin-right:30%;
-	width:20%;
-
+	width:100%;
 }
 table.info_op tr
 {
