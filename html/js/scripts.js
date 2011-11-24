@@ -1076,24 +1076,29 @@ function search_reconcile(dossier,ctl_concern,amount_id,ledger)
  */
 function search_operation(obj)
 {
+    try{
 	var dossier=g('gDossier').value;
 	waiting_box();
 	var target="search_op";
-
-    var qs=obj.serialize()+"&op=search_op&ctl=search_op";
-
-    var action=new Ajax.Request ( 'ajax_misc.php',
-				  {
-				      method:'get',
-				      parameters:qs,
-				      onFailure:null,
-				      onSuccess:function (req){
-						  remove_waiting_box();
-						  $('search_op').innerHTML=req.responseText;
-						  req.responseText.evalScripts();
-					  }
-				  }
-				);
+        
+        var qs=obj.serialize()+"&op=search_op&ctl=search_op";
+        
+        var action=new Ajax.Request ( 'ajax_misc.php',
+        {
+            method:'get',
+            parameters:qs,
+            onFailure:null,
+            onSuccess:function (req){
+                remove_waiting_box();
+                $('search_op').innerHTML=req.responseText;
+                req.responseText.evalScripts();
+            }
+        }
+    );
+    } catch (e)
+    {
+        alert(e.message);
+    }
 }
 
 function set_reconcile(obj)
