@@ -1080,9 +1080,8 @@ function search_operation(obj)
 	var dossier=g('gDossier').value;
 	waiting_box();
 	var target="search_op";
-        
+
         var qs=obj.serialize()+"&op=search_op&ctl=search_op";
-        alert(qs);
         var action=new Ajax.Request ( 'ajax_misc.php',
         {
             method:'get',
@@ -1273,4 +1272,15 @@ function mod_plugin(p_dossier,me_code)
 					  }
 				  }
 				);
+}
+
+function get_properties(obj)
+{
+    var a_array=[];
+    var s_type="["+typeof obj+"]";
+    for (var m in obj)
+    {
+	a_array.push(m);
+    }
+    alert(s_type+a_array.join(","));
 }
