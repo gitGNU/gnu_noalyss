@@ -87,19 +87,8 @@ if ( isset ($_POST['val']) )
 // comta style
 
 include_once ("user_menu.php");
-if ( isset ($_REQUEST['gDossier']) )
-{
-    if ( $_REQUEST['gDossier'] != 0 )
-    {
-        echo '<div class="u_tmenu">';
-        echo menu_tool('user_pref.php');
-        echo "</div>";
-    }
-}
-else
-{
-    echo "<h2 class=\"info\"> Pr&eacute;f&eacute;rences</h2>";
-}
+echo "<h2 class=\"info\"> Pr&eacute;f&eacute;rences</h2>";
+
 require_once("pref.inc.php");
 html_page_stop();
 ?>

@@ -33,6 +33,8 @@ echo '<DIV class="content">';
 //----------------------------------------------------------------------
 //
 global $g_user;
+$cn=Dossier::connect();
+$g_user=new User($cn);
 $inside_dossier = false;
 
 if (isset($_REQUEST['gDossier']))
@@ -218,7 +220,11 @@ if (isset($_POST['val']))
 	{
 	    echo HtmlInput::button_anchor(_('Retour'), 'user_login.php?');
 	}
+	else
+	  {
+	    echo HtmlInput::button_anchor(_('Retour'), 'do.php?'.Dossier::get());
 
+	  }
 
 
 	echo "</DIV>";
