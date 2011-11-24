@@ -1,7 +1,7 @@
 
 <table>
 <tr>
-<td style='text-align:right;width:30em'>
+<td style="text-align:right;width:30em">
 <?=_('Dans le journal')?>
 </td>
 <td>
@@ -10,7 +10,7 @@
 </tr>
 
 <tr>
-<td style='text-align:right;width:30em'>
+<td style="text-align:right;width:30em">
 <?=_('Et Compris entre les date')?>
 </td>
 <td>
@@ -19,7 +19,7 @@
 </tr>
 
 <tr>
-<td style='text-align:right;width:30em'>
+<td style="text-align:right;width:30em">
 <?=_('Et contenant dans le libellé, pièce justificative ou n° interne')?>
 </td>
 
@@ -28,7 +28,7 @@
 </td>
 </tr>
 <tr>
-<td style='text-align:right;width:30em'>
+<td style="text-align:right;width:30em">
 <?=_('Et compris entre les montants')?>
 </td>
 <td >
@@ -36,7 +36,7 @@
 </td>
 </tr>
 <tr>
-<td style='text-align:right;width:30em'>
+<td style="text-align:right;width:30em">
 	<?=_('Et utilisant la fiche (quick code)')?>
 </td>
 <td>
@@ -44,7 +44,7 @@
 </td>
 </tr>
 <tr>
-<td style='text-align:right;width:30em'>
+<td style="text-align:right;width:30em">
 	<?php echo _('Et utilisant le poste comptable').$info?>
 </td>
 
@@ -54,7 +54,7 @@
 </tr>
 
 <tr>
-<td style='text-align:right';width:30em>
+<td style="text-align:right;width:30em">
 	<?=_('Et uniquement non payées')?>
 </td>
 
