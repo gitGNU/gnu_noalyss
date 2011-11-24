@@ -66,9 +66,11 @@ $html = var_export($_REQUEST, true);
 switch ($op)
 {
 	case "remove_anc":
+	  if ($user->check_module('ANCODS') == 0) exit();
 			$cn->exec_sql("delete from operation_analytique where oa_group=$1", array($_GET['oa']));
 		break;
 	case "rm_stock":
+	  if ($user->check_module('STOCK') == 0) exit();
 		require_once('constant.security.php');
 		$cn->exec_sql('delete from stock_goods where sg_id=$1', array($s_id));
 		$html = escape_xml($s_id);
