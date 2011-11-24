@@ -1097,6 +1097,7 @@ function search_operation(obj)
     );
     } catch (e)
     {
+        remove_waiting_box();
         alert(e.message);
     }
 }
