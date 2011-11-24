@@ -729,7 +729,7 @@ class Acc_Ledger extends jrn_def_sql
             $r.="</tr>";
 
         }
-		echo '</table>';
+	$r.='</table>';
         return array ($count,$r);
     }
     /*!\brief Show all the operation
