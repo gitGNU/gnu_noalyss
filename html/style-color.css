@@ -1,12 +1,12 @@
 /* <style type="text/css"> */
 
 BODY {
-  background-color:#EDF3FF;
+  background-color:#EBE4E8;
  font-size:10;
-  font-family:helvetica,sans-serif;
+  font-family:arial,helvetica,sans-serif;
   padding: 0px 10px 0px 10px ;
   margin:0;
-  color:blue;
+  color:black;
 }
 .notice {
 		color:red;
@@ -29,7 +29,6 @@ table.resultfooter tfoot {
 }
 table.table_large th,table.result th {
   font-weight:bold;
-  font-family:helvetica,sans-serif;
  border-bottom:1px solid blue;
  border-top:0;
 
@@ -40,7 +39,7 @@ table.table_large th,table.result th {
 }
 
 h2 {
-  font-family:helvetica,sans-serif;
+
   font-size:14px;
   color:grey;
 }
@@ -68,14 +67,14 @@ redcontent h2.info {
   margin:0px;
 }
 h2.info {
-  background-color:#879ED4;
+  background-color:darkgray;
 	color:white;
 	font-size:14px;
   text-align:center;
-  padding:0px;
-  margin:0px;
-  border:1px solid grey;
-
+  padding:0 px;
+  margin:0px; 
+  padding-bottom:3px;
+  
 }
 
 h3.info {
@@ -84,15 +83,6 @@ h3.info {
   font-size:14px;
   text-align:center;
 }
-
-h2.info2 {
-  color:blue;
-  font-size:14px;
-  text-align:center;
-
-}
-
-
 h2.error {
 	background:red;
 	color:white;
@@ -151,7 +141,7 @@ div.lmenu {
 div.lextmenu {
 
 	float:left;
-	font-family:helvetica,sans-serif;
+
 	font-size:9px;
 
 }
@@ -166,7 +156,7 @@ div.searchmenu {
 div.recherche_form{
 	width:700px;
 	font-size:9px;
-	font-family:helvetica,sans-serif;
+
   border-style:outset;
   border-width:1px;
 
@@ -177,7 +167,7 @@ div.redcontent{
 	 padding-top:7px;
 	 padding-left:8px;
          font-size:9px;
-         font-family:helvetica,sans-serif;
+
 	 width:75%;
 
 }
@@ -185,8 +175,10 @@ div.content{
 
          float:left;
 		padding-top:7px;
-         width:100%;
-         font-family:helvetica,sans-serif;
+         width:80%;
+		margin-left:10%;
+		margin-right:10%;
+		
          clear:both;
 
 
@@ -196,12 +188,12 @@ div.content30{
          float:left;
 	 padding-top:7px;
          width:35%;
-         font-family:helvetica,sans-serif;
+
 
 }
 div.no span{
 	position:static;
-	font-family:helvetica,sans-serif;
+
 	font-weight:bold;
 	color:red;
 
@@ -216,7 +208,7 @@ table.document {
 }
 table.document th{
   font-weight:bold;
-  font-family:helvetica,sans-serif;
+
   border-bottom:2px solid blue;
   border-top:0;
   color:#25238F;
@@ -252,8 +244,8 @@ td.mtitle {
 	width:95px;
         height :30px;
 	font-size:10px;
-    background-color:#DDE6FF;
-    border:1px solid #99B1DF;
+    background-color:#99B1DF;
+    border:1px solid #DDE6FF;
 }
 td.msubtitle {
 	text-align:center;
@@ -277,8 +269,10 @@ span.even {
  }
 
 tr.odd {
-	background-color:#DDE6FF;
+	background-color:gray;
 	font-size:10px;
+	color:white;
+	
 }
 tr {
 	font-size:10px;
@@ -309,7 +303,7 @@ a.mtitle {
   font-size:10px;
   text-decoration:none;
   display:inline;
- color: blue;
+ color: black;
 
 }
 a.mtitle:hover {
@@ -317,7 +311,7 @@ a.mtitle:hover {
   text-decoration:none;
   display:inline;
 
- color: yellow;
+ color: red;
 background-color:#5D90CD;
 
 }
@@ -396,7 +390,7 @@ a.one:hover {
 a.detail
 {
   font-size:9px;
-  font-family:helvetica,sans-serif;
+
     text-decoration: none;
     display: block;
     color: blue;
@@ -405,7 +399,7 @@ a.detail
 a.detail:hover
 {
   font-size:9px;
-  font-family:helvetica,sans-serif;
+
     color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
@@ -417,7 +411,7 @@ li.menuv,ol.menuv {
 	 padding:1em 1em;
 }
 div.redcontent a {
-  font-family:helvetica,sans-serif;
+
   text-decoration: none;
   display: block;
   color: blue;
@@ -425,7 +419,7 @@ div.redcontent a {
 }
 
 div.redcontent a:hover {
-  font-family:helvetica,sans-serif;
+
     color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
@@ -433,7 +427,7 @@ div.redcontent a:hover {
 
 }
 div.content a {
-  font-family:helvetica,sans-serif;
+
   text-decoration: none;
   display: block;
   color: blue;
@@ -443,7 +437,7 @@ padding: 0;
 
 
 div.content a:hover {
-  font-family:helvetica,sans-serif;
+
     color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
@@ -487,7 +481,7 @@ div.content a.mtitle:hover {
 
 }
 div.redcontent input.text {
-   font-family:helvetica,sans-serif;
+
   font-weight:normal;
   border-color:336699;
   border-style:solid;
@@ -496,7 +490,7 @@ div.redcontent input.text {
   color:blue;
 }
 div.content input.text {
-   font-family:helvetica,sans-serif;
+
   font-weight:normal;
   border-color:336699;
   border-style:solid;
@@ -628,7 +622,7 @@ div.popup_border_title {
 	border: 2px outset #201e87;
 	background-color:#879ED4;
 	font-size: 110% ;
-	font-family: helvetica,sans-serif;
+
 	font-style: italic;
 	font-weight: bolder;
 	text-align:center;
@@ -650,7 +644,7 @@ div.popup_border_notitle {
 	/*border:dotted 1px black;*/
 	border: 3px outset #201e87;
 	background-color: #879ED4;
-	font-family: helvetica,sans-serif;
+
 	font-style: italic;
 	font-weight: bolder;
 	text-align:center;
@@ -672,7 +666,7 @@ div.popup_content {
 	overflow: auto;
 	background-color:#DFE7FF;
 	font-size:10px ;
-	font-family: helvetica,sans-serif;
+
 	font-style: normal;
 	font-weight: normal;
 	color: black;
@@ -798,7 +792,7 @@ a#anchorbutton, .button, a.button,div.content a.button {
 	font-weight: bold;
 
 	text-decoration:none;
-	font-family: helvetica,sans-serif,arial;
+
 	background-image: url("image/bg-submit3.gif");
 	background-repeat: repeat-x;
 	background-position: left;
@@ -827,9 +821,9 @@ a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
 
 	}
 div.topmenu {
-	float:left;
-	width:100%;
-
+	width:80%;
+	margin-left:10%;
+	
 }
 
 h2.dossier {
@@ -873,9 +867,9 @@ div.op_detail_frame  {
 
 }
 div.inner_box  {
-  background-color:#e4e7ed;
- font-size:10;
-  font-family:helvetica,sans-serif;
+  background-color:#dddddd;
+ font-size:12;
+
   padding:0;
   margin:0;
   overflow:hidden;
@@ -883,6 +877,7 @@ div.inner_box  {
 
 position:absolute;
 left:10%;
+
 
 
 border:1px solid darkblue;
@@ -991,7 +986,7 @@ div#wait_box
 {
   background-color:#F1E6E6;
  font-size:10;
-  font-family:helvetica,arial,sans-serif;
+
   padding:0;
   margin:0;
   overflow:hidden;
@@ -1040,9 +1035,9 @@ font-size:110%;
 #close_div
 {
  background-color:white;
- color:blue;
+ color:red;
  text-decoration:none;
- border:1px solid blue;
+ border:1px solid red;
  margin-left: 2px;
  margin-right:2px;
  margin-top:0px;
