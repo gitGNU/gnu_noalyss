@@ -7,6 +7,16 @@ update tva_rate set tva_both_side=0;
 ----------------------------------------------------------------------
 drop FUNCTION comptaproc.tva_modify(integer, text, numeric, text, text);
 
+
+
+alter table quant_purchase add qp_vat_sided number (20,4);
+alter table quant_sold add qs_vat_sided number (20,4);
+
+alter table quant_purchase alter qp_vat_sided set default 0.0;
+alter table quant_solde alter qs_vat_sided set default 0.0;
+comment on column quant_purchase.qp_vat_sided is 'amount of the VAT which avoid VAT, case of the VAT which add the same amount at the deb and cred';
+comment on column quant_purchase.qp_vat_sided is 'amount of the VAT which avoid VAT, case of the VAT which add the same amount at the deb and cred';
+
 CREATE OR REPLACE FUNCTION comptaproc.tva_modify(integer, text, numeric, text, text,integer)
  RETURNS integer
 AS $function$
@@ -84,14 +94,12 @@ end;
 $function$
 LANGUAGE plpgsql;
 
-alter table quant_purchase add qp_vat_sided number (20,4);
-alter table quant_sold add qs_vat_sided number (20,4);
+
 
 DROP FUNCTION comptaproc.insert_quant_purchase(text,numeric, character varying,numeric,numeric,numeric,integer,,numeric,numeric,,numeric,numeric,character varying, numeric);
 -- procedure insert_quant_purchase
 CREATE OR REPLACE FUNCTION comptaproc.insert_quant_purchase(p_internal text, p_j_id numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_nd_amount numeric, p_nd_tva numeric, p_nd_tva_recup numeric, p_dep_priv numeric, p_client character varying,p_tva_sided numeric)
  RETURNS void
- LANGUAGE plpgsql
 AS $function$
 declare
         fid_client integer;
@@ -131,14 +139,14 @@ begin
                 p_tva_sided);
         return;
 end;
- $function$
+ $function$ 
+ LANGUAGE plpgsql;
 
 DROP FUNCTION comptaproc.insert_quant_sold(text, numeric, character varying, numeric, numeric, numeric, integer, character varying);
 
 -- procedure insert_quant_sold
 CREATE OR REPLACE FUNCTION comptaproc.insert_quant_sold(p_internal text, p_jid numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_client character varying,p_tva_sided numeric)
  RETURNS void
- LANGUAGE plpgsql
 AS $function$
 declare
         fid_client integer;
@@ -155,4 +163,5 @@ begin
                 (p_internal,p_jid,fid_good,p_quant,p_price,p_vat,p_vat_code,fid_client,'Y',p_tva_sided);
         return;
 end;
- $function$
+ $function$ 
+ LANGUAGE plpgsql;
