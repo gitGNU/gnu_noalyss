@@ -272,6 +272,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
             $tot_amount=0;
             $tot_tva=0;
             $tot_debit=0;
+            $n_both=0;
             $this->db->start();
             /* Save all the items without vat */
             for ($i=0;$i< $nb_item;$i++)
@@ -332,6 +333,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                     else
                         $tva[$idx_tva]=$tva_item;
                     if ($oTva->get_parameter("both_side")==0) $tot_tva=round(bcadd($tva_item,$tot_tva),2);
+                    else $n_both=$tva_item;
                 }
 
                 /* Save the stock */
@@ -361,7 +363,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                 if ( $g_parameter->MY_TVA_USE=='Y')
                 {
                     /* save into quant_sold */
-                    $r=$this->db->exec_sql("select insert_quant_sold ($1,$2,$3,$4,$5,$6,$7,$8)",
+                    $r=$this->db->exec_sql("select insert_quant_sold ($1,$2,$3,$4,$5,$6,$7,$8,$9)",
                                            array(null, /* 1 */
                                                  $j_id,	/* 2 */
                                                  ${'e_march'.$i} , /* 3 */
@@ -369,12 +371,13 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                                                  round($amount,2),	       /* 5 */
                                                  $tva_item,	       /* 6 */
                                                  $idx_tva,	       /* 7 */
-                                                 $e_client));      /* 8 */
+                                                 $e_client,      /* 8 */
+                                                 $n_both));
 
                 }
                 else
                 {
-                    $r=$this->db->exec_sql("select insert_quant_sold ($1,$2,$3,$4,$5,$6,$7,$8) ",
+                    $r=$this->db->exec_sql("select insert_quant_sold ($1,$2,$3,$4,$5,$6,$7,$8,$9) ",
                                            array(null, /* 1 */
                                                  $j_id,	  /* 2 */
                                                  ${'e_march'.$i}, /* 3 */
@@ -382,7 +385,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                                                  $amount,		// 5
                                                  0,
                                                  null,
-                                                 $e_client));
+                                                 $e_client,
+                                                         0));
 
                 }  // if ( $g_parameter->MY_TVA_USE=='Y') {
             }// end loop : save all items
@@ -431,7 +435,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                     // if TVA is on both side, we deduce it immediately
                     if ( $oTva->get_parameter("both_side")==1)
                     {
-		      echo "remove_tva";
                         $poste_vat=$oTva->get_side('d');
                         $cust_amount=bcadd($tot_amount,$tot_tva);
                         $acc_operation=new Acc_Operation($this->db);
@@ -444,6 +447,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                         $acc_operation->periode=$tperiode;
 			$acc_operation->insert_jrnx();
 			$tot_debit=bcadd($tot_debit,$value);
+                        $n_both=$value;
                     }
 
 

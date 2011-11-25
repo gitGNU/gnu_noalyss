@@ -341,7 +341,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $tot_perso=0;
             $tot_tva_nd=0;
             $tot_tva_ndded=0;
-
+            $n_both=0;
             /* Save all the items without vat and no deductible vat and expense*/
             for ($i=0;$i< $nb_item;$i++)
             {
@@ -486,6 +486,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 //-----
                 if ( $g_parameter->MY_TVA_USE=='Y')
                 {
+                    if ( $oTva->get_parameter("both_side")==1) $n_both=$acc_amount->amount_vat;
+                        
                     $r=$this->db->exec_sql("select insert_quant_purchase ".
                                            "(null".
                                            ",".$j_id.		 /* 2 */
@@ -498,7 +500,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                                            ",".$acc_amount->nd_vat.	     /* 9 */
                                            ",".$acc_amount->nd_ded_vat.    /* 10 */
                                            ",".$acc_amount->amount_perso.  /* 11 */
-                                           ",'".$e_client."')");	     /* 12 */
+                                           ",'".$e_client."',".$n_both.")");	     /* 12 */
 
                 }
                 else
@@ -515,7 +517,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                                            ",0".
                                            ",".$acc_amount->nd_ded_vat.
                                            ",".$acc_amount->amount_perso.
-                                           ",'".$e_client."')");
+                                           ",'".$e_client."',".$n_both.")");
 
 
                 }
@@ -673,7 +675,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                         $acc_operation->jrn=$p_jrn;
                         $acc_operation->type='c';
                         $acc_operation->periode=$tperiode;
-						$acc_operation->insert_jrnx();
+                        $acc_operation->insert_jrnx();
                     }
 
                 }

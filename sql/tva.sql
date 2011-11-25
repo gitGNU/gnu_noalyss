@@ -83,3 +83,76 @@ return 0;
 end;
 $function$
 LANGUAGE plpgsql;
+
+alter table quant_purchase add qp_vat_sided number (20,4);
+alter table quant_sold add qs_vat_sided number (20,4);
+
+DROP FUNCTION comptaproc.insert_quant_purchase(text,numeric, character varying,numeric,numeric,numeric,integer,,numeric,numeric,,numeric,numeric,character varying, numeric);
+-- procedure insert_quant_purchase
+CREATE OR REPLACE FUNCTION comptaproc.insert_quant_purchase(p_internal text, p_j_id numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_nd_amount numeric, p_nd_tva numeric, p_nd_tva_recup numeric, p_dep_priv numeric, p_client character varying,p_tva_sided numeric)
+ RETURNS void
+ LANGUAGE plpgsql
+AS $function$
+declare
+        fid_client integer;
+        fid_good   integer;
+begin
+        select f_id into fid_client from
+                fiche_detail where ad_id=23 and ad_value=upper(trim(p_client));
+        select f_id into fid_good from
+                 fiche_detail where ad_id=23 and ad_value=upper(trim(p_fiche));
+        insert into quant_purchase
+                (qp_internal,
+                j_id,
+                qp_fiche,
+                qp_quantite,
+                qp_price,
+                qp_vat,
+                qp_vat_code,
+                qp_nd_amount,
+                qp_nd_tva,
+                qp_nd_tva_recup,
+                qp_supplier,
+                qp_dep_priv,
+                qp_vat_sided)
+        values
+                (p_internal,
+                p_j_id,
+                fid_good,
+                p_quant,
+                p_price,
+                p_vat,
+                p_vat_code,
+                p_nd_amount,
+                p_nd_tva,
+                p_nd_tva_recup,
+                fid_client,
+                p_dep_priv,
+                p_tva_sided);
+        return;
+end;
+ $function$
+
+DROP FUNCTION comptaproc.insert_quant_sold(text, numeric, character varying, numeric, numeric, numeric, integer, character varying);
+
+-- procedure insert_quant_sold
+CREATE OR REPLACE FUNCTION comptaproc.insert_quant_sold(p_internal text, p_jid numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_client character varying,p_tva_sided numeric)
+ RETURNS void
+ LANGUAGE plpgsql
+AS $function$
+declare
+        fid_client integer;
+        fid_good   integer;
+begin
+
+        select f_id into fid_client from
+                fiche_detail where ad_id=23 and ad_value=upper(trim(p_client));
+        select f_id into fid_good from
+                fiche_detail where ad_id=23 and ad_value=upper(trim(p_fiche));
+        insert into quant_sold
+                (qs_internal,j_id,qs_fiche,qs_quantite,qs_price,qs_vat,qs_vat_code,qs_client,qs_valid,qs_vat_sided)
+        values
+                (p_internal,p_jid,fid_good,p_quant,p_price,p_vat,p_vat_code,fid_client,'Y',p_tva_sided);
+        return;
+end;
+ $function$
