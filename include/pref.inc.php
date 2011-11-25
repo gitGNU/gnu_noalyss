@@ -33,7 +33,7 @@ echo '<DIV class="content">';
 //----------------------------------------------------------------------
 //
 global $g_user;
-$cn=Dossier::connect();
+
 $g_user=new User($cn);
 $inside_dossier = false;
 
