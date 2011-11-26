@@ -130,13 +130,20 @@ div.u_tool div.name {
        float:left;
        margin-left:10px;
 }
-div.u_tool div.acces_direct{
+div.u_tool {
 	float:right;
 	margin-right:10px;
 	text-align:right;
 
 }
-
+div.module {
+	position:absolute;
+	top:0px;
+	right:5px;
+	text-align:right;
+	padding:0px;
+	margin: 0px;
+}
 div.u_subt2menu {
 background-color:lightgrey;
   left:1%;
@@ -744,7 +751,7 @@ ul.select_table li span {
 }
 
 div.pc_calendar{
-		
+
 		float:left;
 
 		}

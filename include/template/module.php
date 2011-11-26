@@ -46,7 +46,7 @@ if ( $cn->get_value("select count(*) from profile join profile_user using (p_id)
 endif;
 ?>
     </div>
-    <div class="acces_direct">
+    <div class="module">
 	<table>
 	    <tr>
 		<?php

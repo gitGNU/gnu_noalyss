@@ -169,7 +169,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
         }
 
         echo '<tr>
-        <td colspan="8">
+        <td colspan="8" style="width:auto">
         <h2 class="info">'. $poste_id['pcm_val'].' '.h($Poste->label).'</h2>
         </td>
         </tr>';

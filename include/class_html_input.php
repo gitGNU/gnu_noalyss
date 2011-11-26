@@ -208,7 +208,7 @@ class HtmlInput
      */
     static function button_anchor($p_label,$p_value,$p_name="",$p_javascript="")
     {
-        $r=sprintf('<span id="%s" class="button"> <A class="button" style="display:inline;"  href="%s" %s >%s</A></span>',
+        $r=sprintf('<span id="%s" > <A class="button" style="display:inline;"  href="%s" %s >%s</A></span>',
                    $p_name,
                    $p_value,
                    $p_javascript,
