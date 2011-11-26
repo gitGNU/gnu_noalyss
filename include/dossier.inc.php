@@ -345,8 +345,8 @@ if ( $sa == 'remove' )
     $cn->exec_sql($sql,array($_REQUEST['d']));
     $sql="delete from ac_dossier where dos_id=$1";
     $cn->exec_sql($sql,array($_REQUEST['d']));
-    print '<h2 class="info">';
-    print "Voilà le dossier ".h($name)." est effacé</h2>";
+    print '<h2 class="error">';
+    print "Le dossier ".h($name)." est effacé</h2>";
     echo HtmlInput::button_anchor('Retour','?action=dossier_mgt');
 }
 ?>

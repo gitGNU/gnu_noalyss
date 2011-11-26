@@ -50,8 +50,8 @@ if (isset($_POST['confirm_mod'])
     {
 	$err = 2;
     }
-    var_dump($_POST);
-    if ($err == 0)
+
+	if ($err == 0)
     {
 	if (isset($_POST['confirm_add']))
 	{
@@ -146,7 +146,7 @@ foreach ($val as $row)
     $str_msg=( $row['tva_both_side']==1)?'Employé au crédit et débit':'normal' ;
     echo $str_msg;
     echo "</TD>";
-    
+
     echo "<TD>";
     echo HtmlInput::submit("rm", "Efface");
     echo HtmlInput::submit("mod", "Modifie");

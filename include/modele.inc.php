@@ -391,8 +391,8 @@ if ($sa == 'add')
 		ob_flush();
 		$sql = "delete from modeledef where mod_id=$1";
 		$cn->exec_sql($sql, array($_REQUEST['m']));
-		print '<h2 class="info">';
-		print "Voilà le modèle $name est effacé</H2>";
+		print '<h2 class="error">';
+		print "Le modèle $name est effacé</H2>";
 		echo HtmlInput::button_anchor('Retour', '?action=modele_mgt');
 	}
 	echo '</div>';

@@ -1,4 +1,4 @@
-ZCREATE OR REPLACE FUNCTION comptaproc.tmp_pcmn_ins()
+CREATE OR REPLACE FUNCTION comptaproc.tmp_pcmn_ins()
   RETURNS trigger AS
 $BODY$
 declare

@@ -863,7 +863,8 @@ class Follow_Up
                             " ag_priority = $10 ,".
                             " ag_dest = $11 , ".
                             " ag_cal = $12 ,".
-                            " ag_contact = $13 ".
+                            " ag_contact = $13, ".
+							" ag_ref = $14 ".
                             " where ag_id = $8",
                             array ( $this->ag_comment, /* 1 */
                                     $this->ag_timestamp, /* 2 */
@@ -877,7 +878,8 @@ class Follow_Up
                                     $this->ag_priority, /* 10 */
                                     $this->ag_dest,     /* 11 */
                                     $ag_cal,	      /* 12 */
-                                    $contact->id   /* 13 */
+                                    $contact->id,   /* 13 */
+									$this->ag_ref
                                   ));
         // Upload  documents
         $doc=new Document($this->db);

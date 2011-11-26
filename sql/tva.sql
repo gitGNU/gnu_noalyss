@@ -9,11 +9,15 @@ drop FUNCTION comptaproc.tva_modify(integer, text, numeric, text, text);
 
 
 
-alter table quant_purchase add qp_vat_sided number (20,4);
-alter table quant_sold add qs_vat_sided number (20,4);
+alter table quant_purchase add qp_vat_sided numeric (20,4);
+alter table quant_sold add qs_vat_sided numeric (20,4);
 
 alter table quant_purchase alter qp_vat_sided set default 0.0;
-alter table quant_solde alter qs_vat_sided set default 0.0;
+alter table quant_sold alter qs_vat_sided set default 0.0;
+
+update quant_purchase set qp_vat_sided=0.0;
+update quant_sold set qs_vat_sided=0.0;
+
 comment on column quant_purchase.qp_vat_sided is 'amount of the VAT which avoid VAT, case of the VAT which add the same amount at the deb and cred';
 comment on column quant_purchase.qp_vat_sided is 'amount of the VAT which avoid VAT, case of the VAT which add the same amount at the deb and cred';
 
@@ -96,7 +100,7 @@ LANGUAGE plpgsql;
 
 
 
-DROP FUNCTION comptaproc.insert_quant_purchase(text,numeric, character varying,numeric,numeric,numeric,integer,,numeric,numeric,,numeric,numeric,character varying, numeric);
+DROP FUNCTION comptaproc.insert_quant_purchase(text,numeric, character varying,numeric,numeric,numeric,integer,numeric,numeric,numeric,numeric,character varying);
 -- procedure insert_quant_purchase
 CREATE OR REPLACE FUNCTION comptaproc.insert_quant_purchase(p_internal text, p_j_id numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_nd_amount numeric, p_nd_tva numeric, p_nd_tva_recup numeric, p_dep_priv numeric, p_client character varying,p_tva_sided numeric)
  RETURNS void

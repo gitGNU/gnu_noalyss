@@ -40,11 +40,11 @@ $g_captcha=false;
  * define ("DEBUG",false);
  *
  */
-$version_phpcompta=4208;
+$version_phpcompta=4444;
 define ("DEBUG",true);
 
-define ("DBVERSION",97);
-define ("DBVERSIONREPO",13);
+define ("DBVERSION",98);
+define ("DBVERSIONREPO",14);
 define ('NOTFOUND','--not found--');
 
 define ("MAX_COMPTE",4);

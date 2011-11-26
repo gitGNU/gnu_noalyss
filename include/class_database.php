@@ -359,6 +359,7 @@ class Database
     function apply_patch($p_name,$from_setup=1)
     {
         $MaxVersion=DBVERSION-1;
+		$succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
         echo '<ul style="list-type-style:square">';
         $add=($from_setup==0)?'admin/':'';
         for ( $i = 4;$i <= $MaxVersion;$i++)
@@ -371,7 +372,7 @@ class Database
 
                 $this->execute_script($add.'sql/patch/upgrade'.$i.'.sql');
                 echo $succeed;
-                
+
                 if ( ! DEBUG ) ob_start();
                 // specific for version 4
                 if ( $i == 4 )
@@ -451,6 +452,7 @@ class Database
                     $country=$this->get_value ("select pr_value from parameter where pr_id='MY_COUNTRY'");
                     $this->execute_script($add."sql/patch/upgrade61.".$country.".sql");
                 }
+		
                 if ( ! DEBUG ) ob_end_clean();
             }
         }
@@ -852,7 +854,7 @@ class Database
      * with the handle of a successull query, echo each row into CSV and
      * send it directly
      * @param type $ret handle to a query
-     * @param type $aheader  double array, each item of the array contains 
+     * @param type $aheader  double array, each item of the array contains
      * a key type (num) and a key title
      */
     function query_to_csv($ret,$aheader)
@@ -864,7 +866,7 @@ class Database
             $seq=";";
         }
         printf("\n\r");
-        
+
         $seq="";
         // fetch all the rows
         for ($i=0;$i<count(Database::num_row($ret));$i++)

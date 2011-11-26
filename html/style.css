@@ -2,7 +2,7 @@
 
 BODY {
   background-color:#EDF3FF;
- font-size:10;
+ font-size:12px;
   font-family:verdana,helvetica,sans-serif;
   padding: 0px 10px 0px 10px ;
   margin:0;
@@ -744,7 +744,7 @@ ul.select_table li span {
 }
 
 div.pc_calendar{
-		border:1px groove grey;
+		
 		float:left;
 
 		}
@@ -758,7 +758,8 @@ div.pc_calendar tr{
 
 }
 div.pc_calendar td{
-	width:10em;
+	width:14%;
+	border:#879ed4 solid 1px;
 }
 
 div.pc_calendar td.weekend {

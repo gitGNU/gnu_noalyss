@@ -1,10 +1,10 @@
-<div>
-	<div style="float:left;width:50%">
-<fieldset>
+<div style="float:left;width:50%">
+<fieldset style="width:100%">
 <legend><?=_('Calendrier')?>
 </legend>
 <?php echo $cal->display(); ?>
 </fieldset>
+</div>
 
 <?php
 /*
@@ -23,31 +23,8 @@ if ( isset($_REQUEST['save_todo_list'])) {
 $todo=new Todo_List($cn);
 $array=$todo->load_all();
 ?>
-<div id="add_todo_list" class="add_todo_list">
-	<script charset="utf8" type="text/javascript" language="javascript">
-		new Draggable($('add_todo_list'),{});
-	</script>
-<form method="post">
-<?php
-$wDate=new IDate('p_date_todo');
-$wDate->id='p_date_todo';
-$wTitle=new IText('p_title');
-$wDesc=new ITextArea('p_desc');
-$wDesc->heigh=5;
-$wDesc->width=40;
-echo h2info("Note");
-echo _("Date")." ".$wDate->input().'<br>';
-echo _("Titre")." ".$wTitle->input().'<br>';
-echo _("Description")."<br>".$wDesc->input().'<br>';
-echo dossier::hidden();
-echo HtmlInput::hidden('tl_id',0);
-echo HtmlInput::submit('save_todo_list',_('Sauve'),'onClick="$(\'add_todo_list\').hide();return true;"');
-echo HtmlInput::button('hide',_('Annuler'),'onClick="$(\'add_todo_list\').hide();return true;"');
-?>
-</form>
-</div>
-</div>
-<div style="float:left;width:50%">'
+
+<div style="float:right;width:45%">
 <fieldset> <legend><?=_('Pense-Bête')?></legend>
 
 <?php
@@ -66,7 +43,7 @@ if ( ! empty ($array) )  {
       $row['tl_date'].
       '</td>'.
       '<td>'.
-      '<a href="javascript:void(0)" onclick="todo_list_show(\''.$row['tl_id'].'\')">'.
+      '<a class="line" href="javascript:void(0)" onclick="todo_list_show(\''.$row['tl_id'].'\')">'.
       htmlspecialchars($row['tl_title']).
       '</a>'.
        '</td>'.
@@ -80,7 +57,8 @@ if ( ! empty ($array) )  {
 ?>
 </fieldset>
 </div>
-	<div style="clear:both"></div>
+<div style="clear:both">
+	<div style="float:left;width:50%">
 <?php
 /*
  * Mini Report
@@ -95,7 +73,7 @@ if ( $rapport->exist() == false ) {
 }
 
 if ( $report != 0 ) {
-  echo '<fieldset style="width:50%;background-color:white"><legend>'.$rapport->get_name().'</legend>';
+  echo '<fieldset ><legend>'.$rapport->get_name().'</legend>';
   $exercice=$g_user->get_exercice();
   if ( $exercice == 0 ) {
     alert(_('Aucune periode par defaut'));
@@ -126,4 +104,29 @@ if ( $report != 0 ) {
  }
 
 ?>
+</div>
+</div>
+
+<div id="add_todo_list" class="add_todo_list">
+	<script charset="utf8" type="text/javascript" language="javascript">
+		new Draggable($('add_todo_list'),{});
+	</script>
+<form method="post">
+<?php
+$wDate=new IDate('p_date_todo');
+$wDate->id='p_date_todo';
+$wTitle=new IText('p_title');
+$wDesc=new ITextArea('p_desc');
+$wDesc->heigh=5;
+$wDesc->width=40;
+echo h2info("Note");
+echo _("Date")." ".$wDate->input().'<br>';
+echo _("Titre")." ".$wTitle->input().'<br>';
+echo _("Description")."<br>".$wDesc->input().'<br>';
+echo dossier::hidden();
+echo HtmlInput::hidden('tl_id',0);
+echo HtmlInput::submit('save_todo_list',_('Sauve'),'onClick="$(\'add_todo_list\').hide();return true;"');
+echo HtmlInput::button('hide',_('Annuler'),'onClick="$(\'add_todo_list\').hide();return true;"');
+?>
+</form>
 </div>

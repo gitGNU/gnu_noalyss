@@ -781,6 +781,7 @@ class Acc_Ledger extends jrn_def_sql
 		$table->add('PJ',$url,' order by  substring(jr_pj_number,\'\\\d+$\')::numeric asc ',
 				' order by  substring(jr_pj_number,\'\\\d+$\')::numeric desc ' ,
 				"pja","pjd");
+		$table->add('Tiers',$url," order by  name asc"," order by  name desc",'na','nd');
 		$table->add('Montant',$url," order by jr_montant asc"," order by jr_montant desc",
 				"ma","md");
 		$table->add("Description",$url,"order by jr_comment asc",
@@ -819,10 +820,10 @@ class Acc_Ledger extends jrn_def_sql
         $r.='<th>'.$table->get_header(0).'</th>';
         $r.='<th>'.$table->get_header(1).'</td>';
         $r.='<th>'.$table->get_header(2).'</th>';
-	$r.=th('tiers');
-        $r.='<th>'.$table->get_header(4).'</th>';
-	$r.=th('Notes',' style="width:15%"');
         $r.='<th>'.$table->get_header(3).'</th>';
+        $r.='<th>'.$table->get_header(5).'</th>';
+	$r.=th('Notes',' style="width:15%"');
+        $r.='<th>'.$table->get_header(4).'</th>';
         // if $p_paid is not equal to 0 then we have a paid column
         if ( $p_paid != 0 )
         {
@@ -1845,7 +1846,7 @@ class Acc_Ledger extends jrn_def_sql
         if ( $this->id==0) return;
         $num =$this->db->get_next_seq('s_internal');
         $atype=$this->get_propertie();
-        $type=$atype['jrn_def_code'];
+        $type=substr($atype['jrn_def_code'],0,1);
         $internal_code=sprintf("%s%06X",$type,$num);
         $this->jr_internal=$internal_code;
         return $internal_code;

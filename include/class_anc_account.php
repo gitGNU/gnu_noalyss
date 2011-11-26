@@ -158,15 +158,15 @@ class Anc_Account
     private function format_data()
     {
 
-        $this->name=sql_string($this->name);
-        $this->pa_id=sql_string($this->pa_id);
-        $this->amount=sql_string($this->amount);
+        $this->name=$this->name;
+        $this->pa_id=$this->pa_id;
+        $this->amount=$this->amount;
         if (strlen($this->amount) == 0 )
             $this->amount=0.0;
         if ( isNumber($this->amount) ==0 )
             $this->amount=0;
 
-        $this->description=sql_string($this->description);
+        $this->description=$this->description;
     }
     function delete()
     {

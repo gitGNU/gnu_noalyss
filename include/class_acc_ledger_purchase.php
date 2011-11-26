@@ -341,10 +341,10 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $tot_perso=0;
             $tot_tva_nd=0;
             $tot_tva_ndded=0;
-            $n_both=0;
             /* Save all the items without vat and no deductible vat and expense*/
             for ($i=0;$i< $nb_item;$i++)
             {
+				$n_both=0;
                 if ( strlen(trim(${'e_march'.$i})) == 0 ) continue;
                 if ( ${'e_march'.$i.'_price'} == 0 ) continue;
                 if ( ${'e_quant'.$i} == 0 ) continue;
@@ -487,7 +487,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 if ( $g_parameter->MY_TVA_USE=='Y')
                 {
                     if ( $oTva->get_parameter("both_side")==1) $n_both=$acc_amount->amount_vat;
-                        
+
                     $r=$this->db->exec_sql("select insert_quant_purchase ".
                                            "(null".
                                            ",".$j_id.		 /* 2 */

@@ -1,4 +1,4 @@
-<div class="pc_calendar" id="user_cal">
+<div class="pc_calendar" id="user_cal" style="width:100%">
 <?=$month_year?>
 <table width="100%">
 <tr>
@@ -23,7 +23,7 @@ if ( $week == 0 || $week == 6) $class="weekend";
 $timestamp_date=mktime(0,0,0,$this->month,$ind,$this->year);
 $date_calendar=date('w',$timestamp_date);
 $st="";
-if ( $today_month==$this->month && $today_day==$ind) 
+if ( $today_month==$this->month && $today_day==$ind)
   $st='  style="border:1px solid red" ';
 if ( $date_calendar == $week ) {
 	echo '<td class="'.$class.'"'.$st.'>'.'<span class="day">'.$ind."</span>";

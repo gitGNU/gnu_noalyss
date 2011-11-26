@@ -51,31 +51,37 @@ echo HtmlInput::hidden('p_id',$profile->p_id);
 require_once("template/profile.php");
 echo HtmlInput::submit("save_name","Modifier");
 echo '</form>';
+if ($profile->p_id > 0)
+{
+	echo '<form method="POST" onsubmit="return confirm (\'vous confirmez\')">';
 
-echo '<form method="POST" onsubmit="return confirm (\'vous confirmez\')">';
-
-echo '
+	echo '
 Vous pouvez aussi copier ce profil et puis le corriger';
 
-echo HtmlInput::hidden('p_id',$profile->p_id);
-echo HtmlInput::submit("clone","Copier");
-echo '</form>';
+	echo HtmlInput::hidden('p_id', $profile->p_id);
+	echo HtmlInput::submit("clone", "Copier");
+	echo '</form>';
 
-echo '<form method="POST" onsubmit="return confirm (\'vous confirmez\')">';
+	echo '<form method="POST" onsubmit="return confirm (\'vous confirmez\')">';
 
-echo '
+	echo '
 Effacer ce profil';
 
-echo HtmlInput::hidden('p_id',$profile->p_id);
-echo HtmlInput::submit("delete_profil","Effacer ce profil");
-echo '</form>';
-//Menu / Module /plugin in this profile
-echo "<h1> Détail du profile</h1>";
-echo "<h2>Menu</h2>";
-echo $add_one;
-$profile_menu=new Profile_Menu($cn);
-$profile_menu->listing_profile($p_id);
-echo "<h2>Impression</h2>";
-$profile_menu->printing($p_id);
+	echo HtmlInput::hidden('p_id', $profile->p_id);
+	echo HtmlInput::submit("delete_profil", "Effacer ce profil");
+	echo '</form>';
+
+	//Menu / Module /plugin in this profile
+	echo "<h1> Détail du profile</h1>";
+	echo "<h2>Menu</h2>";
+	echo $add_one;
+	$profile_menu = new Profile_Menu($cn);
+	$profile_menu->listing_profile($p_id);
+	echo "<h2>Impression</h2>";
+	$profile_menu->printing($p_id);
+
+	echo $add_one;
+}
 ?>
-<?=$add_one?>
+
+

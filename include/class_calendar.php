@@ -45,7 +45,8 @@ class Calendar
     function fill_from_action(&$p_array)
     {
         $cn=new Database(dossier::id());
-        $sql="select ag_id,substr(ag_title,0,20) as ag_title_fmt,to_char(ag_timestamp,'DD')::integer as ag_timestamp_day ".
+        $sql="select ag_id,substr(ag_title,0,20) as ag_title_fmt,ag_ref,
+				to_char(ag_timestamp,'DD')::integer as ag_timestamp_day ".
              " from action_gestion ".
              " where ".
              " to_char(ag_timestamp,'MM')::integer=$1 ".
@@ -56,8 +57,8 @@ class Calendar
         {
             $ind=$array[$i]['ag_timestamp_day'];
             $p_array[$ind]=(isset($p_array[$ind]))?$p_array[$ind]:'';
-            $p_array[$ind].='<A HREF="commercial.php?'.dossier::get().'&p_action=suivi_courrier&sa=detail&ag_id='.$array[$i]['ag_id'].'">';
-            $p_array[$ind].="<span class=\"day\">".h($array[$i]['ag_title_fmt']).'</span>';
+            $p_array[$ind].='<A class="line" HREF="do.php?ac=FOLLOW&'.dossier::get().'&sa=detail&ag_id='.$array[$i]['ag_id'].'">';
+            $p_array[$ind].="<span class=\"calfollow\">".h($array[$i]['ag_ref']." ".$array[$i]['ag_title_fmt']).'</span>';
             $p_array[$ind].="</A>";
 
         }

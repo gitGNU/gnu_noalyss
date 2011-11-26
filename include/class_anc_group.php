@@ -68,7 +68,7 @@ class Anc_Group extends Anc_Print
         return "";
     }
     /*!
-     * \brief remove from the database 
+     * \brief remove from the database
      */
 
     function remove()
@@ -163,15 +163,15 @@ class Anc_Group extends Anc_Print
       $sql="with m as (select po_id,
 	po_name,
 	ga_id,
-	case when  oa_debit = 't' then oa_amount 
+	case when  oa_debit = 't' then oa_amount
 	else 0
 	end  as amount_deb,
-	case when oa_debit = 'f' then oa_amount 
+	case when oa_debit = 'f' then oa_amount
 	else 0
 	end as amount_cred,
 	oa_date
-	from operation_analytique 
-join poste_analytique using (po_id) 
+	from operation_analytique
+join poste_analytique using (po_id)
 where pa_id=$1 $filter_date )
 select sum(amount_cred) as sum_cred, sum(amount_deb)as sum_deb,po_name,ga_id,ga_description
 from m left join groupe_analytique using (ga_id)
@@ -194,14 +194,14 @@ order by ga_description,po_name";
       if ( empty ($array) ) return "";
       require_once('template/anc_balance_group.php');
 
-      
+
     }
   /**
    *@brief display the button export CSV
    *@param $p_hidden is a string containing hidden items
    *@return html string
-   */  
-  function show_button($p_hidden)
+   */
+  function show_button($p_hidden="")
   {
     $r="";
     $r.= '<form method="GET" action="export.php"  style="display:inline">';

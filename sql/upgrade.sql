@@ -27,8 +27,6 @@ script SQL to run
 \i ajax-direct-form.sql
 
 \i mode_paiement.sql
-\i anc-modularity-imp.sql
-\i anc-grandlivre.sql
 \i tva.sql
 create unique index qcode_idx on fiche_detail (ad_value) where ad_id=23;
 

@@ -106,16 +106,16 @@ class Anc_Group_Operation
 
         $ret="";
 
-        $ret.='<table style="border: 2px outset blue; width: 100%;"	>';
+        $ret.='<table style="result"	>';
 
         $ret.="<TR>".$wDate->input()."</tr>";
-        $ret.='<tr><td style="border:1px groove blue">Description</td>'.
+        $ret.='<tr><td>Description</td>'.
               '<td colspan="3">'.
               $wDescription->input()."</td></tr>";
         $Plan=new Anc_Plan($this->db);
         $aPlan=$Plan->get_list();
         $max=(count($this->a_operation)<$this->nMaxRow)?$this->nMaxRow:count($this->a_operation);
-        $ret.='</table><table  id="ago" style="border: 2px outset blue; width: 100%;">';
+        $ret.='</table><table  id="ago" style="width: 100%;">';
         /* show 10 rows */
         $ret.="<tr>";
         foreach ($aPlan as $d)
@@ -123,7 +123,7 @@ class Anc_Group_Operation
             $idx=$d['id'];
             /* array of possible value for the select */
             $aPoste[$idx]=$this->db->make_array("select po_id as value,".
-                                                " html_quote(po_name||':'||coalesce(po_description,'-')) as label ".
+                                                " po_name||':'||coalesce(po_description,'-') as label ".
                                                 " from poste_analytique ".
                                                 " where pa_id = ".$idx.
                                                 " order by po_name ");

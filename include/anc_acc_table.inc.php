@@ -10,7 +10,7 @@ echo '<p>' . HtmlInput::submit('Recherche', 'Recherche') . '</p>';
 echo '</form>';
 if (isset($_GET['result']))
 {
-    echo $tab->show_button();
+    echo $tab->show_button("");
     $tab->display_html();
 }
 ?>

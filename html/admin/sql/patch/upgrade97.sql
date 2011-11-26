@@ -1,23 +1,297 @@
---
--- PostgreSQL database dump
---
+begin;
+drop table public.import_tmp;
+drop table public.format_csv_banque;
+insert into parameter values ('MY_ALPHANUM','N');
+update PARAMETER set pr_value='N' where pr_id='MY_CHECK_PERIODE';
+delete from user_sec_act where ua_act_id not in (800,805,910);
+delete from action where ac_id not in (800,805,910);
+insert into action (ac_id,ac_description, ac_module, ac_code) values(1020,'Effacer les documents du suivi','followup','RMDOC');
+insert into action (ac_id,ac_description, ac_module, ac_code) values(1010,'Voir les documents du suivi','followup','VIEWDOC');
+insert into action (ac_id,ac_description, ac_module, ac_code) values(1050,'Modifier le type de document','followup','PARCATDOC');
+create unique index qcode_idx on fiche_detail (ad_value) where ad_id=23;
 
-SET statement_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = off;
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-SET escape_string_warning = off;
+CREATE OR REPLACE FUNCTION comptaproc.account_alphanum()
+  RETURNS boolean AS
+$BODY$
+declare
+	l_auto bool;
+begin
+	l_auto := true;
+	select pr_value into l_auto from parameter where pr_id='MY_ALPHANUM';
+	if l_auto = 'N' or l_auto is null then
+		l_auto:=false;
+	end if;
+	return l_auto;
+end;
+$BODY$
+  LANGUAGE plpgsql;
 
-SET search_path = public, pg_catalog;
+CREATE OR REPLACE FUNCTION comptaproc.account_compute(p_f_id integer)
+  RETURNS account_type AS
+$BODY$
+declare
+	class_base fiche_def.fd_class_base%type;
+	maxcode numeric;
+	sResult account_type;
+	bAlphanum bool;
+	sName text;
+begin
+	select fd_class_base into class_base
+	from
+		fiche_def join fiche using (fd_id)
+	where
+		f_id=p_f_id;
+	raise notice 'account_compute class base %',class_base;
+	bAlphanum := account_alphanum();
+	if bAlphanum = false  then
+		select count (pcm_val) into maxcode from tmp_pcmn where pcm_val_parent = class_base;
+		if maxcode = 0	then
+			maxcode:=class_base::numeric;
+		else
+			select max (pcm_val) into maxcode from tmp_pcmn where pcm_val_parent = class_base;
+			maxcode:=maxcode::numeric;
+		end if;
+		if maxcode::text = class_base then
+			maxcode:=class_base::numeric*1000;
+		end if;
+		maxcode:=maxcode+1;
+		raise notice 'account_compute Max code %',maxcode;
+		sResult:=maxcode::account_type;
+	else
+		-- if alphanum, use name
+		select ad_value into sName from fiche_detail where f_id=p_f_id and ad_id=1;
+		if sName is null then
+			raise exception 'Cannot compute an accounting without the name of the card for %',p_f_id;
+		end if;
+		sResult := class_base||sName;
+	end if;
+	return sResult;
+end;
+$BODY$
+LANGUAGE plpgsql;
+  
+DROP FUNCTION comptaproc.account_insert(integer, text);
 
-SET default_tablespace = '';
+CREATE OR REPLACE FUNCTION comptaproc.account_insert(p_f_id integer, p_account text)
+  RETURNS text  AS
+$BODY$
+declare
+	nParent tmp_pcmn.pcm_val_parent%type;
+	sName varchar;
+	sNew tmp_pcmn.pcm_val%type;
+	bAuto bool;
+	nFd_id integer;
+	sClass_Base fiche_def.fd_class_base%TYPE;
+	nCount integer;
+	first text;
+	second text;
+begin
 
-SET default_with_oids = false;
+	if p_account is not null and length(trim(p_account)) != 0 then
+	-- if there is coma in p_account, treat normally
+		if position (',' in p_account) = 0 then
+			raise info 'p_account is not empty';
+				select count(*)  into nCount from tmp_pcmn where pcm_val=p_account::account_type;
+				raise notice 'found in tmp_pcm %',nCount;
+				if nCount !=0  then
+					raise info 'this account exists in tmp_pcmn ';
+					perform attribut_insert(p_f_id,5,p_account);
+				   else
+				       -- account doesn't exist, create it
+					select ad_value into sName from
+						fiche_detail
+					where
+					ad_id=1 and f_id=p_f_id;
 
---
--- Name: menu_ref; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
+					nParent:=account_parent(p_account::account_type);
+					insert into tmp_pcmn(pcm_val,pcm_lib,pcm_val_parent) values (p_account::account_type,sName,nParent);
+					perform attribut_insert(p_f_id,5,p_account);
+
+				end if;
+		else
+		raise info 'presence of a comma';
+		-- there is 2 accounts separated by a comma
+		first := split_part(p_account,',',1);
+		second := split_part(p_account,',',2);
+		-- check there is no other coma
+		raise info 'first value % second value %', first, second;
+
+		if  position (',' in first) != 0 or position (',' in second) != 0 then
+			raise exception 'Too many comas, invalid account';
+		end if;
+		perform attribut_insert(p_f_id,5,p_account);
+		end if;
+	else
+	raise info 'p_account is  empty';
+		select fd_id into nFd_id from fiche where f_id=p_f_id;
+		bAuto:= account_auto(nFd_id);
+
+		select fd_class_base into sClass_base from fiche_def where fd_id=nFd_id;
+raise info 'sClass_Base : %',sClass_base;
+		if bAuto = true and sClass_base similar to '[[:digit:]]*'  then
+			raise info 'account generated automatically';
+			sNew:=account_compute(p_f_id);
+			raise info 'sNew %', sNew;
+			select ad_value into sName from
+				fiche_detail
+			where
+				ad_id=1 and f_id=p_f_id;
+			nParent:=account_parent(sNew);
+			sNew := account_add  (sNew,sName);
+			perform attribut_insert(p_f_id,5,sNew);
+
+		else
+		-- if there is an account_base then it is the default
+		      select fd_class_base::account_type into sNew from fiche_def join fiche using (fd_id) where f_id=p_f_id;
+			if sNew is null or length(trim(sNew)) = 0 then
+				raise notice 'count is null';
+				 perform attribut_insert(p_f_id,5,null);
+			else
+				 perform attribut_insert(p_f_id,5,sNew);
+			end if;
+		end if;
+	end if;
+
+return 0;
+end;
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION comptaproc.account_update(p_f_id integer, p_account account_type)
+  RETURNS integer AS
+$BODY$
+declare
+	nMax fiche.f_id%type;
+	nCount integer;
+	nParent tmp_pcmn.pcm_val_parent%type;
+	sName varchar;
+	first text;
+	second text;
+begin
+
+	if length(trim(p_account)) != 0 then
+		-- 2 accounts in card separated by comma 
+		if position (',' in p_account) = 0 then
+			select count(*) into nCount from tmp_pcmn where pcm_val=p_account;
+			if nCount = 0 then
+			select ad_value into sName from
+				fiche_detail
+				where
+				ad_id=1 and f_id=p_f_id;
+			nParent:=account_parent(p_account);
+			insert into tmp_pcmn(pcm_val,pcm_lib,pcm_val_parent) values (p_account,sName,nParent);
+		end if;
+		else
+		raise info 'presence of a comma';
+		-- there is 2 accounts separated by a comma
+		first := split_part(p_account,',',1);
+		second := split_part(p_account,',',2);
+		-- check there is no other coma
+		raise info 'first value % second value %', first, second;
+
+		if  position (',' in first) != 0 or position (',' in second) != 0 then
+			raise exception 'Too many comas, invalid account';
+		end if;
+		-- check that both account are in PCMN
+		
+		end if;
+	else
+		-- account is null
+		update fiche_detail set ad_value=null where f_id=p_f_id and ad_id=5 ;
+	end if;
+	
+	update fiche_detail set ad_value=p_account where f_id=p_f_id and ad_id=5 ;
+
+return 0;
+end;
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION comptaproc.format_account(p_account account_type)
+  RETURNS account_type AS
+$BODY$
+
+declare
+
+sResult account_type;
+
+begin
+sResult := lower(p_account);
+
+sResult := translate(sResult,'éèêëàâäïîüûùöô','eeeeaaaiiuuuoo');
+sResult := translate(sResult,' $€µ£%.+-/\!(){}(),;_&|"#''^','');
+
+if not sResult similar to '^[[:alnum:]_]+$' then
+	raise exception 'Invalid character in %',p_account;
+end if;
+
+return upper(sResult);
+
+end;
+$BODY$
+LANGUAGE plpgsql;
+  
+COMMENT ON FUNCTION comptaproc.format_account(account_type) IS 'format the accounting :
+- upper case
+- remove space and special char.
+';
+
+CREATE OR REPLACE FUNCTION comptaproc.tmp_pcmn_alphanum_ins_upd()
+  RETURNS trigger AS
+$BODY$
+declare
+   r_record tmp_pcmn%ROWTYPE;
+begin
+r_record := NEW;
+r_record.pcm_val:=format_account(NEW.pcm_val);
+
+return r_record;
+end;
+$BODY$
+LANGUAGE plpgsql;
+CREATE OR REPLACE FUNCTION comptaproc.tmp_pcmn_ins()
+  RETURNS trigger AS
+$BODY$
+declare
+   r_record tmp_pcmn%ROWTYPE;
+begin
+r_record := NEW;
+if  length(trim(r_record.pcm_type))=0 or r_record.pcm_type is NULL then 
+   r_record.pcm_type:=find_pcm_type(NEW.pcm_val);
+   return r_record;
+end if;
+return NEW;
+end;
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER t_tmp_pcm_alphanum_ins_upd
+  BEFORE INSERT OR UPDATE
+  ON tmp_pcmn
+  FOR EACH ROW
+  EXECUTE PROCEDURE comptaproc.tmp_pcmn_alphanum_ins_upd();
+
+DROP FUNCTION comptaproc.account_add(account_type, character varying);
+
+CREATE OR REPLACE FUNCTION comptaproc.account_add(p_id account_type, p_name character varying)
+  RETURNS text AS
+$BODY$
+declare
+	nParent tmp_pcmn.pcm_val_parent%type;
+	nCount integer;
+	sReturn text;
+begin
+	sReturn:= format_account(p_id);
+	select count(*) into nCount from tmp_pcmn where pcm_val=sReturn;
+	if nCount = 0 then
+		nParent=account_parent(p_id);
+		insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent)
+			values (p_id, p_name,nParent) returning pcm_val into sReturn;
+	end if;
+return sReturn;
+end ;
+$BODY$
+  LANGUAGE plpgsql;
 
 CREATE TABLE menu_ref (
     me_code text NOT NULL,
@@ -29,49 +303,14 @@ CREATE TABLE menu_ref (
     me_javascript text,
     me_type character varying(2)
 );
-
-
---
--- Name: COLUMN menu_ref.me_code; Type: COMMENT; Schema: public; Owner: -
---
-
 COMMENT ON COLUMN menu_ref.me_code IS 'Menu Code ';
-
-
---
--- Name: COLUMN menu_ref.me_menu; Type: COMMENT; Schema: public; Owner: -
---
-
 COMMENT ON COLUMN menu_ref.me_menu IS 'Label to display';
-
-
---
--- Name: COLUMN menu_ref.me_file; Type: COMMENT; Schema: public; Owner: -
---
-
 COMMENT ON COLUMN menu_ref.me_file IS 'if not empty file to include';
-
-
---
--- Name: COLUMN menu_ref.me_url; Type: COMMENT; Schema: public; Owner: -
---
-
 COMMENT ON COLUMN menu_ref.me_url IS 'url ';
-
-
---
--- Name: COLUMN menu_ref.me_type; Type: COMMENT; Schema: public; Owner: -
---
-
 COMMENT ON COLUMN menu_ref.me_type IS 'ME for menu
 PR for Printing
 SP for special meaning (ex: return to line)
 PL for plugin';
-
-
---
--- Name: profile; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
 
 CREATE TABLE profile (
     p_name text NOT NULL,
@@ -81,45 +320,11 @@ CREATE TABLE profile (
     with_direct_form boolean DEFAULT true
 );
 
-
---
--- Name: TABLE profile; Type: COMMENT; Schema: public; Owner: -
---
-
 COMMENT ON TABLE profile IS 'Available profile ';
-
-
---
--- Name: COLUMN profile.p_name; Type: COMMENT; Schema: public; Owner: -
---
-
 COMMENT ON COLUMN profile.p_name IS 'Name of the profile';
-
-
---
--- Name: COLUMN profile.p_desc; Type: COMMENT; Schema: public; Owner: -
---
-
 COMMENT ON COLUMN profile.p_desc IS 'description of the profile';
-
-
---
--- Name: COLUMN profile.with_calc; Type: COMMENT; Schema: public; Owner: -
---
-
 COMMENT ON COLUMN profile.with_calc IS 'show the calculator';
-
-
---
--- Name: COLUMN profile.with_direct_form; Type: COMMENT; Schema: public; Owner: -
---
-
 COMMENT ON COLUMN profile.with_direct_form IS 'show the direct form';
-
-
---
--- Name: profile_menu; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
 
 CREATE TABLE profile_menu (
     pm_id integer NOT NULL,
@@ -130,49 +335,15 @@ CREATE TABLE profile_menu (
     p_type_display text NOT NULL,
     pm_default integer
 );
-
-
---
--- Name: TABLE profile_menu; Type: COMMENT; Schema: public; Owner: -
---
-
 COMMENT ON TABLE profile_menu IS 'Join  between the profile and the menu ';
-
-
---
--- Name: COLUMN profile_menu.me_code_dep; Type: COMMENT; Schema: public; Owner: -
---
-
 COMMENT ON COLUMN profile_menu.me_code_dep IS 'menu code dependency';
-
-
---
--- Name: COLUMN profile_menu.p_id; Type: COMMENT; Schema: public; Owner: -
---
-
 COMMENT ON COLUMN profile_menu.p_id IS 'link to profile';
-
-
---
--- Name: COLUMN profile_menu.p_order; Type: COMMENT; Schema: public; Owner: -
---
-
 COMMENT ON COLUMN profile_menu.p_order IS 'order of displaying menu';
 COMMENT ON COLUMN profile_menu.pm_default IS 'default menu';
-
-
---
--- Name: COLUMN profile_menu.p_type_display; Type: COMMENT; Schema: public; Owner: -
---
-
 COMMENT ON COLUMN profile_menu.p_type_display IS 'M is a module
 E is a menu
 S is a select (for plugin)';
 
-
---
--- Name: profile_menu_pm_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
 
 CREATE SEQUENCE profile_menu_pm_id_seq
     START WITH 1
@@ -180,35 +351,13 @@ CREATE SEQUENCE profile_menu_pm_id_seq
     NO MAXVALUE
     NO MINVALUE
     CACHE 1;
-
-
---
--- Name: profile_menu_pm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
 ALTER SEQUENCE profile_menu_pm_id_seq OWNED BY profile_menu.pm_id;
-
-
---
--- Name: profile_menu_pm_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
 SELECT pg_catalog.setval('profile_menu_pm_id_seq', 778, true);
-
-
---
--- Name: profile_menu_type; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
 
 CREATE TABLE profile_menu_type (
     pm_type text NOT NULL,
     pm_desc text
 );
-
-
---
--- Name: profile_p_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
 
 CREATE SEQUENCE profile_p_id_seq
     START WITH 1
@@ -217,24 +366,9 @@ CREATE SEQUENCE profile_p_id_seq
     NO MINVALUE
     CACHE 1;
 
-
---
--- Name: profile_p_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
 ALTER SEQUENCE profile_p_id_seq OWNED BY profile.p_id;
 
-
---
--- Name: profile_p_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
 SELECT pg_catalog.setval('profile_p_id_seq', 11, true);
-
-
---
--- Name: profile_user; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
 
 CREATE TABLE profile_user (
     user_name text NOT NULL,
@@ -242,31 +376,9 @@ CREATE TABLE profile_user (
     p_id integer
 );
 
-
---
--- Name: TABLE profile_user; Type: COMMENT; Schema: public; Owner: -
---
-
 COMMENT ON TABLE profile_user IS 'Contains the available profile for users';
-
-
---
--- Name: COLUMN profile_user.user_name; Type: COMMENT; Schema: public; Owner: -
---
-
 COMMENT ON COLUMN profile_user.user_name IS 'fk to available_user : login';
-
-
---
--- Name: COLUMN profile_user.p_id; Type: COMMENT; Schema: public; Owner: -
---
-
 COMMENT ON COLUMN profile_user.p_id IS 'fk to profile';
-
-
---
--- Name: profile_user_pu_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
 
 CREATE SEQUENCE profile_user_pu_id_seq
     START WITH 1
@@ -274,55 +386,13 @@ CREATE SEQUENCE profile_user_pu_id_seq
     NO MAXVALUE
     NO MINVALUE
     CACHE 1;
-
-
---
--- Name: profile_user_pu_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
 ALTER SEQUENCE profile_user_pu_id_seq OWNED BY profile_user.pu_id;
-
-
---
--- Name: profile_user_pu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
 SELECT pg_catalog.setval('profile_user_pu_id_seq', 6, true);
-
-
---
--- Name: v_all_menu; Type: VIEW; Schema: public; Owner: -
---
-
 CREATE VIEW v_all_menu AS
     SELECT pm.me_code, pm.pm_id, pm.me_code_dep, pm.p_order, pm.p_type_display, pu.user_name, pu.pu_id, p.p_name, p.p_desc, mr.me_menu, mr.me_file, mr.me_url, mr.me_parameter, mr.me_javascript, mr.me_type, pm.p_id, mr.me_description FROM (((profile_menu pm JOIN profile_user pu ON ((pu.p_id = pm.p_id))) JOIN profile p ON ((p.p_id = pm.p_id))) JOIN menu_ref mr USING (me_code)) ORDER BY pm.p_order;
-
-
---
--- Name: p_id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE profile ALTER COLUMN p_id SET DEFAULT nextval('profile_p_id_seq'::regclass);
-
-
---
--- Name: pm_id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE profile_menu ALTER COLUMN pm_id SET DEFAULT nextval('profile_menu_pm_id_seq'::regclass);
-
-
---
--- Name: pu_id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE profile_user ALTER COLUMN pu_id SET DEFAULT nextval('profile_user_pu_id_seq'::regclass);
-
-
---
--- Data for Name: menu_ref; Type: TABLE DATA; Schema: public; Owner: -
---
-
 INSERT INTO menu_ref VALUES ('ACH', 'Achat', 'compta_ach.inc.php', NULL, 'Nouvel achat ou dépense', NULL, NULL, 'ME');
 INSERT INTO menu_ref VALUES ('ANCHOP', 'Historique', 'anc_history.inc.php', NULL, 'Historique des imputations analytiques', NULL, NULL, 'ME');
 INSERT INTO menu_ref VALUES ('ANCGL', 'Grand''Livre', 'anc_great_ledger.inc.php', NULL, 'Grand livre d''plan analytique', NULL, NULL, 'ME');
@@ -431,19 +501,8 @@ INSERT INTO menu_ref VALUES ('ACCESS', 'Accueil', NULL, 'user_login.php', 'Accue
 INSERT INTO menu_ref VALUES ('ANCIMP', 'Impression', NULL, NULL, 'Impression compta. analytique', NULL, NULL, 'ME');
 INSERT INTO menu_ref VALUES ('new_line', 'saut de ligne', NULL, NULL, 'Saut de ligne', NULL, NULL, 'SP');
 
-
---
--- Data for Name: profile; Type: TABLE DATA; Schema: public; Owner: -
---
-
 INSERT INTO profile VALUES ('Administrateur', 1, 'Profil par défaut pour les adminstrateurs', true, true);
 INSERT INTO profile VALUES ('Utilisateur', 2, 'Profil par défaut pour les utilisateurs', true, true);
-
-
---
--- Data for Name: profile_menu; Type: TABLE DATA; Schema: public; Owner: -
---
-
 INSERT INTO profile_menu VALUES (59, 'CFGPAY', 'DIVPARM', 1, 4, 'E', 0);
 INSERT INTO profile_menu VALUES (68, 'CFGATCARD', 'DIVPARM', 1, 9, 'E', 0);
 INSERT INTO profile_menu VALUES (61, 'CFGACC', 'DIVPARM', 1, 6, 'E', 0);
@@ -652,127 +711,253 @@ INSERT INTO profile_menu VALUES (770, 'PRINTCARD', 'PRINT', 2, 40, 'E', 0);
 INSERT INTO profile_menu VALUES (777, 'CFGPRO', 'MOD', 2, NULL, 'E', 0);
 INSERT INTO profile_menu VALUES (778, 'CFGMENU', 'MOD', 2, NULL, 'E', 0);
 INSERT INTO profile_menu VALUES (772, 'DASHBOARD', NULL, 2, 10, 'M', 1);
-
-
---
--- Data for Name: profile_menu_type; Type: TABLE DATA; Schema: public; Owner: -
---
-
 INSERT INTO profile_menu_type VALUES ('P', 'Impression');
 INSERT INTO profile_menu_type VALUES ('S', 'Extension');
 INSERT INTO profile_menu_type VALUES ('E', 'Menu');
 INSERT INTO profile_menu_type VALUES ('M', 'Module');
-
-
---
--- Data for Name: profile_user; Type: TABLE DATA; Schema: public; Owner: -
---
-
 INSERT INTO profile_user VALUES ('phpcompta', 1, 1);
-
-
---
--- Name: menu_ref_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY menu_ref
-    ADD CONSTRAINT menu_ref_pkey PRIMARY KEY (me_code);
-
-
---
--- Name: profile_menu_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY profile_menu
-    ADD CONSTRAINT profile_menu_pkey PRIMARY KEY (pm_id);
-
-
---
--- Name: profile_menu_type_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY profile_menu_type
-    ADD CONSTRAINT profile_menu_type_pkey PRIMARY KEY (pm_type);
-
-
---
--- Name: profile_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY profile
-    ADD CONSTRAINT profile_pkey PRIMARY KEY (p_id);
-
-
---
--- Name: profile_user_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY profile_user
-    ADD CONSTRAINT profile_user_pkey PRIMARY KEY (pu_id);
-
-
---
--- Name: profile_user_user_name_key; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY profile_user
-    ADD CONSTRAINT profile_user_user_name_key UNIQUE (user_name, p_id);
-
-
---
--- Name: fki_profile_menu_me_code; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
+ALTER TABLE ONLY menu_ref    ADD CONSTRAINT menu_ref_pkey PRIMARY KEY (me_code);
+ALTER TABLE ONLY profile_menu    ADD CONSTRAINT profile_menu_pkey PRIMARY KEY (pm_id);
+ALTER TABLE ONLY profile_menu_type    ADD CONSTRAINT profile_menu_type_pkey PRIMARY KEY (pm_type);
+ALTER TABLE ONLY profile    ADD CONSTRAINT profile_pkey PRIMARY KEY (p_id);
+ALTER TABLE ONLY profile_user    ADD CONSTRAINT profile_user_pkey PRIMARY KEY (pu_id);
+ALTER TABLE ONLY profile_user    ADD CONSTRAINT profile_user_user_name_key UNIQUE (user_name, p_id);
 CREATE INDEX fki_profile_menu_me_code ON profile_menu USING btree (me_code);
-
-
---
--- Name: fki_profile_menu_profile; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
 CREATE INDEX fki_profile_menu_profile ON profile_menu USING btree (p_id);
-
-
---
--- Name: fki_profile_menu_type_fkey; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
 CREATE INDEX fki_profile_menu_type_fkey ON profile_menu USING btree (p_type_display);
+ALTER TABLE ONLY profile_menu    ADD CONSTRAINT profile_menu_me_code_fkey FOREIGN KEY (me_code) REFERENCES menu_ref(me_code) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY profile_menu    ADD CONSTRAINT profile_menu_p_id_fkey FOREIGN KEY (p_id) REFERENCES profile(p_id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY profile_menu    ADD CONSTRAINT profile_menu_type_fkey FOREIGN KEY (p_type_display) REFERENCES profile_menu_type(pm_type);
+ALTER TABLE ONLY profile_user    ADD CONSTRAINT profile_user_p_id_fkey FOREIGN KEY (p_id) REFERENCES profile(p_id) ON UPDATE CASCADE ON DELETE CASCADE;
+insert into menu_ref(me_code,me_menu,me_file,me_description,me_type,me_parameter) select ex_code,ex_name,ex_file,ex_desC,'PL','plugin_code='||ex_code from extension;
+insert into profile_menu (me_code,me_code_dep,p_id,p_type_display) select me_code,'EXTENSION',1,'S' from menu_ref where me_type='PL';
+create type menu_tree as (code text,description text);
+
+create or replace function comptaproc.get_profile_menu(login text)
+returns setof  menu_tree
+as
+$BODY$
+declare
+	a menu_tree;
+	e menu_tree;
+begin
+for a in select me_code,me_description from v_all_menu where user_name=login 
+	and me_code_dep is null and me_type <> 'PR' and me_type <>'SP'
+loop
+		return next a;
+	
+		for e in select * from get_menu_tree(a.code,login)
+		loop 
+			return next e;
+		end loop;
+	
+	end loop;
+return;
+end;
+$BODY$ language plpgsql;
 
 
---
--- Name: profile_menu_me_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY profile_menu
-    ADD CONSTRAINT profile_menu_me_code_fkey FOREIGN KEY (me_code) REFERENCES menu_ref(me_code) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
---
--- Name: profile_menu_p_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
+CREATE OR REPLACE FUNCTION comptaproc.get_menu_tree(p_code text,login text)
+  RETURNS SETOF menu_tree AS
+$BODY$
+declare
+	i menu_tree;
+	e menu_tree;
+	a text;
+	x v_all_menu%ROWTYPE;
+begin
+	for x in select *  from v_all_menu where me_code_dep=p_code::text and user_name=login::text
+	loop	
+		if x.me_code_dep is not null then
+			i.code := x.me_code_dep||'/'||x.me_code;
+		else
+			i.code := x.me_code;
+		end if;
 
-ALTER TABLE ONLY profile_menu
-    ADD CONSTRAINT profile_menu_p_id_fkey FOREIGN KEY (p_id) REFERENCES profile(p_id) ON UPDATE CASCADE ON DELETE CASCADE;
+		i.description := x.me_description;
+		
+		return next i;
+		
+	for e in select *  from get_menu_tree(x.me_code,login)
+		loop
+			e.code:=x.me_code_dep||'/'||e.code;
+			return next e;
+		end loop;
 
+	end loop;
+	return;
+end;
+$BODY$
+LANGUAGE plpgsql;
+	
+alter table mod_payment add jrn_def_id bigint;
+update mod_payment set jrn_def_id=2 where mp_type='VEN';
+update mod_payment set jrn_def_id=3 where mp_type='ACH';
 
---
--- Name: profile_menu_type_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
+alter table mod_payment drop mp_type;
 
-ALTER TABLE ONLY profile_menu
-    ADD CONSTRAINT profile_menu_type_fkey FOREIGN KEY (p_type_display) REFERENCES profile_menu_type(pm_type);
+alter table mod_payment add constraint mod_payment_jrn_def_id_fk foreign key (jrn_def_id) references jrn_def(jrn_def_id) on delete cascade on update cascade;
 
+comment on column mod_payment.jrn_def_id is 'Ledger using this payment method';
+alter table tva_rate add tva_both_side integer ;
+alter table tva_rate alter tva_both_side set default 0;
+update tva_rate set tva_both_side=0;
 
---
--- Name: profile_user_p_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
+drop FUNCTION comptaproc.tva_modify(integer, text, numeric, text, text);
+alter table quant_purchase add qp_vat_sided numeric (20,4);
+alter table quant_sold add qs_vat_sided numeric (20,4);
 
-ALTER TABLE ONLY profile_user
-    ADD CONSTRAINT profile_user_p_id_fkey FOREIGN KEY (p_id) REFERENCES profile(p_id) ON UPDATE CASCADE ON DELETE CASCADE;
+alter table quant_purchase alter qp_vat_sided set default 0.0;
+alter table quant_sold alter qs_vat_sided set default 0.0;
 
+update quant_purchase set qp_vat_sided=0.0;
+update quant_sold set qs_vat_sided=0.0;
 
---
--- PostgreSQL database dump complete
---
+comment on column quant_purchase.qp_vat_sided is 'amount of the VAT which avoid VAT, case of the VAT which add the same amount at the deb and cred';
+comment on column quant_purchase.qp_vat_sided is 'amount of the VAT which avoid VAT, case of the VAT which add the same amount at the deb and cred';
 
+CREATE OR REPLACE FUNCTION comptaproc.tva_modify(integer, text, numeric, text, text,integer)
+ RETURNS integer
+AS $function$
+declare
+	p_tva_id alias for $1;
+	p_tva_label alias for $2;
+	p_tva_rate alias for $3;
+	p_tva_comment alias for $4;
+	p_tva_poste alias for $5;
+	p_tva_both_side alias for $6;
+	debit text;
+	credit text;
+	nCount integer;
+begin
+if length(trim(p_tva_label)) = 0 then
+	return 3;
+end if;
+
+if length(trim(p_tva_poste)) != 0 then
+	if position (',' in p_tva_poste) = 0 then return 4; end if;
+	debit  = split_part(p_tva_poste,',',1);
+	credit	= split_part(p_tva_poste,',',2);
+	select count(*) into nCount from tmp_pcmn where pcm_val=debit::account_type;
+	if nCount = 0 then return 4; end if;
+	select count(*) into nCount from tmp_pcmn where pcm_val=credit::account_type;
+	if nCount = 0 then return 4; end if;
+
+end if;
+update tva_rate set tva_label=p_tva_label,tva_rate=p_tva_rate,tva_comment=p_tva_comment,tva_poste=p_tva_poste,tva_both_side=p_tva_both_side
+	where tva_id=p_tva_id;
+return 0;
+end;
+$function$
+LANGUAGE plpgsql;
+
+drop FUNCTION comptaproc.tva_insert(text, numeric, text, text);
+
+CREATE OR REPLACE FUNCTION comptaproc.tva_insert(text, numeric, text, text,integer)
+ RETURNS integer
+AS $function$
+declare
+	l_tva_id integer;
+	p_tva_label alias for $1;
+	p_tva_rate alias for $2;
+	p_tva_comment alias for $3;
+	p_tva_poste alias for $4;
+	p_tva_both_side alias for $5;
+	debit text;
+	credit text;
+	nCount integer;
+begin
+if length(trim(p_tva_label)) = 0 then
+	return 3;
+end if;
+
+if length(trim(p_tva_poste)) != 0 then
+	if position (',' in p_tva_poste) = 0 then return 4; end if;
+	debit  = split_part(p_tva_poste,',',1);
+	credit	= split_part(p_tva_poste,',',2);
+	select count(*) into nCount from tmp_pcmn where pcm_val=debit::account_type;
+	if nCount = 0 then return 4; end if;
+	select count(*) into nCount from tmp_pcmn where pcm_val=credit::account_type;
+	if nCount = 0 then return 4; end if;
+
+end if;
+select into l_tva_id nextval('s_tva') ;
+insert into tva_rate(tva_id,tva_label,tva_rate,tva_comment,tva_poste,tva_both_side)
+	values (l_tva_id,p_tva_label,p_tva_rate,p_tva_comment,p_tva_poste,p_tva_both_side);
+return 0;
+end;
+$function$
+LANGUAGE plpgsql;
+
+DROP FUNCTION comptaproc.insert_quant_purchase(text,numeric, character varying,numeric,numeric,numeric,integer,numeric,numeric,numeric,numeric,character varying);
+
+CREATE OR REPLACE FUNCTION comptaproc.insert_quant_purchase(p_internal text, p_j_id numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_nd_amount numeric, p_nd_tva numeric, p_nd_tva_recup numeric, p_dep_priv numeric, p_client character varying,p_tva_sided numeric)
+ RETURNS void
+AS $function$
+declare
+        fid_client integer;
+        fid_good   integer;
+begin
+        select f_id into fid_client from
+                fiche_detail where ad_id=23 and ad_value=upper(trim(p_client));
+        select f_id into fid_good from
+                 fiche_detail where ad_id=23 and ad_value=upper(trim(p_fiche));
+        insert into quant_purchase
+                (qp_internal,
+                j_id,
+                qp_fiche,
+                qp_quantite,
+                qp_price,
+                qp_vat,
+                qp_vat_code,
+                qp_nd_amount,
+                qp_nd_tva,
+                qp_nd_tva_recup,
+                qp_supplier,
+                qp_dep_priv,
+                qp_vat_sided)
+        values
+                (p_internal,
+                p_j_id,
+                fid_good,
+                p_quant,
+                p_price,
+                p_vat,
+                p_vat_code,
+                p_nd_amount,
+                p_nd_tva,
+                p_nd_tva_recup,
+                fid_client,
+                p_dep_priv,
+                p_tva_sided);
+        return;
+end;
+ $function$ 
+ LANGUAGE plpgsql;
+
+DROP FUNCTION comptaproc.insert_quant_sold(text, numeric, character varying, numeric, numeric, numeric, integer, character varying);
+CREATE OR REPLACE FUNCTION comptaproc.insert_quant_sold(p_internal text, p_jid numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_client character varying,p_tva_sided numeric)
+ RETURNS void
+AS $function$
+declare
+        fid_client integer;
+        fid_good   integer;
+begin
+
+        select f_id into fid_client from
+                fiche_detail where ad_id=23 and ad_value=upper(trim(p_client));
+        select f_id into fid_good from
+                fiche_detail where ad_id=23 and ad_value=upper(trim(p_fiche));
+        insert into quant_sold
+                (qs_internal,j_id,qs_fiche,qs_quantite,qs_price,qs_vat,qs_vat_code,qs_client,qs_valid,qs_vat_sided)
+        values
+                (p_internal,p_jid,fid_good,p_quant,p_price,p_vat,p_vat_code,fid_client,'Y',p_tva_sided);
+        return;
+end;
+ $function$ 
+ LANGUAGE plpgsql;
+update version set val=98;
+
+commit;

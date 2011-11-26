@@ -83,6 +83,7 @@ $url=$_SERVER['REQUEST_URI'];
 $table->add('Code',$url,"order by me_code asc","order by me_code desc","codea","coded");
 $table->add('Menu',$url,"order by me_menu asc","order by me_menu desc","menua","menud");
 $table->add('Description',$url,"order by me_description asc","order by me_description desc","desa","desd");
+$table->add('Fichier',$url,"order by me_file asc","order by me_file desc","fa","fd");
 $table->add('URL',$url,"order by me_url asc","order by me_url desc","urla","urld");
 $table->add('Paramètre',$url,"order by me_parametere asc","order by me_parameter desc","paa","pad");
 $table->add('Javascript',$url,"order by me_javascript asc","order by me_javascript desc","jsa","jsd");
@@ -139,6 +140,7 @@ echo '<th>'.$table->get_header(3).'</th>';
 echo '<th>'.$table->get_header(4).'</th>';
 echo '<th>'.$table->get_header(5).'</th>';
 echo '<th>'.$table->get_header(6).'</th>';
+echo '<th>'.$table->get_header(7).'</th>';
 echo '</tr>';
 
 for ($i=0;$i<Database::num_row($ret);$i++)
@@ -157,6 +159,7 @@ for ($i=0;$i<Database::num_row($ret);$i++)
 	echo td($js);
 	echo td($row->me_menu);
 	echo td($row->me_description);
+	echo td($row->me_file);
 	echo td($row->me_url);
 	echo td($row->me_parameter);
 	echo td($row->me_javascript);

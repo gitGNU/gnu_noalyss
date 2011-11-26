@@ -19,7 +19,7 @@ p.info {
         width:70%;
         margin-left: 15%;
         margin-right: 15%;
-            
+
 }
 h2.error {
 	color:red;
@@ -65,7 +65,7 @@ color:blue;
 	background-color:blue;
 	color:lightgrey;
 	}
-a { 
+a {
 color:blue;
 padding:5px;
   font-size:15px;
@@ -188,7 +188,7 @@ if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.D
   echo '<form method="post">';
   echo '<h1 class="info">Entrez les informations n&eacute;cessaires &agrave; phpcompta</h1>';
   require_once('config_file.php');
-  
+
   echo config_file_form();
   echo HtmlInput::submit('save_config','Sauver la configuration');
   echo '</form>';
@@ -213,7 +213,7 @@ require_once('class_database.php');
 echo "<h1>Configuration</h1>";
 ?>
 <h2>Info</h2>
-Vous utilisez le domaine <?php echo domaine; ?> 
+Vous utilisez le domaine <?php echo domaine; ?>
 <h2>Php setting</h2>
 <?php
 
@@ -330,7 +330,7 @@ var_dump($version);
 
 if ( $version[0] < 8 ||
      ($version[0]=='8' && $version[2]<4)
-     ) 
+     )
   {
 ?>
   <p><?=$failed?> Vous devez absolument utiliser au minimum une version 8.4 de PostGresql, si votre distribution n'en
@@ -369,7 +369,7 @@ for ($e=0;$e<$cn->size();$e++) {
   switch ($a['name']){
   case 'effective_cache_size':
     if ( $a['setting'] < 1000 ){
-      
+
       print '<p class="warning">'.$failed.'Attention le param&egrave;tre effective_cache_size est de '.
 	$a['setting']." au lieu de 1000 </p>";
       $flag++;
@@ -461,6 +461,7 @@ for ($e=0;$e < $MaxDossier;$e++) {
   echo "<h3>Patching ".$db_row['dos_name'].'</h3>';
   $db=new Database($db_row['dos_id'],'dos');
   $db->apply_patch($db_row['dos_name']);
+  Dossier::synchro_admin($db_row['dos_id']);
  }
 
 //----------------------------------------------------------------------
