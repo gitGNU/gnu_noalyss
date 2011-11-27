@@ -101,6 +101,7 @@ class Pre_Op_Advanced extends Pre_operation_detail
         $array=$this->operation->compute_array($a_op);
         $array['desc']=$array['e_comm'];
         $p_array=$this->load();
+		if (empty($p_array)) return array();
         foreach ($p_array as $row)
         {
             $tmp_array=array("qc_".$count=>'',
@@ -126,7 +127,7 @@ class Pre_Op_Advanced extends Pre_operation_detail
         return $array;
     }
     /*!\brief load the data from the database and return an array
-     * \return an array 
+     * \return an array
      */
     function load()
     {

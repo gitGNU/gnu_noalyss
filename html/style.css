@@ -125,6 +125,7 @@ div.u_tmenu div.u_tool {
 div.u_tool {
 	float:left;
 	width:  100%;
+	padding-bottom: 25px;
 	}
 div.u_tool div.name {
        float:left;
@@ -838,7 +839,7 @@ a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
 div.topmenu {
 	float:left;
 	width:100%;
-
+	margin-top:2px;
 }
 
 h2.dossier {

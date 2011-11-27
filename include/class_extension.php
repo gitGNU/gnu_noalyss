@@ -113,7 +113,7 @@ class Extension extends Menu_Ref_sql
 			 * insert into default profile
 			 */
 			$this->cn->exec_sql("insert into profile_menu(me_code,me_code_dep,p_type_display,p_id)
-					values ($1,$2,$3,$4)",array($this->me_code,'EXTENSION','S',1));
+					values ($1,$2,$3,$4)",array($this->me_code,'EXT','S',1));
 			$this->cn->commit();
 		}
 		catch (Exception $exc)

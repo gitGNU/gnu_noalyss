@@ -99,6 +99,7 @@ class Pre_op_ach extends Pre_operation_detail
         $this->db->commit();
     }
     /*!\brief compute an array accordingly with the FormVenView function
+	 * @return an array for filling the form
      */
     function compute_array()
     {
@@ -106,6 +107,7 @@ class Pre_op_ach extends Pre_operation_detail
         $a_op=$this->operation->load();
         $array=$this->operation->compute_array($a_op);
         $p_array=$this->load();
+		if ( empty ($p_array)) return array();
         foreach ($p_array as $row)
         {
             if ( $row['opd_debit']=='f')
@@ -126,7 +128,7 @@ class Pre_op_ach extends Pre_operation_detail
         return $array;
     }
     /*!\brief load the data from the database and return an array
-     * \return an array 
+     * \return an array
      */
     function load()
     {

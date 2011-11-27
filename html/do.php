@@ -137,17 +137,6 @@ if (isset($_REQUEST['ac']))
 		show_menu($all, $i);
     }
 }
-/*elseif (isset($_REQUEST['plugin_code']))
-{
-	$default = find_default_module();
-    $_GET['ac']=$default;
-    $_POST['ac']=$default;
-    $_REQUEST['ac']=$default;
-    show_module('EXTENSION');
-    $all[0] = $default;
-    show_menu($all, 0);
-	require_once 'extension_choice.inc.php';
-}*/
 else
 {
     $default = find_default_module();

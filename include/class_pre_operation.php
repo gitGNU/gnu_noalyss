@@ -196,11 +196,8 @@ class Pre_operation_detail
         $hid=new IHidden();
         $r=$hid->input("action","use_opd");
         $r.=$hid->input("jrn_type",$this->get("ledger_type"));
-        if ($this->count() != 0 )
-        {
-            $r.= HtmlInput::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
-            $r.= $this->show_button();
-        }
+        $r.= HtmlInput::submit('use_opd','Utilisez une op&eacute;ration pr&eacute;d&eacute;finie');
+        $r.= $this->show_button();
         return $r;
 
     }
@@ -230,7 +227,7 @@ class Pre_operation_detail
         $value=$this->db->make_array("select od_id,od_name from op_predef ".
                                      " where jrn_def_id=".sql_string($this->jrn_def_id).
                                      " and od_direct ='".sql_string($this->od_direct)."'".
-                                     " order by od_name");
+                                     " order by od_name",1);
         return $value;
     }
     function set($p_param,$value)

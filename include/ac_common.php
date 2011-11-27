@@ -65,7 +65,10 @@ function h2($p_string, $p_class)
 {
     return '<h2 ' . $p_class . '>' . htmlspecialchars($p_string) . '</h2>';
 }
-
+function h1($p_string, $p_class)
+{
+    return '<h1 ' . $p_class . '>' . htmlspecialchars($p_string) . '</h1>';
+}
 /* !\brief surround the string with td
  * \param $p_string string to surround by TD
  * \param $p_extra extra info (class, style, javascript...)
@@ -762,7 +765,7 @@ function show_module($selected)
 	}
 	if ($file[0]['me_file'] != '')
 	{
-	    if ($file[0]['me_parameter'] !== "")
+	    if ($file[0]['me_parameter'] != "")
 	    {
 		// if there are paramter put them in superglobal
 		$array=compute_variable($file[0]['me_parameter']);
@@ -775,16 +778,11 @@ function show_module($selected)
 			require_once $file[0]['me_file'];
 		else
 			require 'extension_get.inc.php';
-	    exit();
 	}
 	if ( $file[0]['me_javascript'] != '')
 	{
 		create_script($file[0]['me_javascript']);
 	}
-    }
-    else
-    {
-
     }
 }
 /**

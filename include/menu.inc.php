@@ -155,7 +155,8 @@ for ($i=0;$i<Database::num_row($ret);$i++)
 			break;
 
 	}
-	echo '<tr>';
+	$class= ( $i%2 == 0)?$class=' class="odd"':$class=' class="even"';
+	echo "<tr $class>";
 	echo td($js);
 	echo td($row->me_menu);
 	echo td($row->me_description);

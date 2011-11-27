@@ -69,7 +69,7 @@ begin
 end;
 $BODY$
 LANGUAGE plpgsql;
-  
+
 DROP FUNCTION comptaproc.account_insert(integer, text);
 
 CREATE OR REPLACE FUNCTION comptaproc.account_insert(p_f_id integer, p_account text)
@@ -170,7 +170,7 @@ declare
 begin
 
 	if length(trim(p_account)) != 0 then
-		-- 2 accounts in card separated by comma 
+		-- 2 accounts in card separated by comma
 		if position (',' in p_account) = 0 then
 			select count(*) into nCount from tmp_pcmn where pcm_val=p_account;
 			if nCount = 0 then
@@ -193,13 +193,13 @@ begin
 			raise exception 'Too many comas, invalid account';
 		end if;
 		-- check that both account are in PCMN
-		
+
 		end if;
 	else
 		-- account is null
 		update fiche_detail set ad_value=null where f_id=p_f_id and ad_id=5 ;
 	end if;
-	
+
 	update fiche_detail set ad_value=p_account where f_id=p_f_id and ad_id=5 ;
 
 return 0;
@@ -230,7 +230,7 @@ return upper(sResult);
 end;
 $BODY$
 LANGUAGE plpgsql;
-  
+
 COMMENT ON FUNCTION comptaproc.format_account(account_type) IS 'format the accounting :
 - upper case
 - remove space and special char.
@@ -256,7 +256,7 @@ declare
    r_record tmp_pcmn%ROWTYPE;
 begin
 r_record := NEW;
-if  length(trim(r_record.pcm_type))=0 or r_record.pcm_type is NULL then 
+if  length(trim(r_record.pcm_type))=0 or r_record.pcm_type is NULL then
    r_record.pcm_type:=find_pcm_type(NEW.pcm_val);
    return r_record;
 end if;
@@ -729,8 +729,6 @@ ALTER TABLE ONLY profile_menu    ADD CONSTRAINT profile_menu_me_code_fkey FOREIG
 ALTER TABLE ONLY profile_menu    ADD CONSTRAINT profile_menu_p_id_fkey FOREIGN KEY (p_id) REFERENCES profile(p_id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE ONLY profile_menu    ADD CONSTRAINT profile_menu_type_fkey FOREIGN KEY (p_type_display) REFERENCES profile_menu_type(pm_type);
 ALTER TABLE ONLY profile_user    ADD CONSTRAINT profile_user_p_id_fkey FOREIGN KEY (p_id) REFERENCES profile(p_id) ON UPDATE CASCADE ON DELETE CASCADE;
-insert into menu_ref(me_code,me_menu,me_file,me_description,me_type,me_parameter) select ex_code,ex_name,ex_file,ex_desC,'PL','plugin_code='||ex_code from extension;
-insert into profile_menu (me_code,me_code_dep,p_id,p_type_display) select me_code,'EXTENSION',1,'S' from menu_ref where me_type='PL';
 create type menu_tree as (code text,description text);
 
 create or replace function comptaproc.get_profile_menu(login text)
@@ -741,16 +739,16 @@ declare
 	a menu_tree;
 	e menu_tree;
 begin
-for a in select me_code,me_description from v_all_menu where user_name=login 
+for a in select me_code,me_description from v_all_menu where user_name=login
 	and me_code_dep is null and me_type <> 'PR' and me_type <>'SP'
 loop
 		return next a;
-	
+
 		for e in select * from get_menu_tree(a.code,login)
-		loop 
+		loop
 			return next e;
 		end loop;
-	
+
 	end loop;
 return;
 end;
@@ -769,7 +767,7 @@ declare
 	x v_all_menu%ROWTYPE;
 begin
 	for x in select *  from v_all_menu where me_code_dep=p_code::text and user_name=login::text
-	loop	
+	loop
 		if x.me_code_dep is not null then
 			i.code := x.me_code_dep||'/'||x.me_code;
 		else
@@ -777,9 +775,9 @@ begin
 		end if;
 
 		i.description := x.me_description;
-		
+
 		return next i;
-		
+
 	for e in select *  from get_menu_tree(x.me_code,login)
 		loop
 			e.code:=x.me_code_dep||'/'||e.code;
@@ -791,7 +789,7 @@ begin
 end;
 $BODY$
 LANGUAGE plpgsql;
-	
+
 alter table mod_payment add jrn_def_id bigint;
 update mod_payment set jrn_def_id=2 where mp_type='VEN';
 update mod_payment set jrn_def_id=3 where mp_type='ACH';
@@ -934,7 +932,7 @@ begin
                 p_tva_sided);
         return;
 end;
- $function$ 
+ $function$
  LANGUAGE plpgsql;
 
 DROP FUNCTION comptaproc.insert_quant_sold(text, numeric, character varying, numeric, numeric, numeric, integer, character varying);
@@ -956,8 +954,14 @@ begin
                 (p_internal,p_jid,fid_good,p_quant,p_price,p_vat,p_vat_code,fid_client,'Y',p_tva_sided);
         return;
 end;
- $function$ 
+ $function$
  LANGUAGE plpgsql;
+
+insert into menu_ref(me_code,me_menu,me_file,me_description,me_type,me_parameter) select ex_code,ex_name,ex_file,ex_desC,'PL','plugin_code='||ex_code from extension;
+
+insert into profile_menu (me_code,me_code_dep,p_id,p_type_display) select me_code,'EXT',1,'S' from menu_ref where me_type='PL';
+update jrn set jr_internal=substring(jr_internal,1,1)||lpad(upper(to_hex(jr_id+1)),6,'0');
+
 update version set val=98;
 
 commit;

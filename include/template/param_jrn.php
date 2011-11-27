@@ -119,8 +119,8 @@ echo $card->input();
 <?
 if ( $new || ($type != 'ODS' && $type != 'FIN')) {
 ?>
-<th><?=_('Fiches Débit')?></TH>
-<th><?=_('Fiches Crédit')?></TH>
+<th style="text-align:left"><?=_('Fiches Débit')?></TH>
+<th style="text-align:left"><?=_('Fiches Crédit')?></TH>
 <?
 }
 ?>
@@ -139,7 +139,7 @@ for ($i=0;$i<$num;$i++) {
       break;
     }
   }
-  echo '<TR>';
+	echo '<tr>';
   printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHEDEB[]" %s>%s</TD>',
 	  $res['fd_id'],$CHECKED,$res['fd_label']);
   $CHECKED=" unchecked";

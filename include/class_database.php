@@ -364,9 +364,19 @@ class Database
         $add=($from_setup==0)?'admin/':'';
         for ( $i = 4;$i <= $MaxVersion;$i++)
         {
-            $to=$i+1;
-            if ( $this->get_version() <= $i )
-            {
+            $to = $i + 1;
+
+			if ($this->get_version() <= $i)
+			{
+				if ($this->get_version() == 97)
+				{
+					if ($this->exist_schema("amortissement"))
+					{
+						$this->exec_sql('ALTER TABLE amortissement.amortissement_histo
+							ADD CONSTRAINT internal_fk FOREIGN KEY (jr_internal) REFERENCES jrn (jr_internal)
+							ON UPDATE CASCADE ON DELETE SET NULL');
+					}
+				}
                 echo "<li>Patching ".$p_name.
                 " from the version ".$this->get_version()." to $to ";
 
@@ -452,7 +462,7 @@ class Database
                     $country=$this->get_value ("select pr_value from parameter where pr_id='MY_COUNTRY'");
                     $this->execute_script($add."sql/patch/upgrade61.".$country.".sql");
                 }
-		
+
                 if ( ! DEBUG ) ob_end_clean();
             }
         }

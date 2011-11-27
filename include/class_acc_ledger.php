@@ -2912,7 +2912,7 @@ class Acc_Ledger extends jrn_def_sql
                 $op->od_direct='t';
                 if ($op->count() != 0 )
                 {
-                    echo HtmlInput::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
+                    echo HtmlInput::submit('use_opd','Utilisez une opération pr&eacute;d&eacute;finie');
                     echo $op->show_button();
                 }
                 echo '</form>';

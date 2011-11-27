@@ -526,13 +526,12 @@ EOF;
 		 break;
 	 case 'up_pay_method':
 		 require_once 'ajax_update_payment.php';
-		 break;
-         case 'openancsearch':
-         case 'resultancsearch':
-                 require_once('ajax_anc_search.php');
-                 break;
-         case 'autoanc':
-                require_once('ajax_auto_anc_card.php');
-                break;
-
+		break;
+	case 'openancsearch':
+	case 'resultancsearch':
+		require_once('ajax_anc_search.php');
+		break;
+	case 'autoanc':
+		require_once('ajax_auto_anc_card.php');
+		break;
 }

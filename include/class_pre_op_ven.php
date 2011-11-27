@@ -105,6 +105,7 @@ class Pre_op_ven extends Pre_operation_detail
         $a_op=$this->operation->load();
         $array=$this->operation->compute_array($a_op);
         $p_array=$this->load();
+		if (empty($p_array)) return array();
         foreach ($p_array as $row)
         {
             if ( $row['opd_debit']=='t')
@@ -124,7 +125,7 @@ class Pre_op_ven extends Pre_operation_detail
         return $array;
     }
     /*!\brief load the data from the database and return an array
-     * \return an array 
+     * \return an array
      */
     function load()
     {
