@@ -38,7 +38,7 @@ if ( count($a->value)==1  )
 {
     $_REQUEST['plugin_code']=$a->value[0]['value'];
 }
-else
+/*else
 {
 	if (!isset($_REQUEST['ac'])) echo_warning ("ac non positionné");
     echo '<form method="get" action="do.php">';
@@ -47,9 +47,8 @@ else
     echo _('Extension').$a->input().HtmlInput::submit('go',_("Choix de l'extension"));
     echo '</form>';
     echo '<hr>';
-}
+}*/
 
-if ( isset($_REQUEST['plugin_code']))
-	require_once 'extension_get.inc.php';
-
+//if ( isset($_REQUEST['plugin_code']))
+//	require_once 'extension_get.inc.php';
 ?>

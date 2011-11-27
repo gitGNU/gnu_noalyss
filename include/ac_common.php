@@ -774,10 +774,14 @@ function show_module($selected)
 
 		// if file is not a plugin, include the file, otherwise
 		// include the plugin launcher
-		if ( $file[0]['me_type'] != 'PL')
-			require_once $file[0]['me_file'];
-		else
-			require 'extension_get.inc.php';
+		if ($file[0]['me_type'] != 'PL')
+			{
+				require_once $file[0]['me_file'];
+			}
+			else
+			{
+				var_dump($file);
+			}
 	}
 	if ( $file[0]['me_javascript'] != '')
 	{

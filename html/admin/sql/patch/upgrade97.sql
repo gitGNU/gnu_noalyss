@@ -218,12 +218,8 @@ sResult account_type;
 begin
 sResult := lower(p_account);
 
-sResult := translate(sResult,'éèêëàâäïîüûùöô','eeeeaaaiiuuuoo');
-sResult := translate(sResult,' $€µ£%.+-/\!(){}(),;_&|"#''^','');
-
-if not sResult similar to '^[[:alnum:]_]+$' then
-	raise exception 'Invalid character in %',p_account;
-end if;
+sResult := translate(sResult,'éèêëàâäïîüûùöôç','eeeeaaaiiuuuooc');
+sResult := translate(sResult,' $€µ£%.+-/\!(){}(),;_&|"#''^<>*','');
 
 return upper(sResult);
 
@@ -960,7 +956,7 @@ end;
 insert into menu_ref(me_code,me_menu,me_file,me_description,me_type,me_parameter) select ex_code,ex_name,ex_file,ex_desC,'PL','plugin_code='||ex_code from extension;
 
 insert into profile_menu (me_code,me_code_dep,p_id,p_type_display) select me_code,'EXT',1,'S' from menu_ref where me_type='PL';
-update jrn set jr_internal=substring(jr_internal,1,1)||lpad(upper(to_hex(jr_id+1)),6,'0');
+update jrn set jr_internal=substr(jrn_def_type,1,1)||lpad(upper(to_hex(jr_id+1)),6,'0') from jrn_def where jrn_def_id=jr_def_id;
 
 update version set val=98;
 

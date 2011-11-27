@@ -2456,10 +2456,12 @@ class Acc_Ledger extends jrn_def_sql
             if ( ! isset ($date_start))
             {
                 $user=new User($this->db);
-                $period=$user->get_periode();
+                $exercice=$user->get_exercice();
 
-                $per=new Periode($this->db,$period);
-                list($date_start,$date_end)=$per->get_date_limit();
+                $per=new Periode($this->db);
+				list($per_start,$per_end)=$per->limit_year($exercice);
+                list($date_start,$none)=$per_start->get_date_limit();
+                list($none,$date_end)=$per_end->get_date_limit();
 
             }
             $desc='';
@@ -2697,8 +2699,10 @@ class Acc_Ledger extends jrn_def_sql
              " to_char(jr_date,'DDMMYY') as date_fmt, ".
              " jr_comment as comment, jr_montant as montant ,".
              " jr_grpt_id,jr_def_id".
-             " from jrn where jr_tech_per >= $1 ".
-             ' and jr_tech_per <=$2  '.$jrn.' order by jr_date,substring(jr_pj_number,\'\\\d+$\')::numeric asc';
+             " from jrn where  ".
+			 " jr_date >= (select p_start from parm_periode where p_id = $1)
+				 and  jr_date <= (select p_end from parm_periode where p_id  = $2)" .
+             '  '.$jrn.' order by jr_date,substring(jr_pj_number,\'\\\d+$\')::numeric asc';
         $ret=$this->db->get_array($sql,array($p_from,$p_to));
         return $ret;
     }

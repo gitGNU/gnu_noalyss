@@ -85,6 +85,7 @@ if (isset($_GET ['paid']))
 }
 $p_array = $_GET;
 
+$msg="";
 /* by default we should the default period */
 if (!isset($p_array['date_start']))
 {
@@ -93,6 +94,12 @@ if (!isset($p_array['date_start']))
 	list($date_start, $date_end) = $per->get_date_limit();
 	$p_array['date_start'] = $date_start;
 	$p_array['date_end'] = $date_end;
+	$msg='<h2 class="info2">'."Periode ".$date_start." au ".$date_end.'</h2>';
+}
+else
+{
+	$msg='<h2 class="info2">'."Periode ".$_GET['date_start']." au ".$_GET['date_end'].'</h2>';
+
 }
 /*  compute the sql stmt */
 list($sql, $where) = $Ledger->build_search_sql($p_array);
@@ -104,7 +111,7 @@ $page = (isset($_GET['offset'])) ? $_GET['page'] : 1;
 $offset = (isset($_GET['offset'])) ? $_GET['offset'] : 0;
 $bar = jrn_navigation_bar($offset, $max_line, $step, $page);
 
-
+echo $msg;
 echo '<form method="GET" id="fpaida" class="print">';
 echo HtmlInput::hidden("ac", $_REQUEST['ac']);
 echo HtmlInput::hidden('ledger_type',$_REQUEST['ledger_type']);

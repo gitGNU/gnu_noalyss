@@ -18,7 +18,7 @@ require_once ('class_user.php');
 global $cn,$g_user;
 
 $ext=new Extension($cn);
-;
+
 if ($ext->search($_REQUEST['plugin_code']) == -1)
 	{
 		echo_warning("plugin non trouvé");

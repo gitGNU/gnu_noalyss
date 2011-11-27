@@ -93,11 +93,11 @@ class Print_Ledger_Simple extends PDF
         }
         $this->Cell(15,6,'Pièce');
         $this->Cell(10,6,'Date');
-        $this->Cell(20,6,'ref');
+        $this->Cell(13,6,'ref');
         if ( $this->jrn_type=='ACH')
-            $this->Cell(60,6,'Client');
+            $this->Cell(40,6,'Client');
         else
-            $this->Cell(60,6,'Fournisseur');
+            $this->Cell(40,6,'Fournisseur');
 
         $flag_tva=(count($this->a_Tva) > 4)?true:false;
         if ( !$flag_tva )      $this->Cell(65,6,'Description');
@@ -117,7 +117,7 @@ class Print_Ledger_Simple extends PDF
 
         $this->SetFont('DejaVu','',6);
         // page Header
-        $this->Cell(170,6,'report',0,0,'R');
+        $this->Cell(143,6,'report',0,0,'R');
         $this->Cell(15,6,nbm($this->rap_htva),0,0,'R'); /* HTVA */
         if ( $this->jrn_type != 'VEN')
         {
@@ -149,7 +149,7 @@ class Print_Ledger_Simple extends PDF
         //Position at 3 cm from bottom
         $this->SetY(-20);
         /* write reporting  */
-        $this->Cell(170,6,'Total page ','T',0,'R'); /* HTVA */
+        $this->Cell(143,6,'Total page ','T',0,'R'); /* HTVA */
         $this->Cell(15,6,nbm($this->tp_htva),'T',0,'R'); /* HTVA */
         if ( $this->jrn_type !='VEN')
         {
@@ -164,7 +164,7 @@ class Print_Ledger_Simple extends PDF
         $this->Cell(15,6,nbm($this->tp_tvac),'T',0,'R'); /* Tvac */
         $this->Ln(2);
 
-        $this->Cell(170,6,'report',0,0,'R'); /* HTVA */
+        $this->Cell(143,6,'report',0,0,'R'); /* HTVA */
         $this->Cell(15,6,nbm($this->rap_htva),0,0,'R'); /* HTVA */
         if ( $this->jrn_type !='VEN')
         {
@@ -219,31 +219,30 @@ class Print_Ledger_Simple extends PDF
             for ($f=0;$f<count($aAmountVat);$f++)
             {
                 $l=$aAmountVat[$f]['tva_id'];
-                $atva_amount[$l]=$aAmountVat[$f]['sum_vat'];
-                $this->tp_tva[$l]+=$aAmountVat[$f]['sum_vat'];
-                $this->rap_tva[$l]+=$aAmountVat[$f]['sum_vat'];
+                $atva_amount[$l]=bcadd($atva_amount[$l],$aAmountVat[$f]['sum_vat']);
+                $this->tp_tva[$l]=bcadd($this->tp_tva[$l],$aAmountVat[$f]['sum_vat']);
+                $this->rap_tva[$l]=bcadd($this->rap_tva[$l],$aAmountVat[$f]['sum_vat']);
             }
 
             $row=$a_jrn[$i];
             $this->Cell(15,5,($row['pj']),0,0);
             $this->Cell(10,5,$row['date_fmt'],0,0);
-            $this->Cell(20,5,$row['internal'],0,0);
+            $this->Cell(13,5,$row['internal'],0,0);
             list($qc,$name)=$this->get_tiers($row['id'],$this->jrn_type);
-            $this->Cell(20,5,$qc,0,0);
-            $this->Cell(40,5,$name,0,0);
+            $this->Cell(40,5,"[".$qc."]".$name,0,0);
 
             $this->Cell(65,5,substr($row['comment'],0,47),0,0);
 
             /* get other amount (without vat, total vat included, private, ND */
             $other=$this->ledger->get_other_amount($a_jrn[$i]['jr_grpt_id']);
-            $this->tp_htva+=$other['price'];
-            $this->tp_tvac+=$other['price']+$other['vat'];
-            $this->tp_priv+=$other['priv'];
-            $this->tp_nd+=$other['tva_nd'];
-            $this->rap_htva+=$other['price'];
-            $this->rap_tvac+=$other['price']+$other['vat'];
-            $this->rap_priv+=$other['priv'];
-            $this->rap_nd+=$other['tva_nd'];
+            $this->tp_htva=bcadd($this->tp_htva,$other['price']);
+            $this->tp_tvac=bcadd($this->tp_tvac,$other['price']+$other['vat']);
+            $this->tp_priv=bcadd($this->tp_priv,$other['priv']);
+            $this->tp_nd=bcadd($this->tp_nd,$other['tva_nd']);
+            $this->rap_htva=bcadd($this->rap_htva,$other['price']);
+            $this->rap_tvac=bcadd($this->rap_tvac,$other['price']+$other['vat']);
+            $this->rap_priv=bcadd($this->rap_priv,$other['priv']);
+            $this->rap_nd=bcadd($this->rap_nd,$other['tva_nd']);
 
 
             $this->Cell(15,5,nbm($other['price']),0,0,'R');
@@ -252,10 +251,10 @@ class Print_Ledger_Simple extends PDF
 	      $this->Cell(15,5,nbm($other['priv']),0,0,'R');
 	      $this->Cell(15,5,nbm($other['tva_nd']),0,0,'R');
             }
-            foreach ($atva_amount  as $row_atva_amount)
-            {
-	      $this->Cell(15,5,nbm($row_atva_amount),0,0,'R');
-            }
+				foreach ($atva_amount as $row_atva_amount)
+			{
+				$this->Cell(15, 5, nbm($row_atva_amount), 0, 0, 'R');
+			}
 
 	    $l_tvac=bcadd($other['price'],$other['vat']);
             $this->Cell(15,5,nbm($l_tvac),0,0,'R');
