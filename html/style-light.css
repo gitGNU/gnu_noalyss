@@ -812,10 +812,10 @@ a#anchorbutton, .button, a.button,div.content a.button {
 
 	text-decoration:none;
 	font-family: arial,helvetica,sans-serif;
-	background-color: ##DEE3E5;
+	background-color: inherit;
 	border-style:  solid ;
-	border-color:  blue ;
-	border-width:1;
+	border-color:  black;
+	border-width:2px;
 	padding-bottom: 4;
 	padding-top: 4;
 	padding-right: 6;
@@ -825,8 +825,8 @@ a#anchorbutton, .button, a.button,div.content a.button {
 	margin-right:3px;
 	margin-left:3px;
 	cursor:pointer;
-	-moz-border-radius:5 5;
-	border-radius:5 5;
+	-moz-border-radius:6 6;
+	border-radius:6 6;
 
 }
 a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
