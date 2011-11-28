@@ -108,7 +108,6 @@ border:groove 2px blue;
  */
 $failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
-
 $inc_path=get_include_path();
 /**
  *@brief create correctly the htaccess file
@@ -156,7 +155,7 @@ $file='..'.DIRECTORY_SEPARATOR.'.htaccess';
     fwrite($hFile,'php_value include_path .:../../include:../include:addon'."\n");
   foreach ($array as $value ) fwrite($hFile,$value."\n");
   fclose($hFile);
-
+}
 if ( strpos($inc_path,";") != 0 ) {
   $new_path=$inc_path.';..\..\include;addon';
   $os=0;			/* $os is 0 for windoz */
@@ -174,17 +173,17 @@ echo '
     Les informations sont sauv&eacute;es vous pouvez continuer
 <input type="submit" value="Continuer">
 </form>';
-create_htaccess();
  exit();
  }
-
 if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php')) {
   /* if the config file is not found we propose to create one */
   if ( is_writable ('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'constant.php') == false ) {
     echo '<h2 class="error"> Ecriture non possible </h2><p class="warning"> On ne peut pas &eacute;crire dans le r&eacute;pertoire de phpcompta, changez-en les droits </p>';
     exit();
   }
+}
 
+echo __LINE__;
   echo '<form method="post">';
   echo '<h1 class="info">Entrez les informations n&eacute;cessaires &agrave; phpcompta</h1>';
   require_once('config_file.php');
@@ -193,7 +192,6 @@ if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.D
   echo HtmlInput::submit('save_config','Sauver la configuration');
   echo '</form>';
   exit();
-  }
 create_htaccess();
 
 //----------------------------------------------------------------------
@@ -206,7 +204,6 @@ create_htaccess();
 // magic_quotes_runtime = Off
 // magic_quotes_sybase = Off
 // include_path
-}
 require_once('config_file.php');
 include_once('constant.php');
 require_once('class_database.php');
