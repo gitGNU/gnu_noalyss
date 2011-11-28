@@ -208,7 +208,7 @@ echo "<h1>Configuration</h1>";
 ?>
 <h2>Info</h2>
 Vous utilisez le domaine <?php echo domaine; ?>
-<h2>PHP/h2>
+<h2>PHP</h2>
 <?php
 
 $flag_php=0;
