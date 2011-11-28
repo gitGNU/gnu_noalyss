@@ -1057,10 +1057,10 @@ a.line:hover,div_content a.line
 #close_div
 {
 	background-color:white;
-	color:red;
+	color:black;
 	font-family: arial;
 	text-decoration:none;
-	border:1px solid red;
+	border:1px solid black;
 	margin-left: 2px;
 	margin-right:2px;
 	margin-top:0px;
