@@ -615,7 +615,7 @@ class User
 	function insert_default_global_pref($p_type="", $p_value="")
 	{
 
-		$default_parameter = array("THEME" => "Light",
+		$default_parameter = array("THEME" => "classic",
 			"PAGESIZE" => "50",
 			'TOPMENU' => 'TEXT',
 			'LANG' => 'fr_FR.utf8');
@@ -648,7 +648,7 @@ class User
 
 	function update_global_pref($p_type, $p_value="")
 	{
-		$default_parameter = array("THEME" => "Light",
+		$default_parameter = array("THEME" => "classic",
 			"PAGESIZE" => "50",
 			"LANG" => 'fr_FR.utf8',
 			'TOPMENU' => 'SELECT');

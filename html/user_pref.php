@@ -29,7 +29,6 @@ require_once('class_database.php');
 $Rep=new Database();
 include_once ("class_user.php");
 require_once('class_dossier.php');
-$cn=new Database();
 
 /* if the dossier is not set then we have to connect to the
  * account_repository database
