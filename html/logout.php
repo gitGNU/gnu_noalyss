@@ -26,6 +26,7 @@ require_once('class_database.php');
 html_page_start("classic");
 
 session_unset();
+echo '<h2 class="info">Vous êtes déconnecté</h2>';
 echo '<META HTTP-EQUIV="REFRESH" content="0;url=index.html">';
 
 html_page_stop();
