@@ -825,9 +825,7 @@ a#anchorbutton, .button, a.button,div.content a.button {
 	margin-right:3px;
 	margin-left:3px;
 	cursor:pointer;
-	-moz-border-radius:6 6;
-	border-radius:6 6;
-
+	
 }
 a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
 	cursor:pointer;
