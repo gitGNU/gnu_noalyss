@@ -806,7 +806,7 @@ input[disabled], textarea[disabled], option[disabled], optgroup[disabled], selec
 }
 
 a#anchorbutton, .button, a.button,div.content a.button {
-	font-size:10;
+	font-size:10px;
 	color:darkblue;
 	font-weight: bold;
 
@@ -815,11 +815,11 @@ a#anchorbutton, .button, a.button,div.content a.button {
 	background-color: inherit;
 	border-style:  solid ;
         border-color:  #0066ff;
-	border-width:2px;
-	padding-bottom: 4;
-	padding-top: 4;
-	padding-right: 6;
-	padding-left:  6;
+	border-width:1px;
+	padding-bottom: 4px;
+	padding-top: 4px;
+	padding-right: 6px;
+	padding-left:  6px;
 	margin-top:3px;
 	margin-bottom:3px;
 	margin-right:3px;
