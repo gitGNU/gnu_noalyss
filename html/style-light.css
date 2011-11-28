@@ -814,7 +814,7 @@ a#anchorbutton, .button, a.button,div.content a.button {
 	font-family: arial,helvetica,sans-serif;
 	background-color: inherit;
 	border-style:  solid ;
-	border-color:  black;
+        border-color:  #0066ff;
 	border-width:2px;
 	padding-bottom: 4;
 	padding-top: 4;
