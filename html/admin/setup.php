@@ -181,9 +181,7 @@ if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.D
     echo '<h2 class="error"> Ecriture non possible </h2><p class="warning"> On ne peut pas &eacute;crire dans le r&eacute;pertoire de phpcompta, changez-en les droits </p>';
     exit();
   }
-
-
-echo __LINE__;
+  create_htaccess();
   echo '<form method="post">';
   echo '<h1 class="info">Entrez les informations n&eacute;cessaires &agrave; phpcompta</h1>';
   require_once('config_file.php');
@@ -193,7 +191,6 @@ echo __LINE__;
   echo '</form>';
   exit();
 }
-create_htaccess();
 //----------------------------------------------------------------------
 // End functions
 //
