@@ -214,7 +214,7 @@ echo "<h1>Configuration</h1>";
 ?>
 <h2>Info</h2>
 Vous utilisez le domaine <?php echo domaine; ?>
-<h2>Php setting</h2>
+<h2>PHP/h2>
 <?php
 
 $flag_php=0;
@@ -319,7 +319,7 @@ if ( $flag_php==0 ) {
 $cn=new Database(-1,'template');
 
 ?>
-<h2>Database version </h2>
+<h2>Base de données</h2>
 <?php
  // Verify Psql version
  //--
@@ -341,7 +341,7 @@ vos bases de donn&eacute;es
 }
 
 ?>
-<h2>Database Setting</h2>
+<h3>Paramètre base de données</h3>
 <?php
 // Language plsql is installed
 //--
