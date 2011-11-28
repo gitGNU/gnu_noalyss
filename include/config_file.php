@@ -62,7 +62,7 @@ function config_file_form($p_array=null)
         $cpasswd='dany';
         $cport=5432;
         $cdomain='';
-        $clocal=1;
+        $clocale=1;
     }
     else extract ($p_array);
 
