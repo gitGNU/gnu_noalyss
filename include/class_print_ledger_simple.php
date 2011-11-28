@@ -257,6 +257,7 @@ class Print_Ledger_Simple extends PDF
 			}
 
 	    $l_tvac=bcadd($other['price'],$other['vat']);
+	    $l_tvac=bcadd($l_tvac,$other['tva_nd']);
             $this->Cell(15,5,nbm($l_tvac),0,0,'R');
             $this->Ln(5);
         }

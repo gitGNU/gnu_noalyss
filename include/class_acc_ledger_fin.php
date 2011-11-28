@@ -265,6 +265,12 @@ class Acc_Ledger_Fin extends Acc_Ledger
         // retrieve bank name, code and account from the jrn_def.jrn_def_bank
 
         $f_bank='<span id="bkname">'.$this->get_bank_name().'</span>';
+		if ( $this->bank_id == "" )
+		{
+			echo h2("Journal de banque non configuré ".$this->get_name(),' class="error"');
+			echo '<span class="error"> vous devez donner à ce journal un compte en banque (fiche), modifiez dans CFGLEDGER</span>';
+			alert ("Journal de banque non configuré ".$this->get_name());
+		}
 
         $f_legend_detail='Opérations financières';
         //--------------------------------------------------
@@ -973,9 +979,9 @@ class Acc_Ledger_Fin extends Acc_Ledger
      */
     function get_bank_name()
     {
-        $bank_id=$this->db->get_value('select jrn_def_bank from jrn_def where jrn_def_id=$1',
+		$this->bank_id=$this->db->get_value('select jrn_def_bank from jrn_def where jrn_def_id=$1',
                                       array($this->id));
-        $fBank=new Fiche($this->db,$bank_id);
+        $fBank=new Fiche($this->db,$this->bank_id);
         $e_bank_account=" : ".$fBank->strAttribut(ATTR_DEF_BQ_NO);
         $e_bank_name=" : ".$fBank->strAttribut(ATTR_DEF_NAME);
         $e_bank_qcode=": ".$fBank->strAttribut(ATTR_DEF_QUICKCODE);

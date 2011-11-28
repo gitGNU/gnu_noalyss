@@ -48,6 +48,12 @@ require_once ('class_acc_parm_code.php');
     // for each account
     for ( $i = 0; $i < count($array);$i++)
     {
+		if ( $array[$i]->id==0) {
+			echo '<tr >';
+			echo td(h2("Journal mal configuré",' class="error" '),' colspan="5" style="width:auto" ');
+			echo '</tr>';
+			continue;
+		}
         // get the saldo
         $m=$array[$i]->get_solde_detail($filter_year);
 
