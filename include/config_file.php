@@ -147,7 +147,7 @@ function config_file_create($p_array,$from_setup=1,$os=1)
     fputs($hFile, 'define ("phpcompta_psql_host","127.0.0.1");');
     fputs($hFile,"\r\n");
 
-    fputs($hFile, 'define ("locale",'.$clocal.');');
+    fputs($hFile, 'define ("locale",'.$clocale.');');
     fputs($hFile,"\r\n");
     
     fputs($hFile, 'define ("domaine","");');
