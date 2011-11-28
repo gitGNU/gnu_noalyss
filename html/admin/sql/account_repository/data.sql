@@ -94,8 +94,8 @@ INSERT INTO theme (the_name, the_filestyle, the_filebutton) VALUES ('Colored', '
 
 INSERT INTO user_global_pref (user_id, parameter_type, parameter_value) VALUES ('demo', 'PAGESIZE', '50');
 INSERT INTO user_global_pref (user_id, parameter_type, parameter_value) VALUES ('phpcompta', 'PAGESIZE', '50');
-INSERT INTO user_global_pref (user_id, parameter_type, parameter_value) VALUES ('demo', 'THEME', 'Light');
-INSERT INTO user_global_pref (user_id, parameter_type, parameter_value) VALUES ('phpcompta', 'THEME', 'Light');
+INSERT INTO user_global_pref (user_id, parameter_type, parameter_value) VALUES ('demo', 'THEME', 'classic');
+INSERT INTO user_global_pref (user_id, parameter_type, parameter_value) VALUES ('phpcompta', 'THEME', 'classic');
 INSERT INTO user_global_pref (user_id, parameter_type, parameter_value) VALUES ('demo', 'LANG', 'fr_FR.utf8');
 INSERT INTO user_global_pref (user_id, parameter_type, parameter_value) VALUES ('phpcompta', 'LANG', 'fr_FR.utf8');
 INSERT INTO user_global_pref (user_id, parameter_type, parameter_value) VALUES ('phpcompta', 'TOPMENU', 'TEXT');
