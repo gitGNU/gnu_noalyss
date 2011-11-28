@@ -77,7 +77,7 @@ else
     if ( $rep->get_value('select val from version') != DBVERSIONREPO) 
       {
 	echo alert('Version de base de données incorrectes, vous devez mettre à jour');
-	echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=admin/setup.php\">";
+	echo "<META HTTP-EQUIV=\"REFRESH\" content=\"1;url=admin/setup.php\">";
 	exit();
 
       }
