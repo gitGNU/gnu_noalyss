@@ -205,7 +205,6 @@ require_once('config_file.php');
 include_once('constant.php');
 require_once('class_database.php');
 echo "<h1>Configuration</h1>";
-echo __LINE__;
 ?>
 <h2>Info</h2>
 Vous utilisez le domaine <?php echo domaine; ?>
