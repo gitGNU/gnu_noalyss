@@ -1423,7 +1423,7 @@ class Fiche
      */
     function get_solde_detail($p_cond="")
     {
-        if ( $this->id == 0 ) exit('fiche->id est nul');
+        if ( $this->id == 0 ) return array('credit'=>0,'debit'=>0,'solde'=>0);
         $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
 
         if ( $p_cond != "") $p_cond=" and ".$p_cond;

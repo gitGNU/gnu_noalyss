@@ -41,7 +41,7 @@ $g_captcha=false;
  *
  */
 $version_phpcompta=4444;
-define ("DEBUG",false);
+define ("DEBUG",true);
 
 define ("DBVERSION",98);
 define ("DBVERSIONREPO",14);
