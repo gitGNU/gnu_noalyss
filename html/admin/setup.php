@@ -191,6 +191,7 @@ if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.D
   echo '</form>';
   exit();
 }
+  create_htaccess();
 //----------------------------------------------------------------------
 // End functions
 //
