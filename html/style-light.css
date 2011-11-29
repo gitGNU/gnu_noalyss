@@ -825,7 +825,7 @@ a#anchorbutton, .button, a.button,div.content a.button {
 	margin-right:3px;
 	margin-left:3px;
 	cursor:pointer;
-	
+
 }
 a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
 	cursor:pointer;
@@ -1087,4 +1087,16 @@ span.invoice
     display:block;
     margin: 20px;
     font-weight: bold;
+}
+a.nav,div.content a.nav,div.redcontent a.nav {
+	display:inline;
+	text-decoration:none;
+	font-size:1em;
+}
+a.nav:hover,div.content a.nav:hover,div.redcontent a.nav:hover {
+	display:inline;
+	text-decoration:none;
+	background-color:darkblue;
+	color:white;
+	font-size:1em;
 }

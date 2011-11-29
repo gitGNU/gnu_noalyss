@@ -121,7 +121,7 @@ function isValid ($p_cn,$p_grpt_id)
    $step=$_SESSION['g_pagesize'];
    $page=(isset($_GET['offset']))?$_GET['page']:1;
    $offset=(isset($_GET['offset']))?$_GET['offset']:0;
- 
+
    list ($max_ligne,$list)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset,1);
    $bar=jrn_navigation_bar($offset,$max_ligne,$step,$page);
 \endverbatim
@@ -178,6 +178,7 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1,$p_javascript=
     $end_bar  =($p_page < 11 )?20:$p_page+10;
     $end_bar  =($end_bar > $nb_page )?$nb_page:$end_bar;
 
+	$sep="";
     // Create the bar
     for ($e=$start_bar;$e<=$end_bar;$e++)
     {
@@ -188,12 +189,15 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1,$p_javascript=
             $offset=($e-1)*$step;
 
             $go=$_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step";
-
-            $r.=sprintf('<A class="mtitle" HREF="%s" CLASS="one" %s >%d</A>&nbsp;',$go,$p_javascript,$e);
+			$r.=$sep;
+            $r.=sprintf('<A class="nav" HREF="%s"  %s >%d</A>&nbsp;',$go,$p_javascript,$e);
+			$sep=" &#8231;  ";
         }
         else
         {
+			$r.=$sep;
             $r.="<b> [ $e ] </b>";
+			$sep=" &#8231;  ";
         } //else
     } //for
     // next

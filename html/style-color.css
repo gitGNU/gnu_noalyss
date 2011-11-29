@@ -1090,3 +1090,15 @@ span.invoice
     margin: 20px;
     font-weight: bold;
 }
+a.nav,div.content a.nav,div.redcontent a.nav {
+	display:inline;
+	text-decoration:none;
+	font-size:1em;
+}
+a.nav:hover,div.content a.nav:hover,div.redcontent a.nav:hover {
+	display:inline;
+	text-decoration:none;
+	background-color:darkblue;
+	color:white;
+	font-size:1em;
+}
