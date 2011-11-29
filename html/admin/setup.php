@@ -349,6 +349,7 @@ if ( $Res==0) { ?>
 <?php exit(); }
 
 include_once('ac_common.php');
+require_once('class_dossier.php');
 
 // Memory setting
 //--
