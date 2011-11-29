@@ -140,11 +140,11 @@ class IPoste extends HtmlInput
         $ibutton=$this->dsp_button();
         if ( $this->table==3)
         {
-            $r='<table>'.tr(td($ibutton).td($itext->input()));
+            $r='<table>'.tr(td($itext->input()).td($ibutton));
             $r.='</table>';
             return $r;
         }
-        $r=$ibutton.$itext->input();
+        $r=$itext->input().$ibutton;
         if ( $this->table==1) $r=td($r);
 
         return $r;
