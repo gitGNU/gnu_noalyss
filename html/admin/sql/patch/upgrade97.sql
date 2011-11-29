@@ -409,8 +409,8 @@ INSERT INTO menu_ref VALUES ('DIVPARM', 'Divers', NULL, NULL, 'Paramètres diver
 INSERT INTO menu_ref VALUES ('CFGTVA', 'TVA', 'tva.inc.php', NULL, 'Config. de la tva', NULL, NULL, 'ME');
 INSERT INTO menu_ref VALUES ('CARD', 'Fiche', 'fiche.inc.php', NULL, 'Fiche', NULL, NULL, 'ME');
 INSERT INTO menu_ref VALUES ('STOCK', 'Stock', 'stock.inc.php', NULL, 'Stock', NULL, NULL, 'ME');
-INSERT INTO menu_ref VALUES ('MOD', 'Menu et profile', NULL, NULL, 'Menu ', NULL, NULL, 'ME');
-INSERT INTO menu_ref VALUES ('CFGPRO', 'Profile', 'profile.inc.php', NULL, 'Configuration profile', NULL, NULL, 'ME');
+INSERT INTO menu_ref VALUES ('MOD', 'Menu et profil', NULL, NULL, 'Menu ', NULL, NULL, 'ME');
+INSERT INTO menu_ref VALUES ('CFGPRO', 'Profil', 'profile.inc.php', NULL, 'Configuration profil', NULL, NULL, 'ME');
 INSERT INTO menu_ref VALUES ('CFGPAY', 'Moyen de paiement', 'payment_middle.inc.php', NULL, 'Config. des méthodes de paiement', NULL, NULL, 'ME');
 INSERT INTO menu_ref VALUES ('CFGACC', 'Poste', 'poste.inc.php', NULL, 'Config. poste comptable de base', NULL, NULL, 'ME');
 INSERT INTO menu_ref VALUES ('VEN', 'Vente', 'compta_ven.inc.php', NULL, 'Nouvelle vente ou recette', NULL, NULL, 'ME');
