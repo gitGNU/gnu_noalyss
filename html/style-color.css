@@ -1102,3 +1102,9 @@ a.nav:hover,div.content a.nav:hover,div.redcontent a.nav:hover {
 	color:white;
 	font-size:1em;
 }
+#dossier {
+	display:inline;
+	float:left;
+	width:40em;
+	top:0px;
+}
