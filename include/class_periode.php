@@ -495,8 +495,7 @@ class Periode
 	      $date_end=$this->cn->get_value("select to_char(to_date('$date_start','DD.MM.YYYY')+interval '1 month'-interval '1 day','DD.MM.YYYY')");
 	      $this->insert($date_start,$date_end,$p_exercice);
 	    }
-	  $this->insert('01.12.'.$p_exercice,'30.12.'.$p_exercice,$p_exercice);
-	  $this->insert('31.12.'.$p_exercice,'31.12.'.$p_exercice,$p_exercice);
+	  $this->insert('01.12.'.$p_exercice,'31.12.'.$p_exercice,$p_exercice);
 
 	  $this->cn->commit();
 	}
