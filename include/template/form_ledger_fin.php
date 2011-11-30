@@ -29,7 +29,7 @@
 
 <? foreach ($array as $item) {
 echo '<tr>';
-echo td($item['search'].$item['qcode']);
+echo td($item['qcode'].$item['search']);
 echo td($item['span']);
 echo td($item['comment']);
 echo td(nbm($item['amount']));

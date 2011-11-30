@@ -36,8 +36,8 @@
 </tr>
 <? foreach ($array as $item) {
 echo '<tr>';
-echo '<td>'.$item['bt'].'</td>';
 echo $item['quick_code'];
+echo '<td>'.$item['bt'].'</td>';
 ?>
 <td style="border-bottom: 1px dotted grey; width: 75%;"><?=$item['denom'] ?></td>
 <?

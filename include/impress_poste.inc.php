@@ -80,7 +80,7 @@ $w_poste->set_dblclick("fill_ipopcard(this);");
 
 
 $w_poste->value=(isset($_REQUEST['f_id']))?$_REQUEST['f_id']:"";
-print td($w_poste->search().$w_poste->input());
+print td($w_poste->input().$w_poste->search());
 echo td($span->input('f_id_label'));
 print '</TR>';
 print '<TR>';

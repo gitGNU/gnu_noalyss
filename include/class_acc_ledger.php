@@ -1676,7 +1676,7 @@ class Acc_Ledger extends jrn_def_sql
             $deb->javascript=' onChange="checkTotalDirect()"';
 
             $ret.='<tr>';
-            $ret.='<td>'.$quick_code->search().$quick_code->input().'</td>';
+            $ret.='<td>'.$quick_code->input().$quick_code->search().'</td>';
             $ret.='<td>'.$poste->input().
                   '<script> document.getElementById(\'poste'.$i.'\').onblur=function(){ if (trim(this.value) !=\'\') {document.getElementById(\'qc_'.$i.'\').value="";}}</script>'.
                   '</td>';

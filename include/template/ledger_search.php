@@ -40,7 +40,7 @@
 	<?=_('Et utilisant la fiche (quick code)')?>
 </td>
 <td>
-   <?php echo $f_qcode->search();echo $f_qcode->input();  ?>
+   <?php echo $f_qcode->input(); echo $f_qcode->search(); ?>
 </td>
 </tr>
 <tr>
