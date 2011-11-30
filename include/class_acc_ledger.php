@@ -716,7 +716,7 @@ class Acc_Ledger extends jrn_def_sql
                     $operation->jr_id=$element;
                     $l_amount=$this->db->get_value("select jr_montant from jrn ".
                                                    " where jr_id=$element");
-                    $r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."',".$gDossier.")\" > ".$operation->get_internal()." [ $l_amount &euro; ]</A>";
+                    $r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."',".$gDossier.")\" > ".$operation->get_internal()."[".nbm($l_amount)."]</A>";
                 }//for
             }// if ( $a != null ) {
             $r.="</TD>";
@@ -932,7 +932,7 @@ class Acc_Ledger extends jrn_def_sql
                     $operation->jr_id=$element;
                     $l_amount=$this->db->get_value("select jr_montant from jrn ".
                                                    " where jr_id=$element");
-                    $r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."',".$gDossier.")\" > ".$operation->get_internal()." [ $l_amount &euro; ]</A>";
+                    $r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."',".$gDossier.")\" > ".$operation->get_internal()."[".nbm($l_amount)."]</A>";
                 }//for
             }// if ( $a != null ) {
             $r.="</TD>";
