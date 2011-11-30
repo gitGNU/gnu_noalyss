@@ -933,8 +933,8 @@ div#search_form
 {
               position:absolute;
               border:1px solid black;
-              top:15%;left:100;
-              margin-left:25%
+              top:15%;left:100px;
+              margin-left:25%;
               z-index:2;
               width:50%;
               display:none;
