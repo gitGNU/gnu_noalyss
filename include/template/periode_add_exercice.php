@@ -1,5 +1,5 @@
 <fieldset><legend>Ajout d'un exercice</legend>
-Ajout d'un exercice comptable de 13 périodes, commençant le 1 janvier jusqu'au 31 décembre
+Ajout d'un exercice comptable de 12 périodes, commençant le 1 janvier et terminant le 31 décembre
 <form method="post" onsubmit="return confirm('Confirmez vous l\'ajout d\'un exercice comptable ?')">
 <?
 echo HtmlInput::hidden("ac",$_REQUEST['ac']);
