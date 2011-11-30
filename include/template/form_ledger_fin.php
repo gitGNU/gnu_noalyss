@@ -32,7 +32,7 @@ echo '<tr>';
 echo td($item['search'].$item['qcode']);
 echo td($item['span']);
 echo td($item['comment']);
-echo td($item['amount']);
+echo td(nbm($item['amount']));
 echo td($item['concerned']);
 echo '</tr>';
 }
