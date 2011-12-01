@@ -989,13 +989,14 @@ div#jrn_name_div
 {
 	display:inline;
 	float:left;
-	width:400px;
+	width:40em;
 
 }
 #calc
 {
 	display:inline;
 	float:left;
+        width: 15em;
 }
 div#wait_box
 {
