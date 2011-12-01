@@ -199,9 +199,20 @@ if (isset($_POST["FMOD_NAME"]))
 	}
 }
 // Show all available templates
+require_once('class_sort_table.php');
+$url=$_SERVER['PHP_SELF']."?sa=list&action=".$_REQUEST['action'];
+
+$header=new Sort_Table();
+$header->add("id",$url," order by mod_id asc"," order by mod_id desc","ia","id");
+$header->add("Nom",$url," order by mod_name asc"," order by mod_name desc","na","nd");
+$header->add("Description",$url," order by mod_desc asc"," order by mod_desc desc","da","dd");
+
+$ord=(isset($_REQUEST['ord']))?$_REQUEST['ord']:'na';
+$sql_order=$header->get_sql_order($ord);
 
 $Res = $cn->exec_sql("select mod_id,mod_name,mod_desc from
-                   modeledef order by mod_name");
+                   modeledef $sql_order");
+
 $count = Database::num_row($Res);
 echo '<div class="content" style="width:80%;margin-left:10%">';
 echo "<H2>Modèles</H2>";
@@ -209,7 +220,7 @@ if ($sa == 'list')
 {
 	if ($count == 0)
 	{
-		echo "No template available";
+		echo "Aucun modèle disponible";
 	}
 	else
 	{
@@ -219,9 +230,10 @@ if ($sa == 'list')
 		echo HtmlInput::button_anchor('Ajouter', 'admin_repo.php?action=modele_mgt&sa=add');
 
 		echo '<table class="result" style="border-spacing:10;border-collapse:separate" >';
-		echo "<TR><TH>Nom</TH>" .
-		"<TH>Description</TH>" .
-		"<th> </th>" .
+		echo "<TR>".
+				"<TH>".$header->get_header(0)."</TH>" .
+				"<TH>".$header->get_header(1)."</TH>" .
+				"<TH>".$header->get_header(2)."</TH>" .
 		"<th> </th>" .
 		"<th> </th>" .
 		"</TR>";
@@ -231,7 +243,7 @@ if ($sa == 'list')
 			$mod = Database::fetch_array($Res, $i);
 			$class = ($i % 2 == 0) ? "odd" : "even";
 			printf('<TR class="' . $class . '" style="vertical-align:top">' .
-					'<TD>%d <b> %s</b> </TD>' .
+					'<TD>%d </td><td><b> %s</b> </TD>' .
 					'<TD><I> %s </I></TD>' .
 					'<td> ' .
 					HtmlInput::button_anchor('Effacer', '?action=modele_mgt&sa=del&m=' . $mod['mod_id']) . '</td>' .

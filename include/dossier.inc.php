@@ -155,17 +155,30 @@ if ( isset ($_POST["DATABASE"]) )
 // List of folder
 if ( $sa == 'list' )
 {
+	require_once('class_sort_table.php');
     echo HtmlInput::button_anchor(_('Rafraîchir'),'admin_repo.php?action=dossier_mgt');
     echo HtmlInput::button_anchor(_('Ajouter'),'admin_repo.php?action=dossier_mgt&sa=add');
-
+	$header=new Sort_Table();
+	$url=$_SERVER['PHP_SELF']."?sa=list&action=".$_REQUEST['action'];
+	$header->add("id",$url," order by dos_id asc"," order by dos_id desc","da","dd");
+	$header->add("Nom",$url," order by dos_name asc"," order by dos_name desc","na","nd");
+	$header->add("Description",$url," order by dos_description asc"," order by dos_description  desc","da","dd");
     $repo=new Dossier(0);
 	$repocn=new Database();
-    $Res=$repo->show_dossier('all');
-    $compteur=1;
-    $template="";
+	$ord=(isset($_REQUEST['ord']))?$_REQUEST['ord']:'na';
+	$sql_order=$header->get_sql_order($ord);
+	$Res=$repocn->get_array("select *  from ac_dossier $sql_order");
 
+	$compteur=1;
+    $template="";
+	echo '<div class="content">';
     echo '<TABLE class="table_large" >';
-    $r=th('ID').th('Nom du dossier ').th('Description').th('Taille').th('Nom base de données');
+	$r="";
+	$r.='<th>'.$header->get_header(0).'</td>';
+	$r.='<th>'.$header->get_header(1).'</td>';
+	$r.='<th>'.$header->get_header(2).'</td>';
+    $r.=th('Taille').th('Nom base de données');
+
     $r=tr($r);
     echo $r;
     // show all dossiers
