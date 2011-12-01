@@ -177,7 +177,7 @@ function successFid(request,json)
 }
 function ajax_error_saldo(request,json)
 {
-    alert('erreur : ajax fiche');
+    alert('erreur : ajax solde ');
 }
 /*!\brief this function get the saldo
  * \param p_ctl the ctrl where we take the quick_code
