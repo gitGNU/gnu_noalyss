@@ -194,8 +194,6 @@ div.redcontent{
 
 }
 div.content{
-
-	float:left;
 	padding-top:7px;
 	width:100%;
 	font-family:verdana,helvetica,sans-serif;
@@ -991,8 +989,6 @@ div#jrn_name_div
 {
 	display:inline;
 	float:left;
-	width:400px;
-
 }
 #calc
 {
@@ -1101,6 +1097,5 @@ a.nav:hover,div.content a.nav:hover,div.redcontent a.nav:hover {
 #dossier {
 	display:inline;
 	float:left;
-	width:40em;
 	top:0px;
 }
