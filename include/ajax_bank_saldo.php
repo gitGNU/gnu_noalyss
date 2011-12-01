@@ -29,38 +29,49 @@
 
  */
 
-require_once ('constant.php');
-require_once ('class_database.php');
+/*!\file
+ * \brief get the saldo of a account
+ * the get variable are :
+ *  - l the jrn id
+ *  - ctl the ctl where to get the quick_code
+ */
+require_once('class_user.php');
 require_once('class_dossier.php');
-require_once('class_acc_ledger.php');
-require_once ('class_user.php');
-
-// Check if the needed field does exist
-extract ($_GET);
-foreach (array('l','gDossier') as $a)
+require_once('class_fiche.php');
+extract($_GET);
+/* check the parameters */
+foreach ( array('j','ctl') as $a )
 {
-    if ( ! isset (${$a}) )
+    if ( ! isset(${$a}) )
     {
-        echo "error $a is not set ";
-        exit();
+        echo "missing $a";
+        return;
     }
+}
 
-}
-if ( is_numeric($l) == false  )
-{
-    exit();
-}
 $cn=new Database(dossier::id());
-$User=new User($cn);
-$User->Check();
+$user=new User($cn);
+$user->check();
+if ( $user->check_jrn($_GET['j'])=='X' ) return '{"saldo":"0"}';
+/*  make a filter on the exercice */
 
-$Ledger=new Acc_Ledger($cn,$l);
-$prop=$Ledger->get_propertie();
-$pj_seq=$Ledger->guess_pj();
-$string='{"pj":"'.$pj_seq.'"}';
+$filter_year="  j_tech_per in (select p_id from parm_periode ".
+             "where p_exercice='".$user->get_exercice()."')";
 
-header("Content-type: text/json; charset: utf8",true);
-echo $string;
+
+$id=$cn->get_value('select jrn_def_bank from jrn_def where jrn_def_id=$1',array($_GET['j']));
+$acc=new Fiche($cn,$id);
+
+$res=$acc->get_bk_balance($filter_year." and ( trim(jr_pj_number) != '' and jr_pj_number is not null)" );
+
+
+if ( empty($res) ) return '{"saldo":"0"}';
+$solde=$res['solde'];
+if ( $res['debit'] < $res['credit'] ) $solde=$solde*(-1);
+
+//header("Content-type: text/html; charset: utf8",true);
+echo '{"saldo":"'.$solde.'"}';
+
 
 
 ?>
