@@ -104,6 +104,7 @@ $header->add("Login", $url," order by use_login asc", "order by use_login desc",
 $header->add("Nom", $url," order by use_login asc", "order by use_login desc","na", "nd");
 $header->add('Dossier',$url,' order by ag_dossier asc','order by ag_dossier desc',
         'da','dd');
+$header->add("Actif", $url," order by use_active asc", "order by  use_active desc","aa", "ad");
 $ord=(isset($_REQUEST['ord']))?$_REQUEST['ord']:'la';
 $sql=$header->get_sql_order($ord);
 
@@ -116,7 +117,7 @@ if ( !empty ($a_user) )
     echo '<th>'.$header->get_header(0).'</th>';
     echo '<th>'.$header->get_header(1).'</th>';
     echo th("Prénom");
-    echo th("Actif");
+    echo '<th>'.$header->get_header(3).'</th>';
 	echo "<th>Type</th>";
     echo '<th>'.$header->get_header(2).'</th>';
     echo '</tr>';
