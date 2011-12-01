@@ -72,7 +72,7 @@ if ( ! isset($_REQUEST['action']))
                                             priv_priv
                                                 from ac_users natural join jnt_use_dos " .
                                                " join priv_user on (jnt_id=priv_jnt)
-					where use_login != 'phpcompta' and priv_priv <> 'X'
+					where use_login != 'phpcompta' and priv_priv <> 'X' and use_active=1
 					and dos_id=$1  " . $ord_sql, array($gDossier));
 
     $MaxUser = Database::num_row($user_sql);
@@ -298,7 +298,7 @@ if ( $action == "view" )
             $jrn_priv->selected=$sec_User->get_ledger_access($l_line['jrn_def_id']);
         else
             $jrn_priv->selected='W';
-            
+
 
         echo '<td>';
         echo $jrn_priv->input();
