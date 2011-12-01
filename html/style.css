@@ -134,8 +134,6 @@ div.u_tool div.name {
 div.u_tool {
 	float:right;
 	margin-right:10px;
-	text-align:right;
-
 }
 div.module {
 	position:absolute;
@@ -191,11 +189,10 @@ div.redcontent{
 }
 div.content{
 
-         float:left;
 		padding-top:7px;
+		margin-top:7px;
          width:100%;
          font-family:verdana,helvetica,sans-serif;
-         clear:both;
 
 
 }
@@ -845,12 +842,11 @@ div.topmenu {
 h2.dossier {
 	color:darkblue;
 	font-style: italic;
-display:inline;
-
-font-size:14px;
-margin:0;
-padding:0;
-text-align:center;
+	display:inline;
+	font-size:14px;
+	margin:0px;
+	padding:0px;
+	font-variant:small-caps;
 }
 /* </style> */
 div.add_todo_list {
@@ -989,14 +985,11 @@ div#jrn_name_div
 {
 	display:inline;
 	float:left;
-	width:40em;
-
 }
 #calc
 {
 	display:inline;
 	float:left;
-        width: 15em;
 }
 div#wait_box
 {

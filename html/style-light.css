@@ -138,8 +138,6 @@ div.u_tool div.name {
 div.u_tool {
 	float:right;
 	margin-right:10px;
-	text-align:right;
-
 }
 div.module {
 	position:absolute;
@@ -195,13 +193,9 @@ div.redcontent{
 }
 div.content{
 
-	float:left;
 	padding-top:7px;
 	width:100%;
 	font-family:verdana,helvetica,sans-serif;
-	clear:both;
-
-
 }
 div.content30{
 
@@ -993,8 +987,6 @@ div#jrn_name_div
 {
 	display:inline;
 	float:left;
-	width:400px;
-
 }
 #calc
 {
