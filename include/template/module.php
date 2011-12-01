@@ -47,6 +47,7 @@ endif;?>
 	<H2 class="dossier"> Dossier : <?=h(dossier::name())?></h2>
 	</div>
     </div>
+
     <div class="module">
 	<table>
 	    <tr>
@@ -86,3 +87,4 @@ endif;?>
 
     </div>
 </div>
+<div style="clear:both;"></div>

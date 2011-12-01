@@ -865,7 +865,10 @@ class  Acc_Ledger_Sold extends Acc_Ledger
             /* needed for generating a invoice */
             $r.=HtmlInput::hidden('qcode_benef',${'e_mp_qcode_'.$e_mp});
 
-            $r.=_("Payé par ").${'e_mp_qcode_'.$e_mp};
+			$fname=new Fiche($this->db);
+			$fname->get_by_qcode(${'e_mp_qcode_'.$e_mp});
+			$r.='<div style="float:left"><h2 class="info">'."Payé par ".${'e_mp_qcode_'.$e_mp}.
+				   " ".$fname->getName().'</h2></div>';
             $r.='<br>';
         }
 
