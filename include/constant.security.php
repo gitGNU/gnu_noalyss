@@ -5,5 +5,5 @@ define ("FICCAT",910);  //création, modification et effacement de catégorie de
 define ('RMDOC',1020);   // Effacement de document pour follow up
 define ('VIEWDOC',1010);   // Voir document pour follow up
 define ('PARCATDOC',1050);   // modifier type document pour follow up
-global $audit; $audit=true;
+global $audit; $audit=false;
 ?>
