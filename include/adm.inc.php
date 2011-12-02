@@ -72,7 +72,7 @@ if ( $low_action == "list" )
 
     ?>
     <div class="content">
-                           <span  style="position:float;float:left">
+                           <div>
                                         <form method="get" action="<?php echo $href; ?>">
                                                                   <?php
                                                                   echo dossier::hidden();
@@ -92,7 +92,7 @@ if ( $low_action == "list" )
     <input type="submit" class="button" name="submit_query" value="<?=_('recherche')?>">
 	 <input type="hidden" name="p_action" value="adm">
                                                                      </form>
-                                                                     </span>
+                                                                     </div>
                                                                      <?php
                                                                      $adm=new Admin($cn);
     $search=(isset($_GET['query']))?$_GET['query']:"";

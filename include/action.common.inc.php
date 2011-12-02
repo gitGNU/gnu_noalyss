@@ -299,7 +299,7 @@ function ShowActionList($cn,$p_base)
        </div>
 
        <div class="content" >
-       <span style="float:left">
+       <div>
        <form  method="get" action="do.php">
        <?php echo dossier::hidden();
   ?>
@@ -355,7 +355,7 @@ function ShowActionList($cn,$p_base)
 
 
 	      </form>
-	      </span>
+	      </div>
 
 	      <?php
 	      // show the  action in
