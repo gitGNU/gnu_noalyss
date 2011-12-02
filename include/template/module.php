@@ -54,7 +54,7 @@ endif;?>
 		<?php
 		foreach ($amodule as $row):
 			$js="";
-		    $style="background:white";
+		    $style="";
 		    if ( $row['me_code']=='new_line')
 		    {
 			echo "</tr><tr>";

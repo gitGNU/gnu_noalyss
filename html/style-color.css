@@ -838,7 +838,8 @@ a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
 }
 td.tool {
 	border: solid 1px gray;
-
+	background-color:white;
+	
 }
 div.topmenu {
 	width:100%;

@@ -316,13 +316,12 @@ a.mtitle {
 	text-decoration:none;
 	display:inline;
 	color: blue;
-
+	
 }
 a.mtitle:hover {
 	font-size:10px;
 	text-decoration:none;
 	display:inline;
-
 	color: darkblue;
 	background-color:#5D90CD;
 
@@ -331,7 +330,7 @@ td.selectedcell a.mtitle {
 	font-size:1em;
 	text-decoration:none;
 	display:block;
-	color:white;
+	color:lightgrey;
 }
 a.dossier {
 	font-size:10px;
@@ -794,22 +793,23 @@ span.todo  {
 input[disabled], textarea[disabled], option[disabled], optgroup[disabled], select[disabled] {
 	-moz-user-focus:ignore;
 	-moz-user-input:disabled;
-	background-color:lightgrey;
+background-color: teal;
+
 	color:black;
 	cursor:inherit;
 }
 
 a#anchorbutton, .button, a.button,div.content a.button {
 	font-size:10px;
-	color:darkblue;
+	color:lightblue;
 	font-weight: bold;
-
+	border:1px black outset  ;
+	
+background-image: url("image/bg-submit5.png");
+background-repeat: repeat-x;
+	background-position: left;
 	text-decoration:none;
 	font-family: arial,helvetica,sans-serif;
-	background-color: inherit;
-	border-style:  solid ;
-        border-color:  #0066ff;
-	border-width:1px;
 	padding-bottom: 4px;
 	padding-top: 4px;
 	padding-right: 6px;
@@ -819,20 +819,22 @@ a#anchorbutton, .button, a.button,div.content a.button {
 	margin-right:3px;
 	margin-left:3px;
 	cursor:pointer;
-
+	font-size:1.1em;
+	
 }
 a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
 	cursor:pointer;
-	background-color:darkblue;
-	color:#DEE3E5;
+	color:#90f979;
 	margin-top:3px;
 	margin-bottom:3px;
 	margin-right:3px;
 	margin-left:3px;
+
+border:1px #90f979 inset;
 }
 td.tool {
 	border: solid 1px gray;
-
+   background-color:lightgrey;
 }
 div.topmenu {
 
