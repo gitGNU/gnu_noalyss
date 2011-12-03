@@ -80,12 +80,7 @@ if ( isset ($_GET['amount_min'])&& isset($_GET['amount_max'])&& ($_GET['amount_m
 	put_global(
 			array
 				(
-				array('key'=>'ledger_type','value'=>'ALL'),
-				array('key'=>'date_start','value'=>'ALL'),
-				array('key'=>'date_end','value'=>'ALL'),
-				array('key'=>'desc','value'=>''),
-				array('key'=>'qcode','value'=>''),
-				array('key'=>'accounting','value'=>'')
+				array('key'=>'ledger_type','value'=>'ALL')
 				)
 
 			);
@@ -106,6 +101,12 @@ if ( isset ($_GET['viewsearch']) )
     else
         $array=$_GET;
     $array['p_action']='ALL';
+	if ( ! isset ($array['date_start']) || ! isset ($array['date_end']))
+	{
+		// get first date of current exercice
+		list($array['date_start'],$array['date_end'])=$User->get_limit_current_exercice();
+	}
+
     list($sql,$where)=$ledger->build_search_sql($array);
     // Count nb of line
     $max_line=$cn->count_sql($sql);

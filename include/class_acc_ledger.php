@@ -600,7 +600,7 @@ class Acc_Ledger extends jrn_def_sql
 		// Count
         $count=$this->db->count_sql($sql);
         // Add the limit
-        $sql.=$limit;
+        $sql.=" order by jr_date asc ".$limit;
 
         // Execute SQL stmt
         $Res=$this->db->exec_sql($sql);
@@ -665,7 +665,7 @@ class Acc_Ledger extends jrn_def_sql
             if ( $this->type=='') $r.=td($row['jrn_def_name']);
             // date
             $r.="<TD>";
-            $r.=$row['jr_date'];
+            $r.=$row['str_jr_date'];
             $r.="</TD>";
 
             // pj
@@ -794,7 +794,6 @@ class Acc_Ledger extends jrn_def_sql
         $count=$this->db->count_sql($sql);
         // Add the limit
         $sql.=$order.$limit.$offset;
-
         // Execute SQL stmt
         $Res=$this->db->exec_sql($sql);
 
@@ -859,11 +858,11 @@ class Acc_Ledger extends jrn_def_sql
             if ( $this->type=='') $r.=td($row['jrn_def_name']);
             // date
             $r.="<TD>";
-            $r.=$row['jr_date'];
+            $r.=$row['str_jr_date'];
             $r.="</TD>";
             // echeance
             $r.="<TD>";
-            $r.=$row['jr_ech'];
+            $r.=$row['str_jr_ech'];
             $r.="</TD>";
 
             // pj
@@ -2398,8 +2397,8 @@ class Acc_Ledger extends jrn_def_sql
         $sql="select jr_id	,
              jr_montant,
              substr(jr_comment,1,60) as jr_comment,
-             to_char(jr_ech,'DD.MM.YYYY') as jr_ech,
-             to_char(jr_date,'DD.MM.YYYY') as jr_date,
+             to_char(jr_ech,'DD.MM.YYYY') as str_jr_ech,
+             to_char(jr_date,'DD.MM.YYYY') as str_jr_date,
              jr_date as jr_date_order,
              jr_grpt_id,
              jr_rapt,
@@ -2442,8 +2441,8 @@ class Acc_Ledger extends jrn_def_sql
              join jrn_def on jrn_def_id=jr_def_id
              join parm_periode on p_id=jr_tech_per";
 
-        if ( $p_array != null )
-            extract($p_array);
+        if ( ! empty($p_array))            extract($p_array);
+		
         $r_jrn=(isset($r_jrn))?$r_jrn:-1;
 
         /* if no variable are set then give them a default
@@ -2558,26 +2557,26 @@ class Acc_Ledger extends jrn_def_sql
             $and=" and ";
         }
         // date
-        if ( isDate($date_start) != null )
+        if (isset ($date_start) && isDate($date_start) != null )
         {
             $fil_date=$and." jr_date >= to_date('".$date_start."','DD.MM.YYYY')";
             $and=" and ";
         }
-        if ( isDate($date_end) != null )
+        if (isset ($date_end) &&  isDate($date_end) != null )
         {
             $fil_date.=$and." jr_date <= to_date('".$date_end."','DD.MM.YYYY')";
             $and=" and ";
         }
         // comment
-        $desc=sql_string($desc);
-        if ( $desc != null )
+        if (isset ($desc) &&  $desc != null )
         {
+			$desc=sql_string($desc);
             $fil_desc=$and." ( upper(jr_comment) like upper('%".$desc."%') or upper(jr_pj_number) like upper('%".$desc."%') ".
                       " or upper(jr_internal)  like upper('%".$desc."%') )";
             $and=" and ";
         }
         //    Poste
-        if ( $accounting != null )
+        if ( isset ($accounting) && $accounting != null )
         {
             $fil_account=$and."  jr_grpt_id in (select j_grpt
                          from jrnx where j_poste::text like '$accounting%' )  ";
@@ -2585,7 +2584,7 @@ class Acc_Ledger extends jrn_def_sql
         }
         // Quick Code
 		if ( isset ($qcodesearch_op)) $qcode=$qcodesearch_op;
-        if ( $qcode != null )
+        if ( isset ($qcode)  && $qcode != null )
         {
             $fil_qcode=$and."  jr_grpt_id in ( select j_grpt from
                        jrnx where trim(j_qcode) = upper(trim('$qcode')))";
