@@ -82,6 +82,24 @@ $text->set_attribute('account','field');
  */
 class IPoste extends HtmlInput
 {
+
+    function __construct($p_name="",$p_value="")
+    {
+        $this->name=$p_name;
+        $this->readOnly=false;
+        $this->size=10;
+        $this->width=50;
+        $this->heigh=20;
+        $this->value=$p_value;
+        $this->selected="";
+        $this->table=0;
+        $this->disabled=false;
+        $this->javascript="";
+        $this->extra2="all";
+        $this->attribute=array();
+
+    }
+
     static function ipopup($p_name)
     {
         $ip=new IPopup($p_name);
@@ -134,7 +152,6 @@ class IPoste extends HtmlInput
 
         /* create the text  */
         $itext=new IText($this->name,$this->value);
-        $itext->size=(isset($this->size))?$this->size:10;
 
         /* create the button */
         $ibutton=$this->dsp_button();
