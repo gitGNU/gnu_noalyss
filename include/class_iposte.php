@@ -21,8 +21,8 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file
- * \brief Html Input 
- * 
+ * \brief Html Input
+ *
  */
 require_once('class_html_input.php');
 require_once('class_itext.php');
@@ -31,7 +31,7 @@ require_once('class_ipopup.php');
 require_once('function_javascript.php');
 /**
  *@brief show a button, for selecting a account and a input text for manually inserting an account
- * the different value of table are 
+ * the different value of table are
  * - 0 no table, it means no TD tags
  * - 1 the button and the text are separated by TD tags
  * - 2 the button and the text are in the same column (TD)
@@ -63,11 +63,11 @@ require_once('function_javascript.php');
  echo js_include('controls.js');
  echo js_include('dragdrop.js');
  echo js_include('accounting_item.js');
- 
- 
+
+
 require_once('class_iposte.php');
 echo IPoste::ipopup('ipop_account');
- 
+
 // In the FORM
 $text=new IPoste();
 $text->name('field');
@@ -76,8 +76,8 @@ $text->set_attribute('ipopup','ipop_account');
 $text->set_attribute('gDossier',Dossier::id());
 $text->set_attribute('jrn',0);
 $text->set_attribute('account','field');
- 
- 
+
+
 \endcode
  */
 class IPoste extends HtmlInput
@@ -88,8 +88,6 @@ class IPoste extends HtmlInput
         $this->name=$p_name;
         $this->readOnly=false;
         $this->size=10;
-        $this->width=50;
-        $this->heigh=20;
         $this->value=$p_value;
         $this->selected="";
         $this->table=0;
@@ -152,7 +150,7 @@ class IPoste extends HtmlInput
 
         /* create the text  */
         $itext=new IText($this->name,$this->value);
-
+		$itext->size=$this->size;
         /* create the button */
         $ibutton=$this->dsp_button();
         if ( $this->table==3)

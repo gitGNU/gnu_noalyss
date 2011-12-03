@@ -88,7 +88,7 @@ class Fiche_Def
             $t->jnt_order=$row['jnt_order'];
             $t->ad_size=$row['ad_size'];
             $t->ad_type=$row['ad_type'];
-            $this->attribut[$i]=$t;
+            $this->attribut[$i]=clone $t;
         }
         return $this->attribut;
     }

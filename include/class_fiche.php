@@ -643,6 +643,7 @@ class Fiche
 		      $w=new IPoste("av_text".$r->ad_id);
 		      $w->set_attribute('ipopup','ipop_account');
 		      $w->set_attribute('account',"av_text".$r->ad_id);
+			  $w->width=$r->ad_size;
 		      $w->table=0;
 		      $bulle=HtmlInput::infobulle(14);
 		      break;
@@ -651,6 +652,7 @@ class Fiche
 		      // filter on frd_id
 		      $sql=' select fd_id from fiche_def ';
 		      $filter=$this->cn->make_list($sql);
+			  $w->width=$r->ad_size;
 		      $w->extra=$filter;
 		      $w->extra2=0;
 		      $label=new ISpan();
