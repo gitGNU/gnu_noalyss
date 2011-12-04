@@ -2479,16 +2479,9 @@ class Acc_Ledger extends jrn_def_sql
         $and='';
         $user=new User($this->db);
 		$p_action=$ledger_type;
+		if ( $p_action == '') $p_action='ALL';
         if ( $r_jrn == -1 )
         {
-
-            /* Specific action allow to see all the ledgers in once */
-           if ( $ledger_type== 'gl') $p_action='ALL';
-            /* actions from commercial.php  */
-            if ( $p_action == 'client') $p_action='ALL';
-            if ( $p_action == 'supplier') $p_action='ALL';
-            if ( $p_action == 'adm') $p_action='ALL';
-            if ( $p_action == 'ALL') $p_action='ALL';
 
             /* from compta.php the p_action is quick_writing instead of ODS  */
             if ( $p_action == 'quick_writing') $p_action='ODS';
@@ -2499,13 +2492,12 @@ class Acc_Ledger extends jrn_def_sql
         }
         else
         {
-            if ( $p_action == 'gl') $p_action='ALL';
+
             if ( $p_action == 'quick_writing') $p_action='ODS';
 
             $aLedger=$user->get_ledger($p_action,3);
             $fil_ledger='';
             $sp='';
-
             for ($i=0;$i < count($aLedger) ;$i ++)
             {
                 if ( isset($r_jrn[$i]))
