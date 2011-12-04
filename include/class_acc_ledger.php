@@ -2345,7 +2345,7 @@ class Acc_Ledger extends jrn_def_sql
         /* input poste comptable */
         $f_accounting=new IPoste('accounting');
         $f_accounting->value=(isset($_REQUEST['accounting']))?$_REQUEST['accounting']:'';
-        if ( $this->id=-1) $jrn=0;
+        if ( $this->id==-1) $jrn=0;
         else $jrn=$this->id;
         $f_accounting->set_attribute('jrn',$jrn);
         $f_accounting->set_attribute('ipopup','ipop_account');
