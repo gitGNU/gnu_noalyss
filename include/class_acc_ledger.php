@@ -2519,8 +2519,8 @@ class Acc_Ledger extends jrn_def_sql
         }
 
         /* format the number */
-        $amount_min=toNumber($amount_min);
-        $amount_max=toNumber($amount_max);
+        $amount_min=abs(toNumber($amount_min));
+        $amount_max=abs(toNumber($amount_max));
         if ( $amount_min > 0 && isNumber($amount_min) )
         {
             $fil_amount=$and.' jr_montant >=' .$amount_min;
