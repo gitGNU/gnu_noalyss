@@ -42,7 +42,6 @@ class INum extends IText
     /*!\brief print in html the readonly value of the widget*/
     public function display()
     {
-        $this->size=9;
         $readonly=" readonly ";
         $style='style="border:solid 1px blue;color:black;background:#EDEDED;text-align:right"';
         $this->value=str_replace('"','',$this->value);
