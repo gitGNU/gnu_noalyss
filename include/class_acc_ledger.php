@@ -2442,7 +2442,7 @@ class Acc_Ledger extends jrn_def_sql
              join parm_periode on p_id=jr_tech_per";
 
         if ( ! empty($p_array))            extract($p_array);
-		
+
         $r_jrn=(isset($r_jrn))?$r_jrn:-1;
 
         /* if no variable are set then give them a default
@@ -2452,22 +2452,17 @@ class Acc_Ledger extends jrn_def_sql
             $amount_min=0;
             $amount_max=0;
 
-            if ( ! isset ($date_start))
-            {
-                $user=new User($this->db);
-                $exercice=$user->get_exercice();
-
-                $per=new Periode($this->db);
-				list($per_start,$per_end)=$per->limit_year($exercice);
-                list($date_start,$none)=$per_start->get_date_limit();
-                list($none,$date_end)=$per_end->get_date_limit();
-
-            }
             $desc='';
             $qcode=(isset($qcode))?$qcode:"";
 			if ( isset($qcodesearch_op)) $qcode=$qcodesearch_op;
             $accounting=(isset($accounting))?$accounting:"";
-
+			$periode=new Periode($this->db);
+			$user=new User($this->db);
+			$p_id=$user->get_periode();
+			if ( $p_id != null )
+			{
+				list($date_start,$date_end)=$periode->get_date_limit($p_id);
+			}
         }
 
         /* if p_jrn : 0 if means all ledgers, if -1 means all ledger of this

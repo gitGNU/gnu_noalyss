@@ -50,8 +50,8 @@ for ($i=0;$i<count($res);$i++)
   {
     printf('"%s";',$res[$i]['jr_internal']);
     printf('"%s";',$res[$i]['jrn_def_name']);
-    printf('"%s";',$res[$i]['jr_date']);
-    printf('"%s";',$res[$i]['jr_ech']);
+    printf('"%s";',$res[$i]['str_jr_date']);
+    printf('"%s";',$res[$i]['str_jr_ech']);
     printf('"%s";',$res[$i]['jr_pj_number']);
     printf('"%s";',$res[$i]['quick_code']);
     printf('"%s %s";',$res[$i]['name'],$res[$i]['first_name']);
