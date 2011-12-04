@@ -2318,9 +2318,9 @@ class Acc_Ledger extends jrn_def_sql
 
         /* widget for amount */
         $f_amount_min=new INum('amount_min');
-        $f_amount_min->value=(isset($_REQUEST['amount_min']))?$_REQUEST['amount_min']:0;
+        $f_amount_min->value=(isset($_REQUEST['amount_min']))?abs($_REQUEST['amount_min']):0;
         $f_amount_max=new INum('amount_max');
-        $f_amount_max->value=(isset($_REQUEST['amount_max']))?$_REQUEST['amount_max']:0;
+        $f_amount_max->value=(isset($_REQUEST['amount_max']))?abs($_REQUEST['amount_max']):0;
 
         /* input quick code */
         $f_qcode=new ICard('qcode'.$div);
