@@ -23,11 +23,12 @@
 /*!\file
  *   \brief class acc_reconciliation, this class is new and the code
  *   must use it
- *  
+ *
  */
 require_once("class_iconcerned.php");
 require_once ('class_database.php');
 require_once ('class_dossier.php');
+require_once 'class_lettering.php';
 
 /*! \brief new class for managing the reconciliation it must be used
  * instead of the function InsertRapt, ...
@@ -60,7 +61,7 @@ class Acc_Reconciliation
     }
     /*!
      *\brief   Insert into jrn_rapt the concerned operations
-     *        
+     *
      * \param $jr_id2 (jrn.jr_id) => jrn_rapt.jra_concerned or a string
      * like "jr_id2,jr_id3,jr_id4..."
      *
@@ -90,9 +91,9 @@ class Acc_Reconciliation
     }
 
     /*!
-     *\brief   Insert into jrn_rapt the concerned operations 
+     *\brief   Insert into jrn_rapt the concerned operations
      * should not  be called directly, use insert instead
-     *        
+     *
      * \param $jr_id2 (jrn.jr_id) => jrn_rapt.jra_concerned
      *
      * \return none
@@ -118,16 +119,55 @@ class Acc_Reconciliation
         {
             // Ok we can insert
             $Res=$this->db->exec_sql("insert into jrn_rapt(jr_id,jra_concerned) values ".
-                                     "(".$this->jr_id.",$jr_id2)");
+                                    "(".$this->jr_id.",$jr_id2)");
+			// try to letter automatically same account from both operation
+			$this->auto_letter($jr_id2);
         }
         return true;
     }
-    /*!
+	/**
+	 * @brief try to letter same card between $p_jrid and $this->jr_id
+	 * @param jrn.jr_id $p_jrid  the operation to reconcile
+	 */
+	function auto_letter($p_jrid)
+	{
+		// Try to find same card from both operation
+		$sql="select j1.f_id as fiche ,coalesce(j1.j_id,-1) as jrnx_id1,coalesce(j2.j_id,-1) as jrnx_id2,
+j1.j_poste as poste
+				from jrnx as j1
+					join jrn as jr1 on (j1.j_grpt=jr1.jr_grpt_id)
+					join jrnx as j2 on (coalesce(j1.f_id,-1)=coalesce(j2.f_id,-1) and j1.j_poste=j2.j_poste)
+					join jrn as jr2 on (j2.j_grpt=jr2.jr_grpt_id)
+				where
+					jr1.jr_id=$1
+					and
+					jr2.jr_id= $2";
+		$result=$this->db->get_array($sql,array($this->jr_id,$p_jrid));
+		if ( count($result) == 0)
+		{
+			return;
+		} elseif (count($result)==1)
+		{
+			if ( $result[0]['fiche'] != -1)
+			{
+				$letter = new Lettering_Card($this->db);
+				$letter->insert_couple($result[0]['jrnx_id1'],$result[0]['jrnx_id2']);
+			}
+			else
+			{
+				$letter = new Lettering_Account($this->db);
+				$letter->insert_couple($result[0]['jrnx_id1'],$result[0]['jrnx_id2']);
+			}
+		}
+
+	}
+
+	/*!
      *\brief   Insert into jrn_rapt the concerned operations
-     *        
+     *
      * \param $this->jr_id (jrn.jr_id) => jrn_rapt.jr_id
      * \param $jr_id2 (jrn.jr_id) => jrn_rapt.jra_concerned
-     * 
+     *
      * \return none
      */
     function remove($jr_id2)
@@ -144,8 +184,29 @@ class Acc_Reconciliation
                                   select jra_id from jrn_rapt where jra_concerned=$jr_id2 ".
                                   " and jr_id=".$this->jr_id) !=0)
         {
-            // Ok we can delete
-            $Res=$this->db->exec_sql("delete from jrn_rapt where ".
+			/**
+			 * remove also lettering between both operation
+			 */
+			$sql = " delete from
+					jnt_letter
+					where jl_id in ( select jl_id from jnt_letter
+										join letter_cred as lc using(jl_id)
+										join letter_deb as ld using (jl_id)
+									where
+										lc.j_id in (select j_id
+													from jrnx join jrn on (j_grpt=jr_grpt_id)
+													where jr_id in ($1,$2))
+										or
+										ld.j_id in (select j_id
+													from jrnx join jrn on (j_grpt=jr_grpt_id)
+													where jr_id in ($1,$2))
+
+
+
+							)";
+			$this->db->exec_sql($sql, array($jr_id2, $this->jr_id));
+			// Ok we can delete
+			$Res=$this->db->exec_sql("delete from jrn_rapt where ".
                                      "(jra_concerned=$jr_id2 and jr_id=".$this->jr_id.") or
                                      (jra_concerned=".$this->jr_id." and jr_id=$jr_id2) ");
         }
@@ -153,8 +214,8 @@ class Acc_Reconciliation
 
     /*!
      *\brief   Return an array of the concerned operation
-     *        
-     *  
+     *
+     *
      *\param database connection
      * \return array if something is found or null
      */
@@ -188,7 +249,7 @@ class Acc_Reconciliation
     }
     /**
      *@brief return array of not-reconciled operation
- 
+
     */
     function get_not_reconciled()
     {
@@ -207,7 +268,7 @@ class Acc_Reconciliation
         return $ret;
     }
     /**
-     *Create a sql condition to filter by security and by asked ledger 
+     *Create a sql condition to filter by security and by asked ledger
      * based on $this->a_jrn
      *@return a valid sql stmt to include
      *@see get_not_reconciled get_reconciled
@@ -309,7 +370,7 @@ class Acc_Reconciliation
       $user=new User($this->db);
       list($start,$end)=$user->get_limit_current_exercice();
 
-      if (isDate($this->start_day) ==null) 
+      if (isDate($this->start_day) ==null)
 	{
 	  $this->start_day=$start;
 	}
