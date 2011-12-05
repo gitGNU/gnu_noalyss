@@ -45,7 +45,7 @@ for ($i=0;$i<count($this->content);$i++):
 if ( ($i % 2) == 0 ) $class="odd";
 ?>
   <tr <? echo "class=\"$class\""; ?> >
-<td> 
+<td>
 <?php
 $letter=($this->content[$i]['letter']==-1)?"x":$this->content[$i]['letter'];
 $js="this.gDossier=".dossier::id().
@@ -53,10 +53,10 @@ $js="this.gDossier=".dossier::id().
   ";this.obj_type='".$this->object_type."'".
   ";dsp_letter(this)";
 
-?> 
+?>
 <A class="detail" href="javascript:<?=$js?>"><?=$letter?></A>
 </td>
-<td> <?=$this->content[$i]['j_date_fmt']?> </td>
+<td> <?=  smaller_date($this->content[$i]['j_date_fmt'])?> </td>
 <td> <?=$this->content[$i]['jr_pj_number']?> </td>
 
 <?php
