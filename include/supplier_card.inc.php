@@ -63,7 +63,7 @@ default:
 }
 $f=new Fiche($cn,$_REQUEST['f_id']);
 
-echo '<div class="u_subtmenu">';
+echo '<div class="content">';
 echo ShowItem(array(
                   array($root."&sc=dc",_('Fiche'),_('Détail de la fiche'),1),
                   array($root.'&sc=sv',_('Suivi'),_('Suivi Fournisseur, devis, bon de commande, courrier'),2),
