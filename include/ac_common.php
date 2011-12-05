@@ -682,6 +682,16 @@ function shrink_date($p_date)
     $str_date = substr($date, 0, 4) . substr($date, 6, 2);
     return $str_date;
 }
+/**
+ * @brief shrink the date, make a date shorter for the printing
+ * @param $p_date format DD.MM.YYYY
+ * @return date in the format DDMMYY (size = 13 mm in arial 8)
+ */
+function smaller_date($p_date)
+{
+    $str_date = substr($p_date, 0, 6) . substr($p_date, 8, 2);
+    return $str_date;
+}
 
 /**
  * @brief format the date, when taken from the database the format
