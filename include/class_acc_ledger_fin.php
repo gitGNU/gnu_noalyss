@@ -530,8 +530,11 @@ class Acc_Ledger_Fin extends Acc_Ledger
             $r.='<td style="text-align:center">';
 			if (${"e_concerned".$i} != '')
 			{
-				$jr_internal=$this->db->get_value("select jr_internal from jrn where jr_id=$1",array(${"e_concerned".$i}));
-	            $r.=HtmlInput::detail_op(${"e_concerned".$i},$jr_internal);
+				$jr_internal=$this->db->get_array("select jr_internal from jrn where jr_id in (".${"e_concerned".$i}.")");
+				for ($x=0;$x<count($jr_internal);$x++)
+				{
+					$r.=HtmlInput::detail_op(${"e_concerned".$i},$jr_internal[$x]['jr_internal']);
+				}
 			}
             $r.='</td>';
             // encode the pa
