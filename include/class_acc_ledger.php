@@ -858,11 +858,11 @@ class Acc_Ledger extends jrn_def_sql
             if ( $this->type=='') $r.=td($row['jrn_def_name']);
             // date
             $r.="<TD>";
-            $r.=$row['str_jr_date'];
+            $r.=smaller_date($row['str_jr_date']);
             $r.="</TD>";
             // echeance
             $r.="<TD>";
-            $r.=$row['str_jr_ech'];
+            $r.=smaller_date($row['str_jr_ech']);
             $r.="</TD>";
 
             // pj
