@@ -8,7 +8,7 @@ if ( count($this->content) == 0 ) :
 ?>
   <h2 class="info2"><?=_('Désolé aucun résultat trouvé')?></h2>
 
-<?     
+<?
   else :
 ?>
 <table class="result">
@@ -39,11 +39,47 @@ if ( count($this->content) == 0 ) :
 </tr>
 
 <?php
-   $amount_deb=($j_debit=='t')?$amount_init:0;
+$this->content=array_merge($this->linked,$this->content);
+$amount_deb=($j_debit=='t')?$amount_init:0;
 $amount_cred=($j_debit=='f')?$amount_init:0;
+
+$linked_limit=count($this->linked);
+
 for ($i=0;$i<count($this->content);$i++):
   $class="";
 if ( ($i % 2) == 0 ) $class="odd";
+if ( $i < $linked_limit ) $class="even";
+if ($linked_limit != 0 && $i==$linked_limit)
+{
+	?>
+<tr>
+<th>
+</th>
+<th>
+   <?=_('Lettrage')?>
+</th>
+<th>
+   <?=_('Date')?>
+</th>
+<th>
+   <?=_('Ref')?>
+</th>
+<th>
+   <?=_('Description')?>
+</th>
+<th>
+   <?=_('Montant')?>
+</th>
+<th>
+   <?=_('Debit / Credit')?>
+</th>
+<th>
+  <?=_('Op. concerné')?>
+</th>
+</tr>
+<?
+
+}
 ?>
   <tr <? echo "class=\"$class\""; ?> >
 <td>
@@ -52,7 +88,7 @@ echo HtmlInput::hidden('letter_j_id[]',$this->content[$i]['j_id']);
 
    if ($this->content[$i]['j_id']==$p_jid) continue;
 $check=new ICheckbox('ck'.$i);
-if ( $jnt_id == $this->content[$i]['letter'] ) $check->selected=true; else $check->selected=false;
+if ( $jnt_id == $this->content[$i]['letter'] && $i < $linked_limit) $check->selected=true; else $check->selected=false;
 
 if ( $this->content[$i]['letter'] == -1 ||  $check->selected == true )
 	echo $check->input();
@@ -94,18 +130,19 @@ $r=sprintf('<A class="detail" style="text-decoration:underline"  HREF="javascrip
 </td>
 
 </tr>
-
-<?php
+<?
+if ($i<$linked_limit)
+{
   $amount_deb+=( $jnt_id == $this->content[$i]['letter'] && $this->content[$i]['j_debit']=='t')?$this->content[$i]['j_montant']:0;
   $amount_cred+=( $jnt_id == $this->content[$i]['letter'] && $this->content[$i]['j_debit']=='f')?$this->content[$i]['j_montant']:0;
-
+}
     endfor;
 ?>
 </TABLE>
+  <h2 class="info"> Total lettré</h2>
 <span style="display:block;font-size:14px"><?=_('Total Debit')?>   <?=$amount_deb?></span>
 <span style="display:block;font-size:14px"><?=_('Total Credit')?>   <?=$amount_cred?></span>
 
-</table>
 <?php endif;?>
 <?=HtmlInput::button('check_all','Sélectionner tout',' onclick="select_checkbox(\'letter_form\')"');?>
 <?=HtmlInput::button('check_none','Tout Désélectionner ',' onclick="unselect_checkbox(\'letter_form\')"');?>

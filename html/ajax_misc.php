@@ -260,7 +260,7 @@ EOF;
 	case 'dl':
 		require_once('class_lettering.php');
 		$exercice = $user->get_exercice();
-                if ($user->check_module("LETCARD") == 0 && $user->check_module("LETACC") == 0) exit();
+        if ($user->check_module("LETCARD") == 0 && $user->check_module("LETACC") == 0) exit();
 		$periode = new Periode($cn);
 		list($first_per, $last_per) = $periode->get_limit($exercice);
 

@@ -28,11 +28,11 @@ require_once ('class_user.php');
 /**
  *@brief mother class for the lettering by account and by card
  * use the tables jnt_letter, letter_deb and letter_cred
- * - "account"=>"account",       => the accounting of the j_id (use by Lettering_Account) 
- * - "quick_code"=>"quick_code", => the quick_code of the j_id (used by Lettering_Card) 
- * - "start"=>"start",	   => date of the first day 
- * - "end"=>"end",		   => date of the last day 
- * - "sql_ledger"=>"sql_ledger"  => the sql clause to filter on the available ledgers 
+ * - "account"=>"account",       => the accounting of the j_id (use by Lettering_Account)
+ * - "quick_code"=>"quick_code", => the quick_code of the j_id (used by Lettering_Card)
+ * - "start"=>"start",	   => date of the first day
+ * - "end"=>"end",		   => date of the last day
+ * - "sql_ledger"=>"sql_ledger"  => the sql clause to filter on the available ledgers
 */
 class Lettering
 {
@@ -85,16 +85,30 @@ class Lettering
      */
     function insert_couple($j_id1,$j_id2)
     {
-        $jl_id=$this->db->get_next_seq("jnt_letter_jl_id_seq");
-        $this->db->exec_sql('insert into jnt_letter(jl_id) values($1)',
-                            array($jl_id));
+
         /*  take needed data */
         $first=$this->db->get_value('select j_debit from jrnx where j_id=$1',array($j_id1));
         if ( $this->db->count() == 0 ) throw new Exception ('Opération non existante');
 
         $second=$this->db->get_value('select j_debit from jrnx where j_id=$1',array($j_id2));
         if ( $this->db->count() == 0 ) throw new Exception ('Opération non existante');
-        /* insert */
+		$sql_already="select distinct(jl_id)
+			from jnt_letter
+			left outer join letter_deb using (jl_id)
+			left outer join letter_cred using (jl_id)
+			where
+			letter_deb.j_id = $1 or letter_cred.j_id=$1";
+
+		$already=$this->db->get_array($sql_already,array($j_id1));
+		if ( count ($already ) > 0) return;
+
+		$already=$this->db->get_array($sql_already,array($j_id2));
+		if ( count ($already ) > 0) return;
+
+		$jl_id=$this->db->get_next_seq("jnt_letter_jl_id_seq");
+        $this->db->exec_sql('insert into jnt_letter(jl_id) values($1)',
+                            array($jl_id));
+		/* insert */
         if ( $first == 't')
         {
             // save into letter_deb
@@ -128,7 +142,7 @@ class Lettering
      *@param $p_array
     @code
     'gDossier' => string '13' (length=2)
-    'letter_j_id' => 
+    'letter_j_id' =>
       array
         0 => string '5' (length=1)
         1 => string '23' (length=2)
@@ -228,8 +242,21 @@ class Lettering
         ob_clean();
         return $r;
     }
+	function get_linked($p_jlid)
+	{
+		$sql="select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
+             j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
+             coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter
+             from jrnx join jrn on (j_grpt = jr_grpt_id)
+			 where
+			 j_id in (select j_id from letter_cred where jl_id=$1
+					union all
+					select j_id from letter_deb where jl_id=$1)";
+
+		$this->linked=$this->db->get_array($sql,array($p_jlid));
+	}
     /**
-     *show only the lettered records from jrnx 
+     *show only the lettered records from jrnx
      *it fills the array $this->content
      */
     protected function show_lettered()
@@ -243,7 +270,7 @@ class Lettering
         return $r;
     }
     /**
-     *show only the not lettered records from jrnx 
+     *show only the not lettered records from jrnx
      *it fills the array $this->content
      */
     protected function show_not_lettered()
@@ -282,14 +309,21 @@ class Lettering
     {
         $j_debit=$this->db->get_value('select j_Debit from jrnx where j_id=$1',array($p_jid));
         $amount_init=$this->db->get_value('select j_montant from jrnx where j_id=$1',array($p_jid));
+
         $this->get_filter($p_jid);
         // retrieve jnt_letter.id
         $sql="select distinct(jl_id) from jnt_letter  left outer join letter_deb using (jl_id) left outer join letter_cred using (jl_id)
              where letter_deb.j_id = $1 or letter_cred.j_id=$2";
-        $jnt_id=$this->db->get_value($sql,array($p_jid,$p_jid));
+        $a_jnt_id=$this->db->get_array($sql,array($p_jid,$p_jid));
 
-        if ($this->db->count()==0 ) $jnt_id=-2;
-
+        if (count($a_jnt_id)==0 )
+		{
+			$jnt_id=-2;
+		} else
+		{
+			$jnt_id=$a_jnt_id[0]['jl_id'];
+		}
+		$this->get_linked($jnt_id);
         ob_start();
         require_once('template/letter_prop.php');
         $r=ob_get_contents();
@@ -332,6 +366,7 @@ class Lettering_Account extends Lettering
         $this->account=$p_account;
         $this->object_type='account';
     }
+
     /**
      * fills the this->content, datas are filtered thanks
      * - fil_deb poss values t (debit), f(credit), ' ' (everything)
