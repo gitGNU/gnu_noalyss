@@ -84,14 +84,16 @@ if ($linked_limit != 0 && $i==$linked_limit)
   <tr <? echo "class=\"$class\""; ?> >
 <td>
 <?php
-echo HtmlInput::hidden('letter_j_id[]',$this->content[$i]['j_id']);
 
    if ($this->content[$i]['j_id']==$p_jid) continue;
-$check=new ICheckbox('ck'.$i);
+if ( $jnt_id == $this->content[$i]['letter'] && $i >= $linked_limit) continue;
+
+$check=new ICheckbox('ck[]',$this->content[$i]['j_id']);
 if ( $jnt_id == $this->content[$i]['letter'] && $i < $linked_limit) $check->selected=true; else $check->selected=false;
 
 if ( $this->content[$i]['letter'] == -1 ||  $check->selected == true )
 	echo $check->input();
+echo HtmlInput::hidden('letter_j_id[]',$this->content[$i]['j_id']);
 ?>
 </td>
 <td>
@@ -100,7 +102,7 @@ $letter=($this->content[$i]['letter']==-1)?" ":$this->content[$i]['letter'];
 ?>
 <?=$letter?>
 </td>
-<td> <?=$this->content[$i]['j_date_fmt']?> </td>
+<td> <?=smaller_date($this->content[$i]['j_date_fmt'])?> </td>
 <?php
 $r=sprintf('<A class="detail" style="text-decoration:underline"  HREF="javascript:viewOperation(\'%s\',\'%s\')" >%s</A>',
 	   $this->content[$i]['jr_id'], $gDossier,  $this->content[$i]['jr_internal']);

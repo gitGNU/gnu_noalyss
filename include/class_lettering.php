@@ -143,24 +143,7 @@ class Lettering
     @code
     'gDossier' => string '13' (length=2)
     'letter_j_id' =>
-      array
-        0 => string '5' (length=1)
-        1 => string '23' (length=2)
-        2 => string '67' (length=2)
-        3 => string '136' (length=3)
-        4 => string '139' (length=3)
-        5 => string '145' (length=3)
-        6 => string '374' (length=3)
-        7 => string '148' (length=3)
-        8 => string '156' (length=3)
-        9 => string '254' (length=3)
-        10 => string '277' (length=3)
-    'ck0' => string 'on' (length=2)
-    'ck1' => string 'on' (length=2)
-    'ck10' => string 'on' (length=2)
-    'j_id' => string '142' (length=3)
-    'jnt_id' => string '-2' (length=2)
-    'record' => string 'Sauver' (length=6)
+	ck => array
     @endcode
     */
     public function save($p_array)
@@ -188,20 +171,20 @@ class Lettering
         // save dest
         for($i=0;$i<count($p_array['letter_j_id']);$i++)
         {
-            if (isset($p_array['ck'.$i]))
+            if (isset ($p_array['ck'][$i]) && $p_array['ck'][$i] !="-2")
             { //if 1
                 // save the dest
-                $deb=$this->db->get_value('select j_debit,j_montant from jrnx where j_id=$1',array($p_array['letter_j_id'][$i]));
+                $deb=$this->db->get_value('select j_debit,j_montant from jrnx where j_id=$1',array($p_array['ck'][$i]));
                 if ( $deb == 't')
                 {
                     $count++;
                     // save into letter_deb
-                    $ld_id=$this->db->get_value('insert into letter_deb(j_id,jl_id) values($1,$2) returning ld_id',array($p_array['letter_j_id'][$i],$jl_id));
+                    $ld_id=$this->db->get_value('insert into letter_deb(j_id,jl_id) values($1,$2) returning ld_id',array($p_array['ck'][$i],$jl_id));
                 }
                 else
                 {
                     $count++;
-                    $lc_id=$this->db->get_value('insert into letter_cred(j_id,jl_id)  values($1,$2) returning lc_id',array($p_array['letter_j_id'][$i],$jl_id));
+                    $lc_id=$this->db->get_value('insert into letter_cred(j_id,jl_id)  values($1,$2) returning lc_id',array($p_array['ck'][$i],$jl_id));
                 }
             } //end if 1
         } //end for
@@ -251,7 +234,8 @@ class Lettering
 			 where
 			 j_id in (select j_id from letter_cred where jl_id=$1
 					union all
-					select j_id from letter_deb where jl_id=$1)";
+					select j_id from letter_deb where jl_id=$1)
+					order by j_date";
 
 		$this->linked=$this->db->get_array($sql,array($p_jlid));
 	}
