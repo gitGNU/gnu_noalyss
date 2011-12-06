@@ -61,8 +61,12 @@ if (isset($_POST['save']))
 		$diff = bcsub($_POST['start_extrait'], $_POST['end_extrait']);
 		if ($diff != 0 && $diff != $tot)
 		{
+			$remain=bcsub($tot,$diff);
 			$cn->rollback();
-			alert("D'après l'extrait il y aurait du avoir un montant de $diff à rapprocher alors qu'il y a $tot rapprochés, mise à jour annulée");
+			alert("D'après l'extrait il y aurait du avoir un montant de $diff à rapprocher alors qu'il y a $tot rapprochés, mise à jour annulée, la différence est de $remain");
+			echo '<div class="error">';
+			echo '<p>'._("D'après l'extrait il y aurait du avoir un montant de $diff à rapprocher alors qu'il y a $tot rapprochés, la différence est de $remain <br>mise à jour annulée").'</p>';
+			echo '</div>';
 		}
 		$cn->commit();
 	}
@@ -106,7 +110,7 @@ echo 'solde Début' . $nstart_extrait->input();
 echo 'solde Fin' . $nend_extrait->input();
 echo IButton::tooggle_checkbox('rec1');
 echo '</p>';
-
+echo HtmlInput::submit('save', 'Mettre à jour le n° de relevé banquaire');
 echo '<table class="result" style="width:80%;margin-left:10%">';
 $r = th('Date');
 $r.=th('Libellé');
@@ -125,10 +129,11 @@ for ($i = 0; $i < count($operation); $i++)
 	$r.=td($row['fmt_date']);
 	$r.=td($row['jr_comment']);
 	$r.=td($js);
-	$r.=td(sprintf("%.2f", $row['jr_montant']), ' class="num" ');
+	$amount=$cn->get_value('select qf_amount from quant_fin where jr_id=$1', array($row['jr_id']));
+	$r.=td(nbm ($amount), ' class="num" ');
 
+	$diff=bcadd($diff,$amount);
 	$tot_not_reconcilied+=$row['jr_montant'];
-	$diff+=$cn->get_value('select qf_amount from quant_fin where jr_id=$1', array($row['jr_id']));
 	$iradio->value = $row['jr_id'];
 	$iradio->selected=false;
 	if (isset($_POST['op']))
@@ -165,23 +170,23 @@ $saldo = $bk_card->get_solde_detail($filter_year);
 echo '<table>';
 echo '<tr>';
 echo td("Solde compte  ");
-echo td(sprintf('%.2f', ($saldo['debit'] - $saldo['credit'])), ' style="text-align:right"');
+echo td(nbm(bcsub($saldo['debit'] , $saldo['credit'])), ' style="text-align:right"');
 echo '</tr>';
 
 echo '<tr>';
 echo td("Solde non rapproché ");
-echo td(sprintf('%.2f', ($saldo_not_reconcilied['debit'] - $saldo_not_reconcilied['credit'])), ' style="text-align:right"');
+echo td(nbm (bcsub($saldo_not_reconcilied['debit'], $saldo_not_reconcilied['credit'])), ' style="text-align:right"');
 echo '</tr>';
 
 echo '<tr>';
 echo td("Solde  rapproché ");
-echo td(sprintf('%.2f', ($saldo_reconcilied['debit'] - $saldo_reconcilied['credit'])), ' style="text-align:right"');
+echo td(nbm(bcsub($saldo_reconcilied['debit'] , $saldo_reconcilied['credit'])), ' style="text-align:right"');
 echo '</tr>';
 
 
 echo '<tr>';
 echo td("Total montant ");
-echo td(sprintf('%.2f', ($tot_not_reconcilied)), ' style="text-align:right"');
+echo td(nbm ($tot_not_reconcilied), ' style="text-align:right"');
 echo '</tr>';
 
 echo '</table>';
