@@ -1281,7 +1281,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $r.="<th style=\"text-align:right\">tva</th>";
             $r.='<th style="text-align:right"> '._('Montant TVA').'</th>';
             $r.='<th style="text-align:right">'._('Montant HTVA').'</th>';
-            $r.='<th style="text-align:right">'._('Totaux').'</th>';
+            $r.='<th style="text-align:right">'._('Montant TVAC').'</th>';
         }
         else
         {

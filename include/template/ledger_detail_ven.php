@@ -144,7 +144,8 @@ echo '</tr>';
 	$pu=bcdiv($q['qs_price'],$q['qs_quantite']);
     $row.=td(nbm($pu),'class="num"');
     $row.=td(nbm($q['qs_quantite']),'class="num"');
-   if ( $owner->MY_TVA_USE=='Y') {
+	$sym_tva='';
+   if ( $owner->MY_TVA_USE=='Y' && $q['qs_vat_code'] != '') {
      /* retrieve TVA symbol */
      $tva=new Acc_Tva($cn,$q['qs_vat_code']);
      $tva->load();

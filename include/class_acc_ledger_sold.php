@@ -616,7 +616,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger
     /*!@brief show the summary of the operation and propose to save it
      *@param array contains normally $_POST. It proposes also to save
      * the Analytic accountancy
+	 *@param $p_summary false for the feedback, true to show the summary
      *@return string
+	 *
      */
     function confirm($p_array,$p_summary=false)
     {
@@ -676,14 +678,19 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         $r.="<th>"._('Dénomination')."</th>";
         $r.="<th style=\"text-align:right\">"._('prix')."</th>";
         $r.="<th style=\"text-align:right\">"._('quantité')."</th>";
-        $r.="<th style=\"text-align:right\">"._('tva')."</th>";
 
 
         if ( $g_parameter->MY_TVA_USE=='Y')
         {
+			$r.="<th style=\"text-align:right\">"._('tva')."</th>";
             $r.='<th style="text-align:right"> '._('Montant TVA').'</th>';
             $r.='<th style="text-align:right">'._('Montant HTVA').'</th>';
+            $r.='<th style="text-align:right">'._('Montant TVAC').'</th>';
         }
+		else
+		{
+			$r.='<th style="text-align:right">'._('Montant').'</th>';
+		}
         /* if we use the AC */
         if ($g_parameter->MY_ANALYTIC!='nu')
         {
@@ -751,20 +758,29 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                 $r.=$oTva->get_parameter('label');
                 $r.='</td>';
                 $r.='<td class="num">';
-                $r.=nbm($tva_item);
                 /* warning if tva_computed and given are not the
                    same */
                 if ( bcsub($tva_item,$tva_computed) != 0)
                 {
-                    echo _("Attention Différence");
+                    $r.='<a href="#" class="error" style="display:inline" title="'. _("Attention Différence entre TVA calculée et donnée").'">'
+							.nbm($tva_item).'<a>';
                 }
+				else
+					$r.=nbm($tva_item);
                 $r.='</td>';
+				$r.='<td class="num">';
+				$r.=nbm($amount);
+				$r.='</td>';
+				$tot_row=bcadd($tva_item,$amount);
+				$r.=td(nbm($tot_row),'class="num"');
             }
-            $r.='<td class="num">';
-            $r.=nbm($amount);
-            $r.='</td>';
-
-            // encode the pa
+			else
+			{
+				$r.='<td class="num">';
+				$r.=nbm($amount);
+				$r.='</td>';
+			}
+			// encode the pa
             if ( $g_parameter->MY_ANALYTIC!='nu') // use of AA
             {
                 // show form
