@@ -30,7 +30,7 @@ require_once('function_javascript.php');
  * This class manages the table todo_list
  *
  *
- * Data Member : 
+ * Data Member :
  * - $cn database connx
  * - $variable
  *    - id (todo_list.tl_id)
@@ -38,7 +38,7 @@ require_once('function_javascript.php');
  *    - title (todo_list.title)
  *    - desc (todo_list.tl_desc)
  *    - owner (todo_list.use_id)
- * 
+ *
  */
 class Todo_List
 {
@@ -160,14 +160,14 @@ class Todo_List
         if (trim($this->tl_title)=='')
             $this->tl_title=substr(trim($this->tl_desc),0,40);
 
-        if (trim($this->tl_title)=='')
+        if (trim($this->tl_desc)=='')
         {
             alert('La note est vide');
             return;
         }
 
         /*  limit the title to 35 char */
-        $this->tl_title=substr(trim($this->tl_desc),0,40);
+        $this->tl_title=substr(trim($this->tl_title),0,40);
 
         $sql="update todo_list set tl_title=$1,tl_date=to_date($2,'DD.MM.YYYY'),tl_desc=$3 ".
              " where tl_id = $4";
