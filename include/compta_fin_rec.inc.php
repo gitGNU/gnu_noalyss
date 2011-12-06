@@ -95,9 +95,11 @@ $operation = $cn->get_array("select jr_id,jr_internal,jr_comment,to_char(jr_date
 echo '<span id="bkname">' . hb(h($Ledger->get_bank_name())) . '</span>';
 echo '<p>';
 $iextrait = new IText('ext');
-$iextrait->value = $Ledger->guess_pj();
+if ( isset ($_POST['ext'])) $iextrait->value=$_POST['ext']; else $iextrait->value = $Ledger->guess_pj();
 $nstart_extrait = new INum('start_extrait');
+if( isset($_POST['start_extrait'])) $nstart_extrait->value=$_POST['start_extrait'];
 $nend_extrait = new INum('end_extrait');
+if( isset($_POST['end_extrait'])) $nend_extrait->value=$_POST['end_extrait'];
 
 echo "Extrait / relevé :" . $iextrait->input();
 echo 'solde Début' . $nstart_extrait->input();
@@ -128,6 +130,18 @@ for ($i = 0; $i < count($operation); $i++)
 	$tot_not_reconcilied+=$row['jr_montant'];
 	$diff+=$cn->get_value('select qf_amount from quant_fin where jr_id=$1', array($row['jr_id']));
 	$iradio->value = $row['jr_id'];
+	$iradio->selected=false;
+	if (isset($_POST['op']))
+	{
+		for ($x=0;$x<count($_POST['op']);$x++)
+		{
+			if ($row['jr_id']==$_POST['op'][$x])
+			{
+				$iradio->selected=true;
+				break;
+			}
+		}
+	}
 	$r.=td(HtmlInput::hidden('jrid[]', $row['jr_id']) . $iradio->input(), ' style="text-align:center" ');
 	if ($i % 2 == 0)
 		echo tr($r, ' class="odd" ');
