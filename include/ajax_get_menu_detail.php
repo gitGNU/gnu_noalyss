@@ -29,13 +29,18 @@
 // retrieve data
 $profile=$cn->get_value("select p_id from profile_menu where pm_id=$1",array($pm_id));
 $a_value=$cn->make_array("select me_code,me_code||' '||me_menu||' '||coalesce(me_description,'') from menu_ref",0);
-$a_value_null=$cn->make_array("select me_code,me_code||' '||me_menu||' '||coalesce(me_description,'') from menu_ref
+$ame_code_dep=$cn->make_array("
+	select me_code,me_code||' '||me_menu||' '||coalesce(me_description,'') from
+	menu_ref
 	where
-	me_code in (select me_code from profile_menu where p_id=$profile and p_type_display<>'P' and pm_id <> $pm_id)
-		UNION ALL
+	me_file is null and me_javascript is null and me_url is null and me_type<>'PR' and me_type <> 'SP'
+	and me_code in (select me_code from profile_menu where p_id=".sql_string($profile).")".
+	"	UNION ALL
 		select me_code,me_code||' '||me_menu||' '||coalesce(me_description,'') from menu_ref
 	where
-		me_code='EXT'",1);
+		me_code='EXT'
+	order by 1
+	",1);
 $a_type=$cn->make_array("select pm_type,pm_desc from profile_menu_type",1);
 
 $array=$cn->get_array("select p_id,pm_id,me_code,me_code_dep,p_order,p_type_display,pm_default
@@ -54,7 +59,7 @@ $me_code->value=$a_value;
 $me_code->selected=$array[0]['me_code'];
 
 $me_code_dep=new ISelect('me_code_dep');
-$me_code_dep->value=$a_value_null;
+$me_code_dep->value=$ame_code_dep;
 $me_code_dep->selected=$array[0]['me_code_dep'];
 
 $p_order=new Inum('p_order',$array[0]['p_order']);

@@ -1302,11 +1302,11 @@ function create_menu(p_dossier)
     }
     );
 }
-function mod_menu(p_dossier,me_code)
+function modify_menu(p_dossier,me_code)
 {
     waiting_box();
     removeDiv('divmenu');
-    var qs="op=mod_menu&gDossier="+p_dossier+"&ctl=divmenu&me_code="+me_code;
+    var qs="op=modify_menu&gDossier="+p_dossier+"&ctl=divmenu&me_code="+me_code;
 
     var action=new Ajax.Request ( 'ajax_misc.php',
     {

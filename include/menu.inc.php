@@ -71,7 +71,7 @@ if (isset($_POST['mod_plugin']))
 /**
  * if post save then we save a new one
  */
-if ( isset($_POST['create_menu'])|| isset($_POST['mod_menu']))
+if ( isset($_POST['create_menu'])|| isset($_POST['modify_menu']))
 {
 	extract($_POST);
 	$menu_ref=new Menu_Ref($cn);
@@ -90,7 +90,7 @@ if ( isset($_POST['create_menu'])|| isset($_POST['mod_menu']))
 		{
 			$menu_ref->insert();
 		}
-		elseif (isset($_POST['mod_menu']))
+		elseif (isset($_POST['modify_menu']))
 		{
 			if ($menu_ref->verify() == 0)
 				$menu_ref->update();
@@ -183,7 +183,7 @@ for ($i = 0; $i < Database::num_row($ret); $i++)
             $js = sprintf('<A class="line" href="javascript:void(0)"  onclick="mod_plugin(\'%s\',\'%s\')">%s</A>', $gDossier, $row->me_code, $row->me_code);
             break;
         case 'ME':
-            $js = sprintf('<A class="line" href="javascript:void(0)"  onclick="mod_menu(\'%s\',\'%s\')">%s</A>', $gDossier, $row->me_code, $row->me_code);
+            $js = sprintf('<A class="line" href="javascript:void(0)"  onclick="modify_menu(\'%s\',\'%s\')">%s</A>', $gDossier, $row->me_code, $row->me_code);
             break;
     }
     $class = ( $i % 2 == 0) ? $class = ' class="odd"' : $class = ' class="even"';

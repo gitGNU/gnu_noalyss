@@ -26,17 +26,17 @@
  *
  */
 
-
+global $g_user;
 require_once('class_database.php');
 require_once('class_user.php');
 $gDossier=dossier::id();
 $cn=new Database($gDossier);
 
-$user=new User($cn);
-$user->Check();
-$action=$user->check_dossier($gDossier);
+$g_user=new User($cn);
+$g_user->Check();
+$action=$g_user->check_dossier($gDossier);
 
-if ( $action=='X' || ! isset($_GET['act']) || $user->check_print($_GET['act'])==0 )
+if ( $action=='X' || ! isset($_GET['act']) || $g_user->check_print($_GET['act'])==0 )
   {
     echo alert('Accès interdit');
     redirect("do.php?".dossier::get());

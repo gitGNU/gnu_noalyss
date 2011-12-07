@@ -1,6 +1,28 @@
-update attr_def set ad_type='numeric' where ad_id=20;
-insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent,pcm_type) select split_part(tva_poste,',',1),tva_comment,substring(split_part(tva_poste,',',1),1,3),'PAS'  from tva_rate where split_part(tva_poste,',',1) not in (select pcm_val from tmp_pcmn);
-insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent,pcm_type) select split_part(tva_poste,',',2),tva_comment,substring(split_part(tva_poste,',',2),1,3),'ACT'  from tva_rate where split_part(tva_poste,',',2) not in (select pcm_val from tmp_pcmn);
-update attr_def set ad_type='numeric',ad_size=6 where ad_id=20;
-update attr_def set ad_type='poste' where ad_id=5;
-update attr_def set ad_size=10 where ad_type='poste';
+CREATE OR REPLACE FUNCTION comptaproc.get_menu_dependency(profile_menu_id int)
+  RETURNS SETOF int AS
+$BODY$
+declare
+	i int;
+	x int;
+	e int;
+begin
+	for x in select pm_id,me_code
+			from profile_menu
+			where me_code_dep in (select me_code from profile_menu where pm_id=profile_menu_id)
+			and p_id = (select p_id from profile_menu where pm_id=profile_menu_id)
+	loop
+		return next x;
+
+	for e in select *  from comptaproc.get_menu_dependency_pm(x)
+		loop
+			return next e;
+		end loop;
+
+	end loop;
+	return;
+end;
+$BODY$
+LANGUAGE plpgsql;
+
+delete from profile_menu where p_id=2 and me_code_dep='DIVPARM';
+delete from profile_menu where p_id=2 and me_code_dep='MOD';

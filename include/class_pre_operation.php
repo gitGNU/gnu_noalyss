@@ -184,7 +184,7 @@ class Pre_operation_detail
         $this->db=$p_cn;
         $this->operation=new Pre_operation($this->db);
         $this->valid=array('ledger'=>'jrn_def_id','ledger_type'=>'jrn_type','direct'=>'od_direct');
-
+		$this->jrn_def_id=-1;
     }
 
 
@@ -224,6 +224,7 @@ class Pre_operation_detail
     }
     public function   get_operation()
     {
+		if ( $this->jrn_def_id=='') return array();
         $value=$this->db->make_array("select od_id,od_name from op_predef ".
                                      " where jrn_def_id=".sql_string($this->jrn_def_id).
                                      " and od_direct ='".sql_string($this->od_direct)."'".

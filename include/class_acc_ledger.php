@@ -340,6 +340,7 @@ class Acc_Ledger extends jrn_def_sql
      */
     function get_row($p_from,$p_to,$p_limit=-1,$p_offset=-1)
     {
+		global $g_user;
         $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
 
         $cond_limite=($p_limit!=-1)?" limit ".$p_limit." offset ".$p_offset:"";
@@ -379,7 +380,10 @@ class Acc_Ledger extends jrn_def_sql
                                      jr_montant,
                                      j_qcode,
                                      jr_rapt as oc, j_tech_per as periode from jrnx left join jrn on ".
-                                     "jr_grpt_id=j_grpt left join tmp_pcmn on pcm_val=j_poste where ".
+                                     "jr_grpt_id=j_grpt left join tmp_pcmn on pcm_val=j_poste
+										 join jrn_def on (jr_def_id=jrn_def_id)
+										 where ".
+									 $g_user->get_ledger_sql()." and ".
                                      "  ".$periode." order by j_date::date,substring(jr_pj_number,'\\\\d+$') asc,j_grpt,j_debit desc   ".
                                      $cond_limite);
 
@@ -494,9 +498,10 @@ class Acc_Ledger extends jrn_def_sql
      */
     function get_rowSimple($p_from,$p_to,$trunc=0,$p_limit=-1,$p_offset=-1)
     {
+		global $g_user;
         // Grand-livre : id= 0
         //---
-        $jrn=($this->id == 0 )?"":"and jrn_def_id = ".$this->id;
+        $jrn=($this->id == 0 )?"and ".$g_user->get_ledger_sql():"and jrn_def_id = ".$this->id;
 
         $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
 
@@ -2679,13 +2684,14 @@ class Acc_Ledger extends jrn_def_sql
      */
     function get_operation($p_from,$p_to)
     {
-        $jrn=($this->id==0)?'':' and jr_def_id = '.$this->id;
+		global $g_user;
+        $jrn=($this->id==0)?'and '.$g_user->get_ledger_sql():' and jr_def_id = '.$this->id;
         $sql="select jr_id as id ,jr_internal as internal, ".
              "jr_pj_number as pj,jr_grpt_id,".
              " to_char(jr_date,'DDMMYY') as date_fmt, ".
              " jr_comment as comment, jr_montant as montant ,".
              " jr_grpt_id,jr_def_id".
-             " from jrn where  ".
+             " from jrn join jrn_def on (jr_def_id=jrn_def_id) where  ".
 			 " jr_date >= (select p_start from parm_periode where p_id = $1)
 				 and  jr_date <= (select p_end from parm_periode where p_id  = $2)" .
              '  '.$jrn.' order by jr_date,substring(jr_pj_number,\'\\\d+$\')::numeric asc';

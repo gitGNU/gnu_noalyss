@@ -118,11 +118,8 @@ if (isset($_POST['mod']))
 		try
 		{
 			$cn->start();
-			$me_code_dep=$cn->get_value("select me_code from profile_menu where
-				pm_id=$1",array($pm_id));
-			$cn->exec_sql("delete from profile_menu where pm_id in
-				(select pm_id from profile_menu where me_code_dep=$1 and p_id=$2)",
-					array($me_code_dep,$p_id));
+			$cn->exec_sql("delete from profile_menu where pm_id in (select * from get_menu_dependency($1)",
+					array($pm_id));
 			$cn->exec_sql("delete from profile_menu where pm_id=$1",
 					array($pm_id));
 			$cn->commit();

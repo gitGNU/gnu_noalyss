@@ -29,8 +29,9 @@ $ame_code_dep=$cn->make_array("
 	select me_code,me_code||' '||me_menu||' '||coalesce(me_description,'') from
 	menu_ref
 	where
-	me_file is null and me_javascript is null and me_type<>'PR'
-		UNION ALL
+	me_file is null and me_javascript is null and me_url is null and me_type<>'PR' and me_type <> 'SP'
+	and me_code in (select me_code from profile_menu where p_id=".sql_string($p_id).")".
+	"	UNION ALL
 		select me_code,me_code||' '||me_menu||' '||coalesce(me_description,'') from menu_ref
 	where
 		me_code='EXT'

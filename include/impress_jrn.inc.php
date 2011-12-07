@@ -42,7 +42,7 @@ if ( $g_user->Admin() == 0 && $g_user->is_local_admin()==0)
          join user_sec_jrn on uj_jrn_id=jrn_def_id
          where
          uj_login='$g_user->login'
-         and uj_priv !='X'
+         and uj_priv in ('R','W')
          ";
     $ret=$cn->make_array($sql);
 }
@@ -52,7 +52,6 @@ else
                          from jrn_def join jrn_type on jrn_def_type=jrn_type_id");
 
 }
-
 // Count the forbidden journaux
 $NoPriv=$cn->count_sql("select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
                        jrn_deb_max_line,jrn_cred_max_line
@@ -63,7 +62,7 @@ $NoPriv=$cn->count_sql("select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def
                        and uj_priv ='X'
                        ");
 // Pour voir tout les journal ?
-if ( $NoPriv == 0 )
+if ( $NoPriv == 0 && $ret != null )
 {
     $a=count($ret);
     $all=array('value'=>0,'label'=>'Tous les journaux');
