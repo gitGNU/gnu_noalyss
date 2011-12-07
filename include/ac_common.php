@@ -19,8 +19,10 @@
  */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/* ! \file
- * \brief common utilities for a lot of procedure, classe
+
+/**
+ * @file
+ * @brief common utilities for a lot of procedure, classe
  */
 
 include_once("constant.php");
