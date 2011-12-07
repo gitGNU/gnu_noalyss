@@ -1,7 +1,7 @@
 <?php
 require_once 'class_html_input.php';
 require_once 'class_itext.php';
-echo HtmlInput::title($msg,"divmenu");
+echo HtmlInput::title_box($msg,"divmenu");
 $str_code=new IText('me_code',$m->me_code);
 if ( $m->me_code != -1) $str_code->setReadOnly (true);
 
@@ -9,6 +9,7 @@ $str_menu=new IText('me_menu',$m->me_menu);
 $str_desc=new IText('me_description',$m->me_description);
 $str_file=new IText('me_file',$m->me_file);
 $str_url=new IText('me_url',$m->me_url);
+$str_parameter=new IText('me_parameter',$m->me_parameter);
 $str_js=new IText('me_javascript',$m->me_javascript);
 
 ?>

@@ -537,7 +537,7 @@ EOF;
         case 'create_menu';
             require_once 'ajax_create_menu.php';
             break;
-        case 'add_menu';
+        case 'mod_menu';
             require_once 'ajax_mod_menu.php';
             break;
         default:
