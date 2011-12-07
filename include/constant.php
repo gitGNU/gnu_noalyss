@@ -37,11 +37,12 @@ $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 /* uncomment for production */
 
 
-/*$version_phpcompta=SVNINFO;
+$version_phpcompta=SVNINFO;
 define ("DEBUG",false);
-*/
+/*
  $version_phpcompta=4444;
 define ("DEBUG",false);
+*/
 
 define ("DBVERSION",99);
 define ("DBVERSIONREPO",14);
