@@ -33,7 +33,7 @@ $ame_code_dep=$cn->make_array("
 		UNION ALL
 		select me_code,me_code||' '||me_menu||' '||coalesce(me_description,'') from menu_ref
 	where
-		me_code='EXTENSION'
+		me_code='EXT'
 	order by 1
 	",1);
 $ame_code=$cn->make_array("

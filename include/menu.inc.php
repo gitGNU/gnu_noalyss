@@ -27,7 +27,7 @@
  * \brief Show the table menu and let you add your own
  *
  */
-require_once 'class_menu_ref_sql.php';
+require_once 'class_menu_ref.php';
 require_once 'class_sort_table.php';
 require_once 'class_extension.php';
 
@@ -67,6 +67,29 @@ if (isset($_POST['mod_plugin']))
 	{
 		$plugin->remove_plugin();
 	}
+}
+/**
+ * if post save then we save a new one
+ */
+if ( isset($_POST['create_menu'])|| isset($_POST['mod_menu']))
+{
+	extract($_POST);
+	$menu_ref=new Menu_Ref($cn);
+	$menu_ref->me_code=$me_code;
+	$menu_ref->me_menu=$me_menu;
+	$menu_ref->me_file=$me_file;
+	$menu_ref->me_description=$me_description;
+	$menu_ref->me_parameter=$me_parameter;
+	$menu_ref->me_url=$me_url;
+	$menu_ref->me_javascript=$me_javascript;
+	$menu_ref->me_type='ME';
+        if ( isset($_POST['create_menu']))
+        {
+            if ( $menu_ref->verify() == 0)            $menu_ref->insert();
+        }elseif (isset ($_POST['mod_menu']))
+        {
+            if ( $menu_ref->verify() == 0)$menu_ref->update();
+        }
 }
 /**
  * if delete then delete
@@ -131,6 +154,7 @@ $ret=$menu->seek($sql.$order);
 <?
 $gDossier=Dossier::id();
 echo HtmlInput::button("Add_plugin", "Ajout d'un plugin", "onclick=add_plugin($gDossier)");
+echo HtmlInput::button("Add_menu", "Ajout d'un menu", "onclick=create_menu($gDossier)");
 echo '<table class="result">';
 echo '<tr>';
 echo '<th>'.$table->get_header(0).'</th>';
@@ -143,29 +167,30 @@ echo '<th>'.$table->get_header(6).'</th>';
 echo '<th>'.$table->get_header(7).'</th>';
 echo '</tr>';
 
-for ($i=0;$i<Database::num_row($ret);$i++)
+for ($i = 0; $i < Database::num_row($ret); $i++)
 {
-	$row=$menu->get_object($ret, $i);
-	$js=$row->me_code;
-	switch ($row->me_type)
-	{
-		case 'PL':
-			$js=sprintf('<A class="line" href="javascript:void(0)"  onclick="mod_plugin(\'%s\',\'%s\')">%s</A>',
-					$gDossier,$row->me_code,$row->me_code);
-			break;
-
-	}
-	$class= ( $i%2 == 0)?$class=' class="odd"':$class=' class="even"';
-	echo "<tr $class>";
-	echo td($js);
-	echo td($row->me_menu);
-	echo td($row->me_description);
-	echo td($row->me_file);
-	echo td($row->me_url);
-	echo td($row->me_parameter);
-	echo td($row->me_javascript);
-	echo td($row->me_type);
-	echo '</tr>';
+    $row = $menu->get_object($ret, $i);
+    $js = $row->me_code;
+    switch ($row->me_type)
+    {
+        case 'PL':
+            $js = sprintf('<A class="line" href="javascript:void(0)"  onclick="mod_plugin(\'%s\',\'%s\')">%s</A>', $gDossier, $row->me_code, $row->me_code);
+            break;
+        case 'ME':
+            $js = sprintf('<A class="line" href="javascript:void(0)"  onclick="mod_menu(\'%s\',\'%s\')">%s</A>', $gDossier, $row->me_code, $row->me_code);
+            break;
+    }
+    $class = ( $i % 2 == 0) ? $class = ' class="odd"' : $class = ' class="even"';
+    echo "<tr $class>";
+    echo td($js);
+    echo td($row->me_menu);
+    echo td($row->me_description);
+    echo td($row->me_file);
+    echo td($row->me_url);
+    echo td($row->me_parameter);
+    echo td($row->me_javascript);
+    echo td($row->me_type);
+    echo '</tr>';
 }
 echo '</table>';
 

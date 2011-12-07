@@ -1242,7 +1242,7 @@ function add_plugin(p_dossier)
 				      onSuccess:function(req){
 						  try{
 							  remove_waiting_box();
-							  var pos=fixed_position(250,150)+";width:30%";;
+							  var pos=fixed_position(250,150)+";width:30%";
 							add_div({id:"divplugin",drag:1,cssclass:"inner_box",style:pos});
 							  $('divplugin').innerHTML=req.responseText;
 						  } catch(e){alert(e.message);}
@@ -1273,7 +1273,65 @@ function mod_plugin(p_dossier,me_code)
 				  }
 				);
 }
+function create_menu(p_dossier)
+{
+    waiting_box();
+    removeDiv('divmenu');
+    var qs="op=create_menu&gDossier="+p_dossier+"&ctl=divmenu";
 
+    var action=new Ajax.Request ( 'ajax_misc.php',
+    {
+        method:'get',
+        parameters:qs,
+        onFailure:null,
+        onSuccess:function(req){
+            try{
+                remove_waiting_box();
+                var pos=fixed_position(250,150)+";width:30%";
+                add_div({
+                    id:"divmenu",
+                    drag:1,
+                    cssclass:"inner_box",
+                    style:pos
+                });
+                $('divmenu').innerHTML=req.responseText;
+            } catch(e){
+                alert(e.message);
+            }
+        }
+    }
+    );
+}
+function mod_menu(p_dossier,me_code)
+{
+    waiting_box();
+    removeDiv('divmenu');
+    var qs="op=mod_menu&gDossier="+p_dossier+"&ctl=divmenu&me_code="+me_code;
+
+    var action=new Ajax.Request ( 'ajax_misc.php',
+    {
+        method:'get',
+        parameters:qs,
+        onFailure:null,
+        onSuccess:function(req){
+            try{
+                remove_waiting_box();
+                var pos=fixed_position(250,150)+";width:30%";
+                add_div({
+                    id:"divmenu",
+                    drag:1,
+                    cssclass:"inner_box",
+                    style:pos
+                });
+                $('divmenu').innerHTML=req.responseText;
+
+            } catch(e){
+                alert(e.message);
+            }
+        }
+    }
+    );
+}
 function get_properties(obj)
 {
     var a_array=[];

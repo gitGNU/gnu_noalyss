@@ -35,7 +35,7 @@ $a_value_null=$cn->make_array("select me_code,me_code||' '||me_menu||' '||coales
 		UNION ALL
 		select me_code,me_code||' '||me_menu||' '||coalesce(me_description,'') from menu_ref
 	where
-		me_code='EXTENSION'",1);
+		me_code='EXT'",1);
 $a_type=$cn->make_array("select pm_type,pm_desc from profile_menu_type",1);
 
 $array=$cn->get_array("select p_id,pm_id,me_code,me_code_dep,p_order,p_type_display,pm_default

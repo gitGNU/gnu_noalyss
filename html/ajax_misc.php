@@ -532,6 +532,12 @@ EOF;
 		require_once('ajax_anc_search.php');
 		break;
 	case 'autoanc':
-		require_once('ajax_auto_anc_card.php');
+		require_once 'ajax_auto_anc_card.php' ;
 		break;
+        case 'create_menu';
+            require_once 'ajax_create_menu.php';
+            break;
+        case 'add_menu';
+            require_once 'ajax_mod_menu.php';
+            break;
 }
