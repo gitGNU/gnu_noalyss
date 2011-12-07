@@ -28,6 +28,7 @@
  *
  */
 require_once 'class_acc_ledger_fin.php';
+bcscale(2);
 echo '<div class="content">';
 $Ledger = new Acc_Ledger_Fin($cn, 0);
 if (!isset($_REQUEST['p_jrn']))
