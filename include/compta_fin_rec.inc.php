@@ -58,7 +58,7 @@ if (isset($_POST['save']))
 			$cn->exec_sql('update jrn set jr_pj_number=$1 where jr_id=$2', array($_POST['ext'], $array[$i]));
 			$tot = bcadd($tot, $cn->get_value('select qf_amount from quant_fin where jr_id=$1', array($array[$i])));
 		}
-		$diff = bcsub($_POST['start_extrait'], $_POST['end_extrait']);
+		$diff = bcsub($_POST['end_extrait'], $_POST['start_extrait']);
 		if ($diff != 0 && $diff != $tot)
 		{
 			$remain=bcsub($tot,$diff);
