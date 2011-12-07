@@ -540,4 +540,6 @@ EOF;
         case 'add_menu';
             require_once 'ajax_mod_menu.php';
             break;
+        default:
+            var_dump($_GET);
 }
