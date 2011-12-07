@@ -30,6 +30,8 @@ class Menu_Ref extends Menu_Ref_sql
             if (trim($this->me_code)=='')
                     return -2;
         }
+        if ( ! file_exists('../include/'.$this->me_file)) return -3;
+        
         return 0;
     }
     
