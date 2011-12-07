@@ -27,6 +27,7 @@
  * \brief reconcile operation
  *
  */
+global $g_failed,$g_succeed;
 require_once 'class_acc_ledger_fin.php';
 bcscale(2);
 echo '<div class="content">';
@@ -66,9 +67,14 @@ if (isset($_POST['save']))
 			$cn->rollback();
 			alert("D'après l'extrait il y aurait du avoir un montant de $diff à rapprocher alors qu'il y a $tot rapprochés, mise à jour annulée, la différence est de $remain");
 			echo '<div class="error">';
-			echo '<p>'._("D'après l'extrait il y aurait du avoir un montant de $diff à rapprocher alors qu'il y a $tot rapprochés, la différence est de $remain <br>mise à jour annulée").'</p>';
+			echo '<p>'.$g_failed._("D'après l'extrait il y aurait du avoir un montant de $diff à rapprocher alors qu'il y a $tot rapprochés, la différence est de $remain <br>mise à jour annulée").'</p>';
 			echo '</div>';
 		}
+		else
+		  {
+		    echo '<div class="content">'.$g_succeed.' Mise à jour extrait '.$_POST['ext'].'</div>';
+		  }
+		
 		$cn->commit();
 	}
 }
