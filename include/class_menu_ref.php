@@ -21,20 +21,27 @@ class Menu_Ref extends Menu_Ref_sql
     }
     function verify()
     {
+		try
+		{
         parent::verify();
         if ( $this->me_code == -1)
         {
             $this->format_code();
             if ( $this->cn->get_value("select count(*) from menu_ref where me_code=$1",array($this->me_code)) > 0)
-                    return -1;
+                    throw new Exception ('Doublon');
             if (trim($this->me_code)=='')
-                    return -2;
+                    throw new Exception ('Ce menu existe déjà');
         }
-        if ( ! file_exists('../include/'.$this->me_file)) return -3;
-        
+        if ( ! file_exists('../include/'.$this->me_file)) throw new Exception ('Ce menu fichier '.$this->me_file." n'existe pas");
+
         return 0;
+		} catch (Exception $e)
+		{
+			alert($e->getMessage());
+			return -1;
+		}
     }
-    
+
 }
 
 ?>
