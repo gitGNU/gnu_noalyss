@@ -83,14 +83,33 @@ if ( isset($_POST['create_menu'])|| isset($_POST['mod_menu']))
 	$menu_ref->me_url=$me_url;
 	$menu_ref->me_javascript=$me_javascript;
 	$menu_ref->me_type='ME';
-        if ( isset($_POST['create_menu']))
-        {
-            if ( $menu_ref->verify() == 0)            $menu_ref->insert();
-        }elseif (isset ($_POST['mod_menu']))
-        {
-            if ( $menu_ref->verify() == 0)$menu_ref->update();
-        }
-}
+	$check=$menu_ref->verify();
+	if ( $check == 0) 
+	  {
+	    if ( isset($_POST['create_menu']))
+	      {
+		$menu_ref->insert();
+	      }elseif (isset ($_POST['mod_menu']))
+		{
+		  if ( $menu_ref->verify() == 0)$menu_ref->update();
+		}
+	  }
+	else
+	  {
+	    switch($check)
+	      {
+	      case -1:
+		echo '<div class="Error">Doublon : ce menu existe déjà '.h($menu_ref->me_code).'</div>';
+		break;
+	      case -2:
+		echo '<div class="Error">Le code ne peut pas être vide </div>';
+		break;
+	      case -3:
+		echo '<div class="Error">Ce fichier n\'existe pas '.h($menu_ref->me_file).'</div>';
+		break;
+	      }
+	  }
+} 
 /**
  * if delete then delete
  */
