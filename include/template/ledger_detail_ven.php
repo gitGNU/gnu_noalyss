@@ -154,8 +154,9 @@ echo '</tr>';
    }
 
    $row.=td($sym_tva,'style="text-align:center"');
-
+   
     $htva=$q['qs_price'];
+    if ($q['qs_quantity']<0) { $htva=bcmult($htva,-1);$q['qs_vat']=bcmult($q['qs_vat'],-1);}
     $row.=td(nbm($htva),'class="num"');
     $tvac=bcadd($htva,$q['qs_vat']);
     if ($owner->MY_TVA_USE=='Y')
@@ -163,8 +164,8 @@ echo '</tr>';
 	$row.=td(nbm($q['qs_vat']),'class="num"');
 	$row.=td(nbm($tvac),'class="num"');
       }
-    $total_tvac+=$tvac;
-    $total_htva+=$htva;
+    $total_tvac=bcadd($total_tvac,$tvac);
+    $total_htva=bcadd($total_htva,$htva);
     /* Analytic accountancy */
     if ( $owner->MY_ANALYTIC != "nu" && $div == 'popup'){
       $poste=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
