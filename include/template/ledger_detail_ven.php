@@ -156,7 +156,7 @@ echo '</tr>';
    $row.=td($sym_tva,'style="text-align:center"');
    
     $htva=$q['qs_price'];
-    if ($q['qs_quantity']<0) { $htva=bcmult($htva,-1);$q['qs_vat']=bcmult($q['qs_vat'],-1);}
+  
     $row.=td(nbm($htva),'class="num"');
     $tvac=bcadd($htva,$q['qs_vat']);
     if ($owner->MY_TVA_USE=='Y')

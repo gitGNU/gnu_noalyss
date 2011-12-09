@@ -218,7 +218,7 @@ class Acc_Ledger extends jrn_def_sql
             throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
 
         //////////////////////////////////////////////////
-        // Reverse in QUANT_* tables
+        // Reverse in jrnx* tables
         //////////////////////////////////////////////////
         $a_jid=$this->db->get_array("select j_id,j_debit from jrnx where j_grpt=$1",array($this->jr_grpt_id));
         for ($l=0;$l<count($a_jid);$l++)
@@ -249,7 +249,7 @@ class Acc_Ledger extends jrn_def_sql
             $Res=$this->db->exec_sql("INSERT INTO quant_sold(
                                      qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat,
                                      qs_vat_code, qs_client, qs_valid, j_id)
-                                     SELECT $1, qs_fiche, qs_quantite*(-1), qs_price, qs_vat,
+                                     SELECT $1, qs_fiche, qs_quantite*(-1), qs_price*(-1), qs_vat*(-1),
                                      qs_vat_code, qs_client, qs_valid, $2
                                      FROM quant_sold where j_id=$3",
                                      array($p_internal,$j_id,$row));
@@ -260,8 +260,8 @@ class Acc_Ledger extends jrn_def_sql
                                      qp_internal, j_id, qp_fiche, qp_quantite, qp_price, qp_vat,
                                      qp_vat_code, qp_nd_amount, qp_nd_tva, qp_nd_tva_recup, qp_supplier,
                                      qp_valid, qp_dep_priv)
-                                     SELECT  $1, $2, qp_fiche, qp_quantite*(-1), qp_price, qp_vat,
-                                     qp_vat_code, qp_nd_amount, qp_nd_tva, qp_nd_tva_recup, qp_supplier,
+                                     SELECT  $1, $2, qp_fiche, qp_quantite*(-1), qp_price*(-1), qp_vat*(-1),
+                                     qp_vat_code, qp_nd_amount*(-1), qp_nd_tva*(-1), qp_nd_tva_recup*(-1), qp_supplier,
                                      qp_valid, qp_dep_priv
                                      FROM quant_purchase where j_id=$3",
                                      array($p_internal,$j_id,$row));
