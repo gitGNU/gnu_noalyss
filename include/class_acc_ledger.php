@@ -262,7 +262,7 @@ class Acc_Ledger extends jrn_def_sql
                                      qp_valid, qp_dep_priv)
                                      SELECT  $1, $2, qp_fiche, qp_quantite*(-1), qp_price*(-1), qp_vat*(-1),
                                      qp_vat_code, qp_nd_amount*(-1), qp_nd_tva*(-1), qp_nd_tva_recup*(-1), qp_supplier,
-                                     qp_valid, qp_dep_priv
+                                     qp_valid, qp_dep_priv*(-1)
                                      FROM quant_purchase where j_id=$3",
                                      array($p_internal,$j_id,$row));
 
