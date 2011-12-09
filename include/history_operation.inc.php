@@ -32,7 +32,7 @@ require_once 'class_acc_ledger_fin.php';
 require_once 'class_acc_ledger_sold.php';
 require_once 'class_acc_ledger.php';
 global $g_user,$cn;
-
+$p_array = $_GET;
 if ( isset ($_GET['ledger_type']))
 {
 	$ledger_type=$_GET['ledger_type'];
@@ -43,9 +43,14 @@ if ( isset ($_GET['ledger_type']))
 			$ask_pay=1;
 			break;
 		case 'ODS':
+                        $Ledger=new Acc_Ledger($cn,0);
+			$ask_pay=0;
+                        $p_array['ledger_type']='ODS';
+			break;
 		case 'ALL':
 			$Ledger=new Acc_Ledger($cn,0);
 			$ask_pay=0;
+                        $p_array['ledger_type']='ALL';
 			break;
 		case 'VEN':
 			$Ledger=new Acc_Ledger_Sold($cn,0);
@@ -83,7 +88,7 @@ if (isset($_GET ['paid']))
 {
 	$Ledger->update_paid($_GET);
 }
-$p_array = $_GET;
+
 
 $msg="";
 /* by default we should the default period */
