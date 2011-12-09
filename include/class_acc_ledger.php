@@ -2616,7 +2616,7 @@ class Acc_Ledger extends jrn_def_sql
         $r='';
         $type=$this->type;
 
-        if ( $type=="" || $this->id==0) $type='ALL';
+        if ( $type=="") $type='ALL';
         $r.='<div id="search_form" style="display:none">';
 	$r.=HtmlInput::anchor_hide('Fermer','$(\'search_form\').style.display=\'none\';');
 	$r.=h2info('Recherche');

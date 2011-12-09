@@ -46,11 +46,13 @@ if ( isset ($_GET['ledger_type']))
                         $Ledger=new Acc_Ledger($cn,0);
 			$ask_pay=0;
                         $p_array['ledger_type']='ODS';
+                        $Ledger->type='ODS';
 			break;
 		case 'ALL':
 			$Ledger=new Acc_Ledger($cn,0);
 			$ask_pay=0;
                         $p_array['ledger_type']='ALL';
+                        $Ledger->type='ALL';
 			break;
 		case 'VEN':
 			$Ledger=new Acc_Ledger_Sold($cn,0);
