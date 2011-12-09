@@ -120,7 +120,7 @@ if (isset($_POST['mod']))
 			$cn->start();
                         if ( isset ($del_dep))
                         {
-                            $cn->exec_sql("delete from profile_menu where pm_id in (select * from get_menu_dependency($1)",
+                            $cn->exec_sql("delete from profile_menu where pm_id in (select * from get_menu_dependency($1))",
 					array($pm_id)); 
                         }
 			$cn->exec_sql("delete from profile_menu where pm_id=$1",
