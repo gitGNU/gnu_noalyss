@@ -2483,8 +2483,8 @@ class Acc_Ledger extends jrn_def_sql
 
         $and='';
         $user=new User($this->db);
-		$p_action=$ledger_type;
-		if ( $p_action == '') $p_action='ALL';
+	$p_action=$ledger_type;
+	if ( $p_action == '') $p_action='ALL';
         if ( $r_jrn == -1 )
         {
 
