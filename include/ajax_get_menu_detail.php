@@ -94,9 +94,16 @@ if ($array[0]['p_type_display']!='P'):
 <? endif;?>
 </table>
 	<p>
-Cochez cette case si vous souhaitez effacer ce menu ainsi que ceux qui en dépendent
+Cochez cette case si vous souhaitez effacer ce menu 
 <?
 $delete=new ICheckBox('delete',"1");
+echo $delete->input();
+?>
+</p>
+	<p>
+Cochez cette case si vous souhaitez effacer ce menu ainsi que ceux qui en dépendent
+<?
+$delete=new ICheckBox('del_dep',"1");
 echo $delete->input();
 ?>
 </p>

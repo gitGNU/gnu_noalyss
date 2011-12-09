@@ -113,13 +113,16 @@ if ( isset($_POST['delete_profil']))
 if (isset($_POST['mod']))
 {
 	extract($_POST);
-	if (isset($delete))
+	if (isset($delete) || isset ($del_dep))
 	{
 		try
 		{
 			$cn->start();
-			$cn->exec_sql("delete from profile_menu where pm_id in (select * from get_menu_dependency($1)",
-					array($pm_id));
+                        if ( isset ($del_dep))
+                        {
+                            $cn->exec_sql("delete from profile_menu where pm_id in (select * from get_menu_dependency($1)",
+					array($pm_id)); 
+                        }
 			$cn->exec_sql("delete from profile_menu where pm_id=$1",
 					array($pm_id));
 			$cn->commit();
