@@ -240,7 +240,7 @@ for ($i = 0; $i < count($aForecast); $i++)
 $href = "?ac=" . $_REQUEST['ac'] . "&sa=new&" . $get_dossier;
 $menu[] = array($href, _("Ajout prévision"), _("Ajout d'une prévision"), 0);
 $def = (isset($_REQUEST['f_id'])) ? $_REQUEST['f_id'] : -1;
-echo '<div class="lmenu">';
+echo '<div class="topmenu">';
 echo ShowItem($menu, 'H', 'mtitle', 'mtitle', $def);
 echo '</div>';
 /* * ********************************************************************
