@@ -44,6 +44,10 @@ if ( isset($_REQUEST['p_jrn']))
 else
 {
 	$def_ledger=$Ledger->get_first('fin');
+	if ( empty ($def_ledger))
+	{
+		exit('Pas de journal disponible');
+	}
 	$Ledger->id=$def_ledger['jrn_def_id'];
 }
 $jrn_priv=$g_user->get_ledger_access($Ledger->id);

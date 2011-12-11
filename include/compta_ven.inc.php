@@ -183,7 +183,7 @@ global $g_parameter;
     if ( !isset($_REQUEST ['p_jrn']) )
     {
         $def_ledger=$Ledger->get_first('ven',2);
-		if (empty($first_ledger))
+		if (empty($def_ledger))
 	{
 		exit('Pas de journal disponible');
 	}
