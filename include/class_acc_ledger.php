@@ -2045,10 +2045,10 @@ class Acc_Ledger extends jrn_def_sql
      *\param the type
      *\return the j_id
      */
-    public function get_first($p_type)
+    public function get_first($p_type,$p_access=3)
     {
         $user=new User($this->db);
-        $all=$user->get_ledger($p_type);
+        $all=$user->get_ledger($p_type,$p_access);
         return $all[0];
     }
 

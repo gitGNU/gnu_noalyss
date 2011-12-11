@@ -163,7 +163,11 @@ $Ledger = new Acc_Ledger_Purchase($cn, 0);
 
 if (!isset($_REQUEST ['p_jrn']))
 {
-	$def_ledger = $Ledger->get_first('ach');
+	$def_ledger = $Ledger->get_first('ach',2);
+	if ( empty ($first_ledger))
+	{
+		exit('Pas de journal disponible');
+	}
 	$Ledger->id = $def_ledger['jrn_def_id'];
 }
 else

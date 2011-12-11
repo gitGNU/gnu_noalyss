@@ -43,6 +43,10 @@ $id = (isset($_REQUEST['p_jrn'])) ? $_REQUEST['p_jrn'] : -1;
 $id = (isset($_REQUEST['p_jrn_predef'])) ? $_REQUEST['p_jrn_predef'] : -1;
 $ledger = new Acc_Ledger($cn, $id);
 $first_ledger = $ledger->get_first('ODS');
+if ( empty ($first_ledger))
+{
+	exit('Pas de journal disponible');
+}
 $ledger->id = ($ledger->id == -1) ? $first_ledger['jrn_def_id'] : $id;
 
 /* !\brief show a form for quick_writing */
@@ -52,7 +56,7 @@ $ledger->with_concerned = true;
 
 
 
-if ($g_user->check_jrn($id) == 'X')
+if ($g_user->check_jrn($ledger->id) == 'X')
 {
 	NoAccess();
 	exit - 1;
