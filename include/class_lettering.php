@@ -98,16 +98,55 @@ class Lettering
 			left outer join letter_cred using (jl_id)
 			where
 			letter_deb.j_id = $1 or letter_cred.j_id=$1";
-
+		$let1=0;$let2=0;
 		$already=$this->db->get_array($sql_already,array($j_id1));
-		if ( count ($already ) > 0) return;
+		if ( count ($already ) > 0) {
+			if ( count($already)==1) {
+				// retrieve the letter
+				$let1=$this->db->get_value("select distinct(jl_id)
+										from jnt_letter
+										left outer join letter_deb using (jl_id)
+										left outer join letter_cred using (jl_id)
+										where
+										letter_deb.j_id = $1 or letter_cred.j_id=$1",array($j_id1));
+			}else
+			{
+				return;
+			}
+		}
 
 		$already=$this->db->get_array($sql_already,array($j_id2));
-		if ( count ($already ) > 0) return;
+		if ( count ($already ) > 0) {
+			if ( count($already)==1) {
+				// retrieve the letter
+				$let2=$this->db->get_value("select distinct(jl_id)
+										from jnt_letter
+										left outer join letter_deb using (jl_id)
+										left outer join letter_cred using (jl_id)
+										where
+										letter_deb.j_id = $1 or letter_cred.j_id=$1",array($j_id2));
+			}else  {
+				return;
+			}
+		}
+		$jl_id=0;
+		// already linked together
+		if ( $let1 != 0 && $let1 == $let2 )return;
 
-		$jl_id=$this->db->get_next_seq("jnt_letter_jl_id_seq");
-        $this->db->exec_sql('insert into jnt_letter(jl_id) values($1)',
-                            array($jl_id));
+		// already linked
+		if ( $let1 != 0 && $let2!=0 && $let1 != $let2 )return;
+
+		// none is linked
+		if ( $let1 == 0 && $let2==0)
+		{
+			$jl_id=$this->db->get_next_seq("jnt_letter_jl_id_seq");
+			$this->db->exec_sql('insert into jnt_letter(jl_id) values($1)',
+								array($jl_id));
+		}
+		// one is linked but not the other
+		if ( $let1 == 0 && $let2 != 0 ) $jl_id=$let2;
+		if ( $let1 != 0 && $let2 == 0 ) $jl_id=$let1;
+
 		/* insert */
         if ( $first == 't')
         {
