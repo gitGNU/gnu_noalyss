@@ -47,7 +47,7 @@
 						<td>
 						<?
 						$itext=new IText('npj');
-						$itext->value=$obj->det->jr_pj_number;
+						$itext->value=strip_tags($obj->det->jr_pj_number);
 						echo td(_('Pièce')).td($itext->input());
 						?>
 						</td>
@@ -55,7 +55,7 @@
 						<td>
 						<?
 						  $itext=new IText('lib');
-						  $itext->value=$obj->det->jr_comment;
+						  $itext->value=strip_tags($obj->det->jr_comment);
 						  $itext->size=40;
 						echo td(_('Libellé')).td($itext->input(),' colspan="2" ');
 
@@ -88,7 +88,7 @@
 			$inote=new ITextarea('jrn_note');
 			$inote->width=25;
 			$inote->heigh=5;
-			$inote->value=$obj->det->note;
+			$inote->value=strip_tags($obj->det->note);
 			echo $inote->input();
 			?>
 
@@ -154,9 +154,9 @@ echo '</tr>';
    }
 
    $row.=td($sym_tva,'style="text-align:center"');
-   
+
     $htva=$q['qs_price'];
-  
+
     $row.=td(nbm($htva),'class="num"');
     $tvac=bcadd($htva,$q['qs_vat']);
     if ($owner->MY_TVA_USE=='Y')

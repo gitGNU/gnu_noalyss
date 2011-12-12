@@ -30,7 +30,7 @@ require_once ('class_anc_plan.php');
 								<tr><td>
 								<?
 								  $itext=new IText('lib');
-								  $itext->value=$obj->det->jr_comment;
+								  $itext->value=strip_tags($obj->det->jr_comment);
 								  $itext->size=40;
 								  echo td(_('Libellé')).td($itext->input());
 
@@ -43,7 +43,7 @@ require_once ('class_anc_plan.php');
 								<tr><td>
 								<?
 								$itext=new IText('npj');
-								$itext->value=$obj->det->jr_pj_number;
+								$itext->value=strip_tags($obj->det->jr_pj_number);
 								echo td(_('Pièce')).td($itext->input());
 								?>
 
@@ -61,7 +61,7 @@ require_once ('class_anc_plan.php');
 						$inote=new ITextarea('jrn_note');
 						$inote->width=25;
 						$inote->heigh=5;
-						$inote->value=$obj->det->note;
+						$inote->value=strip_tags($obj->det->note);
 						echo $inote->input();
 						?>
 

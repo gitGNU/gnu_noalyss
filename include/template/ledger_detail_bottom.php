@@ -29,7 +29,8 @@ if ($aRap  != null ) {
       $remove=$rmReconciliation->input();
     else
       $remove='';
-    echo tr (td('<a class="line" href="javascript:void(0)" onclick="'.$str.'" >'.$internal.'</A>').td(nbm($amount)).td(h($array_jr[0]['jr_comment'])).td($remove));
+	$comment=strip_tags($array_jr[0]['jr_comment']);
+    echo tr (td('<a class="line" href="javascript:void(0)" onclick="'.$str.'" >'.$internal.'</A>').td(nbm($amount)).td($comment).td($remove));
   }
   echo '</table>';
 }
