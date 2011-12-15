@@ -289,6 +289,7 @@ function ledger_add_row()
     g("e_march"+nb.value+"_price").value='0';
     g("e_march"+nb.value).value="";
     g("e_quant"+nb.value).value="1";
+    g("e_march"+nb.value+"_tva_amount").value=0;
 
     nb.value++;
 
