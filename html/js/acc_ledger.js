@@ -257,6 +257,7 @@ function ledger_fin_add_row()
     g("e_other"+nb.value).value="";
     g("e_other"+nb.value+'_amount').value="0";
     g("e_other"+nb.value+'_comment').value="";
+    g("e_concerned"+nb.value).value="";
     nb.value++;
 }
 /**
