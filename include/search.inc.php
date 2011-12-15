@@ -64,7 +64,7 @@ if ($base == 'recherche.php' || $base == 'do.php')
 		$action="";
 		$callback="";
 		require 'template/search_top.php';
-		echo '<form onsubmit="search_operation(this);return false">';
+		echo '<form name="search_form_ajx" id="search_form_ajx" onsubmit="search_operation(this);return false">';
 		echo HtmlInput::get_to_hidden(array('ctlc','ledger'));
 		$inside=true;
 	}

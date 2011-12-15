@@ -1080,8 +1080,7 @@ function search_operation(obj)
 	var dossier=g('gDossier').value;
 	waiting_box();
 	var target="search_op";
-
-        var qs=obj.serialize()+"&op=search_op&ctl=search_op";
+        var qs=Form.serialize('search_form_ajx')+"&op=search_op&ctl=search_op";
         var action=new Ajax.Request ( 'ajax_misc.php',
         {
             method:'get',
