@@ -634,7 +634,8 @@ function removeCardAttribut(ad_id,gDossier,table_id,row)
 function update_card(obj)
 {
 try {
-    var qs=obj.serialize()+'&op=upc';
+    var name=obj.id;
+    var qs=Form.serialize(name)+'&op=upc';
     var action=new Ajax.Request ( 'ajax_card.php',
 				  {
 				      method:'get',

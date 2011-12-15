@@ -214,7 +214,8 @@ function search_ca (p_dossier,p_target,p_source)
 function search_anc_form(obj)
 {
     var qs="op=resultancsearch&ctl=searchanc&";
-    qs+=obj.serialize(false);
+    var name=obj.id;
+    qs+=$(name).serialize(false);
     waiting_box();
     var action=new Ajax.Request ( 'ajax_misc.php',
     {

@@ -41,7 +41,7 @@ require_once('function_javascript.php');
 echo HtmlInput::title_box("Recherche activité", $ctl);
 
 //------------- FORM ----------------------------------
-echo '<FORM METHOD="GET" onsubmit="search_anc_form(this);return false">';
+echo '<FORM id="anc_search_form" METHOD="GET" onsubmit="search_anc_form(this);return false">';
 echo '<span>'._('Recherche').':';
 
 $texte=new IText('plabel');
