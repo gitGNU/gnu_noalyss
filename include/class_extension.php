@@ -52,7 +52,7 @@ class Extension extends Menu_Ref_sql
     /*!@brief search a extension, the what is the column (extends_code */
     function search($p_what)
     {
-		$this->me_code=$p_what;
+		$this->me_code=strtoupper($p_what);
 		if ( $this->load() == -1) return null;
 		return 1;
     }
