@@ -146,17 +146,18 @@ j1.j_poste as poste
 		if ( count($result) == 0)
 		{
 			return;
-		} elseif (count($result)==1)
+		}
+		for ($i=0;$i<count($result);$i++)
 		{
-			if ( $result[0]['fiche'] != -1)
+			if ( $result[$i]['fiche'] != -1)
 			{
 				$letter = new Lettering_Card($this->db);
-				$letter->insert_couple($result[0]['jrnx_id1'],$result[0]['jrnx_id2']);
+				$letter->insert_couple($result[$i]['jrnx_id1'],$result[$i]['jrnx_id2']);
 			}
 			else
 			{
 				$letter = new Lettering_Account($this->db);
-				$letter->insert_couple($result[0]['jrnx_id1'],$result[0]['jrnx_id2']);
+				$letter->insert_couple($result[$i]['jrnx_id1'],$result[$i]['jrnx_id2']);
 			}
 		}
 
