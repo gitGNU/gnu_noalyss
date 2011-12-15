@@ -113,7 +113,7 @@ class Acc_Reconciliation
                     "select jra_id from jrn_rapt where jra_concerned=".$this->jr_id.
                     " and jr_id=$jr_id2
                     union
-                    select jra_id from jrn_rapt where jra_id=".$this->jr_id.
+                    select jra_id from jrn_rapt where jr_id=".$this->jr_id.
                     " and jra_concerned=$jr_id2 ")
                 ==0)
         {
