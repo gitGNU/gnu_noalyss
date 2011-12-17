@@ -336,8 +336,8 @@ case 'fs':
     /* Build the SQL and show result */
     $sql=$fiche->build_sql($sql_array);
 
-    /* We limit the search to 20 records */
-    $sql=$sql.' order by vw_name limit 20';
+    /* We limit the search to 50 records */
+    $sql=$sql.' order by vw_name limit 50';
     $a=$cn->get_array($sql);
 
     for($i=0;$i<count($a);$i++)

@@ -521,11 +521,12 @@ class HtmlInput
       $and=""; 
       foreach ($array  as $a)
 	{
-	  if (isset($global_array [$a]))
-	     $r.=$and."&$a=".$global_array [$a];
-	  $and="";
+	  if (isset($global_array [$a])){
+	     $r.=$and."$a=".$global_array [$a];
+	  }
+	  $and="&amp;";
 	}
-      
+
       return $r;
     }
     /**
