@@ -36,11 +36,11 @@ if ( ! empty ($array) )  {
 
   foreach ($array as $row) {
     if ( $nb % 2 == 0 ) $odd='class="odd" '; else $odd='class="even" ';
-    if ( strcmp($today,$row['tl_date'])==0) { $odd.=' style="background-color:#FFEA00"';}
+    if ( strcmp($today,$row['str_tl_date'])==0) { $odd.=' style="background-color:#FFEA00"';}
     $nb++;
     echo '<tr id="tr'.$row['tl_id'].'" '.$odd.'>'.
       '<td>'.
-      $row['tl_date'].
+      $row['str_tl_date'].
       '</td>'.
       '<td>'.
       '<a class="line" href="javascript:void(0)" onclick="todo_list_show(\''.$row['tl_id'].'\')">'.
