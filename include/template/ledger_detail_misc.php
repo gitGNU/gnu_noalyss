@@ -1,11 +1,11 @@
-<? 
-require_once('template/ledger_detail_top.php'); 
+<?
+require_once('template/ledger_detail_top.php');
 require_once('class_anc_operation.php');
 require_once('class_anc_plan.php');
 
 ?>
-<? 
-require_once('class_own.php'); 
+<?
+require_once('class_own.php');
 require_once ('class_anc_plan.php');
 ?>
 <div class="content" style="padding:0">
@@ -22,31 +22,31 @@ require_once ('class_anc_plan.php');
 								$date=new IDate('p_date');
 								$date->value=format_date($obj->det->jr_date);
 								 echo td('Date').td($date->input());
-								 
+
 								 ?>
 								</td>
 								</tr>
-								
+
 								<tr><td>
-								<? 
+								<?
 								  $itext=new IText('lib');
 								  $itext->value=$obj->det->jr_comment;
 								  $itext->size=40;
 								  echo td(_('Libellé')).td($itext->input());
-								
-								
+
+
 								?>
 								</td></tr>
 								<tr><td>
 								<? echo td('montant').td(nbm($obj->det->jr_montant),' class="inum"');?>
 								</td></tr>
 								<tr><td>
-								<? 
+								<?
 								$itext=new IText('npj');
 								$itext->value=$obj->det->jr_pj_number;
 								echo td(_('Pièce')).td($itext->input());
 								?>
-								
+
 								</td></tr>
 			</table>
 			</td><td>
@@ -64,7 +64,7 @@ require_once ('class_anc_plan.php');
 						$inote->value=$obj->det->note;
 						echo $inote->input();
 						?>
-						
+
 						</td>
 						</tr>
 						</table>
@@ -98,7 +98,7 @@ echo th(_('Crédit'), 'style="text-align:right"');
       /* add hidden variables pa[] to hold the value of pa_id */
       echo Anc_Plan::hidden($a_anc);
     }
-echo '</tr>';  
+echo '</tr>';
   for ($e=0;$e<count($obj->det->array);$e++) {
     $row=''; $q=$obj->det->array;
     $view_history= sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:view_history_account(\'%s\',\'%s\')" >%s</A>',
@@ -114,9 +114,12 @@ echo '</tr>';
     else
       $view_history='';
     $row.=td($view_history);
-
+	if ( $q[$e]['j_text']!='')
+	{
+		$row.=td(h($q[$e]['j_text']));
+	}else
     if ( $q[$e]['j_qcode'] !='') {
-      // nom de la fiche 
+      // nom de la fiche
       $ff=new Fiche($cn);
       $ff->get_by_qcode( $q[$e]['j_qcode']);
       $row.=td(h($ff->strAttribut(ATTR_DEF_NAME)));
@@ -131,13 +134,13 @@ echo '</tr>';
     /* Analytic accountancy */
     if ( $owner->MY_ANALYTIC != "nu" && $div=='popup'){
       if ( preg_match('/^(6|7)/',$q[$e]['j_poste'])) {
-	
+
 
 	$anc_op=new Anc_Operation($cn);
 	$anc_op->j_id=$q[$e]['j_id'];
 	echo HtmlInput::hidden('op[]',$anc_op->j_id);
 	$row.=$anc_op->display_table(1,$q[$e]['j_montant'],$div);
-	
+
       }  else {
 	$row.=td('');
       }

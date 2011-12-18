@@ -127,8 +127,8 @@ class HtmlInput
     /**
      * Make a JSON object, this method create a javascript object
      * with the attribute set, it returns a javascript string with the object
-     * @param $p_name : name of the object, can be null. If the name is not null, return 
-     * $p_name={} otherwise only the object {} 
+     * @param $p_name : name of the object, can be null. If the name is not null, return
+     * $p_name={} otherwise only the object {}
      * @return javascript string with the object
      * @note: there is not check on the key->value, so you could need to escape
      * special char as quote, single-quote...
@@ -201,7 +201,7 @@ class HtmlInput
 
     /*!\brief create a button with a ref
      *\param $p_label the text
-     *\param $p_value the location of the window, 
+     *\param $p_value the location of the window,
      *\param $p_name the id of the span
      *\param $p_javascript javascript for this button
      *\return string with htmlcode
@@ -286,7 +286,7 @@ class HtmlInput
     /**
      * return the html code to create an hidden div and a button
      * to show this DIV. This contains all the available ledgers
-     * for the user in READ or RW 
+     * for the user in READ or RW
      *@param $p_array is an array obtains thanks User::get_ledger
      *@param $selected is an array of checkbox
      *@note the choosen ledger are stored in the array r_jrn (_GET)
@@ -376,7 +376,7 @@ class HtmlInput
       return $r;
     }
     /**
-     *close button for the HTML popup 
+     *close button for the HTML popup
      *@see add_div modify_operation
      *@param $div_name is the name of the div to remove
      */
@@ -418,7 +418,7 @@ class HtmlInput
     /**
      * Return a html string with an anchor looking like anchor_button in the right corner
      *@param $action action action to perform (message)
-     *@param $javascript javascript 
+     *@param $javascript javascript
      *@note not protected against html
      *@see Acc_Ledger::display_search_form
      */
@@ -453,8 +453,8 @@ class HtmlInput
     }
     /**
      *transform request data  to hidden
-     *@param $array is an of indices 
-     *@param $request name of the superglobal $_POST $_GET $_REQUEST(default) 
+     *@param $array is an of indices
+     *@param $request name of the superglobal $_POST $_GET $_REQUEST(default)
      *@return html string with the hidden data
      */
     static function array_to_hidden($array,$global_array )
@@ -467,12 +467,12 @@ class HtmlInput
 	{
 	  if (isset($global_array [$a])) $r.=HtmlInput::hidden($a,$global_array [$a]);
 	}
-      
+
       return $r;
     }
     /**
      *transform $_GET   data  to hidden
-     *@param $array is an of indices 
+     *@param $array is an of indices
      *@see HtmlInput::request_to_hidden
      *@return html string with the hidden data
      */
@@ -484,7 +484,7 @@ class HtmlInput
 
     /**
      *transform $_POST  data  to hidden
-     *@param $array is an of indices 
+     *@param $array is an of indices
      *@see HtmlInput::request_to_hidden
      *@return html string with the hidden data
      */
@@ -496,7 +496,7 @@ class HtmlInput
 
     /**
      *transform $_REQUEST   data  to hidden
-     *@param $array is an of indices 
+     *@param $array is an of indices
      *@see HtmlInput::request_to_hidden
      *@return html string with the hidden data
      */
@@ -508,8 +508,8 @@ class HtmlInput
 
     /**
      *transform request data  to string
-     *@param $array is an of indices 
-     *@param $request name of the superglobal $_POST $_GET $_REQUEST(default) 
+     *@param $array is an of indices
+     *@param $request name of the superglobal $_POST $_GET $_REQUEST(default)
      *@return html string with the string data
      */
     static function array_to_string($array,$global_array )
@@ -518,12 +518,11 @@ class HtmlInput
       $r="?";
 
       if ( count($global_array )==0) return '';
-      $and=""; 
+      $and="";
       foreach ($array  as $a)
 	{
-	  if (isset($global_array [$a])){
+	  if (isset($global_array [$a]))
 	     $r.=$and."$a=".$global_array [$a];
-	  }
 	  $and="&amp;";
 	}
 
@@ -531,7 +530,7 @@ class HtmlInput
     }
     /**
      *transform $_GET   data  to string
-     *@param $array is an of indices 
+     *@param $array is an of indices
      *@see HtmlInput::request_to_string
      *@return html string with the string data
      */
@@ -543,7 +542,7 @@ class HtmlInput
 
     /**
      *transform $_POST  data  to string
-     *@param $array is an of indices 
+     *@param $array is an of indices
      *@see HtmlInput::request_to_string
      *@return html string with the string data
      */
@@ -555,7 +554,7 @@ class HtmlInput
 
     /**
      *transform $_REQUEST   data  to string
-     *@param $array is an of indices 
+     *@param $array is an of indices
      *@see HtmlInput::request_to_string
      *@return html string with the string data
      */
@@ -566,7 +565,7 @@ class HtmlInput
     }
 
     /**
-     * generate an unique id for a widget, 
+     * generate an unique id for a widget,
      *@param $p_prefix prefix
      *@see HtmlInput::IDate
      *@return string with a unique id
@@ -579,7 +578,7 @@ class HtmlInput
     /**
      * return default if the value if the array doesn't exist
      *@param $ind the index to check
-     *@param $default the value to return 
+     *@param $default the value to return
      *@param $array the array
      */
     static function default_value($ind,$default,$array)

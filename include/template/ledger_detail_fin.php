@@ -19,7 +19,7 @@ require_once('class_anc_operation.php');
 $date=new IDate('p_date');
 $date->value=format_date($obj->det->jr_date);
  echo td('Date').td($date->input());
- 
+
  ?>
 
 </tr>
@@ -35,7 +35,7 @@ echo td(h($bk->getName())).td($view_history);;
 </tr>
 <tr>
 <?
- 
+
 $bk=new Fiche($cn,$obj->det->array[0]['qf_other']);
 $view_history= sprintf('<A class="detail" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
 				$bk->id, $gDossier, $bk->get_quick_code());
@@ -45,7 +45,7 @@ echo td($view_history);
 </tr>
 
 <tr>
-<? 
+<?
   $itext=new IText('lib');
   $itext->value=$obj->det->jr_comment;
   $itext->size=40;
@@ -58,7 +58,7 @@ echo td($view_history);
 <? echo td('montant').td($obj->det->array[0]['qf_amount'],' class="inum"');?>
 </tr>
 <tr>
-<? 
+<?
 $itext=new IText('npj');
 $itext->value=$obj->det->jr_pj_number;
 echo td(_('Pièce')).td($itext->input());
@@ -93,7 +93,7 @@ echo $inote->input();
 <fieldset>
 <legend>
 <?=_('Détail')?>
-<? 
+<?
   $detail=new Acc_Misc($cn,$obj->jr_id);
 $detail->get();
 ?>
@@ -132,8 +132,11 @@ echo '</tr>';
     else
       $view_history='';
     $row.=td($view_history);
-    if ( $q[$e]['j_qcode'] !='') {
-      // nom de la fiche 
+	if ( $q[$e]['j_text']!='')
+	{
+		$row.=td(h($q[$e]['j_text']));
+	}else if ( $q[$e]['j_qcode'] !='') {
+      // nom de la fiche
       $ff=new Fiche($cn);
       $ff->get_by_qcode( $q[$e]['j_qcode']);
       $row.=td($ff->strAttribut(h(ATTR_DEF_NAME)));
@@ -149,13 +152,13 @@ echo '</tr>';
     if ( $owner->MY_ANALYTIC != "nu" && $div == 'popup')
       {
 	$poste=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
-	if ( preg_match('/^(6|7)/',$q[$e]['j_poste'])) 
+	if ( preg_match('/^(6|7)/',$q[$e]['j_poste']))
 	  {
 	    $anc_op=new Anc_Operation($cn);
 	    $anc_op->j_id=$q[$e]['j_id'];
 	    $row.= HtmlInput::hidden('op[]',$anc_op->j_id);
 	    $row.=$anc_op->display_table(1,$q[$e]['j_montant'],$div);
-	
+
       }  else {
 	$row.=td('');
       }

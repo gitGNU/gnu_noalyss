@@ -28,6 +28,7 @@ end;
 $BODY$
 LANGUAGE plpgsql;
 
+-- insert into attr_Def values (32,'Prénom','text',22);
 update attr_def set ad_text='Dépense  charge du grant (partie privé) ' where ad_id=31;
 
 

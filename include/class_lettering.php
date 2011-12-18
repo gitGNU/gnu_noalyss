@@ -28,11 +28,11 @@ require_once ('class_user.php');
 /**
  *@brief mother class for the lettering by account and by card
  * use the tables jnt_letter, letter_deb and letter_cred
- * - "account"=>"account",       => the accounting of the j_id (use by Lettering_Account) 
- * - "quick_code"=>"quick_code", => the quick_code of the j_id (used by Lettering_Card) 
- * - "start"=>"start",	   => date of the first day 
- * - "end"=>"end",		   => date of the last day 
- * - "sql_ledger"=>"sql_ledger"  => the sql clause to filter on the available ledgers 
+ * - "account"=>"account",       => the accounting of the j_id (use by Lettering_Account)
+ * - "quick_code"=>"quick_code", => the quick_code of the j_id (used by Lettering_Card)
+ * - "start"=>"start",	   => date of the first day
+ * - "end"=>"end",		   => date of the last day
+ * - "sql_ledger"=>"sql_ledger"  => the sql clause to filter on the available ledgers
 */
 class Lettering
 {
@@ -83,38 +83,102 @@ class Lettering
     /**
      *Use to just insert a couple of lettered operation
      */
-    function insert_couple($j_id1,$j_id2)
-    {
-        $jl_id=$this->db->get_next_seq("jnt_letter_jl_id_seq");
-        $this->db->exec_sql('insert into jnt_letter(jl_id) values($1)',
-                            array($jl_id));
-        /*  take needed data */
-        $first=$this->db->get_value('select j_debit from jrnx where j_id=$1',array($j_id1));
-        if ( $this->db->count() == 0 ) throw new Exception ('Opération non existante');
+    function insert_couple($j_id1, $j_id2)
+	{
+		/*  take needed data */
+		$first = $this->db->get_value('select j_debit from jrnx where j_id=$1', array($j_id1));
+		if ($this->db->count() == 0)
+			throw new Exception('Opération non existante');
 
-        $second=$this->db->get_value('select j_debit from jrnx where j_id=$1',array($j_id2));
-        if ( $this->db->count() == 0 ) throw new Exception ('Opération non existante');
-        /* insert */
-        if ( $first == 't')
-        {
-            // save into letter_deb
-            $ld_id=$this->db->get_value('insert into letter_deb(j_id,jl_id) values($1,$2) returning ld_id',array($j_id1,$jl_id));
-        }
-        else
-        {
-            $lc_id=$this->db->get_value('insert into letter_cred(j_id,jl_id)  values($1,$2) returning lc_id',array($j_id1,$jl_id));
-        }
-        if ( $second == 't')
-        {
-            // save into letter_deb
-            $ld_id=$this->db->get_value('insert into letter_deb(j_id,jl_id) values($1,$2) returning ld_id',array($j_id2,$jl_id));
-        }
-        else
-        {
-            $lc_id=$this->db->get_value('insert into letter_cred(j_id,jl_id)  values($1,$2) returning lc_id',array($j_id2,$jl_id));
-        }
+		$second = $this->db->get_value('select j_debit from jrnx where j_id=$1', array($j_id2));
+		if ($this->db->count() == 0)
+			throw new Exception('Opération non existante');
+		$sql_already = "select distinct(jl_id)
+			from jnt_letter
+			left outer join letter_deb using (jl_id)
+			left outer join letter_cred using (jl_id)
+			where
+			letter_deb.j_id = $1 or letter_cred.j_id=$1";
+		$let1 = 0;
+		$let2 = 0;
+		$already = $this->db->get_array($sql_already, array($j_id1));
+		if (count($already) > 0)
+		{
+			if (count($already) == 1)
+			{
+				// retrieve the letter
+				$let1 = $this->db->get_value("select distinct(jl_id)
+										from jnt_letter
+										left outer join letter_deb using (jl_id)
+										left outer join letter_cred using (jl_id)
+										where
+										letter_deb.j_id = $1 or letter_cred.j_id=$1", array($j_id1));
+			}
+			else
+			{
+				return;
+			}
+		}
 
-    }
+		$already = $this->db->get_array($sql_already, array($j_id2));
+		if (count($already) > 0)
+		{
+			if (count($already) == 1)
+			{
+				// retrieve the letter
+				$let2 = $this->db->get_value("select distinct(jl_id)
+										from jnt_letter
+										left outer join letter_deb using (jl_id)
+										left outer join letter_cred using (jl_id)
+										where
+										letter_deb.j_id = $1 or letter_cred.j_id=$1", array($j_id2));
+			}
+			else
+			{
+				return;
+			}
+		}
+		$jl_id = 0;
+		// already linked together
+		if ($let1 != 0 && $let1 == $let2)
+			return;
+
+		// already linked
+		if ($let1 != 0 && $let2 != 0 && $let1 != $let2)
+			return;
+
+		// none is linked
+		if ($let1 == 0 && $let2 == 0)
+		{
+			$jl_id = $this->db->get_next_seq("jnt_letter_jl_id_seq");
+			$this->db->exec_sql('insert into jnt_letter(jl_id) values($1)', array($jl_id));
+		}
+		// one is linked but not the other
+		if ($let1 == 0 && $let2 != 0)
+			$jl_id = $let2;
+		if ($let1 != 0 && $let2 == 0)
+			$jl_id = $let1;
+
+		/* insert */
+		if ($first == 't')
+		{
+			// save into letter_deb
+			$ld_id = $this->db->get_value('insert into letter_deb(j_id,jl_id) values($1,$2) returning ld_id', array($j_id1, $jl_id));
+		}
+		else
+		{
+			$lc_id = $this->db->get_value('insert into letter_cred(j_id,jl_id)  values($1,$2) returning lc_id', array($j_id1, $jl_id));
+		}
+		if ($second == 't')
+		{
+			// save into letter_deb
+			$ld_id = $this->db->get_value('insert into letter_deb(j_id,jl_id) values($1,$2) returning ld_id', array($j_id2, $jl_id));
+		}
+		else
+		{
+			$lc_id = $this->db->get_value('insert into letter_cred(j_id,jl_id)  values($1,$2) returning lc_id', array($j_id2, $jl_id));
+		}
+	}
     public function get_info()
     {
         return var_export(self::$variable,true);
@@ -128,7 +192,7 @@ class Lettering
      *@param $p_array
     @code
     'gDossier' => string '13' (length=2)
-    'letter_j_id' => 
+    'letter_j_id' =>
       array
         0 => string '5' (length=1)
         1 => string '23' (length=2)
@@ -229,7 +293,7 @@ class Lettering
         return $r;
     }
     /**
-     *show only the lettered records from jrnx 
+     *show only the lettered records from jrnx
      *it fills the array $this->content
      */
     protected function show_lettered()
@@ -243,7 +307,7 @@ class Lettering
         return $r;
     }
     /**
-     *show only the not lettered records from jrnx 
+     *show only the not lettered records from jrnx
      *it fills the array $this->content
      */
     protected function show_not_lettered()

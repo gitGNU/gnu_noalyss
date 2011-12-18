@@ -243,5 +243,12 @@ a.detail:hover
 .num {
 	text-align:right;
 }
+thead {
+ 	    display:table-header-group;
+	} 	
+
+tbody {
+	    display:table-row-group;
+	}
 
 /* </style> */
