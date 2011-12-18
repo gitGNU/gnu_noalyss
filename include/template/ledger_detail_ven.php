@@ -185,10 +185,13 @@ echo '</tr>';
     echo tr($row);
 
   }
-$row= td(_('Total'),' style="font-style:italic;text-align:right;font-weight: bolder;" colspan="5"');
+  if ($owner->MY_TVA_USE=='Y')
+	$row= td(_('Total'),' style="font-style:italic;text-align:right;font-weight: bolder;" colspan="5"');
+  else
+	$row= td(_('Total'),' style="font-style:italic;text-align:right;font-weight: bolder;" colspan="5"');
 $row.=td(nbm($total_htva),'class="num" style="font-style:italic;font-weight: bolder;"');
 if ($owner->MY_TVA_USE=='Y')
-  $row.=td(nbm($total_tvac),'class="num" style="font-style:italic;font-weight: bolder;"');
+  $row.=td("").td(nbm($total_tvac),'class="num" style="font-style:italic;font-weight: bolder;"');
 echo tr($row);
 ?>
 </table>

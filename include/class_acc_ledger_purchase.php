@@ -765,7 +765,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $acc_pay->poste=$poste_val;
                 $acc_pay->qcode=$fqcode;
                 $acc_pay->amount=abs(round($cust_amount,2));
-                $acc_pay->desc=$e_comm;
+                $acc_pay->desc='';
                 $acc_pay->grpt=$acseq;
                 $acc_pay->jrn=$mp->get_parameter('ledger_target');
                 $acc_pay->periode=$tperiode;
@@ -778,15 +778,16 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $acc_pay->poste=$poste;
                 $acc_pay->qcode=$e_client;
                 $acc_pay->amount=abs(round($cust_amount,2));
-                $acc_pay->desc=$e_comm;
+                $acc_pay->desc='';
                 $acc_pay->grpt=$acseq;
                 $acc_pay->jrn=$mp->get_parameter('ledger_target');
                 $acc_pay->periode=$tperiode;
-		$acc_pay->type=($cust_amount>=0)?'d':'c';
+				$acc_pay->type=($cust_amount>=0)?'d':'c';
                 $let_other=$acc_pay->insert_jrnx();
 
                 /* insert into jrn */
                 $acc_pay->mt=$mt;
+				$acc_pay->desc=$e_comm;
                 $mp_jr_id=$acc_pay->insert_jrn();
                 $acjrn->grpt_id=$acseq;
                 $acjrn->update_internal_code($acinternal);

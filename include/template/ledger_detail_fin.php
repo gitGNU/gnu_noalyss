@@ -123,6 +123,7 @@ echo '</tr>';
 			   $q[$e]['j_poste'], $gDossier, $q[$e]['j_poste']);
 
     $row.=td($view_history);
+
     if ( $q[$e]['j_qcode'] !=''){
       $fiche=new Fiche($cn);
       $fiche->get_by_qcode($q[$e]['j_qcode']);
@@ -132,6 +133,10 @@ echo '</tr>';
     else
       $view_history='';
     $row.=td($view_history);
+	if ( $q[$e]['j_text']!='')
+	{
+	 $row.=td(h(strip_tags($q[$e]['j_text'])));
+	}else
     if ( $q[$e]['j_qcode'] !='') {
       // nom de la fiche
       $ff=new Fiche($cn);
