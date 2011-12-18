@@ -1402,7 +1402,7 @@ class Fiche
 
         echo '<TD><form method="GET" ACTION="export.php">'.
         HtmlInput::submit('bt_csv',"Export CSV").
-	  HtmlInput::hidden('act','PDF:fichedetail').
+	  HtmlInput::hidden('act','CSV:fichedetail').
         dossier::hidden().$str_ople.
         $hid->input("type","poste").
         $hid->input('p_action','impress').
