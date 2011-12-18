@@ -173,11 +173,14 @@ class Profile_Menu
 											join profile_menu_type on (p_type_display=pm_type)
 											join menu_ref as mr on (mr.me_code=pm.me_code)
 					where
-					p_id=$1 and p_type_display='E' and me_code_dep is null
+					p_id=$1 and  p_type_display not in ('M','P') and me_code_dep is null
 					order by p_order asc
 							", array($p_id));
-
-				$this->sub_menu($ret, $p_id);
+				if (Database::num_row($ret))
+				{
+					echo "<h2>Menu sans module</h2>";
+					$this->sub_menu($ret, $p_id);
+				}
 			}
 		}
 
