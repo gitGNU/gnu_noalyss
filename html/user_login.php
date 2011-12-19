@@ -108,7 +108,9 @@ if ( $User->admin == 0 )
     }
 
 }
-$result="<table border=\"0\">";
+
+$result="";
+$result.="<table border=\"0\">";
 $result.='<TR>';
 if ( $User->Admin()  == 1 )
 {
@@ -120,10 +122,11 @@ $result.="</TR>";
 $result.="</table>";
 
 echo '<h2 class="info">'._('Bienvenue    ').$User->first_name.'  '.$User->name.'   '._("dans PhpCompta")."</h2>";
-echo '<br>'._('Choississez votre dossier');
 echo '<div class="module">'.$result.'</div>';
 echo '</div>';
 ?>
+<div class="foldercontent">
+<?php echo '<h2 >'._('Choississez votre dossier').'</h2>';?>
 <form method="get" action="?">
                           <input type="submit" class="button" value="<?php echo _('Rechercher');?>">
                                                                  <?php

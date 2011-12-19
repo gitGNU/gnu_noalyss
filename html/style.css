@@ -4,7 +4,7 @@ BODY {
   background-color:#EDF3FF;
  font-size:12px;
   font-family:verdana,helvetica,sans-serif;
-  padding: 0px 10px 0px 10px ;
+  padding: 0px 0px 0px 0px ;
   margin:0;
   color:blue;
 }
@@ -1094,3 +1094,6 @@ a.nav:hover,div.content a.nav:hover,div.redcontent a.nav:hover {
 	width:40em;
 	top:0px;
 }
+div.foldercontent {
+	padding:20px 30px 0px 40px;
+	}
