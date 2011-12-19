@@ -1927,7 +1927,7 @@ class Acc_Ledger extends jrn_def_sql
                 $acc_op->date=$e_date;
                 // compute the periode is do not check it
                 if ($check_periode == false ) $acc_op->periode=$oPeriode->p_id;
-                $acc_op->desc=$desc;
+                $acc_op->desc=null;
                 if ( strlen(trim(${'ld'.$i})) != 0 )
                     $acc_op->desc=${'ld'.$i};
                 $acc_op->amount=round(${'amount'.$i},2);
