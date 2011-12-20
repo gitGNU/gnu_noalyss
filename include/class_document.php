@@ -806,6 +806,20 @@ class Document
             // check if the march exists
             if ( ! isset (${$id})) return "";
             $r=${'e_march'.$counter.'_label'};
+            if (strlen(trim($r)) == 0)
+                {
+                    $id = 'e_march' . $counter;
+                    // check if the march exists
+                    if (!isset(${$id}))
+                        return "";
+                    // check that something is sold
+                    if (${'e_march' . $counter . '_price'} != 0 && ${'e_quant' . $counter} != 0)
+                    {
+                        $f = new Fiche($this->db);
+                        $f->get_by_qcode(${$id}, false);
+                        $r = $f->strAttribut(ATTR_DEF_NAME);
+                    }
+                }
             break;
 
         case 'VEN_ART_PRICE':
