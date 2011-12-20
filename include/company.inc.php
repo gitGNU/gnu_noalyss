@@ -43,7 +43,7 @@ global $g_user;
     $alpha_num_array[1]=array('value'=>'Y','label'=>_('Oui'));
     
     $updlab_array[0]=array('value'=>'N','label'=>_('Non'));
-    $updlab_num_array[1]=array('value'=>'Y','label'=>_('Oui'));
+    $updlab_array[1]=array('value'=>'Y','label'=>_('Oui'));
 
     $compta=new ISelect();
     $compta->table=1;
