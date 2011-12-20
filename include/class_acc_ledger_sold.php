@@ -720,7 +720,10 @@ class  Acc_Ledger_Sold extends Acc_Ledger
             /* retrieve information for card */
             $fiche=new Fiche($this->db);
             $fiche->get_by_qcode(${"e_march".$i});
-            $fiche_name=h(${"e_march".$i."_label"});
+            if ( $g_parameter->MY_UPDLAB=='Y')
+                $fiche_name=h(${"e_march".$i."_label"});
+            else
+                $fiche_name=$fiche->strAttribut (ATTR_DEF_NAME);
             if ( $g_parameter->MY_TVA_USE=='Y')
             {
                 $oTva=new Acc_Tva($this->db);

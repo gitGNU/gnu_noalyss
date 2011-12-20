@@ -555,7 +555,7 @@ class Acc_Detail extends Acc_Operation
         }
 	$sql="select n_text from jrn_note where jr_id=$1";
 	$this->det->note=$this->db->get_value($sql,array($this->jr_id));
-	$this->det->note=preg_replace('/< *script/i','[script',$this->det->note);
+	$this->det->note=strip_tags($this->det->note);
     }
 }
 /////////////////////////////////////////////////////////////////////////////
@@ -602,8 +602,8 @@ class Acc_Sold extends Acc_Detail
     {
         parent::get();
         $sql="SELECT qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat,
-             qs_vat_code, qs_client, qs_valid, j_id
-             FROM quant_sold where j_id in (select j_id from jrnx where j_grpt=$1)";
+             qs_vat_code, qs_client, qs_valid, j_id,j_text
+             FROM quant_sold  join jrnx using(j_id) where j_grpt=$1";
         $this->det->array=$this->db->get_array($sql,array($this->det->jr_grpt_id));
     }
 }
@@ -627,8 +627,8 @@ class Acc_Purchase extends Acc_Detail
         parent::get();
         $sql="SELECT qp_id, qp_internal, j_id, qp_fiche, qp_quantite, qp_price, qp_vat,
              qp_vat_code, qp_nd_amount, qp_nd_tva, qp_nd_tva_recup, qp_supplier,
-             qp_valid, qp_dep_priv
-             FROM quant_purchase  where j_id in (select j_id from jrnx where j_grpt=$1)";
+             qp_valid, qp_dep_priv,j_text
+             FROM quant_purchase  join jrnx using(j_id) where j_grpt=$1";
         $this->det->array=$this->db->get_array($sql,array($this->det->jr_grpt_id));
     }
 }
