@@ -139,7 +139,7 @@ echo '</tr>';
 				$fiche->id, $gDossier, $fiche->strAttribut(ATTR_DEF_QUICKCODE));
 
     $row = td($view_history);
-    if ($owner->MYUPDLAB == 'Y')
+    if ($owner->MY_UPDLAB == 'Y')
     {
         $l_lib = ($q[$e]['j_text'] == '') ? $fiche->strAttribut(ATTR_DEF_NAME) : $q[$e]['j_text'];
         $hidden = HtmlInput::hidden("j_id[]", $q[$e]['j_id']);

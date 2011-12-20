@@ -1187,10 +1187,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                          ;
             if ( $flag_tva=='Y')
             {
-                $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:""
-                              ;
-                $march_tva_amount=(isset(${"e_march$i"."_tva_amount"}))?${"e_march$i"."_tva_amount"}:""
-                                  ;
+                $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
+                $march_tva_amount=(isset(${"e_march$i"."_tva_amount"}))?${"e_march$i"."_tva_amount"}:"";
             }
             $march_label=(isset(${"e_march".$i."_label"}))?${"e_march".$i."_label"}:"";
 
@@ -1252,8 +1250,15 @@ class  Acc_Ledger_Sold extends Acc_Ledger
             $tvac->value=0;
             $array[$i]['tvac']=$tvac->input();
 
-
-            $Span=new IText("e_march".$i."_label");
+            if ( $g_parameter->MY_UPDLAB == 'Y')
+            {
+                $Span=new IText("e_march".$i."_label");
+                $Span->size=45;
+            } else
+            {
+                $Span=new ISpan("e_march".$i."_label");
+            }
+            $Span->value=$march_label;
             $Span->setReadOnly(false);
             // card's name, price
             //--

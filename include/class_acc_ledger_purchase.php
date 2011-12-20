@@ -1149,7 +1149,14 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $htva->value=0;
             $array[$i]['htva']=$htva->input();
 
-            $Span=new IText("e_march".$i."_label");
+            if ( $g_parameter->MY_UPDLAB == 'Y')
+            {
+                $Span=new IText("e_march".$i."_label");
+                $Span->size=45;
+            } else
+            {
+                $Span=new ISpan("e_march".$i."_label");
+            }
             $Span->value=$march_label;
             $Span->setReadOnly(false);
             // card's name, price
