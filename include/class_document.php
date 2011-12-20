@@ -820,6 +820,7 @@ class Document
                         $r = $f->strAttribut(ATTR_DEF_NAME);
                     }
                 }
+            return $r;
             break;
 
         case 'VEN_ART_PRICE':
