@@ -76,7 +76,7 @@ global $g_user;
     $updlab=new ISelect();
     $updlab->table=1;
     $updlab->value=$updlab_array;
-    $updlab->selected=$my->MY_ALPHANUM;
+    $updlab->selected=$my->MY_UPDLAB;
 
     // other parameters
     $all=new IText();
