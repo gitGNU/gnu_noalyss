@@ -104,6 +104,7 @@ class Own
         $this->save('MY_CHECK_PERIODE');
         $this->save('MY_DATE_SUGGEST');
         $this->save('MY_ALPHANUM');
+        $this->save('MY_UPDLAB');
 
 
     }

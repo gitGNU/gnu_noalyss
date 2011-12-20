@@ -22,6 +22,7 @@ global $g_user;
         $m->MY_TVA_USE=$p_tva_use;
         $m->MY_PJ_SUGGEST=$p_pj;
 	$m->MY_ALPHANUM=$p_alphanum;
+	$m->MY_UPDLAB=$p_updlab;
 
         $m->Update();
     }
@@ -40,6 +41,9 @@ global $g_user;
 
     $alpha_num_array[0]=array('value'=>'N','label'=>_('Non'));
     $alpha_num_array[1]=array('value'=>'Y','label'=>_('Oui'));
+    
+    $updlab_array[0]=array('value'=>'N','label'=>_('Non'));
+    $updlab_num_array[1]=array('value'=>'Y','label'=>_('Oui'));
 
     $compta=new ISelect();
     $compta->table=1;
@@ -69,6 +73,10 @@ global $g_user;
     $alpha_num->value=$alpha_num_array;
     $alpha_num->selected=$my->MY_ALPHANUM;
 
+    $updlab=new ISelect();
+    $updlab->table=1;
+    $updlab->value=$updlab_array;
+    $updlab->selected=$my->MY_ALPHANUM;
 
     // other parameters
     $all=new IText();
@@ -101,6 +109,7 @@ global $g_user;
     echo "<tr>".td(_("Suggérer la date"),'style="text-align:right"').$date_suggest->input("p_date_suggest",$strict_array)."</tr>";
     echo '<tr>'.td(_('Afficher la période comptable pour éviter les erreurs de date'),'style="text-align:right"').$check_periode->input('p_check_periode',$strict_array).'</tr>';
     echo '<tr>'.td(_('Utilisez des postes comptables alphanumérique'),'style="text-align:right"').$alpha_num->input('p_alphanum').'</tr>';
+    echo '<tr>'.td(_('Changer le libellé des détails en VEN ou ACH'),'style="text-align:right"').$updlab->input('p_updlab').'</tr>';
 
     echo "</table>";
     echo HtmlInput::submit("record_company",_("Sauve"));
