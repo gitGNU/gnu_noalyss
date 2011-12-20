@@ -149,7 +149,10 @@ echo '</tr>';
      $tva->load();
      $sym_tva=h($tva->get_parameter('label'));
    }
-    $row.=td($fiche->strAttribut(ATTR_DEF_NAME));
+    $l_lib=($q[$e]['j_text']=='')?$fiche->strAttribut(ATTR_DEF_NAME):$q[$e]['j_text'];
+    $hidden=HtmlInput::hidden("j_id[]",$q[$e]['j_id']);
+    $input=new IText("e_march".$q[$e]['j_id']."_label",$l_lib);
+    $row.=td($input->input().$hidden);
     $row.=td($sym_tva,'style="text-align:center"');
 	$pu=bcdiv($q['qp_price'],$q['qp_quantite']);
     $row.=td(nbm($pu),'class="num"');

@@ -800,6 +800,13 @@ class Document
             }
             else $r = "";
             break;
+       case 'VEN_ART_LABEL':
+            extract ($_POST);
+            $id='e_march'.$counter."_label";
+            // check if the march exists
+            if ( ! isset (${$id})) return "";
+            $r=${'e_march'.$counter.'_label'};
+            break;
 
         case 'VEN_ART_PRICE':
             extract ($_POST);

@@ -307,6 +307,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                 $acc_operation->jrn=$p_jrn;
                 $acc_operation->type='c';
                 $acc_operation->periode=$tperiode;
+                $acc_operation->desc=strip_tags(${"e_march".$i."_label"});
                 $acc_operation->qcode=${"e_march".$i};
                 if ( $amount < 0 ) $tot_debit=bcadd($tot_debit,abs($amount));
 
@@ -715,7 +716,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
             /* retrieve information for card */
             $fiche=new Fiche($this->db);
             $fiche->get_by_qcode(${"e_march".$i});
-            $fiche_name=h($fiche->getName());
+            $fiche_name=h(${"e_march".$i."_label"});
             if ( $g_parameter->MY_TVA_USE=='Y')
             {
                 $oTva=new Acc_Tva($this->db);
@@ -1187,7 +1188,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                 $march_tva_amount=(isset(${"e_march$i"."_tva_amount"}))?${"e_march$i"."_tva_amount"}:""
                                   ;
             }
-            $march_label='&nbsp;';
+            $march_label=(isset(${"e_march".$i."_label"}))?${"e_march".$i."_label"}:"";
 
             // retrieve the tva label and name
             //--
@@ -1248,7 +1249,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
             $array[$i]['tvac']=$tvac->input();
 
 
-            $Span=new ISpan();
+            $Span=new IText("e_march".$i."_label");
             $Span->setReadOnly(false);
             // card's name, price
             //--

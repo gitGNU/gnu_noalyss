@@ -390,6 +390,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $acc_operation->type='d';
                 $acc_operation->periode=$tperiode;
                 $acc_operation->qcode="";
+                $acc_operation->desc=strip_tags(${"e_march".$i."_label"});
 
 
 
@@ -1068,8 +1069,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         {
             // Code id, price & vat code
             //--
-            $march=(isset(${"e_march$i"}))?${"e_march$i"}:""
-                   ;
+            $march=(isset(${"e_march$i"}))?${"e_march$i"}:""                   ;
             $march_price=(isset(${"e_march".$i."_price"}))?${"e_march".$i."_price"}:""
                          ;
             /* use vat */
@@ -1083,7 +1083,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 
 
 
-            $march_label="&nbsp;";
+            $march_label=(isset(${"e_march".$i."_label"}))?${"e_march".$i."_label"}:"";
             // retrieve the tva label and name
             //--
             if ( strlen(trim($march))!=0 )
@@ -1146,7 +1146,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $htva->value=0;
             $array[$i]['htva']=$htva->input();
 
-            $Span=new ISpan();
+            $Span=new IText("e_march".$i."_label");
+            $Span->value=$march_label;
             $Span->setReadOnly(false);
             // card's name, price
             //--
@@ -1317,7 +1318,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             /* retrieve information for card */
             $fiche=new Fiche($this->db);
             $fiche->get_by_qcode(${"e_march".$i});
-            $fiche_name=h($fiche->getName());
+            $fiche_name=h(${"e_march".$i."_label"});
 
             if ( $g_parameter->MY_TVA_USE=='Y')
             {
