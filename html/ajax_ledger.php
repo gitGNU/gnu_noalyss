@@ -37,6 +37,7 @@ require_once ('class_fiche.php');
 require_once('class_acc_reconciliation.php');
 require_once('class_anc_operation.php');
 require_once('class_idate.php');
+require_once 'class_own.php';
 /**
  * Check if we receive the needed data (jr_id...)
  */
@@ -46,6 +47,8 @@ if ( ! isset ($_REQUEST['act'])|| ! isset ($_REQUEST['jr_id'])
     exit();
   }
  global $g_parameter;
+ 
+ $g_parameter=new Own($cn);
 $action=$_REQUEST['act'];
 $jr_id=$_REQUEST['jr_id'];
 $div=$_REQUEST['div'];		/* the div source and target for javascript */
