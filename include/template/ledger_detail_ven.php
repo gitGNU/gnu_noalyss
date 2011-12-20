@@ -148,7 +148,7 @@ echo '</tr>';
     else
     {
         $input = new ISpan("e_march" . $q['j_id'] . "_label");
-        $hidden = HtmlInput::hidden("j_id[]", $q[$e]['j_id']);
+        $hidden = HtmlInput::hidden("j_id[]", $q['j_id']);
         $input->value = $fiche->strAttribut(ATTR_DEF_NAME);
     }
 
