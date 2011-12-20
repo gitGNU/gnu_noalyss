@@ -307,7 +307,11 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                 $acc_operation->jrn=$p_jrn;
                 $acc_operation->type='c';
                 $acc_operation->periode=$tperiode;
-                $acc_operation->desc=strip_tags(${"e_march".$i."_label"});
+                if ( $g_parameter->MY_UPDLAB=='Y')
+                    $acc_operation->desc=strip_tags(${"e_march".$i."_label"});
+                else
+                    $acc_operation->desc=null;
+
                 $acc_operation->qcode=${"e_march".$i};
                 if ( $amount < 0 ) $tot_debit=bcadd($tot_debit,abs($amount));
 

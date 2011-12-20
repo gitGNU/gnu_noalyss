@@ -138,10 +138,20 @@ echo '</tr>';
     $view_history= sprintf('<A class="line" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
 				$fiche->id, $gDossier, $fiche->strAttribut(ATTR_DEF_QUICKCODE));
 
-    $row=td($view_history);
-    $l_lib=($q[$e]['j_text']=='')?$fiche->strAttribut(ATTR_DEF_NAME):$q[$e]['j_text'];
-    $hidden=HtmlInput::hidden("j_id[]",$q[$e]['j_id']);
-    $input=new IText("e_march".$q[$e]['j_id']."_label",$l_lib);
+    $row = td($view_history);
+    if ($owner->MYUPDLAB == 'Y')
+    {
+        $l_lib = ($q[$e]['j_text'] == '') ? $fiche->strAttribut(ATTR_DEF_NAME) : $q[$e]['j_text'];
+        $hidden = HtmlInput::hidden("j_id[]", $q[$e]['j_id']);
+        $input = new IText("e_march" . $q[$e]['j_id'] . "_label", $l_lib);
+    }
+    else
+    {
+        $input = new ISpan("e_march" . $q[$e]['j_id'] . "_label");
+        $hidden = HtmlInput::hidden("j_id[]", $q[$e]['j_id']);
+        $input->value = $fiche->strAttribut(ATTR_DEF_NAME);
+    }
+
     $row.=td($input->input().$hidden);
     $sym_tva='';
 	$pu=bcdiv($q['qs_price'],$q['qs_quantite']);

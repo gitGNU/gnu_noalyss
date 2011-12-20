@@ -149,9 +149,18 @@ echo '</tr>';
      $tva->load();
      $sym_tva=h($tva->get_parameter('label'));
    }
-    $l_lib=($q[$e]['j_text']=='')?$fiche->strAttribut(ATTR_DEF_NAME):$q[$e]['j_text'];
-    $hidden=HtmlInput::hidden("j_id[]",$q[$e]['j_id']);
-    $input=new IText("e_march".$q[$e]['j_id']."_label",$l_lib);
+   if ($owner->MYUPDLAB == 'Y')
+    {
+        $l_lib = ($q[$e]['j_text'] == '') ? $fiche->strAttribut(ATTR_DEF_NAME) : $q[$e]['j_text'];
+        $hidden = HtmlInput::hidden("j_id[]", $q[$e]['j_id']);
+        $input = new IText("e_march" . $q[$e]['j_id'] . "_label", $l_lib);
+    }
+    else
+    {
+        $input = new ISpan("e_march" . $q[$e]['j_id'] . "_label");
+        $hidden = HtmlInput::hidden("j_id[]", $q[$e]['j_id']);
+        $input->value = $fiche->strAttribut(ATTR_DEF_NAME);
+    }
     $row.=td($input->input().$hidden);
     $row.=td($sym_tva,'style="text-align:center"');
 	$pu=bcdiv($q['qp_price'],$q['qp_quantite']);

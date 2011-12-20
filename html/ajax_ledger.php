@@ -45,6 +45,7 @@ if ( ! isset ($_REQUEST['act'])|| ! isset ($_REQUEST['jr_id'])
   {
     exit();
   }
+ global $g_parameter;
 $action=$_REQUEST['act'];
 $jr_id=$_REQUEST['jr_id'];
 $div=$_REQUEST['div'];		/* the div source and target for javascript */
@@ -362,11 +363,14 @@ case 'save':
 	    $cn->exec_sql("select comptaproc.jrn_add_note($1,$2)",
 			  array($jr_id,$_POST['jrn_note']));
             $rapt=$_POST['rapt'];
-            $a_rowid=$_POST["j_id"];
-            for ($e=0;$e<count($a_rowid);$e++)
+            if ( $g_parameter->MYUPDLAB=='Y')
             {
-                $id="e_march".$a_rowid[$e]."_label";
-                $cn->exec_sql('update jrnx set j_text=$1 where j_id=$2',  array(strip_tags($_POST[$id]),$a_rowid[$e]));
+                $a_rowid=$_POST["j_id"];
+                for ($e=0;$e<count($a_rowid);$e++)
+                {
+                    $id="e_march".$a_rowid[$e]."_label";
+                    $cn->exec_sql('update jrnx set j_text=$1 where j_id=$2',  array(strip_tags($_POST[$id]),$a_rowid[$e]));
+                }
             }
             if (trim($rapt) != '')
             {

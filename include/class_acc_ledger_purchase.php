@@ -390,7 +390,10 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $acc_operation->type='d';
                 $acc_operation->periode=$tperiode;
                 $acc_operation->qcode="";
-                $acc_operation->desc=strip_tags(${"e_march".$i."_label"});
+                if ( $g_parameter->MY_UPDLAB=='Y')
+                    $acc_operation->desc=strip_tags(${"e_march".$i."_label"});
+                else
+                    $acc_operation->desc=null;
 
 
 
