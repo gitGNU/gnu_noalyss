@@ -149,7 +149,7 @@ global $g_parameter;
                 echo '<h3 class="notice"> '._('Attention numéro pièce existante, elle a du être adaptée').'</h3>';
             }
 
-            printf ('<a class="detail" style="display:inline" href="javascript:modifyOperation(%d,%d)">%s</a><hr>',
+            printf ('<a class="line" style="display:inline" href="javascript:modifyOperation(%d,%d)">%s</a><hr>',
                     $jr_id,dossier::id(),$internal);
 			echo $Ledger->confirm($_POST,true);
             /* Show link for Invoice */

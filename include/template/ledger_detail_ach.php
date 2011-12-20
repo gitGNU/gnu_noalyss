@@ -153,7 +153,7 @@ echo '</tr>';
     {
         $l_lib = ($q['j_text'] == '') ? $fiche->strAttribut(ATTR_DEF_NAME) : $q['j_text'];
         $hidden = HtmlInput::hidden("j_id[]", $q['j_id']);
-        $input = new IText("e_march" . $q[$e]['j_id'] . "_label", $l_lib);
+        $input = new IText("e_march" . $q['j_id'] . "_label", $l_lib);
     }
     else
     {

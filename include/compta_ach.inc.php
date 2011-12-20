@@ -141,7 +141,7 @@ if (isset($_POST['record']))
 		/* Save the additional information into jrn_info */
 		$obj = new Acc_Ledger_Info($cn);
 		$obj->save_extra($Ledger->jr_id, $_POST);
-		printf('<a class="detail" style="display:inline" href="javascript:modifyOperation(%d,%d)">%s</a><hr>', $jr_id, dossier::id(), $internal);
+		printf('<a class="line" style="display:inline" href="javascript:modifyOperation(%d,%d)">%s</a><hr>', $jr_id, dossier::id(), $internal);
 		// Feedback
 		echo $Ledger->confirm($_POST, true);
 		echo '</div>';

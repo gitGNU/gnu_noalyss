@@ -1490,6 +1490,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         for ($i=0;$i < $nb_item;$i++)
         {
             $r.=HtmlInput::hidden("e_march".$i,${"e_march".$i});
+            if (isset (${"e_march".$i."_label"})) $r.=HtmlInput::hidden("e_march".$i."_label",${"e_march".$i."_label"});
             $r.=HtmlInput::hidden("e_march".$i."_price",${"e_march".$i."_price"});
             if ( $g_parameter->MY_TVA_USE=='Y' )
             {

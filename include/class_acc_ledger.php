@@ -354,7 +354,7 @@ class Acc_Ledger extends jrn_def_sql
                                      case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
                                      case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
                                      j_debit as debit,j_poste as poste,jr_montant , ".
-                                     "coalesce(j_text,pcm_lib) as description,j_grpt as grp,
+                                     "case when j_text='' or j_text is null then pcm_lib else j_text end as description,j_grpt as grp,
                                      jr_comment||' ('||jr_internal||')'  as jr_comment,
 				     jr_pj_number,
                                      j_qcode,
@@ -374,7 +374,7 @@ class Acc_Ledger extends jrn_def_sql
                                      case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
                                      case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
                                      j_debit as debit,j_poste as poste,".
-                                     "coalesce(j_text,pcm_lib) as description,j_grpt as grp,
+                                     "case when j_text='' or j_text is null then pcm_lib else j_text end as description,j_grpt as grp,
                                      jr_comment||' ('||jr_internal||')' as jr_comment,
 				     jr_pj_number,
                                      jr_montant,
@@ -409,7 +409,7 @@ class Acc_Ledger extends jrn_def_sql
             $tot_op=$line['jr_montant'];
 
             /* Check first if there is a quickcode */
-            if ( strlen(trim($line['j_qcode'])) != 0 )
+            if (strlen(trim($line['description']))==0 &&  strlen(trim($line['j_qcode'])) != 0 )
             {
                 if ( $fiche->get_by_qcode($line['j_qcode'],false) == 0 )
                 {

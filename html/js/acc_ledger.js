@@ -286,6 +286,7 @@ function ledger_add_row()
     }
 
     g("e_march"+nb.value+"_label").innerHTML='&nbsp;';
+    g("e_march"+nb.value+"_label").value='';
     g("e_march"+nb.value+"_price").value='0';
     g("e_march"+nb.value).value="";
     g("e_quant"+nb.value).value="1";
