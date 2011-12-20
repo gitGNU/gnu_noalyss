@@ -804,9 +804,8 @@ class Document
             extract ($_POST);
             $id='e_march'.$counter."_label";
             // check if the march exists
-            if ( ! isset (${$id})) return "";
-            $r=${'e_march'.$counter.'_label'};
-            if (strlen(trim($r)) == 0)
+            
+            if (! isset (${$id}) || (isset (${$id}) && strlen(trim(${$id})) == 0))
                 {
                     $id = 'e_march' . $counter;
                     // check if the march exists
@@ -820,6 +819,8 @@ class Document
                         $r = $f->strAttribut(ATTR_DEF_NAME);
                     }
                 }
+                else
+                    $r=${'e_march'.$counter.'_label'};
             return $r;
             break;
 
