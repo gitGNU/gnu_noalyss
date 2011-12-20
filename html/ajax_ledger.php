@@ -48,7 +48,7 @@ if ( ! isset ($_REQUEST['act'])|| ! isset ($_REQUEST['jr_id'])
   }
  global $g_parameter;
  
- $g_parameter=new Own($cn);
+ 
 $action=$_REQUEST['act'];
 $jr_id=$_REQUEST['jr_id'];
 $div=$_REQUEST['div'];		/* the div source and target for javascript */
@@ -59,6 +59,7 @@ $gDossier=dossier::id();
 ajax_disconnected($div);
 
 $cn=new Database(dossier::id());
+$g_parameter=new Own($cn);
 
 // check if the user is valid and can access this folder
 $User=new User($cn);
