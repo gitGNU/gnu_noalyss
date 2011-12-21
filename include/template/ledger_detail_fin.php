@@ -27,9 +27,9 @@ $date->value=format_date($obj->det->jr_date);
 <tr>
 <?
 $bk=new Fiche($cn,$obj->det->array[0]['qf_bank']);
-$view_history= sprintf('<A class="detail" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
+$view_history= sprintf('<A class="line" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
 				$bk->id, $gDossier, $bk->get_quick_code());
-echo td(h($bk->getName())).td($view_history);;
+echo td('Compte en banque').td(h($bk->getName())).td($view_history);;
 
 ?>
 </tr>
@@ -37,9 +37,9 @@ echo td(h($bk->getName())).td($view_history);;
 <?
 
 $bk=new Fiche($cn,$obj->det->array[0]['qf_other']);
-$view_history= sprintf('<A class="detail" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
+$view_history= sprintf('<A class="line" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
 				$bk->id, $gDossier, $bk->get_quick_code());
-echo td(h($bk->getName()));
+echo td('Tiers').td(h($bk->getName()));
 echo td($view_history);
 ?>
 </tr>
@@ -49,7 +49,7 @@ echo td($view_history);
   $itext=new IText('lib');
   $itext->value=strip_tags($obj->det->jr_comment);
   $itext->size=40;
-  echo td(_('Libellé')).td($itext->input());
+  echo td(_('Libellé')).td($itext->input(),' colspan="2" style="width:auto"');
 
 
 ?>

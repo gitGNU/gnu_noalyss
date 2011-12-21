@@ -81,10 +81,10 @@ class Print_Ledger_Detail extends PDF
 
         $this->SetFont('DejaVu','BI',7);
         $this->Cell(215,7,'report Débit',0,0,'R');
-        $this->Cell(30,7,sprintf('%10.2f',$rap_deb),0,0,'R');
+        $this->Cell(30,7,nbm($rap_deb),0,0,'R');
         $this->Ln(4);
         $this->Cell(215,7,'report Crédit',0,0,'R');
-        $this->Cell(30,7,sprintf('%10.2f',$rap_cred),0,0,'R');
+        $this->Cell(30,7,nbm($rap_cred),0,0,'R');
         $this->Ln(4);
 
         // print all operation
@@ -101,7 +101,8 @@ class Print_Ledger_Detail extends PDF
 
             $this->Ln(4);
             // get the entries
-            $aEntry=$this->cn->get_array("select j_id,j_poste,j_qcode,j_montant,j_debit, ".
+            $aEntry=$this->cn->get_array("select j_id,j_poste,j_qcode,j_montant,j_debit, j_text,".
+										 " case when j_text='' or j_text is null then pcm_lib else j_text end as desc,".
                                          " pcm_lib ".
                                          " from jrnx join tmp_pcmn on (j_poste=pcm_val) where j_grpt = $1".
                                          " order by j_debit desc,j_id",
@@ -115,7 +116,7 @@ class Print_Ledger_Detail extends PDF
                 $this->Cell(23,6,$entry['j_poste'],0,0,'R');
 
                 // if j_qcode is not empty retrieve name
-                if ( $entry['j_qcode'] != '')
+                if ( $entry['j_text'] =='' && $entry['j_qcode'] != '')
                 {
                     $f_id=$this->cn->get_value('select f_id from vw_poste_qcode where j_qcode=$1',array($entry['j_qcode']));
                     if ($f_id != '')
@@ -125,7 +126,7 @@ class Print_Ledger_Detail extends PDF
                         $name=$entry['pcm_lib'];
                 }
                 else
-                    $name=$entry['pcm_lib'];
+                    $name=$entry['desc'];
                 $this->Cell(150,6,$name,0,0,'L');
 
                 // print amount

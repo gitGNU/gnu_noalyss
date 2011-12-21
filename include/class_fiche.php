@@ -758,7 +758,7 @@ class Fiche
                     try
                     {
 
-                        if (isNumber($v) == 1 || strpos($v,',') != 0)
+                        if ( strlen(trim($v)) != 0)
                         {
                             $parameter=array($this->id,$v);
                         }

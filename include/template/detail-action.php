@@ -210,7 +210,7 @@ function toggleShowDetail() {
 
 </script>
 <div style="float: left; text-align: right; padding-right: 5px; font-size: 1.2em; font-weight: bold; color: blue;">
-  <input name="act" id="act" class="button" value="<?=_('Actualiser')?>" onclick="compute_all_purchase();" type="button">
+  <input name="act" id="act" class="button" value="<?=_('Actualiser')?>" onclick="compute_all_ledger();" type="button">
 
     <div style="float: right; text-align: left; font-size: 1.2em; font-weight: bold; color: blue;" id="sum">
     <br><span id="htva">0.0</span>

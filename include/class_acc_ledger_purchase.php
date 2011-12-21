@@ -1089,7 +1089,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $march_label=(isset(${"e_march".$i."_label"}))?${"e_march".$i."_label"}:"";
             // retrieve the tva label and name
             //--
-            if ( strlen(trim($march))!=0 )
+            if ( strlen(trim($march))!=0  && strlen(trim($march_label))==0 )
             {
                 $fMarch=new Fiche($this->db);
                 $fMarch->get_by_qcode($march);

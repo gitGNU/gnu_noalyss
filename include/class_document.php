@@ -66,7 +66,7 @@ class Document
     /*!
      * \brief Generate the document, Call $this-\>Replace to replace
      *        tag by value
-     *        
+     *
      *
      * \return an array : the url where the generated doc can be found, the name
      * of the file and his mimetype
@@ -108,7 +108,7 @@ class Document
 	      $zip->extractTo($dirname.DIRECTORY_SEPARATOR);
 	      $zip->close();
 	    } else {
-	      echo __FILE__.":".__LINE__."cannot unzip model ".$filename;	
+	      echo __FILE__.":".__LINE__."cannot unzip model ".$filename;
 	    }
 
             // Remove the file we do  not need anymore
@@ -154,7 +154,7 @@ class Document
 
     /*! ParseDocument
      * \brief This function parse a document and replace all
-     *        the predefined tags by a value. This functions 
+     *        the predefined tags by a value. This functions
      *        generate diffent documents (invoice, order, letter)
      *        with the info from the database
      *
@@ -169,7 +169,7 @@ class Document
          *  - MY_*   table parameter
          *  - ART_VEN* table quant_sold for invoice
          *  - CUST_* table quant_sold and fiche for invoice
-         *  - e_* for the invoice in the $_POST 
+         *  - e_* for the invoice in the $_POST
          */
         // open the document
         $infile_name=$p_dir.DIRECTORY_SEPARATOR.$p_file;
@@ -223,7 +223,7 @@ class Document
             while ( preg_match_all ($regex,$buffer,$f) >0  )
 	      {
 
-			    
+
                 foreach ( $f as $apattern )
 		  {
 
@@ -276,7 +276,7 @@ class Document
     /*! SaveGenerated
      * \brief Save the generated Document
      * \param $p_file is the generated file
-     * 
+     *
      *
      * \return 0 if no error otherwise 1
      */
@@ -307,7 +307,7 @@ class Document
         return 0;
     }
     /*! Upload
-     * \brief Upload a file into document 
+     * \brief Upload a file into document
      *  all the needed data are in $_FILES we don't increment the seq
      * \param $p_file : array containing by default $_FILES
      *
@@ -447,7 +447,7 @@ class Document
     }
     /*!
      * \brief replace the TAG by the real value, this value can be into
-     * the database or in $_POST 
+     * the database or in $_POST
      * The possible tags are
      *  - [CUST_NAME] customer's name
      *  - [CUST_ADDR_1] customer's address line 1
@@ -456,7 +456,7 @@ class Document
      *  - [CUST_CITY] customer's city
      *  - [CUST_VAT] customer's VAT
      *  - [MARCH_NEXT]   end this item and increment the counter $i
-     *  - [DATE_LIMIT] 
+     *  - [DATE_LIMIT]
      *  - [VEN_ART_NAME]
      *  - [VEN_ART_PRICE]
      *  - [VEN_ART_QUANT]
@@ -804,13 +804,13 @@ class Document
             extract ($_POST);
             $id='e_march'.$counter."_label";
             // check if the march exists
-            
+
             if (! isset (${$id}) || (isset (${$id}) && strlen(trim(${$id})) == 0))
                 {
                     $id = 'e_march' . $counter;
                     // check if the march exists
                     if (!isset(${$id}))
-                        return "";
+                        $r= "";
                     // check that something is sold
                     if (${'e_march' . $counter . '_price'} != 0 && ${'e_quant' . $counter} != 0)
                     {
@@ -818,10 +818,11 @@ class Document
                         $f->get_by_qcode(${$id}, false);
                         $r = $f->strAttribut(ATTR_DEF_NAME);
                     }
+					else
+						$r="";
                 }
                 else
                     $r=${'e_march'.$counter.'_label'};
-            return $r;
             break;
 
         case 'VEN_ART_PRICE':

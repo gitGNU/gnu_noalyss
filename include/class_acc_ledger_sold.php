@@ -1198,7 +1198,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 
             // retrieve the tva label and name
             //--
-            if ( strlen(trim($march))!=0 )
+            if ( strlen(trim($march))!=0 && strlen(trim($march_label))==0)
             {
                 $fMarch=new Fiche($this->db);
                 $fMarch->get_by_qcode($march);

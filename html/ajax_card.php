@@ -234,7 +234,7 @@ case 'st':
         /* we filter thanks a given model of card */
         if ( isset($cat))
         {
-            $sql=$sql.sprintf(' where frd_id = '.sql_string ($cat));
+            $sql=$sql.sprintf(' where frd_id in ('.sql_string ($cat).')');
         }
         else
             /* we filter thanks a given list of category of card
