@@ -919,9 +919,10 @@ class User
 
 			$result.="<TR class=\"$tr\">";
 
+			$result.=td($id,' class="num" ');
 			$result.="<TD class=\"$tr\">";
 			$result.="<A class=\"dossier\" HREF=\"$target\">";
-			$result.=$id . "  <B>" . h($name) . "</B>";
+			$result.= "  <B>" . h($name) . "</B>";
 			$result.="</A>";
 			$result.="</TD>";
 			$desc = ($desc == "") ? "<i>Aucune description</i>" : h($desc);
