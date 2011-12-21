@@ -115,8 +115,8 @@ echo '</tr>';
     else
       $view_history='';
     $row.=td($view_history);
-$l_lib = $q[$e]['j_text'] ;
-   
+	$l_lib = $q[$e]['j_text'] ;
+
     if ( $l_lib!='')
 	{
 	 $l_lib=$q[$e]['j_text'];
@@ -140,6 +140,7 @@ $l_lib = $q[$e]['j_text'] ;
     else
     {
         $input = new ISpan("e_march" . $q[$e]['j_id'] . "_label");
+		$input->value=$l_lib;
         $hidden = HtmlInput::hidden("j_id[]", $q[$e]['j_id']);
     }
      $row.=td($input->input().$hidden);
