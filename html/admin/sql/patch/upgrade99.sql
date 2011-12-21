@@ -37,6 +37,9 @@ update quant_purchase  set qp_price=(-1)*qp_price, qp_vat=(-1)*qp_vat,
  qp_dep_priv=(-1)*qp_dep_priv
 where qp_quantite < 0 and qp_price > 0 and qp_vat >= 0;
 
+update jrnx set j_text = null from jrn where jr_grpt_id=j_grpt and j_text=jr_comment;
+insert into parameter (pr_id,pr_value) values ('MY_UPDLAB','N');
+
 update version set val=100;
 
 commit;
