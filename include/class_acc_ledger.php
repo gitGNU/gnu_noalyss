@@ -2564,14 +2564,15 @@ class Acc_Ledger extends jrn_def_sql
         {
 			$desc=sql_string($desc);
             $fil_desc=$and." ( upper(jr_comment) like upper('%".$desc."%') or upper(jr_pj_number) like upper('%".$desc."%') ".
-                      " or upper(jr_internal)  like upper('%".$desc."%') )";
+                      " or upper(jr_internal)  like upper('%".$desc."%') 
+                          or jr_grpt_id in (select j_grpt from jrnx where j_text ~* '".$desc."'))";
             $and=" and ";
         }
         //    Poste
         if ( isset ($accounting) && $accounting != null )
         {
             $fil_account=$and."  jr_grpt_id in (select j_grpt
-                         from jrnx where j_poste::text like '$accounting%' )  ";
+                         from jrnx where j_poste::text like '".sql_string($accounting)."%' )  ";
             $and=" and ";
         }
         // Quick Code
@@ -2579,7 +2580,7 @@ class Acc_Ledger extends jrn_def_sql
         if ( isset ($qcode)  && $qcode != null )
         {
             $fil_qcode=$and."  jr_grpt_id in ( select j_grpt from
-                       jrnx where trim(j_qcode) = upper(trim('$qcode')))";
+                       jrnx where trim(j_qcode) = upper(trim('".sql_string($qcode)."')))";
             $and=" and ";
         }
 

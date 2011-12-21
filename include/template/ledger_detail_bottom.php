@@ -1,7 +1,8 @@
 <fieldset>
 <legend>
+<? echo _('Rapprochement');?>
+</legend>
 <?
-echo _('Rapprochement');
 $oRap=new Acc_Reconciliation($cn);
 $oRap->jr_id=$jr_id;
 $aRap=$oRap->get();

@@ -115,20 +115,34 @@ echo '</tr>';
     else
       $view_history='';
     $row.=td($view_history);
-	if ( $q[$e]['j_text']!='')
+$l_lib = $q[$e]['j_text'] ;
+   
+    if ( $l_lib!='')
 	{
-	 $row.=td(h(strip_tags($q[$e]['j_text'])));
-	}else
-    if ( $q[$e]['j_qcode'] !='') {
+	 $l_lib=$q[$e]['j_text'];
+	}
+      else  if ( $q[$e]['j_qcode'] !='') {
       // nom de la fiche
       $ff=new Fiche($cn);
       $ff->get_by_qcode( $q[$e]['j_qcode']);
-      $row.=td(h($ff->strAttribut(ATTR_DEF_NAME)));
+      $l_lib=$ff->strAttribut(ATTR_DEF_NAME);
     } else {
       // libellé du compte
       $name=$cn->get_value('select pcm_lib from tmp_pcmn where pcm_val=$1',array($q[$e]['j_poste']));
-      $row.=td(h($name));
+      $l_lib=$name;
     }
+    $l_lib=strip_tags($l_lib);
+    if ($owner->MY_UPDLAB == 'Y')
+    {
+        $hidden = HtmlInput::hidden("j_id[]", $q[$e]['j_id']);
+        $input = new IText("e_march" . $q[$e]['j_id'] . "_label", $l_lib);
+    }
+    else
+    {
+        $input = new ISpan("e_march" . $q[$e]['j_id'] . "_label");
+        $hidden = HtmlInput::hidden("j_id[]", $q[$e]['j_id']);
+    }
+     $row.=td($input->input().$hidden);
     $montant=td(nbm($q[$e]['j_montant']),'class="num"');
     $row.=($q[$e]['j_debit']=='t')?$montant:td('');
     $row.=($q[$e]['j_debit']=='f')?$montant:td('');

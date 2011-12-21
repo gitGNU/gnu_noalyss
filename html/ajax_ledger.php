@@ -367,7 +367,8 @@ case 'save':
 	    $cn->exec_sql("select comptaproc.jrn_add_note($1,$2)",
 			  array($jr_id,$_POST['jrn_note']));
             $rapt=$_POST['rapt'];
-            if ( $g_parameter->MY_UPDLAB=='Y')
+            
+            if ( $g_parameter->MY_UPDLAB=='Y' && isset ($_POST['j_id']))
             {
                 $a_rowid=$_POST["j_id"];
                 for ($e=0;$e<count($a_rowid);$e++)
