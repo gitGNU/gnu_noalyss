@@ -679,10 +679,9 @@ class Follow_Up
 
         $sql="
              select ag_id,to_char(ag_timestamp,'DD.MM.YYYY') as my_date,ag_ref_ag_id,f_id_dest".
-             ",ag_title,md_type,dt_value,ag_ref, ag_priority,ag_state,
+             ",ag_title,dt_value,ag_ref, ag_priority,ag_state,
 				(select ad_value from fiche_Detail where f_id=action_gestion.f_id_dest and ad_id=1) as name
              from action_gestion
-             left outer join document_modele on (ag_type=md_type)
              join document_type on (ag_type=dt_id)
              where $p_filter_doc $p_search $sort";
         $max_line=$this->db->count_sql($sql);
