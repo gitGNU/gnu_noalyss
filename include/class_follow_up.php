@@ -303,7 +303,7 @@ class Follow_Up
             if( isset($_REQUEST['sb']))
                 $supl_hidden.='&sb='.$_REQUEST['sb'];
 
-            $lag_ref_ag_id='<a class="mtitle" href="?ac='.$_REQUEST['ac'].$supl_hidden.'&sa=detail&ag_id='.
+            $lag_ref_ag_id='<a class="line" href="?ac='.$_REQUEST['ac'].$supl_hidden.'&sa=detail&ag_id='.
                            $this->ag_ref_ag_id.'&'.dossier::get().'">'.
                                $this->db->get_value("select ag_ref from action_gestion where ag_id=$1",array($this->ag_ref_ag_id)).
                                "</A>";
@@ -523,6 +523,13 @@ class Follow_Up
             $sql=sprintf(" and ag_id in (select action_get_tree from comptaproc.action_get_tree(%s)) ",$this->ag_id);
             $r.=$this->myList($p_base,"",$sql);
         }
+		// New referecne
+		ob_start();
+        require_once ('template/action-reference.php');
+        $content=ob_get_contents();
+        ob_end_clean();
+
+		$r.=$content;
         return $r;
 
     }
@@ -664,10 +671,10 @@ class Follow_Up
 
 		$table=new Sort_Table();
 		$table->add('Date',$url,'order by ag_timestamp asc','order by ag_timestamp desc','da','dd');
+		$table->add('Réf.',$url,'order by ag_ref asc','order by ag_ref desc','ra','rd');
 		$table->add('Expéditeur',$url,'order by name asc','order by name desc','ea','ed');
 		$table->add('Titre',$url,'order by ag_title asc','order by ag_title desc','ta','td');
 		$table->add('Concerne',$url,'order by ag_ref_ag_id asc','order by ag_ref_ag_id desc','ca','cd');
-		$table->add('Réf.',$url,'order by ag_ref asc','order by ag_ref desc','ra','rd');
 
 		$ord=(! isset($_GET['ord']))?"dd":$_GET['ord'];
 		$sort=$table->get_sql_order($ord);
@@ -702,11 +709,14 @@ class Follow_Up
         $r.='<th>'.$table->get_header(0).'</th>';
         $r.='<th>'.$table->get_header(1).'</th>';
         $r.='<th>'.$table->get_header(2).'</th>';
+        $r.='<th>'.$table->get_header(3).'</th>';
         $r.='<th>type</th>';
 		$r.=th('Etat');
 		$r.=th('Priorité');
         $r.='<th>'.$table->get_header(4).'</th>';
-        $r.='<th>'.$table->get_header(3).'</th>';
+		if (isset($this->suppress)) {
+			$r.="<th> Suppr. dépendance</th>";
+		}
         $r.="</tr>";
 
 
@@ -732,6 +742,7 @@ class Follow_Up
             if ($row['my_date']==$today) $st=' style="font-family:bold; border:2px solid orange;"';
             $r.="<tr class=\"$tr\" $st>";
             $r.="<td>".$href.$row['my_date'].'</a>'."</td>";
+			$r.="<td>".$href.$row['ag_ref'].'</a>'."</td>";
 
             // Expediteur
             $fexp=new Fiche($this->db);
@@ -805,11 +816,17 @@ class Follow_Up
 	      }
 	    $r.=td($priority);
 
-            $r.="<td>".$row['ag_ref']."</td>";
-            $r.="<td>".$ref."</td>";
+            $r.="<td>" . $ref . "</td>";
+			if (isset($this->suppress))
+			{
+				$ck = new ICheckBox('sup_dep[]');
+				$ck->value = $row['ag_id'];
+				$r.="<td>" . $ck->input() . "</td>";
+			}
             $r.="</tr>";
 
         }
+
         $r.="</table>";
 
         $r.=$bar;
@@ -971,4 +988,26 @@ class Follow_Up
         $array=$this->db->get_array($sql);
         return $array;
     }
+	/**
+	 *@brief add an related action to the  current one
+	 */
+	function add_depend($p_ref)
+	{
+		if ($p_ref == 0 || $p_ref==$this->ag_id) return;
+		// check if action exist and is not already related to the current action
+		$exist=$this->db->get_value("select count(*) from action_gestion where ag_id=$1",array($p_ref));
+		if ( $exist == 0) return;
+
+		$this->db->exec_sql("update action_gestion set ag_ref_ag_id=$1 where ag_id=$2",
+				array($this->ag_id,$p_ref));
+
+	}
+	function suppress_depend($p_array)
+	{
+		for ($i=0;$i<count($p_array);$i++)
+		{
+			$this->db->exec_sql("update action_gestion set ag_ref_ag_id=0 where ag_id=$1",
+				array($p_array[$i]));
+		}
+	}
 }

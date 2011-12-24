@@ -38,6 +38,7 @@ if( isset($_REQUEST['sb']))
   $supl_hidden.=HtmlInput::hidden('sb',$_REQUEST['sb']);
   $supl_hidden.=HtmlInput::hidden('ac',$_REQUEST['ac']);
 
+
 /*--------------------------------------------------------------------------- */
 /* We ask to generate the document */
 /*--------------------------------------------------------------------------- */
@@ -49,6 +50,7 @@ if ( isset($_POST['generate']))
       {
         $act->save();
         $ag_id=$act->ag_id;
+
       }
     else
       {
@@ -82,19 +84,16 @@ if ( $sub_action=="update" )
       {
         $act2=new Follow_Up($cn);
         $act2->fromArray($_POST );
-
-        if ( $act2->Update() == false )
-	  {
-            $sub_action="detail";
-	  }
-        else
-	  {
-            $url="?$base&sa=detail&ag_id=".$act2->ag_id.'&'.dossier::get();
-            echo '<p><a class="mtitle" href="'.$url.'">'.hb(_('Action sauvée').'  : '.$act2->ag_ref).'</a></p>';
-
-            ShowActionList($cn,$base);
-            echo '<p><a class="mtitle" href="'.$url.'">'.hb(_('Action sauvée').'  : '.$act2->ag_ref).'</a></p>';
-	  }
+		 $sub_action="detail";
+		if ( $_POST["new_ref"] != "0")
+		{
+			$act2->add_depend($_POST['new_ref']);
+		}
+		if ( isset ($_POST['sup_dep']))
+		{
+			$act2->suppress_depend($_POST['sup_dep']);
+		}
+         $act2->Update();
       }
     //----------------------------------------------------------------------
     // Add a related action
@@ -141,6 +140,7 @@ if ( $sub_action=='detail' )
     echo '<div class="content">';
     $act=new Follow_Up($cn);
     $act->ag_id=$ag_id;
+	$act->suppress=1;
     echo $act->get();
     $act->ag_comment=Decode($act->ag_comment);
     echo '<form  enctype="multipart/form-data"  class="print" action="do.php"  method="post"   >';
@@ -152,6 +152,7 @@ if ( $sub_action=='detail' )
     echo HtmlInput::submit("save","Sauve");
     echo HtmlInput::submit("add_action_here",_("Ajoute une action à celle-ci"));
     echo HtmlInput::submit("delete",_("Efface cette action"),' onclick="return confirm(\''._("Vous confirmez l\'effacement").'\')" ');
+	echo $retour;
     echo '</form>';
     echo '</div>';
 
