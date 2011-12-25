@@ -444,10 +444,10 @@ class HtmlInput
      */
     static function card_detail($p_qcode,$pname='',$p_style="")
     {
-      if ($pname=='')$pname=$p_qcode;
+      //if ($pname=='')$pname=$p_qcode;
       $r="";
-      $r.=sprintf('<a href="javascript:void(0)" onclick="fill_ipopcard({qcode:\'%s\'})">%s[%s]</a %s>',
-		  $p_qcode,$pname,$p_qcode,$p_style);
+      $r.=sprintf('<a href="javascript:void(0)" %s onclick="fill_ipopcard({qcode:\'%s\'})">%s [%s]</a>',
+		  $p_style,$p_qcode,$pname,$p_qcode);
       return $r;
     }
     /**
