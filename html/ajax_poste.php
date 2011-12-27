@@ -60,7 +60,7 @@ $cn=new Database(dossier::id());
 include_once ("class_user.php");
 $User=new User($cn);
 $User->Check();
-if  ($User->get_ledger_access(dossier::id()) == 'X') exit();
+if  ($User->get_folder_access(dossier::id()) == 'X') exit();
 $xml="";
 
 switch ($op)
