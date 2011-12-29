@@ -248,8 +248,15 @@ function set_value(p_ctl,p_value,p_add)
 *@brief format the number change comma to point
 *@param HTML obj
 */
-function format_number(obj)
+function format_number(obj,p_prec)
 {
+	var precision=2;
+	if ( p_prec == undefined)
+		{
+			precision=2;
+		} else {
+			precision=p_prec;
+		}
     var value=obj.value;
     value=value.replace(/,/,'.');
     value=parseFloat(value);
@@ -257,7 +264,10 @@ function format_number(obj)
     {
         value=0;
     }
-    value=Math.round(value*100)/100;
+	var arrondi=Math.pow(10,precision);
+
+	value=Math.round(value*arrondi)/arrondi;
+
     $(obj).value=value;
 }
 /**
