@@ -54,7 +54,7 @@ class IText extends HtmlInput
            $r='<INPUT '.$this->style.' TYPE="TEXT" id="'.
            $this->name.'"'.$t.
            'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
-           ' style="width:'.$this->csswidth.';" '.$this->javascript."  $this->extra >";
+           ' style="width:'.$this->css_size.';" '.$this->javascript."  $this->extra >";
 
         }            
         
@@ -83,7 +83,7 @@ class IText extends HtmlInput
                $r='<INPUT '.$style.' TYPE="TEXT" id="'.
            $this->name.'"'.$t.
            'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
-           ' style="width:'.$this->csswidth.'" '.$this->javascript." $readonly  $this->extra >";
+           ' style="width:'.$this->css_size.'" '.$this->javascript." $readonly  $this->extra >";
         }
 
         /* add tag for column if inside a table */
