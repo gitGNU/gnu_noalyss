@@ -1575,7 +1575,7 @@ class Acc_Ledger extends jrn_def_sql
         $ret.= '<tr><td >'._('Libellé');
         $wDescription=new IText('desc');
         $wDescription->readonly=$p_readonly;
-        $wDescription->size=100;
+        $wDescription->css_size="100%";
         $wDescription->value=(isset($desc))?$desc:'';
         $ret.='<td colspan="2" style="width:auto">';
         $ret.=$wDescription->input();

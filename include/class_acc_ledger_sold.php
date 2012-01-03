@@ -1257,7 +1257,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger
             if ( $g_parameter->MY_UPDLAB == 'Y')
             {
                 $Span=new IText("e_march".$i."_label");
-                $Span->size=45;
+                
+                $Span->css_size="100%";
             } else
             {
                 $Span=new ISpan("e_march".$i."_label");

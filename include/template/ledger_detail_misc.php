@@ -136,6 +136,7 @@ echo '</tr>';
     {
         $hidden = HtmlInput::hidden("j_id[]", $q[$e]['j_id']);
         $input = new IText("e_march" . $q[$e]['j_id'] . "_label", $l_lib);
+        $input->css_size="100%";
     }
     else
     {

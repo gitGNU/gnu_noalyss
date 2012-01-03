@@ -43,11 +43,21 @@ class IText extends HtmlInput
         $extra=(isset($this->extra))?$this->extra:"";
 
         $this->value=str_replace('"','',$this->value);
+        if ( ! isset ($this->css_size))
+        {
         $r='<INPUT '.$this->style.' TYPE="TEXT" id="'.
            $this->name.'"'.$t.
            'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
            'SIZE="'.$this->size.'" '.$this->javascript."  $this->extra >";
         /* add tag for column if inside a table */
+        } else {
+           $r='<INPUT '.$this->style.' TYPE="TEXT" id="'.
+           $this->name.'"'.$t.
+           'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
+           ' style="width:'.$this->csswidth.';" '.$this->javascript."  $this->extra >";
+
+        }            
+        
         if ( $this->table == 1 )		  $r='<td>'.$r.'</td>';
 
         return $r;
@@ -63,10 +73,18 @@ class IText extends HtmlInput
         $readonly=" readonly ";
         $style='style="border:solid 1px blue;color:black;background:#EDEDED"';
         $this->value=str_replace('"','',$this->value);
+         if ( ! isset ($this->css_size))
+        {
         $r='<INPUT '.$style.' TYPE="TEXT" id="'.
            $this->name.'"'.$t.
            'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
            'SIZE="'.$this->size.'" '.$this->javascript." $readonly $this->extra >";
+        } else {
+               $r='<INPUT '.$style.' TYPE="TEXT" id="'.
+           $this->name.'"'.$t.
+           'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
+           ' style="width:'.$this->csswidth.'" '.$this->javascript." $readonly  $this->extra >";
+        }
 
         /* add tag for column if inside a table */
         if ( $this->table == 1 )		  $r='<td>'.$r.'</td>';
