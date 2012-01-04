@@ -690,6 +690,7 @@ class User
 	{
 		if ($this->check_action($p_action) == 0)
 		{
+                        $this->audit('FAIL');
 			if ($p_js == 1)
 			{
 				echo "<script>";
@@ -737,6 +738,7 @@ class User
 	{
 		if ($this->check_print($p_action) == 0)
 		{
+                    $this->audit('FAIL');
 			if ($p_js == 1)
 			{
 				echo "<script>";
@@ -855,6 +857,7 @@ class User
 		$dossier = ($dossier == '') ? 'X' : $dossier;
 		if ($dossier == 'X')
 		{
+                    $this->audit('FAIL',"Access folder ");
 			if (!$silent)
 			{
 				alert(_('Dossier non accessible'));
@@ -984,26 +987,28 @@ class User
 		}
 		return $array;
 	}
-	function audit($action='AUDIT',$p_module="")
-	{
-		global $audit;
-                if ($p_module=="")
+	function audit($action='AUDIT', $p_module="")
+        {
+            global $audit;
+            if ($audit)
+            {
+                if ($p_module == "" && isset ($_REQUEST['ac']))
                 {
-                    $p_module=$_REQUEST['ac'];
+                    $p_module = $_REQUEST['ac'];
                 }
-		$cn = new Database();
-		$sql = "insert into audit_connect (ac_user,ac_ip,ac_module,ac_url,ac_state) values ($1,$2,$3,$4,$5)";
-		if ($audit)
-		{
-				$cn->exec_sql($sql,
-                                        array(
-                                            $_SESSION['g_user'],
-                                            $_SERVER["REMOTE_ADDR"],
-                                            $p_module,
-                                            $_SERVER['REQUEST_URI'],
-                                            $action));
-		}
-	}
+                $cn = new Database();
+                if (isset($_REQUEST['gDossier']))
+                    $p_module.= "dossier : " . $_REQUEST['gDossier'];
+                $sql = "insert into audit_connect (ac_user,ac_ip,ac_module,ac_url,ac_state) values ($1,$2,$3,$4,$5)";
+
+                $cn->exec_sql($sql, array(
+                    $_SESSION['g_user'],
+                    $_SERVER["REMOTE_ADDR"],
+                    $p_module,
+                    $_SERVER['REQUEST_URI'],
+                    $action));
+            }
+        }   
 	function save_profile($p_id)
 	{
 		$count=$this->db->get_value("select count(*) from profile_user where user_name=$1",  array($this->login));
