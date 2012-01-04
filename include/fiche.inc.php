@@ -354,7 +354,7 @@ if ( isset ( $_GET["action"]) )
     // Search a card
     if ( $action == "search" )
     {
-        echo '<DIV class="redcontent" style="float:top;width:auto;">';
+        echo '<DIV class="redcontent" style="width:auto;">';
         ShowRecherche();
         $sql="select distinct f_id,fd_id from fiche join fiche_detail using (f_id)
                  where
@@ -423,7 +423,7 @@ if (isset($_POST['delete']) )
 {
     $g_user->can_request(FIC);
     ShowRecherche();
-    echo '<DIV class="redcontent">';
+    echo '<DIV class="redcontent" style="width:auto">';
     if ( $write ==0)
         echo "<h2 class=\"error\"> Pas d'accès </h2>";
     else
@@ -444,13 +444,13 @@ if ( isset ($_POST["add_fiche"]) )
     $g_user->can_request(FICADD);
     if ( $write ==0)
     {
-        echo '<DIV class="redcontent">';
+        echo '<DIV class="redcontent" style="width:auto">';
         echo "<h2 class=\"error\"> Pas d'accès </h2>";
     }
     else
     {
         ShowRecherche();
-        echo '<DIV class="redcontent">';
+        echo '<DIV class="redcontent" style="width:auto">';
         $fiche=new Fiche($cn);
         $fiche->Save($_REQUEST['fiche']);
         $fiche_def=new Fiche_Def($cn,$_GET['fiche']);
@@ -466,7 +466,7 @@ if ( isset ($_POST["add_fiche"]) )
 if ( isset ($_POST["update_fiche"])  )
 {
     $g_user->can_request(FIC);
-    echo '<DIV class="redcontent">';
+    echo '<DIV class="redcontent" style="width:auto">';
     if ( $write ==0)
         echo "<h2 class=\"error\"> Pas d'accès </h2>";
     else
@@ -489,7 +489,7 @@ if ( isset ($_POST["update_fiche"])  )
 // Move a card to a new category
 if ( isset($_POST['move']))
 {
-    echo '<DIV class="redcontent">';
+    echo '<DIV class="redcontent" style="width:auto">';
     $fiche=new Fiche($cn,$_POST['f_id']);
     $fiche->move_to($_POST['move_to']);
     $fiche_def=new Fiche_Def($cn,$_GET['fiche']);
