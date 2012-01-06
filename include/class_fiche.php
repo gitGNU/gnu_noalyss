@@ -533,7 +533,7 @@ class Fiche
 
             }
             $w->table=$table;
-            if ( $attr->ad_type != 'select')            $w->label=$attr->ad_text;
+            $w->label=$attr->ad_text;
             $w->name="av_text".$attr->ad_id;
 
             $r.="<TR>".td($w->label,' class="input_text" ').td($w->input())."$msg </TR>";
@@ -557,8 +557,7 @@ class Fiche
         $attr=$this->attribut;
 	/* show card type here */
 	$type_card=$this->cn->get_value('select fd_label from fiche_def join fiche using (fd_id) where f_id=$1',array($this->id));
-	$ret=h2("Type de fiche : ".h($type_card),"");
-
+	$ret=h2("Type de fiche : ".h($type_card)." (id ".$this->id.")","");
         $ret.="<table>";
         if ( empty ($attr) )
         {
@@ -688,9 +687,25 @@ class Fiche
                     $w->table=0;
                 }
             }
+            else
+            {
+                switch($r->ad_type)
+                {
+                    case 'select':
+                        $x=new ISelect();
+                        $x->value=$this->cn->make_array($r->ad_extra);
+                        $x->selected=$r->av_text;
+                        $value=$x->display();
+                        $w->value=$value;
+                        break;
+                    default:
+                        $w->value=$r->av_text;
+                        
+                }
+            }
             
             $w->name="av_text".$r->ad_id;
-            $w->readonly=$p_readonly;
+            $w->readOnly=$p_readonly;
 
 
             $ret.="<TR>".td($r->ad_text.$bulle).td($w->input()).td($msg)." </TR>";

@@ -35,12 +35,12 @@ $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";  
 /*set to none for production */
 /* uncomment for production */
-// $version_phpcompta=4444;
+ $version_phpcompta=4620;
+define ("DEBUG",true);
+
+
+//$version_phpcompta=SVNINFO;
 //define ("DEBUG",false);
-
-
-$version_phpcompta=SVNINFO;
-define ("DEBUG",false);
 
 
 
