@@ -169,6 +169,7 @@ class Fiche
             $t->av_text=$row['ad_value'];
             $t->ad_type=$row['ad_type'];
             $t->ad_size=$row['ad_size'];
+            $t->ad_extra=$row['ad_extra'];
             $t->jnt_order=$row['jnt_order'];
             $this->attribut[$i]=$t;
         }
