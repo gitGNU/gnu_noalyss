@@ -677,7 +677,7 @@ class Fiche
 		      break;
                 case 'select':
                   $w=new ISelect();
-                  $w->value=$this->cn->make_array($attr->ad_extra);
+                  $w->value=$this->cn->make_array($r->ad_extra);
                   $w->selected=$r->av_text;
                   break;
                     default:
