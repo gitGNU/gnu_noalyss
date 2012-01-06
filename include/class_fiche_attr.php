@@ -15,7 +15,7 @@ class Fiche_Attr
 {
     /* example private $variable=array("easy_name"=>column_name,"email"=>"column_name_email","val3"=>0); */
 
-    protected $variable=array("id"=>"ad_id","desc"=>"ad_text","type"=>"ad_type","size"=>"ad_size");
+    protected $variable=array("id"=>"ad_id","desc"=>"ad_text","type"=>"ad_type","size"=>"ad_size","extra"=>"ad_extra");
     function __construct ($p_cn,$p_id=0)
     {
         $this->cn=$p_cn;
@@ -64,8 +64,8 @@ class Fiche_Attr
         if ( strlen(trim($this->ad_type))==0)
             throw new Exception('Le type ne peut pas être vide',1);
         $this->ad_type=strtolower($this->ad_type);
-        if ( in_array($this->ad_type,array('date','text','numeric','zone','poste','card'))==false)
-            throw new Exception('Le type doit être text, numeric,poste, card ou date',1);
+        if ( in_array($this->ad_type,array('date','text','numeric','zone','poste','card','select'))==false)
+            throw new Exception('Le type doit être text, numeric,poste, card, select ou date',1);
         if ( trim($this->ad_size)=='' || isNumber($this->ad_size)==0||$this->ad_size>22)
         {
             switch ($this->ad_type)
@@ -130,14 +130,14 @@ class Fiche_Attr
         $this->verify();
         /*  please adapt */
         $sql="insert into attr_def(ad_text
-             ,ad_type,ad_size
+             ,ad_type,ad_size,ad_extra
              ) values ($1
-             ,$2,$3
+             ,$2,$3,$4
              ) returning ad_id";
 
         $this->ad_id=$this->cn->get_value(
                          $sql,
-                         array( $this->ad_text,$this->ad_type,$this->ad_size
+                         array( $this->ad_text,$this->ad_type,$this->ad_size,$this->ad_extra
                               )
                      );
 
@@ -149,13 +149,13 @@ class Fiche_Attr
         if ( $this->ad_id < 9000) return;
         /*   please adapt */
         $sql=" update attr_def set ad_text = $1
-             ,ad_type = $2,ad_size=$4
+             ,ad_type = $2,ad_size=$4,ad_extra=$5
              where ad_id= $3";
         $res=$this->cn->exec_sql(
                  $sql,
                  array($this->ad_text
                        ,$this->ad_type
-                       ,$this->ad_id,$this->ad_size)
+                       ,$this->ad_id,$this->ad_size,$this->ad_extra)
              );
 
     }
@@ -167,7 +167,7 @@ class Fiche_Attr
     {
 
         $sql="select ad_text
-             ,ad_type
+             ,ad_type,ad_size,ad_extra
              from attr_def where ad_id=$1";
         /* please adapt */
         $res=$this->cn->get_array(

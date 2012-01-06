@@ -197,6 +197,7 @@ class Fiche
                     $t->ad_type=$f->ad_type;
                     $t->ad_size=$f->ad_size;
                     $t->ad_id=$f->ad_id;
+                    $t->ad_extra=$f->ad_extra;
                     $this->attribut[$Max]=$t;
                     $Max++;
                 } // if flag == 0
@@ -344,8 +345,8 @@ class Fiche
             if ($this->id==0) return NOTFOUND;
             // object is not in memory we need to look into the database
             $sql="select ad_value from fiche_detail
-                 where f_id=".sql_string($this->id)." and ad_id=".$p_ad_id;
-            $Res=$this->cn->exec_sql($sql);
+                 where f_id= $1  and ad_id= $2 ";
+            $Res=$this->cn->exec_sql($sql,array($this->id,$p_ad_id));
             $row=Database::fetch_all($Res);
             // if not found return error
             if ( $row == false )
@@ -505,6 +506,10 @@ class Fiche
 		  $w->table=1;
 		  $bulle=HtmlInput::infobulle(14);
 		  break;
+              case 'select':
+                  $w=new ISelect("av_text".$attr->ad_id);
+                  $w->value=$this->cn->make_array($attr->ad_extra);
+                  break;
 		case 'card':
 		  $w=new ICard("av_text".$attr->ad_id);
 		  // filter on frd_id
@@ -626,18 +631,22 @@ class Fiche
                     case 'text':
                         $w=new IText('av_text'.$r->ad_id);
                         $w->size=$r->ad_size;
+                        $w->value=$r->av_text;
                         break;
                     case 'numeric':
                         $w=new INum('av_text'.$r->ad_id);
                         $w->size=$r->ad_size;
+                        $w->value=$r->av_text;
                         break;
                     case 'date':
                         $w=new IDate('av_text'.$r->ad_id);
+                        $w->value=$r->av_text;
                         break;
                     case 'zone':
                         $w=new ITextArea('av_text'.$r->ad_id);
                         $w->width=$r->ad_size;
                         $w->heigh=2;
+                        $w->value=$r->av_text;
                         break;
 		    case 'poste':
 		      $w=new IPoste("av_text".$r->ad_id);
@@ -646,6 +655,7 @@ class Fiche
 			  $w->width=$r->ad_size;
 		      $w->table=0;
 		      $bulle=HtmlInput::infobulle(14);
+                      $w->value=$r->av_text;
 		      break;
 		    case 'card':
 		      $w=new ICard("av_text".$r->ad_id);
@@ -663,8 +673,13 @@ class Fiche
 		      $w->set_attribute('label',"av_text".$r->ad_id."_label");
 		      $msg=$w->search();
 		      $msg.=$label->input();
+                      $w->value=$r->av_text;
 		      break;
-
+                case 'select':
+                  $w=new ISelect();
+                  $w->value=$this->cn->make_array($attr->ad_extra);
+                  $w->selected=$r->av_text;
+                  break;
                     default:
 		      var_dump($r);
 		      throw new Exception("Type invalide");
@@ -672,7 +687,7 @@ class Fiche
                     $w->table=0;
                 }
             }
-            $w->value=$r->av_text;
+            
             $w->name="av_text".$r->ad_id;
             $w->readonly=$p_readonly;
 

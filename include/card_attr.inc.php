@@ -38,6 +38,7 @@ if ( isset($_POST['save']))
     $ad_text=$_POST['desc'];
     $ad_type=$_POST['type'];
     $ad_size=$_POST['size'];
+    $ad_extra=$_POST['extra'];
     try
     {
         $cn->start();
@@ -47,6 +48,7 @@ if ( isset($_POST['save']))
             $fa->set_parameter('desc',$ad_text[$e]);
             $fa->set_parameter('type',$ad_type[$e]);
             $fa->set_parameter('size',$ad_size[$e]);
+            $fa->set_parameter('extra',$ad_extra[$e]);
             if ( trim($ad_text[$e])!='' && trim($ad_type[$e])!='')
                 $fa->save();
         }
@@ -69,6 +71,7 @@ $desc=new IText('desc[]');
 $desc->size=50;
 $size=new INum('size[]');
 $size->size=5;
+$extra=new IText('extra[]');
 
 $select_type->value=array(
                         array('value'=>'text','label'=>'Texte'),
@@ -77,8 +80,7 @@ $select_type->value=array(
                         array('value'=>'zone','label'=>'Zone de texte'),
                         array('value'=>'poste','label'=>'Poste Comptable'),
                         array('value'=>'card','label'=>'Fiche'),
-
-
+                        array('value'=>'select','label'=>'Selection')
                     );
 $remove=new IButton('rmfa');
 $remove->label='Effacer';
@@ -108,6 +110,7 @@ for ($e=0;$e<count($array);$e++)
         $r.=td($desc->input());
         $r.=td($select_type->input());
         $r.=td($size->input());
+        $r.=td($extra->input());
 
         $remove->javascript=sprintf('if ( confirm(\'Vous  confirmez ?\')) { removeCardAttribut(%d,%d,\'tb_rmfa\',this);}',
                                     $row->get_parameter('id'),$gDossier);
@@ -119,10 +122,12 @@ for ($e=0;$e<count($array);$e++)
         $select_type->readOnly=true;
         $desc->readOnly=true;
         $size->readOnly=true;
+        $extra->readOnly=true;
 
         $r.=td($desc->input().HtmlInput::hidden('type[]',''));
         $r.=td($select_type->input());
         $r.=td($size->input());
+        $r.=td($extra->input());
         $r.=td("");
     }
 
@@ -135,12 +140,14 @@ for ($e=0;$e<count($array);$e++)
 $desc->readOnly=false;
 $select_type->readOnly=false;
 $size->readOnly=false;
+$extra->readOnly=false;
 $desc->value='';
 $select_type->selected=-1;
 $r=td(HtmlInput::hidden('ad_id[]','0'));
 $r.=td($desc->input());
 $r.=td($select_type->input());
 $r.=td($size->input());
+$r.=td($extra->input());
 echo tr($r);
 
 echo '</table>';

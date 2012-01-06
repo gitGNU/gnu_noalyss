@@ -88,6 +88,7 @@ class Fiche_Def
             $t->jnt_order=$row['jnt_order'];
             $t->ad_size=$row['ad_size'];
             $t->ad_type=$row['ad_type'];
+            $t->ad_extra=$row['ad_extra'];
             $this->attribut[$i]=clone $t;
         }
         return $this->attribut;
@@ -296,7 +297,7 @@ class Fiche_Def
         $sql="select f_id,ad_value
              from
              fiche join fiche_detail using(f_id)
-             where ad_id=1 and fd_id=".$this->id." order by 2";
+             where ad_id=1 and fd_id=$1 order by 2";
 
         // we use jrn_navigation_bar
         if ($step == 1  && $_SESSION['g_pagesize'] != -1   )
@@ -306,7 +307,7 @@ class Fiche_Def
             $sql.=" offset $offset limit $step";
         }
 
-        $Ret=$this->cn->get_array($sql);
+        $Ret=$this->cn->get_array($sql,array($this->id));
 
         return $Ret;
     }
@@ -601,17 +602,17 @@ class Fiche_Def
         foreach ($array as $ch)
         {
             $this->cn->start();
-            $sql="delete from jnt_fic_attr where fd_id=".$this->id.
-                 "   and ad_id=".$ch;
-            $this->cn->exec_sql($sql);
+            $sql="delete from jnt_fic_attr where fd_id=$1 ".
+                 "   and ad_id=$2";
+            $this->cn->exec_sql($sql,array($this->id,$ch));
 
             $sql="delete from fiche_detail  where jft_id in ( select ".
                  " jft_id from fiche_Detail ".
                  " join fiche using(f_id) ".
                  " where ".
-                 "fd_id = ".$this->id." and ".
-                 "ad_id=".$ch.")";
-            $this->cn->exec_sql($sql);
+                 "fd_id = $1 and ".
+                 "ad_id=$2)";
+            $this->cn->exec_sql($sql,array($this->id,$ch));
 
             $this->cn->commit();
         }
