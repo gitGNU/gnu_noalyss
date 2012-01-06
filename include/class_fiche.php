@@ -574,7 +574,7 @@ class Fiche
                 $w=new IText();
                 $w->table=1;
                 $w->readOnly=true;
-
+                $w->css_size="100%";
             }
             if ($p_readonly==false)
             {
