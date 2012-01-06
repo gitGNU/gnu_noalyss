@@ -38,7 +38,7 @@ class ISelect extends HtmlInput
 
         $r="";
 
-        $a="<SELECT  id=\"$this->name\" NAME=\"$this->name\" $this->style $this->javascript $disabled>";
+        $a="<SELECT  id=\"$this->name\" NAME=\"$this->name\" $style $this->javascript $disabled>";
 
         if (empty($this->value)) return '';
         for ( $i=0;$i<sizeof($this->value);$i++)
