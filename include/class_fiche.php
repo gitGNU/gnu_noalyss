@@ -510,7 +510,6 @@ class Fiche
               case 'select':
                   $w=new ISelect("av_text".$attr->ad_id);
                   $w->value=$this->cn->make_array($attr->ad_extra);
-                  unset($w->label);
                   break;
 		case 'card':
 		  $w=new ICard("av_text".$attr->ad_id);
@@ -534,7 +533,7 @@ class Fiche
 
             }
             $w->table=$table;
-            $w->label=$attr->ad_text;
+            if ( $attr->ad_type != 'select')            $w->label=$attr->ad_text;
             $w->name="av_text".$attr->ad_id;
 
             $r.="<TR>".td($w->label,' class="input_text" ').td($w->input())."$msg </TR>";
