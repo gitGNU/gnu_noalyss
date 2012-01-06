@@ -46,7 +46,7 @@ echo '<form method="post">';
 $val=new IText('p_valu');
 $parent=new IText('p_parentu');
 $lib=new IText('p_libu');
-$lib->size=50;
+$lib->css_size="100%";
 $type=new ISelect('p_typeu');
 $type->value=Acc_Account::$type;
 echo '<table>';
