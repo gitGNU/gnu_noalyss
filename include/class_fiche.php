@@ -558,7 +558,7 @@ class Fiche
 	/* show card type here */
 	$type_card=$this->cn->get_value('select fd_label from fiche_def join fiche using (fd_id) where f_id=$1',array($this->id));
 	$ret=h2("Type de fiche : ".h($type_card)." (id ".$this->id.")","");
-        $ret.="<table>";
+        $ret.="<table style=\"width:98%;padding:1%\">";
         if ( empty ($attr) )
         {
 	  return 'FNT';
@@ -630,7 +630,7 @@ class Fiche
                     {
                     case 'text':
                         $w=new IText('av_text'.$r->ad_id);
-                        $w->size=$r->ad_size;
+                        $w->css_size="100%";
                         $w->value=$r->av_text;
                         break;
                     case 'numeric':
@@ -679,6 +679,7 @@ class Fiche
                   $w=new ISelect();
                   $w->value=$this->cn->make_array($r->ad_extra);
                   $w->selected=$r->av_text;
+                  $w->style=' style="width:100%" ';
                   break;
                     default:
 		      var_dump($r);
