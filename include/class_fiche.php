@@ -510,6 +510,7 @@ class Fiche
               case 'select':
                   $w=new ISelect("av_text".$attr->ad_id);
                   $w->value=$this->cn->make_array($attr->ad_extra);
+                  unset($w->label);
                   break;
 		case 'card':
 		  $w=new ICard("av_text".$attr->ad_id);
