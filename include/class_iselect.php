@@ -37,8 +37,8 @@ class ISelect extends HtmlInput
         $disabled=($this->disabled==true)?"disabled":"";
 
         //echo "<b>Selected <b>".$this->selected;
-        $r=(isset($this->label))?$this->label:'';
-
+        //$r=(isset($this->label))?$this->label:'';
+        $r="";
         //    if ( $this->table == 1 ) $r=td($r);
 
         $a="<SELECT  id=\"$this->name\" NAME=\"$this->name\" $this->javascript $disabled>";
