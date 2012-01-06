@@ -19,7 +19,7 @@ foreach ($array as $row ) :
    $fiche=new Fiche($cn);
    $fiche->id=$row['f_id'];
  $fiche->getAttribut();
-$detail=HtmlInput::card_detail($fiche->strAttribut(ATTR_DEF_QUICKCODE),$fiche->strAttribut(ATTR_DEF_QUICKCODE));
+$detail=HtmlInput::card_detail($fiche->strAttribut(ATTR_DEF_QUICKCODE));
 echo td($detail);
  foreach($fiche->attribut as $attr) :
     echo td($attr->av_text,'style="padding: 0 10 1 10;white-space:nowrap;"');
