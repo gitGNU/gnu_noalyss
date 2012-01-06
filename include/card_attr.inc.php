@@ -99,12 +99,14 @@ for ($e=0;$e<count($array);$e++)
     $select_type->selected=$row->get_parameter('type');
     $desc->value=$row->get_parameter('desc');
     $size->value=$row->get_parameter('size');
+    $extra->value=$row->get_parameter('extra');
 
     if ( $row->get_parameter('id')>= 9000)
     {
         $select_type->readOnly=false;
         $desc->readOnly=false;
         $size->readOnly=false;
+        $extra->readOnly=false;
 
         $desc->style=' class="input_text" ';
         $r.=td($desc->input());
