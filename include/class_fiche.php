@@ -421,7 +421,7 @@ class Fiche
         $f=new Fiche_Def($this->cn,$p_fiche_def);
         $f->Get();
         $array=$f->getAttribut();
-        $r='<table>';
+        $r='<table style="width:98%;margin:1%">';
         foreach ($array as $attr)
         {
             $table=0;
@@ -512,7 +512,7 @@ class Fiche
 					case 'select':
 						$w = new ISelect("av_text" . $attr->ad_id);
 						$w->value = $this->cn->make_array($attr->ad_extra);
-						$w->css_size = "100%";
+						$w->style= 'style="width:100%"';
 						break;
 					case 'card':
 						$w = new ICard("av_text" . $attr->ad_id);
