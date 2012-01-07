@@ -554,169 +554,165 @@ class Fiche
      */
     function Display($p_readonly)
     {
-        $this->GetAttribut();
-        $attr=$this->attribut;
-	/* show card type here */
-	$type_card=$this->cn->get_value('select fd_label from fiche_def join fiche using (fd_id) where f_id=$1',array($this->id));
-	$ret=h2("Type de fiche : ".$type_card." (id ".$this->id.")","");
-        $ret.="<table style=\"width:98%;margin:1%\">";
-        if ( empty ($attr) )
-        {
-	  return 'FNT';
-        }
+		$this->GetAttribut();
+		$attr = $this->attribut;
+		/* show card type here */
+		$type_card = $this->cn->get_value('select fd_label from fiche_def join fiche using (fd_id) where f_id=$1', array($this->id));
+		$ret = "";
+		$ret.='<span style="font-weight:bolder"> id :' . $this->id . "</span>";
+		$ret.=h2("Type de fiche : " . $type_card, 'style="display:inline"');
+		$ret.="<table style=\"width:98%;margin:1%\">";
+		if (empty($attr))
+		{
+			return 'FNT';
+		}
 
-	/* for each attribute */
-        foreach ( $attr as $r)
-        {
-            $msg="";
-            $bulle="";
-            if ( $p_readonly)
-            {
-                $w=new IText();
-                $w->table=1;
-                $w->readOnly=true;
-                $w->css_size="100%";
-            }
-            if ($p_readonly==false)
-            {
+		/* for each attribute */
+		foreach ($attr as $r)
+		{
+			$msg = "";
+			$bulle = "";
+			if ($p_readonly)
+			{
+				$w = new IText();
+				$w->table = 1;
+				$w->readOnly = true;
+				$w->css_size = "100%";
+			}
+			if ($p_readonly == false)
+			{
 
-                if ( $r->ad_id == ATTR_DEF_ACCOUNT)
-                {
-                    $w=new IPoste("av_text".$r->ad_id);
-                    $w->set_attribute('ipopup','ipop_account');
-                    $w->set_attribute('account',"av_text".$r->ad_id);
-                    //  account created automatically
-                    $w->table=0;
-                    //  account created automatically
-                    $sql="select account_auto($this->fiche_def)";
-                    $ret_sql=$this->cn->exec_sql($sql);
-                    $a=Database::fetch_array($ret_sql,0);
-                    $bulle=HtmlInput::infobulle(10);
+				if ($r->ad_id == ATTR_DEF_ACCOUNT)
+				{
+					$w = new IPoste("av_text" . $r->ad_id);
+					$w->set_attribute('ipopup', 'ipop_account');
+					$w->set_attribute('account', "av_text" . $r->ad_id);
+					//  account created automatically
+					$w->table = 0;
+					//  account created automatically
+					$sql = "select account_auto($this->fiche_def)";
+					$ret_sql = $this->cn->exec_sql($sql);
+					$a = Database::fetch_array($ret_sql, 0);
+					$bulle = HtmlInput::infobulle(10);
 
-                    if ( $a['account_auto'] == 't' )
-                        $bulle.=HtmlInput::warnbulle(11);
-
-                }
-                elseif ( $r->ad_id == ATTR_DEF_TVA)
-                {
-                    $w=new ITva_Popup('popup_tva');
-                    $w->table=1;
-
-                }
-                elseif ( $r->ad_id == ATTR_DEF_COMPANY )
-                {
-                    $w=new ICard("av_text".$r->ad_id);
-                    // filter on frd_id
-                    $sql=' select fd_id from fiche_def where frd_id in ('.FICHE_TYPE_CLIENT.','.FICHE_TYPE_FOURNISSEUR.','.FICHE_TYPE_ADM_TAX.')';
-                    $filter=$this->cn->make_list($sql);
-                    $w->extra=$filter;
-                    $w->extra2=0;
-                    $label=new ISpan();
-                    $label->name="av_text".$r->ad_id."_label";
-                    $w->set_attribute('ipopup','ipopcard');
-                    $w->set_attribute('typecard',$filter);
-                    $w->set_attribute('inp',"av_text".$r->ad_id);
-                    $w->set_attribute('label',"av_text".$r->ad_id."_label");
-
-
-                    $msg=$w->search();
-                    $msg.=$label->input();
+					if ($a['account_auto'] == 't')
+						$bulle.=HtmlInput::warnbulle(11);
+				}
+				elseif ($r->ad_id == ATTR_DEF_TVA)
+				{
+					$w = new ITva_Popup('popup_tva');
+					$w->table = 1;
+				}
+				elseif ($r->ad_id == ATTR_DEF_COMPANY)
+				{
+					$w = new ICard("av_text" . $r->ad_id);
+					// filter on frd_id
+					$sql = ' select fd_id from fiche_def where frd_id in (' . FICHE_TYPE_CLIENT . ',' . FICHE_TYPE_FOURNISSEUR . ',' . FICHE_TYPE_ADM_TAX . ')';
+					$filter = $this->cn->make_list($sql);
+					$w->extra = $filter;
+					$w->extra2 = 0;
+					$label = new ISpan();
+					$label->name = "av_text" . $r->ad_id . "_label";
+					$w->set_attribute('ipopup', 'ipopcard');
+					$w->set_attribute('typecard', $filter);
+					$w->set_attribute('inp', "av_text" . $r->ad_id);
+					$w->set_attribute('label', "av_text" . $r->ad_id . "_label");
 
 
-                }
+					$msg = $w->search();
+					$msg.=$label->input();
+				}
+				else
+				{
+					switch ($r->ad_type)
+					{
+						case 'text':
+							$w = new IText('av_text' . $r->ad_id);
+							$w->css_size = "100%";
+							$w->value = $r->av_text;
+							break;
+						case 'numeric':
+							$w = new INum('av_text' . $r->ad_id);
+							$w->size = $r->ad_size;
+							$w->value = $r->av_text;
+							break;
+						case 'date':
+							$w = new IDate('av_text' . $r->ad_id);
+							$w->value = $r->av_text;
+							break;
+						case 'zone':
+							$w = new ITextArea('av_text' . $r->ad_id);
+							$w->width = $r->ad_size;
+							$w->heigh = 2;
+							$w->value = $r->av_text;
+							break;
+						case 'poste':
+							$w = new IPoste("av_text" . $r->ad_id);
+							$w->set_attribute('ipopup', 'ipop_account');
+							$w->set_attribute('account', "av_text" . $r->ad_id);
+							$w->width = $r->ad_size;
+							$w->table = 0;
+							$bulle = HtmlInput::infobulle(14);
+							$w->value = $r->av_text;
+							break;
+						case 'card':
+							$w = new ICard("av_text" . $r->ad_id);
+							// filter on frd_id
+							$sql = ' select fd_id from fiche_def ';
+							$filter = $this->cn->make_list($sql);
+							$w->width = $r->ad_size;
+							$w->extra = $filter;
+							$w->extra2 = 0;
+							$label = new ISpan();
+							$label->name = "av_text" . $r->ad_id . "_label";
+							$w->set_attribute('ipopup', 'ipopcard');
+							$w->set_attribute('typecard', $filter);
+							$w->set_attribute('inp', "av_text" . $r->ad_id);
+							$w->set_attribute('label', "av_text" . $r->ad_id . "_label");
+							$msg = $w->search();
+							$msg.=$label->input();
+							$w->value = $r->av_text;
+							break;
+						case 'select':
+							$w = new ISelect();
+							$w->value = $this->cn->make_array($r->ad_extra);
+							$w->selected = $r->av_text;
+							$w->style = ' style="width:100%" ';
+							break;
+						default:
+							var_dump($r);
+							throw new Exception("Type invalide");
+					}
+					$w->table = 0;
+				}
+			}
+			else
+			{
+				switch ($r->ad_type)
+				{
+					case 'select':
+						$x = new ISelect();
+						$x->value = $this->cn->make_array($r->ad_extra);
+						$x->selected = $r->av_text;
+						$value = $x->display();
+						$w->value = $value;
+						break;
+					default:
+						$w->value = $r->av_text;
+				}
+			}
 
-                else
-                {
-                    switch ($r->ad_type)
-                    {
-                    case 'text':
-                        $w=new IText('av_text'.$r->ad_id);
-                        $w->css_size="100%";
-                        $w->value=$r->av_text;
-                        break;
-                    case 'numeric':
-                        $w=new INum('av_text'.$r->ad_id);
-                        $w->size=$r->ad_size;
-                        $w->value=$r->av_text;
-                        break;
-                    case 'date':
-                        $w=new IDate('av_text'.$r->ad_id);
-                        $w->value=$r->av_text;
-                        break;
-                    case 'zone':
-                        $w=new ITextArea('av_text'.$r->ad_id);
-                        $w->width=$r->ad_size;
-                        $w->heigh=2;
-                        $w->value=$r->av_text;
-                        break;
-		    case 'poste':
-		      $w=new IPoste("av_text".$r->ad_id);
-		      $w->set_attribute('ipopup','ipop_account');
-		      $w->set_attribute('account',"av_text".$r->ad_id);
-			  $w->width=$r->ad_size;
-		      $w->table=0;
-		      $bulle=HtmlInput::infobulle(14);
-                      $w->value=$r->av_text;
-		      break;
-		    case 'card':
-		      $w=new ICard("av_text".$r->ad_id);
-		      // filter on frd_id
-		      $sql=' select fd_id from fiche_def ';
-		      $filter=$this->cn->make_list($sql);
-			  $w->width=$r->ad_size;
-		      $w->extra=$filter;
-		      $w->extra2=0;
-		      $label=new ISpan();
-		      $label->name="av_text".$r->ad_id."_label";
-		      $w->set_attribute('ipopup','ipopcard');
-		      $w->set_attribute('typecard',$filter);
-		      $w->set_attribute('inp',"av_text".$r->ad_id);
-		      $w->set_attribute('label',"av_text".$r->ad_id."_label");
-		      $msg=$w->search();
-		      $msg.=$label->input();
-                      $w->value=$r->av_text;
-		      break;
-                case 'select':
-                  $w=new ISelect();
-                  $w->value=$this->cn->make_array($r->ad_extra);
-                  $w->selected=$r->av_text;
-                  $w->style=' style="width:100%" ';
-                  break;
-                    default:
-		      var_dump($r);
-		      throw new Exception("Type invalide");
-                    }
-                    $w->table=0;
-                }
-            }
-            else
-            {
-                switch($r->ad_type)
-                {
-                    case 'select':
-                        $x=new ISelect();
-                        $x->value=$this->cn->make_array($r->ad_extra);
-                        $x->selected=$r->av_text;
-                        $value=$x->display();
-                        $w->value=$value;
-                        break;
-                    default:
-                        $w->value=$r->av_text;
-
-                }
-            }
-
-            $w->name="av_text".$r->ad_id;
-            $w->readOnly=$p_readonly;
+			$w->name = "av_text" . $r->ad_id;
+			$w->readOnly = $p_readonly;
 
 
-            $ret.="<TR>".td($r->ad_text.$bulle).td($w->input()).td($msg)." </TR>";
-        }
+			$ret.="<TR>" . td($r->ad_text . $bulle) . td($w->input()) . td($msg) . " </TR>";
+		}
 
-        $ret.="</table>";
+		$ret.="</table>";
 
-        return $ret;
-    }
+		return $ret;
+	}
     /*!
      * \brief  Save a card, call insert or update
      *
