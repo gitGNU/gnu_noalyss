@@ -470,7 +470,7 @@ function dis_blank_card(obj)
     var content='div_new_card';
     var nTop=posY-40;
     var nLeft=posX-20;
-    var str_style="top:"+nTop+";left:"+nLeft+";width:70em;height:auto";
+    var str_style="top:"+nTop+";left:"+nLeft+";width:60em;height:auto";
 
     var popup={'id':  content,'cssclass':'inner_box','style':str_style,'html':loading(),'drag':true};
     if ( $(content)) {removeDiv(content);}
