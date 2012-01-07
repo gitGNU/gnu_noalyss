@@ -541,6 +541,11 @@ a.document:hover {
 
 
 }
+.input_text_ro {
+	   border:solid 1px blue;
+	   background:#EDEDED;
+	margin:1px;
+}
 .input_text {
 	border:groove 1px blue;
 	margin:1px;

@@ -21,7 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file
- * \brief Html Input 
+ * \brief Html Input
  */
 require_once('class_html_input.php');
 class IText extends HtmlInput
@@ -56,8 +56,8 @@ class IText extends HtmlInput
            'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
            ' style="width:'.$this->css_size.';" '.$this->javascript."  $this->extra >";
 
-        }            
-        
+        }
+
         if ( $this->table == 1 )		  $r='<td>'.$r.'</td>';
 
         return $r;
@@ -71,16 +71,16 @@ class IText extends HtmlInput
         $extra=(isset($this->extra))?$this->extra:"";
 
         $readonly=" readonly ";
-        $style='style="border:solid 1px blue;color:black;background:#EDEDED"';
         $this->value=str_replace('"','',$this->value);
+		 $this->style=' class="input_text_ro" ';
          if ( ! isset ($this->css_size))
         {
-        $r='<INPUT '.$style.' TYPE="TEXT" id="'.
+        $r='<INPUT '.$this->style.' TYPE="TEXT" id="'.
            $this->name.'"'.$t.
            'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
            'SIZE="'.$this->size.'" '.$this->javascript." $readonly $this->extra >";
         } else {
-               $r='<INPUT '.$style.' TYPE="TEXT" id="'.
+               $r='<INPUT '.$this->style.' TYPE="TEXT" id="'.
            $this->name.'"'.$t.
            'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
            ' style="width:'.$this->css_size.'" '.$this->javascript." $readonly  $this->extra >";

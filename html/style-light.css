@@ -316,7 +316,7 @@ a.mtitle {
 	text-decoration:none;
 	display:inline;
 	color: blue;
-	
+
 }
 a.mtitle:hover {
 	font-size:10px;
@@ -535,6 +535,11 @@ a.document:hover {
 	display:block;
 
 
+}
+.input_text_ro {
+	   border:solid 1px blue;
+	   background:#EDEDED;
+	margin:1px;
 }
 .input_text {
 	border:groove 1px blue;
@@ -804,7 +809,7 @@ a#anchorbutton, .button, a.button,div.content a.button {
 	color:lightblue;
 	font-weight: bold;
 	border:1px black outset  ;
-	
+
 background-image: url("image/bg-submit5.png");
 background-repeat: repeat-x;
 	background-position: left;
@@ -820,7 +825,7 @@ background-repeat: repeat-x;
 	margin-left:3px;
 	cursor:pointer;
 	font-size:1.1em;
-	
+
 }
 a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
 	cursor:pointer;
