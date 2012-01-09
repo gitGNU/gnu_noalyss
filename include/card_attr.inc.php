@@ -56,7 +56,7 @@ if ( isset($_POST['save']))
     }
     catch (Exception $e)
     {
-        $e->getMessage();
+      alert($e->getMessage());
         $cn->rollback();
     }
 
