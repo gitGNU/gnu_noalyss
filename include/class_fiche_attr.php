@@ -82,6 +82,14 @@ class Fiche_Attr
             case 'zone':
                 $this->ad_size=22;
                 break;
+            case 'select':
+                $this->ad_size=22;
+                try{
+                    $a=$this->cn->exec_sql($this->ad_extra);
+                }catch (Exception $e)
+                {
+                    throw new Exception ("La requête SQL est invalide ");
+                }
             default:
                 $this->ad_size=22;
             }
@@ -89,6 +97,7 @@ class Fiche_Attr
     }
     public function save()
     {
+       
         /* please adapt */
         if (  $this->ad_id == 0 )
             $this->insert();
