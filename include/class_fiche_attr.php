@@ -82,19 +82,21 @@ class Fiche_Attr
             case 'zone':
                 $this->ad_size=22;
                 break;
-            case 'select':
+            
+            default:
                 $this->ad_size=22;
+            }
+        }
+        if ( $this->ad_extra == 'select')
+        {
                 if (trim($this->ad_extra)=="") throw new Exception ("La requête SQL est vide ");
                 try{
                     
-                    $a=$this->cn->exec_sql($this->ad_extra);
+                        $this->cn->exec_sql($this->ad_extra);
                 }catch (Exception $e)
                 {
                     throw new Exception ("La requête SQL est invalide ");
                 }
-            default:
-                $this->ad_size=22;
-            }
         }
     }
     public function save()
