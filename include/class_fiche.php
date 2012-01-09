@@ -581,7 +581,7 @@ class Fiche
 			}
 			if ($p_readonly == false)
 			{
-
+                                
 				if ($r->ad_id == ATTR_DEF_ACCOUNT)
 				{
 					$w = new IPoste("av_text" . $r->ad_id);
@@ -589,6 +589,7 @@ class Fiche
 					$w->set_attribute('account', "av_text" . $r->ad_id);
 					//  account created automatically
 					$w->table = 0;
+                                        $w->value = $r->av_text;
 					//  account created automatically
 					$sql = "select account_auto($this->fiche_def)";
 					$ret_sql = $this->cn->exec_sql($sql);
@@ -602,6 +603,7 @@ class Fiche
 				{
 					$w = new ITva_Popup('popup_tva');
 					$w->table = 1;
+                                        $w->value = $r->av_text;
 				}
 				elseif ($r->ad_id == ATTR_DEF_COMPANY)
 				{
@@ -617,8 +619,7 @@ class Fiche
 					$w->set_attribute('typecard', $filter);
 					$w->set_attribute('inp', "av_text" . $r->ad_id);
 					$w->set_attribute('label', "av_text" . $r->ad_id . "_label");
-
-
+                                        $w->value = $r->av_text;
 					$msg = $w->search();
 					$msg.=$label->input();
 				}
