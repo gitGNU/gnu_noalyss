@@ -559,8 +559,8 @@ class Fiche
 		/* show card type here */
 		$type_card = $this->cn->get_value('select fd_label from fiche_def join fiche using (fd_id) where f_id=$1', array($this->id));
 		$ret = "";
-		$ret.='<span style="font-weight:bolder"> id :' . $this->id . "</span>";
 		$ret.=h2( $type_card, 'style="display:inline"');
+		$ret.='<span style="font-weight:bolder"> id :' . $this->id . "</span>";
 		$ret.="<table style=\"width:98%;margin:1%\">";
 		if (empty($attr))
 		{
