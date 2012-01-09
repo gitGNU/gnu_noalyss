@@ -975,10 +975,8 @@ class User
                         array($p_filter));
 		}
 		require_once('class_database.php');
-		
 
-		$Res = $cn->exec_sql($sql);
-		$max = Database::num_row($Res);
+                $max = Database::num_row($Res);
 		if ($max == 0)
 			return 0;
 
