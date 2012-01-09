@@ -31,8 +31,8 @@ global $version_phpcompta;
 
 global $g_captcha,$g_failed,$g_succeed;
 $g_captcha=false;
-$g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";                                                                                                                                                                          
-$g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";  
+$g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
+$g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 /*set to none for production */
 /* uncomment for production */
 // $version_phpcompta=4620;
@@ -42,9 +42,11 @@ $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 $version_phpcompta=SVNINFO;
 define ("DEBUG",false);
 
+/* $version_phpcompta=4601;
+define ("DEBUG",true); */
 
+define ("DBVERSION",101);
 
-define ("DBVERSION",100);
 define ("DBVERSIONREPO",14);
 define ('NOTFOUND','--not found--');
 
