@@ -953,28 +953,29 @@ class User
 
 	function get_available_folder( $p_filter="")
 	{
-
+            $cn = new Database();
 		$filter = "";
 		if ($this->admin == 0)
 		{
 			// show only available folders
 			// if user is not an admin
-			$sql = "select distinct dos_id,dos_name,dos_description from ac_users
+			$Res=$cn->exec_sql( "select distinct dos_id,dos_name,dos_description from ac_users
              natural join jnt_use_dos
              natural join  ac_dossier
              join  priv_user on ( priv_jnt=jnt_id)
              where use_active=1
-             and use_login='".sql_string($this->login)."'
-             and priv_priv != 'X' and ( dos_name ilike '%$p_filter%' or dos_description ~* '$p_filter')
-             order by dos_name";
+             and use_login= $1 
+             and priv_priv != 'X' and ( dos_name ~* $2 or dos_description ~* $2 )
+             order by dos_name", array($this->login,$p_filter));
 		}
 		else
 		{
-			$sql = "select distinct dos_id,dos_name,dos_description from ac_dossier
-             where   dos_name ilike '%$p_filter%' or dos_description ~* '$p_filter' order by dos_name";
+			$Res = $cn->exec_sql("select distinct dos_id,dos_name,dos_description from ac_dossier
+             where   dos_name ~* $1 or dos_description ~* $1 order by dos_name",
+                        array($p_filter));
 		}
 		require_once('class_database.php');
-		$cn = new Database();
+		
 
 		$Res = $cn->exec_sql($sql);
 		$max = Database::num_row($Res);
