@@ -84,7 +84,9 @@ class Fiche_Attr
                 break;
             case 'select':
                 $this->ad_size=22;
+                if (trim($this->ad_extra)="") throw new Exception ("La requête SQL est vide ");
                 try{
+                    
                     $a=$this->cn->exec_sql($this->ad_extra);
                 }catch (Exception $e)
                 {
