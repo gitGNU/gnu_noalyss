@@ -39,9 +39,10 @@ if ($aRap  != null ) {
 </legend>
 <?
 if ( $access=='W') {
-  $search='<INPUT TYPE="BUTTON" class="button" VALUE="Cherche" OnClick="search_reconcile('.$gDossier.",'rapt".$div."','".$obj->det->jr_montant."')\">";
-  $rapt=new IText('rapt'.$div);
-  echo $rapt->input().$search;
+     $wConcerned=new IConcerned("rapt".$div);
+     $wConcerned->amount_id=$obj->det->jr_montant;
+    echo $wConcerned->input();    
+    
 }
 
 ?>

@@ -38,6 +38,7 @@ require_once('class_acc_reconciliation.php');
 require_once('class_anc_operation.php');
 require_once('class_idate.php');
 require_once 'class_own.php';
+require_once 'class_iconcerned.php';
 /**
  * Check if we receive the needed data (jr_id...)
  */
