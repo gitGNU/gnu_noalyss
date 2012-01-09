@@ -95,7 +95,7 @@ class Fiche_Attr
                         $this->cn->exec_sql($this->ad_extra);
                 }catch (Exception $e)
                 {
-                    throw new Exception ("La requête SQL est invalide ");
+                    throw new Exception ("La requête SQL ".h($this->ad_extra)." est invalide ");
                 }
         }
     }
