@@ -1017,9 +1017,13 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         //    $f_add_button2->set_attribute('jrn',$this->id);
         $f_add_button2->javascript=" this.jrn=\$('p_jrn').value;select_card_type(this);";
 
-        $str_add_button=$f_add_button->input();
-        $str_add_button2=$f_add_button2->input();
-
+		$str_add_button="";
+		$str_add_button2="";
+		if ($user->check_action(FICADD)==1)
+		{
+			$str_add_button=$f_add_button->input();
+			$str_add_button2=$f_add_button2->input();
+		}
         // The first day of the periode
         $oPeriode=new Periode($this->db);
         list ($l_date_start,$l_date_end)=$oPeriode->get_date_limit($user->get_periode());
@@ -1257,7 +1261,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
             if ( $g_parameter->MY_UPDLAB == 'Y')
             {
                 $Span=new IText("e_march".$i."_label");
-                
+
                 $Span->css_size="100%";
             } else
             {

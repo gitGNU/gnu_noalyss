@@ -581,7 +581,7 @@ class Fiche
 			}
 			if ($p_readonly == false)
 			{
-                                
+
 				if ($r->ad_id == ATTR_DEF_ACCOUNT)
 				{
 					$w = new IPoste("av_text" . $r->ad_id);
@@ -835,7 +835,7 @@ class Fiche
                 $value2=sql_string($value);
 
                 $sql=sprintf("select attribut_insert(%d,%d,'%s')",
-                             $fiche_id,$id,trim($value2));
+                             $fiche_id,$id,  strip_tags(trim($value2)));
                 $this->cn->exec_sql($sql);
             }
         }
@@ -1004,7 +1004,7 @@ class Fiche
 
                 // Normal traitement
                 $sql="update fiche_detail set ad_value=$1 where jft_id=$2";
-		$this->cn->exec_sql($sql,array($value,$jft_id));
+				$this->cn->exec_sql($sql,array(strip_tags($value),$jft_id));
             }
         }
         catch (Exception $e )

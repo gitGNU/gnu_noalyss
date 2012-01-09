@@ -25,9 +25,9 @@
  * contact,operation,invoice and financial)
  * include from client.inc.php and concerned only the customer card and
  * the customer category
- * parameter 
+ * parameter
  *  - p_action = client
- *  - sb = detail 
+ *  - sb = detail
  *  - sc = dc
  */
 //----------------------------------------------------------------------------
@@ -46,16 +46,16 @@ if ( isset ($_POST['mod']))
 
 echo '<div class="u_content">';
 $f_id=$_REQUEST['f_id'];
-echo '<div class="content">';
+echo '<div class="content" style="width:50%">';
 if ( isset($_POST['mod'])) echo hb(_('Information sauvée'));
 
 $client=new Customer($cn,$f_id);
-
-echo '<form method="post">';
+$p_readonly=($g_user->check_action(FICADD)==0)?true:false;
+if ( ! $p_readonly) echo '<form method="post">';
 echo dossier::hidden();
 echo HtmlInput::hidden('sb','detail');
 echo HtmlInput::hidden('dc','cc');
-echo $client->Display(false);
+echo $client->Display($p_readonly);
 $w=new IHidden();
 $w->name="p_action";
 $w->value="client";
@@ -63,11 +63,13 @@ echo $w->input();
 $w->name="f_id";
 $w->value=$f_id;
 echo $w->input();
-
-echo HtmlInput::submit('mod',_('Sauver les modifications'));
-echo HtmlInput::reset(_("Annuler"));
-echo HtmlInput::submit('delete_card',_('Effacer cette fiche'),'onclick="return confirm(\'Confirmer effacement ?\');"');
-echo '</form>';
+if ( ! $p_readonly)
+{
+	echo HtmlInput::submit('mod',_('Sauver les modifications'));
+	echo HtmlInput::reset(_("Annuler"));
+	echo HtmlInput::submit('delete_card',_('Effacer cette fiche'),'onclick="return confirm(\'Confirmer effacement ?\');"');
+	echo '</form>';
+}
 echo $return;
 echo '</div>';
 

@@ -109,22 +109,25 @@ if ( $low_action == "list" )
     echo '<br>';
     echo '<br>';
     echo '<br>';
-    /* Add button */
-    $f_add_button=new IButton('add_card');
-    $f_add_button->label=_('Créer une nouvelle fiche');
-    $f_add_button->set_attribute('ipopup','ipop_newcard');
-    $f_add_button->set_attribute('win_refresh','yes');
+	if  ($g_user->check_action(FICADD)==1)
+	{
+		/* Add button */
+		$f_add_button=new IButton('add_card');
+		$f_add_button->label=_('Créer une nouvelle fiche');
+		$f_add_button->set_attribute('ipopup','ipop_newcard');
+		$f_add_button->set_attribute('win_refresh','yes');
 
-    $f_add_button->set_attribute('type_cat',FICHE_TYPE_ADM_TAX);
-    $f_add_button->javascript=" select_card_type(this);";
-    echo $f_add_button->input();
+		$f_add_button->set_attribute('type_cat',FICHE_TYPE_ADM_TAX);
+		$f_add_button->javascript=" select_card_type(this);";
+		echo $f_add_button->input();
 
-    $f_cat_button=new IButton('add_cat');
-    $f_cat_button->set_attribute('ipopup','ipop_cat');
-    $f_cat_button->set_attribute('type_cat',FICHE_TYPE_ADM_TAX);
-    $f_cat_button->label=_('Ajout d\'une catégorie');
-    $f_cat_button->javascript='add_category(this)';
-    echo $f_cat_button->input();
+		$f_cat_button=new IButton('add_cat');
+		$f_cat_button->set_attribute('ipopup','ipop_cat');
+		$f_cat_button->set_attribute('type_cat',FICHE_TYPE_ADM_TAX);
+		$f_cat_button->label=_('Ajout d\'une catégorie');
+		$f_cat_button->javascript='add_category(this)';
+		echo $f_cat_button->input();
+	}
     echo '</div>';
     echo '</div>';
 

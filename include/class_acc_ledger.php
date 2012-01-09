@@ -1498,14 +1498,16 @@ class Acc_Ledger extends jrn_def_sql
         $add_js.='get_last_date();';
 
         $ret="";
-        /* Add button */
-        $f_add_button=new IButton('add_card');
-        $f_add_button->label=_('Créer une nouvelle fiche');
-        $f_add_button->set_attribute('ipopup','ipop_newcard');
-        $f_add_button->set_attribute('jrn',$this->id);
-        $f_add_button->javascript=" this.jrn=\$('p_jrn').value;select_card_type(this);";
-        $f_add_button->input();
-
+		if ( $user->check_action(FICADD) == 1)
+		{
+			/* Add button */
+			$f_add_button=new IButton('add_card');
+			$f_add_button->label=_('Créer une nouvelle fiche');
+			$f_add_button->set_attribute('ipopup','ipop_newcard');
+			$f_add_button->set_attribute('jrn',$this->id);
+			$f_add_button->javascript=" this.jrn=\$('p_jrn').value;select_card_type(this);";
+			$f_add_button->input();
+		}
 		$wLedger=$this->select_ledger('ODS',2);
         if ($wLedger == null) exit (_('Pas de journal disponible'));
         $wLedger->javascript="onChange='update_name();update_predef(\"ods\",\"t\");$add_js'";
@@ -1593,7 +1595,7 @@ class Acc_Ledger extends jrn_def_sql
         $ret.=HtmlInput::hidden('jrn_type',$this->get_type());
         $info= HtmlInput::infobulle(0);
         $info_poste=HtmlInput::infobulle(9);
-		$ret.=$f_add_button->input();
+		if  ($user->check_action(FICADD)==1)	$ret.=$f_add_button->input();
         $ret.='<table id="quick_item" style="width:100%">';
         $ret.='<tr>'.
               '<th style="text-align:left">Quickcode'.$info.'</th>'.
@@ -2564,7 +2566,7 @@ class Acc_Ledger extends jrn_def_sql
         {
 			$desc=sql_string($desc);
             $fil_desc=$and." ( upper(jr_comment) like upper('%".$desc."%') or upper(jr_pj_number) like upper('%".$desc."%') ".
-                      " or upper(jr_internal)  like upper('%".$desc."%') 
+                      " or upper(jr_internal)  like upper('%".$desc."%')
                           or jr_grpt_id in (select j_grpt from jrnx where j_text ~* '".$desc."'))";
             $and=" and ";
         }
