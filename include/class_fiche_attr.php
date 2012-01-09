@@ -138,6 +138,7 @@ class Fiche_Attr
     }
     public function insert()
     {
+        try{
         $this->verify();
         /*  please adapt */
         $sql="insert into attr_def(ad_text
@@ -151,12 +152,18 @@ class Fiche_Attr
                          array( $this->ad_text,$this->ad_type,$this->ad_size,$this->ad_extra
                               )
                      );
+        } catch (Exception $e)
+        {
+            throw ($e);
+        }
 
     }
 
     public function update()
     {
-        if ( $this->verify() != 0 ) return;
+        try 
+        {
+         $this->verify();
         if ( $this->ad_id < 9000) return;
         /*   please adapt */
         $sql=" update attr_def set ad_text = $1
@@ -168,6 +175,11 @@ class Fiche_Attr
                        ,$this->ad_type
                        ,$this->ad_id,$this->ad_size,$this->ad_extra)
              );
+        }catch (Exception $e)
+        {
+            throw ($e);
+        }
+        
 
     }
     /**
