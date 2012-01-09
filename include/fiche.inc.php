@@ -29,8 +29,9 @@ require_once('class_database.php');
 include_once ("user_menu.php");
 require_once('class_dossier.php');
 require_once('class_ipopup.php');
-echo IPoste::ipopup('ipop_account');
-echo ICard::ipopup('ipop_card');
+// Necessaire ???
+/*echo IPoste::ipopup('ipop_account');
+echo ICard::ipopup('ipop_card');*/
 
 $str_dossier=dossier::get();
 global $g_user,$cn;
