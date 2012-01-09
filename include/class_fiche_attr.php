@@ -5,7 +5,7 @@
  *
 Example
 @code
- 
+
 @endcode
  */
 require_once('class_database.php');
@@ -82,18 +82,18 @@ class Fiche_Attr
             case 'zone':
                 $this->ad_size=22;
                 break;
-            
+
             default:
                 $this->ad_size=22;
             }
         }
-	echo $this->ad_type;
-        if ( $this->ad_type == 'select')
+
+		if ( $this->ad_type == 'select')
         {
                 if (trim($this->ad_extra)=="") throw new Exception ("La requête SQL est vide ");
 		if ( preg_match('/^\h*select/i',$this->ad_extra)  == 0) throw new Exception ("La requête SQL doit commencer par SELECT ");
                 try{
-                    
+
                         $this->cn->exec_sql($this->ad_extra);
                 }catch (Exception $e)
                 {
@@ -103,7 +103,7 @@ class Fiche_Attr
     }
     public function save()
     {
-       
+
         /* please adapt */
         if (  $this->ad_id == 0 )
             $this->insert();
@@ -165,7 +165,7 @@ class Fiche_Attr
 
     public function update()
     {
-        try 
+        try
         {
          $this->verify();
         if ( $this->ad_id < 9000) return;
@@ -183,7 +183,7 @@ class Fiche_Attr
         {
             throw $e;
         }
-        
+
 
     }
     /**
@@ -224,7 +224,7 @@ class Fiche_Attr
 
 	$sql="delete from jnt_fic_attr where ad_id=$1";
         $res=$this->cn->exec_sql($sql,array($this->ad_id));
-	
+
         $sql="delete from attr_def where ad_id=$1";
         $res=$this->cn->exec_sql($sql,array($this->ad_id));
 
