@@ -971,7 +971,7 @@ class User
 		else
 		{
 			$sql = "select distinct dos_id,dos_name,dos_description from ac_dossier
-             where  dos_name ilike '%".sql_string($p_filter)."%' order by dos_name";
+             where   dos_name ilike '%$p_filter%' or dos_description ~* '$p_filter' order by dos_name";
 		}
 		require_once('class_database.php');
 		$cn = new Database();
