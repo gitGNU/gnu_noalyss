@@ -326,7 +326,7 @@ a.mtitle:hover {
 background-color:#5D90CD;
 
 }
-td.selectedcell a.mtitle {
+td.selectedcell a.mtitle,div.content td.selectedcell a.mtitle {
  font-size:1em;
  text-decoration:none;
  display:block;
