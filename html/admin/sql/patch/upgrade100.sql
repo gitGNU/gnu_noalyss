@@ -17,6 +17,6 @@ ALTER TABLE jnt_fic_attr
       REFERENCES attr_def (ad_id) MATCH SIMPLE
       ON UPDATE cascade ON DELETE cascade;
 
-update version set val=100;
+update version set val=101;
 
 commit;
