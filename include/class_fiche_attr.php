@@ -87,9 +87,11 @@ class Fiche_Attr
                 $this->ad_size=22;
             }
         }
-        if ( $this->ad_extra == 'select')
+	echo $this->ad_type;
+        if ( $this->ad_type == 'select')
         {
                 if (trim($this->ad_extra)=="") throw new Exception ("La requête SQL est vide ");
+		if ( preg_match('/^\h*select/i',$this->ad_extra)  == 0) throw new Exception ("La requête SQL doit commencer par SELECT ");
                 try{
                     
                         $this->cn->exec_sql($this->ad_extra);
@@ -156,7 +158,7 @@ class Fiche_Attr
                      );
         } catch (Exception $e)
         {
-            throw ($e);
+            throw $e;
         }
 
     }
@@ -179,7 +181,7 @@ class Fiche_Attr
              );
         }catch (Exception $e)
         {
-            throw ($e);
+            throw $e;
         }
         
 
