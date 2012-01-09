@@ -965,7 +965,7 @@ class User
              join  priv_user on ( priv_jnt=jnt_id)
              where use_active=1
              and use_login='".sql_string($this->login)."'
-             and priv_priv != 'X' and dos_name ilike '%$p_filter%'
+             and priv_priv != 'X' and ( dos_name ilike '%$p_filter%' or dos_description ~* '$p_filter')
              order by dos_name";
 		}
 		else

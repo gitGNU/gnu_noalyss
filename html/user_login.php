@@ -137,7 +137,7 @@ echo $w->input('p_nom',$p_nom);
 ?>
 <span class="notice">
                         <?php
-                        echo _('Donnez une partie du nom du dossier à rechercher');
+                        echo _('Donnez une partie du nom du dossier ou de la description à rechercher');
 ?>
 </span>
 </form>
