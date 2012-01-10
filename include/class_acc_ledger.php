@@ -624,12 +624,14 @@ class Acc_Ledger extends jrn_def_sql
 
 
         $r.="<tr >";
+	$r.="<th>Selection</th>";
         $r.="<th>Internal</th>";
-        if ( $this->type=='')
+
+        if ( $this->type=='ALL')
         {
             $r.=th('Journal');
         }
-		$r.="<th>Selection</th>";
+
         $r.='<th>Date</th>';
         $r.='<th>Pièce</td>';
 		$r.=th('tiers');
@@ -667,7 +669,7 @@ class Acc_Ledger extends jrn_def_sql
             $r.=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s </A>',
                         $row['jr_id'], $gDossier, $row['jr_internal']);
             $r.="</TD>";
-            if ( $this->type=='') $r.=td($row['jrn_def_name']);
+            if ( $this->type=='ALL') $r.=td($row['jrn_def_name']);
             // date
             $r.="<TD>";
             $r.=$row['str_jr_date'];
@@ -817,7 +819,7 @@ class Acc_Ledger extends jrn_def_sql
 
         $r.="<tr >";
         $r.="<th>Internal</th>";
-        if ( $this->type=='')
+        if ( $this->type=='ALL')
         {
             $r.=th('Journal');
         }
@@ -860,7 +862,7 @@ class Acc_Ledger extends jrn_def_sql
             $r.=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s </A>',
                         $row['jr_id'], $gDossier, $row['jr_internal']);
             $r.="</TD>";
-            if ( $this->type=='') $r.=td($row['jrn_def_name']);
+            if ( $this->type=='ALL') $r.=td($row['jrn_def_name']);
             // date
             $r.="<TD>";
             $r.=smaller_date($row['str_jr_date']);
