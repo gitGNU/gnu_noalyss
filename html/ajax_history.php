@@ -109,7 +109,7 @@ if ( isset($_GET['f_id']))
 	echo '<p style="text-align:center;font-size:125%">'.$detail_card.'</p>';
 
 	if (   $fiche->HtmlTable($array,0,0)==-1){
-	  echo h2("Aucun opération pour l'exercice courant",'class="error"');
+	  echo h2("Aucune opération pour l'exercice courant",'class="error"');
 	}
 
 	echo $old;
@@ -180,7 +180,7 @@ if ( isset($_REQUEST['pcm_val']))
         if ( $poste->HtmlTable($array) == -1)
 	  {
 	    echo h2info($poste->id." ".$poste->name);
-	    echo h2("Aucun opération pour l'exercice courant",'class="error"');
+	    echo h2("Aucune opération pour l'exercice courant",'class="error"');
 	  }
 	echo $old;
 

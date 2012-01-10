@@ -66,7 +66,7 @@ else
       }
 
     if (   $fiche->HtmlTable($array,0,0)==-1){
-      echo h2("Aucun opération pour l'exercice courant",'class="error"');
+      echo h2("Aucune opération pour l'exercice courant",'class="error"');
     }
     echo $old;
 
