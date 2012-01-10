@@ -585,7 +585,7 @@ class Fiche_Def
         if ( $this->id == 0 ) return;
         /* ORDER */
         $this->GetAttribut();
-        $max=sizeof($this->attribut);
+        $max=sizeof($this->attribut)*15;
         // Insert a new attribute for the model
         // it means insert a row in jnt_fic_attr
         $sql=sprintf("insert into jnt_fic_attr (fd_id,ad_id,jnt_order) values (%d,%d,%d)",
