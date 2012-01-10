@@ -158,6 +158,9 @@ if ( $action=='X' || ! isset($_GET['act']) || $g_user->check_print($_GET['act'])
   case 'CSV:AncGrandLivre':
       require_once 'export_anc_grandlivre_csv.php';
       break;
+  case 'CSV:reportinit':
+	  require_once('export_reportinit_csv.php');
+	  break;
    default:
     alert('Action inconnue '.$_GET['act']);
     exit();

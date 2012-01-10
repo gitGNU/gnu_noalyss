@@ -100,7 +100,7 @@ class Acc_Report
     }
     /*!
      * \brief  Display a form for encoding a new report or update one
-     * 
+     *
      * \param $p_line number of line
      *
      */
@@ -346,7 +346,7 @@ class Acc_Report
     }
     /*!\brief To make a SELECT button with the needed value, it is used
      *by the SELECT widget
-     *\return string with html code 
+     *\return string with html code
      */
     function make_array()
     {
@@ -356,9 +356,9 @@ class Acc_Report
 
 
     /*!\brief write to a file the definition of a report
-     * \param p_file is the file name
+     * \param p_file is the file name (default php://output)
      */
-    function export($p_file)
+    function export_csv($p_file)
     {
         $this->load();
 

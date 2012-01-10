@@ -1351,3 +1351,31 @@ function get_properties(obj)
     }
     alert(s_type+a_array.join(","));
 }
+/**
+ * @brief add a line in the form for the report
+ * @param p_dossier dossier id to connect
+ */
+function rapport_add_row(p_dossier)
+{
+    style='style="border: 1px solid blue;"';
+    var table=$("rap1");
+    var line=table.rows.length;
+
+    var row=table.insertRow(line);
+    // left cell
+    var cellPos = row.insertCell(0);
+    cellPos.innerHTML='<input type="text" '+style+' size="3" id="pos'+line+'" name="pos'+line+'" value="'+line+'">';
+
+    // right cell
+    var cellName = row.insertCell(1);
+    cellName.innerHTML='<input type="text" '+style+' size="40" id="text'+line+'" name="text'+line+'">';
+
+    // button + formula
+    var cellbutton = row.insertCell(2);
+    var but_html=table.rows[1].cells[2].innerHTML;
+    but_html=but_html.replace(/form0/g,"form"+line);
+    cellbutton.innerHTML=but_html;
+    but_html.evalScripts();
+
+    g('form'+line).value='';
+}

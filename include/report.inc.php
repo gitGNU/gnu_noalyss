@@ -128,20 +128,22 @@ if ( isset ($_REQUEST["action"]) )
     {
         echo '<DIV class="redcontent">';
         $rap->id=$_REQUEST ['fr_id'];
-        echo '<form method="post">';
+        echo '<form method="post" style="display:inline">';
         $rap->load();
         echo $rap->form();
         echo HtmlInput::hidden("fr_id",$rap->id);
         echo HtmlInput::hidden("action","record");
         echo HtmlInput::submit("update",_("Mise a jour"));
         echo HtmlInput::submit("del_form",_("Effacement"));
-        $w=new IButton();
-        $w->name="export";
-        $w->javascript="report_export('".$gDossier."','".$rap->id."')";
-        $w->label='Export';
-        echo $w->input();
-        echo '<span id="export_link"></span>';
+
         echo '</form>';
+		echo '<form method="get" action="export.php" style="display:inline">';
+		echo dossier::hidden();
+		echo HtmlInput::hidden("act","CSV:reportinit");
+		echo HtmlInput::hidden('f',$rap->id);
+		echo HtmlInput::submit('bt_csv',"Export CSV");
+		echo HtmlInput::request_to_hidden(array('ac','action','p_action','fr_id'));
+		echo '</form>';
         echo '<span class="notice">'._("Les lignes vides seront effacées").'</span>';
         echo "</DIV>";
     }

@@ -2743,7 +2743,6 @@ function load_all_script()
     echo js_include('slider.js');
     echo js_include('acc_ledger.js');
     echo js_include('accounting_item.js');
-    echo js_include('acc_report.js');
     echo js_include('ajax_fiche.js');
     echo js_include('anc_script.js');
     echo js_include('builder.js');
