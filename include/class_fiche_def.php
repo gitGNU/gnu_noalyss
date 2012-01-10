@@ -457,6 +457,7 @@ class Fiche_Def
         */
         $MaxLine=sizeof($this->attribut);
         $r="<TABLE>";
+	$r.="<tr>".th('Nom attribut').th('').th('Ordre','style="text-align:right"').'</tr>';
         // Display each attribute
         $add_action="";
         for ($i=0;$i<$MaxLine;$i++)
