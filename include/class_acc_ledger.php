@@ -1631,8 +1631,7 @@ class Acc_Ledger extends jrn_def_sql
                                             $quick_code->name);
 
             $quick_code->jrn=$this->id;
-            $quick_code->value=(isset(${'qc_'.$i}))?${'qc_'.$i}:""
-                               ;
+            $quick_code->value=(isset(${'qc_'.$i}))?${'qc_'.$i}:"";
             $quick_code->readonly=$p_readonly;
 
             $label='';
