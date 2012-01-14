@@ -311,22 +311,11 @@ class Acc_Ledger_Fin extends Acc_Ledger
         {
             $tiers=(isset(${"e_other".$i}))?${"e_other".$i}:""
                    ;
-            $tiers_label="";
             $tiers_amount=(isset(${"e_other$i"."_amount"}))?round(${"e_other$i"."_amount"},2):0;
 
             $tiers_comment=(isset (${"e_other$i"."_comment"}))?${"e_other$i"."_comment"}:""
                            ;
-            // If $tiers has a value
-            if ( $tiers != ""  )
-            {
-                $fTiers=new Fiche($this->db);
-                $fTiers->get_by_qcode($tiers);
-
-                $tiers_label=$fTiers->strAttribut(ATTR_DEF_NAME);
-
-            }
-            ${"e_other$i"."_amount"}=(isset (${"e_other$i"."_amount"}))?${"e_other$i"."_amount"}:
-                                     0;
+            ${"e_other$i"."_amount"}=(isset (${"e_other$i"."_amount"}))?${"e_other$i"."_amount"}:0;
 
             $W1=new ICard();
             $W1->label="";
@@ -338,7 +327,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
             $W1->set_attribute('ipopup','ipopcard');
 
             // name of the field to update with the name of the card
-            $W1->set_attribute('label','e_other'.$i.'_label');
+            $W1->set_attribute('label','e_other'.$i.'_comment');
             // name of the field to update with the name of the card
             $W1->set_attribute('typecard','filter');
             // Add the callback function to filter the card on the jrn
@@ -350,9 +339,6 @@ class Acc_Ledger_Fin extends Acc_Ledger
             $array[$i]['qcode']=$W1->input();
             $array[$i]['search']=$W1->search();
 
-            // label
-            $other=new ISpan("e_other$i"."_label", $tiers_label);
-            $array[$i]['span']=$other->input();
             // Comment
             $wComment=new IText("e_other$i"."_comment",$tiers_comment);
 
@@ -477,7 +463,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
         //-------------------------------------------------
         $r.='<TABLE style="width:100%" id="fin_item">';
         $r.="<TR>";
-        $r.="<th colspan=\"2\">code</TH>";
+        $r.="<th colspan=\"2\">Nom</TH>";
         $r.="<th>Commentaire</TH>";
         $r.="<th style=\"text-align:right\">Montant</TH>";
         $r.='<th colspan="2"> Op. Concern&eacute;e(s)</th>';
@@ -519,7 +505,6 @@ class Acc_Ledger_Fin extends Acc_Ledger
 
             $r.="<TR><td>".${'e_other'.$i}."</TD>";
             // label
-            $other=new ISpan();
             $r.='<TD style="width:25%;border-bottom:1px dotted grey;">';
             $r.=$fTiers->strAttribut(ATTR_DEF_NAME);
             $r.='</td>';
