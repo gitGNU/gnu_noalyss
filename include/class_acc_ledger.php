@@ -1560,7 +1560,7 @@ class Acc_Ledger extends jrn_def_sql
         }
         $wPJ=new IText('e_pj');
         $wPJ->readonly=false;
-        $wPJ->size=10;
+        $wPJ->size=40;
 
         /* suggest PJ ? */
         $default_pj='';
