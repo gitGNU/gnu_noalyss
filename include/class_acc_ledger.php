@@ -1576,7 +1576,7 @@ class Acc_Ledger extends jrn_def_sql
         $ret.= '</tr>';
         $ret.= '</td>';
 
-        $ret.= '<tr>'
+        $ret.= '<tr>';
         $ret.='<td colspan="2" style="width:auto">';
 	$ret.=_('Libellé');
         $wDescription=new IText('desc');
