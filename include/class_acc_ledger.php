@@ -1560,7 +1560,7 @@ class Acc_Ledger extends jrn_def_sql
         }
         $wPJ=new IText('e_pj');
         $wPJ->readonly=false;
-        $wPJ->size=40;
+        $wPJ->size=10;
 
         /* suggest PJ ? */
         $default_pj='';
@@ -1576,12 +1576,14 @@ class Acc_Ledger extends jrn_def_sql
         $ret.= '</tr>';
         $ret.= '</td>';
 
-        $ret.= '<tr><td >'._('Libellé');
+        $ret.= '<tr>'
+        $ret.='<td colspan="2" style="width:auto">';
+	$ret.=_('Libellé');
         $wDescription=new IText('desc');
         $wDescription->readonly=$p_readonly;
-        $wDescription->css_size="100%";
+        $wDescription->size="50";
         $wDescription->value=(isset($desc))?$desc:'';
-        $ret.='<td colspan="2" style="width:auto">';
+
         $ret.=$wDescription->input();
         $ret.= '</td>';
         $ret.='</tr>';
