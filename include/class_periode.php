@@ -345,6 +345,9 @@ class Periode
     }
     function insert($p_date_start,$p_date_end,$p_exercice)
     {
+        try
+        {
+
         if (isDate($p_date_start) == null ||
                 isDate($p_date_end) == null ||
                 strlen (trim($p_exercice)) == 0 ||
@@ -352,7 +355,7 @@ class Periode
 	  ||$p_exercice < 2000 || $p_exercice > 2099 )
 
         {
-            return 1;
+	  throw new Exception ("Paramètre invalide");
         }
         $p_id=$this->cn->get_next_seq('s_periode');
         $sql=sprintf(" insert into parm_periode(p_id,p_start,p_end,p_closed,p_exercice)".
@@ -362,8 +365,6 @@ class Periode
                      $p_date_start,
                      $p_date_end,
                      $p_exercice);
-        try
-        {
             $this->cn->start();
             $Res=$this->cn->exec_sql($sql);
             $Res=$this->cn->exec_sql("insert into jrn_periode (jrn_def_id,p_id,status) ".
@@ -484,18 +485,31 @@ class Periode
     /**
      *add a exerice of 13 periode
      */
-    function insert_exercice($p_exercice)
+    function insert_exercice($p_exercice,$nb_periode)
     {
       try
 	{
+	  if ( $nb_periode != 12 && $nb_periode != 13) throw new Exception ('Nombre de période incorrectes');
 	  $this->cn->start();
 	  for ($i=1;$i < 12;$i++)
 	    {
 	      $date_start=sprintf('01.%02d.%d',$i,$p_exercice);
 	      $date_end=$this->cn->get_value("select to_char(to_date('$date_start','DD.MM.YYYY')+interval '1 month'-interval '1 day','DD.MM.YYYY')");
-	      $this->insert($date_start,$date_end,$p_exercice);
+	      if ( $this->insert($date_start,$date_end,$p_exercice) != 0)
+		{
+		  throw new Exception('Erreur insertion période');
+		}
 	    }
-	  $this->insert('01.12.'.$p_exercice,'31.12.'.$p_exercice,$p_exercice);
+	  if ( $nb_periode==12 && $this->insert('01.12.'.$p_exercice,'31.12.'.$p_exercice,$p_exercice) != 0 ) 
+	    { 
+	      throw new Exception('Erreur insertion période');
+	    }
+	  if ( $nb_periode==13) 
+	    { 
+	      if ($this->insert('01.12.'.$p_exercice,'30.12.'.$p_exercice,$p_exercice) != 0 ) 	      throw new Exception('Erreur insertion période');
+	      if ($this->insert('31.12.'.$p_exercice,'31.12.'.$p_exercice,$p_exercice) != 0 ) 	      throw new Exception('Erreur insertion période');
+	    }
+
 
 	  $this->cn->commit();
 	}

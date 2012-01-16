@@ -51,7 +51,7 @@ if (isset($_POST['add_exercice']))
   {
     $obj=new Periode($cn);
     $exercice=$cn->get_value('select max(p_exercice::float)+1 from parm_periode');
-    if ( $obj->insert_exercice($exercice) == 1 )
+    if ( $obj->insert_exercice($exercice,$_POST['nb_exercice']) == 1 )
     {
         alert(_('Valeurs invalides'));
     }
@@ -102,6 +102,12 @@ if ( $choose=="yes" )
     $per->set_jrn($jrn);
 
     $per->display_form_periode();
+    $nb_exercice=new ISelect("nb_exercice");
+    $nb_exercice->value=array(
+			      array('value'=>12,'label'=>"12 périodes"),
+			      array('value'=>13,'label'=>"13 périodes")
+			      );
+
     require_once('template/periode_add_exercice.php');
 }
 else
