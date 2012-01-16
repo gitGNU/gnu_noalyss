@@ -117,7 +117,6 @@ if (isset($_POST["FMOD_NAME"]))
 
 	$Res = $cn_mod->exec_sql('delete from operation_analytique');
 
-	$Res = $cn_mod->exec_sql("truncate table import_tmp");
 	//	Reset the closed periode
 	$Res = $cn_mod->exec_sql("update parm_periode set p_closed='f'");
 	$Res = $cn_mod->exec_sql('delete from jrn_periode');
