@@ -150,7 +150,12 @@ class IPoste extends HtmlInput
 
         /* create the text  */
         $itext=new IText($this->name,$this->value);
-		$itext->size=$this->size;
+
+	if ( isset ($this->css_size))
+	     $itext->css_size=$this->css_size;
+	else
+	     $itext->size=$this->size;
+
         /* create the button */
         $ibutton=$this->dsp_button();
         if ( $this->table==3)
