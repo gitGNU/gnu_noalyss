@@ -36,6 +36,8 @@ require_once 'class_forecast_item.php';
 require_once 'class_fiche.php';
 require_once 'class_acc_account_ledger.php';
 require_once 'class_periode.php';
+require_once 'class_impress.php';
+
 class Anticipation
 {
     /* example private $variable=array("val1"=>1,"val2"=>"Seconde valeur","val3"=>0); */
@@ -137,10 +139,12 @@ class Anticipation
 	                                 where p_start >= (select p_start from parm_periode where p_id=$start)
                                          and p_end <= (select p_end from parm_periode where p_id=$end)
 					 order by p_start;");
+	$error=array();
         for($j=0;$j<count($aCat);$j++)
         {
             $aItem[$j]=$this->cn->get_array('select fi_card,fi_account,fi_text,fi_amount,fi_debit from forecast_item where fc_id=$1  and fi_pid=0 order by fi_order ',array($aCat[$j]['fc_id']));
             $aPerMonth[$j]=$this->cn->get_array('select fi_pid,fi_card,fi_account,fi_text,fi_amount,fi_debit from forecast_item where fc_id=$1 and fi_pid !=0 order by fi_order ',array($aCat[$j]['fc_id']));
+
             /* compute the real amount for periode */
             for($k=0;$k<count($aItem[$j]);$k++)
             {
@@ -151,15 +155,19 @@ class Anticipation
                     {
                         $fiche->id=$aItem[$j][$k]['fi_card'];
                         $amount=$fiche->get_solde_detail("j_tech_per = ".$aPeriode[$l]['p_id']);
+			if ($aItem[$j][$k]['fi_debit']=='C' && $amount['debit']>$amount['credit'])  $amount['solde']=$amount["solde"]*(-1);
+			if ($aItem[$j][$k]['fi_debit']=='D' && $amount['debit']<$amount['credit'])  $amount['solde']=$amount["solde"]*(-1);
 
                     }
                     else
                     {
                         $poste->id=$aItem[$j][$k]['fi_account'];
-                        $amount=$poste->get_solde_detail("j_tech_per= ".$aPeriode[$l]['p_id']);
+			$aresult=Impress::parse_formula($this->cn,"OK",$poste->id,$aPeriode[$l]['p_id'],$aPeriode[$l]['p_id']);
+                        $tmp_label=$aresult['desc'];
+			$amount['solde']=$aresult['montant'];
+
+			if ( $tmp_label != 'OK') $error[]="<li> ".$aItem[$j][$k]['fi_text'].$poste->id.'</li>';
                     }
-                    if ($aItem[$j][$k]['fi_debit']=='C' && $amount['debit']>$amount['credit'])  $amount['solde']=$amount["solde"]*(-1);
-                    if ($aItem[$j][$k]['fi_debit']=='D' && $amount['debit']<$amount['credit'])  $amount['solde']=$amount["solde"]*(-1);
                     $aReal[$j][$k][$l]=$amount['solde'];
                 }
             }
@@ -367,8 +375,12 @@ class Anticipation
             /* Accounting*/
             $account=new IPoste('an_cat_acc'.$i);
             $account->set_attribute('ipopup','ipop_account');
-            $account->set_attribute('label','an_label'.$i);
+	    //            $account->set_attribute('label','an_label'.$i);
             $account->set_attribute('account','an_cat_acc'.$i);
+	    $account->set_attribute('bracket',1);
+	    $account->set_attribute('no_overwrite',1);
+	    $account->set_attribute('noquery',1);
+	    $account->css_size="85%";
             $account->value=(isset($value[$i]["fi_account"]))?$value[$i]["fi_account"]:"";
             $aCat[$i]['account']=$account->input();
             /*Quick Code */

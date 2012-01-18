@@ -166,3 +166,18 @@ else
 
 
 <?php endfor;?>
+<? if ( ! empty ($error) ) : ?>
+<div class="error">
+Désolé il y a des formules incorrectes 
+<ul style="list-style-type:none">
+
+   <? $last="";?>
+   <? for ($i=0;$i<count($error);$i++) : ?>
+<?
+   if ( $last != $error[$i] ) {  echo h($error[$i]); }
+$last=$error[$i];
+endfor;
+?>
+</ul>
+</div>
+<? endif; ?>

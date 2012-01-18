@@ -5,8 +5,8 @@
 <table id="fortable">
 <tr>
 <th><?php echo _('Catégorie');?></th>
-<th><?php echo _('Poste Comptable');?></th>
-<th><?php echo _('QuickCode');?></th>
+<th style="width:40%"><?php echo _('Formules');?></th>
+<th><?php echo _('ou QuickCode');?></th>
 <th><?php echo _('Libellé');?></th>
 <th><?php echo _('Montant');?></th>
 <th><?php echo _('Débit ou Crédit');?></th>
