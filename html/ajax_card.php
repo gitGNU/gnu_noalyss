@@ -257,9 +257,10 @@ case 'st':
     else
     {
         $r='';
-	$html.='<p class="notice"> Choississez la catégorie de fiche à laquelle vous aimeriez ajouter une fiche</p>';
+	$r.='<p class="notice" style="padding-left:2em"> Choississez la catégorie de fiche à laquelle vous aimeriez ajouter une fiche</p>';
         $isel=new ISelect('fd_id');
         $isel->value=$array;
+	$r.='<div style="text-align:center">';
         $r.='<form id="sel_type" method="GET" onsubmit="this.ipopup='.$ctl.';dis_blank_card(this);return false;" >';
         $r.=dossier::hidden();
         $r.=(isset($ref))?HtmlInput::hidden('ref',1):'';
@@ -270,6 +271,7 @@ case 'st':
 	$r.=HtmlInput::button('Annuler','Annuler'," onclick=\"removeDiv('$ctl')\" ");
 	$r.='</p>';
         $r.='</form>';
+	$r.='</div>';
         $html.=$r;
 
     }
