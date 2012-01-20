@@ -28,6 +28,22 @@ require_once 'class_impress.php';
 
 class Anc_GrandLivre extends Anc_Print
 {
+	    function set_sql_filter()
+    {
+        $sql="";
+        $and=" and ";
+        if ( $this->from != "" )
+        {
+            $sql.="$and oa_date >= to_date('".$this->from."','DD.MM.YYYY')";
+        }
+        if ( $this->to != "" )
+        {
+            $sql.=" $and oa_date <= to_date('".$this->to."','DD.MM.YYYY')";
+        }
+
+        return $sql;
+
+    }
       /*!
      * \brief load the data from the database
      *
@@ -62,9 +78,8 @@ class Anc_GrandLivre extends Anc_Print
 	from operation_analytique as B join poste_analytique using(po_id)
 	left join jrnx using (j_id)
 	left join jrn on  (j_grpt=jr_grpt_id)
-             where $pa_id_cond oa_amount <> 0.0  $cond_poste
-	order by po_name,oa_date ,qcode,j_poste");
-
+             where $pa_id_cond oa_amount <> 0.0  $cond_poste  $filter_date
+	order by po_name,to_date(oa_date,'DD.MM.YYYY') ,qcode,j_poste");
 
         return $array;
     }
@@ -92,8 +107,8 @@ class Anc_GrandLivre extends Anc_Print
 	from operation_analytique as B join poste_analytique using(po_id)
 	left join jrnx using (j_id)
 	left join jrn on  (j_grpt=jr_grpt_id)
-             where $pa_id_cond oa_amount <> 0.0  $cond_poste
-	order by po_name,oa_date ,qcode,j_poste");
+             where $pa_id_cond oa_amount <> 0.0  $cond_poste $filter_date
+	order by po_name,to_date(oa_date,'DD.MM.YYYY') ,qcode,j_poste");
 
 
         return $array;

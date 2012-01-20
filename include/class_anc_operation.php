@@ -154,7 +154,7 @@ class Anc_Operation
 	left join jrnx using (j_id)
 	left join jrn on  (j_grpt=jr_grpt_id)
              where $pa_id_cond oa_amount <> 0.0 $cond $cond_poste
-	order by oa_date ,oa_group,oa_debit desc,oa_id";
+	order by jr_date,oa_group,oa_debit desc,oa_id";
 
         $RetSql=$this->db->exec_sql($sql);
 
