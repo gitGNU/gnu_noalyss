@@ -86,12 +86,11 @@ else
     if (isset($_POST["DELETE"]))
     {
         $cn = new Database();
-        $Res = $cn->exec_sql("delete from priv_user where priv_jnt in ( select jnt_id from jnt_use_dos where use_id=$1", array($uid));
+        $Res = $cn->exec_sql("delete from priv_user where priv_jnt in ( select jnt_id from jnt_use_dos where use_id=$1)", array($uid));
         $Res = $cn->exec_sql("delete from jnt_use_dos where use_id=$1", array($uid));
         $Res = $cn->exec_sql("delete from ac_users where use_id=$1", array($uid));
 
-        echo "<center><H2 class=\"info\"> User " . h($_POST['fname']) . " " . h($_POST['lname']) . " (" .
-        h($_POST['login']) . ") est effacé</H2></CENTER>";
+        echo "<center><H2 class=\"info\"> User " . h($_POST['fname']) . " " . h($_POST['lname']) . " est effacé</H2></CENTER>";
         require_once("class_iselect.php");
         require_once("user.inc.php");
         return;
