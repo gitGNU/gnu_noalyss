@@ -934,47 +934,51 @@ class Fiche
                 }
 
                 // account
-                if ( $id == ATTR_DEF_ACCOUNT )
-                {
-                    $v=sql_string($value);
-                    if ( trim($v) != ''  )
-                    {
-			if ( strpos($v,',') != 0)
-			{
-				$v=$this->cn->get_value('select format_account($1)',
-				    array($v));
-			}
-                        $sql=sprintf("select account_update(%d,'%s')",
-                                     $this->id,$v);
-                        try
-                        {
-                            $this->cn->exec_sql($sql);
-                        }
-                        catch (Exception $e)
-                        {
-                            throw new Exception(__LINE__."Erreur : ce compte [$v] n'a pas de compte parent.".
-                                                "L'op&eacute;ration est annul&eacute;e");
-                        }
-                        continue;
-                    }
-                    if ( strlen (trim($v)) == 0 )
-                    {
+                if ($id == ATTR_DEF_ACCOUNT)
+				{
+					$v = sql_string($value);
+					if (trim($v) != '')
+					{
+						if (strpos($v, ',') != 0)
+						{
+							$ac_array = explode(",", $v);
+							if (count($ac_array) <> 2)
+								throw new Exception('Désolé, il y a trop de virgule dans le poste comptable ' . h($v));
+							$part1 = $ac_array[0];
+							$part2 = $ac_array[1];
+							$part1 = $this->cn->get_value('select format_account($1)', array($part1));
+							$part2 = $this->cn->get_value('select format_account($1)', array($part2));
+							$v = $part1 . ',' . $part2;
+						}
+						$sql = sprintf("select account_update(%d,'%s')", $this->id, $v);
+						try
+						{
+							$this->cn->exec_sql($sql);
+						}
+						catch (Exception $e)
+						{
+							throw new Exception(__LINE__ . "Erreur : ce compte [$v] n'a pas de compte parent." .
+									"L'op&eacute;ration est annul&eacute;e");
+						}
+						continue;
+					}
+					if (strlen(trim($v)) == 0)
+					{
 
-                        $sql=sprintf("select account_update(%d,null)",
-                                     $this->id);
-                        try
-                        {
-                            $Ret=$this->cn->exec_sql($sql);
-                        }
-                        catch (Exception $e)
-                        {
-                            throw new Exception(__LINE__."Erreur : ce compte [$v] n'a pas de compte parent.".
-                                                "L'opération est annulée");
-                        }
+						$sql = sprintf("select account_update(%d,null)", $this->id);
+						try
+						{
+							$Ret = $this->cn->exec_sql($sql);
+						}
+						catch (Exception $e)
+						{
+							throw new Exception(__LINE__ . "Erreur : ce compte [$v] n'a pas de compte parent." .
+									"L'opération est annulée");
+						}
 
-                        continue;
-                    }
-                }
+						continue;
+					}
+				}
                 // TVA
                 if ( $id == ATTR_DEF_TVA )
                 {
