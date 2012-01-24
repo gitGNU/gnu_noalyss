@@ -163,7 +163,7 @@ function success_update_bank(req)
     }
     catch (e)
     {
-        alert("success_update_bank".e.message);
+        alert("success_update_bank"+e.message);
     }
 }
 /**
@@ -265,11 +265,12 @@ function ledger_fin_add_row()
  */
 function ledger_add_row()
 {
+	try{
     style='class="input_text"';
     var mytable=g("sold_item").tBodies[0];
     var ofirstRow=mytable.rows[1];
     var line=mytable.rows.length;
-    var nCell=9;
+    var nCell=mytable.rows[1].cells.length;
     var row=mytable.insertRow(line);
     var nb=g("nb_item");
     for (var e=0;e<nCell;e++)
@@ -290,11 +291,12 @@ function ledger_add_row()
     g("e_march"+nb.value+"_price").value='0';
     g("e_march"+nb.value).value="";
     g("e_quant"+nb.value).value="1";
-    g("e_march"+nb.value+"_tva_amount").value=0;
+	 if ($("e_march"+nb.value+"_tva_amount")) g("e_march"+nb.value+"_tva_amount").value=0;
 
     nb.value++;
 
     new_tt.evalScripts();
+	} catch(e) { alert(e.message);}
 
 }
 /**
