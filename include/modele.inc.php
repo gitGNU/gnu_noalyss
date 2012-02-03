@@ -114,6 +114,7 @@ if (isset($_POST["FMOD_NAME"]))
 	$Res = $cn_mod->exec_sql("truncate table  jrnx cascade ");
 	$Res = $cn_mod->exec_sql("delete from del_action");
 	$Res = $cn_mod->exec_sql("delete from profile_user");
+	$Res = $cn_mod->exec_sql("delete from jnt_letter");
 
 	$Res = $cn_mod->exec_sql('delete from operation_analytique');
 
