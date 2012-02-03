@@ -101,7 +101,7 @@ $compteur=0;
 $header=new Sort_Table();
 $url=basename($_SERVER['PHP_SELF'])."?action=".$_REQUEST['action'];
 $header->add("Login", $url," order by use_login asc", "order by use_login desc","la", "ld");
-$header->add("Nom", $url," order by use_login asc", "order by use_login desc","na", "nd");
+$header->add("Nom", $url," order by use_name asc,use_first_name asc", "order by use_name desc,use_first_name desc","na", "nd");
 $header->add('Dossier',$url,' order by ag_dossier asc','order by ag_dossier desc',
         'da','dd');
 $header->add("Actif", $url," order by use_active asc", "order by  use_active desc","aa", "ad");
