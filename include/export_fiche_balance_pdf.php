@@ -180,6 +180,10 @@ else
 			{
 				$letter->get_unletter();
 			}
+			if ($_GET['histo'] == 6)
+			{
+				$letter->get_letter_diff();
+			}
 			/* skip if nothing to display */
 			if (count($letter->content) == 0)
 				continue;
@@ -195,7 +199,7 @@ else
 			$pdf->Cell($tab[2], 7, 'Comm');
 			$pdf->Cell(40, 7, 'Montant', 0, 0, 'C');
 			$pdf->Cell($tab[5], 7, 'Let.', 0, 0, 'R');
-			$pdf->Cell($tab[6], 7, 'Som. Let.', 0, 0, 'R');
+			$pdf->Cell($tab[6], 7, 'Diff. Let.', 0, 0, 'R');
 			$pdf->ln();
 
 			$amount_deb = 0;
@@ -236,11 +240,8 @@ else
 				{
 					$pdf->Cell($tab[5], 4, $row['letter'], 0, 0, $align[5], $fill);
 					// get sum for this lettering
-					$sql = "select sum(j_montant) from jrnx where j_debit=$1 and j_id in " .
-							" (select j_id from jnt_letter join letter_deb using (jl_id) where jl_id=$2 union " .
-							"  select j_id from jnt_letter join letter_cred using (jl_id) where jl_id=$3)";
-					$sum = $cn->get_value($sql, array($row['j_debit'], $row['letter'], $row['letter']));
-					$pdf->Cell($tab[6], 4, sprintf('%.2f', $sum), '0', '0', 'R', $fill);
+
+					$pdf->Cell($tab[6], 4, sprintf('%.2f', $row['letter_diff']), '0', '0', 'R', $fill);
 				}
 				else
 					$pdf->Cell($tab[5], 4, "", 0, 0, 'R', $fill);

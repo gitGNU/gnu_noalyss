@@ -27,7 +27,7 @@ require_once('class_lettering.php');
 
 $gDossier=dossier::id();
 $cn=new Database($gDossier);
-global $g_user;
+global $g_user,$g_failed;;
 
 /**
  * Show first the form
@@ -60,6 +60,7 @@ $histo=new ISelect('histo');
 $histo->value=array(
                   array('value'=>0,'label'=>_('Historique')),
                   array('value'=>1,'label'=>_('Historique Lettré')),
+                  array('value'=>6,'label'=>_('Historique Lettré et montants différents')),
                   array('value'=>2,'label'=>_('Historique non Lettré')),
                   array('value'=>3,'label'=>_('Résumé')),
                   array('value'=>4,'label'=>_('Balance')),
@@ -271,6 +272,10 @@ for ($e = 0; $e < count($afiche); $e++)
 		{
 			$letter->get_unletter();
 		}
+		if ( $_GET['histo'] == 6 )
+		{
+			$letter->get_letter_diff();
+		}
 		/* skip if nothing to display */
 		if (count($letter->content) == 0)
 			continue;
@@ -300,9 +305,9 @@ for ($e = 0; $e < count($afiche); $e++)
 				echo '<tr class="odd">';
 			$row = $letter->content[$i];
 			echo td($row['j_date_fmt']);
-			echo td($row['jr_pj_number']);
+			echo td(h($row['jr_pj_number']));
 			echo td(HtmlInput::detail_op($row['jr_id'], $row['jr_internal']));
-			echo td($row['jr_comment']);
+			echo td(h($row['jr_comment']));
 			if ($row['j_debit'] == 't')
 			{
 				echo td(nbm($row['j_montant']), ' style="text-align:right"');
@@ -319,7 +324,11 @@ for ($e = 0; $e < count($afiche); $e++)
 			}
 			echo td(nbm($prog), 'style="text-align:right"');
 			if ($row['letter'] != -1)
-				echo td($row['letter']);
+				{
+				$span_error="";
+				if ( $row['letter_diff'] != 0 ) $span_error=$g_failed;
+				echo td($row['letter'].$span_error);
+				}
 			else
 				echo td('');
 			echo '</tr>';

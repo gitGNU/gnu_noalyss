@@ -73,6 +73,7 @@ $sel=new ISelect('type_let');
 $sel->value=array(
                 array('value'=>0,'label'=>_('Toutes opérations')),
                 array('value'=>1,'label'=>_('Opérations lettrées')),
+                array('value'=>3,'label'=>_('Opérations lettrées montants différents')),
                 array('value'=>2,'label'=>_('Opérations NON lettrées'))
             );
 if (isset($_GET['type_let'])) $sel->selected=$_GET['type_let'];
@@ -118,7 +119,8 @@ if ( $sel->selected == 1 )
     echo $letter->show_list('letter');
 if ( $sel->selected == 2 )
     echo $letter->show_list('unletter');
-
+if ( $sel->selected == 3 )
+    echo $letter->show_list('letter_diff');
 echo '</div>';
 echo '<div id="detail" style="display:none">';
 echo 'Un instant...';
