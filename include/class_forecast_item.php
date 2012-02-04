@@ -75,6 +75,7 @@ class Forecast_Item
     }
     public function verify()
     {
+		$this->fi_account=  str_replace(" ", "", $this->fi_account);
         // Verify that the elt we want to add is correct
         // the f_name must be unique (case insensitive)
         return 0;
