@@ -45,7 +45,7 @@ define ("DEBUG",false);
 /* $version_phpcompta=4601;
 define ("DEBUG",true); */
 
-define ("DBVERSION",102);
+define ("DBVERSION",101);
 
 define ("DBVERSIONREPO",14);
 define ('NOTFOUND','--not found--');
