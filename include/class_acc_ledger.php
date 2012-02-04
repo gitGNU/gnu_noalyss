@@ -1650,9 +1650,12 @@ class Acc_Ledger extends jrn_def_sql
             $poste->set_attribute('ipopup','ipop_account');
             $poste->set_attribute('label','ld'.$i);
             $poste->set_attribute('account','poste'.$i);
+            $poste->set_attribute('dossier',  Dossier::id());
 
             $poste->value=(isset(${'poste'.$i}))?${"poste".$i}:''
-                          ;
+						     ;
+			$poste->dbl_click_history();
+			
             $poste->readonly=$p_readonly;
 
             if ( $poste->value != '' )
