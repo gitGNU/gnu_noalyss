@@ -57,6 +57,7 @@ class Impress
             $cond=sql_filter_per($p_cn,$p_start,$p_end,'p_id','j_tech_per');
         else
             $cond="( j_date >= to_date('$p_start','DD.MM.YYYY') and j_date <= to_date('$p_end','DD.MM.YYYY'))";
+
         include_once("class_acc_account_ledger.php");
 
         //    while (@ereg("(\[[0-9]*%*D*C*S*\])",$p_formula,$e) == true)
@@ -112,7 +113,8 @@ class Impress
                         $oPeriode=new Periode($p_cn);
                         try
                           {
-                            $from=$oPeriode->find_periode('01'.$from);
+                            $pfrom=$oPeriode->find_periode('01.'.$from);
+							$cond=  sql_filter_per($p_cn, $pfrom, $p_end,'p_id','j_tech_per');
                           }
                         catch (Exception $exp)
                           {
