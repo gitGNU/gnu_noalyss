@@ -1,17 +1,18 @@
-alter table attr_def add ad_extra text ;
+CREATE OR REPLACE FUNCTION comptaproc.letter_compare(p_jl bigint)
+  RETURNS numeric AS
+$BODY$
+declare
+ nCred numeric(20,4);
+ nDeb numeric(20,4);
+begin
+	if p_jl = -1 then
+		return 0.0;
+	end if;
+	select coalesce(sum(j_montant),0) into nCred from letter_cred join jrnx using (j_id) where jl_id=p_jl;
+	select coalesce(sum(j_montant),0) into nDeb from letter_deb join jrnx using (j_id) where jl_id=p_jl;
 
-insert into attr_def (ad_id,ad_text,ad_type,ad_size) values (33,'Date Fin','date',8);
 
-ALTER TABLE fiche_detail DROP CONSTRAINT "$2";
-
-ALTER TABLE fiche_detail
-  ADD CONSTRAINT fiche_detail_attr_def_fk FOREIGN KEY (ad_id)
-      REFERENCES attr_def (ad_id) MATCH SIMPLE
-      ON UPDATE cascade ON DELETE cascade;
-      
-ALTER TABLE jnt_fic_attr DROP CONSTRAINT "$2";
-
-ALTER TABLE jnt_fic_attr
-  ADD CONSTRAINT jnt_fic_attr_attr_def_fk FOREIGN KEY (ad_id)
-      REFERENCES attr_def (ad_id) MATCH SIMPLE
-      ON UPDATE cascade ON DELETE cascade;
+	return nDeb-nCred;
+end;
+$BODY$
+  LANGUAGE plpgsql;

@@ -3,7 +3,7 @@ require_once ('class_acc_operation.php');
 require_once ('class_acc_reconciliation.php');
 $amount_deb=0;$amount_cred=0;
 $gDossier=dossier::id();
-
+global $g_failed;
 
 if ( count($this->content) == 0 ) :
 ?>
@@ -54,7 +54,9 @@ $js="this.gDossier=".dossier::id().
   ";dsp_letter(this)";
 
 ?>
-<A class="detail" href="javascript:<?=$js?>"><?=$letter?></A>
+<A class="detail" href="javascript:<?=$js?>"><?=$letter?>
+<? if ( $this->content[$i]['letter_diff'] != 0) echo $g_failed;	?>
+	</A>
 </td>
 <td> <?=  smaller_date($this->content[$i]['j_date_fmt'])?> </td>
 <td> <?=$this->content[$i]['jr_pj_number']?> </td>
@@ -80,7 +82,7 @@ $r=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript
 	$operation->jr_id=$element;
 	$l_amount=$this->db->get_value("select jr_montant from jrn ".
 					 " where jr_id=$element");
-	echo "<A class=\"detail\" HREF=\"javascript:viewOperation('".$element."',".$gDossier.")\" > ".$operation->get_internal()." [ $l_amount &euro; ]</A>";
+	echo "<A class=\"detail\" HREF=\"javascript:viewOperation('".$element."',".$gDossier.")\" > ".$operation->get_internal()." [ ".nb($l_amount)." &euro; ]</A>";
       }//for
     }// if ( $a != null ) {
 // compute amount
@@ -97,7 +99,9 @@ $amount_cred+=($this->content[$i]['j_debit']=='f')?$this->content[$i]['j_montant
 </table>
 <h2 class="info2" style="margin:0 0"> Solde débit  : <?=nb($amount_deb);?>
 <h2 class="info2"  style="margin:0 0"> Solde crédit : <?=nb($amount_cred);?>
-  <? $solde=bcsub($amount_deb,$amount_cred);
+  <?
+bcscale(2);
+  $solde=bcsub($amount_deb,$amount_cred);
 if ( $solde > 0 ) :
 ?>
   <h2 class="info2"  style="margin:0 0"> Solde débiteur       : <?=nb($solde)?>

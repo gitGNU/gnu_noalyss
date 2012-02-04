@@ -125,12 +125,16 @@ else
 			{
 				$letter->get_unletter();
 			}
+			if ($_GET['histo'] == 6)
+			{
+				$letter->get_letter_diff();
+			}
 			/* skip if nothing to display */
 			if (count($letter->content) == 0)
 				continue;
 			printf('"%s"'."\n",$row->strAttribut(ATTR_DEF_QUICKCODE), $row->strAttribut(ATTR_DEF_NAME));
 
-			printf('"%s";"%s";"%s";"%s";"%s";"%s";"%s"',
+			printf('"%s";"%s";"%s";"%s";"%s";"%s";"%s";"%s";"%s"',
 					_('Date'),
 				_('ref'),
 				_('Interne'),
@@ -138,7 +142,8 @@ else
 				_('Débit'),
 				_('Crébit'),
 				_('Prog.'),
-				_('Let.'));
+				_('Let.'),
+					_("Diff Let."));
 			printf("\n");
 			$amount_deb = 0;
 			$amount_cred = 0;
@@ -167,7 +172,10 @@ else
 				}
 				printf ("%s;",nb($prog));
 				if ($row['letter'] != -1)
+				{
 					printf('"%s";',$row['letter']);
+					printf("%s",nb($row['letter_diff']));
+				}
 				else
 					printf(";");
 				printf("\n");
