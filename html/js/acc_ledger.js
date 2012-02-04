@@ -296,7 +296,7 @@ function ledger_add_row()
     nb.value++;
 
     new_tt.evalScripts();
-	} catch(e) { alert(e.message);}
+	} catch(e) {alert(e.message);}
 
 }
 /**
@@ -895,4 +895,10 @@ function op_save(obj)
                                     );
     }
     return false;
+}
+function  get_history_account(ctl,dossier) {
+	if ( $(ctl).value != '')
+		{
+			view_history_account($(ctl).value, dossier);
+		}
 }

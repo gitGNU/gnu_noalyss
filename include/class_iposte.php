@@ -156,6 +156,7 @@ class IPoste extends HtmlInput
 	else
 	     $itext->size=$this->size;
 
+		 $itext->javascript=$this->javascript;
         /* create the button */
         $ibutton=$this->dsp_button();
         if ( $this->table==3)
@@ -188,6 +189,15 @@ class IPoste extends HtmlInput
         return $r;
 
     }
+	/**
+	 *add a double click to poste to see his history
+	 *@note change $this->javascript
+	 */
+	public function dbl_click_history()
+	{
+		$r=' ondblclick="get_history_account(\''.$this->name.'\',\''.dossier::id().'\')"';
+		$this->javascript=$r;
+	}
     static public function test_me()
     {
     }
