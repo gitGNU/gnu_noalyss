@@ -93,6 +93,10 @@ class Acc_Operation
         {
             $this->type=($this->type=='d')?'c':'d';
         }
+
+		if ($this->periode == 0 || strlen(trim($this->periode))==0)
+				$this->periode=$this->db->get_value('select find_periode($1)',array($this->date));
+
         $this->amount=abs($this->amount);
         $debit=($this->type=='c')?'false':'true';
         $this->desc=(isset($this->desc))?$this->desc:'';
@@ -194,7 +198,8 @@ class Acc_Operation
             echo "Erreur : balance incorrecte :diff = $diff";
             return false;
         }
-
+		if ($this->periode == 0 || strlen(trim($this->periode))==0)
+				$this->periode=$this->db->get_value('select find_periode($1)',array($this->date));
         $echeance=( isset( $this->echeance) && strlen(trim($this->echeance)) != 0)?$this->echeance:null;
         if ( ! isset($this->mt) )
         {
@@ -468,7 +473,7 @@ class Acc_Operation
     }
     /**
     *@brief retrieve data from jrnx and jrn
-    *@return return an object 
+    *@return return an object
     *@note
     *@see
     @code
@@ -562,7 +567,7 @@ class Acc_Detail extends Acc_Operation
 /**
  *@brief this class manage data from the JRNX and JRN
  * table
- *@note Data member are the column of the table 
+ *@note Data member are the column of the table
  */
 class Acc_Misc extends Acc_Detail
 {
@@ -588,7 +593,7 @@ class Acc_Misc extends Acc_Detail
 /**
  *@brief this class manage data from the QUANT_SOLD
  * table
- *@note Data member are the column of the table 
+ *@note Data member are the column of the table
  */
 class Acc_Sold extends Acc_Detail
 {
@@ -611,8 +616,8 @@ class Acc_Sold extends Acc_Detail
 /**
  *@brief this class manage data from the QUANT_PURCHASE
  * table
- *@note Data member are the column of the table 
- 
+ *@note Data member are the column of the table
+
  */
 class Acc_Purchase extends Acc_Detail
 {
@@ -636,7 +641,7 @@ class Acc_Purchase extends Acc_Detail
 /**
  *@brief this class manage data from the QUANT_FIN
  * table
- *@note Data member are the column of the table 
+ *@note Data member are the column of the table
  */
 class Acc_Fin extends Acc_Detail
 {
