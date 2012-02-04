@@ -91,14 +91,14 @@ if ( $jnt_id == $this->content[$i]['letter'] && $i >= $linked_limit) continue;
 $check=new ICheckbox('ck[]',$this->content[$i]['j_id']);
 if ( $jnt_id == $this->content[$i]['letter'] && $i < $linked_limit) $check->selected=true; else $check->selected=false;
 
-if ( $this->content[$i]['letter'] == -1 ||  $check->selected == true )
+if ( $this->content[$i]['letter'] < 0 ||  $check->selected == true )
 	echo $check->input();
 echo HtmlInput::hidden('letter_j_id[]',$this->content[$i]['j_id']);
 ?>
 </td>
 <td>
 <?php
-$letter=($this->content[$i]['letter']==-1)?" ":$this->content[$i]['letter'];
+$letter=($this->content[$i]['letter']< 0)?" ":$this->content[$i]['letter'];
 ?>
 <?=$letter?>
 </td>
