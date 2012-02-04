@@ -635,7 +635,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
             $amount=0.0;
             $idx_operation=0;
             $ret='<table class="result" style="width:75%">';
-            $ret.=tr(th('Quick Code').th('Nom').th('Libellé').th('Montant',' style="text-align:right"'));
+            $ret.=tr(th('n° interne').th('Quick Code').th('Nom').th('Libellé').th('Montant',' style="text-align:right"'));
             // Credit = goods
             for ( $i = 0; $i < $nb_item;$i++)
             {
@@ -648,10 +648,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
                 // round it
                 ${"e_other$i"."_amount"}=round( ${"e_other$i"."_amount"},2);
 
-                // Compute display
-                $row=td(${"e_other$i"}).td($fPoste->strAttribut(ATTR_DEF_NAME)).td(${"e_other".$i."_comment"}).td(nbm(${"e_other$i"."_amount"}),'class="num"');
 
-                $ret.=tr($row);
 
                 $amount+=${"e_other$i"."_amount"};
                 // Record a line for the bank
@@ -796,7 +793,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
                 {
                     // for each item, insert into operation_analytique */
                     $op=new Anc_Operation($this->db);
-		    $op->oa_group=$this->db->get_next_seq("s_oa_group"); /* for analytic */
+					$op->oa_group=$this->db->get_next_seq("s_oa_group"); /* for analytic */
                     $op->j_id=$j_id;
                     $op->oa_date=$e_date;
                     $op->oa_debit=($amount < 0 )?'t':'f';
@@ -807,6 +804,11 @@ class Acc_Ledger_Fin extends Acc_Ledger
 
                 $this->update_internal_code($internal);
 
+				$js_detail=  HtmlInput::detail_op($jr_id, $internal);
+				// Compute display
+                $row=td($js_detail).td(${"e_other$i"}).td($fPoste->strAttribut(ATTR_DEF_NAME)).td(${"e_other".$i."_comment"}).td(nbm(${"e_other$i"."_amount"}),'class="num"');
+
+                $ret.=tr($row);
 
 
                 if ( $i == 0 )
