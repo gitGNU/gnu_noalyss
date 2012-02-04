@@ -463,12 +463,18 @@ class Lettering_Account extends Lettering
      */
     public function get_all()
     {
-        $sql="
-             select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
-             j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,jr_pj_number,
-             coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter,
-			 comptaproc.letter_compare(coalesce(comptaproc.get_letter_jnt(j_id),-1)) as letter_diff
-             from jrnx join jrn on (j_grpt = jr_grpt_id)
+        $sql=" with let_diff as (select jl_id,deb_amount-cred_amount as diff_letter1
+			from
+			( select jl_id,coalesce(sum(j_montant),0) as cred_amount from letter_cred join jrnx using (j_id) group by jl_id) as CRED
+			left join (select jl_id,coalesce(sum(j_montant),0) as deb_amount from letter_deb join jrnx using (j_id) group by jl_id) as DEB using (jl_id)) ,
+			letter_jl as (select jl_id,j_id from letter_cred union all select jl_id,j_id from letter_deb)
+			select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
+						j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
+							coalesce(let_diff.jl_id,-1) as letter,
+					diff_letter1 as letter_diff
+						from jrnx join jrn on (j_grpt = jr_grpt_id)
+						left join letter_jl using (j_id)
+						left join let_diff using (jl_id)
              where j_poste = $1 and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date ($3,'DD.MM.YYYY')
              and $this->sql_ledger
 
@@ -481,14 +487,20 @@ class Lettering_Account extends Lettering
     public function get_letter()
     {
         $sql="
-             select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
-             j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
-             coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter,
-			 comptaproc.letter_compare(coalesce(comptaproc.get_letter_jnt(j_id),-1)) as letter_diff
-             from jrnx join jrn on (j_grpt = jr_grpt_id)
-             where j_poste = $1 and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date ($3,'DD.MM.YYYY')
+			with let_diff as (select jl_id,deb_amount-cred_amount as diff_letter1
+			from
+			( select jl_id,coalesce(sum(j_montant),0) as cred_amount from letter_cred join jrnx using (j_id) group by jl_id) as CRED
+			left join (select jl_id,coalesce(sum(j_montant),0) as deb_amount from letter_deb join jrnx using (j_id) group by jl_id) as DEB using (jl_id)) ,
+			letter_jl as (select jl_id,j_id from letter_cred union all select jl_id,j_id from letter_deb)
+			select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
+						j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
+						let_diff.jl_id as letter,
+					diff_letter1 as letter_diff
+						from jrnx join jrn on (j_grpt = jr_grpt_id)
+						 join letter_jl using (j_id)
+						left join let_diff using (jl_id)
+					where j_poste = $1 and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date ($3,'DD.MM.YYYY')
              and $this->sql_ledger
-             and j_id in (select j_id from letter_deb join jnt_letter using (jl_id) union select j_id from letter_cred join jnt_letter using (jl_id) )
              order by j_date,j_id";
         $this->content=$this->db->get_array($sql,array($this->account,$this->start,$this->end));
     }
@@ -498,15 +510,23 @@ class Lettering_Account extends Lettering
     public function get_letter_diff()
     {
         $sql="
-             select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
-             j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
-             coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter,
-			 comptaproc.letter_compare(coalesce(comptaproc.get_letter_jnt(j_id),-1)) as letter_diff
-             from jrnx join jrn on (j_grpt = jr_grpt_id)
+            with let_diff as (select jl_id,deb_amount-cred_amount as diff_letter1
+			from
+			( select jl_id,coalesce(sum(j_montant),0) as cred_amount from letter_cred join jrnx using (j_id) group by jl_id) as CRED
+			left join (select jl_id,coalesce(sum(j_montant),0) as deb_amount from letter_deb join jrnx using (j_id) group by jl_id) as DEB using (jl_id)) ,
+			letter_jl as (select jl_id,j_id from letter_cred union all select jl_id,j_id from letter_deb)
+			select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
+						j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
+						let_diff.jl_id as letter,
+					diff_letter1 as letter_diff
+						from
+		jrnx join jrn on (j_grpt = jr_grpt_id)
+						 join letter_jl using (j_id)
+						join let_diff using (jl_id)
              where j_poste = $1 and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date ($3,'DD.MM.YYYY')
              and $this->sql_ledger
              and j_id in (select j_id from letter_deb join jnt_letter using (jl_id) union select j_id from letter_cred join jnt_letter using (jl_id) )
-			 and comptaproc.letter_compare(coalesce(comptaproc.get_letter_jnt(j_id),-1)) <> 0
+			 and diff_letter1 <> 0
              order by j_date,j_id";
         $this->content=$this->db->get_array($sql,array($this->account,$this->start,$this->end));
     }
@@ -517,14 +537,15 @@ class Lettering_Account extends Lettering
     public function get_unletter()
     {
         $sql="
-             select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
-             j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
-             coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter,
-			 comptaproc.letter_compare(coalesce(comptaproc.get_letter_jnt(j_id),-1)) as letter_diff
-             from jrnx join jrn on (j_grpt = jr_grpt_id)
+			with letter_jl as (select jl_id,j_id from letter_cred union all select jl_id,j_id from letter_deb)
+			select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
+						j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
+						-1 as letter,
+					0 as letter_diff
+						from jrnx join jrn on (j_grpt = jr_grpt_id)
              where j_poste = $1 and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date ($3,'DD.MM.YYYY')
              and $this->sql_ledger
-             and j_id not in (select j_id from letter_deb join jnt_letter using (jl_id) union select j_id from letter_cred join jnt_letter using (jl_id) )
+             and j_id not in (select j_id from letter_jl)
              order by j_date,j_id";
         $this->content=$this->db->get_array($sql,array($this->account,$this->start,$this->end));
     }
@@ -583,11 +604,18 @@ class Lettering_Card extends Lettering
                 ($this->fil_amount_max != 0 || $this->fil_amount_min != 0) )
 	  $filter_amount=" and (j_montant between $this->fil_amount_min and $this->fil_amount_max or (coalesce(comptaproc.get_letter_jnt($p_jid),-1)= coalesce(comptaproc.get_letter_jnt(j_id),-1) and coalesce(comptaproc.get_letter_jnt($p_jid),-1) <> -1 )) ";
         $sql="
-             select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
-             j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
-             coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter,
-			 comptaproc.letter_compare(coalesce(comptaproc.get_letter_jnt(j_id),-1)) as letter_diff
-             from jrnx join jrn on (j_grpt = jr_grpt_id)
+            with let_diff as (select jl_id,deb_amount-cred_amount as diff_letter1
+			from
+			( select jl_id,coalesce(sum(j_montant),0) as cred_amount from letter_cred join jrnx using (j_id) group by jl_id) as CRED
+			left join (select jl_id,coalesce(sum(j_montant),0) as deb_amount from letter_deb join jrnx using (j_id) group by jl_id) as DEB using (jl_id)) ,
+			letter_jl as (select jl_id,j_id from letter_cred union all select jl_id,j_id from letter_deb)
+			select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
+						j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
+						let_diff.jl_id as letter,
+					diff_letter1 as letter_diff
+						from jrnx join jrn on (j_grpt = jr_grpt_id)
+						left join letter_jl using (j_id)
+						left join let_diff using (jl_id)
              where j_qcode = upper($1) and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date ($3,'DD.MM.YYYY')
              and $this->sql_ledger
              $filter_deb
@@ -602,11 +630,18 @@ class Lettering_Card extends Lettering
     public function get_all()
     {
         $sql="
-             select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
-             j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
-             coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter,
-			 comptaproc.letter_compare(coalesce(comptaproc.get_letter_jnt(j_id),-1)) as letter_diff
-             from jrnx join jrn on (j_grpt = jr_grpt_id)
+       with let_diff as (select jl_id,deb_amount-cred_amount as diff_letter1
+			from
+			( select jl_id,coalesce(sum(j_montant),0) as cred_amount from letter_cred join jrnx using (j_id) group by jl_id) as CRED
+			left join (select jl_id,coalesce(sum(j_montant),0) as deb_amount from letter_deb join jrnx using (j_id) group by jl_id) as DEB using (jl_id)) ,
+			letter_jl as (select jl_id,j_id from letter_cred union all select jl_id,j_id from letter_deb)
+			select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
+						j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
+						coalesce(let_diff.jl_id,-1) as letter,
+					diff_letter1 as letter_diff
+						from jrnx join jrn on (j_grpt = jr_grpt_id)
+						left join letter_jl using (j_id)
+						left join let_diff using (jl_id)
              where j_qcode = upper($1) and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date ($3,'DD.MM.YYYY')
              and $this->sql_ledger
 
@@ -620,29 +655,41 @@ class Lettering_Card extends Lettering
     public function get_letter()
     {
         $sql="
-             select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
-             j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
-             coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter,
-			 comptaproc.letter_compare(coalesce(comptaproc.get_letter_jnt(j_id),-1)) as letter_diff
-             from jrnx join jrn on (j_grpt = jr_grpt_id)
+    with let_diff as (select jl_id,deb_amount-cred_amount as diff_letter1
+			from
+			( select jl_id,coalesce(sum(j_montant),0) as cred_amount from letter_cred join jrnx using (j_id) group by jl_id) as CRED
+			left join (select jl_id,coalesce(sum(j_montant),0) as deb_amount from letter_deb join jrnx using (j_id) group by jl_id) as DEB using (jl_id)) ,
+			letter_jl as (select jl_id,j_id from letter_cred union all select jl_id,j_id from letter_deb)
+			select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
+						j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
+						let_diff.jl_id as letter,
+					diff_letter1 as letter_diff
+						from jrnx join jrn on (j_grpt = jr_grpt_id)
+						join letter_jl using (j_id)
+						left join let_diff using (jl_id)
              where j_qcode = upper($1) and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date ($3,'DD.MM.YYYY')
              and $this->sql_ledger
-             and j_id in (select j_id from letter_deb join jnt_letter using (jl_id) union select j_id from letter_cred join jnt_letter using (jl_id) )
              order by j_date,j_id";
         $this->content=$this->db->get_array($sql,array($this->quick_code,$this->start,$this->end));
     }
 	    public function get_letter_diff()
     {
         $sql="
-             select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
-             j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
-             coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter,
-			 comptaproc.letter_compare(coalesce(comptaproc.get_letter_jnt(j_id),-1)) as letter_diff
-             from jrnx join jrn on (j_grpt = jr_grpt_id)
+   with let_diff as (select jl_id,deb_amount-cred_amount as diff_letter1
+			from
+			( select jl_id,coalesce(sum(j_montant),0) as cred_amount from letter_cred join jrnx using (j_id) group by jl_id) as CRED
+			left join (select jl_id,coalesce(sum(j_montant),0) as deb_amount from letter_deb join jrnx using (j_id) group by jl_id) as DEB using (jl_id)) ,
+			letter_jl as (select jl_id,j_id from letter_cred union all select jl_id,j_id from letter_deb)
+			select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
+						j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
+						let_diff.jl_id as letter,
+					diff_letter1 as letter_diff
+						from jrnx join jrn on (j_grpt = jr_grpt_id)
+						left join letter_jl using (j_id)
+						left join let_diff using (jl_id)
              where j_qcode = upper($1) and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date ($3,'DD.MM.YYYY')
              and $this->sql_ledger
-             and j_id in (select j_id from letter_deb join jnt_letter using (jl_id) union select j_id from letter_cred join jnt_letter using (jl_id) )
-			 and comptaproc.letter_compare(coalesce(comptaproc.get_letter_jnt(j_id),-1))<>0
+			 and diff_letter1 <>0
              order by j_date,j_id";
         $this->content=$this->db->get_array($sql,array($this->quick_code,$this->start,$this->end));
     }
@@ -654,8 +701,8 @@ class Lettering_Card extends Lettering
         $sql="
              select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
              j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
-             coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter,
-			 comptaproc.letter_compare(coalesce(comptaproc.get_letter_jnt(j_id),-1)) as letter_diff
+             -1 as letter,
+			 0 as letter_diff
              from jrnx join jrn on (j_grpt = jr_grpt_id)
              where j_qcode = upper($1) and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date ($3,'DD.MM.YYYY')
              and $this->sql_ledger
