@@ -506,7 +506,10 @@ class Document
         static $counter=0;
         switch ($p_tag)
         {
-        case 'DATE_DOC':
+		case 'DATE':
+			$r=(isset ($p_array['ag_timestamp']))?$p_array['ag_timestamp']:$p_array['e_date'];
+			break;
+        case 'DATE_CALC':
                 $r=' Date inconnue ';
             // Date are in $p_array['ag_date']
             // or $p_array['e_date']
