@@ -431,6 +431,7 @@ class Fiche
                 $w=new IPoste("av_text".$attr->ad_id);
                 $w->set_attribute('ipopup','ipop_account');
                 $w->set_attribute('account',"av_text".$attr->ad_id);
+				$w->dbl_click_history();
                 //  account created automatically
                 $sql="select account_auto($p_fiche_def)";
                 $ret_sql=$this->cn->exec_sql($sql);
@@ -587,6 +588,7 @@ class Fiche
 					$w = new IPoste("av_text" . $r->ad_id);
 					$w->set_attribute('ipopup', 'ipop_account');
 					$w->set_attribute('account', "av_text" . $r->ad_id);
+					$w->dbl_click_history();
 					//  account created automatically
 					$w->table = 0;
                                         $w->value = $r->av_text;
@@ -651,6 +653,7 @@ class Fiche
 							$w = new IPoste("av_text" . $r->ad_id);
 							$w->set_attribute('ipopup', 'ipop_account');
 							$w->set_attribute('account', "av_text" . $r->ad_id);
+							$w->dbl_click_history();
 							$w->width = $r->ad_size;
 							$w->table = 0;
 							$bulle = HtmlInput::infobulle(14);
