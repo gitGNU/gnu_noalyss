@@ -914,8 +914,9 @@ class Follow_Up
 
     /*!\brief generate the document and add it to the action
      * \param md_id is the id of the document_modele
+     * \param $p_array contains normally the $_POST
      */
-    function generate_document($md_id)
+    function generate_document($md_id,$p_array)
     {
         $doc=new Document($this->db);
         $mod=new Document_Modele($this->db,$md_id);
@@ -923,7 +924,7 @@ class Follow_Up
         $doc->f_id=$this->f_id_dest;
         $doc->md_id=$md_id;
         $doc->ag_id=$this->ag_id;
-        $doc->Generate();
+        $doc->Generate($p_array);
     }
     /*!\brief put an array in the variable member, the indice
      * is the member name

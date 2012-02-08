@@ -2213,7 +2213,7 @@ class Acc_Ledger extends jrn_def_sql
         $doc->f_id=$e_client;
         $doc->md_id=$gen_doc;
         $doc->ag_id=0;
-        $doc->Generate();
+        $doc->Generate($p_array);
         // Move the document to the jrn
         $doc->MoveDocumentPj($internal);
         // Update the comment with invoice number, if the comment is empty

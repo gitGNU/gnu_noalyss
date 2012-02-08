@@ -698,15 +698,37 @@ function smaller_date($p_date)
 /**
  * @brief format the date, when taken from the database the format
  * is MM-DD-YYYY
- * @param $p_date format YYYY-MM-DD
+ * @param $p_date format 
+ * @param
  * @return date in the format DD.MM.YYYY
  */
-function format_date($p_date)
+function format_date($p_date, $p_from_format = 'YYYY-MM-DD',$p_to_format='DD.MM.YYYY')
 {
-    $date = explode('-', $p_date);
-    if (count($date) != 3)
-	return $p_date;
-    $str_date = $date[2] . '.' . $date[1] . '.' . $date[0];
+    if ($p_from_format == 'YYYY-MM-DD')
+    {
+        $date = explode('-', $p_date);
+        if (count($date) != 3)
+            return $p_date;
+    }
+    if ($p_from_format == 'DD.MM.YYYY')
+    {
+        $temp_date = explode('.', $p_date);
+        if (count($temp_date) != 3)
+            return $p_date;
+        $date[0] = $temp_date[2]; // 0 is year
+        $date[1] = $temp_date[1]; // 1 for month
+        $date[2] = $temp_date[0]; // 2 for day
+    }
+
+    switch ($p_to_format)
+    {
+        case 'DD.MM.YYYY':
+            $str_date = $date[2] . '.' . $date[1] . '.' . $date[0];
+            break;
+        case 'YYYY-MM-DD':
+            $str_date = $date[0] . '-' . $date[1] . '-' . $date[2];
+            break;
+    }
     return $str_date;
 }
 

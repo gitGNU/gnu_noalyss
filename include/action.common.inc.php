@@ -56,7 +56,7 @@ if ( isset($_POST['generate']))
       {
         $act->Update();
       }
-    $act->generate_document($_POST['doc_mod']);
+    $act->generate_document($_POST['doc_mod'],$_POST);
     $sub_action='detail';
   }
 /* for delete  */
