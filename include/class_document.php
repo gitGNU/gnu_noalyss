@@ -468,7 +468,7 @@ class Document
      *  - [VEN_TVAC]
      *  - [VEN_TVA]
      *  - [TOTAL_VEN_HTVA]
-     *  - [DATE]
+     *  - [DATE_DOC]
      *  - [NUMBER]
      *  - [MY_NAME]
      *  - [MY_CP]
@@ -495,7 +495,7 @@ class Document
      *  - [BENEF_VAT]
      *
      * \param $p_tag TAG
-     * \param $p_array data from $_POST 
+     * \param $p_array data from $_POST
      * \return String which must replace the tag
      */
     function Replace($p_tag,$p_array)
@@ -506,7 +506,7 @@ class Document
         static $counter=0;
         switch ($p_tag)
         {
-        case 'DATE':
+        case 'DATE_DOC':
                 $r=' Date inconnue ';
             // Date are in $p_array['ag_date']
             // or $p_array['e_date']
