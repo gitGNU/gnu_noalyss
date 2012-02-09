@@ -468,7 +468,10 @@ class Document
      *  - [VEN_TVAC]
      *  - [VEN_TVA]
      *  - [TOTAL_VEN_HTVA]
-     *  - [DATE_DOC]
+     *  - [DATE_CALC]
+     *  - [DATE]
+     *  - [DATE_LIMIT]
+     *  - [DATE_LIMIT_CALC]
      *  - [NUMBER]
      *  - [MY_NAME]
      *  - [MY_CP]
@@ -782,13 +785,18 @@ class Document
              *  - [TOTAL_VEN_HTVA]
              *  - [DATE_LIMIT]
              */
-        case 'DATE_LIMIT':
+        case 'DATE_LIMIT_CALC':
             extract ($p_array);
             $id='e_ech' ;
             if ( !isset (${$id}) ) return "";
             $r=format_date(${$id},'DD.MM.YYYY','YYYY-MM-DD');
             break;
-
+      case 'DATE_LIMIT':
+            extract ($p_array);
+            $id='e_ech' ;
+            if ( !isset (${$id}) ) return "";
+            $r=${$id};
+            break;
         case 'MARCH_NEXT':
             $counter++;
             $r='';
