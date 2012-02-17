@@ -883,7 +883,7 @@ function op_save(obj)
                                   onSuccess:infodiv
                                       }
                                     );
-        window.close();
+       // window.close();
     }
     else
     {
