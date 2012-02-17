@@ -79,7 +79,7 @@ class Anc_GrandLivre extends Anc_Print
 	left join jrnx using (j_id)
 	left join jrn on  (j_grpt=jr_grpt_id)
              where $pa_id_cond oa_amount <> 0.0  $cond_poste  $filter_date
-	order by po_name,to_date(oa_date,'DD.MM.YYYY') ,qcode,j_poste");
+	order by po_name,oa_date::date,qcode,j_poste");
 
         return $array;
     }
@@ -108,7 +108,7 @@ class Anc_GrandLivre extends Anc_Print
 	left join jrnx using (j_id)
 	left join jrn on  (j_grpt=jr_grpt_id)
              where $pa_id_cond oa_amount <> 0.0  $cond_poste $filter_date
-	order by po_name,to_date(oa_date,'DD.MM.YYYY') ,qcode,j_poste");
+	order by po_name,oa_date::date,qcode,j_poste");
 
 
         return $array;
