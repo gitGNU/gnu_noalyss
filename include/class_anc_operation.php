@@ -547,7 +547,7 @@ class Anc_Operation
      *   -oa_description
      *
      */
-    function save_form_plan($p_array,$p_item,$j_id)
+    function save_form_plan($p_array,$p_item,$p_j_id)
     {
         extract($p_array);
 	if (! isset ($hplan) ) return;
@@ -576,7 +576,7 @@ class Anc_Operation
                 $op=new Anc_Operation($this->db);
                 $op->po_id=$hplan[$p_item][$e];
                 $op->oa_group=$this->oa_group;
-                $op->j_id=$j_id;
+                $op->j_id=$p_j_id;
                 $op->oa_amount=abs($val[$p_item][$row]);
                 $op->oa_debit=$this->oa_debit;
                 $op->oa_date=$this->oa_date;
