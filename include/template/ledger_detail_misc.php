@@ -99,6 +99,7 @@ echo th(_('Crédit'), 'style="text-align:right"');
       echo Anc_Plan::hidden($a_anc);
     }
 echo '</tr>';
+$amount_idx=0;
   for ($e=0;$e<count($obj->det->array);$e++) {
     $row=''; $q=$obj->det->array;
     $view_history= sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:view_history_account(\'%s\',\'%s\')" >%s</A>',
@@ -151,13 +152,13 @@ echo '</tr>';
     /* Analytic accountancy */
     if ( $owner->MY_ANALYTIC != "nu" && $div=='popup'){
       if ( preg_match('/^(6|7)/',$q[$e]['j_poste'])) {
-
-echo HtmlInput::hidden("amount_t".$e,$montant);
+	
+	echo HtmlInput::hidden("amount_t".$amount_idx,$q[$e]['j_montant']);
 	$anc_op=new Anc_Operation($cn);
 	$anc_op->j_id=$q[$e]['j_id'];
 	echo HtmlInput::hidden('op[]',$anc_op->j_id);
 	$row.=$anc_op->display_table(1,$q[$e]['j_montant'],$div);
-
+	$amount_idx++;
       }  else {
 	$row.=td('');
       }
