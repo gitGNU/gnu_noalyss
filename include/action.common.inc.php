@@ -275,7 +275,7 @@ function ShowActionList($cn,$p_base)
 
   /* type of documents */
   $type_doc=new ISelect ('tdoc');
-  $aTDoc=$cn->make_array('select dt_id,dt_value from document_type');
+  $aTDoc=$cn->make_array('select dt_id,dt_value from document_type order by dt_value');
   $aTDoc[]=array('value'=>'-1','label'=>_('Tous les types'));
   $type_doc->value=$aTDoc;
   $type_doc->selected=(isset ($_GET['tdoc']))?$_GET['tdoc']:-1;

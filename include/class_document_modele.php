@@ -248,7 +248,7 @@ class Document_modele
         $w=new ISelect();
         $w->name="md_type";
 
-        $w->value=$this->cn->make_array('select dt_id,dt_value from document_type');
+        $w->value=$this->cn->make_array('select dt_id,dt_value from document_type order by dt_value');
         $r.="<td>".$w->input()."</td></tr>";
 
         $r.='<tr>';

@@ -55,7 +55,7 @@ class Document_type
      */
     static function get_list($p_cn)
     {
-        $sql="select * from document_type";
+        $sql="select * from document_type order by dt_value";
         $r=$p_cn->get_array($sql);
         $array=array();
         for ($i=0;$i<count($r);$i++)
