@@ -112,8 +112,7 @@ class Todo_List
     {
         if ( isDate($this->tl_date) == false )
         {
-            alert('Date est invalide');
-            return 1;
+			$this->tl_date=date('d.m.Y');
         }
         return 0;
     }
@@ -129,7 +128,7 @@ class Todo_List
     {
         if ( $this->verify() != 0 ) return;
         if (trim($this->tl_title)=='')
-            $this->tl_title=substr(trim($this->tl_desc),0,40);
+            $this->tl_title=substr(trim($this->tl_desc),0,30);
 
         if (trim($this->tl_title)=='')
         {
@@ -138,7 +137,7 @@ class Todo_List
         }
 
         /*  limit the title to 35 char */
-        $this->tl_title=substr(trim($this->tl_desc),0,40);
+        $this->tl_title=substr(trim($this->tl_title),0,30);
 
         $sql="insert into todo_list (tl_date,tl_title,tl_desc,use_login) ".
              " values (to_date($1,'DD.MM.YYYY'),$2,$3,$4)  returning tl_id";
