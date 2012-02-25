@@ -845,6 +845,7 @@ class Document
             extract ($p_array);
             $id='e_march'.$counter.'_price' ;
             if ( !isset (${$id}) ) return "";
+			if (${$id} == 0 ) return "";
             $r=${$id};
             break;
 
