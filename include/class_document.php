@@ -982,22 +982,18 @@ class Document
             $id='e_march'.$counter.'_tva_amount' ;
             $price='e_march'.$counter.'_price' ;
             $quant='e_quant'.$counter;
-            if ( ! isset(${'e_march'.$counter.'_price'})|| !isset(${'e_quant'.$counter}))
-                return "";
+            if ( ! isset(${'e_march'.$counter.'_price'})|| !isset(${'e_quant'.$counter}))     return "";
             // check that something is sold
-            if ( ${'e_march'.$counter.'_price'} == 0 || ${'e_quant'.$counter} == 0 )
-                return "";
-
-
-            // if it is exist
+            if ( ${'e_march'.$counter.'_price'} == 0 || ${'e_quant'.$counter} == 0 ) return "";
+			bcscale(2);
+            // if TVA not exist
             if ( ! isset(${$id}))
-                $r=round(${$price}*${$quant},2);
-            else
-                $r=round($
-                         {
-                             $price
-                         }
-                         *${$quant}+$id,2);
+                $r=  bcmul(${$price},${$quant});
+            else{
+                $r=  bcmul(${$price},${$quant});
+                $r=bcadd($r,${$id});
+			}
+			return $r;
             break;
 
         case 'TOTAL_VEN_HTVA':
@@ -1025,6 +1021,7 @@ class Document
         case 'TOTAL_VEN_TVAC':
             extract($p_array);
             $sum=0.0;
+			bcscale(2);
             for ($i=0;$i<$nb_item;$i++)
             {
                 $tva='e_march'.$i.'_tva_amount';
@@ -1036,10 +1033,9 @@ class Document
                 }
                 $sell=${'e_march'.$i.'_price'};
                 $qt=${'e_quant'.$i};
-
-
-                $sum+=$sell*$qt+$tva_amount;
-                $sum=round($sum,2);
+				$tot=bcmul($sell,$qt);
+				$tot=bcadd($tot,$tva_amount);
+				$sum=bcadd($sum,$tot);
             }
             $r=round($sum,2);
 
