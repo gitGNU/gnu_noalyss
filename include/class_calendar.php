@@ -122,10 +122,10 @@ class Calendar
         $cn=new Database(dossier::id());
         $array=$cn->get_array("select to_char(p_start,'MM') as month, to_char(p_start,'YYYY') as year ".
                               " from parm_periode where p_id=$1",array($this->default_periode));
-        $this->month=$array[0]['month'];
-        $this->year=$array[0]['year'];
+        $this->month=(int)$array[0]['month'];
+        $this->year=(int)$array[0]['year'];
         $this->day=self::$nb_day[$this->month-1];
-        if ( $this->year % 4 == 0 && $this->month=2)
+        if ( $this->year % 4 == 0 && $this->month==2)
             $this->day=29;
     }
     /**
