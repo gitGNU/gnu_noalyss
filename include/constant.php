@@ -35,11 +35,11 @@ $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 /*set to none for production */
 /* uncomment for production */
-//$version_phpcompta=SVNINFO;
-//define ("DEBUG",false);
+$version_phpcompta=SVNINFO;
+define ("DEBUG",false);
 
-$version_phpcompta=4601;
-define ("DEBUG",true);
+//$version_phpcompta=4601;
+//define ("DEBUG",true);
 
 define ("DBVERSION",102);
 
