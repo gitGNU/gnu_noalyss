@@ -117,7 +117,7 @@ echo 'solde Début' . $nstart_extrait->input();
 echo 'solde Fin' . $nend_extrait->input();
 echo IButton::tooggle_checkbox('rec1');
 echo '</p>';
-echo HtmlInput::submit('save', 'Mettre à jour le n° de relevé banquaire');
+echo HtmlInput::submit('save', 'Mettre à jour le n° de relevé bancaire');
 echo '<table class="result" style="width:80%;margin-left:10%">';
 $r = th('Date');
 $r.=th('Libellé');
@@ -198,7 +198,7 @@ echo '</tr>';
 
 echo '</table>';
 
-echo HtmlInput::submit('save', 'Mettre à jour le n° de relevé banquaire');
+echo HtmlInput::submit('save', 'Mettre à jour le n° de relevé bancaire');
 echo '</form>';
 echo '</div>';
 exit();
