@@ -606,6 +606,16 @@ class Acc_Account_Ledger
         $sql=substr($sql,0,strlen($sql)-2);
         return $sql;
     }
+	/**
+	 * Find the card which is using the current account
+	 * @return an array of f_id
+	 */
+	function find_card()
+	{
+		$sql="select f_id from fiche_detail where ad_id=$1 and ad_value=$2";
+		$account=$this->db->get_array($sql,array(ATTR_DEF_ACCOUNT,$this->id));
+		return $account;
+	}
     static function test_me()
     {
         $cn=new Database(dossier::id());
