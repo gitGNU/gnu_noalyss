@@ -101,7 +101,7 @@ class Acc_Reconciliation
      */
     function insert_rapt($jr_id2)
     {
-        if ( isNumber($this->jr_id)  == 0 ||  isNumber($jr_id2) == 0 )
+        if ( isNumber($this->jr_id)  == 0 ||  isNumber($jr_id2) == 0 || $jr_id2==0)
         {
             return false;
         }
