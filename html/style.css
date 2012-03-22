@@ -877,7 +877,7 @@ h2.gest_name {
 		border-right:1px solid  #b4bbc2;
 	padding: 5px;
 }
-div.op_detail_frame  {
+body.op_detail_frame,div.op_detail_frame  {
   background-color:#e4e7ed;
   height:100%; width:100%;
 

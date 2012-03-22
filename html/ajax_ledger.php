@@ -48,8 +48,8 @@ if ( ! isset ($_REQUEST['act'])|| ! isset ($_REQUEST['jr_id'])
     exit();
   }
  global $g_parameter;
- 
- 
+
+
 $action=$_REQUEST['act'];
 $jr_id=$_REQUEST['jr_id'];
 $div=$_REQUEST['div'];		/* the div source and target for javascript */
@@ -188,15 +188,16 @@ case 'file':
         echo "<html><head>";
         $repo=new Database();
         $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
-        echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
-        echo "</head>";
+        echo    "<LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
+        echo "</head><body>";
         echo '<div class="op_detail_frame">';
-
+		echo "<h2>Document</h2>";
         if ( $access=='W')
         {
             echo '<FORM METHOD="POST" ENCTYPE="multipart/form-data" id="form_file">';
+
             $sp=new ISpan('file'.$div);
-            $sp->style="display:none;width:155;height:15;background-color:red;color:white;font-size:10";
+            $sp->style="display:none;background-color:red;color:white;font-size:12px";
             $sp->value="Chargement";
             echo $sp->input();
             echo HtmlInput::hidden('act','loadfile');
@@ -228,12 +229,12 @@ case 'file':
         $repo=new Database();
         $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
         echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
-        echo "</head><body>";
+        echo "</head><body class=\"op_detail_frame\" >";
+		echo "<h2>Document</h2>";
         echo '<div class="op_detail_frame">';
-
         $x='';
         if ($access=='W')
-            $x=sprintf('<a class="mtitle" style="margin-right:12" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">enlever</a>',
+            $x=sprintf('<a class="notice" style="margin-left:12;margin-right:12" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">enlever</a>',
                        $gDossier,$div,$jr_id);
         echo $x;
         $filename= $obj->det->jr_pj_name;
@@ -267,16 +268,13 @@ case 'loadfile':
         $repo=new Database();
         $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
         echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
-        echo "</head>";
+        echo "</head><body class=\"op_detail_frame\">";
+		echo "<h2>Document</h2>";
         echo '<div class="op_detail_frame">';
-        $x=sprintf('<a class="mtitle" style="margin-right:12px" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">enlever</a>',
+        $x=sprintf('<a class="mtitle" class="notice" style="margin-left:12;margin-right:12px" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">enlever</a>',
                    $gDossier,$div,$jr_id);
         echo $x;
         $filename= $obj->det->jr_pj_name;
-        if ( strlen($obj->det->jr_pj_name) > 20 )
-        {
-            $filename=substr($obj->det->jr_pj_name,1,20);
-        }
         $h=sprintf('<a class="mtitle"  href="show_pj.php?gDossier=%d&jrn=%d&jr_grpt_id=%d">%s</a>',
                    $gDossier,$ledger,$obj->det->jr_grpt_id,h($filename));
         echo $h;
@@ -294,9 +292,9 @@ case 'rmf':
         $repo=new Database();
         $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
         echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
-        echo "</head>";
+        echo "</head><body class=\"op_detail_frame\">";
+		echo "<h2>Document</h2>";
         echo '<div class="op_detail_frame">';
-
         echo '<FORM METHOD="POST" ENCTYPE="multipart/form-data" id="form_file">';
         $sp=new ISpan('file'.$div);
         $sp->style="display:none;width:155;height:15;background-color:red;color:white;font-size:10";
@@ -368,7 +366,7 @@ case 'save':
 	    $cn->exec_sql("select comptaproc.jrn_add_note($1,$2)",
 			  array($jr_id,$_POST['jrn_note']));
             $rapt=$_POST['rapt'];
-            
+
             if ( $g_parameter->MY_UPDLAB=='Y' && isset ($_POST['j_id']))
             {
                 $a_rowid=$_POST["j_id"];
