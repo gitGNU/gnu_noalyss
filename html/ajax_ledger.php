@@ -189,8 +189,14 @@ case 'file':
         $repo=new Database();
         $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
         echo    "<LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
-        echo "</head><body class=\"op_detail_frame\">";
-        echo '<div class="op_detail_frame">';
+ 		if ( ! isset($_REQUEST['ajax']) ) {
+			echo "<body class=\"op_detail_frame\">";
+			echo '<div class="op_detail_frame">';
+		}else {
+			echo "<body>";
+			echo "<div>";
+
+		}
 		echo "<h2>Document</h2>";
         if ( $access=='W')
         {
@@ -210,18 +216,28 @@ case 'file':
         }
         else
         {
-            echo "<html><head>";
-            $repo=new Database();
-            $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
-            echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
-            echo "</head>";
-            echo '<div class="op_detail_frame">';
+				echo "<html><head>";
+				if (!isset($_REQUEST['ajax']))
+				{
+					echo "<body class=\"op_detail_frame\">";
+					echo '<div class="op_detail_frame">';
+				}
+				else
+				{
+					echo "<body>";
+					echo "<div>";
+				}
+				$repo = new Database();
+				$theme = $repo->get_value("select the_filestyle from theme where the_name=$1", array($_SESSION['g_theme']));
+				echo "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
+				echo "</head>";
+				echo '<div class="op_detail_frame">';
 
-            echo _('Aucun fichier');
-        }
-        echo '</div>';
-        echo '</body></html>';
-        exit();
+				echo _('Aucun fichier');
+			}
+			echo '</div>';
+			echo '</body></html>';
+			exit();
     }
     else
     {
@@ -229,7 +245,15 @@ case 'file':
         $repo=new Database();
         $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
         echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
-        echo "</head><body class=\"op_detail_frame\" >";
+        echo "</head>";
+		if ( ! isset($_REQUEST['ajax']) ) {
+			echo "<body class=\"op_detail_frame\">";
+			echo '<div class="op_detail_frame">';
+		}else {
+			echo "<body>";
+			echo "<div>";
+
+		}
 		echo "<h2>Document</h2>";
         echo '<div class="op_detail_frame">';
         $x='';
@@ -268,7 +292,8 @@ case 'loadfile':
         $repo=new Database();
         $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
         echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
-        echo "</head><body class=\"op_detail_frame\">";
+        echo "</head>";
+		if ( ! isset($_REQUEST['ajax']) ) echo "<body class=\"op_detail_frame\">"; else echo "<body>";
 		echo "<h2>Document</h2>";
         echo '<div class="op_detail_frame">';
         $x=sprintf('<a class="mtitle" class="notice" style="margin-left:12;margin-right:12px" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">enlever</a>',
