@@ -189,7 +189,7 @@ case 'file':
         $repo=new Database();
         $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
         echo    "<LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
-        echo "</head><body>";
+        echo "</head><body class=\"op_detail_frame\">";
         echo '<div class="op_detail_frame">';
 		echo "<h2>Document</h2>";
         if ( $access=='W')
