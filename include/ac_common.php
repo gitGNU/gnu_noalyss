@@ -278,6 +278,17 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
     {
 	$style = "style.css";
     } // end if
+	$title="PhpCompta";
+
+	if ( isset ($_REQUEST['ac'])) {
+		if (strpos($_REQUEST['ac'],'/') <> 0)
+		{
+			$m=  explode('/',$_REQUEST['ac']);
+			$title=$m[count($m)-1]."  ".$title;
+		}
+		else
+			$title=$_REQUEST['ac']."  ".$title;
+	}
     echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 FINAL//EN">';
     echo "<HTML>";
 
@@ -285,7 +296,7 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
 	$p_script2 = '<script src="' . $p_script2 . '" type="text/javascript"></script>';
 
     echo "<HEAD>
-    <TITLE>PhpCompta</TITLE>
+    <TITLE>$title</TITLE>
     <META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF8\">
     <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$style\" media=\"screen\">
     <link rel=\"stylesheet\" type=\"text/css\" href=\"style-print.css\" media=\"print\">" .
@@ -698,7 +709,7 @@ function smaller_date($p_date)
 /**
  * @brief format the date, when taken from the database the format
  * is MM-DD-YYYY
- * @param $p_date format 
+ * @param $p_date format
  * @param
  * @return date in the format DD.MM.YYYY
  */
