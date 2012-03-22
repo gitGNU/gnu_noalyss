@@ -44,7 +44,7 @@ $user=new User($cn);
 /* security */
 if ( $user->check_dossier(dossier::id(),true) == 'X' ) exit();
 
-
+$from_div=(isset ($_REQUEST['ajax']))?1:0;
 
 ///////////////////////////////////////////////////////////////////////////
 /* first detail for a card */
@@ -87,7 +87,7 @@ if ( isset($_GET['f_id']))
 		$obj="{div:'$div',f_id:'".$_GET['f_id']."',gDossier:'$dossier',select:this}";
 		$is=$exercice->select('p_exercice',$default,' onchange="update_history_card('.$obj.');"');
 		$old="Autre exercice ".$is->input();
-	      } 
+	      }
 	    else
 	      {
 		$old='<form method="get" action="popup.php">';
@@ -108,7 +108,7 @@ if ( isset($_GET['f_id']))
 	echo h2info(  $fiche->getName().'['.$fiche->strAttribut(ATTR_DEF_QUICKCODE).']');
 	echo '<p style="text-align:center;font-size:125%">'.$detail_card.'</p>';
 
-	if (   $fiche->HtmlTable($array,0,0)==-1){
+	if (   $fiche->HtmlTable($array,0,$from_div)==-1){
 	  echo h2("Aucune opération pour l'exercice courant",'class="error"');
 	}
 
