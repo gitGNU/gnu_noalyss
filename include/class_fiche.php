@@ -431,6 +431,7 @@ class Fiche
                 $w=new IPoste("av_text".$attr->ad_id);
                 $w->set_attribute('ipopup','ipop_account');
                 $w->set_attribute('account',"av_text".$attr->ad_id);
+				$w->dbl_click_history();
                 //  account created automatically
                 $sql="select account_auto($p_fiche_def)";
                 $ret_sql=$this->cn->exec_sql($sql);
@@ -492,6 +493,7 @@ class Fiche
 						break;
 					case 'numeric':
 						$w = new INum();
+                                                $w->javascript='onchange="format_number(this,4);"';
 						$w->size = $attr->ad_size;
 						break;
 					case 'date':
@@ -587,6 +589,7 @@ class Fiche
 					$w = new IPoste("av_text" . $r->ad_id);
 					$w->set_attribute('ipopup', 'ipop_account');
 					$w->set_attribute('account', "av_text" . $r->ad_id);
+					$w->dbl_click_history();
 					//  account created automatically
 					$w->table = 0;
                                         $w->value = $r->av_text;
@@ -635,6 +638,7 @@ class Fiche
 						case 'numeric':
 							$w = new INum('av_text' . $r->ad_id);
 							$w->size = $r->ad_size;
+                                                        $w->javascript='onchange="format_number(this,4);"';
 							$w->value = $r->av_text;
 							break;
 						case 'date':
@@ -651,6 +655,7 @@ class Fiche
 							$w = new IPoste("av_text" . $r->ad_id);
 							$w->set_attribute('ipopup', 'ipop_account');
 							$w->set_attribute('account', "av_text" . $r->ad_id);
+							$w->dbl_click_history();
 							$w->width = $r->ad_size;
 							$w->table = 0;
 							$bulle = HtmlInput::infobulle(14);
@@ -1302,19 +1307,18 @@ class Fiche
         $rep="";
 	if ( $from_div==1)
 	  {
-	    echo '<h2 class="info">'." ".$name.'</h2>';
 	    echo "<TABLE class=\"resultfooter\" style=\"width:100%;border-collapse:separate;border-spacing:5px\">";
 	  }
 	else
 	  {
-	    echo "<TABLE class=\"result\" style=\"width:100%;border-collapse:separate;border-spacing:5px\">";
+	    echo "<TABLE class=\"result\" style=\"width:100%;border-collapse:separate;border-spacing:2px\">";
 	  }
         echo '<tbody>';
         echo "<TR>".
-        "<TH>"._('Date')."</TH>".
-        "<TH>"._('n° pièce')." </TH>".
-        "<TH>"._('Code interne')." </TH>".
-        "<TH>"._('Description')." </TH>".
+        "<TH style=\"text-align:left\">"._('Date')."</TH>".
+        "<TH style=\"text-align:left\">"._('n° pièce')." </TH>".
+        "<TH style=\"text-align:left\">"._('Code interne')." </TH>".
+        "<TH style=\"text-align:left\">"._('Description')." </TH>".
         "<TH style=\"text-align:right\">"._('Débit')."  </TH>".
         "<TH style=\"text-align:right\">"._('Crédit')." </TH>".
         th('Prog.','style="text-align:right"').
@@ -1323,6 +1327,7 @@ class Fiche
         ;
 	$old_exercice="";$sum_deb=0;$sum_cred=0;
 	bcscale(2);
+	$idx=0;
         foreach ( $this->row as $op )
         {
             $vw_operation=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s</A>',
@@ -1359,9 +1364,11 @@ class Fiche
             $progress=bcadd($progress,$tmp_diff);
 	    $sum_cred=bcadd($sum_cred,$op['cred_montant']);
 	    $sum_deb=bcadd($sum_deb,$op['deb_montant']);
+		if ($idx%2 == 0) $class='class="odd"'; else $class=' class="even"';
+		$idx++;
 
-            echo "<TR>".
-            "<TD>".format_date($op['j_date_fmt'])."</TD>".
+	    echo "<TR $class>".
+	      "<TD>".smaller_date(format_date($op['j_date_fmt']))."</TD>".
 	      td(h($op['jr_pj_number'])).
             "<TD>".$vw_operation."</TD>".
             "<TD>".h($op['description'])."</TD>".

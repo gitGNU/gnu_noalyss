@@ -136,6 +136,22 @@ class Acc_Ledger extends jrn_def_sql
         $this->db->exec_sql('delete from jrn where jr_id=$1',
                             array($this->jr_id));
     }
+	/**
+	 *Display warning contained in an array
+	 * @return string with error message
+	 */
+	function display_warning($pa_msg,$p_warning)
+	{
+		$str='<p class="notice"> '.$p_warning;
+		$str.="<ol class=\"notice\">";
+		for ($i=0;$i<count($pa_msg);$i++)
+		{
+			$str.="<li>".$pa_msg[$i]."</li>";
+		}
+		$str.='</ol>';
+		$str.='</p>';
+		return $str;
+	}
     /**
      * reverse the operation by creating the opposite one,
      * the result is to avoid it
@@ -1330,7 +1346,8 @@ class Acc_Ledger extends jrn_def_sql
     function confirm($p_array,$p_readonly=false)
     {
         global $g_parameter;
-		if (! $p_readonly ) $this->verify($p_array);
+		$msg=array();
+		if (! $p_readonly ) $msg=$this->verify($p_array);
 		$this->id=$p_array['p_jrn'];
         if ( empty($p_array)) return 'Aucun r&eacute;sultat';
         $anc=null;
@@ -1348,6 +1365,10 @@ class Acc_Ledger extends jrn_def_sql
 	bcscale(2);
 
         $ret="";
+		if ( ! empty ($msg))
+		{
+			$ret.=$this->display_warning($msg,"Attention : il vaut mieux utiliser les fiches que les postes comptables pour");
+		}
         $ret.="<table >";
         $ret.="<tr><td>"._('Date')." : </td><td>$e_date</td></tr>";
         /* display periode */
@@ -1655,7 +1676,7 @@ class Acc_Ledger extends jrn_def_sql
             $poste->value=(isset(${'poste'.$i}))?${"poste".$i}:''
 						     ;
 			$poste->dbl_click_history();
-			
+
             $poste->readonly=$p_readonly;
 
             if ( $poste->value != '' )
@@ -1740,6 +1761,7 @@ class Acc_Ledger extends jrn_def_sql
         $user=new User($this->db);
         $tot_cred=0;
         $tot_deb=0;
+		$msg=array();
 
         /* check if we can write into this ledger */
         $user=new User($this->db);
@@ -1831,6 +1853,19 @@ class Acc_Ledger extends jrn_def_sql
                     throw new Exception(_('Poste invalide ['.${'poste'.$i}.']'),3);
                 if ( $p->do_exist() == 0 )
                     throw new Exception(_('Poste Inexistant ['.${'poste'.$i}.']'),4);
+				$card_id=$p->find_card() ;
+				if (! empty($card_id) )
+				{
+					$str_msg=" Le poste ".$p->id." appartient à ".count($card_id)." fiche(s) dont :";
+					$max=(count($card_id)>MAX_COMPTE_CARD)?MAX_COMPTE_CARD:count($card_id);
+					for ($x=0;$x < $max;$x++)
+					{
+						$card=new Fiche($this->db,$card_id[$x]['f_id']);
+						$str_msg.=HtmlInput::card_detail($card->strAttribut(ATTR_DEF_QUICKCODE),$card->strAttribut(ATTR_DEF_NAME),'style="color:red;display:inline;text-decoration:underline"');
+						$str_msg.=" ";
+					}
+					$msg[]=$str_msg;
+				}
             }
 
 
@@ -1842,6 +1877,7 @@ class Acc_Ledger extends jrn_def_sql
             throw new Exception(_("Balance incorrecte ")." debit = $tot_deb credit=$tot_cred ",1);
         }
 
+		return $msg;
     }
     /*!
      * \brief compute the internal code of the saved operation and set the $this->jr_internal to
@@ -1879,8 +1915,11 @@ class Acc_Ledger extends jrn_def_sql
         extract ($p_array);
         try
         {
-            $this->verify($p_array);
-
+            $msg=$this->verify($p_array);
+			if ( ! empty ($msg))
+			{
+				echo $this->display_warning($msg,"Attention : il vaut mieux utiliser les fiches que les postes comptables pour");
+			}
             $this->db->start() ;
 
             $seq=$this->db->get_next_seq('s_grpt');
@@ -2213,7 +2252,7 @@ class Acc_Ledger extends jrn_def_sql
         $doc->f_id=$e_client;
         $doc->md_id=$gen_doc;
         $doc->ag_id=0;
-        $doc->Generate();
+        $doc->Generate($p_array);
         // Move the document to the jrn
         $doc->MoveDocumentPj($internal);
         // Update the comment with invoice number, if the comment is empty

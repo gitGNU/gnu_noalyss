@@ -37,7 +37,7 @@
 						$bk=new Fiche($cn,$obj->det->array[0]['qs_client']);
 						echo td(_('Client'));
 
-						$view_history= sprintf('<A class="detail" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
+						$view_history= sprintf('<A class="line" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
 										$bk->id, $gDossier, $bk->get_quick_code());
 						echo td(h($bk->getName())).td($view_history);;
 						?>

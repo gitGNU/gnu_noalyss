@@ -151,20 +151,20 @@ class Lettering
         if ( $first == 't')
         {
             // save into letter_deb
-            $ld_id=$this->db->get_value('insert into letter_deb(j_id,jl_id) values($1,$2) returning ld_id',array($j_id1,$jl_id));
+            if ($let1 == 0) $ld_id=$this->db->get_value('insert into letter_deb(j_id,jl_id) values($1,$2) returning ld_id',array($j_id1,$jl_id));
         }
         else
         {
-            $lc_id=$this->db->get_value('insert into letter_cred(j_id,jl_id)  values($1,$2) returning lc_id',array($j_id1,$jl_id));
+            if ($let1 == 0)$lc_id=$this->db->get_value('insert into letter_cred(j_id,jl_id)  values($1,$2) returning lc_id',array($j_id1,$jl_id));
         }
         if ( $second == 't')
         {
             // save into letter_deb
-            $ld_id=$this->db->get_value('insert into letter_deb(j_id,jl_id) values($1,$2) returning ld_id',array($j_id2,$jl_id));
+            if ($let2 == 0)$ld_id=$this->db->get_value('insert into letter_deb(j_id,jl_id) values($1,$2) returning ld_id',array($j_id2,$jl_id));
         }
         else
         {
-            $lc_id=$this->db->get_value('insert into letter_cred(j_id,jl_id)  values($1,$2) returning lc_id',array($j_id2,$jl_id));
+            if ($let2 == 0)$lc_id=$this->db->get_value('insert into letter_cred(j_id,jl_id)  values($1,$2) returning lc_id',array($j_id2,$jl_id));
         }
 
     }
@@ -515,17 +515,16 @@ class Lettering_Account extends Lettering
 			( select jl_id,coalesce(sum(j_montant),0) as cred_amount from letter_cred join jrnx using (j_id) group by jl_id) as CRED
 			left join (select jl_id,coalesce(sum(j_montant),0) as deb_amount from letter_deb join jrnx using (j_id) group by jl_id) as DEB using (jl_id)) ,
 			letter_jl as (select jl_id,j_id from letter_cred union all select jl_id,j_id from letter_deb)
-			select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
+			select  distinct j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
 						j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
 						let_diff.jl_id as letter,
 					diff_letter1 as letter_diff
 						from
-		jrnx join jrn on (j_grpt = jr_grpt_id)
+						jrnx join jrn on (j_grpt = jr_grpt_id)
 						 join letter_jl using (j_id)
 						join let_diff using (jl_id)
              where j_poste = $1 and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date ($3,'DD.MM.YYYY')
              and $this->sql_ledger
-             and j_id in (select j_id from letter_deb join jnt_letter using (jl_id) union select j_id from letter_cred join jnt_letter using (jl_id) )
 			 and diff_letter1 <> 0
              order by j_date,j_id";
         $this->content=$this->db->get_array($sql,array($this->account,$this->start,$this->end));
@@ -609,9 +608,9 @@ class Lettering_Card extends Lettering
 			( select jl_id,coalesce(sum(j_montant),0) as cred_amount from letter_cred join jrnx using (j_id) group by jl_id) as CRED
 			left join (select jl_id,coalesce(sum(j_montant),0) as deb_amount from letter_deb join jrnx using (j_id) group by jl_id) as DEB using (jl_id)) ,
 			letter_jl as (select jl_id,j_id from letter_cred union all select jl_id,j_id from letter_deb)
-			select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
+			select distinct j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
 						j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
-						let_diff.jl_id as letter,
+						coalesce(let_diff.jl_id,-1) as letter,
 					diff_letter1 as letter_diff
 						from jrnx join jrn on (j_grpt = jr_grpt_id)
 						left join letter_jl using (j_id)
@@ -635,7 +634,7 @@ class Lettering_Card extends Lettering
 			( select jl_id,coalesce(sum(j_montant),0) as cred_amount from letter_cred join jrnx using (j_id) group by jl_id) as CRED
 			left join (select jl_id,coalesce(sum(j_montant),0) as deb_amount from letter_deb join jrnx using (j_id) group by jl_id) as DEB using (jl_id)) ,
 			letter_jl as (select jl_id,j_id from letter_cred union all select jl_id,j_id from letter_deb)
-			select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
+			select DISTINCT j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
 						j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
 						coalesce(let_diff.jl_id,-1) as letter,
 					diff_letter1 as letter_diff
@@ -680,7 +679,7 @@ class Lettering_Card extends Lettering
 			( select jl_id,coalesce(sum(j_montant),0) as cred_amount from letter_cred join jrnx using (j_id) group by jl_id) as CRED
 			left join (select jl_id,coalesce(sum(j_montant),0) as deb_amount from letter_deb join jrnx using (j_id) group by jl_id) as DEB using (jl_id)) ,
 			letter_jl as (select jl_id,j_id from letter_cred union all select jl_id,j_id from letter_deb)
-			select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
+			select distinct j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
 						j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
 						let_diff.jl_id as letter,
 					diff_letter1 as letter_diff

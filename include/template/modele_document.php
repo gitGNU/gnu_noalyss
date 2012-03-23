@@ -25,7 +25,7 @@ Catégorie de document
 	  $w=new ISelect();
      $w->name="md_type";
 
-     $w->value=$cn->make_array('select dt_id,dt_value from document_type');
+     $w->value=$cn->make_array('select dt_id,dt_value from document_type order by dt_value');
      $w->selected=$doc->md_type;
      echo $w->input();
 ?>

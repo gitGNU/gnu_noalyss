@@ -151,7 +151,7 @@ global $g_parameter;
 
             printf ('<a class="line" style="display:inline" href="javascript:modifyOperation(%d,%d)">%s</a><hr>',
                     $jr_id,dossier::id(),$internal);
-			echo $Ledger->confirm($_POST,true);
+	    echo $Ledger->confirm($_POST,true);
             /* Show link for Invoice */
             if (isset ($Ledger->doc) )
             {

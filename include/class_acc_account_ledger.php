@@ -315,7 +315,7 @@ class Acc_Account_Ledger
      * \param $let lettering of operation 0
      * \return -1 if nothing is found otherwise 0
      */
-    function HtmlTable($p_array=null,$let=0 )
+    function HtmlTable($p_array=null,$let=0 , $from_div=0)
     {
         if ( $p_array==null)$p_array=$_REQUEST;
         $this->get_name();
@@ -329,13 +329,16 @@ class Acc_Account_Ledger
         $rep="";
 
         echo '<h2 class="info">'.$this->id." ".$this->name.'</h2>';
-        echo "<TABLE class=\"resultfooter\" style=\"border-collapse:separate;width:100%;border-spacing:5px\">";
+        if ( $from_div == 0)
+			echo "<TABLE class=\"resultfooter\" style=\"border-collapse:separate;width:100%;border-spacing:5px\">";
+		else
+			echo "<TABLE class=\"resultfooter\" style=\"border-collapse:separate;width:100%;border-spacing:2px\">";
         echo '<tbody>';
         echo "<TR>".
-        "<TH> Date</TH>".
-        "<TH> n° de pièce </TH>".
-        "<TH> Code interne </TH>".
-        "<TH> Description </TH>".
+        "<TH style=\"text-align:left\"> Date</TH>".
+        "<TH style=\"text-align:left\"> n° de pièce </TH>".
+        "<TH style=\"text-align:left\"> Code interne </TH>".
+        "<TH style=\"text-align:left\"> Description </TH>".
         "<TH style=\"text-align:right\"> D&eacute;bit  </TH>".
         "<TH style=\"text-align:right\"> Cr&eacute;dit </TH>".
         th('Prog.','style="text-align:right"').
@@ -345,6 +348,7 @@ class Acc_Account_Ledger
         $progress=0;$sum_deb=0;$sum_cred=0;
 	bcscale(2);
 	$old_exercice="";
+	$idx=0;
         foreach ( $this->row as $op )
         {
             $vw_operation=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s</A>',
@@ -381,9 +385,11 @@ class Acc_Account_Ledger
 	    $progress=bcadd($progress,$tmp_diff);
 	    $sum_cred=bcadd($sum_cred,$op['cred_montant']);
 	    $sum_deb=bcadd($sum_deb,$op['deb_montant']);
+		if ($idx%2 == 0) $class='class="odd"'; else $class=' class="even"';
+		$idx++;
 
-	    echo "<TR>".
-	      "<TD>".format_date($op['j_date'])."</TD>".
+	    echo "<TR $class>".
+	      "<TD>".smaller_date(format_date($op['j_date']))."</TD>".
 	      td(h($op['jr_pj_number'])).
 	      "<TD>".$vw_operation."</TD>".
 	      "<TD>".h($op['description'])."</TD>".
@@ -606,6 +612,16 @@ class Acc_Account_Ledger
         $sql=substr($sql,0,strlen($sql)-2);
         return $sql;
     }
+	/**
+	 * Find the card which is using the current account
+	 * @return an array of f_id
+	 */
+	function find_card()
+	{
+		$sql="select f_id from fiche_detail where ad_id=$1 and ad_value=$2";
+		$account=$this->db->get_array($sql,array(ATTR_DEF_ACCOUNT,$this->id));
+		return $account;
+	}
     static function test_me()
     {
         $cn=new Database(dossier::id());

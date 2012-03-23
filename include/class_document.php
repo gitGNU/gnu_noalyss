@@ -66,12 +66,12 @@ class Document
     /*!
      * \brief Generate the document, Call $this-\>Replace to replace
      *        tag by value
-     *
+     *\p_array contains the data normally it is the $_POST
      *
      * \return an array : the url where the generated doc can be found, the name
      * of the file and his mimetype
      */
-    function Generate()
+    function Generate($p_array)
     {
         // create a temp directory in /tmp to unpack file and to parse it
         $dirname=tempnam($_ENV['TMP'],'doc_');
@@ -123,7 +123,7 @@ class Document
         $this->d_number=$this->db->get_next_seq("seq_doc_type_".$row['md_type']);
 
         // parse the document - return the doc number ?
-        $this->ParseDocument($dirname,$file_to_parse,$type);
+        $this->ParseDocument($dirname,$file_to_parse,$type,$p_array);
 
         $this->db->commit();
         // if the doc is a OOo, we need to re-zip it
@@ -161,8 +161,9 @@ class Document
      * \param $p_dir directory name
      * \param $p_file filename
      * \param $p_type For the OOo document the tag are &lt and &gt instead of < and >
+     * \param $p_array variable from $_POST
      */
-    function ParseDocument($p_dir,$p_file,$p_type)
+    function ParseDocument($p_dir,$p_file,$p_type,$p_array)
     {
 
         /*!\note Replace in the doc the tags by their values.
@@ -239,7 +240,7 @@ class Document
 
 
 			// if the pattern if found we replace it
-			$value=$this->Replace($pattern);
+			$value=$this->Replace($pattern,$p_array);
 			if ( strpos($value,'ERROR') != false ) 		  $value="";
 			// replace into the $buffer
 			// take the position in the buffer
@@ -467,7 +468,10 @@ class Document
      *  - [VEN_TVAC]
      *  - [VEN_TVA]
      *  - [TOTAL_VEN_HTVA]
+     *  - [DATE_CALC]
      *  - [DATE]
+     *  - [DATE_LIMIT]
+     *  - [DATE_LIMIT_CALC]
      *  - [NUMBER]
      *  - [MY_NAME]
      *  - [MY_CP]
@@ -494,9 +498,10 @@ class Document
      *  - [BENEF_VAT]
      *
      * \param $p_tag TAG
+     * \param $p_array data from $_POST
      * \return String which must replace the tag
      */
-    function Replace($p_tag)
+    function Replace($p_tag,$p_array)
     {
         $p_tag=strtoupper($p_tag);
         $p_tag=str_replace('=','',$p_tag);
@@ -504,15 +509,21 @@ class Document
         static $counter=0;
         switch ($p_tag)
         {
-        case 'DATE':
+		case 'DATE':
+			$r=(isset ($p_array['ag_timestamp']))?$p_array['ag_timestamp']:$p_array['e_date'];
+			break;
+        case 'DATE_CALC':
                 $r=' Date inconnue ';
-            // Date are in $_REQUEST['ag_date']
-            // or $_POST['e_date']
-            if ( isset ($_REQUEST['ag_timestamp']))
-                $r=$_REQUEST['ag_timestamp'];
-            if ( isset ($_REQUEST['e_date']))
-                $r=$_REQUEST['e_date'];
-
+            // Date are in $p_array['ag_date']
+            // or $p_array['e_date']
+            if ( isset ($p_array['ag_timestamp'])) {
+                $date=format_date($p_array['ag_timestamp'],'DD.MM.YYYY','YYYY-MM-DD');
+                $r=$date;
+            }
+            if ( isset ($p_array['e_date'])) {
+                $date=format_date($p_array['e_date'],'DD.MM.YYYY','YYYY-MM-DD');
+                $r=$date;
+            }
             break;
             //
             //  the company priv
@@ -555,12 +566,12 @@ class Document
             break;
 
             // customer
-            /*\note The CUST_* are retrieved thx the $_REQUEST['tiers']
+            /*\note The CUST_* are retrieved thx the $p_array['tiers']
              * which contains the quick_code
              */
         case 'SOLDE':
             $tiers=new Fiche($this->db);
-            $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+            $qcode=isset($p_array['qcode_dest'])?$p_array['qcode_dest']:$p_array['e_client'];
             $tiers->get_by_qcode($qcode,false);
             $p=$tiers->strAttribut(ATTR_DEF_ACCOUNT);
             $poste=new Acc_Account_Ledger($this->db,$p);
@@ -568,13 +579,13 @@ class Document
             break;
         case 'CUST_NAME':
             $tiers=new Fiche($this->db);
-            $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+            $qcode=isset($p_array['qcode_dest'])?$p_array['qcode_dest']:$p_array['e_client'];
             $tiers->get_by_qcode($qcode,false);
             $r=$tiers->strAttribut(ATTR_DEF_NAME);
             break;
         case 'CUST_ADDR_1':
             $tiers=new Fiche($this->db);
-            $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+            $qcode=isset($p_array['qcode_dest'])?$p_array['qcode_dest']:$p_array['e_client'];
             $tiers->get_by_qcode($qcode,false);
             $r=$tiers->strAttribut(ATTR_DEF_ADRESS);
 
@@ -582,7 +593,7 @@ class Document
         case 'CUST_CP':
             $tiers=new Fiche($this->db);
 
-            $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+            $qcode=isset($p_array['qcode_dest'])?$p_array['qcode_dest']:$p_array['e_client'];
             $tiers->get_by_qcode($qcode,false);
             $r=$tiers->strAttribut(ATTR_DEF_CP);
 
@@ -590,7 +601,7 @@ class Document
         case 'CUST_CITY':
             $tiers=new Fiche($this->db);
 
-            $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+            $qcode=isset($p_array['qcode_dest'])?$p_array['qcode_dest']:$p_array['e_client'];
             $tiers->get_by_qcode($qcode,false);
             $r=$tiers->strAttribut(ATTR_DEF_CITY);
 
@@ -599,35 +610,35 @@ class Document
         case 'CUST_CO':
             $tiers=new Fiche($this->db);
 
-            $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+            $qcode=isset($p_array['qcode_dest'])?$p_array['qcode_dest']:$p_array['e_client'];
             $tiers->get_by_qcode($qcode,false);
             $r=$tiers->strAttribut(ATTR_DEF_PAYS);
 
             break;
-            // Marchandise in $_POST['e_march*']
+            // Marchandise in $p_array['e_march*']
             // \see user_form_achat.php or user_form_ven.php
         case 'CUST_VAT':
             $tiers=new Fiche($this->db);
 
-            $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+            $qcode=isset($p_array['qcode_dest'])?$p_array['qcode_dest']:$p_array['e_client'];
             $tiers->get_by_qcode($qcode,false);
             $r=$tiers->strAttribut(ATTR_DEF_NUMTVA);
             break;
         case 'CUST_NUM':
             $tiers=new Fiche($this->db);
-            $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+            $qcode=isset($p_array['qcode_dest'])?$p_array['qcode_dest']:$p_array['e_client'];
             $tiers->get_by_qcode($qcode,false);
             $r=$tiers->strAttribut(ATTR_DEF_NUMBER_CUSTOMER);
             break;
         case 'CUST_BANQUE_NO':
             $tiers=new Fiche($this->db);
-            $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+            $qcode=isset($p_array['qcode_dest'])?$p_array['qcode_dest']:$p_array['e_client'];
             $tiers->get_by_qcode($qcode,false);
             $r=$tiers->strAttribut(ATTR_DEF_BQ_NO);
             break;
         case 'CUST_BANQUE_NAME':
             $tiers=new Fiche($this->db);
-            $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+            $qcode=isset($p_array['qcode_dest'])?$p_array['qcode_dest']:$p_array['e_client'];
             $tiers->get_by_qcode($qcode,false);
             $r=$tiers->strAttribut(ATTR_DEF_BQ_NAME);
             break;
@@ -635,7 +646,7 @@ class Document
             /* BENEFIT (fee notes */
         case 'BENEF_NAME':
             $tiers=new Fiche($this->db);
-            $qcode=isset($_REQUEST['qcode_benef'])?$_REQUEST['qcode_benef']:'';
+            $qcode=isset($p_array['qcode_benef'])?$p_array['qcode_benef']:'';
             if ( $qcode=='')
             {
                 $r='';
@@ -646,7 +657,7 @@ class Document
             break;
         case 'BENEF_ADDR_1':
             $tiers=new Fiche($this->db);
-            $qcode=isset($_REQUEST['qcode_benef'])?$_REQUEST['qcode_benef']:'';
+            $qcode=isset($p_array['qcode_benef'])?$p_array['qcode_benef']:'';
             if ( $qcode=='')
             {
                 $r='';
@@ -659,7 +670,7 @@ class Document
         case 'BENEF_CP':
             $tiers=new Fiche($this->db);
 
-            $qcode=isset($_REQUEST['qcode_benef'])?$_REQUEST['qcode_benef']:'';
+            $qcode=isset($p_array['qcode_benef'])?$p_array['qcode_benef']:'';
             if ( $qcode=='')
             {
                 $r='';
@@ -672,7 +683,7 @@ class Document
         case 'BENEF_CITY':
             $tiers=new Fiche($this->db);
 
-            $qcode=isset($_REQUEST['qcode_benef'])?$_REQUEST['qcode_benef']:'';
+            $qcode=isset($p_array['qcode_benef'])?$p_array['qcode_benef']:'';
             if ( $qcode=='')
             {
                 $r='';
@@ -686,7 +697,7 @@ class Document
         case 'BENEF_CO':
             $tiers=new Fiche($this->db);
 
-            $qcode=isset($_REQUEST['qcode_benef'])?$_REQUEST['qcode_benef']:'';
+            $qcode=isset($p_array['qcode_benef'])?$p_array['qcode_benef']:'';
             if ( $qcode=='')
             {
                 $r='';
@@ -696,12 +707,12 @@ class Document
             $r=$tiers->strAttribut(ATTR_DEF_PAYS);
 
             break;
-            // Marchandise in $_POST['e_march*']
+            // Marchandise in $p_array['e_march*']
             // \see user_form_achat.php or user_form_ven.php
         case 'BENEF_VAT':
             $tiers=new Fiche($this->db);
 
-            $qcode=isset($_REQUEST['qcode_benef'])?$_REQUEST['qcode_benef']:'';
+            $qcode=isset($p_array['qcode_benef'])?$p_array['qcode_benef']:'';
             if ( $qcode=='')
             {
                 $r='';
@@ -712,7 +723,7 @@ class Document
             break;
         case 'BENEF_NUM':
             $tiers=new Fiche($this->db);
-            $qcode=isset($_REQUEST['qcode_benef'])?$_REQUEST['qcode_benef']:'';
+            $qcode=isset($p_array['qcode_benef'])?$p_array['qcode_benef']:'';
             if ( $qcode=='')
             {
                 $r='';
@@ -723,7 +734,7 @@ class Document
             break;
         case 'BENEF_BANQUE_NO':
             $tiers=new Fiche($this->db);
-            $qcode=isset($_REQUEST['qcode_benef'])?$_REQUEST['qcode_benef']:'';
+            $qcode=isset($p_array['qcode_benef'])?$p_array['qcode_benef']:'';
             if ( $qcode=='')
             {
                 $r='';
@@ -734,7 +745,7 @@ class Document
             break;
         case 'BENEF_BANQUE_NAME':
             $tiers=new Fiche($this->db);
-            $qcode=isset($_REQUEST['qcode_benef'])?$_REQUEST['qcode_benef']:'';
+            $qcode=isset($p_array['qcode_benef'])?$p_array['qcode_benef']:'';
             if ( $qcode=='')
             {
                 $r='';
@@ -744,7 +755,7 @@ class Document
             $r=$tiers->strAttribut(ATTR_DEF_BQ_NAME);
             break;
 
-            // Marchandise in $_POST['e_march*']
+            // Marchandise in $p_array['e_march*']
             // \see user_form_achat.php or user_form_ven.php
         case 'NUMBER':
             $r=$this->d_number;
@@ -774,20 +785,25 @@ class Document
              *  - [TOTAL_VEN_HTVA]
              *  - [DATE_LIMIT]
              */
-        case 'DATE_LIMIT':
-            extract ($_POST);
+        case 'DATE_LIMIT_CALC':
+            extract ($p_array);
+            $id='e_ech' ;
+            if ( !isset (${$id}) ) return "";
+            $r=format_date(${$id},'DD.MM.YYYY','YYYY-MM-DD');
+            break;
+      case 'DATE_LIMIT':
+            extract ($p_array);
             $id='e_ech' ;
             if ( !isset (${$id}) ) return "";
             $r=${$id};
             break;
-
         case 'MARCH_NEXT':
             $counter++;
             $r='';
             break;
 
         case 'VEN_ART_NAME':
-            extract ($_POST);
+            extract ($p_array);
             $id='e_march'.$counter;
             // check if the march exists
             if ( ! isset (${$id})) return "";
@@ -801,7 +817,7 @@ class Document
             else $r = "";
             break;
        case 'VEN_ART_LABEL':
-            extract ($_POST);
+            extract ($p_array);
             $id='e_march'.$counter."_label";
             // check if the march exists
 
@@ -826,15 +842,16 @@ class Document
             break;
 
         case 'VEN_ART_PRICE':
-            extract ($_POST);
+            extract ($p_array);
             $id='e_march'.$counter.'_price' ;
             if ( !isset (${$id}) ) return "";
+			if (${$id} == 0 ) return "";
             $r=${$id};
             break;
 
         case 'TVA_RATE':
         case 'VEN_ART_TVA_RATE':
-            extract ($_POST);
+            extract ($p_array);
             $id='e_march'.$counter.'_tva_id';
             if ( !isset (${$id}) ) return "";
             if ( ${$id} == -1 || ${$id}=='' ) return "";
@@ -848,7 +865,7 @@ class Document
 
         case 'TVA_CODE':
         case 'VEN_ART_TVA_CODE':
-            extract ($_POST);
+            extract ($p_array);
             $id='e_march'.$counter.'_tva_id';
             if ( !isset (${$id}) ) return "";
             if ( ${$id} == -1 ) return "";
@@ -863,7 +880,7 @@ class Document
             break;
 
         case 'TVA_LABEL':
-            extract ($_POST);
+            extract ($p_array);
             $id='e_march'.$counter.'_tva_id';
             if ( !isset (${$id}) ) return "";
             $march_id='e_march'.$counter.'_price' ;
@@ -877,7 +894,7 @@ class Document
 
             /* total VAT for one sold */
         case 'TVA_AMOUNT':
-            extract ($_POST);
+            extract ($p_array);
             $qt='e_quant'.$counter;
             $price='e_march'.$counter.'_price' ;
             $tva='e_march'.$counter.'_tva_id';
@@ -893,7 +910,7 @@ class Document
             break;
             /* TVA automatically computed */
         case 'VEN_ART_TVA':
-            extract ($_POST);
+            extract ($p_array);
             $qt='e_quant'.$counter;
             $price='e_march'.$counter.'_price' ;
             $tva='e_march'.$counter.'_tva_id';
@@ -910,7 +927,7 @@ class Document
             break;
 
         case 'VEN_ART_TVAC':
-            extract ($_POST);
+            extract ($p_array);
             $qt='e_quant'.$counter;
             $price='e_march'.$counter.'_price' ;
             $tva='e_march'.$counter.'_tva_id';
@@ -934,7 +951,7 @@ class Document
             break;
 
         case 'VEN_ART_QUANT':
-            extract ($_POST);
+            extract ($p_array);
             $id='e_quant'.$counter;
             if ( !isset (${$id}) ) return "";
             // check that something is sold
@@ -947,7 +964,7 @@ class Document
             break;
 
         case 'VEN_HTVA':
-            extract ($_POST);
+            extract ($p_array);
             $id='e_march'.$counter.'_price' ;
             $quant='e_quant'.$counter;
             if ( !isset (${$id}) ) return "";
@@ -962,30 +979,26 @@ class Document
             break;
 
         case 'VEN_TVAC':
-            extract ($_POST);
+            extract ($p_array);
             $id='e_march'.$counter.'_tva_amount' ;
             $price='e_march'.$counter.'_price' ;
             $quant='e_quant'.$counter;
-            if ( ! isset(${'e_march'.$counter.'_price'})|| !isset(${'e_quant'.$counter}))
-                return "";
+            if ( ! isset(${'e_march'.$counter.'_price'})|| !isset(${'e_quant'.$counter}))     return "";
             // check that something is sold
-            if ( ${'e_march'.$counter.'_price'} == 0 || ${'e_quant'.$counter} == 0 )
-                return "";
-
-
-            // if it is exist
+            if ( ${'e_march'.$counter.'_price'} == 0 || ${'e_quant'.$counter} == 0 ) return "";
+			bcscale(2);
+            // if TVA not exist
             if ( ! isset(${$id}))
-                $r=round(${$price}*${$quant},2);
-            else
-                $r=round($
-                         {
-                             $price
-                         }
-                         *${$quant}+$id,2);
+                $r=  bcmul(${$price},${$quant});
+            else{
+                $r=  bcmul(${$price},${$quant});
+                $r=bcadd($r,${$id});
+			}
+			return $r;
             break;
 
         case 'TOTAL_VEN_HTVA':
-            extract($_POST);
+            extract($p_array);
 
             $sum=0.0;
             for ($i=0;$i<$nb_item;$i++)
@@ -1007,8 +1020,9 @@ class Document
             $r=round($sum,2);
             break;
         case 'TOTAL_VEN_TVAC':
-            extract($_POST);
+            extract($p_array);
             $sum=0.0;
+			bcscale(2);
             for ($i=0;$i<$nb_item;$i++)
             {
                 $tva='e_march'.$i.'_tva_amount';
@@ -1020,16 +1034,15 @@ class Document
                 }
                 $sell=${'e_march'.$i.'_price'};
                 $qt=${'e_quant'.$i};
-
-
-                $sum+=$sell*$qt+$tva_amount;
-                $sum=round($sum,2);
+				$tot=bcmul($sell,$qt);
+				$tot=bcadd($tot,$tva_amount);
+				$sum=bcadd($sum,$tot);
             }
             $r=round($sum,2);
 
             break;
         case 'TOTAL_TVA':
-            extract($_POST);
+            extract($p_array);
             $sum=0.0;
             for ($i=0;$i<$nb_item;$i++)
             {
@@ -1046,26 +1059,26 @@ class Document
 
             break;
         case 'BON_COMMANDE':
-            if ( isset($_REQUEST['bon_comm']))
-                return $_REQUEST['bon_comm'];
+            if ( isset($p_array['bon_comm']))
+                return $p_array['bon_comm'];
             else
                 return "";
             break;
         case 'PJ':
-            if ( isset($_REQUEST['e_pj']))
-                return $_REQUEST['e_pj'];
+            if ( isset($p_array['e_pj']))
+                return $p_array['e_pj'];
             else
                 return "";
 
         case 'OTHER_INFO':
-            if ( isset($_REQUEST['other_info']))
-                return $_REQUEST['other_info'];
+            if ( isset($p_array['other_info']))
+                return $p_array['other_info'];
             else
                 return "";
             break;
         case 'COMMENT':
-            if ( isset($_REQUEST['e_comm']))
-                return $_REQUEST['e_comm'];
+            if ( isset($p_array['e_comm']))
+                return $p_array['e_comm'];
             break;
         }
         return $r;

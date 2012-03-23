@@ -327,7 +327,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
             $W1->set_attribute('ipopup','ipopcard');
 
             // name of the field to update with the name of the card
-            $W1->set_attribute('label','e_other'.$i.'_comment');
+            $W1->set_attribute('label','e_other_name'.$i);
             // name of the field to update with the name of the card
             $W1->set_attribute('typecard','filter');
             // Add the callback function to filter the card on the jrn
@@ -338,6 +338,21 @@ class Acc_Ledger_Fin extends Acc_Ledger
             $W1->readonly=$pview_only;
             $array[$i]['qcode']=$W1->input();
             $array[$i]['search']=$W1->search();
+
+	    // Card name
+	    //
+	    $card_name="";
+	    if ( $tiers !="" )
+	      {
+		$fiche=new Fiche($this->db);
+		$fiche->get_by_qcode($tiers);
+		$card_name=$this->db->get_value("Select ad_value from fiche_detail where ad_id=$1 and f_id=$2",
+						array(ATTR_DEF_NAME,$fiche->id));
+	      }
+
+	    $wcard_name=new IText("e_other_name".$i,$card_name);
+	    $wcard_name->readOnly=true;
+	    $array[$i]['cname']=$wcard_name->input();
 
             // Comment
             $wComment=new IText("e_other$i"."_comment",$tiers_comment);
@@ -463,8 +478,8 @@ class Acc_Ledger_Fin extends Acc_Ledger
         //-------------------------------------------------
         $r.='<TABLE style="width:100%" id="fin_item">';
         $r.="<TR>";
-        $r.="<th colspan=\"2\">Nom</TH>";
-        $r.="<th>Commentaire</TH>";
+        $r.="<th style=\"width:auto;text-align:left\" colspan=\"2\">Nom</TH>";
+        $r.="<th style=\"text-align:left\" >Commentaire</TH>";
         $r.="<th style=\"text-align:right\">Montant</TH>";
         $r.='<th colspan="2"> Op. Concern&eacute;e(s)</th>';
 

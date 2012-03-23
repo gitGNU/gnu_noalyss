@@ -248,6 +248,7 @@ function ledger_fin_add_row()
         var tt=rowToCopy.cells[e].innerHTML;
         var new_tt=tt.replace(/e_other0/g,"e_other"+nb.value);
         new_tt=new_tt.replace(/e_other0_comment/g,"e_other"+nb.value+'_comment');
+        new_tt=new_tt.replace(/e_other_name0/g,"e_other_name"+nb.value);
         new_tt=new_tt.replace(/e_other0_amount/g,"e_other"+nb.value+'_amount');
         new_tt=new_tt.replace(/e_concerned0/g,"e_concerned"+nb.value);
         new_tt=new_tt.replace(/e_other0_label/g,"e_other"+nb.value+'_label');
@@ -255,6 +256,7 @@ function ledger_fin_add_row()
         new_tt.evalScripts();
     }
     g("e_other"+nb.value).value="";
+    g("e_other_name"+nb.value).value="";
     g("e_other"+nb.value+'_amount').value="0";
     g("e_other"+nb.value+'_comment').value="";
     g("e_concerned"+nb.value).value="";
@@ -881,7 +883,7 @@ function op_save(obj)
                                   onSuccess:infodiv
                                       }
                                     );
-        window.close();
+       // window.close();
     }
     else
     {

@@ -35,17 +35,13 @@ $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 /*set to none for production */
 /* uncomment for production */
-// $version_phpcompta=4620;
-// define ("DEBUG",true);
-
-
 $version_phpcompta=SVNINFO;
 define ("DEBUG",false);
 
-/* $version_phpcompta=4601;
-define ("DEBUG",true); */
+//$version_phpcompta=4601;
+//define ("DEBUG",true);
 
-define ("DBVERSION",101);
+define ("DBVERSION",102);
 
 define ("DBVERSIONREPO",14);
 define ('NOTFOUND','--not found--');
@@ -55,6 +51,7 @@ define ('MAX_ARTICLE',12);
 define ('MAX_CAT',15);
 define ('MAX_FORECAST_ITEM',10);
 define ('MAX_PREDEFINED_OPERATION',30);
+define ('MAX_COMPTE_CARD',4);
 
 if ( DEBUG ) error_reporting(2147483647);  else error_reporting(0);
 // Erreur

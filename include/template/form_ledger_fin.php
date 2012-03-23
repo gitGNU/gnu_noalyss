@@ -21,7 +21,8 @@
    <fieldset><legend><?=_('Opérations')?></legend>
 <table id="fin_item" width="100%" border="0">
 <tr>
-<th style="text-align: left;width: auto"colspan="2">code<?HtmlInput::infobulle(0)?></TH>
+<th style="text-align: left;width: auto">code<?HtmlInput::infobulle(0)?></TH>
+   <th style="text-align: left"><?=_('Fiche')?></TH>
    <th style="text-align: left"><?=_('Commentaire')?></TH>
    <th style="text-align: left"><?=_('Montant')?></TH>
    <th style="text-align: left;width:auto"colspan="2"> <?=_('Op. Concernée(s)')?></th>
@@ -30,6 +31,7 @@
 <? foreach ($array as $item) {
 echo '<tr>';
 echo td($item['qcode'].$item['search']);
+echo td($item['cname']);
 echo td($item['comment']);
 echo td($item['amount']);
 echo td($item['concerned']);
