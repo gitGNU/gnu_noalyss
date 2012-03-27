@@ -198,6 +198,6 @@ foreach ($a_poste as $poste)
 
 }
 //Save PDF to file
-$pdf->Output("gl_comptes.pdf", 'I');
+$pdf->Output("gl_comptes.pdf", 'D');
 exit;
 ?>

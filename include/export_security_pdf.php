@@ -175,5 +175,5 @@ for ( $i =0 ; $i < $Max; $i++ )
     $pdf->Ln();
 }
 $fDate=date('dmy-HI');
-$pdf->Output('security-'.$fDate.'pdf','I');
+$pdf->Output('security-'.$fDate.'pdf','D');
 ?>

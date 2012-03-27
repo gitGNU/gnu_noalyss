@@ -187,7 +187,7 @@ $pdf->Cell(30,5,$str_diff_solde,0,0,'R');
 $pdf->Ln();
 
 $fDate=date('dmy-Hi');
-$pdf->Output('fiche-'.$fDate.'.pdf','I');
+$pdf->Output('fiche-'.$fDate.'.pdf','D');
 
 
 ?>

@@ -150,7 +150,7 @@ class Anc_Balance_Double extends Anc_Print
 	    $tot_deb=bcadd($tot_deb,$row['debit']);
 
 	    $r.=td(nbm($diff),' class="num" ');
-	    
+
             $r.='<td>'.$row['dc'].'</td>';
             $r.='</tr>';
         }
@@ -263,7 +263,7 @@ class Anc_Balance_Double extends Anc_Print
             $pdf->Ln();
         }
         $fDate=date('dmy-Hi');
-        $pdf->output('crossbalance-'.$fDate.'.pdf','I');
+        $pdf->output('crossbalance-'.$fDate.'.pdf','D');
     }
 
 
@@ -440,14 +440,14 @@ class Anc_Balance_Double extends Anc_Print
              pb.po_name as b_po_name,
              sum(a_oa_amount_c) as a_c,
              sum(a_oa_amount_d) as a_d
-             from (select 
+             from (select
 			a.j_id,
              a.po_id as a_po_id,
              b.po_id as b_po_id,
              case when a.oa_debit='t' then a.oa_amount else 0 end as a_oa_amount_d,
              case when a.oa_debit='f' then a.oa_amount else 0 end as a_oa_amount_c
              from
-             operation_analytique as a join operation_analytique as b on (a.j_id=b.j_id and a.oa_row=b.oa_row) 
+             operation_analytique as a join operation_analytique as b on (a.j_id=b.j_id and a.oa_row=b.oa_row)
 		join poste_analytique as poa on (a.po_id=poa.po_id)
 		join poste_analytique as pob on (b.po_id=pob.po_id)
              where poa.pa_id=".
@@ -514,7 +514,7 @@ class Anc_Balance_Double extends Anc_Print
                 $array[]=array('poste'=>$old,'desc'=>$old_desc
                                                     ,'debit'=>$tot_deb,'credit'=>$tot_cred,
                                'solde'=>$s,'dc'=>$d);
-      
+
                 $tot_deb=0;
                 $tot_cred=0;
 
@@ -538,10 +538,10 @@ class Anc_Balance_Double extends Anc_Print
         $d=($tot_deb>$tot_cred)?'debit':'credit';
         $array[]=array('poste'=>$old,'desc'=>$old_desc
 		       ,'debit'=>$tot_deb,'credit'=>$tot_cred,
-		       
+
                        'solde'=>$s,'dc'=>$d);
 
- 
+
         return $array;
 
     }
