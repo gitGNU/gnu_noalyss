@@ -1,29 +1,29 @@
 CREATE OR REPLACE FUNCTION comptaproc.check_balance(p_grpt integer)
   RETURNS numeric AS
 $BODY$
-declare 
+declare
 	amount_jrnx_debit numeric;
 	amount_jrnx_credit numeric;
 	amount_jrn numeric;
 begin
-	select coalesce(sum (j_montant),0) into amount_jrnx_credit 
-	from jrnx 
-		where 
+	select coalesce(sum (j_montant),0) into amount_jrnx_credit
+	from jrnx
+		where
 	j_grpt=p_grpt
 	and j_debit=false;
 
-	select coalesce(sum (j_montant),0) into amount_jrnx_debit 
-	from jrnx 
-		where 
+	select coalesce(sum (j_montant),0) into amount_jrnx_debit
+	from jrnx
+		where
 	j_grpt=p_grpt
 	and j_debit=true;
 
-	select coalesce(jr_montant,0) into amount_jrn 
+	select coalesce(jr_montant,0) into amount_jrn
 	from jrn
 	where
 	jr_grpt_id=p_grpt;
 
-	if ( amount_jrnx_debit != amount_jrnx_credit ) 
+	if ( amount_jrnx_debit != amount_jrnx_credit )
 		then
 		return abs(amount_jrnx_debit-amount_jrnx_credit);
 		end if;
@@ -36,3 +36,4 @@ end;
 $BODY$
   LANGUAGE plpgsql;
 
+update op_predef set od_direct='t' where od_jrn_type='ODS';
