@@ -58,7 +58,7 @@ if ( count($array) == 0 )
 $size=array(13,25,20,60,12,20,20,20);
 $align=array('L','C','C','L','R','R','R','R');
 
-$Libelle=sprintf("(%s) %s ",$Fiche->id,$Fiche->getName());
+$Libelle=sprintf("(%s) %s [ %s ]",$Fiche->id,$Fiche->getName(),$Fiche->get_quick_code());
 $pdf->SetFont('DejaVu','',10);
 $pdf->Cell(0,8,$Libelle,1,0,'C');
 $pdf->Ln();
@@ -104,7 +104,7 @@ for ($e=0;$e<count($array);$e++)
     $l++;
     $pdf->Cell($size[$l],6,substr($row['jrn_name'],0,14),0,0,$align[$l]);
     $l++;
-    $pdf->Cell($size[$l],6,$row['description'].'('.$row['jr_internal'].')',0,0,$align[$l]);
+    $pdf->Cell($size[$l],6,substr($row['description'],0,50).'('.$row['jr_internal'].')',0,0,$align[$l]);
 
     $l++;
     $pdf->Cell($size[$l],6,(($row['letter']!=-1)?$row['letter']:''),0,0,$align[$l]);
@@ -187,7 +187,7 @@ $pdf->Cell(30,5,$str_diff_solde,0,0,'R');
 $pdf->Ln();
 
 $fDate=date('dmy-Hi');
-$pdf->Output('fiche-'.$fDate.'.pdf','I');
+$pdf->Output('fiche-'.$fDate.'.pdf','D');
 
 
 ?>

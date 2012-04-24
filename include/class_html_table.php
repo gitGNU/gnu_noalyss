@@ -30,9 +30,9 @@ class Html_Table
    * Receives a SQL command and returns a string with the HTML code
    * to display it as a table.
    * Simple table without any feature (link in certain cell, sort,...)
-   * @param $cn database object 
+   * @param $cn database object
    * @param $a_col header of the column it is an array of array
-   *        indexes are link, name,image, style 
+   *        indexes are link, name,image, style
    * @param $sql query to execute
    * @param $table_style style of the table
    * @parm $a_sql_var array variable for the $sql DEFAULT NULL
@@ -69,7 +69,7 @@ class Html_Table
 				     )
 			       ,
 			       $sql
-			       );		   
+			       );
   }
 @endcode
    */
@@ -81,6 +81,7 @@ class Html_Table
     for ( $i=0;$i <count($a_col);$i++)
       {
 	$content=h($a_col[$i]['name']);
+	$style=(isset($a_col[$i]['style']))?$a_col[$i]['style']:"";
 	if ( isset($a_col[$i]['image']) && $a_col[$i]['image'] != '')
 	  {
 	    $content=sprintf('<img src="%s" border="0"></img>%s',$a_col[$i]['image'],$content);
@@ -90,10 +91,10 @@ class Html_Table
 	    $content=sprintf('<a href="%s">%s</a>',
 			     $a_col[$i]['link'],
 			     $content);
-	    $r.="<th>$content</th>";
-	  } 
+	    $r.="<th $style>$content</th>";
+	  }
 	else
-	  $r.= th($content);
+	  $r.= "<th $style>". h($content)."</th>";
       }
     $r.='</tr>';
     $ret=$cn->exec_sql($sql,$a_sql_var);
@@ -106,10 +107,11 @@ class Html_Table
 	    $style='';$content=h($row[$e]);
 
 	    if ( isset($a_col[$e]['style']) )
-	      $style=sprintf('style="%s"',$a_col[$e]['style']);
-
-
-	    $r.=td($content,$style);
+	      $style=$a_col[$e]['style'];
+		if  ( isset ($a_col[$e]['raw']))
+			$r.='<td $style>'.$row[$e].'</td>';
+		else
+			$r.=td($content,$style);
 	  }
 	$r.='</tr>';
       }
@@ -148,6 +150,6 @@ class Html_Table
 				     )
 			       ,
 			       $sql
-			       );		   
+			       );
   }
 }

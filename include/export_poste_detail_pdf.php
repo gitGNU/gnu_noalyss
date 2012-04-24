@@ -58,7 +58,7 @@ $pdf->setTitle("Détail poste comptable",true);
 
 if ( count($a_poste) == 0 )
 {
-    $pdf->Output('poste.pdf','I');
+    $pdf->Output('poste.pdf','D');
     exit;
 }
 $size=array(13,25,20,60,12,20,20,20);
@@ -112,11 +112,11 @@ foreach ($a_poste as $poste)
 	if ( $row['jr_pj_number'] == '')
 	  $pdf->Cell($size[$l],6,$row['jr_internal'],0,0,$align[$l]);
 	else
-	  $pdf->Cell($size[$l],6,$row['jr_pj_number'],0,0,$align[$l]);	  
+	  $pdf->Cell($size[$l],6,$row['jr_pj_number'],0,0,$align[$l]);
         $l++;
         $pdf->Cell($size[$l],6,substr($row['jrn_name'],0,14),0,0,$align[$l]);
         $l++;
-        $pdf->Cell($size[$l],6,$row['description'],0,0,$align[$l]);
+        $pdf->Cell($size[$l],6,  substr($row['description'],0,55),0,0,$align[$l]);
         $l++;
         $pdf->Cell($size[$l],6,(($row['letter']!=-1)?$row['letter']:''),0,0,$align[$l]);
         $l++;
@@ -198,5 +198,5 @@ foreach ($a_poste as $poste)
 
 }
 $fDate=date('dmy-Hi');
-$pdf->Output('poste-'.$fDate.'.pdf','I');
+$pdf->Output('poste-'.$fDate.'.pdf','D');
 ?>

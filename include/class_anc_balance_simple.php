@@ -199,7 +199,7 @@ class Anc_Balance_Simple extends Anc_Print
             $pdf->Ln();
         }
         $fDate=date('dmy-Hi');
-        $pdf->output('simple-balance-'.$fDate.'.pdf','I');
+        $pdf->output('simple-balance-'.$fDate.'.pdf','D');
 
     }
     /*!

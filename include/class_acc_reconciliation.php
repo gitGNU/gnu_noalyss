@@ -108,6 +108,11 @@ class Acc_Reconciliation
         if ( $this->jr_id==$jr_id2)
             return true;
 
+		if ( $this->db->count_sql("select jr_id from jrn where jr_id=".$this->jr_id)==0 )
+				return false;
+		if ( $this->db->count_sql("select jr_id from jrn where jr_id=".$jr_id2)==0 )
+				return false;
+
         // verify if exists
         if ( $this->db->count_sql(
                     "select jra_id from jrn_rapt where jra_concerned=".$this->jr_id.
