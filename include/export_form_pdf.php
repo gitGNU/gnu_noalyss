@@ -124,6 +124,6 @@ else
 }
 
 $fDate=date('dmy-Hi');
-$pdf->Output('rapport-'.$fDate.'.pdf','I');
+$pdf->Output('rapport-'.$fDate.'.pdf','D');
 
 ?>

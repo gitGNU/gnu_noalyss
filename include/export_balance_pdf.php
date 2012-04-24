@@ -219,7 +219,7 @@ if (! empty($array))
   } // if ! empty
 
 $fDate=date('dmy-Hi');
-$pdf->Output('balance-'.$fDate.'.pdf','I');
+$pdf->Output('balance-'.$fDate.'.pdf','D');
 
 
 

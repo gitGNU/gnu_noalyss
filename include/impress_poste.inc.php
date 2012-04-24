@@ -219,8 +219,13 @@ if ( isset( $_REQUEST['bt_html'] ) )
         if ( ! isset($_REQUEST['oper_detail']) )
         {
             echo '<div class="content">';
+            echo '<h2 class="info"> ' .
+                '(' . $fiche->id . ')' .
+                $fiche->getName() . ' ' .
+                ' [ ' . $fiche->get_quick_code() . ' ] ' .
+                '<h2>';
             $fiche->HtmlTableHeader();
-            $fiche->HtmlTable(null,$_GET['ople']);
+            $fiche->HtmlTable(null, $_GET['ople']);
             $fiche->HtmlTableHeader();
             echo "</div>";
         }
@@ -228,10 +233,16 @@ if ( isset( $_REQUEST['bt_html'] ) )
         {
             // Detail //
             echo '<div class="content">';
+            echo '<h2 class="info"> ' .
+                '(' . $fiche->id . ')' .
+                $fiche->getName() . ' ' .
+                ' [ ' . $fiche->get_quick_code() . ' ] ' .
+                '<h2>';
+
             $fiche->HtmlTableHeader();
             $fiche->HtmlTableDetail();
             $fiche->HtmlTableHeader();
-
+            echo "</div>";
         }
         exit;
     }

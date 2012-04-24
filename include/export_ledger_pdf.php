@@ -80,11 +80,11 @@ if ( $_REQUEST['p_simple']== 0 )
     $pdf->AddPage();
     $pdf->SetAuthor('Phpcompta');
     $pdf->setTitle("Journal",true);
-    
+
     $pdf->export($Jrn);
 
     $fDate=date('dmy-Hi');
-    $pdf->Output('journal-'.$fDate.'.pdf','I');
+    $pdf->Output('journal-'.$fDate.'.pdf','D');
     exit(0);
 
 } // impression detaillé
@@ -105,7 +105,7 @@ if   (  $_REQUEST['p_simple']== 1 )
             $pdf->setTitle("Journal",true);
 
             $pdf->Cell(0,6,'Ce journal ne peut être imprimé en mode simple');
-            $pdf->output('erreur.pdf','I');
+            $pdf->output('erreur.pdf','D');
             exit();
         }
         if ( $jrn_type=='VEN' && $cn->get_value('select count(qs_id) from quant_sold') == 0 )
@@ -115,7 +115,7 @@ if   (  $_REQUEST['p_simple']== 1 )
             $pdf->AliasNbPages();
             $pdf->AddPage();
             $pdf->Cell(0,6,'Ce journal ne peut être imprimé en mode simple');
-            $pdf->output('erreur.pdf','I');
+            $pdf->output('erreur.pdf','D');
             exit();
         }
 
@@ -130,7 +130,7 @@ if   (  $_REQUEST['p_simple']== 1 )
 
             $pdf->export();
             $fDate=date('dmy-Hi');
-            $pdf->Output('journal-'.$fDate.'.pdf','I');
+            $pdf->Output('journal-'.$fDate.'.pdf','D');
             exit(0);
         }
         if ( $own->MY_TVA_USE=='N')
@@ -144,7 +144,7 @@ if   (  $_REQUEST['p_simple']== 1 )
 
             $pdf->export($Jrn);
             $fDate=date('dmy-Hi');
-            $pdf->Output('journal-'.$fDate.'.pdf','I');
+            $pdf->Output('journal-'.$fDate.'.pdf','D');
             exit(0);
         }
 
@@ -158,10 +158,10 @@ if   (  $_REQUEST['p_simple']== 1 )
         $pdf->AddPage();
         $pdf->SetAuthor('Phpcompta');
         $pdf->setTitle("Journal",true);
-        
+
         $pdf->export();
         $fDate=date('dmy-Hi');
-        $pdf->Output('journal-'.$fDate.'.pdf','I');
+        $pdf->Output('journal-'.$fDate.'.pdf','D');
         exit(0);
     }
     if ( $jrn_type=='ODS' || $Jrn->id==0)
@@ -171,11 +171,11 @@ if   (  $_REQUEST['p_simple']== 1 )
         $pdf->AliasNbPages();
         $pdf->SetAuthor('Phpcompta');
         $pdf->setTitle("Journal",true);
-        
+
         $pdf->AddPage();
         $pdf->export();
         $fDate=date('dmy-Hi');
-        $pdf->Output('journal-'.$fDate.'.pdf','I');
+        $pdf->Output('journal-'.$fDate.'.pdf','D');
         exit(0);
     }
 }

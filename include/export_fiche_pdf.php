@@ -58,7 +58,7 @@ if ( $_GET['histo'] == 4 )
         $pdf->Cell(0,10, "Cette catégorie n'ayant pas de poste comptable n'a pas de balance");
         //Save PDF to file
         $fDate=date('dmy-Hi');
-        $pdf->Output("category-$fDate.pdf", 'I');
+        $pdf->Output("category-$fDate.pdf", 'D');
         exit;
     }
     $aCard=$cn->get_array("select f_id,ad_value from fiche join fiche_Detail using (f_id)  where ad_id=1 and fd_id=$1 order by 2 ",array($_REQUEST['cat']));
@@ -67,7 +67,7 @@ if ( $_GET['histo'] == 4 )
     {
         $pdf->Cell(0,10, "Aucune fiche trouvée");//Save PDF to file
         $fDate=date('dmy-Hi');
-        $pdf->Output("category-$fDate.pdf", 'I');
+        $pdf->Output("category-$fDate.pdf", 'D');
         exit;
     }
     $pdf->SetFont('DejaVuCond','',7);
@@ -230,5 +230,5 @@ else
 }
 //Save PDF to file
 $fDate=date('dmy-Hi');
-$pdf->Output("category-$fDate.pdf", 'I');
+$pdf->Output("category-$fDate.pdf", 'D');
 exit;
