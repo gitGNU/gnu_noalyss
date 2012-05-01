@@ -76,12 +76,15 @@ class contact extends Fiche
         }
         // Get The result Array
         $step_contact=$this->GetAll($offset,$search.$extra_sql.$p_sql);
-        if ( $all_contact == 0 ) return "";
+
+		if ( $all_contact == 0 ) return "";
         $r=$bar;
         $r.='<table border="0"  width="95%">
             <TR style="background-color:lightgrey;">
             <th>Quick Code</th>
             <th>Nom</th>
+            <th>Prénom</th>
+			<th>Société</th>
             <th>Téléphone</th>
             <th>email</th>
             <th>Fax</th>
@@ -116,17 +119,15 @@ class contact extends Fiche
             // add popup for detail
             if ( $l_company_name !="")
             {
-                $l_company_name=sprintf("<A HREF=\"javascript:showfiche('%s')\">%s  - %s</A>",
-                                        $contact->strAttribut(ATTR_DEF_COMPANY),
-                                        $contact->strAttribut(ATTR_DEF_COMPANY),
-                                        $l_company_name
-                                       );
+				$l_company_name=HtmlInput::card_detail($contact->strAttribut(ATTR_DEF_COMPANY),$l_company_name,'style="text-decoration:underline;"');
             }
             $r.="<TR>";
             $qcode=$contact->strAttribut(ATTR_DEF_QUICKCODE);
             $r.='<TD><A HREF="javascript:void(0)" onclick="this.ipopup=\'ipopcard\';this.qcode=(\''.$qcode.'\');fill_ipopcard(this);">'.$qcode.
                 "</A></TD>";
             $r.="<TD>".$contact->strAttribut(ATTR_DEF_NAME)."</TD>";
+            $r.="<TD>".$contact->strAttribut(ATTR_DEF_FIRST_NAME)."</TD>";
+            $r.="<TD>".$l_company_name."</TD>";
             $r.="<TD>".$contact->strAttribut(ATTR_DEF_TEL)."</TD>";
             $r.="<TD>".$contact->strAttribut(ATTR_DEF_EMAIL)."</TD>".
                 "<TD> ".$contact->strAttribut(ATTR_DEF_FAX)."</TD>";

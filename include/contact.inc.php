@@ -15,215 +15,140 @@
  *   You should have received a copy of the GNU General Public License
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
-
+ */
 /* $Revision$ */
-
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-//!\brief File for adding contact, contact is a kind of fiche
-require_once("class_icard.php");
-require_once("class_ispan.php");
+/* !\brief include from client.inc.php and concerned only the contact card and
+ * the contact category
+ */
 require_once("class_iselect.php");
 require_once("class_ihidden.php");
-require_once('class_contact.php');
-/*! \file
- * \brief the contact class is derived from the class fiche
- *        the contact is in fact a card but more specific
- *        This file is included from the module "Gestion"
+require_once("class_contact.php");
+require_once("class_ibutton.php");
+require_once('class_fiche_def.php');
+
+
+
+$low_action = (isset($_REQUEST['sb'])) ? $_REQUEST['sb'] : "list";
+/* ! \file
+ * \brief Called from the module "Gestion" to manage the contact
  */
+$href=basename($_SERVER['PHP_SELF']);
 
-$sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
-
-// if this page is called from another menu (customer, supplier,...)
-// a button back is added
-if ( isset ($_REQUEST['url']))
-{
-    $retour=HtmlInput::button_anchor('Retour',urldecode($_REQUEST['url']));
-
-    $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
-}
-else
-{
-    $retour="";
-    $h_url="";
-}
-
-// Menu
-// Remove a card
-if ( isset ($_POST['delete']) )
-{
-    $f_id=$_REQUEST['f_id'];
-
-    $fiche=new contact($cn,$f_id);
-    $fiche->remove();
-    $sub_action="list";
-}
-//-----------------------------------------------------
-// Add card
-if ( $sub_action=="insert" )
-{
-    $contact=new Contact($cn);
-    $contact->Save($_REQUEST['fd_id']);
-    echo $retour;
-    echo "<table>";
-    echo $contact->Display(true);
-    echo "</table>";
-    echo $retour;
-
-}
-
-//-----------------------------------------------------
-// Save modification
-if ( isset ($_POST['mod']))
-{
-    // modification is asked
-    $f_id=$_REQUEST['f_id'];
-
-    $contact=new contact($cn,$f_id);
-    $contact->Save();
-    $sub_action="list";
-}
 // by default open liste
-if ( $sub_action  == "" )
-    $sub_action="list";
+if ($low_action == "")
+    $low_action = "list";
+
+
 //-----------------------------------------------------
-//Display a blank card
-if ( $sub_action=="blank")
+// Remove a card
+//-----------------------------------------------------
+if (isset($_POST['delete_card']))
 {
-    $retour_action=HtmlInput::button_anchor('Retour', "commercial.php?p_action=contact&$str_dossier");
+    if ($g_user->check_action(FICADD) == 0)
+    {
+	alert(j(_('Vous  ne pouvez pas enlever de fiche')));
+	return;
+    }
 
-    echo '<div class="redcontent">';
+    $f_id = $_REQUEST['f_id'];
 
-    echo $retour_action;
-    $c=new contact($cn);
-    echo '<form method="post" action="commercial.php"';
-    echo dossier::hidden();
-    echo HtmlInput::hidden('p_action','client');
-    echo HtmlInput::hidden("sa","insert");
-    echo HtmlInput::hidden("fd_id",$_GET['fd_id']);
-    echo HtmlInput::hidden("url", $_GET['url']);
-    ;
-    echo $c->blank($_GET['fd_id']);
-    echo HtmlInput::submit('Sauve','Sauve');
-    echo '</form>';
-    echo $retour_action;
-    echo '</div>';
+    $fiche = new Contact($cn, $f_id);
+    $fiche->remove();
+    $low_action = "list";
 }
+
 //-----------------------------------------------------
-// list
-if ( $sub_action == "list" )
+//    list of contact
+//-----------------------------------------------------
+if ($low_action == "list")
 {
     ?>
     <div class="content">
-                           <span>
-                           <form method="get" action="commercial.php">
-                                                     <?php
-                                                     echo dossier::hidden();
-    $a=(isset($_GET['query']))?$_GET['query']:"";
-    printf ('<input type="text" name="query" value="%s">',
-            $a);
-    ?>
-    <input type="submit" class="button" name="submit_query" value="<?_('recherche')?>">
-                                           <input type="hidden" name="p_action" value="contact">
-                                                                     </form>
+        <div>
+    	<form method="get" action="<?php echo $href;?>">
+		<?php
+		echo dossier::hidden();
+		$a = (isset($_GET['query'])) ? $_GET['query'] : "";
+		printf(_('Recherche') . ' <input class="input_text" type="text" name="query" value="%s">', $a);
+		$sel_card = new ISelect('cat');
+		$sel_card->value = $cn->make_array('select fd_id, fd_label from fiche_def ' .
+			' where  frd_id=' . FICHE_TYPE_CONTACT .
+			' order by fd_label ', 1);
+		$sel_card->selected = (isset($_GET['cat'])) ? $_GET['cat'] : -1;
+		$sel_card->javascript = ' onchange="submit(this);"';
+
+		echo _('Catégorie :') . $sel_card->input();
+
+		$sl_company=new ISelect("sel_company");
+		$sl_company->value = $cn->make_array('select distinct ad_value,ad_value from fiche_detail as fd' .
+			' join fiche as f1 on (f1.f_id=fd.f_id) join fiche_def as fdf on (f1.fd_id=fdf.fd_id)
+				where
+				ad_id='.ATTR_DEF_COMPANY. " and frd_id= ".FICHE_TYPE_CONTACT.
+			' order by 1', 1);
+		$sl_company->selected = (isset($_GET['sel_company'])) ? $_GET['sel_company'] : '';
+		echo _('Société :') . $sl_company->input();
+
+		?>
+    	    <input type="submit" class="button" name="submit_query" value="<?= _('recherche')?>">
+    	    <input type="hidden" name="ac" value="<?= $_REQUEST['ac']?>">
+    	</form>
+        </div>
+	<?php
+	$client = new contact($cn);
+	$search = (isset($_GET['query'])) ? $_GET['query'] : "";
+	$sql = "";
+	if (isset($_GET['cat']))
+	{
+	    if ($_GET['cat'] != -1)
+		$sql = sprintf(" and fd_id = %d", $_GET['cat']);
+	}
+	if (isset($_GET['sel_company']))
+	{
+	    if ($_GET['sel_company'] != '' && $_GET['sel_company'] != -1)
+		{
+
+			$client->company=$_GET['sel_company'];
+		}
+	}
+
+	echo '<div class="content">';
+	echo $client->Summary($search,"contact",$sql);
 
 
-                                                                     <form>
-                                                                     <?php
-                                                                     echo dossier::hidden();
-    $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
+	echo '<br>';
+	echo '<br>';
+	echo '<br>';
+	/* Add button */
+	$f_add_button = new IButton('add_card');
+	$f_add_button->label = _('Créer une nouvelle fiche');
+	$f_add_button->set_attribute('win_refresh', 'yes');
+	$f_add_button->set_attribute('type_cat', FICHE_TYPE_CONTACT);
+	$f_add_button->javascript = " select_card_type(this);";
+	echo $f_add_button->input();
 
-    $w=new ICard();
-    $w->name='qcode';
-    $w->value=$qcode;
-    $w->label='qcode';
-    $w->table=0;
-    $w->jrn=0;
-    $w->extra='4,8,9,14';
-    echo $w->input();
+    $f_cat_button=new IButton('add_cat');
+    $f_cat_button->set_attribute('ipopup','ipop_cat');
+    $f_cat_button->set_attribute('type_cat',FICHE_TYPE_CONTACT);
+    $f_cat_button->label=_('Ajout d\'une catégorie');
+    $f_cat_button->javascript='add_category(this)';
+    echo $f_cat_button->input();
 
-
-    $sp=new ISpan();
-    echo $sp->input("qcode_label",$qcode)."</TD></TR>";
-
-
-    ?>
-    <input type="submit" class="button" name="submit_query" value="recherche">
-                                           <input type="hidden" name="p_action" value="contact">
-
-                                                                     </FORM>
-                                                                     </span>
-                                                                     <span>
-                                                                     <form method="get" action="commercial.php">
-                                                                                               <? echo dossier::hidden();
-    ?>
-    <input type="hidden" name="url" <?php        $url=urlencode($_SERVER['REQUEST_URI']);
-    echo 'value="'.$url.'"';
-    ?>>
-    <input type="hidden" name="p_action" value="contact">
-
-                              <?php
-                              $w=new ISelect();
-    $w->name="fd_id";
-    $w->value= $cn->make_array("select fd_id,fd_label from fiche_def where ".
-                               " frd_id=".FICHE_TYPE_CONTACT);
-// if array is empty show an warning and stops
-    if ( sizeof ($w->value) == 0 )
-{
-        echo '<p style="color:red">Aucune fiche de catégories contact</p>';
-        echo '<p>allez dans fiche creation et choississez contact comme sorte</p>';
-        exit();
-    }
-    echo $w->input();
-
-    ?>
-    <input type="hidden" name="sa" value="blank">
-                                         <input type="submit" class="button" name="submit_query" value="Ajout Contact">
-
-                                                                                </form>
-                                                                                </span>
-                                                                                <?php
-                                                                                $contact=new Contact($cn);
-    $search=(isset($_GET['query']))?$_GET['query']:"";
-// check if a company is asked if yes, add a condition
-    if ( $qcode != "" )
-{
-        $contact->company=$qcode;
-    }
-    echo $retour;
-    echo '<div class="redcontent">';
-    echo $contact->Summary($search);
+	echo '</div>';
     echo '</div>';
-    echo $retour;
 
 
 }
-//-----------------------------------------------------
-// Show Detail
-if ( $sub_action == 'detail' )
+/*----------------------------------------------------------------------
+ * Detail for a card, Suivi, Contact, Operation,... *
+ * cc stands for contact card
+ *----------------------------------------------------------------------*/
+if ( $low_action == 'detail')
 {
-    $f_id=$_REQUEST['f_id'];
-    echo '<div class="redcontent">';
-    $contact=new contact($cn,$f_id);
-    echo $retour;
-    echo '<form action="'.$_SERVER['REQUEST_URI'].'" method="post">';
-    echo dossier::hidden();
-    echo $contact->Display(false);
-    $w=new IHidden();
-    $w->name="p_action";
-    $w->value="contact";
-    echo $w->input();
-    $w->name="f_id";
-    $w->value=$f_id;
-    echo $w->input();
-
-    echo HtmlInput::submit('mod','Sauver les modifications');
-    echo '<A HREF="commercial.php?p_action=contact&'.$str_dossier.'"><INPUT TYPE="button" class="button" value="Retour"></A>';
-    echo HtmlInput::submit('delete','Effacer cette fiche');
-    echo '</form>';
-    echo $retour;
-    echo '<div>';
+    /* Menu */
+    require_once('category_card.inc.php');
+    exit();
 }
-html_page_stop();
 
-
+    html_page_stop();
+?>
