@@ -37,3 +37,16 @@ $BODY$
   LANGUAGE plpgsql;
 
 update op_predef set od_direct='t' where od_jrn_type='ODS';
+
+INSERT INTO menu_ref(
+            me_code, me_menu, me_file, me_url, me_description, me_parameter,
+            me_javascript, me_type)
+    VALUES ('BK', 'Banque', 'bank.inc.php', null, 'Information Banque', null,null,'ME');
+
+INSERT INTO profile_menu(
+             me_code, me_code_dep, p_id, p_order, p_type_display, pm_default)
+    VALUES ('BK', 'GESTION', 1, 4, 'E', 0);
+INSERT INTO profile_menu(
+             me_code, me_code_dep, p_id, p_order, p_type_display, pm_default)
+    VALUES ('BK', 'GESTION', 2, 4, 'E', 0);
+
