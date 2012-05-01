@@ -16,7 +16,7 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-/* $Revision$ */
+/* $Revision: 4565 $ */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
@@ -27,15 +27,10 @@
  * the customer category
  */
 require_once('class_contact.php');
-require_once('class_ipopup.php');
-$str_dossier=Dossier::get();
 
+$str_dossier=Dossier::get();
 /* $sub_action = sb = detail */
 /* $cn database conx */
-$return=new IAction();
-$return->name='retour';
-$return->label='Retour';
-$return->value='?ac='.$_REQUEST['ac'].'&'.$str_dossier;
 $root='?ac='.$_REQUEST['ac']."&sb=detail&f_id=".$_REQUEST["f_id"].'&'.$str_dossier;
 $ss_action=( isset ($_REQUEST['sc'] ))? $_REQUEST['sc']: '';
 switch ($ss_action)
@@ -52,29 +47,30 @@ case 'cn':
 case 'op':
     $def=4;
     break;
+case 'let':
+    $def=6;
+    break;
 case 'bal':
   $def=7;
-  break;
-case 'let':
-  $def=6;
   break;
 default:
     $def=1;
     $ss_action='dc';
 }
 $f=new Fiche($cn,$_REQUEST['f_id']);
+
 echo '<div class="content">';
 echo ShowItem(array(
                   array($root."&sc=dc",_('Fiche'),_('Détail de la fiche'),1),
-                  array($root.'&sc=sv',_('Suivi'),_('Suivi adm, devis, bon de commande, courrier'),2),
-                  array($root.'&sc=cn',_('Contact'),_('Liste de contacts de cette administration'),3),
+                  array($root.'&sc=sv',_('Suivi'),_('Suivi Fournisseur, devis, bon de commande, courrier'),2),
+                  array($root.'&sc=cn',_('Contact'),_('Liste de contacts de ce fournisseur'),3),
                   array($root.'&sc=op',_('Opérations'),_('Toutes les opérations'),4),
                   array($root.'&sc=bal',_('Balance'),_('Balance du fournisseur'),7),
-                  array($root.'&sc=let',_('Lettrage'),_('Opérations & Lettrages'),6),
-                  array('?ac='.$_REQUEST['ac']."&".dossier::get(),_('Retour liste'),_('Retour à la liste des administration'),5)
+                  array($root.'&sc=let',_('Lettrage'),_('Opérations & Lettrages'),6)
                   ),
                   'H',"mtitle","mtitle",$def,' ');
 echo '</div>';
+echo '<div>';
 echo '<div class="gest_name">';
 echo '<h2 class="gest_name">'.$f->get_quick_code()." ".$f->strAttribut(ATTR_DEF_NAME).'</h2>';
 echo '</div>';
@@ -85,14 +81,14 @@ echo '</div>';
 //---------------------------------------------------------------------------
 if ( $ss_action == 'dc' )
 {
-    require_once('detail_adm.inc.php');
+    require_once('category_detail.inc.php');
 }
 //---------------------------------------------------------------------------
 // Follow up : mail, bons de commande, livraison, rendez-vous...
 //---------------------------------------------------------------------------
 if ( $ss_action == 'sv' )
 {
-    require_once('suivi_adm.inc.php');
+    require_once('category_followup.inc.php');
 }
 /*----------------------------------------------------------------------
  * Operation all the operation of this customer
@@ -100,8 +96,15 @@ if ( $ss_action == 'sv' )
  * ----------------------------------------------------------------------*/
 if ( $ss_action == 'op')
 {
-    require_once('operation_adm.inc.php');
+    require_once('category_operation.inc.php');
 }
+/*-------------------------------------------------------------------------
+ * Balance of the card
+ *-------------------------------------------------------------------------*/
+if ( $ss_action=='bal')
+  {
+    require_once('balance_card.inc.php');
+  }
 /*----------------------------------------------------------------------
  * All the contact
  *
@@ -127,7 +130,6 @@ if ( $ss_action == 'cn')
     /* Add button */
     $f_add_button=new IButton('add_card');
     $f_add_button->label=_('Créer une nouvelle fiche');
-    $f_add_button->set_attribute('ipopup','ipopcard');
 
     $f_add_button->set_attribute('filter',$filter);
     $f_add_button->javascript=" select_card_type(this);";
@@ -135,13 +137,6 @@ if ( $ss_action == 'cn')
     echo $f_add_button->input();
     echo '</div>';
 }
-/*-------------------------------------------------------------------------
- * Balance of the card
- *-------------------------------------------------------------------------*/
-if ( $ss_action=='bal')
-  {
-    require_once('balance_card.inc.php');
-  }
 /*----------------------------------------------------------------------------
  * Lettering
  *----------------------------------------------------------------------------*/

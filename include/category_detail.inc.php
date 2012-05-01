@@ -16,17 +16,16 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-/* $Revision$ */
+/* $Revision: 4701 $ */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-
 /*!\file
  * \brief this file will handle all the actions for a specific customer (
  * contact,operation,invoice and financial)
- * include from client.inc.php and concerned only the customer card and
+ * include from supplier.inc.php and concerned only the customer card and
  * the customer category
  * parameter
- *  - p_action = client
+ *  - p_action = supplier
  *  - sb = detail
  *  - sc = dc
  */
@@ -39,8 +38,8 @@ if ( isset ($_POST['mod']))
     // modification is asked
     $f_id=$_REQUEST['f_id'];
 
-    $client=new Customer($cn,$f_id);
-    $client->Save();
+    $supplier=new Customer($cn,$f_id);
+    $supplier->Save();
 
 }
 
@@ -49,16 +48,16 @@ $f_id=$_REQUEST['f_id'];
 echo '<div class="content" style="width:50%">';
 if ( isset($_POST['mod'])) echo hb(_('Information sauvée'));
 
-$client=new Customer($cn,$f_id);
+$supplier=new Fiche($cn,$f_id);
 $p_readonly=($g_user->check_action(FICADD)==0)?true:false;
 if ( ! $p_readonly) echo '<form method="post">';
 echo dossier::hidden();
 echo HtmlInput::hidden('sb','detail');
 echo HtmlInput::hidden('dc','cc');
-echo $client->Display($p_readonly);
+echo $supplier->Display($p_readonly);
 $w=new IHidden();
 $w->name="p_action";
-$w->value="client";
+$w->value="supplier";
 echo $w->input();
 $w->name="f_id";
 $w->value=$f_id;
@@ -70,7 +69,6 @@ if ( ! $p_readonly)
 	echo HtmlInput::submit('delete_card',_('Effacer cette fiche'),'onclick="return confirm(\'Confirmer effacement ?\');"');
 	echo '</form>';
 }
-echo $return;
 echo '</div>';
 
 

@@ -115,7 +115,6 @@ if ( $low_action == "list" )
 		/* Add button */
 		$f_add_button=new IButton('add_card');
 		$f_add_button->label=_('Créer une nouvelle fiche');
-		$f_add_button->set_attribute('ipopup','ipop_newcard');
 		$f_add_button->set_attribute('win_refresh','yes');
 
 		$f_add_button->set_attribute('type_cat',FICHE_TYPE_FOURNISSEUR);
@@ -123,7 +122,6 @@ if ( $low_action == "list" )
 		echo $f_add_button->input();
 
 		$f_cat_button=new IButton('add_cat');
-		$f_cat_button->set_attribute('ipopup','ipop_cat');
 		$f_cat_button->set_attribute('type_cat',FICHE_TYPE_FOURNISSEUR);
 		$f_cat_button->label=_('Ajout d\'une catégorie');
 		$f_cat_button->javascript='add_category(this)';
@@ -142,32 +140,11 @@ if ( $low_action == "list" )
 if ( $low_action == 'detail')
 {
     /* Menu */
-    require_once('supplier_card.inc.php');
+    require_once('category_card.inc.php');
     exit();
 }
 
-if ( $low_action=="insert" )
-{
-    /* security : check if user can add card */
-    if ( $g_user->check_action(FICADD) == 0 )
-    {
-        alert('Vous  ne pouvez pas ajouter de fiche');
-        return;
-    }
 
-    $supplier=new Supplier($cn);
-    $supplier->Save($_REQUEST['fd_id']);
-    echo '<div class="content">';
-    echo "<table>";
-    echo $supplier->Display(true);
-    echo "</table>";
-    $retour=new IAction();
-    $retour->label="Retour";
-    $retour->value="?p_action=supplier&".dossier::get();
-    echo $retour->input();
-    echo '</div>';
-
-}
 
 html_page_stop();
 ?>

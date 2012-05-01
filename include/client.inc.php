@@ -25,11 +25,7 @@ require_once("class_iselect.php");
 require_once("class_ihidden.php");
 require_once("class_customer.php");
 require_once("class_ibutton.php");
-require_once('class_iaction.php');
 require_once('class_fiche_def.php');
-require_once('class_iaction.php');
-require_once('class_fiche_def.php');
-require_once('class_ipopup.php');
 
 
 
@@ -137,30 +133,9 @@ if ($low_action == "list")
 if ( $low_action == 'detail')
 {
     /* Menu */
-    require_once('client_card.inc.php');
+    require_once('category_card.inc.php');
     exit();
 }
-    if ($low_action == "insert")
-    {
-	/* security : check if user can add card */
-	if ($g_user->check_action(FICADD) == 0)
-	{
-	    alert('Vous  ne pouvez pas ajouter de fiche');
-	    return;
-	}
-
-	$customer = new Customer($cn);
-	$customer->Save($_REQUEST['fd_id']);
-	echo '<div class="content">';
-	echo "<table>";
-	echo $customer->Display(true);
-	echo "</table>";
-	$retour = new IAction();
-	$retour->label = "Retour";
-	$retour->value = "?ac=" . $_REQUEST["ac"] . "&" . dossier::get();
-	echo $retour->input();
-	echo '</div>';
-    }
 
     html_page_stop();
 ?>
