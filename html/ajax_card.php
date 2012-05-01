@@ -252,7 +252,7 @@ case 'st':
     {
         $html.=_("Aucune catégorie de fiche ne correspondant à".
                 " votre demande");
-        $html.=$sql;
+		if ( DEBUG )        $html.=$sql;
     }
     else
     {
@@ -396,6 +396,9 @@ case 'ac':
             $msg=_(' d\'administration');
             $base='';
             break;
+		case FICHE_TYPE_CONTACT:
+			$msg=(' de contacts');
+			$base='';
         }
 
         $html='';
