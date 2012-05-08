@@ -190,12 +190,12 @@ for ($i = 0; $i < Database::num_row($ret); $i++)
     echo "<tr $class>";
     echo td($js);
     echo td($row->me_menu);
-    echo td($row->me_description);
-    echo td($row->me_file);
-    echo td($row->me_url);
-    echo td($row->me_parameter);
-    echo td($row->me_javascript);
-    echo td($row->me_type);
+    echo td(h($row->me_description));
+    echo td(h($row->me_file));
+    echo td(h($row->me_url));
+    echo td(h($row->me_parameter));
+    echo td(h($row->me_javascript));
+    echo td(h($row->me_type));
     echo '</tr>';
 }
 echo '</table>';
