@@ -567,13 +567,6 @@ INSERT INTO document_type (dt_id, dt_value) VALUES (22, 'Réception magazine');
 
 
 
-INSERT INTO extension (ex_id, ex_name, ex_code, ex_desc, ex_file, ex_enable) VALUES (1, 'Module de TVA', 'TVA', 'Cette extension permet de faire les listings et declarations TVA', 'tva/index.php', 'Y');
-
-
-
-
-
-
 INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (2, '400', 'Client', true, 9);
 INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (1, '604', 'Marchandises', true, 2);
 INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (3, '5500', 'Banque', true, 4);
