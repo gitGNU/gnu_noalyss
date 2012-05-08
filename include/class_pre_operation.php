@@ -63,8 +63,7 @@ class Pre_operation
     }
     function delete ()
     {
-        $sql="delete from op_predef where od_id=".$this->od_id.
-             " and od_direct ='".$this->od_direct."'";
+        $sql="delete from op_predef where od_id=".$this->od_id;
         $this->db->exec_sql($sql);
     }
     /*!\brief save the predef check first is the name is unique

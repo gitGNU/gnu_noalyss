@@ -16,20 +16,16 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-/* $Revision$ */
+/* $Revision: 4701 $ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /*!\brief include from supplier.inc.php and concerned only the supplier card and
  * the supplier category
  */
 require_once("class_iselect.php");
 require_once("class_ihidden.php");
-require_once("class_supplier.php");
+require_once("class_bank.php");
 require_once("class_ibutton.php");
 require_once('class_iaction.php');
-require_once('class_fiche_def.php');
-require_once('class_iaction.php');
-require_once('class_fiche_def.php');
-require_once('class_ipopup.php');
 global $g_user;
 
 $low_action=(isset($_REQUEST['sb']))?$_REQUEST['sb']:"list";
@@ -56,7 +52,7 @@ if ( isset($_POST['delete_card'] ) )
 
     $f_id=$_REQUEST['f_id'];
 
-    $fiche=new Supplier($cn,$f_id);
+    $fiche=new Bank($cn,$f_id);
     $fiche->remove();
     $low_action="list";
 
@@ -79,14 +75,14 @@ if ( $low_action == "list" )
             $a);
     $sel_card=new ISelect('cat');
     $sel_card->value=$cn->make_array('select fd_id, fd_label from fiche_def '.
-                                     ' where  frd_id='.FICHE_TYPE_FOURNISSEUR.
+                                     ' where  frd_id='.FICHE_TYPE_FIN.
                                      ' order by fd_label ',1);
     $sel_card->selected=(isset($_GET['cat']))?$_GET['cat']:-1;
     $sel_card->javascript=' onchange="submit(this);"';
     echo _('Catégorie :').$sel_card->input();
     $nooperation=new ICheckBox('noop');
     $nooperation->selected=(isset($_GET['noop']))?true:false;
-    echo _('Inclure les fournisseurs sans opération :').$nooperation->input();
+    echo _('Inclure les banques sans opération :').$nooperation->input();
 
     ?>
     <input type="submit" class="button" name="submit_query" value="<?=_('recherche')?>">
@@ -94,7 +90,7 @@ if ( $low_action == "list" )
                                                                      </form>
                                                                      </div>
                                                                      <?php
-                                                                     $supplier=new Supplier($cn);
+                                                                     $supplier=new Bank($cn);
     $search=(isset($_GET['query']))?$_GET['query']:"";
     $sql="";
     if ( isset($_GET['cat']))
@@ -117,12 +113,12 @@ if ( $low_action == "list" )
 		$f_add_button->label=_('Créer une nouvelle fiche');
 		$f_add_button->set_attribute('win_refresh','yes');
 
-		$f_add_button->set_attribute('type_cat',FICHE_TYPE_FOURNISSEUR);
+		$f_add_button->set_attribute('type_cat',FICHE_TYPE_FIN);
 		$f_add_button->javascript=" select_card_type(this);";
 		echo $f_add_button->input();
 
 		$f_cat_button=new IButton('add_cat');
-		$f_cat_button->set_attribute('type_cat',FICHE_TYPE_FOURNISSEUR);
+		$f_cat_button->set_attribute('type_cat',FICHE_TYPE_FIN);
 		$f_cat_button->label=_('Ajout d\'une catégorie');
 		$f_cat_button->javascript='add_category(this)';
 		echo $f_cat_button->input();

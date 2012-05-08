@@ -58,7 +58,7 @@ if ( isset($_POST['delete_card'] ) )
 
     $f_id=$_REQUEST['f_id'];
 
-    $fiche=new Customer($cn,$f_id);
+    $fiche=new Admin($cn,$f_id);
     $fiche->remove();
     $low_action="list";
 
@@ -82,7 +82,7 @@ if ( $low_action == "list" )
 	echo HtmlInput::request_to_hidden(array('ac'));
     $sel_card=new ISelect('cat');
     $sel_card->value=$cn->make_array('select fd_id, fd_label from fiche_def '.
-                                     ' where  frd_id='.FICHE_TYPE_ADM_TAX.' or frd_id ='.FICHE_TYPE_FIN.
+                                     ' where  frd_id='.FICHE_TYPE_ADM_TAX.
                                      ' order by fd_label ',1);
     $sel_card->selected=(isset($_GET['cat']))?$_GET['cat']:-1;
     $sel_card->javascript=' onchange="submit(this);"';
@@ -140,32 +140,11 @@ if ( $low_action == "list" )
 if ( $low_action == 'detail')
 {
     /* Menu */
-    require_once('adm_card.inc.php');
+    require_once('category_card.inc.php');
     exit();
 }
 
-if ( $low_action=="insert" )
-{
-    /* security : check if user can add card */
-    if ( $g_user->check_action(FICADD) == 0 )
-    {
-        alert('Vous  ne pouvez pas ajouter de fiche');
-        return;
-    }
 
-    $customer=new Customer($cn);
-    $customer->Save($_REQUEST['fd_id']);
-    echo '<div class="content">';
-    echo "<table>";
-    echo $customer->Display(true);
-    echo "</table>";
-    $retour=new IAction();
-    $retour->label="Retour";
-    $retour->value="?p_action=adm&".dossier::get();
-    echo $retour->input();
-    echo '</div>';
-
-}
 
 html_page_stop();
 ?>

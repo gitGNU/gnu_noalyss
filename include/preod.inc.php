@@ -64,16 +64,13 @@ if ( $sa == 'jrn' )
 {
     $op=new Pre_operation($cn);
     $op->set_jrn($_GET['jrn']);
-    if ( isset($_GET['direct']))
-    {
-        $op->od_direct='true';
-    }
-    else
-    {
-        $op->od_direct='false';
-    }
-    $array=$op->get_list_ledger();
-    if ( empty($array) == true )
+   $is_ods = $cn->get_value("select count(*)
+		from jrn_def where
+			jrn_def_id=$1
+			and jrn_def_type='ODS'", array($_GET['jrn']));
+	$op->od_direct = ($is_ods > 0) ? 't' : 'f';
+	$array = $op->get_list_ledger();
+	if (empty($array) == true)
     {
         echo "Aucun enregistrement";
         exit();

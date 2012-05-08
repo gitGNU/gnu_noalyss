@@ -16,7 +16,7 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-/* $Revision$ */
+/* $Revision: 4320 $ */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
@@ -30,14 +30,14 @@
 require_once('class_follow_up.php');
 
 /**
- *\note fix problem with ShowActionList, this function is local
+ *\note problem with ShowActionList, this function is local
  * to the file action.inc.php. And this function must different for each
- *  follow-up (suivi)
+ *  suivi
  */
 $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"list";
 $ag_id=(isset($_REQUEST['ag_id']))?$_REQUEST['ag_id']:0;
-$ac=$_REQUEST['ac'];
-$base="ac=ac&sc=sv&sb=detail&f_id=".$_REQUEST['f_id'];
+$p_action=$_REQUEST['ac'];
+$base="ac=$p_action&sc=sv&sb=detail&f_id=".$_REQUEST['f_id'];
 $retour=HtmlInput::button_anchor('Retour','?'.dossier::get().'&'.$base);
 $fiche=new Fiche($cn,$_REQUEST['f_id']);
 

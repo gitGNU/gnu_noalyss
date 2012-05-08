@@ -16,7 +16,7 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-/* $Revision$ */
+/* $Revision: 4301 $ */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
@@ -34,7 +34,6 @@ $f=new Fiche($cn,$_REQUEST['f_id']);
 $qcode=$f->get_quick_code();
 $_GET['qcode']=$qcode;
 $_REQUEST['qcode']=$qcode;
-
 $var_array=compute_variable('ledger_type=ALL');
 put_global($var_array);
 require_once ('history_operation.inc.php');
