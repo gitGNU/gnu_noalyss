@@ -804,7 +804,7 @@ function show_module($selected)
 		echo '</div>';
 		echo '</div>';
 		echo '<div class="content">';
-		echo_warning("Module inexistant [$selected ] ");
+		echo_warning(_("Module inexistant")."[ $selected ] ");
 		echo '</div>';
 		exit();
 	}
@@ -862,7 +862,7 @@ function find_default_module()
 		 */
 		if ( empty ($default_module))
 		{
-			echo_warning("Utilisateur n'a pas de profile");
+			echo_warning(_("Utilisateur n'a pas de profile"));
 			exit();
 		}
 		return $default_module[0]['me_code'];
@@ -870,7 +870,7 @@ function find_default_module()
 
     if (count($default_module) > 1)
     {
-		echo_error("Plusieurs modules sont le module par défaut", __LINE__, __FILE__);
+		echo_error(_("Plusieurs modules sont le module par défaut"), __LINE__, __FILE__);
     }
     elseif (count($default_module) == 1)
     {

@@ -31,8 +31,8 @@ $style="";
 		$class="selectedcell";
 ?>
 	<td class="<?=$class?>">
-	    <a class="mtitle" href="do.php?gDossier=<?=Dossier::id()?>&ac=<?=$_REQUEST['ac']?>" title="<?=h($amenu[$i]['me_description'])?>" >
-	    <?=$amenu[$i]['me_menu']?>
+	    <a class="mtitle" href="do.php?gDossier=<?=Dossier::id()?>&ac=<?=$_REQUEST['ac']?>" title="<?=h(_($amenu[$i]['me_description']))?>" >
+	    <?=_($amenu[$i]['me_menu'])?>
 	    </a>
 	</td>
 <?
@@ -59,8 +59,8 @@ $style="";
 		}
 
 ?>	<td class="<?=$class?>">
-	    <a class="mtitle" href="do.php?gDossier=<?=Dossier::id()?>&ac=<?=$url?>" <?=$js?> title="<?=h($amenu[$i]['me_description'])?>">
-	    <?=$amenu[$i]['me_menu']?>
+	    <a class="mtitle" href="do.php?gDossier=<?=Dossier::id()?>&ac=<?=$url?>" <?=$js?> title="<?=h(_($amenu[$i]['me_description']))?>">
+	    <?=_($amenu[$i]['me_menu'])?>
 	    </a>
 	</td>
 

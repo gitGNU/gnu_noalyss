@@ -125,7 +125,7 @@ div.u_tmenu div.u_tool {
 div.u_tool {
 	float:left;
 	width:  100%;
-	padding-bottom: 25px;
+	padding-bottom: 7px;
 	}
 div.u_tool div.name {
        float:left;
@@ -189,8 +189,8 @@ div.redcontent{
 }
 div.content{
 
-		padding-top:7px;
-		margin-top:7px;
+		padding-top:2px;
+		margin-top:2px;
          width:100%;
          font-family:verdana,helvetica,sans-serif;
 

@@ -38,7 +38,7 @@ if ( ! isset($_REQUEST['gDossier']))
 }
 if ( ! isset ($_SESSION['g_theme']))
   {
-    echo "<h2> Vous  êtes déconnecté</h2>";
+    echo "<h2>"._('Vous  êtes déconnecté')."</h2>";
     redirect('user_login.php');
     exit();
 

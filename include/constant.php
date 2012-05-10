@@ -38,7 +38,7 @@ $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 $version_phpcompta=SVNINFO;
 define ("DEBUG",false);
 
-//$version_phpcompta=4601;
+//$version_phpcompta=4800;
 //define ("DEBUG",true);
 
 define ("DBVERSION",102);
@@ -114,6 +114,7 @@ define ("ATTR_DEF_DEPENSE_NON_DEDUCTIBLE",20);
 define ("ATTR_DEF_TVA_NON_DEDUCTIBLE",21);
 define ("ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP",22);
 define ("ATTR_DEF_QUICKCODE",23);
+define ("ATTR_DEF_FIRST_NAME",32);
 
 define( 'ATTR_DEF_ACCOUNT_ND_TVA',50);
 define('ATTR_DEF_ACCOUNT_ND_TVA_ND',51);
