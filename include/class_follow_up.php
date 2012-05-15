@@ -76,6 +76,7 @@ class Follow_Up
     var $ag_priority;    /*!< $ag_priority is the priority 1 High, 2 medium, 3 low */
     var $ag_dest;	       /*!< $ag_dest person who is in charged */
     var $ag_contact;     /*!< $ag_contact contact */
+    var $ag_remind_date;     /*!< $ag_contact contact */
     /*!  constructor
     * \brief constructor
     * \param p_cn database connection
@@ -132,31 +133,19 @@ class Follow_Up
         $date->name="ag_timestamp";
         $date->value=$this->ag_timestamp;
 
-        // for insert mode only
-        if ( $upd == false )
-        {
-            // Doc Type
-            $doc_type=new ISelect();
-            $doc_type->name="dt_id";
-            $doc_type->value=$this->db->make_array("select dt_id,dt_value from document_type order by dt_value");
-            $doc_type->selected=$this->dt_id;
-            $doc_type->readonly=false;
-            $str_doc_type=$doc_type->input();
-        }
-        else
-        {
-            /*// Doc Type
-            $doc_type=new IHidden();
-            $doc_type->name="dt_id";
-            $doc_type->value=$this->dt_id;
-            $str_doc_type=$doc_type->input().$this->db->get_value("select dt_value from document_type where dt_id=".$this->dt_id);*/
-             $doc_type=new ISelect();
-            $doc_type->name="dt_id";
-            $doc_type->value=$this->db->make_array("select dt_id,dt_value from document_type order by dt_value");
-            $doc_type->selected=$this->dt_id;
-            $doc_type->readonly=false;
-            $str_doc_type=$doc_type->input();
-        }
+		$remind_date=new IDate();
+        $remind_date->readonly=$readonly;
+        $remind_date->name="ag_remind_date";
+        $remind_date->value=$this->ag_remind_date;
+
+
+		// Doc Type
+		$doc_type=new ISelect();
+		$doc_type->name="dt_id";
+		$doc_type->value=$this->db->make_array("select dt_id,dt_value from document_type order by dt_value");
+		$doc_type->selected=$this->dt_id;
+		$doc_type->readonly=false;
+		$str_doc_type=$doc_type->input();
 
         // Description
         $desc=new ITextArea();
@@ -540,7 +529,7 @@ class Follow_Up
     {
         $sql="select ag_id, ag_comment,to_char (ag_timestamp,'DD.MM.YYYY') as ag_timestamp,".
              " f_id_dest,ag_title,ag_comment,ag_ref,d_id,ag_type,ag_state,  ".
-             " ag_ref_ag_id, ag_dest, ag_hour, ag_priority, ag_cal,ag_contact ".
+             " ag_ref_ag_id, ag_dest, ag_hour, ag_priority, ag_cal,ag_contact,to_char (ag_remind_date,'DD.MM.YYYY') as ag_remind_date ".
              " from action_gestion left join document using (ag_id) where ag_id=".$this->ag_id;
         $r=$this->db->exec_sql($sql);
         $row=Database::fetch_all($r);
@@ -559,6 +548,7 @@ class Follow_Up
         $this->ag_hour=$row[0]['ag_hour'];
         $this->ag_priority=$row[0]['ag_priority'];
         $this->ag_cal=$row[0]['ag_cal'];
+        $this->ag_remind_date=$row[0]['ag_remind_date'];
 
         $action_detail=new Follow_Up_Detail($this->db);
         $action_detail->set_parameter('ag_id',$this->ag_id);
@@ -620,10 +610,21 @@ class Follow_Up
             $ag_cal='I';
         $this->ag_ref_ag_id=(strlen(trim($this->ag_ref_ag_id))==0)?0:$this->ag_ref_ag_id;
         // save into the database
-        $sql="insert into action_gestion".
+		if ($this->ag_remind_date != null || $this->ag_remind_date !='')
+		{
+			$sql="insert into action_gestion".
              "(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_comment,ag_ref,ag_ref_ag_id, ag_dest, ".
-             " ag_hour, ag_priority,ag_cal,ag_owner,ag_contact,ag_state) ".
-             " values ($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)";
+             " ag_hour, ag_priority,ag_cal,ag_owner,ag_contact,ag_state,ag_remind_date) ".
+             " values ($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,to_date($16,'DD.MM.YYYY'))";
+		} else
+		{
+			$this->ag_remind_date=null;
+			$sql="insert into action_gestion".
+             "(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_comment,ag_ref,ag_ref_ag_id, ag_dest, ".
+             " ag_hour, ag_priority,ag_cal,ag_owner,ag_contact,ag_state,ag_remind_date) ".
+             " values ($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)";
+
+		}
         $this->db->exec_sql($sql,array($this->ag_id, /* 1 */
                                        $this->ag_timestamp, /* 2 */
                                        $this->dt_id,	/* 3 */
@@ -638,7 +639,8 @@ class Follow_Up
                                        $ag_cal,	   /* 12 */
                                        $_SESSION['g_user'], /* 13 */
                                        $contact->id,	  /* 14 */
-                                       $this->ag_state	  /* 15 */
+                                       $this->ag_state,	  /* 15 */
+									   $this->ag_remind_date
                                       )
                            );
 
@@ -671,6 +673,7 @@ class Follow_Up
 
 		$table=new Sort_Table();
 		$table->add('Date',$url,'order by ag_timestamp asc','order by ag_timestamp desc','da','dd');
+		$table->add('Date Limite',$url,'order by ag_remind_date asc','order by ag_remind_date  desc','ra','rd');
 		$table->add('Réf.',$url,'order by ag_ref asc','order by ag_ref desc','ra','rd');
 		$table->add('Expéditeur',$url,'order by name asc','order by name desc','ea','ed');
 		$table->add('Titre',$url,'order by ag_title asc','order by ag_title desc','ta','td');
@@ -685,7 +688,7 @@ class Follow_Up
             $p_filter_doc=" 1=1 ";
 
         $sql="
-             select ag_id,to_char(ag_timestamp,'DD.MM.YYYY') as my_date,ag_ref_ag_id,f_id_dest".
+             select ag_id,to_char(ag_timestamp,'DD.MM.YYYY') as my_date,to_char(ag_remind_date,'DD.MM.YYYY') as my_remind,ag_ref_ag_id,f_id_dest".
              ",ag_title,dt_value,ag_ref, ag_priority,ag_state,
 				(select ad_value from fiche_Detail where f_id=action_gestion.f_id_dest and ad_id=1) as name
              from action_gestion
@@ -710,10 +713,11 @@ class Follow_Up
         $r.='<th>'.$table->get_header(1).'</th>';
         $r.='<th>'.$table->get_header(2).'</th>';
         $r.='<th>'.$table->get_header(3).'</th>';
+        $r.='<th>'.$table->get_header(4).'</th>';
         $r.='<th>type</th>';
 		$r.=th('Etat');
 		$r.=th('Priorité');
-        $r.='<th>'.$table->get_header(4).'</th>';
+        $r.='<th>'.$table->get_header(5).'</th>';
 		if (isset($this->suppress)) {
 			$r.="<th> Suppr. dépendance</th>";
 		}
@@ -739,9 +743,13 @@ class Follow_Up
             $tr=($i%2==0)?'even':'odd';
             if ($row['ag_priority'] < 2) $tr='priority1';
             $st='';
-            if ($row['my_date']==$today) $st=' style="font-family:bold; border:2px solid orange;"';
+            if ($row['my_date']==$today) $st=' style="font-weight:bold; border:2px solid orange;"';
+			$date_remind=  format_date($row['my_remind'], 'DD.MM.YYYY','YYYYMMDD');
+			$date_today=date('Ymd');
+            if ($date_remind !="" && $date_remind <= $date_today) $st=' style="font-weight:bold;background:orange"';
             $r.="<tr class=\"$tr\" $st>";
             $r.="<td>".$href.$row['my_date'].'</a>'."</td>";
+            $r.="<td>".$href.$row['my_remind'].'</a>'."</td>";
 			$r.="<td>".$href.$row['ag_ref'].'</a>'."</td>";
 
             // Expediteur
@@ -868,35 +876,73 @@ class Follow_Up
         if ( $this->ag_cal == 'on') $ag_cal='C';
         else $ag_cal='I';
         $this->ag_ref=$ref;
-        $this->db->exec_sql("update action_gestion set ag_comment=$1,".
-                            " ag_timestamp=to_date($2,'DD.MM.YYYY'),".
-                            " ag_title=$3,".
-                            " ag_type=$4, ".
-                            " f_id_dest=$5, ".
-                            " ag_ref_ag_id=$6 ,".
-                            "ag_state=$7,".
-                            " ag_hour = $9 ,".
-                            " ag_priority = $10 ,".
-                            " ag_dest = $11 , ".
-                            " ag_cal = $12 ,".
-                            " ag_contact = $13, ".
-							" ag_ref = $14 ".
-                            " where ag_id = $8",
-                            array ( $this->ag_comment, /* 1 */
-                                    $this->ag_timestamp, /* 2 */
-                                    $this->ag_title,     /* 3 */
-                                    $this->dt_id,	       /* 4 */
-                                    $this->f_id_dest,     /* 5 */
-                                    $this->ag_ref_ag_id, /* 6 */
-                                    $this->ag_state,     /* 7 */
-                                    $this->ag_id,      /* 8 */
-                                    $this->ag_hour,    /* 9 */
-                                    $this->ag_priority, /* 10 */
-                                    $this->ag_dest,     /* 11 */
-                                    $ag_cal,	      /* 12 */
-                                    $contact->id,   /* 13 */
-									$this->ag_ref
-                                  ));
+		if ( $this->ag_remind_date != null )
+		{
+			$this->db->exec_sql("update action_gestion set ag_comment=$1,".
+								" ag_timestamp=to_date($2,'DD.MM.YYYY'),".
+								" ag_title=$3,".
+								" ag_type=$4, ".
+								" f_id_dest=$5, ".
+								" ag_ref_ag_id=$6 ,".
+								"ag_state=$7,".
+								" ag_hour = $9 ,".
+								" ag_priority = $10 ,".
+								" ag_dest = $11 , ".
+								" ag_cal = $12 ,".
+								" ag_contact = $13, ".
+								" ag_ref = $14, ".
+								" ag_remind_date=to_date($15,'DD.MM.YYYY') ".
+								" where ag_id = $8",
+								array ( $this->ag_comment, /* 1 */
+										$this->ag_timestamp, /* 2 */
+										$this->ag_title,     /* 3 */
+										$this->dt_id,	       /* 4 */
+										$this->f_id_dest,     /* 5 */
+										$this->ag_ref_ag_id, /* 6 */
+										$this->ag_state,     /* 7 */
+										$this->ag_id,      /* 8 */
+										$this->ag_hour,    /* 9 */
+										$this->ag_priority, /* 10 */
+										$this->ag_dest,     /* 11 */
+										$ag_cal,	      /* 12 */
+										$contact->id,   /* 13 */
+										$this->ag_ref, /* 14 */
+										$this->ag_remind_date /*15 */
+									));
+		}
+		else
+		{
+			$this->db->exec_sql("update action_gestion set ag_comment=$1,".
+									" ag_timestamp=to_date($2,'DD.MM.YYYY'),".
+									" ag_title=$3,".
+									" ag_type=$4, ".
+									" f_id_dest=$5, ".
+									" ag_ref_ag_id=$6 ,".
+									"ag_state=$7,".
+									" ag_hour = $9 ,".
+									" ag_priority = $10 ,".
+									" ag_dest = $11 , ".
+									" ag_cal = $12 ,".
+									" ag_contact = $13, ".
+									" ag_ref = $14, ".
+									" ag_remind_date=null ".
+									" where ag_id = $8",
+									array ( $this->ag_comment, /* 1 */
+											$this->ag_timestamp, /* 2 */
+											$this->ag_title,     /* 3 */
+											$this->dt_id,	       /* 4 */
+											$this->f_id_dest,     /* 5 */
+											$this->ag_ref_ag_id, /* 6 */
+											$this->ag_state,     /* 7 */
+											$this->ag_id,      /* 8 */
+											$this->ag_hour,    /* 9 */
+											$this->ag_priority, /* 10 */
+											$this->ag_dest,     /* 11 */
+											$ag_cal,	      /* 12 */
+											$contact->id,   /* 13 */
+											$this->ag_ref /* 14 */
+										));
+	}
         // Upload  documents
         $doc=new Document($this->db);
         $doc->Upload($this->ag_id);
@@ -949,6 +995,7 @@ class Follow_Up
         $this->ag_cal=(isset($p_array['ag_cal']))?'on':"";
         $this->ag_contact=(isset($p_array['ag_contact']))?$p_array['ag_contact']:"";
         $this->ag_comment=(isset($p_array['ag_comment']))?$p_array['ag_comment']:"";
+        $this->ag_remind_date=(isset($p_array['ag_remind_date']))?$p_array['ag_remind_date']:null;
 
     }
     /*!\brief remove the action

@@ -29,6 +29,16 @@
             </TD>
           </TR>
           <tr>
+		<TR>
+            <TD>
+	    <?=_('Date limite')?>
+            </TD>
+            <TD>
+              <?php echo $remind_date->input();
+              ?>
+            </TD>
+          </TR>
+          <tr>
             <TD>
 	    <?=_('Reference')?>
             </TD>

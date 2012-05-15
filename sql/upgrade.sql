@@ -50,3 +50,8 @@ INSERT INTO profile_menu(
              me_code, me_code_dep, p_id, p_order, p_type_display, pm_default)
     VALUES ('BK', 'GESTION', 2, 4, 'E', 0);
 
+update menu_ref set me_description='Grand livre analytique' where me_code='ANCGL';
+
+alter table action_gestion add ag_remind_date date;
+
+drop table jrn_action;

@@ -593,7 +593,7 @@ td.num {
 	text-align:right;
 }
 tr.priority1 {
-	background-color:red;
+	background-color: coral;
 	}
 span.action a.action {
   border:2px outset ;
