@@ -241,7 +241,7 @@ class Follow_Up
                                     "use_first_name||' '||use_name||'('||use_login||')' as label ".
                                     " from ac_users natural join jnt_use_dos ".
                                     " join priv_user on (jnt_id=priv_jnt) ".
-                                    "where dos_id= ".$_REQUEST['gDossier']);
+                                    "where use_active=1 and priv_priv='R' and dos_id= ".$_REQUEST['gDossier']);
         $aAg_dest[]=array('value'=>0,'label'=>'phpcompta');
         $ag_dest->value=$aAg_dest;
         $ag_dest->selected=$this->ag_dest;
