@@ -236,13 +236,12 @@ class Follow_Up
         $ag_dest=new ISelect();
         $ag_dest->readonly=$readonly;
         $ag_dest->name="ag_dest";
-        $repo=new Database();
-        $aAg_dest=$repo->make_array("select  use_id as value, ".
-                                    "use_first_name||' '||use_name||'('||use_login||')' as label ".
-                                    " from ac_users natural join jnt_use_dos ".
-                                    " join priv_user on (jnt_id=priv_jnt) ".
-                                    "where use_active=1 and priv_priv='R' and dos_id= ".$_REQUEST['gDossier']);
-        $aAg_dest[]=array('value'=>0,'label'=>'phpcompta');
+		// select profile
+        $aAg_dest=$this->db->make_array("select  p_id as value, ".
+                                    "p_name as label ".
+                                    " from profile order by 2");
+
+        $aAg_dest[]=array('value'=>0,'label'=>'Public');
         $ag_dest->value=$aAg_dest;
         $ag_dest->selected=$this->ag_dest;
         $str_ag_dest=$ag_dest->input();
@@ -675,6 +674,8 @@ class Follow_Up
 		$table->add('Date',$url,'order by ag_timestamp asc','order by ag_timestamp desc','da','dd');
 		$table->add('Date Limite',$url,'order by ag_remind_date asc','order by ag_remind_date  desc','ra','rd');
 		$table->add('Réf.',$url,'order by ag_ref asc','order by ag_ref desc','ra','rd');
+		$table->add('Groupe',$url,"order by coalesce((select p_name from profile where p_id=ag_dest::numeric),'Aucun groupe')",
+					"order by coalesce((select p_name from profile where p_id=ag_dest::numeric),'Aucun groupe') desc",'dea','ded');
 		$table->add('Expéditeur',$url,'order by name asc','order by name desc','ea','ed');
 		$table->add('Titre',$url,'order by ag_title asc','order by ag_title desc','ta','td');
 		$table->add('Concerne',$url,'order by ag_ref_ag_id asc','order by ag_ref_ag_id desc','ca','cd');
@@ -688,8 +689,12 @@ class Follow_Up
             $p_filter_doc=" 1=1 ";
 
         $sql="
-             select ag_id,to_char(ag_timestamp,'DD.MM.YYYY') as my_date,to_char(ag_remind_date,'DD.MM.YYYY') as my_remind,ag_ref_ag_id,f_id_dest".
-             ",ag_title,dt_value,ag_ref, ag_priority,ag_state,
+             select ag_id,to_char(ag_timestamp,'DD.MM.YYYY') as my_date,
+			 to_char(ag_remind_date,'DD.MM.YYYY') as my_remind,
+			 ag_ref_ag_id,
+			 f_id_dest,
+             ag_title,dt_value,ag_ref, ag_priority,ag_state,
+			coalesce((select p_name from profile where p_id=ag_dest::numeric),'Aucun groupe') as dest,
 				(select ad_value from fiche_Detail where f_id=action_gestion.f_id_dest and ad_id=1) as name
              from action_gestion
              join document_type on (ag_type=dt_id)
@@ -714,6 +719,7 @@ class Follow_Up
         $r.='<th>'.$table->get_header(2).'</th>';
         $r.='<th>'.$table->get_header(3).'</th>';
         $r.='<th>'.$table->get_header(4).'</th>';
+        $r.='<th>'.$table->get_header(5).'</th>';
         $r.='<th>type</th>';
 		$r.=th('Etat');
 		$r.=th('Priorité');
@@ -751,6 +757,7 @@ class Follow_Up
             $r.="<td>".$href.$row['my_date'].'</a>'."</td>";
             $r.="<td>".$href.$row['my_remind'].'</a>'."</td>";
 			$r.="<td>".$href.$row['ag_ref'].'</a>'."</td>";
+			$r.="<td>".$href.h($row['dest']).'</a>'."</td>";
 
             // Expediteur
             $fexp=new Fiche($this->db);
