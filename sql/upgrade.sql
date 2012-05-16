@@ -38,6 +38,8 @@ $BODY$
 
 update op_predef set od_direct='t' where od_jrn_type='ODS';
 
+
+
 INSERT INTO menu_ref(
             me_code, me_menu, me_file, me_url, me_description, me_parameter,
             me_javascript, me_type)
@@ -55,3 +57,14 @@ update menu_ref set me_description='Grand livre analytique' where me_code='ANCGL
 alter table action_gestion add ag_remind_date date;
 
 drop table jrn_action;
+
+update action_gestion set ag_dest=null;
+ alter table action_gestion alter ag_dest type bigint using ag_dest::numeric;
+ alter table action_gestion alter ag_dest set default null;
+COMMENT ON COLUMN action_gestion.ag_dest IS ' is the profile which has to take care of this action ';
+ALTER TABLE action_gestion
+  ADD CONSTRAINT profile_fkey FOREIGN KEY (ag_dest)
+      REFERENCES profile (p_id) MATCH SIMPLE
+      ON UPDATE SET NULL ON DELETE SET NULL;
+
+

@@ -232,7 +232,7 @@ class Follow_Up
         $ag_hour->javascript=" onblur=check_hour('ag_hour');";
         $str_ag_hour=$ag_hour->input();
 
-        // Person in charged of the action
+        // Profile in charged of the action
         $ag_dest=new ISelect();
         $ag_dest->readonly=$readonly;
         $ag_dest->name="ag_dest";
@@ -624,6 +624,7 @@ class Follow_Up
              " values ($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)";
 
 		}
+		if ( $this->ag_dest==0) {$this->ag_dest=null;}
         $this->db->exec_sql($sql,array($this->ag_id, /* 1 */
                                        $this->ag_timestamp, /* 2 */
                                        $this->dt_id,	/* 3 */
@@ -667,15 +668,14 @@ class Follow_Up
     {
         $str_dossier=dossier::get();
         // for the sort
-        $url="?".$str_dossier.'&'.$p_base;
-
+        $url="?".$str_dossier.'&'.$p_base."&".HtmlInput::get_to_string(array("qcode","ag_dest","query","tdoc","date_start","date_end","see_all","all_action"));
 
 		$table=new Sort_Table();
 		$table->add('Date',$url,'order by ag_timestamp asc','order by ag_timestamp desc','da','dd');
 		$table->add('Date Limite',$url,'order by ag_remind_date asc','order by ag_remind_date  desc','ra','rd');
 		$table->add('Réf.',$url,'order by ag_ref asc','order by ag_ref desc','ra','rd');
-		$table->add('Groupe',$url,"order by coalesce((select p_name from profile where p_id=ag_dest::numeric),'Aucun groupe')",
-					"order by coalesce((select p_name from profile where p_id=ag_dest::numeric),'Aucun groupe') desc",'dea','ded');
+		$table->add('Groupe',$url,"order by coalesce((select p_name from profile where p_id=ag_dest),'Aucun groupe')",
+					"order by coalesce((select p_name from profile where p_id=ag_dest),'Aucun groupe') desc",'dea','ded');
 		$table->add('Expéditeur',$url,'order by name asc','order by name desc','ea','ed');
 		$table->add('Titre',$url,'order by ag_title asc','order by ag_title desc','ta','td');
 		$table->add('Concerne',$url,'order by ag_ref_ag_id asc','order by ag_ref_ag_id desc','ca','cd');
@@ -694,7 +694,7 @@ class Follow_Up
 			 ag_ref_ag_id,
 			 f_id_dest,
              ag_title,dt_value,ag_ref, ag_priority,ag_state,
-			coalesce((select p_name from profile where p_id=ag_dest::numeric),'Aucun groupe') as dest,
+			coalesce((select p_name from profile where p_id=ag_dest),'Aucun groupe') as dest,
 				(select ad_value from fiche_Detail where f_id=action_gestion.f_id_dest and ad_id=1) as name
              from action_gestion
              join document_type on (ag_type=dt_id)
@@ -883,6 +883,7 @@ class Follow_Up
         if ( $this->ag_cal == 'on') $ag_cal='C';
         else $ag_cal='I';
         $this->ag_ref=$ref;
+		if ( $this->ag_dest==0) {$this->ag_dest=null;}
 		if ( $this->ag_remind_date != null )
 		{
 			$this->db->exec_sql("update action_gestion set ag_comment=$1,".

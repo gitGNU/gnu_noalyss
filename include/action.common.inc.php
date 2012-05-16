@@ -235,12 +235,12 @@ function ShowActionList($cn,$p_base)
 {
   // show the search menu
   ?>
-  <div id="search_action" style="width:50%;text-align:right;clear:both;display:block;">
-    <fieldset>
-    <legend>
+  <div id="search_action" style="position:absolute;display:none;margin-left:120px;width:70%;clear:both;background-color: inherit;z-index:2;border:1px #000080 solid">
+	 <? echo HtmlInput::anchor_hide('Fermer','$(\'search_action\').style.display=\'none\';'); ?>
+    <h2 class="info">
     <?=_('Recherche avancée')?>
-    </legend>
-    <form method="get" action="do.php">
+    </h2>
+    <form method="get" action="do.php" style="padding:10px">
     <?php
     echo dossier::hidden();
   $a=(isset($_GET['query']))?$_GET['query']:"";
@@ -268,10 +268,7 @@ function ShowActionList($cn,$p_base)
   $w->table=0;
   $list=$cn->make_list("select fd_id from fiche_def where frd_id in (4,8,9,14,15,16,25)");
   $w->extra=$list;
-  echo _('Fiche').' :'.$w->input().$w->search().'<br/>';
-  printf (_('Titre ou référence').': <input class="input_text" type="text" name="query" value="%s">',
-	  $a);
-  echo '<br/>';
+
 
   /* type of documents */
   $type_doc=new ISelect ('tdoc');
@@ -279,24 +276,80 @@ function ShowActionList($cn,$p_base)
   $aTDoc[]=array('value'=>'-1','label'=>_('Tous les types'));
   $type_doc->value=$aTDoc;
   $type_doc->selected=(isset ($_GET['tdoc']))?$_GET['tdoc']:-1;
-  echo 'Type de document';
-  echo $type_doc->input();
-  echo '<br>';
+
+	// date
+  $start=new IDate('date_start');
+  $start->value=(isset($_GET['date_start']))?$_GET['date_start']:"";
+  $end=new IDate('date_end');
+  $end->value=(isset($_GET['date_end']))?$_GET['date_end']:"";
 
   $see_all=new ICheckBox('see_all');
+  $see_all->selected=(isset($_GET['see_all']))?true:false;
   $my_action=new ICheckBox('all_action');
+  $my_action->selected=(isset($_GET['all_action']))?true:false;
+  // select profile
+   $aAg_dest=$cn->make_array("select  p_id as value, ".
+                                    "p_name as label ".
+                                    " from profile order by 2");
+$ag_dest=new ISelect();
+$ag_dest->name="ag_dest";
+$aAg_dest[]=array('value'=>0,'label'=>'Public');
+$ag_dest->value=$aAg_dest;
+$ag_dest->selected=(isset($_GET["ag_dest"]))?$_GET["ag_dest"]:0;
+$str_ag_dest=$ag_dest->input();
 
-  echo _('les actions fermées aussi:').$see_all->input().'<br/>';
-
-  echo _('affecté à d\'autre:').$my_action->input().'<br/>';
   ?>
+		<table style="width:100%">
+			<tr>
+			<td style="width:180px;text-align:right"><? echo _('Destinataire') ?></td>
+			<td ><?=$w->input().$w->search()?></td>
+			<tr>
+			<tr>
+				<td style="text-align:right" ><?=_("Profile")?></td>
+				<td><?=$str_ag_dest?></td>
+			</tr>
+			<td style="text-align:right"><?	printf (_('contenant le mot'))?></td>
+			<td ><input class="input_text" style="width:100%" type="text" name="query" value="<?=$a?>"></td>
+			</tr>
+			<tr>
+					<td style="text-align:right"><?=_('Type de document')?></td>
+					<td><? echo $type_doc->input();?></td>
+			</tr>
+			<tr>
+				<td style="text-align:right">
+					<? printf (_("Après le "))?>
+				</td>
+				<td >
+					<?=$start->input()?>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align:right"><?=_('Avant le')?></td>
+				<td>
+					<?=$end->input()?>
+				</td>
+				</tr>
+			</tr>
+			<tr>
+			<td style="text-align:right">
+				<?=_('inclure les actions fermées ')?>
+			</td>
+			<td>
+				<?=$see_all->input()?>
+			</td>
+			</tr>
+			<tr>
+				<td style="text-align:right"><?=_('les actions  affectées à d\'autres')?></td>
+				<td><?=$my_action->input()?>
+				</td>
+			</tr>
+  </table>
     <input type="submit" class="button" name="submit_query" value="<?=_('recherche')?>">
        <input type="hidden" name="sa" value="list">
 
        <?=$supl_hidden?>
+<?  echo HtmlInput::button_anchor(_('Fermer'),'javascript:void(0)','fsearch_form','onclick="$(\'search_action\').style.display=\'none\';"'); ?>
        </form>
-
-       </fieldset>
        </div>
 
        <div class="content" >
@@ -308,51 +361,8 @@ function ShowActionList($cn,$p_base)
 	  <input type="hidden" name="ac" value="<?=$_REQUEST['ac']?>">
 	  <input type="hidden" name="sa" value="add_action">
 	  <?=$supl_hidden?>
-	  <input id="bt_search" type="button" class="button" onclick="toggleShow(this,'<?=_('Afficher Recherche')?>','<?=_('Cache Recherche')?>','search_action')" value="">
+	  <input id="bt_search" type="button" class="button" onclick="$('search_action').style.display='block'" value="<?=_('Recherche')?>">
 
-	  <script language="JavaScript">
-	  <?php
-	  /* if criteria then show the search otherwise hide it */
-	  if ( (isset($_GET['qcode']) && trim($_GET['qcode']) != '') ||
-	       (isset($_GET['query']) && trim($_GET['query']) != '') ||
-	       $see_all->selected==true ||
-	       $my_action->selected==true ||
-	       (isset ($_GET['tdoc']) && trim($_GET['tdoc']) !='-1'))
-	    {
-	      /*  nothing */
-	    }
-	  else
-	    {
-	      ?>
-	      toggleShow($('bt_search'),'<?=_('Afficher Recherche')?>','<?=_('Cache Recherche')?>','search_action')
-		<?php
-		}
-  ?>
-	  function toggleShow(p_but,p_msg_show,p_msg_hide,p_div)
-	  {
-	    try
-	      {
-		var detail=g(p_div);
-		if (detail.style.display=='block' )
-		  {
-		    $(p_but).value=p_msg_show;
-		    detail.style.display='none';
-		  }
-		else
-		  {
-		    $(p_but).value=p_msg_hide;
-		    detail.style.display='block';
-		  }
-
-	      }
-	    catch (error)
-	    {
-	      alert(error);
-	    }
-
-	  }
-
-	  </script>
 
 
 	      </form>
@@ -397,7 +407,24 @@ function ShowActionList($cn,$p_base)
 	      $query .= ' and dt_id = '.Formatstring($_GET['tdoc']);
 	    }
 	  if ( ! $see_all->selected )      $query .= ' and ag_state in (2,3) ';
-	  if ( ! $my_action->selected )      $query .= " and (ag_owner='".$_SESSION['g_user']."' or ag_dest='".$_SESSION['g_user']."')";
+	  if ( ! $my_action->selected )     {
+		  $query .=" and (ag_owner='".$_SESSION['g_user']."' or ag_dest in (select p_id from profile_user where user_name='".$_SESSION['g_user']."') )";
+	  }
+	  if (isset ($_GET['date_start']) && isDate($_GET['date_start'])!= null ) {
+		  $date_start=$_GET['date_start'];
+		  $query.=" and ag_timestamp >= to_date('$date_start','DD.MM.YYYY')";
+	  }
+	  if (isset ($_GET['date_end']) && isDate($_GET['date_end'])!= null ) {
+		  $date_end=$_GET['date_end'];
+		  $query.=" and ag_timestamp <= to_date('$date_end','DD.MM.YYYY')";
+	  }
+	  if ( isset($_GET['ag_dest']))
+	  {
+		  if ( $_GET['ag_dest']==0)
+			$query .= "and ag_dest is null ";
+		  else
+			$query.= " and ag_dest = ".sql_string($_GET['ag_dest']);
+	  }
 	  $r=$act->myList($p_base,"",$query.$str);
 	  echo $r;
 }
