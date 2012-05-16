@@ -676,7 +676,7 @@ class Follow_Up
 		$table->add('Réf.',$url,'order by ag_ref asc','order by ag_ref desc','ra','rd');
 		$table->add('Groupe',$url,"order by coalesce((select p_name from profile where p_id=ag_dest),'Aucun groupe')",
 					"order by coalesce((select p_name from profile where p_id=ag_dest),'Aucun groupe') desc",'dea','ded');
-		$table->add('Expéditeur',$url,'order by name asc','order by name desc','ea','ed');
+		$table->add('Dest/Exp',$url,'order by name asc','order by name desc','ea','ed');
 		$table->add('Titre',$url,'order by ag_title asc','order by ag_title desc','ta','td');
 		$table->add('Concerne',$url,'order by ag_ref_ag_id asc','order by ag_ref_ag_id desc','ca','cd');
 
@@ -695,7 +695,8 @@ class Follow_Up
 			 f_id_dest,
              ag_title,dt_value,ag_ref, ag_priority,ag_state,
 			coalesce((select p_name from profile where p_id=ag_dest),'Aucun groupe') as dest,
-				(select ad_value from fiche_Detail where f_id=action_gestion.f_id_dest and ad_id=1) as name
+				(select ad_value from fiche_Detail where f_id=action_gestion.f_id_dest and ad_id=1) as name,
+		     (select count(d_id) from document where document.ag_id=action_gestion.ag_id) as cnt_doc
              from action_gestion
              join document_type on (ag_type=dt_id)
              where $p_filter_doc $p_search $sort";
@@ -720,10 +721,11 @@ class Follow_Up
         $r.='<th>'.$table->get_header(3).'</th>';
         $r.='<th>'.$table->get_header(4).'</th>';
         $r.='<th>'.$table->get_header(5).'</th>';
-        $r.='<th>type</th>';
+		$r.=th(_("Nbre doc."));
+        $r.='<th>'._('type').'</th>';
 		$r.=th('Etat');
 		$r.=th('Priorité');
-        $r.='<th>'.$table->get_header(5).'</th>';
+        $r.='<th>'.$table->get_header(6).'</th>';
 		if (isset($this->suppress)) {
 			$r.="<th> Suppr. dépendance</th>";
 		}
@@ -752,10 +754,11 @@ class Follow_Up
             if ($row['my_date']==$today) $st=' style="font-weight:bold; border:2px solid orange;"';
 			$date_remind=  format_date($row['my_remind'], 'DD.MM.YYYY','YYYYMMDD');
 			$date_today=date('Ymd');
-            if ($date_remind !="" && $date_remind <= $date_today) $st=' style="font-weight:bold;background:orange"';
+            if ($date_remind !="" && $date_remind == $date_today) $st=' style="font-weight:bold;background:orange"';
+            if ($date_remind !="" && $date_remind < $date_today) $st=' style="font-weight:bold;background:#FF1C42"';
             $r.="<tr class=\"$tr\" $st>";
-            $r.="<td>".$href.$row['my_date'].'</a>'."</td>";
-            $r.="<td>".$href.$row['my_remind'].'</a>'."</td>";
+            $r.="<td>".$href.smaller_date($row['my_date']).'</a>'."</td>";
+            $r.="<td>".$href.smaller_date($row['my_remind']).'</a>'."</td>";
 			$r.="<td>".$href.$row['ag_ref'].'</a>'."</td>";
 			$r.="<td>".$href.h($row['dest']).'</a>'."</td>";
 
@@ -794,6 +797,11 @@ class Follow_Up
 
             $r.='<td>'.$href.
                 h($row['ag_title'])."</A></td>";
+				if ( $row['cnt_doc'] != 0)
+				$r.="<td style=\"text-align:center\">".$href.h($row['cnt_doc']).'</a>'."</td>";
+			else
+				$r.="<td ></td>";
+
             $r.="<td>".$row['dt_value']."</td>";
 	    /*
 	     * State
