@@ -231,7 +231,7 @@ function isDate($p_date)
 	if (sizeof($l_date) != 3)
 	    return null;
 
-	if ($l_date[2] > 2020)
+	if ($l_date[2] > 2050)
 	{
 	    return null;
 	}
