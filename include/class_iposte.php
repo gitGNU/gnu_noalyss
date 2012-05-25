@@ -40,7 +40,6 @@ require_once('function_javascript.php');
  * attribute are
  *  - gDossier
  *  - jrn  if set there is a filter on a ledger, in  that case, contains the jrn_id (0 for no filter)
- *  - ipopup ipopup to open
  *  - account field to update with the account_number,
  *  - label  field to update  control with account_label,
  *  - bracket if true return the account_number between bracket
@@ -66,13 +65,11 @@ require_once('function_javascript.php');
 
 
 require_once('class_iposte.php');
-echo IPoste::ipopup('ipop_account');
 
 // In the FORM
 $text=new IPoste();
 $text->name('field');
 $text->value=$p_res[$i]['pvalue'];
-$text->set_attribute('ipopup','ipop_account');
 $text->set_attribute('gDossier',Dossier::id());
 $text->set_attribute('jrn',0);
 $text->set_attribute('account','field');
