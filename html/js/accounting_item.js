@@ -143,7 +143,7 @@ function search_poste(obj)
     }
     catch (e)
     {
-        alert(e.getMessage());
+        alert(e.getMessage);
     }
 }
 /**
