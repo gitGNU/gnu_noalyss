@@ -142,7 +142,7 @@ if ( $sub_action=='detail' )
     $act->ag_id=$ag_id;
 	$act->suppress=1;
     echo $act->get();
-    $act->ag_comment=Decode($act->ag_comment);
+//    $act->ag_comment=Decode($act->ag_comment);
     echo '<form  enctype="multipart/form-data"  class="print" action="do.php"  method="post"   >';
     echo $supl_hidden;
     echo HtmlInput::hidden('ac',$_REQUEST['ac']);

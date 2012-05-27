@@ -61,7 +61,6 @@ require_once 'class_sort_table.php';
 class Follow_Up
 {
     var $db;	      /*!<  $db  database connexion    */
-    var $ag_comment;    /*!<  $ag_comment description (ag_gestion.ag_comment) */
     var $ag_timestamp;  /*!<   $ag_timestamp document date (ag_gestion.ag_timestamp)*/
     var $dt_id;         /*!<   $dt_id type of the document (document_type.dt_id)*/
     var $ag_state;       /*!<   $ag_state stage of the document (printed, send to client...)*/
@@ -148,18 +147,20 @@ class Follow_Up
 		$str_doc_type=$doc_type->input();
 
         // Description
-        $desc=new ITextArea();
+       $desc=new ITextArea();
         $desc->width=70;
         $desc->heigh=5;
         $desc->name="ag_comment";
         $desc->readonly=$readonly;
-        $desc->value=$this->ag_comment;
         if ( strlen($desc->value) >300 )
         {
             $desc->width=120;
             $desc->heigh=40;
         }
-
+		$acomment=$this->db->get_array("SELECT agc_id, ag_id, to_char(agc_date,'DD.MM.YYYY') as str_agc_date, agc_comment, tech_user
+				 FROM action_gestion_comment where ag_id=$1 order by agc_id;",
+				array($this->ag_id)
+				);
         // state
         // Retrieve the value
         $a=$this->db->make_array("select s_id,s_value from document_state ");
@@ -526,14 +527,13 @@ class Follow_Up
      */
     function get()
     {
-        $sql="select ag_id, ag_comment,to_char (ag_timestamp,'DD.MM.YYYY') as ag_timestamp,".
-             " f_id_dest,ag_title,ag_comment,ag_ref,d_id,ag_type,ag_state,  ".
+        $sql="select ag_id,to_char (ag_timestamp,'DD.MM.YYYY') as ag_timestamp,".
+             " f_id_dest,ag_title,ag_ref,d_id,ag_type,ag_state,  ".
              " ag_ref_ag_id, ag_dest, ag_hour, ag_priority, ag_cal,ag_contact,to_char (ag_remind_date,'DD.MM.YYYY') as ag_remind_date ".
              " from action_gestion left join document using (ag_id) where ag_id=".$this->ag_id;
         $r=$this->db->exec_sql($sql);
         $row=Database::fetch_all($r);
         if ( $row==false) return;
-        $this->ag_comment=$row[0]['ag_comment'];
         $this->ag_timestamp=$row[0]['ag_timestamp'];
         $this->ag_contact=$row[0]['ag_contact'];
         $this->f_id_dest=$row[0]['f_id_dest'];
@@ -612,16 +612,16 @@ class Follow_Up
 		if ($this->ag_remind_date != null || $this->ag_remind_date !='')
 		{
 			$sql="insert into action_gestion".
-             "(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_comment,ag_ref,ag_ref_ag_id, ag_dest, ".
+             "(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_ref,ag_ref_ag_id, ag_dest, ".
              " ag_hour, ag_priority,ag_cal,ag_owner,ag_contact,ag_state,ag_remind_date) ".
-             " values ($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,to_date($16,'DD.MM.YYYY'))";
+             " values ($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,to_date($15,'DD.MM.YYYY'))";
 		} else
 		{
 			$this->ag_remind_date=null;
 			$sql="insert into action_gestion".
-             "(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_comment,ag_ref,ag_ref_ag_id, ag_dest, ".
+             "(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_ref,ag_ref_ag_id, ag_dest, ".
              " ag_hour, ag_priority,ag_cal,ag_owner,ag_contact,ag_state,ag_remind_date) ".
-             " values ($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)";
+             " values ($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)";
 
 		}
 		if ( $this->ag_dest==0) {$this->ag_dest=null;}
@@ -630,7 +630,6 @@ class Follow_Up
                                        $this->dt_id,	/* 3 */
                                        $this->ag_title, /* 4 */
                                        $exp->id,	  /* 5 */
-                                       $this->ag_comment,	  /* 6 */
                                        $ref,		  /* 7 */
                                        $this->ag_ref_ag_id,  /* 8 */
                                        $this->ag_dest,	   /* 9 */
@@ -656,6 +655,10 @@ class Follow_Up
         /* Upload the documents */
         $doc=new Document($this->db);
         $doc->Upload($this->ag_id);
+		if ( trim($this->ag_comment)!='') {
+			$this->db->exec_sql("insert into action_gestion_comment (ag_id,tech_user,agc_comment) values ($1,$2,$3)"
+					,array($this->ag_id,$_SESSION['g_user'],$this->ag_comment));
+		}
     }
     /*! myList($p_filter="")
      * \brief Show list of action by default if sorted on date
@@ -894,22 +897,22 @@ class Follow_Up
 		if ( $this->ag_dest==0) {$this->ag_dest=null;}
 		if ( $this->ag_remind_date != null )
 		{
-			$this->db->exec_sql("update action_gestion set ag_comment=$1,".
-								" ag_timestamp=to_date($2,'DD.MM.YYYY'),".
-								" ag_title=$3,".
-								" ag_type=$4, ".
-								" f_id_dest=$5, ".
-								" ag_ref_ag_id=$6 ,".
-								"ag_state=$7,".
-								" ag_hour = $9 ,".
-								" ag_priority = $10 ,".
-								" ag_dest = $11 , ".
-								" ag_cal = $12 ,".
-								" ag_contact = $13, ".
-								" ag_ref = $14, ".
-								" ag_remind_date=to_date($15,'DD.MM.YYYY') ".
-								" where ag_id = $8",
-								array ( $this->ag_comment, /* 1 */
+			$this->db->exec_sql("update action_gestion set ".
+								" ag_timestamp=to_date($1,'DD.MM.YYYY'),".
+								" ag_title=$2,".
+								" ag_type=$3, ".
+								" f_id_dest=$4, ".
+								" ag_ref_ag_id=$5 ,".
+								"ag_state=$6,".
+								" ag_hour = $8 ,".
+								" ag_priority = $9 ,".
+								" ag_dest = $10 , ".
+								" ag_cal = $11 ,".
+								" ag_contact = $12, ".
+								" ag_ref = $13, ".
+								" ag_remind_date=to_date($14,'DD.MM.YYYY') ".
+								" where ag_id = $7",
+								array (
 										$this->ag_timestamp, /* 2 */
 										$this->ag_title,     /* 3 */
 										$this->dt_id,	       /* 4 */
@@ -928,22 +931,22 @@ class Follow_Up
 		}
 		else
 		{
-			$this->db->exec_sql("update action_gestion set ag_comment=$1,".
-									" ag_timestamp=to_date($2,'DD.MM.YYYY'),".
-									" ag_title=$3,".
-									" ag_type=$4, ".
-									" f_id_dest=$5, ".
-									" ag_ref_ag_id=$6 ,".
-									"ag_state=$7,".
-									" ag_hour = $9 ,".
-									" ag_priority = $10 ,".
-									" ag_dest = $11 , ".
-									" ag_cal = $12 ,".
-									" ag_contact = $13, ".
-									" ag_ref = $14, ".
+			$this->db->exec_sql("update action_gestion set ".
+									" ag_timestamp=to_date($1,'DD.MM.YYYY'),".
+									" ag_title=$2,".
+									" ag_type=$3, ".
+									" f_id_dest=$4, ".
+									" ag_ref_ag_id=$5 ,".
+									"ag_state=$6,".
+									" ag_hour = $8 ,".
+									" ag_priority = $9 ,".
+									" ag_dest = $10 , ".
+									" ag_cal = $11 ,".
+									" ag_contact = $12, ".
+									" ag_ref = $13, ".
 									" ag_remind_date=null ".
-									" where ag_id = $8",
-									array ( $this->ag_comment, /* 1 */
+									" where ag_id = $7",
+									array (
 											$this->ag_timestamp, /* 2 */
 											$this->ag_title,     /* 3 */
 											$this->dt_id,	       /* 4 */
@@ -970,6 +973,10 @@ class Follow_Up
             $act->from_array($_POST,$i);
             $act->save();
         }
+		if ( trim($this->ag_comment)!='') {
+			$this->db->exec_sql("insert into action_gestion_comment (ag_id,tech_user,agc_comment) values ($1,$2,$3)"
+					,array($this->ag_id,$_SESSION['g_user'],$this->ag_comment));
+		}
         return true;
 
     }

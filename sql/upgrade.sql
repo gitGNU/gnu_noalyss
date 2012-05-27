@@ -67,4 +67,24 @@ ALTER TABLE action_gestion
       REFERENCES profile (p_id) MATCH SIMPLE
       ON UPDATE SET NULL ON DELETE SET NULL;
 
+CREATE TABLE action_gestion_comment
+(
+  agc_id bigserial NOT NULL, -- PK
+  ag_id bigint, -- FK to action_gestion
+  agc_date timestamp with time zone,
+  agc_comment text, -- comment
+  tech_user text, -- user_login
+  CONSTRAINT action_gestion_comment_pkey PRIMARY KEY (agc_id ),
+  CONSTRAINT action_gestion_comment_ag_id_fkey FOREIGN KEY (ag_id)
+      REFERENCES action_gestion (ag_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE
+);
+ALTER TABLE action_gestion_comment ALTER COLUMN agc_date SET DEFAULT now();
+COMMENT ON COLUMN action_gestion_comment.agc_id IS 'PK';
+COMMENT ON COLUMN action_gestion_comment.ag_id IS 'FK to action_gestion';
+COMMENT ON COLUMN action_gestion_comment.agc_comment IS 'comment';
+COMMENT ON COLUMN action_gestion_comment.tech_user IS 'user_login';
 
+
+insert into action_gestion_comment (ag_id,agc_date,agc_comment,tech_user) select ag_id,ag_timestamp,ag_comment,ag_owner from action_gestion;
+ALTER TABLE action_gestion drop COLUMN ag_comment;
