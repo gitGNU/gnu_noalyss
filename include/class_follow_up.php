@@ -490,7 +490,7 @@ class Follow_Up
 
         /* get template */
         ob_start();
-        require_once ('template/detail-action.php');
+        require_once 'template/detail-action.php';
         $content=ob_get_contents();
         ob_end_clean();
         $r.=$content;
@@ -513,7 +513,7 @@ class Follow_Up
         }
 		// New referecne
 		ob_start();
-        require_once ('template/action-reference.php');
+        require_once 'template/action-reference.php';
         $content=ob_get_contents();
         ob_end_clean();
 
@@ -746,7 +746,7 @@ class Follow_Up
         //show the sub_action
         foreach ($a_row as $row )
         {
-            $href='<A class="document" HREF="do.php?'.$p_base.'&sa=detail&ag_id='.$row['ag_id'].'&'.$str_dossier.'&ac='.$_REQUEST['ac'].'">';
+            $href='<A class="document" HREF="do.php?'.$p_base.'&sa=detail&ag_id='.$row['ag_id'].'&'.$str_dossier.'&ac='.$_REQUEST['ac']."&".HtmlInput::get_to_string(array("qcode","ag_dest","query","tdoc","date_start","date_end","see_all","all_action")).'">';
             $i++;
             $tr=($i%2==0)?'even':'odd';
             if ($row['ag_priority'] < 2) $tr='priority1';
@@ -755,7 +755,7 @@ class Follow_Up
 			$date_remind=  format_date($row['my_remind'], 'DD.MM.YYYY','YYYYMMDD');
 			$date_today=date('Ymd');
             if ($date_remind !="" && $date_remind == $date_today) $st=' style="font-weight:bold;background:orange"';
-            if ($date_remind !="" && $date_remind < $date_today) $st=' style="font-weight:bold;background:#FF1C42"';
+            if ($date_remind !="" && $date_remind < $date_today) $st=' style="font-weight:bold;background:#FF0000"';
             $r.="<tr class=\"$tr\" $st>";
             $r.="<td>".$href.smaller_date($row['my_date']).'</a>'."</td>";
             $r.="<td>".$href.smaller_date($row['my_remind']).'</a>'."</td>";

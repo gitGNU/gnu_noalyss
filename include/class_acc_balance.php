@@ -132,7 +132,7 @@ class Acc_Balance
             $poste=new Acc_Account($cn,$r['j_poste']);
 
             $a['poste']=$r['j_poste'];
-            $a['label']=substr($poste->get_lib(),0,40);
+            $a['label']=mb_substr($poste->get_lib(),0,40);
             $a['sum_deb']=round($r['sum_deb'],2);
             $a['sum_cred']=round($r['sum_cred'],2);
             $a['solde_deb']=round(( $a['sum_deb']  >=  $a['sum_cred'] )? $a['sum_deb']- $a['sum_cred']:0,2);

@@ -1078,7 +1078,7 @@ class Acc_Ledger extends jrn_def_sql
                 {
                     $p_array['TVAC']=$code['j_montant'];
 
-                    $p_array['client']=($trunc==0)?$fiche->getName():substr($fiche->getName(),0,20);
+                    $p_array['client']=($trunc==0)?$fiche->getName():mb_substr($fiche->getName(),0,20);
                     $p_array['reversed']=false;
                     if (	$fiche_def_id == FICHE_TYPE_CLIENT && $code['j_debit']=='f')
                     {
@@ -1103,7 +1103,7 @@ class Acc_Ledger extends jrn_def_sql
                     {
                         $p_array['TVAC']=$code['j_montant'];
 
-                        $p_array['client']=	($trunc==0)?$fiche->getName():substr($fiche->getName(),0,20);
+                        $p_array['client']=	($trunc==0)?$fiche->getName():mb_substr($fiche->getName(),0,20);
                         $p_array['reversed']=false;
                         if ($p_jrn_type == 'ACH' && $code['j_debit']=='t')
                         {

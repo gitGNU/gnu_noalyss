@@ -30,6 +30,8 @@ require_once('user_common.php');
 require_once('ac_common.php');
 require_once 'function_javascript.php';
 require_once 'constant.security.php';
+mb_internal_encoding("UTF-8");
+
 // if gDossier is not set redirect to form to choose a folder
 if ( ! isset($_REQUEST['gDossier']))
 {
@@ -127,6 +129,7 @@ $module_selected = -1;
 
 if (isset($_REQUEST['ac']))
 {
+	$_REQUEST['ac']=  strtoupper($_REQUEST['ac']);
     $all = explode('/', $_REQUEST['ac']);
     $module_selected = $all[0];
 	$g_user->audit();

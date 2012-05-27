@@ -290,8 +290,8 @@ if ( isset($_GET['view'] ) )
 	foreach (array(3,2,1) as $ind)
 	  {
 	    if ( ! isset($_GET['lvl'.$ind]))continue;
-	    if (${'lvl'.$ind.'_old'} == '')	  ${'lvl'.$ind.'_old'}=substr($r['poste'],0,$ind);
-	    if ( ${'lvl'.$ind.'_old'} != substr($r['poste'],0,$ind))
+	    if (${'lvl'.$ind.'_old'} == '')	  ${'lvl'.$ind.'_old'}=mb_substr($r['poste'],0,$ind);
+	    if ( ${'lvl'.$ind.'_old'} != mb_substr($r['poste'],0,$ind))
 	      {
 
 		echo '<tr style="font-size:12px;font-height:bold">';
@@ -303,7 +303,7 @@ if ( isset($_GET['view'] ) )
 		echo td(nbm(${'lvl'.$ind}['solde_cred']),'style="text-align:right"');
 
 		echo '</tr>';
-		${'lvl'.$ind.'_old'}=substr($r['poste'],0,$ind);
+		${'lvl'.$ind.'_old'}=mb_substr($r['poste'],0,$ind);
 		foreach(array('sum_cred','sum_deb','solde_deb','solde_cred') as $a)
 		  {
 		    ${'lvl'.$ind}[$a]=0;

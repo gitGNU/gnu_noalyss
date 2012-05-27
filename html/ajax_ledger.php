@@ -48,6 +48,7 @@ if ( ! isset ($_REQUEST['act'])|| ! isset ($_REQUEST['jr_id'])
     exit();
   }
  global $g_parameter;
+mb_internal_encoding("UTF-8");
 
 
 $action=$_REQUEST['act'];
@@ -264,7 +265,7 @@ case 'file':
         $filename= $obj->det->jr_pj_name;
         if ( strlen($obj->det->jr_pj_name) > 20 )
         {
-            $filename=substr($obj->det->jr_pj_name,0,23);
+            $filename=mb_substr($obj->det->jr_pj_name,0,23);
         }
         $h=sprintf('<a class="mtitle"  href="show_pj.php?gDossier=%d&jrn=%d&jr_grpt_id=%d">%s</a>',
                    $gDossier,$ledger,$obj->det->jr_grpt_id,h( $filename));

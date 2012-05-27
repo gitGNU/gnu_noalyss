@@ -32,6 +32,7 @@ require_once('class_html_input.php');
 require_once('class_acc_account.php');
 require_once('class_exercice.php');
 $div=$_REQUEST['div'];
+mb_internal_encoding("UTF-8");
 
 /**
  *if $_SESSION['g_user'] is not set : echo a warning

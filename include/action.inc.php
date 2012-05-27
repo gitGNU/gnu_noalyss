@@ -23,7 +23,7 @@
  */
 require_once('class_ipopup.php');
 global $g_user;
-$retour=HtmlInput::button_anchor(_('Retour liste'),'?ac='.$_REQUEST['ac'].'&my_action&'.dossier::get());
+$retour=HtmlInput::button_anchor(_('Retour liste'),'?ac='.$_REQUEST['ac'].'&my_action&'.dossier::get()."&".HtmlInput::get_to_string(array("qcode","ag_dest","query","tdoc","date_start","date_end","see_all","all_action")));
 //-----------------------------------------------------
 // Follow_Up
 //-----------------------------------------------------

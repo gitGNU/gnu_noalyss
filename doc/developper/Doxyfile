@@ -680,7 +680,6 @@ EXCLUDE_PATTERNS       = a?.php \
 			effects.js \
 			prototype.js \
 			scriptaculous.js \
-			scripts.js \
 			slider.js \
 			sound.js \
 			unittest.js.

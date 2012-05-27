@@ -244,7 +244,7 @@ if ( $sa == 'add' )
         for ($i=0;$i<$count;$i++)
         {
             $mod=Database::fetch_array($Res,$i);
-            $template.='<OPTION VALUE="'.$mod['mod_id'].'"> '.h($mod['mod_name']." - ".substr($mod['mod_desc'],0,30));
+            $template.='<OPTION VALUE="'.$mod['mod_id'].'"> '.h($mod['mod_name']." - ".mb_substr($mod['mod_desc'],0,30));
         }// for
         $template.="</SELECT>";
     }// if count = 0

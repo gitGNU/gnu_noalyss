@@ -227,9 +227,9 @@ class Anc_Balance_Double extends Anc_Print
         {
             $row=$array[$i];
             $pdf->Cell(20,6,$row['a_po_name'],0,0,'L');
-            $pdf->Cell(40,6,substr($row['a_po_description'],0,31),0,0,'L');
+            $pdf->Cell(40,6,mb_substr($row['a_po_description'],0,31),0,0,'L');
             $pdf->Cell(20,6,$row['b_po_name'],0,0,'L');
-            $pdf->Cell(40,6,substr($row['b_po_description'],0,31),0,0,'L');
+            $pdf->Cell(40,6,mb_substr($row['b_po_description'],0,31),0,0,'L');
             $pdf->Cell(20,6,$row['a_d'],0,0,'R');
             $pdf->Cell(20,6,$row['a_c'],0,0,'R');
             $pdf->Cell(20,6,$row['a_solde'],0,0,'R');

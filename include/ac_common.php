@@ -829,7 +829,7 @@ function show_module($selected)
 			}
 			else
 			{
-				var_dump($file);
+				// nothing  : direct call to plugin
 			}
 	}
 	if ( $file[0]['me_javascript'] != '')

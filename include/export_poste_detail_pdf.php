@@ -114,9 +114,9 @@ foreach ($a_poste as $poste)
 	else
 	  $pdf->Cell($size[$l],6,$row['jr_pj_number'],0,0,$align[$l]);
         $l++;
-        $pdf->Cell($size[$l],6,substr($row['jrn_name'],0,14),0,0,$align[$l]);
+        $pdf->Cell($size[$l],6,mb_substr($row['jrn_name'],0,14),0,0,$align[$l]);
         $l++;
-        $pdf->Cell($size[$l],6,  substr($row['description'],0,55),0,0,$align[$l]);
+        $pdf->Cell($size[$l],6,  mb_substr($row['description'],0,55),0,0,$align[$l]);
         $l++;
         $pdf->Cell($size[$l],6,(($row['letter']!=-1)?$row['letter']:''),0,0,$align[$l]);
         $l++;

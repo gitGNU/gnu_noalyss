@@ -61,6 +61,7 @@ require_once('function_javascript.php');
 require_once('ac_common.php');
 require_once ('class_user.php');
 require_once ('class_fiche_attr.php');
+mb_internal_encoding("UTF-8");
 
 $var=array('gDossier','op','ctl');
 $cont=0;

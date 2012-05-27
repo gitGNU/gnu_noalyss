@@ -82,12 +82,12 @@ class Todo_List
         }
         if ( strcmp ($p_idx, 'tl_title') == 0 )
         {
-            $p_value=substr($p_value,0,120) ;
+            $p_value=mb_substr($p_value,0,120) ;
             return true;
         }
         if ( strcmp ($p_idx, 'tl_desc') == 0 )
         {
-            $p_value=substr($p_value,0,400) ;
+            $p_value=mb_substr($p_value,0,400) ;
             return true;
         }
         return true;
@@ -128,7 +128,7 @@ class Todo_List
     {
         if ( $this->verify() != 0 ) return;
         if (trim($this->tl_title)=='')
-            $this->tl_title=substr(trim($this->tl_desc),0,30);
+            $this->tl_title=mb_substr(trim($this->tl_desc),0,30);
 
         if (trim($this->tl_title)=='')
         {
@@ -137,7 +137,7 @@ class Todo_List
         }
 
         /*  limit the title to 35 char */
-        $this->tl_title=substr(trim($this->tl_title),0,30);
+        $this->tl_title=mb_substr(trim($this->tl_title),0,30);
 
         $sql="insert into todo_list (tl_date,tl_title,tl_desc,use_login) ".
              " values (to_date($1,'DD.MM.YYYY'),$2,$3,$4)  returning tl_id";
@@ -157,7 +157,7 @@ class Todo_List
         if ( $this->verify() != 0 ) return;
 
         if (trim($this->tl_title)=='')
-            $this->tl_title=substr(trim($this->tl_desc),0,40);
+            $this->tl_title=mb_substr(trim($this->tl_desc),0,40);
 
         if (trim($this->tl_desc)=='')
         {
@@ -166,7 +166,7 @@ class Todo_List
         }
 
         /*  limit the title to 35 char */
-        $this->tl_title=substr(trim($this->tl_title),0,40);
+        $this->tl_title=mb_substr(trim($this->tl_title),0,40);
 
         $sql="update todo_list set tl_title=$1,tl_date=to_date($2,'DD.MM.YYYY'),tl_desc=$3 ".
              " where tl_id = $4";

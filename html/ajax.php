@@ -12,6 +12,8 @@ require_once('class_user.php');
 require_once('class_extension.php');
 if ( !isset ($_REQUEST['gDossier'])) exit();
 
+mb_internal_encoding("UTF-8");
+
 $cn=new Database(dossier::id());
 $user=new User($cn);
 $user->check(true);

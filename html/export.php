@@ -31,7 +31,7 @@ require_once('class_database.php');
 require_once('class_user.php');
 $gDossier=dossier::id();
 $cn=new Database($gDossier);
-
+mb_internal_encoding("UTF-8");
 $g_user=new User($cn);
 $g_user->Check();
 $action=$g_user->check_dossier($gDossier);

@@ -38,6 +38,7 @@ require_once ('class_dossier.php');
 require_once ('class_todo_list.php');
 require_once ('class_database.php');
 require_once ('class_user.php');
+mb_internal_encoding("UTF-8");
 
 $cn= Dossier::connect();
 $user=new User($cn);

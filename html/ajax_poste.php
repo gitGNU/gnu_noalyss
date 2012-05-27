@@ -38,6 +38,7 @@ require_once('class_acc_ledger.php');
 require_once ('class_database.php');
 require_once('function_javascript.php');
 require_once('class_acc_account_ledger.php');
+mb_internal_encoding("UTF-8");
 
 extract($_REQUEST);
 $var=array('gDossier','op','ctl');

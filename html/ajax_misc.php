@@ -41,6 +41,7 @@ require_once('class_iradio.php');
 require_once('function_javascript.php');
 require_once('ac_common.php');
 require_once ('class_user.php');
+mb_internal_encoding("UTF-8");
 
 $var = array('gDossier', 'op');
 $cont = 0;

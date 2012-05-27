@@ -222,7 +222,7 @@ class Acc_Account
             if ($count != 0)
                 throw new Exception('Impossible de changer la valeur: poste déjà utilisé');
         }
-        $this->pcm_lib=substr($this->pcm_lib,0,150);
+        $this->pcm_lib=mb_substr($this->pcm_lib,0,150);
         $this->check();
         $sql="update tmp_pcmn set pcm_val=$1, pcm_lib=$2,pcm_val_parent=$3,pcm_type=$4 where pcm_val=$5";
         $Ret=$this->db->exec_sql($sql,array($this->pcm_val,

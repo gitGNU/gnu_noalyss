@@ -235,7 +235,7 @@ function ShowActionList($cn,$p_base)
 {
   // show the search menu
   ?>
-  <div id="search_action" style="position:absolute;display:none;margin-left:120px;width:70%;clear:both;background-color: inherit;z-index:2;border:1px #000080 solid">
+  <div id="search_action" class="op_detail_frame" style="position:absolute;display:none;margin-left:120px;width:70%;clear:both;z-index:2;height:auto;border:1px #000080 solid">
 	 <? echo HtmlInput::anchor_hide('Fermer','$(\'search_action\').style.display=\'none\';'); ?>
     <h2 class="info">
     <?=_('Recherche avancée')?>

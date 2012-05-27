@@ -73,7 +73,7 @@ if (isset($_POST['SAVE']))
         {
             if (substr_count($name, 'PRIV') != 0)
             {
-                $db_id = substr($name, 4);
+                $db_id = mb_substr($name, 4);
                 $cn = new Database();
                 $UserChange->set_folder_access($db_id, $elem);
 				Dossier::synchro_admin($db_id);

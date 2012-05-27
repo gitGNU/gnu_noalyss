@@ -21,7 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file
- * \brief Html Input 
+ * \brief Html Input
  */
 require_once('class_html_input.php');
 class ISpan extends HtmlInput
