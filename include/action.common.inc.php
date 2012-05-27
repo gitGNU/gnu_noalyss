@@ -381,7 +381,7 @@ $str_ag_dest=$ag_dest->input();
 	      // if a query is request build the sql stmt
 	      $query="and (ag_title ~* '".sql_string($_REQUEST['query'])."' ".
 		"or ag_ref ='".trim(sql_string($_REQUEST['query'])).
-		"' or ag_comment ~* '".trim(sql_string($_REQUEST['query']))."'".
+		"' or ag_id in (select ag_id from action_gestion_comment where agc_comment ~* '".trim(sql_string($_REQUEST['query']))."')".
 		")";
 	    }
 

@@ -671,7 +671,7 @@ class Follow_Up
     {
         $str_dossier=dossier::get();
         // for the sort
-        $url="?".$str_dossier.'&'.$p_base."&".HtmlInput::get_to_string(array("qcode","ag_dest","query","tdoc","date_start","date_end","see_all","all_action"));
+        $url=HtmlInput::get_to_string(array("qcode","ag_dest","query","tdoc","date_start","date_end","see_all","all_action")).$str_dossier.'&'.$p_base;
 
 		$table=new Sort_Table();
 		$table->add('Date',$url,'order by ag_timestamp asc','order by ag_timestamp desc','da','dd');
@@ -749,7 +749,7 @@ class Follow_Up
         //show the sub_action
         foreach ($a_row as $row )
         {
-            $href='<A class="document" HREF="do.php?'.$p_base.'&sa=detail&ag_id='.$row['ag_id'].'&'.$str_dossier.'&ac='.$_REQUEST['ac']."&".HtmlInput::get_to_string(array("qcode","ag_dest","query","tdoc","date_start","date_end","see_all","all_action")).'">';
+            $href='<A class="document" HREF="do.php'.HtmlInput::get_to_string(array("gDossier","qcode","ag_dest","query","tdoc","date_start","date_end","see_all","ac","all_action"))."&".$p_base.'&sa=detail&ag_id='.$row['ag_id'].'">';
             $i++;
             $tr=($i%2==0)?'even':'odd';
             if ($row['ag_priority'] < 2) $tr='priority1';
