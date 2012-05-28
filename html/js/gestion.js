@@ -47,6 +47,69 @@ function remove_document(p_dossier,p_id)
 
 }
 /**
+ *@brief remove the concerned operation of an action
+ *@param dossier
+ *@param p_id id pk action_comment_operation
+*/
+function remove_operation(p_dossier,p_id)
+{
+    queryString="gDossier="+p_dossier+"&a=rmop&id="+p_id;
+    var action=new Ajax.Request (
+                   "show_document.php",
+                   {
+                   method:'get',
+                   parameters:queryString,
+                   onFailure:errorRemoveDoc,
+                   onSuccess:successRemoveOp
+                   }
+
+               );
+
+}
+function successRemoveOp(request,json)
+{
+	try{
+   var answer=request.responseText.evalJSON(true);
+    var action="acop"+answer.ago_id;
+    $(action).innerHTML="";
+    var doc="op"+answer.ago_id;
+    $(doc).style.color="red";
+    $(doc).href="javascript:alert('Commentaire Effacé')";
+    $(doc).style.textDecoration="line-through";
+	}catch(e){alert(e.message);}
+}
+/**
+ *@brief remove comment of an action
+ *@param dossier
+ *@param p_id pk action_gestion_comment
+*/
+function remove_comment(p_dossier,p_id)
+{
+    queryString="gDossier="+p_dossier+"&a=rmcomment&id="+p_id;
+    var action=new Ajax.Request (
+                   "show_document.php",
+                   {
+                   method:'get',
+                   parameters:queryString,
+                   onFailure:errorRemoveDoc,
+                   onSuccess:successRemoveComment
+                   }
+
+               );
+
+}
+function successRemoveComment(request,json)
+{
+   var answer=request.responseText.evalJSON(true);
+    var action="accom"+answer.agc_id;
+    $(action).innerHTML="";
+    var doc="com"+answer.agc_id;
+    $(doc).style.color="red";
+    $(doc).href="javascript:alert('Commentaire Effacé')";
+    $(doc).style.textDecoration="line-through";
+
+}
+/**
  *@brief error if a document if removed
  */
 function errorRemoveDoc()

@@ -88,3 +88,20 @@ COMMENT ON COLUMN action_gestion_comment.tech_user IS 'user_login';
 
 insert into action_gestion_comment (ag_id,agc_date,agc_comment,tech_user) select ag_id,ag_timestamp,ag_comment,ag_owner from action_gestion;
 ALTER TABLE action_gestion drop COLUMN ag_comment;
+
+CREATE TABLE action_gestion_operation
+(
+  ago_id bigserial NOT NULL, -- pk
+  ag_id bigint, -- fk to action_gestion
+  jr_id bigint, -- fk to jrn
+  CONSTRAINT action_comment_operation_pkey PRIMARY KEY (ago_id ),
+  CONSTRAINT action_comment_operation_ag_id_fkey FOREIGN KEY (ag_id)
+      REFERENCES action_gestion (ag_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT action_comment_operation_jr_id_fkey FOREIGN KEY (jr_id)
+      REFERENCES jrn (jr_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE
+);
+COMMENT ON COLUMN action_comment_operation.ago_id IS 'pk';
+COMMENT ON COLUMN action_comment_operation.ag_id IS 'fk to action_gestion';
+COMMENT ON COLUMN action_comment_operation.jr_id IS 'fk to jrn';

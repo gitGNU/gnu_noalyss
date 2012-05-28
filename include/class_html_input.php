@@ -230,7 +230,7 @@ class HtmlInput
      */
     static function detail_op($p_jr_id,$p_mesg)
     {
-        return sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(%d,%d)">%s</A>',
+        return sprintf('<A class="detail" style="text-decoration:underline;display:inline" HREF="javascript:modifyOperation(%d,%d)">%s</A>',
                        $p_jr_id,dossier::id(),$p_mesg);
     }
     /**

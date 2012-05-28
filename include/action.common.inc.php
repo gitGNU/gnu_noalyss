@@ -292,10 +292,10 @@ function ShowActionList($cn,$p_base)
                                     "p_name as label ".
                                     " from profile order by 2");
 $ag_dest=new ISelect();
-$ag_dest->name="ag_dest";
+$ag_dest->name="ag_dest_query";
 $aAg_dest[]=array('value'=>0,'label'=>'Public');
 $ag_dest->value=$aAg_dest;
-$ag_dest->selected=(isset($_GET["ag_dest"]))?$_GET["ag_dest"]:0;
+$ag_dest->selected=(isset($_GET["ag_dest_query"]))?$_GET["ag_dest_query"]:0;
 $str_ag_dest=$ag_dest->input();
 
   ?>
@@ -418,12 +418,12 @@ $str_ag_dest=$ag_dest->input();
 		  $date_end=$_GET['date_end'];
 		  $query.=" and ag_timestamp <= to_date('$date_end','DD.MM.YYYY')";
 	  }
-	  if ( isset($_GET['ag_dest']))
+	  if ( isset($_GET['ag_dest_query']))
 	  {
-		  if ( $_GET['ag_dest']==0)
+		  if ( $_GET['ag_dest_query']==0)
 			$query .= "and ag_dest is null ";
 		  else
-			$query.= " and ag_dest = ".sql_string($_GET['ag_dest']);
+			$query.= " and ag_dest = ".sql_string($_GET['ag_dest_query']);
 	  }
 	  $r=$act->myList($p_base,"",$query.$str);
 	  echo $r;

@@ -58,3 +58,27 @@ if ( $action == 'rm' )
         print $json;
     }
 }
+/* remove the operation */
+if ( $action == 'rmop' )
+{
+    if ($User->check_action(RMDOC)==1)
+    {
+		$cn->exec_sql("delete from action_gestion_operation where ago_id=$1",
+				array($_REQUEST['id']));
+        $json=sprintf('{"ago_id":"%s"}',$_REQUEST['id']);
+        header("Content-type: text/html; charset: utf8",true);
+        print $json;
+    }
+}
+/* remove the comment*/
+if ( $action == 'rmcomment' )
+{
+    if ($User->check_action(RMDOC)==1)
+    {
+		$cn->exec_sql("delete from action_gestion_comment where agc_id=$1",
+				array($_REQUEST['id']));
+        $json=sprintf('{"agc_id":"%s"}',$_REQUEST['id']);
+        header("Content-type: text/html; charset: utf8",true);
+        print $json;
+    }
+}

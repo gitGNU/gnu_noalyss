@@ -6,10 +6,10 @@
     <?echo $retour;
     ?>
   </div>
-<div style="float:left;width:50%">
+<div style="float:left;width:32%">
 <em> <strong><?php echo $sp->input();   ?></strong></em>
 
-        <table width="50%">
+        <table >
           <TR>
             <TD>
    <?=_('Date')?>
@@ -74,7 +74,7 @@
  <?echo $str_add_button;?>
 
 </div>
-<div style="float:left;width:50%">
+<div style="float:left;width:32%">
         <table>
           <tr>
             <td>
@@ -136,7 +136,24 @@
         </table>
 
 </div>
+	<div style="float:left;width:32%">
+		<ol>
 
+		<?
+		for ($o=0;$o<count($operation);$o++)
+		{
+			$rmOperation=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer cette opération ')."')==true ) {remove_operation('%s','%s');}",
+					dossier::id(),
+					$operation[$o]['ago_id']);
+			$js= '<a class="mtitle" id="acop'.$operation[$o]['ago_id'].'" href="'.$rmOperation.'">Effacer</a>';
+			echo '<li id="op'.$operation[$o]['ago_id'].'">'.h($operation[$o]['jr_comment'])." ".HtmlInput::detail_op($operation[$o]['jr_id'],$operation[$o]['jr_internal'])." "
+				.$js.'</li>';
+		}
+
+		?>
+		</ol>
+		<?=$iconcerned->input()?>
+	</div>
 </fieldset>
 <fieldset>
   <legend>
@@ -166,7 +183,12 @@ function small(p_id_textarea){
     <div style="margin-left:100">
    <?php
 for( $c=0;$c<count($acomment);$c++){
-	echo '<p> n°'.$acomment[$c]['agc_id']." ".h($acomment[$c]['agc_comment']).'('.h($acomment[$c]['tech_user'])." ".smaller_date($acomment[$c]['str_agc_date']).')</p>';
+	$rmComment=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer ce commentaire ')."')==true ) {remove_comment('%s','%s');}",
+					dossier::id(),
+					$acomment[$c]['agc_id']);
+			$js= '<a class="mtitle" id="accom'.$acomment[$c]['agc_id'].'" href="'.$rmComment.'">Effacer</a>';
+	echo '<p id="com'.$acomment[$c]['agc_id'].'"> n°'.$acomment[$c]['agc_id']." ".h($acomment[$c]['agc_comment']).'('.h($acomment[$c]['tech_user'])." ".smaller_date($acomment[$c]['str_agc_date']).')'.
+			$js.'</p>';
 }
 echo $desc->input();
 $style_enl='style="display:inline"';$style_small='style="display:none"';

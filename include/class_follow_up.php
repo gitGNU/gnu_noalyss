@@ -161,6 +161,10 @@ class Follow_Up
 				 FROM action_gestion_comment where ag_id=$1 order by agc_id;",
 				array($this->ag_id)
 				);
+
+		// List opération liées
+		$operation=$this->db->get_array("select ago_id,j.jr_id,j.jr_internal,j.jr_comment from jrn as j join action_gestion_operation as ago on (j.jr_id=ago.jr_id)");
+		$iconcerned=new IConcerned('operation');
         // state
         // Retrieve the value
         $a=$this->db->make_array("select s_id,s_value from document_state ");
@@ -488,7 +492,7 @@ class Follow_Up
         /* add the number of item */
         $Hid=new IHidden();
         $r.=$Hid->input("nb_item",MAX_ARTICLE);
-
+		$r.=HtmlInput::request_to_hidden(array("qcode","ag_dest_query","query","tdoc","date_start","date_end","see_all","all_action"));
         /* get template */
         ob_start();
         require_once 'template/detail-action.php';
@@ -659,6 +663,7 @@ class Follow_Up
 			$this->db->exec_sql("insert into action_gestion_comment (ag_id,tech_user,agc_comment) values ($1,$2,$3)"
 					,array($this->ag_id,$_SESSION['g_user'],$this->ag_comment));
 		}
+		$this->insert_operation();
     }
     /*! myList($p_filter="")
      * \brief Show list of action by default if sorted on date
@@ -671,7 +676,7 @@ class Follow_Up
     {
         $str_dossier=dossier::get();
         // for the sort
-        $url=HtmlInput::get_to_string(array("qcode","ag_dest","query","tdoc","date_start","date_end","see_all","all_action")).$str_dossier.'&'.$p_base;
+        $url=HtmlInput::get_to_string(array("qcode","ag_dest_query","query","tdoc","date_start","date_end","see_all","all_action")).$str_dossier.'&'.$p_base;
 
 		$table=new Sort_Table();
 		$table->add('Date',$url,'order by ag_timestamp asc','order by ag_timestamp desc','da','dd');
@@ -749,7 +754,7 @@ class Follow_Up
         //show the sub_action
         foreach ($a_row as $row )
         {
-            $href='<A class="document" HREF="do.php'.HtmlInput::get_to_string(array("gDossier","qcode","ag_dest","query","tdoc","date_start","date_end","see_all","ac","all_action"))."&".$p_base.'&sa=detail&ag_id='.$row['ag_id'].'">';
+            $href='<A class="document" HREF="do.php'.HtmlInput::get_to_string(array("gDossier","qcode","ag_dest_query","query","tdoc","date_start","date_end","see_all","ac","all_action"))."&".$p_base.'&sa=detail&ag_id='.$row['ag_id'].'">';
             $i++;
             $tr=($i%2==0)?'even':'odd';
             if ($row['ag_priority'] < 2) $tr='priority1';
@@ -977,6 +982,8 @@ class Follow_Up
 			$this->db->exec_sql("insert into action_gestion_comment (ag_id,tech_user,agc_comment) values ($1,$2,$3)"
 					,array($this->ag_id,$_SESSION['g_user'],$this->ag_comment));
 		}
+		$this->insert_operation();
+		$this->remove_operation();
         return true;
 
     }
@@ -1019,6 +1026,8 @@ class Follow_Up
         $this->ag_contact=(isset($p_array['ag_contact']))?$p_array['ag_contact']:"";
         $this->ag_comment=(isset($p_array['ag_comment']))?$p_array['ag_comment']:"";
         $this->ag_remind_date=(isset($p_array['ag_remind_date']))?$p_array['ag_remind_date']:null;
+        $this->operation=(isset($p_array['operation']))?$p_array['operation']:null;
+        $this->op=(isset($p_array['op']))?$p_array['op']:null;
 
     }
     /*!\brief remove the action
@@ -1079,6 +1088,27 @@ class Follow_Up
 		{
 			$this->db->exec_sql("update action_gestion set ag_ref_ag_id=0 where ag_id=$1",
 				array($p_array[$i]));
+		}
+	}
+	function insert_operation()
+	{
+		if ( trim($this->operation)=='') return;
+		$array=explode(",",$this->operation);
+		for ($i=0;$i<count($array);$i++) {
+			if ( $this->db->get_value("select count(*) from action_gestion_operation
+				where ag_id=$1 and jr_id=$2",array($this->ag_id,$array[$i]))==0)
+			{
+				$this->db->exec_sql("insert into action_gestion_operation (ag_id,jr_id) values ($1,$2)",
+						array($this->ag_id,$array[$i]));
+			}
+		}
+	}
+	function remove_operation()
+	{
+		if ($this->op==null) return;
+		$op=$this->op;
+		for ($i=0;$i<count($op);$i++){
+			$this->db->exec_sql("delete from action_gestion_operation where ago_id=$1",array($op[$i]));
 		}
 	}
 }
