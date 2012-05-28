@@ -6,10 +6,28 @@
     <?echo $retour;
     ?>
   </div>
-<div style="float:left;width:32%">
+<div style="float:left;width:30%">
 <em> <strong><?php echo $sp->input();   ?></strong></em>
 
         <table >
+			 <tr>
+            <TD>
+	    <?=_('Reference')?>
+            </TD>
+            <TD>
+              <?php echo $str_ag_ref;
+              ?>
+            </TD>
+          </TR>
+		    <tr>
+            <td>
+   <?=_('Concerne action')?>
+            </td>
+            <td>
+              <?php echo $lag_ref_ag_id;
+              ?>
+            </td>
+          </tr>
           <TR>
             <TD>
    <?=_('Date')?>
@@ -38,15 +56,7 @@
               ?>
             </TD>
           </TR>
-          <tr>
-            <TD>
-	    <?=_('Reference')?>
-            </TD>
-            <TD>
-              <?php echo $str_ag_ref;
-              ?>
-            </TD>
-          </TR>
+
 	<tr>
           <TD>
 	    <?=_('Destinataire')?>
@@ -74,17 +84,9 @@
  <?echo $str_add_button;?>
 
 </div>
-<div style="float:left;width:32%">
+<div style="float:left;width:30%">
         <table>
-          <tr>
-            <td>
-   <?=_('Concerne')?>
-            </td>
-            <td>
-              <?php echo $lag_ref_ag_id;
-              ?>
-            </td>
-          </tr>
+
           <tr>
             <TD>
 	    <?=_('Type')?>
@@ -136,7 +138,8 @@
         </table>
 
 </div>
-	<div style="float:left;width:32%">
+	<div style="float:left;width:40%">
+		<h4 style="display:inline">Opérations</h3>
 		<ol>
 
 		<?
@@ -145,8 +148,8 @@
 			$rmOperation=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer cette opération ')."')==true ) {remove_operation('%s','%s');}",
 					dossier::id(),
 					$operation[$o]['ago_id']);
-			$js= '<a class="mtitle" id="acop'.$operation[$o]['ago_id'].'" href="'.$rmOperation.'">Effacer</a>';
-			echo '<li id="op'.$operation[$o]['ago_id'].'">'.h($operation[$o]['jr_comment'])." ".HtmlInput::detail_op($operation[$o]['jr_id'],$operation[$o]['jr_internal'])." "
+			$js= '<a class="mtitle" style="color:orange" id="acop'.$operation[$o]['ago_id'].'" href="'.$rmOperation.'">Effacer</a>';
+			echo '<li id="op'.$operation[$o]['ago_id'].'">'.HtmlInput::detail_op($operation[$o]['jr_id'],$operation[$o]['jr_internal'])." ".h($operation[$o]['jr_comment'])." "
 				.$js.'</li>';
 		}
 
@@ -186,7 +189,7 @@ for( $c=0;$c<count($acomment);$c++){
 	$rmComment=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer ce commentaire ')."')==true ) {remove_comment('%s','%s');}",
 					dossier::id(),
 					$acomment[$c]['agc_id']);
-			$js= '<a class="mtitle" id="accom'.$acomment[$c]['agc_id'].'" href="'.$rmComment.'">Effacer</a>';
+			$js= '<a class="mtitle" style="color:orange" id="accom'.$acomment[$c]['agc_id'].'" href="'.$rmComment.'">Effacer</a>';
 	echo '<p id="com'.$acomment[$c]['agc_id'].'"> n°'.$acomment[$c]['agc_id']." ".h($acomment[$c]['agc_comment']).'('.h($acomment[$c]['tech_user'])." ".smaller_date($acomment[$c]['str_agc_date']).')'.
 			$js.'</p>';
 }
@@ -284,7 +287,7 @@ for ($i=0;$i<sizeof($aAttachedFile);$i++) :
 	dossier::id(),
 	$aAttachedFile[$i]['d_id']);
     ?>
-    <a class="mtitle" id="<?php echo "ac".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $rmDoc;?>">Effacer</a>
+    <a class="mtitle" style="color:orange" id="<?php echo "ac".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $rmDoc;?>">Effacer</a>
   </p>
   <?php
 endfor;
