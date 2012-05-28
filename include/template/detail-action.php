@@ -1,3 +1,4 @@
+
 <fieldset>
   <legend>
 <?=_('Informations générales')?>
@@ -6,8 +7,9 @@
     <?echo $retour;
     ?>
   </div>
+<h2 class="gest_name"><?php echo $sp->input();   ?></h2>
 <div style="float:left;width:30%">
-<em> <strong><?php echo $sp->input();   ?></strong></em>
+
 
         <table >
 			 <tr>

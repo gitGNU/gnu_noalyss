@@ -163,7 +163,8 @@ class Follow_Up
 				);
 
 		// List opération liées
-		$operation=$this->db->get_array("select ago_id,j.jr_id,j.jr_internal,j.jr_comment from jrn as j join action_gestion_operation as ago on (j.jr_id=ago.jr_id)");
+		$operation=$this->db->get_array("select ago_id,j.jr_id,j.jr_internal,j.jr_comment from jrn as j join action_gestion_operation as ago on (j.jr_id=ago.jr_id)
+			where ag_id=$1",array($this->ag_id));
 		$iconcerned=new IConcerned('operation');
         // state
         // Retrieve the value
