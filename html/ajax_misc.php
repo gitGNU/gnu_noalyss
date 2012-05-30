@@ -481,6 +481,9 @@ EOF;
 	case 'search_op':
 		require_once 'search.inc.php';
 		break;
+	case 'search_action':
+		require_once 'ajax_search_action.php';
+		break;
 	case 'display_profile':
 		require_once("ajax_get_profile.php");
 		break;

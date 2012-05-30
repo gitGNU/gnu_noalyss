@@ -1379,3 +1379,39 @@ function rapport_add_row(p_dossier)
 
     g('form'+line).value='';
 }
+/**
+ * Search an action in an inner box
+ */
+function search_action(dossier,ctl_concern)
+{
+	var dossier=g('gDossier').value;
+	
+	var target="search_action_div";
+	removeDiv(target);
+	var str_style=fixed_position(77, 99);
+        str_style+=";width:80%";
+
+    var div={id:target, cssclass:'inner_box',style:str_style,html:loading(),drag:1};
+
+    add_div(div);
+	var target={gDossier:dossier,
+				ctlc:ctl_concern,
+				op:'search_action',
+				ctl:target
+				};
+
+    var qs=encodeJSON(target);
+
+    var action=new Ajax.Request ( 'ajax_misc.php',
+				  {
+				      method:'get',
+				      parameters:qs,
+				      onFailure:null,
+				      onSuccess:function (req){
+						  remove_waiting_box();
+						  $('search_action').innerHTML=req.responseText;
+						  req.responseText.evalScripts();
+					  }
+				  }
+				);
+}
