@@ -66,6 +66,8 @@ function errorFid(request,json)
  */
 function ajaxFid(p_ctl)
 {
+	try
+	{
     var gDossier=$('gDossier').value;
     var jrn=$(p_ctl).jrn;
     $(p_ctl).value=$(p_ctl).value.toUpperCase();
@@ -125,6 +127,10 @@ function ajaxFid(p_ctl)
                    }
 
                );
+	}catch (e)  {
+		alert(e.message);
+		alert(p_ctl);
+	}
 
 }
 /*!\brief callback function for ajax
