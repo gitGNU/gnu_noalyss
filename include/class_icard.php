@@ -190,6 +190,7 @@ class ICard extends HtmlInput
         $this->value=($p_value==null)?$this->value:$p_value;
         if ( $this->readOnly==true) return $this->display();
 
+		if ( ! isset($this->id )) $this->id=$this->name;
 
         $attr=$this->get_js_attr();
 
@@ -203,7 +204,7 @@ class ICard extends HtmlInput
         $input=sprintf('<INPUT TYPE="Text"  class="input_text"  '.
                        ' NAME="%s" ID="%s" VALUE="%s" SIZE="%d" %s %s>',
                        $this->name,
-                       $this->name,
+                       $this->id,
                        $this->value,
                        $this->size,
                        $this->dblclick,
@@ -212,10 +213,10 @@ class ICard extends HtmlInput
 
         $ind=sprintf('<span id="%s_ind" class="autocomplete" style="display:none">Un instant... <img src="image/loading.gif" alt="Chargement..."/>'.
                      '</span>',
-                     $this->name);
+                     $this->id);
 
         $div=sprintf('<div id="%s_choices"  class="autocomplete"></div>',
-                     $this->name);
+                     $this->id);
 
         $query=dossier::get().'&e='.urlencode($this->typecard);
 
@@ -223,7 +224,7 @@ class ICard extends HtmlInput
                             '{paramName:"FID",minChars:1,indicator:null, '.
                             'callback:%s, '.
                             ' afterUpdateElement:%s});} catch (e){alert(e.message);};',
-                            $this->name,$this->name,$query,
+                            $this->id,$this->id,$query,
                             $this->callback,
                             $this->fct);
 
@@ -276,7 +277,7 @@ class ICard extends HtmlInput
     function search()
     {
         if ( $this->readOnly==true) return '';
-
+		if ( ! isset($this->id )) $this->id=$this->name;
         $button=new IButton($this->name.'_bt');
         $a="";
         foreach (array('typecard','jrn','label','price','tvaid') as $att)
@@ -284,8 +285,8 @@ class ICard extends HtmlInput
             if (isset($this->$att) )
                 $a.="this.".$att."='".$this->$att."';";
         }
-        if (isset($this->name))
-            $a.="this.inp='".$this->name."';";
+        if (isset($this->id))
+            $a.="this.inp='".$this->id."';";
         $a.="this.popup='ipop_card';";
 
         $button->javascript=$a.' search_card(this)';
