@@ -1,4 +1,5 @@
 <?php
+
 /*
  *   This file is part of PhpCompta.
  *
@@ -15,21 +16,29 @@
  *   You should have received a copy of the GNU General Public License
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
-/* $Revision: 4215 $ */
-// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/*! \file
- * \brief Search module
  */
-require_once('class_dossier.php');
-include_once("ac_common.php");
-require_once('class_follow_up.php');
-$_REQUEST['ac']='FOLLOW';
+/* $Revision$ */
 
-echo Follow_Up::display_search($cn,true);
+// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-$sql=  "true ".Follow_Up::create_query($cn);
-var_dump($_GET);
-echo $sql;
-echo Follow_Up::short_list($cn, $sql);
+/**
+ * @file
+ * @brief show button in the list of actions
+ *
+ */
 ?>
+<div class="content" >
+	<div>
+		<form  method="get" action="do.php">
+			<?php echo dossier::hidden();
+			?>
+			<input type="submit" class="button" name="submit_query" value="<?= _("Ajout Action")?>">
+			<input type="hidden" name="ac" value="<?= $_REQUEST['ac']?>">
+			<input type="hidden" name="sa" value="add_action">
+			<?= $supl_hidden?>
+			<input id="bt_search" type="button" class="button" onclick="$('search_action').style.display='block'" value="<?= _('Recherche')?>">
+
+
+
+		</form>
+	</div>

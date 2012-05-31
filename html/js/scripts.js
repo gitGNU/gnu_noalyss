@@ -1175,7 +1175,7 @@ function fixed_position(p_sx,p_sy)
 	var sx=p_sx;
 	var sy=calcy(p_sy);
 
-    var str_style="top:"+sy+";left:"+sx+"position:absolute";
+    var str_style="top:"+sy+";left:"+sx+";position:absolute";
 	return str_style;
 
 }
@@ -1384,8 +1384,10 @@ function rapport_add_row(p_dossier)
  */
 function search_action(dossier,ctl_concern)
 {
+	try
+	{
 	var dossier=g('gDossier').value;
-	
+
 	var target="search_action_div";
 	removeDiv(target);
 	var str_style=fixed_position(77, 99);
@@ -1408,10 +1410,76 @@ function search_action(dossier,ctl_concern)
 				      parameters:qs,
 				      onFailure:null,
 				      onSuccess:function (req){
+						  try {
 						  remove_waiting_box();
-						  $('search_action').innerHTML=req.responseText;
+						  $('search_action_div').innerHTML=req.responseText;
 						  req.responseText.evalScripts();
+						  }catch( e){alert(e.message);}
 					  }
 				  }
 				);
+	}catch( e){alert(e.message);}
 }
+
+function result_search_action(obj)
+{
+     try
+    {
+        var queryString=$(obj).serialize()+"&op=search_action";
+		alert (queryString);
+        var action = new Ajax.Request(
+            "ajax_misc.php" ,
+            {method:'get',
+              parameters:queryString,
+              onFailure:ajax_misc_failure,
+              onSuccess:function (req){
+						  try {
+						  remove_waiting_box();
+						  $('search_action_div').innerHTML=req.responseText;
+						  req.responseText.evalScripts();
+						  }catch( e){alert(e.message);}
+					  }
+            }
+        )
+
+    }
+    catch (e)
+    {
+        alert("display_periode "+e.message);
+    }
+
+    return false;
+}
+
+function set_action_related(p_obj)
+ {
+
+	 try
+	{
+		var obj=$(p_obj);
+		var ctlc=obj.elements['ctlc'];
+
+		for (var e=0;e<obj.elements.length;e++)
+		{
+
+			var elmt=obj.elements[e];
+			if ( elmt.type == "checkbox")
+			{
+				if (elmt.checked==true )
+				{
+					var str_name=elmt.name;
+						var nValue=elmt.value;
+						if ( $(ctlc.value).value != '') {$(ctlc.value).value+=',';}
+						$(ctlc.value).value+=nValue;
+				}
+			}
+		}
+		removeDiv('search_action_div');
+		return false;
+	}
+	catch(e)
+	{
+		alert(e.message);
+		return false;
+	}
+ }

@@ -240,7 +240,7 @@ function errorFid(request,json)
 }
 function update_value(text,li)
 {
-	   ajaxFid(ctl);
+	   ajaxFid(text);
 }
 /**
  *@brief is called when something change in ICard

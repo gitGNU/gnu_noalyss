@@ -8,7 +8,7 @@
     ?>
   </div>
 <h2 class="gest_name"><?php echo $sp->input();   ?></h2>
-<div style="float:left;width:30%">
+<div style="float:left;width: 45%">
 
 
         <table >
@@ -86,7 +86,7 @@
  <?echo $str_add_button;?>
 
 </div>
-<div style="float:left;width:30%">
+<div style="float:left;width:45%">
         <table>
 
           <tr>
@@ -140,8 +140,9 @@
         </table>
 
 </div>
-	<div style="float:left;width:40%">
-		<h4 style="display:inline">Opérations</h3>
+<div style="float:right;clear:both"></div>
+	<div style="float:left;width:45%">
+		<h4 style="display:inline">Opérations</h4>
 		<ol>
 
 		<?
@@ -158,6 +159,26 @@
 		?>
 		</ol>
 		<?=$iconcerned->input()?>
+	</div>
+
+	<div style="float:left;width:45%">
+		<h4 style="display:inline">Actions concernées</h4>
+		<ol>
+
+		<?
+		for ($o=0;$o<count($action);$o++)
+		{
+			$rmAction=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer cette action ')."')==true ) {remove_action('%s','%s','%s');}",
+					dossier::id(),
+					$action[$o]['ag_id'],$_REQUEST['ag_id']);
+			$js= '<a class="mtitle" style="color:orange" id="acact'.$action[$o]['ag_id'].'" href="'.$rmAction.'">Effacer</a>';
+			echo '<li id="act'.$action[$o]['ag_id'].'">'.$action[$o]['str_date']." ".h($action[$o]['sub_title'])." "
+				.$js.'</li>';
+		}
+
+		?>
+		</ol>
+		<?=$iaction->input()?>
 	</div>
 </fieldset>
 <fieldset>
@@ -187,16 +208,19 @@ function small(p_id_textarea){
 <h4 class="info">   <?=_('Commentaire')?></h4>
     <div style="margin-left:100">
    <?php
+   $style_enl='style="display:inline"';$style_small='style="display:none"';
+
 for( $c=0;$c<count($acomment);$c++){
 	$rmComment=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer ce commentaire ')."')==true ) {remove_comment('%s','%s');}",
 					dossier::id(),
 					$acomment[$c]['agc_id']);
 			$js= '<a class="mtitle" style="color:orange" id="accom'.$acomment[$c]['agc_id'].'" href="'.$rmComment.'">Effacer</a>';
-	echo '<p id="com'.$acomment[$c]['agc_id'].'"> n°'.$acomment[$c]['agc_id']." ".h($acomment[$c]['agc_comment']).'('.h($acomment[$c]['tech_user'])." ".smaller_date($acomment[$c]['str_agc_date']).')'.
-			$js.'</p>';
+	echo 'n°'.$acomment[$c]['agc_id'].'('.h($acomment[$c]['tech_user'])." ".smaller_date($acomment[$c]['str_agc_date']).')'.$js.
+			'<pre style="white-space: -moz-pre-wrap;white-space: pre-wrap;border:1px solid blue;width:70%;" id="com'.$acomment[$c]['agc_id'].'"> '.
+			" ".h($acomment[$c]['agc_comment']).'</pre>'
+			;
 }
 echo $desc->input();
-$style_enl='style="display:inline"';$style_small='style="display:none"';
 ?>
 <input type="button" id="bt_enlarge" <?=$style_enl?> value="+" onclick="enlarge('ag_comment');return false;">
 <input type="button" id="bt_small"  <?=$style_small?> value="-" style="display:none" onclick="small('ag_comment');return false;">

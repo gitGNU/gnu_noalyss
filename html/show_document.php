@@ -82,3 +82,17 @@ if ( $action == 'rmcomment' )
         print $json;
     }
 }
+/* remove the action*/
+if ( $action == 'rmaction' )
+{
+    if ($User->check_action(RMDOC)==1)
+    {
+		$cn->exec_sql("delete from action_gestion_related where aga_least=$1 and aga_greatest=$2",
+				array($_REQUEST['id'],$_REQUEST['ag_id']));
+		$cn->exec_sql("delete from action_gestion_related where aga_least=$2 and aga_greatest=$1",
+				array($_REQUEST['id'],$_REQUEST['ag_id']));
+        $json=sprintf('{"act_id":"%s"}',$_REQUEST['id']);
+        header("Content-type: text/html; charset: utf8",true);
+        print $json;
+    }
+}

@@ -425,7 +425,7 @@ class HtmlInput
     {
 	$r='';
 	$r.='<div style="float:right;right;margin:2;">';
-	$r.= '<A id="close_div" HREF="javascript:void(0)" onclick="'.$javascript.'");">'.$action.'</A>';
+	$r.= '<A id="close_div" HREF="javascript:void(0)" onclick="'.$javascript.'"">'.$action.'</A>';
 	$r.='</div>';
 	return $r;
     }

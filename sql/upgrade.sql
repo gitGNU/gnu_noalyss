@@ -105,3 +105,58 @@ CREATE TABLE action_gestion_operation
 COMMENT ON COLUMN action_comment_operation.ago_id IS 'pk';
 COMMENT ON COLUMN action_comment_operation.ag_id IS 'fk to action_gestion';
 COMMENT ON COLUMN action_comment_operation.jr_id IS 'fk to jrn';
+
+
+
+
+CREATE TABLE action_gestion_related
+(
+  aga_id bigserial NOT NULL, -- pk
+  aga_least bigint NOT NULL, -- fk to action_gestion
+  aga_greatest bigint NOT NULL,
+  CONSTRAINT action_gestion_related_pkey PRIMARY KEY (aga_id ),
+  CONSTRAINT action_gestion_related_aga_greatest_fkey FOREIGN KEY (aga_greatest)
+      REFERENCES action_gestion (ag_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT action_gestion_related_aga_least_fkey FOREIGN KEY (aga_least)
+      REFERENCES action_gestion (ag_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT ux_aga_least_aga_greatest UNIQUE (aga_least , aga_greatest )
+);
+COMMENT ON COLUMN action_gestion_related.aga_id IS 'pk';
+COMMENT ON COLUMN action_gestion_related.aga_least IS 'fk to action_gestion, smallest ag_id';
+COMMENT ON COLUMN action_gestion_related.aga_greatest IS 'fk to action_gestion greatest ag_id';
+
+-- Trigger: trg_action_gestion_related on action_gestion_related
+CREATE OR REPLACE FUNCTION comptaproc.action_gestion_related_ins_up()
+  RETURNS trigger AS
+$BODY$
+declare
+	nTmp bigint;
+begin
+
+if NEW.aga_least > NEW.aga_greatest then
+	nTmp := NEW.aga_least;
+	NEW.aga_least := NEW.aga_greatest;
+	NEW.aga_greatest := nTmp;
+end if;
+
+if NEW.aga_least = NEW.aga_greatest then
+	return NULL;
+end if;
+
+return NEW;
+
+end;
+$BODY$
+  LANGUAGE plpgsql ;
+-- DROP TRIGGER trg_action_gestion_related ON action_gestion_related;
+
+CREATE TRIGGER trg_action_gestion_related
+  BEFORE INSERT OR UPDATE
+  ON action_gestion_related
+  FOR EACH ROW
+  EXECUTE PROCEDURE comptaproc.action_gestion_related_ins_up();
+
+
+

@@ -33,17 +33,17 @@
 */
 function remove_document(p_dossier,p_id)
 {
-    queryString="gDossier="+p_dossier+"&a=rm&d_id="+p_id;
-    var action=new Ajax.Request (
-                   "show_document.php",
-                   {
-                   method:'get',
-                   parameters:queryString,
-                   onFailure:errorRemoveDoc,
-                   onSuccess:successRemoveDoc
-                   }
+	queryString="gDossier="+p_dossier+"&a=rm&d_id="+p_id;
+	var action=new Ajax.Request (
+		"show_document.php",
+		{
+			method:'get',
+			parameters:queryString,
+			onFailure:errorRemoveDoc,
+			onSuccess:successRemoveDoc
+		}
 
-               );
+		);
 
 }
 /**
@@ -53,30 +53,62 @@ function remove_document(p_dossier,p_id)
 */
 function remove_operation(p_dossier,p_id)
 {
-    queryString="gDossier="+p_dossier+"&a=rmop&id="+p_id;
-    var action=new Ajax.Request (
-                   "show_document.php",
-                   {
-                   method:'get',
-                   parameters:queryString,
-                   onFailure:errorRemoveDoc,
-                   onSuccess:successRemoveOp
-                   }
+	queryString="gDossier="+p_dossier+"&a=rmop&id="+p_id;
+	var action=new Ajax.Request (
+		"show_document.php",
+		{
+			method:'get',
+			parameters:queryString,
+			onFailure:errorRemoveDoc,
+			onSuccess:successRemoveOp
+		}
 
-               );
+		);
 
 }
 function successRemoveOp(request,json)
 {
 	try{
-   var answer=request.responseText.evalJSON(true);
-    var action="acop"+answer.ago_id;
-    $(action).innerHTML="";
-    var doc="op"+answer.ago_id;
-    $(doc).style.color="red";
-    $(doc).href="javascript:alert('Commentaire Effacé')";
-    $(doc).style.textDecoration="line-through";
-	}catch(e){alert(e.message);}
+		var answer=request.responseText.evalJSON(true);
+		var action="acop"+answer.ago_id;
+		$(action).innerHTML="";
+		var doc="op"+answer.ago_id;
+		$(doc).style.color="red";
+		$(doc).href="javascript:alert('Commentaire Effacé')";
+		$(doc).style.textDecoration="line-through";
+	}catch(e){
+		alert(e.message);
+	}
+}
+/**
+ *@brief remove the concerned operation of an action
+ *@param dossier
+ *@param p_id id pk action_comment_operation
+*/
+function remove_action(p_dossier,p_id,ag_id)
+{
+	queryString="gDossier="+p_dossier+"&a=rmaction&id="+p_id+"&ag_id="+ag_id;
+	var action=new Ajax.Request (
+		"show_document.php",
+		{
+			method:'get',
+			parameters:queryString,
+			onFailure:ajax_misc_failure,
+			onSuccess:function(request,json) {
+				try{
+				var answer=request.responseText.evalJSON(true);
+				var action="acact"+answer.act_id;
+				$(action).innerHTML="";
+				var doc="act"+answer.act_id;
+				$(doc).style.color="red";
+				$(doc).href="javascript:alert('Action Effacée')";
+				$(doc).style.textDecoration="line-through";
+				} catch (e){ alert(e.message);}
+			}
+		}
+
+		);
+
 }
 /**
  *@brief remove comment of an action
@@ -85,28 +117,28 @@ function successRemoveOp(request,json)
 */
 function remove_comment(p_dossier,p_id)
 {
-    queryString="gDossier="+p_dossier+"&a=rmcomment&id="+p_id;
-    var action=new Ajax.Request (
-                   "show_document.php",
-                   {
-                   method:'get',
-                   parameters:queryString,
-                   onFailure:errorRemoveDoc,
-                   onSuccess:successRemoveComment
-                   }
+	queryString="gDossier="+p_dossier+"&a=rmcomment&id="+p_id;
+	var action=new Ajax.Request (
+		"show_document.php",
+		{
+			method:'get',
+			parameters:queryString,
+			onFailure:errorRemoveDoc,
+			onSuccess:successRemoveComment
+		}
 
-               );
+		);
 
 }
 function successRemoveComment(request,json)
 {
-   var answer=request.responseText.evalJSON(true);
-    var action="accom"+answer.agc_id;
-    $(action).innerHTML="";
-    var doc="com"+answer.agc_id;
-    $(doc).style.color="red";
-    $(doc).href="javascript:alert('Commentaire Effacé')";
-    $(doc).style.textDecoration="line-through";
+	var answer=request.responseText.evalJSON(true);
+	var action="accom"+answer.agc_id;
+	$(action).innerHTML="";
+	var doc="com"+answer.agc_id;
+	$(doc).style.color="red";
+	$(doc).href="javascript:alert('Commentaire Effacé')";
+	$(doc).style.textDecoration="line-through";
 
 }
 /**
@@ -114,20 +146,20 @@ function successRemoveComment(request,json)
  */
 function errorRemoveDoc()
 {
-    alert('Impossible d\'effacer ce document');
+	alert('Impossible d\'effacer ce document');
 }
 /**
  *@brief success when removing a document
  */
 function successRemoveDoc(request,json)
 {
-    var answer=request.responseText.evalJSON(true);
-    var action="ac"+answer.d_id;
-    $(action).innerHTML="";
-    var doc="doc"+answer.d_id;
-    $(doc).style.color="red";
-    $(doc).href="javascript:alert('Document Effacé')";
-    $(doc).style.textDecoration="line-through";
+	var answer=request.responseText.evalJSON(true);
+	var action="ac"+answer.d_id;
+	$(action).innerHTML="";
+	var doc="doc"+answer.d_id;
+	$(doc).style.color="red";
+	$(doc).href="javascript:alert('Document Effacé')";
+	$(doc).style.textDecoration="line-through";
 
 }
 /**
@@ -136,17 +168,17 @@ function successRemoveDoc(request,json)
 */
 function check_hour(p_ctl)
 {
-    try
-    {
-        var h=document.getElementById(p_ctl);
-	var re = /^\d{1,2}:\d{2}$/;
-        if ( trim(h.value) !='' && ! h.value.match(re))
-            alert("Format de l'heure est HH:MM ")
-        }
-    catch (erreur)
-    {
-        alert('fct : check_hour '+erreur);
-    }
+	try
+	{
+		var h=document.getElementById(p_ctl);
+		var re = /^\d{1,2}:\d{2}$/;
+		if ( trim(h.value) !='' && ! h.value.match(re))
+			alert("Format de l'heure est HH:MM ")
+	}
+	catch (erreur)
+	{
+		alert('fct : check_hour '+erreur);
+	}
 
 }
 /**
@@ -157,21 +189,21 @@ function check_hour(p_ctl)
 
 function removeStock(s_id,p_dossier)
 {
-    if ( ! confirm("Confirmez-vous l'effacement de cette entrée dans le stock?") )
-    {
-	return;
-    }
-    queryString="gDossier="+p_dossier+"&op=rm_stock&s_id="+s_id;
-    var action=new Ajax.Request (
-                   "ajax_misc.php",
-                   {
-                   method:'get',
-                   parameters:queryString,
-                   onFailure:errorRemoveStock,
-                   onSuccess:successRemoveStock
-                   }
+	if ( ! confirm("Confirmez-vous l'effacement de cette entrée dans le stock?") )
+	{
+		return;
+	}
+	queryString="gDossier="+p_dossier+"&op=rm_stock&s_id="+s_id;
+	var action=new Ajax.Request (
+		"ajax_misc.php",
+		{
+			method:'get',
+			parameters:queryString,
+			onFailure:errorRemoveStock,
+			onSuccess:successRemoveStock
+		}
 
-               );
+		);
 
 }
 /**
@@ -179,25 +211,25 @@ function removeStock(s_id,p_dossier)
  */
 function errorRemoveStock()
 {
-    alert('Impossible d\'effacer ');
+	alert('Impossible d\'effacer ');
 }
 /**
  *@brief success when removing a document
  */
 function successRemoveStock(request,json)
 {
-    try
-    {
-	var answer=request.responseText.evalJSON(true);
-	var doc="stock"+answer.d_id;
-	var href="href"+answer.d_id;
-	$(href).innerHTML='';
+	try
+	{
+		var answer=request.responseText.evalJSON(true);
+		var doc="stock"+answer.d_id;
+		var href="href"+answer.d_id;
+		$(href).innerHTML='';
 
-	$(doc).style.color="red";
-	//    $(doc).href="javascript:alert('Stock Effacé')";
-	$(doc).style.textDecoration="line-through";
-    } catch (e)
-    {
-	alert("success_box"+e.message);
-    }
+		$(doc).style.color="red";
+		//    $(doc).href="javascript:alert('Stock Effacé')";
+		$(doc).style.textDecoration="line-through";
+	} catch (e)
+{
+		alert("success_box"+e.message);
+	}
 }
