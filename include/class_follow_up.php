@@ -164,8 +164,9 @@ class Follow_Up
 		);
 
 		// List opération liées
-		$operation = $this->db->get_array("select ago_id,j.jr_id,j.jr_internal,j.jr_comment from jrn as j join action_gestion_operation as ago on (j.jr_id=ago.jr_id)
-			where ag_id=$1", array($this->ag_id));
+		$operation = $this->db->get_array("select ago_id,j.jr_id,j.jr_internal,j.jr_comment,to_char(j.jr_date,'DD.MM.YY') as str_date
+			from jrn as j join action_gestion_operation as ago on (j.jr_id=ago.jr_id)
+			where ag_id=$1 order by jr_date", array($this->ag_id));
 		$iconcerned = new IConcerned('operation');
 
 		// List related action
@@ -459,14 +460,14 @@ class Follow_Up
 
 			$itva->name = 'e_march' . $i . '_tva_id';
 			$itva->value = ($tmp_ad) ? $tmp_ad->get_parameter('tva_id') : 0;
-			$itva->javascript = ' onchange="format_number(this);clean_tva(' . $i . ');compute_ledger(' . $i . ')"';
+			$itva->js = ' onchange="format_number(this);clean_tva(' . $i . ');compute_ledger(' . $i . ')"';
 			$itva->set_attribute('compute', $i);
 
 			$aArticle[$i]['tvaid'] = $itva->input();
 
 			$num->name = "e_march" . $i . "_tva_amount";
 			$num->value = ($tmp_ad) ? $tmp_ad->get_parameter('tva_amount') : 0;
-			$num->javascript = ' onchange="compute_ledger(' . $i . ')"';
+			$num->javascript = " onchange=\"compute_ledger(' . $i . ')\"";
 			$num->size = 8;
 			$aArticle[$i]['tva'] = $num->input();
 
@@ -632,6 +633,7 @@ class Follow_Up
 		{
 			$act = new Follow_Up_Detail($this->db);
 			$act->from_array($_POST, $i);
+			if ($act->f_id == 0 )continue;
 			$act->ag_id = $this->ag_id;
 			$act->save();
 		}
@@ -934,6 +936,7 @@ class Follow_Up
 		{
 			$act = new Follow_Up_Detail($this->db);
 			$act->from_array($_POST, $i);
+			if ($act->f_id == 0 ) continue;
 			$act->save();
 		}
 		if (trim($this->ag_comment) != '')

@@ -148,7 +148,7 @@ class Follow_Up_Detail
     {
         $sql="SELECT ad_id, f_id, ad_text, ad_pu, ad_quant, ad_tva_id, ad_tva_amount,
              ad_total_amount, ag_id   FROM action_detail ".
-             " where ag_id=$1";
+             " where ag_id=$1 order by ad_id";
         $res=$this->db->get_array(
                  $sql,
                  array($this->ag_id)
