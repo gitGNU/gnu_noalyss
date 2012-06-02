@@ -106,14 +106,20 @@ COMMENT ON COLUMN action_comment_operation.ago_id IS 'pk';
 COMMENT ON COLUMN action_comment_operation.ag_id IS 'fk to action_gestion';
 COMMENT ON COLUMN action_comment_operation.jr_id IS 'fk to jrn';
 
-
+CREATE TABLE link_action_type
+(
+  l_id bigserial NOT NULL, -- PK
+  l_desc character varying,
+  CONSTRAINT link_action_type_pkey PRIMARY KEY (l_id )
+);
 
 
 CREATE TABLE action_gestion_related
 (
   aga_id bigserial NOT NULL, -- pk
-  aga_least bigint NOT NULL, -- fk to action_gestion
-  aga_greatest bigint NOT NULL,
+  aga_least bigint NOT NULL, -- fk to action_gestion, smallest ag_id
+  aga_greatest bigint NOT NULL, -- fk to action_gestion greatest ag_id
+  aga_type bigint, -- Type de liens
   CONSTRAINT action_gestion_related_pkey PRIMARY KEY (aga_id ),
   CONSTRAINT action_gestion_related_aga_greatest_fkey FOREIGN KEY (aga_greatest)
       REFERENCES action_gestion (ag_id) MATCH SIMPLE
@@ -121,11 +127,21 @@ CREATE TABLE action_gestion_related
   CONSTRAINT action_gestion_related_aga_least_fkey FOREIGN KEY (aga_least)
       REFERENCES action_gestion (ag_id) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT action_gestion_related_aga_type_fkey FOREIGN KEY (aga_type)
+      REFERENCES link_action_type (l_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT ux_aga_least_aga_greatest UNIQUE (aga_least , aga_greatest )
 );
+
 COMMENT ON COLUMN action_gestion_related.aga_id IS 'pk';
 COMMENT ON COLUMN action_gestion_related.aga_least IS 'fk to action_gestion, smallest ag_id';
 COMMENT ON COLUMN action_gestion_related.aga_greatest IS 'fk to action_gestion greatest ag_id';
+COMMENT ON COLUMN action_gestion_related.aga_type IS 'Type de liens';
+
+CREATE INDEX link_action_type_fki
+  ON action_gestion_related
+  USING btree
+  (aga_type );
 
 -- Trigger: trg_action_gestion_related on action_gestion_related
 CREATE OR REPLACE FUNCTION comptaproc.action_gestion_related_ins_up()
@@ -159,4 +175,8 @@ CREATE TRIGGER trg_action_gestion_related
   EXECUTE PROCEDURE comptaproc.action_gestion_related_ins_up();
 
 
+insert into action_gestion_related(aga_least,aga_greatest) select ag_id,ag_ref_ag_id from action_gestion where ag_ref_ag_id<>0;
 
+update menu_ref set me_menu='Action Gestion' where me_code='FOLLOW';
+
+DROP FUNCTION comptaproc.action_get_tree(bigint);

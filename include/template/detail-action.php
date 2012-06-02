@@ -21,16 +21,6 @@
               ?>
             </TD>
           </TR>
-		    <tr>
-            <td>
-   <?=_('Concerne action')?>
-            </td>
-            <td>
-              <?php echo $lag_ref_ag_id;
-              ?>
-            </td>
-          </tr>
-          <TR>
             <TD>
    <?=_('Date')?>
             </TD>
@@ -166,13 +156,16 @@
 		<ol>
 
 		<?
+		$base=HtmlInput::request_to_string(array("gDossier","ac","sa","sb","sc","f_id"));
 		for ($o=0;$o<count($action);$o++)
 		{
 			$rmAction=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer cette action ')."')==true ) {remove_action('%s','%s','%s');}",
 					dossier::id(),
 					$action[$o]['ag_id'],$_REQUEST['ag_id']);
+			$showAction='<a class="line" href="'.$base."&ag_id=".$action[$o]['ag_id'].'">';
 			$js= '<a class="mtitle" style="color:orange" id="acact'.$action[$o]['ag_id'].'" href="'.$rmAction.'">Effacer</a>';
-			echo '<li id="act'.$action[$o]['ag_id'].'">'.$action[$o]['str_date']." ".h($action[$o]['sub_title'])." "
+			echo '<li id="act'.$action[$o]['ag_id'].'">'.$showAction.$action[$o]['str_date']." ".$action[$o]['ag_ref']." ".
+					h($action[$o]['sub_title']).'</a>'." "
 				.$js.'</li>';
 		}
 
@@ -329,14 +322,16 @@ try {
 catch(exception) { alert('<?=j(_('Je ne peux pas ajouter de fichier'))?>'); alert(exception.message);}
 }
 </script>
-  <p>
-     <strong>Fichiers à ajouter: </strong>
-    <ol id='add_file'>
+  <p >
+     <h3>Fichiers à ajouter: </h3>
+    <ol id='add_file' >
       <li>
         <?php echo $upload->input();
         ?>
       </li>
     </ol>
-  </p>
+  <span >
   <input type="button" class="button" onclick="addFiles();" value="Ajouter un fichier">
+  </span>
+  </p>
 </fieldset>

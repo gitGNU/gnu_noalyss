@@ -511,10 +511,10 @@ class HtmlInput
      *@param $request name of the superglobal $_POST $_GET $_REQUEST(default)
      *@return html string with the string data
      */
-    static function array_to_string($array,$global_array )
+    static function array_to_string($array,$global_array,$start="?" )
     {
 
-      $r="?";
+      $r=$start;
 
       if ( count($global_array )==0) return '';
       $and="";
@@ -557,9 +557,9 @@ class HtmlInput
      *@see HtmlInput::request_to_string
      *@return html string with the string data
      */
-    static function request_to_string($array)
+    static function request_to_string($array,$start="?")
     {
-      $r=self::array_to_string($array,$_REQUEST  );
+      $r=self::array_to_string($array,$_REQUEST,$start  );
       return $r;
     }
 

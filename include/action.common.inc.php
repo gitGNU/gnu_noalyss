@@ -85,14 +85,7 @@ if ( $sub_action=="update" )
         $act2=new Follow_Up($cn);
         $act2->fromArray($_POST );
 		 $sub_action="detail";
-		if ( $_POST["new_ref"] != "0")
-		{
-			$act2->add_depend($_POST['new_ref']);
-		}
-		if ( isset ($_POST['sup_dep']))
-		{
-			$act2->suppress_depend($_POST['sup_dep']);
-		}
+
          $act2->Update();
       }
     //----------------------------------------------------------------------
@@ -108,14 +101,13 @@ if ( $sub_action=="update" )
         $act->fromArray($_POST);
         $act->ag_id=0;
         $act->d_id=0;
-        $act->ag_ref_ag_id=$_POST['ag_id'];
+        $act->action=$_POST['ag_id'];
 
         echo '<div class="content">';
 
         // Add hidden tag
         echo '<form  enctype="multipart/form-data" action="do.php" method="post"">';
 
-        echo dossier::hidden();
         $act->ag_comment="";
         if (isset($_REQUEST['qcode_dest'])) $act->qcode_dest=$_REQUEST['qcode_dest'];
         echo $act->Display('NEW',false,$base,$retour);
@@ -217,7 +209,6 @@ if  ( $sub_action == "save_action_st2" )
     $act=new Follow_Up($cn);
     $act->fromArray($_POST);
     $act->d_id=0;
-    $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:0;
     $act->md_id=(isset($_POST['gen_doc']))?$_POST['gen_doc']:0;
 
     // insert into action_gestion

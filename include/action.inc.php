@@ -52,7 +52,7 @@ $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
  */
 $ag_id=(isset($_REQUEST['ag_id']))?$_REQUEST['ag_id']:0;
 $ac=$_REQUEST['ac'];
-$base='ac='.$ac;
+$base=HtmlInput::request_to_string(array('ac','gDossier'),"");
 
 require_once('action.common.inc.php');
 echo "</div>";

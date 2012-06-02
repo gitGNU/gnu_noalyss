@@ -71,7 +71,6 @@ class Follow_Up
 	var $d_mimetype; /* !<   $d_mimetype document's filename      */
 	var $ag_title;   /* !<   $ag_title title document	      */
 	var $f_id;	/* !<   $f_id_dest fiche id (From field )  */
-	var $ag_ref_ag_id;   /* !<   $ag_ref_ag_id concern previous action */
 	var $ag_ref;  /* !< $ag_ref is the ref  */
 	var $ag_hour;  /* !< $ag_hour is the hour of the meeting, action */
 	var $ag_priority; /* !< $ag_priority is the priority 1 High, 2 medium, 3 low */
@@ -171,7 +170,7 @@ class Follow_Up
 
 		// List related action
 		$action = $this->db->get_array("
-			select ag_id,substr(ag_title,1,20) as sub_title,to_char(ag_timestamp,'DD.MM.YY') as str_date ,
+			select ag_id,ag_ref,substr(ag_title,1,40) as sub_title,to_char(ag_timestamp,'DD.MM.YY') as str_date ,
 				ag_timestamp
 					from action_gestion
 				where
@@ -180,6 +179,8 @@ class Follow_Up
 				ag_id in (select aga_least from action_gestion_related where aga_greatest =$1)
 				order by ag_timestamp",array($this->ag_id));
 		$iaction=new IRelated_Action('action');
+		$iaction->value=(isset($this->action))?$this->action:"";
+
 		// state
 		// Retrieve the value
 		$a = $this->db->make_array("select s_id,s_value from document_state ");
@@ -298,23 +299,7 @@ class Follow_Up
 
 		$h_ag_id = new IHidden();
 		// if concerns another action : show the link otherwise nothing
-		$lag_ref_ag_id = " 00 / 00 ";
-
-		if ($this->ag_ref_ag_id != 0)
-		{
-			$supl_hidden = '';
-			if (isset($_REQUEST['sc']))
-				$supl_hidden.='&sc=' . $_REQUEST['sc'];
-			if (isset($_REQUEST['f_id']))
-				$supl_hidden.='&f_id=' . $_REQUEST['f_id'];
-			if (isset($_REQUEST['sb']))
-				$supl_hidden.='&sb=' . $_REQUEST['sb'];
-
-			$lag_ref_ag_id = '<a class="line" href="?ac=' . $_REQUEST['ac'] . $supl_hidden . '&sa=detail&ag_id=' .
-					$this->ag_ref_ag_id . '&' . dossier::get() . '">' .
-					$this->db->get_value("select ag_ref from action_gestion where ag_id=$1", array($this->ag_ref_ag_id)) .
-					"</A>";
-		}
+		//
 		// sender
 		$w = new ICard();
 		$w->readonly = $readonly;
@@ -511,26 +496,11 @@ class Follow_Up
 		//hidden
 		$r.="<p>";
 		$r.=$h2->input();
-		$r.=$h_agrefid->input("ag_ref_ag_id", $this->ag_ref_ag_id);
 		$r.=$h_ag_id->input('ag_id', $this->ag_id);
 		$hidden2 = new IHidden();
 		$r.=$hidden2->input('f_id_dest', $this->f_id_dest);
 		$r.="</p>";
 
-		// show the list of the concern operation
-		if ($this->db->count_sql('select * from action_gestion where ag_ref_ag_id!=0 and ag_ref_ag_id=' . $this->ag_id .
-						" limit 2") > 0)
-		{
-			$sql = sprintf(" and ag_id in (select action_get_tree from comptaproc.action_get_tree(%s)) ", $this->ag_id);
-			$r.=$this->myList($p_base, "", $sql);
-		}
-		// New referecne
-		ob_start();
-		require_once 'template/action-reference.php';
-		$content = ob_get_contents();
-		ob_end_clean();
-
-		$r.=$content;
 		return $r;
 	}
 
@@ -541,7 +511,7 @@ class Follow_Up
 	{
 		$sql = "select ag_id,to_char (ag_timestamp,'DD.MM.YYYY') as ag_timestamp," .
 				" f_id_dest,ag_title,ag_ref,d_id,ag_type,ag_state,  " .
-				" ag_ref_ag_id, ag_dest, ag_hour, ag_priority, ag_cal,ag_contact,to_char (ag_remind_date,'DD.MM.YYYY') as ag_remind_date " .
+				"  ag_dest, ag_hour, ag_priority, ag_cal,ag_contact,to_char (ag_remind_date,'DD.MM.YYYY') as ag_remind_date " .
 				" from action_gestion left join document using (ag_id) where ag_id=" . $this->ag_id;
 		$r = $this->db->exec_sql($sql);
 		$row = Database::fetch_all($r);
@@ -554,7 +524,6 @@ class Follow_Up
 		$this->ag_type = $row[0]['ag_type'];
 		$this->ag_ref = $row[0]['ag_ref'];
 		$this->ag_state = $row[0]['ag_state'];
-		$this->ag_ref_ag_id = $row[0]['ag_ref_ag_id'];
 		$this->d_id = $row[0]['d_id'];
 		$this->ag_dest = $row[0]['ag_dest'];
 		$this->ag_hour = $row[0]['ag_hour'];
@@ -620,22 +589,21 @@ class Follow_Up
 			$ag_cal = 'C';
 		else
 			$ag_cal = 'I';
-		$this->ag_ref_ag_id = (strlen(trim($this->ag_ref_ag_id)) == 0) ? 0 : $this->ag_ref_ag_id;
 		// save into the database
 		if ($this->ag_remind_date != null || $this->ag_remind_date != '')
 		{
 			$sql = "insert into action_gestion" .
-					"(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_ref,ag_ref_ag_id, ag_dest, " .
+					"(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_ref, ag_dest, " .
 					" ag_hour, ag_priority,ag_cal,ag_owner,ag_contact,ag_state,ag_remind_date) " .
-					" values ($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,to_date($15,'DD.MM.YYYY'))";
+					" values ($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,to_date($14,'DD.MM.YYYY'))";
 		}
 		else
 		{
 			$this->ag_remind_date = null;
 			$sql = "insert into action_gestion" .
-					"(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_ref,ag_ref_ag_id, ag_dest, " .
+					"(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_ref, ag_dest, " .
 					" ag_hour, ag_priority,ag_cal,ag_owner,ag_contact,ag_state,ag_remind_date) " .
-					" values ($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)";
+					" values ($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)";
 		}
 		if ($this->ag_dest == 0)
 		{
@@ -646,16 +614,15 @@ class Follow_Up
 			$this->dt_id, /* 3 */
 			$this->ag_title, /* 4 */
 			$exp->id, /* 5 */
-			$ref, /* 7 */
-			$this->ag_ref_ag_id, /* 8 */
-			$this->ag_dest, /* 9 */
-			$this->ag_hour, /* 10 */
-			$this->ag_priority, /* 11 */
-			$ag_cal, /* 12 */
-			$_SESSION['g_user'], /* 13 */
-			$contact->id, /* 14 */
-			$this->ag_state, /* 15 */
-			$this->ag_remind_date
+			$ref, /* 6 */
+			$this->ag_dest, /* 7 */
+			$this->ag_hour, /* 8 */
+			$this->ag_priority, /* 9 */
+			$ag_cal, /* 10 */
+			$_SESSION['g_user'], /* 11 */
+			$contact->id, /* 12 */
+			$this->ag_state, /* 13 */
+			$this->ag_remind_date /* 14 */
 				)
 		);
 
@@ -677,6 +644,7 @@ class Follow_Up
 					, array($this->ag_id, $_SESSION['g_user'], $this->ag_comment));
 		}
 		$this->insert_operation();
+		$this->insert_action();
 	}
 
 	/* ! myList($p_filter="")
@@ -689,9 +657,8 @@ class Follow_Up
 
 	function myList($p_base, $p_filter = "", $p_search = "")
 	{
-		$str_dossier = dossier::get();
 		// for the sort
-		$url = HtmlInput::get_to_string(array("qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "all_action")) . $str_dossier . '&' . $p_base;
+		$url = HtmlInput::get_to_string(array("qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "all_action")) .  '&' . $p_base;
 
 		$table = new Sort_Table();
 		$table->add('Date', $url, 'order by ag_timestamp asc', 'order by ag_timestamp desc', 'da', 'dd');
@@ -700,7 +667,6 @@ class Follow_Up
 		$table->add('Groupe', $url, "order by coalesce((select p_name from profile where p_id=ag_dest),'Aucun groupe')", "order by coalesce((select p_name from profile where p_id=ag_dest),'Aucun groupe') desc", 'dea', 'ded');
 		$table->add('Dest/Exp', $url, 'order by name asc', 'order by name desc', 'ea', 'ed');
 		$table->add('Titre', $url, 'order by ag_title asc', 'order by ag_title desc', 'ta', 'td');
-		$table->add('Concerne', $url, 'order by ag_ref_ag_id asc', 'order by ag_ref_ag_id desc', 'ca', 'cd');
 
 		$ord = (!isset($_GET['ord'])) ? "dd" : $_GET['ord'];
 		$sort = $table->get_sql_order($ord);
@@ -713,7 +679,6 @@ class Follow_Up
 		$sql = "
              select ag_id,to_char(ag_timestamp,'DD.MM.YYYY') as my_date,
 			 to_char(ag_remind_date,'DD.MM.YYYY') as my_remind,
-			 ag_ref_ag_id,
 			 f_id_dest,
              ag_title,dt_value,ag_ref, ag_priority,ag_state,
 			coalesce((select p_name from profile where p_id=ag_dest),'Aucun groupe') as dest,
@@ -749,11 +714,6 @@ class Follow_Up
 		$r.='<th>' . _('type') . '</th>';
 		$r.=th('Etat');
 		$r.=th('Priorité');
-		$r.='<th>' . $table->get_header(6) . '</th>';
-		if (isset($this->suppress))
-		{
-			$r.="<th> Suppr. dépendance</th>";
-		}
 		$r.="</tr>";
 
 
@@ -806,21 +766,6 @@ class Follow_Up
 
 			$ref = "";
 
-			// show reference
-			if ($row['ag_ref_ag_id'] != 0)
-			{
-				$retSqlStmt = $this->db->exec_sql(
-						"select ag_ref from action_gestion where ag_id=" . $row['ag_ref_ag_id']);
-				$retSql = Database::fetch_all($retSqlStmt);
-				if ($retSql != null)
-				{
-					foreach ($retSql as $line)
-					{
-						$ref.='<A  href="do.php?' . $p_base . '&query=' . $line['ag_ref'] . '&' . $str_dossier . '">' .
-								$line['ag_ref'] . "<A>";
-					}
-				}
-			}
 
 			$r.='<td>' . $href .
 					h($row['ag_title']) . "</A></td>";
@@ -867,12 +812,6 @@ class Follow_Up
 			$r.=td($priority);
 
 			$r.="<td>" . $ref . "</td>";
-			if (isset($this->suppress))
-			{
-				$ck = new ICheckBox('sup_dep[]');
-				$ck->value = $row['ag_id'];
-				$r.="<td>" . $ck->input() . "</td>";
-			}
 			$r.="</tr>";
 		}
 
@@ -931,30 +870,28 @@ class Follow_Up
 					" ag_title=$2," .
 					" ag_type=$3, " .
 					" f_id_dest=$4, " .
-					" ag_ref_ag_id=$5 ," .
-					"ag_state=$6," .
-					" ag_hour = $8 ," .
-					" ag_priority = $9 ," .
-					" ag_dest = $10 , " .
-					" ag_cal = $11 ," .
-					" ag_contact = $12, " .
-					" ag_ref = $13, " .
-					" ag_remind_date=to_date($14,'DD.MM.YYYY') " .
-					" where ag_id = $7", array(
-				$this->ag_timestamp, /* 2 */
-				$this->ag_title, /* 3 */
-				$this->dt_id, /* 4 */
-				$this->f_id_dest, /* 5 */
-				$this->ag_ref_ag_id, /* 6 */
-				$this->ag_state, /* 7 */
-				$this->ag_id, /* 8 */
-				$this->ag_hour, /* 9 */
-				$this->ag_priority, /* 10 */
-				$this->ag_dest, /* 11 */
-				$ag_cal, /* 12 */
-				$contact->id, /* 13 */
-				$this->ag_ref, /* 14 */
-				$this->ag_remind_date /* 15 */
+					"ag_state=$5," .
+					" ag_hour = $7 ," .
+					" ag_priority = $8 ," .
+					" ag_dest = $9 , " .
+					" ag_cal = $10 ," .
+					" ag_contact = $11, " .
+					" ag_ref = $12, " .
+					" ag_remind_date=to_date($13,'DD.MM.YYYY') " .
+					" where ag_id = $6", array(
+				$this->ag_timestamp, /* 1 */
+				$this->ag_title, /* 2 */
+				$this->dt_id, /* 3 */
+				$this->f_id_dest, /* 4 */
+				$this->ag_state, /* 5 */
+				$this->ag_id, /* 6 */
+				$this->ag_hour, /* 7 */
+				$this->ag_priority, /* 8 */
+				$this->ag_dest, /* 9 */
+				$ag_cal, /* 10 */
+				$contact->id, /* 11 */
+				$this->ag_ref, /* 12 */
+				$this->ag_remind_date /* 13 */
 			));
 		}
 		else
@@ -964,29 +901,27 @@ class Follow_Up
 					" ag_title=$2," .
 					" ag_type=$3, " .
 					" f_id_dest=$4, " .
-					" ag_ref_ag_id=$5 ," .
-					"ag_state=$6," .
-					" ag_hour = $8 ," .
-					" ag_priority = $9 ," .
-					" ag_dest = $10 , " .
-					" ag_cal = $11 ," .
-					" ag_contact = $12, " .
-					" ag_ref = $13, " .
+					"ag_state=$5," .
+					" ag_hour = $7 ," .
+					" ag_priority = $8 ," .
+					" ag_dest = $9 , " .
+					" ag_cal = $10 ," .
+					" ag_contact = $11, " .
+					" ag_ref = $12, " .
 					" ag_remind_date=null " .
-					" where ag_id = $7", array(
-				$this->ag_timestamp, /* 2 */
-				$this->ag_title, /* 3 */
-				$this->dt_id, /* 4 */
-				$this->f_id_dest, /* 5 */
-				$this->ag_ref_ag_id, /* 6 */
-				$this->ag_state, /* 7 */
-				$this->ag_id, /* 8 */
-				$this->ag_hour, /* 9 */
-				$this->ag_priority, /* 10 */
-				$this->ag_dest, /* 11 */
-				$ag_cal, /* 12 */
-				$contact->id, /* 13 */
-				$this->ag_ref /* 14 */
+					" where ag_id = $6", array(
+				$this->ag_timestamp, /* 1 */
+				$this->ag_title, /* 2 */
+				$this->dt_id, /* 3 */
+				$this->f_id_dest, /* 4 */
+				$this->ag_state, /* 5 */
+				$this->ag_id, /* 6 */
+				$this->ag_hour, /* 7*/
+				$this->ag_priority, /* 8 */
+				$this->ag_dest, /* 9 */
+				$ag_cal, /* 10 */
+				$contact->id, /* 11 */
+				$this->ag_ref /* 12 */
 			));
 		}
 		// Upload  documents
@@ -1037,7 +972,6 @@ class Follow_Up
 		$this->ag_id = (isset($p_array['ag_id'])) ? $p_array['ag_id'] : "";
 		$this->qcode_dest = (isset($p_array['qcode_dest'])) ? $p_array['qcode_dest'] : "";
 		$this->f_id_dest = (isset($p_array['f_id_dest'])) ? $p_array['f_id_dest'] : 0;
-		$this->ag_ref_ag_id = (isset($p_array['ag_ref_ag_id'])) ? $p_array['ag_ref_ag_id'] : 0;
 		$this->ag_timestamp = (isset($p_array['ag_timestamp'])) ? $p_array['ag_timestamp'] : date('d.m.Y');
 		$this->qcode_dest = (isset($p_array['qcode_dest'])) ? $p_array['qcode_dest'] : "";
 		$this->dt_id = (isset($p_array['dt_id'])) ? $p_array['dt_id'] : "";
@@ -1068,10 +1002,6 @@ class Follow_Up
 		$sql = "delete from action_gestion where ag_id=$1";
 		$this->db->exec_sql($sql, array($this->ag_id));
 
-		// remove the ref of the depending action
-		$sql = "update action_gestion set ag_ref_ag_id=0 where ag_ref_ag_id=$1";
-		$this->db->exec_sql($sql, array($this->ag_id));
-
 		/*  check the number of attached document */
 		$doc = new Document($this->db);
 		$aDoc = $doc->get_all($this->ag_id);
@@ -1099,28 +1029,6 @@ class Follow_Up
 		return $array;
 	}
 
-	/**
-	 * @brief add an related action to the  current one
-	 */
-	function add_depend($p_ref)
-	{
-		if ($p_ref == 0 || $p_ref == $this->ag_id)
-			return;
-		// check if action exist and is not already related to the current action
-		$exist = $this->db->get_value("select count(*) from action_gestion where ag_id=$1", array($p_ref));
-		if ($exist == 0)
-			return;
-
-		$this->db->exec_sql("update action_gestion set ag_ref_ag_id=$1 where ag_id=$2", array($this->ag_id, $p_ref));
-	}
-
-	function suppress_depend($p_array)
-	{
-		for ($i = 0; $i < count($p_array); $i++)
-		{
-			$this->db->exec_sql("update action_gestion set ag_ref_ag_id=0 where ag_id=$1", array($p_array[$i]));
-		}
-	}
 
 	function insert_operation()
 	{
