@@ -37,7 +37,7 @@ require_once('class_ispan.php');
     // You must add the attributes gDossier, popup
     $tva->set_attribute('popup','popup_tva');
     $tva->set_attribute('gDossier',dossier::id());
- 
+
     // We can add a label for the code
     $tva->add_label('code');
     $tva->js='onchange="set_tva_label(this);"';
@@ -73,7 +73,7 @@ class ITva_Popup extends HtmlInput
     {
         $this->name=($p_name==null)?$this->name:$p_name;
         $this->value=($p_value==null)?$this->value:$p_value;
-        $this->js=(isset($this->js))?$this->js:"format_number(this);";
+        $this->js=(isset($this->js))?$this->js:'onchange="format_number(this);"';
         if ( $this->readOnly==true) return $this->display();
 
         $str='<input type="TEXT" class="input_text" name="%s" value="%s" id="%s" size="3" %s>';
@@ -114,7 +114,7 @@ class ITva_Popup extends HtmlInput
      *@brief show a button, if it is pushed show a popup to select the need vat
      *@note
      * - a ipopup must be created before with the name popup_tva
-     * - the javascript scripts.js must be loaded 
+     * - the javascript scripts.js must be loaded
      *@return string with html code
      */
     function dbutton()
