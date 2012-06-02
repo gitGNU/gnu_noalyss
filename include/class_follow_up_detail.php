@@ -188,8 +188,9 @@ class Follow_Up_Detail
     }
     public function delete()
     {
-        exit(__FILE__.__LINE__.' : Non implémenté');
-    }
+		$sql="delete from action_detail where ad_id=$1";
+		$this->db->exec_sql($sql,array($this->ad_id));
+	}
     /*!\brief Fill an Action_Detail Object with the data contained in an array
     *\param $array
      - [ad_id7] => ad_id

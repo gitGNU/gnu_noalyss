@@ -936,6 +936,7 @@ class Follow_Up
 		{
 			$act = new Follow_Up_Detail($this->db);
 			$act->from_array($_POST, $i);
+			if ( $act->f_id == 0 && $act->ad_id != 0 ) $act->delete();
 			if ($act->f_id == 0 ) continue;
 			$act->save();
 		}
