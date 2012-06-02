@@ -171,8 +171,9 @@ class Follow_Up
 		// List related action
 		$action = $this->db->get_array("
 			select ag_id,ag_ref,substr(ag_title,1,40) as sub_title,to_char(ag_timestamp,'DD.MM.YY') as str_date ,
-				ag_timestamp
+				ag_timestamp,dt_value
 					from action_gestion
+					 join document_type on (ag_type=dt_id)
 				where
 				ag_id in (select aga_greatest from action_gestion_related where aga_least =$1)
 				or
@@ -1212,7 +1213,7 @@ class Follow_Up
 		$sql = "
              select ag_id,to_char(ag_timestamp,'DD.MM.YY') as my_date,
 			 f_id_dest,
-             substr(ag_title,1,30) as sub_ag_title,dt_value,ag_ref, ag_priority,ag_state,
+             substr(ag_title,1,40) as sub_ag_title,dt_value,ag_ref, ag_priority,ag_state,
 			coalesce((select p_name from profile where p_id=ag_dest),'Aucun groupe') as dest,
 				(select ad_value from fiche_Detail where f_id=action_gestion.f_id_dest and ad_id=1) as name
              from action_gestion

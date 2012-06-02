@@ -85,7 +85,7 @@ if ( $sub_action=="update" )
         $act2=new Follow_Up($cn);
         $act2->fromArray($_POST );
 		 $sub_action="detail";
-
+		 put_global(array(array('key'=>"sa","value"=>"detail")));
          $act2->Update();
       }
     //----------------------------------------------------------------------

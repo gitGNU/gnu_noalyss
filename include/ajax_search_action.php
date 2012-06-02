@@ -29,7 +29,5 @@ $_REQUEST['ac']='FOLLOW';
 echo Follow_Up::display_search($cn,true);
 
 $sql=  "true ".Follow_Up::create_query($cn);
-var_dump($_GET);
-echo $sql;
 echo Follow_Up::short_list($cn, $sql);
 ?>

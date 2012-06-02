@@ -165,7 +165,7 @@
 			$showAction='<a class="line" href="'.$base."&ag_id=".$action[$o]['ag_id'].'">';
 			$js= '<a class="mtitle" style="color:orange" id="acact'.$action[$o]['ag_id'].'" href="'.$rmAction.'">Effacer</a>';
 			echo '<li id="act'.$action[$o]['ag_id'].'">'.$showAction.$action[$o]['str_date']." ".$action[$o]['ag_ref']." ".
-					h($action[$o]['sub_title']).'</a>'." "
+					h($action[$o]['sub_title']).'('.h($action[$o]['dt_value']).')</a>'." "
 				.$js.'</li>';
 		}
 

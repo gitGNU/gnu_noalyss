@@ -1426,7 +1426,6 @@ function result_search_action(obj)
      try
     {
         var queryString=$(obj).serialize()+"&op=search_action";
-		alert (queryString);
         var action = new Ajax.Request(
             "ajax_misc.php" ,
             {method:'get',
