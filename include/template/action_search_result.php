@@ -29,6 +29,7 @@
 ?>
 <form onsubmit="set_action_related('fresultaction');return false;" id="fresultaction">
 	<?=HtmlInput::hidden('ctlc',$_GET['ctlc'])?>
+	<?=HtmlInput::submit("save_action", "Mettre à jour")?>
 <table class="result">
 
 	<tr>
