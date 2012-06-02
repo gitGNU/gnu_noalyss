@@ -142,7 +142,7 @@
 					dossier::id(),
 					$operation[$o]['ago_id']);
 			$js= '<a class="mtitle" style="color:orange" id="acop'.$operation[$o]['ago_id'].'" href="'.$rmOperation.'">Effacer</a>';
-			echo '<li id="op'.$operation[$o]['ago_id'].'">'.HtmlInput::detail_op($operation[$o]['jr_id'],$operation[$o]['jr_internal'])." ".h($operation[$o]['jr_comment'])." "
+			echo '<li id="op'.$operation[$o]['ago_id'].'">'.$operation[$o]['str_date']." ".HtmlInput::detail_op($operation[$o]['jr_id'],$operation[$o]['jr_internal'])." ".h($operation[$o]['jr_comment'])." "
 				.$js.'</li>';
 		}
 
@@ -335,3 +335,4 @@ catch(exception) { alert('<?=j(_('Je ne peux pas ajouter de fichier'))?>'); aler
   </span>
   </p>
 </fieldset>
+<script>compute_all_ledger()</script>
