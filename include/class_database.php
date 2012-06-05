@@ -870,29 +870,27 @@ class Database
     function query_to_csv($ret,$aheader)
     {
         $seq="";
-        for ($i=0;$i<count($i);$i++)
+        for ($i=0;$i<count($aheader);$i++)
         {
-            echo '"'.$aheader[$i]['title'].'"';
+            echo $seq.'"'.$aheader[$i]['title'].'"';
             $seq=";";
         }
         printf("\n\r");
-
-        $seq="";
         // fetch all the rows
-        for ($i=0;$i<count(Database::num_row($ret));$i++)
+        for ($i=0;$i<Database::num_row($ret);$i++)
         {
             $row=Database::fetch_array($ret, $i);
             $sep2="";
             // for each rows, for each value
-            for ($e=0;$e<count($row);$e++)
+            for ($e=0;$e<count($row)/2;$e++)
             {
-                switch ($aheader[$e]['type'])
+               switch ($aheader[$e]['type'])
                 {
                     case 'num':
-                        echo nb($row[$e]).$sep2;
+                        echo $sep2.nb($row[$e]);
                         break;
                     default:
-                        echo '"'.$row[$e].'"'.$sep2;
+                        echo $sep2.'"'.$row[$e].'"';
                 }
                 $sep2=";";
             }
