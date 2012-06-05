@@ -1,4 +1,5 @@
 <?php
+
 /*
  *   This file is part of PhpCompta.
  *
@@ -62,15 +63,15 @@ require_once 'class_irelated_action.php';
 class Follow_Up
 {
 
-	var $db;	/* !<  $db  database connexion    */
+	var $db; /* !<  $db  database connexion    */
 	var $ag_timestamp;  /* !<   $ag_timestamp document date (ag_gestion.ag_timestamp) */
 	var $dt_id;   /* !<   $dt_id type of the document (document_type.dt_id) */
-	var $ag_state;	/* !<   $ag_state stage of the document (printed, send to client...) */
+	var $ag_state; /* !<   $ag_state stage of the document (printed, send to client...) */
 	var $d_number;   /* !<   $d_number number of the document */
 	var $d_filename; /* !<   $d_filename filename's document      */
 	var $d_mimetype; /* !<   $d_mimetype document's filename      */
 	var $ag_title;   /* !<   $ag_title title document	      */
-	var $f_id;	/* !<   $f_id_dest fiche id (From field )  */
+	var $f_id; /* !<   $f_id_dest fiche id (From field )  */
 	var $ag_ref;  /* !< $ag_ref is the ref  */
 	var $ag_hour;  /* !< $ag_hour is the hour of the meeting, action */
 	var $ag_priority; /* !< $ag_priority is the priority 1 High, 2 medium, 3 low */
@@ -179,9 +180,9 @@ class Follow_Up
 				ag_id in (select aga_greatest from action_gestion_related where aga_least =$1)
 				or
 				ag_id in (select aga_least from action_gestion_related where aga_greatest =$1)
-				order by ag_timestamp",array($this->ag_id));
-		$iaction=new IRelated_Action('action');
-		$iaction->value=(isset($this->action))?$this->action:"";
+				order by ag_timestamp", array($this->ag_id));
+		$iaction = new IRelated_Action('action');
+		$iaction->value = (isset($this->action)) ? $this->action : "";
 
 		// state
 		// Retrieve the value
@@ -633,7 +634,8 @@ class Follow_Up
 		{
 			$act = new Follow_Up_Detail($this->db);
 			$act->from_array($_POST, $i);
-			if ($act->f_id == 0 )continue;
+			if ($act->f_id == 0)
+				continue;
 			$act->ag_id = $this->ag_id;
 			$act->save();
 		}
@@ -661,7 +663,7 @@ class Follow_Up
 	function myList($p_base, $p_filter = "", $p_search = "")
 	{
 		// for the sort
-		$url = HtmlInput::get_to_string(array("qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "all_action")) .  '&' . $p_base;
+		$url = HtmlInput::get_to_string(array("qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "all_action")) . '&' . $p_base;
 
 		$table = new Sort_Table();
 		$table->add('Date', $url, 'order by ag_timestamp asc', 'order by ag_timestamp desc', 'da', 'dd');
@@ -919,7 +921,7 @@ class Follow_Up
 				$this->f_id_dest, /* 4 */
 				$this->ag_state, /* 5 */
 				$this->ag_id, /* 6 */
-				$this->ag_hour, /* 7*/
+				$this->ag_hour, /* 7 */
 				$this->ag_priority, /* 8 */
 				$this->ag_dest, /* 9 */
 				$ag_cal, /* 10 */
@@ -936,8 +938,10 @@ class Follow_Up
 		{
 			$act = new Follow_Up_Detail($this->db);
 			$act->from_array($_POST, $i);
-			if ( $act->f_id == 0 && $act->ad_id != 0 ) $act->delete();
-			if ($act->f_id == 0 ) continue;
+			if ($act->f_id == 0 && $act->ad_id != 0)
+				$act->delete();
+			if ($act->f_id == 0)
+				continue;
 			$act->save();
 		}
 		if (trim($this->ag_comment) != '')
@@ -993,7 +997,6 @@ class Follow_Up
 		$this->operation = (isset($p_array['operation'])) ? $p_array['operation'] : null;
 		$this->op = (isset($p_array['op'])) ? $p_array['op'] : null;
 		$this->action = (isset($p_array['action'])) ? $p_array['action'] : null;
-
 	}
 
 	/* !\brief remove the action
@@ -1034,7 +1037,9 @@ class Follow_Up
 		return $array;
 	}
 
-
+	/**
+	 * insert a related operation
+	 */
 	function insert_operation()
 	{
 		if (trim($this->operation) == '')
@@ -1050,6 +1055,9 @@ class Follow_Up
 		}
 	}
 
+	/**
+	 * remove a related operation
+	 */
 	function remove_operation()
 	{
 		if ($this->op == null)
@@ -1060,11 +1068,12 @@ class Follow_Up
 			$this->db->exec_sql("delete from action_gestion_operation where ago_id=$1", array($op[$i]));
 		}
 	}
+
 	/**
-	 *Display only a search box for searching an action
+	 * Display only a search box for searching an action
 	 * @param $cn database connx
 	 */
-	static function display_search($cn,$inner=false)
+	static function display_search($cn, $inner = false)
 	{
 		$a = (isset($_GET['query'])) ? $_GET['query'] : "";
 		$qcode = (isset($_GET['qcode'])) ? $_GET['qcode'] : "";
@@ -1085,11 +1094,12 @@ class Follow_Up
 		/**
 		 * Show the default button (add action, show search...)
 		 */
-		if (!$inner) require_once 'template/action_button.php';
+		if (!$inner)
+			require_once 'template/action_button.php';
 
 		$w = new ICard();
 		$w->name = 'qcode';
-		$w->id=$w->generate_id($w->name);
+		$w->id = $w->generate_id($w->name);
 		$w->value = $qcode;
 		$w->extra = "all";
 		$w->typecard = 'all';
@@ -1128,7 +1138,6 @@ class Follow_Up
 		$str_ag_dest = $ag_dest->input();
 		// show the  action in
 		require_once 'template/action_search.php';
-
 	}
 
 	static function ShowActionList($cn, $p_base)
@@ -1144,18 +1153,22 @@ class Follow_Up
 
 
 
-		$r = $act->myList($p_base, "", $query );
+		$r = $act->myList($p_base, "", $query);
 		echo $r;
 	}
 
 	/**
-	 *Get date from $_GET and create the sql stmt for the query
+	 * Get date from $_GET and create the sql stmt for the query
 	 * @see Follow_Up::ShowActionList
 	 * @return string SQL condition
 	 */
-	static function create_query($cn)
+	static function create_query($cn, $p_array = null)
 	{
-		$query="";
+		if ($p_array == null)
+			$p_array = $_GET;
+
+		extract($p_array);
+		$query = "";
 		if (isset($_REQUEST['query']))
 		{
 			// if a query is request build the sql stmt
@@ -1166,7 +1179,7 @@ class Follow_Up
 		}
 
 		$str = "";
-		if (isset($_GET['qcode']))
+		if (isset($qcode))
 		{
 
 			// verify that qcode is not empty
@@ -1182,38 +1195,43 @@ class Follow_Up
 					$str = " and (f_id_dest= " . $fiche->id . " ) ";
 			}
 		}
-		if (isset($_GET['tdoc']) && $_GET['tdoc'] != -1)
+		if (isset($tdoc) && $tdoc != -1)
 		{
-			$query .= ' and dt_id = ' . Formatstring($_GET['tdoc']);
+			$query .= ' and dt_id = ' . sql_string($tdoc);
 		}
 		if (!isset($_GET['see_all']))
 			$query .= ' and ag_state in (2,3) ';
-		if (! isset($_GET['all_action']))
+		if (!isset($all_action))
 		{
 			$query .=" and (ag_owner='" . $_SESSION['g_user'] . "' or ag_dest in (select p_id from profile_user where user_name='" . $_SESSION['g_user'] . "') or ag_dest is null )";
 		}
-		if (isset($_GET['date_start']) && isDate($_GET['date_start']) != null)
+		if (isset($date_start) && isDate($date_start) != null)
 		{
-			$date_start = $_GET['date_start'];
 			$query.=" and ag_timestamp >= to_date('$date_start','DD.MM.YYYY')";
 		}
-		if (isset($_GET['date_end']) && isDate($_GET['date_end']) != null)
+		if (isset($date_end) && isDate($date_end) != null)
 		{
-			$date_end = $_GET['date_end'];
 			$query.=" and ag_timestamp <= to_date('$date_end','DD.MM.YYYY')";
 		}
-		if (isset($_GET['ag_dest_query']))
+		if (isset($ag_dest_query))
 		{
-			if ($_GET['ag_dest_query'] != 0)
-				$query.= " and ag_dest = " . sql_string($_GET['ag_dest_query']);
+			if ($ag_dest_query != 0)
+				$query.= " and ag_dest = " . sql_string($ag_dest_query);
 		}
-		if ( isNumber($_GET['ag_id'])==1 && $_GET['ag_id'] != 0) {
-			$query=" and ag_id= ".$_GET['ag_id'];
+		if (isNumber($ag_id) == 1 && $ag_id != 0)
+		{
+			$query = " and ag_id= " . $ag_id;
 		}
-		return $query. $str;
+		return $query . $str;
 	}
 
-	static function short_list($cn,$p_sql) {
+	/**
+	 * Show the result of a search in an inner windows, the result is limited to 25
+	 * @param type $cn database connx
+	 * @param type $p_sql the query
+	 */
+	static function short_list($cn, $p_sql)
+	{
 		$sql = "
              select ag_id,to_char(ag_timestamp,'DD.MM.YY') as my_date,
 			 f_id_dest,
@@ -1225,13 +1243,15 @@ class Follow_Up
              where $p_sql";
 		$max_line = $cn->count_sql($sql);
 
-		$limit=($max_line > 25)?25:$max_line;
-		$Res = $cn->exec_sql($sql . "limit ".$limit);
+		$limit = ($max_line > 25) ? 25 : $max_line;
+		$Res = $cn->exec_sql($sql . "limit " . $limit);
 		$a_row = Database::fetch_all($Res);
 		require_once 'template/action_search_result.php';
-
 	}
 
+	/**
+	 * Insert a related action into the table action_gestion_related
+	 */
 	function insert_action()
 	{
 		if (trim($this->action) == '')
@@ -1240,11 +1260,53 @@ class Follow_Up
 		for ($i = 0; $i < count($array); $i++)
 		{
 			if ($this->db->get_value("select count(*) from action_gestion_related
-				where (aga_least=$1 and aga_greatest=$2) or (aga_greatest=$1 and aga_least=$2)", array($array[$i],$this->ag_id)) == 0 && $this->ag_id != $array[$i])
+				where (aga_least=$1 and aga_greatest=$2) or (aga_greatest=$1 and aga_least=$2)", array($array[$i], $this->ag_id)) == 0 && $this->ag_id != $array[$i])
 			{
 				$this->db->exec_sql("insert into action_gestion_related(aga_least,aga_greatest) values ($1,$2)", array($this->ag_id, $array[$i]));
 			}
 		}
+	}
+
+	/**
+	 * export to CSV the query the p_array has
+	 * @param array $p_array
+	 */
+	function export_csv($p_array)
+	{
+		extract($p_array);
+
+
+		$p_search=self::create_query($this->db, $p_array);
+		$sql = "
+             select ag_id,
+			to_char(ag_timestamp,'DD.MM.YYYY') as my_date,
+			 to_char(ag_remind_date,'DD.MM.YYYY') as my_remind,
+				(select ad_value from fiche_Detail where f_id=action_gestion.f_id_dest and ad_id=1) as name,
+             ag_title,
+			dt_value,
+			ag_ref,
+			ag_priority,
+			ag_state,
+			coalesce((select p_name from profile where p_id=ag_dest),'Aucun groupe') as dest
+             from action_gestion
+             join document_type on (ag_type=dt_id)
+             where  true  $p_search order by ag_timestamp,ag_id";
+		$ret=$this->db->exec_sql($sql);
+
+		if ( Database::num_row($ret)==0)exit();
+		$this->db->query_to_csv($ret,array(
+				array("title"=>"doc id","type"=>"string"),
+				array("title"=>"date","type"=>"date"),
+				array("title"=>"rappel","type"=>"date"),
+				array("title"=>"nom","type"=>"string"),
+				array("title"=>"titre","type"=>"string"),
+				array("title"=>"type document","type"=>"string"),
+				array("title"=>"ref","type"=>"string"),
+				array("title"=>"priorite","type"=>"string"),
+				array("title"=>"etat","type"=>"string"),
+				array("title"=>"profil","type"=>"string")
+				)
+			);
 	}
 
 }

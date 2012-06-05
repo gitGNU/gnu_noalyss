@@ -180,3 +180,6 @@ insert into action_gestion_related(aga_least,aga_greatest) select ag_id,ag_ref_a
 update menu_ref set me_menu='Action Gestion' where me_code='FOLLOW';
 
 DROP FUNCTION comptaproc.action_get_tree(bigint);
+
+insert into menu_ref(me_code,me_menu,me_type) values ('CSV:ActionGestion','Export Action Gestion','PR');
+insert into profile_menu(me_code,p_id,p_type_display,pm_default) values ('CSV:ActionGestion',1,'P',0);

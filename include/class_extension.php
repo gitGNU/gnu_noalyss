@@ -149,5 +149,18 @@ class Extension extends Menu_Ref_sql
 			echo alert($exc->getMessage());
 		}
 	}
+	/**
+	 *remove all the schema from the plugins
+	 * @param Database $p_cn
+	 */
+	static function clean(Database $p_cn)
+	{
+		$a_ext=array("tva_belge","amortissement","impdol","coprop","importbank");
+		for($i=0;$i<count($a_ext);$i++){
+			if ($p_cn->exist_schema($a_ext[$i])) {
+				$p_cn->exec_sql("drop schema ".$a_ext[$i]." cascade");
+			}
+		}
+	}
 }
 
