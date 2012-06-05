@@ -28,6 +28,8 @@
  */
 require_once("class_itext.php");
 require_once("class_icheckbox.php");
+require_once ('class_extension.php');
+
 $sa = (isset($_REQUEST['sa'])) ? $_REQUEST['sa'] : 'list';
 if (isset($_POST['upd']) &&
 		isset($_POST['m']))
@@ -106,7 +108,7 @@ if (isset($_POST["FMOD_NAME"]))
 		for ($i = 0; $i < count($a_lob); $i++)
 			$cn_mod->lo_unlink($a_lob[$i]['jr_pj']);
 	}
-
+	Extension::clean($cn_mod);
 	$Res = $cn_mod->exec_sql("truncate table centralized");
 	$Res = $cn_mod->exec_sql("truncate table jrn cascade");
 	$Res = $cn_mod->exec_sql("delete from del_jrn");
@@ -197,6 +199,7 @@ if (isset($_POST["FMOD_NAME"]))
 		$Res = $cn_mod->exec_sql('delete from poste_analytique');
 		$Res = $cn_mod->exec_sql('delete from plan_analytique');
 	}
+
 }
 // Show all available templates
 require_once('class_sort_table.php');
