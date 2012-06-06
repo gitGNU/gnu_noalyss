@@ -42,7 +42,7 @@ require_once('class_acc_ledger_fin.php');
 
 /*!\brief Handle the ledger of sold,
  *
- *
+ *@exception throw an exception is something is wrong
  */
 class  Acc_Ledger_Sold extends Acc_Ledger
 {
@@ -160,7 +160,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                 throw new Exception(_('La fiche ').${'e_march'.$i}._('a un montant invalide [').${'e_march'.$i}.']',6);
             if ( isNumber(${'e_quant'.$i}) == 0 )
                 throw new Exception(_('La fiche ').${'e_march'.$i}._('a une quantité invalide [').${'e_quant'.$i}.']',7);
-
             /* check if all card has a ATTR_DEF_ACCOUNT*/
             $fiche=new Fiche($this->db);
             $fiche->get_by_qcode(${'e_march'.$i});
@@ -217,10 +216,10 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         //------------------------------------------------------
         // The "Paid By"  check
         //------------------------------------------------------
-        /**
-         *@todo check that  acompte is less than total amount 
-         */
-        if ($e_mp != 0 ) $this->check_payment($e_mp,${"e_mp_qcode_".$e_mp});
+     
+        if ($e_mp != 0 ) {
+            $this->check_payment($e_mp,${"e_mp_qcode_".$e_mp});
+        }
 
     }
 

@@ -254,9 +254,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 	      }
 	    $nb++;
         }
-        /**
-         * *@todo check that  acompte is less than total amount
-         */
+      
         if ( $nb == 0 )
             throw new Exception(_('Il n\'y a aucune marchandise'),12);
 
