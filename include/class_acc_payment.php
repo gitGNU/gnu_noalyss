@@ -225,6 +225,10 @@ class Acc_Payment
         }
         return $ret;
     }
+    /**
+     *@deprecated
+     * @return string 
+     */
     public function row_deprecated()
     {
         //---------------------------------------------------------------------------
@@ -325,6 +329,14 @@ class Acc_Payment
         $r='';
         $array=$this->get_valide();
         $r.=HtmlInput::hidden('gDossier',dossier::id());
+       
+        if ( empty($array)==false ) {
+            $acompte=new INum('acompte');
+            $acompte->value=0;
+            $r.=_(" Montant à déduire");
+            $r.=$acompte->input();
+        }
+        
         $r.='<ol>';
         $r.='<li ><input type="radio" name="e_mp" value="0" checked>'._('Paiement encodé plus tard');
         if ( empty($array ) == false )
