@@ -32,6 +32,8 @@ header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="action-gestion.csv"',FALSE);
 
 $follow=new Follow_Up($cn);
+$array=$_GET;
+if ( isset ($_POST['query']) ) $p_array['query']=$_POST['query'];
 
 echo $follow->export_csv($_GET);
 

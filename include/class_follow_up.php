@@ -1159,6 +1159,7 @@ class Follow_Up
 
 	/**
 	 * Get date from $_GET and create the sql stmt for the query
+	 * @note the query is taken in $_REQUEST
 	 * @see Follow_Up::ShowActionList
 	 * @return string SQL condition
 	 */
@@ -1169,6 +1170,10 @@ class Follow_Up
 
 		extract($p_array);
 		$query = "";
+		/**
+		 *@todo check why we need to use $_REQUEST['query']
+		 * instead of $_GET['query']
+		 */
 		if (isset($_REQUEST['query']))
 		{
 			// if a query is request build the sql stmt
@@ -1181,9 +1186,8 @@ class Follow_Up
 		$str = "";
 		if (isset($qcode))
 		{
-
 			// verify that qcode is not empty
-			if (strlen(trim($_REQUEST['qcode'])) != 0)
+			if (strlen(trim($qcode)) != 0)
 			{
 
 				$fiche = new Fiche($cn);
