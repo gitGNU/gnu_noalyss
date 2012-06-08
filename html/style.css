@@ -824,7 +824,8 @@ a#anchorbutton, .button, a.button,div.content a.button {
 	margin-top:3px;
 	cursor:pointer;
 	margin:1 2 1 2;
-	-moz-border-radius:4 4;
+        border-radius: 4px;
+	-moz-border-radius:4px;
 
 }
 a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
@@ -833,6 +834,7 @@ a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
 	border-style:  inset ;
 	color:red;
 	margin:1 2 1 2;
+        
 	}
 	td.tool {
 	border: solid 1px gray;
