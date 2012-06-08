@@ -102,9 +102,9 @@ CREATE TABLE action_gestion_operation
       REFERENCES jrn (jr_id) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE CASCADE
 );
-COMMENT ON COLUMN action_comment_operation.ago_id IS 'pk';
-COMMENT ON COLUMN action_comment_operation.ag_id IS 'fk to action_gestion';
-COMMENT ON COLUMN action_comment_operation.jr_id IS 'fk to jrn';
+COMMENT ON COLUMN action_gestion_operation.ago_id IS 'pk';
+COMMENT ON COLUMN action_gestion_operation.ag_id IS 'fk to action_gestion';
+COMMENT ON COLUMN action_gestion_operation.jr_id IS 'fk to jrn';
 
 CREATE TABLE link_action_type
 (
