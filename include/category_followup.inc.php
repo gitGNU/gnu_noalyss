@@ -37,7 +37,7 @@ require_once('class_follow_up.php');
 $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"list";
 $ag_id=(isset($_REQUEST['ag_id']))?$_REQUEST['ag_id']:0;
 $p_action=$_REQUEST['ac'];
-$base="ac=$p_action&sc=sv&sb=detail&f_id=".$_REQUEST['f_id']."&".HtmlInput::request_to_string(array("gDossier","qcode","ag_dest","query","tdoc","date_start","date_end","see_all","all_action","sb","sc"),"");
+$base="ac=$p_action&sc=sv&sb=detail&f_id=".$_REQUEST['f_id']."&".HtmlInput::request_to_string(array("state","gDossier","qcode","ag_dest","query","tdoc","date_start","date_end","see_all","all_action","sb","sc"),"");
 $retour=HtmlInput::button_anchor('Retour','?'.dossier::get().'&'.$base);
 $fiche=new Fiche($cn,$_REQUEST['f_id']);
 

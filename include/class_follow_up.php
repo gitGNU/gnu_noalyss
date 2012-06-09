@@ -488,7 +488,7 @@ class Follow_Up
 		/* add the number of item */
 		$Hid = new IHidden();
 		$r.=$Hid->input("nb_item", MAX_ARTICLE);
-		$r.=HtmlInput::request_to_hidden(array("qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "all_action"));
+		$r.=HtmlInput::request_to_hidden(array("state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "all_action"));
 		/* get template */
 		ob_start();
 		require_once 'template/detail-action.php';
@@ -663,7 +663,7 @@ class Follow_Up
 	function myList($p_base, $p_filter = "", $p_search = "")
 	{
 		// for the sort
-		$url = HtmlInput::get_to_string(array("qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "all_action")) . '&' . $p_base;
+		$url = HtmlInput::get_to_string(array("state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "all_action")) . '&' . $p_base;
 
 		$table = new Sort_Table();
 		$table->add('Date', $url, 'order by ag_timestamp asc', 'order by ag_timestamp desc', 'da', 'dd');
@@ -735,7 +735,7 @@ class Follow_Up
 		//show the sub_action
 		foreach ($a_row as $row)
 		{
-			$href = '<A class="document" HREF="do.php' . HtmlInput::get_to_string(array("gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "ac", "all_action")) . "&" . $p_base . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
+			$href = '<A class="document" HREF="do.php' . HtmlInput::get_to_string(array("state","gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "ac", "all_action")) . "&" . $p_base . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
 			$i++;
 			$tr = ($i % 2 == 0) ? 'even' : 'odd';
 			if ($row['ag_priority'] < 2)
@@ -1116,6 +1116,14 @@ class Follow_Up
 		$type_doc->value = $aTDoc;
 		$type_doc->selected = (isset($_GET['tdoc'])) ? $_GET['tdoc'] : -1;
 
+		/* State of documents */
+		$type_state= new ISelect('state');
+		$aState = $cn->make_array('select s_id,s_value from document_state order by s_value');
+		$aState[] = array('value' => '-1', 'label' => _('Tous les Etats'));
+		$type_state->value = $aState;
+		$type_state->selected = (isset($_GET['state'])) ? $_GET['state'] : -1;
+
+
 		// date
 		$start = new IDate('date_start');
 		$start->value = (isset($_GET['date_start'])) ? $_GET['date_start'] : "";
@@ -1202,6 +1210,10 @@ class Follow_Up
 		if (isset($tdoc) && $tdoc != -1)
 		{
 			$query .= ' and dt_id = ' . sql_string($tdoc);
+		}
+		if (isset($state) && $state!= -1)
+		{
+			$query .= ' and ag_state= ' . sql_string($state);
 		}
 		if (!isset($_GET['see_all']))
 			$query .= ' and ag_state in (2,3) ';

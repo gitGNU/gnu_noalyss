@@ -61,6 +61,10 @@
 				<td style="text-align:right" ><?= _("Profile")?></td>
 				<td><?= $str_ag_dest?></td>
 			</tr>
+			<tr>
+				<td style="text-align:right" ><?= _("Etat")?></td>
+				<td><?= $type_state->input()?></td>
+			</tr>
 			<td style="text-align:right"><? printf(_('contenant le mot'))?></td>
 			<td ><input class="input_text" style="width:100%" type="text" name="query" value="<?= $a?>"></td>
 			</tr>
