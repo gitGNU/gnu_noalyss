@@ -61,7 +61,7 @@ else
 {
   $cond_poste='';
   $sql="select pcm_val from tmp_pcmn ";
-    if ($from_poste != '') 
+    if ($from_poste != '')
       {
 	$cond_poste = '  where ';
 	$cond_poste .=' pcm_val >= upper (\''.Database::escape_string($from_poste).'\')';
@@ -69,7 +69,7 @@ else
 
     if ( $to_poste != '')
       {
-	if  ( $cond_poste == '') 
+	if  ( $cond_poste == '')
 	  {
 	    $cond_poste =  ' where pcm_val <= upper (\''.Database::escape_string($to_poste).'\')';
 	  }
@@ -100,10 +100,10 @@ $s=(isset($_REQUEST['solded']))?1:0;
 
 foreach ($a_poste as $poste)
 {
- 
+
 
   $Poste=new Acc_Account_Ledger($cn,$poste['pcm_val']);
-  
+
   $array1=$Poste->get_row_date($from_periode,$to_periode,$l,$s);
   // don't print empty account
   if ( count($array1) == 0 )
@@ -149,12 +149,12 @@ foreach ($a_poste as $poste)
 
         if ($detail['cred_montant'] > 0)
         {
-            $solde   += $detail['cred_montant'];
+            $solde   -= $detail['cred_montant'];
             $solde_c += $detail['cred_montant'];
         }
         if ($detail['deb_montant'] > 0)
         {
-            $solde   -= $detail['deb_montant'];
+            $solde   += $detail['deb_montant'];
             $solde_d += $detail['deb_montant'];
         }
 
@@ -164,7 +164,8 @@ foreach ($a_poste as $poste)
         echo $detail['jr_pj_number'].";";
         echo ($detail['deb_montant']  > 0 ? nb($detail['deb_montant'])  : '').";";
         echo ($detail['cred_montant'] > 0 ? nb($detail['cred_montant']) : '').";";
-        echo nb($solde).";";
+        echo nb(abs($solde)).";";
+		echo $Poste->get_amount_side($solde);
         printf("\n");
 
     }

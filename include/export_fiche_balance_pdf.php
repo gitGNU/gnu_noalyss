@@ -143,7 +143,7 @@ else
 	{
 		$afiche[0] = array('fd_id' => $_REQUEST['cat']);
 	}
-
+	$fic=new Fiche($cn);
 	for ($e = 0; $e < count($afiche); $e++)
 	{
 		$array = Fiche::get_fiche_def($cn,$afiche[$e]['fd_id'] , 'name_asc');
@@ -154,14 +154,14 @@ else
 		{
 			continue;
 		}
-		$tab = array(13, 25, 55, 20, 20, 12, 20);
-		$align = array('L', 'L', 'L', 'R', 'R', 'R', 'R');
+		$tab = array(12, 20, 10,78, 20, 20, 10, 20);
+		$align = array('L', 'C', 'L', 'L', 'R','R', 'R', 'R');
 
 		foreach ($array as $row_fiche)
 		{
-			$row = new Fiche($cn, $row_fiche['f_id']);
+			$fic = new Fiche($cn, $row_fiche['f_id']);
 			$letter = new Lettering_Card($cn);
-			$letter->set_parameter('quick_code', $row->strAttribut(ATTR_DEF_QUICKCODE));
+			$letter->set_parameter('quick_code', $fic->strAttribut(ATTR_DEF_QUICKCODE));
 			$letter->set_parameter('start', $_GET['start']);
 			$letter->set_parameter('end', $_GET['end']);
 			// all
@@ -195,15 +195,17 @@ else
 
 			$pdf->Cell($tab[0], 7, 'Date');
 			$pdf->Cell($tab[1], 7, 'ref');
-			$pdf->Cell($tab[1], 7, 'Int.');
-			$pdf->Cell($tab[2], 7, 'Comm');
-			$pdf->Cell(40, 7, 'Montant', 0, 0, 'C');
-			$pdf->Cell($tab[5], 7, 'Let.', 0, 0, 'R');
-			$pdf->Cell($tab[6], 7, 'Diff. Let.', 0, 0, 'R');
+			$pdf->Cell($tab[2], 7, 'Int.');
+			$pdf->Cell($tab[3], 7, 'Comm');
+			$pdf->Cell($tab[4], 7, 'Montant', 0, 0, 'C');
+			$pdf->Cell($tab[5], 7, 'Prog.', 0, 0, 'R');
+			$pdf->Cell($tab[6], 7, 'Let.', 0, 0, 'R');
+			$pdf->Cell($tab[7], 7, 'Diff. Let.', 0, 0, 'R');
 			$pdf->ln();
 
 			$amount_deb = 0;
 			$amount_cred = 0;
+			$prog=0;
 			for ($i = 0; $i < count($letter->content); $i++)
 			{
 				if ($i % 2 == 0)
@@ -222,40 +224,44 @@ else
 
 				$pdf->Cell($tab[0], 4, $str_date, 0, 0, $align[0], $fill);
 				$pdf->Cell($tab[1], 4, $row['jr_pj_number'], 0, 0, $align[1], $fill);
-				$pdf->Cell($tab[1], 4, $row['jr_internal'], 0, 0, $align[1], $fill);
-				$pdf->Cell($tab[2], 4, $row['jr_comment'], 0, 0, $align[2], $fill);
+				$pdf->LongLine($tab[2], 4, $row['jr_internal'], 0, $align[1], $fill);
+				$pdf->LongLine($tab[3], 4, $row['jr_comment'], 0,  $align[2], $fill);
 				if ($row['j_debit'] == 't')
 				{
-					$pdf->Cell($tab[3], 4, sprintf('%10.2f', $row['j_montant']), 0, 0, $align[4], $fill);
+					$prog=bcadd($prog,$row['j_montant']);
+					$pdf->Cell($tab[4], 4, sprintf('%s D', nbm($row['j_montant'])), 0, 0, $align[4], $fill);
 					$amount_deb+=$row['j_montant'];
-					$pdf->Cell($tab[4], 4, "", 0, 0, 'C', $fill);
+					$str_prog=sprintf("%s %s",nbm(abs($prog)),$fic->get_amount_side($prog));
+					$pdf->Cell($tab[5], 4, $str_prog, 0, 0, $align[5], $fill);
 				}
 				else
 				{
-					$pdf->Cell($tab[3], 4, "", 0, 0, 'C', $fill);
-					$pdf->Cell($tab[4], 4, sprintf('%10.2f', $row['j_montant']), 0, 0, $align[4], $fill);
+					$prog=bcsub($prog,$row['j_montant']);
+					$pdf->Cell($tab[4], 4, sprintf('%s C', nbm($row['j_montant'])), 0, 0, $align[4], $fill);
 					$amount_cred+=$row['j_montant'];
+					$str_prog=sprintf("%s %s",nbm(abs($prog)),$fic->get_amount_side($prog));
+					$pdf->Cell($tab[5], 4, $str_prog, 0, 0, $align[5], $fill);
 				}
 				if ($row['letter'] != -1)
 				{
-					$pdf->Cell($tab[5], 4, $row['letter'], 0, 0, $align[5], $fill);
+					$pdf->Cell($tab[6], 4, $row['letter'], 0, 0, $align[6], $fill);
 					// get sum for this lettering
 
-					$pdf->Cell($tab[6], 4, sprintf('%.2f', $row['letter_diff']), '0', '0', 'R', $fill);
+					$pdf->Cell($tab[7], 4, sprintf('%s', nbm($row['letter_diff'])), '0', '0', $align[7], $fill);
 				}
 				else
-					$pdf->Cell($tab[5], 4, "", 0, 0, 'R', $fill);
+					$pdf->Cell($tab[6], 4, "", 0, 0, 'R', $fill);
 				$pdf->Ln();
 			}
 			$pdf->SetFillColor(0, 0, 0);
 			$pdf->SetFont('DejaVuCond', 'B', 8);
-			$debit = sprintf('Debit  : % 12.2f', $amount_deb);
-			$credit = sprintf('Credit : % 12.2f', $amount_cred);
+			$debit = sprintf('Debit  : %s', nbm($amount_deb));
+			$credit = sprintf('Credit : %s', nbm($amount_cred));
 			if ($amount_deb > $amount_cred)
 				$s = 'solde débiteur';
 			else
 				$s = 'solde crediteur';
-			$solde = sprintf('%s  : % 12.2f', $s, (abs(round($amount_cred - $amount_deb, 2))));
+			$solde = sprintf('%s  : %s', $s, nbm(abs(round($amount_cred - $amount_deb, 2))));
 
 			$pdf->Cell(0, 6, $debit, 0, 0, 'R');
 			$pdf->ln(4);

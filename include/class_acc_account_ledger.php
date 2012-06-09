@@ -365,7 +365,7 @@ class Acc_Account_Ledger
 		if ( $old_exercice != '')
 		  {
 		    $progress=bcsub($sum_deb,$sum_cred);
-
+			$side="&nbsp;".$this->get_amount_side($progress);
 		    echo "<TR style=\"font-weight:bold\">".
 		      "<TD></TD>".
 		      td('').
@@ -373,7 +373,7 @@ class Acc_Account_Ledger
 		      "<TD>Totaux</TD>".
 		      "<TD style=\"text-align:right\">".nbm($sum_deb)."</TD>".
 		      "<TD style=\"text-align:right\">".nbm($sum_cred)."</TD>".
-		      td(nbm(abs($progress)),'style="text-align:right"').
+		      td(nbm(abs($progress)).$side,'style="text-align:right"').
 		      td('').
 		      "</TR>";
 		    $sum_cred=0;
@@ -383,6 +383,7 @@ class Acc_Account_Ledger
 		  }
 	      }
 	    $progress=bcadd($progress,$tmp_diff);
+		$side="&nbsp;".$this->get_amount_side($progress);
 	    $sum_cred=bcadd($sum_cred,$op['cred_montant']);
 	    $sum_deb=bcadd($sum_deb,$op['deb_montant']);
 		if ($idx%2 == 0) $class='class="odd"'; else $class=' class="even"';
@@ -395,7 +396,7 @@ class Acc_Account_Ledger
 	      "<TD>".h($op['description'])."</TD>".
 	      "<TD style=\"text-align:right\">".nbm($op['deb_montant'])."</TD>".
 	      "<TD style=\"text-align:right\">".nbm($op['cred_montant'])."</TD>".
-	      td(nbm(abs($progress)),'style="text-align:right"').
+	      td(nbm(abs($progress)).$side,'style="text-align:right"').
 
 	      td($let,' style="color:red;text-align:right"').
 	      "</TR>";
@@ -403,19 +404,19 @@ class Acc_Account_Ledger
         }
         echo '<tfoot>';
         $solde_type=($sum_deb>$sum_cred)?"solde débiteur":"solde créditeur";
-        $diff=abs(bcsub($sum_deb,$sum_cred));
-
+        $diff=bcsub($sum_deb,$sum_cred);
+		$side="&nbsp;".$this->get_amount_side($diff);
         echo "<TR style=\"font-weight:bold\">".
         "<TD >Totaux</TD><td></td>".
         "<TD ></TD>".
         "<TD></TD>".
 	  "<TD  style=\"text-align:right\">".nbm($sum_deb)."</TD>".
 	  "<TD  style=\"text-align:right\">".nbm($sum_cred)."</TD>".
-	  "<TD style=\"text-align:right\">".nbm($diff)."</TD>".
+	  "<TD style=\"text-align:right\">".nbm(abs($diff)).$side."</TD>".
 
         "</TR>";
 	echo   "<tr><TD>$solde_type</TD><td></td>".
-	  "<TD style=\"text-align:right\">".nbm($diff)."</TD>".
+	  "<TD style=\"text-align:right\">".nbm(abs($diff))."</TD>".
         "</TR>";
         echo '</tfoot>';
         echo '</tbody>';
@@ -424,7 +425,20 @@ class Acc_Account_Ledger
 
         return;
     }
-
+	/**
+	 * return the letter C if amount is > 0, D if < 0 or =
+	 * @param type $p_amount
+	 * @return string
+	 */
+	function get_amount_side($p_amount)
+		{
+			if ($p_amount == 0)
+				return "=";
+			if ($p_amount < 0)
+				return "C";
+			if ($p_amount > 0)
+				return "D";
+		}
     /*!
      * \brief Display HTML Table Header (button)
      *

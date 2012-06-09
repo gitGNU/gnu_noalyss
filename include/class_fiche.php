@@ -1347,7 +1347,7 @@ class Fiche
 		if ($old_exercice != '' )
 		  {
 		    $progress=bcsub($sum_deb,$sum_cred);
-
+			$side="&nbsp;".$this->get_amount_side($progress);
 		    echo "<TR  style=\"font-weight:bold\">".
 		      "<TD></TD>".
 		      td('').
@@ -1355,7 +1355,7 @@ class Fiche
 		      "<TD>Totaux</TD>".
 		      "<TD style=\"text-align:right\">".nbm($sum_deb)."</TD>".
 		      "<TD style=\"text-align:right\">".nbm($sum_cred)."</TD>".
-		      td(nbm(abs($progress)),'style="text-align:right"').
+		      td(nbm(abs($progress)).$side,'style="text-align:right"').
 		      td('').
 		      "</TR>";
 		    $sum_cred=0;
@@ -1364,6 +1364,7 @@ class Fiche
 		  }
 	      }
             $progress=bcadd($progress,$tmp_diff);
+			$side="&nbsp;".$this->get_amount_side($progress);
 	    $sum_cred=bcadd($sum_cred,$op['cred_montant']);
 	    $sum_deb=bcadd($sum_deb,$op['deb_montant']);
 		if ($idx%2 == 0) $class='class="odd"'; else $class=' class="even"';
@@ -1376,7 +1377,7 @@ class Fiche
             "<TD>".h($op['description'])."</TD>".
             "<TD style=\"text-align:right\">".nbm($op['deb_montant'])."</TD>".
 	      "<TD style=\"text-align:right\">".nbm($op['cred_montant'])."</TD>".
-	      td(nbm(abs($progress)),'style="text-align:right"').
+	      td(nbm(abs($progress)).$side,'style="text-align:right"').
             td($let,' style="color:red;text-align:right"').
             "</TR>";
 	    $old_exercice=$op['p_exercice'];
@@ -1894,7 +1895,20 @@ class Fiche
         $this->cn->exec_sql("insert into jnt_fic_attr (fd_id,ad_id,jnt_order) select $1,ad_id,100 from fiche_detail where f_id=$2 and ad_id not in (select ad_id from jnt_fic_attr where fd_id=$3)",array($p_fdid,$this->id,$p_fdid));
         $this->cn->commit();
     }
-
+	/**
+	 * return the letter C if amount is > 0, D if < 0 or =
+	 * @param type $p_amount
+	 * @return string
+	 */
+	function get_amount_side($p_amount)
+	{
+		if ($p_amount == 0)
+			return "=";
+		if ($p_amount < 0)
+			return "C";
+		if ($p_amount > 0)
+			return "D";
+	}
     static function test_me()
     {
         $cn=new Database(dossier::id());

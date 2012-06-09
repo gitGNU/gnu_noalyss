@@ -244,7 +244,7 @@ else
 }
 echo $export_csv;
 echo $export_pdf;
-
+$fiche=new Fiche($cn);
 for ($e = 0; $e < count($afiche); $e++)
 {
 	$array = Fiche::get_fiche_def($cn, $afiche[$e]['fd_id'], 'name_asc');
@@ -322,7 +322,8 @@ for ($e = 0; $e < count($afiche); $e++)
 				$amount_cred+=$row['j_montant'];
 				$prog = bcsub($prog, $row['j_montant']);
 			}
-			echo td(nbm($prog), 'style="text-align:right"');
+			$side="&nbsp;".$fiche->get_amount_side($prog);
+			echo td(nbm($prog).$side, 'style="text-align:right"');
 			if ($row['letter'] != -1)
 				{
 				$span_error="";
@@ -337,11 +338,11 @@ for ($e = 0; $e < count($afiche); $e++)
 		echo '<table>';
 		echo '<tr>';
 		echo td(_('Debit'));
-		echo td($amount_deb, ' style="font-weight:bold;text-align:right"');
+		echo td(nbm($amount_deb), ' style="font-weight:bold;text-align:right"');
 		echo '</tr>';
 		echo '<tr>';
 		echo td(_('Credit'));
-		echo td($amount_cred, ' style="font-weight:bold;text-align:right"');
+		echo td(nbm($amount_cred), ' style="font-weight:bold;text-align:right"');
 		echo '</tr>';
 		echo '<tr>';
 		if ($amount_deb > $amount_cred)
@@ -349,7 +350,7 @@ for ($e = 0; $e < count($afiche); $e++)
 		else
 			$s = 'solde crediteur';
 		echo td($s);
-		echo td(abs(round($amount_cred - $amount_deb, 2)), ' style="font-weight:bold;text-align:right"');
+		echo td(nbm(abs(round($amount_cred - $amount_deb, 2))), ' style="font-weight:bold;text-align:right"');
 		echo '</tr>';
 		echo '</table>';
 	}

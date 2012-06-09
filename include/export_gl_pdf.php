@@ -139,17 +139,17 @@ foreach ($a_poste as $poste)
 
         if ($detail['cred_montant'] > 0)
         {
-            $solde   += $detail['cred_montant'];
+            $solde   -= $detail['cred_montant'];
             $solde_c += $detail['cred_montant'];
         }
         if ($detail['deb_montant'] > 0)
         {
-            $solde   -= $detail['deb_montant'];
+            $solde   += $detail['deb_montant'];
             $solde_d += $detail['deb_montant'];
         }
 
         $i = 0;
-
+		$side=" ".$Poste->get_amount_side($solde);
         $pdf->Cell($width[$i], 6, shrink_date($detail['j_date_fmt']), 0, 0, $lor[$i]);
         $i++;
         $pdf->Cell($width[$i], 6, $detail['jr_internal'], 0, 0, $lor[$i]);
@@ -165,7 +165,7 @@ foreach ($a_poste as $poste)
         $i++;
         $pdf->Cell($width[$i], 6, ($detail['cred_montant'] > 0 ? nbm( $detail['cred_montant']) : ''), 0, 0, $lor[$i]);
         $i++;
-        $pdf->Cell($width[$i], 6, nbm( $solde), 0, 0, $lor[$i]);
+        $pdf->Cell($width[$i], 6, nbm(abs( $solde)).$side, 0, 0, $lor[$i]);
         $i++;
         $pdf->Ln();
 

@@ -98,6 +98,7 @@ else
 	{
 		$afiche[0] = array('fd_id' => $_REQUEST['cat']);
 	}
+	$fic=new Fiche($cn);
 	for ($e = 0; $e < count($afiche); $e++)
 	{
 		$array = Fiche::get_fiche_def($cn, $afiche[$e]['fd_id'], 'name_asc');
@@ -142,6 +143,7 @@ else
 				_('Débit'),
 				_('Crébit'),
 				_('Prog.'),
+				_('D/C'),
 				_('Let.'),
 					_("Diff Let."));
 			printf("\n");
@@ -159,7 +161,7 @@ else
 				if ($row['j_debit'] == 't')
 				{
 					printf("%s;",nb($row['j_montant']));
-					$amount_deb+=$row['j_montant'];
+					$amount_deb=bcadd($amount_deb,$row['j_montant']);
 					$prog = bcadd($prog, $row['j_montant']);
 					printf (";");
 				}
@@ -167,10 +169,10 @@ else
 				{
 					printf(";");
 					printf("%s;",nb($row['j_montant']));
-					$amount_cred+=$row['j_montant'];
+					$amount_cred=bcadd($amount_cred,$row['j_montant']);
 					$prog = bcsub($prog, $row['j_montant']);
 				}
-				printf ("%s;",nb($prog));
+				printf ("%s;\"%s\";",abs(nb($prog)),$fic->get_amount_side($prog));
 				if ($row['letter'] != -1)
 				{
 					printf('"%s";',$row['letter']);
@@ -187,8 +189,8 @@ else
 			else
 				$msg="soldé";
 
-			printf(';;;"%s";%s;%s;%s',
-					$msg,nb($amount_deb),nb($amount_cred),nb($prog));
+			printf(';;;"%s";%s;%s;%s;"%s"',
+					$msg,nb($amount_deb),nb($amount_cred),nb(abs($prog)),$fic->get_amount_side($prog));
 			printf("\n");
 		}
 	}

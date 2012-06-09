@@ -207,14 +207,15 @@ if ( isset( $_REQUEST['bt_html'] ) )
 
             if ($detail['cred_montant'] > 0)
             {
-	      $solde=bcadd($solde, $detail['cred_montant']);
+	      $solde=bcsub($solde, $detail['cred_montant']);
 	      $solde_c=bcadd($solde_c,$detail['cred_montant']);
             }
             if ($detail['deb_montant'] > 0)
             {
-	      $solde   = bcsub($solde,$detail['deb_montant']);
+	      $solde   = bcadd($solde,$detail['deb_montant']);
 	      $solde_d = bcadd($solde_d,$detail['deb_montant']);
             }
+			$side="&nbsp;".$Poste->get_amount_side($solde);
 	    $letter=($detail['letter']!=-1)?hi($detail['letter']):'';
             echo '<tr>
             <td>'.$detail['j_date_fmt'].'</td>
@@ -223,7 +224,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
             <td>'.$detail['jr_pj_number'].'</td>
             <td align="right">'.($detail['deb_montant']  > 0 ? nbm($detail['deb_montant'])  : '').'</td>
             <td align="right">'.($detail['cred_montant'] > 0 ? nbm($detail['cred_montant']) : '').'</td>
-            <td align="right">'.nbm($solde).'</td>
+            <td align="right">'.nbm(abs($solde)).$side.'</td>
             <td  style="text-align:right;color:red">'.$letter.'</td>
             </tr>';
         }
