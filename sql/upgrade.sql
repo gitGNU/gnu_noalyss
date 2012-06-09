@@ -183,3 +183,9 @@ DROP FUNCTION comptaproc.action_get_tree(bigint);
 
 insert into menu_ref(me_code,me_menu,me_type) values ('CSV:ActionGestion','Export Action Gestion','PR');
 insert into profile_menu(me_code,p_id,p_type_display,pm_default) values ('CSV:ActionGestion',1,'P',0);
+
+
+ALTER TABLE document_type ADD COLUMN dt_prefix text;
+COMMENT ON COLUMN document_type.dt_prefix IS 'Prefix for ag_ref';
+
+update document_type set dt_prefix= upper(substr(replace(dt_value,' ',''),0,7))||dt_id::text 

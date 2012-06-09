@@ -271,10 +271,7 @@ class Follow_Up
 
 		// ag_ref
 		// Always false for update
-		$ag_ref = new IText();
-		$ag_ref->readonly = $upd;
-		$ag_ref->name = "ag_ref";
-		$ag_ref->value = sql_string($this->ag_ref);
+
 		$client_label = new ISpan();
 
 		/* Add button */
@@ -366,7 +363,10 @@ class Follow_Up
 
 
 		$h_agrefid = new IHidden();
-		$str_ag_ref = "<b>" . (($this->ag_ref != "") ? $this->ag_ref : " Nouveau ") . "</b>";
+		$iag_ref=new IText("ag_ref");
+		$iag_ref->value=$this->ag_ref;
+		$iag_ref->readOnly = ($p_view == "NEW")?true:false;
+		$str_ag_ref =$iag_ref->input();
 		// Preparing the return string
 		$r = "";
 
@@ -586,8 +586,9 @@ class Follow_Up
 		$this->ag_id = $this->db->get_next_seq('action_gestion_ag_id_seq');
 
 		// Create the reference
-		$ref = $this->dt_id . '/' . $this->ag_id;
-		$this->ag_ref = $ref;
+		$ag_ref=$this->db->get_value('select dt_prefix from document_type where dt_id=$1',array($this->dt_id)).'-'.$this->db->get_next_seq($seq_name);
+		$this->ag_ref = $ag_ref;
+
 		if ($this->ag_cal == 'on')
 			$ag_cal = 'C';
 		else
@@ -617,7 +618,7 @@ class Follow_Up
 			$this->dt_id, /* 3 */
 			$this->ag_title, /* 4 */
 			$exp->id, /* 5 */
-			$ref, /* 6 */
+			$ag_ref, /* 6 */
 			$this->ag_dest, /* 7 */
 			$this->ag_hour, /* 8 */
 			$this->ag_priority, /* 9 */
@@ -858,12 +859,10 @@ class Follow_Up
 			$contact->id = 0;
 
 
-		$ref = $this->dt_id . '/' . $this->ag_id;
 		if ($this->ag_cal == 'on')
 			$ag_cal = 'C';
 		else
 			$ag_cal = 'I';
-		$this->ag_ref = $ref;
 		if ($this->ag_dest == 0)
 		{
 			$this->ag_dest = null;
@@ -979,6 +978,7 @@ class Follow_Up
 	function fromArray($p_array)
 	{
 		$this->ag_id = (isset($p_array['ag_id'])) ? $p_array['ag_id'] : "";
+		$this->ag_ref = (isset($p_array['ag_ref'])) ? $p_array['ag_ref'] : "";
 		$this->qcode_dest = (isset($p_array['qcode_dest'])) ? $p_array['qcode_dest'] : "";
 		$this->f_id_dest = (isset($p_array['f_id_dest'])) ? $p_array['f_id_dest'] : 0;
 		$this->ag_timestamp = (isset($p_array['ag_timestamp'])) ? $p_array['ag_timestamp'] : date('d.m.Y');

@@ -9,7 +9,10 @@ for ($i=0;$i<count($aList);$i++) :
 
 <tr id="row<?=$row['dt_id']?>">
 <td colspan="2">
-<?=$row['dt_value'];?>
+<?=h($row['dt_value']);?>
+</td>
+<td colspan="2">
+<?=h($row['dt_prefix']);?>
 </td>
 <td>
 <?=$row['js_remove'];?>
@@ -21,6 +24,9 @@ endfor;
 <tr>
 <td>
 <?=$str_addCat?>
+</td>
+<td>
+<?=$str_addPrefix?>
 </td>
 <td>
    <?=$str_submit?>

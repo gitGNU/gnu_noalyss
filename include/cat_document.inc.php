@@ -31,11 +31,13 @@ require_once ('class_document_type.php');
 if ( isset($_POST['add']) )
 {
     $catDoc=new Document_Type($cn);
-    $catDoc->insert($_POST['cat']);
+    $catDoc->insert($_POST['cat'],$_POST['prefix']);
 }
 $aList=Document_Type::get_list($cn);
 $addCat=new IText('cat');
+$addPrefix=new IText('prefix');
 $str_addCat=$addCat->input();
+$str_addPrefix=$addPrefix->input();
 $str_submit=HtmlInput::submit('add',_('Ajout'));
 echo '<div class="content">';
 require_once('template/list_category_document.php');

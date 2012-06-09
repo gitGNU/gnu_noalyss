@@ -61,6 +61,7 @@ class Document_type
         for ($i=0;$i<count($r);$i++)
         {
             $tmp['dt_value']=$r[$i]['dt_value'];
+            $tmp['dt_prefix']=$r[$i]['dt_prefix'];
 
             $bt=new IButton('X'.$r[$i]['dt_id']);
             $bt->label=_('Effacer');
@@ -74,15 +75,15 @@ class Document_type
         }
         return $array;
     }
-    function insert($p_value)
+    function insert($p_value,$p_prefix)
     {
-        $sql="insert into document_type(dt_value) values ($1)";
+        $sql="insert into document_type(dt_value,dt_prefix) values ($1,$2)";
         try
         {
             if( $this->db->count_sql('select * from document_type where upper(dt_value)=upper(trim($1))',array($p_value))>0)
                 throw new Exception('Nom en double');
             if ( strlen(trim($p_value))>0)
-                $this->db->exec_sql($sql,array($p_value));
+                $this->db->exec_sql($sql,array($p_value,$p_prefix));
         }
         catch (Exception $e)
         {
