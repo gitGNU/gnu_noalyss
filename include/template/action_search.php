@@ -100,6 +100,11 @@
 				<td><?= $my_action->input()?>
 				</td>
 			</tr>
+			<tr>
+				<td style="text-align:right"><?= _('Uniquement actions internes')?></td>
+				<td><?= $only_internal->input()?>
+				</td>
+			</tr>
 		</table>
 		<input type="submit" class="button" name="submit_query" value="<?= _('recherche')?>">
 		<input type="hidden" name="sa" value="list">
