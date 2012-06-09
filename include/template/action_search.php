@@ -46,7 +46,12 @@
 		<?=HtmlInput::hidden('ctlc',$_GET['ctlc'])?>
 <? endif; ?>
 		<?= dossier::hidden()?>
-		<table style="width:100%">
+		<table style="width:100%"><tr>
+			<td style="width:180px;text-align:right"> Référence</td>
+				<td>
+					<?=$osag_ref->input();?>
+				</td>
+			<tr>
 			<tr>
 				<td style="width:180px;text-align:right"> Numéro document</td>
 				<td>

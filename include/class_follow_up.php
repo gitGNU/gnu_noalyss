@@ -488,7 +488,7 @@ class Follow_Up
 		/* add the number of item */
 		$Hid = new IHidden();
 		$r.=$Hid->input("nb_item", MAX_ARTICLE);
-		$r.=HtmlInput::request_to_hidden(array("only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "all_action"));
+		$r.=HtmlInput::request_to_hidden(array("sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "all_action"));
 		/* get template */
 		ob_start();
 		require_once 'template/detail-action.php';
@@ -663,7 +663,7 @@ class Follow_Up
 	function myList($p_base, $p_filter = "", $p_search = "")
 	{
 		// for the sort
-		$url = HtmlInput::get_to_string(array("only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "all_action")) . '&' . $p_base;
+		$url = HtmlInput::get_to_string(array("sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "all_action")) . '&' . $p_base;
 
 		$table = new Sort_Table();
 		$table->add('Date', $url, 'order by ag_timestamp asc', 'order by ag_timestamp desc', 'da', 'dd');
@@ -735,7 +735,7 @@ class Follow_Up
 		//show the sub_action
 		foreach ($a_row as $row)
 		{
-			$href = '<A class="document" HREF="do.php' . HtmlInput::get_to_string(array("only_internal","state","gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "ac", "all_action")) . "&" . $p_base . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
+			$href = '<A class="document" HREF="do.php' . HtmlInput::get_to_string(array("sag_ref","only_internal","state","gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "ac", "all_action")) . "&" . $p_base . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
 			$i++;
 			$tr = ($i % 2 == 0) ? 'even' : 'odd';
 			if ($row['ag_priority'] < 2)
@@ -1146,6 +1146,8 @@ class Follow_Up
 		$ag_dest->value = $aAg_dest;
 		$ag_dest->selected = (isset($_GET["ag_dest_query"])) ? $_GET["ag_dest_query"] : 0;
 		$str_ag_dest = $ag_dest->input();
+		$osag_ref=new IText("sag_ref");
+		$osag_ref->value=(isset($_GET['sag_ref']))?$_GET['sag_ref']:"";
 		// show the  action in
 		require_once 'template/action_search.php';
 	}
@@ -1216,6 +1218,10 @@ class Follow_Up
 		if (isset($state) && $state!= -1)
 		{
 			$query .= ' and ag_state= ' . sql_string($state);
+		}
+		if (isset($sag_ref) && trim($sag_ref) != "")
+		{
+			$query .= ' and ag_ref= \'' . sql_string($sag_ref)."'";
 		}
 		if (!isset($_GET['see_all']))
 			$query .= ' and ag_state in (2,3) ';
