@@ -118,6 +118,7 @@ class Follow_Up
 		{
 			$upd = false;
 			$readonly = false;
+			$this->ag_ref=_("Nouveau");
 		}
 		elseif ($p_view == 'READ')
 		{

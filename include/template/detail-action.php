@@ -12,6 +12,14 @@
 
 
         <table >
+			<tr>
+            <TD>
+	    <?=_('N° document')?>
+            </TD>
+            <TD style="font-weight: bolder;" >
+              <?php echo $this->ag_id;?>
+            </TD>
+          </TR>
 			 <tr>
             <TD>
 	    <?=_('Reference')?>
@@ -21,6 +29,7 @@
               ?>
             </TD>
           </TR>
+
             <TD>
    <?=_('Date')?>
             </TD>
