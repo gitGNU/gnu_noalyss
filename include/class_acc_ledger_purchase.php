@@ -254,7 +254,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 	      }
 	    $nb++;
         }
-      
+
         if ( $nb == 0 )
             throw new Exception(_('Il n\'y a aucune marchandise'),12);
 
@@ -767,7 +767,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 {
                     $poste_val=$sposte;
                 }
-                
+
                 $famount=bcsub($cust_amount,$acompte);
                 $acc_pay->poste=$poste_val;
                 $acc_pay->qcode=$fqcode;
@@ -1510,13 +1510,13 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 		if ( $e_mp!=0 && strlen (trim (${'e_mp_qcode_'.$e_mp})) != 0 )
         {
             $r.=HtmlInput::hidden('e_mp_qcode_'.$e_mp,${'e_mp_qcode_'.$e_mp});
-            $r.=HtmlInput::hidden('acompte');
+            $r.=HtmlInput::hidden('acompte',$acompte);
             /* needed for generating a invoice */
             $r.=HtmlInput::hidden('qcode_benef', ${'e_mp_qcode_' . $e_mp});
 			$fname = new Fiche($this->db);
 			$fname->get_by_qcode(${'e_mp_qcode_' . $e_mp});
 			$r.='<div style="float:left"><h2 class="info">' . "Payé par " . ${'e_mp_qcode_' . $e_mp} .
-					" ".$fname->getName() ." ". _('Déduction de ').h($acompte).'</h2></div>';
+					" ".$fname->getName() ." ". _('Déduction acompte ').h($acompte).'</h2></div>';
             $r.='<br>';
         }
         // check for upload piece
