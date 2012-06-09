@@ -96,10 +96,10 @@ class Print_Ledger_Detail extends PDF
             $this->Cell(20,7,$row['pj']);
             $this->Cell(15,7,$row['date_fmt']);
             $this->Cell(20,7,$row['internal']);
-            $this->Cell(170,7,$row['comment']);
+            $this->LongLine(170,7,$row['comment']);
             $this->Cell(20,7,nbm($row['montant']),0,0,'R');
 
-            $this->Ln(4);
+            $this->Ln();
             // get the entries
             $aEntry=$this->cn->get_array("select j_id,j_poste,j_qcode,j_montant,j_debit, j_text,".
 										 " case when j_text='' or j_text is null then pcm_lib else j_text end as desc,".

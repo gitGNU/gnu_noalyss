@@ -88,9 +88,9 @@ class Print_Ledger_Financial extends PDF
             $this->Cell(40,5,$name,0,0);
 
 
-            $this->Cell(105,5,$row['comment'],0,0);
+            $this->LongLine(105,5,$row['comment'],0,'L');
             $amount=$this->cn->get_value('select qf_amount from quant_fin where jr_id=$1',array( $row['id']));
-            $this->Cell(15,5,sprintf('%.2f',$amount),0,0,'R');
+            $this->Cell(15,5,sprintf('%s',nbm($amount)),0,0,'R');
             $this->Ln(5);
 
         }

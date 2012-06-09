@@ -83,8 +83,8 @@ class Print_Ledger_Misc extends PDF
             $this->Cell(20,5,$row['internal']);
 	    $type=$this->cn->get_value("select jrn_def_type from jrn_def where jrn_def_id=$1",array($a_jrn[$i]['jr_def_id']));
 	    $other=mb_substr($this->ledger->get_tiers($type,$a_jrn[$i]['id']),0,25);
-	    $this->Cell(25,5,$other,0,0);
-            $this->Cell(80,5,$row['comment'],0,0);
+	    $this->LongLine(25,5,$other,0,'L');
+            $this->LongLine(80,5,$row['comment'],0,'L');
             $this->Cell(15,5,nbm($row['montant']),0,0,'R');
             $this->Ln(5);
 

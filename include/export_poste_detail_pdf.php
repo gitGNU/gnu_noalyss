@@ -86,7 +86,7 @@ foreach ($a_poste as $poste)
     $l++;
     $pdf->Cell($size[$l],6,'Journal',0,0,'C');
     $l++;
-    $pdf->Cell($size[$l],6,'Libellé',0,0,'L');
+    $pdf->LongLine($size[$l],6,'Libellé',0,'L');
     $l++;
     $pdf->Cell($size[$l],6,'Let',0,0,'R');
     $l++;
@@ -116,7 +116,7 @@ foreach ($a_poste as $poste)
         $l++;
         $pdf->Cell($size[$l],6,mb_substr($row['jrn_name'],0,14),0,0,$align[$l]);
         $l++;
-        $pdf->Cell($size[$l],6,  mb_substr($row['description'],0,55),0,0,$align[$l]);
+        $pdf->LongLine($size[$l],6,  $row['description'],0,$align[$l]);
         $l++;
         $pdf->Cell($size[$l],6,(($row['letter']!=-1)?$row['letter']:''),0,0,$align[$l]);
         $l++;

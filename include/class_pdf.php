@@ -37,7 +37,7 @@ class PDF extends TFPDF
 
     public function __construct ($p_cn = null, $orientation = 'P', $unit = 'mm', $format = 'A4')
     {
-
+		$this->bigger=0;
         if($p_cn == null) die("No database connection. Abort.");
 
         parent::TFPDF($orientation, $unit, $format);
@@ -85,7 +85,23 @@ class PDF extends TFPDF
     {
         $txt = str_replace("\\", "", $txt);
         return parent::Cell($w, $h, $txt, $border, $ln, $align, $fill, $link);
-    }
+		}
+	function LongLine($w,$h,$txt,$border=0,$align='',$fill=false)
+	{
+		$x_m=$this->GetX();
+		$y_m=$this->GetY();
+		$txt = str_replace("\\", "", $txt);
+		$this->MultiCell($w,$h,$txt,$border,$align,$fill);
+		$x_m=$x_m+$w;
+		$tmp=$this->GetY()-$y_m;
+		if ( $tmp > $this->bigger) $this->bigger=$tmp;
+		$this->SetXY($x_m,$y_m);
+	}
+	function Ln($p_step=null){
+		if ( $this->bigger==0) parent::Ln($p_step);
+		parent::Ln($this->bigger);
+		$this->bigger=0;
+	}
     /**
      *@brief retrieve the client name and quick_code
      *@param $p_jr_id jrn.jr_id

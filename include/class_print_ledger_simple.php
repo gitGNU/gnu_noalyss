@@ -229,9 +229,9 @@ class Print_Ledger_Simple extends PDF
             $this->Cell(10,5,$row['date_fmt'],0,0);
             $this->Cell(13,5,$row['internal'],0,0);
             list($qc,$name)=$this->get_tiers($row['id'],$this->jrn_type);
-            $this->Cell(40,5,"[".$qc."]".$name,0,0);
+            $this->LongLine(40,5,"[".$qc."]".$name,0,'L');
 
-            $this->Cell(65,5,mb_substr($row['comment'],0,47),0,0);
+            $this->LongLine(65,5,mb_substr($row['comment'],0,150),0,'L');
 
             /* get other amount (without vat, total vat included, private, ND */
             $other=$this->ledger->get_other_amount($a_jrn[$i]['jr_grpt_id']);

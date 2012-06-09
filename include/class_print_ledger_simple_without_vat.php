@@ -163,9 +163,9 @@ class Print_Ledger_Simple_Without_Vat extends PDF
             $this->Cell(20,5,$row['internal'],0,0);
             list($qc,$name)=$this->get_tiers($row['id'],$this->jrn_type);
             $this->Cell(20,5,$qc,0,0);
-            $this->Cell(40,5,$name,0,0);
+            $this->LongLine(40,5,$name,0,'L');
 
-            $this->Cell(105,5,$row['comment'],0,0);
+            $this->LongLine(105,5,$row['comment'],0,'L');
 
             /* get other amount (without vat, total vat included, private, ND */
             $other=$this->ledger->get_other_amount($a_jrn[$i]['jr_grpt_id']);
