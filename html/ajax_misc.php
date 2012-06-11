@@ -1,5 +1,4 @@
 <?php
-
 /*
  *   This file is part of PhpCompta.
  *
@@ -128,7 +127,7 @@ EOF;
 </data>
 EOF;
 		break;
-	/* remove a cat of document */
+	/* rem a cat of document */
 	case 'rem_cat_doc':
 		require_once('class_document_type.php');
 		// if user can not return error message
@@ -171,6 +170,9 @@ EOF;
 EOF;
 		return;
 		break;
+        case 'mod_cat_doc':
+	  require_once 'template/document_mod_change.php';
+	  break;
 	case 'dsp_tva':
 		$cn = new Database($gDossier);
 		$Res = $cn->exec_sql("select * from tva_rate order by tva_rate desc");

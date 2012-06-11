@@ -15,8 +15,13 @@ for ($i=0;$i<count($aList);$i++) :
 <?=h($row['dt_prefix']);?>
 </td>
 <td>
+<?=$row['js_mod'];?>
+</td>
+<td>
 <?=$row['js_remove'];?>
 </td>
+
+
 </tr>
 <?
 endfor;

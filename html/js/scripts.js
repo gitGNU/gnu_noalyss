@@ -405,6 +405,33 @@ function cat_doc_remove(p_dt_id,p_dossier)
                  "ajax_misc.php" , {method:'get', parameters:queryString,onFailure:ajax_misc_failure,onSuccess:success_cat_doc_remove}
                  );
 }
+/**
+ *@brief change a document_modele
+ */
+function cat_doc_change(p_dt_id,p_dossier)
+{
+    var queryString="gDossier="+p_dossier+"&op=mod_cat_doc"+"&dt_id="+p_dt_id;
+    var nTop=calcy(posY);
+    var nLeft="200px";
+    var str_style="top:"+nTop+"px;left:"+nLeft+";width:50em;height:auto";
+
+    removeDiv('change_doc_div');
+    waiting_box();
+    var action = new Ajax.Request(
+				  "ajax_misc.php" , 
+				  {
+				      method:'get', parameters:queryString,
+				      onFailure:ajax_misc_failure,
+				      onSuccess:function(req){
+					  remove_waiting_box();
+					  add_div({id:'change_doc_div',style:str_style,cssclass:'inner_box',drag:"1"});
+					  $('change_doc_div').innerHTML=req.responseText;
+
+				      }
+				  }
+				  );
+}
+
 function success_cat_doc_remove(req)
 {
     try
@@ -1179,6 +1206,10 @@ function fixed_position(p_sx,p_sy)
 	return str_style;
 
 }
+/**
+ *@brief compute Y even if the windows has scrolled down or up
+ *@return the correct Y position
+ */
 function calcy(p_sy)
 {
 	var sy=p_sy;

@@ -64,13 +64,21 @@ class Document_type
             $tmp['dt_prefix']=$r[$i]['dt_prefix'];
 
             $bt=new IButton('X'.$r[$i]['dt_id']);
+            $bt->label=_('Modifier');
+            $bt->javascript="cat_doc_change('".$r[$i]['dt_id']."','".Dossier::id()."');";
+
+            $tmp['js_mod']=$bt->input();
+            $tmp['dt_id']=$r[$i]['dt_id'];
+
+            $bt=new IButton('X'.$r[$i]['dt_id']);
             $bt->label=_('Effacer');
             $bt->javascript="if (confirm('"._('Vous confirmez')."')==true) {";
             $bt->javascript.="cat_doc_remove('".$r[$i]['dt_id']."','".Dossier::id()."');";
             $bt->javascript.='}';
-
+ 
             $tmp['js_remove']=$bt->input();
-            $tmp['dt_id']=$r[$i]['dt_id'];
+
+
             $array[$i]=$tmp;
         }
         return $array;
