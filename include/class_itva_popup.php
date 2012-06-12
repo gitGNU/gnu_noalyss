@@ -139,7 +139,8 @@ class ITva_Popup extends HtmlInput
     public function display()
     {
         $r='<input text name="%s" value="%s" id="%s" disabled>';
-        $res=sprinf($r,$this->name,$this->value,$this->name);
+
+		$res=sprintf($r,$this->name,$this->value,$this->name);
         return $res;
     }
     /**
