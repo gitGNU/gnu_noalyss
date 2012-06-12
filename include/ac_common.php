@@ -184,8 +184,8 @@ function cmpDate($p_date, $p_date_oth)
     return $l_mkdate - $l2_mkdate;
 }
 
-/* !
- * \brief check if the argument is a number
+/***!
+ * @brief check if the argument is a number
  *
  * \param $p_int number to test
  *
@@ -193,7 +193,6 @@ function cmpDate($p_date, $p_date_oth)
  *        - 1 it's a number
  *        - 0 it is not
  */
-
 function isNumber(&$p_int)
 {
     if (strlen(trim($p_int)) == 0)
