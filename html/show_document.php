@@ -58,10 +58,11 @@ if ( $action == 'rm' )
         print $json;
     }
 }
-/* remove the operation */
+/* remove the operation from action_gestion_operation*/
 if ( $action == 'rmop' )
 {
-    if ($User->check_action(RMDOC)==1)
+	$dt_id=$cn->get_value("select ag_id from action_gestion_operation where ago_id=$1",$_REQUEST['id']);
+    if ($User->check_action(RMDOC)==1 && $User->can_write_action($dt_id)==true)
     {
 		$cn->exec_sql("delete from action_gestion_operation where ago_id=$1",
 				array($_REQUEST['id']));
@@ -70,10 +71,11 @@ if ( $action == 'rmop' )
         print $json;
     }
 }
-/* remove the comment*/
+/* remove the comment from action_gestion_operation*/
 if ( $action == 'rmcomment' )
 {
-    if ($User->check_action(RMDOC)==1)
+	$dt_id=$cn->get_value("select ag_id from action_gestion_comment where agc_id=$1",$_REQUEST['id']);
+    if ($User->check_action(RMDOC)==1 && $User->can_write_action($dt_id)==true)
     {
 		$cn->exec_sql("delete from action_gestion_comment where agc_id=$1",
 				array($_REQUEST['id']));
@@ -82,10 +84,10 @@ if ( $action == 'rmcomment' )
         print $json;
     }
 }
-/* remove the action*/
+/* remove the action from action_gestion_operation*/
 if ( $action == 'rmaction' )
 {
-    if ($User->check_action(RMDOC)==1)
+    if ($User->check_action(RMDOC)==1 && $User->can_write_action($_REQUEST['id']) == true && $User->can_write_action($_REQUEST['ag_id'])== true )
     {
 		$cn->exec_sql("delete from action_gestion_related where aga_least=$1 and aga_greatest=$2",
 				array($_REQUEST['id'],$_REQUEST['ag_id']));

@@ -208,7 +208,26 @@ class Profile_Menu
 			$gDossier = Dossier::id();
 			$this->sub_menu($ret, $p_id);
 		}
-
+		function available_profile($p_id)
+		{
+			$array=$this->cn->get_array("
+					select p.p_id,p.p_name,s.p_granted,s.ua_id,s.ua_right
+						from profile as p
+						join user_sec_action_profile as s on (s.p_granted=p.p_id)
+						where s.p_id=$1
+					union
+						select p2.p_id, p2.p_name,null,null,'X'
+						from profile as p2
+						where
+						p2.p_id not in (select p_granted from user_sec_action_profile where p_id = $1) order by p_name;
+				",array($p_id));
+			$aright_value=array(
+								array('value'=>'R','label'=>_('Lecture')),
+								array('value'=>'W','label'=>_('Ecriture')),
+								array('value'=>'X','label'=>_('Aucun accès'))
+					);
+			require_once 'template/user_sec_profile.php';
+		}
 	}
 
 	//end class

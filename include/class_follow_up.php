@@ -87,9 +87,24 @@ class Follow_Up
 	function __construct($p_cn)
 	{
 		$this->db = $p_cn;
+		$this->ag_id=0;
 		$this->f_id = 0;
 	}
-
+	static function sql_security_filter($cn,$p_mode)
+	{
+		global $g_user;
+		$profile=$cn->get_value("select p_id from profile_user where user_name=$1",array($g_user->login));
+		if ($profile == '') die ("Security");
+		if ($p_mode == 'R')
+		{
+			$sql=" (ag_dest in (select p_granted from user_sec_action_profile where p_id=$profile ) ) ";
+		}
+		if ($p_mode == 'W')
+		{
+			$sql=" ( ag_dest in (select p_granted from user_sec_action_profile where p_id=$profile and ua_right='W' ) )";
+		}
+		return $sql;
+	}
 	//----------------------------------------------------------------------
 	/* !
 	 * \brief Display the object, the tags for the FORM
@@ -109,6 +124,7 @@ class Follow_Up
 	 */
 	function Display($p_view, $p_gen, $p_base, $retour = "")
 	{
+		global $g_user;
 		if ($p_view == 'UPD')
 		{
 			$upd = true;
@@ -132,12 +148,12 @@ class Follow_Up
 		// Compute the widget
 		// Date
 		$date = new IDate();
-		$date->readonly = $readonly;
+		$date->readOnly = $readonly;
 		$date->name = "ag_timestamp";
 		$date->value = $this->ag_timestamp;
 
 		$remind_date = new IDate();
-		$remind_date->readonly = $readonly;
+		$remind_date->readOnly = $readonly;
 		$remind_date->name = "ag_remind_date";
 		$remind_date->value = $this->ag_remind_date;
 
@@ -147,7 +163,7 @@ class Follow_Up
 		$doc_type->name = "dt_id";
 		$doc_type->value = $this->db->make_array("select dt_id,dt_value from document_type order by dt_value");
 		$doc_type->selected = $this->dt_id;
-		$doc_type->readonly = false;
+		$doc_type->readOnly = $readonly;
 		$str_doc_type = $doc_type->input();
 
 		// Description
@@ -155,7 +171,7 @@ class Follow_Up
 		$desc->width = 70;
 		$desc->heigh = 5;
 		$desc->name = "ag_comment";
-		$desc->readonly = $readonly;
+		$desc->readOnly = $readonly;
 		if (strlen($desc->value) > 300)
 		{
 			$desc->width = 120;
@@ -189,7 +205,7 @@ class Follow_Up
 		// Retrieve the value
 		$a = $this->db->make_array("select s_id,s_value from document_state ");
 		$state = new ISelect();
-		$state->readonly = $readonly;
+		$state->readOnly = $readonly;
 		$state->name = "ag_state";
 		$state->value = $a;
 		$state->selected = $this->ag_state;
@@ -219,14 +235,14 @@ class Follow_Up
 
 		// title
 		$title = new IText();
-		$title->readonly = $readonly;
+		$title->readOnly = $readonly;
 		$title->name = "ag_title";
 		$title->value = $this->ag_title;
 		$title->size = 60;
 
 		// ag_cal
 		$ag_cal = new ICheckBox('ag_cal');
-		$ag_cal->readonly = $readonly;
+		$ag_cal->readOnly = $readonly;
 		$ag_cal->name = "ag_cal";
 
 		if ($this->ag_cal == 'C')
@@ -238,7 +254,7 @@ class Follow_Up
 
 		// Priority of the ag_priority
 		$ag_priority = new ISelect();
-		$ag_priority->readonly = $readonly;
+		$ag_priority->readOnly = $readonly;
 		$ag_priority->name = "ag_priority";
 		$ag_priority->selected = $this->ag_priority;
 		$ag_priority->value = array(array('value' => 1, 'label' => 'Haute'),
@@ -249,7 +265,7 @@ class Follow_Up
 
 		// hour of the action (meeting) ag_hour
 		$ag_hour = new IText();
-		$ag_hour->readonly = $readonly;
+		$ag_hour->readOnly = $readonly;
 		$ag_hour->name = "ag_hour";
 		$ag_hour->value = $this->ag_hour;
 		$ag_hour->size = 6;
@@ -258,14 +274,13 @@ class Follow_Up
 
 		// Profile in charged of the action
 		$ag_dest = new ISelect();
-		$ag_dest->readonly = $readonly;
+		$ag_dest->readOnly = $readonly;
 		$ag_dest->name = "ag_dest";
 		// select profile
 		$aAg_dest = $this->db->make_array("select  p_id as value, " .
 				"p_name as label " .
-				" from profile order by 2");
+				" from profile  where p_id in (select p_granted from user_sec_action_profile where ua_right='W' and p_id=".$g_user->get_profile().") order by 2");
 
-		$aAg_dest[] = array('value' => 0, 'label' => 'Public');
 		$ag_dest->value = $aAg_dest;
 		$ag_dest->selected = $this->ag_dest;
 		$str_ag_dest = $ag_dest->input();
@@ -303,7 +318,7 @@ class Follow_Up
 		//
 		// sender
 		$w = new ICard();
-		$w->readonly = $readonly;
+		$w->readOnly = $readonly;
 		$w->jrn = 0;
 		$w->name = 'qcode_dest';
 		$w->value = ($this->f_id_dest != 0) ? $this->qcode_dest : "";
@@ -327,7 +342,7 @@ class Follow_Up
 
 		// contact
 		$ag_contact = new ICard();
-		$ag_contact->readonly = $readonly;
+		$ag_contact->readOnly = $readonly;
 		$ag_contact->jrn = 0;
 		$ag_contact->name = 'ag_contact';
 		$ag_contact->value = '';
@@ -366,7 +381,7 @@ class Follow_Up
 		$h_agrefid = new IHidden();
 		$iag_ref=new IText("ag_ref");
 		$iag_ref->value=$this->ag_ref;
-		$iag_ref->readOnly = ($p_view == "NEW")?true:false;
+		$iag_ref->readOnly = ($p_view == "NEW" ||$p_view == 'READ')?true:false;
 		$str_ag_ref =$iag_ref->input();
 		// Preparing the return string
 		$r = "";
@@ -374,6 +389,7 @@ class Follow_Up
 		/* for new files */
 		$upload = new IFile();
 		$upload->name = "file_upload[]";
+		$upload->readOnly=$readonly;
 		$upload->value = "";
 		$aAttachedFile = $this->db->get_array('select d_id,d_filename,d_mimetype,' .
 				'\'show_document.php?' .
@@ -387,7 +403,7 @@ class Follow_Up
 				' order by md_name');
 		$str_select_doc = $aDocMod->input();
 		/* if no document then do not show the generate button */
-		if (empty($aDocMod->value))
+		if (empty($aDocMod->value) )
 			$str_submit_generate = "";
 		else
 			$str_submit_generate = HtmlInput::submit("generate", _("Génére le document"));
@@ -421,6 +437,7 @@ class Follow_Up
 			$icard->extra = 'all';
 			$icard->name = "e_march" . $i;
 			$tmp_ad = (isset($this->aAction_detail[$i])) ? $this->aAction_detail[$i] : false;
+			$icard->readOnly=$readonly;
 			$icard->value = '';
 			if ($tmp_ad)
 			{
@@ -447,11 +464,13 @@ class Follow_Up
 			$text->name = "e_march" . $i . "_label";
 			$text->size = 40;
 			$text->value = ($tmp_ad) ? $tmp_ad->get_parameter('text') : "";
+			$text->readOnly=$readonly;
 			$aArticle[$i]['desc'] = $text->input();
 
 			$num->javascript = ' onchange="format_number(this);clean_tva(' . $i . ');compute_ledger(' . $i . ')"';
 			$num->name = "e_march" . $i . "_price";
 			$num->size = 8;
+			$num->readOnly=$readonly;
 			$num->value = ($tmp_ad) ? $tmp_ad->get_parameter('price_unit') : 0;
 			$aArticle[$i]['pu'] = $num->input();
 
@@ -462,6 +481,7 @@ class Follow_Up
 
 			$itva->name = 'e_march' . $i . '_tva_id';
 			$itva->value = ($tmp_ad) ? $tmp_ad->get_parameter('tva_id') : 0;
+			$itva->readOnly=$readonly;
 			$itva->js = ' onchange="format_number(this);clean_tva(' . $i . ');compute_ledger(' . $i . ')"';
 			$itva->set_attribute('compute', $i);
 
@@ -514,13 +534,15 @@ class Follow_Up
 	function get()
 	{
 		$sql = "select ag_id,to_char (ag_timestamp,'DD.MM.YYYY') as ag_timestamp," .
-				" f_id_dest,ag_title,ag_ref,d_id,ag_type,ag_state,  " .
+				" f_id_dest,ag_title,ag_ref,d_id,ag_type,ag_state, ag_owner, " .
 				"  ag_dest, ag_hour, ag_priority, ag_cal,ag_contact,to_char (ag_remind_date,'DD.MM.YYYY') as ag_remind_date " .
 				" from action_gestion left join document using (ag_id) where ag_id=" . $this->ag_id;
 		$r = $this->db->exec_sql($sql);
 		$row = Database::fetch_all($r);
-		if ($row == false)
+		if ($row == false){
+			$this->ag_id=0;
 			return;
+		}
 		$this->ag_timestamp = $row[0]['ag_timestamp'];
 		$this->ag_contact = $row[0]['ag_contact'];
 		$this->f_id_dest = $row[0]['f_id_dest'];
@@ -534,6 +556,7 @@ class Follow_Up
 		$this->ag_priority = $row[0]['ag_priority'];
 		$this->ag_cal = $row[0]['ag_cal'];
 		$this->ag_remind_date = $row[0]['ag_remind_date'];
+		$this->ag_owner= $row[0]['ag_owner'];
 
 		$action_detail = new Follow_Up_Detail($this->db);
 		$action_detail->set_parameter('ag_id', $this->ag_id);
@@ -737,7 +760,7 @@ class Follow_Up
 		//show the sub_action
 		foreach ($a_row as $row)
 		{
-			$href = '<A class="document" HREF="do.php' . HtmlInput::get_to_string(array("sag_ref","only_internal","state","gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "ac", "all_action")) . "&" . $p_base . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
+			$href = '<A class="document" HREF="do.php?'  . $p_base .HtmlInput::get_to_string(array("sag_ref","only_internal","state","gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "ac", "all_action"),"") . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
 			$i++;
 			$tr = ($i % 2 == 0) ? 'even' : 'odd';
 			if ($row['ag_priority'] < 2)
@@ -1143,7 +1166,6 @@ class Follow_Up
 				" from profile order by 2");
 		$ag_dest = new ISelect();
 		$ag_dest->name = "ag_dest_query";
-		$aAg_dest[] = array('value' => 0, 'label' => 'Public');
 		$ag_dest->value = $aAg_dest;
 		$ag_dest->selected = (isset($_GET["ag_dest_query"])) ? $_GET["ag_dest_query"] : 0;
 		$str_ag_dest = $ag_dest->input();
@@ -1230,7 +1252,9 @@ class Follow_Up
 			$query .= ' and f_id_dest=0 ';
 		if (!isset($all_action))
 		{
-			$query .=" and (ag_owner='" . $_SESSION['g_user'] . "' or ag_dest in (select p_id from profile_user where user_name='" . $_SESSION['g_user'] . "') or ag_dest is null )";
+			$query .=" and (ag_owner='" . $_SESSION['g_user'] . "' or ".self::sql_security_filter($cn, "R")." )";
+		} else {
+			$query .= "and ".self::sql_security_filter($cn,'R');
 		}
 		if (isset($date_start) && isDate($date_start) != null)
 		{

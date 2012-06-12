@@ -188,4 +188,27 @@ insert into profile_menu(me_code,p_id,p_type_display,pm_default) values ('CSV:Ac
 ALTER TABLE document_type ADD COLUMN dt_prefix text;
 COMMENT ON COLUMN document_type.dt_prefix IS 'Prefix for ag_ref';
 
-update document_type set dt_prefix= upper(substr(replace(dt_value,' ',''),0,7))||dt_id::text 
+update document_type set dt_prefix= upper(substr(replace(dt_value,' ',''),0,7))||dt_id::text
+
+CREATE TABLE user_sec_action_profile
+(
+  ua_id bigserial NOT NULL, -- pk
+  p_id bigint, -- fk to profile
+  p_granted bigint, -- fk to profile
+  ua_right character(1), -- Type of right : R for readonly W for write
+  CONSTRAINT user_sec_action_profile_pkey PRIMARY KEY (ua_id ),
+  CONSTRAINT user_sec_action_profile_p_id_fkey FOREIGN KEY (p_id)
+   REFERENCES profile (p_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT user_sec_action_profile_p_granted_fkey FOREIGN KEY (p_granted)
+      REFERENCES profile (p_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT user_sec_action_profile_ua_right_check CHECK (ua_right = ANY (ARRAY['R'::bpchar, 'W'::bpchar]))
+);
+COMMENT ON TABLE user_sec_action_profile  IS 'Available profile for user';
+COMMENT ON COLUMN user_sec_action_profile.ua_id IS 'pk';
+COMMENT ON COLUMN user_sec_action_profile.p_id IS 'fk to profile';
+COMMENT ON COLUMN user_sec_action_profile.ua_right IS 'Type of right : R for readonly W for write';
+INSERT INTO profile (p_name, p_id, p_desc, with_calc, with_direct_form) VALUES ('Public', -1, 'faux groupe', NULL, NULL);
+insert into user_sec_action_profile(p_id,p_granted,ua_right) select 1,p_id,'W' from profile;
+insert into user_sec_action_profile(p_id,p_granted ,ua_right) select 2,p_id,'W' from profile;

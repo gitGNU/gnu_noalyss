@@ -34,7 +34,7 @@ $gDossier=Dossier::id();
 $add_one=HtmlInput::button("add", "Ajout Menu","onclick=\"add_menu({dossier:$gDossier,p_id:$p_id})\"")
 ?>
 <hr>
-<h1>Profile <?=$profile->p_name?></h1>
+<h1>Profil <?=$profile->p_name?></h1>
 
 <?
 $id=HtmlInput::hidden('p_id',$profile->p_id);
@@ -79,8 +79,9 @@ Effacer ce profil';
 	$profile_menu->listing_profile($p_id);
 	echo "<h2>Impression</h2>";
 	$profile_menu->printing($p_id);
-
 	echo $add_one;
+	echo "<h2>Action gestion accessible</h2>";
+	$profile_menu->available_profile($p_id);
 }
 ?>
 

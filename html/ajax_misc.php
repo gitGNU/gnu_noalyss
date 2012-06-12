@@ -63,6 +63,8 @@ $user = new User($cn);
 $user->check(true);
 $user->check_dossier($gDossier, true);
 $html = var_export($_REQUEST, true);
+global $g_user;
+$g_user=$user;
 switch ($op)
 {
 	case "remove_anc":

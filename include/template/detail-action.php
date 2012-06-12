@@ -82,7 +82,7 @@
           </td>
           </Tr>
         </table>
- <?echo $str_add_button;?>
+ <?if ($p_view != 'READ') echo $str_add_button;?>
 
 </div>
 <div style="float:left;width:45%">
@@ -147,17 +147,25 @@
 		<?
 		for ($o=0;$o<count($operation);$o++)
 		{
-			$rmOperation=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer cette opération ')."')==true ) {remove_operation('%s','%s');}",
-					dossier::id(),
-					$operation[$o]['ago_id']);
-			$js= '<a class="mtitle" style="color:orange" id="acop'.$operation[$o]['ago_id'].'" href="'.$rmOperation.'">Effacer</a>';
-			echo '<li id="op'.$operation[$o]['ago_id'].'">'.$operation[$o]['str_date']." ".HtmlInput::detail_op($operation[$o]['jr_id'],$operation[$o]['jr_internal'])." ".h($operation[$o]['jr_comment'])." "
-				.$js.'</li>';
+			if ( $p_view != 'READ')
+				{
+					$rmOperation=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer cette opération ')."')==true ) {remove_operation('%s','%s');}",
+							dossier::id(),
+							$operation[$o]['ago_id']);
+					$js= '<a class="mtitle" style="color:orange" id="acop'.$operation[$o]['ago_id'].'" href="'.$rmOperation.'">Effacer</a>';
+					echo '<li id="op'.$operation[$o]['ago_id'].'">'.$operation[$o]['str_date']." ".HtmlInput::detail_op($operation[$o]['jr_id'],$operation[$o]['jr_internal'])." ".h($operation[$o]['jr_comment'])." "
+						.$js.'</li>';
+				}
+				else
+				{
+					echo '<li >'.$operation[$o]['str_date']." ".HtmlInput::detail_op($operation[$o]['jr_id'],$operation[$o]['jr_internal'])." ".h($operation[$o]['jr_comment'])." "
+						.'</li>';
+				}
 		}
 
 		?>
 		</ol>
-		<?=$iconcerned->input()?>
+		<? if ($p_view != 'READ') echo $iconcerned->input()?>
 	</div>
 
 	<div style="float:left;width:45%">
@@ -168,6 +176,8 @@
 		$base=HtmlInput::request_to_string(array("gDossier","ac","sa","sb","sc","f_id"));
 		for ($o=0;$o<count($action);$o++)
 		{
+			if ( $p_view != 'READ')
+				{
 			$rmAction=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer cette action ')."')==true ) {remove_action('%s','%s','%s');}",
 					dossier::id(),
 					$action[$o]['ag_id'],$_REQUEST['ag_id']);
@@ -176,11 +186,17 @@
 			echo '<li id="act'.$action[$o]['ag_id'].'">'.$showAction.$action[$o]['str_date']." ".$action[$o]['ag_ref']." ".
 					h($action[$o]['sub_title']).'('.h($action[$o]['dt_value']).')</a>'." "
 				.$js.'</li>';
+			} else {
+				$showAction='<a class="line" href="'.$base."&ag_id=".$action[$o]['ag_id'].'">';
+				echo '<li>'.$showAction.$action[$o]['str_date']." ".$action[$o]['ag_ref']." ".
+					h($action[$o]['sub_title']).'('.h($action[$o]['dt_value']).')</a>'." "
+				.'</li>';
+			}
 		}
 
 		?>
 		</ol>
-		<?=$iaction->input()?>
+		<? if ( $p_view != 'READ') echo $iaction->input()?>
 	</div>
 </fieldset>
 <fieldset>
@@ -201,7 +217,9 @@ function small(p_id_textarea){
 
    }
 </script>
-
+<? if  ($p_view != 'NEW') : ?>
+Document créé le <?=$this->ag_timestamp ?> par <?=$this->ag_owner?>
+<? endif; ?>
    <h4 class="info"><?=_('Titre')?></h4>
     <p style="margin-left:100">
     <?php echo $title->input();
@@ -213,14 +231,25 @@ function small(p_id_textarea){
    $style_enl='style="display:inline"';$style_small='style="display:none"';
 
 for( $c=0;$c<count($acomment);$c++){
-	$rmComment=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer ce commentaire ')."')==true ) {remove_comment('%s','%s');}",
-					dossier::id(),
-					$acomment[$c]['agc_id']);
-			$js= '<a class="mtitle" style="color:orange" id="accom'.$acomment[$c]['agc_id'].'" href="'.$rmComment.'">Effacer</a>';
-	echo 'n°'.$acomment[$c]['agc_id'].'('.h($acomment[$c]['tech_user'])." ".smaller_date($acomment[$c]['str_agc_date']).')'.$js.
-			'<pre style="white-space: -moz-pre-wrap;white-space: pre-wrap;border:1px solid blue;width:70%;" id="com'.$acomment[$c]['agc_id'].'"> '.
-			" ".h($acomment[$c]['agc_comment']).'</pre>'
-			;
+	if ( $p_view != 'READ')
+	{
+		$rmComment=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer ce commentaire ')."')==true ) {remove_comment('%s','%s');}",
+						dossier::id(),
+						$acomment[$c]['agc_id']);
+				$js= '<a class="mtitle" style="color:orange" id="accom'.$acomment[$c]['agc_id'].'" href="'.$rmComment.'">Effacer</a>';
+		echo 'n°'.$acomment[$c]['agc_id'].'('.h($acomment[$c]['tech_user'])." ".smaller_date($acomment[$c]['str_agc_date']).')'.$js.
+				'<pre style="white-space: -moz-pre-wrap;white-space: pre-wrap;border:1px solid blue;width:70%;" id="com'.$acomment[$c]['agc_id'].'"> '.
+				" ".h($acomment[$c]['agc_comment']).'</pre>'
+				;
+	}
+	else
+	{
+		echo 'n°'.$acomment[$c]['agc_id'].'('.h($acomment[$c]['tech_user'])." ".smaller_date($acomment[$c]['str_agc_date']).')'.
+				'<pre style="white-space: -moz-pre-wrap;white-space: pre-wrap;border:1px solid blue;width:70%;" id="com'.$acomment[$c]['agc_id'].'"> '.
+				" ".h($acomment[$c]['agc_comment']).'</pre>'
+				;
+
+	}
 }
 echo $desc->input();
 ?>
@@ -292,14 +321,19 @@ function toggleShowDetail() {
 </div>
 
 </fieldset>
+
+<? if ($p_view != 'READ') : ?>
 <fieldset >
   <legend>
      <?=_('Document à générer')?>
   </legend>
   <?php echo $str_select_doc;
-echo $str_submit_generate;
+ echo $str_submit_generate;
   ?>
 </fieldset>
+<? endif; ?>
+
+
 <fieldset>
   <legend>
      <?=_('Pièces attachées')?>
@@ -315,7 +349,7 @@ for ($i=0;$i<sizeof($aAttachedFile);$i++) :
 	dossier::id(),
 	$aAttachedFile[$i]['d_id']);
     ?>
-    <a class="mtitle" style="color:orange" id="<?php echo "ac".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $rmDoc;?>">Effacer</a>
+  <? if ($p_view != 'READ') : ?>  <a class="mtitle" style="color:orange" id="<?php echo "ac".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $rmDoc;?>">Effacer</a><? endif;?>
   </p>
   <?php
 endfor;
@@ -340,7 +374,7 @@ catch(exception) { alert('<?=j(_('Je ne peux pas ajouter de fichier'))?>'); aler
       </li>
     </ol>
   <span >
-  <input type="button" class="button" onclick="addFiles();" value="Ajouter un fichier">
+<? if ($p_view != 'READ') : ?> <input type="button" class="button" onclick="addFiles();" value="Ajouter un fichier"> <? endif;?>
   </span>
   </p>
 </fieldset>

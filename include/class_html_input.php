@@ -533,9 +533,9 @@ class HtmlInput
      *@see HtmlInput::request_to_string
      *@return html string with the string data
      */
-    static function get_to_string($array)
+    static function get_to_string($array,$start="?")
     {
-      $r=self::array_to_string($array,$_GET );
+      $r=self::array_to_string($array,$_GET ,$start);
       return $r;
     }
 

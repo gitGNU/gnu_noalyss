@@ -32,7 +32,6 @@ require_once("constant.php");
 require_once("user_common.php");
 require_once('class_dossier.php');
 require_once('ac_common.php');
-
 class User
 {
 
@@ -964,7 +963,7 @@ class User
              natural join  ac_dossier
              join  priv_user on ( priv_jnt=jnt_id)
              where use_active=1
-             and use_login= $1 
+             and use_login= $1
              and priv_priv != 'X' and ( dos_name ~* $2 or dos_description ~* $2 )
              order by dos_name", array($this->login,$p_filter));
 		}
@@ -1007,7 +1006,7 @@ class User
                     $_SERVER['REQUEST_URI'],
                     $action));
             }
-        }   
+        }
 	function save_profile($p_id)
 	{
 		$count=$this->db->get_value("select count(*) from profile_user where user_name=$1",  array($this->login));
@@ -1028,6 +1027,22 @@ class User
 		$profile=$this->db->get_value("select p_id from profile_user where
 				user_name=$1",array($this->login));
 		return $profile;
+	}
+	function can_write_action( $dtoc)
+	{
+		$profile=$this->get_profile();
+		$r=$this->db->get_value(" select count(*) from action_gestion where ag_id=$1 and ag_dest in
+				(select p_granted from user_sec_action_profile where ua_right='W' and p_id=$2) ",array($dtoc,$profile));
+		if ( $r == 0 ) return false;
+		return true;
+	}
+	function can_read_action($dtoc)
+	{
+		$profile=$this->get_profile();
+		$r=$this->db->get_value(" select count(*) from action_gestion where ag_id=$1 and (ag_dest in
+				(select p_granted from user_sec_action_profile where p_id=$2) or ag_owner=$3)",array($dtoc,$profile,$this->login));
+		if ( $r == 0 ) return false;
+		return true;
 	}
 
 }
