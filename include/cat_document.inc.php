@@ -33,6 +33,20 @@ if ( isset($_POST['add']) )
     $catDoc=new Document_Type($cn);
     $catDoc->insert($_POST['cat'],$_POST['prefix']);
 }
+if ( isset($_POST['save'])) {
+	$catDoc=new Document_Type($cn,$_POST['dt_id']);
+	$catDoc->get();
+	$catDoc->dt_value=trim($_POST['dt_name']);
+	$catDoc->dt_prefix=trim($_POST['dt_prefix']);
+	if ( $catDoc->dt_value=="") {
+		alert(_("Le nom ne peut pas être vide"));
+	} else {
+		$catDoc->update();
+	}
+	if ($_POST['seq'] != 0 && isNumber($_POST['seq'])==1){
+		$catDoc->set_number($_POST['seq']);
+	}
+}
 $aList=Document_Type::get_list($cn);
 $addCat=new IText('cat');
 $addPrefix=new IText('prefix');

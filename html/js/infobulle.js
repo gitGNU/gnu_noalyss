@@ -42,6 +42,7 @@ content[11]="ATTENTION si le poste comptable est  vide, il sera créé automatiq
 content[12]="Document généré uniquement si le mode de paiement est utilisé";
 content[13]="Vous pouvez utiliser le % pour indiquer le poste parent";
 content[14]="Attention, le poste comptable doit exister, il ne sera pas vérifié";
+content[15]="Laissez à 0 pour ne rien changer";
 
 function showBulle(p_ctl)
 {
