@@ -257,6 +257,7 @@ case 'st':
 		 $html.='</h3>';
 		 break;
 	}
+	$sql.=" ".$where;
     $array=$cn->make_array($sql);
     $html=HtmlInput::anchor_close('select_card_div');
     $html.=h2info('Choix de la catégorie');
