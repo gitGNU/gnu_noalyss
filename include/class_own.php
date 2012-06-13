@@ -105,6 +105,7 @@ class Own
         $this->save('MY_DATE_SUGGEST');
         $this->save('MY_ALPHANUM');
         $this->save('MY_UPDLAB');
+        $this->save('MY_STOCK');
 
 
     }

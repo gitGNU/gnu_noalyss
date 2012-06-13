@@ -212,3 +212,32 @@ COMMENT ON COLUMN user_sec_action_profile.ua_right IS 'Type of right : R for rea
 INSERT INTO profile (p_name, p_id, p_desc, with_calc, with_direct_form) VALUES ('Public', -1, 'faux groupe', NULL, NULL);
 insert into user_sec_action_profile(p_id,p_granted,ua_right) select 1,p_id,'W' from profile;
 insert into user_sec_action_profile(p_id,p_granted ,ua_right) select 2,p_id,'W' from profile;
+insert into parameter values('MY_STOCK','N');
+
+INSERT INTO menu_ref(me_code, me_menu, me_file, me_url, me_description, me_parameter,
+            me_javascript, me_type)
+    VALUES ('CFGSTOCK', 'Configuration des dépôts', 'stock_cfg.inc.php', null, 'Configuration dépôts', null,null,'ME');
+
+INSERT INTO profile_menu(me_code, me_code_dep, p_id, p_order, p_type_display, pm_default)
+    VALUES ('CFGSTOCK', 'PARAM', 1, 40, 'E', 0);
+
+CREATE TABLE stock_repository
+(
+  r_id bigserial NOT NULL, -- pk
+  r_name text, -- name of the stock
+  r_adress text, -- adress of the stock
+  r_country text, -- country of the stock
+  r_city text, -- City of the stock
+  r_phone text, -- City of the stock
+  CONSTRAINT stock_repository_pkey PRIMARY KEY (r_id )
+);
+
+COMMENT ON TABLE stock_repository  IS 'stock repository';
+COMMENT ON COLUMN stock_repository.r_id IS 'pk';
+COMMENT ON COLUMN stock_repository.r_name IS 'name of the stock';
+COMMENT ON COLUMN stock_repository.r_adress IS 'adress of the stock';
+COMMENT ON COLUMN stock_repository.r_country IS 'country of the stock';
+COMMENT ON COLUMN stock_repository.r_city IS 'City of the stock';
+COMMENT ON COLUMN stock_repository.r_phone  IS 'Phone number';
+
+insert into stock_repository(r_name) values ('Dépôt par défaut');

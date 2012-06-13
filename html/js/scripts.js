@@ -418,7 +418,7 @@ function cat_doc_change(p_dt_id,p_dossier)
     removeDiv('change_doc_div');
     waiting_box();
     var action = new Ajax.Request(
-				  "ajax_misc.php" , 
+				  "ajax_misc.php" ,
 				  {
 				      method:'get', parameters:queryString,
 				      onFailure:ajax_misc_failure,
@@ -1513,3 +1513,29 @@ function set_action_related(p_obj)
 		return false;
 	}
  }
+ /**
+ *@brief change a document_modele
+ */
+function stock_repo_change(p_dossier,r_id)
+{
+    var queryString="gDossier="+p_dossier+"&op=mod_stock_repo"+"&r_id="+r_id;
+    var nTop=calcy(posY);
+    var nLeft="200px";
+    var str_style="top:"+nTop+"px;left:"+nLeft+";width:50em;height:auto";
+
+    removeDiv('change_stock_repo_div');
+    waiting_box();
+    var action = new Ajax.Request(
+				  "ajax_misc.php" ,
+				  {
+				      method:'get', parameters:queryString,
+				      onFailure:ajax_misc_failure,
+				      onSuccess:function(req){
+					  remove_waiting_box();
+					  add_div({id:'change_stock_repo_div',style:str_style,cssclass:'inner_box',drag:"1"});
+					  $('change_stock_repo_div').innerHTML=req.responseText;
+
+				      }
+				  }
+				  );
+}

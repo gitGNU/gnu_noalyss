@@ -57,7 +57,7 @@ if ($cont != 0)
 	exit();
 extract($_REQUEST);
 set_language();
-global $g_user;
+global $g_user,$cn;
 $cn = new Database($gDossier);
 $g_user = new User($cn);
 $g_user->check(true);
@@ -547,6 +547,9 @@ EOF;
         case 'modify_menu';
             require_once 'ajax_mod_menu.php';
             break;
+		case 'mod_stock_repo':
+		require_once 'ajax_mod_stock_repo.php';
+		break;
         default:
             var_dump($_GET);
 }

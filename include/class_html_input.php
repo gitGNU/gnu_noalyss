@@ -588,9 +588,10 @@ class HtmlInput
 	}
       return $array[$ind];
     }
-	static function title_box($name,$div)
+	static function title_box($name,$div,$mod="close")
 	{
-		$r=HtmlInput::anchor_close($div);
+		if ($mod=='close')		$r=HtmlInput::anchor_close($div);
+		if ($mod=='hide')		$r=HtmlInput::anchor_hide(_('Fermer'),"$('$div').hide()");
 		$r.=h2info($name);
 		return $r;
 	}
