@@ -51,14 +51,14 @@ class Acc_Ledger_Fin extends Acc_Ledger
      */
     public function verify($p_array)
     {
+        global $g_user;
         extract ($p_array);
         /* check for a double reload */
         if ( isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
             throw new Exception (_('Double Encodage'),5);
 
         /* check if we can write into this ledger */
-        $user=new User($this->db);
-        if ( $user->check_jrn($p_jrn) != 'W' )
+        if ( $g_user->check_jrn($p_jrn) != 'W' )
             throw new Exception (_('Accès interdit'),20);
 
         /* check if there is a bank account linked to the ledger */
@@ -187,23 +187,22 @@ class Acc_Ledger_Fin extends Acc_Ledger
      */
     function input($p_array=null,$notused=0)
     {
-        global $g_parameter;
+        global $g_parameter,$g_user;
         if ( $p_array != null)
             extract ($p_array);
 
         $pview_only=false;
-        $user = new User($this->db);
 
         $f_add_button=new IButton('add_card');
         $f_add_button->label=_('Créer une nouvelle fiche');
         $f_add_button->set_attribute('ipopup','ipop_newcard');
         $f_add_button->set_attribute('jrn',$this->id);
         $f_add_button->javascript=" this.jrn=\$('p_jrn').value;select_card_type(this);";
-        $str_add_button=($user->check_action(FICADD)==1)?$f_add_button->input():"";
+        $str_add_button=($g_user->check_action(FICADD)==1)?$f_add_button->input():"";
 
         // The first day of the periode
         $pPeriode=new Periode($this->db);
-        list ($l_date_start,$l_date_end)=$pPeriode->get_date_limit($user->get_periode());
+        list ($l_date_start,$l_date_end)=$pPeriode->get_date_limit($g_user->get_periode());
         if (  $g_parameter->MY_DATE_SUGGEST=='Y' )
             $op_date=( ! isset($e_date) ) ?$l_date_start:$e_date;
         else
@@ -223,12 +222,12 @@ class Acc_Ledger_Fin extends Acc_Ledger
         {
             // Periode
             //--
-            $l_user_per=(isset($periode))?$periode:$user->get_periode();
+            $l_user_per=(isset($periode))?$periode:$g_user->get_periode();
             $period=new IPeriod();
             $period->cn=$this->db;
             $period->type=OPEN;
             $period->value=$l_user_per;
-            $period->user=$user;
+            $period->user=$g_user;
             $period->name='periode';
             try
             {
@@ -874,6 +873,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
      */
     function show_ledger()
     {
+        global $g_user;
         echo dossier::hidden();
         $hid=new IHidden();
 
@@ -886,11 +886,10 @@ class Acc_Ledger_Fin extends Acc_Ledger
         $hid->value="l";
         echo $hid->input();
 
-        $User=new User($this->db);
 
         $w=new ISelect();
         // filter on the current year
-        $filter_year=" where p_exercice='".$User->get_exercice()."'";
+        $filter_year=" where p_exercice='".$g_user->get_exercice()."'";
 
         $periode_start=$this->db->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end",1);
         // User is already set User=new User($this->db);
@@ -948,13 +947,13 @@ class Acc_Ledger_Fin extends Acc_Ledger
         else
         {
             $filter_per=" and jr_tech_per in (select p_id from parm_periode where p_exercice::integer=".
-                        $User->get_exercice().")";
+                        $g_user->get_exercice().")";
         }
         /* security  */
         if( $this->id != -1)
-            $available_ledger=" and jr_def_id= ".$this->id." and ".$User->get_ledger_sql();
+            $available_ledger=" and jr_def_id= ".$this->id." and ".$g_user->get_ledger_sql();
         else
-            $available_ledger=" and ".$User->get_ledger_sql();
+            $available_ledger=" and ".$g_user->get_ledger_sql();
         // Show list of sell
         // Date - date of payment - Customer - amount
         $sql=SQL_LIST_ALL_INVOICE.$filter_per." and jr_def_type='FIN'".

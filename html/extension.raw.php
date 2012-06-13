@@ -36,9 +36,10 @@ require_once ('constant.security.php');
 require_once ('class_user.php');
 
 $cn=new Database(dossier::id());
-$user=new User($cn);
-$user->check();
-$only_plugin=$user->check_dossier(dossier::id());
+global $g_user;
+$g_user=new User($cn);
+$g_user->check();
+$only_plugin=$g_user->check_dossier(dossier::id());
 
 $ext=new Extension($cn);
 

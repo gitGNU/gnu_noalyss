@@ -135,6 +135,7 @@ class Calendar
      */
     function get_preference()
     {
+        global $g_user;
         $cn=new Database(dossier::id());
         $today=date('d.m.Y');
         $p_id=$cn->get_value("
@@ -146,10 +147,9 @@ class Calendar
                 array($today));
         if ( $p_id == '')
         {
-            $user=new User($cn);
-            $p_id=$user->get_periode();
+            $p_id=$g_user->get_periode();
         }
-		$this->default_periode=$p_id;
+	$this->default_periode=$p_id;
         return  $p_id;
     }
     /**

@@ -60,11 +60,10 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
      */
     public function verify($p_array)
     {
-        global $g_parameter;
+        global $g_parameter,$g_user;
         extract ($p_array);
         /* check if we can write into this ledger */
-        $user=new User($this->db);
-        if ( $user->check_jrn($p_jrn) != 'W' )
+        if ( $g_user->check_jrn($p_jrn) != 'W' )
             throw new Exception (_('Accès interdit'),20);
 
 
@@ -880,10 +879,9 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
      */
     public function input($p_array=null,$p_readonly=0)
     {
-        global $g_parameter;
+        global $g_parameter,$g_user;
         if ( $p_array != null ) extract($p_array);
 
-        $user = new User($this->db);
         $flag_tva=$g_parameter->MY_TVA_USE;
         /* Add button */
         $f_add_button=new IButton('add_card');
@@ -900,14 +898,14 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         $f_add_button2->javascript="  this.jrn=\$('p_jrn').value;select_card_type(this);";
 		$str_add_button="";
 		$str_add_button2="";
-		if ($user->check_action(FICADD)==1)
+		if ($g_user->check_action(FICADD)==1)
 		{
 			$str_add_button=$f_add_button->input();
 			$str_add_button2=$f_add_button2->input();
 		}
         // The first day of the periode
         $oPeriode=new Periode($this->db);
-        list ($l_date_start,$l_date_end)=$oPeriode->get_date_limit($user->get_periode());
+        list ($l_date_start,$l_date_end)=$oPeriode->get_date_limit($g_user->get_periode());
         if (  $g_parameter->MY_DATE_SUGGEST=='Y' )
             $op_date=( ! isset($e_date) ) ?$l_date_start:$e_date;
         else
@@ -940,11 +938,11 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         {
             // Periode
             //--
-            $l_user_per=$user->get_periode();
+            $l_user_per=$g_user->get_periode();
             $def=(isset($periode))?$periode:$l_user_per;
 
             $period=new IPeriod("period");
-            $period->user=$user;
+            $period->user=$g_user;
             $period->cn=$this->db;
             $period->value=$def;
             $period->type=OPEN;

@@ -281,9 +281,9 @@ j1.j_poste as poste
      */
     function ledger_filter ()
     {
+        global $g_user;
         /* get the available ledgers for current user */
-        $user=new User($this->db);
-        $sql=$user->get_ledger_sql('ALL',3);
+        $sql=$g_user->get_ledger_sql('ALL',3);
         $sql=str_replace('jrn_def_id','jr_def_id',$sql);
         $r='';
         /* filter by this->r_jrn */
@@ -373,8 +373,8 @@ j1.j_poste as poste
    */
     function filter_date()
     {
-      $user=new User($this->db);
-      list($start,$end)=$user->get_limit_current_exercice();
+      global $g_user;
+      list($start,$end)=$g_user->get_limit_current_exercice();
 
       if (isDate($this->start_day) ==null)
 	{

@@ -38,9 +38,10 @@ require_once('class_database.php');
 
 $cn=new Database($gDossier);
 include_once ('class_user.php');
-$User=new User($cn);
-$User->Check();
-$act=$User->check_dossier($gDossier);
+global $g_user;
+$g_user=new User($cn);
+$g_user->Check();
+$act=$g_user->check_dossier($gDossier);
 // AC CODE = SEARCH
 if ($act =='P')
 {

@@ -38,9 +38,8 @@ $gDossier=dossier::id();
 
 /* Security */
 $cn=new Database($gDossier);
-$User=new User($cn);
-$User->Check();
-$User->check_dossier($gDossier);
+$g_user->Check();
+$g_user->check_dossier($gDossier);
 
 $sql="select pcm_val from tmp_pcmn ";
 

@@ -41,9 +41,10 @@ $cn=new Database($gDossier);
 
 
 include_once ('class_user.php');
-$User=new User($cn);
-$User->Check();
-$User->check_dossier($gDossier);
+global $g_user;
+$g_user=new User($cn);
+$g_user->Check();
+$g_user->check_dossier($gDossier);
 
 // retrieve the jrn
 $r=$cn->exec_sql("select jr_def_id from jrn where jr_grpt_id=$jr_grpt_id");
@@ -55,7 +56,7 @@ if ( Database::num_row($r) == 0 )
 $a=Database::fetch_array($r,0);
 $jrn=$a['jr_def_id'];
 
-if ($User->check_jrn($jrn) == 'X' )
+if ($g_user->check_jrn($jrn) == 'X' )
 {
     /* Cannot Access */
     NoAccess();

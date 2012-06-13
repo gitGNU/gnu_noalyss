@@ -44,9 +44,10 @@ $gDossier=dossier::id();
 require_once('class_user.php');
 
 $cn=new Database(dossier::id());
-$user=new User($cn);
-$user->check();
-$user->check_dossier(dossier::id());
+global $g_user;
+$g_user=new User($cn);
+$g_user->check();
+$g_user->check_dossier(dossier::id());
 
 $fLabel=(isset($_REQUEST['l']))?$_REQUEST['l']:'none';
 $fTva_id=(isset($_REQUEST['t']))?$_REQUEST['t']:'none';

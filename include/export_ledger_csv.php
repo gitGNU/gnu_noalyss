@@ -37,11 +37,10 @@ $cn=new Database($gDossier);
 
 
 require_once ('class_user.php');
-$User=new User($cn);
-$User->Check();
-$User->check_dossier($gDossier);
+$g_user->Check();
+$g_user->check_dossier($gDossier);
 
-if ($_GET['jrn_id']!=0 &&  $User->check_jrn($_GET['jrn_id']) =='X')
+if ($_GET['jrn_id']!=0 &&  $g_user->check_jrn($_GET['jrn_id']) =='X')
 {
     NoAccess();
     exit();

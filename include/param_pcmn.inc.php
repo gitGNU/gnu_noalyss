@@ -35,9 +35,6 @@ require_once('class_database.php');
 $cn=new Database($gDossier);
 
 include_once ("class_user.php");
-$User=new User($cn);
-$User->Check();
-$User->check_dossier($gDossier);
 
 include_once ("user_menu.php");
 

@@ -33,9 +33,6 @@ require_once('class_database.php');
 
 $cn=new Database($gDossier);
 include_once ('class_user.php');
-$User=new User($cn);
-$User->Check();
-$act=$User->check_dossier($gDossier);
 // display a search box
 
 
@@ -104,7 +101,7 @@ if ( isset ($_GET['viewsearch']) )
 	if ( ! isset ($array['date_start']) || ! isset ($array['date_end']))
 	{
 		// get first date of current exercice
-		list($array['date_start'],$array['date_end'])=$User->get_limit_current_exercice();
+		list($array['date_start'],$array['date_end'])=$g_user->get_limit_current_exercice();
 	}
 
     list($sql,$where)=$ledger->build_search_sql($array);

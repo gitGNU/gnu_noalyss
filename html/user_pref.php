@@ -43,21 +43,19 @@ else
     $cn=new Database();
 }
 
-
-$User=new User($cn);
-$User->Check();
+global $g_user;
 
 // Met a jour le theme utilisateur (style)
 if ( isset ( $_POST['style_user']) )
 {
-    $User->update_global_pref('THEME',$_POST['style_user']);
+    $g_user->update_global_pref('THEME',$_POST['style_user']);
     $_SESSION['g_theme']=$_POST['style_user'];
 
 }
 // Update the language
 if ( isset($_POST ['lang']))
 {
-    $User->update_global_pref('LANG',$_POST['lang']);
+    $g_user->update_global_pref('LANG',$_POST['lang']);
     $_SESSION['g_lang']=$_POST['lang'];
 }
 
@@ -66,7 +64,7 @@ html_page_start($_SESSION['g_theme']);
 // Met a jour le pagesize
 if ( isset ( $_POST['p_size']) )
 {
-    $User->update_global_pref('PAGESIZE',$_POST['p_size']);
+    $g_user->update_global_pref('PAGESIZE',$_POST['p_size']);
     $_SESSION['g_pagesize']=$_POST['p_size'];
 
 }
@@ -80,7 +78,7 @@ if ( isset ( $_POST['p_size']) )
 if ( isset ($_POST['val']) )
 {
     // Change the mini report
-    if ( isset ($_POST['minirap']))   $User->set_mini_report($_POST['minirap']);
+    if ( isset ($_POST['minirap']))   $g_user->set_mini_report($_POST['minirap']);
 }
 // show the top menu depending of the use_style
 // comta style

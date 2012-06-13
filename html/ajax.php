@@ -15,8 +15,9 @@ if ( !isset ($_REQUEST['gDossier'])) exit();
 mb_internal_encoding("UTF-8");
 
 $cn=new Database(dossier::id());
-$user=new User($cn);
-$user->check(true);
+global $g_user;
+$g_user=new User($cn);
+$g_user->check(true);
 
 /* if a code has been asked */
 if (isset($_REQUEST['plugin_code']) )

@@ -50,9 +50,7 @@ if ( is_numeric($l) == false  )
 {
     exit();
 }
-$cn=new Database(dossier::id());
-$User=new User($cn);
-$User->Check();
+
 
 $Ledger=new Acc_Ledger($cn,$l);
 $prop=$Ledger->get_propertie();

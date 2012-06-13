@@ -36,9 +36,8 @@ require_once('ac_common.php');
 /* Security */
 $gDossier=dossier::id();
 $cn=new Database($gDossier);
-$User=new User($cn);
-$User->Check();
-$User->check_dossier($gDossier);
+$g_user->Check();
+$g_user->check_dossier($gDossier);
 
 $pdf=new PDF($cn);
 $pdf->setDossierInfo("  Periode : ".$_GET['start']." - ".$_GET['end']);

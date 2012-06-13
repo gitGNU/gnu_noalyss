@@ -110,8 +110,8 @@ class Acc_Account_Ledger
      */
     function get_row_date($p_from,$p_to,$let=0,$solded=0)
     {
-        $user=new User($this->db);
-        $filter_sql=$user->get_ledger_sql('ALL',3);
+        global $g_user;
+        $filter_sql=$g_user->get_ledger_sql('ALL',3);
         $sql_let='';
         switch ($let)
         {

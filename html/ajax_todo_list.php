@@ -41,9 +41,10 @@ require_once ('class_user.php');
 mb_internal_encoding("UTF-8");
 
 $cn= Dossier::connect();
-$user=new User($cn);
-$user->check(true);
-$user->check_dossier(Dossier::id(),true);
+global $g_user;
+$g_user=new User($cn);
+$g_user->check(true);
+$g_user->check_dossier(Dossier::id(),true);
 ajax_disconnected('add_todo_list');
 
 if (isset($_REQUEST['show']))

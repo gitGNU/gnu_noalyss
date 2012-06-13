@@ -10,14 +10,14 @@ require_once('class_periode.php');
 echo '<div style="float:left;">'.HtmlInput::print_window();
 
 html_page_start($_SESSION['g_theme']);
-
+global $g_user;
 if ( basename($_GET['ajax']) == 'ajax_history.php' )
   {
     $href=dossier::get();
     $cn=new Database(dossier::id());
     /* current year  */
-    $user=new User($cn);
-    $exercice=$user->get_exercice();
+    $g_user=new User($cn);
+    $exercice=$g_user->get_exercice();
 
     /* get date limit */
     $periode=new Periode($cn);

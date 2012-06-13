@@ -71,9 +71,8 @@ class Fiche
    */
     function get_bk_account()
     {
-
-      $user=new User($this->cn);
-      $sql_ledger=$user->get_ledger_sql('FIN',3);
+        global $g_user;
+      $sql_ledger=$g_user->get_ledger_sql('FIN',3);
       $avail=$this->cn->get_array("select jrn_def_id,jrn_def_bank from jrn_def where jrn_def_type='FIN' and $sql_ledger
                             order by jrn_def_name");
 
@@ -861,6 +860,7 @@ class Fiche
      */
     function update($p_array=null)
     {
+        global $g_user;
         if ( $p_array == null)
             $p_array=$_POST;
 
@@ -917,8 +917,7 @@ class Fiche
                                              " f_id=".$this->id);
                     if ( $st == 0 )
                     {
-                        $user=new User($this->cn);
-                        $exercice=$user->get_exercice();
+                        $exercice=$g_user->get_exercice();
                         if ( $exercice == 0 ) throw new Exception ('Annee invalide erreur');
 
                         $str_stock=sprintf('insert into stock_goods(f_id,sg_quantity,sg_comment,sg_code,sg_type,sg_exercice) '.
@@ -1146,13 +1145,13 @@ class Fiche
      */
     function get_row_date($p_from,$p_to,$op_let=0)
     {
+        global $g_user;
         if ( $this->id == 0 )
         {
             echo_error("class_fiche",__LINE__,"id is 0");
             return;
         }
-        $user=new User($this->cn);
-        $filter_sql=$user->get_ledger_sql('ALL',3);
+        $filter_sql=$g_user->get_ledger_sql('ALL',3);
         $sql_let='';
         switch ($op_let)
         {
@@ -1551,17 +1550,17 @@ class Fiche
      */
     function Summary($p_search="",$p_action="",$p_sql="",$p_amount=false)
     {
-
+        global $g_user;
         $str_dossier=dossier::get();
         $p_search=sql_string($p_search);
         $script=$_SERVER['PHP_SELF'];
         // Creation of the nav bar
         // Get the max numberRow
         $filter_amount='';
-        $User=new User($this->cn);
+        global $g_user;
 
         $filter_year="  j_tech_per in (select p_id from parm_periode ".
-                     "where p_exercice='".$User->get_exercice()."')";
+                     "where p_exercice='".$g_user->get_exercice()."')";
 
         if ( $p_amount) $filter_amount=' and f_id in (select f_id from jrnx where  '.$filter_year.')';
 
@@ -1574,8 +1573,7 @@ class Fiche
         // set a filter ?
         $search=$p_sql;
 
-        $user=new User($this->cn);
-        $exercice=$user->get_exercice();
+        $exercice=$g_user->get_exercice();
         $tPeriode=new Periode($this->cn);
         list($max,$min)=$tPeriode->get_limit($exercice);
 

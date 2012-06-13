@@ -43,7 +43,7 @@ class Impress
      */
     static function parse_formula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_type_date=0)
     {
-
+        global $g_user;
         if ( Impress::check_formula($p_formula) == false)
         {
             if ( $p_eval == true)
@@ -96,8 +96,7 @@ class Impress
                       {
 
                         // retrieve the first month of this periode
-                        $User=new User($p_cn);
-                        $user_periode=$User->get_periode();
+                        $user_periode=$g_user->get_periode();
                         $oPeriode=new Periode($p_cn);
                         $periode=$oPeriode->get_exercice($user_periode);
                         list($first,$last)=$oPeriode->get_limit($periode);
@@ -121,8 +120,7 @@ class Impress
                             /* if none periode is found
                                then we take the first periode of the year
                             */
-                            $User=new User($p_cn);
-                            $user_periode=$User->get_periode();
+                            $user_periode=$g_user->get_periode();
 
                             $year=$oPeriode->get_exercice($user_periode);
                             list($first,$last)=$oPeriode->get_limit($year);

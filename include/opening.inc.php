@@ -33,8 +33,7 @@ require_once("class_iselect.php");
 require_once('class_acc_ledger.php');
 
 $sa = (isset($_REQUEST['sa'])) ? $_REQUEST['sa'] : '';
-$User = new User(new Database(dossier::id()));
-$User->Check();
+$g_user->Check();
 
 require_once 'user_menu.php';
 
@@ -103,7 +102,7 @@ if ($sa == '')
 	echo '<fieldset><legend> Etape 1 </legend>';
 
 	echo 'Choississez le dossier où sont les soldes à importer';
-	$avail = $User->get_available_folder();
+	$avail = $g_user->get_available_folder();
 
 	if (empty($avail))
 	{
@@ -180,8 +179,8 @@ if ($sa == 'step3')
 	echo HtmlInput::hidden('f', $_REQUEST['f']);
 	echo HtmlInput::hidden('p_periode', $_REQUEST['p_periode']);
 	$wLedger = new ISelect();
-	$User = new User(new Database(dossier::id()));
-	$avail = $User->get_ledger('ODS');
+	$g_user = new User(new Database(dossier::id()));
+	$avail = $g_user->get_ledger('ODS');
 	/* compute select list */
 	$array = array();
 	$i = 0;
@@ -233,7 +232,7 @@ if ($sa == 'step4')
 		$idx++;
 	}
 	$cn = new Database(dossier::id());
-	$User = new User($cn);
+
 	$jrn = new Acc_Ledger($cn, $_REQUEST['p_jrn']);
 
 	echo '<form class="print" method="post">';

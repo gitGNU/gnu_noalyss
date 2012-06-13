@@ -60,7 +60,7 @@ class Acc_Balance
      */
     function get_row($p_from_periode,$p_to_periode)
     {
-
+        global $g_user;
         // filter on requested periode
         $per_sql=sql_filter_per($this->db,$p_from_periode,$p_to_periode,'p_id','j_tech_per');
 
@@ -72,7 +72,6 @@ class Acc_Balance
         /* if several ledgers are asked then we filter here  */
         if ($this->jrn!== null)
         {
-            $user=new User($this->db);
             /**
              *@file
              *@bug the get_ledger here is not valid and useless we just need a list of the 
@@ -100,8 +99,7 @@ class Acc_Balance
             $to_poste=" $and j_poste::text <= '".$this->to_poste."'";
             $and=" and ";
         }
-        $user=new User($this->db);
-        $filter_sql=$user->get_ledger_sql('ALL',3);
+        $filter_sql=$g_user->get_ledger_sql('ALL',3);
 
         // build query
         $sql="select j_poste,sum(deb) as sum_deb, sum(cred) as sum_cred from

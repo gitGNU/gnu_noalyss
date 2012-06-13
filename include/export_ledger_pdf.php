@@ -52,9 +52,8 @@ $own=new Own($cn);
 $Jrn=new Acc_Ledger($cn,$_GET['jrn_id']);
 
 $Jrn->get_name();
-$User=new User($cn);
-$User->Check();
-$User->check_dossier($gDossier);
+$g_user->Check();
+$g_user->check_dossier($gDossier);
 
 // Security
 if ( $_GET['jrn_id']!=0 &&  $User->check_jrn($_GET['jrn_id']) == 'X' )

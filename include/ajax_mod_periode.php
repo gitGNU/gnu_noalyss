@@ -24,7 +24,7 @@ require_once('class_periode.php');
 
 /* !\file
  * \brief display or save a periode
- * variable received $op, $cn $user
+ * variable received $op, $cn $g_user
  */
 $err = 0;
 $html = '';

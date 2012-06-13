@@ -48,7 +48,7 @@ case 1:
     if (  isset($_GET['r_jrn']))
     {
         $selected=$_GET['r_jrn'];
-        $array_ledger=$User->get_ledger('ALL',3);
+        $array_ledger=$g_user->get_ledger('ALL',3);
         for ($e=0;$e<count($array_ledger);$e++)
         {
             if (isset ($selected[$e]))

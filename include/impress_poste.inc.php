@@ -27,7 +27,7 @@ require_once('class_acc_operation.php');
  * \brief Print account (html or pdf)
  *        file included from user_impress
  *
- * some variable are already defined $cn, $User ...
+ * some variable are already defined $cn, $g_user ...
  *
  */
 //-----------------------------------------------------
@@ -35,7 +35,7 @@ require_once('class_acc_operation.php');
 //-----------------------------------------------------
 require_once('class_database.php');
 require_once('class_ipopup.php');
-global $User;
+global $g_user;
 
 echo IPoste::ipopup('ipop_account');
 echo ICard::ipopup('ipopcard');

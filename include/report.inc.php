@@ -39,9 +39,6 @@ $str_dossier=dossier::get();
 /* Admin. Dossier */
 $rep=new Database($gDossier);
 
-$User=new User($rep);
-$User->Check();
-
 
 $cn=new Database($gDossier);
 

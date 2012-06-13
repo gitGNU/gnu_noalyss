@@ -50,9 +50,10 @@ $d=$_REQUEST['e'];
 $filter_card='';
 
 require_once('class_user.php');
-$user=new User($cn);
-$user->check();
-$user->check_dossier(dossier::id());
+global $g_user;
+$g_user=new User($cn);
+$g_user->check();
+$g_user->check_dossier(dossier::id());
 
 switch ($d)
 {

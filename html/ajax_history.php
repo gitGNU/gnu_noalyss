@@ -38,12 +38,10 @@ mb_internal_encoding("UTF-8");
  *if $_SESSION['g_user'] is not set : echo a warning
  */
 ajax_disconnected($div);
-
-//var_dump($_GET);
-$cn=new Database(dossier::id());
-$user=new User($cn);
+global $g_user;
+$g_user=new User($cn);
 /* security */
-if ( $user->check_dossier(dossier::id(),true) == 'X' ) exit();
+if ( $g_user->check_dossier(dossier::id(),true) == 'X' ) exit();
 
 $from_div=(isset ($_REQUEST['ajax']))?1:0;
 
@@ -55,7 +53,7 @@ if ( isset($_GET['f_id']))
     $exercice=new Exercice($cn);
     $old='';
     $fiche=new Fiche($cn,$_GET['f_id']);
-    $year=$user->get_exercice();
+    $year=$g_user->get_exercice();
     if ( $year == 0 )
       {
         $html="erreur aucune période par défaut, allez dans préférence pour en choisir une";
@@ -125,7 +123,7 @@ if ( isset($_GET['f_id']))
 if ( isset($_REQUEST['pcm_val']))
   {
     $poste=new Acc_Account_Ledger($cn,$_REQUEST['pcm_val']);
-    $year=$user->get_exercice();
+    $year=$g_user->get_exercice();
     if ( $year == 0 )
       {
         $html="erreur aucune période par défaut, allez dans préférence pour en choisir une";

@@ -51,7 +51,7 @@ require_once("class_acc_operation.php");
  */
 function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
 {
-
+    global $g_user;
     // Retrieve the good account for stock
     $code=new Fiche($p_cn);
     $code->get_by_qcode($p_good);
@@ -61,8 +61,7 @@ function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
     $Res=$p_cn->exec_sql($sql);
     $r=Database::fetch_array($Res,0);
     $f_id=$r['f_id'];
-    $user=new User($p_cn);
-    $exercice=$user->get_exercice();
+    $exercice=$g_user->get_exercice();
     if ( $exercice == 0 ) throw new Exception ('Annee invalide erreur');
 
 

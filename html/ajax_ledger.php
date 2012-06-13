@@ -64,9 +64,10 @@ $cn=new Database(dossier::id());
 $g_parameter=new Own($cn);
 
 // check if the user is valid and can access this folder
-$User=new User($cn);
-$User->check();
-if ( $User->check_dossier(dossier::id(),true)=='X' )
+global $g_user;
+$g_user=new User($cn);
+$g_user->check();
+if ( $g_user->check_dossier(dossier::id(),true)=='X' )
 {
     ob_start();
     require_once ('template/ledger_detail_forbidden.php');
@@ -90,7 +91,7 @@ EOF;
 $op=new Acc_Operation($cn);
 $op->jr_id=$_REQUEST['jr_id'];
 $ledger=$op->get_ledger();
-$access=$User->get_ledger_access($ledger);
+$access=$g_user->get_ledger_access($ledger);
 if ( $access == 'X' )
 {
     ob_start();

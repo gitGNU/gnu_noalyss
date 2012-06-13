@@ -49,10 +49,7 @@ foreach ( array('j','ctl') as $a )
     }
 }
 
-$cn=new Database(dossier::id());
-$user=new User($cn);
-$user->check();
-if ( $user->check_jrn($_GET['j'])=='X' ) return '{"saldo":"0"}';
+if ( $g_user->check_jrn($_GET['j'])=='X' ) return '{"saldo":"0"}';
 /*  make a filter on the exercice */
 
 $filter_year="  j_tech_per in (select p_id from parm_periode ".

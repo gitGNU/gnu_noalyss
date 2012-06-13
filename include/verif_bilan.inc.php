@@ -28,11 +28,10 @@ require_once ('class_user.php');
 require_once('class_acc_bilan.php');
 
 $cn=new Database(dossier::id());
-$User=new User($cn);
-$exercice=$User->get_exercice();
+$exercice=$g_user->get_exercice();
 echo '<div class="content">';
-$User->db=$cn;
-$sql_year=" and j_tech_per in (select p_id from parm_periode where p_exercice='".$User->get_exercice()."')";
+
+$sql_year=" and j_tech_per in (select p_id from parm_periode where p_exercice='".$g_user->get_exercice()."')";
 echo '<fieldset><legend>Vérification des journaux</legend>';
 echo '<ol>';
 $deb=$cn->get_value("select sum (j_montant) from jrnx where j_debit='t' $sql_year ");

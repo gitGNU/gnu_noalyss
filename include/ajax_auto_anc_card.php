@@ -2,9 +2,8 @@
 require_once ("class_database.php");
 require_once 'class_user.php';
 $cn=new Database($_GET['gDossier']);
-$user=new User($cn);
-$user->Check();
-$user->check_dossier($_GET['gDossier']);
+
+
 if ( isset($_REQUEST['pa_id']) )
 {   
     $res=$cn->exec_sql("select po_name,po_description from  poste_analytique where pa_id=$1 ~* and (po_description ~* $2 or po_name ~* $3 order by po_id limit 12",

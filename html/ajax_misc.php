@@ -57,22 +57,21 @@ if ($cont != 0)
 	exit();
 extract($_REQUEST);
 set_language();
-
-$cn = new Database($gDossier);
-$user = new User($cn);
-$user->check(true);
-$user->check_dossier($gDossier, true);
-$html = var_export($_REQUEST, true);
 global $g_user;
-$g_user=$user;
+$cn = new Database($gDossier);
+$g_user = new User($cn);
+$g_user->check(true);
+$g_user->check_dossier($gDossier, true);
+$html = var_export($_REQUEST, true);
+
 switch ($op)
 {
 	case "remove_anc":
-	  if ($user->check_module('ANCODS') == 0) exit();
+	  if ($g_user->check_module('ANCODS') == 0) exit();
 			$cn->exec_sql("delete from operation_analytique where oa_group=$1", array($_GET['oa']));
 		break;
 	case "rm_stock":
-	  if ($user->check_module('STOCK') == 0) exit();
+	  if ($g_user->check_module('STOCK') == 0) exit();
 		require_once('constant.security.php');
 		$cn->exec_sql('delete from stock_goods where sg_id=$1', array($s_id));
 		$html = escape_xml($s_id);
@@ -133,7 +132,7 @@ EOF;
 	case 'rem_cat_doc':
 		require_once('class_document_type.php');
 		// if user can not return error message
-		if ($user->check_action(PARCATDOC) == 0)
+		if ($g_user->check_action(PARCATDOC) == 0)
 		{
 			$html = "nok";
 			header('Content-type: text/xml; charset=UTF-8');
@@ -264,8 +263,8 @@ EOF;
 	 */
 	case 'dl':
 		require_once('class_lettering.php');
-		$exercice = $user->get_exercice();
-        if ($user->check_module("LETCARD") == 0 && $user->check_module("LETACC") == 0) exit();
+		$exercice = $g_user->get_exercice();
+        if ($g_user->check_module("LETCARD") == 0 && $g_user->check_module("LETACC") == 0) exit();
 		$periode = new Periode($cn);
 		list($first_per, $last_per) = $periode->get_limit($exercice);
 

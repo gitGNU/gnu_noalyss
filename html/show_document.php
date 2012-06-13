@@ -32,14 +32,15 @@ $cn=new Database($gDossier);
 $action=(isset($_REQUEST['a']))?$_REQUEST['a']:'sh';
 
 require_once ('class_user.php');
-$User=new User(new Database());
-$User->Check();
-$User->check_dossier($gDossier);
+global $g_user;
+$g_user=new User(new Database());
+$g_user->Check();
+$g_user->check_dossier($gDossier);
 
 /* Show the document */
 if ( $action == 'sh')
 {
-    if ( $User->check_action(VIEWDOC)==1)
+    if ( $g_user->check_action(VIEWDOC)==1)
     {
         // retrieve the document
         $doc=new Document($cn,$_REQUEST['d_id']);
@@ -49,7 +50,7 @@ if ( $action == 'sh')
 /* remove the document */
 if ( $action == 'rm' )
 {
-    if ($User->check_action(RMDOC)==1)
+    if ($g_user->check_action(RMDOC)==1)
     {
         $doc=new Document($cn,$_REQUEST['d_id']);
         $doc->remove();
@@ -62,7 +63,7 @@ if ( $action == 'rm' )
 if ( $action == 'rmop' )
 {
 	$dt_id=$cn->get_value("select ag_id from action_gestion_operation where ago_id=$1",$_REQUEST['id']);
-    if ($User->check_action(RMDOC)==1 && $User->can_write_action($dt_id)==true)
+    if ($g_user->check_action(RMDOC)==1 && $g_user->can_write_action($dt_id)==true)
     {
 		$cn->exec_sql("delete from action_gestion_operation where ago_id=$1",
 				array($_REQUEST['id']));
@@ -75,7 +76,7 @@ if ( $action == 'rmop' )
 if ( $action == 'rmcomment' )
 {
 	$dt_id=$cn->get_value("select ag_id from action_gestion_comment where agc_id=$1",$_REQUEST['id']);
-    if ($User->check_action(RMDOC)==1 && $User->can_write_action($dt_id)==true)
+    if ($g_user->check_action(RMDOC)==1 && $g_user->can_write_action($dt_id)==true)
     {
 		$cn->exec_sql("delete from action_gestion_comment where agc_id=$1",
 				array($_REQUEST['id']));
@@ -87,7 +88,7 @@ if ( $action == 'rmcomment' )
 /* remove the action from action_gestion_operation*/
 if ( $action == 'rmaction' )
 {
-    if ($User->check_action(RMDOC)==1 && $User->can_write_action($_REQUEST['id']) == true && $User->can_write_action($_REQUEST['ag_id'])== true )
+    if ($g_user->check_action(RMDOC)==1 && $g_user->can_write_action($_REQUEST['id']) == true && $g_user->can_write_action($_REQUEST['ag_id'])== true )
     {
 		$cn->exec_sql("delete from action_gestion_related where aga_least=$1 and aga_greatest=$2",
 				array($_REQUEST['id'],$_REQUEST['ag_id']));

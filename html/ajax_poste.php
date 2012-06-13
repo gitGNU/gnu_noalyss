@@ -59,9 +59,10 @@ set_language();
 if ( $cont != 0 ) exit();
 $cn=new Database(dossier::id());
 include_once ("class_user.php");
-$User=new User($cn);
-$User->Check();
-if  ($User->get_folder_access(dossier::id()) == 'X') exit();
+global $g_user;
+$g_user=new User($cn);
+$g_user->Check();
+if  ($g_user->get_folder_access(dossier::id()) == 'X') exit();
 $xml="";
 
 switch ($op)

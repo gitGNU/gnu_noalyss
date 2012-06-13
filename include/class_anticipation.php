@@ -194,7 +194,6 @@ class Anticipation
      */
     private function form_cat_mod()
     {
-      $user=new User($this->cn);
         $a=new Forecast($this->cn,$this->f_id);
         $a->load();
         $name=new IText('an_name');
@@ -207,7 +206,7 @@ class Anticipation
 	$start_date->cn=$this->cn;
 	$start_date->show_end_date=false;
 	$start_date->show_start_date=true;
-	$start_date->user=$user;
+	$start_date->user=$g_user;
 	$start_date->filter_year=false;
 
 	$end_date=new IPeriod('end_date');
@@ -215,7 +214,7 @@ class Anticipation
 	$end_date->cn=$this->cn;
 	$end_date->show_end_date=true;
 	$end_date->show_start_date=false;
-	$end_date->user=$user;
+	$end_date->user=$g_user;
 	$end_date->filter_year=false;
 
 	$start_date->value=$a->f_start_date;
@@ -256,7 +255,7 @@ class Anticipation
      */
     private function form_cat_new()
     {
-      $user=new User($this->cn);
+     global $g_user;
       $r="";
         $str_action=_('Nouveau');
 
@@ -268,7 +267,7 @@ class Anticipation
 	$start_date->cn=$this->cn;
 	$start_date->show_end_date=false;
 	$start_date->show_start_date=true;
-	$start_date->user=$user;
+	$start_date->user=$g_user;
 	$start_date->filter_year=false;
 
 	$end_date=new IPeriod('end_date');
@@ -276,10 +275,10 @@ class Anticipation
 	$end_date->cn=$this->cn;
 	$end_date->show_end_date=true;
 	$end_date->show_start_date=false;
-	$end_date->user=$user;
+	$end_date->user=$g_user;
 	$end_date->filter_year=false;
 
-	$period=$user->get_periode();
+	$period=$g_user->get_periode();
 	$per=new Periode($this->cn,$period);
 	$year=$per->get_exercice();
 

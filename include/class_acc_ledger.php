@@ -170,10 +170,10 @@ class Acc_Ledger extends jrn_def_sql
      */
     function reverse($p_date)
     {
+        global $g_user;
         if ( ! isset ($this->jr_id) || $this->jr_id=='')
             throw new Exception ("this->jr_id is not set ou opération inconnue");
 
-        $user=new User($this->db);
         /* check if the date is valid */
         if ( isDate($p_date) == null )
             throw new Exception (_('Date invalide').$p_date);
@@ -250,7 +250,7 @@ class Acc_Ledger extends jrn_def_sql
                   from
                   jrnx
                   where   j_id=$6 returning j_id";
-            $Res=$this->db->exec_sql($sql,array($p_date,$grp_new,$p_internal,$user->id,$per->p_id,$row));
+            $Res=$this->db->exec_sql($sql,array($p_date,$grp_new,$p_internal,$g_user->id,$per->p_id,$row));
             // Check return code
             if ( $Res == false)
                 throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
@@ -356,7 +356,7 @@ class Acc_Ledger extends jrn_def_sql
      */
     function get_row($p_from,$p_to,$p_limit=-1,$p_offset=-1)
     {
-		global $g_user;
+	global $g_user;
         $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
 
         $cond_limite=($p_limit!=-1)?" limit ".$p_limit." offset ".$p_offset:"";
@@ -514,7 +514,7 @@ class Acc_Ledger extends jrn_def_sql
      */
     function get_rowSimple($p_from,$p_to,$trunc=0,$p_limit=-1,$p_offset=-1)
     {
-		global $g_user;
+	global $g_user;
         // Grand-livre : id= 0
         //---
         $jrn=($this->id == 0 )?"and ".$g_user->get_ledger_sql():"and jrn_def_id = ".$this->id;
@@ -612,8 +612,7 @@ class Acc_Ledger extends jrn_def_sql
      */
     public function list_operation_to_reconcile($sql)
     {
-        global $g_parameter;
-        $user=new User($this->db);
+        global $g_parameter,$g_user;
         $gDossier=dossier::id();
         $limit=" LIMIT 25";
         // Sort
@@ -786,9 +785,8 @@ class Acc_Ledger extends jrn_def_sql
      */
     public function list_operation($sql,$offset,$p_paid=0)
     {
-        global $g_parameter;
+        global $g_parameter,$g_user;
 		$table=new Sort_Table();
-        $user=new User($this->db);
         $gDossier=dossier::id();
         $amount_paid=0.0;
         $amount_unpaid=0.0;
@@ -1273,8 +1271,8 @@ class Acc_Ledger extends jrn_def_sql
      */
     function select_ledger($p_type="ALL",$p_access=3)
     {
-        $user=new User($this->db);
-        $array=$user->get_ledger($p_type,$p_access);
+        global $g_user;
+        $array=$g_user->get_ledger($p_type,$p_access);
 
         if ( $array == null ) return null;
         $idx=0;
@@ -1505,8 +1503,7 @@ class Acc_Ledger extends jrn_def_sql
      */
     function input($p_array=null,$p_readonly=0)
     {
-        global $g_parameter;
-        $user = new User($this->db);
+        global $g_parameter,$g_user;
 
         if ( $p_readonly == 1 )
             return $this->confirm($p_array);
@@ -1521,7 +1518,7 @@ class Acc_Ledger extends jrn_def_sql
         $add_js.='get_last_date();';
 
         $ret="";
-		if ( $user->check_action(FICADD) == 1)
+		if ( $g_user->check_action(FICADD) == 1)
 		{
 			/* Add button */
 			$f_add_button=new IButton('add_card');
@@ -1555,11 +1552,11 @@ class Acc_Ledger extends jrn_def_sql
         //--
         if ($this->check_periode() == true)
         {
-            $l_user_per=$user->get_periode();
+            $l_user_per=$g_user->get_periode();
             $def=(isset($periode))?$periode:$l_user_per;
 
             $period=new IPeriod("period");
-            $period->user=$user;
+            $period->user=$g_user;
             $period->cn=$this->db;
             $period->value=$def;
             $period->type=OPEN;
@@ -1620,7 +1617,7 @@ class Acc_Ledger extends jrn_def_sql
         $ret.=HtmlInput::hidden('jrn_type',$this->get_type());
         $info= HtmlInput::infobulle(0);
         $info_poste=HtmlInput::infobulle(9);
-		if  ($user->check_action(FICADD)==1)	$ret.=$f_add_button->input();
+	if  ($g_user->check_action(FICADD)==1)	$ret.=$f_add_button->input();
         $ret.='<table id="quick_item" style="width:100%">';
         $ret.='<tr>'.
               '<th style="text-align:left">Quickcode'.$info.'</th>'.
@@ -1758,14 +1755,13 @@ class Acc_Ledger extends jrn_def_sql
     function verify($p_array)
     {
         extract ($p_array);
-        $user=new User($this->db);
+        global $g_user;
         $tot_cred=0;
         $tot_deb=0;
 		$msg=array();
 
         /* check if we can write into this ledger */
-        $user=new User($this->db);
-        if ( $user->check_jrn($p_jrn) != 'W' )
+        if ( $g_user->check_jrn($p_jrn) != 'W' )
             throw new Exception (_('Accès interdit'),20);
 
         /* check for a double reload */
@@ -2094,8 +2090,8 @@ class Acc_Ledger extends jrn_def_sql
      */
     public function get_first($p_type,$p_access=3)
     {
-        $user=new User($this->db);
-        $all=$user->get_ledger($p_type,$p_access);
+        global $g_user;
+        $all=$g_user->get_ledger($p_type,$p_access);
         return $all[0];
     }
 
@@ -2323,10 +2319,10 @@ class Acc_Ledger extends jrn_def_sql
      */
     function  search_form($p_type,$all_type_ledger=1,$div="")
     {
-        $user=new User($this->db);
+        global $g_user;
         $r='';
         /* security : filter ledger on user */
-        $filter_ledger=$user->get_ledger($p_type,3);
+        $filter_ledger=$g_user->get_ledger($p_type,3);
 
         $selected=(isset($_REQUEST['r_jrn'.$div]))?$_REQUEST['r_jrn'.$div]:null;
         $f_ledger=HtmlInput::select_ledger($filter_ledger,$selected,$div);
@@ -2340,7 +2336,7 @@ class Acc_Ledger extends jrn_def_sql
         }
         else
         {
-            $period=$user->get_periode();
+            $period=$g_user->get_periode();
             $per=new Periode($this->db,$period);
             $exercice=$per->get_exercice();
             list($per_start,$per_end)=$per->get_limit($exercice);
@@ -2509,8 +2505,8 @@ class Acc_Ledger extends jrn_def_sql
 			if ( isset($qcodesearch_op)) $qcode=$qcodesearch_op;
             $accounting=(isset($accounting))?$accounting:"";
 			$periode=new Periode($this->db);
-			$user=new User($this->db);
-			$p_id=$user->get_periode();
+			$g_user=new User($this->db);
+			$p_id=$g_user->get_periode();
 			if ( $p_id != null )
 			{
 				list($date_start,$date_end)=$periode->get_date_limit($p_id);
@@ -2529,7 +2525,7 @@ class Acc_Ledger extends jrn_def_sql
         $fil_paid='';
 
         $and='';
-        $user=new User($this->db);
+        $g_user=new User($this->db);
 	$p_action=$ledger_type;
 	if ( $p_action == '') $p_action='ALL';
         if ( $r_jrn == -1 )
@@ -2539,7 +2535,7 @@ class Acc_Ledger extends jrn_def_sql
             if ( $p_action == 'quick_writing') $p_action='ODS';
 
 
-            $fil_ledger=$user->get_ledger_sql($p_action,3);
+            $fil_ledger=$g_user->get_ledger_sql($p_action,3);
             $and=' and ';
         }
         else
@@ -2547,7 +2543,7 @@ class Acc_Ledger extends jrn_def_sql
 
             if ( $p_action == 'quick_writing') $p_action='ODS';
 
-            $aLedger=$user->get_ledger($p_action,3);
+            $aLedger=$g_user->get_ledger($p_action,3);
             $fil_ledger='';
             $sp='';
             for ($i=0;$i < count($aLedger) ;$i ++)
@@ -2638,11 +2634,11 @@ class Acc_Ledger extends jrn_def_sql
             $and =" and ";
         }
 
-        $User=new User(new Database());
-        $User->Check();
-        $User->check_dossier(dossier::id());
+        $g_user=new User(new Database());
+        $g_user->Check();
+        $g_user->check_dossier(dossier::id());
 
-        if ( $User->admin == 0 && $User->is_local_admin()==0 )
+        if ( $g_user->admin == 0 && $g_user->is_local_admin()==0 )
         {
             $fil_sec=$and." jr_def_id in ( select uj_jrn_id ".
                      " from user_sec_jrn where ".
@@ -2698,8 +2694,8 @@ class Acc_Ledger extends jrn_def_sql
      */
     function get_last($p_limit)
     {
-        $user=new User($this->db);
-        $filter_ledger=$user->get_ledger_sql('ALL',3);
+        global $g_user;
+        $filter_ledger=$g_user->get_ledger_sql('ALL',3);
         $filter_ledger=str_replace('jrn_def_id','jr_def_id',$filter_ledger);
         $sql="select jr_id,jr_pj_number,jr_date,to_char(jr_date,'DD.MM.YYYY') as jr_date_fmt,jr_montant, jr_comment,jr_internal from jrn ".
              " where $filter_ledger ".

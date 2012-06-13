@@ -13,9 +13,10 @@ echo '<div class="topmenu">';
 @html_page_start($_SESSION['g_theme']);
 
 $cn=new Database(dossier::id());
-$user=new User($cn);
-$user->check();
-$only_plugin=$user->check_dossier(dossier::id());
+global $g_user;
+$g_user=new User($cn);
+$g_user->check();
+$only_plugin=$g_user->check_dossier(dossier::id());
 
 
 /* javascript file */

@@ -50,11 +50,11 @@ class Acc_Operation
      */
     function __construct($p_cn)
     {
+        global $g_user;
         $this->db=$p_cn;
         $this->qcode="";
         $this->user=$_SESSION['g_user'];
-        $user=new User($this->db);
-        $this->periode=$user->get_periode();
+        $this->periode=$g_user->get_periode();
         $this->jr_id=0;
     }
     /**
@@ -247,8 +247,8 @@ class Acc_Operation
      */
     function get_jrnx_detail()
     {
-        $user=new User($this->db);
-        $filter_sql=$user->get_ledger_sql('ALL',3);
+        global $g_user;
+        $filter_sql=$g_user->get_ledger_sql('ALL',3);
         $filter_sql=str_replace('jrn_def_id','jr_def_id',$filter_sql);
         if ( $this->jr_id==0 ) return;
         $sql=" select  jr_date,j_qcode,j_poste,j_montant,jr_internal,case when j_debit = 'f' then 'C' else 'D' end as debit,jr_comment as description,

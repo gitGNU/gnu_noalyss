@@ -36,10 +36,9 @@ $str_dossier=dossier::get();
 
 /* Admin. Dossier */
 $cn=new Database($gDossier);
-$User=new User($cn);
-
-$User->Check();
-$User->check_dossier($gDossier);
+global $g_user;
+$g_user->Check();
+$g_user->check_dossier($gDossier);
 
 include_once ("user_menu.php");
 

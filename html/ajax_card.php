@@ -87,9 +87,10 @@ set_language();
 ajax_disconnected($_REQUEST['ctl']);
 
 $cn=new Database($gDossier);
-$user=new User($cn);
-$user->check(true);
-$user->check_dossier($gDossier,true);
+global $g_user;
+$g_user=new User($cn);
+$g_user->check(true);
+$g_user->check_dossier($gDossier,true);
 $html=var_export($_REQUEST,true);
 switch($op)
 {
@@ -97,7 +98,7 @@ switch($op)
     /* Remove a attribut */
     /* ------------------------------------------------------------ */
 case 'rmfa':
-    if ($user->check_action(FICCAT)==0)exit();
+    if ($g_user->check_action(FICCAT)==0)exit();
         ob_start();
     if( ! isset($_GET['ad_id']) || isNumber($_GET['ad_id']) ==0)
         throw new Exception ( "Parametre ad_id est invalide",11);
@@ -130,7 +131,7 @@ case 'dc':
     if ( $qcode != '')
     {
         $f->get_by_qcode($qcode);
-	$can_modify=$user->check_action(FIC);
+	$can_modify=$g_user->check_action(FIC);
 	if ( isset($ro) )
 	  {
 	    $can_modify=0;
@@ -176,7 +177,7 @@ case 'dc':
     /* Blank card */
     /* ------------------------------------------------------------ */
 case 'bc':
-    if ( $user->check_action(FICADD)==1 )
+    if ( $g_user->check_action(FICADD)==1 )
     {
         $r='';
 	$r=HtmlInput::anchor_close($ctl);
@@ -285,7 +286,7 @@ case 'st':
 case 'sc':
   $html=HtmlInput::anchor_close($ctl);
   $html.=h2info('Nouvelle fiche');
-    if ( $user->check_action(FICADD)==1 )
+    if ( $g_user->check_action(FICADD)==1 )
     {
         $f=new Fiche($cn);
         $f->insert($fd_id,$_POST);
@@ -375,7 +376,7 @@ case 'fs':
     $html=$r;
     break;
 case 'ac':
-    if ( $user->check_action(FICCAT)==1 )
+    if ( $g_user->check_action(FICCAT)==1 )
     {
 
         /*----------------------------------------------------------------------
@@ -433,7 +434,7 @@ case 'scc':
      *
      *----------------------------------------------------------------------*/
     $html='';
-    if ( $user->check_action(FICCAT) == 1 )
+    if ( $g_user->check_action(FICCAT) == 1 )
     {
 		$script=create_script("removeDiv('$ctl')");
 		$html.=$script;
@@ -468,7 +469,7 @@ case 'upc':
   $html=HtmlInput::anchor_close($ctl);
   $html.=h2info('Détail fiche');
 
-  if ( $user->check_action(FICADD)==0 )
+  if ( $g_user->check_action(FICADD)==0 )
     {
       $html.=alert(_('Action interdite'),true);
     }

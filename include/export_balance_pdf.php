@@ -42,8 +42,7 @@ $gDossier=dossier::id();
 $cn=new Database($gDossier);
 $rep=new Database();
 require_once ('class_user.php');
-$User=new User($cn);
-$User->Check();
+$g_user->Check();
 
 $bal=new Acc_Balance($cn);
 
@@ -58,7 +57,7 @@ case 1:
     if (  isset($_GET['r_jrn']))
     {
         $selected=$_GET['r_jrn'];
-        $array_ledger=$User->get_ledger('ALL',3);
+        $array_ledger=$g_user->get_ledger('ALL',3);
         for ($e=0;$e<count($array_ledger);$e++)
         {
             if (isset ($selected[$e]))
