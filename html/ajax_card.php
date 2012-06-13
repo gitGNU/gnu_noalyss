@@ -215,19 +215,19 @@ case 'st':
         {
         case -1:
             $l=new Acc_Ledger($cn,$ledger);
-            $sql.='  where fd_id in ('.$l->get_all_fiche_def().')';
+            $where='  where fd_id in ('.$l->get_all_fiche_def().')';
             break;
         case 'cred':
             $l=new Acc_Ledger($cn,$ledger);
             $prop=$l->get_propertie();
             if ( $prop['jrn_def_fiche_cred']=='')$prop=-1;
-            $sql.='  where fd_id in ('.$prop['jrn_def_fiche_cred'].')';
+            $where='  where fd_id in ('.$prop['jrn_def_fiche_cred'].')';
             break;
         case 'deb':
             $l=new Acc_Ledger($cn,$ledger);
             $prop=$l->get_propertie();
             if ( $prop=='')$prop=-1;
-            $sql.='  where fd_id in ('.$prop['jrn_def_fiche_deb'].')';
+            $where='  where fd_id in ('.$prop['jrn_def_fiche_deb'].')';
             break;
         }
     }
@@ -236,23 +236,33 @@ case 'st':
         /* we filter thanks a given model of card */
         if ( isset($cat))
         {
-            $sql=$sql.sprintf(' where frd_id in ('.sql_string ($cat).')');
+            $where=sprintf(' where frd_id in ('.sql_string ($cat).')');
         }
         else
             /* we filter thanks a given list of category of card
              */
             if ( isset($fil) && strlen(trim($fil)) > 0 )
             {
-                $sql=$sql.sprintf(" where fd_id in (%s)",
+                $where=sprintf(" where fd_id in (%s)",
                                   sql_string($fil));
             }
     }
+	if ( strpos($where," in ()") != 0)
+	{
+		 $html=HtmlInput::anchor_close('select_card_div');
+		 $html.=h2info('Choix de la catégorie');
+		 $html.='<h3 class="notice">';
+		 $html.=_("Aucune catégorie de fiche ne correspond à".
+                " votre demande, le journal pourrait n'avoir accès à aucune fiche");
+		 $html.='</h3>';
+		 break;
+	}
     $array=$cn->make_array($sql);
     $html=HtmlInput::anchor_close('select_card_div');
     $html.=h2info('Choix de la catégorie');
     if ( empty($array))
     {
-        $html.=_("Aucune catégorie de fiche ne correspondant à".
+        $html.=_("Aucune catégorie de fiche ne correspond  à".
                 " votre demande");
 		if ( DEBUG )        $html.=$sql;
     }
@@ -339,6 +349,16 @@ case 'fs':
     /* Build the SQL and show result */
     $sql=$fiche->build_sql($sql_array);
 
+	if ( strpos($sql," in ()") != 0)
+	{
+		$html=HtmlInput::anchor_close('search_card');
+		 $html.='<div> '.h2info(_('Recherche de fiche')).'</div>';
+		 $html.='<h3 class="notice">';
+		 $html.=_("Aucune catégorie de fiche ne correspond à".
+                " votre demande, le journal pourrait n'avoir accès à aucune fiche");
+		 $html.='</h3>';
+		 break;
+	}
     /* We limit the search to 20 records */
     $sql=$sql.' order by vw_name limit 20';
     $a=$cn->get_array($sql);

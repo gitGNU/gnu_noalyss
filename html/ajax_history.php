@@ -39,6 +39,7 @@ mb_internal_encoding("UTF-8");
  */
 ajax_disconnected($div);
 global $g_user;
+$cn=new Database(dossier::id());
 $g_user=new User($cn);
 /* security */
 if ( $g_user->check_dossier(dossier::id(),true) == 'X' ) exit();
