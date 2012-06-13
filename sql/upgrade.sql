@@ -241,3 +241,24 @@ COMMENT ON COLUMN stock_repository.r_city IS 'City of the stock';
 COMMENT ON COLUMN stock_repository.r_phone  IS 'Phone number';
 
 insert into stock_repository(r_name) values ('Dépôt par défaut');
+
+CREATE TABLE user_sec_repository
+(
+  ur_id bigserial NOT NULL, -- pk
+  p_id bigint, -- fk to profile
+  r_id bigint,
+  ur_right character(1), -- Type of right : R for readonly W for write
+  CONSTRAINT user_sec_repository_pkey PRIMARY KEY (ur_id ),
+  CONSTRAINT user_sec_repository_p_id_fkey FOREIGN KEY (p_id)
+      REFERENCES profile (p_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT user_sec_repository_r_id_fkey FOREIGN KEY (r_id)
+      REFERENCES stock_repository (r_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT user_sec_profile_ur_right_check CHECK (ur_right = ANY (ARRAY['R'::bpchar, 'W'::bpchar]))
+);
+COMMENT ON TABLE user_sec_repository  IS 'Available profile for user';
+COMMENT ON COLUMN user_sec_repository.ur_id IS 'pk';
+COMMENT ON COLUMN user_sec_repository.p_id IS 'fk to profile';
+COMMENT ON COLUMN user_sec_repository.r_id IS 'fk to stock_repository';
+COMMENT ON COLUMN user_sec_repository.ur_right IS 'Type of right : R for readonly W for write';

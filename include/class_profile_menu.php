@@ -208,6 +208,10 @@ class Profile_Menu
 			$gDossier = Dossier::id();
 			$this->sub_menu($ret, $p_id);
 		}
+		/**
+		 * Show the available profile for the profile $p_id, it concerns only the action of management (action-gestion)
+		 * @param $p_id is the profile p_id
+		 */
 		function available_profile($p_id)
 		{
 			$array=$this->cn->get_array("
@@ -228,7 +232,30 @@ class Profile_Menu
 					);
 			require_once 'template/user_sec_profile.php';
 		}
+		/**
+		 * Show the available repository for the profile $p_id
+		 * @param $p_id is the profile p_id
+		 */
+		function available_repository($p_id)
+		{
+			$array=$this->cn->get_array("
+					select p.r_id,p.r_name,s.ur_id,s.ur_right
+						from stock_repository as p
+						join user_sec_repository as s on (s.r_id=p.r_id)
+						where s.p_id=$1
+					union
+						select p2.r_id, p2.r_name,null,'X'
+						from stock_repository as p2
+						where
+						p2.r_id not in (select r_id from user_sec_repository where p_id = $1) order by r_name;
+				",array($p_id));
+			$aright_value=array(
+								array('value'=>'R','label'=>_('Lecture')),
+								array('value'=>'W','label'=>_('Ecriture')),
+								array('value'=>'X','label'=>_('Aucun accès'))
+					);
+			require_once 'template/user_sec_repository.php';
+		}
 	}
-
 	//end class
 	?>

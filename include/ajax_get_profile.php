@@ -82,6 +82,9 @@ Effacer ce profil';
 	echo $add_one;
 	echo "<h2>Action gestion accessible</h2>";
 	$profile_menu->available_profile($p_id);
+	echo "<h2>Dépôt de stock accessible</h2>";
+	$profile_menu->available_repository($p_id);
+
 }
 ?>
 
