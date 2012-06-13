@@ -503,6 +503,7 @@ class Document
      */
     function Replace($p_tag,$p_array)
     {
+		global $g_parameter;
         $p_tag=strtoupper($p_tag);
         $p_tag=str_replace('=','',$p_tag);
         $r="Tag inconnu";
@@ -529,40 +530,31 @@ class Document
             //  the company priv
 
         case 'MY_NAME':
-            $my=new own($this->db);
-            $r=$my->MY_NAME;
+            $r=$g_parameter->MY_NAME;
             break;
         case 'MY_CP':
-            $my=new own($this->db);
-            $r=$my->MY_CP;
+            $r=$g_parameter->MY_CP;
             break;
         case 'MY_COMMUNE':
-            $my=new own($this->db);
-            $r=$my->MY_COMMUNE;
+            $r=$g_parameter->MY_COMMUNE;
             break;
         case 'MY_TVA':
-            $my=new own($this->db);
-            $r=$my->MY_TVA;
+            $r=$g_parameter->MY_TVA;
             break;
         case 'MY_STREET':
-            $my=new own($this->db);
-            $r=$my->MY_STREET;
+            $r=$g_parameter->MY_STREET;
             break;
         case 'MY_NUMBER':
-            $my=new own($this->db);
-            $r=$my->MY_NUMBER;
+            $r=$g_parameter->MY_NUMBER;
             break;
         case 'MY_TEL':
-            $my=new own($this->db);
-            $r=$my->MY_TEL;
+            $r=$g_parameter->MY_TEL;
             break;
         case 'MY_FAX':
-            $my=new own($this->db);
-            $r=$my->MY_FAX;
+            $r=$g_parameter->MY_FAX;
             break;
         case 'MY_PAYS':
-            $my=new own($this->db);
-            $r=$my->MY_PAYS;
+            $r=$g_parameter->MY_PAYS;
             break;
 
             // customer
