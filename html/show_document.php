@@ -1,4 +1,5 @@
 <?php
+
 /*
  *   This file is part of PhpCompta.
  *
@@ -15,11 +16,11 @@
  *   You should have received a copy of the GNU General Public License
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // Verify parameters
-/*! \file
+/* ! \file
  * \brief retrieve a document
  */
 
@@ -27,75 +28,75 @@ require_once('class_database.php');
 require_once("ac_common.php");
 require_once( "class_document.php");
 require_once('class_dossier.php');
-$gDossier=dossier::id();
-$cn=new Database($gDossier);
-$action=(isset($_REQUEST['a']))?$_REQUEST['a']:'sh';
+$gDossier = dossier::id();
+$cn = new Database($gDossier);
+$action = (isset($_REQUEST['a'])) ? $_REQUEST['a'] : 'sh';
 
 require_once ('class_user.php');
 global $g_user;
-$g_user=new User(new Database());
+$g_user = new User($cn);
 $g_user->Check();
 $g_user->check_dossier($gDossier);
 
 /* Show the document */
-if ( $action == 'sh')
+if ($action == 'sh')
 {
-    if ( $g_user->check_action(VIEWDOC)==1)
-    {
-        // retrieve the document
-        $doc=new Document($cn,$_REQUEST['d_id']);
-        $doc->Send();
-    }
+	if ($g_user->check_action(VIEWDOC) == 1)
+	{
+		// retrieve the document
+		$doc = new Document($cn, $_REQUEST['d_id']);
+		$doc->Send();
+	}
 }
 /* remove the document */
-if ( $action == 'rm' )
+if ($action == 'rm')
 {
-    if ($g_user->check_action(RMDOC)==1)
-    {
-        $doc=new Document($cn,$_REQUEST['d_id']);
-        $doc->remove();
-        $json=sprintf('{"d_id":"%s"}',$_REQUEST['d_id']);
-        header("Content-type: text/html; charset: utf8",true);
-        print $json;
-    }
+	$json='{"d_id":"-1"}';
+	if ($g_user->check_action(RMDOC) == 1)
+	{
+		$doc = new Document($cn, $_REQUEST['d_id']);
+		$doc->remove();
+		$json = sprintf('{"d_id":"%s"}', $_REQUEST['d_id']);
+	}
+	header("Content-type: text/html; charset: utf8", true);
+	print $json;
 }
-/* remove the operation from action_gestion_operation*/
-if ( $action == 'rmop' )
+/* remove the operation from action_gestion_operation */
+if ($action == 'rmop')
 {
-	$dt_id=$cn->get_value("select ag_id from action_gestion_operation where ago_id=$1",$_REQUEST['id']);
-    if ($g_user->check_action(RMDOC)==1 && $g_user->can_write_action($dt_id)==true)
-    {
-		$cn->exec_sql("delete from action_gestion_operation where ago_id=$1",
-				array($_REQUEST['id']));
-        $json=sprintf('{"ago_id":"%s"}',$_REQUEST['id']);
-        header("Content-type: text/html; charset: utf8",true);
-        print $json;
-    }
+	$json = '{"ago_id":"-1"}';
+	$dt_id = $cn->get_value("select ag_id from action_gestion_operation where ago_id=$1", $_REQUEST['id']);
+	if ($g_user->check_action(RMDOC) == 1 && $g_user->can_write_action($dt_id) == true)
+	{
+		$cn->exec_sql("delete from action_gestion_operation where ago_id=$1", array($_REQUEST['id']));
+		$json = sprintf('{"ago_id":"%s"}', $_REQUEST['id']);
+	}
+	header("Content-type: text/html; charset: utf8", true);
+	print $json;
 }
-/* remove the comment from action_gestion_operation*/
-if ( $action == 'rmcomment' )
+/* remove the comment from action_gestion_operation */
+if ($action == 'rmcomment')
 {
-	$dt_id=$cn->get_value("select ag_id from action_gestion_comment where agc_id=$1",$_REQUEST['id']);
-    if ($g_user->check_action(RMDOC)==1 && $g_user->can_write_action($dt_id)==true)
-    {
-		$cn->exec_sql("delete from action_gestion_comment where agc_id=$1",
-				array($_REQUEST['id']));
-        $json=sprintf('{"agc_id":"%s"}',$_REQUEST['id']);
-        header("Content-type: text/html; charset: utf8",true);
-        print $json;
-    }
+	$json = '{"agc_id":"-1"}';
+	$dt_id = $cn->get_value("select ag_id from action_gestion_comment where agc_id=$1", $_REQUEST['id']);
+	if ($g_user->check_action(RMDOC) == 1 && $g_user->can_write_action($dt_id) == true)
+	{
+		$cn->exec_sql("delete from action_gestion_comment where agc_id=$1", array($_REQUEST['id']));
+		$json = sprintf('{"agc_id":"%s"}', $_REQUEST['id']);
+	}
+	header("Content-type: text/html; charset: utf8", true);
+	print $json;
 }
-/* remove the action from action_gestion_operation*/
-if ( $action == 'rmaction' )
+/* remove the action from action_gestion_operation */
+if ($action == 'rmaction')
 {
-    if ($g_user->check_action(RMDOC)==1 && $g_user->can_write_action($_REQUEST['id']) == true && $g_user->can_write_action($_REQUEST['ag_id'])== true )
-    {
-		$cn->exec_sql("delete from action_gestion_related where aga_least=$1 and aga_greatest=$2",
-				array($_REQUEST['id'],$_REQUEST['ag_id']));
-		$cn->exec_sql("delete from action_gestion_related where aga_least=$2 and aga_greatest=$1",
-				array($_REQUEST['id'],$_REQUEST['ag_id']));
-        $json=sprintf('{"act_id":"%s"}',$_REQUEST['id']);
-        header("Content-type: text/html; charset: utf8",true);
-        print $json;
-    }
+	$json = '{"act_id":"-1"}';
+	if ($g_user->check_action(RMDOC) == 1 && $g_user->can_write_action($_REQUEST['id']) == true && $g_user->can_write_action($_REQUEST['ag_id']) == true)
+	{
+		$cn->exec_sql("delete from action_gestion_related where aga_least=$1 and aga_greatest=$2", array($_REQUEST['id'], $_REQUEST['ag_id']));
+		$cn->exec_sql("delete from action_gestion_related where aga_least=$2 and aga_greatest=$1", array($_REQUEST['id'], $_REQUEST['ag_id']));
+		$json = sprintf('{"act_id":"%s"}', $_REQUEST['id']);
+	}
+	header("Content-type: text/html; charset: utf8", true);
+	print $json;
 }

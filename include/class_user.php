@@ -32,6 +32,7 @@ require_once("constant.php");
 require_once("user_common.php");
 require_once('class_dossier.php');
 require_once('ac_common.php');
+
 class User
 {
 
@@ -41,7 +42,7 @@ class User
 	var $admin;
 	var $valid;
 
-	function User(&$p_cn, $p_id=-1)
+	function User(&$p_cn, $p_id = -1)
 	{
 		// if p_id is not set then check the connected user
 		if ($p_id == -1)
@@ -126,7 +127,7 @@ class User
 		$Sql = "update ac_users set use_first_name=$1, use_name=$2
              ,use_active=$3,use_admin=$4,use_pass=$5 where use_id=$6";
 		$cn = new Database();
-		$Res = $cn->exec_sql($Sql, array($this->first_name, $this->last_name, $this->active, $this->admin, $this->pass,$this->id));
+		$Res = $cn->exec_sql($Sql, array($this->first_name, $this->last_name, $this->active, $this->admin, $this->pass, $this->id));
 	}
 
 	/* !
@@ -137,7 +138,7 @@ class User
 	 *
 	  ++ */
 
-	function Check($silent=false, $from='')
+	function Check($silent = false, $from = '')
 	{
 
 		$res = 0;
@@ -280,7 +281,7 @@ class User
 	  @endverbatim
 	 */
 
-	function get_ledger($p_type='ALL', $p_access=3)
+	function get_ledger($p_type = 'ALL', $p_access = 3)
 	{
 		if ($this->admin != 1 && $this->is_local_admin() != 1)
 		{
@@ -332,7 +333,7 @@ class User
 	 * \return sql condition like = jrn_def_id in (...)
 	 */
 
-	function get_ledger_sql($p_type='ALL', $p_access=3)
+	function get_ledger_sql($p_type = 'ALL', $p_access = 3)
 	{
 		$aLedger = $this->get_ledger($p_type, $p_access);
 		if (empty($aLedger))
@@ -504,23 +505,25 @@ class User
 
 		return $l_array;
 	}
-        /**
-         * Check if an user can access a module, return 1 if yes, otherwise 0
-         * record in audit log
-         * @param string $p_module menu_ref.me_code
-         */
-        function check_module($p_module)
-        {
-            $acc=$this->db->get_value("select count(*) from v_all_menu where user_name = $1
-                and me_code=$2", array($this->login,$p_module));
-            if ($acc == 0)
-            {
-                $this->audit("FAIL",$p_module);
-                return 0;
-            }
-            $this->audit("SUCCESS",$p_module);
-            return 1;
-        }
+
+	/**
+	 * Check if an user can access a module, return 1 if yes, otherwise 0
+	 * record in audit log
+	 * @param string $p_module menu_ref.me_code
+	 */
+	function check_module($p_module)
+	{
+		$acc = $this->db->get_value("select count(*) from v_all_menu where user_name = $1
+                and me_code=$2", array($this->login, $p_module));
+		if ($acc == 0)
+		{
+			$this->audit("FAIL", $p_module);
+			return 0;
+		}
+		$this->audit("SUCCESS", $p_module);
+		return 1;
+	}
+
 	/* !
 	 * \brief  Check if an user is allowed to do an action
 	 * \param p_action_id
@@ -611,7 +614,7 @@ class User
 	 *
 	 */
 
-	function insert_default_global_pref($p_type="", $p_value="")
+	function insert_default_global_pref($p_type = "", $p_value = "")
 	{
 
 		$default_parameter = array("THEME" => "classic",
@@ -645,7 +648,7 @@ class User
 	 * \param $p_value parameter's value value of the type
 	 */
 
-	function update_global_pref($p_type, $p_value="")
+	function update_global_pref($p_type, $p_value = "")
 	{
 		$default_parameter = array("THEME" => "classic",
 			"PAGESIZE" => "50",
@@ -685,11 +688,11 @@ class User
 	 * \return nothing the program exits automatically
 	 */
 
-	function can_request($p_action, $p_js=0)
+	function can_request($p_action, $p_js = 0)
 	{
 		if ($this->check_action($p_action) == 0)
 		{
-                        $this->audit('FAIL');
+			$this->audit('FAIL');
 			if ($p_js == 1)
 			{
 				echo "<script>";
@@ -714,30 +717,29 @@ class User
 	 */
 	function check_print($p_action)
 	{
-		global $audit,$cn;
+		global $audit, $cn;
 		$this->audit('AUDIT', $p_action);
 		if ($this->Admin() == 1)
 			return 1;
 		if ($this->is_local_admin(dossier::id()) == 1)
 			return 1;
-		$res=$cn->get_value("select count(*) from profile_menu
+		$res = $cn->get_value("select count(*) from profile_menu
 			join profile_user using (p_id)
-			where user_name=$1 and me_code=$2 ",
-				array($this->login,$p_action));
+			where user_name=$1 and me_code=$2 ", array($this->login, $p_action));
 		return $res;
-
 	}
+
 	/* !\brief Check if the user can print (in menu_ref p_type_display=p)
 	 * otherwise warn and exit
 	 * \param $p_action requested action
 	 * \return nothing the program exits automatically
 	 */
 
-	function can_print($p_action, $p_js=0)
+	function can_print($p_action, $p_js = 0)
 	{
 		if ($this->check_print($p_action) == 0)
 		{
-                    $this->audit('FAIL');
+			$this->audit('FAIL');
 			if ($p_js == 1)
 			{
 				echo "<script>";
@@ -753,6 +755,7 @@ class User
 			exit(-1);
 		}
 	}
+
 	/* !
 	 * \brief  Check if an user is an local administrator
 	 *
@@ -765,7 +768,7 @@ class User
 	 *
 	 */
 
-	function is_local_admin($p_dossier=-1)
+	function is_local_admin($p_dossier = -1)
 	{
 		if ($p_dossier == -1)
 		{
@@ -845,7 +848,7 @@ class User
 	 *  - R regular user
 	 */
 
-	function check_dossier($p_dossier_id, $silent=false)
+	function check_dossier($p_dossier_id, $silent = false)
 	{
 		$this->Admin();
 		if ($this->admin == 1 || $this->is_local_admin($p_dossier_id) == 1)
@@ -856,7 +859,7 @@ class User
 		$dossier = ($dossier == '') ? 'X' : $dossier;
 		if ($dossier == 'X')
 		{
-                    $this->audit('FAIL',"Access folder ");
+			$this->audit('FAIL', "Access folder ");
 			if (!$silent)
 			{
 				alert(_('Dossier non accessible'));
@@ -891,7 +894,7 @@ class User
 	 *
 	 */
 
-	function show_dossier($p_filtre="")
+	function show_dossier($p_filtre = "")
 	{
 		$p_array = $this->get_available_folder($p_filtre);
 
@@ -921,7 +924,7 @@ class User
 
 			$result.="<TR class=\"$tr\">";
 
-			$result.=td($id,' class="num" ');
+			$result.=td($id, ' class="num" ');
 			$result.="<TD class=\"$tr\">";
 			$result.="<A class=\"dossier\" HREF=\"$target\">";
 			$result.= "  <B>" . h($name) . "</B>";
@@ -950,32 +953,31 @@ class User
 	 *
 	 */
 
-	function get_available_folder( $p_filter="")
+	function get_available_folder($p_filter = "")
 	{
-            $cn = new Database();
+		$cn = new Database();
 		$filter = "";
 		if ($this->admin == 0)
 		{
 			// show only available folders
 			// if user is not an admin
-			$Res=$cn->exec_sql( "select distinct dos_id,dos_name,dos_description from ac_users
+			$Res = $cn->exec_sql("select distinct dos_id,dos_name,dos_description from ac_users
              natural join jnt_use_dos
              natural join  ac_dossier
              join  priv_user on ( priv_jnt=jnt_id)
              where use_active=1
              and use_login= $1
              and priv_priv != 'X' and ( dos_name ~* $2 or dos_description ~* $2 )
-             order by dos_name", array($this->login,$p_filter));
+             order by dos_name", array($this->login, $p_filter));
 		}
 		else
 		{
 			$Res = $cn->exec_sql("select distinct dos_id,dos_name,dos_description from ac_dossier
-             where   dos_name ~* $1 or dos_description ~* $1 order by dos_name",
-                        array($p_filter));
+             where   dos_name ~* $1 or dos_description ~* $1 order by dos_name", array($p_filter));
 		}
 		require_once('class_database.php');
 
-                $max = Database::num_row($Res);
+		$max = Database::num_row($Res);
 		if ($max == 0)
 			return 0;
 
@@ -985,63 +987,68 @@ class User
 		}
 		return $array;
 	}
-	function audit($action='AUDIT', $p_module="")
-        {
-            global $audit;
-            if ($audit)
-            {
-                if ($p_module == "" && isset ($_REQUEST['ac']))
-                {
-                    $p_module = $_REQUEST['ac'];
-                }
-                $cn = new Database();
-                if (isset($_REQUEST['gDossier']))
-                    $p_module.= "dossier : " . $_REQUEST['gDossier'];
-                $sql = "insert into audit_connect (ac_user,ac_ip,ac_module,ac_url,ac_state) values ($1,$2,$3,$4,$5)";
 
-                $cn->exec_sql($sql, array(
-                    $_SESSION['g_user'],
-                    $_SERVER["REMOTE_ADDR"],
-                    $p_module,
-                    $_SERVER['REQUEST_URI'],
-                    $action));
-            }
-        }
-	function save_profile($p_id)
+	function audit($action = 'AUDIT', $p_module = "")
 	{
-		$count=$this->db->get_value("select count(*) from profile_user where user_name=$1",  array($this->login));
-		if ($count==0)
+		global $audit;
+		if ($audit)
 		{
-			$this->db->exec_sql("insert into profile_user(p_id,user_name)
-								values ($1,$2)",
-								array($p_id,$this->login));
+			if ($p_module == "" && isset($_REQUEST['ac']))
+			{
+				$p_module = $_REQUEST['ac'];
+			}
+			$cn = new Database();
+			if (isset($_REQUEST['gDossier']))
+				$p_module.= "dossier : " . $_REQUEST['gDossier'];
+			$sql = "insert into audit_connect (ac_user,ac_ip,ac_module,ac_url,ac_state) values ($1,$2,$3,$4,$5)";
 
-		} else {
-			$this->db->exec_sql("update profile_user set p_id=$1 where user_name=$2",
-								array($p_id,$this->login));
-
+			$cn->exec_sql($sql, array(
+				$_SESSION['g_user'],
+				$_SERVER["REMOTE_ADDR"],
+				$p_module,
+				$_SERVER['REQUEST_URI'],
+				$action));
 		}
 	}
+
+	function save_profile($p_id)
+	{
+		$count = $this->db->get_value("select count(*) from profile_user where user_name=$1", array($this->login));
+		if ($count == 0)
+		{
+			$this->db->exec_sql("insert into profile_user(p_id,user_name)
+								values ($1,$2)", array($p_id, $this->login));
+		}
+		else
+		{
+			$this->db->exec_sql("update profile_user set p_id=$1 where user_name=$2", array($p_id, $this->login));
+		}
+	}
+
 	function get_profile()
 	{
-		$profile=$this->db->get_value("select p_id from profile_user where
-				user_name=$1",array($this->login));
+		$profile = $this->db->get_value("select p_id from profile_user where
+				user_name=$1", array($this->login));
 		return $profile;
 	}
-	function can_write_action( $dtoc)
+
+	function can_write_action($dtoc)
 	{
-		$profile=$this->get_profile();
-		$r=$this->db->get_value(" select count(*) from action_gestion where ag_id=$1 and ag_dest in
-				(select p_granted from user_sec_action_profile where ua_right='W' and p_id=$2) ",array($dtoc,$profile));
-		if ( $r == 0 ) return false;
+		$profile = $this->get_profile();
+		$r = $this->db->get_value(" select count(*) from action_gestion where ag_id=$1 and ag_dest in
+				(select p_granted from user_sec_action_profile where ua_right='W' and p_id=$2) ", array($dtoc, $profile));
+		if ($r == 0)
+			return false;
 		return true;
 	}
+
 	function can_read_action($dtoc)
 	{
-		$profile=$this->get_profile();
-		$r=$this->db->get_value(" select count(*) from action_gestion where ag_id=$1 and (ag_dest in
-				(select p_granted from user_sec_action_profile where p_id=$2) or ag_owner=$3)",array($dtoc,$profile,$this->login));
-		if ( $r == 0 ) return false;
+		$profile = $this->get_profile();
+		$r = $this->db->get_value(" select count(*) from action_gestion where ag_id=$1 and (ag_dest in
+				(select p_granted from user_sec_action_profile where p_id=$2) or ag_owner=$3)", array($dtoc, $profile, $this->login));
+		if ($r == 0)
+			return false;
 		return true;
 	}
 

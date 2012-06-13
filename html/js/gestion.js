@@ -70,6 +70,8 @@ function successRemoveOp(request,json)
 {
 	try{
 		var answer=request.responseText.evalJSON(true);
+		if ( answer.ago_id == -1 ) { alert ('Effacement non autorisé');return;}
+
 		var action="acop"+answer.ago_id;
 		$(action).innerHTML="";
 		var doc="op"+answer.ago_id;
@@ -97,6 +99,7 @@ function remove_action(p_dossier,p_id,ag_id)
 			onSuccess:function(request,json) {
 				try{
 				var answer=request.responseText.evalJSON(true);
+				if ( answer.act_id == -1 ) { alert ('Effacement non autorisé');return;}
 				var action="acact"+answer.act_id;
 				$(action).innerHTML="";
 				var doc="act"+answer.act_id;
@@ -133,6 +136,7 @@ function remove_comment(p_dossier,p_id)
 function successRemoveComment(request,json)
 {
 	var answer=request.responseText.evalJSON(true);
+	if ( answer.agc_id == -1 ) { alert ('Effacement non autorisé');return;}
 	var action="accom"+answer.agc_id;
 	$(action).innerHTML="";
 	var doc="com"+answer.agc_id;
@@ -154,6 +158,7 @@ function errorRemoveDoc()
 function successRemoveDoc(request,json)
 {
 	var answer=request.responseText.evalJSON(true);
+	if ( answer.d_id == -1 ) { alert ('Effacement non autorisé');return;}
 	var action="ac"+answer.d_id;
 	$(action).innerHTML="";
 	var doc="doc"+answer.d_id;
