@@ -30,6 +30,10 @@
 <form onsubmit="set_action_related('fresultaction');return false;" id="fresultaction">
 	<?=HtmlInput::hidden('ctlc',$_GET['ctlc'])?>
 	<?=HtmlInput::submit("save_action", "Mettre à jour")?>
+<? if (isset($limit)) : ?>
+	<h2 class="notice">Recherche limitée à <?=$limit?> résultats</h2>
+<?endif;?>
+
 <table class="result">
 
 	<tr>
