@@ -38,6 +38,11 @@ $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 //$version_phpcompta=SVNINFO;
 //define ("DEBUG",false);
 
+// If you don't want to be notified of the update
+// define ("SITE_UPDATE",'');
+define ("SITE_UPDATE",'http://www.phpcompta.eu/last_version.txt');
+
+
 $version_phpcompta=4800;
 define ("DEBUG",true);
 

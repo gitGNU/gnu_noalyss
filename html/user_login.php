@@ -25,6 +25,7 @@
 include_once ("ac_common.php");
 require_once('class_database.php');
 require_once('class_itext.php');
+html_page_start($_SESSION['g_theme']);
 $rep=new Database();
 include_once ("class_user.php");
 $User=new User($rep);
@@ -76,10 +77,21 @@ if ( $version < DBVERSIONREPO )
     echo '<a hreF="'.$base.'">'.$a.'</a></h2>';
 
 }
+if ( $User->Admin()  == 1)
+{
+	if (SITE_UPDATE !="") {
+	 $update=@file_get_contents(SITE_UPDATE);
+	 if ($update > $version_phpcompta ) {
+		 echo '<div class="inner_box" style="margin-left:0px;margin-top:3px;left:3px">';
+		 echo '<p class="notice">';
+		 echo "Mise à jour disponible de PhpCompta version actuelle : $update votre version $version_phpcompta";
+		 echo '</p>';
+		 echo '</div>';
+	 }
+	}
+}
 
-html_page_start($_SESSION['g_theme']);
 include_once("user_menu.php");
-
 $priv=($User->admin==1)?"Administrateur":"Utilisateur";
 echo '<div class="welcome"> ';
 /**
@@ -88,6 +100,7 @@ echo '<div class="welcome"> ';
  * so it will be directly redirected to this folder or to the plugins of this
  * folder if he's an "plugin user"
  */
+
 if ( $User->admin == 0 )
 {
     // how many folder ?
