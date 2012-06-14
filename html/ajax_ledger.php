@@ -91,6 +91,26 @@ EOF;
 $op=new Acc_Operation($cn);
 $op->jr_id=$_REQUEST['jr_id'];
 $ledger=$op->get_ledger();
+if ($ledger=="")
+{
+
+    ob_start();
+    require_once ('template/ledger_detail_forbidden.php');
+    $html=ob_get_contents();
+    ob_clean();
+
+    $html=escape_xml($html);
+    header('Content-type: text/xml; charset=UTF-8');
+    echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<ctl>$div</ctl>
+<code>$html</code>
+</data>
+EOF;
+    exit();
+
+}
 $access=$g_user->get_ledger_access($ledger);
 if ( $access == 'X' )
 {
