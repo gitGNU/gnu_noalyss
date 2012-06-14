@@ -91,8 +91,9 @@ for($i=0;$i<count($last_operation);$i++):
 <table style="width: 100%">
 <?php
 for($i=0;$i<count($last_ledger);$i++):
+	$class=($i%2==0)?' class="even" ':' class="odd" ';
 ?>
-<tr>
+<tr <?=$class?> >
 	<td><?=  smaller_date($last_ledger[$i]['jr_date_fmt'])?>
 	</td>
 	<td>
@@ -102,7 +103,7 @@ for($i=0;$i<count($last_ledger);$i++):
    <?=h(mb_substr($last_ledger[$i]['jr_comment'],0,40,'UTF-8'))?>
 </td>
 <td>
-<?=$last_ledger[$i]['jr_internal']?>
+<?=HtmlInput::detail_op($last_ledger[$i]['jr_id'], $last_ledger[$i]['jr_internal'])?>
 </td>
 <td class="num">
 <?=nbm($last_ledger[$i]['jr_montant'])?>
@@ -142,8 +143,8 @@ if ( $report != 0 ) {
     echo '<table border="0" width="100%">';
     foreach ($result as $row) {
       $ix++;
-      $bgcolor=($ix%2==0)?' style="background-color:lightgrey"':'';
-      echo '<tr'.$bgcolor.'">';
+	  $class=($ix%2==0)?' class="even" ':' class="odd" ';
+      echo '<tr'.$class.'">';
 
       echo '<td> '.$row['desc'].'</td>'.
 	'<td style="text-align:right">'.nbm($row['montant'])." &euro;</td>";
@@ -155,7 +156,7 @@ if ( $report != 0 ) {
   echo '</div>';
  } else {
   echo '<fieldset style="width:50%;background-color:white"><legend>'._('Aucun rapport défini').'</legend>';
-  echo '<a href="user_pref.php?'.dossier::get().'">'._('Cliquez ici pour mettre à jour vos préférences').'</a>';
+  echo '<a href="do.php?'.dossier::get().'&ac=PREFERENCE">'._('Cliquez ici pour mettre à jour vos préférences').'</a>';
   echo '</fieldset>';
  }
 

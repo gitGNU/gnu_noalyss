@@ -44,6 +44,7 @@ else
 }
 
 global $g_user;
+$g_user=new User($cn);
 
 // Met a jour le theme utilisateur (style)
 if ( isset ( $_POST['style_user']) )
