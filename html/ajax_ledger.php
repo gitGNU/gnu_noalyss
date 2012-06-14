@@ -95,6 +95,7 @@ if ($ledger=="")
 {
 
     ob_start();
+	echo HtmlInput::title_box(_("Information"), $div);
     require_once ('template/ledger_detail_forbidden.php');
     $html=ob_get_contents();
     ob_clean();
@@ -115,6 +116,7 @@ $access=$g_user->get_ledger_access($ledger);
 if ( $access == 'X' )
 {
     ob_start();
+	echo HtmlInput::title_box(_("Information"), $div);
     require_once ('template/ledger_detail_forbidden.php');
     $html=ob_get_contents();
     ob_clean();
