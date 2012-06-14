@@ -1061,6 +1061,15 @@ class Follow_Up
 		return $array;
 	}
 
+	function get_today()
+	{
+		$sql = "select coalesce(vw_name,'Interne') as vw_name,ag_id,ag_title,ag_ref, dt_value,to_char(ag_timestamp,'DD.MM.YYYY') as ag_timestamp_fmt,ag_timestamp " .
+				" from action_gestion join document_type " .
+				" on (ag_type=dt_id) left join vw_fiche_attr on (f_id=f_id_dest) where ag_state in (2,3)
+				and to_char(ag_remind_date,'DDMMYYYY')=to_char(now(),'DDMMYYYY') ";
+		$array = $this->db->get_array($sql);
+		return $array;
+	}
 	/**
 	 * insert a related operation
 	 */
@@ -1264,9 +1273,8 @@ class Follow_Up
 		{
 			$query.=" and ag_timestamp <= to_date('$date_end','DD.MM.YYYY')";
 		}
-		if (isset($ag_dest_query))
+		if (isset($ag_dest_query)&& ! isset($all_action) && $ag_dest_query != -1)
 		{
-			if ($ag_dest_query != 0)
 				$query.= " and ag_dest = " . sql_string($ag_dest_query);
 		}
 		if (isNumber($ag_id) == 1 && $ag_id != 0)

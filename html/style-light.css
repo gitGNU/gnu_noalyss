@@ -748,7 +748,6 @@ ul.select_table li {
 }
 ul.select_table li span {
 	display:table-cell;
-	width:25em;
 	margin: 0px;
 	padding:  0px;
 }

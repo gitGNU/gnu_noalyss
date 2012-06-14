@@ -2697,9 +2697,12 @@ class Acc_Ledger extends jrn_def_sql
         global $g_user;
         $filter_ledger=$g_user->get_ledger_sql('ALL',3);
         $filter_ledger=str_replace('jrn_def_id','jr_def_id',$filter_ledger);
-        $sql="select jr_id,jr_pj_number,jr_date,to_char(jr_date,'DD.MM.YYYY') as jr_date_fmt,jr_montant, jr_comment,jr_internal from jrn ".
-             " where $filter_ledger ".
-             " order by jr_date desc limit $p_limit";
+        $sql="
+			select jr_id,jr_pj_number,jr_date,to_char(jr_date,'DD.MM.YYYY') as jr_date_fmt,jr_montant, jr_comment,jr_internal,jrn_def_code
+			from jrn
+			join jrn_def on (jrn_def_id=jr_def_id)
+			 where $filter_ledger
+			order by jr_date desc limit $p_limit";
         $array=$this->db->get_array($sql);
         return $array;
     }

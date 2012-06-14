@@ -12,11 +12,19 @@ require_once('class_todo_list.php');
 require_once("class_itextarea.php");
 require_once('class_calendar.php');
 require_once('class_acc_ledger.php');
+require_once 'class_follow_up.php';
+
 echo '<div class="content">';
 global $g_user;
 /* others report */
 $cal=new Calendar();
 $cal->get_preference();
+$Operation=new Follow_Up($cn);
+$last_operation=$Operation->get_today();
+$Ledger=new Acc_Ledger($cn,0);
+$last_ledger=array();
+$last_ledger=$Ledger->get_last(10);
+
 ob_start();
 require_once('template/dashboard.php');
 $ret=ob_get_contents();

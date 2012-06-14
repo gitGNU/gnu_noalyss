@@ -44,22 +44,23 @@ class Calendar
      */
     function fill_from_action(&$p_array)
     {
+		global $g_user;
+		$profile=$g_user->get_profile();
+
         $cn=new Database(dossier::id());
-        $sql="select ag_id,substr(ag_title,0,20) as ag_title_fmt,ag_ref,
-				to_char(ag_timestamp,'DD')::integer as ag_timestamp_day ".
+        $sql="select count(*) as nb,to_char(ag_remind_date,'DD')::integer as ag_timestamp_day ".
              " from action_gestion ".
              " where ".
-             " to_char(ag_timestamp,'MM')::integer=$1 ".
-             " and to_char(ag_timestamp,'YYYY')::integer=$2 ".
-             " and ag_cal='C' and ag_owner=$3";
-        $array=$cn->get_array($sql,array($this->month,$this->year,$_SESSION['g_user']));
+             " to_char(ag_remind_date,'MM')::integer=$1 ".
+             " and to_char(ag_remind_date,'YYYY')::integer=$2 ".
+             "  and ag_dest in (select p_granted from user_sec_action_profile where p_id =$3)
+				 group by to_char(ag_remind_date,'DD')::integer";
+
+		$array=$cn->get_array($sql,array($this->month,$this->year,$profile));
         for ($i=0;$i<count($array);$i++)
         {
             $ind=$array[$i]['ag_timestamp_day'];
-            $p_array[$ind]=(isset($p_array[$ind]))?$p_array[$ind]:'';
-            $p_array[$ind].='<A class="line" HREF="do.php?ac=FOLLOW&'.dossier::get().'&sa=detail&ag_id='.$array[$i]['ag_id'].'">';
-            $p_array[$ind].="<span class=\"calfollow\">".h($array[$i]['ag_ref']." ".$array[$i]['ag_title_fmt']).'</span>';
-            $p_array[$ind].="</A>";
+            $p_array[$ind].="<span class=\"notice\">".$array[$i]['nb'].'</span>';
 
         }
     }
@@ -107,7 +108,6 @@ class Calendar
         $wMonth->javascript="onchange=change_month(this)";
         $wMonth->set_attribute('gDossier',dossier::id());
         $month_year=$wMonth->input().$wMonth->get_js_attr();
-
         ob_start();
         require_once('template/calendar.php');
         $ret=ob_get_contents();
