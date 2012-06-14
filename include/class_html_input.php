@@ -629,21 +629,22 @@ class HtmlInput
       static function select_stock( $p_cn, $p_name,$p_mode)
       {
           global $g_user;
-          if ( in_array($p_mode,array('R','W') ) )
+          if ( ! in_array($p_mode,array('R','W') ) )
           {
               throw  new Exception  (__FILE__.":".__LINE__." $p_mode invalide");
           }
           $profile=$g_user->get_profile();
           $sel=new ISelect($p_name);
-          
-          $write=($p_mode=='W')?"ur_right='W' and ":"";
-          
-          $sel->value=$p_cn->make_array("
-                select r_id,r_name from stock_repository
-                where 
-                $write p_id=$1
-                order by 2
-              ",array($profile));
-          return $sel;
-      }
+
+		  if ($p_mode == 'W')
+			{
+			  $sel->value=$p_cn->make_array("
+                select r_id,r_name
+				  from stock_repository join user_sec_repository using (r_id)
+                where
+                 ur_right='W' and  p_id=".sql_string($profile).
+                " order by 2" );
+		      return $sel;
+			}
+	}
 }

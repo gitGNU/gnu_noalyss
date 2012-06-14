@@ -52,18 +52,18 @@ require_once("class_acc_operation.php");
 function InsertStockGoods($p_cn, $p_j_id, $p_good, $p_quant, $p_type,$p_depot)
 {
     global $g_user;
-    if ( $g_user->can_write_repo($p_depo) == false ) 
+    if ( $g_user->can_write_repo($p_depot) == false )
         return false;
 
     // Retrieve the good account for stock
     $code = new Fiche($p_cn);
     $code->get_by_qcode($p_good);
     $code_marchandise = $code->strAttribut(ATTR_DEF_STOCK);
-    if ( $code_marchandise == NOTFOUND ) 
+    if ( $code_marchandise == NOTFOUND )
         return false;
-    
+
     $exercice = $g_user->get_exercice();
-    
+
     if ($exercice == 0)
         throw new Exception('Annee invalide erreur');
 
@@ -72,12 +72,12 @@ function InsertStockGoods($p_cn, $p_j_id, $p_good, $p_quant, $p_type,$p_depot)
                          f_id,
                          sg_code,
                          sg_quantity,
-                         sg_type,sg_exercice,r_id ) values ($1,$2,$3,$4,$5,$6,$7)", 
+                         sg_type,sg_exercice,r_id ) values ($1,$2,$3,$4,$5,$6,$7)",
             array(
                     $p_j_id,
                     $code->id,
                     $code_marchandise,
-                    $p_quant, 
+                    $p_quant,
                     $p_type,
                     $exercice,
                     $p_depot

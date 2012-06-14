@@ -1078,6 +1078,7 @@ class Document
         case 'ACOMPTE':
             if ( isset($p_array['acompte']))
                 return $p_array['acompte'];
+			return "0";
             break;
         }
         /*
@@ -1085,7 +1086,7 @@ class Document
          */
         if (preg_match('/^ATTR/', $p_tag) == 1)
         {
-            // Retrieve f_id 
+            // Retrieve f_id
             if ( isset ($p_array['e_march'.$counter]))
             {
                 $id = $p_array['e_march' . $counter];
@@ -1098,7 +1099,7 @@ class Document
         if (preg_match('/^BENEFATTR/', $p_tag) == 1)
         {
             $qcode=isset($p_array['qcode_benef'])?$p_array['qcode_benef']:'';
-            // Retrieve f_id 
+            // Retrieve f_id
              $r=$this->replace_special_tag($qcode,$p_tag);
         }
         if (preg_match('/^CUSTATTR/', $p_tag) == 1)
@@ -1106,7 +1107,7 @@ class Document
             if ( isset($p_array['qcode_dest']) || isset($p_array['e_client']) )
             {
                 $qcode=(isset($p_array['qcode_dest']))?$p_array['qcode_dest']:$p_array['e_client'];
-                $r=$this->replace_special_tag($id,$p_tag);
+                $r=$this->replace_special_tag($qcode,$p_tag);
             }
         }
         return $r;
@@ -1142,7 +1143,7 @@ class Document
     }
     /**
      *Replace a special tag *TAGxxxx with the value from fiche_detail, the xxxx
-     * is the ad_value 
+     * is the ad_value
      * @param $p_qcode qcode of the card
      * @param $p_tag tag to parse
      * @return  the ad_value contained in fiche_detail or for the type "select" the
@@ -1151,35 +1152,35 @@ class Document
     function replace_special_tag($p_qcode, $p_tag)
     {
         // check if the march exists
-        if ($qcode == "")
+        if ($p_qcode == "")
             return "";
 
         $f = new Fiche($this->db);
-        $found = $f->get_by_qcode($qcode, false);
+        $found = $f->get_by_qcode($p_qcode, false);
         // if not found exit
         if ($found == 1)
             return "";
 
         // get the ad_id
         $attr=preg_replace("/^.*ATTR/","",$p_tag);
-        
+
         if (isNumber($attr) == 0) return "";
-        $ad_type=$this->db->get_value("select ad_type from attr_def where ad_id=$1",$attr);
-        
+        $ad_type=$this->db->get_value("select ad_type from attr_def where ad_id=$1",array($attr));
+
         // get ad_value
         $ad_value=$this->db->get_value("select ad_value from fiche_detail where f_id=$1 and ad_id=$2",array($f->id,$attr));
-        
+
         // if ad_id is type select execute select and get value
         if ( $ad_type=="select")
         {
-            $sql=$this->db->get_value("select ad_extra from attr_def where ad_id=$1",$attr);
+            $sql=$this->db->get_value("select ad_extra from attr_def where ad_id=$1",array($attr));
             $array= $this->db->make_array($sql);
             for ($a=0;$a<count ($array);$a++)
             {
-                if ($array[$a]['value']==$ad_value) 
+                if ($array[$a]['value']==$ad_value)
                     return $array[$a]['label'];
             }
-            
+
         }
         // if ad_id is not type select get value
         return $ad_value;

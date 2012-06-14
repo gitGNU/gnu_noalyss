@@ -353,7 +353,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 
                 // always save quantity but in withStock we can find
                 // what card need a stock management
-                InsertStockGoods($this->db,$j_id,${'e_march'.$i},$nNeg*${'e_quant'.$i},'c') ;
+                if ( $g_parameter->MY_STOCK='Y')
+                    InsertStockGoods($this->db,$j_id,${'e_march'.$i},$nNeg*${'e_quant'.$i},'c',$repo) ;
 
                 if ( $g_parameter->MY_ANALYTIC != "nu" )
                 {
@@ -883,6 +884,20 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 
         $e_mp=(isset($e_mp))?$e_mp:0;
         $r.=HtmlInput::hidden('e_mp',$e_mp);
+		// Show the available repository
+		if ($g_parameter->MY_STOCK == 'Y')
+		{
+			$sel = HtmlInput::select_stock($this->db, 'repo', 'W');
+			$sel->readOnly = $p_summary;
+			if ($p_summary == true)
+				$sel->selected = $repo;
+			$r.="<div style=\"clear:both\"></div>";
+			$r.='<div style="float:left"><h2 class="info">Dépôt</h2>';
+			$r.="<p> Dans le dépôt : ";
+			$r.=$sel->input();
+			$r.='</p>';
+			$r.='</div>';
+		}
         /* Paid by */
         /* if the paymethod is not 0 and if a quick code is given */
         if ( $e_mp!=0 && strlen (trim (${'e_mp_qcode_'.$e_mp})) != 0 )
@@ -894,8 +909,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 
 			$fname=new Fiche($this->db);
 			$fname->get_by_qcode(${'e_mp_qcode_'.$e_mp});
+			$r.="<div style=\"clear:both\"></div>";
 			$r.='<div style="float:left"><h2 class="info">'."Payé par ".${'e_mp_qcode_'.$e_mp}.
-				   " ".$fname->getName().' '._('Déduction acompte ').h($acompte).'</h2></div>';
+				   " ".$fname->getName().'</H2> '._('Déduction acompte ').h($acompte).'</div>';
             $r.='<br>';
         }
 
