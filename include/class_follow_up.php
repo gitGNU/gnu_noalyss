@@ -1279,7 +1279,6 @@ class Follow_Up
 		{
 			$query = " and ag_id= " . $ag_id;
 		}
-		var_dump( $query.$str);
 		return $query . $str;
 	}
 
