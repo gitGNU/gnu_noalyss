@@ -270,3 +270,4 @@ ALTER TABLE stock_goods ADD COLUMN r_id bigint;
 update stock_goods set r_id=1;
 ALTER TABLE stock_goods   ADD CONSTRAINT stock_goods_sg_type CHECK (sg_type = 'c'::bpchar OR sg_type = 'd'::bpchar);
 CREATE INDEX fk_stock_good_repository_r_id  ON stock_goods  (r_id );
+alter table action_gestion drop ag_cal;

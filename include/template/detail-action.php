@@ -100,15 +100,6 @@
 
           <tr>
             <TD>
-	    <?=_('Calendrier')?>
-            </TD>
-            <TD>
-              <?php echo $str_ag_cal;
-              ?>
-            </TD>
-          </tr>
-          <tr>
-            <TD>
 	    <?=_('Etat')?>
             </TD>
             <td>

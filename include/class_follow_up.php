@@ -240,17 +240,6 @@ class Follow_Up
 		$title->value = $this->ag_title;
 		$title->size = 60;
 
-		// ag_cal
-		$ag_cal = new ICheckBox('ag_cal');
-		$ag_cal->readOnly = $readonly;
-		$ag_cal->name = "ag_cal";
-
-		if ($this->ag_cal == 'C')
-			$ag_cal->selected = true;
-		else
-			$ag_cal->selected = false;
-
-		$str_ag_cal = $ag_cal->input();
 
 		// Priority of the ag_priority
 		$ag_priority = new ISelect();
@@ -535,7 +524,7 @@ class Follow_Up
 	{
 		$sql = "select ag_id,to_char (ag_timestamp,'DD.MM.YYYY') as ag_timestamp," .
 				" f_id_dest,ag_title,ag_ref,d_id,ag_type,ag_state, ag_owner, " .
-				"  ag_dest, ag_hour, ag_priority, ag_cal,ag_contact,to_char (ag_remind_date,'DD.MM.YYYY') as ag_remind_date " .
+				"  ag_dest, ag_hour, ag_priority, ag_contact,to_char (ag_remind_date,'DD.MM.YYYY') as ag_remind_date " .
 				" from action_gestion left join document using (ag_id) where ag_id=" . $this->ag_id;
 		$r = $this->db->exec_sql($sql);
 		$row = Database::fetch_all($r);
@@ -554,7 +543,6 @@ class Follow_Up
 		$this->ag_dest = $row[0]['ag_dest'];
 		$this->ag_hour = $row[0]['ag_hour'];
 		$this->ag_priority = $row[0]['ag_priority'];
-		$this->ag_cal = $row[0]['ag_cal'];
 		$this->ag_remind_date = $row[0]['ag_remind_date'];
 		$this->ag_owner= $row[0]['ag_owner'];
 
@@ -613,25 +601,21 @@ class Follow_Up
 		$ag_ref=$this->db->get_value('select dt_prefix from document_type where dt_id=$1',array($this->dt_id)).'-'.$this->db->get_next_seq($seq_name);
 		$this->ag_ref = $ag_ref;
 
-		if ($this->ag_cal == 'on')
-			$ag_cal = 'C';
-		else
-			$ag_cal = 'I';
 		// save into the database
 		if ($this->ag_remind_date != null || $this->ag_remind_date != '')
 		{
 			$sql = "insert into action_gestion" .
 					"(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_ref, ag_dest, " .
-					" ag_hour, ag_priority,ag_cal,ag_owner,ag_contact,ag_state,ag_remind_date) " .
-					" values ($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,to_date($14,'DD.MM.YYYY'))";
+					" ag_hour, ag_priority,ag_owner,ag_contact,ag_state,ag_remind_date) " .
+					" values ($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,to_date($13,'DD.MM.YYYY'))";
 		}
 		else
 		{
 			$this->ag_remind_date = null;
 			$sql = "insert into action_gestion" .
 					"(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_ref, ag_dest, " .
-					" ag_hour, ag_priority,ag_cal,ag_owner,ag_contact,ag_state,ag_remind_date) " .
-					" values ($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)";
+					" ag_hour, ag_priority,ag_owner,ag_contact,ag_state,ag_remind_date) " .
+					" values ($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)";
 		}
 		if ($this->ag_dest == 0)
 		{
@@ -646,11 +630,10 @@ class Follow_Up
 			$this->ag_dest, /* 7 */
 			$this->ag_hour, /* 8 */
 			$this->ag_priority, /* 9 */
-			$ag_cal, /* 10 */
-			$_SESSION['g_user'], /* 11 */
-			$contact->id, /* 12 */
-			$this->ag_state, /* 13 */
-			$this->ag_remind_date /* 14 */
+			$_SESSION['g_user'], /* 10 */
+			$contact->id, /* 11 */
+			$this->ag_state, /* 12 */
+			$this->ag_remind_date /* 13 */
 				)
 		);
 
@@ -883,10 +866,6 @@ class Follow_Up
 			$contact->id = 0;
 
 
-		if ($this->ag_cal == 'on')
-			$ag_cal = 'C';
-		else
-			$ag_cal = 'I';
 		if ($this->ag_dest == 0)
 		{
 			$this->ag_dest = null;
@@ -902,10 +881,9 @@ class Follow_Up
 					" ag_hour = $7 ," .
 					" ag_priority = $8 ," .
 					" ag_dest = $9 , " .
-					" ag_cal = $10 ," .
-					" ag_contact = $11, " .
-					" ag_ref = $12, " .
-					" ag_remind_date=to_date($13,'DD.MM.YYYY') " .
+					" ag_contact = $10, " .
+					" ag_ref = $11, " .
+					" ag_remind_date=to_date($12,'DD.MM.YYYY') " .
 					" where ag_id = $6", array(
 				$this->ag_timestamp, /* 1 */
 				$this->ag_title, /* 2 */
@@ -916,10 +894,9 @@ class Follow_Up
 				$this->ag_hour, /* 7 */
 				$this->ag_priority, /* 8 */
 				$this->ag_dest, /* 9 */
-				$ag_cal, /* 10 */
-				$contact->id, /* 11 */
-				$this->ag_ref, /* 12 */
-				$this->ag_remind_date /* 13 */
+				$contact->id, /* 10*/
+				$this->ag_ref, /* 11 */
+				$this->ag_remind_date /* 12 */
 			));
 		}
 		else
@@ -933,9 +910,8 @@ class Follow_Up
 					" ag_hour = $7 ," .
 					" ag_priority = $8 ," .
 					" ag_dest = $9 , " .
-					" ag_cal = $10 ," .
-					" ag_contact = $11, " .
-					" ag_ref = $12, " .
+					" ag_contact = $10, " .
+					" ag_ref = $11, " .
 					" ag_remind_date=null " .
 					" where ag_id = $6", array(
 				$this->ag_timestamp, /* 1 */
@@ -947,9 +923,8 @@ class Follow_Up
 				$this->ag_hour, /* 7 */
 				$this->ag_priority, /* 8 */
 				$this->ag_dest, /* 9 */
-				$ag_cal, /* 10 */
-				$contact->id, /* 11 */
-				$this->ag_ref /* 12 */
+				$contact->id, /* 10 */
+				$this->ag_ref /* 11 */
 			));
 		}
 		// Upload  documents
@@ -1014,7 +989,6 @@ class Follow_Up
 		$this->ag_hour = (isset($p_array['ag_hour'])) ? $p_array['ag_hour'] : "";
 		$this->ag_dest = (isset($p_array['ag_dest'])) ? $p_array['ag_dest'] : "";
 		$this->ag_priority = (isset($p_array['ag_priority'])) ? $p_array['ag_priority'] : 2;
-		$this->ag_cal = (isset($p_array['ag_cal'])) ? 'on' : "";
 		$this->ag_contact = (isset($p_array['ag_contact'])) ? $p_array['ag_contact'] : "";
 		$this->ag_comment = (isset($p_array['ag_comment'])) ? $p_array['ag_comment'] : "";
 		$this->ag_remind_date = (isset($p_array['ag_remind_date'])) ? $p_array['ag_remind_date'] : null;
@@ -1261,7 +1235,7 @@ class Follow_Up
 			$query .= ' and f_id_dest=0 ';
 		if ( isset($all_action))
 		{
-			$query .=" and (ag_owner='" . $_SESSION['g_user'] . "' or ".self::sql_security_filter($cn, "R")." )";
+			$query .=" and (ag_owner='" . $_SESSION['g_user'] . "' or ".self::sql_security_filter($cn, "R")." or ag_dest=-1 )";
 		}
 		if (isset($date_start) && isDate($date_start) != null)
 		{
