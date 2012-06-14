@@ -262,3 +262,6 @@ COMMENT ON COLUMN user_sec_repository.ur_id IS 'pk';
 COMMENT ON COLUMN user_sec_repository.p_id IS 'fk to profile';
 COMMENT ON COLUMN user_sec_repository.r_id IS 'fk to stock_repository';
 COMMENT ON COLUMN user_sec_repository.ur_right IS 'Type of right : R for readonly W for write';
+
+alter table user_sec_repository add constraint user_sec_repository_r_id_p_id_u unique (r_id,p_id);
+alter table user_sec_action_profile add constraint user_sec_action_profile_p_id_p_granted_u unique (p_id,p_granted);

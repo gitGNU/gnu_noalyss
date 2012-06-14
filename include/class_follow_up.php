@@ -227,7 +227,7 @@ class Follow_Up
 			if (strlen(trim($doc->d_lob)) != 0)
 			{
 				$d_id = new IHidden();
-				$doc_ref = "<p> Document " . $doc->a_ref() . '</p>';
+				$doc_ref = "<p> Document " . $doc->anchor() . '</p>';
 				$doc_ref.=$h2->input() . $d_id->input('d_id', $this->d_id);
 			}
 		}
