@@ -23,7 +23,7 @@ $Operation=new Follow_Up($cn);
 $last_operation=$Operation->get_today();
 $Ledger=new Acc_Ledger($cn,0);
 $last_ledger=array();
-$last_ledger=$Ledger->get_last(10);
+$last_ledger=$Ledger->get_last(20);
 
 ob_start();
 require_once('template/dashboard.php');

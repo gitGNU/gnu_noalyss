@@ -80,9 +80,9 @@ Effacer ce profil';
 	echo "<h2>Impression</h2>";
 	$profile_menu->printing($p_id);
 	echo $add_one;
-	echo "<h2>Action gestion accessible</h2>";
+	echo "<h1>Action gestion accessible</h1>";
 	$profile_menu->available_profile($p_id);
-	echo "<h2>Dépôt de stock accessible</h2>";
+	echo "<h1>Dépôt de stock accessible</h1>";
 	$profile_menu->available_repository($p_id);
 
 }

@@ -156,7 +156,7 @@ if ($sub_action == 'detail')
 		echo $retour;
 		echo '</form>';
 	}
-	else if ($g_user->can_read_action($ag_id) == true)
+	else if ($g_user->can_read_action($ag_id) == true || $act->ag_dest == -1)
 	{
 		echo $act->Display('READ', false, $base, $retour);
 	}

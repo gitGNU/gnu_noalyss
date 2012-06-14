@@ -1259,11 +1259,9 @@ class Follow_Up
 			$query .= ' and ag_state in (2,3) ';
 		if (isset($_GET['only_internal']))
 			$query .= ' and f_id_dest=0 ';
-		if (!isset($all_action))
+		if ( isset($all_action))
 		{
 			$query .=" and (ag_owner='" . $_SESSION['g_user'] . "' or ".self::sql_security_filter($cn, "R")." )";
-		} else {
-			$query .= "and ".self::sql_security_filter($cn,'R');
 		}
 		if (isset($date_start) && isDate($date_start) != null)
 		{
@@ -1273,7 +1271,7 @@ class Follow_Up
 		{
 			$query.=" and ag_timestamp <= to_date('$date_end','DD.MM.YYYY')";
 		}
-		if (isset($ag_dest_query)&& ! isset($all_action) && $ag_dest_query != -1)
+		if (isset($ag_dest_query)&& ! isset($all_action) )
 		{
 				$query.= " and ag_dest = " . sql_string($ag_dest_query);
 		}
@@ -1281,6 +1279,7 @@ class Follow_Up
 		{
 			$query = " and ag_id= " . $ag_id;
 		}
+		var_dump( $query.$str);
 		return $query . $str;
 	}
 
