@@ -616,4 +616,34 @@ class HtmlInput
                   $p_url,$p_js,$p_text);
           return $str;
       }
+      /**
+       *Create an ISelect object containing the available repository for reading
+       * or writing
+       * @global $g_user
+       * @param $p_cn db object
+       * @param $p_name name of the select
+       * @param $p_mode is 'R' for reading, 'W' for writinh
+       * @return ISelect
+       * @throws Exception if p_mode is wrong
+       */
+      static function select_stock( $p_cn, $p_name,$p_mode)
+      {
+          global $g_user;
+          if ( in_array($p_mode,array('R','W') ) )
+          {
+              throw  new Exception  (__FILE__.":".__LINE__." $p_mode invalide");
+          }
+          $profile=$g_user->get_profile();
+          $sel=new ISelect($p_name);
+          
+          $write=($p_mode=='W')?"ur_right='W' and ":"";
+          
+          $sel->value=$p_cn->make_array("
+                select r_id,r_name from stock_repository
+                where 
+                $write p_id=$1
+                order by 2
+              ",array($profile));
+          return $sel;
+      }
 }

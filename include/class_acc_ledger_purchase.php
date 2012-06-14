@@ -471,8 +471,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 
                 // always save quantity but in withStock we can find
                 // what card need a stock management
-
-                InsertStockGoods($this->db,$j_id,${'e_march'.$i},$nNeg*${'e_quant'.$i},'d') ;
+                if ( $g_parameter->MY_STOCK='Y')
+                    InsertStockGoods($this->db,$j_id,${'e_march'.$i},$nNeg*${'e_quant'.$i},'d') ;
 
                 if ( $g_parameter->MY_ANALYTIC != "nu" )
                 {
@@ -1504,8 +1504,10 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $r.=HtmlInput::hidden("e_quant".$i,${"e_quant".$i});
 
         }
-		if ( ! $p_summary ) $r.=$this->extra_info();
-		if ( $e_mp!=0 && strlen (trim (${'e_mp_qcode_'.$e_mp})) != 0 )
+	if ( ! $p_summary ) 
+            $r.=$this->extra_info();
+        
+	if ( $e_mp!=0 && strlen (trim (${'e_mp_qcode_'.$e_mp})) != 0 )
         {
             $r.=HtmlInput::hidden('e_mp_qcode_'.$e_mp,${'e_mp_qcode_'.$e_mp});
             $r.=HtmlInput::hidden('acompte',$acompte);
@@ -1518,8 +1520,12 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $r.='<br>';
         }
         // check for upload piece
-
-
+        
+       // Show the available repository
+        if ( $g_parameter->MY_STOCK=='Y')
+        {
+           $r.=HtmlInput::select_stock('repo','W');
+        }
         return $r;
     }
 

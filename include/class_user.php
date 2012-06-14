@@ -1024,14 +1024,21 @@ class User
 			$this->db->exec_sql("update profile_user set p_id=$1 where user_name=$2", array($p_id, $this->login));
 		}
 	}
-
+        /**
+         *return the profile (p_id)
+         * @return profile.p_id
+         */
 	function get_profile()
 	{
 		$profile = $this->db->get_value("select p_id from profile_user where
 				user_name=$1", array($this->login));
 		return $profile;
 	}
-
+        /**
+         *Check if the profile of the user can write for this profile
+         * @param  $dtoc action_gestion.ag_id
+         * @return true if he can write otherwise false
+         */
 	function can_write_action($dtoc)
 	{
 		$profile = $this->get_profile();
@@ -1042,6 +1049,11 @@ class User
 		return true;
 	}
 
+        /**
+         *Check if the profile of the user can write for this profile
+         * @param  $dtoc action_gestion.ag_id
+         * @return true if he can write otherwise false
+         */
 	function can_read_action($dtoc)
 	{
 		$profile = $this->get_profile();
@@ -1051,6 +1063,42 @@ class User
 			return false;
 		return true;
 	}
+        /**
+         *Check if the profile of the user can write for this repository
+         * @param  $p_repo stock_repository.r_id
+         * @return true if he can write otherwise false
+         */
+        function can_write_repo($p_repo)
+        {
+            $profile=$this->get_profile();
+            $r=$this->db->get_value("select count(*)
+                from user_sec_repository 
+                where 
+                r_id=$1
+                and p_id =$2 
+                and ur_right='W'",array($p_repo,$profile));
+            if ( $r==0)
+                return false;
+            return true;
+        }
+       /**
+         *Check if the profile of the user can read for this repository
+         * @param  $p_repo stock_repository.r_id
+         * @return true if he read write otherwise false
+         */
+        function can_read_repo($p_repo)
+        {
+            $profile=$this->get_profile();
+            $r=$this->db->get_value("select count(*)
+                from user_sec_repository 
+                where 
+                r_id=$1
+                and p_id =$2 
+               ",array($p_repo,$profile));
+            if ( $r==0)
+                return false;
+            return true;
+        }
 
 }
 

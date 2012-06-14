@@ -44,38 +44,45 @@ require_once("class_acc_operation.php");
  * \param $p_j_id the j_id
  * \param $p_good the goods
  * \param $p_quant  quantity
- * \param $p_type c for credit or d for debit
+ * \param $p_type c for SALE or d for PURCHASE
  *
- * \return none
+ * \return $res of the insert or false if something gets wrong
  * \note Link to jrn gives the date
  */
-function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
+function InsertStockGoods($p_cn, $p_j_id, $p_good, $p_quant, $p_type,$p_depot)
 {
     global $g_user;
+    if ( $g_user->can_write_repo($p_depo) == false ) 
+        return false;
+
     // Retrieve the good account for stock
-    $code=new Fiche($p_cn);
+    $code = new Fiche($p_cn);
     $code->get_by_qcode($p_good);
-    $code_marchandise=$code->strAttribut(ATTR_DEF_STOCK);
-    $p_good=sql_string($p_good);
-    $sql="select f_id from vw_poste_qcode where j_qcode=upper('$p_good')";
-    $Res=$p_cn->exec_sql($sql);
-    $r=Database::fetch_array($Res,0);
-    $f_id=$r['f_id'];
-    $exercice=$g_user->get_exercice();
-    if ( $exercice == 0 ) throw new Exception ('Annee invalide erreur');
+    $code_marchandise = $code->strAttribut(ATTR_DEF_STOCK);
+    if ( $code_marchandise == NOTFOUND ) 
+        return false;
+    
+    $exercice = $g_user->get_exercice();
+    
+    if ($exercice == 0)
+        throw new Exception('Annee invalide erreur');
 
-
-    $Res=$p_cn->exec_sql("insert into stock_goods (
+    $Res = $p_cn->exec_sql("insert into stock_goods (
                          j_id,
                          f_id,
                          sg_code,
                          sg_quantity,
-                         sg_type,sg_exercice ) values (
-                         $p_j_id,
-                         $f_id,
-                         '$code_marchandise',
-                         $p_quant, '$p_type',$exercice)
-                         ");
+                         sg_type,sg_exercice,r_id ) values ($1,$2,$3,$4,$5,$6,$7)", 
+            array(
+                    $p_j_id,
+                    $code->id,
+                    $code_marchandise,
+                    $p_quant, 
+                    $p_type,
+                    $exercice,
+                    $p_depot
+                )
+            );
     return $Res;
 }
 
