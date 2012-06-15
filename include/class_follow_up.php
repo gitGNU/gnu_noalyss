@@ -498,7 +498,7 @@ class Follow_Up
 		/* add the number of item */
 		$Hid = new IHidden();
 		$r.=$Hid->input("nb_item", MAX_ARTICLE);
-		$r.=HtmlInput::request_to_hidden(array("sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "all_action"));
+		$r.=HtmlInput::request_to_hidden(array("remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "all_action"));
 		/* get template */
 		ob_start();
 		require_once 'template/detail-action.php';
@@ -671,7 +671,7 @@ class Follow_Up
 	function myList($p_base, $p_filter = "", $p_search = "")
 	{
 		// for the sort
-		$url = HtmlInput::get_to_string(array("sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "all_action")) . '&' . $p_base;
+		$url = HtmlInput::get_to_string(array("remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "all_action")) . '&' . $p_base;
 
 		$table = new Sort_Table();
 		$table->add('Date', $url, 'order by ag_timestamp asc', 'order by ag_timestamp desc', 'da', 'dd');
@@ -743,7 +743,7 @@ class Follow_Up
 		//show the sub_action
 		foreach ($a_row as $row)
 		{
-			$href = '<A class="document" HREF="do.php?'  . $p_base .HtmlInput::get_to_string(array("sag_ref","only_internal","state","gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "ac", "all_action"),"") . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
+			$href = '<A class="document" HREF="do.php?'  . $p_base .HtmlInput::get_to_string(array("remind_date","sag_ref","only_internal","state","gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "ac", "all_action"),"&") . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
 			$i++;
 			$tr = ($i % 2 == 0) ? 'even' : 'odd';
 			if ($row['ag_priority'] < 2)
@@ -1154,6 +1154,8 @@ class Follow_Up
 		$str_ag_dest = $ag_dest->input();
 		$osag_ref=new IText("sag_ref");
 		$osag_ref->value=(isset($_GET['sag_ref']))?$_GET['sag_ref']:"";
+		$remind_date=new IDate('remind_date');
+		$remind_date->value=(isset($_GET['remind_date']))?$_GET['remind_date']:"";
 		// show the  action in
 		require_once 'template/action_search.php';
 	}
@@ -1251,7 +1253,11 @@ class Follow_Up
 		}
 		if (isNumber($ag_id) == 1 && $ag_id != 0)
 		{
-			$query = " and ag_id= " . $ag_id;
+			$query = " and ag_id= " . sql_string($ag_id);
+		}
+		if ( isset($remind_date) && $remind_date != "" && isDate($remind_date)==$remind_date)
+		{
+			$query = " and to_char(ag_remind_date,'DD.MM.YYYY')= '".sql_string($remind_date)."'";
 		}
 		return $query . $str;
 	}

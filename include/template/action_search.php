@@ -46,7 +46,13 @@
 		<?=HtmlInput::hidden('ctlc',$_GET['ctlc'])?>
 <? endif; ?>
 		<?= dossier::hidden()?>
-		<table style="width:100%"><tr>
+		<table style="width:100%">
+			<tr>
+				<td style="width:180px;text-align:right"> Date de rappel</td>
+				<td>
+					<?=$remind_date->input();?>
+				</td>
+			<tr>
 			<td style="width:180px;text-align:right"> Référence</td>
 				<td>
 					<?=$osag_ref->input();?>

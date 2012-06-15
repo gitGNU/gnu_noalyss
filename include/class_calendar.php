@@ -54,13 +54,14 @@ class Calendar
              " to_char(ag_remind_date,'MM')::integer=$1 ".
              " and to_char(ag_remind_date,'YYYY')::integer=$2 ".
              "  and ag_dest in (select p_granted from user_sec_action_profile where p_id =$3)
+				 and ag_state IN (2, 3)
 				 group by to_char(ag_remind_date,'DD')::integer";
 
 		$array=$cn->get_array($sql,array($this->month,$this->year,$profile));
         for ($i=0;$i<count($array);$i++)
         {
             $ind=$array[$i]['ag_timestamp_day'];
-            $p_array[$ind].="<span class=\"notice\">".$array[$i]['nb'].'</span>';
+            $p_array[$ind].="<span class=\"notice\">".$array[$i]['nb']." "._("Tâches suivis").'</span>';
 
         }
     }
@@ -70,17 +71,17 @@ class Calendar
     function fill_from_todo(&$p_array)
     {
         $cn=new Database(dossier::id());
-        $sql="select tl_id,substr(tl_title,0,20) as tl_title_fmt,to_char(tl_date,'DD')::integer as tl_date_day ".
+        $sql="select count(*) as nb,to_char(tl_date,'DD')::integer as tl_date_day ".
              " from todo_list ".
              " where ".
              " to_char(tl_date,'MM')::integer=$1 ".
              " and to_char(tl_date,'YYYY')::integer=$2 ".
-             " and use_login=$3";
+             " and use_login=$3 group by to_char(tl_date,'DD')::integer ";
         $array=$cn->get_array($sql,array($this->month,$this->year,$_SESSION['g_user']));
         for ($i=0;$i<count($array);$i++)
         {
             $ind=$array[$i]['tl_date_day'];
-            $p_array[$ind].="<span class=\"todo\">".h($array[$i]['tl_title_fmt']).'</span>';
+            $p_array[$ind].="<span style=\"display:block\" class=\"todo\">".h($array[$i]['nb'])." "._('Notes').'</span>';
         }
     }
     /*!\brief display a calendar after a call to Calendar::fill

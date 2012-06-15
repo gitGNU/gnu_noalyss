@@ -285,7 +285,7 @@ endfor;
 <?php endfor; ?>
 </table>
 <script language="JavaScript">
-if ( $('e_march0').value =='') { toggleShowDetail();}
+if ( $('e_march0') && $('e_march0').value =='') { toggleShowDetail();}
 function toggleShowDetail() {
 	try {var detail=g('fldDetail');
 	var but=g('toggleButton');

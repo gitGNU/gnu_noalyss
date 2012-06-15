@@ -239,7 +239,8 @@ class ICard extends HtmlInput
     /*!\brief print in html the readonly value of the widget*/
     public function display()
     {
-        $r=sprintf('         <INPUT TYPE="hidden" NAME="%s" VALUE="%s" SIZE="8">',
+        $r=sprintf('         <INPUT TYPE="hidden" NAME="%s" id="%s" VALUE="%s" SIZE="8">',
+                   $this->name,
                    $this->name,
                    $this->value
                   );

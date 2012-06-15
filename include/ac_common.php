@@ -203,7 +203,7 @@ function isNumber(&$p_int)
 	return 0;
 }
 
-/* !
+/***
  * \brief Verifie qu'une date est bien formaté
  *           en d.m.y et est valable
  * \param $p_date
