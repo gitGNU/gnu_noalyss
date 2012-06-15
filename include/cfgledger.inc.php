@@ -35,7 +35,7 @@ require_once ("user_menu.php");
 require_once 'class_acc_ledger.php';
 
 $gDossier=dossier::id();
-$cn=new Database($gDossier);
+global $cn;
 
 $ledger=new Acc_Ledger($cn,-1);
 $sa=HtmlInput::default_value("sa","",$_REQUEST);

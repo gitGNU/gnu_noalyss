@@ -26,7 +26,7 @@
  *
  */
 
-global $g_user;
+global $g_user,$cn,$g_parameter;
 require_once('class_database.php');
 require_once('class_user.php');
 $gDossier=dossier::id();

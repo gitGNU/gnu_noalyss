@@ -15,7 +15,7 @@ if ( !isset ($_REQUEST['gDossier'])) exit();
 mb_internal_encoding("UTF-8");
 
 $cn=new Database(dossier::id());
-global $g_user;
+global $g_user,$cn,$g_parameter;
 $g_user=new User($cn);
 $g_user->check(true);
 

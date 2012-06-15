@@ -38,7 +38,7 @@ mb_internal_encoding("UTF-8");
  *if $_SESSION['g_user'] is not set : echo a warning
  */
 ajax_disconnected($div);
-global $g_user;
+global $g_user,$cn;
 $cn=new Database(dossier::id());
 $g_user=new User($cn);
 /* security */

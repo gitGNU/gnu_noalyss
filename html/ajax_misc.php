@@ -57,7 +57,7 @@ if ($cont != 0)
 	exit();
 extract($_REQUEST);
 set_language();
-global $g_user,$cn;
+global $g_user,$cn,$g_parameter;
 $cn = new Database($gDossier);
 $g_user = new User($cn);
 $g_user->check(true);

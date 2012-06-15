@@ -47,7 +47,7 @@ if ( ! isset ($_REQUEST['act'])|| ! isset ($_REQUEST['jr_id'])
   {
     exit();
   }
- global $g_parameter;
+ global $g_user,$cn,$g_parameter;
 mb_internal_encoding("UTF-8");
 
 
