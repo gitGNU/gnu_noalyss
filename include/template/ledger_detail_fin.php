@@ -27,9 +27,8 @@ $date->value=format_date($obj->det->jr_date);
 <tr>
 <?
 $bk=new Fiche($cn,$obj->det->array[0]['qf_bank']);
-$view_history= sprintf('<A class="line" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
-				$bk->id, $gDossier, $bk->get_quick_code());
-echo td('Compte en banque').td(h($bk->getName())).td($view_history);;
+$view_card_detail=HtmlInput::card_detail($bk->get_quick_code(),h($bk->getName()), ' class="line" ');
+echo td('Compte en banque').td($view_card_detail).td();;
 
 ?>
 </tr>
@@ -37,10 +36,9 @@ echo td('Compte en banque').td(h($bk->getName())).td($view_history);;
 <?
 
 $bk=new Fiche($cn,$obj->det->array[0]['qf_other']);
-$view_history= sprintf('<A class="line" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
-				$bk->id, $gDossier, $bk->get_quick_code());
-echo td('Tiers').td(h($bk->getName()));
-echo td($view_history);
+$view_card_detail=HtmlInput::card_detail($bk->get_quick_code(),h($bk->getName()), ' class="line" ');
+
+echo td('Tiers').td($view_card_detail);
 ?>
 </tr>
 

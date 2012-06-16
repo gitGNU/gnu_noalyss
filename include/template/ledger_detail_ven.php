@@ -37,9 +37,8 @@
 						$bk=new Fiche($cn,$obj->det->array[0]['qs_client']);
 						echo td(_('Client'));
 
-						$view_history= sprintf('<A class="line" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
-										$bk->id, $gDossier, $bk->get_quick_code());
-						echo td(h($bk->getName())).td($view_history);;
+						$view_card_detail=HtmlInput::card_detail($bk->get_quick_code(),h($bk->getName()), ' class="line" ');
+							echo td($view_card_detail);
 						?>
 						</td>
 						</tr>
@@ -135,11 +134,9 @@ echo '</tr>';
     $row='';
     $q=$obj->det->array[$e];
     $fiche=new Fiche($cn,$q['qs_fiche']);
-    $view_history= sprintf('<A class="line" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
-				$fiche->id, $gDossier, $fiche->strAttribut(ATTR_DEF_QUICKCODE));
-
-    $row = td($view_history);
-    if ($owner->MY_UPDLAB == 'Y')
+	$view_card_detail=HtmlInput::card_detail($fiche->strAttribut(ATTR_DEF_QUICKCODE),"", ' class="line" ');
+	$row.=td($view_card_detail);
+	if ($owner->MY_UPDLAB == 'Y')
     {
         $l_lib = ($q['j_text'] == '') ? $fiche->strAttribut(ATTR_DEF_NAME) : $q['j_text'];
         $hidden = HtmlInput::hidden("j_id[]", $q['j_id']);
