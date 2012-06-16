@@ -440,18 +440,20 @@ class Periode
      *the this->p_id must be set
      *\return a string with the date (DD.MM.YYYY)
      */
-    public function first_day()
+    public function first_day($p=0)
     {
-        list($p_start,$p_end)=$this->get_date_limit($this->p_id);
+		if ($p==0) $p=$this->p_id;
+        list($p_start,$p_end)=$this->get_date_limit($p);
         return $p_start;
     }
     /*!\brief return the last day of periode
      *the this->p_id must be set
      *\return a string with the date (DD.MM.YYYY)
      */
-    public function last_day()
+    public function last_day($p=0)
     {
-        list($p_start,$p_end)=$this->get_date_limit($this->p_id);
+		if ($p==0) $p=$this->p_id;
+        list($p_start,$p_end)=$this->get_date_limit($p);
         return $p_end;
     }
 
@@ -500,12 +502,12 @@ class Periode
 		  throw new Exception('Erreur insertion période');
 		}
 	    }
-	  if ( $nb_periode==12 && $this->insert('01.12.'.$p_exercice,'31.12.'.$p_exercice,$p_exercice) != 0 ) 
-	    { 
+	  if ( $nb_periode==12 && $this->insert('01.12.'.$p_exercice,'31.12.'.$p_exercice,$p_exercice) != 0 )
+	    {
 	      throw new Exception('Erreur insertion période');
 	    }
-	  if ( $nb_periode==13) 
-	    { 
+	  if ( $nb_periode==13)
+	    {
 	      if ($this->insert('01.12.'.$p_exercice,'30.12.'.$p_exercice,$p_exercice) != 0 ) 	      throw new Exception('Erreur insertion période');
 	      if ($this->insert('31.12.'.$p_exercice,'31.12.'.$p_exercice,$p_exercice) != 0 ) 	      throw new Exception('Erreur insertion période');
 	    }

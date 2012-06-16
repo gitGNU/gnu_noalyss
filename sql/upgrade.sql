@@ -270,3 +270,20 @@ ALTER TABLE stock_goods ADD COLUMN r_id bigint;
 update stock_goods set r_id=1;
 CREATE INDEX fk_stock_good_repository_r_id  ON stock_goods  (r_id );
 alter table action_gestion drop ag_cal;
+
+
+update menu_ref set me_file=null where me_code='STOCK';
+
+insert into menu_ref (me_code,me_file,me_menu,me_description,me_type) values ('STOCK_HISTO','stock_histo.inc.php','Historique stock','Historique des mouvement de stock','ME');
+insert into menu_ref (me_code,me_file,me_menu,me_description,me_type) values ('STOCK_STATE','stock_state.inc.php','Etat des stock','Etat des stock','ME');
+
+insert into profile_menu(me_code,me_code_dep,p_id,p_order,p_type_display) values ('STOCK_HISTO','STOCK',1,10,'E');
+insert into profile_menu(me_code,me_code_dep,p_id,p_order,p_type_display) values ('STOCK_STATE','STOCK',1,20,'E');
+insert into profile_menu(me_code,me_code_dep,p_id,p_order,p_type_display) values ('STOCK_HISTO','STOCK',2,10,'E');
+insert into profile_menu(me_code,me_code_dep,p_id,p_order,p_type_display) values ('STOCK_STATE','STOCK',2,20,'E');
+
+-- clean stock_goods
+delete from stock_goods where  sg_code is null or sg_code='' or sg_code not in (select ad_value from fiche_detail as fd where ad_id=19 and ad_value is not null);
+
+CREATE INDEX fki_jrnx_j_grpt ON jrnx  (j_grpt );
+CREATE INDEX fki_jrn_jr_grpt_id ON jrn  (jr_grpt_id );

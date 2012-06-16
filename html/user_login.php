@@ -25,7 +25,7 @@
 include_once ("ac_common.php");
 require_once('class_database.php');
 require_once('class_itext.php');
-html_page_start($_SESSION['g_theme']);
+@html_page_start($_SESSION['g_theme']);
 $rep=new Database();
 include_once ("class_user.php");
 $User=new User($rep);

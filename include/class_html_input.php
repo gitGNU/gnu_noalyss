@@ -646,5 +646,15 @@ class HtmlInput
                 " order by 2" );
 		      return $sel;
 			}
+			  if ($p_mode == 'R')
+			{
+			  $sel->value=$p_cn->make_array("
+                select r_id,r_name
+				  from stock_repository join user_sec_repository using (r_id)
+                where
+                  p_id=".sql_string($profile).
+                " order by 2" );
+		      return $sel;
+			}
 	}
 }
