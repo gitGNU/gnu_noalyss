@@ -518,16 +518,14 @@ class Fiche
 					case 'card':
 						$w = new ICard("av_text" . $attr->ad_id);
 						// filter on frd_id
-						$sql = ' select fd_id from fiche_def ';
-						$filter = $this->cn->make_list($sql);
-						$w->extra = $filter;
+						$w->extra = $attr->ad_extra;
 						$w->extra2 = 0;
 						$label = new ISpan();
-						$label->name = "av_text" . $r->ad_id . "_label";
+						$label->name = "av_text" . $attr->ad_id . "_label";
 						$w->set_attribute('ipopup', 'ipopcard');
-						$w->set_attribute('typecard', $filter);
-						$w->set_attribute('inp', "av_text" . $r->ad_id);
-						$w->set_attribute('label', "av_text" . $r->ad_id . "_label");
+						$w->set_attribute('typecard', $attr->ad_extra);
+						$w->set_attribute('inp', "av_text" . $attr->ad_id);
+						$w->set_attribute('label', "av_text" . $attr->ad_id . "_label");
 						$msg = $w->search();
 						$msg.=$label->input();
 						break;
@@ -538,7 +536,7 @@ class Fiche
 			$w->label = $attr->ad_text;
 			$w->name = "av_text" . $attr->ad_id;
 
-			$r.="<TR>" . td($w->label, ' class="input_text" ') . td($w->input()) . "$msg </TR>";
+			$r.="<TR>" . td($w->label, ' class="input_text" ') . td($w->input()) . td("$msg")." </TR>";
 		}
 		$r.= '</table>';
         return $r;
@@ -663,9 +661,9 @@ class Fiche
 							break;
 						case 'card':
 							$w = new ICard("av_text" . $r->ad_id);
-							// filter on frd_id
-							$sql = ' select fd_id from fiche_def ';
-							$filter = $this->cn->make_list($sql);
+							// filter on ad_extra
+
+							$filter = $r->ad_extra;
 							$w->width = $r->ad_size;
 							$w->extra = $filter;
 							$w->extra2 = 0;
@@ -675,6 +673,7 @@ class Fiche
 							$w->set_attribute('typecard', $filter);
 							$w->set_attribute('inp', "av_text" . $r->ad_id);
 							$w->set_attribute('label', "av_text" . $r->ad_id . "_label");
+							$w->dblclick="fill_ipopcard(this);";
 							$msg = $w->search();
 							$msg.=$label->input();
 							$w->value = $r->av_text;
@@ -1815,50 +1814,57 @@ class Fiche
         $filter_query='';
         if ( isset($typecard))
         {
-            switch($typecard)
-            {
-            case 'cred':
-                if ( ! isset($jrn)) throw ('Erreur pas de valeur pour jrn');
-                $filter_jrn=$this->cn->make_list("select jrn_def_fiche_cred from jrn_Def where jrn_def_id=$1",array($jrn));
-                $filter_fd_id=" fd_id in (".$filter_jrn.")";
-                $and=" and ";
-                break;
-            case 'deb':
-                if ( ! isset($jrn)) throw ('Erreur pas de valeur pour jrn');
-                $filter_jrn=$this->cn->make_list("select jrn_def_fiche_deb from jrn_Def where jrn_def_id=$1",array($jrn));
-                $filter_fd_id=" fd_id in (".$filter_jrn.")";
-                $and=" and ";
-                break;
-            case 'filter':
-                if ( ! isset($jrn)) throw ('Erreur pas de valeur pour jrn');
-                $filter_jrn=$this->cn->make_list("select jrn_def_fiche_deb from jrn_Def where jrn_def_id=$1",array($jrn));
+			if (strpos($typecard, "sql")==false)
+			{
+				switch($typecard)
+				{
+				case 'cred':
+					if ( ! isset($jrn)) throw ('Erreur pas de valeur pour jrn');
+					$filter_jrn=$this->cn->make_list("select jrn_def_fiche_cred from jrn_Def where jrn_def_id=$1",array($jrn));
+					$filter_fd_id=" fd_id in (".$filter_jrn.")";
+					$and=" and ";
+					break;
+				case 'deb':
+					if ( ! isset($jrn)) throw ('Erreur pas de valeur pour jrn');
+					$filter_jrn=$this->cn->make_list("select jrn_def_fiche_deb from jrn_Def where jrn_def_id=$1",array($jrn));
+					$filter_fd_id=" fd_id in (".$filter_jrn.")";
+					$and=" and ";
+					break;
+				case 'filter':
+					if ( ! isset($jrn)) throw ('Erreur pas de valeur pour jrn');
+					$filter_jrn=$this->cn->make_list("select jrn_def_fiche_deb from jrn_Def where jrn_def_id=$1",array($jrn));
 
-                if ( trim($filter_jrn) !='')
-                    $fp1=" fd_id in (".$filter_jrn.")";
-                else
-                    $fp1="fd_id < 0";
+					if ( trim($filter_jrn) !='')
+						$fp1=" fd_id in (".$filter_jrn.")";
+					else
+						$fp1="fd_id < 0";
 
-                $filter_jrn=$this->cn->make_list("select jrn_def_fiche_cred from jrn_Def where jrn_def_id=$1",array($jrn));
+					$filter_jrn=$this->cn->make_list("select jrn_def_fiche_cred from jrn_Def where jrn_def_id=$1",array($jrn));
 
-                if ( trim($filter_jrn) !='')
-                    $fp2=" fd_id in (".$filter_jrn.")";
-                else
-                    $fp2="fd_id < 0";
+					if ( trim($filter_jrn) !='')
+						$fp2=" fd_id in (".$filter_jrn.")";
+					else
+						$fp2="fd_id < 0";
 
-                $filter_fd_id='('.$fp1.' or '.$fp2.')';
+					$filter_fd_id='('.$fp1.' or '.$fp2.')';
 
-                $and=" and ";
-                break;
-            case 'all':
-                $filter_fd_id=' true';
-                break;
-            default:
-                if ( trim($typecard) != '')
-                    $filter_fd_id=' fd_id in ('.$typecard.')';
-                else
-                    $filter_fd_id=' fd_id < 0';
-            }
-        }
+					$and=" and ";
+					break;
+				case 'all':
+					$filter_fd_id=' true';
+					break;
+				default:
+					if ( trim($typecard) != '')
+						$filter_fd_id=' fd_id in ('.$typecard.')';
+					else
+						$filter_fd_id=' fd_id < 0';
+				}
+			}
+			else
+			{
+				$filter_fd_id = str_replace('[sql]', '', $typecard);
+			}
+		}
 
         $and=" and ";
         if (isset($query))

@@ -344,7 +344,7 @@ class Fiche_Def
     function myList()
     {
         $this->Get();
-        echo '<H2 class="info">'.$this->label.'</H2>';
+        echo '<H2 class="info">'.$this->id." ".$this->label.'</H2>';
 
         $step=$_SESSION['g_pagesize'];
         $sql_limit="";
@@ -452,10 +452,9 @@ class Fiche_Def
     {
         if ( $this->id == 0 )
             return ;
-        /*      $this->cn->exec_sql('select fiche_attribut_synchro($1)',
-        array($this->id));
-        */
-        $MaxLine=sizeof($this->attribut);
+           $this->cn->exec_sql('select fiche_attribut_synchro($1)',array($this->id));
+
+		   $MaxLine=sizeof($this->attribut);
         $r="<TABLE>";
 	$r.="<tr>".th('Nom attribut').th('').th('Ordre','style="text-align:right"').'</tr>';
         // Display each attribute

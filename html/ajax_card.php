@@ -301,6 +301,7 @@ case 'sc':
     {
         $f=new Fiche($cn);
         $f->insert($fd_id,$_POST);
+		$f->Get();
         $html.='<h2 class="notice">Fiche sauvée</h2>';
         $html.=$f->Display(true);
         $js="";

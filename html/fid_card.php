@@ -55,15 +55,15 @@ $g_user=new User($cn);
 $g_user->check();
 $g_user->check_dossier(dossier::id());
 
-switch ($d)
+if ( $d == 'all')
 {
-case 'all':
     $filter_card='';
-    break;
-
-default:
-    $filter_card="and fd_id in ($d)";
 }
+else if (strpos($d,'sql]')==true)
+{
+	$filter_card=  str_replace('[sql]', "", $d);
+} else
+    $filter_card="and fd_id in ($d)";
 
 if ( $jrn != -1 )
 {

@@ -89,7 +89,7 @@ function ShowFicheDefInput($p_fiche_def)
         $p_fiche_def->save_class_base($_REQUEST['class_base']);
     }
     $p_fiche_def->Get();
-    $r.= '<H2 class="info">'.h($p_fiche_def->label).'</H2>';
+    $r.= '<H2 class="info">'.$p_fiche_def->id." ".h($p_fiche_def->label).'</H2>';
     $r.='<fieldset><legend>Données générales</legend>';
 
     /* show the values label class_base and create account */
