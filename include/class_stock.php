@@ -406,6 +406,53 @@ class Stock extends Stock_Sql
 		return $sql . $where . $clause;
 	}
 
+	function summary($p_array)
+	{
+		global $cn, $g_user;
+		$tmp_id=$cn->get_next_seq("public.tmp_stockgood_s_id_seq");
+		$cn->exec_sql("delete from tmp_stockgood where s_date < now() - interval '2 hours' ");
+		$cn->exec_sql("insert into tmp_stockgood(s_id) values ($1)",array($tmp_id));
+
+		// get all readable repository
+		$a_repository=$g_user->get_available_repository('R');
+
+		// All the stock card
+		$sql_repo_detail="
+			insert into tmp_stockgood_detail(s_id,sg_code,s_qin,s_qout,r_id)
+
+		with fiche_stock as (select distinct ad_value from fiche_detail where ad_id=19 and coalesce(ad_value,'') != '') ,
+				stock_in as (select coalesce(sum(sg_quantity),0) as qin,r_id,sg_code from stock_goods where sg_type='c'
+				and (
+					(j_id is not null and j_id in (select j_id from jrnx where  j_date <= '2010-12-31')
+					or sg_tech_date <= '2010-12-31')
+				)
+				group by r_id,sg_code) ,
+				stock_out as	(select coalesce(sum(sg_quantity),0) as qout ,r_id,sg_code from stock_goods
+				where sg_type='d'
+				and (
+					(j_id is not null and j_id in (select j_id from jrnx where  j_date <= '2010-12-31')
+					or sg_tech_date <= '2010-12-31')
+				)
+				group by r_id,sg_code)
+				select distinct
+					$tmp_id,
+					coalesce(si.sg_code,so.sg_code),
+					coalesce(qin,0) as qin,
+					coalesce(qout,0) as qout,
+					sg.r_id
+					from
+					stock_goods as sg
+					left join stock_in as si on ( sg.r_id=si.r_id)
+					full join stock_out as so on (si.sg_code=so.sg_code and sg.r_id=so.r_id)
+				where
+				si.sg_code is not null or so.sg_code is not null
+				 and sg.r_id  in (select r_id from user_sec_repository where p_id=$1)
+
+			";
+		$cn->exec_sql($sql_repo_detail,array($g_user->get_profile()));
+		$a_code=$cn->get_array("select distinct sg_code from tmp_stockgood_detail where s_id=$1",array($tmp_id));
+		require_once 'template/stock_summary.php' ;
+	}
 }
 
 ?>

@@ -788,7 +788,40 @@ class User
 
 		return $isAdmin;
 	}
-
+	/**
+	 *@brief return array of available repository
+	 *
+	 * @param $p_access  R for read W for write
+	 * @return an array
+	 */
+	function get_available_repository($p_access='R')
+	{
+		 $profile=$this->get_profile();
+		 $r=array();
+		if ($p_access=='R')
+		{
+			$r=$this->db->get_array("select u.r_id,r_name
+                from
+					user_sec_repository as u
+					join stock_repository as s on(u.r_id=s.r_id)
+                where
+                p_id =$1
+                and ur_right='W'
+				order by 2
+				",array($profile));
+		}
+		if ($p_access == 'W')
+		{
+			 $r=$this->db->get_array("select u.r_id,r_name
+                from
+					user_sec_repository as u
+					join stock_repository as s on(u.r_id=s.r_id)
+                where
+                p_id =$1 order by 2
+               ",array($profile));
+		}
+		return $r;
+	}
 	/* !
 	 * \brief return an array with all the users who can access $p_dossier including the global admin. The user
 	 * must be activated
@@ -1072,10 +1105,10 @@ class User
         {
             $profile=$this->get_profile();
             $r=$this->db->get_value("select count(*)
-                from user_sec_repository 
-                where 
+                from user_sec_repository
+                where
                 r_id=$1
-                and p_id =$2 
+                and p_id =$2
                 and ur_right='W'",array($p_repo,$profile));
             if ( $r==0)
                 return false;
@@ -1090,10 +1123,10 @@ class User
         {
             $profile=$this->get_profile();
             $r=$this->db->get_value("select count(*)
-                from user_sec_repository 
-                where 
+                from user_sec_repository
+                where
                 r_id=$1
-                and p_id =$2 
+                and p_id =$2
                ",array($p_repo,$profile));
             if ( $r==0)
                 return false;
