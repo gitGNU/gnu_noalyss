@@ -32,8 +32,12 @@
 		<?= HtmlInput::get_to_hidden(array("gDossier", "ac"))?>
 		<table>
 			<tr>
+				<td> Code Stock </td>
+				<td> <?= $wcode_stock->input()?><?= $wcode_stock->search()?> </td>
+			</tr>
+			<tr>
 				<td> Fiche </td>
-				<td> <?= $wcard->input()?><?=$wcard->search()?> </td>
+				<td> <?= $wcard->input()?><?= $wcard->search()?> </td>
 			</tr>
 			<tr>
 				<td> A partir de </td>
@@ -55,16 +59,13 @@
 				<td> Montant inférieur ou égal à  </td>
 				<td> <?= $wamount_end->input()?> </td>
 			</tr>
-			<tr>
-				<td> Code Stock </td>
-				<td> <?= $wcode_stock->input()?> </td>
-			</tr>
+
 			<tr>
 				<td> Direction </td>
 				<td> <?= $wdirection->input()?> </td>
 			</tr>
 		</table>
-		<?=HtmlInput::submit("search_histo_b","Recherche")?>
+		<?= HtmlInput::submit("search_histo_b", "Recherche")?>
 	</form>
 </div>
 
