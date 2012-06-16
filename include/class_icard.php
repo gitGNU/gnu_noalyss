@@ -127,6 +127,7 @@ class ICard extends HtmlInput
         $this->dblclick='';
         $this->callback='null';
         $this->javascript='';
+		$this->autocomplete=1;
     }
     /*!\brief set the javascript callback function
      * by default it is update_value called BEFORE the querystring is send
@@ -167,7 +168,7 @@ class ICard extends HtmlInput
     {
         $ip_card=new IPopup ($p_name);
         $ip_card->drag=true;
-	$ip_card->set_width('45%');
+		$ip_card->set_width('45%');
         $ip_card->title='Fiche ';
         $ip_card->value='';
         return $ip_card->input();
@@ -210,27 +211,33 @@ class ICard extends HtmlInput
                        $this->dblclick,
                        $this->javascript
                       );
+		if ( $this->autocomplete == 1)
+		{
+			$ind=sprintf('<span id="%s_ind" class="autocomplete" style="display:none">Un instant... <img src="image/loading.gif" alt="Chargement..."/>'.
+						'</span>',
+						$this->id);
 
-        $ind=sprintf('<span id="%s_ind" class="autocomplete" style="display:none">Un instant... <img src="image/loading.gif" alt="Chargement..."/>'.
-                     '</span>',
-                     $this->id);
+			$div=sprintf('<div id="%s_choices"  class="autocomplete"></div>',
+						$this->id);
 
-        $div=sprintf('<div id="%s_choices"  class="autocomplete"></div>',
-                     $this->id);
+			$query=dossier::get().'&e='.urlencode($this->typecard);
 
-        $query=dossier::get().'&e='.urlencode($this->typecard);
+			$javascript=sprintf('try { new Ajax.Autocompleter("%s","%s_choices","fid_card.php?%s",'.
+								'{paramName:"FID",minChars:1,indicator:null, '.
+								'callback:%s, '.
+								' afterUpdateElement:%s});} catch (e){alert(e.message);};',
+								$this->id,$this->id,$query,
+								$this->callback,
+								$this->fct);
 
-        $javascript=sprintf('try { new Ajax.Autocompleter("%s","%s_choices","fid_card.php?%s",'.
-                            '{paramName:"FID",minChars:1,indicator:null, '.
-                            'callback:%s, '.
-                            ' afterUpdateElement:%s});} catch (e){alert(e.message);};',
-                            $this->id,$this->id,$query,
-                            $this->callback,
-                            $this->fct);
+			$javascript=create_script($javascript.$this->dblclick);
 
-        $javascript=create_script($javascript.$this->dblclick);
-
-        $r=$label.$input.$attr.$ind.$div.$javascript;
+			$r=$label.$input.$attr.$ind.$div.$javascript;
+		}
+		else
+		{
+			$r=$label.$input;
+		}
         if ( $this->table == 1 )
             $r=td($r);
         return $r;
