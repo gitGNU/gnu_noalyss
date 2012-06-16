@@ -337,12 +337,15 @@ class Fiche
      * \see constant.php
      * \return string
      */
-    function strAttribut($p_ad_id)
+    function strAttribut($p_ad_id,$p_return=1)
     {
+		$return=($p_return==1)?NOTFOUND:"";
         if ( sizeof ($this->attribut) == 0 )
         {
 
-            if ($this->id==0) return NOTFOUND;
+            if ($this->id==0) {
+					return $return;
+			}
             // object is not in memory we need to look into the database
             $sql="select ad_value from fiche_detail
                  where f_id= $1  and ad_id= $2 ";
@@ -350,7 +353,7 @@ class Fiche
             $row=Database::fetch_all($Res);
             // if not found return error
             if ( $row == false )
-                return NOTFOUND;
+                return $return;
 
             return $row[0]['ad_value'];
         }
@@ -360,7 +363,7 @@ class Fiche
             if ( $e->ad_id == $p_ad_id )
                 return $e->av_text;
         }
-        return NOTFOUND;
+        return $return;
     }
     /*!\brief make an array of attributes of the category of card (FICHE_DEF.FD_ID)
      *The array can be used with the function insert, it will return a struct like this :
@@ -660,7 +663,9 @@ class Fiche
 							$w->value = $r->av_text;
 							break;
 						case 'card':
+							$uniq=rand(0,1000);
 							$w = new ICard("av_text" . $r->ad_id);
+							$w->id="card_".$this->id.$uniq;
 							// filter on ad_extra
 
 							$filter = $r->ad_extra;
@@ -668,11 +673,22 @@ class Fiche
 							$w->extra = $filter;
 							$w->extra2 = 0;
 							$label = new ISpan();
-							$label->name = "av_text" . $r->ad_id . "_label";
+							$label->name = "av_text" .$uniq. $r->ad_id . "_label";
+							$fiche=new Fiche($this->cn);
+							$fiche->get_by_qcode($r->av_text);
+							if ($fiche->id == 0 )
+							{
+								$label->value=(trim($r->av_text)=='')?"":" Fiche non trouvé ";
+								$r->av_text="";
+							} else
+							{
+								$label->value=$fiche->strAttribut(ATTR_DEF_NAME)." ".$fiche->strAttribut(ATTR_DEF_FIRST_NAME,0);
+							}
 							$w->set_attribute('ipopup', 'ipopcard');
 							$w->set_attribute('typecard', $filter);
 							$w->set_attribute('inp', "av_text" . $r->ad_id);
-							$w->set_attribute('label', "av_text" . $r->ad_id . "_label");
+							$w->set_attribute('label', $label->name);
+							$w->autocomplete=0;
 							$w->dblclick="fill_ipopcard(this);";
 							$msg = $w->search();
 							$msg.=$label->input();
@@ -711,7 +727,7 @@ class Fiche
 			$w->readOnly = $p_readonly;
 
 
-			$ret.="<TR>" . td($r->ad_text . $bulle) . td($w->input()) . td($msg) . " </TR>";
+			$ret.="<TR>" . td($r->ad_text . $bulle) . td($w->input()." ". $msg) . " </TR>";
 		}
 
 		$ret.="</table>";

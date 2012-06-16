@@ -287,3 +287,32 @@ delete from stock_goods where  sg_code is null or sg_code='' or sg_code not in (
 
 CREATE INDEX fki_jrnx_j_grpt ON jrnx  (j_grpt );
 CREATE INDEX fki_jrn_jr_grpt_id ON jrn  (jr_grpt_id );
+
+--
+insert into fiche_def (fd_id,frd_id,fd_label) values (500000,15,'Stock');
+insert into jnt_fic_attr  (fd_id,ad_id,jnt_order) values (500000,1,10);
+insert into jnt_fic_attr  (fd_id,ad_id,jnt_order) values (500000,9,20);
+insert into jnt_fic_attr  (fd_id,ad_id,jnt_order) values (500000,23,30);
+
+create or replace function migrate_stock() returns void
+as
+$body$
+declare
+	rt_row text;
+	n_fid bigint;
+begin
+	for rt_row in select distinct ad_value from fiche_Detail where ad_id=19 and ad_value is not null and ad_Value <> ''
+	loop
+		insert into fiche (fd_id) values(500000) returning f_id into n_fid;
+		insert into fiche_detail (f_id,ad_id,ad_value) values (n_fid,1,rt_row);
+		insert into fiche_detail (f_id,ad_id,ad_value) values (n_fid,9,'Code stock '||rt_row);
+		insert into fiche_detail (f_id,ad_id,ad_value) values (n_fid,23,'STOCK'||n_fid::text);
+		update fiche_detail set ad_value='STOCK'||n_fid::text where ad_id=19 and ad_value=rt_row;
+	end loop;
+
+end;
+$body$ language plpgsql;
+
+select migrate_stock();
+
+drop function migrate_stock();

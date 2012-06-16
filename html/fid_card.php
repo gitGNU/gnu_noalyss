@@ -61,7 +61,7 @@ if ( $d == 'all')
 }
 else if (strpos($d,'sql]')==true)
 {
-	$filter_card=  str_replace('[sql]', "", $d);
+	$filter_card=  str_replace('[sql]', " and ", $d);
 } else
     $filter_card="and fd_id in ($d)";
 
