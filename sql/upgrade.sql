@@ -308,6 +308,7 @@ begin
 		insert into fiche_detail (f_id,ad_id,ad_value) values (n_fid,9,'Code stock '||rt_row);
 		insert into fiche_detail (f_id,ad_id,ad_value) values (n_fid,23,'STOCK'||n_fid::text);
 		update fiche_detail set ad_value='STOCK'||n_fid::text where ad_id=19 and ad_value=rt_row;
+		update stock_goods set sg_code='STOCK'||n_fid::text where sg_code=rt_row;
 	end loop;
 
 end;
@@ -315,4 +316,8 @@ $body$ language plpgsql;
 
 select migrate_stock();
 
+select migrate_stock();
+
 drop function migrate_stock();
+
+update attr_def set ad_type='card', ad_extra='[sql] fd_id = 500000 ' where ad_id=19;

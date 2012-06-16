@@ -539,7 +539,7 @@ class Fiche
 			$w->label = $attr->ad_text;
 			$w->name = "av_text" . $attr->ad_id;
 
-			$r.="<TR>" . td($w->label, ' class="input_text" ') . td($w->input()) . td("$msg")." </TR>";
+			$r.="<TR>" . td($w->label, ' class="input_text" ') . td($w->input()." $msg")." </TR>";
 		}
 		$r.= '</table>';
         return $r;
@@ -926,33 +926,6 @@ class Fiche
 
 
                 }
-                if ( $id == ATTR_DEF_STOCK )
-                {
-                    $st=$this->cn->count_sql('select * from stock_goods where '.
-                                             " f_id=".$this->id);
-                    if ( $st == 0 )
-                    {
-                        $exercice=$g_user->get_exercice();
-                        if ( $exercice == 0 ) throw new Exception ('Annee invalide erreur');
-
-                        $str_stock=sprintf('insert into stock_goods(f_id,sg_quantity,sg_comment,sg_code,sg_type,sg_exercice) '.
-                                           ' values (%d,0,\'%s\',upper(\'%s\'),\'d\',\'%s\')',
-                                           $this->id,
-                                           'initial',
-                                           sql_string($value),
-                                           $exercice);
-
-                        $this->cn->exec_sql($str_stock);
-                    }
-                    else
-                    {
-                        $str_stock=sprintf("update stock_goods set sg_code=upper('%s') where f_id=%d",
-                                           sql_string($value),
-                                           $this->id);
-                        $this->cn->exec_sql($str_stock);
-                    }
-                }
-
                 // account
                 if ($id == ATTR_DEF_ACCOUNT)
 				{

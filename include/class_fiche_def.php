@@ -402,7 +402,7 @@ class Fiche_Def
 
             $span_mod='<TD><A href="?p_action=fiche&'.$str_dossier.
 		    '&action=detail&fiche_id='.$l_line['f_id'].$str.'&fiche='.
-		    $_GET['fiche'].'&ac='.$_REQUEST['ac'].'">'.$l_line['quick_code']
+		    $_REQUEST['fiche'].'&ac='.$_REQUEST['ac'].'">'.$l_line['quick_code']
 		    .'</A></TD>';
 
             echo $span_mod.'<TD>'.h($l_line['vw_name'])."</TD>";

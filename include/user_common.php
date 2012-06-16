@@ -51,6 +51,9 @@ require_once("class_acc_operation.php");
  */
 function InsertStockGoods($p_cn, $p_j_id, $p_good, $p_quant, $p_type,$p_depot)
 {
+	/**
+	 *@todo function insertStockGoods doit être déplacée dans class_stock
+	 */
     global $g_user;
     if ( $g_user->can_write_repo($p_depot) == false )
         return false;

@@ -304,7 +304,7 @@ if ( isset ( $_GET["action"]) )
         if ( $write != 0 )
         {
             $iselect=new ISelect('move_to');
-            $iselect->value=$cn->make_array('select fd_id,fd_label from fiche_def '); //where frd_id='.$fiche->get_fiche_def_ref_id());
+            $iselect->value=$cn->make_array('select fd_id,fd_label from fiche_def order by fd_label'); //where frd_id='.$fiche->get_fiche_def_ref_id());
 
             echo HtmlInput::submit("update_fiche","Mise &agrave; jour");
             echo HtmlInput::submit("delete" ,"Effacer cette fiche","onclick=\"return confirm('"._('Vous confirmez ?')."');\"");
@@ -401,15 +401,14 @@ if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) )
         $fiche_def=new Fiche_Def($cn,$_POST['fiche']);
         $fiche_def->Get();
         echo '<h2 class="info">'.$fiche_def->label.'</h2>';
-        $url=$_SERVER['REQUEST_URI'];
         $fiche=new Fiche($cn,0);
-
-        echo '<form method="post" action="'.$url.'&fiche='.$_POST['fiche'].'">';
+		var_dump($_SERVER);
+        echo '<form method="post" >';
         echo dossier::hidden();
-	echo HtmlInput::hidden('ac',$_REQUEST['ac']);
+		echo HtmlInput::hidden('ac',$_REQUEST['ac']);
+		echo HtmlInput::hidden('fiche',$_POST['fiche']);
         echo $fiche->blank($_POST['fiche']);
         echo HtmlInput::submit("add_fiche","Ajout");
-        echo HtmlInput::button_anchor(_('Annuler'),$url.'&fiche='.$_POST['fiche'].'&'.$str_dossier);
 
 
         echo '</form>';
@@ -454,7 +453,7 @@ if ( isset ($_POST["add_fiche"]) )
         echo '<DIV class="redcontent" style="width:auto">';
         $fiche=new Fiche($cn);
         $fiche->Save($_REQUEST['fiche']);
-        $fiche_def=new Fiche_Def($cn,$_GET['fiche']);
+        $fiche_def=new Fiche_Def($cn,$_REQUEST['fiche']);
         $fiche_def->myList();
 
 

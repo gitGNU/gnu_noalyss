@@ -53,13 +53,13 @@
 			<?=$row['cdate']?>
 		</td>
 		<td>
-			<?=$row['sg_code']?>
+			<?=HtmlInput::card_detail($row['sg_code'],"",' class="line" ')?>
 		</td>
 		<td>
 			<?=$row['r_name']?>
 		</td>
 		<td>
-			<?=HtmlInput::card_detail($row['qcode'],$row['fname'])?>
+			<?=HtmlInput::card_detail($row['qcode'],$row['fname'],' class="line" ')?>
 		</td>
 		<td>
 			<?=HtmlInput::detail_op($row['jr_id'],$row['jr_internal'])?>
