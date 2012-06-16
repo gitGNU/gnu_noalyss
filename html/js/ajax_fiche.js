@@ -68,7 +68,6 @@ function ajaxFid(p_ctl)
 {
 	try
 	{
-		alert('ici');
 	var gDossier=$('gDossier').value;
     var jrn=$(p_ctl).jrn;
     $(p_ctl).value=$(p_ctl).value.toUpperCase();
