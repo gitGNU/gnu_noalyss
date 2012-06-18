@@ -423,15 +423,15 @@ class Stock extends Stock_Sql
 		with fiche_stock as (select distinct ad_value from fiche_detail where ad_id=19 and coalesce(ad_value,'') != '') ,
 				stock_in as (select coalesce(sum(sg_quantity),0) as qin,r_id,sg_code from stock_goods where sg_type='c'
 				and (
-					(j_id is not null and j_id in (select j_id from jrnx where  j_date <= '2010-12-31')
-					or sg_tech_date <= '2010-12-31')
+					(j_id is not null and j_id in (select j_id from jrnx where  j_date <= to_date($2,'DD.MM.YYYY'))
+					or sg_tech_date <= to_date($2,'DD.MM.YYYY'))
 				)
 				group by r_id,sg_code) ,
 				stock_out as	(select coalesce(sum(sg_quantity),0) as qout ,r_id,sg_code from stock_goods
 				where sg_type='d'
 				and (
-					(j_id is not null and j_id in (select j_id from jrnx where  j_date <= '2010-12-31')
-					or sg_tech_date <= '2010-12-31')
+					(j_id is not null and j_id in (select j_id from jrnx where  j_date <= to_date($2,'DD.MM.YYYY'))
+					or sg_tech_date <= to_date($2,'DD.MM.YYYY'))
 				)
 				group by r_id,sg_code)
 				select distinct
@@ -449,9 +449,34 @@ class Stock extends Stock_Sql
 				 and sg.r_id  in (select r_id from user_sec_repository where p_id=$1)
 
 			";
-		$cn->exec_sql($sql_repo_detail,array($g_user->get_profile()));
+
+		// Build condition
+		$end_date=$cn->get_value("select to_char(max(p_end),'DD.MM.YYYY') from parm_periode");
+		if (isset($p_array['state_exercice']))
+		{
+			if ( isDate($p_array['state_exercice'])==$p_array['state_exercice'])
+			{
+				$end_date=$p_array['state_exercice'];
+			}
+		}
+		$cn->exec_sql($sql_repo_detail,array($g_user->get_profile(),$end_date));
 		$a_code=$cn->get_array("select distinct sg_code from tmp_stockgood_detail where s_id=$1",array($tmp_id));
-		require_once 'template/stock_summary.php' ;
+		if (isset($p_array['present']))
+		{
+			$present=$p_array['present'];
+		}
+		else
+		{
+			$present='T';
+		}
+		if ($present == 'T')
+		{
+			require_once 'template/stock_summary_table.php' ;
+		}
+		if ($present=='L')
+		{
+			require_once 'template/stock_summary_list.php';
+		}
 	}
 }
 

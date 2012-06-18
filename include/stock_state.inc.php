@@ -29,7 +29,23 @@
 global $cn,$g_parameter,$g_user;
 require_once 'class_stock.php';
 
+// Show the form
+// Get by exercice
+// Get type = table or list
+$iexercice=new ISelect('state_exercice');
+$iexercice->value=$cn->make_array("select  max(p_end) as date_end, p_exercice from parm_periode  group by p_exercice order by 2 desc");
+$iexercice->selected=(isset($_GET['state_exercice']))?$_GET['state_exercice']:"";
+
+$presentation=new ISelect("present");
+$presentation->value=array (
+		array("value"=>"T","label"=>"Tableau récapitulatif"),
+		array("value"=>"L","label"=>"Liste")
+);
+$presentation->selected=(isset($_GET['present']))?$_GET['present']:"T";
+require_once 'template/stock_state_search.php';
+
 $stock=new Stock();
+
 
 $stock->summary($_GET);
 

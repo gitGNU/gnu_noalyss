@@ -54,7 +54,8 @@
 			$n_in=0;$n_out=0;
 			for ($e = 0; $e < count($a_repository); $e++):
 
-				$array = $cn->get_array("select * from tmp_stockgood_detail where r_id=$1 and sg_code=$2", array($a_repository[$e]['r_id'], $a_code[$x]['sg_code']));
+				$array = $cn->get_array("select * from tmp_stockgood_detail where r_id=$1 and sg_code=$2 and s_id=$3"
+						, array($a_repository[$e]['r_id'], $a_code[$x]['sg_code'],$tmp_id));
 				?>
 			<td>
 				<?
