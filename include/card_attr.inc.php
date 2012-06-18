@@ -21,7 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file
- * \brief Manage the attributs 
+ * \brief Manage the attributs
  */
 require_once('class_fiche_attr.php');
 
@@ -90,17 +90,22 @@ echo '<form method="post">';
 echo HtmlInput::hidden('sa','fat');
 echo HtmlInput::hidden('p_action','divers');
 echo '<table id="tb_rmfa">';
-
+echo '<tr>';
+echo th("id");
+echo th("Description");
+echo th("Type ");
+echo th("Taille");
+echo th("Paramètre");
+echo '</tr>';
 for ($e=0;$e<count($array);$e++)
 {
     $row=$array[$e];
     $r='';
-    $r.=td(HtmlInput::hidden('ad_id[]',$row->get_parameter('id')));
+    $r.=td(HtmlInput::hidden('ad_id[]',$row->get_parameter('id')).$row->get_parameter('id'));
     $select_type->selected=$row->get_parameter('type');
     $desc->value=$row->get_parameter('desc');
     $size->value=$row->get_parameter('size');
     $extra->value=$row->get_parameter('extra');
-
     if ( $row->get_parameter('id')>= 9000)
     {
         $select_type->readOnly=false;
