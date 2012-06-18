@@ -245,6 +245,9 @@ function ledger_fin_add_row()
     for ( var e=0;e < nNumberCell;e++)
     {
         var newCell=row.insertCell(e);
+		if ( e==0) {
+			newCell.id='tdchdate'+nb.value;
+		}
         var tt=rowToCopy.cells[e].innerHTML;
         var new_tt=tt.replace(/e_other0/g,"e_other"+nb.value);
         new_tt=new_tt.replace(/e_other0_comment/g,"e_other"+nb.value+'_comment');
@@ -252,7 +255,7 @@ function ledger_fin_add_row()
         new_tt=new_tt.replace(/e_other0_amount/g,"e_other"+nb.value+'_amount');
         new_tt=new_tt.replace(/e_concerned0/g,"e_concerned"+nb.value);
         new_tt=new_tt.replace(/e_other0_label/g,"e_other"+nb.value+'_label');
-        new_tt=new_tt.replace(/dateop0/g,"date"+nb.value);
+        new_tt=new_tt.replace(/dateop0/g,"dateop"+nb.value);
         newCell.innerHTML=new_tt;
         new_tt.evalScripts();
     }
@@ -261,7 +264,12 @@ function ledger_fin_add_row()
     g("e_other"+nb.value+'_amount').value="0";
     g("e_other"+nb.value+'_comment').value="";
     g("e_concerned"+nb.value).value="";
-    nb.value++;
+
+	var ch=$('chdate').options[$('chdate').selectedIndex].value;
+	if (ch == 1 ) {
+			$('tdchdate'+nb.value).hide();
+	}
+	nb.value++;
 }
 /**
  * @brief add a line in the form for the purchase ledger
