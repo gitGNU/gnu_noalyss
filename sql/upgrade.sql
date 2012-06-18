@@ -220,6 +220,8 @@ INSERT INTO menu_ref(me_code, me_menu, me_file, me_url, me_description, me_param
 
 INSERT INTO profile_menu(me_code, me_code_dep, p_id, p_order, p_type_display, pm_default)
     VALUES ('CFGSTOCK', 'PARAM', 1, 40, 'E', 0);
+update menu_ref set me_file=null where me_code='STOCK';
+update profile_menu set me_code_dep='COMPTA' where me_code='STOCK' and me_code_dep='ADV';
 
 CREATE TABLE stock_repository
 (
