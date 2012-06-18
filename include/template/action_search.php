@@ -48,9 +48,15 @@
 		<?= dossier::hidden()?>
 		<table style="width:100%">
 			<tr>
-				<td style="width:180px;text-align:right"> Date de rappel</td>
+				<td style="width:180px;text-align:right"> Date de rappel après</td>
 				<td>
 					<?=$remind_date->input();?>
+				</td>
+			<tr>
+			<tr>
+				<td style="width:180px;text-align:right"> Date de rappel avant</td>
+				<td>
+					<?=$remind_date_end->input();?>
 				</td>
 			<tr>
 			<td style="width:180px;text-align:right"> Référence</td>
