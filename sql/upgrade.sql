@@ -333,3 +333,32 @@ update attr_def set ad_type='card', ad_extra='[sql] fd_id = 500000 ' where ad_id
 create table tmp_stockgood (s_id bigserial primary key,s_date timestamp default now());
 create table tmp_stockgood_detail(d_id bigserial primary key,s_id bigint references tmp_stockgood(s_id) on delete cascade,
 sg_code text,s_qin numeric(20,4),s_qout numeric(20,4),r_id bigint);
+
+
+
+CREATE OR REPLACE FUNCTION comptaproc.fiche_detail_qcode_upd()
+  RETURNS trigger AS
+$BODY$
+declare
+	i record;
+begin
+	if NEW.ad_id=23 and NEW.ad_value != OLD.ad_value then
+		RAISE NOTICE 'new qcode [%] old qcode [%]',NEW.ad_value,OLD.ad_value;
+
+		for i in select ad_id from attr_def where ad_type = 'card' loop
+			update fiche_detail set ad_value=NEW.ad_value where ad_value=OLD.ad_value and ad_id=i.ad_id;
+			RAISE NOTICE 'change for ad_id [%] ',i.ad_id;
+			if i.ad_id=19 then
+				RAISE NOTICE 'Change in stock_goods OLD[%] by NEW[%]',OLD.ad_value,NEW.ad_value;
+				update stock_goods set sg_code=NEW.ad_value where sg_code=OLD.ad_value;
+			end if;
+
+		end loop;
+	end if;
+return NEW;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE;
+
+
+CREATE TRIGGER fiche_detail_upd_trg   BEFORE UPDATE   ON fiche_detail   FOR EACH ROW   EXECUTE PROCEDURE comptaproc.fiche_detail_qcode_upd();
