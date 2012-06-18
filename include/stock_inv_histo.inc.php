@@ -25,6 +25,24 @@
  * @brief history of manuel change
  *
  */
+if ( isset($_POST['del']))
+{
+	if (isset($_POST['ok']))
+	{
+		if ($g_user->can_write_repo($_POST['r_id']))
+		{
+			$cn->exec_sql('delete from stock_change where c_id=$1',array($_POST['c_id']));
+		}
+		else
+		{
+			alert("Vous ne pouvez pas modifier ce dépôt");
+		}
+	}
+	else
+	{
+		alert("Opération non effacée: vous n'avez pas confirmé");
+	}
+}
 $profile=$g_user->get_profile();
 $a_change=$cn->get_array("select *,to_char(c_date,'DD.MM.YY') as str_date from stock_change as sc
 			join stock_repository as sr on (sc.r_id=sr.r_id)
