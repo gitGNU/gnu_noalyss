@@ -21,6 +21,7 @@
    <fieldset><legend><?=_('Opérations')?></legend>
 <table id="fin_item" width="100%" border="0">
 <tr>
+<!--<th style="text-align: left"><?=_('Date')?><?=HtmlInput::infobulle(16)?></TH> -->
 <th style="text-align: left;width: auto">code<?HtmlInput::infobulle(0)?></TH>
    <th style="text-align: left"><?=_('Fiche')?></TH>
    <th style="text-align: left"><?=_('Commentaire')?></TH>
@@ -30,6 +31,7 @@
 
 <? foreach ($array as $item) {
 echo '<tr>';
+// echo td($item['dateop']);
 echo td($item['qcode'].$item['search']);
 echo td($item['cname']);
 echo td($item['comment']);
