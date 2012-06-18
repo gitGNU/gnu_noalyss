@@ -31,40 +31,6 @@ require 'class_stock_sql.php';
 
 class Stock extends Stock_Sql
 {
-	/*	 * *
-	 * @brief  return an array of f_id and f_name
-	 *
-	 *
-	 * @param _sg_code stock_goods.sg_code
-	 * @return - array (f_id, f_label) or null if nothing is found
-	 */
-
-	function getCardNameCode($p_sg_code)
-	{
-		// Sql stmt
-		$sql = "select distinct f_id,ad_value
-         from stock_goods
-         join fiche_detail using(f_id)
-         where
-         ad_id=$1
-         and sg_code=upper($2)
-         ";
-// Execute
-		$Res = $this->cn->exec_sql($sql, array(ATTR_DEF_STOCK, $p_sg_code));
-		if (( $M = Database::num_row($Res)) == 0)
-			return null;
-
-// Store in an array
-		for ($i = 0; $i < $M; $i++)
-		{
-			$r = Database::fetch_array($Res, $i);
-			$a['f_id'] = $r['f_id'];
-			$a['av_text'] = $this->cn->get_value("select ad_value from fiche_detail where ad_id=1 and f_id=$2", array($r['f_id']));
-			$result[$i] = $a;
-		}
-
-		return $result;
-	}
 
 	function view_detail_stock($p_sg_code, $p_year)
 	{
@@ -343,6 +309,8 @@ class Stock extends Stock_Sql
 
 	function create_query_histo($p_array)
 	{
+		global $cn,$g_user;
+		$profile=$g_user->get_profile();
 		$sql = "
 			select sg_id,
 				sg.f_id,
@@ -364,36 +332,29 @@ class Stock extends Stock_Sql
 			from stock_goods as sg
 			join stock_repository as sr on (sg.r_id=sr.r_id)
 			left join jrnx as jx on (sg.j_id=jx.j_id)
-			left join jrn as j on (j.jr_grpt_id=jx.j_grpt)";
-		$where = "";
-		$and = "";
+			left join jrn as j on (j.jr_grpt_id=jx.j_grpt)
+			where
+			sg.r_id in (select r_id from user_sec_repository where p_id = $profile)";
+		$and = " and ";
 		$clause = "";
 		if (isset($p_array['wdate_start']) && $p_array['wdate_start'] != '')
 		{
-			$where = "where ";
-			$clause = " to_date('" . sql_string($p_array['wdate_start']) . "','DD.MM.YYYY')<=coalesce(sg_date,jr_date) ";
-			$and = " and ";
+			$clause = $and." to_date('" . sql_string($p_array['wdate_start']) . "','DD.MM.YYYY')<=coalesce(sg_date,jr_date) ";
 		}
 		if (isset($p_array['wdate_end']) && $p_array['wdate_end'] != '')
 		{
-			$where = "where ";
 			$clause.=$and . " to_date('" . sql_string($p_array['wdate_end']) . "','DD.MM.YYYY')>=coalesce(sg_date,jr_date) ";
-			$and = " and ";
 		}
 		if (isset($p_array['wamount_start']) && $p_array['wamount_start'] != '' && isNumber($p_array['wamount_start']) == 1)
 		{
-			$where = "where ";
 			$clause.=$and . " j_montant >= " . sql_string($p_array['wamount_start']);
-			$and = " and ";
 		}
 		if (isset($p_array['wamount_end'])
 				&& $p_array['wamount_end'] != ''
 				&& $p_array['wamount_end'] != 0
 				&& isNumber($p_array['wamount_end']) == 1)
 		{
-			$where = "where ";
 			$clause.=$and . " j_montant <= " . sql_string($p_array['wamount_end']);
-			$and = " and ";
 		}
 		if (isset($p_array['wcard']) && $p_array['wcard'] != '')
 		{
@@ -401,30 +362,22 @@ class Stock extends Stock_Sql
 			$f->get_by_qcode($p_array['wcard'], false);
 			if ($f->id != 0)
 			{
-				$where = "where ";
 				$clause.=$and . " sg.f_id =  " . sql_string($f->id);
-				$and = " and ";
 			}
 		}
 		if (isset($p_array['wcode_stock']) && $p_array['wcode_stock'] != "")
 		{
-			$where = "where ";
 			$clause.=$and . " upper(sg_code) =  upper('" . sql_string($p_array['wcode_stock']) . "')";
-			$and = " and ";
 		}
 		if (isset($p_array['wrepo']) && $p_array['wrepo'] != -1)
 		{
-			$where = "where ";
 			$clause.=$and . " sg.r_id = " . sql_string($p_array['wrepo']);
-			$and = " and ";
 		}
 		if (isset($p_array['wdirection']) && $p_array['wdirection'] != -1)
 		{
-			$where = "where ";
 			$clause.=$and . " sg.sg_type = '" . sql_string($p_array['wdirection']) . "'";
-			$and = " and ";
 		}
-		return $sql . $where . $clause;
+		return $sql . $clause;
 	}
 
 	function summary($p_array)
@@ -493,7 +446,7 @@ class Stock extends Stock_Sql
 					left join stock_in as si on ( sg.r_id=si.r_id)
 					full join stock_out as so on (si.sg_code=so.sg_code and sg.r_id=so.r_id)
 				where
-				si.sg_code is not null or so.sg_code is not null
+				(si.sg_code is not null or so.sg_code is not null)
 				 and sg.r_id  in (select r_id from user_sec_repository where p_id=$1)
 
 			";

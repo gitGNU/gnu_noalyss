@@ -278,6 +278,7 @@ update menu_ref set me_file=null where me_code='STOCK';
 
 insert into menu_ref (me_code,me_file,me_menu,me_description,me_type) values ('STOCK_HISTO','stock_histo.inc.php','Historique stock','Historique des mouvement de stock','ME');
 insert into menu_ref (me_code,me_file,me_menu,me_description,me_type) values ('STOCK_STATE','stock_state.inc.php','Etat des stock','Etat des stock','ME');
+insert into menu_ref (me_code,me_file,me_menu,me_description,me_type) values ('STOCK_INVHISTO','stock_inv_histo.inc.php','Histo. Changement','Liste des changements manuels des stocks','ME');
 insert into menu_ref (me_code,me_menu,me_type) values ('CSV:StockHisto','Export Historique mouvement stock','PR');
 insert into menu_ref (me_code,me_menu,me_type) values ('CSV:StockResmList','Export Résumé list stock','PR');
 
@@ -285,10 +286,16 @@ insert into profile_menu(me_code,me_code_dep,p_id,p_order,p_type_display) values
 insert into profile_menu(me_code,me_code_dep,p_id,p_order,p_type_display) values ('STOCK_STATE','STOCK',1,20,'E');
 insert into profile_menu(me_code,me_code_dep,p_id,p_order,p_type_display) values ('STOCK_HISTO','STOCK',2,10,'E');
 insert into profile_menu(me_code,me_code_dep,p_id,p_order,p_type_display) values ('STOCK_STATE','STOCK',2,20,'E');
+insert into profile_menu(me_code,me_code_dep,p_id,p_order,p_type_display) values ('STOCK_INVHISTO','STOCK',1,30,'E');
+insert into profile_menu(me_code,me_code_dep,p_id,p_order,p_type_display) values ('STOCK_INVHISTO','STOCK',2,30,'E');
 insert into profile_menu(me_code,p_id,p_type_display) values ('CSV:StockHisto',1,'P');
 insert into profile_menu(me_code,p_id,p_type_display) values ('CSV:StockResmList',1,'P');
 insert into profile_menu(me_code,p_id,p_type_display) values ('CSV:StockHisto',2,'P');
 insert into profile_menu(me_code,p_id,p_type_display) values ('CSV:StockResmList',2,'P');
+insert into menu_ref (me_code,me_file,me_menu,me_description,me_type) values ('STOCK_INV','stock_inv.inc.php','Modification Stocks','Modification des stocks (inventaire)','ME');
+insert into profile_menu(me_code,me_code_dep,p_id,p_order,p_type_display) values ('STOCK_INV','STOCK',1,30,'E');
+insert into profile_menu(me_code,me_code_dep,p_id,p_order,p_type_display) values ('STOCK_INV','STOCK',2,30,'E');
+
 
 -- clean stock_goods
 delete from stock_goods where  sg_code is null or sg_code='' or sg_code not in (select ad_value from fiche_detail as fd where ad_id=19 and ad_value is not null);
@@ -362,3 +369,16 @@ $BODY$
 
 
 CREATE TRIGGER fiche_detail_upd_trg   BEFORE UPDATE   ON fiche_detail   FOR EACH ROW   EXECUTE PROCEDURE comptaproc.fiche_detail_qcode_upd();
+
+update menu_ref set me_description='Gestion des attributs de fiches ' where me_code='CFGATCARD';
+
+ALTER TABLE stock_goods ADD CONSTRAINT stock_goods_c_id_fkey FOREIGN KEY (c_id) REFERENCES stock_change (c_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE;
+
+CREATE TABLE stock_change
+(
+  c_id bigserial NOT NULL,
+  c_comment text,
+  c_date date,
+  CONSTRAINT stock_change_pkey PRIMARY KEY (c_id )
+);

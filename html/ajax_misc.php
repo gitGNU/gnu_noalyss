@@ -554,6 +554,9 @@ EOF;
 	case 'mod_stock_repo':
 		require_once 'ajax_mod_stock_repo.php';
 		break;
+	case 'view_mod_stock':
+		require_once 'ajax_view_mod_stock.php';
+		break;
 	default:
 		var_dump($_GET);
 }

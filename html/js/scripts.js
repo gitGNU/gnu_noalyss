@@ -1539,3 +1539,26 @@ function stock_repo_change(p_dossier,r_id)
 				  }
 				  );
 }
+function stock_inv_detail(p_dossier,p_id)
+{
+	var queryString="gDossier="+p_dossier+"&op=view_mod_stock"+"&c_id="+p_id+"&ctl=view_mod_stock_div";
+    var nTop=calcy(posY);
+    var nLeft="200px";
+    var str_style="top:"+nTop+"px;left:"+nLeft+";width:75%;";
+
+    removeDiv('view_mod_stock_div');
+    waiting_box();
+    var action = new Ajax.Request(
+				  "ajax_misc.php" ,
+				  {
+				      method:'get', parameters:queryString,
+				      onFailure:ajax_misc_failure,
+				      onSuccess:function(req){
+					  remove_waiting_box();
+					  add_div({id:'view_mod_stock_div',style:str_style,cssclass:'inner_box',drag:"1"});
+					  $('view_mod_stock_div').innerHTML=req.responseText;
+					  req.responseText.evalScripts();
+				      }
+				  }
+				  );
+}
