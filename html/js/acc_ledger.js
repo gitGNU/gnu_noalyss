@@ -252,7 +252,7 @@ function ledger_fin_add_row()
         new_tt=new_tt.replace(/e_other0_amount/g,"e_other"+nb.value+'_amount');
         new_tt=new_tt.replace(/e_concerned0/g,"e_concerned"+nb.value);
         new_tt=new_tt.replace(/e_other0_label/g,"e_other"+nb.value+'_label');
-        // new_tt=new_tt.replace(/dateop0/g,"date"+nb.value);
+        new_tt=new_tt.replace(/dateop0/g,"date"+nb.value);
         newCell.innerHTML=new_tt;
         new_tt.evalScripts();
     }

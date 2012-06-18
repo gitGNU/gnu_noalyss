@@ -43,7 +43,7 @@ content[12]="Document généré uniquement si le mode de paiement est utilisé";
 content[13]="Vous pouvez utiliser le % pour indiquer le poste parent";
 content[14]="Attention, le poste comptable doit exister, il ne sera pas vérifié";
 content[15]="Laissez à 0 pour ne rien changer";
-content[16]="Si vous ne remplissez pas la date d'opération, ce sera la date de l'extrait qui sera utilisée";
+content[16]="Vous devez donner la date par opération";
 
 function showBulle(p_ctl)
 {

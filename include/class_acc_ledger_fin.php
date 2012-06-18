@@ -79,41 +79,44 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		$poste = new Acc_Account_Ledger($this->db, $bank_accounting);
 		if ($poste->load() == false)
 			throw new Exception('Le poste comptable du compte en banque de ce journal est invalide');
+		if ($chdate != 1 && $chdate != 2) throw new Exception ('Le choix de date est invalide');
+		if ( $chdate == 1 )
+		{
+			/*  check if the date is valid */
+			if (isDate($e_date) == null)
+			{
+				throw new Exception('Date invalide', 2);
+			}
+			$oPeriode = new Periode($this->db);
+			if ($this->check_periode() == false)
+			{
+				$periode = $oPeriode->find_periode($e_date);
+			}
+			else
+			{
+				$oPeriode->p_id = $periode;
+				list ($min, $max) = $oPeriode->get_date_limit();
+				if (cmpDate($e_date, $min) < 0 ||
+						cmpDate($e_date, $max) > 0)
+					throw new Exception(_('Date et periode ne correspondent pas'), 6);
+			}
 
-		/*  check if the date is valid */
-		if (isDate($e_date) == null)
-		{
-			throw new Exception('Date invalide', 2);
-		}
-		$oPeriode = new Periode($this->db);
-		if ($this->check_periode() == false)
-		{
-			$periode = $oPeriode->find_periode($e_date);
-		}
-		else
-		{
-			$oPeriode->p_id = $periode;
-			list ($min, $max) = $oPeriode->get_date_limit();
-			if (cmpDate($e_date, $min) < 0 ||
-					cmpDate($e_date, $max) > 0)
-				throw new Exception(_('Date et periode ne correspondent pas'), 6);
-		}
+			/* check if the periode is closed */
+			if ($this->is_closed($periode) == 1)
+			{
+				throw new Exception(_('Periode fermee'), 6);
+			}
 
-		/* check if the periode is closed */
-		if ($this->is_closed($periode) == 1)
-		{
-			throw new Exception(_('Periode fermee'), 6);
-		}
-
-		/* check if we are using the strict mode */
-		if ($this->check_strict() == true)
-		{
-			/* if we use the strict mode, we get the date of the last
-			  operation */
-			$last_date = $this->get_last_date();
-			if ($last_date != null && cmpDate($e_date, $last_date) < 0)
-				throw new Exception(_('Vous utilisez le mode strict la dernière operation est à la date du ')
-						. $last_date . _(' vous ne pouvez pas encoder à une date antérieure'), 15);
+			/* check if we are using the strict mode */
+			if ($this->check_strict() == true)
+			{
+				/* if we use the strict mode, we get the date of the last
+				operation */
+				$last_date = $this->get_last_date();
+				if ($last_date != null && cmpDate($e_date, $last_date) < 0)
+					throw new Exception(_('Vous utilisez le mode strict la dernière operation est à la date du ')
+							. $last_date . _(' vous ne pouvez pas encoder à une date antérieure'), 15);
+			}
 		}
 
 		$acc_pay = new Acc_Operation($this->db);
@@ -161,6 +164,45 @@ class Acc_Ledger_Fin extends Acc_Ledger
 			$fiche->get_by_qcode(${'e_other' . $i});
 			if ($fiche->belong_ledger($p_jrn, 'deb') != 1)
 				throw new Exception('La fiche ' . ${'e_other' . $i} . 'n\'est pas accessible à ce journal', 10);
+			if ($chdate == 2)
+			{
+				{/*  check if the date is valid */
+					if (isDate(${'dateop' . $i}) == null)
+					{
+						throw new Exception('Date invalide', 2);
+					}
+					$oPeriode = new Periode($this->db);
+					if ($this->check_periode() == false)
+					{
+						$periode = $oPeriode->find_periode(${'dateop' . $i});
+					}
+					else
+					{
+						$oPeriode->p_id = $periode;
+						list ($min, $max) = $oPeriode->get_date_limit();
+						if (cmpDate(${'dateop' . $i}, $min) < 0 ||
+								cmpDate(${'dateop' . $i}, $max) > 0)
+							throw new Exception(_('Date et periode ne correspondent pas'), 6);
+					}
+
+					/* check if the periode is closed */
+					if ($this->is_closed($periode) == 1)
+					{
+						throw new Exception(_('Periode fermee'), 6);
+					}
+
+					/* check if we are using the strict mode */
+					if ($this->check_strict() == true)
+					{
+						/* if we use the strict mode, we get the date of the last
+						  operation */
+						$last_date = $this->get_last_date();
+						if ($last_date != null && cmpDate(${'dateop' . $i}, $last_date) < 0)
+							throw new Exception(_('Vous utilisez le mode strict la dernière operation est à la date du ')
+									. $last_date . _(' vous ne pouvez pas encoder à une date antérieure'), 15);
+					}
+				}
+			}
 			$nb++;
 		}
 		if ($nb == 0)
@@ -423,7 +465,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		//  Date
 		//--
 		$r.="<tr>";
-		$r.='<td> Date : </td><td>' . $e_date;
+		if ( $chdate == 1 ) $r.='<td> Date : </td><td>' . $e_date;
 		// Periode
 		//--
 		$r.="<td>";
@@ -482,6 +524,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		//-------------------------------------------------
 		$r.='<TABLE style="width:100%" id="fin_item">';
 		$r.="<TR>";
+		if ($chdate==2) $r.='<th>Date</th>';
 		$r.="<th style=\"width:auto;text-align:left\" colspan=\"2\">Nom</TH>";
 		$r.="<th style=\"text-align:left\" >Commentaire</TH>";
 		$r.="<th style=\"text-align:right\">Montant</TH>";
@@ -523,7 +566,9 @@ class Acc_Ledger_Fin extends Acc_Ledger
 
 			$tiers_label = $fTiers->strAttribut(ATTR_DEF_NAME);
 
-			$r.="<TR><td>" . ${'e_other' . $i} . "</TD>";
+			$r.="<TR>";
+			if ($chdate==2) $r.=td(${"dateop".$i});
+			$r.="<td>" . ${'e_other' . $i} . "</TD>";
 			// label
 			$r.='<TD style="width:25%;border-bottom:1px dotted grey;">';
 			$r.=$fTiers->strAttribut(ATTR_DEF_NAME);
@@ -591,15 +636,17 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		if (isset($periode))
 			$r.=HtmlInput::hidden('periode', $periode);
 		$r.=dossier::hidden();
-		$r.=HtmlInput::hidden('sa', 'n');
+		$r.=HtmlInput::hidden('sa', 'n','chdate');
 		for ($i = 0; $i < $nb_item; $i++)
 		{
-			$tiers = (isset(${"e_other" . $i})) ? ${"e_other" . $i} : ""
-			;
+			$tiers = (isset(${"e_other" . $i})) ? ${"e_other" . $i} : ""			;
+			$r.=HtmlInput::hidden('e_other' . $i, $tiers);
 			$r.=HtmlInput::hidden('e_other' . $i, $tiers);
 			$r.=HtmlInput::hidden('e_other' . $i . '_comment', ${'e_other' . $i . '_comment'});
 			$r.=HtmlInput::hidden('e_other' . $i . '_amount', ${'e_other' . $i . '_amount'});
 			$r.=HtmlInput::hidden('e_concerned' . $i, ${'e_concerned' . $i});
+			$r.=HtmlInput::hidden('dateop' . $i, ${'dateop' . $i});
+			$r.=HtmlInput::hidden('chdate' , $chdate);
 		}
 
 		return $r;
@@ -625,17 +672,6 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		$e_bank_account = $fBank->strAttribut(ATTR_DEF_QUICKCODE);
 		// Get the saldo
 		$pPeriode = new Periode($this->db);
-		if ($this->check_periode() == true)
-		{
-			$pPeriode->p_id = $periode;
-		}
-		else
-		{
-			$pPeriode->find_periode($e_date);
-		}
-		$exercice = $pPeriode->get_exercice();
-
-		$filter_year = "  j_tech_per in (select p_id from parm_periode where  p_exercice='" . $exercice . "')";
 		$sposte = $fBank->strAttribut(ATTR_DEF_ACCOUNT);
 		// if 2 accounts, take only the debit one for customer
 		if (strpos($sposte, ',') != 0)
@@ -649,8 +685,27 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		}
 
 		$acc_account = new Acc_Account_Ledger($this->db, $poste_val);
-		$solde = $acc_account->get_solde($filter_year);
-		$new_solde = $solde;
+
+		// If date = deposit date
+		if ($chdate == 1 )
+		{
+			if ($this->check_periode() == true)
+			{
+				$pPeriode->p_id = $periode;
+			}
+			else
+			{
+				$pPeriode->find_periode($e_date);
+			}
+			$exercice = $pPeriode->get_exercice();
+			$filter_year = "  j_tech_per in (select p_id from parm_periode where  p_exercice='" . $exercice . "')";
+			$solde = $acc_account->get_solde($filter_year);
+			$new_solde = $solde;
+		}
+
+
+
+
 
 		try
 		{
@@ -658,14 +713,34 @@ class Acc_Ledger_Fin extends Acc_Ledger
 			$amount = 0.0;
 			$idx_operation = 0;
 			$ret = '<table class="result" style="width:75%">';
-			$ret.=tr(th('n° interne') . th('Quick Code') . th('Nom') . th('Libellé') . th('Montant', ' style="text-align:right"'));
+			$ret.=tr(th('Date').th('n° interne') . th('Quick Code') . th('Nom') . th('Libellé') . th('Montant', ' style="text-align:right"'));
 			// Credit = goods
+			$get_solde=true;
 			for ($i = 0; $i < $nb_item; $i++)
 			{
 				// if tiers is set and amount != 0 insert it into the database
 				// and quit the loop ?
 				if (strlen(trim(${"e_other$i"})) == 0)
 					continue;
+
+				if ( $chdate == 2 ) $e_date=${'dateop'.$i};
+				// if date is date of operation
+				if ($chdate == 2 && $get_solde )
+				{
+					$get_solde=false;
+					if ($this->check_periode() == true)
+					{
+						$pPeriode->p_id = $periode;
+					}
+					else
+					{
+						$pPeriode->find_periode($e_date);
+					}
+					$exercice = $pPeriode->get_exercice();
+					$filter_year = "  j_tech_per in (select p_id from parm_periode where  p_exercice='" . $exercice . "')";
+					$solde = $acc_account->get_solde($filter_year);
+					$new_solde = $solde;
+				}
 				$fPoste = new Fiche($this->db);
 				$fPoste->get_by_qcode(${"e_other$i"});
 
@@ -828,7 +903,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 
 				$js_detail = HtmlInput::detail_op($jr_id, $internal);
 				// Compute display
-				$row = td($js_detail) . td(${"e_other$i"}) . td($fPoste->strAttribut(ATTR_DEF_NAME)) . td(${"e_other" . $i . "_comment"}) . td(nbm(${"e_other$i" . "_amount"}), 'class="num"');
+				$row = td($e_date).td($js_detail) . td(${"e_other$i"}) . td($fPoste->strAttribut(ATTR_DEF_NAME)) . td(${"e_other" . $i . "_comment"}) . td(nbm(${"e_other$i" . "_amount"}), 'class="num"');
 
 				$ret.=tr($row);
 

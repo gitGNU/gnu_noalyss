@@ -1562,3 +1562,32 @@ function stock_inv_detail(p_dossier,p_id)
 				  }
 				  );
 }
+function show_fin_chdate(obj_id)
+{
+	try
+	{
+		var ch=$(obj_id).options[$(obj_id).selectedIndex].value;
+		if (ch == 2 ) {
+			$('chdate_ext').hide();
+			$('thdate').show();
+		}
+		if (ch == 1 ) {
+			$('chdate_ext').show();
+			$('thdate').hide();
+		}
+		var nb=$('nb_item').value;
+		for (i=0;i<nb;i++) {
+			if ( $('tdchdate'+i)) {
+				if (ch == 2) {
+					$('tdchdate'+i).show();
+				}
+				if (ch == 1 ) {
+					$('tdchdate'+i).hide();
+
+				}
+			}
+		}
+	}catch (e) {
+		alert(e.message);
+	}
+}
