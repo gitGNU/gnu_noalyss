@@ -1,4 +1,5 @@
 <?php
+
 /*
  *   This file is part of PhpCompta.
  *
@@ -57,7 +58,7 @@ if ($cont != 0)
 	exit();
 extract($_REQUEST);
 set_language();
-global $g_user,$cn,$g_parameter;
+global $g_user, $cn, $g_parameter;
 $cn = new Database($gDossier);
 $g_user = new User($cn);
 $g_user->check(true);
@@ -67,11 +68,13 @@ $html = var_export($_REQUEST, true);
 switch ($op)
 {
 	case "remove_anc":
-	  if ($g_user->check_module('ANCODS') == 0) exit();
-			$cn->exec_sql("delete from operation_analytique where oa_group=$1", array($_GET['oa']));
+		if ($g_user->check_module('ANCODS') == 0)
+			exit();
+		$cn->exec_sql("delete from operation_analytique where oa_group=$1", array($_GET['oa']));
 		break;
 	case "rm_stock":
-	  if ($g_user->check_module('STOCK') == 0) exit();
+		if ($g_user->check_module('STOCK') == 0)
+			exit();
 		require_once('constant.security.php');
 		$cn->exec_sql('delete from stock_goods where sg_id=$1', array($s_id));
 		$html = escape_xml($s_id);
@@ -171,9 +174,9 @@ EOF;
 EOF;
 		return;
 		break;
-        case 'mod_cat_doc':
-	  require_once 'template/document_mod_change.php';
-	  break;
+	case 'mod_cat_doc':
+		require_once 'template/document_mod_change.php';
+		break;
 	case 'dsp_tva':
 		$cn = new Database($gDossier);
 		$Res = $cn->exec_sql("select * from tva_rate order by tva_rate desc");
@@ -264,7 +267,8 @@ EOF;
 	case 'dl':
 		require_once('class_lettering.php');
 		$exercice = $g_user->get_exercice();
-        if ($g_user->check_module("LETCARD") == 0 && $g_user->check_module("LETACC") == 0) exit();
+		if ($g_user->check_module("LETCARD") == 0 && $g_user->check_module("LETACC") == 0)
+			exit();
 		$periode = new Periode($cn);
 		list($first_per, $last_per) = $periode->get_limit($exercice);
 
@@ -497,59 +501,59 @@ EOF;
 		require_once 'ajax_add_menu.php';
 		break;
 	case 'add_plugin':
-		$me_code=new IText('me_code');
-		$me_file=new IText('me_file');
-		$me_menu=new IText('me_menu');
-		$me_description=new IText("me_description");
-		$me_parameter=new IText("me_parameter");
-		$new=true;
+		$me_code = new IText('me_code');
+		$me_file = new IText('me_file');
+		$me_menu = new IText('me_menu');
+		$me_description = new IText("me_description");
+		$me_parameter = new IText("me_parameter");
+		$new = true;
 		require_once 'ajax_plugin_detail.php';
 		break;
 	case 'mod_plugin':
-		$m=$cn->get_array("select me_code,me_file,me_menu,me_description,me_parameter
-			from menu_ref where me_code=$1",array($me_code));
-		if ( empty($m))
+		$m = $cn->get_array("select me_code,me_file,me_menu,me_description,me_parameter
+			from menu_ref where me_code=$1", array($me_code));
+		if (empty($m))
 		{
 			echo HtmlInput::title_box("Ce plugin n'existe pas ", $ctl);
 			echo "<p>Il y a une erreur, ce plugin n'existe pas";
 			exit;
 		}
-		$me_code=new IText('me_code',$m[0] ['me_code']);
-		$me_file=new IText('me_file',$m[0] ['me_file']);
-		$me_menu=new IText('me_menu',$m[0] ['me_menu']);
-		$me_description=new IText("me_description",$m[0] ['me_description']);
-		$me_parameter=new IText("me_parameter",$m[0] ['me_parameter']);
-		$new=false;
+		$me_code = new IText('me_code', $m[0] ['me_code']);
+		$me_file = new IText('me_file', $m[0] ['me_file']);
+		$me_menu = new IText('me_menu', $m[0] ['me_menu']);
+		$me_description = new IText("me_description", $m[0] ['me_description']);
+		$me_parameter = new IText("me_parameter", $m[0] ['me_parameter']);
+		$new = false;
 		require_once 'ajax_plugin_detail.php';
 		break;
-	 case 'saldo':
-		 require_once 'ajax_bank_saldo.php';
-		 break;
-	 case 'up_predef':
-		 require_once 'ajax_update_predef.php';
-		 break;
-	 case 'upd_receipt':
-		 require_once 'ajax_get_receipt.php';
-		 break;
-	 case 'up_pay_method':
-		 require_once 'ajax_update_payment.php';
+	case 'saldo':
+		require_once 'ajax_bank_saldo.php';
+		break;
+	case 'up_predef':
+		require_once 'ajax_update_predef.php';
+		break;
+	case 'upd_receipt':
+		require_once 'ajax_get_receipt.php';
+		break;
+	case 'up_pay_method':
+		require_once 'ajax_update_payment.php';
 		break;
 	case 'openancsearch':
 	case 'resultancsearch':
 		require_once('ajax_anc_search.php');
 		break;
 	case 'autoanc':
-		require_once 'ajax_auto_anc_card.php' ;
+		require_once 'ajax_auto_anc_card.php';
 		break;
-        case 'create_menu';
-            require_once 'ajax_create_menu.php';
-            break;
-        case 'modify_menu';
-            require_once 'ajax_mod_menu.php';
-            break;
-		case 'mod_stock_repo':
+	case 'create_menu';
+		require_once 'ajax_create_menu.php';
+		break;
+	case 'modify_menu';
+		require_once 'ajax_mod_menu.php';
+		break;
+	case 'mod_stock_repo':
 		require_once 'ajax_mod_stock_repo.php';
 		break;
-        default:
-            var_dump($_GET);
+	default:
+		var_dump($_GET);
 }
