@@ -377,8 +377,16 @@ ALTER TABLE stock_goods ADD CONSTRAINT stock_goods_c_id_fkey FOREIGN KEY (c_id) 
 
 CREATE TABLE stock_change
 (
-  c_id bigserial NOT NULL,
+   c_id bigserial NOT NULL,
   c_comment text,
   c_date date,
-  CONSTRAINT stock_change_pkey PRIMARY KEY (c_id )
+  tech_user text,
+  r_id bigint,
+  tech_date time with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT stock_change_pkey PRIMARY KEY (c_id ),
+  CONSTRAINT stock_change_r_id_fkey FOREIGN KEY (r_id)
+      REFERENCES stock_repository (r_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+ALTER TABLE stock_goods ADD COLUMN c_id bigint;
