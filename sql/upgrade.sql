@@ -390,3 +390,5 @@ CREATE TABLE stock_change
 );
 
 ALTER TABLE stock_goods ADD COLUMN c_id bigint;
+ALTER TABLE stock_goods   ADD CONSTRAINT stock_goods_c_id_fkey FOREIGN KEY (c_id)        REFERENCES stock_change (c_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE;
