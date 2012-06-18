@@ -311,12 +311,15 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		// Parse each " tiers"
 		for ($i = 0; $i < $max; $i++)
 		{
-			$tiers = (isset(${"e_other" . $i})) ? ${"e_other" . $i} : ""
-			;
+			$tiers = (isset(${"e_other" . $i})) ? ${"e_other" . $i} : "";
+
 			$tiers_amount = (isset(${"e_other$i" . "_amount"})) ? round(${"e_other$i" . "_amount"}, 2) : 0;
 
-			$tiers_comment = (isset(${"e_other$i" . "_comment"})) ? ${"e_other$i" . "_comment"} : ""
-			;
+			$tiers_comment = (isset(${"e_other$i" . "_comment"})) ? ${"e_other$i" . "_comment"} : "";
+
+			$operation_date=new IDate("dateop".$i);
+			$operation_date->value=(isset(${'dateop'.$i}))?${'dateop'.$i}:"";
+			$array[$i]['dateop']=$operation_date->input();
 			${"e_other$i" . "_amount"} = (isset(${"e_other$i" . "_amount"})) ? ${"e_other$i" . "_amount"} : 0;
 
 			$W1 = new ICard();
@@ -342,7 +345,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 
 			// Card name
 			//
-	    $card_name = "";
+			 $card_name = "";
 			if ($tiers != "")
 			{
 				$fiche = new Fiche($this->db);
