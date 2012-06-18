@@ -26,17 +26,20 @@
  * @brief show the result to stock state in list format (more detailled)
  *
  */
-$a_repo=$cn->get_array("select distinct t.r_id,r_name,r_adress,r_country from stock_repository as s join tmp_stockgood_detail as t
+$a_repo=$cn->get_array("select distinct t.r_id,r_name,r_adress,r_city,r_country,r_phone from stock_repository as s join tmp_stockgood_detail as t
 	on (s.r_id=t.r_id)
 	where
 	s_id=$1
 	order by 2
 	",array($tmp_id));
 ?>
+<div class="content">
 <? for ($r=0;$r<count($a_repo);$r++):?>
 <h1><?=$a_repo[$r]['r_name']?></h1>
-<p><?=$a_repo[$r]['r_adress']?></p>
-<p><?=$a_repo[$r]['r_country']?></p>
+<p>Adresse <?=$a_repo[$r]['r_adress']?></p>
+<p>Ville <?=$a_repo[$r]['r_city']?></p>
+<p>Pays <?=$a_repo[$r]['r_country']?></p>
+<p>Téléphone <?=$a_repo[$r]['r_phone']?></p>
 <table class="result">
 	<tr>
 		<th>Code</th>
@@ -97,3 +100,4 @@ $a_repo=$cn->get_array("select distinct t.r_id,r_name,r_adress,r_country from st
 </table>
 <? endfor; ?>
 
+</div>

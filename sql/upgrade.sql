@@ -221,7 +221,7 @@ INSERT INTO menu_ref(me_code, me_menu, me_file, me_url, me_description, me_param
 INSERT INTO profile_menu(me_code, me_code_dep, p_id, p_order, p_type_display, pm_default)
     VALUES ('CFGSTOCK', 'PARAM', 1, 40, 'E', 0);
 update menu_ref set me_file=null where me_code='STOCK';
-update profile_menu set me_code_dep='COMPTA' where me_code='STOCK' and me_code_dep='ADV';
+update profile_menu set me_code_dep='COMPTA',p_order=15 where me_code='STOCK' and me_code_dep='ADV';
 
 CREATE TABLE stock_repository
 (
@@ -278,11 +278,17 @@ update menu_ref set me_file=null where me_code='STOCK';
 
 insert into menu_ref (me_code,me_file,me_menu,me_description,me_type) values ('STOCK_HISTO','stock_histo.inc.php','Historique stock','Historique des mouvement de stock','ME');
 insert into menu_ref (me_code,me_file,me_menu,me_description,me_type) values ('STOCK_STATE','stock_state.inc.php','Etat des stock','Etat des stock','ME');
+insert into menu_ref (me_code,me_menu,me_type) values ('CSV:StockHisto','Export Historique mouvement stock','PR');
+insert into menu_ref (me_code,me_menu,me_type) values ('CSV:StockResmList','Export Résumé list stock','PR');
 
 insert into profile_menu(me_code,me_code_dep,p_id,p_order,p_type_display) values ('STOCK_HISTO','STOCK',1,10,'E');
 insert into profile_menu(me_code,me_code_dep,p_id,p_order,p_type_display) values ('STOCK_STATE','STOCK',1,20,'E');
 insert into profile_menu(me_code,me_code_dep,p_id,p_order,p_type_display) values ('STOCK_HISTO','STOCK',2,10,'E');
 insert into profile_menu(me_code,me_code_dep,p_id,p_order,p_type_display) values ('STOCK_STATE','STOCK',2,20,'E');
+insert into profile_menu(me_code,p_id,p_type_display) values ('CSV:StockHisto',1,'P');
+insert into profile_menu(me_code,p_id,p_type_display) values ('CSV:StockResmList',1,'P');
+insert into profile_menu(me_code,p_id,p_type_display) values ('CSV:StockHisto',2,'P');
+insert into profile_menu(me_code,p_id,p_type_display) values ('CSV:StockResmList',2,'P');
 
 -- clean stock_goods
 delete from stock_goods where  sg_code is null or sg_code='' or sg_code not in (select ad_value from fiche_detail as fd where ad_id=19 and ad_value is not null);

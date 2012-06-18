@@ -164,6 +164,12 @@ if ( $action=='X' || ! isset($_GET['act']) || $g_user->check_print($_GET['act'])
   case 'CSV:ActionGestion':
 	  require_once 'export_follow_up_csv.php';
 	  break;
+	case 'CSV:StockHisto': // Export Historique mouvement stock
+		require_once 'export_stock_histo.csv';
+		break;
+	case 'CSV:StockResmList' : // 'Export Résumé list stock
+		require_once 'export_stock_resume_list.php';
+		break;
    default:
     alert('Action inconnue '.$_GET['act']);
     exit();

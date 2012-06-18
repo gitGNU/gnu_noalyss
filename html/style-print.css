@@ -1,10 +1,10 @@
 body {
 	font-size:7pt
 	}
-select ,.input_text{ 
+select ,.input_text{
 border:1px solid #FFFFFF;
  }
-form { 
+form {
   display:none;
  }
 .print {
@@ -13,7 +13,7 @@ form {
 .noprint  {
   display:none;
  }
- 
+
 .button {
 	display:none;
 	}
@@ -23,10 +23,10 @@ div.recherche_form {
 table.result {
 	font-size:7pt;
 	font-family:sans-serif;
-
+	width:100%
   }
 
-table.result th { 
+table.result th {
 	font-size:7pt;
 	font-family:sans-serif;
 }
@@ -40,7 +40,7 @@ div.info {
 	display:none;
 }
 
-h2.info {
+h1,h2.info {
 	font-size:14pt;
 	font-weight:bold;
 	font-family:sans-serif;
@@ -97,7 +97,7 @@ div.redcontent{
 	font-family:sans-serif;
 
 }
-div.redcontent{ 	 
+div.redcontent{
 	font-size:7pt;
 	font-family:sans-serif;
 }
@@ -112,7 +112,7 @@ div.rmenu {
 table.mtitle {
 	display:	none;
 }
-td.mshort { 
+td.mshort {
 	display:none;
 }
 td.mlltitle {
@@ -130,10 +130,10 @@ span.mtitle2 {
 span.mtitle {
 	display:none;
 }
-span.odd { 
+span.odd {
 	display:none;
  }
-span.even { 
+span.even {
 	display:none;
  }
 
@@ -230,7 +230,7 @@ font-size:8pt;
 font-family:sans-serif;
 }
 
-a.detail:hover   
+a.detail:hover
 {
 	display:none;
 }

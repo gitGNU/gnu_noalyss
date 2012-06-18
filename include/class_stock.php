@@ -251,16 +251,37 @@ class Stock extends Stock_Sql
 
 		$max_row = Database::num_row($res);
 
-		$nav_bar=  jrn_navigation_bar($offset,$max_row,0,$page);
+		$nav_bar = jrn_navigation_bar($offset, $max_row, 0, $page);
 
-		if ( $step != -1 ) $res = $this->cn->exec_sql($sql." , sg_id asc limit ".$step." offset ".$offset);
+		if ($step != -1)
+			$res = $this->cn->exec_sql($sql . " , sg_id asc limit " . $step . " offset " . $offset);
 		$max_row = Database::num_row($res);
 
 		$this->search_box_button();
 		$this->search_box($p_array);
 		require_once 'template/stock_histo.php';
+		$this->export_stock_histo_form();
+		echo HtmlInput::print_window();
 	}
 
+	function export_stock_histo_form()
+	{
+		echo '<form style="display:inline" method="GET" action="export.php">';
+		 echo HtmlInput::get_to_hidden(array("gDossier", "wcard", "wdate_start", "wdate_end", "wrepo",
+					"wamount_start", "wamount_end", "wcode_stock", "wdirection"));
+		 echo HtmlInput::hidden('act','CSV:StockHisto');
+		 echo HtmlInput::submit('stockhisto','Export CSV');
+		 echo '</form>';
+	}
+	function export_stock_summary_list_form()
+	{
+		echo '<form style="display:inline"  method="GET" action="export.php">';
+		 echo HtmlInput::get_to_hidden(array("gDossier", "state_exercice"));
+		 echo HtmlInput::hidden('act','CSV:StockResmList');
+
+		 echo HtmlInput::submit('stockresm','Export CSV');
+		 echo '</form>';
+	}
 	function search_box_button()
 	{
 		$bt = HtmlInput::button("Recherche", "Recherche", ' onclick="$(\'histo_search_d\').show();"');
@@ -409,15 +430,42 @@ class Stock extends Stock_Sql
 	function summary($p_array)
 	{
 		global $cn, $g_user;
-		$tmp_id=$cn->get_next_seq("public.tmp_stockgood_s_id_seq");
-		$cn->exec_sql("delete from tmp_stockgood where s_date < now() - interval '2 hours' ");
-		$cn->exec_sql("insert into tmp_stockgood(s_id) values ($1)",array($tmp_id));
+		$tmp_id=$this->build_tmp_table($p_array);
+		// Build condition
+		$a_repository = $g_user->get_available_repository('R');
+		$a_code = $cn->get_array("select distinct sg_code from tmp_stockgood_detail where s_id=$1", array($tmp_id));
+		if (isset($p_array['present']))
+		{
+			$present = $p_array['present'];
+		}
+		else
+		{
+			$present = 'T';
+		}
+		if ($present == 'T')
+		{
+			require_once 'template/stock_summary_table.php';
+		}
+		if ($present == 'L')
+		{
+			require_once 'template/stock_summary_list.php';
+			$this->export_stock_summary_list_form();
+
+		}
+		echo HtmlInput::print_window();
+	}
+	function build_tmp_table($p_array)
+	{
+		global $cn,$g_user;
+		$tmp_id = $cn->get_next_seq("public.tmp_stockgood_s_id_seq");
+		$cn->exec_sql("delete from tmp_stockgood where s_date < now() - interval '2 days' ");
+		$cn->exec_sql("insert into tmp_stockgood(s_id) values ($1)", array($tmp_id));
 
 		// get all readable repository
-		$a_repository=$g_user->get_available_repository('R');
+		$a_repository = $g_user->get_available_repository('R');
 
 		// All the stock card
-		$sql_repo_detail="
+		$sql_repo_detail = "
 			insert into tmp_stockgood_detail(s_id,sg_code,s_qin,s_qout,r_id)
 
 		with fiche_stock as (select distinct ad_value from fiche_detail where ad_id=19 and coalesce(ad_value,'') != '') ,
@@ -449,35 +497,19 @@ class Stock extends Stock_Sql
 				 and sg.r_id  in (select r_id from user_sec_repository where p_id=$1)
 
 			";
-
-		// Build condition
-		$end_date=$cn->get_value("select to_char(max(p_end),'DD.MM.YYYY') from parm_periode");
+		$end_date = $cn->get_value("select to_char(max(p_end),'DD.MM.YYYY') from parm_periode");
 		if (isset($p_array['state_exercice']))
 		{
-			if ( isDate($p_array['state_exercice'])==$p_array['state_exercice'])
+			if (isDate($p_array['state_exercice']) == $p_array['state_exercice'])
 			{
-				$end_date=$p_array['state_exercice'];
+				$end_date = $p_array['state_exercice'];
 			}
 		}
-		$cn->exec_sql($sql_repo_detail,array($g_user->get_profile(),$end_date));
-		$a_code=$cn->get_array("select distinct sg_code from tmp_stockgood_detail where s_id=$1",array($tmp_id));
-		if (isset($p_array['present']))
-		{
-			$present=$p_array['present'];
-		}
-		else
-		{
-			$present='T';
-		}
-		if ($present == 'T')
-		{
-			require_once 'template/stock_summary_table.php' ;
-		}
-		if ($present=='L')
-		{
-			require_once 'template/stock_summary_list.php';
-		}
+		$cn->exec_sql($sql_repo_detail, array($g_user->get_profile(), $end_date));
+
+		return $tmp_id;
 	}
+
 }
 
 ?>
