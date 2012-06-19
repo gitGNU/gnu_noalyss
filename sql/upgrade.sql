@@ -188,7 +188,7 @@ insert into profile_menu(me_code,p_id,p_type_display,pm_default) values ('CSV:Ac
 ALTER TABLE document_type ADD COLUMN dt_prefix text;
 COMMENT ON COLUMN document_type.dt_prefix IS 'Prefix for ag_ref';
 
-update document_type set dt_prefix= upper(substr(replace(dt_value,' ',''),0,7))||dt_id::text
+update document_type set dt_prefix= upper(substr(replace(dt_value,' ',''),0,7))||dt_id::text;
 
 CREATE TABLE user_sec_action_profile
 (
@@ -268,7 +268,6 @@ alter table stock_goods add r_id bigint;
 
 alter table user_sec_repository add constraint user_sec_repository_r_id_p_id_u unique (r_id,p_id);
 alter table user_sec_action_profile add constraint user_sec_action_profile_p_id_p_granted_u unique (p_id,p_granted);
-ALTER TABLE stock_goods ADD COLUMN r_id bigint;
 update stock_goods set r_id=1;
 CREATE INDEX fk_stock_good_repository_r_id  ON stock_goods  (r_id );
 alter table action_gestion drop ag_cal;
@@ -371,9 +370,7 @@ $BODY$
 CREATE TRIGGER fiche_detail_upd_trg   BEFORE UPDATE   ON fiche_detail   FOR EACH ROW   EXECUTE PROCEDURE comptaproc.fiche_detail_qcode_upd();
 
 update menu_ref set me_description='Gestion des attributs de fiches ' where me_code='CFGATCARD';
-
-ALTER TABLE stock_goods ADD CONSTRAINT stock_goods_c_id_fkey FOREIGN KEY (c_id) REFERENCES stock_change (c_id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE stock_goods ADD COLUMN c_id bigint;
 
 CREATE TABLE stock_change
 (
@@ -389,6 +386,5 @@ CREATE TABLE stock_change
       ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-ALTER TABLE stock_goods ADD COLUMN c_id bigint;
-ALTER TABLE stock_goods   ADD CONSTRAINT stock_goods_c_id_fkey FOREIGN KEY (c_id)        REFERENCES stock_change (c_id) MATCH SIMPLE
+ALTER TABLE stock_goods ADD CONSTRAINT stock_goods_c_id_fkey FOREIGN KEY (c_id) REFERENCES stock_change (c_id) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE CASCADE;
