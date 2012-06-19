@@ -216,7 +216,9 @@ if ( isset ($_GET['view']  ) )
     echo HtmlInput::get_to_hidden(array('unsold'));
 
     echo "</form></TD>";
-
+	echo '<td style="vertical-align:top">';
+	echo HtmlInput::print_window();
+	echo '</td>';
     echo "</TR>";
 
     echo "</table>";

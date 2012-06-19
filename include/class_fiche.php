@@ -1444,6 +1444,10 @@ class Fiche
             echo $hid->input('oper_detail','on');
 
         echo "</form></TD>";
+		echo "</form></TD>";
+		echo '<td style="vertical-align:top">';
+		echo HtmlInput::print_window();
+		echo '</td>';
         echo "</table>";
         echo '</div>';
 

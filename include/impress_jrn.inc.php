@@ -188,7 +188,9 @@ if ( isset( $_REQUEST['bt_html'] ) )
     echo $hid->input("p_simple",$_GET['p_simple']);
     echo HtmlInput::get_to_hidden(array('ac','type'));
     echo "</form></TD>";
-
+	echo '<td style="vertical-align:top">';
+	echo HtmlInput::print_window();
+	echo '</td>';
     echo "</TR>";
 
     echo "</table>";

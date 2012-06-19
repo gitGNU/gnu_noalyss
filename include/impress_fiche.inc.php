@@ -130,6 +130,8 @@ $export_pdf.=dossier::hidden();
 $export_pdf.=HtmlInput::submit('pdf','Export en PDF');
 $export_pdf.='</FORM>';
 
+$export_print=HtmlInput::print_window();
+
 $export_csv='<FORM METHOD="get" ACTION="export.php" style="display:inline">';
 $export_csv.=HtmlInput::hidden('cat',$_GET['cat']);
 $export_csv.=HtmlInput::hidden('act','CSV:fiche_balance');
@@ -152,7 +154,7 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5 )
     }
 	echo $export_pdf;
     echo $export_csv;
-
+	echo $export_print;
 
     $fd=new Fiche_Def($cn,$_REQUEST['cat']);
     if ( $allcard==0 && $fd->hasAttribute(ATTR_DEF_ACCOUNT) == false )
@@ -220,6 +222,7 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5 )
 	}
     echo $export_pdf;
     echo $export_csv;
+    echo $export_print;
 
     exit();
 }
@@ -244,6 +247,7 @@ else
 }
 echo $export_csv;
 echo $export_pdf;
+echo $export_print;
 $fiche=new Fiche($cn);
 for ($e = 0; $e < count($afiche); $e++)
 {
@@ -357,6 +361,7 @@ for ($e = 0; $e < count($afiche); $e++)
 }
 echo $export_csv;
 echo $export_pdf;
+echo $export_print;
 
 
 ?>

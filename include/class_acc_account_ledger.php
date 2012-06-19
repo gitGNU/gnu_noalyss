@@ -531,6 +531,10 @@ class Acc_Account_Ledger
         if (isset($_REQUEST['poste_id'])) echo $hid->input("poste_id",$_REQUEST['poste_id']);
 
         echo "</form></TD>";
+	echo "</form></TD>";
+	echo '<td style="vertical-align:top">';
+	echo HtmlInput::print_window();
+	echo '</td>';
 	echo '</tr>';
         echo "</table>";
 
