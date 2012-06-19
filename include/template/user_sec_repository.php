@@ -41,9 +41,10 @@
 				<?=HtmlInput::hidden('ar_id[]',$array[$i]['r_id'])?>
 			</td>
                          <?
-                            $color=($array[$i]['ur_right']!='')?"border:lightgreen 2px solid; ":"border:red 2px solid; ";
+                            $color=($array[$i]['ur_right']!='X')?"border:lightgreen 2px solid; ":"border:red 2px solid; ";
                         ?>
-			<td <?=$color?>>
+			<td style="<?=$color?>">
+
 				<?
 				$isel=new ISelect("right[]");
 				$isel->value=$aright_value;
