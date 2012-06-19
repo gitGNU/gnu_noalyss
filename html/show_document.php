@@ -65,7 +65,7 @@ if ($action == 'rm')
 if ($action == 'rmop')
 {
 	$json = '{"ago_id":"-1"}';
-	$dt_id = $cn->get_value("select ag_id from action_gestion_operation where ago_id=$1", $_REQUEST['id']);
+	$dt_id = $cn->get_value("select ag_id from action_gestion_operation where ago_id=$1",array( $_REQUEST['id']));
 	if ($g_user->check_action(RMDOC) == 1 && $g_user->can_write_action($dt_id) == true)
 	{
 		$cn->exec_sql("delete from action_gestion_operation where ago_id=$1", array($_REQUEST['id']));
@@ -78,7 +78,7 @@ if ($action == 'rmop')
 if ($action == 'rmcomment')
 {
 	$json = '{"agc_id":"-1"}';
-	$dt_id = $cn->get_value("select ag_id from action_gestion_comment where agc_id=$1", $_REQUEST['id']);
+	$dt_id = $cn->get_value("select ag_id from action_gestion_comment where agc_id=$1", array($_REQUEST['id']));
 	if ($g_user->check_action(RMDOC) == 1 && $g_user->can_write_action($dt_id) == true)
 	{
 		$cn->exec_sql("delete from action_gestion_comment where agc_id=$1", array($_REQUEST['id']));
