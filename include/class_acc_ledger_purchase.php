@@ -41,6 +41,7 @@ require_once('ac_common.php');
 require_once('class_itva_popup.php');
 require_once('class_acc_ledger_info.php');
 require_once('class_acc_ledger_fin.php');
+require_once 'class_stock_goods.php';
 
 /*!\brief Handle the ledger of purchase,
  *
@@ -472,7 +473,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 // always save quantity but in withStock we can find
                 // what card need a stock management
                 if ( $g_parameter->MY_STOCK='Y')
-                    InsertStockGoods($this->db,$j_id,${'e_march'.$i},$nNeg*${'e_quant'.$i},'d',$repo) ;
+                    Stock_Goods::insert_goods(array('db'=>$this->db,'j_id'=>$j_id,'goods'=>${'e_march'.$i},'quant'=>$nNeg*${'e_quant'.$i},'dir'=>'d','repo'=>$repo)) ;
 
                 if ( $g_parameter->MY_ANALYTIC != "nu" )
                 {

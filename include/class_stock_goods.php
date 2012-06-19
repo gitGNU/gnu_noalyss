@@ -121,6 +121,47 @@ class Stock_Goods extends Stock_Goods_Sql
 			throw $exc;
 		}
 	}
+        /**
+         * Insert into stock_goods from ACH and VEN
+         * @param type $p_array KEY : db => database conx, j_id => jrnx.j_id,goods=> f_id of the goods 
+         * 'quant' => quantity ,'dir'=> d or c (c for sales OUT and d for purchase IN),'repo'=>r_id of the
+         * repository (stock_repository.r_id
+         */
+        static function insert_goods(&$p_cn,$p_array)
+        {
+            global $g_user;
+            if ($g_user->can_write_repo($p_depot) == false)
+                return false;
+
+            // Retrieve the good account for stock
+            $code = new Fiche($p_cn);
+            $code->get_by_qcode($p_good);
+            $code_marchandise = $code->strAttribut(ATTR_DEF_STOCK);
+            if ($code_marchandise == NOTFOUND || $code_marchandise=='')
+                return false;
+
+            $exercice = $g_user->get_exercice();
+
+            if ($exercice == 0)
+                throw new Exception('Annee invalide erreur');
+
+            $Res = $p_cn->exec_sql("insert into stock_goods (
+                            j_id,
+                            f_id,
+                            sg_code,
+                            sg_quantity,
+                            sg_type,sg_exercice,r_id ) values ($1,$2,$3,$4,$5,$6,$7)", array(
+                $p_array['j_id'],
+                $code->id,
+                $code_marchandise,
+                $p_array['quant'],
+                $p_array['dir'],
+                $exercice,
+                $p_array['repo']
+                    )
+            );
+           return $Res;
+    }
 
 }
 
