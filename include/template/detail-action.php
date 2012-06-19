@@ -244,8 +244,10 @@ for( $c=0;$c<count($acomment);$c++){
 }
 echo $desc->input();
 ?>
+<? if ($p_view != "READ" ): ?>
 <input type="button" id="bt_enlarge" <?=$style_enl?> value="+" onclick="enlarge('ag_comment');return false;">
 <input type="button" id="bt_small"  <?=$style_small?> value="-" style="display:none" onclick="small('ag_comment');return false;">
+<? endif; ?>
   </div>
 </fieldset>
 <input type='button' class="button" value='Montrer articles' id="toggleButton" onclick='toggleShowDetail()'>
