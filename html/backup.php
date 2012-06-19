@@ -59,10 +59,11 @@ if ( isset ($_REQUEST['sa']) )
         putenv("PGPASSWORD=".phpcompta_password);
         putenv("PGUSER=".phpcompta_user);
 		putenv("PGHOST=".phpcompta_psql_host);
+		putenv("PGPORT=".phpcompta_psql_port);
         if ( $_REQUEST['t'] == 'd' )
         {
             $database=domaine."dossier".$_REQUEST['d'];
-            $args= " -Fc -Z9 --no-owner -p ".phpcompta_psql_port." ".$database;
+            $args= " -Fc -Z9 --no-owner -h ".phpcompta_psql_host." -p ".phpcompta_psql_port." ".$database;
             header('Content-type: application/octet');
             header('Content-Disposition:attachment;filename="'.$database.'.bin"',FALSE);
 
@@ -73,7 +74,7 @@ if ( isset ($_REQUEST['sa']) )
         if ( $_REQUEST['t'] == 'm' )
         {
             $database=domaine."mod".$_REQUEST['d'];
-            $args= " -Fc -Z9 --no-owner -p ".phpcompta_psql_port." ".$database;
+            $args= " -Fc -Z9 --no-owner -h ".phpcompta_psql_host." -p ".phpcompta_psql_port." ".$database;
             header('Content-type: bin/x-application');
             header('Content-Disposition: attachment;filename="'.$database.'.bin"',FALSE);
             $a=passthru ($cmd.$args);

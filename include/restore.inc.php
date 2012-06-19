@@ -35,6 +35,8 @@ if ( isset ($_REQUEST['sa'] ))
     putenv("PGPASSWORD=".phpcompta_password);
     putenv("PGUSER=".phpcompta_user);
     putenv("PGPORT=".phpcompta_psql_port);
+	putenv("PGHOST=").phpcompta_psql_host;
+	
     $retour='<hr>'.HtmlInput::button_anchor("Retour","?action=restore");
     if ( ! isset($_REQUEST['t']))
     {
