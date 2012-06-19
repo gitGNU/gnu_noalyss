@@ -992,7 +992,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 
         // Get the max line
         $m=($max_line2>$max_line)?$max_line2:$max_line;
-        $bar2=jrn_navigation_bar($offset,$m,$step,$page);
+        $bar2=navigation_bar($offset,$m,$step,$page);
 
         echo $bar2;
         echo '<h2 class="info"> '._('Echeance dépassée').' </h2>';

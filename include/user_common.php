@@ -75,11 +75,11 @@ function isValid_deprecrated ($p_cn,$p_grpt_id)
    $offset=(isset($_GET['offset']))?$_GET['offset']:0;
 
    list ($max_ligne,$list)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset,1);
-   $bar=jrn_navigation_bar($offset,$max_ligne,$step,$page);
+   $bar=navigation_bar($offset,$max_ligne,$step,$page);
 \endverbatim
  * \return   string with the nav. bar
  */
-function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1,$p_javascript="")
+function navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1,$p_javascript="")
 {
     // if the pagesize is unlimited return ""
     // in that case there is no nav. bar

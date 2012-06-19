@@ -596,7 +596,7 @@ class Acc_Ledger extends jrn_def_sql
     $page=(isset($_GET['offset']))?$_GET['page']:1;
     $offset=(isset($_GET['offset']))?$_GET['offset']:0;
     // create the nav. bar
-    $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
+    $bar=navigation_bar($offset,$max_line,$step,$page);
     // show a part
     list($count,$html)= $Ledger->list_operation($sql,$offset,0);
     echo $html;
@@ -769,7 +769,7 @@ class Acc_Ledger extends jrn_def_sql
     $page=(isset($_GET['offset']))?$_GET['page']:1;
     $offset=(isset($_GET['offset']))?$_GET['offset']:0;
     // create the nav. bar
-    $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
+    $bar=navigation_bar($offset,$max_line,$step,$page);
     // show a part
     list($count,$html)= $Ledger->list_operation($sql,$offset,0);
     echo $html;

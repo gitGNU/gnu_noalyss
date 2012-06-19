@@ -108,7 +108,7 @@ if ( isset ($_GET['viewsearch']) )
     // Count nb of line
     $max_line=$cn->count_sql($sql);
     list($count,$content)=$ledger->list_operation_to_reconcile($sql);
-    $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
+    $bar=navigation_bar($offset,$max_line,$step,$page);
 
    if (! $inside ) {
 	   echo $bar;

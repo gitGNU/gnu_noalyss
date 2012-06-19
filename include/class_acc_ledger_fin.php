@@ -1056,7 +1056,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 
 		list($max_line, $list) = ListJrn($this->db, "where jrn_def_type='FIN' $filter_per $l $available_ledger "
 				, null, $offset, 0);
-		$bar = jrn_navigation_bar($offset, $max_line, $step, $page);
+		$bar = navigation_bar($offset, $max_line, $step, $page);
 
 		echo "<hr> $bar";
 		echo $list;

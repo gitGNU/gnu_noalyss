@@ -708,7 +708,7 @@ class Follow_Up
 			$limit = " LIMIT $step OFFSET $offset ";
 		else
 			$limit = '';
-		$bar = jrn_navigation_bar($offset, $max_line, $step, $page);
+		$bar = navigation_bar($offset, $max_line, $step, $page);
 
 		$Res = $this->db->exec_sql($sql . $limit);
 		$a_row = Database::fetch_all($Res);

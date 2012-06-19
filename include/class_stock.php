@@ -64,7 +64,7 @@ class Stock extends Stock_Sql
 
 		$max_row = Database::num_row($res);
 
-		$nav_bar = jrn_navigation_bar($offset, $max_row, 0, $page);
+		$nav_bar = navigation_bar($offset, $max_row, 0, $page);
 
 		if ($step != -1)
 			$res = $this->cn->exec_sql($sql . " , sg_id asc limit " . $step . " offset " . $offset);

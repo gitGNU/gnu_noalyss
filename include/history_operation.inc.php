@@ -116,7 +116,7 @@ $max_line = $cn->count_sql($sql);
 $step = $_SESSION['g_pagesize'];
 $page = (isset($_GET['offset'])) ? $_GET['page'] : 1;
 $offset = (isset($_GET['offset'])) ? $_GET['offset'] : 0;
-$bar = jrn_navigation_bar($offset, $max_line, $step, $page);
+$bar = navigation_bar($offset, $max_line, $step, $page);
 
 echo $msg;
 echo '<form method="GET" id="fpaida" class="print">';

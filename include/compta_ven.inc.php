@@ -307,7 +307,7 @@ if ( $def == 2 )
     $step=$_SESSION['g_pagesize'];
     $page=(isset($_GET['offset']))?$_GET['page']:1;
     $offset=(isset($_GET['offset']))?$_GET['offset']:0;
-    $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
+    $bar=navigation_bar($offset,$max_line,$step,$page);
 
 
     echo '<form method="GET" id="fpaidv" class="print" action="'.$href.'">';
@@ -393,7 +393,7 @@ if ( $def==3 )
     $step=$_SESSION['g_pagesize'];
     $page=(isset($_GET['offset']))?$_GET['page']:1;
     $offset=(isset($_GET['offset']))?$_GET['offset']:0;
-    $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
+    $bar=navigation_bar($offset,$max_line,$step,$page);
 
 
     echo '<form method="GET" id="fpaidv" class="print" action="'.$href.'">';

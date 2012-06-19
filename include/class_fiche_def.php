@@ -299,7 +299,7 @@ class Fiche_Def
              fiche join fiche_detail using(f_id)
              where ad_id=1 and fd_id=$1 order by 2";
 
-        // we use jrn_navigation_bar
+        // we use navigation_bar
         if ($step == 1  && $_SESSION['g_pagesize'] != -1   )
         {
             $offset=(isset($_GET['offset']))?$_GET['offset']:0;
@@ -360,7 +360,7 @@ class Fiche_Def
                                            where fd_id='".$this->id."' and ad_id=".ATTR_DEF_NAME." order by f_id");
             $sql_limit=" limit ".$step;
             $sql_offset=" offset ".$offset;
-            $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
+            $bar=navigation_bar($offset,$max_line,$step,$page);
         }
 
         // Get all name the cards of the select category

@@ -181,11 +181,11 @@ class Anc_Operation
         if ( empty($array)  )
             return "Pas d'enregistrement trouv&eacute;";
 
-        // jrn_navigation_bar
+        // navigation_bar
         $step=$_SESSION['g_pagesize'];
         $page=(isset($_GET['offset']))?$_GET['page']:1;
         $offset=(isset($_GET['offset']))?$_GET['offset']:0;
-        $bar=jrn_navigation_bar($offset+1,count($array),$step,$page);
+        $bar=navigation_bar($offset+1,count($array),$step,$page);
 
         if ( $step !=-1)
             $view=array_splice($array,$offset,$step);
