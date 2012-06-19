@@ -33,63 +33,6 @@ require_once("class_acc_operation.php");
  * \brief Common functions
  */
 
-
-
-
-
-/*!
- *\brief  Insert data into stock_goods,
- *
- * \param  $p_cn Database object
- * \param $p_j_id the j_id
- * \param $p_good the goods
- * \param $p_quant  quantity
- * \param $p_type c for SALE or d for PURCHASE
- *
- * \return $res of the insert or false if something gets wrong
- * \note Link to jrn gives the date
- */
-function InsertStockGoods($p_cn, $p_j_id, $p_good, $p_quant, $p_type,$p_depot)
-{
-	/**
-	 *@todo function insertStockGoods doit être déplacée dans class_stock
-	 */
-    global $g_user;
-    if ( $g_user->can_write_repo($p_depot) == false )
-        return false;
-
-    // Retrieve the good account for stock
-    $code = new Fiche($p_cn);
-    $code->get_by_qcode($p_good);
-    $code_marchandise = $code->strAttribut(ATTR_DEF_STOCK);
-    if ( $code_marchandise == NOTFOUND )
-        return false;
-
-    $exercice = $g_user->get_exercice();
-
-    if ($exercice == 0)
-        throw new Exception('Annee invalide erreur');
-
-    $Res = $p_cn->exec_sql("insert into stock_goods (
-                         j_id,
-                         f_id,
-                         sg_code,
-                         sg_quantity,
-                         sg_type,sg_exercice,r_id ) values ($1,$2,$3,$4,$5,$6,$7)",
-            array(
-                    $p_j_id,
-                    $code->id,
-                    $code_marchandise,
-                    $p_quant,
-                    $p_type,
-                    $exercice,
-                    $p_depot
-                )
-            );
-    return $Res;
-}
-
-
 /*!
  *\brief   test if a jrn op is valid
  *
@@ -99,7 +42,7 @@ function InsertStockGoods($p_cn, $p_j_id, $p_good, $p_quant, $p_type,$p_depot)
  *        - 1 is valid
  *        - 0 is not valid
  */
-function isValid ($p_cn,$p_grpt_id)
+function isValid_deprecrated ($p_cn,$p_grpt_id)
 {
     $Res=$p_cn->exec_sql("select jr_valid from jrn where jr_grpt_id=$p_grpt_id");
 
@@ -280,6 +223,7 @@ function toNumber($p_num)
 {
     $p_num=trim($p_num);
     if ($p_num=='') return 0;
+    $p_num=str_replace("'",'',$p_num);
     $p_num=str_replace(',','.',$p_num);
     return $p_num;
 }
