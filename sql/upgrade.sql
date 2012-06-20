@@ -389,3 +389,37 @@ CREATE TABLE stock_change
 ALTER TABLE stock_goods ADD CONSTRAINT stock_goods_c_id_fkey FOREIGN KEY (c_id) REFERENCES stock_change (c_id) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE CASCADE;
 update action_gestion set ag_id=-1 ;
+
+update menu_ref set me_code='CSV:reportinit'  where me_code='CVS:reportinit';
+ update menu_ref set me_file='export_histo_csv.php' where me_code='CSV:histo';
+ update menu_ref set me_file='export_ledger_csv.php' where me_code='CSV:ledger';
+ update menu_ref set me_file='export_ledger_pdf.php' where me_code='PDF:ledger';
+ update menu_ref set me_file='export_poste_detail_csv.php' where me_code='CSV:postedetail';
+ update menu_ref set me_file='export_poste_detail_pdf.php' where me_code='PDF:postedetail';
+ update menu_ref set me_file='export_fiche_detail_csv.php' where me_code='CSV:fichedetail';
+ update menu_ref set me_file='export_fiche_detail_pdf.php' where me_code='PDF:fichedetail';
+ update menu_ref set me_file='export_fiche_balance_csv.php' where me_code='CSV:fiche_balance';
+ update menu_ref set me_file='export_fiche_balance_pdf.php' where me_code='PDF:fiche_balance';
+ update menu_ref set me_file='export_form_csv.php' where me_code='CSV:report';
+ update menu_ref set me_file='export_form_pdf.php' where me_code='PDF:report';
+ update menu_ref set me_file='export_fiche_csv.php' where me_code='CSV:fiche';
+ update menu_ref set me_file='export_fiche_pdf.php' where me_code='PDF:fiche';
+ update menu_ref set me_file='export_gl_csv.php' where me_code='CSV:glcompte';
+ update menu_ref set me_file='export_gl_pdf.php' where me_code='PDF:glcompte';
+ update menu_ref set me_file='export_security_pdf.php' where me_code='PDF:sec';
+ update menu_ref set me_file='export_anc_list_csv.php' where me_code='CSV:AncList';
+ update menu_ref set me_file='export_anc_balance_simple_csv.php' where me_code='CSV:AncBalSimple';
+ update menu_ref set me_file='export_anc_balance_simple_pdf.php' where me_code='PDF:AncBalSimple';
+ update menu_ref set me_file='export_anc_balance_double_csv.php' where me_code='CSV:AncBalDouble';
+ update menu_ref set me_file='export_anc_balance_double_pdf.php' where me_code='PDF:AncBalDouble';
+ update menu_ref set me_file='export_balance_csv.php' where me_code='CSV:balance';
+ update menu_ref set me_file='export_balance_pdf.php' where me_code='PDF:balance';
+ update menu_ref set me_file='export_anc_table_csv.php' where me_code='CSV:AncTable';
+ update menu_ref set me_file='export_anc_acc_list_csv.php' where me_code='CSV:AncAccList';
+ update menu_ref set me_file='export_anc_balance_group_csv.php' where me_code='CSV:AncBalGroup';
+ update menu_ref set me_file='export_bilan_oth.php' where me_code='OTH:Bilan';
+ update menu_ref set me_file='export_anc_grandlivre_csv.php' where me_code='CSV:AncGrandLivre';
+ update menu_ref set me_file='export_reportinit_csv.php' where me_code='CSV:reportinit';
+ update menu_ref set me_file='export_follow_up_csv.php' where me_code='CSV:ActionGestion';
+ update menu_ref set me_file='export_stock_histo_csv.php' where me_code='CSV:StockHisto';
+ update menu_ref set me_file='export_stock_resume_list.php' where me_code='CSV:StockResmList';
