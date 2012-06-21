@@ -1156,7 +1156,7 @@ class Follow_Up
 		$ag_dest = new ISelect();
 		$ag_dest->name = "ag_dest_query";
 		$ag_dest->value = $aAg_dest;
-		$ag_dest->selected = (isset($_GET["ag_dest_query"])) ? $_GET["ag_dest_query"] : 0;
+		$ag_dest->selected = (isset($_GET["ag_dest_query"])) ? $_GET["ag_dest_query"] : -2;
 		$str_ag_dest = $ag_dest->input();
 		$osag_ref=new IText("sag_ref");
 		$osag_ref->value=(isset($_GET['sag_ref']))?$_GET['sag_ref']:"";
