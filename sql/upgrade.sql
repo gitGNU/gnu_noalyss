@@ -388,7 +388,10 @@ CREATE TABLE stock_change
 
 ALTER TABLE stock_goods ADD CONSTRAINT stock_goods_c_id_fkey FOREIGN KEY (c_id) REFERENCES stock_change (c_id) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE CASCADE;
-update action_gestion set ag_id=-1 ;
+
+update action_gestion set ag_dest=-1 ;
+alter table action_gestion alter ag_dest set not null;
+alter table action_gestion alter ag_dest set default -1;
 
 update menu_ref set me_code='CSV:reportinit'  where me_code='CVS:reportinit';
  update menu_ref set me_file='export_histo_csv.php' where me_code='CSV:histo';
