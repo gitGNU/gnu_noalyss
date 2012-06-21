@@ -1136,7 +1136,7 @@ class Follow_Up
 		$hsExcptype_state= new ISelect('state');
 		$aExcpState = $cn->make_array('select s_id,s_value from document_state order by s_value');
 		$aExcpState[] = array('value' => '-1', 'label' => _('Aucun'));
-		$hsExcptype_state->value = $aState;
+		$hsExcptype_state->value = $aExcpState;
 		$hsExcptype_state->selected = (isset($_GET['hsstate'])) ? $_GET['hsstate'] : -1;
 
                 
