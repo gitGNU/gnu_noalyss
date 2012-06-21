@@ -176,7 +176,7 @@ $wTitle=new IText('p_title');
 $wDesc=new ITextArea('p_desc');
 $wDesc->heigh=5;
 $wDesc->width=40;
-echo h2info("Note");
+echo HtmlInput::title_box("Note","add_todo_list","hide");
 echo _("Date")." ".$wDate->input().'<br>';
 echo _("Titre")." ".$wTitle->input().'<br>';
 echo _("Description")."<br>".$wDesc->input().'<br>';
