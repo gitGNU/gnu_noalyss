@@ -1133,7 +1133,7 @@ class Follow_Up
 
                 
                 /* Except State of documents */
-		$hsExcptype_state= new ISelect('state');
+		$hsExcptype_state= new ISelect('hsstate');
 		$aExcpState = $cn->make_array('select s_id,s_value from document_state order by s_value');
 		$aExcpState[] = array('value' => '-1', 'label' => _('Aucun'));
 		$hsExcptype_state->value = $aExcpState;
