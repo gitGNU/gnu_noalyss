@@ -1131,7 +1131,7 @@ class Follow_Up
 		$type_state->selected = (isset($_GET['state'])) ? $_GET['state'] : -1;
 
 
-                
+
                 /* Except State of documents */
 		$hsExcptype_state= new ISelect('hsstate');
 		$aExcpState = $cn->make_array('select s_id,s_value from document_state order by s_value');
@@ -1139,7 +1139,7 @@ class Follow_Up
 		$hsExcptype_state->value = $aExcpState;
 		$hsExcptype_state->selected = (isset($_GET['hsstate'])) ? $_GET['hsstate'] : -1;
 
-                
+
 		// date
 		$start = new IDate('date_start');
 		$start->value = (isset($_GET['date_start'])) ? $_GET['date_start'] : "";
@@ -1235,7 +1235,7 @@ class Follow_Up
 		{
 			$query .= ' and ag_state= ' . sql_string($state);
 		}
-                if (isset($hsstate) && $hsstate!= -1)
+        if (isset($hsstate) && $hsstate!= -1)
 		{
 			$query .= ' and ag_state <> ' . sql_string($hsstate);
 		}
@@ -1243,10 +1243,10 @@ class Follow_Up
 		{
 			$query .= ' and ag_ref= \'' . sql_string($sag_ref)."'";
 		}
-                
+
 		if (isset($_GET['only_internal']))
 			$query .= ' and f_id_dest=0 ';
-	
+
 		if (isset($date_start) && isDate($date_start) != null)
 		{
 			$query.=" and ag_timestamp >= to_date('$date_start','DD.MM.YYYY')";
@@ -1258,13 +1258,13 @@ class Follow_Up
 		if (isset($ag_dest_query) && $ag_dest_query != -2 )
 		{
                     $query.= " and ag_dest = " . sql_string($ag_dest_query);
-		} 
+		}
                 else
                 {
                     $query .=" and (ag_owner='" . $_SESSION['g_user'] . "' or ".self::sql_security_filter($cn, "R")." or ag_dest=-1 )";
                 }
-                    
-                
+
+
 		if (isNumber($ag_id) == 1 && $ag_id != 0)
 		{
 			$query = " and ag_id= " . sql_string($ag_id);
