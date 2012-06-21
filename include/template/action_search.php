@@ -82,6 +82,10 @@
 				<td style="text-align:right" ><?= _("Etat")?></td>
 				<td><?= $type_state->input()?></td>
 			</tr>
+			<tr>
+				<td style="text-align:right" ><?= _("Exclure Etat")?></td>
+				<td><?= $hsExcptype_state->input()?></td>
+			</tr>
 			<td style="text-align:right"><? printf(_('contenant le mot'))?></td>
 			<td ><input class="input_text" style="width:100%" type="text" name="query" value="<?= $a?>"></td>
 			</tr>
@@ -103,14 +107,6 @@
 					<?= $end->input()?>
 				</td>
 			</tr>
-			</tr>
-			<tr>
-				<td style="text-align:right">
-					<?= _('inclure les actions fermées ')?>
-				</td>
-				<td>
-					<?= $see_all->input()?>
-				</td>
 			</tr>
 			<tr>
 				<td style="text-align:right"><?= _('les actions  affectées à d\'autres')?></td>

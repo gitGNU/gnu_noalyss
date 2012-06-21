@@ -498,7 +498,7 @@ class Follow_Up
 		/* add the number of item */
 		$Hid = new IHidden();
 		$r.=$Hid->input("nb_item", MAX_ARTICLE);
-		$r.=HtmlInput::request_to_hidden(array("remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "all_action"));
+		$r.=HtmlInput::request_to_hidden(array("remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate", "all_action"));
 		/* get template */
 		ob_start();
 		require_once 'template/detail-action.php';
@@ -671,7 +671,7 @@ class Follow_Up
 	function myList($p_base, $p_filter = "", $p_search = "")
 	{
 		// for the sort
-		$url = HtmlInput::get_to_string(array("remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "all_action")) . '&' . $p_base;
+		$url = HtmlInput::get_to_string(array("remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate", "all_action")) . '&' . $p_base;
 
 		$table = new Sort_Table();
 		$table->add('Date', $url, 'order by ag_timestamp asc', 'order by ag_timestamp desc', 'da', 'dd');
@@ -743,7 +743,7 @@ class Follow_Up
 		//show the sub_action
 		foreach ($a_row as $row)
 		{
-			$href = '<A class="document" HREF="do.php?'  . $p_base .HtmlInput::get_to_string(array("remind_date_end","remind_date","sag_ref","only_internal","state","gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "see_all", "ac", "all_action"),"&") . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
+			$href = '<A class="document" HREF="do.php?'  . $p_base .HtmlInput::get_to_string(array("remind_date_end","remind_date","sag_ref","only_internal","state","gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate", "ac", "all_action"),"&") . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
 			$i++;
 			$tr = ($i % 2 == 0) ? 'even' : 'odd';
 			if ($row['ag_priority'] < 2)
@@ -1131,14 +1131,21 @@ class Follow_Up
 		$type_state->selected = (isset($_GET['state'])) ? $_GET['state'] : -1;
 
 
+                
+                /* Except State of documents */
+		$hsExcptype_state= new ISelect('state');
+		$aExcpState = $cn->make_array('select s_id,s_value from document_state order by s_value');
+		$aExcpState[] = array('value' => '-1', 'label' => _('Aucun'));
+		$hsExcptype_state->value = $aState;
+		$hsExcptype_state->selected = (isset($_GET['hsstate'])) ? $_GET['hsstate'] : -1;
+
+                
 		// date
 		$start = new IDate('date_start');
 		$start->value = (isset($_GET['date_start'])) ? $_GET['date_start'] : "";
 		$end = new IDate('date_end');
 		$end->value = (isset($_GET['date_end'])) ? $_GET['date_end'] : "";
 
-		$see_all = new ICheckBox('see_all');
-		$see_all->selected = (isset($_GET['see_all'])) ? true : false;
 		$my_action = new ICheckBox('all_action');
 		$my_action->selected = (isset($_GET['all_action'])) ? true : false;
 		$only_internal= new ICheckBox('only_internal');
@@ -1229,12 +1236,15 @@ class Follow_Up
 		{
 			$query .= ' and ag_state= ' . sql_string($state);
 		}
+                if (isset($hsstate) && $hsstate!= -1)
+		{
+			$query .= ' and ag_state <> ' . sql_string($hsstate);
+		}
 		if (isset($sag_ref) && trim($sag_ref) != "")
 		{
 			$query .= ' and ag_ref= \'' . sql_string($sag_ref)."'";
 		}
-		if (!isset($_GET['see_all']))
-			$query .= ' and ag_state in (2,3) ';
+                
 		if (isset($_GET['only_internal']))
 			$query .= ' and f_id_dest=0 ';
 		if ( isset($all_action))
