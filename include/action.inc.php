@@ -24,7 +24,7 @@
 require_once('class_ipopup.php');
 global $g_user;
 $retour=HtmlInput::button_anchor(_('Retour liste'),
-		HtmlInput::request_to_string(array("remind_date_end","remind_date","sag_ref","only_internal","state","ac","gDossier","qcode","ag_dest_query","query","tdoc","date_start","date_end","hsstate","all_action")).'&my_action');
+		HtmlInput::request_to_string(array("remind_date_end","remind_date","sag_ref","only_internal","state","ac","gDossier","qcode","ag_dest_query","query","tdoc","date_start","date_end","hsstate")));
 //-----------------------------------------------------
 // Follow_Up
 //-----------------------------------------------------

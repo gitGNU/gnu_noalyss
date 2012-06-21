@@ -498,7 +498,7 @@ class Follow_Up
 		/* add the number of item */
 		$Hid = new IHidden();
 		$r.=$Hid->input("nb_item", MAX_ARTICLE);
-		$r.=HtmlInput::request_to_hidden(array("remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate", "all_action"));
+		$r.=HtmlInput::request_to_hidden(array("remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate"));
 		/* get template */
 		ob_start();
 		require_once 'template/detail-action.php';
@@ -671,7 +671,7 @@ class Follow_Up
 	function myList($p_base, $p_filter = "", $p_search = "")
 	{
 		// for the sort
-		$url = HtmlInput::get_to_string(array("remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate", "all_action")) . '&' . $p_base;
+		$url = HtmlInput::get_to_string(array("remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate")) . '&' . $p_base;
 
 		$table = new Sort_Table();
 		$table->add('Date', $url, 'order by ag_timestamp asc', 'order by ag_timestamp desc', 'da', 'dd');
@@ -743,7 +743,7 @@ class Follow_Up
 		//show the sub_action
 		foreach ($a_row as $row)
 		{
-			$href = '<A class="document" HREF="do.php?'  . $p_base .HtmlInput::get_to_string(array("remind_date_end","remind_date","sag_ref","only_internal","state","gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate", "ac", "all_action"),"&") . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
+			$href = '<A class="document" HREF="do.php?'  . $p_base .HtmlInput::get_to_string(array("remind_date_end","remind_date","sag_ref","only_internal","state","gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate", "ac"),"&") . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
 			$i++;
 			$tr = ($i % 2 == 0) ? 'even' : 'odd';
 			if ($row['ag_priority'] < 2)
@@ -1146,14 +1146,13 @@ class Follow_Up
 		$end = new IDate('date_end');
 		$end->value = (isset($_GET['date_end'])) ? $_GET['date_end'] : "";
 
-		$my_action = new ICheckBox('all_action');
-		$my_action->selected = (isset($_GET['all_action'])) ? true : false;
 		$only_internal= new ICheckBox('only_internal');
 		$only_internal->selected = (isset($_GET['only_internal'])) ? true : false;
 		// select profile
 		$aAg_dest = $cn->make_array("select  p_id as value, " .
 				"p_name as label " .
 				" from profile order by 2");
+                $aAg_dest[] = array('value' => '-2', 'label' => _('Tous les profiles'));
 		$ag_dest = new ISelect();
 		$ag_dest->name = "ag_dest_query";
 		$ag_dest->value = $aAg_dest;
@@ -1247,10 +1246,7 @@ class Follow_Up
                 
 		if (isset($_GET['only_internal']))
 			$query .= ' and f_id_dest=0 ';
-		if ( isset($all_action))
-		{
-			$query .=" and (ag_owner='" . $_SESSION['g_user'] . "' or ".self::sql_security_filter($cn, "R")." or ag_dest=-1 )";
-		}
+	
 		if (isset($date_start) && isDate($date_start) != null)
 		{
 			$query.=" and ag_timestamp >= to_date('$date_start','DD.MM.YYYY')";
@@ -1259,10 +1255,16 @@ class Follow_Up
 		{
 			$query.=" and ag_timestamp <= to_date('$date_end','DD.MM.YYYY')";
 		}
-		if (isset($ag_dest_query)&& ! isset($all_action) )
+		if (isset($ag_dest_query) && $ag_dest_query != -2 )
 		{
-				$query.= " and ag_dest = " . sql_string($ag_dest_query);
-		}
+                    $query.= " and ag_dest = " . sql_string($ag_dest_query);
+		} 
+                else
+                {
+                    $query .=" and (ag_owner='" . $_SESSION['g_user'] . "' or ".self::sql_security_filter($cn, "R")." or ag_dest=-1 )";
+                }
+                    
+                
 		if (isNumber($ag_id) == 1 && $ag_id != 0)
 		{
 			$query = " and ag_id= " . sql_string($ag_id);

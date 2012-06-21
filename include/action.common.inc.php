@@ -195,7 +195,7 @@ if ($sub_action == "list")
 	// Add a button to export to Csv
 	echo '<form method="GET" ACTION="export.php">';
 	echo HtmlInput::request_to_hidden(array("remind_date_end","remind_date","sag_ref", "remind_date","only_internal", "state", "gDossier", "qcode", "start_date", "end_date", "ag_id", "ag_dest_query",
-		"tdoc", "hsstate", "all_action", "query"));
+		"tdoc",   "query"));
 	echo HtmlInput::hidden("act", "CSV:ActionGestion");
 	echo HtmlInput::submit("follow_up_csv", "Export CSV");
 	echo "</form>";

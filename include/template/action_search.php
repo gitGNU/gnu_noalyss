@@ -109,11 +109,6 @@
 			</tr>
 			</tr>
 			<tr>
-				<td style="text-align:right"><?= _('les actions  affectées à d\'autres')?></td>
-				<td><?= $my_action->input()?>
-				</td>
-			</tr>
-			<tr>
 				<td style="text-align:right"><?= _('Uniquement actions internes')?></td>
 				<td><?= $only_internal->input()?>
 				</td>
