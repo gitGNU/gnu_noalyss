@@ -12,10 +12,12 @@ require_once('class_user.php');
 require_once('class_extension.php');
 if ( !isset ($_REQUEST['gDossier'])) exit();
 
+require_once 'class_own.php';
 mb_internal_encoding("UTF-8");
 
-$cn=new Database(dossier::id());
 global $g_user,$cn,$g_parameter;
+$cn=new Database(dossier::id());
+$g_parameter=new Own($cn);
 $g_user=new User($cn);
 $g_user->check(true);
 
