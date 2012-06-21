@@ -693,12 +693,14 @@ class Follow_Up
              select ag_id,to_char(ag_timestamp,'DD.MM.YYYY') as my_date,
 			 to_char(ag_remind_date,'DD.MM.YYYY') as my_remind,
 			 f_id_dest,
+			 s_value,
              ag_title,dt_value,ag_ref, ag_priority,ag_state,
 			coalesce((select p_name from profile where p_id=ag_dest),'Aucun groupe') as dest,
 				(select ad_value from fiche_Detail where f_id=action_gestion.f_id_dest and ad_id=1) as name,
 		     (select count(d_id) from document where document.ag_id=action_gestion.ag_id) as cnt_doc
              from action_gestion
              join document_type on (ag_type=dt_id)
+			 join document_state on (ag_state=s_id)
              where $p_filter_doc $p_search $sort";
 		$max_line = $this->db->count_sql($sql);
 		$step = $_SESSION['g_pagesize'];
@@ -788,25 +790,8 @@ class Follow_Up
 				$r.="<td ></td>";
 
 			$r.="<td>" . $row['dt_value'] . "</td>";
-			/*
-			 * State
-			 */
-			switch ($row['ag_state'])
-			{
-				case 1:
-					$state = 'Fermé';
-					break;
-				case 2:
-					$state = "A suivre";
-					break;
-				case 3:
-					$state = "A faire";
-					break;
-				case 4:
-					$state = "Abandonné";
-					break;
-			}
-			$r.=td($state);
+
+			$r.=td($row['s_value']);
 			/*
 			 * State
 			 */

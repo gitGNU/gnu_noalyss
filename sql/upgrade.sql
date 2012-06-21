@@ -426,3 +426,17 @@ update menu_ref set me_code='CSV:reportinit'  where me_code='CVS:reportinit';
  update menu_ref set me_file='export_follow_up_csv.php' where me_code='CSV:ActionGestion';
  update menu_ref set me_file='export_stock_histo_csv.php' where me_code='CSV:StockHisto';
  update menu_ref set me_file='export_stock_resume_list.php' where me_code='CSV:StockResmList';
+
+INSERT INTO menu_ref(
+            me_code, me_menu, me_file, me_url, me_description, me_parameter,
+            me_javascript, me_type)
+    VALUES ('CFGDOCST', 'Etat des documents', 'doc_state.inc.php', null, 'Etat des documents', null,null,'ME');
+
+INSERT INTO profile_menu(
+             me_code, me_code_dep, p_id, p_order, p_type_display, pm_default)
+    VALUES ('CFGDOCST', 'DIVPARM', 1, 9, 'E', 0);
+INSERT INTO profile_menu(
+             me_code, me_code_dep, p_id, p_order, p_type_display, pm_default)
+    VALUES ('CFGDOCST', 'DIVPARM', 2,9, 'E', 0);
+
+alter sequence document_state_s_id_seq restart with 100;
