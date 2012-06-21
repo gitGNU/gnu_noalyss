@@ -35,12 +35,12 @@ $add_one=HtmlInput::button("add", "Ajout Menu","onclick=\"add_menu({dossier:$gDo
 echo HtmlInput::hidden('tab','');
 ?>
 <hr>
+<h1>Profil <?=$profile->p_name?></h1>
 <a href="javascript:void(0)" class="line" onclick="profile_show('profile_gen_div')"><?=_('Nom')?></a>&nbsp;
 <a href="javascript:void(0)" class="line" onclick="profile_show('profile_menu_div')"><?=_('Détail Menus')?></a>&nbsp;
-<a href="javascript:void(0)" class="line" onclick="profile_show('profile')"><?=_('Détail Impressions')?></a>&nbsp;
-<a href="javascript:void(0)" class="line" style="" onclick="profile_show('profile')"><?=_('Action Gestion')?> </a>&nbsp;
-<a href="javascript:void(0)" class="line" onclick="profile_show('profile')"><?=_('Dépôts')?></a>&nbsp;
-<h1>Profil <?=$profile->p_name?></h1>
+<a href="javascript:void(0)" class="line" onclick="profile_show('profile_print_div')"><?=_('Détail Impressions')?></a>&nbsp;
+<a href="javascript:void(0)" class="line" style="" onclick="profile_show('profile_gestion_div')"><?=_('Action Gestion')?> </a>&nbsp;
+<a href="javascript:void(0)" class="line" onclick="profile_show('profile_repo_div')"><?=_('Dépôts')?></a>&nbsp;
 
 <?
 $id=HtmlInput::hidden('p_id',$profile->p_id);
