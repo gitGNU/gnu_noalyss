@@ -440,3 +440,30 @@ INSERT INTO profile_menu(
     VALUES ('CFGDOCST', 'DIVPARM', 2,9, 'E', 0);
 
 alter sequence document_state_s_id_seq restart with 100;
+
+CREATE INDEX quant_purchase_jrn_fki
+  ON quant_purchase
+  USING btree
+  (qp_internal );
+
+
+
+ALTER TABLE quant_purchase DROP CONSTRAINT quant_purchase_qp_internal_fkey;
+
+
+ALTER TABLE quant_purchase
+  ADD CONSTRAINT quant_purchase_qp_internal_fkey FOREIGN KEY (qp_internal)
+      REFERENCES jrn (jr_internal) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+ALTER TABLE quant_sold DROP CONSTRAINT quant_sold_qs_internal_fkey;
+
+ALTER TABLE quant_sold
+  ADD CONSTRAINT quant_sold_qs_internal_fkey FOREIGN KEY (qs_internal)
+      REFERENCES jrn (jr_internal) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+CREATE INDEX quant_sold_jrn_fki
+  ON quant_sold
+  USING btree
+  (qs_internal );
