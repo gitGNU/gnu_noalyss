@@ -28,6 +28,7 @@
  */
 ?>
 <form method="POST" class="print">
+    <? HtmlInput::hidden('tab','profile_gestion_div')?>
 	<?=HtmlInput::hidden("p_id", $p_id);?>
 	<table>
 		<tr>

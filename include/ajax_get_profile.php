@@ -32,7 +32,6 @@ require_once 'class_profile_menu.php';
 $profile=new Profile_sql($cn,$p_id);
 $gDossier=Dossier::id();
 $add_one=HtmlInput::button("add", "Ajout Menu","onclick=\"add_menu({dossier:$gDossier,p_id:$p_id})\"");
-echo HtmlInput::hidden('tab','');
 ?>
 <hr>
 <h1>Profil <?=$profile->p_name?></h1>
@@ -53,6 +52,7 @@ $with_direct_form=new ICheckBox("with_direct_form","t");
 $with_direct_form->set_check($profile->with_direct_form);
 echo '<div style="display:none" id="profile_gen_div">';
 echo '<form method="POST" onsubmit="return confirm (\'vous confirmez\')">';
+echo HtmlInput::hidden('tab','profile_gen_div');
 echo HtmlInput::hidden('p_id',$profile->p_id);
 require_once("template/profile.php");
 echo HtmlInput::submit("save_name","Modifier");
@@ -95,7 +95,10 @@ if ($profile->p_id > 0)
 	echo "<h1>Dépôt de stock accessible</h1>";
 	$profile_menu->available_repository($p_id);
         echo '</div>';
-
+        if ( isset ($_POST['tab']))
+        {
+            echo create_script("profile_show('".$_POST['tab']."');");
+        }
 }
 else
 {

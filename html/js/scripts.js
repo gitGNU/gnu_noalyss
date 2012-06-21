@@ -1604,7 +1604,6 @@ function profile_show(p_div)
 		var div=['profile_gen_div','profile_menu_div','profile_print_div','profile_gestion_div','profile_repo_div'];
 		for (var r =0;r<div.length;r++ ) {$(div[r]).hide();  }
 		$(p_div).show();
-		$('tab').value=p_div;
 	} catch(e)
 	{
 		alert(e.message)
