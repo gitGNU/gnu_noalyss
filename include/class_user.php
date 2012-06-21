@@ -296,7 +296,7 @@ class User
 					break;
 
 				case 1:
-					$sql_access = " and uj_priv = 'R'";
+					$sql_access = " and ( uj_priv = 'R' or uj_priv='W') ";
 					break;
 			}
 
