@@ -85,7 +85,7 @@ if ( isset ($_GET['viewsearch']))
     $max_line=$cn->count_sql($sql);
 
     list($count,$a)=$ledger->list_operation($sql,$offset,0);
-    $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
+    $bar=navigation_bar($offset,$max_line,$step,$page);
 
     echo $bar;
     echo $a;
