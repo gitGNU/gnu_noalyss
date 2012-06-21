@@ -57,6 +57,9 @@ $pm_default=new ICheckBox('pm_default');
 echo HtmlInput::title_box("Nouveau menu", $ctl);
 ?>
 <form method="POST" onsubmit="return confirm('Vous confirmez ?')">
+	<?
+	echo HtmlInput::hidden('tab','profile_menu_div');
+	?>
 	<?=HtmlInput::hidden('p_id',$p_id)?>
 <table>
 <tr>
