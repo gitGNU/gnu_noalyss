@@ -81,12 +81,12 @@ if ($profile->p_id > 0)
 	echo $add_one;
 	$profile_menu = new Profile_Menu($cn);
 	$profile_menu->listing_profile($p_id);
-        echo '<div>';
+        echo '</div>';
         echo '<div style="display:none" id="profile_print_div">';
 	echo "<h2>Impression</h2>";
 	$profile_menu->printing($p_id);
 	echo $add_one;
-        echo '<div>';
+        echo '</div>';
         echo '<div style="display:none" id="profile_gestion_div">';
 	echo "<h1>Action gestion accessible</h1>";
 	$profile_menu->available_profile($p_id);
