@@ -1591,3 +1591,22 @@ function show_fin_chdate(obj_id)
 		alert(e.message);
 	}
 }
+/**
+ * <a href="javascript:void(0)" class="line" onclick="profile_show('profile_gen_div')"><?=_('Nom')?></a>&nbsp;
+<a href="javascript:void(0)" class="line" onclick="profile_show('profile_menu_div')"><?=_('Détail Menus')?></a>&nbsp;
+<a href="javascript:void(0)" class="line" onclick="profile_show('profile_print_div')"><?=_('Détail Impressions')?></a>&nbsp;
+<a href="javascript:void(0)" class="line" style="" onclick="profile_show('profile_gestion_div')"><?=_('Action Gestion')?> </a>&nbsp;
+<a href="javascript:void(0)" class="line" onclick="profile_show('profile_repo_div')"><?=_('Dépôts')?></a>&nbsp;
+ */
+function profile_show(p_div)
+{
+	try{
+		var div=['profile_gen_div','profile_menu_div','profile_print_div','profile_gestion_div','profile_repo_div'];
+		for (var r =0;r<div.length;r++ ) {$(div[r]).hide();  }
+		$(p_div).show();
+		$('tab').value=p_div;
+	} catch(e)
+	{
+		alert(e.message)
+	}
+}

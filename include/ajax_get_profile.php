@@ -31,9 +31,15 @@ require_once 'class_profile_sql.php';
 require_once 'class_profile_menu.php';
 $profile=new Profile_sql($cn,$p_id);
 $gDossier=Dossier::id();
-$add_one=HtmlInput::button("add", "Ajout Menu","onclick=\"add_menu({dossier:$gDossier,p_id:$p_id})\"")
+$add_one=HtmlInput::button("add", "Ajout Menu","onclick=\"add_menu({dossier:$gDossier,p_id:$p_id})\"");
+echo HtmlInput::hidden('tab','');
 ?>
 <hr>
+<a href="javascript:void(0)" class="line" onclick="profile_show('profile_gen_div')"><?=_('Nom')?></a>&nbsp;
+<a href="javascript:void(0)" class="line" onclick="profile_show('profile_menu_div')"><?=_('Détail Menus')?></a>&nbsp;
+<a href="javascript:void(0)" class="line" onclick="profile_show('profile')"><?=_('Détail Impressions')?></a>&nbsp;
+<a href="javascript:void(0)" class="line" style="" onclick="profile_show('profile')"><?=_('Action Gestion')?> </a>&nbsp;
+<a href="javascript:void(0)" class="line" onclick="profile_show('profile')"><?=_('Dépôts')?></a>&nbsp;
 <h1>Profil <?=$profile->p_name?></h1>
 
 <?
@@ -45,7 +51,7 @@ $with_calc->set_check($profile->with_calc);
 
 $with_direct_form=new ICheckBox("with_direct_form","t");
 $with_direct_form->set_check($profile->with_direct_form);
-
+echo '<div style="display:none" id="profile_gen_div">';
 echo '<form method="POST" onsubmit="return confirm (\'vous confirmez\')">';
 echo HtmlInput::hidden('p_id',$profile->p_id);
 require_once("template/profile.php");
@@ -55,8 +61,7 @@ if ($profile->p_id > 0)
 {
 	echo '<form method="POST" onsubmit="return confirm (\'vous confirmez\')">';
 
-	echo '
-Vous pouvez aussi copier ce profil et puis le corriger';
+	echo 'Vous pouvez aussi copier ce profil et puis le corriger';
 
 	echo HtmlInput::hidden('p_id', $profile->p_id);
 	echo HtmlInput::submit("clone", "Copier");
@@ -64,27 +69,37 @@ Vous pouvez aussi copier ce profil et puis le corriger';
 
 	echo '<form method="POST" onsubmit="return confirm (\'vous confirmez\')">';
 
-	echo '
-Effacer ce profil';
+	echo 'Effacer ce profil';
 
 	echo HtmlInput::hidden('p_id', $profile->p_id);
 	echo HtmlInput::submit("delete_profil", "Effacer ce profil");
 	echo '</form>';
-
+        echo '</div>';
+        echo '<div style="display:none" id="profile_menu_div">';
 	//Menu / Module /plugin in this profile
-	echo "<h1> Détail du profile</h1>";
 	echo "<h2>Menu</h2>";
 	echo $add_one;
 	$profile_menu = new Profile_Menu($cn);
 	$profile_menu->listing_profile($p_id);
+        echo '<div>';
+        echo '<div style="display:none" id="profile_print_div">';
 	echo "<h2>Impression</h2>";
 	$profile_menu->printing($p_id);
 	echo $add_one;
+        echo '<div>';
+        echo '<div style="display:none" id="profile_gestion_div">';
 	echo "<h1>Action gestion accessible</h1>";
 	$profile_menu->available_profile($p_id);
+        echo '</div>';
+        echo '<div style="display:none" id="profile_repo_div">';
 	echo "<h1>Dépôt de stock accessible</h1>";
 	$profile_menu->available_repository($p_id);
+        echo '</div>';
 
+}
+else
+{
+        echo '</div>';
 }
 ?>
 
