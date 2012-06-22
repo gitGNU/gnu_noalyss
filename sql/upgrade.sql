@@ -467,3 +467,7 @@ CREATE INDEX quant_sold_jrn_fki
   ON quant_sold
   USING btree
   (qs_internal );
+
+
+create sequence uos_pk_seq;
+create table tool_uos (  uos_value bigint default nextval ('uos_pk_seq') primary key );
