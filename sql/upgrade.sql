@@ -471,3 +471,6 @@ CREATE INDEX quant_sold_jrn_fki
 
 create sequence uos_pk_seq;
 create table tool_uos (  uos_value bigint default nextval ('uos_pk_seq') primary key );
+
+update menu_ref set me_code='CFGCARD',me_file='cfgfiche.inc.php' where me_code='CARD';
+update menu_ref set me_code='CARD',me_file='fiche.inc.php' where me_code='PRINTCARD';
