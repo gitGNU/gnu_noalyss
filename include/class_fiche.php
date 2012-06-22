@@ -423,7 +423,7 @@ class Fiche
         $f=new Fiche_Def($this->cn,$p_fiche_def);
         $f->Get();
         $array=$f->getAttribut();
-        $r=h2($f->label,"");
+        $r=h2('Catégorie '.$f->label,"");
         $r.='<table style="width:98%;margin:1%">';
         foreach ($array as $attr)
         {
@@ -563,7 +563,7 @@ class Fiche
 		$type_card = $this->cn->get_value('select fd_label from fiche_def join fiche using (fd_id) where f_id=$1', array($this->id));
 		$ret = "";
 		$ret.=h2( "Catégorie ".$type_card, 'style="display:inline"');
-		$ret.='<span style="font-weight:bolder"> id fiche:' . $this->id . "</span>";
+		$ret.='<span style="font-weight:bolder;margin-right:5px"> id fiche:' . $this->id . "</span>";
 		$ret.="<table style=\"width:98%;margin:1%\">";
 		if (empty($attr))
 		{
