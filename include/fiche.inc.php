@@ -99,7 +99,7 @@ $array = Fiche::get_fiche_def($cn, $_GET['cat'], 'name_asc');
 
 $h_add_card_b = new IButton('add_card');
 $h_add_card_b->label = _('Créer une nouvelle fiche');
-$h_add_card_b->javascript = "dis_blank_card({gDossier:$gDossier,fd_id:$fd_id})";
+$h_add_card_b->javascript = "dis_blank_card({gDossier:$gDossier,fd_id:$fd_id,ref:2})";
 $str_add_card = ($g_user->check_action(FICADD) == 1) ? $h_add_card_b->input() : "";
 
 /*

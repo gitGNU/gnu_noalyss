@@ -125,7 +125,7 @@ div.u_tmenu div.u_tool {
 div.u_tool {
 	float:left;
 	width:  100%;
-	padding-bottom: 7px;
+	padding-bottom: 20px;
 	}
 div.u_tool div.name {
        float:left;
@@ -834,7 +834,7 @@ a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
 	border-style:  inset ;
 	color:red;
 	margin:1 2 1 2;
-        
+
 	}
 	td.tool {
 	border: solid 1px gray;

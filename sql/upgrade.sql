@@ -472,8 +472,9 @@ CREATE INDEX quant_sold_jrn_fki
 create sequence uos_pk_seq;
 create table tool_uos (  uos_value bigint default nextval ('uos_pk_seq') primary key );
 
--- update menu_ref set me_code='CFGCARD',me_file='cfgfiche.inc.php' where me_code='CARD';
--- update menu_ref set me_code='CARD',me_file='fiche.inc.php' where me_code='PRINTCARD';
--- update profile_menu set me_code='CARD' where me_code='CFGCARD';
--- update profile_menu set me_code='CFGCARD' , me_code_dep='PARAM' where me_code='CARD' and me_code_dep='PRINT';
--- update menu_ref set me_menu='Fiche',me_description='Liste,Balance,Historique par fiche' where me_code='CARD'
+update menu_ref set me_code='CFGCARD',me_file='cfgfiche.inc.php' where me_code='CARD';
+update menu_ref set me_code='CARD',me_file='fiche.inc.php' where me_code='PRINTCARD';
+update profile_menu set me_code='CARD' where me_code='CFGCARD';
+update profile_menu set me_code='CFGCARD' , me_code_dep='PARAM' where me_code='CARD' and me_code_dep='PRINT';
+update menu_ref set me_menu='Fiche',me_description='Liste,Balance,Historique par fiche' where me_code='CARD';
+update menu_ref set me_menu='Fiche',me_description='Configuration de catégorie de fiches' where me_code='CFGCARD';

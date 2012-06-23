@@ -470,7 +470,7 @@ function dis_blank_card(obj)
     if ( obj.elements &&  obj.elements['ref'] )
     {
         ref='&ref';
-    }
+    } 
     var content='div_new_card';
     var nTop=posY-40;
     var nLeft=posX-20;
