@@ -1,4 +1,5 @@
 <?php
+
 /*
  *   This file is part of PhpCompta.
  *
@@ -15,240 +16,345 @@
  *   You should have received a copy of the GNU General Public License
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/*!\file
+/* !\file
  * \brief printing of category of card  : balance, historic
  */
 include_once('class_database.php');
 include_once('class_fiche.php');
 require_once('class_lettering.php');
 
-$gDossier=dossier::id();
-$cn=new Database($gDossier);
-global $g_user,$g_failed;;
+$gDossier = dossier::id();
+$cn = new Database($gDossier);
+global $g_user, $g_failed;
+;
 
 /**
  * Show first the form
  */
 /* category */
-$categorie=new ISelect('cat');
-$categorie->value=$cn->make_array('select fd_id,fd_label from fiche_def order by fd_label');
-$categorie->selected=(isset($_GET['cat']))?$_GET['cat']:0;
-$str_categorie=$categorie->input();
+$categorie = new ISelect('cat');
+$categorie->value = $cn->make_array('select fd_id,fd_label from fiche_def order by fd_label');
+$categorie->selected = (isset($_GET['cat'])) ? $_GET['cat'] : 0;
+$str_categorie = $categorie->input();
 
-$icall=new ICheckBox("allcard",1);
-$icall->selected=(isset($_GET['allcard']))?1:0;
-$str_icall=$icall->input();
+$icall = new ICheckBox("allcard", 1);
+$icall->selected = (isset($_GET['allcard'])) ? 1 : 0;
+$str_icall = $icall->input();
 /* periode */
-$exercice=$g_user->get_exercice();
-$iperiode=new Periode($cn);
-list ($first,$last)=$iperiode->get_limit($exercice);
+$exercice = $g_user->get_exercice();
+$iperiode = new Periode($cn);
+list ($first, $last) = $iperiode->get_limit($exercice);
 
-$periode_start=new IDate('start');
-$periode_end=new IDate('end');
+$periode_start = new IDate('start');
+$periode_end = new IDate('end');
 
-$periode_start->value=(isset($_GET['start']))?$_GET['start']:$first->first_day();
-$periode_end->value=(isset($_GET['end']))?$_GET['end']:$last->last_day();
+$periode_start->value = (isset($_GET['start'])) ? $_GET['start'] : $first->first_day();
+$periode_end->value = (isset($_GET['end'])) ? $_GET['end'] : $last->last_day();
 
-$str_start=$periode_start->input();
-$str_end=$periode_end->input();
+$str_start = $periode_start->input();
+$str_end = $periode_end->input();
 
 /* histo ou summary */
-$histo=new ISelect('histo');
-$histo->value=array(
-                  array('value'=>0,'label'=>_('Historique')),
-                  array('value'=>1,'label'=>_('Historique Lettré')),
-                  array('value'=>6,'label'=>_('Historique Lettré et montants différents')),
-                  array('value'=>2,'label'=>_('Historique non Lettré')),
-                  array('value'=>3,'label'=>_('Résumé')),
-                  array('value'=>4,'label'=>_('Balance')),
-                  array('value'=>5,'label'=>_('Balance non soldée' ))
-              );
-$histo->javascript='onchange="if (this.value==3) {
+$histo = new ISelect('histo');
+$histo->value = array(
+	array('value' => -1, 'label' => _('Liste')),
+	array('value' => 0, 'label' => _('Historique')),
+	array('value' => 1, 'label' => _('Historique Lettré')),
+	array('value' => 6, 'label' => _('Historique Lettré et montants différents')),
+	array('value' => 2, 'label' => _('Historique non Lettré')),
+	array('value' => 3, 'label' => _('Résumé')),
+	array('value' => 4, 'label' => _('Balance')),
+	array('value' => 5, 'label' => _('Balance non soldée'))
+);
+$histo->javascript = 'onchange="if (this.value==3 || this.value==-1) {
                    g(&quot;trstart&quot;).style.display=&quot;none&quot;;g(&quot;trend&quot;).style.display=&quot;none&quot;;g(&quot;allcard&quot;).style.display=&quot;none&quot;;}
                    else  {g(&quot;trstart&quot;).style.display=&quot;&quot;;g(&quot;trend&quot;).style.display=&quot;&quot;;g(&quot;allcard&quot;).style.display=&quot;&quot;;}"';
 
-$histo->selected=(isset($_GET['histo']))?$_GET['histo']:3;
-$str_histo=$histo->input();
+$histo->selected = (isset($_GET['histo'])) ? $_GET['histo'] : -1;
+$str_histo = $histo->input();
 echo '<div class="content">';
 echo '<FORM method="GET">';
 echo dossier::hidden();
-echo HtmlInput::hidden('ac',$_GET['ac']);
+echo HtmlInput::hidden('ac', $_GET['ac']);
 require_once('template/impress_cat_card.php');
-echo HtmlInput::submit('cat_display',_('Recherche'));
+echo HtmlInput::submit('cat_display', _('Recherche'));
 echo '</FORM>';
-$str="if (g('histo').value==3) {
+$str = "if (g('histo').value==3 || g('histo').value== -1 ) {
      g('trstart').style.display='none';g('trend').style.display='none';g('allcard').style.display='none';}
-     else  {g('trstart').style.display='';g('trend').style.display='';g('allcard').style.display='';}";
+     else  {g('trstart').style.display='';g('trend').style.display='';g('allcard').style.display='';}
+	 if (  g('histo').value== -1 ) { g('allcard').style.display='';}
+
+	";
 echo create_script($str);
 echo '<hr>';
 //-----------------------------------------------------
-if ( ! isset($_GET['cat_display']))
-    exit();
+if (!isset($_GET['cat_display']))
+	exit();
 
-$array=Fiche::get_fiche_def($cn,$_GET['cat'],'name_asc');
+$fd_id = $_GET['cat'];
+$array = Fiche::get_fiche_def($cn, $_GET['cat'], 'name_asc');
+
+$h_add_card_b = new IButton('add_card');
+$h_add_card_b->label = _('Créer une nouvelle fiche');
+$h_add_card_b->javascript = "dis_blank_card({gDossier:$gDossier,fd_id:$fd_id})";
+$str_add_card = ($g_user->check_action(FICADD) == 1) ? $h_add_card_b->input() : "";
 
 /*
  * You show now the result
  */
-if ($array == null  )
+if ($array == null)
 {
-    echo '<h2 class="info2"> Aucune fiche trouvée</h2>';
-    exit();
+	echo '<h2 class="info2"> Aucune fiche trouvée</h2>';
+	echo $str_add_card;
+	exit();
 }
 
-$allcard=(isset($_GET['allcard']))?1:0;
-// summary
-if ( $_GET['histo'] == 3 )
+$allcard = (isset($_GET['allcard'])) ? 1 : 0;
+/* * *********************************************************************************************************************************
+ * Liste
+ *
+ * ******************************************************************************************************************************** */
+if ($_GET['histo'] == -1)
 {
-    $cat_card=new Fiche_Def($cn);
-    $cat_card->id=$_GET['cat'];
-    $aHeading=$cat_card->getAttribut();
-    require_once('template/result_cat_card_summary.php');
-
-    $hid=new IHidden();
-    echo '<form method="GET" ACTION="export.php">'.dossier::hidden().
-    HtmlInput::submit('bt_csv',"Export CSV").
-    HtmlInput::hidden('act',"CSV:fiche").
-    $hid->input("type","fiche").
-    $hid->input("ac",$_REQUEST['ac']).
-    $hid->input("fd_id",$_REQUEST['cat']);
-    echo "</form>";
-
-    exit();
-}
-$export_pdf='<FORM METHOD="get" ACTION="export.php" style="display:inline">';
-$export_pdf.=HtmlInput::hidden('cat',$_GET['cat']);
-$export_pdf.=HtmlInput::hidden('act',"PDF:fiche_balance").
-$export_pdf.=HtmlInput::hidden('start',$_GET['start']);
-$export_pdf.=HtmlInput::hidden('end',$_GET['end']);
-$export_pdf.=HtmlInput::hidden('histo',$_GET['histo']);
-$export_pdf.=HtmlInput::request_to_hidden(array('allcard'));
-$export_pdf.=dossier::hidden();
-$export_pdf.=HtmlInput::submit('pdf','Export en PDF');
-$export_pdf.='</FORM>';
-
-$export_print=HtmlInput::print_window();
-
-$export_csv='<FORM METHOD="get" ACTION="export.php" style="display:inline">';
-$export_csv.=HtmlInput::hidden('cat',$_GET['cat']);
-$export_csv.=HtmlInput::hidden('act','CSV:fiche_balance');
-$export_csv.=HtmlInput::hidden('start',$_GET['start']);
-$export_csv.=HtmlInput::hidden('end',$_GET['end']);
-$export_csv.=HtmlInput::hidden('histo',$_GET['histo']);
-$export_csv.=HtmlInput::request_to_hidden(array('allcard'));
-$export_csv.=dossier::hidden();
-$export_csv.=HtmlInput::submit('CSV','Export en CSV');
-$export_csv.='</FORM>';
-
-// Balance
-if ( $_GET['histo'] == 4 || $_GET['histo']==5 )
-{
-    if ( isDate($_REQUEST['start']) == null || isDate ($_REQUEST['end']) == null )
-    {
-        echo h2('Date invalide !','class="error"');
-        alert('Date invalide !');
-        exit;
-    }
-	echo $export_pdf;
-    echo $export_csv;
-	echo $export_print;
-
-    $fd=new Fiche_Def($cn,$_REQUEST['cat']);
-    if ( $allcard==0 && $fd->hasAttribute(ATTR_DEF_ACCOUNT) == false )
-    {
-      echo alert("Cette catégorie n'ayant pas de poste comptable n'a pas de balance");
-      exit;
-    }
-	// all card
-	if ($allcard==1)
+	$write = $g_user->check_action(FICADD);
+	/**
+	 * If ask for move or delete
+	 */
+	if (isset($_POST['action']))
 	{
-		$afiche=$cn->get_array("select fd_id from vw_fiche_def where ad_id=".ATTR_DEF_ACCOUNT." order by fd_label asc");
+		if ($write == 1)
+		{
+			$ack = $_POST['f_id'];
+			/**
+			 * Move
+			 */
+			if (isset($_POST['move']))
+			{
+				for ($i = 0; $i < count($ack); $i++)
+				{
+					$fiche = new Fiche($cn, $ack[$i]);
+					$fiche->move_to($_POST['move_to']);
+				}
+			}
+			/**
+			 * Delete
+			 */
+			if (isset($_POST['delete']))
+			{
+				$msg="";
+				for ($i = 0; $i < count($ack); $i++)
+				{
+					$fiche = new Fiche($cn, $ack[$i]);
+					if ( $fiche->remove(true) == 1 )
+					{
+						$msg.="\n ".$fiche->strAttribut(ATTR_DEF_QUICKCODE);
+					}
+				}
+				if ($msg != "")
+				{
+					echo h2("Fiche non effacées", ' class="error"  ');
+					echo '<p class="error">'." Ces fiches n'ont pas été effacées  ".$msg;
+				}
+			}
+		}
+		else
+		{
+			echo NoAccess();
+		}
+	}
+	$sql = "select f_id from fiche ";
+	if ($allcard == 1)
+	{
+		$cond = "";
 	}
 	else
 	{
-		$afiche[0]=array('fd_id'=>$_REQUEST['cat']);
+		$cond = " where fd_id = " . sql_string($_GET['cat']);
+	}
+	// Create nav bar
+	$max = $cn->get_value("select count(*) from fiche " . $cond);
+
+	$step = $_SESSION['g_pagesize'];
+	$page = (isset($_GET['offset'])) ? $_GET['page'] : 1;
+	$offset = (isset($_GET['offset'])) ? $_GET['offset'] : 0;
+	$bar = navigation_bar($offset, $max, $step, $page);
+	$limit = ($step == -1 ) ? "" : " limit " . $step;
+	$res = $cn->exec_sql("
+		select f_id,
+			(select ad_value from fiche_detail as fd1 where ad_id=1 and fd1.f_id=f.f_id) as name,
+			(select ad_value from fiche_detail as fd1 where ad_id=23 and fd1.f_id=f.f_id) as qcode
+		from fiche as f
+		$cond   order by 1 offset $offset $limit
+	");
+	$nb_line = Database::num_row($res);
+	require_once 'template/fiche_list.php';
+	if ($write == 1 ) echo $str_add_card;
+	exit();
+}
+/* * *********************************************************************************************************************************
+ * Summary
+ *
+ * ******************************************************************************************************************************** */
+if ($_GET['histo'] == 3)
+{
+	$cat_card = new Fiche_Def($cn);
+	$cat_card->id = $_GET['cat'];
+	$aHeading = $cat_card->getAttribut();
+	echo $str_add_card;
+	require_once('template/result_cat_card_summary.php');
+
+	$hid = new IHidden();
+	echo '<form method="GET" ACTION="export.php">' . dossier::hidden() .
+	HtmlInput::submit('bt_csv', "Export CSV") .
+	HtmlInput::hidden('act', "CSV:fiche") .
+	$hid->input("type", "fiche") .
+	$hid->input("ac", $_REQUEST['ac']) .
+	$hid->input("fd_id", $_REQUEST['cat']);
+	echo "</form>";
+
+	exit();
+}
+$export_pdf = '<FORM METHOD="get" ACTION="export.php" style="display:inline">';
+$export_pdf.=HtmlInput::hidden('cat', $_GET['cat']);
+$export_pdf.=HtmlInput::hidden('act', "PDF:fiche_balance") .
+		$export_pdf.=HtmlInput::hidden('start', $_GET['start']);
+$export_pdf.=HtmlInput::hidden('end', $_GET['end']);
+$export_pdf.=HtmlInput::hidden('histo', $_GET['histo']);
+$export_pdf.=HtmlInput::request_to_hidden(array('allcard'));
+$export_pdf.=dossier::hidden();
+$export_pdf.=HtmlInput::submit('pdf', 'Export en PDF');
+$export_pdf.='</FORM>';
+
+$export_print = HtmlInput::print_window();
+
+$export_csv = '<FORM METHOD="get" ACTION="export.php" style="display:inline">';
+$export_csv.=HtmlInput::hidden('cat', $_GET['cat']);
+$export_csv.=HtmlInput::hidden('act', 'CSV:fiche_balance');
+$export_csv.=HtmlInput::hidden('start', $_GET['start']);
+$export_csv.=HtmlInput::hidden('end', $_GET['end']);
+$export_csv.=HtmlInput::hidden('histo', $_GET['histo']);
+$export_csv.=HtmlInput::request_to_hidden(array('allcard'));
+$export_csv.=dossier::hidden();
+$export_csv.=HtmlInput::submit('CSV', 'Export en CSV');
+$export_csv.='</FORM>';
+
+/********************************************************************************************************************************
+ * Balance
+ *
+ **********************************************************************************************************************************/
+if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
+{
+	if (isDate($_REQUEST['start']) == null || isDate($_REQUEST['end']) == null)
+	{
+		echo h2('Date invalide !', 'class="error"');
+		alert('Date invalide !');
+		exit;
+	}
+	echo $str_add_card;
+	echo $export_pdf;
+	echo $export_csv;
+	echo $export_print;
+
+	$fd = new Fiche_Def($cn, $_REQUEST['cat']);
+	if ($allcard == 0 && $fd->hasAttribute(ATTR_DEF_ACCOUNT) == false)
+	{
+		echo alert("Cette catégorie n'ayant pas de poste comptable n'a pas de balance");
+		exit;
+	}
+	// all card
+	if ($allcard == 1)
+	{
+		$afiche = $cn->get_array("select fd_id from vw_fiche_def where ad_id=" . ATTR_DEF_ACCOUNT . " order by fd_label asc");
+	}
+	else
+	{
+		$afiche[0] = array('fd_id' => $_REQUEST['cat']);
 	}
 
-	for ($e=0;$e<count($afiche);$e++)
+	for ($e = 0; $e < count($afiche); $e++)
 	{
-		$ret=$cn->exec_sql("select f_id,ad_value from fiche join fiche_detail using(f_id) where fd_id=$1 and ad_id=1 order by 2 ",array($afiche[$e]['fd_id']));
-		if ( $cn->count()==0 )
+		$ret = $cn->exec_sql("select f_id,ad_value from fiche join fiche_detail using(f_id) where fd_id=$1 and ad_id=1 order by 2 ", array($afiche[$e]['fd_id']));
+		if ($cn->count() == 0)
 		{
-			if ( $allcard==0) {
+			if ($allcard == 0)
+			{
 				echo "Aucune fiche trouvée";
 				exit;
 			} else
 				continue;
 		}
-		echo '<h2>'.$cn->get_value("select fd_label from fiche_def where fd_id=$1",array($afiche[$e]['fd_id'])).'</h2>';
+		echo '<h2>' . $cn->get_value("select fd_label from fiche_def where fd_id=$1", array($afiche[$e]['fd_id'])) . '</h2>';
 		echo '<table class="result" style="width:80%;margin-left:10%">';
 		echo tr(
-			th('Quick Code').
-			th('Libellé').
-			th('Débit','style="text-align:right"').
-			th('Crédit','style="text-align:right"').
-			th('Solde','style="text-align:right"').
-			th('D/C','style="text-align:right"')
+				th('Quick Code') .
+				th('Libellé') .
+				th('Débit', 'style="text-align:right"') .
+				th('Crédit', 'style="text-align:right"') .
+				th('Solde', 'style="text-align:right"') .
+				th('D/C', 'style="text-align:right"')
 		);
-		$idx=0;
-		for ($i=0;$i < Database::num_row($ret);$i++)
+		$idx = 0;
+		for ($i = 0; $i < Database::num_row($ret); $i++)
 		{
-			$filter= " (j_date >= to_date('".$_REQUEST['start']."','DD.MM.YYYY') ".
-					 " and  j_date <= to_date('".$_REQUEST['end']."','DD.MM.YYYY')) ";
-			$aCard=Database::fetch_array($ret,$i);
-			$oCard=new Fiche($cn,$aCard['f_id']);
-			$solde=$oCard->get_solde_detail($filter);
-			if ( $solde['debit'] == 0 && $solde['credit']==0) continue;
-		/* only not purged card */
-		if ($_GET['histo'] == 5 && $solde['debit'] == $solde['credit']) continue;
-			$class='';
-			if ( $idx%2 == 0) $class='class="odd"';
+			$filter = " (j_date >= to_date('" . $_REQUEST['start'] . "','DD.MM.YYYY') " .
+					" and  j_date <= to_date('" . $_REQUEST['end'] . "','DD.MM.YYYY')) ";
+			$aCard = Database::fetch_array($ret, $i);
+			$oCard = new Fiche($cn, $aCard['f_id']);
+			$solde = $oCard->get_solde_detail($filter);
+			if ($solde['debit'] == 0 && $solde['credit'] == 0)
+				continue;
+			/* only not purged card */
+			if ($_GET['histo'] == 5 && $solde['debit'] == $solde['credit'])
+				continue;
+			$class = '';
+			if ($idx % 2 == 0)
+				$class = 'class="odd"';
 			$idx++;
 			echo tr(
-				td(HtmlInput::history_card($oCard->id,$oCard->strAttribut(ATTR_DEF_QUICKCODE))).
-				td($oCard->strAttribut(ATTR_DEF_NAME)).
-				td(nbm($solde['debit']),'style="text-align:right"').
-				td(nbm($solde['credit']),'style="text-align:right"').
-				td(nbm(abs($solde['solde'])),'style="text-align:right"').
-				td((($solde['debit']<$solde['credit'])?'CRED':'DEB'),'style="text-align:right"'),
-				$class
+					td(HtmlInput::history_card($oCard->id, $oCard->strAttribut(ATTR_DEF_QUICKCODE))) .
+					td($oCard->strAttribut(ATTR_DEF_NAME)) .
+					td(nbm($solde['debit']), 'style="text-align:right"') .
+					td(nbm($solde['credit']), 'style="text-align:right"') .
+					td(nbm(abs($solde['solde'])), 'style="text-align:right"') .
+					td((($solde['debit'] < $solde['credit']) ? 'CRED' : 'DEB'), 'style="text-align:right"'), $class
 			);
-
 		}
 		echo '</table>';
 	}
-    echo $export_pdf;
-    echo $export_csv;
-    echo $export_print;
+	echo $str_add_card;
+	echo $export_pdf;
+	echo $export_csv;
+	echo $export_print;
 
-    exit();
+	exit();
 }
-if ( isDate($_REQUEST['start']) == null || isDate ($_REQUEST['end']) == null )
+if (isDate($_REQUEST['start']) == null || isDate($_REQUEST['end']) == null)
 {
-	echo h2('Date invalide !','class="error"');
-    alert('Date invalide !');
-    exit;
+	echo h2('Date invalide !', 'class="error"');
+	alert('Date invalide !');
+	exit;
 }
-//----------------------------------------------------------------------------
-// for the lettering / history
-//----------------------------------------------------------------------------
-
+/***********************************************************************************************************************************
+ * Lettering
+ *
+ **********************************************************************************************************************************/
 // all card
-if ($allcard==1)
+if ($allcard == 1)
 {
-	$afiche=$cn->get_array("select fd_id from vw_fiche_def where ad_id=".ATTR_DEF_ACCOUNT." order by fd_label asc");
+	$afiche = $cn->get_array("select fd_id from vw_fiche_def where ad_id=" . ATTR_DEF_ACCOUNT . " order by fd_label asc");
 }
 else
 {
-	$afiche[0]=array('fd_id'=>$_REQUEST['cat']);
+	$afiche[0] = array('fd_id' => $_REQUEST['cat']);
 }
+echo $str_add_card;
 echo $export_csv;
 echo $export_pdf;
 echo $export_print;
-$fiche=new Fiche($cn);
+$fiche = new Fiche($cn);
 for ($e = 0; $e < count($afiche); $e++)
 {
 	$array = Fiche::get_fiche_def($cn, $afiche[$e]['fd_id'], 'name_asc');
@@ -276,7 +382,7 @@ for ($e = 0; $e < count($afiche); $e++)
 		{
 			$letter->get_unletter();
 		}
-		if ( $_GET['histo'] == 6 )
+		if ($_GET['histo'] == 6)
 		{
 			$letter->get_letter_diff();
 		}
@@ -285,7 +391,7 @@ for ($e = 0; $e < count($afiche); $e++)
 			continue;
 		$detail_card = HtmlInput::card_detail($row->strAttribut(ATTR_DEF_QUICKCODE), $row->strAttribut(ATTR_DEF_NAME));
 
-		echo '<h2 style="font-size:14px;text-align:left;margin-left:10;padding-left:50;border:solid 1px blue;width:25%;text-decoration:underline">' . $detail_card . '</h2>';
+		echo '<h2 style="font-size:14px;text-align:left;margin-left:10;padding-left:50;border:solid 1px blue;width:50%;text-decoration:underline">' . $detail_card . '</h2>';
 
 		echo '<table style="width:80%;padding-left:10%;padding-right:10%">';
 		echo '<tr>';
@@ -326,14 +432,15 @@ for ($e = 0; $e < count($afiche); $e++)
 				$amount_cred+=$row['j_montant'];
 				$prog = bcsub($prog, $row['j_montant']);
 			}
-			$side="&nbsp;".$fiche->get_amount_side($prog);
-			echo td(nbm($prog).$side, 'style="text-align:right"');
+			$side = "&nbsp;" . $fiche->get_amount_side($prog);
+			echo td(nbm($prog) . $side, 'style="text-align:right"');
 			if ($row['letter'] != -1)
-				{
-				$span_error="";
-				if ( $row['letter_diff'] != 0 ) $span_error=$g_failed;
-				echo td($row['letter'].$span_error);
-				}
+			{
+				$span_error = "";
+				if ($row['letter_diff'] != 0)
+					$span_error = $g_failed;
+				echo td($row['letter'] . $span_error);
+			}
 			else
 				echo td('');
 			echo '</tr>';
@@ -359,10 +466,9 @@ for ($e = 0; $e < count($afiche); $e++)
 		echo '</table>';
 	}
 }
+echo $str_add_card;
 echo $export_csv;
 echo $export_pdf;
 echo $export_print;
-
-
 ?>
 

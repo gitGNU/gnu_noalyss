@@ -563,7 +563,7 @@ class Fiche
 		$type_card = $this->cn->get_value('select fd_label from fiche_def join fiche using (fd_id) where f_id=$1', array($this->id));
 		$ret = "";
 		$ret.=h2( "Catégorie ".$type_card, 'style="display:inline"');
-		$ret.='<span style="font-weight:bolder;margin-right:5px"> id fiche:' . $this->id . "</span>";
+		$ret.='<span style="font-weight:bolder;margin-right:5px;float:right"> id fiche:' . $this->id . "</span>";
 		$ret.="<table style=\"width:98%;margin:1%\">";
 		if (empty($attr))
 		{
@@ -1019,7 +1019,7 @@ class Fiche
     }
     /*!\brief  remove a card
     */
-    function remove()
+    function remove($silent=false)
     {
         if ( $this->id==0 ) return;
         // verify if that card has not been used is a ledger
@@ -1034,11 +1034,14 @@ class Fiche
 
         if ( $this->cn->count_sql("select * from jrnx where j_qcode='".Database::escape_string($qcode)."'") != 0)
         {
-            alert('Impossible cette fiche est utilisée dans un journal');
-            return;
+            if ( ! $silent ) {
+					alert('Impossible cette fiche est utilisée dans un journal');
+			}
+            return 1;
         }
 
         $this->delete();
+		return 0;
     }
 
 

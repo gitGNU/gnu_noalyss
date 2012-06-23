@@ -452,18 +452,22 @@ function select_card_type(obj)
 }
 /**
  *@brief Show a blank card
- *@param Form object (obj) it must have the attribute ipopup
+ *@param Form object (obj)
  *       possible attribute :
  *        - filter is the filter but with a  fd_id list, -1 means there  is no filter
  *        - ref : reload the window after adding card
+ *        - content : name of the div
+ *@example dis_blank_card({gDossier:15,fd_id:12,ref:1});
  *@see ajax_card.php
  */
 function dis_blank_card(obj)
 {
     // first we have to take the form elt we need
-    var fd_id=$F('fd_id');
+    if ( obj.fd_id == undefined ) { var fd_id=$F('fd_id'); }
+	else {fd_id=obj.fd_id;}
+
     var ref="";
-    if ( obj.elements['ref'] )
+    if ( obj.elements &&  obj.elements['ref'] )
     {
         ref='&ref';
     }
@@ -476,8 +480,10 @@ function dis_blank_card(obj)
     if ( $(content)) {removeDiv(content);}
     add_div(popup);
 
-
-    var dossier=$('gDossier').value;
+	if ( obj.gDossier == undefined ) {
+    var dossier=$('gDossier').value;} else {
+	var dossier=obj.gDossier;
+	}
 
     var queryString='gDossier='+dossier;
     queryString+='&ctl='+content;
@@ -494,6 +500,37 @@ function dis_blank_card(obj)
                                   }
                                 );
 }
+function form_blank_card(obj)
+{
+    // first we have to take the form elt we need
+    var fd_id=obj.fd_id;
+    var content='div_new_card';
+    var nTop=posY-40;
+    var nLeft=posX-20;
+    var str_style="top:"+nTop+";left:"+nLeft+";width:60em;height:auto";
+
+    var popup={'id':  content,'cssclass':'inner_box','style':str_style,'html':loading(),'drag':true};
+    if ( $(content)) {removeDiv(content);}
+    add_div(popup);
+
+
+    var dossier=$('gDossier').value;
+
+    var queryString='gDossier='+dossier;
+    queryString+='&ctl='+content;
+    queryString+='&fd_id='+fd_id;
+    queryString+='&op=bc'; 	// bc for blank card
+
+    var action=new Ajax.Request ( 'ajax_card.php',
+                                  {
+                                  method:'get',
+                                  parameters:queryString,
+                                  onFailure:errorFid,
+                                  onSuccess:successFill_ipopcard
+                                  }
+                                );
+}
+
 /**
  *@brief save the data contained into the form 'save_card'
  *@param input field (obj) it must have the attribute ipopup

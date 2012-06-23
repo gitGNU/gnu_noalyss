@@ -1,5 +1,5 @@
 body {
-	font-size:7pt
+	font-size:7px;
 	}
 select ,.input_text{
 border:1px solid #FFFFFF;
@@ -21,27 +21,29 @@ div.recherche_form {
 	display:none;
 	}
 table.result {
-	font-size:7pt;
+	font-size:7px;
 	font-family:sans-serif;
 	width:100%
   }
 
 table.result th {
-	font-size:7pt;
+	font-size:7px;
 	font-family:sans-serif;
 }
 
 h2 {
-	font-size:12pt;
+	font-size:12px;
 	font-weight:bold;
 	font-family:sans-serif;
 }
 div.info {
 	display:none;
 }
-
-h1,h2.info {
-	font-size:14pt;
+.content  {
+	font-size:7px;
+}
+h1.content,h1,h2.info {
+	font-size:14px;
 	font-weight:bold;
 	font-family:sans-serif;
 }
@@ -89,20 +91,20 @@ div.debit{
 	display:none;
 }
 div.recherche{
-	font-size:7pt;
+	font-size:7px;
 	font-family:sans-serif;
 }
 div.redcontent{
-	font-size:7pt;
+	font-size:7px;
 	font-family:sans-serif;
 
 }
 div.redcontent{
-	font-size:7pt;
+	font-size:7px;
 	font-family:sans-serif;
 }
 div.ccontent{
-	font-size:7pt;
+	font-size:7px;
 	font-family:sans-serif;
 }
 div.rmenu {
@@ -138,24 +140,24 @@ span.even {
  }
 
 tr.odd {
-	font-size:7pt;
+	font-size:7px;
 	font-family:sans-serif;
 }
 tr {
-	font-size:7pt;
+	font-size:7px;
 	font-family:sans-serif;
 	}
 tr.even {
 
-	font-size:7pt;
+	font-size:7px;
 	font-family:sans-serif;
 }
 td.odd{
-	font-size:7pt;
+	font-size:7px;
 	font-family:sans-serif;
 }
 td.even{
-	font-size:7pt;
+	font-size:7px;
 	font-family:sans-serif;
 }
 td.cell{
@@ -226,7 +228,7 @@ table.doc {
 }
 a.detail
 {
-font-size:8pt;
+font-size:8px;
 font-family:sans-serif;
 }
 

@@ -402,7 +402,6 @@ if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) )
         $fiche_def->Get();
         echo '<h2 class="info">'.$fiche_def->label.'</h2>';
         $fiche=new Fiche($cn,0);
-		var_dump($_SERVER);
         echo '<form method="post" >';
         echo dossier::hidden();
 		echo HtmlInput::hidden('ac',$_REQUEST['ac']);
@@ -421,7 +420,7 @@ if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) )
 // delete a card
 if (isset($_POST['delete']) )
 {
-    $g_user->can_request(FIC);
+    $g_user->can_request(FICADD);
     ShowRecherche();
     echo '<DIV class="redcontent" style="width:auto">';
     if ( $write ==0)

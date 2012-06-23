@@ -147,7 +147,7 @@ class Database
             }
             if ( ! $this->ret )
             {
-		$str_error=pg_last_error($this->db). pg_result_error($this->db);
+				$str_error=pg_last_error($this->db). pg_result_error($this->ret);
                 throw new Exception ("  SQL ERROR $p_string ".$str_error,1 );
             }
 
