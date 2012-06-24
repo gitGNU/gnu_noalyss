@@ -62,8 +62,8 @@ $f=new Fiche($cn,$_REQUEST['f_id']);
 echo '<div class="content">';
 echo ShowItem(array(
                   array($root."&sc=dc",_('Fiche'),_('Détail de la fiche'),1),
-                  array($root.'&sc=sv',_('Suivi'),_('Suivi Fournisseur, devis, bon de commande, courrier'),2),
-                  array($root.'&sc=cn',_('Contact'),_('Liste de contacts de ce fournisseur'),3),
+                  array($root.'&sc=sv',_('Suivi'),_('Suivi Fournisseur, client, banque, devis, bon de commande, courrier'),2),
+                  array($root.'&sc=cn',_('Contact'),_('Liste de contacts'),3),
                   array($root.'&sc=op',_('Opérations'),_('Toutes les opérations'),4),
                   array($root.'&sc=bal',_('Balance'),_('Balance du fournisseur'),7),
                   array($root.'&sc=let',_('Lettrage'),_('Opérations & Lettrages'),6)
