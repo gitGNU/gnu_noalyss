@@ -167,16 +167,16 @@ if (isset($_POST['delete_profil']))
 		$cn->start();
 		if ($p_id == 1)
 		{
-			throw new Exception('On ne peut effacer le profil par défaut');
+			throw new Exception('On ne peut pas effacer le profil par défaut');
 		}
 		$new_id = $cn->get_value("delete from profile
 			where p_id=$1 ", array($p_id));
 		$cn->commit();
+
 	}
 	catch (Exception $exc)
 	{
 		echo alert($exc->getMessage());
-		;
 		$cn->rollback();
 	}
 }
@@ -346,4 +346,8 @@ if (isset($_POST['p_id']))
 	require_once 'ajax_get_profile.php';
 }
 echo '</div>';
+if ( isset($_POST['delete_profil'] ))
+{
+	echo create_script(" $('detail_profile').hide()");
+}
 ?>
