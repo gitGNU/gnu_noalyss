@@ -28,6 +28,10 @@
  */
 require_once('class_fiche_def.php');
 require_once 'class_tool_uos.php';
+global $g_user;
+
+$g_user->can_request(FICCAT,0);
+
 $fd=new Fiche_Def($cn,$_GET['id']);
 if ( $_GET['id'] > 0 )
 {
@@ -38,6 +42,6 @@ if ( $_GET['id'] > 0 )
 else
 {
 	$fd->input_new();
-	
+
 }
 ?>
