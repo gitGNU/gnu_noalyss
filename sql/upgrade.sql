@@ -244,6 +244,7 @@ COMMENT ON COLUMN stock_repository.r_phone  IS 'Phone number';
 
 insert into stock_repository(r_name) values ('Dépôt par défaut');
 
+
 CREATE TABLE profile_sec_repository
 (
   ur_id bigserial NOT NULL, -- pk
@@ -269,6 +270,9 @@ alter table stock_goods add r_id bigint;
 alter table profile_sec_repository add constraint profile_sec_repository_r_id_p_id_u unique (r_id,p_id);
 alter table user_sec_action_profile add constraint user_sec_action_profile_p_id_p_granted_u unique (p_id,p_granted);
 update stock_goods set r_id=1;
+
+insert into profile_sec_repository (p_id,r_id,ur_right) select p_id,1,'W' from profile where p_id > 0;
+
 CREATE INDEX fk_stock_good_repository_r_id  ON stock_goods  (r_id );
 alter table action_gestion drop ag_cal;
 
