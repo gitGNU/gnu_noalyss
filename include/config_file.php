@@ -43,7 +43,7 @@ function is_unix()
 
 /*!\brief
  *\param array with the index
- *  - ctmp temporary folder 
+ *  - ctmp temporary folder
  *  - cpath path to postgresql
  *  - cuser postgresql user
  *  - cpasswd password of cuser
@@ -77,12 +77,12 @@ function config_file_form($p_array=null)
     $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
     $r.='<br>';
 
-    $r.='D&eacute;sactivation changement de langue: ';
+    $r.='D&eacute;sactivation changement de langue: 1 activé, 0 désactivé ';
     $text->title='D&eacute;sactiver le changement de langue (requis pour MacOSX';
     $r.=$text->input('clocale',$clocale);
     $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
     $r.='<br>';
-    
+
     $r.='Chemin complet vers les executable de Postgresql : ';
     $text->title='Le chemin vers le repertoire contenant psql, pg_dump...';
     $r.=$text->input('cpath',$cpath);
@@ -149,7 +149,7 @@ function config_file_create($p_array,$from_setup=1,$os=1)
 
     fputs($hFile, 'define ("locale",'.$clocale.');');
     fputs($hFile,"\r\n");
-    
+
     fputs($hFile, 'define ("domaine","");');
     fputs($hFile,"\r\n");
     fputs($hFile,'?>');
