@@ -85,7 +85,7 @@ class Print_Ledger_Financial extends PDF
             $this->Cell(20,5,$row['internal']);
 
             $name=$this->ledger->get_tiers($this->jrn_type,$row['id']);
-            $this->Cell(40,5,$name,0,0);
+            $this->LongLine(40,5,$name,0,'L');
 
 
             $this->LongLine(105,5,$row['comment'],0,'L');
