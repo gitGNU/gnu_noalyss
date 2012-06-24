@@ -241,20 +241,20 @@ class Profile_Menu
 			$array=$this->cn->get_array("
 					select p.r_id,p.r_name,s.ur_id,s.ur_right
 						from stock_repository as p
-						join user_sec_repository as s on (s.r_id=p.r_id)
+						join profile_sec_repository as s on (s.r_id=p.r_id)
 						where s.p_id=$1
 					union
 						select p2.r_id, p2.r_name,null,'X'
 						from stock_repository as p2
 						where
-						p2.r_id not in (select r_id from user_sec_repository where p_id = $1) order by r_name;
+						p2.r_id not in (select r_id from profile_sec_repository where p_id = $1) order by r_name;
 				",array($p_id));
 			$aright_value=array(
 								array('value'=>'R','label'=>_('Lecture')),
 								array('value'=>'W','label'=>_('Ecriture')),
 								array('value'=>'X','label'=>_('Aucun accès'))
 					);
-			require_once 'template/user_sec_repository.php';
+			require_once 'template/profile_sec_repository.php';
 		}
 	}
 	//end class

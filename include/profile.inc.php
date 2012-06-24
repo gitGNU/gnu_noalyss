@@ -71,17 +71,17 @@ if (isset($_POST['change_stock']))
 				continue;
 			if ($right[$e] == 'X' && $ur_id[$e]!='')
 			{
-				$cn->exec_sql("delete from user_sec_repository where p_id=$1 and r_id=$2", array($p_id, $ar_id[$e]));
+				$cn->exec_sql("delete from profile_sec_repository where p_id=$1 and r_id=$2", array($p_id, $ar_id[$e]));
 				continue;
 			}
 			if ($ur_id[$e] == "")
 			{
-				$cn->exec_sql("insert into user_sec_repository (p_id,r_id,ur_right) values($1,$2,$3)", array($p_id, $ar_id[$e], $right[$e]));
+				$cn->exec_sql("insert into profile_sec_repository (p_id,r_id,ur_right) values($1,$2,$3)", array($p_id, $ar_id[$e], $right[$e]));
 				continue;
 			}
 			if ($ur_id[$e] != '')
 			{
-				$cn->exec_sql("update user_sec_repository set ur_right=$3 where  p_id=$1 and r_id=$2 ", array($p_id, $ar_id[$e], $right[$e]));
+				$cn->exec_sql("update profile_sec_repository set ur_right=$3 where  p_id=$1 and r_id=$2 ", array($p_id, $ar_id[$e], $right[$e]));
 				continue;
 			}
 		}

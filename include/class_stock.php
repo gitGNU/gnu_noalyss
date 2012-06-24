@@ -181,7 +181,7 @@ class Stock extends Stock_Sql
 			left join jrnx as jx on (sg.j_id=jx.j_id)
 			left join jrn as j on (j.jr_grpt_id=jx.j_grpt)
 			where
-			sg.r_id in (select r_id from user_sec_repository where p_id = $profile)";
+			sg.r_id in (select r_id from profile_sec_repository where p_id = $profile)";
 		$and = " and ";
 		$clause = "";
 		if (isset($p_array['wdate_start']) && $p_array['wdate_start'] != '')
@@ -294,7 +294,7 @@ class Stock extends Stock_Sql
 					full join stock_out as so on (si.sg_code=so.sg_code and sg.r_id=so.r_id)
 				where
 				(si.sg_code is not null or so.sg_code is not null)
-				 and sg.r_id  in (select r_id from user_sec_repository where p_id=$1)
+				 and sg.r_id  in (select r_id from profile_sec_repository where p_id=$1)
 
 			";
 		$end_date = $cn->get_value("select to_char(max(p_end),'DD.MM.YYYY') from parm_periode");

@@ -46,7 +46,7 @@ if ( isset($_POST['del']))
 $profile=$g_user->get_profile();
 $a_change=$cn->get_array("select *,to_char(c_date,'DD.MM.YY') as str_date from stock_change as sc
 			join stock_repository as sr on (sc.r_id=sr.r_id)
-			where sc.r_id in (select r_id from user_sec_repository where p_id=$profile)
+			where sc.r_id in (select r_id from profile_sec_repository where p_id=$profile)
 		order by c_date");
 $gDossier=dossier::id();
 ?>

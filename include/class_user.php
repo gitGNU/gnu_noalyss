@@ -802,7 +802,7 @@ class User
 		{
 			$r=$this->db->get_array("select u.r_id,r_name
                 from
-					user_sec_repository as u
+					profile_sec_repository as u
 					join stock_repository as s on(u.r_id=s.r_id)
                 where
                 p_id =$1
@@ -814,7 +814,7 @@ class User
 		{
 			 $r=$this->db->get_array("select u.r_id,r_name
                 from
-					user_sec_repository as u
+					profile_sec_repository as u
 					join stock_repository as s on(u.r_id=s.r_id)
                 where
                 p_id =$1 order by 2
@@ -1105,7 +1105,7 @@ class User
         {
             $profile=$this->get_profile();
             $r=$this->db->get_value("select count(*)
-                from user_sec_repository
+                from profile_sec_repository
                 where
                 r_id=$1
                 and p_id =$2
@@ -1123,7 +1123,7 @@ class User
         {
             $profile=$this->get_profile();
             $r=$this->db->get_value("select count(*)
-                from user_sec_repository
+                from profile_sec_repository
                 where
                 r_id=$1
                 and p_id =$2

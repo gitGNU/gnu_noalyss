@@ -640,7 +640,7 @@ class HtmlInput
 			{
 			  $sel->value=$p_cn->make_array("
                 select r_id,r_name
-				  from stock_repository join user_sec_repository using (r_id)
+				  from stock_repository join profile_sec_repository using (r_id)
                 where
                  ur_right='W' and  p_id=".sql_string($profile).
                 " order by 2" );
@@ -650,7 +650,7 @@ class HtmlInput
 			{
 			  $sel->value=$p_cn->make_array("
                 select r_id,r_name
-				  from stock_repository join user_sec_repository using (r_id)
+				  from stock_repository join profile_sec_repository using (r_id)
                 where
                   p_id=".sql_string($profile).
                 " order by 2" );
