@@ -1609,6 +1609,7 @@ function detail_category_show(p_div,p_dossier,p_id)
 {
 	$(p_div).show();
 	waiting_box();
+	$('detail_category_div').innerHTML="";
 	var queryString="gDossier="+p_dossier+"&id="+p_id+"&op=fddetail";
 	var action = new Ajax.Request(
 				  "ajax_misc.php" ,
