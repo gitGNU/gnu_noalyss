@@ -463,14 +463,15 @@ function select_card_type(obj)
 function dis_blank_card(obj)
 {
     // first we have to take the form elt we need
-    if ( obj.fd_id == undefined ) { var fd_id=$F('fd_id'); }
+    if ( obj.fd_id.value != undefined )
+		{ var fd_id=$F('fd_id'); }
 	else {fd_id=obj.fd_id;}
 
     var ref="";
     if ( obj.elements &&  obj.elements['ref'] )
     {
         ref='&ref';
-    } 
+    }
     var content='div_new_card';
     var nTop=posY-40;
     var nLeft=posX-20;
@@ -480,7 +481,7 @@ function dis_blank_card(obj)
     if ( $(content)) {removeDiv(content);}
     add_div(popup);
 
-	if ( obj.gDossier == undefined ) {
+	if ( obj.gDossier.value != undefined ) {
     var dossier=$('gDossier').value;} else {
 	var dossier=obj.gDossier;
 	}
