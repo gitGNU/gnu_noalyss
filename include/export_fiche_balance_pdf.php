@@ -194,7 +194,7 @@ else
 
 			$pdf->Cell($tab[0], 7, 'Date');
 			$pdf->Cell($tab[1], 7, 'ref');
-			$pdf->Cell($tab[2], 7, 'Int.');
+			$pdf->Cell($tab[2], 7, 'Internal');
 			$pdf->Cell($tab[3], 7, 'Comm');
 			$pdf->Cell($tab[4], 7, 'Montant', 0, 0, 'C');
 			$pdf->Cell($tab[5], 7, 'Prog.', 0, 0, 'R');
