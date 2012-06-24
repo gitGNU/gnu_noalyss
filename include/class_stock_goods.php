@@ -75,7 +75,7 @@ class Stock_Goods extends Stock_Goods_Sql
 			$sg_code[$e]->setReadOnly($p_readonly);
 			$sg_quantity[$e]->setReadOnly($p_readonly);
 		}
-//		require_once 'template/stock_inv.php';
+		require_once 'template/stock_inv.php';
 	}
 
 	function save($p_array)
@@ -123,19 +123,20 @@ class Stock_Goods extends Stock_Goods_Sql
 	}
         /**
          * Insert into stock_goods from ACH and VEN
-         * @param type $p_array KEY : db => database conx, j_id => jrnx.j_id,goods=> f_id of the goods 
+         * @param type $p_array KEY : db => database conx, j_id => jrnx.j_id,goods=> f_id of the goods
          * 'quant' => quantity ,'dir'=> d or c (c for sales OUT and d for purchase IN),'repo'=>r_id of the
          * repository (stock_repository.r_id
          */
         static function insert_goods(&$p_cn,$p_array)
         {
             global $g_user;
-            if ($g_user->can_write_repo($p_depot) == false)
+			extract ($p_array);
+            if ($g_user->can_write_repo($repo) == false)
                 return false;
 
             // Retrieve the good account for stock
             $code = new Fiche($p_cn);
-            $code->get_by_qcode($p_good);
+            $code->get_by_qcode($goods);
             $code_marchandise = $code->strAttribut(ATTR_DEF_STOCK);
             if ($code_marchandise == NOTFOUND || $code_marchandise=='')
                 return false;
