@@ -244,29 +244,29 @@ COMMENT ON COLUMN stock_repository.r_phone  IS 'Phone number';
 
 insert into stock_repository(r_name) values ('Dépôt par défaut');
 
-CREATE TABLE user_sec_repository
+CREATE TABLE profile_sec_repository
 (
   ur_id bigserial NOT NULL, -- pk
   p_id bigint, -- fk to profile
   r_id bigint,
   ur_right character(1), -- Type of right : R for readonly W for write
-  CONSTRAINT user_sec_repository_pkey PRIMARY KEY (ur_id ),
-  CONSTRAINT user_sec_repository_p_id_fkey FOREIGN KEY (p_id)
+  CONSTRAINT profile_sec_repository_pkey PRIMARY KEY (ur_id ),
+  CONSTRAINT profile_sec_repository_p_id_fkey FOREIGN KEY (p_id)
       REFERENCES profile (p_id) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT user_sec_repository_r_id_fkey FOREIGN KEY (r_id)
+  CONSTRAINT profile_sec_repository_r_id_fkey FOREIGN KEY (r_id)
       REFERENCES stock_repository (r_id) MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE CASCADE,
   CONSTRAINT user_sec_profile_ur_right_check CHECK (ur_right = ANY (ARRAY['R'::bpchar, 'W'::bpchar]))
 );
-COMMENT ON TABLE user_sec_repository  IS 'Available profile for user';
-COMMENT ON COLUMN user_sec_repository.ur_id IS 'pk';
-COMMENT ON COLUMN user_sec_repository.p_id IS 'fk to profile';
-COMMENT ON COLUMN user_sec_repository.r_id IS 'fk to stock_repository';
-COMMENT ON COLUMN user_sec_repository.ur_right IS 'Type of right : R for readonly W for write';
+COMMENT ON TABLE profile_sec_repository  IS 'Available profile for user';
+COMMENT ON COLUMN profile_sec_repository.ur_id IS 'pk';
+COMMENT ON COLUMN profile_sec_repository.p_id IS 'fk to profile';
+COMMENT ON COLUMN profile_sec_repository.r_id IS 'fk to stock_repository';
+COMMENT ON COLUMN profile_sec_repository.ur_right IS 'Type of right : R for readonly W for write';
 alter table stock_goods add r_id bigint;
 
-alter table user_sec_repository add constraint user_sec_repository_r_id_p_id_u unique (r_id,p_id);
+alter table profile_sec_repository add constraint profile_sec_repository_r_id_p_id_u unique (r_id,p_id);
 alter table user_sec_action_profile add constraint user_sec_action_profile_p_id_p_granted_u unique (p_id,p_granted);
 update stock_goods set r_id=1;
 CREATE INDEX fk_stock_good_repository_r_id  ON stock_goods  (r_id );
@@ -478,3 +478,5 @@ update profile_menu set me_code='CARD' where me_code='CFGCARD';
 update profile_menu set me_code='CFGCARD' , me_code_dep='PARAM' where me_code='CARD' and me_code_dep='PRINT';
 update menu_ref set me_menu='Fiche',me_description='Liste,Balance,Historique par fiche' where me_code='CARD';
 update menu_ref set me_menu='Fiche',me_description='Configuration de catégorie de fiches' where me_code='CFGCARD';
+
+drop table user_sec_extension;
