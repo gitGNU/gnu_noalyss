@@ -156,19 +156,30 @@ class Fiche_Def
     }
     /*!
      **************************************************
-     * \brief  Display a fiche_def object into a table
+     * \brief  Display category into a table
      *
      * \return HTML row
      */
     function Display()
     {
+		$tab = new Sort_Table();
 
-        $r=sprintf("<TD>%s</TD>",$this->id);
-        $r.=sprintf("<TD>%s</TD>",$this->label);
-        $r.=sprintf("<TD>%s</TD>",$this->class_base);
-        $r.=sprintf("<TD>%s</TD>",$this->fiche_def);
-        return $r;
-    }
+		$url = HtmlInput::get_to_string(array('ac', 'gDossier'));
+		$tab->add("Nom de fiche", $url, "order by fd_label asc", "order by fd_label desc", "na", "nd");
+		$tab->add("Basé sur le poste comptable", $url, "order by fd_class_base asc", "order by fd_class_base desc", "pa", "pd");
+		$tab->add("Calcul automatique du poste comptable", $url, "order by fd_create_account asc", "order by fd_create_account desc", "ca", "cd");
+		$tab->add("Basé sur le modèle", $url, "order by frd_text asc", "order by frd_text  desc", "ma", "md");
+
+		$order = (isset($_GET['ord'])) ? $tab->get_sql_order($_GET["ord"]) : $tab->get_sql_order("na");
+
+
+		$res = $this->cn->exec_sql("SELECT fd_id, fd_class_base, fd_label, fd_create_account, fiche_def_ref.frd_id,
+frd_text  FROM fiche_def join fiche_def_ref on (fiche_def.frd_id=fiche_def_ref.frd_id)
+$order
+");
+
+		require_once 'template/fiche_def_list.php';
+	}
     /*!\brief Add a fiche category thanks the element from the array
      * you cannot add twice the same cat. name
      * table : insert into fiche_def
@@ -191,13 +202,15 @@ class Fiche_Def
 
         // Name can't be empty
         if ( strlen(trim($p_nom_mod)) == 0 )
-            return;
-
+		{
+			alert (_('Le nom de la catégorie ne peut pas être vide'));
+            return 1;
+		}
         // $p_FICHE_REF cannot be null !!! (== fiche_def_ref.frd_id
         if (! isset ($p_FICHE_REF) || strlen($p_FICHE_REF) == 0 )
         {
             echo alert (_('Vous devez choisir une categorie'));
-            return;
+            return 1;
         }
         $fiche_Def_ref=new Fiche_Def_Ref($this->cn,$p_FICHE_REF);
         $fiche_Def_ref->Get();
@@ -215,7 +228,10 @@ class Fiche_Def
         $sql="select count(*) from fiche_Def where upper(fd_label)=upper($1)";
         $count=$this->cn->get_value($sql,array(trim($p_nom_mod)));
 
-        if ($count != 0 ) return -1;
+        if ($count != 0 ) {
+			 echo alert (_('Catégorie existante'));
+			return 1;
+		}
         // Set the value of fiche_def.fd_create_account
         // automatic creation for 'poste comptable'
         if ( isset($p_create) && strlen(trim($p_class_base)) != 0)
@@ -269,15 +285,17 @@ class Fiche_Def
         if (sizeof($def_attr) != 0 )
         {
             // insert all the mandatory fields into jnt_fiche_attr
+            $jnt_order=10;
             foreach ( $def_attr as $i=>$v)
             {
-                $jnt_order=10;
+				$order=$jnt_order;
                 if ( $v['ad_id'] == ATTR_DEF_NAME )
-                    $jnt_order=0;
+                    $order=0;
                 $sql=sprintf("insert into jnt_fic_Attr(fd_id,ad_id,jnt_order)
                              values (%d,%s,%d)",
-                             $fd_id,$v['ad_id'],$jnt_order);
+                             $fd_id,$v['ad_id'],$order);
                 $this->cn->exec_sql($sql);
+				$jnt_order+=10;
             }
         }
         $this->id=$fd_id;
@@ -717,8 +735,58 @@ class Fiche_Def
         $ret=$this->cn->count_sql("select fd_id from fiche_def where frd_id=$1",array($p_frd_id));
         return $ret;
     }
+	function input_detail()
+	{
+		$r = "";
+		// Save the label
 
+		$this->Get();
+		$this->GetAttribut();
+		$r.= '<H2 class="info">' . $this->id . " " . h($this->label) . '</H2>';
+		$r.='<fieldset><legend>Données générales</legend>';
 
+		/* show the values label class_base and create account */
+		$r.='<form method="post">';
+		$r.=dossier::hidden();
+		$r.=HtmlInput::hidden("fd_id", $this->id);
+		$r.=HtmlInput::hidden("p_action", "fiche");
+		$r.= $this->input_base();
+		$r.='<hr>';
+		$r.=HtmlInput::submit('change_name', _('Sauver'));
+		$r.='</form>';
+		$r.='</fieldset>';
+		/* attributes */
+		$r.='<fieldset><legend>Détails</legend>';
+
+		$r.= '<FORM  method="POST">';
+		$r.=dossier::hidden();
+		$r.=HtmlInput::hidden("fd_id", $this->id);
+		$r.= $this->DisplayAttribut("remove");
+		$r.= HtmlInput::submit('add_line', _('Ajoutez cet élément'));
+		$r.= HtmlInput::submit("save_line", _("Sauvez"));
+		$r.=HtmlInput::submit('remove_cat', _('Effacer cette catégorie'), 'onclick="return confirm(\'' . _('Vous confirmez ?') . '\')"');
+		// if there is nothing to remove then hide the button
+		if (strpos($r, "chk_remove") != 0)
+		{
+			$r.=HtmlInput::submit('remove_line', _("Enleve les éléments cochés"), "onclick=\"return confirm('Vous confirmez?')\"");
+		}
+		$r.= "</form>";
+		$r.=" <p class=\"notice\"> " . _("Attention : il n'y aura pas de demande de confirmation pour enlever les
+                                   attributs sélectionnés. Il ne sera pas possible de revenir en arrière") . "</p>";
+		$r.='</fieldset>';
+		return $r;
+	}
+	function input_new()
+	{
+		$single=new Tool_Uos("dup");
+		echo '<form method="post" style="display:inline">';
+		echo $single->hidden();
+		echo HtmlInput::hidden("p_action","fiche");
+		echo dossier::hidden();
+		echo $this->input(); //    CreateCategory($cn,$search);
+		echo HtmlInput::submit("add_modele" ,"Sauve");
+		echo '</FORM>';
+	}
 
 }
 ?>

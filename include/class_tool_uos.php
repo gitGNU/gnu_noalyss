@@ -19,7 +19,7 @@
 /* $Revision: $Revision $ */
 /**
  * @file
- * Objec to check a double insert into the database, this duplicate occurs after 
+ * Objec to check a double insert into the database, this duplicate occurs after
  * a refresh of the web page
  */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
@@ -32,35 +32,34 @@ class Tool_Uos
      * Constructor $p_name will be set to $this->name, it is also the name
      * of the tag hidden in a form
      * @global $cn Db connxion
-     * @param $p_name 
+     * @param $p_name
      */
     function __construct($p_name)
     {
-          global $cn;
         $this->name=$p_name;
-        $this->id=$cn->get_next_seq('uos_pk_seq');
     }
     /**
-     * @brief return a string with a tag hidden and a uniq value 
+     * @brief return a string with a tag hidden and a uniq value
      * @param $hHidden is the name of the tag hidden
      * @return string : tag hidden
      */
-    function hidden($hHidden)
+    function hidden()
     {
-        return HtmlInput::hidden($hHidden,$this->id);
+		global $cn;
+        $this->id=$cn->get_next_seq('uos_pk_seq');
+        return HtmlInput::hidden($this->name,$this->id);
     }
     /**
      * @brief Try to insert into the table tool_uos
      * @global $cn Database connx
-     * @param $p_id integer is the value of hidden
      * @throws Exception if the value $p_id is not unique
      */
-    function save($p_id)
+    function save()
     {
         global $cn;
         $sql="insert into tool_uos(uos_value) values ($1)";
         try {
-            $cn->exec_sql($sql,array($this->id));   
+            $cn->exec_sql($sql,array($this->id));
         } catch (Exception $e)
         {
             throw new Exception('Duplicate value','CODE_EXCP_DUPLICATE',$e);
@@ -79,7 +78,7 @@ class Tool_Uos
         if ( $p_array == null ) $p_array=$_POST;
         $this->id=$p_array[$this->name];
         $count=$cn->get_value('select count(*) from tool_uos where uos_value=$1',
-                array($p_id));
+                array($this->id));
         return $count;
     }
     function check ($p_array=null)
@@ -87,7 +86,7 @@ class Tool_Uos
         global $cn;
         if ( $p_array == null ) $p_array=$_POST;
         $this->id=$p_array[$this->name];
-        try 
+        try
         {
             $count=$cn->get_value('select count(*) from tool_uos where uos_value=$1',
                     array($p_id));

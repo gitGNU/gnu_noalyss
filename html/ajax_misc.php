@@ -557,6 +557,9 @@ EOF;
 	case 'view_mod_stock':
 		require_once 'ajax_view_mod_stock.php';
 		break;
+	case 'fddetail':
+		require_once 'ajax_fiche_def_detail.php';
+		break;
 	default:
 		var_dump($_GET);
 }
