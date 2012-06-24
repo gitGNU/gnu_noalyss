@@ -153,7 +153,7 @@ else
 		{
 			continue;
 		}
-		$tab = array(12, 20, 10,78, 20, 20, 10, 20);
+		$tab = array(12, 20, 20,68, 20, 20, 10, 20);
 		$align = array('L', 'C', 'L', 'L', 'R','R', 'R', 'R');
 
 		foreach ($array as $row_fiche)
