@@ -191,7 +191,7 @@ if ($_GET['histo'] == -1)
 	");
 	$nb_line = Database::num_row($res);
 	require_once 'template/fiche_list.php';
-	if ($write == 1 ) echo $str_add_card;
+	if ($write == 1 && $allcard == 0 ) echo $str_add_card;
 	exit();
 }
 /* * *********************************************************************************************************************************
@@ -203,7 +203,7 @@ if ($_GET['histo'] == 3)
 	$cat_card = new Fiche_Def($cn);
 	$cat_card->id = $_GET['cat'];
 	$aHeading = $cat_card->getAttribut();
-	echo $str_add_card;
+	if ( $allcard == 0) echo $str_add_card;
 	require_once('template/result_cat_card_summary.php');
 
 	$hid = new IHidden();
@@ -253,7 +253,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 		alert('Date invalide !');
 		exit;
 	}
-	echo $str_add_card;
+	if ( $allcard == 0 ) echo $str_add_card;
 	echo $export_pdf;
 	echo $export_csv;
 	echo $export_print;
@@ -324,7 +324,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 		}
 		echo '</table>';
 	}
-	echo $str_add_card;
+	if ( $allcard == 0 ) echo $str_add_card;
 	echo $export_pdf;
 	echo $export_csv;
 	echo $export_print;
@@ -350,7 +350,7 @@ else
 {
 	$afiche[0] = array('fd_id' => $_REQUEST['cat']);
 }
-echo $str_add_card;
+if ( $allcard == 0) echo $str_add_card;
 echo $export_csv;
 echo $export_pdf;
 echo $export_print;
@@ -466,7 +466,7 @@ for ($e = 0; $e < count($afiche); $e++)
 		echo '</table>';
 	}
 }
-echo $str_add_card;
+if ( $allcard == 0) echo $str_add_card;
 echo $export_csv;
 echo $export_pdf;
 echo $export_print;
