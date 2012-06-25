@@ -129,7 +129,7 @@ $module_selected = -1;
 
 if (isset($_REQUEST['ac']))
 {
-	$_REQUEST['ac']=  strtoupper($_REQUEST['ac']);
+	$_REQUEST['ac']=  trim(strtoupper($_REQUEST['ac']));
     $all = explode('/', $_REQUEST['ac']);
     $module_selected = $all[0];
 	$g_user->audit();
