@@ -40,6 +40,7 @@ $BODY$
 update op_predef set od_direct='t' where od_jrn_type='ODS';
 
 
+update profile_menu set p_order=p_order*10;
 
 INSERT INTO menu_ref(
             me_code, me_menu, me_file, me_url, me_description, me_parameter,
@@ -48,11 +49,13 @@ INSERT INTO menu_ref(
 
 INSERT INTO profile_menu(
              me_code, me_code_dep, p_id, p_order, p_type_display, pm_default)
-    VALUES ('BK', 'GESTION', 1, 4, 'E', 0);
+    VALUES ('BK', 'GESTION', 1, 35, 'E', 0);
 INSERT INTO profile_menu(
              me_code, me_code_dep, p_id, p_order, p_type_display, pm_default)
-    VALUES ('BK', 'GESTION', 2, 4, 'E', 0);
+    VALUES ('BK', 'GESTION', 2, 35, 'E', 0);
 
+
+ 
 update menu_ref set me_description='Grand livre analytique' where me_code='ANCGL';
 
 alter table action_gestion add ag_remind_date date;
