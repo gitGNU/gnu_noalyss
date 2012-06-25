@@ -119,6 +119,7 @@ if ( $low_action == "list" )
 
 		$f_cat_button=new IButton('add_cat');
 		$f_cat_button->set_attribute('type_cat',FICHE_TYPE_FIN);
+                $f_cat_button->set_attribute('ipopup','ipop_cat');
 		$f_cat_button->label=_('Ajout d\'une catégorie');
 		$f_cat_button->javascript='add_category(this)';
 		echo $f_cat_button->input();
