@@ -67,11 +67,14 @@
 	</table>
 <?=HtmlInput::hidden('action',"1");?>
 <?=HtmlInput::submit('delete','Effacer la sélection ')?>
+<? if ( $allcard ==  0  ): ?>
 <?=HtmlInput::submit('move','Déplacer la sélection  vers')?>
 <?
 $iselect=new ISelect('move_to');
 $iselect->value=$cn->make_array("select fd_id,fd_label from fiche_def order by 2");
 echo $iselect->input();
 ?>
+    
+<? endif ; ?>
 </form>
 <?= $bar?>
