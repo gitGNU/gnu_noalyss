@@ -467,25 +467,7 @@ class Fiche
                 $w=new ITva_Popup('popup_tva');
                 $w->table=1;
             }
-            elseif ( $attr->ad_id == ATTR_DEF_COMPANY )
-            {
-                $w=new ICard("av_text".$attr->ad_id);
-                // filter on frd_id
-                $sql=' select fd_id from fiche_def where frd_id in ('.FICHE_TYPE_CLIENT.','.FICHE_TYPE_FOURNISSEUR.','.FICHE_TYPE_ADM_TAX.','.FICHE_TYPE_FIN.')';
-                $filter=$this->cn->make_list($sql);
-                $w->set_attribute('ipopup','ipopcard');
-                $w->set_attribute('typecard',$filter);
-                $w->set_attribute('inp',"av_text".$attr->ad_id);
-                $w->set_attribute('label',"av_text".$attr->ad_id."_label");
-
-                $w->extra=$filter;
-                $w->extra2=0;
-                $label=new ISpan();
-                $label->name="av_text".$attr->ad_id."_label";
-                $msg.=td($w->search().$label->input());
-
-
-            }
+        
             else
             {
 	      switch ($attr->ad_type)
@@ -608,25 +590,6 @@ class Fiche
 					$w = new ITva_Popup('popup_tva');
 					$w->table = 1;
                                         $w->value = $r->av_text;
-				}
-				elseif ($r->ad_id == ATTR_DEF_COMPANY)
-				{
-					$w = new ICard("av_text" . $r->ad_id);
-					// filter on frd_id
-					$sql = ' select fd_id from fiche_def where frd_id in (' . FICHE_TYPE_CLIENT . ',' . FICHE_TYPE_FOURNISSEUR . ',' . FICHE_TYPE_ADM_TAX . '
-						,'.FICHE_TYPE_FIN.')';
-					$filter = $this->cn->make_list($sql);
-					$w->extra = $filter;
-					$w->extra2 = 0;
-					$label = new ISpan();
-					$label->name = "av_text" . $r->ad_id . "_label";
-					$w->set_attribute('ipopup', 'ipopcard');
-					$w->set_attribute('typecard', $filter);
-					$w->set_attribute('inp', "av_text" . $r->ad_id);
-					$w->set_attribute('label', "av_text" . $r->ad_id . "_label");
-                                        $w->value = $r->av_text;
-					$msg = $w->search();
-					$msg.=$label->input();
 				}
 				else
 				{
@@ -840,18 +803,6 @@ class Fiche
                         }
                     }
                 }
-                // The contact has a company attribut
-                if ( $id == ATTR_DEF_COMPANY )
-                {
-                    $exist=$this->cn->count_sql("select f_id from fiche join fiche_def using (fd_id) ".
-                                                " join fiche_detail using(f_id) ".
-                                                " where frd_id in (4,8,9,14) and ad_id=".ATTR_DEF_QUICKCODE.
-                                                " and ad_value='".sql_string($value)."'");
-                    if ( $exist == 0 && sql_string($value) != null )
-                    {
-                        $value="";
-                    }
-                }
                 // Normal traitement
                 $value2=sql_string($value);
 
@@ -985,21 +936,6 @@ class Fiche
                         }
                     }
                 }
-                if ( $id == ATTR_DEF_COMPANY )
-                {
-                    $exist=$this->cn->exec_sql("select f_id from fiche join fiche_def using (fd_id) ".
-                                                " join fiche_detail using (f_id)  ".
-                                                " where frd_id in (4,8,9,14) and ad_id=$1 ".
-                                                " and ad_value=upper($2)",
-					       array(ATTR_DEF_QUICKCODE,$value));
-
-
-                    if ( Database::num_row($exist) == 0  && sql_string($value) != null )
-                    {
-                        $value="Attention : pas de société ";
-                    }
-                }
-
                 // Normal traitement
                 $sql="update fiche_detail set ad_value=$1 where jft_id=$2";
 				$this->cn->exec_sql($sql,array(strip_tags($value),$jft_id));

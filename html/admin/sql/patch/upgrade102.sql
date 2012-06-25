@@ -359,7 +359,7 @@ begin
 	if NEW.ad_id=23 and NEW.ad_value != OLD.ad_value then
 		RAISE NOTICE 'new qcode [%] old qcode [%]',NEW.ad_value,OLD.ad_value;
 
-		for i in select ad_id from attr_def where ad_type = 'card' loop
+		for i in select ad_id from attr_def where ad_type = 'card' or ad_id=25 loop
 			update fiche_detail set ad_value=NEW.ad_value where ad_value=OLD.ad_value and ad_id=i.ad_id;
 			RAISE NOTICE 'change for ad_id [%] ',i.ad_id;
 			if i.ad_id=19 then
@@ -489,6 +489,7 @@ update menu_ref set me_menu='Fiche',me_description='Configuration de catégorie 
 
 drop table user_sec_extension;
 
+update attr_def set ad_type='card', ad_extra='[sql] frd_id in (4,8,9,14)' where ad_id=25;
 
 
 update version set val=103;
