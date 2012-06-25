@@ -467,7 +467,7 @@ class Fiche
                 $w=new ITva_Popup('popup_tva');
                 $w->table=1;
             }
-        
+
             else
             {
 	      switch ($attr->ad_type)
@@ -478,7 +478,7 @@ class Fiche
 						break;
 					case 'numeric':
 						$w = new INum();
-                                                $w->javascript='onchange="format_number(this,4);"';
+						$w->prec=($attr->ad_extra=="")?2:$attr->ad_extra;
 						$w->size = $attr->ad_size;
 						break;
 					case 'date':
@@ -603,7 +603,7 @@ class Fiche
 						case 'numeric':
 							$w = new INum('av_text' . $r->ad_id);
 							$w->size = $r->ad_size;
-                                                        $w->javascript='onchange="format_number(this,4);"';
+							$w->prec=($attr->ad_extra=="")?2:$attr->ad_extra;
 							$w->value = $r->av_text;
 							break;
 						case 'date':

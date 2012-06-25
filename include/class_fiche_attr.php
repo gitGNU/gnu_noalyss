@@ -87,7 +87,11 @@ class Fiche_Attr
                 $this->ad_size=22;
             }
         }
+		if ( $this->ad_type == 'numeric' ) {
+			$this->ad_extra=(trim($this->ad_extra)=='')?'2':$this->ad_extra;
+			if (isNumber($this->ad_extra) == 0) throw new Exception ("La précision doit être un chiffre");
 
+		}
 		if ( $this->ad_type == 'select')
         {
                 if (trim($this->ad_extra)=="") throw new Exception ("La requête SQL est vide ");

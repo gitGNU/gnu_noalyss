@@ -55,7 +55,7 @@ INSERT INTO profile_menu(
     VALUES ('BK', 'GESTION', 2, 35, 'E', 0);
 
 
- 
+
 update menu_ref set me_description='Grand livre analytique' where me_code='ANCGL';
 
 alter table action_gestion add ag_remind_date date;
@@ -491,6 +491,8 @@ drop table user_sec_extension;
 
 update attr_def set ad_type='card', ad_extra='[sql] frd_id in (4,8,9,14)' where ad_id=25;
 
+update attr_Def set ad_extra='2' where ad_type='numeric';
+update attr_Def set ad_extra='4' where ad_id=31;
 
 update version set val=103;
 

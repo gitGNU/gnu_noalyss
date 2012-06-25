@@ -35,13 +35,15 @@ class INum extends IText
     function __construct($name='',$value='')
     {
         parent::__construct($name,$value);
-        $this->javascript='onchange="format_number(this);"';
+
         $this->size=9;
         $this->style='style="text-align:right;border:1px solid blue;margin:2px"';
+		$this->javascript= 'onchange="format_number(this,2);"';
     }
     /*!\brief print in html the readonly value of the widget*/
     public function display()
     {
+
         $readonly=" readonly ";
         $style='style="border:solid 1px blue;color:black;background:#EDEDED;text-align:right"';
         $this->value=str_replace('"','',$this->value);
@@ -51,6 +53,41 @@ class INum extends IText
            'SIZE="'.$this->size.'" '.$this->javascript." $readonly $this->extra >";
 
         /* add tag for column if inside a table */
+        if ( $this->table == 1 )		  $r='<td>'.$r.'</td>';
+
+        return $r;
+
+    }
+	 /*!\brief show the html  input of the widget*/
+    public function input($p_name=null,$p_value=null)
+    {
+		if ( isset ($this->prec)) {
+			$this->javascript= 'onchange="format_number(this,'.$this->prec.');"';
+		}
+        $this->name=($p_name==null)?$this->name:$p_name;
+        $this->value=($p_value==null)?$this->value:$p_value;
+        if ( $this->readOnly==true) return $this->display();
+
+        $t= ((isset($this->title)))?'title="'.$this->title.'"   ':' ';
+
+        $extra=(isset($this->extra))?$this->extra:"";
+
+        $this->value=str_replace('"','',$this->value);
+        if ( ! isset ($this->css_size))
+        {
+        $r='<INPUT '.$this->style.' TYPE="TEXT" id="'.
+           $this->name.'"'.$t.
+           'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
+           'SIZE="'.$this->size.'" '.$this->javascript."  $this->extra >";
+        /* add tag for column if inside a table */
+        } else {
+           $r='<INPUT '.$this->style.' TYPE="TEXT" id="'.
+           $this->name.'"'.$t.
+           'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
+           ' style="width:'.$this->css_size.';" '.$this->javascript."  $this->extra >";
+
+        }
+
         if ( $this->table == 1 )		  $r='<td>'.$r.'</td>';
 
         return $r;
