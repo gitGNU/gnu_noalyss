@@ -315,7 +315,7 @@ function toggleShowDetail() {
 
 </fieldset>
 
-<? if ($p_view != 'READ') : ?>
+<? if ($p_view != 'READ' && $str_select_doc != '') : ?>
 <fieldset >
   <legend>
      <?=_('Document à générer')?>
