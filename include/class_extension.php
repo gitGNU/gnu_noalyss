@@ -95,6 +95,7 @@ class Extension extends Menu_Ref_sql
                   ' Veuillez mettre votre programme a jour. Version minimum '.$i);
             exit();
         }
+        Extension::check_plugin_version();
     }
 	function insert_plugin()
 	{
@@ -162,5 +163,24 @@ class Extension extends Menu_Ref_sql
 			}
 		}
 	}
+        static function check_plugin_version()
+        {
+            global $g_user,$version_plugin;
+            if ($g_user->Admin() == 1)
+            {
+                if (SITE_UPDATE_PLUGIN != "")
+                {
+                    $update = @file_get_contents(SITE_UPDATE_PLUGIN);
+                    if ($update > $version_plugin)
+                    {
+                        echo '<div class="inner_box" style="margin-left:0px;margin-top:3px;left:3px">';
+                        echo '<p class="notice">';
+                        echo "Mise à jour disponible des plugin PhpCompta version actuelle : $update votre version $version_plugin";
+                        echo '</p>';
+                        echo '</div>';
+                    }
+                }
+            }
+        }
 }
 
