@@ -617,10 +617,6 @@ class Follow_Up
 					" ag_hour, ag_priority,ag_owner,ag_contact,ag_state,ag_remind_date) " .
 					" values ($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)";
 		}
-		if ($this->ag_dest == 0)
-		{
-			$this->ag_dest = null;
-		}
 		$this->db->exec_sql($sql, array($this->ag_id, /* 1 */
 			$this->ag_timestamp, /* 2 */
 			$this->dt_id, /* 3 */
@@ -827,6 +823,7 @@ class Follow_Up
 	 */
 	function Update()
 	{
+            
 		// if ag_id == 0 nothing to do
 		if ($this->ag_id == 0)
 			return;
@@ -851,10 +848,6 @@ class Follow_Up
 			$contact->id = 0;
 
 
-		if ($this->ag_dest == 0)
-		{
-			$this->ag_dest = null;
-		}
 		if ($this->ag_remind_date != null)
 		{
 			$this->db->exec_sql("update action_gestion set " .
@@ -961,6 +954,7 @@ class Follow_Up
 
 	function fromArray($p_array)
 	{
+                global $g_user;
 		$this->ag_id = (isset($p_array['ag_id'])) ? $p_array['ag_id'] : "";
 		$this->ag_ref = (isset($p_array['ag_ref'])) ? $p_array['ag_ref'] : "";
 		$this->qcode_dest = (isset($p_array['qcode_dest'])) ? $p_array['qcode_dest'] : "";
@@ -972,7 +966,7 @@ class Follow_Up
 		$this->ag_ref = (isset($p_array['ag_ref'])) ? $p_array['ag_ref'] : "";
 		$this->ag_title = (isset($p_array['ag_title'])) ? $p_array['ag_title'] : "";
 		$this->ag_hour = (isset($p_array['ag_hour'])) ? $p_array['ag_hour'] : "";
-		$this->ag_dest = (isset($p_array['ag_dest'])) ? $p_array['ag_dest'] : "";
+		$this->ag_dest = (isset($p_array['ag_dest'])) ? $p_array['ag_dest'] : $g_user->get_profile();
 		$this->ag_priority = (isset($p_array['ag_priority'])) ? $p_array['ag_priority'] : 2;
 		$this->ag_contact = (isset($p_array['ag_contact'])) ? $p_array['ag_contact'] : "";
 		$this->ag_comment = (isset($p_array['ag_comment'])) ? $p_array['ag_comment'] : "";
