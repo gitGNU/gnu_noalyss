@@ -391,9 +391,9 @@ for ($e = 0; $e < count($afiche); $e++)
 			continue;
 		$detail_card = HtmlInput::card_detail($row->strAttribut(ATTR_DEF_QUICKCODE), $row->strAttribut(ATTR_DEF_NAME));
 
-		echo '<h2 style="font-size:14px;text-align:left;margin-left:10;padding-left:50;border:solid 1px blue;width:50%;text-decoration:underline">' . $detail_card . '</h2>';
+		echo '<h2 style="font-size:14px;text-align:left;margin-left:10px;padding-left:50px;border:solid 1px blue;width:70%;text-decoration:underline">' . $detail_card . '</h2>';
 
-		echo '<table style="width:80%;padding-left:10%;padding-right:10%">';
+		echo '<table style="width:90%;padding-left:5%;padding-right:5%">';
 		echo '<tr>';
 		echo th(_('Date'));
 		echo th(_('ref'));
