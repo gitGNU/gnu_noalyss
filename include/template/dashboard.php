@@ -93,7 +93,7 @@ for($i=0;$i<count($last_operation);$i++):
 for($i=0;$i<count($last_ledger);$i++):
 	$class=($i%2==0)?' class="even" ':' class="odd" ';
 ?>
-<tr <?=$class?> >
+<tr <?=$class ?>> 
 	<td><?=  smaller_date($last_ledger[$i]['jr_date_fmt'])?>
 	</td>
 	<td>
@@ -144,7 +144,7 @@ if ( $report != 0 ) {
     foreach ($result as $row) {
       $ix++;
 	  $class=($ix%2==0)?' class="even" ':' class="odd" ';
-      echo '<tr'.$class.'">';
+      echo '<tr '.$class.'>';
 
       echo '<td> '.$row['desc'].'</td>'.
 	'<td style="text-align:right">'.nbm($row['montant'])." &euro;</td>";
