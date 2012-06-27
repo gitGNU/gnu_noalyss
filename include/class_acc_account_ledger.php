@@ -574,7 +574,7 @@ class Acc_Account_Ledger
                 $SqlFilter=$SqlFilter.$SqlItem;
             }
         }//foreach
-        $sql.=$SqlFilter.' and pcm_val='.$this->id;
+        $sql.=$SqlFilter.' and pcm_val::text='.$this->id;
         $max=$this->db->get_value($sql);
         if ($max > 0 )
             return 0;
