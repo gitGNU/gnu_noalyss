@@ -27,7 +27,7 @@ require_once ('config.inc.php');
 require_once('constant.security.php');
 // SVNVERSION
 global $version_phpcompta;
-define ('SVNINFO',5015');
+define ('SVNINFO',5015);
 
 global $g_captcha,$g_failed,$g_succeed;
 $g_captcha=false;
