@@ -175,7 +175,7 @@ class Extension extends Menu_Ref_sql
                     {
                         echo '<div class="inner_box" style="position:absolute;zindex:2;top:5px;left:360px">';
                         echo '<p class="notice">';
-                        echo "Mise à jour disponible des plugin PhpCompta version actuelle : $update votre version $version_plugin";
+                        echo "Mise à jour disponible des plugins pour PhpCompta, version actuelle : $update votre version $version_plugin";
                         echo '</p>';
                         echo '</div>';
                     }
