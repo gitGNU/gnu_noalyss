@@ -173,7 +173,7 @@ class Extension extends Menu_Ref_sql
                     $update = @file_get_contents(SITE_UPDATE_PLUGIN);
                     if ($update > $version_plugin)
                     {
-                        echo '<div class="inner_box" style="margin-left:0px;margin-top:3px;left:3px">';
+                        echo '<div class="inner_box" style="position:absolute;margin-left:0px;margin-top:-90px;left:360px">';
                         echo '<p class="notice">';
                         echo "Mise à jour disponible des plugin PhpCompta version actuelle : $update votre version $version_plugin";
                         echo '</p>';
