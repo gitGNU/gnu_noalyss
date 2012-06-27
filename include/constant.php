@@ -27,7 +27,7 @@ require_once ('config.inc.php');
 require_once('constant.security.php');
 // SVNVERSION
 global $version_phpcompta;
-
+define ('SVNINFO',5015');
 
 global $g_captcha,$g_failed,$g_succeed;
 $g_captcha=false;
@@ -35,16 +35,16 @@ $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 /*set to none for production */
 /* uncomment for production */
-$version_phpcompta=SVNINFO;
+//$version_phpcompta=SVNINFO;
 define ("DEBUG",true);
 
 // If you don't want to be notified of the update
 // define ("SITE_UPDATE",'');
 define ("SITE_UPDATE",'http://www.phpcompta.eu/last_version.txt');
-define ("SITE_UPDATE_PLUGIN",'http://www.phpcompta.eu/last_version.txt');
+define ("SITE_UPDATE_PLUGIN",'http://www.phpcompta.eu/plugin_last_version.txt');
 
 
-//$version_phpcompta=4985;
+$version_phpcompta=4985;
 //define ("DEBUG",true);
 
 define ("DBVERSION",103);
