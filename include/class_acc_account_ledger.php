@@ -563,18 +563,18 @@ class Acc_Account_Ledger
                 if ( strstr($item_cred,"*") == true )
                 {
                     $item_cred=strtr($item_cred,"*","%");
-                    $SqlItem="$or pcm_val::text like '$item_cred'";
+                    $SqlItem="$or pcm_val::text like '".sql_string($item_cred)."'";
                     $or="  or ";
                 }
                 else
                 {
-                    $SqlItem="$or pcm_val::text = '$item_cred' ";
+                    $SqlItem="$or pcm_val::text = '".sql_string($item_cred)."' ";
                     $or="  or ";
                 }
                 $SqlFilter=$SqlFilter.$SqlItem;
             }
         }//foreach
-        $sql.=$SqlFilter.' and pcm_val::text='.$this->id;
+        $sql.=$SqlFilter." and pcm_val::text='".sql_string($this->id)."'";
         $max=$this->db->get_value($sql);
         if ($max > 0 )
             return 0;
