@@ -36,6 +36,8 @@ $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 /*set to none for production */
 /* uncomment for production */
 //$version_phpcompta=SVNINFO;
+//define ("DEBUG",true);
+$version_phpcompta=SVNINFO;
 define ("DEBUG",true);
 
 // If you don't want to be notified of the update
@@ -43,9 +45,6 @@ define ("DEBUG",true);
 define ("SITE_UPDATE",'http://www.phpcompta.eu/last_version.txt');
 define ("SITE_UPDATE_PLUGIN",'http://www.phpcompta.eu/plugin_last_version.txt');
 
-
-$version_phpcompta=4985;
-//define ("DEBUG",true);
 
 define ("DBVERSION",103);
 
