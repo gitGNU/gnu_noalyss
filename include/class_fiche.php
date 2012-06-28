@@ -603,7 +603,7 @@ class Fiche
 						case 'numeric':
 							$w = new INum('av_text' . $r->ad_id);
 							$w->size = $r->ad_size;
-							$w->prec=($attr->ad_extra=="")?2:$attr->ad_extra;
+							$w->prec=($r->ad_extra=="")?2:$r->ad_extra;
 							$w->value = $r->av_text;
 							break;
 						case 'date':
