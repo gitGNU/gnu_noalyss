@@ -324,16 +324,17 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 					td(nbm(abs($solde['solde'])), 'style="text-align:right"') .
 					td((($solde['debit'] < $solde['credit']) ? 'CRED' : 'DEB'), 'style="text-align:right"'), $class
 			);
-                        echo tr(
-                                td('').
-                                td(_('Totaux')).
-                                td(nbm($sum_deb)).
-                                td(nbm($sum_cred)).
-                                td(nbm(abs($sum_solde))).
-                                td((($sum_deb < $sum_cred) ? 'CRED' : 'DEB'), 'style="text-align:right"'),"");
+                      
                                 
                                 
 		}
+                echo tr(
+                                td('').
+                                td(_('Totaux')).
+                                td(nbm($sum_deb), 'style="text-align:right"').
+                                td(nbm($sum_cred), 'style="text-align:right"').
+                                td(nbm(abs($sum_solde)), 'style="text-align:right"').
+                                td((($sum_deb < $sum_cred) ? 'CRED' : 'DEB'), 'style="text-align:right"'),"");
 		echo '</table>';
 	}
 	if ( $allcard == 0 ) echo $str_add_card;
