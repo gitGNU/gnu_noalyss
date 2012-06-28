@@ -296,7 +296,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 				th('Solde', 'style="text-align:right"') .
 				th('D/C', 'style="text-align:right"')
 		);
-		$idx = 0;
+		$idx = 0;$sum_deb=0;$sum_cred=0;bcscale(4);
 		for ($i = 0; $i < Database::num_row($ret); $i++)
 		{
 			$filter = " (j_date >= to_date('" . $_REQUEST['start'] . "','DD.MM.YYYY') " .
@@ -313,6 +313,9 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 			if ($idx % 2 == 0)
 				$class = 'class="odd"';
 			$idx++;
+                        $sum_cred=bcadd($sum_cred,$solde['credit']);
+                        $sum_deb=bcadd($sum_deb,$solde['debit']);
+                        $sum_solde=bcsub($sum_deb,$sum_cred);
 			echo tr(
 					td(HtmlInput::history_card($oCard->id, $oCard->strAttribut(ATTR_DEF_QUICKCODE))) .
 					td($oCard->strAttribut(ATTR_DEF_NAME)) .
@@ -321,6 +324,15 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 					td(nbm(abs($solde['solde'])), 'style="text-align:right"') .
 					td((($solde['debit'] < $solde['credit']) ? 'CRED' : 'DEB'), 'style="text-align:right"'), $class
 			);
+                        echo tr(
+                                td('').
+                                td(_('Totaux')).
+                                td(nbm($sum_deb)).
+                                td(nbm($sum_cred)).
+                                td(nbm(abs($sum_solde))).
+                                td((($sum_deb < $sum_cred) ? 'CRED' : 'DEB'), 'style="text-align:right"'),"");
+                                
+                                
 		}
 		echo '</table>';
 	}
