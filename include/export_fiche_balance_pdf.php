@@ -94,7 +94,7 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5)
 	if (empty($aCard)) continue;
 
 
-    $idx=0;
+    $idx=0;$sum_deb=0;$sum_cred=0;bcscale(4);
     for ($i=0;$i < count($aCard);$i++)
     {
         if ( isDate($_REQUEST['start']) == null || isDate ($_REQUEST['end']) == null ) 	 exit;
@@ -120,15 +120,37 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5)
 	$side='';
 	if(bcsub($solde['credit'],$solde['debit']) < 0) $side='Deb.';
 	if(bcsub($solde['credit'],$solde['debit']) > 0) $side='Cred.';
-
+        
+        $sum_cred=bcadd($sum_cred,$solde['credit']);
+        $sum_deb=bcadd($sum_deb,$solde['debit']);
+        $sum_solde=bcsub($sum_deb,$sum_cred);
+        
         $pdf->Cell(30,7,$oCard->strAttribut(ATTR_DEF_QUICKCODE),0,0,'L',$fill);
         $pdf->Cell(80,7,$oCard->strAttribut(ATTR_DEF_NAME),0,0,'L',$fill);
-        $pdf->Cell(20,7,sprintf('%.02f',$solde['debit']),0,0,'R',$fill);
-        $pdf->Cell(20,7,sprintf('%.02f',$solde['credit']),0,0,'R',$fill);
-        $pdf->Cell(20,7,sprintf('%.02f',abs($solde['solde'])),0,0,'R',$fill);
+        $pdf->Cell(20,7,nbm($solde['debit']),0,0,'R',$fill);
+        $pdf->Cell(20,7,nbm($solde['credit']),0,0,'R',$fill);
+        $pdf->Cell(20,7,nbm(abs($solde['solde'])),0,0,'R',$fill);
         $pdf->Cell(20,7,$side,0,0,'C',$fill);
         $pdf->Ln();
-    }
+        }
+        // Sum by category
+        $pdf->Cell(30,7,"",0,0,'L',$fill);
+        $pdf->Cell(80,7,_("Totaux"),0,0,'L',$fill);
+        $pdf->Cell(20,7,nbm($sum_deb),0,0,'R',$fill);
+        $pdf->Cell(20,7,nbm($sum_cred),0,0,'R',$fill);
+        $pdf->Cell(20,7,nbm(abs($sum_solde)),0,0,'R',$fill);
+        $side=" = ";
+        if ( $sum_solde > 0 ) 
+        {
+            $side='Deb.';
+        }
+        else if ( $sum_solde < 0)
+        {
+            $side='Cred.';
+        }
+        
+        $pdf->Cell(20,7,$side,0,0,'C',$fill);
+        $pdf->Ln();
 	}
 }
 else
