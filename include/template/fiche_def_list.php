@@ -47,9 +47,10 @@ $max=Database::num_row($res);
 <?
 $dossier=Dossier::id();
 for ($i=0;$i<$max;$i++):
+	$class=($i%2==0)?' class="even" ':' class="odd" ';
 	$row=Database::fetch_array($res, $i);
 ?>
-	<tr>
+	<tr <?=$class?> >
 		<td>
 		<?=HtmlInput::anchor(h($row['fd_label']), "javascript:void(0)", "onclick=\"detail_category_show('detail_category_div','".$dossier."','".$row['fd_id']."')\"")?>
 		</td>
