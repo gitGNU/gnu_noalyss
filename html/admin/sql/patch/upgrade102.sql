@@ -346,7 +346,7 @@ update attr_def set ad_type='card', ad_extra='[sql] fd_id = 500000 ' where ad_id
 
 create table tmp_stockgood (s_id bigserial primary key,s_date timestamp default now());
 create table tmp_stockgood_detail(d_id bigserial primary key,s_id bigint references tmp_stockgood(s_id) on delete cascade,
-sg_code text,s_qin numeric(20,4),s_qout numeric(20,4),r_id bigint);
+sg_code text,s_qin numeric(20,4),s_qout numeric(20,4),r_id bigint,f_id bigint);
 
 
 
