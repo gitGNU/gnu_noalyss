@@ -103,13 +103,14 @@ class Stock_Goods extends Stock_Goods_Sql
 						trim($p_array['sg_code' . $i]) != '')
 				{
 					$a->sg_code = $p_array['sg_code' . $i];
-					$a->sg_quantity = $p_array['sg_quantity' . $i];
+					$a->sg_quantity = abs($p_array['sg_quantity' . $i]);
 					$a->sg_type = ($p_array['sg_quantity' . $i] > 0) ? 'd' : 'c';
 					$a->sg_comment = $p_array['p_motif'];
 					$a->tech_user = $_SESSION['g_user'];
 					$a->r_id = $p_array['p_depot'];
 					$a->sg_exercice = $exercice;
 					$a->c_id = $ch->c_id;
+					$a->sg_date=$p_array['p_date'];
 					$a->insert();
 				}
 			}
