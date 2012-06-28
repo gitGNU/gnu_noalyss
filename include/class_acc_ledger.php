@@ -321,10 +321,6 @@ class Acc_Ledger extends jrn_def_sql
 			$sql = "delete from stock_goods where sg_id = any ( select sg_id
              from stock_goods natural join jrnx  where j_grpt=" . $this->jr_grpt_id . ")";
 			$Res = $this->db->exec_sql($sql);
-			/**
-			 * @function
-			 * @todo  remove also from ANC */
-			// Check return code
 			if ($Res == false)
 				throw (new Exception(__FILE__ . __LINE__ . "sql a echoue [ $sql ]"));
 		}

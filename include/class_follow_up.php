@@ -1013,7 +1013,10 @@ class Follow_Up
 		$array = $this->db->get_array($sql);
 		return $array;
 	}
-
+        /**
+         * get the action where the remind day is today
+         * @return array
+         */
 	function get_today()
 	{
 		$sql = "select coalesce(vw_name,'Interne') as vw_name,ag_id,ag_title,ag_ref, dt_value,to_char(ag_timestamp,'DD.MM.YYYY') as ag_timestamp_fmt,ag_timestamp " .
@@ -1146,8 +1149,12 @@ class Follow_Up
 		// show the  action in
 		require_once 'template/action_search.php';
 	}
-
-	static function ShowActionList($cn, $p_base)
+        /**
+        *@brief show a list of actions
+        * @param $cn database connextion
+        * @param $p_base base URL 
+        */
+	static function show_action_list($cn, $p_base)
 	{
 
 		Follow_Up::display_search($cn);
@@ -1177,11 +1184,9 @@ class Follow_Up
 
 		extract($p_array);
 		$query = "";
-		/**
-		 *@todo check why we need to use $_REQUEST['query']
-		 * instead of $_GET['query']
-		 */
-		if (isset($_REQUEST['query']))
+
+                
+                if (isset($_REQUEST['query']))
 		{
 			// if a query is request build the sql stmt
 			$query = "and (ag_title ~* '" . sql_string($_REQUEST['query']) . "' " .

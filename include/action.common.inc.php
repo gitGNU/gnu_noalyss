@@ -181,7 +181,7 @@ if ($sub_action == 'delete')
 	if ($g_user->can_write_action($_REQUEST['ag_id'])==true)	$act->remove();
 	$sub_action = "list";
 	$cn->commit();
-	Follow_Up::ShowActionList($cn, $base);
+	Follow_Up::show_action_list($cn, $base);
 	if (isset($act->ag_ref))
 		echo hb(_('Action ') . $act->ag_ref . _(' effacée'));
 	exit();
@@ -191,7 +191,7 @@ if ($sub_action == 'delete')
 // Show a list of the action
 if ($sub_action == "list")
 {
-	Follow_Up::ShowActionList($cn, $base);
+	Follow_Up::show_action_list($cn, $base);
 	// Add a button to export to Csv
 	echo '<form method="GET" ACTION="export.php">';
 	echo HtmlInput::request_to_hidden(array("remind_date_end","remind_date","sag_ref", "remind_date","only_internal", "state", "gDossier", "qcode", "start_date", "end_date", "ag_id", "ag_dest_query",
@@ -244,7 +244,7 @@ if ($sub_action == "save_action_st2")
 	$url = "?$base&sa=detail&ag_id=" . $act->ag_id . '&' . dossier::get();
 	echo '<p><a class="mtitle" href="' . $url . '">' . hb('Action Sauvée  : ' . $act->ag_ref) . '</a></p>';
 
-	Follow_Up::ShowActionList($cn,$base);
+	Follow_Up::show_action_list($cn,$base);
 	$url = "?$base&sa=detail&ag_id=" . $act->ag_id . '&' . dossier::get();
 	echo '<p><a class="mtitle" href="' . $url . '">' . hb('Action Sauvée  : ' . $act->ag_ref) . '</a></p>';
 }
