@@ -64,12 +64,14 @@ $a_repo=$cn->get_array("select distinct t.r_id,r_name,r_adress,r_city,r_country,
 						from vw_fiche_attr
 						where
 					 f_id in (
-						select distinct f_id from fiche_detail
+							select distinct f_id
+							from 				tmp_stockgood_detail
 							where
-							ad_id=19 and
-							ad_value=$1)
+							r_id=$1
+							and s_id=$2
+							and sg_code=$3)
 						order by vw_name,quick_code
-					",array($a_stock[$s]['sg_code']));
+					",array($a_repo[$r]['r_id'],$tmp_id,$a_stock[$s]['sg_code']));
 	?>
 	<tr>
 		<td>
@@ -82,7 +84,7 @@ $a_repo=$cn->get_array("select distinct t.r_id,r_name,r_adress,r_city,r_country,
 					echo $sep.HtmlInput::card_detail($a_card[$c]['quick_code'], $a_card[$c]['vw_name'], ' class="line" ');
 					$sep="  ,";
 				endfor;
-				if ( count($a_card)== 0 ) echo '<span class="notice"> Erreur Code non utilisé </span>';
+				if ( count($a_card)== 0 ) echo '<span class="notice">Changement manuel</span>';
 			?>
 		</td>
 		<td class="num">

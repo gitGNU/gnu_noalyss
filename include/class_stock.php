@@ -192,7 +192,8 @@ class Stock extends Stock_Sql
 		{
 			$clause.=$and . " to_date('" . sql_string($p_array['wdate_end']) . "','DD.MM.YYYY')>=coalesce(sg_date,jr_date) ";
 		}
-		if (isset($p_array['wamount_start']) && $p_array['wamount_start'] != '' && isNumber($p_array['wamount_start']) == 1)
+		if (isset($p_array['wamount_start']) && $p_array['wamount_start'] != '' && isNumber($p_array['wamount_start']) == 1
+				 && $p_array['wamount_start'] != 0 )
 		{
 			$clause.=$and . " j_montant >= " . sql_string($p_array['wamount_start']);
 		}
@@ -214,7 +215,7 @@ class Stock extends Stock_Sql
 		}
 		if (isset($p_array['wcode_stock']) && $p_array['wcode_stock'] != "")
 		{
-			$clause.=$and . " upper(sg_code) =  upper('" . sql_string($p_array['wcode_stock']) . "')";
+			$clause.=$and . " upper(sg_code) =  upper('" . sql_string(trim($p_array['wcode_stock'])) . "')";
 		}
 		if (isset($p_array['wrepo']) && $p_array['wrepo'] != -1)
 		{
@@ -224,6 +225,7 @@ class Stock extends Stock_Sql
 		{
 			$clause.=$and . " sg.sg_type = '" . sql_string($p_array['wdirection']) . "'";
 		}
+
 		return $sql . $clause;
 	}
 
@@ -264,39 +266,7 @@ class Stock extends Stock_Sql
 		// get all readable repository
 		$a_repository = $g_user->get_available_repository('R');
 
-		// All the stock card
-		$sql_repo_detail = "
-			insert into tmp_stockgood_detail(s_id,sg_code,s_qin,s_qout,r_id)
 
-		with fiche_stock as (select distinct ad_value from fiche_detail where ad_id=19 and coalesce(ad_value,'') != '') ,
-				stock_in as (select coalesce(sum(sg_quantity),0) as qin,r_id,sg_code from stock_goods where sg_type='c'
-				and (
-					(j_id is not null and j_id in (select j_id from jrnx where  j_date <= to_date($2,'DD.MM.YYYY'))
-					or sg_tech_date <= to_date($2,'DD.MM.YYYY'))
-				)
-				group by r_id,sg_code) ,
-				stock_out as	(select coalesce(sum(sg_quantity),0) as qout ,r_id,sg_code from stock_goods
-				where sg_type='d'
-				and (
-					(j_id is not null and j_id in (select j_id from jrnx where  j_date <= to_date($2,'DD.MM.YYYY'))
-					or sg_tech_date <= to_date($2,'DD.MM.YYYY'))
-				)
-				group by r_id,sg_code)
-				select distinct
-					$tmp_id,
-					coalesce(si.sg_code,so.sg_code),
-					coalesce(qin,0) as qin,
-					coalesce(qout,0) as qout,
-					sg.r_id
-					from
-					stock_goods as sg
-					left join stock_in as si on ( sg.r_id=si.r_id)
-					full join stock_out as so on (si.sg_code=so.sg_code and sg.r_id=so.r_id)
-				where
-				(si.sg_code is not null or so.sg_code is not null)
-				 and sg.r_id  in (select r_id from profile_sec_repository where p_id=$1)
-
-			";
 		$end_date = $cn->get_value("select to_char(max(p_end),'DD.MM.YYYY') from parm_periode");
 		if (isset($p_array['state_exercice']))
 		{
@@ -305,8 +275,61 @@ class Stock extends Stock_Sql
 				$end_date = $p_array['state_exercice'];
 			}
 		}
+		// From ACH : IN
+		$sql_repo_detail = "
+			insert into tmp_stockgood_detail(s_id,sg_code,s_qin,r_id,f_id)
+				select $tmp_id,trim(sg_code), coalesce(sum(sg_quantity),0) as qin,r_id,f_id
+				from stock_goods
+				where
+					sg_type='d'
+					and j_id is not null
+					and j_id in (select j_id from jrnx where  j_date <= to_date($2,'DD.MM.YYYY'))
+					and r_id  in (select r_id from profile_sec_repository where p_id=$1)
+					group by r_id,trim(sg_code),f_id
+			";
+
+		// From VEN : out
+		$cn->exec_sql($sql_repo_detail, array($g_user->get_profile(), $end_date));
+		$sql_repo_detail = "
+				insert into tmp_stockgood_detail(s_id,sg_code,s_qout,r_id,f_id)
+				select $tmp_id,trim(sg_code) , coalesce(sum(sg_quantity),0) as qout,r_id,f_id
+				from stock_goods as sg
+				where
+					sg_type='c'
+					and sg.j_id is not null
+					and sg.j_id in (select j_id from jrnx where  j_date <= to_date($2,'DD.MM.YYYY'))
+					and sg.r_id  in (select r_id from profile_sec_repository where p_id=$1)
+					group by r_id,trim(sg_code),f_id
+			";
 		$cn->exec_sql($sql_repo_detail, array($g_user->get_profile(), $end_date));
 
+		// From INV  IN
+		$sql_repo_detail = "
+			insert into tmp_stockgood_detail(s_id,sg_code,s_qin,r_id,f_id)
+				select $tmp_id,trim(sg_code) , coalesce(sum(sg_quantity),0) as qin,r_id,f_id
+				from stock_goods as sg
+				where
+					sg_type='d'
+					and j_id is null
+					and sg_tech_date <= to_date($2,'DD.MM.YYYY')
+					 and sg.r_id  in (select r_id from profile_sec_repository where p_id=$1)
+					group by r_id,trim(sg_code),f_id
+			";
+
+		// From INV: OUT
+		$cn->exec_sql($sql_repo_detail, array($g_user->get_profile(), $end_date));
+		$sql_repo_detail = "
+				insert into tmp_stockgood_detail(s_id,sg_code,s_qout,r_id,f_id)
+				select $tmp_id,trim(sg_code), coalesce(sum(sg_quantity),0) as qout,r_id,f_id
+				from stock_goods
+				where
+					sg_type='c'
+					and j_id is null
+					 and r_id  in (select r_id from profile_sec_repository where p_id=$1)
+					and sg_tech_date  <= to_date($2,'DD.MM.YYYY')
+					group by r_id,trim(sg_code),f_id
+			";
+		$cn->exec_sql($sql_repo_detail, array($g_user->get_profile(), $end_date));
 		return $tmp_id;
 	}
 

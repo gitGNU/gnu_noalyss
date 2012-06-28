@@ -59,10 +59,14 @@
 			<?=$row['r_name']?>
 		</td>
 		<td>
+			<? if (trim($row['qcode'])!='') : ?>
 			<?=HtmlInput::card_detail($row['qcode'],$row['fname'],' class="line" ')?>
+			<? endif; ?>
 		</td>
 		<td>
+			<? if (trim($row['jr_internal'])!='') : ?>
 			<?=HtmlInput::detail_op($row['jr_id'],$row['jr_internal'])?>
+			<? endif; ?>
 		</td>
 		<td>
 			<?=$row['ccomment']?>
