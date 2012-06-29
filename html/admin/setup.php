@@ -141,6 +141,7 @@ $file='..'.DIRECTORY_SEPARATOR.'.htaccess';
 	       "php_value max_execution_time 240",
 	       "php_value memory_limit 20M",
 	       "AddDefaultCharset utf-8",
+		   "php_flag  register_globals off",
 	       "php_value error_reporting 10239",
 	       "php_value post_max_size 20M",
 	       "php_flag short_open_tag on",
@@ -191,7 +192,7 @@ if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.D
   echo '</form>';
   exit();
 }
- 
+
 //----------------------------------------------------------------------
 // End functions
 //
@@ -276,6 +277,13 @@ if ( ini_get("session.auto_start") == false )  {
         echo "<li>";
         echo 'Avertissement : '.$failed;
 	print '<span class="warning"> session.auto_start doit être mis à vrai</span>';
+        echo "</li>";
+	$flag_php++;
+}
+if ( ini_get("register_globals") == true)  {
+        echo "<li>";
+        echo 'Avertissement : '.$failed;
+	print '<span class="warning"> register_globals doit être à off</span>';
         echo "</li>";
 	$flag_php++;
 }
