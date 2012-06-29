@@ -74,6 +74,9 @@ class Stock_Goods extends Stock_Goods_Sql
 			}
 			$sg_code[$e]->setReadOnly($p_readonly);
 			$sg_quantity[$e]->setReadOnly($p_readonly);
+			if ( isset (${'sg_type'.$e})) {
+				$sg_type[$e]=(${'sg_type'.$e}=='c')?'OUT':'IN';
+			}
 		}
 		require_once 'template/stock_inv.php';
 	}

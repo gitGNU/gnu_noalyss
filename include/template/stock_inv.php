@@ -77,6 +77,11 @@
 			<?=$sg_quantity[$i]->input()?>
 			<? endif;?>
 		</td>
+		<TD class="num"">
+			<? if (isset ($sg_type[$i])):?>
+			<?=$sg_type[$i]?>
+			<? endif;?>
+		</td>
 	</tr>
 <? endfor; ?>
 </table>
