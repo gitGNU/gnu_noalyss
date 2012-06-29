@@ -30,7 +30,24 @@ require_once 'class_stock_goods_sql.php';
 
 class Stock_Goods extends Stock_Goods_Sql
 {
-
+/**
+ * if an array if receive the keys are
+ *  p_date
+ *  p_depot
+ *  f_idX f_id
+ *  sg_codeX
+ *  sg_type0
+ *
+ * @global $cn database connx
+ * @param $p_array
+ * if an array if receive the keys are
+ *  p_date
+ *  p_depot
+ *  f_idX f_id
+ *  sg_codeX
+ *  sg_type0
+ * @param $p_readonly true or false
+ */
 	function input($p_array = null, $p_readonly = false)
 	{
 		global $cn;
@@ -59,9 +76,9 @@ class Stock_Goods extends Stock_Goods_Sql
 		}
 		$idepo->selected = $p_depot;
 		for ($e = 0; $e < MAX_ARTICLE; $e++)
-		{
+		{//ATTR_DEF_STOCKfiche_
 			$sg_code[$e] = new ICard('sg_code' . $e);
-			$sg_code[$e]->extra = '[sql] fd_id = 500000';
+			$sg_code[$e]->extra = "[sql]  f_id in (select distinct f_id from fiche_Detail where ad_id=19 and coalesce(ad_value,\'\') <> \'\')";
 			$sg_code[$e]->set_attribute("typecard", $sg_code[$e]->extra);
 			$sg_code[$e]->set_attribute("label", "label" . $e);
 			$sg_code[$e]->value = (isset(${'sg_code' . $e})) ? ${'sg_code' . $e} : '';
@@ -76,6 +93,9 @@ class Stock_Goods extends Stock_Goods_Sql
 			$sg_quantity[$e]->setReadOnly($p_readonly);
 			if ( isset (${'sg_type'.$e})) {
 				$sg_type[$e]=(${'sg_type'.$e}=='c')?'OUT':'IN';
+			}
+			if ( isset (${'f_id'.$e})) {
+				$fiche[$e]=new Fiche($this->cn,${'f_id'.$e});
 			}
 		}
 		require_once 'template/stock_inv.php';
@@ -105,7 +125,11 @@ class Stock_Goods extends Stock_Goods_Sql
 				if ($p_array['sg_quantity' . $i] != 0 &&
 						trim($p_array['sg_code' . $i]) != '')
 				{
-					$a->sg_code = $p_array['sg_code' . $i];
+					$fiche=new Fiche($cn);
+					$fiche->get_by_qcode($p_array['sg_code' . $i]);
+					$stock=$fiche->strAttribut(ATTR_DEF_STOCK);
+					$a->f_id=$fiche->id;
+					$a->sg_code = $stock;
 					$a->sg_quantity = abs($p_array['sg_quantity' . $i]);
 					$a->sg_type = ($p_array['sg_quantity' . $i] > 0) ? 'd' : 'c';
 					$a->sg_comment = $p_array['p_motif'];

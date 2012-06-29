@@ -37,6 +37,7 @@ $p_array['p_motif']=$cn->get_value("select c_comment from stock_change where c_i
 $p_array['p_depot']=$cn->get_value("select r_id from stock_change where c_id=$1",array($_GET['c_id']));
 for ($i=0;$i<count($array);$i++)
 {
+	$p_array['f_id'.$i]=$array[$i]['f_id'];
 	$p_array['sg_code'.$i]=$array[$i]['sg_code'];
 	$p_array['sg_quantity'.$i]=$array[$i]['sg_quantity'];
 	$p_array['sg_type'.$i]=$array[$i]['sg_type'];

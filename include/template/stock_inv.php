@@ -56,9 +56,14 @@
 </table>
 <table style="width: 80%">
 	<tr>
-		<th >
+		<th style="text-align: left">
 			Code Stock
 		</th>
+<? if ( $p_readonly == true ) :?>
+		<th style="text-align: left">
+			Fiche
+		</th>
+<? endif;?>
 		<th style="text-align:right">
 			Quantité
 		</th>
@@ -66,10 +71,20 @@
 <? for($i=0;$i<MAX_ARTICLE;$i++): ?>
 	<tr>
 		<td>
+<? if ( $p_readonly == false) : ?>
 			<?=$sg_code[$i]->input()?>
 			<?=$sg_code[$i]->search()?>
 			<?=$label[$i]->input()?>
+<? else: ?>
+			<? if ( trim($sg_code[$i]->value) != "")  echo HtmlInput::card_detail($sg_code[$i]->value,h($sg_code[$i]->value),' class="line"')?>
+<? endif ?>
+
 		</td>
+<? if ( $p_readonly == true && isset ($fiche[$i])) :?>
+		<td>
+			<?=HtmlInput::card_detail($fiche[$i]->get_quick_code(),h($fiche[$i]->getName()),' class="line"');?>
+		</td>
+<? endif;?>
 		<TD class="num"">
 			<? if ($sg_quantity[$i]->value==0 && $p_readonly==true):?>
 
