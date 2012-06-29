@@ -270,9 +270,10 @@ class Stock extends Stock_Sql
 		$end_date = $cn->get_value("select to_char(max(p_end),'DD.MM.YYYY') from parm_periode");
 		if (isset($p_array['state_exercice']))
 		{
-			if (isDate($p_array['state_exercice']) == $p_array['state_exercice'])
+			$tmp_date=  format_date($p_array['state_exercice'],'YYYY-MM-DD','DD.MM.YYYY');
+			if (isDate($tmp_date) == $tmp_date)
 			{
-				$end_date = $p_array['state_exercice'];
+				$end_date = $tmp_date;
 			}
 		}
 		// From ACH : IN
