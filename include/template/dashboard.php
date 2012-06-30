@@ -1,4 +1,4 @@
-<div style="float:left;width: 45%">
+<div style="float:left;width: 49%">
 <fieldset >
 <legend><?=_('Calendrier')?>
 </legend>
@@ -24,7 +24,7 @@ $todo=new Todo_List($cn);
 $array=$todo->load_all();
 ?>
 
-<div style="float:right;width: 45%">
+<div style="float:right;width: 49%">
 <fieldset> <legend><?=_('Pense-Bête')?></legend>
 
 <?php
@@ -58,7 +58,7 @@ if ( ! empty ($array) )  {
 </fieldset>
 </div>
 <div style="float:left;clear:both"></div>
-<div style="float:right;width: 45%">
+<div style="float:right;width: 49%">
 <? if (count($last_operation)> 0) : ?>
 	<fieldset>
 	<legend><?=_('Action pour aujourd\'hui')?>
@@ -113,7 +113,7 @@ if ( ! empty ($array) )  {
 	</fieldset>
 <? endif; ?>
 </div>
-	<div style="float:left;width: 45%">
+	<div style="float:left;width: 49%">
 <?php
 /*
  * Mini Report
@@ -161,7 +161,7 @@ if ( $report != 0 ) {
 ?>
 </div>
 
-<div style="float:right;width: 45%">
+<div style="float:right;width: 49%">
 <fieldset>
 <legend><?=_('Dernières opérations')?>
 </legend>
