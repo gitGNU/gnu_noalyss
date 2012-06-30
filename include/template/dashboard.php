@@ -1,5 +1,5 @@
-<div style="float:left;width:50%">
-<fieldset style="width:100%">
+<div style="float:left;width: 45%">
+<fieldset >
 <legend><?=_('Calendrier')?>
 </legend>
 <?php echo $cal->display(); ?>
@@ -24,7 +24,7 @@ $todo=new Todo_List($cn);
 $array=$todo->load_all();
 ?>
 
-<div style="float:right;width:45%">
+<div style="float:right;width: 45%">
 <fieldset> <legend><?=_('Pense-Bête')?></legend>
 
 <?php
@@ -57,65 +57,63 @@ if ( ! empty ($array) )  {
 ?>
 </fieldset>
 </div>
-<div style="float:right;width:45%">
-<fieldset>
-<legend><?=_('Action pour aujourd\'hui')?>
-</legend>
-<ol>
-<?php
-for($i=0;$i<count($last_operation);$i++):
-?>
-<li>
-<span>
-<?=smaller_date($last_operation[$i]['ag_timestamp_fmt'])?>
-</span>
-	<span  style="font-weight: bolder ">
-		<?=h($last_operation[$i]['vw_name'])?>
+<div style="float:left;clear:both"></div>
+<div style="float:right;width: 45%">
+<? if (count($last_operation)> 0) : ?>
+	<fieldset>
+	<legend><?=_('Action pour aujourd\'hui')?>
+	</legend>
+	<ol>
+	<?php
+	for($i=0;$i<count($last_operation);$i++):
+	?>
+	<li>
+	<span>
+	<?=smaller_date($last_operation[$i]['ag_timestamp_fmt'])?>
 	</span>
-<span>
-   <?=h(mb_substr($last_operation[$i]['ag_title'],0,40,'UTF-8'))?>
-</span>
-<span style="font-style: italic">
-<?=$last_operation[$i]['dt_value']?>
-</span>
-</li>
-<? endfor;?>
-</ol>
-</fieldset>
+		<span  style="font-weight: bolder ">
+			<?=h($last_operation[$i]['vw_name'])?>
+		</span>
+	<span>
+	<?=h(mb_substr($last_operation[$i]['ag_title'],0,60,'UTF-8'))?>
+	</span>
+	<span style="font-style: italic">
+	<?=$last_operation[$i]['dt_value']?>
+	</span>
+	</li>
+	<? endfor;?>
+	</ol>
+	</fieldset>
+<? endif; ?>
+
+<? if (count($late_operation)> 0) : ?>
+		<fieldset>
+	<legend><?=_('Action en retard ')?>
+	</legend>
+	<ol>
+	<?php
+	for($i=0;$i<count($late_operation);$i++):
+	?>
+	<li>
+	<span>
+	<?=smaller_date($late_operation[$i]['ag_timestamp_fmt'])?>
+	</span>
+		<span  style="font-weight: bolder ">
+			<?=h($late_operation[$i]['vw_name'])?>
+		</span>
+	<span>
+	<?=h(mb_substr($late_operation[$i]['ag_title'],0,60,'UTF-8'))?>
+	</span>
+	<span style="font-style: italic">
+	<?=$late_operation[$i]['dt_value']?>
+	</span>
+	</li>
+	<? endfor;?>
+	</ol>
+	</fieldset>
+<? endif; ?>
 </div>
-
-<div style="float:right;width:45%">
-<fieldset>
-<legend><?=_('Dernières opérations')?>
-</legend>
-<table style="width: 100%">
-<?php
-for($i=0;$i<count($last_ledger);$i++):
-	$class=($i%2==0)?' class="even" ':' class="odd" ';
-?>
-<tr <?=$class ?>> 
-	<td><?=  smaller_date($last_ledger[$i]['jr_date_fmt'])?>
-	</td>
-	<td>
-		<?=$last_ledger[$i]['jrn_def_code']?>
-	</td>
-<td>
-   <?=h(mb_substr($last_ledger[$i]['jr_comment'],0,40,'UTF-8'))?>
-</td>
-<td>
-<?=HtmlInput::detail_op($last_ledger[$i]['jr_id'], $last_ledger[$i]['jr_internal'])?>
-</td>
-<td class="num">
-<?=nbm($last_ledger[$i]['jr_montant'])?>
-</td>
-
-</tr>
-<? endfor;?>
-</ul></table>
-</fieldset>
-</div>
-
-	<div style="float:left;width:50%;clear:left">
+	<div style="float:left;width: 45%">
 <?php
 /*
  * Mini Report
@@ -162,7 +160,39 @@ if ( $report != 0 ) {
 
 ?>
 </div>
+
+<div style="float:right;width: 45%">
+<fieldset>
+<legend><?=_('Dernières opérations')?>
+</legend>
+<table style="width: 100%">
+<?php
+for($i=0;$i<count($last_ledger);$i++):
+	$class=($i%2==0)?' class="even" ':' class="odd" ';
+?>
+<tr <?=$class ?>>
+	<td><?=  smaller_date($last_ledger[$i]['jr_date_fmt'])?>
+	</td>
+	<td>
+		<?=$last_ledger[$i]['jrn_def_code']?>
+	</td>
+<td>
+   <?=h(mb_substr($last_ledger[$i]['jr_comment'],0,40,'UTF-8'))?>
+</td>
+<td>
+<?=HtmlInput::detail_op($last_ledger[$i]['jr_id'], $last_ledger[$i]['jr_internal'])?>
+</td>
+<td class="num">
+<?=nbm($last_ledger[$i]['jr_montant'])?>
+</td>
+
+</tr>
+<? endfor;?>
+</ul></table>
+</fieldset>
 </div>
+
+
 
 <div id="add_todo_list" class="add_todo_list">
 	<script charset="utf8" type="text/javascript" language="javascript">

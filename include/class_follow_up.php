@@ -823,7 +823,7 @@ class Follow_Up
 	 */
 	function Update()
 	{
-            
+
 		// if ag_id == 0 nothing to do
 		if ($this->ag_id == 0)
 			return;
@@ -1021,8 +1021,21 @@ class Follow_Up
 	{
 		$sql = "select coalesce(vw_name,'Interne') as vw_name,ag_id,ag_title,ag_ref, dt_value,to_char(ag_timestamp,'DD.MM.YYYY') as ag_timestamp_fmt,ag_timestamp " .
 				" from action_gestion join document_type " .
-				" on (ag_type=dt_id) left join vw_fiche_attr on (f_id=f_id_dest) where ag_state in (2,3)
+				" on (ag_type=dt_id) left join vw_fiche_attr on (f_id=f_id_dest) where ag_state not in (1,4)
 				and to_char(ag_remind_date,'DDMMYYYY')=to_char(now(),'DDMMYYYY') ";
+		$array = $this->db->get_array($sql);
+		return $array;
+	}
+	       /**
+         * get the action where the remind day is today
+         * @return array
+         */
+	function get_late()
+	{
+		$sql = "select coalesce(vw_name,'Interne') as vw_name,ag_id,ag_title,ag_ref, dt_value,to_char(ag_timestamp,'DD.MM.YYYY') as ag_timestamp_fmt,ag_timestamp " .
+				" from action_gestion join document_type " .
+				" on (ag_type=dt_id) left join vw_fiche_attr on (f_id=f_id_dest) where ag_state not in  (1,4)
+				and to_char(ag_remind_date,'DDMMYYYY')<=to_char(now(),'DDMMYYYY') ";
 		$array = $this->db->get_array($sql);
 		return $array;
 	}
@@ -1152,7 +1165,7 @@ class Follow_Up
         /**
         *@brief show a list of actions
         * @param $cn database connextion
-        * @param $p_base base URL 
+        * @param $p_base base URL
         */
 	static function show_action_list($cn, $p_base)
 	{
@@ -1185,7 +1198,7 @@ class Follow_Up
 		extract($p_array);
 		$query = "";
 
-                
+
                 if (isset($_REQUEST['query']))
 		{
 			// if a query is request build the sql stmt

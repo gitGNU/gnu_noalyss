@@ -473,7 +473,7 @@ function popup_select_tva(obj)
 
 	var nTop=posY-50;
 	var nLeft="35%";
-	var str_style="top:"+nTop+";left:"+nLeft+";width:50em;height:auto";
+	var str_style="top:"+nTop+";left:"+nLeft+";width:55em;height:auto";
 
 	var popup={'id': 'tva_select','cssclass':'inner_box','style':str_style,'html':loading(),'drag':true};
 	add_div(popup);
