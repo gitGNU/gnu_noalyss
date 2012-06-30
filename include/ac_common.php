@@ -239,7 +239,7 @@ function isDate($p_date)
 	{
 	    return null;
 	}
-    }// !ereg
+    }
     return $p_date;
 }
 
