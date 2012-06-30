@@ -273,7 +273,7 @@ function ShowReportResult($p_array)
 
         echo "<TR $class>".
         "<TD>".h($op['desc'])."</TD>".
-        "<TD align=\"right\">".sprintf("% 8.2f",$op['montant'])."</TD>".
+        "<TD align=\"right\">".nbm($op['montant'])."</TD>".
         "</TR>";
     }
     echo "</table>";
