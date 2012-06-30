@@ -185,7 +185,7 @@ EOF;
 		$r = HtmlInput::anchor_close('tva_select');
 		$r.=h2info('Choississez la TVA ');
 		$r.='<div >';
-		$r.= '<TABLE style="padding-left:10%;padding-right:10%;width:80%">';
+		$r.= '<TABLE style="width:100%">';
 		$r.=th('');
 		$r.=th(_('code'));
 		$r.=th(_('Taux'));
@@ -218,7 +218,8 @@ EOF;
 				}
 			}
 			$set = '<INPUT TYPE="BUTTON" class="button" Value="select" ' . $script . '>';
-			$r.='<tr>';
+			$class=($i%2 == 0)?' class="odd" ':' class="even" ';
+			$r.='<tr'.$class. '>';
 			$r.=td($set);
 			$r.=td($row['tva_id']);
 			$r.=td($row['tva_rate']);
