@@ -21,6 +21,7 @@ $cal=new Calendar();
 $cal->get_preference();
 $Operation=new Follow_Up($cn);
 $last_operation=$Operation->get_today();
+$late_operation=$Operation->get_late();
 $Ledger=new Acc_Ledger($cn,0);
 $last_ledger=array();
 $last_ledger=$Ledger->get_last(20);
