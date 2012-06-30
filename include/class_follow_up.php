@@ -1035,7 +1035,7 @@ class Follow_Up
 		$sql = "select coalesce(vw_name,'Interne') as vw_name,ag_id,ag_title,ag_ref, dt_value,to_char(ag_remind_date,'DD.MM.YYYY') as ag_timestamp_fmt,ag_timestamp " .
 				" from action_gestion join document_type " .
 				" on (ag_type=dt_id) left join vw_fiche_attr on (f_id=f_id_dest) where ag_state not in  (1,4)
-				and ag_remind_date > now() ";
+				and ag_remind_date < now() ";
 		$array = $this->db->get_array($sql);
 		return $array;
 	}
