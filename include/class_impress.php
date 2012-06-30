@@ -60,8 +60,7 @@ class Impress
 
         include_once("class_acc_account_ledger.php");
 
-        //    while (@ereg("(\[[0-9]*%*D*C*S*\])",$p_formula,$e) == true)
-        while (preg_match_all("(\[[0-9]*%*D*C*S*\])",$p_formula,$e) == true)
+        while (preg_match_all("(\[[0-9]*[A-Z]*%*c*d*s*\])",$p_formula,$e) == true)
           {
 
             // remove the [ ]
@@ -69,17 +68,17 @@ class Impress
             foreach ($x as $line)
               {
                 $compute='all';
-                if ( strpos($line,'D') != 0 )
+                if ( strpos($line,'d') != 0 )
                   $compute='deb';
-                if ( strpos($line,'C') != 0 )
+                if ( strpos($line,'c') != 0 )
                   $compute='cred';
-                if ( strpos($line,'S') != 0 )
+                if ( strpos($line,'s') != 0 )
                   $compute='signed';
                 $line=str_replace ("[","",$line);
                 $line=str_replace ("]","",$line);
-                $line=str_replace ("D","",$line);
-                $line=str_replace ("C","",$line);
-                $line=str_replace ("S","",$line);
+                $line=str_replace ("d","",$line);
+                $line=str_replace ("c","",$line);
+                $line=str_replace ("s","",$line);
                 // If there is a FROM clause we must recompute
                 // the time cond
 
@@ -159,7 +158,6 @@ class Impress
         if ( $p_eval == true)
         {
             $p_formula="\$result=".$p_formula.";";
-
             eval("$p_formula");
 
             while (preg_match("/\[([0-9]+)([Tt]*)\]/",trim($p_label),$e) == 1)
@@ -213,20 +211,30 @@ class Impress
         // eat Space
         $p_string=str_replace(" ","",$p_string);
         // Remove D/C/S
-        $p_string=str_replace("C","",$p_string);
-        $p_string=str_replace("D","",$p_string);
-        $p_string=str_replace("S","",$p_string);
+        $p_string=str_replace("c","",$p_string);
+        $p_string=str_replace("d","",$p_string);
+        $p_string=str_replace("s","",$p_string);
         // Remove T,t
-        $p_string=str_replace("T","",$p_string);
         $p_string=str_replace("t","",$p_string);
 
-        if ( @ereg ("^(\\$[a-zA-Z]*[0-9]*=){0,1}((\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})+ *([+-\*/])* *(\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})*)*(([+-\*/])*\\$([a-zA-Z])+[0-9]*([+-\*/])*)* *( *FROM=[0-9][0-0].20[0-9][0-9]){0,1}$",$p_string) == false)
+		// remove date
+		$p_string=  preg_replace("/FROM*=*[0-9]+/", "", $p_string);
+
+		// remove account
+		$p_string=  preg_replace("/\[[0-9]*[A-Z]*%*\]/", "", $p_string);
+
+		$p_string=  preg_replace("/\+|-|\/\*/", "", $p_string);
+		//********************************************************************************************************************
+		// If the string is empty then formula should be good
+		//
+		//********************************************************************************************************************
+		if ($p_string == '')
         {
-            return false;
+            return true;
         }
         else
         {
-            return true;
+            return false;
         }
     }
      /**
