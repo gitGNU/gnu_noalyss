@@ -223,7 +223,9 @@ class Impress
 		// remove account
 		$p_string=  preg_replace("/\[[0-9]*[A-Z]*%*\]/", "", $p_string);
 
-		$p_string=  preg_replace("/\+|-|\/\*/", "", $p_string);
+		$p_string=  preg_replace("/\+|-|\/|\*/", "", $p_string);
+		$p_string=  preg_replace("/[0-9]*\.*[0-9]/", "", $p_string);
+		
 		//********************************************************************************************************************
 		// If the string is empty then formula should be good
 		//
