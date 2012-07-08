@@ -1184,7 +1184,7 @@ function get_profile_detail(gDossier,profile_id)
 						  $('detail_profile').innerHTML=req.responseText;
 						  req.responseText.evalScripts();
 						  $('detail_profile').show();
-						  profile_show('profile_gen_div');
+						  if ( profile_id != "-1" ) profile_show('profile_gen_div');
 					  }
 				  }
 				);
