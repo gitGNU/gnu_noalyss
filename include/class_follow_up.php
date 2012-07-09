@@ -847,6 +847,21 @@ class Follow_Up
 		if ($contact->get_by_qcode($this->ag_contact) == -1)
 			$contact->id = 0;
 
+		// reload the old one
+		$old=new Follow_Up($this->db,$this->ag_id);
+		$old->get();
+
+		// If ag_ref changed then check if unique
+		if ($old->ag_ref != $this->ag_ref)
+		{
+			$nAg_ref=$this->db->get_value("select count(*) from action_gestion where ag_ref=$1",array($this->ag_ref));
+			if ($nAg_ref != 0 )
+			{
+				echo h2("Référence en double, référence non sauvée",'class="error"');
+				$this->ag_ref=$old->ag_ref;
+			}
+		}
+
 
 		if ($this->ag_remind_date != null)
 		{

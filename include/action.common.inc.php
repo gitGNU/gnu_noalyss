@@ -84,19 +84,16 @@ if ($sub_action == "update")
 	{
 		$act2 = new Follow_Up($cn);
 		$act2->fromArray($_POST);
-		$sub_action = "detail";
-		put_global(array(array('key' => "sa", "value" => "detail")));
-		if ($g_user->can_write_action($act2->ag_id))
-		{
-			$act2->Update();
-		}
-		else
+		if ($g_user->can_write_action($act2->ag_id) == false )
 		{
 			echo '<div class="redcontent">';
 			echo '<h2 class="error"> Cette action ne vous est pas autorisée Contactez votre responsable</h2>';
 			echo '</div>';
 			exit();
 		}
+		$sub_action = "detail";
+		put_global(array(array('key' => "sa", "value" => "detail")));
+		$act2->Update() ;
 	}
 	//----------------------------------------------------------------------
 	// Add a related action
