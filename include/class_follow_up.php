@@ -848,7 +848,8 @@ class Follow_Up
 			$contact->id = 0;
 
 		// reload the old one
-		$old=new Follow_Up($this->db,$this->ag_id);
+		$old=new Follow_Up($this->db);
+		$old->ag_id=$this->ag_id;
 		$old->get();
 
 		// If ag_ref changed then check if unique
