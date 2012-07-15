@@ -23,6 +23,8 @@
  * \brief javascript script, always added to every page
  *
  */
+
+var ask_reload=0;
 /**
 * callback function when we just need to update a hidden div with an info
 * message
@@ -135,7 +137,7 @@ function enable_type_periode()
 
 /**
  *@brief will reload the window but it is dangerous if we have submitted
- * a form
+ * a form with POST
  */
 function refresh_window()
 {
@@ -653,6 +655,12 @@ function removeDiv(elt)
     {
         document.body.removeChild(g(elt));
     }
+	// if reloaded if asked the window will be reloaded when
+	// the box is closed
+	if ( ask_reload == 1)
+	{
+		window.location.reload;
+	}
 }
 /**
  *show a box while loading
@@ -664,6 +672,7 @@ function waiting_box()
 	obj={
 		id:'wait_box',html:loading()
 		};
+	obj.style=fixed_position(350,200)+";width:200px";
 	if ($('wait_box')){
 		removeDiv('wait_box');
 		}
