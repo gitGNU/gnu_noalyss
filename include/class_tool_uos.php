@@ -54,15 +54,17 @@ class Tool_Uos
      * @global $cn Database connx
      * @throws Exception if the value $p_id is not unique
      */
-    function save()
+    function save($p_array=null)
     {
         global $cn;
+		if ( $p_array == null ) $p_array=$_POST;
+		$this->id=$_POST[$this->name];
         $sql="insert into tool_uos(uos_value) values ($1)";
         try {
             $cn->exec_sql($sql,array($this->id));
         } catch (Exception $e)
         {
-            throw new Exception('Duplicate value','CODE_EXCP_DUPLICATE',$e);
+            throw new Exception('Duplicate value');
         }
     }
     /**
@@ -89,7 +91,7 @@ class Tool_Uos
         try
         {
             $count=$cn->get_value('select count(*) from tool_uos where uos_value=$1',
-                    array($p_id));
+                    array($this->id));
             if ($count != 0 ) throw new Exception ('DUPLICATE',CODE_EXCP_DUPLICATE);
         }catch (Exception $e)
         {
