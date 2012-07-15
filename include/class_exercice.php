@@ -21,7 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file
- * \brief about the accountant exercice 
+ * \brief about the accountant exercice
  */
 require_once('class_database.php');
 require_once('class_iselect.php');
@@ -52,6 +52,25 @@ class Exercice
    {
      $iselect=new ISelect($name);
      $iselect->value=$this->cn->make_array('select distinct p_exercice,p_exercice from parm_periode order by 1');
+     $iselect->selected=$selected;
+     $iselect->javascript=$js;
+     return $iselect;
+   }
+   /**
+    *Show a ISelect with the different exercices, display start and end date
+    *@param $name of the iselect
+    *@param $selected the selected year  (default = '')
+    *@param $js javascript (default = '')
+    *@return ISelect object
+    */
+   function select_date($name,$selected='',$js='')
+   {
+     $iselect=new ISelect($name);
+     $iselect->value=$this->cn->make_array("select distinct p_exercice,to_char (min(p_start),'DD.MM.YY')
+																	 ||' - '
+																	 ||to_char (max(p_end),'DD.MM.YY')
+											from parm_periode
+											group by p_exercice order by 1");
      $iselect->selected=$selected;
      $iselect->javascript=$js;
      return $iselect;
