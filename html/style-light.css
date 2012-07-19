@@ -9,6 +9,7 @@ BODY {
 	color:blue;
 }
 .notice {
+	background: white;
 	color:red;
 	font-style: italic;
 }

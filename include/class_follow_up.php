@@ -177,7 +177,7 @@ class Follow_Up
 			$desc->width = 120;
 			$desc->heigh = 40;
 		}
-		$acomment = $this->db->get_array("SELECT agc_id, ag_id, to_char(agc_date,'DD.MM.YYYY') as str_agc_date, agc_comment, tech_user
+		$acomment = $this->db->get_array("SELECT agc_id, ag_id, to_char(agc_date,'DD.MM.YYYY HH24:MI') as str_agc_date, agc_comment, tech_user
 				 FROM action_gestion_comment where ag_id=$1 order by agc_id;", array($this->ag_id)
 		);
 

@@ -132,7 +132,7 @@
 </div>
 <div style="float:right;clear:both"></div>
 	<div style="float:left;width:45%">
-		<h4 style="display:inline">Opérations</h4>
+		<h4 style="display:inline">Opérations concernées</h4>
 		<ol>
 
 		<?
@@ -156,7 +156,7 @@
 
 		?>
 		</ol>
-		<? if ($p_view != 'READ') echo $iconcerned->input()?>
+		<? if ($p_view != 'READ')   echo '<span class="noprint">'.$iconcerned->input().'</span>';?>
 	</div>
 
 	<div style="float:left;width:45%">
@@ -187,13 +187,13 @@
 
 		?>
 		</ol>
-		<? if ( $p_view != 'READ') echo $iaction->input()?>
+		<? if ( $p_view != 'READ') echo '<span class="noprint">'.$iaction->input().'</span>';?>
 	</div>
 </fieldset>
-<fieldset>
-  <legend>
+<div style="margin-left:15px;margin-right: 15px">
+  <h1>
 	    <?=_('Description')?>
-  </legend>
+  </h1>
   <p>
 <script language="javascript">
    function enlarge(p_id_textarea){
@@ -228,7 +228,7 @@ for( $c=0;$c<count($acomment);$c++){
 						dossier::id(),
 						$acomment[$c]['agc_id']);
 				$js= '<a class="mtitle" style="color:orange" id="accom'.$acomment[$c]['agc_id'].'" href="'.$rmComment.'">Effacer</a>';
-		echo 'n°'.$acomment[$c]['agc_id'].'('.h($acomment[$c]['tech_user'])." ".smaller_date($acomment[$c]['str_agc_date']).')'.$js.
+		echo 'n°'.$acomment[$c]['agc_id'].'('.h($acomment[$c]['tech_user'])." ".$acomment[$c]['str_agc_date'].')'.$js.
 				'<pre style="white-space: -moz-pre-wrap;white-space: pre-wrap;border:1px solid blue;width:70%;" id="com'.$acomment[$c]['agc_id'].'"> '.
 				" ".h($acomment[$c]['agc_comment']).'</pre>'
 				;
@@ -242,15 +242,19 @@ for( $c=0;$c<count($acomment);$c++){
 
 	}
 }
+echo '<span class="noprint">';
 echo $desc->input();
+echo '</span>';
 ?>
 <? if ($p_view != "READ" ): ?>
+<p class="noprint">
 <input type="button" id="bt_enlarge" <?=$style_enl?> value="+" onclick="enlarge('ag_comment');return false;">
 <input type="button" id="bt_small"  <?=$style_small?> value="-" style="display:none" onclick="small('ag_comment');return false;">
+</p>
 <? endif; ?>
   </div>
-</fieldset>
-<input type='button' class="button" value='Montrer articles' id="toggleButton" onclick='toggleShowDetail()'>
+</div>
+<input type='button' class="button" class="noprint" value='Montrer articles' id="toggleButton" onclick='toggleShowDetail()'>
 <fieldset id="fldDetail" style='display:block'>
    <LEGEND> <?=_('Détail des articles')?>
 </LEGEND>
@@ -316,7 +320,7 @@ function toggleShowDetail() {
 </fieldset>
 
 <? if ($p_view != 'READ' && $str_select_doc != '') : ?>
-<fieldset >
+<fieldset class="noprint" >
   <legend>
      <?=_('Document à générer')?>
   </legend>
@@ -331,11 +335,13 @@ function toggleShowDetail() {
   <legend>
      <?=_('Pièces attachées')?>
   </legend>
+  <div class="print">
+  <ol>
   <?php
 for ($i=0;$i<sizeof($aAttachedFile);$i++) :
   ?>
-  <p>
-    <A class="mtitle" id="<?php echo "doc".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $aAttachedFile[$i]['link']?>"><?php echo $aAttachedFile[$i]['d_filename'];?>
+
+	  <li> <A class="print" style="display:inline" id="<?php echo "doc".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $aAttachedFile[$i]['link']?>"><?php echo $aAttachedFile[$i]['d_filename'];?>
     </A>
 <?php $rmDoc=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer le document')." %s')==true ) {remove_document('%s','%s');}",
 	$aAttachedFile[$i]['d_filename'],
@@ -343,10 +349,12 @@ for ($i=0;$i<sizeof($aAttachedFile);$i++) :
 	$aAttachedFile[$i]['d_id']);
     ?>
   <? if ($p_view != 'READ') : ?>  <a class="mtitle" style="color:orange" id="<?php echo "ac".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $rmDoc;?>">Effacer</a><? endif;?>
-  </p>
+  </li>
   <?php
 endfor;
   ?>
+  </ol>
+  </div>
   <script language="javascript">
 function addFiles() {
 try {
@@ -358,17 +366,17 @@ try {
 catch(exception) { alert('<?=j(_('Je ne peux pas ajouter de fichier'))?>'); alert(exception.message);}
 }
 </script>
-  <p >
-     <h3>Fichiers à ajouter: </h3>
-    <ol id='add_file' >
+  <div class="noprint">
+     <h3 >Fichiers à ajouter: </h3>
+    <ol id='add_file'  >
       <li>
         <?php echo $upload->input();
         ?>
       </li>
     </ol>
-  <span >
+  <span   >
 <? if ($p_view != 'READ') : ?> <input type="button" class="button" onclick="addFiles();" value="Ajouter un fichier"> <? endif;?>
   </span>
-  </p>
+  </div>
 </fieldset>
 <script>compute_all_ledger()</script>

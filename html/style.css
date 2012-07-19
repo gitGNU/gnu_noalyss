@@ -11,6 +11,7 @@ BODY {
 .notice {
 		color:red;
         font-style: italic;
+		background-color: white;
         }
 
 table.table_large, table.result  ,table.resultfooter {
