@@ -13,7 +13,7 @@ BODY {
 	font-style: italic;
 }
 
-table.table_large, table.result  ,table.resultfooter {
+table.sortable, table.table_large, table.result  ,table.resultfooter {
 	color:blue;
 	/* border:blue solid 1px; */
 	width:100%;
@@ -27,7 +27,7 @@ table.resultfooter tfoot {
 
 
 }
-table.table_large th,table.result th {
+table.sortable th, table.table_large th,table.result th {
 	font-weight:bold;
 	font-family:verdana,helvetica,sans-serif;
 	border-bottom:1px solid blue;
@@ -945,14 +945,14 @@ div#search_form
 	position:absolute;
 	border:1px solid black;
 	top:15%;left:100;
-	margin-left:25%
-		z-index:2;
+	margin-left:25%;
+	z-index:2;
 	width:50%;
 	display:none;
 	background-color:#e4e7ed;
 }
 
-table.table_large td, table.result td
+table.sortable td,table.table_large td, table.result td
 {
 	padding-left:5px;
 	padding-right:5px;

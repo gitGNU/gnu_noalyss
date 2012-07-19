@@ -1,6 +1,6 @@
 span.tmenu {
-	   padding-left:20px; 
-	   padding-right:20px; 
+	   padding-left:20px;
+	   padding-right:20px;
 	   border:solid 1px blue;
 	   background-color: #6699dd ;
 }
@@ -14,8 +14,7 @@ span.tmenu {
 	  width:150px;
 }
 a.tmenu:link {
-	   background-color: #6699dd ;	
-//	    color:#683af2;
+	   background-color: #6699dd ;
 	    color:white;
 	    }
 a.tmenu:visited {
@@ -47,7 +46,7 @@ div.dcontent {
 }
 div.ddownload {
 	      color:white;
-	      background-color:#6699dd ;	
+	      background-color:#6699dd ;
 }
 div.content {
 	    margin-left:10%;
@@ -60,7 +59,7 @@ H2 {
    color:blue;
    background-color:white;
 }
-table.result td 
+table.sortable td,table.result td
 {
 	padding-left:5px;
 	padding-right:5px;

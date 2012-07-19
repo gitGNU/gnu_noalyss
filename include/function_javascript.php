@@ -2755,6 +2755,7 @@ function load_all_script()
     echo js_include('gestion.js');
     echo js_include('todo_list.js');
     echo js_include('anc_script.js');
+    echo js_include('sorttable.js');
 
 
 }

@@ -13,7 +13,7 @@ BODY {
 	font-style: italic;
 }
 
-table.table_large, table.result  ,table.resultfooter {
+table.table_large, table.result  ,table.resultfooter,table.sortable  {
 	color:blue;
 	/* border:blue solid 1px; */
 	width:100%;
@@ -27,7 +27,7 @@ table.resultfooter tfoot {
 
 
 }
-table.table_large th,table.result th {
+table.table_large th,table.result th,table.sortable th {
 	font-weight:bold;
 	font-family:verdana,helvetica,sans-serif;
 	border-bottom:1px solid blue;
@@ -947,7 +947,7 @@ div#search_form
 	background-color:#e4e7ed;
 }
 
-table.table_large td, table.result td
+table.table_large td, table.result td,table.sortable td
 {
 	padding-left:5px;
 	padding-right:5px;
