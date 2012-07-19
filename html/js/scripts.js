@@ -659,7 +659,8 @@ function removeDiv(elt)
 	// the box is closed
 	if ( ask_reload == 1)
 	{
-		window.location.reload;
+		// avoid POST window.location = window.location.href;
+		window.location.reload();
 	}
 }
 /**
