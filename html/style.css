@@ -550,7 +550,7 @@ a.document:hover {
 	margin:1px;
 	background-color: orange;
 }
-legend {
+h1.legend, legend {
 font-weight: bold;
 font-style: italic;
 font-size: 120% ;

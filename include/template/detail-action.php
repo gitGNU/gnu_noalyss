@@ -191,7 +191,7 @@
 	</div>
 </fieldset>
 <div style="margin-left:15px;margin-right: 15px">
-  <h1>
+  <h1 class="legend">
 	    <?=_('Description')?>
   </h1>
   <p>
