@@ -99,11 +99,11 @@ if ($profile->p_id > 0)
 	echo $add_one;
         echo '</div>';
         echo '<div style="display:none" id="profile_gestion_div">';
-	echo "<h1>Action gestion accessible</h1>";
+	echo "<h2>Action gestion accessible</h2>";
 	$profile_menu->available_profile($p_id);
         echo '</div>';
         echo '<div style="display:none" id="profile_repo_div">';
-	echo "<h1>Dépôt de stock accessible</h1>";
+	echo "<h2>Dépôt de stock accessible</h2>";
 	$profile_menu->available_repository($p_id);
         echo '</div>';
         if ( isset ($_POST['tab']))
