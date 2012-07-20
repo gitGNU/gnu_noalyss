@@ -123,7 +123,7 @@ echo IButton::tooggle_checkbox('rec1');
 echo '</p>';
 echo HtmlInput::submit('save', 'Mettre à jour le n° de relevé bancaire');
 echo '<table class="sortable" style="width:80%;margin-left:10%">';
-$r ='<th>'.'Date '.HtmlInput::infobulle(17).'</th>';
+$r ='<th class=" sorttable_sorted_reverse">'.'Date '.HtmlInput::infobulle(17).'<span id="sorttable_sortrevind">&nbsp;&blacktriangle;</span>'.'</th>';
 $r.=th('Libellé');
 $r.=th('N° interne');
 $r.=th('Montant', ' style="text-align:right"');
