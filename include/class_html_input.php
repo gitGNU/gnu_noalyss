@@ -575,7 +575,7 @@ class HtmlInput
       return $r;
     }
     /**
-     * return default if the value if the array doesn't exist
+     * return default if the value if the value doesn't exist in the array
      *@param $ind the index to check
      *@param $default the value to return
      *@param $array the array
@@ -588,6 +588,48 @@ class HtmlInput
 	}
       return $array[$ind];
     }
+	/**
+	 *  return default if the value if the value doesn't exist in $_GET
+	 * @param  $ind name of the variable
+	 * @param type $default
+	 * @return type
+	 */
+	static function default_value_get($ind, $default)
+	{
+		if (!isset($_GET[$ind]))
+		{
+			return $default;
+		}
+		return $_GET[$ind];
+	}
+	/**
+	 *  return default if the value if the value doesn't exist in $_POST
+	 * @param  $ind name of the variable
+	 * @param type $default
+	 * @return type
+	 */
+	static function default_value_post($ind, $default)
+	{
+		if (!isset($_POST[$ind]))
+		{
+			return $default;
+		}
+		return $_POST[$ind];
+	}
+	/**
+	 *  return default if the value if the value doesn't exist in $_REQUEST
+	 * @param  $ind name of the variable
+	 * @param type $default
+	 * @return type
+	 */
+	static function default_value_request($ind, $default)
+	{
+		if (!isset($_REQUEST[$ind]))
+		{
+			return $default;
+		}
+		return $_REQUEST[$ind];
+	}
 	static function title_box($name,$div,$mod="close")
 	{
 		if ($mod=='close')		$r=HtmlInput::anchor_close($div);
