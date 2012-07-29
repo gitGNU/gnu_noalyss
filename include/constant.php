@@ -58,6 +58,8 @@ define ('MAX_CAT',15);
 define ('MAX_FORECAST_ITEM',10);
 define ('MAX_PREDEFINED_OPERATION',30);
 define ('MAX_COMPTE_CARD',4);
+define ('COMPTA_MAX_YEAR',2100);
+define ('COMPTA_MIN_YEAR',1990);
 
 if ( DEBUG ) error_reporting(2147483647);  else error_reporting(0);
 // Erreur
