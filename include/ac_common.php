@@ -230,7 +230,7 @@ function isDate($p_date)
 	if (sizeof($l_date) != 3)
 	    return null;
 
-	if ($l_date[2] > 2050)
+	if ($l_date[2] > COMPTA_MAX_YEAR || $l_date[2] < COMPTA_MIN_YEAR)
 	{
 	    return null;
 	}

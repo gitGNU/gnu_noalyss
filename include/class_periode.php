@@ -352,7 +352,7 @@ class Periode
                 isDate($p_date_end) == null ||
                 strlen (trim($p_exercice)) == 0 ||
                 (string) $p_exercice != (string)(int) $p_exercice
-	  ||$p_exercice < 2000 || $p_exercice > 2099 )
+	  ||$p_exercice < COMPTA_MIN_YEAR || $p_exercice > COMPTA_MAX_YEAR)
 
         {
 	  throw new Exception ("Paramètre invalide");
