@@ -27,7 +27,15 @@ require_once('class_itext.php');
 /*!\brief
  * This class handles only the numeric input, the input will
  * call a javascript
- * to change comma to period  and will round it (2 decimal)
+ * to change comma to period  and will round it (2 decimal), the precision is given by
+ * the attribute prec
+ * attribute
+ *  extra = extra code (free)
+ *  size = size of the field
+ *  prec = precision default = 2
+ *  name = name of the html object
+ *  javascript = javascript to execute (default = onchange="format_number(this,2);)
+ *  value = value of the widget
  *
  */
 class INum extends IText
