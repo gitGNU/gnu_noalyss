@@ -55,6 +55,7 @@ define ('NOTFOUND','--not found--');
 define ("MAX_COMPTE",4);
 define ('MAX_ARTICLE',12);
 define ('MAX_CAT',15);
+define ('MAX_CARD_SEARCH',50);
 define ('MAX_FORECAST_ITEM',10);
 define ('MAX_PREDEFINED_OPERATION',30);
 define ('MAX_COMPTE_CARD',4);
