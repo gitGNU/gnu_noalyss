@@ -45,6 +45,7 @@ content[14]="Attention, le poste comptable doit exister, il ne sera pas vérifi�
 content[15]="Laissez à 0 pour ne rien changer";
 content[16]="Vous devez donner la date par opération";
 content[17]="Cliquez sur le titre d'une colonne pour trier";
+content[18]="Donner une partie du nom, prénom, de la description, du poste comptable, du n° de TVA ou quick code";
 
 function showBulle(p_ctl)
 {

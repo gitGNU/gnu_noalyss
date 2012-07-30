@@ -501,6 +501,9 @@ EOF;
 	case 'add_menu':
 		require_once 'ajax_add_menu.php';
 		break;
+	case 'cardsearch':
+		require_once 'ajax_boxcard_search.php';
+		break;
 	case 'add_plugin':
 		$me_code = new IText('me_code');
 		$me_file = new IText('me_file');

@@ -82,6 +82,16 @@ echo HtmlInput::hidden('ac', $_GET['ac']);
 require_once('template/impress_cat_card.php');
 echo HtmlInput::submit('cat_display', _('Recherche'));
 echo '</FORM>';
+$search_card=new IText('card_search');
+$search_card_js=sprintf('onclick="boxsearch_card(\'%d\')"',dossier::id());
+?>
+<div style="position:absolute;right:230px;top:110px">
+
+		Recherche de fiche <?=HtmlInput::infobulle(18)?> :<?=$search_card->input()?>
+		<?=HtmlInput::button_anchor("Chercher","javascript:void(0)","",$search_card_js)?>
+</div>
+<?
+echo '</div>';
 $str = "if (g('histo').value==3 || g('histo').value== -1 ) {
      g('trstart').style.display='none';g('trend').style.display='none';g('allcard').style.display='none';}
      else  {g('trstart').style.display='';g('trend').style.display='';g('allcard').style.display='';}
