@@ -327,9 +327,11 @@ case 'fs':
     $r.='<form method="GET" onsubmit="this.ctl=\'ipop_card\';search_get_card(this);return false;">';
     $q=new IText('query');
     $q->value=(isset($query))?$query:'';
+	$r.='<span style="margin-left:50px">';
     $r.=_('Fiche contenant').HtmlInput::infobulle(19);
     $r.=$q->input();
     $r.=HtmlInput::submit('fs',_('Recherche'));
+	$r.='</span>';
     $r.=dossier::hidden().HtmlInput::hidden('op','fs');
     $array=array();
     foreach (array('query','inp','jrn','label','typecard','price','tvaid') as $i)
