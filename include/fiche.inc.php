@@ -192,6 +192,7 @@ if ($_GET['histo'] == -1)
 	$nb_line = Database::num_row($res);
 	require_once 'template/fiche_list.php';
 	if ($write == 1 && $allcard == 0 ) echo $str_add_card;
+	echo '<hr>'.$bar;
 	exit();
 }
 /* * *********************************************************************************************************************************
@@ -324,9 +325,9 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 					td(nbm(abs($solde['solde'])), 'style="text-align:right"') .
 					td((($solde['debit'] < $solde['credit']) ? 'CRED' : 'DEB'), 'style="text-align:right"'), $class
 			);
-                      
-                                
-                                
+
+
+
 		}
                 echo tr(
                                 td('').
