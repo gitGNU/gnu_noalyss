@@ -189,9 +189,10 @@ class HtmlInput
     {
         return '<INPUT TYPE="RESET" class="button" VALUE="'.$p_value.'">';
     }
-    static function hidden($p_name,$p_value)
+    static function hidden($p_name,$p_value,$p_id="")
     {
-        return '<INPUT TYPE="hidden" id="'.$p_name.'" NAME="'.$p_name.'" VALUE="'.$p_value.'">';
+		if ($p_id=="") $p_id=$p_name;
+        return '<INPUT TYPE="hidden" id="'.$p_id.'" NAME="'.$p_name.'" VALUE="'.$p_value.'">';
     }
 
     static function extension()
