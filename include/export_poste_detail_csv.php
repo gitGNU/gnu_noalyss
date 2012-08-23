@@ -25,10 +25,10 @@ include_once("ac_common.php");
 require_once('class_database.php');
 require_once("class_acc_account_ledger.php");
 require_once ('class_acc_operation.php');
-
+$fDate=date('dmy-Hi');
 header('Pragma: public');
 header('Content-type: application/csv');
-header('Content-Disposition: attachment;filename="poste.csv"',FALSE);
+header('Content-Disposition: attachment;filename="poste-'.$fDate.'-'.$_REQUEST['poste_id'].'.csv"',FALSE);
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
@@ -68,7 +68,8 @@ if ( ! isset ($_REQUEST['oper_detail']))
         "\"Description\";".
         "\"Débit\";".
         "\"Crédit\";".
-        "\"Prog.\"";
+        "\"Prog.\";".
+		"\"Let.\"";
         printf("\n");
 
         $prog=0;
@@ -84,7 +85,8 @@ if ( ! isset ($_REQUEST['oper_detail']))
             '"'.$op['description'].'";'.
             nb($op['deb_montant']).";".
             nb($op['cred_montant']).";".
-            nb(abs($prog));
+            nb(abs($prog)).";".
+			(($op['letter']!=-1)?$op['letter']:"");
             printf("\n");
 
 
