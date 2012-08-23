@@ -133,7 +133,7 @@ else
 			/* skip if nothing to display */
 			if (count($letter->content) == 0)
 				continue;
-			printf('"%s"'."\n",$row->strAttribut(ATTR_DEF_QUICKCODE), $row->strAttribut(ATTR_DEF_NAME));
+			printf('"%s";"%s"'."\n",$row->strAttribut(ATTR_DEF_QUICKCODE), $row->strAttribut(ATTR_DEF_NAME));
 
 			printf('"%s";"%s";"%s";"%s";"%s";"%s";"%s";"%s";"%s"',
 					_('Date'),

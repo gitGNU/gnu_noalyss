@@ -120,11 +120,11 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5)
 	$side='';
 	if(bcsub($solde['credit'],$solde['debit']) < 0) $side='Deb.';
 	if(bcsub($solde['credit'],$solde['debit']) > 0) $side='Cred.';
-        
+
         $sum_cred=bcadd($sum_cred,$solde['credit']);
         $sum_deb=bcadd($sum_deb,$solde['debit']);
         $sum_solde=bcsub($sum_deb,$sum_cred);
-        
+
         $pdf->Cell(30,7,$oCard->strAttribut(ATTR_DEF_QUICKCODE),0,0,'L',$fill);
         $pdf->Cell(80,7,$oCard->strAttribut(ATTR_DEF_NAME),0,0,'L',$fill);
         $pdf->Cell(20,7,nbm($solde['debit']),0,0,'R',$fill);
@@ -140,7 +140,7 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5)
         $pdf->Cell(20,7,nbm($sum_cred),0,0,'R',$fill);
         $pdf->Cell(20,7,nbm(abs($sum_solde)),0,0,'R',$fill);
         $side=" = ";
-        if ( $sum_solde > 0 ) 
+        if ( $sum_solde > 0 )
         {
             $side='Deb.';
         }
@@ -148,7 +148,7 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5)
         {
             $side='Cred.';
         }
-        
+
         $pdf->Cell(20,7,$side,0,0,'C',$fill);
         $pdf->Ln();
 	}
@@ -210,7 +210,7 @@ else
 				continue;
 			$pdf->SetFont('DejaVuCond', '', 10);
 			$fiche = new Fiche($cn, $row_fiche['f_id']);
-			$pdf->Cell(0, 7, $fiche->strAttribut(ATTR_DEF_NAME), 1, 1, 'C');
+			$pdf->Cell(0, 7, $fiche->strAttribut(ATTR_DEF_NAME)." [".$fiche->strAttribut(ATTR_DEF_QUICKCODE)."]", 1, 1, 'C');
 
 			$pdf->SetFont('DejaVuCond', '', 7);
 
