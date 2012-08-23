@@ -87,7 +87,7 @@ $search_card_js=sprintf('onclick="boxsearch_card(\'%d\')"',dossier::id());
 ?>
 <div style="position:absolute;right:230px;top:110px">
 
-		Recherche de fiche <?=HtmlInput::infobulle(18)?> :<?=$search_card->input()?>
+		<?=_('Recherche de fiche')?> <?=HtmlInput::infobulle(18)?> :<?=$search_card->input()?>
 		<?=HtmlInput::button_anchor("Chercher","javascript:void(0)","",$search_card_js)?>
 </div>
 <?
@@ -165,8 +165,8 @@ if ($_GET['histo'] == -1)
 				}
 				if ($msg != "")
 				{
-					echo h2("Fiche non effacées", ' class="error"  ');
-					echo '<p class="error">'." Ces fiches n'ont pas été effacées  ".$msg;
+					echo h2(_("Fiche non effacées"), ' class="error"  ');
+					echo '<p class="error">'._(" Ces fiches n'ont pas été effacées  ").$msg;
 				}
 			}
 		}
@@ -182,10 +182,10 @@ if ($_GET['histo'] == -1)
 	}
 	else
 	{
-		$cond = " where fd_id = " . sql_string($_GET['cat']);
+		$cond = " where f.fd_id = " . sql_string($_GET['cat']);
 	}
 	// Create nav bar
-	$max = $cn->get_value("select count(*) from fiche " . $cond);
+	$max = $cn->get_value("select count(*) from fiche as f " . $cond);
 
 	$step = $_SESSION['g_pagesize'];
 	$page = (isset($_GET['offset'])) ? $_GET['page'] : 1;
@@ -195,9 +195,10 @@ if ($_GET['histo'] == -1)
 	$res = $cn->exec_sql("
 		select f_id,
 			(select ad_value from fiche_detail as fd1 where ad_id=1 and fd1.f_id=f.f_id) as name,
-			(select ad_value from fiche_detail as fd1 where ad_id=23 and fd1.f_id=f.f_id) as qcode
-		from fiche as f
-		$cond   order by 1 offset $offset $limit
+			(select ad_value from fiche_detail as fd1 where ad_id=23 and fd1.f_id=f.f_id) as qcode,
+			fd_label
+		from fiche as f join fiche_def as fd on (fd.fd_id=f.fd_id)
+		$cond   order by 2 offset $offset $limit
 	");
 	$nb_line = Database::num_row($res);
 	require_once 'template/fiche_list.php';
@@ -292,7 +293,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 		{
 			if ($allcard == 0)
 			{
-				echo "Aucune fiche trouvée";
+				echo _("Aucune fiche trouvée");
 				exit;
 			} else
 				continue;

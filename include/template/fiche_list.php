@@ -28,7 +28,7 @@
 ?>
 <?= $bar?>
 <form method="POST" class="print" style="display:inline" onsubmit="return confirm('Vous confirmez ?')">
-	<table>
+	<table class="result">
 		<tr>
 			<th>
 				Quick Code
@@ -37,13 +37,19 @@
 				Nom
 
 			</th>
+			<? if ($allcard == 1 ) : ?>
+			<th>
+				Catégorie
+			</th>
+			<? endif; ?>
 			<th>
 				Selection
 			</th>
 		</tr>
 		<? for ($i = 0; $i < $nb_line; $i++) :?>
 			<? $row = Database::fetch_array($res, $i);?>
-			<tr>
+			<? $class=($i%2 == 0)?' class="even" ':' class="odd" ';?>
+			<tr <?=$class?> >
 				<td>
 					<?= HtmlInput::card_detail($row['qcode'], "", ' class="line" ')?>
 
@@ -51,6 +57,11 @@
 				<td>
 					<?= h($row['name'])?>
 				</td>
+				<? if ($allcard == 1 ) : ?>
+				<td>
+					<?= h($row['fd_label'])?>
+				</td>
+				<? endif; ?>
 				<td>
 					<?
 					if ($write == 1)
