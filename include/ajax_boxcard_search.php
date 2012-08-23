@@ -37,6 +37,7 @@ $sql="
 	or vw_description ~* $1
 	or tva_num ~* $1
 	or pc.ad_value like $1||'%'
+	or quick_code like upper($1||'%')
 	order by 2
 ";
 $array=$cn->get_array($sql,array($_GET['card']));
