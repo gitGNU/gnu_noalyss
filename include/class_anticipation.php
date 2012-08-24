@@ -176,7 +176,7 @@ class Anticipation
         ob_start();
         require_once('template/forecast_result.php');
         $r.=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
         return $r;
     }
     public static function div()
@@ -246,7 +246,7 @@ class Anticipation
         ob_start();
         require_once('template/forecast_cat.php');
         $r.=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
         return $r;
     }
     /**
@@ -309,7 +309,7 @@ class Anticipation
         ob_start();
         require_once('template/forecast_cat.php');
         $r.=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
         return $r;
 
     }
@@ -433,7 +433,7 @@ class Anticipation
         ob_start();
         require_once('template/forecast-detail.php');
         $r.=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
         return $r;
     }
     /**

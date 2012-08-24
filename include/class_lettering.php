@@ -261,7 +261,7 @@ class Lettering
         ob_start();
         include('template/letter_all.php');
         $r=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
         return $r;
     }
 	function get_linked($p_jlid)
@@ -289,7 +289,7 @@ class Lettering
         ob_start();
         include('template/letter_all.php');
         $r=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
         return $r;
     }
 	/**
@@ -303,7 +303,7 @@ class Lettering
         ob_start();
         include('template/letter_all.php');
         $r=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
         return $r;
     }
 
@@ -319,7 +319,7 @@ class Lettering
         ob_start();
         include('template/letter_all.php');
         $r=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
         return $r;
     }
     /**
@@ -369,7 +369,7 @@ class Lettering
         ob_start();
         require_once('template/letter_prop.php');
         $r=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
         $r.=HtmlInput::hidden('j_id',$p_jid);
         $r.=HtmlInput::hidden('jnt_id',$jnt_id);
 

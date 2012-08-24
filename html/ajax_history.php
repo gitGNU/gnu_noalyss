@@ -115,7 +115,7 @@ if ( isset($_GET['f_id']))
 	echo $old;
 
         $html=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
       }
   }
 ///////////////////////////////////////////////////////////////////////////
@@ -185,7 +185,7 @@ if ( isset($_REQUEST['pcm_val']))
 	echo $old;
 
         $html=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
       }
   }
 $html=escape_xml($html);

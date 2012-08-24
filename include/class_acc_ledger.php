@@ -2462,7 +2462,7 @@ class Acc_Ledger extends jrn_def_sql
 		ob_start();
 		require_once('template/ledger_search.php');
 		$r.=ob_get_contents();
-		ob_clean();
+		ob_end_clean();
 		return $r;
 	}
 

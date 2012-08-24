@@ -425,7 +425,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		ob_start();
 		require_once('template/form_ledger_fin.php');
 		$r.=ob_get_contents();
-		ob_clean();
+		ob_end_clean();
 
 
 		return $r;

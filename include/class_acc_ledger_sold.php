@@ -1336,7 +1336,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         ob_start();
         require_once('template/form_ledger_detail.php');
         $r.=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
 
 
 

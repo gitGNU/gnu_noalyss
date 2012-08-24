@@ -116,7 +116,7 @@ case 'rmfa':
         echo $e->getMessage();
     }
     $html=ob_get_contents();
-    ob_clean();
+    ob_end_clean();
     break;
     /* ------------------------------------------------------------ */
     /* Display card detail */
@@ -395,7 +395,7 @@ case 'fs':
     ob_start();
     require_once('template/card_result.php');
     $r.=ob_get_contents();
-    ob_clean();
+    ob_end_clean();
     $ctl=$ctl.'_content';
     $html=$r;
     break;
@@ -444,7 +444,7 @@ case 'ac':
         ob_start();
         require('template/category_of_card.php');
         $html.=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
 
     }
     else
@@ -513,7 +513,7 @@ case 'upc':
 	  ob_start();
 	  $f->update($_GET);
 	  $html.=ob_get_contents();
-	  ob_clean();
+	  ob_end_clean();
 	  $html.=$f->Display(true);
 	  $html.=HtmlInput::button('close_'.$ctl,'Fermer',"onclick=\"removeDiv('$ctl')\"");
 	}

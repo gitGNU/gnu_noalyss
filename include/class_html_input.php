@@ -325,7 +325,7 @@ class HtmlInput
 
         echo '</div>';
         $ret=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
         return $ret;
     }
     /**
@@ -366,7 +366,7 @@ class HtmlInput
 
         echo '</div>';
         $r=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
         return $r;
     }
     static function display_periode($p_id)
