@@ -68,6 +68,9 @@ if ( ! empty ($array) )  {
 	for($i=0;$i<count($last_operation);$i++):
 	?>
 	<li>
+		<span>
+			<?=h($last_operation[$i]['ag_ref'])?>
+		</span>
 	<span>
 	<?=smaller_date($last_operation[$i]['ag_timestamp_fmt'])?>
 	</span>
@@ -75,7 +78,7 @@ if ( ! empty ($array) )  {
 			<?=h($last_operation[$i]['vw_name'])?>
 		</span>
 	<span>
-	<?=h(mb_substr($last_operation[$i]['ag_title'],0,60,'UTF-8'))?>
+	<?=h(mb_substr($last_operation[$i]['ag_title'],0,50,'UTF-8'))?>
 	</span>
 	<span style="font-style: italic">
 	<?=$last_operation[$i]['dt_value']?>
@@ -95,6 +98,9 @@ if ( ! empty ($array) )  {
 	for($i=0;$i<count($late_operation);$i++):
 	?>
 	<li>
+		<span>
+			<?=h($late_operation[$i]['ag_ref'])?>
+		</span>
 	<span>
 	<?=smaller_date($late_operation[$i]['ag_timestamp_fmt'])?>
 	</span>
@@ -102,7 +108,7 @@ if ( ! empty ($array) )  {
 			<?=h($late_operation[$i]['vw_name'])?>
 		</span>
 	<span>
-	<?=h(mb_substr($late_operation[$i]['ag_title'],0,60,'UTF-8'))?>
+	<?=h(mb_substr($late_operation[$i]['ag_title'],0,50,'UTF-8'))?>
 	</span>
 	<span style="font-style: italic">
 	<?=$late_operation[$i]['dt_value']?>
