@@ -239,13 +239,16 @@ class phpcompta_sql
 			{
 				$this->$value=$p_array[$value];
 			}
+			else
+			{
+				$this->$value=null;
+			}
 		}
 		return $this;
 	}
 	 function seek($cond='', $p_array=null)
 	{
 		$sql = "select * from ".$this->table."  $cond";
-		$aobj = array();
 		$ret = $this->cn->exec_sql($sql, $p_array);
 		return $ret;
 	}
