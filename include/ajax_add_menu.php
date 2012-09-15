@@ -38,7 +38,16 @@ $ame_code_dep=$cn->make_array("
 	order by 1
 	",1);
 $ame_code=$cn->make_array("
-	select me_code,me_code||' '||me_menu||' '||coalesce(me_description,'') from
+select me_code,me_code||' '||coalesce(me_menu,'')||' '||coalesce(me_description,'')
+	||'('|| case when me_type='SP' then 'Special'
+		when me_type='PR' then 'Impression'
+		when me_type='PL' then 'Plugin'
+		when me_type='ME' and me_file is null and me_javascript is null and me_url is null then 'Module - Menu principal'
+		when me_type='ME' then 'Menu'
+		else
+		me_type
+		end||')'
+	from
 	menu_ref
 	order by 1
 	");
