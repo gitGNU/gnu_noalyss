@@ -25,6 +25,9 @@
  * @file
  * @brief show the form to add a menu
  */
+$type=$_GET['type'];
+if ( $type=='me')
+{
 $ame_code_dep=$cn->make_array("
 	select me_code,me_code||' '||me_menu||' '||coalesce(me_description,'') from
 	menu_ref
@@ -51,6 +54,7 @@ select me_code,me_code||' '||coalesce(me_menu,'')||' '||coalesce(me_description,
 	menu_ref
 	order by 1
 	");
+
 $p_order=new INum("p_order","10");
 $atype=$cn->make_array("select pm_type,pm_desc from profile_menu_type order by 1");
 
@@ -76,7 +80,7 @@ echo HtmlInput::title_box("Nouveau menu", $ctl);
 	<td><?=$me_code->input()?></td>
 </tr>
 <tr>
-	<td>Dépendant de </td>
+	<td>Dépendant de <?=HtmlInput::infobulle(20)?></td>
 	<td><?=$me_code_dep->input()?></td>
 </tr>
 
@@ -96,4 +100,47 @@ echo HtmlInput::title_box("Nouveau menu", $ctl);
 <?
 echo HtmlInput::submit('add_menu',"Valider");
 echo '</form>';
+}
+if ($type=='pr')
+{
+
+$ame_code=$cn->make_array("
+select me_code,me_code||' '||coalesce(me_menu,'')||' '||coalesce(me_description,'')
+	from
+	menu_ref
+	where me_type='PR'
+	and me_code not in (select me_code from profile_menu where p_id=".sql_string($p_id).")
+	order by 1
+	");
+
+$me_code=new ISelect('me_code');
+$me_code->value=$ame_code;
+
+	echo HtmlInput::title_box("Nouveau menu", $ctl);
+	if (count($ame_code)==0)
+	{
+		echo h2("Aucune impression disponible à ajouter",'class="notice"');
+		return;
+	}
+?>
+<form method="POST" onsubmit="return confirm('Vous confirmez ?')">
+	<?
+	echo HtmlInput::hidden('tab','profile_print_div');
+	?>
+	<?=HtmlInput::hidden('p_id',$p_id)?>
+	<?=HtmlInput::hidden('p_order',10)?>
+	<?=HtmlInput::hidden('me_code_dep','')?>
+	<?=HtmlInput::hidden('p_type','PR')?>
+<table>
+<tr>
+	<td>Code</td>
+	<td><?=$me_code->input()?></td>
+</tr>
+
+</table>
+<?
+echo HtmlInput::submit('add_impress',"Valider");
+echo '</form>';
+}
+
 ?>
