@@ -47,7 +47,7 @@ content[16]="Vous devez donner la date par opération";
 content[17]="Cliquez sur le titre d'une colonne pour trier";
 content[18]="Donner une partie du nom, prénom, de la description, du poste comptable, du n° de TVA ou quick code";
 content[19]="Donner une partie du nom, de la description,  du n° de TVA ou quick code";
-
+content[20]="Les menus ne peuvent dépendre que dans d'un menu principal ou d'un menu, si cette liste est vide, ajouter des modules ou menu principal sans donner de dépendance";
 function showBulle(p_ctl)
 {
     d=document.getElementById('bulle');

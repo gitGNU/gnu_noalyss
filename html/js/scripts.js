@@ -1258,11 +1258,12 @@ function mod_menu(gdossier,pm_id)
 }
 function add_menu(obj)
 {
-	pdossier=obj.dossier;
-	p_id=obj.p_id
+	var pdossier=obj.dossier;
+	var p_id=obj.p_id;
+	var p_type=obj.type;
 	waiting_box();
 	removeDiv('divdm'+p_id);
-	var qs="op=add_menu&gDossier="+pdossier+"&p_id="+p_id+"&ctl=divdm"+p_id;
+	var qs="op=add_menu&gDossier="+pdossier+"&p_id="+p_id+"&ctl=divdm"+p_id+"&type="+p_type;
 	var pos=fixed_position(250,150);
 	var action=new Ajax.Request ( 'ajax_misc.php',
 				  {

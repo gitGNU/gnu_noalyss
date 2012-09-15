@@ -31,7 +31,8 @@ require_once 'class_profile_sql.php';
 require_once 'class_profile_menu.php';
 $profile=new Profile_sql($cn,$p_id);
 $gDossier=Dossier::id();
-$add_one=HtmlInput::button("add", "Ajout Menu","onclick=\"add_menu({dossier:$gDossier,p_id:$p_id})\"");
+$add_menu=HtmlInput::button("add", "Ajout Menu","onclick=\"add_menu({dossier:$gDossier,p_id:$p_id,type:'me'})\"");
+$add_impression=HtmlInput::button("add", "Ajout Menu","onclick=\"add_menu({dossier:$gDossier,p_id:$p_id,type:'pr'})\"");
 ?>
 <hr>
 <h1>Profil <?=$profile->p_name?></h1>
@@ -89,14 +90,14 @@ if ($profile->p_id > 0)
         echo '<div style="display:none" id="profile_menu_div">';
 	//Menu / Module /plugin in this profile
 	echo "<h2>Menu</h2>";
-	echo $add_one;
+	echo $add_menu;
 	$profile_menu = new Profile_Menu($cn);
 	$profile_menu->listing_profile($p_id);
         echo '</div>';
         echo '<div style="display:none" id="profile_print_div">';
 	echo "<h2>Impression</h2>";
 	$profile_menu->printing($p_id);
-	echo $add_one;
+	echo $add_impression;
         echo '</div>';
         echo '<div style="display:none" id="profile_gestion_div">';
 	echo "<h2>Action gestion accessible</h2>";

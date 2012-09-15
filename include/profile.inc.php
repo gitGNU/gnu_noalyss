@@ -244,7 +244,7 @@ if (isset($_POST['mod']))
 //****************************************************
 // Add a menu, module, submenu,plugin...
 //****************************************************
-if (isset($_POST['add_menu']))
+if (isset($_POST['add_menu']) || isset($_POST['add_impress']))
 {
 	extract($_POST);
 	try
