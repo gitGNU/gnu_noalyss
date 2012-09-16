@@ -127,8 +127,7 @@ class Acc_Account_Ledger
 	if ( $solded == 1)
 	  {
 	    $filter=str_replace('jrn_def_id','jr_def_id',$filter_sql);
-	    $bal_sql="select sum(amount_deb) as s_deb,sum(amount_cred) as s_cred, j_poste,
-				 coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter
+	    $bal_sql="select sum(amount_deb) as s_deb,sum(amount_cred) as s_cred, j_poste
 				from 						(select case when j_debit='t' then j_montant else 0 end as amount_deb,
 								case when j_debit='f' then j_montant else 0 end as amount_cred,
 								j_poste
