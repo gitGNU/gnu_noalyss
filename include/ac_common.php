@@ -853,23 +853,40 @@ function find_default_module()
 	    p_type_display='M' and
 	    user_name=$1 and pm_default=1", array($g_user->login));
 
+	/*
+	 * Try to find the smallest order for module
+	 */
     if (empty($default_module))
     {
 		$default_module = $cn->get_array("select me_code
-			from profile_menu join profile_user using (p_id)
-			where
-			p_type_display='M' and   user_name=$1 and p_order=(select min(p_order) from profile_menu join profile_user using (p_id)
-			where p_type_display='M' and  user_name=$2) limit 1", array($g_user->login, $g_user->login));
-		/*
-		 * if nothing found, there is no profile for this user => exit
-		 */
+	    from profile_menu join profile_user using (p_id)
+	    where
+	    p_type_display='M' and
+	    user_name=$1 order by p_order limit 1", array($g_user->login));
+
+		// if no default try to find the default menu
 		if ( empty ($default_module))
 		{
 			$default_module = $cn->get_array("select me_code
-			from profile_menu join profile_user using (p_id)
-			where
-			user_name=$1 and p_order=(select min(p_order) from profile_menu join profile_user using (p_id)
-			where user_name=$2) limit 1", array($g_user->login, $g_user->login));
+			 from profile_menu join profile_user using (p_id)
+			   where
+			   p_type_display='E' and
+			   user_name=$1 and pm_default=1 ", array($g_user->login));
+			/*
+			 * Try to find a default menu by order
+			 */
+			if (empty ($default_module))
+			{
+				$default_module = $cn->get_array("select me_code
+				from profile_menu join profile_user using (p_id)
+				where
+				user_name=$1 and p_order=(select min(p_order) from profile_menu join profile_user using (p_id)
+				where user_name=$2) limit 1", array($g_user->login, $g_user->login));
+			}
+
+			/*
+			* if nothing found, there is no profile for this user => exit
+			*/
 			if (empty ($default_module))
 			{
 				echo_warning(_("Utilisateur n'a pas de profile"));
@@ -881,7 +898,8 @@ function find_default_module()
 
     if (count($default_module) > 1)
     {
-		echo_error(_("Plusieurs modules sont le module par défaut"), __LINE__, __FILE__);
+		// return the first module found
+		return $default_module[0]['me_code'];
     }
     elseif (count($default_module) == 1)
     {
