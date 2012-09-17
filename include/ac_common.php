@@ -858,8 +858,8 @@ function find_default_module()
 		$default_module = $cn->get_array("select me_code
 			from profile_menu join profile_user using (p_id)
 			where
-			user_name=$1 and p_order=(select min(p_order) from profile_menu join profile_user using (p_id)
-			where user_name=$2) limit 1", array($g_user->login, $g_user->login));
+			p_type_display='M' and   user_name=$1 and p_order=(select min(p_order) from profile_menu join profile_user using (p_id)
+			where p_type_display='M' and  user_name=$2) limit 1", array($g_user->login, $g_user->login));
 		/*
 		 * if nothing found, there is no profile for this user => exit
 		 */
