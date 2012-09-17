@@ -218,7 +218,11 @@ if (isset($_POST['mod']))
 				$p_type = 'P';
 				$me_code_dep = -1;
 			}
-
+			/**
+			 * Check if we don't add a menu depending on itself
+			 */
+			if ( $me_code == $me_code_dep )
+				 throw new Exception("Un menu ne peut pas dépendre de lui-même");
 			$cn->start();
 			$me_code_dep = ($me_code_dep == -1) ? null : $me_code_dep;
 			$pm_default = (isset($pm_default)) ? 1 : 0;
