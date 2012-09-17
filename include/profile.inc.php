@@ -276,6 +276,13 @@ if (isset($_POST['add_menu']) || isset($_POST['add_impress']))
 		if ($inf > 0)
 			throw new Exception("Boucle infinie");
 		/**
+		 * Check if we don't add a menu depending on itself
+		 */
+		if ( $me_code == $me_code_dep )
+			 throw new Exception("Un menu ne peut pas dépendre de lui-même");
+
+
+		/**
 		 * if me_code_dep == -1, it means it is null
 		 */
 		$me_code_dep = ($me_code_dep == -1) ? null : $me_code_dep;
