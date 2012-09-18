@@ -70,7 +70,7 @@ class HtmlInput
     var $ctrl;						/*!<$ctrl is the control to update (see js_search_card_control) */
 
     var $tabindex;
-    function __construct($p_name="",$p_value="")
+    function __construct($p_name="",$p_value="",$p_id="")
     {
         $this->name=$p_name;
         $this->readOnly=false;
@@ -84,6 +84,7 @@ class HtmlInput
         $this->javascript="";
         $this->extra2="all";
         $this->attribute=array();
+        $this->id=$p_id;
 
     }
     function setReadOnly($p_read)

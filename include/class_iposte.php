@@ -80,7 +80,7 @@ $text->set_attribute('account','field');
 class IPoste extends HtmlInput
 {
 
-    function __construct($p_name="",$p_value="")
+    function __construct($p_name="",$p_value="",$p_id="")
     {
         $this->name=$p_name;
         $this->readOnly=false;
@@ -92,6 +92,7 @@ class IPoste extends HtmlInput
         $this->javascript="";
         $this->extra2="all";
         $this->attribute=array();
+		$this->id=$p_id;
 
     }
 
@@ -116,7 +117,7 @@ class IPoste extends HtmlInput
         {
             list($name,$value)=$this->attribute[$i];
             $tmp1=sprintf("$('%s_bt').%s='%s';",
-                          $this->name,
+                          $this->id,
                           $name,
                           $value);
             $attr.=$tmp1;
@@ -127,7 +128,8 @@ class IPoste extends HtmlInput
 
     public function dsp_button()
     {
-        $ib=new IButton($this->name.'_bt');
+		$this->id=($this->id=="")?$this->name:$this->id;
+        $ib=new IButton($this->id.'_bt');
         $ib->javascript='search_poste(this)';
 
         /*  add the property */
@@ -144,9 +146,10 @@ class IPoste extends HtmlInput
         if ( ! isset($this->ctrl) ) $this->ctrl='none';
 
         if ( ! isset($this->javascript)) $this->javascript="";
+		$this->id=($this->id=="")?$this->name:$this->id;
 
         /* create the text  */
-        $itext=new IText($this->name,$this->value);
+        $itext=new IText($this->name,$this->value,$this->id);
 
 	if ( isset ($this->css_size))
 	     $itext->css_size=$this->css_size;

@@ -53,10 +53,12 @@ class INum extends IText
     {
 
         $readonly=" readonly ";
+		$this->id=($this->id=="")?$this->name:$this->id;
+
         $style='style="border:solid 1px blue;color:black;background:#EDEDED;text-align:right"';
         $this->value=str_replace('"','',$this->value);
         $r='<INPUT '.$style.' TYPE="TEXT" id="'.
-           $this->name.'"'.
+           $this->id.'"'.
            'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
            'SIZE="'.$this->size.'" '.$this->javascript." $readonly $this->extra >";
 
@@ -74,6 +76,8 @@ class INum extends IText
 		}
         $this->name=($p_name==null)?$this->name:$p_name;
         $this->value=($p_value==null)?$this->value:$p_value;
+		$this->id=($this->id=="")?$this->name:$this->id;
+
         if ( $this->readOnly==true) return $this->display();
 
         $t= ((isset($this->title)))?'title="'.$this->title.'"   ':' ';
@@ -84,13 +88,13 @@ class INum extends IText
         if ( ! isset ($this->css_size))
         {
         $r='<INPUT '.$this->style.' TYPE="TEXT" id="'.
-           $this->name.'"'.$t.
+           $this->id.'"'.$t.
            'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
            'SIZE="'.$this->size.'" '.$this->javascript."  $this->extra >";
         /* add tag for column if inside a table */
         } else {
            $r='<INPUT '.$this->style.' TYPE="TEXT" id="'.
-           $this->name.'"'.$t.
+           $this->id.'"'.$t.
            'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
            ' style="width:'.$this->css_size.';" '.$this->javascript."  $this->extra >";
 

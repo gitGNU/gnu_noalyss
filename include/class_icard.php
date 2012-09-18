@@ -120,7 +120,7 @@ require_once('function_javascript.php');
 
 class ICard extends HtmlInput
 {
-    function __construct($name="",$value="")
+    function __construct($name="",$value="",$p_id="")
     {
         parent::__construct($name,$value);
         $this->fct='update_value';
@@ -128,6 +128,7 @@ class ICard extends HtmlInput
         $this->callback='null';
         $this->javascript='';
 		$this->autocomplete=1;
+		$this->id=$p_id;
     }
     /*!\brief set the javascript callback function
      * by default it is update_value called BEFORE the querystring is send
@@ -191,7 +192,7 @@ class ICard extends HtmlInput
         $this->value=($p_value==null)?$this->value:$p_value;
         if ( $this->readOnly==true) return $this->display();
 
-		if ( ! isset($this->id )) $this->id=$this->name;
+		 $this->id=($this->id=="")?$this->name:$this->id;
 
         $attr=$this->get_js_attr();
 

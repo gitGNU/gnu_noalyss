@@ -41,6 +41,7 @@ class IRelated_Action extends HtmlInput
         $this->value=($p_value==null)?$this->value:$p_value;
         if ( $this->readOnly==true) return $this->display();
 
+		$this->id=($this->id=="")?$this->name:$this->id;
 
 
         $r=sprintf("
@@ -49,11 +50,11 @@ class IRelated_Action extends HtmlInput
 				   <INPUT TYPE=\"button\" onClick=\"$('%s').value=''\" value=\"X\">
 
                    ",
+                   $this->id,
                    $this->name,
-                   $this->name,
-                   $this->name,
+                   $this->id,
                    $this->value,
-                   $this->name
+                   $this->id
                   );
         return $r;
     }

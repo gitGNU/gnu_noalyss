@@ -30,12 +30,13 @@ require_once('class_html_input.php');
 class IConcerned extends HtmlInput
 {
 
-	public function __construct($p_name='',$p_value='')
+	public function __construct($p_name='',$p_value='',$p_id="")
 	{
 		$this->name=$p_name;
 		$this->value=$p_value;
 		$this->amount_id=null;
 		$this->paid='';
+		$this->id=$p_id;
 	}
     /*!\brief show the html  input of the widget*/
     public function input($p_name=null,$p_value=null)
@@ -44,6 +45,7 @@ class IConcerned extends HtmlInput
         $this->value=($p_value==null)?$this->value:$p_value;
         if ( $this->readOnly==true) return $this->display();
 
+	    $this->id=($this->id=="")?$this->name:$this->id;
 
 
         $r=sprintf("
@@ -56,9 +58,9 @@ class IConcerned extends HtmlInput
                    $this->amount_id,
                    $this->paid,
                    $this->name,
-                   $this->name,
+                   $this->id,
                    $this->value,
-                   $this->name
+                   $this->id
                   );
         return $r;
     }

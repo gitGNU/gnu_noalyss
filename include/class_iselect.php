@@ -33,12 +33,13 @@ class ISelect extends HtmlInput
         $this->value=($p_value==null)?$this->value:$p_value;
         if ( $this->readOnly==true) return $this->display();
         $style=(isset($this->style))?$this->style:"";
+		$this->id=($this->id=="")?$this->name:$this->id;
 
         $disabled=($this->disabled==true)?"disabled":"";
 
         $r="";
 
-        $a="<SELECT  id=\"$this->name\" NAME=\"$this->name\" $style $this->javascript $disabled>";
+        $a="<SELECT  id=\"$this->id\" NAME=\"$this->name\" $style $this->javascript $disabled>";
 
         if (empty($this->value)) return '';
         for ( $i=0;$i<sizeof($this->value);$i++)
