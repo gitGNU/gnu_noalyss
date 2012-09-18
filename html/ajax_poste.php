@@ -62,7 +62,7 @@ include_once ("class_user.php");
 global $g_user;
 $g_user=new User($cn);
 $g_user->Check();
-if  ($g_user->get_folder_access(dossier::id()) == 'X') exit();
+if  ($g_user->check_dossier(dossier::id()) == 'X') exit();
 $xml="";
 
 switch ($op)
