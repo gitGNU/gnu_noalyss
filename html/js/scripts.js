@@ -1672,6 +1672,6 @@ function check_date(p_str_date)
  */
 function check_date_id(p_id_date)
 {
-	var str_date=$('check_date_id').value;
+	var str_date=$(p_id_date).value;
 	return check_date(str_date);
 }
