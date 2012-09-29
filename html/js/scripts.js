@@ -1640,3 +1640,38 @@ function detail_category_show(p_div,p_dossier,p_id)
 				  }
 				  );
 }
+/**
+ * @brief check if the parameter is a valid a valid date or not, returns true if it is valid otherwise
+ * false
+ * @parameter p_str_date the string of the date (format DD.MM.YYYY)
+ */
+function check_date(p_str_date)
+{
+    var format = /^\d{2}\.\d{2}\.\d{4}$/;
+    if(!format.test(p_str_date)){
+	return false;
+    }
+    else{
+	var date_temp = p_str_date.split('.');
+        var nMonth=parseFloat(date_temp[1])-1;
+	var ma_date = new Date(date_temp[2], nMonth, date_temp[0]);
+	if(ma_date.getFullYear()==date_temp[2] && ma_date.getMonth()==nMonth && ma_date.getDate()==date_temp[0]){
+	    return true;
+	}
+	else{
+	    return false;
+	}
+    }
+
+}
+/**
+ * @brief get the string in the id and check if the date is valid
+ * @parameter p_id_date is the id of the element to check
+ * @return true if the date is valid
+ * @see check_date
+ */
+function check_date_id(p_id_date)
+{
+	var str_date=$('check_date_id').value;
+	return check_date(str_date);
+}
