@@ -1,7 +1,8 @@
-<fieldset>
-<legend>
+<div class="myfieldset">
+
+<h1 class="legend">
 <? echo _('Rapprochement');?>
-</legend>
+</h1>
 <?
 $oRap=new Acc_Reconciliation($cn);
 $oRap->jr_id=$jr_id;
@@ -36,17 +37,16 @@ if ($aRap  != null ) {
   echo '</table>';
 }
 ?>
-</legend>
 <?
 if ( $access=='W') {
      $wConcerned=new IConcerned("rapt".$div);
      $wConcerned->amount_id=$obj->det->jr_montant;
-    echo $wConcerned->input();    
-    
+    echo $wConcerned->input();
+
 }
 
 ?>
-</fieldset>
+</div>
 <?
 
 require_once('template/ledger_detail_file.php');

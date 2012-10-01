@@ -72,14 +72,12 @@ require_once ('class_anc_plan.php');
 </tr>
 </table>
 
-<fieldset>
-<legend>
-<?=_('Détail')?>
+<div class="myfieldset">
+	<h1 class="legend"><?=_('Détail')?></h1>
 <?
   require_once('class_own.php');
   $owner=new Own($cn);
 ?>
-</legend>
 <table class="result">
 <tr>
 <?
@@ -152,7 +150,7 @@ $amount_idx=0;
     /* Analytic accountancy */
     if ( $owner->MY_ANALYTIC != "nu" && $div=='popup'){
       if ( preg_match('/^(6|7)/',$q[$e]['j_poste'])) {
-	
+
 	echo HtmlInput::hidden("amount_t".$amount_idx,$q[$e]['j_montant']);
 	$anc_op=new Anc_Operation($cn);
 	$anc_op->j_id=$q[$e]['j_id'];
@@ -168,8 +166,7 @@ $amount_idx=0;
   }
 ?>
 </table>
-</fieldset>
-
+</div>
 <?
 require_once('ledger_detail_bottom.php');
 ?>

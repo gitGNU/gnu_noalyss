@@ -546,10 +546,10 @@ a.document:hover {
 	margin:1px;
 	background-color: orange;
 }
-h1.legend, legend {
+h1.legend, .legend {
 font-weight: bold;
 font-style: italic;
-font-size: 120% ;
+font-size: 110% ;
 
 }
 fieldset fieldset legend {
@@ -560,7 +560,7 @@ select {
 border: 1px solid blue;
 margin:2px;
 background-color:white;
-
+border: #0000FF 1px
 
 }
 
@@ -1106,12 +1106,13 @@ div.foldercontent {
 
 h1.title {
 	color: blue;
-	font-size:24px;
+	font-size:18px;
 	font-style: italic;
 }
 h2.title {
 	color: blue;
-	font-size:16px;
+	font-size:14px;
+	font-weight:bold;
 	font-style: italic;
 	margin-left: 15px;
 }
@@ -1132,4 +1133,11 @@ h5.title {
 	margin-left: 45px;
 	text-decoration: none;
 	font-style: italic;
+}
+div.myfieldset
+{
+	margin-top: 5px;
+	margin-left:5px;
+	margin-right: 5px;
+	border:lightgrey 2px groove;
 }

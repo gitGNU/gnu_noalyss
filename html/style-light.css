@@ -1134,3 +1134,10 @@ h5.title {
 	text-decoration: none;
 	font-style: italic;
 }
+div.myfieldset
+{
+	margin-top: 5px;
+	margin-left:5px;
+	margin-right: 5px;
+	border:lightgrey 2px groove;
+}
