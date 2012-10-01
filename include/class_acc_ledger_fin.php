@@ -295,7 +295,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		$add_js = 'onchange="update_pj();update_bank();get_last_date();ajax_saldo(\'first_sold\');update_name();"';
 
 		if ($g_parameter->MY_DATE_SUGGEST == 'Y')
-			$add_js = 'onchange="update_pj();update_bank();get_last_date();ajax_saldo(\'first_sold\')";';
+			$add_js = 'onchange="update_pj();update_bank();get_last_date();ajax_saldo(\'first_sold\');update_name();"';
 
 		$wLedger = $this->select_ledger('FIN', 2);
 		if ($wLedger == null)
