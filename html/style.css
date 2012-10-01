@@ -535,6 +535,7 @@ a.document:hover {
 .input_text_ro {
 	   border:solid 1px blue;
 	   background:#EDEDED;
+	   color:blue;
 	margin:1px;
 }
 .input_text {
