@@ -664,7 +664,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         $r.="<fieldset>";
         $r.="<legend>"._('En-tête facture client')."  </legend>";
 		$r.='<div id="jrn_name_div">';
-		$r.='<h2 id="jrn_name" style="display:inline">' . $this->get_name() . '</h2>';
+		$r.='<h2 class="title"  id="jrn_name" style="display:inline">' . $this->get_name() . '</h2>';
 		$r.= '</div>';
         $r.='<TABLE  width="100%">';
         $r.='<tr>';
