@@ -751,9 +751,9 @@ class Follow_Up
 				$st = ' style="font-weight:bold; border:2px solid orange;"';
 			$date_remind = format_date($row['my_remind'], 'DD.MM.YYYY', 'YYYYMMDD');
 			$date_today = date('Ymd');
-			if ($date_remind != "" && $date_remind == $date_today)
+			if ($date_remind != "" && $date_remind == $date_today && $row['ag_state']!=1 && $row['ag_state']!=3)
 				$st = ' style="font-weight:bold;background:orange"';
-			if ($date_remind != "" && $date_remind < $date_today)
+			if ($date_remind != "" && $date_remind < $date_today && $row['ag_state']!=1 && $row['ag_state']!=3)
 				$st = ' style="font-weight:bold;background:#FF0000"';
 			$r.="<tr class=\"$tr\" $st>";
 			$r.="<td>" . $href . smaller_date($row['my_date']) . '</a>' . "</td>";
