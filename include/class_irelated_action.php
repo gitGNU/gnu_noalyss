@@ -33,6 +33,7 @@ class IRelated_Action extends HtmlInput
 		$this->value=$p_value;
 		$this->amount_id=null;
 		$this->paid='';
+		$this->id=$p_name;
 	}
     /*!\brief show the html  input of the widget*/
     public function input($p_name=null,$p_value=null)
