@@ -221,7 +221,7 @@ case 'file':
 			echo "<div>";
 
 		}
-		echo "<h2>Document</h2>";
+		echo "<h1 class=\"legend\">Document</h1>";
         if ( $access=='W')
         {
             echo '<FORM METHOD="POST" ENCTYPE="multipart/form-data" id="form_file">';
@@ -278,7 +278,7 @@ case 'file':
 			echo "<div>";
 
 		}
-		echo "<h2>Document</h2>";
+		echo "<h1 class=\"legend\">Document</h1>";
         echo '<div class="op_detail_frame">';
         $x='';
         if ($access=='W')

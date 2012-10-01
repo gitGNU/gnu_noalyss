@@ -88,14 +88,14 @@ echo $inote->input();
 </table>
 
 </td>
-<fieldset>
-<legend>
+<div class="myfieldset">
+	<h1 class="legend">
 <?=_('Détail')?>
 <?
   $detail=new Acc_Misc($cn,$obj->jr_id);
 $detail->get();
 ?>
-</legend>
+</h1>
 <table class="result">
 <tr>
 <?
@@ -168,7 +168,7 @@ echo '</tr>';
   }
 ?>
 </table>
-</fieldset>
+</div>
 <?
 require_once('ledger_detail_bottom.php');
 ?>

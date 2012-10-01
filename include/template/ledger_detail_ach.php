@@ -97,8 +97,8 @@
 				</tr>
 
 </table>
-
-<fieldset><legend><?=_('Détail')?></legend>
+<div class="myfieldset">
+	<h1 class="legend"><?=_('Détail')?></h1>
 <table class="result">
 <?
   bcscale(2);
@@ -216,11 +216,10 @@ echo tr($row);
 </table>
 
 
-</fieldset>
-<fieldset>
-<legend>
-<?=_('Ecritures comptables')?>
-</legend>
+</div>
+	<div class="myfieldset">
+	<h1 class="legend"><?=_('Ecritures comptables')?></h1>
+
 
 <?
   /* if it is not in a popup, the details are hidden */
@@ -284,7 +283,7 @@ echo '</tr>';
 ?>
 </table>
 </div>
-</fieldset>
+</div>
 
 <?
 require_once('ledger_detail_bottom.php');

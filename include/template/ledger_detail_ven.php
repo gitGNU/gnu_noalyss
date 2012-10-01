@@ -97,8 +97,10 @@
 </td>
 </tr>
 </table>
-
-<fieldset><legend><?=_('Détail')?></legend>
+<div class="myfieldset">
+	<h1 class="legend">
+<?=_('Détail')?>
+	</h1>
 <table class="result">
 <?
   bcscale(2);
@@ -212,13 +214,12 @@ echo tr($row);
 </td>
 </tr>
 </table>
-
-</fieldset>
-<fieldset>
-<legend>
+</div>
+<div class="myfieldset">
+	<h1 class="legend">
 <?=_('Ecritures comptables')?>
-</legend>
-<?
+	</h1>
+	<?
   /* if it is not in a popup, the details are hidden */
   if ( $div != 'popup') {
     $ib=new IButton ("a".$div);
@@ -281,7 +282,7 @@ echo '</tr>';
 ?>
 </table>
 </div>
-</fieldset>
+</div>
 <?
 require_once('ledger_detail_bottom.php');
 ?>
