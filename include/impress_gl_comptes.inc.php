@@ -168,7 +168,8 @@ if ( isset( $_REQUEST['bt_html'] ) )
             continue;
         }
 
-        echo '<tr>
+
+        echo '<tr >
         <td colspan="8" style="width:auto">
         <h2 class="info">'. $poste_id['pcm_val'].' '.h($Poste->label).'</h2>
         </td>
@@ -189,6 +190,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
         $solde_d = 0.0;
         $solde_c = 0.0;
 	bcscale(2);
+	$i=0;
         foreach ($Poste->row as $detail)
         {
 	  if ($a==0) {var_dump($detail);$a=1;}
@@ -217,7 +219,9 @@ if ( isset( $_REQUEST['bt_html'] ) )
             }
 			$side="&nbsp;".$Poste->get_amount_side($solde);
 	    $letter=($detail['letter']!=-1)?hi($detail['letter']):'';
-            echo '<tr>
+		$i++;
+		if (($i % 2 ) == 0) $class="odd"; else $class="even";
+            echo '<tr class="'.$class.'">
             <td>'.$detail['j_date_fmt'].'</td>
             <td>'.HtmlInput::detail_op($detail['jr_id'],$detail['jr_internal']).'</td>
             <td>'.$detail['description'].'</td>
@@ -228,7 +232,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
             <td  style="text-align:right;color:red">'.$letter.'</td>
             </tr>';
         }
-        echo '<tr>
+        echo '<tr >
         <td>'.''.'</td>
         <td>'.''.'</td>
         <td>'.'<b>'.'Total du compte '.$poste_id['pcm_val'].'</b>'.'</td>
