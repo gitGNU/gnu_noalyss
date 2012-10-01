@@ -367,6 +367,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 			$W1 = new ICard();
 			$W1->label = "";
 			$W1->name = "e_other" . $i;
+			$W1->id = "e_other" . $i;
 			$W1->value = $tiers;
 			$W1->extra = 'deb';  // credits
 			$W1->typecard = 'deb';
@@ -396,6 +397,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 			}
 
 			$wcard_name = new IText("e_other_name" . $i, $card_name);
+			$wcard_name->id=$wcard_name->name;
 			$wcard_name->readOnly = true;
 			$array[$i]['cname'] = $wcard_name->input();
 
@@ -502,23 +504,22 @@ class Acc_Ledger_Fin extends Acc_Ledger
 
 		$r.='</fieldset>';
 
-		$r.='<fieldset><legend>Opérations financières</legend>';
+		$r.='<div class="myfieldset"><h1 class="legend">Extrait de compte</h1>';
 		//--------------------------------------------------
 		// Saldo begin end
 		//-------------------------------------------------
-		$r.='<fieldset><legend>Extrait de compte</legend>';
 		$r.='<table>';
 		$r.='<tr>';
 		// Extrait
 		//--
-		$r.='<td> Numéro d\'extrait</td>' . h($e_pj);
-		$r.='<td >Solde début extrait </td>';
-		$r.='<td>' . $first_sold . '</td>';
-		$r.='<td>Solde fin extrait </td>';
-		$r.='<td>' . $last_sold . '</td>';
+		$r.=tr('<td> Numéro d\'extrait</td>' . td(h($e_pj)));
+		$r.='<tr><td >Solde début extrait </td>';
+		$r.='<td style="num">' . nbm($first_sold) . '</td></tr>';
+		$r.='<tr><td>Solde fin extrait </td>';
+		$r.='<td style="num">' . nbm($last_sold) . '</td></tr>';
 		$r.='</table>';
-		$r.='</fieldset>';
 
+		$r.='<h1 class="legend">Opérations financières</h1>';
 		//--------------------------------------------------
 		// financial operation
 		//-------------------------------------------------
@@ -582,9 +583,11 @@ class Acc_Ledger_Fin extends Acc_Ledger
 			if (${"e_concerned" . $i} != '')
 			{
 				$jr_internal = $this->db->get_array("select jr_internal from jrn where jr_id in (" . ${"e_concerned" . $i} . ")");
+				$comma="";
 				for ($x = 0; $x < count($jr_internal); $x++)
 				{
-					$r.=HtmlInput::detail_op(${"e_concerned" . $i}, $jr_internal[$x]['jr_internal']);
+					$r.=$comma.HtmlInput::detail_op(${"e_concerned" . $i}, $jr_internal[$x]['jr_internal']);
+					$comma=" , ";
 				}
 			}
 			$r.='</td>';
@@ -618,7 +621,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		$r.="<br>Ajoutez une pi&egrave;ce justificative ";
 		$r.=$file->input("pj", "");
 
-		$r.='</fieldset>';
+		$r.='</div>';
 		//--------------------------------------------------
 		// Hidden variables
 		//--------------------------------------------------
