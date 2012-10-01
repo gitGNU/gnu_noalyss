@@ -1535,7 +1535,7 @@ class Fiche
             return $r;
 
         $i=0;
-
+		$deb=0;$cred=0;
         foreach ($step_tiers as $tiers )
         {
             $i++;
@@ -1559,14 +1559,18 @@ class Fiche
                          " ".$tiers->strAttribut(ATTR_DEF_PAYS)).
                 "</TD>";
 
-            $r.='<TD align="right"> '.(($amount['debit']==0)?0:nbm($amount['debit'])).'&euro;</TD>';
-	    $r.='<TD align="right"> '.(($amount['credit']==0)?0:nbm($amount['credit'])).'&euro;</TD>';
-	    $r.='<TD align="right"> '.nbm($amount['solde'])."&euro;</TD>";
-
+            $r.='<TD align="right"> '.(($amount['debit']==0)?0:nbm($amount['debit'])).'</TD>';
+			$r.='<TD align="right"> '.(($amount['credit']==0)?0:nbm($amount['credit'])).'</TD>';
+			$r.='<TD align="right"> '.nbm($amount['solde'])."</TD>";
+			$deb=bcadd($deb,$amount['debit']);
+			$cred=bcadd($cred,$amount['credit']);
 
             $r.="</TR>";
 
         }
+		$r.="<tr>";
+		$solde=bcsub($deb,$cred);
+		$r.=td("").td("").td("Totaux").td(nbm($deb),'class="num"').td(nbm($cred),'class="num"').td(nbm($solde),'class="num"');
         $r.="</TABLE>";
         $r.=$bar;
         return $r;
