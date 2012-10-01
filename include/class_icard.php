@@ -128,7 +128,7 @@ class ICard extends HtmlInput
         $this->callback='null';
         $this->javascript='';
 		$this->autocomplete=1;
-		$this->id=$p_id;
+		$this->id=($p_id != "")?$p_id:$name;
     }
     /*!\brief set the javascript callback function
      * by default it is update_value called BEFORE the querystring is send
@@ -294,8 +294,10 @@ class ICard extends HtmlInput
             if (isset($this->$att) )
                 $a.="this.".$att."='".$this->$att."';";
         }
-        if (isset($this->id))
+        if (isset($this->id) && $this->id != "")
             $a.="this.inp='".$this->id."';";
+		else
+            $a.="this.inp='".$this->name."';";
         $a.="this.popup='ipop_card';";
 
         $button->javascript=$a.' search_card(this)';
