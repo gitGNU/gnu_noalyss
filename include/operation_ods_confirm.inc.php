@@ -34,7 +34,7 @@ echo '<div id="jrn_name_div">';
 echo '<h2 id="jrn_name" style="display:inline">' . $ledger->get_name() . '</h2>';
 echo '</div>';
 
-echo '<FORM METHOD="POST">';
+echo '<FORM METHOD="POST" class="print">';
 echo HtmlInput::request_to_hidden(array('ac'));
 echo $ledger->confirm($_POST,false);
 

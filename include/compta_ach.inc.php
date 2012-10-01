@@ -62,7 +62,7 @@ if (isset($_POST['view_invoice']))
 		echo '<div class="content">';
 		echo h2info('Confirmation');
 
-		echo '<form enctype="multipart/form-data" method="post">';
+		echo '<form enctype="multipart/form-data" method="post" class="print">';
 		echo dossier::hidden();
 
 		echo $Ledger->confirm($_POST);

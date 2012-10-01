@@ -76,7 +76,7 @@ if ( isset($_POST['save']))
 	{
 		echo '<div class="content">';
 		echo '<h2 class="info">'._('Confirmation').' </h2>';
-		echo '<form name="form_detail" class="print" enctype="multipart/form-data"  METHOD="POST">';
+		echo '<form name="form_detail" class="print" enctype="multipart/form-data" class="print" METHOD="POST">';
 		echo HtmlInput::hidden('ac',$_REQUEST['ac']);
 		echo $Ledger->confirm($_POST);
 		echo HtmlInput::submit('confirm',_('Confirmer'));
@@ -131,7 +131,7 @@ if ( isset($_POST['correct']))
 echo '<div class="content">';
 
 
-echo '<form class="print" name="form_detail" enctype="multipart/form-data" METHOD="POST">';
+echo '<form class="print" name="form_detail" enctype="multipart/form-data" class="print" METHOD="POST">';
 echo HtmlInput::hidden('ledger_type','fin');
 echo HtmlInput::hidden('ac',$_REQUEST['ac']);
 $array=( isset($correct))?$_POST:null;
