@@ -306,7 +306,7 @@ class Acc_Operation
         $csv="";
         foreach ($show as $l)
         {
-            if ( $l['j_poste'] == $this->poste || $l['j_qcode']==$this->qcode)
+            if ( $l['j_poste'] == $this->poste || ($l['j_qcode']==$this->qcode && trim($this->qcode) != ''))
                 $border=' style="border-bottom:1px solid red;"';
             else
                 $border='';
@@ -468,7 +468,7 @@ class Acc_Operation
     }
     /**
     *@brief retrieve data from jrnx and jrn
-    *@return return an object 
+    *@return return an object
     *@note
     *@see
     @code
@@ -562,7 +562,7 @@ class Acc_Detail extends Acc_Operation
 /**
  *@brief this class manage data from the JRNX and JRN
  * table
- *@note Data member are the column of the table 
+ *@note Data member are the column of the table
  */
 class Acc_Misc extends Acc_Detail
 {
@@ -588,7 +588,7 @@ class Acc_Misc extends Acc_Detail
 /**
  *@brief this class manage data from the QUANT_SOLD
  * table
- *@note Data member are the column of the table 
+ *@note Data member are the column of the table
  */
 class Acc_Sold extends Acc_Detail
 {
@@ -611,8 +611,8 @@ class Acc_Sold extends Acc_Detail
 /**
  *@brief this class manage data from the QUANT_PURCHASE
  * table
- *@note Data member are the column of the table 
- 
+ *@note Data member are the column of the table
+
  */
 class Acc_Purchase extends Acc_Detail
 {
@@ -636,7 +636,7 @@ class Acc_Purchase extends Acc_Detail
 /**
  *@brief this class manage data from the QUANT_FIN
  * table
- *@note Data member are the column of the table 
+ *@note Data member are the column of the table
  */
 class Acc_Fin extends Acc_Detail
 {
