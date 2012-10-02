@@ -1536,8 +1536,10 @@ class Acc_Ledger extends jrn_def_sql
 		{
 			$add_js = "update_pj();";
 		}
-		$add_js.='get_last_date();';
-
+		if ($g_parameter->MY_DATE_SUGGEST=='Y')
+		{
+			$add_js.='get_last_date();';
+		}
 		$ret = "";
 		if ($g_user->check_action(FICADD) == 1)
 		{

@@ -25,7 +25,7 @@
  */
 require_once ('class_acc_ledger_fin.php');
 require_once('class_ipopup.php');
-global $g_user;
+global $g_user,$g_parameter;
 
 $gDossier=dossier::id();
 
@@ -142,9 +142,11 @@ echo HtmlInput::button('add_item',_('Ajout article'),   ' onClick="ledger_fin_ad
 echo HtmlInput::submit('save',_('Sauve'));
 echo HtmlInput::reset(_('Effacer'));
 
-if ( ! isset ($_POST['e_date']) )
+if ( ! isset ($_POST['e_date'])&& $g_parameter->MY_DATE_SUGGEST=='Y')
 {
 	echo create_script(" get_last_date();ajax_saldo('first_sold');");
+}else {
+	echo create_script(" ajax_saldo('first_sold');");
 }
 
 exit();

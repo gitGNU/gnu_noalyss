@@ -972,7 +972,10 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         {
             $add_js="update_pj();";
         }
-        $add_js.='get_last_date();';
+		if ($g_parameter->MY_DATE_SUGGEST == 'Y')
+		{
+			$add_js.='get_last_date();';
+		}
 		$add_js.='update_name();';
 		$add_js.='update_pay_method()';
 

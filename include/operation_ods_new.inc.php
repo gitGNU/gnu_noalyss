@@ -28,7 +28,7 @@
 require_once 'class_pre_op_ods.php';
 require_once 'class_iconcerned.php';
 
-global $g_user;
+global $g_user,$g_parameter;
 $cn=new Database(dossier::id());
 
 $id = (isset($_REQUEST['p_jrn'])) ? $_REQUEST['p_jrn'] : -1;
@@ -107,8 +107,10 @@ echo '</form>';
 
 echo "<script>checkTotalDirect();</script>";
 
-echo create_script(" get_last_date()");
-
+if ($g_parameter->MY_DATE_SUGGEST=='Y')
+{
+	echo create_script(" get_last_date()");
+}
 echo '</div>';
 
 ?>

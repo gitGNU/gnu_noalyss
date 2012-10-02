@@ -292,7 +292,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		// Ledger (p_jrn)
 		//--
 
-		$add_js = 'onchange="update_pj();update_bank();get_last_date();ajax_saldo(\'first_sold\');update_name();"';
+		$add_js = 'onchange="update_pj();update_bank();ajax_saldo(\'first_sold\');update_name();"';
 
 		if ($g_parameter->MY_DATE_SUGGEST == 'Y')
 			$add_js = 'onchange="update_pj();update_bank();get_last_date();ajax_saldo(\'first_sold\');update_name();"';
