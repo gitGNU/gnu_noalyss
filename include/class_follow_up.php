@@ -451,6 +451,7 @@ class Follow_Up
 
 			$text->javascript = ' onchange="clean_tva(' . $i . ');compute_ledger(' . $i . ')"';
 			$text->name = "e_march" . $i . "_label";
+			$text->id = "e_march" . $i . "_label";
 			$text->size = 40;
 			$text->value = ($tmp_ad) ? $tmp_ad->get_parameter('text') : "";
 			$text->readOnly=$readonly;
@@ -458,17 +459,20 @@ class Follow_Up
 
 			$num->javascript = ' onchange="format_number(this);clean_tva(' . $i . ');compute_ledger(' . $i . ')"';
 			$num->name = "e_march" . $i . "_price";
+			$num->id = "e_march" . $i . "_price";
 			$num->size = 8;
 			$num->readOnly=$readonly;
 			$num->value = ($tmp_ad) ? $tmp_ad->get_parameter('price_unit') : 0;
 			$aArticle[$i]['pu'] = $num->input();
 
 			$num->name = "e_quant" . $i;
+			$num->id = "e_quant" . $i;
 			$num->size = 8;
 			$num->value = ($tmp_ad) ? $tmp_ad->get_parameter('quantity') : 0;
 			$aArticle[$i]['quant'] = $num->input();
 
 			$itva->name = 'e_march' . $i . '_tva_id';
+			$itva->id = 'e_march' . $i . '_tva_id';
 			$itva->value = ($tmp_ad) ? $tmp_ad->get_parameter('tva_id') : 0;
 			$itva->readOnly=$readonly;
 			$itva->js = ' onchange="format_number(this);clean_tva(' . $i . ');compute_ledger(' . $i . ')"';
@@ -477,12 +481,14 @@ class Follow_Up
 			$aArticle[$i]['tvaid'] = $itva->input();
 
 			$num->name = "e_march" . $i . "_tva_amount";
+			$num->id = "e_march" . $i . "_tva_amount";
 			$num->value = ($tmp_ad) ? $tmp_ad->get_parameter('tva_amount') : 0;
 			$num->javascript = " onchange=\"compute_ledger(' . $i . ')\"";
 			$num->size = 8;
 			$aArticle[$i]['tva'] = $num->input();
 
 			$num->name = "tvac_march" . $i;
+			$num->id = "tvac_march" . $i;
 			$num->value = ($tmp_ad) ? $tmp_ad->get_parameter('total') : 0;
 			$num->size = 8;
 			$aArticle[$i]['tvac'] = $num->input();
