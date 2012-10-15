@@ -29,7 +29,7 @@ require_once("class_acc_ledger_purchase.php");
 require_once ('class_pre_op_ach.php');
 require_once('class_ipopup.php');
 $gDossier = dossier::id();
-
+global $g_parameter;
 $cn = new Database(dossier::id());
 //menu = show a list of ledger
 $str_dossier = dossier::get();
