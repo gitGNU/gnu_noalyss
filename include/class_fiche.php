@@ -774,6 +774,7 @@ class Fiche
 
                         if ( strlen(trim($v)) != 0)
                         {
+							$v=$this->cn->get_value("select format_account($1)",array($value));
                             $parameter=array($this->id,$v);
                         }
                         else
@@ -894,6 +895,10 @@ class Fiche
 							$part1 = $this->cn->get_value('select format_account($1)', array($part1));
 							$part2 = $this->cn->get_value('select format_account($1)', array($part2));
 							$v = $part1 . ',' . $part2;
+						}
+						else
+						{
+							$v=$this->cn->get_value('select format_account($1)',array($value));
 						}
 						$sql = sprintf("select account_update(%d,'%s')", $this->id, $v);
 						try
