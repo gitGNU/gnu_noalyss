@@ -1488,6 +1488,7 @@ class Fiche
     function Summary($p_search="",$p_action="",$p_sql="",$p_amount=false)
     {
         global $g_user;
+		bcscale(4);
         $str_dossier=dossier::get();
         $p_search=sql_string($p_search);
         $script=$_SERVER['PHP_SELF'];
