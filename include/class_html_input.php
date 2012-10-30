@@ -178,7 +178,7 @@ class HtmlInput
     static   function submit ($p_name,$p_value,$p_javascript="")
     {
 
-        return '<INPUT TYPE="SUBMIT" class="button" NAME="'.$p_name.'" VALUE="'.$p_value.'" '.$p_javascript.'>';
+        return '<INPUT TYPE="SUBMIT" class="button" NAME="'.$p_name.'" ID="'.$p_name.'_submit_id"  VALUE="'.$p_value.'" '.$p_javascript.'>';
     }
     static   function button ($p_name,$p_value,$p_javascript="")
     {
