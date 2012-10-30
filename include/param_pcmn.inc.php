@@ -249,7 +249,7 @@ $MaxRow=Database::num_row($Ret);
 //echo HtmlInput::hidden('sa','detail');
 echo dossier::hidden();
 ?>
-<TABLE ALIGN="center" BORDER=0 CELLPADDING=0 CELLSPACING=0>
+<TABLE class="result">
                              <TR>
                              <TH> Classe </TH>
                              <TH> Libellé </TH>
@@ -273,12 +273,14 @@ for ($i=0; $i <$MaxRow; $i++)
     if ( $i%2 == 0 )
     {
         $td ='<TD class="odd">';
+        $tr ='<TR class="odd">';
     }
     else
     {
         $td='<TD class="even">';
+        $tr='<TR class="even">';
     }
-    echo "<TR> ";
+    echo $tr;
     echo "$td";
     echo $A['pcm_val'];
     echo '</td>';
