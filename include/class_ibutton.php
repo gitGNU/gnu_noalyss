@@ -32,6 +32,7 @@ class IButton extends HtmlInput
     {
         $this->name=($p_name==null)?$this->name:$p_name;
         $this->value=($p_value==null)?$this->value:$p_value;
+		$this->label=(trim($this->label) != '')?$this->label:$this->value;
         if ( $this->readOnly==true) return $this->display();
         $extra= ( isset($this->extra))?$this->extra:"";
         $this->id=($this->id=="")?$this->name:$this->id;
