@@ -204,7 +204,7 @@ class User
 
 		if ($p_dossier == 0)
 			$p_dossier = dossier::id();
-		if ($this->is_local_admin($p_dossier) == 1)
+		if ($this->is_local_admin($p_dossier) == 1 || $this->admin == 1)
 			return 'L';
 		$cn = new Database();
 
