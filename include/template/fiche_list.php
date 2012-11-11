@@ -76,6 +76,7 @@
 
 
 	</table>
+	<?=$str_add_card?>
 <?=HtmlInput::hidden('action',"1");?>
 <?=HtmlInput::submit('delete','Effacer la sélection ')?>
 <? if ( $allcard ==  0  ): ?>

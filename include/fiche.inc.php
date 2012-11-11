@@ -201,8 +201,8 @@ if ($_GET['histo'] == -1)
 		$cond   order by 2 offset $offset $limit
 	");
 	$nb_line = Database::num_row($res);
+	if ($write != 1 || $allcard != 0 )  $str_add_card="";
 	require_once 'template/fiche_list.php';
-	if ($write == 1 && $allcard == 0 ) echo $str_add_card;
 	echo '<hr>'.$bar;
 	exit();
 }
