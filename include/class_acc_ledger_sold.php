@@ -275,13 +275,12 @@ class  Acc_Ledger_Sold extends Acc_Ledger
             $tot_tva=0;
             $tot_debit=0;
             $this->db->start();
+			$tva=array();
             /* Save all the items without vat */
             for ($i=0;$i< $nb_item;$i++)
             {
 				$n_both=0;
                 if ( strlen(trim(${'e_march'.$i})) == 0 ) continue;
-                if ( ${'e_march'.$i.'_price'} == 0 ) continue;
-                if ( ${'e_quant'.$i} == 0 ) continue;
 
                 /* First we save all the items without vat */
                 $fiche=new Fiche($this->db);

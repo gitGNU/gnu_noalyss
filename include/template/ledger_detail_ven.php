@@ -154,7 +154,8 @@ echo '</tr>';
 
     $row.=td($input->input().$hidden);
     $sym_tva='';
-	$pu=bcdiv($q['qs_price'],$q['qs_quantite']);
+	$pu=0;
+	if ($q['qs_quantite'] != 0)	$pu=bcdiv($q['qs_price'],$q['qs_quantite']);
     $row.=td(nbm($pu),'class="num"');
     $row.=td(nbm($q['qs_quantite']),'class="num"');
 	$sym_tva='';
