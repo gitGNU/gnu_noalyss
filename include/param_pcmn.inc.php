@@ -251,9 +251,9 @@ echo dossier::hidden();
 ?>
 <TABLE class="result">
                              <TR>
-                             <TH> Classe </TH>
+                             <TH> Poste comptable </TH>
                              <TH> Libellé </TH>
-                             <TH> Parent </TH>
+                             <TH> Poste comptable Parent </TH>
                              <TH> Type </TH>
                              </TR>
                              <?php
