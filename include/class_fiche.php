@@ -428,7 +428,7 @@ class Fiche
         foreach ($array as $attr)
         {
             $table=0;
-            $msg="";
+            $msg="";$bulle='';
             if ( $attr->ad_id == ATTR_DEF_ACCOUNT)
             {
                 $w=new IPoste("av_text".$attr->ad_id);
@@ -521,8 +521,11 @@ class Fiche
 			$w->table = $table;
 			$w->label = $attr->ad_text;
 			$w->name = "av_text" . $attr->ad_id;
-
-			$r.="<TR>" . td($w->label, ' class="input_text" ') . td($w->input()." $msg")." </TR>";
+			if ($attr->ad_id == 21 || $attr->ad_id==22||$attr->ad_id==20||$attr->ad_id==31)
+			{
+				$bulle=HtmlInput::infobulle(21);
+			}
+			$r.="<TR>" . td($w->label." $bulle", ' class="input_text" ') . td($w->input()." $msg")." </TR>";
 		}
 		$r.= '</table>';
         return $r;
@@ -690,7 +693,10 @@ class Fiche
 			$w->name = "av_text" . $r->ad_id;
 			$w->readOnly = $p_readonly;
 
-
+			if ($r->ad_id == 21 || $r->ad_id==22||$r->ad_id==20||$r->ad_id==31)
+			{
+				$bulle=HtmlInput::infobulle(21);
+			}
 			$ret.="<TR>" . td($r->ad_text . $bulle) . td($w->input()." ". $msg) . " </TR>";
 		}
 
