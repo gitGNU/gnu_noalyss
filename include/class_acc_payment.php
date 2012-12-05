@@ -335,7 +335,16 @@ class Acc_Payment
             $acompte->value=0;
             $r.=_(" Acompte à déduire");
             $r.=$acompte->input();
-        }
+			$r.='<p>';
+			$e_comm_paiement=new IText('e_comm_paiement');
+			$e_comm_paiement->table = 0;
+			$e_comm_paiement->setReadOnly(false);
+			$e_comm_paiement->size = 60;
+			$e_comm_paiement->tabindex = 3;
+			$r.=_(" Libellé du paiement");
+			$r.=$e_comm_paiement->input();
+			$r.='</p>';
+		}
 
         $r.='<ol>';
         $r.='<li ><input type="radio" name="e_mp" value="0" checked>'._('Paiement encodé plus tard');
@@ -350,7 +359,7 @@ class Acc_Payment
                 {
                     $a=new ICard();
                     $a->jrn=$row->mp_jrn_def_id;
-		    $a->set_attribute('typecard',$row->mp_fd_id);
+					$a->set_attribute('typecard',$row->mp_fd_id);
                     $a->name='e_mp_qcode_'.$row->mp_id;
                     $a->set_dblclick("fill_ipopcard(this);");
                     $a->set_callback('filter_card');

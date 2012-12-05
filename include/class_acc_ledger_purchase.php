@@ -795,7 +795,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 
                 /* insert into jrn */
                 $acc_pay->mt=$mt;
-				$acc_pay->desc=$e_comm;
+				$acc_pay->desc=(!isset($e_comm_paiement) || strlen(trim($e_comm_paiement)) == 0) ?$e_comm:$e_comm_paiement;
                 $mp_jr_id=$acc_pay->insert_jrn();
                 $acjrn->grpt_id=$acseq;
                 $acjrn->update_internal_code($acinternal);
@@ -1529,13 +1529,16 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         {
             $r.=HtmlInput::hidden('e_mp_qcode_'.$e_mp,${'e_mp_qcode_'.$e_mp});
             $r.=HtmlInput::hidden('acompte',$acompte);
+			$r.=HtmlInput::hidden('e_comm_paiement',$e_comm_paiement);
             /* needed for generating a invoice */
             $r.=HtmlInput::hidden('qcode_benef', ${'e_mp_qcode_' . $e_mp});
 			$fname = new Fiche($this->db);
 			$fname->get_by_qcode(${'e_mp_qcode_' . $e_mp});
 			$r.="<div style=\"clear:both\"></div>";
 			$r.='<div style="float:left"><h2 class="info">' . "Payé par " . ${'e_mp_qcode_' . $e_mp} .
-					" ".$fname->getName() ."</h2> ". _('Déduction acompte ').h($acompte).'</div>';
+					" ".$fname->getName() ."</h2> ".
+					'<p>'._('Déduction acompte ').h($acompte).'</p>'.
+					_('Libellé :' ).h($e_comm_paiement).'</div>';
             $r.='<br>';
         }
         // check for upload piece

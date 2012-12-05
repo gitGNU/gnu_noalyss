@@ -22,13 +22,17 @@
 <tr>
 <th style="width:auto"colspan="2">Code <?=HtmlInput::infobulle(0)?></th>
       <th><?=_('Dénomination')?></th>
+<? if ($flag_tva =='Y') : ?>
       <th><?=_('prix/unité htva')?><?=HtmlInput::infobulle(6)?></th>
       <th><?=_('quantité')?></th>
       <th><?=_('Total HTVA')?></th>
-<? if ($flag_tva =='Y') : ?>
- <th><?=_('tva')?></th>
- <th><?=_('tot.tva')?></th>
-<th><?=_('tvac')?></th>
+	  <th><?=_('tva')?></th>
+      <th><?=_('tot.tva')?></th>
+      <th><?=_('tvac')?></th>
+<? else: ?>
+	  <th><?=_('prix/unité ')?><?=HtmlInput::infobulle(6)?></th>
+      <th><?=_('quantité')?></th>
+      <th><?=_('Total ')?></th>
 <? endif;?>
 
 
