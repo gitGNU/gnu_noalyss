@@ -179,10 +179,15 @@ echo '</tr>';
 
     if ($owner->MY_TVA_USE=='Y')
       {
-	$tva_amount=bcadd($q['qp_vat'],$q['qp_nd_tva']);
-	$tva_amount=bcadd($tva_amount,$q['qp_nd_tva_recup']);
-	$row.=td(nbm($tva_amount),'class="num"');
-	$row.=td(nbm($tvac),'class="num"');
+		$tva_amount=bcadd($q['qp_vat'],$q['qp_nd_tva']);
+		$tva_amount=bcadd($tva_amount,$q['qp_nd_tva_recup']);
+		$class="";
+		if ($tva->get_parameter("both_side")==1) {
+			$class=' style="text-decoration:line-through"';
+			$tvac=bcsub($tvac,$q['qp_vat']);
+		}
+		$row.=td(nbm($tva_amount),'class="num" '.$class);
+		$row.=td(nbm($tvac),'class="num"');
       }
     $total_tvac+=$tvac;
     $total_htva+=$htva;
