@@ -175,6 +175,7 @@ echo '</tr>';
     $tvac=bcadd($htva,$q['qs_vat']);
     if ($owner->MY_TVA_USE=='Y')
       {
+		$class="";
 		if ($tva->get_parameter("both_side")==1) {
 			$class=' style="text-decoration:line-through"';
 			$tvac=bcsub($tvac,$q['qs_vat']);
