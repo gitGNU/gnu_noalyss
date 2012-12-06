@@ -182,7 +182,7 @@ echo '</tr>';
 		$tva_amount=bcadd($q['qp_vat'],$q['qp_nd_tva']);
 		$tva_amount=bcadd($tva_amount,$q['qp_nd_tva_recup']);
 		$class="";
-		if ($tva->get_parameter("both_side")==1) {
+		if ($q['qp_vat_sided']<>0) {
 			$class=' style="text-decoration:line-through"';
 			$tvac=bcsub($tvac,$q['qp_vat']);
 		}

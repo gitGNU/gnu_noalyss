@@ -354,7 +354,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 /* First we save all the items without vat */
                 $fiche=new Fiche($this->db);
                 $fiche->get_by_qcode(${"e_march".$i});
-
+				$tva_both=0;
                 /* tva */
                 if ($g_parameter->MY_TVA_USE=='Y')
                 {
@@ -362,6 +362,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     $oTva=new Acc_Tva($this->db);
                     $oTva->set_parameter('id',$idx_tva);
                     $oTva->load();
+					$tva_both=$oTva->get_parameter("both_side");
                 }
 
                 /* We have to compute all the amount thanks Acc_Compute */
@@ -382,7 +383,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                         $acc_amount->amount_vat= ${'e_march'.$i.'_tva_amount'};
 
                     }
-                    if ($oTva->get_parameter("both_side")==0) $tot_tva=bcadd($tot_tva,$acc_amount->amount_vat);
+                    if ($tva_both==0) $tot_tva=bcadd($tot_tva,$acc_amount->amount_vat);
                 }
 
                 $acc_operation=new Acc_Operation($this->db);
@@ -415,7 +416,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     $tot_perso+=$acc_amount->amount_perso;
                 }
 
-                if ( ! $fiche->empty_attribute(ATTR_DEF_TVA_NON_DEDUCTIBLE))
+                if ( ! $fiche->empty_attribute(ATTR_DEF_TVA_NON_DEDUCTIBLE) && $tva_both==0)
                 {
                     $acc_amount->nd_vat_rate=$fiche->strAttribut(ATTR_DEF_TVA_NON_DEDUCTIBLE);
                     $acc_amount->compute_nd_vat();
@@ -423,7 +424,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     /* save op. */
 
                 }
-                if ( ! $fiche->empty_attribute(ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP))
+                if ( ! $fiche->empty_attribute(ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP) && $tva_both==0)
                 {
                     $acc_amount->nd_ded_vat_rate=$fiche->strAttribut(ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP);
                     $acc_amount->compute_ndded_vat();
@@ -492,7 +493,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 //-----
                 if ( $g_parameter->MY_TVA_USE=='Y')
                 {
-                    if ( $oTva->get_parameter("both_side")==1) $n_both=$acc_amount->amount_vat;
+                    if ( $tva_both==1) $n_both=$acc_amount->amount_vat;
 
                     $r=$this->db->exec_sql("select insert_quant_purchase ".
                                            "(null".
@@ -602,7 +603,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 /* save op. */
                 $acc_operation->type='d';
                 $acc_operation->qcode='';
-	      if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA_ND))
+	      if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA_ND) && $tva_both==0)
 		{
 		  $dna=$fiche->strAttribut(ATTR_DEF_ACCOUNT_ND_TVA_ND);
 		}
@@ -622,7 +623,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             {
 	      $dna_default=new Acc_Parm_Code($this->db,'TVA_DED_IMPOT');
                 /* save op. */
-	      if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA))
+	      if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA) && $tva_both==0)
 		{
 		  $dna=$fiche->strAttribut(ATTR_DEF_ACCOUNT_ND_TVA);
 		}
@@ -1087,10 +1088,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             /* use vat */
             if ( $g_parameter->MY_TVA_USE=='Y')
             {
-                $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:""
-                              ;
-                $march_tva_amount=(isset(${"e_march$i"."_tva_amount"}))?${"e_march$i"."_tva_amount"}:""
-                                  ;
+                $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
+                $march_tva_amount=(isset(${"e_march$i"."_tva_amount"}))?${"e_march$i"."_tva_amount"}:"";
             }
 
 

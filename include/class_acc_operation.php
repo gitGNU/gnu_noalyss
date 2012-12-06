@@ -602,7 +602,7 @@ class Acc_Sold extends Acc_Detail
     {
         parent::get();
         $sql="SELECT qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat,
-             qs_vat_code, qs_client, qs_valid, j_id,j_text
+             qs_vat_code, qs_client, qs_valid, j_id,j_text,qs_vat_sided
              FROM quant_sold  join jrnx using(j_id) where j_grpt=$1";
         $this->det->array=$this->db->get_array($sql,array($this->det->jr_grpt_id));
     }
@@ -627,7 +627,7 @@ class Acc_Purchase extends Acc_Detail
         parent::get();
         $sql="SELECT qp_id, qp_internal, j_id, qp_fiche, qp_quantite, qp_price, qp_vat,
              qp_vat_code, qp_nd_amount, qp_nd_tva, qp_nd_tva_recup, qp_supplier,
-             qp_valid, qp_dep_priv,j_text
+             qp_valid, qp_dep_priv,j_text,qp_vat_sided
              FROM quant_purchase  join jrnx using(j_id) where j_grpt=$1";
         $this->det->array=$this->db->get_array($sql,array($this->det->jr_grpt_id));
     }

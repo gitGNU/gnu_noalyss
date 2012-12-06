@@ -176,7 +176,7 @@ echo '</tr>';
     if ($owner->MY_TVA_USE=='Y')
       {
 		$class="";
-		if ($tva->get_parameter("both_side")==1) {
+		if ($q['qs_vat_sided'] != 0) {
 			$class=' style="text-decoration:line-through"';
 			$tvac=bcsub($tvac,$q['qs_vat']);
 		}

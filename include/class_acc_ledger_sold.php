@@ -324,8 +324,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                     $oTva=new Acc_Tva($this->db);
                     $idx_tva=${'e_march'.$i.'_tva_id'};
                     $tva_item=${'e_march'.$i.'_tva_amount'};
-		    $oTva->set_parameter("id",$idx_tva);
-		    $oTva->load();
+					$oTva->set_parameter("id",$idx_tva);
+					$oTva->load();
                     /* if empty then we need to compute it */
                     if (trim($tva_item)=='')
                     {

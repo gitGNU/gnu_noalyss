@@ -799,6 +799,7 @@ class Acc_Ledger extends jrn_def_sql
 	public function list_operation($sql, $offset, $p_paid = 0)
 	{
 		global $g_parameter, $g_user;
+		bcscale(2);
 		$table = new Sort_Table();
 		$gDossier = dossier::id();
 		$amount_paid = 0.0;
@@ -924,10 +925,12 @@ class Acc_Ledger extends jrn_def_sql
 					$positive = ($positive < 0) ? 1 : 0;
 			}
 			$r.="<TD align=\"right\">";
-
-			$tot = ($positive != 0) ? $tot - $row['jr_montant'] : $tot + $row['jr_montant'];
+			$t_amount=$row['jr_montant'];
+			if ($row['total_invoice'] != null && $row['total_invoice'] != $row['jr_montant'])
+				$t_amount=$row['total_invoice'];
+			$tot = ($positive != 0) ? bcsub($tot , $t_amount ): bcadd($tot , $t_amount);
 			//STAN $positive always == 0
-			$r.=( $positive != 0 ) ? "<font color=\"red\">  - " . nbm($row['jr_montant']) . "</font>" : nbm($row['jr_montant']);
+			$r.=( $positive != 0 ) ? "<font color=\"red\">  - " . nbm($t_amount) . "</font>" : nbm($t_amount);
 			$r.="</TD>";
 
 
@@ -2536,7 +2539,20 @@ class Acc_Ledger extends jrn_def_sql
 	     when jrn_def_type='VEN' then (select ad_value from fiche_detail where ad_id=23 and f_id=(select max(qs_client) from quant_sold join jrnx using (j_id) join jrn as e on (e.jr_grpt_id=j_grpt) where e.jr_id=x.jr_id))
 	    when jrn_def_type = 'ACH' then (select ad_value from fiche_detail where ad_id=23 and f_id=(select max(qp_supplier) from quant_purchase join jrnx using (j_id) join jrn as e on (e.jr_grpt_id=j_grpt) where e.jr_id=x.jr_id))
 	    when jrn_def_type = 'FIN' then (select ad_value from fiche_detail where ad_id=23 and f_id=(select qf_other from quant_fin where quant_fin.jr_id=x.jr_id))
-	    end as quick_code
+	    end as quick_code,
+	    case
+	     when jrn_def_type='VEN' then
+		     (select sum(qs_price)+sum(vat) from
+				(select qs_internal,qs_price,case when qs_vat_sided<>0 then 0 else qs_vat end as vat from quant_sold where qs_internal=X.jr_internal) as ven_invoice
+			  )
+	    when jrn_def_type = 'ACH' then
+			(
+				select sum(qp_price)+sum(vat)+sum(qp_nd_tva)+sum(qp_nd_tva_recup)
+				from
+				 (select qp_internal,qp_price,qp_nd_tva,qp_nd_tva_recup,case when qp_vat_sided<>0 then 0 else qp_vat end as vat from quant_purchase where qp_internal=X.jr_internal) as invoice_purchase
+			)
+		else null
+		end as total_invoice
 
 
              from
