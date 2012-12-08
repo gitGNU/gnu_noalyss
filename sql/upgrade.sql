@@ -25,7 +25,7 @@ COMMENT ON FUNCTION comptaproc.format_account(account_type) IS 'format the accou
 
 update tmp_pcmn  set pcm_val_parent  = '62' where pcm_val='6202';
 
-update fiche_detail set ad_value = to_number(ad_value,'9.99')*100 where ad_id in  (21,22,20,31) and ad_value is not null and ad_value <> '';
+update fiche_detail set ad_value = (to_number(ad_value,'9.99')*100)::text where ad_id in  (21,22,20,31) and ad_value is not null and ad_value <> '';
 
 update menu_ref set me_code='ACHISTO' WHERE me_code='ACHIMP';
 update menu_ref set me_code='VEHISTO' WHERE me_code='VENIMP';

@@ -545,7 +545,7 @@ class Acc_Ledger extends jrn_def_sql
              jrn_def_type,
              jrn.jr_tech_per
              FROM jrn join jrn_def on (jrn_def_id=jr_def_id)
-             WHERE $periode $jrn order by jr_date $cond_limite";
+             WHERE $periode $jrn order by jr_date,substring(jrn.jr_pj_number,'\\\d+$')::numeric asc  $cond_limite";
 
 		$Res = $this->db->exec_sql($sql);
 		$Max = Database::num_row($Res);

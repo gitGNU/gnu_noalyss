@@ -211,9 +211,9 @@ echo '</tr>';
 
   }
   if ($owner->MY_TVA_USE=='Y')
-	  $row= td(_('Total'),' style="font-style:italic;text-align:right;font-weight: bolder;widtg:auto" colspan="6"');
+	  $row= td(_('Total'),' style="font-style:italic;text-align:right;font-weight: bolder;width:auto" colspan="6"');
   else
-	  $row= td(_('Total'),' style="font-style:italic;text-align:right;font-weight: bolder;widtg:auto" colspan="6"');
+	  $row= td(_('Total'),' style="font-style:italic;text-align:right;font-weight: bolder;width:auto" colspan="6"');
 $row.=td(nbm($total_htva),'class="num" style="font-style:italic;font-weight: bolder;"');
 if ($owner->MY_TVA_USE=='Y')
   $row.=td("").td(nbm($total_tvac),'class="num" style="font-style:italic;font-weight: bolder;"');
