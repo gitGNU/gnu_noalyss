@@ -1032,7 +1032,7 @@ class User
 			}
 			$cn = new Database();
 			if (isset($_REQUEST['gDossier']))
-				$p_module.= "dossier : " . $_REQUEST['gDossier'];
+				$p_module.= " dossier : " . $_REQUEST['gDossier'];
 			$sql = "insert into audit_connect (ac_user,ac_ip,ac_module,ac_url,ac_state) values ($1,$2,$3,$4,$5)";
 
 			$cn->exec_sql($sql, array(
