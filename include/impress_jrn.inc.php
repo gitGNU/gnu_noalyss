@@ -118,8 +118,8 @@ $w->selected=(isset($_GET['to_periode']))?$_GET['to_periode']:'';
 print td('Jusque ').$w->input('to_periode',$periode_end);
 print "</TR><TR>";
 $a=array(
-       array('value'=>0,'label'=>'Detaillé'),
-       array('value'=>1,'label'=>'Simple')
+       array('value'=>0,'label'=>'Ecriture comptable'),
+       array('value'=>1,'label'=>'Liste opérations')
    );
 $w->selected=1;
 print '</TR>';
@@ -146,18 +146,18 @@ if ( isset( $_REQUEST['bt_html'] ) )
     $d=var_export($_GET,true);
     $Jrn=new Acc_Ledger($cn,$_GET['jrn_id']);
     $Jrn->get_name();
-    if ( $_GET['p_simple']==0 )
-    {
-        $Row=$Jrn->get_row( $_GET['from_periode'],
-                            $_GET['to_periode']
-                          );
-    }
-    else
-    {
-        $Row=$Jrn->get_rowSimple($_GET['from_periode'],
-                                 $_GET['to_periode']
-                                );
-    }
+	switch ($_GET['p_simple'])
+	{
+		case "0":
+			 $Row=$Jrn->get_row( $_GET['from_periode'],$_GET['to_periode']);
+			break;
+		case "1":
+			$Row=$Jrn->get_rowSimple($_GET['from_periode'],$_GET['to_periode']);
+			break;
+		default:
+			var_dump($_GET['p_simple']);
+			die (__FILE__.":".__LINE__." error unknown style ");
+	}
     $rep="";
     $hid=new IHidden();
     echo '<div class="content">';
@@ -199,7 +199,9 @@ if ( isset( $_REQUEST['bt_html'] ) )
         exit;
 
     echo '<TABLE class="result">';
-
+	/////////////////////////////////////////////////////////////////////////////////////
+	// Ecriture comptable
+	/////////////////////////////////////////////////////////////////////////////////////
     if ( $_GET['p_simple'] == 0 )
     {
         // detailled printing
@@ -230,7 +232,11 @@ if ( isset( $_REQUEST['bt_html'] ) )
             "</TR>";
         }// end loop
     } // if
-    else
+	/////////////////////////////////////////////////////////////////////////////////////
+	// Liste opérations
+	/////////////////////////////////////////////////////////////////////////////////////
+
+    elseif ( $_GET['p_simple'] == 1 )
     {
         // Simple printing
         //---
@@ -242,7 +248,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
         "<th>internal</th>".
 	  th('Tiers').
         "<th>Commentaire</th>".
-        "<th> montant</th>".
+        "<th>Total opération</th>".
         "</TR>";
         // set a filter for the FIN
 
