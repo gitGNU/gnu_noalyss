@@ -44,6 +44,7 @@ global $g_parameter;
 	}
 	echo th(_('Prix/Un.'), 'style="text-align:right"');
 	echo th(_('Quantité'), 'style="text-align:right"');
+	echo th(_('Personnel'), 'style="text-align:right"');
 	echo th(_('Non ded'), 'style="text-align:right"');
 
 	if ($g_parameter->MY_TVA_USE == 'Y')
@@ -82,7 +83,8 @@ global $g_parameter;
 		$row.=td(nbm($pu), 'class="num"');
 		$row.=td(nbm($q['qp_quantite']), 'class="num"');
 
-		$no_ded = bcadd($q['qp_dep_priv'], $q['qp_nd_amount']);
+		$no_ded = $q['qp_nd_amount'];
+		$row.=td(nbm($q['qp_dep_priv']), 'style="text-align:right"');
 		$row.=td(nbm($no_ded), ' style="text-align:right"');
 		$htva = $q['qp_price'];
 
