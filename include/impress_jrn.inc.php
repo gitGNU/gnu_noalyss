@@ -82,17 +82,17 @@ echo '<div class="content">';
 /*
  * Let you change the exercice
  */
+echo '<form method="GET">';
 echo '<fieldset><legend>' . _('Choississez un autre exercice') . '</legend>';
 ;
-echo '<form method="GET">';
 echo 'Choississez un autre exercice :';
 $ex = new Exercice($cn);
 $wex = $ex->select('exercice', $exercice, ' onchange="submit(this)"');
 echo $wex->input();
 echo dossier::hidden();
 echo HtmlInput::get_to_hidden(array('ac', 'type'));
-echo '</form>';
 echo '</fieldset>';
+echo '</form>';
 
 
 
