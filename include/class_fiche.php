@@ -780,7 +780,19 @@ class Fiche
 
                         if ( strlen(trim($v)) != 0)
                         {
-							$v=$this->cn->get_value("select format_account($1)",array($value));
+							if( strpos($value,',')==0)
+							{
+								$v=$this->cn->get_value("select format_account($1)",array($value));
+							} else {
+								$ac_array = explode(",", $value);
+								if (count($ac_array) <> 2)
+									throw new Exception('Désolé, il y a trop de virgule dans le poste comptable ' . h($value));
+								$part1 = $ac_array[0];
+								$part2 = $ac_array[1];
+								$part1 = $this->cn->get_value('select format_account($1)', array($part1));
+								$part2 = $this->cn->get_value('select format_account($1)', array($part2));
+								$v = $part1 . ',' . $part2;
+							}
                             $parameter=array($this->id,$v);
                         }
                         else
