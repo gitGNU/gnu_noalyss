@@ -197,8 +197,9 @@ if ( $sa == 'list' )
 	    $str_name=domaine.'dossier'.$Dossier['dos_id'];
             
 	    echo "<TD><I>  ".h($Dossier['dos_description'])."</I></td>";
-            $database_exist=$repocn->get_value('select count(*) 
-                from pg_catalog.pg_database where datname = lower($1)',array($str_name));
+            
+            $database_exist=$repocn->exist_database($str_name);
+            
             if ($database_exist > 0 )
             {
                 $size=$repocn->get_value("select pg_database_size($1)/(1024*1024)::float",

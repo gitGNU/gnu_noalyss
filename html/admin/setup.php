@@ -463,8 +463,17 @@ $MaxDossier=$cn->size($Resdossier);
 for ($e=0;$e < $MaxDossier;$e++) {
   $db_row=$cn->fetch($e);
   echo "<h3>Patching ".$db_row['dos_name'].'</h3>';
-  $db=new Database($db_row['dos_id'],'dos');
-  $db->apply_patch($db_row['dos_name']);
+  
+  $name=$cn->format_name($db_row['dos_id'],'dos');
+  
+  if ( $cn->exist_database($name)> 0 )
+  {
+    $db=new Database($db_row['dos_id'],'dos');
+    $db->apply_patch($db_row['dos_name']);
+  } else 
+  {
+      echo_warning(_("Dossier inexistant")." $name");
+  }
   Dossier::synchro_admin($db_row['dos_id']);
  }
 
@@ -478,8 +487,16 @@ echo "<h2>Mise &agrave; jour mod&egrave;le</h2>";
 for ($e=0;$e < $MaxDossier;$e++) {
   $db_row=$cn->fetch($e);
   echo "<h3>Patching ".$db_row['mod_name']."</h3>";
-  $db=new Database($db_row['mod_id'],'mod');
-  $db->apply_patch($db_row['mod_name']);
+  $name=$cn->format_name($db_row['mod_id'],'mod');
+  
+  if ( $cn->exist_database($name)> 0 )
+  {
+    $db=new Database($db_row['mod_id'],'mod');
+    $db->apply_patch($db_row['mod_name']);
+   } else 
+  {
+      echo_warning(_("Modèle inexistant")." $name");
+  }
  }
 
 //----------------------------------------------------------------------

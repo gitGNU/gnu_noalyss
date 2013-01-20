@@ -550,6 +550,38 @@ class Database
         return false;
     }
     /**
+     * return the name of the database with the domain name
+     * @param $p_id of the folder WITHOUT the domain name
+     * @param $p_type dos for folder mod for template
+     * @return formatted name
+     */
+    function format_name($p_id,$p_type)
+    {
+        switch ($p_type)
+        {
+            case 'dos':
+                $sys_name=sprintf("%sdossier%d",strtolower(domaine),$p_name);
+                break;
+            case 'mod':
+                $sys_name=sprintf("%smod%d",strtolower(domaine),$p_name);
+                break;
+            default:
+                echo_error(__FILE__." format_name invalid type ".$p_type, __LINE__);
+        }
+        return $sys_name;
+    }
+    /**
+     * Count the database name in a system view
+     * @param $p_name string database name
+     * @return number of database found (normally 0 or 1)
+     */
+    function exist_database($p_name)
+    {
+        $database_exist=$this->get_value('select count(*) 
+                from pg_catalog.pg_database where datname = lower($1)',array($p_name));
+        return $database_exist;
+    }
+    /**
      *@brief check if the large object exists
      *@param $p_oid of the large object
      *@return return true if the large obj exist or false if not
