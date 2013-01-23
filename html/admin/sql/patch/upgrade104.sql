@@ -1,4 +1,4 @@
-
+begin;
 CREATE OR REPLACE FUNCTION comptaproc.insert_quick_code(nf_id integer, tav_text text)
   RETURNS integer AS
 $BODY$
@@ -36,7 +36,9 @@ $BODY$
 	return ns;
 	end;
 $BODY$
-  LANGUAGE plpgsql;
+LANGUAGE plpgsql;
+
+
 
 CREATE OR REPLACE FUNCTION comptaproc.update_quick_code(njft_id integer, tav_text text)
   RETURNS integer AS
@@ -96,4 +98,8 @@ $BODY$
 	return ns;
 	end;
 $BODY$
-  LANGUAGE plpgsql;
+LANGUAGE plpgsql;
+
+update version set val=105;
+
+commit;
