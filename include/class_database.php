@@ -560,13 +560,14 @@ class Database
         switch ($p_type)
         {
             case 'dos':
-                $sys_name=sprintf("%sdossier%d",strtolower(domaine),$p_name);
+                $sys_name=sprintf("%sdossier%d",strtolower(domaine),$p_id);
                 break;
             case 'mod':
-                $sys_name=sprintf("%smod%d",strtolower(domaine),$p_name);
+                $sys_name=sprintf("%smod%d",strtolower(domaine),$p_id);
                 break;
             default:
                 echo_error(__FILE__." format_name invalid type ".$p_type, __LINE__);
+		exit();
         }
         return $sys_name;
     }
