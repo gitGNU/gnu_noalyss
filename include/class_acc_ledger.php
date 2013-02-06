@@ -930,7 +930,14 @@ class Acc_Ledger extends jrn_def_sql
 				$t_amount=$row['total_invoice'];
 			$tot = ($positive != 0) ? bcsub($tot , $t_amount ): bcadd($tot , $t_amount);
 			//STAN $positive always == 0
-			$r.=( $positive != 0 ) ? "<font color=\"red\">  - " . nbm($t_amount) . "</font>" : nbm($t_amount);
+			if ($row [ 'jrn_def_type']=='FIN')
+			{
+				$r.=( $positive != 0 ) ? "<font color=\"red\">  - " . nbm($t_amount) . "</font>" : nbm($t_amount);
+			}
+			else
+			{
+				$r.=( $t_amount <  0 ) ? "<font color=\"red\">  " . nbm($t_amount) . "</font>" : nbm($t_amount);
+			}
 			$r.="</TD>";
 
 
@@ -946,9 +953,9 @@ class Acc_Ledger extends jrn_def_sql
 				$h->name = "set_jr_id" . $row['jr_id'];
 				$r.='<TD>' . $w->input() . $h->input() . '</TD>';
 				if ($row['jr_rapt'] == 'paid')
-					$amount_paid+=$row['jr_montant'];
+					$amount_paid=bcadd($amount_paid,$t_amount);
 				else
-					$amount_unpaid+=$row['jr_montant'];
+					$amount_unpaid=bcadd($amount_unpaid,$t_amount);
 			}
 
 			// Rapprochement
