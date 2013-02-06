@@ -716,7 +716,7 @@ class Acc_Ledger extends jrn_def_sql
 			$tmp_jr_comment = h($row['jr_comment']);
 			$r.=$tmp_jr_comment;
 			$r.="</TD>";
-			$r.=td(h($row['n_text']), ' style="font-size:6"');
+			$r.=td(h($row['n_text']), ' style="font-size:90%"');
 			// Amount
 			// If the ledger is financial :
 			// the credit must be negative and written in red
@@ -911,7 +911,7 @@ class Acc_Ledger extends jrn_def_sql
 			$tmp_jr_comment = h($row['jr_comment']);
 			$r.=$tmp_jr_comment;
 			$r.="</TD>";
-			$r.=td(h($row['n_text']), ' style="font-size:6"');
+			$r.=td(h($row['n_text']), ' style="font-size:90%"');
 			// Amount
 			// If the ledger is financial :
 			// the credit must be negative and written in red
