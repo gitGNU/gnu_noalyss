@@ -141,7 +141,7 @@ for ($i = 0; $i < count($operation); $i++)
 	$r.=td($row['jr_comment']);
 	$r.=td($js);
 	$amount=$cn->get_value('select qf_amount from quant_fin where jr_id=$1', array($row['jr_id']));
-	$r.='<td class="num" class="sorttable_numeric" sortable_customekey="'.$amount.'">'.nbm ($amount).'</td>';
+	$r.='<td class="num" class="sorttable_numeric" sortable_customekey="'.$amount.'" style="text-align:right">'.nbm ($amount).'</td>';
 
 	$diff=bcadd($diff,$amount);
 	$tot_not_reconcilied+=$row['jr_montant'];
@@ -162,7 +162,7 @@ for ($i = 0; $i < count($operation); $i++)
 	if ($i % 2 == 0)
 		echo tr($r, ' class="odd" ');
 	else
-		echo tr($r);
+		echo tr($r,' class="even" ');
 }
 echo '</table>';
 $bk_card = new Fiche($cn);
