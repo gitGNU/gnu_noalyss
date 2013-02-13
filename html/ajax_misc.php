@@ -326,7 +326,7 @@ EOF;
 		$date_error="";
 		// start date
 		$start = new IDate('search_start');
-		$start->value = (isset($search_start)) ? $search_start : $first_per->first_day();
+
 		/*  check if date are valid */
 		if (isset($search_start) && isDate($search_start) == null)
 		{
@@ -336,7 +336,7 @@ EOF;
 			ob_end_clean();
 			$search_start=$first_per->first_day();
 		}
-
+		$start->value = (isset($search_start)) ? $search_start : $first_per->first_day();
 
 		$line = td('Date Debut') . td($start->input());
 		// end date
