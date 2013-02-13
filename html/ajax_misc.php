@@ -323,14 +323,33 @@ EOF;
 		$line.=td($max->input());
 		$r.=tr($line);
 
+		$date_error="";
 		// start date
 		$start = new IDate('search_start');
 		$start->value = (isset($search_start)) ? $search_start : $first_per->first_day();
+		/*  check if date are valid */
+		if (isset($search_start) && isDate($search_start) == null)
+		{
+			ob_start();
+			alert(_('Date malformée'));
+			$date_error = ob_get_contents();
+			ob_end_clean();
+			$search_start=$first_per->first_day();
+		}
 
 
 		$line = td('Date Debut') . td($start->input());
 		// end date
 		$end = new IDate('search_end');
+						/*  check if date are valid */
+		if (isset($search_end) && isDate($search_end) == null)
+		{
+			ob_start();
+			alert(_('Date malformée'));
+			$date_error = ob_get_contents();
+			ob_end_clean();
+			$search_end=$last_per->last_day();
+		}
 		$end->value = (isset($search_end)) ? $search_end : $last_per->last_day();
 		$line.=td('Date Fin') . td($end->input());
 		$r.=tr($line);
@@ -396,27 +415,7 @@ EOF;
 			$form.=HtmlInput::hidden('sb', $_REQUEST['sb']);
 		if (isset($_REQUEST['f_id']))
 			$form.=HtmlInput::hidden('f_id', $_REQUEST['f_id']);
-		/*  check if date are valid */
-		if ((isset($search_end) && isDate($search_end) == null) ||
-				(isset($search_start) && isDate($search_start) == null))
-		{
-			ob_start();
-			alert(_('Date malformée, désolé'));
-			$html = ob_get_contents();
-			ob_end_clean();
 
-			$html = escape_xml($html);
-
-			header('Content-type: text/xml; charset=UTF-8');
-			echo <<<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<data>
-<code>detail</code>
-<value>$html</value>
-</data>
-EOF;
-			exit();
-		}
 
 		// display a list of operation from the other side + box button
 		if ($ot == 'account')
@@ -458,7 +457,9 @@ EOF;
 		$form.=HtmlInput::submit('record', _('Sauver')) . $ret->input();
 		$form.='</FORM>';
 		$form.='</div>';
+
 		$html = $r . $form;
+		$html.=$date_error;
 		//       echo $html;exit;
 		$html = escape_xml($html);
 
