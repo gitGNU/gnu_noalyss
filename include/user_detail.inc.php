@@ -75,8 +75,12 @@ if (isset($_POST['SAVE']))
             {
                 $db_id = mb_substr($name, 4);
                 $cn = new Database();
-                $UserChange->set_folder_access($db_id, $elem);
-				Dossier::synchro_admin($db_id);
+				$name=$cn->format_name($db_id, "dos");
+				if ( $cn->exist_database($name) == 1 )
+				{
+					$UserChange->set_folder_access($db_id, $elem);
+					Dossier::synchro_admin($db_id);
+				}
             }
         }
     }
