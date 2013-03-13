@@ -564,17 +564,22 @@ function view_history_account(p_value,dossier)
 
     querystring='gDossier='+dossier+'&act=de&pcm_val='+p_value+'&div='+id;
     add_div(popup);
+
     var action=new Ajax.Request(
                    "ajax_history.php",
                    {
                    method:'get',
                    parameters:querystring,
                    onFailure:error_box,
-                   onSuccess:success_box
+                   onSuccess:function (req,xml)
+					{
+						success_box(req,xml);
+						g(id).style.top=calcy(140+(layer*3));
+						g(id).style.left="10%";
+						g(id).style.width='80%';
+					}
                    }
                );
-    g(id).style.top=posY-40;
-    g(id).style.left=posX-10;
 
 }
 
@@ -588,7 +593,13 @@ function update_history_account(obj)
 		method:'get',
 		parameters:querystring,
 		onFailure:error_box,
-		onSuccess:success_box
+		  onSuccess:function (req,xml)
+					{
+						success_box(req,xml);
+						g(obj.div).style.top=calcy(140+(layer*3));
+						g(obj.div).style.left="10%";
+						g(obj.div).style.width='80%';
+					}
 	    });
     } catch (e)
     {
@@ -618,12 +629,15 @@ var popup={'id':
                    method:'get',
                    parameters:querystring,
                    onFailure:error_box,
-                   onSuccess:success_box
+                   onSuccess:function (req,xml)
+					{
+						success_box(req,xml);
+						g(id).style.top=calcy(140+(layer*3));
+						g(id).style.left="10%";
+						g(id).style.width='80%';
+					}
                    }
                );
-    g(id).style.top=posY-40;
-    g(id).style.left=posX-10;
-
 }
 
 function update_history_card(obj)
@@ -636,7 +650,13 @@ function update_history_card(obj)
 		method:'get',
 		parameters:querystring,
 		onFailure:error_box,
-		onSuccess:success_box
+		  onSuccess:function (req,xml)
+					{
+						success_box(req,xml);
+						g(obj.div).style.top=calcy(140+(layer*3));
+						g(obj.div).style.left="10%";
+						g(obj.div).style.width='80%';
+					}
 	    });
     } catch (e)
     {
@@ -713,7 +733,7 @@ function modifyOperation(p_value,dossier)
                    onSuccess:success_box
                    }
                );
-    g(id).style.top=posY-40;
+    g(id).style.top=calcy(100+(layer*3));
     g(id).style.left=300;
 
 }
