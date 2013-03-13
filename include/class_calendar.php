@@ -61,7 +61,7 @@ class Calendar
         for ($i=0;$i<count($array);$i++)
         {
             $ind=$array[$i]['ag_timestamp_day'];
-            $p_array[$ind].="<span class=\"notice\">".$array[$i]['nb']." "._("Tâches suivis").'</span>';
+            $p_array[$ind].="<span class=\"notice\">".$array[$i]['nb']." "._("Tâches suivies").'</span>';
 
         }
     }
