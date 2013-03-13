@@ -107,7 +107,7 @@ for ($e=0;$e<count($array);$e++)
     $pdf->LongLine($size[$l],6,($row['description'].'('.$row['jr_internal'].")"),0,$align[$l]);
 
     $l++;
-    $pdf->Cell($size[$l],6,(($row['letter']!=-1)?$row['letter']:''),0,0,$align[$l]);
+    $pdf->Cell($size[$l],6,(($row['letter']!=-1)?strtoupper(base_convert($row['letter'],10,36)):''),0,0,$align[$l]);
     $l++;
     $pdf->Cell($size[$l],6,(sprintf('% 12.2f',$row['deb_montant'])),0,0,$align[$l]);
     $l++;

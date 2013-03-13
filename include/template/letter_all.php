@@ -11,7 +11,7 @@ if ( count($this->content) == 0 ) :
 
 <?      exit();
 endif;?>
-<table class="result">
+  <table class="result">
 <tr>
 <th>
    <?=_('Lettrage')?>
@@ -28,14 +28,14 @@ endif;?>
 <th>
    <?=_('Description')?>
 </th>
-<th>
-   <?=_('Montant')?>
+<th style="text-align:right">
+   <?=_('Débit')?>
 </th>
-<th>
-   <?=_('Debit / Credit')?>
+<th style="text-align:right">
+   <?=_('Crédit')?>
 </th>
-<th>
-  <?=_('Op. concerné')?>
+<th style="text-align:center">
+  <?=_('Op. concernée')?>
 </th>
 </tr>
 
@@ -47,14 +47,14 @@ if ( ($i % 2) == 0 ) $class="odd";
   <tr <? echo "class=\"$class\""; ?> >
 <td>
 <?php
-$letter=($this->content[$i]['letter']==-1)?"x":base_convert($this->content[$i]['letter'],10,36);
+$letter=($this->content[$i]['letter']==-1)?" aucun lettrage ":strtoupper(base_convert($this->content[$i]['letter'],10,36));
 $js="this.gDossier=".dossier::id().
   ";this.j_id=".$this->content[$i]['j_id'].
   ";this.obj_type='".$this->object_type."'".
   ";dsp_letter(this)";
 
 ?>
-<A class="detail" href="javascript:<?=$js?>"><?=$letter?>
+<A class="detail" style="text-decoration: underline" href="javascript:<?=$js?>"><?=$letter?>
 <? if ( $this->content[$i]['letter_diff'] != 0) echo $g_failed;	?>
 	</A>
 </td>
@@ -67,9 +67,14 @@ $r=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript
 ?>
   <td> <?=$r?> </td>
   <td> <?=h($this->content[$i]['jr_comment'])?> </td>
+  <? if ($this->content[$i]['j_debit']=='t') : ?>
   <td style="text-align:right"> <?=nb($this->content[$i]['j_montant'])?> </td>
-<td> <?=($this->content[$i]['j_debit']=='t')?'D':'C'?> </td>
-<td>
+  <td></td>
+  <? else : ?>
+  <td></td>
+  <td style="text-align:right"> <?=nb($this->content[$i]['j_montant'])?> </td>
+  <? endif ?>
+<td style="text-align:center">
 <?php
     // Rapprochement
     $rec=new Acc_Reconciliation($this->db);
@@ -97,14 +102,14 @@ $amount_cred+=($this->content[$i]['j_debit']=='f')?$this->content[$i]['j_montant
     endfor;
 ?>
 </table>
-<h2 class="info2" style="margin:0 0"> Solde débit  : <?=nb($amount_deb);?>
-<h2 class="info2"  style="margin:0 0"> Solde crédit : <?=nb($amount_cred);?>
+<h2 class="info2" style="margin:0 0"> Solde débit  : <?=nb($amount_deb);?></h2>
+<h2 class="info2"  style="margin:0 0"> Solde crédit : <?=nb($amount_cred);?></h2>
   <?
 bcscale(2);
   $solde=bcsub($amount_deb,$amount_cred);
 if ( $solde > 0 ) :
 ?>
-  <h2 class="info2"  style="margin:0 0"> Solde débiteur       : <?=nb($solde)?>
+  <h2 class="info2"  style="margin:0 0"> Solde débiteur       : <?=nb($solde)?></h2>
 <? else : ?>
-     <h2 class="info2"  style="margin:0 0"> Solde créditeur       : <?=nb(abs($solde))?>
+     <h2 class="info2"  style="margin:0 0"> Solde créditeur       : <?=nb(abs($solde))?></h2>
 <? endif; ?>

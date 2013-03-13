@@ -175,7 +175,7 @@ else
 				printf ("%s;\"%s\";",abs(nb($prog)),$fic->get_amount_side($prog));
 				if ($row['letter'] != -1)
 				{
-					printf('"%s";',$row['letter']);
+					printf('"%s";',  strtoupper(base_convert($row['letter'],10,36)));
 					printf("%s",nb($row['letter_diff']));
 				}
 				else

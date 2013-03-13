@@ -355,7 +355,7 @@ class Acc_Account_Ledger
             $vw_operation=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s</A>',
                                   $op['jr_id'], dossier::id(), $op['jr_internal']);
             $let='';
-            if ( $op['letter'] !=-1) $let=$op['letter'];
+            if ( $op['letter'] !=-1) $let=  strtoupper (base_convert ( $op['letter'],10,36));
 	    $tmp_diff=bcsub($op['deb_montant'],$op['cred_montant']);
 
 	    /*

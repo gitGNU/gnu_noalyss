@@ -218,7 +218,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
 	      $solde_d = bcadd($solde_d,$detail['deb_montant']);
             }
 			$side="&nbsp;".$Poste->get_amount_side($solde);
-	    $letter=($detail['letter']!=-1)?hi($detail['letter']):'';
+	    $letter=($detail['letter']!=-1)?hi(strtoupper(base_convert($detail['letter'],10,36))):'';
 		$i++;
 		if (($i % 2 ) == 0) $class="odd"; else $class="even";
             echo '<tr class="'.$class.'">

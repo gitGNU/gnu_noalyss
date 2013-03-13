@@ -464,7 +464,7 @@ for ($e = 0; $e < count($afiche); $e++)
 				$span_error = "";
 				if ($row['letter_diff'] != 0)
 					$span_error = $g_failed;
-				echo td($row['letter'] . $span_error);
+				echo td(strtoupper(base_convert($row['letter'],10,36)) . $span_error);
 			}
 			else
 				echo td('');

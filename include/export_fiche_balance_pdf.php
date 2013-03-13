@@ -265,7 +265,7 @@ else
 				}
 				if ($row['letter'] != -1)
 				{
-					$pdf->Cell($tab[6], 4, $row['letter'], 0, 0, $align[6], $fill);
+					$pdf->Cell($tab[6], 4, strtoupper(base_convert($row['letter'],10,36)), 0, 0, $align[6], $fill);
 					// get sum for this lettering
 
 					$pdf->Cell($tab[7], 4, sprintf('%s', nbm($row['letter_diff'])), '0', '0', $align[7], $fill);

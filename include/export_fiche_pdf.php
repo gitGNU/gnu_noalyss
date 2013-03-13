@@ -197,7 +197,7 @@ else
             }
             if ($row['letter'] != -1 )
             {
-                $pdf->Cell($tab[5],4,$row['letter'],0,0,$align[5],$fill);
+                $pdf->Cell($tab[5],4,strtoupper(base_convert($row['letter'],10,36)),0,0,$align[5],$fill);
                 // get sum for this lettering
                 $sql="select sum(j_montant) from jrnx where j_debit=$1 and j_id in ".
                      " (select j_id from jnt_letter join letter_deb using (jl_id) where jl_id=$2 union ".
