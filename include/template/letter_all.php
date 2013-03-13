@@ -47,7 +47,7 @@ if ( ($i % 2) == 0 ) $class="odd";
   <tr <? echo "class=\"$class\""; ?> >
 <td>
 <?php
-$letter=($this->content[$i]['letter']==-1)?"x":$this->content[$i]['letter'];
+$letter=($this->content[$i]['letter']==-1)?"x":base_convert($this->content[$i]['letter'],10,36);
 $js="this.gDossier=".dossier::id().
   ";this.j_id=".$this->content[$i]['j_id'].
   ";this.obj_type='".$this->object_type."'".

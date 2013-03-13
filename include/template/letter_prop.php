@@ -98,7 +98,7 @@ echo HtmlInput::hidden('letter_j_id[]',$this->content[$i]['j_id']);
 </td>
 <td>
 <?php
-$letter=($this->content[$i]['letter']< 0)?" ":$this->content[$i]['letter'];
+$letter=($this->content[$i]['letter']< 0)?" ":base_convert($this->content[$i]['letter'],10,36);
 ?>
 <?=$letter?>
 </td>
