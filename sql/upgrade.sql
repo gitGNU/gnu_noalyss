@@ -97,3 +97,8 @@ $BODY$
 	end;
 $BODY$
   LANGUAGE plpgsql;
+
+
+alter table document_state add s_status char(1);
+
+update document_state set s_status='C' where s_id in (1,4)

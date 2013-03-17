@@ -504,7 +504,7 @@ class Follow_Up
 		/* add the number of item */
 		$Hid = new IHidden();
 		$r.=$Hid->input("nb_item", MAX_ARTICLE);
-		$r.=HtmlInput::request_to_hidden(array("remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate"));
+		$r.=HtmlInput::request_to_hidden(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate"));
 		/* get template */
 		ob_start();
 		require_once 'template/detail-action.php';
@@ -673,7 +673,7 @@ class Follow_Up
 	function myList($p_base, $p_filter = "", $p_search = "")
 	{
 		// for the sort
-		$url = HtmlInput::get_to_string(array("remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate")) . '&' . $p_base;
+		$url = HtmlInput::get_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate")) . '&' . $p_base;
 
 		$table = new Sort_Table();
 		$table->add('Date', $url, 'order by ag_timestamp asc', 'order by ag_timestamp desc', 'da', 'dd');
@@ -747,7 +747,7 @@ class Follow_Up
 		//show the sub_action
 		foreach ($a_row as $row)
 		{
-			$href = '<A class="document" HREF="do.php?'  . $p_base .HtmlInput::get_to_string(array("remind_date_end","remind_date","sag_ref","only_internal","state","gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate", "ac"),"&") . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
+			$href = '<A class="document" HREF="do.php?'  . $p_base .HtmlInput::get_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate", "ac"),"&") . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
 			$i++;
 			$tr = ($i % 2 == 0) ? 'even' : 'odd';
 			if ($row['ag_priority'] < 2)
@@ -1163,6 +1163,11 @@ class Follow_Up
 		$end = new IDate('date_end');
 		$end->value = (isset($_GET['date_end'])) ? $_GET['date_end'] : "";
 
+		// Closed action
+		$closed_action=new ICheckBox('closed_action');
+		$closed_action->selected=(isset($_GET['closed_action']))?true:false;
+
+		// Internal
 		$only_internal= new ICheckBox('only_internal');
 		$only_internal->selected = (isset($_GET['only_internal'])) ? true : false;
 		// select profile
@@ -1221,7 +1226,7 @@ class Follow_Up
 		$query = "";
 
 
-                if (isset($_REQUEST['query']))
+        if (isset($_REQUEST['query']))
 		{
 			// if a query is request build the sql stmt
 			$query = "and (ag_title ~* '" . sql_string($_REQUEST['query']) . "' " .
@@ -1296,6 +1301,9 @@ class Follow_Up
 		{
 			$query .= " and to_date('".sql_string($remind_date_end)."','DD.MM.YYYY')>= ag_remind_date";
 		}
+		if ( ! isset ($closed_action)) {
+			$query.=" and s_status is null ";
+		}
 		return $query . $str;
 	}
 
@@ -1364,6 +1372,7 @@ class Follow_Up
 			coalesce((select p_name from profile where p_id=ag_dest),'Aucun groupe') as dest
              from action_gestion
              join document_type on (ag_type=dt_id)
+			 join document_state on(ag_state=s_id)
              where  true  $p_search order by ag_timestamp,ag_id";
 		$ret=$this->db->exec_sql($sql);
 

@@ -59,6 +59,10 @@
 					<?=$remind_date_end->input();?>
 				</td>
 			<tr>
+			<tr>
+				<td style="width:180px;text-align:right"> Affiche aussi les actions fermées</td>
+				<td><?=$closed_action->input();?></td>
+			</tr>
 			<td style="width:180px;text-align:right"> Référence</td>
 				<td>
 					<?=$osag_ref->input();?>

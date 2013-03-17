@@ -36,8 +36,10 @@ require_once('class_follow_up.php');
  */
 $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"list";
 $ag_id=(isset($_REQUEST['ag_id']))?$_REQUEST['ag_id']:0;
+if (! isset($_GET['submit_query'])) {$_REQUEST['closed_action']=1;$_GET['closed_action']=1;}
+
 $p_action=$_REQUEST['ac'];
-$base="ac=$p_action&sc=sv&sb=detail&f_id=".$_REQUEST['f_id']."&".HtmlInput::request_to_string(array("remind_date_end","remind_date","sag_ref","only_internal","state","gDossier","qcode","ag_dest","query","tdoc","date_start","date_end","hsstate","sb","sc"),"");
+$base="ac=$p_action&sc=sv&sb=detail&f_id=".$_REQUEST['f_id']."&".HtmlInput::request_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","gDossier","qcode","ag_dest","query","tdoc","date_start","date_end","hsstate","sb","sc"),"");
 $retour=HtmlInput::button_anchor('Retour','?'.dossier::get().'&'.$base);
 $fiche=new Fiche($cn,$_REQUEST['f_id']);
 
