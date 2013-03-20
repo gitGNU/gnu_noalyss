@@ -22,7 +22,6 @@
 
 /*!\file
  * \brief print a listing of financial
- *\todo Must add the third part
  */
 require_once('class_pdf.php');
 class Print_Ledger_Financial extends PDF
@@ -65,11 +64,7 @@ class Print_Ledger_Financial extends PDF
 
     }
     /**
-     *@brief print the pdf
-     *@param
-     *@param
-     *@return
-     *@see
+     *@brief print the pdf for a financial ledger
      */
     function export()
     {

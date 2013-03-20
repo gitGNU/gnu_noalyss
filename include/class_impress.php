@@ -21,7 +21,6 @@
 // $Revision$
 /*!\file
  * \brief contains function for the printing
- * \todo the functions of class_impress.php should be replaced in a OO way
 */
 require_once('class_periode.php');
 
