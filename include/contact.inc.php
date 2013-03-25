@@ -18,7 +18,7 @@
  */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/* !\brief include from client.inc.php and concerned only the contact card and
+/**\brief include from client.inc.php and concerned only the contact card and
  * the contact category
  */
 require_once("class_iselect.php");
@@ -30,7 +30,7 @@ require_once('class_fiche_def.php');
 
 
 $low_action = (isset($_REQUEST['sb'])) ? $_REQUEST['sb'] : "list";
-/* ! \file
+/** \file
  * \brief Called from the module "Gestion" to manage the contact
  */
 $href=basename($_SERVER['PHP_SELF']);

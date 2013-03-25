@@ -21,7 +21,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file
+/**\file
  * \brief the class Acc_Ledger_Fin inherits from Acc_Ledger, this
  * object permit to manage the financial ledger
  */
@@ -46,7 +46,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		$this->type = 'FIN';
 	}
 
-	/* !\brief verify that the data are correct before inserting or confirming
+	/**\brief verify that the data are correct before inserting or confirming
 	 * \param an array (usually $_POST)
 	 * \return String
 	 * \throw Exception on error occurs
@@ -223,7 +223,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		}
 	}
 
-	/* !\brief
+	/**\brief
 	 * \param $p_array contains the value usually it is $_POST
 	 * \return string with html code
 	 * \note the form tag are not  set here
@@ -435,7 +435,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		return $r;
 	}
 
-	/* !\brief show the summary before inserting into the database, it
+	/**\brief show the summary before inserting into the database, it
 	 * calls the function for adding a attachment. The function verify
 	 * should be called before
 	 * \param $p_array an array usually is $_POST
@@ -657,7 +657,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		return $r;
 	}
 
-	/* !\brief save the data into the database, included the attachment,
+	/**\brief save the data into the database, included the attachment,
 	 * and the reconciliations
 	 * \param $p_array usually $_POST
 	 * \return string with HTML code
@@ -723,7 +723,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 			$get_solde=true;
 			for ($i = 0; $i < $nb_item; $i++)
 			{
-				// if tiers is set and amount != 0 insert it into the database
+				/**= 0 insert it into the database
 				// and quit the loop ?
 				if (strlen(trim(${"e_other$i"})) == 0)
 					continue;
@@ -954,7 +954,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		return $ret;
 	}
 
-	/* !\brief display operation of a FIN ledger
+	/**\brief display operation of a FIN ledger
 	 * \return html code into a string
 	 */
 

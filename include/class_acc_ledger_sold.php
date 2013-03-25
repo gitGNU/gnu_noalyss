@@ -477,7 +477,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 
             $this->pj=$acc_operation->set_pj();
 
-            /* if e_suggest != e_pj then do not increment sequence */
+            /**= e_pj then do not increment sequence */
             /* and e_pj is not null */
             if ( strcmp($e_pj,$e_pj_suggest) == 0 && strlen( trim($e_pj)) != 0 )
             {

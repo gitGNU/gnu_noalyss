@@ -20,7 +20,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file
+/**\file
  *
  *
  * \brief to write directly into the ledgers,the stock and the tables
@@ -49,7 +49,7 @@ if ( empty ($first_ledger))
 }
 $ledger->id = ($ledger->id == -1) ? $first_ledger['jrn_def_id'] : $id;
 
-/* !\brief show a form for quick_writing */
+/**\brief show a form for quick_writing */
 $def = -1;
 $ledger->with_concerned = true;
 

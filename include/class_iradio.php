@@ -21,14 +21,14 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file
+/**\file
  * \brief Html Input 
  */
 require_once('class_html_input.php');
 
 class IRadio extends HtmlInput
     {
-    /* !\brief show the html  input of the widget */
+    /**\brief show the html  input of the widget */
 
     public function input($p_name=null, $p_value=null)
         {
@@ -45,7 +45,7 @@ class IRadio extends HtmlInput
         return $r;
         }
 
-    /* !\brief print in html the readonly value of the widget */
+    /**\brief print in html the readonly value of the widget */
 
     public function display()
         {

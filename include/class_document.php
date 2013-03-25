@@ -368,7 +368,7 @@ class Document
         $r='<A class="mtitle" HREF="show_document.php?d_id='.$this->d_id.'&'.dossier::get().'">'.$image.'</A>';
         return $r;
     }
-    /* ! Get
+    /** Get
      * \brief Send the document
      */
     function Send()

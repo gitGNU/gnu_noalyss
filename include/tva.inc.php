@@ -18,7 +18,7 @@
  */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/* ! \file
+/** \file
  * \brief included file for customizing with the vat (account,rate...)
  */
 require_once('class_own.php');

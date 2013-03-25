@@ -20,7 +20,7 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // Verify parameters
-/* ! \file
+/** \file
  * \brief retrieve a document
  */
 

@@ -708,7 +708,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $this->db->exec_sql('update quant_purchase set qp_internal = $1 where j_id in (select j_id from jrnx where j_grpt=$2)',
                                 array($internal,$seq));
 
-            /* if e_suggest != e_pj then do not increment sequence */
+            /**= e_pj then do not increment sequence */
             if ( strcmp($e_pj,$e_pj_suggest) == 0 && strlen(trim($e_pj)) != 0 )
             {
                 $this->inc_seq_pj();

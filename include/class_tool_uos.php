@@ -19,13 +19,19 @@
 /* $Revision: $Revision $ */
 /**
  * @file
- * Objec to check a double insert into the database, this duplicate occurs after
+ * @brief Objec to check a double insert into the database, this duplicate occurs after
  * a refresh of the web page
  */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 require_once 'class_database.php';
 define ('CODE_EXCP_DUPLICATE',901);
+/**
+ * @brief Objec to check a double insert into the database, this duplicate occurs after
+ * a refresh of the web page
+ * in
+ */
+
 class Tool_Uos
 {
     /**

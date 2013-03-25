@@ -18,7 +18,7 @@
  */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/* !\file
+/**\file
  * \brief this file is always included and then executed
  *        it permits to change the user preferences
  * \see user_pref.php

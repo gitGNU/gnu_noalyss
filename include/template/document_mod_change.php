@@ -18,7 +18,7 @@
  */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file
+/**\file
  * \brief this file respond to an ajax request to modify a type of document
  */
 require_once 'class_document_type.php';

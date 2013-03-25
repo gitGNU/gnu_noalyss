@@ -20,17 +20,17 @@
 /* $Revision$ */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/* ! \file
+/** \file
  * \brief  class for the table document_type
  */
 
-/* ! \brief class for the table document_type
+/** \brief class for the table document_type
  * < dt_id pk document_type
  * < dt_value value
  */
 class Document_type
 {
-	/* ! document_type
+	/** document_type
 	 * \brief constructor
 	 * \param $p_cn database connx
 	 */
@@ -41,7 +41,7 @@ class Document_type
 		$this->dt_id = $p_id;
 	}
 
-	/* !
+	/**
 	 * \brief Get all the data for this dt_id
 	 */
 

@@ -21,7 +21,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file
+/**\file
  * \brief this file is common to suivi client, suivi fournisseur, suivi
  * administration.
  * The needed variables are

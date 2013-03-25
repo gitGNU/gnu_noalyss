@@ -178,7 +178,9 @@ class Fiche
         if ( sizeof($this->attribut) != sizeof($e->attribut ) )
         {
 
-            // !!! Missing attribute
+            /*
+			 * !! Missing attribute
+			 */
             foreach ($e->attribut as $f )
             {
                 $flag=0;

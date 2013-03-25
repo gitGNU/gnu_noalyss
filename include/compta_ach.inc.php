@@ -21,7 +21,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file
+/**\file
  * \brief file included to manage all the sold operation
  */
 require_once("class_icheckbox.php");

@@ -19,7 +19,7 @@
  */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/* !\file
+/**\file
  * \brief printing of category of card  : balance, historic
  */
 include_once('class_database.php');

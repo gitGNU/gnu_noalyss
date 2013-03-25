@@ -22,7 +22,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once('class_periode.php');
 
-/* !\file
+/**\file
  * \brief display or save a periode
  * variable received $op, $cn $g_user
  */

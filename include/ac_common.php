@@ -29,7 +29,7 @@ include_once("constant.php");
 require_once('class_database.php');
 require_once('class_periode.php');
 
-/* !\brief to protect again bad characters which can lead to a cross scripting attack
+/**\brief to protect again bad characters which can lead to a cross scripting attack
   the string to be diplayed must be protected
  */
 
@@ -71,7 +71,7 @@ function h1($p_string, $p_class)
 {
     return '<h1 ' . $p_class . '>' . htmlspecialchars($p_string) . '</h1>';
 }
-/* !\brief surround the string with td
+/**\brief surround the string with td
  * \param $p_string string to surround by TD
  * \param $p_extra extra info (class, style, javascript...)
  * \return string surrounded by td
@@ -87,7 +87,7 @@ function tr($p_string, $p_extra='')
     return '<tr  ' . $p_extra . '>' . $p_string . '</tr>';
 }
 
-/* !\brief escape correctly php string to javascript */
+/**\brief escape correctly php string to javascript */
 
 function j($p_string)
 {
@@ -133,7 +133,7 @@ function nbm($p_number)
     return $r;
 }
 
-/* !
+/**
  * \brief  log error into the /tmp/phpcompta_error.log it doesn't work on windows
  *
  * \param p_log message
@@ -155,7 +155,7 @@ function echo_error($p_log, $p_line="", $p_message="")
     }
 }
 
-/* !
+/**
  * \brief  Compare 2 dates
  * \param p_date
  * \param p_date_oth
@@ -243,7 +243,7 @@ function isDate($p_date)
     return $p_date;
 }
 
-/* !
+/**
  * \brief Default page header for each page
  *
  * \param p_theme default theme
@@ -317,7 +317,7 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
 
 }
 
-/* !
+/**
  * \brief Minimal  page header for each page, used for small popup window
  *
  * \param p_theme default theme
@@ -372,7 +372,7 @@ function html_min_page_start($p_theme="", $p_script="", $p_script2="")
     }
 }
 
-/* !
+/**
  * \brief end tag
  *
  */
@@ -383,7 +383,7 @@ function html_page_stop()
     echo "</HTML>";
 }
 
-/* !
+/**
  * \brief Echo no access and stop
  *
  * \return nothing
@@ -413,7 +413,7 @@ function FormatString($p_string)
 {
     return sql_string($p_string);
 }
-/* !
+/**
  * \brief Fix the problem with the quote char for the database
  *
  * \param $p_string
@@ -430,7 +430,7 @@ function sql_string($p_string)
     return $p_string;
 }
 
-/* !
+/**
   /* \brief store the string which print
  *           the content of p_array in a table
  *           used to display the menu
@@ -499,7 +499,7 @@ function ShowItem($p_array, $p_dir='V', $class="mtitle", $class_ref="mtitle", $d
     return $ret;
 }
 
-/* !
+/**
  * \brief warns
  *
  * \param p_string error message
@@ -514,7 +514,7 @@ function echo_warning($p_string)
     echo '<H2 class="error">' . $p_string . "</H2>";
 }
 
-/* !
+/**
  * \brief Show the periode which found thanks its id
  *
  *
@@ -534,7 +534,7 @@ function getPeriodeName($p_cn, $p_id, $pos='p_start')
     return $ret;
 }
 
-/* !
+/**
  * \brief Return the period corresponding to the
  *           date
  *
@@ -554,7 +554,7 @@ function getPeriodeFromMonth($p_cn, $p_date)
     return $R;
 }
 
-/* !\brief Decode the html for the widegt richtext and remove newline
+/**\brief Decode the html for the widegt richtext and remove newline
  * \param $p_html string to decode
  * \return the html code without new line
  */
@@ -567,7 +567,7 @@ function Decode($p_html)
     return $p_html;
 }
 
-/* !\brief Create the condition to filter on the j_tech_per
+/**\brief Create the condition to filter on the j_tech_per
  *        thanks a from and to date.
  * \param $p_cn database conx
  * \param $p_from start date (date)
@@ -611,7 +611,7 @@ function sql_filter_per($p_cn, $p_from, $p_to, $p_form='p_id', $p_field='jr_tech
     return $periode;
 }
 
-/* !\brief alert in javascript
+/**\brief alert in javascript
  * \param $p_msg is the message
  * \param $buffer if false, echo directly and execute the javascript, if $buffer is true, the alert javascript
  * is in the return string

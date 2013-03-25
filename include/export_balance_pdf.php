@@ -215,7 +215,7 @@ if (! empty($array))
     $pdf->Cell(20,6,nbm($tp_sold),'T',0,'R',0);
     $pdf->Cell(20,6,nbm($tp_solc),'T',0,'R',0);
     $pdf->Ln();
-  } // if ! empty
+  } /** empty */
 
 $fDate=date('dmy-Hi');
 $pdf->Output('balance-'.$fDate.'.pdf','D');

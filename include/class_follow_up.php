@@ -38,7 +38,7 @@ require_once('class_inum.php');
 require_once 'class_sort_table.php';
 require_once 'class_irelated_action.php';
 
-/* !\file
+/**\file
  * \brief class_action for manipulating actions
  * action can be :
  * <ul>
@@ -49,7 +49,7 @@ require_once 'class_irelated_action.php';
  * </ul>
  * The table document_type are the possible actions
  */
-/* !
+/**
  * \brief class_action for manipulating actions
  * action can be :
  * <ul>
@@ -63,23 +63,23 @@ require_once 'class_irelated_action.php';
 class Follow_Up
 {
 
-	var $db; /* !<  $db  database connexion    */
-	var $ag_timestamp;  /* !<   $ag_timestamp document date (ag_gestion.ag_timestamp) */
-	var $dt_id;   /* !<   $dt_id type of the document (document_type.dt_id) */
-	var $ag_state; /* !<   $ag_state stage of the document (printed, send to client...) */
-	var $d_number;   /* !<   $d_number number of the document */
-	var $d_filename; /* !<   $d_filename filename's document      */
-	var $d_mimetype; /* !<   $d_mimetype document's filename      */
-	var $ag_title;   /* !<   $ag_title title document	      */
-	var $f_id; /* !<   $f_id_dest fiche id (From field )  */
-	var $ag_ref;  /* !< $ag_ref is the ref  */
-	var $ag_hour;  /* !< $ag_hour is the hour of the meeting, action */
-	var $ag_priority; /* !< $ag_priority is the priority 1 High, 2 medium, 3 low */
-	var $ag_dest;  /* !< $ag_dest person who is in charged */
-	var $ag_contact;  /* !< $ag_contact contact */
-	var $ag_remind_date;  /* !< $ag_contact contact */
+	var $db; /**<  $db  database connexion    */
+	var $ag_timestamp;  /**<   $ag_timestamp document date (ag_gestion.ag_timestamp) */
+	var $dt_id;   /**<   $dt_id type of the document (document_type.dt_id) */
+	var $ag_state; /**<   $ag_state stage of the document (printed, send to client...) */
+	var $d_number;   /**<   $d_number number of the document */
+	var $d_filename; /**<   $d_filename filename's document      */
+	var $d_mimetype; /**<   $d_mimetype document's filename      */
+	var $ag_title;   /**<   $ag_title title document	      */
+	var $f_id; /**<   $f_id_dest fiche id (From field )  */
+	var $ag_ref;  /**< $ag_ref is the ref  */
+	var $ag_hour;  /**< $ag_hour is the hour of the meeting, action */
+	var $ag_priority; /**< $ag_priority is the priority 1 High, 2 medium, 3 low */
+	var $ag_dest;  /**< $ag_dest person who is in charged */
+	var $ag_contact;  /**< $ag_contact contact */
+	var $ag_remind_date;  /**< $ag_contact contact */
 
-	/* !  constructor
+	/**  constructor
 	 * \brief constructor
 	 * \param p_cn database connection
 	 */
@@ -106,7 +106,7 @@ class Follow_Up
 		return $sql;
 	}
 	//----------------------------------------------------------------------
-	/* !
+	/**
 	 * \brief Display the object, the tags for the FORM
 	 *        are in the caller. It will be used for adding and updating
 	 *        action
@@ -524,7 +524,7 @@ class Follow_Up
 	}
 
 	//----------------------------------------------------------------------
-	/* !\brief This function shows the detail of an action thanks the ag_id
+	/**\brief This function shows the detail of an action thanks the ag_id
 	 */
 	function get()
 	{
@@ -571,7 +571,7 @@ class Follow_Up
 		$this->qcode_dest = $aexp->strAttribut(ATTR_DEF_QUICKCODE);
 	}
 
-	/* !
+	/**
 	 * \brief Save the document and propose to save the generated document or
 	 *  to upload one, the data are included except the file. Temporary the generated
 	 * document is save
@@ -662,7 +662,7 @@ class Follow_Up
 		$this->insert_action();
 	}
 
-	/* ! myList($p_filter="")
+	/** myList($p_filter="")
 	 * \brief Show list of action by default if sorted on date
 	 * \param $p_base base url with ac...
 	 * \param $p_filter filters on the document_type
@@ -823,7 +823,7 @@ class Follow_Up
 	}
 
 	//----------------------------------------------------------------------
-	/* !\brief Update the data into the database
+	/**\brief Update the data into the database
 	 *
 	 * \return true on success otherwise false
 	 */
@@ -952,7 +952,7 @@ class Follow_Up
 		return true;
 	}
 
-	/* !\brief generate the document and add it to the action
+	/**\brief generate the document and add it to the action
 	 * \param md_id is the id of the document_modele
 	 * \param $p_array contains normally the $_POST
 	 */
@@ -968,7 +968,7 @@ class Follow_Up
 		$doc->Generate($p_array);
 	}
 
-	/* !\brief put an array in the variable member, the indice
+	/**\brief put an array in the variable member, the indice
 	 * is the member name
 	 * \param $p_array to parse
 	 * \return nothing
@@ -998,7 +998,7 @@ class Follow_Up
 		$this->action = (isset($p_array['action'])) ? $p_array['action'] : null;
 	}
 
-	/* !\brief remove the action
+	/**\brief remove the action
 	 *
 	 */
 
@@ -1022,7 +1022,7 @@ class Follow_Up
 		}
 	}
 
-	/* !\brief return the last p_limit operation into an array
+	/**\brief return the last p_limit operation into an array
 	 * \param $p_limit is the max of operation to return
 	 * \return $p_array of Follow_Up object
 	 */
@@ -1200,7 +1200,7 @@ class Follow_Up
 		Follow_Up::display_search($cn);
 
 		$act = new Follow_Up($cn);
-		/* ! \brief
+		/** \brief
 		 *  \note The field 'recherche' is   about a part of the title or a ref. number
 		 */
 		$query = Follow_Up::create_query($cn);

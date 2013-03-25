@@ -20,7 +20,7 @@
 /* $Revision$ */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/* !\file
+/**\file
  * \brief The opening of the exercices. it takes the saldo of the
  * choosen foolder / exercice and import it as a misc operation in the
  * current folder

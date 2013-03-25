@@ -206,7 +206,7 @@ $order
 			alert (_('Le nom de la catégorie ne peut pas être vide'));
             return 1;
 		}
-        // $p_FICHE_REF cannot be null !!! (== fiche_def_ref.frd_id
+        /**!! (== fiche_def_ref.frd_id
         if (! isset ($p_FICHE_REF) || strlen($p_FICHE_REF) == 0 )
         {
             echo alert (_('Vous devez choisir une categorie'));

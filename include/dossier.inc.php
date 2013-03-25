@@ -195,11 +195,11 @@ if ( $sa == 'list' )
             echo "<TR $cl><TD style=\"vertical-align:top\"> ".
 	      $Dossier['dos_id']."</td><td> <B>".h($Dossier['dos_name'])."</B> </TD>";
 	    $str_name=domaine.'dossier'.$Dossier['dos_id'];
-            
+
 	    echo "<TD><I>  ".h($Dossier['dos_description'])."</I></td>";
-            
+
             $database_exist=$repocn->exist_database($str_name);
-            
+
             if ($database_exist > 0 )
             {
                 $size=$repocn->get_value("select pg_database_size($1)/(1024*1024)::float",
