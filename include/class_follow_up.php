@@ -1281,7 +1281,8 @@ class Follow_Up
 		}
 		if (isset($ag_dest_query) && $ag_dest_query != -2 )
 		{
-                    $query.= " and ag_dest = " . sql_string($ag_dest_query)." and ".self::sql_security_filter($cn, "R");
+                    $query.= " and ((ag_dest = " . sql_string($ag_dest_query)." and ".self::sql_security_filter($cn, "R").") or ".
+				" ag_owner='" . $_SESSION['g_user'] . "')";
 		}
 		else
 		{
