@@ -96,7 +96,7 @@ if ( ! empty ($array) )  {
 	for($i=0;$i<count($late_operation);$i++):
 	?>
 	<li>
-		<?=HtmlInput::detail_action($last_operation[$i]['ag_id'],h($last_operation[$i]['ag_ref']))?>
+		<?=HtmlInput::detail_action($late_operation[$i]['ag_id'],h($late_operation[$i]['ag_ref']))?>
 	<span>
 	<?=smaller_date($late_operation[$i]['ag_timestamp_fmt'])?>
 	</span>
