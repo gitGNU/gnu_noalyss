@@ -455,7 +455,7 @@ function compute_all_ledger()
     }
 
     if ( g('tva') ) g('tva').innerHTML=Math.round(tva*100)/100;
-    g('htva').innerHTML=Math.round(htva*100)/100;
+    if (g('htva')) g('htva').innerHTML=Math.round(htva*100)/100;
     if (g('tvac'))g('tvac').innerHTML=Math.round(tvac*100)/100;
 
 
