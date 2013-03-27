@@ -235,6 +235,18 @@ class HtmlInput
         return sprintf('<A class="detail" style="text-decoration:underline;display:inline" HREF="javascript:modifyOperation(%d,%d)">%s</A>',
                        $p_jr_id,dossier::id(),$p_mesg);
     }
+	/**
+	 * @brief return an anchor to view the detail of an action
+	 * @param $ag_id
+	 * @param $p_mesg
+	 * @param $p_modify let you modify an operation
+	 *
+	 */
+	 static function detail_action($ag_id,$p_mesg,$p_modify=1)
+    {
+        return sprintf('<A class="detail" style="text-decoration:underline;display:inline" HREF="javascript:view_action(%d,%d,%d)">%s</A>',
+                       $ag_id,dossier::id(),$p_modify,$p_mesg);
+    }
     /**
      * return a string containing the html code for calling the modifyModeleDocument
      */

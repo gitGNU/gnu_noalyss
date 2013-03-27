@@ -254,17 +254,38 @@ echo '</span>';
 <? endif; ?>
   </div>
 </div>
+<? if ( $p_base != 'ajax' ) :?>
 <input type='button' class="button" class="noprint" value='Montrer articles' id="toggleButton" onclick='toggleShowDetail()'>
+<? endif; ?>
+<?
+/**
+ * check if there card to show,
+ */
+$show_row=0;
+for ($i=0;$i<count($aArticle);$i++) :
+	if ( ($aCard[$i] != 0 && $p_view == 'READ') || $p_view != 'READ'){ $show_row=1;break;}
+endfor;
+?>
+<?
+/*
+ * display detail if there card or if we are in UPDATE or NEW mode
+ */
+if ($show_row !=0 ) :
+
+	?>
 <fieldset id="fldDetail" style='display:block'>
    <LEGEND> <?=_('Détail des articles')?>
 </LEGEND>
 <?php // hidden fields
+$show_row=0;
 for ($i=0;$i<count($aArticle);$i++) :
 	echo $aArticle[$i]['ad_id'];
 	echo $aArticle[$i]['hidden_tva'];
 	echo $aArticle[$i]['hidden_htva'];
+	if ( ($aCard[$i] != 0 && $p_view == 'READ') || $p_view != 'READ'){ $show_row=1;}
 endfor;
 ?>
+
 <table id="art" >
 <tr>
   <th><?=_('Fiche')?></th>
@@ -276,8 +297,11 @@ endfor;
 <th><?=_('Montant TVAC')?></th>
 
 </tr>
-
 <?for ($i=0;$i<count($aArticle);$i++): ?>
+<?
+if ( ($aCard[$i] != 0 && $p_view == 'READ') || $p_view != 'READ'):
+	$show_row++;
+	?>
 <TR>
 <TD><?php echo $aArticle[$i]['fid'] ?></TD>
 <TD><?php echo $aArticle[$i]['desc'] ?></TD>
@@ -286,10 +310,11 @@ endfor;
 <TD class="num"><?php echo $aArticle[$i]['tvaid'] ?></TD>
 <TD class="num"><?php echo $aArticle[$i]['tva'] ?></TD>
 <TD class="num"><?php echo $aArticle[$i]['tvac'] ?></TD>
-
 </TR>
+<? endif; ?>
 <?php endfor; ?>
 </table>
+
 <script language="JavaScript">
 if ( $('e_march0') && $('e_march0').value =='') { toggleShowDetail();}
 function toggleShowDetail() {
@@ -301,6 +326,7 @@ function toggleShowDetail() {
 	}
 
 </script>
+<? if ( $show_row != 0 ): ?>
 <div style="float: left; text-align: right; padding-right: 5px; font-size: 1.2em; font-weight: bold; color: blue;">
   <input name="act" id="act" class="button" value="<?=_('Actualiser')?>" onclick="compute_all_ledger();" type="button">
 
@@ -316,8 +342,9 @@ function toggleShowDetail() {
     <br>Total TVAC
  </div>
 </div>
-
+<? endif; ?>
 </fieldset>
+<?endif; ?>
 
 <? if ($p_view != 'READ' && $str_select_doc != '') : ?>
 <fieldset class="noprint" >
@@ -366,6 +393,7 @@ try {
 catch(exception) { alert('<?=j(_('Je ne peux pas ajouter de fichier'))?>'); alert(exception.message);}
 }
 </script>
+<? if ($p_view != 'READ') : ?>
   <div class="noprint">
      <h3 >Fichiers à ajouter: </h3>
     <ol id='add_file'  >
@@ -375,8 +403,9 @@ catch(exception) { alert('<?=j(_('Je ne peux pas ajouter de fichier'))?>'); aler
       </li>
     </ol>
   <span   >
-<? if ($p_view != 'READ') : ?> <input type="button" class="button" onclick="addFiles();" value="Ajouter un fichier"> <? endif;?>
+ <input type="button" class="button" onclick="addFiles();" value="Ajouter un fichier">
   </span>
   </div>
+ <? endif;?>
 </fieldset>
 <script>compute_all_ledger()</script>

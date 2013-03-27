@@ -79,7 +79,7 @@
 				<td ><?= $w->input() . $w->search()?><span id="<?=$label?>"></span></td>
 			<tr>
 			<tr>
-				<td style="text-align:right" ><?= _("Profile")?></td>
+				<td style="text-align:right" ><?= _("Profil")?></td>
 				<td><?= $str_ag_dest?></td>
 			</tr>
 			<tr>

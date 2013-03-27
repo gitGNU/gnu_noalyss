@@ -114,7 +114,7 @@ class Follow_Up
 	 *        it is a new document
 	 *
 	 * \param $p_view if set to true the form will be in readonly mode (value: true or false)
-	 * \param $p_gen true we show the tag for generating a doc (value : true or false)
+	 * \param $p_gen true we show the tag for generating a doc (value : true or false) and adding files
 	 * \param $p_base is the ac parameter
 	 * \param $retour is the html code for the return button
 	 * \note  update the reference number or the document type is not allowed
@@ -414,7 +414,7 @@ class Follow_Up
 		/* TVA */
 		$itva = new ITva_Popup($this->db);
 		$itva->in_table = true;
-
+		$aCard=array();
 		/* create aArticle for the detail section */
 		for ($i = 0; $i < MAX_ARTICLE; $i++)
 		{
@@ -428,6 +428,7 @@ class Follow_Up
 			$tmp_ad = (isset($this->aAction_detail[$i])) ? $this->aAction_detail[$i] : false;
 			$icard->readOnly=$readonly;
 			$icard->value = '';
+			$aCard[$i]=0;
 			if ($tmp_ad)
 			{
 				$march = new Fiche($this->db);
@@ -436,6 +437,7 @@ class Follow_Up
 				{
 					$march->id = $f;
 					$icard->value = $march->get_quick_code();
+					$aCard[$i]=$f;
 				}
 			}
 			$icard->set_dblclick("fill_ipopcard(this);");
@@ -1392,5 +1394,16 @@ class Follow_Up
 				)
 			);
 	}
-
+	static function get_all_operation($p_jr_id)
+	{
+		global $cn;
+		$array=$cn->get_array("
+			select ag_id,ag_ref,
+				ag_title
+				from action_gestion
+				join action_gestion_operation using(ag_id)
+				where
+				jr_id=$1",array($p_jr_id));
+		return $array;
+	}
 }

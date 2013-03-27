@@ -565,6 +565,9 @@ EOF;
 	case 'fddetail':
 		require_once 'ajax_fiche_def_detail.php';
 		break;
+	case 'vw_action':
+		require_once 'ajax_view_action.php';
+		break;
 	default:
 		var_dump($_GET);
 }

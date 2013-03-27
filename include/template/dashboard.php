@@ -68,9 +68,7 @@ if ( ! empty ($array) )  {
 	for($i=0;$i<count($last_operation);$i++):
 	?>
 	<li>
-		<span>
-			<?=h($last_operation[$i]['ag_ref'])?>
-		</span>
+		<?=HtmlInput::detail_action($last_operation[$i]['ag_id'],h($last_operation[$i]['ag_ref']))?>
 	<span>
 	<?=smaller_date($last_operation[$i]['ag_timestamp_fmt'])?>
 	</span>
@@ -98,9 +96,7 @@ if ( ! empty ($array) )  {
 	for($i=0;$i<count($late_operation);$i++):
 	?>
 	<li>
-		<span>
-			<?=h($late_operation[$i]['ag_ref'])?>
-		</span>
+		<?=HtmlInput::detail_action($last_operation[$i]['ag_id'],h($last_operation[$i]['ag_ref']))?>
 	<span>
 	<?=smaller_date($late_operation[$i]['ag_timestamp_fmt'])?>
 	</span>

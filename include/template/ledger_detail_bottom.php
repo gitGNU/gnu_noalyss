@@ -44,7 +44,34 @@ if ( $access=='W') {
     echo $wConcerned->input();
 
 }
-
+?>
+</div>
+<?
+$array = Follow_Up::get_all_operation($jr_id);
+if (count($array) > 0)
+{
+	?>
+	<div class="myfieldset">
+		<h1 class="legend">Actions liées</h1>
+	<?
+	/**
+	 * show eventually action
+	 */
+	$array = Follow_Up::get_all_operation($jr_id);
+	echo '<ul style="list-style-type:square;">';
+	for ($i = 0; $i < count($array); $i++)
+	{
+		if ( $div == 'popup')
+		{
+			echo '<li>'.HtmlInput::detail_action($array[$i]['ag_id'], h($array[$i]['ag_ref']." ".$array[$i]['ag_title']),0).'</li>';
+		}
+		else
+		{
+			echo '<li>'.HtmlInput::detail_action($array[$i]['ag_id'], h($array[$i]['ag_ref']." ".$array[$i]['ag_title']),1).'</li>';
+		}
+	}
+	echo '</ul>';
+}
 ?>
 </div>
 <?
@@ -62,7 +89,12 @@ if ( $div != 'popup' ) {
 }
 
 ?>
-<?if ( $access=='W') {
+<?
+
+/**
+ * if you can write
+ */
+  if ( $access=='W') {
   echo HtmlInput::submit('save',_('Sauver'),'onClick="return verify_ca(\'popup\');"');
   $owner=new Own($cn);
   if ($owner->MY_ANALYTIC != 'nu' && $div=='popup'){

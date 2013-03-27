@@ -324,6 +324,7 @@ function compute_ledger(p_ctl_nb)
         a=trim(g("e_march"+p_ctl_nb+'_tva_amount').value);
         g("e_march"+p_ctl_nb+'_tva_amount').value=a;
     }
+	if ( ! document.getElementById("e_march"+p_ctl_nb))  {return;}
     g("e_march"+p_ctl_nb).value=trim(g("e_march"+p_ctl_nb).value);
     var qcode=g("e_march"+p_ctl_nb).value;
 
@@ -375,12 +376,12 @@ function refresh_ledger()
     for (var i=0;i<g("nb_item").value;i++)
     {
         if( g('tva_march'+i))  tva+=g('tva_march'+i).value*1;
-        htva+=g('htva_march'+i).value*1;
-        tvac+=g('tvac_march'+i).value*1;
+        if (g('htva_march'+i)) htva+=g('htva_march'+i).value*1;
+        if (g('tvac_march'+i)) tvac+=g('tvac_march'+i).value*1;
     }
 
     if ( g('tva') ) g('tva').innerHTML=Math.round(tva*100)/100;
-    g('htva').innerHTML=Math.round(htva*100)/100;
+    if (g('htva')) g('htva').innerHTML=Math.round(htva*100)/100;
     if (g('tvac'))    g('tvac').innerHTML=Math.round(tvac*100)/100;
 }
 /**
@@ -449,8 +450,8 @@ function compute_all_ledger()
     for (var i=0;i<g("nb_item").value;i++)
     {
         if ( g('tva_march') ) tva+=g('tva_march'+i).value*1;
-        htva+=g('htva_march'+i).value*1;
-        tvac+=g('tvac_march'+i).value*1;
+        if( g('htva_march'+i)) htva+=g('htva_march'+i).value*1;
+        if( g('tvac_march'+i))tvac+=g('tvac_march'+i).value*1;
     }
 
     if ( g('tva') ) g('tva').innerHTML=Math.round(tva*100)/100;

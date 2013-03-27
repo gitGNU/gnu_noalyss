@@ -1675,3 +1675,41 @@ function check_date_id(p_id_date)
 	var str_date=$(p_id_date).value;
 	return check_date(str_date);
 }
+/**
+ *
+ * @param ag_id to view
+ * @param dossier is the folder
+ * @param modify : show the modify button values : 0 for no 1 for yes
+ */
+function view_action(ag_id,dossier,modify)
+{
+	waiting_box();
+	layer++;
+	id = 'action' + layer;
+
+	querystring = 'gDossier=' + dossier + '&op=vw_action&ag_id=' + ag_id + '&div=' + id+'&mod='+modify;
+	var action = new Ajax.Request(
+			"ajax_misc.php",
+			{
+				method: 'get',
+				parameters: querystring,
+				onFailure: error_box,
+				onSuccess: function(req) {
+					try {
+						remove_waiting_box();
+						var pos = fixed_position(0, 50) + ";width:90%;left:5%;";
+						add_div({
+							id: id,
+							drag: 1,
+							cssclass: "inner_box",
+							style: pos
+						});
+						$(id).innerHTML = req.responseText;
+						compute_all_ledger();
+					} catch (e) {
+						alert(e.message);
+					}
+				}
+			}
+	);
+}
