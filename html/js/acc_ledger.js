@@ -713,29 +713,31 @@ function reverseOperation(obj)
 /*!\brief
  * \param p_value jrn.jr_id
  */
-function modifyOperation(p_value,dossier)
+function modifyOperation(p_value, dossier)
 {
-    layer++;
-    id='det'+layer;
-    var popup={'id':
-           id,'cssclass':'inner_box'
-           ,'html':
-           loading(),'drag':
-               true};
-    querystring='gDossier='+dossier+'&act=de&jr_id='+p_value+'&div='+id;
-    add_div(popup);
-    var action=new Ajax.Request(
-                   "ajax_ledger.php",
-                   {
-                   method:'get',
-                   parameters:querystring,
-                   onFailure:error_box,
-                   onSuccess:success_box
-                   }
-               );
-    g(id).style.top=calcy(100+(layer*3));
-    g(id).style.left=300;
-
+	layer++;
+	id = 'det' + layer;
+	var popup = {'id':
+				id, 'cssclass': 'inner_box'
+				, 'html':
+				loading(), 'drag':
+				true};
+	querystring = 'gDossier=' + dossier + '&act=de&jr_id=' + p_value + '&div=' + id;
+	add_div(popup);
+	var action = new Ajax.Request(
+			"ajax_ledger.php",
+			{
+				method: 'get',
+				parameters: querystring,
+				onFailure: error_box,
+				onSuccess: function(xml, txt) {
+					success_box(xml, txt);
+					g(id).style.top = calcy(100 + (layer * 3));
+					g(id).style.left = '10%';
+					g(id).style.width = "80%";
+				}
+			}
+	);
 }
 
 /*!\brief
