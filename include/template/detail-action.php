@@ -235,7 +235,7 @@ for( $c=0;$c<count($acomment);$c++){
 	}
 	else
 	{
-		echo 'n°'.$acomment[$c]['agc_id'].'('.h($acomment[$c]['tech_user'])." ".smaller_date($acomment[$c]['str_agc_date']).')'.
+		echo 'n°'.$acomment[$c]['agc_id'].'('.h($acomment[$c]['tech_user'])." ".$acomment[$c]['str_agc_date'].')'.
 				'<pre style="white-space: -moz-pre-wrap;white-space: pre-wrap;border:1px solid blue;width:70%;" id="com'.$acomment[$c]['agc_id'].'"> '.
 				" ".h($acomment[$c]['agc_comment']).'</pre>'
 				;
