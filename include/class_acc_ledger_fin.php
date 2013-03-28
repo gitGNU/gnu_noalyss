@@ -723,7 +723,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 			$get_solde=true;
 			for ($i = 0; $i < $nb_item; $i++)
 			{
-				/**= 0 insert it into the database
+				// insert it into the database
 				// and quit the loop ?
 				if (strlen(trim(${"e_other$i"})) == 0)
 					continue;
