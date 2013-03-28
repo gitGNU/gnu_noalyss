@@ -124,6 +124,9 @@ function anc_refresh_remain(p_table,p_seq)
  */
 function verify_ca(div)
 {
+	try
+	{
+
     var idx=0;
     var amount_error=0;
     // put a maximum
@@ -168,6 +171,12 @@ function verify_ca(div)
         return false;
     }
     return true;
+	}
+	catch  (e)
+	{
+		alert(e.message);
+		return false;
+	}
 }
 /*!
  * \brief open a window for searching a CA account,
@@ -209,7 +218,7 @@ function search_ca (p_dossier,p_target,p_source)
         }
     }
     );
-    
+
 }
 function search_anc_form(obj)
 {

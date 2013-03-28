@@ -1092,7 +1092,7 @@ function search_reconcile(dossier,ctl_concern,amount_id,ledger)
 	var target="search_op";
 	removeDiv(target);
 	var str_style=fixed_position(77, 99);
-        str_style+=";width:80%";
+        str_style+=";width:92%;overflow:auto;";
 
     var div={id:target, cssclass:'inner_box',style:str_style,html:loading(),drag:1};
 

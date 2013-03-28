@@ -71,9 +71,11 @@ if (count($array) > 0)
 		}
 	}
 	echo '</ul>';
+
+	echo '</div>';
 }
 ?>
-</div>
+
 <?
 
 require_once('template/ledger_detail_file.php');

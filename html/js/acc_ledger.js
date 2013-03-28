@@ -891,10 +891,11 @@ function search_letter(obj)
 *@brief save an operation in ajax, it concerns only the
 * comment, the pj and the rapt
 * the form elements are access by their name
-*@param form
+*@param obj form
 */
 function op_save(obj)
 {
+	try {
     var queryString=$(obj).serialize();
     queryString+="&lib="+obj.lib.value;
     queryString+="&gDossier="+obj.gDossier.value;
@@ -929,6 +930,8 @@ function op_save(obj)
                                     );
     }
     return false;
+	} catch (e)
+	{ alert(e.message);}
 }
 function  get_history_account(ctl,dossier) {
 	if ( $(ctl).value != '')
