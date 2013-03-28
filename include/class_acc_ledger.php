@@ -627,7 +627,7 @@ class Acc_Ledger extends jrn_def_sql
 	{
 		global $g_parameter, $g_user;
 		$gDossier = dossier::id();
-		$limit = " LIMIT 25";
+		$limit = " LIMIT ".MAX_RECONCILE;
 		// Sort
 		// Count
 		$count = $this->db->count_sql($sql);

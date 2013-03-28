@@ -90,7 +90,7 @@ if ( isset ($_GET['viewsearch']) )
 {
 
     // Navigation bar
-    $step=25;
+    $step=MAX_RECONCILE;
     $page=(isset($_GET['offset']))?$_GET['page']:1;
     $offset=(isset($_GET['offset']))?$_GET['offset']:0;
     if (count ($_GET) == 0)
