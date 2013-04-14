@@ -667,7 +667,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     $acc_operation->jrn=$p_jrn;
                     $acc_operation->type='d';
                     $acc_operation->periode=$tperiode;
-                    if ( $value > 0 ) $tot_debit=bcadd($tot_debit,$value);
+                    $tot_debit=bcadd($tot_debit,abs($value));
                     $acc_operation->insert_jrnx();
                     // if TVA is on both side, we deduce it immediately
                     if ( $oTva->get_parameter("both_side")==1)

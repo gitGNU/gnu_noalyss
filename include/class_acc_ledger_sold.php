@@ -1,4 +1,4 @@
-<?php
+ <?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -338,18 +338,19 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                         $tva[$idx_tva]+=$tva_item;
                     else
                         $tva[$idx_tva]=$tva_item;
-                    if ($oTva->get_parameter("both_side")==0) $tot_tva=round(bcadd($tva_item,$tot_tva),2);
-                    else $n_both=$tva_item;
+                    if ($oTva->get_parameter("both_side")==0) {
+						$tot_tva=round(bcadd($tva_item,$tot_tva),2);
+					}else {
+							$n_both=$tva_item;
+							if ( $n_both < 0 ) $tot_debit=bcadd($tot_debit,abs($n_both));
+					}
                 }
 
                 /* Save the stock */
                 /* if the quantity is < 0 then the stock increase (return of
                  *  material)
                  */
-                $nNeg=($
-                       {"e_quant".$i
-                       }
-                       <0)?-1:1;
+                $nNeg=(${"e_quant".$i}<0)?-1:1;
 
                 // always save quantity but in withStock we can find
                 // what card need a stock management
