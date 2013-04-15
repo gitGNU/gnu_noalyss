@@ -451,7 +451,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $acc_operation->amount=$acc_amount->amount;
                 $acc_operation->qcode=${"e_march".$i};
                 if( $acc_amount->amount > 0 ) $tot_debit=bcadd($tot_debit,$acc_amount->amount);
-
                 $j_id=$acc_operation->insert_jrnx();
 
                 /* Compute sum vat */
@@ -541,7 +540,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $acc_operation->type='c';
             $acc_operation->periode=$tperiode;
             $acc_operation->qcode=${"e_client"};
-            if ( $cust_amount < 0 ) $tot_debit=bcadd($tot_debit,abs($cust_amount));
+            if ( $cust_amount < 0 )
+				$tot_debit=bcadd($tot_debit,abs($cust_amount));
             $let_client=$acc_operation->insert_jrnx();
             /*
              * Save all the no deductible
@@ -667,7 +667,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     $acc_operation->jrn=$p_jrn;
                     $acc_operation->type='d';
                     $acc_operation->periode=$tperiode;
-                    $tot_debit=bcadd($tot_debit,abs($value));
+                    if ( $value > 0 ) $tot_debit=bcadd($tot_debit,abs($value));
                     $acc_operation->insert_jrnx();
                     // if TVA is on both side, we deduce it immediately
                     if ( $oTva->get_parameter("both_side")==1)
@@ -683,6 +683,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                         $acc_operation->type='c';
                         $acc_operation->periode=$tperiode;
                         $acc_operation->insert_jrnx();
+						 if ( $value < 0 ) $tot_debit=bcadd($tot_debit,abs($value));
                     }
 
                 }
