@@ -444,7 +444,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 
 	public function confirm($p_array, $p_nothing = 0)
 	{
-		global $g_parameter;
+		global $g_parameter,$g_user;
 		$r = "";
 		bcscale(2);
 		extract($p_array);
@@ -455,7 +455,11 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		}
 		else
 		{
-			$pPeriode->find_periode($e_date);
+			if (isDate($e_date) != null) {
+				$pPeriode->find_periode($e_date);
+			} else {
+				$pPeriode->p_id=$g_user->get_periode();
+			}
 		}
 
 		list ($l_date_start, $l_date_end) = $pPeriode->get_date_limit();
