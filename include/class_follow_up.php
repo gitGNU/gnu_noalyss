@@ -1325,6 +1325,7 @@ class Follow_Up
 				(select ad_value from fiche_Detail where f_id=action_gestion.f_id_dest and ad_id=1) as name
              from action_gestion
              join document_type on (ag_type=dt_id)
+			 join document_state on (s_id=ag_state)
              where $p_sql";
 		$max_line = $cn->count_sql($sql);
 
