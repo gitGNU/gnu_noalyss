@@ -235,13 +235,23 @@ class Document
 
 			$to_remove=$pattern;
 			// we remove the < and > from the pattern
-			$pattern=str_replace($lt,'',$pattern);
-			$pattern=str_replace($gt,'',$pattern);
+			$tag=str_replace($lt,'',$pattern);
+			$tag=str_replace($gt,'',$tag);
 
 
 			// if the pattern if found we replace it
-			$value=$this->Replace($pattern,$p_array);
+			$value=$this->Replace($tag,$p_array);
 			if ( strpos($value,'ERROR') != false ) 		  $value="";
+                        /*
+                         * Change type of cell to numeric
+                         *  allow numeric cel in ODT for the formatting and formula 
+                         */
+			if ( is_numeric($value) && $p_type=='OOo')
+			  {
+			    $searched='/office:value-type="string"><text:p>'.$pattern.'/';
+			    $replaced='office:value-type="float" office:value="'.$value.'"><text:p>'.$pattern;
+			    $buffer=preg_replace($searched, $replaced, $buffer,1);
+			  }
 			// replace into the $buffer
 			// take the position in the buffer
 			$pos=strpos($buffer,$to_remove);
