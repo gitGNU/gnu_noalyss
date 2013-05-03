@@ -21,7 +21,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file
+/**\file
  *
  *
  * \brief Show the table menu and let you add your own

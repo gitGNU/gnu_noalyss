@@ -55,11 +55,13 @@ class ITva_Popup extends HtmlInput
      * to have its own javascript for the button you can use this->but_javascript)
      * by default it is 'popup_select_tva(this)';
      */
-    public function __construct($p_name=null)
+    public function __construct($p_name=null,$p_value="",$p_id="")
     {
         $this->name=$p_name;
         $this->button=true;
         $this->in_table=false;
+		$this->value=$p_value;
+		$this->id=$p_id;
     }
     function with_button($p)
     {
@@ -74,10 +76,12 @@ class ITva_Popup extends HtmlInput
         $this->name=($p_name==null)?$this->name:$p_name;
         $this->value=($p_value==null)?$this->value:$p_value;
         $this->js=(isset($this->js))?$this->js:'onchange="format_number(this);"';
+		$this->id=($this->id=="")?$this->name:$this->id;
+
         if ( $this->readOnly==true) return $this->display();
 
         $str='<input type="TEXT" class="input_text" name="%s" value="%s" id="%s" size="3" %s>';
-        $r=sprintf($str,$this->name,$this->value,$this->name,$this->js);
+        $r=sprintf($str,$this->name,$this->value,$this->id,$this->js);
 
         if ($this->in_table)
             $table='<table>'.'<tr>'.td($r);
@@ -120,11 +124,13 @@ class ITva_Popup extends HtmlInput
     function dbutton()
     {
         if( trim($this->name)=='') throw new Exception (_('Le nom ne peut être vide'));
+		$this->id=($this->id=="")?$this->name:$this->id;
+
         // button
-        $bt=new IButton('bt_'.$this->name);
+        $bt=new IButton('bt_'.$this->id);
         $bt->label=_(' TVA ');
         $bt->set_attribute('gDossier',dossier::id());
-        $bt->set_attribute('ctl',$this->name);
+        $bt->set_attribute('ctl',$this->id);
         $bt->set_attribute('popup','popup_tva');
         if ( isset($this->code))
             $bt->set_attribute('jcode',$this->code->name);

@@ -21,7 +21,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file
+/**\file
  * \brief the class Acc_Ledger_Fin inherits from Acc_Ledger, this
  * object permit to manage the financial ledger
  */
@@ -46,7 +46,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		$this->type = 'FIN';
 	}
 
-	/* !\brief verify that the data are correct before inserting or confirming
+	/**\brief verify that the data are correct before inserting or confirming
 	 * \param an array (usually $_POST)
 	 * \return String
 	 * \throw Exception on error occurs
@@ -223,7 +223,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		}
 	}
 
-	/* !\brief
+	/**\brief
 	 * \param $p_array contains the value usually it is $_POST
 	 * \return string with html code
 	 * \note the form tag are not  set here
@@ -291,12 +291,14 @@ class Acc_Ledger_Fin extends Acc_Ledger
 
 		// Ledger (p_jrn)
 		//--
-
-		$add_js = 'onchange="update_pj();update_bank();get_last_date();ajax_saldo(\'first_sold\');update_name();"';
+		$onchange="update_bank();ajax_saldo('first_sold');update_name();";
 
 		if ($g_parameter->MY_DATE_SUGGEST == 'Y')
-			$add_js = 'onchange="update_pj();update_bank();get_last_date();ajax_saldo(\'first_sold\')";';
+			$onchange .= 'get_last_date();';
+		if ($g_parameter->MY_PJ_SUGGEST=='Y')
+			$onchange .= 'update_pj();';
 
+		$add_js = 'onchange="'.$onchange.'"';
 		$wLedger = $this->select_ledger('FIN', 2);
 		if ($wLedger == null)
 			exit('Pas de journal disponible');
@@ -367,6 +369,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 			$W1 = new ICard();
 			$W1->label = "";
 			$W1->name = "e_other" . $i;
+			$W1->id = "e_other" . $i;
 			$W1->value = $tiers;
 			$W1->extra = 'deb';  // credits
 			$W1->typecard = 'deb';
@@ -396,6 +399,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 			}
 
 			$wcard_name = new IText("e_other_name" . $i, $card_name);
+			$wcard_name->id=$wcard_name->name;
 			$wcard_name->readOnly = true;
 			$array[$i]['cname'] = $wcard_name->input();
 
@@ -425,13 +429,13 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		ob_start();
 		require_once('template/form_ledger_fin.php');
 		$r.=ob_get_contents();
-		ob_clean();
+		ob_end_clean();
 
 
 		return $r;
 	}
 
-	/* !\brief show the summary before inserting into the database, it
+	/**\brief show the summary before inserting into the database, it
 	 * calls the function for adding a attachment. The function verify
 	 * should be called before
 	 * \param $p_array an array usually is $_POST
@@ -440,7 +444,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 
 	public function confirm($p_array, $p_nothing = 0)
 	{
-		global $g_parameter;
+		global $g_parameter,$g_user;
 		$r = "";
 		bcscale(2);
 		extract($p_array);
@@ -451,7 +455,11 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		}
 		else
 		{
-			$pPeriode->find_periode($e_date);
+			if (isDate($e_date) != null) {
+				$pPeriode->find_periode($e_date);
+			} else {
+				$pPeriode->p_id=$g_user->get_periode();
+			}
 		}
 
 		list ($l_date_start, $l_date_end) = $pPeriode->get_date_limit();
@@ -459,7 +467,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		$r.='';
 		$r.='<fieldset><legend>Banque, caisse </legend>';
 		$r.= '<div id="jrn_name_div">';
-		$r.='<h2 id="jrn_name" style="display:inline">' . $this->get_name() . '</h2>';
+		$r.='<h2 class="title" id="jrn_name" style="display:inline">' . $this->get_name() . '</h2>';
 		$r.= '</div>';
 		$r.='<TABLE  width="100%">';
 		//  Date
@@ -502,23 +510,22 @@ class Acc_Ledger_Fin extends Acc_Ledger
 
 		$r.='</fieldset>';
 
-		$r.='<fieldset><legend>Opérations financières</legend>';
+		$r.='<div class="myfieldset"><h1 class="legend">Extrait de compte</h1>';
 		//--------------------------------------------------
 		// Saldo begin end
 		//-------------------------------------------------
-		$r.='<fieldset><legend>Extrait de compte</legend>';
 		$r.='<table>';
 		$r.='<tr>';
 		// Extrait
 		//--
-		$r.='<td> Numéro d\'extrait</td>' . h($e_pj);
-		$r.='<td >Solde début extrait </td>';
-		$r.='<td>' . $first_sold . '</td>';
-		$r.='<td>Solde fin extrait </td>';
-		$r.='<td>' . $last_sold . '</td>';
+		$r.=tr('<td> Numéro d\'extrait</td>' . td(h($e_pj)));
+		$r.='<tr><td >Solde début extrait </td>';
+		$r.='<td style="num">' . nbm($first_sold) . '</td></tr>';
+		$r.='<tr><td>Solde fin extrait </td>';
+		$r.='<td style="num">' . nbm($last_sold) . '</td></tr>';
 		$r.='</table>';
-		$r.='</fieldset>';
 
+		$r.='<h1 class="legend">Opérations financières</h1>';
 		//--------------------------------------------------
 		// financial operation
 		//-------------------------------------------------
@@ -582,9 +589,11 @@ class Acc_Ledger_Fin extends Acc_Ledger
 			if (${"e_concerned" . $i} != '')
 			{
 				$jr_internal = $this->db->get_array("select jr_internal from jrn where jr_id in (" . ${"e_concerned" . $i} . ")");
+				$comma="";
 				for ($x = 0; $x < count($jr_internal); $x++)
 				{
-					$r.=HtmlInput::detail_op(${"e_concerned" . $i}, $jr_internal[$x]['jr_internal']);
+					$r.=$comma.HtmlInput::detail_op(${"e_concerned" . $i}, $jr_internal[$x]['jr_internal']);
+					$comma=" , ";
 				}
 			}
 			$r.='</td>';
@@ -618,7 +627,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		$r.="<br>Ajoutez une pi&egrave;ce justificative ";
 		$r.=$file->input("pj", "");
 
-		$r.='</fieldset>';
+		$r.='</div>';
 		//--------------------------------------------------
 		// Hidden variables
 		//--------------------------------------------------
@@ -652,7 +661,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		return $r;
 	}
 
-	/* !\brief save the data into the database, included the attachment,
+	/**\brief save the data into the database, included the attachment,
 	 * and the reconciliations
 	 * \param $p_array usually $_POST
 	 * \return string with HTML code
@@ -718,7 +727,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 			$get_solde=true;
 			for ($i = 0; $i < $nb_item; $i++)
 			{
-				// if tiers is set and amount != 0 insert it into the database
+				// insert it into the database
 				// and quit the loop ?
 				if (strlen(trim(${"e_other$i"})) == 0)
 					continue;
@@ -949,7 +958,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		return $ret;
 	}
 
-	/* !\brief display operation of a FIN ledger
+	/**\brief display operation of a FIN ledger
 	 * \return html code into a string
 	 */
 

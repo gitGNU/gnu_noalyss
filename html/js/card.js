@@ -25,6 +25,35 @@
 
 var card_layer=1;
 /**
+ *@brief search a card an display the result into a inner box
+ */
+function boxsearch_card(p_dossier)
+{
+	try
+	{
+	waiting_box();
+	removeDiv('boxsearch_card_div');
+	var queryString="gDossier="+p_dossier+"&op=cardsearch"+"&card="+$(card_search).value;
+	var action = new Ajax.Request(
+				  "ajax_misc.php" ,
+				  {
+				      method:'get', parameters:queryString,
+				      onFailure:ajax_misc_failure,
+				      onSuccess:function(req){
+						remove_waiting_box();
+						var y=posY+15;
+						var div_style="left:10%;width:80%;"+";top:"+y;
+						add_div({id:'boxsearch_card_div',cssclass:'inner_box',html:loading(),style:div_style,drag:true});
+						$('boxsearch_card_div').innerHTML=req.responseText;
+				      }
+				  }
+				  );
+	}catch( e)
+	{
+		alert(e.getMessage);
+	}
+}
+/**
  *@brief show the ipopup with the form to search a card
  * the properties
  *  - jrn for the ledger

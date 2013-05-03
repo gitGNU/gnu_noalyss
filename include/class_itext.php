@@ -26,9 +26,9 @@
 require_once('class_html_input.php');
 class IText extends HtmlInput
 {
-    function __construct($name='',$value='')
+    function __construct($name='',$value='',$p_id="")
     {
-        parent::__construct($name,$value);
+        parent::__construct($name,$value,$p_id);
         $this->style=' class="input_text" ';
     }
     /*!\brief show the html  input of the widget*/
@@ -37,6 +37,7 @@ class IText extends HtmlInput
         $this->name=($p_name==null)?$this->name:$p_name;
         $this->value=($p_value==null)?$this->value:$p_value;
         if ( $this->readOnly==true) return $this->display();
+		$this->id=($this->id=="")?$this->name:$this->id;
 
         $t= ((isset($this->title)))?'title="'.$this->title.'"   ':' ';
 
@@ -46,13 +47,13 @@ class IText extends HtmlInput
         if ( ! isset ($this->css_size))
         {
         $r='<INPUT '.$this->style.' TYPE="TEXT" id="'.
-           $this->name.'"'.$t.
+           $this->id.'"'.$t.
            'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
            'SIZE="'.$this->size.'" '.$this->javascript."  $this->extra >";
         /* add tag for column if inside a table */
         } else {
            $r='<INPUT '.$this->style.' TYPE="TEXT" id="'.
-           $this->name.'"'.$t.
+           $this->id.'"'.$t.
            'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
            ' style="width:'.$this->css_size.';" '.$this->javascript."  $this->extra >";
 
@@ -76,12 +77,12 @@ class IText extends HtmlInput
          if ( ! isset ($this->css_size))
         {
         $r='<INPUT '.$this->style.' TYPE="TEXT" id="'.
-           $this->name.'"'.$t.
+           $this->id.'"'.$t.
            'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
            'SIZE="'.$this->size.'" '.$this->javascript." $readonly $this->extra >";
         } else {
                $r='<INPUT '.$this->style.' TYPE="TEXT" id="'.
-           $this->name.'"'.$t.
+           $this->id.'"'.$t.
            'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
            ' style="width:'.$this->css_size.'" '.$this->javascript." $readonly  $this->extra >";
         }

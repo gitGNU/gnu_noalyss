@@ -218,7 +218,11 @@ if (isset($_POST['mod']))
 				$p_type = 'P';
 				$me_code_dep = -1;
 			}
-
+			/**
+			 * Check if we don't add a menu depending on itself
+			 */
+			if ( $me_code == $me_code_dep )
+				 throw new Exception("Un menu ne peut pas dépendre de lui-même");
 			$cn->start();
 			$me_code_dep = ($me_code_dep == -1) ? null : $me_code_dep;
 			$pm_default = (isset($pm_default)) ? 1 : 0;
@@ -244,7 +248,7 @@ if (isset($_POST['mod']))
 //****************************************************
 // Add a menu, module, submenu,plugin...
 //****************************************************
-if (isset($_POST['add_menu']))
+if (isset($_POST['add_menu']) || isset($_POST['add_impress']))
 {
 	extract($_POST);
 	try
@@ -275,6 +279,13 @@ if (isset($_POST['add_menu']))
 			where p_id=$1 and me_code_dep=$2 and me_code=$3", array($p_id, $me_code, $me_code_dep));
 		if ($inf > 0)
 			throw new Exception("Boucle infinie");
+		/**
+		 * Check if we don't add a menu depending on itself
+		 */
+		if ( $me_code == $me_code_dep )
+			 throw new Exception("Un menu ne peut pas dépendre de lui-même");
+
+
 		/**
 		 * if me_code_dep == -1, it means it is null
 		 */

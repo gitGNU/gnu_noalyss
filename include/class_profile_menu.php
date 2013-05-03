@@ -17,7 +17,11 @@ class Profile_Menu
 	{
 		$this->cn = $p_cn;
 	}
-
+	/**
+	 * Display the content of a profile
+	 * @param type $resource
+	 * @param type $p_id
+	 */
 	function sub_menu($resource, $p_id)
 	{
 		if (Database::num_row($resource) != 0)
@@ -35,13 +39,15 @@ class Profile_Menu
 
 				$me_menu = $menu['me_menu'];
 				$me_desc = $menu['me_description'];
+				$me_def=($menu['pm_default']=='1')?'<span class="notice" style="display:inline">Défaut</span>':'';
 				$js = sprintf(
 						'<a class="line" href="javascript:void(0)" onclick="mod_menu(\'%s\',\'%s\')">%s</A>', $gDossier, $menu['pm_id'], $me_code);
 				?>
 				<li>
+
 					<?= $me_menu?>
 					( <?= $js?> )
-					<?= $me_desc?>
+					<?= $me_desc?>  <?=$me_def?>
 					<?
 					$ret2 = $this->cn->exec_sql("
 									SELECT pm_id,
@@ -145,9 +151,10 @@ class Profile_Menu
 				$gDossier = Dossier::id();
 				for ($i = 0; $i < count($array); $i++)
 				{
+					$me_def=($array[$i]['pm_default']=='1')?'<span class="notice" style="display:inline">Défaut</span>':'';
 					$js = sprintf('<a class="line" style="display:inline;text-decoration:underline"
 						href="javascript:void(0)" onclick="mod_menu(\'%s\',\'%s\')">%s</A>', $gDossier, $array[$i]['pm_id'], $array[$i]['me_code']);
-					echo "<li>" . $array[$i]['me_menu'] . " (" . $js . ")" . $array[$i]['me_description'];
+					echo "<li>" . $array[$i]['me_menu'] . " (" . $js . ")" . $array[$i]['me_description']." ".$me_def;
 
 					$ret = $this->cn->execute("menu", array($p_id, $array[$i]['me_code']));
 					$this->sub_menu($ret, $p_id);

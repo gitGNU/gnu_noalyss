@@ -18,7 +18,7 @@
  */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/* ! \file
+/** \file
  * \brief included file for customizing with the vat (account,rate...)
  */
 require_once('class_own.php');
@@ -100,6 +100,7 @@ $Res = $cn->exec_sql($sql);
 ?>
 <TABLE>
     <TR>
+        <th>Id</th>
 	<th>Label</TH>
 	<th>Taux</th>
 	<th>Commentaire</th>
@@ -123,7 +124,9 @@ foreach ($val as $row)
     echo "<TR>";
     echo '<FORM METHOD="POST">';
 
-
+    echo '<td>';
+    echo $row['tva_id'];
+    echo '</td>';
 
     echo "<TD>";
     echo HtmlInput::hidden('tva_id', $row['tva_id']);

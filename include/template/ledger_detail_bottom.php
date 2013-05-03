@@ -1,7 +1,8 @@
-<fieldset>
-<legend>
+<div class="myfieldset">
+
+<h1 class="legend">
 <? echo _('Rapprochement');?>
-</legend>
+</h1>
 <?
 $oRap=new Acc_Reconciliation($cn);
 $oRap->jr_id=$jr_id;
@@ -36,17 +37,45 @@ if ($aRap  != null ) {
   echo '</table>';
 }
 ?>
-</legend>
 <?
 if ( $access=='W') {
      $wConcerned=new IConcerned("rapt".$div);
      $wConcerned->amount_id=$obj->det->jr_montant;
-    echo $wConcerned->input();    
-    
-}
+    echo $wConcerned->input();
 
+}
 ?>
-</fieldset>
+</div>
+<?
+$array = Follow_Up::get_all_operation($jr_id);
+if (count($array) > 0)
+{
+	?>
+	<div class="myfieldset">
+		<h1 class="legend">Actions liées</h1>
+	<?
+	/**
+	 * show eventually action
+	 */
+	$array = Follow_Up::get_all_operation($jr_id);
+	echo '<ul style="list-style-type:square;">';
+	for ($i = 0; $i < count($array); $i++)
+	{
+		if ( $div == 'popup')
+		{
+			echo '<li>'.HtmlInput::detail_action($array[$i]['ag_id'], h($array[$i]['ag_ref']." ".$array[$i]['ag_title']),0).'</li>';
+		}
+		else
+		{
+			echo '<li>'.HtmlInput::detail_action($array[$i]['ag_id'], h($array[$i]['ag_ref']." ".$array[$i]['ag_title']),1).'</li>';
+		}
+	}
+	echo '</ul>';
+
+	echo '</div>';
+}
+?>
+
 <?
 
 require_once('template/ledger_detail_file.php');
@@ -62,7 +91,12 @@ if ( $div != 'popup' ) {
 }
 
 ?>
-<?if ( $access=='W') {
+<?
+
+/**
+ * if you can write
+ */
+  if ( $access=='W') {
   echo HtmlInput::submit('save',_('Sauver'),'onClick="return verify_ca(\'popup\');"');
   $owner=new Own($cn);
   if ($owner->MY_ANALYTIC != 'nu' && $div=='popup'){

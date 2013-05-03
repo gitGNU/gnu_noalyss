@@ -38,7 +38,7 @@ ob_start();
 require('template/modele_document.php');
 
 $html=ob_get_contents();
-ob_clean();
+ob_end_clean();
 $html=escape_xml($html);
 header('Content-type: text/xml; charset=UTF-8');
 

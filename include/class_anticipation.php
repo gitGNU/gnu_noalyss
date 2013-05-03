@@ -112,6 +112,7 @@ class Anticipation
      */
     public function display()
     {
+		bcscale(4);
         $forecast=new Forecast($this->cn,$this->f_id);
         $forecast->load();
         $str_name=h($forecast->get_parameter('name'));
@@ -176,7 +177,7 @@ class Anticipation
         ob_start();
         require_once('template/forecast_result.php');
         $r.=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
         return $r;
     }
     public static function div()
@@ -246,7 +247,7 @@ class Anticipation
         ob_start();
         require_once('template/forecast_cat.php');
         $r.=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
         return $r;
     }
     /**
@@ -309,7 +310,7 @@ class Anticipation
         ob_start();
         require_once('template/forecast_cat.php');
         $r.=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
         return $r;
 
     }
@@ -342,7 +343,7 @@ class Anticipation
         $cat=new Forecast_Cat($this->cn);
         $array=$cat->make_array($this->f_id);
         $periode=new Periode($this->cn);
-        $aPeriode=$this->cn->make_array("select p_id,to_char(p_start,'MM.YYYY') as label from parm_periode 
+        $aPeriode=$this->cn->make_array("select p_id,to_char(p_start,'MM.YYYY') as label from parm_periode
                                   where p_start >= (select p_start from parm_periode where p_id=$str_start)
                                    and p_end <= (select p_end from parm_periode where p_id=$str_end)
 				   order by p_start");
@@ -433,7 +434,7 @@ class Anticipation
         ob_start();
         require_once('template/forecast-detail.php');
         $r.=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
         return $r;
     }
     /**

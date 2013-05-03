@@ -225,50 +225,6 @@ class Acc_Payment
         }
         return $ret;
     }
-    /**
-     *@deprecated
-     * @return string
-     */
-    public function row_deprecated()
-    {
-        //---------------------------------------------------------------------------
-        // Common variable
-        $td='<TD>';
-        $etd='</td>';
-        $tr='<tr>';
-        $etr='</tr>';
-        $th='<th>';
-        $eth='</th>';
-
-        $r='';
-        if ( $this->jrn_def_id != '' )
-        {
-            $name=$this->cn->get_value("select jrn_def_name from jrn_def where jrn_def_id=$1",
-                    array($this->jrn_def_id));
-        }
-        $r.=td($this->mp_lib);
-
-        if ( $this->mp_fd_id != NULL && $this->mp_fd_id !=0)
-        {
-            $fiche=new Fiche_Def($this->cn,$this->mp_fd_id);
-            $fiche->Get();
-            $r.=td($fiche->label);
-        }
-        else
-            $r.=$td.$etd;
-        $jrn=new Acc_Ledger($this->cn,$this->mp_jrn_def_id);
-        $r.=$td.$jrn->get_name().$etd;
-        if ( strlen(trim($this->mp_qcode)) != 0 )
-        {
-            $f=new Fiche($this->cn);
-            $f->get_by_qcode($this->mp_qcode);
-            $r.=td($f->strAttribut(ATTR_DEF_NAME));
-
-        }
-        else
-            $r.=$td.$etd;
-        return $r;
-    }
     /*!\brief return a string with a form (into a table)
      *\param none
      *\return a html string
@@ -335,7 +291,16 @@ class Acc_Payment
             $acompte->value=0;
             $r.=_(" Acompte à déduire");
             $r.=$acompte->input();
-        }
+			$r.='<p>';
+			$e_comm_paiement=new IText('e_comm_paiement');
+			$e_comm_paiement->table = 0;
+			$e_comm_paiement->setReadOnly(false);
+			$e_comm_paiement->size = 60;
+			$e_comm_paiement->tabindex = 3;
+			$r.=_(" Libellé du paiement");
+			$r.=$e_comm_paiement->input();
+			$r.='</p>';
+		}
 
         $r.='<ol>';
         $r.='<li ><input type="radio" name="e_mp" value="0" checked>'._('Paiement encodé plus tard');
@@ -350,7 +315,7 @@ class Acc_Payment
                 {
                     $a=new ICard();
                     $a->jrn=$row->mp_jrn_def_id;
-		    $a->set_attribute('typecard',$row->mp_fd_id);
+					$a->set_attribute('typecard',$row->mp_fd_id);
                     $a->name='e_mp_qcode_'.$row->mp_id;
                     $a->set_dblclick("fill_ipopcard(this);");
                     $a->set_callback('filter_card');

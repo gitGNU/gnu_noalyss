@@ -38,7 +38,8 @@ include_once ("class_user.php");
 
 include_once ("user_menu.php");
 
-echo '<div id="acc_update" style="border:1px solid blue;width:40%;display:none;background-color:lightgrey;padding:3;position:absolute;text-align:left;line-height:3em;z-index:1">';
+echo '<div id="acc_update" style="border:1px solid blue;width:40%;display:none;background-color:lightgrey;padding:0;position:absolute;text-align:left;z-index:1">';
+echo HtmlInput::title_box("Poste comptable", "acc_update", "hide");
 echo '<form method="post">';
 $val=new IText('p_valu');
 $parent=new IText('p_parentu');
@@ -249,11 +250,11 @@ $MaxRow=Database::num_row($Ret);
 //echo HtmlInput::hidden('sa','detail');
 echo dossier::hidden();
 ?>
-<TABLE ALIGN="center" BORDER=0 CELLPADDING=0 CELLSPACING=0>
+<TABLE class="result">
                              <TR>
-                             <TH> Classe </TH>
+                             <TH> Poste comptable </TH>
                              <TH> Libellé </TH>
-                             <TH> Parent </TH>
+                             <TH> Poste comptable Parent </TH>
                              <TH> Type </TH>
                              </TR>
                              <?php
@@ -273,19 +274,21 @@ for ($i=0; $i <$MaxRow; $i++)
     if ( $i%2 == 0 )
     {
         $td ='<TD class="odd">';
+        $tr ='<TR class="odd">';
     }
     else
     {
         $td='<TD class="even">';
+        $tr='<TR class="even">';
     }
-    echo "<TR> ";
+    echo $tr;
     echo "$td";
     echo $A['pcm_val'];
     echo '</td>';
     echo "$td";
-    printf ("<A HREF=\"javascript:PcmnUpdate('%s','%s','%s','%s',%d)\">",
+    printf ("<A HREF=\"javascript:void(0)\" onclick=\"PcmnUpdate('%s','%s','%s','%s',%d)\">",
             $A['pcm_val'],
-            sql_string($A['pcm_lib']),
+			str_replace("'","\'",$A['pcm_lib']),
             $A['pcm_val_parent'],
             $A['pcm_type'],
             dossier::id());

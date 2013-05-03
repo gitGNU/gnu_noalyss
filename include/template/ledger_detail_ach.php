@@ -97,8 +97,8 @@
 				</tr>
 
 </table>
-
-<fieldset><legend><?=_('Détail')?></legend>
+<div class="myfieldset">
+	<h1 class="legend"><?=_('Détail')?></h1>
 <table class="result">
 <?
   bcscale(2);
@@ -161,7 +161,8 @@ echo '</tr>';
     }
     $row.=td($input->input().$hidden);
     $row.=td($sym_tva,'style="text-align:center"');
-	$pu=bcdiv($q['qp_price'],$q['qp_quantite']);
+	$pu=0;
+	if ( $q['qp_quantite'] != 0 ) $pu=bcdiv($q['qp_price'],$q['qp_quantite']);
     $row.=td(nbm($pu),'class="num"');
     $row.=td(nbm($q['qp_quantite']),'class="num"');
 
@@ -178,10 +179,15 @@ echo '</tr>';
 
     if ($owner->MY_TVA_USE=='Y')
       {
-	$tva_amount=bcadd($q['qp_vat'],$q['qp_nd_tva']);
-	$tva_amount=bcadd($tva_amount,$q['qp_nd_tva_recup']);
-	$row.=td(nbm($tva_amount),'class="num"');
-	$row.=td(nbm($tvac),'class="num"');
+		$tva_amount=bcadd($q['qp_vat'],$q['qp_nd_tva']);
+		$tva_amount=bcadd($tva_amount,$q['qp_nd_tva_recup']);
+		$class="";
+		if ($q['qp_vat_sided']<>0) {
+			$class=' style="text-decoration:line-through"';
+			$tvac=bcsub($tvac,$q['qp_vat']);
+		}
+		$row.=td(nbm($tva_amount),'class="num" '.$class);
+		$row.=td(nbm($tvac),'class="num"');
       }
     $total_tvac+=$tvac;
     $total_htva+=$htva;
@@ -205,9 +211,9 @@ echo '</tr>';
 
   }
   if ($owner->MY_TVA_USE=='Y')
-	  $row= td(_('Total'),' style="font-style:italic;text-align:right;font-weight: bolder;widtg:auto" colspan="6"');
+	  $row= td(_('Total'),' style="font-style:italic;text-align:right;font-weight: bolder;width:auto" colspan="6"');
   else
-	  $row= td(_('Total'),' style="font-style:italic;text-align:right;font-weight: bolder;widtg:auto" colspan="6"');
+	  $row= td(_('Total'),' style="font-style:italic;text-align:right;font-weight: bolder;width:auto" colspan="6"');
 $row.=td(nbm($total_htva),'class="num" style="font-style:italic;font-weight: bolder;"');
 if ($owner->MY_TVA_USE=='Y')
   $row.=td("").td(nbm($total_tvac),'class="num" style="font-style:italic;font-weight: bolder;"');
@@ -216,11 +222,10 @@ echo tr($row);
 </table>
 
 
-</fieldset>
-<fieldset>
-<legend>
-<?=_('Ecritures comptables')?>
-</legend>
+</div>
+	<div class="myfieldset">
+	<h1 class="legend"><?=_('Ecritures comptables')?></h1>
+
 
 <?
   /* if it is not in a popup, the details are hidden */
@@ -284,7 +289,7 @@ echo '</tr>';
 ?>
 </table>
 </div>
-</fieldset>
+</div>
 
 <?
 require_once('ledger_detail_bottom.php');

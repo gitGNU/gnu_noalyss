@@ -61,7 +61,7 @@ class Calendar
         for ($i=0;$i<count($array);$i++)
         {
             $ind=$array[$i]['ag_timestamp_day'];
-            $p_array[$ind].="<span class=\"notice\">".$array[$i]['nb']." "._("Tâches suivis").'</span>';
+            $p_array[$ind].="<span class=\"notice\">".$array[$i]['nb']." "._("Tâches suivies").'</span>';
 
         }
     }
@@ -90,6 +90,8 @@ class Calendar
      */
     function display()
     {
+        global $g_user;
+        $exercice_user=$g_user->get_exercice();
         /* day */
         $cell=array();
         for ($i=0;$i<42;$i++)
@@ -104,7 +106,7 @@ class Calendar
         $this->fill_from_todo($cell);
         $wMonth=new ISelect('per');
         $cn=new Database(dossier::id());
-        $wMonth->value=$cn->make_array("select p_id,to_char(p_start,'MM/YYYY') from parm_periode order by p_start");
+        $wMonth->value=$cn->make_array("select p_id,to_char(p_start,'MM/YYYY') from parm_periode where p_exercice = '$exercice_user' order by p_start");
         $wMonth->selected=$this->default_periode;
         $wMonth->javascript="onchange=change_month(this)";
         $wMonth->set_attribute('gDossier',dossier::id());

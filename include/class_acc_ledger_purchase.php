@@ -342,18 +342,19 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $tot_perso=0;
             $tot_tva_nd=0;
             $tot_tva_ndded=0;
+			$tva=array();
             /* Save all the items without vat and no deductible vat and expense*/
             for ($i=0;$i< $nb_item;$i++)
             {
 				$n_both=0;
                 if ( strlen(trim(${'e_march'.$i})) == 0 ) continue;
-                if ( ${'e_march'.$i.'_price'} == 0 ) continue;
+           /*     if ( ${'e_march'.$i.'_price'} == 0 ) continue;
                 if ( ${'e_quant'.$i} == 0 ) continue;
-
+*/
                 /* First we save all the items without vat */
                 $fiche=new Fiche($this->db);
                 $fiche->get_by_qcode(${"e_march".$i});
-
+				$tva_both=0;
                 /* tva */
                 if ($g_parameter->MY_TVA_USE=='Y')
                 {
@@ -361,6 +362,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     $oTva=new Acc_Tva($this->db);
                     $oTva->set_parameter('id',$idx_tva);
                     $oTva->load();
+					$tva_both=$oTva->get_parameter("both_side");
                 }
 
                 /* We have to compute all the amount thanks Acc_Compute */
@@ -381,7 +383,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                         $acc_amount->amount_vat= ${'e_march'.$i.'_tva_amount'};
 
                     }
-                    if ($oTva->get_parameter("both_side")==0) $tot_tva=bcadd($tot_tva,$acc_amount->amount_vat);
+                    if ($tva_both==0) $tot_tva=bcadd($tot_tva,$acc_amount->amount_vat);
                 }
 
                 $acc_operation=new Acc_Operation($this->db);
@@ -414,7 +416,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     $tot_perso+=$acc_amount->amount_perso;
                 }
 
-                if ( ! $fiche->empty_attribute(ATTR_DEF_TVA_NON_DEDUCTIBLE))
+                if ( ! $fiche->empty_attribute(ATTR_DEF_TVA_NON_DEDUCTIBLE) && $tva_both==0)
                 {
                     $acc_amount->nd_vat_rate=$fiche->strAttribut(ATTR_DEF_TVA_NON_DEDUCTIBLE);
                     $acc_amount->compute_nd_vat();
@@ -422,7 +424,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     /* save op. */
 
                 }
-                if ( ! $fiche->empty_attribute(ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP))
+                if ( ! $fiche->empty_attribute(ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP) && $tva_both==0)
                 {
                     $acc_amount->nd_ded_vat_rate=$fiche->strAttribut(ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP);
                     $acc_amount->compute_ndded_vat();
@@ -449,7 +451,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $acc_operation->amount=$acc_amount->amount;
                 $acc_operation->qcode=${"e_march".$i};
                 if( $acc_amount->amount > 0 ) $tot_debit=bcadd($tot_debit,$acc_amount->amount);
-
                 $j_id=$acc_operation->insert_jrnx();
 
                 /* Compute sum vat */
@@ -491,7 +492,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 //-----
                 if ( $g_parameter->MY_TVA_USE=='Y')
                 {
-                    if ( $oTva->get_parameter("both_side")==1) $n_both=$acc_amount->amount_vat;
+                    if ( $tva_both==1) $n_both=$acc_amount->amount_vat;
 
                     $r=$this->db->exec_sql("select insert_quant_purchase ".
                                            "(null".
@@ -539,7 +540,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $acc_operation->type='c';
             $acc_operation->periode=$tperiode;
             $acc_operation->qcode=${"e_client"};
-            if ( $cust_amount < 0 ) $tot_debit=bcadd($tot_debit,abs($cust_amount));
+            if ( $cust_amount < 0 )
+				$tot_debit=bcadd($tot_debit,abs($cust_amount));
             $let_client=$acc_operation->insert_jrnx();
             /*
              * Save all the no deductible
@@ -601,7 +603,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 /* save op. */
                 $acc_operation->type='d';
                 $acc_operation->qcode='';
-	      if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA_ND))
+	      if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA_ND) && $tva_both==0)
 		{
 		  $dna=$fiche->strAttribut(ATTR_DEF_ACCOUNT_ND_TVA_ND);
 		}
@@ -621,7 +623,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             {
 	      $dna_default=new Acc_Parm_Code($this->db,'TVA_DED_IMPOT');
                 /* save op. */
-	      if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA))
+	      if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA) && $tva_both==0)
 		{
 		  $dna=$fiche->strAttribut(ATTR_DEF_ACCOUNT_ND_TVA);
 		}
@@ -665,7 +667,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     $acc_operation->jrn=$p_jrn;
                     $acc_operation->type='d';
                     $acc_operation->periode=$tperiode;
-                    if ( $value > 0 ) $tot_debit=bcadd($tot_debit,$value);
+                    if ( $value > 0 ) $tot_debit=bcadd($tot_debit,abs($value));
                     $acc_operation->insert_jrnx();
                     // if TVA is on both side, we deduce it immediately
                     if ( $oTva->get_parameter("both_side")==1)
@@ -681,6 +683,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                         $acc_operation->type='c';
                         $acc_operation->periode=$tperiode;
                         $acc_operation->insert_jrnx();
+						 if ( $value < 0 ) $tot_debit=bcadd($tot_debit,abs($value));
                     }
 
                 }
@@ -706,7 +709,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $this->db->exec_sql('update quant_purchase set qp_internal = $1 where j_id in (select j_id from jrnx where j_grpt=$2)',
                                 array($internal,$seq));
 
-            /* if e_suggest != e_pj then do not increment sequence */
+            /**= e_pj then do not increment sequence */
             if ( strcmp($e_pj,$e_pj_suggest) == 0 && strlen(trim($e_pj)) != 0 )
             {
                 $this->inc_seq_pj();
@@ -794,7 +797,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 
                 /* insert into jrn */
                 $acc_pay->mt=$mt;
-				$acc_pay->desc=$e_comm;
+				$acc_pay->desc=(!isset($e_comm_paiement) || strlen(trim($e_comm_paiement)) == 0) ?$e_comm:$e_comm_paiement;
                 $mp_jr_id=$acc_pay->insert_jrn();
                 $acjrn->grpt_id=$acseq;
                 $acjrn->update_internal_code($acinternal);
@@ -972,7 +975,10 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         {
             $add_js="update_pj();";
         }
-        $add_js.='get_last_date();';
+		if ($g_parameter->MY_DATE_SUGGEST == 'Y')
+		{
+			$add_js.='get_last_date();';
+		}
 		$add_js.='update_name();';
 		$add_js.='update_pay_method()';
 
@@ -1083,10 +1089,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             /* use vat */
             if ( $g_parameter->MY_TVA_USE=='Y')
             {
-                $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:""
-                              ;
-                $march_tva_amount=(isset(${"e_march$i"."_tva_amount"}))?${"e_march$i"."_tva_amount"}:""
-                                  ;
+                $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
+                $march_tva_amount=(isset(${"e_march$i"."_tva_amount"}))?${"e_march$i"."_tva_amount"}:"";
             }
 
 
@@ -1210,7 +1214,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         ob_start();
         require_once('template/form_ledger_detail.php');
         $r.=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
 
         // Set correctly the REQUEST param for jrn_type
         $r.= HtmlInput::hidden('jrn_type','ACH');
@@ -1267,7 +1271,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         $r.="<fieldset>";
         $r.="<legend>"._('En-tête facture fournisseur')."  </legend>";
 		$r.='<div id="jrn_name_div">';
-		$r.='<h2 id="jrn_name">'.$this->get_name().'</h2>';
+		$r.='<h2 class="title"  id="jrn_name">'.$this->get_name().'</h2>';
 		$r.='</div>';
         $r.='<TABLE  width="100%">';
         $r.='<tr>';
@@ -1525,13 +1529,16 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         {
             $r.=HtmlInput::hidden('e_mp_qcode_'.$e_mp,${'e_mp_qcode_'.$e_mp});
             $r.=HtmlInput::hidden('acompte',$acompte);
+			$r.=HtmlInput::hidden('e_comm_paiement',$e_comm_paiement);
             /* needed for generating a invoice */
             $r.=HtmlInput::hidden('qcode_benef', ${'e_mp_qcode_' . $e_mp});
 			$fname = new Fiche($this->db);
 			$fname->get_by_qcode(${'e_mp_qcode_' . $e_mp});
 			$r.="<div style=\"clear:both\"></div>";
 			$r.='<div style="float:left"><h2 class="info">' . "Payé par " . ${'e_mp_qcode_' . $e_mp} .
-					" ".$fname->getName() ."</h2> ". _('Déduction acompte ').h($acompte).'</div>';
+					" ".$fname->getName() ."</h2> ".
+					'<p>'._('Déduction acompte ').h($acompte).'</p>'.
+					_('Libellé :' ).h($e_comm_paiement).'</div>';
             $r.='<br>';
         }
         // check for upload piece

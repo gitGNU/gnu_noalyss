@@ -280,7 +280,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
             {
                 $Poste=new Acc_Account_Ledger ($cn,$poste_id['pcm_val']);
                 $Poste->load();
-                $Poste->get_row_date( $_GET['from_periode'], $_GET['to_periode']);
+                $Poste->get_row_date( $_GET['from_periode'], $_GET['to_periode'],$_GET['ople']);
                 if ( empty($Poste->row)) continue;
                 echo '<tr><td  class="mtitle" style="width:auto" colspan="6"><h2 class="info">'. $poste_id['pcm_val'].' '.h($Poste->label).'</h2></td></tr>';
 

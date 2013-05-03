@@ -178,7 +178,9 @@ class Fiche
         if ( sizeof($this->attribut) != sizeof($e->attribut ) )
         {
 
-            // !!! Missing attribute
+            /*
+			 * !! Missing attribute
+			 */
             foreach ($e->attribut as $f )
             {
                 $flag=0;
@@ -428,7 +430,7 @@ class Fiche
         foreach ($array as $attr)
         {
             $table=0;
-            $msg="";
+            $msg="";$bulle='';
             if ( $attr->ad_id == ATTR_DEF_ACCOUNT)
             {
                 $w=new IPoste("av_text".$attr->ad_id);
@@ -521,8 +523,11 @@ class Fiche
 			$w->table = $table;
 			$w->label = $attr->ad_text;
 			$w->name = "av_text" . $attr->ad_id;
-
-			$r.="<TR>" . td($w->label, ' class="input_text" ') . td($w->input()." $msg")." </TR>";
+			if ($attr->ad_id == 21 || $attr->ad_id==22||$attr->ad_id==20||$attr->ad_id==31)
+			{
+				$bulle=HtmlInput::infobulle(21);
+			}
+			$r.="<TR>" . td($w->label." $bulle", ' class="input_text" ') . td($w->input()." $msg")." </TR>";
 		}
 		$r.= '</table>';
         return $r;
@@ -690,7 +695,10 @@ class Fiche
 			$w->name = "av_text" . $r->ad_id;
 			$w->readOnly = $p_readonly;
 
-
+			if ($r->ad_id == 21 || $r->ad_id==22||$r->ad_id==20||$r->ad_id==31)
+			{
+				$bulle=HtmlInput::infobulle(21);
+			}
 			$ret.="<TR>" . td($r->ad_text . $bulle) . td($w->input()." ". $msg) . " </TR>";
 		}
 
@@ -774,6 +782,19 @@ class Fiche
 
                         if ( strlen(trim($v)) != 0)
                         {
+							if( strpos($value,',')==0)
+							{
+								$v=$this->cn->get_value("select format_account($1)",array($value));
+							} else {
+								$ac_array = explode(",", $value);
+								if (count($ac_array) <> 2)
+									throw new Exception('Désolé, il y a trop de virgule dans le poste comptable ' . h($value));
+								$part1 = $ac_array[0];
+								$part2 = $ac_array[1];
+								$part1 = $this->cn->get_value('select format_account($1)', array($part1));
+								$part2 = $this->cn->get_value('select format_account($1)', array($part2));
+								$v = $part1 . ',' . $part2;
+							}
                             $parameter=array($this->id,$v);
                         }
                         else
@@ -894,6 +915,10 @@ class Fiche
 							$part1 = $this->cn->get_value('select format_account($1)', array($part1));
 							$part2 = $this->cn->get_value('select format_account($1)', array($part2));
 							$v = $part1 . ',' . $part2;
+						}
+						else
+						{
+							$v=$this->cn->get_value('select format_account($1)',array($value));
 						}
 						$sql = sprintf("select account_update(%d,'%s')", $this->id, $v);
 						try
@@ -1262,7 +1287,7 @@ class Fiche
             $vw_operation=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s</A>',
                                   $op['jr_id'], dossier::id(), $op['jr_internal']);
             $let='';
-            if ( $op['letter'] !=-1) $let=$op['letter'];
+            if ( $op['letter'] !=-1) $let=  strtoupper(base_convert($op['letter'],10,36));
 
 	    $tmp_diff=bcsub($op['deb_montant'],$op['cred_montant']);
 
@@ -1483,6 +1508,7 @@ class Fiche
     function Summary($p_search="",$p_action="",$p_sql="",$p_amount=false)
     {
         global $g_user;
+		bcscale(4);
         $str_dossier=dossier::get();
         $p_search=sql_string($p_search);
         $script=$_SERVER['PHP_SELF'];
@@ -1535,7 +1561,7 @@ class Fiche
             return $r;
 
         $i=0;
-
+		$deb=0;$cred=0;
         foreach ($step_tiers as $tiers )
         {
             $i++;
@@ -1559,14 +1585,18 @@ class Fiche
                          " ".$tiers->strAttribut(ATTR_DEF_PAYS)).
                 "</TD>";
 
-            $r.='<TD align="right"> '.(($amount['debit']==0)?0:nbm($amount['debit'])).'&euro;</TD>';
-	    $r.='<TD align="right"> '.(($amount['credit']==0)?0:nbm($amount['credit'])).'&euro;</TD>';
-	    $r.='<TD align="right"> '.nbm($amount['solde'])."&euro;</TD>";
-
+            $r.='<TD align="right"> '.(($amount['debit']==0)?0:nbm($amount['debit'])).'</TD>';
+			$r.='<TD align="right"> '.(($amount['credit']==0)?0:nbm($amount['credit'])).'</TD>';
+			$r.='<TD align="right"> '.nbm($amount['solde'])."</TD>";
+			$deb=bcadd($deb,$amount['debit']);
+			$cred=bcadd($cred,$amount['credit']);
 
             $r.="</TR>";
 
         }
+		$r.="<tr>";
+		$solde=bcsub($deb,$cred);
+		$r.=td("").td("").td("Totaux").td(nbm($deb),'class="num"').td(nbm($cred),'class="num"').td(nbm($solde),'class="num"');
         $r.="</TABLE>";
         $r.=$bar;
         return $r;

@@ -23,6 +23,8 @@
  * \brief javascript script, always added to every page
  *
  */
+
+var ask_reload=0;
 /**
 * callback function when we just need to update a hidden div with an info
 * message
@@ -135,7 +137,7 @@ function enable_type_periode()
 
 /**
  *@brief will reload the window but it is dangerous if we have submitted
- * a form
+ * a form with POST
  */
 function refresh_window()
 {
@@ -653,6 +655,13 @@ function removeDiv(elt)
     {
         document.body.removeChild(g(elt));
     }
+	// if reloaded if asked the window will be reloaded when
+	// the box is closed
+	if ( ask_reload == 1)
+	{
+		// avoid POST window.location = window.location.href;
+		window.location.reload();
+	}
 }
 /**
  *show a box while loading
@@ -664,6 +673,7 @@ function waiting_box()
 	obj={
 		id:'wait_box',html:loading()
 		};
+	obj.style=fixed_position(350,200)+";width:200px";
 	if ($('wait_box')){
 		removeDiv('wait_box');
 		}
@@ -892,6 +902,8 @@ function show_calc()
     }
     var sid='calc1';
     var shtml='';
+	shtml+='<div style="float:right;height:10px;display:block;margin-top:2px;margin-right:2px">	<a onclick="removeDiv(\'calc1\');" href="javascript:void(0)" id="close_div">Fermer</a></div>';
+	shtml+='<div>   <h2 class="info">Calculatrice</h2></div>';
     shtml+='<form name="calc_line"  method="GET" onSubmit="cal();return false;" >Calculatrice simplifiée: écrivez simplement les opérations que vous voulez puis la touche retour. exemple : 1+2+3*(1/5) <input class="input_text" type="text" size="30" id="inp" name="calculator"> <input type="button" value="Efface tout" class="button" onClick="Clean();return false;" > <input type="button" class="button" value="Fermer" onClick="removeDiv(\'calc1\')" >';
     shtml+='</form><span id="result">  </span><br><span id="sub_total">  Taper une formule (ex 20*5.1) puis enter  </span><br><span id="listing"> </span>';
 
@@ -1080,7 +1092,7 @@ function search_reconcile(dossier,ctl_concern,amount_id,ledger)
 	var target="search_op";
 	removeDiv(target);
 	var str_style=fixed_position(77, 99);
-        str_style+=";width:80%";
+        str_style+=";width:92%;overflow:auto;";
 
     var div={id:target, cssclass:'inner_box',style:str_style,html:loading(),drag:1};
 
@@ -1184,7 +1196,7 @@ function get_profile_detail(gDossier,profile_id)
 						  $('detail_profile').innerHTML=req.responseText;
 						  req.responseText.evalScripts();
 						  $('detail_profile').show();
-						  profile_show('profile_gen_div');
+						  if ( profile_id != "-1" ) profile_show('profile_gen_div');
 					  }
 				  }
 				);
@@ -1248,11 +1260,12 @@ function mod_menu(gdossier,pm_id)
 }
 function add_menu(obj)
 {
-	pdossier=obj.dossier;
-	p_id=obj.p_id
+	var pdossier=obj.dossier;
+	var p_id=obj.p_id;
+	var p_type=obj.type;
 	waiting_box();
 	removeDiv('divdm'+p_id);
-	var qs="op=add_menu&gDossier="+pdossier+"&p_id="+p_id+"&ctl=divdm"+p_id;
+	var qs="op=add_menu&gDossier="+pdossier+"&p_id="+p_id+"&ctl=divdm"+p_id+"&type="+p_type;
 	var pos=fixed_position(250,150);
 	var action=new Ajax.Request ( 'ajax_misc.php',
 				  {
@@ -1626,4 +1639,77 @@ function detail_category_show(p_div,p_dossier,p_id)
 				      }
 				  }
 				  );
+}
+/**
+ * @brief check if the parameter is a valid a valid date or not, returns true if it is valid otherwise
+ * false
+ * @parameter p_str_date the string of the date (format DD.MM.YYYY)
+ */
+function check_date(p_str_date)
+{
+    var format = /^\d{2}\.\d{2}\.\d{4}$/;
+    if(!format.test(p_str_date)){
+	return false;
+    }
+    else{
+	var date_temp = p_str_date.split('.');
+        var nMonth=parseFloat(date_temp[1])-1;
+	var ma_date = new Date(date_temp[2], nMonth, date_temp[0]);
+	if(ma_date.getFullYear()==date_temp[2] && ma_date.getMonth()==nMonth && ma_date.getDate()==date_temp[0]){
+	    return true;
+	}
+	else{
+	    return false;
+	}
+    }
+
+}
+/**
+ * @brief get the string in the id and check if the date is valid
+ * @parameter p_id_date is the id of the element to check
+ * @return true if the date is valid
+ * @see check_date
+ */
+function check_date_id(p_id_date)
+{
+	var str_date=$(p_id_date).value;
+	return check_date(str_date);
+}
+/**
+ *
+ * @param ag_id to view
+ * @param dossier is the folder
+ * @param modify : show the modify button values : 0 for no 1 for yes
+ */
+function view_action(ag_id,dossier,modify)
+{
+	waiting_box();
+	layer++;
+	id = 'action' + layer;
+
+	querystring = 'gDossier=' + dossier + '&op=vw_action&ag_id=' + ag_id + '&div=' + id+'&mod='+modify;
+	var action = new Ajax.Request(
+			"ajax_misc.php",
+			{
+				method: 'get',
+				parameters: querystring,
+				onFailure: error_box,
+				onSuccess: function(req) {
+					try {
+						remove_waiting_box();
+						var pos = fixed_position(0, 50) + ";width:90%;left:5%;";
+						add_div({
+							id: id,
+							drag: 1,
+							cssclass: "inner_box",
+							style: pos
+						});
+						$(id).innerHTML = req.responseText;
+						compute_all_ledger();
+					} catch (e) {
+						alert(e.message);
+					}
+				}
+			}
+	);
 }

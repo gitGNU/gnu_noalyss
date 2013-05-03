@@ -20,7 +20,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file
+/**\file
  *
  *
  * \brief to write directly into the ledgers,the stock and the tables
@@ -49,7 +49,7 @@ if ( empty ($first_ledger))
 }
 $ledger->id = ($ledger->id == -1) ? $first_ledger['jrn_def_id'] : $id;
 
-/* !\brief show a form for quick_writing */
+/**\brief show a form for quick_writing */
 $def = -1;
 $ledger->with_concerned = true;
 
@@ -96,7 +96,7 @@ elseif (isset($_POST['save']))
 		printf('<a class="detail" style="display:inline" href="javascript:modifyOperation(%d,%d)">%s</a><hr>', $jr_id, dossier::id(), $ledger->internal);
 
 		// show feedback
-		echo '<div id="jrn_name_div">'; echo '<h2 id="jrn_name" style="display:inline">' . $ledger->get_name() . '</h2>'; echo '</div>';
+		echo '<div id="jrn_name_div">'; echo '<h2 id="jrn_name" class="title"  style="display:inline">' . $ledger->get_name() . '</h2>'; echo '</div>';
 		echo $ledger->confirm($_POST, true);
 	}
 	catch (Exception $e)

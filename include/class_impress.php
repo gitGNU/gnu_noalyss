@@ -21,7 +21,6 @@
 // $Revision$
 /*!\file
  * \brief contains function for the printing
- * \todo the functions of class_impress.php should be replaced in a OO way
 */
 require_once('class_periode.php');
 
@@ -208,8 +207,9 @@ class Impress
         $p_string=str_replace("<=","+",$p_string);
         $p_string=str_replace(">","+",$p_string);
         $p_string=str_replace("<","+",$p_string);
-        // eat Space
+        // eat Space + comma
         $p_string=str_replace(" ","",$p_string);
+        $p_string=str_replace(",","",$p_string);
         // Remove D/C/S
         $p_string=str_replace("c","",$p_string);
         $p_string=str_replace("d","",$p_string);
@@ -219,11 +219,18 @@ class Impress
 
 		// remove date
 		$p_string=  preg_replace("/FROM*=*[0-9]+/", "", $p_string);
+		// remove comment
+		$p_string=  preg_replace("/#.*/", "", $p_string);
+		// remove $C=
+		$p_string=  preg_replace('/\$[a-z]*[A-Z]*[0-9]*[A-Z]*[a-z]*/', "", $p_string);
+		$p_string=  preg_replace('/=/', "", $p_string);
 
 		// remove account
 		$p_string=  preg_replace("/\[[0-9]*[A-Z]*%*\]/", "", $p_string);
 
-		$p_string=  preg_replace("/\+|-|\/\*/", "", $p_string);
+		$p_string=  preg_replace("/\+|-|\/|\*/", "", $p_string);
+		$p_string=  preg_replace("/[0-9]*\.*[0-9]/", "", $p_string);
+
 		//********************************************************************************************************************
 		// If the string is empty then formula should be good
 		//

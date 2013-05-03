@@ -54,12 +54,25 @@ $periode=new Periode($cn);
 list($first_per,$last_per)=$periode->get_limit($exercice);
 
 $start=new IDate('start');
+if ( isset ($_GET['start']) && isDate($_GET['start']) == null )
+{
+    echo alert(_('Date malformée, désolé'));
+	$_GET['start']=$first_per->first_day();
+
+}
 $start->value=(isset($_GET['start']))?$_GET['start']:$first_per->first_day();
+
 $r=td(_('Date début'));
 $r.=td($start->input());
 echo tr($r);
 
 $end=new IDate('end');
+if ( isset($_GET['end']) && isDate($_GET['end']) == null )
+{
+    echo alert(_('Date malformée, désolé'));
+	$_GET['end']=$last_per->last_day();
+
+}
 $end->value=(isset($_GET['end']))?$_GET['end']:$last_per->last_day();
 $r=td(_('Date fin'));
 $r.=td($end->input());

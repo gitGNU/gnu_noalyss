@@ -21,7 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file
- * \brief Html Input 
+ * \brief Html Input
  */
 require_once('class_html_input.php');
 class IButton extends HtmlInput
@@ -32,12 +32,13 @@ class IButton extends HtmlInput
     {
         $this->name=($p_name==null)?$this->name:$p_name;
         $this->value=($p_value==null)?$this->value:$p_value;
+		$this->label=(trim($this->label) != '')?$this->label:$this->value;
         if ( $this->readOnly==true) return $this->display();
         $extra= ( isset($this->extra))?$this->extra:"";
-
+        $this->id=($this->id=="")?$this->name:$this->id;
         $r='<input type="BUTTON" name="'.$this->name.'"'.
            ' class="button" '.
-           ' id="'.$this->name.'"'.
+           ' id="'.$this->id.'"'.
            ' value="'.$this->label.'"'.
            ' onClick="'.$this->javascript.'"'.$extra.'>';
         $attr=$this->get_js_attr();

@@ -25,7 +25,7 @@
  */
 require_once ('class_acc_ledger_fin.php');
 require_once('class_ipopup.php');
-global $g_user;
+global $g_user,$g_parameter;
 
 $gDossier=dossier::id();
 
@@ -76,7 +76,7 @@ if ( isset($_POST['save']))
 	{
 		echo '<div class="content">';
 		echo '<h2 class="info">'._('Confirmation').' </h2>';
-		echo '<form name="form_detail" class="print" enctype="multipart/form-data"  METHOD="POST">';
+		echo '<form name="form_detail" class="print" enctype="multipart/form-data" class="print" METHOD="POST">';
 		echo HtmlInput::hidden('ac',$_REQUEST['ac']);
 		echo $Ledger->confirm($_POST);
 		echo HtmlInput::submit('confirm',_('Confirmer'));
@@ -131,7 +131,7 @@ if ( isset($_POST['correct']))
 echo '<div class="content">';
 
 
-echo '<form class="print" name="form_detail" enctype="multipart/form-data" METHOD="POST">';
+echo '<form class="print" name="form_detail" enctype="multipart/form-data" class="print" METHOD="POST">';
 echo HtmlInput::hidden('ledger_type','fin');
 echo HtmlInput::hidden('ac',$_REQUEST['ac']);
 $array=( isset($correct))?$_POST:null;
@@ -142,9 +142,11 @@ echo HtmlInput::button('add_item',_('Ajout article'),   ' onClick="ledger_fin_ad
 echo HtmlInput::submit('save',_('Sauve'));
 echo HtmlInput::reset(_('Effacer'));
 
-if ( ! isset ($_POST['e_date']) )
+if ( ! isset ($_POST['e_date'])&& $g_parameter->MY_DATE_SUGGEST=='Y')
 {
 	echo create_script(" get_last_date();ajax_saldo('first_sold');");
+}else {
+	echo create_script(" ajax_saldo('first_sold');");
 }
 
 exit();

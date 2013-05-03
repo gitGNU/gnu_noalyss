@@ -21,7 +21,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file
+/**\file
  * \brief this file is common to suivi client, suivi fournisseur, suivi
  * administration.
  * The needed variables are
@@ -84,19 +84,16 @@ if ($sub_action == "update")
 	{
 		$act2 = new Follow_Up($cn);
 		$act2->fromArray($_POST);
-		$sub_action = "detail";
-		put_global(array(array('key' => "sa", "value" => "detail")));
-		if ($g_user->can_write_action($act2->ag_id))
-		{
-			$act2->Update();
-		}
-		else
+		if ($g_user->can_write_action($act2->ag_id) == false )
 		{
 			echo '<div class="redcontent">';
 			echo '<h2 class="error"> Cette action ne vous est pas autorisée Contactez votre responsable</h2>';
 			echo '</div>';
 			exit();
 		}
+		$sub_action = "detail";
+		put_global(array(array('key' => "sa", "value" => "detail")));
+		$act2->Update() ;
 	}
 	//----------------------------------------------------------------------
 	// Add a related action
@@ -194,7 +191,7 @@ if ($sub_action == "list")
 	Follow_Up::show_action_list($cn, $base);
 	// Add a button to export to Csv
 	echo '<form method="GET" ACTION="export.php">';
-	echo HtmlInput::request_to_hidden(array("remind_date_end","remind_date","sag_ref", "remind_date","only_internal", "state", "gDossier", "qcode", "start_date", "end_date", "ag_id", "ag_dest_query",
+	echo HtmlInput::request_to_hidden(array("closed_action","remind_date_end","remind_date","sag_ref", "remind_date","only_internal", "state", "gDossier", "qcode", "start_date", "end_date", "ag_id", "ag_dest_query",
 		"tdoc",   "query"));
 	echo HtmlInput::hidden("act", "CSV:ActionGestion");
 	echo HtmlInput::submit("follow_up_csv", "Export CSV");

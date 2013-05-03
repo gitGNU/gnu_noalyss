@@ -324,6 +324,7 @@ function compute_ledger(p_ctl_nb)
         a=trim(g("e_march"+p_ctl_nb+'_tva_amount').value);
         g("e_march"+p_ctl_nb+'_tva_amount').value=a;
     }
+	if ( ! document.getElementById("e_march"+p_ctl_nb))  {return;}
     g("e_march"+p_ctl_nb).value=trim(g("e_march"+p_ctl_nb).value);
     var qcode=g("e_march"+p_ctl_nb).value;
 
@@ -375,12 +376,12 @@ function refresh_ledger()
     for (var i=0;i<g("nb_item").value;i++)
     {
         if( g('tva_march'+i))  tva+=g('tva_march'+i).value*1;
-        htva+=g('htva_march'+i).value*1;
-        tvac+=g('tvac_march'+i).value*1;
+        if (g('htva_march'+i)) htva+=g('htva_march'+i).value*1;
+        if (g('tvac_march'+i)) tvac+=g('tvac_march'+i).value*1;
     }
 
     if ( g('tva') ) g('tva').innerHTML=Math.round(tva*100)/100;
-    g('htva').innerHTML=Math.round(htva*100)/100;
+    if (g('htva')) g('htva').innerHTML=Math.round(htva*100)/100;
     if (g('tvac'))    g('tvac').innerHTML=Math.round(tvac*100)/100;
 }
 /**
@@ -449,12 +450,12 @@ function compute_all_ledger()
     for (var i=0;i<g("nb_item").value;i++)
     {
         if ( g('tva_march') ) tva+=g('tva_march'+i).value*1;
-        htva+=g('htva_march'+i).value*1;
-        tvac+=g('tvac_march'+i).value*1;
+        if( g('htva_march'+i)) htva+=g('htva_march'+i).value*1;
+        if( g('tvac_march'+i))tvac+=g('tvac_march'+i).value*1;
     }
 
     if ( g('tva') ) g('tva').innerHTML=Math.round(tva*100)/100;
-    g('htva').innerHTML=Math.round(htva*100)/100;
+    if (g('htva')) g('htva').innerHTML=Math.round(htva*100)/100;
     if (g('tvac'))g('tvac').innerHTML=Math.round(tvac*100)/100;
 
 
@@ -564,17 +565,22 @@ function view_history_account(p_value,dossier)
 
     querystring='gDossier='+dossier+'&act=de&pcm_val='+p_value+'&div='+id;
     add_div(popup);
+
     var action=new Ajax.Request(
                    "ajax_history.php",
                    {
                    method:'get',
                    parameters:querystring,
                    onFailure:error_box,
-                   onSuccess:success_box
+                   onSuccess:function (req,xml)
+					{
+						success_box(req,xml);
+						g(id).style.top=calcy(140+(layer*3));
+						g(id).style.left="10%";
+						g(id).style.width='80%';
+					}
                    }
                );
-    g(id).style.top=posY-40;
-    g(id).style.left=posX-10;
 
 }
 
@@ -588,7 +594,13 @@ function update_history_account(obj)
 		method:'get',
 		parameters:querystring,
 		onFailure:error_box,
-		onSuccess:success_box
+		  onSuccess:function (req,xml)
+					{
+						success_box(req,xml);
+						g(obj.div).style.top=calcy(140+(layer*3));
+						g(obj.div).style.left="10%";
+						g(obj.div).style.width='80%';
+					}
 	    });
     } catch (e)
     {
@@ -618,12 +630,15 @@ var popup={'id':
                    method:'get',
                    parameters:querystring,
                    onFailure:error_box,
-                   onSuccess:success_box
+                   onSuccess:function (req,xml)
+					{
+						success_box(req,xml);
+						g(id).style.top=calcy(140+(layer*3));
+						g(id).style.left="10%";
+						g(id).style.width='80%';
+					}
                    }
                );
-    g(id).style.top=posY-40;
-    g(id).style.left=posX-10;
-
 }
 
 function update_history_card(obj)
@@ -636,7 +651,13 @@ function update_history_card(obj)
 		method:'get',
 		parameters:querystring,
 		onFailure:error_box,
-		onSuccess:success_box
+		  onSuccess:function (req,xml)
+					{
+						success_box(req,xml);
+						g(obj.div).style.top=calcy(140+(layer*3));
+						g(obj.div).style.left="10%";
+						g(obj.div).style.width='80%';
+					}
 	    });
     } catch (e)
     {
@@ -693,29 +714,31 @@ function reverseOperation(obj)
 /*!\brief
  * \param p_value jrn.jr_id
  */
-function modifyOperation(p_value,dossier)
+function modifyOperation(p_value, dossier)
 {
-    layer++;
-    id='det'+layer;
-    var popup={'id':
-           id,'cssclass':'inner_box'
-           ,'html':
-           loading(),'drag':
-               true};
-    querystring='gDossier='+dossier+'&act=de&jr_id='+p_value+'&div='+id;
-    add_div(popup);
-    var action=new Ajax.Request(
-                   "ajax_ledger.php",
-                   {
-                   method:'get',
-                   parameters:querystring,
-                   onFailure:error_box,
-                   onSuccess:success_box
-                   }
-               );
-    g(id).style.top=posY-40;
-    g(id).style.left=300;
-
+	layer++;
+	id = 'det' + layer;
+	var popup = {'id':
+				id, 'cssclass': 'inner_box'
+				, 'html':
+				loading(), 'drag':
+				true};
+	querystring = 'gDossier=' + dossier + '&act=de&jr_id=' + p_value + '&div=' + id;
+	add_div(popup);
+	var action = new Ajax.Request(
+			"ajax_ledger.php",
+			{
+				method: 'get',
+				parameters: querystring,
+				onFailure: error_box,
+				onSuccess: function(xml, txt) {
+					success_box(xml, txt);
+					g(id).style.top = calcy(100 + (layer * 3));
+					g(id).style.left = '10%';
+					g(id).style.width = "80%";
+				}
+			}
+	);
 }
 
 /*!\brief
@@ -868,10 +891,11 @@ function search_letter(obj)
 *@brief save an operation in ajax, it concerns only the
 * comment, the pj and the rapt
 * the form elements are access by their name
-*@param form
+*@param obj form
 */
 function op_save(obj)
 {
+	try {
     var queryString=$(obj).serialize();
     queryString+="&lib="+obj.lib.value;
     queryString+="&gDossier="+obj.gDossier.value;
@@ -906,6 +930,8 @@ function op_save(obj)
                                     );
     }
     return false;
+	} catch (e)
+	{ alert(e.message);}
 }
 function  get_history_account(ctl,dossier) {
 	if ( $(ctl).value != '')

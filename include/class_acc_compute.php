@@ -49,7 +49,7 @@
 		  'nd_vat_rate'=>'nd_vat_rate',
 		  'amount_perso'=>'amount_perso',
 		  'amount_perso_rate'=>'amount_perso_rate'				  );
- 
+
  */
 
 
@@ -126,9 +126,11 @@ class Acc_Compute
         if ( $this->check && $this->order > 2 )  throw new Exception ('ORDER NOT RESPECTED');
 
         $this->amount_nd=bcmul($this->amount,$this->amount_nd_rate);
+        $this->amount_nd=bcdiv($this->amount_nd,100);
         $this->amount_nd=round($this->amount_nd,2);
         // the nd part for the vat
         $nd_vat=bcmul($this->amount_vat,$this->amount_nd_rate);
+        $nd_vat=bcdiv($nd_vat,100);
         $nd_vat=round($nd_vat,2);
 
     }
@@ -139,6 +141,7 @@ class Acc_Compute
 
         if ($this->amount_vat == 0 ) $this->compute_vat();
         $this->nd_vat=bcmul($this->amount_vat,$this->nd_vat_rate);
+        $this->nd_vat=bcdiv($this->nd_vat,100);
         $this->nd_vat=round($this->nd_vat,2);
     }
 
@@ -149,6 +152,7 @@ class Acc_Compute
 
         if ($this->amount_vat == 0 ) $this->compute_vat();
         $this->nd_ded_vat=bcmul($this->amount_vat,$this->nd_ded_vat_rate);
+        $this->nd_ded_vat=bcdiv($this->nd_ded_vat,100);
         $this->nd_ded_vat=round($this->nd_ded_vat,2);
     }
 
@@ -158,6 +162,7 @@ class Acc_Compute
         $this->order=2;
         if ( $this->amount == 0 ) return;
         $this->amount_perso=bcmul($this->amount,$this->amount_perso_rate);
+        $this->amount_perso=bcdiv($this->amount_perso,100);
         $this->amount_perso=round($this->amount_perso,2);
 
 

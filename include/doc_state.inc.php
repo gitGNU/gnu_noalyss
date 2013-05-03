@@ -32,10 +32,17 @@ if ( isset($_POST['add']))
 {
 	if (trim ($_POST['s_value'])!="")
 	{
-		$cn->exec_sql('insert into document_state(s_value) values ($1)',array($_POST['s_value']));
+		if ( isset($_POST['s_state']))
+		{
+			$cn->exec_sql('insert into document_state(s_value,s_status) values ($1,$2)',array($_POST['s_value'],'C'));
+		}
+		else
+		{
+			$cn->exec_sql('insert into document_state(s_value) values ($1)',array($_POST['s_value']));
+		}
 	}
 }
-$a_stat=$cn->get_array("select s_value   from document_state order by 1");
+$a_stat=$cn->get_array("select s_value,s_status from document_state order by 1");
 ?>
 
 <table>
@@ -45,10 +52,20 @@ $a_stat=$cn->get_array("select s_value   from document_state order by 1");
 		<td>
 			<?=h($a_stat[$i]['s_value'])?>
 		</td>
+
+		<td>
+			<? if ($a_stat[$i]['s_status']=='C') { echo _("Ferme l'action"); } ?>
+		</td>
 	</tr>
 	<?	endfor;?>
 </table>
+<h2>Ajout d'un état</h2>
 <form method="post" onsubmit="return confirm ('Vous confirmez ?'); ">
-	<? $value=new IText("s_value",""); echo $value->input()?>
-	<?=HtmlInput::submit("add", "Ajouter")?>
+	<p>
+		Nom de l'état <? $value=new IText("s_value",""); echo $value->input()?>
+	</p>
+	<p>
+		Cochez la case si cet état ferme une action <? $state=new ICheckBox("s_state",""); echo $state->input()?>
+		<?=HtmlInput::submit("add", "Ajouter")?>
+	</p>
 </form>

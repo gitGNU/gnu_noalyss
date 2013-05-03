@@ -70,7 +70,7 @@ class HtmlInput
     var $ctrl;						/*!<$ctrl is the control to update (see js_search_card_control) */
 
     var $tabindex;
-    function __construct($p_name="",$p_value="")
+    function __construct($p_name="",$p_value="",$p_id="")
     {
         $this->name=$p_name;
         $this->readOnly=false;
@@ -84,6 +84,7 @@ class HtmlInput
         $this->javascript="";
         $this->extra2="all";
         $this->attribute=array();
+        $this->id=$p_id;
 
     }
     function setReadOnly($p_read)
@@ -177,7 +178,7 @@ class HtmlInput
     static   function submit ($p_name,$p_value,$p_javascript="")
     {
 
-        return '<INPUT TYPE="SUBMIT" class="button" NAME="'.$p_name.'" VALUE="'.$p_value.'" '.$p_javascript.'>';
+        return '<INPUT TYPE="SUBMIT" class="button" NAME="'.$p_name.'" ID="'.$p_name.'_submit_id"  VALUE="'.$p_value.'" '.$p_javascript.'>';
     }
     static   function button ($p_name,$p_value,$p_javascript="")
     {
@@ -189,9 +190,10 @@ class HtmlInput
     {
         return '<INPUT TYPE="RESET" class="button" VALUE="'.$p_value.'">';
     }
-    static function hidden($p_name,$p_value)
+    static function hidden($p_name,$p_value,$p_id="")
     {
-        return '<INPUT TYPE="hidden" id="'.$p_name.'" NAME="'.$p_name.'" VALUE="'.$p_value.'">';
+		if ($p_id=="") $p_id=$p_name;
+        return '<INPUT TYPE="hidden" id="'.$p_id.'" NAME="'.$p_name.'" VALUE="'.$p_value.'">';
     }
 
     static function extension()
@@ -232,6 +234,18 @@ class HtmlInput
     {
         return sprintf('<A class="detail" style="text-decoration:underline;display:inline" HREF="javascript:modifyOperation(%d,%d)">%s</A>',
                        $p_jr_id,dossier::id(),$p_mesg);
+    }
+	/**
+	 * @brief return an anchor to view the detail of an action
+	 * @param $ag_id
+	 * @param $p_mesg
+	 * @param $p_modify let you modify an operation
+	 *
+	 */
+	 static function detail_action($ag_id,$p_mesg,$p_modify=1)
+    {
+        return sprintf('<A class="detail" style="text-decoration:underline;display:inline" HREF="javascript:view_action(%d,%d,%d)">%s</A>',
+                       $ag_id,dossier::id(),$p_modify,$p_mesg);
     }
     /**
      * return a string containing the html code for calling the modifyModeleDocument
@@ -324,7 +338,7 @@ class HtmlInput
 
         echo '</div>';
         $ret=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
         return $ret;
     }
     /**
@@ -365,7 +379,7 @@ class HtmlInput
 
         echo '</div>';
         $r=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
         return $r;
     }
     static function display_periode($p_id)
@@ -575,7 +589,7 @@ class HtmlInput
       return $r;
     }
     /**
-     * return default if the value if the array doesn't exist
+     * return default if the value if the value doesn't exist in the array
      *@param $ind the index to check
      *@param $default the value to return
      *@param $array the array
@@ -588,6 +602,48 @@ class HtmlInput
 	}
       return $array[$ind];
     }
+	/**
+	 *  return default if the value if the value doesn't exist in $_GET
+	 * @param  $ind name of the variable
+	 * @param type $default
+	 * @return type
+	 */
+	static function default_value_get($ind, $default)
+	{
+		if (!isset($_GET[$ind]))
+		{
+			return $default;
+		}
+		return $_GET[$ind];
+	}
+	/**
+	 *  return default if the value if the value doesn't exist in $_POST
+	 * @param  $ind name of the variable
+	 * @param type $default
+	 * @return type
+	 */
+	static function default_value_post($ind, $default)
+	{
+		if (!isset($_POST[$ind]))
+		{
+			return $default;
+		}
+		return $_POST[$ind];
+	}
+	/**
+	 *  return default if the value if the value doesn't exist in $_REQUEST
+	 * @param  $ind name of the variable
+	 * @param type $default
+	 * @return type
+	 */
+	static function default_value_request($ind, $default)
+	{
+		if (!isset($_REQUEST[$ind]))
+		{
+			return $default;
+		}
+		return $_REQUEST[$ind];
+	}
 	static function title_box($name,$div,$mod="close")
 	{
 		if ($mod=='close')		$r=HtmlInput::anchor_close($div);

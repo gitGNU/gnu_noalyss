@@ -33,17 +33,18 @@ class IAction extends HtmlInput
     {
         $this->name=($p_name=="")?$this->name:$p_name;
         $this->value=($p_value=="")?$this->value:$p_value;
+        $this->id=($this->id=="")?$this->name:$this->id;
         if ( $this->readOnly==true) return $this->display();
         $this->javascript= (!isset ($this->javascript))?"":$this->javascript;
         if ( $this->value !="")
             $r=sprintf('<span id="%s" class="action"> <A class="action" HREF="%s" %s>%s</A></span>',
-                       $this->name,
+                       $this->id,
                        $this->value,
                        $this->javascript,
                        $this->label);
         else
             $r=sprintf('<span id="%s" class="action"> <A class="action" href="javascript: %s">%s</A></span>',
-                       $this->name,
+                       $this->id,
                        $this->javascript,
                        $this->label);
 

@@ -32,7 +32,7 @@
 	<?=HtmlInput::hidden("p_id", $p_id);?>
 	<table>
 		<tr>
-			<th><?=_("Profile")?></th>
+			<th><?=_("Profil")?></th>
 			<th><?=_("Accès")?></th>
 		</tr>
 		<? for ($i=0;$i<count($array);$i++): ?>

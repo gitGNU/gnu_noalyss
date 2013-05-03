@@ -19,7 +19,7 @@
  */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/* !\file
+/**\file
  * \brief printing of category of card  : balance, historic
  */
 include_once('class_database.php');
@@ -82,6 +82,16 @@ echo HtmlInput::hidden('ac', $_GET['ac']);
 require_once('template/impress_cat_card.php');
 echo HtmlInput::submit('cat_display', _('Recherche'));
 echo '</FORM>';
+$search_card=new IText('card_search');
+$search_card_js=sprintf('onclick="boxsearch_card(\'%d\')"',dossier::id());
+?>
+<div style="position:absolute;right:230px;top:110px">
+
+		<?=_('Recherche de fiche')?> <?=HtmlInput::infobulle(18)?> :<?=$search_card->input()?>
+		<?=HtmlInput::button_anchor("Chercher","javascript:void(0)","",$search_card_js)?>
+</div>
+<?
+echo '</div>';
 $str = "if (g('histo').value==3 || g('histo').value== -1 ) {
      g('trstart').style.display='none';g('trend').style.display='none';g('allcard').style.display='none';}
      else  {g('trstart').style.display='';g('trend').style.display='';g('allcard').style.display='';}
@@ -155,8 +165,8 @@ if ($_GET['histo'] == -1)
 				}
 				if ($msg != "")
 				{
-					echo h2("Fiche non effacées", ' class="error"  ');
-					echo '<p class="error">'." Ces fiches n'ont pas été effacées  ".$msg;
+					echo h2(_("Fiche non effacées"), ' class="error"  ');
+					echo '<p class="error">'._(" Ces fiches n'ont pas été effacées  ").$msg;
 				}
 			}
 		}
@@ -172,10 +182,10 @@ if ($_GET['histo'] == -1)
 	}
 	else
 	{
-		$cond = " where fd_id = " . sql_string($_GET['cat']);
+		$cond = " where f.fd_id = " . sql_string($_GET['cat']);
 	}
 	// Create nav bar
-	$max = $cn->get_value("select count(*) from fiche " . $cond);
+	$max = $cn->get_value("select count(*) from fiche as f " . $cond);
 
 	$step = $_SESSION['g_pagesize'];
 	$page = (isset($_GET['offset'])) ? $_GET['page'] : 1;
@@ -185,13 +195,15 @@ if ($_GET['histo'] == -1)
 	$res = $cn->exec_sql("
 		select f_id,
 			(select ad_value from fiche_detail as fd1 where ad_id=1 and fd1.f_id=f.f_id) as name,
-			(select ad_value from fiche_detail as fd1 where ad_id=23 and fd1.f_id=f.f_id) as qcode
-		from fiche as f
-		$cond   order by 1 offset $offset $limit
+			(select ad_value from fiche_detail as fd1 where ad_id=23 and fd1.f_id=f.f_id) as qcode,
+			fd_label
+		from fiche as f join fiche_def as fd on (fd.fd_id=f.fd_id)
+		$cond   order by 2 offset $offset $limit
 	");
 	$nb_line = Database::num_row($res);
+	if ($write != 1 || $allcard != 0 )  $str_add_card="";
 	require_once 'template/fiche_list.php';
-	if ($write == 1 && $allcard == 0 ) echo $str_add_card;
+	echo '<hr>'.$bar;
 	exit();
 }
 /* * *********************************************************************************************************************************
@@ -281,7 +293,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 		{
 			if ($allcard == 0)
 			{
-				echo "Aucune fiche trouvée";
+				echo _("Aucune fiche trouvée");
 				exit;
 			} else
 				continue;
@@ -324,9 +336,9 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 					td(nbm(abs($solde['solde'])), 'style="text-align:right"') .
 					td((($solde['debit'] < $solde['credit']) ? 'CRED' : 'DEB'), 'style="text-align:right"'), $class
 			);
-                      
-                                
-                                
+
+
+
 		}
                 echo tr(
                                 td('').
@@ -452,7 +464,7 @@ for ($e = 0; $e < count($afiche); $e++)
 				$span_error = "";
 				if ($row['letter_diff'] != 0)
 					$span_error = $g_failed;
-				echo td($row['letter'] . $span_error);
+				echo td(strtoupper(base_convert($row['letter'],10,36)) . $span_error);
 			}
 			else
 				echo td('');

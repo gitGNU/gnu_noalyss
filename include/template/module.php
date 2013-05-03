@@ -78,7 +78,8 @@ endif;?>
 				$url="do.php?gDossier=".Dossier::id()."&ac=".$row['me_code'];
 		    }
 		    ?>
-		<td class="tool" style="<?=$style?>"><a class="mtitle" href="<?=$url?>" title="<?=_($row['me_description'])?>" <?=$js?> ><?=_($row['me_menu'])?></td>
+		<td class="tool" style="<?=$style?>">
+			<a class="mtitle" href="<?=$url?>" title="<?=_($row['me_description'])?>" <?=$js?> ><?=_($row['me_menu'])?></a></td>
 		<?
 		    endforeach;
 		?>

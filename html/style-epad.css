@@ -13,7 +13,7 @@ BODY {
 	font-style: italic;
 }
 
-table.table_large, table.result  ,table.resultfooter {
+table.table_large, table.result  ,table.resultfooter,table.sortable  {
 	color:blue;
 	/* border:blue solid 1px; */
 	width:100%;
@@ -27,7 +27,7 @@ table.resultfooter tfoot {
 
 
 }
-table.table_large th,table.result th {
+table.table_large th,table.result th,table.sortable th {
 	font-weight:bold;
 	font-family:verdana,helvetica,sans-serif;
 	border-bottom:1px solid blue;
@@ -102,11 +102,6 @@ h2.error {
 	background:red;
 	color:white;
 	font-size:16px;
-}
-
-h1.title {
-	color: blue;
-	font-size:27px;
 }
 
 div.u_tmenu {
@@ -555,7 +550,7 @@ a.document:hover {
 	margin:1px;
 	background-color: orange;
 }
-legend {
+h1.legend,legend {
 	font-weight: bold;
 	font-style: italic;
 	font-size: 120% ;
@@ -947,7 +942,7 @@ div#search_form
 	background-color:#e4e7ed;
 }
 
-table.table_large td, table.result td
+table.table_large td, table.result td,table.sortable td
 {
 	padding-left:5px;
 	padding-right:5px;
@@ -1104,4 +1099,40 @@ a.nav:hover,div.content a.nav:hover,div.redcontent a.nav:hover {
 	display:inline;
 	float:left;
 	top:0px;
+}
+h1.title {
+	color: #046fff;
+	font-size:30px;
+	font-style: italic;
+}
+h2.title {
+	color: #046fff;
+	font-size:24px;
+	font-style: italic;
+	margin-left: 15px;
+}
+h3.title {
+	color: #046fff;
+	font-size:16px;
+	margin-left: 30px;
+}
+h4.title {
+	color: blue;
+	font-size:14px;
+	margin-left: 45px;
+	text-decoration: underline;
+}
+h5.title {
+	color: blue;
+	font-size:12px;
+	margin-left: 45px;
+	text-decoration: none;
+	font-style: italic;
+}
+div.myfieldset
+{
+	margin-top: 5px;
+	margin-left:5px;
+	margin-right: 5px;
+	border:lightgrey 2px groove;
 }

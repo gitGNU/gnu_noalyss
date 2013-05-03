@@ -21,7 +21,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file
+/**\file
  *
  *
  * \brief reconcile operation
@@ -74,7 +74,7 @@ if (isset($_POST['save']))
 		  {
 		    echo '<div class="content">'.$g_succeed.' Mise à jour extrait '.$_POST['ext'].'</div>';
 		  }
-		
+
 		$cn->commit();
 	}
 }
@@ -101,7 +101,11 @@ echo '<form method="post" id="rec1">';
 echo dossier::hidden();
 echo HtmlInput::get_to_hidden(array('sa', 'p_action', 'p_jrn'));
 
-$operation = $cn->get_array("select jr_id,jr_internal,jr_comment,to_char(jr_date,'DD.MM.YYYY') as fmt_date,jr_montant
+$operation = $cn->get_array("select jr_id,jr_internal,
+								jr_comment,
+								to_char(jr_date,'DD.MM.YYYY') as fmt_date,
+								jr_montant,
+								to_char(jr_date,'YYYYMMDD') as raw_date
                               from jrn where jr_def_id=$1 and (jr_pj_number is null or jr_pj_number='') order by jr_date", array($Ledger->id));
 echo '<span id="bkname">' . hb(h($Ledger->get_bank_name())) . '</span>';
 echo '<p>';
@@ -118,8 +122,8 @@ echo 'solde Fin' . $nend_extrait->input();
 echo IButton::tooggle_checkbox('rec1');
 echo '</p>';
 echo HtmlInput::submit('save', 'Mettre à jour le n° de relevé bancaire');
-echo '<table class="result" style="width:80%;margin-left:10%">';
-$r = th('Date');
+echo '<table class="sortable" style="width:80%;margin-left:10%">';
+$r ='<th class=" sorttable_sorted_reverse">'.'Date '.HtmlInput::infobulle(17).'<span id="sorttable_sortrevind">&nbsp;&blacktriangle;</span>'.'</th>';
 $r.=th('Libellé');
 $r.=th('N° interne');
 $r.=th('Montant', ' style="text-align:right"');
@@ -133,11 +137,11 @@ for ($i = 0; $i < count($operation); $i++)
 	$row = $operation[$i];
 	$r = '';
 	$js = HtmlInput::detail_op($row['jr_id'], $row['jr_internal']);
-	$r.=td($row['fmt_date']);
+	$r.='<td sorttable_customkey="'.$row['raw_date'].'">'.$row['fmt_date'].'</td>';
 	$r.=td($row['jr_comment']);
 	$r.=td($js);
 	$amount=$cn->get_value('select qf_amount from quant_fin where jr_id=$1', array($row['jr_id']));
-	$r.=td(nbm ($amount), ' class="num" ');
+	$r.='<td class="num" class="sorttable_numeric" sortable_customekey="'.$amount.'" style="text-align:right">'.nbm ($amount).'</td>';
 
 	$diff=bcadd($diff,$amount);
 	$tot_not_reconcilied+=$row['jr_montant'];
@@ -154,11 +158,11 @@ for ($i = 0; $i < count($operation); $i++)
 			}
 		}
 	}
-	$r.=td(HtmlInput::hidden('jrid[]', $row['jr_id']) . $iradio->input(), ' style="text-align:center" ');
+	$r.=td(HtmlInput::hidden('jrid['.$i.']', $row['jr_id']) . $iradio->input(), ' style="text-align:center" ');
 	if ($i % 2 == 0)
 		echo tr($r, ' class="odd" ');
 	else
-		echo tr($r);
+		echo tr($r,' class="even" ');
 }
 echo '</table>';
 $bk_card = new Fiche($cn);

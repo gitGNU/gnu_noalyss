@@ -23,7 +23,6 @@
 /*!\file
  * \brief this class extends PDF and let you export the detailled printing
  *  of any ledgers
- * *\todo Must add the third part
  */
 require_once('class_pdf.php');
 
@@ -78,11 +77,11 @@ class Print_Ledger_Simple_Without_Vat extends PDF
         else
             $this->Cell(60,6,'Fournisseur');
         $this->Cell(105,6,'Commentaire');
-        $this->Cell(15,6,'Prix',0,0,'R');
         if ( $this->jrn_type=='ACH')
         {
             $this->Cell(15,6,'Privé',0,0,'R');
         }
+        $this->Cell(15,6,'Prix',0,0,'R');
 
         $this->Ln(5);
 

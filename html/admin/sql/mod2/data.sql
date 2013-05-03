@@ -578,10 +578,10 @@ INSERT INTO document_type (dt_id, dt_value) VALUES (22, 'Réception magazine');
 
 
 
-INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (2, '400', 'Client', true, 9);
+INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (2, '410', 'Client', true, 9);
 INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (1, '604', 'Marchandises', true, 2);
-INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (3, '5500', 'Banque', true, 4);
-INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (4, '440', 'Fournisseur', true, 8);
+INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (3, '51', 'Banque', true, 4);
+INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (4, '400', 'Fournisseur', true, 8);
 INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (5, '61', 'S & B D', true, 3);
 INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (6, '700', 'Vente', true, 1);
 

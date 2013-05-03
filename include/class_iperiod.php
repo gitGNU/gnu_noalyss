@@ -21,11 +21,11 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file
- * \brief Html Input 
+ * \brief Html Input
  */
 /*! \brief          Generate the form for the periode
 * Data Members
- *   - $cn connexion to the current folder 
+ *   - $cn connexion to the current folder
  *   - $type the type of the periode OPEN CLOSE NOTCENTRALIZED or ALL, IT MUST BE SET
  *   - $filter_year make a filter on the default exercice by default true
  *   - $user if a filter_year is required then we need who is the user (object User)
@@ -56,7 +56,7 @@ class IPeriod extends HtmlInput
         $this->extra2="all";
         $this->show_start_date=true;
         $this->show_end_date=true;
-	$this->exercice=$p_exercice;
+		$this->exercice=$p_exercice;
     }
     /*!
      * \brief show the input html for a periode
@@ -64,7 +64,7 @@ class IPeriod extends HtmlInput
      *\param $p_value is the default value
      *\param $p_exercice is the exercice, if not set then the user preference is used
      * \return string containing html code for the HTML
-     *       
+     *
      *
      */
     public function input($p_name=null,$p_value=null)

@@ -82,7 +82,7 @@ if ( ! isset($_REQUEST['action']))
 	echo '<th>'.$header->get_header(0).'</th>';
 	echo '<th>'.$header->get_header(1).'</th>';
 	echo th('prénom');
-	echo th('profile');
+	echo th('profil');
 	echo '<th>'.$header->get_header(2).'</th>';
     for ($i = 0;$i < $MaxUser;$i++)
     {
@@ -269,7 +269,7 @@ if ( $action == "view" )
 	$i_profile->selected=$sec_User->get_profile();
 
 	echo "<p>";
-	echo " Profile ".$i_profile->input();
+	echo _("Profil")." ".$i_profile->input();
 	echo "</p>";
     echo '<Fieldset><legend>Journaux </legend>';
     echo '<table>';

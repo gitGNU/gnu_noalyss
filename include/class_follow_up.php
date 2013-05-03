@@ -38,7 +38,8 @@ require_once('class_inum.php');
 require_once 'class_sort_table.php';
 require_once 'class_irelated_action.php';
 
-/* !\file
+/**
+ * \file
  * \brief class_action for manipulating actions
  * action can be :
  * <ul>
@@ -49,7 +50,7 @@ require_once 'class_irelated_action.php';
  * </ul>
  * The table document_type are the possible actions
  */
-/* !
+/**
  * \brief class_action for manipulating actions
  * action can be :
  * <ul>
@@ -62,24 +63,25 @@ require_once 'class_irelated_action.php';
 
 class Follow_Up
 {
+    
 
-	var $db; /* !<  $db  database connexion    */
-	var $ag_timestamp;  /* !<   $ag_timestamp document date (ag_gestion.ag_timestamp) */
-	var $dt_id;   /* !<   $dt_id type of the document (document_type.dt_id) */
-	var $ag_state; /* !<   $ag_state stage of the document (printed, send to client...) */
-	var $d_number;   /* !<   $d_number number of the document */
-	var $d_filename; /* !<   $d_filename filename's document      */
-	var $d_mimetype; /* !<   $d_mimetype document's filename      */
-	var $ag_title;   /* !<   $ag_title title document	      */
-	var $f_id; /* !<   $f_id_dest fiche id (From field )  */
-	var $ag_ref;  /* !< $ag_ref is the ref  */
-	var $ag_hour;  /* !< $ag_hour is the hour of the meeting, action */
-	var $ag_priority; /* !< $ag_priority is the priority 1 High, 2 medium, 3 low */
-	var $ag_dest;  /* !< $ag_dest person who is in charged */
-	var $ag_contact;  /* !< $ag_contact contact */
-	var $ag_remind_date;  /* !< $ag_contact contact */
+	var $db; /*!<  $db  database connexion    */
+	var $ag_timestamp;  /*!<   $ag_timestamp document date (ag_gestion.ag_timestamp) */
+	var $dt_id;   /*!<   $dt_id type of the document (document_type.dt_id) */
+	var $ag_state; /*!<   $ag_state stage of the document (printed, send to client...) */
+	var $d_number;   /*!<   $d_number number of the document */
+	var $d_filename; /*!<   $d_filename filename's document      */
+	var $d_mimetype; /*!<   $d_mimetype document's filename      */
+	var $ag_title;   /*!<   $ag_title title document	      */
+	var $f_id; /*!<   $f_id_dest fiche id (From field )  */
+	var $ag_ref;  /*!< $ag_ref is the ref  */
+	var $ag_hour;  /*!< $ag_hour is the hour of the meeting, action */
+	var $ag_priority; /*!< $ag_priority is the priority 1 High, 2 medium, 3 low */
+	var $ag_dest;  /*!< $ag_dest person who is in charged */
+	var $ag_contact;  /*!< $ag_contact contact */
+	var $ag_remind_date;  /*!< $ag_contact contact */
 
-	/* !  constructor
+	/**  constructor
 	 * \brief constructor
 	 * \param p_cn database connection
 	 */
@@ -106,7 +108,7 @@ class Follow_Up
 		return $sql;
 	}
 	//----------------------------------------------------------------------
-	/* !
+	/**
 	 * \brief Display the object, the tags for the FORM
 	 *        are in the caller. It will be used for adding and updating
 	 *        action
@@ -114,7 +116,7 @@ class Follow_Up
 	 *        it is a new document
 	 *
 	 * \param $p_view if set to true the form will be in readonly mode (value: true or false)
-	 * \param $p_gen true we show the tag for generating a doc (value : true or false)
+	 * \param $p_gen true we show the tag for generating a doc (value : true or false) and adding files
 	 * \param $p_base is the ac parameter
 	 * \param $retour is the html code for the return button
 	 * \note  update the reference number or the document type is not allowed
@@ -177,7 +179,7 @@ class Follow_Up
 			$desc->width = 120;
 			$desc->heigh = 40;
 		}
-		$acomment = $this->db->get_array("SELECT agc_id, ag_id, to_char(agc_date,'DD.MM.YYYY') as str_agc_date, agc_comment, tech_user
+		$acomment = $this->db->get_array("SELECT agc_id, ag_id, to_char(agc_date,'DD.MM.YYYY HH24:MI') as str_agc_date, agc_comment, tech_user
 				 FROM action_gestion_comment where ag_id=$1 order by agc_id;", array($this->ag_id)
 		);
 
@@ -414,7 +416,7 @@ class Follow_Up
 		/* TVA */
 		$itva = new ITva_Popup($this->db);
 		$itva->in_table = true;
-
+		$aCard=array();
 		/* create aArticle for the detail section */
 		for ($i = 0; $i < MAX_ARTICLE; $i++)
 		{
@@ -428,6 +430,7 @@ class Follow_Up
 			$tmp_ad = (isset($this->aAction_detail[$i])) ? $this->aAction_detail[$i] : false;
 			$icard->readOnly=$readonly;
 			$icard->value = '';
+			$aCard[$i]=0;
 			if ($tmp_ad)
 			{
 				$march = new Fiche($this->db);
@@ -436,6 +439,7 @@ class Follow_Up
 				{
 					$march->id = $f;
 					$icard->value = $march->get_quick_code();
+					$aCard[$i]=$f;
 				}
 			}
 			$icard->set_dblclick("fill_ipopcard(this);");
@@ -451,6 +455,7 @@ class Follow_Up
 
 			$text->javascript = ' onchange="clean_tva(' . $i . ');compute_ledger(' . $i . ')"';
 			$text->name = "e_march" . $i . "_label";
+			$text->id = "e_march" . $i . "_label";
 			$text->size = 40;
 			$text->value = ($tmp_ad) ? $tmp_ad->get_parameter('text') : "";
 			$text->readOnly=$readonly;
@@ -458,17 +463,20 @@ class Follow_Up
 
 			$num->javascript = ' onchange="format_number(this);clean_tva(' . $i . ');compute_ledger(' . $i . ')"';
 			$num->name = "e_march" . $i . "_price";
+			$num->id = "e_march" . $i . "_price";
 			$num->size = 8;
 			$num->readOnly=$readonly;
 			$num->value = ($tmp_ad) ? $tmp_ad->get_parameter('price_unit') : 0;
 			$aArticle[$i]['pu'] = $num->input();
 
 			$num->name = "e_quant" . $i;
+			$num->id = "e_quant" . $i;
 			$num->size = 8;
 			$num->value = ($tmp_ad) ? $tmp_ad->get_parameter('quantity') : 0;
 			$aArticle[$i]['quant'] = $num->input();
 
 			$itva->name = 'e_march' . $i . '_tva_id';
+			$itva->id = 'e_march' . $i . '_tva_id';
 			$itva->value = ($tmp_ad) ? $tmp_ad->get_parameter('tva_id') : 0;
 			$itva->readOnly=$readonly;
 			$itva->js = ' onchange="format_number(this);clean_tva(' . $i . ');compute_ledger(' . $i . ')"';
@@ -477,12 +485,14 @@ class Follow_Up
 			$aArticle[$i]['tvaid'] = $itva->input();
 
 			$num->name = "e_march" . $i . "_tva_amount";
+			$num->id = "e_march" . $i . "_tva_amount";
 			$num->value = ($tmp_ad) ? $tmp_ad->get_parameter('tva_amount') : 0;
 			$num->javascript = " onchange=\"compute_ledger(' . $i . ')\"";
 			$num->size = 8;
 			$aArticle[$i]['tva'] = $num->input();
 
 			$num->name = "tvac_march" . $i;
+			$num->id = "tvac_march" . $i;
 			$num->value = ($tmp_ad) ? $tmp_ad->get_parameter('total') : 0;
 			$num->size = 8;
 			$aArticle[$i]['tvac'] = $num->input();
@@ -498,7 +508,7 @@ class Follow_Up
 		/* add the number of item */
 		$Hid = new IHidden();
 		$r.=$Hid->input("nb_item", MAX_ARTICLE);
-		$r.=HtmlInput::request_to_hidden(array("remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate"));
+		$r.=HtmlInput::request_to_hidden(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate"));
 		/* get template */
 		ob_start();
 		require_once 'template/detail-action.php';
@@ -518,7 +528,7 @@ class Follow_Up
 	}
 
 	//----------------------------------------------------------------------
-	/* !\brief This function shows the detail of an action thanks the ag_id
+	/**\brief This function shows the detail of an action thanks the ag_id
 	 */
 	function get()
 	{
@@ -565,7 +575,7 @@ class Follow_Up
 		$this->qcode_dest = $aexp->strAttribut(ATTR_DEF_QUICKCODE);
 	}
 
-	/* !
+	/**
 	 * \brief Save the document and propose to save the generated document or
 	 *  to upload one, the data are included except the file. Temporary the generated
 	 * document is save
@@ -656,7 +666,7 @@ class Follow_Up
 		$this->insert_action();
 	}
 
-	/* ! myList($p_filter="")
+	/** myList($p_filter="")
 	 * \brief Show list of action by default if sorted on date
 	 * \param $p_base base url with ac...
 	 * \param $p_filter filters on the document_type
@@ -667,7 +677,7 @@ class Follow_Up
 	function myList($p_base, $p_filter = "", $p_search = "")
 	{
 		// for the sort
-		$url = HtmlInput::get_to_string(array("remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate")) . '&' . $p_base;
+		$url = HtmlInput::get_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate")) . '&' . $p_base;
 
 		$table = new Sort_Table();
 		$table->add('Date', $url, 'order by ag_timestamp asc', 'order by ag_timestamp desc', 'da', 'dd');
@@ -741,7 +751,7 @@ class Follow_Up
 		//show the sub_action
 		foreach ($a_row as $row)
 		{
-			$href = '<A class="document" HREF="do.php?'  . $p_base .HtmlInput::get_to_string(array("remind_date_end","remind_date","sag_ref","only_internal","state","gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate", "ac"),"&") . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
+			$href = '<A class="document" HREF="do.php?'  . $p_base .HtmlInput::get_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate", "ac"),"&") . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
 			$i++;
 			$tr = ($i % 2 == 0) ? 'even' : 'odd';
 			if ($row['ag_priority'] < 2)
@@ -751,9 +761,9 @@ class Follow_Up
 				$st = ' style="font-weight:bold; border:2px solid orange;"';
 			$date_remind = format_date($row['my_remind'], 'DD.MM.YYYY', 'YYYYMMDD');
 			$date_today = date('Ymd');
-			if ($date_remind != "" && $date_remind == $date_today)
+			if ($date_remind != "" && $date_remind == $date_today && $row['ag_state']!=1 && $row['ag_state']!=3)
 				$st = ' style="font-weight:bold;background:orange"';
-			if ($date_remind != "" && $date_remind < $date_today)
+			if ($date_remind != "" && $date_remind < $date_today && $row['ag_state']!=1 && $row['ag_state']!=3)
 				$st = ' style="font-weight:bold;background:#FF0000"';
 			$r.="<tr class=\"$tr\" $st>";
 			$r.="<td>" . $href . smaller_date($row['my_date']) . '</a>' . "</td>";
@@ -817,7 +827,7 @@ class Follow_Up
 	}
 
 	//----------------------------------------------------------------------
-	/* !\brief Update the data into the database
+	/**\brief Update the data into the database
 	 *
 	 * \return true on success otherwise false
 	 */
@@ -846,6 +856,22 @@ class Follow_Up
 		$contact = new Fiche($this->db);
 		if ($contact->get_by_qcode($this->ag_contact) == -1)
 			$contact->id = 0;
+
+		// reload the old one
+		$old=new Follow_Up($this->db);
+		$old->ag_id=$this->ag_id;
+		$old->get();
+
+		// If ag_ref changed then check if unique
+		if ($old->ag_ref != $this->ag_ref)
+		{
+			$nAg_ref=$this->db->get_value("select count(*) from action_gestion where ag_ref=$1",array($this->ag_ref));
+			if ($nAg_ref != 0 )
+			{
+				echo h2("Référence en double, référence non sauvée",'class="error"');
+				$this->ag_ref=$old->ag_ref;
+			}
+		}
 
 
 		if ($this->ag_remind_date != null)
@@ -930,7 +956,7 @@ class Follow_Up
 		return true;
 	}
 
-	/* !\brief generate the document and add it to the action
+	/**\brief generate the document and add it to the action
 	 * \param md_id is the id of the document_modele
 	 * \param $p_array contains normally the $_POST
 	 */
@@ -946,7 +972,7 @@ class Follow_Up
 		$doc->Generate($p_array);
 	}
 
-	/* !\brief put an array in the variable member, the indice
+	/**\brief put an array in the variable member, the indice
 	 * is the member name
 	 * \param $p_array to parse
 	 * \return nothing
@@ -976,7 +1002,7 @@ class Follow_Up
 		$this->action = (isset($p_array['action'])) ? $p_array['action'] : null;
 	}
 
-	/* !\brief remove the action
+	/**\brief remove the action
 	 *
 	 */
 
@@ -1000,7 +1026,7 @@ class Follow_Up
 		}
 	}
 
-	/* !\brief return the last p_limit operation into an array
+	/**\brief return the last p_limit operation into an array
 	 * \param $p_limit is the max of operation to return
 	 * \return $p_array of Follow_Up object
 	 */
@@ -1019,10 +1045,10 @@ class Follow_Up
          */
 	function get_today()
 	{
-		$sql = "select coalesce(vw_name,'Interne') as vw_name,ag_id,ag_title,ag_ref, dt_value,to_char(ag_timestamp,'DD.MM.YYYY') as ag_timestamp_fmt,ag_timestamp " .
+		$sql = "select ag_ref,coalesce(vw_name,'Interne') as vw_name,ag_id,ag_title,ag_ref, dt_value,to_char(ag_remind_date,'DD.MM.YYYY') as ag_timestamp_fmt,ag_timestamp " .
 				" from action_gestion join document_type " .
 				" on (ag_type=dt_id) left join vw_fiche_attr on (f_id=f_id_dest) where ag_state not in (1,4)
-				and to_char(ag_remind_date,'DDMMYYYY')=to_char(now(),'DDMMYYYY') ";
+					and to_char(ag_remind_date,'DDMMYYYY')=to_char(now(),'DDMMYYYY') ";
 		$array = $this->db->get_array($sql);
 		return $array;
 	}
@@ -1032,10 +1058,10 @@ class Follow_Up
          */
 	function get_late()
 	{
-		$sql = "select coalesce(vw_name,'Interne') as vw_name,ag_id,ag_title,ag_ref, dt_value,to_char(ag_timestamp,'DD.MM.YYYY') as ag_timestamp_fmt,ag_timestamp " .
+		$sql = "select ag_ref,coalesce(vw_name,'Interne') as vw_name,ag_id,ag_title,ag_ref, dt_value,to_char(ag_remind_date,'DD.MM.YYYY') as ag_timestamp_fmt,ag_timestamp " .
 				" from action_gestion join document_type " .
 				" on (ag_type=dt_id) left join vw_fiche_attr on (f_id=f_id_dest) where ag_state not in  (1,4)
-				and ag_remind_date > trunc (now()) ";
+				and ag_remind_date < now() ";
 		$array = $this->db->get_array($sql);
 		return $array;
 	}
@@ -1141,6 +1167,11 @@ class Follow_Up
 		$end = new IDate('date_end');
 		$end->value = (isset($_GET['date_end'])) ? $_GET['date_end'] : "";
 
+		// Closed action
+		$closed_action=new ICheckBox('closed_action');
+		$closed_action->selected=(isset($_GET['closed_action']))?true:false;
+
+		// Internal
 		$only_internal= new ICheckBox('only_internal');
 		$only_internal->selected = (isset($_GET['only_internal'])) ? true : false;
 		// select profile
@@ -1173,7 +1204,7 @@ class Follow_Up
 		Follow_Up::display_search($cn);
 
 		$act = new Follow_Up($cn);
-		/* ! \brief
+		/** \brief
 		 *  \note The field 'recherche' is   about a part of the title or a ref. number
 		 */
 		$query = Follow_Up::create_query($cn);
@@ -1199,7 +1230,7 @@ class Follow_Up
 		$query = "";
 
 
-                if (isset($_REQUEST['query']))
+        if (isset($_REQUEST['query']))
 		{
 			// if a query is request build the sql stmt
 			$query = "and (ag_title ~* '" . sql_string($_REQUEST['query']) . "' " .
@@ -1254,12 +1285,13 @@ class Follow_Up
 		}
 		if (isset($ag_dest_query) && $ag_dest_query != -2 )
 		{
-                    $query.= " and ag_dest = " . sql_string($ag_dest_query);
+                    $query.= " and ((ag_dest = " . sql_string($ag_dest_query)." and ".self::sql_security_filter($cn, "R").") or ".
+				" ag_owner='" . $_SESSION['g_user'] . "')";
 		}
-                else
-                {
-                    $query .=" and (ag_owner='" . $_SESSION['g_user'] . "' or ".self::sql_security_filter($cn, "R")." or ag_dest=-1 )";
-                }
+		else
+		{
+			$query .=" and (ag_owner='" . $_SESSION['g_user'] . "' or ".self::sql_security_filter($cn, "R")." or ag_dest=-1 )";
+		}
 
 
 		if (isNumber($ag_id) == 1 && $ag_id != 0)
@@ -1273,6 +1305,9 @@ class Follow_Up
 		if ( isset($remind_date_end) && $remind_date_end != "" && isDate($remind_date_end)==$remind_date_end)
 		{
 			$query .= " and to_date('".sql_string($remind_date_end)."','DD.MM.YYYY')>= ag_remind_date";
+		}
+		if ( ! isset ($closed_action)) {
+			$query.=" and s_status is null ";
 		}
 		return $query . $str;
 	}
@@ -1292,6 +1327,7 @@ class Follow_Up
 				(select ad_value from fiche_Detail where f_id=action_gestion.f_id_dest and ad_id=1) as name
              from action_gestion
              join document_type on (ag_type=dt_id)
+			 join document_state on (s_id=ag_state)
              where $p_sql";
 		$max_line = $cn->count_sql($sql);
 
@@ -1342,6 +1378,7 @@ class Follow_Up
 			coalesce((select p_name from profile where p_id=ag_dest),'Aucun groupe') as dest
              from action_gestion
              join document_type on (ag_type=dt_id)
+			 join document_state on(ag_state=s_id)
              where  true  $p_search order by ag_timestamp,ag_id";
 		$ret=$this->db->exec_sql($sql);
 
@@ -1360,5 +1397,16 @@ class Follow_Up
 				)
 			);
 	}
-
+	static function get_all_operation($p_jr_id)
+	{
+		global $cn;
+		$array=$cn->get_array("
+			select ag_id,ag_ref,
+				ag_title
+				from action_gestion
+				join action_gestion_operation using(ag_id)
+				where
+				jr_id=$1",array($p_jr_id));
+		return $array;
+	}
 }

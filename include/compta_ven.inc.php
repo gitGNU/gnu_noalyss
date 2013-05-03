@@ -251,8 +251,12 @@ global $g_parameter;
     /* if we suggest the pj n# the run the script */
     if ( $g_parameter->MY_PJ_SUGGEST=='Y')
     {
-		if ( ! isset($_POST['e_date'])) echo '<script> update_pj();get_last_date()</script>';
+		echo '<script> update_pj()</script>';
     }
+	if (!isset($_POST['e_date']) && $g_parameter->MY_DATE_SUGGEST=='Y')
+	{
+		echo create_script(" get_last_date()");
+	}
     exit();
 
 

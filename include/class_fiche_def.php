@@ -206,7 +206,7 @@ $order
 			alert (_('Le nom de la catégorie ne peut pas être vide'));
             return 1;
 		}
-        // $p_FICHE_REF cannot be null !!! (== fiche_def_ref.frd_id
+        /**!! (== fiche_def_ref.frd_id
         if (! isset ($p_FICHE_REF) || strlen($p_FICHE_REF) == 0 )
         {
             echo alert (_('Vous devez choisir une categorie'));
@@ -254,15 +254,13 @@ $order
                 $sql="select account_add($1,$2)";
                 $Res=$this->cn->exec_sql($sql,array($p_class_base,$p_nom_mod));
             }
+			// Get the fd_id
+			$fd_id=$this->cn->get_current_seq('s_fdef');
 
-            // Get the fd_id
-            $fd_id=$this->cn->get_current_seq('s_fdef');
-
-            // update jnt_fic_attr
-            $sql=sprintf("insert into jnt_fic_attr(fd_id,ad_id,jnt_order)
-                         values (%d,%d,10)",$fd_id,ATTR_DEF_ACCOUNT);
-            $Res=$this->cn->exec_sql($sql);
-
+			// update jnt_fic_attr
+			$sql=sprintf("insert into jnt_fic_attr(fd_id,ad_id,jnt_order)
+					 values (%d,%d,10)",$fd_id,ATTR_DEF_ACCOUNT);
+			$Res=$this->cn->exec_sql($sql);
         }
         else
         {
@@ -291,11 +289,15 @@ $order
 				$order=$jnt_order;
                 if ( $v['ad_id'] == ATTR_DEF_NAME )
                     $order=0;
-                $sql=sprintf("insert into jnt_fic_Attr(fd_id,ad_id,jnt_order)
+				$count=$this->cn->get_value("select count(*) from jnt_fic_attr where fd_id=$1 and ad_id=$2",array($fd_id,$v['ad_id']));
+				if ($count == 0)
+				{
+					$sql=sprintf("insert into jnt_fic_Attr(fd_id,ad_id,jnt_order)
                              values (%d,%s,%d)",
                              $fd_id,$v['ad_id'],$order);
-                $this->cn->exec_sql($sql);
-				$jnt_order+=10;
+					$this->cn->exec_sql($sql);
+					$jnt_order+=10;
+				}
             }
         }
         $this->id=$fd_id;

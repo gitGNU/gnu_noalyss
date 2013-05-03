@@ -21,7 +21,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file
+/**\file
  * \brief file included to manage all the sold operation
  */
 require_once("class_icheckbox.php");
@@ -29,7 +29,7 @@ require_once("class_acc_ledger_purchase.php");
 require_once ('class_pre_op_ach.php');
 require_once('class_ipopup.php');
 $gDossier = dossier::id();
-
+global $g_parameter;
 $cn = new Database(dossier::id());
 //menu = show a list of ledger
 $str_dossier = dossier::get();
@@ -62,7 +62,7 @@ if (isset($_POST['view_invoice']))
 		echo '<div class="content">';
 		echo h2info('Confirmation');
 
-		echo '<form enctype="multipart/form-data" method="post">';
+		echo '<form enctype="multipart/form-data" method="post" class="print">';
 		echo dossier::hidden();
 
 		echo $Ledger->confirm($_POST);
@@ -232,7 +232,7 @@ echo HtmlInput::reset(_('Effacer '));
 echo '</div>';
 echo "</FORM>";
 
-if (!isset($_POST['e_date']))
+if (!isset($_POST['e_date']) && $g_parameter->MY_DATE_SUGGEST=='Y')
 	echo create_script(" get_last_date()");
 
 echo '</div>';

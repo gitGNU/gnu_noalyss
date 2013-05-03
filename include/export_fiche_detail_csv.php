@@ -74,7 +74,7 @@ if ( ! isset ($_REQUEST['oper_detail']))
 	  nb($op['deb_montant']).";".
 	  nb($op['cred_montant']).";".
 	  nb(abs($progress)).';'.
-	  '"'.(($op['letter']==-1)?'':$op['letter']).'"';
+	  '"'.(($op['letter']==-1)?'':strtoupper(base_convert($op['letter'],10,36))).'"';
         printf("\n");
 
     }

@@ -3,7 +3,6 @@ require_once ('class_acc_operation.php');
 require_once ('class_acc_reconciliation.php');
 
 $gDossier=dossier::id();
-
 if ( count($this->content) == 0 ) :
 ?>
   <h2 class="info2"><?=_('Désolé aucun résultat trouvé')?></h2>
@@ -27,14 +26,14 @@ if ( count($this->content) == 0 ) :
 <th>
    <?=_('Description')?>
 </th>
-<th>
-   <?=_('Montant')?>
+<th style="text-align:right">
+   <?=_('Débit')?>
 </th>
-<th>
-   <?=_('Debit / Credit')?>
+<th style="text-align:right">
+   <?=_('Crédit')?>
 </th>
-<th>
-  <?=_('Op. concerné')?>
+<th style="text-align:center">
+  <?=_('Op. concernée')?>
 </th>
 </tr>
 
@@ -67,14 +66,14 @@ if ($linked_limit != 0 && $i==$linked_limit)
 <th>
    <?=_('Description')?>
 </th>
-<th>
-   <?=_('Montant')?>
+<th style="text-align:right">
+   <?=_('Débit')?>
 </th>
-<th>
-   <?=_('Debit / Credit')?>
+<th style="text-align:right">
+   <?=_('Crédit')?>
 </th>
-<th>
-  <?=_('Op. concerné')?>
+<th style="text-align:center">
+  <?=_('Op. concernée')?>
 </th>
 </tr>
 <?
@@ -98,7 +97,7 @@ echo HtmlInput::hidden('letter_j_id[]',$this->content[$i]['j_id']);
 </td>
 <td>
 <?php
-$letter=($this->content[$i]['letter']< 0)?" ":$this->content[$i]['letter'];
+$letter=($this->content[$i]['letter']< 0)?" ":strtoupper(base_convert($this->content[$i]['letter'],10,36));
 ?>
 <?=$letter?>
 </td>
@@ -109,9 +108,14 @@ $r=sprintf('<A class="detail" style="text-decoration:underline"  HREF="javascrip
 ?>
 <td> <?=$r?> </td>
 <td> <?=$this->content[$i]['jr_comment']?> </td>
-  <td> <?=nb($this->content[$i]['j_montant'])?> </td>
-<td> <?=($this->content[$i]['j_debit']=='t')?'D':'C'?> </td>
-<td>
+ <? if ($this->content[$i]['j_debit']=='t') : ?>
+  <td style="text-align:right"> <?=nb($this->content[$i]['j_montant'])?> </td>
+  <td></td>
+  <? else : ?>
+  <td></td>
+  <td style="text-align:right"> <?=nb($this->content[$i]['j_montant'])?> </td>
+  <? endif ?>
+<td style="text-align:center">
 <?php
     // Rapprochement
     $rec=new Acc_Reconciliation($this->db);

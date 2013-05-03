@@ -195,22 +195,32 @@ if ( $sa == 'list' )
             echo "<TR $cl><TD style=\"vertical-align:top\"> ".
 	      $Dossier['dos_id']."</td><td> <B>".h($Dossier['dos_name'])."</B> </TD>";
 	    $str_name=domaine.'dossier'.$Dossier['dos_id'];
-	    $size=$repocn->get_value("select pg_database_size($1)/(1024*1024)::float",
-				 array($str_name));
-	    echo "<TD><I>  ".h($Dossier['dos_description'])."</I></td>";
-	    echo td(nbm($size)."MB",' style="text-align:right"');
 
+	    echo "<TD><I>  ".h($Dossier['dos_description'])."</I></td>";
+
+            $database_exist=$repocn->exist_database($str_name);
+
+            if ($database_exist > 0 )
+            {
+                $size=$repocn->get_value("select pg_database_size($1)/(1024*1024)::float",
+                                     array($str_name));
+                echo td(nbm($size)."MB",' style="text-align:right"');
+            } else {
+                echo td(_("Dossier inexistant"),'style="color:red"');
+            }
 	    echo td($str_name);
             echo "<TD>";
-            echo td(HtmlInput::button_anchor(_('Effacer'),'?action=dossier_mgt&sa=del&d='.$Dossier['dos_id']));
+            if ( $database_exist > 0)
+            {
+                echo td(HtmlInput::button_anchor(_('Effacer'),'?action=dossier_mgt&sa=del&d='.$Dossier['dos_id']));
 
-	    echo td(HtmlInput::button_anchor(_('Modifier'),'?action=dossier_mgt&sa=mod&d='
-					     .$Dossier['dos_id']));
+                echo td(HtmlInput::button_anchor(_('Modifier'),'?action=dossier_mgt&sa=mod&d='
+                                                 .$Dossier['dos_id']));
 
-	    echo td(HtmlInput::button_anchor(_('Backup'),'backup.php?action=backup&sa=b&t=d&d='
-					  .$Dossier['dos_id']));
-	    echo '</td>';
-
+                echo td(HtmlInput::button_anchor(_('Backup'),'backup.php?action=backup&sa=b&t=d&d='
+                                              .$Dossier['dos_id']));
+                echo '</td>';
+            }
             echo '<tr>';
             $compteur++;
 

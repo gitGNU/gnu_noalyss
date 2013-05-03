@@ -26,16 +26,16 @@
  */
 
 /*!
- * \brief 
+ * \brief
 */
 require_once('class_html_input.php');
 require_once('function_javascript.php');
 
 class IAncCard extends HtmlInput
 {
-    function __construct($name="",$value="")
+    function __construct($name="",$value="",$p_id="")
     {
-        parent::__construct($name,$value);
+        parent::__construct($name,$value,$p_id);
         $this->fct='update_value';
         $this->dblclick='';
         $this->callback='null';
@@ -63,7 +63,7 @@ class IAncCard extends HtmlInput
     {
         $this->fct=$p_name;
     }
-   
+
     /*!\brief set the extra javascript property for a double click on
      *  INPUT field
      *\param $p_action action when a double click happens
@@ -82,8 +82,9 @@ class IAncCard extends HtmlInput
         $this->value=($p_value==null)?$this->value:$p_value;
         if ( $this->readOnly==true) return $this->display();
 
+        $this->id=($this->id=="")?$this->name:$this->id;
 
-       
+
 
         $label='';
         if ( $this->dblclick != '')
@@ -106,7 +107,7 @@ class IAncCard extends HtmlInput
         $div=sprintf('<div id="%s_choices"  class="autocomplete"></div>',
                      $this->name);
         $query="op=autoanc&".dossier::get();
-        
+
         // add parameter to search into a plan (pa_id) or get the value from
         // a HtmlObject
         if ($this->plan <> 0)
@@ -138,7 +139,7 @@ class IAncCard extends HtmlInput
     /*!\brief print in html the readonly value of the widget*/
     public function display()
     {
-        $r=sprintf('         
+        $r=sprintf('
                     <INPUT TYPE="hidden" NAME="%s" VALUE="%s" SIZE="8">',
                    $this->name,
                    $this->value
@@ -195,6 +196,6 @@ class IAncCard extends HtmlInput
 
     static public function test_me()
     {
-      
+
     }
 }

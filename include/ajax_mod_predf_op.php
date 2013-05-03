@@ -21,7 +21,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file
+/**\file
  * \brief display a form to change the name of a predefined operation
  */
 ob_start();
@@ -41,7 +41,7 @@ echo '</form>';
 
 
 $html = ob_get_contents();
-ob_clean();
+ob_end_clean();
 $html = escape_xml($html);
 
 header('Content-type: text/xml; charset=UTF-8');

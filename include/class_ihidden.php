@@ -21,7 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file
- * \brief Html Input 
+ * \brief Html Input
  */
 require_once('class_html_input.php');
 class IHidden extends HtmlInput
@@ -31,7 +31,9 @@ class IHidden extends HtmlInput
     {
         $this->name=($p_name==null)?$this->name:$p_name;
         $this->value=($p_value==null)?$this->value:$p_value;
-        $r='<INPUT TYPE="HIDDEN" id="'.$this->name.'" name="'.$this->name.'" value="'.$this->value.'">';
+		$this->id=($this->id=="")?$this->name:$this->id;
+
+        $r='<INPUT TYPE="HIDDEN" id="'.$this->id.'" name="'.$this->name.'" value="'.$this->value.'">';
         return $r;
 
     }

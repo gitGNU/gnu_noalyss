@@ -1,4 +1,4 @@
-<?php
+ <?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -275,13 +275,12 @@ class  Acc_Ledger_Sold extends Acc_Ledger
             $tot_tva=0;
             $tot_debit=0;
             $this->db->start();
+			$tva=array();
             /* Save all the items without vat */
             for ($i=0;$i< $nb_item;$i++)
             {
 				$n_both=0;
                 if ( strlen(trim(${'e_march'.$i})) == 0 ) continue;
-                if ( ${'e_march'.$i.'_price'} == 0 ) continue;
-                if ( ${'e_quant'.$i} == 0 ) continue;
 
                 /* First we save all the items without vat */
                 $fiche=new Fiche($this->db);
@@ -325,8 +324,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                     $oTva=new Acc_Tva($this->db);
                     $idx_tva=${'e_march'.$i.'_tva_id'};
                     $tva_item=${'e_march'.$i.'_tva_amount'};
-		    $oTva->set_parameter("id",$idx_tva);
-		    $oTva->load();
+					$oTva->set_parameter("id",$idx_tva);
+					$oTva->load();
                     /* if empty then we need to compute it */
                     if (trim($tva_item)=='')
                     {
@@ -339,18 +338,19 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                         $tva[$idx_tva]+=$tva_item;
                     else
                         $tva[$idx_tva]=$tva_item;
-                    if ($oTva->get_parameter("both_side")==0) $tot_tva=round(bcadd($tva_item,$tot_tva),2);
-                    else $n_both=$tva_item;
+                    if ($oTva->get_parameter("both_side")==0) {
+						$tot_tva=round(bcadd($tva_item,$tot_tva),2);
+					}else {
+							$n_both=$tva_item;
+							if ( $n_both < 0 ) $tot_debit=bcadd($tot_debit,abs($n_both));
+					}
                 }
 
                 /* Save the stock */
                 /* if the quantity is < 0 then the stock increase (return of
                  *  material)
                  */
-                $nNeg=($
-                       {"e_quant".$i
-                       }
-                       <0)?-1:1;
+                $nNeg=(${"e_quant".$i}<0)?-1:1;
 
                 // always save quantity but in withStock we can find
                 // what card need a stock management
@@ -478,7 +478,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 
             $this->pj=$acc_operation->set_pj();
 
-            /* if e_suggest != e_pj then do not increment sequence */
+            /**= e_pj then do not increment sequence */
             /* and e_pj is not null */
             if ( strcmp($e_pj,$e_pj_suggest) == 0 && strlen( trim($e_pj)) != 0 )
             {
@@ -566,8 +566,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                 $let_other=$acc_pay->insert_jrnx();
 
                 /* insert into jrn */
-				$acjrn->desc=$e_comm;
+				$acc_pay->mt=$mt;
                 $acjrn->grpt_id=$acseq;
+				$acc_pay->desc=(!isset($e_comm_paiement) || strlen(trim($e_comm_paiement)) == 0) ?$e_comm:$e_comm_paiement;
                 $mp_jr_id=$acc_pay->insert_jrn();
                 $acjrn->update_internal_code($acinternal);
 
@@ -664,7 +665,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         $r.="<fieldset>";
         $r.="<legend>"._('En-tête facture client')."  </legend>";
 		$r.='<div id="jrn_name_div">';
-		$r.='<h2 id="jrn_name" style="display:inline">' . $this->get_name() . '</h2>';
+		$r.='<h2 class="title"  id="jrn_name" style="display:inline">' . $this->get_name() . '</h2>';
 		$r.= '</div>';
         $r.='<TABLE  width="100%">';
         $r.='<tr>';
@@ -906,6 +907,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         {
             $r.=HtmlInput::hidden('e_mp_qcode_'.$e_mp,${'e_mp_qcode_'.$e_mp});
             $r.=HtmlInput::hidden('acompte',$acompte);
+			$r.=HtmlInput::hidden('e_comm_paiement',$e_comm_paiement);
             /* needed for generating a invoice */
             $r.=HtmlInput::hidden('qcode_benef',${'e_mp_qcode_'.$e_mp});
 
@@ -913,7 +915,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 			$fname->get_by_qcode(${'e_mp_qcode_'.$e_mp});
 			$r.="<div style=\"clear:both\"></div>";
 			$r.='<div style="float:left"><h2 class="info">'."Payé par ".${'e_mp_qcode_'.$e_mp}.
-				   " ".$fname->getName().'</H2> '._('Déduction acompte ').h($acompte).'</div>';
+				   " ".$fname->getName().'</H2> '.'<p>'._('Déduction acompte ').h($acompte).'</p>'.
+					_('Libellé :' ).h($e_comm_paiement).'</div>';
             $r.='<br>';
         }
 
@@ -1104,7 +1107,10 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         {
             $add_js="update_pj();";
         }
-        $add_js.='get_last_date();';
+		if ($g_parameter->MY_DATE_SUGGEST == 'Y')
+		{
+			$add_js.='get_last_date();';
+		}
 		$add_js.='update_name();';
 		$add_js.='update_pay_method()';
 
@@ -1336,7 +1342,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         ob_start();
         require_once('template/form_ledger_detail.php');
         $r.=ob_get_contents();
-        ob_clean();
+        ob_end_clean();
 
 
 

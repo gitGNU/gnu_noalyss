@@ -127,7 +127,8 @@ class Acc_Account_Ledger
 	if ( $solded == 1)
 	  {
 	    $filter=str_replace('jrn_def_id','jr_def_id',$filter_sql);
-	    $bal_sql="select sum(amount_deb) as s_deb,sum(amount_cred) as s_cred, j_poste from 						(select case when j_debit='t' then j_montant else 0 end as amount_deb,
+	    $bal_sql="select sum(amount_deb) as s_deb,sum(amount_cred) as s_cred, j_poste
+				from 						(select case when j_debit='t' then j_montant else 0 end as amount_deb,
 								case when j_debit='f' then j_montant else 0 end as amount_cred,
 								j_poste
 								from jrnx join jrn on (j_grpt = jr_grpt_id)
@@ -354,7 +355,7 @@ class Acc_Account_Ledger
             $vw_operation=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s</A>',
                                   $op['jr_id'], dossier::id(), $op['jr_internal']);
             $let='';
-            if ( $op['letter'] !=-1) $let=$op['letter'];
+            if ( $op['letter'] !=-1) $let=  strtoupper (base_convert ( $op['letter'],10,36));
 	    $tmp_diff=bcsub($op['deb_montant'],$op['cred_montant']);
 
 	    /*

@@ -97,8 +97,10 @@
 </td>
 </tr>
 </table>
-
-<fieldset><legend><?=_('Détail')?></legend>
+<div class="myfieldset">
+	<h1 class="legend">
+<?=_('Détail')?>
+	</h1>
 <table class="result">
 <?
   bcscale(2);
@@ -152,7 +154,8 @@ echo '</tr>';
 
     $row.=td($input->input().$hidden);
     $sym_tva='';
-	$pu=bcdiv($q['qs_price'],$q['qs_quantite']);
+	$pu=0;
+	if ($q['qs_quantite'] != 0)	$pu=bcdiv($q['qs_price'],$q['qs_quantite']);
     $row.=td(nbm($pu),'class="num"');
     $row.=td(nbm($q['qs_quantite']),'class="num"');
 	$sym_tva='';
@@ -172,8 +175,13 @@ echo '</tr>';
     $tvac=bcadd($htva,$q['qs_vat']);
     if ($owner->MY_TVA_USE=='Y')
       {
-	$row.=td(nbm($q['qs_vat']),'class="num"');
-	$row.=td(nbm($tvac),'class="num"');
+		$class="";
+		if ($q['qs_vat_sided'] != 0) {
+			$class=' style="text-decoration:line-through"';
+			$tvac=bcsub($tvac,$q['qs_vat']);
+		}
+		$row.=td(nbm($q['qs_vat']),'class="num"'.$class);
+		$row.=td(nbm($tvac),'class="num"');
       }
     $total_tvac=bcadd($total_tvac,$tvac);
     $total_htva=bcadd($total_htva,$htva);
@@ -212,13 +220,12 @@ echo tr($row);
 </td>
 </tr>
 </table>
-
-</fieldset>
-<fieldset>
-<legend>
+</div>
+<div class="myfieldset">
+	<h1 class="legend">
 <?=_('Ecritures comptables')?>
-</legend>
-<?
+	</h1>
+	<?
   /* if it is not in a popup, the details are hidden */
   if ( $div != 'popup') {
     $ib=new IButton ("a".$div);
@@ -281,7 +288,7 @@ echo '</tr>';
 ?>
 </table>
 </div>
-</fieldset>
+</div>
 <?
 require_once('ledger_detail_bottom.php');
 ?>

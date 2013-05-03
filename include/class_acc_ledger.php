@@ -44,24 +44,24 @@ require_once('class_lettering.php');
 require_once 'class_sort_table.php';
 require_once 'class_jrn_def_sql.php';
 require_once 'class_acc_payment.php';
-/* !\file
- * \brief Class for jrn,  class acc_ledger for manipulating the ledger
+/** \file
+ * @brief Class for jrn,  class acc_ledger for manipulating the ledger
  */
 
-/* !\brief Class for jrn,  class acc_ledger for manipulating the ledger
+/** @brief Class for jrn,  class acc_ledger for manipulating the ledger
  *
  */
 
 class Acc_Ledger extends jrn_def_sql
 {
 
-	var $id;   /* !< jrn_def.jrn_def_id */
-	var $name;   /* !< jrn_def.jrn_def_name */
-	var $db;   /* !< database connextion */
-	var $row;   /* !< row of the ledger */
-	var $type;   /* !< type of the ledger ACH ODS FIN
+	var $id;   /**< jrn_def.jrn_def_id */
+	var $name;   /**< jrn_def.jrn_def_name */
+	var $db;   /**< database connextion */
+	var $row;   /**< row of the ledger */
+	var $type;   /**< type of the ledger ACH ODS FIN
 	  VEN or GL */
-	var $nb;   /* !< default number of rows by
+	var $nb;   /**< default number of rows by
 	  default 10 */
 
 	/**
@@ -84,7 +84,7 @@ class Acc_Ledger extends jrn_def_sql
 		{
 			$ret = $this->db->get_array("select last_value,is_called from s_jrn_pj" . $this->id);
 			$last = $ret[0]['last_value'];
-			/* !
+			/**
 			 * \note  With PSQL sequence , the last_value column is 1 when before   AND after the first call, to make the difference between them
 			 * I have to check whether the sequence has been already called or not */
 			if ($ret[0]['is_called'] == 'f')
@@ -96,8 +96,8 @@ class Acc_Ledger extends jrn_def_sql
 		return 0;
 	}
 
-	/* !
-	 * \brief Return the type of a ledger (ACH,VEN,ODS or FIN) or GL
+	/**
+	 * @brief Return the type of a ledger (ACH,VEN,ODS or FIN) or GL
 	 *
 	 */
 
@@ -331,8 +331,8 @@ class Acc_Ledger extends jrn_def_sql
 		}
 	}
 
-	/* !
-	 * \brief Return the name of a ledger
+	/**
+	 * @brief Return the name of a ledger
 	 *
 	 */
 
@@ -354,14 +354,14 @@ class Acc_Ledger extends jrn_def_sql
 		return $ret['jrn_def_name'];
 	}
 
-	/* ! \function  get_row
-	 * \brief  Get The data
+	/** \function  get_row
+	 * @brief  Get The data
 	 *
 	 *
-	 * \param p_from from periode
-	 * \param p_to to periode
-	 * \param p_limit starting line
-	 * \param p_offset number of lines
+	 * @paramp_from from periode
+	 * @paramp_to to periode
+	 * @paramp_limit starting line
+	 * @paramp_offset number of lines
 	 * \return Array with the asked data
 	 *
 	 */
@@ -509,13 +509,13 @@ class Acc_Ledger extends jrn_def_sql
 		return $a;
 	}
 
-	/* ! \brief  Get simplified row from ledger
+	/** @brief  Get simplified row from ledger
 	 *
-	 * \param from periode
-	 * \param to periode
-	 * \param p_limit starting line
-	 * \param p_offset number of lines
-	 * \param trunc if data must be truncated (pdf export)
+	 * @paramfrom periode
+	 * @paramto periode
+	 * @paramp_limit starting line
+	 * @paramp_offset number of lines
+	 * @paramtrunc if data must be truncated (pdf export)
 	 *
 	 * \return an Array with the asked data
 	 */
@@ -545,7 +545,7 @@ class Acc_Ledger extends jrn_def_sql
              jrn_def_type,
              jrn.jr_tech_per
              FROM jrn join jrn_def on (jrn_def_id=jr_def_id)
-             WHERE $periode $jrn order by jr_date $cond_limite";
+             WHERE $periode $jrn order by jr_date,substring(jrn.jr_pj_number,'\\\d+$')::numeric asc  $cond_limite";
 
 		$Res = $this->db->exec_sql($sql);
 		$Max = Database::num_row($Res);
@@ -580,7 +580,8 @@ class Acc_Ledger extends jrn_def_sql
 
 // end function get_rowSimple
 
-	/* !\brief guess what  the next pj should be
+	/**
+	 * @brief guess what  the next pj should be
 	 */
 
 	function guess_pj()
@@ -591,10 +592,11 @@ class Acc_Ledger extends jrn_def_sql
 		return $pj_pref . $pj_seq;
 	}
 
-	/* !\brief Show all the operation
-	 * \param $sql is the sql stmt, normally created by build_search_sql
-	 * \param $offset the offset
-	 * \param $p_paid if we want to see info about payment
+	/**
+	 * @brief Show all the operation
+	 * @param$sql is the sql stmt, normally created by build_search_sql
+	 * @param$offset the offset
+	 * @param$p_paid if we want to see info about payment
 	  \code
 	  // Example
 	  // Build the sql
@@ -625,7 +627,7 @@ class Acc_Ledger extends jrn_def_sql
 	{
 		global $g_parameter, $g_user;
 		$gDossier = dossier::id();
-		$limit = " LIMIT 25";
+		$limit = " LIMIT ".MAX_RECONCILE;
 		// Sort
 		// Count
 		$count = $this->db->count_sql($sql);
@@ -716,7 +718,7 @@ class Acc_Ledger extends jrn_def_sql
 			$tmp_jr_comment = h($row['jr_comment']);
 			$r.=$tmp_jr_comment;
 			$r.="</TD>";
-			$r.=td(h($row['n_text']), ' style="font-size:6"');
+			$r.=td(h($row['n_text']), ' style="font-size:90%"');
 			// Amount
 			// If the ledger is financial :
 			// the credit must be negative and written in red
@@ -766,10 +768,11 @@ class Acc_Ledger extends jrn_def_sql
 		return array($count, $r);
 	}
 
-	/* !\brief Show all the operation
-	 * \param $sql is the sql stmt, normally created by build_search_sql
-	 * \param $offset the offset
-	 * \param $p_paid if we want to see info about payment
+	/**
+	 * @brief Show all the operation
+	 * @param$sql is the sql stmt, normally created by build_search_sql
+	 * @param$offset the offset
+	 * @param$p_paid if we want to see info about payment
 	  \code
 	  // Example
 	  // Build the sql
@@ -799,6 +802,7 @@ class Acc_Ledger extends jrn_def_sql
 	public function list_operation($sql, $offset, $p_paid = 0)
 	{
 		global $g_parameter, $g_user;
+		bcscale(2);
 		$table = new Sort_Table();
 		$gDossier = dossier::id();
 		$amount_paid = 0.0;
@@ -910,7 +914,7 @@ class Acc_Ledger extends jrn_def_sql
 			$tmp_jr_comment = h($row['jr_comment']);
 			$r.=$tmp_jr_comment;
 			$r.="</TD>";
-			$r.=td(h($row['n_text']), ' style="font-size:6"');
+			$r.=td(h($row['n_text']), ' style="font-size:90%"');
 			// Amount
 			// If the ledger is financial :
 			// the credit must be negative and written in red
@@ -924,10 +928,19 @@ class Acc_Ledger extends jrn_def_sql
 					$positive = ($positive < 0) ? 1 : 0;
 			}
 			$r.="<TD align=\"right\">";
-
-			$tot = ($positive != 0) ? $tot - $row['jr_montant'] : $tot + $row['jr_montant'];
+			$t_amount=$row['jr_montant'];
+			if ($row['total_invoice'] != null && $row['total_invoice'] != $row['jr_montant'])
+				$t_amount=$row['total_invoice'];
+			$tot = ($positive != 0) ? bcsub($tot , $t_amount ): bcadd($tot , $t_amount);
 			//STAN $positive always == 0
-			$r.=( $positive != 0 ) ? "<font color=\"red\">  - " . nbm($row['jr_montant']) . "</font>" : nbm($row['jr_montant']);
+			if ($row [ 'jrn_def_type']=='FIN')
+			{
+				$r.=( $positive != 0 ) ? "<font color=\"red\">  - " . nbm($t_amount) . "</font>" : nbm($t_amount);
+			}
+			else
+			{
+				$r.=( $t_amount <  0 ) ? "<font color=\"red\">  " . nbm($t_amount) . "</font>" : nbm($t_amount);
+			}
 			$r.="</TD>";
 
 
@@ -943,9 +956,9 @@ class Acc_Ledger extends jrn_def_sql
 				$h->name = "set_jr_id" . $row['jr_id'];
 				$r.='<TD>' . $w->input() . $h->input() . '</TD>';
 				if ($row['jr_rapt'] == 'paid')
-					$amount_paid+=$row['jr_montant'];
+					$amount_paid=bcadd($amount_paid,$t_amount);
 				else
-					$amount_unpaid+=$row['jr_montant'];
+					$amount_unpaid=bcadd($amount_unpaid,$t_amount);
 			}
 
 			// Rapprochement
@@ -1011,8 +1024,8 @@ class Acc_Ledger extends jrn_def_sql
 		return array($count, $r);
 	}
 
-	/* !
-	 * \brief get_detail gives the detail of row
+	/**
+	 * @brief get_detail gives the detail of row
 	 * this array must contains at least the field
 	 *       <ul>
 	 *       <li> montant</li>
@@ -1029,12 +1042,12 @@ class Acc_Ledger extends jrn_def_sql
 	 *          </ul>
 	 *       </ul>
 	 *
-	 * \param p_array the structure is set in get_rowSimple, this array is
+	 * @paramp_array the structure is set in get_rowSimple, this array is
 	 *        modified,
-	 * \param $trunc if the data must be truncated, usefull for pdf export
-	 * \param p_jrn_type is the type of the ledger (ACH or VEN)
-	 * \param $a_TVA TVA Array (default null)
-	 * \param $a_ParmCode Array (default null)
+	 * @param$trunc if the data must be truncated, usefull for pdf export
+	 * @paramp_jrn_type is the type of the ledger (ACH or VEN)
+	 * @param$a_TVA TVA Array (default null)
+	 * @param$a_ParmCode Array (default null)
 	 * \return p_array
 	 */
 
@@ -1193,8 +1206,8 @@ class Acc_Ledger extends jrn_def_sql
 	}
 
 // retrieve data from jrnx
-	/* !
-	 * \brief  Get the properties of a journal
+	/**
+	 * @brief  Get the properties of a journal
 	 *
 	 * \return an array containing properties
 	 *
@@ -1219,9 +1232,9 @@ class Acc_Ledger extends jrn_def_sql
 		return Database::fetch_array($Res, 0);
 	}
 
-	/* ! \function GetDefLine
-	 * \brief Get the number of lines of a journal
-	 * \param $p_cred deb or cred
+	/** \function GetDefLine
+	 * @brief Get the number of lines of a journal
+	 * @param$p_cred deb or cred
 	 *
 	 * \return an integer
 	 */
@@ -1237,9 +1250,10 @@ class Acc_Ledger extends jrn_def_sql
 		return $Res[0]['value'];
 	}
 
-	/* !\brief get the saldo of a ledger for a specific period
-	 * \param $p_from start period
-	 * \param $p_to end period
+	/**
+	 * @brief get the saldo of a ledger for a specific period
+	 * @param$p_from start period
+	 * @param$p_to end period
 	 */
 
 	function get_solde($p_from, $p_to)
@@ -1270,11 +1284,11 @@ class Acc_Ledger extends jrn_def_sql
 		return $response;
 	}
 
-	/* !
-	 * \brief Show a select list   of the ledgers you can access in
+	/**
+	 * @brief Show a select list   of the ledgers you can access in
 	 * writing, reading or simply accessing.
-	 * \param $p_type = ALL or the type of the ledger (ACH,VEN,FIN,ODS)
-	 * \param $p_access =3 for READ and WRITE, 2 for write and 1 for readonly
+	 * @param$p_type = ALL or the type of the ledger (ACH,VEN,FIN,ODS)
+	 * @param$p_access =3 for READ and WRITE, 2 for write and 1 for readonly
 	 * \return     object HtmlInput select
 	 */
 
@@ -1302,8 +1316,8 @@ class Acc_Ledger extends jrn_def_sql
 		return $select;
 	}
 
-	/* !
-	 * \brief retrieve the jrn_def_fiche and return them into a array
+	/**
+	 * @brief retrieve the jrn_def_fiche and return them into a array
 	 *        index deb, cred
 	 * \param
 	 * \param
@@ -1328,8 +1342,8 @@ class Acc_Ledger extends jrn_def_sql
 		return $res[0];
 	}
 
-	/* !
-	 * \brief retrieve the jrn_def_class_deb and return it
+	/**
+	 * @brief retrieve the jrn_def_class_deb and return it
 	 *
 	 *
 	 * \return return an string
@@ -1351,10 +1365,10 @@ class Acc_Ledger extends jrn_def_sql
 		return $res[0];
 	}
 
-	/* !
-	 * \brief show the result of the array to confirm
+	/**
+	 * @brief show the result of the array to confirm
 	 * before inserting
-	 * \param $p_array array from the form
+	 * @param$p_array array from the form
 	 * \return string
 	 */
 
@@ -1514,10 +1528,10 @@ class Acc_Ledger extends jrn_def_sql
 		return $ret;
 	}
 
-	/* !
-	 * \brief Show the form to encode your operation
-	 * \param $p_array if you correct or use a predef operation (default = null)
-	 * \param $p_readonly 1 for readonly 0 for writable (default 0)
+	/**
+	 * @brief Show the form to encode your operation
+	 * @param$p_array if you correct or use a predef operation (default = null)
+	 * @param$p_readonly 1 for readonly 0 for writable (default 0)
 	 *
 	 * \return a string containing the form
 	 */
@@ -1536,8 +1550,10 @@ class Acc_Ledger extends jrn_def_sql
 		{
 			$add_js = "update_pj();";
 		}
-		$add_js.='get_last_date();';
-
+		if ($g_parameter->MY_DATE_SUGGEST=='Y')
+		{
+			$add_js.='get_last_date();';
+		}
 		$ret = "";
 		if ($g_user->check_action(FICADD) == 1)
 		{
@@ -1750,7 +1766,8 @@ class Acc_Ledger extends jrn_def_sql
 		return $ret;
 	}
 
-	/* !\brief
+	/**
+	 * @brief
 	 * check if the current ledger is closed
 	 * \return 1 for yes, otherwise 0
 	 * \see Periode::is_closed
@@ -1765,9 +1782,9 @@ class Acc_Ledger extends jrn_def_sql
 		return $ret;
 	}
 
-	/* !
-	 * \brief verify that the operation can be saved
-	 * \param $p_array array of data same layout that the $_POST from show_form
+	/**
+	 * @brief verify that the operation can be saved
+	 * @param$p_array array of data same layout that the $_POST from show_form
 	 *
 	 *
 	 * \throw  the getcode  value is 1 incorrect balance,  2 date
@@ -1897,11 +1914,11 @@ class Acc_Ledger extends jrn_def_sql
 		return $msg;
 	}
 
-	/* !
-	 * \brief compute the internal code of the saved operation and set the $this->jr_internal to
+	/**
+	 * @brief compute the internal code of the saved operation and set the $this->jr_internal to
 	 *  the computed value
 	 *
-	 * \param $p_grpt id in jr_grpt_
+	 * @param$p_grpt id in jr_grpt_
 	 *
 	 * \return string internal_code
 	 *      -
@@ -1920,10 +1937,10 @@ class Acc_Ledger extends jrn_def_sql
 		return $internal_code;
 	}
 
-	/* !
-	 * \brief save the operation into the jrnx,jrn, ,
+	/**
+	 * @brief save the operation into the jrnx,jrn, ,
 	 *  CA and pre_def
-	 * \param $p_array
+	 * @param$p_array
 	 *
 	 * \return array with [0] = false if failed otherwise true, [1] error
 	 * code
@@ -2087,8 +2104,8 @@ class Acc_Ledger extends jrn_def_sql
 		return true;
 	}
 
-	/* !
-	 * \brief get all the data from request and build the object
+	/**
+	 * @brief get all the data from request and build the object
 	 */
 
 	function get_request()
@@ -2096,10 +2113,10 @@ class Acc_Ledger extends jrn_def_sql
 		$this->id = $_REQUEST['p_jrn'];
 	}
 
-	/* !
-	 * \brief retrieve the next number for this type of ledger
-	 * \param p_cn connx
-	 * \param p_type ledger type
+	/**
+	 * @brief retrieve the next number for this type of ledger
+	 * @paramp_cn connx
+	 * @paramp_type ledger type
 	 *
 	 * \return the number
 	 *
@@ -2113,8 +2130,9 @@ class Acc_Ledger extends jrn_def_sql
 		return $Ret + 1;
 	}
 
-	/* !\brief get the first ledger
-	 * \param the type
+	/**
+	 * @brief get the first ledger
+	 * @paramthe type
 	 * \return the j_id
 	 */
 
@@ -2125,8 +2143,9 @@ class Acc_Ledger extends jrn_def_sql
 		return $all[0];
 	}
 
-	/* !\brief Update the paiment  in the list of operation
-	 * \param $p_array is normally $_GET
+	/**
+	 * @brief Update the paiment  in the list of operation
+	 * @param$p_array is normally $_GET
 	 */
 
 	function update_paid($p_array)
@@ -2161,9 +2180,10 @@ class Acc_Ledger extends jrn_def_sql
 				" jr_grpt_id = " . $this->grpt_id);
 	}
 
-	/* !\brief retrieve all the card for this type of ledger, make them
+	/**
+	 * @brief retrieve all the card for this type of ledger, make them
 	 * into a string separated by comma
-	 * \param none
+	 * @paramnone
 	 * \return all the card or null is nothing is found
 	 */
 
@@ -2197,8 +2217,9 @@ class Acc_Ledger extends jrn_def_sql
 		return $card;
 	}
 
-	/* !\brief get the saldo of an exercice, used for the opening of a folder
-	 * \param $p_exercice is the exercice we want
+	/**
+	 * @brief get the saldo of an exercice, used for the opening of a folder
+	 * @param$p_exercice is the exercice we want
 	 * \return an array
 	 * index =
 	 * - solde (debit > 0 ; credit < 0)
@@ -2225,8 +2246,8 @@ class Acc_Ledger extends jrn_def_sql
 		return $res;
 	}
 
-	/* !
-	 * \brief Check if a Dossier is using the strict mode or not
+	/**
+	 * @brief Check if a Dossier is using the strict mode or not
 	 * \return true if we are using the strict_mode
 	 */
 
@@ -2240,8 +2261,8 @@ class Acc_Ledger extends jrn_def_sql
 		exit("Valeur invalid " . __FILE__ . ':' . __LINE__);
 	}
 
-	/* !
-	 * \brief Check if a Dossier is using the check on the periode, if true than the user has to enter the date
+	/**
+	 * @brief Check if a Dossier is using the check on the periode, if true than the user has to enter the date
 	 * and the periode, it is a security check
 	 * \return true if we are using the double encoding (date+periode)
 	 */
@@ -2256,7 +2277,8 @@ class Acc_Ledger extends jrn_def_sql
 		exit("Valeur invalid " . __FILE__ . ':' . __LINE__);
 	}
 
-	/* !\brief get the date of the last operation
+	/**
+	 * @brief get the date of the last operation
 	 */
 
 	function get_last_date()
@@ -2268,9 +2290,10 @@ class Acc_Ledger extends jrn_def_sql
 		return $date;
 	}
 
-	/* !\brief retrieve the jr_id thanks the internal code, do not change
+	/**
+	 * @brief retrieve the jr_id thanks the internal code, do not change
 	 * anything to the current object
-	 * \param the internal code
+	 * @paramthe internal code
 	 * \return the jr_id or 0 if not found
 	 */
 
@@ -2283,10 +2306,11 @@ class Acc_Ledger extends jrn_def_sql
 		return $value;
 	}
 
-	/* !\brief create the invoice and saved it as attachment to the
+	/**
+	 * @brief create the invoice and saved it as attachment to the
 	 * operation,
-	 * \param $internal is the internal code
-	 * \param $p_array is normally the $_POST
+	 * @param$internal is the internal code
+	 * @param$p_array is normally the $_POST
 	 * \return a string
 	 */
 
@@ -2309,8 +2333,9 @@ class Acc_Ledger extends jrn_def_sql
 		return h($doc->d_name . ' (' . $doc->d_filename . ')');
 	}
 
-	/* !\brief check if the payment method is valid
-	 * \param $e_mp is the value and $e_mp_qcode is the quickcode
+	/**
+	 * @brief check if the payment method is valid
+	 * @param$e_mp is the value and $e_mp_qcode is the quickcode
 	 * \return nothing throw an Exception
 	 */
 
@@ -2346,7 +2371,8 @@ class Acc_Ledger extends jrn_def_sql
 		}
 	}
 
-	/* !\brief increment the sequence for the pj */
+	/**
+	 * @brief increment the sequence for the pj */
 
 	function inc_seq_pj()
 	{
@@ -2354,7 +2380,8 @@ class Acc_Ledger extends jrn_def_sql
 		$this->db->exec_sql($sql);
 	}
 
-	/* !@brief return a HTML string with the form for the search
+	/**
+	 * @brief return a HTML string with the form for the search
 	 * @param $p_type if the type of ledger possible values=ALL,VEN,ACH,ODS,FIN
 	 * @param $all_type_ledger
 	 *       values :
@@ -2462,15 +2489,16 @@ class Acc_Ledger extends jrn_def_sql
 		ob_start();
 		require_once('template/ledger_search.php');
 		$r.=ob_get_contents();
-		ob_clean();
+		ob_end_clean();
 		return $r;
 	}
 
-	/* !\brief this function will create a sql stmt to use to create the list for
+	/**
+	 * @brief this function will create a sql stmt to use to create the list for
 	 * the ledger,
-	 * \param $p_array is usually the $_GET,
-	 * \param $p_order the order of the row
-	 * \param $p_where is the sql condition if not null then the $p_array will not be used
+	 * @param$p_array is usually the $_GET,
+	 * @param$p_order the order of the row
+	 * @param$p_where is the sql condition if not null then the $p_array will not be used
 	 * \note the p_action will be used to filter the ledger but gl means ALL
 	 * struct array $p_array
 	  \verbatim
@@ -2526,7 +2554,7 @@ class Acc_Ledger extends jrn_def_sql
 		and f_id=(select qf_other from quant_fin where quant_fin.jr_id=x.jr_id))
 	    end as name,
 	   case
-	     when jrn_def_type='VEB' then (select ad_value from fiche_detail where ad_id=32 and f_id=(select max(qs_client) from quant_sold join jrnx using (j_id) join jrn as e on (e.jr_grpt_id=j_grpt) where e.jr_id=x.jr_id))
+	     when jrn_def_type='VEN' then (select ad_value from fiche_detail where ad_id=32 and f_id=(select max(qs_client) from quant_sold join jrnx using (j_id) join jrn as e on (e.jr_grpt_id=j_grpt) where e.jr_id=x.jr_id))
 	    when jrn_def_type = 'ACH' then (select ad_value from fiche_detail where ad_id=32 and f_id=(select max(qp_supplier) from quant_purchase join jrnx using (j_id) join jrn as e on (e.jr_grpt_id=j_grpt) where e.jr_id=x.jr_id))
 	    when jrn_def_type = 'FIN' then (select ad_value from fiche_detail where ad_id=32 and f_id=(select qf_other from quant_fin where quant_fin.jr_id=x.jr_id))
 	    end as first_name,
@@ -2534,7 +2562,20 @@ class Acc_Ledger extends jrn_def_sql
 	     when jrn_def_type='VEN' then (select ad_value from fiche_detail where ad_id=23 and f_id=(select max(qs_client) from quant_sold join jrnx using (j_id) join jrn as e on (e.jr_grpt_id=j_grpt) where e.jr_id=x.jr_id))
 	    when jrn_def_type = 'ACH' then (select ad_value from fiche_detail where ad_id=23 and f_id=(select max(qp_supplier) from quant_purchase join jrnx using (j_id) join jrn as e on (e.jr_grpt_id=j_grpt) where e.jr_id=x.jr_id))
 	    when jrn_def_type = 'FIN' then (select ad_value from fiche_detail where ad_id=23 and f_id=(select qf_other from quant_fin where quant_fin.jr_id=x.jr_id))
-	    end as quick_code
+	    end as quick_code,
+	    case
+	     when jrn_def_type='VEN' then
+		     (select sum(qs_price)+sum(vat) from
+				(select qs_internal,qs_price,case when qs_vat_sided<>0 then 0 else qs_vat end as vat from quant_sold where qs_internal=X.jr_internal) as ven_invoice
+			  )
+	    when jrn_def_type = 'ACH' then
+			(
+				select sum(qp_price)+sum(vat)+sum(qp_nd_tva)+sum(qp_nd_tva_recup)
+				from
+				 (select qp_internal,qp_price,qp_nd_tva,qp_nd_tva_recup,case when qp_vat_sided<>0 then 0 else qp_vat end as vat from quant_purchase where qp_internal=X.jr_internal) as invoice_purchase
+			)
+		else null
+		end as total_invoice
 
 
              from
@@ -2708,7 +2749,8 @@ class Acc_Ledger extends jrn_def_sql
 		return array($sql, $where);
 	}
 
-	/* !\brief return a html string with the search_form
+	/**
+	 * @brief return a html string with the search_form
 	 * \return a HTML string with the FORM
 	 * \see build_search_sql
 	 * \see search_form
@@ -2753,8 +2795,9 @@ class Acc_Ledger extends jrn_def_sql
 		return $r;
 	}
 
-	/* !\brief return the last p_limit operation into an array
-	 * \param $p_limit is the max of operation to return
+	/**
+	 * @brief return the last p_limit operation into an array
+	 * @param$p_limit is the max of operation to return
 	 * \return $p_array of Follow_Up object
 	 */
 
@@ -2977,8 +3020,8 @@ class Acc_Ledger extends jrn_def_sql
 	////////////////////////////////////////////////////////////////////////////////
 	// TEST MODULE
 	////////////////////////////////////////////////////////////////////////////////
-	/* !
-	 * \brief this function is intended to test this class
+	/**
+	 * @brief this function is intended to test this class
 	 */
 	static function test_me($pCase = '')
 	{

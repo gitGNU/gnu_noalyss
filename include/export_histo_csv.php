@@ -43,7 +43,7 @@ printf('"%s";',"Piece");
 printf('"%s";',"Tiers");
 printf('"%s";',"Description");
 printf('"%s";',"Note");
-printf('"%s"',"Montant");
+printf('"%s"',"Montant opération");
 printf("\r\n");
 
 for ($i=0;$i<count($res);$i++)
@@ -60,12 +60,13 @@ for ($i=0;$i<count($res);$i++)
 
     $amount=$res[$i]['jr_montant'];
 
+	if ( $res[$i]['total_invoice']!=null && $res[$i]['jr_montant']!=$res[$i]['total_invoice'])
+		$amount=$res[$i]['total_invoice'];
     if ( $res[$i]['jrn_def_type'] == 'FIN')
       {
-	$positive = $cn->get_value("select qf_amount from quant_fin where jr_id=$1",array($res[$i]['jr_id']));
-	if ( $positive !='' ) $amount=$positive;
+		$positive = $cn->get_value("select qf_amount from quant_fin where jr_id=$1",array($res[$i]['jr_id']));
+		if ( $positive !='' ) $amount=$positive;
       }
-
     printf('%s',nb($amount));
 
     printf("\r\n");

@@ -235,13 +235,23 @@ class Document
 
 			$to_remove=$pattern;
 			// we remove the < and > from the pattern
-			$pattern=str_replace($lt,'',$pattern);
-			$pattern=str_replace($gt,'',$pattern);
+			$tag=str_replace($lt,'',$pattern);
+			$tag=str_replace($gt,'',$tag);
 
 
 			// if the pattern if found we replace it
-			$value=$this->Replace($pattern,$p_array);
+			$value=$this->Replace($tag,$p_array);
 			if ( strpos($value,'ERROR') != false ) 		  $value="";
+                        /*
+                         * Change type of cell to numeric
+                         *  allow numeric cel in ODT for the formatting and formula 
+                         */
+			if ( is_numeric($value) && $p_type=='OOo')
+			  {
+			    $searched='/office:value-type="string"><text:p>'.$pattern.'/';
+			    $replaced='office:value-type="float" office:value="'.$value.'"><text:p>'.$pattern;
+			    $buffer=preg_replace($searched, $replaced, $buffer,1);
+			  }
 			// replace into the $buffer
 			// take the position in the buffer
 			$pos=strpos($buffer,$to_remove);
@@ -368,7 +378,7 @@ class Document
         $r='<A class="mtitle" HREF="show_document.php?d_id='.$this->d_id.'&'.dossier::get().'">'.$image.'</A>';
         return $r;
     }
-    /* ! Get
+    /** Get
      * \brief Send the document
      */
     function Send()
@@ -1080,7 +1090,28 @@ class Document
                 return $p_array['acompte'];
 			return "0";
             break;
-        }
+		case 'STOCK_NAME':
+			if ( ! isset ($p_array['repo'])) return "";
+			$ret=$this->db->get_value('select r_name from public.stock_repository where r_id=$1',array($p_array['repo']));
+			return $ret;
+		case 'STOCK_ADRESS':
+			if ( ! isset ($p_array['repo'])) return "";
+			$ret=$this->db->get_value('select r_adress from public.stock_repository where r_id=$1',array($p_array['repo']));
+			return $ret;
+		case 'STOCK_COUNTRY':
+			if ( ! isset ($p_array['repo'])) return "";
+			$ret=$this->db->get_value('select r_country from public.stock_repository where r_id=$1',array($p_array['repo']));
+			return $ret;
+		case 'STOCK_CITY':
+			if ( ! isset ($p_array['repo'])) return "";
+			$ret=$this->db->get_value('select r_city from public.stock_repository where r_id=$1',array($p_array['repo']));
+			return $ret;
+		case 'STOCK_PHONE':
+			if ( ! isset ($p_array['repo'])) return "";
+			$ret=$this->db->get_value('select r_phone from public.stock_repository where r_id=$1',array($p_array['repo']));
+			return $ret;
+
+		}
         /*
          * retrieve the value of ATTR for e_march
          */

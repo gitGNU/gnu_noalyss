@@ -33,7 +33,7 @@ class Acc_Balance
     var $jrn;						/*!< idx of a table of ledger create by user->get_ledger */
     var $from_poste;				/*!< from_poste  filter on the post */
     var $to_poste;				/*!< to_poste filter on the post*/
-    var $unsold;				/*!< if true only the no solded account (saldo != 0) */
+    var $unsold;				/**= 0) */
     function Acc_Balance($p_cn)
     {
         $this->db=$p_cn;

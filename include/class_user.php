@@ -19,11 +19,11 @@
  */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/* ! \file
+/** \file
  * \brief
  *   Data & function about connected users
  */
-/* !
+/**
  * \brief
  *   Data & function about connected users
  */
@@ -79,7 +79,7 @@ class User
 		}
 	}
 
-	/* !\brief load data from database.
+	/**\brief load data from database.
 	 * if this->id == -1, it is unknown so we have to retrieve it
 	  from the database by the login
 	 * return -1 if nothing is found
@@ -130,7 +130,7 @@ class User
 		$Res = $cn->exec_sql($Sql, array($this->first_name, $this->last_name, $this->active, $this->admin, $this->pass, $this->id));
 	}
 
-	/* !
+	/**
 	 * \brief Check if user is active and exists in therepository
 	 * Automatically redirect, it doesn't check if a user can access a folder
 	 * \param $silent false, echo an error message and exit, true : exit without warning
@@ -190,7 +190,7 @@ class User
 		return $ret;
 	}
 
-	/* !\brief return  the access to a folder,
+	/**\brief return  the access to a folder,
 	 * \param $p_dossier id if it is == 0 then we take the value from $_SESSION
 	 * \return the priv_priv
 	 *          - X no access
@@ -204,7 +204,7 @@ class User
 
 		if ($p_dossier == 0)
 			$p_dossier = dossier::id();
-		if ($this->is_local_admin($p_dossier) == 1)
+		if ($this->is_local_admin($p_dossier) == 1 || $this->admin == 1)
 			return 'L';
 		$cn = new Database();
 
@@ -238,7 +238,7 @@ class User
 		$Res = $cn->exec_sql("update priv_user set priv_priv=$1 where priv_jnt=$2", array($priv, $jnt));
 	}
 
-	/* !\brief check that a user is valid and the access to the folder
+	/**\brief check that a user is valid and the access to the folder
 	 * \param $p_ledger the ledger to check
 	 * \return the priv_priv
 	 * - O only predefined operation
@@ -264,7 +264,7 @@ class User
 		return $res;
 	}
 
-	/* !
+	/**
 	 * \brief get all the available ledgers for the current user
 	 * \param $p_type = ALL or the type of the ledger (ACH,VEN,FIN,ODS)
 	 * \param $p_access =3 for Read or WRITE, 2  write, 1 for readonly
@@ -326,7 +326,7 @@ class User
 		return $array;
 	}
 
-	/* !\brief return an sql condition for filtering the permitted ledger
+	/**\brief return an sql condition for filtering the permitted ledger
 	 * \param $p_type = ALL or the type of the ledger (ACH,VEN,FIN,ODS)
 	 * \param $p_access =3 for READ or WRITE, 2 READ and write, 1 for readonly
 	 *
@@ -347,7 +347,7 @@ class User
 		return $sql;
 	}
 
-	/* !
+	/**
 	 * \brief  Check if an user is an admin
 	 *
 	 * \return 1 for yes 0 for no
@@ -373,7 +373,7 @@ class User
 		return $this->admin;
 	}
 
-	/* !
+	/**
 	 * \brief  Set the selected periode in the user's preferences
 	 *
 	 * \param $p_periode periode
@@ -415,7 +415,7 @@ class User
 		$Res = $this->db->exec_sql($sql);
 	}
 
-	/* !
+	/**
 	 * \brief  Get the default periode from the user's preferences
 	 *
 	 * \return the default periode
@@ -435,7 +435,7 @@ class User
 		return $array['PERIODE'];
 	}
 
-	/* !\brief return the mini rapport to display on the welcome page
+	/**\brief return the mini rapport to display on the welcome page
 	 * \return 0 if nothing if found or the report to display (formdef.fr_id)
 	 */
 
@@ -446,7 +446,7 @@ class User
 		return $fr_id;
 	}
 
-	/* !\brief set the mini rapport to display on the welcome page
+	/**\brief set the mini rapport to display on the welcome page
 	 */
 
 	function set_mini_report($p_id)
@@ -485,7 +485,7 @@ class User
 		}
 	}
 
-	/* !
+	/**
 	 * \brief  Get the default user's preferences
 	 * \return array of (parameter_type => parameter_value)
 	 */
@@ -524,7 +524,7 @@ class User
 		return 1;
 	}
 
-	/* !
+	/**
 	 * \brief  Check if an user is allowed to do an action
 	 * \param p_action_id
 	 * \return
@@ -561,7 +561,7 @@ class User
 		exit();
 	}
 
-	/* !
+	/**
 	 * \brief  Get the global preferences from user_global_pref
 	 *        in the account_repository db
 	 *
@@ -605,7 +605,7 @@ class User
 		}
 	}
 
-	/* !
+	/**
 	 * \brief  insert default pref
 	 *        if no parameter are given insert all the existing
 	 *        parameter otherwise only the requested
@@ -640,7 +640,7 @@ class User
 		}
 	}
 
-	/* !
+	/**
 	 * \brief  update default pref
 	 *           if value is not given then use the default value
 	 *
@@ -663,7 +663,7 @@ class User
 	}
 
 //end function
-	/* !\brief Return the year of current Periode
+	/**\brief Return the year of current Periode
 	 *        it is the parm_periode.p_exercice col
 	 *        if an error occurs return 0
 	 */
@@ -681,7 +681,7 @@ class User
 			return 0;
 	}
 
-	/* !\brief Check if the user can access
+	/**\brief Check if the user can access
 	 * otherwise warn and exit
 	 * \param $p_action requested action
 	 * \param $p_js = 1 javascript, or 0 just a text
@@ -729,7 +729,7 @@ class User
 		return $res;
 	}
 
-	/* !\brief Check if the user can print (in menu_ref p_type_display=p)
+	/**\brief Check if the user can print (in menu_ref p_type_display=p)
 	 * otherwise warn and exit
 	 * \param $p_action requested action
 	 * \return nothing the program exits automatically
@@ -756,7 +756,7 @@ class User
 		}
 	}
 
-	/* !
+	/**
 	 * \brief  Check if an user is an local administrator
 	 *
 	 *
@@ -822,7 +822,7 @@ class User
 		}
 		return $r;
 	}
-	/* !
+	/**
 	 * \brief return an array with all the users who can access $p_dossier including the global admin. The user
 	 * must be activated
 	 *
@@ -853,7 +853,7 @@ class User
 		return $array;
 	}
 
-	/* !
+	/**
 	 * \brief check the access of an user on a ledger
 	 *
 	 * \param $p_jrn the ledger id
@@ -870,7 +870,7 @@ class User
 		return $this->get_ledger_access($p_jrn);
 	}
 
-	/* !\brief check if an user can access a folder, if he cannot display a dialog box
+	/**\brief check if an user can access a folder, if he cannot display a dialog box
 	 * and exit
 	 * \param the folder if
 	 * \param $silent false, echo an error message and exit, true : exit without warning
@@ -916,7 +916,7 @@ class User
 		return array($start, $end);
 	}
 
-	/* !
+	/**
 	 * \brief   Show all the available folder  for the users
 	 *          at the login page. For the special case 'E'
 	 *          go directly to extension and bypasse the dashboard
@@ -973,7 +973,7 @@ class User
 		return $result;
 	}
 
-	/* !
+	/**
 	 * \brief   Get all the available folders
 	 *          for the users, checked with the security
 	 *
@@ -1032,7 +1032,7 @@ class User
 			}
 			$cn = new Database();
 			if (isset($_REQUEST['gDossier']))
-				$p_module.= "dossier : " . $_REQUEST['gDossier'];
+				$p_module.= " dossier : " . $_REQUEST['gDossier'];
 			$sql = "insert into audit_connect (ac_user,ac_ip,ac_module,ac_url,ac_state) values ($1,$2,$3,$4,$5)";
 
 			$cn->exec_sql($sql, array(

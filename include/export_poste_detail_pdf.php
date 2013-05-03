@@ -198,5 +198,5 @@ foreach ($a_poste as $poste)
 
 }
 $fDate=date('dmy-Hi');
-$pdf->Output('poste-'.$fDate.'.pdf','D');
+$pdf->Output('poste-'.$fDate.'-'.$poste_id.'.pdf','D');
 ?>

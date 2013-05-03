@@ -17,7 +17,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/* ! \file
+/** \file
  * \brief Users Security
  */
 include_once("ac_common.php");
@@ -75,8 +75,12 @@ if (isset($_POST['SAVE']))
             {
                 $db_id = mb_substr($name, 4);
                 $cn = new Database();
-                $UserChange->set_folder_access($db_id, $elem);
-				Dossier::synchro_admin($db_id);
+				$name=$cn->format_name($db_id, "dos");
+				if ( $cn->exist_database($name) == 1 )
+				{
+					$UserChange->set_folder_access($db_id, $elem);
+					Dossier::synchro_admin($db_id);
+				}
             }
         }
     }

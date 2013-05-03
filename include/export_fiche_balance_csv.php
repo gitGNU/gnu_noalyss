@@ -133,7 +133,7 @@ else
 			/* skip if nothing to display */
 			if (count($letter->content) == 0)
 				continue;
-			printf('"%s"'."\n",$row->strAttribut(ATTR_DEF_QUICKCODE), $row->strAttribut(ATTR_DEF_NAME));
+			printf('"%s";"%s"'."\n",$row->strAttribut(ATTR_DEF_QUICKCODE), $row->strAttribut(ATTR_DEF_NAME));
 
 			printf('"%s";"%s";"%s";"%s";"%s";"%s";"%s";"%s";"%s"',
 					_('Date'),
@@ -175,7 +175,7 @@ else
 				printf ("%s;\"%s\";",abs(nb($prog)),$fic->get_amount_side($prog));
 				if ($row['letter'] != -1)
 				{
-					printf('"%s";',$row['letter']);
+					printf('"%s";',  strtoupper(base_convert($row['letter'],10,36)));
 					printf("%s",nb($row['letter_diff']));
 				}
 				else

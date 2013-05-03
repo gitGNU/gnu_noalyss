@@ -71,8 +71,9 @@ if ( $g_user->check_dossier(dossier::id(),true)=='X' )
 {
     ob_start();
     require_once ('template/ledger_detail_forbidden.php');
+	echo HtmlInput::button_close($div);
     $html=ob_get_contents();
-    ob_clean();
+    ob_end_clean();
     $html=escape_xml($html);
     header('Content-type: text/xml; charset=UTF-8');
     echo <<<EOF
@@ -97,8 +98,9 @@ if ($ledger=="")
     ob_start();
 	echo HtmlInput::title_box(_("Information"), $div);
     require_once ('template/ledger_detail_forbidden.php');
+	echo HtmlInput::button_close($div);
     $html=ob_get_contents();
-    ob_clean();
+    ob_end_clean();
 
     $html=escape_xml($html);
     header('Content-type: text/xml; charset=UTF-8');
@@ -118,9 +120,9 @@ if ( $access == 'X' )
     ob_start();
 	echo HtmlInput::title_box(_("Information"), $div);
     require_once ('template/ledger_detail_forbidden.php');
+	echo HtmlInput::button_close($div);
     $html=ob_get_contents();
-    ob_clean();
-
+    ob_end_clean();
     $html=escape_xml($html);
     header('Content-type: text/xml; charset=UTF-8');
     echo <<<EOF
@@ -158,7 +160,7 @@ case 'rmop':
                 $cn->rollback;
             }
             $html=ob_get_contents();
-            ob_clean();
+            ob_end_clean();
         }
     break;
     //////////////////////////////////////////////////////////////////////
@@ -197,7 +199,7 @@ case 'de':
         echo '<h2 class="error">Désolé il y a une erreur</h2>';
     }
     $html=ob_get_contents();
-    ob_clean();
+    ob_end_clean();
 
     break;
     /////////////////////////////////////////////////////////////////////////////
@@ -221,7 +223,7 @@ case 'file':
 			echo "<div>";
 
 		}
-		echo "<h2>Document</h2>";
+		echo "<h1 class=\"legend\">Document</h1>";
         if ( $access=='W')
         {
             echo '<FORM METHOD="POST" ENCTYPE="multipart/form-data" id="form_file">';
@@ -278,7 +280,7 @@ case 'file':
 			echo "<div>";
 
 		}
-		echo "<h2>Document</h2>";
+		echo "<h1 class=\"legend\">Document</h1>";
         echo '<div class="op_detail_frame">';
         $x='';
         if ($access=='W')
@@ -477,7 +479,7 @@ case 'save':
       alert( "Changement impossible: on ne peut pas changer la date dans une période fermée");
     }
     $html=ob_get_contents();
-    ob_clean();
+    ob_end_clean();
 
     break;
 /////////////////////////////////////////////////////////////////////////////
@@ -525,7 +527,7 @@ case 'reverseop':
         }
     }
     $html=ob_get_contents();
-    ob_clean();
+    ob_end_clean();
     break;
 }
 $html=escape_xml($html);
