@@ -119,6 +119,7 @@ echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">
 <HTML>
 <head>
 <TITLE> PhpCompta </TITLE>
+<link rel="shortcut icon" type="image/ico" href="favicon.ico" />
 <style>
 BODY {
 background-color:white;
@@ -194,7 +195,7 @@ version  6.5.SVNINFO - '.$my_domain.'
 <BR>
 <BR>
 <center>
-<IMG SRC="image/logo7.jpg" alt="Logo">
+<IMG SRC="image/logo7.png" alt="PhpCompta">
 <BR>
 <BR>
 <BR>

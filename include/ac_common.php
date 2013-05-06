@@ -296,6 +296,7 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
 
     echo "<HEAD>
     <TITLE>$title</TITLE>
+	<link rel=\"icon\" type=\"image/ico\" href=\"favicon.ico\" />
     <META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF8\">
     <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$style\" media=\"screen\">
     <link rel=\"stylesheet\" type=\"text/css\" href=\"style-print.css\" media=\"print\">" .
