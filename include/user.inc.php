@@ -112,7 +112,11 @@ $a_user=$repo->get_user_folder($sql);
 
 if ( !empty ($a_user) )
 {
-    echo '<table class="result">';
+	echo '<span style="display:block">';
+	echo _('Filtre').HtmlInput::infobulle(22);
+	echo HtmlInput::filter_table("user", "0,1,2,5","1");
+	echo '</span>';
+    echo '<table id="user" class="result">';
     echo '<tr>';
     echo '<th>'.$header->get_header(0).'</th>';
     echo '<th>'.$header->get_header(1).'</th>';

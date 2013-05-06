@@ -172,6 +172,7 @@ if ( isset ($_GET['view']  ) )
 
     $hid=new IHidden();
 
+
     echo "<table>";
     echo '<TR>';
     echo '<TD><form method="GET" ACTION="export.php">'.
@@ -255,8 +256,11 @@ if ( isset($_GET['view'] ) )
     $a=$periode->get_date_limit($_GET['from_periode']);
     $b=$periode->get_date_limit($_GET['to_periode']);
     echo "<h2 class=\"info\"> période du ".$a['p_start']." au ".$b['p_end']."</h2>";
-
-    echo '<table width="100%">';
+	echo '<span style="display:block">';
+	echo _('Filtre').HtmlInput::infobulle(24);
+	echo HtmlInput::filter_table("t_balance", "0,1","1");
+	echo '</span>';
+    echo '<table id="t_balance" width="100%">';
     echo '<th>Poste Comptable</th>';
     echo '<th>Libell&eacute;</th>';
     echo '<th>D&eacute;bit</th>';

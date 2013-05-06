@@ -25,6 +25,7 @@
 include_once ("ac_common.php");
 require_once('class_database.php');
 require_once('class_itext.php');
+require_once 'function_javascript.php';
 @html_page_start($_SESSION['g_theme']);
 $rep=new Database();
 include_once ("class_user.php");
@@ -93,6 +94,7 @@ if ( $User->Admin()  == 1)
 
 include_once("user_menu.php");
 $priv=($User->admin==1)?"Administrateur":"Utilisateur";
+load_all_script();
 echo '<div class="welcome"> ';
 /**
  *
@@ -140,29 +142,18 @@ echo '</div>';
 ?>
 <div class="foldercontent">
 <?php echo '<h2 >'._('Choississez votre dossier').'</h2>';?>
-<form method="get" action="?">
-                          <input type="submit" class="button" value="<?php echo _('Rechercher');?>">
-                                                                 <?php
-                                                                 $w=new IText();
-$p_nom=isset($_GET ['p_nom'])?$_GET['p_nom']:"";
-echo $w->input('p_nom',$p_nom);
-
+	<span style="display:block">
+ <?php
+                        echo _('Filtre').HtmlInput::infobulle(23);
 ?>
-<span class="notice">
-                        <?php
-                        echo _('Donnez une partie du nom du dossier ou de la description à rechercher');
+<?php
+	echo HtmlInput::filter_table("folder", '1,2',0);
 ?>
 </span>
-</form>
 <?php
-$filtre="";
-if ( isset ($_GET ['p_nom']))
-{
-    $filtre=$_GET['p_nom'];
-}
 
 // If admin show everything otherwise only the available dossier
-$res=$User->show_dossier($filtre);
+$res=$User->show_dossier("");
 echo $res;
 ?>
 <P>

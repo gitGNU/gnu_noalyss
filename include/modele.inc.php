@@ -232,8 +232,11 @@ if ($sa == 'list')
 
 		echo HtmlInput::button_anchor('Rafra&icirc;chir', 'admin_repo.php?action=modele_mgt');
 		echo HtmlInput::button_anchor('Ajouter', 'admin_repo.php?action=modele_mgt&sa=add');
-
-		echo '<table class="result" style="border-spacing:10;border-collapse:separate" >';
+		echo '<span style="display:block;margin-top:10">';
+		echo _('Filtre').HtmlInput::infobulle(23);
+		echo HtmlInput::filter_table("t_modele", "0,1,2","1");
+		echo '</span>';
+		echo '<table id="t_modele" class="table_large" style="border-spacing:10;border-collapse:separate" >';
 		echo "<TR>".
 				"<TH>".$header->get_header(0)."</TH>" .
 				"<TH>".$header->get_header(1)."</TH>" .

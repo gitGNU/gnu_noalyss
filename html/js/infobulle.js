@@ -49,6 +49,11 @@ content[18]="Donnez une partie du nom, prénom, de la description, du poste comp
 content[19]="Donnez une partie du nom, de la description,  du n° de TVA ou quick code";
 content[20]="Les menus ne peuvent dépendre que dans d'un menu principal ou d'un menu, si cette liste est vide, ajouter des modules ou menu principal sans donner de dépendance";
 content[21]="Donnez un nombre entre 0 & 100";
+content[22]="Donnez une partie du nom du dossier,du nom, du prénom ou du login pour filtrer";
+content[23]="Donnez une partie du nom du dossier ou de la description pour filtrer";
+content[24]="Donnez une partie du poste comptable ou du libellé pour filtrer";
+content[25]="Donnez une partie du libellé, la date, le montant ou le numéro d'opération pour filtrer, cela n'efface pas ce qui a déjà été sélectionné";
+
 function showBulle(p_ctl)
 {
     d=document.getElementById('bulle');

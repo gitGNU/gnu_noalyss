@@ -713,4 +713,13 @@ class HtmlInput
 		      return $sel;
 			}
 	}
+	static function filter_table($p_table_id,$p_col,$start_row)
+	{
+		$r= "
+			<form style=\"display:inline\">
+			<input class=\"input_text\" name=\"filter\" onkeyup=\"filter_table(this, '$p_table_id','$p_col',$start_row )\" type=\"text\">
+			</form>
+			";
+		return $r;
+	}
 }

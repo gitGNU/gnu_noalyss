@@ -172,7 +172,11 @@ if ( $sa == 'list' )
 	$compteur=1;
     $template="";
 	echo '<div class="content">';
-    echo '<TABLE class="table_large" >';
+	echo '<span style="display:block">';
+	echo _('Filtre').HtmlInput::infobulle(23);
+	echo HtmlInput::filter_table("t_dossier", "0,1,2","1");
+	echo '</span>';
+    echo '<TABLE id="t_dossier" class="table_large" >';
 	$r="";
 	$r.='<th>'.$header->get_header(0).'</td>';
 	$r.='<th>'.$header->get_header(1).'</td>';

@@ -1713,3 +1713,44 @@ function view_action(ag_id,dossier,modify)
 			}
 	);
 }
+/**
+ * @brief filter quickly a table
+ * @param  phrase : phrase to seach
+ * @param  _id : id of the table
+ * @param  colnr : string containing the column number where you're searching separated by a comma
+ * @param start_row : first row (1 if you have table header)
+ * @returns nothing
+ * @see HtmlInput::filter_table
+ */
+function filter_table(phrase, _id, colnr,start_row) {
+	var words = phrase.value.toLowerCase();
+	var table = document.getElementById(_id);
+	// if colnr contains a comma then check several columns
+	var aCol = new Array();
+	if (colnr.indexOf(',') >= 0) {
+		aCol = colnr.split(',');
+	} else {
+		aCol[0] = colnr;
+	}
+	var ele;
+	for (var r = start_row; r < table.rows.length; r++) {
+		var found=0;
+		for (var col =0;col < aCol.length;col++)
+		{
+			var idx=aCol[col];
+			console.log(r);
+			if (table.rows[r].cells[idx])
+				 {
+					ele = table.rows[r].cells[idx].innerHTML.replace(/<[^>]+>/g, "");
+						//var displayStyle = 'none';
+					if (ele.toLowerCase().indexOf(words) >= 0){ found=1; }
+				 }
+
+		}
+		if (found == 1 ){
+			table.rows[r].style.display = '';
+		} else {
+			table.rows[r].style.display = 'none';
+		}
+	}
+}
