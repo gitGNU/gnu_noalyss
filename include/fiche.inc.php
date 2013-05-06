@@ -308,7 +308,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 				th('Solde', 'style="text-align:right"') .
 				th('D/C', 'style="text-align:right"')
 		);
-		$idx = 0;$sum_deb=0;$sum_cred=0;bcscale(4);
+		$idx = 0;$sum_deb=0;$sum_cred=0;$sum_solde=0;bcscale(4);
 		for ($i = 0; $i < Database::num_row($ret); $i++)
 		{
 			$filter = " (j_date >= to_date('" . $_REQUEST['start'] . "','DD.MM.YYYY') " .
