@@ -135,6 +135,7 @@ class phpcompta_sql
 			switch ($this->type[$value])
 			{
 				case "date":
+					if ($this->date_format=="")						throw new Exception('Format Date invalide');
 					$par .=$sep. 'to_date($' . $idx . ",'" . $this->date_format . "')" ;
 					break;
 				default:
