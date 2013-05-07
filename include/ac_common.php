@@ -742,6 +742,9 @@ function format_date($p_date, $p_from_format = 'YYYY-MM-DD',$p_to_format='DD.MM.
        case 'YYYYMMDD':
             $str_date = $date[0] . $date[1] . $date[2];
             break;
+		 case 'YYYY/MM/DD':
+            $str_date = $date[0] . '/' . $date[1] . '/' . $date[2];
+            break;
 
 		}
     return $str_date;
