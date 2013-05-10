@@ -7,8 +7,9 @@ if ( count($this->content) == 0 ) :
 ?>
   <h2 class="info2"><?=_('Désolé aucun résultat trouvé')?></h2>
 
-<?
+    <?php
   else :
+$delta=0;
 ?>
 <table class="result">
 <tr>
@@ -136,18 +137,25 @@ $r=sprintf('<A class="detail" style="text-decoration:underline"  HREF="javascrip
 </td>
 
 </tr>
-<?
+<?php
 if ($i<$linked_limit)
 {
   $amount_deb+=( $jnt_id == $this->content[$i]['letter'] && $this->content[$i]['j_debit']=='t')?$this->content[$i]['j_montant']:0;
   $amount_cred+=( $jnt_id == $this->content[$i]['letter'] && $this->content[$i]['j_debit']=='f')?$this->content[$i]['j_montant']:0;
 }
     endfor;
+$delta = bcsub($amount_deb, $amount_cred);
+$side = 'Créditeur';
+if ($delta < 0 ) {
+$side = "Débiteur";
+$delta = abs($delta);
+}
 ?>
 </TABLE>
   <h2 class="info"> Total lettré</h2>
 <span style="display:block;font-size:14px"><?=_('Total Debit')?>   <?=$amount_deb?></span>
 <span style="display:block;font-size:14px"><?=_('Total Credit')?>   <?=$amount_cred?></span>
+<span style="display:block;font-size:14px"><?=_('Total ').$side?>   <?=$delta?></span>
 
 <?php endif;?>
 <?=HtmlInput::button('check_all','Sélectionner tout',' onclick="select_checkbox(\'letter_form\')"');?>
