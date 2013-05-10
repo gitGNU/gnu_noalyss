@@ -76,7 +76,21 @@ $tot_cat_estm=bcadd($amount,$tot_cat_estm);
 <?php echo nbm( $tot);?>
 </td>
 </tr>
+		<tr>
+			<td>
+						<?php echo _('Total réel');
+						$tot_cat_real = 0;?>
+					</td>
+				<?php for ($h = 0; $h < count($aPeriode); $h++):?>
+				<td align="right">
+				<?php 
+				$tot_cat_real = bcadd($tot_cat_real, $aReal[$i][$e][$h]);
+				echo nbm($tot_cat_real);
+			?>
+			</td>
+				<?php endfor;?>
 
+		</tr>
 <tr>
 <td>
 <?php echo _('Différence');?>
