@@ -563,7 +563,7 @@ function view_history_account(p_value,dossier)
     id='det'+layer;
     var popup={'id':  id,'cssclass':'inner_box','html':loading(),'drag':true};
 
-    querystring='gDossier='+dossier+'&act=de&pcm_val='+p_value+'&div='+id;
+    querystring='gDossier='+dossier+'&act=de&pcm_val='+p_value+'&div='+id+"&l="+layer;
     add_div(popup);
 
     var action=new Ajax.Request(
@@ -622,7 +622,7 @@ var popup={'id':
            ,'html':
            loading(),'drag':
                true};
-    querystring='gDossier='+dossier+'&act=de&f_id='+p_value+'&div='+id;
+    querystring='gDossier='+dossier+'&act=de&f_id='+p_value+'&div='+id+"&l="+layer;
     add_div(popup);
     var action=new Ajax.Request(
                    "ajax_history.php",
@@ -938,4 +938,35 @@ function  get_history_account(ctl,dossier) {
 		{
 			view_history_account($(ctl).value, dossier);
 		}
+}
+var previous=[];
+function show_reconcile(p_div,p_let)
+{
+	try
+	{
+		if (previous.length != 0)
+			{
+				var count_elt=previous.length;
+				var i=0;
+				for (i=0;i<count_elt;i++){
+					previous[i].style.backgroundColor='';
+					previous[i].style.color='';
+				}
+			}
+		var name='tr_'+p_let+'_'+p_div;
+		var elt=document.getElementsByName(name);
+		previous=elt;
+		var count_elt=elt.length;
+		var i=0;
+		for (i=0;i<count_elt;i++){
+			elt[i].style.backgroundColor='#000066';
+			elt[i].style.color='white';
+		}
+
+	} catch (e)
+	{
+		alert(e.message);
+	}
+
+
 }

@@ -1265,8 +1265,8 @@ class Fiche
 	  }
 	else
 	  {
-	    echo "<TABLE class=\"result\" style=\"width:100%;border-collapse:separate;border-spacing:2px\">";
-	  }
+	    echo "<TABLE id=\"tb" . $from_div . "\"class=\"result\" style=\"width:100%;border-collapse:separate;border-spacing:2px\">";
+		}
         echo '<tbody>';
         echo "<TR>".
         "<TH style=\"text-align:left\">"._('Date')."</TH>".
@@ -1284,12 +1284,15 @@ class Fiche
 	$idx=0;
         foreach ( $this->row as $op )
         {
-            $vw_operation=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s</A>',
-                                  $op['jr_id'], dossier::id(), $op['jr_internal']);
-            $let='';
-            if ( $op['letter'] !=-1) $let=  strtoupper(base_convert($op['letter'],10,36));
-
-	    $tmp_diff=bcsub($op['deb_montant'],$op['cred_montant']);
+            $vw_operation = sprintf('<A class="detail" style="text-decoration:underline;color:red" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s</A>', $op['jr_id'], dossier::id(), $op['jr_internal']);
+            $let = '';
+			$html_let = "";
+			if ($op['letter'] != -1)
+			{
+				$let = strtoupper(base_convert($op['letter'], 10, 36));
+				$html_let = HtmlInput::show_reconcile($from_div, $let);
+			}
+			$tmp_diff=bcsub($op['deb_montant'],$op['cred_montant']);
 
 	    /*
 	     * reset prog. balance to zero if we change of exercice
@@ -1322,16 +1325,16 @@ class Fiche
 		if ($idx%2 == 0) $class='class="odd"'; else $class=' class="even"';
 		$idx++;
 
-	    echo "<TR $class>".
-	      "<TD>".smaller_date(format_date($op['j_date_fmt']))."</TD>".
+	    echo "<TR $class name=\"tr_" . $let . "_" . $from_div . "\">" .
+			"<TD>".smaller_date(format_date($op['j_date_fmt']))."</TD>".
 	      td(h($op['jr_pj_number'])).
             "<TD>".$vw_operation."</TD>".
             "<TD>".h($op['description'])."</TD>".
             "<TD style=\"text-align:right\">".nbm($op['deb_montant'])."</TD>".
 	      "<TD style=\"text-align:right\">".nbm($op['cred_montant'])."</TD>".
 	      td(nbm(abs($progress)).$side,'style="text-align:right"').
-            td($let,' style="color:red;text-align:right"').
-            "</TR>";
+            td($html_let, ' style="text-align:right"') .
+			"</TR>";
 	    $old_exercice=$op['p_exercice'];
 
         }

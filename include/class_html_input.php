@@ -722,4 +722,11 @@ class HtmlInput
 			";
 		return $r;
 	}
+
+	static function show_reconcile($p_div, $let)
+	{
+		$r = '<A  style="color:red;" href="javascript:void(0)" onclick="show_reconcile(\'' . $p_div . '\',\'' . $let . '\')">' . $let . '</A>';
+		return $r;
+	}
+
 }

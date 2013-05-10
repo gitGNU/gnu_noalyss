@@ -44,7 +44,7 @@ $g_user=new User($cn);
 /* security */
 if ( $g_user->check_dossier(dossier::id(),true) == 'X' ) exit();
 
-$from_div=(isset ($_REQUEST['ajax']))?1:0;
+$from_div = (isset($_REQUEST['ajax'])) ? 1 : $_GET['l'];
 
 ///////////////////////////////////////////////////////////////////////////
 /* first detail for a card */
