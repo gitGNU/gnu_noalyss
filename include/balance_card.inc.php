@@ -25,7 +25,7 @@
  */
 require_once('class_exercice.php');
 global $g_user;
-echo '<div class="content" style="width:80%;margin-left:10%">';
+echo '<div class="content" style="width:90%;margin-left:5%">';
 echo $f->get_gestion_title();
 $exercice=new Exercice($cn);
 $old='';
