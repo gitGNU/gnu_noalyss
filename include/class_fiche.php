@@ -1248,12 +1248,15 @@ class Fiche
         if ( $p_array == null)
             $p_array=$_REQUEST;
         $progress=0;
-        $name=h($this->getName()).'['.$this->strAttribut(ATTR_DEF_QUICKCODE).']';
+		// if from_periode is greater than to periode then swap the values
+		if (cmpDate($p_array['from_periode'],$p_array['to_periode']) > 0)
+		{
+			$tmp=$p_array['from_periode'];
+			$p_array['from_periode']=$p_array['to_periode'];
+			$p_array['to_periode']=$tmp;
 
-        list($array,$tot_deb,$tot_cred)=$this->get_row_date( $p_array['from_periode'],
-                                        $p_array['to_periode'],
-                                        $op_let
-                                                           );
+		}
+        list($array, $tot_deb, $tot_cred) = $this->get_row_date($p_array['from_periode'], $p_array['to_periode'], $op_let);
 
         if ( count($this->row ) == 0 )
             return -1;
