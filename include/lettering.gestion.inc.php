@@ -2,6 +2,8 @@
 require_once('class_lettering.php');
 global $g_user;
 echo '<div class="content">';
+echo $f->get_gestion_title();
+
 echo '<div id="search">';
 echo '<FORM METHOD="GET">';
 echo dossier::hidden();

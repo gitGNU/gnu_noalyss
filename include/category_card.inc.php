@@ -109,9 +109,11 @@ if ( $ss_action=='bal')
 if ( $ss_action == 'cn')
 {
     echo '<div class="content">';
-    echo dossier::hidden();
-    $f=new Fiche($cn,$_REQUEST['f_id']);
-    $contact=new Contact($cn);
+
+	echo dossier::hidden();
+	$f = new Fiche($cn, $_REQUEST['f_id']);
+	echo $f->get_gestion_title();
+	$contact=new Contact($cn);
     $contact->company=$f->get_quick_code();
     echo $contact->summary("");
 

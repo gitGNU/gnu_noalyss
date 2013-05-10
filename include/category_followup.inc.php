@@ -44,7 +44,9 @@ $retour=HtmlInput::button_anchor('Retour','?'.dossier::get().'&'.$base);
 $fiche=new Fiche($cn,$_REQUEST['f_id']);
 
 $_GET['qcode']=$fiche->get_quick_code();
-$_REQUEST['qcode']=$fiche->get_quick_code();
+$_REQUEST['qcode'] = $fiche->get_quick_code();
+
 echo '<div class="content">';
+echo $fiche->get_gestion_title();
 require_once('action.common.inc.php');
 echo '</div>';
