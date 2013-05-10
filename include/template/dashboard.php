@@ -157,8 +157,15 @@ if ( $report != 0 ) {
  } else {
   echo '<fieldset style="width:50%;background-color:white"><legend>'._('Aucun rapport défini').'</legend>';
   echo '<a href="do.php?'.dossier::get().'&ac=PREFERENCE">'._('Cliquez ici pour mettre à jour vos préférences').'</a>';
-  echo '</fieldset>';
- }
+echo '<table>';
+for ($e = 0;$e<10;$e++){
+echo '<tr><td></td></tr>';
+}
+echo '</table>';
+
+echo '</fieldset>';
+echo '</div>';
+}
 
 ?>
 </div>
