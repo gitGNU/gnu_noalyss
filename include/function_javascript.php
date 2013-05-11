@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 PHP URL encoding/decoding functions for Javascript interaction V3.0
 (C) 2006 www.captain.at - all rights reserved
