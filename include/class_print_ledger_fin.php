@@ -75,7 +75,7 @@ class Print_Ledger_Financial extends PDF
         for ( $i=0;$i<count($a_jrn);$i++)
         {
             $row=$a_jrn[$i];
-            $this->Cell(30,5,$row['pj']);
+            $this->LongLine(30,5,$row['pj']);
             $this->Cell(10,5,$row['date_fmt']);
             $this->Cell(20,5,$row['internal']);
 

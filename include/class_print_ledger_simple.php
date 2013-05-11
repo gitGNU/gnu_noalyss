@@ -224,7 +224,7 @@ class Print_Ledger_Simple extends PDF
             }
 
             $row=$a_jrn[$i];
-            $this->Cell(15,5,($row['pj']),0,0);
+            $this->LongLine(15,5,($row['pj']),0);
             $this->Cell(10,5,$row['date_fmt'],0,0);
             $this->Cell(13,5,$row['internal'],0,0);
             list($qc,$name)=$this->get_tiers($row['id'],$this->jrn_type);

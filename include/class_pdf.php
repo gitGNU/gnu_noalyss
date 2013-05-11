@@ -91,6 +91,11 @@ class PDF extends TFPDF
 		$x_m=$this->GetX();
 		$y_m=$this->GetY();
 		$txt = str_replace("\\", "", $txt);
+		if ( $y_m > ($this->h-$this->bMargin-10 ))		{
+			$this->AddPage ();
+			$y_m=$this->GetY();
+
+		}
 		$this->MultiCell($w,$h,$txt,$border,$align,$fill);
 		$x_m=$x_m+$w;
 		$tmp=$this->GetY()-$y_m;

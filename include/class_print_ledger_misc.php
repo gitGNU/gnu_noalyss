@@ -78,7 +78,7 @@ class Print_Ledger_Misc extends PDF
         for ( $i=0;$i<count($a_jrn);$i++)
         {
             $row=$a_jrn[$i];
-            $this->Cell(30,5,$row['pj']);
+            $this->LongLine(30,5,$row['pj']);
             $this->Cell(10,5,$row['date_fmt']);
             $this->Cell(20,5,$row['internal']);
 	    $type=$this->cn->get_value("select jrn_def_type from jrn_def where jrn_def_id=$1",array($a_jrn[$i]['jr_def_id']));

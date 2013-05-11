@@ -93,7 +93,7 @@ class Print_Ledger_Detail extends PDF
             $this->SetFont('DejaVuCond','B',7);
             $row=$array[$i];
 
-            $this->Cell(20,7,$row['pj']);
+            $this->LongLine(20,7,$row['pj']);
             $this->Cell(15,7,$row['date_fmt']);
             $this->Cell(20,7,$row['internal']);
             $this->LongLine(170,7,$row['comment']);
