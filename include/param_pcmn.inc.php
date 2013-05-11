@@ -251,6 +251,7 @@ $MaxRow=Database::num_row($Ret);
              echo HtmlInput::hidden('p_action','pcmn');
 //echo HtmlInput::hidden('sa','detail');
 echo dossier::hidden();
+$limite=MAX_QCODE;
 ?>
 <TABLE class="result">
                              <TR>
@@ -310,10 +311,14 @@ for ($i=0; $i <$MaxRow; $i++)
 		if (strpos($A['acode'], ",") >0 ) {
 			$det_qcode=  split(",", $A['acode']);
 			echo '<ul style="paddding:0;margin:0;padding-left:0;list-style-type:none;padding-start-value:0">';
-			for ($e=0;$e<count($det_qcode);$e++) {
+			$max=(count($det_qcode)>MAX_QCODE)?MAX_QCODE:count($det_qcode);
+			for ($e=0;$e<$max;$e++) {
 				echo '<li style="padding-start-value:0">'.HtmlInput::card_detail($det_qcode[$e]).'</li>';
 			}
 			echo '</ol>';
+			if ($max < count($det_qcode)) {
+				echo "...";
+			}
 		} else {
 			echo HtmlInput::card_detail($A['acode']);
 		}

@@ -63,6 +63,7 @@ define ('MAX_COMPTE_CARD',4);
 define ('COMPTA_MAX_YEAR',2100);
 define ('COMPTA_MIN_YEAR',1990);
 define ('MAX_RECONCILE',25);
+define ('MAX_QCODE',4);
 
 if ( DEBUG ) error_reporting(2147483647);  else error_reporting(0);
 // Erreur
