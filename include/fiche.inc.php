@@ -418,7 +418,7 @@ for ($e = 0; $e < count($afiche); $e++)
 		/* skip if nothing to display */
 		if (count($letter->content) == 0)
 			continue;
-		$detail_card = HtmlInput::card_detail($row->strAttribut(ATTR_DEF_QUICKCODE), $row->strAttribut(ATTR_DEF_NAME))."poste :".HtmlInput::infobulle(27).$row->strAttribut(ATTR_DEF_ACCOUNT);
+		$detail_card = HtmlInput::card_detail($row->strAttribut(ATTR_DEF_QUICKCODE), $row->strAttribut(ATTR_DEF_NAME))."poste :".$row->strAttribut(ATTR_DEF_ACCOUNT).HtmlInput::infobulle(27);
 
 		echo '<h2 style="font-size:14px;text-align:left;margin-left:10px;padding-left:50px;border:solid 1px blue;width:70%;text-decoration:underline">' . $detail_card . '</h2>';
 

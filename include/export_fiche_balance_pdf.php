@@ -43,13 +43,14 @@ $pdf=new PDF($cn);
 $pdf->setDossierInfo("  Periode : ".$_GET['start']." - ".$_GET['end']);
 $pdf->AliasNbPages();
 $pdf->AddPage();
-$name=$cn->get_value('select fd_label from fiche_def where fd_id=$1',array($_GET['cat']));
-$pdf->SetFont('DejaVu','BI',14);
-$pdf->Cell(0,8,$name,0,1,'C');
+
 $pdf->SetTitle($name,1);
 $pdf->SetAuthor('Phpcompta');
 /* balance */
 $allcard=(isset($_GET['allcard']))?1:0;
+/*
+ * Balance
+ */
 if ( $_GET['histo'] == 4 || $_GET['histo']==5)
 {
     $fd=new Fiche_Def($cn,$_REQUEST['cat']);
@@ -78,18 +79,21 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5)
         $pdf->Output("category-$fDate.pdf", 'D');
         exit;
     }
+	for ($e = 0; $e < count($afiche); $e++)
+	{
+    $aCard=$cn->get_array("select f_id,ad_value from fiche join fiche_Detail using (f_id)  where ad_id=1 and fd_id=$1 order by 2 ",array($afiche[$e]['fd_id']));
+	$name=$cn->get_value('select fd_label from fiche_def where fd_id=$1',array($afiche[$e]['fd_id']));
+	$pdf->SetFont('DejaVu','BI',14);
+	$pdf->Cell(0,8,$name,0,1,'C');
+
 	$pdf->SetFont('DejaVuCond','',7);
-    $pdf->Cell(30,7,'Quick Code',0,0,'L',0);
-    $pdf->Cell(80,7,'Libellé',0,0,'L',0);
+    $pdf->LongLine(30,7,'Quick Code',0,'L',0);
+    $pdf->LongLine(80,7,'Libellé',0,'L',0);
     $pdf->Cell(20,7,'Débit',0,0,'R',0);
     $pdf->Cell(20,7,'Crédit',0,0,'R',0);
     $pdf->Cell(20,7,'Solde',0,0,'R',0);
     $pdf->Cell(20,7,'D/C',0,0,'C',0);
     $pdf->Ln();
-	for ($e = 0; $e < count($afiche); $e++)
-	{
-    $aCard=$cn->get_array("select f_id,ad_value from fiche join fiche_Detail using (f_id)  where ad_id=1 and fd_id=$1 order by 2 ",array($afiche[$e]['fd_id']));
-
 
 	if (empty($aCard)) continue;
 
@@ -126,13 +130,24 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5)
         $sum_solde=bcsub($sum_deb,$sum_cred);
 
         $pdf->Cell(30,7,$oCard->strAttribut(ATTR_DEF_QUICKCODE),0,0,'L',$fill);
-        $pdf->Cell(80,7,$oCard->strAttribut(ATTR_DEF_NAME),0,0,'L',$fill);
+        $pdf->LongLine(80,7,$oCard->strAttribut(ATTR_DEF_NAME)." (".$oCard->strAttribut(ATTR_DEF_ACCOUNT).")",0,'L',$fill);
         $pdf->Cell(20,7,nbm($solde['debit']),0,0,'R',$fill);
         $pdf->Cell(20,7,nbm($solde['credit']),0,0,'R',$fill);
         $pdf->Cell(20,7,nbm(abs($solde['solde'])),0,0,'R',$fill);
         $pdf->Cell(20,7,$side,0,0,'C',$fill);
         $pdf->Ln();
         }
+		if ( $idx % 2 == 0 )
+        {
+            $pdf->SetFillColor(220,221,255);
+            $fill=1;
+        }
+        else
+        {
+            $pdf->SetFillColor(0,0,0);
+            $fill=0;
+        }
+		$idx++;
         // Sum by category
         $pdf->Cell(30,7,"",0,0,'L',$fill);
         $pdf->Cell(80,7,_("Totaux"),0,0,'L',$fill);
@@ -155,6 +170,7 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5)
 }
 else
 {
+	// History
 	// all card
 	if ($allcard == 1)
 	{
@@ -210,10 +226,10 @@ else
 				continue;
 			$pdf->SetFont('DejaVuCond', '', 10);
 			$fiche = new Fiche($cn, $row_fiche['f_id']);
-			$pdf->Cell(0, 7, $fiche->strAttribut(ATTR_DEF_NAME)." [".$fiche->strAttribut(ATTR_DEF_QUICKCODE)."]", 1, 1, 'C');
+			$pdf->Cell(0, 7, $fiche->strAttribut(ATTR_DEF_NAME)." [".$fiche->strAttribut(ATTR_DEF_QUICKCODE).":".$fiche->strAttribut(ATTR_DEF_ACCOUNT)."]", 1, 'C');
 
 			$pdf->SetFont('DejaVuCond', '', 7);
-
+			$pdf->Ln();
 			$pdf->Cell($tab[0], 7, 'Date');
 			$pdf->Cell($tab[1], 7, 'ref');
 			$pdf->Cell($tab[2], 7, 'Internal');
@@ -243,7 +259,7 @@ else
 				$row = $letter->content[$i];
 				$str_date = shrink_date($row['j_date_fmt']);
 
-				$pdf->Cell($tab[0], 4, $str_date, 0, 0, $align[0], $fill);
+				$pdf->LongLine($tab[0], 4, $str_date, 0, $align[0], $fill);
 				$pdf->Cell($tab[1], 4, $row['jr_pj_number'], 0, 0, $align[1], $fill);
 				$pdf->LongLine($tab[2], 4, $row['jr_internal'], 0, $align[1], $fill);
 				$pdf->LongLine($tab[3], 4, $row['jr_comment'], 0,  $align[2], $fill);

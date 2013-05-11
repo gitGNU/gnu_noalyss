@@ -52,7 +52,7 @@ if ( $_GET['histo'] == 4 || $_GET['histo'] == 5)
 	{
 		$afiche[0]=array('fd_id'=>$_REQUEST['cat']);
 	}
-	printf('"Quick code";"Nom";"debit";"credit";"solde";"D/C";');
+	printf('"Quick code";"Nom";"poste comptable";"debit";"credit";"solde";"D/C";');
 		printf("\n");
 	for ($e = 0; $e < count($afiche); $e++)
 	{
@@ -82,7 +82,7 @@ if ( $_GET['histo'] == 4 || $_GET['histo'] == 5)
 			if (bcsub($solde['credit'], $solde['debit']) > 0)
 				$side = 'Cred.';
 
-			printf('"%s";"%s";%s;%s;%s;"%s"', $oCard->strAttribut(ATTR_DEF_QUICKCODE), $oCard->strAttribut(ATTR_DEF_NAME), nb($solde['debit']), nb($solde['credit']), nb(abs($solde['solde'])), $side);
+			printf('"%s";"%s";"%s";%s;%s;%s;"%s"', $oCard->strAttribut(ATTR_DEF_QUICKCODE), $oCard->strAttribut(ATTR_DEF_NAME),  $oCard->strAttribut(ATTR_DEF_ACCOUNT),nb($solde['debit']), nb($solde['credit']), nb(abs($solde['solde'])), $side);
 			printf("\n");
 		}
 	}
@@ -133,7 +133,7 @@ else
 			/* skip if nothing to display */
 			if (count($letter->content) == 0)
 				continue;
-			printf('"%s";"%s"'."\n",$row->strAttribut(ATTR_DEF_QUICKCODE), $row->strAttribut(ATTR_DEF_NAME));
+			printf('"%s";"%s";"%s"'."\n",$row->strAttribut(ATTR_DEF_QUICKCODE), $row->strAttribut(ATTR_DEF_NAME),$row->strAttribut(ATTR_DEF_ACCOUNT));
 
 			printf('"%s";"%s";"%s";"%s";"%s";"%s";"%s";"%s";"%s"',
 					_('Date'),
