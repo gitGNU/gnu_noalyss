@@ -1353,21 +1353,19 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 
             if ( $g_parameter->MY_TVA_USE=='Y')
             {
+				$op=new Acc_Compute();
+
+				$op->set_parameter("amount",$amount);
+				$op->set_parameter('amount_vat_rate',$oTva->get_parameter('rate'));
+				$op->compute_vat();
+				 $tva_computed=$op->get_parameter('amount_vat');
                 //----- if tva_amount is not given we compute the vat ----
                 if ( strlen (trim (${'e_march'.$i.'_tva_amount'})) == 0)
                 {
-                    $op=new Acc_Compute();
-
-                    $op->set_parameter("amount",$amount);
-                    $op->set_parameter('amount_vat_rate',$oTva->get_parameter('rate'));
-                    $op->compute_vat();
                     $tva_item=$op->get_parameter('amount_vat');
                 }
                 else
-                    $tva_item=round($
-                                    {'e_march'.$i.'_tva_amount'
-                                    }
-                                    ,2);
+                    $tva_item=round(${'e_march'.$i.'_tva_amount'},2);
 
                 if (isset($tva[$idx_tva] ) )
                     $tva[$idx_tva]+=$tva_item;
@@ -1396,8 +1394,21 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $r.='<td class="num">';
                 $r.=$oTva->get_parameter('label');
                 $r.='</td>';
-                $r.='<td class="num">';
-                $r.=nbm($tva_item);
+                /* warning if tva_computed and given are not the
+                   same */
+				bcscale(2);
+                if ( bcsub($tva_item,$tva_computed) != 0)
+                {
+
+					 $r.='<td style="background-color:red" class="num">';
+					 $r.=HtmlInput::infobulle(28);
+                    $r.='<a href="#" class="error" style="display:inline" title="'. _("Attention Différence entre TVA calculée et donnée").'">'
+							.nbm($tva_item).'<a>';
+                }
+				else{
+					 $r.='<td  class="num">';
+					$r.=nbm($tva_item);
+				}
                 $r.='</td>';
 				$r.='<td class="num">';
 				$r.=nbm(round($amount,2));

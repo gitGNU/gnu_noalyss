@@ -625,7 +625,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger
     }
 
 
-    /*!@brief show the summary of the operation and propose to save it
+    /*!
+	 *@brief show the summary of the operation and propose to save it
      *@param array contains normally $_POST. It proposes also to save
      * the Analytic accountancy
 	 *@param $p_summary false for the feedback, true to show the summary
@@ -772,16 +773,20 @@ class  Acc_Ledger_Sold extends Acc_Ledger
                 $r.='<td class="num">';
                 $r.=$oTva->get_parameter('label');
                 $r.='</td>';
-                $r.='<td class="num">';
+
                 /* warning if tva_computed and given are not the
                    same */
                 if ( bcsub($tva_item,$tva_computed) != 0)
                 {
+					 $r.='<td style="background-color:red" class="num">';
+					 $r.=HtmlInput::infobulle(28);
                     $r.='<a href="#" class="error" style="display:inline" title="'. _("Attention Différence entre TVA calculée et donnée").'">'
 							.nbm($tva_item).'<a>';
                 }
-				else
+				else{
+					 $r.='<td  class="num">';
 					$r.=nbm($tva_item);
+				}
                 $r.='</td>';
 				$r.='<td class="num">';
 				$r.=nbm($amount);

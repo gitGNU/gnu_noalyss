@@ -55,6 +55,7 @@ content[24]="Donnez une partie du poste comptable ou du libellé pour filtrer";
 content[25]="Donnez une partie du libellé, la date, le montant ou le numéro d'opération pour filtrer, cela n'efface pas ce qui a déjà été sélectionné";
 content[26]="Donnez une partie du quickcode, nom, description... pour filtrer";
 content[27]="Attention, <b>SI</b> la fiche a changé de poste comptable, c'est seulement le dernier qui est affiché";
+content[28]="Attention Différence entre TVA calculée et donnée";
 function showBulle(p_ctl)
 {
     d=document.getElementById('bulle');
