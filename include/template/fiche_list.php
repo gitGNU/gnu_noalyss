@@ -37,6 +37,9 @@
 				Nom
 
 			</th>
+			<th>
+				Poste Comptable
+			</th>
 			<? if ($allcard == 1 ) : ?>
 			<th>
 				Catégorie
@@ -56,6 +59,9 @@
 				</td>
 				<td>
 					<?= h($row['name'])?>
+				</td>
+				<td>
+					<?=HtmlInput::history_account($row['poste'],$row['poste'])?>
 				</td>
 				<? if ($allcard == 1 ) : ?>
 				<td>

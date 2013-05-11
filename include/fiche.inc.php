@@ -196,9 +196,10 @@ if ($_GET['histo'] == -1)
 		select f_id,
 			(select ad_value from fiche_detail as fd1 where ad_id=1 and fd1.f_id=f.f_id) as name,
 			(select ad_value from fiche_detail as fd1 where ad_id=23 and fd1.f_id=f.f_id) as qcode,
-			fd_label
+			fd_label,
+			(select ad_value from fiche_detail as fd1 where ad_id=5 and fd1.f_id=f.f_id) as poste
 		from fiche as f join fiche_def as fd on (fd.fd_id=f.fd_id)
-		$cond   order by 2 offset $offset $limit
+		$cond   order by 2,4 offset $offset $limit
 	");
 	$nb_line = Database::num_row($res);
 	if ($write != 1 || $allcard != 0 )  $str_add_card="";
