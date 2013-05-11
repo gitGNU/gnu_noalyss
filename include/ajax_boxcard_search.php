@@ -27,17 +27,12 @@
  *
  */
 $sql="
-	select vw.f_id,vw_name,vw_first_name,vw_description,fd_label,quick_code,pc.ad_value as poste,tva_num
+	select distinct vw.f_id,vw_name,vw_first_name,vw_description,fd_label,quick_code,tva_num
 	from vw_fiche_attr as vw
 	join fiche_def as fd on (vw.fd_id=fd.fd_id)
-	left join (select f_id,ad_value from fiche_detail where ad_id=5) as pc on (pc.f_id=vw.f_id)
+	left join fiche_detail as pc on (pc.f_id=vw.f_id)
 	where
-	vw_name ~* $1
-	or vw_first_name ~* $1
-	or vw_description ~* $1
-	or tva_num ~* $1
-	or pc.ad_value like $1||'%'
-	or quick_code like upper($1||'%')
+	ad_value ~* $1
 	order by 2
 ";
 $array=$cn->get_array($sql,array($_GET['card']));
@@ -48,16 +43,18 @@ $max=(count($array)>MAX_CARD_SEARCH)?MAX_CARD_SEARCH:count($array);
 <h2 class="notice">Résultat limité à <?=MAX_CARD_SEARCH?>, nombre de fiches trouvées : <?=count($array)?> </h2>
 
 <? endif?>
-<table class="sortable">
+Filtre  .<?php echo HtmlInput::filter_table("tb_fiche", "0,1,2,3,4,5", 1); ?>
+<table id="tb_fiche" class="sorttable">
 	<tr>
-		<th>
-			Categorie
-		</th>
+
 		<th>
 			Quick Code
 		</th>
 		<th>
 			Nom
+		</th>
+		<th>
+			Categorie
 		</th>
 		<th>
 			Description
@@ -74,16 +71,17 @@ $max=(count($array)>MAX_CARD_SEARCH)?MAX_CARD_SEARCH:count($array);
 	<h2 class="notice"> Aucun résultat</h2>
 <?endif?>
 <? for ($i=0;$i<$max;$i++):?>
-	<tr>
-		<td>
-			<?=h($array[$i]['fd_label'])?>
-		</td>
+	<tr class="<?php echo ($i%2 == 0)?'even':'odd';?>">
+
 		<td>
 			<?=HtmlInput::card_detail($array[$i]['quick_code'])?>
 		</td>
 		<td>
 			<?=h($array[$i]['vw_name'])?>&nbsp;
 			<?=h($array[$i]['vw_first_name'])?>
+		</td>
+		<td>
+			<?=h($array[$i]['fd_label'])?>
 		</td>
 		<td>
 			<?=h($array[$i]['vw_description'])?>
