@@ -327,7 +327,8 @@ function fill_ipopcard(obj)
 
     var content='card_'+card_layer;
     var nTop=posY-40;
-    var nLeft=posX-20;
+    //var nLeft=posX-20;
+	var nLeft="20%";
     var str_style="top:"+nTop+";left:"+nLeft+";width:45em;height:auto";
 
     var popup={'id':  content,'cssclass':'inner_box','style':str_style,'html':loading(),'drag':true};
