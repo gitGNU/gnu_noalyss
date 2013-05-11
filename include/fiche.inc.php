@@ -304,6 +304,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 		echo tr(
 				th('Quick Code') .
 				th('Libellé') .
+				'<th>Poste'.HtmlInput::infobulle(27).'</th>'.
 				th('Débit', 'style="text-align:right"') .
 				th('Crédit', 'style="text-align:right"') .
 				th('Solde', 'style="text-align:right"') .
@@ -332,6 +333,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 			echo tr(
 					td(HtmlInput::history_card($oCard->id, $oCard->strAttribut(ATTR_DEF_QUICKCODE))) .
 					td($oCard->strAttribut(ATTR_DEF_NAME)) .
+					td($oCard->strAttribut(ATTR_DEF_ACCOUNT)).
 					td(nbm($solde['debit']), 'style="text-align:right"') .
 					td(nbm($solde['credit']), 'style="text-align:right"') .
 					td(nbm(abs($solde['solde'])), 'style="text-align:right"') .
@@ -344,6 +346,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
                 echo tr(
                                 td('').
                                 td(_('Totaux')).
+                                td('').
                                 td(nbm($sum_deb), 'style="text-align:right"').
                                 td(nbm($sum_cred), 'style="text-align:right"').
                                 td(nbm(abs($sum_solde)), 'style="text-align:right"').
@@ -415,7 +418,7 @@ for ($e = 0; $e < count($afiche); $e++)
 		/* skip if nothing to display */
 		if (count($letter->content) == 0)
 			continue;
-		$detail_card = HtmlInput::card_detail($row->strAttribut(ATTR_DEF_QUICKCODE), $row->strAttribut(ATTR_DEF_NAME));
+		$detail_card = HtmlInput::card_detail($row->strAttribut(ATTR_DEF_QUICKCODE), $row->strAttribut(ATTR_DEF_NAME))."poste :".HtmlInput::infobulle(27).$row->strAttribut(ATTR_DEF_ACCOUNT);
 
 		echo '<h2 style="font-size:14px;text-align:left;margin-left:10px;padding-left:50px;border:solid 1px blue;width:70%;text-decoration:underline">' . $detail_card . '</h2>';
 
