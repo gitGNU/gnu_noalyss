@@ -99,8 +99,9 @@ case "sf":
 
 
     $r.='</form>';
-    $sql="select pcm_val,pcm_lib,pcm_val_parent,pcm_type ".
-         " from tmp_pcmn ";
+    $sql="
+		select pcm_val,pcm_lib,array_to_string(array_agg(j_qcode) , ',') as acode
+		from tmp_pcmn left join vw_poste_qcode on (j_poste=pcm_val) ";
     $sep=" where ";
     /* build the sql stmt */
     if ( isset($j) && $j > 0 && isNumber($j))
@@ -121,7 +122,7 @@ case "sf":
         $sql.=sprintf(" $sep ( pcm_val::text like '%s%%' or pcm_lib::text ilike '%%%s%%') ",
                       $q,$q);
     }
-    $sql.=' order by pcm_val::text limit 50';
+    $sql.=' group by pcm_val,pcm_lib,pcm_val_parent, pcm_type  order by pcm_val::text limit 50';
     if ( isset($q) && strlen(trim($q))> 0 )
     {
         $array=$cn->get_array($sql);

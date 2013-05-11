@@ -16,6 +16,22 @@
 <?=$array[$i]['pcm_lib']?>
 </span>
 </td>
+<td>
+	<?php
+	if ( strlen($array[$i]['acode']) >0 ) {
+		if (strpos($array[$i]['acode'], ",") >0 ) {
+			$det_qcode=  split(",", $array[$i]['acode']);
+			$sep="";
+			for ($e=0;$e<count($det_qcode);$e++) {
+				echo $sep.HtmlInput::card_detail($det_qcode[$e]);
+				$sep=" , ";
+			}
+		} else {
+			echo HtmlInput::card_detail($array[$i]['acode']);
+		}
+	}
+	?>
+</td>
 </tr>
 
 

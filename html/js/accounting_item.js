@@ -75,7 +75,7 @@ function search_poste(obj)
             sx=document.body.scrollTop+60;
 	}
 
-	var div_style="z-index:15;top:"+sx;
+	var div_style="top:"+sx;
 	removeDiv('search_account');
 	add_div({id:'search_account',cssclass:'inner_box',html:loading(),style:div_style,drag:true});
 

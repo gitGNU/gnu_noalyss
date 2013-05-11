@@ -239,7 +239,9 @@ if ( isset ( $_POST["Ajout"] ) )
     }
 }
 
-$Ret=$cn->exec_sql("select pcm_val,pcm_lib,pcm_val_parent,pcm_type from tmp_pcmn where substr(pcm_val::text,1,1)='".$_SESSION['g_start']."' order by pcm_val::text");
+$Ret=$cn->exec_sql("select pcm_val,pcm_lib,pcm_val_parent,pcm_type,array_to_string(array_agg(j_qcode) , ',') as acode
+	from tmp_pcmn left join vw_poste_qcode on (j_poste=pcm_val) where substr(pcm_val::text,1,1)='".$_SESSION['g_start']."'".
+		"  group by pcm_val,pcm_lib,pcm_val_parent, pcm_type  order by pcm_val::text");
 $MaxRow=Database::num_row($Ret);
 
 ?>
@@ -256,11 +258,13 @@ echo dossier::hidden();
                              <TH> Libellé </TH>
                              <TH> Poste comptable Parent </TH>
                              <TH> Type </TH>
+                             <TH> Fiche</TH>
                              </TR>
-                             <?php
-                             $line=new Acc_Account($cn);
+<?php
+$line=new Acc_Account($cn);
 echo $line->form(false);
 ?>
+							 <td></td>
 <TD>
 <INPUT TYPE="SUBMIT" class="button" Value="Ajout" Name="Ajout">
                                        </TD>
@@ -301,6 +305,20 @@ for ($i=0; $i <$MaxRow; $i++)
     echo $A['pcm_type'];
     echo "</TD>";
 
+	echo $td;
+	if ( strlen($A['acode']) >0 ) {
+		if (strpos($A['acode'], ",") >0 ) {
+			$det_qcode=  split(",", $A['acode']);
+			echo '<ul style="paddding:0;margin:0;padding-left:0;list-style-type:none;padding-start-value:0">';
+			for ($e=0;$e<count($det_qcode);$e++) {
+				echo '<li style="padding-start-value:0">'.HtmlInput::card_detail($det_qcode[$e]).'</li>';
+			}
+			echo '</ol>';
+		} else {
+			echo HtmlInput::card_detail($A['acode']);
+		}
+	}
+	echo '</td>';
 
     echo $td;
     printf ('<A href="?ac='.$_REQUEST['ac'].'&l=%s&action=del&%s">Efface</A>',$A['pcm_val'],$str_dossier);
