@@ -103,8 +103,9 @@ class Document_modele
 	}
 	$b=new IButton('show');
 	$b->label="Ajout d'un document";
-	$b->javascript="$('add_modele').style.display='block';$('show').style.display='none';";
-	$r.=$b->input();
+	$b->javascript="$('add_modele').style.display='block';new Draggable('add_modele',{starteffect:function(){
+                      new Effect.Highlight(obj.id,{scroll:window,queue:'end'});}});";
+		$r.=$b->input();
         $r.="</form></p>";
         return $r;
     }
@@ -217,12 +218,12 @@ class Document_modele
         $this->cn->commit();
     }
 
-    /*!
-     * \brief show the form for loading a template
-     * \param p_action for the field action = destination url
+    /**
+     * @brief show the form for loading a template
+     * @param p_action for the field action = destination url
      *
      *
-     * \return string containing the forms
+     * @return string containing the forms
      */
     function form()
     {

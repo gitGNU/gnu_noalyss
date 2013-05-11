@@ -76,7 +76,8 @@ if ( $sub_action == 'mod_template')
 // Default action : Show the list
 //-----------------------------------------------------
 echo $doc->myList();
-echo '<div id="add_modele" style="display:none">';
+echo '<div id="add_modele" class="inner_box" style="display:none">';
+echo HtmlInput::title_box("Ajout d'un modèle", "add_modele", "hide");
 echo $doc->form('');
 echo '</div>';
 
