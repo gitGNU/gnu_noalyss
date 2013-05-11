@@ -130,7 +130,7 @@ if ( $rapport->exist() == false ) {
 }
 
 if ( $report != 0 ) {
-  echo '<fieldset ><legend>'.$rapport->get_name().'</legend>';
+  echo '<fieldset style="height:70%;"><legend>'.$rapport->get_name().'</legend>';
   $exercice=$g_user->get_exercice();
   if ( $exercice == 0 ) {
     alert(_('Aucune periode par defaut'));
@@ -155,13 +155,9 @@ if ( $report != 0 ) {
   echo '</fieldset>';
   echo '</div>';
  } else {
-  echo '<fieldset style="width:50%;background-color:white"><legend>'._('Aucun rapport défini').'</legend>';
+  echo '<fieldset style="height:70%;width:80%;background-color:white"><legend>'._('Aucun rapport défini').'</legend>';
   echo '<a href="do.php?'.dossier::get().'&ac=PREFERENCE">'._('Cliquez ici pour mettre à jour vos préférences').'</a>';
-echo '<table>';
-for ($e = 0;$e<10;$e++){
-echo '<tr><td></td></tr>';
-}
-echo '</table>';
+
 
 echo '</fieldset>';
 echo '</div>';
