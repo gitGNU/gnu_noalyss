@@ -53,6 +53,7 @@ content[22]="Donnez une partie du nom du dossier,du nom, du prénom ou du login 
 content[23]="Donnez une partie du nom du dossier ou de la description pour filtrer";
 content[24]="Donnez une partie du poste comptable ou du libellé pour filtrer";
 content[25]="Donnez une partie du libellé, la date, le montant ou le numéro d'opération pour filtrer, cela n'efface pas ce qui a déjà été sélectionné";
+content[26]="Donnez une partie du quickcode, nom, description... pour filtrer";
 
 function showBulle(p_ctl)
 {

@@ -27,7 +27,7 @@
  *
  */
 $sql="
-	select distinct vw.f_id,vw_name,vw_first_name,vw_description,fd_label,quick_code,tva_num
+	select distinct vw.f_id,vw_name,vw_first_name,vw_description,fd_label,quick_code,tva_num,(select ad_value from fiche_Detail where f_id=pc.f_id and ad_id=5) as poste
 	from vw_fiche_attr as vw
 	join fiche_def as fd on (vw.fd_id=fd.fd_id)
 	left join fiche_detail as pc on (pc.f_id=vw.f_id)
@@ -43,15 +43,15 @@ $max=(count($array)>MAX_CARD_SEARCH)?MAX_CARD_SEARCH:count($array);
 <h2 class="notice">Résultat limité à <?=MAX_CARD_SEARCH?>, nombre de fiches trouvées : <?=count($array)?> </h2>
 
 <? endif?>
-Filtre  .<?php echo HtmlInput::filter_table("tb_fiche", "0,1,2,3,4,5", 1); ?>
-<table id="tb_fiche" class="sorttable">
+Filtre  <?php echo HtmlInput::infobulle(26);echo HtmlInput::filter_table("tb_fiche", "0,1,2,3,4,5", 1); ?>
+<table id="tb_fiche" class="sorttable" style="width:100%">
 	<tr>
-
 		<th>
-			Quick Code
+			Quick Code <?php echo HtmlInput::infobulle(17); ?>
 		</th>
-		<th>
+		<th class=" sorttable_sorted">
 			Nom
+		<span id="sorttable_sortfwdind">&nbsp;&#x25BE;</span>
 		</th>
 		<th>
 			Categorie
@@ -91,8 +91,8 @@ Filtre  .<?php echo HtmlInput::filter_table("tb_fiche", "0,1,2,3,4,5", 1); ?>
 			<?=h($array[$i]['tva_num'])?>
 
 		</td>
-		<td>
-			<?=h($array[$i]['poste'])?>
+		<td style="text-align:right">
+			<?=HtmlInput::history_account($array[$i]['poste'],$array[$i]['poste'])?>
 
 		</td>
 	</tr>
