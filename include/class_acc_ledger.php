@@ -2305,7 +2305,7 @@ class Acc_Ledger extends jrn_def_sql
 			$value = 0;
 		return $value;
 	}
-
+	
 	/**
 	 * @brief create the invoice and saved it as attachment to the
 	 * operation,
@@ -2321,7 +2321,8 @@ class Acc_Ledger extends jrn_def_sql
 		$doc->f_id = $e_client;
 		$doc->md_id = $gen_doc;
 		$doc->ag_id = 0;
-		$doc->Generate($p_array);
+		$filename="";
+		$doc->Generate($p_array,$p_array['e_pj']);
 		// Move the document to the jrn
 		$doc->MoveDocumentPj($internal);
 		// Update the comment with invoice number, if the comment is empty

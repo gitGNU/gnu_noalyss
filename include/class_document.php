@@ -62,16 +62,28 @@ class Document
         $this->db->exec_sql($sql);
 
     }
-
+	function compute_filename($pj,$filename)
+	{
+		foreach (array('/','*','<','>',';',',','\\','.',':') as $i) {
+			$pj= str_replace($i, "-",$pj);
+		}
+		// save the suffix
+		$pos_prefix=strrpos($filename,".");
+		if ($pos_prefix == 0) $pos_prefix=strlen($filename);
+		$filename_no=substr($filename,0,$pos_prefix);
+		$filename_suff=substr($filename,$pos_prefix,strlen($filename));
+		$new_filename=  strtolower($filename_no."-".$pj.$filename_suff);
+		return $new_filename;
+	}
     /*!
      * \brief Generate the document, Call $this-\>Replace to replace
      *        tag by value
-     *\p_array contains the data normally it is the $_POST
-     *
+     *@param p_array contains the data normally it is the $_POST
+     *@param contains the new filename
      * \return an array : the url where the generated doc can be found, the name
      * of the file and his mimetype
      */
-    function Generate($p_array)
+    function Generate($p_array,$p_filename="")
     {
         // create a temp directory in /tmp to unpack file and to parse it
         $dirname=tempnam($_ENV['TMP'],'doc_');
@@ -144,7 +156,10 @@ class Document
 
             $file_to_parse=$filename;
         }
+		if ( $p_filename !="") {
 
+			$this->d_filename=$this->compute_filename($p_filename, $this->d_filename);
+		}
         $this->SaveGenerated($dirname.DIRECTORY_SEPARATOR.$file_to_parse);
         // Invoice
         $ret='<A class="mtitle" HREF="show_document.php?d_id='.$this->d_id.'&'.dossier::get().'">Document g&eacute;n&eacute;r&eacute;</A>';
@@ -244,7 +259,7 @@ class Document
 			if ( strpos($value,'ERROR') != false ) 		  $value="";
                         /*
                          * Change type of cell to numeric
-                         *  allow numeric cel in ODT for the formatting and formula 
+                         *  allow numeric cel in ODT for the formatting and formula
                          */
 			if ( is_numeric($value) && $p_type=='OOo')
 			  {
