@@ -45,6 +45,7 @@ function boxsearch_card(p_dossier)
 						var div_style="left:10%;width:80%;"+";top:"+y;
 						add_div({id:'boxsearch_card_div',cssclass:'inner_box',html:loading(),style:div_style,drag:true});
 						$('boxsearch_card_div').innerHTML=req.responseText;
+						sorttable.makeSortable($('tb_fiche'));
 				      }
 				  }
 				  );
