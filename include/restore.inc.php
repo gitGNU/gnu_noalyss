@@ -36,7 +36,7 @@ if ( isset ($_REQUEST['sa'] ))
     putenv("PGUSER=".phpcompta_user);
     putenv("PGPORT=".phpcompta_psql_port);
 	putenv("PGHOST=").phpcompta_psql_host;
-	
+
     $retour='<hr>'.HtmlInput::button_anchor("Retour","?action=restore");
     if ( ! isset($_REQUEST['t']))
     {
@@ -69,12 +69,24 @@ if ( isset ($_REQUEST['sa'] ))
         $id=$cn->get_next_seq('dossier_id');
 
         if ( strlen(trim($_REQUEST['database'])) == 0 )
+		{
             $lname=$id." Restauration :".sql_string($_FILES['file']['name']);
+		}
         else
+		{
             $lname=$id." ".$_REQUEST['database'];
+		}
 
+		if (strlen(trim($_REQUEST['desc']))==0)
+		{
+			$ldesc=$lname;
+		}
+		else
+		{
+			$ldesc=sql_string($_REQUEST['desc']);
+		}
 
-        $sql="insert into ac_dossier (dos_id,dos_name) values (".$id.",'".$lname."') ";
+        $sql="insert into ac_dossier (dos_id,dos_name,dos_description) values (".$id.",'".$lname."','".$ldesc."') ";
         $cn->start();
         try
         {
@@ -137,7 +149,7 @@ if ( isset ($_REQUEST['sa'] ))
             $lname=$id." ".$_REQUEST['database'];
 
 
-        $sql="insert into modeledef (mod_id,mod_name) values (".$id.",'Restauration".$lname."') ";
+        $sql="insert into modeledef (mod_id,mod_name,mod_desc) values (".$id.",'Restauration".$lname."','".$ldesc."') ";
         $cn->start();
         try
         {
@@ -189,10 +201,11 @@ else
     echo HtmlInput::hidden('action','restore');
     echo HtmlInput::hidden('sa','r');
     echo '<table>';
-    echo '<tr><td>'."Nom de la base de donnée".'</td>';
+    echo '<tr><td>'."Nom de la base de donnée".HtmlInput::infobulle(29)
+			.'</td>';
     $wNom=new IText();
     $wNom->name="database";
-    $wNom->size=12;
+    $wNom->size=30;
     echo '<td>'.$wNom->input().'</td></tr>';
     echo '<tr><td>'."Type de backup :".'</td>';
     $chk=new IRadio();
@@ -209,9 +222,15 @@ else
     $file->value="mod";
     echo td('Fichier ').
     td($file->input());
-    echo '</tr>';
+	$desc=new ITextarea('desc');
+	echo '</tr>';
     echo '</table>';
+	echo "<p>Description </p>";
+	$desc->heigh=4;$desc->width=60;
+	echo $desc->input();
+	echo '<p>';
     echo HtmlInput::submit("","Restauration");
+	echo '</p>';
     echo '</form>';
     echo '</div>';
 }

@@ -56,6 +56,7 @@ content[25]="Donnez une partie du libellé, la date, le montant ou le numéro d'
 content[26]="Donnez une partie du quickcode, nom, description... pour filtrer";
 content[27]="Attention, <b>SI</b> la fiche a changé de poste comptable, c'est seulement le dernier qui est affiché";
 content[28]="Attention Différence entre TVA calculée et donnée";
+content[29]="Si vous ne donnez pas de nom, ce sera le nom du fichier qui sera utilisé";
 function showBulle(p_ctl)
 {
     d=document.getElementById('bulle');
