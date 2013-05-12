@@ -326,7 +326,7 @@ for ($i=0; $i <$MaxRow; $i++)
 	echo '</td>';
 
     echo $td;
-    printf ('<A href="?ac='.$_REQUEST['ac'].'&l=%s&action=del&%s">Efface</A>',$A['pcm_val'],$str_dossier);
+    printf ('<A class="input_text" href="?ac='.$_REQUEST['ac'].'&l=%s&action=del&%s">Efface</A>',$A['pcm_val'],$str_dossier);
     echo "</TD>";
 
 
