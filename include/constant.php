@@ -35,7 +35,7 @@ $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 /*set to none for production */
 /* uncomment for production */
- define ('SVNINFO',5900);
+//define ('SVNINFO',5900);
 $version_phpcompta=SVNINFO;
 define ("DEBUG",false);
 /* define ('SVNINFO',5015);
