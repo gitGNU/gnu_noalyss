@@ -1754,3 +1754,15 @@ function filter_table(phrase, _id, colnr,start_row) {
 		}
 	}
 }
+function display_task(p_id)
+{
+	new Draggable(p_id,{starteffect:function()
+                                  {
+									 new Effect.Highlight(obj.id,{scroll:window,queue:'end'});
+                                  }}
+                         );
+    $(p_id).style.top=posY;
+    $(p_id).style.left=posX;
+	$(p_id).style.display='block';
+
+}

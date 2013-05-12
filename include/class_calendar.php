@@ -35,6 +35,10 @@ class Calendar
         $this->month=$this->current_date['mon'];
         $this->day=self::$nb_day[$this->month-1];
         $this->year=$this->current_date['year'];
+		$this->action_div=array();
+		$this->action=array();
+		$this->title=array();
+
         if ( $this->year % 4 == 0 && $this->month=2)
             $this->day=29;
     }
@@ -48,22 +52,40 @@ class Calendar
 		$profile=$g_user->get_profile();
 
         $cn=new Database(dossier::id());
-        $sql="select count(*) as nb,to_char(ag_remind_date,'DD')::integer as ag_timestamp_day ".
+        $sql="select ag_id,to_char(ag_remind_date,'DD')::integer as ag_timestamp_day,ag_title
+			".
              " from action_gestion ".
              " where ".
              " to_char(ag_remind_date,'MM')::integer=$1 ".
              " and to_char(ag_remind_date,'YYYY')::integer=$2 ".
              "  and ag_dest in (select p_granted from user_sec_action_profile where p_id =$3)
 				 and ag_state IN (2, 3)
-				 group by to_char(ag_remind_date,'DD')::integer";
+				";
 
 		$array=$cn->get_array($sql,array($this->month,$this->year,$profile));
         for ($i=0;$i<count($array);$i++)
         {
             $ind=$array[$i]['ag_timestamp_day'];
-            $p_array[$ind].="<span class=\"notice\">".$array[$i]['nb']." "._("Tâches suivies").'</span>';
+
+			$this->action[$ind][]=$array[$i]['ag_id'];
+			$this->title[$ind][]=$array[$i]['ag_title'];
 
         }
+		/*
+		 * Fill foreach day
+		 */
+		foreach ($this->action as $day=>$aAction)
+		{
+			if ($p_array[$day]=="")  $p_array[$day]='<span class="input_text" onclick="display_task(\'tsk'.$day.'\');">'." ".count($aAction)." "._("Tâches").'</span>';
+			$this->action_div[$day]='<div id="tsk'.$day.'" class="inner_box" style="width:200;display:none">';
+			$this->action_div[$day].=HtmlInput::title_box($day."/".$this->month."/".$this->year, "tsk".$day, "hide");
+			 $this->action_div[$day].="<ol>";
+			for ($i=0;$i<count($aAction);$i++)
+			{
+				$this->action_div[$day].='<li>'.HtmlInput::detail_action($aAction[$i], $this->title[$day][$i]).'</li>';
+			}
+			$this->action_div[$day].='</ol></div>';
+		}
     }
     /*!\brief fill the array given as parameter with the data from todo
      *\param $p_array array of the date of the month
@@ -113,7 +135,15 @@ class Calendar
         $month_year=$wMonth->input().$wMonth->get_js_attr();
         ob_start();
         require_once('template/calendar.php');
-        $ret=ob_get_contents();
+
+		if (count($this->action_div) > 0)
+		{
+			foreach ($this->action_div as $day)
+			{
+				echo $day;
+			}
+		}
+		$ret=ob_get_contents();
         ob_end_clean();
         return $ret;
     }
@@ -133,7 +163,7 @@ class Calendar
     }
     /**
      *@brief get the periode from the preference of the current user
-     * change the value of default_periode
+     * change the value of default_periode to today
      *@return $this->default_periode
      */
     function get_preference()
@@ -152,7 +182,7 @@ class Calendar
         {
             $p_id=$g_user->get_periode();
         }
-	$this->default_periode=$p_id;
+		$this->default_periode=$p_id;
         return  $p_id;
     }
     /**
