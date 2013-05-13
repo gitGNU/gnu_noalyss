@@ -77,7 +77,7 @@ border:groove 2px blue;
 </head>
 <body>
 <p align="center">
-  <IMG SRC="../image/logo7.gif" alt="Logo PhpCompta">
+  <IMG SRC="../image/logo7.png" alt="Logo PhpCompta">
 </p>
 <?php
 
