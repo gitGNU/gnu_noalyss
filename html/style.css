@@ -959,6 +959,8 @@ background:white;
 }
 h2#jrn_name
 {
+	color:blue;
+	font-size:22;
 	margin-right:30%;
 	float: right;
 
