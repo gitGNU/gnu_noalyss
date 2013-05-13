@@ -587,7 +587,7 @@ function view_history_account(p_value,dossier)
 function update_history_account(obj)
 {
     try{
-	var querystring="div="+obj.div+"&gDossier="+obj.gDossier+"&pcm_val="+obj.pcm_val+"&ex="+obj.select.options[obj.select.selectedIndex].text;
+	var querystring="l="+obj.div+"&div="+obj.div+"&gDossier="+obj.gDossier+"&pcm_val="+obj.pcm_val+"&ex="+obj.select.options[obj.select.selectedIndex].text;
 	var action=new Ajax.Request(
 	    "ajax_history.php",
 	    {
@@ -644,7 +644,7 @@ var popup={'id':
 function update_history_card(obj)
 {
     try{
-	var querystring="div="+obj.div+"&gDossier="+obj.gDossier+"&f_id="+obj.f_id+"&ex="+obj.select.options[obj.select.selectedIndex].text;
+	var querystring="l="+obj.div+"&div="+obj.div+"&gDossier="+obj.gDossier+"&f_id="+obj.f_id+"&ex="+obj.select.options[obj.select.selectedIndex].text;
 	var action=new Ajax.Request(
 	    "ajax_history.php",
 	    {

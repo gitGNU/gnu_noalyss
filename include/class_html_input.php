@@ -412,7 +412,7 @@ class HtmlInput
     {
 	$r='';
 	$r.='<div style="float:right;margin-right:2px;margin-top:1px;padding:0">';
-	$r.= '<A id="close_div" HREF="javascript:void(0)" onclick="removeDiv(\''.$div.'\');">Fermer</A>';
+	$r.= '<A id="close_div" class="input_text" HREF="javascript:void(0)" onclick="removeDiv(\''.$div.'\');">Fermer</A>';
 	$r.='</div>';
 	return $r;
     }
@@ -439,7 +439,7 @@ class HtmlInput
     {
 	$r='';
 	$r.='<div style="float:right;right;margin:2;">';
-	$r.= '<A id="close_div" HREF="javascript:void(0)" onclick="'.$javascript.'">'.$action.'</A>';
+	$r.= '<span id="close_div" class="input_text"  HREF="javascript:void(0)" onclick="'.$javascript.'">'.$action.'</span>';
 	$r.='</div>';
 	return $r;
     }
@@ -716,7 +716,7 @@ class HtmlInput
 	static function filter_table($p_table_id,$p_col,$start_row)
 	{
 		$r= "
-			<form style=\"display:inline\">
+			<form style=\"display:inline\" class=\"noprint\">
 			<input id=\"lk_".$p_table_id."\" class=\"input_text\" name=\"filter\" onkeyup=\"filter_table(this, '$p_table_id','$p_col',$start_row )\" type=\"text\">
 			<input type=\"button\" class=\"button\" onclick=\"$('lk_".$p_table_id."').value='';filter_table($('lk_".$p_table_id."'), '$p_table_id','$p_col',$start_row );\" value=\"X\">
 			</form>
