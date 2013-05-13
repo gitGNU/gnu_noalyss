@@ -1058,6 +1058,10 @@ font-size:110%;
  margin-top:0px;
  font-size:10px;
 }
+#close_div:hover
+{
+	background-color: orange;
+}
 table.table_large tr.odd ,table.table_large tr.even {
 
 	height:32px;
