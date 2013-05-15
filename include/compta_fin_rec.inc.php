@@ -95,7 +95,9 @@ $wLedger->javascript = "onchange='this.form.submit()';";
 echo $wLedger->input();
 echo HtmlInput::submit('ref', 'Rafraîchir');
 echo '</form>';
-
+echo '<span id="bkname" style="display:block">' . hb(h($Ledger->get_bank_name())) . '</span>';
+echo _('Filtre').HtmlInput::infobulle(25);
+echo HtmlInput::filter_table("t_rec_bk", "0,1,2,3","1");
 echo '<form method="post" id="rec1">';
 
 echo dossier::hidden();
@@ -107,7 +109,7 @@ $operation = $cn->get_array("select jr_id,jr_internal,
 								jr_montant,
 								to_char(jr_date,'YYYYMMDD') as raw_date
                               from jrn where jr_def_id=$1 and (jr_pj_number is null or jr_pj_number='') order by jr_date", array($Ledger->id));
-echo '<span id="bkname">' . hb(h($Ledger->get_bank_name())) . '</span>';
+
 echo '<p>';
 $iextrait = new IText('ext');
 if ( isset ($_POST['ext'])) $iextrait->value=$_POST['ext']; else $iextrait->value = $Ledger->guess_pj();
@@ -123,8 +125,8 @@ echo IButton::tooggle_checkbox('rec1');
 echo '</p>';
 echo HtmlInput::submit('save', 'Mettre à jour le n° de relevé bancaire');
 echo '<span style="display:block">';
-	echo _('Filtre').HtmlInput::infobulle(25);
-	echo HtmlInput::filter_table("t_rec_bk", "0,1,2,3","1");
+
+
 	echo '</span>';
 echo '<table id="t_rec_bk" class="sortable" style="width:80%;margin-left:10%">';
 $r ='<th class=" sorttable_sorted_reverse">'.'Date '.HtmlInput::infobulle(17).'<span id="sorttable_sortrevind">&nbsp;&blacktriangle;</span>'.'</th>';
