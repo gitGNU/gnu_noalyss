@@ -36,8 +36,10 @@ class IButton extends HtmlInput
         if ( $this->readOnly==true) return $this->display();
         $extra= ( isset($this->extra))?$this->extra:"";
         $this->id=($this->id=="")?$this->name:$this->id;
+		$tab=(isset($this->tabindex))?' tabindex="'.$this->tabindex.'"':"";
         $r='<input type="BUTTON" name="'.$this->name.'"'.
            ' class="button" '.
+				$tab.
            ' id="'.$this->id.'"'.
            ' value="'.$this->label.'"'.
            ' onClick="'.$this->javascript.'"'.$extra.'>';
@@ -46,6 +48,7 @@ class IButton extends HtmlInput
         return $r;
 
     }
+
     /*!\brief print in html the readonly value of the widget*/
     public function display()
     {

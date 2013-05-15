@@ -80,7 +80,7 @@ class ITva_Popup extends HtmlInput
 
         if ( $this->readOnly==true) return $this->display();
 
-        $str='<input type="TEXT" class="input_text" name="%s" value="%s" id="%s" size="3" %s>';
+        $str='<input type="TEXT"  class="input_text" name="%s" value="%s" id="%s" size="3" %s>';
         $r=sprintf($str,$this->name,$this->value,$this->id,$this->js);
 
         if ($this->in_table)
@@ -128,6 +128,7 @@ class ITva_Popup extends HtmlInput
 
         // button
         $bt=new IButton('bt_'.$this->id);
+		$bt->tabindex="-1";
         $bt->label=_(' TVA ');
         $bt->set_attribute('gDossier',dossier::id());
         $bt->set_attribute('ctl',$this->id);

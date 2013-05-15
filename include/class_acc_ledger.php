@@ -1763,6 +1763,7 @@ class Acc_Ledger extends jrn_def_sql
 			$w->value = (isset($jrn_concerned)) ? $jrn_concerned : "";
 			$ret.="R&eacute;conciliation/rapprochements : " . $w->input();
 		}
+		$ret.= create_script("$('".$wDate->id."').focus()");
 		return $ret;
 	}
 
@@ -2305,7 +2306,7 @@ class Acc_Ledger extends jrn_def_sql
 			$value = 0;
 		return $value;
 	}
-	
+
 	/**
 	 * @brief create the invoice and saved it as attachment to the
 	 * operation,

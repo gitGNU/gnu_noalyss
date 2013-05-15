@@ -430,7 +430,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		require_once('template/form_ledger_fin.php');
 		$r.=ob_get_contents();
 		ob_end_clean();
-
+		$r.= create_script("$('".$Date->id."').focus()");
 
 		return $r;
 	}

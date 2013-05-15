@@ -219,12 +219,12 @@ class HtmlInput
     }
     static function infobulle($p_comment)
     {
-        $r='<A HREF="#" style="display:inline;color:black;background-color:yellow;padding-left:4px;width:2em;padding-right:4px;text-decoration:none;" onmouseover="showBulle(\''.$p_comment.'\')"  onclick="showBulle(\''.$p_comment.'\')" onmouseout="hideBulle(0)">?</A>';
+        $r='<A HREF="#" tabindex="-1" style="display:inline;color:black;background-color:yellow;padding-left:4px;width:2em;padding-right:4px;text-decoration:none;" onmouseover="showBulle(\''.$p_comment.'\')"  onclick="showBulle(\''.$p_comment.'\')" onmouseout="hideBulle(0)">?</A>';
         return $r;
     }
     static function warnbulle($p_comment)
     {
-        $r='<A HREF="#" style="display:inline;color:red;background-color:white;padding-left:4px;padding-right:4px;text-decoration:none;" onmouseover="showBulle(\''.$p_comment.'\')"  onclick="showBulle(\''.$p_comment.'\')" onmouseout="hideBulle(0)">&Delta;</A>';
+        $r='<A HREF="#" tabindex="-1" style="display:inline;color:red;background-color:white;padding-left:4px;padding-right:4px;text-decoration:none;" onmouseover="showBulle(\''.$p_comment.'\')"  onclick="showBulle(\''.$p_comment.'\')" onmouseout="hideBulle(0)">&Delta;</A>';
         return $r;
     }
     /**

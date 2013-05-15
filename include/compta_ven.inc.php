@@ -257,6 +257,7 @@ global $g_parameter;
 	{
 		echo create_script(" get_last_date()");
 	}
+	
     exit();
 
 

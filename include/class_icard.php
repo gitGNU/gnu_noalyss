@@ -299,7 +299,7 @@ class ICard extends HtmlInput
 		else
             $a.="this.inp='".$this->name."';";
         $a.="this.popup='ipop_card';";
-
+		$button->tabindex=-1;
         $button->javascript=$a.' search_card(this)';
         return $button->input();
     }

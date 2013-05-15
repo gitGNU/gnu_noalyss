@@ -1032,12 +1032,14 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         $flag_tva=$g_parameter->MY_TVA_USE;
         /* Add button */
         $f_add_button=new IButton('add_card');
+		$f_add_button->tabindex=-1;
         $f_add_button->label=_('Créer une nouvelle fiche');
         $f_add_button->set_attribute('ipopup','ipop_newcard');
         $f_add_button->set_attribute('jrn',$this->id);
         $f_add_button->javascript="this.jrn=\$('p_jrn').value; select_card_type(this);";
 
         $f_add_button2=new IButton('add_card2');
+		$f_add_button2->tabindex=-1;
         $f_add_button2->label=_('Créer une nouvelle fiche');
         $f_add_button2->set_attribute('ipopup','ipop_newcard');
         $f_add_button2->set_attribute('filter',$this->get_all_fiche_def ());
@@ -1355,7 +1357,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger
         $r.=HtmlInput::hidden('jrn_type','VEN');
 
         $r.=HtmlInput::button('add_item',_('Ajout article'),      ' onClick="ledger_add_row()"');
-
+		$r.= create_script("$('".$Date->id."').focus()");
         return $r;
     }
 

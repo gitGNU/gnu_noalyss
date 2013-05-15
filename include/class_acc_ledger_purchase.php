@@ -890,11 +890,13 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         /* Add button */
         $f_add_button=new IButton('add_card');
         $f_add_button->label=_('Créer une nouvelle fiche');
+		$f_add_button->tabindex=-1;
         $f_add_button->set_attribute('ipopup','ipop_newcard');
         $f_add_button->set_attribute('jrn',$this->id);
         $f_add_button->javascript=" this.jrn=\$('p_jrn').value;select_card_type(this);";
 
         $f_add_button2=new IButton('add_card2');
+		$f_add_button2->tabindex=-1;
         $f_add_button2->label=_('Créer une nouvelle fiche');
         $f_add_button2->set_attribute('ipopup','ipop_newcard');
         $f_add_button2->set_attribute('filter',$this->get_all_fiche_def ());
@@ -1227,6 +1229,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         {
             $r.='<script> update_pj();</script>';
         }
+		// set focus on date
+		$r.= create_script("$('".$Date->id."').focus()");
         return $r;
     }
 
