@@ -1,6 +1,6 @@
 <div class="topmenu">
     <? if ( count($amenu) > 4 && $idx == 0) :
-	$style = "width:100%";
+	$style ='style= "width:100%"';
     ?>
     <? elseif ($idx==0):
 switch (count($amenu))
