@@ -500,8 +500,11 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		$filter_year = "  j_tech_per in (select p_id from parm_periode where  p_exercice='" . $exercice . "')";
 
 		$acc_account = new Acc_Account_Ledger($this->db, $fBank->strAttribut(ATTR_DEF_ACCOUNT));
-		$solde = $acc_account->get_solde($filter_year);
-		$new_solde = $solde;
+		$asolde= $acc_account->get_solde_detail($filter_year);
+		$deb=$asolde['debit'];
+		$cred=$asolde['credit'];
+		$solde=  bcsub($deb, $cred);
+		$new_solde=$solde;
 
 		$r.="<TR><td colspan=\"4\"> Banque ";
 		$r.=$e_bank_account_label;
@@ -708,8 +711,11 @@ class Acc_Ledger_Fin extends Acc_Ledger
 			}
 			$exercice = $pPeriode->get_exercice();
 			$filter_year = "  j_tech_per in (select p_id from parm_periode where  p_exercice='" . $exercice . "')";
-			$solde = $acc_account->get_solde($filter_year);
-			$new_solde = $solde;
+			$asolde= $acc_account->get_solde_detail($filter_year);
+			$deb=$asolde['debit'];
+			$cred=$asolde['credit'];
+			$solde=  bcsub($deb, $cred);
+			$new_solde=$solde;
 		}
 
 
