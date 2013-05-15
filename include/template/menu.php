@@ -2,7 +2,6 @@
     <? if ( count($amenu) > 4 && $idx == 0) :
 	$style = "width:100%";
     ?>
-<table style="<?=$style?>" >
     <? elseif ($idx==0):
 switch (count($amenu))
 {
@@ -10,7 +9,7 @@ case 4:
 case 3:
    $width=count($amenu)*20;
    $left=round((100-$width)/2);
-$style="width:$width%;margin-left:$left%";
+$style="style=\"width:$width%;margin-left:$left%\"";
 break;
 default:
 $style="";
@@ -19,7 +18,7 @@ $style="";
 		$style=" class=\"mtitle\"";
 
     	endif;?>
-<table style="<?=$style?>" >
+<table  <?=$style?> >
 
 
     <tr>
