@@ -27,6 +27,18 @@ require_once ('config.inc.php');
 require_once('constant.security.php');
 // SVNVERSION
 global $version_phpcompta;
+/*
+ * Include path
+ */
+$inc_path=get_include_path();
+$dirname=dirname(__FILE__);
+if ( strpos($inc_path,";") != 0 ) {
+  $new_path=$inc_path.';'.$dirname;
+  $os=0;			/* $os is 0 for windoz */
+} else {
+  $new_path=$inc_path.':'.$dirname;
+  $os=1;			/* $os is 1 for unix */
+}
 
 
 global $g_captcha,$g_failed,$g_succeed;
