@@ -30,7 +30,7 @@
 	if ( strlen($array[$i]['acode']) >0 ) {
 		if (strpos($array[$i]['acode'], ",") >0 ) {
 
-			$det_qcode=  split(",", $array[$i]['acode']);
+			$det_qcode=  explode(",", $array[$i]['acode']);
 			$sep="";
 			$max=(count($det_qcode)>$limite)?$limite:count($det_qcode);
 			for ($e=0;$e<$max;$e++) {
