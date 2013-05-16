@@ -82,7 +82,7 @@
           </td>
           </Tr>
         </table>
- <?if ($p_view != 'READ') echo $str_add_button;?>
+ <?php if ($p_view != 'READ') echo $str_add_button;?>
 
 </div>
 <div style="float:left;width:45%">
@@ -135,7 +135,7 @@
 		<h4 style="display:inline">Opérations concernées</h4>
 		<ol>
 
-		<?php 
+		<?php
 		for ($o=0;$o<count($operation);$o++)
 		{
 			if ( $p_view != 'READ')
@@ -163,7 +163,7 @@
 		<h4 style="display:inline">Actions concernées</h4>
 		<ol>
 
-		<?php 
+		<?php
 		$base=HtmlInput::request_to_string(array("gDossier","ac","sa","sb","sc","f_id"));
 		for ($o=0;$o<count($action);$o++)
 		{
@@ -257,7 +257,7 @@ echo '</span>';
 <?php if ( $p_base != 'ajax' ) :?>
 <input type='button' class="button" class="noprint" value='Montrer articles' id="toggleButton" onclick='toggleShowDetail()'>
 <?php endif; ?>
-<?php 
+<?php
 /**
  * check if there card to show,
  */
@@ -266,7 +266,7 @@ for ($i=0;$i<count($aArticle);$i++) :
 	if ( ($aCard[$i] != 0 && $p_view == 'READ') || $p_view != 'READ'){ $show_row=1;break;}
 endfor;
 ?>
-<?php 
+<?php
 /*
  * display detail if there card or if we are in UPDATE or NEW mode
  */
@@ -297,8 +297,8 @@ endfor;
 <th><?php echo _('Montant TVAC')?></th>
 
 </tr>
-<?for ($i=0;$i<count($aArticle);$i++): ?>
-<?php 
+<?php for ($i=0;$i<count($aArticle);$i++): ?>
+<?php
 if ( ($aCard[$i] != 0 && $p_view == 'READ') || $p_view != 'READ'):
 	$show_row++;
 	?>
@@ -344,7 +344,7 @@ function toggleShowDetail() {
 </div>
 <?php endif; ?>
 </fieldset>
-<?endif; ?>
+<?php endif; ?>
 
 <?php if ($p_view != 'READ' && $str_select_doc != '') : ?>
 <fieldset class="noprint" >

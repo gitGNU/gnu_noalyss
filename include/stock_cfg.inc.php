@@ -98,14 +98,14 @@ $array=$cn->get_array($sql." ".$order);
 			<?php echo h($array[$i]['r_phone'])?>
 		</td>
 		<td>
-			<?php 
+			<?php
 				$js=' onclick="stock_repo_change(\''.dossier::id().'\',\''.$array[$i]['r_id'].'\')"';
 				echo HtmlInput::button("mod", _("Modifier"), $js);
 			?>
 		</td>
 	</tr>
 
-<?endfor;?>
+<?php endfor;?>
 </table>
 	<?php echo HtmlInput::button("show_add_depot_d", "Ajout d'un dépot", "onclick=\"$('add_depot_d').show();\"");?>
 	<div id="add_depot_d" class="inner_box" style="display:none">

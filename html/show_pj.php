@@ -22,6 +22,7 @@
 /*!\file
  * \brief show an attach of an operation
  */
+require_once '../include/constant.php';
 include_once ("ac_common.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();

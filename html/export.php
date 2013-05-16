@@ -25,7 +25,7 @@
  *   act can be
  *
  */
-
+require_once '../include/constant.php';
 global $g_user,$cn,$g_parameter;
 require_once('class_database.php');
 require_once('class_user.php');

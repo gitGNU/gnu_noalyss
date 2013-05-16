@@ -180,7 +180,8 @@ margin:1 2 1 2;
 </head>
 <BODY>';
 $my_domain="";
-require ('config.inc.php');
+require_once '../include/constant.php';
+require_once ('config.inc.php');
 if ( strlen(domaine) > 0 )
 {
     $my_domain="Domaine : ".domaine;

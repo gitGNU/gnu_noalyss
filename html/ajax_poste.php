@@ -33,6 +33,7 @@
  *
  *
  */
+require_once '../include/constant.php';
 require_once  ("ac_common.php");
 require_once('class_acc_ledger.php');
 require_once ('class_database.php');

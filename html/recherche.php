@@ -21,6 +21,7 @@
 /*! \file
  * \brief Search module
  */
+require_once '../include/constant.php';
 require_once('class_dossier.php');
 include_once("ac_common.php");
 include_once ("constant.php");

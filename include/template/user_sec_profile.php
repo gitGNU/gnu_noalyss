@@ -42,18 +42,18 @@
 				<?php echo HtmlInput::hidden('ua_id[]',$array[$i]['ua_id'])?>
 				<?php echo HtmlInput::hidden('ap_id[]',$array[$i]['p_id'])?>
 			</td>
-                        <?php 
+                        <?php
                             $color=($array[$i]['ua_right']!='X')?"border:lightgreen 2px solid; ":"border:red 2px solid; ";
                         ?>
 			<td style="<?php echo $color?>">
-				<?php 
+				<?php
 				$isel=new ISelect("right[]");
 				$isel->value=$aright_value;
 				$isel->selected=$array[$i]['ua_right'];
 				echo $isel->input();?>
 			</td>
 		</tr>
-		<?endfor;?>
+		<?php endfor;?>
 	</table>
 <?php echo HtmlInput::submit("change_profile", "Sauver")?>
 </form>

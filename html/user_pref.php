@@ -22,7 +22,7 @@
 /*! \file
  * \brief Page for the personal preference (theme, password,...)
  */
-
+require_once '../include/constant.php';
 include_once ("ac_common.php");
 require_once('class_database.php');
 /* Admin. Dossier */

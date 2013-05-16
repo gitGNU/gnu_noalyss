@@ -26,7 +26,7 @@
  *\see ICard
  */
 
-
+require_once '../include/constant.php';
 require_once('class_database.php');
 require_once('class_dossier.php');
 /*!\brief

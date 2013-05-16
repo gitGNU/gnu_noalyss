@@ -22,7 +22,7 @@
 /*! \file
  * \brief send the document template
  */
-
+require_once '../include/constant.php';
 require_once('class_database.php');
 require_once("ac_common.php");
 

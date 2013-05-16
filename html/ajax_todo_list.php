@@ -34,6 +34,7 @@
  * - gDossier
  * - i id
  */
+require_once '../include/constant.php';
 require_once ('class_dossier.php');
 require_once ('class_todo_list.php');
 require_once ('class_database.php');

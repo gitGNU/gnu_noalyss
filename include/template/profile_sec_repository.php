@@ -1,4 +1,4 @@
-<?php
+<<?php
 
 /*
  *   This file is part of PhpCompta.
@@ -42,18 +42,18 @@
 				<?php echo HtmlInput::hidden('ur_id[]',$array[$i]['ur_id'])?>
 				<?php echo HtmlInput::hidden('ar_id[]',$array[$i]['r_id'])?>
 			</td>
-                         <?php 
+                         <?php
                             $color=($array[$i]['ur_right']!='X')?"border:lightgreen 2px solid; ":"border:red 2px solid; ";
                         ?>
 			<td style="<?php echo $color?>">
 
-				<?php 
+				<?php
 				$isel=new ISelect("right[]");
 				$isel->value=$aright_value;
 				$isel->selected=$array[$i]['ur_right'];
 				echo $isel->input();?>
 			</td>
 		</tr>
-		<?endfor;?>
+		<?php endfor;?>
 	</table>
 <?php echo HtmlInput::submit("change_stock", "Sauver")?>

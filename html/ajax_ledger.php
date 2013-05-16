@@ -29,6 +29,7 @@
     - for reconcialiation
     - update of analytic content
 */
+require_once '../include/constant.php';
 require_once('class_database.php');
 require_once('class_user.php');
 require_once('class_acc_operation.php');

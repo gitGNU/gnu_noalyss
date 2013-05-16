@@ -24,6 +24,7 @@
  * \brief this file includes the called plugin. It  check first
  * the security. Load several javascript files
  */
+require_once '../include/constant.php';
 require_once('class_database.php');
 require_once('class_dossier.php');
 require_once("ac_common.php");

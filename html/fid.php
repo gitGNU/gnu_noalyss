@@ -33,7 +33,7 @@
  * - FID is the QuickCode
    *\note if the j is -1 then all the card are shown
  */
-
+require_once '../include/constant.php';
 require_once('class_own.php');
 require_once  ("constant.php");
 require_once('class_database.php');

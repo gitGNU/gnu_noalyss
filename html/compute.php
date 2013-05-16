@@ -31,8 +31,7 @@
  * - gDossier
  * Must return at least tva, htva and tvac
  */
-
-require_once ('constant.php');
+require_once '../include/constant.php';
 require_once ('class_database.php');
 require_once ('class_acc_compute.php');
 require_once('class_dossier.php');

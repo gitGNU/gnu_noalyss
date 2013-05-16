@@ -32,7 +32,7 @@
 	<?php echo HtmlInput::submit("save_action", "Mettre à jour")?>
 <?php if (isset($limit)) : ?>
 	<h2 class="notice">Recherche limitée à <?php echo $limit?> résultats</h2>
-<?endif;?>
+<?php endif;?>
 
 <table class="result">
 
@@ -60,7 +60,7 @@
 	<?php $class=($i%2==0)?' class="odd" ':' class="info"'; ?>
 	<tr  <?php echo $class?>>
 		<td>
-			<?php 
+			<?php
 			$ck=new ICheckBox('ag_id[]');
 			 $ck->value=$a_row[$i]['ag_id'];
 			 echo $ck->input();

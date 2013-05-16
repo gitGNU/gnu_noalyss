@@ -24,6 +24,7 @@
 /**\file
  * \brief Main file
  */
+require_once '../include/constant.php';
 require_once 'class_database.php';
 require_once ('class_dossier.php');
 require_once('user_common.php');

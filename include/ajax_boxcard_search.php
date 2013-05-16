@@ -69,7 +69,7 @@ Filtre  <?php echo HtmlInput::infobulle(26);echo HtmlInput::filter_table("tb_fic
 	</tr>
 <?php if (count($array)==0) : ?>
 	<h2 class="notice"> Aucun résultat</h2>
-<?endif?>
+<?php endif?>
 <?php for ($i=0;$i<$max;$i++):?>
 	<tr class="<?php echo ($i%2 == 0)?'even':'odd';?>">
 

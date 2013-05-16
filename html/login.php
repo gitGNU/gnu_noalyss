@@ -17,6 +17,8 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+require_once '../include/constant.php';
+
 include_once ("ac_common.php");
 require_once('constant.php');
 
@@ -41,7 +43,7 @@ if (  isset ($_POST["p_user"] ) )
     /*
      * Check repository version
      */
-    if ( $rep->get_value('select val from version') != DBVERSIONREPO) 
+    if ( $rep->get_value('select val from version') != DBVERSIONREPO)
       {
 	echo alert('Version de base de données incorrectes, vous devez mettre à jour');
 	echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=admin/setup.php\">";
@@ -51,12 +53,12 @@ if (  isset ($_POST["p_user"] ) )
     include_once ("class_user.php");
     $User=new User($rep);
     $User->Check(false,'LOGIN');
-    if ($g_captcha == true) 
+    if ($g_captcha == true)
       {
 	include("securimage/securimage.php");
 	$img = new Securimage();
 	$valid = $img->check($_POST['captcha_code']);
-	if ( $valid == false ) 
+	if ( $valid == false )
 	  {
 	    echo alert('Code invalide');
 	    echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=index.php\">";
@@ -74,7 +76,7 @@ else
      * Check repository version
      */
 
-    if ( $rep->get_value('select val from version') != DBVERSIONREPO) 
+    if ( $rep->get_value('select val from version') != DBVERSIONREPO)
       {
 	echo alert('Version de base de données incorrectes, vous devez mettre à jour');
 	echo "<META HTTP-EQUIV=\"REFRESH\" content=\"1;url=admin/setup.php\">";

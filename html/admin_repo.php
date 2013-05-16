@@ -22,6 +22,7 @@
  * \brief Administration of the repository : creation of user, folder, security,
  *        templates... Accessible only by the administrator
  */
+require_once '../include/constant.php';
 require_once("user_common.php");
 include_once("ac_common.php");
 require_once('class_database.php');

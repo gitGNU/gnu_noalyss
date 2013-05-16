@@ -1,4 +1,5 @@
 <?php
+ini_set("session.auto_start","1");
 /*
  *   This file is part of PhpCompta.
  *
@@ -39,6 +40,12 @@ if ( strpos($inc_path,";") != 0 ) {
   $new_path=$inc_path.':'.$dirname;
   $os=1;			/* $os is 1 for unix */
 }
+set_include_path($new_path);
+session_start();
+/*
+ * Ini session
+ */
+
 
 
 global $g_captcha,$g_failed,$g_succeed;
@@ -47,9 +54,9 @@ $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 /*set to none for production */
 /* uncomment for production */
-//define ('SVNINFO',5900);
+define ('SVNINFO',5900);
 $version_phpcompta=SVNINFO;
-define ("DEBUG",false);
+define ("DEBUG",true);
 /* define ('SVNINFO',5015);
  * $version_phpcompta=SVNINFO;
  * define ("DEBUG",true);

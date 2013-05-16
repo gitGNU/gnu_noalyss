@@ -35,6 +35,7 @@
  * dl : display form to modify, add and delete lettering for a given operation
  *
  */
+require_once '../include/constant.php';
 require_once('class_database.php');
 require_once ('class_fiche.php');
 require_once('class_iradio.php');

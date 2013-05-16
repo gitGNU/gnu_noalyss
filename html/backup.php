@@ -19,6 +19,7 @@
 /* $Revision$ */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+require_once '../include/constant.php';
 require_once("constant.php");
 require_once('class_database.php');
 require_once  ("class_user.php");

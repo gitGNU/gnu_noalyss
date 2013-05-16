@@ -23,7 +23,7 @@
 /** \file
  * \brief retrieve a document
  */
-
+require_once '../include/constant.php';
 require_once('class_database.php');
 require_once("ac_common.php");
 require_once( "class_document.php");

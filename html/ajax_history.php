@@ -24,6 +24,7 @@
    * \brief show the history of a card of an accounting
    * for the card f_id is set and for an accounting : pcm_val
    */
+require_once '../include/constant.php';
 require_once('class_database.php');
 require_once('class_user.php');
 require_once('class_dossier.php');
