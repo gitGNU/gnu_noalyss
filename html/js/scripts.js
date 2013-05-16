@@ -1723,7 +1723,7 @@ function view_action(ag_id,dossier,modify)
  * @see HtmlInput::filter_table
  */
 function filter_table(phrase, _id, colnr,start_row) {
-	var words = phrase.value.toLowerCase();
+	var words = $(phrase).value.toLowerCase();
 	var table = document.getElementById(_id);
 	// if colnr contains a comma then check several columns
 	var aCol = new Array();

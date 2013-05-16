@@ -716,10 +716,10 @@ class HtmlInput
 	static function filter_table($p_table_id,$p_col,$start_row)
 	{
 		$r= "
-			<form style=\"display:inline\" class=\"noprint\">
+			<span>
 			<input id=\"lk_".$p_table_id."\" class=\"input_text\" name=\"filter\" onkeyup=\"filter_table(this, '$p_table_id','$p_col',$start_row )\" type=\"text\">
 			<input type=\"button\" class=\"button\" onclick=\"$('lk_".$p_table_id."').value='';filter_table($('lk_".$p_table_id."'), '$p_table_id','$p_col',$start_row );\" value=\"X\">
-			</form>
+			</span>
 			";
 		return $r;
 	}
