@@ -96,8 +96,7 @@ echo $wLedger->input();
 echo HtmlInput::submit('ref', 'Rafraîchir');
 echo '</form>';
 echo '<span id="bkname" style="display:block">' . hb(h($Ledger->get_bank_name())) . '</span>';
-echo _('Filtre').HtmlInput::infobulle(25);
-echo HtmlInput::filter_table("t_rec_bk", "0,1,2,3","1");
+
 echo '<form method="post" id="rec1">';
 
 echo dossier::hidden();
@@ -122,6 +121,10 @@ echo "Extrait / relevé :" . $iextrait->input();
 echo 'solde Début' . $nstart_extrait->input();
 echo 'solde Fin' . $nend_extrait->input();
 echo IButton::tooggle_checkbox('rec1');
+echo '</p>';
+echo '<p>';
+echo _('Filtre').HtmlInput::infobulle(25);
+echo HtmlInput::filter_table("t_rec_bk", "0,1,2,3","1");
 echo '</p>';
 echo HtmlInput::submit('save', 'Mettre à jour le n° de relevé bancaire');
 echo '<span style="display:block">';
