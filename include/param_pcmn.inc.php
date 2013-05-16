@@ -309,7 +309,7 @@ for ($i=0; $i <$MaxRow; $i++)
 	echo $td;
 	if ( strlen($A['acode']) >0 ) {
 		if (strpos($A['acode'], ",") >0 ) {
-			$det_qcode=  split(",", $A['acode']);
+			$det_qcode=  explode(",", $A['acode']);
 			echo '<ul style="paddding:0;margin:0;padding-left:0;list-style-type:none;padding-start-value:0">';
 			$max=(count($det_qcode)>MAX_QCODE)?MAX_QCODE:count($det_qcode);
 			for ($e=0;$e<$max;$e++) {
