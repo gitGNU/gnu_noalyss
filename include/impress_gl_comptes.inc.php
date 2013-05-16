@@ -218,10 +218,15 @@ if ( isset( $_REQUEST['bt_html'] ) )
 	      $solde_d = bcadd($solde_d,$detail['deb_montant']);
             }
 			$side="&nbsp;".$Poste->get_amount_side($solde);
-	    $letter=($detail['letter']!=-1)?hi(strtoupper(base_convert($detail['letter'],10,36))):'';
+	    $letter="";
+		$html_let="";
+		if ($detail['letter']!=-1) {
+			$letter=strtoupper(base_convert($detail['letter'],10,36));
+			$html_let = HtmlInput::show_reconcile("", $letter);
+		}
 		$i++;
 		if (($i % 2 ) == 0) $class="odd"; else $class="even";
-            echo '<tr class="'.$class.'">
+            echo '<tr name="tr_'.$letter.'_" class="'.$class.'">
             <td>'.$detail['j_date_fmt'].'</td>
             <td>'.HtmlInput::detail_op($detail['jr_id'],$detail['jr_internal']).'</td>
             <td>'.$detail['description'].'</td>
@@ -229,7 +234,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
             <td align="right">'.($detail['deb_montant']  > 0 ? nbm($detail['deb_montant'])  : '').'</td>
             <td align="right">'.($detail['cred_montant'] > 0 ? nbm($detail['cred_montant']) : '').'</td>
             <td align="right">'.nbm(abs($solde)).$side.'</td>
-            <td  style="text-align:right;color:red">'.$letter.'</td>
+            <td  style="text-align:right;color:red">'.$html_let.'</td>
             </tr>';
         }
         echo '<tr >

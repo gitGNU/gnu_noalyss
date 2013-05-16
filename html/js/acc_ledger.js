@@ -951,6 +951,7 @@ function show_reconcile(p_div,p_let)
 				for (i=0;i<count_elt;i++){
 					previous[i].style.backgroundColor='';
 					previous[i].style.color='';
+					previous[i].style.fontWeight="";
 				}
 			}
 		var name='tr_'+p_let+'_'+p_div;
@@ -961,6 +962,8 @@ function show_reconcile(p_div,p_let)
 		for (i=0;i<count_elt;i++){
 			elt[i].style.backgroundColor='#000066';
 			elt[i].style.color='white';
+			elt[i].style.fontWeight='bolder';
+
 		}
 
 	} catch (e)
