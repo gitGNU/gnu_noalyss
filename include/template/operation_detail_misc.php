@@ -28,7 +28,7 @@
 ?>
 <table class="result">
 <tr>
-<?
+<?php 
     echo th(_('Poste Comptable'));
     echo th(_('Quick Code'));
     echo th(_('Libellé'));

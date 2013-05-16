@@ -1,9 +1,9 @@
 <div class="myfieldset">
 
 <h1 class="legend">
-<? echo _('Rapprochement');?>
+<?php echo _('Rapprochement');?>
 </h1>
-<?
+<?php 
 $oRap=new Acc_Reconciliation($cn);
 $oRap->jr_id=$jr_id;
 $aRap=$oRap->get();
@@ -37,7 +37,7 @@ if ($aRap  != null ) {
   echo '</table>';
 }
 ?>
-<?
+<?php 
 if ( $access=='W') {
      $wConcerned=new IConcerned("rapt".$div);
      $wConcerned->amount_id=$obj->det->jr_montant;
@@ -46,14 +46,14 @@ if ( $access=='W') {
 }
 ?>
 </div>
-<?
+<?php 
 $array = Follow_Up::get_all_operation($jr_id);
 if (count($array) > 0)
 {
 	?>
 	<div class="myfieldset">
 		<h1 class="legend">Actions liées</h1>
-	<?
+	<?php 
 	/**
 	 * show eventually action
 	 */
@@ -76,12 +76,12 @@ if (count($array) > 0)
 }
 ?>
 
-<?
+<?php 
 
 require_once('template/ledger_detail_file.php');
 ?>
 <hr>
-<?
+<?php 
 
 if ( $div != 'popup' ) {
   $a=new IButton('Fermer','Fermer');
@@ -91,7 +91,7 @@ if ( $div != 'popup' ) {
 }
 
 ?>
-<?
+<?php 
 
 /**
  * if you can write

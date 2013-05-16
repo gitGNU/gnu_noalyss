@@ -32,11 +32,11 @@
 		<form  method="get" action="do.php">
 			<?php echo dossier::hidden();
 			?>
-			<input type="submit" class="button" name="submit_query" value="<?= _("Ajout Action")?>">
-			<input type="hidden" name="ac" value="<?= $_REQUEST['ac']?>">
+			<input type="submit" class="button" name="submit_query" value="<?php echo  _("Ajout Action")?>">
+			<input type="hidden" name="ac" value="<?php echo  $_REQUEST['ac']?>">
 			<input type="hidden" name="sa" value="add_action">
-			<?= $supl_hidden?>
-			<input id="bt_search" type="button" class="button" onclick="$('search_action').style.display='block'" value="<?= _('Recherche')?>">
+			<?php echo  $supl_hidden?>
+			<input id="bt_search" type="button" class="button" onclick="$('search_action').style.display='block'" value="<?php echo  _('Recherche')?>">
 
 
 

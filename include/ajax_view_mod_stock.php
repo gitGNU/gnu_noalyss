@@ -46,13 +46,13 @@ for ($i=0;$i<count($array);$i++)
 echo $st->input($p_array,true);
 ?>
 <form method="POST">
-	<?=HtmlInput::hidden('c_id',$_GET['c_id']);?>
+	<?php echo HtmlInput::hidden('c_id',$_GET['c_id']);?>
 	<p>
-	<? $ck=new ICheckBox("ok"," 1");
+	<?php $ck=new ICheckBox("ok"," 1");
 			$ck->label= "Cochez pour confirmer effacement ";
 			echo $ck->input();?>
 	</p>
-	<?=HtmlInput::submit("del", "Effacer");?>
-	<?=HtmlInput::button_close($_GET['ctl'])?>
-	<?=HtmlInput::hidden('r_id',$p_array['p_depot'])?>
+	<?php echo HtmlInput::submit("del", "Effacer");?>
+	<?php echo HtmlInput::button_close($_GET['ctl'])?>
+	<?php echo HtmlInput::hidden('r_id',$p_array['p_depot'])?>
 </form>

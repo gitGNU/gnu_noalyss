@@ -32,25 +32,25 @@
 		<th>
 			Code Stock
 		</th>
-		<? for ($i = 0; $i < count($a_repository); $i++):?>
+		<?php for ($i = 0; $i < count($a_repository); $i++):?>
 			<th>
-				<?=h( $a_repository[$i]['r_name'])?>
+				<?php echo h( $a_repository[$i]['r_name'])?>
 			</th>
-		<? endfor;?>
+		<?php endfor;?>
 			<th>
 				Total
 			</th>
 	</tr>
-	<?
+	<?php 
 	for ($x = 0; $x < count($a_code); $x++):
 		$class=($x%2==0)?' class="odd" ':' class="even" ';
 		?>
 
-		<tr <?=$class?> >
+		<tr <?php echo $class?> >
 			<td>
-				<?=HtmlInput::card_detail($a_code[$x]['sg_code'])?>
+				<?php echo HtmlInput::card_detail($a_code[$x]['sg_code'])?>
 			</td>
-			<?
+			<?php 
 			$n_in=0;$n_out=0;
 			for ($e = 0; $e < count($a_repository); $e++):
 
@@ -60,7 +60,7 @@
 						, array($a_repository[$e]['r_id'], $a_code[$x]['sg_code'],$tmp_id));
 				?>
 			<td>
-				<?
+				<?php 
 					if (count($array)==0):
 						echo 0;
 					else:
@@ -73,7 +73,7 @@
 									IN  :
 								</td>
 								<td class="num">
-									<?=nbm($array[0]['s_qin'])?>
+									<?php echo nbm($array[0]['s_qin'])?>
 								</td>
 							</tr>
 							<tr>
@@ -81,7 +81,7 @@
 									OUT  :
 								</td>
 								<td class="num">
-									<?=nbm($array[0]['s_qout'])?>
+									<?php echo nbm($array[0]['s_qout'])?>
 								</td>
 							</tr>
 							<tr>
@@ -89,15 +89,15 @@
 									DIFF  :
 								</td>
 								<td class="num">
-									<?=nbm((bcsub($array[0]['s_qin'],$array[0]['s_qout'])))?>
+									<?php echo nbm((bcsub($array[0]['s_qin'],$array[0]['s_qout'])))?>
 								</td>
 							</tr>
 						</table>
-						<?
+						<?php 
 					endif;
 				?>
  			</td>
-				<?
+				<?php 
 			endfor;  // loop e
 			?>
 			<td>
@@ -107,7 +107,7 @@
 									IN  :
 								</td>
 								<td class="num">
-									<?=nbm($n_in)?>
+									<?php echo nbm($n_in)?>
 								</td>
 							</tr>
 							<tr>
@@ -115,7 +115,7 @@
 									OUT  :
 								</td>
 								<td class="num">
-									<?=nbm($n_out)?>
+									<?php echo nbm($n_out)?>
 								</td>
 							</tr>
 							<tr>
@@ -123,13 +123,13 @@
 									DIFF  :
 								</td>
 								<td class="num">
-									<?=nbm((bcsub($n_in,$n_out)))?>
+									<?php echo nbm((bcsub($n_in,$n_out)))?>
 								</td>
 							</tr>
 						</table>
 			</td>
 		</tr>
-		<?
+		<?php 
 	endfor; // loop x
 	?>
 </table>

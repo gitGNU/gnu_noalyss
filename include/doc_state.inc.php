@@ -46,26 +46,26 @@ $a_stat=$cn->get_array("select s_value,s_status from document_state order by 1")
 ?>
 
 <table>
-	<? for ($i=0;$i<count($a_stat);$i++):?>
+	<?php for ($i=0;$i<count($a_stat);$i++):?>
 
 	<tr>
 		<td>
-			<?=h($a_stat[$i]['s_value'])?>
+			<?php echo h($a_stat[$i]['s_value'])?>
 		</td>
 
 		<td>
-			<? if ($a_stat[$i]['s_status']=='C') { echo _("Ferme l'action"); } ?>
+			<?php if ($a_stat[$i]['s_status']=='C') { echo _("Ferme l'action"); } ?>
 		</td>
 	</tr>
-	<?	endfor;?>
+	<?php endfor;?>
 </table>
 <h2>Ajout d'un état</h2>
 <form method="post" onsubmit="return confirm ('Vous confirmez ?'); ">
 	<p>
-		Nom de l'état <? $value=new IText("s_value",""); echo $value->input()?>
+		Nom de l'état <?php $value=new IText("s_value",""); echo $value->input()?>
 	</p>
 	<p>
-		Cochez la case si cet état ferme une action <? $state=new ICheckBox("s_state",""); echo $state->input()?>
-		<?=HtmlInput::submit("add", "Ajouter")?>
+		Cochez la case si cet état ferme une action <?php $state=new ICheckBox("s_state",""); echo $state->input()?>
+		<?php echo HtmlInput::submit("add", "Ajouter")?>
 	</p>
 </form>

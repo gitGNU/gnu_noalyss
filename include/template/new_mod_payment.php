@@ -1,50 +1,50 @@
 <fieldset>
-<legend><?=$msg?>
+<legend><?php echo $msg?>
 </legend>
 <table>
 <tr>
 <td>
-   <?=_('Pour le journal')?>
+   <?php echo _('Pour le journal')?>
 </td>
 <td>
-<?=$f_source?>
-</td>
-</tr>
-
-<tr>
-<td>
-   <?=_('Libellé')?>
-</td>
-<td>
-<?=$f_lib?>
+<?php echo $f_source?>
 </td>
 </tr>
 
 <tr>
 <td>
-   <?=_('Type de fiche')?>
+   <?php echo _('Libellé')?>
 </td>
 <td>
-<?=$f_type_fiche?>
+<?php echo $f_lib?>
+</td>
+</tr>
+
+<tr>
+<td>
+   <?php echo _('Type de fiche')?>
+</td>
+<td>
+<?php echo $f_type_fiche?>
 </td>
 </tr>
 
 
 <tr>
 <td>
-   <?=_('Paiement enregistré dans ')?>
+   <?php echo _('Paiement enregistré dans ')?>
 </td>
 <td>
-<?=$f_ledger_record?>
+<?php echo $f_ledger_record?>
 </td>
 </tr>
 
 <tr>
 <td>
-   <?=_('Avec la fiche')?>
+   <?php echo _('Avec la fiche')?>
 </td>
 <td>
-<?=$f_qcode?>
+<?php echo $f_qcode?>
 </td>
 </tr>
 </table>

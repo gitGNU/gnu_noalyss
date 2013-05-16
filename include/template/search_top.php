@@ -29,7 +29,7 @@
  */
 ?>
 <div style="float:right;height:10px;display:block;margin-top:2px;margin-right:2px">
-<?
+<?php 
    if ($div == "search_op") {
      $callback=$_SERVER['PHP_SELF'];
      $str="recherche.php?".Dossier::get().'&ac=SEARCH';
@@ -38,5 +38,5 @@
 ?>
 </div>
 <div>
-	<? echo h2info('Recherche')?>
+	<?php echo h2info('Recherche')?>
 </div>

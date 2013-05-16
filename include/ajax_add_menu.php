@@ -70,34 +70,34 @@ $pm_default=new ICheckBox('pm_default');
 echo HtmlInput::title_box("Nouveau menu", $ctl);
 ?>
 <form method="POST" onsubmit="return confirm('Vous confirmez ?')">
-	<?
+	<?php 
 	echo HtmlInput::hidden('tab','profile_menu_div');
 	?>
-	<?=HtmlInput::hidden('p_id',$p_id)?>
+	<?php echo HtmlInput::hidden('p_id',$p_id)?>
 <table>
 <tr>
 	<td>Code</td>
-	<td><?=$me_code->input()?></td>
+	<td><?php echo $me_code->input()?></td>
 </tr>
 <tr>
-	<td>Dépendant de <?=HtmlInput::infobulle(20)?></td>
-	<td><?=$me_code_dep->input()?></td>
+	<td>Dépendant de <?php echo HtmlInput::infobulle(20)?></td>
+	<td><?php echo $me_code_dep->input()?></td>
 </tr>
 
 <tr>
 	<td>Ordre d'apparition</td>
-	<td><?=$p_order->input()?></td>
+	<td><?php echo $p_order->input()?></td>
 </tr>
 <tr>
 	<td>Menu par défaut</td>
-	<td><?=$pm_default->input()?></td>
+	<td><?php echo $pm_default->input()?></td>
 </tr>
 <tr>
 	<td>Type de menu</td>
-	<td><?=$p_type->input()?></td>
+	<td><?php echo $p_type->input()?></td>
 </tr>
 </table>
-<?
+<?php 
 echo HtmlInput::submit('add_menu',"Valider");
 echo '</form>';
 }
@@ -124,21 +124,21 @@ $me_code->value=$ame_code;
 	}
 ?>
 <form method="POST" onsubmit="return confirm('Vous confirmez ?')">
-	<?
+	<?php 
 	echo HtmlInput::hidden('tab','profile_print_div');
 	?>
-	<?=HtmlInput::hidden('p_id',$p_id)?>
-	<?=HtmlInput::hidden('p_order',10)?>
-	<?=HtmlInput::hidden('me_code_dep','')?>
-	<?=HtmlInput::hidden('p_type','PR')?>
+	<?php echo HtmlInput::hidden('p_id',$p_id)?>
+	<?php echo HtmlInput::hidden('p_order',10)?>
+	<?php echo HtmlInput::hidden('me_code_dep','')?>
+	<?php echo HtmlInput::hidden('p_type','PR')?>
 <table>
 <tr>
 	<td>Code</td>
-	<td><?=$me_code->input()?></td>
+	<td><?php echo $me_code->input()?></td>
 </tr>
 
 </table>
-<?
+<?php 
 echo HtmlInput::submit('add_impress',"Valider");
 echo '</form>';
 }

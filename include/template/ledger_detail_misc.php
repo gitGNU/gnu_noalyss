@@ -1,20 +1,20 @@
-<?
+<?php 
 require_once('template/ledger_detail_top.php');
 require_once('class_anc_operation.php');
 require_once('class_anc_plan.php');
 
 ?>
-<?
+<?php 
 require_once('class_own.php');
 require_once ('class_anc_plan.php');
 ?>
 <div class="content" style="padding:0">
 
-    <? if ( $access=='W') : ?>
+    <?php if ( $access=='W') : ?>
 <form class="print" onsubmit="return op_save(this);">
-   <? endif; ?>
+   <?php endif; ?>
 
-    <? echo HtmlInput::hidden('whatdiv',$div).HtmlInput::hidden('jr_id',$jr_id).dossier::hidden();?>
+    <?php echo HtmlInput::hidden('whatdiv',$div).HtmlInput::hidden('jr_id',$jr_id).dossier::hidden();?>
   <table style="width:100%"><tr><td>
 					<table>
 								<tr><td>
@@ -28,7 +28,7 @@ require_once ('class_anc_plan.php');
 								</tr>
 
 								<tr><td>
-								<?
+								<?php 
 								  $itext=new IText('lib');
 								  $itext->value=strip_tags($obj->det->jr_comment);
 								  $itext->size=40;
@@ -38,10 +38,10 @@ require_once ('class_anc_plan.php');
 								?>
 								</td></tr>
 								<tr><td>
-								<? echo td('montant').td(nbm($obj->det->jr_montant),' class="inum"');?>
+								<?php echo td('montant').td(nbm($obj->det->jr_montant),' class="inum"');?>
 								</td></tr>
 								<tr><td>
-								<?
+								<?php 
 								$itext=new IText('npj');
 								$itext->value=strip_tags($obj->det->jr_pj_number);
 								echo td(_('Pièce')).td($itext->input());
@@ -57,7 +57,7 @@ require_once ('class_anc_plan.php');
 						</td></tr>
 						<tr>
 						<td>
-						<?
+						<?php 
 						$inote=new ITextarea('jrn_note');
 						$inote->width=25;
 						$inote->heigh=5;
@@ -73,14 +73,14 @@ require_once ('class_anc_plan.php');
 </table>
 
 <div class="myfieldset">
-	<h1 class="legend"><?=_('Détail')?></h1>
-<?
+	<h1 class="legend"><?php echo _('Détail')?></h1>
+<?php 
   require_once('class_own.php');
   $owner=new Own($cn);
 ?>
 <table class="result">
 <tr>
-<?
+<?php 
     echo th(_('Poste Comptable'));
     echo th(_('Quick Code'));
     echo th(_('Libellé'));
@@ -167,7 +167,7 @@ $amount_idx=0;
 ?>
 </table>
 </div>
-<?
+<?php 
 require_once('ledger_detail_bottom.php');
 ?>
 </div>

@@ -29,59 +29,59 @@
 
 ?>
 <div class="content">
-	<?=$nav_bar?>
+	<?php echo $nav_bar?>
 <table class="result">
 	<tr>
-		<th><?=$tb->get_header(0);?></th>
-		<th><?=$tb->get_header(1);?></th>
-		<th><?=$tb->get_header(2);?></th>
-		<th><?=$tb->get_header(3);?></th>
+		<th><?php echo $tb->get_header(0);?></th>
+		<th><?php echo $tb->get_header(1);?></th>
+		<th><?php echo $tb->get_header(2);?></th>
+		<th><?php echo $tb->get_header(3);?></th>
 		<th>Opération</th>
-		<th><?=$tb->get_header(4);?></th>
-		<th><?=$tb->get_header(5);?></th>
-		<th><?=$tb->get_header(6);?></th>
-		<th><?=$tb->get_header(7);?></th>
+		<th><?php echo $tb->get_header(4);?></th>
+		<th><?php echo $tb->get_header(5);?></th>
+		<th><?php echo $tb->get_header(6);?></th>
+		<th><?php echo $tb->get_header(7);?></th>
 	</tr>
-	<?
+	<?php 
 
 	for ($i=0;$i<$max_row;$i++):
 		$row=Database::fetch_array($res, $i);
 		$class=($i%2==0)?' class="even" ':' class="odd" ';
 	?>
-	<tr <?=$class?>>
+	<tr <?php echo $class?>>
 		<td>
-			<?=$row['cdate']?>
+			<?php echo $row['cdate']?>
 		</td>
 		<td>
-			<?=HtmlInput::card_detail($row['sg_code'],"",' class="line" ')?>
+			<?php echo HtmlInput::card_detail($row['sg_code'],"",' class="line" ')?>
 		</td>
 		<td>
-			<?=$row['r_name']?>
+			<?php echo $row['r_name']?>
 		</td>
 		<td>
-			<? if (trim($row['qcode'])!='') : ?>
-			<?=HtmlInput::card_detail($row['qcode'],$row['fname'],' class="line" ')?>
-			<? endif; ?>
+			<?php if (trim($row['qcode'])!='') : ?>
+			<?php echo HtmlInput::card_detail($row['qcode'],$row['fname'],' class="line" ')?>
+			<?php endif; ?>
 		</td>
 		<td>
-			<? if (trim($row['jr_internal'])!='') : ?>
-			<?=HtmlInput::detail_op($row['jr_id'],$row['jr_internal'])?>
-			<? endif; ?>
+			<?php if (trim($row['jr_internal'])!='') : ?>
+			<?php echo HtmlInput::detail_op($row['jr_id'],$row['jr_internal'])?>
+			<?php endif; ?>
 		</td>
 		<td>
-			<?=$row['ccomment']?>
+			<?php echo $row['ccomment']?>
 		</td>
 		<td class="num">
-			<?=nbm($row['j_montant'])?>
+			<?php echo nbm($row['j_montant'])?>
 		</td>
 		<td class="num">
-			<?=nbm($row['sg_quantity'])?>
+			<?php echo nbm($row['sg_quantity'])?>
 		</td>
 		<td>
-			<?=$row['direction']?>
+			<?php echo $row['direction']?>
 		</td>
 	</tr>
-	<? endfor;?>
+	<?php endfor;?>
 </table>
-	<?=$nav_bar?>
+	<?php echo $nav_bar?>
 </div>

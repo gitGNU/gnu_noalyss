@@ -1,5 +1,5 @@
 <div class="pc_calendar" id="user_cal" style="width:100%">
-<?=$month_year?>
+<?php echo $month_year?>
 <table width="100%">
 <tr>
 <?php

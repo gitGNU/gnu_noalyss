@@ -27,27 +27,27 @@
  */
 ?>
 <form method="POST" class="print">
-<?=HtmlInput::hidden('tab','profile_repo_div')?>
+<?php echo HtmlInput::hidden('tab','profile_repo_div')?>
 
-	<?=HtmlInput::hidden("p_id", $p_id);?>
+	<?php echo HtmlInput::hidden("p_id", $p_id);?>
 	<table>
 		<tr>
-			<th><?=_("Dépot")?></th>
-			<th><?=_("Accès")?></th>
+			<th><?php echo _("Dépot")?></th>
+			<th><?php echo _("Accès")?></th>
 		</tr>
-		<? for ($i=0;$i<count($array);$i++): ?>
+		<?php for ($i=0;$i<count($array);$i++): ?>
 		<tr>
 			<td>
-				<?=$array[$i]['r_name']?>
-				<?=HtmlInput::hidden('ur_id[]',$array[$i]['ur_id'])?>
-				<?=HtmlInput::hidden('ar_id[]',$array[$i]['r_id'])?>
+				<?php echo $array[$i]['r_name']?>
+				<?php echo HtmlInput::hidden('ur_id[]',$array[$i]['ur_id'])?>
+				<?php echo HtmlInput::hidden('ar_id[]',$array[$i]['r_id'])?>
 			</td>
-                         <?
+                         <?php 
                             $color=($array[$i]['ur_right']!='X')?"border:lightgreen 2px solid; ":"border:red 2px solid; ";
                         ?>
-			<td style="<?=$color?>">
+			<td style="<?php echo $color?>">
 
-				<?
+				<?php 
 				$isel=new ISelect("right[]");
 				$isel->value=$aright_value;
 				$isel->selected=$array[$i]['ur_right'];
@@ -56,4 +56,4 @@
 		</tr>
 		<?endfor;?>
 	</table>
-<?=HtmlInput::submit("change_stock", "Sauver")?>
+<?php echo HtmlInput::submit("change_stock", "Sauver")?>

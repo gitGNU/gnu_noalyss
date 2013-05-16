@@ -10,7 +10,7 @@ pour faire toutes les écritures de fin d'exercice: amortissements, régulations
 </ul>
 
 <form method="post" onsubmit="return confirm('Confirmez vous l\'ajout d\'un exercice comptable ?')">
-<?
+<?php 
 echo HtmlInput::hidden("ac",$_REQUEST['ac']);
 echo $nb_exercice->input();
 echo HtmlInput::hidden("jrn_def_id","0");

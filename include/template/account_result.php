@@ -1,5 +1,5 @@
 <fieldset id="asearch" style="height:88%">
-<legend><? echo _('Résultats')?></legend>
+<legend><?php echo _('Résultats')?></legend>
 <div style="height:88%;overflow:auto;">
 	<?php
 		$limite=5;
@@ -11,18 +11,18 @@
 		<th>Fiche (limite:<?php echo $limite; ?>)</th>
 
 	</tr>
-<? for ($i=0;$i<sizeof($array);$i++) : ?>
+<?php for ($i=0;$i<sizeof($array);$i++) : ?>
 <tr>
 <td>
-<a href="javascript:void(0)" onclick="<?=$array[$i]['javascript']?>">
-<span  id="val<?=$i?>">
-<?=$array[$i]['pcm_val']?>
+<a href="javascript:void(0)" onclick="<?php echo $array[$i]['javascript']?>">
+<span  id="val<?php echo $i?>">
+<?php echo $array[$i]['pcm_val']?>
 </span>
 </a>
 </td>
 <td>
-<span id="lib<?=$i?>">
-<?=$array[$i]['pcm_lib']?>
+<span id="lib<?php echo $i?>">
+<?php echo $array[$i]['pcm_lib']?>
 </span>
 </td>
 <td>
@@ -49,10 +49,10 @@
 </tr>
 
 
-<? endfor; ?>
+<?php endfor; ?>
 </table>
 <span style="font-style:italic">
-<? echo _("Nombre d'enregistrements")." ".$i;?>
+<?php echo _("Nombre d'enregistrements")." ".$i;?>
 </span>
 
 </div>

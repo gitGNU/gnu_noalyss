@@ -5,7 +5,7 @@ require_once ('class_acc_reconciliation.php');
 $gDossier=dossier::id();
 if ( count($this->content) == 0 ) :
 ?>
-  <h2 class="info2"><?=_('Désolé aucun résultat trouvé')?></h2>
+  <h2 class="info2"><?php echo _('Désolé aucun résultat trouvé')?></h2>
 
     <?php
   else :
@@ -16,25 +16,25 @@ $delta=0;
 <th>
 </th>
 <th>
-   <?=_('Lettrage')?>
+   <?php echo _('Lettrage')?>
 </th>
 <th>
-   <?=_('Date')?>
+   <?php echo _('Date')?>
 </th>
 <th>
-   <?=_('Ref')?>
+   <?php echo _('Ref')?>
 </th>
 <th>
-   <?=_('Description')?>
+   <?php echo _('Description')?>
 </th>
 <th style="text-align:right">
-   <?=_('Débit')?>
+   <?php echo _('Débit')?>
 </th>
 <th style="text-align:right">
-   <?=_('Crédit')?>
+   <?php echo _('Crédit')?>
 </th>
 <th style="text-align:center">
-  <?=_('Op. concernée')?>
+  <?php echo _('Op. concernée')?>
 </th>
 </tr>
 
@@ -56,32 +56,32 @@ if ($linked_limit != 0 && $i==$linked_limit)
 <th>
 </th>
 <th>
-   <?=_('Lettrage')?>
+   <?php echo _('Lettrage')?>
 </th>
 <th>
-   <?=_('Date')?>
+   <?php echo _('Date')?>
 </th>
 <th>
-   <?=_('Ref')?>
+   <?php echo _('Ref')?>
 </th>
 <th>
-   <?=_('Description')?>
+   <?php echo _('Description')?>
 </th>
 <th style="text-align:right">
-   <?=_('Débit')?>
+   <?php echo _('Débit')?>
 </th>
 <th style="text-align:right">
-   <?=_('Crédit')?>
+   <?php echo _('Crédit')?>
 </th>
 <th style="text-align:center">
-  <?=_('Op. concernée')?>
+  <?php echo _('Op. concernée')?>
 </th>
 </tr>
-<?
+<?php 
 
 }
 ?>
-  <tr <? echo "class=\"$class\""; ?> >
+  <tr <?php echo "class=\"$class\""; ?> >
 <td>
 <?php
 
@@ -100,22 +100,22 @@ echo HtmlInput::hidden('letter_j_id[]',$this->content[$i]['j_id']);
 <?php
 $letter=($this->content[$i]['letter']< 0)?" ":strtoupper(base_convert($this->content[$i]['letter'],10,36));
 ?>
-<?=$letter?>
+<?php echo $letter?>
 </td>
-<td> <?=smaller_date($this->content[$i]['j_date_fmt'])?> </td>
+<td> <?php echo smaller_date($this->content[$i]['j_date_fmt'])?> </td>
 <?php
 $r=sprintf('<A class="detail" style="text-decoration:underline"  HREF="javascript:viewOperation(\'%s\',\'%s\')" >%s</A>',
 	   $this->content[$i]['jr_id'], $gDossier,  $this->content[$i]['jr_internal']);
 ?>
-<td> <?=$r?> </td>
-<td> <?=$this->content[$i]['jr_comment']?> </td>
- <? if ($this->content[$i]['j_debit']=='t') : ?>
-  <td style="text-align:right"> <?=nb($this->content[$i]['j_montant'])?> </td>
+<td> <?php echo $r?> </td>
+<td> <?php echo $this->content[$i]['jr_comment']?> </td>
+ <?php if ($this->content[$i]['j_debit']=='t') : ?>
+  <td style="text-align:right"> <?php echo nb($this->content[$i]['j_montant'])?> </td>
   <td></td>
-  <? else : ?>
+  <?php else : ?>
   <td></td>
-  <td style="text-align:right"> <?=nb($this->content[$i]['j_montant'])?> </td>
-  <? endif ?>
+  <td style="text-align:right"> <?php echo nb($this->content[$i]['j_montant'])?> </td>
+  <?php endif ?>
 <td style="text-align:center">
 <?php
     // Rapprochement
@@ -153,10 +153,10 @@ $delta = abs($delta);
 ?>
 </TABLE>
   <h2 class="info"> Total lettré</h2>
-<span style="display:block;font-size:14px"><?=_('Total Debit')?>   <?=$amount_deb?></span>
-<span style="display:block;font-size:14px"><?=_('Total Credit')?>   <?=$amount_cred?></span>
-<span style="display:block;font-size:14px"><?=_('Total ').$side?>   <?=$delta?></span>
+<span style="display:block;font-size:14px"><?php echo _('Total Debit')?>   <?php echo $amount_deb?></span>
+<span style="display:block;font-size:14px"><?php echo _('Total Credit')?>   <?php echo $amount_cred?></span>
+<span style="display:block;font-size:14px"><?php echo _('Total ').$side?>   <?php echo $delta?></span>
 
 <?php endif;?>
-<?=HtmlInput::button('check_all','Sélectionner tout',' onclick="select_checkbox(\'letter_form\')"');?>
-<?=HtmlInput::button('check_none','Tout Désélectionner ',' onclick="unselect_checkbox(\'letter_form\')"');?>
+<?php echo HtmlInput::button('check_all','Sélectionner tout',' onclick="select_checkbox(\'letter_form\')"');?>
+<?php echo HtmlInput::button('check_none','Tout Désélectionner ',' onclick="unselect_checkbox(\'letter_form\')"');?>

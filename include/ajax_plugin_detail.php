@@ -33,22 +33,22 @@ echo HtmlInput::title_box($msg, $ctl);
 <table>
 	<tr>
 		<TD>Label</td>
-		<td><?=$me_menu->input();?></td>
+		<td><?php echo $me_menu->input();?></td>
 	</tr>
 	<tr>
 		<TD>Code</td>
-		<td><?=$me_code->input();?></td>
+		<td><?php echo $me_code->input();?></td>
 	</tr>
 	<tr>
 		<TD>Description</td>
-		<td><?=$me_description->input();?></td>
+		<td><?php echo $me_description->input();?></td>
 	</tr>
 	<tr>
 		<TD>Fichier</td>
-		<td><?=$me_file->input();?></td>
+		<td><?php echo $me_file->input();?></td>
 	</tr>
 </table>
-	<?
+	<?php 
 	if ($new ==1 )
 	{
 		echo HtmlInput::submit("save_plugin","Ajouter ce plugin");

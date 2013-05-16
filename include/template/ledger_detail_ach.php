@@ -1,15 +1,15 @@
-<? require_once('template/ledger_detail_top.php'); ?>
+<?php require_once('template/ledger_detail_top.php'); ?>
 <div class="content" style="padding:0;">
-<?
+<?php 
   require_once('class_own.php');
   $owner=new Own($cn);
 ?>
 
-    <? if ( $access=='W') : ?>
+    <?php if ( $access=='W') : ?>
 <form  class="print" onsubmit="return op_save(this);">
-   <? endif; ?>
+   <?php endif; ?>
 
-    <? echo HtmlInput::hidden('whatdiv',$div).HtmlInput::hidden('jr_id',$jr_id).dossier::hidden();?>
+    <?php echo HtmlInput::hidden('whatdiv',$div).HtmlInput::hidden('jr_id',$jr_id).dossier::hidden();?>
     <table style="width:100%">
     <tr><td>
 							<table>
@@ -33,7 +33,7 @@
 							</tr>
 
 							<tr><td>
-							<?
+							<?php 
 							$bk=new Fiche($cn,$obj->det->array[0]['qp_supplier']);
 							echo td(_('Fournisseur'));
 
@@ -44,7 +44,7 @@
 							</tr>
 							<tr>
 							<td>
-							<?
+							<?php 
 							$itext=new IText('npj');
 							$itext->value=strip_tags($obj->det->jr_pj_number);
 							echo td(_('Pièce')).td($itext->input());
@@ -52,7 +52,7 @@
 							</td>
 							<tr>
 							<td>
-							<?
+							<?php 
 							  $itext=new IText('lib');
 							  $itext->value=strip_tags($obj->det->jr_comment);
 							  $itext->size=40;
@@ -66,7 +66,7 @@
 															   <td></td>
                                                             <td>Payé</td>
                                                             <td>
-                                                                <?
+                                                                <?php 
                                                                 $ipaid=new ICheckBox("ipaid",'paid');
                                                                 $ipaid->selected=($obj->det->jr_rapt=='paid');
                                                                 echo $ipaid->input();
@@ -82,7 +82,7 @@
 				</td></tr>
 				<tr>
 				<td>
-				<?
+				<?php 
 				$inote=new ITextarea('jrn_note');
 				$inote->width=25;
 				$inote->heigh=5;
@@ -98,9 +98,9 @@
 
 </table>
 <div class="myfieldset">
-	<h1 class="legend"><?=_('Détail')?></h1>
+	<h1 class="legend"><?php echo _('Détail')?></h1>
 <table class="result">
-<?
+<?php 
   bcscale(2);
   $total_htva=0;$total_tvac=0;
   echo th(_('Quick Code'));
@@ -224,10 +224,10 @@ echo tr($row);
 
 </div>
 	<div class="myfieldset">
-	<h1 class="legend"><?=_('Ecritures comptables')?></h1>
+	<h1 class="legend"><?php echo _('Ecritures comptables')?></h1>
 
 
-<?
+<?php 
   /* if it is not in a popup, the details are hidden */
   if ( $div != 'popup') {
     $ib=new IButton ("a".$div);
@@ -246,7 +246,7 @@ $detail->get();
 ?>
 <table class="result">
 <tr>
-<?
+<?php 
  echo th(_('Poste Comptable'));
     echo th(_('Quick Code'));
     echo th(_('Libellé'));
@@ -291,7 +291,7 @@ echo '</tr>';
 </div>
 </div>
 
-<?
+<?php 
 require_once('ledger_detail_bottom.php');
 ?>
 </div>

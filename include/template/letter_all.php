@@ -7,35 +7,35 @@ global $g_failed;
 
 if ( count($this->content) == 0 ) :
 ?>
-  <h2 class="info2"><?=_('Désolé aucun résultat trouvé')?></h2>
+  <h2 class="info2"><?php echo _('Désolé aucun résultat trouvé')?></h2>
 
 <?php exit();
   endif;?>
   <table class="result">
 <tr>
 <th>
-   <?=_('Lettrage')?>
+   <?php echo _('Lettrage')?>
 </th>
 <th>
-   <?=_('Date')?>
+   <?php echo _('Date')?>
 </th>
 <th>
-   <?=_('Ref')?>
+   <?php echo _('Ref')?>
 </th>
 <th>
-   <?=_('Interne')?>
+   <?php echo _('Interne')?>
 </th>
 <th>
-   <?=_('Description')?>
+   <?php echo _('Description')?>
 </th>
 <th style="text-align:right">
-   <?=_('Débit')?>
+   <?php echo _('Débit')?>
 </th>
 <th style="text-align:right">
-   <?=_('Crédit')?>
+   <?php echo _('Crédit')?>
 </th>
 <th style="text-align:center">
-  <?=_('Op. concernée')?>
+  <?php echo _('Op. concernée')?>
 </th>
 </tr>
 
@@ -44,7 +44,7 @@ for ($i=0;$i<count($this->content);$i++):
   $class="";
 if ( ($i % 2) == 0 ) $class="odd";
 ?>
-  <tr <? echo "class=\"$class\""; ?> >
+  <tr <?php echo "class=\"$class\""; ?> >
 <td>
 <?php
 $letter=($this->content[$i]['letter']==-1)?" aucun lettrage ":strtoupper(base_convert($this->content[$i]['letter'],10,36));
@@ -54,26 +54,26 @@ $js="this.gDossier=".dossier::id().
   ";dsp_letter(this)";
 
 ?>
-<A class="detail" style="text-decoration: underline" href="javascript:<?=$js?>"><?=$letter?>
-<? if ( $this->content[$i]['letter_diff'] != 0) echo $g_failed;	?>
+<A class="detail" style="text-decoration: underline" href="javascript:<?php echo $js?>"><?php echo $letter?>
+<?php if ( $this->content[$i]['letter_diff'] != 0) echo $g_failed;	?>
 	</A>
 </td>
-<td> <?=  smaller_date($this->content[$i]['j_date_fmt'])?> </td>
-<td> <?=$this->content[$i]['jr_pj_number']?> </td>
+<td> <?php echo   smaller_date($this->content[$i]['j_date_fmt'])?> </td>
+<td> <?php echo $this->content[$i]['jr_pj_number']?> </td>
 
 <?php
 $r=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:viewOperation(\'%s\',\'%s\')" >%s</A>',
 	     $this->content[$i]['jr_id'], $gDossier, $this->content[$i]['jr_internal']);
 ?>
-  <td> <?=$r?> </td>
-  <td> <?=h($this->content[$i]['jr_comment'])?> </td>
-  <? if ($this->content[$i]['j_debit']=='t') : ?>
-  <td style="text-align:right"> <?=nb($this->content[$i]['j_montant'])?> </td>
+  <td> <?php echo $r?> </td>
+  <td> <?php echo h($this->content[$i]['jr_comment'])?> </td>
+  <?php if ($this->content[$i]['j_debit']=='t') : ?>
+  <td style="text-align:right"> <?php echo nb($this->content[$i]['j_montant'])?> </td>
   <td></td>
-  <? else : ?>
+  <?php else : ?>
   <td></td>
-  <td style="text-align:right"> <?=nb($this->content[$i]['j_montant'])?> </td>
-  <? endif ?>
+  <td style="text-align:right"> <?php echo nb($this->content[$i]['j_montant'])?> </td>
+  <?php endif ?>
 <td style="text-align:center">
 <?php
     // Rapprochement
@@ -102,14 +102,14 @@ $amount_cred+=($this->content[$i]['j_debit']=='f')?$this->content[$i]['j_montant
     endfor;
 ?>
 </table>
-<h2 class="info2" style="margin:0 0"> Solde débit  : <?=nb($amount_deb);?></h2>
-<h2 class="info2"  style="margin:0 0"> Solde crédit : <?=nb($amount_cred);?></h2>
-  <?
+<h2 class="info2" style="margin:0 0"> Solde débit  : <?php echo nb($amount_deb);?></h2>
+<h2 class="info2"  style="margin:0 0"> Solde crédit : <?php echo nb($amount_cred);?></h2>
+  <?php 
 bcscale(2);
   $solde=bcsub($amount_deb,$amount_cred);
 if ( $solde > 0 ) :
 ?>
-  <h2 class="info2"  style="margin:0 0"> Solde débiteur       : <?=nb($solde)?></h2>
-<? else : ?>
-     <h2 class="info2"  style="margin:0 0"> Solde créditeur       : <?=nb(abs($solde))?></h2>
-<? endif; ?>
+  <h2 class="info2"  style="margin:0 0"> Solde débiteur       : <?php echo nb($solde)?></h2>
+<?php else : ?>
+     <h2 class="info2"  style="margin:0 0"> Solde créditeur       : <?php echo nb(abs($solde))?></h2>
+<?php endif; ?>

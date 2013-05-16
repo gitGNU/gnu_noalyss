@@ -1,6 +1,6 @@
 <div style="float:left;width: 49%">
 <fieldset >
-<legend><?=_('Calendrier')?>
+<legend><?php echo _('Calendrier')?>
 </legend>
 <?php echo $cal->display(); ?>
 </fieldset>
@@ -25,7 +25,7 @@ $array=$todo->load_all();
 ?>
 
 <div style="float:right;width: 49%">
-<fieldset> <legend><?=_('Pense-Bête')?></legend>
+<fieldset> <legend><?php echo _('Pense-Bête')?></legend>
 
 <?php
 echo HtmlInput::button('add',_('Ajout'),'onClick="add_todo()"');
@@ -59,61 +59,61 @@ if ( ! empty ($array) )  {
 </div>
 <div style="float:left;clear:both"></div>
 <div style="float:right;width: 49%">
-<? if (count($last_operation)> 0) : ?>
+<?php if (count($last_operation)> 0) : ?>
 	<fieldset>
-	<legend><?=_('Action pour aujourd\'hui')?>
+	<legend><?php echo _('Action pour aujourd\'hui')?>
 	</legend>
 	<ol>
 	<?php
 	for($i=0;$i<count($last_operation);$i++):
 	?>
 	<li>
-		<?=HtmlInput::detail_action($last_operation[$i]['ag_id'],h($last_operation[$i]['ag_ref']))?>
+		<?php echo HtmlInput::detail_action($last_operation[$i]['ag_id'],h($last_operation[$i]['ag_ref']))?>
 	<span>
-	<?=smaller_date($last_operation[$i]['ag_timestamp_fmt'])?>
+	<?php echo smaller_date($last_operation[$i]['ag_timestamp_fmt'])?>
 	</span>
 		<span  style="font-weight: bolder ">
-			<?=h($last_operation[$i]['vw_name'])?>
+			<?php echo h($last_operation[$i]['vw_name'])?>
 		</span>
 	<span>
-	<?=h(mb_substr($last_operation[$i]['ag_title'],0,50,'UTF-8'))?>
+	<?php echo h(mb_substr($last_operation[$i]['ag_title'],0,50,'UTF-8'))?>
 	</span>
 	<span style="font-style: italic">
-	<?=$last_operation[$i]['dt_value']?>
+	<?php echo $last_operation[$i]['dt_value']?>
 	</span>
 	</li>
-	<? endfor;?>
+	<?php endfor;?>
 	</ol>
 	</fieldset>
-<? endif; ?>
+<?php endif; ?>
 
-<? if (count($late_operation)> 0) : ?>
+<?php if (count($late_operation)> 0) : ?>
 		<fieldset>
-	<legend><?=_('Action en retard ')?>
+	<legend><?php echo _('Action en retard ')?>
 	</legend>
 	<ol>
 	<?php
 	for($i=0;$i<count($late_operation);$i++):
 	?>
 	<li>
-		<?=HtmlInput::detail_action($late_operation[$i]['ag_id'],h($late_operation[$i]['ag_ref']))?>
+		<?php echo HtmlInput::detail_action($late_operation[$i]['ag_id'],h($late_operation[$i]['ag_ref']))?>
 	<span>
-	<?=smaller_date($late_operation[$i]['ag_timestamp_fmt'])?>
+	<?php echo smaller_date($late_operation[$i]['ag_timestamp_fmt'])?>
 	</span>
 		<span  style="font-weight: bolder ">
-			<?=h($late_operation[$i]['vw_name'])?>
+			<?php echo h($late_operation[$i]['vw_name'])?>
 		</span>
 	<span>
-	<?=h(mb_substr($late_operation[$i]['ag_title'],0,50,'UTF-8'))?>
+	<?php echo h(mb_substr($late_operation[$i]['ag_title'],0,50,'UTF-8'))?>
 	</span>
 	<span style="font-style: italic">
-	<?=$late_operation[$i]['dt_value']?>
+	<?php echo $late_operation[$i]['dt_value']?>
 	</span>
 	</li>
-	<? endfor;?>
+	<?php endfor;?>
 	</ol>
 	</fieldset>
-<? endif; ?>
+<?php endif; ?>
 </div>
 	<div style="float:left;width: 49%">
 <?php
@@ -168,31 +168,31 @@ echo '</div>';
 
 <div style="float:right;width: 49%">
 <fieldset>
-<legend><?=_('Dernières opérations')?>
+<legend><?php echo _('Dernières opérations')?>
 </legend>
 <table style="width: 100%">
 <?php
 for($i=0;$i<count($last_ledger);$i++):
 	$class=($i%2==0)?' class="even" ':' class="odd" ';
 ?>
-<tr <?=$class ?>>
-	<td><?=  smaller_date($last_ledger[$i]['jr_date_fmt'])?>
+<tr <?php echo $class ?>>
+	<td><?php echo   smaller_date($last_ledger[$i]['jr_date_fmt'])?>
 	</td>
 	<td>
-		<?=$last_ledger[$i]['jrn_def_code']?>
+		<?php echo $last_ledger[$i]['jrn_def_code']?>
 	</td>
 <td>
-   <?=h(mb_substr($last_ledger[$i]['jr_comment'],0,40,'UTF-8'))?>
+   <?php echo h(mb_substr($last_ledger[$i]['jr_comment'],0,40,'UTF-8'))?>
 </td>
 <td>
-<?=HtmlInput::detail_op($last_ledger[$i]['jr_id'], $last_ledger[$i]['jr_internal'])?>
+<?php echo HtmlInput::detail_op($last_ledger[$i]['jr_id'], $last_ledger[$i]['jr_internal'])?>
 </td>
 <td class="num">
-<?=nbm($last_ledger[$i]['jr_montant'])?>
+<?php echo nbm($last_ledger[$i]['jr_montant'])?>
 </td>
 
 </tr>
-<? endfor;?>
+<?php endfor;?>
 </ul></table>
 </fieldset>
 </div>

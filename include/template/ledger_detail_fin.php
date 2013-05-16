@@ -1,17 +1,17 @@
-<? require_once('template/ledger_detail_top.php'); ?>
+<?php require_once('template/ledger_detail_top.php'); ?>
 <div class="content" style="padding:0;">
-<?
+<?php 
   require_once('class_own.php');
   $owner=new Own($cn);
 require_once ('class_anc_plan.php');
 require_once('class_anc_operation.php');
 
 ?>
-    <? if ( $access=='W') : ?>
+    <?php if ( $access=='W') : ?>
 <form class="print" onsubmit="return op_save(this);">
-   <? endif; ?>
+   <?php endif; ?>
 
-    <? echo HtmlInput::hidden('whatdiv',$div).HtmlInput::hidden('jr_id',$jr_id).dossier::hidden();?>
+    <?php echo HtmlInput::hidden('whatdiv',$div).HtmlInput::hidden('jr_id',$jr_id).dossier::hidden();?>
             <table style="width:100%"><tr><td>
 <table>
 <tr>
@@ -25,7 +25,7 @@ $date->value=format_date($obj->det->jr_date);
 </tr>
 
 <tr>
-<?
+<?php 
 $bk=new Fiche($cn,$obj->det->array[0]['qf_bank']);
 $view_card_detail=HtmlInput::card_detail($bk->get_quick_code(),h($bk->getName()), ' class="line" ');
 echo td('Compte en banque').td($view_card_detail).td();;
@@ -33,7 +33,7 @@ echo td('Compte en banque').td($view_card_detail).td();;
 ?>
 </tr>
 <tr>
-<?
+<?php 
 
 $bk=new Fiche($cn,$obj->det->array[0]['qf_other']);
 $view_card_detail=HtmlInput::card_detail($bk->get_quick_code(),h($bk->getName()), ' class="line" ');
@@ -43,7 +43,7 @@ echo td('Tiers').td($view_card_detail);
 </tr>
 
 <tr>
-<?
+<?php 
   $itext=new IText('lib');
   $itext->value=strip_tags($obj->det->jr_comment);
   $itext->size=40;
@@ -53,10 +53,10 @@ echo td('Tiers').td($view_card_detail);
 ?>
 </tr>
 <tr>
-<? echo td('montant').td(nbm($obj->det->array[0]['qf_amount']),' class="inum"');?>
+<?php echo td('montant').td(nbm($obj->det->array[0]['qf_amount']),' class="inum"');?>
 </tr>
 <tr>
-<?
+<?php 
 $itext=new IText('npj');
 $itext->value=strip_tags($obj->det->jr_pj_number);
 echo td(_('Pièce')).td($itext->input());
@@ -72,7 +72,7 @@ echo td(_('Pièce')).td($itext->input());
 </td></tr>
 <tr>
 <td>
-<?
+<?php 
 $inote=new ITextarea('jrn_note');
 $inote->width=25;
 $inote->heigh=5;
@@ -90,15 +90,15 @@ echo $inote->input();
 </td>
 <div class="myfieldset">
 	<h1 class="legend">
-<?=_('Détail')?>
-<?
+<?php echo _('Détail')?>
+<?php 
   $detail=new Acc_Misc($cn,$obj->jr_id);
 $detail->get();
 ?>
 </h1>
 <table class="result">
 <tr>
-<?
+<?php 
  echo th(_('Poste Comptable'));
     echo th(_('Quick Code'));
     echo th(_('Libellé'));
@@ -169,7 +169,7 @@ echo '</tr>';
 ?>
 </table>
 </div>
-<?
+<?php 
 require_once('ledger_detail_bottom.php');
 ?>
 </div>

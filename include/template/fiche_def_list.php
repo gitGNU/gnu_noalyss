@@ -32,48 +32,48 @@ $max=Database::num_row($res);
 <table class="result">
 	<tR>
 		<th>
-			<?=$tab->get_header(0)?>
+			<?php echo $tab->get_header(0)?>
 		</th>
 		<th>
-			<?=$tab->get_header(1)?>
+			<?php echo $tab->get_header(1)?>
 		</th>
 		<th>
-			<?=$tab->get_header(2)?>
+			<?php echo $tab->get_header(2)?>
 		</th>
 		<th>
-			<?=$tab->get_header(3)?>
+			<?php echo $tab->get_header(3)?>
 		</th>
 	</tR>
-<?
+<?php 
 $dossier=Dossier::id();
 for ($i=0;$i<$max;$i++):
 	$class=($i%2==0)?' class="even" ':' class="odd" ';
 	$row=Database::fetch_array($res, $i);
 ?>
-	<tr <?=$class?> >
+	<tr <?php echo $class?> >
 		<td>
-		<?=HtmlInput::anchor(h($row['fd_label']), "javascript:void(0)", "onclick=\"detail_category_show('detail_category_div','".$dossier."','".$row['fd_id']."')\"")?>
+		<?php echo HtmlInput::anchor(h($row['fd_label']), "javascript:void(0)", "onclick=\"detail_category_show('detail_category_div','".$dossier."','".$row['fd_id']."')\"")?>
 		</td>
 		<td>
-			<?=h($row['fd_class_base'])?>
+			<?php echo h($row['fd_class_base'])?>
 		</td>
 		<td>
-			<?
+			<?php 
 			 $v=($row['fd_create_account']=='t')?"Automatique":"Manuel";
 			 echo $v;
 			?>
 		</td>
 		<td>
-			<?=$row['frd_text']?>
+			<?php echo $row['frd_text']?>
 		</td>
 	</tr>
 
 
-<?
+<?php 
 endfor;
 ?>
 </table>
-<?
+<?php 
 echo HtmlInput::button("cat_fiche_def_add","Ajout d'une nouvelle catégorie", "onclick=\"detail_category_show('detail_category_div','".$dossier."','-1')\"");
 ?>
 </div>

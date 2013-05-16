@@ -47,23 +47,23 @@
     $r=$cn->fetch($i);
 ?>
 <td>
-    <?=h($r['ac_user']);?>
+    <?php echo h($r['ac_user']);?>
 </td>
 
 <td>
-<?=$r['fmt_date'];?>
+<?php echo $r['fmt_date'];?>
 </td>
 
 <td>
-<?=$r['ac_ip'];?>
+<?php echo $r['ac_ip'];?>
 </td>
 
 <td>
-<?=$r['ac_module'];?>
+<?php echo $r['ac_module'];?>
 </td>
 
 
-<?
+<?php 
 switch ( $r['ac_state'] )
   {
   case 'FAIL';
@@ -76,11 +76,11 @@ switch ( $r['ac_state'] )
 	  echo '<td>';
   }
 ?>
-<?=$r['ac_state']?>
+<?php echo $r['ac_state']?>
 </td>
 
 </TR>
-<?
+<?php 
   endfor;
 ?>
 

@@ -105,10 +105,10 @@ $it_pass=new IText('password');
 $it_pass->value="";
 ?>
 <h1 class="info">Modification</h1>
-<? echo HtmlInput::button_anchor('Retour', 'admin_repo.php?action=user_mgt'); ?>
+<?php echo HtmlInput::button_anchor('Retour', 'admin_repo.php?action=user_mgt'); ?>
 <FORM  METHOD="POST">
 
-<?=HtmlInput::hidden('UID',$uid)?>
+<?php echo HtmlInput::hidden('UID',$uid)?>
     <TABLE BORDER=0>
         <TR>
 
@@ -131,7 +131,7 @@ $it_pass->value="";
                 Mot de passe :<span class="info">Laisser à VIDE pour ne PAS le changer</span>
             </td>
             <td>
-                <?=$it_pass->input();?>
+                <?php echo $it_pass->input();?>
             </td>
         </tr>
     </table>
@@ -228,7 +228,7 @@ foreach ($Dossier as $rDossier)
         <input type="Submit" class="button" NAME="SAVE" VALUE="Sauver les changements" onclick="return confirm('Confirmer changement ?');">
 
         <input type="Submit"  class="button" NAME="DELETE" VALUE="Effacer" onclick="return confirm('Confirmer effacement ?');" >
-<? echo HtmlInput::button_anchor('Retour', 'admin_repo.php?action=user_mgt'); ?>
+<?php echo HtmlInput::button_anchor('Retour', 'admin_repo.php?action=user_mgt'); ?>
 </FORM>
 
 </DIV>

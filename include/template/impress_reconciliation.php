@@ -19,7 +19,7 @@ Libellé
 Montant
 </th>
 </tr>
-<?
+<?php 
 for ($i=0;$i<count($array);$i++) {
 	$r='';
 	$r.=td($i);

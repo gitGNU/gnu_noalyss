@@ -149,7 +149,7 @@ if (isset($_POST['val']))
     		    </td>
     		    <td>  <?php echo $msg;?></td>
     		<tr>
-    		    <td><? echo _('Taille des pages');?></td>
+    		    <td><?php echo _('Taille des pages');?></td>
     		    <td>
     			<SELECT NAME="p_size">
     			    <option value="15">15
@@ -167,7 +167,7 @@ if (isset($_POST['val']))
 
     		    </td>
     		</tr>
-		    <?
+		    <?php 
 		}
 		?>
 	    </table>

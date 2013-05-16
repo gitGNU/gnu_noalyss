@@ -2,49 +2,49 @@
 
 ?>
 <fieldset>
-<legend><?=$f_legend ?>
+<legend><?php echo $f_legend ?>
 </legend>
 	<div id="jrn_name_div">
-	<h2 class="title" id="jrn_name"> <?=$this->get_name()?></h2>
+	<h2 class="title" id="jrn_name"> <?php echo $this->get_name()?></h2>
 </div>
-      <?=_('Date').':'?> <?=$f_date ?> <?=_('Echeance')?> : <?=$f_echeance?>
-<?=$f_periode?><br>
-      <?=_('Journal')?> <?=$f_jrn?><br><hr>
-<?=$f_type?><?=$f_client_qcode?><?=$f_client_bt?> <?=$f_client?><br>
-      <?=_('Libellé')?> <?=$f_desc?>
-      <?=_('Num Pj')?> <?=$f_pj?><br>
-<?=$str_add_button?>
+      <?php echo _('Date').':'?> <?php echo $f_date ?> <?php echo _('Echeance')?> : <?php echo $f_echeance?>
+<?php echo $f_periode?><br>
+      <?php echo _('Journal')?> <?php echo $f_jrn?><br><hr>
+<?php echo $f_type?><?php echo $f_client_qcode?><?php echo $f_client_bt?> <?php echo $f_client?><br>
+      <?php echo _('Libellé')?> <?php echo $f_desc?>
+      <?php echo _('Num Pj')?> <?php echo $f_pj?><br>
+<?php echo $str_add_button?>
 </fieldset>
 
 <fieldset>
-<legend><?=$f_legend_detail?></legend>
+<legend><?php echo $f_legend_detail?></legend>
 <table id="sold_item" width="100%" border="0">
 <tr>
-<th style="width:auto"colspan="2">Code <?=HtmlInput::infobulle(0)?></th>
-      <th><?=_('Dénomination')?></th>
-<? if ($flag_tva =='Y') : ?>
-      <th><?=_('prix/unité htva')?><?=HtmlInput::infobulle(6)?></th>
-      <th><?=_('quantité')?></th>
-      <th><?=_('Total HTVA')?></th>
-	  <th><?=_('tva')?></th>
-      <th><?=_('tot.tva')?></th>
-      <th><?=_('tvac')?></th>
-<? else: ?>
-	  <th><?=_('prix/unité ')?><?=HtmlInput::infobulle(6)?></th>
-      <th><?=_('quantité')?></th>
-      <th><?=_('Total ')?></th>
-<? endif;?>
+<th style="width:auto"colspan="2">Code <?php echo HtmlInput::infobulle(0)?></th>
+      <th><?php echo _('Dénomination')?></th>
+<?php if ($flag_tva =='Y') : ?>
+      <th><?php echo _('prix/unité htva')?><?php echo HtmlInput::infobulle(6)?></th>
+      <th><?php echo _('quantité')?></th>
+      <th><?php echo _('Total HTVA')?></th>
+	  <th><?php echo _('tva')?></th>
+      <th><?php echo _('tot.tva')?></th>
+      <th><?php echo _('tvac')?></th>
+<?php else: ?>
+	  <th><?php echo _('prix/unité ')?><?php echo HtmlInput::infobulle(6)?></th>
+      <th><?php echo _('quantité')?></th>
+      <th><?php echo _('Total ')?></th>
+<?php endif;?>
 
 
 
 </tr>
-<? foreach ($array as $item) {
+<?php foreach ($array as $item) {
 echo '<tr>';
 echo $item['quick_code'];
 echo '<td>'.$item['bt'].'</td>';
 ?>
-<td style="border-bottom: 1px dotted grey; width: 75%;"><?=$item['denom'] ?></td>
-<?
+<td style="border-bottom: 1px dotted grey; width: 75%;"><?php echo $item['denom'] ?></td>
+<?php 
 echo td($item['pu']);
 echo td($item['quantity' ]);
 echo td($item['htva']);
@@ -61,7 +61,7 @@ echo '</tr>';
 </table>
 
 <div style="position:float;float:right;text-align:right;padding-right:5px;font-size:1.2em;font-weight:bold;color:blue">
-      <?=HtmlInput::button('act',_('Actualiser'),'onClick="compute_all_ledger();"'); ?>
+      <?php echo HtmlInput::button('act',_('Actualiser'),'onClick="compute_all_ledger();"'); ?>
  </div>
 
     <div style="position:float;float:right;text-align:left;font-size:1.2em;font-weight:bold;color:blue" id="sum">
@@ -78,11 +78,11 @@ echo '</tr>';
 <?php
 	if ( $flag_tva =='Y') :
 	?>
-  <br><?=_('Total HTVA')?>
-  <br><?=_('Total TVA')?>
-  <br><?=_('Total TVAC')?>
+  <br><?php echo _('Total HTVA')?>
+  <br><?php echo _('Total TVA')?>
+  <br><?php echo _('Total TVAC')?>
  <?php else:  ?>
-     <br><?=_('Total')?>
+     <br><?php echo _('Total')?>
 <?php endif; ?>
 </div>
 

@@ -37,7 +37,7 @@ header('Content-Disposition: attachment;filename="stock-summary-list.csv"',FALSE
 
 ?>
 "Depot";"Adresse";"Ville";"Pays";"Code Stock";"Fiches";"IN";"OUT";"DIFF"
-<?
+<?php 
 $a_repo=$cn->get_array("select distinct t.r_id,r_name,r_adress,r_city,r_country from stock_repository as s join tmp_stockgood_detail as t
 	on (s.r_id=t.r_id)
 	where

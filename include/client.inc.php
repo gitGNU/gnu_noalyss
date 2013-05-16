@@ -84,8 +84,8 @@ if ($low_action == "list")
 
 		echo _('Inclure les clients sans opération :') . $nooperation->input();
 		?>
-    	    <input type="submit" class="button" name="submit_query" value="<?= _('recherche')?>">
-    	    <input type="hidden" name="ac" value="<?= $_REQUEST['ac']?>">
+    	    <input type="submit" class="button" name="submit_query" value="<?php echo  _('recherche')?>">
+    	    <input type="hidden" name="ac" value="<?php echo  $_REQUEST['ac']?>">
     	</form>
         </div>
 	<?php

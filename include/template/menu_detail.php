@@ -19,7 +19,7 @@ $str_js=new IText('me_javascript',$m->me_javascript);
             Code du menu
         </td>
         <td>
-            <?=$str_code->input()?>
+            <?php echo $str_code->input()?>
         </td>
     </tr>
         <tr>
@@ -27,7 +27,7 @@ $str_js=new IText('me_javascript',$m->me_javascript);
             Libellé du menu
         </td>
         <td>
-            <?=$str_menu->input()?>
+            <?php echo $str_menu->input()?>
         </td>
     </tr>
         <tr>
@@ -35,7 +35,7 @@ $str_js=new IText('me_javascript',$m->me_javascript);
             Description
         </td>
         <td>
-            <?=$str_desc->input()?>
+            <?php echo $str_desc->input()?>
         </td>
     </tr>
          <tr>
@@ -43,7 +43,7 @@ $str_js=new IText('me_javascript',$m->me_javascript);
             Fichier à inclure (depuis le répertoire include)
         </td>
         <td>
-            <?=$str_file->input()?>
+            <?php echo $str_file->input()?>
         </td>
     </tr>
     <tr>
@@ -51,7 +51,7 @@ $str_js=new IText('me_javascript',$m->me_javascript);
             URL
         </td>
         <td>
-            <?=$str_url->input()?>
+            <?php echo $str_url->input()?>
         </td>
     </tr>
      <tr>
@@ -59,7 +59,7 @@ $str_js=new IText('me_javascript',$m->me_javascript);
             Paramèttre
         </td>
         <td>
-            <?=$str_parameter->input()?>
+            <?php echo $str_parameter->input()?>
         </td>
     </tr>
      <tr>
@@ -67,7 +67,7 @@ $str_js=new IText('me_javascript',$m->me_javascript);
             Javascript
         </td>
         <td>
-            <?=$str_js->input()?>
+            <?php echo $str_js->input()?>
         </td>
     </tr>
 </table>

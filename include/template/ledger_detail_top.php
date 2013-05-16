@@ -1,5 +1,5 @@
 <div style="float:right;height:10px;display:block;margin-top:2px;margin-right:2px">
-<?
+<?php 
    if ($div != "popup") {
      $callback=$_SERVER['PHP_SELF'];
      $str=$_SERVER['QUERY_STRING']."&act=$action&ajax=$callback";
@@ -10,9 +10,9 @@
 ?>
 </div>
 <div>
-   <? echo h2info($oLedger->get_name()); ?>
+   <?php echo h2info($oLedger->get_name()); ?>
 </div>
-<? echo "Opération ID=".hb($obj->det->jr_internal); ?>
-<div id="<?=$div.'info'?>" class="divinfo"></div>
-<? require_once('class_itextarea.php');
+<?php echo "Opération ID=".hb($obj->det->jr_internal); ?>
+<div id="<?php echo $div.'info'?>" class="divinfo"></div>
+<?php require_once('class_itextarea.php');
 ?>

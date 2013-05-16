@@ -143,9 +143,9 @@ $ret=$menu->seek($sql.$order);
 ?>
 <fieldset><legend>Recherche</legend>
 <form method="GET">
-	<?=$iselect->input()?>
-	<?=HtmlInput::submit("search", "Recherche")?>
-	<?=HtmlInput::request_to_hidden(array('ac','gDossier','ord'))?>
+	<?php echo $iselect->input()?>
+	<?php echo HtmlInput::submit("search", "Recherche")?>
+	<?php echo HtmlInput::request_to_hidden(array('ac','gDossier','ord'))?>
 </form>
 </fieldset>
 <p class="info"> le type vaut :
@@ -157,7 +157,7 @@ $ret=$menu->seek($sql.$order);
 	</ul>
 
 	</p>
-<?
+<?php 
 $gDossier=Dossier::id();
 echo HtmlInput::button("Add_plugin", "Ajout d'un plugin", "onclick=add_plugin($gDossier)");
 echo HtmlInput::button("Add_menu", "Ajout d'un menu", "onclick=create_menu($gDossier)");

@@ -90,8 +90,8 @@ if ($low_action == "list")
 		echo _('Société :') . $sl_company->input();
 
 		?>
-    	    <input type="submit" class="button" name="submit_query" value="<?= _('recherche')?>">
-    	    <input type="hidden" name="ac" value="<?= $_REQUEST['ac']?>">
+    	    <input type="submit" class="button" name="submit_query" value="<?php echo  _('recherche')?>">
+    	    <input type="hidden" name="ac" value="<?php echo  $_REQUEST['ac']?>">
     	</form>
         </div>
 	<?php

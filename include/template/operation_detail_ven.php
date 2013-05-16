@@ -29,7 +29,7 @@
 global $g_parameter;
 ?>
 <table class="result">
-<?
+<?php 
   bcscale(2);
   $total_htva=0;$total_tvac=0;
   echo th(_('Quick Code'));

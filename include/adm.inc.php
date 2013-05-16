@@ -90,7 +90,7 @@ if ( $low_action == "list" )
     echo _('Catégorie :').$sel_card->input();
 
     ?>
-    <input type="submit" class="button" name="submit_query" value="<?=_('recherche')?>">
+    <input type="submit" class="button" name="submit_query" value="<?php echo _('recherche')?>">
 	 <input type="hidden" name="p_action" value="adm">
                                                                      </form>
                                                                      </div>

@@ -26,103 +26,103 @@
  *
  */
 ?>
-<? if (! $inner ) : ?>
+<?php if (! $inner ) : ?>
 <div id="search_action" class="op_detail_frame" style="position:absolute;display:none;margin-left:120px;width:70%;clear:both;z-index:2;height:auto;border:1px #000080 solid">
-	<? echo HtmlInput::anchor_hide('Fermer', "$('search_action').style.display='none';");?>
-<? endif; ?>
-<? if ( $inner ) : ?>
+	<?php echo HtmlInput::anchor_hide('Fermer', "$('search_action').style.display='none';");?>
+<?php endif; ?>
+<?php if ( $inner ) : ?>
 <div id="search_action" class="op_detail_frame">
-	<? echo HtmlInput::anchor_hide('Fermer', "removeDiv('search_action_div');");?>
+	<?php echo HtmlInput::anchor_hide('Fermer', "removeDiv('search_action_div');");?>
 
-	<? endif; ?>
+	<?php endif; ?>
 	<h2 class="info">
-		<?= _('Recherche avancée')?>
+		<?php echo  _('Recherche avancée')?>
 	</h2>
-<? if (! $inner ) : ?>
+<?php if (! $inner ) : ?>
 	<form method="get" action="do.php" style="padding:10px">
-<? endif; ?>
-<? if ( $inner ) : ?>
+<?php endif; ?>
+<?php if ( $inner ) : ?>
 	<form method="get" id="fsearchaction" style="padding:10px" onsubmit="result_search_action('fsearchaction');return false;">
-		<?=HtmlInput::hidden('ctlc',$_GET['ctlc'])?>
-<? endif; ?>
-		<?= dossier::hidden()?>
+		<?php echo HtmlInput::hidden('ctlc',$_GET['ctlc'])?>
+<?php endif; ?>
+		<?php echo  dossier::hidden()?>
 		<table style="width:100%">
 			<tr>
 				<td style="width:180px;text-align:right"> Date de rappel après</td>
 				<td>
-					<?=$remind_date->input();?>
+					<?php echo $remind_date->input();?>
 				</td>
 			<tr>
 			<tr>
 				<td style="width:180px;text-align:right"> Date de rappel avant</td>
 				<td>
-					<?=$remind_date_end->input();?>
+					<?php echo $remind_date_end->input();?>
 				</td>
 			<tr>
 			<tr>
 				<td style="width:180px;text-align:right"> Affiche aussi les actions fermées</td>
-				<td><?=$closed_action->input();?></td>
+				<td><?php echo $closed_action->input();?></td>
 			</tr>
 			<td style="width:180px;text-align:right"> Référence</td>
 				<td>
-					<?=$osag_ref->input();?>
+					<?php echo $osag_ref->input();?>
 				</td>
 			<tr>
 			<tr>
 				<td style="width:180px;text-align:right"> Numéro document</td>
 				<td>
-					<? $num=new INum('ag_id');echo $num->input();?>
+					<?php $num=new INum('ag_id');echo $num->input();?>
 				</td>
 			<tr>
-				<td style="width:180px;text-align:right"><? echo _('Destinataire')?></td>
-				<? $label=$w->id."_label";?>
-				<td ><?= $w->input() . $w->search()?><span id="<?=$label?>"></span></td>
+				<td style="width:180px;text-align:right"><?php echo _('Destinataire')?></td>
+				<?php $label=$w->id."_label";?>
+				<td ><?php echo  $w->input() . $w->search()?><span id="<?php echo $label?>"></span></td>
 			<tr>
 			<tr>
-				<td style="text-align:right" ><?= _("Profil")?></td>
-				<td><?= $str_ag_dest?></td>
+				<td style="text-align:right" ><?php echo  _("Profil")?></td>
+				<td><?php echo  $str_ag_dest?></td>
 			</tr>
 			<tr>
-				<td style="text-align:right" ><?= _("Etat")?></td>
-				<td><?= $type_state->input()?></td>
+				<td style="text-align:right" ><?php echo  _("Etat")?></td>
+				<td><?php echo  $type_state->input()?></td>
 			</tr>
 			<tr>
-				<td style="text-align:right" ><?= _("Exclure Etat")?></td>
-				<td><?= $hsExcptype_state->input()?></td>
+				<td style="text-align:right" ><?php echo  _("Exclure Etat")?></td>
+				<td><?php echo  $hsExcptype_state->input()?></td>
 			</tr>
-			<td style="text-align:right"><? printf(_('contenant le mot'))?></td>
-			<td ><input class="input_text" style="width:100%" type="text" name="query" value="<?= $a?>"></td>
+			<td style="text-align:right"><?php printf(_('contenant le mot'))?></td>
+			<td ><input class="input_text" style="width:100%" type="text" name="query" value="<?php echo  $a?>"></td>
 			</tr>
 			<tr>
-				<td style="text-align:right"><?= _('Type de document')?></td>
-				<td><? echo $type_doc->input();?></td>
+				<td style="text-align:right"><?php echo  _('Type de document')?></td>
+				<td><?php echo $type_doc->input();?></td>
 			</tr>
 			<tr>
 				<td style="text-align:right">
-					<? printf(_("Après le "))?>
+					<?php printf(_("Après le "))?>
 				</td>
 				<td >
-					<?= $start->input()?>
+					<?php echo  $start->input()?>
 				</td>
 			</tr>
 			<tr>
-				<td style="text-align:right"><?= _('Avant le')?></td>
+				<td style="text-align:right"><?php echo  _('Avant le')?></td>
 				<td>
-					<?= $end->input()?>
+					<?php echo  $end->input()?>
 				</td>
 			</tr>
 			</tr>
 			<tr>
-				<td style="text-align:right"><?= _('Uniquement actions internes')?></td>
-				<td><?= $only_internal->input()?>
+				<td style="text-align:right"><?php echo  _('Uniquement actions internes')?></td>
+				<td><?php echo  $only_internal->input()?>
 				</td>
 			</tr>
 		</table>
-		<input type="submit" class="button" name="submit_query" value="<?= _('recherche')?>">
+		<input type="submit" class="button" name="submit_query" value="<?php echo  _('recherche')?>">
 		<input type="hidden" name="sa" value="list">
 
-		<?= $supl_hidden?>
-		<? echo HtmlInput::button_anchor(_('Fermer'), 'javascript:void(0)', 'fsearch_form', 'onclick="$(\'search_action\').style.display=\'none\';"');?>
+		<?php echo  $supl_hidden?>
+		<?php echo HtmlInput::button_anchor(_('Fermer'), 'javascript:void(0)', 'fsearch_form', 'onclick="$(\'search_action\').style.display=\'none\';"');?>
 	</form>
 </div>
 

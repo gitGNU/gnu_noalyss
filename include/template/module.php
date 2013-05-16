@@ -15,9 +15,9 @@ if ( $cn->get_value("select count(*) from profile join profile_user using (p_id)
 ?>
 	<div id="direct">
 	<form method="get">
-		<?=HtmlInput::default_value('ac', '', $_REQUEST)?>
-		<?=Dossier::hidden()?>
-		<?
+		<?php echo HtmlInput::default_value('ac', '', $_REQUEST)?>
+		<?php echo Dossier::hidden()?>
+		<?php 
 
 			$direct=new IText('ac');
 			$direct->style='class="input_text"';
@@ -27,7 +27,7 @@ if ( $cn->get_value("select count(*) from profile join profile_user using (p_id)
 			$gDossier=dossier::id();
 			?>
 		<div id="ac_choices" class="autocomplete" style="width:150"></div>
-		<?
+		<?php 
 			echo HtmlInput::submit('go','aller');
 			?>
 
@@ -35,16 +35,16 @@ if ( $cn->get_value("select count(*) from profile join profile_user using (p_id)
 	<script charset="utf8" language="javascript">
 
 		try {
-			new Ajax.Autocompleter("ac","ac_choices","direct.php?gDossier=<?=$gDossier?>",
+			new Ajax.Autocompleter("ac","ac_choices","direct.php?gDossier=<?php echo $gDossier?>",
                             {paramName:"acs",minChars:1,indicator:null,
                             callback:null,
                              afterUpdateElement:null});} catch (e){alert(e.message);};
 		</script>
 	</div>
-<?
+<?php 
 endif;?>
 	<div id="dossier">
-	<H2 class="dossier"> Dossier : <?=h(dossier::name())?></h2>
+	<H2 class="dossier"> Dossier : <?php echo h(dossier::name())?></h2>
 	</div>
     </div>
 
@@ -78,9 +78,9 @@ endif;?>
 				$url="do.php?gDossier=".Dossier::id()."&ac=".$row['me_code'];
 		    }
 		    ?>
-		<td class="tool" style="<?=$style?>">
-			<a class="mtitle" href="<?=$url?>" title="<?=_($row['me_description'])?>" <?=$js?> ><?=_($row['me_menu'])?></a></td>
-		<?
+		<td class="tool" style="<?php echo $style?>">
+			<a class="mtitle" href="<?php echo $url?>" title="<?php echo _($row['me_description'])?>" <?php echo $js?> ><?php echo _($row['me_menu'])?></a></td>
+		<?php 
 		    endforeach;
 		?>
 	    </tr>

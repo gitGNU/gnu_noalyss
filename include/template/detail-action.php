@@ -1,7 +1,7 @@
 
 <fieldset>
   <legend>
-<?=_('Informations générales')?>
+<?php echo _('Informations générales')?>
   </legend>
   <div style="float:right">
     <?echo $retour;
@@ -14,7 +14,7 @@
         <table >
 			<tr>
             <TD>
-	    <?=_('N° document')?>
+	    <?php echo _('N° document')?>
             </TD>
             <TD style="font-weight: bolder;" >
               <?php echo $this->ag_id;?>
@@ -22,7 +22,7 @@
           </TR>
 			 <tr>
             <TD>
-	    <?=_('Reference')?>
+	    <?php echo _('Reference')?>
             </TD>
             <TD>
               <?php echo $str_ag_ref;
@@ -31,7 +31,7 @@
           </TR>
 
             <TD>
-   <?=_('Date')?>
+   <?php echo _('Date')?>
             </TD>
             <TD>
               <?php echo $date->input();
@@ -40,7 +40,7 @@
           </TR>
           <TR>
             <TD>
-	    <?=_('Heure')?>
+	    <?php echo _('Heure')?>
             </TD>
             <TD>
               <?php echo $str_ag_hour;
@@ -50,7 +50,7 @@
           <tr>
 		<TR>
             <TD>
-	    <?=_('Date limite')?>
+	    <?php echo _('Date limite')?>
             </TD>
             <TD>
               <?php echo $remind_date->input();
@@ -60,7 +60,7 @@
 
 	<tr>
           <TD>
-	    <?=_('Destinataire')?>
+	    <?php echo _('Destinataire')?>
           </TD>
           <TD>
   <?php echo $w->search().$w->input();
@@ -69,7 +69,7 @@
           </Tr>
 	<tr>
           <TD>
-	  <?=_('Contact')?>
+	  <?php echo _('Contact')?>
           </TD>
           <TD>
   <?php echo $ag_contact->search().$ag_contact->input();
@@ -90,7 +90,7 @@
 
           <tr>
             <TD>
-	    <?=_('Type')?>
+	    <?php echo _('Type')?>
             </TD>
             <TD>
               <?php echo $str_doc_type;
@@ -100,7 +100,7 @@
 
           <tr>
             <TD>
-	    <?=_('Etat')?>
+	    <?php echo _('Etat')?>
             </TD>
             <td>
               <?php echo $str_state;
@@ -110,7 +110,7 @@
           </TR>
           <tr>
             <TD>
-	    <?=_('Priorité')?>
+	    <?php echo _('Priorité')?>
             </TD>
             <td>
               <?php echo $str_ag_priority;
@@ -120,7 +120,7 @@
           </TR>
           <tr>
             <TD>
-	    <?=_('Affecté')?>
+	    <?php echo _('Affecté')?>
             </TD>
             <td>
               <?php echo $str_ag_dest;?>
@@ -135,7 +135,7 @@
 		<h4 style="display:inline">Opérations concernées</h4>
 		<ol>
 
-		<?
+		<?php 
 		for ($o=0;$o<count($operation);$o++)
 		{
 			if ( $p_view != 'READ')
@@ -156,14 +156,14 @@
 
 		?>
 		</ol>
-		<? if ($p_view != 'READ')   echo '<span class="noprint">'.$iconcerned->input().'</span>';?>
+		<?php if ($p_view != 'READ')   echo '<span class="noprint">'.$iconcerned->input().'</span>';?>
 	</div>
 
 	<div style="float:left;width:45%">
 		<h4 style="display:inline">Actions concernées</h4>
 		<ol>
 
-		<?
+		<?php 
 		$base=HtmlInput::request_to_string(array("gDossier","ac","sa","sb","sc","f_id"));
 		for ($o=0;$o<count($action);$o++)
 		{
@@ -187,12 +187,12 @@
 
 		?>
 		</ol>
-		<? if ( $p_view != 'READ') echo '<span class="noprint">'.$iaction->input().'</span>';?>
+		<?php if ( $p_view != 'READ') echo '<span class="noprint">'.$iaction->input().'</span>';?>
 	</div>
 </fieldset>
 <div style="margin-left:15px;margin-right: 15px">
   <h1 class="legend">
-	    <?=_('Description')?>
+	    <?php echo _('Description')?>
   </h1>
   <p>
 <script language="javascript">
@@ -208,15 +208,15 @@ function small(p_id_textarea){
 
    }
 </script>
-<? if  ($p_view != 'NEW') : ?>
-Document créé le <?=$this->ag_timestamp ?> par <?=$this->ag_owner?>
-<? endif; ?>
-   <h4 class="info"><?=_('Titre')?></h4>
+<?php if  ($p_view != 'NEW') : ?>
+Document créé le <?php echo $this->ag_timestamp ?> par <?php echo $this->ag_owner?>
+<?php endif; ?>
+   <h4 class="info"><?php echo _('Titre')?></h4>
     <p style="margin-left:100">
     <?php echo $title->input();
     ?>
 </p>
-<h4 class="info">   <?=_('Commentaire')?></h4>
+<h4 class="info">   <?php echo _('Commentaire')?></h4>
     <div style="margin-left:100">
    <?php
    $style_enl='style="display:inline"';$style_small='style="display:none"';
@@ -246,18 +246,18 @@ echo '<span class="noprint">';
 echo $desc->input();
 echo '</span>';
 ?>
-<? if ($p_view != "READ" ): ?>
+<?php if ($p_view != "READ" ): ?>
 <p class="noprint">
-<input type="button" id="bt_enlarge" <?=$style_enl?> value="+" onclick="enlarge('ag_comment');return false;">
-<input type="button" id="bt_small"  <?=$style_small?> value="-" style="display:none" onclick="small('ag_comment');return false;">
+<input type="button" id="bt_enlarge" <?php echo $style_enl?> value="+" onclick="enlarge('ag_comment');return false;">
+<input type="button" id="bt_small"  <?php echo $style_small?> value="-" style="display:none" onclick="small('ag_comment');return false;">
 </p>
-<? endif; ?>
+<?php endif; ?>
   </div>
 </div>
-<? if ( $p_base != 'ajax' ) :?>
+<?php if ( $p_base != 'ajax' ) :?>
 <input type='button' class="button" class="noprint" value='Montrer articles' id="toggleButton" onclick='toggleShowDetail()'>
-<? endif; ?>
-<?
+<?php endif; ?>
+<?php 
 /**
  * check if there card to show,
  */
@@ -266,7 +266,7 @@ for ($i=0;$i<count($aArticle);$i++) :
 	if ( ($aCard[$i] != 0 && $p_view == 'READ') || $p_view != 'READ'){ $show_row=1;break;}
 endfor;
 ?>
-<?
+<?php 
 /*
  * display detail if there card or if we are in UPDATE or NEW mode
  */
@@ -274,7 +274,7 @@ if ($show_row !=0 ) :
 
 	?>
 <fieldset id="fldDetail" style='display:block'>
-   <LEGEND> <?=_('Détail des articles')?>
+   <LEGEND> <?php echo _('Détail des articles')?>
 </LEGEND>
 <?php // hidden fields
 $show_row=0;
@@ -288,17 +288,17 @@ endfor;
 
 <table id="art" >
 <tr>
-  <th><?=_('Fiche')?></th>
-  <th><?=_('Description')?></th>
-  <th><?=_('prix unitaire')?></th>
-<th><?=_('quantité')?></th>
-<th><?=_('Code TVA')?></th>
-<th><?=_('Montant TVA')?></th>
-<th><?=_('Montant TVAC')?></th>
+  <th><?php echo _('Fiche')?></th>
+  <th><?php echo _('Description')?></th>
+  <th><?php echo _('prix unitaire')?></th>
+<th><?php echo _('quantité')?></th>
+<th><?php echo _('Code TVA')?></th>
+<th><?php echo _('Montant TVA')?></th>
+<th><?php echo _('Montant TVAC')?></th>
 
 </tr>
 <?for ($i=0;$i<count($aArticle);$i++): ?>
-<?
+<?php 
 if ( ($aCard[$i] != 0 && $p_view == 'READ') || $p_view != 'READ'):
 	$show_row++;
 	?>
@@ -311,7 +311,7 @@ if ( ($aCard[$i] != 0 && $p_view == 'READ') || $p_view != 'READ'):
 <TD class="num"><?php echo $aArticle[$i]['tva'] ?></TD>
 <TD class="num"><?php echo $aArticle[$i]['tvac'] ?></TD>
 </TR>
-<? endif; ?>
+<?php endif; ?>
 <?php endfor; ?>
 </table>
 
@@ -320,15 +320,15 @@ if ( $('e_march0') && $('e_march0').value =='') { toggleShowDetail();}
 function toggleShowDetail() {
 	try {var detail=g('fldDetail');
 	var but=g('toggleButton');
-	if (detail.style.display=='block' ) { but.value="<?=_("Montrer les détails")?>";detail.style.display='none';}
-	else { but.value="<?=_("Cacher les détails")?>";detail.style.display='block';} }
+	if (detail.style.display=='block' ) { but.value="<?php echo _("Montrer les détails")?>";detail.style.display='none';}
+	else { but.value="<?php echo _("Cacher les détails")?>";detail.style.display='block';} }
 	catch (error)  {alert(error);}
 	}
 
 </script>
-<? if ( $show_row != 0 ): ?>
+<?php if ( $show_row != 0 ): ?>
 <div style="float: left; text-align: right; padding-right: 5px; font-size: 1.2em; font-weight: bold; color: blue;">
-  <input name="act" id="act" class="button" value="<?=_('Actualiser')?>" onclick="compute_all_ledger();" type="button">
+  <input name="act" id="act" class="button" value="<?php echo _('Actualiser')?>" onclick="compute_all_ledger();" type="button">
 
     <div style="float: right; text-align: left; font-size: 1.2em; font-weight: bold; color: blue;" id="sum">
     <br><span id="htva">0.0</span>
@@ -342,25 +342,25 @@ function toggleShowDetail() {
     <br>Total TVAC
  </div>
 </div>
-<? endif; ?>
+<?php endif; ?>
 </fieldset>
 <?endif; ?>
 
-<? if ($p_view != 'READ' && $str_select_doc != '') : ?>
+<?php if ($p_view != 'READ' && $str_select_doc != '') : ?>
 <fieldset class="noprint" >
   <legend>
-     <?=_('Document à générer')?>
+     <?php echo _('Document à générer')?>
   </legend>
   <?php echo $str_select_doc;
  echo $str_submit_generate;
   ?>
 </fieldset>
-<? endif; ?>
+<?php endif; ?>
 
 
 <fieldset>
   <legend>
-     <?=_('Pièces attachées')?>
+     <?php echo _('Pièces attachées')?>
   </legend>
   <div class="print">
   <ol>
@@ -375,7 +375,7 @@ for ($i=0;$i<sizeof($aAttachedFile);$i++) :
 	dossier::id(),
 	$aAttachedFile[$i]['d_id']);
     ?>
-  <? if ($p_view != 'READ') : ?>  <a class="mtitle" style="color:orange" id="<?php echo "ac".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $rmDoc;?>">Effacer</a><? endif;?>
+  <?php if ($p_view != 'READ') : ?>  <a class="mtitle" style="color:orange" id="<?php echo "ac".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $rmDoc;?>">Effacer</a><?php endif;?>
   </li>
   <?php
 endfor;
@@ -390,10 +390,10 @@ try {
 	new_element.innerHTML='<input class="inp" type="file" value="" name="file_upload[]"/>';
 	docAdded.appendChild(new_element);
 }
-catch(exception) { alert('<?=j(_('Je ne peux pas ajouter de fichier'))?>'); alert(exception.message);}
+catch(exception) { alert('<?php echo j(_('Je ne peux pas ajouter de fichier'))?>'); alert(exception.message);}
 }
 </script>
-<? if ($p_view != 'READ') : ?>
+<?php if ($p_view != 'READ') : ?>
   <div class="noprint">
      <h3 >Fichiers à ajouter: </h3>
     <ol id='add_file'  >
@@ -406,6 +406,6 @@ catch(exception) { alert('<?=j(_('Je ne peux pas ajouter de fichier'))?>'); aler
  <input type="button" class="button" onclick="addFiles();" value="Ajouter un fichier">
   </span>
   </div>
- <? endif;?>
+ <?php endif;?>
 </fieldset>
 <script>compute_all_ledger()</script>

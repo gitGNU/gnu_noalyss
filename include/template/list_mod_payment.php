@@ -31,56 +31,56 @@
  <table class="table_large" >
 	 <tr >
 		 <th>
-			 <?=$header->get_header(0)?>
+			 <?php echo $header->get_header(0)?>
 		 </th>
 		 <th style="text-align:center">
-			 <?=$header->get_header(1)?>
+			 <?php echo $header->get_header(1)?>
 		 </th>
 		 <th style="text-align:center">
-			 <?=$header->get_header(2)?>
+			 <?php echo $header->get_header(2)?>
 		 </th>
 		 <th style="text-align:center">
-			 <?=$header->get_header(3)?>
+			 <?php echo $header->get_header(3)?>
 		 </th>
 		 <th style="text-align:center">
-			 <?=$header->get_header(4)?>
+			 <?php echo $header->get_header(4)?>
 		 </th>
 		 <th>
 
 		 </th>
 	 </tr>
-<? for ($i=0;$i<count($array);$i++):
+<?php for ($i=0;$i<count($array);$i++):
 	if ($i%2==0):
 		$class='class="odd" ';
 	else:
 		$class='class="even"';
 	endif;
 ?>
-	 <tr <?=$class?>>
+	 <tr <?php echo $class?>>
 		 <td>
-			 <?=h($array[$i]['mp_lib'])?>
+			 <?php echo h($array[$i]['mp_lib'])?>
 		 </td>
 		 <td style="text-align:center">
-			 <?=h($array[$i]['jrn_def_name'])?>
+			 <?php echo h($array[$i]['jrn_def_name'])?>
 
 		 </td>
 		 <td style="text-align:center">
-			 <?=h($array[$i]['fd_label'])?>
+			 <?php echo h($array[$i]['fd_label'])?>
 
 		 </td>
 		 <td style="text-align:center">
-			 <?=h($array[$i]['jrn_target'])?>
+			 <?php echo h($array[$i]['jrn_target'])?>
 		 </td>
 		 <td style="text-align:center">
-			 <?=h($array[$i]['vw_name'])?>
+			 <?php echo h($array[$i]['vw_name'])?>
 		 </td>
 
-<?
+<?php 
 echo $td.HtmlInput::button_anchor(_('Modifie'),'?ac='.$_REQUEST['ac'].'&sa=mp&sb=change&'.dossier::get().
                                               '&id='.$array[$i]['mp_id']);
 ?>
 
 	 </tr>
-<? endfor;?>
+<?php endfor;?>
 
 </table>

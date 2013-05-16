@@ -7,39 +7,39 @@ for ($i=0;$i<count($aList);$i++) :
   $row=$aList[$i];
 ?>
 
-<tr id="row<?=$row['dt_id']?>">
+<tr id="row<?php echo $row['dt_id']?>">
 <td colspan="2">
-<?=h($row['dt_value']);?>
+<?php echo h($row['dt_value']);?>
 </td>
 <td colspan="2">
-<?=h($row['dt_prefix']);?>
+<?php echo h($row['dt_prefix']);?>
 </td>
 <td>
-<?=$row['js_mod'];?>
+<?php echo $row['js_mod'];?>
 </td>
 <td>
-<?=$row['js_remove'];?>
+<?php echo $row['js_remove'];?>
 </td>
 
 
 </tr>
-<?
+<?php 
 endfor;
 ?>
 <tr>
 <td>
-<?=$str_addCat?>
+<?php echo $str_addCat?>
 </td>
 <td>
-<?=$str_addPrefix?>
+<?php echo $str_addPrefix?>
 </td>
 <td>
-   <?=$str_submit?>
+   <?php echo $str_submit?>
 </td>
 </tr>
 
 </table>
-<?
+<?php 
 echo dossier::hidden();
 echo HtmlInput::hidden('ac',$_REQUEST['ac']);
 ?>

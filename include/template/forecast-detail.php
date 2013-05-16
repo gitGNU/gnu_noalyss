@@ -24,7 +24,7 @@
 </tr>
 <?php endfor;?>
 </table>
-<?=$f_add_row ?>
+<?php echo $f_add_row ?>
 </fieldset>
 
 

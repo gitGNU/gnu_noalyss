@@ -28,25 +28,25 @@
  */
 ?>
 <form method="POST" class="print">
-    <?=HtmlInput::hidden('tab','profile_gestion_div')?>
-	<?=HtmlInput::hidden("p_id", $p_id);?>
+    <?php echo HtmlInput::hidden('tab','profile_gestion_div')?>
+	<?php echo HtmlInput::hidden("p_id", $p_id);?>
 	<table>
 		<tr>
-			<th><?=_("Profil")?></th>
-			<th><?=_("Accès")?></th>
+			<th><?php echo _("Profil")?></th>
+			<th><?php echo _("Accès")?></th>
 		</tr>
-		<? for ($i=0;$i<count($array);$i++): ?>
+		<?php for ($i=0;$i<count($array);$i++): ?>
 		<tr>
 			<td>
-				<?=$array[$i]['p_name']?>
-				<?=HtmlInput::hidden('ua_id[]',$array[$i]['ua_id'])?>
-				<?=HtmlInput::hidden('ap_id[]',$array[$i]['p_id'])?>
+				<?php echo $array[$i]['p_name']?>
+				<?php echo HtmlInput::hidden('ua_id[]',$array[$i]['ua_id'])?>
+				<?php echo HtmlInput::hidden('ap_id[]',$array[$i]['p_id'])?>
 			</td>
-                        <?
+                        <?php 
                             $color=($array[$i]['ua_right']!='X')?"border:lightgreen 2px solid; ":"border:red 2px solid; ";
                         ?>
-			<td style="<?=$color?>">
-				<?
+			<td style="<?php echo $color?>">
+				<?php 
 				$isel=new ISelect("right[]");
 				$isel->value=$aright_value;
 				$isel->selected=$array[$i]['ua_right'];
@@ -55,5 +55,5 @@
 		</tr>
 		<?endfor;?>
 	</table>
-<?=HtmlInput::submit("change_profile", "Sauver")?>
+<?php echo HtmlInput::submit("change_profile", "Sauver")?>
 </form>

@@ -1,8 +1,8 @@
 <div class="topmenu">
-    <? if ( count($amenu) > 4 && $idx == 0) :
+    <?php if ( count($amenu) > 4 && $idx == 0) :
 	$style ='style= "width:100%"';
     ?>
-    <? elseif ($idx==0):
+    <?php elseif ($idx==0):
 switch (count($amenu))
 {
 case 4:
@@ -18,7 +18,7 @@ $style="";
 		$style=" class=\"mtitle\"";
 
     	endif;?>
-<table  <?=$style?> >
+<table  <?php echo $style?> >
 
 
     <tr>
@@ -29,12 +29,12 @@ $style="";
 	    if ( (count($amenu)==1)|| (isset($module[$idx+1]) && $module[$idx+1]==$amenu[$i]['me_code'])):
 		$class="selectedcell";
 ?>
-	<td class="<?=$class?>">
-	    <a class="mtitle" href="do.php?gDossier=<?=Dossier::id()?>&ac=<?=$_REQUEST['ac']?>" title="<?=h(_($amenu[$i]['me_description']))?>" >
-	    <?=_($amenu[$i]['me_menu'])?>
+	<td class="<?php echo $class?>">
+	    <a class="mtitle" href="do.php?gDossier=<?php echo Dossier::id()?>&ac=<?php echo $_REQUEST['ac']?>" title="<?php echo h(_($amenu[$i]['me_description']))?>" >
+	    <?php echo _($amenu[$i]['me_menu'])?>
 	    </a>
 	</td>
-<?
+<?php 
 	    else:
 		$class="mtitle";
 	    $url="";$pt="";
@@ -57,18 +57,18 @@ $style="";
 			$url.=$pt.$amenu[$i]['me_code'];
 		}
 
-?>	<td class="<?=$class?>">
-	    <a class="mtitle" href="do.php?gDossier=<?=Dossier::id()?>&ac=<?=$url?>" <?=$js?> title="<?=h(_($amenu[$i]['me_description']))?>">
-	    <?=_($amenu[$i]['me_menu'])?>
+?>	<td class="<?php echo $class?>">
+	    <a class="mtitle" href="do.php?gDossier=<?php echo Dossier::id()?>&ac=<?php echo $url?>" <?php echo $js?> title="<?php echo h(_($amenu[$i]['me_description']))?>">
+	    <?php echo _($amenu[$i]['me_menu'])?>
 	    </a>
 	</td>
 
 
-<?
+<?php 
 endif;
 
 	?>
-	<?
+	<?php 
 	    endfor;
     	?>
     </tr>

@@ -25,6 +25,8 @@
  */
 
 require_once("class_itext.php");
+require_once '../../include/class_iselect.php';
+
 function is_unix()
 {
     $inc_path=get_include_path();
@@ -52,12 +54,13 @@ function is_unix()
  */
 function config_file_form($p_array=null)
 {
+	$os=is_unix();
     if ( $p_array == null )
     {
-        $os=is_unix();
+
         /* default value */
-        $ctmp=($os==1)?'/tmp':'c:\tmp';
-        $cpath=($os==1)?'/usr/bin':'c:\phpcompta\postgresql\bin';
+        $ctmp=($os==1)?'/tmp':'c:/tmp';
+        $cpath=($os==1)?'/usr/bin':'c:/phpcompta/postgresql/bin';
         $cuser='phpcompta';
         $cpasswd='dany';
         $cport=5432;
@@ -66,45 +69,24 @@ function config_file_form($p_array=null)
     }
     else extract ($p_array);
 
-    $text=new IText();
-    $text->size=25;
-    $r='';
-    $r.='<div style="position:float;float:left;text-align:right;line-height:1.8em;padding:0 0.9em 0 0">';
+    $ictmp=new IText('ctmp',$ctmp);
+    $ictmp->size=25;
 
-    $r.='R&eacute;pertoire temporaire : ';
-    $text->title='Indiquez ici le r&eacute;pertoire o&ugrave; les documents temporaires peuvent &ecirc;tre sauv&eacute; exemple c:\\\\temp, /tmp';
-    $r.=$text->input('ctmp',$ctmp);
-    $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
-    $r.='<br>';
+    $iclocale=new ISelect('clocale');
+	$iclocale->value=array(
+		array("value"=>1,"label"=>"Activé"),
+		array("value"=>0,"label"=>"Désactivé")
+	);
+	$iclocale->selected=1;
 
-    $r.='D&eacute;sactivation changement de langue: 1 activé, 0 désactivé ';
-    $text->title='D&eacute;sactiver le changement de langue (requis pour MacOSX';
-    $r.=$text->input('clocale',$clocale);
-    $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
-    $r.='<br>';
+	$icpath=new IText("cpath",$cpath);
+	$icpath->size=30;
 
-    $r.='Chemin complet vers les executable de Postgresql : ';
-    $text->title='Le chemin vers le repertoire contenant psql, pg_dump...';
-    $r.=$text->input('cpath',$cpath);
-    $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
-    $r.='<br>';
-    $text->title="Utilisateur de la base de donn&eacute;e postgresql";
-    $r.='Utilisateur de la base de donn&eacute;e : ';
-    $r.=$text->input('cuser',$cuser);
-    $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
-    $r.='<br>';
-    $text->title="Mot de passe de l\' utilisateur";
-    $r.='Mot de passe de l\'utilisateur : ';
-    $r.=$text->input('cpasswd',$cpasswd);
-    $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
-    $r.='<br>';
-    $text->title="Port ";
-    $r.='Port de postgresql : ';
-    $r.=$text->input('cport',$cport);
-    $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
-    $r.='<br>';
-    $r.='</div>';
-    return $r;
+	$icuser=new IText('cuser',$cuser);
+	$icpasswd=new IText('cpasswd',$cpasswd);
+	$icport=new IText("cport",$cport);
+
+	require 'template_config_form.php';
 }
 /*!\brief create the config file
  */

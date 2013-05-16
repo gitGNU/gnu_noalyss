@@ -1,43 +1,43 @@
 <TABLE>
 <TR>
 
-		<TD><?=_('Nom journal')?> </TD>
+		<TD><?php echo _('Nom journal')?> </TD>
 		<TD> <INPUT TYPE="text" class="input_text" NAME="p_jrn_name" VALUE="<?php	echo $name;	?>"></TD>
 </TR>
-<?
+<?php 
 if ($new || $type=='ODS' ):
 ?>
 <TR>
-<td><?=_('Postes utilisables journal (débit/crédit) ')?>
+<td><?php echo _('Postes utilisables journal (débit/crédit) ')?>
 </TD>
 <td>
 <?php echo $search;?>
 </TD>
 <TD CLASS="notice">
-<?=_("Uniquement pour les journaux d'Opérations Diverses, les valeurs sont séparées par des espaces, on peut aussi
+<?php echo _("Uniquement pour les journaux d'Opérations Diverses, les valeurs sont séparées par des espaces, on peut aussi
 	utiliser le * pour indiquer 'tous les postes qui en dépendent' exemple: 4*")?>
 </TD>
 </TR>
-<?
+<?php 
 endif;
 ?>
-<?
+<?php 
 if ( $new || $type=='FIN') {
 ?>
 <tr>
 <td>
-    <?=_('Numérotation de chaque opération')?>
+    <?php echo _('Numérotation de chaque opération')?>
 </td>
 <td>
-    <?=$num_op->input();?>
+    <?php echo $num_op->input();?>
 </td>
 </tr>
 <tr>
 <TD>
-<?=_('Compte en banque')?>
+<?php echo _('Compte en banque')?>
 </td>
 <TD>
-<?
+<?php 
 $card=new ICard();
 $card->name='bank';
 $card->extra=$cn->make_list('select fd_id from fiche_def where frd_id=4');
@@ -53,9 +53,9 @@ echo $card->input();
 ?>
 </td>
 <td class="notice">
-<?=_("Obligatoire pour les journaux FIN : donner ici la fiche de la banque utilisée")?>
+<?php echo _("Obligatoire pour les journaux FIN : donner ici la fiche de la banque utilisée")?>
 </td>
-<?
+<?php 
 }
 ?>
 </TR>
@@ -69,45 +69,45 @@ echo $card->input();
 </tr>
 
 <TR>
-<TD><?=_('Type de journal')?> </TD>
+<TD><?php echo _('Type de journal')?> </TD>
 <TD>
 <?php echo $type;?>
 </TD>
 </TR>
 <TR>
-<TD><?=_('Préfixe code interne')?> </TD><TD>
+<TD><?php echo _('Préfixe code interne')?> </TD><TD>
 <?php echo $code?> </TD>
 </TR>
 <TR>
-<TD><?=_('Préfixe pièce justificative')?>
+<TD><?php echo _('Préfixe pièce justificative')?>
 </TD>
 <TD>
 <?php echo $pj_pref; ?>
 </TD>
 <TD>
-<span class="notice"><?=_('Le préfixe des pièces doit être différent pour chaque journal, on peut aussi utiliser l\'année')?></span><br>
-<span class="notice"><?=_('Uniquement des chiffres')?></span>
+<span class="notice"><?php echo _('Le préfixe des pièces doit être différent pour chaque journal, on peut aussi utiliser l\'année')?></span><br>
+<span class="notice"><?php echo _('Uniquement des chiffres')?></span>
 </TD>
 
 </TR>
 <TR>
 <TD>
-  <?=_('Dernière pièce numérotée')?>
+  <?php echo _('Dernière pièce numérotée')?>
 </TD>
 <TD>
-<?=$last_seq?>
+<?php echo $last_seq?>
 </TD>
 </TR>
 <tr>
-<TD><?=_('N° pièce justificative')?>
+<TD><?php echo _('N° pièce justificative')?>
 </TD>
 <TD>
 <?php echo $pj_seq; ?>
 </TD>
 
 <TD>
-<span class="notice" style="display:block"><?=_('La numérotation est propre à chaque journal')?></span>
-<span class="notice" style="display:block"><?=_('Laissez à 0 pour ne pas changer le numéro')?></span>
+<span class="notice" style="display:block"><?php echo _('La numérotation est propre à chaque journal')?></span>
+<span class="notice" style="display:block"><?php echo _('Laissez à 0 pour ne pas changer le numéro')?></span>
 </TD>
 </tr>
 
@@ -116,12 +116,12 @@ echo $card->input();
 <H2 class="info"> Fiches </H2>
 <TABLE width="100%">
 <TR>
-<?
+<?php 
 if ( $new || ($type != 'ODS' && $type != 'FIN')) {
 ?>
-<th style="text-align:left"><?=_('Fiches Débit')?></TH>
-<th style="text-align:left"><?=_('Fiches Crédit')?></TH>
-<?
+<th style="text-align:left"><?php echo _('Fiches Débit')?></TH>
+<th style="text-align:left"><?php echo _('Fiches Crédit')?></TH>
+<?php 
 }
 ?>
 </TR>

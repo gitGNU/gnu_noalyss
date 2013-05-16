@@ -87,10 +87,10 @@ $search_card_js=sprintf('onclick="boxsearch_card(\'%d\')"',dossier::id());
 ?>
 <div style="position:absolute;right:230px;top:110px">
 
-		<?=_('Recherche de fiche')?> <?=HtmlInput::infobulle(18)?> :<?=$search_card->input()?>
-		<?=HtmlInput::button_anchor("Chercher","javascript:void(0)","",$search_card_js)?>
+		<?php echo _('Recherche de fiche')?> <?php echo HtmlInput::infobulle(18)?> :<?php echo $search_card->input()?>
+		<?php echo HtmlInput::button_anchor("Chercher","javascript:void(0)","",$search_card_js)?>
 </div>
-<?
+<?php 
 echo '</div>';
 $str = "if (g('histo').value==3 || g('histo').value== -1 ) {
      g('trstart').style.display='none';g('trend').style.display='none';g('allcard').style.display='none';}

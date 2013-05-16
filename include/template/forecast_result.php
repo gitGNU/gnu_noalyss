@@ -1,5 +1,5 @@
 <h1><?php echo $str_name;?></h1>
-Période du <?=$str_start?> à <?=$str_end;?>
+Période du <?php echo $str_start?> à <?php echo $str_end;?>
 <?php  for ($i=0;$i<count($aCat);$i++): // foreach category ?>
 <?php if (count($aItem[$i])==0) continue;?>
 <fieldset>
@@ -180,18 +180,18 @@ else
 
 
 <?php endfor;?>
-<? if ( ! empty ($error) ) : ?>
+<?php if ( ! empty ($error) ) : ?>
 <div class="error">
 Désolé il y a des formules incorrectes 
 <ul style="list-style-type:none">
 
-   <? $last="";?>
-   <? for ($i=0;$i<count($error);$i++) : ?>
-<?
+   <?php $last="";?>
+   <?php for ($i=0;$i<count($error);$i++) : ?>
+<?php 
    if ( $last != $error[$i] ) {  echo h($error[$i]); }
 $last=$error[$i];
 endfor;
 ?>
 </ul>
 </div>
-<? endif; ?>
+<?php endif; ?>

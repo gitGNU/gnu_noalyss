@@ -74,31 +74,31 @@ $array=$cn->get_array($sql." ".$order);
 
 <table class="result">
 	<tr>
-		<th><?=$tb->get_header(0)?></th>
-		<th><?=$tb->get_header(1)?></th>
-		<th><?=$tb->get_header(2)?></th>
-		<th><?=$tb->get_header(3)?></th>
-		<th><?=$tb->get_header(4)?></th>
+		<th><?php echo $tb->get_header(0)?></th>
+		<th><?php echo $tb->get_header(1)?></th>
+		<th><?php echo $tb->get_header(2)?></th>
+		<th><?php echo $tb->get_header(3)?></th>
+		<th><?php echo $tb->get_header(4)?></th>
 	</tr>
-<? for ($i=0;$i<count($array);$i++): ?>
+<?php for ($i=0;$i<count($array);$i++): ?>
 	<tr>
 		<td>
-			<?=h($array[$i]['r_name'])?>
+			<?php echo h($array[$i]['r_name'])?>
 		</td>
 		<td>
-			<?=h($array[$i]['r_adress'])?>
+			<?php echo h($array[$i]['r_adress'])?>
 		</td>
 		<td>
-			<?=h($array[$i]['r_city'])?>
+			<?php echo h($array[$i]['r_city'])?>
 		</td>
 		<td>
-			<?=h($array[$i]['r_country'])?>
+			<?php echo h($array[$i]['r_country'])?>
 		</td>
 		<td>
-			<?=h($array[$i]['r_phone'])?>
+			<?php echo h($array[$i]['r_phone'])?>
 		</td>
 		<td>
-			<?
+			<?php 
 				$js=' onclick="stock_repo_change(\''.dossier::id().'\',\''.$array[$i]['r_id'].'\')"';
 				echo HtmlInput::button("mod", _("Modifier"), $js);
 			?>
@@ -107,9 +107,9 @@ $array=$cn->get_array($sql." ".$order);
 
 <?endfor;?>
 </table>
-	<?=HtmlInput::button("show_add_depot_d", "Ajout d'un dépot", "onclick=\"$('add_depot_d').show();\"");?>
+	<?php echo HtmlInput::button("show_add_depot_d", "Ajout d'un dépot", "onclick=\"$('add_depot_d').show();\"");?>
 	<div id="add_depot_d" class="inner_box" style="display:none">
-	<?=HtmlInput::title_box("Ajouter un dépôt","add_depot_d","hide")?>
+	<?php echo HtmlInput::title_box("Ajouter un dépôt","add_depot_d","hide")?>
 	<form method="post">
 		<table>
 			<tr>
@@ -117,7 +117,7 @@ $array=$cn->get_array($sql." ".$order);
 					Nom
 				</td>
 				<td>
-					<? $name=new IText("r_name",""); echo $name->input();?>
+					<?php $name=new IText("r_name",""); echo $name->input();?>
 				</td>
 			</tr>
 			<tr>
@@ -125,7 +125,7 @@ $array=$cn->get_array($sql." ".$order);
 					Adresse
 				</td>
 				<td>
-					<? $name=new IText("r_adress",""); echo $name->input();?>
+					<?php $name=new IText("r_adress",""); echo $name->input();?>
 				</td>
 			</tr>
 			<tr>
@@ -133,7 +133,7 @@ $array=$cn->get_array($sql." ".$order);
 					Ville
 				</td>
 				<td>
-					<? $name=new IText("r_city",""); echo $name->input();?>
+					<?php $name=new IText("r_city",""); echo $name->input();?>
 				</td>
 			</tr>
 			<tr>
@@ -141,7 +141,7 @@ $array=$cn->get_array($sql." ".$order);
 					Pays
 				</td>
 				<td>
-					<? $name=new IText("r_country",""); echo $name->input();?>
+					<?php $name=new IText("r_country",""); echo $name->input();?>
 				</td>
 			</tr>
 			<tr>
@@ -149,12 +149,12 @@ $array=$cn->get_array($sql." ".$order);
 					Téléphone
 				</td>
 				<td>
-					<? $name=new IText("r_phone",""); echo $name->input();?>
+					<?php $name=new IText("r_phone",""); echo $name->input();?>
 				</td>
 			</tr>
 
 		</table>
-		<?=HtmlInput::submit("add_stock","Sauver")?>
+		<?php echo HtmlInput::submit("add_stock","Sauver")?>
 	</form>
 	</div>
 </div>

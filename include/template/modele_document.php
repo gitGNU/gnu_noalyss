@@ -1,4 +1,4 @@
-<?=HtmlInput::anchor_close('mod_doc');?>
+<?php echo HtmlInput::anchor_close('mod_doc');?>
 <h2 class="info">Modèle de document</h2>
 <form  method="post" enctype="multipart/form-data">
 <table>

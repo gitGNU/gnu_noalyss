@@ -34,7 +34,7 @@
 			Date
 		</td>
 		<td>
-			<?=$date->input()?>
+			<?php echo $date->input()?>
 		</td>
 	</tr>
 	<tr>
@@ -42,7 +42,7 @@
 			Dépot
 		</td>
 		<td>
-			<?=$idepo->input()?>
+			<?php echo $idepo->input()?>
 		</td>
 	</tr>
 	<tr>
@@ -50,7 +50,7 @@
 			Motif de changement
 		</td>
 		<td>
-			<?=$motif->input()?>
+			<?php echo $motif->input()?>
 		</td>
 	</tr>
 </table>
@@ -59,47 +59,47 @@
 		<th style="text-align: left">
 			Code Stock
 		</th>
-<? if ( $p_readonly == true ) :?>
+<?php if ( $p_readonly == true ) :?>
 		<th style="text-align: left">
 			Fiche
 		</th>
-<? endif;?>
+<?php endif;?>
 		<th style="text-align:right">
 			Quantité
 		</th>
 	</tr>
-<? for($i=0;$i<MAX_ARTICLE;$i++): ?>
+<?php for($i=0;$i<MAX_ARTICLE;$i++): ?>
 	<tr>
 		<td>
-<? if ( $p_readonly == false) : ?>
-			<?=$sg_code[$i]->input()?>
-			<?=$sg_code[$i]->search()?>
-			<?=$label[$i]->input()?>
-<? else: ?>
-			<? if ( trim($sg_code[$i]->value) != "")  echo HtmlInput::card_detail($sg_code[$i]->value,h($sg_code[$i]->value),' class="line"')?>
-<? endif ?>
+<?php if ( $p_readonly == false) : ?>
+			<?php echo $sg_code[$i]->input()?>
+			<?php echo $sg_code[$i]->search()?>
+			<?php echo $label[$i]->input()?>
+<?php else: ?>
+			<?php if ( trim($sg_code[$i]->value) != "")  echo HtmlInput::card_detail($sg_code[$i]->value,h($sg_code[$i]->value),' class="line"')?>
+<?php endif ?>
 
 		</td>
-<? if ( $p_readonly == true && isset ($fiche[$i])) :?>
+<?php if ( $p_readonly == true && isset ($fiche[$i])) :?>
 		<td>
-			<?=HtmlInput::card_detail($fiche[$i]->get_quick_code(),h($fiche[$i]->getName()),' class="line"');?>
+			<?php echo HtmlInput::card_detail($fiche[$i]->get_quick_code(),h($fiche[$i]->getName()),' class="line"');?>
 		</td>
-<? endif;?>
+<?php endif;?>
 		<TD class="num"">
-			<? if ($sg_quantity[$i]->value==0 && $p_readonly==true):?>
+			<?php if ($sg_quantity[$i]->value==0 && $p_readonly==true):?>
 
-			<? else : ?>
-			<?=$sg_quantity[$i]->input()?>
-			<? endif;?>
+			<?php else : ?>
+			<?php echo $sg_quantity[$i]->input()?>
+			<?php endif;?>
 		</td>
 		<TD class="num"">
-			<? if (isset ($sg_type[$i])):?>
-			<?=$sg_type[$i]?>
-			<? endif;?>
+			<?php if (isset ($sg_type[$i])):?>
+			<?php echo $sg_type[$i]?>
+			<?php endif;?>
 		</td>
 	</tr>
-<? endfor; ?>
+<?php endfor; ?>
 </table>
-<? if ($p_readonly == false) echo HtmlInput::submit('save','Sauver')?>
+<?php if ($p_readonly == false) echo HtmlInput::submit('save','Sauver')?>
 	</form>
 </div>

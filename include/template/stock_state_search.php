@@ -28,14 +28,14 @@
  */
 ?>
 <form method="GET">
-	<?=HtmlInput::get_to_hidden(array("gDossier","ac"));?>
+	<?php echo HtmlInput::get_to_hidden(array("gDossier","ac"));?>
 	<table>
 		<tr>
 			<td>
 				Exercice
 			</td>
 			<td>
-				<?=$iexercice->input()?>
+				<?php echo $iexercice->input()?>
 			</td>
 		</tr>
 		<tr>
@@ -43,9 +43,9 @@
 				Présentation
 			</td>
 			<td>
-				<?=$presentation->input()?>
+				<?php echo $presentation->input()?>
 			</td>
 		</tr>
 	</table>
-	<?=HtmlInput::submit('sfilter','Filtrer')?>
+	<?php echo HtmlInput::submit('sfilter','Filtrer')?>
 </form>

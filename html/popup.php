@@ -1,4 +1,4 @@
-<?
+<?php 
 
 require_once('ac_common.php');
 require_once('function_javascript.php');

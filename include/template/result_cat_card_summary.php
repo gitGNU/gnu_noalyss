@@ -1,14 +1,14 @@
 <div class="content">
 <table >
 <tr>
-<?
+<?php 
    echo th('Détail');
 for ($i=0;$i<count($aHeading);$i++) :
    echo th($aHeading[$i]->ad_text,'style="color:blue;padding: 0 5 1 10"');
    endfor;
 ?>
 </tr>
-<?
+<?php 
 $e=0;
 foreach ($array as $row ) :
  $e++;

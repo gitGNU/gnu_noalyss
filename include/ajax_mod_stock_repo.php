@@ -30,16 +30,16 @@ require_once 'class_stock_sql.php';
 $st=new Stock_Sql($_GET['r_id']);
 
 ?>
-<?=HtmlInput::title_box("Ajouter un dépôt","change_stock_repo_div","close")?>
+<?php echo HtmlInput::title_box("Ajouter un dépôt","change_stock_repo_div","close")?>
 	<form method="post">
-		<?=HtmlInput::hidden("r_id",$_GET['r_id']);?>
+		<?php echo HtmlInput::hidden("r_id",$_GET['r_id']);?>
 		<table>
 			<tr>
 				<td>
 					Nom
 				</td>
 				<td>
-					<? $name=new IText("r_name",$st->r_name); echo $name->input();?>
+					<?php $name=new IText("r_name",$st->r_name); echo $name->input();?>
 				</td>
 			</tr>
 			<tr>
@@ -47,7 +47,7 @@ $st=new Stock_Sql($_GET['r_id']);
 					Adresse
 				</td>
 				<td>
-					<? $name=new IText("r_adress",$st->r_adress); echo $name->input();?>
+					<?php $name=new IText("r_adress",$st->r_adress); echo $name->input();?>
 				</td>
 			</tr>
 			<tr>
@@ -55,7 +55,7 @@ $st=new Stock_Sql($_GET['r_id']);
 					Ville
 				</td>
 				<td>
-					<? $name=new IText("r_city",$st->r_city); echo $name->input();?>
+					<?php $name=new IText("r_city",$st->r_city); echo $name->input();?>
 				</td>
 			</tr>
 			<tr>
@@ -63,7 +63,7 @@ $st=new Stock_Sql($_GET['r_id']);
 					Pays
 				</td>
 				<td>
-					<? $name=new IText("r_country",$st->r_country); echo $name->input();?>
+					<?php $name=new IText("r_country",$st->r_country); echo $name->input();?>
 				</td>
 			</tr>
 			<tr>
@@ -71,10 +71,10 @@ $st=new Stock_Sql($_GET['r_id']);
 					Téléphone
 				</td>
 				<td>
-					<? $name=new IText("r_phone",$st->r_phone); echo $name->input();?>
+					<?php $name=new IText("r_phone",$st->r_phone); echo $name->input();?>
 				</td>
 			</tr>
 
 		</table>
-		<?=HtmlInput::submit("mod_stock","Sauver")?>
+		<?php echo HtmlInput::submit("mod_stock","Sauver")?>
 	</form>

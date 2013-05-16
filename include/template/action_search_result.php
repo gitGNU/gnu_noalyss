@@ -28,10 +28,10 @@
  */
 ?>
 <form onsubmit="set_action_related('fresultaction');return false;" id="fresultaction">
-	<?=HtmlInput::hidden('ctlc',$_GET['ctlc'])?>
-	<?=HtmlInput::submit("save_action", "Mettre à jour")?>
-<? if (isset($limit)) : ?>
-	<h2 class="notice">Recherche limitée à <?=$limit?> résultats</h2>
+	<?php echo HtmlInput::hidden('ctlc',$_GET['ctlc'])?>
+	<?php echo HtmlInput::submit("save_action", "Mettre à jour")?>
+<?php if (isset($limit)) : ?>
+	<h2 class="notice">Recherche limitée à <?php echo $limit?> résultats</h2>
 <?endif;?>
 
 <table class="result">
@@ -56,34 +56,34 @@
 			Type
 		</th>
 	</tr>
-<? for ($i=0;$i<$limit;$i++):?>
-	<? $class=($i%2==0)?' class="odd" ':' class="info"'; ?>
-	<tr  <?=$class?>>
+<?php for ($i=0;$i<$limit;$i++):?>
+	<?php $class=($i%2==0)?' class="odd" ':' class="info"'; ?>
+	<tr  <?php echo $class?>>
 		<td>
-			<?
+			<?php 
 			$ck=new ICheckBox('ag_id[]');
 			 $ck->value=$a_row[$i]['ag_id'];
 			 echo $ck->input();
 			?>
 		</td>
 		<td >
-			<?=h($a_row[$i]['my_date'])?>
+			<?php echo h($a_row[$i]['my_date'])?>
 		</td>
 		<td>
-			<?=h($a_row[$i]['ag_ref'])?>
+			<?php echo h($a_row[$i]['ag_ref'])?>
 		</td>
 		<td>
-			<?=h($a_row[$i]['sub_ag_title'])?>
+			<?php echo h($a_row[$i]['sub_ag_title'])?>
 		</td>
 		<td>
-			<?=h($a_row[$i]['name'])?>
+			<?php echo h($a_row[$i]['name'])?>
 		</td>
 		<td>
-			<?=h($a_row[$i]['dt_value'])?>
+			<?php echo h($a_row[$i]['dt_value'])?>
 		</td>
 	</tr>
 
-<? endfor;?>
+<?php endfor;?>
 </table>
-	<?=HtmlInput::submit("save_action", "Mettre à jour")?>
+	<?php echo HtmlInput::submit("save_action", "Mettre à jour")?>
 </form>

@@ -1,22 +1,22 @@
 <table>
 <tr>
-  <td><?=_('Categorie')?> </td>
-  <td><?=$str_categorie?></td>
+  <td><?php echo _('Categorie')?> </td>
+  <td><?php echo $str_categorie?></td>
 </tr>
 <tr>
-  <td><?=_('Type')?></td>
-  <td><?=$str_histo?></td>
+  <td><?php echo _('Type')?></td>
+  <td><?php echo $str_histo?></td>
 </tr>
 <tr id="trstart">
-  <td><?=_('Depuis')?></td>
-  <td> <?=$str_start?></td>
+  <td><?php echo _('Depuis')?></td>
+  <td> <?php echo $str_start?></td>
 </tr>
 <tr id="trend">
-  <td><?=_('Jusque')?></td>
-  <td><?=$str_end?></td>
+  <td><?php echo _('Jusque')?></td>
+  <td><?php echo $str_end?></td>
 <tr id="allcard">
 	<td>Toutes les fiches</td>
-	<td><?=$str_icall?></td>
+	<td><?php echo $str_icall?></td>
 </tr>
 </tr>
 </table>

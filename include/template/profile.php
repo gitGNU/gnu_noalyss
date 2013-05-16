@@ -31,18 +31,18 @@
 <table>
 <tr>
 	<td>Nom</td>
-	<td><?=$name->input();?></td>
+	<td><?php echo $name->input();?></td>
 </tr>
 <tr>
 	<td>Description</td>
-	<td><?=$desc->input()?></td>
+	<td><?php echo $desc->input()?></td>
 </tr>
 <tr>
 	<td>Avec Calculatrice</td>
-	<td><?=$with_calc->input()?></td>
+	<td><?php echo $with_calc->input()?></td>
 </tr>
 <tr>
 	<td>Avec Direct Form</td>
-	<td><?=$with_direct_form->input()?></td>
+	<td><?php echo $with_direct_form->input()?></td>
 </tr>
 </table>

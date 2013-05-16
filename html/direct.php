@@ -1,4 +1,4 @@
-<?
+<?php 
 require_once ("class_database.php");
 require_once 'class_user.php';
 $cn=new Database($_GET['gDossier']);

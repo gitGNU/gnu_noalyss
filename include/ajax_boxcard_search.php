@@ -39,10 +39,10 @@ $array=$cn->get_array($sql,array($_GET['card']));
 echo HtmlInput::title_box("Résultat recherche", "boxsearch_card_div");
 $max=(count($array)>MAX_CARD_SEARCH)?MAX_CARD_SEARCH:count($array);
 ?>
-<? if (count($array)>MAX_CARD_SEARCH ): ?>
-<h2 class="notice">Résultat limité à <?=MAX_CARD_SEARCH?>, nombre de fiches trouvées : <?=count($array)?> </h2>
+<?php if (count($array)>MAX_CARD_SEARCH ): ?>
+<h2 class="notice">Résultat limité à <?php echo MAX_CARD_SEARCH?>, nombre de fiches trouvées : <?php echo count($array)?> </h2>
 
-<? endif?>
+<?php endif?>
 Filtre  <?php echo HtmlInput::infobulle(26);echo HtmlInput::filter_table("tb_fiche", "0,1,2,3,4,5", 1); ?>
 <table id="tb_fiche" class="sorttable" style="width:100%">
 	<tr>
@@ -67,37 +67,37 @@ Filtre  <?php echo HtmlInput::infobulle(26);echo HtmlInput::filter_table("tb_fic
 		</th>
 
 	</tr>
-<? if (count($array)==0) : ?>
+<?php if (count($array)==0) : ?>
 	<h2 class="notice"> Aucun résultat</h2>
 <?endif?>
-<? for ($i=0;$i<$max;$i++):?>
+<?php for ($i=0;$i<$max;$i++):?>
 	<tr class="<?php echo ($i%2 == 0)?'even':'odd';?>">
 
 		<td>
-			<?=HtmlInput::card_detail($array[$i]['quick_code'])?>
+			<?php echo HtmlInput::card_detail($array[$i]['quick_code'])?>
 		</td>
 		<td>
-			<?=h($array[$i]['vw_name'])?>&nbsp;
-			<?=h($array[$i]['vw_first_name'])?>
+			<?php echo h($array[$i]['vw_name'])?>&nbsp;
+			<?php echo h($array[$i]['vw_first_name'])?>
 		</td>
 		<td>
-			<?=h($array[$i]['fd_label'])?>
+			<?php echo h($array[$i]['fd_label'])?>
 		</td>
 		<td>
-			<?=h($array[$i]['vw_description'])?>
+			<?php echo h($array[$i]['vw_description'])?>
 
 		</td>
 		<td>
-			<?=h($array[$i]['tva_num'])?>
+			<?php echo h($array[$i]['tva_num'])?>
 
 		</td>
 		<td style="text-align:right">
-			<?=HtmlInput::history_account($array[$i]['poste'],$array[$i]['poste'])?>
+			<?php echo HtmlInput::history_account($array[$i]['poste'],$array[$i]['poste'])?>
 
 		</td>
 	</tr>
 
 
-<? endfor; ?>
+<?php endfor; ?>
 </table>
-<?=HtmlInput::button_close("boxsearch_card_div")?>
+<?php echo HtmlInput::button_close("boxsearch_card_div")?>

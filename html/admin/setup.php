@@ -3,78 +3,11 @@
     <META http-equiv="Content-Type" content="text/html; charset=UTF8">
     </title>
 <head>
-<style type="text/css">
-<!--
-body {
-   	font-family:Verdana,arial,sans-serif;
-	font-size:12px;
-	color:blue;
-        background-color:#EDF3FF;
- }
-p.info {
-	color:blue;
-	font-family:Verdana,arial,sans-serif;
-        padding: 30px;
-        border : 1px solid green;
-        width:70%;
-        margin-left: 15%;
-        margin-right: 15%;
-
-}
-h2.error {
-	color:red;
-	font-size:12px;
-	font-family:Verdana,arial,sans-serif;
-}
-h1 {
-	color:blue;
-	font-size:16px;
-	font-family:Verdana,arial,sans-serif;
-        border : 1px solid blue;
-        text-align: center;
-        padding-top: 10px;
-        padding-bottom: 10px;
-}
-h2 {
-	color:blue;
-	font-size:14px;
-	font-family:Verdana,arial,sans-serif;
-        font-style: italic;
-}
-h3 {
-	color:blue;
-	font-size:12px;
-	font-family:Verdana,arial,sans-serif;
-        font-style: normal;
-        text-decoration: underline;
-}
-p.warning  {
-   	font-family:Verdana,arial,sans-serif;
-	font-size:12px;
-	color:red;
-        border: 1px solid red;
-        padding:30px;
- }
-.info {
-	color:blue;
-	font-size:12px;
-	font-family:Verdana,arial,sans-serif;
-}
-a:hover{
-color:blue;
-	background-color:blue;
-	color:lightgrey;
-	}
-a {
-color:blue;
-padding:5px;
-  font-size:15px;
-border:groove 2px blue;
-  text-decoration:none;
-  background-color:lightgrey;
-}
-</style>
--->
+<LINK REL="stylesheet" type="text/css" href="../style.css" media="screen">
+<link rel="icon" type="image/ico" href="../favicon.ico" />
+ <META http-equiv="Content-Type" content="text/html; charset=UTF8">
+ <script type="text/javascript" charset="utf8" language="javascript" src="../js/prototype.js"></script>
+ <script type="text/javascript" charset="utf8" language="javascript" src="../js/infobulle.js"></script>
 </head>
 <body>
 <p align="center">
@@ -107,6 +40,12 @@ border:groove 2px blue;
  *        This file is included in each release  for a new upgrade
  *
  */
+?>
+<DIV id="bulle" class="infobulle"></DIV>
+        <script type="text/javascript" language="javascript"  src="../js/infobulle.js"> </script>
+		 <script type="text/javascript" charset="utf8" language="javascript" src="setup.js"></script>
+
+<?php
 $failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 $inc_path=get_include_path();
@@ -173,23 +112,24 @@ if (isset($_POST['save_config'])) {
 echo '
 <form method="post" >
     Les informations sont sauv&eacute;es vous pouvez continuer
-<input type="submit" value="Continuer">
+<input type="submit" class="button" value="Continuer">
 </form>';
  exit();
  }
 if ( is_writable ('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'constant.php') == false ) {
-    echo '<h2 class="error"> Ecriture non possible </h2><p class="warning"> On ne peut pas &eacute;crire dans le r&eacute;pertoire de phpcompta, changez-en les droits </p>';
+    echo '<h2 class="notice"> Ecriture non possible </h2><p class="warning"> On ne peut pas &eacute;crire dans le r&eacute;pertoire de phpcompta, changez-en les droits </p>';
     exit();
   }
 create_htaccess();
 
 if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php')) {
-  echo '<form method="post">';
   echo '<h1 class="info">Entrez les informations n&eacute;cessaires &agrave; phpcompta</h1>';
+  echo '<form method="post">';
   require_once('config_file.php');
-
   echo config_file_form();
+  echo '<div style="position:float;float:left;"></div>';
   echo HtmlInput::submit('save_config','Sauver la configuration');
+  echo "</div>";
   echo '</form>';
   exit();
 }
@@ -337,7 +277,7 @@ if ( $version[0] < 8 ||
      )
   {
 ?>
-  <p><?=$failed?> Vous devez absolument utiliser au minimum une version 8.4 de PostGresql, si votre distribution n'en
+  <p><?php echo $failed?> Vous devez absolument utiliser au minimum une version 8.4 de PostGresql, si votre distribution n'en
 offre pas, installez en une en la compilant. </p><p>Lisez attentivement la notice sur postgresql.org pour migrer
 vos bases de donn&eacute;es
 </p>
@@ -352,7 +292,7 @@ vos bases de donn&eacute;es
 $sql="select lanname from pg_language where lanname='plpgsql'";
 $Res=$cn->count_sql($sql);
 if ( $Res==0) { ?>
-<p><?=$failed?> Vous devez installer le langage plpgsql pour permettre aux fonctions SQL de fonctionner.</p>
+<p><?php echo $failed?> Vous devez installer le langage plpgsql pour permettre aux fonctions SQL de fonctionner.</p>
 <p>Pour cela, sur la ligne de commande en tant qu\'utilisateur postgres, faites createlang plpgsql template1
 </p>
 
@@ -518,5 +458,5 @@ for ($e=0;$e < $MaxDossier;$e++) {
  if (! DEBUG) ob_end_clean();
  echo "<p class=\"info\">Tout est install&eacute; $succeed";
 ?>
-<A style="display:block;text-align: center" HREF="../index.php">Connectez-vous à PhpCompta</A>
 </p>
+<A style="" class="button" HREF="../index.php">Connectez-vous à PhpCompta</A>

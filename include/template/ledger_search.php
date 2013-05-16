@@ -2,7 +2,7 @@
 <table>
 <tr>
 <td style="text-align:right;width:30em">
-<?=_('Dans le journal')?>
+<?php echo _('Dans le journal')?>
 </td>
 <td>
    <?php echo $f_ledger; ?>
@@ -11,16 +11,16 @@
 
 <tr>
 <td style="text-align:right;width:30em">
-<?=_('Et Compris entre les date')?>
+<?php echo _('Et Compris entre les date')?>
 </td>
 <td>
-<?php echo $f_date_start->input();  ?> <?=_('et')?> <?php echo $f_date_end->input();  ?>
+<?php echo $f_date_start->input();  ?> <?php echo _('et')?> <?php echo $f_date_end->input();  ?>
 </td>
 </tr>
 
 <tr>
 <td style="text-align:right;width:30em">
-<?=_('Et contenant dans le libellé, pièce justificative ou n° interne')?>
+<?php echo _('Et contenant dans le libellé, pièce justificative ou n° interne')?>
 </td>
 
 <td>
@@ -29,15 +29,15 @@
 </tr>
 <tr>
 <td style="text-align:right;width:30em">
-<?=_('Et compris entre les montants')?>
+<?php echo _('Et compris entre les montants')?>
 </td>
 <td >
-<?php echo $f_amount_min->input();  ?> <?=_('et')?> <?php echo $f_amount_max->input(); ; ?>
+<?php echo $f_amount_min->input();  ?> <?php echo _('et')?> <?php echo $f_amount_max->input(); ; ?>
 </td>
 </tr>
 <tr>
 <td style="text-align:right;width:30em">
-	<?=_('Et utilisant la fiche (quick code)')?>
+	<?php echo _('Et utilisant la fiche (quick code)')?>
 </td>
 <td>
    <?php echo $f_qcode->input(); echo $f_qcode->search(); ?>
@@ -55,7 +55,7 @@
 
 <tr>
 <td style="text-align:right;width:30em">
-	<?=_('Et uniquement non payées')?>
+	<?php echo _('Et uniquement non payées')?>
 </td>
 
 <td>

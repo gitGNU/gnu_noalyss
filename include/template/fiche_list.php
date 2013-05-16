@@ -26,7 +26,7 @@
  *
  */
 ?>
-<?= $bar?>
+<?php echo  $bar?>
 <form method="POST" class="print" style="display:inline" onsubmit="return confirm('Vous confirmez ?')">
 	<table class="result">
 		<tr>
@@ -40,36 +40,36 @@
 			<th>
 				Poste Comptable
 			</th>
-			<? if ($allcard == 1 ) : ?>
+			<?php if ($allcard == 1 ) : ?>
 			<th>
 				Catégorie
 			</th>
-			<? endif; ?>
+			<?php endif; ?>
 			<th>
 				Selection
 			</th>
 		</tr>
-		<? for ($i = 0; $i < $nb_line; $i++) :?>
-			<? $row = Database::fetch_array($res, $i);?>
-			<? $class=($i%2 == 0)?' class="even" ':' class="odd" ';?>
-			<tr <?=$class?> >
+		<?php for ($i = 0; $i < $nb_line; $i++) :?>
+			<?php $row = Database::fetch_array($res, $i);?>
+			<?php $class=($i%2 == 0)?' class="even" ':' class="odd" ';?>
+			<tr <?php echo $class?> >
 				<td>
-					<?= HtmlInput::card_detail($row['qcode'], "", ' class="line" ')?>
+					<?php echo  HtmlInput::card_detail($row['qcode'], "", ' class="line" ')?>
 
 				</td>
 				<td>
-					<?= h($row['name'])?>
+					<?php echo  h($row['name'])?>
 				</td>
 				<td>
-					<?=HtmlInput::history_account($row['poste'],$row['poste'])?>
+					<?php echo HtmlInput::history_account($row['poste'],$row['poste'])?>
 				</td>
-				<? if ($allcard == 1 ) : ?>
+				<?php if ($allcard == 1 ) : ?>
 				<td>
-					<?= h($row['fd_label'])?>
+					<?php echo  h($row['fd_label'])?>
 				</td>
-				<? endif; ?>
+				<?php endif; ?>
 				<td>
-					<?
+					<?php 
 					if ($write == 1)
 					{
 						$ck = new ICheckBox('f_id[]', $row['f_id']);
@@ -78,20 +78,20 @@
 					?>
 				</td>
 			</tr>
-		<? endfor;?>
+		<?php endfor;?>
 
 
 	</table>
-	<?=$str_add_card?>
-<?=HtmlInput::hidden('action',"1");?>
-<?=HtmlInput::submit('delete','Effacer la sélection ')?>
-<? if ( $allcard ==  0  ): ?>
-<?=HtmlInput::submit('move','Déplacer la sélection  vers')?>
-<?
+	<?php echo $str_add_card?>
+<?php echo HtmlInput::hidden('action',"1");?>
+<?php echo HtmlInput::submit('delete','Effacer la sélection ')?>
+<?php if ( $allcard ==  0  ): ?>
+<?php echo HtmlInput::submit('move','Déplacer la sélection  vers')?>
+<?php 
 $iselect=new ISelect('move_to');
 $iselect->value=$cn->make_array("select fd_id,fd_label from fiche_def order by 2");
 echo $iselect->input();
 ?>
 
-<? endif ; ?>
+<?php endif ; ?>
 </form>

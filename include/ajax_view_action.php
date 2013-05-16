@@ -37,8 +37,8 @@ if ($g_user->can_write_action($ag_id) == true || $g_user->can_read_action($ag_id
 	$action=HtmlInput::array_to_string(array("gDossier","ag_id"), $_GET)."&ac=FOLLOW&sa=detail";
 	if ( $_GET['mod']== 1) :
 	?>
-<a href="<?=$action?>" target="_blank" class="button">Modifier </a>
-    <?
+<a href="<?php echo $action?>" target="_blank" class="button">Modifier </a>
+    <?php 
 	endif;
 }
 else
@@ -48,7 +48,7 @@ else
 	<div style="margin:0;padding:0;background-color:red;text-align:center;">
 <h2 class="error">Accès interdit : vous n'avez pas accès à cette information, contactez votre responsable</h2>;
 </div>
-	<?
+	<?php 
 }
 echo HtmlInput::button_close($div);
 

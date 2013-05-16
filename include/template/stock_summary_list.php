@@ -34,12 +34,12 @@ $a_repo=$cn->get_array("select distinct t.r_id,r_name,r_adress,r_city,r_country,
 	",array($tmp_id));
 ?>
 <div class="content">
-<? for ($r=0;$r<count($a_repo);$r++):?>
-<h1><?=$a_repo[$r]['r_name']?></h1>
-<p>Adresse <?=$a_repo[$r]['r_adress']?></p>
-<p>Ville <?=$a_repo[$r]['r_city']?></p>
-<p>Pays <?=$a_repo[$r]['r_country']?></p>
-<p>Téléphone <?=$a_repo[$r]['r_phone']?></p>
+<?php for ($r=0;$r<count($a_repo);$r++):?>
+<h1><?php echo $a_repo[$r]['r_name']?></h1>
+<p>Adresse <?php echo $a_repo[$r]['r_adress']?></p>
+<p>Ville <?php echo $a_repo[$r]['r_city']?></p>
+<p>Pays <?php echo $a_repo[$r]['r_country']?></p>
+<p>Téléphone <?php echo $a_repo[$r]['r_phone']?></p>
 <table class="result">
 	<tr>
 		<th>Code</th>
@@ -48,7 +48,7 @@ $a_repo=$cn->get_array("select distinct t.r_id,r_name,r_adress,r_city,r_country,
 		<th style="text-align: right">OUT</th>
 		<th style="text-align: right">En Stock</th>
 	</tr>
-	<?
+	<?php 
 		$a_stock=$cn->get_array(
 				"
 					select coalesce(sum(s_qin),0) as qin,coalesce(sum(s_qout),0) as qout,sg_code
@@ -75,10 +75,10 @@ $a_repo=$cn->get_array("select distinct t.r_id,r_name,r_adress,r_city,r_country,
 	?>
 	<tr>
 		<td>
-			<?=HtmlInput::card_detail($a_stock[$s]['sg_code'])?>
+			<?php echo HtmlInput::card_detail($a_stock[$s]['sg_code'])?>
 		</td>
 		<td>
-			<?
+			<?php 
 				$sep="";
 				for ( $c=0;$c<count($a_card);$c++):
 					echo $sep.HtmlInput::card_detail($a_card[$c]['quick_code'], $a_card[$c]['vw_name'], ' class="line" ');
@@ -88,18 +88,18 @@ $a_repo=$cn->get_array("select distinct t.r_id,r_name,r_adress,r_city,r_country,
 			?>
 		</td>
 		<td class="num">
-			<?=nbm($a_stock[$s]['qin'])?>
+			<?php echo nbm($a_stock[$s]['qin'])?>
 		</td>
 		<td class="num">
-			<?=nbm($a_stock[$s]['qout'])?>
+			<?php echo nbm($a_stock[$s]['qout'])?>
 
 		</td>
 		<td class="num">
-			<?=nbm(bcsub($a_stock[$s]['qin'],$a_stock[$s]['qout']))?>
+			<?php echo nbm(bcsub($a_stock[$s]['qin'],$a_stock[$s]['qout']))?>
 		</td>
 	</tr>
-<? endfor; ?>
+<?php endfor; ?>
 </table>
-<? endfor; ?>
+<?php endfor; ?>
 
 </div>

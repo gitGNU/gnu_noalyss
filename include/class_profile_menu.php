@@ -45,10 +45,10 @@ class Profile_Menu
 				?>
 				<li>
 
-					<?= $me_menu?>
-					( <?= $js?> )
-					<?= $me_desc?>  <?=$me_def?>
-					<?
+					<?php echo  $me_menu?>
+					( <?php echo  $js?> )
+					<?php echo  $me_desc?>  <?php echo $me_def?>
+					<?php 
 					$ret2 = $this->cn->exec_sql("
 									SELECT pm_id,
 										pm.me_code,

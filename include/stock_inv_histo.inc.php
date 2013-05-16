@@ -70,27 +70,27 @@ $gDossier=dossier::id();
 
 		</th>
 	</tr>
-	<? for ($e=0;$e<count($a_change);$e++): ?>
-	<? $class=($e%2==0)?' class="even" ':' class="odd" '; ?>
-	<tr <?=$class?>>
+	<?php for ($e=0;$e<count($a_change);$e++): ?>
+	<?php $class=($e%2==0)?' class="even" ':' class="odd" '; ?>
+	<tr <?php echo $class?>>
 
 		<td>
-			<?=  $a_change[$e]['str_date']?>
+			<?php echo   $a_change[$e]['str_date']?>
 		</td>
 		<td>
-			<?=h($a_change[$e]['c_comment'])?>
+			<?php echo h($a_change[$e]['c_comment'])?>
 		</td>
 		<td>
-			<?=h($a_change[$e]['r_name'])?>
+			<?php echo h($a_change[$e]['r_name'])?>
 		</td>
 		<td>
-			<?=$a_change[$e]['tech_user']?>
+			<?php echo $a_change[$e]['tech_user']?>
 		</td>
 		<td>
-			<?=HtmlInput::button_action("Détail",sprintf("stock_inv_detail('%s','%s')",$gDossier,$a_change[$e]['c_id']));?>
+			<?php echo HtmlInput::button_action("Détail",sprintf("stock_inv_detail('%s','%s')",$gDossier,$a_change[$e]['c_id']));?>
 		</td>
 
 	</tr>
-	<? endfor; ?>
+	<?php endfor; ?>
 </table>
 </div>

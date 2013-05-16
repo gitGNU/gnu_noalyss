@@ -35,16 +35,16 @@ $add_menu=HtmlInput::button("add", "Ajout Menu","onclick=\"add_menu({dossier:$gD
 $add_impression=HtmlInput::button("add", "Ajout Menu","onclick=\"add_menu({dossier:$gDossier,p_id:$p_id,type:'pr'})\"");
 ?>
 <hr>
-<h1>Profil <?=$profile->p_name?></h1>
-<? if ($p_id > 0 ) : ?>
-<a href="javascript:void(0)" class="line" onclick="profile_show('profile_gen_div')"><?=_('Nom')?></a>&nbsp;
-<a href="javascript:void(0)" class="line" onclick="profile_show('profile_menu_div')"><?=_('Détail Menus')?></a>&nbsp;
-<a href="javascript:void(0)" class="line" onclick="profile_show('profile_print_div')"><?=_('Détail Impressions')?></a>&nbsp;
-<a href="javascript:void(0)" class="line" style="" onclick="profile_show('profile_gestion_div')"><?=_('Action Gestion')?> </a>&nbsp;
-<a href="javascript:void(0)" class="line" onclick="profile_show('profile_repo_div')"><?=_('Dépôts')?></a>&nbsp;
-<? endif; ?>
+<h1>Profil <?php echo $profile->p_name?></h1>
+<?php if ($p_id > 0 ) : ?>
+<a href="javascript:void(0)" class="line" onclick="profile_show('profile_gen_div')"><?php echo _('Nom')?></a>&nbsp;
+<a href="javascript:void(0)" class="line" onclick="profile_show('profile_menu_div')"><?php echo _('Détail Menus')?></a>&nbsp;
+<a href="javascript:void(0)" class="line" onclick="profile_show('profile_print_div')"><?php echo _('Détail Impressions')?></a>&nbsp;
+<a href="javascript:void(0)" class="line" style="" onclick="profile_show('profile_gestion_div')"><?php echo _('Action Gestion')?> </a>&nbsp;
+<a href="javascript:void(0)" class="line" onclick="profile_show('profile_repo_div')"><?php echo _('Dépôts')?></a>&nbsp;
+<?php endif; ?>
 
-<?
+<?php 
 $id=HtmlInput::hidden('p_id',$profile->p_id);
 $name=new IText("p_name",$profile->p_name);
 $desc=new IText("p_desc",$profile->p_desc);
