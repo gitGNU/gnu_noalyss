@@ -41,17 +41,15 @@ if ( strpos($inc_path,";") != 0 ) {
   $os=1;			/* $os is 1 for unix */
 }
 set_include_path($new_path);
-if ( defined("MULTI") && MULTI==0 ) {
-	ini_set ('session.use_cookies',1);
-	ini_set ('session.use_only_cookies','on');
-	ini_set ('session.use_trans_sid','on');
-	ini_set ('magic_quotes_gpc','off');
-	ini_set ('max_execution_time',240);
-	ini_set ('memory_limit','20M');
-	ini_set ('post_max_size','20M');
-	ini_set ('upload_max_filesize','20M');
+ini_set ('session.use_cookies',1);
+ini_set ('session.use_only_cookies','on');
+ini_set ('magic_quotes_gpc','off');
+ini_set ('max_execution_time',240);
+ini_set ('memory_limit','20M');
+ini_set ('default_charset',"UTF-8");
+@ini_set ('session.use_trans_sid','on');
 	@session_start();
-}
+
 /*
  * Ini session
  */
@@ -64,9 +62,9 @@ $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 /*set to none for production */
 /* uncomment for production */
-define ('SVNINFO',5900);
+//define ('SVNINFO',5900);
 $version_phpcompta=SVNINFO;
-define ("DEBUG",true);
+define ("DEBUG",false);
 /* define ('SVNINFO',5015);
  * $version_phpcompta=SVNINFO;
  * define ("DEBUG",true);
@@ -77,7 +75,7 @@ define ("SITE_UPDATE",'http://www.phpcompta.eu/last_version.txt');
 define ("SITE_UPDATE_PLUGIN",'http://www.phpcompta.eu/plugin_last_version.txt');
 
 
-define ("DBVERSION",106);
+define ("DBVERSION",107);
 
 define ("DBVERSIONREPO",14);
 define ('NOTFOUND','--not found--');

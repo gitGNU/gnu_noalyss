@@ -51,21 +51,22 @@ $failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 $inc_path=get_include_path();
 global $os;
-/**
- *@brief create correctly the htaccess file
- */
-function create_htaccess()
-{
-
-	$inc_path=get_include_path();
+$inc_path=get_include_path();
 	global $os;
 	if ( strpos($inc_path,";") != 0 ) {
-	  $new_path=$inc_path.';..\..\include;addon';
+	  $new_path=$inc_path.';../../include;addon';
 	  $os=0;			/* $os is 0 for windoz */
 	} else {
 	  $new_path=$inc_path.':../../include:addon';
 	  $os=1;			/* $os is 1 for unix */
 	}
+/**
+ *@brief create correctly the htaccess file
+ */
+function create_htaccess()
+{
+	global $os;
+
 
 	/* If htaccess file doesn't exists we create them here
 	 * if os == 1 then windows, 0 means Unix
@@ -100,7 +101,7 @@ function create_htaccess()
 				 "php_flag session.use_only_cookies on");
 
 		if ( $os == 0 )
-		  fwrite($hFile,'php_value include_path .;..\..\include;..\include;addon'."\n");
+		  fwrite($hFile,'php_value include_path .;../../include;../include;addon'."\n");
 		else
 		  fwrite($hFile,'php_value include_path .:../../include:../include:addon'."\n");
 		foreach ($array as $value ) fwrite($hFile,$value."\n");
@@ -340,7 +341,7 @@ if ( ! isset($_POST['go']) ) {
 if ( ! isset($_POST['go']) )
 	exit();
 // Check if account_repository exists
-	if ( defined("MULTI") && MULTI== 0)
+	if (!defined("MULTI") || (defined("MULTI") && MULTI == 1))
 		$account = $cn->count_sql("select * from pg_database where datname=lower('" . domaine . "account_repository')");
 	else
 		$account=1;
@@ -392,7 +393,7 @@ $cn=new Database();
 
 echo "<h1>Mise a jour du systeme</h1>";
 echo "<h2 > Mise &agrave; jour dossier</h2>";
-if (defined("MULTI") && MULTI == 0)
+if  (defined("MULTI") && MULTI == 0)
 {
 	$db = new Database();
 	if ($db->exist_table("version") == false)

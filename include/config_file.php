@@ -105,7 +105,7 @@ function config_file_form($p_array=null)
 }
 /*!\brief create the config file
  */
-function config_file_create($p_array,$from_setup=1,$os=1)
+function config_file_create($p_array,$from_setup=1,$p_os=1)
 {
     extract ($p_array);
     $add=($from_setup==1)?'..'.DIRECTORY_SEPARATOR:'';
@@ -118,7 +118,7 @@ function config_file_create($p_array,$from_setup=1,$os=1)
     fputs($hFile,"\r\n");
     fputs($hFile, 'define("PG_PATH","'.$cpath.'");');
     fputs($hFile,"\r\n");
-    if ( $os == 1 )
+    if ( $p_os == 1 )
     {
         fputs($hFile, 'define("PG_RESTORE","'.$cpath.DIRECTORY_SEPARATOR.'pg_restore ");');
         fputs($hFile,"\r\n");

@@ -104,7 +104,7 @@ echo '<div class="welcome"> ';
  * folder if he's an "plugin user"
  */
 
-if ( $User->admin == 0 || (defined("MULTI")&&MULTI==0))
+if ( $User->admin == 0 )
 {
     // how many folder ?
     $folder=$User->get_available_folder();
