@@ -41,7 +41,17 @@ if ( strpos($inc_path,";") != 0 ) {
   $os=1;			/* $os is 1 for unix */
 }
 set_include_path($new_path);
-session_start();
+if ( defined("MULTI") && MULTI==0 ) {
+	ini_set ('session.use_cookies',1);
+	ini_set ('session.use_only_cookies','on');
+	ini_set ('session.use_trans_sid','on');
+	ini_set ('magic_quotes_gpc','off');
+	ini_set ('max_execution_time',240);
+	ini_set ('memory_limit','20M');
+	ini_set ('post_max_size','20M');
+	ini_set ('upload_max_filesize','20M');
+	@session_start();
+}
 /*
  * Ini session
  */

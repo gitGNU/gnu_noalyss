@@ -28,7 +28,14 @@ require_once('constant.php');
 /* $Revision$ */
 
 require_once('class_database.php');
+// Verif if User and Pass match DB
+    // if no, then redirect to the login page
+$rep=new Database();
 
+if (defined('MULTI') && MULTI == 0)
+		$version = $rep->get_value('select val from repo_version');
+	else
+		$version = $rep->get_value('select val from version');
 
 if (  isset ($_POST["p_user"] ) )
 {
@@ -37,20 +44,18 @@ if (  isset ($_POST["p_user"] ) )
     $_SESSION['g_user']=$g_user;
     $_SESSION['g_pass']=$g_pass;
 
-    // Verif if User and Pass match DB
-    // if no, then redirect to the login page
-    $rep=new Database();
+
     /*
      * Check repository version
      */
-    if ( $rep->get_value('select val from version') != DBVERSIONREPO)
-      {
-	echo alert('Version de base de données incorrectes, vous devez mettre à jour');
-	echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=admin/setup.php\">";
-	exit();
 
-      }
-    include_once ("class_user.php");
+	if ($version != DBVERSIONREPO)
+	{
+		echo alert('Version de base de données incorrectes, vous devez mettre à jour');
+		echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=admin/setup.php\">";
+		exit();
+	}
+	include_once ("class_user.php");
     $User=new User($rep);
     $User->Check(false,'LOGIN');
     if ($g_captcha == true)
@@ -76,7 +81,7 @@ else
      * Check repository version
      */
 
-    if ( $rep->get_value('select val from version') != DBVERSIONREPO)
+    if ( $version != DBVERSIONREPO)
       {
 	echo alert('Version de base de données incorrectes, vous devez mettre à jour');
 	echo "<META HTTP-EQUIV=\"REFRESH\" content=\"1;url=admin/setup.php\">";

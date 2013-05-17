@@ -55,6 +55,18 @@
 	<TD>Port de postgresql </TD>
 	<TD><?php echo $icport->input();echo HtmlInput::infobulle(205)?></TD>
 </TR>
+<tr>
+	<td>Mode Serveur mutualisé ou dédié</td>
+	<td><?php echo $smulti->input() ?></td>
+</tr>
+<tr id="div_db" style="visibility:hidden">
+	<td>
+		Nom base de donnée
+	</td>
+	<td>
+		<?php echo $icdbname->input();echo HtmlInput::infobulle(206) ?>
+	</td>
+</tr>
 </table>
 </div>
 <div class="notice">
@@ -67,3 +79,4 @@
 	}
 	?>
 </div>
+

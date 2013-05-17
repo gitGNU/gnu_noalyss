@@ -46,15 +46,17 @@
 		 <script type="text/javascript" charset="utf8" language="javascript" src="setup.js"></script>
 
 <?php
+
 $failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 $inc_path=get_include_path();
+global $os;
 /**
  *@brief create correctly the htaccess file
  */
 function create_htaccess() {
 $inc_path=get_include_path();
-
+global $os;
 if ( strpos($inc_path,";") != 0 ) {
   $new_path=$inc_path.';..\..\include;addon';
   $os=0;			/* $os is 0 for windoz */
@@ -97,17 +99,10 @@ $file='..'.DIRECTORY_SEPARATOR.'.htaccess';
   foreach ($array as $value ) fwrite($hFile,$value."\n");
   fclose($hFile);
 }
-if ( strpos($inc_path,";") != 0 ) {
-  $new_path=$inc_path.';..\..\include;addon';
-  $os=0;			/* $os is 0 for windoz */
-} else {
-  $new_path=$inc_path.':../../include:addon';
-  $os=1;			/* $os is 1 for unix */
-}
-set_include_path($new_path);
+
 /* The config file is created here */
 if (isset($_POST['save_config'])) {
-  require_once('config_file.php');
+  require_once('../../include/config_file.php');
   $url=config_file_create($_POST,1,$os);
 echo '
 <form method="post" >
@@ -125,7 +120,7 @@ create_htaccess();
 if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php')) {
   echo '<h1 class="info">Entrez les informations n&eacute;cessaires &agrave; phpcompta</h1>';
   echo '<form method="post">';
-  require_once('config_file.php');
+  require_once('../../include/config_file.php');
   echo config_file_form();
   echo '<div style="position:float;float:left;"></div>';
   echo HtmlInput::submit('save_config','Sauver la configuration');
@@ -144,8 +139,8 @@ if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.D
 // magic_quotes_runtime = Off
 // magic_quotes_sybase = Off
 // include_path
+require_once '../../include/constant.php';
 require_once('config_file.php');
-include_once('constant.php');
 require_once('class_database.php');
 echo "<h1>Configuration</h1>";
 ?>
@@ -237,19 +232,6 @@ if ( ini_get("session.use_trans_sid") == false )  {
 }
 
 echo "<li>";
-if ( strpos($inc_path,"../include") == 0 && strpos ($inc_path,'..\\include') == 0)
-{
-    echo 'variable include_path: '.$failed;
-  print ("<span class=\"warning\"> include_path incorrect  !!!".$inc_path."</span>");
-	$flag_php++;
-}
- else
-   if ( strpos($inc_path,"addon") == 0) {
-       echo 'variable include_path: '.$failed;
-    print ("<span class=\"warning\">2 include_path incorrect  !!!".$inc_path."</span>");
-	$flag_php++;
- }else
-   echo 'variable include_path: '.$succeed;
 echo "</li>";
 
  echo "</ul>";
@@ -260,8 +242,13 @@ if ( $flag_php==0 ) {
 	exit -1;
 }
 /* check user */
-$cn=new Database(-1,'template');
-
+if ( defined("MULTI") && MULTI==1)
+{
+	$cn=new Database(-1,'template');
+} else
+{
+	$cn=new Database();
+}
 ?>
 <h2>Base de données</h2>
 <?php
@@ -344,7 +331,10 @@ if ( ! isset($_POST['go']) ) {
 if ( ! isset($_POST['go']) )
 	exit();
 // Check if account_repository exists
-$account=$cn->count_sql("select * from pg_database where datname=lower('".domaine."account_repository')");
+	if ( defined("MULTI") && MULTI== 0)
+		$account = $cn->count_sql("select * from pg_database where datname=lower('" . domaine . "account_repository')");
+	else
+		$account=1;
 
 // Create the account_repository
 if ($account == 0 ) {
@@ -393,7 +383,27 @@ $cn=new Database();
 
 echo "<h1>Mise a jour du systeme</h1>";
 echo "<h2 > Mise &agrave; jour dossier</h2>";
+if (defined("MULTI") && MULTI == 0)
+{
+	$db = new Database();
+	if ($db->exist_table("version") == false)
+	{
+		echo '<p class="warning">' . $failed . 'La base de donnée ' . dbname . ' est vide, veuillez y restaurer un modèle de base de données plus le script mono.sql
+				, ce script se trouve dans phpcompta/contrib/mono.sql</p>';
+		exit();
+	}
+	echo "<h3>Patching " . dbname . '</h3>';
+	$db->apply_patch(dbname);
+	echo "<p class=\"info\">Tout est install&eacute; $succeed";
+	?>
+		<A style="" class="button" HREF="../index.php">Connectez-vous à PhpCompta</A>
+	<?php
+	exit();
+}
 
+/*
+ * If multi folders
+ */
 $Resdossier=$cn->exec_sql("select dos_id, dos_name from ac_dossier");
 $MaxDossier=$cn->size($Resdossier);
 

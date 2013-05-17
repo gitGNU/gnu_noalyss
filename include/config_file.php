@@ -66,6 +66,9 @@ function config_file_form($p_array=null)
         $cport=5432;
         $cdomain='';
         $clocale=1;
+		$multi=1;
+		$cdbname="database_phpcompta";
+
     }
     else extract ($p_array);
 
@@ -85,6 +88,18 @@ function config_file_form($p_array=null)
 	$icuser=new IText('cuser',$cuser);
 	$icpasswd=new IText('cpasswd',$cpasswd);
 	$icport=new IText("cport",$cport);
+	/*
+	 * For version MONO
+	 */
+	$smulti=new ISelect ('multi');
+	$smulti->value=array(
+			array('value'=>1,'label'=>'Serveur dédié : plusieurs dossiers'),
+			array('value'=>0,'label'=>'Serveur Mutualisé: un seul dossier')
+		);
+	$smulti->selected=1;
+	$smulti->javascript=' onchange="show_dbname(this)"';
+
+	$icdbname=new IText('cdbname');
 
 	require 'template_config_form.php';
 }
@@ -134,6 +149,12 @@ function config_file_create($p_array,$from_setup=1,$os=1)
 
     fputs($hFile, 'define ("domaine","");');
     fputs($hFile,"\r\n");
+
+	fputs($hFile, 'define ("MULTI","'.$multi.'");');
+	fputs($hFile,"\r\n");
+    fputs($hFile, 'define ("dbname","'.$cdbname.'");');
+    fputs($hFile,"\r\n");
+
     fputs($hFile,'?>');
     fclose($hFile);
 }

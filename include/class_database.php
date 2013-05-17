@@ -47,27 +47,37 @@ class Database
         $password=phpcompta_password;
         $port=phpcompta_psql_port;
         $host=( ! defined ("phpcompta_psql_host"))?'127.0.0.1':phpcompta_psql_host;
+		if (defined ("MULTI") && MULTI=="0") {
+			 $phpcompta_user = phpcompta_user;
+			$password = phpcompta_password;
+			$port = phpcompta_psql_port;
+			$host = (!defined("phpcompta_psql_host")) ? '127.0.0.1' : phpcompta_psql_host;
+			$l_dossier= dbname;
+		}
+		else
+		{
 
-        if ( $p_database_id == 0 )
-        { /* connect to the repository */
-            $l_dossier=sprintf("%saccount_repository",strtolower(domaine));
-        }
-        else if ( $p_type == 'dos')
-        { /* connect to a folder (dossier) */
-            $l_dossier=sprintf("%sdossier%d",strtolower(domaine),$p_database_id);
-        }
-        else if ($p_type=='mod')
-        {	  /* connect to a template (modele) */
-            $l_dossier=sprintf("%smod%d",strtolower(domaine),$p_database_id);
-        }
-        else if ($p_type=='template')
-        {
-            $l_dossier='template1';
-        }
-        else
-        {
-            throw new Exception ('Connection invalide');
-        }
+			if ( $p_database_id == 0 )
+			{ /* connect to the repository */
+				$l_dossier=sprintf("%saccount_repository",strtolower(domaine));
+			}
+			else if ( $p_type == 'dos')
+			{ /* connect to a folder (dossier) */
+				$l_dossier=sprintf("%sdossier%d",strtolower(domaine),$p_database_id);
+			}
+			else if ($p_type=='mod')
+			{	  /* connect to a template (modele) */
+				$l_dossier=sprintf("%smod%d",strtolower(domaine),$p_database_id);
+			}
+			else if ($p_type=='template')
+			{
+				$l_dossier='template1';
+			}
+			else
+			{
+				throw new Exception ('Connection invalide');
+			}
+		}
 
         ob_start();
         $a=pg_connect("dbname=$l_dossier host='$host' user='$phpcompta_user'
@@ -578,7 +588,7 @@ class Database
      */
     function exist_database($p_name)
     {
-        $database_exist=$this->get_value('select count(*) 
+        $database_exist=$this->get_value('select count(*)
                 from pg_catalog.pg_database where datname = lower($1)',array($p_name));
         return $database_exist;
     }
