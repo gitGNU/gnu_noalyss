@@ -241,7 +241,6 @@ if ( ini_get("session.use_trans_sid") == false )  {
         echo "</li>";
 }
 
-echo "<li>";
 echo "</li>";
 
  echo "</ul>";
