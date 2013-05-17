@@ -54,50 +54,59 @@ global $os;
 /**
  *@brief create correctly the htaccess file
  */
-function create_htaccess() {
-$inc_path=get_include_path();
-global $os;
-if ( strpos($inc_path,";") != 0 ) {
-  $new_path=$inc_path.';..\..\include;addon';
-  $os=0;			/* $os is 0 for windoz */
-} else {
-  $new_path=$inc_path.':../../include:addon';
-  $os=1;			/* $os is 1 for unix */
-}
+function create_htaccess()
+{
 
-/* If htaccess file doesn't exists we create them here
- * if os == 1 then windows, 0 means Unix
- */
-$file='..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'.htaccess';
-$hFile=@fopen($file,'w+');
-if ( ! $hFile )     exit('Impossible d\'&eacute;crire dans le r&eacute;pertoire include');
-fwrite($hFile,'order deny,allow'."\n");
-fwrite($hFile,'deny from all'."\n");
-fclose($hFile);
+	$inc_path=get_include_path();
+	global $os;
+	if ( strpos($inc_path,";") != 0 ) {
+	  $new_path=$inc_path.';..\..\include;addon';
+	  $os=0;			/* $os is 0 for windoz */
+	} else {
+	  $new_path=$inc_path.':../../include:addon';
+	  $os=1;			/* $os is 1 for unix */
+	}
 
-$file='..'.DIRECTORY_SEPARATOR.'.htaccess';
-  $hFile=@fopen($file,'w+');
-  if ( ! $hFile )     exit('Impossible d\'&eacute;crire dans le r&eacute;pertoire html');
-  $array=array("php_flag  magic_quotes_gpc off",
-	       "php_flag session.auto_start on",
-	       "php_value max_execution_time 240",
-	       "php_value memory_limit 20M",
-	       "AddDefaultCharset utf-8",
-		   "php_flag  register_globals off",
-	       "php_value error_reporting 10239",
-	       "php_value post_max_size 20M",
-	       "php_flag short_open_tag on",
-	       "php_value upload_max_filesize 20M",
-	       "php_value session.use_trans_sid 1",
-	       "php_value session.use_cookies 1",
-	       "php_flag session.use_only_cookies on");
+	/* If htaccess file doesn't exists we create them here
+	 * if os == 1 then windows, 0 means Unix
+	 */
+	$file='..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'.htaccess';
+	if (! file_exists($file))
+	{
+		$hFile=@fopen($file,'w+');
+		if ( ! $hFile )     exit('Impossible d\'&eacute;crire dans le r&eacute;pertoire include');
+		fwrite($hFile,'order deny,allow'."\n");
+		fwrite($hFile,'deny from all'."\n");
+		fclose($hFile);
+	}
+	$file='..'.DIRECTORY_SEPARATOR.'.htaccess';
+	if (! file_exists($file))
+	{
 
-  if ( $os == 0 )
-    fwrite($hFile,'php_value include_path .;..\..\include;..\include;addon'."\n");
-  else
-    fwrite($hFile,'php_value include_path .:../../include:../include:addon'."\n");
-  foreach ($array as $value ) fwrite($hFile,$value."\n");
-  fclose($hFile);
+		$hFile=@fopen($file,'w+');
+		if ( ! $hFile )     exit('Impossible d\'&eacute;crire dans le r&eacute;pertoire html');
+		$array=array("php_flag  magic_quotes_gpc off",
+				 "php_flag session.auto_start on",
+				 "php_value max_execution_time 240",
+				 "php_value memory_limit 20M",
+				 "AddDefaultCharset utf-8",
+				 "php_flag  register_globals off",
+				 "php_value error_reporting 10239",
+				 "php_value post_max_size 20M",
+				 "php_flag short_open_tag on",
+				 "php_value upload_max_filesize 20M",
+				 "php_value session.use_trans_sid 1",
+				 "php_value session.use_cookies 1",
+				 "php_flag session.use_only_cookies on");
+
+		if ( $os == 0 )
+		  fwrite($hFile,'php_value include_path .;..\..\include;..\include;addon'."\n");
+		else
+		  fwrite($hFile,'php_value include_path .:../../include:../include:addon'."\n");
+		foreach ($array as $value ) fwrite($hFile,$value."\n");
+		fclose($hFile);
+	}
+
 }
 
 /* The config file is created here */
