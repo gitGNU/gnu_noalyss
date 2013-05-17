@@ -251,7 +251,7 @@ if ( $flag_php==0 ) {
 	exit -1;
 }
 /* check user */
-if ( defined("MULTI") && MULTI==1)
+if ( (defined("MULTI") && MULTI==1)|| !defined("MULTI"))
 {
 	$cn=new Database(-1,'template');
 } else
