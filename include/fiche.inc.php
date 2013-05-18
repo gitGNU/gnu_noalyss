@@ -90,7 +90,7 @@ $search_card_js=sprintf('onclick="boxsearch_card(\'%d\')"',dossier::id());
 		<?php echo _('Recherche de fiche')?> <?php echo HtmlInput::infobulle(18)?> :<?php echo $search_card->input()?>
 		<?php echo HtmlInput::button_anchor("Chercher","javascript:void(0)","",$search_card_js)?>
 </div>
-<?php 
+<?php
 echo '</div>';
 $str = "if (g('histo').value==3 || g('histo').value== -1 ) {
      g('trstart').style.display='none';g('trend').style.display='none';g('allcard').style.display='none';}
@@ -105,6 +105,7 @@ if (!isset($_GET['cat_display']))
 	exit();
 
 $fd_id = $_GET['cat'];
+
 $array = Fiche::get_fiche_def($cn, $_GET['cat'], 'name_asc');
 
 $h_add_card_b = new IButton('add_card');
@@ -123,6 +124,12 @@ if ($array == null)
 }
 
 $allcard = (isset($_GET['allcard'])) ? 1 : 0;
+if ( $allcard == 0 ){
+	$fiche_def=new Fiche_Def($cn,$_GET['cat']);
+	$fiche_def->Get();
+	echo h1($fiche_def->label,"");
+	echo h2($fiche_def->fd_description,"");
+}
 /* * *********************************************************************************************************************************
  * Liste
  *
@@ -203,6 +210,7 @@ if ($_GET['histo'] == -1)
 	");
 	$nb_line = Database::num_row($res);
 	if ($write != 1 || $allcard != 0 )  $str_add_card="";
+
 	require_once 'template/fiche_list.php';
 	echo '<hr>'.$bar;
 	exit();
