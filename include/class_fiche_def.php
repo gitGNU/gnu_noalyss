@@ -60,6 +60,10 @@ class Fiche_Def
         $class_base->set_attribute('account','class_base');
         $class_base->set_attribute('label','acc_label');
         $f_class_base=$class_base->input();
+		$fd_description=new ITextarea('fd_description');
+		$fd_description->width=80;
+		$fd_description->heigh=4;
+		$fd_description->style='style="vertical-align:text-top"';
         require_once ('template/fiche_def_input.php');
         return;
     }
@@ -115,6 +119,7 @@ class Fiche_Def
         $this->class_base=$row['fd_class_base'];
         $this->fiche_def=$row['frd_id'];
         $this->create_account=$row['fd_create_account'];
+        $this->fd_description=$row['fd_description'];
     }
     /*!
      **************************************************
@@ -174,7 +179,7 @@ class Fiche_Def
 
 
 		$res = $this->cn->exec_sql("SELECT fd_id, fd_class_base, fd_label, fd_create_account, fiche_def_ref.frd_id,
-frd_text  FROM fiche_def join fiche_def_ref on (fiche_def.frd_id=fiche_def_ref.frd_id)
+frd_text , fd_description FROM fiche_def join fiche_def_ref on (fiche_def.frd_id=fiche_def_ref.frd_id)
 $order
 ");
 
@@ -243,10 +248,10 @@ $order
         if ( sql_string($p_class_base) != null || strpos(',',$p_class_base) != 0 )
         {
             // p_class is a valid number
-            $sql="insert into fiche_def(fd_label,fd_class_base,frd_id,fd_create_account)
-                 values ($1,$2,$3,$4) returning fd_id";
+            $sql="insert into fiche_def(fd_label,fd_class_base,frd_id,fd_create_account,fd_description)
+                 values ($1,$2,$3,$4,$5) returning fd_id";
 
-            $fd_id=$this->cn->get_value($sql,array($p_nom_mod,$p_class_base,$p_FICHE_REF,$p_create));
+            $fd_id=$this->cn->get_value($sql,array($p_nom_mod,$p_class_base,$p_FICHE_REF,$p_create,$p_fd_description));
 
             // p_class must be added to tmp_pcmn if it is a single accounting
             if ( strpos(',',$p_class_base) ==0)
@@ -265,10 +270,10 @@ $order
         else
         {
             //There is no class base not even as default
-            $sql=sprintf("insert into fiche_def(fd_label,frd_id,fd_create_account) values ('%s',%d,'%s') returning fd_id",
-                         $p_nom_mod,$p_FICHE_REF,$p_create);
+            $sql="insert into fiche_def(fd_label,frd_id,fd_create_account,fd_description) values ($1,$2,$3,$4) returning fd_id";
 
-            $this->id=$this->cn->get_value($sql);
+
+            $this->id=$this->cn->get_value($sql,array($p_nom_mod,$p_FICHE_REF,$p_create,$p_fd_description));
 
             // Get the fd_id
             $fd_id=$this->cn->get_current_seq('s_fdef');
@@ -455,10 +460,17 @@ $order
         $class_base->set_attribute('ipopup','ipop_account');
         $class_base->set_attribute('account','class_base');
         $class_base->set_attribute('label','acc_label');
+		$fd_description=new ITextarea('fd_description',$this->fd_description);
+		$fd_description->width=80;
+		$fd_description->heigh=4;
+		$fd_description->style='style="vertical-align:text-top"';
         $r.=_('Poste Comptable de base').' : ';
         $r.=$class_base->input();
         $r.='<span id="acc_label"></span><br>';
+		$r.='<br/>';
+		$r.=" Description ".$fd_description->input();
         /* auto Create */
+		$r.='<br/>';
         $ck=new ICheckBox('create');
         $ck->selected=($this->create_account=='f')?false:true;
         $r.=_('Chaque fiche aura automatiquement son propre poste comptable : ');
@@ -594,6 +606,11 @@ $order
 
         $Res=$this->cn->exec_sql($sql,array($p_label,$this->id));
     }
+	function save_description($p_description)
+	{
+		if ( $this->id == 0)			return;
+		$this->cn->exec_sql("update fiche_def set fd_description=$1 where fd_id=$2",array($p_description,$this->id));
+	}
 
 
     /*!\brief insert a new attribut for this fiche_def

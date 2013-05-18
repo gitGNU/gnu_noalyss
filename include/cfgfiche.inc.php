@@ -87,6 +87,7 @@ if ( isset ($_POST['change_name']))
             $fiche_def->set_autocreate(false);
         }
         $fiche_def->save_class_base($_REQUEST['class_base']);
+		$fiche_def->save_description($_REQUEST['fd_description']);
 
     }
 	echo $fiche_def->input_detail();

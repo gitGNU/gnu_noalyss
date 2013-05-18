@@ -3,6 +3,14 @@
 <TD><?php echo ('Catégorie de fiche')?> </TD>
 <TD><INPUT TYPE="INPUT" NAME="nom_mod"></TD>
 </TR>
+<tr>
+	<td style="vertical-align: text-top">
+		Description
+	</td>
+	<td>
+		<?php echo $fd_description->input(); ?>
+	</td>
+</tr>
 <TR>
    <TD> <?php echo _('Classe de base')?> </TD>
 <TD><?php echo $f_class_base?> </TD>
@@ -14,7 +22,7 @@
 <?php
   if ( sizeof($ref)  ) {
     foreach ($ref as $i=>$v) { ?>
-<TR><TD COLSPAN="2">
+<TR><TD style="width:auto" COLSPAN="2">
 <?php echo $iradio->input("FICHE_REF",$v['frd_id']);
    echo $v['frd_text'];
    if ( sizeof ($v['frd_class_base']) != 0 )

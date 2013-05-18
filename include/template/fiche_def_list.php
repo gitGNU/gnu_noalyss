@@ -29,7 +29,8 @@
 $max=Database::num_row($res);
 ?>
 <div id="list_cat_div" class="content">
-<table class="result">
+	<?php echo "Filtre"; echo HtmlInput::filter_table("fiche_def_tb", "0,1,2,3,4", "1"); ?>
+<table id="fiche_def_tb" class="result">
 	<tR>
 		<th>
 			<?php echo $tab->get_header(0)?>
@@ -43,8 +44,11 @@ $max=Database::num_row($res);
 		<th>
 			<?php echo $tab->get_header(3)?>
 		</th>
+		<th>
+			Description
+		</th>
 	</tR>
-<?php 
+<?php
 $dossier=Dossier::id();
 for ($i=0;$i<$max;$i++):
 	$class=($i%2==0)?' class="even" ':' class="odd" ';
@@ -58,7 +62,7 @@ for ($i=0;$i<$max;$i++):
 			<?php echo h($row['fd_class_base'])?>
 		</td>
 		<td>
-			<?php 
+			<?php
 			 $v=($row['fd_create_account']=='t')?"Automatique":"Manuel";
 			 echo $v;
 			?>
@@ -66,14 +70,17 @@ for ($i=0;$i<$max;$i++):
 		<td>
 			<?php echo $row['frd_text']?>
 		</td>
+		<td>
+			<?php echo h($row['fd_description']) ?>
+		</td>
 	</tr>
 
 
-<?php 
+<?php
 endfor;
 ?>
 </table>
-<?php 
+<?php
 echo HtmlInput::button("cat_fiche_def_add","Ajout d'une nouvelle catégorie", "onclick=\"detail_category_show('detail_category_div','".$dossier."','-1')\"");
 ?>
 </div>
