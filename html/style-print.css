@@ -287,3 +287,6 @@ div.myfieldset
 	margin-right: 5px;
 	border:lightgrey 2px groove;
 }
+#info_div {
+	display:none;
+}

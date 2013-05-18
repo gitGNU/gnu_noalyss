@@ -678,6 +678,8 @@ function waiting_box()
 		removeDiv('wait_box');
 		}
 	add_div(obj);
+	$('info_div').innerHTML="Un instant";
+	$('info_div').style.display="block";
 
 }
 /**
@@ -1181,6 +1183,8 @@ function set_reconcile(obj)
 function remove_waiting_box()
 {
 			removeDiv('wait_box');
+			$('info_div').innerHTML="";
+			$('info_div').style.display="none";
 }
 function get_profile_detail(gDossier,profile_id)
 {
@@ -1723,8 +1727,11 @@ function view_action(ag_id,dossier,modify)
  * @see HtmlInput::filter_table
  */
 function filter_table(phrase, _id, colnr,start_row) {
+	$('info_div').innerHTML="Un instant";
+	$('info_div').style.display="block";
 	var words = $(phrase).value.toLowerCase();
 	var table = document.getElementById(_id);
+
 	// if colnr contains a comma then check several columns
 	var aCol = new Array();
 	if (colnr.indexOf(',') >= 0) {
@@ -1733,6 +1740,7 @@ function filter_table(phrase, _id, colnr,start_row) {
 		aCol[0] = colnr;
 	}
 	var ele;
+
 	for (var r = start_row; r < table.rows.length; r++) {
 		var found=0;
 		for (var col =0;col < aCol.length;col++)
@@ -1752,6 +1760,8 @@ function filter_table(phrase, _id, colnr,start_row) {
 		} else {
 			table.rows[r].style.display = 'none';
 		}
+		$('info_div').style.display="none";
+		$('info_div').innerHTML="";
 	}
 }
 function display_task(p_id)

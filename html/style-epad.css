@@ -1147,3 +1147,12 @@ div.myfieldset
 	margin-right: 5px;
 	border:lightgrey 2px groove;
 }
+#info_div {
+	display:none;
+	background-color: yellow;
+	color:red;
+	z-index: 15;
+	position: absolute;
+	top:0;
+	left:0;
+}
