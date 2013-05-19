@@ -3522,4 +3522,65 @@ class Acc_Ledger extends jrn_def_sql
 		}
 	}
 
+	function get_operation_date($p_date,$p_ledger_type,$sql_op)
+	{
+		global $g_user;
+		switch ($p_ledger_type)
+		{
+			case 'ACH':
+				$filter=$g_user->get_ledger_sql('ACH',3);
+				break;
+			case 'VEN':
+				$filter=$g_user->get_ledger_sql('VEN',3);
+				break;
+			default:
+				throw new Exception ('Ledger_type invalid : '.$p_ledger_type);
+		}
+
+
+		$sql = "select jr_id, jr_internal, jr_date, jr_comment,jr_comment,jr_montant
+				from jrn
+				join jrn_def on (jrn_def_id=jr_def_id)
+				where
+				jr_ech is not null
+				and jr_ech $sql_op to_date($1,'DD.MM.YYYY')
+				and coalesce (jr_rapt,'xx') <> 'paid'
+				and $filter
+				";
+		$array=$this->db->get_array($sql,array($p_date));
+		return $array;
+	}
+	/**
+	 * @brief get info from supplier to pay today
+	 */
+	function get_supplier_now()
+	{
+		$array=$this->get_operation_date(Date('d.m.Y'), 'ACH', '=');
+		return $array;
+	}
+	/**
+	 * @brief get info from supplier not yet paid
+	 */
+	function get_supplier_late()
+	{
+		$array=$this->get_operation_date(Date('d.m.Y'), 'ACH', '<');
+		return $array;
+	}
+	/**
+	 * @brief get info from customer to pay today
+	 */
+	function get_customer_now()
+	{
+		$array=$this->get_operation_date(Date('d.m.Y'), 'VEN', '=');
+		return $array;
+	}
+	/**
+	 * @brief get info from customer not yet paid
+	 */
+	function get_customer_late()
+	{
+		$array=$this->get_operation_date(Date('d.m.Y'), 'VEN', '<');
+		return $array;
+	}
+
 }

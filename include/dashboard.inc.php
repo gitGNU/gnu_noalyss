@@ -22,9 +22,18 @@ $cal->get_preference();
 $Operation=new Follow_Up($cn);
 $last_operation=$Operation->get_today();
 $late_operation=$Operation->get_late();
+
 $Ledger=new Acc_Ledger($cn,0);
 $last_ledger=array();
 $last_ledger=$Ledger->get_last(20);
+
+// Supplier late and now
+$supplier_now=$Ledger->get_supplier_now();
+$supplier_late=$Ledger->get_supplier_late();
+
+// Customer late and now
+$customer_now=$Ledger->get_customer_now();
+$customer_late=$Ledger->get_customer_late();
 
 ob_start();
 require_once('template/dashboard.php');

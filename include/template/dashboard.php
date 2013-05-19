@@ -59,40 +59,105 @@ if ( ! empty ($array) )  {
 </div>
 <div style="float:left;clear:both"></div>
 <div style="float:right;width: 49%">
-<?php if (count($last_operation)> 0) : ?>
-	<fieldset>
-	<legend><?php echo _('Action pour aujourd\'hui')?>
-	</legend>
-	<ol>
-	<?php
-	for($i=0;$i<count($last_operation);$i++):
-	?>
-	<li>
-		<?php echo HtmlInput::detail_action($last_operation[$i]['ag_id'],h($last_operation[$i]['ag_ref']))?>
-	<span>
-	<?php echo smaller_date($last_operation[$i]['ag_timestamp_fmt'])?>
-	</span>
-		<span  style="font-weight: bolder ">
-			<?php echo h($last_operation[$i]['vw_name'])?>
-		</span>
-	<span>
-	<?php echo h(mb_substr($last_operation[$i]['ag_title'],0,50,'UTF-8'))?>
-	</span>
-	<span style="font-style: italic">
-	<?php echo $last_operation[$i]['dt_value']?>
-	</span>
-	</li>
-	<?php endfor;?>
-	</ol>
-	</fieldset>
-<?php endif; ?>
+	<table class='result'>
+		<tr>
+			<th>
 
-<?php if (count($late_operation)> 0) : ?>
-		<fieldset>
-	<legend><?php echo _('Action en retard ')?>
-	</legend>
-	<ol>
+			</th>
+			<th>
+				Pour aujourd'hui
+			</th>
+			<th>
+				En retard
+			</th>
+		</tr>
+		<tr>
+			<td>
+				Action
+			</td>
+			<td>
+				<?php if (count($last_operation)>0): ?>
+				<A class="mtitle" style="text-decoration:underline"onclick="display_detail('action_now_div')">
+					<span class="notice">
+					<?php echo count($last_operation) ?>
+					</span>
+					&nbsp;détail
+				</A>
+			<?php else: ?>
+				 0
+			<?php endif; ?>
+			</td>
+
+			<td >
+			<?php if (count($late_operation)>0): ?>
+				<A class="mtitle"  style="text-decoration:underline" onclick="display_detail('action_late_div')">
+				<span class="notice"><?php echo count($late_operation) ?></span>
+					&nbsp;détail
+				</A>
+			<?php else: ?>
+				 0
+			<?php endif; ?>
+			</td>
+
+		</tr>
+		<tr>
+			<td>
+				Paiement fournisseur
+			</td>
+			<td >
+			<?php if (count($supplier_now)>0): ?>
+				<A class="mtitle"  style="text-decoration:underline" onclick="display_detail('supplier_now_div')">
+				<span class="notice"><?php echo count($supplier_now) ?></span>
+					&nbsp;détail
+				</A>
+			<?php else: ?>
+				 0
+			<?php endif; ?>
+			</td>
+			<td >
+			<?php if (count($supplier_late)>0): ?>
+				<A class="mtitle"  style="text-decoration:underline" onclick="display_detail('supplier_late_div')">
+				<span class="notice"><?php echo count($supplier_late) ?></span>
+					&nbsp;détail
+				</A>
+			<?php else: ?>
+				 0
+			<?php endif; ?>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Paiement client
+			</td>
+			<td>
+				<?php if (count($customer_now)>0): ?>
+				<A class="mtitle"  style="text-decoration:underline" onclick="display_detail('customer_now_div')">
+				<span class="notice"><?php echo count($customer_now) ?></span>
+					&nbsp;détail
+				</A>
+			<?php else: ?>
+				 0
+			<?php endif; ?>
+			</td>
+			<td>
+				<?php if (count($customer_late)>0): ?>
+				<A class="mtitle"  style="text-decoration:underline" onclick="display_detail('customer_late_div')">
+				<span class="notice"><?php echo count($customer_late) ?></span>
+					&nbsp;détail
+				</A>
+			<?php else: ?>
+				 0
+			<?php endif; ?>
+			</td>
+		</tr>
+	</table>
+<div id="action_late_div"  class="inner_box" style="display:none;margin-left:25%;width: 50%">
 	<?php
+		echo HtmlInput::title_box("Action en retard", "action_late_div","hide")
+	?>
+	<ol>
+	<?php if (count($late_operation)> 0) :
+
 	for($i=0;$i<count($late_operation);$i++):
 	?>
 	<li>
@@ -112,9 +177,47 @@ if ( ! empty ($array) )  {
 	</li>
 	<?php endfor;?>
 	</ol>
-	</fieldset>
+	<?php else : ?>
+	<h2 class='notice'>Aucune action en retard</h2>
+	<?php endif; ?>
+	</div>
+
+	<div id="action_now_div" class="inner_box" style="display:none;margin-left:25%;width: 50%">
+	<?php
+		echo HtmlInput::title_box("Action pour aujourd'hui", "action_now_div","hide")
+	?>
+	<ol>
+	<?php
+	if (count($last_operation)> 0) :
+	for($i=0;$i<count($last_operation);$i++):
+	?>
+	<li>
+		<?php echo HtmlInput::detail_action($last_operation[$i]['ag_id'],h($last_operation[$i]['ag_ref']))?>
+	<span>
+	<?php echo smaller_date($last_operation[$i]['ag_timestamp_fmt'])?>
+	</span>
+		<span  style="font-weight: bolder ">
+			<?php echo h($last_operation[$i]['vw_name'])?>
+		</span>
+	<span>
+	<?php echo h(mb_substr($last_operation[$i]['ag_title'],0,50,'UTF-8'))?>
+	</span>
+	<span style="font-style: italic">
+	<?php echo $last_operation[$i]['dt_value']?>
+	</span>
+	</li>
+	<?php endfor;?>
+	</ol>
+	<?php else : ?>
+		<h2 class='notice'>Aucune action pour aujourd'hui</h2>
 <?php endif; ?>
+	</div>
+	<?php display_dashboard_operation($supplier_now,"Fournisseurs à payer aujourd'hui",'supplier_now_div'); ?>
+	<?php display_dashboard_operation($supplier_late,"Fournisseurs en retad",'supplier_late_div'); ?>
+	<?php display_dashboard_operation($customer_now,"Encaissement clients aujourd'hui",'customer_now_div'); ?>
+	<?php display_dashboard_operation($customer_late,"Clients en retard",'customer_late_div'); ?>
 </div>
+<!-- Mini rapport -->
 	<div style="float:left;width: 49%">
 <?php
 /*
@@ -222,3 +325,20 @@ echo HtmlInput::button('hide',_('Annuler'),'onClick="$(\'add_todo_list\').hide()
 ?>
 </form>
 </div>
+<script type="text/javascript" language="javascript" charset="utf-8">
+function display_detail(div) {
+	$(div).style.display="block";
+	//Effect.Grow(div,{});
+}
+try {
+var array=Array('customer_now_div','customer_late_div','supplier_now_div','supplier_late_div','action_now_div','action_late_div');
+var i=0;
+for  (i=0;i < array.length;i++) {
+
+	if ( ! document.getElementById(array[i])) {
+		console.log('ATTENTION'+array[i]);
+	}
+	new Draggable(array[i],{});
+}
+} catch (e) { alert(e.getMessage);}
+</script>

@@ -1031,5 +1031,51 @@ function ajax_xml_error($p_code,$p_string)
 </data>
 EOF;
 }
+function display_dashboard_operation($p_array,$p_title,$p_div)
+{
+	?>
+<div id="<?php echo $p_div;?>" class="inner_box" style="display:none;top:250;left:25%;width: 50%">
+	<?php
+	echo HtmlInput::title_box($p_title, $p_div, "hide");
+	?>
+	<?php if (count($p_array)>0) :?>
+	<table class="result">
+		<tr>
+			<th>Date</th>
+			<th>Code Interne</th>
+			<th>Description</th>
+			<th>
+				Montant
+			</th>
 
+		</tr>
+		<?php
+			for ($i=0;$i<count($p_array);$i++):
+		?>
+		<tr class="<?php echo (($i%2)==0)?'odd':'even';?>">
+			<td>
+				<?php echo smaller_date($p_array[$i]['jr_date']) ?>
+			</td>
+			<td>
+				<?php echo HtmlInput::detail_op($p_array[$i]['jr_id'], $p_array[$i]['jr_internal']) ?>
+			</td>
+			<td>
+				<?php echo h($p_array[$i]['jr_comment']) ?>
+			</td>
+			<td>
+				<?php echo nbm($p_array[$i]['jr_montant']) ?>
+			</td>
+		</tr>
+		<?php
+		endfor;
+		?>
+	</table>
+	<?php else: ?>
+	<h2 class="notice">Aucune donnée</h2>
+	<?php
+	endif;
+	?>
+</div>
+<?php
+}
 ?>
