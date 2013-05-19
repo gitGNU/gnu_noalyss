@@ -4,7 +4,7 @@
 		<TD><?php echo _('Nom journal')?> </TD>
 		<TD> <INPUT TYPE="text" class="input_text" NAME="p_jrn_name" VALUE="<?php	echo $name;	?>"></TD>
 </TR>
-<?php 
+<?php
 if ($new || $type=='ODS' ):
 ?>
 <TR>
@@ -18,10 +18,10 @@ if ($new || $type=='ODS' ):
 	utiliser le * pour indiquer 'tous les postes qui en dépendent' exemple: 4*")?>
 </TD>
 </TR>
-<?php 
+<?php
 endif;
 ?>
-<?php 
+<?php
 if ( $new || $type=='FIN') {
 ?>
 <tr>
@@ -37,7 +37,7 @@ if ( $new || $type=='FIN') {
 <?php echo _('Compte en banque')?>
 </td>
 <TD>
-<?php 
+<?php
 $card=new ICard();
 $card->name='bank';
 $card->extra=$cn->make_list('select fd_id from fiche_def where frd_id=4');
@@ -55,12 +55,13 @@ echo $card->input();
 <td class="notice">
 <?php echo _("Obligatoire pour les journaux FIN : donner ici la fiche de la banque utilisée")?>
 </td>
-<?php 
+<?php
 }
 ?>
 </TR>
 <tr>
-<td><INPUT TYPE="hidden" id="p_jrn_deb_max_line" NAME="p_jrn_deb_max_line" VALUE="10"></td>
+	<td>Minimum de lignes à afficher</td>
+<td><?php echo $min_row->input()?></td>
 </tr>
 <tr>
 <td><INPUT TYPE="hidden" id="p_jrn_deb_max_line" NAME="p_jrn_deb_max_line" VALUE="10"></td>
@@ -116,12 +117,12 @@ echo $card->input();
 <H2 class="info"> Fiches </H2>
 <TABLE width="100%">
 <TR>
-<?php 
+<?php
 if ( $new || ($type != 'ODS' && $type != 'FIN')) {
 ?>
 <th style="text-align:left"><?php echo _('Fiches Débit')?></TH>
 <th style="text-align:left"><?php echo _('Fiches Crédit')?></TH>
-<?php 
+<?php
 }
 ?>
 </TR>

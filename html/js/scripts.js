@@ -1764,6 +1764,10 @@ function filter_table(phrase, _id, colnr,start_row) {
 		$('info_div').innerHTML="";
 	}
 }
+/**
+ * @brief
+ * Display the task late or for today in dashboard
+ */
 function display_task(p_id)
 {
 	new Draggable(p_id,{starteffect:function()
@@ -1775,4 +1779,20 @@ function display_task(p_id)
     $(p_id).style.left=posX;
 	$(p_id).style.display='block';
 
+}
+/**
+ * @brief
+ * Set a message in the info
+ */
+function info_message (p_message)
+{
+		$('info_div').innerHTML=p_message;
+		$('info_div').style.display="block";
+}
+/**
+ * @brief hide the info box
+ */
+function info_hide()
+{
+		$('info_div').style.display="none";
 }

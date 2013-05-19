@@ -141,6 +141,66 @@ function update_bank()
 
 }
 /**
+ *ask the name, quick_code of the bank for the ledger
+ */
+function update_row(ctl)
+{
+	try
+	{
+    var jrn=g('p_jrn').value;
+    var dossier=g('gDossier').value;
+    var qs='gDossier='+dossier+'&op=minrow&j='+jrn+'&ctl='+ctl;
+	console.log(qs);
+    var action=new Ajax.Request(
+                   "ajax_misc.php",
+                   {
+                   method:'get',
+                   parameters:qs,
+                   onFailure:null,
+                   onSuccess:function(request,json)
+						{
+							try {
+								var answer=request.responseText.evalJSON(true);
+								var row=parseFloat(answer.row);
+								var current_row=parseFloat($('nb_item').value);
+								info_message("avant "+$('nb_item').value+"Maintenant "+row);
+								if ( current_row > row ) {
+									// Too many row
+									var delta=$('nb_item').value-row;
+									var idx=$('nb_item').value;
+									console.log("delta "+delta);
+									console.log("idx"+idx);
+									for (var i=0;i<delta;i++){
+										$(ctl).deleteRow(-1);
+										console.log("remove "+idx)
+										idx--;
+									}
+									$('nb_item').value=row;
+								}
+								if (current_row < row) {
+									// We need to add rows
+										var delta=row-current_row;
+										for (var i =0;i<delta;i++) {
+											if ( ctl=='fin_item') {
+												ledger_fin_add_row();
+											}
+											if ( ctl=='sold_item'){
+												ledger_add_row();
+											}
+											if (ctl=='quick_item'){
+												quick_writing_add_row();
+											}
+										}
+									}
+							}catch (e) { alert(e.getMessage);}
+						}
+					}
+               );
+	} catch (e) {
+		alert(e.getMessage);
+	}
+}
+/**
  * Put into the span, the name of the bank, the bank account
  * and the quick_code
  */
@@ -271,6 +331,7 @@ function ledger_fin_add_row()
 	}
 	nb.value++;
 }
+
 /**
  * @brief add a line in the form for the purchase ledger
  */

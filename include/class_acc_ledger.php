@@ -1527,7 +1527,11 @@ class Acc_Ledger extends jrn_def_sql
 			$ret.='<input type="button" class="button" value="' . _('verifie Imputation Analytique') . '" onClick="verify_ca(\'\');">';
 		return $ret;
 	}
-
+	function get_min_row()
+	{
+		$row=$this->db->get_value("select jrn_deb_max_line from jrn_def where jrn_def_id=$1",array($this->id));
+		return $row;
+	}
 	/**
 	 * @brief Show the form to encode your operation
 	 * @param$p_array if you correct or use a predef operation (default = null)
@@ -1539,7 +1543,7 @@ class Acc_Ledger extends jrn_def_sql
 	function input($p_array = null, $p_readonly = 0)
 	{
 		global $g_parameter, $g_user;
-
+		$this->nb=$this->get_min_row();
 		if ($p_readonly == 1)
 			return $this->confirm($p_array);
 
@@ -1554,6 +1558,7 @@ class Acc_Ledger extends jrn_def_sql
 		{
 			$add_js.='get_last_date();';
 		}
+		$add_js.='update_row("quick_item");';
 		$ret = "";
 		if ($g_user->check_action(FICADD) == 1)
 		{
@@ -3271,6 +3276,9 @@ class Acc_Ledger extends jrn_def_sql
 		$hidden.=HtmlInput::hidden('p_ech_lib', 'echeance');
 		$hidden.=HtmlInput::hidden('p_jrn_type', $type);
 
+		$min_row = new INum("min_row",$this->jrn_deb_max_line);
+		$min_row->prec=0;
+
 		/* Load the card */
 		$card = $this->get_fiche_def();
 		$rdeb = explode(',', $card['deb']);
@@ -3365,6 +3373,7 @@ class Acc_Ledger extends jrn_def_sql
 		$this->jrn_def_type = $p_jrn_type;
 		$this->jrn_def_pj_pref = $jrn_def_pj_pref;
 		$this->jrn_def_fiche_deb = (isset($FICHEDEB)) ? join($FICHEDEB, ',') : "";
+		$this->jrn_deb_max_line=$min_row;
 		switch ($this->jrn_def_type)
 		{
 			case 'ACH':
@@ -3458,7 +3467,8 @@ class Acc_Ledger extends jrn_def_sql
 		echo HtmlInput::hidden('sa', 'add');
 
 		$cn = $this->db;
-
+		$min_row = new INum("min_row",MAX_ARTICLE);
+		$min_row->prec=0;
 		require_once('template/param_jrn.php');
 	}
 
@@ -3478,6 +3488,7 @@ class Acc_Ledger extends jrn_def_sql
 		$this->jrn_def_type = $p_jrn_type;
 		$this->jrn_def_pj_pref = $jrn_def_pj_pref;
 		$this->jrn_def_fiche_deb = (isset($FICHEDEB)) ? join($FICHEDEB, ',') : "";
+		$this->jrn_deb_max_line=$min_row;
 		$this->jrn_def_code = sprintf("%s%02d", trim(substr($this->jrn_def_type, 0, 1)), Acc_Ledger::next_number($this->db, $this->jrn_def_type));
 
 		switch ($this->jrn_def_type)

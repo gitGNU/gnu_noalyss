@@ -11,6 +11,8 @@ update fiche_def set fd_description='Catégorie qui contient la liste des compte
 update fiche_def set fd_description='Catégorie qui contient la liste des fournisseurs' where fd_id=4;
 update fiche_def set fd_label='Services & Biens Divers',fd_description='Catégorie qui contient la liste des charges diverses' where fd_id=5;
 update fiche_def set fd_description='Catégorie qui contient la liste des prestations, marchandises... que l''on vend ' where fd_id=6;
+
+update jrn_def set jrn_deb_max_line=5 where jrn_deb_max_line is null;
 update version set val=107;
 
 commit;

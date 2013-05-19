@@ -62,9 +62,9 @@ $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 /*set to none for production */
 /* uncomment for production */
-//define ('SVNINFO',5900);
+define ('SVNINFO',5900);
 $version_phpcompta=SVNINFO;
-define ("DEBUG",false);
+define ("DEBUG",true);
 /* define ('SVNINFO',5015);
  * $version_phpcompta=SVNINFO;
  * define ("DEBUG",true);
@@ -81,7 +81,7 @@ define ("DBVERSIONREPO",14);
 define ('NOTFOUND','--not found--');
 
 define ("MAX_COMPTE",4);
-define ('MAX_ARTICLE',12);
+define ('MAX_ARTICLE',5);
 define ('MAX_CAT',15);
 define ('MAX_CARD_SEARCH',550);
 define ('MAX_FORECAST_ITEM',10);

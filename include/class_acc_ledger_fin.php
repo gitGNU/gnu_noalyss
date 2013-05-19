@@ -237,6 +237,8 @@ class Acc_Ledger_Fin extends Acc_Ledger
 
 		$pview_only = false;
 
+		$min_article=$this->get_min_row();
+
 		$f_add_button = new IButton('add_card');
 		$f_add_button->label = _('Créer une nouvelle fiche');
 		$f_add_button->set_attribute('ipopup', 'ipop_newcard');
@@ -291,7 +293,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 
 		// Ledger (p_jrn)
 		//--
-		$onchange="update_bank();ajax_saldo('first_sold');update_name();";
+		$onchange="update_bank();ajax_saldo('first_sold');update_name();update_row('fin_item');";
 
 		if ($g_parameter->MY_DATE_SUGGEST == 'Y')
 			$onchange .= 'get_last_date();';
@@ -344,7 +346,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		$wLast = new INum('last_sold', $last_sold);
 
 
-		$max = (isset($nb_item)) ? $nb_item : MAX_ARTICLE;
+		$max = (isset($nb_item)) ? $nb_item : $min_article;
 
 		$r.= HtmlInput::hidden('nb_item', $max);
 		//--------------------------------------------------

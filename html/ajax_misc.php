@@ -569,6 +569,9 @@ EOF;
 	case 'vw_action':
 		require_once 'ajax_view_action.php';
 		break;
+	case 'minrow':
+		require_once 'ajax_min_row.php';
+		break;
 	default:
 		var_dump($_GET);
 }

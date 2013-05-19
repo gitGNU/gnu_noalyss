@@ -1119,7 +1119,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 			$add_js.='get_last_date();';
 		}
 		$add_js.='update_name();';
-		$add_js.='update_pay_method()';
+		$add_js.='update_pay_method();';
+		$add_js.='update_row("sold_item");';
 
         $wLedger=$this->select_ledger('VEN',2);
         if ( $wLedger == null )

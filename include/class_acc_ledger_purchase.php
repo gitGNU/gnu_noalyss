@@ -982,7 +982,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 			$add_js.='get_last_date();';
 		}
 		$add_js.='update_name();';
-		$add_js.='update_pay_method()';
+		$add_js.='update_pay_method();';
+		$add_js.='update_row("sold_item");';
 
 		$wLedger=$this->select_ledger('ACH',2);
         if ($wLedger == null) exit (_('Pas de journal disponible'));
