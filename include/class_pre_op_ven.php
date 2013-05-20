@@ -31,9 +31,9 @@ require_once ('class_pre_operation.php');
 class Pre_op_ven extends Pre_operation_detail
 {
     var $op;
-    function __construct($cn)
+    function __construct($cn,$p_id=0)
     {
-        parent::__construct($cn);
+        parent::__construct($cn,$p_id);
         $this->operation->od_direct='f';
     }
 

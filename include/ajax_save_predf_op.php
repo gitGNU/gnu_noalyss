@@ -31,3 +31,4 @@ if ( trim($_GET['predf_name']) != '')
 		  array($_GET['predf_name'],$_GET['od_id']));
     $cn->commit();
   }
+?>

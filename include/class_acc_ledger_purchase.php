@@ -40,7 +40,7 @@ require_once('class_acc_payment.php');
 require_once('ac_common.php');
 require_once('class_itva_popup.php');
 require_once('class_acc_ledger_info.php');
-require_once('class_acc_ledger_fin.php');
+//require_once('class_acc_ledger_fin.php');
 require_once 'class_stock_goods.php';
 
 /*!\brief Handle the ledger of purchase,

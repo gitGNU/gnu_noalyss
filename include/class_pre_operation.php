@@ -30,6 +30,9 @@
  */
 require_once("class_iselect.php");
 require_once("class_ihidden.php");
+require_once 'class_pre_op_ach.php';
+require_once 'class_pre_op_ven.php';
+require_once 'class_pre_op_ods.php';
 class Pre_operation
 {
     var $db;						/*!< $db database connection */
@@ -38,10 +41,11 @@ class Pre_operation
     var $jrn_type;					/*!< $jrn_type */
     var $name;						/*!< $name name of the predef. operation */
 
-    function Pre_operation($cn)
+    function Pre_operation($cn,$p_id=0)
     {
         $this->db=$cn;
         $this->od_direct='false';
+        $this->od_id=$p_id;
     }
     /*!\brief fill the object with the $_POST variable */
     function get_post()
@@ -108,7 +112,24 @@ class Pre_operation
              " order by od_name";
         $res=$this->db->exec_sql($sql);
         $array=Database::fetch_all($res);
-
+        foreach (array('jrn_def_id','od_name','od_item','od_jrn_type') as $field) {
+            $this->$field=$array[0][$field];
+        }
+        switch ($this->od_jrn_type) {
+            case 'ACH':
+                $this->detail=new Pre_op_ach($this->db);
+                break;
+            case 'VEN':
+                $this->detail=new Pre_Op_ven($this->db);
+                break;
+            case 'ODS':
+                $this->detail=new Pre_op_ods($this->db);
+            default:
+                throw new Exception('Load PreOperatoin failed');
+          }
+        $this->detail->set_od_id($this->od_id);
+        $this->adetail=$this->detail->load();
+        
         return $array;
     }
     function compute_array()
@@ -169,6 +190,17 @@ class Pre_operation
     {
         $this->p_jrn=$p_jrn;
     }
+   
+    /**
+     * 
+     * @brief display the detail of predefined operation, normally everything 
+     * is loaded
+     */
+    function display() 
+    {
+        $array=$this->detail->compute_array();
+        $this->detail->display($array);
+    }
 }
 
 /*!\brief mother of the pre_op_XXX, it contains only one data : an
@@ -178,7 +210,7 @@ class Pre_operation
 class Pre_operation_detail
 {
     var $operation;
-    function __construct($p_cn)
+    function __construct($p_cn,$p_id=0)
     {
         $this->db=$p_cn;
         $this->operation=new Pre_operation($this->db);

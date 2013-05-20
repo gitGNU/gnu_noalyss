@@ -25,16 +25,26 @@
  * \brief display a form to change the name of a predefined operation
  */
 ob_start();
+require_once 'class_pre_operation.php';
+$op=new Pre_Operation($cn,$_GET['id']);
+$array=$op->load();
 echo HtmlInput::anchor_close('mod_predf_op');
 echo h2info('Modification du nom');
+
 echo '
     <form method="get" onsubmit="save_predf_op(this);return false;">';
 $name = new IText('predf_name');
-$name->value = $cn->get_value('select od_name from op_predef where od_id=$1', array($_GET['id']));
+$name->value = $op->od_name;
 $name->size = 60;
 echo "Nom =" . $name->input();
 echo dossier::hidden() . HtmlInput::hidden('od_id', $_GET['id']);
 echo "<hr>";
+//////////////////////////////////////////////////////////////////////////////
+// Detail operation 
+//////////////////////////////////////////////////////////////////////////////
+echo $op->display();
+
+
 echo HtmlInput::submit('save', 'Sauve');
 echo HtmlInput::button('close', 'Annuler', 'onclick="removeDiv(\'mod_predf_op\')"');
 echo '</form>';
@@ -43,7 +53,7 @@ echo '</form>';
 $html = ob_get_contents();
 ob_end_clean();
 $html = escape_xml($html);
-
+//echo $html;exit();
 header('Content-type: text/xml; charset=UTF-8');
 echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>

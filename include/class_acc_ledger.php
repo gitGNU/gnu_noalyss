@@ -75,7 +75,7 @@ class Acc_Ledger extends jrn_def_sql
 		$this->jrn_def_id = &$this->id;
 		$this->db = $p_cn;
 		$this->row = null;
-		$this->nb = 10;
+		$this->nb = MAX_ARTICLE;
 	}
 
 	function get_last_pj()
@@ -3595,3 +3595,4 @@ class Acc_Ledger extends jrn_def_sql
 	}
 
 }
+?>
