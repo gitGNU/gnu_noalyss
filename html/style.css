@@ -800,7 +800,7 @@ cursor:inherit;
 }
 
 a#anchorbutton, .button, a.button,div.content a.button {
-	font-size:10;
+	font-size:10px;
 	color:white;
 	font-weight: bold;
 
@@ -821,7 +821,7 @@ a#anchorbutton, .button, a.button,div.content a.button {
 	cursor:pointer;
 	margin:1 2 1 2;
         border-radius: 4px;
-	-moz-border-radius:4px;
+	moz-border-radius:4px;
 
 }
 a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
