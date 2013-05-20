@@ -32,8 +32,8 @@ echo HtmlInput::anchor_close('mod_predf_op');
 echo h2info('Modification du nom');
 
 echo '
-    <form method="get" onsubmit="save_predf_op(this);return false;">';
-$name = new IText('predf_name');
+    <form method="POST" onsubmit="save_predf_op(this);return false;">';
+$name = new IText('opd_name');
 $name->value = $op->od_name;
 $name->size = 60;
 echo "Nom =" . $name->input();

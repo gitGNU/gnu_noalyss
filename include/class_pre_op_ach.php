@@ -54,6 +54,7 @@ class Pre_op_ach extends Pre_operation_detail
 
         }
     }
+    
     /*!
      * \brief save the detail and op in the database
      *
@@ -145,6 +146,7 @@ class Pre_op_ach extends Pre_operation_detail
     }
    function display($p_array)
    {
+       require_once 'class_acc_ledger_purchase.php';
        global $g_parameter,$g_user;
        extract($p_array);
        $ledger=new Acc_Ledger_Purchase($this->db,$this->jrn_def_id);
@@ -166,125 +168,22 @@ class Pre_op_ach extends Pre_operation_detail
         $f_add_button2->set_attribute('filter',$ledger->get_all_fiche_def ());
         //    $f_add_button2->set_attribute('jrn',$ledger->id);
         $f_add_button2->javascript="  this.jrn=\$('p_jrn').value;select_card_type(this);";
-		$str_add_button="";
-		$str_add_button2="";
-		if ($g_user->check_action(FICADD)==1)
-		{
-			$str_add_button=$f_add_button->input();
-			$str_add_button2=$f_add_button2->input();
-		}
-        // The first day of the periode
-        $oPeriode=new Periode($this->db);
-        list ($l_date_start,$l_date_end)=$oPeriode->get_date_limit($g_user->get_periode());
-        if (  $g_parameter->MY_DATE_SUGGEST=='Y' )
-            $op_date=( ! isset($e_date) ) ?$l_date_start:$e_date;
-        else
-            $op_date=( ! isset($e_date) ) ?'':$e_date;
-
-        $e_ech=(isset($e_ech))?$e_ech:"";
-        $e_comm=(isset($e_comm))?$e_comm:"";
+        $str_add_button="";
+        $str_add_button2="";
+        if ($g_user->check_action(FICADD)==1)
+        {
+                $str_add_button=$f_add_button->input();
+                $str_add_button2=$f_add_button2->input();
+        }
 
         $r="";
         $r.=dossier::hidden();
         $f_legend=_("En-tête facture fournisseur");
         $f_legend_detail=_("Détail articles acheté");
-
-        //  Date
-        //--
-        $Date=new IDate();
-        $Date->setReadOnly(false);
-        $Date->table=1;
-        $Date->tabindex=1;
-        $f_date=$Date->input("e_date",$op_date);
-        // Payment limit
-        //--
-        $Echeance=new IDate();
-        $Echeance->setReadOnly(false);
-        $Echeance->tabindex=2;
-        $label=HtmlInput::infobulle(4);
-        $f_echeance=$Echeance->input('e_ech',$e_ech,'Echéance'.$label);
-        $f_periode="";
-        if ($this->check_periode() == true)
-        {
-            // Periode
-            //--
-            $l_user_per=$g_user->get_periode();
-            $def=(isset($periode))?$periode:$l_user_per;
-
-            $period=new IPeriod("period");
-            $period->user=$g_user;
-            $period->cn=$ledger->db;
-            $period->value=$def;
-            $period->type=OPEN;
-            try
-            {
-                $l_form_per=$period->input();
-            }
-            catch (Exception $e)
-            {
-                if ($e->getCode() == 1 )
-                {
-                    echo _("Aucune période ouverte");
-                    exit();
-                }
-            }
-
-            $r.="<td>";
-            $label=HtmlInput::infobulle(3);
-            $f_periode=_("Période comptable")." $label ".$l_form_per;
-        }
         // Ledger (p_jrn)
         //--
         /* if we suggest the next pj, then we need a javascript */
         $add_js="";
-        if ( $g_parameter->MY_PJ_SUGGEST=='Y')
-        {
-            $add_js="update_pj();";
-        }
-		if ($g_parameter->MY_DATE_SUGGEST == 'Y')
-		{
-			$add_js.='get_last_date();';
-		}
-		$add_js.='update_name();';
-		$add_js.='update_pay_method();';
-		$add_js.='update_row("sold_item");';
-
-		$wLedger=$ledger->select_ledger('ACH',2);
-        if ($wLedger == null) exit (_('Pas de journal disponible'));
-        $wLedger->javascript="onChange='update_predef(\"ach\",\"f\");$add_js'";
-        $label=" Journal ".HtmlInput::infobulle(2) ;
-
-        $f_jrn=$wLedger->input();
-
-        // Comment
-        //--
-        $Commentaire=new IText();
-        $Commentaire->table=0;
-        $Commentaire->setReadOnly(false);
-        $Commentaire->size=60;
-        $Commentaire->tabindex=3;
-        $label=HtmlInput::infobulle(1) ;
-        $f_desc=$label.$Commentaire->input("e_comm",h($e_comm));
-
-        // PJ
-        //--
-        /* suggest PJ ? */
-        $default_pj='';
-        if ( $g_parameter->MY_PJ_SUGGEST=='Y')
-        {
-            $default_pj=$ledger->guess_pj();
-        }
-
-        $pj=new IText();
-        $pj->value=(isset($e_pj))?$e_pj:$default_pj;
-
-
-        $pj->table=0;
-        $pj->name="e_pj";
-        $pj->size=10;
-        $pj->readonly=false;
-
-        $f_pj=$pj->input().HtmlInput::hidden('e_pj_suggest',$default_pj);
 
         // Display the customer
         //--
@@ -479,7 +378,7 @@ class Pre_op_ach extends Pre_operation_detail
         $f_type=_('Fournisseur');
 
         ob_start();
-        require_once('template/form_ledger_detail.php');
+        require_once('template/predf_ledger_detail.php');
         $r.=ob_get_contents();
         ob_end_clean();
 
@@ -487,15 +386,6 @@ class Pre_op_ach extends Pre_operation_detail
         $r.= HtmlInput::hidden('jrn_type','ACH');
         $r.= HtmlInput::button('add_item',_('Ajout article'),      ' onClick="ledger_add_row()"');
 
-
-
-        /* if we suggest the pj n# the run the script */
-        if ( $g_parameter->MY_PJ_SUGGEST=='Y')
-        {
-            $r.='<script> update_pj();</script>';
-        }
-		// set focus on date
-		$r.= create_script("$('".$Date->id."').focus()");
         return $r;
    }
 }

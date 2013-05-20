@@ -34,7 +34,7 @@ echo '<form method="GET">';
 $sel=new ISelect();
 $sel->name="jrn";
 $sel->value=$cn->make_array("select jrn_def_id,jrn_def_name from ".
-                            " jrn_def order by jrn_def_name");
+                            " jrn_def where jrn_def_type in ('VEN','ACH','ODS') order by jrn_def_name");
 // Show a list of ledger
 $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
 $sel->selected=(isset($_REQUEST['jrn']))?$_REQUEST['jrn']:-1;

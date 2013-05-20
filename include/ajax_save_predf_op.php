@@ -24,11 +24,27 @@
  * \brief save the new predefined operation 
  * included from ajax_misc
  */
-
-if ( trim($_GET['predf_name']) != '')
+if ($g_user->check_module('PREDOP') == 0) exit();
+if ( trim($_POST['opd_name']) != '')
   {
-    $cn->exec_sql('update op_predef set od_name =$1 where od_id=$2',
-		  array($_GET['predf_name'],$_GET['od_id']));
+    $cn->exec_sql('delete from op_predef where od_id=$1',
+		  array($_POST['od_id']));
+    
+    var_dump($_POST);
+    $cn->exec_sql("delete from op_predef_detail where od_id=$1",array($_POST['od_id']));
+    switch ($_POST['jrn_type']) {
+        case 'ACH':
+        $operation=new Pre_op_ach($cn);
+        break;
+        case 'VEN':
+        $operation=new Pre_op_ven($cn);
+        break;
+        case 'ODS':
+        $operation=new Pre_Op_Advanced($cn);
+        break;
+    }
+    $operation->get_post();
+    $operation->save();
     $cn->commit();
   }
 ?>

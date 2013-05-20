@@ -140,4 +140,247 @@ class Pre_op_ven extends Pre_operation_detail
     {
         $this->operation->od_id=$p_id;
     }
+    function display($p_array)
+    {
+        global $g_parameter,$g_user;
+        if ( $p_array != null ) extract($p_array);
+        require_once 'class_acc_ledger_sold.php';
+        $ledger=new Acc_Ledger_Sold($this->db,$this->jrn_def_id);
+         
+        $flag_tva=$g_parameter->MY_TVA_USE;
+        /* Add button */
+        $f_add_button=new IButton('add_card');
+		$f_add_button->tabindex=-1;
+        $f_add_button->label=_('Créer une nouvelle fiche');
+        $f_add_button->set_attribute('ipopup','ipop_newcard');
+        $f_add_button->set_attribute('jrn',$ledger->id);
+        $f_add_button->javascript="this.jrn=\$('p_jrn').value; select_card_type(this);";
+
+        $f_add_button2=new IButton('add_card2');
+		$f_add_button2->tabindex=-1;
+        $f_add_button2->label=_('Créer une nouvelle fiche');
+        $f_add_button2->set_attribute('ipopup','ipop_newcard');
+        $f_add_button2->set_attribute('filter',$ledger->get_all_fiche_def ());
+        //    $f_add_button2->set_attribute('jrn',$ledger->id);
+        $f_add_button2->javascript=" this.jrn=\$('p_jrn').value;select_card_type(this);";
+
+        $str_add_button="";
+        $str_add_button2="";
+        if ($g_user->check_action(FICADD)==1)
+        {
+                $str_add_button=$f_add_button->input();
+                $str_add_button2=$f_add_button2->input();
+        }
+       
+        $r='';
+        $r.=dossier::hidden();
+        $f_legend=_('En-tête facture client');
+
+        
+        /* if we suggest the next pj, then we need a javascript */
+       
+        // Display the customer
+        //--
+        $fiche='deb';
+
+        // Save old value and set a new one
+        //--
+        $e_client=( isset ($e_client) )?$e_client:"";
+        $e_client_label="&nbsp;";//str_pad("",100,".");
+
+
+        // retrieve e_client_label
+        //--
+
+        if ( strlen(trim($e_client)) !=  0)
+        {
+            $fClient=new Fiche($ledger->db);
+            $fClient->get_by_qcode($e_client);
+            $e_client_label=$fClient->strAttribut(ATTR_DEF_NAME).' '.
+                            ' Adresse : '.$fClient->strAttribut(ATTR_DEF_ADRESS).' '.
+                            $fClient->strAttribut(ATTR_DEF_CP).' '.
+                            $fClient->strAttribut(ATTR_DEF_CITY).' ';
+
+
+        }
+
+        $W1=new ICard();
+        $W1->label="Client ".HtmlInput::infobulle(0) ;
+        $W1->name="e_client";
+        $W1->tabindex=3;
+        $W1->value=$e_client;
+        $W1->table=0;
+        $W1->set_dblclick("fill_ipopcard(this);");
+        $W1->set_attribute('ipopup','ipopcard');
+
+        // name of the field to update with the name of the card
+        $W1->set_attribute('label','e_client_label');
+        // name of the field to update with the name of the card
+        $W1->set_attribute('typecard','deb');
+
+        // Add the callback function to filter the card on the jrn
+        $W1->set_callback('filter_card');
+        $W1->set_function('fill_data');
+        $W1->javascript=sprintf(' onchange="fill_data_onchange(\'%s\');" ',
+                                $W1->name);
+        $f_client_qcode=$W1->input();
+        $client_label=new ISpan();
+        $client_label->table=0;
+        $f_client=$client_label->input("e_client_label",$e_client_label);
+        $f_client_bt=$W1->search();
+
+
+        // Record the current number of article
+        $Hid=new IHidden();
+        $p_article= ( isset ($nb_item))?$nb_item:MAX_ARTICLE;
+        $r.=$Hid->input("nb_item",$p_article);
+        $max=($p_article < MAX_ARTICLE)?MAX_ARTICLE:$p_article;
+
+
+        $f_legend_detail=_("Détail articles vendus");
+
+        // For each article
+        //--
+        for ($i=0;$i< $max;$i++)
+        {
+            // Code id, price & vat code
+            //--
+            $march=(isset(${"e_march$i"}))?${"e_march$i"}:""
+                   ;
+            $march_price=(isset(${"e_march".$i."_price"}))?${"e_march".$i."_price"}:""
+                         ;
+            if ( $flag_tva=='Y')
+            {
+                $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
+                $march_tva_amount=(isset(${"e_march$i"."_tva_amount"}))?${"e_march$i"."_tva_amount"}:"";
+            }
+            $march_label=(isset(${"e_march".$i."_label"}))?${"e_march".$i."_label"}:"";
+
+            // retrieve the tva label and name
+            //--
+            if ( strlen(trim($march))!=0 && strlen(trim($march_label))==0)
+            {
+                $fMarch=new Fiche($ledger->db);
+                $fMarch->get_by_qcode($march);
+                $march_label=$fMarch->strAttribut(ATTR_DEF_NAME);
+                if ( $flag_tva=='Y')
+                {
+                    if ( ! (isset(${"e_march$i"."_tva_id"})))
+                        $march_tva_id=$fMarch->strAttribut(ATTR_DEF_TVA);
+                }
+            }
+            // Show input
+            //--
+            $W1=new ICard();
+            $W1->label="";
+            $W1->name="e_march".$i;
+            $W1->value=$march;
+            $W1->table=1;
+            $W1->set_attribute('typecard','cred');
+            $W1->set_dblclick("fill_ipopcard(this);");
+            $W1->set_attribute('ipopup','ipopcard');
+
+            // name of the field to update with the name of the card
+            $W1->set_attribute('label','e_march'.$i.'_label');
+            // name of the field with the price
+            $W1->set_attribute('price','e_march'.$i.'_price');
+            // name of the field with the TVA_ID
+            $W1->set_attribute('tvaid','e_march'.$i.'_tva_id');
+            // Add the callback function to filter the card on the jrn
+            $W1->set_callback('filter_card');
+            $W1->set_function('fill_data');
+            $W1->javascript=sprintf(' onchange="fill_data_onchange(\'%s\');" ',
+                                    $W1->name);
+
+            $W1->readonly=false;
+
+            $array[$i]['quick_code']=$W1->input();
+            $array[$i]['bt']=$W1->search();
+            // For computing we need some hidden field for holding the value
+            $array[$i]['hidden']='';
+            if ( $flag_tva=='Y') $array[$i]['hidden'].=HtmlInput::hidden('tva_march'.$i,0);
+
+            $htva=new INum('htva_march'.$i);
+            $htva->readOnly=1;
+            $htva->value=0;
+            $array[$i]['htva']=$htva->input();
+
+            if ( $g_parameter->MY_TVA_USE=='Y')
+                $tvac=new INum('tvac_march'.$i);
+            else
+                $tvac=new IHidden('tvac_march'.$i);
+
+            $tvac->readOnly=1;
+            $tvac->value=0;
+            $array[$i]['tvac']=$tvac->input();
+
+            if ( $g_parameter->MY_UPDLAB == 'Y')
+            {
+                $Span=new IText("e_march".$i."_label");
+
+                $Span->css_size="100%";
+            } else
+            {
+                $Span=new ISpan("e_march".$i."_label");
+            }
+            $Span->value=$march_label;
+            $Span->setReadOnly(false);
+            // card's name, price
+            //--
+            $array[$i]['denom']=$Span->input("e_march".$i."_label",$march_label);
+            // price
+            $Price=new INum();
+            $Price->setReadOnly(false);
+            $Price->size=9;
+            $Price->javascript="onBlur='format_number(this);clean_tva($i);compute_ledger($i)'";
+            $array[$i]['pu']=$Price->input("e_march".$i."_price",$march_price);
+            $array[$i]['tva']='';
+            $array[$i]['amount_tva']='';
+            // if tva is not needed then no tva field
+            if ( $flag_tva == 'Y' )
+            {
+                // vat label
+                //--
+                $Tva=new ITva_Popup($ledger->db);
+                $Tva->in_table=true;
+                $Tva->set_attribute('compute',$i);
+
+                $Tva->js='onblur="format_number(this);clean_tva('.$i.');compute_ledger('.$i.')"';
+                $Tva->value=$march_tva_id;
+                $array[$i]['tva']=$Tva->input("e_march$i"."_tva_id");
+                // vat amount
+                //--
+                $wTva_amount=new INum();
+                $wTva_amount->readOnly=false;
+                $wTva_amount->size=6;
+                $wTva_amount->javascript="onBlur='format_number(this);compute_ledger($i)'";
+                $array[$i]['amount_tva']=$wTva_amount->input("e_march".$i."_tva_amount",$march_tva_amount);
+            }
+            // quantity
+            //--
+            $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"1"
+                   ;
+            $Quantity=new INum();
+            $Quantity->setReadOnly(false);
+            $Quantity->size=8;
+            $Quantity->javascript="onChange='format_number(this);clean_tva($i);compute_ledger($i)'";
+            $array[$i]['quantity']=$Quantity->input("e_quant".$i,$quant);
+
+        }// foreach article
+        $f_type=_('Client');
+
+
+        ob_start();
+        require_once('template/predf_ledger_detail.php');
+        $r.=ob_get_contents();
+        ob_end_clean();
+
+
+
+        // Set correctly the REQUEST param for jrn_type
+        $r.=HtmlInput::hidden('jrn_type','VEN');
+
+        $r.=HtmlInput::button('add_item',_('Ajout article'),      ' onClick="ledger_add_row()"');
+        return $r;
+    }
 }

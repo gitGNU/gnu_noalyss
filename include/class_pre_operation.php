@@ -32,7 +32,7 @@ require_once("class_iselect.php");
 require_once("class_ihidden.php");
 require_once 'class_pre_op_ach.php';
 require_once 'class_pre_op_ven.php';
-require_once 'class_pre_op_ods.php';
+require_once 'class_pre_op_advanced.php';
 class Pre_operation
 {
     var $db;						/*!< $db database connection */
@@ -108,7 +108,6 @@ class Pre_operation
     {
         $sql="select od_id,jrn_def_id,od_name,od_item,od_jrn_type".
              " from op_predef where od_id=".$this->od_id.
-             " and od_direct='".$this->od_direct."'".
              " order by od_name";
         $res=$this->db->exec_sql($sql);
         $array=Database::fetch_all($res);
@@ -123,12 +122,13 @@ class Pre_operation
                 $this->detail=new Pre_Op_ven($this->db);
                 break;
             case 'ODS':
-                $this->detail=new Pre_op_ods($this->db);
+                $this->detail=new Pre_op_advanced($this->db);
+                break;
             default:
-                throw new Exception('Load PreOperatoin failed');
+                throw new Exception('Load PreOperatoin failed'.$this->od_jrn_type);
           }
         $this->detail->set_od_id($this->od_id);
-        $this->adetail=$this->detail->load();
+        $this->detail->jrn_def_id=$this->jrn_def_id;
         
         return $array;
     }
@@ -199,7 +199,7 @@ class Pre_operation
     function display() 
     {
         $array=$this->detail->compute_array();
-        $this->detail->display($array);
+        echo $this->detail->display($array);
     }
 }
 

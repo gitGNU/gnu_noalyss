@@ -1038,8 +1038,8 @@ function mod_predf_op(dossier_id,od_id)
 {
     var target="mod_predf_op";
 	removeDiv(target);
-    var sx=posY;
-    var sy=posX;
+    var sx='20%';
+    var sy='20%';
     var str_style="top:"+sx+";left:"+sy;
 
     var div={id:target, cssclass:'inner_box',style:str_style,html:loading(),drag:1};
@@ -1061,14 +1061,15 @@ function mod_predf_op(dossier_id,od_id)
 
 function save_predf_op(obj)
 {
+    waiting_box();
     var querystring=$(obj).serialize()+'&op=save_predf';
     // Create a ajax request to get all the person
     var action = new Ajax.Request ('ajax_misc.php',
 				   {
-				       method:			 'get',
+				       method:			 'post',
 				       parameters:			 querystring,
 				       onFailure:			 null,
-				       onSuccess:			 refresh_window
+				       onSuccess:			refresh_window
 				   }
                                   );
 

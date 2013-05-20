@@ -142,4 +142,136 @@ class Pre_Op_Advanced extends Pre_operation_detail
     {
         $this->operation->od_id=$p_id;
     }
+       function display($p_array)
+    {
+        global $g_parameter, $g_user;
+        require_once 'class_acc_ledger.php';
+        $legder=new Acc_Ledger($this->db,$this->jrn_def_id);
+        $legder->nb=$legder->get_min_row();
+
+        if ($p_array != null)
+                extract($p_array);
+        $add_js = "";
+       
+        $ret = "";
+        if ($g_user->check_action(FICADD) == 1)
+        {
+                /* Add button */
+                $f_add_button = new IButton('add_card');
+                $f_add_button->label = _('Créer une nouvelle fiche');
+                $f_add_button->set_attribute('ipopup', 'ipop_newcard');
+                $f_add_button->set_attribute('jrn', $legder->id);
+                $f_add_button->javascript = " this.jrn=\$('p_jrn').value;select_card_type(this);";
+                $f_add_button->input();
+        }
+       
+        $nb_row = (isset($nb_item) ) ? $nb_item : $legder->nb;
+
+        $ret.=HtmlInput::hidden('nb_item', $nb_row);
+        $ret.=HtmlInput::hidden('p_jrn', $this->jrn_def_id);
+        $ret.=dossier::hidden();
+        
+        $ret.=dossier::hidden();
+
+        $ret.=HtmlInput::hidden('jrn_type', $legder->get_type());
+        $info = HtmlInput::infobulle(0);
+        $info_poste = HtmlInput::infobulle(9);
+        if ($g_user->check_action(FICADD) == 1)
+                $ret.=$f_add_button->input();
+        $ret.='<table id="quick_item" style="width:100%">';
+        $ret.='<tr>' .
+                        '<th style="text-align:left">Quickcode' . $info . '</th>' .
+                        '<th style="text-align:left">' . _('Poste') . $info_poste . '</th>' .
+                        '<th style="text-align:left">' . _('Libellé') . '</th>' .
+                        '<th style="text-align:left">' . _('Montant') . '</th>' .
+                        '<th style="text-align:left">' . _('Débit') . '</th>' .
+                        '</tr>';
+
+
+        for ($i = 0; $i < $nb_row; $i++)
+        {
+                // Quick Code
+                $quick_code = new ICard('qc_' . $i);
+                $quick_code->set_dblclick("fill_ipopcard(this);");
+                $quick_code->set_attribute('ipopup', 'ipopcard');
+
+                // name of the field to update with the name of the card
+                $quick_code->set_attribute('label', "ld" . $i);
+                $quick_code->set_attribute('jrn', $legder->id);
+
+                // name of the field to update with the name of the card
+                $quick_code->set_attribute('typecard', 'filter');
+
+                // Add the callback function to filter the card on the jrn
+                $quick_code->set_callback('filter_card');
+                $quick_code->set_function('fill_data');
+                $quick_code->javascript = sprintf(' onchange="fill_data_onchange(\'%s\');" ', $quick_code->name);
+
+                $quick_code->jrn = $legder->id;
+                $quick_code->value = (isset(${'qc_' . $i})) ? ${'qc_' . $i} : "";
+
+                $label = '';
+                if ($quick_code->value != '')
+                {
+                        $Fiche = new Fiche($legder->db);
+                        $Fiche->get_by_qcode($quick_code->value);
+                        $label = $Fiche->strAttribut(ATTR_DEF_NAME);
+                }
+
+
+                // Account
+                $poste = new IPoste();
+                $poste->name = 'poste' . $i;
+                $poste->set_attribute('jrn', $legder->id);
+                $poste->set_attribute('ipopup', 'ipop_account');
+                $poste->set_attribute('label', 'ld' . $i);
+                $poste->set_attribute('account', 'poste' . $i);
+                $poste->set_attribute('dossier', Dossier::id());
+
+                $poste->value = (isset(${'poste' . $i})) ? ${"poste" . $i} : ''
+                ;
+                $poste->dbl_click_history();
+
+
+                if ($poste->value != '')
+                {
+                        $Poste = new Acc_Account($legder->db);
+                        $Poste->set_parameter('value', $poste->value);
+                        $label = $Poste->get_lib();
+                }
+
+                // Description of the line
+                $line_desc = new IText();
+                $line_desc->name = 'ld' . $i;
+                $line_desc->size = 30;
+                $line_desc->value = (isset(${"ld" . $i})) ? ${"ld" . $i} :
+                                $label;
+
+                // Amount
+                $amount = new INum();
+                $amount->size = 10;
+                $amount->name = 'amount' . $i;
+                $amount->value = (isset(${'amount' . $i})) ? ${"amount" . $i} : ''
+                ;
+                $amount->javascript = ' onChange="format_number(this);checkTotalDirect()"';
+                // D/C
+                $deb = new ICheckBox();
+                $deb->name = 'ck' . $i;
+                $deb->selected = (isset(${'ck' . $i})) ? true : false;
+                $deb->javascript = ' onChange="checkTotalDirect()"';
+
+                $ret.='<tr>';
+                $ret.='<td>' . $quick_code->input() . $quick_code->search() . '</td>';
+                $ret.='<td>' . $poste->input() .
+                                '<script> document.getElementById(\'poste' . $i . '\').onblur=function(){ if (trim(this.value) !=\'\') {document.getElementById(\'qc_' . $i . '\').value="";}}</script>' .
+                                '</td>';
+                $ret.='<td>' . $line_desc->input() . '</td>';
+                $ret.='<td>' . $amount->input() . '</td>';
+                $ret.='<td>' . $deb->input() . '</td>';
+                $ret.='</tr>';
+                // If readonly == 1 then show CA
+        }
+        $ret.='</table>';
+        return $ret;
+    }
 }
