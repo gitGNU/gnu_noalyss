@@ -150,7 +150,6 @@ function update_row(ctl)
     var jrn=g('p_jrn').value;
     var dossier=g('gDossier').value;
     var qs='gDossier='+dossier+'&op=minrow&j='+jrn+'&ctl='+ctl;
-	console.log(qs);
     var action=new Ajax.Request(
                    "ajax_misc.php",
                    {
@@ -163,16 +162,12 @@ function update_row(ctl)
 								var answer=request.responseText.evalJSON(true);
 								var row=parseFloat(answer.row);
 								var current_row=parseFloat($('nb_item').value);
-								info_message("avant "+$('nb_item').value+"Maintenant "+row);
 								if ( current_row > row ) {
 									// Too many row
 									var delta=$('nb_item').value-row;
 									var idx=$('nb_item').value;
-									console.log("delta "+delta);
-									console.log("idx"+idx);
 									for (var i=0;i<delta;i++){
 										$(ctl).deleteRow(-1);
-										console.log("remove "+idx)
 										idx--;
 									}
 									$('nb_item').value=row;
