@@ -1,5 +1,4 @@
 <?php
-ini_set("session.auto_start","1");
 /*
  *   This file is part of PhpCompta.
  *
@@ -62,9 +61,9 @@ $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 /*set to none for production */
 /* uncomment for production */
-define ('SVNINFO',5900);
+// define ('SVNINFO',5900);
 $version_phpcompta=SVNINFO;
-define ("DEBUG",true);
+define ("DEBUG",false);
 /* define ('SVNINFO',5015);
  * $version_phpcompta=SVNINFO;
  * define ("DEBUG",true);

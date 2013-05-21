@@ -1747,7 +1747,6 @@ function filter_table(phrase, _id, colnr,start_row) {
 		for (var col =0;col < aCol.length;col++)
 		{
 			var idx=aCol[col];
-			console.log(r);
 			if (table.rows[r].cells[idx])
 				 {
 					ele = table.rows[r].cells[idx].innerHTML.replace(/<[^>]+>/g, "");

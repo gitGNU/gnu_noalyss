@@ -24,7 +24,7 @@
  * \brief definition of the class pre_op_ach
  */
 require_once ('class_pre_operation.php');
-//require_once 'class_acc_ledger_purchase.php';
+
 /*---------------------------------------------------------------------- */
 /*!\brief concerns the predefined operation for ACH ledger
  */
@@ -54,7 +54,7 @@ class Pre_op_ach extends Pre_operation_detail
 
         }
     }
-    
+
     /*!
      * \brief save the detail and op in the database
      *
@@ -146,7 +146,7 @@ class Pre_op_ach extends Pre_operation_detail
     }
    function display($p_array)
    {
-       require_once 'class_acc_ledger_purchase.php';
+	   require_once('class_acc_ledger_purchase.php');
        global $g_parameter,$g_user;
        extract($p_array);
        $ledger=new Acc_Ledger_Purchase($this->db,$this->jrn_def_id);
@@ -180,6 +180,7 @@ class Pre_op_ach extends Pre_operation_detail
         $r.=dossier::hidden();
         $f_legend=_("En-tête facture fournisseur");
         $f_legend_detail=_("Détail articles acheté");
+
         // Ledger (p_jrn)
         //--
         /* if we suggest the next pj, then we need a javascript */
