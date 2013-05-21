@@ -14,17 +14,46 @@ update fiche_def set fd_description='Catégorie qui contient la liste des presta
 
 update jrn_def set jrn_deb_max_line=5 where jrn_deb_max_line is null;
 
+CREATE OR REPLACE FUNCTION comptaproc.periode_exist(p_date text,p_periode_id bigint)
+ RETURNS integer
+AS $function$
+
+declare n_p_id int4;
+begin
+
+select p_id into n_p_id
+        from parm_periode
+        where
+                p_start <= to_date(p_date,'DD.MM.YYYY')
+                and
+                p_end >= to_date(p_date,'DD.MM.YYYY')
+                and
+                p_id <> p_periode_id;
+
+if NOT FOUND then
+        return -1;
+end if;
+
+return n_p_id;
+
+end;$function$
+ LANGUAGE plpgsql;
+
 create or replace function comptaproc.check_periode () returns trigger
 as
 $$
+declare 
+  nPeriode int;
 begin
-if find_periode(to_char(NEW.p_start,'DD.MM.YYYY')) <> -1 then
-        raise info 'Overlap periode start % ',NEW.p_start;
+if periode_exist(to_char(NEW.p_start,'DD.MM.YYYY'),NEW.p_id) <> -1 then
+       nPeriode:=periode_exist(to_char(NEW.p_start,'DD.MM.YYYY'),NEW.p_id) ;
+        raise info 'Overlap periode start % periode %',NEW.p_start,a;
 	return null;
 end if;
 
-if find_periode(to_char(NEW.p_end,'DD.MM.YYYY')) <> -1 then
-        raise info 'Overlap periode end % ',NEW.p_end;
+if periode_exist(to_char(NEW.p_end,'DD.MM.YYYY'),NEW.p_id) <> -1 then
+	nPeriode:=periode_exist(to_char(NEW.p_start,'DD.MM.YYYY'),NEW.p_id) ;
+        raise info 'Overlap periode end % periode %',NEW.p_end,nPeriode;
 	return null;
 end if;
 return NEW;
