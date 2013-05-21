@@ -13,6 +13,27 @@ update fiche_def set fd_label='Services & Biens Divers',fd_description='Catégor
 update fiche_def set fd_description='Catégorie qui contient la liste des prestations, marchandises... que l''on vend ' where fd_id=6;
 
 update jrn_def set jrn_deb_max_line=5 where jrn_deb_max_line is null;
+
+create or replace function comptaproc.check_periode () returns trigger
+as
+$$
+begin
+if find_periode(to_char(NEW.p_start,'DD.MM.YYYY')) <> -1 then
+        raise info 'Overlap periode start % ',NEW.p_start;
+	return null;
+end if;
+
+if find_periode(to_char(NEW.p_end,'DD.MM.YYYY')) <> -1 then
+        raise info 'Overlap periode end % ',NEW.p_end;
+	return null;
+end if;
+return NEW;
+end;
+$$ language plpgsql
+;
+
+
+create trigger parm_periode_check_periode_trg before update or insert on parm_periode for each row execute procedure check_periode();
 update version set val=107;
 
 commit;
