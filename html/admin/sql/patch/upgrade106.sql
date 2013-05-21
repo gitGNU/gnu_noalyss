@@ -47,7 +47,7 @@ declare
 begin
 if periode_exist(to_char(NEW.p_start,'DD.MM.YYYY'),NEW.p_id) <> -1 then
        nPeriode:=periode_exist(to_char(NEW.p_start,'DD.MM.YYYY'),NEW.p_id) ;
-        raise info 'Overlap periode start % periode %',NEW.p_start,a;
+        raise info 'Overlap periode start % periode %',NEW.p_start,nPeriode;
 	return null;
 end if;
 
