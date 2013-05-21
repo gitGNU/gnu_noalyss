@@ -97,7 +97,7 @@ function config_file_form($p_array=null)
 			array('value'=>0,'label'=>'Serveur Mutualisé: un seul dossier')
 		);
 	$smulti->selected=1;
-	$smulti->javascript=' onchange="show_dbname(this)"';
+	$smulti->javascript=' onchange="show_dbname(this)" onkeypress="show_dbname(this)"';
 
 	$icdbname=new IText('cdbname');
 

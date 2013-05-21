@@ -248,7 +248,6 @@ if ( $flag_php==0 ) {
 	echo '<p class="info"> php.ini est bien configur&eacute; '.$succeed.'</p>';
 } else {
 	echo '<p class="warning"> php mal configur&eacute; '.$failed.'</p>';
-	exit -1;
 }
 /* check user */
 if ( (defined("MULTI") && MULTI==1)|| !defined("MULTI"))
