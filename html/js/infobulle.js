@@ -57,6 +57,9 @@ content[26]="Donnez une partie du quickcode, nom, description... pour filtrer";
 content[27]="Attention, <b>SI</b> la fiche a changé de poste comptable, c'est seulement le dernier qui est affiché";
 content[28]="Attention Différence entre TVA calculée et donnée";
 content[29]="Si vous ne donnez pas de nom, ce sera le nom du fichier qui sera utilisé";
+content[30]="Peut contenir une information telle que le message structuré sur le virement";
+content[31]="Peut contenir un numéro de bon de commande";
+
 function showBulle(p_ctl)
 {
     d=document.getElementById('bulle');

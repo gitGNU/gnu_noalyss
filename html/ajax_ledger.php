@@ -470,6 +470,12 @@ case 'save':
                 $op=new Anc_Operation($cn);
                 $op->save_update_form($_POST);
             }
+            //////////////////////////////////////////////////////////////////
+            //Save other info
+            //////////////////////////////////////////////////////////////////
+            $op->save_info($_POST['OTHER'],'OTHER');
+            $op->save_info($_POST['BON_COMMANDE'],'BON_COMMANDE');
+            
         }
         echo _('Opération sauvée');
         $cn->commit();

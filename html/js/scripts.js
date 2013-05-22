@@ -1040,7 +1040,7 @@ function mod_predf_op(dossier_id,od_id)
 	removeDiv(target);
     var sx='20%';
     var sy='20%';
-    var str_style="top:"+sx+";left:"+sy;
+    var str_style="top:"+sx+";left:"+sy+'width:60%;';
 
     var div={id:target, cssclass:'inner_box',style:str_style,html:loading(),drag:1};
 

@@ -1,5 +1,19 @@
+<?php
+    $cmd=new IText('BON_COMMANDE',$obj->info->command);
+    $other=new IText('OTHER',$obj->info->other);
+?>
 <div class="myfieldset">
-
+    <h1 class="legend">Informations</h1>
+    <table>
+        <tr>
+            <td> Bon de commande   :</td><td> <?php echo HtmlInput::infobulle(31)." ".$cmd->input();  ?></td>
+        </tr>
+        <tr>
+            <td> Autre information : </td><td><?php echo HtmlInput::infobulle(30)." ".$other->input();?></td>
+        </tr>
+    </table>
+</div>
+<div class="myfieldset">
 <h1 class="legend">
 <?php echo _('Rapprochement');?>
 </h1>

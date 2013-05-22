@@ -141,7 +141,7 @@ function update_bank()
 
 }
 /**
- *ask the name, quick_code of the bank for the ledger
+ * Update the number of rows when changing of ledger
  */
 function update_row(ctl)
 {

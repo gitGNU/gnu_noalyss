@@ -492,7 +492,10 @@ class Acc_Operation
         $ledger_id=$this->get_ledger();
         if ( $ledger_id=='') throw new Exception('Journal non trouvé');
         $oledger=new Acc_Ledger($this->db,$ledger_id);
-
+        
+        // retrieve info from jrn_info
+     
+        
         switch($oledger->get_type())
         {
         case 'VEN':
@@ -513,7 +516,50 @@ class Acc_Operation
             $ret=new Acc_Misc($this->db,$this->jr_id);
             $ret->get();
         }
+        $ret->get_info();
         return $ret;
+    }
+    /**
+     * @brief retrieve info from the jrn_info, create 2 new arrays
+     * obj->info->command and obj->info->other
+     * the columns are the idx
+     */
+    function get_info()
+    {
+        $this->info=new stdClass();
+        // other info
+        $array=$this->db->get_value("select ji_value from jrn_info where
+            jr_id=$1 and id_type=$2",array($this->jr_id,'OTHER'));
+        $this->info->other=  $array['ji_value'];
+        
+        // Bon de commande
+        $array=$this->db->get_value("select * from jrn_info where
+            jr_id=$1 and id_type=$2",array($this->jr_id,'BON_COMMANDE'));
+        $this->info->command=  $array['ji_value'];
+
+    }
+    /**
+     * Save into jrn_info 
+     * @param $p_info msg to save
+     * @param $p_type is OTHER or BON_COMMAND
+     */
+    function save_info($p_info,$p_type)
+    {
+        if ( ! in_array($p_type,array('OTHER','BON_COMMANDE'))) return;
+        if (trim($p_info)=="") {
+            $this->db->exec_sql('delete from jrn_info where jr_id=$1 and id_type=$2',array($this->jr_id,$p_TYPE));
+            return;
+        }
+        $exist=$this->db->get_value('select count(ji_id) from jrn_info where jr_id=$1 and id_type=$2',array($this->jr_id,$p_TYPE));
+        if ( $exist == "0" ) {
+            //insert into jrn_info
+            $this->db->exec_sql('insert into jrn_info(jr_id,id_type,ji_value) values ($1,$2,$3)',
+                    array($this->jr_id,$p_type,$p_info));
+        } elseif ( $exist == 1) {
+            //update
+            $this->db->exec_sql('update jrn_info set id_type=$2,ji_value=$3 where jr_id=$1',
+                    array($this->jr_id,$p_type,$p_info));
+        }
     }
     static function test_me()
     {
