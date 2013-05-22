@@ -59,9 +59,12 @@ global $g_captcha,$g_failed,$g_succeed;
 $g_captcha=false;
 $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
-/*set to none for production */
-/* uncomment for production */
-// define ('SVNINFO',5900);
+/* uncomment for development */
+/*
+define ('SVNINFO',5900);
+define ("DEBUG",true);
+*/
+
 $version_phpcompta=SVNINFO;
 define ("DEBUG",false);
 /* define ('SVNINFO',5015);
