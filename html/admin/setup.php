@@ -125,7 +125,7 @@ if ( is_writable ('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DI
     echo '<h2 class="notice"> Ecriture non possible </h2><p class="warning"> On ne peut pas &eacute;crire dans le r&eacute;pertoire de phpcompta, changez-en les droits </p>';
     exit();
   }
-create_htaccess();
+
 
 if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php')) {
   echo '<h1 class="info">Entrez les informations n&eacute;cessaires &agrave; phpcompta</h1>';
@@ -152,6 +152,8 @@ if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.D
 require_once '../../include/constant.php';
 require_once('config_file.php');
 require_once('class_database.php');
+if ( defined ("MULTI") && MULTI==1) { create_htaccess();}
+
 echo "<h1>Configuration</h1>";
 ?>
 <h2>Info</h2>
@@ -252,11 +254,13 @@ if ( $flag_php==0 ) {
 /* check user */
 if ( (defined("MULTI") && MULTI==1)|| !defined("MULTI"))
 {
+   
 	$cn=new Database(-1,'template');
 } else
 {
 	$cn=new Database();
 }
+
 ?>
 <h2>Base de données</h2>
 <?php

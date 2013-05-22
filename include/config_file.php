@@ -26,6 +26,7 @@
 
 require_once("class_itext.php");
 require_once '../../include/class_iselect.php';
+require_once '../../include/class_icheckbox.php';
 
 function is_unix()
 {
@@ -91,13 +92,8 @@ function config_file_form($p_array=null)
 	/*
 	 * For version MONO
 	 */
-	$smulti=new ISelect ('multi');
-	$smulti->value=array(
-			array('value'=>1,'label'=>'Serveur dédié : plusieurs dossiers'),
-			array('value'=>0,'label'=>'Serveur Mutualisé: un seul dossier')
-		);
-	$smulti->selected=1;
-	$smulti->javascript=' onchange="show_dbname(this)" onkeypress="show_dbname(this)"';
+	$smulti=new ICheckBox('multi');
+	$smulti->javascript=' onchange="show_dbname(this)" ';
 
 	$icdbname=new IText('cdbname');
 
@@ -149,8 +145,8 @@ function config_file_create($p_array,$from_setup=1,$p_os=1)
 
     fputs($hFile, 'define ("domaine","");');
     fputs($hFile,"\r\n");
-
-	fputs($hFile, 'define ("MULTI","'.$multi.'");');
+    if (isset ($multi))	fputs($hFile, 'define ("MULTI",0);');
+    if (! isset ($multi))	fputs($hFile, 'define ("MULTI",1);');
 	fputs($hFile,"\r\n");
     fputs($hFile, 'define ("dbname","'.$cdbname.'");');
     fputs($hFile,"\r\n");

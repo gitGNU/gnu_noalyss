@@ -56,7 +56,7 @@
 	<TD><?php echo $icport->input();echo HtmlInput::infobulle(205)?></TD>
 </TR>
 <tr>
-	<td>Mode Serveur mutualisé ou dédié</td>
+	<td>Mode Serveur mutualisé <?php echo HtmlInput::infobulle(207) ?></td>
 	<td><?php echo $smulti->input() ?></td>
 </tr>
 <tr id="div_db" style="visibility:hidden">
