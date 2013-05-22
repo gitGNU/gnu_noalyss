@@ -87,7 +87,6 @@ function create_htaccess()
 		$hFile=@fopen($file,'w+');
 		if ( ! $hFile )     exit('Impossible d\'&eacute;crire dans le r&eacute;pertoire html');
 		$array=array("php_flag  magic_quotes_gpc off",
-				 "php_flag session.auto_start on",
 				 "php_value max_execution_time 240",
 				 "php_value memory_limit 20M",
 				 "AddDefaultCharset utf-8",
@@ -221,13 +220,6 @@ if ( ini_get("max_execution_time") < 60 )  {
         echo "</li>";
 }
 
-if ( ini_get("session.auto_start") == false )  {
-        echo "<li>";
-        echo 'Avertissement : '.$failed;
-	print '<span class="warning"> session.auto_start doit être mis à vrai</span>';
-        echo "</li>";
-	$flag_php++;
-}
 if ( ini_get("register_globals") == true)  {
         echo "<li>";
         echo 'Avertissement : '.$failed;
@@ -254,7 +246,7 @@ if ( $flag_php==0 ) {
 /* check user */
 if ( (defined("MULTI") && MULTI==1)|| !defined("MULTI"))
 {
-   
+
 	$cn=new Database(-1,'template');
 } else
 {
