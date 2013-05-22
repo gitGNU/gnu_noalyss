@@ -1572,7 +1572,7 @@ class Fiche
         {
             $i++;
             $odd="";
-            if ($i % 2 == 0 ) $odd='class="odd"';
+             $odd  = ($i % 2 == 0 ) ? 'class="odd"': ' class="even" ';
             /* Filter on the default year */
 
             $amount=$tiers->get_solde_detail($filter_year);
