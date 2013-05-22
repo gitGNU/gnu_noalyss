@@ -47,7 +47,7 @@ ini_set ('max_execution_time',240);
 ini_set ('memory_limit','20M');
 ini_set ('default_charset',"UTF-8");
 @ini_set ('session.use_trans_sid','on');
-	@session_start();
+@session_start();
 
 /*
  * Ini session
@@ -61,9 +61,9 @@ $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 /*set to none for production */
 /* uncomment for production */
-define ('SVNINFO',5900);
+// define ('SVNINFO',5900);
 $version_phpcompta=SVNINFO;
-define ("DEBUG",true);
+define ("DEBUG",false);
 /* define ('SVNINFO',5015);
  * $version_phpcompta=SVNINFO;
  * define ("DEBUG",true);
