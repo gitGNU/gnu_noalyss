@@ -146,7 +146,7 @@ class Pre_op_ven extends Pre_operation_detail
         if ( $p_array != null ) extract($p_array);
         require_once 'class_acc_ledger_sold.php';
         $ledger=new Acc_Ledger_Sold($this->db,$this->jrn_def_id);
-         
+
         $flag_tva=$g_parameter->MY_TVA_USE;
         /* Add button */
         $f_add_button=new IButton('add_card');
@@ -171,14 +171,14 @@ class Pre_op_ven extends Pre_operation_detail
                 $str_add_button=$f_add_button->input();
                 $str_add_button2=$f_add_button2->input();
         }
-       
+
         $r='';
         $r.=dossier::hidden();
         $f_legend=_('En-tête facture client');
 
-        
+
         /* if we suggest the next pj, then we need a javascript */
-       
+
         // Display the customer
         //--
         $fiche='deb';
@@ -231,11 +231,13 @@ class Pre_op_ven extends Pre_operation_detail
 
 
         // Record the current number of article
-        $Hid=new IHidden();
-        $p_article= ( isset ($nb_item))?$nb_item:MAX_ARTICLE;
-        $r.=$Hid->input("nb_item",$p_article);
-        $max=($p_article < MAX_ARTICLE)?MAX_ARTICLE:$p_article;
+		$min=$ledger->get_min_row();
+        $p_article= ( isset ($nb_item))?$nb_item:$min;
+        $max=($p_article < $min)?$min:$p_article;
 
+        $e_comment=(isset($e_comment))?$e_comment:"";
+        $Hid=new IHidden();
+        $r.=$Hid->input("nb_item",$p_article);
 
         $f_legend_detail=_("Détail articles vendus");
 

@@ -3371,11 +3371,11 @@ class Acc_Ledger extends jrn_def_sql
 		$this->jrn_def_id = $p_jrn;
 		$this->jrn_def_name = $p_jrn_name;
 		$this->jrn_def_ech_lib = $p_ech_lib;
-		$this->jrn_def_max_line_deb = $p_jrn_deb_max_line;
+		$this->jrn_def_max_line_deb = ($p_jrn_deb_max_line<1)?1:$p_jrn_deb_max_line;
 		$this->jrn_def_type = $p_jrn_type;
 		$this->jrn_def_pj_pref = $jrn_def_pj_pref;
 		$this->jrn_def_fiche_deb = (isset($FICHEDEB)) ? join($FICHEDEB, ',') : "";
-		$this->jrn_deb_max_line=$min_row;
+		$this->jrn_deb_max_line=($min_row<1)?1:$min_row;
 		switch ($this->jrn_def_type)
 		{
 			case 'ACH':

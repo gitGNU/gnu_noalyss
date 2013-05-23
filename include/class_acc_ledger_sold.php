@@ -1209,9 +1209,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger
 
         // Record the current number of article
         $Hid=new IHidden();
-        $p_article= ( isset ($nb_item))?$nb_item:MAX_ARTICLE;
+        $p_article= ( isset ($nb_item))?$nb_item:$this->get_min_row();
         $r.=$Hid->input("nb_item",$p_article);
-        $max=($p_article < MAX_ARTICLE)?MAX_ARTICLE:$p_article;
+        $max=($p_article < $this->get_min_row())?$this->get_min_row():$p_article;
 
 
         $f_legend_detail=_("Détail articles vendus");

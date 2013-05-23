@@ -238,12 +238,13 @@ class Pre_op_ach extends Pre_operation_detail
 
 
         // Record the current number of article
-        $Hid=new IHidden();
-        $p_article= ( isset ($nb_item))?$nb_item:MAX_ARTICLE;
-        $r.=$Hid->input("nb_item",$p_article);
-        $e_comment=(isset($e_comment))?$e_comment:"";
-        $max=($p_article < MAX_ARTICLE)?MAX_ARTICLE:$p_article;
+		$min=$ledger->get_min_row();
+        $p_article= ( isset ($nb_item))?$nb_item:$min;
+        $max=($p_article < $min)?$min:$p_article;
 
+        $e_comment=(isset($e_comment))?$e_comment:"";
+        $Hid=new IHidden();
+        $r.=$Hid->input("nb_item",$p_article);
         // For each article
         //--
         for ($i=0;$i< $max ;$i++)
