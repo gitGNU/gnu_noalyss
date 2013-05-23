@@ -94,7 +94,17 @@ define ('COMPTA_MIN_YEAR',1990);
 define ('MAX_RECONCILE',25);
 define ('MAX_QCODE',4);
 
-if ( DEBUG ) error_reporting(2147483647);  else error_reporting(0);
+if ( DEBUG ) {
+	error_reporting(2147483647);
+	ini_set("display_errors",1);
+	ini_set("html_errors",1);
+}
+	else {
+	error_reporting(0);
+	ini_set("display_errors",1);
+	ini_set("html_errors",1);
+
+}
 // Erreur
 define ("NOERROR",0);
 define ("BADPARM",1);
