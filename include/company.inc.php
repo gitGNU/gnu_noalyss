@@ -120,7 +120,7 @@ echo "<tr>" . td(_("Suggérer le numéro de pièce justificative"), 'style="text
 echo "<tr>" . td(_("Suggérer la date"), 'style="text-align:right"') . $date_suggest->input("p_date_suggest", $strict_array) . "</tr>";
 echo '<tr>' . td(_('Afficher la période comptable pour éviter les erreurs de date'), 'style="text-align:right"') . $check_periode->input('p_check_periode', $strict_array) . '</tr>';
 echo '<tr>' . td(_('Utilisez des postes comptables alphanumérique'), 'style="text-align:right"') . $alpha_num->input('p_alphanum') . '</tr>';
-echo '<tr>' . td(_('Changer le libellé des détails en VEN ou ACH'), 'style="text-align:right"') . $updlab->input('p_updlab') . '</tr>';
+echo '<tr>' . td(_('Changer le libellé des détails'), 'style="text-align:right"') . $updlab->input('p_updlab') . '</tr>';
 
 echo "</table>";
 echo HtmlInput::submit("record_company", _("Sauve"));
