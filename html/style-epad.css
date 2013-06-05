@@ -1150,7 +1150,8 @@ div.myfieldset
 #info_div {
 	display:none;
 	background-color: yellow;
-	color:red;
+	font-size:120%;
+	color:black;
 	z-index: 15;
 	position: absolute;
 	top:0;

@@ -774,13 +774,9 @@ function modifyOperation(p_value, dossier)
 {
 	layer++;
 	id = 'det' + layer;
-	var popup = {'id':
-				id, 'cssclass': 'inner_box'
-				, 'html':
-				loading(), 'drag':
-				true};
-	querystring = 'gDossier=' + dossier + '&act=de&jr_id=' + p_value + '&div=' + id;
-	add_div(popup);
+	waiting_box();
+	var querystring = 'gDossier=' + dossier + '&act=de&jr_id=' + p_value + '&div=' + id;
+
 	var action = new Ajax.Request(
 			"ajax_ledger.php",
 			{
@@ -788,6 +784,10 @@ function modifyOperation(p_value, dossier)
 				parameters: querystring,
 				onFailure: error_box,
 				onSuccess: function(xml, txt) {
+					var popup = {'id':id, 'cssclass': 'inner_box'
+								, 'html':"", 'drag':true};
+					remove_waiting_box();
+					add_div(popup);
 					success_box(xml, txt);
 					g(id).style.top = calcy(100 + (layer * 3));
 					g(id).style.left = '10%';
@@ -953,11 +953,9 @@ function op_save(obj)
 {
 	try {
     var queryString=$(obj).serialize();
-    queryString+="&lib="+obj.lib.value;
     queryString+="&gDossier="+obj.gDossier.value;
     var rapt2="rapt"+obj.whatdiv.value;
     queryString+="&rapt="+g(rapt2).value;
-    queryString+="&npj="+obj.npj.value;
     queryString+='&jr_id='+obj.jr_id.value;
     queryString+='&div='+obj.whatdiv.value;
     queryString+='&act=save';

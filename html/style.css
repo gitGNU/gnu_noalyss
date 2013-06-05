@@ -835,7 +835,7 @@ a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
 	td.tool {
 	border: solid 1px gray;
 	background-color: white;
-
+	border-bottom-width: 2px;
 	}
 div.topmenu {
 	margin-top:2px;
@@ -1150,9 +1150,9 @@ div.myfieldset
 #info_div {
 	display:none;
 	background-color: yellow;
-	color:red;
+	color:black;
 	z-index: 15;
 	position: absolute;
 	top:0;
-	left:0;
+	left:45%;
 }
