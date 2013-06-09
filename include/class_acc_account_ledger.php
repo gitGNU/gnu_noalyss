@@ -159,7 +159,7 @@ class Acc_Account_Ledger
                                  " ( to_date($2,'DD.MM.YYYY') <= j_date and ".
                                  "   to_date($3,'DD.MM.YYYY') >= j_date )".
                                  " and $filter_sql  $sql_let ".
-                                 " order by j_date,substring(jr_pj_number,'\\\\d+$') asc",array($this->id,$p_from,$p_to));
+                                 " order by j_date,substring(jr_pj_number,'[0-9]+$') asc",array($this->id,$p_from,$p_to));
         return $this->get_row_sql($Res);
     }
 

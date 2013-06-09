@@ -1119,7 +1119,7 @@ class Fiche
         }
 
         $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
-        $Res=$this->cn->exec_sql("select distinct substring(jr_pj_number,'\\\\d+$'),j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,j_qcode,".
+        $Res=$this->cn->exec_sql("select distinct substring(jr_pj_number,'[0-9]+$'),j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,j_qcode,".
                                  "case when j_debit='t' then j_montant else 0 end as deb_montant,".
                                  "case when j_debit='f' then j_montant else 0 end as cred_montant,".
                                  " jr_comment as description,jrn_def_name as jrn_name,".
@@ -1134,7 +1134,7 @@ class Fiche
                                  " ( to_date($2,'DD.MM.YYYY') <= j_date and ".
                                  "   to_date($3,'DD.MM.YYYY') >= j_date )".
                                  " and $filter_sql $sql_let ".
-                                 " order by j_date,substring(jr_pj_number,'\\\\d+$')",array($qcode,$p_from,$p_to));
+                                 " order by j_date,substring(jr_pj_number,'[0-9]+$')",array($qcode,$p_from,$p_to));
 
         return $this->get_row_result($Res);
     }
@@ -1910,7 +1910,7 @@ class Fiche
 	}
 	function get_all_account()
 	{
-		
+
 	}
 }
 

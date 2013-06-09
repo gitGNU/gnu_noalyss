@@ -391,7 +391,7 @@ class Acc_Ledger extends jrn_def_sql
 					"jr_grpt_id=j_grpt " .
 					" left join tmp_pcmn on pcm_val=j_poste " .
 					" where j_jrn_def=" . $this->id .
-					" and " . $periode . " order by j_date::date asc,substring(jr_pj_number,'\\\\d+$')::numeric asc,j_grpt,j_debit desc " .
+					" and " . $periode . " order by j_date::date asc,substring(jr_pj_number,'[0-9]+$')::numeric asc,j_grpt,j_debit desc " .
 					$cond_limite);
 		}
 		else
@@ -411,7 +411,7 @@ class Acc_Ledger extends jrn_def_sql
 										 join jrn_def on (jr_def_id=jrn_def_id)
 										 where " .
 					$g_user->get_ledger_sql() . " and " .
-					"  " . $periode . " order by j_date::date,substring(jr_pj_number,'\\\\d+$') asc,j_grpt,j_debit desc   " .
+					"  " . $periode . " order by j_date::date,substring(jr_pj_number,'[0-9]+$') asc,j_grpt,j_debit desc   " .
 					$cond_limite);
 		}
 
@@ -545,7 +545,7 @@ class Acc_Ledger extends jrn_def_sql
              jrn_def_type,
              jrn.jr_tech_per
              FROM jrn join jrn_def on (jrn_def_id=jr_def_id)
-             WHERE $periode $jrn order by jr_date,substring(jrn.jr_pj_number,'\\\d+$')::numeric asc  $cond_limite";
+             WHERE $periode $jrn order by jr_date,substring(jrn.jr_pj_number,'[0-9]+$')::numeric asc  $cond_limite";
 
 		$Res = $this->db->exec_sql($sql);
 		$Max = Database::num_row($Res);
@@ -813,9 +813,9 @@ class Acc_Ledger extends jrn_def_sql
 		// Sort
 		$url = "?" . CleanUrl();
 		$str_dossier = dossier::get();
-		$table->add("Date", $url, 'order by jr_date asc,substring(jr_pj_number,\'\\\d+$\')::numeric asc', 'order by  jr_date desc,substring(jr_pj_number,\'\\\d+$\')::numeric desc', "da", "dd");
+		$table->add("Date", $url, 'order by jr_date asc,substring(jr_pj_number,\'[0-9]+$\')::numeric asc', 'order by  jr_date desc,substring(jr_pj_number,\'[0-9]+$\')::numeric desc', "da", "dd");
 		$table->add('Echeance', $url, " order by  jr_ech asc", " order by  jr_ech desc", 'ea', 'ed');
-		$table->add('PJ', $url, ' order by  substring(jr_pj_number,\'\\\d+$\')::numeric asc ', ' order by  substring(jr_pj_number,\'\\\d+$\')::numeric desc ', "pja", "pjd");
+		$table->add('PJ', $url, ' order by  substring(jr_pj_number,\'[0-9]+$\')::numeric asc ', ' order by  substring(jr_pj_number,\'[0-9]+$\')::numeric desc ', "pja", "pjd");
 		$table->add('Tiers', $url, " order by  name asc", " order by  name desc", 'na', 'nd');
 		$table->add('Montant', $url, " order by jr_montant asc", " order by jr_montant desc", "ma", "md");
 		$table->add("Description", $url, "order by jr_comment asc", "order by jr_comment desc", "ca", "cd");
@@ -2857,7 +2857,7 @@ class Acc_Ledger extends jrn_def_sql
 				" from jrn join jrn_def on (jr_def_id=jrn_def_id) where  " .
 				" jr_date >= (select p_start from parm_periode where p_id = $1)
 				 and  jr_date <= (select p_end from parm_periode where p_id  = $2)" .
-				'  ' . $jrn . ' order by jr_date,substring(jr_pj_number,\'\\\d+$\')::numeric asc';
+				'  ' . $jrn . ' order by jr_date,substring(jr_pj_number,\'[0-9]+$\')::numeric asc';
 		$ret = $this->db->get_array($sql, array($p_from, $p_to));
 		return $ret;
 	}

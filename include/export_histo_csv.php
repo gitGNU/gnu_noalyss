@@ -31,7 +31,7 @@ header('Content-Disposition: attachment;filename="histo-export.csv"',FALSE);
 $ledger=new Acc_Ledger($cn,0);
 list($sql,$where)=$ledger->build_search_sql($_GET);
 
-$order=" order by jr_date_order asc,substring(jr_pj_number,'\\\d+$')::numeric asc ";
+$order=" order by jr_date_order asc,substring(jr_pj_number,'[0-9]+$')::numeric asc ";
 
 $res=$cn->get_array($sql.$order);
 
