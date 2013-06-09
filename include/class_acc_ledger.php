@@ -1681,7 +1681,6 @@ class Acc_Ledger extends jrn_def_sql
 
 			// name of the field to update with the name of the card
 			$quick_code->set_attribute('label', "ld" . $i);
-			$quick_code->set_attribute('jrn', $this->id);
 
 			// name of the field to update with the name of the card
 			$quick_code->set_attribute('typecard', 'filter');
@@ -1691,7 +1690,6 @@ class Acc_Ledger extends jrn_def_sql
 			$quick_code->set_function('fill_data');
 			$quick_code->javascript = sprintf(' onchange="fill_data_onchange(\'%s\');" ', $quick_code->name);
 
-			$quick_code->jrn = $this->id;
 			$quick_code->value = (isset(${'qc_' . $i})) ? ${'qc_' . $i} : "";
 			$quick_code->readonly = $p_readonly;
 
