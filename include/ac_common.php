@@ -1054,7 +1054,7 @@ function display_dashboard_operation($p_array,$p_title,$p_div)
 		?>
 		<tr class="<?php echo (($i%2)==0)?'odd':'even';?>">
 			<td>
-				<?php echo smaller_date($p_array[$i]['jr_date']) ?>
+				<?php echo smaller_date(format_date($p_array[$i]['jr_date']) );?>
 			</td>
 			<td>
 				<?php echo HtmlInput::detail_op($p_array[$i]['jr_id'], $p_array[$i]['jr_internal']) ?>

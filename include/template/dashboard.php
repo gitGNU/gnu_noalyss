@@ -334,11 +334,7 @@ try {
 var array=Array('customer_now_div','customer_late_div','supplier_now_div','supplier_late_div','action_now_div','action_late_div');
 var i=0;
 for  (i=0;i < array.length;i++) {
-
-	if ( ! document.getElementById(array[i])) {
-		console.log('ATTENTION'+array[i]);
-	}
 	new Draggable(array[i],{});
-}
+	}
 } catch (e) { alert(e.getMessage);}
 </script>
