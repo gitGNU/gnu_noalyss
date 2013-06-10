@@ -31,11 +31,11 @@ require_once 'class_iconcerned.php';
 global $g_user,$g_parameter;
 $cn=new Database(dossier::id());
 
-$id = (isset($_REQUEST['p_jrn'])) ? $_REQUEST['p_jrn'] : -1;
-$id = (isset($_REQUEST['p_jrn_predef'])) ? $_REQUEST['p_jrn_predef'] : -1;
-$ledger=new Acc_Ledger($cn,$id);
+$id_predef = (isset($_REQUEST['p_jrn_predef'])) ? $_REQUEST['p_jrn_predef'] : -1;
+$id_ledger = (isset($_REQUEST['p_jrn'])) ? $_REQUEST['p_jrn'] : $id_predef;
+$ledger = new Acc_Ledger($cn, $id_ledger);
 $first_ledger=$ledger->get_first('ODS');
-$ledger->id=($ledger->id==-1)?$first_ledger['jrn_def_id']:$id;
+$ledger->id = ($ledger->id == -1) ? $first_ledger['jrn_def_id'] : $id_ledger;
 
 // check if we can write in the ledger
 if ( $g_user->check_jrn($ledger->id)=='X')
