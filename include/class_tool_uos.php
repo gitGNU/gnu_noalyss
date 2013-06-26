@@ -64,7 +64,7 @@ class Tool_Uos
     {
         global $cn;
 		if ( $p_array == null ) $p_array=$_POST;
-		$this->id=$_POST[$this->name];
+		$this->id=$p_array[$this->name];
         $sql="insert into tool_uos(uos_value) values ($1)";
         try {
             $cn->exec_sql($sql,array($this->id));
