@@ -467,15 +467,15 @@ case 'save':
             if ( $owner->MY_ANALYTIC != "nu" && isset ($_POST['op']) )
             {
                 // for each item, insert into operation_analytique */
-                $op=new Anc_Operation($cn);
-                $op->save_update_form($_POST);
+                $opanc=new Anc_Operation($cn);
+                $opanc->save_update_form($_POST);
             }
             //////////////////////////////////////////////////////////////////
             //Save other info
             //////////////////////////////////////////////////////////////////
             $op->save_info($_POST['OTHER'],'OTHER');
             $op->save_info($_POST['BON_COMMANDE'],'BON_COMMANDE');
-            
+
         }
         echo _('Opération sauvée');
         $cn->commit();
