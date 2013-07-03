@@ -73,15 +73,24 @@ if (isset($_POST['SAVE']))
         {
             if (substr_count($name, 'PRIV') != 0)
             {
-                $db_id = mb_substr($name, 4);
                 $cn = new Database();
-				$name=$cn->format_name($db_id, "dos");
-				if ( $cn->exist_database($name) == 1 )
+				if ( defined ('MULTI')&& MULTI==0)
 				{
+					$name=dbname;
+					$db_id=MONO_DATABASE;
 					$UserChange->set_folder_access($db_id, $elem);
-					Dossier::synchro_admin($db_id);
 				}
-            }
+				else
+				{
+				    $db_id = mb_substr($name, 4);
+					$name=$cn->format_name($db_id, "dos");
+					if ( $cn->exist_database($name) == 1 )
+					{
+						$UserChange->set_folder_access($db_id, $elem);
+						Dossier::synchro_admin($db_id);
+					}
+				}
+			}
         }
     }
 }
@@ -206,8 +215,13 @@ if (empty($Dossier))
 $mod_user = new User(new Database(), $uid);
 foreach ($Dossier as $rDossier)
 {
-
-    $priv = $mod_user->get_folder_access($rDossier['dos_id']);
+	if (defined ("MULTI") && MULTI==0)
+	{
+			$priv = $mod_user->get_folder_access(MONO_DATABASE);
+			$priv=($priv=='L')?'R':$priv;
+	}
+		else
+			$priv = $mod_user->get_folder_access($rDossier['dos_id']);
     printf("<TR><TD> Dossier : %s </TD>", h($rDossier['dos_name']));
 
     $select = new ISelect();

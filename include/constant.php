@@ -78,7 +78,7 @@ define ("SITE_UPDATE_PLUGIN",'http://www.phpcompta.eu/plugin_last_version.txt');
 
 
 define ("DBVERSION",107);
-
+define ("MONO_DATABASE",25);
 define ("DBVERSIONREPO",14);
 define ('NOTFOUND','--not found--');
 
