@@ -29,7 +29,7 @@
 require_once 'class_phpcompta_sql.php';
 
 class Stock_Sql extends PhpCompta_Sql {
-	function __construct($p_id=-1)
+	function __construct($cn,$p_id=-1)
 	{
 		$this->table = "public.stock_repository";
 		$this->primary_key = "r_id";
