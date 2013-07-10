@@ -31,7 +31,7 @@ require_once 'class_phpcompta_sql.php';
 class Stock_Goods_Sql extends PhpCompta_Sql
 {
 
-	function __construct($p_id = -1)
+	function __construct($cn,$p_id = -1)
 	{
 		$this->table = "public.stock_goods";
 		$this->primary_key = "sg_id";
@@ -85,7 +85,7 @@ class Stock_Goods_Sql extends PhpCompta_Sql
 class Stock_Change_Sql extends PhpCompta_Sql
 {
 
-	function __construct($p_id = -1)
+	function __construct($cn,$p_id = -1)
 	{
 		$this->date_format="DD.MM.YYYY";
 		$this->table = "public.stock_change";
