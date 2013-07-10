@@ -80,22 +80,21 @@ class phpcompta_sql
 		$pk=$this->primary_key;
 		$this->$pk= $p_id;
 
-		if ($p_id == -1)
-		{
 			/* Initialize an empty object */
 			foreach ($this->name as $key )
 			{
 				$this->$key= null;
 			}
 			$this->$pk= $p_id;
-		}
-		else
-		{
 			/* load it */
 			$this->load();
-		}
 	}
-
+	public function save() {
+	    if (  $this->p_id == -1 )
+		  $this->insert();
+		else
+			$this->update();
+  }
 	public function getp($p_string)
 	{
 		if (array_key_exists( $p_string,$this->name))
@@ -212,7 +211,7 @@ class phpcompta_sql
 		$result = $this->cn->get_array($sql);
 		if ($this->cn->count() == 0 ) {
 			$this->$pk=-1;
-			return;
+			return ;
 		}
 
 		foreach ($result[0] as $key=>$value) {
@@ -232,6 +231,11 @@ class phpcompta_sql
 		}
 		return 0;
 	}
+	/**
+	 * Transform an array into object
+	 * @param type $p_array
+	 * @return object
+	 */
 	public function from_array($p_array)
 	{
 		foreach ($this->name as $key=>$value)
@@ -247,18 +251,39 @@ class phpcompta_sql
 		}
 		return $this;
 	}
+	  /**
+   *@brief retrieve array of object thanks a condition
+   *@param $cond condition (where clause) (optional by default all the rows are fetched)
+   * you can use this parameter for the order or subselect
+   *@param $p_array array for the SQL stmt
+   *@see Database::exec_sql get_object  Database::num_row
+   *@return the return value of exec_sql
+   */
 	 function seek($cond='', $p_array=null)
 	{
 		$sql = "select * from ".$this->table."  $cond";
 		$ret = $this->cn->exec_sql($sql, $p_array);
 		return $ret;
 	}
+	 /**
+    *get_seek return the next object, the return of the query must have all the column
+    * of the object
+    *@param $p_ret is the return value of an exec_sql
+    *@param $idx is the index
+    *@see seek
+    *@return object
+    */
 	public function next($ret,$i) {
 		$array=$this->cn->fetch_array($ret,$i);
 		return $this->from_array($array);
 	}
-
-
+	/**
+	 *@see next
+	 */
+ public function get_object($p_ret,$idx)
+    {
+    return $this->next($p_ret, $i);
+   }
 }
 
 
