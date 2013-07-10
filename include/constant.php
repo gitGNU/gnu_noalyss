@@ -93,6 +93,7 @@ define ('COMPTA_MAX_YEAR',2100);
 define ('COMPTA_MIN_YEAR',1990);
 define ('MAX_RECONCILE',25);
 define ('MAX_QCODE',4);
+define ('MAX_SEARCH_CARD',20);
 
 if ( DEBUG ) {
 	error_reporting(2147483647);
