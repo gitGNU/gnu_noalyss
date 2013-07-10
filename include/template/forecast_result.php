@@ -4,7 +4,7 @@ Période du <?php echo $str_start?> à <?php echo $str_end;?>
 <?php if (count($aItem[$i])==0) continue;?>
 <fieldset>
 <legend>
-<?php echo $aCat[$i]['fc_desc'];$tot_cat_estm=0;$tot_cat_real=0;?>
+<?php echo $aCat[$i]['fc_desc'];$tot_cat_estm=0;$tot_cat_real=0;$tot_cum_real=0;?>
 </legend>
 
 <?php for ($e=0;$e<count($aItem[$i]);$e++):?>
@@ -79,12 +79,15 @@ $tot_cat_estm=bcadd($amount,$tot_cat_estm);
 		<tr>
 			<td>
 						<?php echo _('Total réel');
-						$tot_cat_real = 0;?>
+
+						$tot_cat_real = 0;
+						?>
 					</td>
 				<?php for ($h = 0; $h < count($aPeriode); $h++):?>
 				<td align="right">
-				<?php 
+				<?php
 				$tot_cat_real = bcadd($tot_cat_real, $aReal[$i][$e][$h]);
+				$tot_cum_real=bcadd($tot_cum_real,$aReal[$i][$e][$h]);
 				echo nbm($tot_cat_real);
 			?>
 			</td>
@@ -97,7 +100,7 @@ $tot_cat_estm=bcadd($amount,$tot_cat_estm);
 </td>
 <?php for ($h=0;$h<count($aPeriode);$h++):?>
 
-    <?php 
+    <?php
  $diff= bcsub( $aReal[$i][$e][$h],$estm[$i][$e][$h]);
 if ( ($aItem[$i][$e]['fi_debit'] == 'C' && $diff < 0) || ($aItem[$i][$e]['fi_debit'] == 'D' && $diff > 0))
   {
@@ -111,7 +114,7 @@ else
   {
     echo '<td style="text-align:right;background-color:green;color:white">';
   }
-  
+
 echo nbm( $diff);
 ?>
 </td>
@@ -170,10 +173,10 @@ else
 <?php echo td(_('Total Catégorie estimé'));echo td(nbm($tot_cat_estm),'num');?>
 </tr>
 <tr>
-<?php echo td(_('Total Catégorie réel'));echo td(nbm($tot_cat_real),'num');?>
+<?php echo td(_('Total Catégorie réel'));echo td(nbm($tot_cum_real),'num');?>
 </tr>
 <tr>
-<?php echo td(_('Différence'));echo td(nbm($tot_cat_real-$tot_cat_estm),'num');?>
+<?php echo td(_('Différence'));echo td(nbm($tot_cum_real-$tot_cat_estm),'num');?>
 </tr>
 </table>
 </fieldset>
@@ -182,12 +185,12 @@ else
 <?php endfor;?>
 <?php if ( ! empty ($error) ) : ?>
 <div class="error">
-Désolé il y a des formules incorrectes 
+Désolé il y a des formules incorrectes
 <ul style="list-style-type:none">
 
    <?php $last="";?>
    <?php for ($i=0;$i<count($error);$i++) : ?>
-<?php 
+<?php
    if ( $last != $error[$i] ) {  echo h($error[$i]); }
 $last=$error[$i];
 endfor;

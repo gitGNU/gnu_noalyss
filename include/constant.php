@@ -78,7 +78,7 @@ define ("SITE_UPDATE_PLUGIN",'http://www.phpcompta.eu/plugin_last_version.txt');
 
 
 define ("DBVERSION",107);
-
+define ("MONO_DATABASE",25);
 define ("DBVERSIONREPO",14);
 define ('NOTFOUND','--not found--');
 
@@ -93,6 +93,7 @@ define ('COMPTA_MAX_YEAR',2100);
 define ('COMPTA_MIN_YEAR',1990);
 define ('MAX_RECONCILE',25);
 define ('MAX_QCODE',4);
+define ('MAX_SEARCH_CARD',20);
 
 if ( DEBUG ) {
 	error_reporting(2147483647);

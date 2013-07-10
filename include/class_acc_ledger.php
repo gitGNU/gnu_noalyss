@@ -3382,6 +3382,7 @@ class Acc_Ledger extends jrn_def_sql
 				break;
 			case 'ODS':
 				$this->jrn_def_class_deb = $p_jrn_class_deb;
+				$this->jrn_def_fiche_cred=null;
 				break;
 			case 'FIN':
 				$a = new Fiche($this->db);
@@ -3500,6 +3501,7 @@ class Acc_Ledger extends jrn_def_sql
 				break;
 			case 'ODS':
 				$this->jrn_def_class_deb = $p_jrn_class_deb;
+				$this->jrn_def_fiche_cred = null;
 				break;
 			case 'FIN':
 				$a = new Fiche($this->db);

@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-require_once('ac_common.php');
+require_once('../include/ac_common.php');
 require_once('function_javascript.php');
 require_once('class_html_input.php');
 require_once('class_dossier.php');

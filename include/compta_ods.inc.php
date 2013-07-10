@@ -39,15 +39,15 @@ global $g_user;
 
 $cn = new Database(dossier::id());
 
-$id = (isset($_REQUEST['p_jrn'])) ? $_REQUEST['p_jrn'] : -1;
-$id = (isset($_REQUEST['p_jrn_predef'])) ? $_REQUEST['p_jrn_predef'] : -1;
-$ledger = new Acc_Ledger($cn, $id);
+$id_predef = (isset($_REQUEST['p_jrn_predef'])) ? $_REQUEST['p_jrn_predef'] : -1;
+$id_ledger = (isset($_REQUEST['p_jrn'])) ? $_REQUEST['p_jrn'] : $id_predef;
+$ledger = new Acc_Ledger($cn, $id_ledger);
 $first_ledger = $ledger->get_first('ODS');
 if ( empty ($first_ledger))
 {
 	exit('Pas de journal disponible');
 }
-$ledger->id = ($ledger->id == -1) ? $first_ledger['jrn_def_id'] : $id;
+$ledger->id = ($ledger->id == -1) ? $first_ledger['jrn_def_id'] : $id_ledger;
 
 /**\brief show a form for quick_writing */
 $def = -1;

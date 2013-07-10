@@ -258,7 +258,8 @@ case 'st':
 		 $html.='</h3>';
 		 break;
 	}
-	$sql.=" ".$where;
+    $sql.=" ".$where." order by fd_label";
+
     $array=$cn->make_array($sql);
     $html=HtmlInput::anchor_close('select_card_div');
     $html.=h2info('Choix de la catégorie');
@@ -364,9 +365,8 @@ case 'fs':
 		 $html.='</h3>';
 		 break;
 	}
-    /* We limit the search to 20 records */
-    $sql=$sql.' order by vw_name limit 20';
-    $a=$cn->get_array($sql);
+     /* We limit the search to MAX_SEARCH_CARD records */
+    $sql=$sql.' order by vw_name limit '.MAX_SEARCH_CARD;
 
     for($i=0;$i<count($a);$i++)
     {
@@ -439,7 +439,7 @@ case 'ac':
         $search->set_attribute('account',$search->name);
         $search->set_attribute('ipopup','ipop_account');
 
-		$nom_mod=new IText("nom_mod");
+	$nom_mod=new IText("nom_mod");
         $str_poste=$search->input();
         $submit=HtmlInput::submit('save',_('Sauve'));
         ob_start();
