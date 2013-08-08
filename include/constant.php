@@ -44,7 +44,7 @@ ini_set ('session.use_cookies',1);
 ini_set ('session.use_only_cookies','on');
 ini_set ('magic_quotes_gpc','off');
 ini_set ('max_execution_time',240);
-ini_set ('memory_limit','20M');
+ini_set ('memory_limit','256M');
 ini_set ('default_charset',"UTF-8");
 @ini_set ('session.use_trans_sid','on');
 @session_start();
@@ -60,13 +60,10 @@ $g_captcha=false;
 $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 /* uncomment for development */
-/*
 define ('SVNINFO',5900);
 define ("DEBUG",true);
-*/
 
 $version_phpcompta=SVNINFO;
-define ("DEBUG",false);
 /* define ('SVNINFO',5015);
  * $version_phpcompta=SVNINFO;
  * define ("DEBUG",true);
