@@ -282,7 +282,7 @@ class phpcompta_sql
 	 */
  public function get_object($p_ret,$idx)
     {
-    return $this->next($p_ret, $i);
+    return $this->next($p_ret, $idx);
    }
 }
 
