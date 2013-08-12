@@ -367,7 +367,7 @@ case 'fs':
 	}
      /* We limit the search to MAX_SEARCH_CARD records */
     $sql=$sql.' order by vw_name limit '.MAX_SEARCH_CARD;
-
+    $a=$cn->get_array($sql);
     for($i=0;$i<count($a);$i++)
     {
         $array[$i]['quick_code']=$a[$i]['quick_code'];
