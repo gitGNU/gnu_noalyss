@@ -1070,6 +1070,8 @@ class Acc_Ledger extends jrn_def_sql
 		$p_array['TVA'] = array();
 		$p_array['AMOUNT_TVA'] = 0.0;
 		$p_array['dep_priv'] = 0;
+		$p_array['dna'] = 0;
+		$p_array['tva_dna'] = 0;
 		$dep_priv = 0.0;
 		//
 		// Retrieve data from jrnx
@@ -1179,7 +1181,10 @@ class Acc_Ledger extends jrn_def_sql
 				$purchase->load();
 				$dep_priv+=$purchase->qp_dep_priv;
 				$p_array['dep_priv'] = $dep_priv;
+                                $p_array['dna']=$purchase->qp_nd_amount;
+                                $p_array['tva_dna']=$purchase->qp_nd_tva;
 			}
+                        
 		}
 		$p_array['TVAC'] = sprintf('% 10.2f', $p_array['TVAC'] );
 		$p_array['HTVA'] = sprintf('% 10.2f', $p_array['TVAC'] - $p_array['AMOUNT_TVA']);
@@ -2912,7 +2917,7 @@ class Acc_Ledger extends jrn_def_sql
 		if ($this->type == 'ACH')
 		{
 			$array = $this->db->get_array('select sum(qp_price) as price,sum(qp_vat) as vat ' .
-					',sum(qp_dep_priv) as priv' .
+					',coalesce(sum(qp_nd_amount),0)+coalesce(sum(qp_dep_priv),0) as priv' .
 					',sum(qp_nd_tva_recup)+sum(qp_nd_tva) as tva_nd' .
 					'  from quant_purchase join jrnx using(j_id)
                                         where  j_grpt=$1 ', array($p_jr_id));

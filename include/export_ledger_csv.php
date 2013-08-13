@@ -144,17 +144,20 @@ else
                 $col_tva.='"Tva '.$line_tva['tva_label'].'";';
             }
         }
-        echo '"Date";"operation";"Client/Fourn.";"Commentaire";"inter.";"HTVA";privé;'.$col_tva.'"TVAC"'."\n\r";
+        echo '"Date";"operation";"Client/Fourn.";"Commentaire";"inter.";"HTVA";privé;DNA;tva non ded.;'.$col_tva.'"TVAC"'."\n\r";
         foreach ($Row as $line)
         {
-            printf('"%s";"%s";"%s";"%s";"%s";%s;%s;',
+            printf('"%s";"%s";"%s";"%s";"%s";%s;%s;%s;%s;',
                    $line['date'],
                    $line['num'],
                    $Jrn->get_tiers($line['jrn_def_type'],$line['jr_id']),
                    $line['comment'],
                    $line['jr_internal'],
                    nb($line['HTVA']),
-                   nb($line['dep_priv']));
+                   nb($line['dep_priv']),
+                   nb($line['dna']),
+                   nb($line['tva_dna'])
+                   );
             $a_tva_amount=array();
             foreach ($line['TVA'] as $lineTVA)
             {

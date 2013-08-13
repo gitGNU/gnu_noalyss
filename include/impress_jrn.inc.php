@@ -64,13 +64,12 @@ $NoPriv = $cn->count_sql("select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_d
                        uj_login='$g_user->id'
                        and uj_priv ='X'
                        ");
-// Pour voir tout les journal ?
-if ($NoPriv == 0 && $ret != null)
-{
-	$a = count($ret);
-	$all = array('value' => 0, 'label' => 'Tous les journaux');
-	$ret[$a] = $all;
-}
+/*
+ * Show all the available ledgers
+ */
+$a = count($ret);
+$all = array('value' => 0, 'label' => 'Tous les journaux disponibles');
+$ret[$a] = $all;
 if (count($ret) < 1)
 	NoAccess();
 $exercice = (isset($_GET['exercice'])) ? $_GET['exercice'] : $g_user->get_exercice();
@@ -255,6 +254,8 @@ if (isset($_REQUEST['bt_html']))
 	/////////////////////////////////////////////////////////////////////////////////////
 	elseif ($_GET['p_simple'] == 1)
 	{
+            if ( $Jrn->get_type() != 'ACH' && $Jrn->get_type() != 'VEN')
+            {
 		// Simple printing
 		//---
 		echo '<TABLE class="result">';
@@ -307,6 +308,14 @@ if (isset($_REQUEST['bt_html']))
 			echo "</tr>";
 		}
 		echo "</table>";
+            } else {
+                /*
+                 * Ledger ACH or VEN
+                 */
+                $own=new Own($cn);
+                require_once 'template/print_ledger_simple.php';
+                
+            }
 	}
 	/////////////////////////////////////////////////////////////////////////////////////
 	// Détaillé
