@@ -22,10 +22,10 @@ begin
                  fiche_detail where ad_id=23 and ad_value=upper(trim(p_fiche));
         select ad_value into fid_good_account from fiche_detail where ad_id=5 and f_id=fid_good;
 
-        if account_priv = fid_good_account then
+        if strpos( fid_good_account , account_priv ) = 1 then
 		p_dep_priv=p_price;
 	end if;
-	
+            
         insert into quant_purchase
                 (qp_internal,
                 j_id,
@@ -59,6 +59,7 @@ end;
  $BODY$
   LANGUAGE plpgsql;
 
+-- ajout code manquant dans parm_code
 create or replace function add_parm_code() returns void as
 $fct$
 declare
@@ -75,3 +76,10 @@ begin
 end;
 $fct$
 language plpgsql;
+
+select add_parm_code();
+
+drop function add_parm_code();
+
+update parm_code set p_value='67' where p_value='6740' and p_code='DNA';
+
