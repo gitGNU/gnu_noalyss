@@ -59,5 +59,19 @@ end;
  $BODY$
   LANGUAGE plpgsql;
 
-
-
+create or replace function add_parm_code() returns void as
+$fct$
+declare
+    country_code text;
+begin 
+    select pr_value into country_code from parameter where pr_id='MY_COUNTRY';
+    if country_code='FR' then
+        insert into parm_code (p_code,p_comment,p_value) values ('DNA','Dépense non déductible','67');
+        insert into parm_code  (p_code,p_comment,p_value) values ('TVA_DNA','TVA non déductible','');
+        insert into parm_code  (p_code,p_comment,p_value) values ('TVA_DED_IMPOT','TVA déductible à l''impôt','');
+        insert into parm_code  (p_code,p_comment,p_value) values ('COMPTE_COURANT','Poste comptable pour le compte courant','');
+        insert into parm_code  (p_code,p_comment,p_value) values ('COMPTE_TVA','TVA à payer ou à recevoir','');
+     end if;
+end;
+$fct$
+language plpgsql;
