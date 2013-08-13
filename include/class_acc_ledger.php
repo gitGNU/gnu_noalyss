@@ -511,11 +511,11 @@ class Acc_Ledger extends jrn_def_sql
 
 	/** @brief  Get simplified row from ledger
 	 *
-	 * @paramfrom periode
-	 * @paramto periode
-	 * @paramp_limit starting line
-	 * @paramp_offset number of lines
-	 * @paramtrunc if data must be truncated (pdf export)
+	 * @param p_from periode
+	 * @param p_to periode
+	 * @param p_limit starting line
+	 * @param p_offset number of lines
+	 * @param trunc if data must be truncated (pdf export)
 	 *
 	 * \return an Array with the asked data
 	 */
@@ -1093,13 +1093,19 @@ class Acc_Ledger extends jrn_def_sql
 				$fiche_def_id = $fiche->get_fiche_def_ref_id();
 				// Customer or supplier
 				if ($fiche_def_id == FICHE_TYPE_CLIENT ||
-						$fiche_def_id == FICHE_TYPE_FOURNISSEUR)
+						$fiche_def_id == FICHE_TYPE_FOURNISSEUR
+                                        ||$fiche_def_id == FICHE_TYPE_ADM_TAX)
 				{
 					$p_array['TVAC'] = $code['j_montant'];
 
 					$p_array['client'] = ($trunc == 0) ? $fiche->getName() : mb_substr($fiche->getName(), 0, 20);
 					$p_array['reversed'] = false;
 					if ($fiche_def_id == FICHE_TYPE_CLIENT && $code['j_debit'] == 'f')
+					{
+						$p_array['reversed'] = true;
+						$p_array['TVAC']*=-1;
+					}
+					if ($fiche_def_id == FICHE_TYPE_ADM_TAX && $code['j_debit'] == 'f')
 					{
 						$p_array['reversed'] = true;
 						$p_array['TVAC']*=-1;
@@ -1115,7 +1121,9 @@ class Acc_Ledger extends jrn_def_sql
 					// if we use the ledger ven / ach for others card than supplier and customer
 					if ($fiche_def_id != FICHE_TYPE_VENTE &&
 							$fiche_def_id != FICHE_TYPE_ACH_MAR &&
-							$fiche_def_id != FICHE_TYPE_ACH_SER)
+							$fiche_def_id != FICHE_TYPE_ACH_SER  &&
+							$fiche_def_id != FICHE_TYPE_ACH_MAT
+                                           )                                                
 					{
 						$p_array['TVAC'] = $code['j_montant'];
 
@@ -1173,7 +1181,7 @@ class Acc_Ledger extends jrn_def_sql
 				$p_array['dep_priv'] = $dep_priv;
 			}
 		}
-		$p_array['TVAC'] = sprintf('% 10.2f', $p_array['TVAC'] - $dep_priv);
+		$p_array['TVAC'] = sprintf('% 10.2f', $p_array['TVAC'] );
 		$p_array['HTVA'] = sprintf('% 10.2f', $p_array['TVAC'] - $p_array['AMOUNT_TVA']);
 		$r = "";
 		$a_tva_amount = array();

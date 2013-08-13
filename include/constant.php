@@ -179,6 +179,7 @@ define ("FICHE_TYPE_EMPL",25);
 define ("FICHE_TYPE_ADM_TAX",14);
 define ("FICHE_TYPE_ACH_MAR",2);
 define ("FICHE_TYPE_ACH_SER",3);
+define ("FICHE_TYPE_ACH_MAT",7);
 
 
 define ('JS_INFOBULLE','
