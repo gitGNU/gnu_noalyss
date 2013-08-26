@@ -30,7 +30,7 @@ global $g_user,$cn,$g_parameter;
 require_once 'class_stock.php';
 require_once 'class_periode.php';
 
-$stock=new Stock();
+$stock=new Stock($cn);
 $array=$_GET;
 if ( ! isset ($array['wdate_start']) || ! isset ($array['wdate_end']))
 {

@@ -101,7 +101,7 @@ class Stock_Goods extends Stock_Goods_Sql
 		require_once 'template/stock_inv.php';
 	}
 
-	function save($p_array)
+	function record_save($p_array)
 	{
 		global $cn;
 		try

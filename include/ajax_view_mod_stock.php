@@ -28,7 +28,7 @@
  */
 require_once 'class_stock_goods.php';
 
-$st=new Stock_Goods();
+$st=new Stock_Goods($cn);
 $array=$cn->get_array("select * from stock_goods where c_id=$1",array($_GET['c_id']));
 echo HtmlInput::title_box("Détail changement",$_GET['ctl']);
 $p_array=array();

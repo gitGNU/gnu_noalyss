@@ -29,12 +29,12 @@
 require_once 'class_stock_goods.php';
 global $cn;
 
-$inv=new Stock_Goods();
+$inv=new Stock_Goods($cn);
 if ( isset ($_POST['save']))
 {
 	try
 	{
-		$inv->save($_POST);
+		$inv->record_save($_POST);
 		echo h2info("Opération sauvée");
 		$inv->input($_POST,true);
 

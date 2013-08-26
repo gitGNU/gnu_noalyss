@@ -44,7 +44,7 @@ $presentation->value=array (
 $presentation->selected=(isset($_GET['present']))?$_GET['present']:"T";
 require_once 'template/stock_state_search.php';
 
-$stock=new Stock();
+$stock=new Stock($cn);
 
 
 $stock->summary($_GET);
