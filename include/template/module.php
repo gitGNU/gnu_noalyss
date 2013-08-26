@@ -38,13 +38,13 @@ if ( $cn->get_value("select count(*) from profile join profile_user using (p_id)
 			new Ajax.Autocompleter("ac","ac_choices","direct.php?gDossier=<?php echo $gDossier?>",
                             {paramName:"acs",minChars:1,indicator:null,
                             callback:null,
-                             afterUpdateElement:null});} catch (e){alert(e.message);};
+                             afterUpdateElement:null});} catch (e){$('info_div').innerHTML=e.message;};
 		</script>
 	</div>
 <?php 
 endif;?>
 	<div id="dossier">
-	<H2 class="dossier"> Dossier : <?php echo h(dossier::name())?></h2>
+	<H2 class="dossier"><?php echo h(dossier::name())?></h2>
 	</div>
     </div>
 
