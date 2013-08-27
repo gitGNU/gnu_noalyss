@@ -70,7 +70,8 @@ global $g_parameter;
         if ( ! isset($correct))
         {
             echo '<div class="content">';
-			echo h2info('Confirmation');
+            echo h1('Confirmation','');
+            echo_warning("Attention, cette opération n'est pas encore sauvée : vous devez encore confirmer");
 
 
 			echo '<div class="content">';
@@ -81,9 +82,9 @@ global $g_parameter;
             $chk=new ICheckBox();
             $chk->selected=false;
 	    echo '<div style="clear:both">';
-            echo $chk->input('opd_save');
-            echo "Sauvez cette op&eacute;ration comme modèle d'opération ?";
-	    echo '<br/>';
+            
+            echo "<h2>Modèle d'opération</h2>";
+            echo "Donnez un nom pour sauver cette opération comme modèle <br>";
 	    $opd_name=new IText('opd_name');
 	    echo "Nom du modèle ".$opd_name->input();
 	    echo '</div>';
@@ -130,7 +131,7 @@ global $g_parameter;
             $internal=$Ledger->insert($_POST);
 
             /* Save the predefined operation */
-            if ( isset($_POST['opd_save']))
+            if ( isset($_POST['opd_name']) && trim($_POST['opd_name']) != "" )
             {
                 $opd=new Pre_op_ven($cn);
                 $opd->get_post();
@@ -138,7 +139,7 @@ global $g_parameter;
             }
 
             /* Show button  */
-            echo '<h2 class="info"> Enregistrement </h2>';
+            echo '<h1 > Enregistrement </h1>';
             $jr_id=$cn->get_value('select jr_id from jrn where jr_internal=$1',array($internal));
 
             echo "<h2 >"._('Opération sauvée');
@@ -149,7 +150,7 @@ global $g_parameter;
                 echo '<h3 class="notice"> '._('Attention numéro pièce existante, elle a du être adaptée').'</h3>';
             }
 
-            printf ('<a class="line" style="display:inline" href="javascript:modifyOperation(%d,%d)">%s</a><hr>',
+            printf ('Détail opération : <a class="line" style="display:inline" href="javascript:modifyOperation(%d,%d)">%s</a><hr>',
                     $jr_id,dossier::id(),$internal);
 	    echo $Ledger->confirm($_POST,true);
             /* Show link for Invoice */

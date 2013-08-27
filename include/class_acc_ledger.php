@@ -3416,19 +3416,15 @@ class Acc_Ledger extends jrn_def_sql
 		}
 	}
 
-	function input_paid($nofieldset = 0)
+	function input_paid()
 	{
 		$r = '';
-		if ($nofieldset == 0)
-		{
-			$r.='<fieldset id="payment"> ';
-		}
-		$r.='<legend> ' . _('Payé par') . ' </legend>';
+		$r.='<div id="payment"> ';
+		$r.='<h2> ' . _('Payé par') . ' </h2>';
 		$mp = new Acc_Payment($this->db);
 		$mp->set_parameter('ledger_source', $this->id);
 		$r.=$mp->select();
-		if ($nofieldset == 0)
-			$r.='</fieldset>';
+		$r.='</div>';
 		return $r;
 	}
 

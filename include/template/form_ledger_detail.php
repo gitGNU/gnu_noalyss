@@ -1,23 +1,63 @@
-<?php
 
-?>
-<fieldset>
-<legend><?php echo $f_legend ?>
-</legend>
 	<div id="jrn_name_div">
 	<h2 class="title" id="jrn_name"> <?php echo $this->get_name()?></h2>
 </div>
-      <?php echo _('Date').':'?> <?php echo $f_date ?> <?php echo _('Echeance')?> : <?php echo $f_echeance?>
-<?php echo $f_periode?><br>
-      <?php echo _('Journal')?> <?php echo $f_jrn?><br><hr>
-<?php echo $f_type?><?php echo $f_client_qcode?><?php echo $f_client_bt?> <?php echo $f_client?><br>
-      <?php echo _('Libellé')?> <?php echo $f_desc?>
-      <?php echo _('Num Pj')?> <?php echo $f_pj?><br>
-<?php echo $str_add_button?>
-</fieldset>
+<table>
+    <tr>
+        <td> 
+            <?php echo _('Journal')?> <?php echo $f_jrn?>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <?php echo _('Date')?> 
+        </td>
+        <td>
+            <?php echo $f_date ?>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <?php echo _('Echeance')?>  
+        </td>
+        <td>
+            <?php echo $f_echeance?>
+        </td>
+    </tr>
+    <tr>
+        <td><?php echo $f_type?></td>
+        <td>
+            <?php echo $f_client_qcode?><?php echo $f_client_bt?> <?php echo $f_client?></td>
+        </td>
+    </tr>
+    
+    <tr>
+            <?php echo $f_periode?>
+    </tr>
+    <tr>
+        <td>
+            <?php echo _('Numéro Pièce')?> 
+        </td>
+        <td>
+            <?php echo $f_pj?>
+        </td>
+    </tr>
+    <tr>
+        <td>
+             <?php echo _('Libellé')?> 
+        </td>
+        <td>
+            <?php echo $f_desc?>
+        </td>
+    </tr>
 
-<fieldset>
-<legend><?php echo $f_legend_detail?></legend>
+</table>
+     
+      
+<br>
+<?php echo $str_add_button?>
+
+<h2><?php echo $f_legend_detail?></h2>
 <table id="sold_item" width="100%" border="0">
 <tr>
 <th style="width:auto"colspan="2">Code <?php echo HtmlInput::infobulle(0)?></th>
@@ -86,6 +126,5 @@ echo '</tr>';
 <?php endif; ?>
 </div>
 
-</fieldset>
 
 
