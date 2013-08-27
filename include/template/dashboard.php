@@ -302,7 +302,7 @@ for($i=0;$i<count($last_ledger);$i++):
 
 
 
-<div id="add_todo_list" class="add_todo_list">
+<div id="add_todo_list" >
 	<script charset="utf8" type="text/javascript" language="javascript">
 		new Draggable($('add_todo_list'),{});
 	</script>

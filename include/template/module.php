@@ -1,4 +1,8 @@
-<div class="u_tool">
+<div id="top">
+      <div id="dossier">
+	<H2><?php echo h(dossier::name())?></h2>
+	</div>
+    <div style="clear:both;"></div>
     <div class="name">
 
 <?php
@@ -43,12 +47,10 @@ if ( $cn->get_value("select count(*) from profile join profile_user using (p_id)
 	</div>
 <?php 
 endif;?>
-	<div id="dossier">
-	<H2 class="dossier"><?php echo h(dossier::name())?></h2>
-	</div>
+	
     </div>
 
-    <div class="module">
+    <div id="module">
 	<table>
 	    <tr>
 		<?php
@@ -87,5 +89,6 @@ endif;?>
 	</table>
 
     </div>
+  
 </div>
 <div style="clear:both;"></div>

@@ -138,7 +138,7 @@ $result.="</TR>";
 $result.="</table>";
 
 echo '<h2 class="info">'._('Bienvenue    ').$User->first_name.'  '.$User->name.'   '._("dans PhpCompta")."</h2>";
-echo '<div class="module">'.$result.'</div>';
+echo '<div id="module">'.$result.'</div>';
 echo '</div>';
 ?>
 <div class="foldercontent">

@@ -118,9 +118,9 @@ function nbm($p_number)
     if (trim($p_number) == '')
 	return '';
     if ($p_number == 0)
-	return 0;
+	return "0,00";
+    
     $a = doubleval($p_number);
-
     $r = number_format($a, 2, ",", ".");
     if (trim($r) == '')
     {
@@ -916,7 +916,7 @@ function find_default_module()
  * show the module
  * @global $g_user
  * @param $module the $_REQUEST['ac'] exploded into an array
- * @param  $idx the index
+ * @param  $idx the index of the array : the AD code is splitted into an array thanks the slash
  */
 function show_menu($module, $idx)
 {
@@ -930,6 +930,12 @@ function show_menu($module, $idx)
 
     if (!empty($amenu) && count($amenu) > 1)
     {
+        $a_style_menu=array('topmenu','menu2','menu3');
+        if ( $idx > count($a_style_menu))
+            $style_menu='menu3';
+        else {
+            $style_menu=$a_style_menu[$idx];
+        }
 		require 'template/menu.php';
     }
     elseif (count($amenu) == 1)
