@@ -2,7 +2,6 @@
 
 BODY {
     background-color:#EDF3FF;
-    font-size:95%;
     font-family:verdana,sans-serif,helvetica;
     padding: 0px 0px 0px 0px ;
     margin:0;
@@ -44,6 +43,9 @@ h2 {
     font-family:verdana,sans-serif,helvetica;
     font-size:120%;
     color:grey;
+    margin:1px;
+    padding:1px;
+    font-style: italic;
 }
 div.info {
     background:#879ed4;
@@ -284,18 +286,16 @@ span.even {
 
 tr.odd {
     background-color:#DDE6FF;
-    font-size:90%;
+    font-size:75%;
 }
-tr {
-    font-size:90%;
+tr.even {
+  font-size:75%;
 }
 td.odd{
     background-color:#DDE6FF ;
-    font-size:90%;
 }
 td.even{
     border:0px;
-    font-size:90%;
 }
 td.cell{
     height:32px;
@@ -312,14 +312,13 @@ td.selectedcell{
     width:120px;
 }
 a.mtitle {
-    font-size:90%;
     text-decoration:none;
     display:inline;
     color: blue;
 
 }
 a.mtitle:hover {
-    font-size:90%;
+    font-size:110%;
     text-decoration:none;
     display:inline;
 
@@ -1171,4 +1170,7 @@ div.menu3 {
 }
 #go_submit_id {
     font-size:116%;
+}
+.decale {
+    margin-left:30px;
 }

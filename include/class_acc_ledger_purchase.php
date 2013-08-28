@@ -1272,7 +1272,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         }
         $date_limit=$lPeriode->get_date_limit();
         $r="";
-        $r.='<TABLE  width="100%">';
+        $r.='<TABLE>';
         if ( $p_summary ) {
             $jr_id=$this->db->get_value('select jr_id from jrn where jr_internal=$1',array($this->internal));
             $r.="<tr>";
@@ -1319,7 +1319,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         $r.='</tr>';
         $r.='</table>';
         $r.='<h2>' . _('Détail articles achetés') . '</h2>';
-        $r.='<table class="result" border="0">';
+        $r.='<p class="decale">';
+        $r.='<table class="result" >';
         $r.='<TR>';
         $r.="<th>" . _('Code') . "</th>";
         $r.="<th>" . _('Dénomination') . "</th>";
@@ -1466,9 +1467,11 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 
 
         $r.='</table>';
+        $r.='</p>';
         if ( $g_parameter->MY_ANALYTIC!='nu' && !$p_summary) // use of AA
             $r.='<input type="button" class="button" value="'._('Vérifiez imputation analytique').'" onClick="verify_ca(\'\');">';
         $r.='<h2>Totaux</h2>';
+        $r.='<p class="decale">';
         $tot = round(bcadd($tot_amount, $tot_tva), 2);
         /* use VAT */
         if ($g_parameter->MY_TVA_USE == 'Y') {
@@ -1488,7 +1491,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         } else {
             $r.='<br>Total '.nbm(hb($tot));
         }
-       
+        $r.='</p>';
         /*  Add hidden */
         $r.=HtmlInput::hidden('e_client',$e_client);
         $r.=HtmlInput::hidden('nb_item',$nb_item);
@@ -1532,7 +1535,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             if ($p_summary == true)
                 $sel->selected = $repo;
             $r.='<h2>Dépôt</h2>';
-            $r.="<p> Dans le dépôt : ";
+            $r.="<p class=\"decale\"> Dans le dépôt : ";
             $r.=$sel->input();
             $r.='</p>';
         }
@@ -1551,7 +1554,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 					'<p>'._('Déduction acompte ').h($acompte).'</p>'.
 					_('Libellé :' ).h($e_comm_paiement).'</div>';*/
             $r.='<h2>' . "Payé par " . ${'e_mp_qcode_' . $e_mp} .
-                    " " . $fname->getName() . '</H2> ' . '<p>' . _('Déduction acompte ') . h($acompte) . '</p>' .
+                    " " . $fname->getName() . '</H2> ' . '<p class="decale">' . _('Déduction acompte ') . h($acompte) . '</p>' .
                     _('Libellé :') . h($e_comm_paiement) ;
             $r.='<br>';
             $r.='<br>';
@@ -1571,6 +1574,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
     {
         $r="";
         $r.='<h2> Facturation</h2>';
+        $r.='<p class="decale">';
         // check for upload piece
         $file=new IFile();
         $file->table=0;
@@ -1593,6 +1597,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         $obj=new IText();
         $r.=_('Numero de bon de commande : ').$obj->input('bon_comm').'<br>';
         $r.=_('Autre information : ').$obj->input('other_info').'<br>';
+        $r.='</p>';
         return $r;
     }
 

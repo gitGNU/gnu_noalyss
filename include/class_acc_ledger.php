@@ -664,9 +664,9 @@ class Acc_Ledger extends jrn_def_sql
 		$r.='<th>Pièce</td>';
 		$r.=th('tiers');
 		$r.='<th>Description</th>';
-		$r.=th('Notes', ' style="width:15%"');
+		$r.=th('Notes', ' ');
 		$r.='<th>Montant</th>';
-		$r.="<th>" . _('Op. Concernée') . "</th>";
+		$r.="<th>" . _('Concerne') . "</th>";
 		$r.="</tr>";
 		// Total Amount
 		$tot = 0.0;
@@ -862,7 +862,7 @@ class Acc_Ledger extends jrn_def_sql
 		{
 			$r.="<th> " . _('Payé') . "</th>";
 		}
-		$r.="<th>" . _('Op. Concernée') . "</th>";
+		$r.="<th>" . _('Concerne') . "</th>";
 		$r.="<th>" . _('Document') . "</th>";
 		$r.="</tr>";
 		// Total Amount
