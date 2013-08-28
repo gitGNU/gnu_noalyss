@@ -1082,6 +1082,20 @@ a.line:hover,div_content a.line
 {
     background-color: orange;
 }
+#popmeout
+{
+    background-color:white;
+    color:blue;
+    text-decoration:none;
+    border:1px solid blue;
+    margin-left: 2px;
+    margin-right:18px;
+    font-size:85%;
+}
+#popmeout:hover
+{
+    background-color: orange;
+}
 table.table_large tr.odd ,table.table_large tr.even {
 
     height:32px;
