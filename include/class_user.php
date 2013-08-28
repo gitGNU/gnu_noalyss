@@ -935,7 +935,7 @@ class User
 		if ($p_array == 0)
 			return $result . " * Aucun dossier *";
 
-		$result.="<TABLE id=\"folder\" style=\"width:auto;border-width:0px;border-collapse:collapse;\">";
+		$result.="<TABLE id=\"folder\" style=\"font-size:154%;width:auto;border-width:0px;border-collapse:collapse;\">";
 		for ($i = 0; $i < sizeof($p_array); $i++)
 		{
 
