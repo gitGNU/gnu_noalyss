@@ -2338,6 +2338,7 @@ class Acc_Ledger extends jrn_def_sql
 		$doc->f_id = $e_client;
 		$doc->md_id = $gen_doc;
 		$doc->ag_id = 0;
+                $p_array['e_pj']=$this->pj;
 		$filename="";
 		$doc->Generate($p_array,$p_array['e_pj']);
 		// Move the document to the jrn

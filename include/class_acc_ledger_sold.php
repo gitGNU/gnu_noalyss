@@ -613,7 +613,6 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         }
         $date_limit = $lPeriode->get_date_limit();
         $r = "";
-        $r.='<div>';
         $r.='<TABLE  width="100%">';
         if ( $p_summary ) {
             $jr_id=$this->db->get_value('select jr_id from jrn where jr_internal=$1',array($this->internal));
@@ -872,7 +871,6 @@ class Acc_Ledger_Sold extends Acc_Ledger {
             }
             $r.=HtmlInput::hidden("e_quant" . $i, ${"e_quant" . $i});
         }
-           $r.="</div>";
         return $r;
     }
 

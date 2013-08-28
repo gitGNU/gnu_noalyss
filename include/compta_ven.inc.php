@@ -74,7 +74,6 @@ global $g_parameter;
             echo_warning("Attention, cette opération n'est pas encore sauvée : vous devez encore confirmer");
 
 
-			echo '<div class="content">';
             echo '<form class="print" enctype="multipart/form-data" method="post">';
             echo dossier::hidden();
             echo $Ledger->confirm($_POST );
@@ -91,7 +90,6 @@ global $g_parameter;
             echo HtmlInput::submit('correct',_("Corriger"));
             echo '</form>';
 
-            echo '</div>';
             echo '</div>';
             exit();
         }

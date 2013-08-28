@@ -727,8 +727,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             if ( isset($_POST['gen_invoice']) )
             {
                 $ref_doc= $this->create_document($internal,$p_array);
-                $this->doc= _('Document généré')."  : "."<br>";
-                $this->doc.='<A class="line" HREF="show_pj.php?'.dossier::get().'&jr_grpt_id='.$seq.'&jrn='.$this->id.'">'.$ref_doc.'</A>';
+                $this->doc='<A class="line" HREF="show_pj.php?'.dossier::get().'&jr_grpt_id='.$seq.'&jrn='.$this->id.'">'.$ref_doc.'</A>';
             }
 
             //----------------------------------------
@@ -922,8 +921,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 
         $r="";
         $r.=dossier::hidden();
-        $f_legend=_("En-tête facture fournisseur");
-        $f_legend_detail=_("Détail articles acheté");
+        $f_legend_detail=_("Détail articles achetés");
 
         //  Date
         //--
@@ -988,8 +986,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 		$wLedger=$this->select_ledger('ACH',2);
         if ($wLedger == null) exit (_('Pas de journal disponible'));
         $wLedger->javascript="onChange='update_predef(\"ach\",\"f\");$add_js'";
-        $label=" Journal ".HtmlInput::infobulle(2) ;
-
+        $wLedger->table=1;
         $f_jrn=$wLedger->input();
 
         // Comment
@@ -1000,7 +997,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         $Commentaire->size=60;
         $Commentaire->tabindex=3;
         $label=HtmlInput::infobulle(1) ;
-        $f_desc=$label.$Commentaire->input("e_comm",h($e_comm));
+        $f_desc=$Commentaire->input("e_comm",h($e_comm)).$label;
 
         // PJ
         //--
@@ -1275,46 +1272,69 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         }
         $date_limit=$lPeriode->get_date_limit();
         $r="";
-        $r.="<fieldset>";
-        $r.="<legend>"._('En-tête facture fournisseur')."  </legend>";
-		$r.='<div id="jrn_name_div">';
-		$r.='<h2 class="title"  id="jrn_name">'.$this->get_name().'</h2>';
-		$r.='</div>';
         $r.='<TABLE  width="100%">';
+        if ( $p_summary ) {
+            $jr_id=$this->db->get_value('select jr_id from jrn where jr_internal=$1',array($this->internal));
+            $r.="<tr>";
+            $r.='<td>';
+            $r.=_('Détail opération ');
+            $r.='</td>';
+            $r.='<td>';
+            $r.=sprintf ('<a class="line" style="display:inline" href="javascript:modifyOperation(%d,%d)">%s</a>',
+                    $jr_id,dossier::id(),$this->internal);
+            $r.='</td>';
+            $r.="</tr>";
+        }
         $r.='<tr>';
-        $r.='<td> '._('Date').' '.$e_date.'</td>';
-        $r.='<td>'._('Echeance').' '.$e_ech.'</td>';
-        $r.='<td> '._('Période Comptable').' '.$date_limit['p_start'].'-'.$date_limit['p_end'].'</td>';
-        $r.='<tr>';
-        $r.='<td> '._('Journal').' '.h($this->get_name()).'</td>';
+        $r.='<td> ' . _('Date') . '</td><td> ' . hb($e_date) . '</td>';
         $r.='</tr>';
         $r.='<tr>';
-        $r.='<td colspan="2"> '._('Libellé').' '.h($e_comm).'</td><td> Pj :'.h($e_pj).'</td>';
+        $r.='<td>' . _('Echeance') . '</td><td> ' . hb($e_ech) . '</td>';
         $r.='</tr>';
         $r.='<tr>';
-        $r.='<td colspan="3"> '._('Fournisseur').' '.h($e_client.':'.$client_name).'</td>';
+        $r.='<td> ' . _('Période Comptable') . '</td><td> ' .hb( $date_limit['p_start'] . '-' . $date_limit['p_end']) . '</td>';
+        $r.='</tr>';
+        $r.='<tr>';
+        $r.='<td> ' . _('Journal') . '</td><td> ' . hb($this->get_name()) . '</td>';
+        $r.='</tr>';
+        $r.='<tr>';
+        $r.='<td> ' . _('Libellé') . '</td><td> ' . hb($e_comm) . '</td>';
+        $r.='</tr>';
+        $r.='<tr>';
+        if ( ! $p_summary) {
+            $r.='<td>' . _('Numéro Pièce') .'</td><td>'. hb($e_pj) . '</td>';
+        } else {
+            
+             if ( strcmp($this->pj,$e_pj) != 0 )
+            {
+                $r.='<td>' . _('Numéro Pièce') .'</td><td>'. hb($this->pj) . 
+                        '<span class="notice"> '._('Attention numéro pièce existante, elle a du être adaptée').'</span></td>';
+            } else {
+                $r.='<td>' . _('Numéro Pièce') .'</td><td>'. hb($this->pj) . '</td>';
+            }
+        }
+        $r.='</tr>';
+        $r.='<tr>';
+        $r.='<td> ' . _('Fournisseur') . '</td><td> ' . hb($e_client . ':' . $client_name) . '</td>';
         $r.='</tr>';
         $r.='</table>';
-        $r.='</fieldset>';
-        $r.='<fieldset><legend>'._('Détail articles achetés').'</legend>';
-        $r.='<table width="100%" border="0">';
+        $r.='<h2>' . _('Détail articles achetés') . '</h2>';
+        $r.='<table class="result" border="0">';
         $r.='<TR>';
-        $r.="<th>Code</th>";
-        $r.="<th>"._('Dénomination')."</th>";
-        $r.="<th style=\"text-align:right\">"._('prix')."</th>";
-        /* vat use */
-        if ( $g_parameter->MY_TVA_USE=='Y')
-        {
+        $r.="<th>" . _('Code') . "</th>";
+        $r.="<th>" . _('Dénomination') . "</th>";
+        $r.="<th style=\"text-align:right\">" . _('prix') . "</th>";
+        $r.="<th style=\"text-align:right\">" . _('quantité') . "</th>";
+
+
+        if ($g_parameter->MY_TVA_USE == 'Y') {
+            $r.="<th style=\"text-align:right\">" . _('tva') . "</th>";
+            $r.='<th style="text-align:right"> ' . _('Montant TVA') . '</th>';
+            $r.='<th style="text-align:right">' . _('Montant HTVA') . '</th>';
+            $r.='<th style="text-align:right">' . _('Montant TVAC') . '</th>';
+        } else {
+            $r.='<th style="text-align:right">' . _('Montant') . '</th>';
             $r.="<th style=\"text-align:right\">"._('quantité')."</th>";
-            $r.="<th style=\"text-align:right\">tva</th>";
-            $r.='<th style="text-align:right"> '._('Montant TVA').'</th>';
-            $r.='<th style="text-align:right">'._('Montant HTVA').'</th>';
-            $r.='<th style="text-align:right">'._('Montant TVAC').'</th>';
-        }
-        else
-        {
-            $r.="<th style=\"text-align:right\">"._('quantité')."</th>";
-            $r.='<th style="text-align:right"> '._('Total')."</th>";
         }
 
         /* if we use the AC */
@@ -1387,7 +1407,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $r.='<td>';
             $r.=${"e_march".$i};
             $r.='</td>';
-            $r.='<TD style="width:60%;border-bottom:1px dotted grey;">';
+            $r.='<TD style="border-bottom:1px dotted grey;">';
             $r.=$fiche_name;
             $r.='</td>';
             $r.='<td class="num">';
@@ -1448,52 +1468,27 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         $r.='</table>';
         if ( $g_parameter->MY_ANALYTIC!='nu' && !$p_summary) // use of AA
             $r.='<input type="button" class="button" value="'._('Vérifiez imputation analytique').'" onClick="verify_ca(\'\');">';
-        $r.='</fieldset>';
-
-		if ( ! $p_summary )
-				$r.='<div style="width:40%;position:float;float:right;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
-			else
-				$r.='<div style="width:60%;position:float;float:left;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
-        $r.='<fieldset> <legend>Totaux</legend>';
-        $tot=round(bcadd($tot_amount,$tot_tva),2);
-        $r.='<div style="position:float;float:left;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
-
-        $r.='<br>'._('Total HTVA');
-        if ($g_parameter->MY_TVA_USE=='Y')
-        {
-            foreach ($tva as $i=>$value)
-            {
-                $oTva->set_parameter('id',$i);
+        $r.='<h2>Totaux</h2>';
+        $tot = round(bcadd($tot_amount, $tot_tva), 2);
+        /* use VAT */
+        if ($g_parameter->MY_TVA_USE == 'Y') {
+            $r.='<table>';
+            $r.='<tr><td>Total HTVA</td>';
+            $r.=td(hb(nbm($tot_amount) ),'class="num"');
+            foreach ($tva as $i => $value) {
+                $oTva->set_parameter('id', $i);
                 $oTva->load();
 
-                $r.='<br>  '._('TVA à ').$oTva->get_parameter('label');
+                $r.='<tr><td>  TVA ' . $oTva->get_parameter('label').'</td>';
+                $r.=td(hb(nbm($tva[$i])),'class="num"');
             }
-
-            $r.='<br>'._('Total TVA');
-            $r.='<br>'._(' TVAC');
-
+            $r.='<tr>'.td(_('Total TVA')).td(hb(nbm($tot_tva)),'class="num"');
+            $r.='<tr>'.td(_('Total TVAC')).td(hb(nbm($tot)),'class="num"');
+            $r.='</table>';
+        } else {
+            $r.='<br>Total '.nbm(hb($tot));
         }
-        $r.="</div>";
-
-
-        $r.='<div style="position:float;float:left;text-align:right;color:blue;font-size:1.2em;font-weight:bold">';
-        $r.='<br><span id="htva">'.nbm($tot_amount).'</span>';
-
-        if ( $g_parameter->MY_TVA_USE=='Y')
-        {
-            foreach ($tva as $i=>$value)
-            {
-	      $r.='<br>'.nbm($tva[$i]);
-            }
-            $r.='<br><span id="tva">'.nbm($tot_tva).'</span>';
-            $r.='<br><span id="tvac">'.nbm($tot).'</span>';
-        }
-        $r.="</div>";
-
-
-
-        $r.='</fieldset>';
-	$r.='</div>';
+       
         /*  Add hidden */
         $r.=HtmlInput::hidden('e_client',$e_client);
         $r.=HtmlInput::hidden('nb_item',$nb_item);
@@ -1530,33 +1525,35 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         }
 	if ( ! $p_summary )
             $r.=$this->extra_info();
-	if ($g_parameter->MY_STOCK == 'Y')
-		{
-			$sel = HtmlInput::select_stock($this->db, 'repo', 'W');
-			$sel->readOnly = $p_summary;
-			if ($p_summary == true)
-				$sel->selected = $repo;
-			$r.="<div style=\"clear:both\"></div>";
-			$r.='<div style="float:left"><h2 class="info">Dépôt</h2>';
-			$r.="<p> Dans le dépôt : ";
-			$r.=$sel->input();
-			$r.='</p>';
-			$r.='</div>';
-		}
+	// Show the available repository
+        if ($g_parameter->MY_STOCK == 'Y') {
+            $sel = HtmlInput::select_stock($this->db, 'repo', 'W');
+            $sel->readOnly = $p_summary;
+            if ($p_summary == true)
+                $sel->selected = $repo;
+            $r.='<h2>Dépôt</h2>';
+            $r.="<p> Dans le dépôt : ";
+            $r.=$sel->input();
+            $r.='</p>';
+        }
 	if ( $e_mp!=0 && strlen (trim (${'e_mp_qcode_'.$e_mp})) != 0 )
         {
             $r.=HtmlInput::hidden('e_mp_qcode_'.$e_mp,${'e_mp_qcode_'.$e_mp});
             $r.=HtmlInput::hidden('acompte',$acompte);
 			$r.=HtmlInput::hidden('e_comm_paiement',$e_comm_paiement);
             /* needed for generating a invoice */
-            $r.=HtmlInput::hidden('qcode_benef', ${'e_mp_qcode_' . $e_mp});
+           $r.=HtmlInput::hidden('qcode_benef', ${'e_mp_qcode_' . $e_mp});
 			$fname = new Fiche($this->db);
 			$fname->get_by_qcode(${'e_mp_qcode_' . $e_mp});
-			$r.="<div style=\"clear:both\"></div>";
+			/*$r.="<div style=\"clear:both\"></div>";
 			$r.='<div style="float:left"><h2 class="info">' . "Payé par " . ${'e_mp_qcode_' . $e_mp} .
 					" ".$fname->getName() ."</h2> ".
 					'<p>'._('Déduction acompte ').h($acompte).'</p>'.
-					_('Libellé :' ).h($e_comm_paiement).'</div>';
+					_('Libellé :' ).h($e_comm_paiement).'</div>';*/
+            $r.='<h2>' . "Payé par " . ${'e_mp_qcode_' . $e_mp} .
+                    " " . $fname->getName() . '</H2> ' . '<p>' . _('Déduction acompte ') . h($acompte) . '</p>' .
+                    _('Libellé :') . h($e_comm_paiement) ;
+            $r.='<br>';
             $r.='<br>';
         }
         // check for upload piece
@@ -1573,8 +1570,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
     public function extra_info()
     {
         $r="";
-        $r.='<div style="position:float;float:left;width:50%;text-align:right;line-height:3em;">';
-        $r.='<fieldset> <legend> '._('Document à générer').'</legend>';
+        $r.='<h2> Facturation</h2>';
         // check for upload piece
         $file=new IFile();
         $file->table=0;
@@ -1584,7 +1580,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         if ( $this->db->count_sql("select md_id,md_name from document_modele where md_affect='ACH'") > 0 )
         {
 
-            $r.='<hr>';
             $r.=_('ou générer un document').' <input type="checkbox" name="gen_invoice" >';
             // We propose to generate  the fee note
             $doc_gen=new ISelect();
@@ -1598,8 +1593,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         $obj=new IText();
         $r.=_('Numero de bon de commande : ').$obj->input('bon_comm').'<br>';
         $r.=_('Autre information : ').$obj->input('other_info').'<br>';
-        $r.="</fieldset>";
-        $r.='</div>';
         return $r;
     }
 

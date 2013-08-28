@@ -60,24 +60,22 @@ if (isset($_POST['view_invoice']))
 	if (!isset($correct))
 	{
 		echo '<div class="content">';
-		echo h2info('Confirmation');
+		 echo h1('Confirmation','');
+                echo_warning("Attention, cette opération n'est pas encore sauvée : vous devez encore confirmer");
+
 
 		echo '<form enctype="multipart/form-data" method="post" class="print">';
 		echo dossier::hidden();
 
 		echo $Ledger->confirm($_POST);
 		echo HtmlInput::hidden('ac', $_REQUEST['ac']);
-		$chk = new ICheckBox();
-		$chk->selected = false;
 		echo '<div style="float:left;clear:both">';
 
-		echo $chk->input('opd_save');
-		echo "Sauvez cette op&eacute;ration comme modèle d'opération ?";
-		echo '<br/>';
+                echo "<h2>Modèle d'opération</h2>";
+                echo "Donnez un nom pour sauver cette opération comme modèle <br>";
 		$opd_name = new IText('opd_name');
 		echo "Nom du modèle " . $opd_name->input();
-
-		echo '<hr>';
+                echo '</div>';
 		echo HtmlInput::submit("record", _("Enregistrement"), 'onClick="return verify_ca(\'\');"');
 		echo HtmlInput::submit('correct', _("Corriger"));
 		echo '</form>';
@@ -113,7 +111,7 @@ if (isset($_POST['record']))
 
 
 		/* Save the predefined operation */
-		if (isset($_POST['opd_save']) )
+                if ( isset($_POST['opd_name']) && trim($_POST['opd_name']) != "" )
 		{
 			$opd = new Pre_op_ach($cn);
 			$opd->get_post();
@@ -123,26 +121,25 @@ if (isset($_POST['record']))
 		/* Show button  */
 		$jr_id = $cn->get_value('select jr_id from jrn where jr_internal=$1', array($internal));
 
-		echo '<h2 class="info"> Enregistrement </h2>';
-		echo "<h2 >" . _('Opération sauvée') . " $internal ";
-		if ($Ledger->pj != '')
-			echo ' Piece : ' . h($Ledger->pj);
-		echo "</h2>";
-		if (strcmp($Ledger->pj, $_POST['e_pj']) != 0)
-		{
-			echo '<h3 class="notice"> ' . _('Attention numéro pièce existante, elle a du être adaptée') . '</h3>';
-		}
+		echo '<h1> Enregistrement </h1>';
+		// echo "<h2 >" . _('Opération sauvée') . " $internal ";
+		// if ($Ledger->pj != '')
+		//	echo ' Piece : ' . h($Ledger->pj);
+		// echo "</h2>";
+		// if (strcmp($Ledger->pj, $_POST['e_pj']) != 0)
+		// {
+		//	echo '<h3 class="notice"> ' . _('Attention numéro pièce existante, elle a du être adaptée') . '</h3>';
+		// }
 		/* Save the additional information into jrn_info */
 		$obj = new Acc_Ledger_Info($cn);
 		$obj->save_extra($Ledger->jr_id, $_POST);
-		printf('<a class="line" style="display:inline" href="javascript:modifyOperation(%d,%d)">%s</a><hr>', $jr_id, dossier::id(), $internal);
+		//printf('<a class="line" style="display:inline" href="javascript:modifyOperation(%d,%d)">%s</a><hr>', $jr_id, dossier::id(), $internal);
 		// Feedback
 		echo $Ledger->confirm($_POST, true);
 		if (isset($Ledger->doc))
 		{
-                     echo '<span class="invoice">';
+                     echo '<h2>Document</h2>';
                      echo $Ledger->doc;
-                     echo '</span>';
 		}
 
 		echo '</div>';
@@ -240,3 +237,4 @@ echo '</div>';
 
 exit();
 // end record invoice
+?>
