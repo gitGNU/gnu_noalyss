@@ -465,8 +465,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
                 /* Generate an invoice and save it into the database */
                 if (isset($_POST['gen_invoice'])) {
                     $file = $this->create_document($internal, $p_array);
-                    $this->doc = _('Document généré') . "  : " . "<br>";
-                    $this->doc.='<A class="line" HREF="show_pj.php?' . dossier::get() . '&jr_grpt_id=' . $seq . '&jrn=' . $this->id . '">' . $file . '</A>';
+                    $this->doc='<A class="line" HREF="show_pj.php?' . dossier::get() . '&jr_grpt_id=' . $seq . '&jrn=' . $this->id . '">' . $file . '</A>';
                 }
             }
             //----------------------------------------
@@ -614,11 +613,20 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         }
         $date_limit = $lPeriode->get_date_limit();
         $r = "";
-        $r.='<div id="jrn_name_div">';
-        $r.='<h2   id="jrn_name" style="display:inline">' . $this->get_name() . '</h2>';
-        $r.= '</div>';
         $r.='<div>';
         $r.='<TABLE  width="100%">';
+        if ( $p_summary ) {
+            $jr_id=$this->db->get_value('select jr_id from jrn where jr_internal=$1',array($this->internal));
+            $r.="<tr>";
+            $r.='<td>';
+            $r.=_('Détail opération ');
+            $r.='</td>';
+            $r.='<td>';
+            $r.=sprintf ('<a class="line" style="display:inline" href="javascript:modifyOperation(%d,%d)">%s</a>',
+                    $jr_id,dossier::id(),$this->internal);
+            $r.='</td>';
+            $r.="</tr>";
+        }
         $r.='<tr>';
         $r.='<td> ' . _('Date') . '</td><td> ' . hb($e_date) . '</td>';
         $r.='</tr>';
@@ -635,7 +643,18 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         $r.='<td> ' . _('Libellé') . '</td><td> ' . hb($e_comm) . '</td>';
         $r.='</tr>';
         $r.='<tr>';
-        $r.='<td>' . _('Numéro Pièce') .'</td><td>'. hb($e_pj) . '</td>';
+        if ( ! $p_summary) {
+            $r.='<td>' . _('Numéro Pièce') .'</td><td>'. hb($e_pj) . '</td>';
+        } else {
+            
+             if ( strcmp($this->pj,$e_pj) != 0 )
+            {
+                $r.='<td>' . _('Numéro Pièce') .'</td><td>'. hb($this->pj) . 
+                        '<span class="notice"> '._('Attention numéro pièce existante, elle a du être adaptée').'</span></td>';
+            } else {
+                $r.='<td>' . _('Numéro Pièce') .'</td><td>'. hb($this->pj) . '</td>';
+            }
+        }
         $r.='</tr>';
         $r.='<tr>';
         $r.='<td> ' . _('Client') . '</td><td> ' . hb($e_client . ':' . $client_name) . '</td>';
@@ -786,7 +805,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
             $r.='<tr>'.td(_('Total TVAC')).td(hb(nbm($tot)),'class="num"');
             $r.='</table>';
         } else {
-            $r.='<br>Total '.nbm($tot);
+            $r.='<br>Total '.nbm(hb($tot));
         }
        
         if (!$p_summary) {
