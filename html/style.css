@@ -134,6 +134,20 @@ div.u_tool #name {
     float:right;
     margin-right:10px;
 }
+td.tool a.mtitle {
+    text-decoration:none;
+    display:inline;
+    color: blue;
+    font-size:75%;
+}
+td.tool a.mtitle:hover {
+    text-decoration:none;
+    display:inline;
+    font-size:75%;
+    color: darkblue;
+    background-color:#5D90CD;
+
+}
 #top {
     float:left;
     margin-bottom: 0.9512%;
