@@ -79,8 +79,6 @@ global $g_parameter;
             echo dossier::hidden();
             echo $Ledger->confirm($_POST );
 			echo HtmlInput::hidden('ac',$_REQUEST['ac']);
-            $chk=new ICheckBox();
-            $chk->selected=false;
 	    echo '<div style="clear:both">';
             
             echo "<h2>Modèle d'opération</h2>";
@@ -88,7 +86,6 @@ global $g_parameter;
 	    $opd_name=new IText('opd_name');
 	    echo "Nom du modèle ".$opd_name->input();
 	    echo '</div>';
-            echo '<hr>';
 	    echo HtmlInput::hidden('ac',$_REQUEST['ac']);
             echo HtmlInput::submit("record",_("Enregistrement"),'onClick="return verify_ca(\'\');"');
             echo HtmlInput::submit('correct',_("Corriger"));
@@ -140,25 +137,13 @@ global $g_parameter;
 
             /* Show button  */
             echo '<h1 > Enregistrement </h1>';
-            $jr_id=$cn->get_value('select jr_id from jrn where jr_internal=$1',array($internal));
 
-            echo "<h2 >"._('Opération sauvée');
-            if ( $Ledger->pj != '') echo ' Piece : '.h($Ledger->pj);
-            echo "</h2>";
-            if ( strcmp($Ledger->pj,$_POST['e_pj']) != 0 )
-            {
-                echo '<h3 class="notice"> '._('Attention numéro pièce existante, elle a du être adaptée').'</h3>';
-            }
-
-            printf ('Détail opération : <a class="line" style="display:inline" href="javascript:modifyOperation(%d,%d)">%s</a><hr>',
-                    $jr_id,dossier::id(),$internal);
-	    echo $Ledger->confirm($_POST,true);
+            echo $Ledger->confirm($_POST,true);
             /* Show link for Invoice */
             if (isset ($Ledger->doc) )
             {
-                echo '<span class="invoice">';
+                echo '<h2>Document </h2>';
                 echo $Ledger->doc;
-                echo '</span>';
             }
 
 
