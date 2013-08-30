@@ -127,7 +127,7 @@ class ITva_Popup extends HtmlInput
 		$this->id=($this->id=="")?$this->name:$this->id;
 
         // button
-        $bt=new ISmallButton('bt_'.$this->id);
+        $bt=new IButton('bt_'.$this->id,"smallbutton");
 		$bt->tabindex="-1";
         $bt->label=_(' TVA ');
         $bt->set_attribute('gDossier',dossier::id());

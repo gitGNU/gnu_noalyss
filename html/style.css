@@ -78,7 +78,6 @@ h2.info {
     text-align:center;
     padding:0px;
     margin:0px;
-    border:1px solid grey;
 
 }
 
@@ -1009,11 +1008,10 @@ table.info_op tr
 }
 h2#jrn_name
 {
-    color:darkgrey;
+    color:blue;
     font-size:2.74em;
     margin-right:30%;
     float: right;
-
 }
 tr.footer{
     font-size:0.87em;
@@ -1094,7 +1092,7 @@ a.line,div.content a.line
 }
 a.line:hover,div_content a.line
 {
-   font-size:0.57em;
+   font-size:0.87em;
     text-decoration:underline;
     display:inline;
     color: #0000ff;

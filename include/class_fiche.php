@@ -489,9 +489,8 @@ class Fiche
 						break;
 					case 'zone':
 						$w = new ITextArea();
-						$w->width = $attr->ad_size;
-						$w->heigh = 2;
-						break;
+                                                $w->style=' class="itextarea" style="margin:0px;width:100%"';
+                                                break;
 					case 'poste':
 						$w = new IPoste("av_text" . $attr->ad_id);
 						$w->set_attribute('ipopup', 'ipop_account');
@@ -618,9 +617,8 @@ class Fiche
 							break;
 						case 'zone':
 							$w = new ITextArea('av_text' . $r->ad_id);
-							$w->width = $r->ad_size;
-							$w->heigh = 2;
-							$w->value = $r->av_text;
+                                                        $w->style=' class="itextarea" style="margin:0px;width:100%"';
+                                                        $w->value = $r->av_text;
 							break;
 						case 'poste':
 							$w = new IPoste("av_text" . $r->ad_id);

@@ -1,6 +1,6 @@
 
 	<div id="jrn_name_div">
-	<h2 class="title" id="jrn_name"> <?php echo $this->get_name()?></h2>
+	<h2 id="jrn_name"> <?php echo $this->get_name()?></h2>
 </div>
 <table>
     <tr>

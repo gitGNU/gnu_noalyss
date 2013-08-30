@@ -59,7 +59,7 @@ echo $op->form_get();
 echo '</form>';
 echo '</div>';
 echo '<div id="jrn_name_div">';
-echo '<h2 class="title" id="jrn_name" style="display:inline">' . $ledger->get_name() . '</h2>';
+echo '<h2 id="jrn_name" style="display:inline">' . $ledger->get_name() . '</h2>';
 echo '</div>';
 
 // Show the predef operation

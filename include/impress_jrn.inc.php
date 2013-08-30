@@ -92,7 +92,21 @@ echo dossier::hidden();
 echo HtmlInput::get_to_hidden(array('ac', 'type'));
 echo '</fieldset>';
 echo '</form>';
+?>
+<div class="noprint" style="position:absolute;right:5%;top:200px;background-color:yellow;border: 1px solid black">
+    <h3>
+        Remarque  : choix possibles
+    </h3>
+    <ul>
+        <li> Détail opérations ne donne pas le même résultat si on regarde tous les journaux ou un journal de type ACH ou VEN</li>
+        <li> Liste opérations ne donne pas le même résultat si on regarde tous les journaux ou un journal de type ACH ou VEN</li>
+        <li> Journaux VEN ou ACH en mode "détail opérations" donne les détails des factures, y compris les montants, TVA et quantité par article</li>
+        <li> Journaux VEN ou ACH en mode "liste opérations" donne pour chaque opération, le total de la TVA, ND, ...</li>
+    </ul>
+      
+</div>
 
+<?php
 
 
 echo '<FORM METHOD="GET">' . dossier::hidden();
@@ -325,7 +339,7 @@ if (isset($_REQUEST['bt_html']))
 		foreach ($Row as $line)
 		{
 			echo '<div style="margin-top:2px;margin-bottom:10px;border:solid 1px black">';
-			$class = ' class="odd" style="font-stretch: expanded;font-size:12px;"';
+			$class = ' class="odd" style="font-stretch: expanded;font-size:1em;"';
 			echo '<table class="result" style="font-weight: bolder;font-variant: small-caps;width:100%;">';
 			echo "<tr $class>";
 			echo '<TD style="width:5%">' . $line['date'] . "</TD>";

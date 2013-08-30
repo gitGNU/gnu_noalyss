@@ -75,7 +75,8 @@ if ( isset($_POST['save']))
 	if ( ! isset ($correct ))
 	{
 		echo '<div class="content">';
-		echo '<h2 class="info">'._('Confirmation').' </h2>';
+		echo h1('Confirmation','');
+                echo_warning("Attention, cette opération n'est pas encore sauvée : vous devez encore confirmer");
 		echo '<form name="form_detail" class="print" enctype="multipart/form-data" class="print" METHOD="POST">';
 		echo HtmlInput::hidden('ac',$_REQUEST['ac']);
 		echo $Ledger->confirm($_POST);
@@ -110,7 +111,7 @@ if ( isset($_POST['confirm']))
 
 		echo '<div class="content">';
 		$a= $Ledger->insert($_POST);
-		echo '<h2 class="info">'._('Enregistrement').' </h2>';
+		echo '<h1>'._('Enregistrement').' </h1>';
 		echo '<div class="content">';
 		echo $a;
 		echo '</div>';
