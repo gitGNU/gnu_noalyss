@@ -28,21 +28,39 @@ var layer=1;
 /**
 * @brief update the list of available predefined operation when we change the ledger.
 */
-function update_predef(p_type,p_direct)
+function update_predef(p_type,p_direct,p_ac)
 {
     var jrn=g("p_jrn").value;
     var dossier=g("gDossier").value;
-    var querystring='gDossier='+dossier+'&l='+jrn+'&t='+p_type+'&d='+p_direct+"&op=up_predef";
+    var querystring='gDossier='+dossier+'&l='+jrn+'&t='+p_type+'&d='+p_direct+"&op=up_predef&ac="+p_ac;
     g("p_jrn_predef").value=jrn;
-    var action=new Ajax.Request(
-                   "ajax_misc.php",
-                   {
-                   method:'get',
-                   parameters:querystring,
-                   onFailure:error_get_predef,
-                   onSuccess:success_get_predef
-                   }
-               );
+    var action = new Ajax.Request(
+            "ajax_misc.php",
+            {
+                method: 'get',
+                parameters: querystring,
+                onFailure: error_get_predef,
+                onSuccess: function(req) {
+                    try {
+                        $('info_div').innerHTML = "ok";
+                        var answer = req.responseXML;
+                        var a = answer.getElementsByTagName('code');
+                        var html = answer.getElementsByTagName('value');
+                        if (a.length == 0)
+                        {
+                            var rec = req.responseText;
+                            alert('erreur :' + rec);
+                        }
+                        var code_html = getNodeText(html[0]);
+                        code_html = unescape_xml(code_html);
+                        // document.getElementsByName(name_ctl)[0].value = code_html;
+                        $('modele_op_div').innerHTML=code_html;
+                    } catch (e) {
+                        $('info_div').innerHTML = e.getMessage;
+                    }
+                }
+            }
+    );
 }
 
 /**
@@ -75,25 +93,6 @@ function update_pay_method()
 function update_name()
 {
 	$('jrn_name').innerHTML=$('p_jrn').options[$('p_jrn').selectedIndex].innerHTML;
-}
-/**
- * @brief update the field predef
- */
-function success_get_predef(request,json)
-{
-    var i=0;
-    var answer=request.responseText.evalJSON(true);
-    obj=g("pre_def");
-    obj.innerHTML='';
-    if ( answer.count == 0 ) return;
-
-    for ( i = 0 ; i < answer.count;i++)
-    {
-        value=answer['value'+i];
-        label=answer['label'+i];
-        obj.options[obj.options.length]=new Option(label,value);
-    }
-
 }
 /**
  * @brief update the field predef

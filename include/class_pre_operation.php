@@ -221,14 +221,16 @@ class Pre_operation_detail
 
     /*!\brief show a form to use pre_op
      */
-    function form_get ()
+    function form_get ($p_url)
     {
-
+        $r=HtmlInput::button_action("Modèle d'opérations", ' $(\'modele_op_div\').style.display=\'block\';$(\'lk_modele_op_tab\').focus();');
+        $r.='<div id="modele_op_div">';
+        $r.=HtmlInput::title_box("Modèle d'opérations ", 'modele_op_div', 'hide');
         $hid=new IHidden();
-        $r=$hid->input("action","use_opd");
+        $r.=$hid->input("action","use_opd");
         $r.=$hid->input("jrn_type",$this->get("ledger_type"));
-        $r.= HtmlInput::submit('use_opd','Utilisez une op&eacute;ration pr&eacute;d&eacute;finie','','smallbutton');
-        $r.= $this->show_button();
+        $r.= $this->show_button($p_url);
+        $r.='</div>';
         return $r;
 
     }
@@ -242,15 +244,21 @@ class Pre_operation_detail
         return $a;
     }
     /*!\brief show the button for selecting a predefined operation */
-    function show_button()
+    function show_button($p_url)
     {
-
-        $select=new ISelect();
-
         $value=$this->get_operation();
-        //	if ( empty($value)==true) return "";
-        $select->value=$value;
-        $r=$select->input("pre_def");
+        $r="";
+        $r.='<h2>Choississez un modèle</h2>';
+        $r.='Filtrer '.HtmlInput::filter_table('modele_op_tab', '0', '0');
+        $r.='<table style="width:100%" id="modele_op_tab">';
+        for ($i=0;$i<count($value);$i++) {
+            $r.='<tr class="'.(($i%2==0)?"even":"odd").'">';
+            $r.='<td>';
+            $r.=sprintf('<a href="%s&pre_def=%s" onclick="waiting_box()">%s</a>',$p_url,$value[$i]['value'],$value[$i]['label']);
+            $r.='</td>';
+            $r.='</tr>';
+        }
+        $r.='</table>';
         return $r;
     }
     public function   get_operation()

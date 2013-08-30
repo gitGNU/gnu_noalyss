@@ -45,18 +45,14 @@ if ( $g_user->check_jrn($ledger->id)=='X')
 }
 echo '<div class="content">';
 echo '<div id="predef_form">';
-echo '<form method="GET" action="do.php">';
-echo HtmlInput::hidden("action", "use_opd");
-echo HtmlInput::hidden("ac",$_REQUEST['ac']);
-echo dossier::hidden();
 echo HtmlInput::hidden('p_jrn_predef', $ledger->id);
 $op = new Pre_op_ods($cn);
 $op->set('ledger', $ledger->id);
 $op->set('ledger_type', "ODS");
 $op->set('direct', 't');
-echo $op->form_get();
+$url=http_build_query(array('action'=>'use_opd','p_jrn_predef'=>$ledger->id,'ac'=>$_REQUEST['ac'],'gDossier'=>dossier::id()));
+echo $op->form_get('do.php?'.$url);
 
-echo '</form>';
 echo '</div>';
 echo '<div id="jrn_name_div">';
 echo '<h2 id="jrn_name" style="display:inline">' . $ledger->get_name() . '</h2>';

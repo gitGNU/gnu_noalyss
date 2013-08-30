@@ -1253,3 +1253,16 @@ textarea.itextarea{
     width:90%;
     margin-left:5%;
 }
+div#modele_op_div{
+    display: none;
+    background-color:#e4e7ed;
+    font-family:arial,verdana,sans-serif,helvetica;
+    padding:0;
+    margin:0;
+    overflow:hidden;
+    z-index:3;
+    position:absolute;
+    left:10%;
+    width:60%;
+    border:1px solid darkblue;
+}

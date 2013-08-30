@@ -1586,7 +1586,7 @@ class Acc_Ledger extends jrn_def_sql
 		$wLedger = $this->select_ledger('ODS', 2);
 		if ($wLedger == null)
 			exit(_('Pas de journal disponible'));
-		$wLedger->javascript = "onChange='update_name();update_predef(\"ods\",\"t\");$add_js'";
+		$wLedger->javascript = "onChange='update_name();update_predef(\"ods\",\"t\",\"".$_REQUEST['ac']."\");$add_js'";
 		$label = " Journal " . HtmlInput::infobulle(2);
 
 		$ret.=$label . $wLedger->input();

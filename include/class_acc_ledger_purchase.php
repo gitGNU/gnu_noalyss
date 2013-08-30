@@ -985,7 +985,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 
 		$wLedger=$this->select_ledger('ACH',2);
         if ($wLedger == null) exit (_('Pas de journal disponible'));
-        $wLedger->javascript="onChange='update_predef(\"ach\",\"f\");$add_js'";
+        $wLedger->javascript="onChange='update_predef(\"ach\",\"f\",\"".$_REQUEST['ac']."\");$add_js'";
         $wLedger->table=1;
         $f_jrn=$wLedger->input();
 

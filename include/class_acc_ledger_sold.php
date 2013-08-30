@@ -1051,7 +1051,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         if ($wLedger == null)
             exit(_('Pas de journal disponible'));
         $wLedger->table = 1;
-        $wLedger->javascript = "onChange='update_predef(\"ven\",\"f\");$add_js'";
+        $wLedger->javascript = "onChange='update_predef(\"ven\",\"f\",\"".$_REQUEST['ac']."\");$add_js'";
         $wLedger->label = " Journal " . HtmlInput::infobulle(2);
 
         $f_jrn = $wLedger->input();

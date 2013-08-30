@@ -48,21 +48,21 @@ $op=new Pre_operation_detail($cn);
 $op->set('ledger',$l);
 $op->set('ledger_type',$t);
 $op->set('direct',$d);
-$array=$op->get_operation();
-$string='{"count":"'.count($array).'"';
-$idx=0;
-if (! empty($array))
-    foreach ($array as $a)
-{
-    $string.=',"value'.$idx.'":"'.$a['value'].'",';
-    $string.='"label'.$idx.'":"'.$a['label'].'"';
-    $idx++;
-}
-$string.="}";
+$url=http_build_query(array('action'=>'use_opd','p_jrn_predef'=>$l,'ac'=>$_GET['ac'],'gDossier'=>dossier::id()));
+$html="";
 
-header("Content-type: text/json; charset: utf8",true);
-echo $string;
+$html.=HtmlInput::title_box("Modèle d'opérations ", 'modele_op_div', 'hide');
+$html.=$op->show_button('do.php?'.$url);
 
+$html=escape_xml($html);
+header('Content-type: text/xml; charset=UTF-8');
+echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<code></code>
+<value>$html</value>
+</data>
+EOF;
 
 ?>
 

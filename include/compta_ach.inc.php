@@ -179,23 +179,20 @@ if (isset ($_REQUEST['p_jrn_predef'])){
 // pre defined operation
 //
 echo '<div id="predef_form">';
-echo '<form method="GET" action="do.php">';
-echo dossier::hidden();
 echo HtmlInput::hidden('p_jrn_predef', $Ledger->id);
-echo HtmlInput::hidden('ac', $_REQUEST['ac']);
 $op = new Pre_op_ach($cn);
 $op->set('ledger', $Ledger->id);
 $op->set('ledger_type', "ACH");
 $op->set('direct', 'f');
-echo $op->form_get();
-echo '</form>';
+$url=http_build_query(array('p_jrn_predef'=>$Ledger->id,'ac'=>$_REQUEST['ac'],'gDossier'=>dossier::id()));
+echo $op->form_get('do.php?'.$url);
 echo '</div>';
 echo '</div>';
 
 echo '<div class="content">';
 echo "<FORM class=\"print\"NAME=\"form_detail\" METHOD=\"POST\" >";
 /* request for a predefined operation */
-if (isset($_GET['use_opd']) && isset($_REQUEST['pre_def']) && !isset($_POST['correct']))
+if ( isset($_REQUEST['pre_def']) && !isset($_POST['correct']))
 {
 	// used a predefined operation
 	//
