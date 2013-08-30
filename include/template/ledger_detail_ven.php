@@ -75,8 +75,8 @@
                                                     </tr>
 						</table>
 </td>
-<td>
-			<table style="border:solid 1px yellow">
+<td style='width:50%'>
+			<table style="width:100%;border:solid 1px yellow">
 			<tr>
 			<td>
 				Note

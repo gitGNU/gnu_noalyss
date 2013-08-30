@@ -126,9 +126,7 @@ case 'rmfa':
 case 'dc':
     $f=new Fiche($cn);
     /* add title + close */
-    $html="";
-    $html=HtmlInput::anchor_close($ctl);
-    $html.=h2info('Détail fiche');
+    $html=HtmlInput::title_box("Détail fiche", $ctl);
     if ( $qcode != '')
     {
         $f->get_by_qcode($qcode);
@@ -180,12 +178,10 @@ case 'dc':
 case 'bc':
     if ( $g_user->check_action(FICADD)==1 )
     {
-        $r='';
-	$r=HtmlInput::anchor_close($ctl);
+        $r=HtmlInput::title_box("Nouvelle fiche", $ctl);
 	/* get cat. name */
 	$cat_name=$cn->get_value('select fd_label from fiche_def where fd_id=$1',
 				 array($fd_id));
-	$r.=h2info(_('Nouvelle fiche ').$cat_name);
         $f=new Fiche($cn);
         $r.='<form id="save_card" method="POST" onsubmit="this.ipopup=\''.$ctl.'\';save_card(this);return false;" >';
         $r.=dossier::hidden();
@@ -261,8 +257,8 @@ case 'st':
     $sql.=" ".$where." order by fd_label";
 
     $array=$cn->make_array($sql);
-    $html=HtmlInput::anchor_close('select_card_div');
-    $html.=h2info('Choix de la catégorie');
+    $html=HtmlInput::title_box("Choix de la catégorie", $ctl);
+
     if ( empty($array))
     {
         $html.=_("Aucune catégorie de fiche ne correspond  à".
@@ -297,8 +293,7 @@ case 'st':
      *
      ----------------------------------------------------------------------*/
 case 'sc':
-  $html=HtmlInput::anchor_close($ctl);
-  $html.=h2info('Nouvelle fiche');
+    $html=HtmlInput::title_box("Choix de la catégorie", $ctl);
     if ( $g_user->check_action(FICADD)==1 )
     {
         $f=new Fiche($cn);
@@ -322,10 +317,7 @@ case 'sc':
      *----------------------------------------------------------------------*/
 case 'fs':
     require_once('class_acc_ledger.php');
-    $r='';
-	$r.=HtmlInput::anchor_close('search_card');
-    $r.='<div> '.h2info(_('Recherche de fiche')).'</div>';
-
+    $r=HtmlInput::title_box("Détail fiche", $ctl);
     $r.='<form method="GET" onsubmit="this.ctl=\'ipop_card\';search_get_card(this);return false;">';
     $q=new IText('query');
     $q->value=(isset($query))?$query:'';
@@ -491,8 +483,7 @@ case 'scc':
     }
     break;
 case 'upc':
-  $html=HtmlInput::anchor_close($ctl);
-  $html.=h2info('Détail fiche');
+    $html=HtmlInput::title_box("Détail fiche", $ctl);
 
   if ( $g_user->check_action(FICADD)==0 )
     {

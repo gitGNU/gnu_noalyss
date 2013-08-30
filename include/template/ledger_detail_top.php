@@ -1,4 +1,4 @@
-<div style="float:right;height:10px;display:block;margin-top:2px;margin-right:2px">
+<div style="float:right;height:10px;display:block;margin-top:0.48%;margin-right:0.48%">
 <?php 
    if ($div != "popup") {
      $callback=$_SERVER['PHP_SELF'];
@@ -10,7 +10,7 @@
 ?>
 </div>
 <div>
-   <?php echo h2info($oLedger->get_name()); ?>
+   <?php echo h2($oLedger->get_name(),'class="title"'); ?>
 </div>
 <?php echo "Opération ID=".hb($obj->det->jr_internal); ?>
 <div id="<?php echo $div.'info'?>" class="divinfo"></div>

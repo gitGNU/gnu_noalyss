@@ -49,14 +49,16 @@ require_once ('class_anc_plan.php');
 
 								</td></tr>
 			</table>
-			</td><td>
-						<table style="border:solid 1px yellow">
-						<tr>
-						<td>
-							Note
-						</td></tr>
-						<tr>
-						<td>
+			</td>
+                            <td style='width:50%'>
+                            <table style="width:100%;border:solid 1px yellow">
+				<tr>
+                                    <td>
+						Note
+                                    </td>
+                                </tr>
+				<tr>
+                                    <td>
 						<?php 
 						$inote=new ITextarea('jrn_note');
 						$inote->width=25;
@@ -65,9 +67,9 @@ require_once ('class_anc_plan.php');
 						echo $inote->input();
 						?>
 
-						</td>
-						</tr>
-						</table>
+                                    </td>
+                                </tr>
+                            </table>
 </td>
 </tr>
 </table>

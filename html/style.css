@@ -82,6 +82,7 @@ h2.info {
 
 }
 
+
 h3.info {
     background:#879ed4;
     color:white;
@@ -1182,11 +1183,14 @@ h1.title {
     font-style: italic;
 }
 h2.title {
-    color: blue;
-    font-size:0.87em;
-    font-weight:bold;
-    font-style: italic;
-    margin-left: 15px;
+    background-color:#879ed4;
+    color:white;
+    font-size:1.34em;
+    text-align:center;
+    padding:0.24%;
+    //margin:0.24%;
+    border:1px solid darkblue;
+
 }
 h3.title {
     color: blue;

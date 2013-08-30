@@ -1,7 +1,6 @@
 <?php 
-     echo HtmlInput::anchor_close($ctl);
+$html=HtmlInput::title_box("Ajout d'une catégorie ".$msg, $ctl);
 ?>
-   <?php echo h2info(_("Ajout d'une catégorie").$msg); ?>
 
 <div class="content">
 <form id="newcat" name="newcat" method="get" onsubmit="this.ipopup='<?php echo $ipopup?>';save_card_category(this);return false;">

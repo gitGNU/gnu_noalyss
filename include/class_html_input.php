@@ -411,7 +411,7 @@ class HtmlInput
     static function anchor_close($div)
     {
 	$r='';
-	$r.='<div style="float:right;margin-right:2px;margin-top:1px;padding:0">';
+	$r.='<div style="float:right;margin-right:2px;margin-top:5px;padding:0">';
 	$r.= '<A id="close_div" class="input_text" HREF="javascript:void(0)" onclick="removeDiv(\''.$div.'\');">Fermer</A>';
 	$r.='</div>';
 	return $r;
@@ -648,7 +648,7 @@ class HtmlInput
 	{
 		if ($mod=='close')		$r=HtmlInput::anchor_close($div);
 		if ($mod=='hide')		$r=HtmlInput::anchor_hide(_('Fermer'),"$('$div').hide()");
-		$r.=h2info($name);
+		$r.=h2($name,' class="title" ');
 		return $r;
 	}
         /**
