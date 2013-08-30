@@ -85,7 +85,7 @@ echo '</FORM>';
 $search_card=new IText('card_search');
 $search_card_js=sprintf('onclick="boxsearch_card(\'%d\')"',dossier::id());
 ?>
-<div style="position:absolute;right:230px;top:110px">
+<div style="position:absolute;right:15.625%;top:35%">
 
 		<?php echo _('Recherche de fiche')?> <?php echo HtmlInput::infobulle(18)?> :<?php echo $search_card->input()?>
 		<?php echo HtmlInput::button_anchor("Chercher","javascript:void(0)","",$search_card_js)?>

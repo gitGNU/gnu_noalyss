@@ -107,7 +107,7 @@ if ( isset($_GET['f_id']))
         require_once('template/history_top.php');
 	$detail_card=HtmlInput::card_detail($fiche->strAttribut(ATTR_DEF_QUICKCODE),$fiche->getName());
 	echo h2info(  $fiche->getName().'['.$fiche->strAttribut(ATTR_DEF_QUICKCODE).']');
-	echo '<p style="text-align:center;font-size:125%">'.$detail_card.'</p>';
+	echo '<p style="text-align:center;">'.$detail_card.'</p>';
 
 	if (   $fiche->HtmlTable($array,0,$from_div)==-1){
 	  echo h2("Aucune opération pour l'exercice courant",'class="error"');

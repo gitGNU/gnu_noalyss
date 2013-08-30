@@ -39,6 +39,7 @@ class IButton extends HtmlInput
 		$tab=(isset($this->tabindex))?' tabindex="'.$this->tabindex.'"':"";
         $r='<input type="BUTTON" name="'.$this->name.'"'.
            ' class="button" '.
+                $this->extra.
 				$tab.
            ' id="'.$this->id.'"'.
            ' value="'.$this->label.'"'.
@@ -85,5 +86,31 @@ class IButton extends HtmlInput
     }
     static public function test_me()
     {
+    }
+}
+class ISmallButton extends IButton
+{
+    var $label;
+    /*!\brief show the html  input of the widget*/
+    public function input($p_name=null,$p_value=null,$p_style=null)
+    {
+        $this->name=($p_name==null)?$this->name:$p_name;
+        $this->value=($p_value==null)?$this->value:$p_value;
+		$this->label=(trim($this->label) != '')?$this->label:$this->value;
+        if ( $this->readOnly==true) return $this->display();
+        $extra= ( isset($this->extra))?$this->extra:"";
+        $this->id=($this->id=="")?$this->name:$this->id;
+		$tab=(isset($this->tabindex))?' tabindex="'.$this->tabindex.'"':"";
+        $r='<input type="BUTTON" name="'.$this->name.'"'.
+           ' class="smallbutton" '.
+                $this->extra.
+				$tab.
+           ' id="'.$this->id.'"'.
+           ' value="'.$this->label.'"'.
+           ' onClick="'.$this->javascript.'"'.$extra.'>';
+        $attr=$this->get_js_attr();
+        $r.=$attr;
+        return $r;
+
     }
 }

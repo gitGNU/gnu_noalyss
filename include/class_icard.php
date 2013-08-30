@@ -287,7 +287,8 @@ class ICard extends HtmlInput
     {
         if ( $this->readOnly==true) return '';
 		if ( ! isset($this->id )) $this->id=$this->name;
-        $button=new IButton($this->name.'_bt');
+        $button=new ISmallButton($this->name.'_bt');
+        $button->label=_('Recherche');
         $a="";
         foreach (array('typecard','jrn','label','price','tvaid') as $att)
         {

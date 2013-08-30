@@ -174,7 +174,7 @@ class Anc_Table extends Anc_Acc_Link
 	  {
 	    echo td(nbm($tot_col[$i]),' class="num"');
 	  }
-	echo td(nbm($tot_global),' class="num" style="font-size:130%;text-weight:bold;border:solid 1px blue"');
+	echo td(nbm($tot_global),' class="num" style="font-size:1.3em;text-weight:bold;border:solid 1px blue"');
 	echo '</tr>';
 	echo '</table>';
       }
@@ -228,7 +228,7 @@ class Anc_Table extends Anc_Acc_Link
 	  {
 	    echo td(nbm($tot_col[$i]),' class="num"');
 	  }
-	echo td(nbm($tot_global),' class="num" style="font-size:130%;text-weight:bold;border:solid 1px blue"');
+	echo td(nbm($tot_global),' class="num" style="font-size:1.3em;text-weight:bold;border:solid 1px blue"');
 	echo '</tr>';
 	echo '</table>';
 

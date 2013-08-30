@@ -718,7 +718,7 @@ class Acc_Ledger extends jrn_def_sql
 			$tmp_jr_comment = h($row['jr_comment']);
 			$r.=$tmp_jr_comment;
 			$r.="</TD>";
-			$r.=td(h($row['n_text']), ' style="font-size:90%"');
+			$r.=td(h($row['n_text']), ' style="font-size:0.87em"');
 			// Amount
 			// If the ledger is financial :
 			// the credit must be negative and written in red
@@ -914,7 +914,7 @@ class Acc_Ledger extends jrn_def_sql
 			$tmp_jr_comment = h($row['jr_comment']);
 			$r.=$tmp_jr_comment;
 			$r.="</TD>";
-			$r.=td(h($row['n_text']), ' style="font-size:90%"');
+			$r.=td(h($row['n_text']), ' style="font-size:0.87em%"');
 			// Amount
 			// If the ledger is financial :
 			// the credit must be negative and written in red
@@ -3079,7 +3079,7 @@ class Acc_Ledger extends jrn_def_sql
 				$op->od_direct = 't';
 				if ($op->count() != 0)
 				{
-					echo HtmlInput::submit('use_opd', 'Utilisez une opération pr&eacute;d&eacute;finie');
+					echo HtmlInput::submit('use_opd', 'Utilisez une opération pr&eacute;d&eacute;finie',"","smallbutton");
 					echo $op->show_button();
 				}
 				echo '</form>';

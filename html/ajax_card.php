@@ -332,7 +332,7 @@ case 'fs':
 	$r.='<span style="margin-left:50px">';
     $r.=_('Fiche contenant').HtmlInput::infobulle(19);
     $r.=$q->input();
-    $r.=HtmlInput::submit('fs',_('Recherche'));
+    $r.=HtmlInput::submit('fs',_('Recherche'),"","smallbutton");
 	$r.='</span>';
     $r.=dossier::hidden().HtmlInput::hidden('op','fs');
     $array=array();

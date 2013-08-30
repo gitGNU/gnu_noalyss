@@ -80,7 +80,7 @@ case "sf":
     $it->size=30;
     $it->value=(isset($q))?$q:'';
     $str_poste=$it->input();
-    $str_submit=HtmlInput::submit('sf',_('Recherche'));
+    $str_submit=HtmlInput::submit('sf',_('Recherche'),"","smallbutton");
     $r='';
 	$r=HtmlInput::anchor_close('search_account');
     $r.='<div> '.h2info(_('Poste Comptable')).'</div>';

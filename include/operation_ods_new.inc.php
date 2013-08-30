@@ -88,9 +88,7 @@ echo HtmlInput::request_to_hidden(array('ac'));
 echo $ledger->input($p_post);
 
 
-echo HtmlInput::button('add', _('Ajout d\'une ligne'), 'onClick="quick_writing_add_row()"');
 
-echo HtmlInput::submit('summary', _('Sauvez'));
 
 echo '<div style="position:absolute;width:40%;right:20px">';
 echo '<table class="info_op">'.
@@ -103,6 +101,12 @@ echo '</div>';
 $iconcerned=new IConcerned('jrn_concerned');
 $iconcerned->amount_id="totalDeb";
 echo "Opération rapprochée : ".$iconcerned->input();
+
+echo '<p>';
+echo HtmlInput::button('add', _('Ajout d\'une ligne'), 'onClick="quick_writing_add_row()"');
+echo HtmlInput::submit('summary', _('Sauvez'));
+echo '</p>';
+
 echo '</form>';
 
 echo "<script>checkTotalDirect();</script>";

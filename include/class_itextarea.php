@@ -31,15 +31,15 @@ class ITextarea extends HtmlInput
     {
         $this->name=($p_name==null)?$this->name:$p_name;
         $this->value=($p_value==null)?$this->value:$p_value;
-	if ( !isset ($this->style )) $this->style=' style="border:solid blue 1px" ';
+	if ( !isset ($this->style )) $this->style=' class="itextarea" ';
 	$this->id=($this->id=="")?$this->name:$this->id;
 
         if ( $this->readOnly==true) return $this->display();
 
         $r="";
         $r.='<TEXTAREA '.$this->style.'  name="'.$this->name.'" id="'.$this->id.'"';
-        $r.=" rows=\"$this->heigh\" ";
-        $r.=" cols=\"$this->width\" ";
+        /*$r.=" rows=\"$this->heigh\" ";
+        $r.=" cols=\"$this->width\" "; */
         $r.='>';
         $r.=$this->value;
 

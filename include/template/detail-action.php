@@ -197,12 +197,12 @@
   <p>
 <script language="javascript">
    function enlarge(p_id_textarea){
-   $(p_id_textarea).rows=40; $(p_id_textarea).cols=120;
+   $(p_id_textarea).style.height='80%';
    $('bt_enlarge').style.display="none";
    $('bt_small').style.display="inline";
  }
 function small(p_id_textarea){
-   $(p_id_textarea).rows=5; $(p_id_textarea).cols=70;
+   $(p_id_textarea).style.height="auto";
    $('bt_enlarge').style.display="inline";
    $('bt_small').style.display="none";
 

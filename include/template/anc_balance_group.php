@@ -14,7 +14,7 @@ echo '<tr>';
 if ( $i==0) {
 	$prev=$array[$i]['ga_id'];
 	echo '<tr>';
-	echo td($array[$i]['ga_id'],' colspan="5" style="width:auto;font-size:120%"');
+	echo td($array[$i]['ga_id'],' colspan="5" style="width:auto;font-size:1.2em"');
 	 echo '</tr>';
 	 ?>
 	 <tr>
@@ -39,7 +39,7 @@ if ( $prev != $array[$i]['ga_id'])
 	$tot_group_deb=0;$tot_group_cred=0;
 		$prev=$array[$i]['ga_id'];
 	echo '<tr>';
-	echo td($array[$i]['ga_id'],' colspan="5" style="width:auto;font-size:120%"');
+	echo td($array[$i]['ga_id'],' colspan="5" style="width:auto;font-size:1.2em"');
 	 echo '</tr>';
 	 ?>
 	 <tr>

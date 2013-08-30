@@ -227,7 +227,7 @@ class Pre_operation_detail
         $hid=new IHidden();
         $r=$hid->input("action","use_opd");
         $r.=$hid->input("jrn_type",$this->get("ledger_type"));
-        $r.= HtmlInput::submit('use_opd','Utilisez une op&eacute;ration pr&eacute;d&eacute;finie');
+        $r.= HtmlInput::submit('use_opd','Utilisez une op&eacute;ration pr&eacute;d&eacute;finie','','smallbutton');
         $r.= $this->show_button();
         return $r;
 

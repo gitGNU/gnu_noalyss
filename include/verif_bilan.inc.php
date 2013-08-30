@@ -39,11 +39,11 @@ $cred=$cn->get_value("select sum (j_montant) from jrnx where j_debit='f' $sql_ye
 
 if ( $cred == $deb )
 {
-    $result ='<span style="color:green;font-size:120%;font-weight:bold;"> OK </span>';
+    $result ='<span style="color:green;font-size:1.2em;font-weight:bold;"> OK </span>';
 }
 else
 {
-    $result ='<span style="color:red;font-size:120%;font-weight:bold;"> NON OK </span>';
+    $result ='<span style="color:red;font-size:1.2em;font-weight:bold;"> NON OK </span>';
 }
 
 printf ('<li> Solde Grand Livre : debit %f credit %f %s</li>',$deb,$cred,$result);
@@ -60,11 +60,11 @@ foreach ($jrn as $l)
 
     if ( $cred == $deb )
     {
-        $result ='<span style="color:green;font-size:120%;font-weight:bold;"> OK </span>';
+        $result ='<span style="color:green;font-size:1.2em;font-weight:bold;"> OK </span>';
     }
     else
     {
-        $result ='<span style="color:red;font-size:120%;font-weight:bold;"> NON OK </span>';
+        $result ='<span style="color:red;font-size:1.2em;font-weight:bold;"> NON OK </span>';
     }
 
     printf ('<li> Journal %s Solde   : debit %f credit %f %s</li>',$name,$deb,$cred,$result);
@@ -79,11 +79,11 @@ $cred=$cn->get_value("select sum (j_montant) from jrnx where j_debit='f' $sql_ye
 
 if ( $cred == $deb )
 {
-    $result ='<span style="color:green;font-size:120%;font-weight:bold;"> OK </span>';
+    $result ='<span style="color:green;font-size:1.2em;font-weight:bold;"> OK </span>';
 }
 else
 {
-    $result ='<span style="color:red;font-size:120%;font-weight:bold;"> NON OK </span>';
+    $result ='<span style="color:red;font-size:1.2em;font-weight:bold;"> NON OK </span>';
 }
 
 printf ('<li> Total solde Grand Livre : debit %f credit %f %s</li>',$deb,$cred,$result);
@@ -99,11 +99,11 @@ foreach ($jrn as $l)
 
     if ( $cred == $deb )
     {
-        $result ='<span style="color:green;font-size:120%;font-weight:bold;"> OK </span>';
+        $result ='<span style="color:green;font-size:1.2em;font-weight:bold;"> OK </span>';
     }
     else
     {
-        $result ='<span style="color:red;font-size:120%;font-weight:bold;"> NON OK </span>';
+        $result ='<span style="color:red;font-size:1.2em;font-weight:bold;"> NON OK </span>';
     }
 
     printf ('<li> Journal %s total : debit %f credit %f %s</li>',$name,$deb,$cred,$result);

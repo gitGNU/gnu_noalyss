@@ -48,7 +48,7 @@ if ( ! empty ($array) )  {
       '</a>'.
        '</td>'.
       '<td>'.
-      HtmlInput::button('del','X','onClick="todo_list_remove('.$row['tl_id'].')"').
+      HtmlInput::smallbutton('del','X','onClick="todo_list_remove('.$row['tl_id'].')"').
       '</td>'.
       '</tr>';
   }

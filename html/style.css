@@ -2,10 +2,11 @@
 
 BODY {
     background-color:#EDF3FF;
-    font-family:verdana,sans-serif,helvetica;
+    font-family:arial,verdana,sans-serif,helvetica;
     padding: 0px 0px 0px 0px ;
     margin:0;
     color:blue;
+    font-size:1em;
 }
 .notice {
     color:red;
@@ -21,17 +22,17 @@ table.sortable, table.table_large, table.result  ,table.resultfooter {
 
 }
 table.resultfooter tfoot {
-    font-size:110%;
+   font-size:0.57em;
     font-weight: bold;
 
 
 }
 table.sortable th,  table.table_large th,table.result th {
     font-weight:bold;
-    font-family:verdana,sans-serif,helvetica;
+    font-family:arial,verdana,sans-serif,helvetica;
     border-bottom:1px solid blue;
     border-top:0;
-    font-size:90%;
+    font-size:0.75em;;
 
     color:#25238F;
     text-align: left;
@@ -40,8 +41,8 @@ table.sortable th,  table.table_large th,table.result th {
 }
 
 h2 {
-    font-family:verdana,sans-serif,helvetica;
-    font-size:120%;
+    font-family:arial,verdana,sans-serif,helvetica;
+    font-size:1.35em;
     color:grey;
     margin:1px;
     padding:1px;
@@ -50,14 +51,14 @@ h2 {
 div.info {
     background:#879ed4;
     color:white;
-    font-size:120%;
+    font-size:0.87em;
     text-align:center;
 }
 
 content h2.info {
     background:#879ed4;
     color:black;
-    font-size:120%;
+    font-size:0.87em;
     text-align:center;
     padding:0px;
     margin:0px;
@@ -65,7 +66,7 @@ content h2.info {
 redcontent h2.info {
     background:#879ed4;
     color:white;
-    font-size:120%;
+    font-size:0.87em;
     text-align:center;
     padding:0px;
     margin:0px;
@@ -73,7 +74,7 @@ redcontent h2.info {
 h2.info {
     background-color:#879ed4;
     color:white;
-    font-size:120%;
+    font-size:1.34em;
     text-align:center;
     padding:0px;
     margin:0px;
@@ -84,13 +85,13 @@ h2.info {
 h3.info {
     background:#879ed4;
     color:white;
-    font-size:120%;
+    font-size:0.87em;
     text-align:center;
 }
 
 h2.info2 {
     color:blue;
-    font-size:100%;
+    font-size:1em;;
     text-align:center;
 
 }
@@ -99,7 +100,7 @@ h2.info2 {
 h2.error {
     background:red;
     color:white;
-    font-size:120%;
+    font-size:0.87em;
 }
 
 
@@ -138,12 +139,13 @@ td.tool a.mtitle {
     text-decoration:none;
     display:inline;
     color: blue;
-    font-size:75%;
+    font-size:0.75em;
+    
 }
 td.tool a.mtitle:hover {
     text-decoration:none;
     display:inline;
-    font-size:75%;
+    font-size:0.75em;;
     color: darkblue;
     background-color:#5D90CD;
 
@@ -169,14 +171,14 @@ div.u_subt2menu {
 div.lmenu {
     float:left;
     clear:left;
-    font-size:90%;
+    font-size:0.75em;;
 
 }
 div.lextmenu {
 
     float:left;
-    font-family:verdana,sans-serif,helvetica;
-    font-size:90%;
+    font-family:arial,verdana,sans-serif,helvetica;
+    font-size:0.75em;;
 
 }
 div.searchmenu {
@@ -189,8 +191,8 @@ div.searchmenu {
 
 div.recherche_form{
     width:700px;
-    font-size:90%;
-    font-family:verdana,sans-serif,helvetica;
+    font-size:0.75em;;
+    font-family:arial,verdana,sans-serif,helvetica;
     border-style:outset;
     border-width:1px;
 
@@ -200,8 +202,8 @@ div.redcontent{
     float:left;
     padding-top:7px;
     padding-left:8px;
-    font-size:90%;
-    font-family:verdana,sans-serif,helvetica;
+    font-size:0.75em;;
+    font-family:arial,verdana,sans-serif,helvetica;
     width:75%;
 
 }
@@ -209,7 +211,7 @@ div.content{
     padding-top:0.0030%;
     margin-top:0.0030%;
     width:100%;
-    font-family:verdana,sans-serif,helvetica;
+    font-family:arial,verdana,sans-serif,helvetica;
 
 
 }
@@ -218,12 +220,12 @@ div.content30{
     float:left;
     padding-top:7px;
     width:35%;
-    font-family:verdana,sans-serif,helvetica;
+    font-family:arial,verdana,sans-serif,helvetica;
 
 }
 div.no span{
     position:static;
-    font-family:verdana,sans-serif,helvetica;
+    font-family:arial,verdana,sans-serif,helvetica;
     font-weight:bold;
     color:red;
 
@@ -238,7 +240,7 @@ table.document {
 }
 table.document th{
     font-weight:bold;
-    font-family:verdana,sans-serif,helvetica;
+    font-family:arial,verdana,sans-serif,helvetica;
     border-bottom:2px solid blue;
     border-top:0;
     color:#25238F;
@@ -254,7 +256,7 @@ table.document th{
     color:white;
     background-color:red;
     font-weight: bolder;
-    font-size:120%;
+    font-size:0.87em;
 }
 
 table.mtitle {
@@ -273,20 +275,21 @@ td.mtitle {
     text-align:center;
     width:95px;
     height :30px;
-    font-size:90%;
+    font-size:0.75em;;
     background-color:#DDE6FF;
     border:1px solid #99B1DF;
+    border-radius:5px;
 }
 td.msubtitle {
     text-align:center;
     height:20px;
-    font-size:90%;
+    font-size:0.75em;;
     background-color:#DDE6FF;
 }
 span.mtitle {
     color:gray;
     background-color:blue;
-    font-size:90%;
+    font-size:0.75em;;
     border-style:groove
 }
 span.odd {
@@ -300,10 +303,10 @@ span.even {
 
 tr.odd {
     background-color:#DDE6FF;
-    font-size:75%;
+    font-size:0.87em;;
 }
 tr.even {
-  font-size:75%;
+  font-size:0.87em;;
 }
 td.odd{
     background-color:#DDE6FF ;
@@ -314,16 +317,19 @@ td.even{
 td.cell{
     height:32px;
     padding: 1px;
+    
 }
 td.selectedcell{
     border-style:inset;
     border-color:blue;
     border-width:1pt ;
-    font-size:90%;
+    font-size:1.2em;
+    font-weight: bold;
     background:#5D90CD ;
     color:white;
     text-align:center;
     width:120px;
+    border-radius:5px;
 }
 a.mtitle {
     text-decoration:none;
@@ -332,7 +338,6 @@ a.mtitle {
 
 }
 a.mtitle:hover {
-    font-size:110%;
     text-decoration:none;
     display:inline;
 
@@ -341,13 +346,13 @@ a.mtitle:hover {
 
 }
 td.selectedcell a.mtitle,div.content td.selectedcell a.mtitle {
-    font-size:90%;
+    font-size:0.75em;;
     text-decoration:none;
     display:block;
     color:white;
 }
 a.dossier {
-    font-size:90%;
+    font-size:0.75em;;
     text-decoration:none;
     display:block;
     color: #202267;
@@ -380,11 +385,11 @@ a.cell {
     display:block;
     color:blue;
     background-color:white;
-    font-size:90%;
+    font-size:0.75em;;
 }
 
 a.cell:hover {
-    font-size:90%;
+    font-size:0.75em;;
     color:white;
     background-color:#5D90CD;
     text-decoration:none;
@@ -414,8 +419,8 @@ a.one:hover {
 
 a.detail
 {
-    font-size:90%;
-    font-family:verdana,sans-serif,helvetica;
+    font-size:0.87em;;
+    font-family:arial,verdana,sans-serif,helvetica;
     text-decoration: none;
     display: block;
     color: blue;
@@ -423,8 +428,8 @@ a.detail
 
 a.detail:hover
 {
-    font-size:90%;
-    font-family:verdana,sans-serif,helvetica;
+/*    font-size:0.75em;; */
+    font-family:arial,verdana,sans-serif,helvetica;
     color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
@@ -436,7 +441,7 @@ li.menuv,ol.menuv {
     padding:1em 1em;
 }
 div.redcontent a {
-    font-family:verdana,sans-serif,helvetica;
+    font-family:arial,verdana,sans-serif,helvetica;
     text-decoration: none;
     display: block;
     color: blue;
@@ -444,7 +449,7 @@ div.redcontent a {
 }
 
 div.redcontent a:hover {
-    font-family:verdana,sans-serif,helvetica;
+    font-family:arial,verdana,sans-serif,helvetica;
     color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
@@ -452,7 +457,7 @@ div.redcontent a:hover {
 
 }
 div.content a {
-    font-family:verdana,sans-serif,helvetica;
+    font-family:arial,verdana,sans-serif,helvetica;
     text-decoration: none;
     display: block;
     color: blue;
@@ -462,7 +467,7 @@ div.content a {
 
 
 div.content a:hover {
-    font-family:verdana,sans-serif,helvetica;
+    font-family:arial,verdana,sans-serif,helvetica;
     color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
@@ -488,7 +493,6 @@ div.redcontent a.mtitle:hover {
 
 }
 div.content a.mtitle {
-    font-size:90%;
     text-decoration:none;
     display:inline;
     color:blue;
@@ -506,7 +510,7 @@ div.content a.mtitle:hover {
 
 }
 div.redcontent input.text {
-    font-family:verdana,sans-serif,helvetica;
+    font-family:arial,verdana,sans-serif,helvetica;
     font-weight:normal;
     border-color:336699;
     border-style:solid;
@@ -515,7 +519,7 @@ div.redcontent input.text {
     color:blue;
 }
 div.content input.text {
-    font-family:verdana,sans-serif,helvetica;
+    font-family:arial,verdana,sans-serif,helvetica;
     font-weight:normal;
     border-color:336699;
     border-style:solid;
@@ -539,9 +543,9 @@ div.redcontent textarea:focus {
     color: #1a207d;
     border-collapse:collapse;
 }
-a.document{
-    font-size:90%;
-    text-decoration:none;
+div.content a.document, a.document{
+/*    font-size:0.75em;;*/
+    text-decoration:underline;
     display:block;
 }
 a.document:hover {
@@ -568,11 +572,11 @@ a.document:hover {
 h1.legend, legend {
     font-weight: bold;
     font-style: italic;
-    font-size: 120% ;
+    font-size: 1.2em ;
 
 }
 fieldset fieldset legend {
-    font-size:120%;
+    font-size:0.87em;
     color:grey;
 }
 select {
@@ -614,7 +618,7 @@ span.action a.action {
     padding-left: 3px;
     padding-right:3px;
     text-decoration:none;
-    font-size:120%;
+    font-size:0.87em;
 
     display:inline;
     color:black;
@@ -651,8 +655,8 @@ div.popup_border_title {
     /*border:dotted 1px black;*/
     border: 2px outset #201e87;
     background-color:#879ED4;
-    font-size: 90% ;
-    font-family: verdana,sans-serif,helvetica;
+    font-size:0.75em; ;
+    font-family: arial,verdana,sans-serif,helvetica;
     font-style: italic;
     font-weight: bolder;
     text-align:center;
@@ -674,7 +678,7 @@ div.popup_border_notitle {
     /*border:dotted 1px black;*/
     border: 3px outset #201e87;
     background-color: #879ED4;
-    font-family: verdana,sans-serif,helvetica;
+    font-family: arial,verdana,sans-serif,helvetica;
     font-style: italic;
     font-weight: bolder;
     text-align:center;
@@ -695,8 +699,8 @@ div.popup_content {
     height:96%;
     overflow: auto;
     background-color:#DFE7FF;
-    font-size:90% ;
-    font-family: verdana,sans-serif,helvetica;
+    font-size:0.75em; ;
+    font-family: arial,verdana,sans-serif,helvetica;
     font-style: normal;
     font-weight: normal;
     color: black;
@@ -713,7 +717,7 @@ div.autocomplete {
     margin:0;
     padding:0;
     text-align:left;
-    font-size:90%;
+    font-size:0.75em;;
 
 }
 div.autocomplete em {
@@ -738,7 +742,7 @@ div.autocomplete ul li {
     /*height:32px;*/
     cursor:pointer;
 }
-span.informal{ font-size:90%; color:black;}
+span.informal{ font-size:0.75em;; color:black;}
 
 ul.select_table  {
     /*padding:5px;*/
@@ -820,9 +824,38 @@ input[disabled], textarea[disabled], option[disabled], optgroup[disabled], selec
 a#anchorbutton, .button, a.button,div.content a.button {
     color:white;
     font-weight: bold;
-    font-size:87%;
+    font-size:0.87em;
     text-decoration:none;
-    font-family: verdana,sans-serif,helvetica;
+    font-family: arial,verdana,sans-serif,helvetica;
+    background-image: url("image/bg-submit2.gif");
+    background-repeat: repeat-x;
+    background-position: left;
+
+    border-style:  outset ;
+    border-color:  blue ;
+    border-width:0px;
+    padding:8px;
+    margin-top:3px;
+    cursor:pointer;
+    margin:1 2 1 2;
+    border-radius: 5px;
+    moz-border-radius:5px;
+
+}
+a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
+    cursor:pointer;
+    background-color:white;
+    border-style:  inset ;
+    color:red;
+    margin:1 2 1 2;
+
+}
+a#smallanchorbutton, .smallbutton, a.smallbutton,div.content a.smallbutton {
+    color:white;
+    font-weight: bold;
+    font-size:0.75em;
+    text-decoration:none;
+    font-family: arial,verdana,sans-serif,helvetica;
     background-image: url("image/bg-submit2.gif");
     background-repeat: repeat-x;
     background-position: left;
@@ -830,18 +863,18 @@ a#anchorbutton, .button, a.button,div.content a.button {
     border-style:  outset ;
     border-color:  blue ;
     border-width:0;
-    padding-bottom: 4;
-    padding-top: 4;
-    padding-right: 6;
-    padding-left:  6;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    padding-right: 3px;
+    padding-left:  3px;
     margin-top:3px;
     cursor:pointer;
     margin:1 2 1 2;
-    border-radius: 4px;
-    moz-border-radius:4px;
+    border-radius: 2px;
+    moz-border-radius:2px;
 
 }
-a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
+a#smallanchorbutton:hover, .smallbutton:hover,a.smallbutton:hover,div.content a.smallbutton:hover  {
     cursor:pointer;
     background-color:white;
     border-style:  inset ;
@@ -854,6 +887,7 @@ td.tool {
     background-color: white;
     border-bottom-width: 2px;
     text-align:center;
+    border-radius:2px;
 }
 div.topmenu {
 
@@ -862,7 +896,7 @@ div.topmenu {
 #dossier h2{
     color:darkblue;
     display:inline;
-    font-size:120%;
+    font-size:2em;
     margin:0px;
     padding:0px;
     font-variant:small-caps;
@@ -877,7 +911,6 @@ div.topmenu {
     text-align:left;
     z-index:1;
     width:17.9687%;
-    font-size:95%;
 }
 div.welcome {
 
@@ -903,8 +936,7 @@ body.op_detail_frame,div.op_detail_frame  {
 }
 div.inner_box  {
     background-color:#e4e7ed;
-    font-size:90%;
-    font-family:verdana,sans-serif,helvetica;
+    font-family:arial,verdana,sans-serif,helvetica;
     padding:0;
     margin:0;
     overflow:hidden;
@@ -966,24 +998,24 @@ table.sortable td, table.table_large td, table.result td
 }
 table.info_op
 {
-    font-size:90%;
+//    font-size:0.75em;;
     width:100%;
 }
 table.info_op tr
 {
-    font-size:120%;
+  //  font-size:0.87em;
     background:white;
 }
 h2#jrn_name
 {
     color:darkgrey;
-    font-size:274%;
+    font-size:2.74em;
     margin-right:30%;
     float: right;
 
 }
 tr.footer{
-    font-size:120%;
+    font-size:0.87em;
     font-style: italic;
     font-weight: bold;
 
@@ -1009,7 +1041,7 @@ div#jrn_name_div
 {
     display:inline;
     float:left;
-    font-size:75%;
+    font-size:0.75em;;
 }
 #calc
 {
@@ -1019,8 +1051,8 @@ div#jrn_name_div
 div#wait_box
 {
     background-color:#F1E6E6;
-    font-size:120%;
-    font-family: verdana,helvetica,arial,sans-serif;
+    font-size:0.87em;
+    font-family: arial,verdana,helvetica,arial,sans-serif;
     padding:0;
     margin:0;
     overflow:hidden;
@@ -1054,14 +1086,14 @@ ul {
 }
 a.line,div.content a.line
 {
-    font-size:110%;
+   font-size:0.87em;
     text-decoration:underline;
     display:inline;
     color: #0000ff;
 }
 a.line:hover,div_content a.line
 {
-    font-size:110%;
+   font-size:0.57em;
     text-decoration:underline;
     display:inline;
     color: #0000ff;
@@ -1076,7 +1108,7 @@ a.line:hover,div_content a.line
     margin-left: 2px;
     margin-right:2px;
     margin-top:0px;
-    font-size:85%;
+    font-size:0.75em;
 }
 #close_div:hover
 {
@@ -1090,7 +1122,7 @@ a.line:hover,div_content a.line
     border:1px solid blue;
     margin-left: 2px;
     margin-right:18px;
-    font-size:85%;
+    font-size:0.75em;
 }
 #popmeout:hover
 {
@@ -1109,12 +1141,12 @@ table.table_large tr.odd ,table.table_large tr.even {
     width:300px;
     border:1px solid black;
     background-color:#aec3e8;
-    font-size:120%;
+    font-size:0.87em;
     padding: 20px 20px;
 }
 span.invoice
 {
-    font-size: 120%;
+    font-size: 1.2em;
     font-style: italic;
     display:block;
     margin: 20px;
@@ -1123,14 +1155,14 @@ span.invoice
 a.nav,div.content a.nav,div.redcontent a.nav {
     display:inline;
     text-decoration:none;
-    font-size:90%;
+    font-size:0.75em;;
 }
 a.nav:hover,div.content a.nav:hover,div.redcontent a.nav:hover {
     display:inline;
     text-decoration:none;
     background-color:darkblue;
     color:white;
-    font-size:90%;
+    font-size:0.75em;;
 }
 #dossier {
     display:inline;
@@ -1146,30 +1178,30 @@ div.foldercontent {
 
 h1.title {
     color: blue;
-    font-size:120%;
+    font-size:0.87em;
     font-style: italic;
 }
 h2.title {
     color: blue;
-    font-size:120%;
+    font-size:0.87em;
     font-weight:bold;
     font-style: italic;
     margin-left: 15px;
 }
 h3.title {
     color: blue;
-    font-size:120%;
+    font-size:0.87em;
     margin-left: 30px;
 }
 h4.title {
     color: blue;
-    font-size:120%;
+    font-size:0.87em;
     margin-left: 45px;
     text-decoration: underline;
 }
 h5.title {
     color: blue;
-    font-size:120%;
+    font-size:0.87em;
     margin-left: 45px;
     text-decoration: none;
     font-style: italic;
@@ -1180,6 +1212,7 @@ div.myfieldset
     margin-left:5px;
     margin-right: 5px;
     border:lightgrey 2px groove;
+    border-radius: 4px;
 }
 #info_div {
     display:none;
@@ -1191,14 +1224,30 @@ div.myfieldset
     left:45%;
 }
 div.menu2 a.mtitle{
-    font-size:85%;
+    
 }
 div.menu3 {
     
 }
 #go_submit_id {
-    font-size:116%;
+    font-size:1.25em;
 }
 .decale {
     margin-left:30px;
+}
+#folder {
+    font-size:1.4em;
+    width:auto;
+    border-width:0px;
+    border-collapse:separate;
+    
+    
+}
+/*#folder tr.odd,#folder tr.even {
+    font-size : 1.2em;
+}*/
+textarea.itextarea{
+    border:solid blue 1px;
+    width:90%;
+    margin-left:5%;
 }

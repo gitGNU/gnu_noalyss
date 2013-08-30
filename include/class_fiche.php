@@ -367,7 +367,8 @@ class Fiche
         }
         return $return;
     }
-    /*!\brief make an array of attributes of the category of card (FICHE_DEF.FD_ID)
+    /**
+     * @brief make an array of attributes of the category of card (FICHE_DEF.FD_ID)
      *The array can be used with the function insert, it will return a struct like this :
      * in the first key (av_textX),  X is the ATTR_DEF::AD_ID
     \verbatim

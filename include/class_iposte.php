@@ -92,7 +92,8 @@ class IPoste extends HtmlInput
         $this->javascript="";
         $this->extra2="all";
         $this->attribute=array();
-		$this->id=$p_id;
+	$this->id=$p_id;
+       
 
     }
 
@@ -129,7 +130,9 @@ class IPoste extends HtmlInput
     public function dsp_button()
     {
 		$this->id=($this->id=="")?$this->name:$this->id;
-        $ib=new IButton($this->id.'_bt');
+        $ib=new ISmallButton($this->id.'_bt');
+        $ib->label=_('Recherche');
+       //  $ib->extra='style="background:url(image/search.png) no-repeat;background-position:0;padding-left:36px;"';
         $ib->javascript='search_poste(this)';
 
         /*  add the property */

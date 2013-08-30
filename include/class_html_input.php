@@ -175,15 +175,15 @@ class HtmlInput
         $readonly=($this->readonly==false)?"false":"true";
         echo "read only".$readonly."<br>";
     }
-    static   function submit ($p_name,$p_value,$p_javascript="")
+    static   function submit ($p_name,$p_value,$p_javascript="",$p_class="button")
     {
 
-        return '<INPUT TYPE="SUBMIT" class="button" NAME="'.$p_name.'" ID="'.$p_name.'_submit_id"  VALUE="'.$p_value.'" '.$p_javascript.'>';
+        return '<INPUT TYPE="SUBMIT" class="'.$p_class.'" NAME="'.$p_name.'" ID="'.$p_name.'_submit_id"  VALUE="'.$p_value.'" '.$p_javascript.'>';
     }
-    static   function button ($p_name,$p_value,$p_javascript="")
+    static   function button ($p_name,$p_value,$p_javascript="",$p_class="button")
     {
 
-        return '<INPUT TYPE="button" class="button" NAME="'.$p_name.'" ID="'.$p_name.'" VALUE="'.$p_value.'" '.$p_javascript.'>';
+        return '<INPUT TYPE="button" class="'.$p_class.'" NAME="'.$p_name.'" ID="'.$p_name.'" VALUE="'.$p_value.'" '.$p_javascript.'>';
     }
 
     static function reset ($p_value)
@@ -718,7 +718,7 @@ class HtmlInput
 		$r= "
 			<span>
 			<input id=\"lk_".$p_table_id."\" class=\"input_text\" name=\"filter\" onkeyup=\"filter_table(this, '$p_table_id','$p_col',$start_row )\" type=\"text\">
-			<input type=\"button\" class=\"button\" onclick=\"$('lk_".$p_table_id."').value='';filter_table($('lk_".$p_table_id."'), '$p_table_id','$p_col',$start_row );\" value=\"X\">
+			<input type=\"button\" class=\"smallbutton\" onclick=\"$('lk_".$p_table_id."').value='';filter_table($('lk_".$p_table_id."'), '$p_table_id','$p_col',$start_row );\" value=\"X\">
 			</span>
 			";
 		return $r;
