@@ -717,8 +717,6 @@ div.autocomplete {
     margin:0;
     padding:0;
     text-align:left;
-    font-size:0.75em;;
-
 }
 div.autocomplete em {
     color:blue;
@@ -742,7 +740,9 @@ div.autocomplete ul li {
     /*height:32px;*/
     cursor:pointer;
 }
-span.informal{ font-size:0.75em;; color:black;}
+span.informal{ 
+    color:black;
+}
 
 ul.select_table  {
     /*padding:5px;*/
@@ -998,12 +998,10 @@ table.sortable td, table.table_large td, table.result td
 }
 table.info_op
 {
-//    font-size:0.75em;;
     width:100%;
 }
 table.info_op tr
 {
-  //  font-size:0.87em;
     background:white;
 }
 h2#jrn_name
@@ -1040,7 +1038,7 @@ div#jrn_name_div
 {
     display:inline;
     float:left;
-    font-size:0.75em;;
+    font-size:0.87em;;
 }
 #calc
 {
@@ -1167,7 +1165,6 @@ a.nav:hover,div.content a.nav:hover,div.redcontent a.nav:hover {
     display:inline;
     float:left;
     width:100%;
-    //margin-left:5.28%;
     top:0px;
     text-align: center;
 }
@@ -1186,7 +1183,6 @@ h2.title {
     font-size:1.34em;
     text-align:center;
     padding:0.24%;
-    //margin:0.24%;
     border:1px solid darkblue;
 
 }
@@ -1265,4 +1261,11 @@ div#modele_op_div{
     left:10%;
     width:60%;
     border:1px solid darkblue;
+}
+div#notice {
+    position:absolute;
+    right:5%;
+    top:200px;
+    background-color:yellow;
+    border: 1px solid black;
 }

@@ -93,19 +93,6 @@ echo HtmlInput::get_to_hidden(array('ac', 'type'));
 echo '</fieldset>';
 echo '</form>';
 ?>
-<div class="noprint" style="position:absolute;right:5%;top:200px;background-color:yellow;border: 1px solid black">
-    <h3>
-        Remarque  : choix possibles
-    </h3>
-    <ul>
-        <li> Détail opérations ne donne pas le même résultat si on regarde tous les journaux ou un journal de type ACH ou VEN</li>
-        <li> Liste opérations ne donne pas le même résultat si on regarde tous les journaux ou un journal de type ACH ou VEN</li>
-        <li> Journaux VEN ou ACH en mode "détail opérations" donne les détails des factures, y compris les montants, TVA et quantité par article</li>
-        <li> Journaux VEN ou ACH en mode "liste opérations" donne pour chaque opération, le total de la TVA, ND, ...</li>
-    </ul>
-      
-</div>
-
 <?php
 
 
@@ -143,7 +130,7 @@ $w->selected = 1;
 print '</TR>';
 print '<TR>';
 $w->selected = (isset($_GET['p_simple'])) ? $_GET['p_simple'] : '';
-echo td('Style d\'impression') . $w->input('p_simple', $a);
+echo '<td>Style d\'impression '.HtmlInput::infobulle(32).'</td>' . $w->input('p_simple', $a);
 print "</TR>";
 echo '</TABLE>';
 print HtmlInput::submit('bt_html', 'Visualisation');
