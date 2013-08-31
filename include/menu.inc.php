@@ -112,11 +112,11 @@ $url=$_SERVER['REQUEST_URI'];
 $table->add('Code',$url,"order by me_code asc","order by me_code desc","codea","coded");
 $table->add('Menu',$url,"order by me_menu asc","order by me_menu desc","menua","menud");
 $table->add('Description',$url,"order by me_description asc","order by me_description desc","desa","desd");
+$table->add('Type',$url,"order by me_type asc","order by me_type desc","ta","td");
 $table->add('Fichier',$url,"order by me_file asc","order by me_file desc","fa","fd");
 $table->add('URL',$url,"order by me_url asc","order by me_url desc","urla","urld");
 $table->add('Paramètre',$url,"order by me_parametere asc","order by me_parameter desc","paa","pad");
 $table->add('Javascript',$url,"order by me_javascript asc","order by me_javascript desc","jsa","jsd");
-$table->add('Type',$url,"order by me_type asc","order by me_type desc","ta","td");
 
 $ord=(isset($_REQUEST['ord']))?$_REQUEST['ord']:'codea';
 
@@ -147,17 +147,8 @@ $ret=$menu->seek($sql.$order);
 	<?php echo HtmlInput::submit("search", "Recherche")?>
 	<?php echo HtmlInput::request_to_hidden(array('ac','gDossier','ord'))?>
 </form>
-    Filtre <?php echo HtmlInput::filter_table('menu_tb', '0,1,2,3', '1'); ?>
+    Filtre <?php echo HtmlInput::filter_table('menu_tb', '0,1,2,4', '1'); ?>
 </fieldset>
-<p class="info"> le type vaut :
-	<ul>
-	<li> ME pour Menu</li>
-	<li> PR pour les impressions </li>
-	<li> PL pour les plugins</li>
-	<li> SP pour des valeurs spéciales</li>
-	</ul>
-
-	</p>
 <?php 
 $gDossier=Dossier::id();
 echo HtmlInput::button("Add_plugin", "Ajout d'un plugin", "onclick=add_plugin($gDossier)");
@@ -168,7 +159,7 @@ echo '<tr>';
 echo '<th>'.$table->get_header(0).'</th>';
 echo '<th>'.$table->get_header(1).'</th>';
 echo '<th>'.$table->get_header(2).'</th>';
-echo '<th>'.$table->get_header(3).'</th>';
+echo '<th>'.$table->get_header(3).HtmlInput::infobulle(33).'</th>';
 echo '<th>'.$table->get_header(4).'</th>';
 echo '<th>'.$table->get_header(5).'</th>';
 echo '<th>'.$table->get_header(6).'</th>';
@@ -193,11 +184,11 @@ for ($i = 0; $i < Database::num_row($ret); $i++)
     echo td($js);
     echo td($row->me_menu);
     echo td(h($row->me_description));
+    echo td(h($row->me_type));
     echo td(h($row->me_file));
     echo td(h($row->me_url));
     echo td(h($row->me_parameter));
     echo td(h($row->me_javascript));
-    echo td(h($row->me_type));
     echo '</tr>';
 }
 echo '</table>';

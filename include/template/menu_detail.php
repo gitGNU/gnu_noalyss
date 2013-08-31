@@ -11,7 +11,12 @@ $str_file=new IText('me_file',$m->me_file);
 $str_url=new IText('me_url',$m->me_url);
 $str_parameter=new IText('me_parameter',$m->me_parameter);
 $str_js=new IText('me_javascript',$m->me_javascript);
-
+$a_type=array (
+       array ('label'=>'Impression','value'=>'PR' ),
+       array ('label'=>'Menu','value'=>'ME' )
+    );
+$str_type=new ISelect("me_type", $a_type);
+$str_type->selected=$m->me_type;
 ?>
 <table>
     <tr>
@@ -38,6 +43,14 @@ $str_js=new IText('me_javascript',$m->me_javascript);
             <?php echo $str_desc->input()?>
         </td>
     </tr>
+    <tr>
+        <td>
+            Type 
+        </td>
+        <td>
+            <?php echo $str_type->input();?>
+        </td>
+    </tr>
          <tr>
         <td>
             Fichier à inclure (depuis le répertoire include)
@@ -56,7 +69,7 @@ $str_js=new IText('me_javascript',$m->me_javascript);
     </tr>
      <tr>
         <td>
-            Paramèttre
+            Paramètre
         </td>
         <td>
             <?php echo $str_parameter->input()?>
