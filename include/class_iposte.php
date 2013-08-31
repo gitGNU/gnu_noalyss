@@ -130,7 +130,7 @@ class IPoste extends HtmlInput
     public function dsp_button()
     {
 		$this->id=($this->id=="")?$this->name:$this->id;
-        $ib=new IButton($this->id.'_bt',"","","smallbutton");
+        $ib=new ISmallButton($this->id.'_bt');
         $ib->label=_('Recherche');
        //  $ib->extra='style="background:url(image/search.png) no-repeat;background-position:0;padding-left:36px;"';
         $ib->javascript='search_poste(this)';
