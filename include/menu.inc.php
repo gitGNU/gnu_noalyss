@@ -147,6 +147,7 @@ $ret=$menu->seek($sql.$order);
 	<?php echo HtmlInput::submit("search", "Recherche")?>
 	<?php echo HtmlInput::request_to_hidden(array('ac','gDossier','ord'))?>
 </form>
+    Filtre <?php echo HtmlInput::filter_table('menu_tb', '0,1,2,3', '1'); ?>
 </fieldset>
 <p class="info"> le type vaut :
 	<ul>
@@ -161,7 +162,8 @@ $ret=$menu->seek($sql.$order);
 $gDossier=Dossier::id();
 echo HtmlInput::button("Add_plugin", "Ajout d'un plugin", "onclick=add_plugin($gDossier)");
 echo HtmlInput::button("Add_menu", "Ajout d'un menu", "onclick=create_menu($gDossier)");
-echo '<table class="result">';
+
+echo '<table class="result" id="menu_tb">';
 echo '<tr>';
 echo '<th>'.$table->get_header(0).'</th>';
 echo '<th>'.$table->get_header(1).'</th>';
