@@ -38,6 +38,7 @@ $gDossier=dossier::id();
 $cn=new Database($gDossier);
 $g_user->Check();
 $g_user->check_dossier($gDossier);
+$name=$cn->get_value('select fd_label from fiche_def where fd_id=$1',array($_GET['cat']));
 
 $pdf=new PDF($cn);
 $pdf->setDossierInfo("  Periode : ".$_GET['start']." - ".$_GET['end']);
