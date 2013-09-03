@@ -106,7 +106,7 @@ if ( isset($_GET['f_id']))
         ob_start();
         require_once('template/history_top.php');
 	$detail_card=HtmlInput::card_detail($fiche->strAttribut(ATTR_DEF_QUICKCODE),$fiche->getName());
-	echo h2info(  $fiche->getName().'['.$fiche->strAttribut(ATTR_DEF_QUICKCODE).']');
+	echo h2(  $fiche->getName().'['.$fiche->strAttribut(ATTR_DEF_QUICKCODE).']',' class="title" ');
 	echo '<p style="text-align:center;">'.$detail_card.'</p>';
 
 	if (   $fiche->HtmlTable($array,0,$from_div)==-1){
@@ -180,7 +180,7 @@ if ( isset($_REQUEST['pcm_val']))
 
         if ( $poste->HtmlTable($array) == -1)
 	  {
-	    echo h2info($poste->id." ".$poste->name);
+	    echo h2($poste->id." ".$poste->name,' class="title"');
 	    echo h2("Aucune opération pour l'exercice courant",'class="error"');
 	  }
 	echo $old;

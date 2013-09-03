@@ -329,7 +329,7 @@ class Acc_Account_Ledger
 
         $rep="";
 
-        echo '<h2 class="info">'.$this->id." ".$this->name.'</h2>';
+        echo '<h2 class="title">'.$this->id." ".$this->name.'</h2>';
         if ( $from_div == 0)
 			echo "<TABLE class=\"resultfooter\" style=\"border-collapse:separate;width:100%;border-spacing:5px\">";
 		else

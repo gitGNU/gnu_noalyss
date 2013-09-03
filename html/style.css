@@ -22,7 +22,6 @@ table.sortable, table.table_large, table.result  ,table.resultfooter {
 
 }
 table.resultfooter tfoot {
-   font-size:0.57em;
     font-weight: bold;
 
 
@@ -781,6 +780,9 @@ div.pc_calendar table {
 
 }
 div.pc_calendar tr{
+    font-size:0.87em;
+}
+div.pc_calendar tr{
     height:40;
 
 
@@ -1268,4 +1270,22 @@ div#notice {
     top:200px;
     background-color:yellow;
     border: 1px solid black;
+}
+div.name  {
+    position:absolute;
+    top:0px;
+    left:0px;
+}
+div#box_search_card {
+    position:absolute;
+    right:15.625%;
+    top:115px;
+}
+div.bxbutton
+{
+    float:right;
+    height:10px;
+    display:block;
+    margin-top:0.48%;
+    margin-right:0.48%;
 }

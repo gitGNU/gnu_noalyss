@@ -1,4 +1,4 @@
-<div style="float:right;height:10px;margin-top:2;margin-right:2">
+<div class="bxbutton">
 <?php
    if ($div != "popup")
    {
