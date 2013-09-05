@@ -35,8 +35,7 @@ $cn=new Database($gDossier);
 
 
 require_once ('class_user.php');
-echo 'poste;libelle;deb;cred;solde deb;solde cred';
-printf("\n");
+
 $bal=new Acc_Balance($cn);
 $bal->jrn=null;
 switch( $_GET['p_filter'])
@@ -64,14 +63,28 @@ case 2:
 $bal->from_poste=$_GET['from_poste'];
 $bal->to_poste=$_GET['to_poste'];
 if (isset($_GET['unsold'])) $bal->unsold=true;
+$prev = (isset($_GET['previous_exc'])) ? 1: 0;
 
 $row=$bal->get_row($_GET['from_periode'],
-                   $_GET['to_periode']);
+                   $_GET['to_periode'],
+        $prev);
+$prev =  ( isset ($row[0]['sum_cred_previous'])) ?1:0;
+echo 'poste;libelle;';
+if ($prev  == 1 ) echo 'deb n-1;cred n-1;solde deb n-1;solde cred n-1;';
+echo 'deb;cred;solde deb;solde cred';
+printf("\n");
 foreach ($row as $r)
 {
     echo $r['poste'].';'.
-    $r['label'].';'.
-    nb($r['sum_deb']).';'.
+    $r['label'].';';
+    if ( $prev == 1 )
+    {
+       echo  nb($r['sum_deb_previous']).';'.
+        nb($r['sum_cred_previous']).';'.
+        nb($r['solde_deb_previous']).';'.
+        nb($r['solde_cred_previous']).';';
+    }
+    echo nb($r['sum_deb']).';'.
     nb($r['sum_cred']).';'.
     nb($r['solde_deb']).';'.
     nb($r['solde_cred']);

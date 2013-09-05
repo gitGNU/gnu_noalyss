@@ -132,6 +132,11 @@ $unsold=new ICheckBox('unsold');
 if (HtmlInput::default_value('unsold',false,$_GET) !== false)
   $unsold->selected=true;
 
+// previous exercice if checked
+$previous_exc=new ICheckBox('previous_exc');
+if (HtmlInput::default_value('previous_exc',false,$_GET) !== false)
+  $previous_exc->selected=true;
+
 
 $from_poste=new IPoste();
 $from_poste->name="from_poste";
@@ -158,7 +163,12 @@ echo " jusque :".$to_poste->input();
 echo $to_span->input();
 echo "</div>";
 echo '<div>';
+echo '<p>';
 echo "Uniquement comptes non soldés ".$unsold->input();
+echo '</p>';
+echo '<p>';
+echo "Avec la balance de l'année précédente".$previous_exc->input();
+echo '</p>';
 echo '</div>';
 echo HtmlInput::submit("view","Visualisation");
 echo '</form>';
@@ -193,7 +203,7 @@ if ( isset ($_GET['view']  ) )
 
     echo HtmlInput::hidden("from_poste",$_GET['from_poste']).
     HtmlInput::hidden("to_poste",$_GET['to_poste']);
-    echo HtmlInput::get_to_hidden(array('lvl1','lvl2','lvl3','unsold'));
+    echo HtmlInput::get_to_hidden(array('lvl1','lvl2','lvl3','unsold','previous_exc'));
 
     echo "</form></TD>";
 
@@ -214,7 +224,7 @@ if ( isset ($_GET['view']  ) )
 
     echo   HtmlInput::hidden("from_poste",$_GET['from_poste']).
     HtmlInput::hidden("to_poste",$_GET['to_poste']);
-    echo HtmlInput::get_to_hidden(array('unsold'));
+    echo HtmlInput::get_to_hidden(array('unsold','previous_exc'));
 
     echo "</form></TD>";
 	echo '<td style="vertical-align:top">';
@@ -248,10 +258,14 @@ if ( isset($_GET['view'] ) )
     }
     $bal->from_poste=$_GET['from_poste'];
     $bal->to_poste=$_GET['to_poste'];
-    if ( isset($_GET['unsold']))
-      $bal->unsold=true;
+    if ( isset($_GET['unsold']))  $bal->unsold=true;
+    $previous=(isset($_GET['previous_exc']))?1:0;
+    
     $row=$bal->get_row($_GET['from_periode'],
-                       $_GET['to_periode']);
+                       $_GET['to_periode'],
+            $previous);
+    $previous= (isset ($row[0]['sum_cred_previous']))?1:0;
+
     $periode=new Periode($cn);
     $a=$periode->get_date_limit($_GET['from_periode']);
     $b=$periode->get_date_limit($_GET['to_periode']);
@@ -263,13 +277,24 @@ if ( isset($_GET['view'] ) )
     echo '<table id="t_balance" width="100%">';
     echo '<th>Poste Comptable</th>';
     echo '<th>Libell&eacute;</th>';
+    if ( $previous == 1 ){
+        echo '<th>D&eacute;bit N-1</th>';
+        echo '<th>Cr&eacute;dit N-1</th>';
+        echo '<th>Solde D&eacute;biteur N-1</th>';
+        echo '<th>Solde Cr&eacute;diteur N-1</th>';
+    }
     echo '<th>D&eacute;bit</th>';
     echo '<th>Cr&eacute;dit</th>';
     echo '<th>Solde D&eacute;biteur </th>';
     echo '<th>Solde Cr&eacute;diteur</th>';
-
     $i=0;
-    foreach(array('sum_cred','sum_deb','solde_deb','solde_cred') as $a)
+    if ( $previous == 1) {
+        $a_sum=array('sum_cred','sum_deb','solde_deb','solde_cred','sum_cred_previous','sum_deb_previous','solde_deb_previous','solde_cred_previous');
+    }
+    else {
+              $a_sum=array('sum_cred','sum_deb','solde_deb','solde_cred') ;
+    }
+    foreach($a_sum as $a)
       {
 	$lvl1[$a]=0;
 	$lvl2[$a]=0;
@@ -303,6 +328,12 @@ if ( isset($_GET['view'] ) )
 		echo '<tr style="font-size:12px;font-height:bold">';
 		echo td("Total niveau ".$ind);
 		echo td(${'lvl'.$ind.'_old'});
+                if ($previous==1) {
+                    echo td(nbm(${'lvl'.$ind}['sum_deb_previous']),'style="text-align:right"');
+                    echo td(nbm(${'lvl'.$ind}['sum_cred_previous']),'style="text-align:right"');
+                    echo td(nbm(${'lvl'.$ind}['solde_deb_previous']),'style="text-align:right"');
+                    echo td(nbm(${'lvl'.$ind}['solde_cred_previous']),'style="text-align:right"');
+                }
 		echo td(nbm(${'lvl'.$ind}['sum_deb']),'style="text-align:right"');
 		echo td(nbm(${'lvl'.$ind}['sum_cred']),'style="text-align:right"');
 		echo td(nbm(${'lvl'.$ind}['solde_deb']),'style="text-align:right"');
@@ -316,7 +347,8 @@ if ( isset($_GET['view'] ) )
 		  }
 	      }
 	  }
-	  foreach(array('sum_cred','sum_deb','solde_deb','solde_cred') as $a)
+          
+	  foreach($a_sum as $a)
 	    {
 	      $lvl1[$a]=bcadd($lvl1[$a],$r[$a]);
 	      $lvl2[$a]=bcadd($lvl2[$a],$r[$a]);
@@ -325,6 +357,12 @@ if ( isset($_GET['view'] ) )
         echo '<TR class="'.$tr.'">';
         echo td($view_history);
         echo td(h($r['label']));
+        if ($previous == 1 ) {
+            echo td(nbm($r['sum_deb_previous']),'style="text-align:right"');
+            echo td(nbm($r['sum_cred_previous']),'style="text-align:right"');
+            echo td(nbm($r['solde_deb_previous']),'style="text-align:right"');
+            echo td(nbm($r['solde_cred_previous']),'style="text-align:right"');
+        }
         echo td(nbm($r['sum_deb']),'style="text-align:right"');
 	echo td(nbm($r['sum_cred']),'style="text-align:right"');
 	echo td(nbm($r['solde_deb']),'style="text-align:right"');

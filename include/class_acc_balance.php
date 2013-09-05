@@ -48,6 +48,7 @@ class Acc_Balance
      * \brief retrieve all the row from the ledger in the range of a periode
      * \param $p_from_periode start periode (p_id)
      * \param $p_to_periode end periode (p_id)
+     * \param $p_previous_exc previous exercice 1= yes default =0
      *
      * \return a double array
      *     array of
@@ -58,7 +59,7 @@ class Acc_Balance
      *         - $a['solde_deb']
      *         - $a['solde_cred']
      */
-    function get_row($p_from_periode,$p_to_periode)
+    function get_row($p_from_periode,$p_to_periode,$p_previous_exc=0)
     {
         global $g_user;
         // filter on requested periode
@@ -100,42 +101,125 @@ class Acc_Balance
             $and=" and ";
         }
         $filter_sql=$g_user->get_ledger_sql('ALL',3);
-
-        // build query
-        $sql="select j_poste,sum(deb) as sum_deb, sum(cred) as sum_cred from
-             ( select j_poste,
-             case when j_debit='t' then j_montant else 0 end as deb,
-             case when j_debit='f' then j_montant else 0 end as cred
-             from jrnx join tmp_pcmn on (j_poste=pcm_val)
-             left join parm_periode on (j_tech_per = p_id)
-             join jrn_def on (j_jrn_def=jrn_def_id)
-             where
-             $jrn $from_poste $to_poste
-             $and $filter_sql
-             and
-             $per_sql ) as m group by j_poste order by j_poste::text";
+        
+        switch ($p_previous_exc)
+        {
+            case 0:
+                // build query
+                $sql="select j_poste as poste,sum(deb) as sum_deb, sum(cred) as sum_cred from
+                     ( select j_poste,
+                     case when j_debit='t' then j_montant else 0 end as deb,
+                     case when j_debit='f' then j_montant else 0 end as cred
+                     from jrnx join tmp_pcmn on (j_poste=pcm_val)
+                     left join parm_periode on (j_tech_per = p_id)
+                     join jrn_def on (j_jrn_def=jrn_def_id)
+                     where
+                     $jrn $from_poste $to_poste
+                     $and $filter_sql
+                     and
+                     $per_sql ) as m group by 1 order by 1";
+                break;
+            case 1:
+                /*
+                 * retrieve balance previous exercice
+                 */
+                $periode=new Periode($this->db);
+                $previous_exc=$periode->get_exercice($p_from_periode)-1;
+                try {
+                    list($previous_start,$previous_end)=$periode->get_limit($previous_exc);
+               
+                        $per_sql_previous=sql_filter_per($this->db,$previous_start->p_id,$previous_end->p_id,'p_id','j_tech_per');
+                        $sql="
+                            with m as 
+                                ( select j_poste,sum(deb) as sdeb,sum(cred) as scred
+                                from 
+                                (select j_poste, 
+                                    case when j_debit='t' then j_montant else 0 end as deb, 
+                                    case when j_debit='f' then j_montant else 0 end as cred 
+                                    from jrnx 
+                                    join tmp_pcmn on (j_poste=pcm_val) 
+                                    left join parm_periode on (j_tech_per = p_id) 
+                                    join jrn_def on (j_jrn_def=jrn_def_id) 
+                                    where
+                                                             $jrn $from_poste $to_poste
+                                    $and $filter_sql and $per_sql
+                                    ) as sub_m group by j_poste order by j_poste ) , 
+                            p as ( select j_poste,sum(deb) as sdeb,sum(cred) as scred 
+                                from 
+                                    (select j_poste, 
+                                        case when j_debit='t' then j_montant else 0 end as deb, 
+                                        case when j_debit='f' then j_montant else 0 end as cred 
+                                        from jrnx join tmp_pcmn on (j_poste=pcm_val) 
+                                        left join parm_periode on (j_tech_per = p_id) 
+                                        join jrn_def on (j_jrn_def=jrn_def_id) 
+                                        where 
+                                       $jrn $from_poste $to_poste
+                                    $and $filter_sql and $per_sql_previous)  as sub_p group by j_poste order by j_poste)
+                            select coalesce(m.j_poste,p.j_poste) as poste
+                                                                ,coalesce(m.sdeb,0) as sum_deb
+                                                                , coalesce(m.scred,0) as sum_cred 
+                                                                ,coalesce(p.sdeb,0) as sum_deb_previous
+                                                                , coalesce(p.scred,0) as sum_cred_previous from m join p on (p.j_poste=m.j_poste)
+                                             order by poste";
+                       
+                 } catch (Exception $exc) {
+                    $p_previous_exc=0;
+                    /*
+                     * no previous exercice
+                     */
+                     $sql="select upper(j_poste::text) as poste,sum(deb) as sum_deb, sum(cred) as sum_cred from
+                     ( select j_poste,
+                     case when j_debit='t' then j_montant else 0 end as deb,
+                     case when j_debit='f' then j_montant else 0 end as cred
+                     from jrnx join tmp_pcmn on (j_poste=pcm_val)
+                     left join parm_periode on (j_tech_per = p_id)
+                     join jrn_def on (j_jrn_def=jrn_def_id)
+                     where
+                     $jrn $from_poste $to_poste
+                     $and $filter_sql
+                     and
+                     $per_sql ) as m group by poste order by poste";
+                }
+                break;
+                           
+        }
         $cn=clone $this->db;
         $Res=$this->db->exec_sql($sql);
-
         $tot_cred=  0.0;
         $tot_deb=  0.0;
         $tot_deb_saldo=0.0;
         $tot_cred_saldo=0.0;
+        $tot_cred_previous=  0.0;
+        $tot_deb_previous=  0.0;
+        $tot_deb_saldo_previous=0.0;
+        $tot_cred_saldo_previous=0.0;
         $M=$this->db->size();
 
         // Load the array
         for ($i=0; $i <$M;$i++)
         {
             $r=$this->db->fetch($i);
-            $poste=new Acc_Account($cn,$r['j_poste']);
+            $poste=new Acc_Account($cn,$r['poste']);
 
-            $a['poste']=$r['j_poste'];
+            $a['poste']=$r['poste'];
             $a['label']=mb_substr($poste->get_lib(),0,40);
             $a['sum_deb']=round($r['sum_deb'],2);
             $a['sum_cred']=round($r['sum_cred'],2);
             $a['solde_deb']=round(( $a['sum_deb']  >=  $a['sum_cred'] )? $a['sum_deb']- $a['sum_cred']:0,2);
             $a['solde_cred']=round(( $a['sum_deb'] <=  $a['sum_cred'] )?$a['sum_cred']-$a['sum_deb']:0,2);
-	    if ($this->unsold==true && $a['solde_cred']==0 && $a['solde_deb']==0) continue;
+            if ($p_previous_exc==1)
+            {
+                $a['sum_deb_previous']=round($r['sum_deb_previous'],2);
+                $a['sum_cred_previous']=round($r['sum_cred_previous'],2);
+                $a['solde_deb_previous']=round(( $a['sum_deb_previous']  >=  $a['sum_cred_previous'] )? $a['sum_deb_previous']- $a['sum_cred_previous']:0,2);
+                $a['solde_cred_previous']=round(( $a['sum_deb_previous'] <=  $a['sum_cred_previous'] )?$a['sum_cred_previous']-$a['sum_deb_previous']:0,2);
+                $tot_cred_previous+=  $a['sum_cred_previous'];
+                $tot_deb_previous+= $a['sum_deb_previous'];
+                $tot_deb_saldo_previous+= $a['solde_deb_previous'];
+                $tot_cred_saldo_previous+= $a['solde_cred_previous'];
+            }
+	    if ($p_previous_exc==0 && $this->unsold==true && $a['solde_cred']==0 && $a['solde_deb']==0) continue;
+	    if ($p_previous_exc==1 && $this->unsold==true && $a['solde_cred']==0 && $a['solde_deb']==0 && $a['solde_cred_previous']==0 && $a['solde_deb_previous']==0) continue;
             $array[$i]=$a;
             $tot_cred+=  $a['sum_cred'];
             $tot_deb+= $a['sum_deb'];
@@ -152,6 +236,12 @@ class Acc_Balance
         $a['sum_cred']=$tot_cred;
         $a['solde_deb']=$tot_deb_saldo;
         $a['solde_cred']=$tot_cred_saldo;
+        if ($p_previous_exc==1) {
+            $a['sum_deb_previous']=$tot_deb_previous;
+            $a['sum_cred_previous']=$tot_cred_previous;
+            $a['solde_deb_previous']=$tot_deb_saldo_previous;
+            $a['solde_cred_previous']=$tot_cred_saldo_previous;
+        }
         $array[$i]=$a;
         $this->row=$array;
         return $array;
@@ -180,5 +270,15 @@ class Acc_Balance
             }
         }
 
+    }
+    static function test_me ()
+    {
+        require 'class_user.php';
+        global $g_user;
+        $cn=new Database(dossier::id());
+        $g_user=new User($cn);
+        $a=new Acc_Balance($cn);
+        $a->get_row(163, 175, 1);
+        var_dump($a);
     }
 }
