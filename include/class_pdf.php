@@ -188,12 +188,13 @@ class PDFLand extends PDF
     {
 
         if($p_cn == null) die("No database connection. Abort.");
+        $this->bigger=0;
 
         parent::TFPDF('L', $unit, $format);
         date_default_timezone_set ('Europe/Paris');
         $this->AddFont('DejaVu','','DejaVuSans.ttf',true);
         $this->AddFont('DejaVu','B','DejaVuSans-Bold.ttf',true);
-        $this->AddFont('DejaVu','BI','DejaVuSans-BoldItalique.ttf',true);
+        $this->AddFont('DejaVu','BI','DejaVuSans-BoldOblique.ttf',true);
         $this->AddFont('DejaVuCond','','DejaVuSansCondensed.ttf',true);
         $this->AddFont('DejaVuCond','B','DejaVuSansCondensed-Bold.ttf',true);
         $this->AddFont('DejaVuCond','I','DejaVuSansCondensed-Oblique.ttf',true);
