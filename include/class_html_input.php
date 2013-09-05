@@ -308,7 +308,7 @@ class HtmlInput
     static function select_ledger($p_array,$p_selected,$div='')
     {
         ob_start();
-        $ledger=new IButton('l');
+        $ledger=new ISmallButton('l');
         $ledger->label="choix des journaux";
         $ledger->javascript=" show_ledger_choice()";
         echo $ledger->input();
@@ -348,7 +348,7 @@ class HtmlInput
     static function select_cat($array_cat)
     {
         ob_start();
-        $ledger=new IButton('l');
+        $ledger=new ISmallButton('l');
         $ledger->label="Catégorie";
         $ledger->javascript=" show_cat_choice()";
         echo $ledger->input();
