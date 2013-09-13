@@ -26,6 +26,7 @@
  * @brief Manage the status of the document (document_state)
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 global $cn;
 
 if ( isset($_POST['add']))

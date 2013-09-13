@@ -27,6 +27,7 @@
  *
  */
 // retrieve data
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 $profile=$cn->get_value("select p_id from profile_menu where pm_id=$1",array($pm_id));
 $a_value=$cn->make_array("select me_code,me_code||' '||me_menu||' '||coalesce(me_description,'') from menu_ref",0);
 $ame_code_dep=$cn->make_array("

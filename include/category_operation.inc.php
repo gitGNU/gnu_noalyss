@@ -29,6 +29,7 @@
  * - $sub_action
  * - $ss_action
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once('class_acc_ledger.php');
 $f=new Fiche($cn,$_REQUEST['f_id']);
 $qcode=$f->get_quick_code();

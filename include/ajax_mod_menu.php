@@ -1,4 +1,5 @@
 <?php
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once 'class_menu_ref.php';
 $m=new Menu_Ref($cn,$me_code);
 $msg="Modification ".$m->me_code.' '.h($m->me_menu);

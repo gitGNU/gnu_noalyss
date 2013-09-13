@@ -22,7 +22,7 @@
 /** \file
  * \brief ask for Printing the ledger (pdf,html)
  */
-
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once("class_ihidden.php");
 require_once("class_iselect.php");
 require_once("class_icheckbox.php");

@@ -23,6 +23,7 @@
 /*!\file
  * \brief included file for managing the predefined operation
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once("class_iselect.php");
 require_once("class_icheckbox.php");
 require_once("class_ihidden.php");

@@ -23,7 +23,7 @@
  *        it permits to change the user preferences
  * \see user_pref.php
  */
-
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once('class_user.php');
 require_once("class_iselect.php");
 require_once("class_iperiod.php");

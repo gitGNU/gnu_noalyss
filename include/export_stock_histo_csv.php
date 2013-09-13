@@ -26,6 +26,7 @@
  * @brief export in CSV the export of history
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once 'class_stock.php';
 
 $stock=new Stock();

@@ -19,6 +19,7 @@
 /* $Revision$ */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once('class_acc_payment.php');
 require_once 'class_sort_table.php';
 //---------------------------------------------------------------------------

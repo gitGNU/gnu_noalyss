@@ -28,6 +28,7 @@
 
 // parameter are gDossier , c1 : the control id to update,
 // c2 the control id which contains the pa_id
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once("class_itext.php");
 require_once("class_ihidden.php");
 require_once("class_ibutton.php");

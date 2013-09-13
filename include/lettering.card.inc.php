@@ -23,6 +23,7 @@
 /*!\file
  * \brief show the lettering by account
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once ('class_ipopup.php');
 require_once('class_lettering.php');
 

@@ -22,6 +22,7 @@
  * \brief Manage the document template
  */
 
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once("class_document_modele.php");
 $sub_action=(isset ($_REQUEST['sa']))?$_REQUEST['sa']:"";
 echo js_include('modele_document.js');

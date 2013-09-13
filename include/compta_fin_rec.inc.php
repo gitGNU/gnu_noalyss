@@ -27,6 +27,7 @@
  * \brief reconcile operation
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 global $g_failed,$g_succeed;
 require_once 'class_acc_ledger_fin.php';
 bcscale(2);

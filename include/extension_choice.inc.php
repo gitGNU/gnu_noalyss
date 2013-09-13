@@ -1,4 +1,5 @@
 <?php
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once('class_database.php');
 require_once('class_dossier.php');
 require_once("ac_common.php");

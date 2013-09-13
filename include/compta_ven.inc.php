@@ -23,6 +23,7 @@
 /*!\file
  * \brief file included to manage all the sold operation
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once("class_icheckbox.php");
 require_once("class_acc_ledger_sold.php");
 require_once ('class_pre_op_ven.php');

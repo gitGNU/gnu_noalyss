@@ -1,4 +1,5 @@
 <?php
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once("class_idate.php");
 require_once("class_itext.php");
 require_once ('constant.php');

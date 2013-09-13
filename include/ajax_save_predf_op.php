@@ -24,6 +24,7 @@
  * \brief save the new predefined operation 
  * included from ajax_misc
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 if ($g_user->check_module('PREDOP') == 0) exit();
 if ( trim($_POST['opd_name']) != '')
   {

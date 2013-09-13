@@ -19,6 +19,7 @@
  */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once 'class_profile_sql.php';
 global $cn;
 

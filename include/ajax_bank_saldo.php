@@ -35,6 +35,7 @@
  *  - l the jrn id
  *  - ctl the ctl where to get the quick_code
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once('class_user.php');
 require_once('class_dossier.php');
 require_once('class_fiche.php');

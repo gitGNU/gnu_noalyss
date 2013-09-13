@@ -23,6 +23,7 @@
 /*! \file
  * \brief send the account list in PDF
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 include_once("class_acc_account_ledger.php");
 include_once("ac_common.php");
 require_once('class_database.php');

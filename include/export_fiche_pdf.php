@@ -24,7 +24,7 @@
  * \brief Called by impress->category, export in PDF the history of a category
  * of card
  */
-
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 // Security we check if user does exist and his privilege
 require_once('class_user.php');
 require_once('class_database.php');

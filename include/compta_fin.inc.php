@@ -23,6 +23,7 @@
 /*!\file
  * \brief this file is to be included to handle the financial ledger
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once ('class_acc_ledger_fin.php');
 require_once('class_ipopup.php');
 global $g_user,$g_parameter;

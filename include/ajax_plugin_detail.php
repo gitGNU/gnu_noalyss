@@ -26,6 +26,7 @@
  * @brief add, modify or delete plugin
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 $msg=($new==1)?"Nouvelle extension":"Modification ".$me_menu->value;
 echo HtmlInput::title_box($msg, $ctl);
 ?>

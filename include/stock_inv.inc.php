@@ -26,6 +26,7 @@
  * @brief Inventory : add manuel change
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once 'class_stock_goods.php';
 global $cn;
 

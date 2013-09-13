@@ -1,5 +1,5 @@
 <?php
-
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once('class_anc_grandlivre.php');
 $gl = new Anc_GrandLivre($cn);
 $gl->get_request();

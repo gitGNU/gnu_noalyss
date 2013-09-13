@@ -77,7 +77,8 @@ $array=array(
            array(33,'Ledger : reverse op'),
            array(34,'Reconciliation'),
            array(35,'Bilan'),
-	   array(36,'SQL2Table')
+	   array(36,'SQL2Table'),
+	   array(37,'balance')
        );
 $r='<form method="get">';
 $r.='<select name="test_select" >';
@@ -297,6 +298,9 @@ case 36:
   require_once('class_html_table.php');
   Html_Table::test_me();
   break;
+case 37:
+    require 'class_acc_balance.php';
+    Acc_Balance::test_me();
 }
 
 

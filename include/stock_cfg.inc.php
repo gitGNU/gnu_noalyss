@@ -26,6 +26,7 @@
  * @brief Manage the repository
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once 'class_stock_sql.php';
 require_once 'class_sort_table.php';
 

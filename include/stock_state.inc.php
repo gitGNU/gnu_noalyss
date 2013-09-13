@@ -26,6 +26,7 @@
  * @brief show the state of the repository
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 global $cn,$g_parameter,$g_user;
 require_once 'class_stock.php';
 

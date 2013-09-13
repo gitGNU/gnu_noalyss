@@ -24,7 +24,7 @@
  * \brief export definition of a report
  */
 
-
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once  ("constant.php");
 require_once('class_database.php');
 require_once ("user_common.php");

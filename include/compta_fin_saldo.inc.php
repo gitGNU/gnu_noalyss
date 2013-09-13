@@ -27,6 +27,7 @@
  * \brief show bank saldo
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once ('class_acc_parm_code.php');
     echo '<div class="content">';
     $fiche=new Fiche($cn);

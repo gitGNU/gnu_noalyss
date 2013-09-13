@@ -27,6 +27,7 @@
  * @see ajax_misc.php scripts.js profile.inc.php
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once 'class_profile_sql.php';
 require_once 'class_profile_menu.php';
 $profile=new Profile_sql($cn,$p_id);

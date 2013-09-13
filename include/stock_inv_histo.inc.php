@@ -25,6 +25,7 @@
  * @brief history of manuel change
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 if ( isset($_POST['del']))
 {
 	if (isset($_POST['ok']))

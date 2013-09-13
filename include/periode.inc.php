@@ -21,6 +21,7 @@
 /*! \file
  * \brief add, modify, close or delete a period
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 $gDossier=dossier::id();
 require_once("class_iselect.php");
 require_once ('class_periode.php');

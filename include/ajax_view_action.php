@@ -26,6 +26,7 @@
  * @brief show the detail of an action
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once 'class_follow_up.php';
 echo HtmlInput::title_box(_("Détail action"), $div);
 $act = new Follow_Up($cn);

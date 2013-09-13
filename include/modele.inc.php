@@ -27,6 +27,7 @@
  * \brief concerne only the template
  *
  */
+if ( !defined ('ALLOWED')) die('Forbidden');
 require_once("class_itext.php");
 require_once("class_icheckbox.php");
 require_once ('class_extension.php');

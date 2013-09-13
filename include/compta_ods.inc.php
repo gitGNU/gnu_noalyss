@@ -27,6 +27,7 @@
  * quant_purchase and quant_sold are not changed by this
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once("class_icheckbox.php");
 require_once ('class_acc_ledger.php');
 require_once ('class_acc_reconciliation.php');

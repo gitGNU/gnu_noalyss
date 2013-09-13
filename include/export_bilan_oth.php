@@ -21,6 +21,7 @@
 /*! \file
  * \brief send a Bilan in RTF format
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 include_once("ac_common.php");
 include_once("class_impress.php");
 require_once('class_database.php');

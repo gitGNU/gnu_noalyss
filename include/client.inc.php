@@ -18,9 +18,11 @@
  */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/**\brief include from client.inc.php and concerned only the customer card and
+/**
+ * \brief include from client.inc.php and concerned only the customer card and
  * the customer category
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once("class_iselect.php");
 require_once("class_ihidden.php");
 require_once("class_customer.php");

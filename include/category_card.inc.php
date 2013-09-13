@@ -26,6 +26,7 @@
  * include from client.inc.php and concerned only the customer card and
  * the customer category
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once('class_contact.php');
 
 $str_dossier=Dossier::get();

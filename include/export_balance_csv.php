@@ -21,6 +21,7 @@
 /*! \file
  * \brief Return the balance in CSV format
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 header('Pragma: public');
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="balance.csv"',FALSE);

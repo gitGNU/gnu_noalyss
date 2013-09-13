@@ -30,6 +30,7 @@
  * - $cn database connection
  */
 
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once('class_extension.php');
 require_once('class_html_input.php');
 require_once('class_ibutton.php');

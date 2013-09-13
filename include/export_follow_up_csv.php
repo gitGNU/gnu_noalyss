@@ -26,6 +26,7 @@
  * @brief export Action Gestion to csv, taking in account the search
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once 'class_follow_up.php';
 header('Pragma: public');
 header('Content-type: application/csv');

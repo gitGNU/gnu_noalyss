@@ -26,6 +26,7 @@
  * @brief
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 global $g_user,$cn,$g_parameter;
 require_once 'class_stock.php';
 require_once 'class_periode.php';

@@ -23,7 +23,7 @@
 /*! \file
  * \brief Send a report in PDF
  */
-
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 include_once("class_acc_report.php");
 include_once("ac_common.php");
 require_once('class_database.php');

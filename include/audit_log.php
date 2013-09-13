@@ -23,7 +23,7 @@
 /*!\file
  * \brief let you see the list of the connexion
  */
-
+if ( !defined ('ALLOWED')) die('Forbidden');
 ?>
 <DIV class="content" style="width:80%;margin-left:10%">
 <span class="notice">Liste limitée aux 100 dernières connexions</span>

@@ -23,7 +23,7 @@
 /*!\file
  * \brief export the anc tables in CSV
  */
-
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 header('Pragma: public');
 header('Content-type: application/csv'); 
 header('Content-Disposition: attachment;filename="anc-table-export.csv"',FALSE);

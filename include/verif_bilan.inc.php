@@ -23,7 +23,7 @@
 /*!\file
  * \brief Verify the saldo of ledger: independant file
  */
-
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once ('class_user.php');
 require_once('class_acc_bilan.php');
 

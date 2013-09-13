@@ -5,7 +5,7 @@
  * and open the template in the editor.
  */
 
-
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once ('class_anc_listing.php');
 $list = new Anc_Listing($cn);
 $list->get_request();

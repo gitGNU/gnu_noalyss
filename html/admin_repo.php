@@ -45,7 +45,7 @@ echo '<div class="topmenu">';
 
 echo MenuAdmin()."</div>";
 
-
+define('ALLOWED',true);
 
 
 ?>

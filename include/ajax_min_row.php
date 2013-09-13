@@ -26,6 +26,7 @@
  * @brief
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once('class_user.php');
 require_once('class_dossier.php');
 extract($_GET);

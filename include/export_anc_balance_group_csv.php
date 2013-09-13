@@ -23,7 +23,7 @@
 /*!\file
  * \brief export balance by group
  */
-
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once('class_anc_group.php');
 
 header('Pragma: public');

@@ -22,6 +22,7 @@
 /**\file
  * \brief printing of category of card  : balance, historic
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 include_once('class_database.php');
 include_once('class_fiche.php');
 require_once('class_lettering.php');

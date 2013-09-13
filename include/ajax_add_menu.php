@@ -25,6 +25,7 @@
  * @file
  * @brief show the form to add a menu
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 $type=$_GET['type'];
 if ( $type=='me')
 {

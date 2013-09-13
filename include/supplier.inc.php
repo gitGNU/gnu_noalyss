@@ -21,6 +21,7 @@
 /*!\brief include from supplier.inc.php and concerned only the supplier card and
  * the supplier category
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once("class_iselect.php");
 require_once("class_ihidden.php");
 require_once("class_supplier.php");

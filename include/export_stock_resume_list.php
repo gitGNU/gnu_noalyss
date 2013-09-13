@@ -26,6 +26,7 @@
  * @brief export in CSV the summary of stock in list
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once 'class_stock.php';
 // var_dump($_GET);
 $stock=new Stock();

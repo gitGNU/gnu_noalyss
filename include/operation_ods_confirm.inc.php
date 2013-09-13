@@ -27,7 +27,7 @@
  * \brief confirm ODS operation
  *
  */
-
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 echo '<div class="content">';
 echo h2("Confirmation",'class="info"');
 echo '<div id="jrn_name_div">';

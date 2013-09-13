@@ -21,6 +21,7 @@
 /*! \file
  * \brief concerns the management of the "Plan Comptable"
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once ('class_acc_account.php');
 include_once ("ac_common.php");
 require_once("constant.php");

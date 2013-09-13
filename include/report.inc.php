@@ -21,6 +21,7 @@
 /*! \file
  * \brief handle your own report: create or view report
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 include_once ("ac_common.php");
 include_once ("user_menu.php");
 require_once("class_ifile.php");

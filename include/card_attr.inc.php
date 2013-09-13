@@ -23,6 +23,7 @@
 /*!\file
  * \brief Manage the attributs
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once('class_fiche_attr.php');
 
 

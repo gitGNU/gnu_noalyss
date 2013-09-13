@@ -25,6 +25,7 @@
  * \brief Plan Analytique
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once("class_anc_plan.php");
 require_once("class_anc_account.php");
 $ret="";

@@ -24,6 +24,7 @@
 * \brief  export analytic list in csv
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 header('Pragma: public');
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="export-anc-list.csv"',FALSE);

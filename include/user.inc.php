@@ -19,7 +19,7 @@
 /* $Revision$ */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-
+if ( !defined ('ALLOWED')) die('Forbidden');
 /*!\file
  *
  *

@@ -27,6 +27,7 @@
  * \brief Show the table menu and let you add your own
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once 'class_menu_ref.php';
 require_once 'class_sort_table.php';
 require_once 'class_extension.php';

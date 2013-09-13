@@ -35,6 +35,7 @@
  * dl : display form to modify, add and delete lettering for a given operation
  *
  */
+define ('ALLOWED',1);
 require_once '../include/constant.php';
 require_once('class_database.php');
 require_once ('class_fiche.php');

@@ -21,6 +21,7 @@
 /*! \file
  * \brief module to manage the card (removing, listing, creating, modify attribut)
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 include_once ("ac_common.php");
 require_once("class_itext.php");
 require_once("class_ihidden.php");

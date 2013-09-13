@@ -26,6 +26,7 @@
  * @brief show detail of a fiche_def (category of card) + Attribut
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once('class_fiche_def.php');
 require_once 'class_tool_uos.php';
 global $g_user;

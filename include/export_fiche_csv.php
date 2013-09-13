@@ -21,7 +21,7 @@
 /*! \file
  * \brief Send a CSV file with card
  */
-
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 header('Pragma: public');
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="fiche.csv"',FALSE);

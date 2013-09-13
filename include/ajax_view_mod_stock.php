@@ -27,6 +27,7 @@
  *
  */
 require_once 'class_stock_goods.php';
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 
 $st=new Stock_Goods($cn);
 $array=$cn->get_array("select * from stock_goods where c_id=$1",array($_GET['c_id']));

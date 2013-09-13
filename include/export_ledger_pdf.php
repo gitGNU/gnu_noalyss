@@ -25,7 +25,7 @@
  * \brief Send a ledger in a pdf format
  *
  */
-
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 require_once('class_pdf.php');

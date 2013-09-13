@@ -18,6 +18,7 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once("class_ihidden.php");
 require_once("class_fiche_def.php");
 

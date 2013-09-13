@@ -18,6 +18,7 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once("class_ispan.php");
 require_once("class_icard.php");
 require_once("class_iselect.php");

@@ -26,6 +26,7 @@
  */
 
 // show list of document
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once ('class_document_type.php');
 
 if ( isset($_POST['add']) )

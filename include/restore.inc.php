@@ -19,7 +19,7 @@
 /* $Revision$ */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-
+if ( !defined ('ALLOWED')) die('Forbidden');
 require_once('class_iradio.php');
 require_once('class_ifile.php');
 

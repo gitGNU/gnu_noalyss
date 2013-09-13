@@ -27,6 +27,7 @@
 /* \brief  export the operation in pdf
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 header('Content-type: application/csv');
 header('Pragma: public');
 header('Content-Disposition: attachment;filename="ca_bal_croise.csv"',FALSE);

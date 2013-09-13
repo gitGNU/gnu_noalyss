@@ -27,6 +27,7 @@
  *  - sd = this parameter is used here
  *  - $cn = database connection
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once('class_follow_up.php');
 
 /**

@@ -26,6 +26,7 @@
  * @brief show a depot
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once 'class_stock_sql.php';
 $st=new Stock_Sql($_GET['r_id']);
 

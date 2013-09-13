@@ -25,6 +25,7 @@
  * \brief display, add, delete and modify forecast
  */
 
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once 'class_anticipation.php';
 echo '<div class="content">';
 

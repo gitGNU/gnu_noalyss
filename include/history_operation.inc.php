@@ -27,6 +27,7 @@
  * \brief
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once 'class_acc_ledger_purchase.php';
 require_once 'class_acc_ledger_fin.php';
 require_once 'class_acc_ledger_sold.php';

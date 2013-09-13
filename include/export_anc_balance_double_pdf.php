@@ -23,7 +23,7 @@
 /*!\file
  * \brief export the operation in pdf
  */
-
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once ('class_anc_balance_double.php');
 require_once ('header_print.php');
 

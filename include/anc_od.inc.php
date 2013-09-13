@@ -26,6 +26,7 @@
  * \brief Misc Operation for analytic accountancy
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once("class_ihidden.php");
 require_once("class_iselect.php");
 require_once("class_anc_account.php");

@@ -28,6 +28,7 @@
  * Must return at least tva, htva and tvac
 
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 
 require_once ('constant.php');
 require_once ('class_database.php');

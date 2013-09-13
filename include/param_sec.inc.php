@@ -23,7 +23,7 @@
 /*! \file
  * \brief Set the security for an user
  */
-
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 include_once ("ac_common.php");
 require_once("class_iselect.php");
 require_once('class_dossier.php');

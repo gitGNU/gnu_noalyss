@@ -1,5 +1,5 @@
 <?php
-
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once('class_anc_table.php');
 $tab = new Anc_Table($cn);
 $tab->get_request();

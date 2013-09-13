@@ -1,5 +1,5 @@
 <?php
-
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 global $g_user;
 echo '<div class="content">';
 require_once("class_own.php");

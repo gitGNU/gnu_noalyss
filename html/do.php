@@ -20,7 +20,7 @@
 /* $Revision$ */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-
+define('ALLOWED',1);
 /**\file
  * \brief Main file
  */

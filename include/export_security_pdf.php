@@ -22,7 +22,7 @@
 /*! \file
  * \brief Print the user security in pdf
  */
-
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 include_once("ac_common.php");

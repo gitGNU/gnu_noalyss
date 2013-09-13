@@ -23,6 +23,7 @@
 /*!\file
 * \brief  export the operation in pdf
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 header('Pragma: public');
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="ca_bal_simple.csv"',FALSE);

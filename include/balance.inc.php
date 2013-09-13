@@ -24,7 +24,7 @@
  *
  * some variable are already defined ($cn, $g_user ...)
  */
-
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 include_once ("ac_common.php");
 include_once("class_acc_balance.php");
 require_once("class_iselect.php");

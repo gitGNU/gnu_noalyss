@@ -24,6 +24,7 @@
  * \brief Called by impress->category, export in CVS the history of a category
  * of card
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 header('Pragma: public');
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="bal-fiche.csv"',FALSE);

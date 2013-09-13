@@ -29,7 +29,7 @@
  * - $sub_action sa from suivi courrier but sc from Suivi client, fournisseur...
  *
  */
-
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 $supl_hidden = '';
 if (isset($_REQUEST['sc']))
 	$supl_hidden.=HtmlInput::hidden('sc', $_REQUEST['sc']);

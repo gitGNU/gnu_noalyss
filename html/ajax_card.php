@@ -54,6 +54,8 @@
  * - ref if we want to refresh the window
  *\see fiche fiche::Save constant.php
  */
+define ('ALLOWED',1);
+
 require_once '../include/constant.php';
 require_once('class_database.php');
 require_once ('class_fiche.php');

@@ -26,6 +26,7 @@
  * @brief show result card search
  *
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 $sql="
 	select distinct vw.f_id,vw_name,vw_first_name,vw_description,fd_label,quick_code,tva_num,(select ad_value from fiche_Detail where f_id=pc.f_id and ad_id=5) as poste
 	from vw_fiche_attr as vw

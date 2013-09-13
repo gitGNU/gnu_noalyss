@@ -21,6 +21,7 @@
 /*! \file
  * \brief Page who manage the different actions (meeting, letter)
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once('class_ipopup.php');
 global $g_user;
 $retour=HtmlInput::button_anchor(_('Retour liste'),

@@ -21,6 +21,7 @@
 /*! \file
  * \brief Send a report in CSV format
  */
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once ("ac_common.php");
 require_once('class_database.php');
 require_once ('class_user.php');
