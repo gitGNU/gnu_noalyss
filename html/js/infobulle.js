@@ -61,6 +61,8 @@ content[30]="Peut contenir une information telle que le message structuré sur l
 content[31]="Peut contenir un numéro de bon de commande";
 content[32]='<h3>        Remarque  : choix possibles    </h3>    <ul>        <li> Détail opérations ne donne pas le même résultat si on regarde tous les journaux ou un journal de type ACH ou VEN</li>        <li> Liste opérations ne donne pas le même résultat si on regarde tous les journaux ou un journal de type ACH ou VEN</li>        <li> Journaux VEN ou ACH en mode "détail opérations" donne les détails des factures, y compris les montants, TVA et quantité par article</li>        <li> Journaux VEN ou ACH en mode "liste opérations" donne pour chaque opération, le total de la TVA, ND, ...</li>    </ul>';
 content[33]='le type vaut :<ul>	<li> ME pour Menu</li>	<li> PR pour les impressions </li>	<li> PL pour les plugins</li>	<li> SP pour des valeurs spéciales</li>	</ul>';
+content[34]='Cliquez sur le code AD pour ouvrir le menu dans un nouvel onglet';
+content[35]='Cliquez sur le chemin pour ouvrir le menu';
 function showBulle(p_ctl){
     d=document.getElementById('bulle');
     d.innerHTML=content[p_ctl];
