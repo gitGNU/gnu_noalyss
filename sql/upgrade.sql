@@ -101,26 +101,28 @@ update menu_ref set me_description='Liste du Suivi' where me_code='FOLLOW';
  * Vue montrant toutes les possibilités
  */
 CREATE OR REPLACE VIEW v_menu_description AS 
-with t_menu as ( SELECT mr.me_menu,pm.me_code, pm.me_code_dep, pm.p_type_display, pu.user_name, mr.me_file, mr.me_javascript, mr.me_description,mr.me_description_etendue
-   FROM profile_menu pm
-   JOIN profile_user pu ON pu.p_id = pm.p_id
+ WITH t_menu AS (
+         SELECT mr.me_menu, pm.me_code, pm.me_code_dep, pm.p_type_display, pu.user_name, mr.me_file, mr.me_javascript, mr.me_description, mr.me_description_etendue
+           FROM profile_menu pm
+      JOIN profile_user pu ON pu.p_id = pm.p_id
    JOIN profile p ON p.p_id = pm.p_id
-   JOIN menu_ref mr USING (me_code))
- select distinct coalesce(v3.me_code||'/','')||coalesce(v2.me_code,'')||
-case when v2.me_code is null then coalesce(v1.me_code,'')
-when v2.me_code is not null then
-coalesce('/'||v1.me_code,'')
-end as code
-, v1.me_code
-,v1.me_description,v1.me_description_etendue,v1.me_file,V1.USER_NAME,
-'> '||v1.me_menu as v1menu, 
-case when coalesce(v3.me_menu,'') <> '' then ' > '||v2.me_menu else v2.me_menu end as v2menu,
-v3.me_menu as v3menu,
-v3.p_type_display
- from t_menu as v1 
- left join t_menu as v2 on (v1.me_code_dep=v2.me_code) 
- left join t_menu as v3 on (v2.me_code_dep=v3.me_code) 
- where v1.p_type_display not in ('P') and (coalesce(v1.me_file,'') <>'' or coalesce(v1.me_javascript,'')<>'');
- 
+   JOIN menu_ref mr USING (me_code)
+        )
+ SELECT DISTINCT (COALESCE(v3.me_code || '/'::text, ''::text) || COALESCE(v2.me_code, ''::text)) || 
+        CASE
+            WHEN v2.me_code IS NULL THEN COALESCE(v1.me_code, ''::text)
+            WHEN v2.me_code IS NOT NULL THEN COALESCE('/'::text || v1.me_code, ''::text)
+            ELSE NULL::text
+        END AS code, v1.me_code, v1.me_description, v1.me_description_etendue, v1.me_file, v1.user_name, '> '::text || v1.me_menu AS v1menu, 
+        CASE
+            WHEN COALESCE(v3.me_menu, ''::text) <> ''::text THEN ' > '::text || v2.me_menu
+            ELSE v2.me_menu
+        END AS v2menu, v3.me_menu AS v3menu, v3.p_type_display
+   FROM t_menu v1
+   LEFT JOIN t_menu v2 ON v1.me_code_dep = v2.me_code
+   LEFT JOIN t_menu v3 ON v2.me_code_dep = v3.me_code
+  WHERE v1.p_type_display <> 'P'::text AND (COALESCE(v1.me_file, ''::text) <> ''::text OR COALESCE(v1.me_javascript, ''::text) <> ''::text);
+
 COMMENT ON VIEW v_menu_description
   IS 'Description des menus';
+ 

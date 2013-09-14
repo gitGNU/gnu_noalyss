@@ -21,7 +21,7 @@
 
 // Copyright Author Dany De Bontridder dany@alchimerys.be
 if ( ! defined ('ALLOWED')) die('Appel direct ne sont pas permis');
-
+echo HtmlInput::title_box("Navigateur", "navi_div");
 $sql="
     select code, me_code,me_description,coalesce(me_description_etendue,me_description) as me_description_etendue,v1menu,v2menu,v3menu,p_type_display
     from 
@@ -33,16 +33,15 @@ $a_menu=$cn->get_array($sql,array($_SESSION['g_user']));
 
 ?>
 <div class="content">
-    <h1>Navigateur</h1>
     <p>
         Vous permet d'accèder rapidement au menu qui vous intéresse, utiliser le filtre pour trouver plus rapidement
     </p>
     <p style='margin-left: 5%'>
     Filtre : <?php
-    echo HtmlInput::filter_table("navi_tb", "1", '1');
+    echo HtmlInput::filter_table("navi_tb", "1,2", '1');
     ?>
     </p>
-    <table id="navi_tb" class="sortable" style="width:90%;margin-left: 5%;border-spacing:0em 1.25em;border-collapse: separate">
+    <table id="navi_tb" class="sortable" style="width:90%;margin-left: 5%;border-spacing:0em 0.50em;border-collapse: separate">
         <tr>
             <th class='sorttable_sorted'>
                 Code AD 
@@ -88,3 +87,6 @@ for ($i=0;$i<$nMax;$i++):
 
     
 </div>
+<script charset="UTF8" lang="javascript">
+    $('lk_navi_tb').focus();
+</script>

@@ -574,6 +574,9 @@ EOF;
 	case 'minrow':
 		require_once 'ajax_min_row.php';
 		break;
+        case 'navigator':
+                require_once 'ajax_navigator.php';
+                break;
 	default:
 		var_dump($_GET);
 }

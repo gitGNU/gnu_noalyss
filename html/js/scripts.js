@@ -1796,3 +1796,40 @@ function info_hide()
 {
 		$('info_div').style.display="none";
 }
+/**
+ * Show the navigator in a internal window
+ * @returns {undefined}
+ */
+function ask_navigator() {
+    try {
+        waiting_box();
+        removeDiv('navi_div')
+       var p_dossier=$('gDossier').value;
+        var queryString="gDossier="+p_dossier+"&op=navigator";
+	var action = new Ajax.Request(
+				  "ajax_misc.php" ,
+				  {
+				      method:'get', parameters:queryString,
+				      onFailure:ajax_misc_failure,
+				      onSuccess:function(req){
+						remove_waiting_box();
+                                                add_div({id:'navi_div',style:'top:2em;left:2em;width:90%',cssclass:'inner_box'});
+						$('navi_div').innerHTML=req.responseText;
+                                                try
+                                                {
+                                                    req.responseText.evalScripts();
+                                                    sorttable.makeSortable($("navi_tb"));
+                                                }
+                                                catch(e)
+                                                {
+                                                    alert("answer_box Impossible executer script de la reponse\n"+e.message);
+                                                }
+
+				      }
+				  }
+				  );
+    } catch (e) {
+        info_message(e.getMessage);
+    }
+    
+}

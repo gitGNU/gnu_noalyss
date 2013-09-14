@@ -208,11 +208,11 @@ if (isset($_POST['val']))
 	}
 	echo '</select>';
 	echo '</fieldset>';
-
+        
 
 	echo HtmlInput::submit("val", _("Valider"));
 	echo '</form>';
-
+        
 
 
 
