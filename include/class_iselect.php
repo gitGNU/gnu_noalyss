@@ -36,10 +36,10 @@ class ISelect extends HtmlInput
 		$this->id=($this->id=="")?$this->name:$this->id;
 
         $disabled=($this->disabled==true)?"disabled":"";
-        $size = (isset ($this->size)) ? ' size = "'.$this->size.'"':"";
+        $rowsize = (isset ($this->rowsize)) ? ' size = "'.$this->rowsize.'"':"";
         $r="";
 
-        $a="<SELECT  id=\"$this->id\" NAME=\"$this->name\" $style $this->javascript $disabled $size>";
+        $a="<SELECT  id=\"$this->id\" NAME=\"$this->name\" $style $this->javascript $disabled $rowsize>";
 
         if (empty($this->value)) return '';
         for ( $i=0;$i<sizeof($this->value);$i++)
