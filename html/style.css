@@ -1289,3 +1289,6 @@ div.bxbutton
     margin-top:0.48%;
     margin-right:0.48%;
 }
+div.inner_box tr.odd {
+    background: white;
+}
