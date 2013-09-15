@@ -577,6 +577,9 @@ EOF;
         case 'navigator':
                 require_once 'ajax_navigator.php';
                 break;
+        case 'preference':
+                require_once 'ajax_preference.php';
+                break;
 	default:
 		var_dump($_GET);
 }

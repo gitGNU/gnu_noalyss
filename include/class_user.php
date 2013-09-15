@@ -1132,6 +1132,17 @@ class User
                 return false;
             return true;
         }
+   function save_password($p_pass1, $p_pass2) {
+        if ($p_pass1 == $p_pass2) {
+            $repo = new Database();
+            $l_pass = md5($_POST['pass_1']);
+            $repo->exec_sql("update ac_users set use_pass=$1 where use_login=$2", array($l_pass, $_SESSION['g_user']));
+            $_SESSION['g_pass'] = $_POST['pass_1'];
+            echo "<i>" . _('Mot de passe est modifiée') . "</i>";
+        } else {
+            alert(_("Les mots de passe ne correspondent pas. Mot de passe inchangé"));
+        }
+    }
 
 }
 

@@ -29,6 +29,7 @@ require_once("class_iselect.php");
 require_once("class_iperiod.php");
 require_once('class_acc_report.php');
 require_once('class_periode.php');
+echo HtmlInput::title_box(_('Préférence'), 'preference_div');
 echo '<DIV class="content">';
 //----------------------------------------------------------------------
 //
@@ -46,39 +47,6 @@ if (isset($_REQUEST['gDossier']))
     $inside_dossier = true;
     $local_pref=$g_user->get_preference();
 }
-//// Save value
-if (isset($_POST['val']))
-{
-    extract($_POST);
-
-    if (strlen(trim($pass_1)) != 0 && strlen(trim($pass_2)) != 0)
-    {
-	if ($pass_1 == $pass_2)
-	{
-	    $repo = new Database();
-	    $l_pass = md5($_POST['pass_1']);
-	    $repo->exec_sql("update ac_users set use_pass=$1 where use_login=$2", array($l_pass, $_SESSION['g_user']));
-	    $_SESSION['g_pass'] = $_POST['pass_1'];
-	    echo "<i>" . _('Mot de passe est modifiée') . "</i>";
-	}
-	else
-	{
-	    alert(_("Les mots de passe ne correspondent pas. Mot de passe inchangé"));
-	}
-    }
-    if ($inside_dossier)
-    {
-	$g_user->set_periode($period);
-	$g_user->save_global_preference('THEME', $style_user);
-	$g_user->save_global_preference('LANG', $lang);
-	$g_user->save_global_preference('PAGESIZE', $p_size);
-	$g_user->set_mini_report($minirap);
-	$_SESSION['g_theme']=$style_user;
-	$_SESSION['g_pagesize']=$p_size;
-	$_SESSION['g_lang']=$lang;
-    }
-}
-
 //////////////////////////////////////////////////////////////////////////
 // Theme
 //////////////////////////////////////////////////////////////////////////
@@ -95,16 +63,16 @@ if (isset($_POST['val']))
     echo '<h2 class="info2">' . _('Changez vos préférences') . '</h2>';
 ?>
 
-<div class="content">
+<div class="content" >
 
     <FORM  METHOD="POST">
-	<fieldset><legend><?php echo _('Options Générales')?></legend>
+	<fieldset style="margin: 1%"><legend><?php echo _('Options Générales')?></legend>
 	    <table>
 		<tr><td>
 			Mot de passe :
 		    </td>
-		    <td><input type="password" value="" class="input_type" name="pass_1" nohistory>
-			<input type="password" value="" class="input_type" name="pass_2" nohistory>
+		    <td><input type="password" value="" class="input_text" name="pass_1" nohistory>
+			<input type="password" value="" class="input_text" name="pass_2" nohistory>
 		    </td>
 		</tr>
 
@@ -176,7 +144,7 @@ if (isset($_POST['val']))
 	if ($inside_dossier)
 	{
 	    /* Pref for welcome page */
-	    echo '<fieldset>';
+	    echo '<fieldset style="margin: 1%">';
 	    echo '<legend>' . _('Options pour la page d\'accueil') . '</legend>';
 	    echo _('Mini-Rapport : ');
 	    $rapport = new Acc_Report($cn);
@@ -191,7 +159,7 @@ if (isset($_POST['val']))
 	    echo '</fieldset>';
 	}
 
-	echo '<fieldset>';
+	echo '<fieldset  style="margin: 1%">';
 	echo '<legend>' . _('Langue') . '</legend>';
 	echo _('Selectionnez votre langue');
 	$aLang = array(array(_('Français'), 'fr_FR.utf8'),
@@ -209,23 +177,11 @@ if (isset($_POST['val']))
 	echo '</select>';
 	echo '</fieldset>';
         
-
-	echo HtmlInput::submit("val", _("Valider"));
+        echo '<p style="text-align:center">';
+	echo HtmlInput::button_close('preference_div');
+	echo HtmlInput::submit("set_preference", _("Valider"));
+        echo '</p>';
 	echo '</form>';
-        
-
-
-
-	if (!$inside_dossier)
-	{
-	    echo HtmlInput::button_anchor(_('Retour'), 'user_login.php?');
-	}
-	else
-	  {
-	    echo HtmlInput::button_anchor(_('Retour'), 'do.php?'.Dossier::get());
-
-	  }
-
 
 	echo "</DIV>";
 	?>

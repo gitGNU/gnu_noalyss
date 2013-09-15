@@ -299,9 +299,8 @@ function toggleHideShow(p_obj,p_button)
  *@param p_dossier the dossier where to search
  *@param p_style style of the detail value are E for expert or S for simple
  */
-function popup_recherche()
+function popup_recherche(p_dossier)
 {
-	p_dossier=$('gDossier').value;
     var w=window.open("recherche.php?gDossier="+p_dossier+"&ac=SEARCH",'','statusbar=no,scrollbars=yes,toolbar=no');
     w.focus();
 }
@@ -1800,11 +1799,10 @@ function info_hide()
  * Show the navigator in a internal window
  * @returns {undefined}
  */
-function ask_navigator() {
+function ask_navigator(p_dossier) {
     try {
         waiting_box();
         removeDiv('navi_div')
-       var p_dossier=$('gDossier').value;
         var queryString="gDossier="+p_dossier+"&op=navigator";
 	var action = new Ajax.Request(
 				  "ajax_misc.php" ,
@@ -1819,6 +1817,41 @@ function ask_navigator() {
                                                 {
                                                     req.responseText.evalScripts();
                                                     sorttable.makeSortable($("navi_tb"));
+                                                }
+                                                catch(e)
+                                                {
+                                                    alert("answer_box Impossible executer script de la reponse\n"+e.message);
+                                                }
+
+				      }
+				  }
+				  );
+    } catch (e) {
+        info_message(e.getMessage);
+    }
+    
+}
+/**
+ * @brief Display an internal windows to set the user's preference
+ * 
+ */
+function set_preference(p_dossier) {
+    try {
+        waiting_box();
+        removeDiv('preference_div')
+        var queryString="gDossier="+p_dossier+"&op=preference";
+	var action = new Ajax.Request(
+				  "ajax_misc.php" ,
+				  {
+				      method:'get', parameters:queryString,
+				      onFailure:ajax_misc_failure,
+				      onSuccess:function(req){
+						remove_waiting_box();
+                                                add_div({id:'preference_div',style:'top:2em;left:20%;width:50%',cssclass:'inner_box'});
+						$('preference_div').innerHTML=req.responseText;
+                                                try
+                                                {
+                                                    req.responseText.evalScripts();
                                                 }
                                                 catch(e)
                                                 {

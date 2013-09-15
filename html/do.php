@@ -128,12 +128,37 @@ load_all_script();
 
 $module_selected = -1;
 
+/*
+ * Set the user preference
+ */
+if ( isset ($_POST['set_preference'])) {
+    //// Save value
+    extract($_POST);
+
+    if (strlen(trim($pass_1)) != 0 && strlen(trim($pass_2)) != 0)
+    {
+	$g_user->save_password($pass_1,$pass_2);
+        
+    }
+    $g_user->set_periode($period);
+    $g_user->save_global_preference('THEME', $style_user);
+    $g_user->save_global_preference('LANG', $lang);
+    $g_user->save_global_preference('PAGESIZE', $p_size);
+    $g_user->set_mini_report($minirap);
+    $_SESSION['g_theme']=$style_user;
+    $_SESSION['g_pagesize']=$p_size;
+    $_SESSION['g_lang']=$lang;
+}
+
+/*
+ * if an action is requested
+ */
 if (isset($_REQUEST['ac']))
 {
-	$_REQUEST['ac']=  trim(strtoupper($_REQUEST['ac']));
+    $_REQUEST['ac']=  trim(strtoupper($_REQUEST['ac']));
     $all = explode('/', $_REQUEST['ac']);
     $module_selected = $all[0];
-	$g_user->audit();
+    $g_user->audit();
 // Show module and highligt selected one
     show_module($module_selected);
     for ($i = 0; $i != count($all); $i++)

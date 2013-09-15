@@ -87,7 +87,7 @@ update parm_code set p_value='67' where p_value='6740' and p_code='DNA';
 
 insert into menu_ref(me_code,me_menu,me_file, me_url,me_description,me_parameter,me_javascript,me_type,me_description_etendue)
 values
-('NAVI','Navigateur','navigator.inc.php',null,'Menu simplifié pour retrouver rapidement un menu',null,null,'ME','Le navigateur vous présente une liste de menu auquel vous avez accès et vous permet d''accèder plus rapidement au menu que vous souhaitez rapidement');
+('NAVI','Navigateur',null,null,'Menu simplifié pour retrouver rapidement un menu',null,'ask_navigator(<DOSSIER>)','ME','Le navigateur vous présente une liste de menu auquel vous avez accès et vous permet d''accèder plus rapidement au menu que vous souhaitez rapidement');
 
 insert into profile_menu (me_code,me_code_dep,p_id,p_order, p_type_display,pm_default) 
 values
@@ -96,6 +96,7 @@ values
 update menu_ref set me_menu='Impression Journaux' where me_code='PRINTJRN';
 update menu_ref set me_description='Impression des journaux' where me_code='PRINTJRN';
 update menu_ref set me_description='Liste du Suivi' where me_code='FOLLOW';
+update menu_ref set me_javascript='popup_recherche(<DOSSIER>)' where me_code='SEARCH';
 
 /*
  * Vue montrant toutes les possibilités

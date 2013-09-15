@@ -984,7 +984,8 @@ function show_menu($module, $idx)
 		}
 		if ( $file[0]['me_javascript'] != '')
 		{
-			echo create_script($file[0]['me_javascript']);
+                    $js=  str_replace('<DOSSIER>', dossier::id(), $file[0]['me_javascript']);
+                    echo create_script($js);
 		}
     }
 }
