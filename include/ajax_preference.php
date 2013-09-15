@@ -31,7 +31,8 @@ require_once('class_acc_report.php');
 require_once('class_periode.php');
 echo HtmlInput::title_box(_('Préférence'), 'preference_div');
 echo '<DIV class="content">';
-echo '<p class="notice"> Si vous validez la page sera rechargée</p>';
+echo '<p class="notice"> Si vous validez la page sera rechargée et vous pourriez perdre'
+. 'ce que vous faisiez</p>';
 //----------------------------------------------------------------------
 //
 global $g_user;

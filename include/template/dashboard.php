@@ -259,7 +259,7 @@ if ( $report != 0 ) {
   echo '</div>';
  } else {
   echo '<fieldset style="height:50%;width:80%;background-color:white"><legend>'._('Aucun rapport défini').'</legend>';
-  echo '<a href="do.php?'.dossier::get().'&ac=PREFERENCE">'._('Cliquez ici pour mettre à jour vos préférences').'</a>';
+  echo '<a href="javascript:void(0)" onclick="set_preference('.dossier::id().')">'._('Cliquez ici pour mettre à jour vos préférences').'</a>';
 
 
 echo '</fieldset>';
