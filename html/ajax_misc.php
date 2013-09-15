@@ -582,6 +582,9 @@ EOF;
         case 'preference':
                 require_once 'ajax_preference.php';
                 break;
+        case 'bookmark':
+            require_once 'ajax_bookmark.php';
+            break;
 	default:
 		var_dump($_GET);
 }

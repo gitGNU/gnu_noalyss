@@ -93,6 +93,14 @@ insert into profile_menu (me_code,me_code_dep,p_id,p_order, p_type_display,pm_de
 values
 ('NAVI',null,1,90,'M',0), ('NAVI',null,2,90,'M',0);
 
+insert into menu_ref(me_code,me_menu,me_file, me_url,me_description,me_parameter,me_javascript,me_type,me_description_etendue)
+values
+('BOOKMARK','Favori',null,null,'Raccourci vers vos menus préférés',null,'show_bookmark(<DOSSIER>)','ME','Ce menu vous présente un menu rapide des menus que vous utilisez le plus souvent');
+
+insert into profile_menu (me_code,me_code_dep,p_id,p_order, p_type_display,pm_default) 
+values
+('BOOKMARK',null,1,85,'M',0), ('BOOKMARK',null,2,85,'M',0);
+
 update menu_ref set me_menu='Impression Journaux' where me_code='PRINTJRN';
 update menu_ref set me_description='Impression des journaux' where me_code='PRINTJRN';
 update menu_ref set me_description='Liste du Suivi' where me_code='FOLLOW';
@@ -127,3 +135,11 @@ CREATE OR REPLACE VIEW v_menu_description AS
 COMMENT ON VIEW v_menu_description
   IS 'Description des menus';
  
+CREATE TABLE bookmark
+(
+b_id serial primary key,
+b_order integer default 1,
+b_action text,
+login text 
+);
+comment on table bookmark is 'Bookmark of the connected user';

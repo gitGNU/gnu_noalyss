@@ -1866,3 +1866,108 @@ function set_preference(p_dossier) {
     }
     
 }
+/**
+ * @brief Display user's bookmark
+ * 
+ */
+function show_bookmark(p_dossier) {
+    try {
+        waiting_box();
+        removeDiv('bookmark_div');
+        var param=window.location.search;
+        param=param.gsub('?','');
+        var queryString="gDossier="+p_dossier+"&op=bookmark&"+param;
+	var action = new Ajax.Request(
+				  "ajax_misc.php" ,
+				  {
+				      method:'get', parameters:queryString,
+				      onFailure:ajax_misc_failure,
+				      onSuccess:function(req){
+						remove_waiting_box();
+                                                add_div({id:'bookmark_div',style:'top:2em;left:20%;width:50%',cssclass:'inner_box',drag:1});
+						$('bookmark_div').innerHTML=req.responseText;
+                                                try
+                                                {
+                                                    req.responseText.evalScripts();
+                                                }
+                                                catch(e)
+                                                {
+                                                    alert("answer_box Impossible executer script de la reponse\n"+e.message);
+                                                }
+
+				      }
+				  }
+				  );
+    } catch (e) {
+        info_message(e.getMessage);
+    }
+    
+}
+/**
+ * @brief save the bookmark
+ */
+function save_bookmark() {
+    try {
+        waiting_box();
+        var queryString="op=bookmark&"+$("bookmark_frm").serialize();
+	var action = new Ajax.Request(
+				  "ajax_misc.php" ,
+				  {
+				      method:'get', parameters:queryString,
+				      onFailure:ajax_misc_failure,
+				      onSuccess:function(req){
+                                                 removeDiv('bookmark_div');
+						remove_waiting_box();
+                                                add_div({id:'bookmark_div',style:'top:2em;left:20%;width:50%',cssclass:'inner_box',drag:1});
+						$('bookmark_div').innerHTML=req.responseText;
+                                                try
+                                                {
+                                                    req.responseText.evalScripts();
+                                                }
+                                                catch(e)
+                                                {
+                                                    alert("answer_box Impossible executer script de la reponse\n"+e.message);
+                                                }
+
+				      }
+				  }
+				  );
+    } catch (e) {
+        info_message(e.getMessage);
+    }
+    
+}
+/**
+ * @brief remove selected bookmark
+ */
+function remove_bookmark() {
+    try {
+        waiting_box();
+        var queryString="op=bookmark&"+$("bookmark_del_frm").serialize();
+	var action = new Ajax.Request(
+				  "ajax_misc.php" ,
+				  {
+				      method:'get', parameters:queryString,
+				      onFailure:ajax_misc_failure,
+				      onSuccess:function(req){
+						remove_waiting_box();
+                                                 removeDiv('bookmark_div');
+                                                add_div({id:'bookmark_div',style:'top:2em;left:20%;width:50%',cssclass:'inner_box',drag:1});
+						$('bookmark_div').innerHTML=req.responseText;
+                                                try
+                                                {
+                                                    req.responseText.evalScripts();
+                                                }
+                                                catch(e)
+                                                {
+                                                    alert("answer_box Impossible executer script de la reponse\n"+e.message);
+                                                }
+
+				      }
+				  }
+				  );
+    } catch (e) {
+        info_message(e.getMessage);
+    }
+    
+}
