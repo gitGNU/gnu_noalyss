@@ -31,6 +31,7 @@ require_once('class_acc_report.php');
 require_once('class_periode.php');
 echo HtmlInput::title_box(_('Préférence'), 'preference_div');
 echo '<DIV class="content">';
+echo '<p class="notice"> Si vous validez la page sera rechargée</p>';
 //----------------------------------------------------------------------
 //
 global $g_user;
@@ -38,7 +39,7 @@ global $g_user;
 $g_user=new User($cn);
 $inside_dossier = false;
 
-if (isset($_REQUEST['gDossier']))
+if (isset($_REQUEST['gDossier']) && $_REQUEST['gDossier']<>0)
 {
     $g_user->load_global_pref();
     $msg = "";
@@ -60,7 +61,6 @@ if (isset($_REQUEST['gDossier']))
 	from theme
 	order by the_name");
     $style->selected =$_SESSION['g_theme'];
-    echo '<h2 class="info2">' . _('Changez vos préférences') . '</h2>';
 ?>
 
 <div class="content" >

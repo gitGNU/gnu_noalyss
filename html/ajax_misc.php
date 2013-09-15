@@ -65,7 +65,9 @@ $cn = new Database($gDossier);
 $g_user = new User($cn);
 $g_user->check(true);
 $g_user->check_dossier($gDossier, true);
-$g_parameter=new Own($cn);
+if ($gDossier<>0) {
+    $g_parameter=new Own($cn);
+}
 $html = var_export($_REQUEST, true);
 
 switch ($op)

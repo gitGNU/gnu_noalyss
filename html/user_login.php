@@ -96,6 +96,20 @@ if ( $User->Admin()  == 1)
 include_once("user_menu.php");
 $priv=($User->admin==1)?"Administrateur":"Utilisateur";
 load_all_script();
+if ( isset ($_POST['set_preference'])) {
+    //// Save value
+    extract($_POST);
+
+    if (strlen(trim($pass_1)) != 0 && strlen(trim($pass_2)) != 0)
+    {
+	$User->save_password($pass_1,$pass_2);
+        
+    }
+    $User->save_global_preference('THEME', $style_user);
+    $User->save_global_preference('LANG', $lang);
+    $_SESSION['g_theme']=$style_user;
+    $_SESSION['g_lang']=$lang;
+}
 echo '<div class="welcome"> ';
 /**
  *
@@ -132,7 +146,9 @@ if ( $User->Admin()  == 1 )
 {
     $result.="<TD  class=\"tool\" ><A class=\"cell\" HREF=\"admin_repo.php\"> Administration  </A></TD>";
 }
-$result.='<TD class="tool"><A class="cell" HREF="user_pref.php">'._('Préférence').'</a></TD>';
+$result.='<TD class="tool">';
+$result.='<a onclick="set_preference(0)" title="Préférence" href="javascript:void(0)" class="mtitle">Préférence</a>';
+$result.= '</TD>';
 $result.='<TD  class="tool" ><A class="cell" HREF="logout.php" >'._('Deconnexion').'</a></TD>';
 $result.="</TR>";
 $result.="</table>";

@@ -1847,7 +1847,7 @@ function set_preference(p_dossier) {
 				      onFailure:ajax_misc_failure,
 				      onSuccess:function(req){
 						remove_waiting_box();
-                                                add_div({id:'preference_div',style:'top:2em;left:20%;width:50%',cssclass:'inner_box'});
+                                                add_div({id:'preference_div',style:'top:2em;left:20%;width:50%',cssclass:'inner_box',drag:1});
 						$('preference_div').innerHTML=req.responseText;
                                                 try
                                                 {
