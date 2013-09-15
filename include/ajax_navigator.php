@@ -23,7 +23,8 @@
 if ( ! defined ('ALLOWED')) die('Appel direct ne sont pas permis');
 echo HtmlInput::title_box("Navigateur", "navi_div");
 $sql="
-    select code, me_code,me_description,coalesce(me_description_etendue,me_description) as me_description_etendue,v1menu,v2menu,v3menu,p_type_display
+    select code, me_code,me_description,coalesce(me_description_etendue,me_description) as me_description_etendue,v1menu,v2menu,v3menu,p_type_display,
+    javascript
     from 
     v_menu_description
     where user_name=$1
@@ -63,12 +64,30 @@ for ($i=0;$i<$nMax;$i++):
 ?>
         <tr>
             <td>
-                <a class='mtitle' style='text-decoration: underline' href="<?php echo $url."&ac=".$a_menu[$i]['code']; ?>" target='_blank'>
+                <?php
+                if ( $a_menu[$i]['javascript'] == "" ) :
+                ?>
+                    <a class='mtitle' style='text-decoration: underline' href="<?php echo $url."&ac=".$a_menu[$i]['code']; ?>" target='_blank'>
+                <?php else : 
+                    $js=  str_replace('<DOSSIER>', Dossier::id(), $a_menu[$i]['javascript']);
+                 ?>
+                    <a class='mtitle' style='text-decoration: underline' href="javascript:void(0)"
+                        onclick="<?php echo $js ?>">
+                <?php endif; ?>
                 <?php echo $a_menu[$i]['me_code'];               ?>
                 </a>
             </td>
             <td>
-                <a class='mtitle' style='text-decoration: underline' href="<?php echo $url."&ac=".$a_menu[$i]['code']; ?>">
+                <?php
+                if ( $a_menu[$i]['javascript'] == "" ) :
+                ?>
+                    <a class='mtitle' style='text-decoration: underline' href="<?php echo $url."&ac=".$a_menu[$i]['code']; ?>" target='_blank'>
+                <?php else : 
+                    $js=  str_replace('<DOSSIER>', Dossier::id(), $a_menu[$i]['javascript']);
+                 ?>
+                    <a class='mtitle' style='text-decoration: underline' href="javascript:void(0)"
+                        onclick="<?php echo $js ?>">
+                <?php endif; ?>
                 <?php
                 $path=$a_menu[$i]['v3menu'];
                 $path.=$a_menu[$i]['v2menu'];
