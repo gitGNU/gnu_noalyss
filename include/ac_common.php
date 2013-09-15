@@ -894,7 +894,7 @@ function find_default_module()
 			*/
 			if (empty ($default_module))
 			{
-				echo_warning(_("Utilisateur n'a pas de profile"));
+				echo_warning(_("Utilisateur n'a pas de profile, votre administrateur doit en configurer un dans CFGSEC"));
 				exit();
 			}
 		}
