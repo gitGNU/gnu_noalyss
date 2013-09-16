@@ -1847,7 +1847,7 @@ function set_preference(p_dossier) {
 				      onFailure:ajax_misc_failure,
 				      onSuccess:function(req){
 						remove_waiting_box();
-                                                add_div({id:'preference_div',style:'top:2em;left:20%;width:50%',cssclass:'inner_box',drag:1});
+                                                add_div({id:'preference_div',drag:1});
 						$('preference_div').innerHTML=req.responseText;
                                                 try
                                                 {
@@ -1884,7 +1884,7 @@ function show_bookmark(p_dossier) {
 				      onFailure:ajax_misc_failure,
 				      onSuccess:function(req){
 						remove_waiting_box();
-                                                add_div({id:'bookmark_div',style:'top:2em;left:20%;width:50%',cssclass:'inner_box',drag:1});
+                                                add_div({id:'bookmark_div',cssclass:'inner_box',drag:1});
 						$('bookmark_div').innerHTML=req.responseText;
                                                 try
                                                 {
@@ -1916,9 +1916,9 @@ function save_bookmark() {
 				      method:'get', parameters:queryString,
 				      onFailure:ajax_misc_failure,
 				      onSuccess:function(req){
-                                                 removeDiv('bookmark_div');
 						remove_waiting_box();
-                                                add_div({id:'bookmark_div',style:'top:2em;left:20%;width:50%',cssclass:'inner_box',drag:1});
+                                                // removeDiv('bookmark_div');
+                                                // add_div({id:'bookmark_div',cssclass:'inner_box',drag:1});
 						$('bookmark_div').innerHTML=req.responseText;
                                                 try
                                                 {
@@ -1951,8 +1951,8 @@ function remove_bookmark() {
 				      onFailure:ajax_misc_failure,
 				      onSuccess:function(req){
 						remove_waiting_box();
-                                                 removeDiv('bookmark_div');
-                                                add_div({id:'bookmark_div',style:'top:2em;left:20%;width:50%',cssclass:'inner_box',drag:1});
+                                                // removeDiv('bookmark_div');
+                                               // add_div({id:'bookmark_div',cssclass:'inner_box',drag:1});
 						$('bookmark_div').innerHTML=req.responseText;
                                                 try
                                                 {

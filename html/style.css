@@ -943,13 +943,9 @@ div.inner_box  {
     margin:0;
     overflow:hidden;
     z-index:3;
-
     position:absolute;
     left:10%;
-
-
     border:1px solid darkblue;
-
 }
 div.op_detail_title {
     background-color:grey;
@@ -1260,8 +1256,8 @@ div#modele_op_div{
     overflow:hidden;
     z-index:3;
     position:absolute;
-    left:10%;
-    width:60%;
+    left:30%;
+    width:40%;
     border:1px solid darkblue;
 }
 div#notice {
@@ -1290,5 +1286,34 @@ div.bxbutton
     margin-right:0.48%;
 }
 div.inner_box tr.odd {
-    background: white;
+    background:  #CBD9F4;
+}
+#modele_op_tab tr.odd {
+    background:  #CBD9F4;
+}
+div#bookmark_div {
+    background-color:#e4e7ed;
+    font-family:arial,verdana,sans-serif,helvetica;
+    padding:0;
+    margin:0;
+    overflow:hidden;
+    z-index:3;
+    position:absolute;
+   border:1px solid darkblue;
+   top:2em;
+   left:30%;
+   width:40%;
+}
+div#preference_div {
+    background-color:#e4e7ed;
+    font-family:arial,verdana,sans-serif,helvetica;
+    padding:0;
+    margin:0;
+    overflow:hidden;
+    z-index:3;
+    position:absolute;
+    border:1px solid darkblue;
+    top:2em;
+    left:20%;
+    width:50%;
 }

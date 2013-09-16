@@ -27,12 +27,22 @@
 if ( ! defined ('ALLOWED')) die('Appel direct ne sont pas permis');
 echo HtmlInput::title_box("Favoris", "bookmark_div");
 if (! isset($_GET['ac'])) {
-    die ('CODE ACCES DIRECT INCORRECT');
+    /*
+     * find default module
+     */
+    $_GET['ac']= find_default_module();
 }
 // Add bookmark
 if (isset($_GET['bookmark_add'])){
-    $cn->exec_sql("insert into bookmark(b_action,login) values($1,$2)",
+    $count=$cn->get_value("select count(*) from bookmark"
+            . " where b_action=$1 and login=$2",
+            array($_GET['ac'],$g_user->login)
+            );
+    // Add bookmark only if absent
+    if ( $count == 0 ){
+        $cn->exec_sql("insert into bookmark(b_action,login) values($1,$2)",
             array($_GET['ac'],$g_user->login));
+    }     
 }
 // remove bookmark
 if (isset($_GET['bookmark_delete']) && isset ($_GET['book'])){
@@ -77,15 +87,15 @@ $url="do.php?gDossier=".Dossier::id()."&ac=";
         </tr>
         <?php endfor; ?>
     </table>
-<?php echo HtmlInput::submit("bookmark_delete", "Supprimez favoris sélectionnés"); ?>
+<?php echo HtmlInput::submit("bookmark_delete", "Supprimez favoris sélectionnés","","smallbutton"); ?>
 </form>
 <form id="bookmark_frm" method="get" onsubmit="save_bookmark();return false">
 <?php
-echo "Menu actuel : ".$_GET['ac'];
+echo "Menu actuel : ".hb($_GET['ac']);
 echo HtmlInput::array_to_hidden(array("gDossier","ac"), $_REQUEST); 
 ?>
 <p>
-<?php echo HtmlInput::submit("bookmark_add", "Ajoutez le menu  actuel à vos favoris"); ?>
+<?php echo HtmlInput::submit("bookmark_add", "Ajoutez le menu  actuel à vos favoris","","smallbutton"); ?>
 </form>
 
 
