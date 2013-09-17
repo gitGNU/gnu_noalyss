@@ -1967,7 +1967,17 @@ function remove_bookmark() {
 				  }
 				  );
     } catch (e) {
-        info_message(e.getMessage);
+        error_message(e.getMessage);
     }
     
+}
+/**
+ *@brief display the error message into the div error_content_div (included into error_div)
+ *@param message message to display
+ *@note there is no protection
+ */
+function error_message(message)
+{
+    $('error_content_div').innerHTML=message;
+    $('error_div').style.visibility='visible';
 }

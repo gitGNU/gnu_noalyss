@@ -310,7 +310,15 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
     ';
 
     echo "<BODY $p_script>";
-	echo '<div id="info_div"></div>';
+    echo '<div id="info_div"></div>';
+    echo '<div id="error_div">'.
+            HtmlInput::title_box("Erreur", 'error_div','hide').
+            '<div id="error_content_div">'.
+            '</div>'.
+            '<p style="text-align:center">'.
+            HtmlInput::button_action('Valider','$(\'error_div\').style.visibility=\'hidden\';$(\'error_content_div\').innerHTML=\'\';').
+            '</p>'.
+            '</div>';
 // language
     if (isset($_SESSION['g_lang']))
     {
