@@ -42,6 +42,9 @@ if (isset($_GET['bookmark_add'])){
     if ( $count == 0 ){
         $cn->exec_sql("insert into bookmark(b_action,login) values($1,$2)",
             array($_GET['ac'],$g_user->login));
+    } else {
+        $js="error_message('Ce favori a déjà été ajouté');";
+        echo create_script($js);
     }     
 }
 // remove bookmark
@@ -68,6 +71,14 @@ $url="do.php?gDossier=".Dossier::id()."&ac=";
 
     <table class="result">
         <?php for ($i=0;$i<count($a_bookmark);$i++): ?>
+        <?php
+        /*
+         * Display only the last ac
+         */
+        $a_code=  explode('/',$a_bookmark[$i]['b_action']);
+        $idx=count($a_code);
+        $code=$a_code[$idx-1];
+        ?>
         <tr class="<?php echo (($i%2)==0?'odd':'even')?>">
             <td>
                 <?php
@@ -78,7 +89,7 @@ $url="do.php?gDossier=".Dossier::id()."&ac=";
             </td>
             <td>
                 <a class='mtitle' style='text-decoration: underline' href="<?php echo $url."&ac=".$a_bookmark[$i]['b_action']; ?>">
-                <?php echo $a_bookmark[$i]['b_action'] ?>
+                <?php echo $code  ?>
                 </a>
             </td>
             <td>
