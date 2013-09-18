@@ -9,7 +9,11 @@ update quant_purchase as e set qp_dep_priv=(select qp_price from m where m.qp_id
 update quant_purchase as e set qp_dep_priv=0 where qp_dep_priv is null;
 -- évite les valeurs nulles dans quant_purchase
 update quant_purchase set qp_dep_priv = 0 where qp_dep_priv is null;
+
+drop view m;
+
 -- update script insert_quant_purchase
+
 
 CREATE OR REPLACE FUNCTION comptaproc.insert_quant_purchase(
     p_internal text, 
