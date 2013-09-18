@@ -1,11 +1,30 @@
 -- si la fiche utilise le code DEPENSE PRIVEE alors ajout dans QP_DEP_PRIV
-with m as (select qp_id, qp_price from quant_purchase join fiche_detail on (qp_fiche=f_id and ad_id=5) where ad_value in (select p_value from parm_code where p_code='DEP_PRIV'))
+create or replace view m as 
+select qp_id, qp_price from quant_purchase join fiche_detail on (qp_fiche=f_id and ad_id=5) where ad_value in (select p_value from parm_code where p_code='DEP_PRIV');
+
 update quant_purchase as e set qp_dep_priv=(select qp_price from m where m.qp_id=e.qp_id);
+
+update quant_purchase as e set qp_dep_priv=(select qp_price from m where m.qp_id=e.qp_id);
+
+update quant_purchase as e set qp_dep_priv=0 where qp_dep_priv is null;
 -- évite les valeurs nulles dans quant_purchase
 update quant_purchase set qp_dep_priv = 0 where qp_dep_priv is null;
 -- update script insert_quant_purchase
 
-CREATE OR REPLACE FUNCTION comptaproc.insert_quant_purchase(p_internal text, p_j_id numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_nd_amount numeric, p_nd_tva numeric, p_nd_tva_recup numeric, p_dep_priv numeric, p_client character varying, p_tva_sided numeric)
+CREATE OR REPLACE FUNCTION comptaproc.insert_quant_purchase(
+    p_internal text, 
+    p_j_id numeric, 
+    p_fiche text, 
+    p_quant numeric, 
+    p_price numeric, 
+    p_vat numeric, 
+    p_vat_code integer, 
+    p_nd_amount numeric, 
+    p_nd_tva numeric, 
+    p_nd_tva_recup numeric, 
+    p_dep_priv numeric, 
+    p_client text, 
+    p_tva_sided numeric)
   RETURNS void AS
 $BODY$
 declare
@@ -13,18 +32,18 @@ declare
         fid_good   integer;
         account_priv    account_type;
         fid_good_account account_type;
+        n_dep_priv numeric;
 begin
-	select p_value into account_priv from parm_code where p_code='DEP_PRIV';
-	
+        n_dep_priv := 0;
+        select p_value into account_priv from parm_code where p_code='DEP_PRIV';
         select f_id into fid_client from
                 fiche_detail where ad_id=23 and ad_value=upper(trim(p_client));
         select f_id into fid_good from
                  fiche_detail where ad_id=23 and ad_value=upper(trim(p_fiche));
         select ad_value into fid_good_account from fiche_detail where ad_id=5 and f_id=fid_good;
-
         if strpos( fid_good_account , account_priv ) = 1 then
-		p_dep_priv=p_price;
-	end if;
+                n_dep_priv=p_price;
+        end if; 
             
         insert into quant_purchase
                 (qp_internal,
@@ -52,12 +71,13 @@ begin
                 p_nd_tva,
                 p_nd_tva_recup,
                 fid_client,
-                p_dep_priv,
+                n_dep_priv,
                 p_tva_sided);
         return;
 end;
  $BODY$
   LANGUAGE plpgsql;
+
 
 -- ajout code manquant dans parm_code
 create or replace function add_parm_code() returns void as
@@ -126,7 +146,8 @@ CREATE OR REPLACE VIEW v_menu_description AS
         CASE
             WHEN COALESCE(v3.me_menu, ''::text) <> ''::text THEN ' > '::text || v2.me_menu
             ELSE v2.me_menu
-        END AS v2menu, v3.me_menu AS v3menu, v3.p_type_display
+        END AS v2menu, v3.me_menu AS v3menu, v3.p_type_display,
+ coalesce(v1.me_javascript,coalesce(v2.me_javascript,v3.me_javascript)) as javascript
    FROM t_menu v1
    LEFT JOIN t_menu v2 ON v1.me_code_dep = v2.me_code
    LEFT JOIN t_menu v3 ON v2.me_code_dep = v3.me_code
