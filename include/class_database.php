@@ -360,8 +360,7 @@ class Database
         else
             return pg_NumRows($p_ret);
     }
-    /*!@brief return the number of rows found by the last query,
-      synomym for size()*/
+    /*!@brief       synomym for size()*/
     function count($p_ret=null)
     {
         return $this->size($p_ret);
