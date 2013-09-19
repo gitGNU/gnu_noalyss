@@ -24,10 +24,13 @@ class Tag
 {
     function __construct($p_cn)
     {
+        $this->cn=$p_cn;
         $this->data=new Tag_SQL($p_cn);
     }
     function show_list()
     {
+        $ret=$this->data->seek(' order by t_tag');
+        if ( $this->cn->count($ret) == 0) return "";
         
     }
 }
