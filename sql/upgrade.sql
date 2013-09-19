@@ -171,3 +171,25 @@ comment on table bookmark is 'Bookmark of the connected user';
 /*
  * Missing update for preference !!!
  */
+
+create table tags (
+    t_id serial primary key, 
+    t_tag text not null, 
+    t_description text
+);
+
+create table action_tags
+(
+    at_id serial primary key,
+    t_id integer references tags(t_id) on delete cascade on update cascade,
+    ag_id integer references action_gestion(ag_id) on delete cascade on update cascade
+);
+/* Config tag */
+insert into menu_ref(me_code,me_menu,me_file, me_url,me_description,me_parameter,me_javascript,me_type,me_description_etendue)
+values
+('CFGTAG','Configuration dossier','cfgtags.inc.php',null,'Configuration des dossiers',null,null,'ME','Configuration des tags ou dossiers, on l''appele tag ou dossier suivant la façon dont vous utilisez 
+cette fonctionnalité. Vous pouvez en ajouter, en supprimer ou les modifier');
+
+insert into profile_menu (me_code,me_code_dep,p_id,p_order, p_type_display,pm_default) 
+values
+('CFGTAG','PARAM',1,390,'E',0);
