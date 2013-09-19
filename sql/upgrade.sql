@@ -168,3 +168,6 @@ b_action text,
 login text 
 );
 comment on table bookmark is 'Bookmark of the connected user';
+/*
+ * Missing update for preference !!!
+ */
