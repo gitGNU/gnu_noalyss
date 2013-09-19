@@ -1,1 +1,23 @@
+Favori
+======
+
+Navigateur
+==========
+
+
+Impression journaux 
+===================
+Anciennement appelé impression - historique -> changer dans menu_ref
+Permet impression des journaux vente et achat
+
+Action - Suivi
+===============
+1. Ajout de tags (table tag et action_tag) (v)
+2. changement présentation liste (x)
+3. Ajout menu : CFGTAG pour gèrer les tags : description, nom ...
+4. Ajout d'un ou plusieurs tags par action, un tag n'est pas un type de document
+5. Changement : les documents sont-ils liés au commentaire ou à l'action ?
+6. Action - Suivi devient Document (donc FOLLOW devient DOCUMENT)
+7. Création d'un nouveau menu Dossier (ou Liste tags) AD = ???
+8. Création d'un tag lors de la création d'un document (??)
 
