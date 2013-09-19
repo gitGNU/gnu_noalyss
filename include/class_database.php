@@ -347,17 +347,24 @@ class Database
         if ( $this->ret == false ) throw new Exception ('this->ret is empty');
         return pg_fetch_array($this->ret,$p_indice ) ;
     }
-    /*!@brief return the number of rows found by the last query,
-      synomym for count()*/
-    function size()
+    /*!@brief return the number of rows found by the last query, or the number
+     * of rows from $p_ret
+     * @param $p_ret is the result of a query, the default value is null, in that case
+     * it is related to the last query
+     * @note synomym for count()
+     */
+    function size($p_ret = null)
     {
-        return pg_NumRows($this->ret);
+        if ($p_ret == null )
+            return pg_NumRows($this->ret);
+        else
+            return pg_NumRows($p_ret);
     }
     /*!@brief return the number of rows found by the last query,
       synomym for size()*/
-    function count()
+    function count($p_ret=null)
     {
-        return pg_NumRows($this->ret);
+        return $this->size($p_ret);
     }
 
     /*!\brief loop to apply all the path to a folder or
