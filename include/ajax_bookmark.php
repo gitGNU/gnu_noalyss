@@ -98,7 +98,11 @@ $url="do.php?gDossier=".Dossier::id()."&ac=";
         </tr>
         <?php endfor; ?>
     </table>
-<?php echo HtmlInput::submit("bookmark_delete", "Supprimez favoris sélectionnés","","smallbutton"); ?>
+<?php
+if ( count($a_bookmark) > 0) :
+    echo HtmlInput::submit("bookmark_delete", "Supprimez favoris sélectionnés","","smallbutton"); 
+endif;
+    ?>
 </form>
 <form id="bookmark_frm" method="get" onsubmit="save_bookmark();return false">
 <?php
