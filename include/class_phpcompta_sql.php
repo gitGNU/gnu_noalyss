@@ -273,7 +273,7 @@ class phpcompta_sql
     *@see seek
     *@return object
     */
-	public function next($ret,$i) {
+    public function next($ret,$i) {
 		$array=$this->cn->fetch_array($ret,$i);
 		return $this->from_array($array);
 	}
