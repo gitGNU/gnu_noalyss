@@ -198,7 +198,7 @@ echo $hidden->input("ac",$_GET['ac']);
 echo $hidden->input("type","rapport");
 echo 	dossier::hidden();
 
-echo '<TABLE border="2"><TR>';
+echo '<TABLE><TR>';
 $w=new ISelect();
 $w->table=1;
 print td("Choississez le rapport");
@@ -211,6 +211,7 @@ $aCal=array(
       );
 
 $w->javascript=' onchange=enable_type_periode();';
+$w->id='type_periode';
 echo '<tr>';
 print td('Type de date : ');
 echo $w->input('type_periode',$aCal);
@@ -219,21 +220,28 @@ $w->javascript='';
 print '<TR>';
 // filter on the current year
 $filter_year=" where p_exercice='".sql_string($exercice)."'";
-
+$periode_start_select=new ISelect();
+$periode_start_select->table=1;
+$periode_end_select=new ISelect();
+$periode_end_select->table=1;
 $periode_start=$cn->make_array("select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 print td("P&eacute;riode comptable : Depuis");
-echo $w->input('from_periode',$periode_start);
+echo $periode_start_select->input('from_periode',$periode_start);
 print td(" jusqu'à ");
 $periode_end=$cn->make_array("select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode  $filter_year order by p_start,p_end");
-print $w->input('to_periode',$periode_end);
+print $periode_end_select->input('to_periode',$periode_end);
 print "</TR>";
 echo '<tr>';
 //--- by date
-$date=new IDate();
+$date_from=new IDate('from_date');
+$date_from->id='from_date';
+$date_to=new IDate('to_date');
+$date_to->id='to_date';
+
 echo td("Calendrier depuis :");
-echo td($date->input('from_date'));
+echo td($date_from->input('from_date'));
 echo td("jusque");
-echo td($date->input('to_date'));
+echo td($date_to->input('to_date'));
 echo '</tr>';
 
 $aStep=array(
@@ -270,7 +278,7 @@ function ShowReportResult($p_array)
     foreach ( $p_array as $op )
     {
         $i++;
-        $class= ( $i % 2 == 0 )?' class="odd"':"";
+        $class= ( $i % 2 == 0 )?' class="odd"':' class="even"';
 
         echo "<TR $class>".
         "<TD>".h($op['desc'])."</TD>".
