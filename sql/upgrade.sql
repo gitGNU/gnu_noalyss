@@ -129,7 +129,7 @@ update menu_ref set me_menu='Impression Journaux' where me_code='PRINTJRN';
 update menu_ref set me_description='Impression des journaux' where me_code='PRINTJRN';
 update menu_ref set me_description='Liste du Suivi' where me_code='FOLLOW';
 update menu_ref set me_javascript='popup_recherche(<DOSSIER>)' where me_code='SEARCH';
-
+update menu_ref set where me_file=null,me_javascript='set_preference(<DOSSIER>)' , me_description_etendue='Préférence de l''utilisateur, apparence de l''application pour l''utilisateur, période par défaut et mot de passe' where me_code='PREFERENCE';
 /*
  * Vue montrant toutes les possibilités
  */
