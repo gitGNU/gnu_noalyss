@@ -24,7 +24,7 @@ if (isNumber($_REQUEST['ag_id']) == 0 ) die ('ERROR : parameters invalid');
     <tr class="<?php echo (($i%2==0)?'even':'odd');?>">
         <td>
             <?php
-            $js=sprintf("search_tag_add('%s','%s')",$gDossier,$row['t_id']);
+            $js=sprintf("action_tag_add('%s','%s','%s')",$gDossier,$_REQUEST['ag_id'],$row['t_id']);
             echo HtmlInput::anchor($row['t_tag'], "", "onclick=\"$js\"");
             ?>
         </td>
@@ -38,3 +38,7 @@ if (isNumber($_REQUEST['ag_id']) == 0 ) die ('ERROR : parameters invalid');
  endfor;
  ?>
 </table>
+<?php
+   $js=sprintf("onclick=\"show_tag('%s','%s','%s','j')\"",Dossier::id(),"none",'-1');
+    echo HtmlInput::button("tag_add", "Ajout d'un tag", $js);
+?>

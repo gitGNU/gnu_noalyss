@@ -52,32 +52,40 @@
 				<td>
 					<?php echo $remind_date->input();?>
 				</td>
-			<tr>
+			</tr>
 			<tr>
 				<td style="width:180px;text-align:right"> Date de rappel avant</td>
 				<td>
 					<?php echo $remind_date_end->input();?>
 				</td>
-			<tr>
+			</tr>
 			<tr>
 				<td style="width:180px;text-align:right"> Affiche aussi les actions fermées</td>
 				<td><?php echo $closed_action->input();?></td>
 			</tr>
+                        <tr>
+			<td style="width:180px;text-align:right"> Tag</td>
+				<td id="tag_choose_td">
+                                    <?php echo $tag->choose(); ?>
+				</td>
+			</tr>
+                        <tr>
 			<td style="width:180px;text-align:right"> Référence</td>
 				<td>
 					<?php echo $osag_ref->input();?>
 				</td>
-			<tr>
+			</tr>
 			<tr>
 				<td style="width:180px;text-align:right"> Numéro document</td>
 				<td>
 					<?php $num=new INum('ag_id');echo $num->input();?>
 				</td>
+			</tr>
 			<tr>
 				<td style="width:180px;text-align:right"><?php echo _('Destinataire')?></td>
 				<?php $label=$w->id."_label";?>
 				<td ><?php echo  $w->input() . $w->search()?><span id="<?php echo $label?>"></span></td>
-			<tr>
+			</tr>
 			<tr>
 				<td style="text-align:right" ><?php echo  _("Profil")?></td>
 				<td><?php echo  $str_ag_dest?></td>

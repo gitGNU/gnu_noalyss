@@ -1182,6 +1182,8 @@ class Follow_Up
 		$remind_date->value=(isset($_GET['remind_date']))?$_GET['remind_date']:"";
 		$remind_date_end=new IDate('remind_date_end');
 		$remind_date_end->value=(isset($_GET['remind_date_end']))?$_GET['remind_date_end']:"";
+                $tag=new Tag($cn);
+                
 		// show the  action in
 		require_once 'template/action_search.php';
 	}
@@ -1362,8 +1364,8 @@ class Follow_Up
 			to_char(ag_timestamp,'DD.MM.YYYY') as my_date,
 			 to_char(ag_remind_date,'DD.MM.YYYY') as my_remind,
                          to_char(coalesce((select max(agc_date) from action_gestion_comment as agc where agc.ag_id=ag_id),ag_timestamp),'DD.MM.YY') as last_comment,
-                        array_to_string((select array_agg(t1.t_tag) from action_tags as a1 join tags as t1 on (a1.t_id=t1.t_id) where a1.ag_id=ag_id ),',') as tags,
-				(select ad_value from fiche_Detail where f_id=action_gestion.f_id_dest and ad_id=1) as name,
+                        array_to_string((select array_agg(t1.t_tag) from action_tags as a1 join tags as t1 on (a1.t_id=t1.t_id) where a1.ag_id=ag.ag_id ),',') as tags,
+				(select ad_value from fiche_Detail where f_id=ag.f_id_dest and ad_id=1) as name,
              ag_title,
 			dt_value,
 			ag_ref,
@@ -1371,10 +1373,10 @@ class Follow_Up
 			ag_state,
                          
 			coalesce((select p_name from profile where p_id=ag_dest),'Aucun groupe') as dest
-             from action_gestion 
-             join document_type on (ag_type=dt_id)
-			 join document_state on(ag_state=s_id)
-             where  true  $p_search order by ag_timestamp,ag_id";
+             from action_gestion as ag
+             join document_type on (ag.ag_type=dt_id)
+			 join document_state on(ag.ag_state=s_id)
+             where  true  $p_search order by ag.ag_timestamp,ag.ag_id";
 		$ret=$this->db->exec_sql($sql);
 
 		if ( Database::num_row($ret)==0)exit();

@@ -2165,3 +2165,37 @@ function action_tag_remove(p_dossier,ag_id,t_id)
         error_message(e.getMessage);
     }
 }
+function choose_tag(p_dossier)
+{
+    try {
+        waiting_box();
+        var queryString="op=tag_choose&gDossier="+p_dossier;
+        var action = new Ajax.Request(
+                                      "ajax_misc.php" ,
+                                      {
+                                          method:'get', parameters:queryString,
+                                          onFailure:ajax_misc_failure,
+                                          onSuccess:function(req,j){
+                                                  var answer=req.responseXML;
+                                                    var html=answer.getElementsByTagName('code');
+                                                    if ( html.length == 0 )
+                                                    {
+                                                        var rec=unescape_xml(req.responseText);
+                                                        error_message ('erreur :'+rec);
+                                                    }
+                                                    var code_html=getNodeText(html[0]);
+                                                    code_html=unescape_xml(code_html);
+                                                    remove_waiting_box();
+                                                    add_div({id:'tag_div',cssclass:'inner_box',drag:1});
+                                                    $('tag_div').style.top=posY-70;
+                                                    $('tag_div').style.left=posX-70;
+                                                    remove_waiting_box();
+                                                    $('tag_div').innerHTML=code_html;
+
+                                          }
+                                      }
+                                      );
+    } catch (e) {
+        error_message(e.getMessage);
+    }
+}

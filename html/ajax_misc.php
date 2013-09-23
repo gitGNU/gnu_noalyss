@@ -600,6 +600,9 @@ EOF;
         case 'tag_remove':
             require_once 'ajax_tag_remove_action.php';
             break;
+        case 'tag_choose':
+            require_once 'ajax_tag_choose.php';
+            break;
 	default:
 		var_dump($_GET);
 }

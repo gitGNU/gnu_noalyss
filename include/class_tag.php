@@ -75,6 +75,24 @@ class Tag
         $this->data->t_id=$p_array['t_id'];
         $this->data->delete();
     }
+    /**
+     * Show a button to select tag for Search
+     * @return HTML
+     */
+    function choose()
+    {
+        $r="";
+        $r.=HtmlInput::button("choose_tag", "Tag", 'onclick="choose_tag('.Dossier::id().')"', "smallbutton");
+        return $r;
+    }
+    /**
+     * let select a tag to add to the search
+     */
+    function select_search()
+    {
+        $ret=$this->data->seek(' order by t_tag');
+        require_once 'template/tag_select.php';
+    }
 }
 
 ?>
