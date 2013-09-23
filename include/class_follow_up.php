@@ -171,15 +171,9 @@ class Follow_Up
 
 		// Description
 		$desc = new ITextArea();
-		$desc->width = 70;
-		$desc->heigh = 5;
+                $desc->style=' class="itextarea" style="width:80%;margin-left:0px"';
 		$desc->name = "ag_comment";
 		$desc->readOnly = $readonly;
-		if (strlen($desc->value) > 300)
-		{
-			$desc->width = 120;
-			$desc->heigh = 40;
-		}
 		$acomment = $this->db->get_array("SELECT agc_id, ag_id, to_char(agc_date,'DD.MM.YYYY HH24:MI') as str_agc_date, agc_comment, tech_user
 				 FROM action_gestion_comment where ag_id=$1 order by agc_id;", array($this->ag_id)
 		);

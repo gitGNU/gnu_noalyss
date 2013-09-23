@@ -38,8 +38,6 @@ class ITextarea extends HtmlInput
 
         $r="";
         $r.='<TEXTAREA '.$this->style.'  name="'.$this->name.'" id="'.$this->id.'"';
-        /*$r.=" rows=\"$this->heigh\" ";
-        $r.=" cols=\"$this->width\" "; */
         $r.='>';
         $r.=$this->value;
 
