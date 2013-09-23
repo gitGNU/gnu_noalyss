@@ -1,6 +1,10 @@
 <?php
 echo HtmlInput::title_box('Tag', 'tag_div');
 $max=$this->cn->count($ret);
+if ( $max == 0 ) {
+    echo h2("Aucun tag disponible",' class="notice"');
+    return;
+}
 ?>
 <table>
     <tr>
