@@ -1446,6 +1446,10 @@ class Follow_Up
             $sql=' delete from action_tags where ag_id=$1 and t_id=$2';
             $this->db->exec_sql($sql,array($this->ag_id,$p_t_id));
         }
+        /**
+         * @brief show the cell content in Display for the tags
+         * called also by ajax
+         */
         function tag_cell()
         {
             $a_tag=$this->tag_get();

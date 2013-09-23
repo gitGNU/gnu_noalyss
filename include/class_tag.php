@@ -27,22 +27,35 @@ class Tag
         $this->cn=$p_cn;
         $this->data=new Tag_SQL($p_cn);
     }
+    /**
+     * Show the list of available tag
+     * @return HTML
+     */
     function show_list()
     {
         $ret=$this->data->seek(' order by t_tag');
         if ( $this->cn->count($ret) == 0) return "";
         require_once 'template/tag_list.php';
     }
+    /**
+     * let select a tag to add
+     */
     function select()
     {
         $ret=$this->data->seek(' order by t_tag');
         require_once 'template/tag_select.php';
     }
+    /**
+     * Display a inner window with the detail of a tag
+     */
     function form_add()
     {
         $data=$this->data;
         require_once 'template/tag_detail.php';
     }
+    /**
+     * Show the tag you can add to a document
+     */
     function show_form_add()
     {
         echo '<h2>'.' Ajout d\'un dossier (ou  tag)'.'</h2>';
