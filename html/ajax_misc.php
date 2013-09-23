@@ -585,6 +585,21 @@ EOF;
         case 'bookmark':
             require_once 'ajax_bookmark.php';
             break;
+        case 'tag_detail':
+            require_once 'ajax_tag_detail.php';
+            break;
+        case 'save_tag':
+            require_once 'ajax_tag_save.php';
+            break;
+        case 'tag_list':
+            require_once 'ajax_tag_list.php';
+            break;
+        case 'tag_add':
+            require_once 'ajax_tag_add_action.php';
+            break;
+        case 'tag_remove':
+            require_once 'ajax_tag_remove_action.php';
+            break;
 	default:
 		var_dump($_GET);
 }

@@ -36,7 +36,6 @@ class Tag
     function select()
     {
         $ret=$this->data->seek(' order by t_tag');
-        if ( $this->cn->count($ret) == 0) return "aucun tag trouvé";
         require_once 'template/tag_select.php';
     }
     function form_add()

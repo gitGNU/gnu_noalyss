@@ -1,14 +1,31 @@
+===================================================================
+|| Done
+===================================================================
 Favori
 ======
+Dans fenetre interne
 
 Navigateur
 ==========
-
+Dans fenetre interne
 
 Impression journaux 
 ===================
 Anciennement appelé impression - historique -> changer dans menu_ref
-Permet impression des journaux vente et achat
+Permet impression des journaux vente et achat avec détail pour la TVA, la partie
+non déductible et la partie privée
+
+Modéle d'opération
+==================
+Fenêtre interne avec recherche
+
+Protection fichier include
+==========================
+Ajout d'une sécurité supplémentaire
+
+Préférence 
+==========
+Dans fenêtre interne
 
 Action - Suivi
 ===============
@@ -16,8 +33,38 @@ Action - Suivi
 2. changement présentation liste (x)
 3. Ajout menu : CFGTAG pour gèrer les tags : description, nom ...
 4. Ajout d'un ou plusieurs tags par action, un tag n'est pas un type de document
+ Sécurité : vérifier que l'utilisateur peut ajouter ou enlever des tags à une action 
+
+===================================================================
+|| A faire
+===================================================================
+
+Action - Suivi
+===============
 5. Changement : les documents sont-ils liés au commentaire ou à l'action ?
 6. Action - Suivi devient Document (donc FOLLOW devient DOCUMENT)
 7. Création d'un nouveau menu Dossier (ou Liste tags) AD = ???
-8. Création d'un tag lors de la création d'un document (??)
+Changement présentation Détail action : les détails (qui/quand) sont à mettre dans la colonne de gauche
 
+Document à générer
+=================
+Par journal
+ou par profil
+
+Fiche
+=====
+Si aucun quickcode donné, un calculé un en se basant sur 3 première lettres des fiche_def + Nom, préfixe à une chaîne vide par défaut
+nom par défaut
+par défaut
+MRC      1 | 604           | Marchandises            | t                 |      2 | Achats de marchandises
+CLN      2 | 400           | Client                  | t                 |      9 | Catégorie qui contient la liste des clients
+BNQ      3 | 5500          | Banque                  | t                 |      4 | Catégorie qui contient la liste des comptes financiers: banque, caisse,...
+FRN      4 | 440           | Fournisseur             | t                 |      8 | Catégorie qui contient la liste des fournisseurs
+SBD      5 | 61            | Services & Biens Divers | t                 |      3 | Catégorie qui contient la liste des charges diverses
+VNT      6 | 700           | Vente                   | t                 |      1 | Catégorie qui contient la liste des prestations, marchandises... que l'on vend 
+STO 500000 |               | Stock                   | f                 |     15 | 
+SQL
+Modification table fiche_def ajout colonne fd_prefix
+
+code php 
+fiche_def.inc.php

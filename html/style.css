@@ -1103,7 +1103,7 @@ a.line:hover,div_content a.line
     margin-left: 2px;
     margin-right:2px;
     margin-top:0px;
-    font-size:0.75em;
+    font-size:0.90em;
 }
 #close_div:hover
 {
@@ -1117,7 +1117,7 @@ a.line:hover,div_content a.line
     border:1px solid blue;
     margin-left: 2px;
     margin-right:18px;
-    font-size:0.75em;
+    font-size:0.90em;
 }
 #popmeout:hover
 {

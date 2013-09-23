@@ -602,7 +602,11 @@ function add_div(obj)
     try
     {
         var top=document;
-        var elt=top.createElement('div');
+        
+        if ( ! $(obj.id) )  { var elt=top.createElement('div');}
+        else {
+            var elt=$(obj.id);
+        }
         if (obj.id )
         {
             elt.setAttribute('id',obj.id);
@@ -1771,8 +1775,8 @@ function display_task(p_id)
 {
 	new Draggable(p_id,{starteffect:function()
                                   {
-									 new Effect.Highlight(obj.id,{scroll:window,queue:'end'});
-                                  }}
+			new Effect.Highlight(obj.id,{scroll:window,queue:'end'});
+                           }}
                          );
     $(p_id).style.top=posY;
     $(p_id).style.left=posX;
@@ -1918,7 +1922,7 @@ function save_bookmark() {
 				      onSuccess:function(req){
 						remove_waiting_box();
                                                 // removeDiv('bookmark_div');
-                                                // add_div({id:'bookmark_div',cssclass:'inner_box',drag:1});
+                                                // 
 						$('bookmark_div').innerHTML=req.responseText;
                                                 try
                                                 {
@@ -1951,8 +1955,6 @@ function remove_bookmark() {
 				      onFailure:ajax_misc_failure,
 				      onSuccess:function(req){
 						remove_waiting_box();
-                                                // removeDiv('bookmark_div');
-                                               // add_div({id:'bookmark_div',cssclass:'inner_box',drag:1});
 						$('bookmark_div').innerHTML=req.responseText;
                                                 try
                                                 {
@@ -1980,4 +1982,201 @@ function error_message(message)
 {
     $('error_content_div').innerHTML=message;
     $('error_div').style.visibility='visible';
+}
+/**
+ * @brief show the detail of a tag
+ */
+function show_tag(p_dossier,p_ac,p_tag_id)
+{
+    try {
+        waiting_box();
+        var queryString="op=tag_detail&tag="+p_tag_id+"&gDossier="+p_dossier+"&ac="+p_ac;
+	var action = new Ajax.Request(
+				  "ajax_misc.php" ,
+				  {
+				      method:'get', parameters:queryString,
+				      onFailure:ajax_misc_failure,
+				      onSuccess:function(req){
+						var answer=req.responseXML;
+                                                var html=answer.getElementsByTagName('code');
+                                                if ( html.length == 0 )
+                                                {
+                                                    var rec=req.responseText;
+                                                    alert ('erreur :'+rec);
+                                                }
+                                                var code_html=getNodeText(html[0]);
+                                                code_html=unescape_xml(code_html);
+						remove_waiting_box();
+                                                add_div({id:'tag_div',cssclass:'inner_box',drag:1});
+						$('tag_div').innerHTML=code_html;
+                                                try
+                                                {
+                                                    code_html.evalScripts();
+                                                }
+                                                catch(e)
+                                                {
+                                                    alert("answer_box Impossible executer script de la reponse\n"+e.message);
+                                                }
+
+				      }
+				  }
+				  );
+    } catch (e) {
+        error_message(e.getMessage);
+    }
+}
+
+/** 
+ * @brief save the modified tag
+ */
+function save_tag()
+{
+    try {
+        waiting_box();
+        var queryString="op=tag_save&"+$("tag_detail_frm").serialize();
+	var action = new Ajax.Request(
+				  "ajax_misc.php" ,
+				  {
+				      method:'get', parameters:queryString,
+				      onFailure:ajax_misc_failure,
+				      onSuccess:function(req,j){
+                                              var answer=req.responseXML;
+                                                var html=answer.getElementsByTagName('code');
+                                                if ( html.length == 0 )
+                                                {
+                                                    var rec=req.responseText;
+                                                    alert ('erreur :'+rec);
+                                                }
+                                                var code_html=getNodeText(html[0]);
+                                                code_html=unescape_xml(code_html);
+						remove_waiting_box();
+                                                add_div({id:'tag_div',cssclass:'inner_box',drag:1});
+						$('tag_div').innerHTML=code_html;
+                                                try
+                                                {
+                                                    code_html.evalScripts();
+                                                }
+                                                catch(e)
+                                                {
+                                                    alert("answer_box Impossible executer script de la reponse\n"+e.message);
+                                                }
+
+				      }
+				  }
+				  );
+    } catch (e) {
+        error_message(e.getMessage);
+    }
+    
+}
+/**
+ * Show a list of tag which can be added to the current followup document
+ * @param {type} p_dossier
+ * @param {type} ag_id
+ * @returns {undefined}
+ */
+function action_tag_select(p_dossier,ag_id)
+{
+    try {
+        waiting_box();
+        var queryString="ag_id="+ag_id+"&op=tag_list&gDossier="+p_dossier;
+        var action = new Ajax.Request(
+                                      "ajax_misc.php" ,
+                                      {
+                                          method:'get', parameters:queryString,
+                                          onFailure:ajax_misc_failure,
+                                          onSuccess:function(req,j){
+                                                  var answer=req.responseXML;
+                                                    var html=answer.getElementsByTagName('code');
+                                                    if ( html.length == 0 )
+                                                    {
+                                                        var rec=unescape_xml(req.responseText);
+                                                        error_message ('erreur :'+rec);
+                                                    }
+                                                    var code_html=getNodeText(html[0]);
+                                                    code_html=unescape_xml(code_html);
+                                                    add_div({id:'tag_div',cssclass:'inner_box',drag:1});
+                                                    $('tag_div').style.top=posY-70;
+                                                    $('tag_div').style.left=posX-70;
+                                                    remove_waiting_box();
+                                                    $('tag_div').innerHTML=code_html;
+                                          }
+                                      }
+                                      );
+    } catch (e) {
+        error_message(e.getMessage);
+    }
+}
+/**
+ * @brief Add the current tag to the current ag_id
+ * @param {type} p_dossier
+ * @param {type} ag_id
+ * @returns {undefined}
+ */
+function action_tag_add(p_dossier,ag_id,t_id)
+{
+    try {
+        waiting_box();
+        var queryString="t_id="+t_id+"&ag_id="+ag_id+"&op=tag_add&gDossier="+p_dossier;
+        var action = new Ajax.Request(
+                                      "ajax_misc.php" ,
+                                      {
+                                          method:'get', parameters:queryString,
+                                          onFailure:ajax_misc_failure,
+                                          onSuccess:function(req,j){
+                                                  var answer=req.responseXML;
+                                                    var html=answer.getElementsByTagName('code');
+                                                    if ( html.length == 0 )
+                                                    {
+                                                        var rec=unescape_xml(req.responseText);
+                                                        error_message ('erreur :'+rec);
+                                                    }
+                                                    var code_html=getNodeText(html[0]);
+                                                    code_html=unescape_xml(code_html);
+                                                    remove_waiting_box();
+                                                    $('action_tag_td').innerHTML=code_html;
+                                                    removeDiv('tag_div');
+                                          }
+                                      }
+                                      );
+    } catch (e) {
+        error_message(e.getMessage);
+    }
+}
+/**
+ * @brief remove the current tag to the current ag_id
+ * @param {type} p_dossier
+ * @param {type} ag_id
+ * @returns {undefined}
+ */
+function action_tag_remove(p_dossier,ag_id,t_id)
+{
+    if ( confirm ('Enlevez ce tags ?')== false ) return;
+    try {
+        waiting_box();
+        var queryString="t_id="+t_id+"&ag_id="+ag_id+"&op=tag_remove&gDossier="+p_dossier;
+        var action = new Ajax.Request(
+                                      "ajax_misc.php" ,
+                                      {
+                                          method:'get', parameters:queryString,
+                                          onFailure:ajax_misc_failure,
+                                          onSuccess:function(req,j){
+                                                  var answer=req.responseXML;
+                                                    var html=answer.getElementsByTagName('code');
+                                                    if ( html.length == 0 )
+                                                    {
+                                                        var rec=unescape_xml(req.responseText);
+                                                        error_message ('erreur :'+rec);
+                                                    }
+                                                    var code_html=getNodeText(html[0]);
+                                                    code_html=unescape_xml(code_html);
+                                                    remove_waiting_box();
+                                                    $('action_tag_td').innerHTML=code_html;
+
+                                          }
+                                      }
+                                      );
+    } catch (e) {
+        error_message(e.getMessage);
+    }
 }
