@@ -255,6 +255,7 @@ function isDate($p_date)
 
 function html_page_start($p_theme="", $p_script="", $p_script2="")
 {
+    require_once 'class_html_input.php';
     // check not called twiced
     static  $already_call=0;
     if ( $already_call==1)return;
