@@ -30,7 +30,7 @@ class Tag_SQL extends phpcompta_sql
 
 	function __construct(& $p_cn, $p_id = -1)
 	{
-		$this->table = "public.tag";
+		$this->table = "public.tags";
 		$this->primary_key = "t_id";
 
 		$this->name = array(

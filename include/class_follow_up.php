@@ -37,6 +37,7 @@ require_once('class_follow_up_detail.php');
 require_once('class_inum.php');
 require_once 'class_sort_table.php';
 require_once 'class_irelated_action.php';
+require_once 'class_tag.php';
 
 /**
  * \file
@@ -509,6 +510,7 @@ class Follow_Up
 		$Hid = new IHidden();
 		$r.=$Hid->input("nb_item", MAX_ARTICLE);
 		$r.=HtmlInput::request_to_hidden(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate"));
+                $a_tag=$this->tag_get();
 		/* get template */
 		ob_start();
 		require_once 'template/detail-action.php';
@@ -1409,4 +1411,64 @@ class Follow_Up
 				jr_id=$1",array($p_jr_id));
 		return $array;
 	}
+        /**
+         * @brief get the tags of the current objet
+         * @return an array idx [ag_id,t_id,at_id,t_tag]
+         */
+        function tag_get()
+        {
+            if ($this->ag_id==0)return;
+            $sql='select b.ag_id,b.t_id,b.at_id,a.t_tag'
+                    . ' from '
+                    .' tags as a join action_tags as b on (a.t_id=b.t_id)'
+                    . ' where ag_id=$1 '
+                    .' order by a.t_tag';
+            $array=$this->db->get_array($sql,array($this->ag_id));
+            return $array;
+        }
+        /**
+         * @brief show the tags of the current objet
+         * normally used by ajax. The same tag cannot be added twice
+         * 
+         */
+        function tag_add($p_t_id)
+        {
+            if ($this->ag_id==0)return;
+            $count=$this->db->get_value('select count(*) from action_tags'.
+                    ' where ag_id=$1 and t_id=$2',
+                    array($this->ag_id,$p_t_id));
+            if ( $count > 0 ) return;
+            $sql=' insert into action_tags (ag_id,t_id) values ($1,$2)';
+            $this->db->exec_sql($sql,array($this->ag_id,$p_t_id));
+            
+        }
+        /**
+         * @brief remove the tags of the current objet
+         * normally used by ajax
+         */
+        function tag_remove($p_t_id)
+        {
+            if ($this->ag_id==0)return;
+            $sql=' delete from action_tags where ag_id=$1 and t_id=$2';
+            $this->db->exec_sql($sql,array($this->ag_id,$p_t_id));
+        }
+        function tag_cell()
+        {
+            $a_tag=$this->tag_get();
+            $c=count($a_tag);
+            for ($e=0;$e<$c;$e++) {
+                $js_remove=sprintf("onclick=\"action_tag_remove('%s','%s','%s')\"",dossier::id(),$this->ag_id,
+                        $a_tag[$e]['t_id']);
+                echo '<span style="border:1px solid black">';
+                echo $a_tag[$e]['t_tag'];
+                echo '</span>';
+                echo '<span style="background-color:red;text-align:center;border-top:1px solid black; border-right:1px solid black;border-bottom:1px solid black;">';
+                echo HtmlInput::anchor("X", "javascript:void(0)", $js_remove).'&nbsp;&nbsp;';
+                echo '</span>';
+                echo '&nbsp;';
+            }
+            $js=sprintf("onclick=\"action_tag_select('%s','%s')\"",dossier::id(),$this->ag_id);
+            echo HtmlInput::button('tag_bt', 'Ajout tag',$js, 'smallbutton');
+
+        }
 }

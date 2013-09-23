@@ -31,7 +31,31 @@ class Tag
     {
         $ret=$this->data->seek(' order by t_tag');
         if ( $this->cn->count($ret) == 0) return "";
-        
+        require_once 'template/tag_list.php';
+    }
+    function select()
+    {
+        $ret=$this->data->seek(' order by t_tag');
+        if ( $this->cn->count($ret) == 0) return "aucun tag trouvé";
+        require_once 'template/tag_select.php';
+    }
+    function form_add()
+    {
+        $data=$this->data;
+        require_once 'template/tag_detail.php';
+    }
+    function show_form_add()
+    {
+        echo '<h2>'.' Ajout d\'un dossier (ou  tag)'.'</h2>';
+       
+        $this->form_add();
+    }
+    function save($p_array)
+    {
+        $this->data->t_id=$p_array['t_id'];
+        $this->data->t_tag=str_ireplace('<script>','<_script_>',$p_array['t_tag']);
+        $this->data->t_description=str_ireplace('<script>','<_script_>',$p_array['t_description']);
+        $this->data->save();
     }
 }
 

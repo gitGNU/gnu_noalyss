@@ -18,37 +18,29 @@
  */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+if ( !defined ('ALLOWED') )  die('Appel direct ne sont pas permis');
 
-/**
- * @file
- * @brief Manage the tags
- *
- */
-require_once 'class_tag.php';
-require_once 'class_tool_uos.php';
+$fl=new Follow_Up($cn);
+$fl->ag_id=$_REQUEST['ag_id'];
+if ( $g_user->can_write_action($fl->ag_id) == TRUE ) 
+            $fl->tag_add($_REQUEST['t_id']);
 
-$tag=new Tag($cn);
-$uos=new Tool_Uos('tag');
-if ( isset ($_POST['save_tag']))
-{
-    try {
-        $uos->check();
-        $tag->save($_POST);
-        $uos->save();
-    } catch (Exception $e)
-    {
-        alert("déjà sauvé");
-    }
-}
+ob_start();
+
+$fl->tag_cell();
+
+$response=  ob_get_clean();
+ob_end_clean();
+$html=escape_xml($response);
+header('Content-type: text/xml; charset=UTF-8');
+echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<ctl></ctl>
+<code>$html</code>
+</data>
+EOF;
+exit();
+
+
 ?>
-<div style="margin-left:10%;width:80%">
-     <p class="notice">
-         Vous pouvez utiliser ceci comme des tags pour marquer des documents ou 
-         comme des dossiers pour rassembler des documents. Un document peut appartenir
-         à plusieurs dossiers ou avoir plusieurs tags.
-     </p>
-    <?php
-        $tag->show_list();
-         $js=sprintf("onclick=\"show_tag('%s','%s','%s')\"",Dossier::id(),$_REQUEST['ac'],'-1');
-        echo HtmlInput::button("tag_add", "Ajout d'un dossier", $js);
-    ?>

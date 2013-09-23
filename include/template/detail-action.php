@@ -124,8 +124,17 @@
             </TD>
             <td>
               <?php echo $str_ag_dest;?>
+          </tr>
+          <tr>
             <TD>
+                Dossier / tags
             </TD>
+            
+            <td id="action_tag_td">
+                <?php
+                   $this->tag_cell();
+                ?>
+            </td>
           </TR>
         </table>
 
