@@ -90,7 +90,8 @@ class phpcompta_sql
 			$this->load();
 	}
 	public function save() {
-	    if (  $this->p_id == -1 )
+            $pk=$this->primary_key;
+	    if (  $this->$pk== -1 )
 		  $this->insert();
 		else
 			$this->update();
