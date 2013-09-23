@@ -38,3 +38,7 @@ if (isNumber($_REQUEST['ag_id']) == 0 ) die ('ERROR : parameters invalid');
  endfor;
  ?>
 </table>
+<?php
+   $js=sprintf("onclick=\"show_tag('%s','%s','%s','j')\"",Dossier::id(),"none",'-1');
+    echo HtmlInput::button("tag_add", "Ajout d'un tag", $js);
+?>

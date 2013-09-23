@@ -588,7 +588,7 @@ EOF;
         case 'tag_detail':
             require_once 'ajax_tag_detail.php';
             break;
-        case 'save_tag':
+        case 'tag_save':
             require_once 'ajax_tag_save.php';
             break;
         case 'tag_list':

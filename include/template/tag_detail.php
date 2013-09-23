@@ -14,3 +14,13 @@ $t_description->style=' class="itextarea" style="width:50em;height:5em;vertical-
 <p>
 Description (tag) : <?php echo $t_description->input(); ?>
 </p>
+<?php
+// If exist you can remove it
+if ( $data->t_id != '-1') : 
+?>
+<p>Cochez pour cette case pour effacer ce tag<input type="checkbox" name="remove">
+</p>
+
+<?php
+endif;
+?>

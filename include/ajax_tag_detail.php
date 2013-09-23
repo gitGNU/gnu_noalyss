@@ -12,14 +12,25 @@ $tag->data->load();
 echo HtmlInput::title_box("Détail du dossier / tag", "tag_div");
 
 ?>
-<form id="tag_frm_detail" method="post">
+<?php
+// save via POST and reload page 
+if ($_GET['form']=='p') :    ?>
+    <form id="tag_detail_frm" method="POST" >
+<?php 
+/*
+ * save via javascript and don't reload page
+ */
+else :
+    ?>
+    <form id="tag_detail_frm" method="POST" onsubmit="return save_tag();">
+<?php        endif; ?>        
     <?php
     echo dossier::hidden();
     echo HtmlInput::hidden('t_id', $_GET['tag']);
     echo HtmlInput::hidden('ac',$_GET['ac']);
     $data=$tag->data;
     require_once 'template/tag_detail.php';
-    echo HtmlInput::submit("save_tag", "Valider");
+    echo HtmlInput::submit("save_tag_sb", "Valider");
     ?>
 </form>
 <?php

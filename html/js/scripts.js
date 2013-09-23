@@ -1984,13 +1984,14 @@ function error_message(message)
     $('error_div').style.visibility='visible';
 }
 /**
- * @brief show the detail of a tag
+ * @brief show the detail of a tag and propose to save it
  */
-function show_tag(p_dossier,p_ac,p_tag_id)
+function show_tag(p_dossier,p_ac,p_tag_id,p_post)
 {
     try {
         waiting_box();
-        var queryString="op=tag_detail&tag="+p_tag_id+"&gDossier="+p_dossier+"&ac="+p_ac;
+        console.log(p_post);
+        var queryString="op=tag_detail&tag="+p_tag_id+"&gDossier="+p_dossier+"&ac="+p_ac+'&form='+p_post;
 	var action = new Ajax.Request(
 				  "ajax_misc.php" ,
 				  {
@@ -2037,36 +2038,20 @@ function save_tag()
 	var action = new Ajax.Request(
 				  "ajax_misc.php" ,
 				  {
-				      method:'get', parameters:queryString,
+				      method:'get', 
+                                      parameters:queryString,
 				      onFailure:ajax_misc_failure,
 				      onSuccess:function(req,j){
-                                              var answer=req.responseXML;
-                                                var html=answer.getElementsByTagName('code');
-                                                if ( html.length == 0 )
-                                                {
-                                                    var rec=req.responseText;
-                                                    alert ('erreur :'+rec);
-                                                }
-                                                var code_html=getNodeText(html[0]);
-                                                code_html=unescape_xml(code_html);
-						remove_waiting_box();
-                                                add_div({id:'tag_div',cssclass:'inner_box',drag:1});
-						$('tag_div').innerHTML=code_html;
-                                                try
-                                                {
-                                                    code_html.evalScripts();
-                                                }
-                                                catch(e)
-                                                {
-                                                    alert("answer_box Impossible executer script de la reponse\n"+e.message);
-                                                }
-
+                                              remove_waiting_box();
+                                              removeDiv('tag_div');
 				      }
 				  }
 				  );
     } catch (e) {
         error_message(e.getMessage);
+        return false;
     }
+   return false;
     
 }
 /**

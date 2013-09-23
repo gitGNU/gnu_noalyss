@@ -18,6 +18,7 @@
  */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+if ( !defined ('ALLOWED') )  die('Appel direct ne sont pas permis');
 
 /**
  * @file
@@ -29,15 +30,20 @@ require_once 'class_tool_uos.php';
 
 $tag=new Tag($cn);
 $uos=new Tool_Uos('tag');
-if ( isset ($_POST['save_tag']))
+if ( isset ($_POST['save_tag_sb']))
 {
-    try {
-        $uos->check();
-        $tag->save($_POST);
-        $uos->save();
-    } catch (Exception $e)
+    if ( ! isset ($_POST['remove']))
     {
-        alert("déjà sauvé");
+        try {
+            $uos->check();
+            $tag->save($_POST);
+            $uos->save();
+        } catch (Exception $e)
+        {
+            alert("déjà sauvé");
+        }
+    } else {
+        $tag->remove($_POST);
     }
 }
 ?>
@@ -49,6 +55,6 @@ if ( isset ($_POST['save_tag']))
      </p>
     <?php
         $tag->show_list();
-         $js=sprintf("onclick=\"show_tag('%s','%s','%s')\"",Dossier::id(),$_REQUEST['ac'],'-1');
-        echo HtmlInput::button("tag_add", "Ajout d'un dossier", $js);
+         $js=sprintf("onclick=\"show_tag('%s','%s','%s','p')\"",Dossier::id(),$_REQUEST['ac'],'-1');
+        echo HtmlInput::button("tag_add", "Ajout d'un tag", $js);
     ?>

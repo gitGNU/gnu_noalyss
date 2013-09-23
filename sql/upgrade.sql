@@ -185,8 +185,7 @@ create table action_tags
 /* Config tag */
 insert into menu_ref(me_code,me_menu,me_file, me_url,me_description,me_parameter,me_javascript,me_type,me_description_etendue)
 values
-('CFGTAG','Configuration dossier','cfgtags.inc.php',null,'Configuration des dossiers',null,null,'ME','Configuration des tags ou dossiers, on l''appele tag ou dossier suivant la façon dont vous utilisez 
-cette fonctionnalité. Vous pouvez en ajouter, en supprimer ou les modifier');
+('CFGTAG','Configuration tag','cfgtags.inc.php',null,'Configuration des tags',null,null,'ME','Configuration des tags. Vous pouvez en ajouter, en supprimer ou les modifier');
 
 insert into profile_menu (me_code,me_code_dep,p_id,p_order, p_type_display,pm_default) 
 values

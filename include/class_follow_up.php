@@ -676,14 +676,16 @@ class Follow_Up
 		$url = HtmlInput::get_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate")) . '&' . $p_base;
 
 		$table = new Sort_Table();
-		$table->add('Date', $url, 'order by ag_timestamp asc', 'order by ag_timestamp desc', 'da', 'dd');
+		$table->add('Date Doc.', $url, 'order by ag_timestamp asc', 'order by ag_timestamp desc', 'da', 'dd');
+		$table->add('Date Comm.', $url, 'order by last_comment', 'order by last_comment desc', 'dca', 'dcd');
 		$table->add('Date Limite', $url, 'order by ag_remind_date asc', 'order by ag_remind_date  desc', 'ra', 'rd');
+		$table->add('Tag', $url, 'order by tags asc', 'order by tags desc', 'taa', 'tad');
 		$table->add('Réf.', $url, 'order by ag_ref asc', 'order by ag_ref desc', 'ra', 'rd');
 		$table->add('Groupe', $url, "order by coalesce((select p_name from profile where p_id=ag_dest),'Aucun groupe')", "order by coalesce((select p_name from profile where p_id=ag_dest),'Aucun groupe') desc", 'dea', 'ded');
 		$table->add('Dest/Exp', $url, 'order by name asc', 'order by name desc', 'ea', 'ed');
 		$table->add('Titre', $url, 'order by ag_title asc', 'order by ag_title desc', 'ta', 'td');
 
-		$ord = (!isset($_GET['ord'])) ? "dd" : $_GET['ord'];
+		$ord = (!isset($_GET['ord'])) ? "dcd" : $_GET['ord'];
 		$sort = $table->get_sql_order($ord);
 
 		if (strlen(trim($p_filter)) != 0)
@@ -693,16 +695,17 @@ class Follow_Up
 
 		$sql = "
              select ag_id,to_char(ag_timestamp,'DD.MM.YYYY') as my_date,
-			 to_char(ag_remind_date,'DD.MM.YYYY') as my_remind,
-			 f_id_dest,
-			 s_value,
-             ag_title,dt_value,ag_ref, ag_priority,ag_state,
-			coalesce((select p_name from profile where p_id=ag_dest),'Aucun groupe') as dest,
-				(select ad_value from fiche_Detail where f_id=action_gestion.f_id_dest and ad_id=1) as name,
-		     (select count(d_id) from document where document.ag_id=action_gestion.ag_id) as cnt_doc
-             from action_gestion
-             join document_type on (ag_type=dt_id)
-			 join document_state on (ag_state=s_id)
+                to_char(ag_remind_date,'DD.MM.YYYY') as my_remind,
+                to_char(coalesce((select max(agc_date) from action_gestion_comment as agc where agc.ag_id=ag.ag_id),ag_timestamp),'DD.MM.YY') as last_comment,
+                f_id_dest,
+                s_value,
+                ag_title,dt_value,ag_ref, ag_priority,ag_state,
+                coalesce((select p_name from profile where p_id=ag_dest),'Aucun groupe') as dest,
+                (select ad_value from fiche_Detail where f_id=ag.f_id_dest and ad_id=1) as name,
+                array_to_string((select array_agg(t1.t_tag) from action_tags as a1 join tags as t1 on (a1.t_id=t1.t_id) where a1.ag_id=ag.ag_id ),',') as tags
+            from action_gestion as ag
+                join document_type on (ag_type=dt_id)
+                join document_state on (ag_state=s_id)
              where $p_filter_doc $p_search $sort";
 		$max_line = $this->db->count_sql($sql);
 		$step = $_SESSION['g_pagesize'];
@@ -727,9 +730,8 @@ class Follow_Up
 		$r.='<th>' . $table->get_header(3) . '</th>';
 		$r.='<th>' . $table->get_header(4) . '</th>';
 		$r.='<th>' . $table->get_header(5) . '</th>';
-		$r.=th(_("Nbre doc."));
-		$r.='<th>' . _('type') . '</th>';
-		$r.=th('Etat');
+		$r.='<th>' . $table->get_header(6) . '</th>';
+		$r.='<th>' . $table->get_header(7) . '</th>';
 		$r.=th('Priorité');
 		$r.="</tr>";
 
@@ -763,7 +765,9 @@ class Follow_Up
 				$st = ' style="font-weight:bold;background:#FF0000"';
 			$r.="<tr class=\"$tr\" $st>";
 			$r.="<td>" . $href . smaller_date($row['my_date']) . '</a>' . "</td>";
+			$r.="<td>" . $href . $row['last_comment'] . '</a>' . "</td>";
 			$r.="<td>" . $href . smaller_date($row['my_remind']) . '</a>' . "</td>";
+			$r.="<td>" . $href . h($row['tags']). '</a>' . "</td>";
 			$r.="<td>" . $href . $row['ag_ref'] . '</a>' . "</td>";
 			$r.="<td>" . $href . h($row['dest']) . '</a>' . "</td>";
 
@@ -786,14 +790,7 @@ class Follow_Up
 
 			$r.='<td>' . $href .
 					h($row['ag_title']) . "</A></td>";
-			if ($row['cnt_doc'] != 0)
-				$r.="<td style=\"text-align:center\">" . $href . h($row['cnt_doc']) . '</a>' . "</td>";
-			else
-				$r.="<td ></td>";
 
-			$r.="<td>" . $row['dt_value'] . "</td>";
-
-			$r.=td($row['s_value']);
 			/*
 			 * State
 			 */
@@ -818,7 +815,6 @@ class Follow_Up
 		$r.="</table>";
 
 		$r.=$bar;
-		//$r.="</div>";
 		return $r;
 	}
 
@@ -1365,14 +1361,17 @@ class Follow_Up
              select ag_id,
 			to_char(ag_timestamp,'DD.MM.YYYY') as my_date,
 			 to_char(ag_remind_date,'DD.MM.YYYY') as my_remind,
+                         to_char(coalesce((select max(agc_date) from action_gestion_comment as agc where agc.ag_id=ag_id),ag_timestamp),'DD.MM.YY') as last_comment,
+                        array_to_string((select array_agg(t1.t_tag) from action_tags as a1 join tags as t1 on (a1.t_id=t1.t_id) where a1.ag_id=ag_id ),',') as tags,
 				(select ad_value from fiche_Detail where f_id=action_gestion.f_id_dest and ad_id=1) as name,
              ag_title,
 			dt_value,
 			ag_ref,
 			ag_priority,
 			ag_state,
+                         
 			coalesce((select p_name from profile where p_id=ag_dest),'Aucun groupe') as dest
-             from action_gestion
+             from action_gestion 
              join document_type on (ag_type=dt_id)
 			 join document_state on(ag_state=s_id)
              where  true  $p_search order by ag_timestamp,ag_id";
@@ -1383,6 +1382,8 @@ class Follow_Up
 				array("title"=>"doc id","type"=>"string"),
 				array("title"=>"date","type"=>"date"),
 				array("title"=>"rappel","type"=>"date"),
+				array("title"=>"dernier comm.","type"=>"date"),
+				array("title"=>"tags","type"=>"string"),
 				array("title"=>"nom","type"=>"string"),
 				array("title"=>"titre","type"=>"string"),
 				array("title"=>"type document","type"=>"string"),
@@ -1461,8 +1462,9 @@ class Follow_Up
                 echo $a_tag[$e]['t_tag'];
                 echo '</span>';
                 echo '<span style="background-color:red;text-align:center;border-top:1px solid black; border-right:1px solid black;border-bottom:1px solid black;">';
-                echo HtmlInput::anchor("X", "javascript:void(0)", $js_remove).'&nbsp;&nbsp;';
+                echo HtmlInput::anchor("X", "javascript:void(0)", $js_remove);
                 echo '</span>';
+                echo '&nbsp;';
                 echo '&nbsp;';
             }
             $js=sprintf("onclick=\"action_tag_select('%s','%s')\"",dossier::id(),$this->ag_id);

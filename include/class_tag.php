@@ -64,10 +64,16 @@ class Tag
     }
     function save($p_array)
     {
+        if ( trim($p_array['t_tag'])=="" ) return ;
         $this->data->t_id=$p_array['t_id'];
         $this->data->t_tag=str_ireplace('<script>','<_script_>',$p_array['t_tag']);
         $this->data->t_description=str_ireplace('<script>','<_script_>',$p_array['t_description']);
         $this->data->save();
+    }
+    function remove($p_array)
+    {
+        $this->data->t_id=$p_array['t_id'];
+        $this->data->delete();
     }
 }
 

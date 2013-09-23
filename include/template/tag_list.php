@@ -1,7 +1,7 @@
 <?php
 $max=$this->cn->count($ret);
 ?>
-<table>
+<table id="tag_tb">
     <tr>
         <th>
             Tag
@@ -19,7 +19,7 @@ $ac=$_REQUEST['ac'];
     <tr class="<?php echo (($i%2==0)?'even':'odd');?>">
         <td>
             <?php
-            $js=sprintf("show_tag('%s','%s','%s')",$gDossier,$ac,$row['t_id']);
+            $js=sprintf("show_tag('%s','%s','%s','p')",$gDossier,$ac,$row['t_id']);
             echo HtmlInput::anchor($row['t_tag'], "", "onclick=\"$js\"");
             ?>
         </td>
