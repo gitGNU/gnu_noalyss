@@ -185,7 +185,7 @@ create table action_tags
 /* Config tag */
 insert into menu_ref(me_code,me_menu,me_file, me_url,me_description,me_parameter,me_javascript,me_type,me_description_etendue)
 values
-('CFGTAG','Configuration tag','cfgtags.inc.php',null,'Configuration des tags',null,null,'ME','Configuration des tags. Vous pouvez en ajouter, en supprimer ou les modifier');
+('CFGTAG','Configuration étiquette','cfgtags.inc.php',null,'Configuration des tags',null,null,'ME','Configuration des étiquettes. Vous pouvez en ajouter, en supprimer ou les modifier');
 
 insert into profile_menu (me_code,me_code_dep,p_id,p_order, p_type_display,pm_default) 
 values
@@ -196,7 +196,3 @@ update fiche_def_ref set    frd_text='Trésorerie' where frd_id=4;
 update jrn_def set jrn_def_name='Trésorerie' where jrn_def_id=1;
 update jrn_type set jrn_desc = 'Trésorerie' where jrn_type_id='FIN';
 
-alter table jrn_type drop constraint jrn_type_pkey cascade;
-alter table jrn_type add t_id serial;
-alter table jrn_type add  primary key (t_id);
-insert into jrn_type(jrn_type_id,jrn_desc) values ('ACH','Note de frais'), ('ACH','Note de débit (reçu d''fournisseur)'),('VEN','Note de crédit (délivré à un client)'),('ODS','A Nouveau'),('ODS','Amortissement');
