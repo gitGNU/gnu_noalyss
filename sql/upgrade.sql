@@ -208,20 +208,13 @@ $BODY$
 	nCount Integer;
 	nDuplicate Integer;
 	begin
-	raise info 'Value %',tText;
 	tText := lower(trim(tav_text));
-	raise info 'Value %',tText;
 	tText := replace(tText,' ','');
-	raise info 'Value %',tText;
 	tText := translate(tText,E' $€µ£%.+-/\\!(){}(),;_&|"#''^<>*','');
-	raise info 'Value %',tText;
 	tText := translate(tText,E'éèêëàâäïîüûùöôç','eeeeaaaiiuuuooc');
-	raise info 'Value %',tText;
 	nDuplicate := 0;
-	raise info 'Value %',tText;
 	tBase := tText;
 	loop
-		raise info 'Value % duplicate %',tText,nDuplicate;
 		-- take the next sequence
 		select nextval('s_jnt_fic_att_value') into ns;
 		if length (tText) = 0 or tText is null then
