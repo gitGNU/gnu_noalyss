@@ -93,6 +93,7 @@ echo $str_add_button;
 </TD>
 
 </TR>
+<?php if ( $new == 0 ) : ?>
 <TR>
 <TD>
   <?php echo _('Dernière pièce numérotée')?>
@@ -101,6 +102,7 @@ echo $str_add_button;
 <?php echo $last_seq?>
 </TD>
 </TR>
+
 <tr>
 <TD><?php echo _('N° pièce justificative')?>
 </TD>
@@ -113,7 +115,7 @@ echo $str_add_button;
 <span class="notice" style="display:block"><?php echo _('Laissez à 0 pour ne pas changer le numéro')?></span>
 </TD>
 </tr>
-
+<?php endif; ?>
 </TABLE>
     <?php
     /////////////////// ACH //////////////////////////////////
