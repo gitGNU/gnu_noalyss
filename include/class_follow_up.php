@@ -108,7 +108,8 @@ class Follow_Up
 		}
 		return $sql;
 	}
-	//----------------------------------------------------------------------
+     
+        //----------------------------------------------------------------------
 	/**
 	 * \brief Display the object, the tags for the FORM
 	 *        are in the caller. It will be used for adding and updating
@@ -503,7 +504,7 @@ class Follow_Up
 		/* add the number of item */
 		$Hid = new IHidden();
 		$r.=$Hid->input("nb_item", MAX_ARTICLE);
-		$r.=HtmlInput::request_to_hidden(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate"));
+		$r.=HtmlInput::request_to_hidden(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate","tag"));
                 $a_tag=$this->tag_get();
 		/* get template */
 		ob_start();
@@ -673,7 +674,7 @@ class Follow_Up
 	function myList($p_base, $p_filter = "", $p_search = "")
 	{
 		// for the sort
-		$url = HtmlInput::get_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate")) . '&' . $p_base;
+		$url = HtmlInput::get_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate","tag")) . '&' . $p_base;
 
 		$table = new Sort_Table();
 		$table->add('Date Doc.', $url, 'order by ag_timestamp asc', 'order by ag_timestamp desc', 'da', 'dd');
@@ -749,7 +750,7 @@ class Follow_Up
 		//show the sub_action
 		foreach ($a_row as $row)
 		{
-			$href = '<A class="document" HREF="do.php?'  . $p_base .HtmlInput::get_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate", "ac"),"&") . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
+			$href = '<A class="document" HREF="do.php?'  . $p_base .HtmlInput::get_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate", "tag","ac"),"&") . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
 			$i++;
 			$tr = ($i % 2 == 0) ? 'even' : 'odd';
 			if ($row['ag_priority'] < 2)
@@ -1182,8 +1183,8 @@ class Follow_Up
 		$remind_date->value=(isset($_GET['remind_date']))?$_GET['remind_date']:"";
 		$remind_date_end=new IDate('remind_date_end');
 		$remind_date_end->value=(isset($_GET['remind_date_end']))?$_GET['remind_date_end']:"";
-                $tag=new Tag($cn);
-                
+                $otag=new Tag($cn);
+               
 		// show the  action in
 		require_once 'template/action_search.php';
 	}
@@ -1208,7 +1209,26 @@ class Follow_Up
 		$r = $act->myList($p_base, "", $query);
 		echo $r;
 	}
+        /**
+         * Create a subquery to filter thanks the selected tag
+         * @param  $cn db connx
+         * @param $p_array
+         * @return SQL 
+         */
+        static  function filter_by_tag ($cn, $p_array = null)
+	{
+            if ($p_array == null)
+		$p_array = $_GET;
 
+            extract($p_array);
+            $query = ""; 
+            if ( count($tag) == 0 )return "";
+            for ($i=0;$i<count($tag);$i++) {
+                if (isNumber($tag[$i])==1)
+                    $query .= ' and ag_id in (select ag_id from action_tags where t_id= '.  sql_string($tag[$i]).')';
+            }
+            return $query;
+        }
 	/**
 	 * Get date from $_GET and create the sql stmt for the query
 	 * @note the query is taken in $_REQUEST
@@ -1303,6 +1323,9 @@ class Follow_Up
 		if ( ! isset ($closed_action)) {
 			$query.=" and s_status is null ";
 		}
+                if ( isset ($tag)) {
+                    $query .= Follow_Up::filter_by_tag($cn,$p_array);
+                }
 		return $query . $str;
 	}
 
@@ -1460,7 +1483,7 @@ class Follow_Up
             for ($e=0;$e<$c;$e++) {
                 $js_remove=sprintf("onclick=\"action_tag_remove('%s','%s','%s')\"",dossier::id(),$this->ag_id,
                         $a_tag[$e]['t_id']);
-                echo '<span style="border:1px solid black">';
+                echo '<span style="border:1px solid black;margin-right:5px;">';
                 echo $a_tag[$e]['t_tag'];
                 echo '</span>';
                 echo '<span style="background-color:red;text-align:center;border-top:1px solid black; border-right:1px solid black;border-bottom:1px solid black;">';

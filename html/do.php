@@ -21,6 +21,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 define('ALLOWED',1);
+
 /**\file
  * \brief Main file
  */
@@ -149,7 +150,6 @@ if ( isset ($_POST['set_preference'])) {
     $_SESSION['g_pagesize']=$p_size;
     $_SESSION['g_lang']=$lang;
 }
-
 /*
  * if an action is requested
  */

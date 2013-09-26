@@ -603,6 +603,18 @@ EOF;
         case 'tag_choose':
             require_once 'ajax_tag_choose.php';
             break;
+        case 'tag_choose':
+            require_once 'ajax_tag_choose.php';
+            break;
+       case 'search_display_tag':
+            require_once 'ajax_search_display_tag.php';
+            break;
+        case 'search_add_tag':
+            require_once 'ajax_search_add_tag.php';
+            break;
+        case 'search_clear_tag':
+            require_once 'ajax_search_clear_tag.php';
+            break;
 	default:
 		var_dump($_GET);
 }

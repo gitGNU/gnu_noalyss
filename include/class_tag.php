@@ -22,10 +22,10 @@ require_once 'class_tag_sql.php';
 
 class Tag
 {
-    function __construct($p_cn)
+    function __construct($p_cn,$id=-1)
     {
         $this->cn=$p_cn;
-        $this->data=new Tag_SQL($p_cn);
+        $this->data=new Tag_SQL($p_cn,$id);
     }
     /**
      * Show the list of available tag
@@ -79,10 +79,10 @@ class Tag
      * Show a button to select tag for Search
      * @return HTML
      */
-    function choose()
+    static  function button_search()
     {
         $r="";
-        $r.=HtmlInput::button("choose_tag", "Etiquette", 'onclick="choose_tag('.Dossier::id().')"', "smallbutton");
+        $r.=HtmlInput::button("choose_tag", "Etiquette", 'onclick="search_display_tag('.Dossier::id().')"', "smallbutton");
         return $r;
     }
     /**
@@ -91,7 +91,27 @@ class Tag
     function select_search()
     {
         $ret=$this->data->seek(' order by t_tag');
-        require_once 'template/tag_select.php';
+        require_once 'template/tag_search_select.php';
+    }
+    /**
+     * In the screen search add this data to the cell
+     */
+    function update_search_cell() {
+        echo '<span id="sp_'.$this->data->t_id.'" style="border:1px solid black;margin-right:5px;">';
+        echo h($this->data->t_tag);
+        echo HtmlInput::hidden('tag[]', $this->data->t_id);
+        $js=sprintf("$('sp_".$this->data->t_id."').remove()='';");
+        echo '<span style="background-color:red;text-align:center;border-top:1px solid black; border-right:1px solid black;border-bottom:1px solid black;">';
+        echo HtmlInput::anchor('X', "javascript:void(0)", "onclick=\"$js\"");
+        echo '</span>';
+        echo '</span>';
+    }
+    /**
+     * clear the search cell
+     */
+    static function add_clear_button() {
+        $clear=HtmlInput::button('clear', 'X', 'onclick="search_clear_tag('.Dossier::id().');"', 'smallbutton');
+        return $clear;
     }
 }
 

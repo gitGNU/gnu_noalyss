@@ -22,9 +22,7 @@ if ( !defined ('ALLOWED') )  die('Appel direct ne sont pas permis');
 
 require_once 'class_tag.php';
 ob_start();
-$tag=new Tag($cn);
-$tag->select();
-
+echo Tag::button_search();
 $response=  ob_get_clean();
 ob_end_clean();
 $html=escape_xml($response);
@@ -33,7 +31,7 @@ echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
 <ctl></ctl>
-<code>$html</code>
+<html>$html</html>
 </data>
 EOF;
 exit();

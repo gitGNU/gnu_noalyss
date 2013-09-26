@@ -23,8 +23,9 @@
  * \brief javascript script, always added to every page
  *
  */
-
 var ask_reload=0;
+var tag_choose='';
+
 /**
 * callback function when we just need to update a hidden div with an info
 * message
@@ -2165,11 +2166,19 @@ function action_tag_remove(p_dossier,ag_id,t_id)
         error_message(e.getMessage);
     }
 }
-function choose_tag(p_dossier)
+
+
+/**
+ * Display a div with available tags, this div can update the cell
+ * tag_choose_td
+ * @param {type} p_dossier
+ * @returns {undefined}
+ */
+function search_display_tag(p_dossier)
 {
     try {
         waiting_box();
-        var queryString="op=tag_choose&gDossier="+p_dossier;
+        var queryString="op=search_display_tag&gDossier="+p_dossier;
         var action = new Ajax.Request(
                                       "ajax_misc.php" ,
                                       {
@@ -2187,8 +2196,8 @@ function choose_tag(p_dossier)
                                                     code_html=unescape_xml(code_html);
                                                     remove_waiting_box();
                                                     add_div({id:'tag_div',cssclass:'inner_box',drag:1});
-                                                    $('tag_div').style.top=posY-70;
-                                                    $('tag_div').style.left=posX-70;
+                                                    $('tag_div').style.top=posY-80;
+                                                    $('tag_div').style.left=posX+102;
                                                     remove_waiting_box();
                                                     $('tag_div').innerHTML=code_html;
 
@@ -2197,5 +2206,78 @@ function choose_tag(p_dossier)
                                       );
     } catch (e) {
         error_message(e.getMessage);
+    }
+}
+/**
+ * @brief Add the selected tag (p_tag_id) to the cell of tag_choose_td in the search screen
+ * in the search screen
+ * @param {type} p_dossier
+ * @param {type} p_tag_id
+ */
+function search_add_tag(p_dossier,p_tag_id)
+{
+    try {
+        var clear_button=0;
+        if (  tag_choose == '') {
+            tag_choose=$('tag_choose_td').innerHTML ;
+            clear_button=1;
+        }
+        waiting_box();
+        var queryString="op=search_add_tag&gDossier="+p_dossier+"&id="+p_tag_id+"&clear="+clear_button;
+        var action = new Ajax.Request(
+                                      "ajax_misc.php" ,
+                                      {
+                                          method:'get', parameters:queryString,
+                                          onFailure:ajax_misc_failure,
+                                          onSuccess:function(req,j){
+                                                  var answer=req.responseXML;
+                                                    var html=answer.getElementsByTagName('html');
+                                                    if ( html.length == 0 )
+                                                    {
+                                                        var rec=unescape_xml(req.responseText);
+                                                        error_message ('erreur :'+rec);
+                                                    }
+                                                    var code_html=getNodeText(html[0]);
+                                                    code_html=unescape_xml(code_html);
+                                                    remove_waiting_box();
+                                                    $('tag_choose_td').innerHTML=$('tag_choose_td').innerHTML+code_html;
+                                                    removeDiv('tag_div');
+                                          }
+                                      }
+                                      );
+    }catch (e) {
+         error_message(e.getMessage);
+    }
+}
+/**
+ * Clear the tags in the cell tag_choose_td of the search screen
+ * @returns {undefined}
+ */
+function search_clear_tag(p_dossier)
+{
+    try {
+        var queryString="op=search_clear_tag&gDossier="+p_dossier;
+        var action = new Ajax.Request(
+                                      "ajax_misc.php" ,
+                                      {
+                                          method:'get', parameters:queryString,
+                                          onFailure:ajax_misc_failure,
+                                          onSuccess:function(req,j){
+                                                  var answer=req.responseXML;
+                                                    var html=answer.getElementsByTagName('html');
+                                                    if ( html.length == 0 )
+                                                    {
+                                                        var rec=unescape_xml(req.responseText);
+                                                        error_message ('erreur :'+rec);
+                                                    }
+                                                    var code_html=getNodeText(html[0]);
+                                                    code_html=unescape_xml(code_html);
+                                                    $('tag_choose_td').innerHTML=code_html;
+                                                    tag_choose="";
+                                          }
+                                      }
+                                      );
+    }catch (e) {
+         error_message(e.getMessage);
     }
 }

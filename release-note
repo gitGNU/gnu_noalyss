@@ -49,13 +49,19 @@ Si aucun quickcode donné, un calculé un en se basant sur le nom de la fiche (5
 code php 
 fiche_def.inc.php
 
+Action - Suivi
+===============
+Recherche par tag
+L'avoir dans les changements de page
+Tag repris dans le bouton retour
+Visible dans la recherche après une recherche
+
+
+
 ===================================================================
 || A faire
 ===================================================================
 
-Action - Suivi
-===============
-Recherche par tag
 
 Document à générer
 =================

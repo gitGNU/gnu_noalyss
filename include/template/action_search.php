@@ -66,7 +66,16 @@
                         <tr>
 			<td style="width:180px;text-align:right"><?php echo _('Etiquette'); ?></td>
 				<td id="tag_choose_td">
-                                    <?php echo $tag->choose(); ?>
+                                    <?php echo Tag::button_search(); ?>
+                                    <?php
+                                        if ( isset($_GET['tag'])) {
+                                            echo Tag::add_clear_button();
+                                            for ($i=0;$i<count($_GET['tag']);$i++) {
+                                                $t=new Tag($cn, $_GET['tag'][$i]);
+                                                echo $t->update_search_cell();
+                                            }
+                                        }
+                                    ?>
 				</td>
 			</tr>
                         <tr>

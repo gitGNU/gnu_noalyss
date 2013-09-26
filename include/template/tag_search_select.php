@@ -18,14 +18,13 @@ Filtrer = <?php echo HtmlInput::filter_table('tag_tb_id', '0,1', 1); ?>
     </tr>
 <?php
 $gDossier=Dossier::id();
-if (isNumber($_REQUEST['ag_id']) == 0 ) die ('ERROR : parameters invalid');
     for ($i=0;$i<$max;$i++):
         $row=Database::fetch_array($ret, $i);
 ?>
     <tr class="<?php echo (($i%2==0)?'even':'odd');?>">
         <td>
             <?php
-            $js=sprintf("action_tag_add('%s','%s','%s')",$gDossier,$_REQUEST['ag_id'],$row['t_id']);
+            $js=sprintf("search_add_tag('%s','%s')",$gDossier,$row['t_id']);
             echo HtmlInput::anchor($row['t_tag'], "", "onclick=\"$js\"");
             ?>
         </td>

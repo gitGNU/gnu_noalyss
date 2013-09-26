@@ -478,7 +478,14 @@ class HtmlInput
       if ( count($global_array )==0) return '';
       foreach ($array  as $a)
 	{
-	  if (isset($global_array [$a])) $r.=HtmlInput::hidden($a,$global_array [$a]);
+	  if (isset($global_array [$a])) 
+          if (is_array($global_array[$a]) == false ) {
+                $r.=HtmlInput::hidden($a,$global_array [$a]);
+              } else {
+                  for ($i=0;$i<count($global_array[$a]);$i++) {
+                      $r.=HtmlInput::hidden($a."[]",$global_array [$a][$i]);
+                  }
+              }
 	}
 
       return $r;
@@ -535,7 +542,16 @@ class HtmlInput
       foreach ($array  as $a)
 	{
 	  if (isset($global_array [$a]))
-	     $r.=$and."$a=".$global_array [$a];
+          {
+              if (is_array($global_array[$a]) == false ) {
+                $r.=$and."$a=".$global_array [$a];
+              } else {
+                  for ($i=0;$i<count($global_array[$a]);$i++) {
+                      $r.=$and."$a"."[]=".$global_array[$a][$i];
+                      $and="&amp;";
+                  }
+              }
+          }
 	  $and="&amp;";
 	}
 
