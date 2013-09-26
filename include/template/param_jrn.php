@@ -127,7 +127,7 @@ echo $str_add_button;
                 Fournisseurs (D)
             </th>
             <th>
-                Services ou biens divers achetés (C)
+                Services, fournitures ou biens  achetés (C)
             </th>
         </tr>
     
@@ -176,7 +176,7 @@ echo $str_add_button;
         
         <tr>
             <th>
-                Services ou biens divers vendus (D)
+                Services, fournitures ou biens  vendus (D)
             </th>
             <th>
                 Clients (C)
