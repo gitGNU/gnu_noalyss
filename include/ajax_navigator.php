@@ -56,6 +56,9 @@ $a_menu=$cn->get_array($sql,array($_SESSION['g_user']));
             <th>
                 Description complète
             </th>
+            <th>
+                Aide sur le wiki
+            </th>
         </tr>
 <?php 
 $nMax=count($a_menu);
@@ -99,6 +102,9 @@ for ($i=0;$i<$nMax;$i++):
             <td>
                 <?php if ($a_menu[$i]['p_type_display'] == 'PL') echo '(Extension)';
                 echo $a_menu[$i]['me_description_etendue']; ?>
+            </td>
+            <td>
+                <a class="mtitle" style='text-decoration: underline' href="http://wiki.phpcompta.eu/doku.php?id=MENU:<?php echo $a_menu[$i]['me_code']; ?>" target='_blank'>sur le wiki : <?php echo $a_menu[$i]['me_code']; ?></a>
             </td>
         </tr>
 <?php endfor; ?>        
