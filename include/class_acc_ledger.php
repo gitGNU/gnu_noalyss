@@ -3470,7 +3470,7 @@ class Acc_Ledger extends jrn_def_sql
 		$name = "";
 		$code = "";
 		$wType = new ISelect();
-                $a_jrn= $this->db->make_array("select '-1',' -- choix journal -- ' union select jrn_type_id,jrn_desc from jrn_type");
+                $a_jrn= $this->db->make_array("select '-1',' -- choix du type de journal -- ' union select jrn_type_id,jrn_desc from jrn_type");
                 $wType->selected='-1';
 		$wType->value =$a_jrn;
 		$wType->name = "p_jrn_type";
