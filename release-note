@@ -43,7 +43,11 @@ Pour ACH indiquer Fournisseur (D) et Services ou Marchandises achetés
 Pour VEN indiquer Client (C) et Services ou Marchandises vendus
 Pour FIN indiquer Compte tiers (D/C) et surtout permettre de créer un fiche de type trésorerie (frd_id=4)
 
-Ajout de journaux dans jrn_type
+Fiche
+=====
+Si aucun quickcode donné, un calculé un en se basant sur le nom de la fiche (5ière lettre) + n° si duplicate
+code php 
+fiche_def.inc.php
 
 ===================================================================
 || A faire
@@ -58,13 +62,12 @@ Document à générer
 Par journal
 ou par profil
 
-
-
-
-
-
-Fiche
+Stock
 =====
-Si aucun quickcode donné, un calculé un en se basant sur le nom de la fiche (5ière lettre) + n° si duplicate
-code php 
-fiche_def.inc.php
+Inventaire annuel
+
+
+
+
+
+

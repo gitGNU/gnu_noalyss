@@ -64,7 +64,7 @@
 				<td><?php echo $closed_action->input();?></td>
 			</tr>
                         <tr>
-			<td style="width:180px;text-align:right"> Tag</td>
+			<td style="width:180px;text-align:right"><?php echo _('Etiquette'); ?></td>
 				<td id="tag_choose_td">
                                     <?php echo $tag->choose(); ?>
 				</td>

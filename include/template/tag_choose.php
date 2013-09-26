@@ -1,8 +1,8 @@
 <?php
-echo HtmlInput::title_box('Tag', 'tag_div');
+echo HtmlInput::title_box('Etiquette', 'tag_div');
 $max=$this->cn->count($ret);
 if ( $max == 0 ) {
-    echo h2("Aucun tag disponible",' class="notice"');
+    echo h2("Aucune étiquette disponible",' class="notice"');
     return;
 }
 ?>
@@ -40,5 +40,5 @@ if (isNumber($_REQUEST['ag_id']) == 0 ) die ('ERROR : parameters invalid');
 </table>
 <?php
    $js=sprintf("onclick=\"show_tag('%s','%s','%s','j')\"",Dossier::id(),"none",'-1');
-    echo HtmlInput::button("tag_add", "Ajout d'un tag", $js);
+    echo HtmlInput::button("tag_add", "Ajout d'une étiquette", $js);
 ?>

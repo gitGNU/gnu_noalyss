@@ -66,8 +66,8 @@ class Tag
     {
         if ( trim($p_array['t_tag'])=="" ) return ;
         $this->data->t_id=$p_array['t_id'];
-        $this->data->t_tag=str_ireplace('<script>','<_script_>',$p_array['t_tag']);
-        $this->data->t_description=str_ireplace('<script>','<_script_>',$p_array['t_description']);
+        $this->data->t_tag=  strip_tags($p_array['t_tag']);
+        $this->data->t_description=strip_tags($p_array['t_description']);
         $this->data->save();
     }
     function remove($p_array)
@@ -82,7 +82,7 @@ class Tag
     function choose()
     {
         $r="";
-        $r.=HtmlInput::button("choose_tag", "Tag", 'onclick="choose_tag('.Dossier::id().')"', "smallbutton");
+        $r.=HtmlInput::button("choose_tag", "Etiquette", 'onclick="choose_tag('.Dossier::id().')"', "smallbutton");
         return $r;
     }
     /**

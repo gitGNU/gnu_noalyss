@@ -2,7 +2,7 @@
 echo HtmlInput::title_box('Tag', 'tag_div');
 $max=$this->cn->count($ret);
 if ( $max == 0 ) {
-    echo h2("Aucun tag disponible",' class="notice"');
+    echo h2("Aucune étiquette disponible",' class="notice"');
     return;
 }
 ?>

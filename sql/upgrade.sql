@@ -196,3 +196,75 @@ update fiche_def_ref set    frd_text='Trésorerie' where frd_id=4;
 update jrn_def set jrn_def_name='Trésorerie' where jrn_def_id=1;
 update jrn_type set jrn_desc = 'Trésorerie' where jrn_type_id='FIN';
 
+CREATE OR REPLACE FUNCTION comptaproc.insert_quick_code(nf_id integer, tav_text text)
+  RETURNS integer AS
+$BODY$
+	declare
+	ns integer;
+	nExist integer;
+	tText text;
+	tBase text;
+	tName text;
+	nCount Integer;
+	nDuplicate Integer;
+	begin
+	raise info 'Value %',tText;
+	tText := lower(trim(tav_text));
+	raise info 'Value %',tText;
+	tText := replace(tText,' ','');
+	raise info 'Value %',tText;
+	tText := translate(tText,E' $€µ£%.+-/\\!(){}(),;_&|"#''^<>*','');
+	raise info 'Value %',tText;
+	tText := translate(tText,E'éèêëàâäïîüûùöôç','eeeeaaaiiuuuooc');
+	raise info 'Value %',tText;
+	nDuplicate := 0;
+	raise info 'Value %',tText;
+	tBase := tText;
+	loop
+		raise info 'Value % duplicate %',tText,nDuplicate;
+		-- take the next sequence
+		select nextval('s_jnt_fic_att_value') into ns;
+		if length (tText) = 0 or tText is null then
+			select count(*) into nCount from fiche_detail where f_id=nf_id and ad_id=1;
+			if nCount = 0 then
+				tText := 'FICHE'||ns::text;
+			else
+				select ad_value into tName from fiche_detail where f_id=nf_id and ad_id=1;
+				
+				tName := lower(trim(tName));
+				tName := substr(tName,1,6);
+				tName := replace(tName,' ','');
+				tName := translate(tName,E' $€µ£%.+-/\\!(){}(),;_&|"#''^<>*','');
+				tName := translate(tName,E'éèêëàâäïîüûùöôç','eeeeaaaiiuuuooc');
+				tBase := tName;
+				if nDuplicate = 0 then
+					tText := tName;
+				else
+					tText := tName||nDuplicate::text;
+				end if;
+			end if;
+		end if;
+		-- av_text already used ?
+		select count(*) into nExist
+			from fiche_detail
+		where
+			ad_id=23 and  ad_value=upper(tText);
+
+		if nExist = 0 then
+			exit;
+		end if;
+		nDuplicate := nDuplicate + 1 ;
+		tText := tBase || nDuplicate::text;
+		
+		if nDuplicate > 9999 then
+			raise Exception 'too many duplicate % duplicate# %',tText,nDuplicate;
+		end if;
+	end loop;
+
+
+	insert into fiche_detail(jft_id,f_id,ad_id,ad_value) values (ns,nf_id,23,upper(tText));
+	return ns;
+	end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+
