@@ -3229,9 +3229,9 @@ class Acc_Ledger extends jrn_def_sql
 		$r = "";
 		$r.='<TABLE>';
 		$r.='<TR><TD class="mtitle"><A class="mtitle" HREF="' . $base_url . '&sa=add">' . _('Création') . ' </A></TD></TR>';
-		$ret = $this->db->exec_sql("select jrn_def_id,jrn_def_name,
-                       jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc
-                       from jrn_def join jrn_type on jrn_def_type=jrn_type_id order by jrn_def_name");
+		$ret = $this->db->exec_sql("select distinct jrn_def_id,jrn_def_name,
+                       jrn_def_class_deb,jrn_def_class_cred,jrn_def_type
+                       from jrn_def order by jrn_def_name");
 		$Max = Database::num_row($ret);
 
 
@@ -3258,7 +3258,7 @@ class Acc_Ledger extends jrn_def_sql
 		$type = $this->jrn_def_type;
 		$name = $this->jrn_def_name;
 		$code = $this->jrn_def_code;
-
+                $str_add_button="";
 		/* widget for searching an account */
 		$wSearch = new IPoste();
 		$wSearch->set_attribute('ipopup', 'ipop_account');
@@ -3312,7 +3312,7 @@ class Acc_Ledger extends jrn_def_sql
 				$qcode_bank = $fBank->get_quick_code();
 			}
 		}
-		$new = false;
+		$new = 0;
 		$cn = $this->db;
 		echo $hidden;
 		require_once('template/param_jrn.php');
@@ -3434,6 +3434,18 @@ class Acc_Ledger extends jrn_def_sql
 	 */
 	function input_new()
 	{
+                global $g_user;
+                $f_add_button=new ISmallButton('add_card');
+                $f_add_button->label=_('Créer une nouvelle fiche');
+                $f_add_button->tabindex=-1;
+                $f_add_button->set_attribute('jrn',-1);
+                $f_add_button->javascript=" this.jrn=-1;select_card_type({type_cat:4});";
+
+                $str_add_button="";
+                if ($g_user->check_action(FICADD)==1)
+                {
+                        $str_add_button=$f_add_button->input();
+                }
 		$wSearch = new IPoste();
 		$wSearch->table = 3;
 		$wSearch->set_attribute('ipopup', 'ipop_account');
@@ -3458,8 +3470,12 @@ class Acc_Ledger extends jrn_def_sql
 		$name = "";
 		$code = "";
 		$wType = new ISelect();
-		$wType->value = $this->db->make_array('select jrn_type_id,jrn_desc from jrn_type');
+                $a_jrn= $this->db->make_array("select '-1',' -- choix journal -- ' union select jrn_type_id,jrn_desc from jrn_type");
+                $wType->selected='-1';
+		$wType->value =$a_jrn;
 		$wType->name = "p_jrn_type";
+		$wType->id= "p_jrn_type_select_id";
+                $wType->javascript=' onchange="show_ledger_div()"';
 		$type = $wType->input();
 		$rcred = $rdeb = array();
 		$wPjPref = new IText();
@@ -3467,16 +3483,15 @@ class Acc_Ledger extends jrn_def_sql
 		$pj_pref = $wPjPref->input();
 		$pj_seq = '';
 		$last_seq = 0;
-		$new = true;
+		$new = 1;
 		/* bank card */
 		$qcode_bank = '';
 		/* Numbering (only FIN) */
 		$num_op = new ICheckBox('numb_operation');
 		echo dossier::hidden();
 		echo HtmlInput::hidden('ac', $_REQUEST['ac']);
-		echo HtmlInput::hidden('p_jrn', -1);
-		echo HtmlInput::hidden('sa', 'add');
-
+                echo $hidden;
+                
 		$cn = $this->db;
 		$min_row = new INum("min_row",MAX_ARTICLE);
 		$min_row->prec=0;

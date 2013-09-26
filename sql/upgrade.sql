@@ -190,3 +190,13 @@ values
 insert into profile_menu (me_code,me_code_dep,p_id,p_order, p_type_display,pm_default) 
 values
 ('CFGTAG','PARAM',1,390,'E',0);
+
+update fiche_def set    fd_label='Trésorerie' where fd_id=3;
+update fiche_def_ref set    frd_text='Trésorerie' where frd_id=4;
+update jrn_def set jrn_def_name='Trésorerie' where jrn_def_id=1;
+update jrn_type set jrn_desc = 'Trésorerie' where jrn_type_id='FIN';
+
+alter table jrn_type drop constraint jrn_type_pkey cascade;
+alter table jrn_type add t_id serial;
+alter table jrn_type add  primary key (t_id);
+insert into jrn_type(jrn_type_id,jrn_desc) values ('ACH','Note de frais'), ('ACH','Note de débit (reçu d''fournisseur)'),('VEN','Note de crédit (délivré à un client)'),('ODS','A Nouveau'),('ODS','Amortissement');

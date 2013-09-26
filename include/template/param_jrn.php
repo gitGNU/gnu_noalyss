@@ -3,11 +3,12 @@
 
 		<TD><?php echo _('Nom journal')?> </TD>
 		<TD> <INPUT TYPE="text" class="input_text" NAME="p_jrn_name" VALUE="<?php	echo $name;	?>"></TD>
+                <td></td>
 </TR>
 <?php
-if ($new || $type=='ODS' ):
+if ( $new || $type=='ODS' ):
 ?>
-<TR>
+<TR id="type_ods">
 <td><?php echo _('Postes utilisables journal (débit/crédit) ')?>
 </TD>
 <td>
@@ -22,9 +23,9 @@ if ($new || $type=='ODS' ):
 endif;
 ?>
 <?php
-if ( $new || $type=='FIN') {
+if ( $new|| $type=='FIN') {
 ?>
-<tr>
+<tr id="type_fin">
 <td>
     <?php echo _('Numérotation de chaque opération')?>
 </td>
@@ -32,7 +33,7 @@ if ( $new || $type=='FIN') {
     <?php echo $num_op->input();?>
 </td>
 </tr>
-<tr>
+<tr id="type_fin2">
 <TD>
 <?php echo _('Compte en banque')?>
 </td>
@@ -50,6 +51,7 @@ $card->set_attribute('typecard',$list);
 $card->value=$qcode_bank;
 echo $card->search();
 echo $card->input();
+echo $str_add_button;
 ?>
 </td>
 <td class="notice">
@@ -112,49 +114,241 @@ echo $card->input();
 </TD>
 </tr>
 
-
 </TABLE>
-<H2 class="info"> Fiches </H2>
-<TABLE width="100%">
-<TR>
-<?php
-if ( $new || ($type != 'ODS' && $type != 'FIN')) {
-?>
-<th style="text-align:left"><?php echo _('Fiches Débit')?></TH>
-<th style="text-align:left"><?php echo _('Fiches Crédit')?></TH>
-<?php
-}
-?>
-</TR>
-<?php
-// Show the fiche in deb section
-$Res=$cn->exec_sql("select fd_id,fd_label from fiche_def order by fd_label");
-$num=$cn->size();
+    <?php
+    /////////////////// ACH //////////////////////////////////
+    if ( $new ==1 || $type=='ACH' ) : 
+        ?>
+    <div id='ACH_div' >
+    <H2 class="info"> Fiches </H2>
+    <TABLE class="result" style="width:80%;margin-left:10%;">
+        <tr>
+            <th>
+                Fournisseurs (D)
+            </th>
+            <th>
+                Services ou biens divers achetés (C)
+            </th>
+        </tr>
+    
+        
+    <?php
+    // Show the fiche in deb section
+    $Res=$cn->exec_sql("select fd_id,fd_label from fiche_def order by fd_label");
+    $num=$cn->size();
 
-for ($i=0;$i<$num;$i++) {
-  $res=$cn->fetch($i);
-  $CHECKED=" unchecked";
-  foreach ( $rdeb as $element) {
-    if ( $element == $res['fd_id'] ) {
-      $CHECKED="CHECKED";
-      break;
+    for ($i=0;$i<$num;$i++) {
+      $res=$cn->fetch($i);
+      $CHECKED=" unchecked";
+      foreach ( $rdeb as $element) {
+        if ( $element == $res['fd_id'] ) {
+          $CHECKED="CHECKED";
+          break;
+        }
+      }
+            echo '<tr>';
+      printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHEDEB[]" %s>%s</TD>',
+              $res['fd_id'],$CHECKED,$res['fd_label']);
+      $CHECKED=" unchecked";
+      foreach ( $rcred as $element) {
+        if ( $element == $res['fd_id'] ) {
+          $CHECKED="CHECKED";
+          break;
+        }
+      }
+      printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHECRED[]" %s>%s</TD>',
+              $res['fd_id'],$CHECKED,$res['fd_label']);
+      echo '</TR>';
     }
-  }
-	echo '<tr>';
-  printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHEDEB[]" %s>%s</TD>',
-	  $res['fd_id'],$CHECKED,$res['fd_label']);
-  $CHECKED=" unchecked";
-  foreach ( $rcred as $element) {
-    if ( $element == $res['fd_id'] ) {
-      $CHECKED="CHECKED";
-      break;
+    ?>
+    </TABLE>
+</div>
+<?php /////////////////// ACH //////////////////////////////////
+ endif; 
+ ?>
+<?php
+    /////////////////// VEN //////////////////////////////////
+    if ( $new ==1  || $type=='VEN' ) : 
+        ?>
+    <div id='VEN_div' >
+    <H2 class="info"> Fiches </H2>
+    <TABLE class="result" style="width:80%;margin-left:10%;">
+        
+        <tr>
+            <th>
+                Services ou biens divers vendus (D)
+            </th>
+            <th>
+                Clients (C)
+            </th>
+        </tr>
+    
+        
+    <?php
+    // Show the fiche in deb section
+    $Res=$cn->exec_sql("select fd_id,fd_label from fiche_def order by fd_label");
+    $num=$cn->size();
+
+    for ($i=0;$i<$num;$i++) {
+      $res=$cn->fetch($i);
+      $CHECKED=" unchecked";
+      foreach ( $rdeb as $element) {
+        if ( $element == $res['fd_id'] ) {
+          $CHECKED="CHECKED";
+          break;
+        }
+      }
+            echo '<tr>';
+      printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHEDEB[]" %s>%s</TD>',
+              $res['fd_id'],$CHECKED,$res['fd_label']);
+      $CHECKED=" unchecked";
+      foreach ( $rcred as $element) {
+        if ( $element == $res['fd_id'] ) {
+          $CHECKED="CHECKED";
+          break;
+        }
+      }
+      printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHECRED[]" %s>%s</TD>',
+              $res['fd_id'],$CHECKED,$res['fd_label']);
+      echo '</TR>';
     }
-  }
-if ( $type != 'ODS' && $type != 'FIN' ){
-  printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHECRED[]" %s>%s</TD>',
-	  $res['fd_id'],$CHECKED,$res['fd_label']);
-}
-  echo '</TR>';
-}
-?>
-</TABLE>
+    ?>
+    </TABLE>
+</div>
+<?php /////////////////// VEN //////////////////////////////////
+ endif; 
+ ?>
+   <?php
+    /////////////////// ODS //////////////////////////////////
+    if ( $new ==1 || $type=='ODS' ) : 
+        ?>
+    <div id='ODS_div' >
+    <H2 class="info"> Fiches </H2>
+   <TABLE class="result" style="width:60%;margin-left:20%;">
+        <tr>
+            <th>
+                Fiches utilisables (D/C)
+            </th>
+           
+        </tr>
+    
+        
+    <?php
+    // Show the fiche in deb section
+    $Res=$cn->exec_sql("select fd_id,fd_label from fiche_def order by fd_label");
+    $num=$cn->size();
+
+    for ($i=0;$i<$num;$i++) {
+      $res=$cn->fetch($i);
+      $CHECKED=" unchecked";
+      foreach ( $rdeb as $element) {
+        if ( $element == $res['fd_id'] ) {
+          $CHECKED="CHECKED";
+          break;
+        }
+      }
+            echo '<tr>';
+      printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHEDEB[]" %s>%s</TD>',
+              $res['fd_id'],$CHECKED,$res['fd_label']);
+      $CHECKED=" unchecked";
+      foreach ( $rcred as $element) {
+        if ( $element == $res['fd_id'] ) {
+          $CHECKED="CHECKED";
+          break;
+        }
+      }
+      echo '</TR>';
+    }
+    ?>
+    </TABLE>
+</div>
+<?php /////////////////// ODS //////////////////////////////////
+ endif; 
+ ?>
+   <?php
+    /////////////////// FIN //////////////////////////////////
+    if ( $new ==1 || $type=='FIN' ) : 
+        ?>
+    <div id='FIN_div' >
+    <H2 class="info"> Fiches </H2>
+     <TABLE class="result" style="width:60%;margin-left:20%;">
+        <tr>
+            <th>
+                Tiers (D/C)
+            </th>
+           
+        </tr>
+    
+        
+    <?php
+    // Show the fiche in deb section
+    $Res=$cn->exec_sql("select fd_id,fd_label from fiche_def order by fd_label");
+    $num=$cn->size();
+
+    for ($i=0;$i<$num;$i++) {
+      $res=$cn->fetch($i);
+      $CHECKED=" unchecked";
+      foreach ( $rdeb as $element) {
+        if ( $element == $res['fd_id'] ) {
+          $CHECKED="CHECKED";
+          break;
+        }
+      }
+            echo '<tr>';
+      printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHEDEB[]" %s>%s</TD>',
+              $res['fd_id'],$CHECKED,$res['fd_label']);
+      $CHECKED=" unchecked";
+      foreach ( $rcred as $element) {
+        if ( $element == $res['fd_id'] ) {
+          $CHECKED="CHECKED";
+          break;
+        }
+      }
+      echo '</TR>';
+    }
+    ?>
+    </TABLE>
+</div>
+<?php /////////////////// FIN //////////////////////////////////
+ endif; 
+ ?>
+<?php if ( $new == 1 ) : ?>
+<script>
+    var a_div=Array('VEN_div','ODS_div','ACH_div','FIN_div');
+    function hide_ledger()
+    {
+        for (var i=0;i<a_div.length;i++)
+        {
+            $(a_div[i]).style.display='none';
+        }
+    }
+    function hide_row()
+    {
+        $('type_ods').style.display='none';
+        $('type_fin').style.display='none';
+        $('type_fin2').style.display='none';
+    }
+   function show_ledger_div()
+   {
+       hide_ledger();
+       var ch=$('p_jrn_type_select_id').options[$('p_jrn_type_select_id').selectedIndex].value;
+       console.log(" div = "+ch);
+       $(ch+'_div').style.display='block';
+       switch (ch) {
+           case 'FIN':
+             hide_row();
+             $('type_fin').style.display='table-row';
+             $('type_fin2').style.display='table-row';         
+             break;
+           case 'ODS':
+               hide_row();
+               $('type_ods').style.display='table-row';
+               break;
+           default:
+               hide_row();
+       }
+   }
+    hide_ledger();
+    hide_row();
+</script>
+<?php endif; ?>
