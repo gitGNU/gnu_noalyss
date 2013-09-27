@@ -933,6 +933,9 @@ h2.gest_name {
 body.op_detail_frame,div.op_detail_frame  {
     background-color:#e4e7ed;
     height:100%; width:100%;
+-moz-box-shadow: 10px 10px 5px #888;
+-webkit-box-shadow: 10px 10px 5px #888;
+box-shadow: 10px 10px 5px #888;
 
 
 }
@@ -946,6 +949,9 @@ div.inner_box  {
     position:absolute;
     left:10%;
     border:1px solid darkblue;
+-moz-box-shadow: 10px 10px 5px #888;
+-webkit-box-shadow: 10px 10px 5px #888;
+box-shadow: 10px 10px 5px #888;
 }
 div.op_detail_title {
     background-color:grey;
@@ -987,6 +993,9 @@ div#search_form
     width:50%;
     display:none;
     background-color:#e4e7ed;
+-moz-box-shadow: 10px 10px 5px #888;
+-webkit-box-shadow: 10px 10px 5px #888;
+box-shadow: 10px 10px 5px #888;
 }
 
 table.sortable td, table.table_large td, table.result td
