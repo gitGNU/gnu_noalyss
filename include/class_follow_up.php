@@ -698,7 +698,8 @@ class Follow_Up
 		$sql = "
              select ag_id,to_char(ag_timestamp,'DD.MM.YYYY') as my_date,
                 to_char(ag_remind_date,'DD.MM.YYYY') as my_remind,
-                to_char(coalesce((select max(agc_date) from action_gestion_comment as agc where agc.ag_id=ag.ag_id),ag_timestamp),'DD.MM.YY') as last_comment,
+                to_char(coalesce((select max(agc_date) from action_gestion_comment as agc where agc.ag_id=ag.ag_id),ag_timestamp),'DD.MM.YY') as str_last_comment,
+                coalesce((select max(agc_date) from action_gestion_comment as agc where agc.ag_id=ag.ag_id),ag_timestamp) as last_comment,
                 f_id_dest,
                 s_value,
                 ag_title,dt_value,ag_ref, ag_priority,ag_state,
@@ -771,7 +772,7 @@ class Follow_Up
                         $checkbox->value=$row['ag_id'];
                         $r.='<td name="ag_id_td" style="display:none">'.$checkbox->input().'</td>';
 			$r.="<td>" . $href . smaller_date($row['my_date']) . '</a>' . "</td>";
-			$r.="<td>" . $href . $row['last_comment'] . '</a>' . "</td>";
+			$r.="<td>" . $href . $row['str_last_comment'] . '</a>' . "</td>";
 			$r.="<td>" . $href . smaller_date($row['my_remind']) . '</a>' . "</td>";
 			$r.="<td>" . $href . h($row['tags']). '</a>' . "</td>";
 			$r.="<td>" . $href . $row['ag_ref'] . '</a>' . "</td>";
