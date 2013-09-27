@@ -263,7 +263,7 @@ echo '</span>';
 <?php endif; ?>
   </div>
 </div>
-<?php if ( $p_base != 'ajax' ) :?>
+<?php if ( $p_view !='READ'  ) :?>
 <input type='button' class="button" class="noprint" value='Montrer articles' id="toggleButton" onclick='toggleShowDetail()'>
 <?php endif; ?>
 <?php
