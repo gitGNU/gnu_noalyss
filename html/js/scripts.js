@@ -677,7 +677,8 @@ function waiting_box()
 	obj={
 		id:'wait_box',html:loading()
 		};
-	obj.style=fixed_position(350,200)+";width:200px";
+        var y=calcy(posY);
+	obj.style=fixed_position(posX,y)+";width:200px";
 	if ($('wait_box')){
 		removeDiv('wait_box');
 		}
@@ -2174,11 +2175,11 @@ function action_tag_remove(p_dossier,ag_id,t_id)
  * @param {type} p_dossier
  * @returns {undefined}
  */
-function search_display_tag(p_dossier)
+function search_display_tag(p_dossier,p_prefix)
 {
     try {
         waiting_box();
-        var queryString="op=search_display_tag&gDossier="+p_dossier;
+        var queryString="op=search_display_tag&gDossier="+p_dossier+"&pref="+p_prefix;
         var action = new Ajax.Request(
                                       "ajax_misc.php" ,
                                       {
@@ -2195,11 +2196,11 @@ function search_display_tag(p_dossier)
                                                     var code_html=getNodeText(html[0]);
                                                     code_html=unescape_xml(code_html);
                                                     remove_waiting_box();
-                                                    add_div({id:'tag_div',cssclass:'inner_box',drag:1});
-                                                    $('tag_div').style.top=posY-80;
-                                                    $('tag_div').style.left=posX+102;
+                                                    add_div({id:p_prefix+'tag_div',cssclass:'inner_box',drag:1});
+                                                    $(p_prefix+'tag_div').style.top=posY-80;
+                                                    $(p_prefix+'tag_div').style.left=posX+102;
                                                     remove_waiting_box();
-                                                    $('tag_div').innerHTML=code_html;
+                                                    $(p_prefix+'tag_div').innerHTML=code_html;
 
                                           }
                                       }
@@ -2214,16 +2215,16 @@ function search_display_tag(p_dossier)
  * @param {type} p_dossier
  * @param {type} p_tag_id
  */
-function search_add_tag(p_dossier,p_tag_id)
+function search_add_tag(p_dossier,p_tag_id,p_prefix)
 {
     try {
         var clear_button=0;
-        if (  tag_choose == '') {
-            tag_choose=$('tag_choose_td').innerHTML ;
+        if (  tag_choose == '' && p_prefix=='search') {
+            tag_choose=$(p_prefix+'tag_choose_td').innerHTML ;
             clear_button=1;
         }
         waiting_box();
-        var queryString="op=search_add_tag&gDossier="+p_dossier+"&id="+p_tag_id+"&clear="+clear_button;
+        var queryString="op=search_add_tag&gDossier="+p_dossier+"&id="+p_tag_id+"&clear="+clear_button+'&pref='+p_prefix;
         var action = new Ajax.Request(
                                       "ajax_misc.php" ,
                                       {
@@ -2240,8 +2241,8 @@ function search_add_tag(p_dossier,p_tag_id)
                                                     var code_html=getNodeText(html[0]);
                                                     code_html=unescape_xml(code_html);
                                                     remove_waiting_box();
-                                                    $('tag_choose_td').innerHTML=$('tag_choose_td').innerHTML+code_html;
-                                                    removeDiv('tag_div');
+                                                    $(p_prefix+'tag_choose_td').innerHTML=$(p_prefix+'tag_choose_td').innerHTML+code_html;
+                                                    removeDiv(p_prefix+'tag_div');
                                           }
                                       }
                                       );
@@ -2253,10 +2254,14 @@ function search_add_tag(p_dossier,p_tag_id)
  * Clear the tags in the cell tag_choose_td of the search screen
  * @returns {undefined}
  */
-function search_clear_tag(p_dossier)
+function search_clear_tag(p_dossier,p_prefix)
 {
+    if ( p_prefix !='search') {
+        $(p_prefix+'tag_choose_td').innerHTML="";
+        return;
+    }
     try {
-        var queryString="op=search_clear_tag&gDossier="+p_dossier;
+        var queryString="op=search_clear_tag&gDossier="+p_dossier+"&pref="+p_prefix;
         var action = new Ajax.Request(
                                       "ajax_misc.php" ,
                                       {
@@ -2272,7 +2277,7 @@ function search_clear_tag(p_dossier)
                                                     }
                                                     var code_html=getNodeText(html[0]);
                                                     code_html=unescape_xml(code_html);
-                                                    $('tag_choose_td').innerHTML=code_html;
+                                                    $(p_prefix+'tag_choose_td').innerHTML=code_html;
                                                     tag_choose="";
                                           }
                                       }
@@ -2280,4 +2285,9 @@ function search_clear_tag(p_dossier)
     }catch (e) {
          error_message(e.getMessage);
     }
+}
+function action_show_checkbox()
+{
+    var a=document.getElementsByName('ag_id_td');
+    for (var i=0;i<a.length;i++) {    a[i].style.display='block';    }
 }
