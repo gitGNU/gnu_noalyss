@@ -1707,6 +1707,15 @@ function view_action(ag_id,dossier,modify)
 				onSuccess: function(req) {
 					try {
 						remove_waiting_box();
+                                                var answer=req.responseXML;
+                                                var html=answer.getElementsByTagName('code');
+                                                if ( html.length == 0 )
+                                                {
+                                                    var rec=req.responseText;
+                                                    alert ('erreur :'+rec);
+                                                }
+                                                var code_html=getNodeText(html[0]);
+                                                code_html=unescape_xml(code_html);
 						var pos = fixed_position(0, 50) + ";width:90%;left:5%;";
 						add_div({
 							id: id,
@@ -1714,10 +1723,10 @@ function view_action(ag_id,dossier,modify)
 							cssclass: "inner_box",
 							style: pos
 						});
-						$(id).innerHTML = req.responseText;
+						$(id).innerHTML = code_html;
 						compute_all_ledger();
 					} catch (e) {
-						alert(e.message);
+						alert('view_action'+e.message);
 					}
 				}
 			}

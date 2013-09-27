@@ -27,6 +27,7 @@
  *
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
+ob_start();
 require_once 'class_follow_up.php';
 echo HtmlInput::title_box(_("Détail action"), $div);
 $act = new Follow_Up($cn);
@@ -52,5 +53,17 @@ else
 	<?php 
 }
 echo HtmlInput::button_close($div);
+$response =  ob_get_clean();
+ob_end_clean();
+$html=escape_xml($response);
+header('Content-type: text/xml; charset=UTF-8');
+echo <<<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<ctl></ctl>
+<code>$html</code>
+</data>
+EOF;
+exit();
 
 ?>
