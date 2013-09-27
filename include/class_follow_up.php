@@ -87,10 +87,10 @@ class Follow_Up
 	 * \param p_cn database connection
 	 */
 
-	function __construct($p_cn)
+	function __construct($p_cn,$p_id=0)
 	{
 		$this->db = $p_cn;
-		$this->ag_id=0;
+		$this->ag_id=$p_id;
 		$this->f_id = 0;
 	}
 	static function sql_security_filter($cn,$p_mode)
@@ -117,7 +117,7 @@ class Follow_Up
 	 * \note  If  ag_id is not equal to zero then it is an update otherwise
 	 *        it is a new document
 	 *
-	 * \param $p_view if set to true the form will be in readonly mode (value: true or false)
+	 * \param $p_view form will be in readonly mode (value: READ, UPD or NEW  )
 	 * \param $p_gen true we show the tag for generating a doc (value : true or false) and adding files
 	 * \param $p_base is the ac parameter
 	 * \param $retour is the html code for the return button
@@ -508,7 +508,7 @@ class Follow_Up
                 $a_tag=$this->tag_get();
 		/* get template */
 		ob_start();
-		require_once 'template/detail-action.php';
+		require  'template/detail-action.php';
 		$content = ob_get_contents();
 		ob_end_clean();
 		$r.=$content;
@@ -1209,7 +1209,7 @@ class Follow_Up
 		 */
 		$query = Follow_Up::create_query($cn);
                 
-                echo '<form method="get" id="list_ag_frm" style="display:inline">';
+                echo '<form method="POST" id="list_ag_frm" style="display:inline">';
                 echo HtmlInput::request_to_hidden(array("gDossier","ac","sb","sc","f_id"));
                 require_once 'template/action_other_action.php';
 		echo  $act->myList($p_base, "", $query);
@@ -1501,5 +1501,88 @@ class Follow_Up
             $js=sprintf("onclick=\"action_tag_select('%s','%s')\"",dossier::id(),$this->ag_id);
             echo HtmlInput::button('tag_bt', 'Ajout tag',$js, 'smallbutton');
 
+        }
+        static function action_tag_remove($cn,$p_array)
+        {
+            global $g_user;
+            $mag_id=$p_array['mag_id'];
+            $remtag=$p_array['remtag'];
+            for ($i=0;$i< count($mag_id);$i++)
+            {
+               if ($g_user->can_write_action($mag_id[$i]) == false) continue;
+               for ($e=0;$e<count($remtag);$e++)
+               {
+                   $a=new Follow_Up($cn,$mag_id[$i]);
+                   $a->tag_remove($remtag[$e]);
+               }
+            }
+            
+        }
+        static function action_tag_add($cn,$p_array)
+        {
+            global $g_user;
+            $mag_id=$p_array['mag_id'];
+            $addtag=$p_array['addtag'];
+            for ($i=0;$i< count($mag_id);$i++)
+            {
+               if ($g_user->can_write_action($mag_id[$i]) == false) continue;
+               for ($e=0;$e<count($addtag);$e++)
+               {
+                   $a=new Follow_Up($cn,$mag_id[$i]);
+                   $a->tag_add($addtag[$e]);
+               }
+            }
+        }
+        static function action_tag_clear($cn,$p_array)
+        {
+             global $g_user;
+            $mag_id=$p_array['mag_id'];
+            for ($i=0;$i< count($mag_id);$i++)
+            {
+               if ($g_user->can_write_action($mag_id[$i]) == false) continue;
+                   $a=new Follow_Up($cn,$mag_id[$i]);
+                   $a->tag_clear();
+            }
+        }
+        static function action_print($cn,$p_array)
+        {
+            global $g_user;
+            $mag_id=$p_array['mag_id'];
+            for ($i=0;$i< count($mag_id);$i++)
+            {
+               if ($g_user->can_read_action($mag_id[$i]) == false) continue;
+               $a=new Follow_Up($cn,$mag_id[$i]);
+               $a->get();
+               echo $a->Display("READ", false, "");
+               echo '<P id="breakhere"> - - </p>';
+            }
+        }
+        function tag_clear() {
+            $this->db->exec_sql('delete from action_tags where ag_id=$1',array($this->ag_id));
+        }
+        static function action_set_state($cn,$p_array)
+        {
+            
+            global $g_user;
+            $mag_id=$p_array['mag_id'];
+            $state=$p_array['ag_state'];
+            for ($i=0;$i< count($mag_id);$i++)
+            {
+               if ($g_user->can_write_action($mag_id[$i]) == false) continue;
+               $cn->exec_sql('update action_gestion set ag_state=$1 where ag_id=$2',
+                       array($state,$mag_id[$i]));
+            }
+        }
+        static function action_remove($cn,$p_array)
+        {
+            global $g_user;
+            
+            $mag_id=$p_array['mag_id'];
+            for ($i=0;$i< count($mag_id);$i++)
+            {
+               if ($g_user->can_write_action($mag_id[$i]) == false) continue;
+               $cn->exec_sql('delete from action_gestion where ag_id=$1',
+                       array($mag_id[$i]));
+            }
         }
 }

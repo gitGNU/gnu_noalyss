@@ -43,9 +43,24 @@ echo HtmlInput::request_to_hidden(array("closed_action","remind_date_end","remin
 				<span id="remtag_choose_td">
                                 </span>
         </li>
+        <li>
+            <?php $radio->value="ETICLEAR";echo $radio->input(); ?>
+            Enlever toutes les étiquettes des documents choisis
+        </li>
+         <li>
+            <?php $radio->value="DOCREM";echo $radio->input(); ?>
+            Effacer les documents choisis
+        </li>
     </ul>
         
 <?php
     echo HtmlInput::submit("other_action_bt", "Valider");
 ?>
 </div>
+<script>
+    new Draggable('other_div',{starteffect:function(){
+                                    new Effect.Highlight(obj.id,{scroll:window,queue:'end'});
+                                  }
+                              }
+                         );
+</script>

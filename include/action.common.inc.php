@@ -41,23 +41,37 @@ $supl_hidden.=HtmlInput::hidden('ac', $_REQUEST['ac']);
 /*-----------------------------------------------------------------------------*/
 /* For other action
 /*-----------------------------------------------------------------------------*/
-if ( isset ($_GET['other_action_bt'])) {
-    var_dump($_GET);
+if ( isset ($_POST['other_action_bt'])) {
     /**
      * The action id are in the array mag_id
      * the tag to remove are vin the array remtag
      * the tag to add are in the array addtag
      * the state in ag_state
      */
-    if (  isset ($_GET['ag_id'])) {
-        switch ($_GET['othact']) {
+    if (  isset ($_POST['mag_id'])) {
+        switch ($_POST['othact']) {
             case 'IMP':
                 //Impression
+                Follow_Up::action_print($cn,$_POST);
+                exit(0);
+                break;
             case 'ST':
                 // Etat
+                Follow_Up::action_set_state($cn, $_POST);
+                break;
             case 'ETIREM':
                 //tag
+                Follow_Up::action_tag_remove($cn, $_POST);
+                break;
             case 'ETIADD':
+                Follow_Up::action_tag_add($cn, $_POST);
+                break;
+            case 'ETICLEAR':
+                Follow_Up::action_tag_clear($cn,$_POST);
+                break;
+            case 'DOCREM':
+                Follow_Up::action_remove($cn, $_POST);
+                break;
         }
     }
 }
