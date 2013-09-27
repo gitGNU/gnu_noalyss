@@ -79,16 +79,16 @@ class Tag
      * Show a button to select tag for Search
      * @return HTML
      */
-    static  function button_search()
+    static  function button_search($p_prefix)
     {
         $r="";
-        $r.=HtmlInput::button("choose_tag", "Etiquette", 'onclick="search_display_tag('.Dossier::id().')"', "smallbutton");
+        $r.=HtmlInput::button("choose_tag", "Etiquette", 'onclick="search_display_tag('.Dossier::id().',\''.$p_prefix.'\')"', "smallbutton");
         return $r;
     }
     /**
      * let select a tag to add to the search
      */
-    function select_search()
+    function select_search($p_prefix)
     {
         $ret=$this->data->seek(' order by t_tag');
         require_once 'template/tag_search_select.php';
@@ -96,11 +96,11 @@ class Tag
     /**
      * In the screen search add this data to the cell
      */
-    function update_search_cell() {
-        echo '<span id="sp_'.$this->data->t_id.'" style="border:1px solid black;margin-right:5px;">';
+    function update_search_cell($p_prefix) {
+        echo '<span id="sp_'.$p_prefix.$this->data->t_id.'" style="border:1px solid black;margin-right:5px;">';
         echo h($this->data->t_tag);
-        echo HtmlInput::hidden('tag[]', $this->data->t_id);
-        $js=sprintf("$('sp_".$this->data->t_id."').remove()='';");
+        echo HtmlInput::hidden($p_prefix.'tag[]', $this->data->t_id);
+        $js=sprintf("$('sp_".$p_prefix.$this->data->t_id."').remove();");
         echo '<span style="background-color:red;text-align:center;border-top:1px solid black; border-right:1px solid black;border-bottom:1px solid black;">';
         echo HtmlInput::anchor('X', "javascript:void(0)", "onclick=\"$js\"");
         echo '</span>';
@@ -109,8 +109,8 @@ class Tag
     /**
      * clear the search cell
      */
-    static function add_clear_button() {
-        $clear=HtmlInput::button('clear', 'X', 'onclick="search_clear_tag('.Dossier::id().');"', 'smallbutton');
+    static function add_clear_button($p_prefix) {
+        $clear=HtmlInput::button('clear', 'X', 'onclick="search_clear_tag('.Dossier::id().',\''.$p_prefix.'\');"', 'smallbutton');
         return $clear;
     }
 }

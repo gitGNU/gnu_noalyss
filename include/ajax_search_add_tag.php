@@ -24,10 +24,10 @@ require_once 'class_tag.php';
 ob_start();
 if ($_GET['clear']==1) {
     /* Add a clear button */
-    echo Tag::add_clear_button();
+    echo Tag::add_clear_button($_GET['pref']);
 }
 $tag=new Tag($cn,$_GET['id']);
-$tag->update_search_cell();
+$tag->update_search_cell($_GET['pref']);
 
 $response=  ob_get_clean();
 ob_end_clean();

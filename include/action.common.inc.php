@@ -38,7 +38,29 @@ if (isset($_REQUEST['f_id']))
 if (isset($_REQUEST['sb']))
 	$supl_hidden.=HtmlInput::hidden('sb', $_REQUEST['sb']);
 $supl_hidden.=HtmlInput::hidden('ac', $_REQUEST['ac']);
-
+/*-----------------------------------------------------------------------------*/
+/* For other action
+/*-----------------------------------------------------------------------------*/
+if ( isset ($_GET['other_action_bt'])) {
+    var_dump($_GET);
+    /**
+     * The action id are in the array mag_id
+     * the tag to remove are vin the array remtag
+     * the tag to add are in the array addtag
+     * the state in ag_state
+     */
+    if (  isset ($_GET['ag_id'])) {
+        switch ($_GET['othact']) {
+            case 'IMP':
+                //Impression
+            case 'ST':
+                // Etat
+            case 'ETIREM':
+                //tag
+            case 'ETIADD':
+        }
+    }
+}
 
 /* --------------------------------------------------------------------------- */
 /* We ask to generate the document */
@@ -188,14 +210,14 @@ if ($sub_action == 'delete')
 // Show a list of the action
 if ($sub_action == "list")
 {
-	Follow_Up::show_action_list($cn, $base);
 	// Add a button to export to Csv
-	echo '<form method="GET" ACTION="export.php">';
+	echo '<form method="GET" style="display:inline;" ACTION="export.php">';
 	echo HtmlInput::request_to_hidden(array("closed_action","remind_date_end","remind_date","sag_ref", "remind_date","only_internal", "state", "gDossier", "qcode", "start_date", "end_date", "ag_id", "ag_dest_query",
-		"tdoc",   "query","date_start","date_end","tag"));
+		"tdoc",   "query","date_start","date_end","hsstate","searchtag"));
 	echo HtmlInput::hidden("act", "CSV:ActionGestion");
 	echo HtmlInput::submit("follow_up_csv", "Export CSV");
 	echo "</form>";
+	Follow_Up::show_action_list($cn, $base);
 }
 //--------------------------------------------------------------------------------
 // Add an action

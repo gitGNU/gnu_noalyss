@@ -23,7 +23,7 @@ if ( !defined ('ALLOWED') )  die('Appel direct ne sont pas permis');
 require_once 'class_tag.php';
 ob_start();
 $tag=new Tag($cn);
-$tag->select_search();
+$tag->select_search($_GET['pref']);
 
 $response=  ob_get_clean();
 ob_end_clean();

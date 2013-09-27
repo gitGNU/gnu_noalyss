@@ -504,7 +504,7 @@ class Follow_Up
 		/* add the number of item */
 		$Hid = new IHidden();
 		$r.=$Hid->input("nb_item", MAX_ARTICLE);
-		$r.=HtmlInput::request_to_hidden(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate","tag"));
+		$r.=HtmlInput::request_to_hidden(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate","searchtag"));
                 $a_tag=$this->tag_get();
 		/* get template */
 		ob_start();
@@ -663,18 +663,19 @@ class Follow_Up
 		$this->insert_action();
 	}
 
-	/** myList($p_filter="")
-	 * \brief Show list of action by default if sorted on date
-	 * \param $p_base base url with ac...
-	 * \param $p_filter filters on the document_type
-	 * \param $p_search must a valid sql command ( ex 'and  ag_title like upper('%hjkh%'))
-	 * \return string containing html code
+	/** 
+	 * myList($p_base, $p_filter = "", $p_search = "") 
+         * Show list of action by default if sorted on date
+	 * @param $p_base base url with ac...
+	 * @param $p_filter filters on the document_type
+	 * @param $p_search must a valid sql command ( ex 'and  ag_title like upper('%hjkh%'))
+	 * @return string containing html code
 	 */
 
 	function myList($p_base, $p_filter = "", $p_search = "")
 	{
 		// for the sort
-		$url = HtmlInput::get_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate","tag")) . '&' . $p_base;
+		$url = HtmlInput::get_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate","searchtag")) . '&' . $p_base;
 
 		$table = new Sort_Table();
 		$table->add('Date Doc.', $url, 'order by ag_timestamp asc', 'order by ag_timestamp desc', 'da', 'dd');
@@ -725,6 +726,7 @@ class Follow_Up
 		$r.=$bar;
 		$r.='<table class="document">';
 		$r.="<tr>";
+                $r.='<th name="ag_id_td" style="display:none" >'. ICheckBox::toggle_checkbox('ag','list_ag_frm').'</th>';
 		$r.='<th>' . $table->get_header(0) . '</th>';
 		$r.='<th>' . $table->get_header(1) . '</th>';
 		$r.='<th>' . $table->get_header(2) . '</th>';
@@ -747,10 +749,11 @@ class Follow_Up
 		}
 		$today = date('d.m.Y');
 		$i = 0;
+                $checkbox=new ICheckBox("mag_id[]");
 		//show the sub_action
 		foreach ($a_row as $row)
 		{
-			$href = '<A class="document" HREF="do.php?'  . $p_base .HtmlInput::get_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate", "tag","ac"),"&") . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
+			$href = '<A class="document" HREF="do.php?'  . $p_base .HtmlInput::get_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate", "searchtag","ac"),"&") . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
 			$i++;
 			$tr = ($i % 2 == 0) ? 'even' : 'odd';
 			if ($row['ag_priority'] < 2)
@@ -765,6 +768,8 @@ class Follow_Up
 			if ($date_remind != "" && $date_remind < $date_today && $row['ag_state']!=1 && $row['ag_state']!=3)
 				$st = ' style="font-weight:bold;background:#FF0000"';
 			$r.="<tr class=\"$tr\" $st>";
+                        $checkbox->value=$row['ag_id'];
+                        $r.='<td name="ag_id_td" style="display:none">'.$checkbox->input().'</td>';
 			$r.="<td>" . $href . smaller_date($row['my_date']) . '</a>' . "</td>";
 			$r.="<td>" . $href . $row['last_comment'] . '</a>' . "</td>";
 			$r.="<td>" . $href . smaller_date($row['my_remind']) . '</a>' . "</td>";
@@ -1189,7 +1194,7 @@ class Follow_Up
 		require_once 'template/action_search.php';
 	}
         /**
-        *@brief show a list of actions
+        *@brief show a list of documents
         * @param $cn database connextion
         * @param $p_base base URL
         */
@@ -1203,11 +1208,12 @@ class Follow_Up
 		 *  \note The field 'recherche' is   about a part of the title or a ref. number
 		 */
 		$query = Follow_Up::create_query($cn);
-
-
-
-		$r = $act->myList($p_base, "", $query);
-		echo $r;
+                
+                echo '<form method="get" id="list_ag_frm" style="display:inline">';
+                echo HtmlInput::request_to_hidden(array("gDossier","ac","sb","sc","f_id"));
+                require_once 'template/action_other_action.php';
+		echo  $act->myList($p_base, "", $query);
+                echo '</form>';
 	}
         /**
          * Create a subquery to filter thanks the selected tag
@@ -1222,10 +1228,10 @@ class Follow_Up
 
             extract($p_array);
             $query = ""; 
-            if ( count($tag) == 0 )return "";
-            for ($i=0;$i<count($tag);$i++) {
-                if (isNumber($tag[$i])==1)
-                    $query .= ' and ag_id in (select ag_id from action_tags where t_id= '.  sql_string($tag[$i]).')';
+            if ( count($searchtag) == 0 )return "";
+            for ($i=0;$i<count($searchtag);$i++) {
+                if (isNumber($searchtag[$i])==1)
+                    $query .= ' and ag_id in (select ag_id from action_tags where t_id= '.  sql_string($searchtag[$i]).')';
             }
             return $query;
         }
@@ -1323,7 +1329,7 @@ class Follow_Up
 		if ( ! isset ($closed_action)) {
 			$query.=" and s_status is null ";
 		}
-                if ( isset ($tag)) {
+                if ( isset ($searchtag)) {
                     $query .= Follow_Up::filter_by_tag($cn,$p_array);
                 }
 		return $query . $str;
@@ -1407,7 +1413,7 @@ class Follow_Up
 				array("title"=>"doc id","type"=>"string"),
 				array("title"=>"date","type"=>"date"),
 				array("title"=>"rappel","type"=>"date"),
-				array("title"=>"dernier comm.","type"=>"date"),
+				array("title"=>"date dernier commentaire","type"=>"date"),
 				array("title"=>"tags","type"=>"string"),
 				array("title"=>"nom","type"=>"string"),
 				array("title"=>"titre","type"=>"string"),

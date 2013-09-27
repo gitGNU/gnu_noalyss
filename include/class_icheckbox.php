@@ -64,6 +64,11 @@ class ICheckBox extends HtmlInput
         {
         if ($this->value==$p_value)$this->selected=true;
         }
+    static function toggle_checkbox($p_name,$p_form) {
+            $a=new ICheckBox($p_name);
+            $a->javascript='onclick="toggle_checkbox(\''.$p_form.'\')"';
+            return $a->input();
+        }
     static public function test_me()
     {
     }

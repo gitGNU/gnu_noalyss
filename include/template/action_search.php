@@ -31,7 +31,7 @@
 	<?php echo HtmlInput::anchor_hide('Fermer', "$('search_action').style.display='none';");?>
 <?php endif; ?>
 <?php if ( $inner ) : ?>
-<div id="search_action" class="op_detail_frame">
+<div id="search_action" class="">
 	<?php echo HtmlInput::anchor_hide('Fermer', "removeDiv('search_action_div');");?>
 
 	<?php endif; ?>
@@ -65,14 +65,14 @@
 			</tr>
                         <tr>
 			<td style="width:180px;text-align:right"><?php echo _('Etiquette'); ?></td>
-				<td id="tag_choose_td">
-                                    <?php echo Tag::button_search(); ?>
+				<td id="searchtag_choose_td">
+                                    <?php echo Tag::button_search('search'); ?>
                                     <?php
-                                        if ( isset($_GET['tag'])) {
-                                            echo Tag::add_clear_button();
-                                            for ($i=0;$i<count($_GET['tag']);$i++) {
-                                                $t=new Tag($cn, $_GET['tag'][$i]);
-                                                echo $t->update_search_cell();
+                                        if ( isset($_GET['searchtag'])) {
+                                            echo Tag::add_clear_button('search');
+                                            for ($i=0;$i<count($_GET['searchtag']);$i++) {
+                                                $t=new Tag($cn, $_GET['searchtag'][$i]);
+                                                echo $t->update_search_cell('search');
                                             }
                                         }
                                     ?>

@@ -22,7 +22,7 @@ if ( !defined ('ALLOWED') )  die('Appel direct ne sont pas permis');
 
 require_once 'class_tag.php';
 ob_start();
-echo Tag::button_search();
+echo Tag::button_search($_GET['pref']);
 $response=  ob_get_clean();
 ob_end_clean();
 $html=escape_xml($response);

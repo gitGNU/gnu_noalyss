@@ -27,9 +27,9 @@
  *
  */
 ?>
-<div class="content" >
-	<div>
-		<form  method="get" action="do.php">
+<div class="content" style="display:inline" >
+	<div style="display:inline">
+		<form  method="get" style="display:inline" action="do.php">
 			<?php echo dossier::hidden();
 			?>
 			<input type="submit" class="button" name="submit_query" value="<?php echo  _("Ajout Action")?>">

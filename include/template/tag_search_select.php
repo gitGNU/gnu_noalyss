@@ -1,12 +1,12 @@
 <?php
-echo HtmlInput::title_box('Tag', 'tag_div');
+echo HtmlInput::title_box('Tag', $p_prefix.'tag_div');
 $max=$this->cn->count($ret);
 if ( $max == 0 ) {
     echo h2("Aucune étiquette disponible",' class="notice"');
     return;
 }
 ?>
-Filtrer = <?php echo HtmlInput::filter_table('tag_tb_id', '0,1', 1); ?>
+Filtrer = <?php echo HtmlInput::filter_table($p_prefix.'tag_tb_id', '0,1', 1); ?>
 <table id="tag_tb_id">
     <tr>
         <th>
@@ -24,7 +24,7 @@ $gDossier=Dossier::id();
     <tr class="<?php echo (($i%2==0)?'even':'odd');?>">
         <td>
             <?php
-            $js=sprintf("search_add_tag('%s','%s')",$gDossier,$row['t_id']);
+            $js=sprintf("search_add_tag('%s','%s','%s')",$gDossier,$row['t_id'],$p_prefix);
             echo HtmlInput::anchor($row['t_tag'], "", "onclick=\"$js\"");
             ?>
         </td>
