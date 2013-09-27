@@ -145,9 +145,11 @@ class ITva_Popup extends HtmlInput
     /*!\brief print in html the readonly value of the widget*/
     public function display()
     {
-        $r='<input text name="%s" value="%s" id="%s" disabled>';
-
-		$res=sprintf($r,$this->name,$this->value,$this->name);
+        $cn=  new Database(Dossier::id());
+        $tva=new Acc_Tva($cn, $this->value);
+        
+        $comment=($tva->load()  != "-1")? $tva->tva_label:"";
+	$res=sprintf('<input type="text" name="%s" size="6" class="input_text_ro" value="%s" id="%s" readonly="">%s',$this->name,$this->value,$this->name,$comment);
         return $res;
     }
     /**
