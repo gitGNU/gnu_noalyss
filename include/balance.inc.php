@@ -325,23 +325,23 @@ if ( isset($_GET['view'] ) )
 	    if ( ${'lvl'.$ind.'_old'} != mb_substr($r['poste'],0,$ind))
 	      {
 
-		echo '<tr style="font-size:12px;font-height:bold">';
-		echo td("Total niveau ".$ind);
-		echo td(${'lvl'.$ind.'_old'});
+		echo '<tr >';
+		echo td("Total niveau ".$ind,'style="font-weight:bold;"');
+		echo td(${'lvl'.$ind.'_old'},'style="font-weight:bold;"');
                 if ($previous==1) {
-                    echo td(nbm(${'lvl'.$ind}['sum_deb_previous']),'style="text-align:right"');
-                    echo td(nbm(${'lvl'.$ind}['sum_cred_previous']),'style="text-align:right"');
-                    echo td(nbm(${'lvl'.$ind}['solde_deb_previous']),'style="text-align:right"');
-                    echo td(nbm(${'lvl'.$ind}['solde_cred_previous']),'style="text-align:right"');
+                    echo td(nbm(${'lvl'.$ind}['sum_deb_previous']),'style="text-align:right;font-weight:bold;"');
+                    echo td(nbm(${'lvl'.$ind}['sum_cred_previous']),'style="text-align:right;font-weight:bold;"');
+                    echo td(nbm(${'lvl'.$ind}['solde_deb_previous']),'style="text-align:right;font-weight:bold;"');
+                    echo td(nbm(${'lvl'.$ind}['solde_cred_previous']),'style="text-align:right;font-weight:bold;"');
                 }
-		echo td(nbm(${'lvl'.$ind}['sum_deb']),'style="text-align:right"');
-		echo td(nbm(${'lvl'.$ind}['sum_cred']),'style="text-align:right"');
-		echo td(nbm(${'lvl'.$ind}['solde_deb']),'style="text-align:right"');
-		echo td(nbm(${'lvl'.$ind}['solde_cred']),'style="text-align:right"');
+		echo td(nbm(${'lvl'.$ind}['sum_deb']),'style="text-align:right;font-weight:bold;"');
+		echo td(nbm(${'lvl'.$ind}['sum_cred']),'style="text-align:right;font-weight:bold;"');
+		echo td(nbm(${'lvl'.$ind}['solde_deb']),'style="text-align:right;font-weight:bold;"');
+		echo td(nbm(${'lvl'.$ind}['solde_cred']),'style="text-align:right;font-weight:bold;"');
 
 		echo '</tr>';
 		${'lvl'.$ind.'_old'}=mb_substr($r['poste'],0,$ind);
-		foreach(array('sum_cred','sum_deb','solde_deb','solde_cred') as $a)
+		foreach($a_sum as $a)
 		  {
 		    ${'lvl'.$ind}[$a]=0;
 		  }
@@ -358,15 +358,15 @@ if ( isset($_GET['view'] ) )
         echo td($view_history);
         echo td(h($r['label']));
         if ($previous == 1 ) {
-            echo td(nbm($r['sum_deb_previous']),'style="text-align:right"');
-            echo td(nbm($r['sum_cred_previous']),'style="text-align:right"');
-            echo td(nbm($r['solde_deb_previous']),'style="text-align:right"');
-            echo td(nbm($r['solde_cred_previous']),'style="text-align:right"');
+            echo td(nbm($r['sum_deb_previous']),'style="text-align:right;"');
+            echo td(nbm($r['sum_cred_previous']),'style="text-align:right;"');
+            echo td(nbm($r['solde_deb_previous']),'style="text-align:right;"');
+            echo td(nbm($r['solde_cred_previous']),'style="text-align:right;"');
         }
-        echo td(nbm($r['sum_deb']),'style="text-align:right"');
-	echo td(nbm($r['sum_cred']),'style="text-align:right"');
-	echo td(nbm($r['solde_deb']),'style="text-align:right"');
-	echo td(nbm($r['solde_cred']),'style="text-align:right"');
+        echo td(nbm($r['sum_deb']),'style="text-align:right;"');
+	echo td(nbm($r['sum_cred']),'style="text-align:right;"');
+	echo td(nbm($r['solde_deb']),'style="text-align:right;"');
+	echo td(nbm($r['solde_cred']),'style="text-align:right;"');
         echo '</TR>';
 
     }
