@@ -414,7 +414,9 @@ class Follow_Up
 		$itva->in_table = true;
 		$aCard=array();
 		/* create aArticle for the detail section */
-		for ($i = 0; $i < MAX_ARTICLE; $i++)
+                $article_count=(count($this->aAction_detail)==0)?MAX_ARTICLE:count($this->aAction_detail);
+                
+		for ($i = 0; $i < $article_count; $i++)
 		{
 			/* fid = Icard  */
 			$icard = new ICard();
@@ -450,6 +452,7 @@ class Follow_Up
 			$aArticle[$i]['fid'] = $icard->search() . $icard->input();
 
 			$text->javascript = ' onchange="clean_tva(' . $i . ');compute_ledger(' . $i . ')"';
+                        $text->css_size="100%";
 			$text->name = "e_march" . $i . "_label";
 			$text->id = "e_march" . $i . "_label";
 			$text->size = 40;
@@ -503,7 +506,7 @@ class Follow_Up
 
 		/* add the number of item */
 		$Hid = new IHidden();
-		$r.=$Hid->input("nb_item", MAX_ARTICLE);
+		$r.=$Hid->input("nb_item", $article_count);
 		$r.=HtmlInput::request_to_hidden(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate","searchtag"));
                 $a_tag=$this->tag_get();
 		/* get template */
@@ -641,7 +644,7 @@ class Follow_Up
 		);
 
 		/* insert also the details */
-		for ($i = 0; $i < MAX_ARTICLE; $i++)
+		for ($i = 0; $i < $_POST['nb_item']; $i++)
 		{
 			$act = new Follow_Up_Detail($this->db);
 			$act->from_array($_POST, $i);
@@ -935,7 +938,7 @@ class Follow_Up
 		$doc->Upload($this->ag_id);
 
 		/* save action details */
-		for ($i = 0; $i < MAX_ARTICLE; $i++)
+		for ($i = 0; $i < $_POST['nb_item']; $i++)
 		{
 			$act = new Follow_Up_Detail($this->db);
 			$act->from_array($_POST, $i);

@@ -199,7 +199,7 @@
 		<?php if ( $p_view != 'READ') echo '<span class="noprint">'.$iaction->input().'</span>';?>
 	</div>
 </fieldset>
-<div style="margin-left:15px;margin-right: 15px">
+<div class="myfieldset">
   <h1 class="legend">
 	    <?php echo _('Description')?>
   </h1>
@@ -294,8 +294,8 @@ for ($i=0;$i<count($aArticle);$i++) :
 	if ( ($aCard[$i] != 0 && $p_view == 'READ') || $p_view != 'READ'){ $show_row=1;}
 endfor;
 ?>
-
-<table id="art" >
+    <div>
+<table style="width:100%" id="art" >
 <tr>
   <th><?php echo _('Fiche')?></th>
   <th><?php echo _('Description')?></th>
@@ -323,7 +323,7 @@ if ( ($aCard[$i] != 0 && $p_view == 'READ') || $p_view != 'READ'):
 <?php endif; ?>
 <?php endfor; ?>
 </table>
-
+    </div>
 <script language="JavaScript">
 if ( $('e_march0') && $('e_march0').value =='') { toggleShowDetail();}
 function toggleShowDetail() {
@@ -336,20 +336,22 @@ function toggleShowDetail() {
 
 </script>
 <?php if ( $show_row != 0 ): ?>
-<div style="float: left; text-align: right; padding-right: 5px; font-size: 1.2em; font-weight: bold; color: blue;">
-  <input name="act" id="act" class="button" value="<?php echo _('Actualiser')?>" onclick="compute_all_ledger();" type="button">
-
+<div style="float: right; text-align: right; padding-right: 5px; font-size: 1.2em; font-weight: bold; color: blue;">
+  
     <div style="float: right; text-align: left; font-size: 1.2em; font-weight: bold; color: blue;" id="sum">
-    <br><span id="htva">0.0</span>
-     <br><span id="tva">0.0</span>
-    <br><span id="tvac">0.0</span>
+    <br><span style="text-align: right" id="htva">0.0</span>
+     <br><span style="text-align: right"  id="tva">0.0</span>
+    <br><span style="text-align: right" id="tvac">0.0</span>
  </div>
 
-<div style="float: left; text-align: right; padding-right: 5px; font-size: 1.2em; font-weight: bold; color: blue;">
+<div style="float: right; text-align: right; padding-right: 5px; font-size: 1.2em; font-weight: bold; color: blue;">
     <br>Total HTVA
     <br>Total TVA
     <br>Total TVAC
  </div>
+<div>
+    <input name="act" id="act_bt" class="button" value="<?php echo _('Actualiser')?>" onclick="compute_all_ledger();" type="button">
+  <input type="button" class="button" onclick="gestion_add_row()" value="Ajouter une ligne">
 </div>
 <?php endif; ?>
 </fieldset>
@@ -417,4 +419,5 @@ catch(exception) { alert('<?php echo j(_('Je ne peux pas ajouter de fichier'))?>
   </div>
  <?php endif;?>
 </fieldset>
+</div>
 <script>compute_all_ledger()</script>

@@ -1552,11 +1552,14 @@ class Fiche
         $step_tiers=$this->GetAll($offset,$search.$filter_amount,'name');
 
         if ( $all_tiers == 0 || count($step_tiers)==0 ) return "";
-        $r=$bar;
-        $r.='<table  class="result" style="width:90%;margin-left:5%">
+        $r="";
+        $r.="Filtre rapide ".HtmlInput::filter_table("tiers_tb", '0,1', 1);
+        $r.=$bar;
+        
+        $r.='<table  id="tiers_tb" class="sortable"  style="width:90%;margin-left:5%">
             <TR >
-            <TH>'._('Quick Code').'</TH>
-            <th>'._('Nom').'</th>
+            <TH>'._('Quick Code').HtmlInput::infobulle(17).'</TH>
+            <th  class="sorttable_sorted_reverse">'._('Nom').'<span id="sorttable_sortrevind">&nbsp;&blacktriangle;</span>'.'</th>
             <th>'._('Adresse').'</th>
             <th style="text-align:right">'._('Total débit').'</th>
             <th style="text-align:right">'._('Total crédit').'</th>
@@ -1589,19 +1592,22 @@ class Fiche
                          " ".$tiers->strAttribut(ATTR_DEF_CP).
                          " ".$tiers->strAttribut(ATTR_DEF_PAYS)).
                 "</TD>";
-
-            $r.='<TD align="right"> '.(($amount['debit']==0)?0:nbm($amount['debit'])).'</TD>';
-			$r.='<TD align="right"> '.(($amount['credit']==0)?0:nbm($amount['credit'])).'</TD>';
-			$r.='<TD align="right"> '.nbm($amount['solde'])."</TD>";
-			$deb=bcadd($deb,$amount['debit']);
-			$cred=bcadd($cred,$amount['credit']);
+            $deb=(($amount['debit']==0)?0:nbm($amount['debit']));
+            $cred=(($amount['credit']==0)?0:nbm($amount['credit']));
+            $solde=nbm($amount['solde']);
+            $r.='<TD sorttable_customkey="'.$amount['debit'].'" align="right"> '.$deb.'</TD>';
+            $r.='<TD sorttable_customkey="'.$amount['credit'].'" align="right"> '.$cred.'</TD>';
+            $r.='<TD sorttable_customkey="'.$amount['solde'].'" align="right"> '.$solde."</TD>";
+            $deb=bcadd($deb,$amount['debit']);
+            $cred=bcadd($cred,$amount['credit']);
 
             $r.="</TR>";
 
         }
-		$r.="<tr>";
+		$r.="<tfoot>";
 		$solde=bcsub($deb,$cred);
 		$r.=td("").td("").td("Totaux").td(nbm($deb),'class="num"').td(nbm($cred),'class="num"').td(nbm($solde),'class="num"');
+		$r.="</tfoot>";
         $r.="</TABLE>";
         $r.=$bar;
         return $r;
