@@ -357,7 +357,7 @@ function ledger_add_row()
     g("e_march"+nb.value+"_price").value='0';
     g("e_march"+nb.value).value="";
     g("e_quant"+nb.value).value="1";
-	 if ($("e_march"+nb.value+"_tva_amount")) g("e_march"+nb.value+"_tva_amount").value=0;
+    if ($("e_march"+nb.value+"_tva_amount")) g("e_march"+nb.value+"_tva_amount").value=0;
 
     nb.value++;
 
@@ -1024,5 +1024,47 @@ function show_reconcile(p_div,p_let)
 		alert(e.message);
 	}
 
+
+}
+/**
+ * @brief add a line in the form for the purchase ledger
+ */
+function gestion_add_row()
+{
+    try {
+        style = 'class="input_text"';
+        var mytable = g("art").tBodies[0];
+        var ofirstRow = mytable.rows[1];
+        var line = mytable.rows.length;
+        var nCell = mytable.rows[1].cells.length;
+        var row = mytable.insertRow(line);
+        var nb = g("nb_item");
+        for (var e = 0; e < nCell; e++)
+        {
+            var newCell = row.insertCell(e);
+            var tt = ofirstRow.cells[e].innerHTML;
+            var new_tt = tt.replace(/march0/g, "march" + nb.value);
+            new_tt = new_tt.replace(/quant0/g, "quant" + nb.value);
+            new_tt = new_tt.replace(/sold\(0\)/g, "sold(" + nb.value + ")");
+            new_tt = new_tt.replace(/compute_ledger\(0\)/g, "compute_ledger(" + nb.value + ")");
+            new_tt = new_tt.replace(/clean_tva\(0\)/g, "clean_tva(" + nb.value + ")");
+            newCell.innerHTML = new_tt;
+            new_tt.evalScripts();
+        }
+
+        g("e_march" + nb.value + "_label").innerHTML = '&nbsp;';
+        g("e_march" + nb.value + "_label").value = '';
+        g("e_march" + nb.value + "_price").value = '0';
+        g("e_march" + nb.value).value = "";
+        g("e_quant" + nb.value).value = "1";
+        if ($("e_march" + nb.value + "_tva_amount"))
+            g("e_march" + nb.value + "_tva_amount").value = 0;
+
+        nb.value++;
+
+        new_tt.evalScripts();
+    } catch (e) {
+        alert(e.message);
+    }
 
 }
