@@ -319,7 +319,7 @@ case 'sc':
      *----------------------------------------------------------------------*/
 case 'fs':
     require_once('class_acc_ledger.php');
-    $r=HtmlInput::title_box("Détail fiche", $ctl);
+    $r=HtmlInput::title_box("Détail fiche", 'search_card');
     $r.='<form method="GET" onsubmit="this.ctl=\'ipop_card\';search_get_card(this);return false;">';
     $q=new IText('query');
     $q->value=(isset($query))?$query:'';
