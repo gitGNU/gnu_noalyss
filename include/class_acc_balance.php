@@ -159,7 +159,7 @@ class Acc_Balance
                                                                 ,coalesce(m.sdeb,0) as sum_deb
                                                                 , coalesce(m.scred,0) as sum_cred 
                                                                 ,coalesce(p.sdeb,0) as sum_deb_previous
-                                                                , coalesce(p.scred,0) as sum_cred_previous from m join p on (p.j_poste=m.j_poste)
+                                                                , coalesce(p.scred,0) as sum_cred_previous from m full join p on (p.j_poste=m.j_poste)
                                              order by poste";
                        
                  } catch (Exception $exc) {
