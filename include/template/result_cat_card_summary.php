@@ -1,10 +1,22 @@
 <div class="content">
-<table >
+Filtre rapide :    
+    <?php
+    $col="";$sp="";
+    for ($e=0;$e<count($aHeading);$e++) {$col.=$e.$sp; $sp=",";}
+    echo HtmlInput::filter_table("fiche_tb_id", $col, '1'); 
+    ?>
+<table id="fiche_tb_id" class="sortable">
 <tr>
 <?php 
    echo th('Détail');
 for ($i=0;$i<count($aHeading);$i++) :
-   echo th($aHeading[$i]->ad_text,'style="color:blue;padding: 0 5 1 10"');
+    $span="";$sort="";
+   if ($i==0)
+   {
+       $span='<span id="sorttable_sortfwdind">&nbsp;&nbsp;&#x25BE;</span>';
+       $sort= 'class="sorttable_sorted"';
+   }
+   echo '<th style="color:blue;padding: 0 5 1 10" '.$sort.'>'.$aHeading[$i]->ad_text.$span.'</th>';
    endfor;
 ?>
 </tr>
@@ -22,8 +34,14 @@ foreach ($array as $row ) :
 $detail=HtmlInput::card_detail($fiche->strAttribut(ATTR_DEF_QUICKCODE));
 echo td($detail);
  foreach($fiche->attribut as $attr) :
+         $sort="";
+         
 	 if ( $attr->ad_type != 'select'):
-			echo td($attr->av_text,'style="padding: 0 10 1 10;white-space:nowrap;"');
+                if ($attr->ad_type=="date") :
+                    // format YYYYMMDD
+                    $sort='sorttable_customkey="'.format_date($attr->av_text, "DD.MM.YYYY", "YYYYMMDD").'"'; 
+                endif;
+        	echo td($attr->av_text,'style="padding: 0 10 1 10;white-space:nowrap;" '.$sort);
 	 else:
 		$value=$cn->make_array($attr->ad_extra);
 		for ($e=0;$e<count($value);$e++):
