@@ -39,13 +39,7 @@ echo HtmlInput::request_to_hidden(array('ac'));
 echo $ledger->confirm($_POST,false);
 
 echo '<hr>';
-$chk=new ICheckBox();
-$chk->selected=false;
-echo $chk->input('opd_save');
-echo "Sauvez cette op&eacute;ration comme modèle d'opération ?";
-echo '<br/>';
-$opd_name=new IText('opd_name');
-echo "Nom du modèle ".$opd_name->input();
+echo Pre_operation::save_propose();
 echo '<hr>';
 echo HtmlInput::submit("save","Confirmer");
 echo HtmlInput::submit("correct","Corriger");

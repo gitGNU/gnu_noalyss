@@ -47,17 +47,38 @@ class Pre_operation
         $this->od_direct='false';
         $this->od_id=$p_id;
     }
+    /**
+     * @brief Propose to save the operation into a predefined operation
+     * @return HTML  string
+     */
+    static function save_propose() {
+        $r="<h2>Modèle d'opération</h2>";
+        $r.= '<p class="decale">';
+        $r.= "Donnez un nom pour sauver cette opération comme modèle <br>";
+        $opd_name = new IText('opd_name');
+        $r.= "Nom du modèle " . $opd_name->input();
+        $opd_description=new ITextarea('od_description');
+        $opd_description->style=' class="itextarea" style="width:30em;height:4em;vertical-align:top"';
+        $r.='</p>';
+        $r.= '<p class="decale">';
+        $r.= 'Description (max 50 car.)';   
+        $r.='<br>';
+        $r.=$opd_description->input();
+        $r.='</p>';
+        return $r;
+    }
+
     /*!\brief fill the object with the $_POST variable */
     function get_post()
     {
         $this->nb_item=$_POST['nb_item'];
         $this->p_jrn=$_REQUEST['p_jrn'];
         $this->jrn_type=$_POST['jrn_type'];
-
+        
 	$this->name=$_POST['opd_name'];
 
         $this->name=(trim($this->name)=='')?$_POST['e_comm']:$this->name;
-
+        $this->description=  $_POST['od_description'];
         if ( $this->name=="")
         {
             $n=$this->db->get_next_seq('op_def_op_seq');
@@ -89,15 +110,16 @@ class Pre_operation
             echo '<span class="notice">Vous avez atteint le max. d\'op&eacute;ration pr&eacute;d&eacute;finie, d&eacute;sol&eacute;</span>';
             return false;
         }
-        $sql=sprintf('insert into op_predef (jrn_def_id,od_name,od_item,od_jrn_type,od_direct)'.
+        $sql='insert into op_predef (jrn_def_id,od_name,od_item,od_jrn_type,od_direct,od_description)'.
                      'values'.
-                     "(%d,'%s',%d,'%s','%s')",
-                     $this->p_jrn,
-                     Database::escape_string($this->name),
+                     "($1,$2,$3,$4,$5  ,$6               )";
+        $this->db->exec_sql($sql,array($this->p_jrn,
+                     $this->name,
                      $this->nb_item,
                      $this->jrn_type,
-                     $this->od_direct);
-        $this->db->exec_sql($sql);
+                     $this->od_direct,
+                     $this->description,
+            ));
         $this->od_id=$this->db->get_current_seq('op_def_op_seq');
         return true;
     }
@@ -106,12 +128,12 @@ class Pre_operation
      */
     function load()
     {
-        $sql="select od_id,jrn_def_id,od_name,od_item,od_jrn_type".
+        $sql="select od_id,jrn_def_id,od_name,od_item,od_jrn_type,od_description".
              " from op_predef where od_id=".$this->od_id.
              " order by od_name";
         $res=$this->db->exec_sql($sql);
         $array=Database::fetch_all($res);
-        foreach (array('jrn_def_id','od_name','od_item','od_jrn_type') as $field) {
+        foreach (array('jrn_def_id','od_name','od_item','od_jrn_type','od_description') as $field) {
             $this->$field=$array[0][$field];
         }
         switch ($this->od_jrn_type) {
@@ -139,7 +161,8 @@ class Pre_operation
                    "e_comm"=>$p_array[0]["od_name"],
                    "nb_item"=>(($p_array[0]["od_item"]<10?10:$p_array[0]["od_item"]))   ,
                    "p_jrn"=>$p_array[0]["jrn_def_id"],
-                   "jrn_type"=>$p_array[0]["od_jrn_type"]
+                   "jrn_type"=>$p_array[0]["od_jrn_type"],
+                   "od_description"=>$p_array['0']['od_description']
                );
         return $array;
 
@@ -175,7 +198,7 @@ class Pre_operation
      */
     function get_list_ledger()
     {
-        $sql="select od_id,od_name from op_predef ".
+        $sql="select od_id,od_name,od_description from op_predef ".
              " where jrn_def_id=".$this->p_jrn.
              " and od_direct ='".$this->od_direct."'".
              " order by od_name";
@@ -246,7 +269,15 @@ class Pre_operation_detail
     /*!\brief show the button for selecting a predefined operation */
     function show_button($p_url)
     {
-        $value=$this->get_operation();
+        
+        
+        $value=$this->db->get_array("select od_id,od_name,od_description from op_predef ".
+                                     " where jrn_def_id=$1".
+                                     " and od_direct =$2".
+                                     " order by od_name",array($this->jrn_def_id,$this->od_direct ));
+        
+        if ( $this->jrn_def_id=='') $value=array();
+        
         $r="";
         $r.='<h2>Choississez un modèle</h2>';
         $r.='Filtrer '.HtmlInput::filter_table('modele_op_tab', '0', '0');
@@ -254,8 +285,9 @@ class Pre_operation_detail
         for ($i=0;$i<count($value);$i++) {
             $r.='<tr class="'.(($i%2==0)?"even":"odd").'">';
             $r.='<td>';
-            $r.=sprintf('<a href="%s&pre_def=%s" onclick="waiting_box()">%s</a>',$p_url,$value[$i]['value'],$value[$i]['label']);
+            $r.=sprintf('<a href="%s&pre_def=%s" onclick="waiting_box()">%s</a> ',$p_url,$value[$i]['od_id'],$value[$i]['od_name']);
             $r.='</td>';
+            $r.='<td>'.h($value[$i]['od_description']).'</td>';
             $r.='</tr>';
         }
         $r.='</table>';

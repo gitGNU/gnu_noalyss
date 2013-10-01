@@ -128,7 +128,9 @@ class Pre_op_ach extends Pre_operation_detail
         }
         return $array;
     }
-    /*!\brief load the data from the database and return an array
+    /**
+     * @brief 
+     * load the data from the database and return an array
      * \return an array
      */
     function load()
@@ -146,7 +148,7 @@ class Pre_op_ach extends Pre_operation_detail
     }
    function display($p_array)
    {
-	   require_once('class_acc_ledger_purchase.php');
+        require_once('class_acc_ledger_purchase.php');
        global $g_parameter,$g_user;
        extract($p_array);
        $ledger=new Acc_Ledger_Purchase($this->db,$this->jrn_def_id);

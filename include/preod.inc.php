@@ -88,6 +88,7 @@ if ( $sa == 'jrn' )
       $count++;
 
         echo '<td>'.h($row['od_name']).'</td>';
+        echo '<td>'.h($row['od_description']).'</td>';
         echo '<td>';
 	echo '<form method="POST" style="margin:0;padding:0">';
         echo dossier::hidden();

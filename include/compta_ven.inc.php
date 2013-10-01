@@ -81,12 +81,7 @@ global $g_parameter;
 			echo HtmlInput::hidden('ac',$_REQUEST['ac']);
 	    echo '<div style="clear:both">';
             
-            echo "<h2>Modèle d'opération</h2>";
-            echo '<p class="decale">';
-            echo "Donnez un nom pour sauver cette opération comme modèle <br>";
-	    $opd_name=new IText('opd_name');
-	    echo "Nom du modèle ".$opd_name->input();
-            echo '</p>';
+            echo Pre_operation::save_propose();
 	    echo '</div>';
 	    echo HtmlInput::hidden('ac',$_REQUEST['ac']);
             echo HtmlInput::submit("record",_("Enregistrement"),'onClick="return verify_ca(\'\');"');
