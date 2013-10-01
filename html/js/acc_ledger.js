@@ -1049,6 +1049,9 @@ function gestion_add_row()
             new_tt = new_tt.replace(/compute_ledger\(0\)/g, "compute_ledger(" + nb.value + ")");
             new_tt = new_tt.replace(/clean_tva\(0\)/g, "clean_tva(" + nb.value + ")");
             newCell.innerHTML = new_tt;
+            if ( mytable.rows[1].cells[e].hasClassName("num") ) {
+                newCell.addClassName("num");
+            }
             new_tt.evalScripts();
         }
 
@@ -1057,6 +1060,7 @@ function gestion_add_row()
         g("e_march" + nb.value + "_price").value = '0';
         g("e_march" + nb.value).value = "";
         g("e_quant" + nb.value).value = "1";
+        g('tvac_march'+nb.value).value="0";
         if ($("e_march" + nb.value + "_tva_amount"))
             g("e_march" + nb.value + "_tva_amount").value = 0;
 
