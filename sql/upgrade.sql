@@ -261,3 +261,18 @@ $BODY$
 $BODY$
   LANGUAGE plpgsql VOLATILE
 
+create or replace function comptaproc.opd_limit_description() 
+returns trigger
+as
+$BEGIN$
+	declare
+		sDescription text;
+	begin
+	sDescription := NEW.od_description;
+	NEW.od_description := substr(sDescription,1,80);
+	return NEW;
+	end;
+$BEGIN$
+LANGUAGE plpgsql;
+
+create trigger opd_limit_description before update or insert on op_predef execute procedure for each row comptaproc.opd_limit_description();
