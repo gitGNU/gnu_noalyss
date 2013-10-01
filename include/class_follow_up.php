@@ -92,6 +92,7 @@ class Follow_Up
 		$this->db = $p_cn;
 		$this->ag_id=$p_id;
 		$this->f_id = 0;
+                $this->aAction_detail=array();
 	}
 	static function sql_security_filter($cn,$p_mode)
 	{
