@@ -350,8 +350,10 @@ function toggleShowDetail() {
     <br>Total TVAC
  </div>
 <div>
+ <?php if ( ! $readonly ) :  ?>
     <input name="act" id="act_bt" class="button" value="<?php echo _('Actualiser')?>" onclick="compute_all_ledger();" type="button">
-  <input type="button" class="button" onclick="gestion_add_row()" value="Ajouter une ligne">
+     <input type="button" class="button" onclick="gestion_add_row()" value="Ajouter une ligne">
+<?php endif; ?>         
 </div>
 <?php endif; ?>
 </fieldset>
