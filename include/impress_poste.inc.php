@@ -276,14 +276,14 @@ if ( isset( $_REQUEST['bt_html'] ) )
             // Detail
             //----------------------------------------------------------------------
             echo Acc_Account_Ledger::HtmlTableHeader();
-            echo '<table class="result" style="width:80%;margin-left:10%">';
+            echo '<table  style="width:100%;margin-left:0%">';
             foreach ($a_poste as $poste_id )
             {
                 $Poste=new Acc_Account_Ledger ($cn,$poste_id['pcm_val']);
                 $Poste->load();
                 $Poste->get_row_date( $_GET['from_periode'], $_GET['to_periode'],$_GET['ople']);
                 if ( empty($Poste->row)) continue;
-                echo '<tr><td  class="mtitle" style="width:auto" colspan="6"><h2 class="info">'. $poste_id['pcm_val'].' '.h($Poste->label).'</h2></td></tr>';
+                echo '<tr><td  class="mtitle" style="width:auto" colspan="6"><h2 class="title">'. $poste_id['pcm_val'].' '.h($Poste->label).'</h2></td></tr>';
 
                 $detail=$Poste->row[0];
 
@@ -294,6 +294,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
                     /* avoid duplicates */
                     if ( in_array($detail['jr_id'],$old) == TRUE ) continue;
                     $old[]=$detail['jr_id'];
+                    echo tr(td("Journal :".$detail['jrn_def_name'],''),'style="width:auto" colspan="6"');
                     echo '<tr><td class="mtitle" style="width:auto" colspan="6">'. $detail['j_date'].' '.$detail['jr_internal'].' '.hb($detail['description']).' '.hi($detail['jr_pj_number']).'</td></tr>';
 
                     $op=new Acc_Operation($cn);

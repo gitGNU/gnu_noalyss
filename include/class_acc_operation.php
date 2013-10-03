@@ -252,7 +252,7 @@ class Acc_Operation
         $filter_sql=str_replace('jrn_def_id','jr_def_id',$filter_sql);
         if ( $this->jr_id==0 ) return;
         $sql=" select  jr_date,j_qcode,j_poste,j_montant,jr_internal,case when j_debit = 'f' then 'C' else 'D' end as debit,jr_comment as description,
-             vw_name,pcm_lib,j_debit,coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter ".
+             vw_name,pcm_lib,j_debit,coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter,jr_def_id ".
              " from jrnx join jrn on (jr_grpt_id=j_grpt)
              join tmp_pcmn on (j_poste=pcm_val)
              left join vw_fiche_attr on (j_qcode=quick_code)

@@ -150,7 +150,7 @@ class Acc_Account_Ledger
                                  "j_debit, jr_internal,jr_pj_number,
 								 coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter ".
                                  ",pcm_lib ".
-				 ",jr_tech_per,p_exercice ".
+				 ",jr_tech_per,p_exercice,jrn_def_name".
                                  " from jrnx left join jrn_def on (jrn_def_id=j_jrn_def )".
                                  " left join jrn on (jr_grpt_id=j_grpt)".
                                  " left join tmp_pcmn on (j_poste=pcm_val)".
@@ -467,7 +467,7 @@ class Acc_Account_Ledger
 	}
         $hid=new IHidden();
 
-        echo "<table >";
+        echo "<table  >";
         echo '<TR>';
         $str_ople=(isset($_REQUEST['ople']))?HtmlInput::hidden('ople',$_REQUEST['ople']):'';
 	if ($actiontarget=='poste')
