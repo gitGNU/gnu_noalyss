@@ -279,7 +279,9 @@ class Periode
 
             }
             echo '</table>';
+            echo '<p style="text-align:center">';
             echo HtmlInput::submit('close_per','Fermeture des périodes sélectionnées');
+            echo '</p>';
             echo '</form>';
             $but=new IButton('show_per_add','Ajout d\'une période');
             $but->javascript="$('periode_add_div').show();";
@@ -309,7 +311,11 @@ class Periode
             echo HtmlInput::submit('add_per','Valider');
             echo '</FORM>';
             echo '</div>';
-            echo create_script("$('periode_add_div').hide();");
+            echo create_script("$('periode_add_div').hide();new Draggable('periode_add_div',{starteffect:function()
+                                  {
+                                     new Effect.Highlight(obj.id,{scroll:window,queue:'end'});
+                                  }}
+                         );");
         }
         else
         {
@@ -321,8 +327,12 @@ class Periode
                                    $this->jrn_def_id);
             $jrn_name=Database::fetch_result($r,0,0);
             echo '<h2> Journal '.$jrn_name.'</h2>';
+            echo '<form id="periode_frm" method="POST" onsubmit="confirm(\'Confirmez-vous la fermeture des périodes choisies ?\')" >';
+            echo HtmlInput::array_to_hidden(array('ac','gDossier','jrn_def_id','choose'), $_REQUEST);
+
             echo '<TABLE ALIGN="CENTER">';
             echo "</TR>";
+            echo '<th>'.ICheckBox::toggle_checkbox("per_toggle", "periode_frm")."</th>";
             echo '<TH> Date d&eacute;but </TH>';
             echo '<TH> Date fin </TH>';
             echo '<TH> Exercice </TH>';
@@ -335,27 +345,33 @@ class Periode
 		  echo '<TR style="COLOR:RED">';
 		else
 		  echo '<TR>';
+                echo '<td>';
+                if ( $l_line['status'] == 'OP') {
+                              $per_to_close=new ICheckBox('sel_per_close[]');
+                              $per_to_close->value=$l_line['p_id'];
+                             echo $per_to_close->input();
+               }
+                echo '</td>';
                 echo '<TD ALIGN="CENTER"> '.$l_line['date_start'].'</TD>';
                 echo '<TD  ALIGN="CENTER"> '.$l_line['date_end'].'</TD>';
                 echo '<TD  ALIGN="CENTER"> '.$l_line['p_exercice'].'</TD>';
-
+                $closed="";
                 if ( $l_line['status'] != 'OP' )
                 {
 		  $closed=td ('<A class="mtitle" HREF="?ac='.$_REQUEST['ac'].'&action=reopen&p_per='.$l_line['p_id'].'&'.$str_dossier.'&jrn_def_id='.$this->jrn_def_id.'" onclick="return confirm(\''._('Confirmez Réouverture').' ?\')"> Réouverture</A>',' class="mtitle"');
 		  //                    $closed=($l_line['status']=='CE')?'<TD>Centralisee</TD>':'<TD>Ferm&eacute;e</TD>';
                 }
-                else
-                {
-                    $closed='<TD class="mtitle">';
-                    $closed.='<A class="mtitle" HREF="?ac='.$_REQUEST['ac'].'&action=closed&p_per='.$l_line['p_id'].'&'.$str_dossier.'&jrn_def_id='.$this->jrn_def_id.'" onclick="return confirm(\''._('Confirmez Cloture').' ?\')"> Cloturer</A>';
-                    $closed.='</td>';
-                }
+               
                 echo "$closed";
 
                 echo '</TR>';
 
             }
             echo '</TABLE>';
+            echo '<p style="text-align:center">';
+            echo HtmlInput::submit('close_per','Fermeture des périodes sélectionnées');
+            echo '</p>';
+            echo '</form>';
 
         }
     }
