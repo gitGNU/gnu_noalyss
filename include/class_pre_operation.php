@@ -284,7 +284,7 @@ class Pre_operation_detail
         $r.='<table style="width:100%" id="modele_op_tab">';
         for ($i=0;$i<count($value);$i++) {
             $r.='<tr class="'.(($i%2==0)?"even":"odd").'">';
-            $r.='<td>';
+            $r.='<td style="font-weight:bold;vertical-align:top;text-decoration:underline">';
             $r.=sprintf('<a href="%s&pre_def=%s" onclick="waiting_box()">%s</a> ',$p_url,$value[$i]['od_id'],$value[$i]['od_name']);
             $r.='</td>';
             $r.='<td>'.h($value[$i]['od_description']).'</td>';
