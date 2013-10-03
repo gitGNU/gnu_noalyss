@@ -59,16 +59,24 @@ if (isset($_POST['add_exercice']))
 
     $choose="yes";
   }
-if ( $action=="closed")
+/*
+ * Close selected periode
+ */  
+if ( isset($_POST['close_per']) )
 {
-    $p_per=$_GET['p_per'];
-    $per=new Periode($cn);
-    $jrn_def_id=(isset($_GET['jrn_def_id']))?$_GET['jrn_def_id']:0;
-    $per->set_jrn($jrn_def_id);
-    $per->set_periode($p_per);
-    $per->close();
-    $choose="yes";
+	if (isset($_POST['sel_per_close'] ) ) {
+		$a_per_to_close=$_POST['sel_per_close'];
+		for ($i=0;$i < count($a_per_to_close);$i++) {
+			$per=new Periode($cn);
+			 $jrn_def_id=(isset($_GET['jrn_def_id']))?$_GET['jrn_def_id']:0;
+			 $per->set_periode($a_per_to_close[$i]);
+			$per->close();
+		
+		}
+	}
+	$choose="yes";
 }
+
 
 if ( $action== "delete_per" )
 {

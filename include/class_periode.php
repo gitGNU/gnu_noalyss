@@ -202,8 +202,11 @@ class Periode
                                      from parm_periode
                                      order by p_start,p_end");
             $Max=Database::num_row($Res);
+            echo '<form id="periode_frm" method="POST" onsubmit="confirm(\'Confirmez-vous la fermeture des périodes choisies ?\')" >';
+            echo HtmlInput::array_to_hidden(array('ac','gDossier','jrn_def_id','choose'), $_REQUEST);
             echo '<TABLE ALIGN="CENTER">';
             echo "</TR>";
+            echo '<th>'.ICheckBox::toggle_checkbox("per_toggle", "periode_frm")."</th>";
             echo '<TH> Date d&eacute;but </TH>';
             echo '<TH> Date fin </TH>';
             echo '<TH> Exercice </TH>';
@@ -219,6 +222,14 @@ class Periode
 		if ( $l_line['p_closed'] == 't')
 		  $style="color:red";
                 echo '<TR class="'.$class.'" style="'.$style.'">';
+                echo '<td>';
+                if ( $l_line['p_closed'] == 'f') {
+                              $per_to_close=new ICheckBox('sel_per_close[]');
+                              $per_to_close->value=$l_line['p_id'];
+                             echo $per_to_close->input();
+               }
+               echo '</td>';
+
                 echo '<TD ALIGN="CENTER"> '.$l_line['date_start'].'</TD>';
                 echo '<TD  ALIGN="CENTER"> '.$l_line['date_end'].'</TD>';
                 echo '<TD  ALIGN="CENTER"> '.$l_line['p_exercice'].'</TD>';
@@ -234,9 +245,6 @@ class Periode
                 }
                 else
                 {
-                    $closed='<TD class="mtitle">';
-                    $closed.='<A class="mtitle" HREF="?ac='.$_REQUEST['ac'].'&action=closed&p_per='.$l_line['p_id'].'&'.$str_dossier.'" onclick="return confirm(\''._('Confirmez cloture').' ?\')"> Cloturer</A></td>';
-
                     if ($l_line['count_op'] == 0 )
                     {
 		      $change=HtmlInput::display_periode($l_line['p_id']);
@@ -246,12 +254,6 @@ class Periode
 		      $change="Non modifiable";
                     }
 		    $change=td($change,' class="mtitle" ');
-		    /*
-                    $change.='<A class="mtitle" HREF="?p_action=periode&action=change_per&p_per='.
-                             $l_line['p_id']."&p_date_start=".$l_line['date_start'].
-                             "&p_date_end=".$l_line['date_end']."&p_exercice=".
-                             $l_line['p_exercice']."&$str_dossier\"> Changer</A></td>";
-		    */
 		    $reopen=td("");
 
 
@@ -269,7 +271,6 @@ class Periode
                     }
                     $remove.='</td>';
                 }
-                echo "$closed";
                 echo $change;
 
                 echo $remove;
@@ -277,23 +278,38 @@ class Periode
 		echo '</TR>';
 
             }
-            echo '<TR> <FORM  METHOD="POST">';
+            echo '</table>';
+            echo HtmlInput::submit('close_per','Fermeture des périodes sélectionnées');
+            echo '</form>';
+            $but=new IButton('show_per_add','Ajout d\'une période');
+            $but->javascript="$('periode_add_div').show();";
+            echo $but->input();
+            echo '<div class="inner_box" style="width:40%;" id="periode_add_div">';
+            echo HtmlInput::title_box("Ajout d'une période","periode_add_div","hide");
+            echo '<FORM  METHOD="POST">';
             echo dossier::hidden();
 	    $istart=new IDate('p_date_start');
 	    $iend=new IDate('p_date_end');
 	    $iexercice=new INum('p_exercice');
 	    $iexercice->size=5;
-	    echo td($istart->input());
+            echo '<table>';
+            echo '<TR> ';
+            echo td('Date de début');
+            echo td($istart->input());
+            echo '</tr><tr>';
+            echo td('Date de fin');
 	    echo td($iend->input());
-	    echo td($iexercice->input());
 
-            echo '<TD> <INPUT TYPE="SUBMIT" NAME="add_per" Value="Ajout"</TD>';
-            echo '<TD></TD>';
-            echo '<TD></TD>';
-            echo '</FORM></TR>';
+            echo '</tr><tr>';
+            echo td('Exercice');
+	    echo td($iexercice->input());
 
             echo '</TABLE>';
 
+            echo HtmlInput::submit('add_per','Valider');
+            echo '</FORM>';
+            echo '</div>';
+            echo create_script("$('periode_add_div').hide();");
         }
         else
         {
