@@ -119,10 +119,9 @@ class Acc_Bilan
                 ($solde_signed > 0 && $p_deb == 'C' )
             )
             {
-                $ret.= '<li>Anomalie pour le compte '.$line['pcm_val'].
-                       $line['pcm_lib'].
+                $ret.= '<li>Anomalie pour le compte '.HtmlInput::history_account($line['pcm_val'],$line['pcm_val'].h($line['pcm_lib']).
                        "  D: ".$solde['debit'].
-                       "  C: ".$solde['credit']." diff ".$solde['solde'];
+                       "  C: ".$solde['credit']." diff ".$solde['solde']);
                 $count++;
             }
 
