@@ -306,14 +306,13 @@ class Acc_Operation
         $csv="";
         foreach ($show as $l)
         {
+            $border="";
             if ( $l['j_poste'] == $this->poste || ($l['j_qcode']==$this->qcode && trim($this->qcode) != ''))
-                $border=' style="border-bottom:1px solid red;"';
-            else
-                $border='';
-            $r.='<tr>';
-            $r.='<td '.$border.'>';
+                $border=' class="highlight"';
+            $r.='<tr '.$border.'>';
+            $r.='<td>';
             $a=$l['j_qcode'];
-            ;
+            
             $r_notable.=$a;
             $r.=$a;
             $csv.='"'.$a.'";';

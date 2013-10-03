@@ -304,6 +304,11 @@ tr.odd {
     background-color:#DDE6FF;
     font-size:0.87em;;
 }
+tr.highlight {
+    /* background-color:whitesmoke; */
+    font-size:0.87em;
+    font-weight: bold;
+}
 tr.even {
   font-size:0.87em;;
 }
