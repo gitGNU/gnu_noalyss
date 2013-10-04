@@ -20,6 +20,9 @@ global $g_user;
 /* others report */
 $cal=new Calendar();
 $cal->get_preference();
+
+$obj=sprintf("{gDossier:%d,invalue:'%s',outdiv:'%s'}",
+        dossier::id(),'per','calendar_zoom_div');
 $Operation=new Follow_Up($cn);
 $last_operation=$Operation->get_today();
 $late_operation=$Operation->get_late();

@@ -1,6 +1,6 @@
 <div class="pc_calendar" id="user_cal" style="width:100%">
 <?php echo $month_year?>
-<table width="100%">
+<table style="width:100%;height:80%">
 <tr>
 <?php
 for ($i=0;$i<=6;$i++){

@@ -593,15 +593,17 @@ function set_wait(name)
  *@brief add dynamically a object for AJAX
  *@param obj.
  * the attributes are
- * - style to add style
- * - id to add an id
- * - class to add a class
- * - html is the content
+ *   - style to add style
+ *   - id to add an id
+ *   - cssclass to add a class
+ *   - html is the content
+ *   - drag is the div can be moved
  */
 function add_div(obj)
 {
     try
     {
+        console.log(obj);
         var top=document;
         
         if ( ! $(obj.id) )  { var elt=top.createElement('div');}
@@ -646,7 +648,7 @@ new Draggable(obj.id,{starteffect:function()
     }
     catch (e)
     {
-        alert("add_div"+e.message);
+        alert("add_div "+e.message);
     }
 }
 /**
@@ -2299,4 +2301,67 @@ function action_show_checkbox()
 {
     var a=document.getElementsByName('ag_id_td');
     for (var i=0;i<a.length;i++) {    a[i].style.display='block';    }
+}
+/**
+ * 
+ * @param {type} obj
+ * object attribute : g
+ *   - Dossier dossier_id, 
+ *   - invalue DOM Element where you can find the periode to zoom
+ *   - outdiv  ID of the target (DIV)
+ *   
+ */
+function calendar_zoom(obj)
+{
+    try {
+        
+        var query="";
+        console.log(obj);
+        query="op=calendar_zoom&gDossier="+obj.gDossier+"&in="+$(obj.invalue).value+'&out='+obj.outdiv;
+        console.log(query);
+        waiting_box();
+        var action = new Ajax.Request(
+                                      "ajax_misc.php" ,
+                                      {
+                                          method:'get', parameters:query,
+                                          onFailure:ajax_misc_failure,
+                                          onSuccess:function(req,j){
+                                                    console.log(1);
+                                                    var answer=req.responseXML;
+                                                    console.log(2);
+                                                    var html=answer.getElementsByTagName('html');
+                                                    console.log(3);
+                                                    if ( html.length == 0 )
+                                                    {
+                                                    console.log(4);
+                                                        var rec=unescape_xml(req.responseText);
+                                                        error_message ('erreur :'+rec);
+                                                    }
+                                                    var code_html=getNodeText(html[0]);
+                                                    code_html=unescape_xml(code_html);
+                                                    console.log(5);
+                                                    
+                                                    // if the target doesn't exist 
+                                                    // then create it
+                                                    if ( obj.outdiv == undefined ) {
+                                                        obj.outdiv='calendar_zoom_div';
+                                                    }
+                                                    if (   $(obj.outdiv) == undefined) {
+                                                        var str_style=fixed_position(0,20);
+                                                        add_div({id:obj.outdiv,style:'margin-left:3%;width:94%;height:94%;'+str_style,cssclass:"inner_box",drag:1});
+                                                        console.log(5);
+                                                    }
+                                                    remove_waiting_box();
+                                                    console.log(6);
+                                                    $(obj.outdiv).innerHTML=code_html;
+                                                    console.log(7);
+                                                    $(obj.outdiv).show();
+                                          }
+                                      }
+                                      );
+    }catch (e) {
+         error_message('calendar_zoom '+e.getMessage);
+    }
+  
+    
 }

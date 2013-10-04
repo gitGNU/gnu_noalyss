@@ -81,7 +81,7 @@ define ('MAX_ARTICLE',5);
 define ('MAX_CAT',15);
 define ('MAX_CARD_SEARCH',550);
 define ('MAX_FORECAST_ITEM',10);
-define ('MAX_PREDEFINED_OPERATION',30);
+define ('MAX_PREDEFINED_OPERATION',50);
 define ('MAX_COMPTE_CARD',4);
 define ('COMPTA_MAX_YEAR',2100);
 define ('COMPTA_MIN_YEAR',1990);

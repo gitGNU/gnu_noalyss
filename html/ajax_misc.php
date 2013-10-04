@@ -615,6 +615,9 @@ EOF;
         case 'search_clear_tag':
             require_once 'ajax_search_clear_tag.php';
             break;
+        case 'calendar_zoom':
+            require_once 'ajax_calendar_zoom.php';
+            break;
 	default:
 		var_dump($_GET);
 }

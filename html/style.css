@@ -803,8 +803,6 @@ div.pc_calendar td.weekend {
 }
 div.pc_calendar td.workday{
     background-color:inherit;
-
-
 }
 div.pc_calendar span.day{
     font-weight: bold;
@@ -1353,4 +1351,10 @@ div#error_content_div {
    color:error;
    font-weight: bold;
    text-align: center;
+}
+td.workday ol {
+	margin:0px;
+	padding:0px;
+	list-style-type:none;
+	text-align:left;
 }

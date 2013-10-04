@@ -2,6 +2,7 @@
 <fieldset >
 <legend><?php echo _('Calendrier')?>
 </legend>
+<?php echo HtmlInput::calendar_zoom($obj); ?>
 <?php echo $cal->display(); ?>
 </fieldset>
 </div>

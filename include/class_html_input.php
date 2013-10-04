@@ -242,7 +242,7 @@ class HtmlInput
 	 * @param $p_modify let you modify an operation
 	 *
 	 */
-	 static function detail_action($ag_id,$p_mesg,$p_modify=1)
+    static function detail_action($ag_id,$p_mesg,$p_modify=1)
     {
         return sprintf('<A class="detail" style="text-decoration:underline;display:inline" HREF="javascript:view_action(%d,%d,%d)">%s</A>',
                        $ag_id,dossier::id(),$p_modify,$p_mesg);
@@ -745,5 +745,16 @@ class HtmlInput
 		$r = '<A  style="color:red;text-decoration:underline" href="javascript:void(0)" onclick="show_reconcile(\'' . $p_div . '\',\'' . $let . '\')">' . $let . '</A>';
 		return $r;
 	}
+        /**
+         * Zoom the calendar
+         * @param type $obj objet json for the javascript
+         * @see calendar_zoom in scripts.js 
+         */
+        static function calendar_zoom($obj)
+        {
+            $button=new ISmallButton("calendar", "Calendrier");
+            $button->javascript="calendar_zoom($obj)";
+            return $button->input();
+        }
 
 }

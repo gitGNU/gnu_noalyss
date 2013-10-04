@@ -45,14 +45,15 @@ class Calendar
 
     /*!\brief fill the array given as parameter with the data from action_gestion
      *\param $p_array array of the date of the month
+     * \param $p_style is either short or long, short: for a small title, long for a complete one
      */
-    function fill_from_action(&$p_array)
+    function fill_from_action(&$p_array,$p_style)
     {
 		global $g_user;
 		$profile=$g_user->get_profile();
 
         $cn=new Database(dossier::id());
-        $sql="select ag_id,to_char(ag_remind_date,'DD')::integer as ag_timestamp_day,ag_title
+        $sql="select ag_id,to_char(ag_remind_date,'DD')::integer as ag_timestamp_day,ag_title,ag_hour
 			".
              " from action_gestion ".
              " where ".
@@ -66,17 +67,21 @@ class Calendar
         for ($i=0;$i<count($array);$i++)
         {
             $ind=$array[$i]['ag_timestamp_day'];
-
-			$this->action[$ind][]=$array[$i]['ag_id'];
-			$this->title[$ind][]=$array[$i]['ag_title'];
+            $this->action[$ind][]=$array[$i]['ag_id'];
+            $this->title[$ind][]=$array[$i]['ag_title'];
+            $this->hour[$ind][]=$array[$i]['ag_hour'];
 
         }
 		/*
 		 * Fill foreach day
 		 */
+        if ( $p_style == "short")
+        {
 		foreach ($this->action as $day=>$aAction)
 		{
-			if ($p_array[$day]=="")  $p_array[$day]='<span class="input_text" onclick="display_task(\'tsk'.$day.'\');">'." ".count($aAction)." "._("Tâches").'</span>';
+			if ($p_array[$day]=="")  {
+                                $p_array[$day]='<span class="input_text" onclick="display_task(\'tsk'.$day.'\');">'." ".count($aAction)." "._("Tâches").'</span>';
+                        }
 			$this->action_div[$day]='<div id="tsk'.$day.'" class="inner_box" style="width:200;display:none">';
 			$this->action_div[$day].=HtmlInput::title_box($day."/".$this->month."/".$this->year, "tsk".$day, "hide");
 			 $this->action_div[$day].="<ol>";
@@ -86,24 +91,56 @@ class Calendar
 			}
 			$this->action_div[$day].='</ol></div>';
 		}
+        }
+        else if ( $p_style == "long")
+        {
+		foreach ($this->action as $day=>$aAction)
+		{
+                        $p_array[$day].="<ol>";
+			for ($i=0;$i<count($aAction);$i++)
+			{
+				$p_array[$day].='<li>&rarr;'.HtmlInput::detail_action($aAction[$i], $this->hour[$day][$i]." ".$this->title[$day][$i]).'</li>';
+			}
+			$p_array[$day].='</ol>';
+		}
+        }
     }
     /*!\brief fill the array given as parameter with the data from todo
      *\param $p_array array of the date of the month
+     * \param $p_style is either short or long, short: for a small title, long for a complete one
      */
-    function fill_from_todo(&$p_array)
+    function fill_from_todo(&$p_array,$p_style)
     {
         $cn=new Database(dossier::id());
-        $sql="select count(*) as nb,to_char(tl_date,'DD')::integer as tl_date_day ".
-             " from todo_list ".
-             " where ".
-             " to_char(tl_date,'MM')::integer=$1 ".
-             " and to_char(tl_date,'YYYY')::integer=$2 ".
-             " and use_login=$3 group by to_char(tl_date,'DD')::integer ";
-        $array=$cn->get_array($sql,array($this->month,$this->year,$_SESSION['g_user']));
-        for ($i=0;$i<count($array);$i++)
+        if ($p_style=="short")
         {
-            $ind=$array[$i]['tl_date_day'];
-            $p_array[$ind].="<span style=\"display:block\" class=\"todo\">".h($array[$i]['nb'])." "._('Notes').'</span>';
+            $sql="select count(*) as nb,to_char(tl_date,'DD')::integer as tl_date_day ".
+                 " from todo_list ".
+                 " where ".
+                 " to_char(tl_date,'MM')::integer=$1 ".
+                 " and to_char(tl_date,'YYYY')::integer=$2 ".
+                 " and use_login=$3 group by to_char(tl_date,'DD')::integer ";
+            $array=$cn->get_array($sql,array($this->month,$this->year,$_SESSION['g_user']));
+            for ($i=0;$i<count($array);$i++)
+            {
+                $ind=$array[$i]['tl_date_day'];
+                $p_array[$ind].="<span style=\"display:block\" class=\"todo\">".h($array[$i]['nb'])." "._('Notes').'</span>';
+            }
+        } else if ($p_style=="long")
+        {
+            $sql="select to_char(tl_date,'DD')::integer as tl_date_day,tl_title ".
+                 " from todo_list ".
+                 " where ".
+                 " to_char(tl_date,'MM')::integer=$1 ".
+                 " and to_char(tl_date,'YYYY')::integer=$2 ".
+                 " and use_login=$3  ";
+            $array=$cn->get_array($sql,array($this->month,$this->year,$_SESSION['g_user']));
+            for ($i=0;$i<count($array);$i++)
+            {
+                $ind=$array[$i]['tl_date_day'];
+                
+               $p_array[$ind].="<span style=\"display:block\" class=\"todo\">".h($array[$i]['tl_title']).'</span>';
+            }
         }
     }
     /*!\brief display a calendar after a call to Calendar::fill
@@ -124,8 +161,8 @@ class Calendar
         /* weekday */
         $week=array(_('Dimanche'),_('Lundi'),_('Mardi'),_('Mercredi'),_('Jeudi'),_('Vendredi'),_('Samedi'));
 
-        $this->fill_from_action($cell);
-        $this->fill_from_todo($cell);
+        $this->fill_from_action($cell,"short");
+        $this->fill_from_todo($cell,"short");
         $wMonth=new ISelect('per');
         $cn=new Database(dossier::id());
         $wMonth->value=$cn->make_array("select p_id,to_char(p_start,'MM/YYYY') from parm_periode where p_exercice = '$exercice_user' order by p_start");
@@ -192,6 +229,50 @@ class Calendar
     function set_periode($p_per)
     {
         $this->default_periode=$p_per;
+    }
+    /**
+     * @brief zoom the calendar
+     */
+    function zoom()
+    {
+        global $g_user;
+        $exercice_user=$g_user->get_exercice();
+        /* day */
+        $cell=array();
+        for ($i=0;$i<42;$i++)
+        {
+            $cell[$i]="";
+        }
+        $this->set_month_year();
+        /* weekday */
+        $week=array(_('Dimanche'),_('Lundi'),_('Mardi'),_('Mercredi'),_('Jeudi'),_('Vendredi'),_('Samedi'));
+
+        $this->fill_from_action($cell,"long");
+        $this->fill_from_todo($cell,"long");
+        $wMonth=new ISelect('per_div');
+        $cn=new Database(dossier::id());
+        $wMonth->value=$cn->make_array("select p_id,to_char(p_start,'MM/YYYY') from parm_periode where p_exercice = '$exercice_user' order by p_start");
+        $wMonth->selected=$this->default_periode;
+        $wMonth->javascript=sprintf("onchange=calendar_zoom({gDossier:%d,invalue:'%s',outvalue:'%s'})",
+            dossier::id(),'per_div','calendar_zoom_div');
+        $wMonth->set_attribute('gDossier',dossier::id());
+        $month_year=$wMonth->input().$wMonth->get_js_attr();
+        ob_start();
+        require_once('template/calendar.php');
+
+        if (count($this->action_div) > 0)
+        {
+                foreach ($this->action_div as $day)
+                {
+                        echo $day;
+                }
+        }
+	$ret=ob_get_contents();
+        ob_end_clean();
+        return $ret;
+    }
+    static function test_me() {
+        
     }
 
 }
