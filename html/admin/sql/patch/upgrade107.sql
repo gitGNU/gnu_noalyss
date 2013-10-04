@@ -265,7 +265,6 @@ $BODY$
 LANGUAGE plpgsql VOLATILE
 
 alter table op_predef add od_description text;
-alter table op_predef add od_description text;
 create or replace function comptaproc.opd_limit_description() 
 returns trigger
 as
