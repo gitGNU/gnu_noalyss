@@ -279,7 +279,7 @@ $BEGIN$
 $BEGIN$
 LANGUAGE plpgsql;
 
-create trigger opd_limit_description before update or insert on op_predef execute procedure for each row comptaproc.opd_limit_description();
+create trigger opd_limit_description before update or insert on op_predef for each row execute procedure comptaproc.opd_limit_description();
 
 update menu_ref set me_menu = 'Trésorerie' where me_code='MENUFIN';
 
