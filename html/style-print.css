@@ -16,7 +16,7 @@ form {
   display:none;
  }
 
-.button {
+.button, .smallbutton{
 	display:none;
 	}
 div.recherche_form {
