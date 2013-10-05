@@ -100,7 +100,8 @@ if (isset($_POST['save']))
 if ($sa == '')
 {
 	echo '<div class="content">';
-	echo '<fieldset><legend> Etape 1 </legend>';
+        
+	echo '<h1 class="legend"> Etape 1 </h1>';
 
 	echo 'Choississez le dossier où sont les soldes à importer';
 	$avail = $g_user->get_available_folder();
@@ -130,7 +131,7 @@ if ($sa == '')
 	echo HtmlInput::submit('ok', 'Continuer');
 
 	echo '</form>';
-	echo '</fieldset>';
+	echo '</div>';
 	echo '</div>';
 	exit();
 }
@@ -141,7 +142,7 @@ $back = 'do.php?ac=' . $_REQUEST['ac'] . '&' . dossier::get();
 if ($sa == 'step2')
 {
 	echo '<div class="content">' .
-	'<fieldset><legend>Etape 2</legend>' .
+	'<div><h1 class="legend">Etape 2</h1>' .
 	'<h2 class="info">' . dossier::name($_REQUEST['f']) . '</h2>' .
 	'<form class="print" method="post">' .
 	' Choississez l\'exercice du dossier ';
@@ -170,7 +171,7 @@ if ($sa == 'step2')
 if ($sa == 'step3')
 {
 	echo '<div class="content">' .
-	'<fieldset><legend>Etape 3</legend>' .
+	'<div><h1 class="legend">Etape 3</h1>' .
 	'<h2 class="info">' . dossier::name($_REQUEST['f']) . '</h2>' .
 	'<form class="print" method="post">' .
 	' Choississez le journal qui contiendra l\'opération d\'ouverture ';
@@ -207,7 +208,7 @@ if ($sa == 'step3')
 if ($sa == 'step4')
 {
 	echo '<div class="content">';
-	echo '<fieldset><legend> Dernière étape</legend>';
+	echo '<div><h1 class="legend"> Dernière étape</h1>';
 	$cn_target = new Database($_REQUEST['f']);
 	$saldo = new Acc_Ledger($cn_target, 0);
 	$array = $saldo->get_saldo_exercice($_REQUEST['p_periode']);
