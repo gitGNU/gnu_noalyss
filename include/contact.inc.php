@@ -71,7 +71,7 @@ if ($low_action == "list")
 		<?php
 		echo dossier::hidden();
 		$a = (isset($_GET['query'])) ? $_GET['query'] : "";
-		printf(_('Recherche') . ' <input class="input_text" type="text" name="query" value="%s">', $a);
+		printf(_('Recherche') . HtmlInput::filter_table("contact_tb", "0,1,2,3,4,5,6", 1));
 		$sel_card = new ISelect('cat');
 		$sel_card->value = $cn->make_array('select fd_id, fd_label from fiche_def ' .
 			' where  frd_id=' . FICHE_TYPE_CONTACT .

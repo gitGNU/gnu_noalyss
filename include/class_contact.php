@@ -79,8 +79,8 @@ class contact extends Fiche
 
 		if ( $all_contact == 0 ) return "";
         $r=$bar;
-        $r.='<table border="0"  width="95%">
-            <TR style="background-color:lightgrey;">
+        $r.='<table id="contact_tb" class="sortable">
+            <TR>
             <th>Quick Code</th>
             <th>Nom</th>
             <th>Prénom</th>
@@ -123,8 +123,7 @@ class contact extends Fiche
             }
             $r.="<TR>";
             $qcode=$contact->strAttribut(ATTR_DEF_QUICKCODE);
-            $r.='<TD><A HREF="javascript:void(0)" onclick="this.ipopup=\'ipopcard\';this.qcode=(\''.$qcode.'\');fill_ipopcard(this);">'.$qcode.
-                "</A></TD>";
+            $r.='<TD>'.HtmlInput::card_detail($qcode)."</TD>";
             $r.="<TD>".$contact->strAttribut(ATTR_DEF_NAME)."</TD>";
             $r.="<TD>".$contact->strAttribut(ATTR_DEF_FIRST_NAME)."</TD>";
             $r.="<TD>".$l_company_name."</TD>";
