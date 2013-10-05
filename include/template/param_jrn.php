@@ -126,10 +126,10 @@ echo $str_add_button;
     <TABLE class="result" style="width:80%;margin-left:10%;">
         <tr>
             <th>
-                Fournisseurs (D)
+                Services, fournitures ou biens  achetés (C)
             </th>
             <th>
-                Services, fournitures ou biens  achetés (C)
+                Fournisseurs (D)
             </th>
         </tr>
     
@@ -178,10 +178,10 @@ echo $str_add_button;
         
         <tr>
             <th>
-                Services, fournitures ou biens  vendus (D)
+                Clients (C)
             </th>
             <th>
-                Clients (C)
+                Services, fournitures ou biens  vendus (D)
             </th>
         </tr>
     
