@@ -111,7 +111,7 @@ class Impress
                         try
                           {
                             $pfrom=$oPeriode->find_periode('01.'.$from);
-							$cond=  sql_filter_per($p_cn, $pfrom, $p_end,'p_id','j_tech_per');
+                            $cond=  sql_filter_per($p_cn, $pfrom, $p_end,'p_id','j_tech_per');
                           }
                         catch (Exception $exp)
                           {
