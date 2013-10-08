@@ -28,12 +28,13 @@ require_once('class_pdf.php');
 
 class Print_Ledger_Detail extends PDF
 {
-    public function __construct ($p_cn = null, $orientation = 'P', $unit = 'mm', $format = 'A4')
+    public function __construct ($p_cn = null, Acc_Ledger $ledger)
     {
 
         if($p_cn == null) die("No database connection. Abort.");
-
+        
         parent::__construct($p_cn,'L', 'mm', 'A4');
+        $this->ledger=$ledger;
         date_default_timezone_set ('Europe/Paris');
 
     }
@@ -70,13 +71,14 @@ class Print_Ledger_Detail extends PDF
         return parent::Cell($w, $h, $txt, $border, $ln, $align, $fill, $link);
     }
 
-    function export($Jrn)
+    function export()
     {
+        
         // detailled printing
         $rap_deb=0;
         $rap_cred=0;
         // take all operations from jrn
-        $array=$Jrn->get_operation($_GET['from_periode'],$_GET['to_periode']);
+        $array=$this->ledger->get_operation($_GET['from_periode'],$_GET['to_periode']);
 
         $this->SetFont('DejaVu','BI',7);
         $this->Cell(215,7,'report Débit',0,0,'R');

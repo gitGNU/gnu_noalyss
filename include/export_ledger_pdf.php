@@ -21,13 +21,14 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
-/*! \file
+/* ! \file
  * \brief Send a ledger in a pdf format
  *
  */
-if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
+if (!defined('ALLOWED'))
+    die('Appel direct ne sont pas permis');
 require_once('class_dossier.php');
-$gDossier=dossier::id();
+$gDossier = dossier::id();
 require_once('class_pdf.php');
 include_once('class_user.php');
 include_once("ac_common.php");
@@ -36,146 +37,44 @@ include_once("class_impress.php");
 include_once("class_acc_ledger.php");
 require_once('class_own.php');
 require_once('class_periode.php');
-require_once('class_print_ledger_detail.php');
-require_once('class_print_ledger_simple.php');
-require_once('class_print_ledger_simple_without_vat.php');
-require_once('class_print_ledger_fin.php');
-require_once('class_print_ledger_misc.php');
+require_once 'class_print_ledger.php';
 
 
-$cn=new Database($gDossier);
-$periode=new Periode($cn);
+        $cn = new Database($gDossier);
+$periode = new Periode($cn);
 
-$l_type="JRN";
-$own=new Own($cn);
+$l_type = "JRN";
+$own = new Own($cn);
 
-$Jrn=new Acc_Ledger($cn,$_GET['jrn_id']);
+$Jrn = new Acc_Ledger($cn, $_GET['jrn_id']);
 
 $Jrn->get_name();
 $g_user->Check();
 $g_user->check_dossier($gDossier);
 
 // Security
-if ( $_GET['jrn_id']!=0 &&  $g_user->check_jrn($_GET['jrn_id']) == 'X' )
-{
+if ($_GET['jrn_id'] != 0 && $g_user->check_jrn($_GET['jrn_id']) == 'X') {
     /* Cannot Access */
     NoAccess();
 }
 
-$ret="";
+$ret = "";
 
-// filter : 0 for Grand Livre otherwise 1
-$filter=( $Jrn->id == 0)?0:1;
-$jrn_type=$Jrn->get_type();
+$jrn_type = $Jrn->get_type();
 
-//----------------------------------------------------------------------
-// Detailled Printing
-//---------------------------------------------------------------------
-if ( $_REQUEST['p_simple']== 0 )
-{
-    $pdf=new Print_Ledger_Detail($cn);
-    $pdf->setDossierInfo($Jrn->name);
-    $pdf->AliasNbPages();
-    $pdf->AddPage();
-    $pdf->SetAuthor('Phpcompta');
-    $pdf->setTitle("Journal",true);
+$pdf = Print_Ledger::factory($cn, $_REQUEST['p_simple'], "PDF", $Jrn);
 
-    $pdf->export($Jrn);
+$pdf->setDossierInfo($Jrn->name);
+$pdf->AliasNbPages();
+$pdf->AddPage();
+$pdf->SetAuthor('Phpcompta');
+$pdf->setTitle("Journal", true);
 
-    $fDate=date('dmy-Hi');
-    $pdf->Output('journal-'.$fDate.'.pdf','D');
-    exit(0);
+$pdf->export();
 
-} // impression detaillé
-//----------------------------------------------------------------------
-// Simple Printing Purchase Ledger
-//---------------------------------------------------------------------
-if   (  $_REQUEST['p_simple']== 1 )
-{
-    if ( $jrn_type=='ACH' || $jrn_type=='VEN')
-    {
-        if ( $jrn_type=='ACH' && $cn->get_value('select count(qp_id) from quant_purchase') == 0 )
-        {
-            $pdf= new Print_Ledger_Simple_without_vat($cn,$Jrn);
-            $pdf->setDossierInfo($Jrn->name);
-            $pdf->AliasNbPages();
-            $pdf->AddPage();
-            $pdf->SetAuthor('Phpcompta');
-            $pdf->setTitle("Journal",true);
+$fDate = date('dmy-Hi');
+$pdf->Output('journal-' . $fDate . '.pdf', 'D');
+exit(0);
 
-            $pdf->Cell(0,6,'Ce journal ne peut être imprimé en mode simple');
-            $pdf->output('erreur.pdf','D');
-            exit();
-        }
-        if ( $jrn_type=='VEN' && $cn->get_value('select count(qs_id) from quant_sold') == 0 )
-        {
-            $pdf= new Print_Ledger_Simple_without_vat($cn,$Jrn);
-            $pdf->setDossierInfo($Jrn->name);
-            $pdf->AliasNbPages();
-            $pdf->AddPage();
-            $pdf->Cell(0,6,'Ce journal ne peut être imprimé en mode simple');
-            $pdf->output('erreur.pdf','D');
-            exit();
-        }
 
-        if ( $own->MY_TVA_USE=='Y')
-        {
-            $pdf= new Print_Ledger_Simple($cn,$Jrn);
-            $pdf->setDossierInfo($Jrn->name);
-            $pdf->AliasNbPages();
-            $pdf->AddPage();
-            $pdf->SetAuthor('Phpcompta');
-            $pdf->setTitle("Journal",true);
-
-            $pdf->export();
-            $fDate=date('dmy-Hi');
-            $pdf->Output('journal-'.$fDate.'.pdf','D');
-            exit(0);
-        }
-        if ( $own->MY_TVA_USE=='N')
-        {
-            $pdf= new Print_Ledger_Simple_without_vat($cn,$Jrn);
-            $pdf->setDossierInfo($Jrn->name);
-            $pdf->AliasNbPages();
-            $pdf->AddPage();
-            $pdf->SetAuthor('Phpcompta');
-            $pdf->setTitle("Journal", true);
-
-            $pdf->export($Jrn);
-            $fDate=date('dmy-Hi');
-            $pdf->Output('journal-'.$fDate.'.pdf','D');
-            exit(0);
-        }
-
-    }
-
-    if ($jrn_type=='FIN')
-    {
-        $pdf= new Print_Ledger_Financial($cn,$Jrn);
-        $pdf->setDossierInfo($Jrn->name);
-        $pdf->AliasNbPages();
-        $pdf->AddPage();
-        $pdf->SetAuthor('Phpcompta');
-        $pdf->setTitle("Journal",true);
-
-        $pdf->export();
-        $fDate=date('dmy-Hi');
-        $pdf->Output('journal-'.$fDate.'.pdf','D');
-        exit(0);
-    }
-    if ( $jrn_type=='ODS' || $Jrn->id==0)
-    {
-        $pdf= new Print_Ledger_Misc($cn,$Jrn);
-        $pdf->setDossierInfo($Jrn->name);
-        $pdf->AliasNbPages();
-        $pdf->SetAuthor('Phpcompta');
-        $pdf->setTitle("Journal",true);
-
-        $pdf->AddPage();
-        $pdf->export();
-        $fDate=date('dmy-Hi');
-        $pdf->Output('journal-'.$fDate.'.pdf','D');
-        exit(0);
-    }
-}
 ?>
