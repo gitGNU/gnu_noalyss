@@ -603,7 +603,6 @@ function add_div(obj)
 {
     try
     {
-        console.log(obj);
         var top=document;
         
         if ( ! $(obj.id) )  { var elt=top.createElement('div');}
@@ -2003,7 +2002,6 @@ function show_tag(p_dossier,p_ac,p_tag_id,p_post)
 {
     try {
         waiting_box();
-        console.log(p_post);
         var queryString="op=tag_detail&tag="+p_tag_id+"&gDossier="+p_dossier+"&ac="+p_ac+'&form='+p_post;
 	var action = new Ajax.Request(
 				  "ajax_misc.php" ,
@@ -2316,9 +2314,7 @@ function calendar_zoom(obj)
     try {
         
         var query="";
-        console.log(obj);
         query="op=calendar_zoom&gDossier="+obj.gDossier+"&in="+$(obj.invalue).value+'&out='+obj.outdiv;
-        console.log(query);
         waiting_box();
         var action = new Ajax.Request(
                                       "ajax_misc.php" ,
@@ -2326,20 +2322,15 @@ function calendar_zoom(obj)
                                           method:'get', parameters:query,
                                           onFailure:ajax_misc_failure,
                                           onSuccess:function(req,j){
-                                                    console.log(1);
                                                     var answer=req.responseXML;
-                                                    console.log(2);
                                                     var html=answer.getElementsByTagName('html');
-                                                    console.log(3);
                                                     if ( html.length == 0 )
                                                     {
-                                                    console.log(4);
                                                         var rec=unescape_xml(req.responseText);
                                                         error_message ('erreur :'+rec);
                                                     }
                                                     var code_html=getNodeText(html[0]);
                                                     code_html=unescape_xml(code_html);
-                                                    console.log(5);
                                                     
                                                     // if the target doesn't exist 
                                                     // then create it
@@ -2349,12 +2340,9 @@ function calendar_zoom(obj)
                                                     if (   $(obj.outdiv) == undefined) {
                                                         var str_style=fixed_position(0,20);
                                                         add_div({id:obj.outdiv,style:'margin-left:3%;width:94%;height:94%;'+str_style,cssclass:"inner_box",drag:1});
-                                                        console.log(5);
                                                     }
                                                     remove_waiting_box();
-                                                    console.log(6);
                                                     $(obj.outdiv).innerHTML=code_html;
-                                                    console.log(7);
                                                     $(obj.outdiv).show();
                                           }
                                       }
