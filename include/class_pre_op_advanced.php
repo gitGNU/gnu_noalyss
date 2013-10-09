@@ -46,8 +46,8 @@ class Pre_Op_Advanced extends Pre_operation_detail
         {
             if ( ! isset ($_POST['poste'.$i]) && ! isset ($_POST['qc_'.$i]))
                 continue;
-            $this->{'poste'.$i}=(isset($_POST['qc_'.$i]))?$_POST['qc_'.$i]:$_POST['poste'.$i];
-            $this->{'isqc'.$i}=(isset($_POST['qc_'.$i]))?'t':'f';
+            $this->{'poste'.$i}=(trim($_POST['qc_'.$i]) != "" )?$_POST['qc_'.$i]:$_POST['poste'.$i];
+            $this->{'isqc'.$i}=(trim($_POST['qc_'.$i]) != "")?'t':'f';
             $this->{"amount".$i}=$_POST['amount'.$i];
             $this->{"ck".$i}=(isset($_POST['ck'.$i]))?'t':'f';
 
