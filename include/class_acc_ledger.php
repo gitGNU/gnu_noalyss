@@ -2090,7 +2090,7 @@ class Acc_Ledger extends jrn_def_sql
 			$this->internal = $internal;
 			// Save now the predef op
 			//------------------------
-                        if (isset ($opd_name)){
+                        if (isset ($opd_name) && trim($opd_name) != "" ){
 				$opd = new Pre_Op_Advanced($this->db);
 				$opd->get_post();
 				$opd->save();
