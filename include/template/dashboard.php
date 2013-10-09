@@ -153,7 +153,7 @@ if ( ! empty ($array) )  {
 ?>
 </fieldset>
 </div>
-<div style="float:left;clear:both"></div>
+
 <div style="float:right;width: 49%">
 	
 <div id="action_late_div"  class="inner_box" style="display:none;margin-left:25%;top:25%;width: 50%;height:50%;overflow: auto;">

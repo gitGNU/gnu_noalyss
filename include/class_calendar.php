@@ -53,9 +53,11 @@ class Calendar
 		$profile=$g_user->get_profile();
 
         $cn=new Database(dossier::id());
-        $sql="select ag_id,to_char(ag_remind_date,'DD')::integer as ag_timestamp_day,ag_title,ag_hour
+        $sql="select ag_id,to_char(ag_remind_date,'DD')::integer as ag_timestamp_day,ag_title,ag_hour,
+             coalesce(name,'interne') as str_name
 			".
              " from action_gestion ".
+             "  left join vw_fiche_name  on (f_id=f_id_dest) ".
              " where ".
              " to_char(ag_remind_date,'MM')::integer=$1 ".
              " and to_char(ag_remind_date,'YYYY')::integer=$2 ".
@@ -70,6 +72,7 @@ class Calendar
             $this->action[$ind][]=$array[$i]['ag_id'];
             $this->title[$ind][]=$array[$i]['ag_title'];
             $this->hour[$ind][]=$array[$i]['ag_hour'];
+            $this->str_name[$ind][]=$array[$i]['str_name'];
 
         }
 		/*
@@ -99,7 +102,7 @@ class Calendar
                         $p_array[$day].="<ol>";
 			for ($i=0;$i<count($aAction);$i++)
 			{
-				$p_array[$day].='<li>&rarr;'.HtmlInput::detail_action($aAction[$i], $this->hour[$day][$i]." ".$this->title[$day][$i]).'</li>';
+				$p_array[$day].='<li>'.hb($this->str_name[$day][$i]).'&rarr;'.HtmlInput::detail_action($aAction[$i], $this->hour[$day][$i]." ".$this->title[$day][$i]).'</li>';
 			}
 			$p_array[$day].='</ol>';
 		}
@@ -171,6 +174,7 @@ class Calendar
         $wMonth->set_attribute('gDossier',dossier::id());
         $month_year=$wMonth->input().$wMonth->get_js_attr();
         ob_start();
+        $zoom=0;
         require_once('template/calendar.php');
 
 		if (count($this->action_div) > 0)
@@ -257,6 +261,7 @@ class Calendar
             dossier::id(),'per_div','calendar_zoom_div');
         $wMonth->set_attribute('gDossier',dossier::id());
         $month_year=$wMonth->input().$wMonth->get_js_attr();
+        $zoom=1;
         ob_start();
         require_once('template/calendar.php');
 

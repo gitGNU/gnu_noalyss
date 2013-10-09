@@ -1,6 +1,10 @@
 <div class="pc_calendar" id="user_cal" style="width:100%">
 <?php echo $month_year?>
+<?php if ($zoom == 1 ): ?>    
 <table style="width:100%;height:80%">
+    <?php else: ?>
+<table style="width:100%;">
+    <?php endif; ?>
 <tr>
 <?php
 for ($i=0;$i<=6;$i++){
