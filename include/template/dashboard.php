@@ -222,6 +222,36 @@ if ( ! empty ($array) )  {
 	<?php display_dashboard_operation($customer_now,"Encaissement clients aujourd'hui",'customer_now_div'); ?>
 	<?php display_dashboard_operation($customer_late,"Clients en retard",'customer_late_div'); ?>
 </div>
+<div style="float:right;width: 49%">
+<fieldset>
+<legend><?php echo _('Dernières opérations')?>
+</legend>
+<table style="width: 100%">
+<?php
+for($i=0;$i<count($last_ledger);$i++):
+	$class=($i%2==0)?' class="even" ':' class="odd" ';
+?>
+<tr <?php echo $class ?>>
+	<td><?php echo   smaller_date($last_ledger[$i]['jr_date_fmt'])?>
+	</td>
+	<td>
+		<?php echo $last_ledger[$i]['jrn_def_code']?>
+	</td>
+<td>
+   <?php echo h(mb_substr($last_ledger[$i]['jr_comment'],0,40,'UTF-8'))?>
+</td>
+<td>
+<?php echo HtmlInput::detail_op($last_ledger[$i]['jr_id'], $last_ledger[$i]['jr_internal'])?>
+</td>
+<td class="num">
+<?php echo nbm($last_ledger[$i]['jr_montant'])?>
+</td>
+
+</tr>
+<?php endfor;?>
+</ul></table>
+</fieldset>
+</div>
 <!-- Mini rapport -->
 	<div style="float:left;width: 49%">
 <?php
@@ -274,36 +304,7 @@ echo '</div>';
 ?>
 </div>
 
-<div style="float:right;width: 49%">
-<fieldset>
-<legend><?php echo _('Dernières opérations')?>
-</legend>
-<table style="width: 100%">
-<?php
-for($i=0;$i<count($last_ledger);$i++):
-	$class=($i%2==0)?' class="even" ':' class="odd" ';
-?>
-<tr <?php echo $class ?>>
-	<td><?php echo   smaller_date($last_ledger[$i]['jr_date_fmt'])?>
-	</td>
-	<td>
-		<?php echo $last_ledger[$i]['jrn_def_code']?>
-	</td>
-<td>
-   <?php echo h(mb_substr($last_ledger[$i]['jr_comment'],0,40,'UTF-8'))?>
-</td>
-<td>
-<?php echo HtmlInput::detail_op($last_ledger[$i]['jr_id'], $last_ledger[$i]['jr_internal'])?>
-</td>
-<td class="num">
-<?php echo nbm($last_ledger[$i]['jr_montant'])?>
-</td>
 
-</tr>
-<?php endfor;?>
-</ul></table>
-</fieldset>
-</div>
 
 
 
