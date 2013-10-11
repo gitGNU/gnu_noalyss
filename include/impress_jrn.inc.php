@@ -350,7 +350,12 @@ if (isset($_REQUEST['bt_html']))
 			}
 			else
 			{
-				echo  nbm($line['montant']) ;
+				if ( isset ($line['TVAC'])) {
+                                    echo  ( nbm($line['TVAC'])  < 0 ) ? "<font color=\"red\">  - " . nbm($line['TVAC']) . "</font>" : nbm($line['TVAC']);
+                                } else
+                                {
+                                    echo  nbm($line['montant']) ;
+                                }
 			}
 			echo  "</TD>";
 			echo "</tr>";
