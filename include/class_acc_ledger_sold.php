@@ -1271,7 +1271,33 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         $r.= create_script("$('" . $Date->id . "').focus()");
         return $r;
     }
-
+    /**
+     * Retrieve data from the view v_detail_sale
+     * @global  $g_user connected user
+     * @param $p_from jrn.jr_tech_per from 
+     * @param type $p_end jrn.jr_tech_per to
+     * @return type
+     */
+    function get_detail_sale($p_from,$p_end)
+    {
+        global $g_user;
+        // Journal valide
+        if ( $this->id == 0 ) die (__FILE__.":".__LINE__." Journal invalide");
+        
+        // Securite
+        if ( $g_user->get_ledger_access($this->id) == 'X' ) return null;
+        
+        // get the data from the view
+        $sql = "select * 
+                from v_detail_sale
+                 where 
+                jr_def_id = $1 
+                and  jr_date >= (select p_start from parm_periode where p_id = $2) 
+		and  jr_date <= (select p_end from parm_periode where p_id  = $3) "
+                .' order by jr_date,substring(jr_pj_number,\'[0-9]+$\')::numeric asc ';
+        $ret = $this->db->exec_sql($sql, array($this->id,$p_from, $p_end));
+        return $ret;
+    }
     /* !\brief test function
      */
 

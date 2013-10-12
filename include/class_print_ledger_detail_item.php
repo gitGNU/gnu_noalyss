@@ -5,9 +5,11 @@
  *
  * @author danydb
  */
-class Print_Ledger_Detail_Item extends PDF
+require_once 'class_acc_ledger_sold.php';
+require_once 'class_acc_ledger_purchase.php';
+class Print_Ledger_Detail_Item extends PDFLand
 {
-    public function __construct ($p_cn,$p_jrn)
+    public function __construct (Database $p_cn,Acc_Ledger $p_jrn)
     {
 
         if($p_cn == null) die("No database connection. Abort.");
@@ -39,39 +41,8 @@ class Print_Ledger_Detail_Item extends PDF
      */
     function Footer()
     {
-        //Position at 3 cm from bottom
-        $this->SetY(-20);
-        /* write reporting  */
-        $this->Cell(143,6,'Total page ','T',0,'R'); /* HTVA */
-        $this->Cell(15,6,nbm($this->tp_htva),'T',0,'R'); /* HTVA */
-        if ( $this->jrn_type !='VEN')
-        {
-            $this->Cell(15,6,nbm($this->tp_priv),'T',0,'R');  /* prive */
-            $this->Cell(15,6,nbm($this->tp_nd),'T',0,'R');  /* Tva ND */
-        }
-        foreach($this->a_Tva as $line_tva)
-        {
-            $l=$line_tva['tva_id'];
-            $this->Cell(15,6,nbm($this->tp_tva[$l]),'T',0,'R');
-        }
-        $this->Cell(15,6,nbm($this->tp_tvac),'T',0,'R'); /* Tvac */
         $this->Ln(2);
-
-        $this->Cell(143,6,'report',0,0,'R'); /* HTVA */
-        $this->Cell(15,6,nbm($this->rap_htva),0,0,'R'); /* HTVA */
-        if ( $this->jrn_type !='VEN')
-        {
-            $this->Cell(15,6,nbm($this->rap_priv),0,0,'R');  /* prive */
-            $this->Cell(15,6,nbm($this->rap_nd),0,0,'R');  /* Tva ND */
-        }
-        foreach($this->a_Tva as $line_tva)
-        {
-            $l=$line_tva['tva_id'];
-            $this->Cell(15,6,nbm($this->rap_tva[$l]),0,0,'R');
-        }
-        $this->Cell(15,6,nbm($this->rap_tvac),0,0,'R'); /* Tvac */
-        $this->Ln(2);
-
+        $this->Cell(0,8,' Journal '.$this->ledger->get_name(),0,0,'C');
         //Arial italic 8
         $this->SetFont('Arial', 'I', 8);
         //Page number
@@ -91,12 +62,69 @@ class Print_Ledger_Detail_Item extends PDF
     function export()
     {
       bcscale(2);
-        $a_jrn=$this->ledger->get_operation($_GET['from_periode'],
-                                            $_GET['to_periode']);
-
-        if ( $a_jrn == null ) return;
-        for ( $i=0;$i<count($a_jrn);$i++)
+      $jrn_type=$this->ledger->get_type();
+      switch ($jrn_type)
+      {
+          case 'VEN':
+              $ledger=new Acc_Ledger_Sold($this->cn, $this->ledger->jrn_def_id);
+              $ret_detail=$ledger->get_detail_sale($_GET['from_periode'],$_GET['to_periode']);
+              break;
+          case 'ACH':
+                $ledger=new Acc_Ledger_Purchase($this->cn, $this->ledger->jrn_def_id);
+                $ret_detail=$ledger->get_detail_purchase($_GET['from_periode'],$_GET['to_periode']);
+              break;
+          default:
+              die (__FILE__.":".__LINE__.'Journal invalide');
+              break;
+      }
+        if ( $ret_detail == null ) return;
+        $nb=Database::num_row($ret_detail);
+        $this->SetFont('DejaVu', '', 6);
+        $internal="";
+        $this->SetFillColor(220,221,255);
+        $high=4;
+        for ( $i=0;$i< $nb ;$i++)
         {
+            $row=Database::fetch_array($ret_detail, $i);
+            if ($internal != $row['jr_internal'])
+            {
+                // Print the general info line width=270mm
+                $this->LongLine(20, $high, $row['jr_date'],1,  'L', true);
+                $this->Cell(20, $high, $row['jr_internal'], 1, 0, 'L', true);
+                $this->LongLine(70, $high, $row['quick_code']." ".$row['tiers_name'],1,'L',true);
+                $this->LongLine(100, $high, $row['jr_comment'],1,'L',true);
+                $this->Cell(20, $high, nbm($row['htva']), 1, 0, 'R', true);
+                $this->Cell(20, $high, nbm($row['tot_vat']), 1, 0, 'R', true);
+                $sum=bcadd($row['htva'],$row['tot_vat']);
+                $this->Cell(20, $high, nbm($sum), 1, 0, 'R', true);
+                $internal=$row['jr_internal'];
+                $this->Ln(6);
+                //
+                // Header detail
+                $this->LongLine(30,$high,'QuickCode');
+                $this->Cell(30,$high,'Poste');
+                $this->LongLine(90,$high,'Libellé');
+                $this->Cell(20,$high,'Prix/Unit',0,0,'R');
+                $this->Cell(20,$high,'Quant.',0,0,'R');
+                $this->Cell(20,$high,'HTVA',0,0,'R');
+                $this->Cell(20,$high,'Code TVA');
+                $this->Cell(20,$high,'TVA',0,0,'R');
+                $this->Cell(20,$high,'TVAC',0,0,'R');
+                $this->Ln(6);
+            }
+            // Print detail sale / purchase
+            $this->LongLine(30,$high,$row['j_qcode']);
+            $this->Cell(30,$high,$row['j_poste']);
+            $comment=($row['j_text']=="")?$row['item_name']:$row['j_text'];
+            $this->LongLine(90,$high,$comment);
+            $this->Cell(20,$high,nbm($row['price_per_unit']),0,0,'R');
+            $this->Cell(20,$high,nbm($row['quantity']),0,0,'R');
+            $this->Cell(20,$high,nbm($row['price']),0,0,'R');
+            $this->Cell(20,$high,$row['vat_code']." ".$row['tva_label']);
+            $this->Cell(20,$high,nbm($row['vat']),0,0,'R');
+            $sum=bcadd($row['price'],$row['vat']);
+            $this->Cell(20,$high,nbm($sum),0,0,'R');
+            $this->Ln(6);
             
         }
     }

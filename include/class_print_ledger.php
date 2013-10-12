@@ -29,6 +29,7 @@ require_once('class_print_ledger_simple.php');
 require_once('class_print_ledger_simple_without_vat.php');
 require_once('class_print_ledger_fin.php');
 require_once('class_print_ledger_misc.php');
+require_once 'class_print_ledger_detail_item.php';
 
 /**
  * @brief Strategie class for the print_ledger class

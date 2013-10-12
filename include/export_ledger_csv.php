@@ -27,7 +27,8 @@ header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="jrn.csv"',FALSE);
 include_once ("ac_common.php");
 require_once('class_own.php');
-
+require_once 'class_acc_ledger_sold.php';
+require_once 'class_acc_ledger_purchase.php';
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
@@ -50,6 +51,54 @@ $Jrn=new Acc_Ledger($cn,$_GET['jrn_id']);
 $Jrn->get_name();
 $jrn_type=$Jrn->get_type();
 
+//
+// With Detail per item which is possible only for VEN or ACH
+// 
+if ($_GET['p_simple'] == 2)
+{
+    if ($jrn_type != 'ACH' && $jrn_type != 'VEN' || $Jrn->id == 0)
+    {
+        $_GET['p_simple'] = 0;
+    }
+    else
+    {
+        switch ($jrn_type)
+        {
+            case 'VEN':
+                $ledger = new Acc_Ledger_Sold($cn, $_GET['jrn_id']);
+                $ret_detail = $ledger->get_detail_sale($_GET['from_periode'], $_GET['to_periode']);
+                break;
+            case 'ACH':
+                $ledger = new Acc_Ledger_Purchase($cn, $_GET['jrn_id']);
+                $ret_detail = $ledger->get_detail_purchase($_GET['from_periode'], $_GET['to_periode']);
+                
+                break;
+            default:
+                die(__FILE__ . ":" . __LINE__ . 'Journal invalide');
+                break;
+        }
+        if ($ret_detail == null)
+            return;
+        $nb = Database::num_row($ret_detail);
+        $output=fopen("php://output","w");
+        
+        for ($i = 0;$i < $nb ; $i++) {
+            $row=Database::fetch_array($ret_detail, $i);
+            if ( $i == 0 ) {
+              foreach ($row as $key=>$value) {
+                  if (isNumber($key) == 0 )$array_key[]=$key;
+              }
+              fputcsv($output,$array_key,';');
+            }
+            $a_row=array();
+            for ($j=0;$j < count($row) / 2;$j++) {
+                $a_row[]=$row[$j];
+            }
+            fputcsv($output,$a_row,';');
+            unset($a_row);
+        }
+    }
+}
 // Detailled printing
 //---
 if  ( $_GET['p_simple'] == 0 )
@@ -85,7 +134,7 @@ if  ( $_GET['p_simple'] == 0 )
     }
     exit;
 }
-else
+else if  ($_GET['p_simple'] == 0)
 {
     $Row=$Jrn->get_rowSimple($_GET['from_periode'],
                              $_GET['to_periode'],

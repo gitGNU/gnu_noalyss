@@ -172,33 +172,31 @@ if (isset($_REQUEST['bt_html']))
 	echo '<h2 class="info">' . h($Jrn->name) . '</h2>';
 	echo "<table>";
 	echo '<TR>';
-	if ($_GET['p_simple'] == 0 || $_GET['p_simple'] == 1)
-	{
-		echo '<TD><form method="GET" ACTION="?">' . dossier::hidden() .
-		$hid->input("type", "jrn") . $hid->input('p_action', 'impress') . "</form></TD>";
+        echo '<TD><form method="GET" ACTION="?">' . dossier::hidden() .
+        $hid->input("type", "jrn") . $hid->input('p_action', 'impress') . "</form></TD>";
 
-		echo '<TD><form method="GET" ACTION="export.php">' . dossier::hidden() .
-		HtmlInput::submit('bt_pdf', "Export PDF") .
-		HtmlInput::hidden('act', 'PDF:ledger') .
-		$hid->input("type", "jrn") .
-		$hid->input("jrn_id", $Jrn->id) .
-		$hid->input("from_periode", $_GET['from_periode']) .
-		$hid->input("to_periode", $_GET['to_periode']);
-		echo $hid->input("p_simple", $_GET['p_simple']);
-		echo HtmlInput::get_to_hidden(array('ac', 'type'));
-		echo "</form></TD>";
+        echo '<TD><form method="GET" ACTION="export.php">' . dossier::hidden() .
+        HtmlInput::submit('bt_pdf', "Export PDF") .
+        HtmlInput::hidden('act', 'PDF:ledger') .
+        $hid->input("type", "jrn") .
+        $hid->input("jrn_id", $Jrn->id) .
+        $hid->input("from_periode", $_GET['from_periode']) .
+        $hid->input("to_periode", $_GET['to_periode']);
+        echo $hid->input("p_simple", $_GET['p_simple']);
+        echo HtmlInput::get_to_hidden(array('ac', 'type'));
+        echo "</form></TD>";
 
-		echo '<TD><form method="GET" ACTION="export.php">' . dossier::hidden() .
-		HtmlInput::submit('bt_csv', "Export CSV") .
-		HtmlInput::hidden('act', 'CSV:ledger') .
-		$hid->input("type", "jrn") .
-		$hid->input("jrn_id", $Jrn->id) .
-		$hid->input("from_periode", $_GET['from_periode']) .
-		$hid->input("to_periode", $_GET['to_periode']);
-		echo $hid->input("p_simple", $_GET['p_simple']);
-		echo HtmlInput::get_to_hidden(array('ac', 'type'));
-		echo "</form></TD>";
-	}
+        echo '<TD><form method="GET" ACTION="export.php">' . dossier::hidden() .
+        HtmlInput::submit('bt_csv', "Export CSV") .
+        HtmlInput::hidden('act', 'CSV:ledger') .
+        $hid->input("type", "jrn") .
+        $hid->input("jrn_id", $Jrn->id) .
+        $hid->input("from_periode", $_GET['from_periode']) .
+        $hid->input("to_periode", $_GET['to_periode']);
+        echo $hid->input("p_simple", $_GET['p_simple']);
+        echo HtmlInput::get_to_hidden(array('ac', 'type'));
+        echo "</form></TD>";
+
 	echo '<td style="vertical-align:top">';
 	echo HtmlInput::print_window();
 	echo '</td>';
