@@ -1,13 +1,8 @@
-<div style="float:left;width: 49%">
-<fieldset >
-<legend><?php echo _('Calendrier')?>
-</legend>
-<?php echo HtmlInput::calendar_zoom($obj); ?>
-<?php echo $cal->display(); ?>
-</fieldset>
-</div>
+<!-- left div -->
+<div style="float:right;width: 49%">
 
 <?php
+
 /*
  * Todo list
  */
@@ -24,7 +19,7 @@ if ( isset($_REQUEST['save_todo_list'])) {
 $todo=new Todo_List($cn);
 $array=$todo->load_all();
 ?>
-<div style="float:right;width: 49%">
+<div style="float:right;width: 100%">
 <fieldset> 
     <legend> Situation </legend>
     <table class='result'>
@@ -153,8 +148,7 @@ if ( ! empty ($array) )  {
 ?>
 </fieldset>
 </div>
-
-<div style="float:right;width: 49%">
+<div style="float:right;width: 100%">
 	
 <div id="action_late_div"  class="inner_box" style="display:none;margin-left:25%;top:25%;width: 50%;height:50%;overflow: auto;">
 	<?php
@@ -223,59 +217,9 @@ if ( ! empty ($array) )  {
 	<?php display_dashboard_operation($customer_late,"Clients en retard",'customer_late_div'); ?>
 </div>
 
-<!-- Mini rapport -->
-	<div style="float:left;width: 47%">
-<?php
-/*
- * Mini Report
- */
-$report=$g_user->get_mini_report();
-
-$rapport=new Acc_Report($cn);
-$rapport->id=$report;
-if ( $rapport->exist() == false ) {
-  $g_user->set_mini_report(0);
-  $report=0;
-}
-
-if ( $report != 0 ) {
-  echo '<fieldset style="height:50%;"><legend>'.$rapport->get_name().'</legend>';
-  $exercice=$g_user->get_exercice();
-  if ( $exercice == 0 ) {
-    alert(_('Aucune periode par defaut'));
-  } else {
-    $periode=new Periode($cn);
-    $limit=$periode->limit_year($exercice);
-
-    $result=$rapport->get_row($limit['start'],$limit['end'],'periode');
-    $ix=0;
-    echo '<table border="0" width="100%">';
-    foreach ($result as $row) {
-      $ix++;
-	  $class=($ix%2==0)?' class="even" ':' class="odd" ';
-      echo '<tr '.$class.'>';
-
-      echo '<td> '.$row['desc'].'</td>'.
-	'<td style="text-align:right">'.nbm($row['montant'])." &euro;</td>";
-      echo '</tr>';
-    }
-    echo '</table>';
-  }
-  echo '</fieldset>';
-  echo '</div>';
- } else {
-  echo '<fieldset style="height:50%;width:80%;background-color:white"><legend>'._('Aucun rapport défini').'</legend>';
-  echo '<a href="javascript:void(0)" onclick="set_preference('.dossier::id().')">'._('Cliquez ici pour mettre à jour vos préférences').'</a>';
 
 
-echo '</fieldset>';
-echo '</div>';
-}
-
-?>
-</div>
-
-<div style="float:right;width: 47%">
+<div style="float:right;width: 100%">
 <fieldset>
 <legend><?php echo _('Dernières opérations')?>
 </legend>
@@ -306,6 +250,70 @@ for($i=0;$i<count($last_ledger);$i++):
 </fieldset>
 </div>
 
+</div>
+<div style="float:right;width: 49%">
+    
+<div style="float:left;width: 100%">
+<fieldset >
+<legend><?php echo _('Calendrier')?>
+</legend>
+<?php echo HtmlInput::calendar_zoom($obj); ?>
+<?php echo $cal->display(); ?>
+</fieldset>
+</div>
+<!-- Mini rapport -->
+<div style="float:left;width: 100%">
+<?php
+/*
+ * Mini Report
+ */
+$report=$g_user->get_mini_report();
+
+$rapport=new Acc_Report($cn);
+$rapport->id=$report;
+if ( $rapport->exist() == false ) {
+  $g_user->set_mini_report(0);
+  $report=0;
+}
+
+if ( $report != 0 ) : ?>
+<fieldset style="height:50%;"><legend><?php echo $rapport->get_name()?></legend>
+<?php    
+  $exercice=$g_user->get_exercice();
+  if ( $exercice == 0 ) {
+    alert(_('Aucune periode par defaut'));
+  } else {
+    $periode=new Periode($cn);
+    $limit=$periode->limit_year($exercice);
+
+    $result=$rapport->get_row($limit['start'],$limit['end'],'periode');
+    $ix=0;
+    echo '<table border="0" width="100%">';
+    foreach ($result as $row) {
+      $ix++;
+	  $class=($ix%2==0)?' class="even" ':' class="odd" ';
+      echo '<tr '.$class.'>';
+
+      echo '<td> '.$row['desc'].'</td>'.
+	'<td style="text-align:right">'.nbm($row['montant'])." &euro;</td>";
+      echo '</tr>';
+    }
+    echo '</table>';
+  }
+  ?>
+  </fieldset>
+<?php
+  else :
+?>
+  <fieldset style="height:50%;width:80%;background-color:white"><legend><?php _('Aucun rapport défini')?></legend>
+  <a href="javascript:void(0)" onclick="set_preference('.dossier::id().')"><?php echo _('Cliquez ici pour mettre à jour vos préférences')?></a>
+
+</fieldset>
+<?php
+endif;
+?>
+</div>
+</div>
 
 
 <div id="add_todo_list" >
