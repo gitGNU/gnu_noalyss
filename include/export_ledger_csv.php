@@ -22,9 +22,10 @@
  * \brief Send a ledger in CSV format
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
+$fDate = date('dmy-Hi');
 header('Pragma: public');
 header('Content-type: application/csv');
-header('Content-Disposition: attachment;filename="jrn.csv"',FALSE);
+header('Content-Disposition: attachment;filename="jrn-'.$fDate.'.csv"',FALSE);
 include_once ("ac_common.php");
 require_once('class_own.php');
 require_once 'class_acc_ledger_sold.php';
