@@ -21,6 +21,7 @@ Montant
 </tr>
 <?php 
 for ($i=0;$i<count($array);$i++) {
+        
 	$r='';
 	$r.=td($i);
 	$r.=td(format_date($array[$i]['first']['jr_date']));
@@ -31,6 +32,9 @@ for ($i=0;$i<count($array);$i++) {
 	$r.=td($array[$i]['first']['jr_comment']);
 	$r.=td(nbm($array[$i]['first']['jr_montant']),'style="text-align:right"');
 	echo tr($r);
+        // check if operation does exist in v_detail_quant
+        $ret=$a->db->execute('detail_quant',array($array[$i]['first']['jr_id']));
+        $a->show_detail($ret);
 	if ( isset($array[$i]['depend']) )
 	{
 		$limit=count($array[$i]['depend'])-1;
@@ -48,7 +52,10 @@ for ($i=0;$i<count($array);$i++) {
 				echo '<tr style="border-bottom: 1px solid  #4f4f7d;">'.$r.'</tr>';
 			else
 				echo tr($r);
+                        $ret=$a->db->execute('detail_quant',array($array[$i]['depend'][$e]['jr_id']));
+                        $a->show_detail($ret);
 			}
+                         
 	}
 }
 ?>

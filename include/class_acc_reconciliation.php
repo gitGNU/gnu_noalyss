@@ -255,7 +255,7 @@ j1.j_poste as poste
     }
     /**
      *@brief return array of not-reconciled operation
-
+    * Prepare and put in memory the SQL detail_quant
     */
     function get_not_reconciled()
     {
@@ -270,7 +270,7 @@ j1.j_poste as poste
             $this->jr_id=$array[$i]['jr_id'];
             $ret[$i]['first']=$this->fill_info();
         }
-
+        $this->db->prepare('detail_quant','select * from v_quant_detail where jr_id=$1');
         return $ret;
     }
     /**
@@ -302,6 +302,7 @@ j1.j_poste as poste
     }
     /**
      *@brief return array of reconciled operation
+     * Prepare and put in memory the SQL detail_quant
      *@return
      *@note
      *@see
@@ -330,10 +331,12 @@ j1.j_poste as poste
                 $ret[$i]['depend'][$e]=$this->fill_info();
             }
         }
+        $this->db->prepare('detail_quant','select * from v_quant_detail where jr_id=$1');
         return $ret;
     }
     /**
      *@brief
+     * Prepare and put in memory the SQL detail_quant
      *@param
      *@return
      *@note
@@ -388,6 +391,18 @@ j1.j_poste as poste
 		and jr_date <= to_date('".$this->end_day."','DD.MM.YYYY'))";
       return $sql;
 
+    }
+    function show_detail($p_ret)
+    {
+        if (Database::num_row($p_ret)> 0)
+        {
+            echo '<tr class="odd">';
+            echo '<td></td>';
+            echo '<td colspan="5" style="border:1px solid black;width:auto">';
+            include 'template/impress_reconciliation_detail.php';
+            echo '</td>';
+            echo '</tr>';
+        }
     }
     static function test_me()
     {
