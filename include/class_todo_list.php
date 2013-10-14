@@ -184,7 +184,7 @@ class Todo_List
      */
     public function load_all()
     {
-        $sql="select tl_id, tl_title,tl_desc,to_char( tl_date,'DD.MM.YYYY') as str_tl_date
+        $sql="select tl_id, tl_title,tl_desc,to_char( tl_date,'DD.MM.YYYY') as str_tl_date,tl_date
              from todo_list where use_login=$1".
              " order by tl_date::date asc";
         $res=$this->cn->exec_sql(

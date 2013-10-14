@@ -121,7 +121,8 @@ $array=$todo->load_all();
 <?php
 echo HtmlInput::button('add',_('Ajout'),'onClick="add_todo()"');
 if ( ! empty ($array) )  {
-  echo '<table id="table_todo" width="100%">';
+  echo '<table id="table_todo" class="sortable" width="100%">';
+  echo '<tr><th class=" sorttable_sorted_reverse">Date <span id="sorttable_sortrevind">&nbsp;&blacktriangle;</span></th><th>Titre</th><th></th>';
   $nb=0;
   $today=date('d.m.Y');
 
@@ -130,7 +131,7 @@ if ( ! empty ($array) )  {
     if ( strcmp($today,$row['str_tl_date'])==0) { $odd.=' style="background-color:#FFEA00"';}
     $nb++;
     echo '<tr id="tr'.$row['tl_id'].'" '.$odd.'>'.
-      '<td>'.
+      '<td sorttable_customkey="'.$row['tl_date'].'>">'.
       $row['str_tl_date'].
       '</td>'.
       '<td>'.
