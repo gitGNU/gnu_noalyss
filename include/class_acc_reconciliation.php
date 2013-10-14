@@ -349,13 +349,14 @@ j1.j_poste as poste
     {
         $array=$this->get_reconciled();
         $ret=array();
+        bcscale(2);
         for ($i=0;$i<count($array);$i++)
         {
             $first_amount=$array[$i]['first']['jr_montant'];
             $second_amount=0;
             for ($e=0;$e<count($array[$i]['depend']);$e++)
             {
-                $second_amount+=$array[$i]['depend'][$e]['jr_montant'];
+                $second_amount=bcadd($second_amount,$array[$i]['depend'][$e]['jr_montant']);
             }
             if ( $p_equal &&  $first_amount==$second_amount)
             {
@@ -404,25 +405,110 @@ j1.j_poste as poste
             echo '</tr>';
         }
     }
+    /**
+     * Export to CSV
+     * @param type $p_choice 
+     * 
+     * @note must be set before calling
+     *    - $this->a_jrn       array of ledger
+     *    - $this->start_day start date
+     *    - $this->end_day end date
+     * @see Acc_Reconciliation::get_data
+     */
+    function export_csv($p_choice)
+    {
+        $array = $this->get_data($p_choice);
+        for ($i = 0; $i < count($array); $i++)
+        {
+            // ---------------------------------------
+            // first index has 2 arrays : first & depend[]
+            // ---------------------------------------
+
+            $first = $array[$i]['first'];
+            $a_depend = array();
+            if (isset($array[$i]['depend']))
+            {
+                $a_depend = $array[$i]['depend'];
+                //----- HEADER ----
+                if ($i == 0)
+                {
+                    printf('"n°";"Date";"internal";"libellé";"n° pièce";"nom journal";"type journal";"montant"');
+                    printf(';"<->";"Date";"internal";"libellé";"n° pièce";"nom journal";"type journal";"montant"' . "\n\r");
+                }
+            }
+            else
+            {
+                //----- HEADER ----
+                if ($i == 0)
+                {
+                    printf('"n°";"Date";"internal";"libellé";"n° pièce";"nom journal";"type journal";"montant"' . "\n\r");
+                }
+            }
+            // --------------------------
+            // Print First
+            // --------------------------
+            printf('%d;"%s";"%s";"%s";"%s";"%s";"%s";%f',$i, $first['jr_date'], $first['jr_internal'], $first['jr_comment'], $first['jr_pj_number'], $first['jrn_def_name'], $first['jrn_def_type'], $first['jr_montant']);
+            if (count($a_depend) > 0)
+            {
+                // --------------------------------------
+                // Print first depending operation
+                // --------------------------------------
+                $depend = $a_depend[0];
+                printf(';"<->";"%s";"%s";"%s";"%s";"%s";"%s";%f' . "\n\r", $depend['jr_date'], $depend['jr_internal'], $depend['jr_comment'], $depend['jr_pj_number'], $depend['jrn_def_name'], $depend['jrn_def_type'], $depend['jr_montant']);
+
+                // --------------------------------------
+                // print other depending operation if any
+                // --------------------------------------
+                for ($e = 1; $e < count($a_depend); $e++)
+                {
+                    $depend = $a_depend[$e];
+                    printf(';;;;;;;"<->";');
+                    printf('"%s";"%s";"%s";"%s";"%s";"%s";%f' . "\n\r", $depend['jr_date'], $depend['jr_internal'], $depend['jr_comment'], $depend['jr_pj_number'], $depend['jrn_def_name'], $depend['jrn_def_type'], $depend['jr_montant']);
+                }
+            }
+            else
+            {
+                printf("\n\r");
+            }
+        }
+    }
+
+    /**
+     * 
+     * @param type $p_choice
+     *       - 0 : operation reconcilied
+     *       - 1 : reconcilied with different amount
+     *       - 2 : reconcilied with same amount
+     *       - 3 : not reconcilied 
+     * @return $array
+     */
+    function get_data($p_choice)
+    {
+        switch ($p_choice)
+        {
+            case 0:
+                $array = $this->get_reconciled();
+                break;
+            case 1:
+                $array = $this->get_reconciled_amount(false);
+                break;
+            case 2:
+                $array = $this->get_reconciled_amount(true);
+                break;
+            case 3:
+                $array = $this->get_not_reconciled();
+                break;
+            default:
+                echo "Choix invalid";
+                exit();
+        }
+        return $array;
+    }
+
     static function test_me()
     {
         $cn=new Database(dossier::id());
         $rap=new Acc_Reconciliation($cn);
-        /*    $rap->set_jr_id(38);
-        $a=$rap->get();
-        print_r($a);
-        $rap->remove(4);
-        $rap->insert("4,5,6");
-        $a=$rap->get();
-        print_r($a);
-        echo Acc_Reconciliation::$javascript;
-        $w=$rap->widget();
-        $w->name="jr_concerned";
-
-        $w->extra2="";
-        echo $w->input();
-        */
-        //var_dump($rap->get_reconciled(''));
         var_dump($rap->get_reconciled_amount('',false));
     }
 

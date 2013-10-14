@@ -83,29 +83,21 @@ echo '</div>';
 echo '</div>';
 echo '<div class="content">';
 if ( ! isset($_GET['vis'])) exit();
-$a=new Acc_Reconciliation($cn);
-$a->a_jrn=$r_jrn;
-$a->start_day=$dstart->value;
-$a->end_day=$dend->value;
+$acc_reconciliation=new Acc_Reconciliation($cn);
+$acc_reconciliation->a_jrn=$r_jrn;
+$acc_reconciliation->start_day=$dstart->value;
+$acc_reconciliation->end_day=$dend->value;
 
-switch ($choice)
-{
-case 0:
-    $array=$a->get_reconciled();
-    break;
-case 1:
-    $array=$a->get_reconciled_amount(false);
-    break;
-case 2:
-    $array=$a->get_reconciled_amount(true);
-    break;
-case 3:
-    $array=$a->get_not_reconciled();
-    break;
-default:
-    echo "Choix invalid";
-    exit();
-}
+$array=$acc_reconciliation->get_data($choice);
+
 $gDossier=Dossier::id();
+?>
+<form method="get" action="export.php">
+    <?php echo HtmlInput::get_to_hidden(array('ac','gDossier','p_end','p_start','choice','r_jrn'));
+    echo HtmlInput::hidden('act','CSV:Reconciliation');
+    echo HtmlInput::submit("csv_bt", "Export CSV");
+    ?>
+</form>
+<?php
 require_once('template/impress_reconciliation.php');
 exit();
