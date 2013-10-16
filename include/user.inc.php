@@ -88,7 +88,9 @@ echo HtmlInput::button_action("Fermer", "$('create_user').style.display='none';$
 </div>
 
 <?php
+echo '<p>';
 echo HtmlInput::button_action("Ajout utilisateur", "$('create_user').show();$('cu').hide()","cu");
+echo '</p>';
 // Show all the existing user on 7 columns
 $repo=new Dossier(0);
 /******************************************************/

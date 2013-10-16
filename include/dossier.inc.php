@@ -156,8 +156,10 @@ if ( isset ($_POST["DATABASE"]) )
 if ( $sa == 'list' )
 {
 	require_once('class_sort_table.php');
-    echo HtmlInput::button_anchor(_('Rafraîchir'),'admin_repo.php?action=dossier_mgt');
-    echo HtmlInput::button_anchor(_('Ajouter'),'admin_repo.php?action=dossier_mgt&sa=add');
+        echo '<p>';
+        echo HtmlInput::button_anchor(_('Rafraîchir'),'admin_repo.php?action=dossier_mgt');
+        echo HtmlInput::button_anchor(_('Ajouter'),'admin_repo.php?action=dossier_mgt&sa=add');
+        echo '</p>';
 	$header=new Sort_Table();
 	$url=$_SERVER['PHP_SELF']."?sa=list&action=".$_REQUEST['action'];
 	$header->add("id",$url," order by dos_id asc"," order by dos_id desc","da","dd");

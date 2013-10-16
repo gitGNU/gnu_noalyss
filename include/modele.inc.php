@@ -230,9 +230,10 @@ if ($sa == 'list')
 	else
 	{
 
-
+                echo '<p>';
 		echo HtmlInput::button_anchor('Rafra&icirc;chir', 'admin_repo.php?action=modele_mgt');
 		echo HtmlInput::button_anchor('Ajouter', 'admin_repo.php?action=modele_mgt&sa=add');
+                echo '</p>';
 		echo '<span style="display:block;margin-top:10">';
 		echo _('Filtre').HtmlInput::infobulle(23);
 		echo HtmlInput::filter_table("t_modele", "0,1,2","1");
