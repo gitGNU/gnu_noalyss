@@ -447,11 +447,15 @@ for ($e = 0; $e < count($afiche); $e++)
 		bcscale(2);
 		for ($i = 0; $i < count($letter->content); $i++)
 		{
+                    $row = $letter->content[$i];
+                        if ($row['letter']!=-1) {
+                            $html_letter=strtoupper(base_convert($row['letter'],10,36));
+                        }
 			if ($i % 2 == 0)
-				echo '<tr class="even">';
+				echo '<tr class="even" name="tr_'.$html_letter.'_">';
 			else
-				echo '<tr class="odd">';
-			$row = $letter->content[$i];
+				echo '<tr class="odd" name="tr_'.$html_letter.'_">';
+			
 			echo td($row['j_date_fmt']);
 			echo td(h($row['jr_pj_number']));
 			echo td(HtmlInput::detail_op($row['jr_id'], $row['jr_internal']));
@@ -459,7 +463,7 @@ for ($e = 0; $e < count($afiche); $e++)
 			if ($row['j_debit'] == 't')
 			{
 				echo td(nbm($row['j_montant']), ' style="text-align:right"');
-				$amount_deb+=$row['j_montant'];
+				$amount_deb=bcadd($amount_deb,$row['j_montant']);
 				$prog = bcadd($prog, $row['j_montant']);
 				echo td("");
 			}
@@ -467,18 +471,18 @@ for ($e = 0; $e < count($afiche); $e++)
 			{
 				echo td("");
 				echo td(nbm($row['j_montant']), ' style="text-align:right"');
-				$amount_cred+=$row['j_montant'];
+				$amount_cred=bcadd($amount_cred,$row['j_montant']);
 				$prog = bcsub($prog, $row['j_montant']);
 			}
 			$side = "&nbsp;" . $fiche->get_amount_side($prog);
 			echo td(nbm($prog) . $side, 'style="text-align:right"');
-			if ($row['letter'] != -1)
-			{
-				$span_error = "";
+                        $html_let="";
+                        if ($row['letter']!=-1) {
+                            $span_error = "";
 				if ($row['letter_diff'] != 0)
 					$span_error = $g_failed;
-				echo td(strtoupper(base_convert($row['letter'],10,36)) . $span_error);
-			}
+                                echo '<td>'.HtmlInput::show_reconcile("", $html_letter.$span_error).'</td>';
+                        }
 			else
 				echo td('');
 			echo '</tr>';
