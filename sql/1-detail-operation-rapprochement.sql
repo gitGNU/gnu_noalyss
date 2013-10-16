@@ -1,4 +1,4 @@
-﻿drop view v_quant_detail;
+--﻿drop view v_quant_detail;
 create or replace view v_quant_detail as
 with quant as 
 	(select 
