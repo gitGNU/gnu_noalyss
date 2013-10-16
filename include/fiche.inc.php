@@ -448,6 +448,7 @@ for ($e = 0; $e < count($afiche); $e++)
 		for ($i = 0; $i < count($letter->content); $i++)
 		{
                     $row = $letter->content[$i];
+                     $html_letter="";
                         if ($row['letter']!=-1) {
                             $html_letter=strtoupper(base_convert($row['letter'],10,36));
                         }
