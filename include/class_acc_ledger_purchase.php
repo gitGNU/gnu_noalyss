@@ -1276,22 +1276,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $r.="</tr>";
         }
         $r.='<tr>';
-        $r.='<td> ' . _('Date') . '</td><td> ' . hb($e_date) . '</td>';
-        $r.='</tr>';
-        $r.='<tr>';
-        $r.='<td>' . _('Echeance') . '</td><td> ' . hb($e_ech) . '</td>';
-        $r.='</tr>';
-        $r.='<tr>';
-        $r.='<td> ' . _('Période Comptable') . '</td><td> ' .hb( $date_limit['p_start'] . '-' . $date_limit['p_end']) . '</td>';
-        $r.='</tr>';
-        $r.='<tr>';
-        $r.='<td> ' . _('Journal') . '</td><td> ' . hb($this->get_name()) . '</td>';
-        $r.='</tr>';
-        $r.='<tr>';
-        $r.='<td> ' . _('Libellé') . '</td><td> ' . hb($e_comm) . '</td>';
-        $r.='</tr>';
-        $r.='<tr>';
-        if ( ! $p_summary) {
+         if ( ! $p_summary) {
             $r.='<td>' . _('Numéro Pièce') .'</td><td>'. hb($e_pj) . '</td>';
         } else {
             
@@ -1304,6 +1289,24 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             }
         }
         $r.='</tr>';
+        $r.='<td> ' . _('Date') . '</td><td> ' . hb($e_date) . '</td>';
+        $r.='</tr>';
+        $r.='<tr>';
+        $r.='<td>' . _('Echeance') . '</td><td> ' . hb($e_ech) . '</td>';
+        $r.='</tr>';
+       
+     
+        $r.='<tr>';
+        $r.='<td> ' . _('Période Comptable') . '</td><td> ' .hb( $date_limit['p_start'] . '-' . $date_limit['p_end']) . '</td>';
+        $r.='</tr>';
+        $r.='<tr>';
+        $r.='<td> ' . _('Journal') . '</td><td> ' . hb($this->get_name()) . '</td>';
+        $r.='</tr>';
+        $r.='<tr>';
+        $r.='<td> ' . _('Libellé') . '</td><td> ' . hb($e_comm) . '</td>';
+        $r.='</tr>';
+        $r.='<tr>';
+        
         $r.='<tr>';
         $r.='<td> ' . _('Fournisseur') . '</td><td> ' . hb($e_client . ':' . $client_name) . '</td>';
         $r.='</tr>';

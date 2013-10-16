@@ -628,6 +628,20 @@ class Acc_Ledger_Sold extends Acc_Ledger {
             $r.="</tr>";
         }
         $r.='<tr>';
+        if ( ! $p_summary) {
+            $r.='<td>' . _('Numéro Pièce') .'</td><td>'. hb($e_pj) . '</td>';
+        } else {
+            
+             if ( strcmp($this->pj,$e_pj) != 0 )
+            {
+                $r.='<td>' . _('Numéro Pièce') .'</td><td>'. hb($this->pj) . 
+                        '<span class="notice"> '._('Attention numéro pièce existante, elle a du être adaptée').'</span></td>';
+            } else {
+                $r.='<td>' . _('Numéro Pièce') .'</td><td>'. hb($this->pj) . '</td>';
+            }
+        }
+        $r.='</tr>';
+        $r.='<tr>';
         $r.='<td> ' . _('Date') . '</td><td> ' . hb($e_date) . '</td>';
         $r.='</tr>';
         $r.='<tr>';
@@ -642,20 +656,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         $r.='<tr>';
         $r.='<td> ' . _('Libellé') . '</td><td> ' . hb($e_comm) . '</td>';
         $r.='</tr>';
-        $r.='<tr>';
-        if ( ! $p_summary) {
-            $r.='<td>' . _('Numéro Pièce') .'</td><td>'. hb($e_pj) . '</td>';
-        } else {
-            
-             if ( strcmp($this->pj,$e_pj) != 0 )
-            {
-                $r.='<td>' . _('Numéro Pièce') .'</td><td>'. hb($this->pj) . 
-                        '<span class="notice"> '._('Attention numéro pièce existante, elle a du être adaptée').'</span></td>';
-            } else {
-                $r.='<td>' . _('Numéro Pièce') .'</td><td>'. hb($this->pj) . '</td>';
-            }
-        }
-        $r.='</tr>';
+        
         $r.='<tr>';
         $r.='<td> ' . _('Client') . '</td><td> ' . hb($e_client . ':' . $client_name) . '</td>';
         $r.='</tr>';
