@@ -69,6 +69,7 @@ if ( isset($_POST['close_per']) )
 		for ($i=0;$i < count($a_per_to_close);$i++) {
 			$per=new Periode($cn);
 			 $jrn_def_id=(isset($_GET['jrn_def_id']))?$_GET['jrn_def_id']:0;
+                         $per->jrn_def_id=$jrn_def_id;
 			 $per->set_periode($a_per_to_close[$i]);
 			$per->close();
 		
@@ -105,7 +106,9 @@ if ( $action == 'reopen')
   }
 if ( $choose=="yes" )
 {
+    echo '<p>';
     echo HtmlInput::button_anchor('Autre Journal ?','?choose=no&ac='.$_REQUEST['ac'].'&gDossier='.dossier::id());
+    echo '</p>';
     $per=new Periode($cn);
     $jrn=(isset($_GET['jrn_def_id']))?$_GET['jrn_def_id']:0;
     $per->set_jrn($jrn);
