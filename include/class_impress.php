@@ -40,7 +40,7 @@ class Impress
      *
      *
      */
-    static function parse_formula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_type_date=0)
+    static function parse_formula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_type_date=0,$p_sql="")
     {
         global $g_user;
         if ( Impress::check_formula($p_formula) == false)
@@ -138,7 +138,7 @@ class Impress
 
                 // Get sum of account
                 $P=new Acc_Account_Ledger($p_cn,$line);
-                $detail=$P->get_solde_detail($cond);
+                $detail=$P->get_solde_detail($cond.$p_sql);
 
 
                 if ( $compute=='all')
