@@ -88,7 +88,7 @@ $gDossier=dossier::id();
 			<?php echo $a_change[$e]['tech_user']?>
 		</td>
 		<td>
-			<?php echo HtmlInput::button_action("Détail",sprintf("stock_inv_detail('%s','%s')",$gDossier,$a_change[$e]['c_id']));?>
+			<?php echo HtmlInput::anchor("Détail","javascript:void()",sprintf("onclick=\"stock_inv_detail('%s','%s')\"",$gDossier,$a_change[$e]['c_id']));?>
 		</td>
 
 	</tr>
