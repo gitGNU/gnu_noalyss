@@ -28,7 +28,7 @@
  */
 ?>
 <div class="content">
-	<form method="POST" onsubmit="return confirm('Vous confirmez ?')">
+	<form method="POST" class="print" onsubmit="return confirm('Vous confirmez ?')">
 <table>
 	<tr><td>
 			Date
