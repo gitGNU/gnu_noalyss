@@ -456,12 +456,13 @@ class HtmlInput
     /**
      *show the detail of a card
      */
-    static function card_detail($p_qcode,$pname='',$p_style="")
+    static function card_detail($p_qcode,$pname='',$p_style="",$p_nohistory=false)
     {
       //if ($pname=='')$pname=$p_qcode;
       $r="";
-      $r.=sprintf('<a href="javascript:void(0)" %s onclick="fill_ipopcard({qcode:\'%s\'})">%s [%s]</a>',
-		  $p_style,$p_qcode,$pname,$p_qcode);
+      $histo=($p_nohistory==true)?' ,nohistory:1':"";
+      $r.=sprintf('<a href="javascript:void(0)" %s onclick="fill_ipopcard({qcode:\'%s\' %s})">%s [%s]</a>',
+		  $p_style,$p_qcode,$histo,$pname,$p_qcode);
       return $r;
     }
     /**
