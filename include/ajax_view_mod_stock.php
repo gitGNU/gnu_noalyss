@@ -42,7 +42,7 @@ for ($i=0;$i<count($array);$i++)
 	$p_array['sg_code'.$i]=$array[$i]['sg_code'];
 	$p_array['sg_quantity'.$i]=$array[$i]['sg_quantity'];
 	$p_array['sg_type'.$i]=$array[$i]['sg_type'];
-
+        $p_array['row']=$i+1;
 }
 echo $st->input($p_array,true);
 ?>

@@ -75,10 +75,20 @@ class Stock_Goods extends Stock_Goods_Sql
 			exit();
 		}
 		$idepo->selected = $p_depot;
-		for ($e = 0; $e < MAX_ARTICLE; $e++)
+                if ($p_readonly ) {
+                    $nb=$row;
+                } else {
+                    if (isset ($row ) )
+                    {
+                        $nb=($row > MAX_ARTICLE_STOCK)?$row:MAX_ARTICLE_STOCK;
+                    }else {
+                        $nb=MAX_ARTICLE_STOCK;
+                    }
+                }
+		for ($e = 0; $e < $nb; $e++)
 		{//ATTR_DEF_STOCKfiche_
 			$sg_code[$e] = new ICard('sg_code' . $e);
-			$sg_code[$e]->extra = "[sql]  f_id in (select distinct f_id from fiche_Detail where ad_id=19 and coalesce(ad_value,\'\') <> \'\')";
+			$sg_code[$e]->extra = "[sql]  fd_id = 500000";
 			$sg_code[$e]->set_attribute("typecard", $sg_code[$e]->extra);
 			$sg_code[$e]->set_attribute("label", "label" . $e);
 			$sg_code[$e]->value = (isset(${'sg_code' . $e})) ? ${'sg_code' . $e} : '';
@@ -109,7 +119,7 @@ class Stock_Goods extends Stock_Goods_Sql
 			if (isDate($p_array['p_date']) == null)
 				throw new Exception('Date invalide');
 			$cn->start();
-			$ch = new Stock_Change_Sql();
+			$ch = new Stock_Change_Sql($cn);
 			$ch->setp("c_comment", $p_array['p_motif']);
 			$ch->setp("r_id", $p_array['p_depot']);
 			$ch->setp("c_date", $p_array['p_date']);
@@ -118,10 +128,10 @@ class Stock_Goods extends Stock_Goods_Sql
 			$per = new Periode($cn);
 			$periode = $per->find_periode($p_array['p_date']);
 			$exercice = $per->get_exercice($periode);
-
-			for ($i = 0; $i < MAX_ARTICLE; $i++)
+                        $nb=$p_array['row'];
+			for ($i = 0; $i < $nb; $i++)
 			{
-				$a = new Stock_Goods_Sql();
+				$a = new Stock_Goods_Sql($cn);
 				if ($p_array['sg_quantity' . $i] != 0 &&
 						trim($p_array['sg_code' . $i]) != '')
 				{

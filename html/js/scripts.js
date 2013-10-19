@@ -2353,3 +2353,40 @@ function calendar_zoom(obj)
   
     
 }
+/**
+ * @brief add a line in the form for the stock
+ */
+function stock_add_row()
+{
+	try{
+    style='class="input_text"';
+    var mytable=g("stock_tb").tBodies[0];
+    var ofirstRow=mytable.rows[1];
+    var line=mytable.rows.length;
+    var nCell=mytable.rows[1].cells.length;
+    var row=mytable.insertRow(line);
+    var nb=g("row");
+    for (var e=0;e<nCell;e++)
+    {
+        var newCell=row.insertCell(e);
+        if (mytable.rows[1].cells[e].hasClassName('num') ) { newCell.addClassName("num");}
+        
+        var tt=ofirstRow.cells[e].innerHTML;
+        var new_tt=tt.replace(/sg_code0/g,"sg_code"+nb.value);
+        new_tt=new_tt.replace(/sg_quantity0/g,"sg_quantity"+nb.value);
+        new_tt=new_tt.replace(/label0/g,"label"+nb.value);
+        newCell.innerHTML=new_tt;
+        new_tt.evalScripts();
+    }
+
+    g("sg_code"+nb.value).innerHTML='&nbsp;';
+    g("sg_code"+nb.value).value='';
+    g("label"+nb.value).innerHTML='';
+    g("sg_quantity"+nb.value).value='0';
+
+    nb.value++;
+
+    new_tt.evalScripts();
+	} catch(e) {alert(e.message);}
+
+}

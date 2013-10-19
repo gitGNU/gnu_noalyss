@@ -54,7 +54,7 @@
 		</td>
 	</tr>
 </table>
-<table style="width: 80%">
+<table id="stock_tb" style="width: 80%">
 	<tr>
 		<th style="text-align: left">
 			Code Stock
@@ -68,7 +68,7 @@
 			Quantité
 		</th>
 	</tr>
-<?php for($i=0;$i<MAX_ARTICLE;$i++): ?>
+<?php for($i=0;$i<$nb;$i++): ?>
 	<tr>
 		<td>
 <?php if ( $p_readonly == false) : ?>
@@ -86,9 +86,9 @@
 		</td>
 <?php endif;?>
 		<TD class="num"">
-			<?php if ($sg_quantity[$i]->value==0 && $p_readonly==true):?>
+		<?php if ($sg_quantity[$i]->value==0 && $p_readonly==true):?>
 
-			<?php else : ?>
+		<?php else : ?>
 			<?php echo $sg_quantity[$i]->input()?>
 			<?php endif;?>
 		</td>
@@ -100,6 +100,8 @@
 	</tr>
 <?php endfor; ?>
 </table>
+<?php if ($p_readonly == false) echo HtmlInput::button_action('Ajouter une ligne','stock_add_row();')?>
 <?php if ($p_readonly == false) echo HtmlInput::submit('save','Sauver')?>
+<?php if ($p_readonly == false) echo HtmlInput::hidden('row',$nb)?>
 	</form>
 </div>
