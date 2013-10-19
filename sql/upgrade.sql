@@ -72,10 +72,9 @@ cette fonctionnalité. Vous pouvez en ajouter, en supprimer ou les modifier' whe
  update menu_ref set me_description_etendue='Création et modification des journaux, préfixe des pièces justificatives, numérotation, catégories de fiches accessibles à ce journal' where me_code='CFGLED' ;
  update menu_ref set me_description_etendue='Configuration de la sécurité, vous permet de donner un profil à vos utilisateurs, cela leur permettra d''utiliser ce que vous souhaitez qu''ils puissent utiliser' where me_code='CFGSEC' ;
  update menu_ref set me_description_etendue='Permet d''ajouter de nouveaux attributs que vous pourrez par la suite ajouter à des catégories de fiches' where me_code='CFGATCARD' ;
- update menu_ref set me_description_etendue='Historique des mouvement de stock' where me_code='STOCK_HISTO' ;
- update menu_ref set me_description_etendue='Etat des stock' where me_code='STOCK_STATE' ;
- update menu_ref set me_description_etendue='Modification des stocks (inventaire)' where me_code='STOCK_INV' ;
- update menu_ref set me_description_etendue='Liste des changements manuels des stocks' where me_code='STOCK_INVHISTO' ;
+ update menu_ref set me_description_etendue='Etat des stock de l''exercice indiqué' where me_code='STOCK_STATE' ;
+ update menu_ref set me_description_etendue='Modification des stocks, menu utilisé pour l''inventaire' where me_code='STOCK_INV' ;
+ update menu_ref set me_description_etendue='Liste des changements manuels des stocks, inventaire, transfert de marchandises entre dépôts...' where me_code='STOCK_INVHISTO' ;
  update menu_ref set me_description_etendue='Le navigateur vous présente une liste de menu auquel vous avez accès et vous permet d''accèder plus rapidement au menu que vous souhaitez' where me_code='NAVI' ;
  update menu_ref set me_description_etendue='Historique de toutes vos opérations dans tous  les journaux auquels vous avez accès, vous permettra de retrouver rapidement l''opération qui vous intéresse sur base de la date, du poste comptable, des montants...' where me_code='SEARCH' ;
  update menu_ref set me_description_etendue='Historique de toutes vos opérations un menu de recherche, vous permettra de retrouver rapidement l''opération qui vous intéresse' where me_code='HIST' ;
