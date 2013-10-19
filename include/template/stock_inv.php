@@ -76,7 +76,7 @@
 			<?php echo $sg_code[$i]->search()?>
 			<?php echo $label[$i]->input()?>
 <?php else: ?>
-			<?php if ( trim($sg_code[$i]->value) != "")  echo HtmlInput::card_detail($sg_code[$i]->value,h($sg_code[$i]->value),' class="line"')?>
+			<?php if ( trim($sg_code[$i]->value) != "")  echo HtmlInput::card_detail($sg_code[$i]->value,h($sg_code[$i]->value),' class="line"',true)?>
 <?php endif ?>
 
 		</td>

@@ -53,7 +53,7 @@
 			<?php echo $row['cdate']?>
 		</td>
 		<td>
-			<?php echo HtmlInput::card_detail($row['sg_code'],"",' class="line" ')?>
+			<?php echo HtmlInput::card_detail($row['sg_code'],"",' class="line" ',true)?>
 		</td>
 		<td>
 			<?php echo $row['r_name']?>

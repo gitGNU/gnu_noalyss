@@ -75,7 +75,7 @@ $a_repo=$cn->get_array("select distinct t.r_id,r_name,r_adress,r_city,r_country,
 	?>
 	<tr>
 		<td>
-			<?php echo HtmlInput::card_detail($a_stock[$s]['sg_code'])?>
+			<?php echo HtmlInput::card_detail($a_stock[$s]['sg_code'],'','',true)?>
 		</td>
 		<td>
 			<?php 

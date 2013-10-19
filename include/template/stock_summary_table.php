@@ -48,7 +48,7 @@
 
 		<tr <?php echo $class?> >
 			<td>
-				<?php echo HtmlInput::card_detail($a_code[$x]['sg_code'])?>
+				<?php echo HtmlInput::card_detail($a_code[$x]['sg_code'],"","",true)?>
 			</td>
 			<?php 
 			$n_in=0;$n_out=0;
