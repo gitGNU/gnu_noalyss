@@ -483,8 +483,12 @@ class HtmlInput
           if (is_array($global_array[$a]) == false ) {
                 $r.=HtmlInput::hidden($a,$global_array [$a]);
               } else {
-                  for ($i=0;$i<count($global_array[$a]);$i++) {
-                      $r.=HtmlInput::hidden($a."[]",$global_array [$a][$i]);
+                  if (count($global_array[$a]) > 0)
+                  {
+                      foreach ($global_array[$a] as $value)
+                      {
+                          $r.=HtmlInput::hidden($a."[]",$value);
+                    }
                   }
               }
 	}
