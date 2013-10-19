@@ -9,6 +9,7 @@
         <th style="text-align:right">Privé</th>
         <th style="text-align:right">DNA</th>
         <th style="text-align:right">TVA ND</th>
+        
 <?php
 $col_tva="";
 
@@ -23,11 +24,18 @@ $col_tva="";
 echo $col_tva;      
 ?>
         <th style="text-align:right">TVAC</th>
+        <th>Opérations rapprochées</th>
     </tr>
 <?php
 $i = 0;
+$cn->prepare('reconcile_date','select * from jrn where jr_id in (select jra_concerned from jrn_rapt where jr_id = $1 union all select jr_id from jrn_rapt where jra_concerned=$1)');
 foreach ($Row as $line) {
     $i++;
+    /*
+     * Get date of reconcile operation
+     */
+    $ret_reconcile=$cn->execute('reconcile_date',array($line['jr_id']));
+   
     $class = ($i % 2 == 0) ? ' class="even" ' : ' class="odd" ';
     echo "<tr $class>";
     echo "<TD>" . smaller_date($line['date']) . "</TD>";
@@ -68,6 +76,20 @@ foreach ($Row as $line) {
                     }
     }
     echo '<td class="num">'.$line['TVAC'].'</td>';
+    /*
+     * If reconcile print them
+     */
+    echo '<td>';
+    $max=Database::num_row($ret_reconcile);
+    if ($max > 0) {
+        $sep="";
+        for ($e=0;$e<$max;$e++) {
+            $row=Database::fetch_array($ret_reconcile, $e);
+            echo $sep.HtmlInput::detail_op($row['jr_id'],$row['jr_date'].' '. $row['jr_internal']);
+            $sep=' ,';
+        }
+    }
+    echo '</td>';
     echo "</tr>";
 }
 ?>

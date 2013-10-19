@@ -52,7 +52,7 @@ $dstart->value=(isset($_REQUEST['p_start']))?$_REQUEST['p_start']:$start;
 $dend=new IDate('p_end');
 $dend->value=(isset($_REQUEST['p_end']))?$_REQUEST['p_end']:$end;
 
-echo "Depuis ".$dstart->input()." jusque ".$dend->input();
+echo "Opérations entre ".$dstart->input()." jusque ".$dend->input();
 echo '<ol style="list-style-type:none;">';
 
 $radio->selected=($choice==0)?true:false;

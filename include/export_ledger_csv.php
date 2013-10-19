@@ -135,7 +135,7 @@ if  ( $_GET['p_simple'] == 0 )
     }
     exit;
 }
-else if  ($_GET['p_simple'] == 0)
+else if  ($_GET['p_simple'] == 1)
 {
     $Row=$Jrn->get_rowSimple($_GET['from_periode'],
                              $_GET['to_periode'],
@@ -183,6 +183,8 @@ else if  ($_GET['p_simple'] == 0)
 //-----------------------------------------------------
     if ( $jrn_type=='ACH' || $jrn_type=='VEN')
     {
+        $cn->prepare('reconcile_date',"select to_char(jr_date,'DD.MM.YY') as str_date,* from jrn where jr_id in (select jra_concerned from jrn_rapt where jr_id = $1 union all select jr_id from jrn_rapt where jra_concerned=$1)");
+
         $own=new Own($cn);
         $col_tva="";
 
@@ -194,7 +196,7 @@ else if  ($_GET['p_simple'] == 0)
                 $col_tva.='"Tva '.$line_tva['tva_label'].'";';
             }
         }
-        echo '"Date";"operation";"Client/Fourn.";"Commentaire";"inter.";"HTVA";privé;DNA;tva non ded.;'.$col_tva.'"TVAC"'."\n\r";
+        echo '"Date";"operation";"Client/Fourn.";"Commentaire";"inter.";"HTVA";privé;DNA;tva non ded.;opérations liées'.$col_tva.'"TVAC"'."\n\r";
         foreach ($Row as $line)
         {
             printf('"%s";"%s";"%s";"%s";"%s";%s;%s;%s;%s;',
@@ -233,6 +235,18 @@ else if  ($_GET['p_simple'] == 0)
                 }
             }
             echo nb ($line['TVAC']);
+            /**
+             * Retrieve payment if any
+             */
+             $ret_reconcile=$cn->execute('reconcile_date',array($line['jr_id']));
+             $max=Database::num_row($ret_reconcile);
+            if ($max > 0) {
+                $sep=";";
+                for ($e=0;$e<$max;$e++) {
+                    $row=Database::fetch_array($ret_reconcile, $e);
+                    echo $sep.$row['str_date'].'; '. $row['jr_internal'];
+                }
+            }
 	    printf("\r\n");
 
         }
