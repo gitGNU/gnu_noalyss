@@ -116,9 +116,9 @@ function navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1,$p_javascript="")
         $step=$p_size;
         $offset=($e-1)*$step;
 
-        $r='<A class="mtitle" href="'.$_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step".'" '.$p_javascript.'>';
-        //$r.="Pr&eacute;c&eacute;dent";
-        $r.='<INPUT TYPE="IMAGE" width="12" SRC="image/go-previous.png">';
+        $r='<A class="mtitle" href="'.basename($_SERVER['SCRIPT_FILENAME'])."?".$url."&offset=$offset&step=$step&page=$e&size=$step".'" '.$p_javascript.'>';
+        $r.=" 	&larr;";
+        // $r.='<INPUT TYPE="IMAGE" width="12" SRC="image/go-previous.png">';
         $r.="</A>&nbsp;&nbsp;";
     }
     //----------------------------------------------------------------------
@@ -162,8 +162,8 @@ function navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1,$p_javascript="")
         $offset=($e-1)*$step;
 
         $r.='&nbsp;<A class="mtitle" href="'.$_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step".'" '.$p_javascript.' >';
-        //$r.="Suivant";
-        $r.='<INPUT TYPE="IMAGE" width="12" SRC="image/go-next.png">';
+        $r.="&rarr;";
+        //$r.='<INPUT TYPE="IMAGE" width="12" SRC="image/go-next.png">';
         $r.="</A>";
     }
 

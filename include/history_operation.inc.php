@@ -144,7 +144,9 @@ echo '</form>';
 /*
  * Export to csv
  */
-$r = HtmlInput::get_to_hidden(array('l', 'date_start', 'date_end', 'desc', 'amount_min', 'amount_max', 'qcode', 'accounting', 'unpaid', 'gDossier', 'ledger_type', 'p_action'));
+$r = HtmlInput::get_to_hidden(array('l', 'date_paid_start','date_paid_end',
+    'date_start', 'date_end', 'desc', 'amount_min', 'amount_max', 'qcode', 
+    'accounting', 'unpaid', 'gDossier', 'ledger_type', 'p_action'));
 if (isset($_GET['r_jrn']))
 {
 	foreach ($_GET['r_jrn'] as $k => $v)
