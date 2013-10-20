@@ -2428,7 +2428,14 @@ class Acc_Ledger extends jrn_def_sql
 
 		$selected = (isset($_REQUEST['r_jrn' . $div])) ? $_REQUEST['r_jrn' . $div] : null;
 		$f_ledger = HtmlInput::select_ledger($filter_ledger, $selected, $div);
-
+                /* Compute date for exercice */
+                $period = $g_user->get_periode();
+                $per = new Periode($this->db, $period);
+		$exercice = $per->get_exercice();
+		list($per_start, $per_end) = $per->get_limit($exercice);
+		$date_end = $per_end->last_day();
+                $date_start=$per_start->first_day();
+                        
 		/* widget for date_start */
 		$f_date_start = new IDate('date_start');
 		/* all periode or only the selected one */
@@ -2438,12 +2445,7 @@ class Acc_Ledger extends jrn_def_sql
 		}
 		else
 		{
-			$period = $g_user->get_periode();
-			$per = new Periode($this->db, $period);
-			$exercice = $per->get_exercice();
-			list($per_start, $per_end) = $per->get_limit($exercice);
-			$f_date_start->value = $per_start->first_day();
-			$date_end = $per_end->last_day();
+                        $f_date_start->value=$date_start;
 		}
 
 		/* widget for date_end */
@@ -2457,7 +2459,13 @@ class Acc_Ledger extends jrn_def_sql
 		{
 			$f_date_end->value = $date_end;
 		}
-
+                /* widget for date term */
+                $f_date_paid_start=new IDate('date_paid_start');
+                $f_date_paid_end=new IDate('date_paid_end');
+                
+                $f_date_paid_start->value=(isset($_REQUEST['date_paid_start']))?$_REQUEST['date_paid_start']:'';
+                $f_date_paid_end->value=(isset($_REQUEST['date_paid_end']))?$_REQUEST['date_paid_end']:'';
+                
 		/* widget for desc */
 		$f_descript = new IText('desc');
 		$f_descript->size = 40;
@@ -2643,6 +2651,7 @@ class Acc_Ledger extends jrn_def_sql
 		$fil_qcode = '';
 		$fil_account = '';
 		$fil_paid = '';
+                $fil_date_paid='';
 
 		$and = '';
 		$g_user = new User($this->db);
@@ -2724,6 +2733,17 @@ class Acc_Ledger extends jrn_def_sql
 			$fil_date.=$and . " jr_date <= to_date('" . $date_end . "','DD.MM.YYYY')";
 			$and = " and ";
 		}
+		// date paiement
+		if (isset($date_paid_start) && isDate($date_paid_start) != null)
+		{
+			$fil_date_paid = $and . " jr_date_paid >= to_date('" . $date_paid_start . "','DD.MM.YYYY')";
+			$and = " and ";
+		}
+		if (isset($date_paid_end) && isDate($date_paid_end) != null)
+		{
+			$fil_date_paid.=$and . " jr_date_paid <= to_date('" . $date_paid_end . "','DD.MM.YYYY')";
+			$and = " and ";
+		}
 		// comment
 		if (isset($desc) && $desc != null)
 		{
@@ -2770,7 +2790,7 @@ class Acc_Ledger extends jrn_def_sql
 					" uj_login='" . $_SESSION['g_user'] . "'" .
 					" and uj_priv in ('R','W'))";
 		}
-		$where = $fil_ledger . $fil_amount . $fil_date . $fil_desc . $fil_sec . $fil_amount . $fil_qcode . $fil_paid . $fil_account;
+		$where = $fil_ledger . $fil_amount . $fil_date . $fil_desc . $fil_sec . $fil_amount . $fil_qcode . $fil_paid . $fil_account.$fil_date_paid;
 		$sql.=" where " . $where;
 		return array($sql, $where);
 	}

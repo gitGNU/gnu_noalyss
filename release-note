@@ -60,6 +60,17 @@ Possibilité d'avoir une impression web de plusieurs documents
 Possibilité de changer l'état de plusieurs documents
 
 
+Stock
+=====
+Inventaire annuel
+
+Date de paiement
+================
+Lors de rapprochement
+Dans le détail journaux ACH et VEN
+Dans l'impression PRINTJRN + export CSV
+Dans l'historique
+
 ===================================================================
 || A faire
 ===================================================================
@@ -69,10 +80,6 @@ Document à générer
 =================
 Par journal
 ou par profil
-
-Stock
-=====
-Inventaire annuel
 
 
 
