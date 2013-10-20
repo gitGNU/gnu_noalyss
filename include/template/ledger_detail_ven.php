@@ -15,6 +15,7 @@
                     <table>
                         <tr>
                             
+                            <td></td>
                                 <?php
                                 $date = new IDate('p_date');
                                 $date->value = format_date($obj->det->jr_date);
@@ -22,6 +23,7 @@
                                 ?>
                         </tr>
                         <tr>
+                            <td></td>
                                 <?php
                                 $date_ech = new IDate('p_ech');
                                 $date_ech->value = format_date($obj->det->jr_ech);
