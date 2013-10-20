@@ -44,6 +44,7 @@ class Acc_Operation
     var $periode;			/*!< periode to use */
     var $amount;			/*!< amount of the operatoin */
     var $grpt;			/*!< the group id */
+    var $date_paid;
     /*!
      * \brief constructor set automatically the attributes user and periode
      * \param $p_cn the databse connection
@@ -591,7 +592,7 @@ class Acc_Detail extends Acc_Operation
         $sql="SELECT jr_id, jr_def_id, jr_montant, jr_comment, jr_date, jr_grpt_id,
              jr_internal, jr_tech_date, jr_tech_per, jrn_ech, jr_ech, jr_rapt,jr_ech,
              jr_valid, jr_opid, jr_c_opid, jr_pj, jr_pj_name, jr_pj_type,
-             jr_pj_number, jr_mt,jr_rapt
+             jr_pj_number, jr_mt,jr_rapt,jr_date_paid
              FROM jrn where jr_id=$1";
         $array=$this->db->get_array($sql,array($this->jr_id));
         if ( count($array) == 0 ) throw new Exception('Aucune ligne trouvée');

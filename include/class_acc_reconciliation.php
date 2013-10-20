@@ -125,8 +125,26 @@ class Acc_Reconciliation
             // Ok we can insert
             $Res=$this->db->exec_sql("insert into jrn_rapt(jr_id,jra_concerned) values ".
                                     "(".$this->jr_id.",$jr_id2)");
-			// try to letter automatically same account from both operation
-			$this->auto_letter($jr_id2);
+            // try to letter automatically same account from both operation
+            $this->auto_letter($jr_id2);
+            
+            // update date of paiement -----------------------------------------------------------------------
+            $source_type=$this->db->get_value("select substr(jr_internal,1,1) from jrn where jr_id=$1",array($this->jr_id));
+            $dest_type=$this->db->get_value("select substr(jr_internal,1,1) from jrn where jr_id=$1",array($jr_id2));
+            if (($source_type =='A' || $source_type=='V') && ($dest_type != 'A' && $dest_type != 'V'))
+            {
+                // set the date on source
+                $date=$this->db->get_value('select jr_date from jrn where jr_id=$1',array($jr_id2));
+                if ( trim ($date) == '') $date=null;
+                $this->db->exec_sql('update jrn set jr_date_paid=$1 where jr_id=$2 and jr_date_paid is null ',array($date,$this->jr_id));
+            }
+            if (($source_type !='A' && $source_type !='V') && ($dest_type == 'A' || $dest_type == 'V'))
+            {
+                // set the date on dest
+                $date=$this->db->get_value('select jr_date from jrn where jr_id=$1',array($this->jr_id));
+                if (trim($date) == '') $date=null;
+                $this->db->exec_sql('update jrn set jr_date_paid=$1 where jr_id=$2 and jr_date_paid is null ',array($date,$jr_id2));
+            }
         }
         return true;
     }

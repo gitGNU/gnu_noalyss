@@ -196,11 +196,12 @@ else if  ($_GET['p_simple'] == 1)
                 $col_tva.='"Tva '.$line_tva['tva_label'].'";';
             }
         }
-        echo '"Date";"operation";"Client/Fourn.";"Commentaire";"inter.";"HTVA";privé;DNA;tva non ded.;opérations liées'.$col_tva.'"TVAC"'."\n\r";
+        echo '"Date";"Paiement";"operation";"Client/Fourn.";"Commentaire";"inter.";"HTVA";privé;DNA;tva non ded.;opérations liées'.$col_tva.'"TVAC"'."\n\r";
         foreach ($Row as $line)
         {
             printf('"%s";"%s";"%s";"%s";"%s";%s;%s;%s;%s;',
                    $line['date'],
+                   $line['date_paid'],
                    $line['num'],
                    $Jrn->get_tiers($line['jrn_def_type'],$line['jr_id']),
                    $line['comment'],

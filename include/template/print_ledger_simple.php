@@ -2,6 +2,7 @@
     <tr>
         <th>Pièce</th>
         <th>Date</th>
+        <th>Paiement</th>
         <th>Ref</th>
         <th>Client / Fournisseur</th>
         <th>Description</th>
@@ -38,8 +39,9 @@ foreach ($Row as $line) {
    
     $class = ($i % 2 == 0) ? ' class="even" ' : ' class="odd" ';
     echo "<tr $class>";
-    echo "<TD>" . smaller_date($line['date']) . "</TD>";
     echo "<TD>" . h($line['jr_pj_number']) . "</TD>";
+    echo "<TD>" . smaller_date($line['date']) . "</TD>";
+    echo "<TD>" . smaller_date($line['date_paid']) . "</TD>";
     echo "<TD>" . HtmlInput::detail_op($line['jr_id'], $line['jr_internal']) . "</TD>";
     $tiers = $Jrn->get_tiers($line['jrn_def_type'], $line['jr_id']);
     echo td($tiers);

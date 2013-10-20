@@ -538,6 +538,7 @@ class Acc_Ledger extends jrn_def_sql
              jrn.jr_montant as montant,
              substr(jrn.jr_comment,1,35) as comment,
              to_char(jrn.jr_date,'DD-MM-YYYY') as date,
+             to_char(jrn.jr_date_paid,'DD-MM-YYYY') as date_paid,
              jr_pj_number,
              jr_internal,
              jrn.jr_grpt_id as grpt_id,
@@ -815,6 +816,7 @@ class Acc_Ledger extends jrn_def_sql
 		$str_dossier = dossier::get();
 		$table->add("Date", $url, 'order by jr_date asc,substring(jr_pj_number,\'[0-9]+$\')::numeric asc', 'order by  jr_date desc,substring(jr_pj_number,\'[0-9]+$\')::numeric desc', "da", "dd");
 		$table->add('Echeance', $url, " order by  jr_ech asc", " order by  jr_ech desc", 'ea', 'ed');
+		$table->add('Paiement', $url, " order by  jr_date_paid asc", " order by  jr_date_paid desc", 'eap', 'edp');
 		$table->add('PJ', $url, ' order by  substring(jr_pj_number,\'[0-9]+$\')::numeric asc ', ' order by  substring(jr_pj_number,\'[0-9]+$\')::numeric desc ', "pja", "pjd");
 		$table->add('Tiers', $url, " order by  name asc", " order by  name desc", 'na', 'nd');
 		$table->add('Montant', $url, " order by jr_montant asc", " order by jr_montant desc", "ma", "md");
@@ -854,9 +856,10 @@ class Acc_Ledger extends jrn_def_sql
 		$r.='<th>' . $table->get_header(1) . '</td>';
 		$r.='<th>' . $table->get_header(2) . '</th>';
 		$r.='<th>' . $table->get_header(3) . '</th>';
-		$r.='<th>' . $table->get_header(5) . '</th>';
-		$r.=th('Notes', ' style="width:15%"');
 		$r.='<th>' . $table->get_header(4) . '</th>';
+		$r.='<th>' . $table->get_header(6) . '</th>';
+		$r.=th('Notes', ' style="width:15%"');
+		$r.='<th>' . $table->get_header(5) . '</th>';
 		// if $p_paid is not equal to 0 then we have a paid column
 		if ($p_paid != 0)
 		{
@@ -894,11 +897,14 @@ class Acc_Ledger extends jrn_def_sql
 				$r.=td($row['jrn_def_name']);
 			// date
 			$r.="<TD>";
-			$r.=smaller_date($row['str_jr_date']);
+			$r.=$row['str_jr_date'];
 			$r.="</TD>";
 			// echeance
 			$r.="<TD>";
-			$r.=smaller_date($row['str_jr_ech']);
+			$r.=$row['str_jr_ech'];
+			$r.="</TD>";
+			$r.="<TD>";
+			$r.=$row['str_jr_date_paid'];
 			$r.="</TD>";
 
 			// pj
@@ -2544,8 +2550,8 @@ class Acc_Ledger extends jrn_def_sql
 		$sql = "select jr_id	,
              jr_montant,
              substr(jr_comment,1,60) as jr_comment,
-             to_char(jr_ech,'DD.MM.YYYY') as str_jr_ech,
-             to_char(jr_date,'DD.MM.YYYY') as str_jr_date,
+             to_char(jr_ech,'DD.MM.YY') as str_jr_ech,
+             to_char(jr_date,'DD.MM.YY') as str_jr_date,
              jr_date as jr_date_order,
              jr_grpt_id,
              jr_rapt,
@@ -2593,9 +2599,9 @@ class Acc_Ledger extends jrn_def_sql
 				 (select qp_internal,qp_price,qp_nd_tva,qp_nd_tva_recup,case when qp_vat_sided<>0 then 0 else qp_vat end as vat from quant_purchase where qp_internal=X.jr_internal) as invoice_purchase
 			)
 		else null
-		end as total_invoice
-
-
+		end as total_invoice,
+            jr_date_paid,
+            to_char(jr_date_paid,'DD.MM.YY') as str_jr_date_paid
              from
              jrn as X left join jrn_note using(jr_id)
              join jrn_def on jrn_def_id=jr_def_id
