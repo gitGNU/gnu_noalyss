@@ -110,6 +110,7 @@ class Database
         $this->db=$a;
         if ( $this->exist_schema('comptaproc') )
             pg_exec($this->db,'set search_path to public,comptaproc;');
+            pg_exec($this->db,'set DateStyle to ISO, MDY;');
         ob_end_clean();
     }
 
