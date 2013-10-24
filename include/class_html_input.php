@@ -745,9 +745,9 @@ class HtmlInput
 		return $r;
 	}
 
-	static function show_reconcile($p_div, $let)
+	static function show_reconcile($p_div, $let,$span="")
 	{
-		$r = '<A  style="color:red;text-decoration:underline" href="javascript:void(0)" onclick="show_reconcile(\'' . $p_div . '\',\'' . $let . '\')">' . $let . '</A>';
+		$r = '<A  style="color:red;text-decoration:underline" href="javascript:void(0)" onclick="show_reconcile(\'' . $p_div . '\',\'' . $let . '\')">' . $let.$span . '</A>';
 		return $r;
 	}
         /**

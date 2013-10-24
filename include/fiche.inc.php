@@ -482,7 +482,7 @@ for ($e = 0; $e < count($afiche); $e++)
                             $span_error = "";
 				if ($row['letter_diff'] != 0)
 					$span_error = $g_failed;
-                                echo '<td>'.HtmlInput::show_reconcile("", $html_letter.$span_error).'</td>';
+                                echo '<td>'.HtmlInput::show_reconcile("", $html_letter,$span_error).'</td>';
                         }
 			else
 				echo td('');
