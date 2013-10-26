@@ -1,15 +1,18 @@
 ===================================================================
 || Done
 ===================================================================
+
 Favori
 ======
-Dans fenetre interne
+Permet d'avoir une liste qui apparaît dans une fenêtre interne avec
+les menus que vous utilisez le plus
 
 Navigateur
 ==========
-Dans fenetre interne
+Permet d'accèder rapidement au menu nécessaire, il y a plus
+d'explication sur les menu
 
-Impression journaux 
+Impression journaux
 ===================
 Anciennement appelé impression - historique -> changer dans menu_ref
 Permet impression des journaux vente et achat avec détail pour la TVA, la partie
@@ -17,7 +20,15 @@ non déductible et la partie privée
 
 Modéle d'opération
 ==================
-Fenêtre interne avec recherche
+Amélioration : Fenêtre interne avec filtrage et une description des
+modèles, la limite est plus élevée aussi
+
+Impression journaux 
+===================
+Anciennement appelé impression - historique -> changer dans menu_ref
+Permet impression des journaux vente et achat avec détail pour la TVA, la partie
+non déductible et la partie privée
+
 
 Protection fichier include
 ==========================
@@ -45,7 +56,7 @@ Pour FIN indiquer Compte tiers (D/C) et surtout permettre de créer un fiche de 
 
 Fiche
 =====
-Si aucun quickcode donné, un calculé un en se basant sur le nom de la fiche (5ière lettre) + n° si duplicate
+Si aucun quickcode n'est donné, il en sera calculé un en se basant sur le nom de la fiche (5ière lettre) + n° si duplicate
 code php 
 fiche_def.inc.php
 
@@ -58,11 +69,6 @@ Visible dans la recherche après une recherche
 Possibilité d'ajouter / enlever des tags à plusieurs documents
 Possibilité d'avoir une impression web de plusieurs documents
 Possibilité de changer l'état de plusieurs documents
-
-
-Stock
-=====
-Inventaire annuel
 
 Date de paiement
 ================
