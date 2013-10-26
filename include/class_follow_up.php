@@ -728,7 +728,7 @@ class Follow_Up
 		$a_row = Database::fetch_all($Res);
 
 		$r = "";
-		$r.=$bar;
+		$r.='<p>'.$bar.'</p>';
 		$r.='<table class="document">';
 		$r.="<tr>";
                 $r.='<th name="ag_id_td" style="display:none" >'. ICheckBox::toggle_checkbox('ag','list_ag_frm').'</th>';
@@ -825,7 +825,7 @@ class Follow_Up
 
 		$r.="</table>";
 
-		$r.=$bar;
+		$r.='<p>'.$bar.'</p>';
 		return $r;
 	}
 
