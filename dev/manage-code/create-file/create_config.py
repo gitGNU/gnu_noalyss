@@ -27,6 +27,11 @@ try:
 except:
     print "Utilisation "+sys.argv[0]+" -s nom_du_schema -t nom de la table + c connexion string"
     print 'example -t jrnxc -c "dbname=xxx user=xx port=xx  password=xxx"'
+    print """
+    This utility create a file, this file can be given as input to the script
+    create_phpclass.py with the option -f
+    This will create the corresponding PHP File that you need to put in the include folder
+    """
     sys.exit(-1)
 
 cnx=psycopg2.connect (connexion_string)
@@ -52,7 +57,7 @@ for i in world:
     worlds.append(i.capitalize())
 
 class_name='_'.join(worlds)
-class_name=class_name+"_sql"
+class_name=class_name+"_SQL"
 
 file.write(class_name+"\n")
 file.write(schema+"."+table+"\n")

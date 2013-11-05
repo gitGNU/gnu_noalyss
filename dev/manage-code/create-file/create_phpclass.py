@@ -1,4 +1,4 @@
-#!/usr/bin/python
+  #!/usr/bin/python
 
 
 # Command we have to replace
@@ -8,13 +8,12 @@
 # @class_name@ Name of the class (uppercase)
 # @column_array@ fill the $variable
 # @sql_update@ the sql update
-# @column_comma the column for insert and update
 # read the file with the name
+# @column_comma the column for insert and update
 # first line = table name
 # second line = pk
 
 import sys, getopt
-import pdb
 
 def help():
     print """
@@ -64,418 +63,55 @@ Example
 
 @endcode
  */
-require_once('class_database.php');
-require_once('ac_common.php');
+require_once('class_phpcompta_sql.php');
 
 
 /**
  *@brief Manage the table @table@
 */
-class @class_name@  @mother_class@
+class @class_name@ extends Phpcompta_SQL
 {
   /* example private $variable=array("easy_name"=>column_name,"email"=>"column_name_email","val3"=>0); */
-  
-  protected $variable=array(@column_array@);
-  function __construct ( & $p_cn,$p_id=-1) {
-        $this->cn=$p_cn;
-        $this->@id@=$p_id;
-        
-        if ( $p_id == -1 ) {
-        /* Initialize an empty object */
-            foreach ($this->variable as $key=>$value) $this->$value=null;
-            $this->@id@=$p_id;
-        } else {
-         /* load it */
+  function __construct($p_id=-1)
+	{
 
-         $this->load();
-      }
-  }
-  public function get_parameter($p_string) {
-    if ( array_key_exists($p_string,$this->variable) ) {
-      $idx=$this->variable[$p_string];
-      return $this->$idx;
-    }
-    else 
-      throw new Exception (__FILE__.":".__LINE__.$p_string.'Erreur attribut inexistant');
-  }
-  public function set_parameter($p_string,$p_value) {
-    if ( array_key_exists($p_string,$this->variable) ) {
-      $idx=$this->variable[$p_string];
-      $this->$idx=$p_value;
-    }
-    else 
-      throw new Exception (__FILE__.":".__LINE__.$p_string.'Erreur attribut inexistant');
-  }
-  public function get_info() {    return var_export($this,true);  }
+
+		$this->table = "@table@";
+		$this->primary_key = "@id@";
+
+		$this->name = array(
+			@column_array@
+		);
+
+		$this->type = array(
+			@column_type_array@
+		);
+
+		$this->default = array(
+			"@id@" => "auto"
+		);
+		global $cn;
+
+		parent::__construct($cn, $p_id);
+	}
   public function verify() {
-    // Verify that the elt we want to add is correct
-    /* verify only the datatype */
-    @verify_data_type@
-    @set_tech_user@
-  }
-  public function save() {
-  /* please adapt */
-    if (  $this->@id@ == -1 ) 
-      $this->insert();
-    else
-      $this->update();
-  }
-  /**
-   *@brief retrieve array of object thanks a condition
-   *@param $cond condition (where clause) (optional by default all the rows are fetched)
-   * you can use this parameter for the order or subselect
-   *@param $p_array array for the SQL stmt
-   *@see Database::exec_sql get_object  Database::num_row
-   *@return the return value of exec_sql
-   */
-   public function seek($cond='',$p_array=null) 
-   {
-     $sql="select * from @table@  $cond";
-     $aobj=array();
-     $ret= $this->cn->exec_sql($sql,$p_array);
-     return $ret;
-   }
-   /**
-    *get_seek return the next object, the return of the query must have all the column
-    * of the object
-    *@param $p_ret is the return value of an exec_sql
-    *@param $idx is the index
-    *@see seek
-    *@return object 
-    */
-   public function get_object($p_ret,$idx)
-    {
-     // map each row in a object
-     $oobj=new @class_name@ ($this->cn);
-     $array=Database::fetch_array($p_ret,$idx);
-     foreach ($array as $idx=>$value) { $oobj->$idx=$value; }
-     return $oobj;
-   }
-  public function insert() {
-    if ( $this->verify() != 0 ) return;
-      if( $this->@id@==-1 ){
-    /*  please adapt */
-    $sql="insert into @table@(@column_noid@) values (@column_insert@) returning @id@";
+    parent::verify();
     
-    $this->@id@=$this->cn->get_value(
-		 $sql,
-		 array( @column_this@)
-		 );
-          } else {
-              $sql="insert into @table@(@column_noid@,@id@) values (@column_insert_id@) returning @id@";
-    
-    $this->@id@=$this->cn->get_value(
-		 $sql,
-		 array( @column_this_id@)
-		 );
-
-          }
-   
-  }
-
-  public function update() {
-    if ( $this->verify() != 0 ) return;
-    /*   please adapt */
-    $sql="@sql_update@";
-    $res=$this->cn->exec_sql(
-		 $sql,
-		 array(@column_comma@,$this->@id@)
-		 );
-		 
-  }
-/**
- *@brief load a object
- *@return 0 on success -1 the object is not found
- */
-  public function load() {
-
-   $sql="select @column_select@ from @table@ where @id@=$1"; 
-    /* please adapt */
-    $res=$this->cn->get_array(
-		 $sql,
-		 array($this->@id@)
-		 );
-		 
-    if ( count($res) == 0 ) {
-          /* Initialize an empty object */
-          foreach ($this->variable as $key=>$value) $this->$key='';
-
-          return -1;
-          }
-    foreach ($res[0] as $idx=>$value) { $this->$idx=$value; }
-    return 0;
-  }
-
-  public function delete() {
-    $sql="delete from @table@ where @id@=$1"; 
-    $res=$this->cn->exec_sql($sql,array($this->@id@));
-  }
-  /**
-   * Unit test for the class
-   */	
-  static function test_me() {
-      $cn=new Database(25);
-$cn->start();
-    echo h2info('Test object vide');
-    $obj=new @class_name@($cn);
-    var_dump($obj);
-
-    echo h2info('Test object NON vide');
-    $obj->set_parameter('j_id',3);
-    $obj->load();
-    var_dump($obj);
-
-    echo h2info('Update');
-    $obj->set_parameter('j_qcode','NOUVEAU CODE');
-    $obj->save();
-    $obj->load();
-    var_dump($obj);
-
-    echo h2info('Insert');
-    $obj->set_parameter('j_id',0);
-    $obj->save();
-    $obj->load();
-    var_dump($obj);
-
-    echo h2info('Delete');
-    $obj->delete();
-    echo (($obj->load()==0)?'Trouve':'non trouve');
-    var_dump($obj);
-$cn->rollback();
-
   }
   
 }
-// @class_name@::test_me();
+  
 ?>
 """
-    sChild="""<?php
-/**
- *@file
- *@brief Manage the table @table@
- *
- *
-Example
-@code
-
-@endcode
- */
-require_once('class_database.php');
-require_once('ac_common.php');
-
-/**
- *@brief Manage the table @table@
- *@extends @mother_class@
-*/
-class @class_name@  @mother_class@
-{
-  /* example private $variable=array("easy_name"=>column_name,"email"=>"column_name_email","val3"=>0); */
   
-  protected $variable=array(@column_array@);
-
-  public function verify() {
-    // Verify that the elt we want to add is correct
-    /* verify only the datatype */
-    @verify_data_type@
-    @set_tech_user@
-  }
-  public function save() {
-  /* please adapt */
-    if (  $this->@id@ == -1 ) 
-      $this->insert();
-    else
-      $this->update();
-  }
-  public function insert() {
-    if ( $this->verify() != 0 ) return;
-    /*  please adapt */
-    $sql="insert into @table@(@column_noid@) values (@column_insert@) returning @id@";
-    
-    $this->@id@=$this->cn->get_value(
-		 $sql,
-		 array( @column_this@)
-		 );
-   
-  }
-
-  public function update() {
-    if ( $this->verify() != 0 ) return;
-    /*   please adapt */
-    $sql="@sql_update@";
-    $res=$this->cn->exec_sql(
-		 $sql,
-		 array(@column_comma@,$this->@id@)
-		 );
-		 
-  }
-/**
- *@brief load ONE object, the pk must be set before calling
- *@return 0 on success -1 the object is not found
- */
-  public function load() {
-
-   $sql="select @column_select@ from @table@ where @id@=$1"; 
-    /* please adapt */
-    $res=$this->cn->get_array(
-		 $sql,
-		 array($this->@id@)
-		 );
-		 
-    if ( count($res) == 0 ) {
-          /* Initialize an empty object */
-          foreach ($this->variable as $key=>$value) $this->$key='';
-
-          return -1;
-          }
-    foreach ($res[0] as $idx=>$value) { $this->$idx=$value; }
-    return 0;
-  }
-
-  public function delete() {
-    $sql="delete from @table@ where @id@=$1"; 
-    $res=$this->cn->exec_sql($sql,array($this->@id@));
-  }
-  /**
-   * Unit test for the class
-   */	
-  static function test_me() {
-      $cn=new Database(25);
-$cn->start();
-    echo h2info('Test object vide');
-    $obj=new @class_name@($cn);
-    var_dump($obj);
-
-    echo h2info('Test object NON vide');
-    $obj->set_parameter('j_id',3);
-    $obj->load();
-    var_dump($obj);
-
-    echo h2info('Update');
-    $obj->set_parameter('j_qcode','NOUVEAU CODE');
-    $obj->save();
-    $obj->load();
-    var_dump($obj);
-
-    echo h2info('Insert');
-    $obj->set_parameter('j_id',0);
-    $obj->save();
-    $obj->load();
-    var_dump($obj);
-
-    echo h2info('Delete');
-    $obj->delete();
-    echo (($obj->load()==0)?'Trouve':'non trouve');
-    var_dump($obj);
-$cn->rollback();
-
-  }
-  
-}
-@class_name@::test_me();
-?>
-"""
-    sView="""<?php
-/**
- *@file
- *@brief Manage the view @table@
- *
- *
-Example
-@code
-
-@endcode
- */
-require_once('class_database.php');
-require_once('ac_common.php');
-
-/**
- *@brief Manage the view @table@
-*/
-class @class_name@
-{
-  /* example private $variable=array("easy_name"=>column_name,"email"=>"column_name_email","val3"=>0); */
-  
-  protected $variable=array(@column_array@);
-  function __construct ( & $p_cn) {
-        $this->cn=$p_cn;
-  }
-
-
-/**
- *@brief load ONE object
- *@return 0 on success -1 the object is not found
- */
-  public function load($cond,$array=null) {
-
-   $sql="select @column_select@ from @table@ $cond"; 
-    /* please adapt */
-    $res=$this->cn->get_array(
-		 $sql,
-		 $array
-		 );
-		 
-    if ( count($res) == 0 ) {
-          /* Initialize an empty object */
-          foreach ($this->variable as $key=>$value) $this->$key='';
-
-          return -1;
-          }
-    foreach ($res[0] as $idx=>$value) { $this->$idx=$value; }
-    return 0;
-  }
-
-
-  /**
-   *@brief retrieve array of object thanks a condition
-   *@param $cond condition (where clause) (optional by default all the rows are fetched)
-   * you can use this parameter for the order or subselect
-   *@param $p_array array for the SQL stmt
-   *@see Database::exec_sql get_object  Database::num_row
-   *@return the return value of exec_sql
-   */
-   public function seek($cond='',$p_array=null) 
-   {
-     $sql="select * from @table@  $cond";
-     $aobj=array();
-     $ret= $this->cn->exec_sql($sql,$p_array);
-     return $ret;
-   }
-   /**
-    *get_seek return the next object, the return of the query must have all the column
-    * of the object
-    *@param $p_ret is the return value of an exec_sql
-    *@param $idx is the index
-    *@see seek Database::num_row
-    *@return object 
-    */
-   public function get_object($p_ret,$idx)
-    {
-     // map each row in a object
-     $oobj=new @class_name@ ($this->cn);
-     $array=Database::fetch_array($p_ret,$idx);
-     foreach ($array as $idx=>$value) { $oobj->$idx=$value; }
-     $aobj=clone $oobj;
-
-     return $aobj;
-   }
-}
-?>
-
-"""
 
     # read the file
     try :
         file=open(filein,'r')
         line=file.readlines()
-        mother_name='';mother_class=''
-        if line[0].find(':') > 0 :
-            class_name=(line[0].split(':'))[0].strip()
-            mother_name=(line[0].split(':'))[1].strip()
-            mother_class="extends "+mother_name
-        else:
-            class_name=line[0].strip()
-            mother_name=''
-            mother_class=''
+        class_name=line[0].strip()
+                  
+            
         table=line[1].strip()
         (id,type_id,default)=line[2].strip().split('|')
         id=id.strip()
@@ -484,7 +120,7 @@ class @class_name@
         column_select=''
         column_insert=''
         fileoutput=open("class_"+class_name.lower()+".php",'w+')
-	print "Create the file %s "+fileoutput.name
+	print "Create the file "+fileoutput.name
         
         sep=''
         i=1
@@ -514,12 +150,23 @@ class @class_name@
         column_insert_id=column_insert+sep+'$'+str(i)+"\n"
         column_this_id=column_this+sep+'$this->'+id
         column_array=''
+        column_type_array=''
         sep=''
         for e in line [3:]:
             if e.find('|') < 0 :
                 continue
             col_name=(e.split('|'))[0].strip()
+            col_type=(e.split('|'))[1].strip()
+            if col_type == 'integer' or col_type == 'numeric' or col_type=='bigint':
+		col_type="numeric"
+	    elif col_type=='text' or col_type=='character varying':
+		col_type="text"
+	    elif col_type=='date':
+		col_type='date'
+	    else :
+		col_type='set_me'
             column_array+=sep+'"'+col_name+'"=>"'+col_name+'"'+"\n"
+            column_type_array+=sep+'"'+col_name+'"=>"'+col_type+'"'+"\n"
             sep=','
         column_array='"'+id+'"=>"'+id+'",'+column_array
         sql_update=" update "+table
@@ -553,59 +200,23 @@ class @class_name@
                    if col_type in ('date',' timestamp without time zone','timestamp with time zone'):
                        verify_data_type+=" if (isDate($this->"+col_id+") == null )\n \
             throw new Exception('DATATYPE "+col_id+" $this->"+col_id+" date invalide');\n"
-        if  child == True :
-            sChild=sChild.replace('@id@',id)
-            sChild=sChild.replace('@table@',table)
-            sChild=sChild.replace('@class_name@',class_name)
-            sChild=sChild.replace('@column_noid@',column_noid)
-            sChild=sChild.replace('@column_array@',column_array)
-            sChild=sChild.replace('@sql_update@',sql_update)
-            sChild=sChild.replace('@column_comma@',column_comma)
-            sChild=sChild.replace('@column_this@',column_this)
-            sChild=sChild.replace('@column_this_id@',column_this_id)	
-            sChild=sChild.replace('@verify_data_type@',verify_data_type)
-            sChild=sChild.replace('@column_select@',column_select)
-            sChild=sChild.replace('@column_insert@',column_insert)
-            sChild=sChild.replace('@mother_name@',mother_name)
-            sChild=sChild.replace('@mother_class@',mother_class)            
-            sChild=sChild.replace('@column_insert_id@',column_insert_id)
-            sChild=sChild.replace('@set_tech_user@',set_tech_user)
-            fileoutput.writelines(sChild)
-        elif view == True:
-            sView=sView.replace('@id@',id)
-            sView=sView.replace('@table@',table)
-            sView=sView.replace('@class_name@',class_name)
-            sView=sView.replace('@column_noid@',column_noid)
-            sView=sView.replace('@column_array@',column_array)
-            sView=sView.replace('@sql_update@',sql_update)
-            sView=sView.replace('@column_comma@',column_comma)
-            sView=sView.replace('@column_this@',column_this)
-            sView=sView.replace('@column_this_id@',column_this_id)	
-            sView=sView.replace('@verify_data_type@',verify_data_type)
-            sView=sView.replace('@column_select@',column_select)
-            sView=sView.replace('@column_insert@',column_insert)
-            sView=sView.replace('@mother_name@',mother_name)
-            sView=sView.replace('@mother_class@',mother_class)            
-            sView=sView.replace('@column_insert_id@',column_insert_id)
-            sView=sView.replace('@set_tech_user@',set_tech_user)
-            fileoutput.writelines(sView)
-        else:
-            sParent=sParent.replace('@id@',id)
-            sParent=sParent.replace('@table@',table)
-            sParent=sParent.replace('@class_name@',class_name)
-            sParent=sParent.replace('@column_noid@',column_noid)
-            sParent=sParent.replace('@column_array@',column_array)
-            sParent=sParent.replace('@sql_update@',sql_update)
-            sParent=sParent.replace('@column_comma@',column_comma)
-            sParent=sParent.replace('@column_this@',column_this)
-	    sParent=sParent.replace('@column_this_id@',column_this_id)	
-            sParent=sParent.replace('@verify_data_type@',verify_data_type)
-            sParent=sParent.replace('@column_select@',column_select)
-            sParent=sParent.replace('@column_insert@',column_insert)
-            sParent=sParent.replace('@column_insert_id@',column_insert_id)
-            sParent=sParent.replace('@mother_class@',mother_class)
-            sParent=sParent.replace('@set_tech_user@',set_tech_user)
-            fileoutput.writelines(sParent)
+       
+	sParent=sParent.replace('@id@',id)
+	sParent=sParent.replace('@table@',table)
+	sParent=sParent.replace('@class_name@',class_name)
+	sParent=sParent.replace('@column_noid@',column_noid)
+	sParent=sParent.replace('@column_array@',column_array)
+	sParent=sParent.replace('@column_type_array@',column_type_array)
+	sParent=sParent.replace('@sql_update@',sql_update)
+	sParent=sParent.replace('@column_comma@',column_comma)
+	sParent=sParent.replace('@column_this@',column_this)
+	sParent=sParent.replace('@column_this_id@',column_this_id)	
+	sParent=sParent.replace('@verify_data_type@',verify_data_type)
+	sParent=sParent.replace('@column_select@',column_select)
+	sParent=sParent.replace('@column_insert@',column_insert)
+	sParent=sParent.replace('@column_insert_id@',column_insert_id)
+	sParent=sParent.replace('@set_tech_user@',set_tech_user)
+	fileoutput.writelines(sParent)
 
     except :
         print "error "
