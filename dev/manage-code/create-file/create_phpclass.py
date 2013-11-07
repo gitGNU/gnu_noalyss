@@ -2,14 +2,12 @@
 
 
 # Command we have to replace
-# @table@ by the table name
-# @id@ by the primary key
-# @column_noid@ by the list of column (respect order for insert)
-# @class_name@ Name of the class (uppercase)
-# @column_array@ fill the $variable
-# @sql_update@ the sql update
+#    @table@ by the table name
+#    @id@ by the primary key
+#    @class_name@ Name of the class (uppercase)
+#    @column_array@ fill the $this->name
+#    @column_type_array@ fill the $this->type
 # read the file with the name
-# @column_comma the column for insert and update
 # first line = table name
 # second line = pk
 
@@ -19,8 +17,6 @@ def help():
     print """
     option are -h for help
                -f input file containing the structure
-               -c create the code for a child class
-               -v create the code for a view (so only load and seek)
                -n the PK is not serial
     The input file contains :
     first  line class name : mother class separator : (optionnal)
@@ -31,22 +27,18 @@ def help():
     """
 def main():
     try:
-        opts,args=getopt.getopt(sys.argv[1:],'cf:hv',['child','file','help','view','pk-not-serial'])
+        opts,args=getopt.getopt(sys.argv[1:],'f:h',['file','help','pk-not-serial'])
     except getopt.GetOptError, err:
         print str(err)
         help()
         sys.exit(-1)
-    filein='';child=False;view=False
+    filein=''
     for option,value in opts:
         if option in ('-f','--file'):
             filein=value
         elif option in ('-h','--help'):
             help()
             sys.exit(-1)
-        elif option in ('-c','--child'):
-            child=True
-        elif option in ('-v','--view'):
-            view=True
         elif option in ('-n','--pk-not-serial'):
 	    nopk=True
     if filein=='' :
@@ -94,9 +86,12 @@ class @class_name@ extends Phpcompta_SQL
 
 		parent::__construct($cn, $p_id);
 	}
+  /**
+   *@brief Add here your own code: verify is always call BEFORE insert or update
+   */
   public function verify() {
     parent::verify();
-    
+    @set_tech_user@
   }
   
 }
@@ -115,10 +110,6 @@ class @class_name@ extends Phpcompta_SQL
         table=line[1].strip()
         (id,type_id,default)=line[2].strip().split('|')
         id=id.strip()
-        column_noid=''
-        column_this=''
-        column_select=''
-        column_insert=''
         fileoutput=open("class_"+class_name.lower()+".php",'w+')
 	print "Create the file "+fileoutput.name
         
@@ -134,21 +125,11 @@ class @class_name@ extends Phpcompta_SQL
 		print "*"*80
 		print ('Warning : tech_date est un champs technique a utiliser avec un trigger')
 		print "*"*80
-            column_this=column_this+sep+'$this->'+col_name+"\n"
-            column_noid=column_noid+sep+col_name+"\n"
 
 	    if col_name == 'tech_user' :
 		set_tech_user=" $this->tech_user=$_SESSION['g_user']; "
-            if col_type == 'date':
-                column_select=column_select+sep+"to_char("+col_name+",'DD.MM.YYYY') as "+col_name+"\n"
-		column_insert=column_insert+sep+"to_date($"+str(i)+",'DD.MM.YYYY') \n "
-            else:
-                column_select=column_select+sep+col_name+"\n"
-                column_insert=column_insert+sep+'$'+str(i)+"\n"
             i+=1                
             sep=','
-        column_insert_id=column_insert+sep+'$'+str(i)+"\n"
-        column_this_id=column_this+sep+'$this->'+id
         column_array=''
         column_type_array=''
         sep=''
@@ -169,21 +150,8 @@ class @class_name@ extends Phpcompta_SQL
             column_type_array+=sep+'"'+col_name+'"=>"'+col_type+'"'+"\n"
             sep=','
         column_array='"'+id+'"=>"'+id+'",'+column_array
-        sql_update=" update "+table
         i=1;sep='';set=' set '
         column_comma=''
-        for e in line[3:]:
-            if e.find('|') < 0 :
-                continue
-            if  (e.split('|'))[1].strip() == 'date':
-                  sql_update+=sep+set+(e.split('|'))[0].strip()+" =to_date($"+str(i)+",'DD.MM.YYYY')"+"\n"
-            else:
-                  sql_update+=sep+set+(e.split('|'))[0].strip()+" = $"+str(i)+"\n"
-            set=''
-            column_comma+=sep+"$this->"+(e.split('|'))[0].strip()+"\n"
-            i+=1
-            sep=','
-        sql_update=sql_update+" where "+id+"= $"+str(i)
         verify_data_type=''
         # create verify data_type
         for e in line[3:]:
@@ -204,17 +172,8 @@ class @class_name@ extends Phpcompta_SQL
 	sParent=sParent.replace('@id@',id)
 	sParent=sParent.replace('@table@',table)
 	sParent=sParent.replace('@class_name@',class_name)
-	sParent=sParent.replace('@column_noid@',column_noid)
 	sParent=sParent.replace('@column_array@',column_array)
 	sParent=sParent.replace('@column_type_array@',column_type_array)
-	sParent=sParent.replace('@sql_update@',sql_update)
-	sParent=sParent.replace('@column_comma@',column_comma)
-	sParent=sParent.replace('@column_this@',column_this)
-	sParent=sParent.replace('@column_this_id@',column_this_id)	
-	sParent=sParent.replace('@verify_data_type@',verify_data_type)
-	sParent=sParent.replace('@column_select@',column_select)
-	sParent=sParent.replace('@column_insert@',column_insert)
-	sParent=sParent.replace('@column_insert_id@',column_insert_id)
 	sParent=sParent.replace('@set_tech_user@',set_tech_user)
 	fileoutput.writelines(sParent)
 
