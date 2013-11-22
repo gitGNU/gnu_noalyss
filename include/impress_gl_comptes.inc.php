@@ -194,19 +194,6 @@ if ( isset( $_REQUEST['bt_html'] ) )
 	$i=0;
         foreach ($Poste->row as $detail)
         {
-	  if ($a==0) {var_dump($detail);$a=1;}
-            /*
-                   [0] => 1 [jr_id] => 1
-                   [1] => 01.02.2009 [j_date_fmt] => 01.02.2009
-                   [2] => 2009-02-01 [j_date] => 2009-02-01
-                   [3] => 0 [deb_montant] => 0
-                   [4] => 12211.9100 [cred_montant] => 12211.9100
-                   [5] => Ecriture douverture [description] => Ecriture douverture
-                   [6] => Opération Diverses [jrn_name] => Opération Diverses
-                   [7] => f [j_debit] => f
-                   [8] => 17OD-01-1 [jr_internal] => 17OD-01-1
-                   [9] => ODS1 [jr_pj_number] => ODS1 ) 1
-             */
 
             if ($detail['cred_montant'] > 0)
             {

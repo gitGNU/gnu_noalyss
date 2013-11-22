@@ -149,12 +149,12 @@ foreach ($a_poste as $poste)
 
         $i = 0;
 		$side=" ".$Poste->get_amount_side($solde);
-        $pdf->Cell($width[$i], 6, shrink_date($detail['j_date_fmt']), 0, 0, $lor[$i]);
+        $pdf->LongLine($width[$i], 6, shrink_date($detail['j_date_fmt']), 0, $lor[$i]);
         $i++;
-        $pdf->Cell($width[$i], 6, $detail['jr_internal'], 0, 0, $lor[$i]);
+        $pdf->LongLine($width[$i], 6, $detail['jr_internal'], 0, $lor[$i] );
         $i++;
         /* limit set to 20 for the substring */
-        $pdf->Cell($width[$i], 6, mb_substr($detail['description'],0,42), 0, 0, $lor[$i]);
+        $pdf->LongLine($width[$i], 6, mb_substr($detail['description'],0,120), 0,$lor[$i]);
         $i++;
         $pdf->Cell($width[$i], 6, $detail['jr_pj_number'], 0, 0, $lor[$i]);
         $i++;
