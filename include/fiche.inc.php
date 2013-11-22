@@ -332,9 +332,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 			/* only not purged card */
 			if ($_GET['histo'] == 5 && $solde['debit'] == $solde['credit'])
 				continue;
-			$class = '';
-			if ($idx % 2 == 0)
-				$class = 'class="odd"';
+			$class =($idx % 2 == 0) ?  'class="odd"':'class="even"';
 			$idx++;
                         $sum_cred=bcadd($sum_cred,$solde['credit']);
                         $sum_deb=bcadd($sum_deb,$solde['debit']);

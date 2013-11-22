@@ -146,7 +146,9 @@ class Acc_Account_Ledger
         $Res=$this->db->exec_sql("select  jr_id,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,j_date,".
                                  "case when j_debit='t' then j_montant else 0 end as deb_montant,".
                                  "case when j_debit='f' then j_montant else 0 end as cred_montant,".
-                                 " jr_comment as description,jrn_def_name as jrn_name,".
+                                 " case when j_text is null or j_text = '' then jr_comment 
+                                   else jr_comment||' '||j_text  end
+                as description,jrn_def_name as jrn_name,".
                                  "j_debit, jr_internal,jr_pj_number,
 								 coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter ".
                                  ",pcm_lib ".
