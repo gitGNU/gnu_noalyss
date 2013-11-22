@@ -307,7 +307,7 @@ if ( $report != 0 ) : ?>
   else :
 ?>
   <fieldset style="height:50%;width:80%;background-color:white"><legend><?php _('Aucun rapport défini')?></legend>
-  <a href="javascript:void(0)" onclick="set_preference('.dossier::id().')"><?php echo _('Cliquez ici pour mettre à jour vos préférences')?></a>
+  <a href="javascript:void(0)" onclick="set_preference('<?php echo dossier::id()?>')"><?php echo _('Cliquez ici pour mettre à jour vos préférences')?></a>
 
 </fieldset>
 <?php
