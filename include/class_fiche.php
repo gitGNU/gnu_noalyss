@@ -1513,7 +1513,7 @@ class Fiche
     function Summary($p_search="",$p_action="",$p_sql="",$p_amount=false)
     {
         global $g_user;
-		bcscale(4);
+        bcscale(4);
         $str_dossier=dossier::get();
         $p_search=sql_string($p_search);
         $script=$_SERVER['PHP_SELF'];
@@ -1592,12 +1592,12 @@ class Fiche
                          " ".$tiers->strAttribut(ATTR_DEF_CP).
                          " ".$tiers->strAttribut(ATTR_DEF_PAYS)).
                 "</TD>";
-            $deb=(($amount['debit']==0)?0:nbm($amount['debit']));
-            $cred=(($amount['credit']==0)?0:nbm($amount['credit']));
-            $solde=nbm($amount['solde']);
-            $r.='<TD sorttable_customkey="'.$amount['debit'].'" align="right"> '.$deb.'</TD>';
-            $r.='<TD sorttable_customkey="'.$amount['credit'].'" align="right"> '.$cred.'</TD>';
-            $r.='<TD sorttable_customkey="'.$amount['solde'].'" align="right"> '.$solde."</TD>";
+            $str_deb=(($amount['debit']==0)?0:nbm($amount['debit']));
+            $str_cred=(($amount['credit']==0)?0:nbm($amount['credit']));
+            $str_solde=nbm($amount['solde']);
+            $r.='<TD sorttable_customkey="'.$amount['debit'].'" align="right"> '.$str_deb.'</TD>';
+            $r.='<TD sorttable_customkey="'.$amount['credit'].'" align="right"> '.$str_cred.'</TD>';
+            $r.='<TD sorttable_customkey="'.$amount['solde'].'" align="right"> '.$str_solde."</TD>";
             $deb=bcadd($deb,$amount['debit']);
             $cred=bcadd($cred,$amount['credit']);
 
@@ -1605,8 +1605,9 @@ class Fiche
 
         }
 		$r.="<tfoot>";
-		$solde=bcsub($deb,$cred);
-		$r.=td("").td("").td("Totaux").td(nbm($deb),'class="num"').td(nbm($cred),'class="num"').td(nbm($solde),'class="num"');
+		$solde=abs(bcsub($deb,$cred));
+                $side=($deb > $cred)?'Débit':'Crédit';
+		$r.=td("").td("").td("Totaux").td(nbm($deb),'class="num"').td(nbm($cred),'class="num"').td(" $side ".nbm($solde),'class="num"');
 		$r.="</tfoot>";
         $r.="</TABLE>";
         $r.=$bar;
