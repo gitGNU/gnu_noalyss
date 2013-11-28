@@ -135,9 +135,17 @@ class Stock_Goods extends Stock_Goods_Sql
 				if ($p_array['sg_quantity' . $i] != 0 &&
 						trim($p_array['sg_code' . $i]) != '')
 				{
+                                        $stock=  strtoupper(trim($p_array['sg_code' . $i]));
 					$fiche=new Fiche($cn);
 					$fiche->get_by_qcode($p_array['sg_code' . $i]);
-					$stock=$fiche->strAttribut(ATTR_DEF_STOCK);
+					/*
+                                         * check if code stock does exist
+                                         */
+                                        $count=$cn->get_value('select count(*) from fiche_detail where ad_id=$1 and ad_value=$2',
+                                                array(ATTR_DEF_STOCK,$stock));
+                                        if ( $count==0) {
+                                            throw new Exception("Code stock inexistant");
+                                        }
 					$a->f_id=$fiche->id;
 					$a->sg_code = $stock;
 					$a->sg_quantity = abs($p_array['sg_quantity' . $i]);
