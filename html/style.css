@@ -324,10 +324,8 @@ td.cell{
     
 }
 td.selectedcell{
-    border-style:inset;
     border-color:blue;
     border-width:1pt ;
-    font-size:1.2em;
     font-weight: bold;
     background:#5D90CD ;
     color:white;
