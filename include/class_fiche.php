@@ -741,6 +741,12 @@ class Fiche
         $this->id=$fiche_id;
         // first we create the card
         if ( $transaction)    $this->cn->start();
+        /*
+         * Sort the array for having the name AFTER the quickcode and the 
+         * Accounting
+         */
+        ksort($p_array);
+        
         try
         {
             $sql=sprintf("insert into fiche(f_id,fd_id)".
