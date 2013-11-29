@@ -415,7 +415,7 @@ class Periode
      */
     function load()
     {
-
+        if ($this->p_id == '') $this->p_id=-1;
         $row=$this->cn->get_array("select p_start,p_end,p_exercice,p_closed,p_central from parm_periode where p_id=$1",
                                   array($this->p_id));
         if ($row == null ) return -1;

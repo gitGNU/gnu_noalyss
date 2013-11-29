@@ -28,8 +28,9 @@
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once 'class_stock.php';
+global $cn;
 // var_dump($_GET);
-$stock=new Stock();
+$stock=new Stock($cn);
 $tmp_id = $stock->build_tmp_table($_GET);
 
 header('Pragma: public');

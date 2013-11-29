@@ -35,7 +35,12 @@ require_once 'class_stock.php';
 // Get type = table or list
 $iexercice=new ISelect('state_exercice');
 $iexercice->value=$cn->make_array("select  max(p_end) as date_end, p_exercice from parm_periode  group by p_exercice order by 2 desc");
-$iexercice->selected=(isset($_GET['state_exercice']))?$_GET['state_exercice']:"";
+$per=new Periode($cn,$g_user->get_periode());
+$per->load();
+$date_limit=$per->limit_year($per->p_exercice);
+$last_day=$per->last_day($date_limit['end']);
+$last_day=format_date($last_day,'DD.MM.YYYY','YYYY-MM-DD');
+$iexercice->selected=(isset($_GET['state_exercice']))?$_GET['state_exercice']:$last_day;
 
 $presentation=new ISelect("present");
 $presentation->value=array (

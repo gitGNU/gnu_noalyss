@@ -259,6 +259,18 @@ class Stock extends Stock_Sql
 	function build_tmp_table($p_array)
 	{
 		global $cn,$g_user;
+                // exercice 
+                if (isset ($p_array['state_exercice']))
+                {
+                    $periode=new Periode($cn);
+                    $date=  format_date($p_array['state_exercice'], 'YYYY-MM-DD');
+                    $periode->find_periode($date);
+                    
+                } else {
+                    $periode_id=$g_user->get_periode();
+                    $periode=new Periode($cn,$periode_id);
+                }
+                $periode->load();
 		$tmp_id = $cn->get_next_seq("public.tmp_stockgood_s_id_seq");
 		$cn->exec_sql("delete from tmp_stockgood where s_date < now() - interval '2 days' ");
 		$cn->exec_sql("insert into tmp_stockgood(s_id) values ($1)", array($tmp_id));
@@ -266,16 +278,6 @@ class Stock extends Stock_Sql
 		// get all readable repository
 		$a_repository = $g_user->get_available_repository('R');
 
-
-		$end_date = $cn->get_value("select to_char(max(p_end),'DD.MM.YYYY') from parm_periode");
-		if (isset($p_array['state_exercice']))
-		{
-			$tmp_date=  format_date($p_array['state_exercice'],'YYYY-MM-DD','DD.MM.YYYY');
-			if (isDate($tmp_date) == $tmp_date)
-			{
-				$end_date = $tmp_date;
-			}
-		}
 		// From ACH : IN
 		$sql_repo_detail = "
 			insert into tmp_stockgood_detail(s_id,sg_code,s_qin,r_id,f_id)
@@ -284,13 +286,13 @@ class Stock extends Stock_Sql
 				where
 					sg_type='d'
 					and j_id is not null
-					and j_id in (select j_id from jrnx where  j_date <= to_date($2,'DD.MM.YYYY'))
+					and j_id in (select j_id from jrnx where  j_tech_per in (select p_id from parm_periode where p_exercice=$2))
 					and r_id  in (select r_id from profile_sec_repository where p_id=$1)
 					group by r_id,trim(sg_code),f_id
 			";
 
 		// From VEN : out
-		$cn->exec_sql($sql_repo_detail, array($g_user->get_profile(), $end_date));
+		$cn->exec_sql($sql_repo_detail, array($g_user->get_profile(), $periode->p_exercice));
 		$sql_repo_detail = "
 				insert into tmp_stockgood_detail(s_id,sg_code,s_qout,r_id,f_id)
 				select $tmp_id,trim(sg_code) , coalesce(sum(sg_quantity),0) as qout,r_id,f_id
@@ -298,11 +300,11 @@ class Stock extends Stock_Sql
 				where
 					sg_type='c'
 					and sg.j_id is not null
-					and sg.j_id in (select j_id from jrnx where  j_date <= to_date($2,'DD.MM.YYYY'))
+					and sg.j_id in (select j_id from jrnx where  j_tech_per in (select p_id from parm_periode where p_exercice=$2))
 					and sg.r_id  in (select r_id from profile_sec_repository where p_id=$1)
 					group by r_id,trim(sg_code),f_id
 			";
-		$cn->exec_sql($sql_repo_detail, array($g_user->get_profile(), $end_date));
+		$cn->exec_sql($sql_repo_detail, array($g_user->get_profile(), $periode->p_exercice));
 
 		// From INV  IN
 		$sql_repo_detail = "
@@ -312,13 +314,13 @@ class Stock extends Stock_Sql
 				where
 					sg_type='d'
 					and j_id is null
-					and sg_tech_date <= to_date($2,'DD.MM.YYYY')
+					and sg_date >= ( select min(p_start) from parm_periode where p_exercice=$2)
+					and sg_date <= ( select max(p_end) from parm_periode where p_exercice=$2)
 					 and sg.r_id  in (select r_id from profile_sec_repository where p_id=$1)
 					group by r_id,trim(sg_code),f_id
 			";
-
 		// From INV: OUT
-		$cn->exec_sql($sql_repo_detail, array($g_user->get_profile(), $end_date));
+		$cn->exec_sql($sql_repo_detail, array($g_user->get_profile(), $periode->p_exercice));
 		$sql_repo_detail = "
 				insert into tmp_stockgood_detail(s_id,sg_code,s_qout,r_id,f_id)
 				select $tmp_id,trim(sg_code), coalesce(sum(sg_quantity),0) as qout,r_id,f_id
@@ -327,10 +329,10 @@ class Stock extends Stock_Sql
 					sg_type='c'
 					and j_id is null
 					 and r_id  in (select r_id from profile_sec_repository where p_id=$1)
-					and sg_tech_date  <= to_date($2,'DD.MM.YYYY')
+					and sg_date  <= to_date($2,'DD.MM.YYYY')
 					group by r_id,trim(sg_code),f_id
 			";
-		$cn->exec_sql($sql_repo_detail, array($g_user->get_profile(), $end_date));
+		$cn->exec_sql($sql_repo_detail, array($g_user->get_profile(), $periode->p_exercice));
 		return $tmp_id;
 	}
 

@@ -1482,7 +1482,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $r.='<tr>'.td(_('Total TVAC')).td(hb(nbm($tot)),'class="num"');
             $r.='</table>';
         } else {
-            $r.='<br>Total '.nbm(hb($tot));
+            $r.='<br>Total '.hb(nbm($tot));
         }
         $r.='</p>';
         /*  Add hidden */
