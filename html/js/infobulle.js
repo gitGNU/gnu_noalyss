@@ -63,7 +63,7 @@ content[32]='<h3>        Remarque  : choix possibles    </h3>    <ul style="padd
 content[33]='le type vaut :<ul>	<li> ME pour Menu</li>	<li> PR pour les impressions </li>	<li> PL pour les plugins</li>	<li> SP pour des valeurs spéciales</li>	</ul>';
 content[34]='Cliquez sur le code AD pour ouvrir le menu dans un nouvel onglet';
 content[35]='Cliquez sur le chemin pour ouvrir le menu';
-content[36]='Ne concerne que les journaux de type ACH & VEN, en précisant une date ici vous excluez d\'office les autres journaux';
+content[36]='En utilisant les dates d\'échéance ou de paiement, seuls les journaux de type ACH et VEN seront utilisés ,vous excluez d\'office les autres journaux';
 function showBulle(p_ctl){
     d=document.getElementById('bulle');
     d.innerHTML=content[p_ctl];
