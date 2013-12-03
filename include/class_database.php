@@ -498,8 +498,9 @@ class Database
     function get_value($p_sql,$p_array=null)
     {
         $this->ret=$this->exec_sql($p_sql,$p_array);
-        if ( pg_NumRows($this->ret) == 0 ) return "";
-        if ( pg_NumRows($this->ret) > 1 )
+        $r= pg_NumRows($this->ret);
+        if ( $r == 0 ) return "";
+        if ( $r > 1 )
 	  {
 	    $array=pg_fetch_all($this->ret);
 	    throw new Exception( "Attention $p_sql retourne ".pg_NumRows($this->ret)."  valeurs ".
