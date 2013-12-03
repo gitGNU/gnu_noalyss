@@ -61,6 +61,7 @@ class_name=class_name+"_SQL"
 
 file.write(class_name+"\n")
 file.write(schema+"."+table+"\n")
+record.reverse()
 for l in record:
     col_name,col_type,col_default=l
     file.write ("%s\t|%s\t|%s\n"%(col_name,col_type,col_default))

@@ -1,4 +1,4 @@
-  #!/usr/bin/python
+#!/usr/bin/python
 
 
 # Command we have to replace
@@ -63,6 +63,7 @@ require_once('class_phpcompta_sql.php');
 */
 class @class_name@ extends Phpcompta_SQL
 {
+	@vars@
   /* example private $variable=array("easy_name"=>column_name,"email"=>"column_name_email","val3"=>0); */
   function __construct($p_id=-1)
 	{
@@ -83,7 +84,7 @@ class @class_name@ extends Phpcompta_SQL
 			"@id@" => "auto"
 		);
 		global $cn;
-
+		$this->date_format = "DD.MM.YYYY";
 		parent::__construct($cn, $p_id);
 	}
   /**
@@ -133,21 +134,25 @@ class @class_name@ extends Phpcompta_SQL
         column_array=''
         column_type_array=''
         sep=''
-        for e in line [3:]:
+	var='//------ Attributes-----'+"\n"
+        for e in line [2:]:
             if e.find('|') < 0 :
                 continue
             col_name=(e.split('|'))[0].strip()
             col_type=(e.split('|'))[1].strip()
             if col_type == 'integer' or col_type == 'numeric' or col_type=='bigint':
 		col_type="numeric"
-	    elif col_type=='text' or col_type=='character varying':
+	    elif col_type=='text' or col_type=='character varying' or col_type=='character':
 		col_type="text"
-	    elif col_type=='date':
+	    elif col_type=='oid':
+		col_type='oid'
+	    elif col_type=='date' or col_type=='timestamp without timezone' or col_type=='timestamp with timezone':
 		col_type='date'
 	    else :
 		col_type='set_me'
             column_array+=sep+'"'+col_name+'"=>"'+col_name+'"'+"\n"
             column_type_array+=sep+'"'+col_name+'"=>"'+col_type+'"'+"\n"
+	    var=var+' var $'+col_name+";\n"
             sep=','
         column_array='"'+id+'"=>"'+id+'",'+column_array
         i=1;sep='';set=' set '
@@ -170,6 +175,7 @@ class @class_name@ extends Phpcompta_SQL
             throw new Exception('DATATYPE "+col_id+" $this->"+col_id+" date invalide');\n"
        
 	sParent=sParent.replace('@id@',id)
+	sParent=sParent.replace('@vars@',var)
 	sParent=sParent.replace('@table@',table)
 	sParent=sParent.replace('@class_name@',class_name)
 	sParent=sParent.replace('@column_array@',column_array)
