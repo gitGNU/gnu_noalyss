@@ -333,9 +333,9 @@ class Acc_Account_Ledger
 
         echo '<h2 class="title">'.$this->id." ".$this->name.'</h2>';
         if ( $from_div == 0)
-			echo "<TABLE class=\"resultfooter\" style=\"border-collapse:separate;width:100%;border-spacing:0px 5px\">";
+			echo "<TABLE class=\"resultfooter\" style=\"border-collapse:separate;margin:1%;width:98%;;border-spacing:0px 5px\">";
 		else
-			echo "<TABLE class=\"resultfooter\" style=\"border-collapse:separate;width:100%;border-spacing:0px 2px\">";
+			echo "<TABLE class=\"resultfooter\" style=\"border-collapse:separate;margin:1%;width:98%;;border-spacing:0px 2px\">";
         echo '<tbody>';
         echo "<TR>".
         "<TH style=\"text-align:left\"> Date</TH>".
