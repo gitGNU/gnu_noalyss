@@ -2445,7 +2445,6 @@ class Acc_Ledger extends jrn_def_sql
                 } else {
                     $hid_jrn=HtmlInput::hidden($div.'nb_jrn',0);
                 }
-		// $f_ledger = HtmlInput::select_ledger($filter_ledger, $selected, $div);
                 /* Compute date for exercice */
                 $period = $g_user->get_periode();
                 $per = new Periode($this->db, $period);

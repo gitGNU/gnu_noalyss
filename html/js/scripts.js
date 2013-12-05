@@ -813,7 +813,6 @@ function show_ledger_choice(json_obj)
                             };
                             var y=calcy(posY);
                             if (json_obj.div != '')obj.cssclass="";
-                            console.log(y);
                             obj.style="top:"+y+obj.style;
                             add_div(obj);
 
@@ -848,7 +847,7 @@ function show_ledger_choice(json_obj)
                 }
         );
     } catch (e) {
-        console.log(e.message);
+        alert('show_ledger_choice'+e.message);
     }
 }
 /**
@@ -878,7 +877,7 @@ function hide_ledger_choice(p_frm_search)
         removeDiv(div+'jrn_search');
         return false;
     } catch (e) {
-        console.log(e.message);
+        alert('hide_ledger_choice'+e.message);
         return false;
     }
 
