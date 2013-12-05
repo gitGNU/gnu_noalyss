@@ -94,7 +94,7 @@ if (isset($_GET ['paid']))
 
 
 $msg="";
-/* by default we should the default period */
+/* by default we should use the default period */
 if (!isset($p_array['date_start']))
 {
 	$period = $g_user->get_periode();
@@ -102,11 +102,11 @@ if (!isset($p_array['date_start']))
 	list($date_start, $date_end) = $per->get_date_limit();
 	$p_array['date_start'] = $date_start;
 	$p_array['date_end'] = $date_end;
-	$msg='<h2 class="info2">'."Periode ".$date_start." au ".$date_end.'</h2>';
+	$msg='<h2 class="info2">'."Période ".$date_start." au ".$date_end.'</h2>';
 }
 else
 {
-	$msg='<h2 class="info2">'."Periode ".$_GET['date_start']." au ".$_GET['date_end'].'</h2>';
+	$msg='<h2 class="info2">'."Période ".$_GET['date_start']." au ".$_GET['date_end'].'</h2>';
 
 }
 /*  compute the sql stmt */
