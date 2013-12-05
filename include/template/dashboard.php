@@ -318,7 +318,7 @@ endif;
 
 
 <div id="add_todo_list" >
-	<script charset="utf8" type="text/javascript" language="javascript">
+	<script charset="utf-8" type="text/javascript" language="javascript">
 		new Draggable($('add_todo_list'),{});
 	</script>
 <form method="post">

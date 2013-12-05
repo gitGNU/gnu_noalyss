@@ -6,8 +6,8 @@
 <LINK REL="stylesheet" type="text/css" href="../style.css" media="screen">
 <link rel="icon" type="image/ico" href="../favicon.ico" />
  <META http-equiv="Content-Type" content="text/html; charset=UTF8">
- <script type="text/javascript" charset="utf8" language="javascript" src="../js/prototype.js"></script>
- <script type="text/javascript" charset="utf8" language="javascript" src="../js/infobulle.js"></script>
+ <script type="text/javascript" charset="<div>utf-8</div>" language="javascript" src="../js/prototype.js"></script>
+ <script type="text/javascript" charset="utf-8" language="javascript" src="../js/infobulle.js"></script>
 </head>
 <body>
 <p align="center">
@@ -43,7 +43,7 @@
 ?>
 <DIV id="bulle" class="infobulle"></DIV>
         <script type="text/javascript" language="javascript"  src="../js/infobulle.js"> </script>
-		 <script type="text/javascript" charset="utf8" language="javascript" src="setup.js"></script>
+		 <script type="text/javascript" charset="utf-8" language="javascript" src="setup.js"></script>
 
 <?php
 

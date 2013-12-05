@@ -36,7 +36,7 @@ if ( $cn->get_value("select count(*) from profile join profile_user using (p_id)
 			?>
 
 	</form>
-	<script charset="utf8" language="javascript">
+	<script charset="utf-8" language="javascript">
 
 		try {
 			new Ajax.Autocompleter("ac","ac_choices","direct.php?gDossier=<?php echo $gDossier?>",
