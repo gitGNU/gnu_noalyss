@@ -3317,6 +3317,10 @@ class Acc_Ledger extends jrn_def_sql
 
 		$min_row = new INum("min_row",$this->jrn_deb_max_line);
 		$min_row->prec=0;
+                
+                $description=new ITextarea('p_description');
+                $description->value=$this->jrn_def_description;
+                $str_description=$description->input();
 
 		/* Load the card */
 		$card = $this->get_fiche_def();
@@ -3413,6 +3417,7 @@ class Acc_Ledger extends jrn_def_sql
 		$this->jrn_def_pj_pref = $jrn_def_pj_pref;
 		$this->jrn_def_fiche_deb = (isset($FICHEDEB)) ? join($FICHEDEB, ',') : "";
 		$this->jrn_deb_max_line=($min_row<1)?1:$min_row;
+		$this->jrn_def_description=$p_description;
 		switch ($this->jrn_def_type)
 		{
 			case 'ACH':
@@ -3509,6 +3514,9 @@ class Acc_Ledger extends jrn_def_sql
 		$pj_seq = '';
 		$last_seq = 0;
 		$new = 1;
+                $description=new ITextarea('p_description');
+                $description->value="";
+                $str_description=$description->input();
 		/* bank card */
 		$qcode_bank = '';
 		/* Numbering (only FIN) */
@@ -3541,7 +3549,7 @@ class Acc_Ledger extends jrn_def_sql
 		$this->jrn_def_fiche_deb = (isset($FICHEDEB)) ? join($FICHEDEB, ',') : "";
 		$this->jrn_deb_max_line=$min_row;
 		$this->jrn_def_code = sprintf("%s%02d", trim(substr($this->jrn_def_type, 0, 1)), Acc_Ledger::next_number($this->db, $this->jrn_def_type));
-
+                $this->jrn_def_description=$p_description;
 		switch ($this->jrn_def_type)
 		{
 			case 'ACH':

@@ -36,6 +36,7 @@ class Jrn_Def_sql
 		, "jrn_def_pj_pref" => "jrn_def_pj_pref"
 		, "jrn_def_bank" => "jrn_def_bank"
 		, "jrn_def_num_op" => "jrn_def_num_op"
+		, "jrn_def_description" => "jrn_def_description"
 	);
 
 	function __construct(& $p_cn, $p_id=-1)
@@ -193,57 +194,8 @@ class Jrn_Def_sql
 ,jrn_def_pj_pref
 ,jrn_def_bank
 ,jrn_def_num_op
+,jrn_def_description
 ) values ($1
-,$2
-,$3
-,$4
-,$5
-,$6
-,$7
-,$8
-,$9
-,$10
-,$11
-,$12
-,$13
-,$14
-) returning jrn_def_id";
-
-			$this->jrn_def_id = $this->db->get_value(
-					$sql, array($this->jrn_def_name
-				, $this->jrn_def_class_deb
-				, $this->jrn_def_class_cred
-				, $this->jrn_def_fiche_deb
-				, $this->jrn_def_fiche_cred
-				, $this->jrn_deb_max_line
-				, $this->jrn_cred_max_line
-				, $this->jrn_def_ech
-				, $this->jrn_def_ech_lib
-				, $this->jrn_def_type
-				, $this->jrn_def_code
-				, $this->jrn_def_pj_pref
-				, $this->jrn_def_bank
-				, $this->jrn_def_num_op
-					)
-			);
-		}
-		else
-		{
-			$sql = "insert into public.jrn_def(jrn_def_name
-,jrn_def_class_deb
-,jrn_def_class_cred
-,jrn_def_fiche_deb
-,jrn_def_fiche_cred
-,jrn_deb_max_line
-,jrn_cred_max_line
-,jrn_def_ech
-,jrn_def_ech_lib
-,jrn_def_type
-,jrn_def_code
-,jrn_def_pj_pref
-,jrn_def_bank
-,jrn_def_num_op
-,jrn_def_id) values ($1
 ,$2
 ,$3
 ,$4
@@ -275,7 +227,62 @@ class Jrn_Def_sql
 				, $this->jrn_def_pj_pref
 				, $this->jrn_def_bank
 				, $this->jrn_def_num_op
-				, $this->jrn_def_id)
+				, strip_tags($this->jrn_def_description)
+					)
+			);
+		}
+		else
+		{
+			$sql = "insert into public.jrn_def(jrn_def_name
+,jrn_def_class_deb
+,jrn_def_class_cred
+,jrn_def_fiche_deb
+,jrn_def_fiche_cred
+,jrn_deb_max_line
+,jrn_cred_max_line
+,jrn_def_ech
+,jrn_def_ech_lib
+,jrn_def_type
+,jrn_def_code
+,jrn_def_pj_pref
+,jrn_def_bank
+,jrn_def_num_op
+,jrn_def_id
+,jrn_def_description) values ($1
+,$2
+,$3
+,$4
+,$5
+,$6
+,$7
+,$8
+,$9
+,$10
+,$11
+,$12
+,$13
+,$14
+,$15
+,$16
+) returning jrn_def_id";
+
+			$this->jrn_def_id = $this->db->get_value(
+					$sql, array($this->jrn_def_name
+				, $this->jrn_def_class_deb
+				, $this->jrn_def_class_cred
+				, $this->jrn_def_fiche_deb
+				, $this->jrn_def_fiche_cred
+				, $this->jrn_deb_max_line
+				, $this->jrn_cred_max_line
+				, $this->jrn_def_ech
+				, $this->jrn_def_ech_lib
+				, $this->jrn_def_type
+				, $this->jrn_def_code
+				, $this->jrn_def_pj_pref
+				, $this->jrn_def_bank
+				, $this->jrn_def_num_op
+				, $this->jrn_def_id
+                                , strip_tags($this->jrn_def_description))
 			);
 		}
 	}
@@ -299,7 +306,8 @@ class Jrn_Def_sql
 ,jrn_def_pj_pref = $12
 ,jrn_def_bank = $13
 ,jrn_def_num_op = $14
- where jrn_def_id= $15";
+,jrn_def_description = $15
+ where jrn_def_id= $16";
 		$res = $this->db->exec_sql(
 				$sql, array($this->jrn_def_name
 			, $this->jrn_def_class_deb
@@ -315,6 +323,7 @@ class Jrn_Def_sql
 			, $this->jrn_def_pj_pref
 			, $this->jrn_def_bank
 			, $this->jrn_def_num_op
+			, strip_tags($this->jrn_def_description)
 			, $this->jrn_def_id)
 		);
 	}
@@ -340,6 +349,7 @@ class Jrn_Def_sql
 ,jrn_def_pj_pref
 ,jrn_def_bank
 ,jrn_def_num_op
+,jrn_def_description
  from public.jrn_def where jrn_def_id=$1";
 		/* please adapt */
 		$res = $this->db->get_array(
