@@ -618,6 +618,8 @@ EOF;
         case 'calendar_zoom':
             require_once 'ajax_calendar_zoom.php';
             break;
+        case 'ledger_show':
+            require_once 'ajax_ledger_show.php';
 	default:
 		var_dump($_GET);
 }

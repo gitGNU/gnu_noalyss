@@ -126,9 +126,9 @@ if ( isset ($_GET['viewsearch']) )
 	echo HtmlInput::submit("upd_rec","Mettre à jour");
     if (! $inside )echo $bar;
 
-    if (isset($_GET['r_jrn'])) {
-      foreach ($_GET['r_jrn'] as $k=>$v)
-		echo HtmlInput::hidden('r_jrn['.$k.']',$v);
+    if (isset($_GET[$op.'r_jrn'])) {
+      foreach ($_GET[$op.'r_jrn'] as $k=>$v)
+		echo HtmlInput::hidden($op.'r_jrn['.$k.']',$v);
     }
     echo '</form>';
 }

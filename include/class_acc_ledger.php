@@ -2421,13 +2421,31 @@ class Acc_Ledger extends jrn_def_sql
 
 	function search_form($p_type, $all_type_ledger = 1, $div = "")
 	{
-		global $g_user;
-		$r = '';
-		/* security : filter ledger on user */
-		$filter_ledger = $g_user->get_ledger($p_type, 3);
-
-		$selected = (isset($_REQUEST['r_jrn' . $div])) ? $_REQUEST['r_jrn' . $div] : null;
-		$f_ledger = HtmlInput::select_ledger($filter_ledger, $selected, $div);
+            global $g_user;
+            $r="";
+                $bledger_param=  json_encode(array(
+                    'dossier'=>$_REQUEST['gDossier'],
+                    'type'=>$p_type,
+                    'all_type'=>$all_type_ledger,
+                    'div'=>$div
+                    ));
+                
+                $bledger_param=  str_replace('"', "'", $bledger_param);
+                $bledger=new ISmallButton('l');
+                $bledger->label="choix des journaux";
+                $bledger->javascript=" show_ledger_choice($bledger_param)";
+                $f_ledger=$bledger->input();
+                $hid_jrn="";
+                if ( isset ($_REQUEST[$div.'nb_jrn']) ){
+                    for ($i=0;$i < $_REQUEST[$div.'nb_jrn'];$i++) {
+                        if ( isset ($_REQUEST[$div."r_jrn"][$i]))
+                            $hid_jrn.=HtmlInput::hidden($div.'r_jrn['.$i.']',$_REQUEST[$div."r_jrn"][$i]);
+                    }
+                    $hid_jrn.=HtmlInput::hidden($div.'nb_jrn',$_REQUEST[$div.'nb_jrn']);
+                } else {
+                    $hid_jrn=HtmlInput::hidden($div.'nb_jrn',0);
+                }
+		// $f_ledger = HtmlInput::select_ledger($filter_ledger, $selected, $div);
                 /* Compute date for exercice */
                 $period = $g_user->get_periode();
                 $per = new Periode($this->db, $period);
@@ -2618,7 +2636,13 @@ class Acc_Ledger extends jrn_def_sql
 		if (!empty($p_array))
 			extract($p_array);
 
-		$r_jrn = (isset($r_jrn)) ? $r_jrn : -1;
+                if (isset($op) ) 
+                    $r_jrn = (isset(${$op."r_jrn"})) ? ${$op."r_jrn"} : -1;
+                else
+                {
+                    $r_jrn = (isset($r_jrn)) ? $r_jrn : -1;
+                    
+                }
 
 		/* if no variable are set then give them a default
 		 * value */
@@ -2678,12 +2702,13 @@ class Acc_Ledger extends jrn_def_sql
 			$aLedger = $g_user->get_ledger($p_action, 3);
 			$fil_ledger = '';
 			$sp = '';
-			for ($i = 0; $i < count($aLedger); $i++)
+			for ($i = 0; $i < count($r_jrn); $i++)
 			{
-				if (isset($r_jrn[$i]))
+                                if (isset($r_jrn[$i]) )
 				{
-					$fil_ledger.=$sp . $aLedger[$i]['jrn_def_id'];
-					$sp = ',';
+                                    $a=$r_jrn[$i];
+  				    $fil_ledger.=$sp . $a;
+                                    $sp = ',';
 				}
 			}
 			$fil_ledger = ' jrn_def_id in (' . $fil_ledger . ')';

@@ -301,29 +301,32 @@ class HtmlInput
      * return the html code to create an hidden div and a button
      * to show this DIV. This contains all the available ledgers
      * for the user in READ or RW
-     *@param $p_array is an array obtains thanks User::get_ledger
      *@param $selected is an array of checkbox
+     *@param $div div suffix
      *@note the choosen ledger are stored in the array r_jrn (_GET)
      */
-    static function select_ledger($p_array,$p_selected,$div='')
+    static function select_ledger($p_type,$p_selected,$div='')
     {
+        global $g_user;
+	$r = '';
+	/* security : filter ledger on user */
+	$p_array = $g_user->get_ledger($p_type, 3);
+        
         ob_start();
-        $ledger=new ISmallButton('l');
-        $ledger->label="choix des journaux";
-        $ledger->javascript=" show_ledger_choice()";
-        echo $ledger->input();
+        
 
         /* create a hidden div for the ledger */
         echo '<div id="div_jrn'.$div.'" >';
-        echo '<h2 class="info">Choix des journaux</h2>';
-
+        echo HtmlInput::title_box("Journaux", $div."jrn_search");
+        echo '<form method="GET" id="'.$div.'search_frm" onsubmit="return hide_ledger_choice(\''.$div.'search_frm\')">';
+        echo HtmlInput::hidden('nb_jrn', count($p_array));
         echo '<ul>';
         for ($e=0;$e<count($p_array);$e++)
         {
             $row=$p_array[$e];
-            $r=new ICheckBox('r_jrn['.$e.']',$row['jrn_def_id']);
+            $r=new ICheckBox($div.'r_jrn'.$e,$row['jrn_def_id']);
             $idx=$row['jrn_def_id'];
-            if ( $p_selected != null && isset($p_selected[$e]))
+            if ( $p_selected != null &&  in_array($row['jrn_def_id'],$p_selected))
             {
                 $r->selected=true;
             }
@@ -331,11 +334,9 @@ class HtmlInput
 
         }
         echo '</ul>';
-        $hide=new IButton('l');
-        $hide->label="Valider";
-        $hide->javascript=" hide_ledger_choice() ";
-        echo $hide->input();
-
+        echo HtmlInput::hidden('div',$div);
+        echo HtmlInput::submit('save','Valider');
+        echo '</form>';
         echo '</div>';
         $ret=ob_get_contents();
         ob_end_clean();

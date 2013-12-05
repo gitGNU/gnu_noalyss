@@ -962,16 +962,6 @@ div.op_detail_title {
 
 
 }
-div#div_jrn{
-    position:absolute;
-    border:1px solid black;
-    top:15%;left:100;
-    visibility:hidden;
-    z-index:2;
-    width:50em;
-    background-color:#EDF3FF;
-
-}
 div#div_cat{
     position:absolute;
     border:1px solid black;
@@ -1079,9 +1069,7 @@ div#wait_box
     text-align:center;
 }
 div#div_jrnsearch_op{
-
     border:1px solid black;
-    display:none;
     width:50em;
     background-color:#EDF3FF;
     position:absolute;
