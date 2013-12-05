@@ -92,7 +92,21 @@ function update_pay_method()
  */
 function update_name()
 {
-	$('jrn_name').innerHTML=$('p_jrn').options[$('p_jrn').selectedIndex].innerHTML;
+    var jrn_id=$('p_jrn').value;
+    var dossier=g("gDossier").value;
+    var querystring='gDossier='+dossier+'&l='+jrn_id+"&op=ledger_description";
+    var action=new Ajax.Request(
+                   "ajax_misc.php",
+                   {
+                   method:'get',
+                   parameters:querystring,
+                   onFailure:error_get_pj,
+                   onSuccess:function (req){
+                       $('jrn_name_div').innerHTML=req.responseText;
+                   }
+                   }
+               );
+    
 }
 /**
  * @brief update the field predef

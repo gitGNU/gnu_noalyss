@@ -1009,7 +1009,6 @@ h2#jrn_name
     color:blue;
     font-size:2.74em;
     margin-right:30%;
-    float: right;
 }
 tr.footer{
     font-size:0.87em;
@@ -1026,7 +1025,7 @@ div#jrn_name_div
 {
     float: right;
     margin-right:150;
-
+    width:50%;
 
 }
 #predef_form {

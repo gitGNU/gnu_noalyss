@@ -620,6 +620,18 @@ EOF;
             break;
         case 'ledger_show':
             require_once 'ajax_ledger_show.php';
+        case 'ledger_description':
+            $ajrn=$cn->get_array('select jrn_def_name,jrn_def_description from jrn_def where jrn_def_id=$1',array($l));
+            if ( count($ajrn)==1)
+            {
+                
+                echo '<h2 id="jrn_name">'.$ajrn[0]['jrn_def_name'].'</h2>';
+                if ( trim($ajrn[0]['jrn_def_description']) != "") {
+                    echo '<p style="border:1px solid blue;margin-top:0">'.$ajrn[0]['jrn_def_description'].'</p>';
+                }
+            }
+            exit();
+            break;
 	default:
 		var_dump($_GET);
 }

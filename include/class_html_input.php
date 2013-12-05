@@ -320,7 +320,14 @@ class HtmlInput
         echo HtmlInput::title_box("Journaux", $div."jrn_search");
         echo '<form method="GET" id="'.$div.'search_frm" onsubmit="return hide_ledger_choice(\''.$div.'search_frm\')">';
         echo HtmlInput::hidden('nb_jrn', count($p_array));
-        echo '<ul>';
+        echo _('Filtre ').HtmlInput::filter_table($div.'tb_jrn', '0,1,2', 1);
+        echo '<table class="result" id="'.$div.'tb_jrn">';
+        echo '<tr>';
+        echo th('Nom');
+        echo th('Description');
+        echo th('Type');
+        echo '</tr>';
+        
         for ($e=0;$e<count($p_array);$e++)
         {
             $row=$p_array[$e];
@@ -330,10 +337,15 @@ class HtmlInput
             {
                 $r->selected=true;
             }
-            echo '<li style="list-style-type: none;">'.$r->input().$row['jrn_def_name'].'('.$row['jrn_def_type'].')</li>';
+            $class=($e%2==0)?' class="even" ':' class="odd" ';
+            echo '<tr '.$class.'>';
+            echo '<td >'.$r->input().$row['jrn_def_name'].'</td>';
+            echo '<td >'.$row['jrn_def_description'].'</td>';
+            echo '<td >'.$row['jrn_def_type'].'</td>';
+            echo '</tr>';
 
         }
-        echo '</ul>';
+        echo '</table>';
         echo HtmlInput::hidden('div',$div);
         echo HtmlInput::submit('save','Valider');
         echo '</form>';
