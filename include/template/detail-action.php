@@ -125,6 +125,7 @@
             <td>
               <?php echo $str_ag_dest;?>
           </tr>
+<?php if ($this->ag_id > 0 ): ?>
           <tr>
             <TD>
                 Dossier / tags
@@ -136,6 +137,7 @@
                 ?>
             </td>
           </TR>
+<?php endif; ?>          
         </table>
 
 </div>
