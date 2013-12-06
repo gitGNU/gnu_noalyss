@@ -36,16 +36,23 @@ require_once ('class_acc_parm_code.php');
 
     echo '<div class="content">';
     echo dossier::hidden();
-    echo '<table style="margin-left:10%;width:60%" class="result">';
-    echo tr(th('Quick Code').th('Compte en banque',' style="text-align:left"').th('solde opération',' style="text-align:right"')
-	    .th('solde extrait/relevé',' style="text-align:right"')
-	    .th('différence',' style="text-align:right"'));
+    echo _('Filtre :').HtmlInput::filter_table("fin_saldo_tb", '0,1,2,3', '1');
+    echo '<table class="sortable"  style="margin-left:10%;width:60%" class="result" id="fin_saldo_tb">';
+    echo tr(th('Quick Code',' class=" sorttable_sorted_reverse"',HtmlInput::infobulle(17).'<span id="sorttable_sortrevind">&nbsp;&blacktriangle;</span>')
+            .th('Compte en banque',' style="text-align:left"')
+            .th('Journal',' style="text-align:center"')
+            .th('Description',' style="text-align:center"')
+            .th('solde opération',' style="text-align:right" class="sorttable_numeric"')
+	    .th('solde extrait/relevé',' style="text-align:right" class="sorttable_numeric"')
+	    .th('différence',' style="text-align:right" class="sorttable_numeric"')
+            );
     // Filter the saldo
     //  on the current year
     $filter_year="  j_tech_per in (select p_id from parm_periode where  p_exercice='".$g_user->get_exercice()."')";
     // for highligting tje line
     $idx=0;
     bcscale(2);
+    $tot_extrait=0;$tot_diff=0;$tot_operation=0;
     // for each account
     for ( $i = 0; $i < count($array);$i++)
     {
@@ -73,7 +80,7 @@ require_once ('class_acc_parm_code.php');
             if ( $idx%2 != 0 )
                 $odd="odd";
             else
-                $odd="";
+                $odd="even";
 
             $idx++;
             echo "<tr class=\"$odd\">";
@@ -86,18 +93,35 @@ require_once ('class_acc_parm_code.php');
             echo "<TD >".
             $array[$i]->strAttribut(ATTR_DEF_NAME).
             "</TD>".
-            "<TD align=\"right\">".
+             td(h($array[$i]->ledger_name)).
+             td(h($array[$i]->ledger_description)).
+            '<TD class="sorttable_numeric" sorttable_customkey="'.$solde.'"  style="text-align:right">'.
 	      nbm($solde).
             "</TD>".
-            "<TD align=\"right\">".
+            '<TD class="sorttable_numeric" sorttable_customkey="'.$saldo_rec.'"  style="text-align:right">'.
 	      nbm($saldo_rec).
             "</TD>".
-            "<TD align=\"right\">".
+            '<TD class="sorttable_numeric" sorttable_customkey="'.$diff.'"  style="text-align:right">'.
 	      nbm($diff).
             "</TD>".
             "</TR>";
+            $tot_extrait=bcadd($tot_extrait,$solde);
+            $tot_operation=bcadd($tot_operation,$saldo_rec);
+            $tot_diff=bcadd($tot_diff,$diff);
         }
     }// for
+    echo '<tfoot>';
+    echo '<tr>';
+    echo td('');
+    echo td('');
+    echo td('');
+    echo td(' TOTAUX ','style="font-weight:bold"');
+    echo td(nbm($tot_extrait),'style="font-weight:bold" class="num"');
+    echo td(nbm($tot_operation),' style="font-weight:bold" class="num"');
+    echo td(nbm($tot_diff),' style="font-weight:bold" class="num"');
+    echo '</tr>';
+    
+    echo '</tfoot>';
     echo "</table>";
     echo "</div>";
     exit();

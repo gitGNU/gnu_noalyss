@@ -125,6 +125,7 @@
             <td>
               <?php echo $str_ag_dest;?>
           </tr>
+<?php if ($this->ag_id > 0 ): ?>
           <tr>
             <TD>
                 Dossier / tags
@@ -136,6 +137,7 @@
                 ?>
             </td>
           </TR>
+<?php endif; ?>          
         </table>
 
 </div>
@@ -381,8 +383,31 @@ function toggleShowDetail() {
 for ($i=0;$i<sizeof($aAttachedFile);$i++) :
   ?>
 
-	  <li> <A class="print" style="display:inline" id="<?php echo "doc".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $aAttachedFile[$i]['link']?>"><?php echo $aAttachedFile[$i]['d_filename'];?>
-    </A>
+      <li> <A class="print" style="display:inline" id="<?php echo "doc".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $aAttachedFile[$i]['link']?>">
+          <?php echo $aAttachedFile[$i]['d_filename'];?>         </a>
+
+              
+                  <br/>
+        <label>Description</label>
+        <span id="print_desc<?php echo $aAttachedFile[$i]['d_id'];?>"> <?php echo h($aAttachedFile[$i]['d_description'])?>
+       <?php if ($p_view != 'READ') : ?> 
+        <?php 
+            $js=sprintf("javascript:show_description('%s')",$aAttachedFile[$i]['d_id']);
+        ?>
+        <a class="mtitle" style="color:orange" id="<?php echo 'desc'.$aAttachedFile[$i]['d_id'];?>" onclick="<?php echo $js?>">Modifier</a>    
+        
+        </span>
+        <span class="noprint" id="input_desc<?php echo $aAttachedFile[$i]['d_id'];?>" style="display:none" >
+              <input type="input" class="input_text" id="input_desc_txt<?php echo $aAttachedFile[$i]['d_id'];?>" value="<?php echo h($aAttachedFile[$i]['d_description'])?>">
+              <?php 
+              $js=sprintf("update_document('%s','%s')",dossier::id(),$aAttachedFile[$i]['d_id']);
+              echo HtmlInput::button('save_desc'.$aAttachedFile[$i]['d_id'], 'Sauve', 'onclick="'.$js.'"','smallbutton');
+              ?>
+        </span>
+        <?php else: ?>
+        </span>
+        <?php endif;?>
+              <br/>
 <?php $rmDoc=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer le document')." %s')==true ) {remove_document('%s','%s');}",
 	$aAttachedFile[$i]['d_filename'],
 	dossier::id(),
@@ -400,7 +425,7 @@ function addFiles() {
 try {
 	docAdded=document.getElementById('add_file');
 	new_element=document.createElement('li');
-	new_element.innerHTML='<input class="inp" type="file" value="" name="file_upload[]"/>';
+	new_element.innerHTML='<input class="inp" type="file" value="" name="file_upload[]"/><br><label>Description</label><input type="input" class="input_text" name="input_desc[]" >';
 	docAdded.appendChild(new_element);
 }
 catch(exception) { alert('<?php echo j(_('Je ne peux pas ajouter de fichier'))?>'); alert(exception.message);}
@@ -413,6 +438,9 @@ catch(exception) { alert('<?php echo j(_('Je ne peux pas ajouter de fichier'))?>
       <li>
         <?php echo $upload->input();
         ?>
+          <br/>
+        <label>Description</label>
+        <input type="input" class="input_text" name="input_desc[]" >
       </li>
     </ol>
   <span   >

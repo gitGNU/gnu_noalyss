@@ -309,7 +309,9 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 				continue;
 		}
 		echo '<h2>' . $cn->get_value("select fd_label from fiche_def where fd_id=$1", array($afiche[$e]['fd_id'])) . '</h2>';
-		echo '<table class="result" style="width:80%;margin-left:10%">';
+                $id="table_".$afiche[$e]."_id";
+                echo _('Filtre rapide:').HtmlInput::filter_table($id, '0,1,2', '1'); 
+		echo '<table class="sortable" id="'.$id.'" class="result" style="width:80%;margin-left:10%">';
 		echo tr(
 				th('Quick Code') .
 				th('Libellé') .
@@ -341,15 +343,16 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 					td(HtmlInput::history_card($oCard->id, $oCard->strAttribut(ATTR_DEF_QUICKCODE))) .
 					td($oCard->strAttribut(ATTR_DEF_NAME)) .
 					td($oCard->strAttribut(ATTR_DEF_ACCOUNT)).
-					td(nbm($solde['debit']), 'style="text-align:right"') .
-					td(nbm($solde['credit']), 'style="text-align:right"') .
-					td(nbm(abs($solde['solde'])), 'style="text-align:right"') .
+					td(nbm($solde['debit']), 'class="sorttable_numeric" sorttable_customkey="'.$solde['debit'].'" style="text-align:right"') .
+					td(nbm($solde['credit']), 'class="sorttable_numeric" sorttable_customkey="'.$solde['debit'].'" style="text-align:right"') .
+					td(nbm(abs($solde['solde'])), 'class="sorttable_numeric" sorttable_customkey="'.$solde['solde'].'" style="text-align:right"') .
 					td((($solde['debit'] < $solde['credit']) ? 'CRED' : 'DEB'), 'style="text-align:right"'), $class
 			);
 
 
 
 		}
+                echo '<tfoot>';
                 echo tr(
                                 td('').
                                 td(_('Totaux')).
@@ -358,6 +361,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
                                 td(nbm($sum_cred), 'style="text-align:right"').
                                 td(nbm(abs($sum_solde)), 'style="text-align:right"').
                                 td((($sum_deb < $sum_cred) ? 'CRED' : 'DEB'), 'style="text-align:right"'),"");
+                echo '</tfoot>';
 		echo '</table>';
 	}
 	if ( $allcard == 0 ) echo $str_add_card;

@@ -150,5 +150,5 @@ if ( ! isset ($_POST['e_date'])&& $g_parameter->MY_DATE_SUGGEST=='Y')
 }else {
 	echo create_script(" ajax_saldo('first_sold');");
 }
-
+echo create_script(" update_name()");
 exit();

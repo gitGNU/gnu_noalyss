@@ -302,7 +302,7 @@ class User
 
 			$sql = "select jrn_def_id,jrn_def_type,
                  jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
-                 jrn_deb_max_line,jrn_cred_max_line
+                 jrn_deb_max_line,jrn_cred_max_line,jrn_def_description
                  from jrn_def join jrn_type on jrn_def_type=jrn_type_id
                  join user_sec_jrn on uj_jrn_id=jrn_def_id
                  where
@@ -314,7 +314,7 @@ class User
 		{
 			$sql_type = ($p_type == 'ALL') ? '' : "where jrn_def_type=upper('" . sql_string($p_type) . "')";
 			$sql = "select jrn_def_id,jrn_def_type,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
-                 jrn_type_id,jrn_desc,'W' as uj_priv
+                 jrn_type_id,jrn_desc,'W' as uj_priv,jrn_def_description
                  from jrn_def join jrn_type on jrn_def_type=jrn_type_id
                  $sql_type
                  order by jrn_Def_name";

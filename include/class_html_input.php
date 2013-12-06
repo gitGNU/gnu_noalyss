@@ -301,41 +301,54 @@ class HtmlInput
      * return the html code to create an hidden div and a button
      * to show this DIV. This contains all the available ledgers
      * for the user in READ or RW
-     *@param $p_array is an array obtains thanks User::get_ledger
      *@param $selected is an array of checkbox
+     *@param $div div suffix
      *@note the choosen ledger are stored in the array r_jrn (_GET)
      */
-    static function select_ledger($p_array,$p_selected,$div='')
+    static function select_ledger($p_type,$p_selected,$div='')
     {
+        global $g_user;
+	$r = '';
+	/* security : filter ledger on user */
+	$p_array = $g_user->get_ledger($p_type, 3);
+        
         ob_start();
-        $ledger=new ISmallButton('l');
-        $ledger->label="choix des journaux";
-        $ledger->javascript=" show_ledger_choice()";
-        echo $ledger->input();
+        
 
         /* create a hidden div for the ledger */
         echo '<div id="div_jrn'.$div.'" >';
-        echo '<h2 class="info">Choix des journaux</h2>';
-
-        echo '<ul>';
+        echo HtmlInput::title_box("Journaux", $div."jrn_search");
+        echo '<form method="GET" id="'.$div.'search_frm" onsubmit="return hide_ledger_choice(\''.$div.'search_frm\')">';
+        echo HtmlInput::hidden('nb_jrn', count($p_array));
+        echo _('Filtre ').HtmlInput::filter_table($div.'tb_jrn', '0,1,2', 1);
+        echo '<table class="result" id="'.$div.'tb_jrn">';
+        echo '<tr>';
+        echo th('Nom');
+        echo th('Description');
+        echo th('Type');
+        echo '</tr>';
+        
         for ($e=0;$e<count($p_array);$e++)
         {
             $row=$p_array[$e];
-            $r=new ICheckBox('r_jrn['.$e.']',$row['jrn_def_id']);
+            $r=new ICheckBox($div.'r_jrn'.$e,$row['jrn_def_id']);
             $idx=$row['jrn_def_id'];
-            if ( $p_selected != null && isset($p_selected[$e]))
+            if ( $p_selected != null &&  in_array($row['jrn_def_id'],$p_selected))
             {
                 $r->selected=true;
             }
-            echo '<li style="list-style-type: none;">'.$r->input().$row['jrn_def_name'].'('.$row['jrn_def_type'].')</li>';
+            $class=($e%2==0)?' class="even" ':' class="odd" ';
+            echo '<tr '.$class.'>';
+            echo '<td >'.$r->input().$row['jrn_def_name'].'</td>';
+            echo '<td >'.$row['jrn_def_description'].'</td>';
+            echo '<td >'.$row['jrn_def_type'].'</td>';
+            echo '</tr>';
 
         }
-        echo '</ul>';
-        $hide=new IButton('l');
-        $hide->label="Valider";
-        $hide->javascript=" hide_ledger_choice() ";
-        echo $hide->input();
-
+        echo '</table>';
+        echo HtmlInput::hidden('div',$div);
+        echo HtmlInput::submit('save','Valider');
+        echo '</form>';
         echo '</div>';
         $ret=ob_get_contents();
         ob_end_clean();

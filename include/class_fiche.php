@@ -73,7 +73,8 @@ class Fiche
     {
         global $g_user;
       $sql_ledger=$g_user->get_ledger_sql('FIN',3);
-      $avail=$this->cn->get_array("select jrn_def_id,jrn_def_bank from jrn_def where jrn_def_type='FIN' and $sql_ledger
+      $avail=$this->cn->get_array("select jrn_def_id,jrn_def_name,"
+              . "jrn_def_bank,jrn_def_description from jrn_def where jrn_def_type='FIN' and $sql_ledger
                             order by jrn_def_name");
 
       if ( count($avail) == 0 )
@@ -82,6 +83,8 @@ class Fiche
       for ($i=0;$i<count($avail);$i++)
         {
             $t=new Fiche($this->cn,$avail[$i]['jrn_def_bank']);
+            $t->ledger_name=$avail[$i]['jrn_def_name'];
+            $t->ledger_description=$avail[$i]['jrn_def_description'];
             $t->getAttribut();
             $all[$i]=$t;
 

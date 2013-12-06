@@ -107,6 +107,7 @@ echo '</p>';
 echo '</form>';
 
 echo "<script>checkTotalDirect();</script>";
+echo create_script(" update_name()");
 
 if ($g_parameter->MY_DATE_SUGGEST=='Y')
 {

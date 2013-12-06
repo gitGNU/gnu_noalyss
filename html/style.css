@@ -960,16 +960,6 @@ div.op_detail_title {
 
 
 }
-div#div_jrn{
-    position:absolute;
-    border:1px solid black;
-    top:15%;left:100;
-    visibility:hidden;
-    z-index:2;
-    width:50em;
-    background-color:#EDF3FF;
-
-}
 div#div_cat{
     position:absolute;
     border:1px solid black;
@@ -1017,7 +1007,6 @@ h2#jrn_name
     color:blue;
     font-size:2.74em;
     margin-right:30%;
-    float: right;
 }
 tr.footer{
     font-size:0.87em;
@@ -1034,7 +1023,7 @@ div#jrn_name_div
 {
     float: right;
     margin-right:150;
-
+    width:50%;
 
 }
 #predef_form {
@@ -1077,9 +1066,7 @@ div#wait_box
     text-align:center;
 }
 div#div_jrnsearch_op{
-
     border:1px solid black;
-    display:none;
     width:50em;
     background-color:#EDF3FF;
     position:absolute;

@@ -6,6 +6,11 @@
 </td>
 <td>
    <?php echo $f_ledger; ?>
+    <span id="ledger_id<?php echo $div;?>">
+        <?php
+        echo $hid_jrn;
+        ?>
+    </span>
 </td>
 </tr>
 

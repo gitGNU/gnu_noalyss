@@ -116,6 +116,14 @@ echo $str_add_button;
 </TD>
 </tr>
 <?php endif; ?>
+<tr>
+    <td>
+    <?php echo _('Description') ?>
+    </TD>
+    <td>
+     <?php echo $str_description; ?>   
+    </td>
+</tr>    
 </TABLE>
     <?php
     /////////////////// ACH //////////////////////////////////

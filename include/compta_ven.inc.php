@@ -236,6 +236,6 @@ echo '<div class="content">';
 	{
 		echo create_script(" get_last_date()");
 	}
-	
+echo create_script(" update_name()");	
 exit();
 ?>

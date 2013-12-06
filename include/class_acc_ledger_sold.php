@@ -333,7 +333,10 @@ class Acc_Ledger_Sold extends Acc_Ledger {
                 // always save quantity but in withStock we can find
                 // what card need a stock management
                 if ($g_parameter->MY_STOCK = 'Y' && isset($repo))
-                    Stock_Goods::insert_goods($this->db, array('j_id' => $j_id, 'goods' => ${'e_march' . $i}, 'quant' => $nNeg * ${'e_quant' . $i}, 'dir' => 'c', 'repo' => $repo));
+                {
+                    $dir=(${'e_quant'.$i} < 0 ) ? 'd':'c';
+                    Stock_Goods::insert_goods($this->db, array('j_id' => $j_id, 'goods' => ${'e_march' . $i}, 'quant' => $nNeg * ${'e_quant' . $i}, 'dir' => $dir, 'repo' => $repo));
+                }
 
 
                 if ($g_parameter->MY_ANALYTIC != "nu") {

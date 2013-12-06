@@ -53,9 +53,9 @@ function hb($p_string)
     return '<b>' . htmlspecialchars($p_string) . '</b>';
 }
 
-function th($p_string, $p_extra='')
+function th($p_string, $p_extra='',$raw='')
 {
-    return '<th  ' . $p_extra . '>' . htmlspecialchars($p_string) . '</th>';
+    return '<th  ' . $p_extra . '>' . htmlspecialchars($p_string).$raw . '</th>';
 }
 
 function h2info($p_string)

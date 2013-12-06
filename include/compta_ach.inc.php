@@ -227,7 +227,7 @@ echo "</FORM>";
 
 if (!isset($_POST['e_date']) && $g_parameter->MY_DATE_SUGGEST=='Y')
 	echo create_script(" get_last_date()");
-
+echo create_script(" update_name()");
 echo '</div>';
 
 

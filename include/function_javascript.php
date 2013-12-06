@@ -21,7 +21,7 @@ function js_include($p_string)
 
     if ( !  file_exists('js/'.$p_string))
         alert("Erreur js/$p_string n existe pas");
-    $script='<script type="text/javascript" charset="utf8" language="javascript" src="js/'.$p_string.'"></script>';
+    $script='<script type="text/javascript" charset="utf-8" language="javascript" src="js/'.$p_string.'"></script>';
     // debug
 
     return $script;
@@ -34,7 +34,7 @@ function js_include($p_string)
  */
 function create_script($p_string)
 {
-    $script='<script type="text/javascript" charset="utf8" language="javascript">'.$p_string.' </script>';
+    $script='<script type="text/javascript" charset="utf-8" language="javascript">'.$p_string.' </script>';
     return $script;
 
 }
