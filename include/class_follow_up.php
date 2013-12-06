@@ -379,7 +379,7 @@ class Follow_Up
 		$upload->name = "file_upload[]";
 		$upload->readOnly=$readonly;
 		$upload->value = "";
-		$aAttachedFile = $this->db->get_array('select d_id,d_filename,d_mimetype,' .
+		$aAttachedFile = $this->db->get_array('select d_id,d_filename,d_description,d_mimetype,' .
 				'\'show_document.php?' .
 				Dossier::get() . '&d_id=\'||d_id as link' .
 				' from document where ag_id=$1', array($this->ag_id));

@@ -2520,3 +2520,9 @@ function stock_add_row()
     }
 
 }
+function show_description(p_id)
+{
+    $('print_desc'+p_id).hide();
+    $('input_desc'+p_id).show();
+    
+}

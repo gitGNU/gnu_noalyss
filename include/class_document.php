@@ -38,6 +38,7 @@ class Document
     var $d_mimetype;  /*!< $d_mimetype  */
     var $d_filename;  /*!< $d_filename */
     var $d_lob;       /*!< $d_lob the oid of the lob */
+    var $d_description;       /*!< Description of the file*/
     var $d_number;    /*!< $d_number number of the document */
     var $md_id;       /*!< $md_id document's template */
     /* Constructor
@@ -370,10 +371,10 @@ class Document
                 $this->d_lob=$oid;
                 $this->d_filename=$_FILES['file_upload']['name'][$i];
                 $this->d_mimetype=$_FILES['file_upload']['type'][$i];
-
+                $this->d_description=  strip_tags($_POST['input_desc'][$i]);
                 // insert into  the table
-                $sql="insert into document (ag_id, d_lob,d_filename,d_mimetype,d_number) values ($1,$2,$3,$4,5)";
-                $this->db->exec_sql($sql,array($p_ag_id,$this->d_lob,$this->d_filename,$this->d_mimetype));
+                $sql="insert into document (ag_id, d_lob,d_filename,d_mimetype,d_number,d_description) values ($1,$2,$3,$4,$5,$6)";
+                $this->db->exec_sql($sql,array($p_ag_id,$this->d_lob,$this->d_filename,$this->d_mimetype,1,$this->d_description));
             }
         } /* end for */
         $this->db->commit();
@@ -439,7 +440,7 @@ class Document
     function get_all($ag_id)
     {
         $res=$this->db->get_array('select d_id, ag_id, d_lob, d_number, d_filename,'.
-                                  ' d_mimetype from document where ag_id=$1',array($ag_id));
+                                  ' d_mimetype,d_description from document where ag_id=$1',array($ag_id));
         $a=array();
         for ($i=0;$i<sizeof($res); $i++ )
         {
@@ -450,6 +451,7 @@ class Document
             $doc->d_number=$res[$i]['d_number'];
             $doc->d_filename=$res[$i]['d_filename'];
             $doc->d_mimetype=$res[$i]['d_mimetype'];
+            $doc->d_description=$row['d_description'];
             $a[$i]=clone $doc;
         }
         return $a;
@@ -469,6 +471,7 @@ class Document
         $this->d_filename=$row['d_filename'];
         $this->d_lob=$row['d_lob'];
         $this->d_number=$row['d_number'];
+        $this->d_description=$row['d_description'];
 
     }
     /*!
@@ -1230,6 +1233,11 @@ class Document
         }
         // if ad_id is not type select get value
         return $ad_value;
+    }
+    function update_description ($p_desc)
+    {
+        $this->db->exec_sql('update document set d_description = $1 where d_id=$2',
+                array($p_desc,$this->d_id));
     }
 
 }
