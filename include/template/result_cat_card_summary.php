@@ -2,7 +2,7 @@
 Filtre rapide :    
     <?php
     $col="";$sp="";
-    for ($e=0;$e<count($aHeading);$e++) {$col.=$e.$sp; $sp=",";}
+    for ($e=0;$e<count($aHeading);$e++) {$col.=$sp.$e; $sp=",";}
     echo HtmlInput::filter_table("fiche_tb_id", $col, '1'); 
     ?>
 <table id="fiche_tb_id" class="sortable">
