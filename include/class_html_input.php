@@ -348,6 +348,7 @@ class HtmlInput
         echo '</table>';
         echo HtmlInput::hidden('div',$div);
         echo HtmlInput::submit('save','Valider');
+        echo HtmlInput::button_close($div."jrn_search");
         echo '</form>';
         echo '</div>';
         $ret=ob_get_contents();
