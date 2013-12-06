@@ -73,7 +73,7 @@ require_once ('class_acc_parm_code.php');
             if ( $idx%2 != 0 )
                 $odd="odd";
             else
-                $odd="";
+                $odd="even";
 
             $idx++;
             echo "<tr class=\"$odd\">";
