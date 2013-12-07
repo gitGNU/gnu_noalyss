@@ -57,7 +57,7 @@
 		</th>
 	</tr>
 <?php for ($i=0;$i<$limit;$i++):?>
-	<?php $class=($i%2==0)?' class="odd" ':' class="info"'; ?>
+	<?php $class=($i%2==0)?' class="odd" ':' class="even"'; ?>
 	<tr  <?php echo $class?>>
 		<td>
 			<?php
