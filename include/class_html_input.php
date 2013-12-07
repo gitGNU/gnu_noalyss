@@ -318,6 +318,7 @@ class HtmlInput
         /* create a hidden div for the ledger */
         echo '<div id="div_jrn'.$div.'" >';
         echo HtmlInput::title_box("Journaux", $div."jrn_search");
+        echo '<div style="padding:5px">';
         echo '<form method="GET" id="'.$div.'search_frm" onsubmit="return hide_ledger_choice(\''.$div.'search_frm\')">';
         echo HtmlInput::hidden('nb_jrn', count($p_array));
         echo _('Filtre ').HtmlInput::filter_table($div.'tb_jrn', '0,1,2', 1);
@@ -339,7 +340,7 @@ class HtmlInput
             }
             $class=($e%2==0)?' class="even" ':' class="odd" ';
             echo '<tr '.$class.'>';
-            echo '<td >'.$r->input().$row['jrn_def_name'].'</td>';
+            echo '<td style="white-space: nowrap">'.$r->input().$row['jrn_def_name'].'</td>';
             echo '<td >'.$row['jrn_def_description'].'</td>';
             echo '<td >'.$row['jrn_def_type'].'</td>';
             echo '</tr>';
@@ -350,6 +351,7 @@ class HtmlInput
         echo HtmlInput::submit('save','Valider');
         echo HtmlInput::button_close($div."jrn_search");
         echo '</form>';
+        echo '</div>';
         echo '</div>';
         $ret=ob_get_contents();
         ob_end_clean();
