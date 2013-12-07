@@ -811,7 +811,8 @@ function show_ledger_choice(json_obj)
                                 style: ';position:absolute;width:60%;z-index:20;margin-left:20%',
                                 drag: 1
                             };
-                            var y=calcy(posY);
+                            //var y=calcy(posY);
+                            var y=posY;
                             if (json_obj.div != '')obj.cssclass="";
                             obj.style="top:"+y+obj.style;
                             add_div(obj);
