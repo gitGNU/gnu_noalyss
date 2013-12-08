@@ -58,10 +58,11 @@ case 1:
     {
         $selected=$_GET['r_jrn'];
         $array_ledger=$g_user->get_ledger('ALL',3);
-        for ($e=0;$e<count($array_ledger);$e++)
+        $array=get_array_column($array_ledger,'jrn_def_id');
+        for ($e=0;$e<count($selected);$e++)
         {
-            if (isset ($selected[$e]))
-                $bal->jrn[]=$array_ledger[$e]['jrn_def_id'];
+            if (isset ($selected[$e]) && in_array ($selected[$e],$array))
+                $bal->jrn[]=$selected[$e];
         }
     }
     break;

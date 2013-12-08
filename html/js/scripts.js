@@ -815,6 +815,10 @@ function show_ledger_choice(json_obj)
                             var y=posY;
                             if (json_obj.div != '')obj.cssclass="";
                             obj.style="top:"+y+obj.style;
+                            if ( json_obj.class ) 
+                            { 
+                                obj.cssclass=json_obj.class;
+                            }
                             add_div(obj);
 
 

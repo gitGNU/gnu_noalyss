@@ -91,7 +91,8 @@ echo ' jusque :'.$input_to->input();
 echo 'Filtre ';
 $rad=new IRadio();
 $array_ledger=$g_user->get_ledger('ALL',3);
-$selected=(isset($_GET['r_jrn']))?$_GET['r_jrn']:null;
+$array=get_array_column($array_ledger,'jrn_def_id');
+$selected=(isset($_GET['balr_jrn']))?$_GET['balr_jrn']:null;
 $select_cat=(isset($_GET['r_cat']))?$_GET['r_cat']:null;
 $array_cat=Acc_Ledger::array_cat();
 
@@ -101,7 +102,9 @@ else $rad->selected=false;
 echo '<li>'.$rad->input('p_filter',0).'Aucun filtre, tous les journaux'.'</li>';
 if (  isset($_GET['p_filter']) && $_GET['p_filter']==1) $rad->selected='t';
 else $rad->selected=false;
-echo '<li>'.$rad->input('p_filter',1).'Filtré par journal'.HtmlInput::select_ledger($array_ledger,$selected).'</li>';
+echo '<li>'.$rad->input('p_filter',1).'Filtré par journal ';
+echo HtmlInput::button_choice_ledger(array('div'=>'bal','type'=>'ALL','all_type'=>1));
+echo '</li>';
 if (  isset($_GET['p_filter']) && $_GET['p_filter']==2) $rad->selected='t';
 else $rad->selected=false;
 echo '<li>'.$rad->input('p_filter',2).'Filtré par catégorie'.HtmlInput::select_cat($array_cat).'</li>';
@@ -194,9 +197,9 @@ if ( isset ($_GET['view']  ) )
     HtmlInput::hidden("from_periode",$_GET['from_periode']).
     HtmlInput::hidden("to_periode",$_GET['to_periode']);
     echo HtmlInput::hidden('p_filter',$_GET['p_filter']);
-    for ($e=0;$e<count($array_ledger);$e++)
-        if (isset($selected[$e]))
-            echo    HtmlInput::hidden("r_jrn[$e]",$e);
+    for ($e=0;$e<count($selected);$e++)
+        if (isset($selected[$e]) && in_array ($selected[$e],$array))
+            echo    HtmlInput::hidden("r_jrn[$e]",$selected[$e]);
     for ($e=0;$e<count($array_cat);$e++)
         if (isset($select_cat[$e]))
             echo    HtmlInput::hidden("r_cat[$e]",$e);
@@ -215,9 +218,11 @@ if ( isset ($_GET['view']  ) )
     HtmlInput::hidden("to_periode",$_GET['to_periode']);
     echo HtmlInput::get_to_hidden(array('ac'));
     echo HtmlInput::hidden('p_filter',$_GET['p_filter']);
-    if (isset($_GET ['r_jrn']))
-        if (isset($selected[$e]))
-            echo    HtmlInput::hidden("r_jrn[$e]",$e);
+    for ($e=0;$e<count($selected);$e++){
+        if (isset($selected[$e]) && in_array ($selected[$e],$array)){
+                echo    HtmlInput::hidden("r_jrn[$e]",$selected[$e]);
+            }
+    }
     for ($e=0;$e<count($array_cat);$e++)
         if (isset($select_cat[$e]))
             echo    HtmlInput::hidden("r_cat[$e]",$e);
@@ -244,9 +249,9 @@ if ( isset($_GET['view'] ) )
     $bal=new Acc_Balance($cn);
     if ( $_GET['p_filter']==1)
     {
-        for ($e=0;$e<count($array_ledger);$e++)
-            if (isset($selected[$e]))
-                $bal->jrn[]=$array_ledger[$e]['jrn_def_id'];
+        for ($e=0;$e<count($selected);$e++)
+            if (isset($selected[$e]) && in_array ($selected[$e],$array))
+                $bal->jrn[]=$selected[$e];
     }
     if ( $_GET['p_filter'] == 0 )
     {
