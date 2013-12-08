@@ -79,6 +79,15 @@ h2.info {
     margin:0px;
 
 }
+div.welcome h2.info {
+    background-color: inherit;
+    color:inherit;
+    font-size:1.50em;
+    text-align:center;
+    padding:0px;
+    margin:0px;
+    border-bottom: solid 1px #FF0000;
+}
 
 
 h3.info {
