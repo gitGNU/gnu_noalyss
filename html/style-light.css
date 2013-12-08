@@ -70,14 +70,14 @@ redcontent h2.info {
     padding:0px;
     margin:0px;
 }
-h2.info {
-    background-color:#879ed4;
-    color:white;
+h2.info,h2.title{
     font-size:1.34em;
     text-align:center;
     padding:0px;
     margin:0px;
-
+    border-bottom: #CBD9F4 groove 2px;
+    background-color: #F7D9A5;
+    color:black;
 }
 div.welcome h2.info {
     background-color: inherit;
@@ -148,6 +148,7 @@ td.tool a.mtitle {
     display:inline;
     color: blue;
     font-size:0.75em;
+    background-color: #F7F5C0;
     
 }
 td.tool a.mtitle:hover {
@@ -284,7 +285,7 @@ td.mtitle {
     width:95px;
     height :30px;
     font-size:0.75em;;
-    border-bottom: solid 1px #e08000;
+    border-bottom:1px dashed #e08000;
     border-collapse: collapse;
     padding: 0;
     margin: 0;
@@ -312,7 +313,7 @@ span.even {
 }
 
 tr.odd {
-    background-color:#DDE6FF;
+    background-color:#E3F4F9;
     font-size:0.87em;;
 }
 tr.highlight {
@@ -324,7 +325,7 @@ tr.even {
   font-size:0.87em;;
 }
 td.odd{
-    background-color:#DDE6FF ;
+    background-color:yellowgreen ;
 }
 td.even{
     border:0px;
@@ -343,7 +344,8 @@ td.selectedcell{
     border-radius:5px;
     border-bottom: solid 4px #e08000;
 }
-a.mtitle {
+a.mtitle,a.mtitle:visited{
+    color:orangered;
     text-decoration:none;
     display:inline;
 }
@@ -407,7 +409,13 @@ a.cell:hover {
     text-decoration:none;
     display:block;
 }
-
+a.cell:visited {
+    font-size:0.75em;;
+    color:white;
+    background-color:#5D90CD;
+    text-decoration:none;
+    display:block;
+}
 
 a.one:link {
     text-decoration:none;
@@ -840,7 +848,7 @@ a#anchorbutton, .button, a.button,div.content a.button,a#smallanchorbutton, .sma
     font-size:0.75em;
     text-decoration:none;
     font-family: arial,verdana,sans-serif,helvetica;
-    background-image: url("image/bg-submit2.gif");
+    background-image: url("image/bg-submit3.gif");
     background-repeat: repeat-x;
     background-position: left;
 
@@ -868,10 +876,10 @@ a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover,a#
 }
 td.tool {
     border: solid 1px gray;
-    background-color: white;
-    border-bottom-width: 2px;
+    background-color: #F7F5C0;
+    border-bottom-width: 3px;
     text-align:center;
-    border-radius:2px;
+    
 }
 div.topmenu {
 
@@ -936,13 +944,8 @@ div.op_detail_title {
 
 }
 div#div_jrn{
-    position:absolute;
     border:1px solid black;
-    top:15%;left:100;
-    visibility:hidden;
-    z-index:2;
-    width:50em;
-    background-color:#EDF3FF;
+    background-color:#FCEED4;
 
 }
 div#div_cat{
@@ -968,7 +971,7 @@ div#search_form
     z-index:2;
     width:50%;
     display:none;
-    background-color:#e4e7ed;
+    background-color:#FCEED4;
 -moz-box-shadow: 10px 10px 5px #888;
 -webkit-box-shadow: 10px 10px 5px #888;
 box-shadow: 10px 10px 5px #888;
@@ -1160,15 +1163,6 @@ h1.title {
     font-size:0.87em;
     font-style: italic;
 }
-h2.title {
-    background-color:#879ed4;
-    color:white;
-    font-size:1.34em;
-    text-align:center;
-    padding:0.24%;
-    border:1px solid darkblue;
-
-}
 h3.title {
     color: blue;
     font-size:0.87em;
@@ -1234,7 +1228,7 @@ textarea.itextarea{
 }
 div#modele_op_div{
     display: none;
-    background-color:#e4e7ed;
+    background-color:#FCEED4;
     font-family:arial,verdana,sans-serif,helvetica;
     padding:0;
     margin:0;
@@ -1271,10 +1265,10 @@ div.bxbutton
     margin-right:0.48%;
 }
 div.inner_box tr.odd {
-    background:  #CBD9F4;
+    background:  #E3F4F9;
 }
 #modele_op_tab tr.odd {
-    background:  #CBD9F4;
+    background:  yellowgreen;
 }
 div#bookmark_div {
     background-color:#e4e7ed;
