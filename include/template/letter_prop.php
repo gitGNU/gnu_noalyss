@@ -47,7 +47,7 @@ $linked_limit=count($this->linked);
 
 for ($i=0;$i<count($this->content);$i++):
   $class="";
-if ( ($i % 2) == 0 ) $class="odd";
+$class= ( ($i % 2) == 0 ) ? "odd":"even";
 if ( $i < $linked_limit ) $class="even";
 if ($linked_limit != 0 && $i==$linked_limit)
 {

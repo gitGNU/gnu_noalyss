@@ -42,7 +42,7 @@ if ( count($this->content) == 0 ) :
 <?php
 for ($i=0;$i<count($this->content);$i++):
   $class="";
-if ( ($i % 2) == 0 ) $class="odd";
+$class= ( ($i % 2) == 0 ) ? "odd":"even";
 ?>
   <tr <?php echo "class=\"$class\""; ?> >
 <td>
