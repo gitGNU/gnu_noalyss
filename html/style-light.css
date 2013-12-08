@@ -1,7 +1,7 @@
 /* <style type="text/css"> */
 
 BODY {
-    background-color:#EDF3FF;
+    background-color:wheat;
     font-family:arial,verdana,sans-serif,helvetica;
     padding: 0px 0px 0px 0px ;
     margin:0;
@@ -284,8 +284,11 @@ td.mtitle {
     width:95px;
     height :30px;
     font-size:0.75em;;
-    background-color:#DDE6FF;
-    border:1px solid #99B1DF;
+    border-bottom: solid 1px #e08000;
+    border-collapse: collapse;
+    padding: 0;
+    margin: 0;
+    border-spacing: 0px;
 }
 td.msubtitle {
     text-align:center;
@@ -332,16 +335,13 @@ td.cell{
     
 }
 td.selectedcell{
-    border-style:inset;
-    border-color:blue;
-    border-width:1pt ;
     font-size:1.2em;
     font-weight: bold;
-    background:#5D90CD ;
-    color:white;
+    color:red;
     text-align:center;
     width:120px;
     border-radius:5px;
+    border-bottom: solid 4px #e08000;
 }
 a.mtitle {
     text-decoration:none;
@@ -359,7 +359,7 @@ td.selectedcell a.mtitle,div.content td.selectedcell a.mtitle {
     font-size:0.75em;;
     text-decoration:none;
     display:block;
-    color:white;
+    color:red;
 }
 a.dossier {
     font-size:0.75em;;
@@ -383,7 +383,9 @@ tr.even:hover td
 td.mtitle:hover,td.mtitle:hover a
 {
     background-color:#a9d6e4;
-    color:white;
+    color:white; 
+    border-bottom: solid 1px #e08000;
+    
 }
 td.msubtitle:hover,td.msubtitle:hover a
 {
@@ -832,36 +834,7 @@ input[disabled], textarea[disabled], option[disabled], optgroup[disabled], selec
     cursor:inherit;
 }
 
-a#anchorbutton, .button, a.button,div.content a.button {
-    color:white;
-    font-weight: bold;
-    font-size:0.87em;
-    text-decoration:none;
-    font-family: arial,verdana,sans-serif,helvetica;
-    background-image: url("image/bg-submit2.gif");
-    background-repeat: repeat-x;
-    background-position: left;
-
-    border-style:  outset ;
-    border-color:  blue ;
-    border-width:0px;
-    padding:8px;
-    margin-top:3px;
-    cursor:pointer;
-    margin:1 2 1 2;
-    border-radius: 5px;
-    moz-border-radius:5px;
-
-}
-a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
-    cursor:pointer;
-    background-color:white;
-    border-style:  inset ;
-    color:red;
-    margin:1 2 1 2;
-
-}
-a#smallanchorbutton, .smallbutton, a.smallbutton,div.content a.smallbutton {
+a#anchorbutton, .button, a.button,div.content a.button,a#smallanchorbutton, .smallbutton, a.smallbutton,div.content a.smallbutton {
     color:white;
     font-weight: bold;
     font-size:0.75em;
@@ -885,7 +858,7 @@ a#smallanchorbutton, .smallbutton, a.smallbutton,div.content a.smallbutton {
     moz-border-radius:2px;
 
 }
-a#smallanchorbutton:hover, .smallbutton:hover,a.smallbutton:hover,div.content a.smallbutton:hover  {
+a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover,a#smallanchorbutton:hover, .smallbutton:hover,a.smallbutton:hover,div.content a.smallbutton:hover  {
     cursor:pointer;
     background-color:white;
     border-style:  inset ;
@@ -940,12 +913,12 @@ h2.gest_name {
     width: 40%;
 }
 body.op_detail_frame,div.op_detail_frame  {
-    background-color:#e4e7ed;
+    background-color:#FCEED4;
     height:100%; width:100%;
 
 }
 div.inner_box  {
-    background-color:#e4e7ed;
+    background-color:#FCEED4;
     font-family:arial,verdana,sans-serif,helvetica;
     padding:0;
     margin:0;
