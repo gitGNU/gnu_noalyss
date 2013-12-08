@@ -40,7 +40,8 @@ $choice=(isset($_GET['choice']))?$_GET['choice']:0;
 $r_jrn=(isset($_GET['r_jrn']))?$_GET['r_jrn']:'';
 echo '<form method="GET">';
 echo dossier::hidden().HtmlInput::hidden('ac',$_GET['ac']).HtmlInput::hidden('type','rec');
-echo 'Filtre par journal :'.HtmlInput::select_ledger($aledger,$r_jrn );
+echo 'Filtre par journal';
+HtmlInput::button_choice_ledger(array('div'=>'','type'=>'ALL','all_type'=>1));
 echo '<br/>';
 /*
  * Limit by date, default current exercice

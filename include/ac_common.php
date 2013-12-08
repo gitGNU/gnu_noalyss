@@ -1094,4 +1094,16 @@ function display_dashboard_operation($p_array,$p_title,$p_div)
 </div>
 <?php
 }
+function get_array_column($p_array,$key)
+{
+    $array=array();
+    for ($i=0;$i<count($p_array);$i++)
+    {
+        $r=$p_array[$i];
+        if ( isset($r[$key])) {
+            $array[]=$r[$key];
+        }
+    }
+    return $array;
+}
 ?>

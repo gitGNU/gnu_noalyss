@@ -777,5 +777,47 @@ class HtmlInput
             $button->javascript="calendar_zoom($obj)";
             return $button->input();
         }
+        /**
+         * 
+         * @param type $p_array indice
+         *   - div div name
+         *   - type ALL, VEN, ACH or ODS
+         *   - all_type 1 yes 0 no
+         * 
+         */
+        static function button_choice_ledger($p_array)
+        {
+            extract ($p_array);
+            $bledger_param = json_encode(array(
+                'dossier' => $_REQUEST['gDossier'],
+                'type' => $type,
+                'all_type' => $all_type,
+                'div' => $div,
+                'class'=>'inner_box'
+            ));
+
+            $bledger_param = str_replace('"', "'", $bledger_param);
+            $bledger = new ISmallButton('l');
+            $bledger->label = "choix des journaux";
+            $bledger->javascript = " show_ledger_choice($bledger_param)";
+            $f_ledger = $bledger->input();
+            $hid_jrn = "";
+            if (isset($_REQUEST[$div . 'nb_jrn']))
+            {
+                for ($i = 0; $i < $_REQUEST[$div . 'nb_jrn']; $i++)
+                {
+                    if (isset($_REQUEST[$div . "r_jrn"][$i]))
+                        $hid_jrn.=HtmlInput::hidden($div . 'r_jrn[' . $i . ']', $_REQUEST[$div . "r_jrn"][$i]);
+                }
+                $hid_jrn.=HtmlInput::hidden($div . 'nb_jrn', $_REQUEST[$div . 'nb_jrn']);
+            } else
+            {
+                $hid_jrn = HtmlInput::hidden($div . 'nb_jrn', 0);
+            }
+            echo $f_ledger;
+            echo '<span id="ledger_id' . $div . '">';
+            echo $hid_jrn;
+            echo '</span>';
+        }
 
 }
