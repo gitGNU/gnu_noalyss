@@ -42,7 +42,7 @@ table.sortable th,  table.table_large th,table.result th {
 h2 {
     font-family:arial,verdana,sans-serif,helvetica;
     font-size:1.35em;
-    color:grey;
+    color:brown;
     margin:1px;
     padding:1px;
     font-style: italic;
@@ -98,7 +98,7 @@ h3.info {
 }
 
 h2.info2 {
-    color:blue;
+    color:red;
     font-size:1em;;
     text-align:center;
 
@@ -148,7 +148,6 @@ td.tool a.mtitle {
     display:inline;
     color: blue;
     font-size:0.75em;
-    background-color: #F7F5C0;
     
 }
 td.tool a.mtitle:hover {
@@ -156,7 +155,7 @@ td.tool a.mtitle:hover {
     display:inline;
     font-size:0.75em;;
     color: darkblue;
-    background-color:#5D90CD;
+    background-color:white;
 
 }
 #top {
@@ -270,7 +269,8 @@ table.document th{
 
 table.mtitle {
     border:0;
-    text-align:center
+    text-align:center;
+    min-width: 50%;
 }
 td.mshort {
     height:15px;
@@ -282,7 +282,6 @@ td.mshort {
 }
 td.mtitle {
     text-align:center;
-    width:95px;
     height :30px;
     font-size:0.75em;;
     border-bottom:1px dashed #e08000;
@@ -313,7 +312,7 @@ span.even {
 }
 
 tr.odd {
-    background-color:#E3F4F9;
+    background-color:#FCFFCC;
     font-size:0.87em;;
 }
 tr.highlight {
@@ -325,7 +324,7 @@ tr.even {
   font-size:0.87em;;
 }
 td.odd{
-    background-color:yellowgreen ;
+
 }
 td.even{
     border:0px;
@@ -384,9 +383,9 @@ tr.even:hover td
 }
 td.mtitle:hover,td.mtitle:hover a
 {
-    background-color:#a9d6e4;
-    color:white; 
-    border-bottom: solid 1px #e08000;
+    background-color:#FCFFCC;
+    color:brown; 
+    border: solid 1px #e08000;
     
 }
 td.msubtitle:hover,td.msubtitle:hover a
@@ -577,11 +576,11 @@ a.document:hover {
 .input_text_ro {
     border:solid 1px blue;
     background:#EDEDED;
-    color:blue;
+    color:brown;
     margin:1px;
 }
 .input_text {
-    border:groove 1px blue;
+    border:solid 1px brown;
     margin:1px;
 }
 .input_text:hover {
@@ -600,7 +599,7 @@ fieldset fieldset legend {
     color:grey;
 }
 select {
-    border: 1px solid blue;
+    border: 1px solid brown;
     margin:2px;
     background-color:white;
 
@@ -814,7 +813,7 @@ div.pc_calendar td{
 }
 
 div.pc_calendar td.weekend {
-    background-color:#cce0e6;
+    background-color:#FCFFCC;
 
 }
 div.pc_calendar td.workday{
@@ -848,7 +847,7 @@ a#anchorbutton, .button, a.button,div.content a.button,a#smallanchorbutton, .sma
     font-size:0.75em;
     text-decoration:none;
     font-family: arial,verdana,sans-serif,helvetica;
-    background-image: url("image/bg-submit3.gif");
+    background-image: url("image/bg-submit4.gif");
     background-repeat: repeat-x;
     background-position: left;
 
@@ -862,8 +861,6 @@ a#anchorbutton, .button, a.button,div.content a.button,a#smallanchorbutton, .sma
     margin-top:3px;
     cursor:pointer;
     margin:1 2 1 2;
-    border-radius: 2px;
-    moz-border-radius:2px;
 
 }
 a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover,a#smallanchorbutton:hover, .smallbutton:hover,a.smallbutton:hover,div.content a.smallbutton:hover  {
@@ -886,7 +883,7 @@ div.topmenu {
 }
 
 #dossier h2{
-    color:darkblue;
+    color:black;
     display:inline;
     font-size:2em;
     margin:0px;
@@ -992,7 +989,7 @@ table.info_op tr
 }
 h2#jrn_name
 {
-    color:blue;
+    color:brown;
     font-size:2.74em;
     margin-right:30%;
     float: right;
@@ -1265,10 +1262,10 @@ div.bxbutton
     margin-right:0.48%;
 }
 div.inner_box tr.odd {
-    background:  #E3F4F9;
+    background:  #FCFFCC;
 }
 #modele_op_tab tr.odd {
-    background:  yellowgreen;
+    background:  #FCFFCC;
 }
 div#bookmark_div {
     background-color:#e4e7ed;
@@ -1324,4 +1321,9 @@ td.workday ol {
 	padding:0px;
 	list-style-type:none;
 	text-align:left;
+}
+input.inum {
+    text-align:right;
+    border:1px solid brown;
+    margin:2px
 }
