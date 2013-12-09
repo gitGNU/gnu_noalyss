@@ -1358,3 +1358,8 @@ td.workday ol {
 	list-style-type:none;
 	text-align:left;
 }
+input.inum {
+    text-align:right;
+    border:1px solid blue;
+    margin:2px
+}

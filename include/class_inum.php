@@ -45,8 +45,8 @@ class INum extends IText
         parent::__construct($name,$value);
 
         $this->size=9;
-        $this->style='style="text-align:right;border:1px solid blue;margin:2px"';
-		$this->javascript= 'onchange="format_number(this,2);"';
+        $this->style='class="inum"';
+	$this->javascript= 'onchange="format_number(this,2);"';
     }
     /*!\brief print in html the readonly value of the widget*/
     public function display()
@@ -55,7 +55,8 @@ class INum extends IText
         $readonly=" readonly ";
 		$this->id=($this->id=="")?$this->name:$this->id;
 
-        $style='style="border:solid 1px blue;color:black;background:#EDEDED;text-align:right"';
+        //$style='style="border:solid 1px blue;color:black;background:#EDEDED;text-align:right"';
+        $style=' class="inum input_text_ro"';
         $this->value=str_replace('"','',$this->value);
         $r='<INPUT '.$style.' TYPE="TEXT" id="'.
            $this->id.'"'.
