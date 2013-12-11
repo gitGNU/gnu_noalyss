@@ -2,11 +2,15 @@
 
 BODY {
     background-color:wheat;
+    background-image: url('image/orange_flower.gif');
     font-family:arial,verdana,sans-serif,helvetica;
     padding: 0px 0px 0px 0px ;
     margin:0;
-    color:black;
+    color:brown;
     font-size:0.85em;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    background-position:center; 
 }
 .notice {
     color:red;
@@ -14,7 +18,7 @@ BODY {
 }
 
 table.sortable, table.table_large, table.result  ,table.resultfooter {
-    color:blue;
+    color:brown;
     /* border:blue solid 1px; */
     width:100%;
     border-spacing:  0px;
@@ -29,11 +33,9 @@ table.resultfooter tfoot {
 table.sortable th,  table.table_large th,table.result th {
     font-weight:bold;
     font-family:arial,verdana,sans-serif,helvetica;
-    border-bottom:1px solid blue;
+    border-bottom:1px solid #7C2A1F;
     border-top:0;
     font-size:0.75em;;
-
-    color:#25238F;
     text-align: left;
     font-style: italic;
 
@@ -77,7 +79,7 @@ h2.info,h2.title{
     margin:0px;
     border-bottom: #CBD9F4 groove 2px;
     background-color: #F7D9A5;
-    color:black;
+    color:#7C2A1F;
 }
 div.welcome h2.info {
     background-color: inherit;
@@ -289,6 +291,7 @@ td.mtitle {
     padding: 0;
     margin: 0;
     border-spacing: 0px;
+    background-color: wheat;
 }
 td.msubtitle {
     text-align:center;
@@ -339,9 +342,9 @@ td.selectedcell{
     font-weight: bold;
     color:red;
     text-align:center;
-    width:120px;
     border-radius:5px;
     border-bottom: solid 4px #e08000;
+    background-color: wheat;
 }
 a.mtitle,a.mtitle:visited{
     color:orangered;
@@ -360,7 +363,6 @@ td.selectedcell a.mtitle,div.content td.selectedcell a.mtitle {
     font-size:0.75em;;
     text-decoration:none;
     display:block;
-    color:red;
 }
 a.dossier {
     font-size:0.75em;;
@@ -499,7 +501,7 @@ div.redcontent a.mtitle {
     display:inline;
 
 
-    color:black;
+    color:#CC5343;
 
 }
 
@@ -507,14 +509,14 @@ div.redcontent a.mtitle:hover {
     text-decoration:none;
     display:inline;
     color:white;
-    background-color:darkblue;
+    background-color:brown;
 
 
 }
 div.content a.mtitle {
     text-decoration:none;
     display:inline;
-    color:blue;
+    color:#CC5343;
 
 
 
@@ -523,7 +525,7 @@ div.content a.mtitle {
 div.content a.mtitle:hover {
     text-decoration:none;
     display:inline;
-    background-color:darkblue;
+    background-color:brown;
     color:white;
 
 
@@ -535,7 +537,7 @@ div.redcontent input.text {
     border-style:solid;
     background-color:orange;
     border-width:1px;
-    color:blue;
+    color:brown;
 }
 div.content input.text {
     font-family:arial,verdana,sans-serif,helvetica;
@@ -883,7 +885,7 @@ div.topmenu {
 }
 
 #dossier h2{
-    color:black;
+    color:brown;
     display:inline;
     font-size:2em;
     margin:0px;
@@ -1069,7 +1071,7 @@ a.line,div.content a.line
    font-size:0.87em;
     text-decoration:underline;
     display:inline;
-    color: #0000ff;
+    color: #CC5343;
 }
 a.line:hover,div_content a.line
 {
