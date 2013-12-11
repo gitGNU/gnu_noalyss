@@ -57,11 +57,11 @@ class Zip_Extended extends ZipArchive
 		  {
 		    // Add the files
 		    $this->addFile($dir . $file, $zipdir . $file);
-		    $filecnt +=1;
+		    $filenct +=1;
 		  }
 	      }
 	    //Add the directory when folder was empty
-	    if( (!empty($zipdir)) && ($filecnt==0)) 
+	    if( (!empty($zipdir)) && ($filenct==0)) 
 	      {
 		// remove directory separator before addEmptyDir      
 		// otherwhisen create double folder in zip
