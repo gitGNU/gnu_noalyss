@@ -151,7 +151,7 @@ if ( ! empty ($array) )  {
 </div>
 <div style="float:right;width: 100%">
 	
-<div id="action_late_div"  class="inner_box" style="display:none;margin-left:25%;top:25%;width: 50%;height:50%;overflow: auto;">
+<div id="action_late_div"  class="inner_box" style="display:none;margin-left:25%;top:25%;width: 50%;min-height:50%;overflow: auto;">
 	<?php
 		echo HtmlInput::title_box("Action en retard", "action_late_div","hide")
 	?>
@@ -182,7 +182,7 @@ if ( ! empty ($array) )  {
 	<?php endif; ?>
 	</div>
 
-	<div id="action_now_div" class="inner_box" style="display:none;margin-left:25%;width: 50%;top:25%;height:50%;overflow: auto;">
+	<div id="action_now_div" class="inner_box" style="display:none;margin-left:25%;width: 50%;top:25%;min-height:50%;overflow: auto;">
 	<?php
 		echo HtmlInput::title_box("Action pour aujourd'hui", "action_now_div","hide")
 	?>
