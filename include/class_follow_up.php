@@ -81,6 +81,14 @@ class Follow_Up
 	var $ag_dest;  /*!< $ag_dest person who is in charged */
 	var $ag_contact;  /*!< $ag_contact contact */
 	var $ag_remind_date;  /*!< $ag_contact contact */
+        /**
+         * @brief $operation string related operation
+         */
+        var $operation;
+        /**
+         * @brief $action string related action
+         */
+        var $action;
 
 	/**  constructor
 	 * \brief constructor
@@ -93,6 +101,9 @@ class Follow_Up
 		$this->ag_id=$p_id;
 		$this->f_id = 0;
                 $this->aAction_detail=array();
+                $this->operation="";
+                $this->action="";
+                
 	}
 	static function sql_security_filter($cn,$p_mode)
 	{
@@ -579,7 +590,10 @@ class Follow_Up
 	/**
 	 * \brief Save the document and propose to save the generated document or
 	 *  to upload one, the data are included except the file. Temporary the generated
-	 * document is save
+	 * document is save.
+         * The files into $_FILES['file_upload'] will be saved
+         * @note the array $_POST['input_desc'] must be set, contains the description
+         * of the uploaded files
 	 *
 	 * \return
 	 */
@@ -978,6 +992,20 @@ class Follow_Up
 	/**\brief put an array in the variable member, the indice
 	 * is the member name
 	 * \param $p_array to parse
+         *      - ag_id id of the Follow_up
+         *      - ag_ref reference of the action
+         *      - qcode_dest quick_code of the card of dest
+         *      - f_id_dest f_id of the card of dest
+         *      - dt_id Document_Modele::dt_id
+         *      - ag_state document_state::s_id (default:2)
+         *      - ag_title title of the action
+         *      - ag_hour
+         *      - ag_dest Profile, profile of the user
+         *      - ag_comment comment
+         *      - ag_remind_date Remind Date
+         *      - operation related operation
+         *      - action related action 
+         *      - op deprecated
 	 * \return nothing
 	 */
 
@@ -1001,7 +1029,11 @@ class Follow_Up
 		$this->ag_comment = (isset($p_array['ag_comment'])) ? $p_array['ag_comment'] : "";
 		$this->ag_remind_date = (isset($p_array['ag_remind_date'])) ? $p_array['ag_remind_date'] : null;
 		$this->operation = (isset($p_array['operation'])) ? $p_array['operation'] : null;
-		$this->op = (isset($p_array['op'])) ? $p_array['op'] : null;
+                /**
+                 * @todo
+                 * deprecated : to remove
+                    $this->op = (isset($p_array['op'])) ? $p_array['op'] : null; 
+                 */
 		$this->action = (isset($p_array['action'])) ? $p_array['action'] : null;
 	}
 
@@ -1088,8 +1120,10 @@ class Follow_Up
 
 	/**
 	 * remove a related operation
+         * @deprecated not used : dead_code
+         * @todo to remove
 	 */
-	function remove_operation()
+	function remove_operation_deprecated()
 	{
 		if ($this->op == null)
 			return;
