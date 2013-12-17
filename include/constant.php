@@ -178,7 +178,12 @@ define ("FICHE_TYPE_ADM_TAX",14);
 define ("FICHE_TYPE_ACH_MAR",2);
 define ("FICHE_TYPE_ACH_SER",3);
 define ("FICHE_TYPE_ACH_MAT",7);
-
+/** -- pour utiliser unoconv démarrer un server libreoffice 
+ * commande
+ * libreoffice --headless --accept="socket,host=127.0.0.1,port=2002;urp;" --nofirststartwizard 
+ */
+define ('OFFICE','unoconv ');
+define ('GENERATE_PDF','NO');
 
 define ('JS_INFOBULLE','
         <DIV id="bulle" class="infobulle"></DIV>
