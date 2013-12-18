@@ -208,9 +208,9 @@ class HtmlInput
      *\param $p_javascript javascript for this button
      *\return string with htmlcode
      */
-    static function button_anchor($p_label,$p_value,$p_name="",$p_javascript="")
+    static function button_anchor($p_label,$p_value,$p_name="",$p_javascript="",$p_class="button")
     {
-        $r=sprintf('<span id="%s" > <A class="button" style="display:inline;"  href="%s" %s >%s</A></span>',
+        $r=sprintf('<span id="%s" > <A class="'.$p_class.'" style="display:inline;"  href="%s" %s >%s</A></span>',
                    $p_name,
                    $p_value,
                    $p_javascript,
@@ -437,10 +437,10 @@ class HtmlInput
      *@param $action action action to perform (message) without onclick
      *@param $javascript javascript to execute
      */
-    static function button_action($action,$javascript,$id="xx")
+    static function button_action($action,$javascript,$id="xx",$p_class="button")
     {
 		$r="";
-		$r.='<input type="button" id="'.$id.'"class="button" onclick="'.$javascript.'" value="'.h($action).'">';
+		$r.='<input type="button" id="'.$id.'"class="'.$p_class.'" onclick="'.$javascript.'" value="'.h($action).'">';
 		return $r;
 
     }
