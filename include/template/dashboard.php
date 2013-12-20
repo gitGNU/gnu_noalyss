@@ -119,7 +119,7 @@ $array=$todo->load_all();
 <fieldset> <legend><?php echo _('Pense-Bête')?></legend>
 
 <?php
-echo HtmlInput::button('add',_('Ajout'),'onClick="add_todo()"');
+echo HtmlInput::button('add',_('Ajout'),'onClick="add_todo()"',' smallbutton');
 if ( ! empty ($array) )  {
   echo '<table id="table_todo" class="sortable" width="100%">';
   echo '<tr><th class=" sorttable_sorted_reverse">Date <span id="sorttable_sortrevind">&nbsp;&blacktriangle;</span></th><th>Titre</th><th></th>';
