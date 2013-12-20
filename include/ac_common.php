@@ -71,7 +71,8 @@ function h1($p_string, $p_class)
 {
     return '<h1 ' . $p_class . '>' . htmlspecialchars($p_string) . '</h1>';
 }
-/**\brief surround the string with td
+/**
+ * \brief surround the string with td
  * \param $p_string string to surround by TD
  * \param $p_extra extra info (class, style, javascript...)
  * \return string surrounded by td
