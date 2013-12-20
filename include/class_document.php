@@ -380,6 +380,22 @@ class Document
         $this->db->commit();
 
     }
+    /**
+     * Copy a existing OID (LOB) into the table document
+     * @param type $p_ag_id Follow_Up::ag_id
+     * @param type $p_lob oid of existing document
+     * @param type $p_filename filename of existing document
+     * @param type $p_mimetype mimetype of existing document
+     * @param type $p_description Description of existing document (default empty)
+     */
+    static function insert_existing_document($p_ag_id, $p_lob, $p_filename, $p_mimetype, $p_description = "")
+    {
+        global $cn;
+        // insert into  the table
+        $sql = "insert into document (ag_id, d_lob,d_filename,d_mimetype,d_number,d_description) values ($1,$2,$3,$4,$5,$6)";
+        $cn->exec_sql($sql, array($p_ag_id, $p_lob, $p_filename, $p_mimetype, 1, $p_description));
+    }
+
     /*! a_ref
      * \brief create and compute a string for reference the doc <A ...>
      *
