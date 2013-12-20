@@ -382,6 +382,7 @@ class Document
     }
     /**
      * Copy a existing OID (LOB) into the table document
+     * @note  use of global variable $cn which is the db connx to the current folder
      * @param type $p_ag_id Follow_Up::ag_id
      * @param type $p_lob oid of existing document
      * @param type $p_filename filename of existing document
