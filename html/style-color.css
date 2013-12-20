@@ -1,12 +1,16 @@
 /* <style type="text/css"> */
 
 BODY {
-    background-color:#EDF3FF;
+    background-color:wheat;
+    background-image: url('image/spirale2.gif');
     font-family:arial,verdana,sans-serif,helvetica;
     padding: 0px 0px 0px 0px ;
     margin:0;
-    color:blue;
-    font-size:0.90em;
+    color:brown;
+    font-size:0.85em;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    background-position:bottom; 
 }
 .notice {
     color:red;
@@ -14,7 +18,7 @@ BODY {
 }
 
 table.sortable, table.table_large, table.result  ,table.resultfooter {
-    color:blue;
+    color:brown;
     /* border:blue solid 1px; */
     width:100%;
     border-spacing:  0px;
@@ -29,11 +33,9 @@ table.resultfooter tfoot {
 table.sortable th,  table.table_large th,table.result th {
     font-weight:bold;
     font-family:arial,verdana,sans-serif,helvetica;
-    border-bottom:1px solid blue;
+    border-bottom:1px solid #7C2A1F;
     border-top:0;
     font-size:0.75em;;
-
-    color:#25238F;
     text-align: left;
     font-style: italic;
 
@@ -42,7 +44,7 @@ table.sortable th,  table.table_large th,table.result th {
 h2 {
     font-family:arial,verdana,sans-serif,helvetica;
     font-size:1.35em;
-    color:grey;
+    color:brown;
     margin:1px;
     padding:1px;
     font-style: italic;
@@ -70,14 +72,23 @@ redcontent h2.info {
     padding:0px;
     margin:0px;
 }
-h2.info {
-    background-color:#879ed4;
-    color:white;
+h2.info,h2.title{
     font-size:1.34em;
     text-align:center;
     padding:0px;
     margin:0px;
-
+    border-bottom: #CBD9F4 groove 2px;
+    background-color: #F7D9A5;
+    color:#7C2A1F;
+}
+div.welcome h2.info {
+    background-color: inherit;
+    color:inherit;
+    font-size:1.50em;
+    text-align:center;
+    padding:0px;
+    margin:0px;
+    border-bottom: solid 1px #FF0000;
 }
 
 
@@ -89,7 +100,7 @@ h3.info {
 }
 
 h2.info2 {
-    color:blue;
+    color:red;
     font-size:1em;;
     text-align:center;
 
@@ -137,16 +148,16 @@ div.u_tool #name {
 td.tool a.mtitle {
     text-decoration:none;
     display:inline;
-    color: blue;
+    color: brown;
     font-size:0.75em;
     
 }
 td.tool a.mtitle:hover {
     text-decoration:none;
     display:inline;
-    font-size:0.75em;;
-    color: darkblue;
-    background-color:#5D90CD;
+    font-size:0.75em;
+    color: brown;
+    background-color:white;
 
 }
 #top {
@@ -260,7 +271,8 @@ table.document th{
 
 table.mtitle {
     border:0;
-    text-align:center
+    text-align:center;
+    min-width: 50%;
 }
 td.mshort {
     height:15px;
@@ -272,12 +284,15 @@ td.mshort {
 }
 td.mtitle {
     text-align:center;
-    width:95px;
     height :30px;
     font-size:0.75em;;
-    background-color:#DDE6FF;
-    border:1px solid #99B1DF;
-    border-radius:5px;
+    font-weight: bolder;
+    border:1px dashed #e08000;
+    border-collapse: collapse;
+    padding: 0;
+    margin: 0;
+    border-spacing: 0px;
+    background-color: transparent;
 }
 td.msubtitle {
     text-align:center;
@@ -301,7 +316,7 @@ span.even {
 }
 
 tr.odd {
-    background-color:#DDE6FF;
+    background-color:#FCFFCC;
     font-size:0.87em;;
 }
 tr.highlight {
@@ -313,7 +328,7 @@ tr.even {
   font-size:0.87em;;
 }
 td.odd{
-    background-color:#DDE6FF ;
+
 }
 td.even{
     border:0px;
@@ -324,28 +339,23 @@ td.cell{
     
 }
 td.selectedcell{
-    border-style:inset;
-    border-color:blue;
-    border-width:1pt ;
     font-size:1.2em;
     font-weight: bold;
-    background:#5D90CD ;
-    color:white;
+    color:red;
     text-align:center;
-    width:120px;
-    border-radius:5px;
+    border-bottom: solid 4px #e08000;
+    background-color: wheat;
 }
-a.mtitle {
+a.mtitle,a.mtitle:visited{
+    color:brown;
     text-decoration:none;
     display:inline;
-    color: blue;
-
 }
 a.mtitle:hover {
     text-decoration:none;
     display:inline;
 
-    color: darkblue;
+    color: brown;
     background-color:#5D90CD;
 
 }
@@ -353,13 +363,12 @@ td.selectedcell a.mtitle,div.content td.selectedcell a.mtitle {
     font-size:0.75em;;
     text-decoration:none;
     display:block;
-    color:white;
 }
 a.dossier {
     font-size:0.75em;;
     text-decoration:none;
     display:block;
-    color: #202267;
+    color: brown;
 
 }
 tr.odd:hover td
@@ -376,8 +385,10 @@ tr.even:hover td
 }
 td.mtitle:hover,td.mtitle:hover a
 {
-    background-color:#a9d6e4;
-    color:white;
+    background-color:#FCFFCC;
+    color:brown; 
+    border: solid 1px #e08000;
+    
 }
 td.msubtitle:hover,td.msubtitle:hover a
 {
@@ -387,19 +398,23 @@ td.msubtitle:hover,td.msubtitle:hover a
 a.cell {
     text-decoration:none;
     display:block;
-    color:blue;
-    background-color:white;
     font-size:0.75em;;
+    color:brown;
 }
-
-a.cell:hover {
+a.cell:visited {
     font-size:0.75em;;
-    color:white;
-    background-color:#5D90CD;
+    color:brown;
     text-decoration:none;
     display:block;
 }
 
+a.cell:hover {
+    font-size:0.75em;;
+    color:yellow;
+    background-color:#7C2A1F;
+    text-decoration:none;
+    display:block;
+}
 
 a.one:link {
     text-decoration:none;
@@ -484,7 +499,7 @@ div.redcontent a.mtitle {
     display:inline;
 
 
-    color:black;
+    color:#CC5343;
 
 }
 
@@ -492,14 +507,14 @@ div.redcontent a.mtitle:hover {
     text-decoration:none;
     display:inline;
     color:white;
-    background-color:darkblue;
+    background-color:brown;
 
 
 }
 div.content a.mtitle {
     text-decoration:none;
     display:inline;
-    color:blue;
+    color:#CC5343;
 
 
 
@@ -508,7 +523,7 @@ div.content a.mtitle {
 div.content a.mtitle:hover {
     text-decoration:none;
     display:inline;
-    background-color:darkblue;
+    background-color:brown;
     color:white;
 
 
@@ -520,7 +535,7 @@ div.redcontent input.text {
     border-style:solid;
     background-color:orange;
     border-width:1px;
-    color:blue;
+    color:brown;
 }
 div.content input.text {
     font-family:arial,verdana,sans-serif,helvetica;
@@ -561,11 +576,11 @@ a.document:hover {
 .input_text_ro {
     border:solid 1px blue;
     background:#EDEDED;
-    color:blue;
+    color:brown;
     margin:1px;
 }
 .input_text {
-    border:groove 1px blue;
+    border:solid 1px brown;
     margin:1px;
 }
 .input_text:hover {
@@ -584,7 +599,7 @@ fieldset fieldset legend {
     color:grey;
 }
 select {
-    border: 1px solid blue;
+    border: 1px solid brown;
     margin:2px;
     background-color:white;
 
@@ -798,7 +813,7 @@ div.pc_calendar td{
 }
 
 div.pc_calendar td.weekend {
-    background-color:#cce0e6;
+    background-color:#FCFFCC;
 
 }
 div.pc_calendar td.workday{
@@ -826,42 +841,13 @@ input[disabled], textarea[disabled], option[disabled], optgroup[disabled], selec
     cursor:inherit;
 }
 
-a#anchorbutton, .button, a.button,div.content a.button {
-    color:white;
-    font-weight: bold;
-    font-size:0.87em;
-    text-decoration:none;
-    font-family: arial,verdana,sans-serif,helvetica;
-    background-image: url("image/bg-submit2.gif");
-    background-repeat: repeat-x;
-    background-position: left;
-
-    border-style:  outset ;
-    border-color:  blue ;
-    border-width:0px;
-    padding:8px;
-    margin-top:3px;
-    cursor:pointer;
-    margin:1 2 1 2;
-    border-radius: 5px;
-    moz-border-radius:5px;
-
-}
-a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
-    cursor:pointer;
-    background-color:white;
-    border-style:  inset ;
-    color:red;
-    margin:1 2 1 2;
-
-}
-a#smallanchorbutton, .smallbutton, a.smallbutton,div.content a.smallbutton {
+a#anchorbutton, .button, a.button,div.content a.button,a#smallanchorbutton, .smallbutton, a.smallbutton,div.content a.smallbutton {
     color:white;
     font-weight: bold;
     font-size:0.75em;
     text-decoration:none;
     font-family: arial,verdana,sans-serif,helvetica;
-    background-image: url("image/bg-submit2.gif");
+    background-image: url("image/bg-submit4.gif");
     background-repeat: repeat-x;
     background-position: left;
 
@@ -875,11 +861,9 @@ a#smallanchorbutton, .smallbutton, a.smallbutton,div.content a.smallbutton {
     margin-top:3px;
     cursor:pointer;
     margin:1 2 1 2;
-    border-radius: 2px;
-    moz-border-radius:2px;
 
 }
-a#smallanchorbutton:hover, .smallbutton:hover,a.smallbutton:hover,div.content a.smallbutton:hover  {
+a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover,a#smallanchorbutton:hover, .smallbutton:hover,a.smallbutton:hover,div.content a.smallbutton:hover  {
     cursor:pointer;
     background-color:white;
     border-style:  inset ;
@@ -889,17 +873,16 @@ a#smallanchorbutton:hover, .smallbutton:hover,a.smallbutton:hover,div.content a.
 }
 td.tool {
     border: solid 1px gray;
-    background-color: white;
-    border-bottom-width: 2px;
+    border-bottom-width: 3px;
     text-align:center;
-    border-radius:2px;
+    
 }
 div.topmenu {
 
 }
 
 #dossier h2{
-    color:darkblue;
+    color:brown;
     display:inline;
     font-size:2em;
     margin:0px;
@@ -934,16 +917,12 @@ h2.gest_name {
     width: 40%;
 }
 body.op_detail_frame,div.op_detail_frame  {
-    background-color:#e4e7ed;
+    background-color:#FCEED4;
     height:100%; width:100%;
--moz-box-shadow: 10px 10px 5px #888;
--webkit-box-shadow: 10px 10px 5px #888;
-box-shadow: 10px 10px 5px #888;
-
 
 }
 div.inner_box  {
-    background-color:#e4e7ed;
+    background-color:#FCEED4;
     font-family:arial,verdana,sans-serif,helvetica;
     padding:0;
     margin:0;
@@ -952,9 +931,7 @@ div.inner_box  {
     position:absolute;
     left:10%;
     border:1px solid darkblue;
--moz-box-shadow: 10px 10px 5px #888;
--webkit-box-shadow: 10px 10px 5px #888;
-box-shadow: 10px 10px 5px #888;
+
 }
 div.op_detail_title {
     background-color:grey;
@@ -963,13 +940,8 @@ div.op_detail_title {
 
 }
 div#div_jrn{
-    position:absolute;
     border:1px solid black;
-    top:15%;left:100;
-    visibility:hidden;
-    z-index:2;
-    width:50em;
-    background-color:#EDF3FF;
+    background-color:#FCEED4;
 
 }
 div#div_cat{
@@ -995,7 +967,7 @@ div#search_form
     z-index:2;
     width:50%;
     display:none;
-    background-color:#e4e7ed;
+    background-color:#FCEED4;
 -moz-box-shadow: 10px 10px 5px #888;
 -webkit-box-shadow: 10px 10px 5px #888;
 box-shadow: 10px 10px 5px #888;
@@ -1016,7 +988,7 @@ table.info_op tr
 }
 h2#jrn_name
 {
-    color:blue;
+    color:brown;
     font-size:2.74em;
     margin-right:30%;
     float: right;
@@ -1096,7 +1068,7 @@ a.line,div.content a.line
    font-size:0.87em;
     text-decoration:underline;
     display:inline;
-    color: #0000ff;
+    color: #CC5343;
 }
 a.line:hover,div_content a.line
 {
@@ -1108,8 +1080,8 @@ a.line:hover,div_content a.line
 }
 #close_div
 {
-    background-color:white;
-    color:blue;
+    background-color:brown;
+    color:yellow;
     text-decoration:none;
     border:1px solid blue;
     margin-left: 2px;
@@ -1123,8 +1095,8 @@ a.line:hover,div_content a.line
 }
 #popmeout
 {
-    background-color:white;
-    color:blue;
+    background-color:brown;
+    color:yellow;
     text-decoration:none;
     border:1px solid blue;
     margin-left: 2px;
@@ -1186,15 +1158,6 @@ h1.title {
     color: blue;
     font-size:0.87em;
     font-style: italic;
-}
-h2.title {
-    background-color:#879ed4;
-    color:white;
-    font-size:1.34em;
-    text-align:center;
-    padding:0.24%;
-    border:1px solid darkblue;
-
 }
 h3.title {
     color: blue;
@@ -1261,7 +1224,7 @@ textarea.itextarea{
 }
 div#modele_op_div{
     display: none;
-    background-color:#e4e7ed;
+    background-color:#FCEED4;
     font-family:arial,verdana,sans-serif,helvetica;
     padding:0;
     margin:0;
@@ -1294,14 +1257,14 @@ div.bxbutton
     float:right;
     height:10px;
     display:block;
-    margin-top:0.48%;
+    margin-top:0.28%;
     margin-right:0.48%;
 }
 div.inner_box tr.odd {
-    background:  #CBD9F4;
+    background:  #FCFFCC;
 }
 #modele_op_tab tr.odd {
-    background:  #CBD9F4;
+    background:  #FCFFCC;
 }
 div#bookmark_div {
     background-color:#e4e7ed;
@@ -1360,6 +1323,6 @@ td.workday ol {
 }
 input.inum {
     text-align:right;
-    border:1px solid blue;
+    border:1px solid brown;
     margin:2px
 }

@@ -60,9 +60,9 @@ $g_captcha=false;
 $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 /* uncomment for development */
-// define ('SVNINFO',5900);
-// define ("DEBUG",true);
-define ("DEBUG",false);
+ define ('SVNINFO',5995);
+define ("DEBUG",true);
+//define ("DEBUG",false);
 
 $version_phpcompta=SVNINFO;
 // If you don't want to be notified of the update
@@ -183,7 +183,7 @@ define ("FICHE_TYPE_ACH_MAT",7);
  * libreoffice --headless --accept="socket,host=127.0.0.1,port=2002;urp;" --nofirststartwizard 
  */
 define ('OFFICE','unoconv ');
-define ('GENERATE_PDF','NO');
+define ('GENERATE_PDF','YES');
 
 define ('JS_INFOBULLE','
         <DIV id="bulle" class="infobulle"></DIV>

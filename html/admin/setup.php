@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 FINAL//EN"><HTML><HEAD>
-    <TITLE>PhpCompta - Mise à jour</TITLE>
+    <TITLE>Noaliss - Mise à jour</TITLE>
     <META http-equiv="Content-Type" content="text/html; charset=UTF8">
     </title>
 <head>
@@ -11,7 +11,7 @@
 </head>
 <body>
 <p align="center">
-  <IMG SRC="../image/logo7.png" alt="Logo PhpCompta">
+  <IMG SRC="../image/logo7.png" alt="Logo noaliss">
 </p>
 <?php
 

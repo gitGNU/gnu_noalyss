@@ -1,16 +1,12 @@
 /* <style type="text/css"> */
 
 BODY {
-    background-color:wheat;
-    background-image: url('image/orange_flower.gif');
+    background-color:#EDF3FF;
     font-family:arial,verdana,sans-serif,helvetica;
     padding: 0px 0px 0px 0px ;
     margin:0;
-    color:brown;
-    font-size:0.85em;
-    background-repeat:no-repeat;
-    background-attachment:fixed;
-    background-position:center; 
+    color:blue;
+    font-size:0.90em;
 }
 .notice {
     color:red;
@@ -18,7 +14,7 @@ BODY {
 }
 
 table.sortable, table.table_large, table.result  ,table.resultfooter {
-    color:brown;
+    color:blue;
     /* border:blue solid 1px; */
     width:100%;
     border-spacing:  0px;
@@ -33,9 +29,11 @@ table.resultfooter tfoot {
 table.sortable th,  table.table_large th,table.result th {
     font-weight:bold;
     font-family:arial,verdana,sans-serif,helvetica;
-    border-bottom:1px solid #7C2A1F;
+    border-bottom:1px solid blue;
     border-top:0;
     font-size:0.75em;;
+
+    color:#25238F;
     text-align: left;
     font-style: italic;
 
@@ -44,7 +42,7 @@ table.sortable th,  table.table_large th,table.result th {
 h2 {
     font-family:arial,verdana,sans-serif,helvetica;
     font-size:1.35em;
-    color:brown;
+    color:grey;
     margin:1px;
     padding:1px;
     font-style: italic;
@@ -72,23 +70,14 @@ redcontent h2.info {
     padding:0px;
     margin:0px;
 }
-h2.info,h2.title{
+h2.info {
+    background-color:#879ed4;
+    color:white;
     font-size:1.34em;
     text-align:center;
     padding:0px;
     margin:0px;
-    border-bottom: #CBD9F4 groove 2px;
-    background-color: #F7D9A5;
-    color:#7C2A1F;
-}
-div.welcome h2.info {
-    background-color: inherit;
-    color:inherit;
-    font-size:1.50em;
-    text-align:center;
-    padding:0px;
-    margin:0px;
-    border-bottom: solid 1px #FF0000;
+
 }
 
 
@@ -100,7 +89,7 @@ h3.info {
 }
 
 h2.info2 {
-    color:red;
+    color:blue;
     font-size:1em;;
     text-align:center;
 
@@ -157,7 +146,7 @@ td.tool a.mtitle:hover {
     display:inline;
     font-size:0.75em;;
     color: darkblue;
-    background-color:white;
+    background-color:#5D90CD;
 
 }
 #top {
@@ -271,8 +260,7 @@ table.document th{
 
 table.mtitle {
     border:0;
-    text-align:center;
-    min-width: 50%;
+    text-align:center
 }
 td.mshort {
     height:15px;
@@ -284,14 +272,12 @@ td.mshort {
 }
 td.mtitle {
     text-align:center;
+    width:95px;
     height :30px;
     font-size:0.75em;;
-    border-bottom:1px dashed #e08000;
-    border-collapse: collapse;
-    padding: 0;
-    margin: 0;
-    border-spacing: 0px;
-    background-color: wheat;
+    background-color:#DDE6FF;
+    border:1px solid #99B1DF;
+    border-radius:5px;
 }
 td.msubtitle {
     text-align:center;
@@ -315,7 +301,7 @@ span.even {
 }
 
 tr.odd {
-    background-color:#FCFFCC;
+    background-color:#DDE6FF;
     font-size:0.87em;;
 }
 tr.highlight {
@@ -327,7 +313,7 @@ tr.even {
   font-size:0.87em;;
 }
 td.odd{
-
+    background-color:#DDE6FF ;
 }
 td.even{
     border:0px;
@@ -338,18 +324,22 @@ td.cell{
     
 }
 td.selectedcell{
+    border-style:inset;
+    border-color:blue;
+    border-width:1pt ;
     font-size:1.2em;
     font-weight: bold;
-    color:red;
+    background:#5D90CD ;
+    color:white;
     text-align:center;
+    width:120px;
     border-radius:5px;
-    border-bottom: solid 4px #e08000;
-    background-color: wheat;
 }
-a.mtitle,a.mtitle:visited{
-    color:orangered;
+a.mtitle {
     text-decoration:none;
     display:inline;
+    color: blue;
+
 }
 a.mtitle:hover {
     text-decoration:none;
@@ -363,6 +353,7 @@ td.selectedcell a.mtitle,div.content td.selectedcell a.mtitle {
     font-size:0.75em;;
     text-decoration:none;
     display:block;
+    color:white;
 }
 a.dossier {
     font-size:0.75em;;
@@ -385,10 +376,8 @@ tr.even:hover td
 }
 td.mtitle:hover,td.mtitle:hover a
 {
-    background-color:#FCFFCC;
-    color:brown; 
-    border: solid 1px #e08000;
-    
+    background-color:#a9d6e4;
+    color:white;
 }
 td.msubtitle:hover,td.msubtitle:hover a
 {
@@ -410,13 +399,7 @@ a.cell:hover {
     text-decoration:none;
     display:block;
 }
-a.cell:visited {
-    font-size:0.75em;;
-    color:white;
-    background-color:#5D90CD;
-    text-decoration:none;
-    display:block;
-}
+
 
 a.one:link {
     text-decoration:none;
@@ -501,7 +484,7 @@ div.redcontent a.mtitle {
     display:inline;
 
 
-    color:#CC5343;
+    color:black;
 
 }
 
@@ -509,14 +492,14 @@ div.redcontent a.mtitle:hover {
     text-decoration:none;
     display:inline;
     color:white;
-    background-color:brown;
+    background-color:darkblue;
 
 
 }
 div.content a.mtitle {
     text-decoration:none;
     display:inline;
-    color:#CC5343;
+    color:blue;
 
 
 
@@ -525,7 +508,7 @@ div.content a.mtitle {
 div.content a.mtitle:hover {
     text-decoration:none;
     display:inline;
-    background-color:brown;
+    background-color:darkblue;
     color:white;
 
 
@@ -537,7 +520,7 @@ div.redcontent input.text {
     border-style:solid;
     background-color:orange;
     border-width:1px;
-    color:brown;
+    color:blue;
 }
 div.content input.text {
     font-family:arial,verdana,sans-serif,helvetica;
@@ -578,11 +561,11 @@ a.document:hover {
 .input_text_ro {
     border:solid 1px blue;
     background:#EDEDED;
-    color:brown;
+    color:blue;
     margin:1px;
 }
 .input_text {
-    border:solid 1px brown;
+    border:groove 1px blue;
     margin:1px;
 }
 .input_text:hover {
@@ -601,7 +584,7 @@ fieldset fieldset legend {
     color:grey;
 }
 select {
-    border: 1px solid brown;
+    border: 1px solid blue;
     margin:2px;
     background-color:white;
 
@@ -815,7 +798,7 @@ div.pc_calendar td{
 }
 
 div.pc_calendar td.weekend {
-    background-color:#FCFFCC;
+    background-color:#cce0e6;
 
 }
 div.pc_calendar td.workday{
@@ -843,13 +826,42 @@ input[disabled], textarea[disabled], option[disabled], optgroup[disabled], selec
     cursor:inherit;
 }
 
-a#anchorbutton, .button, a.button,div.content a.button,a#smallanchorbutton, .smallbutton, a.smallbutton,div.content a.smallbutton {
+a#anchorbutton, .button, a.button,div.content a.button {
+    color:white;
+    font-weight: bold;
+    font-size:0.87em;
+    text-decoration:none;
+    font-family: arial,verdana,sans-serif,helvetica;
+    background-image: url("image/bg-submit2.gif");
+    background-repeat: repeat-x;
+    background-position: left;
+
+    border-style:  outset ;
+    border-color:  blue ;
+    border-width:0px;
+    padding:8px;
+    margin-top:3px;
+    cursor:pointer;
+    margin:1 2 1 2;
+    border-radius: 5px;
+    moz-border-radius:5px;
+
+}
+a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
+    cursor:pointer;
+    background-color:white;
+    border-style:  inset ;
+    color:red;
+    margin:1 2 1 2;
+
+}
+a#smallanchorbutton, .smallbutton, a.smallbutton,div.content a.smallbutton {
     color:white;
     font-weight: bold;
     font-size:0.75em;
     text-decoration:none;
     font-family: arial,verdana,sans-serif,helvetica;
-    background-image: url("image/bg-submit4.gif");
+    background-image: url("image/bg-submit2.gif");
     background-repeat: repeat-x;
     background-position: left;
 
@@ -863,9 +875,11 @@ a#anchorbutton, .button, a.button,div.content a.button,a#smallanchorbutton, .sma
     margin-top:3px;
     cursor:pointer;
     margin:1 2 1 2;
+    border-radius: 2px;
+    moz-border-radius:2px;
 
 }
-a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover,a#smallanchorbutton:hover, .smallbutton:hover,a.smallbutton:hover,div.content a.smallbutton:hover  {
+a#smallanchorbutton:hover, .smallbutton:hover,a.smallbutton:hover,div.content a.smallbutton:hover  {
     cursor:pointer;
     background-color:white;
     border-style:  inset ;
@@ -875,17 +889,17 @@ a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover,a#
 }
 td.tool {
     border: solid 1px gray;
-    background-color: #F7F5C0;
-    border-bottom-width: 3px;
+    background-color: white;
+    border-bottom-width: 2px;
     text-align:center;
-    
+    border-radius:2px;
 }
 div.topmenu {
 
 }
 
 #dossier h2{
-    color:brown;
+    color:darkblue;
     display:inline;
     font-size:2em;
     margin:0px;
@@ -920,12 +934,16 @@ h2.gest_name {
     width: 40%;
 }
 body.op_detail_frame,div.op_detail_frame  {
-    background-color:#FCEED4;
+    background-color:#e4e7ed;
     height:100%; width:100%;
+-moz-box-shadow: 10px 10px 5px #888;
+-webkit-box-shadow: 10px 10px 5px #888;
+box-shadow: 10px 10px 5px #888;
+
 
 }
 div.inner_box  {
-    background-color:#FCEED4;
+    background-color:#e4e7ed;
     font-family:arial,verdana,sans-serif,helvetica;
     padding:0;
     margin:0;
@@ -934,7 +952,9 @@ div.inner_box  {
     position:absolute;
     left:10%;
     border:1px solid darkblue;
-
+-moz-box-shadow: 10px 10px 5px #888;
+-webkit-box-shadow: 10px 10px 5px #888;
+box-shadow: 10px 10px 5px #888;
 }
 div.op_detail_title {
     background-color:grey;
@@ -943,8 +963,13 @@ div.op_detail_title {
 
 }
 div#div_jrn{
+    position:absolute;
     border:1px solid black;
-    background-color:#FCEED4;
+    top:15%;left:100;
+    visibility:hidden;
+    z-index:2;
+    width:50em;
+    background-color:#EDF3FF;
 
 }
 div#div_cat{
@@ -970,7 +995,7 @@ div#search_form
     z-index:2;
     width:50%;
     display:none;
-    background-color:#FCEED4;
+    background-color:#e4e7ed;
 -moz-box-shadow: 10px 10px 5px #888;
 -webkit-box-shadow: 10px 10px 5px #888;
 box-shadow: 10px 10px 5px #888;
@@ -991,7 +1016,7 @@ table.info_op tr
 }
 h2#jrn_name
 {
-    color:brown;
+    color:blue;
     font-size:2.74em;
     margin-right:30%;
     float: right;
@@ -1071,7 +1096,7 @@ a.line,div.content a.line
    font-size:0.87em;
     text-decoration:underline;
     display:inline;
-    color: #CC5343;
+    color: #0000ff;
 }
 a.line:hover,div_content a.line
 {
@@ -1162,6 +1187,15 @@ h1.title {
     font-size:0.87em;
     font-style: italic;
 }
+h2.title {
+    background-color:#879ed4;
+    color:white;
+    font-size:1.34em;
+    text-align:center;
+    padding:0.24%;
+    border:1px solid darkblue;
+
+}
 h3.title {
     color: blue;
     font-size:0.87em;
@@ -1227,7 +1261,7 @@ textarea.itextarea{
 }
 div#modele_op_div{
     display: none;
-    background-color:#FCEED4;
+    background-color:#e4e7ed;
     font-family:arial,verdana,sans-serif,helvetica;
     padding:0;
     margin:0;
@@ -1264,10 +1298,10 @@ div.bxbutton
     margin-right:0.48%;
 }
 div.inner_box tr.odd {
-    background:  #FCFFCC;
+    background:  #CBD9F4;
 }
 #modele_op_tab tr.odd {
-    background:  #FCFFCC;
+    background:  #CBD9F4;
 }
 div#bookmark_div {
     background-color:#e4e7ed;
@@ -1326,6 +1360,6 @@ td.workday ol {
 }
 input.inum {
     text-align:right;
-    border:1px solid brown;
+    border:1px solid blue;
     margin:2px
 }

@@ -7,9 +7,21 @@
  */
 class FileToSend
 {
+    /** 
+     * @brief name of the file without path
+     */
     var $filename;
+    /**
+     *@brief mimetype of the file
+     */
     var $type;
+    /**
+     * path
+     */
     var $path;
+    /**
+     * Path to filename + filename
+     */
     var $full_name;
     function __construct($p_filename,$p_type="")
     {
@@ -25,7 +37,10 @@ class FileToSend
             
         }
     }
-    function guess_type()
+    /**
+     * set the $this->type to the mimetype, called from __construct
+     */
+    private function guess_type()
     {
         $ext_pos=  strrpos($this->filename,'.');
         if ( $ext_pos == false ) {
@@ -50,6 +65,13 @@ class FileToSend
             default:
                 $this->type="application/octect";
         }
+        
+    }
+    /**
+     * Compute properly the filename
+     */
+    function compute_name($p_filename)
+    {
         
     }
   
