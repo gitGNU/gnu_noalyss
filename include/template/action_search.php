@@ -135,7 +135,7 @@
 				</td>
 			</tr>
 		</table>
-		<input type="submit" class="button" name="submit_query" value="<?php echo  _('recherche')?>">
+		<input type="submit" class="smallbutton" name="submit_query" value="<?php echo  _('recherche')?>">
 		<input type="hidden" name="sa" value="list">
 
 		<?php echo  $supl_hidden?>

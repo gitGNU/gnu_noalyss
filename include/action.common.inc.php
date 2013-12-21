@@ -229,7 +229,7 @@ if ($sub_action == "list")
 	echo HtmlInput::request_to_hidden(array("closed_action","remind_date_end","remind_date","sag_ref", "remind_date","only_internal", "state", "gDossier", "qcode", "start_date", "end_date", "ag_id", "ag_dest_query",
 		"tdoc",   "query","date_start","date_end","hsstate","searchtag"));
 	echo HtmlInput::hidden("act", "CSV:ActionGestion");
-	echo HtmlInput::submit("follow_up_csv", "Export CSV");
+	echo HtmlInput::submit("follow_up_csv", "Export CSV",'','smallbutton');
 	echo "</form>";
 	Follow_Up::show_action_list($cn, $base);
 }

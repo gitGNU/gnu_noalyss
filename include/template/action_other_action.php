@@ -1,7 +1,7 @@
 
     
 <?php                
-    echo HtmlInput::button("other_bt", "Autres actions", 'onclick="$(\'other_div\').style.display=\'block\';action_show_checkbox();"', "button"); 
+    echo HtmlInput::button("other_bt", "Autres actions", 'onclick="$(\'other_div\').style.display=\'block\';action_show_checkbox();"', "smallbutton"); 
     $radio=new IRadio("othact");
    
 /*
