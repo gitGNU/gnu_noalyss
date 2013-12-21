@@ -71,7 +71,7 @@ class table_name_sql extends phpcompta_sql
  * @endcode
  *
  */
-class phpcompta_sql
+class Phpcompta_SQL
 {
 
 	function __construct(&$p_cn, $p_id = -1)

@@ -8,6 +8,22 @@ insert into profile_menu (me_code,me_code_dep,p_id,p_order, p_type_display,pm_de
 values
 ('MANAGER','GESTION',1,25,'E',0), ('MANAGER','GESTION',2,25,'E',0);
 
+insert into menu_ref(me_code,me_menu,me_file, me_url,me_description,me_parameter,me_javascript,me_type,me_description_etendue)
+values
+('CFGDEFMENU','Menu par défaut','default_menu.inc.php',null,'Configuration des menus par défaut',null,null,'ME','Configuration des menus par défaut, ces menus sont appelés par des actions dans d''autres menus');
+
+insert into profile_menu (me_code,me_code_dep,p_id,p_order, p_type_display,pm_default) 
+values
+('CFGDEFMENU','MOD',1,30,'E',0);
+
+
+create table menu_default
+(
+    md_id   serial primary key,
+    md_code text not null unique ,
+    me_code text not null
+);
+insert into menu_default (md_code,me_code) values ('code_invoice','COMPTA/VENMENU/VEN'),('code_follow','GESTION/FOLLOW');
 update menu_ref set me_file='customer.inc.php' where me_code ='CUST';
 
 update version set val=112;

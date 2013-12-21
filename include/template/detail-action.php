@@ -1,4 +1,3 @@
-
 <fieldset>
   <legend>
 <?php echo _('Informations générales')?>
@@ -364,8 +363,8 @@ function toggleShowDetail() {
      <div  style="position:float;float:left">
          <p>
          <?php
-         $query=  http_build_query(array('gDossier'=>Dossier::id(),'ag_id'=>$this->ag_id,'create_invoice'=>1,'ac'=>'VEN'));
-            echo HtmlInput::button_anchor("Transformer en facture","do.php?".$query,"create_invoice", "","button");
+            $query=  http_build_query(array('gDossier'=>Dossier::id(),'ag_id'=>$this->ag_id,'create_invoice'=>1,'ac'=>$menu->get('code_invoice')));
+            echo HtmlInput::button_anchor("Transformer en facture","do.php?".$query,"create_invoice", '  target="_blank" ',"button");
          ?>
          </p>
       </div>

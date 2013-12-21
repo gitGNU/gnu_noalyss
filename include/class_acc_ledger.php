@@ -3702,8 +3702,9 @@ class Acc_Ledger extends jrn_def_sql
                   left join vw_poste_qcode using(f_id)
                   where
                     ag_id=$1',array($p_ag_id));
-            $array['nb_item']=$this->db->size();
-            for ($i=0;$i<$array['nb_item'];$i++)
+            
+            $array['nb_item']=($this->nb > count($a_item))?$this->nb:count($a_item);
+            for ($i=0;$i<count($a_item);$i++)
             {
                 $array['e_march'.$i]=$a_item[$i]['j_qcode'];
                 $array['e_march'.$i.'_label']=$a_item[$i]['ad_text'];

@@ -38,7 +38,7 @@ require_once('class_inum.php');
 require_once 'class_sort_table.php';
 require_once 'class_irelated_action.php';
 require_once 'class_tag.php';
-
+require_once 'class_default_menu.php';
 /**
  * \file
  * \brief class_action for manipulating actions
@@ -521,6 +521,7 @@ class Follow_Up
 		$r.=$Hid->input("nb_item", $article_count);
 		$r.=HtmlInput::request_to_hidden(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "action_query", "tdoc", "date_start", "date_end", "hsstate","searchtag"));
                 $a_tag=$this->tag_get();
+                $menu=new Default_Menu();
 		/* get template */
 		ob_start();
 		require  'template/detail-action.php';

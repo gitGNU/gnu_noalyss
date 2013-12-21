@@ -29,14 +29,18 @@
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 ob_start();
 require_once 'class_follow_up.php';
+require_once 'class_default_menu.php';
+
 echo HtmlInput::title_box(_("Détail action"), $div);
 $act = new Follow_Up($cn);
 $act->ag_id = $ag_id;
 $act->get();
 if ($g_user->can_write_action($ag_id) == true || $g_user->can_read_action($ag_id) == true || $act->ag_dest == -1)
-{
+{   
+        $menu=new Default_Menu();
 	echo $act->Display('READ', false, "ajax", "");
-	$action=HtmlInput::array_to_string(array("gDossier","ag_id"), $_GET)."&ac=FOLLOW&sa=detail";
+	//$action=HtmlInput::array_to_string(array("gDossier","ag_id"), $_GET)."&ac=FOLLOW&sa=detail";
+        $action=  "do.php?".http_build_query(array("gDossier"=>Dossier::id(),"ag_id"=>$ag_id,"ac"=>$menu->get('code_follow'),"sa"=>"detail"));
 	if ( $_GET['mod']== 1) :
 	?>
 <a href="<?php echo $action?>" target="_blank" class="button">Modifier </a>
