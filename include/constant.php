@@ -60,8 +60,8 @@ $g_captcha=false;
 $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 /* uncomment for development */
- define ('SVNINFO',5995);
-define ("DEBUG",true);
+ //define ('SVNINFO',5995);
+define ("DEBUG",false);
 //define ("DEBUG",false);
 
 $version_phpcompta=SVNINFO;
