@@ -519,7 +519,7 @@ class Follow_Up
 		/* add the number of item */
 		$Hid = new IHidden();
 		$r.=$Hid->input("nb_item", $article_count);
-		$r.=HtmlInput::request_to_hidden(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate","searchtag"));
+		$r.=HtmlInput::request_to_hidden(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "action_query", "tdoc", "date_start", "date_end", "hsstate","searchtag"));
                 $a_tag=$this->tag_get();
 		/* get template */
 		ob_start();
@@ -693,7 +693,7 @@ class Follow_Up
 	function myList($p_base, $p_filter = "", $p_search = "")
 	{
 		// for the sort
-		$url = HtmlInput::get_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate","searchtag")) . '&' . $p_base;
+		$url = HtmlInput::get_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","qcode", "ag_dest_query", "action_query", "tdoc", "date_start", "date_end", "hsstate","searchtag")) . '&' . $p_base;
 
 		$table = new Sort_Table();
 		$table->add('Date Doc.', $url, 'order by ag_timestamp asc', 'order by ag_timestamp desc', 'da', 'dd');
@@ -772,7 +772,7 @@ class Follow_Up
 		//show the sub_action
 		foreach ($a_row as $row)
 		{
-			$href = '<A class="document" HREF="do.php?'  . $p_base .HtmlInput::get_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","gDossier", "qcode", "ag_dest_query", "query", "tdoc", "date_start", "date_end", "hsstate", "searchtag","ac"),"&") . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
+			$href = '<A class="document" HREF="do.php?'  . $p_base .HtmlInput::get_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","gDossier", "qcode", "ag_dest_query", "action_query", "tdoc", "date_start", "date_end", "hsstate", "searchtag","ac"),"&") . '&sa=detail&ag_id=' . $row['ag_id'] . '">';
 			$i++;
 			$tr = ($i % 2 == 0) ? 'even' : 'odd';
 			if ($row['ag_priority'] < 2)
@@ -1140,7 +1140,7 @@ class Follow_Up
 	 */
 	static function display_search($cn, $inner = false)
 	{
-		$a = (isset($_GET['query'])) ? $_GET['query'] : "";
+		$a = (isset($_GET['action_query'])) ? $_GET['action_query'] : "";
 		$qcode = (isset($_GET['qcode'])) ? $_GET['qcode'] : "";
 
 		$supl_hidden = '';
@@ -1286,15 +1286,15 @@ class Follow_Up
 			$p_array = $_GET;
 
 		extract($p_array);
-		$query = "";
+		$action_query = "";
 
 
-        if (isset($_REQUEST['query']))
+        if (isset($_REQUEST['action_query']))
 		{
 			// if a query is request build the sql stmt
-			$query = "and (ag_title ~* '" . sql_string($_REQUEST['query']) . "' " .
-					"or ag_ref ='" . trim(sql_string($_REQUEST['query'])) .
-					"' or ag_id in (select ag_id from action_gestion_comment where agc_comment ~* '" . trim(sql_string($_REQUEST['query'])) . "')" .
+			$action_query = "and (ag_title ~* '" . sql_string($_REQUEST['action_query']) . "' " .
+					"or ag_ref ='" . trim(sql_string($_REQUEST['action_query'])) .
+					"' or ag_id in (select ag_id from action_gestion_comment where agc_comment ~* '" . trim(sql_string($_REQUEST['action_query'])) . "')" .
 					")";
 		}
 
@@ -1316,15 +1316,15 @@ class Follow_Up
 		}
 		if (isset($tdoc) && $tdoc != -1)
 		{
-			$query .= ' and dt_id = ' . sql_string($tdoc);
+			$action_query .= ' and dt_id = ' . sql_string($tdoc);
 		}
 		if (isset($state) && $state!= -1)
 		{
-			$query .= ' and ag_state= ' . sql_string($state);
+			$action_query .= ' and ag_state= ' . sql_string($state);
 		}
         if (isset($hsstate) && $hsstate!= -1)
 		{
-			$query .= ' and ag_state <> ' . sql_string($hsstate);
+			$action_query .= ' and ag_state <> ' . sql_string($hsstate);
 		}
 		if (isset($sag_ref) && trim($sag_ref) != "")
 		{
@@ -1332,46 +1332,46 @@ class Follow_Up
 		}
 
 		if (isset($_GET['only_internal']))
-			$query .= ' and f_id_dest=0 ';
+			$action_query .= ' and f_id_dest=0 ';
 
 		if (isset($date_start) && isDate($date_start) != null)
 		{
-			$query.=" and ag_timestamp >= to_date('$date_start','DD.MM.YYYY')";
+			$action_query.=" and ag_timestamp >= to_date('$date_start','DD.MM.YYYY')";
 		}
 		if (isset($date_end) && isDate($date_end) != null)
 		{
-			$query.=" and ag_timestamp <= to_date('$date_end','DD.MM.YYYY')";
+			$action_query.=" and ag_timestamp <= to_date('$date_end','DD.MM.YYYY')";
 		}
 		if (isset($ag_dest_query) && $ag_dest_query != -2 )
 		{
-                    $query.= " and ((ag_dest = " . sql_string($ag_dest_query)." and ".self::sql_security_filter($cn, "R").") or ".
+                    $action_query.= " and ((ag_dest = " . sql_string($ag_dest_query)." and ".self::sql_security_filter($cn, "R").") or ".
 				" ag_owner='" . $_SESSION['g_user'] . "')";
 		}
 		else
 		{
-			$query .=" and (ag_owner='" . $_SESSION['g_user'] . "' or ".self::sql_security_filter($cn, "R")." or ag_dest=-1 )";
+			$action_query .=" and (ag_owner='" . $_SESSION['g_user'] . "' or ".self::sql_security_filter($cn, "R")." or ag_dest=-1 )";
 		}
 
 
 		if (isNumber($ag_id) == 1 && $ag_id != 0)
 		{
-			$query = " and ag_id= " . sql_string($ag_id);
+			$action_query = " and ag_id= " . sql_string($ag_id);
 		}
 		if ( isset($remind_date) && $remind_date != "" && isDate($remind_date)==$remind_date)
 		{
-			$query .= " and to_date('".sql_string($remind_date)."','DD.MM.YYYY')<= ag_remind_date";
+			$action_query .= " and to_date('".sql_string($remind_date)."','DD.MM.YYYY')<= ag_remind_date";
 		}
 		if ( isset($remind_date_end) && $remind_date_end != "" && isDate($remind_date_end)==$remind_date_end)
 		{
-			$query .= " and to_date('".sql_string($remind_date_end)."','DD.MM.YYYY')>= ag_remind_date";
+			$action_query .= " and to_date('".sql_string($remind_date_end)."','DD.MM.YYYY')>= ag_remind_date";
 		}
 		if ( ! isset ($closed_action)) {
-			$query.=" and s_status is null ";
+			$action_query.=" and s_status is null ";
 		}
                 if ( isset ($searchtag)) {
-                    $query .= Follow_Up::filter_by_tag($cn,$p_array);
+                    $action_query .= Follow_Up::filter_by_tag($cn,$p_array);
                 }
-		return $query . $str;
+		return $action_query . $str;
 	}
 
 	/**

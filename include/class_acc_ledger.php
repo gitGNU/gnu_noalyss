@@ -3677,6 +3677,44 @@ class Acc_Ledger extends jrn_def_sql
 		$array=$this->get_operation_date(Date('d.m.Y'), 'VEN', '<');
 		return $array;
 	}
+        function convert_from_follow($p_ag_id)
+        {
+            if (isNumber($p_ag_id)==0) return null;
+            
+            $array=array();
+            
+            // retrieve info from action_gestion
+            $tiers_id=$this->db->get_value('select f_id_dest from action_gestion where ag_id=$1',array($p_ag_id));
+            if ( $this->db->size() !=0 )
+                $qcode=$this->db->get_value('select j_qcode from vw_poste_qcode where f_id=$1',array($tiers_id));
+            else
+                $qcode="";
+            
+            $comment=$this->db->get_value('select ag_title from action_gestion where ag_id=$1',array($p_ag_id));
+            $array['e_client']=$qcode;
+            $array['e_comm']=$comment;
+            
+            // retrieve info from action_detail
+            $a_item=$this->db->get_array('select f_id,ad_text,ad_pu,ad_quant,ad_tva_id,ad_tva_amount,j_qcode 
+                    from 
+                  action_detail 
+                  left join vw_poste_qcode using(f_id)
+                  where
+                    ag_id=$1',array($p_ag_id));
+            $array['nb_item']=$this->db->size();
+            for ($i=0;$i<$array['nb_item'];$i++)
+            {
+                $array['e_march'.$i]=$a_item[$i]['j_qcode'];
+                $array['e_march'.$i.'_label']=$a_item[$i]['ad_text'];
+                $array['e_march'.$i.'_price']=$a_item[$i]['ad_pu'];
+                $array['e_march'.$i.'_tva_id']=$a_item[$i]['ad_tva_id'];
+                $array['e_march'.$i.'_tva_amount']=$a_item[$i]['ad_tva_amount'];
+                $array['e_quant'.$i]=$a_item[$i]['ad_quant'];
+                
+            }
+            return $array;
+                       
+        }
 
 }
 ?>

@@ -207,6 +207,20 @@ echo '<div class="content">';
         echo 'compute_all_ledger();';
         echo '</script>';
     }
+    else if ( isset ($_GET['create_invoice']))
+    {
+        $array=$Ledger->convert_from_follow($_GET ['ag_id']);
+        echo HtmlInput::hidden("ledger_type","VEN");
+	echo HtmlInput::hidden("ac",$_REQUEST['ac']);
+        echo HtmlInput::hidden("sa","p");
+        echo $Ledger->input($array);
+        echo '<div class="content">';
+        echo $Ledger->input_paid();
+        echo '</div>';
+        echo '<script>';
+        echo 'compute_all_ledger();';
+        echo '</script>';
+    }
     else
     {
         echo HtmlInput::hidden("ledger_type","VEN");

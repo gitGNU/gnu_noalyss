@@ -8,7 +8,7 @@
  * Hidden values for a previous search
  */
 echo HtmlInput::request_to_hidden(array("closed_action","remind_date_end","remind_date","sag_ref", "remind_date","only_internal", "state", "gDossier", "qcode", "start_date", "end_date", "ag_id", "ag_dest_query",
-		"tdoc",   "query","date_start","date_end","hsstate","searchtag"));
+		"tdoc",   "action_query","date_start","date_end","hsstate","searchtag"));
 ?>
 <div id="other_div" class="inner_box" style="width:40%;display: none">
     <?php echo HtmlInput::title_box('Actions sur plusieurs documents','other_div', 'hide') ?>

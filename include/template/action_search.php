@@ -108,7 +108,7 @@
 				<td><?php echo  $hsExcptype_state->input()?></td>
 			</tr>
 			<td style="text-align:right"><?php printf(_('contenant le mot'))?></td>
-			<td ><input class="input_text" style="width:100%" type="text" name="query" value="<?php echo  $a?>"></td>
+			<td ><input class="input_text" style="width:100%" type="text" name="action_query" value="<?php echo  $a?>"></td>
 			</tr>
 			<tr>
 				<td style="text-align:right"><?php echo  _('Type de document')?></td>

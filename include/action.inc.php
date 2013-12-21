@@ -25,7 +25,7 @@ if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once('class_ipopup.php');
 global $g_user;
 $retour=HtmlInput::button_anchor(_('Retour liste'),
-	HtmlInput::request_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","ac","gDossier","qcode","ag_dest_query","query","tdoc","date_start","date_end","hsstate","searchtag")));
+	HtmlInput::request_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","ac","gDossier","qcode","ag_dest_query","action_query","tdoc","date_start","date_end","hsstate","searchtag")));
 //-----------------------------------------------------
 // Follow_Up
 //-----------------------------------------------------

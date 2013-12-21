@@ -351,12 +351,25 @@ function toggleShowDetail() {
     <br>Total TVA
     <br>Total TVAC
  </div>
-<div>
+
  <?php if ( ! $readonly ) :  ?>
-    <input name="act" id="act_bt" class="button" value="<?php echo _('Actualiser')?>" onclick="compute_all_ledger();" type="button">
-     <input type="button" class="button" onclick="gestion_add_row()" value="Ajouter une ligne">
+    <div  style="position:float;float:right">
+    <input name="act" id="act_bt" class="smallbutton" value="<?php echo _('Actualiser')?>" onclick="compute_all_ledger();" type="button">
+     <input type="button" class="smallbutton" onclick="gestion_add_row()" value="Ajouter une ligne">
+     </div>
+     
 <?php endif; ?>         
 </div>
+<?php if ( $this->ag_id != 0 && ! $readonly) : ?>
+     <div  style="position:float;float:left">
+         <p>
+         <?php
+         $query=  http_build_query(array('gDossier'=>Dossier::id(),'ag_id'=>$this->ag_id,'create_invoice'=>1,'ac'=>'VEN'));
+            echo HtmlInput::button_anchor("Transformer en facture","do.php?".$query,"create_invoice", "","button");
+         ?>
+         </p>
+      </div>
+     <?php endif; ?>
 <?php endif; ?>
 </fieldset>
 <?php endif; ?>
