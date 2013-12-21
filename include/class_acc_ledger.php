@@ -3679,8 +3679,9 @@ class Acc_Ledger extends jrn_def_sql
 	}
         function convert_from_follow($p_ag_id)
         {
+            global $g_user;
             if (isNumber($p_ag_id)==0) return null;
-            
+            if (! $g_user->can_read_action($p_ag_id)) die ('Action non accessible');
             $array=array();
             
             // retrieve info from action_gestion
