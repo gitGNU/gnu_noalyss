@@ -109,6 +109,7 @@ if ($low_action == "list")
 	echo '<br>';
 	/* Add button */
 	$f_add_button = new IButton('add_card');
+        $f_add_button->class="smallbutton";
 	$f_add_button->label = _('Créer une nouvelle fiche');
 	$f_add_button->set_attribute('ipopup', 'ipop_newcard');
 	$f_add_button->set_attribute('win_refresh', 'yes');
