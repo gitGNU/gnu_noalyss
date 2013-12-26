@@ -275,9 +275,7 @@ td.mtitle {
     width:95px;
     height :30px;
     font-size:0.75em;;
-    background-color:#DDE6FF;
     border:1px solid #99B1DF;
-    border-radius:5px;
 }
 td.msubtitle {
     text-align:center;
@@ -325,13 +323,12 @@ td.cell{
 }
 td.selectedcell{
     border-color:blue;
-    border-width:1pt ;
+    border-width:1px ;
+    border-style:solid;
     font-weight: bold;
-    background:#5D90CD ;
-    color:white;
     text-align:center;
     width:120px;
-    border-radius:5px;
+    background-color:whitesmoke;
 }
 a.mtitle {
     text-decoration:none;
@@ -348,10 +345,11 @@ a.mtitle:hover {
 
 }
 td.selectedcell a.mtitle,div.content td.selectedcell a.mtitle {
-    font-size:0.75em;;
+    background-color:whitesmoke;
+    font-size:0.75em;
     text-decoration:none;
     display:block;
-    color:white;
+    color:black;
 }
 a.dossier {
     font-size:0.75em;;
@@ -837,12 +835,10 @@ a#anchorbutton, .button, a.button,div.content a.button {
     border-style:  outset ;
     border-color:  blue ;
     border-width:0px;
-    padding:8px;
+    padding:4px;
     margin-top:3px;
     cursor:pointer;
     margin:1 2 1 2;
-    border-radius: 5px;
-    moz-border-radius:5px;
 
 }
 a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
