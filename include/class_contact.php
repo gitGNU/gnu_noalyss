@@ -109,7 +109,7 @@ class contact extends Fiche
         $back_url=urlencode($_SERVER['REQUEST_URI']);
         if ( sizeof ($step_contact ) == 0 )
             return $r;
-
+        $idx=0;
         foreach ($step_contact as $contact )
         {
             $l_company=new Fiche($this->cn);
@@ -121,7 +121,9 @@ class contact extends Fiche
             {
 				$l_company_name=HtmlInput::card_detail($contact->strAttribut(ATTR_DEF_COMPANY),$l_company_name,'style="text-decoration:underline;"');
             }
-            $r.="<TR>";
+            $tr=($idx%2==0)?' <tr class="odd">':'<tr class="even">';
+            $idx++;
+            $r.=$tr;
             $qcode=$contact->strAttribut(ATTR_DEF_QUICKCODE);
             $r.='<TD>'.HtmlInput::card_detail($qcode)."</TD>";
             $r.="<TD>".$contact->strAttribut(ATTR_DEF_NAME)."</TD>";
