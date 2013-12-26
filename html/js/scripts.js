@@ -680,7 +680,7 @@ function removeDiv(elt)
 function waiting_box()
 {
     obj = {
-        id: 'wait_box', html: loading()
+        id: 'wait_box', html: '<h2 class="title">Chargement</h2>'+loading()
     };
     var y = calcy(posY);
     obj.style = fixed_position(posX, y) + ";width:200px";
@@ -688,7 +688,7 @@ function waiting_box()
         removeDiv('wait_box');
     }
     add_div(obj);
-    $('info_div').innerHTML = "Un instant";
+    $('info_div').innerHTML = 'Un instant';
     $('info_div').style.display = "block";
 
 }

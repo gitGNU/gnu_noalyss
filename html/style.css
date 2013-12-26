@@ -349,7 +349,6 @@ td.selectedcell a.mtitle,div.content td.selectedcell a.mtitle {
     font-size:0.75em;
     text-decoration:none;
     display:block;
-    color:black;
 }
 a.dossier {
     font-size:0.75em;;
@@ -1058,7 +1057,6 @@ div#wait_box
 }
 #wait_box h2
 {
-    color:black;
     text-align:center;
 }
 div#div_jrnsearch_op{
