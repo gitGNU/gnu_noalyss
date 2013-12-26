@@ -75,7 +75,7 @@ class contact extends Fiche
                     ad_id=1 and ad_value ~* '$p_search') ";
         }
         // Get The result Array
-        $step_contact=$this->GetAll($offset,$search.$extra_sql.$p_sql);
+        $step_contact=$this->get_by_category($offset,$search.$extra_sql.$p_sql);
 
 		if ( $all_contact == 0 ) return "";
         $r=$bar;

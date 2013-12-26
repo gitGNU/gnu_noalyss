@@ -102,7 +102,7 @@ class Fiche_Def
     * \brief  Get attribut of the fiche_def
     *
     */
-    function Get()
+    function get()
     {
         if ( $this->id == 0 )
             return 0;
@@ -127,7 +127,7 @@ class Fiche_Def
      *
      * \return an array of fiche_def object
      */
-    function GetAll()
+    function get_all()
     {
         $sql="select * from fiche_def ";
 
@@ -368,7 +368,7 @@ $order
      */
     function myList()
     {
-        $this->Get();
+        $this->get();
         echo '<H2 class="info">'.$this->id." ".$this->label.'</H2>';
 
         $step=$_SESSION['g_pagesize'];
@@ -759,7 +759,7 @@ $order
 		$r = "";
 		// Save the label
 
-		$this->Get();
+		$this->get();
 		$this->GetAttribut();
 		$r.= '<H2 class="info">' . $this->id . " " . h($this->label) . '</H2>';
 		$r.='<fieldset><legend>Données générales</legend>';

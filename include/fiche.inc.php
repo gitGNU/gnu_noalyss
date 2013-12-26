@@ -127,7 +127,7 @@ if ($array == null)
 $allcard = (isset($_GET['allcard'])) ? 1 : 0;
 if ( $allcard == 0 ){
 	$fiche_def=new Fiche_Def($cn,$_GET['cat']);
-	$fiche_def->Get();
+	$fiche_def->get();
 	echo h1($fiche_def->label,"");
 	echo h2($fiche_def->fd_description,"");
 }

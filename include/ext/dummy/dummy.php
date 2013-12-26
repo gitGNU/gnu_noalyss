@@ -42,7 +42,7 @@ echo '</FORM>';
 // get parce qu'on interroge
 if ( isset($_GET['display_prop'])){
 	$a=new Fiche($cn);
-	$prop=$a->toArray($_GET['fd_id']);
+	$prop=$a->to_array($_GET['fd_id']);
 	foreach ($prop as $key=>$value) 	echo "Index : $key valeur $value <br/>";
 	
 	echo '<form method="POST" action="extension.php"  enctype="multipart/form-data">';
@@ -70,7 +70,7 @@ if ( isset($_POST['start_import'])){
 	// On récupère les propriétés de cette catégorie de fiche
 	$client=new Fiche($cn);
 	// $array contient toutes les valeurs nécessaires à Fiche::insert,
-	$array=$client->toArray($_POST['fd_id']);
+	$array=$client->to_array($_POST['fd_id']);
 		
 	while ( ($data=fgetcsv($f))==true) {
 		// remarque : on a éliminé les traitements d'erreur

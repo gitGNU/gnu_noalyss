@@ -396,7 +396,7 @@ class Fiche
      *\exception Exception if the cat of card doesn't exist, Exception.getCode()=1
      *\see fiche::insert()
      */
-    function toArray($pfd_id)
+    function to_array($pfd_id)
     {
         $sql="select 'av_text'||to_char(ad_id,'9999') as key,".
              " ad_text ".
@@ -426,7 +426,7 @@ class Fiche
     {
         // array = array of attribute object sorted on ad_id
         $f=new Fiche_Def($this->cn,$p_fiche_def);
-        $f->Get();
+        $f->get();
         $array=$f->getAttribut();
         $r=h2('Catégorie '.$f->label,"");
         $r.='<table style="width:98%;margin:1%">';
@@ -995,7 +995,7 @@ class Fiche
         // Get the fiche_def.fd_id from fiche.f_id
         $this->Get();
         $fiche_def=new Fiche_Def($this->cn,$this->fiche_def);
-        $fiche_def->Get();
+        $fiche_def->get();
 
         // if the card is used do not removed it
         $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
@@ -1051,7 +1051,7 @@ class Fiche
      * \param $p_search sql condition
      * \return array of fiche object
      */
-    function GetAll($p_offset=-1,$p_search="",$p_order='')
+    function get_by_category($p_offset=-1,$p_search="",$p_order='')
     {
         return fiche::GetByDef($this->fiche_def_ref,$p_offset,$p_search,$p_order);
     }
@@ -1557,7 +1557,7 @@ class Fiche
                      ad_id in (1,32,30,23,18,13) and ad_value ~* '$p_search')";
         }
         // Get The result Array
-        $step_tiers=$this->GetAll($offset,$search.$filter_amount,'name');
+        $step_tiers=$this->get_by_category($offset,$search.$filter_amount,'name');
 
         if ( $all_tiers == 0 || count($step_tiers)==0 ) return "";
         $r="";
@@ -1912,7 +1912,7 @@ class Fiche
         echo '</form>';
         if ( isset ($_GET['go_card']))
         {
-            $empty=$a->toArray($_GET['fd_id']);
+            $empty=$a->to_array($_GET['fd_id']);
             print_r($empty);
         }
     }
