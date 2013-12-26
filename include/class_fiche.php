@@ -310,7 +310,6 @@ class Fiche
         }
 
         $Ret=$this->cn->exec_sql($sql);
-
         if ( ($Max=Database::num_row($Ret)) == 0 )
             return ;
         $all[0]=new Fiche($this->cn);
@@ -1536,7 +1535,7 @@ class Fiche
 
         if ( $p_amount) $filter_amount=' and f_id in (select f_id from jrnx where  '.$filter_year.')';
 
-        $all_tiers=$this->count_by_modele($this->fiche_def_ref,$p_search,$p_sql.$filter_amount);
+        $all_tiers=$this->count_by_modele($this->fiche_def_ref,"",$p_sql.$filter_amount);
         // Get offset and page variable
         $offset=( isset ($_REQUEST['offset'] )) ?$_REQUEST['offset']:0;
         $page=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
@@ -1553,9 +1552,9 @@ class Fiche
         if ( trim($p_search) != "" )
         {
             $search.=" and f_id in
-                     (select f_id from fiche_detail
+                     (select distinct f_id from fiche_detail
                      where
-                     ad_id=1 and ad_value ~* '$p_search')";
+                     ad_id in (1,32,30,23,18,13) and ad_value ~* '$p_search')";
         }
         // Get The result Array
         $step_tiers=$this->GetAll($offset,$search.$filter_amount,'name');
