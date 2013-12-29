@@ -1,5 +1,5 @@
 <!-- left div -->
-<div style="float:right;width: 49%">
+<div style="float:right;max-width: 49%">
 
 <?php
 
@@ -252,7 +252,7 @@ for($i=0;$i<count($last_ledger);$i++):
 </div>
 
 </div>
-<div style="float:right;width: 49%">
+<div style="float:right;max-width: 49%">
     
 <div style="float:left;width: 100%">
 <fieldset >
