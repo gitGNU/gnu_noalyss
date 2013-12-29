@@ -349,6 +349,7 @@ td.selectedcell a.mtitle,div.content td.selectedcell a.mtitle {
     font-size:0.75em;
     text-decoration:none;
     display:block;
+    color:darkblue;
 }
 a.dossier {
     font-size:0.75em;;
