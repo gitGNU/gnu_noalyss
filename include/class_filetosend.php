@@ -72,7 +72,9 @@ class FileToSend
      */
     function compute_name($p_filename)
     {
-        
+        /**
+         * @todo compute a filename
+         */
     }
   
 }
