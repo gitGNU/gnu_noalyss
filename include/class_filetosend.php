@@ -63,7 +63,7 @@ class FileToSend
                 $this->type="application/zip";
                 break;
             default:
-                $this->type="application/octect";
+                $this->type="application/octet";
         }
         
     }
@@ -72,7 +72,9 @@ class FileToSend
      */
     function compute_name($p_filename)
     {
-        
+        /**
+         * @todo compute a filename
+         */
     }
   
 }

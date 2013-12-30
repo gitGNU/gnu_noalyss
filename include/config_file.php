@@ -62,7 +62,7 @@ function config_file_form($p_array=null)
         /* default value */
         $ctmp=($os==1)?'/tmp':'c:/tmp';
         $cpath=($os==1)?'/usr/bin':'c:/phpcompta/postgresql/bin';
-        $cuser='phpcompta';
+        $cuser='phpcompta_sql';
         $cpasswd='dany';
         $cport=5432;
         $cdomain='';
