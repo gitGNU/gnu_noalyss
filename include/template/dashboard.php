@@ -259,7 +259,7 @@ for($i=0;$i<count($last_ledger);$i++):
 <legend><?php echo _('Calendrier')?>
 </legend>
 <?php echo HtmlInput::calendar_zoom($obj); ?>
-<?php echo $cal->display(); ?>
+<?php echo $cal->display('short'); ?>
 </fieldset>
 </div>
 <!-- Mini rapport -->

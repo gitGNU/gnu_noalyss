@@ -147,12 +147,16 @@ class Calendar
         }
     }
     /*!\brief display a calendar after a call to Calendar::fill
-     *\param none
+     *\param $p_type long or short
+     * 
      *\return HTML String
      */
-    function display()
+    function display($p_type)
     {
         global $g_user;
+        if  ($p_type != 'long' && $p_type != 'short') {
+            throw new Exception("Calendar::display, unknow type");
+        }
         $exercice_user=$g_user->get_exercice();
         /* day */
         $cell=array();
@@ -164,17 +168,18 @@ class Calendar
         /* weekday */
         $week=array(_('Dimanche'),_('Lundi'),_('Mardi'),_('Mercredi'),_('Jeudi'),_('Vendredi'),_('Samedi'));
 
-        $this->fill_from_action($cell,"short");
-        $this->fill_from_todo($cell,"short");
+        $this->fill_from_action($cell,$p_type);
+        $this->fill_from_todo($cell,$p_type);
         $wMonth=new ISelect('per');
         $cn=new Database(dossier::id());
         $wMonth->value=$cn->make_array("select p_id,to_char(p_start,'MM/YYYY') from parm_periode where p_exercice = '$exercice_user' order by p_start");
         $wMonth->selected=$this->default_periode;
         $wMonth->javascript="onchange=change_month(this)";
         $wMonth->set_attribute('gDossier',dossier::id());
+        $wMonth->set_attribute('type_display',$p_type);
         $month_year=$wMonth->input().$wMonth->get_js_attr();
         ob_start();
-        $zoom=0;
+        $zoom=($p_type=='short')?0:1;
         require_once('template/calendar.php');
 
 		if (count($this->action_div) > 0)
