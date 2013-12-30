@@ -126,7 +126,7 @@ EOF;
 		$cal->set_periode($per);
 
 		$html = "";
-		$html = $cal->display();
+		$html = $cal->display($_GET['t']);
 		$html = escape_xml($html);
 		header('Content-type: text/xml; charset=UTF-8');
 		echo <<<EOF

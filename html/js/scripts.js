@@ -342,7 +342,7 @@ function getNodeText(xmlNode)
  */
 function change_month(obj)
 {
-    var queryString = "gDossier=" + obj.gDossier + "&op=cal" + "&per=" + obj.value;
+    var queryString = "gDossier=" + obj.gDossier + "&op=cal" + "&per=" + obj.value+"&t="+obj.type_display;
     var action = new Ajax.Request(
             "ajax_misc.php", {method: 'get', parameters: queryString, onFailure: ajax_misc_failure, onSuccess: success_misc}
     );
