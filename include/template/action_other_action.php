@@ -54,7 +54,7 @@ echo HtmlInput::request_to_hidden(array("closed_action","remind_date_end","remin
     </ul>
         
 <?php
-    echo HtmlInput::submit("other_action_bt", "Valider");
+    echo HtmlInput::submit("other_action_bt", _("Valider"));
 ?>
 </div>
 <script>
