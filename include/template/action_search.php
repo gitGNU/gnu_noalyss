@@ -139,7 +139,7 @@
 		<input type="hidden" name="sa" value="list">
 
 		<?php echo  $supl_hidden?>
-		<?php echo HtmlInput::button_anchor(_('Fermer'), 'javascript:void(0)', 'fsearch_form', 'onclick="$(\'search_action\').style.display=\'none\';"');?>
+		<?php echo HtmlInput::button_anchor(_('Fermer'), 'javascript:void(0)', 'fsearch_form', 'onclick="$(\'search_action\').style.display=\'none\';"','smallbutton');?>
 	</form>
 </div>
 
