@@ -1,16 +1,16 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Translation file 
+# Copyright (C) 2014
+# This file is distributed under the same license as the NOLAYSS package.
+# Dany De Bontridder <danydb@aevalys.eu>
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: NOALYSS 6.8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-05-09 01:32+0200\n"
-"PO-Revision-Date: 2012-05-09 01:33+0100\n"
+"PO-Revision-Date: 2014-01-04 02:58+0100\n"
 "Last-Translator: Dany De Bontridder <dany@alchimerys.be>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: ENGLISH <danydb@noalyss.eu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -8388,56 +8388,57 @@ msgid "Grand'Livre"
 msgstr "Great ledger"
 
 #: include/menu_translate.php:4
+#, fuzzy
 msgid "Grand livre d'plan analytique"
 msgstr ""
 
 #: include/menu_translate.php:55
 msgid "Ecriture d'ouverture"
-msgstr ""
+msgstr "Opening"
 
 #: include/menu_translate.php:56
 msgid "Historique achat"
-msgstr ""
+msgstr "Buy log"
 
 #: include/menu_translate.php:57
 msgid "Courrier"
-msgstr ""
+msgstr "mail"
 
 #: include/menu_translate.php:57
 msgid "Suivi, courrier, devis"
-msgstr ""
+msgstr "Follow up"
 
 #: include/menu_translate.php:59
 msgid "Extensions (plugins)"
-msgstr ""
+msgstr "Plugin"
 
 #: include/menu_translate.php:60
 msgid "Config. modèle de document"
-msgstr ""
+msgstr "Template of document parameters"
 
 #: include/menu_translate.php:61
 msgid "journaux"
-msgstr ""
+msgstr "ledger"
 
 #: include/menu_translate.php:61
 msgid "Configuration des journaux"
-msgstr ""
+msgstr "ledger parameter"
 
 #: include/menu_translate.php:62
 msgid "Ecriture prédefinie"
-msgstr ""
+msgstr "Predefined accounting"
 
 #: include/menu_translate.php:62
 msgid "Gestion des opérations prédéfinifies"
-msgstr ""
+msgstr "Manage predefined accounting"
 
 #: include/menu_translate.php:63
 msgid "Menu avancé"
-msgstr ""
+msgstr "Menu Advanced"
 
 #: include/menu_translate.php:64
 msgid "Compta Analytique"
-msgstr ""
+msgstr "Analytic accountancy"
 
 #: include/menu_translate.php:64
 msgid "Module comptabilité analytique"
