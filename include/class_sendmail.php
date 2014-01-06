@@ -120,6 +120,7 @@ class Sendmail
             $headers .= "Content-Type: " . $file->type . "; name=\"" . $file->filename . "\"" . $eol;
             $headers .= "Content-Disposition: attachment; filename=\"" . $file->filename . "\"" . $eol;
             $headers .= "Content-Transfer-Encoding: base64" . $eol;
+            $header.=$eol;
             $headers .= $content . $eol . $eol;
         }
         $headers .= "--" . $separator . "--";
