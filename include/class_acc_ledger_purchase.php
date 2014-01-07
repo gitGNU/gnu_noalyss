@@ -260,10 +260,12 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 
     }
     /**
+     * Compute the ND amount thanks the attribute of the concerned card. The object 
+     * $p_nd_amount will changed
      * 
-     * @param Acc_Compute $p_nd_amount
-     * @param Fiche $p_fiche
-     * @param type $p_tva_both
+     * @param Acc_Compute $p_nd_amount object with ND amount
+     * @param Fiche $p_fiche Concerned Card (purchase items)
+     * @param type $p_tva_bot 0 TVA on one side, 1 TVA on both side
      */
     private function compute_no_deductible(Acc_Compute $p_nd_amount, Fiche $p_fiche, $p_tva_both)
     {
@@ -292,11 +294,11 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         }
     }
     /**
-     * 
-     * @param Acc_Compute $p_nd_amount
-     * @param Fiche $p_fiche
-     * @param type $p_tva_both
-     * @param type $p_tot_debit
+     * Insert into JRNX the No Deductible amount
+     * @param Acc_Compute $p_nd_amount content ND amount
+     * @param Fiche $p_fiche Card of the Service
+     * @param type $p_tva_both  0 if TVA is normal or 1 if on both side
+     * @param type $p_tot_debit total debit
      */
     private function insert_no_deductible(Acc_Compute $p_nd_amount, Fiche $p_fiche, $p_tva_both,&$p_tot_debit,$p_acc_operation)
     {
