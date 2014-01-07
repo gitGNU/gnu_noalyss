@@ -3717,6 +3717,16 @@ class Acc_Ledger extends jrn_def_sql
             return $array;
                        
         }
+        /**
+         * Retrieve the label of an accounting
+         * @param $p_value tmp_pcmn.pcm_val
+         * @return string
+         */
+        protected function find_label($p_value)
+        {
+            $lib=$this->db->get_value('select pcm_lib from tmp_pcmn where pcm_val=$1',array($p_value));
+            return $lib;
+        }
 
 }
 ?>

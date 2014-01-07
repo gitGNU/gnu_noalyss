@@ -293,6 +293,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $p_nd_amount->compute_ndded_vat();
         }
     }
+
     /**
      * Insert into JRNX the No Deductible amount
      * @param Acc_Compute $p_nd_amount content ND amount
@@ -325,7 +326,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $p_acc_operation->amount = $p_nd_amount->amount_nd_rate ;
             $p_acc_operation->poste = $dna;
             $p_acc_operation->qcode = '';
-
+            $p_acc_operation->desc=$this->find_label($dna)." ND ".$p_fiche->strAttribut(ATTR_DEF_QUICKCODE);
             if ($p_nd_amount->amount_nd_rate > 0)
                 $p_tot_debit = bcadd($p_tot_debit, $p_nd_amount->amount_nd_rate);
             $j_id = $p_acc_operation->insert_jrnx();
@@ -351,6 +352,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $p_acc_operation->amount = $p_nd_amount->amount_perso ;
             $p_acc_operation->poste = $dna;
             $p_acc_operation->qcode = '';
+            $p_acc_operation->desc=$this->find_label($dna)." ND_PRIV ".$p_fiche->strAttribut(ATTR_DEF_QUICKCODE);
             if ($p_nd_amount->amount_perso> 0)
                 $p_tot_debit = bcadd($p_tot_debit, $p_nd_amount->amount_perso);
             $j_id = $p_acc_operation->insert_jrnx();
@@ -373,7 +375,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 
             $p_acc_operation->amount = $p_nd_amount->nd_vat;
             $p_acc_operation->poste = $dna;
-            
+            $p_acc_operation->desc=$this->find_label($dna)." ND_TVA ".$p_fiche->strAttribut(ATTR_DEF_QUICKCODE);
             $j_id = $p_acc_operation->insert_jrnx();
         }
         if ($p_nd_amount->nd_ded_vat != 0)
@@ -395,6 +397,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $p_acc_operation->qcode = '';
             $p_acc_operation->amount = $p_nd_amount->nd_ded_vat;
             $p_acc_operation->poste = $dna;
+            $p_acc_operation->desc=$this->find_label($dna)." DED_TVA ".$p_fiche->strAttribut(ATTR_DEF_QUICKCODE);
             if ($p_nd_amount->nd_ded_vat > 0)
                 $p_tot_debit = bcadd($p_tot_debit, $p_nd_amount->nd_ded_vat);
             $j_id = $p_acc_operation->insert_jrnx();
