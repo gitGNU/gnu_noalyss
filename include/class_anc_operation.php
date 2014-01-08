@@ -59,7 +59,7 @@ class Anc_Operation
     /**
      * @brief signed of the amount
      */
-    var $oa_signed;
+    var $oa_positive;
     
     /*!\brief constructor
      *
@@ -69,7 +69,7 @@ class Anc_Operation
         $this->db=$p_cn;
         $this->id=$p_id;
         $this->oa_jrnx_id_source=null;
-        $this->oa_signed='Y';
+        $this->oa_positive='Y';
     }
     /*!\brief add a row  to the table operation_analytique
      * \note if $this->oa_group if 0 then a sequence id will be computed for
@@ -97,7 +97,7 @@ class Anc_Operation
         if ( $this->oa_amount< 0) 
         {
             $this->oa_debit=($this->oa_debit=='t')?'f':'t';
-            $this->oa_signed='N';
+            $this->oa_positive='N';
         }
         
         $oa_row=(isset($this->oa_row))?$this->oa_row:null;
@@ -111,7 +111,7 @@ class Anc_Operation
              oa_date,
              oa_row,
              oa_jrnx_id_source,
-             oa_signed
+             oa_positive
              ) values ($1,$2,$3,$4,$5,$6,to_date($7,'DD.MM.YYYY'),$8,$9,$10)";
 
         $this->db->exec_sql($sql,array(
@@ -124,7 +124,7 @@ class Anc_Operation
                 $this->oa_date, //7
                 $oa_row, //8
                 $this->oa_jrnx_id_source, //8
-                $this->oa_signed
+                $this->oa_positive
                 ));
 
     }
@@ -326,7 +326,7 @@ class Anc_Operation
              oa_date,
              pa_id,
              oa_row,
-             oa_signed
+             oa_positive
              from operation_analytique join poste_analytique using (po_id)
              where
              j_id=$p_jid order by j_id,oa_row,pa_id";
@@ -779,7 +779,7 @@ class Anc_Operation
         $idx_pa=0;
         for ($i=0;$i < count($p_array);$i++)
         {
-            $val[$p_line][$p_array[$i]->oa_row]=($p_array[$i]->oa_signed=='Y')?$p_array[$i]->oa_amount:($p_array[$i]->oa_amount*(-1));
+            $val[$p_line][$p_array[$i]->oa_row]=($p_array[$i]->oa_positive=='Y')?$p_array[$i]->oa_amount:($p_array[$i]->oa_amount*(-1));
         }
         $result['val']=$val;
         return $result;
