@@ -201,7 +201,7 @@ div.searchmenu {
 
 div.recherche_form{
     width:700px;
-    font-size:0.75em;;
+    font-size:0.75em;
     font-family:arial,verdana,sans-serif,helvetica;
     border-style:outset;
     border-width:1px;
@@ -212,7 +212,6 @@ div.redcontent{
     float:left;
     padding-top:7px;
     padding-left:8px;
-    font-size:0.75em;;
     font-family:arial,verdana,sans-serif,helvetica;
     width:75%;
 
