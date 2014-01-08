@@ -295,14 +295,24 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
     }
 
     /**
-     * Insert into JRNX the No Deductible amount
+     * Insert into JRNX the No Deductible amount and into Analytic Accountancy for the ND VAT
      * @param Acc_Compute $p_nd_amount content ND amount
      * @param Fiche $p_fiche Card of the Service
      * @param type $p_tva_both  0 if TVA is normal or 1 if on both side
      * @param type $p_tot_debit total debit
+     * @param $p_acc_operation Acc_Operation for inserting into jrnx
+     * @param $p_group group for AC
+     * @param $idx row number
+     * 
+     * @see Acc_Ledger_Purchase::insert
      */
-    private function insert_no_deductible(Acc_Compute $p_nd_amount, Fiche $p_fiche, $p_tva_both,&$p_tot_debit,$p_acc_operation)
+    private function insert_no_deductible(Acc_Compute $p_nd_amount, Fiche $p_fiche, $p_tva_both,&$p_tot_debit,Acc_Operation $p_acc_operation,$p_group,$idx)
     {
+        global $g_parameter;
+        if ($p_acc_operation->jrnx_id == 0) {
+            throw new Exception(__FILE__.__LINE__.'invalid acc_operation.j_id');
+        }
+        $source_j_id=$p_acc_operation->jrnx_id ;
         $p_nd_amount->correct();
         /*
          * Save all the no deductible
@@ -377,6 +387,18 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $p_acc_operation->poste = $dna;
             $p_acc_operation->desc=$this->find_label($dna)." ND_TVA ".$p_fiche->strAttribut(ATTR_DEF_QUICKCODE);
             $j_id = $p_acc_operation->insert_jrnx();
+            if ( $g_parameter->MY_ANALYTIC != "nu" )
+            {
+                $op=new Anc_Operation($this->db);
+                $op->oa_group=$p_group;
+                $op->j_id=$j_id;
+                $op->oa_date=$p_acc_operation->date;
+
+                $op->oa_debit=($p_nd_amount->nd_vat > 0 )?'t':'f';
+                $op->oa_description=sql_string('ND_TVA');
+                $op->oa_jrnx_id_source=$source_j_id;
+                $op->save_form_plan_vat_nd($_POST,$idx,$j_id,$p_nd_amount->nd_vat,$p_acc_operation->jrnx_id);
+            }
         }
         if ($p_nd_amount->nd_ded_vat != 0)
         {
@@ -401,6 +423,18 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             if ($p_nd_amount->nd_ded_vat > 0)
                 $p_tot_debit = bcadd($p_tot_debit, $p_nd_amount->nd_ded_vat);
             $j_id = $p_acc_operation->insert_jrnx();
+           if ( $g_parameter->MY_ANALYTIC != "nu" )
+            {
+                $op=new Anc_Operation($this->db);
+                $op->oa_group=$p_group;
+                $op->j_id=$j_id;
+                $op->oa_date=$p_acc_operation->date;
+
+                $op->oa_debit=($p_nd_amount->nd_ded_vat > 0 )?'t':'f';
+                $op->oa_description=sql_string('DED_TVA ');
+                $op->oa_jrnx_id_source=$source_j_id;
+                $op->save_form_plan_vat_nd($_POST,$idx,$j_id,$p_nd_amount->nd_ded_vat);
+            }
         }
     }
 
@@ -543,9 +577,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 /* compute ND */
                 $this->compute_no_deductible($acc_amount, $fiche, $tva_both);
 
-                /* insert ND */
-                $this->insert_no_deductible($acc_amount, $fiche, $tva_both, $tot_debit,$acc_operation);
-
+                
 
               
                 $tot_amount=bcadd($tot_amount,$amount);
@@ -571,6 +603,9 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $acc_operation->qcode=${"e_march".$i};
                 if( $acc_amount->amount > 0 ) $tot_debit=bcadd($tot_debit,$acc_amount->amount);
                 $j_id=$acc_operation->insert_jrnx();
+                
+                /* insert ND */
+                $this->insert_no_deductible($acc_amount, $fiche, $tva_both, $tot_debit,$acc_operation,$group,$i);
 
                 
                 /* Compute sum vat */
@@ -605,8 +640,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     $op->oa_group=$group;
                     $op->j_id=$j_id;
                     $op->oa_date=$e_date;
-
-                    $op->oa_debit=($amount > 0 )?'t':'f';
+                    $op->oa_debit='t';
                     $op->oa_description=sql_string($e_comm);
                     $op->save_form_plan($_POST,$i,$j_id);
                 }

@@ -50,7 +50,17 @@ class Anc_Operation
     var $oa_group;   /*!< group of operation  */
     var $oa_date;	   /*!< equal to j_date if j_id is not	  null */
     var $pa_id;	/*!< the plan analytique id */
-
+    /**
+     * In the case, the amount comes from a ND VAT, the variable
+     * contents the jrnx.j_id of the source which was used to compute 
+     * the amount
+     */
+    var $oa_jrnx_id_source; 
+    /**
+     * @brief signed of the amount
+     */
+    var $oa_signed;
+    
     /*!\brief constructor
      *
      */
@@ -58,6 +68,8 @@ class Anc_Operation
     {
         $this->db=$p_cn;
         $this->id=$p_id;
+        $this->oa_jrnx_id_source=null;
+        $this->oa_signed='Y';
     }
     /*!\brief add a row  to the table operation_analytique
      * \note if $this->oa_group if 0 then a sequence id will be computed for
@@ -74,35 +86,46 @@ class Anc_Operation
 
         if ( $this->j_id == 0 )
         {
-            $this->j_id="null";
+            $this->j_id=null;
         }
 
 
         // we don't save null operations
         if ( $this->oa_amount == 0 || $this->po_id==-1)
             return;
-
-        $oa_row=(isset($this->oa_row))?$this->oa_row:"NULL";
-        $sql='insert into operation_analytique (
-             po_id,
+        
+        if ( $this->oa_amount< 0) 
+        {
+            $this->oa_debit=($this->oa_debit=='t')?'f':'t';
+            $this->oa_signed='N';
+        }
+        
+        $oa_row=(isset($this->oa_row))?$this->oa_row:null;
+        $sql="insert into operation_analytique (
+             po_id, 
              oa_amount,
              oa_description,
              oa_debit,
              oa_group,
              j_id,
              oa_date,
-             oa_row
-             ) values ('.
-             $this->po_id.",".
-             $this->oa_amount.",".
-             "' ".Database::escape_string($this->oa_description)."',".
-             "'".$this->oa_debit."',".
-             $this->oa_group.",".
-             $this->j_id.",".
-             "to_date('".$this->oa_date."','DD.MM.YYYY'),".$oa_row.")";
+             oa_row,
+             oa_jrnx_id_source,
+             oa_signed
+             ) values ($1,$2,$3,$4,$5,$6,to_date($7,'DD.MM.YYYY'),$8,$9,$10)";
 
-
-        $this->db->exec_sql($sql);
+        $this->db->exec_sql($sql,array(
+                $this->po_id, // 1
+                abs($this->oa_amount), //2
+                $this->oa_description, //3
+                $this->oa_debit, //4
+                $this->oa_group, //5
+                $this->j_id, //6
+                $this->oa_date, //7
+                $oa_row, //8
+                $this->oa_jrnx_id_source, //8
+                $this->oa_signed
+                ));
 
     }
     /*!\brief delete a row from the table operation_analytique
@@ -289,7 +312,7 @@ class Anc_Operation
     }
     /*!\brief retrieve an operation thanks a jrnx.j_id
      * \param the jrnx.j_id
-     * \return false if nothing is found other true
+     * \return null if nothing is found other an array
      */
     function get_by_jid($p_jid)
     {
@@ -302,7 +325,8 @@ class Anc_Operation
              oa_group,
              oa_date,
              pa_id,
-             oa_row
+             oa_row,
+             oa_signed
              from operation_analytique join poste_analytique using (po_id)
              where
              j_id=$p_jid order by j_id,oa_row,pa_id";
@@ -502,7 +526,7 @@ class Anc_Operation
 			$value->javascript='onchange="format_number(this);anc_refresh_remain(\''.$table_id.'\',\''.$p_seq.'\')"';
             $value->name="val[".$p_seq."][]";
             $value->size=6;
-            $value->value=abs((isset($val[$p_seq][$i]))?$val[$p_seq][$i]:$p_amount);
+            $value->value=(isset($val[$p_seq][$i]))?$val[$p_seq][$i]:$p_amount;
             $value->readOnly=($p_mode==1)?false:true;
 			$remain=bcsub($remain,$value->value);
             $result.='<td>'.$value->input().'</td>';
@@ -511,20 +535,99 @@ class Anc_Operation
         }
 
         $result.="</table>";
-		$style_remain=($remain==0)?'style="color:green"':' style="color:red"';
-		$result.=" Reste à imputer =  ".
-				'<span class="remain" '.$style_remain.' id="'.$ctrl_remain.'">'.
-				$remain.'</span>';
-
-        // add a button to add a row
-        $button=new IButton();
-        $button->javascript="add_row('".$p_id."$table_id',$p_seq);";
-        $button->name="js".$p_id.$p_seq;
-        $button->label="Nouvelle ligne";
         if ( $p_mode == 1 )
+        {
+            $style_remain=($remain==0)?'style="color:green"':' style="color:red"';
+            $result.=" Reste à imputer =  ".
+                            '<span class="remain" '.$style_remain.' id="'.$ctrl_remain.'">'.
+                            $remain.'</span>';
+
+            // add a button to add a row
+            $button=new IButton();
+            $button->javascript="add_row('".$p_id."$table_id',$p_seq);";
+            $button->name="js".$p_id.$p_seq;
+            $button->label="Nouvelle ligne";
+
             $result.="<br>".$button->input();
+        }
 
         return $result;
+    }
+    /**
+     * Save the ND VAT with prorata
+     * 
+     * @param $p_array usually $_POST
+     * @param $p_item item of the form
+     * @param $p_j_id jrnx.j_id concerned writing
+     * @param $p_nd amount nd vat
+     * @see Anc_Operation::save_form_plan_vat_nd
+     * @return type
+     */
+    function save_form_plan_vat_nd($p_array,$p_item,$p_j_id,$p_nd)
+    {
+        bcscale(4);
+        extract($p_array);
+	if (! isset ($hplan) ) return;
+        
+        if ( ! isset(${'amount_t'.$p_item}) )
+            throw new Exception ('amount not set');
+        
+        $tot=0;
+        /* variable for in array
+           pa_id array of existing pa_id
+           hplan double array with the pa_id (column)
+           val double array by row with amount
+           op contains sequence
+           p_item is used to identify what op is concerned
+        */
+        /* echo "j_id = $j_id p_item = $p_item hplan=".var_export($hplan[$p_item],true)." val = ".var_export($val[$p_item],true).'<br>'; */
+        /* for each row */
+        //   for ($i=0;$i<count($val[$p_item]);$i++) {
+        $idx_pa_id=0;
+        $row=0;
+        $a_Anc_Operation=array();
+        // foreach col PA
+        for ($e=0;$e<count($hplan[$p_item]);$e++)
+        {
+            if ( $idx_pa_id == count($pa_id))
+            {
+                $idx_pa_id=0;
+                $row++;
+            }
+            if ($hplan[$p_item][$e] != -1 && $val[$p_item][$row] != '')
+            {
+                $op=new Anc_Operation($this->db);
+                $op->po_id=$hplan[$p_item][$e];
+                $op->oa_group=$this->oa_group;
+                $op->j_id=$p_j_id;
+                $ratio=bcdiv($val[$p_item][$row],${"amount_t".$p_item});
+                $amount=  bcmul($p_nd, $ratio);
+                $op->oa_amount=abs(round($amount,2));
+                $op->oa_debit=$this->oa_debit;
+                $op->oa_date=$this->oa_date;
+
+                $op->oa_description=$this->oa_description;
+                $op->oa_row=$row;
+                $op->oa_jrnx_id_source=$this->oa_jrnx_id_source;
+                $a_Anc_Operation[]=clone $op;
+            }
+            $idx_pa_id++;
+        }
+        $nb_op=count($a_Anc_Operation);
+        bcscale(2);
+        for ($i=0;$i<$nb_op;$i++)
+        {
+            $tot=bcadd($tot,$a_Anc_Operation[$i]->oa_amount);
+        }
+        if ( $tot != $p_nd )
+        {
+            $diff=  bcsub($tot, $p_nd);
+            $a_Anc_Operation[0]->oa_amount=bcsub($a_Anc_Operation[0]->oa_amount,$diff);
+        }
+        for ($i=0;$i<$nb_op;$i++)
+        {
+            $a_Anc_Operation[$i]->add();
+        }
     }
     /*!\brief it called for each item, the data are taken from $p_array
      *  data and set before in this.
@@ -577,7 +680,7 @@ class Anc_Operation
                 $op->po_id=$hplan[$p_item][$e];
                 $op->oa_group=$this->oa_group;
                 $op->j_id=$p_j_id;
-                $op->oa_amount=abs($val[$p_item][$row]);
+                $op->oa_amount=$val[$p_item][$row];
                 $op->oa_debit=$this->oa_debit;
                 $op->oa_date=$this->oa_date;
 
@@ -602,24 +705,49 @@ class Anc_Operation
     */
     function save_update_form($p_array)
     {
-        extract ($p_array);
-        for ($i=0;$i < count($op);$i++)
+        extract($p_array);
+        for ($i = 0; $i < count($op); $i++)
         {
             /* clean jrnx */
-            $this->db->exec_sql('delete from operation_analytique where j_id=$1',array($op[$i]));
+            $this->db->exec_sql('delete from operation_analytique where j_id=$1', array($op[$i]));
+
             /* get missing data for adding */
-            $a_missing=$this->db->get_array("select to_char(jr_date,'DD.MM.YYYY') as mdate,j_montant,j_debit,jr_comment from jrnx join jrn on (j_grpt=jr_grpt_id) where j_id=$1",
-                                            array($op[$i]));
-            $missing=$a_missing[0];
-            $this->oa_debit=$missing['j_debit'];
-            $this->oa_description=$missing['jr_comment'];
-            $this->j_id=$op[$i];
-            $group=$this->db->get_next_seq("s_oa_group"); /* for analytic */
-            $this->oa_group=$group;
-            $this->oa_date=$missing['mdate'];
-            $this->save_form_plan($p_array,$i,$op[$i]);
+            $a_missing = $this->db->get_array("select to_char(jr_date,'DD.MM.YYYY') as mdate,j_montant,j_debit,jr_comment from jrnx join jrn on (j_grpt=jr_grpt_id) where j_id=$1", array($op[$i]));
+            $missing = $a_missing[0];
+            $this->oa_debit = $missing['j_debit'];
+            $this->oa_description = $missing['jr_comment'];
+            $this->j_id = $op[$i];
+            $group = $this->db->get_next_seq("s_oa_group"); /* for analytic */
+            $this->oa_group = $group;
+            $this->oa_date = $missing['mdate'];
+            $this->save_form_plan($p_array, $i, $op[$i]);
+            
+            // There is ND VAT amount
+            $a_nd = $this->db->get_array('select j_id from operation_analytique
+                where oa_jrnx_id_source=$1', array($op[$i]));
+            if (count($a_nd) > 0)
+            {
+                // for each ND VAT amount
+                for ($e=0;$e<count($a_nd);$e++)
+                {
+                    $this->db->exec_sql('delete from operation_analytique where j_id=$1', array($a_nd[$e]['j_id']));
+                    /* get missing data for adding */
+                    $a_missing_vat = $this->db->get_array("select to_char(jr_date,'DD.MM.YYYY') as mdate,j_montant,j_debit,jr_comment from jrnx join jrn on (j_grpt=jr_grpt_id) where j_id=$1", array($a_nd[$e]['j_id']));
+                    $missing_vat = $a_missing_vat[0];
+                    $this->oa_debit = $missing_vat['j_debit'];
+                    $this->oa_description = $missing_vat['jr_comment'];
+                    $this->j_id = $op[$i];
+                    $group = $this->db->get_next_seq("s_oa_group"); /* for analytic */
+                    $this->oa_group = $group;
+                    $this->oa_date = $missing_vat['mdate'];
+                    $this->oa_jrnx_id_source=$op[$i];
+                    $p_array['amount_t'.$i]=$missing['j_montant'];
+                    $this->save_form_plan_vat_nd($p_array, $i, $a_nd[$e]['j_id'],$missing_vat['j_montant']);
+                }
+            }
         }
     }
+
     /*\brief transform a array of operation into a array usage by
      *display_form_plan & save_form_plan
      *\param $p_array array of operation
@@ -651,7 +779,7 @@ class Anc_Operation
         $idx_pa=0;
         for ($i=0;$i < count($p_array);$i++)
         {
-            $val[$p_line][$p_array[$i]->oa_row]=$p_array[$i]->oa_amount;
+            $val[$p_line][$p_array[$i]->oa_row]=($p_array[$i]->oa_signed=='Y')?$p_array[$i]->oa_amount:($p_array[$i]->oa_amount*(-1));
         }
         $result['val']=$val;
         return $result;
