@@ -566,12 +566,13 @@ class Acc_Operation
     {
         $_SESSION['g_user']='phpcompta';
         $_SESSION['g_pass']='dany';
-
+        global $g_user;
         $cn=new Database(dossier::id());
+        $g_user=new User($cn);
         $a=new Acc_Operation($cn);
-        $a->jr_id=11;
+        $a->jr_id=1444;
         $b=$a->get_quant();
-        var_dump($b->det);
+        var_dump($b);
     }
 }
 /////////////////////////////////////////////////////////////////////////////
@@ -653,6 +654,7 @@ class Acc_Sold extends Acc_Detail
              FROM quant_sold  join jrnx using(j_id) where j_grpt=$1";
         $this->det->array=$this->db->get_array($sql,array($this->det->jr_grpt_id));
     }
+    
 }
 /////////////////////////////////////////////////////////////////////////////
 /**

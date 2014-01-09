@@ -40,6 +40,12 @@ if ( ! file_exists('authorized_debug') )
 
 }
 html_page_start();
+function start_test($p_array)
+{
+    echo '<h1>'.$p_array['desc'].'</h1>';
+        require $p_array['file'];
+        call_user_func($p_array['function']);
+}
 // Test the connection
 echo __FILE__.":".__LINE__;
 print_r($_REQUEST);
@@ -52,10 +58,17 @@ if ( ! isset($_REQUEST['gDossier']))
 $cn=new Database($_GET['gDossier']);
 
 $a_route[]=array('desc'=>'test sur les menus par défauts','file'=>'class_default_menu.php','function'=>'Default_Menu::test_me');
-
-for ($i=0;$i< count($a_route);$i++)
+$a_route[]=array('desc'=>'test sur Acc_Operations','file'=>'class_acc_operation.php','function'=>'Acc_Operation::test_me');
+$a_route[]=array('desc'=>'test sur INVOICING','file'=>'../include/ext/invoicing/include/class_acc_ledger_sold_generate.php','function'=>'Acc_Ledger_Sold_Generate::test_me');
+$called=HtmlInput::default_value_get("called", -1);
+if ($called == -1 )
 {
-    echo '<h1>'.$a_route[$i]['desc'].'</h1>';
-    require $a_route[$i]['file'];
-    call_user_func($a_route[$i]['function']);
+    for ($i=0;$i< count($a_route);$i++)
+    {
+        start_test($a_route[$i]);
+    }
+}
+ else
+{
+    start_test($a_route[$called]);
 }
