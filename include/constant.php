@@ -61,8 +61,8 @@ $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 /* uncomment for development */
  //define ('SVNINFO',5995);
+//define ("DEBUG",true);
 define ("DEBUG",false);
-//define ("DEBUG",false);
 
 $version_phpcompta=SVNINFO;
 // If you don't want to be notified of the update
@@ -71,7 +71,7 @@ define ("SITE_UPDATE",'http://www.phpcompta.eu/last_version.txt');
 define ("SITE_UPDATE_PLUGIN",'http://www.phpcompta.eu/plugin_last_version.txt');
 
 
-define ("DBVERSION",113);
+define ("DBVERSION",114);
 define ("MONO_DATABASE",25);
 define ("DBVERSIONREPO",14);
 define ('NOTFOUND','--not found--');
