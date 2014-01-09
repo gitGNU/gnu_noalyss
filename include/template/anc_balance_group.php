@@ -51,7 +51,7 @@ if ( $prev != $array[$i]['ga_id'])
 <?php
 }
 if ($idx %2 == 0)
-  echo '<tr>';
+  echo '<tr class="even">';
 else
   echo '<tr class="odd">';
 		echo td($array[$i]['po_name']);

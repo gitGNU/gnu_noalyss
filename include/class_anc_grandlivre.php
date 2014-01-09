@@ -138,8 +138,9 @@ class Anc_GrandLivre extends Anc_Print
             return $r;
         }
         $r.= '<table class="result" style="width=100%">';
-	$ix=0;$prev='xx';
+	$ix=0;$prev='xx';$idx=0;
 	$tot_deb=$tot_cred=0;
+        
         foreach ( $array as $row )
         {
 	  if ($prev != $row['po_name'])
@@ -166,8 +167,8 @@ class Anc_GrandLivre extends Anc_Print
 	      $prev=$row['po_name'];
 	      $ix++;
 	    }
-
-            $r.= '<tr>';
+            $class=($idx%2==0)?'even':'odd'; $idx++;
+            $r.='<tr class="'.$class.'">';
 	    $detail=($row['jr_id'] != null)?HtmlInput::detail_op($row['jr_id'],$row['jr_internal']):'';
 	    $post_detail=($row['j_poste'] != null)?HtmlInput::history_account($row['j_poste'],$row['j_poste']):'';
 	    $card_detail=($row['f_id'] != null)?HtmlInput::history_card($row['f_id'],$row['qcode']):'';

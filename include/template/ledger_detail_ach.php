@@ -128,6 +128,7 @@
                 if ($owner->MY_TVA_USE == 'Y')
                 {
                     echo th(_('HTVA'), 'style="text-align:right"');
+                    echo th(_('TVA ND'), 'style="text-align:right"');
                     echo th(_('TVA'), 'style="text-align:right"');
                     echo th(_('TVAC'), 'style="text-align:right"');
                 } else
@@ -194,15 +195,15 @@
 
                     if ($owner->MY_TVA_USE == 'Y')
                     {
-                        $tva_amount = bcadd($q['qp_vat'], $q['qp_nd_tva']);
-                        $tva_amount = bcadd($tva_amount, $q['qp_nd_tva_recup']);
+                        $tva_amount_nd = bcadd($q['qp_nd_tva_recup'], $q['qp_nd_tva']);
                         $class = "";
                         if ($q['qp_vat_sided'] <> 0)
                         {
                             $class = ' style="text-decoration:line-through"';
                             $tvac = bcsub($tvac, $q['qp_vat']);
                         }
-                        $row.=td(nbm($tva_amount), 'class="num" ' . $class);
+                        $row.=td(nbm($tva_amount_nd), 'class="num" ' . $class);
+                        $row.=td(nbm($q['qp_vat']), 'class="num" ' . $class);
                         $row.=td(nbm($tvac), 'class="num"');
                     }
                     $total_tvac+=$tvac;
@@ -233,7 +234,7 @@
                     $row = td(_('Total'), ' style="font-style:italic;text-align:right;font-weight: bolder;width:auto" colspan="6"');
                 $row.=td(nbm($total_htva), 'class="num" style="font-style:italic;font-weight: bolder;"');
                 if ($owner->MY_TVA_USE == 'Y')
-                    $row.=td("") . td(nbm($total_tvac), 'class="num" style="font-style:italic;font-weight: bolder;"');
+                    $row.=td("") . td("").td(nbm($total_tvac), 'class="num" style="font-style:italic;font-weight: bolder;"');
                 echo tr($row);
                 ?>
             </table>
@@ -286,20 +287,25 @@
                         } else
                             $view_history = '';
                         $row.=td($view_history);
-                        /* $row=td($q[$e]['j_poste']); */
-                        /* $row.=td($q[$e]['j_qcode']); */
-                        if ($q[$e]['j_qcode'] != '')
+                        
+                        if ($q[$e]['j_text']=="")
                         {
+                            if ($q[$e]['j_qcode'] != '')
+                            {
                             // nom de la fiche
-                            $ff = new Fiche($cn);
-                            $ff->get_by_qcode($q[$e]['j_qcode']);
-                            $row.=td($ff->strAttribut(h(ATTR_DEF_NAME)));
-                        } else
-                        {
-                            // libellé du compte
-                            $name = $cn->get_value('select pcm_lib from tmp_pcmn where pcm_val=$1', array($q[$e]['j_poste']));
-                            $row.=td(h($name));
+                                $ff = new Fiche($cn);
+                                $ff->get_by_qcode($q[$e]['j_qcode']);
+                                $row.=td($ff->strAttribut(h(ATTR_DEF_NAME)));
+                            } else
+                            {
+                                // libellé du compte
+                                $name = $cn->get_value('select pcm_lib from tmp_pcmn where pcm_val=$1', array($q[$e]['j_poste']));
+                                $row.=td(h($name));
+                            }
                         }
+                        else 
+                            $row.=td(h($q[$e]['j_text']));
+                        
                         $montant = td(nbm($q[$e]['j_montant']), 'class="num"');
                         $row.=($q[$e]['j_debit'] == 't') ? $montant : td('');
                         $row.=($q[$e]['j_debit'] == 'f') ? $montant : td('');

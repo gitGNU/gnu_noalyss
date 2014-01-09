@@ -144,7 +144,8 @@ class Anc_Table extends Anc_Acc_Link
 	$tot_global=0;
 	for ($i=0;$i<count($this->arow);$i++)
 	  {
-	    echo '<tr>';
+	    $tr=($i%2==0)?'<tr class="even">':'<tr class="odd">';
+            echo $tr;
 	    echo td(HtmlInput::history_card($this->arow[$i]['f_id'],$this->arow[$i]['card_account'].' '.$this->arow[$i]['name']));
 	    $tot_row=0;
 	    for ($x=0;$x<count($this->aheader);$x++)
@@ -197,8 +198,9 @@ class Anc_Table extends Anc_Acc_Link
 	$tot_global=0;
 	for ($i=0;$i<count($this->arow);$i++)
 	  {
-	    echo '<tr>';
-	    echo td(HtmlInput::history_account($this->arow[$i]['card_account'],$this->arow[$i]['card_account'].' '.$this->arow[$i]['name']));
+            $tr=($i%2==0)?'<tr class="even">':'<tr class="odd">';
+            echo $tr;
+            echo td(HtmlInput::history_account($this->arow[$i]['card_account'],$this->arow[$i]['card_account'].' '.$this->arow[$i]['name']));
 	    $tot_row=0;
 	    for ($x=0;$x<count($this->aheader);$x++)
 	      {

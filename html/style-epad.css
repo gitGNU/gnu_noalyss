@@ -201,7 +201,6 @@ div.redcontent{
     float:left;
     padding-top:7px;
     padding-left:8px;
-    font-size:0.75em;;
     font-family:arial,verdana,sans-serif,helvetica;
     width:75%;
 
@@ -955,10 +954,8 @@ div.op_detail_title {
 
 }
 div#div_jrn{
-    position:absolute;
     border:1px solid black;
     top:15%;left:100;
-    visibility:hidden;
     z-index:2;
     width:50em;
     background-color:#EDF3FF;

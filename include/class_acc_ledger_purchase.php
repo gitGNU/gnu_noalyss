@@ -259,7 +259,184 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             throw new Exception(_('Il n\'y a aucune marchandise'),12);
 
     }
+    /**
+     * Compute the ND amount thanks the attribute of the concerned card. The object 
+     * $p_nd_amount will changed
+     * 
+     * @param Acc_Compute $p_nd_amount object with ND amount
+     * @param Fiche $p_fiche Concerned Card (purchase items)
+     * @param type $p_tva_bot 0 TVA on one side, 1 TVA on both side
+     */
+    private function compute_no_deductible(Acc_Compute $p_nd_amount, Fiche $p_fiche, $p_tva_both)
+    {
 
+        if (!$p_fiche->empty_attribute(ATTR_DEF_DEPENSE_NON_DEDUCTIBLE))
+        {
+            $p_nd_amount->amount_nd_rate = $p_fiche->strAttribut(ATTR_DEF_DEPENSE_NON_DEDUCTIBLE);
+            $p_nd_amount->compute_nd();
+        }
+
+        if (!$p_fiche->empty_attribute(ATTR_DEF_DEP_PRIV))
+        {
+            $p_nd_amount->amount_perso_rate = $p_fiche->strAttribut(ATTR_DEF_DEP_PRIV);
+            $p_nd_amount->compute_perso();
+        }
+
+        if (!$p_fiche->empty_attribute(ATTR_DEF_TVA_NON_DEDUCTIBLE) && $tva_both == 0)
+        {
+            $p_nd_amount->nd_vat_rate = $p_fiche->strAttribut(ATTR_DEF_TVA_NON_DEDUCTIBLE);
+            $p_nd_amount->compute_nd_vat();
+        }
+        if (!$p_fiche->empty_attribute(ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP) && $p_tva_both == 0)
+        {
+            $p_nd_amount->nd_ded_vat_rate = $p_fiche->strAttribut(ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP);
+            $p_nd_amount->compute_ndded_vat();
+        }
+    }
+
+    /**
+     * Insert into JRNX the No Deductible amount and into Analytic Accountancy for the ND VAT
+     * @param Acc_Compute $p_nd_amount content ND amount
+     * @param Fiche $p_fiche Card of the Service
+     * @param type $p_tva_both  0 if TVA is normal or 1 if on both side
+     * @param type $p_tot_debit total debit
+     * @param $p_acc_operation Acc_Operation for inserting into jrnx
+     * @param $p_group group for AC
+     * @param $idx row number
+     * 
+     * @see Acc_Ledger_Purchase::insert
+     */
+    private function insert_no_deductible(Acc_Compute $p_nd_amount, Fiche $p_fiche, $p_tva_both,&$p_tot_debit,Acc_Operation $p_acc_operation,$p_group,$idx)
+    {
+        global $g_parameter;
+        if ($p_acc_operation->jrnx_id == 0) {
+            throw new Exception(__FILE__.__LINE__.'invalid acc_operation.j_id');
+        }
+        $source_j_id=$p_acc_operation->jrnx_id ;
+        $p_nd_amount->correct();
+        /*
+         * Save all the no deductible
+         *     ATTR_DEF_ACCOUNT_ND_TVA,ATTR_DEF_ACCOUNT_ND_TVA_ND,ATTR_DEF_ACCOUNT_ND_PERSO,ATTR_DEF_ACCOUNT_ND
+         */
+        if ($p_nd_amount->amount_nd_rate != 0)
+        {
+            $dna_default = new Acc_Parm_Code($this->db, 'DNA');
+
+            /* save op. */
+            if (!$p_Fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND))
+            {
+                $dna = $p_Fiche->strAttribut(ATTR_DEF_ACCOUNT_ND);
+            } else
+            {
+                $dna = $dna_default->p_value;
+            }
+            $dna = ($dna == '') ? $dna_default->p_value : $dna;
+
+            $p_acc_operation->type = 'd';
+            $p_acc_operation->amount = $p_nd_amount->amount_nd_rate ;
+            $p_acc_operation->poste = $dna;
+            $p_acc_operation->qcode = '';
+            $p_acc_operation->desc=$this->find_label($dna)." ND ".$p_fiche->strAttribut(ATTR_DEF_QUICKCODE);
+            if ($p_nd_amount->amount_nd_rate > 0)
+                $p_tot_debit = bcadd($p_tot_debit, $p_nd_amount->amount_nd_rate);
+            $j_id = $p_acc_operation->insert_jrnx();
+        }
+        /*
+         * ATTR_DEF_ACCOUNT_ND_PERSO
+         */
+        if ($p_nd_amount->amount_perso != 0)
+        {
+            $dna_default = new Acc_Parm_Code($this->db, 'DEP_PRIV');
+
+            /* save op. */
+            $p_acc_operation->type = 'd';
+            if (!$p_fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_PERSO))
+            {
+                $dna = $p_fiche->strAttribut(ATTR_DEF_ACCOUNT_ND_PERSO);
+            } else
+            {
+                $dna = $dna_default->p_value;
+            }
+            $dna = ($dna == '') ? $dna_default->p_value : $dna;
+
+            $p_acc_operation->amount = $p_nd_amount->amount_perso ;
+            $p_acc_operation->poste = $dna;
+            $p_acc_operation->qcode = '';
+            $p_acc_operation->desc=$this->find_label($dna)." ND_PRIV ".$p_fiche->strAttribut(ATTR_DEF_QUICKCODE);
+            if ($p_nd_amount->amount_perso> 0)
+                $p_tot_debit = bcadd($p_tot_debit, $p_nd_amount->amount_perso);
+            $j_id = $p_acc_operation->insert_jrnx();
+        }
+        if ($p_nd_amount->nd_vat != 0)
+        {
+            $dna_default = new Acc_Parm_Code($this->db, 'TVA_DNA');
+
+            /* save op. */
+            $p_acc_operation->type = 'd';
+            $p_acc_operation->qcode = '';
+            if (!$p_fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA_ND) && $p_tva_both == 0)
+            {
+                $dna = $p_fiche->strAttribut(ATTR_DEF_ACCOUNT_ND_TVA_ND);
+            } else
+            {
+                $dna = $dna_default->p_value;
+            }
+            $dna = ($dna == '') ? $dna_default->p_value : $dna;
+
+            $p_acc_operation->amount = $p_nd_amount->nd_vat;
+            $p_acc_operation->poste = $dna;
+            $p_acc_operation->desc=$this->find_label($dna)." ND_TVA ".$p_fiche->strAttribut(ATTR_DEF_QUICKCODE);
+            $j_id = $p_acc_operation->insert_jrnx();
+            if ( $g_parameter->MY_ANALYTIC != "nu" )
+            {
+                $op=new Anc_Operation($this->db);
+                $op->oa_group=$p_group;
+                $op->j_id=$j_id;
+                $op->oa_date=$p_acc_operation->date;
+
+                $op->oa_debit=($p_nd_amount->nd_vat > 0 )?'t':'f';
+                $op->oa_description=sql_string('ND_TVA');
+                $op->oa_jrnx_id_source=$source_j_id;
+                $op->save_form_plan_vat_nd($_POST,$idx,$j_id,$p_nd_amount->nd_vat,$p_acc_operation->jrnx_id);
+            }
+        }
+        if ($p_nd_amount->nd_ded_vat != 0)
+        {
+            $dna_default = new Acc_Parm_Code($this->db, 'TVA_DED_IMPOT');
+            /* save op. */
+            if (!$p_fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA) && $p_tva_both == 0)
+            {
+                $dna = $p_fiche->strAttribut(ATTR_DEF_ACCOUNT_ND_TVA);
+            } else
+            {
+                $dna = $dna_default->p_value;
+            }
+            $dna = ($dna == '') ? $dna_default->value : $dna;
+
+
+
+            $p_acc_operation->type = 'd';
+            $p_acc_operation->qcode = '';
+            $p_acc_operation->amount = $p_nd_amount->nd_ded_vat;
+            $p_acc_operation->poste = $dna;
+            $p_acc_operation->desc=$this->find_label($dna)." DED_TVA ".$p_fiche->strAttribut(ATTR_DEF_QUICKCODE);
+            if ($p_nd_amount->nd_ded_vat > 0)
+                $p_tot_debit = bcadd($p_tot_debit, $p_nd_amount->nd_ded_vat);
+            $j_id = $p_acc_operation->insert_jrnx();
+           if ( $g_parameter->MY_ANALYTIC != "nu" )
+            {
+                $op=new Anc_Operation($this->db);
+                $op->oa_group=$p_group;
+                $op->j_id=$j_id;
+                $op->oa_date=$p_acc_operation->date;
+
+                $op->oa_debit=($p_nd_amount->nd_ded_vat > 0 )?'t':'f';
+                $op->oa_description=sql_string('DED_TVA ');
+                $op->oa_jrnx_id_source=$source_j_id;
+                $op->save_form_plan_vat_nd($_POST,$idx,$j_id,$p_nd_amount->nd_ded_vat);
+            }
+        }
+    }
 
     /*!\brief insert into the database, it calls first the verify function
      * change the value of this->jr_id and this->jr_internal.
@@ -346,11 +523,9 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             /* Save all the items without vat and no deductible vat and expense*/
             for ($i=0;$i< $nb_item;$i++)
             {
-				$n_both=0;
+		$n_both=0;
                 if ( strlen(trim(${'e_march'.$i})) == 0 ) continue;
-           /*     if ( ${'e_march'.$i.'_price'} == 0 ) continue;
-                if ( ${'e_quant'.$i} == 0 ) continue;
-*/
+
                 /* First we save all the items without vat */
                 $fiche=new Fiche($this->db);
                 $fiche->get_by_qcode(${"e_march".$i});
@@ -364,12 +539,24 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     $oTva->load();
 					$tva_both=$oTva->get_parameter("both_side");
                 }
-
+                /* -- Create acc_operation -- */
+                $acc_operation=new Acc_Operation($this->db);
+                $acc_operation->date=$e_date;
+                $acc_operation->grpt=$seq;
+                $acc_operation->jrn=$p_jrn;
+                $acc_operation->type='d';
+                $acc_operation->periode=$tperiode;
+                $acc_operation->qcode="";
+                
+                
                 /* We have to compute all the amount thanks Acc_Compute */
                 $amount=bcmul(${'e_march'.$i.'_price'},${'e_quant'.$i});
+                
                 $acc_amount=new Acc_Compute();
                 $acc_amount->check=false;
                 $acc_amount->set_parameter('amount',$amount);
+                
+                
                 if ( $g_parameter->MY_TVA_USE=='Y')
                 {
                     $acc_amount->set_parameter('amount_vat_rate',$oTva->get_parameter('rate'));
@@ -386,53 +573,14 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     if ($tva_both==0) $tot_tva=bcadd($tot_tva,$acc_amount->amount_vat);
                 }
 
-                $acc_operation=new Acc_Operation($this->db);
-                $acc_operation->date=$e_date;
-                $acc_operation->grpt=$seq;
-                $acc_operation->jrn=$p_jrn;
-                $acc_operation->type='d';
-                $acc_operation->periode=$tperiode;
-                $acc_operation->qcode="";
-                if ( $g_parameter->MY_UPDLAB=='Y')
-                    $acc_operation->desc=strip_tags(${"e_march".$i."_label"});
-                else
-                    $acc_operation->desc=null;
+               
+                /* compute ND */
+                $this->compute_no_deductible($acc_amount, $fiche, $tva_both);
 
+                
 
-
-
-                if ( ! $fiche->empty_attribute(ATTR_DEF_DEPENSE_NON_DEDUCTIBLE))
-                {
-                    $acc_amount->amount_nd_rate=$fiche->strAttribut(ATTR_DEF_DEPENSE_NON_DEDUCTIBLE);
-                    $acc_amount->compute_nd();
-                    $tot_nd+=$acc_amount->amount_nd;
-
-                }
-
-                if ( ! $fiche->empty_attribute(ATTR_DEF_DEP_PRIV))
-                {
-                    $acc_amount->amount_perso_rate=$fiche->strAttribut(ATTR_DEF_DEP_PRIV);
-                    $acc_amount->compute_perso();
-                    $tot_perso+=$acc_amount->amount_perso;
-                }
-
-                if ( ! $fiche->empty_attribute(ATTR_DEF_TVA_NON_DEDUCTIBLE) && $tva_both==0)
-                {
-                    $acc_amount->nd_vat_rate=$fiche->strAttribut(ATTR_DEF_TVA_NON_DEDUCTIBLE);
-                    $acc_amount->compute_nd_vat();
-                    $tot_tva_nd+=$acc_amount->nd_vat;
-                    /* save op. */
-
-                }
-                if ( ! $fiche->empty_attribute(ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP) && $tva_both==0)
-                {
-                    $acc_amount->nd_ded_vat_rate=$fiche->strAttribut(ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP);
-                    $acc_amount->compute_ndded_vat();
-                    /* save op. */
-                    $tot_tva_ndded+=$acc_amount->nd_ded_vat;
-                }
-                $acc_amount->correct();
-                $tot_amount+=$amount;
+              
+                $tot_amount=bcadd($tot_amount,$amount);
 
                 /* get the account and explode if necessary */
                 $sposte=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
@@ -446,21 +594,27 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 {
                     $poste_val=$sposte;
                 }
-
+                if ( $g_parameter->MY_UPDLAB=='Y')
+                    $acc_operation->desc=strip_tags(${"e_march".$i."_label"});
+                else
+                    $acc_operation->desc=null;
                 $acc_operation->poste=$poste_val;
                 $acc_operation->amount=$acc_amount->amount;
                 $acc_operation->qcode=${"e_march".$i};
                 if( $acc_amount->amount > 0 ) $tot_debit=bcadd($tot_debit,$acc_amount->amount);
                 $j_id=$acc_operation->insert_jrnx();
+                
+                /* insert ND */
+                $this->insert_no_deductible($acc_amount, $fiche, $tva_both, $tot_debit,$acc_operation,$group,$i);
 
+                
                 /* Compute sum vat */
-
                 if ( $g_parameter->MY_TVA_USE=='Y')
                 {
                     $tva_item=$acc_amount->amount_vat;
 
                     if (isset($tva[$idx_tva] ) )
-                        $tva[$idx_tva]+=$tva_item;
+                        $tva[$idx_tva]=bcadd($tva[$idx_tva],$tva_item);
                     else
                         $tva[$idx_tva]=$tva_item;
 
@@ -486,8 +640,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     $op->oa_group=$group;
                     $op->j_id=$j_id;
                     $op->oa_date=$e_date;
-
-                    $op->oa_debit=($amount > 0 )?'t':'f';
+                    $op->oa_debit='t';
                     $op->oa_description=sql_string($e_comm);
                     $op->save_form_plan($_POST,$i,$j_id);
                 }
@@ -508,7 +661,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                                            ",".$acc_amount->amount_nd.     /* 8 */
                                            ",".$acc_amount->nd_vat.	     /* 9 */
                                            ",".$acc_amount->nd_ded_vat.    /* 10 */
-                                           ",".$acc_amount->amount_perso.  /* 11 */
+                                           ",".$acc_amount->amount_perso.  /* 11 */ 
                                            ",'".$e_client."',".$n_both.")");	     /* 12 */
 
                 }
@@ -546,107 +699,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             if ( $cust_amount < 0 )
 				$tot_debit=bcadd($tot_debit,abs($cust_amount));
             $let_client=$acc_operation->insert_jrnx();
-            /*
-             * Save all the no deductible
-	     *     ATTR_DEF_ACCOUNT_ND_TVA,ATTR_DEF_ACCOUNT_ND_TVA_ND,ATTR_DEF_ACCOUNT_ND_PERSO,ATTR_DEF_ACCOUNT_ND
-             */
-            if ( $tot_nd != 0)
-            {
-		  $dna_default=new Acc_Parm_Code($this->db,'DNA');
-
-                /* save op. */
-	      if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND))
-		{
-		  $dna=$fiche->strAttribut(ATTR_DEF_ACCOUNT_ND);
-		}
-	      else
-		{
-		  $dna=$dna_default->p_value;
-		}
-	      $dna=($dna=='')?$dna_default->p_value:$dna;
-
-                $acc_operation->type='d';
-                $acc_operation->amount=$tot_nd;
-                $acc_operation->poste=$dna;
-                $acc_operation->qcode='';
-                if ( $tot_nd > 0 ) $tot_debit=bcadd($tot_debit,$tot_nd);
-                $j_id=$acc_operation->insert_jrnx();
-
-            }
-	    /*
-	     *ATTR_DEF_ACCOUNT_ND_PERSO
-	     */
-            if ( $tot_perso != 0)
-            {
-	      $dna_default=new Acc_Parm_Code($this->db,'DEP_PRIV');
-
-                /* save op. */
-                $acc_operation->type='d';
-		if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_PERSO))
-		  {
-		    $dna=$fiche->strAttribut(ATTR_DEF_ACCOUNT_ND_PERSO);
-		  }
-		else
-		  {
-		    $dna=$dna_default->p_value;
-		  }
-		$dna=($dna=='')?$dna_default->p_value:$dna;
-
-                $acc_operation->amount=$tot_perso;
-                $acc_operation->poste=$dna;
-                $acc_operation->qcode='';
-                if ( $tot_perso > 0 ) $tot_debit=bcadd($tot_debit,$tot_perso);
-                $j_id=$acc_operation->insert_jrnx();
-
-            }
-            if ( $tot_tva_nd != 0)
-            {
-	      $dna_default=new Acc_Parm_Code($this->db,'TVA_DNA');
-
-                /* save op. */
-                $acc_operation->type='d';
-                $acc_operation->qcode='';
-	      if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA_ND) && $tva_both==0)
-		{
-		  $dna=$fiche->strAttribut(ATTR_DEF_ACCOUNT_ND_TVA_ND);
-		}
-	      else
-		{
-		  $dna=$dna_default->p_value;
-		}
-	      $dna=($dna=='')?$dna_default->p_value:$dna;
-
-                $acc_operation->amount=$tot_tva_nd;
-                $acc_operation->poste=$dna;
-                if ( $tot_tva_nd > 0 ) $tot_debit=bcadd($tot_debit,$tot_tva_nd);
-                $j_id=$acc_operation->insert_jrnx();
-
-            }
-            if ( $tot_tva_ndded != 0)
-            {
-	      $dna_default=new Acc_Parm_Code($this->db,'TVA_DED_IMPOT');
-                /* save op. */
-	      if ( ! $fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA) && $tva_both==0)
-		{
-		  $dna=$fiche->strAttribut(ATTR_DEF_ACCOUNT_ND_TVA);
-		}
-	      else
-		{
-		  $dna=$dna_default->p_value;
-		}
-	      $dna=($dna=='')?$dna_default->value:$dna;
-
-
-
-                $acc_operation->type='d';
-                $acc_operation->qcode='';
-                $acc_operation->amount=$tot_tva_ndded;
-                $acc_operation->poste=$dna;
-                if ( $tot_tva_ndded > 0 ) $tot_debit=bcadd($tot_debit,$tot_tva_ndded);
-                $j_id=$acc_operation->insert_jrnx();
-
-
-            }
+            
 
             if ( $g_parameter->MY_TVA_USE=='Y')
             {
