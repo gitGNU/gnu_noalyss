@@ -270,7 +270,7 @@ class Anc_Operation
 
             }
 
-            $class=($count%2==0)?"odd":"";
+            $class=($count%2==0)?"odd":"even";
             $count++;
             $cred= ( $row['oa_debit'] == 'f')?"CREDIT":"DEBIT";
             $ret.="<tr class=\"$class\">";
