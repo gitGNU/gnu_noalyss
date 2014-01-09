@@ -63,6 +63,7 @@ class Anc_Listing extends Anc_Print
 
     function display_html()
     {
+        $idx=0;
         $r="";
         //---Html
         $array=$this->load();
@@ -91,7 +92,9 @@ class Anc_Listing extends Anc_Print
              '</tr>';
         foreach ( $array as $row )
         {
-            $r.= '<tr>';
+            $class=($idx%2==0)?'even':'odd';
+            $idx++;
+            $r.= '<tr class="'.$class.'">';
 	    $detail=($row['jr_id'] != null)?HtmlInput::detail_op($row['jr_id'],$row['jr_internal']):'';
 	    $post_detail=($row['j_poste'] != null)?HtmlInput::history_account($row['j_poste'],$row['j_poste']):'';
 	    $card_detail=($row['f_id'] != null)?HtmlInput::history_card($row['f_id'],$row['qcode']):'';
