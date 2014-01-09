@@ -865,15 +865,17 @@ class Document
                     // check if the march exists
                     if (!isset(${$id}))
                         $r= "";
-                    // check that something is sold
-                    if (${'e_march' . $counter . '_price'} != 0 && ${'e_quant' . $counter} != 0)
+                    else 
                     {
-                        $f = new Fiche($this->db);
-                        $f->get_by_qcode(${$id}, false);
-                        $r = $f->strAttribut(ATTR_DEF_NAME);
+                    // check that something is sold
+                        if (${'e_march' . $counter . '_price'} != 0 && ${'e_quant' . $counter} != 0)
+                        {
+                            $f = new Fiche($this->db);
+                            $f->get_by_qcode(${$id}, false);
+                            $r = $f->strAttribut(ATTR_DEF_NAME);
+                        } else
+                            $r = "";
                     }
-					else
-						$r="";
                 }
                 else
                     $r=${'e_march'.$counter.'_label'};
