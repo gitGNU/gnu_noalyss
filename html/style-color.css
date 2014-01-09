@@ -1050,9 +1050,7 @@ div#wait_box
     text-align:center;
 }
 div#div_jrnsearch_op{
-
     border:1px solid black;
-    display:none;
     width:50em;
     background-color:#EDF3FF;
     position:absolute;
