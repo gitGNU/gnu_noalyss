@@ -141,7 +141,7 @@ class Anc_Balance_Simple extends Anc_Print
         {
             $odd++;
 
-            $r.=($odd%2==0)?'<tr class="odd">':'</tr>';
+            $r.=($odd%2==0)?'<tr class="odd">':'<tr class="even">';
             // the name and po_id
             //	  $r.=sprintf("<td>%s</td>",$row['po_id']);
             $r.=sprintf("<td align=\"left\">%s</td>",h($row['po_name']));
