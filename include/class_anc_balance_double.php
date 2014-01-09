@@ -65,7 +65,7 @@ class Anc_Balance_Double extends Anc_Print
         {
             $odd++;
 
-            $r.=($odd%2==0)?'<tr class="odd">':'</tr>';
+            $r.=($odd%2==0)?'<tr class="odd">':'<tr class="even">';
 
             if ( $old == $row['a_po_name'] )
             {
