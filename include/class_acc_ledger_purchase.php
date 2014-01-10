@@ -275,13 +275,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $p_nd_amount->amount_nd_rate = $p_fiche->strAttribut(ATTR_DEF_DEPENSE_NON_DEDUCTIBLE);
             $p_nd_amount->compute_nd();
         }
-
-        if (!$p_fiche->empty_attribute(ATTR_DEF_DEP_PRIV))
-        {
-            $p_nd_amount->amount_perso_rate = $p_fiche->strAttribut(ATTR_DEF_DEP_PRIV);
-            $p_nd_amount->compute_perso();
-        }
-
         if (!$p_fiche->empty_attribute(ATTR_DEF_TVA_NON_DEDUCTIBLE) && $tva_both == 0)
         {
             $p_nd_amount->nd_vat_rate = $p_fiche->strAttribut(ATTR_DEF_TVA_NON_DEDUCTIBLE);
@@ -292,6 +285,13 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $p_nd_amount->nd_ded_vat_rate = $p_fiche->strAttribut(ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP);
             $p_nd_amount->compute_ndded_vat();
         }
+
+        if (!$p_fiche->empty_attribute(ATTR_DEF_DEP_PRIV))
+        {
+            $p_nd_amount->amount_perso_rate = $p_fiche->strAttribut(ATTR_DEF_DEP_PRIV);
+            $p_nd_amount->compute_perso();
+        }
+
     }
 
     /**
@@ -313,7 +313,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             throw new Exception(__FILE__.__LINE__.'invalid acc_operation.j_id');
         }
         $source_j_id=$p_acc_operation->jrnx_id ;
-        $p_nd_amount->correct();
         /*
          * Save all the no deductible
          *     ATTR_DEF_ACCOUNT_ND_TVA,ATTR_DEF_ACCOUNT_ND_TVA_ND,ATTR_DEF_ACCOUNT_ND_PERSO,ATTR_DEF_ACCOUNT_ND
@@ -323,9 +322,9 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $dna_default = new Acc_Parm_Code($this->db, 'DNA');
 
             /* save op. */
-            if (!$p_Fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND))
+            if (!$p_fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND))
             {
-                $dna = $p_Fiche->strAttribut(ATTR_DEF_ACCOUNT_ND);
+                $dna = $p_fiche->strAttribut(ATTR_DEF_ACCOUNT_ND);
             } else
             {
                 $dna = $dna_default->p_value;
@@ -333,12 +332,12 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $dna = ($dna == '') ? $dna_default->p_value : $dna;
 
             $p_acc_operation->type = 'd';
-            $p_acc_operation->amount = $p_nd_amount->amount_nd_rate ;
+            $p_acc_operation->amount = $p_nd_amount->amount_nd;
             $p_acc_operation->poste = $dna;
             $p_acc_operation->qcode = '';
             $p_acc_operation->desc=$this->find_label($dna)." ND ".$p_fiche->strAttribut(ATTR_DEF_QUICKCODE);
-            if ($p_nd_amount->amount_nd_rate > 0)
-                $p_tot_debit = bcadd($p_tot_debit, $p_nd_amount->amount_nd_rate);
+            if ($p_nd_amount->amount_nd > 0)
+                $p_tot_debit = bcadd($p_tot_debit, $p_nd_amount->amount_nd );
             $j_id = $p_acc_operation->insert_jrnx();
         }
         /*
@@ -399,6 +398,9 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $op->oa_jrnx_id_source=$source_j_id;
                 $op->save_form_plan_vat_nd($_POST,$idx,$j_id,$p_nd_amount->nd_vat,$p_acc_operation->jrnx_id);
             }
+            if ($p_nd_amount->nd_vat> 0)
+                $p_tot_debit = bcadd($p_tot_debit, $p_nd_amount->nd_vat);
+            
         }
         if ($p_nd_amount->nd_ded_vat != 0)
         {
@@ -576,6 +578,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                
                 /* compute ND */
                 $this->compute_no_deductible($acc_amount, $fiche, $tva_both);
+                $acc_amount->correct();
 
                 
 
