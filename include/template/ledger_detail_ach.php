@@ -226,7 +226,8 @@
                             $row.=td('');
                         }
                     }
-                    echo tr($row);
+                     $class=($e%2==0)?' class="even"':'class="odd"';
+                     echo tr($row,$class);
                 }
                 if ($owner->MY_TVA_USE == 'Y')
                     $row = td(_('Total'), ' style="font-style:italic;text-align:right;font-weight: bolder;width:auto" colspan="6"');
@@ -309,7 +310,9 @@
                         $montant = td(nbm($q[$e]['j_montant']), 'class="num"');
                         $row.=($q[$e]['j_debit'] == 't') ? $montant : td('');
                         $row.=($q[$e]['j_debit'] == 'f') ? $montant : td('');
-                        echo tr($row);
+                        $class=($e%2==0)?' class="even"':'class="odd"';
+
+                        echo tr($row,$class);
                     }
                     ?>
             </table>

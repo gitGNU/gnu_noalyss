@@ -163,7 +163,9 @@ $amount_idx=0;
 	$row.=td('');
       }
     }
-    echo tr($row);
+    $class=($e%2==0)?' class="even"':'class="odd"';
+
+    echo tr($row,$class);
 
   }
 ?>

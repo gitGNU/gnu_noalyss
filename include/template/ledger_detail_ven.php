@@ -219,7 +219,8 @@ echo $inote->input();
                             $row.=td('');
                         }
                     }
-                    echo tr($row);
+                     $class=($e%2==0)?' class="even"':'class="odd"';
+                     echo tr($row,$class);
                 }
                 if ($owner->MY_TVA_USE == 'Y')
                     $row = td(_('Total'), ' style="font-style:italic;text-align:right;font-weight: bolder;" colspan="5"');
@@ -302,7 +303,8 @@ echo $inote->input();
                         $montant = td(nbm($q['j_montant']), 'class="num"');
                         $row.=($q['j_debit'] == 't') ? $montant : td('');
                         $row.=($q['j_debit'] == 'f') ? $montant : td('');
-                        echo tr($row);
+                        $class=($e%2==0)?' class="even"':'class="odd"';
+                        echo tr($row,$class);
                     }
                     ?>
             </table>
