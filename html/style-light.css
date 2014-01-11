@@ -1070,10 +1070,8 @@ div#wait_box
 div#div_jrnsearch_op{
 
     border:1px solid black;
-    display:none;
     width:50em;
     background-color:#EDF3FF;
-    position:absolute;
     z-index: 5;
 
 }
