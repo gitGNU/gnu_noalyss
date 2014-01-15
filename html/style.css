@@ -1163,8 +1163,10 @@ div.foldercontent {
 
 h1.title {
     color: blue;
-    font-size:0.87em;
+    font-size:2em;
     font-style: italic;
+    text-align:center;
+    text-transform: uppercase;
 }
 h2.title {
     background-color:#879ed4;
@@ -1177,8 +1179,10 @@ h2.title {
 }
 h3.title {
     color: blue;
-    font-size:0.87em;
+    font-size:1em;
     margin-left: 30px;
+    font-weight: bolder;
+    border:#0000ff solid 2px;
 }
 h4.title {
     color: blue;
