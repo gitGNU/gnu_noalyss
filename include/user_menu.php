@@ -22,7 +22,6 @@
  */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/* $Revision$ */
 
 require_once("class_idate.php");
 require_once("class_icard.php");

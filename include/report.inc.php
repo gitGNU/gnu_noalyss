@@ -16,7 +16,6 @@
  *   along with PhpCompta; if not, write to the Free Software
 
 */
-/* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /*! \file
  * \brief handle your own report: create or view report

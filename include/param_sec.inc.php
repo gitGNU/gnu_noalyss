@@ -18,7 +18,6 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* $Revision$ */
 
 /*! \file
  * \brief Set the security for an user

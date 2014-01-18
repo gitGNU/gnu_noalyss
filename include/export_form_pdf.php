@@ -19,7 +19,6 @@
 */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-// $Revision$
 /*! \file
  * \brief Send a report in PDF
  */

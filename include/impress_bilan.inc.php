@@ -16,7 +16,6 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-/* $Revision$ */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once ('class_acc_bilan.php');
 require_once('class_exercice.php');

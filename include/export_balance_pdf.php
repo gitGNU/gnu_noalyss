@@ -29,7 +29,6 @@
  * \param e_comment  invoice number
  */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-// $Revision$
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 include_once("ac_common.php");
 require_once('class_database.php');

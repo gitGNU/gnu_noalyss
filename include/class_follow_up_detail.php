@@ -16,7 +16,6 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-/* $Revision$ */
 require_once ('class_fiche.php');
 require_once ('class_database.php');
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr

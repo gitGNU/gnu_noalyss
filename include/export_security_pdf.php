@@ -18,7 +18,6 @@
 */
 // Copyright Stanislas Pinte stanpinte@sauvages.be
 
-// $Revision$
 /*! \file
  * \brief Print the user security in pdf
  */

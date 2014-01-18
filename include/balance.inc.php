@@ -17,7 +17,6 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
-// /* $Revision$ */
 /*! \file
  * \brief Show the balance and let you print it or export to PDF
  *        file included by user_impress

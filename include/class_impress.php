@@ -18,7 +18,6 @@
 */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-// $Revision$
 /*!\file
  * \brief contains function for the printing
 */

@@ -20,7 +20,6 @@
 
 
 
-/* $Revision$ */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 

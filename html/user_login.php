@@ -21,7 +21,6 @@
  */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-// $Revision$
 require_once '../include/constant.php';
 include_once ("ac_common.php");
 require_once('class_database.php');

@@ -25,7 +25,6 @@ require_once('constant.php');
 /*! \file
  * \brief Login page
  */
-/* $Revision$ */
 
 require_once('class_database.php');
 // Verif if User and Pass match DB
