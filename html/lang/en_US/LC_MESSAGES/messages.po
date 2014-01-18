@@ -1575,8 +1575,8 @@ msgstr "Welcome"
 #: html/user_login.php:114
 #: html/user_login.php:122
 #: html/user_login.php:124
-msgid "dans PhpCompta"
-msgstr "in PhpCompta"
+msgid "dans NOALYSS"
+msgstr "in NOALYSS"
 
 #: html/user_login.php:83
 #: html/user_login.php:84

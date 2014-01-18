@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# This file is a part of PhpCompta under GPL
-# Author D. DE BONTRIDDER ddebontridder@yahoo.fr
+# This file is a part of NOALYSS under GPL
+# Author D. DE BONTRIDDER danydb@aevalys.eu
 
 cat <<EOF
 This script create a list of all the function on only page,

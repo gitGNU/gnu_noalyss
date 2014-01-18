@@ -1,26 +1,26 @@
 <?php
 /*
- *   This file is part of PhpCompta.
+ *   This file is part of NOALYSS.
  *
- *   PhpCompta is free software; you can redistribute it and/or modify
+ *   NOALYSS is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation; either version 2 of the License, or
  *   (at your option) any later version.
  *
- *   PhpCompta is distributed in the hope that it will be useful,
+ *   NOALYSS is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with PhpCompta; if not, write to the Free Software
+ *   along with NOALYSS; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /*! \file
  * \brief Welcome page where the folder and module are choosen
  */
 
-// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+// Copyright Author Dany De Bontridder danydb@aevalys.eu
 require_once '../include/constant.php';
 include_once ("ac_common.php");
 require_once('class_database.php');
@@ -85,7 +85,7 @@ if ( $User->Admin()  == 1)
 	 if ($update > $version_phpcompta ) {
 		 echo '<div class="inner_box" style="margin-left:0px;margin-top:3px;left:3px">';
 		 echo '<p class="notice">';
-		 echo "Mise à jour disponible de PhpCompta version actuelle : $update votre version $version_phpcompta";
+		 echo "Mise à jour disponible de NOALYSS version actuelle : $update votre version $version_phpcompta";
 		 echo '</p>';
 		 echo '</div>';
 	 }
@@ -152,7 +152,7 @@ $result.='<TD  class="tool" ><A class="cell" HREF="logout.php" >'._('Deconnexion
 $result.="</TR>";
 $result.="</table>";
 
-echo '<h2 class="info">'._('Bienvenue    ').$User->first_name.'  '.$User->name.'   '._("dans PhpCompta")."</h2>";
+echo '<h2 class="info">'._('Bienvenue    ').$User->first_name.'  '.$User->name.'   '._("dans NOALYSS")."</h2>";
 echo '<div id="module">'.$result.'</div>';
 echo '</div>';
 ?>

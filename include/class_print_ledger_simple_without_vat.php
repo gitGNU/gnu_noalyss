@@ -1,23 +1,23 @@
 <?php
 /*
- *   This file is part of PhpCompta.
+ *   This file is part of NOALYSS.
  *
- *   PhpCompta is free software; you can redistribute it and/or modify
+ *   NOALYSS is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation; either version 2 of the License, or
  *   (at your option) any later version.
  *
- *   PhpCompta is distributed in the hope that it will be useful,
+ *   NOALYSS is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with PhpCompta; if not, write to the Free Software
+ *   along with NOALYSS; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+// Copyright Author Dany De Bontridder danydb@aevalys.eu
 
 /*!\file
  * \brief this class extends PDF and let you export the detailled printing
@@ -132,7 +132,7 @@ class Print_Ledger_Simple_Without_Vat extends PDF
         $this->SetFont('Arial', 'I', 8);
         //Page number
         $this->Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'L');
-        // Created by PhpCompta
+        // Created by NOALYSS
         $this->Cell(0,8,'Created by Phpcompta, online on http://www.aevalys.eu',0,0,'R',false,'http://www.aevalys.eu');
     }
 

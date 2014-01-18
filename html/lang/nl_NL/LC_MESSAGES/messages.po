@@ -639,8 +639,8 @@ msgid "Bienvenue"
 msgstr "Welkome"
 
 #: html/user_login.php:85 html/user_login.php:122 html/user_login.php:124
-msgid "dans PhpCompta"
-msgstr "in PhpCompta"
+msgid "dans NOALYSS"
+msgstr "in NOALYSS"
 
 #: html/user_login.php:86 html/user_login.php:123 html/user_login.php:129
 msgid "Choississez votre dossier"

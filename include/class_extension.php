@@ -1,23 +1,23 @@
 <?php
 /*
- *   This file is part of PhpCompta.
+ *   This file is part of NOALYSS.
  *
- *   PhpCompta is free software; you can redistribute it and/or modify
+ *   NOALYSS is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation; either version 2 of the License, or
  *   (at your option) any later version.
  *
- *   PhpCompta is distributed in the hope that it will be useful,
+ *   NOALYSS is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with PhpCompta; if not, write to the Free Software
+ *   along with NOALYSS; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+// Copyright Author Dany De Bontridder danydb@aevalys.eu
 
 /*!\file
  * \brief the extension class manages the plugins for the security, the access
@@ -90,7 +90,7 @@ class Extension extends Menu_Ref_sql
         global $version_phpcompta;
         if ( ! isset ($version_phpcompta) || $version_phpcompta < $i )
         {
-            alert('Cette extension ne fonctionne pas sur cette version de PhpCompta'.
+            alert('Cette extension ne fonctionne pas sur cette version de NOALYSS'.
                   ' Veuillez mettre votre programme a jour. Version minimum '.$i);
             exit();
         }
@@ -174,7 +174,7 @@ class Extension extends Menu_Ref_sql
                     {
                         echo '<div class="inner_box" style="position:absolute;zindex:2;top:5px;left:360px">';
                         echo '<p class="notice">';
-                        echo "Mise à jour disponible des plugins pour PhpCompta, version actuelle : $update votre version $version_plugin";
+                        echo "Mise à jour disponible des plugins pour NOALYSS, version actuelle : $update votre version $version_plugin";
                         echo '</p>';
                         echo '</div>';
                     }

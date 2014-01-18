@@ -3,8 +3,8 @@
 # po file. It is used for the translation
 #
 #
-# This file is a part of PhpCompta under GPL
-# Author D. DE BONTRIDDER ddebontridder@yahoo.fr
+# This file is a part of NOALYSS under GPL
+# Author D. DE BONTRIDDER danydb@aevalys.eu
 echo "Extract"
 cd ..
 xgettext -L PHP -j --from-code=UTF-8 -p html/lang/en_US/LC_MESSAGES/ html/*.php include/*.php include/template/*.php

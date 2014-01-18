@@ -2,7 +2,7 @@
 /*! \file
  * \brief default page where user access
  */
-/*! \mainpage PhpCompta
+/*! \mainpage NOALYSS
  * Documentation
  * - \subpage Francais
  * - \subpage English
@@ -118,7 +118,7 @@ echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">
 
 <HTML>
 <head>
-<TITLE> PhpCompta </TITLE>
+<TITLE> NOALYSS </TITLE>
 <link rel="shortcut icon" type="image/ico" href="favicon.ico" />
 <style>
 BODY {
@@ -196,7 +196,7 @@ version  6.7.1 SVNINFO - '.$my_domain.'
 <BR>
 <BR>
 <center>
-<IMG SRC="image/logo7.png" alt="PhpCompta">
+<IMG SRC="image/logo7.png" alt="NOALYSS">
 <BR>
 <BR>
 <BR>

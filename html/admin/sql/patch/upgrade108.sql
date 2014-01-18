@@ -52,7 +52,7 @@ cette fonctionnalité. Vous pouvez en ajouter, en supprimer ou les modifier' whe
  update menu_ref set me_description_etendue='Gestion des périodes : clôture, ajout de période, afin de créer des périodes vous pouvez aussi utiliser le plugin outil comptable' where me_code='PERIODE' ;
  update menu_ref set me_description_etendue='Vérifie que votre comptabilité ne contient pas d''erreur de base, tels que l''équilibre entre le passif et l''actif, l''utilisation des postes comptables...' where me_code='VERIFBIL' ;
  update menu_ref set me_description_etendue='Ecriture d''ouverture ou écriture à nouveau, reporte les soldes des comptes de l''année passé du poste comptable 0xxx à 5xxxx sur l''année courante' where me_code='OPEN' ;
- update menu_ref set me_description_etendue='Chargement de modèles de documents qui seront générés par PhpCompta, les formats utilisables sont libreoffice, html, text et rtf' where me_code='CFGDOC' ;
+ update menu_ref set me_description_etendue='Chargement de modèles de documents qui seront générés par NOALYSS, les formats utilisables sont libreoffice, html, text et rtf' where me_code='CFGDOC' ;
  update menu_ref set me_description_etendue='Création et modification des journaux, préfixe des pièces justificatives, numérotation, catégories de fiches accessibles à ce journal' where me_code='CFGLED' ;
  update menu_ref set me_description_etendue='Configuration de la sécurité, vous permet de donner un profil à vos utilisateurs, cela leur permettra d''utiliser ce que vous souhaitez qu''ils puissent utiliser' where me_code='CFGSEC' ;
  update menu_ref set me_description_etendue='Permet d''ajouter de nouveaux attributs que vous pourrez par la suite ajouter à des catégories de fiches' where me_code='CFGATCARD' ;

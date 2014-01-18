@@ -1,8 +1,8 @@
 <?
 /*
 # check the Impress::check_formula and the parse_formula
-# This file is a part of PhpCompta under GPL
-# Author D. DE BONTRIDDER ddebontridder@yahoo.fr
+# This file is a part of NOALYSS under GPL
+# Author D. DE BONTRIDDER danydb@aevalys.eu
 */
 include_once('class_impress.php');
 

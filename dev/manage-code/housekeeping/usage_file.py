@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # Check if the files in include are still used 
 #
-# This file is a part of PhpCompta under GPL
-# Author D. DE BONTRIDDER ddebontridder@yahoo.fr
+# This file is a part of NOALYSS under GPL
+# Author D. DE BONTRIDDER danydb@aevalys.eu
 from transform import *
 import sys
 import os

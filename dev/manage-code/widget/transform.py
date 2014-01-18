@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # brief : replace the all class widget
 #
-# This file is a part of PhpCompta under GPL
-# Author D. DE BONTRIDDER ddebontridder@yahoo.fr
+# This file is a part of NOALYSS under GPL
+# Author D. DE BONTRIDDER danydb@aevalys.eu
 import glob
 import sys
 import re
