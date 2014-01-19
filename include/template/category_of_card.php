@@ -1,3 +1,7 @@
+<?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?>
 <?php 
 $html=HtmlInput::title_box("Ajout d'une catégorie ".$msg, $ctl);
 ?>

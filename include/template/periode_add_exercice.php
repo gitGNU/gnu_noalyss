@@ -1,4 +1,7 @@
-<fieldset><legend>Ajout d'un exercice</legend>
+<?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?><fieldset><legend>Ajout d'un exercice</legend>
 <ul>
 <li>
 Exercice en 12 périodes : Ajout d'un exercice comptable de 12 périodes, commençant le 1 janvier et terminant le 31 décembre. </li>

@@ -1,4 +1,6 @@
 <?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
 /**
  * defined variable $array with the result included from class_anc_group
  */

@@ -1,4 +1,7 @@
-<h1><?php echo $str_name;?></h1>
+<?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?><h1><?php echo $str_name;?></h1>
 Période du <?php echo $str_start?> à <?php echo $str_end;?>
 <?php  for ($i=0;$i<count($aCat);$i++): // foreach category ?>
 <?php if (count($aItem[$i])==0) continue;?>

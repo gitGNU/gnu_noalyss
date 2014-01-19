@@ -1,4 +1,7 @@
-<!-- left div -->
+<?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?><!-- left div -->
 <div style="float:left;max-width: 49%">
     
 <div style="float:left;width: 100%">

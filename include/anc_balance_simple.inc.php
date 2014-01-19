@@ -1,4 +1,7 @@
 <?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once ('class_anc_balance_simple.php');
 $bs = new Anc_Balance_Simple($cn);

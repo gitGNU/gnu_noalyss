@@ -1,4 +1,7 @@
-<fieldset>
+<?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?><fieldset>
 	<div id="jrn_name_div">
 	<h2  id="jrn_name"> <?php echo $this->get_name()?></h2>
 </div>

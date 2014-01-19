@@ -1,4 +1,7 @@
-<TABLE BORDER="0" CELLSPACING="0">
+<?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?><TABLE BORDER="0" CELLSPACING="0">
 <TR>
 <TD><?php echo ('Catégorie de fiche')?> </TD>
 <TD><INPUT TYPE="INPUT" NAME="nom_mod"></TD>

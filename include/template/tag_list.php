@@ -1,4 +1,7 @@
 <?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?><?php
 $max=$this->cn->count($ret);
 echo HtmlInput::filter_table("tag_tb", '0,1', '1');
 ?>

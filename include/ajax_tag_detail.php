@@ -2,6 +2,9 @@
 /**
  * @brief display a window with the content of a tag
  */
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+
 if ( !defined ('ALLOWED') )  die('Appel direct ne sont pas permis');
 require_once 'class_tool_uos.php';
 require_once 'class_tag.php';

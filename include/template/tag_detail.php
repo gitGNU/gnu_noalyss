@@ -1,4 +1,7 @@
 <?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?><?php
 echo Dossier::hidden();
 echo HtmlInput::hidden('t_id',$data->t_id);
 echo HtmlInput::hidden('ac',$_REQUEST['ac']);

@@ -1,4 +1,7 @@
-<fieldset>
+<?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?><fieldset>
 <legend><?php echo $f_legend ?>
 </legend>
 <?php echo $f_type?><?php echo $f_client_qcode?><?php echo $f_client_bt?> <?php echo $f_client?><br>

@@ -1,4 +1,7 @@
 <?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?><?php
 
 	function display_security_fieldset($p_legend,$p_array,$sec_User) {
   $array=array(array('value'=>0,'label'=>_("Pas d'accès")),

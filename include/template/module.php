@@ -1,4 +1,7 @@
-<div id="top">
+<?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?><div id="top">
       <div id="dossier">
 	<H2><?php echo h(dossier::name())?></h2>
 	</div>

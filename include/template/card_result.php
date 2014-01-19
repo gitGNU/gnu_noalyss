@@ -1,3 +1,7 @@
+<?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?>
 <fieldset id="asearch" style="height:88%">
    <legend><?php echo _('Résultats'); ?></legend>
 <div style="height:88%;overflow:auto;">

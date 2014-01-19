@@ -1,4 +1,7 @@
-<div class="content">
+<?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?><div class="content">
 Filtre rapide :    
     <?php
     $col="";$sp="";

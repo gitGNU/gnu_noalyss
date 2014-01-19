@@ -1,4 +1,7 @@
 <?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+
 /**
  * Export to CSV the operations asked in impress_rec.inc.php
  * variable set $g_user,$cn

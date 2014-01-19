@@ -1,4 +1,7 @@
-<div class="<?php echo $style_menu; ?>">
+<?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?><div class="<?php echo $style_menu; ?>">
     <?php if ( count($amenu) > 4 && $idx == 0) :
 	$style ='style= "width:100%"';
      elseif ($idx==0):

@@ -1,4 +1,7 @@
-<table class="result" style="width:80%;margin-left:10%">
+<?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?><table class="result" style="width:80%;margin-left:10%">
 <tr>
 <th>
 N°

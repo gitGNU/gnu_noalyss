@@ -1,4 +1,7 @@
 <?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+
 /*
 PHP URL encoding/decoding functions for Javascript interaction V3.0
 (C) 2006 www.captain.at - all rights reserved

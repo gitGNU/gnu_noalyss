@@ -1,4 +1,7 @@
-<?php 
+<?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?><?php 
 require_once('template/ledger_detail_top.php');
 require_once('class_anc_operation.php');
 require_once('class_anc_plan.php');

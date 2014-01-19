@@ -1,4 +1,7 @@
-<div class="bxbutton">
+<?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?><div class="bxbutton">
 <?php
    if ($div != "popup")
    {

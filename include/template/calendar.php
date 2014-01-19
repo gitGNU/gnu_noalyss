@@ -1,3 +1,7 @@
+<?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?>
 <div class="pc_calendar" id="user_cal" style="width:100%">
 <?php echo $month_year?>
 <?php if ($zoom == 1 ): ?>    

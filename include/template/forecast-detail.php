@@ -1,3 +1,7 @@
+<?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?>
 <h2><?php  echo $str_name;?></h2>
 <fieldset>
 <legend><?php  echo $str_action;?></legend>

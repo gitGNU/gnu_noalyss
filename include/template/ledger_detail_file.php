@@ -1,4 +1,7 @@
-<?php 
+<?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?><?php 
 /**
  *@brief  show an iframe, the iframe contains either
  * - a input type to save a file

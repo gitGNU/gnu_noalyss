@@ -1,4 +1,7 @@
-<?php require_once('template/ledger_detail_top.php'); ?>
+<?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?><?php require_once('template/ledger_detail_top.php'); ?>
 <div class="content" style="padding:0;">
 <?php 
   require_once('class_own.php');

@@ -1,4 +1,7 @@
-<TABLE class="result">
+<?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?><TABLE class="result">
     <tr>
         <th>Pièce</th>
         <th>Date</th>

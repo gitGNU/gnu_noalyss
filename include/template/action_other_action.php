@@ -1,4 +1,7 @@
-
+<?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?>
     
 <?php                
     echo HtmlInput::button("other_bt", "Autres actions", 'onclick="$(\'other_div\').style.display=\'block\';action_show_checkbox();"', "smallbutton"); 

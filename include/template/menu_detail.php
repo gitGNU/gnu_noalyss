@@ -1,4 +1,7 @@
 <?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?><?php
 require_once 'class_html_input.php';
 require_once 'class_itext.php';
 echo HtmlInput::title_box($msg,"divmenu");

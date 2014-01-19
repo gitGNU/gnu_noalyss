@@ -1,4 +1,7 @@
 <?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
+?><?php
 require_once ('class_acc_operation.php');
 require_once ('class_acc_reconciliation.php');
 
