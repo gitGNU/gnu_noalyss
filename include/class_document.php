@@ -541,6 +541,8 @@ class Document
      *  - [BENEF_CITY]
      *  - [BENEF_VAT]
      *  - [ACOMPTE]
+     *  - [TITLE]
+     *  - [DESCRIPTION]
      *
      * \param $p_tag TAG
      * \param $p_array data from $_POST
@@ -1146,6 +1148,9 @@ class Document
 			if ( ! isset ($p_array['repo'])) return "";
 			$ret=$this->db->get_value('select r_phone from public.stock_repository where r_id=$1',array($p_array['repo']));
 			return $ret;
+                case 'TITLE':
+                    $title=HtmlInput::default_value_request("ag_title", "");
+                    return $title;
 
 		}
         /*
