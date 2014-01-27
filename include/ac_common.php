@@ -135,7 +135,7 @@ function nbm($p_number)
 }
 
 /**
- * \brief  log error into the /tmp/phpcompta_error.log it doesn't work on windows
+ * \brief  log error into the /tmp/noalyss_error.log it doesn't work on windows
  *
  * \param p_log message
  * \param p_line line number
@@ -148,7 +148,7 @@ function nbm($p_number)
 function echo_error($p_log, $p_line="", $p_message="")
 {
     echo "ERREUR :" . $p_log . " " . $p_line . " " . $p_message;
-    $fdebug = fopen($_ENV['TMP'] . DIRECTORY_SEPARATOR . "phpcompta_error.log", "a+");
+    $fdebug = fopen($_ENV['TMP'] . DIRECTORY_SEPARATOR . "noalyss_error.log", "a+");
     if ($fdebug != null)
     {
 	fwrite($fdebug, date("Ymd H:i:s") . $p_log . " " . $p_line . " " . $p_message . "\n");

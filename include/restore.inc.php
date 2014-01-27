@@ -31,10 +31,10 @@ if ( isset ($_REQUEST['sa'] ))
         putenv("PATH=".PG_PATH);
 
     $cmd=escapeshellcmd (PG_RESTORE);
-    putenv("PGPASSWORD=".phpcompta_password);
-    putenv("PGUSER=".phpcompta_user);
-    putenv("PGPORT=".phpcompta_psql_port);
-	putenv("PGHOST=").phpcompta_psql_host;
+    putenv("PGPASSWORD=".noalyss_password);
+    putenv("PGUSER=".noalyss_user);
+    putenv("PGPORT=".noalyss_psql_port);
+	putenv("PGHOST=").noalyss_psql_host;
 
     $retour='<hr>'.HtmlInput::button_anchor("Retour","?action=restore");
     if ( ! isset($_REQUEST['t']))
@@ -104,8 +104,8 @@ if ( isset ($_REQUEST['sa'] ))
         echo $name;
         $cn->exec_sql("create database ".$name." encoding='utf8'");
         $args=" --no-owner  -d $name ".$_FILES['file']['tmp_name'];
-
-        exec(PG_RESTORE.$args);
+        $cmd=  escapeshellcmd(PG_RESTORE);
+        exec($cmd.$args);
         $test=new Database($id);
         if ( $test->exist_table('version') )
         {

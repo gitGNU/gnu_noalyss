@@ -60,14 +60,14 @@ function config_file_form($p_array=null)
 
         /* default value */
         $ctmp=($os==1)?'/tmp':'c:/tmp';
-        $cpath=($os==1)?'/usr/bin':'c:/phpcompta/postgresql/bin';
-        $cuser='phpcompta_sql';
+        $cpath=($os==1)?'/usr/bin':'c:/noalyss/postgresql/bin';
+        $cuser='noalyss_sql';
         $cpasswd='dany';
         $cport=5432;
         $cdomain='';
         $clocale=1;
 		$multi=1;
-		$cdbname="database_phpcompta";
+		$cdbname="database_noalyss";
 
     }
     else extract ($p_array);
@@ -130,13 +130,13 @@ function config_file_create($p_array,$from_setup=1,$p_os=1)
         fputs($hFile, 'define ("PSQL","psql.exe");');
     }
     fputs($hFile,"\r\n");
-    fputs($hFile, 'define ("phpcompta_user","'.$cuser.'");');
+    fputs($hFile, 'define ("noalyss_user","'.$cuser.'");');
     fputs($hFile,"\r\n");
-    fputs($hFile, 'define ("phpcompta_password","'.$cpasswd.'");');
+    fputs($hFile, 'define ("noalyss_password","'.$cpasswd.'");');
     fputs($hFile,"\r\n");
-    fputs($hFile, 'define ("phpcompta_psql_port","'.$cport.'");');
+    fputs($hFile, 'define ("noalyss_psql_port","'.$cport.'");');
     fputs($hFile,"\r\n");
-    fputs($hFile, 'define ("phpcompta_psql_host","127.0.0.1");');
+    fputs($hFile, 'define ("noalyss_psql_host","127.0.0.1");');
     fputs($hFile,"\r\n");
 
     fputs($hFile, 'define ("LOCALE",'.$clocale.');');

@@ -12,7 +12,7 @@ content[203]="Utilisateur de la base de donnée postgresql";
 content[204]="Mot de passe de l'utilisateur ";
 content[205]="Port de postgresql";
 content[206]="En version mono dossier, le nom de la base de données doit être mentionné";
-content[207]="Vous devez choisir si phpcompta est installé sur l'un de vos servers ou sur un server mutualisé qui ne donne qu'une seule base de données";
+content[207]="Vous devez choisir si NOALYSS est installé sur l'un de vos servers ou sur un server mutualisé qui ne donne qu'une seule base de données";
 
 
 function show_dbname(obj) {

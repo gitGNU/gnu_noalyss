@@ -27,7 +27,7 @@
  */
 require_once 'class_phpcompta_sql.php';
 
-class Stock_Goods_Sql extends NOALYSS_Sql
+class Stock_Goods_Sql extends Phpcompta_SQL
 {
 
 	function __construct($cn,$p_id = -1)

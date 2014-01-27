@@ -35,7 +35,7 @@
 /* $Revision*/
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 /*!\file
- * \brief This file permit to upgrade a version of phpcompta, it should be
+ * \brief This file permit to upgrade a version of NOALYSS , it should be
  *        used and immediately delete after an upgrade.
  *        This file is included in each release  for a new upgrade
  *
@@ -121,13 +121,13 @@ echo '
  exit();
  }
 if ( is_writable ('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'constant.php') == false ) {
-    echo '<h2 class="notice"> Ecriture non possible </h2><p class="warning"> On ne peut pas &eacute;crire dans le r&eacute;pertoire de phpcompta, changez-en les droits </p>';
+    echo '<h2 class="notice"> Ecriture non possible </h2><p class="warning"> On ne peut pas &eacute;crire dans le r&eacute;pertoire de NOALYSS, changez-en les droits </p>';
     exit();
   }
 
 
 if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php')) {
-  echo '<h1 class="info">Entrez les informations n&eacute;cessaires &agrave; phpcompta</h1>';
+  echo '<h1 class="info">Entrez les informations n&eacute;cessaires &agrave; noalyss</h1>';
   echo '<form method="post">';
   require_once('../../include/config_file.php');
   echo config_file_form();
@@ -393,7 +393,7 @@ if  (defined("MULTI") && MULTI == 0)
 	if ($db->exist_table("version") == false)
 	{
 		echo '<p class="warning">' . $failed . 'La base de donnée ' . dbname . ' est vide, veuillez y restaurer un modèle de base de données plus le script mono.sql
-				, ce script se trouve dans phpcompta/contrib/mono.sql</p>';
+				, ce script se trouve dans noalyss/contrib/mono.sql</p>';
 		exit();
 	}
 	echo "<h3>Patching " . dbname . '</h3>';

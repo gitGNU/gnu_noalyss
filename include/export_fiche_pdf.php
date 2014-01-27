@@ -46,7 +46,7 @@ $name=$cn->get_value('select fd_label from fiche_def where fd_id=$1',array($_GET
 $pdf->SetFont('DejaVu','BI',14);
 $pdf->Cell(0,8,$name,0,1,'C');
 $pdf->SetTitle($name,1);
-$pdf->SetAuthor('Phpcompta');
+$pdf->SetAuthor('NOALYSS');
 /* balance */
 if ( $_GET['histo'] == 4 )
 {

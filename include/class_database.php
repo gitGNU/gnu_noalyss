@@ -42,15 +42,15 @@ class Database
     function __construct ($p_database_id=0,$p_type='dos')
     {
         if ( IsNumber($p_database_id) == false || strlen($p_database_id) > 5 ) 	die ("-->Dossier invalide [$p_database_id]");
-        $phpcompta_user=phpcompta_user;
-        $password=phpcompta_password;
-        $port=phpcompta_psql_port;
-        $host=( ! defined ("phpcompta_psql_host"))?'127.0.0.1':phpcompta_psql_host;
+        $noalyss_user=noalyss_user;
+        $password=noalyss_password;
+        $port=noalyss_psql_port;
+        $host=( ! defined ("noalyss_psql_host"))?'127.0.0.1':noalyss_psql_host;
 		if (defined ("MULTI") && MULTI=="0") {
-			 $phpcompta_user = phpcompta_user;
-			$password = phpcompta_password;
-			$port = phpcompta_psql_port;
-			$host = (!defined("phpcompta_psql_host")) ? '127.0.0.1' : phpcompta_psql_host;
+			 $noalyss_user = noalyss_user;
+			$password = noalyss_password;
+			$port = noalyss_psql_port;
+			$host = (!defined("noalyss_psql_host")) ? '127.0.0.1' : noalyss_psql_host;
 			$l_dossier= dbname;
 		}
 		else
@@ -79,7 +79,7 @@ class Database
 		}
 
         ob_start();
-        $a=pg_connect("dbname=$l_dossier host='$host' user='$phpcompta_user'
+        $a=pg_connect("dbname=$l_dossier host='$host' user='$noalyss_user'
                       password='$password' port=$port");
 
         if ( $a == false )
@@ -94,7 +94,7 @@ class Database
 	      echo "base de donn&eacute;e : $l_dossier<br>";
 	      echo "Domaine : ".domaine."<br>";
 	      echo "Port $port <br>";
-	      echo "Utilisateur : $phpcompta_user <br>";
+	      echo "Utilisateur : $noalyss_user <br>";
 	      echo '</p>';
 
 	      exit ("Connection impossible : v&eacute;rifiez vos param&egrave;tres de base

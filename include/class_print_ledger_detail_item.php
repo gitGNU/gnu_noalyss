@@ -48,7 +48,7 @@ class Print_Ledger_Detail_Item extends PDFLand
         //Page number
         $this->Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'L');
         // Created by NOALYSS
-        $this->Cell(0,8,'Created by Phpcompta, online on http://www.aevalys.eu',0,0,'R',false,'http://www.aevalys.eu');
+        $this->Cell(0,8,'Created by NOALYSS, online on http://www.aevalys.eu',0,0,'R',false,'http://www.aevalys.eu');
     }
 
     function Cell ($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link='')

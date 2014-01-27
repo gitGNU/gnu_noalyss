@@ -774,7 +774,7 @@ class User
 			$p_dossier = dossier::id();
 		}
 
-		if ($this->login == 'phpcompta')
+		if ($this->login == 'admin')
 			return 1;
 		$sql = 'select priv_priv from ac_users join jnt_use_dos using (use_id) join priv_user ' .
 				' on ( jnt_use_dos.jnt_id = priv_user.priv_jnt) ' .

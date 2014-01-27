@@ -98,7 +98,7 @@ if ($previous == 1 ) {
 $pdf->setDossierInfo(" Balance  ".$per_text);
 $pdf->AliasNbPages();
 $pdf->AddPage();
-$pdf->SetAuthor('Phpcompta');
+$pdf->SetAuthor('NOALYSS');
 $pdf->SetFont('DejaVuCond','',7);
 $pdf->setTitle("Balance comptable",true);
 $pdf->Cell(30,6,'poste');

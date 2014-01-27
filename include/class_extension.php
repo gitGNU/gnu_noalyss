@@ -87,8 +87,8 @@ class Extension extends Menu_Ref_sql
     }
     static function check_version($i)
     {
-        global $version_phpcompta;
-        if ( ! isset ($version_phpcompta) || $version_phpcompta < $i )
+        global $version_noalyss;
+        if ( ! isset ($version_noalyss) || $version_noalyss < $i )
         {
             alert('Cette extension ne fonctionne pas sur cette version de NOALYSS'.
                   ' Veuillez mettre votre programme a jour. Version minimum '.$i);

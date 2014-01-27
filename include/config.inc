@@ -29,9 +29,9 @@ $_ENV['TMP']="/tmp";
 define("PG_RESTORE","/usr/bin/pg_restore ");
 define("PG_DUMP","/usr/bin/pg_dump ");
 define ("PSQL",'/usr/bin/psql');
-define ("phpcompta_user","phpcompta");
-define ("phpcompta_password","dany");
-define ("phpcompta_psql_port","5432");
+define ("noalyss_user","noalyss_sql");
+define ("noalyss_password","dany");
+define ("noalyss_psql_port","5432");
 
 //
 // the domain can't start by a number !!!

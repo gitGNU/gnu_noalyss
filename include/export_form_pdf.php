@@ -45,7 +45,7 @@ $pdf= new PDF($cn);
 $pdf->setDossierInfo($Libelle);
 $pdf->AliasNbPages();
 $pdf->AddPage();
-$pdf->SetAuthor('Phpcompta');
+$pdf->SetAuthor('NOALYSS');
 $pdf->setTitle("Rapport ".$Libelle,true);
 
 // Step ??

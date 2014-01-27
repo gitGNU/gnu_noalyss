@@ -177,7 +177,7 @@ class Anc_Balance_Double extends Anc_Print
         $pdf=new PDF($this->db);
         $pdf->Setdossierinfo(dossier::name());
         $pdf->setTitle("Balance analytique",true);
-        $pdf->SetAuthor('Phpcompta');
+        $pdf->SetAuthor('NOALYSS');
         $pdf->AliasNbPages();
         $pdf->AddPage();
 

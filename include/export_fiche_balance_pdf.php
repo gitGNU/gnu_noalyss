@@ -45,7 +45,7 @@ $pdf->AliasNbPages();
 $pdf->AddPage();
 
 $pdf->SetTitle($name,1);
-$pdf->SetAuthor('Phpcompta');
+$pdf->SetAuthor('NOALYSS');
 /* balance */
 $allcard=(isset($_GET['allcard']))?1:0;
 /*

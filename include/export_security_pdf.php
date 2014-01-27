@@ -74,7 +74,7 @@ $pdf=new PDF($cn);
 $pdf->setDossierInfo(dossier::name().' Sécurité');
 $pdf->AliasNbPages();
 $pdf->AddPage();
-$pdf->SetAuthor('Phpcompta');
+$pdf->SetAuthor('NOALYSS');
 $pdf->setTitle("Sécurité",true);
 
 $str_user=sprintf("( %d ) %s %s [ %s ] - %s",

@@ -66,7 +66,7 @@ $pdf = Print_Ledger::factory($cn, $_REQUEST['p_simple'], "PDF", $Jrn);
 $pdf->setDossierInfo($Jrn->name);
 $pdf->AliasNbPages();
 $pdf->AddPage();
-$pdf->SetAuthor('Phpcompta');
+$pdf->SetAuthor('NOALYSS');
 $pdf->setTitle("Journal", true);
 
 $pdf->export();

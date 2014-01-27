@@ -70,7 +70,7 @@ $pdf->setDossierInfo("  Periode : ".$from_periode." - ".$to_periode);
 $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->setTitle("Grand Livre",true);
-$pdf->SetAuthor('Phpcompta');
+$pdf->SetAuthor('NOALYSS');
 
 if ( count($a_poste) == 0 )
 {

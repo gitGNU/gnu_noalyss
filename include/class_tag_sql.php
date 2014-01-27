@@ -23,7 +23,7 @@ require_once 'class_phpcompta_sql.php';
 /**
  * @brief Manage the table public.tag
  */
-class Tag_SQL extends phpcompta_sql
+class Tag_SQL extends Phpcompta_SQL
 {
 	/* example private $variable=array("easy_name"=>column_name,"email"=>"column_name_email","val3"=>0); */
 
