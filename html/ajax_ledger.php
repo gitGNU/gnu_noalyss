@@ -345,6 +345,7 @@ case 'rmf':
         $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
         echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
         echo "</head><body class=\"op_detail_frame\">";
+		echo "<h2>._("Document").</h2>");
         echo '<div class="op_detail_frame">';
         echo '<FORM METHOD="POST" ENCTYPE="multipart/form-data" id="form_file">';
         $sp=new ISpan('file'.$div);
