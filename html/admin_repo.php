@@ -39,10 +39,10 @@ if ($User->admin != 1)
     return;
 }
 load_all_script();
-echo '<H2 class="info"> Administration Globale</H2>';
-echo '<div class="topmenu">';
+echo _('<H2 class="info"> Administration Globale</H2>');
+echo _('<div class="topmenu">');
 
-echo MenuAdmin()."</div>";
+echo _(MenuAdmin())."</div>";
 
 define('ALLOWED',true);
 
