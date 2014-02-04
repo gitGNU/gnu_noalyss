@@ -97,7 +97,7 @@ if ($ledger=="")
 {
 
     ob_start();
-	echo _(HtmlInput::title_box(_("Information")), $div);
+	echo HtmlInput::title_box(_("Information"), $div);
     require_once ('template/ledger_detail_forbidden.php');
 	echo HtmlInput::button_close($div);
     $html=ob_get_contents();
@@ -119,7 +119,7 @@ $access=$g_user->get_ledger_access($ledger);
 if ( $access == 'X' )
 {
     ob_start();
-	echo _(HtmlInput::title_box(_("Information")), $div);
+	echo HtmlInput::title_box(_("Information"), $div);
     require_once ('template/ledger_detail_forbidden.php');
 	echo HtmlInput::button_close($div);
     $html=ob_get_contents();
@@ -197,7 +197,7 @@ case 'de':
     catch (Exception $e)
     {
         echo HtmlInput::anchor_close($div);
-        echo _('<h2 class="error">Désolé il y a une erreur</h2>');
+        echo '<h2 class="error">._("Désolé il y a une erreur").</h2>');
     }
     $html=ob_get_contents();
     ob_end_clean();
@@ -281,7 +281,7 @@ case 'file':
 			echo "<div>";
 
 		}
-		echo _("<h1 class=\"legend\">Document</h1>");
+		echo "<h1 class=\"legend\">._("Document").</h1>");
         echo '<div class="op_detail_frame">';
         $x='';
         if ($access=='W')
@@ -321,7 +321,7 @@ case 'loadfile':
         echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
         echo "</head>";
 		if ( ! isset($_REQUEST['ajax']) ) echo "<body class=\"op_detail_frame\">"; else echo "<body>";
-		echo _("<h2>Document</h2>");
+		echo "<h2>._("Document").</h2>");
         echo '<div class="op_detail_frame">';
         $x=sprintf('<a class="mtitle" class="notice" style="margin-left:12;margin-right:12px" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">enlever</a>',
                    $gDossier,$div,$jr_id);
@@ -345,7 +345,6 @@ case 'rmf':
         $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
         echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
         echo "</head><body class=\"op_detail_frame\">";
-		echo _("<h2>Document</h2>");
         echo '<div class="op_detail_frame">';
         echo '<FORM METHOD="POST" ENCTYPE="multipart/form-data" id="form_file">';
         $sp=new ISpan('file'.$div);
@@ -501,7 +500,7 @@ case 'save':
     catch (Exception $e)
     {
       if ( DEBUG )   echo $e->getMessage();
-      alert( "Changement impossible: on ne peut pas changer la date dans une période fermée");
+      alert(_( "Changement impossible: on ne peut pas changer la date dans une période fermée"));
     }
     $html=ob_get_contents();
     ob_end_clean();
