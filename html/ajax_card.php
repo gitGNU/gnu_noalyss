@@ -72,7 +72,7 @@ foreach ($var as $v)
 {
     if ( ! isset ($_REQUEST [$v] ) )
     {
-        echo "$v is not set ";
+        echo _("$v is not set ");
         $cont=1;
     }
 }
@@ -115,7 +115,7 @@ case 'rmfa':
     catch (Exception $e)
     {
         $cn->rollback();
-        echo $e->getMessage();
+        echo _($e->getMessage());
     }
     $html=ob_get_contents();
     ob_end_clean();
