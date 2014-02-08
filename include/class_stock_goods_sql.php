@@ -81,7 +81,7 @@ class Stock_Goods_Sql extends Phpcompta_SQL
 
 }
 
-class Stock_Change_Sql extends NOALYSS_Sql
+class Stock_Change_Sql extends Phpcompta_SQL
 {
 
 	function __construct($cn,$p_id = -1)
