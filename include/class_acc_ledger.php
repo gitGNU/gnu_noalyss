@@ -559,7 +559,7 @@ class Acc_Ledger extends jrn_def_sql
 		{
 			$a_ParmCode = $this->db->get_array('select p_code,p_value from parm_code');
 			$a_TVA = $this->db->get_array('select tva_id,tva_label,tva_poste
-                                        from tva_rate where tva_rate != 0 order by tva_id');
+                                        from tva_rate where tva_rate != 0 order by tva_rate,tva_label,tva_id ');
 			for ($i = 0; $i < $Max; $i++)
 			{
 				$array[$i] = Database::fetch_array($Res, $i);
@@ -1049,10 +1049,10 @@ class Acc_Ledger extends jrn_def_sql
 	 *
 	 * @paramp_array the structure is set in get_rowSimple, this array is
 	 *        modified,
-	 * @param$trunc if the data must be truncated, usefull for pdf export
+	 * @param $trunc if the data must be truncated, usefull for pdf export
 	 * @paramp_jrn_type is the type of the ledger (ACH or VEN)
-	 * @param$a_TVA TVA Array (default null)
-	 * @param$a_ParmCode Array (default null)
+	 * @param $a_TVA TVA Array (default null)
+	 * @param $a_ParmCode Array (default null)
 	 * \return p_array
 	 */
 
@@ -1062,7 +1062,7 @@ class Acc_Ledger extends jrn_def_sql
 		{
 			//Load TVA array
 			$a_TVA = $this->db->get_array('select tva_id,tva_label,tva_poste
-                                        from tva_rate where tva_rate != 0 order by tva_id');
+                                        from tva_rate where tva_rate != 0 order by tva_rate,tva_label,tva_id');
 		}
 		if ($a_ParmCode == null)
 		{
@@ -1078,6 +1078,7 @@ class Acc_Ledger extends jrn_def_sql
 		$p_array['dna'] = 0;
 		$p_array['tva_dna'] = 0;
 		$dep_priv = 0.0;
+                
 		//
 		// Retrieve data from jrnx
 		$sql = "select j_id,j_poste,j_montant, j_debit,j_qcode from jrnx where " .
@@ -1186,8 +1187,8 @@ class Acc_Ledger extends jrn_def_sql
 				$purchase->load();
 				$dep_priv+=$purchase->qp_dep_priv;
 				$p_array['dep_priv'] = $dep_priv;
-                                $p_array['dna']=$purchase->qp_nd_amount;
-                                $p_array['tva_dna']=$purchase->qp_nd_tva;
+                                $p_array['dna']=bcadd($p_array['dna'],$purchase->qp_nd_amount);
+                                $p_array['tva_dna']=bcadd($p_array['tva_dna'],bcadd($purchase->qp_nd_tva,$purchase->qp_nd_tva_recup));
 			}
                         
 		}

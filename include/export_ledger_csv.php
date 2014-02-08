@@ -189,16 +189,16 @@ else if  ($_GET['p_simple'] == 1)
 
         if ( $own->MY_TVA_USE=='Y')
         {
-            $a_Tva=$cn->get_array("select tva_id,tva_label from tva_rate where tva_rate != 0.0000 order by tva_rate");
+            $a_Tva=$cn->get_array("select tva_id,tva_label from tva_rate where tva_rate != 0.0000 order by tva_rate,tva_label,tva_id");
             foreach($a_Tva as $line_tva)
             {
                 $col_tva.='"Tva '.$line_tva['tva_label'].'";';
             }
         }
-        echo '"Date";"Paiement";"operation";"Client/Fourn.";"Commentaire";"inter.";"HTVA";privé;DNA;tva non ded.;opérations liées'.$col_tva.'"TVAC"'."\n\r";
+        echo '"Date";"Paiement";"operation";"Client/Fourn.";"Commentaire";"inter.";"HTVA";privé;DNA;tva non ded.;'.$col_tva.'"TVAC";"opérations liées"'."\n\r";
         foreach ($Row as $line)
         {
-            printf('"%s";"%s";"%s";"%s";"%s";%s;%s;%s;%s;',
+            printf('"%s";"%s";"%s";"%s";"%s";%s;%s;%s;%s;%s;',
                    $line['date'],
                    $line['date_paid'],
                    $line['num'],
@@ -211,27 +211,22 @@ else if  ($_GET['p_simple'] == 1)
                    nb($line['tva_dna'])
                    );
             $a_tva_amount=array();
+            //- set all TVA to 0
+            foreach ($a_Tva as $l) {
+                $t_id=$l["tva_id"];
+                $a_tva_amount[$t_id]=0;
+            }
             foreach ($line['TVA'] as $lineTVA)
             {
-                foreach ($a_Tva as $idx=>$line_tva)
-                {
-
-                    if ($line_tva['tva_id'] == $lineTVA[1][0])
-                    {
-                        $a=$line_tva['tva_id'];
-                        $a_tva_amount[$a]=$lineTVA[1][2];
-                    }
-                }
-            }
+                $idx_tva=$lineTVA[1][0];
+                $a_tva_amount[$idx_tva]=$lineTVA[1][2];
+             }
             if ($own->MY_TVA_USE == 'Y' )
             {
                 foreach ($a_Tva as $line_tva)
                 {
                     $a=$line_tva['tva_id'];
-                    if ( isset($a_tva_amount[$a]))
-                        echo nb($a_tva_amount[$a]).';';
-                    else
-                        printf("0;");
+                    echo nb($a_tva_amount[$a]).';';
                 }
             }
             echo nb ($line['TVAC']);
