@@ -38,7 +38,7 @@ function infodiv(req, json)
         var answer = req.responseXML;
         var a = answer.getElementsByTagName('ctl');
         var html = answer.getElementsByTagName('code');
-        if (a.length == 0)
+        if (a.length === 0)
         {
             var rec = req.responseText;
             alert('erreur :' + rec);
@@ -118,7 +118,7 @@ function g(ID)
  */
 function enable_type_periode()
 {
-    if (g('type_periode').value == 1)
+    if (g('type_periode').value === 1)
     {
         g('from_periode').disabled = true;
         g('to_periode').disabled = true;
@@ -162,7 +162,7 @@ function encodeJSON(obj)
         var e = 0;
         for (i in obj)
         {
-            if (e != 0)
+            if (e !== 0)
             {
                 str += '&';
             }
@@ -178,6 +178,7 @@ function encodeJSON(obj)
     catch (e)
     {
         alert('encodeParameter ' + e.message);
+        return "";
     }
 }
 function  hide(p_param)
@@ -226,22 +227,22 @@ function set_value(p_ctl, p_value, p_add)
     if (g(p_ctl))
     {
         var g_ctrl = g(p_ctl);
-        if (p_add != undefined && p_add == 1)
+        if (p_add != undefined && p_add === 1)
         {
             if (g_ctrl.value)
             {
                 p_value = g_ctrl.value + ',' + p_value;
             }
         }
-        if (g_ctrl.tagName == 'INPUT')
+        if (g_ctrl.tagName === 'INPUT')
         {
             g(p_ctl).value = p_value;
         }
-        if (g_ctrl.tagName == 'SPAN')
+        if (g_ctrl.tagName === 'SPAN')
         {
             g(p_ctl).innerHTML = p_value;
         }
-        if (g_ctrl.tagName == 'SELECT')
+        if (g_ctrl.tagName === 'SELECT')
         {
             g(p_ctl).value = p_value;
         }
@@ -254,7 +255,7 @@ function set_value(p_ctl, p_value, p_add)
 function format_number(obj, p_prec)
 {
     var precision = 2;
-    if (p_prec == undefined)
+    if (p_prec === undefined)
     {
         precision = 2;
     } else {
@@ -282,7 +283,7 @@ function toggleHideShow(p_obj, p_button)
 {
     var stat = g(p_obj).style.display;
     var str = g(p_button).value;
-    if (stat == 'none')
+    if (stat === 'none')
     {
         show(p_obj);
         str = str.replace(/Afficher/, 'Cacher');
@@ -363,7 +364,7 @@ function success_misc(req)
     {
         var answer = req.responseXML;
         var html = answer.getElementsByTagName('code');
-        if (html.length == 0)
+        if (html.length === 0)
         {
             var rec = req.responseText;
             alert('erreur :' + rec);
@@ -442,14 +443,14 @@ function success_cat_doc_remove(req)
     {
         var answer = req.responseXML;
         var html = answer.getElementsByTagName('dtid');
-        if (html.length == 0)
+        if (html.length === 0)
         {
             var rec = req.responseText;
             alert('erreur :' + rec);
         }
         nodeXML = html[0];
         row_id = getNodeText(nodeXML);
-        if (row_id == 'nok')
+        if (row_id === 'nok')
         {
             alert('Error');
             return;
@@ -477,7 +478,7 @@ function popup_select_tva(obj)
 
         var nTop = posY - 50;
         var nLeft = "35%";
-        var str_style = "top:" + nTop + ";left:" + nLeft + ";width:55em;height:auto";
+        var str_style = "top:" + nTop + "px;left:" + nLeft + ";width:55em;height:auto";
 
         var popup = {'id': 'tva_select', 'cssclass': 'inner_box', 'style': str_style, 'html': loading(), 'drag': true};
         add_div(popup);
@@ -509,7 +510,7 @@ function success_popup_select_tva(req)
     {
         var answer = req.responseXML;
         var popup = answer.getElementsByTagName('popup');
-        if (popup.length == 0)
+        if (popup.length === 0)
         {
             var rec = req.responseText;
             alert('erreur :' + rec);
@@ -565,7 +566,7 @@ function success_set_tva_label(req)
         var code = answer.getElementsByTagName('code');
         var value = answer.getElementsByTagName('value');
 
-        if (code.length == 0)
+        if (code.length === 0)
         {
             var rec = req.responseText;
             alert('erreur :' + rec);
@@ -666,7 +667,7 @@ function removeDiv(elt)
     }
     // if reloaded if asked the window will be reloaded when
     // the box is closed
-    if (ask_reload == 1)
+    if (ask_reload === 1)
     {
         // avoid POST window.location = window.location.href;
         window.location.reload();
@@ -718,7 +719,7 @@ function show_box(obj)
         {
             sx = document.body.scrollTop + 40;
         }
-        g(obj.id).style.top = sx;
+        g(obj.id).style.top = sx+"px";
         show(obj.id);
     }
     else
@@ -748,7 +749,7 @@ function success_box(req, json)
         var answer = req.responseXML;
         var a = answer.getElementsByTagName('ctl');
         var html = answer.getElementsByTagName('code');
-        if (a.length == 0)
+        if (a.length === 0)
         {
             var rec = req.responseText;
             alert('erreur :' + rec);
@@ -813,19 +814,19 @@ function show_ledger_choice(json_obj)
                             };
                             //var y=calcy(posY);
                             var y=posY;
-                            if (json_obj.div != '')obj.cssclass="";
-                            obj.style="top:"+y+obj.style;
-                            if ( json_obj.class ) 
+                            if (json_obj.div !== '')obj.cssclass="";
+                            obj.style="top:"+y+'px;'+obj.style;
+                           /* if ( json_obj.class ) 
                             { 
                                 obj.cssclass=json_obj.class;
-                            }
+                            }*/
                             add_div(obj);
 
 
                             var answer = req.responseXML;
                             var a = answer.getElementsByTagName('ctl');
                             var html = answer.getElementsByTagName('code');
-                            if (a.length == 0) {
+                            if (a.length === 0) {
                                 var rec = req.responseText;
                                 alert('erreur :' + rec);
                             }
@@ -944,9 +945,9 @@ function toggle_checkbox(form_id)
     for (var i = 0; i < form.length; i++)
     {
         var e = form.elements[i];
-        if (e.type == 'checkbox')
+        if (e.type === 'checkbox')
         {
-            if (e.checked == true)
+            if (e.checked === true)
             {
                 e.checked = false;
             }
@@ -967,7 +968,7 @@ function select_checkbox(form_id)
     for (var i = 0; i < form.length; i++)
     {
         var e = form.elements[i];
-        if (e.type == 'checkbox')
+        if (e.type === 'checkbox')
         {
             e.checked = true;
         }
@@ -983,7 +984,7 @@ function unselect_checkbox(form_id)
     for (var i = 0; i < form.length; i++)
     {
         var e = form.elements[i];
-        if (e.type == 'checkbox')
+        if (e.type === 'checkbox')
         {
             e.checked = false;
         }
@@ -1031,8 +1032,8 @@ function display_periode(p_dossier, p_id)
                     onSuccess: success_display_periode
                 }
         );
-        $('mod_periode').style.top = posY - 70;
-        $('mod_periode').style.left = posX - 70;
+        $('mod_periode').style.top = (posY - 70)+"px";
+        $('mod_periode').style.left = (posX - 70)+"px";
     }
     catch (e)
     {
@@ -1048,7 +1049,7 @@ function success_display_periode(req)
         var answer = req.responseXML;
         var html = answer.getElementsByTagName('data');
 
-        if (html.length == 0)
+        if (html.length === 0)
         {
             var rec = req.responseText;
             alert('erreur :' + rec);
@@ -1113,7 +1114,7 @@ function fill_box(req)
         var answer = req.responseXML;
         var a = answer.getElementsByTagName('ctl');
         var html = answer.getElementsByTagName('code');
-        if (a.length == 0) {
+        if (a.length === 0) {
             var rec = req.responseText;
             alert('erreur :' + rec);
         }
@@ -1187,7 +1188,7 @@ function save_predf_op(obj)
 function search_reconcile(dossier, ctl_concern, amount_id, ledger)
 {
     var dossier = g('gDossier').value;
-    if (amount_id == undefined)
+    if (amount_id === undefined)
     {
         amount_id = 0;
     }
@@ -1274,9 +1275,9 @@ function set_reconcile(obj)
         {
 
             var elmt = obj.elements[e];
-            if (elmt.type == "checkbox")
+            if (elmt.type === "checkbox")
             {
-                if (elmt.checked == true)
+                if (elmt.checked === true)
                 {
                     var str_name = elmt.name;
                     var nValue = str_name.replace("jr_concerned", "");
@@ -1334,7 +1335,7 @@ function fixed_position(p_sx, p_sy)
     var sx = p_sx;
     var sy = calcy(p_sy);
 
-    var str_style = "top:" + sy + ";left:" + sx + ";position:absolute";
+    var str_style = "top:" + sy + "px;left:" + sx + "px;position:absolute";
     return str_style;
 
 }
@@ -1640,9 +1641,9 @@ function set_action_related(p_obj)
         {
 
             var elmt = obj.elements[e];
-            if (elmt.type == "checkbox")
+            if (elmt.type === "checkbox")
             {
-                if (elmt.checked == true)
+                if (elmt.checked === true)
                 {
                     var str_name = elmt.name;
                     var nValue = elmt.value;
@@ -1716,21 +1717,21 @@ function show_fin_chdate(obj_id)
     try
     {
         var ch = $(obj_id).options[$(obj_id).selectedIndex].value;
-        if (ch == 2) {
+        if (ch === 2) {
             $('chdate_ext').hide();
             $('thdate').show();
         }
-        if (ch == 1) {
+        if (ch === 1) {
             $('chdate_ext').show();
             $('thdate').hide();
         }
         var nb = $('nb_item').value;
         for (i = 0; i < nb; i++) {
             if ($('tdchdate' + i)) {
-                if (ch == 2) {
+                if (ch === 2) {
                     $('tdchdate' + i).show();
                 }
-                if (ch == 1) {
+                if (ch === 1) {
                     $('tdchdate' + i).hide();
 
                 }
@@ -1792,7 +1793,7 @@ function check_date(p_str_date)
         var date_temp = p_str_date.split('.');
         var nMonth = parseFloat(date_temp[1]) - 1;
         var ma_date = new Date(date_temp[2], nMonth, date_temp[0]);
-        if (ma_date.getFullYear() == date_temp[2] && ma_date.getMonth() == nMonth && ma_date.getDate() == date_temp[0]) {
+        if (ma_date.getFullYear() === date_temp[2] && ma_date.getMonth() === nMonth && ma_date.getDate() === date_temp[0]) {
             return true;
         }
         else {
@@ -1836,7 +1837,7 @@ function view_action(ag_id, dossier, modify)
                         remove_waiting_box();
                         var answer = req.responseXML;
                         var html = answer.getElementsByTagName('code');
-                        if (html.length == 0)
+                        if (html.length === 0)
                         {
                             var rec = req.responseText;
                             alert('erreur :' + rec);
@@ -1898,7 +1899,7 @@ function filter_table(phrase, _id, colnr, start_row) {
             }
 
         }
-        if (found == 1) {
+        if (found === 1) {
             table.rows[r].style.display = '';
         } else {
             table.rows[r].style.display = 'none';
@@ -2139,7 +2140,7 @@ function show_tag(p_dossier, p_ac, p_tag_id, p_post)
                     onSuccess: function(req) {
                         var answer = req.responseXML;
                         var html = answer.getElementsByTagName('code');
-                        if (html.length == 0)
+                        if (html.length === 0)
                         {
                             var rec = req.responseText;
                             alert('erreur :' + rec);
@@ -2212,7 +2213,7 @@ function action_tag_select(p_dossier, ag_id)
                     onSuccess: function(req, j) {
                         var answer = req.responseXML;
                         var html = answer.getElementsByTagName('code');
-                        if (html.length == 0)
+                        if (html.length === 0)
                         {
                             var rec = unescape_xml(req.responseText);
                             error_message('erreur :' + rec);
@@ -2250,7 +2251,7 @@ function action_tag_add(p_dossier, ag_id, t_id)
                     onSuccess: function(req, j) {
                         var answer = req.responseXML;
                         var html = answer.getElementsByTagName('code');
-                        if (html.length == 0)
+                        if (html.length === 0)
                         {
                             var rec = unescape_xml(req.responseText);
                             error_message('erreur :' + rec);
@@ -2275,7 +2276,7 @@ function action_tag_add(p_dossier, ag_id, t_id)
  */
 function action_tag_remove(p_dossier, ag_id, t_id)
 {
-    if (confirm('Enlevez ce tags ?') == false)
+    if (confirm('Enlevez ce tags ?') === false)
         return;
     try {
         waiting_box();
@@ -2288,7 +2289,7 @@ function action_tag_remove(p_dossier, ag_id, t_id)
                     onSuccess: function(req, j) {
                         var answer = req.responseXML;
                         var html = answer.getElementsByTagName('code');
-                        if (html.length == 0)
+                        if (html.length === 0)
                         {
                             var rec = unescape_xml(req.responseText);
                             error_message('erreur :' + rec);
@@ -2326,7 +2327,7 @@ function search_display_tag(p_dossier, p_prefix)
                     onSuccess: function(req, j) {
                         var answer = req.responseXML;
                         var html = answer.getElementsByTagName('code');
-                        if (html.length == 0)
+                        if (html.length === 0)
                         {
                             var rec = unescape_xml(req.responseText);
                             error_message('erreur :' + rec);
@@ -2357,7 +2358,7 @@ function search_add_tag(p_dossier, p_tag_id, p_prefix)
 {
     try {
         var clear_button = 0;
-        if (tag_choose == '' && p_prefix == 'search') {
+        if (tag_choose === '' && p_prefix === 'search') {
             tag_choose = $(p_prefix + 'tag_choose_td').innerHTML;
             clear_button = 1;
         }
@@ -2371,7 +2372,7 @@ function search_add_tag(p_dossier, p_tag_id, p_prefix)
                     onSuccess: function(req, j) {
                         var answer = req.responseXML;
                         var html = answer.getElementsByTagName('html');
-                        if (html.length == 0)
+                        if (html.length === 0)
                         {
                             var rec = unescape_xml(req.responseText);
                             error_message('erreur :' + rec);
@@ -2408,7 +2409,7 @@ function search_clear_tag(p_dossier, p_prefix)
                     onSuccess: function(req, j) {
                         var answer = req.responseXML;
                         var html = answer.getElementsByTagName('html');
-                        if (html.length == 0)
+                        if (html.length === 0)
                         {
                             var rec = unescape_xml(req.responseText);
                             error_message('erreur :' + rec);
@@ -2455,7 +2456,7 @@ function calendar_zoom(obj)
                     onSuccess: function(req, j) {
                         var answer = req.responseXML;
                         var html = answer.getElementsByTagName('html');
-                        if (html.length == 0)
+                        if (html.length === 0)
                         {
                             var rec = unescape_xml(req.responseText);
                             error_message('erreur :' + rec);
@@ -2465,10 +2466,10 @@ function calendar_zoom(obj)
 
                         // if the target doesn't exist 
                         // then create it
-                        if (obj.outdiv == undefined) {
+                        if (obj.outdiv === undefined) {
                             obj.outdiv = 'calendar_zoom_div';
                         }
-                        if ($(obj.outdiv) == undefined) {
+                        if ($(obj.outdiv) === undefined) {
                             var str_style = fixed_position(0, 20);
                             add_div({id: obj.outdiv, style: 'margin-left:3%;width:94%;height:94%;' + str_style, cssclass: "inner_box", drag: 1});
                         }

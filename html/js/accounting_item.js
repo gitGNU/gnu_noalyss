@@ -48,8 +48,8 @@ function PcmnUpdate(p_value,p_lib,p_parent,p_type,p_dossier)
     $('p_libu').value=p_lib;
     $('p_parentu').value=p_parent;
     $('p_typeu').value=p_type;
-    $('acc_update').style.top=posY+offsetY;
-    $('acc_update').style.left=posX+offsetX;
+    $('acc_update').style.top=posY+offsetY+"px";
+    $('acc_update').style.left=posX+offsetX+"px";
     $('acc_update').show();
 }
 /**
@@ -75,7 +75,7 @@ function search_poste(obj)
             sx=document.body.scrollTop+60;
 	}
 
-	var div_style="top:"+sx;
+	var div_style="top:"+sx+"px";
 	removeDiv('search_account');
 	add_div({id:'search_account',cssclass:'inner_box',html:loading(),style:div_style,drag:true});
 
@@ -93,7 +93,7 @@ function search_poste(obj)
         if ( obj.account)
         {
             queryString+="&c="+obj.account;
-        }
+        } 
         if ( obj.label)
         {
             queryString+="&l="+obj.label;

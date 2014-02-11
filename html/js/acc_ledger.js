@@ -644,7 +644,7 @@ function view_history_account(p_value,dossier)
                    onSuccess:function (req,xml)
 					{
 						success_box(req,xml);
-						g(id).style.top=calcy(140+(layer*3));
+						g(id).style.top=calcy(140+(layer*3))+"px";
 						g(id).style.left="10%";
 						g(id).style.width='80%';
 					}
@@ -666,7 +666,7 @@ function update_history_account(obj)
 		  onSuccess:function (req,xml)
 					{
 						success_box(req,xml);
-						g(obj.div).style.top=calcy(140+(layer*3));
+						g(obj.div).style.top=calcy(140+(layer*3))+"px";
 						g(obj.div).style.left="10%";
 						g(obj.div).style.width='80%';
 					}
@@ -702,7 +702,7 @@ var popup={'id':
                    onSuccess:function (req,xml)
 					{
 						success_box(req,xml);
-						g(id).style.top=calcy(140+(layer*3));
+						g(id).style.top=calcy(140+(layer*3))+"px";
 						g(id).style.left="10%";
 						g(id).style.width='80%';
 					}
@@ -723,7 +723,7 @@ function update_history_card(obj)
 		  onSuccess:function (req,xml)
 					{
 						success_box(req,xml);
-						g(obj.div).style.top=calcy(140+(layer*3));
+						g(obj.div).style.top=calcy(140+(layer*3))+"px";
 						g(obj.div).style.left="10%";
 						g(obj.div).style.width='80%';
 					}
@@ -786,7 +786,7 @@ function reverseOperation(obj)
 function modifyOperation(p_value, dossier)
 {
 	layer++;
-	id = 'det' + layer;
+	var id = 'det' + layer;
 	waiting_box();
 	var querystring = 'gDossier=' + dossier + '&act=de&jr_id=' + p_value + '&div=' + id;
 
@@ -802,7 +802,8 @@ function modifyOperation(p_value, dossier)
 					remove_waiting_box();
 					add_div(popup);
 					success_box(xml, txt);
-					g(id).style.top = calcy(100 + (layer * 3));
+                                        $(id).style.position="absolute";
+					$(id).style.top = calcy(100 + (layer * 3))+"px";
 					g(id).style.left = '10%';
 					g(id).style.width = "80%";
 				}

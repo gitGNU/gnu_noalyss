@@ -30,7 +30,6 @@ $js=sprintf("onclick=\"show_tag('%s','%s','%s','j')\"",Dossier::id(),'','-1');
 echo HtmlInput::button("tag_add", "Ajout d'un tag", $js);
 
 $response=  ob_get_clean();
-ob_end_clean();
 $html=escape_xml($response);
 header('Content-type: text/xml; charset=UTF-8');
 echo <<<EOF

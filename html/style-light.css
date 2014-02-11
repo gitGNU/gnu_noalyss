@@ -4,9 +4,8 @@ BODY {
     background-color:#EDF3FF;
     font-family:arial,verdana,sans-serif,helvetica;
     padding: 0px 0px 0px 0px ;
-    margin:0;
+    margin:0px;
     color:blue;
-    font-size:0.90em;
 }
 .notice {
     color:red;
@@ -138,13 +137,13 @@ td.tool a.mtitle {
     text-decoration:none;
     display:inline;
     color: blue;
-    font-size:0.75em;
+    font-size:0.80em;
     
 }
 td.tool a.mtitle:hover {
     text-decoration:none;
     display:inline;
-    font-size:0.75em;;
+    font-size:0.80em;;
     color: darkblue;
     background-color:#5D90CD;
 
@@ -170,7 +169,6 @@ div.u_subt2menu {
 div.lmenu {
     float:left;
     clear:left;
-    font-size:0.75em;;
 
 }
 div.lextmenu {
@@ -833,14 +831,12 @@ a#anchorbutton, .button, a.button,div.content a.button {
     background-image: url("image/bg-submit2.gif");
     background-repeat: repeat-x;
     background-position: left;
-
-    border-style:  outset ;
     border-color:  blue ;
     border-width:0px;
-    padding:8px;
-    margin-top:3px;
+    padding:4px;
+    margin:3px;
     cursor:pointer;
-    margin:1 2 1 2;
+    margin:1px 2px 1px 2px;
     border-radius: 5px;
     moz-border-radius:5px;
 
@@ -1080,14 +1076,12 @@ ul {
 }
 a.line,div.content a.line
 {
-   font-size:0.87em;
     text-decoration:underline;
     display:inline;
     color: #0000ff;
 }
 a.line:hover,div_content a.line
 {
-   font-size:0.87em;
     text-decoration:underline;
     display:inline;
     color: #0000ff;
@@ -1247,6 +1241,7 @@ textarea.itextarea{
     border:solid blue 1px;
     width:90%;
     margin-left:5%;
+    height:120px;
 }
 div#modele_op_div{
     display: none;

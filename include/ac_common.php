@@ -290,7 +290,7 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
 		else
 			$title=$_REQUEST['ac']."  ".$title;
 	}
-    echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 FINAL//EN">';
+    echo '<!doctype html>';
     echo "<HTML>";
 
     if ($p_script2 != "")

@@ -67,7 +67,7 @@ content[36]='En utilisant les dates d\'échéance ou de paiement, seuls les jour
 function showBulle(p_ctl){
     d=document.getElementById('bulle');
     d.innerHTML=content[p_ctl];
-    d.style.top=posY+offsetY;
+    d.style.top=posY+offsetY+"px";
     d.style.left=posX+offsetX;
     d.style.visibility="visible";
 }

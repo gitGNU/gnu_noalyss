@@ -28,8 +28,8 @@
 function todo_list_show(p_id)
 {
     var gDossier=$('gDossier').value;
-    $('add_todo_list').style.top=posY+offsetY;
-    $('add_todo_list').style.left=posX+offsetX-200;
+    $('add_todo_list').style.top=(posY+offsetY)+'px';
+    $('add_todo_list').style.left=(posX+offsetX-200)+'px';
 
     try
     {
@@ -87,8 +87,8 @@ function todo_list_show_error(request_json)
 }
 function add_todo()
 {
-    $('add_todo_list').style.top=posY+offsetY;
-    $('add_todo_list').style.left=posX+offsetX;
+    $('add_todo_list').style.top=posY+offsetY+"px";
+    $('add_todo_list').style.left=posX+offsetX+"px";
 
     $('add_todo_list').style.display='block';
     $('p_title').value='';

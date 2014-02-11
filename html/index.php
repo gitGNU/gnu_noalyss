@@ -149,7 +149,7 @@ margin:1px;
 font-size:12px;
 color:white;
 font-weight: bold;
-
+border:0px;
 text-decoration:none;
 font-family: helvetica,arial,sans-serif;
 background-image: url("image/bg-submit2.gif");

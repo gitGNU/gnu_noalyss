@@ -104,7 +104,7 @@ function search_card(obj)
             sx=document.body.scrollTop+60;
 	}
 
-	var div_style="top:"+sx+";width:60%;heigth:80%";
+	var div_style="top:"+sx+"px;width:60%;heigth:80%";
 	add_div({id:'search_card',cssclass:'inner_box',html:loading(),style:div_style,drag:true});
 
         var action=new Ajax.Request ( 'ajax_card.php',
@@ -330,7 +330,7 @@ function fill_ipopcard(obj)
     var nTop=posY-40;
     //var nLeft=posX-20;
 	var nLeft="20%";
-    var str_style="top:"+nTop+";left:"+nLeft+";width:45em;height:auto";
+    var str_style="top:"+nTop+"px;left:"+nLeft+";width:45em;height:auto";
 
     var popup={'id':  content,'cssclass':'inner_box','style':str_style,'html':loading(),'drag':true};
 

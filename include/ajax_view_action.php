@@ -57,7 +57,6 @@ else
 }
 echo HtmlInput::button_close($div);
 $response =  ob_get_clean();
-ob_end_clean();
 $html=escape_xml($response);
 header('Content-type: text/xml; charset=UTF-8');
 echo <<<EOF

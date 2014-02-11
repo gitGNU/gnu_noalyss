@@ -27,7 +27,7 @@
  */
 require_once 'class_phpcompta_sql.php';
 
-class Stock_Sql extends NOALYSS_Sql {
+class Stock_Sql extends Phpcompta_SQL {
 	function __construct($cn,$p_id=-1)
 	{
 		$this->table = "public.stock_repository";
