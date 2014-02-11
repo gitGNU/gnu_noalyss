@@ -40,17 +40,24 @@ if ($g_parameter->MY_STOCK == 'N')
 }
 if ( isset ($_POST['add_stock']))
 {
-	$st=new Stock_Sql();
+    $post_name=HtmlInput::default_value_post('r_name', "");
+    if ( strlen(trim($post_name)) != 0)
+    {
+        $st=new Stock_Sql($cn);
 	$st->from_array($_POST);
 	$st->insert();
-
+    }
 }
 if ( isset ($_POST['mod_stock']))
 {
-	$st=new Stock_Sql($_POST['r_id']);
+    $post_name=HtmlInput::default_value_post('r_name', "");
+    if ( strlen(trim($post_name)) != 0)
+    {
+
+	$st=new Stock_Sql($cn,$_POST['r_id']);
 	$st->from_array($_POST);
 	$st->update();
-
+    }
 }
 $tb=new Sort_Table();
 $p_url=HtmlInput::get_to_string(array("ac","gDossier"));
