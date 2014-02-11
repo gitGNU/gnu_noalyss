@@ -197,7 +197,7 @@ case 'de':
     catch (Exception $e)
     {
         echo HtmlInput::anchor_close($div);
-        echo '<h2 class="error">._("Désolé il y a une erreur").</h2>';
+        echo '<h2 class="error">'._("Désolé il y a une erreur").'</h2>';
     }
     $html=ob_get_contents();
     ob_end_clean();
