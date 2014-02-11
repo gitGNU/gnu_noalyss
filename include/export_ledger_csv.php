@@ -35,18 +35,36 @@ $gDossier=dossier::id();
 require_once('class_database.php');
 require_once("class_acc_ledger.php");
 
+/*
+ * Variable from $_GET
+ */
+$get_jrn=HtmlInput::default_value_get('jrn_id', -1);
+$get_option=HtmlInput::default_value_get('p_simple', -1);
+$get_from_periode=  HtmlInput::default_value_get('from_periode', null);
+$get_to_periode=HtmlInput::default_value_get('to_periode', NULL);
+
+//--- Check validity
+if ( $get_jrn ==-1  || $get_option == -1 || $get_from_periode == null || $get_to_periode == null)
+{
+    die (_('Options invalides'));
+}
+
 
 require_once ('class_user.php');
 $g_user->Check();
 $g_user->check_dossier($gDossier);
 
-if ($_GET['jrn_id']!=0 &&  $g_user->check_jrn($_GET['jrn_id']) =='X')
+//----------------------------------------------------------------------------
+// $get_jrn == 0 when request for all ledger, in that case, we must filter
+// the legder with the security in Acc_Ledger::get_row
+//----------------------------------------------------------------------------
+if ($get_jrn!=0 &&  $g_user->check_jrn($get_jrn) =='X')
 {
     NoAccess();
     exit();
 }
 
-$Jrn=new Acc_Ledger($cn,$_GET['jrn_id']);
+$Jrn=new Acc_Ledger($cn,$get_jrn);
 
 $Jrn->get_name();
 $jrn_type=$Jrn->get_type();
@@ -54,23 +72,23 @@ $jrn_type=$Jrn->get_type();
 //
 // With Detail per item which is possible only for VEN or ACH
 // 
-if ($_GET['p_simple'] == 2)
+if ($get_option == 2)
 {
     if ($jrn_type != 'ACH' && $jrn_type != 'VEN' || $Jrn->id == 0)
     {
-        $_GET['p_simple'] = 0;
+        $get_option = 0;
     }
     else
     {
         switch ($jrn_type)
         {
             case 'VEN':
-                $ledger = new Acc_Ledger_Sold($cn, $_GET['jrn_id']);
-                $ret_detail = $ledger->get_detail_sale($_GET['from_periode'], $_GET['to_periode']);
+                $ledger = new Acc_Ledger_Sold($cn, $get_jrn);
+                $ret_detail = $ledger->get_detail_sale($get_from_periode, $get_to_periode);
                 break;
             case 'ACH':
-                $ledger = new Acc_Ledger_Purchase($cn, $_GET['jrn_id']);
-                $ret_detail = $ledger->get_detail_purchase($_GET['from_periode'], $_GET['to_periode']);
+                $ledger = new Acc_Ledger_Purchase($cn, $get_jrn);
+                $ret_detail = $ledger->get_detail_purchase($get_from_periode, $get_to_periode);
                 
                 break;
             default:
@@ -99,13 +117,13 @@ if ($_GET['p_simple'] == 2)
         }
     }
 }
+//-----------------------------------------------------------------------------
 // Detailled printing
-//---
-if  ( $_GET['p_simple'] == 0 )
+// For miscellaneous legder or all ledgers
+//-----------------------------------------------------------------------------
+if  ( $get_option == 0 )
 {
-    $Jrn->get_row( $_GET['from_periode'],
-                   $_GET['to_periode']
-                 );
+    $Jrn->get_row( $get_from_periode, $get_to_periode );
 
     if ( count($Jrn->row) == 0)
         exit;
@@ -134,14 +152,20 @@ if  ( $_GET['p_simple'] == 0 )
     }
     exit;
 }
-else if  ($_GET['p_simple'] == 1)
+//-----------------------------------------------------------------------------
+// Detail printing for ACH or VEN : 1 row resume the situation with VAT, DNA
+// for Misc the amount 
+// For Financial only the tiers and the sign of the amount
+//-----------------------------------------------------------------------------
+if  ($get_option == 1)
 {
-    $Row=$Jrn->get_rowSimple($_GET['from_periode'],
-                             $_GET['to_periode'],
-                             0);
+   
 //-----------------------------------------------------
      if ( $jrn_type == 'ODS' || $jrn_type == 'FIN' || $jrn_type=='GL')
        {
+          $Row=$Jrn->get_rowSimple($get_from_periode,
+                             $get_to_periode,
+                             0);
 	 printf ('" operation";'.
 		 '"Date";'.
 		 '"N° Pièce";'.
@@ -179,9 +203,15 @@ else if  ($_GET['p_simple'] == 1)
 	   }
        }
 
-//-----------------------------------------------------
+//------------------------------------------------------------------------------
+// One line summary with tiers, amount VAT, DNA, tva code ....
+// 
+//------------------------------------------------------------------------------
     if ( $jrn_type=='ACH' || $jrn_type=='VEN')
     {
+        $Row=$Jrn->get_rowSimple($get_from_periode,
+                             $get_to_periode,
+                             0);
         $cn->prepare('reconcile_date',"select to_char(jr_date,'DD.MM.YY') as str_date,* from jrn where jr_id in (select jra_concerned from jrn_rapt where jr_id = $1 union all select jr_id from jrn_rapt where jra_concerned=$1)");
 
         $own=new Own($cn);
@@ -195,13 +225,14 @@ else if  ($_GET['p_simple'] == 1)
                 $col_tva.='"Tva '.$line_tva['tva_label'].'";';
             }
         }
-        echo '"Date";"Paiement";"operation";"Client/Fourn.";"Commentaire";"inter.";"HTVA";privé;DNA;tva non ded.;'.$col_tva.'"TVAC";"opérations liées"'."\n\r";
+        echo '"Date";"Paiement";"operation";"Pièce";"Client/Fourn.";"Commentaire";"inter.";"HTVA";privé;DNA;tva non ded.;'.$col_tva.'"TVAC";"opérations liées"'."\n\r";
         foreach ($Row as $line)
         {
             printf('"%s";"%s";"%s";"%s";"%s";%s;%s;%s;%s;%s;',
                    $line['date'],
                    $line['date_paid'],
                    $line['num'],
+                   $line['jr_pj_number'],
                    $Jrn->get_tiers($line['jrn_def_type'],$line['jr_id']),
                    $line['comment'],
                    $line['jr_internal'],
