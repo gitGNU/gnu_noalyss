@@ -29,6 +29,15 @@ require_once("class_ihidden.php");
 require_once('class_database.php');
 require_once('ac_common.php');
 require_once('class_pre_operation.php');
+
+/*
+ * Value from $_GET or $_REQUEST
+ */
+$request_jrn=HtmlInput::default_value_request("jrn", -1);
+$request_ac=HtmlInput::default_value_request("ac", "");
+$request_sa=HtmlInput::default_value_request("sa", "");
+$get_jrn=HtmlInput::default_value_get('jrn',-1);
+
 echo '<div class="content">';
 echo '<form method="GET">';
 $sel=new ISelect();
@@ -36,37 +45,36 @@ $sel->name="jrn";
 $sel->value=$cn->make_array("select jrn_def_id,jrn_def_name from ".
                             " jrn_def where jrn_def_type in ('VEN','ACH','ODS') order by jrn_def_name");
 // Show a list of ledger
-$sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
-$sel->selected=(isset($_REQUEST['jrn']))?$_REQUEST['jrn']:-1;
+$sel->selected=$request_jrn;
 echo 'Choississez un journal '.$sel->input();
 
 echo dossier::hidden();
 $hid=new IHidden();
 echo $hid->input("sa","jrn");
-echo $hid->input("ac",$_REQUEST['ac']);
+echo $hid->input("ac",$request_ac);
 echo '<hr>';
 echo HtmlInput::submit('Accepter','Accepter');
 echo '</form>';
 
 // if $_REQUEST[sa] == del delete the predefined operation
-if ( $sa == 'del')
+if ( $request_sa == 'del')
 {
     $op=new Pre_operation($cn);
     $op->od_id=$_REQUEST['od_id'];
     $op->delete();
-    $sa='jrn';
+    $request_sa='jrn';
 }
 
 // if $_REQUEST[sa] == jrn show the  predefined operation for this
 // ledger
-if ( $sa == 'jrn' )
+if ( $request_sa== 'jrn' )
 {
     $op=new Pre_operation($cn);
-    $op->set_jrn($_GET['jrn']);
+    $op->set_jrn($get_jrn);
    $is_ods = $cn->get_value("select count(*)
 		from jrn_def where
 			jrn_def_id=$1
-			and jrn_def_type='ODS'", array($_GET['jrn']));
+			and jrn_def_type='ODS'", array($get_jrn));
 	$op->od_direct = ($is_ods > 0) ? 't' : 'f';
 	$array = $op->get_list_ledger();
 	if (empty($array) == true)
@@ -83,19 +91,19 @@ if ( $sa == 'jrn' )
       if ( $count %2 == 0 )
             echo '<tr class="odd">';
         else
-            echo '<tr>';
+            echo '<tr class="even">';
       $count++;
 
         echo '<td>'.h($row['od_name']).'</td>';
         echo '<td>'.h($row['od_description']).'</td>';
         echo '<td>';
-	echo '<form method="POST" style="margin:0;padding:0">';
+	echo '<form method="POST" class="print" style="margin:0;padding:0">';
         echo dossier::hidden();
         echo $hid->input("sa","del");
-        echo $hid->input("ac",$_REQUEST['ac']);
+        echo $hid->input("ac",$request_ac);
         echo $hid->input("del","");
         echo $hid->input("od_id",$row['od_id']);
-        echo $hid->input("jrn",$_GET['jrn']);
+        echo $hid->input("jrn",$get_jrn);
 
 	$b='<input type="submit" class="button" value="Effacer" '.
 	  ' onClick="return confirm(\'Voulez-vous vraiment effacer cette operation ?\');" >';
