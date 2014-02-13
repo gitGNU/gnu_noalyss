@@ -7,5 +7,8 @@
 # Author D. DE BONTRIDDER danydb@aevalys.eu
 echo "Extract"
 cd ..
-xgettext -L PHP -j --from-code=UTF-8 -p html/lang/en_US/LC_MESSAGES/ html/*.php include/*.php include/template/*.php
+# For english
+xgettext -L PHP -j --from-code=UTF-8 -p html/lang/en_US/LC_MESSAGES/ html/*.php include/*.php include/template/*.php include/ext/*/*.php include/ext/*/include/*.php  include/ext/*/include/template/*.php 
+
+# For dutch
 xgettext -L PHP -j --from-code=UTF-8 -p html/lang/nl_NL/LC_MESSAGES/ html/*.php include/*.php include/template/*.php 
