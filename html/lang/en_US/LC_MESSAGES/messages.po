@@ -8369,7 +8369,7 @@ msgstr "Prefix must be different for each ledger, you can also use the current y
 
 #: html/do.php:41
 msgid "Vous  êtes déconnecté"
-msgstr "You disconnected"
+msgstr "You are disconnected"
 
 #: include/ac_common.php:807
 msgid "Module inexistant"
