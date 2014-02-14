@@ -66,8 +66,8 @@ if ( isset ($_POST['remove_cat']))
     $remains=$fd_id->remove();
     if ( $remains != 0 )
         /* some card are not removed because it is used */
-        alert('Impossible d\'enlever cette catégorie, certaines fiches sont encore utilisées'."\n".
-              'Les fiches non utilisées ont cependant été effacées');
+        alert(_('Impossible d\'enlever cette catégorie, certaines fiches sont encore utilisées'."\n".
+              'Les fiches non utilisées ont cependant été effacées'));
 }
 /*******************************************************************************************/
 // Change some basis info

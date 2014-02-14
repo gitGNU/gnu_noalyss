@@ -58,7 +58,7 @@ if ( isset($_GET['f_id']))
     $year=$g_user->get_exercice();
     if ( $year == 0 )
       {
-        $html="erreur aucune période par défaut, allez dans préférence pour en choisir une";
+        $html=_("erreur aucune période par défaut, allez dans préférence pour en choisir une");
       }
     else
       {
@@ -87,13 +87,13 @@ if ( isset($_GET['f_id']))
 	      {
 		$obj="{div:'$div',f_id:'".$_GET['f_id']."',gDossier:'$dossier',select:this}";
 		$is=$exercice->select('p_exercice',$default,' onchange="update_history_card('.$obj.');"');
-		$old="Autre exercice ".$is->input();
+		$old=_("Autre exercice")." ".$is->input();
 	      }
 	    else
 	      {
 		$old='<form method="get" action="popup.php">';
 		$is=$exercice->select('ex',$default,'onchange = "submit(this)"');
-		$old.="Autre exercice ".$is->input();
+		$old.=_("Autre exercice")." ".$is->input();
 		$old.=HtmlInput::hidden('div','popup');
 		$old.=HtmlInput::hidden('act',$_GET['act']);
 		$old.=HtmlInput::hidden('f_id',$_GET['f_id']);
@@ -110,7 +110,7 @@ if ( isset($_GET['f_id']))
 	echo '<p style="text-align:center;">'.$detail_card.'</p>';
 
 	if (   $fiche->HtmlTable($array,0,$from_div)==-1){
-	  echo h2("Aucune opération pour l'exercice courant",'class="error"');
+	  echo h2(_("Aucune opération pour l'exercice courant"),'class="error"');
 	}
 
 	echo $old;
@@ -128,7 +128,7 @@ if ( isset($_REQUEST['pcm_val']))
     $year=$g_user->get_exercice();
     if ( $year == 0 )
       {
-        $html="erreur aucune période par défaut, allez dans préférence pour en choisir une";
+        $html=_("erreur aucune période par défaut, allez dans préférence pour en choisir une");
       }
     else
       {
@@ -158,13 +158,13 @@ if ( isset($_REQUEST['pcm_val']))
 	      {
 		$obj="{div:'$div',pcm_val:'".$_GET['pcm_val']."',gDossier:'$dossier',select:this}";
 		$is=$exercice->select('p_exercice',$default,' onchange="update_history_account('.$obj.');"');
-		$old="Autre exercice ".$is->input();
+		$old=_("Autre exercice")." ".$is->input();
 	      }
 	    else
 	      {
 		$old='<form method="get" action="popup.php">';
 		$is=$exercice->select('ex',$default,'onchange = "submit(this)"');
-		$old.="Autre exercice ".$is->input();
+		$old.=_("Autre exercice")." ".$is->input();
 		$old.=HtmlInput::hidden('div','popup');
 		$old.=HtmlInput::hidden('act',$_GET['act']);
 		$old.=HtmlInput::hidden('pcm_val',$_GET['pcm_val']);
@@ -181,7 +181,7 @@ if ( isset($_REQUEST['pcm_val']))
         if ( $poste->HtmlTable($array) == -1)
 	  {
 	    echo h2($poste->id." ".$poste->name,' class="title"');
-	    echo h2("Aucune opération pour l'exercice courant",'class="error"');
+	    echo h2(_("Aucune opération pour l'exercice courant"),'class="error"');
 	  }
 	echo $old;
 

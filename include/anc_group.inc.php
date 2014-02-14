@@ -59,7 +59,7 @@ echo '<div class="content" >';
 echo '<form method="post">';
 echo dossier::hidden();
 echo '<table class="result"  >';
-echo '<tr> <th> Code </th><th>Plan </td><th>Description</th></tr>';
+echo '<tr> <th>'._("Code")." </th><th>"._("Plan")." </td><th>"._("Description").'</th></tr>';
 foreach ($array as $idx=>$m)
 {
     echo '<tr>';
@@ -78,13 +78,13 @@ $wPa_id->value=$val_pa_id;
 echo "<td>".$w->input()."</td>";
 echo "<td>".$wPa_id->input("pa_id")."</td>";
 echo "<td>".$wDesc->input("ga_description").
-HtmlInput::submit('add','Ajouter').
+HtmlInput::submit('add',_('Ajouter')).
 "</td>";
 ;
 
 echo '</table>';
 
 echo "<hr>";
-echo HtmlInput::submit('remove','Effacer');
+echo HtmlInput::submit('remove',_('Effacer'));
 
 echo '</div>';

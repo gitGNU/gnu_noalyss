@@ -28,10 +28,10 @@
  */
 ?>
 <div class="content">
-	<form method="POST" class="print" onsubmit="return confirm('Vous confirmez ?')">
+	<form method="POST" class="print" onsubmit="return confirm('<?php echo _("Vous confirmez ?")?>')">
 <table>
 	<tr><td>
-			Date
+			<?php echo _("Date")?>
 		</td>
 		<td>
 			<?php echo $date->input()?>
@@ -39,7 +39,7 @@
 	</tr>
 	<tr>
 		<td>
-			Dépot
+			<?php echo _("Dépot")?>
 		</td>
 		<td>
 			<?php echo $idepo->input()?>
@@ -47,7 +47,7 @@
 	</tr>
 	<tr>
 		<td>
-			Motif de changement
+			<?php echo _("Motif de changement")?>
 		</td>
 		<td>
 			<?php echo $motif->input()?>
@@ -57,15 +57,15 @@
 <table id="stock_tb" style="width: 80%">
 	<tr>
 		<th style="text-align: left">
-			Code Stock
+			<?php echo _("Code Stock")?>
 		</th>
 <?php if ( $p_readonly == true ) :?>
 		<th style="text-align: left">
-			Fiche
+			<?php echo _("Fiche")?>
 		</th>
 <?php endif;?>
 		<th style="text-align:right">
-			Quantité
+			<?php echo _("Quantité")?>
 		</th>
 	</tr>
 <?php for($i=0;$i<$nb;$i++): ?>
@@ -100,8 +100,8 @@
 	</tr>
 <?php endfor; ?>
 </table>
-<?php if ($p_readonly == false) echo HtmlInput::button_action('Ajouter une ligne','stock_add_row();')?>
-<?php if ($p_readonly == false) echo HtmlInput::submit('save','Sauver')?>
+<?php if ($p_readonly == false) echo HtmlInput::button_action(_('Ajouter une ligne'),'stock_add_row();')?>
+<?php if ($p_readonly == false) echo HtmlInput::submit('save',_('Sauver'))?>
 <?php if ($p_readonly == false) echo HtmlInput::hidden('row',$nb)?>
 	</form>
 </div>

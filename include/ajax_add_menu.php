@@ -67,9 +67,9 @@ $me_code_dep->value=$ame_code_dep;
 $p_type=new ISelect('p_type');
 $p_type->value=$atype;
 $pm_default=new ICheckBox('pm_default');
-echo HtmlInput::title_box("Nouveau menu", $ctl);
+echo HtmlInput::title_box(_("Nouveau menu"), $ctl);
 ?>
-<form method="POST" onsubmit="return confirm('Vous confirmez ?')">
+<form method="POST" onsubmit="return confirm('<?php echo _('Vous confirmez');?> ?')">
 	<?php 
 	echo HtmlInput::hidden('tab','profile_menu_div');
 	?>
@@ -116,14 +116,14 @@ select me_code,me_code||' '||coalesce(me_menu,'')||' '||coalesce(me_description,
 $me_code=new ISelect('me_code');
 $me_code->value=$ame_code;
 
-	echo HtmlInput::title_box("Nouveau menu", $ctl);
+	echo HtmlInput::title_box(_("Nouveau menu"), $ctl);
 	if (count($ame_code)==0)
 	{
-		echo h2("Aucune impression disponible à ajouter",'class="notice"');
+		echo h2(_("Aucune impression disponible à ajouter"),'class="notice"');
 		return;
 	}
 ?>
-<form method="POST" onsubmit="return confirm('Vous confirmez ?')">
+<form method="POST" onsubmit="return confirm('<?php echo _('Vous confirmez ?')?>">
 	<?php 
 	echo HtmlInput::hidden('tab','profile_print_div');
 	?>
@@ -139,7 +139,7 @@ $me_code->value=$ame_code;
 
 </table>
 <?php 
-echo HtmlInput::submit('add_impress',"Valider");
+echo HtmlInput::submit('add_impress',_("Valider"));
 echo '</form>';
 }
 

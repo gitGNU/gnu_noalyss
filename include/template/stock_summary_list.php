@@ -36,17 +36,17 @@ $a_repo=$cn->get_array("select distinct t.r_id,r_name,r_adress,r_city,r_country,
 <div class="content">
 <?php for ($r=0;$r<count($a_repo);$r++):?>
 <h1><?php echo $a_repo[$r]['r_name']?></h1>
-<p>Adresse <?php echo $a_repo[$r]['r_adress']?></p>
-<p>Ville <?php echo $a_repo[$r]['r_city']?></p>
-<p>Pays <?php echo $a_repo[$r]['r_country']?></p>
-<p>Téléphone <?php echo $a_repo[$r]['r_phone']?></p>
+<p><?php echo _("Adresse")?> <?php echo $a_repo[$r]['r_adress']?></p>
+<p><?php echo _("Ville")?> <?php echo $a_repo[$r]['r_city']?></p>
+<p><?php echo _("Pays")?> <?php echo $a_repo[$r]['r_country']?></p>
+<p><?php echo _("Téléphone")?> <?php echo $a_repo[$r]['r_phone']?></p>
 <table class="result">
 	<tr>
-		<th>Code</th>
-		<th>Détail</th>
-		<th style="text-align: right">IN</th>
-		<th style="text-align: right">OUT</th>
-		<th style="text-align: right">En Stock</th>
+		<th><?php echo _("Code")?></th>
+		<th><?php echo _("Détail")?></th>
+		<th style="text-align: right"><?php echo _("IN")?></th>
+		<th style="text-align: right"><?php echo _("OUT")?></th>
+		<th style="text-align: right"><?php echo _("En Stock")?></th>
 	</tr>
 	<?php 
 		$a_stock=$cn->get_array(
@@ -84,7 +84,7 @@ $a_repo=$cn->get_array("select distinct t.r_id,r_name,r_adress,r_city,r_country,
 					echo $sep.HtmlInput::card_detail($a_card[$c]['quick_code'], $a_card[$c]['vw_name'], ' class="line" ');
 					$sep="  ,";
 				endfor;
-				if ( count($a_card)== 0 ) echo '<span class="notice">Changement manuel</span>';
+				if ( count($a_card)== 0 ) echo '<span class="notice">'._("Changement manuel").'</span>';
 			?>
 		</td>
 		<td class="num">

@@ -5,8 +5,8 @@
 <legend>
 <?php echo $str_action;?></legend>
 <?php echo $str_name;?>
-Date de début <?php echo $str_start_date?>
-Date de fin <?php echo $str_end_date ?>
+<?php echo _("Date de début")?> <?php echo $str_start_date?>
+<?php echo _("Date de fin")?> <?php echo $str_end_date ?>
 
 <h2> <?php echo _('Catégories');?></h2>
 <table>

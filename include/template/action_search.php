@@ -28,11 +28,11 @@
 ?>
 <?php if (! $inner ) : ?>
 <div id="search_action" class="op_detail_frame" style="position:absolute;display:none;margin-left:120px;width:70%;clear:both;z-index:2;height:auto;border:1px #000080 solid">
-	<?php echo HtmlInput::anchor_hide('Fermer', "$('search_action').style.display='none';");?>
+	<?php echo HtmlInput::anchor_hide(_('Fermer'), "$('search_action').style.display='none';");?>
 <?php endif; ?>
 <?php if ( $inner ) : ?>
 <div id="search_action" class="">
-	<?php echo HtmlInput::anchor_hide('Fermer', "removeDiv('search_action_div');");?>
+	<?php echo HtmlInput::anchor_hide(_('Fermer'), "removeDiv('search_action_div');");?>
 
 	<?php endif; ?>
 	<h2 class="info">
@@ -48,19 +48,19 @@
 		<?php echo  dossier::hidden()?>
 		<table style="width:100%">
 			<tr>
-				<td style="width:180px;text-align:right"> Date de rappel après</td>
+				<td style="width:180px;text-align:right"> <?php echo _("Date de rappel après");?></td>
 				<td>
 					<?php echo $remind_date->input();?>
 				</td>
 			</tr>
 			<tr>
-				<td style="width:180px;text-align:right"> Date de rappel avant</td>
+				<td style="width:180px;text-align:right"> <?php echo _("Date de rappel avant");?></td>
 				<td>
 					<?php echo $remind_date_end->input();?>
 				</td>
 			</tr>
 			<tr>
-				<td style="width:180px;text-align:right"> Affiche aussi les actions fermées</td>
+				<td style="width:180px;text-align:right"> <?php echo _("Affiche aussi les actions fermées");?></td>
 				<td><?php echo $closed_action->input();?></td>
 			</tr>
                         <tr>
@@ -79,13 +79,13 @@
 				</td>
 			</tr>
                         <tr>
-			<td style="width:180px;text-align:right"> Référence</td>
+			<td style="width:180px;text-align:right"> <?php echo _("Référence");?></td>
 				<td>
 					<?php echo $osag_ref->input();?>
 				</td>
 			</tr>
 			<tr>
-				<td style="width:180px;text-align:right"> Numéro document</td>
+				<td style="width:180px;text-align:right"> <?php echo _("Numéro document");?></td>
 				<td>
 					<?php $num=new INum('ag_id');echo $num->input();?>
 				</td>

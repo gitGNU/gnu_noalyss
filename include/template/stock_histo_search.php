@@ -27,45 +27,45 @@
  */
 ?>
 <div id="histo_search_d" class="inner_box" style="width:60%;height:280px;display:none">
-	<?php echo  HtmlInput::title_box("Recherche", "histo_search_d", "hide")?>
+	<?php echo  HtmlInput::title_box(_("Recherche"), "histo_search_d", "hide")?>
 	<form method="GET">
 		<?php echo  HtmlInput::get_to_hidden(array("gDossier", "ac"))?>
 		<table>
 			<tr>
-				<td> Code Stock </td>
+				<td> <?php echo _("Code Stock")?> </td>
 				<td> <?php echo  $wcode_stock->input()?><?php echo  $wcode_stock->search()?> </td>
 			</tr>
 			<tr>
-				<td> Fiche </td>
+				<td> <?php echo _("Fiche")?> </td>
 				<td> <?php echo  $wcard->input()?><?php echo  $wcard->search()?> </td>
 			</tr>
 			<tr>
-				<td> A partir de </td>
+				<td> <?php echo _("A partir de")?> </td>
 				<td> <?php echo  $wdate_start->input()?> </td>
 			</tr>
 			<tr>
-				<td> Jusque </td>
+				<td> <?php echo _("Jusque")?> </td>
 				<td> <?php echo  $wdate_end->input()?> </td>
 			</tr>
 			<tr>
-				<td> Dépôt </td>
+				<td> <?php echo _("Dépôt")?> </td>
 				<td> <?php echo  $wrepo->input()?> </td>
 			</tr>
 			<tr>
-				<td> Montant supérieur ou égal à  </td>
+				<td> <?php echo _("Montant supérieur ou égal à")?>  </td>
 				<td> <?php echo  $wamount_start->input()?> </td>
 			</tr>
 			<tr>
-				<td> Montant inférieur ou égal à  </td>
+				<td> <?php echo _("Montant inférieur ou égal à")?>  </td>
 				<td> <?php echo  $wamount_end->input()?> </td>
 			</tr>
 
 			<tr>
-				<td> Direction </td>
+				<td> <?php echo _("Direction")?> </td>
 				<td> <?php echo  $wdirection->input()?> </td>
 			</tr>
 		</table>
-		<?php echo  HtmlInput::submit("search_histo_b", "Recherche")?>
+		<?php echo  HtmlInput::submit("search_histo_b",_("Recherche"))?>
 	</form>
 </div>
 

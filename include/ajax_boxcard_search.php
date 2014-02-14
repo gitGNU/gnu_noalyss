@@ -36,39 +36,39 @@ $sql="
 	order by 2
 ";
 $array=$cn->get_array($sql,array($_GET['card']));
-echo HtmlInput::title_box("Résultat recherche", "boxsearch_card_div");
+echo HtmlInput::title_box(_("Résultat recherche"), "boxsearch_card_div");
 $max=(count($array)>MAX_CARD_SEARCH)?MAX_CARD_SEARCH:count($array);
 ?>
 <?php if (count($array)>MAX_CARD_SEARCH ): ?>
-<h2 class="notice">Résultat limité à <?php echo MAX_CARD_SEARCH?>, nombre de fiches trouvées : <?php echo count($array)?> </h2>
+<h2 class="notice"><?php printf (_("Résultat limité à %d , %d nombre de fiches trouvées"), MAX_CARD_SEARCH,count($array))?> </h2>
 
 <?php endif?>
-Filtre  <?php echo HtmlInput::infobulle(26);echo HtmlInput::filter_table("tb_fiche", "0,1,2,3,4,5", 1); ?>
+<?php echo _('Filtre')?> <?php echo HtmlInput::infobulle(26);echo HtmlInput::filter_table("tb_fiche", "0,1,2,3,4,5", 1); ?> :
 <table id="tb_fiche" class="sorttable" style="width:100%">
 	<tr>
 		<th>
-			Quick Code <?php echo HtmlInput::infobulle(17); ?>
+			<?php echo _("Quick Code");?> <?php echo HtmlInput::infobulle(17); ?>
 		</th>
 		<th class=" sorttable_sorted">
 			Nom
 		<span id="sorttable_sortfwdind">&nbsp;&#x25BE;</span>
 		</th>
 		<th>
-			Categorie
+			<?php echo _("Categorie");?>
 		</th>
 		<th>
-			Description
+			<?php echo _("Description");?>
 		</th>
 		<th>
-			Numéro TVA
+			<?php echo _("Numéro TVA");?>
 		</th>
 		<th>
-			Poste comptable
+			<?php echo _("Poste comptable");?>
 		</th>
 
 	</tr>
 <?php if (count($array)==0) : ?>
-	<h2 class="notice"> Aucun résultat</h2>
+	<h2 class="notice"> <?php echo _("Aucun résultat");?></h2>
 <?php endif?>
 <?php for ($i=0;$i<$max;$i++):?>
 	<tr class="<?php echo ($i%2 == 0)?'even':'odd';?>">

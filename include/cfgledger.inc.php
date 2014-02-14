@@ -47,7 +47,7 @@ if (isset($_POST['update']))
 	try
 	{
 		$ledger->id=$_POST['p_jrn'];
-		if ( $ledger->load() == -1) throw new Exception ('Journal inexistant');
+		if ( $ledger->load() == -1) throw new Exception (_('Journal inexistant'));
 		$ledger->verify_ledger($_POST);
 		$ledger->update($_POST);
 	} catch (Exception $e)
@@ -119,9 +119,9 @@ switch ($sa)
 			echo '<div class="redcontent">';
 			echo '<form method="POST">';
 			echo $ledger->display_ledger();
-			echo '<INPUT TYPE="SUBMIT" class="button" VALUE="Sauve" name="update">
+			echo '<INPUT TYPE="SUBMIT" class="button" VALUE="'._("Sauve").'" name="update">
 			<INPUT TYPE="RESET" class="button" VALUE="Reset">
-			<INPUT TYPE="submit" class="button"  name="efface" value="Efface" onClick="return confirm(\'Vous effacez ce journal ?\')">';
+			<INPUT TYPE="submit" class="button"  name="efface" value="'._("Efface").'" onClick="return confirm(\'Vous effacez ce journal ?\')">';
 			echo '</FORM>';
 			echo "</div>";
 		}

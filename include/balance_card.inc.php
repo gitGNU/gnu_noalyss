@@ -33,7 +33,7 @@ $fiche=new Fiche($cn,$_GET['f_id']);
 $year=$g_user->get_exercice();
 if ( $year == 0 )
   {
-    $html="erreur aucune période par défaut, allez dans préférence pour en choisir une";
+    $html=_("erreur aucune période par défaut, allez dans préférence pour en choisir une");
   }
 else
   {
@@ -67,7 +67,7 @@ else
       }
 
     if (   $fiche->HtmlTable($array,0,0)==-1){
-      echo h2("Aucune opération pour l'exercice courant",'class="error"');
+      echo h2(_("Aucune opération pour l'exercice courant",'class="error"'));
     }
     echo $old;
 

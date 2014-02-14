@@ -7,22 +7,22 @@
             
         </th>
          <th style="text-align:right">
-            Prix HTVA
+            <?php echo _("Prix HTVA")?>
         </th>
         <th style="text-align:right">
-            Non Deductible
+            <?php echo _("Non Deductible")?>
         </th>
         <th style="text-align:right" >
-            code tva
+            <?php echo _("code tva")?>
         </th>
         <th style="text-align:right">
-            TVA
+           <?php echo _("TVA")?>
         </th>
         <th style="text-align:right">
-            Tva ND
+            <?php echo _("Tva ND")?>
         </th>
         <th style="text-align:right">
-            TVAC
+           <?php echo _("TVAC")?>
         </th>
     </tr>
 <?php 

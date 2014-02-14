@@ -104,7 +104,7 @@ class Acc_Ledger extends jrn_def_sql
 	{
 		if ($this->id == 0)
 		{
-			$this->name = " Tous les journaux";
+			$this->name = _(" Tous les journaux");
 			$this->type = "GL";
 			return "GL";
 		}
@@ -184,7 +184,7 @@ class Acc_Ledger extends jrn_def_sql
 		{
 			$this->db->start();
 			if (!isset($this->jr_id) || $this->jr_id == '')
-				throw new Exception("this->jr_id is not set ou opération inconnue");
+				throw new Exception(_("this->jr_id is not set ou opération inconnue"));
 
 			/* check if the date is valid */
 			if (isDate($p_date) == null)
@@ -243,7 +243,7 @@ class Acc_Ledger extends jrn_def_sql
 				$Res = $this->db->exec_sql($sql, array($p_date, $grp_new, $p_internal, $g_user->id, $per->p_id, $row));
 				// Check return code
 				if ($Res == false)
-					throw (new Exception(__FILE__ . __LINE__ . "sql a echoue [ $sql ]"));
+					throw (new Exception(__FILE__ . __LINE__ . "SQL ERROR [ $sql ]"));
 				$aj_id = $this->db->fetch(0);
 				$j_id = $aj_id['j_id'];
 
@@ -271,7 +271,7 @@ class Acc_Ledger extends jrn_def_sql
                                      FROM quant_purchase where j_id=$3", array($p_internal, $j_id, $row));
 
 				if ($Res == false)
-					throw (new Exception(__FILE__ . __LINE__ . "sql a echoue [ $sql ]"));
+					throw (new Exception(__FILE__ . __LINE__ . "SQL ERROR [ $sql ]"));
 			}
 			$sql = "insert into jrn (
               jr_id,
@@ -292,14 +292,14 @@ class Acc_Ledger extends jrn_def_sql
 				$Res = $this->db->exec_sql($sql, array($seq, $p_date, $grp_new, $p_internal, $per->p_id, $this->jr_id));
 				// Check return code
 				if ($Res == false)
-					throw (new Exception(__FILE__ . __LINE__ . "sql a echoue [ $sql ]"));
+					throw (new Exception(__FILE__ . __LINE__ . "SQL ERROR [ $sql ]"));
 			// reverse in QUANT_FIN table
 			$Res = $this->db->exec_sql("  INSERT INTO quant_fin(
                                  qf_bank,  qf_other, qf_amount,jr_id)
                                  SELECT  qf_bank,  qf_other, qf_amount*(-1),$1
                                  FROM quant_fin where jr_id=$2", array($seq, $this->jr_id));
 			if ($Res == false)
-				throw (new Exception(__FILE__ . __LINE__ . "sql a echoue [ $sql ]"));
+				throw (new Exception(__FILE__ . __LINE__ . "SQL ERROR[ $sql ]"));
 
 			// Add a "concerned operation to bound these op.together
 			//
@@ -310,7 +310,7 @@ class Acc_Ledger extends jrn_def_sql
 			// Check return code
 			if ($Res == false)
 			{
-				throw (new Exception(__FILE__ . __LINE__ . "sql a echoue [ $sql ]"));
+				throw (new Exception(__FILE__ . __LINE__ . "SQL ERROR [ $sql ]"));
 			}
 
 
@@ -321,7 +321,7 @@ class Acc_Ledger extends jrn_def_sql
              from stock_goods natural join jrnx  where j_grpt=" . $this->jr_grpt_id . ")";
 			$Res = $this->db->exec_sql($sql);
 			if ($Res == false)
-				throw (new Exception(__FILE__ . __LINE__ . "sql a echoue [ $sql ]"));
+				throw (new Exception(__FILE__ . __LINE__ . "SQL ERROR [ $sql ]"));
 		}
 		catch (Exception $e)
 		{
@@ -339,7 +339,7 @@ class Acc_Ledger extends jrn_def_sql
 	{
 		if ($this->id == 0)
 		{
-			$this->name = " Grand Livre ";
+			$this->name = _("Grand Livre");
 			return $this->name;
 		}
 
@@ -652,20 +652,20 @@ class Acc_Ledger extends jrn_def_sql
 
 
 		$r.="<tr >";
-		$r.="<th>Selection</th>";
-		$r.="<th>Internal</th>";
+		$r.="<th>"._("Selection")."</th>";
+		$r.="<th>"._("Internal")."</th>";
 
 		if ($this->type == 'ALL')
 		{
-			$r.=th('Journal');
+			$r.=th(_('Journal'));
 		}
 
-		$r.='<th>Date</th>';
-		$r.='<th>Pièce</td>';
-		$r.=th('tiers');
-		$r.='<th>Description</th>';
-		$r.=th('Notes', ' ');
-		$r.='<th>Montant</th>';
+		$r.='<th>'._("Date").'</th>';
+		$r.='<th>'._("Pièce").'</td>';
+		$r.=th(_('tiers'));
+		$r.='<th>'._("Description").'</th>';
+		$r.=th(_('Notes'), ' ');
+		$r.='<th>'._("Montant").'</th>';
 		$r.="<th>" . _('Concerne') . "</th>";
 		$r.="</tr>";
 		// Total Amount
@@ -759,7 +759,7 @@ class Acc_Ledger extends jrn_def_sql
 
 			if ($row['jr_valid'] == 'f')
 			{
-				$r.="<TD> Op&eacute;ration annul&eacute;e</TD>";
+				$r.="<TD>"._("Opération annulée")."</TD>";
 			}
 			// end row
 			$r.="</tr>";
@@ -813,13 +813,13 @@ class Acc_Ledger extends jrn_def_sql
 		// Sort
 		$url = "?" . CleanUrl();
 		$str_dossier = dossier::get();
-		$table->add("Date", $url, 'order by jr_date asc,substring(jr_pj_number,\'[0-9]+$\')::numeric asc', 'order by  jr_date desc,substring(jr_pj_number,\'[0-9]+$\')::numeric desc', "da", "dd");
-		$table->add('Echeance', $url, " order by  jr_ech asc", " order by  jr_ech desc", 'ea', 'ed');
-		$table->add('Paiement', $url, " order by  jr_date_paid asc", " order by  jr_date_paid desc", 'eap', 'edp');
-		$table->add('PJ', $url, ' order by  substring(jr_pj_number,\'[0-9]+$\')::numeric asc ', ' order by  substring(jr_pj_number,\'[0-9]+$\')::numeric desc ', "pja", "pjd");
-		$table->add('Tiers', $url, " order by  name asc", " order by  name desc", 'na', 'nd');
-		$table->add('Montant', $url, " order by jr_montant asc", " order by jr_montant desc", "ma", "md");
-		$table->add("Description", $url, "order by jr_comment asc", "order by jr_comment desc", "ca", "cd");
+		$table->add(_("Date"), $url, 'order by jr_date asc,substring(jr_pj_number,\'[0-9]+$\')::numeric asc', 'order by  jr_date desc,substring(jr_pj_number,\'[0-9]+$\')::numeric desc', "da", "dd");
+		$table->add(_('Echeance'), $url, " order by  jr_ech asc", " order by  jr_ech desc", 'ea', 'ed');
+		$table->add(_('Paiement'), $url, " order by  jr_date_paid asc", " order by  jr_date_paid desc", 'eap', 'edp');
+		$table->add(_('Pièce'), $url, ' order by  substring(jr_pj_number,\'[0-9]+$\')::numeric asc ', ' order by  substring(jr_pj_number,\'[0-9]+$\')::numeric desc ', "pja", "pjd");
+		$table->add(_('Tiers'), $url, " order by  name asc", " order by  name desc", 'na', 'nd');
+		$table->add(_('Montant'), $url, " order by jr_montant asc", " order by jr_montant desc", "ma", "md");
+		$table->add(_("Description"), $url, "order by jr_comment asc", "order by jr_comment desc", "ca", "cd");
 
 		$ord = (!isset($_GET['ord'])) ? 'da' : $_GET['ord'];
 		$order = $table->get_sql_order($ord);
@@ -846,7 +846,7 @@ class Acc_Ledger extends jrn_def_sql
 
 
 		$r.="<tr >";
-		$r.="<th>Internal</th>";
+		$r.="<th>"._("n° interne")."</th>";
 		if ($this->type == 'ALL')
 		{
 			$r.=th('Journal');
@@ -987,7 +987,7 @@ class Acc_Ledger extends jrn_def_sql
 
 			if ($row['jr_valid'] == 'f')
 			{
-				$r.="<TD> Op&eacute;ration annul&eacute;e</TD>";
+				$r.="<TD>"._("Opération annulée")."</TD>";
 			}
 			else
 			{
@@ -1016,11 +1016,11 @@ class Acc_Ledger extends jrn_def_sql
 		if ($p_paid != 0)
 		{
 			$r.="<TR>";
-			$r.='<TD COLSPAN="5">Pay&eacute;</TD>';
+			$r.='<TD COLSPAN="5">'._("Payé").'</TD>';
 			$r.='<TD ALIGN="RIGHT">' . nbm($amount_paid) . "</TD>";
 			$r.="</tr>";
 			$r.="<TR>";
-			$r.='<TD COLSPAN="5">Non pay&eacute;</TD>';
+			$r.='<TD COLSPAN="5">'._("Non payé").'</TD>';
 			$r.='<TD ALIGN="RIGHT">' . nbm($amount_unpaid) . "</TD>";
 			$r.="</tr>";
 		}
@@ -1418,7 +1418,7 @@ class Acc_Ledger extends jrn_def_sql
 		$ret = "";
 		if (!empty($msg))
 		{
-			$ret.=$this->display_warning($msg, "Attention : il vaut mieux utiliser les fiches que les postes comptables pour");
+			$ret.=$this->display_warning($msg, _("Attention : il vaut mieux utiliser les fiches que les postes comptables"));
 		}
 		$ret.="<table >";
 		$ret.="<tr><td>" . _('Date') . " : </td><td>$e_date</td></tr>";
@@ -1889,7 +1889,7 @@ class Acc_Ledger extends jrn_def_sql
 				$f->quick_code = ${'qc_' . $i};
 				if ($f->belong_ledger($p_jrn) < 0)
 					throw new Exception("La fiche quick_code = " .
-							$f->quick_code . " n\'est pas dans ce journal", 4);
+							$f->quick_code . " n'est pas dans ce journal", 4);
 				if (strlen(trim(${'qc_' . $i})) != 0 && isNumber(${'amount' . $i}) == 0)
 					throw new Exception('Montant invalide', 3);
 
@@ -1980,7 +1980,7 @@ class Acc_Ledger extends jrn_def_sql
 			$msg = $this->verify($p_array);
 			if (!empty($msg))
 			{
-				echo $this->display_warning($msg, "Attention : il vaut mieux utiliser les fiches que les postes comptables pour");
+				echo $this->display_warning($msg, _("Attention : il vaut mieux utiliser les fiches que les postes comptables "));
 			}
 			$this->db->start();
 
@@ -2080,7 +2080,7 @@ class Acc_Ledger extends jrn_def_sql
 			$jr_id = $acc_end->insert_jrn();
 			$this->jr_id = $jr_id;
 			if ($jr_id == false)
-				throw new Exception('Balance incorrecte');
+				throw new Exception(_('Balance incorrecte'));
 			$acc_end->pj = $e_pj;
 
 			/* if e_suggest != e_pj then do not increment sequence */
@@ -2117,7 +2117,7 @@ class Acc_Ledger extends jrn_def_sql
 		catch (Exception $e)
 		{
 			$this->db->rollback();
-			echo 'OPERATION ANNULEE ';
+			echo _('OPERATION ANNULEE ');
 			echo '<hr>';
 			echo __FILE__ . __LINE__ . $e->getMessage();
 			exit();
@@ -2373,7 +2373,7 @@ class Acc_Ledger extends jrn_def_sql
 			$empl->get_by_qcode($e_mp_qcode);
 			if ($empl->empty_attribute(ATTR_DEF_ACCOUNT) == true)
 			{
-				throw new Exception('Celui qui paie n\' a pas de poste comptable', 20);
+				throw new Exception(_("Celui qui paie n' a pas de poste comptable"), 20);
 			}
 			/* get the account and explode if necessary */
 			$sposte = $empl->strAttribut(ATTR_DEF_ACCOUNT);
@@ -2390,7 +2390,7 @@ class Acc_Ledger extends jrn_def_sql
 			$poste = new Acc_Account_Ledger($this->db, $poste_val);
 			if ($poste->load() == false)
 			{
-				throw new Exception('Pour la fiche' . $empl->quick_code . '  le poste comptable [' . $poste->id . 'n\'existe pas', 9);
+				throw new Exception(sprintf(_("Pour la fiche %s le poste comptable [%s] n'existe pas"),$empl->quick_code,$poste->id  ), 9);
 			}
 		}
 	}
@@ -2851,7 +2851,7 @@ class Acc_Ledger extends jrn_def_sql
 			$r.= HtmlInput::hidden("sc", $_REQUEST['sc']);
 		if (isset($_REQUEST['f_id']))
 			$r.=HtmlInput::hidden("f_id", $_REQUEST['f_id']);
-		$r.=HtmlInput::button_anchor('Fermer', 'javascript:void(0)', 'fsearch_form', 'onclick="$(\'search_form\').style.display=\'none\';"');
+		$r.=HtmlInput::button_anchor(_('Fermer'), 'javascript:void(0)', 'fsearch_form', 'onclick="$(\'search_form\').style.display=\'none\';"');
 
 		$r.='</FORM>';
 
@@ -3229,10 +3229,10 @@ class Acc_Ledger extends jrn_def_sql
 	static function array_cat()
 	{
 		$r = array(
-			array('cat' => 'VEN', 'name' => 'Journaux de vente'),
-			array('cat' => 'ACH', 'name' => 'Journaux d\'achat'),
-			array('cat' => 'FIN', 'name' => 'Journaux Financier'),
-			array('cat' => 'ODS', 'name' => 'Journaux d\'Opérations diverses')
+			array('cat' => 'VEN', 'name' => _("Journaux de vente")),
+			array('cat' => 'ACH', 'name' => _("'Journaux d'achat")),
+			array('cat' => 'FIN', 'name' => _("'Journaux Financier")),
+			array('cat' => 'ODS', 'name' => _("'Journaux d'Opérations diverses"))
 		);
 		return $r;
 	}
@@ -3403,17 +3403,17 @@ class Acc_Ledger extends jrn_def_sql
 			if (isNumber($p_jrn) == 0)
 				throw new Exception("Id invalide");
 			if (isNumber($p_jrn_deb_max_line) == 0)
-				throw new Exception("Nombre de ligne incorrect");
+				throw new Exception(_("Nombre de ligne incorrect"));
 			if (trim($p_jrn_name) == "")
 				throw new Exception("Nom de journal invalide");
 			if ($this->db->get_value("select count(*) from jrn_def where jrn_def_name=$1 and jrn_Def_id<>$2", array($p_jrn_name, $p_jrn)) > 0)
-				throw new Exception("Un journal avec ce nom existe déjà");
+				throw new Exception(_("Un journal avec ce nom existe déjà"));
 			if ($p_jrn_type == 'FIN')
 			{
 				$a = new Fiche($this->db);
 				$result = $a->get_by_qcode(trim(strtoupper($_POST['bank'])), false);
 				if ($result == 1)
-					throw new Exception("Aucun compte en banque n'est donné");
+					throw new Exception(_("Aucun compte en banque n'est donné"));
 			}
 		}
 		catch (Exception $e)
@@ -3458,7 +3458,7 @@ class Acc_Ledger extends jrn_def_sql
 				$bank = $a->id;
 				$this->jrn_def_bank = $bank;
 				if ($result == -1)
-					throw new Exception("Aucun compte en banque n'est donné");
+					throw new Exception(_("Aucun compte en banque n'est donné"));
 				$this->jrn_def_num_op = (isset($numb_operation)) ? 1 : 0;
 				break;
 		}
@@ -3524,7 +3524,7 @@ class Acc_Ledger extends jrn_def_sql
 		$name = "";
 		$code = "";
 		$wType = new ISelect();
-                $a_jrn= $this->db->make_array("select '-1',' -- choix du type de journal -- ' union select jrn_type_id,jrn_desc from jrn_type");
+                $a_jrn= $this->db->make_array("select '-1',' -- "._("choix du type de journal")." -- ' union select jrn_type_id,jrn_desc from jrn_type");
                 $wType->selected='-1';
 		$wType->value =$a_jrn;
 		$wType->name = "p_jrn_type";
@@ -3591,7 +3591,7 @@ class Acc_Ledger extends jrn_def_sql
 				$bank = $a->id;
 				$this->jrn_def_bank = $bank;
 				if ($result == -1)
-					throw new Exception("Aucun compte en banque n'est donné");
+					throw new Exception(_("Aucun compte en banque n'est donné"));
 				$this->jrn_def_num_op = (isset($numb_operation)) ? 1 : 0;
 				break;
 		}
@@ -3608,7 +3608,7 @@ class Acc_Ledger extends jrn_def_sql
 		try
 		{
 			if ($this->db->get_value("select count(jr_id) from jrn where jr_def_id=$1", array($this->jrn_def_id)) > 0)
-				throw new Exception("Impossible d'effacer un journal qui contient des opérations");
+				throw new Exception(_("Impossible d'effacer un journal qui contient des opérations"));
 			parent::delete();
 		}
 		catch (Exception $e)
@@ -3681,7 +3681,7 @@ class Acc_Ledger extends jrn_def_sql
         {
             global $g_user;
             if (isNumber($p_ag_id)==0) return null;
-            if (! $g_user->can_read_action($p_ag_id)) die ('Action non accessible');
+            if (! $g_user->can_read_action($p_ag_id)) die (_('Action non accessible'));
             $array=array();
             
             // retrieve info from action_gestion

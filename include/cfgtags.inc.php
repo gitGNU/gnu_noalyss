@@ -48,9 +48,9 @@ if ( isset ($_POST['save_tag_sb']))
 ?>
 <div style="margin-left:10%;width:80%">
      <p class="notice">
-         Vous pouvez utiliser ceci comme des étiquettes pour marquer des documents ou 
+        <?php echo _("Vous pouvez utiliser ceci comme des étiquettes pour marquer des documents ou 
          comme des dossiers pour rassembler des documents. Un document peut appartenir
-         à plusieurs dossiers ou avoir plusieurs étiquettes.
+         à plusieurs dossiers ou avoir plusieurs étiquettes.");?>
      </p>
     <?php
         $tag->show_list();

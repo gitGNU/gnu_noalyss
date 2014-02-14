@@ -285,7 +285,7 @@ case 'file':
         echo '<div class="op_detail_frame">';
         $x='';
         if ($access=='W')
-            $x=sprintf('<a class="notice" style="margin-left:12;margin-right:12" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">enlever</a>',
+            $x=sprintf('<a class="notice" style="margin-left:12;margin-right:12" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">'._('enlever').'</a>',
                        $gDossier,$div,$jr_id);
         echo $x;
         $filename= $obj->det->jr_pj_name;
@@ -323,7 +323,7 @@ case 'loadfile':
 		if ( ! isset($_REQUEST['ajax']) ) echo "<body class=\"op_detail_frame\">"; else echo "<body>";
 		echo "<h2>"._("Document")."</h2>";
         echo '<div class="op_detail_frame">';
-        $x=sprintf('<a class="mtitle" class="notice" style="margin-left:12;margin-right:12px" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">enlever</a>',
+        $x=sprintf('<a class="mtitle" class="notice" style="margin-left:12;margin-right:12px" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">'._('enlever').'</a>',
                    $gDossier,$div,$jr_id);
         echo $x;
         $filename= $obj->det->jr_pj_name;
@@ -350,7 +350,7 @@ case 'rmf':
         echo '<FORM METHOD="POST" ENCTYPE="multipart/form-data" id="form_file">';
         $sp=new ISpan('file'.$div);
         $sp->style="display:none;width:155;height:15;background-color:red;color:white;font-size:10";
-        $sp->value="Chargement";
+        $sp->value=_("Chargement");
         echo $sp->input();
 
         echo HtmlInput::hidden('act','loadfile');
@@ -524,7 +524,7 @@ case 'ask_extdate':
     $date=new IDate('p_date');
     $html.="<form id=\"form_".$div."\" onsubmit=\"return reverseOperation(this);\">";
     $html.=HtmlInput::hidden('jr_id',$_REQUEST['jr_id']).HtmlInput::hidden('div',$div).dossier::hidden().HtmlInput::hidden('act','reverseop');
-    $html.='<h2 class="info">entrez une date </H2>'.$date->input();
+    $html.='<h2 class="info">'._('entrez une date').' </H2>'.$date->input();
     $html.=HtmlInput::submit('x','accepter');
 	$html=HtmlInput::button_close($div);
     $html.='</form>';

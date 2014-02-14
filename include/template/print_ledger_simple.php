@@ -3,12 +3,12 @@
 //see licence.txt
 ?><TABLE class="result">
     <tr>
-        <th>Pièce</th>
-        <th>Date</th>
-        <th>Paiement</th>
-        <th>Ref</th>
-        <th>Client / Fournisseur</th>
-        <th>Description</th>
+        <th><?php echo _("Pièce")?></th>
+        <th><?php echo _("Date")?></th>
+        <th><?php echo _("Paiement")?></th>
+        <th><?php echo _("Ref")?></th>
+        <th><?php echo _("Client")."/"._("Fournisseur")?></th>
+        <th><?php echo _("Description")?></th>
         <th style="text-align:right">HTVA</th>
         <th style="text-align:right">Privé</th>
         <th style="text-align:right">DNA</th>
@@ -28,7 +28,7 @@ $col_tva="";
 echo $col_tva;      
 ?>
         <th style="text-align:right">TVAC</th>
-        <th>Opérations rapprochées</th>
+        <th><?php echo _("Opérations rapprochées")?></th>
     </tr>
 <?php
 $i = 0;

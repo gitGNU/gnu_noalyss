@@ -156,7 +156,7 @@
 					$rmOperation=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer cette opération ')."')==true ) {remove_operation('%s','%s');}",
 							dossier::id(),
 							$operation[$o]['ago_id']);
-					$js= '<a class="mtitle" style="color:orange" id="acop'.$operation[$o]['ago_id'].'" href="'.$rmOperation.'">Effacer</a>';
+					$js= '<a class="mtitle" style="color:orange" id="acop'.$operation[$o]['ago_id'].'" href="'.$rmOperation.'">'._("Effacer").'</a>';
 					echo '<li id="op'.$operation[$o]['ago_id'].'">'.$operation[$o]['str_date']." ".HtmlInput::detail_op($operation[$o]['jr_id'],$operation[$o]['jr_internal'])." ".h($operation[$o]['jr_comment'])." "
 						.$js.'</li>';
 				}
@@ -173,7 +173,7 @@
 	</div>
 
 	<div style="float:left;width:45%">
-		<h4 style="display:inline">Actions concernées</h4>
+		<h4 style="display:inline"><?php echo _("Actions concernées")?></h4>
 		<ol>
 
 		<?php
@@ -186,7 +186,7 @@
 					dossier::id(),
 					$action[$o]['ag_id'],$_REQUEST['ag_id']);
 			$showAction='<a class="line" href="'.$base."&ag_id=".$action[$o]['ag_id'].'">';
-			$js= '<a class="mtitle" style="color:orange" id="acact'.$action[$o]['ag_id'].'" href="'.$rmAction.'">Effacer</a>';
+			$js= '<a class="mtitle" style="color:orange" id="acact'.$action[$o]['ag_id'].'" href="'.$rmAction.'">'._("Effacer").'</a>';
 			echo '<li id="act'.$action[$o]['ag_id'].'">'.$showAction.$action[$o]['str_date']." ".$action[$o]['ag_ref']." ".
 					h($action[$o]['sub_title']).'('.h($action[$o]['dt_value']).')</a>'." "
 				.$js.'</li>';
@@ -237,7 +237,7 @@ Document créé le <?php echo $this->ag_timestamp ?> par <?php echo $this->ag_ow
 for( $c=0;$c<count($acomment);$c++){
 	if ( $p_view != 'READ')
 	{
-		$rmComment=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer ce commentaire ')."')==true ) {remove_comment('%s','%s');}",
+		$rmComment=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer ce commentaire')." ?')==true ) {remove_comment('%s','%s');}",
 						dossier::id(),
 						$acomment[$c]['agc_id']);
 				$js= '<a class="mtitle" style="color:red" id="accom'.$acomment[$c]['agc_id'].'" href="'.$rmComment.'">Effacer</a>';
@@ -459,7 +459,7 @@ catch(exception) { alert('<?php echo j(_('Je ne peux pas ajouter de fichier'))?>
       </li>
     </ol>
   <span   >
- <input type="button" class="button" onclick="addFiles();" value="Ajouter un fichier">
+ <input type="button" class="button" onclick="addFiles();" value="<?php echo _("Ajouter un fichier")?>">
   </span>
   </div>
  <?php endif;?>

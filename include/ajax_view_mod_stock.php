@@ -30,7 +30,7 @@ if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 
 $st=new Stock_Goods($cn);
 $array=$cn->get_array("select * from stock_goods where c_id=$1",array($_GET['c_id']));
-echo HtmlInput::title_box("Détail changement",$_GET['ctl']);
+echo HtmlInput::title_box(_("Détail changement"),$_GET['ctl']);
 $p_array=array();
 $p_array['p_date']=$cn->get_value("select to_char(c_date,'DD.MM.YYYY') from stock_change where c_id=$1",array($_GET['c_id']));
 $p_array['p_motif']=$cn->get_value("select c_comment from stock_change where c_id=$1",array($_GET['c_id']));
@@ -49,10 +49,10 @@ echo $st->input($p_array,true);
 	<?php echo HtmlInput::hidden('c_id',$_GET['c_id']);?>
 	<p>
 	<?php $ck=new ICheckBox("ok"," 1");
-			$ck->label= "Cochez pour confirmer effacement ";
+			$ck->label= _("Cochez pour confirmer effacement");
 			echo $ck->input();?>
 	</p>
-	<?php echo HtmlInput::submit("del", "Effacer");?>
+	<?php echo HtmlInput::submit("del",_("Effacer"));?>
 	<?php echo HtmlInput::button_close($_GET['ctl'])?>
 	<?php echo HtmlInput::hidden('r_id',$p_array['p_depot'])?>
 </form>

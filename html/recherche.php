@@ -50,7 +50,7 @@ if ($act =='P')
 }
 if ( $act=='X')
   {
-     alert('Accès interdit');
+     alert(_('Accès interdit'));
      exit();
   }
 // display a search box

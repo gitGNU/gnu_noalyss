@@ -27,7 +27,7 @@ $tag->select();
 //------------------- Propose to add a tag
 
 $js=sprintf("onclick=\"show_tag('%s','%s','%s','j')\"",Dossier::id(),'','-1');
-echo HtmlInput::button("tag_add", "Ajout d'un tag", $js);
+echo HtmlInput::button("tag_add", _("Ajout d'un tag"), $js);
 
 $response=  ob_get_clean();
 $html=escape_xml($response);

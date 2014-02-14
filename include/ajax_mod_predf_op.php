@@ -29,7 +29,7 @@ require_once 'class_pre_operation.php';
 $op=new Pre_Operation($cn,$_GET['id']);
 $array=$op->load();
 echo HtmlInput::anchor_close('mod_predf_op');
-echo h2info('Modification du nom');
+echo h2info(_('Modification du nom'));
 
 echo '
     <form method="POST" onsubmit="save_predf_op(this);return false;">';
@@ -41,7 +41,7 @@ $opd_description=new ITextarea('od_description');
 $opd_description->style=' class="itextarea" style="width:30em;height:4em;vertical-align:top"';
 $opd_description->value=$op->od_description;
 echo '<p>';
-echo "Description (max 50 car.)";
+echo _("Description (max 50 car.)");
 echo $opd_description->input();
 echo '</p>';
 echo dossier::hidden() . HtmlInput::hidden('od_id', $_GET['id']);
@@ -52,8 +52,8 @@ echo "<hr>";
 echo $op->display();
 
 
-echo HtmlInput::submit('save', 'Sauve');
-echo HtmlInput::button('close', 'Annuler', 'onclick="removeDiv(\'mod_predf_op\')"');
+echo HtmlInput::submit('save', _('Sauve'));
+echo HtmlInput::button('close', _('Annuler'), 'onclick="removeDiv(\'mod_predf_op\')"');
 echo '</form>';
 
 

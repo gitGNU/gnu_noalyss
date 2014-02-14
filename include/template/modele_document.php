@@ -2,12 +2,12 @@
 //This file is part of NOALYSS and is under GPL 
 //see licence.txt
 ?><?php echo HtmlInput::anchor_close('mod_doc');?>
-<h2 class="info">Modèle de document</h2>
+<h2 class="info">"<?php echo _("Modèle de document")?></h2>
 <form  method="post" enctype="multipart/form-data">
 <table>
 
 <tr>
-<td>Nom du document</td>
+<td><?php echo _("Nom du document")?></td>
 
 <td>
 <?php
@@ -20,7 +20,7 @@ echo $a->input();
 
 <tr>
 <td>
-Catégorie de document
+<?php echo _("Catégorie de document")?>
 </td>
 <td>
 <?php
@@ -37,7 +37,7 @@ Catégorie de document
 </tr>
 <tr>
 <td>
-Affectation
+<?php echo _("Affectation")?>
 </td>
 <td>
 <?php
@@ -58,7 +58,7 @@ Affectation
 
 <tr>
 <td>
-Fichier
+<?php echo _("Fichier")?>
 <?php
 	        $s=dossier::get();
 
@@ -77,7 +77,7 @@ echo $file->input();
 
 <tr>
 <td>
-Dernier numéro utilisé pour ce type de document
+<?php echo _("Dernier numéro utilisé pour ce type de document")?>
 </td>
 <td>
 <?php
@@ -98,7 +98,7 @@ echo $last;
 </tr>
 <tr>
 <td>
-Redémarrer la séquence (laisser à 0 pour ne pas changer)
+<?php echo _("Redémarrer la séquence (laisser à 0 pour ne pas changer)")?>
 </td>
 <td>
 <?php
@@ -115,7 +115,7 @@ echo HtmlInput::hidden('p_action','document');
 echo dossier::hidden();
 echo HtmlInput::hidden('sa','mod_template');
 echo HtmlInput::hidden('id',$doc->md_id);
-echo HtmlInput::submit("mod",'Sauver');
+echo HtmlInput::submit("mod",_('Sauver'));
 
 ?>
 </form>

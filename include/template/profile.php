@@ -30,19 +30,19 @@
 ?>
 <table>
 <tr>
-	<td>Nom</td>
+	<td><?php echo _("Nom")?></td>
 	<td><?php echo $name->input();?></td>
 </tr>
 <tr>
-	<td>Description</td>
+	<td><?php echo _("Description")?></td>
 	<td><?php echo $desc->input()?></td>
 </tr>
 <tr>
-	<td>Avec Calculatrice</td>
+	<td><?php echo _("Avec Calculatrice")?></td>
 	<td><?php echo $with_calc->input()?></td>
 </tr>
 <tr>
-	<td>Avec Direct Form</td>
+	<td><?php echo _("Avec Direct Form")?></td>
 	<td><?php echo $with_direct_form->input()?></td>
 </tr>
 </table>

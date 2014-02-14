@@ -4,22 +4,22 @@
 ?><table class="result" style="width:80%;margin-left:10%">
 <tr>
 <th>
-N°
+<?php echo _("N°")?>
 </th>
 <th>
-Date
+<?php echo _("Date")?>
 </th>
 <th>
-N° op
+<?php echo _("N° op")?>
 </th>
 <th>
-n° pièce
+<?php echo _("n° pièce")?>
 </th>
 <th>
-Libellé
+<?php echo _("Libellé")?>
 </th>
 <th style="text-align:right">
-Montant
+<?php echo _("Montant")?>
 </th>
 </tr>
 <?php 

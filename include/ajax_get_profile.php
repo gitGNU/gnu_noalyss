@@ -67,11 +67,11 @@ echo '<form method="POST" onsubmit="return confirm (\'vous confirmez\')">';
 echo HtmlInput::hidden('tab','profile_gen_div');
 echo HtmlInput::hidden('p_id',$profile->p_id);
 require_once("template/profile.php");
-echo HtmlInput::submit("save_name","Modifier");
+echo HtmlInput::submit("save_name",_("Modifier"));
 echo '</form>';
 if ($profile->p_id > 0)
 {
-	echo '<form method="POST" onsubmit="return confirm (\'vous confirmez\')">';
+	echo '<form method="POST" onsubmit="return confirm (\''._("vous confirmez").'\')">';
 
 	echo 'Vous pouvez aussi copier ce profil et puis le corriger';
 
@@ -79,12 +79,12 @@ if ($profile->p_id > 0)
 	echo HtmlInput::submit("clone", "Copier");
 	echo '</form>';
 
-	echo '<form method="POST" onsubmit="return confirm (\'vous confirmez\')">';
+	echo '<form method="POST" onsubmit="return confirm (\''._("vous confirmez").'\')">';
 
 	echo 'Effacer ce profil';
 
 	echo HtmlInput::hidden('p_id', $profile->p_id);
-	echo HtmlInput::submit("delete_profil", "Effacer ce profil");
+	echo HtmlInput::submit("delete_profil", _("Effacer ce profil"));
 	echo '</form>';
         echo '</div>';
         echo '<div style="display:none" id="profile_menu_div">';
@@ -95,7 +95,7 @@ if ($profile->p_id > 0)
 	$profile_menu->listing_profile($p_id);
         echo '</div>';
         echo '<div style="display:none" id="profile_print_div">';
-	echo "<h2>Impression</h2>";
+	echo "<h2>"._("Impression")."</h2>";
 	$profile_menu->printing($p_id);
 	echo $add_impression;
         echo '</div>';

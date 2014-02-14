@@ -105,14 +105,14 @@ $amount_cred+=($this->content[$i]['j_debit']=='f')?$this->content[$i]['j_montant
     endfor;
 ?>
 </table>
-<h2 class="info2" style="margin:0 0"> Solde débit  : <?php echo nb($amount_deb);?></h2>
-<h2 class="info2"  style="margin:0 0"> Solde crédit : <?php echo nb($amount_cred);?></h2>
+<h2 class="info2" style="margin:0 0"> <?php echo _("Solde débit")?>  : <?php echo nb($amount_deb);?></h2>
+<h2 class="info2"  style="margin:0 0"> <?php echo _("Solde crédit")?> : <?php echo nb($amount_cred);?></h2>
   <?php 
 bcscale(2);
   $solde=bcsub($amount_deb,$amount_cred);
 if ( $solde > 0 ) :
 ?>
-  <h2 class="info2"  style="margin:0 0"> Solde débiteur       : <?php echo nb($solde)?></h2>
+  <h2 class="info2"  style="margin:0 0"> <?php echo _("Solde débiteur")?>       : <?php echo nb($solde)?></h2>
 <?php else : ?>
-     <h2 class="info2"  style="margin:0 0"> Solde créditeur       : <?php echo nb(abs($solde))?></h2>
+     <h2 class="info2"  style="margin:0 0"> <?php echo _("Solde créditeur")?>       : <?php echo nb(abs($solde))?></h2>
 <?php endif; ?>

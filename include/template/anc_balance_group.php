@@ -46,9 +46,9 @@ if ( $prev != $array[$i]['ga_id'])
 	 ?>
 	 <tr>
 <th>Activité</th>
-<th style="text-align:right">Débit</th>
-<th style="text-align:right" >Crébit</th>
-<th style="text-align:right" >Solde</th>
+<th style="text-align:right"><?php echo _("Débit");?></th>
+<th style="text-align:right" ><?php echo _("Crébit");?></th>
+<th style="text-align:right" ><?php echo _("Solde");?></th>
 </tr>
 <?php
 }
@@ -69,7 +69,7 @@ endfor;
 	
 echo '<tr>';
 
-echo td('Solde');
+echo td(_('Solde'));
 echo td(nbm($tot_group_deb),' class="num"');
 echo td(nbm($tot_group_cred),' class="num"');
 echo td(nbm(bcsub($tot_group_cred,$tot_group_deb)),' class="num"');

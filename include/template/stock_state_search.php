@@ -32,7 +32,7 @@
 	<table>
 		<tr>
 			<td>
-				Exercice
+				<?php echo _("Exercice")?>
 			</td>
 			<td>
 				<?php echo $iexercice->input()?>
@@ -40,12 +40,12 @@
 		</tr>
 		<tr>
 			<td>
-				Présentation
+				<?php echo _("Présentation")?>
 			</td>
 			<td>
 				<?php echo $presentation->input()?>
 			</td>
 		</tr>
 	</table>
-	<?php echo HtmlInput::submit('sfilter','Filtrer')?>
+	<?php echo HtmlInput::submit('sfilter',_('Filtrer'))?>
 </form>

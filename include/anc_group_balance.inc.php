@@ -8,7 +8,7 @@ $gr = new Anc_Group($cn);
 $gr->get_request();
 echo '<form method="get">';
 echo $gr->display_form();
-echo '<p>' . HtmlInput::submit('Recherche', 'Recherche') . '</p>';
+echo '<p>' . HtmlInput::submit('Recherche', _('Recherche')) . '</p>';
 echo '</form>';
 if (isset($_GET['result']))
 {

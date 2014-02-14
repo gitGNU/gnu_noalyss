@@ -2,10 +2,10 @@
 //This file is part of NOALYSS and is under GPL 
 //see licence.txt
 ?><?php
-echo HtmlInput::title_box('Etiquette', 'tag_div');
+echo HtmlInput::title_box(_('Etiquette'), 'tag_div');
 $max=$this->cn->count($ret);
 if ( $max == 0 ) {
-    echo h2("Aucune étiquette disponible",' class="notice"');
+    echo h2(_("Aucune étiquette disponible"),' class="notice"');
     return;
 }
 ?>

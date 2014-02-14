@@ -93,7 +93,7 @@ if ( $User->Admin()  == 1)
 }
 
 include_once("user_menu.php");
-$priv=($User->admin==1)?"Administrateur":"Utilisateur";
+$priv=($User->admin==1)?_("Administrateur"):_("Utilisateur");
 load_all_script();
 if ( isset ($_POST['set_preference'])) {
     //// Save value
@@ -152,7 +152,7 @@ $result.='<TD  class="tool" ><A class="cell" HREF="logout.php" >'._('Deconnexion
 $result.="</TR>";
 $result.="</table>";
 
-echo '<h2 class="info">'._('Bienvenue    ').$User->first_name.'  '.$User->name.'   '._("dans NOALYSS")."</h2>";
+echo '<h2 class="info">'._('Bienvenue')."  ".$User->first_name.'  '.$User->name.'   '._("dans NOALYSS")."</h2>";
 echo '<div id="module">'.$result.'</div>';
 echo '</div>';
 ?>

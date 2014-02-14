@@ -38,7 +38,7 @@ $action=$g_user->check_dossier($gDossier);
 
 if ( $action=='X' || ! isset($_GET['act']) || $g_user->check_print($_GET['act'])==0 )
   {
-    echo alert('Accès interdit');
+    echo alert(_('Accès interdit'));
     redirect("do.php?".dossier::get());
     exit();
   }

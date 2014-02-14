@@ -55,5 +55,5 @@
 		</tr>
 		<?php endfor;?>
 	</table>
-<?php echo HtmlInput::submit("change_profile", "Sauver")?>
+<?php echo HtmlInput::submit("change_profile", _("Sauver"))?>
 </form>

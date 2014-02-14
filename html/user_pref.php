@@ -84,7 +84,7 @@ if ( isset ($_POST['val']) )
 // comta style
 
 include_once ("user_menu.php");
-echo "<h2 class=\"info\"> Pr&eacute;f&eacute;rences</h2>";
+echo "<h2 class=\"info\">"._('Préférence')."</h2>";
 
 require_once("pref.inc.php");
 html_page_stop();
