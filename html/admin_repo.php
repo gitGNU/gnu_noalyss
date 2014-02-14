@@ -39,7 +39,7 @@ if ($User->admin != 1)
     return;
 }
 load_all_script();
-echo '<H2 class="info"> Administration Globale</H2>';
+echo '<H2 class="info"> '._(' Administration Globale').'</H2>';
 echo '<div class="topmenu">';
 
 echo MenuAdmin()."</div>";

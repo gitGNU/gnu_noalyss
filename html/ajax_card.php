@@ -72,7 +72,7 @@ foreach ($var as $v)
 {
     if ( ! isset ($_REQUEST [$v] ) )
     {
-        echo "$v is not set ";
+        echo "$v._(' is not set ')";
         $cont=1;
     }
 }
