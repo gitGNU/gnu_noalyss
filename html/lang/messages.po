@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-14 23:38+0100\n"
+"POT-Creation-Date: 2014-02-16 12:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,7 +75,7 @@ msgstr ""
 #: include/anc_great_ledger.inc.php:11 include/anc_group_balance.inc.php:11
 #: include/template/search_top.php:41
 #: include/template/stock_histo_search.php:30
-#: include/template/stock_histo_search.php:68
+#: include/template/stock_histo_search.php:68 include/menu.inc.php:147
 #, php-format
 msgid "Recherche"
 msgstr ""
@@ -333,7 +333,7 @@ msgstr ""
 #: include/ext/rapport_avance/include/historique.inc.php:54
 #: include/ext/amortis/include/template/listing_histo.php:10
 #: include/ajax_boxcard_search.php:46
-#: include/template/result_cat_card_summary.php:5
+#: include/template/result_cat_card_summary.php:5 include/menu.inc.php:150
 msgid "Filtre"
 msgstr ""
 
@@ -760,7 +760,7 @@ msgid "Rechercher"
 msgstr ""
 
 #: include/class_acc_ledger.php:191 include/class_acc_ledger_purchase.php:81
-#: include/class_acc_ledger_sold.php:79
+#: include/class_acc_ledger_sold.php:79 include/ext/tools/raw.php:42
 msgid "Date invalide"
 msgstr ""
 
@@ -1134,6 +1134,7 @@ msgstr ""
 #: include/class_acc_ledger_purchase.php:1361
 #: include/class_acc_ledger_sold.php:656
 #: include/template/form_ledger_detail.php:11 include/class_acc_ledger.php:660
+#: include/ext/tools/raw.php:76
 msgid "Journal"
 msgstr ""
 
@@ -1142,6 +1143,7 @@ msgstr ""
 #: include/ext/amortis/include/template/listing_year.php:8
 #: include/ajax_get_menu_detail.php:75 include/ajax_plugin_detail.php:39
 #: include/anc_group.inc.php:62 include/template/stock_summary_list.php:45
+#: include/menu.inc.php:112 include/ext/tools/raw.php:80
 msgid "Code"
 msgstr ""
 
@@ -1346,7 +1348,7 @@ msgstr ""
 #: include/template/print_ledger_simple.php:11 include/template/profile.php:37
 #: include/template/tag_detail.php:18 include/template/tag_list.php:14
 #: include/template/tag_search_select.php:19
-#: include/template/tag_select.php:19
+#: include/template/tag_select.php:19 include/menu.inc.php:114
 msgid "Description"
 msgstr ""
 
@@ -1512,7 +1514,7 @@ msgid "Affect."
 msgstr ""
 
 #: include/class_document_modele.php:69 include/ajax_plugin_detail.php:47
-#: include/template/modele_document.php:61
+#: include/template/modele_document.php:61 include/menu.inc.php:116
 msgid "Fichier"
 msgstr ""
 
@@ -2188,7 +2190,7 @@ msgid "Nouvel extrait bancaire"
 msgstr ""
 
 #: include/database.item.php:57 include/ext/coprop/index.php:48
-#: include/card_attr.inc.php:98
+#: include/card_attr.inc.php:98 include/menu.inc.php:118
 msgid "Paramètre"
 msgstr ""
 
@@ -2258,7 +2260,7 @@ msgstr ""
 
 #: include/database.item.php:68 include/database.item.php:114
 #: include/ajax_get_profile.php:98 include/template/action_other_action.php:22
-#: include/template/menu_detail.php:18
+#: include/template/menu_detail.php:18 include/menu.inc.php:131
 msgid "Impression"
 msgstr ""
 
@@ -2677,6 +2679,7 @@ msgstr ""
 
 #: include/database.item.php:139 include/lettering.account.inc.php:65
 #: include/lettering.card.inc.php:69 include/lettering.gestion.inc.php:28
+#: include/ext/tools/include/export_operation.inc.php:32
 msgid "Date début"
 msgstr ""
 
@@ -3168,6 +3171,7 @@ msgstr ""
 
 #: include/lettering.account.inc.php:77 include/lettering.card.inc.php:82
 #: include/lettering.gestion.inc.php:34
+#: include/ext/tools/include/export_operation.inc.php:33
 msgid "Date fin"
 msgstr ""
 
@@ -3497,7 +3501,7 @@ msgstr ""
 #: include/template/impress_cat_card.php:10
 #: include/ext/transform/include/template/listing_assujetti_representative.php:71
 #: include/template/action_search_result.php:56 include/card_attr.inc.php:96
-#: include/template/menu_detail.php:51
+#: include/template/menu_detail.php:51 include/menu.inc.php:115
 msgid "Type"
 msgstr ""
 
@@ -4619,7 +4623,7 @@ msgstr ""
 #: include/ext/amortis/include/class_pdf_card.php:103
 #: include/ext/amortis/include/template/material_detail.php:59
 #: include/ext/amortis/include/template/material_display.php:45
-#: include/class_acc_ledger.php:849
+#: include/class_acc_ledger.php:849 include/ext/tools/raw.php:77
 msgid "n° interne"
 msgstr ""
 
@@ -4655,6 +4659,7 @@ msgid "Bien à amortir effacé"
 msgstr ""
 
 #: include/ext/amortis/include/print_all.inc.php:40 html/popup.php:54
+#: include/ext/tools/include/export_operation.inc.php:36
 msgid "Export CSV"
 msgstr ""
 
@@ -5449,6 +5454,7 @@ msgid "entrez une date"
 msgstr ""
 
 #: html/ajax_misc.php:297 include/template/ledger_detail_fin.php:59
+#: include/ext/tools/raw.php:82
 msgid "montant"
 msgstr ""
 
@@ -6241,7 +6247,8 @@ msgstr ""
 msgid "Total lettré"
 msgstr ""
 
-#: include/template/menu_detail.php:19
+#: include/template/menu_detail.php:19 include/menu.inc.php:113
+#: include/menu.inc.php:130
 msgid "Menu"
 msgstr ""
 
@@ -6372,4 +6379,64 @@ msgstr ""
 #: include/template/tag_list.php:11 include/template/tag_search_select.php:16
 #: include/template/tag_select.php:16
 msgid "Tag"
+msgstr ""
+
+#: include/menu.inc.php:117
+msgid "URL"
+msgstr ""
+
+#: include/menu.inc.php:119
+msgid "Javascript"
+msgstr ""
+
+#: include/menu.inc.php:129
+msgid "Tout"
+msgstr ""
+
+#: include/menu.inc.php:132
+msgid "Extension / Plugin"
+msgstr ""
+
+#: include/menu.inc.php:133
+msgid "Valeurs spéciales"
+msgstr ""
+
+#: include/menu.inc.php:154
+msgid "Ajout d'un plugin"
+msgstr ""
+
+#: include/menu.inc.php:155
+msgid "Ajout d'un menu"
+msgstr ""
+
+#: include/ext/tools/index.php:44
+msgid "Export"
+msgstr ""
+
+#: include/ext/tools/index.php:44
+msgid "Exporter les opérations"
+msgstr ""
+
+#: include/ext/tools/raw.php:75
+msgid "Date DMY"
+msgstr ""
+
+#: include/ext/tools/raw.php:78
+msgid "piece"
+msgstr ""
+
+#: include/ext/tools/raw.php:79
+msgid "poste"
+msgstr ""
+
+#: include/ext/tools/raw.php:81
+msgid "texte"
+msgstr ""
+
+#: include/ext/tools/raw.php:83
+msgid "DC"
+msgstr ""
+
+#: include/ext/tools/raw.php:84
+msgid "lettrage"
 msgstr ""

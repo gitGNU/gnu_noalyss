@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-14 23:38+0100\n"
+"POT-Creation-Date: 2014-02-16 12:54+0100\n"
 "PO-Revision-Date: 2014-02-14 21:57+0100\n"
 "Last-Translator: dany <dany@alchimerys.be>\n"
 "Language-Team: Dutch\n"
@@ -385,10 +385,20 @@ msgstr "Artikel Toevoegen"
 msgid "Ajout d'un exercice comptable"
 msgstr "Voegt Categorieën van Documenten teen"
 
+#: include/menu.inc.php:155
+#, fuzzy
+msgid "Ajout d'un menu"
+msgstr "Categorie Toevoegen"
+
 #: include/anc_pa.inc.php:248 include/anc_pa.inc.php:283
 #, fuzzy
 msgid "Ajout d'un plan comptable"
 msgstr "Voegt Categorieën van Documenten teen"
+
+#: include/menu.inc.php:154
+#, fuzzy
+msgid "Ajout d'un plugin"
+msgstr "Een lijn toe te voegen"
 
 #: include/ajax_tag_list.php:30
 #, fuzzy
@@ -1317,6 +1327,7 @@ msgstr "Zei blad Wissen"
 #: include/ext/amortis/include/template/listing_year.php:8
 #: include/ajax_get_menu_detail.php:75 include/ajax_plugin_detail.php:39
 #: include/anc_group.inc.php:62 include/template/stock_summary_list.php:45
+#: include/menu.inc.php:112 include/ext/tools/raw.php:80
 msgid "Code"
 msgstr "Code"
 
@@ -1729,6 +1740,11 @@ msgstr "Maak EEN Nieuwe blad"
 msgid "D/C"
 msgstr "D / C"
 
+#: include/ext/tools/raw.php:83
+#, fuzzy
+msgid "DC"
+msgstr "D / C"
+
 #: include/template/stock_summary_table.php:89
 #: include/template/stock_summary_table.php:123
 msgid "DIFF"
@@ -1772,6 +1788,11 @@ msgstr "Datum"
 #: include/ext/amortis/include/template/material_detail.php:13
 msgid "Date Acquisition"
 msgstr "Overnamedatum"
+
+#: include/ext/tools/raw.php:75
+#, fuzzy
+msgid "Date DMY"
+msgstr "Datum"
 
 #: include/database.item.php:162
 msgid "Date Fin"
@@ -1819,6 +1840,7 @@ msgstr "Datum herinnering voor"
 
 #: include/database.item.php:139 include/lettering.account.inc.php:65
 #: include/lettering.card.inc.php:69 include/lettering.gestion.inc.php:28
+#: include/ext/tools/include/export_operation.inc.php:32
 msgid "Date début"
 msgstr "Startdatum"
 
@@ -1830,11 +1852,12 @@ msgstr "Datum periode Komen niet overeen"
 
 #: include/lettering.account.inc.php:77 include/lettering.card.inc.php:82
 #: include/lettering.gestion.inc.php:34
+#: include/ext/tools/include/export_operation.inc.php:33
 msgid "Date fin"
 msgstr "Einddatum"
 
 #: include/class_acc_ledger.php:191 include/class_acc_ledger_purchase.php:81
-#: include/class_acc_ledger_sold.php:79
+#: include/class_acc_ledger_sold.php:79 include/ext/tools/raw.php:42
 msgid "Date invalide"
 msgstr "Verkeerd datum"
 
@@ -1917,7 +1940,7 @@ msgstr "Recente activiteit"
 #: include/template/print_ledger_simple.php:11 include/template/profile.php:37
 #: include/template/tag_detail.php:18 include/template/tag_list.php:14
 #: include/template/tag_search_select.php:19
-#: include/template/tag_select.php:19
+#: include/template/tag_select.php:19 include/menu.inc.php:114
 msgid "Description"
 msgstr "Beschrijving"
 
@@ -2602,6 +2625,11 @@ msgstr "Oefening"
 msgid "Explication"
 msgstr "Uitleg"
 
+#: include/ext/tools/index.php:44
+#, fuzzy
+msgid "Export"
+msgstr "Export CSV"
+
 #: include/database.item.php:46
 msgid "Export Action Gestion"
 msgstr "Export Management Actie"
@@ -2619,6 +2647,7 @@ msgid "Export Bilan"
 msgstr "Balans export"
 
 #: include/ext/amortis/include/print_all.inc.php:40 html/popup.php:54
+#: include/ext/tools/include/export_operation.inc.php:36
 msgid "Export CSV"
 msgstr "Export CSV"
 
@@ -2702,9 +2731,19 @@ msgstr "Export CSV dicht operaties"
 msgid "Export report"
 msgstr "Export rapport"
 
+#: include/ext/tools/index.php:44
+#, fuzzy
+msgid "Exporter les opérations"
+msgstr "Alle Operaties"
+
 #: include/database.item.php:52 include/ajax_navigator.php:102
 msgid "Extension"
 msgstr "Plugin"
+
+#: include/menu.inc.php:132
+#, fuzzy
+msgid "Extension / Plugin"
+msgstr "Uitbreidingen (plugins)"
 
 #: include/database.item.php:52
 msgid "Extensions (plugins)"
@@ -2803,7 +2842,7 @@ msgid "Fiches"
 msgstr "Blad"
 
 #: include/class_document_modele.php:69 include/ajax_plugin_detail.php:47
-#: include/template/modele_document.php:61
+#: include/template/modele_document.php:61 include/menu.inc.php:116
 msgid "Fichier"
 msgstr "Bestand"
 
@@ -2833,7 +2872,7 @@ msgstr ""
 #: include/ext/rapport_avance/include/historique.inc.php:54
 #: include/ext/amortis/include/template/listing_histo.php:10
 #: include/ajax_boxcard_search.php:46
-#: include/template/result_cat_card_summary.php:5
+#: include/template/result_cat_card_summary.php:5 include/menu.inc.php:150
 msgid "Filtre"
 msgstr "Filter"
 
@@ -3317,7 +3356,7 @@ msgstr "Kan dit bestand op te slaan"
 
 #: include/database.item.php:68 include/database.item.php:114
 #: include/ajax_get_profile.php:98 include/template/action_other_action.php:22
-#: include/template/menu_detail.php:18
+#: include/template/menu_detail.php:18 include/menu.inc.php:131
 msgid "Impression"
 msgstr "Indruk"
 
@@ -3412,6 +3451,10 @@ msgstr "Intern"
 msgid "Inverser la sélection"
 msgstr "Omgekeerde selectie"
 
+#: include/menu.inc.php:119
+msgid "Javascript"
+msgstr ""
+
 #: include/template/detail-action.php:446
 msgid "Je ne peux pas ajouter de fichier"
 msgstr "EEN blad Toevoegen is niet mogelijk"
@@ -3423,6 +3466,7 @@ msgstr "Donderdag"
 #: include/class_acc_ledger_purchase.php:1361
 #: include/class_acc_ledger_sold.php:656
 #: include/template/form_ledger_detail.php:11 include/class_acc_ledger.php:660
+#: include/ext/tools/raw.php:76
 msgid "Journal"
 msgstr "Journaal"
 
@@ -3757,7 +3801,8 @@ msgstr "Verkeerd type object"
 msgid "Maximum de plan analytique est atteint"
 msgstr "Maximale analytisch niveau is bereikt"
 
-#: include/template/menu_detail.php:19
+#: include/template/menu_detail.php:19 include/menu.inc.php:113
+#: include/menu.inc.php:130
 #, fuzzy
 msgid "Menu"
 msgstr "Menu"
@@ -4715,7 +4760,7 @@ msgid "Paramètrage "
 msgstr "Wordt EEN parameter gemist"
 
 #: include/database.item.php:57 include/ext/coprop/index.php:48
-#: include/card_attr.inc.php:98
+#: include/card_attr.inc.php:98 include/menu.inc.php:118
 msgid "Paramètre"
 msgstr "Parameter"
 
@@ -5234,7 +5279,7 @@ msgstr "Bank Verzoening"
 #: include/anc_great_ledger.inc.php:11 include/anc_group_balance.inc.php:11
 #: include/template/search_top.php:41
 #: include/template/stock_histo_search.php:30
-#: include/template/stock_histo_search.php:68
+#: include/template/stock_histo_search.php:68 include/menu.inc.php:147
 #, php-format
 msgid "Recherche"
 msgstr "Vinden"
@@ -5877,6 +5922,10 @@ msgstr "Alle profielen"
 msgid "Tous les types"
 msgstr "Alle soorten"
 
+#: include/menu.inc.php:129
+msgid "Tout"
+msgstr ""
+
 #: include/ext/amortis/include/template/util_generate.php:101
 #: include/template/letter_prop.php:165
 msgid "Tout Désélectionner"
@@ -5921,7 +5970,7 @@ msgstr ""
 #: include/template/impress_cat_card.php:10
 #: include/ext/transform/include/template/listing_assujetti_representative.php:71
 #: include/template/action_search_result.php:56 include/card_attr.inc.php:96
-#: include/template/menu_detail.php:51
+#: include/template/menu_detail.php:51 include/menu.inc.php:115
 msgid "Type"
 msgstr "Type"
 
@@ -5963,6 +6012,10 @@ msgstr "EEN van factuurmaken"
 #: include/template/stock_summary_list.php:42
 msgid "Téléphone"
 msgstr "Telefoon"
+
+#: include/menu.inc.php:117
+msgid "URL"
+msgstr ""
 
 #: include/class_acc_ledger.php:3410
 msgid "Un journal avec ce nom existe déjà"
@@ -6049,6 +6102,11 @@ msgstr "Nettowaarde"
 
 #: include/periode.inc.php:45 include/periode.inc.php:56
 msgid "Valeurs invalides"
+msgstr "Ongeldige waarden"
+
+#: include/menu.inc.php:133
+#, fuzzy
+msgid "Valeurs spéciales"
 msgstr "Ongeldige waarden"
 
 #: include/ajax_preference.php:182 include/template/action_other_action.php:60
@@ -6486,6 +6544,11 @@ msgstr "tarief is geen getal"
 msgid "les enregistrements incorrects ne seront inclus pas dans le fichier XML"
 msgstr "onjuiste gegevens zal niet in het XML-bestand"
 
+#: include/ext/tools/raw.php:84
+#, fuzzy
+msgid "lettrage"
+msgstr "Belettering"
+
 #: include/database.item.php:99
 msgid "lettrage par poste comptable"
 msgstr "belettering rekenitem"
@@ -6500,6 +6563,7 @@ msgid "listing id"
 msgstr "lijst"
 
 #: html/ajax_misc.php:297 include/template/ledger_detail_fin.php:59
+#: include/ext/tools/raw.php:82
 #, fuzzy
 msgid "montant"
 msgstr "Bedrag"
@@ -6546,7 +6610,7 @@ msgstr "Bewijs"
 #: include/ext/amortis/include/class_pdf_card.php:103
 #: include/ext/amortis/include/template/material_detail.php:59
 #: include/ext/amortis/include/template/material_display.php:45
-#: include/class_acc_ledger.php:849
+#: include/class_acc_ledger.php:849 include/ext/tools/raw.php:77
 #, fuzzy
 msgid "n° interne"
 msgstr "Interne code"
@@ -6599,6 +6663,15 @@ msgstr "Beschikbaar Geen model"
 #: include/database.item.php:147
 msgid "pays "
 msgstr "land"
+
+#: include/ext/tools/raw.php:78
+msgid "piece"
+msgstr ""
+
+#: include/ext/tools/raw.php:79
+#, fuzzy
+msgid "poste"
+msgstr "Rekening"
 
 #: include/class_acc_ledger_purchase.php:1378
 #: include/class_acc_ledger_sold.php:672
@@ -6673,6 +6746,10 @@ msgstr "op de wiki"
 #, fuzzy
 msgid "taux TVA"
 msgstr "BTW%"
+
+#: include/ext/tools/raw.php:81
+msgid "texte"
+msgstr ""
 
 #: include/class_acc_ledger.php:187
 msgid "this->jr_id is not set ou opération inconnue"
