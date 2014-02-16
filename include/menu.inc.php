@@ -109,14 +109,14 @@ global $cn;
 $table=new Sort_Table();
 $url=$_SERVER['REQUEST_URI'];
 
-$table->add('Code',$url,"order by me_code asc","order by me_code desc","codea","coded");
-$table->add('Menu',$url,"order by me_menu asc","order by me_menu desc","menua","menud");
-$table->add('Description',$url,"order by me_description asc","order by me_description desc","desa","desd");
-$table->add('Type',$url,"order by me_type asc","order by me_type desc","ta","td");
-$table->add('Fichier',$url,"order by me_file asc","order by me_file desc","fa","fd");
-$table->add('URL',$url,"order by me_url asc","order by me_url desc","urla","urld");
-$table->add('Paramètre',$url,"order by me_parametere asc","order by me_parameter desc","paa","pad");
-$table->add('Javascript',$url,"order by me_javascript asc","order by me_javascript desc","jsa","jsd");
+$table->add(_('Code'),$url,"order by me_code asc","order by me_code desc","codea","coded");
+$table->add(_('Menu'),$url,"order by me_menu asc","order by me_menu desc","menua","menud");
+$table->add(_('Description'),$url,"order by me_description asc","order by me_description desc","desa","desd");
+$table->add(_('Type'),$url,"order by me_type asc","order by me_type desc","ta","td");
+$table->add(_('Fichier'),$url,"order by me_file asc","order by me_file desc","fa","fd");
+$table->add(_('URL'),$url,"order by me_url asc","order by me_url desc","urla","urld");
+$table->add(_('Paramètre'),$url,"order by me_parametere asc","order by me_parameter desc","paa","pad");
+$table->add(_('Javascript'),$url,"order by me_javascript asc","order by me_javascript desc","jsa","jsd");
 
 $ord=(isset($_REQUEST['ord']))?$_REQUEST['ord']:'codea';
 
@@ -126,11 +126,11 @@ $order=$table->get_sql_order($ord);
 
 $iselect=new ISelect('p_type');
 $iselect->value=array(
-	array("value"=>'',"label"=>"Tout"),
-	array("value"=>'ME',"label"=>"Menu"),
-	array("value"=>'PR',"label"=>"Impression"),
-	array("value"=>'PL',"label"=>"Extension / Plugin"),
-	array("value"=>'SP',"label"=>"Valeurs spéciales")
+	array("value"=>'',"label"=>_("Tout")),
+	array("value"=>'ME',"label"=>_("Menu")),
+	array("value"=>'PR',"label"=>_("Impression")),
+	array("value"=>'PL',"label"=>_("Extension / Plugin")),
+	array("value"=>'SP',"label"=>_("Valeurs spéciales"))
 	);
 $iselect->selected=(isset($_REQUEST['p_type']))?$_REQUEST['p_type']:'';
 $sql="";
@@ -144,15 +144,15 @@ $ret=$menu->seek($sql.$order);
 <fieldset><legend>Recherche</legend>
 <form method="GET">
 	<?php echo $iselect->input()?>
-	<?php echo HtmlInput::submit("search", "Recherche")?>
+	<?php echo HtmlInput::submit("search", _("Recherche"))?>
 	<?php echo HtmlInput::request_to_hidden(array('ac','gDossier','ord'))?>
 </form>
-    Filtre <?php echo HtmlInput::filter_table('menu_tb', '0,1,2,4', '1'); ?>
+     <?php echo _('Filtre'),HtmlInput::filter_table('menu_tb', '0,1,2,4', '1'); ?>
 </fieldset>
 <?php 
 $gDossier=Dossier::id();
-echo HtmlInput::button("Add_plugin", "Ajout d'un plugin", "onclick=add_plugin($gDossier)");
-echo HtmlInput::button("Add_menu", "Ajout d'un menu", "onclick=create_menu($gDossier)");
+echo HtmlInput::button("Add_plugin", _("Ajout d'un plugin"), "onclick=add_plugin($gDossier)");
+echo HtmlInput::button("Add_menu", _("Ajout d'un menu"), "onclick=create_menu($gDossier)");
 
 echo '<table class="result" id="menu_tb">';
 echo '<tr>';
@@ -182,8 +182,8 @@ for ($i = 0; $i < Database::num_row($ret); $i++)
     $class = ( $i % 2 == 0) ? $class = ' class="odd"' : $class = ' class="even"';
     echo "<tr $class>";
     echo td($js);
-    echo td($row->me_menu);
-    echo td(h($row->me_description));
+    echo td(_($row->me_menu));
+    echo td(h(_($row->me_description)));
     echo td(h($row->me_type));
     echo td(h($row->me_file));
     echo td(h($row->me_url));
