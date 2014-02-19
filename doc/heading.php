@@ -18,8 +18,8 @@
 */
 /* $Revision$ */
 
-// Copyright Author Dany De Bontridder danydb@aevalys.eu
+// Copyright Author YOUR_NAME <adress_email>
 
 /*!\file 
- * \brief Manage the hypothese for the budget module
+ * \brief Description of the file
  */
