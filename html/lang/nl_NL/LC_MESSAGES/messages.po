@@ -1,21 +1,22 @@
-# Dutch translations for PACKAGE package.
-# Copyright (C) 2014 THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# dany <dany@alchimerys.be>, 2014.
+# Dutch translations for NOALYSS package.
+# Copyright (C) 2014 THE NOALYSS'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the NOALYSS package.
 #
+# dany <dany@alchimerys.be>, 2014.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: NOALYSS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-16 12:54+0100\n"
-"PO-Revision-Date: 2014-02-14 21:57+0100\n"
-"Last-Translator: dany <dany@alchimerys.be>\n"
-"Language-Team: Dutch\n"
+"PO-Revision-Date: 2014-02-21 21:35+0100\n"
+"Last-Translator: dany\n"
+"Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.4\n"
 
 #: include/template/category_of_card.php:38
 msgid " A moins qu'en créant la fiche, vous forcez un autre poste comptable"
@@ -44,9 +45,8 @@ msgid " Base de donnée "
 msgstr "Database"
 
 #: include/template/ledger_detail_bottom.php:9
-#, fuzzy
 msgid " Bon de commande"
-msgstr "Goede bestelling van de klant"
+msgstr " Bestelling van de klant"
 
 #: include/fiche.inc.php:176
 msgid " Ces fiches n'ont pas été effacées  "
@@ -57,7 +57,6 @@ msgid " Cette action ne vous est pas autorisée Contactez votre responsable"
 msgstr "Die Actie is Verboden"
 
 #: include/ext/tva/ajax.php:205
-#, fuzzy
 msgid " Code TVA "
 msgstr "BTW Code"
 
@@ -83,7 +82,6 @@ msgid " Libellé du paiement"
 msgstr "Formulering van betaling"
 
 #: include/ext/rapport_avance/include/declaration.inc.php:57
-#, fuzzy
 msgid " Sauvé "
 msgstr "OPSLAAN"
 
@@ -92,9 +90,8 @@ msgid " TVA "
 msgstr "BTW"
 
 #: include/class_acc_ledger.php:107
-#, fuzzy
 msgid " Tous les journaux"
-msgstr "Financiele Alle grootboeken"
+msgstr "Financiele"
 
 #: html/ajax_card.php:416 html/ajax_card.php:417
 msgid " d'administration"
@@ -105,7 +102,6 @@ msgid " de clients"
 msgstr "van clients"
 
 #: html/ajax_card.php:421
-#, fuzzy
 msgid " de contacts"
 msgstr "van clients"
 
@@ -118,7 +114,6 @@ msgid " dernière sauvegarde "
 msgstr "laatste back-up"
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:113
-#, fuzzy
 msgid " destinataire "
 msgstr "Ontvanger"
 
@@ -170,19 +165,17 @@ msgid "%s Vous avez ajouté %d mois depuis le %d/%d pour l'exercice %d "
 msgstr "Je hebt% s% d maanden sinds% d /% d% d voor het jaar toegevoegd"
 
 #: include/class_acc_ledger.php:3234
-#, fuzzy
 msgid "'Journaux Financier"
-msgstr "Financiële Menu"
+msgstr "Financiële"
 
 #: include/class_acc_ledger.php:3235
-#, fuzzy
 msgid "'Journaux d'Opérations diverses"
 msgstr "Menu verschillende bewerkingen"
 
 #: include/class_acc_ledger.php:3233
 #, fuzzy
 msgid "'Journaux d'achat"
-msgstr "Alleen kopen kranten"
+msgstr "Ver"
 
 #: include/impress_bilan.inc.php:89
 #, fuzzy
@@ -200,7 +193,7 @@ msgstr "Accepteren"
 
 #: include/template/stock_histo_search.php:43
 msgid "A partir de"
-msgstr ""
+msgstr "Vanaf"
 
 #: include/ext/amortis/include/print_fiche.inc.php:55
 msgid "Accepter"
@@ -290,7 +283,7 @@ msgstr "Folder niet Bereikbaar"
 
 #: include/template/dashboard.php:253
 msgid "Action pour aujourd'hui"
-msgstr ""
+msgstr "Voor vaandag"
 
 #: include/template/detail-action.php:176
 #, fuzzy
@@ -4286,7 +4279,7 @@ msgstr "Aantal geregistreerde lijnen"
 #: include/class_periode.php:240 include/class_periode.php:269
 #, php-format
 msgid "Nombre opérations %d"
-msgstr "Aantal operaties%"
+msgstr "Aantal operaties %d"
 
 #: include/company.inc.php:40 include/company.inc.php:44
 #: include/company.inc.php:47 include/company.inc.php:85
@@ -6507,7 +6500,7 @@ msgstr "pluggen in de categorie ingevoegd"
 
 #: include/card_attr.inc.php:94
 msgid "id"
-msgstr ""
+msgstr "id"
 
 #: include/dossier.inc.php:355
 msgid "inexistant"
@@ -6646,15 +6639,16 @@ msgstr "of QuickCode"
 
 #: include/class_acc_ledger_purchase.php:1638
 msgid "ou générer un document"
-msgstr "Maak van EEN papier"
+msgstr "Maak van een document"
 
 #: include/class_acc_ledger_sold.php:904
 msgid "ou générer une facture"
-msgstr "EEN van factuurmaken"
+msgstr "Creeren een faktuur"
 
 #: include/fiche_def.inc.php:68
+#, fuzzy
 msgid "par exemple ne pas changer Client par fournisseur"
-msgstr "Bijvoorbeeld change niet deur Klant Leverancier"
+msgstr "Bijvoorbeeld niet deur Klant Leverancier"
 
 #: include/dossier.inc.php:254
 msgid "pas de modèle disponible"
@@ -6749,7 +6743,7 @@ msgstr "BTW%"
 
 #: include/ext/tools/raw.php:81
 msgid "texte"
-msgstr ""
+msgstr "Text"
 
 #: include/class_acc_ledger.php:187
 msgid "this->jr_id is not set ou opération inconnue"
@@ -6810,3 +6804,4 @@ msgstr "U bevestigt"
 #: include/class_acc_ledger.php:1870
 msgid "vous ne pouvez pas encoder à une date antérieure"
 msgstr "Mag Niet voor this U gegeven coderen"
+

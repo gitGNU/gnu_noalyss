@@ -11,9 +11,11 @@ cd ..
 xgettext -L PHP -j --from-code=UTF-8 -p html/lang/ html/*.php include/*.php include/template/*.php include/ext/*/*.php include/ext/*/include/*.php  include/ext/*/include/template/*.php 
 
 # For dutch
+echo "Dutch"
 msgmerge -U -s html/lang/nl_NL/LC_MESSAGES/messages.po html/lang/messages.po
 
 #For english
+echo "English"
 msgmerge -U -s html/lang/en_US/LC_MESSAGES/messages.po html/lang/messages.po
 
 #For new language
