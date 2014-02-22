@@ -1347,3 +1347,17 @@ input.inum {
     border:1px solid blue;
     margin:2px
 }
+div.box  {
+    background-color:#e4e7ed;
+    font-family:arial,verdana,sans-serif,helvetica;
+    margin-top:10px;
+    margin-left:3px;
+    margin-right:3px;
+    padding:2px;
+    //margin:2px;
+    overflow:hidden;
+    border:1px solid darkblue;
+    width:30%;
+    height:312px;
+    float:left;
+}
