@@ -34,7 +34,7 @@ $st="";
 if ( $today_month==$this->month && $today_day==$ind)
   $st='  style="border:1px solid red" ';
 if ( $date_calendar == $week ) {
-	echo '<td class="'.$class.'"'.$st.'>'.'<span class="day">'.$ind."</span>";
+	echo '<td class="'.$class.'" '.$st.'>'.'<span class="day">'.$ind."</span>";
 	echo $cell[$ind];
 	echo '</td>';
 	$ind++;$week++;
@@ -45,7 +45,7 @@ if ( $date_calendar == $week ) {
 //if ( $ind > $this->day ) exit();
 if ( $week == 7 ) { echo "</tr>";$week=0;}
 }
-if ( $week != 7 ) { echo "</tr>";}
+if ( $week != 0 ) { echo "</tr>";}
 ?>
 
 </table>

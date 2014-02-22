@@ -2,18 +2,12 @@
 //This file is part of NOALYSS and is under GPL 
 //see licence.txt
 ?><!-- left div -->
-<div style="float:left;max-width: 49%">
-    
-<div style="float:left;width: 100%">
-<fieldset >
-<legend><?php echo _('Calendrier')?>
-</legend>
+<div id="calendar_box_div" class="box">
+<?php echo HtmlInput::title_box(_('Calendrier'),'cal_div','none');?>
 <?php echo HtmlInput::calendar_zoom($obj); ?>
 <?php echo $cal->display('short'); ?>
-</fieldset>
 </div>
 <!-- Mini rapport -->
-<div style="float:left;width: 100%">
 <?php
 /*
  * Mini Report
@@ -28,7 +22,7 @@ if ( $rapport->exist() == false ) {
 }
 
 if ( $report != 0 ) : ?>
-<fieldset style="min-height:50%;"><legend><?php echo $rapport->get_name()?></legend>
+<div id="report_div" class="box"><?php echo HtmlInput::title_box($rapport->get_name(),'report_div','none');?>
 <?php    
   $exercice=$g_user->get_exercice();
   if ( $exercice == 0 ) {
@@ -52,23 +46,118 @@ if ( $report != 0 ) : ?>
     echo '</table>';
   }
   ?>
-  </fieldset>
+  </div>
 <?php
   else :
 ?>
-  <fieldset style="height:50%;width:80%;background-color:white"><legend><?php _('Aucun rapport défini')?></legend>
+  <div id="report_div" class="box"> <?php echo HtmlInput::title_box(_('Aucun rapport défini'),'report_div','none')?>
+<p>
   <a href="javascript:void(0)" class="cell" onclick="set_preference('<?php echo dossier::id()?>')"><?php echo _('Cliquez ici pour mettre à jour vos préférences')?></a>
-
-</fieldset>
+<p>
+</div>
 <?php
 endif;
 ?>
+
+<div id="situation_div" class="box"> 
+    <?php echo HtmlInput::title_box(_("Situation"),"situation_div",'none')?>
+    <table class='result'>
+		<tr>
+			<th>
+
+			</th>
+			<th>
+				<?php echo _("Pour aujourd'hui"); ?>
+			</th>
+			<th>
+				<?php echo _("En retard"); ?>
+			</th>
+		</tr>
+		<tr>
+			<td>
+				<?php echo _("Action"); ?>
+			</td>
+			<td>
+				<?php if (count($last_operation)>0): ?>
+				<A class="mtitle" style="color:red;text-decoration:underline;font-weight: bolder;"onclick="display_detail('action_now_div')">
+					<span class="notice">
+					<?php echo count($last_operation) ?>
+					&nbsp;<?php echo _("détail"); ?>
+					</span>
+				</A>
+			<?php else: ?>
+				 0
+			<?php endif; ?>
+			</td>
+
+			<td >
+			<?php if (count($late_operation)>0): ?>
+				<A class="mtitle"  style="color:red;text-decoration:underline;;font-weight: bolder" onclick="display_detail('action_late_div')">
+				<span class="notice"><?php echo count($late_operation) ?>
+					&nbsp;<?php echo _("détail"); ?>
+                                </span>
+				</A>
+			<?php else: ?>
+				 0
+			<?php endif; ?>
+			</td>
+
+		</tr>
+		<tr>
+			<td>
+				<?php echo _("Paiement fournisseur"); ?>
+			</td>
+			<td >
+			<?php if (count($supplier_now)>0): ?>
+				<A class="mtitle"  style="color:red;text-decoration:underline;font-weight: bolder" onclick="display_detail('supplier_now_div')">
+				<span class="notice"><?php echo count($supplier_now) ?>&nbsp;<?php echo _("détail"); ?></span>
+					
+				</A>
+			<?php else: ?>
+				 0
+			<?php endif; ?>
+			</td>
+			<td >
+			<?php if (count($supplier_late)>0): ?>
+				<A class="mtitle"  style="color:red;text-decoration:underline;font-weight: bolder" onclick="display_detail('supplier_late_div')">
+				<span class="notice"><?php echo count($supplier_late) ?>&nbsp;<?php echo _("détail"); ?></span>
+					
+				</A>
+			<?php else: ?>
+				 0
+			<?php endif; ?>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<?php echo _("Paiement client"); ?>
+			</td>
+			<td>
+				<?php if (count($customer_now)>0): ?>
+				<A class="mtitle"  style="color:red;text-decoration:underline;font-weight: bolder" onclick="display_detail('customer_now_div')">
+				<span class="notice"><?php echo count($customer_now) ?>&nbsp;<?php echo _("détail"); ?></span>
+					
+				</A>
+			<?php else: ?>
+				 0
+			<?php endif; ?>
+			</td>
+			<td>
+				<?php if (count($customer_late)>0): ?>
+				<A class="mtitle"  style="color:red;text-decoration:underline;font-weight: bolder" onclick="display_detail('customer_late_div')">
+				<span class="notice"><?php echo count($customer_late) ?>&nbsp;<?php echo _("détail"); ?></span>
+					
+				</A>
+			<?php else: ?>
+				 0
+			<?php endif; ?>
+			</td>
+		</tr>
+	</table>
 </div>
-</div>
-<div style="float:left;max-width: 49%">
+<div id="todo_listg_div" class="box"> <?php echo HtmlInput::title_box(_('Pense-Bête'),"todo_listg_div",'none')?>
 
 <?php
-
 /*
  * Todo list
  */
@@ -84,108 +173,8 @@ if ( isset($_REQUEST['save_todo_list'])) {
 }
 $todo=new Todo_List($cn);
 $array=$todo->load_all();
-?>
-<div style="float:right;width: 100%">
-<fieldset> 
-    <legend> Situation </legend>
-    <table class='result'>
-		<tr>
-			<th>
 
-			</th>
-			<th>
-				Pour aujourd'hui
-			</th>
-			<th>
-				En retard
-			</th>
-		</tr>
-		<tr>
-			<td>
-				Action
-			</td>
-			<td>
-				<?php if (count($last_operation)>0): ?>
-				<A class="mtitle" style="color:red;text-decoration:underline;font-weight: bolder;"onclick="display_detail('action_now_div')">
-					<span class="notice">
-					<?php echo count($last_operation) ?>
-					&nbsp;détail
-					</span>
-				</A>
-			<?php else: ?>
-				 0
-			<?php endif; ?>
-			</td>
-
-			<td >
-			<?php if (count($late_operation)>0): ?>
-				<A class="mtitle"  style="color:red;text-decoration:underline;;font-weight: bolder" onclick="display_detail('action_late_div')">
-				<span class="notice"><?php echo count($late_operation) ?>
-					&nbsp;détail
-                                </span>
-				</A>
-			<?php else: ?>
-				 0
-			<?php endif; ?>
-			</td>
-
-		</tr>
-		<tr>
-			<td>
-				Paiement fournisseur
-			</td>
-			<td >
-			<?php if (count($supplier_now)>0): ?>
-				<A class="mtitle"  style="color:red;text-decoration:underline;font-weight: bolder" onclick="display_detail('supplier_now_div')">
-				<span class="notice"><?php echo count($supplier_now) ?>&nbsp;détail</span>
-					
-				</A>
-			<?php else: ?>
-				 0
-			<?php endif; ?>
-			</td>
-			<td >
-			<?php if (count($supplier_late)>0): ?>
-				<A class="mtitle"  style="color:red;text-decoration:underline;font-weight: bolder" onclick="display_detail('supplier_late_div')">
-				<span class="notice"><?php echo count($supplier_late) ?>&nbsp;détail</span>
-					
-				</A>
-			<?php else: ?>
-				 0
-			<?php endif; ?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				Paiement client
-			</td>
-			<td>
-				<?php if (count($customer_now)>0): ?>
-				<A class="mtitle"  style="color:red;text-decoration:underline;font-weight: bolder" onclick="display_detail('customer_now_div')">
-				<span class="notice"><?php echo count($customer_now) ?>&nbsp;détail</span>
-					
-				</A>
-			<?php else: ?>
-				 0
-			<?php endif; ?>
-			</td>
-			<td>
-				<?php if (count($customer_late)>0): ?>
-				<A class="mtitle"  style="color:red;text-decoration:underline;font-weight: bolder" onclick="display_detail('customer_late_div')">
-				<span class="notice"><?php echo count($customer_late) ?>&nbsp;détail</span>
-					
-				</A>
-			<?php else: ?>
-				 0
-			<?php endif; ?>
-			</td>
-		</tr>
-	</table>
-</fieldset>
-<fieldset> <legend><?php echo _('Pense-Bête')?></legend>
-
-<?php
-echo HtmlInput::button('add',_('Ajout'),'onClick="add_todo()"',' smallbutton');
+echo HtmlInput::button('add',_('Ajout'),'onClick="add_todo()"','smallbutton');
 if ( ! empty ($array) )  {
   echo '<table id="table_todo" class="sortable" width="100%">';
   echo '<tr><th class=" sorttable_sorted_reverse">Date <span id="sorttable_sortrevind">&nbsp;&blacktriangle;</span></th><th>Titre</th><th></th>';
@@ -197,7 +186,7 @@ if ( ! empty ($array) )  {
     if ( strcmp($today,$row['str_tl_date'])==0) { $odd.=' style="background-color:#FFEA00"';}
     $nb++;
     echo '<tr id="tr'.$row['tl_id'].'" '.$odd.'>'.
-      '<td sorttable_customkey="'.$row['tl_date'].'>">'.
+      '<td sorttable_customkey="'.$row['tl_date'].'">'.
       $row['str_tl_date'].
       '</td>'.
       '<td>'.
@@ -213,10 +202,8 @@ if ( ! empty ($array) )  {
   echo '</table>';
 }
 ?>
-</fieldset>
 </div>
-<div style="float:right;width: 100%">
-	
+    
 <div id="action_late_div"  class="inner_box" style="display:none;margin-left:25%;top:25%;width: 50%;min-height:50%;overflow: auto;">
 	<?php
 		echo HtmlInput::title_box("Action en retard", "action_late_div","hide")
@@ -274,8 +261,6 @@ if ( ! empty ($array) )  {
 	</li>
 	<?php endfor;?>
 	</ol>
-	<?php else : ?>
-		<h2 class='notice'>Aucune action pour aujourd'hui</h2>
 <?php endif; ?>
 	</div>
 	<?php display_dashboard_operation($supplier_now,"Fournisseurs à payer aujourd'hui",'supplier_now_div'); ?>
@@ -286,10 +271,9 @@ if ( ! empty ($array) )  {
 
 
 
-<div style="float:right;width: 100%">
-<fieldset>
-<legend><?php echo _('Dernières opérations')?>
-</legend>
+<div id="last_operation_box_div" class="box">
+<?php echo HtmlInput::title_box(_('Dernières opérations'),"last_operation_box_div",'none')?>
+
 <table style="width: 100%">
 <?php
 for($i=0;$i<count($last_ledger);$i++):
@@ -313,15 +297,12 @@ for($i=0;$i<count($last_ledger);$i++):
 
 </tr>
 <?php endfor;?>
-</ul></table>
-</fieldset>
+</table>
+    
 </div>
 
-</div>
 
-
-
-<div id="add_todo_list" >
+<div id="add_todo_list" class="box">
 	<script charset="utf-8" type="text/javascript" language="javascript">
 		new Draggable($('add_todo_list'),{});
 	</script>

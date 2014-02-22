@@ -33,10 +33,10 @@ class IDate extends HtmlInput
         if ( $this->readOnly==true) return $this->display();
 	if( $this->id=="")
 	  $this->id=self::generate_id($this->name);
-        $r='<input type="text" name="'.$this->name.'" id="'.$this->id.'"'.
-           'style="border:solid 1px blue;"'.
-           'size="8"'.
-           ' value ="'.$this->value.'"'.
+        $r='<input type="text" name="'.$this->name.'" id="'.$this->id.'" '.
+           'style="border:solid 1px blue;" '.
+           'size="8" '.
+           ' value ="'.$this->value.'" '.
            '/>'.
            '<img src="image/x-office-calendar.png" id="'.$this->id.'_trigger"'.
            ' style="cursor: pointer; border: 1px solid red;" '.

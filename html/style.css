@@ -783,7 +783,7 @@ div.pc_calendar tr{
     font-size:0.87em;
 }
 div.pc_calendar tr{
-    height:40px;
+    height:45px;
 
 
 }
@@ -1341,4 +1341,15 @@ input.inum {
     text-align:right;
     border:1px solid blue;
     margin:2px
+}
+div.box  {
+    background-color:#e4e7ed;
+    font-family:arial,verdana,sans-serif,helvetica;
+    padding:2px;
+    margin:2px;
+    overflow:hidden;
+    border:1px solid darkblue;
+    width:30%;
+    height:312px;
+    float:left;
 }
