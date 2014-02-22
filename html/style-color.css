@@ -1,16 +1,12 @@
 /* <style type="text/css"> */
 
 BODY {
-    background-color:wheat;
-    background-image: url('image/spirale2.gif');
+    background-color:#fff;
     font-family:arial,verdana,sans-serif,helvetica;
     padding: 0px 0px 0px 0px ;
     margin:0;
     color:brown;
-    font-size:0.85em;
-    background-repeat:no-repeat;
-    background-attachment:fixed;
-    background-position:bottom; 
+    font-size:1em;
 }
 .notice {
     color:red;
@@ -34,7 +30,7 @@ table.sortable th,  table.table_large th,table.result th {
     font-weight:bold;
     font-family:arial,verdana,sans-serif,helvetica;
     border-bottom:1px solid #7C2A1F;
-    border-top:0;
+    border-top:0px;
     font-size:0.75em;;
     text-align: left;
     font-style: italic;
@@ -251,7 +247,7 @@ table.document th{
     font-weight:bold;
     font-family:arial,verdana,sans-serif,helvetica;
     border-bottom:2px solid blue;
-    border-top:0;
+    border-top:0px;
     color:#25238F;
     text-align: left;
     background-color:#EDF3FF;
@@ -269,9 +265,9 @@ table.document th{
 }
 
 table.mtitle {
-    border:0;
+    border:0px;
     text-align:center;
-    min-width: 50%;
+    min-width: 20%;
 }
 td.mshort {
     height:15px;
@@ -286,10 +282,12 @@ td.mtitle {
     height :30px;
     font-size:0.75em;;
     font-weight: bolder;
-    border:1px dashed #e08000;
+    border-width: 1px;
+    border-color:#e08000;
+    border-style: solid;
     border-collapse: collapse;
-    padding: 0;
-    margin: 0;
+    padding: 0px;
+    margin: 0px;
     border-spacing: 0px;
     background-color: transparent;
 }
@@ -479,7 +477,7 @@ div.content a {
     text-decoration: none;
     display: block;
     color: brown;
-    padding: 0;
+    padding: 0px;
 
 }
 
@@ -530,7 +528,7 @@ div.content a.mtitle:hover {
 div.redcontent input.text {
     font-family:arial,verdana,sans-serif,helvetica;
     font-weight:normal;
-    border-color:336699;
+    border-color:#336699;
     border-style:solid;
     background-color:orange;
     border-width:1px;
@@ -539,7 +537,7 @@ div.redcontent input.text {
 div.content input.text {
     font-family:arial,verdana,sans-serif,helvetica;
     font-weight:normal;
-    border-color:336699;
+    border-color:#336699;
     border-style:solid;
     border-width:1px;
     background-color:orange;
@@ -610,12 +608,12 @@ select {
     position:absolute;
     border:1px solid black;
     background-color:yellow;
-    padding-bottom: 10;
-    padding-top: 10;
-    padding-left: 10;
-    padding-right: 10;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
     color:black;
-    top:0;left:0;
+    top:0px;left:0px;
     visibility:hidden;
     width:25em;
     z-index:20;
@@ -710,9 +708,9 @@ div.popup_border_notitle {
 div.popup_content {
     position:absolute;
     top:16;
-    bottom:0;
-    left:0;
-    right:0;
+    bottom:0px;
+    left:0px;
+    right:0px;
     width:100%;
     height:96%;
     overflow: auto;
@@ -745,15 +743,15 @@ div.autocomplete ul {
     background-color:white;
     border:1px solid #888;
     width:375px;
-    margin:0;
-    padding:0;
+    margin:0px;
+    padding:0px;
 }
 div.autocomplete ul li.selected { background-color: lightblue;}
 
 div.autocomplete ul li {
     list-style-type:none;
     display:block;
-    margin:0;
+    margin:0px;
     padding:0px;
     /*height:32px;*/
     cursor:pointer;
@@ -802,7 +800,7 @@ div.pc_calendar tr{
     font-size:0.87em;
 }
 div.pc_calendar tr{
-    height:40;
+    height:40px;
 
 
 }
@@ -852,7 +850,7 @@ a#anchorbutton, .button, a.button,div.content a.button,a#smallanchorbutton, .sma
 
     border-style:  outset ;
     border-color:  blue ;
-    border-width:0;
+    border-width:0px;
     padding-bottom: 3px;
     padding-top: 3px;
     padding-right: 3px;
@@ -867,7 +865,7 @@ a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover,a#
     background-color:white;
     border-style:  inset ;
     color:red;
-    margin:1 2 1 2;
+    margin:1px 2px 1px 2px;
 
 }
 td.tool {
@@ -904,8 +902,8 @@ div.welcome {
 }
 div.gest_name {
     float:left;
-    margin-left:150;
-    margin-top:15
+    margin-left:150px;
+    margin-top:15px;
 }
 h2.gest_name {
     border-left: 5px solid  #403a8d;
@@ -923,8 +921,8 @@ body.op_detail_frame,div.op_detail_frame  {
 div.inner_box  {
     background-color:#FCEED4;
     font-family:arial,verdana,sans-serif,helvetica;
-    padding:0;
-    margin:0;
+    padding:0px;
+    margin:0px;
     overflow:hidden;
     z-index:3;
     position:absolute;
@@ -946,7 +944,7 @@ div#div_jrn{
 div#div_cat{
     position:absolute;
     border:1px solid black;
-    top:15%;left:100;
+    top:15%;left:100px;
     visibility:hidden;
     z-index:2;
     width:50em;
@@ -1006,7 +1004,7 @@ span.remain {
 div#jrn_name_div
 {
     float: right;
-    margin-right:150;
+    margin-right:150px;
 
 
 }
@@ -1031,8 +1029,8 @@ div#wait_box
     background-color:#F1E6E6;
     font-size:0.87em;
     font-family: arial,verdana,helvetica,arial,sans-serif;
-    padding:0;
-    margin:0;
+    padding:0px;
+    margin:0px;
     overflow:hidden;
     z-index:10;
 
@@ -1311,7 +1309,7 @@ div#preference_div {
 }
 div#error_content_div {
    font-size: 1.2em;
-   color:error;
+   color:#FF0000;
    font-weight: bold;
    text-align: center;
 }
