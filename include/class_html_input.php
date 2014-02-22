@@ -426,7 +426,7 @@ class HtmlInput
     static function anchor_close($div)
     {
 	$r='';
-	$r.='<div style="float:right;margin-right:2px;margin-top:5px;padding:0">';
+	$r.='<div style="float:right;margin-right:2px;margin-top:5px;padding:0px;">';
 	$r.= '<A id="close_div" class="input_text" HREF="javascript:void(0)" onclick="removeDiv(\''.$div.'\');">'._('Fermer').'</A>';
 	$r.='</div>';
 	return $r;
@@ -438,8 +438,11 @@ class HtmlInput
      */
     static function button_action($action,$javascript,$id="xx",$p_class="button")
     {
+        if ($id=="xx"){
+            $id=HtmlInput::generate_id("xx");
+        }
 		$r="";
-		$r.='<input type="button" id="'.$id.'"class="'.$p_class.'" onclick="'.$javascript.'" value="'.h($action).'">';
+		$r.='<input type="button" id="'.$id.'" class="'.$p_class.'" onclick="'.$javascript.'" value="'.h($action).'">';
 		return $r;
 
     }
@@ -453,8 +456,8 @@ class HtmlInput
     static function anchor_hide($action,$javascript)
     {
 	$r='';
-	$r.='<div style="float:right;right;margin:2;">';
-	$r.= '<span id="close_div" class="input_text"  HREF="javascript:void(0)" onclick="'.$javascript.'">'.$action.'</span>';
+	$r.='<div style="float:right;margin:2px;">';
+	$r.= '<span id="close_div" class="input_text"  onclick="'.$javascript.'">'.$action.'</span>';
 	$r.='</div>';
 	return $r;
     }
@@ -684,6 +687,7 @@ class HtmlInput
 	{
 		if ($mod=='close')		$r=HtmlInput::anchor_close($div);
 		if ($mod=='hide')		$r=HtmlInput::anchor_hide(_('Fermer'),"$('$div').hide()");
+                if ( $mod == 'none')    $r="";
 		$r.=h2($name,' class="title" ');
 		return $r;
 	}
