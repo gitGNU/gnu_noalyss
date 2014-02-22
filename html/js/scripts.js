@@ -2469,7 +2469,7 @@ function calendar_zoom(obj)
                         if (obj.outdiv === undefined) {
                             obj.outdiv = 'calendar_zoom_div';
                         }
-                        if ($(obj.outdiv) === undefined) {
+                        if ($(obj.outdiv) == undefined) {
                             var str_style = fixed_position(0, 20);
                             add_div({id: obj.outdiv, style: 'margin-left:3%;width:94%;height:94%;' + str_style, cssclass: "inner_box", drag: 1});
                         }
