@@ -64,10 +64,6 @@ if ( ! empty ($array) )  {
 
 			</th>
 			<th>
-				<?php echo _("Pour aujourd'hui")?>
-			</th>
-			<th>
-				<?php echo _("En retard")?>
 			</th>
 		</tr>
 		<tr>

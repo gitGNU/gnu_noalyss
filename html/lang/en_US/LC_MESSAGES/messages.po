@@ -1,21 +1,23 @@
-# NOALYSS 
+# NOALYSS
 # Copyright (C) 2014
 # This file is distributed under the same license as the NOALYSS package.
 # Dany De Bontridder <dany@alchimerys.be>
 #
+# dany, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS 672\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-16 12:54+0100\n"
-"PO-Revision-Date: 2014-02-14 23:38+0100\n"
-"Last-Translator: Dany De Bontridder <dany@alchimerys.be>\n"
-"Language-Team: English\n"
+"PO-Revision-Date: 2014-02-21 21:31+0100\n"
+"Last-Translator: dany\n"
+"Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.4\n"
 
 #: include/template/category_of_card.php:38
 msgid " A moins qu'en créant la fiche, vous forcez un autre poste comptable"
@@ -30,7 +32,6 @@ msgid " Administration Globale"
 msgstr "Global Parameter"
 
 #: include/ext/tva/form_parameter.php:88
-#, fuzzy
 msgid ""
 " Autres opérations à l'entrée pour lesquelles la T.V.A. est due par le "
 "déclarant "
@@ -41,9 +42,8 @@ msgid " Base de donnée "
 msgstr "Database"
 
 #: include/template/ledger_detail_bottom.php:9
-#, fuzzy
 msgid " Bon de commande"
-msgstr "Good customer order"
+msgstr "Customer order"
 
 #: include/fiche.inc.php:176
 msgid " Ces fiches n'ont pas été effacées  "
@@ -87,9 +87,8 @@ msgid " TVA "
 msgstr "VAT"
 
 #: include/class_acc_ledger.php:107
-#, fuzzy
 msgid " Tous les journaux"
-msgstr "All the purchase ledgers"
+msgstr "All the  ledgers"
 
 #: html/ajax_card.php:416 html/ajax_card.php:417
 msgid " d'administration"
@@ -163,22 +162,18 @@ msgid "%s Vous avez ajouté %d mois depuis le %d/%d pour l'exercice %d "
 msgstr "You have added% s% d months since% d /% d% d for the year"
 
 #: include/class_acc_ledger.php:3234
-#, fuzzy
 msgid "'Journaux Financier"
-msgstr "Financial Menu"
+msgstr "Financial"
 
 #: include/class_acc_ledger.php:3235
-#, fuzzy
 msgid "'Journaux d'Opérations diverses"
-msgstr "Menu various operations"
+msgstr "Miscellaneous ledger"
 
 #: include/class_acc_ledger.php:3233
-#, fuzzy
 msgid "'Journaux d'achat"
-msgstr "All the purchase ledgers"
+msgstr "Purchase ledgers"
 
 #: include/impress_bilan.inc.php:89
-#, fuzzy
 msgid ""
 "<span class=\"notice\"> Attention : si le bilan n'est pas équilibré.<br> "
 "Vérifiez <ul>\n"
@@ -197,7 +192,7 @@ msgstr ""
 "<li> The  liability has a saldo on credit(except the reverse accounting) </"
 "li>\n"
 "</ul> \n"
-"Use the report of accouting to check</span>"
+"Use the balance of accouting to check</span>"
 
 #: include/template/stock_histo_search.php:43
 msgid "A partir de"
@@ -231,11 +226,10 @@ msgid "Accès interdit"
 msgstr "Forbidden access"
 
 #: include/template/ledger_detail_forbidden.php:5
-#, fuzzy
 msgid ""
 "Accès interdit : vous n'avez pas accès à cette information, contactez votre "
 "responsable"
-msgstr "You are not allowed to access this ledger, contact your administrator"
+msgstr "You are not allowed to access this , contact your administrator"
 
 #: include/database.item.php:2 include/database.item.php:66
 #: include/database.item.php:196
@@ -252,7 +246,7 @@ msgstr "Asset of one year max"
 
 #: include/class_acc_bilan.php:147
 msgid "Actif avec un solde crediteur"
-msgstr ""
+msgstr "Asset with a credit saldo"
 
 #: include/template/dashboard.php:105
 msgid "Action"
@@ -267,29 +261,26 @@ msgid "Action Gestion"
 msgstr "Action Management"
 
 #: include/action.common.inc.php:277 include/action.common.inc.php:281
-#, fuzzy
 msgid "Action Sauvée"
-msgstr "Action saved"
+msgstr "Saved"
 
 #: include/template/dashboard.php:222
-#, fuzzy
 msgid "Action en retard"
-msgstr "Forbidden Action"
+msgstr "Late"
 
 #: html/ajax_card.php:199 html/ajax_card.php:311 html/ajax_card.php:446
 #: html/ajax_card.php:483 html/ajax_card.php:491 html/ajax_card.php:312
 #: html/ajax_card.php:447 html/ajax_card.php:484 html/ajax_card.php:492
 msgid "Action interdite"
-msgstr "Forbidden Action"
+msgstr "Forbidden"
 
 #: include/class_acc_ledger.php:3684
-#, fuzzy
 msgid "Action non accessible"
 msgstr "Folder not available"
 
 #: include/template/dashboard.php:253
 msgid "Action pour aujourd'hui"
-msgstr ""
+msgstr "For today"
 
 #: include/template/detail-action.php:176
 #, fuzzy
