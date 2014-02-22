@@ -316,16 +316,16 @@ class HtmlInput
 
         /* create a hidden div for the ledger */
         echo '<div id="div_jrn'.$div.'" >';
-        echo HtmlInput::title_box("Journaux", $div."jrn_search");
+        echo HtmlInput::title_box(_("Journaux"), $div."jrn_search");
         echo '<div style="padding:5px">';
         echo '<form method="GET" id="'.$div.'search_frm" onsubmit="return hide_ledger_choice(\''.$div.'search_frm\')">';
         echo HtmlInput::hidden('nb_jrn', count($p_array));
         echo _('Filtre ').HtmlInput::filter_table($div.'tb_jrn', '0,1,2', 1);
         echo '<table class="result" id="'.$div.'tb_jrn">';
         echo '<tr>';
-        echo th('Nom');
-        echo th('Description');
-        echo th('Type');
+        echo th(_('Nom'));
+        echo th(_('Description'));
+        echo th(_('Type'));
         echo '</tr>';
         
         for ($e=0;$e<count($p_array);$e++)
@@ -347,7 +347,7 @@ class HtmlInput
         }
         echo '</table>';
         echo HtmlInput::hidden('div',$div);
-        echo HtmlInput::submit('save','Valider');
+        echo HtmlInput::submit('save',_('Valider'));
         echo HtmlInput::button_close($div."jrn_search");
         echo '</form>';
         echo '</div>';
@@ -364,13 +364,13 @@ class HtmlInput
     {
         ob_start();
         $ledger=new ISmallButton('l');
-        $ledger->label="Catégorie";
+        $ledger->label=_("Catégorie");
         $ledger->javascript=" show_cat_choice()";
         echo $ledger->input();
 
         /* create a hidden div for the ledger */
         echo '<div id="div_cat">';
-        echo '<h2 class="info">Choix des categories</h2>';
+        echo '<h2 class="info">'._('Choix des categories').'</h2>';
         $selected=(isset($_GET['r_cat']))?$_GET['r_cat']:null;
 
         echo '<ul>';
@@ -388,7 +388,7 @@ class HtmlInput
         }
         echo '</ul>';
         $hide=new IButton('l');
-        $hide->label="Valider";
+        $hide->label=_("Valider");
         $hide->javascript=" hide_cat_choice() ";
         echo $hide->input();
 
@@ -411,8 +411,8 @@ class HtmlInput
      */
     static function button_close($div_name)
     {
-      $a=new IButton('Fermer','Fermer');
-      $a->label="Fermer";
+      $a=new IButton('Fermer',_('Fermer'));
+      $a->label=_("Fermer");
       $a->javascript="removeDiv('".$div_name."')";
       $html=$a->input();
 
@@ -427,7 +427,7 @@ class HtmlInput
     {
 	$r='';
 	$r.='<div style="float:right;margin-right:2px;margin-top:5px;padding:0">';
-	$r.= '<A id="close_div" class="input_text" HREF="javascript:void(0)" onclick="removeDiv(\''.$div.'\');">Fermer</A>';
+	$r.= '<A id="close_div" class="input_text" HREF="javascript:void(0)" onclick="removeDiv(\''.$div.'\');">'._('Fermer').'</A>';
 	$r.='</div>';
 	return $r;
     }
@@ -772,7 +772,7 @@ class HtmlInput
          */
         static function calendar_zoom($obj)
         {
-            $button=new ISmallButton("calendar", "Calendrier");
+            $button=new ISmallButton("calendar", _("Calendrier"));
             $button->javascript="calendar_zoom($obj)";
             return $button->input();
         }
@@ -797,7 +797,7 @@ class HtmlInput
 
             $bledger_param = str_replace('"', "'", $bledger_param);
             $bledger = new ISmallButton('l');
-            $bledger->label = "choix des journaux";
+            $bledger->label = _("choix des journaux");
             $bledger->javascript = " show_ledger_choice($bledger_param)";
             $f_ledger = $bledger->input();
             $hid_jrn = "";
