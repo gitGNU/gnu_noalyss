@@ -7,57 +7,54 @@
 <?php echo HtmlInput::calendar_zoom($obj); ?>
 <?php echo $cal->display('short'); ?>
 </div>
-<!-- Mini rapport -->
+<div id="todo_listg_div" class="box"> <?php echo HtmlInput::title_box(_('Pense-Bête'),"todo_listg_div",'none')?>
+
 <?php
 /*
- * Mini Report
+ * Todo list
  */
-$report=$g_user->get_mini_report();
-
-$rapport=new Acc_Report($cn);
-$rapport->id=$report;
-if ( $rapport->exist() == false ) {
-  $g_user->set_mini_report(0);
-  $report=0;
+echo dossier::hidden();
+if ( isset($_REQUEST['save_todo_list'])) {
+  /* Save the new elt */
+  $add_todo=new Todo_List($cn);
+  $add_todo->set_parameter('id',$_REQUEST['tl_id']);
+  $add_todo->set_parameter('title',$_REQUEST['p_title']);
+  $add_todo->set_parameter('desc',$_REQUEST['p_desc']);
+  $add_todo->set_parameter('date',$_REQUEST['p_date_todo']);
+  $add_todo->save();
 }
+$todo=new Todo_List($cn);
+$array=$todo->load_all();
 
-if ( $report != 0 ) : ?>
-<div id="report_div" class="box"><?php echo HtmlInput::title_box($rapport->get_name(),'report_div','none');?>
-<?php    
-  $exercice=$g_user->get_exercice();
-  if ( $exercice == 0 ) {
-    alert(_('Aucune periode par defaut'));
-  } else {
-    $periode=new Periode($cn);
-    $limit=$periode->limit_year($exercice);
+echo HtmlInput::button('add',_('Ajout'),'onClick="add_todo()"','smallbutton');
+if ( ! empty ($array) )  {
+  echo '<table id="table_todo" class="sortable" width="100%">';
+  echo '<tr><th class=" sorttable_sorted_reverse">Date <span id="sorttable_sortrevind">&nbsp;&blacktriangle;</span></th><th>Titre</th><th></th>';
+  $nb=0;
+  $today=date('d.m.Y');
 
-    $result=$rapport->get_row($limit['start'],$limit['end'],'periode');
-    $ix=0;
-    echo '<table border="0" width="100%">';
-    foreach ($result as $row) {
-      $ix++;
-	  $class=($ix%2==0)?' class="even" ':' class="odd" ';
-      echo '<tr '.$class.'>';
-
-      echo '<td> '.$row['desc'].'</td>'.
-	'<td style="text-align:right">'.nbm($row['montant'])." &euro;</td>";
-      echo '</tr>';
-    }
-    echo '</table>';
+  foreach ($array as $row) {
+    if ( $nb % 2 == 0 ) $odd='class="odd" '; else $odd='class="even" ';
+    if ( strcmp($today,$row['str_tl_date'])==0) { $odd.=' style="background-color:#FFEA00"';}
+    $nb++;
+    echo '<tr id="tr'.$row['tl_id'].'" '.$odd.'>'.
+      '<td sorttable_customkey="'.$row['tl_date'].'">'.
+      $row['str_tl_date'].
+      '</td>'.
+      '<td>'.
+      '<a class="line" href="javascript:void(0)" onclick="todo_list_show(\''.$row['tl_id'].'\')">'.
+      htmlspecialchars($row['tl_title']).
+      '</a>'.
+       '</td>'.
+      '<td>'.
+      HtmlInput::button('del','X','onClick="todo_list_remove('.$row['tl_id'].')"','smallbutton').
+      '</td>'.
+      '</tr>';
   }
-  ?>
-  </div>
-<?php
-  else :
+  echo '</table>';
+}
 ?>
-  <div id="report_div" class="box"> <?php echo HtmlInput::title_box(_('Aucun rapport défini'),'report_div','none')?>
-<p>
-  <a href="javascript:void(0)" class="cell" onclick="set_preference('<?php echo dossier::id()?>')"><?php echo _('Cliquez ici pour mettre à jour vos préférences')?></a>
-<p>
 </div>
-<?php
-endif;
-?>
 
 <div id="situation_div" class="box"> 
     <?php echo HtmlInput::title_box(_("Situation"),"situation_div",'none')?>
@@ -155,54 +152,59 @@ endif;
 		</tr>
 	</table>
 </div>
-<div id="todo_listg_div" class="box"> <?php echo HtmlInput::title_box(_('Pense-Bête'),"todo_listg_div",'none')?>
 
+<!-- Mini rapport -->
 <?php
 /*
- * Todo list
+ * Mini Report
  */
-echo dossier::hidden();
-if ( isset($_REQUEST['save_todo_list'])) {
-  /* Save the new elt */
-  $add_todo=new Todo_List($cn);
-  $add_todo->set_parameter('id',$_REQUEST['tl_id']);
-  $add_todo->set_parameter('title',$_REQUEST['p_title']);
-  $add_todo->set_parameter('desc',$_REQUEST['p_desc']);
-  $add_todo->set_parameter('date',$_REQUEST['p_date_todo']);
-  $add_todo->save();
+$report=$g_user->get_mini_report();
+
+$rapport=new Acc_Report($cn);
+$rapport->id=$report;
+if ( $rapport->exist() == false ) {
+  $g_user->set_mini_report(0);
+  $report=0;
 }
-$todo=new Todo_List($cn);
-$array=$todo->load_all();
 
-echo HtmlInput::button('add',_('Ajout'),'onClick="add_todo()"','smallbutton');
-if ( ! empty ($array) )  {
-  echo '<table id="table_todo" class="sortable" width="100%">';
-  echo '<tr><th class=" sorttable_sorted_reverse">Date <span id="sorttable_sortrevind">&nbsp;&blacktriangle;</span></th><th>Titre</th><th></th>';
-  $nb=0;
-  $today=date('d.m.Y');
+if ( $report != 0 ) : ?>
+<div id="report_div" class="box"><?php echo HtmlInput::title_box($rapport->get_name(),'report_div','none');?>
+<?php    
+  $exercice=$g_user->get_exercice();
+  if ( $exercice == 0 ) {
+    alert(_('Aucune periode par defaut'));
+  } else {
+    $periode=new Periode($cn);
+    $limit=$periode->limit_year($exercice);
 
-  foreach ($array as $row) {
-    if ( $nb % 2 == 0 ) $odd='class="odd" '; else $odd='class="even" ';
-    if ( strcmp($today,$row['str_tl_date'])==0) { $odd.=' style="background-color:#FFEA00"';}
-    $nb++;
-    echo '<tr id="tr'.$row['tl_id'].'" '.$odd.'>'.
-      '<td sorttable_customkey="'.$row['tl_date'].'">'.
-      $row['str_tl_date'].
-      '</td>'.
-      '<td>'.
-      '<a class="line" href="javascript:void(0)" onclick="todo_list_show(\''.$row['tl_id'].'\')">'.
-      htmlspecialchars($row['tl_title']).
-      '</a>'.
-       '</td>'.
-      '<td>'.
-      HtmlInput::button('del','X','onClick="todo_list_remove('.$row['tl_id'].')"','smallbutton').
-      '</td>'.
-      '</tr>';
+    $result=$rapport->get_row($limit['start'],$limit['end'],'periode');
+    $ix=0;
+    echo '<table border="0" width="100%">';
+    foreach ($result as $row) {
+      $ix++;
+	  $class=($ix%2==0)?' class="even" ':' class="odd" ';
+      echo '<tr '.$class.'>';
+
+      echo '<td> '.$row['desc'].'</td>'.
+	'<td style="text-align:right">'.nbm($row['montant'])." &euro;</td>";
+      echo '</tr>';
+    }
+    echo '</table>';
   }
-  echo '</table>';
-}
+  ?>
+  </div>
+<?php
+  else :
 ?>
+  <div id="report_div" class="box"> <?php echo HtmlInput::title_box(_('Aucun rapport défini'),'report_div','none')?>
+<p>
+  <a href="javascript:void(0)" class="cell" onclick="set_preference('<?php echo dossier::id()?>')"><?php echo _('Cliquez ici pour mettre à jour vos préférences')?></a>
+<p>
 </div>
+<?php
+endif;
+?>
+
     
 <div id="action_late_div"  class="inner_box" style="display:none;margin-left:25%;top:25%;width: 50%;min-height:50%;overflow: auto;">
 	<?php
