@@ -3,7 +3,7 @@
 //see licence.txt
 ?><div id="top">
       <div id="dossier">
-	<H2><?php echo h(dossier::name())?></h2>
+	<?php echo h(dossier::name())?>
 	</div>
     <div style="clear:both;"></div>
     <div class="name">
