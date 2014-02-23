@@ -4,7 +4,7 @@ BODY {
     background-color:#fff;
     font-family:arial,verdana,sans-serif,helvetica;
     padding: 0px 0px 0px 0px ;
-    margin:0;
+    margin:0px;
     color:brown;
     font-size:1em;
 }
@@ -707,7 +707,7 @@ div.popup_border_notitle {
 
 div.popup_content {
     position:absolute;
-    top:16;
+    top:16px;
     bottom:0px;
     left:0px;
     right:0px;
@@ -730,8 +730,8 @@ div.autocomplete {
     position:relative;
     background-color:white;
     border:1px solid #888;
-    margin:0;
-    padding:0;
+    margin:0px;
+    padding:0px;
     text-align:left;
 }
 div.autocomplete em {
@@ -857,7 +857,7 @@ a#anchorbutton, .button, a.button,div.content a.button,a#smallanchorbutton, .sma
     padding-left:  3px;
     margin-top:3px;
     cursor:pointer;
-    margin:1 2 1 2;
+    margin:1px 2px 1px 2px;
 
 }
 a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover,a#smallanchorbutton:hover, .smallbutton:hover,a.smallbutton:hover,div.content a.smallbutton:hover  {
@@ -1189,7 +1189,7 @@ div.myfieldset
     color:black;
     z-index: 15;
     position: absolute;
-    top:0;
+    top:0px;
     left:45%;
 }
 div.menu2 a.mtitle{
@@ -1224,8 +1224,8 @@ div#modele_op_div{
     display: none;
     background-color:#FCEED4;
     font-family:arial,verdana,sans-serif,helvetica;
-    padding:0;
-    margin:0;
+    padding:0px;
+    margin:0px;
     overflow:hidden;
     z-index:3;
     position:absolute;
@@ -1267,8 +1267,8 @@ div.inner_box tr.odd {
 div#bookmark_div {
     background-color:#e4e7ed;
     font-family:arial,verdana,sans-serif,helvetica;
-    padding:0;
-    margin:0;
+    padding:0px;
+    margin:0px;
     overflow:hidden;
     z-index:3;
     position:absolute;
@@ -1280,8 +1280,8 @@ div#bookmark_div {
 div#preference_div {
     background-color:#e4e7ed;
     font-family:arial,verdana,sans-serif,helvetica;
-    padding:0;
-    margin:0;
+    padding:0px;
+    margin:0px;
     overflow:hidden;
     z-index:3;
     position:absolute;
