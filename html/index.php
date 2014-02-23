@@ -189,7 +189,7 @@ if ( strlen(domaine) > 0 )
 
 echo '
 <span style="background-color:#879ed4;color:white;padding-left:4px;padding-right:4px;">
-version  6.7.1 SVNINFO - '.$my_domain.'
+version  6.7.2.0 - '.$my_domain.'
 </span>
 <BR>
 <BR>
@@ -218,12 +218,10 @@ require_once('ac_common.php');
 
 if ( $g_captcha == true )
   {
-    //    echo '<div style="position:absolute;top:50%;left:50%">';
-    //echo "<h2>Sécurité</h2>";
     echo '<tr ><td colspan="2" style="width:auto">';
     echo "<table style=\"border:1px solid black\">";
     echo '<tr>';
-    echo '<td colspan="2" style="with:auto;font-size:12;text-align:center">';
+    echo '<td colspan="2" style="with:auto;font-size:12px;text-align:center">';
     echo "Indiquer le code que vous lisez dans l'image";
     echo '</td>';
     echo '</tr>';
@@ -236,7 +234,6 @@ if ( $g_captcha == true )
 	    '<a href="#" onclick="document.getElementById(\'captcha\').src = \'securimage/securimage_show.php?\' + Math.random(); return false">Reload Image</a>','colspan="2" style="width:auto;text-align:center"');
     echo '</tr>';
     echo '</table>';
-    //    echo '</div>';
     echo '</td>';
     echo '<tr>';
   }
