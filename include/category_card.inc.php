@@ -60,6 +60,7 @@ default:
 $f=new Fiche($cn,$_REQUEST['f_id']);
 
 echo '<div class="content">';
+echo $f->get_gestion_title();
 echo ShowItem(array(
                   array($root."&sc=dc",_('Fiche'),_('Détail de la fiche'),1),
                   array($root.'&sc=sv',_('Suivi'),_('Suivi Fournisseur, client, banque, devis, bon de commande, courrier'),2),
@@ -112,7 +113,6 @@ if ( $ss_action == 'cn')
 
 	echo dossier::hidden();
 	$f = new Fiche($cn, $_REQUEST['f_id']);
-	echo $f->get_gestion_title();
 	$contact=new Contact($cn);
     $contact->company=$f->get_quick_code();
     echo $contact->summary("");

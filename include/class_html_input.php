@@ -174,12 +174,12 @@ class HtmlInput
         $readonly=($this->readonly==false)?"false":"true";
         echo "read only".$readonly."<br>";
     }
-    static   function submit ($p_name,$p_value,$p_javascript="",$p_class="button")
+    static   function submit ($p_name,$p_value,$p_javascript="",$p_class="smallbutton")
     {
 
         return '<INPUT TYPE="SUBMIT" class="'.$p_class.'" NAME="'.$p_name.'" ID="'.$p_name.'_submit_id"  VALUE="'.$p_value.'" '.$p_javascript.'>';
     }
-    static   function button ($p_name,$p_value,$p_javascript="",$p_class="button")
+    static   function button ($p_name,$p_value,$p_javascript="",$p_class="smallbutton")
     {
 
         return '<INPUT TYPE="button" class="'.$p_class.'" NAME="'.$p_name.'" ID="'.$p_name.'" VALUE="'.$p_value.'" '.$p_javascript.'>';
@@ -187,7 +187,7 @@ class HtmlInput
 
     static function reset ($p_value)
     {
-        return '<INPUT TYPE="RESET" class="button" VALUE="'.$p_value.'">';
+        return '<INPUT TYPE="RESET" class="smallbutton" VALUE="'.$p_value.'">';
     }
     static function hidden($p_name,$p_value,$p_id="")
     {

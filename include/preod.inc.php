@@ -79,7 +79,7 @@ if ( $request_sa== 'jrn' )
 	$array = $op->get_list_ledger();
 	if (empty($array) == true)
     {
-        echo "Aucun enregistrement";
+        echo _("Aucun enregistrement");
         exit();
     }
 
@@ -97,7 +97,7 @@ if ( $request_sa== 'jrn' )
         echo '<td>'.h($row['od_name']).'</td>';
         echo '<td>'.h($row['od_description']).'</td>';
         echo '<td>';
-	echo '<form method="POST" class="print" style="margin:0;padding:0">';
+	echo '<form method="POST" class="print" style="margin:0px;padding:0px;">';
         echo dossier::hidden();
         echo $hid->input("sa","del");
         echo $hid->input("ac",$request_ac);
@@ -105,8 +105,8 @@ if ( $request_sa== 'jrn' )
         echo $hid->input("od_id",$row['od_id']);
         echo $hid->input("jrn",$get_jrn);
 
-	$b='<input type="submit" class="button" value="Effacer" '.
-	  ' onClick="return confirm(\'Voulez-vous vraiment effacer cette operation ?\');" >';
+	$b='<input type="submit" class="smallbutton" value="'._("Effacer").'"'.
+	  ' onClick="return confirm(\''._("Voulez-vous vraiment effacer cette operation ?").'\');" >';
 	   echo $b;
 	   echo '</form>';
 

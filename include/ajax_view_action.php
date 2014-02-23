@@ -50,7 +50,7 @@ else
 {
 	echo h2(_("Ce document n'est pas accessible"),"error");
 	?>
-	<div style="margin:0;padding:0;background-color:red;text-align:center;">
+	<div style="margin:0px;padding:0px;background-color:red;text-align:center;">
 <h2 class="error">Accès interdit : vous n'avez pas accès à cette information, contactez votre responsable</h2>;
 </div>
 	<?php 

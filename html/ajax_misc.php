@@ -289,12 +289,12 @@ EOF;
 		$row = $arow[0];
 		$r = '';
 		$r.='<fieldset><legend>' . _('Lettrage') . '</legend>';
-		$r.='Poste ' . $row['j_poste'] . '  ' . $row['j_qcode'] . '<br>';
+		$r.=_('Poste')." " . $row['j_poste'] . '  ' . $row['j_qcode'] . '<br>';
 
 		$detail = "<A class=\"detail\" style=\"display:inline\" HREF=\"javascript:modifyOperation('" . $row['jr_id'] . "'," . $gDossier . ")\" > " . $row['jr_internal'] . "</A>";
 
-		$r.='Date : ' . $row['j_date_fmt'] . ' ref :' . $detail . ' <br>  ';
-		$r.=h($row['jr_comment']) . " montant: " . ($row['j_montant']) . " " . (($row['j_debit'] == 't') ? 'D' : 'C');
+		$r.=_('Date').' : ' . $row['j_date_fmt'] . ' ref :' . $detail . ' <br>  ';
+		$r.=h($row['jr_comment']) ." "._("montant"). " : " . ($row['j_montant']) . " " . (($row['j_debit'] == 't') ? 'D' : 'C');
 		$r.='</fieldset>';
 		$r.='<div id="filtre" style="float:left;display:block">';
 		$r.='<form method="get" id="search_form" onsubmit="search_letter(this);return false">';
@@ -355,10 +355,10 @@ EOF;
 			$search_end=$last_per->last_day();
 		}
 		$end->value = (isset($search_end)) ? $search_end : $last_per->last_day();
-		$line.=td('Date Fin') . td($end->input());
+		$line.=td(_('Date Fin')) . td($end->input());
 		$r.=tr($line);
 		// Side
-		$line = td('Debit / Credit');
+		$line = td(_('Debit / Credit'));
 		$iside = new ISelect('side');
 		$iside->value = array(
 			array('label' => _('Debit'), 'value' => 0),

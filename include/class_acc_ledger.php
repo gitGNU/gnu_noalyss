@@ -2836,7 +2836,7 @@ class Acc_Ledger extends jrn_def_sql
 			$type = 'ALL';
 		$r.='<div id="search_form" style="display:none">';
 		$r.=HtmlInput::anchor_hide('Fermer', '$(\'search_form\').style.display=\'none\';');
-		$r.=h2info('Recherche');
+		$r.=h2('Recherche','class="title"');
 		$r.='<FORM METHOD="GET">';
 		$r.=$this->search_form($type);
 		$r.=HtmlInput::submit('search', _('Rechercher'));
@@ -2851,7 +2851,7 @@ class Acc_Ledger extends jrn_def_sql
 			$r.= HtmlInput::hidden("sc", $_REQUEST['sc']);
 		if (isset($_REQUEST['f_id']))
 			$r.=HtmlInput::hidden("f_id", $_REQUEST['f_id']);
-		$r.=HtmlInput::button_anchor('Fermer', 'javascript:void(0)', 'fsearch_form', 'onclick="$(\'search_form\').style.display=\'none\';"');
+		$r.=HtmlInput::button_anchor(_('Fermer'), 'javascript:void(0)', 'fsearch_form', 'onclick="$(\'search_form\').style.display=\'none\';"','smallbutton');
 
 		$r.='</FORM>';
 

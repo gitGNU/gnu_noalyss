@@ -36,7 +36,6 @@ $_GET['qcode']=$qcode;
 $_REQUEST['qcode']=$qcode;
 $var_array=compute_variable('ledger_type=ALL');
 put_global($var_array);
-echo $f->get_gestion_title();
 
 require_once ('history_operation.inc.php');
 

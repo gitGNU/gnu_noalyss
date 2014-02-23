@@ -310,7 +310,7 @@ for ($i=0; $i <$MaxRow; $i++)
 	if ( strlen($A['acode']) >0 ) {
 		if (strpos($A['acode'], ",") >0 ) {
 			$det_qcode=  explode(",", $A['acode']);
-			echo '<ul style="paddding:0;margin:0;padding-left:0;list-style-type:none;padding-start-value:0">';
+			echo '<ul style="paddding:0;margin:0px;padding-left:0px;list-style-type:none;padding-start-value:0px">';
 			$max=(count($det_qcode)>MAX_QCODE)?MAX_QCODE:count($det_qcode);
 			for ($e=0;$e<$max;$e++) {
 				echo '<li style="padding-start-value:0">'.HtmlInput::card_detail($det_qcode[$e]).'</li>';

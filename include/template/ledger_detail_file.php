@@ -11,5 +11,5 @@ $str='?'.dossier::get()."&div=$div&act=file&jr_id=$jr_id";
 if ( isset ($_REQUEST['ajax'])) $str.="&ajax=1";
 ?>
 <div class="noprint">
-<iframe frameborder=0 scrolling="no" style="margin:0;padding: 0;border:0;width:100%;height:90;overflow:hidden" src="<?php echo 'ajax_ledger.php'.$str; ?>"></iframe>
+<iframe frameborder=0 scrolling="no" style="margin:0px;padding: 0px;border:0px;width:100%;height:90px;overflow:hidden" src="<?php echo 'ajax_ledger.php'.$str; ?>"></iframe>
 </div>

@@ -47,6 +47,5 @@ $_GET['qcode']=$fiche->get_quick_code();
 $_REQUEST['qcode'] = $fiche->get_quick_code();
 
 echo '<div class="content">';
-echo $fiche->get_gestion_title();
 require_once('action.common.inc.php');
 echo '</div>';

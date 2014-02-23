@@ -29,7 +29,7 @@ require_once 'class_pre_operation.php';
 $op=new Pre_Operation($cn,$_GET['id']);
 $array=$op->load();
 echo HtmlInput::anchor_close('mod_predf_op');
-echo h2info('Modification du nom');
+echo h2(_('Modification du nom'),' class="title"');
 
 echo '
     <form method="POST" onsubmit="save_predf_op(this);return false;">';
@@ -52,8 +52,8 @@ echo "<hr>";
 echo $op->display();
 
 
-echo HtmlInput::submit('save', 'Sauve');
-echo HtmlInput::button('close', 'Annuler', 'onclick="removeDiv(\'mod_predf_op\')"');
+echo HtmlInput::submit('save', _('Sauve'));
+echo HtmlInput::button('close', _('Annuler'), 'onclick="removeDiv(\'mod_predf_op\')"');
 echo '</form>';
 
 
