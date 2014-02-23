@@ -42,7 +42,7 @@ function boxsearch_card(p_dossier)
 				      onSuccess:function(req){
 						remove_waiting_box();
 						var y=posY+15;
-						var div_style="left:10%;width:80%;"+";top:"+y;
+						var div_style="left:10%;width:80%;"+";top:"+y+"px";
 						add_div({id:'boxsearch_card_div',cssclass:'inner_box',html:loading(),style:div_style,drag:true});
 						$('boxsearch_card_div').innerHTML=req.responseText;
 						sorttable.makeSortable($('tb_fiche'));
@@ -330,7 +330,7 @@ function fill_ipopcard(obj)
     var nTop=posY-40;
     //var nLeft=posX-20;
 	var nLeft="20%";
-    var str_style="top:"+nTop+"px;left:"+nLeft+";width:45em;height:auto";
+    var str_style="top:"+nTop+"px;left:"+nLeft+"px;width:45em;height:auto";
 
     var popup={'id':  content,'cssclass':'inner_box','style':str_style,'html':loading(),'drag':true};
 
@@ -440,7 +440,7 @@ function select_card_type(obj)
         sx=document.body.scrollTop+60;
     }
 
-    var str_style="top:"+sx+";left:25%;width:50%;height:30%";
+    var str_style="top:"+sx+"px;left:25%;width:50%;height:30%";
 
     var popup={'id':  content,'cssclass':'inner_box','style':str_style,'html':loading(),'drag':true};
 
@@ -506,7 +506,7 @@ function dis_blank_card(obj)
     var content='div_new_card';
     var nTop=posY-40;
     var nLeft=posX-20;
-    var str_style="top:"+nTop+";left:"+nLeft+";width:60em;height:auto";
+    var str_style="top:"+nTop+"px;left:"+nLeft+"px;width:60em;height:auto";
 
     var popup={'id':  content,'cssclass':'inner_box','style':str_style,'html':loading(),'drag':true};
     if ( $(content)) {removeDiv(content);}
@@ -539,7 +539,7 @@ function form_blank_card(obj)
     var content='div_new_card';
     var nTop=posY-40;
     var nLeft=posX-20;
-    var str_style="top:"+nTop+";left:"+nLeft+";width:60em;height:auto";
+    var str_style="top:"+nTop+"px;left:"+nLeft+"px;width:60em;height:auto";
 
     var popup={'id':  content,'cssclass':'inner_box','style':str_style,'html':loading(),'drag':true};
     if ( $(content)) {removeDiv(content);}
@@ -609,7 +609,7 @@ function add_category(obj)
             sx=document.body.scrollTop+120;
 	}
 
-	var div_style="top:"+sx+";width:60%;heigth:80%";
+	var div_style="top:"+sx+"px;width:60%;heigth:80%";
     // show ipopup
 	var div={id:obj.ipopup,
 			cssclass:"inner_box",drag:1,style:div_style};
