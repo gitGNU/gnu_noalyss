@@ -1,11 +1,12 @@
-/* <style type="text/css"> */
+ /* <style type="text/css"> */
 
 BODY {
     background-color:#EDF3FF;
-    font-family:arial,verdana,sans-serif,helvetica;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     padding: 0px 0px 0px 0px ;
     margin:0px;
     color:blue;
+    font-size:100%;
 }
 .notice {
     color:red;
@@ -27,10 +28,9 @@ table.resultfooter tfoot {
 }
 table.sortable th,  table.table_large th,table.result th {
     font-weight:bold;
-    font-family:arial,verdana,sans-serif,helvetica;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     border-bottom:1px solid blue;
     border-top:0;
-    font-size:0.75em;;
 
     color:#25238F;
     text-align: left;
@@ -39,8 +39,7 @@ table.sortable th,  table.table_large th,table.result th {
 }
 
 h2 {
-    font-family:arial,verdana,sans-serif,helvetica;
-    font-size:1.35em;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     color:grey;
     margin:1px;
     padding:1px;
@@ -49,14 +48,12 @@ h2 {
 div.info {
     background:#879ed4;
     color:white;
-    font-size:0.87em;
     text-align:center;
 }
 
 content h2.info {
     background:#879ed4;
     color:black;
-    font-size:0.87em;
     text-align:center;
     padding:0px;
     margin:0px;
@@ -64,7 +61,6 @@ content h2.info {
 redcontent h2.info {
     background:#879ed4;
     color:white;
-    font-size:0.87em;
     text-align:center;
     padding:0px;
     margin:0px;
@@ -72,7 +68,6 @@ redcontent h2.info {
 h2.info {
     background-color:#879ed4;
     color:white;
-    font-size:1.34em;
     text-align:center;
     padding:0px;
     margin:0px;
@@ -83,13 +78,11 @@ h2.info {
 h3.info {
     background:#879ed4;
     color:white;
-    font-size:0.87em;
     text-align:center;
 }
 
 h2.info2 {
     color:blue;
-    font-size:1em;;
     text-align:center;
 
 }
@@ -98,7 +91,6 @@ h2.info2 {
 h2.error {
     background:red;
     color:white;
-    font-size:0.87em;
 }
 
 
@@ -137,13 +129,11 @@ td.tool a.mtitle {
     text-decoration:none;
     display:inline;
     color: blue;
-    font-size:0.80em;
     
 }
 td.tool a.mtitle:hover {
     text-decoration:none;
     display:inline;
-    font-size:0.80em;;
     color: darkblue;
     background-color:#5D90CD;
 
@@ -160,6 +150,8 @@ td.tool a.mtitle:hover {
     text-align:right;
     padding:0px;
     margin: 0px;
+    font-size:12.16px;
+    font-size:0.76rem;
 }
 div.u_subt2menu {
     background-color:lightgrey;
@@ -174,8 +166,7 @@ div.lmenu {
 div.lextmenu {
 
     float:left;
-    font-family:arial,verdana,sans-serif,helvetica;
-    font-size:0.75em;;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
 
 }
 div.searchmenu {
@@ -188,8 +179,7 @@ div.searchmenu {
 
 div.recherche_form{
     width:700px;
-    font-size:0.75em;;
-    font-family:arial,verdana,sans-serif,helvetica;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     border-style:outset;
     border-width:1px;
 
@@ -198,7 +188,7 @@ div.redcontent{
     float:left;
     padding-top:7px;
     padding-left:8px;
-    font-family:arial,verdana,sans-serif,helvetica;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     width:75%;
 
 }
@@ -206,8 +196,9 @@ div.content{
     padding-top:0.0030%;
     margin-top:0.0030%;
     width:100%;
-    font-family:arial,verdana,sans-serif,helvetica;
-
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-size:14.4px;
+    font-size:0.90rem;
 
 }
 div.content30{
@@ -215,12 +206,12 @@ div.content30{
     float:left;
     padding-top:7px;
     width:35%;
-    font-family:arial,verdana,sans-serif,helvetica;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
 
 }
 div.no span{
     position:static;
-    font-family:arial,verdana,sans-serif,helvetica;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     font-weight:bold;
     color:red;
 
@@ -235,7 +226,7 @@ table.document {
 }
 table.document th{
     font-weight:bold;
-    font-family:arial,verdana,sans-serif,helvetica;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     border-bottom:2px solid blue;
     border-top:0px;
     color:#25238F;
@@ -251,7 +242,6 @@ table.document th{
     color:white;
     background-color:red;
     font-weight: bolder;
-    font-size:0.87em;
 }
 
 table.mtitle {
@@ -270,7 +260,6 @@ td.mtitle {
     text-align:center;
     width:95px;
     height :30px;
-    font-size:0.75em;;
     background-color:#DDE6FF;
     border:1px solid #99B1DF;
     border-radius:5px;
@@ -278,13 +267,11 @@ td.mtitle {
 td.msubtitle {
     text-align:center;
     height:20px;
-    font-size:0.75em;;
     background-color:#DDE6FF;
 }
 span.mtitle {
     color:gray;
     background-color:blue;
-    font-size:0.75em;;
     border-style:groove
 }
 span.odd {
@@ -298,15 +285,12 @@ span.even {
 
 tr.odd {
     background-color:#DDE6FF;
-    font-size:0.87em;;
 }
 tr.highlight {
     /* background-color:whitesmoke; */
-    font-size:0.87em;
     font-weight: bold;
 }
 tr.even {
-  font-size:0.87em;;
 }
 td.odd{
     background-color:#DDE6FF ;
@@ -323,7 +307,6 @@ td.selectedcell{
     border-style:inset;
     border-color:blue;
     border-width:1pt ;
-    font-size:1.2em;
     font-weight: bold;
     background:#5D90CD ;
     color:white;
@@ -346,13 +329,11 @@ a.mtitle:hover {
 
 }
 td.selectedcell a.mtitle,div.content td.selectedcell a.mtitle {
-    font-size:0.75em;;
     text-decoration:none;
     display:block;
     color:white;
 }
 a.dossier {
-    font-size:0.75em;;
     text-decoration:none;
     display:block;
     color: #202267;
@@ -385,11 +366,9 @@ a.cell {
     display:block;
     color:blue;
     background-color:white;
-    font-size:0.75em;;
 }
 
 a.cell:hover {
-    font-size:0.75em;;
     color:white;
     background-color:#5D90CD;
     text-decoration:none;
@@ -419,8 +398,7 @@ a.one:hover {
 
 a.detail
 {
-    font-size:0.87em;;
-    font-family:arial,verdana,sans-serif,helvetica;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     text-decoration: none;
     display: block;
     color: blue;
@@ -428,8 +406,7 @@ a.detail
 
 a.detail:hover
 {
-/*    font-size:0.75em;; */
-    font-family:arial,verdana,sans-serif,helvetica;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
@@ -438,10 +415,10 @@ a.detail:hover
 
 li.menuv,ol.menuv {
     display:inline;
-    padding:1em 1em;
+    padding:1rem 1rem;
 }
 div.redcontent a {
-    font-family:arial,verdana,sans-serif,helvetica;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     text-decoration: none;
     display: block;
     color: blue;
@@ -449,7 +426,7 @@ div.redcontent a {
 }
 
 div.redcontent a:hover {
-    font-family:arial,verdana,sans-serif,helvetica;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
@@ -457,7 +434,7 @@ div.redcontent a:hover {
 
 }
 div.content a {
-    font-family:arial,verdana,sans-serif,helvetica;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     text-decoration: none;
     display: block;
     color: blue;
@@ -467,7 +444,7 @@ div.content a {
 
 
 div.content a:hover {
-    font-family:arial,verdana,sans-serif,helvetica;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
@@ -510,7 +487,7 @@ div.content a.mtitle:hover {
 
 }
 div.redcontent input.text {
-    font-family:arial,verdana,sans-serif,helvetica;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     font-weight:normal;
     border-color:336699;
     border-style:solid;
@@ -519,7 +496,7 @@ div.redcontent input.text {
     color:blue;
 }
 div.content input.text {
-    font-family:arial,verdana,sans-serif,helvetica;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     font-weight:normal;
     border-color:336699;
     border-style:solid;
@@ -544,7 +521,6 @@ div.redcontent textarea:focus {
     border-collapse:collapse;
 }
 div.content a.document, a.document{
-/*    font-size:0.75em;;*/
     text-decoration:underline;
     display:block;
 }
@@ -572,11 +548,9 @@ a.document:hover {
 h1.legend, legend {
     font-weight: bold;
     font-style: italic;
-    font-size: 1.2em ;
 
 }
 fieldset fieldset legend {
-    font-size:0.87em;
     color:grey;
 }
 select {
@@ -599,12 +573,12 @@ select {
     color:black;
     top:0px;left:0px;
     visibility:hidden;
-    width:25em;
+    width:25rem;
     z-index:20;
 }
 
 span.action {
-    height:3em;
+    height:3rem;
 
 }
 td.num {
@@ -618,7 +592,6 @@ span.action a.action {
     padding-left: 3px;
     padding-right:3px;
     text-decoration:none;
-    font-size:0.87em;
 
     display:inline;
     color:black;
@@ -655,7 +628,6 @@ div.popup_border_title {
     /*border:dotted 1px black;*/
     border: 2px outset #201e87;
     background-color:#879ED4;
-    font-size:0.75em; ;
     font-family: arial,verdana,sans-serif,helvetica;
     font-style: italic;
     font-weight: bolder;
@@ -699,7 +671,6 @@ div.popup_content {
     height:96%;
     overflow: auto;
     background-color:#DFE7FF;
-    font-size:0.75em; ;
     font-family: arial,verdana,sans-serif,helvetica;
     font-style: normal;
     font-weight: normal;
@@ -766,7 +737,7 @@ ul.select_table li {
 }
 ul.select_table li span {
     display:table-cell;
-    width:25em;
+    width:25rem;
     margin: 0px;
     padding:  0px;
 }
@@ -781,7 +752,6 @@ div.pc_calendar table {
 
 }
 div.pc_calendar tr{
-    font-size:0.87em;
 }
 div.pc_calendar tr{
     height:40;
@@ -825,7 +795,6 @@ input[disabled], textarea[disabled], option[disabled], optgroup[disabled], selec
 a#anchorbutton, .button, a.button,div.content a.button {
     color:white;
     font-weight: bold;
-    font-size:0.87em;
     text-decoration:none;
     font-family: arial,verdana,sans-serif,helvetica;
     background-image: url("image/bg-submit2.gif");
@@ -852,7 +821,6 @@ a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
 a#smallanchorbutton, .smallbutton, a.smallbutton,div.content a.smallbutton {
     color:white;
     font-weight: bold;
-    font-size:0.75em;
     text-decoration:none;
     font-family: arial,verdana,sans-serif,helvetica;
     background-image: url("image/bg-submit2.gif");
@@ -876,7 +844,7 @@ a#smallanchorbutton, .smallbutton, a.smallbutton,div.content a.smallbutton {
 a#smallanchorbutton:hover, .smallbutton:hover,a.smallbutton:hover,div.content a.smallbutton:hover  {
     cursor:pointer;
     background-color:white;
-    border-style:  inset ;
+    /* border-style:  inset ; */
     color:red;
     margin:1px 2px 1px 2px;
 
@@ -889,13 +857,14 @@ td.tool {
     border-radius:2px;
 }
 div.topmenu {
-
+	font-size:14px;
+	font-size:0.85rem;
+        
 }
 
 #dossier h2{
     color:darkblue;
     display:inline;
-    font-size:2em;
     margin:0px;
     padding:0px;
     font-variant:small-caps;
@@ -905,11 +874,11 @@ div.topmenu {
     border:1px solid blue;
     display:none;
     background-color:#BFD0FF;
-    padding:0.0015%;
+    padding:0.07%;
     position:absolute;
     text-align:left;
     z-index:1;
-    width:17.9687%;
+    width:30rem;
 }
 div.welcome {
 
@@ -938,7 +907,7 @@ box-shadow: 10px 10px 5px #888;
 }
 div.inner_box  {
     background-color:#e4e7ed;
-    font-family:arial,verdana,sans-serif,helvetica;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     padding:2px;
     margin:0px;
     overflow:hidden;
@@ -949,6 +918,7 @@ div.inner_box  {
 -moz-box-shadow: 10px 10px 5px #888;
 -webkit-box-shadow: 10px 10px 5px #888;
 box-shadow: 10px 10px 5px #888;
+font-size:0.90rem;
 }
 div.op_detail_title {
     background-color:grey;
@@ -969,7 +939,7 @@ div#div_cat{
 }
 
 div.divinfo
-{  color:red;text-align:right;display:block;width:30em;height:13px;font-weight:bold}
+{  color:red;text-align:right;display:block;width:30rem;height:13px;font-weight:bold}
 
 div#search_form
 {
@@ -1002,12 +972,10 @@ table.info_op tr
 h2#jrn_name
 {
     color:blue;
-    font-size:2.74em;
     margin-right:30%;
     float: right;
 }
 tr.footer{
-    font-size:0.87em;
     font-style: italic;
     font-weight: bold;
 
@@ -1033,7 +1001,6 @@ div#jrn_name_div
 {
     display:inline;
     float:left;
-    font-size:0.87em;;
 }
 #calc
 {
@@ -1043,7 +1010,6 @@ div#jrn_name_div
 div#wait_box
 {
     background-color:#F1E6E6;
-    font-size:0.87em;
     font-family: arial,verdana,helvetica,arial,sans-serif;
     padding:0px;
     margin:0px;
@@ -1066,7 +1032,7 @@ div#wait_box
 div#div_jrnsearch_op{
 
     border:1px solid black;
-    width:50em;
+    width:50rem;
     background-color:#EDF3FF;
     z-index: 5;
 
@@ -1096,7 +1062,8 @@ a.line:hover,div_content a.line
     margin-left: 2px;
     margin-right:2px;
     margin-top:0px;
-    font-size:0.90em;
+    font-size:12px;
+    font-size:0.75rem;
 }
 #close_div:hover
 {
@@ -1110,7 +1077,6 @@ a.line:hover,div_content a.line
     border:1px solid blue;
     margin-left: 2px;
     margin-right:18px;
-    font-size:0.90em;
 }
 #popmeout:hover
 {
@@ -1129,12 +1095,10 @@ table.table_large tr.odd ,table.table_large tr.even {
     width:300px;
     border:1px solid black;
     background-color:#aec3e8;
-    font-size:0.87em;
     padding: 20px 20px;
 }
 span.invoice
 {
-    font-size: 1.2em;
     font-style: italic;
     display:block;
     margin: 20px;
@@ -1143,14 +1107,12 @@ span.invoice
 a.nav,div.content a.nav,div.redcontent a.nav {
     display:inline;
     text-decoration:none;
-    font-size:0.75em;;
 }
 a.nav:hover,div.content a.nav:hover,div.redcontent a.nav:hover {
     display:inline;
     text-decoration:none;
     background-color:darkblue;
     color:white;
-    font-size:0.75em;;
 }
 #dossier {
     display:inline;
@@ -1167,7 +1129,6 @@ div.foldercontent {
 
 h1.title {
     color: blue;
-    font-size:2em;
     font-style: italic;
     text-align:center;
     text-transform: uppercase;
@@ -1175,7 +1136,6 @@ h1.title {
 h2.title {
     background-color:#879ed4;
     color:white;
-    font-size:1.34em;
     text-align:center;
     padding:0.24%;
     border:1px solid darkblue;
@@ -1183,18 +1143,15 @@ h2.title {
 }
 h3.title {
     color: blue;
-    font-size:0.87em;
     margin-left: 30px;
 }
 h4.title {
     color: blue;
-    font-size:0.87em;
     margin-left: 45px;
     text-decoration: underline;
 }
 h5.title {
     color: blue;
-    font-size:0.87em;
     margin-left: 45px;
     text-decoration: none;
     font-style: italic;
@@ -1217,9 +1174,10 @@ div.myfieldset
     left:45%;
 }
 div.menu2 a.mtitle{
-    
+    font-size:0.85rem;
 }
 div.menu3 {
+	font-size:0.85rem;
     
 }
 #go_submit_id {
@@ -1229,7 +1187,6 @@ div.menu3 {
     margin-left:30px;
 }
 #folder {
-    font-size:1.4em;
     width:auto;
     border-width:0px;
     border-collapse:collapse;
@@ -1248,7 +1205,7 @@ textarea.itextarea{
 div#modele_op_div{
     display: none;
     background-color:#e4e7ed;
-    font-family:arial,verdana,sans-serif,helvetica;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     padding:0px;
     margin:0px;
     overflow:hidden;
@@ -1291,27 +1248,27 @@ div.inner_box tr.odd {
 }
 div#bookmark_div {
     background-color:#e4e7ed;
-    font-family:arial,verdana,sans-serif,helvetica;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     padding:2px;
     margin:0px;
     overflow:hidden;
     z-index:3;
     position:absolute;
    border:1px solid darkblue;
-   top:2em;
+   top:2rem;
    left:30%;
    width:40%;
 }
 div#preference_div {
     background-color:#e4e7ed;
-    font-family:arial,verdana,sans-serif,helvetica;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     padding:0px;
     margin:0px;
     overflow:hidden;
     z-index:3;
     position:absolute;
     border:1px solid darkblue;
-    top:2em;
+    top:2rem;
     left:20%;
     width:50%;
 }
@@ -1326,14 +1283,13 @@ div#preference_div {
     color:red;
     top:40%;left:25%;
     visibility:hidden;
-    width:40em;
+    width:40rem;
     z-index:20;
 }
 #error_div h2 {
     background: red;
 }
 div#error_content_div {
-   font-size: 1.2em;
    color:error;
    font-weight: bold;
    text-align: center;
@@ -1351,7 +1307,7 @@ input.inum {
 }
 div.box  {
     background-color:#e4e7ed;
-    font-family:arial,verdana,sans-serif,helvetica;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     margin-top:10px;
     margin-left:3px;
     margin-right:3px;
@@ -1362,4 +1318,6 @@ div.box  {
     width:30%;
     height:312px;
     float:left;
+    font-size:14px;
+    font-size:0.90rem;
 }

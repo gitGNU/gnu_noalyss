@@ -100,6 +100,7 @@ $str = "if (g('histo').value==3 || g('histo').value== -1 ) {
 	";
 echo create_script($str);
 echo '<hr>';
+
 //-----------------------------------------------------
 if (!isset($_GET['cat_display']))
 	exit();
@@ -118,8 +119,10 @@ $str_add_card = ($g_user->check_action(FICADD) == 1) ? $h_add_card_b->input() : 
  */
 if ($array == null)
 {
+        echo '<div class="content">';
 	echo '<h2 class="info2"> Aucune fiche trouvée</h2>';
 	echo $str_add_card;
+        echo '</div>';
 	exit();
 }
 
@@ -172,8 +175,10 @@ if ($_GET['histo'] == -1)
 				}
 				if ($msg != "")
 				{
+                                        echo '<div class="content">';   
 					echo h2(_("Fiche non effacées"), ' class="error"  ');
 					echo '<p class="error">'._(" Ces fiches n'ont pas été effacées  ").$msg;
+                                        echo '</div>';
 				}
 			}
 		}

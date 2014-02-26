@@ -27,6 +27,7 @@
  */
 ?>
 <?php echo  $bar?>
+<div class="content">
 <form method="POST" class="print" style="display:inline" onsubmit="return confirm('Vous confirmez ?')">
 	<table class="result">
 		<tr>
@@ -95,3 +96,4 @@ echo $iselect->input();
 
 <?php endif ; ?>
 </form>
+</div>
