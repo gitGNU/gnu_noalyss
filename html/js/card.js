@@ -104,7 +104,7 @@ function search_card(obj)
             sx=document.body.scrollTop+60;
 	}
 
-	var div_style="top:"+sx+"px;width:60%;heigth:80%";
+	var div_style="top:"+sx+"px;height:80%";
 	add_div({id:'search_card',cssclass:'inner_box',html:loading(),style:div_style,drag:true});
 
         var action=new Ajax.Request ( 'ajax_card.php',
@@ -440,7 +440,7 @@ function select_card_type(obj)
         sx=document.body.scrollTop+60;
     }
 
-    var str_style="top:"+sx+"px;left:25%;width:50%;height:30%";
+    var str_style="top:"+sx+"px;left:25%;height:30%";
 
     var popup={'id':  content,'cssclass':'inner_box','style':str_style,'html':loading(),'drag':true};
 
@@ -504,9 +504,9 @@ function dis_blank_card(obj)
         ref='&ref';
     }
     var content='div_new_card';
-    var nTop=posY-40;
-    var nLeft=posX-20;
-    var str_style="top:"+nTop+"px;left:"+nLeft+"px;width:60em;height:auto";
+    var nTop=calcy(30);
+    var nLeft=posX;
+    var str_style="top:"+nTop+"px;right:"+nLeft+"px;height:auto";
 
     var popup={'id':  content,'cssclass':'inner_box','style':str_style,'html':loading(),'drag':true};
     if ( $(content)) {removeDiv(content);}
@@ -609,7 +609,7 @@ function add_category(obj)
             sx=document.body.scrollTop+120;
 	}
 
-	var div_style="top:"+sx+"px;width:60%;heigth:80%";
+	var div_style="top:"+sx+"px;width:60%;height:80%";
     // show ipopup
 	var div={id:obj.ipopup,
 			cssclass:"inner_box",drag:1,style:div_style};
