@@ -1793,7 +1793,7 @@ function check_date(p_str_date)
         var date_temp = p_str_date.split('.');
         var nMonth = parseFloat(date_temp[1]) - 1;
         var ma_date = new Date(date_temp[2], nMonth, date_temp[0]);
-        if (ma_date.getFullYear() === date_temp[2] && ma_date.getMonth() === nMonth && ma_date.getDate() === date_temp[0]) {
+        if (ma_date.getFullYear() == date_temp[2] && ma_date.getMonth() == nMonth && ma_date.getDate() == date_temp[0]) {
             return true;
         }
         else {

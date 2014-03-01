@@ -83,7 +83,7 @@ case "sf":
     $str_submit=HtmlInput::submit('sf',_('Recherche'),"","smallbutton");
     $r='';
 	$r=HtmlInput::anchor_close('search_account');
-    $r.='<div> '.h2info(_('Poste Comptable')).'</div>';
+    $r.='<div> '.h2(_('Poste Comptable'),' class="title"').'</div>';
 
     $r.='<form id="sp" method="get" onsubmit="'.$attr.'search_get_poste(this);return false;">';
     ob_start();

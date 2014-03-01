@@ -8,15 +8,15 @@
 	<?php
 		$limite=5;
 		?>
-<table
+    <table class="result">
 	<tr>
-		<th>Poste comptable</th>
-		<th>Libellé</th>
-		<th>Fiche (limite:<?php echo $limite; ?>)</th>
+		<th><?php echo _("Poste comptable")?></th>
+		<th><?php echo _("Libellé")?></th>
+		<th><?php printf (_("Fiche (limite %d)"),$limite); ?></th>
 
 	</tr>
 <?php for ($i=0;$i<sizeof($array);$i++) : ?>
-<tr>
+<tr <?php echo ($i%2==0)?'class="odd"':'class="even"';?>>
 <td>
 <a href="javascript:void(0)" onclick="<?php echo $array[$i]['javascript']?>">
 <span  id="val<?php echo $i?>">
