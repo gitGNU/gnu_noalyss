@@ -75,7 +75,7 @@ class Sendmail
             $name = $array[$i];
             if (trim($this->$name) == "")
             {
-                throw new Exception("$name est vide");
+                throw new Exception($name ._(" est vide"));
             }
         }
     }
