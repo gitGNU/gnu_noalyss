@@ -31,10 +31,19 @@ if ( isset ($_REQUEST['sa'] ))
         putenv("PATH=".PG_PATH);
 
     $cmd=escapeshellcmd (PG_RESTORE);
-    putenv("PGPASSWORD=".noalyss_password);
-    putenv("PGUSER=".noalyss_user);
-    putenv("PGPORT=".noalyss_psql_port);
-	putenv("PGHOST=").noalyss_psql_host;
+    if (defined("noalyss_user"))
+    {
+        putenv("PGPASSWORD=" . noalyss_password);
+        putenv("PGUSER=" . noalyss_user);
+        putenv("PGHOST=" . noalyss_psql_host);
+        putenv("PGPORT=" . noalyss_psql_port);
+    } else if (defined("phpcompta_user"))
+    {
+        putenv("PGPASSWORD=" . phpcompta_password);
+        putenv("PGUSER=" . phpcompta_user);
+        putenv("PGHOST=" . phpcompta_psql_host);
+        putenv("PGPORT=" . phpcompta_psql_port);
+    }
 
     $retour='<hr>'.HtmlInput::button_anchor("Retour","?action=restore");
     if ( ! isset($_REQUEST['t']))

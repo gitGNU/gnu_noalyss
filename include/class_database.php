@@ -42,9 +42,9 @@ class Database
     function __construct ($p_database_id=0,$p_type='dos')
     {
         if ( IsNumber($p_database_id) == false || strlen($p_database_id) > 5 ) 	die ("-->Dossier invalide [$p_database_id]");
-        $noalyss_user=noalyss_user;
-        $password=noalyss_password;
-        $port=noalyss_psql_port;
+        $noalyss_user=(defined ("noalyss_user"))?noalyss_user:phpcompta_user;
+        $password=(defined("noalyss_password"))?noalyss_password:phpcompta_password;
+        $port=(defined("noalyss_psql_port"))?noalyss_psql_port:phpcompta_psql_port;
         $host=( ! defined ("noalyss_psql_host"))?'127.0.0.1':noalyss_psql_host;
 		if (defined ("MULTI") && MULTI=="0") {
 			 $noalyss_user = noalyss_user;

@@ -56,10 +56,20 @@ if ( isset ($_REQUEST['sa']) )
     if ( $sa=='b')
     {
         $cmd=escapeshellcmd (PG_DUMP);
-        putenv("PGPASSWORD=".noalyss_password);
-        putenv("PGUSER=".noalyss_user);
-	putenv("PGHOST=".noalyss_psql_host);
-	putenv("PGPORT=".noalyss_psql_port);
+        if ( defined ("noalyss_user"))
+        {
+            putenv("PGPASSWORD=".noalyss_password);
+            putenv("PGUSER=".noalyss_user);
+            putenv("PGHOST=".noalyss_psql_host);
+            putenv("PGPORT=".noalyss_psql_port);
+        }else if (defined ("phpcompta_user"))
+        {
+            putenv("PGPASSWORD=".phpcompta_password);
+            putenv("PGUSER=".phpcompta_user);
+            putenv("PGHOST=".phpcompta_psql_host);
+            putenv("PGPORT=".phpcompta_psql_port);
+        }
+        
         if ( $_REQUEST['t'] == 'd' )
         {
             $database=domaine."dossier".$_REQUEST['d'];
