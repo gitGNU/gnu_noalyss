@@ -9,7 +9,7 @@ $uos=new Tool_Uos('tag');
 echo $uos->hidden();
 $t_tag=new IText('t_tag',$data->t_tag);
 $t_description=new ITextarea('t_description',$data->t_description);
-$t_description->style=' class="itextarea" style="width:50em;height:5em;vertical-align: top;"';
+$t_description->style=' class="itextarea" style="height:5em;vertical-align: top;"';
 ?>
 <p>
    Etiquette (tag) : <?php echo $t_tag->input(); ?>

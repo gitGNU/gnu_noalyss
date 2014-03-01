@@ -282,12 +282,13 @@ span.even {
 }
 
 tr.odd {
-    background-color:#DDE6FF;
+    background-color: #DDE6FF;
 }
 tr.highlight {
     font-weight: bold;
 }
 tr.even {
+    background-color: #F7F8FC;
 }
 td.odd{
     background-color:#DDE6FF;
@@ -584,7 +585,7 @@ td.num {
     text-align:right;
 }
 tr.priority1 {
-    background-color: coral;
+    background-color: #FF7F50;
 }
 span.action a.action {
     border:2px outset ;
@@ -828,6 +829,7 @@ a#smallanchorbutton, .smallbutton, a.smallbutton,div.content a.smallbutton {
     background-image: url("image/bg-submit2.gif");
     background-repeat: repeat-x;
     background-position: left;
+    font-size:0.75rem;
 
     border-style:  outset ;
     border-color:  #0000FF;
@@ -881,6 +883,7 @@ div.topmenu {
     text-align:left;
     z-index:1;
     width:30rem;
+    height:auto;
 }
 div.welcome {
 
@@ -908,7 +911,7 @@ box-shadow: 10px 10px 5px #888;
 
 }
 div.inner_box  {
-    background-color: #F2F6FD;
+    background-color: #DDE6FF;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     padding:2px;
     margin:0px;
@@ -1108,7 +1111,7 @@ a.line:hover,div_content a.line
 }
 #close_div:hover
 {
-    background-color:  #F93;
+    background-color: #F93;
 }
 #popmeout
 {
@@ -1118,6 +1121,7 @@ a.line:hover,div_content a.line
     border:1px solid #0000FF;
     margin-left: 2px;
     margin-right:18px;
+    font-size:12px;
     font-size: 0.75rem;
 }
 #popmeout:hover
@@ -1412,6 +1416,17 @@ div.box  {
     height: 380px;
 }
 }
+div.box table{
+    border-spacing:0px;
+}
+div.box tr.odd {
+    background-color: #F2F6FD;
+    
+}
+div.box tr.even {
+    background-color:#e4e7ed;
+    
+}
 #jrn_name_div h2{
     font-size: 2.4rem;
 }
@@ -1420,4 +1435,7 @@ div.box  {
 }
 fieldset {
     border-width: 1px;
+}
+#tva_select table {
+    border-spacing: 0px;
 }
