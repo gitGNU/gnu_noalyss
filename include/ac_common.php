@@ -648,6 +648,7 @@ function set_language()
 {
     // desactivate local check
     if ( defined("LOCALE") && LOCALE==0 ) return;
+    if ( ! isset ($_SESSION['g_lang'])) return;
     $dir = "";
     // set differently the language depending of the operating system
     if (what_os() == 1)
@@ -779,8 +780,8 @@ function ajax_disconnected($div)
 	$html = $script;
 	$html.=HtmlInput::anchor_close($div);
 	$html.='<div>';
-	$html.=h2('Données non disponibles', 'class="info" style="width:auto"');
-	$html.=h2('Veuillez vous reconnecter', '');
+	$html.=h2(_('Données non disponibles'), 'class="title" style="width:auto"');
+	$html.=h2(_('Veuillez vous reconnecter'), 'class="error"');
 	$html.=alert("Déconnecté", true);
 	$html = escape_xml($html);
 
