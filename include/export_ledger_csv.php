@@ -219,7 +219,7 @@ if  ($get_option == 1)
 
         if ( $own->MY_TVA_USE=='Y')
         {
-            $a_Tva=$cn->get_array("select tva_id,tva_label from tva_rate where tva_rate != 0.0000 order by tva_rate,tva_label,tva_id");
+            $a_Tva=$cn->get_array("select tva_id,tva_label from tva_rate order by tva_rate,tva_label,tva_id");
             foreach($a_Tva as $line_tva)
             {
                 $col_tva.='"Tva '.$line_tva['tva_label'].'";';
@@ -228,7 +228,7 @@ if  ($get_option == 1)
         echo '"Date";"Paiement";"operation";"Pièce";"Client/Fourn.";"Commentaire";"inter.";"HTVA";privé;DNA;tva non ded.;'.$col_tva.'"TVAC";"opérations liées"'."\n\r";
         foreach ($Row as $line)
         {
-            printf('"%s";"%s";"%s";"%s";"%s";%s;%s;%s;%s;%s;',
+            printf('"%s";"%s";"%s";"%s";"%s";%s;%s;%s;%s;%s;%s;',
                    $line['date'],
                    $line['date_paid'],
                    $line['num'],
