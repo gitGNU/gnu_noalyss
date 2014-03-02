@@ -35,7 +35,7 @@
 	<?php echo HtmlInput::anchor_hide(_('Fermer'), "removeDiv('search_action_div');");?>
 
 	<?php endif; ?>
-	<h2 class="info">
+	<h2 class="title">
 		<?php echo  _('Recherche avancée')?>
 	</h2>
 <?php if (! $inner ) : ?>
