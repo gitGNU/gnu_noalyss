@@ -785,7 +785,7 @@ class Follow_Up
 			if ($date_remind != "" && $date_remind == $date_today && $row['ag_state']!=1 && $row['ag_state']!=3)
 				$st = ' style="font-weight:bold;background:orange"';
 			if ($date_remind != "" && $date_remind < $date_today && $row['ag_state']!=1 && $row['ag_state']!=3)
-				$st = ' style="font-weight:bold;background:#FF0000"';
+				$st = ' style="font-weight:bold;background:#FF0000;color:white;"';
 			$r.="<tr class=\"$tr\" $st>";
                         $checkbox->value=$row['ag_id'];
                         $r.='<td name="ag_id_td" style="display:none">'.$checkbox->input().'</td>';
