@@ -294,7 +294,7 @@ EOF;
 		$detail = "<A class=\"detail\" style=\"display:inline\" HREF=\"javascript:modifyOperation('" . $row['jr_id'] . "'," . $gDossier . ")\" > " . $row['jr_internal'] . "</A>";
 
 		$r.=_('Date').' : ' . $row['j_date_fmt'] . ' ref :' . $detail . ' <br>  ';
-		$r.=h($row['jr_comment']) ." "._("montant"). " : " . ($row['j_montant']) . " " . (($row['j_debit'] == 't') ? 'D' : 'C');
+		$r.=h($row['jr_comment']) ." ". _("montant")." : " . ($row['j_montant']) . " " . (($row['j_debit'] == 't') ? 'D' : 'C');
 		$r.='</fieldset>';
 		$r.='<div id="filtre" style="float:left;display:block">';
 		$r.='<form method="get" id="search_form" onsubmit="search_letter(this);return false">';
@@ -455,7 +455,7 @@ EOF;
 		}
 		else
 		{
-			$form.='Mauvais type objet';
+			$form.=_('Mauvais type objet');
 		}
 
 		$form.=HtmlInput::submit('record', _('Sauver')) . $ret->input();

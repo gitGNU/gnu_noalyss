@@ -44,12 +44,12 @@ if ( isset($_REQUEST['sa']))
         if ( $new->isAppend() == true)
         {
             $ret.= '<div class="redcontent">';
-            $ret.= '<h2 class="info">Nouveau plan</h2>';
+            $ret.= '<h2 class="info">'._("Nouveau plan").'</h2>';
             $ret.= '<form method="post">';
             $ret.=dossier::hidden();
             $ret.= $new->form();
             $ret.= HtmlInput::hidden("sa","pa_write");
-            $ret.=HtmlInput::submit("submit","Enregistre");
+            $ret.=HtmlInput::submit("submit",_("Enregistre"));
             $ret.= '</form>';
             $ret.= '</div>';
         }
@@ -57,7 +57,7 @@ if ( isset($_REQUEST['sa']))
         {
             $ret.= '<div class="redcontent">'.
                    '<h2 class="info">'.
-                   "Maximum de plan analytique est atteint".
+                   _("Maximum de plan analytique est atteint").
                    "</h2></div>";
         }
     }
@@ -70,7 +70,7 @@ if ( isset($_REQUEST['sa']))
         if ( $new->isAppend() == false)
         {
             $ret.= '<h2 class="info">'.
-                   "Maximum de plan analytique est atteint".
+                   _("Maximum de plan analytique est atteint").
                    "</h2>";
         }
         else
@@ -90,14 +90,14 @@ if ( isset($_REQUEST['sa']))
         $new->get();
 
         $ret.= '<div class="redcontent">';
-        $ret.= '<h2 class="info">Mise &agrave; jour</h2>';
+        $ret.= '<h2 class="info">'._("Mise à jour").'</h2>';
         $ret.= '<form method="post">';
         $ret.=dossier::hidden();
 
         $ret.= $new->form();
         $ret.= $wSa;
-        $ret.=HtmlInput::submit("submit","Enregistre");
-        $ret.=HtmlInput::button_anchor('Efface',"?ac=".$_REQUEST['ac']."&pa_id=".$_GET['pa_id']."&sa=pa_delete&$str_dossier",'Efface','onclick="return confirm(\'Effacer ?\')"');
+        $ret.=HtmlInput::submit("submit",_("Enregistre"));
+        $ret.=HtmlInput::button_anchor(_('Efface'),"?ac=".$_REQUEST['ac']."&pa_id=".$_GET['pa_id']."&sa=pa_delete&$str_dossier",'Efface','onclick="return confirm(\'Effacer ?\')"');
         $ret.= '</form>';
         $ret.= '</div>';
 
@@ -124,7 +124,7 @@ if ( isset($_REQUEST['sa']))
         $ret.=dossier::hidden();
         $ret.=$po->form();
         $ret.=$wSa;
-        $ret.=HtmlInput::submit("add","Ajout");
+        $ret.=HtmlInput::submit("add",_("Ajout"));
         $ret.="</form>";
         $ret.="</div>";
     }
@@ -191,11 +191,11 @@ if ( isset($_REQUEST['sa']))
         $ret.='<div class="redcontent">';
         $ret.='<table class="table_large">';
         $ret.="<tr>";
-        $ret.="<th> Nom </td>";
-        $ret.="<th> Montant </td>";
-        $ret.="<th> Description </td>";
-        $ret.="<th>Groupe</th>";
-        $ret.="<th> Plan A </td>";
+        $ret.="<th>"._("Nom")." </td>";
+        $ret.="<th>"._("Montant")." </td>";
+        $ret.="<th>"._("Description")." </td>";
+        $ret.="<th>"._("Groupe")."</th>";
+        $ret.="<th>"._("Plan A")." </td>";
         $ret.="</tr>";
         $class="";
         foreach ($array as $obj)
@@ -222,7 +222,7 @@ if ( isset($_REQUEST['sa']))
 
         }
         $ret.="</table>";
-        $ret.=HtmlInput::button_anchor('Ajout',"?ac=".$_REQUEST['ac']."&sa=po_add&pa_id=".$_GET['pa_id']."&".$str_dossier);
+        $ret.=HtmlInput::button_anchor(_('Ajout'),"?ac=".$_REQUEST['ac']."&sa=po_add&pa_id=".$_GET['pa_id']."&".$str_dossier);
         $ret.='</div>';
 
     }
@@ -245,14 +245,14 @@ if ( empty($list)  )
     echo '<div class="lmenu">';
     echo '<TABLE>';
     echo '<TR><TD class="mtitle">';
-    echo '<a class="mtitle" href="?ac='.$_REQUEST['ac'].'&sa=add_pa&'.$str_dossier.'">Ajout d\'un plan comptable</a>';
+    echo '<a class="mtitle" href="?ac='.$_REQUEST['ac'].'&sa=add_pa&'.$str_dossier.'">'._("Ajout d'un plan comptable").'</a>';
     echo '</TD></TR>';
     echo '</TABLE>';
 
     echo '</div>';
     if ( ! isset ( $_REQUEST['sa']))
         echo '<div class="notice">'.
-        "Aucun plan analytique n'est d&eacute;fini".
+        _("Aucun plan analytique n'est défini").
         '</div>';
 
 }
@@ -280,7 +280,7 @@ else
     {
         echo '<TABLE>';
         echo '<TR><TD class="mtitle">';
-        echo '<a class="mtitle" href="?ac='.$_REQUEST['ac'].'&sa=add_pa&'.$str_dossier.'">Ajout d\'un plan comptable</a>';
+        echo '<a class="mtitle" href="?ac='.$_REQUEST['ac'].'&sa=add_pa&'.$str_dossier.'">'._("Ajout d'un plan comptable").'</a>';
         echo '</TD></TR>';
         echo '</TABLE>';
     }

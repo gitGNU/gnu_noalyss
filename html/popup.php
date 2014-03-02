@@ -51,8 +51,8 @@ if ( basename($_GET['ajax']) == 'ajax_history.php' )
 	$href_pdf="export.php?".$href.'&f_id='.$_GET['f_id'].'&ople=0&type=poste&'.$from_periode.'&'.$to_periode."&act=PDF:fichedetail";
       }
 
-    echo '<a class="smallbutton"  href="'.$href_csv.'">Export CSV</a>';
-    echo '<a class="smallbutton"  href="'.$href_pdf.'">Export PDF</a>';
+    echo '<a class="smallbutton"  href="'.$href_csv.'">'._("Export CSV").'</a>';
+    echo '<a class="smallbutton"  href="'.$href_pdf.'">'._("Export PDF").'</a>';
   }
 echo '</div>';
 echo HtmlInput::hidden('inpopup',1);

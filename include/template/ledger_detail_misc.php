@@ -24,7 +24,7 @@ require_once ('class_anc_plan.php');
 								<?php
 								$date=new IDate('p_date');
 								$date->value=format_date($obj->det->jr_date);
-								 echo td('Date').td($date->input());
+								 echo td(_('Date')).td($date->input());
 
 								 ?>
 								</td>
@@ -41,7 +41,7 @@ require_once ('class_anc_plan.php');
 								?>
 								</td></tr>
 								<tr><td>
-								<?php echo td('montant').td(nbm($obj->det->jr_montant),' class="inum"');?>
+								<?php echo td(_('Montant')).td(nbm($obj->det->jr_montant),' class="inum"');?>
 								</td></tr>
 								<tr><td>
 								<?php 

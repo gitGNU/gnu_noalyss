@@ -33,10 +33,10 @@
    if ($div == "search_op") {
      $callback=$_SERVER['PHP_SELF'];
      $str="recherche.php?".Dossier::get().'&ac=SEARCH';
-     echo '<A id="close_div" HREF="javascript:void(0)" onclick="removeDiv(\''.$div.'\');">Fermer</A>';
+     echo '<A id="close_div" HREF="javascript:void(0)" onclick="removeDiv(\''.$div.'\');">'._("Fermer").'</A>';
    }
 ?>
 </div>
 <div>
-	<?php echo h2info('Recherche')?>
+	<?php echo h2info(_('Recherche'))?>
 </div>

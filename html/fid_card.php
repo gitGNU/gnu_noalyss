@@ -161,11 +161,11 @@ if (sizeof($sql) != 0 )
     echo '</ul>';
     if (count($sql) > 12)
     {
-        printf ('<i>...Résultat limité à 12  ...</i>');
+        printf ('<i>...'._('Résultat limité à 12').'  ...</i>');
     }
 }
 else
 {
-    echo "<ul><li>Non trouvé</li></ul>";
+    echo "<ul><li>"._("Non trouvé")."</li></ul>";
 }
 ?>

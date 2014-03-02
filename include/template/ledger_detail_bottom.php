@@ -3,13 +3,13 @@
     $other=new IText('OTHER',$obj->info->other);
 ?>
 <div class="myfieldset">
-    <h1 class="legend">Informations</h1>
+    <h1 class="legend">"<?php echo _("Informations")?></h1>
     <table>
         <tr>
-            <td> Bon de commande   :</td><td> <?php echo HtmlInput::infobulle(31)." ".$cmd->input();  ?></td>
+            <td><?php echo _(" Bon de commande")?>   :</td><td> <?php echo HtmlInput::infobulle(31)." ".$cmd->input();  ?></td>
         </tr>
         <tr>
-            <td> Autre information : </td><td><?php echo HtmlInput::infobulle(30)." ".$other->input();?></td>
+            <td> <?php echo _("Autre information")?> : </td><td><?php echo HtmlInput::infobulle(30)." ".$other->input();?></td>
         </tr>
     </table>
 </div>
@@ -98,8 +98,8 @@ require_once('template/ledger_detail_file.php');
 <?php 
 
 if ( $div != 'popup' ) {
-  $a=new IButton('Fermer','Fermer');
-  $a->label="Fermer";
+  $a=new IButton('Fermer',_('Fermer'));
+  $a->label=_("Fermer");
   $a->javascript="removeDiv('".$div."')";
   echo $a->input();
 }

@@ -30,7 +30,7 @@
 <table class="result">
 	<tr>
 		<th>
-			Code Stock
+			<?php echo _("Code Stock")?>
 		</th>
 		<?php for ($i = 0; $i < count($a_repository); $i++):?>
 			<th>
@@ -38,7 +38,7 @@
 			</th>
 		<?php endfor;?>
 			<th>
-				Total
+				<?php echo _("Total")?>
 			</th>
 	</tr>
 	<?php 
@@ -70,7 +70,7 @@
 						<table>
 							<tr>
 								<td>
-									IN  :
+									<?php echo _("IN")?>  :
 								</td>
 								<td class="num">
 									<?php echo nbm($array[0]['s_qin'])?>
@@ -78,7 +78,7 @@
 							</tr>
 							<tr>
 								<td>
-									OUT  :
+									<?php echo _("OUT")?>  :
 								</td>
 								<td class="num">
 									<?php echo nbm($array[0]['s_qout'])?>
@@ -86,7 +86,7 @@
 							</tr>
 							<tr>
 								<td>
-									DIFF  :
+									<?php echo _("DIFF")?>  :
 								</td>
 								<td class="num">
 									<?php echo nbm((bcsub($array[0]['s_qin'],$array[0]['s_qout'])))?>
@@ -104,7 +104,7 @@
 <table>
 							<tr>
 								<td>
-									IN  :
+									<?php echo _("IN")?>  :
 								</td>
 								<td class="num">
 									<?php echo nbm($n_in)?>
@@ -112,7 +112,7 @@
 							</tr>
 							<tr>
 								<td>
-									OUT  :
+									<?php echo _("OUT")?>  :
 								</td>
 								<td class="num">
 									<?php echo nbm($n_out)?>
@@ -120,7 +120,7 @@
 							</tr>
 							<tr>
 								<td>
-									DIFF  :
+									<?php echo _("DIFF")?>  :
 								</td>
 								<td class="num">
 									<?php echo nbm((bcsub($n_in,$n_out)))?>

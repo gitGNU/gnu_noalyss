@@ -64,10 +64,6 @@ if ( ! empty ($array) )  {
 
 			</th>
 			<th>
-				<?php echo _("Pour aujourd'hui"); ?>
-			</th>
-			<th>
-				<?php echo _("En retard"); ?>
 			</th>
 		</tr>
 		<tr>
@@ -208,7 +204,7 @@ endif;
     
 <div id="action_late_div"  class="inner_box" style="display:none;margin-left:25%;top:25%;width: 50%;min-height:50%;overflow: auto;">
 	<?php
-		echo HtmlInput::title_box("Action en retard", "action_late_div","hide")
+		echo HtmlInput::title_box(_("Action en retard"), "action_late_div","hide")
 	?>
 	<ol>
 	<?php if (count($late_operation)> 0) :
@@ -233,13 +229,13 @@ endif;
 	<?php endfor;?>
 	</ol>
 	<?php else : ?>
-	<h2 class='notice'>Aucune action en retard</h2>
+	<h2 class='notice'><?php echo _("Aucune action en retard")?></h2>
 	<?php endif; ?>
 	</div>
 
 	<div id="action_now_div" class="inner_box" style="display:none;margin-left:25%;width: 50%;top:25%;min-height:50%;overflow: auto;">
 	<?php
-		echo HtmlInput::title_box("Action pour aujourd'hui", "action_now_div","hide")
+		echo HtmlInput::title_box(_("Action pour aujourd'hui"), "action_now_div","hide")
 	?>
 	<ol>
 	<?php
@@ -265,10 +261,10 @@ endif;
 	</ol>
 <?php endif; ?>
 	</div>
-	<?php display_dashboard_operation($supplier_now,"Fournisseurs à payer aujourd'hui",'supplier_now_div'); ?>
-	<?php display_dashboard_operation($supplier_late,"Fournisseurs en retad",'supplier_late_div'); ?>
-	<?php display_dashboard_operation($customer_now,"Encaissement clients aujourd'hui",'customer_now_div'); ?>
-	<?php display_dashboard_operation($customer_late,"Clients en retard",'customer_late_div'); ?>
+	<?php display_dashboard_operation($supplier_now,_("Fournisseurs à payer aujourd'hui"),'supplier_now_div'); ?>
+	<?php display_dashboard_operation($supplier_late,_("Fournisseurs en retad"),'supplier_late_div'); ?>
+	<?php display_dashboard_operation($customer_now,_("Encaissement clients aujourd'hui"),'customer_now_div'); ?>
+	<?php display_dashboard_operation($customer_late,_("Clients en retard"),'customer_late_div'); ?>
 </div>
 
 

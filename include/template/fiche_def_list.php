@@ -63,7 +63,7 @@ for ($i=0;$i<$max;$i++):
 		</td>
 		<td>
 			<?php
-			 $v=($row['fd_create_account']=='t')?"Automatique":"Manuel";
+			 $v=($row['fd_create_account']=='t')?_("Automatique"):_("Manuel");
 			 echo $v;
 			?>
 		</td>
@@ -81,7 +81,7 @@ endfor;
 ?>
 </table>
 <?php
-echo HtmlInput::button("cat_fiche_def_add","Ajout d'une nouvelle catégorie", "onclick=\"detail_category_show('detail_category_div','".$dossier."','-1')\"");
+echo HtmlInput::button("cat_fiche_def_add",_("Ajout d'une nouvelle catégorie"), "onclick=\"detail_category_show('detail_category_div','".$dossier."','-1')\"");
 ?>
 </div>
 <div id="detail_category_div" style="display:none"">

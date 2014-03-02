@@ -197,7 +197,7 @@ case 'de':
     catch (Exception $e)
     {
         echo HtmlInput::anchor_close($div);
-        echo '<h2 class="error">Désolé il y a une erreur</h2>';
+        echo '<h2 class="error">'._("Désolé il y a une erreur").'</h2>';
     }
     $html=ob_get_contents();
     ob_end_clean();
@@ -281,11 +281,11 @@ case 'file':
 			echo "<div>";
 
 		}
-		echo "<h1 class=\"legend\">Document</h1>";
+		echo "<h1 class=\"legend\">"._("Document")."</h1>";
         echo '<div class="op_detail_frame">';
         $x='';
         if ($access=='W')
-            $x=sprintf('<a class="notice" style="margin-left:12;margin-right:12" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">enlever</a>',
+            $x=sprintf('<a class="notice" style="margin-left:12;margin-right:12" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">'._('enlever').'</a>',
                        $gDossier,$div,$jr_id);
         echo $x;
         $filename= $obj->det->jr_pj_name;
@@ -321,9 +321,9 @@ case 'loadfile':
         echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
         echo "</head>";
 		if ( ! isset($_REQUEST['ajax']) ) echo "<body class=\"op_detail_frame\">"; else echo "<body>";
-		echo "<h2>Document</h2>";
+		echo "<h2>"._("Document")."</h2>";
         echo '<div class="op_detail_frame">';
-        $x=sprintf('<a class="mtitle" class="notice" style="margin-left:12;margin-right:12px" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">enlever</a>',
+        $x=sprintf('<a class="mtitle" class="notice" style="margin-left:12;margin-right:12px" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">'._('enlever').'</a>',
                    $gDossier,$div,$jr_id);
         echo $x;
         $filename= $obj->det->jr_pj_name;
@@ -345,12 +345,12 @@ case 'rmf':
         $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
         echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
         echo "</head><body class=\"op_detail_frame\">";
-		echo "<h2>Document</h2>";
+		echo "<h2>"._("Document")."</h2>";
         echo '<div class="op_detail_frame">';
         echo '<FORM METHOD="POST" ENCTYPE="multipart/form-data" id="form_file">';
         $sp=new ISpan('file'.$div);
         $sp->style="display:none;width:155;height:15;background-color:red;color:white;font-size:10";
-        $sp->value="Chargement";
+        $sp->value=_("Chargement");
         echo $sp->input();
 
         echo HtmlInput::hidden('act','loadfile');
@@ -501,7 +501,7 @@ case 'save':
     catch (Exception $e)
     {
       if ( DEBUG )   echo $e->getMessage();
-      alert( "Changement impossible: on ne peut pas changer la date dans une période fermée");
+      alert(_( "Changement impossible: on ne peut pas changer la date dans une période fermée"));
     }
     $html=ob_get_contents();
     ob_end_clean();
@@ -524,7 +524,7 @@ case 'ask_extdate':
     $date=new IDate('p_date');
     $html.="<form id=\"form_".$div."\" onsubmit=\"return reverseOperation(this);\">";
     $html.=HtmlInput::hidden('jr_id',$_REQUEST['jr_id']).HtmlInput::hidden('div',$div).dossier::hidden().HtmlInput::hidden('act','reverseop');
-    $html.='<h2 class="info">entrez une date </H2>'.$date->input();
+    $html.='<h2 class="info">'._('entrez une date').' </H2>'.$date->input();
     $html.=HtmlInput::submit('x','accepter');
 	$html=HtmlInput::button_close($div);
     $html.='</form>';

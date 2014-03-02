@@ -9,8 +9,8 @@
 <?php 
 	$wchdate=new ISelect('chdate');
 	$wchdate->value=array(
-			array('value'=>1,'label'=>"Avec date d'extrait"),
-			array('value'=>2,'label'=>"Avec date opérations")
+			array('value'=>1,'label'=>_("Avec date d'extrait")),
+			array('value'=>2,'label'=>_("Avec date opérations"))
 	);
 	$wchdate->selected=(isset($chdate))?$chdate:1;
 	$wchdate->javascript='onchange="show_fin_chdate(\'chdate\')"';

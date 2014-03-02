@@ -8,10 +8,10 @@ echo HtmlInput::filter_table("tag_tb", '0,1', '1');
 <table id="tag_tb">
     <tr>
         <th>
-            Tag
+            <?php echo _("Tag")?>
         </th>
         <th>
-            Description
+            <?php echo _("Description")?>
         </th>
     </tr>
 <?php

@@ -28,10 +28,10 @@
  */
 echo '<table class="result">';
 echo '<tr>';
-echo th('Compte en banque');
-echo th('Tiers');
-echo th('Libellé');
-echo th('Montant');
+echo th(_('Compte en banque'));
+echo th(_('Tiers'));
+echo th(_('Libellé'));
+echo th(_('Montant'));
 echo '</tr>';
 
 echo '<tr>';

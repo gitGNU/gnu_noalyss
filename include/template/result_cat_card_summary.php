@@ -2,7 +2,7 @@
 //This file is part of NOALYSS and is under GPL 
 //see licence.txt
 ?><div class="content">
-Filtre rapide :    
+<?php echo _("Filtre")?> :    
     <?php
     $col="";$sp="";
     for ($e=0;$e<count($aHeading);$e++) {$col.=$sp.$e; $sp=",";}
@@ -11,7 +11,7 @@ Filtre rapide :
 <table id="fiche_tb_id" class="sortable">
 <tr>
 <?php 
-   echo th('Détail');
+   echo th(_('Détail'));
 for ($i=0;$i<count($aHeading);$i++) :
     $span="";$sort="";
    if ($i==0)

@@ -22,7 +22,7 @@
                                 <?php
                                 $date = new IDate('p_date');
                                 $date->value = format_date($obj->det->jr_date);
-                                echo td('Date') . td($date->input());
+                                echo td(_('Date')) . td($date->input());
                                 ?>
                         </tr>
                         <tr>
@@ -30,12 +30,12 @@
                                 <?php
                                 $date_ech = new IDate('p_ech');
                                 $date_ech->value = format_date($obj->det->jr_ech);
-                                echo td('Echeance') . td($date_ech->input());
+                                echo td(_('Echeance')) . td($date_ech->input());
                                 ?>
                                                     <tr>
                             <td></td>
                             <td>
-                                Date paiement
+                                <?php echo _("Date paiement")?>
                             </td>
                             <td>
 <?php
@@ -76,7 +76,7 @@ echo td(_('Libellé')) . td($itext->input(), ' colspan="2" ');
                         </tr>
                         <tr>
                             <td></td>
-                            <td>Payé</td>
+                            <td><?php echo _("Payé")?></td>
                             <td>
 <?php
 $ipaid = new ICheckBox("ipaid", 'paid');
@@ -92,7 +92,7 @@ echo $ipaid->input();
                     <table style="width:100%;border:solid 1px yellow">
                         <tr>
                             <td>
-                                Note
+                                <?php echo _("Note")?>
                             </td></tr>
                         <tr>
                             <td>

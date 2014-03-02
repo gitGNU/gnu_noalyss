@@ -84,7 +84,7 @@ define ('MAX_FORECAST_ITEM',10);
 define ('MAX_PREDEFINED_OPERATION',50);
 define ('MAX_COMPTE_CARD',4);
 define ('COMPTA_MAX_YEAR',2100);
-define ('COMPTA_MIN_YEAR',1990);
+define ('COMPTA_MIN_YEAR',1900);
 define ('MAX_RECONCILE',25);
 define ('MAX_QCODE',4);
 define ('MAX_SEARCH_CARD',20);
@@ -98,7 +98,7 @@ if ( DEBUG ) {
 	error_reporting(0);
 	ini_set("display_errors",1);
 	ini_set("html_errors",1);
-
+        
 }
 // Erreur
 define ("NOERROR",0);
@@ -177,6 +177,7 @@ define ("FICHE_TYPE_ADM_TAX",14);
 define ("FICHE_TYPE_ACH_MAR",2);
 define ("FICHE_TYPE_ACH_SER",3);
 define ("FICHE_TYPE_ACH_MAT",7);
+define ("FICHE_TYPE_PROJET",26);
 /** -- pour utiliser unoconv démarrer un server libreoffice 
  * commande
  * libreoffice --headless --accept="socket,host=127.0.0.1,port=2002;urp;" --nofirststartwizard 

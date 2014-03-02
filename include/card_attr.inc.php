@@ -74,16 +74,16 @@ $size->size=5;
 $extra=new IText('extra[]');
 
 $select_type->value=array(
-                        array('value'=>'text','label'=>'Texte'),
-                        array('value'=>'numeric','label'=>'Nombre'),
-                        array('value'=>'date','label'=>'Date'),
-                        array('value'=>'zone','label'=>'Zone de texte'),
-                        array('value'=>'poste','label'=>'Poste Comptable'),
-                        array('value'=>'card','label'=>'Fiche'),
-                        array('value'=>'select','label'=>'Selection')
+                        array('value'=>'text','label'=>_('Texte')),
+                        array('value'=>'numeric','label'=>_('Nombre')),
+                        array('value'=>'date','label'=>_('Date')),
+                        array('value'=>'zone','label'=>_('Zone de texte')),
+                        array('value'=>'poste','label'=>_('Poste Comptable')),
+                        array('value'=>'card','label'=>_('Fiche')),
+                        array('value'=>'select','label'=>_('Selection'))
                     );
 $remove=new IButton('rmfa');
-$remove->label='Effacer';
+$remove->label=_('Effacer');
 echo '<div class="content">';
 echo '<form method="post">';
 
@@ -91,11 +91,11 @@ echo HtmlInput::hidden('sa','fat');
 echo HtmlInput::hidden('p_action','divers');
 echo '<table id="tb_rmfa">';
 echo '<tr>';
-echo th("id");
-echo th("Description");
-echo th("Type ");
-echo th("Taille");
-echo th("Paramètre");
+echo th(_("id"));
+echo th(_("Description"));
+echo th(_("Type"));
+echo th(_("Taille"));
+echo th(_("Paramètre"));
 echo '</tr>';
 for ($e=0;$e<count($array);$e++)
 {
@@ -121,7 +121,7 @@ for ($e=0;$e<count($array);$e++)
 
         $remove->javascript=sprintf('if ( confirm(\'Vous  confirmez ?\')) { removeCardAttribut(%d,%d,\'tb_rmfa\',this);}',
                                     $row->get_parameter('id'),$gDossier);
-        $msg='<span class="notice"> Attention : effacera les données qui y sont liées </span>';
+        $msg='<span class="notice">'._("Attention : effacera les données qui y sont liées").' </span>';
         $r.=td($remove->input().$msg);
     }
     else

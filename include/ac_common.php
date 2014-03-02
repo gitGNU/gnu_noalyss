@@ -605,9 +605,9 @@ function sql_filter_per($p_cn, $p_from, $p_to, $p_form='p_id', $p_field='jr_tech
 	$a_start = $pPeriode->get_date_limit($p_from);
 	$a_end = $pPeriode->get_date_limit($p_to);
 	if ($a_start == null || $a_end == null)
-	    throw new Exception(__FILE__ . __LINE__ . 'Attention periode ' .
-		    ' non trouvee periode p_from=' . $p_from .
-		    'p_to_periode = ' . $p_to);
+	    throw new Exception(__FILE__ . __LINE__ . sprintf(_('Attention periode 
+		     non trouvee periode p_from= %s p_to_periode = %s'), $p_from ,
+		    $p_to));
 
 
 	$p_from = $a_start['p_start'];
@@ -658,7 +658,7 @@ function set_language()
 	{
 	    $g_lang = 'fr_FR.utf8';
 	    $dir = setlocale(LC_MESSAGES, $g_lang);
-	    echo '<span class="notice">' . $_SESSION['g_lang'] . ' domaine non supporté</h2>';
+	   // echo '<span class="notice">' . $_SESSION['g_lang'] . ' domaine non supporté</h2>';
 	}
 	bindtextdomain('messages', './lang');
 	textdomain('messages');
@@ -782,7 +782,7 @@ function ajax_disconnected($div)
 	$html.='<div>';
 	$html.=h2(_('Données non disponibles'), 'class="title" style="width:auto"');
 	$html.=h2(_('Veuillez vous reconnecter'), 'class="error"');
-	$html.=alert("Déconnecté", true);
+	$html.=alert(_("Déconnecté"), true);
 	$html = escape_xml($html);
 
 	header('Content-type: text/xml; charset=UTF-8');
@@ -1059,11 +1059,11 @@ function display_dashboard_operation($p_array,$p_title,$p_div)
 	<?php if (count($p_array)>0) :?>
 	<table class="result">
 		<tr>
-			<th>Date</th>
-			<th>Code Interne</th>
-			<th>Description</th>
+			<th><?php echo _('Date')?></th>
+			<th><?php echo _('Code Interne')?></th>
+			<th><?php echo _('Description')?></th>
 			<th>
-				Montant
+				<?php echo _('Montant')?>
 			</th>
 
 		</tr>
@@ -1089,7 +1089,7 @@ function display_dashboard_operation($p_array,$p_title,$p_div)
 		?>
 	</table>
 	<?php else: ?>
-	<h2 class="notice">Aucune donnée</h2>
+	<h2 class="notice"><?php echo _('Aucune donnée')?></h2>
 	<?php
 	endif;
 	?>

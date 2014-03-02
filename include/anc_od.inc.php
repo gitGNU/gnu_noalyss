@@ -145,10 +145,10 @@ if ( isset($_GET['new']))
     echo $a->form();
     echo HtmlInput::submit("save","Sauver");
     echo '</form>';
-    echo '<div class="info">
-    D&eacute;bit = <span id="totalDeb"></span>
-    Cr&eacute;dit = <span id="totalCred"></span>
-    Difference = <span id="totalDiff"></span>
+    echo '<div class="info">';
+    echo _('Débit').' = <span id="totalDeb"></span>';
+    echo _('Crédit').' = <span id="totalCred"></span>';
+    echo _('Difference').' = <span id="totalDiff"></span>
     </div>
     ';
 

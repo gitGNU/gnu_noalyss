@@ -31,7 +31,7 @@ $User->Check();
 
 if ($User->admin != 1)
 {
-    echo "<script>alert('"."Vous n\'êtes pas administrateur"."') </script>";
+    echo "<script>alert('"._("Vous n\'êtes pas administrateur")."') </script>";
     return;
 }
 

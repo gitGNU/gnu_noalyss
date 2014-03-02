@@ -26,36 +26,36 @@
  *
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-$msg=($new==1)?"Nouvelle extension":"Modification ".$me_menu->value;
+$msg=($new==1)?_("Nouvelle extension"):_("Modification"). " ".$me_menu->value;
 echo HtmlInput::title_box($msg, $ctl);
 ?>
-<form method="POST" onsubmit="return confirm('Vous confirmez')">
+<form method="POST" onsubmit="return confirm('<?php echo _("Vous confirmez");?>')">
 <table>
 	<tr>
-		<TD>Label</td>
+		<TD><?php echo _("Label");?></td>
 		<td><?php echo $me_menu->input();?></td>
 	</tr>
 	<tr>
-		<TD>Code</td>
+		<TD><?php echo _("Code");?></td>
 		<td><?php echo $me_code->input();?></td>
 	</tr>
 	<tr>
-		<TD>Description</td>
+		<TD><?php echo _("Description");?></td>
 		<td><?php echo $me_description->input();?></td>
 	</tr>
 	<tr>
-		<TD>Fichier</td>
+		<TD><?php echo _("Fichier");?></td>
 		<td><?php echo $me_file->input();?></td>
 	</tr>
 </table>
 	<?php 
 	if ($new ==1 )
 	{
-		echo HtmlInput::submit("save_plugin","Ajouter ce plugin");
+		echo HtmlInput::submit("save_plugin",_("Ajouter ce plugin"));
 	} else {
 		$delete=new ICheckBox('delete_pl');
-		echo "<p>Voulez-vous effacer ce plugin ? ".$delete->input()."</p>";
-		echo HtmlInput::submit("mod_plugin","Modifier ce plugin");
+		echo "<p>"._("Voulez-vous effacer ce plugin ?")." ".$delete->input()."</p>";
+		echo HtmlInput::submit("mod_plugin",_("Modifier ce plugin"));
 
 	}
 	?>

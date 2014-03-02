@@ -131,10 +131,10 @@ class Acc_Bilan
         if ( $count <> 0 )
         {
             echo '<ol>'.$ret.'</ol>';
-            echo '<span class="error">Nbres anomalies : '.$count.'</span>';
+            echo '<span class="error">'._("Nbres anomalies").' : '.$count.'</span>';
         }
         else
-            echo " Pas d'anomalie d&eacute;tect&eacute;e";
+            echo _("Pas d'anomalie détectée");
         echo '</fieldset>';
 
 
@@ -143,18 +143,18 @@ class Acc_Bilan
     function verify()
     {
 		bcscale(2);
-        echo '<h3> Comptes normaux </h3>';
-        $this->warning('Actif avec un solde crediteur','ACT','D');
-        $this->warning('Passif avec un solde debiteur','PAS','C');
-        $this->warning('Compte de resultat : Charge avec un solde crediteur','CHA','D');
-        $this->warning('Compte de resultat : produit avec un solde debiteur','PRO','C');
+        echo '<h3>'._("Comptes normaux").'</h3>';
+        $this->warning(_('Actif avec un solde crediteur'),'ACT','D');
+        $this->warning(_('Passif avec un solde debiteur'),'PAS','C');
+        $this->warning(_('Compte de resultat : Charge avec un solde crediteur'),'CHA','D');
+        $this->warning(_('Compte de resultat : produit avec un solde debiteur'),'PRO','C');
         echo '<hr>';
-        echo '<h3> Comptes inverses </h3>';
-        $this->warning('Compte inverse : actif avec un solde debiteur','ACTINV','C');
-        $this->warning('Compte inverse : passif avec un solde crediteur','PASINV','D');
-        $this->warning('Compte inverse : Charge avec un solde debiteur','CHAINV','C');
-        $this->warning('Compte inverse : produit avec un solde crediteur','PROINV','D');
-        echo '<h3>Solde </h3>';
+        echo '<h3>'._("Comptes inverses").' </h3>';
+        $this->warning(_('Compte inverse : actif avec un solde debiteur'),'ACTINV','C');
+        $this->warning(_('Compte inverse : passif avec un solde crediteur'),'PASINV','D');
+        $this->warning(_('Compte inverse : Charge avec un solde debiteur'),'CHAINV','C');
+        $this->warning(_('Compte inverse : produit avec un solde crediteur'),'PROINV','D');
+        echo '<h3'._("Solde").' </h3>';
         /* set the periode filter */
         $sql_periode=sql_filter_per($this->db,$this->from,$this->to,'p_id','j_tech_per');
         /* debit Actif */
@@ -172,7 +172,7 @@ class Acc_Bilan
         $credit_actif=$this->db->get_value($sql);
         $total_actif=abs(bcsub($debit_actif,$credit_actif));
         echo '<table >';
-        echo tr(td( 'Total actif ').td($total_actif,'style="text-align:right"'));
+        echo tr(td(_('Total actif')).td($total_actif,'style="text-align:right"'));
 
         /* debit passif */
         $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
@@ -189,7 +189,7 @@ class Acc_Bilan
         $total_passif=abs(bcsub($debit_passif,$credit_passif));
 
         /* diff actif / passif */
-        echo tr(td('Total passif ').td($total_passif,'style="text-align:right"'));
+        echo tr(td(_('Total passif')).td($total_passif,'style="text-align:right"'));
         if ( $total_actif != $total_passif )
         {
             $diff=bcsub($total_actif,$total_passif);
@@ -208,7 +208,7 @@ class Acc_Bilan
         $sql.="and $sql_periode";
         $credit_charge=$this->db->get_value($sql);
         $total_charge=abs(bcsub($debit_charge,$credit_charge));
-        echo tr(td('Total charge ').td($total_charge,'style="text-align:right"'));
+        echo tr(td(_('Total charge ')).td($total_charge,'style="text-align:right"'));
 
 
         /* debit prod */
@@ -223,11 +223,11 @@ class Acc_Bilan
         $sql.="and $sql_periode";
         $credit_pro=$this->db->get_value($sql);
         $total_pro=abs(bcsub($debit_pro,$credit_pro));
-        echo tr(td('Total produit ').td($total_pro,'style="text-align:right"'));
+        echo tr(td(_('Total produit')).td($total_pro,'style="text-align:right"'));
 
         $diff=bcsub($total_pro,$total_charge);
 
-        echo tr( td("Difference Produit - Charge",'style="padding-right:20px"').td($diff,'style="text-align:right"'),'style="font-weight:bolder"');
+        echo tr( td(_("Difference Produit - Charge"),'style="padding-right:20px"').td($diff,'style="text-align:right"'),'style="font-weight:bolder"');
         echo '</table>';
     }
     /*!
@@ -253,7 +253,7 @@ class Acc_Bilan
             $res=$this->db->exec_sql($sql);
 
             if ( Database::num_row($res)==0)
-                throw new Exception ('Aucun enregistrement trouve');
+                throw new Exception (_('Aucun enregistrement trouve'));
             $array=Database::fetch_array($res,0);
             foreach ($array as $name=>$value)
             $this->$name=$value;
@@ -345,7 +345,7 @@ class Acc_Bilan
         $work_file=basename($file_base);
         if ( copy ($file_base,$work_file) == false )
         {
-            echo "Je ne peux pas ouvrir ce fichier ";
+            echo _("erreur Ouverture fichier");
             exit();
         }
         ob_start();
@@ -653,13 +653,13 @@ class Acc_Bilan
             $p_file=fopen($dirname.DIRECTORY_SEPARATOR.'content.xml','wb');
             if ( $p_file == false )
             {
-                exit('Je ne peux pas ouvrir content.xml');
+                exit ( _("erreur Ouverture fichier").' content.xml');
 
             }
             $a=fwrite($p_file,$p_result);
             if ( $a==false)
             {
-                echo "Je ne peux pas ecrire dans content.xml";
+                echo _("erreur écriture fichier").' content.xml';
                 exit();
             }
             // repack
@@ -678,7 +678,7 @@ class Acc_Bilan
             $fdoc=fopen($dirname.DIRECTORY_SEPARATOR.$this->b_name.'.'.$this->b_type,'r');
             if ( $fdoc == false )
             {
-                exit('Je ne peux pas ouvrir ce document');
+                exit  (_("erreur Ouverture fichier"));
             }
             $buffer=fread ($fdoc,filesize($dirname.DIRECTORY_SEPARATOR.$this->b_name.'.'.$this->b_type));
             echo $buffer;

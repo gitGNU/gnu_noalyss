@@ -36,7 +36,7 @@ $st=new Stock_Sql($_GET['r_id']);
 		<table>
 			<tr>
 				<td>
-					Nom
+					<?php echo _("Nom");?>
 				</td>
 				<td>
 					<?php $name=new IText("r_name",$st->r_name); echo $name->input();?>
@@ -44,7 +44,7 @@ $st=new Stock_Sql($_GET['r_id']);
 			</tr>
 			<tr>
 				<td>
-					Adresse
+					<?php echo _("Adresse");?>
 				</td>
 				<td>
 					<?php $name=new IText("r_adress",$st->r_adress); echo $name->input();?>
@@ -52,7 +52,7 @@ $st=new Stock_Sql($_GET['r_id']);
 			</tr>
 			<tr>
 				<td>
-					Ville
+					<?php echo _("Ville");?>
 				</td>
 				<td>
 					<?php $name=new IText("r_city",$st->r_city); echo $name->input();?>
@@ -60,7 +60,7 @@ $st=new Stock_Sql($_GET['r_id']);
 			</tr>
 			<tr>
 				<td>
-					Pays
+					<?php echo _("Pays");?>
 				</td>
 				<td>
 					<?php $name=new IText("r_country",$st->r_country); echo $name->input();?>
@@ -68,7 +68,7 @@ $st=new Stock_Sql($_GET['r_id']);
 			</tr>
 			<tr>
 				<td>
-					Téléphone
+					<?php echo _("Téléphone");?>
 				</td>
 				<td>
 					<?php $name=new IText("r_phone",$st->r_phone); echo $name->input();?>
@@ -76,5 +76,5 @@ $st=new Stock_Sql($_GET['r_id']);
 			</tr>
 
 		</table>
-		<?php echo HtmlInput::submit("mod_stock","Sauver")?>
+		<?php echo HtmlInput::submit("mod_stock",_("Sauver"))?>
 	</form>

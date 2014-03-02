@@ -37,7 +37,7 @@ if ( $_GET['id'] > 0 )
 {
 
 	echo $fd->input_detail();
-	echo HtmlInput::button("retour_b", "Retour à la liste", "onclick=\"$('detail_category_div').hide();$('list_cat_div').show()\"");
+	echo HtmlInput::button("retour_b", _("Retour à la liste"), "onclick=\"$('detail_category_div').hide();$('list_cat_div').show()\"");
 }
 else
 {

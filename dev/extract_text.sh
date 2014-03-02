@@ -7,5 +7,17 @@
 # Author D. DE BONTRIDDER danydb@aevalys.eu
 echo "Extract"
 cd ..
-xgettext -L PHP -j --from-code=UTF-8 -p html/lang/en_US/LC_MESSAGES/ html/*.php include/*.php include/template/*.php
-xgettext -L PHP -j --from-code=UTF-8 -p html/lang/nl_NL/LC_MESSAGES/ html/*.php include/*.php include/template/*.php 
+# CATALOG
+xgettext -L PHP -j --from-code=UTF-8 -p html/lang/ html/*.php include/*.php include/template/*.php include/ext/*/*.php include/ext/*/include/*.php  include/ext/*/include/template/*.php 
+
+# For dutch
+echo "Dutch"
+msgmerge -U -s html/lang/nl_NL/LC_MESSAGES/messages.po html/lang/messages.po
+
+#For english
+echo "English"
+msgmerge -U -s html/lang/en_US/LC_MESSAGES/messages.po html/lang/messages.po
+
+#For new language
+# export LOCAL=nl_NL
+# msginit --locale=$LOCAL -i html/lang/messages.po -o html/lang/$LOCAL/LC_MESSAGES/messages.po 

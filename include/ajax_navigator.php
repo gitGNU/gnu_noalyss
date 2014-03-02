@@ -34,7 +34,7 @@ $a_menu=$cn->get_array($sql,array($_SESSION['g_user']));
 ?>
 <div class="content">
     <p>
-        Vous permet d'accèder rapidement au menu qui vous intéresse, utiliser le filtre pour trouver plus rapidement
+        <?php echo _("Vous permet d'accèder rapidement au menu qui vous intéresse, utiliser le filtre pour trouver plus rapidement")?>
     </p>
     <p style='margin-left: 5%'>
     Filtre : <?php
@@ -49,14 +49,14 @@ $a_menu=$cn->get_array($sql,array($_SESSION['g_user']));
                 <span id="sorttable_sortfwdind">&nbsp;&blacktriangledown;</span>
             </th>
             <th>
-                Chemin
+                <?php echo _("Chemin");?>
                 <?php echo HtmlInput::infobulle(35); ?>
             </th>
             <th>
-                Description complète
+                <?php echo _("Description complète");?>
             </th>
             <th>
-                Aide sur le wiki
+                <?php echo _("Aide sur le wiki");?>
             </th>
         </tr>
 <?php 
@@ -99,11 +99,11 @@ for ($i=0;$i<$nMax;$i++):
                 </a>
             </td>
             <td>
-                <?php if ($a_menu[$i]['p_type_display'] == 'PL') echo '(Extension)';
+                <?php if ($a_menu[$i]['p_type_display'] == 'PL') echo "("._('Extension').")";
                 echo $a_menu[$i]['me_description_etendue']; ?>
             </td>
             <td>
-                <a class="mtitle" style='text-decoration: underline' href="http://wiki.phpcompta.eu/doku.php?id=MENU:<?php echo $a_menu[$i]['me_code']; ?>" target='_blank'>sur le wiki : <?php echo $a_menu[$i]['me_code']; ?></a>
+                <a class="mtitle" style='text-decoration: underline' href="http://wiki.phpcompta.eu/doku.php?id=MENU:<?php echo $a_menu[$i]['me_code']; ?>" target='_blank'><?php echo _("sur le wiki")?> : <?php echo $a_menu[$i]['me_code']; ?></a>
             </td>
         </tr>
 <?php endfor; ?>        

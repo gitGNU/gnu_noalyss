@@ -72,7 +72,7 @@ foreach ($var as $v)
 {
     if ( ! isset ($_REQUEST [$v] ) )
     {
-        echo "$v is not set ";
+        echo "$v._(' is not set ')";
         $cont=1;
     }
 }
@@ -103,7 +103,7 @@ case 'rmfa':
     if ($g_user->check_action(FICCAT)==0)exit();
         ob_start();
     if( ! isset($_GET['ad_id']) || isNumber($_GET['ad_id']) ==0)
-        throw new Exception ( "Parametre ad_id est invalide",11);
+        throw new Exception ( _("Parametre ad_id est invalide"),11);
     $ad_id=  $_GET['ad_id'];
     try
     {
@@ -127,7 +127,7 @@ case 'rmfa':
 case 'dc':
     $f=new Fiche($cn);
     /* add title + close */
-    $html=HtmlInput::title_box("Détail fiche", $ctl);
+    $html=HtmlInput::title_box(_("Détail fiche"), $ctl);
     if ( $qcode != '')
     {
         $f->get_by_qcode($qcode);
@@ -157,7 +157,7 @@ case 'dc':
 	    $html.=$card;
 	    if ( $can_modify==1)
 	      {
-		$html.=HtmlInput::submit('save','Sauver');
+		$html.=HtmlInput::submit('save',_('Sauver'));
 	      }
 	    $html.=HtmlInput::button('close_'.$ctl,'Fermer',"onclick=\"removeDiv('$ctl')\"");
 	    if ( ! isset ($nohistory))$html.=HtmlInput::history_card_button($f->id,_('Historique'));
@@ -170,7 +170,7 @@ case 'dc':
     else
       {
       $html.='<h2 class="error">'._('Aucune fiche demandée').'</h2>';
-      $html.=HtmlInput::button('close_'.$ctl,'Fermer',"onclick=\"removeDiv('$ctl')\"");
+      $html.=HtmlInput::button('close_'.$ctl,_('Fermer'),"onclick=\"removeDiv('$ctl')\"");
       }
     break;
     /* ------------------------------------------------------------ */
@@ -179,7 +179,7 @@ case 'dc':
 case 'bc':
     if ( $g_user->check_action(FICADD)==1 )
     {
-        $r=HtmlInput::title_box("Nouvelle fiche", $ctl);
+        $r=HtmlInput::title_box(_("Nouvelle fiche"), $ctl);
 	/* get cat. name */
 	$cat_name=$cn->get_value('select fd_label from fiche_def where fd_id=$1',
 				 array($fd_id));
@@ -190,7 +190,7 @@ case 'bc':
         $r.=HtmlInput::hidden('fd_id',$fd_id);
         $r.=HtmlInput::hidden('ctl',$ctl);
         $r.=$f->blank($fd_id);
-        $r.=HtmlInput::submit('sc','Sauve');
+        $r.=HtmlInput::submit('sc',_('Sauve'));
         $r.='</form>';
         $html=$r;
     }
@@ -248,7 +248,7 @@ case 'st':
 	if ( strpos($where," in ()") != 0)
 	{
 		 $html=HtmlInput::anchor_close('select_card_div');
-		 $html.=h2info('Choix de la catégorie');
+		 $html.=h2info(_('Choix de la catégorie'));
 		 $html.='<h3 class="notice">';
 		 $html.=_("Aucune catégorie de fiche ne correspond à".
                 " votre demande, le journal pourrait n'avoir accès à aucune fiche");
@@ -258,7 +258,7 @@ case 'st':
     $sql.=" ".$where." order by fd_label";
 
     $array=$cn->make_array($sql);
-    $html=HtmlInput::title_box("Choix de la catégorie", $ctl);
+    $html=HtmlInput::title_box(_("Choix de la catégorie"), $ctl);
 
     if ( empty($array))
     {
@@ -269,7 +269,8 @@ case 'st':
     else
     {
         $r='';
-	$r.='<p class="notice" style="padding-left:2em"> Choississez la catégorie de fiche à laquelle vous aimeriez ajouter une fiche</p>';
+	$r.='<p class="notice" style="padding-left:2em">';
+        $r.=_("Choississez la catégorie de fiche à laquelle vous aimeriez ajouter une fiche").'</p>';
         $isel=new ISelect('fd_id');
         $isel->value=$array;
 	$r.='<div style="text-align:center">';
@@ -280,7 +281,7 @@ case 'st':
         $r.=$isel->input();
 	$r.='<p>';
         $r.=HtmlInput::submit('st','choix');
-	$r.=HtmlInput::button('Annuler','Annuler'," onclick=\"removeDiv('$ctl')\" ");
+	$r.=HtmlInput::button('Annuler',_('Annuler')," onclick=\"removeDiv('$ctl')\" ");
 	$r.='</p>';
         $r.='</form>';
 	$r.='</div>';
@@ -294,13 +295,13 @@ case 'st':
      *
      ----------------------------------------------------------------------*/
 case 'sc':
-    $html=HtmlInput::title_box("Choix de la catégorie", $ctl);
+    $html=HtmlInput::title_box(_("Choix de la catégorie"), $ctl);
     if ( $g_user->check_action(FICADD)==1 )
     {
         $f=new Fiche($cn);
         $f->insert($fd_id,$_POST);
 		$f->Get();
-        $html.='<h2 class="notice">Fiche sauvée</h2>';
+        $html.='<h2 class="notice">'._('Fiche sauvée').'</h2>';
         $html.=$f->Display(true);
         $js="";
         if ( isset( $_POST['ref'])) $js=create_script(' window.location.reload()');
@@ -310,7 +311,7 @@ case 'sc':
     {
         $html.=alert(_('Action interdite'),true);
     }
-    $html.=HtmlInput::button('fermer','Fermer'," onclick=\"removeDiv('$ctl')\";");
+    $html.=HtmlInput::button('fermer',_('Fermer')," onclick=\"removeDiv('$ctl')\";");
     break;
     /*----------------------------------------------------------------------
      * Search a card
@@ -318,7 +319,7 @@ case 'sc':
      *----------------------------------------------------------------------*/
 case 'fs':
     require_once('class_acc_ledger.php');
-    $r=HtmlInput::title_box("Détail fiche", 'search_card');
+    $r=HtmlInput::title_box(_("Détail fiche"), 'search_card');
     $r.='<form method="GET" onsubmit="this.ctl=\'ipop_card\';search_get_card(this);return false;">';
     $q=new IText('query');
     $q->value=(isset($query))?$query:'';
@@ -417,7 +418,7 @@ case 'ac':
             $base='';
             break;
 		case FICHE_TYPE_CONTACT:
-			$msg=(' de contacts');
+			$msg=_(' de contacts');
 			$base='';
         }
 
@@ -500,7 +501,7 @@ case 'upc':
       else
 	{
 	  $html=HtmlInput::anchor_close($ctl);
-	  $html.=h2info('Détail fiche (sauvée)');
+	  $html.=h2info(_('Détail fiche (sauvée)'));
 
 	  $f=new Fiche($cn,$_GET['f_id']);
 	  ob_start();

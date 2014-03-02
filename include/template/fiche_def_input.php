@@ -3,7 +3,7 @@
 //see licence.txt
 ?><TABLE BORDER="0" CELLSPACING="0">
 <TR>
-<TD><?php echo ('Catégorie de fiche')?> </TD>
+<TD><?php echo _('Catégorie de fiche')?> </TD>
 <TD><INPUT TYPE="INPUT" NAME="nom_mod"></TD>
 </TR>
 <tr>
@@ -20,7 +20,7 @@
 <td><span id="class_base_label"></span></td>
 </TR>
 <TR>
-<TD colspan='2'> <INPUT TYPE="CHECKBOX" NAME="create" CHECKED><?php echo _('Création automatique du poste comptable uniquement s\'il n\y a qu\'un seul poste')?></TD>
+<TD colspan='2'> <INPUT TYPE="CHECKBOX" NAME="create" CHECKED><?php echo _("Création automatique du poste comptable uniquement s'il n'y a qu'un seul poste")?></TD>
 </TR>
 <?php
   if ( sizeof($ref)  ) {

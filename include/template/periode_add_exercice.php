@@ -12,13 +12,13 @@ pour faire toutes les écritures de fin d'exercice: amortissements, régulations
 </li>
 </ul>
 
-<form method="post" onsubmit="return confirm('Confirmez vous l\'ajout d\'un exercice comptable ?')">
+<form method="post" onsubmit="return confirm('<?php echo _("Confirmez vous l'ajout d\'un exercice comptable ?")?>')">
 <?php 
 echo HtmlInput::hidden("ac",$_REQUEST['ac']);
 echo $nb_exercice->input();
 echo HtmlInput::hidden("jrn_def_id","0");
 echo Dossier::hidden();
-echo HtmlInput::submit("add_exercice","Ajout d'un exercice comptable");
+echo HtmlInput::submit("add_exercice",_("Ajout d'un exercice comptable"));
 ?>
 
 </form>

@@ -8,7 +8,7 @@ $gl = new Anc_GrandLivre($cn);
 $gl->get_request();
 echo '<form method="get">';
 echo $gl->display_form();
-echo '<p>' . HtmlInput::submit('Recherche', 'Recherche') . '</p>';
+echo '<p>' . HtmlInput::submit('Recherche', _('Recherche')) . '</p>';
 echo '</form>';
 if (isset($_GET['result']))
 {

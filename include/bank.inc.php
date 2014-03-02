@@ -46,7 +46,7 @@ if ( isset($_POST['delete_card'] ) )
 {
     if ( $g_user->check_action(FICADD) == 0 )
     {
-        alert('Vous  ne pouvez pas enlever de fiche');
+        alert(_('Vous  ne pouvez pas enlever de fiche'));
         return;
     }
 
@@ -70,7 +70,7 @@ if ( $low_action == "list" )
 				 <form method="get" action="<?php echo $href; ?>">
 	<?php
 	echo dossier::hidden();
-	echo '<h2>' . "Exercice " . $g_user->get_exercice() . '</h2>';
+	echo '<h2>' ._( "Exercice")." " . $g_user->get_exercice() . '</h2>';
     $a=(isset($_GET['query']))?$_GET['query']:"";
     printf (_('Recherche').' <input class="input_text" type="text" name="query" value="%s">',
             $a);

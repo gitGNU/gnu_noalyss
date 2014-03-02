@@ -67,34 +67,34 @@ $pm_default=new ICheckBox('pm_default','1');
 $pm_default->set_check($array[0]['pm_default']);
 
 ?>
-<form method="POST" onsubmit="return confirm('Vous confirmez ?')">
+<form method="POST" onsubmit="return confirm('<?php echo _("Vous confirmez")?> ?')">
 	<?php echo HtmlInput::hidden('pm_id',$array[0]['pm_id'])?>
 	<?php echo HtmlInput::hidden('p_id',$array[0]['p_id'])?>
 <table>
 <tr>
-	<td>Code</td>
+	<td><?php echo _("Code");?></td>
 	<td><?php echo $me_code->input()?></td>
 </tr>
 <?php 
 if ($array[0]['p_type_display']!='P'):
 ?>
 <tr>
-	<td>Dépendant de </td>
+	<td><?php echo _('Dépendant de');?> </td>
 	<td><?php echo $me_code_dep->input()?></td>
 </tr>
 
 <tr>
-	<td>Ordre d'apparition</td>
+	<td><?php echo _("Ordre d'apparition");?></td>
 	<td><?php echo $p_order->input()?></td>
 </tr>
 <tr>
-	<td>Menu par défaut</td>
+	<td><?php echo _("Menu par défaut");?></td>
 	<td><?php echo $pm_default->input()?></td>
 </tr>
 <?php endif;?>
 </table>
 	<p>
-Cochez cette case si vous souhaitez effacer ce menu
+<?php echo _("Cochez cette case si vous souhaitez effacer ce menu");?>
 <?php 
 $delete=new ICheckBox('delete',"1");
 echo $delete->input();
@@ -104,7 +104,7 @@ echo $delete->input();
 if ($array[0]['p_type_display']!='P'):
 ?>
 	<p>
-Cochez cette case si vous souhaitez effacer ce menu ainsi que ceux qui en dépendent
+<?php echo _("Cochez cette case si vous souhaitez effacer ce menu ainsi que ceux qui en dépendent");?>
 <?php 
 $delete=new ICheckBox('del_dep',"1");
 echo $delete->input();
@@ -112,7 +112,7 @@ echo $delete->input();
 </p>
 <?php endif;?>
 <?php 
-echo HtmlInput::submit('mod',"Valider");
+echo HtmlInput::submit('mod',_("Valider"));
 echo '</form>';
 
 

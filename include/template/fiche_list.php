@@ -27,27 +27,26 @@
  */
 ?>
 <?php echo  $bar?>
-<div class="content">
-<form method="POST" class="print" style="display:inline" onsubmit="return confirm('Vous confirmez ?')">
+<form method="POST" class="print" style="display:inline" onsubmit="return confirm('<?php echo _("Vous confirmez ?")?>')">
 	<table class="result">
 		<tr>
 			<th>
-				Quick Code
+				<?php echo _("Quick Code")?>
 			</th>
 			<th>
-				Nom
+				<?php echo _("Nom")?>
 
 			</th>
 			<th>
-				Poste Comptable
+				<?php echo _("Poste Comptable")?>
 			</th>
 			<?php if ($allcard == 1 ) : ?>
 			<th>
-				Catégorie
+				<?php echo _("Catégorie")?>
 			</th>
 			<?php endif; ?>
 			<th>
-				Selection
+				<?php echo _("Selection")?>
 			</th>
 		</tr>
 		<?php for ($i = 0; $i < $nb_line; $i++) :?>
@@ -85,9 +84,9 @@
 	</table>
 	<?php echo $str_add_card?>
 <?php echo HtmlInput::hidden('action',"1");?>
-<?php echo HtmlInput::submit('delete','Effacer la sélection ')?>
+<?php echo HtmlInput::submit('delete',_('Effacer la sélection '))?>
 <?php if ( $allcard ==  0  ): ?>
-<?php echo HtmlInput::submit('move','Déplacer la sélection  vers')?>
+<?php echo HtmlInput::submit('move',_('Déplacer la sélection  vers'))?>
 <?php 
 $iselect=new ISelect('move_to');
 $iselect->value=$cn->make_array("select fd_id,fd_label from fiche_def order by 2");

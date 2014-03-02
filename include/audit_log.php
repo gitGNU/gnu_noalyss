@@ -33,11 +33,11 @@ if ( !defined ('ALLOWED')) die('Forbidden');
 ?>
 <TABLE CLASS="result" style="border-collapse:separate;border-spacing:2">
 <tr>
-<th>Utilisateur </th>
-<th>Date </th>
-<th>Adresse </th>
-<th>Module</th>
-<th> Résultat</th>
+<th><?php echo _("Utilisateur");?> </th>
+<th><?php echo _("Date");?> </th>
+<th><?php echo _("Adresse");?> </th>
+<th><?php echo _("Module");?></th>
+<th><?php echo _("Résultat");?></th>
 </tr>
 <TR>
   <?php

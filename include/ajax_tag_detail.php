@@ -12,7 +12,7 @@ ob_start();
 $tag=new Tag($cn);
 $tag->data->t_id=$_GET['tag'];
 $tag->data->load();
-echo HtmlInput::title_box("Détail du dossier / tag", "tag_div");
+echo HtmlInput::title_box(_("Détail du dossier ou tag"), "tag_div");
 
 ?>
 <?php

@@ -25,7 +25,7 @@
  * @brief user's bookmark
  */
 if ( ! defined ('ALLOWED')) die('Appel direct ne sont pas permis');
-echo HtmlInput::title_box("Favoris", "bookmark_div");
+echo HtmlInput::title_box(_("Favoris"), "bookmark_div");
 if (! isset($_GET['ac'])) {
     /*
      * find default module
@@ -43,7 +43,7 @@ if (isset($_GET['bookmark_add'])){
         $cn->exec_sql("insert into bookmark(b_action,login) values($1,$2)",
             array($_GET['ac'],$g_user->login));
     } else {
-        $js="error_message('Ce favori a déjà été ajouté');";
+        $js="error_message('"._("Ce favori a déjà été ajouté")."');";
         echo create_script($js);
     }     
 }
@@ -100,17 +100,17 @@ $url="do.php?gDossier=".Dossier::id()."&ac=";
     </table>
 <?php
 if ( count($a_bookmark) > 0) :
-    echo HtmlInput::submit("bookmark_delete", "Supprimez favoris sélectionnés","","smallbutton"); 
+    echo HtmlInput::submit("bookmark_delete",_("Supprimez favoris sélectionnés"),"","smallbutton"); 
 endif;
     ?>
 </form>
 <form id="bookmark_frm" method="get" onsubmit="save_bookmark();return false">
 <?php
-echo "Menu actuel : ".hb($_GET['ac']);
+echo _("Menu actuel")." : ".hb($_GET['ac']);
 echo HtmlInput::array_to_hidden(array("gDossier","ac"), $_REQUEST); 
 ?>
 <p>
-<?php echo HtmlInput::submit("bookmark_add", "Ajoutez le menu  actuel à vos favoris","","smallbutton"); ?>
+<?php echo HtmlInput::submit("bookmark_add", _("Ajoutez le menu  actuel à vos favoris"),"","smallbutton"); ?>
 </form>
 
 

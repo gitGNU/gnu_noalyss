@@ -41,7 +41,7 @@ $opd_description=new ITextarea('od_description');
 $opd_description->style=' class="itextarea" style="width:30em;height:4em;vertical-align:top"';
 $opd_description->value=$op->od_description;
 echo '<p>';
-echo "Description (max 50 car.)";
+echo _("Description (max 50 car.)");
 echo $opd_description->input();
 echo '</p>';
 echo dossier::hidden() . HtmlInput::hidden('od_id', $_GET['id']);

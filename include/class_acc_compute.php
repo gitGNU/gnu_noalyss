@@ -91,7 +91,7 @@ class Acc_Compute
             return $this->$idx;
         }
         else
-            exit (__FILE__.":".__LINE__.'Erreur attribut inexistant');
+            exit (__FILE__.":".__LINE__._('Erreur attribut inexistant'));
     }
     public function set_parameter($p_string,$p_value)
     {
@@ -101,7 +101,7 @@ class Acc_Compute
             $this->$idx=$p_value;
         }
         else
-            exit (__FILE__.":".__LINE__.'Erreur attribut inexistant');
+            exit (__FILE__.":".__LINE__._('Erreur attribut inexistant'));
 
 
     }
@@ -191,7 +191,7 @@ class Acc_Compute
     {
         foreach (self::$variable as $key=>$value)
         if ( $this->$value < 0 )
-            throw new Exception ("Montant invalide ");
+            throw new Exception (_("Montant invalide"));
 
         if ( $p_obj != null )
         {
@@ -202,7 +202,7 @@ class Acc_Compute
             $cmp=bcadd($p_obj->amount,$p_obj->amount_vat);
             $diff=bcsub($sum,$cmp);
             if ( $diff != 0.0 )
-                throw new Exception ("ECHEC VERIFICATION  : valeur totale = $sum valeur attendue = $cmp diff = $diff");
+                throw new Exception (_("ECHEC VERIFICATION  : valeur totale = $sum valeur attendue = $cmp diff = $diff"));
         }
     }
     function display()

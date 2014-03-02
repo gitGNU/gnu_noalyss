@@ -20,20 +20,20 @@
                         <?php
                         $date = new IDate('p_date');
                         $date->value = format_date($obj->det->jr_date);
-                        echo td('Date') . td($date->input());
+                        echo td(_('Date')) . td($date->input());
                         ?>
                         <tr>
                             <td></td>
                             <?php
                             $date_ech = new IDate('p_ech');
                             $date_ech->value = format_date($obj->det->jr_ech);
-                            echo td('Echeance') . td($date_ech->input());
+                            echo td(_('Echeance')) . td($date_ech->input());
                             ?>
                         </tr>
                         <tr>
                             <td></td>
                             <td>
-                                Date paiement
+                                <?php echo _("Date paiement")?>
                             </td>
                             <td>
                                 <?php

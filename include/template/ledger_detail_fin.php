@@ -21,7 +21,7 @@ require_once('class_anc_operation.php');
 <?php
 $date=new IDate('p_date');
 $date->value=format_date($obj->det->jr_date);
- echo td('Date').td($date->input());
+ echo td(_('Date')).td($date->input());
 
  ?>
 
@@ -31,7 +31,7 @@ $date->value=format_date($obj->det->jr_date);
 <?php 
 $bk=new Fiche($cn,$obj->det->array[0]['qf_bank']);
 $view_card_detail=HtmlInput::card_detail($bk->get_quick_code(),h($bk->getName()), ' class="line" ');
-echo td('Compte en banque').td($view_card_detail).td();;
+echo td(_('Compte en banque')).td($view_card_detail).td();;
 
 ?>
 </tr>
@@ -41,7 +41,7 @@ echo td('Compte en banque').td($view_card_detail).td();;
 $bk=new Fiche($cn,$obj->det->array[0]['qf_other']);
 $view_card_detail=HtmlInput::card_detail($bk->get_quick_code(),h($bk->getName()), ' class="line" ');
 
-echo td('Tiers').td($view_card_detail);
+echo td(_('Tiers')).td($view_card_detail);
 ?>
 </tr>
 
@@ -56,7 +56,7 @@ echo td('Tiers').td($view_card_detail);
 ?>
 </tr>
 <tr>
-<?php echo td('montant').td(nbm($obj->det->array[0]['qf_amount']),' class="inum"');?>
+<?php echo td(_('montant')).td(nbm($obj->det->array[0]['qf_amount']),' class="inum"');?>
 </tr>
 <tr>
 <?php 

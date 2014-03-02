@@ -38,7 +38,7 @@ require_once ('class_anc_account.php');
 require_once ('class_anc_plan.php');
 require_once('function_javascript.php');
 
-echo HtmlInput::title_box("Recherche activité", $ctl);
+echo HtmlInput::title_box(_("Recherche activité"), $ctl);
 
 //------------- FORM ----------------------------------
 echo '<FORM id="anc_search_form" METHOD="GET" onsubmit="search_anc_form(this);return false">';
@@ -62,7 +62,7 @@ if ( isset($_REQUEST['go']))
     $plan=new Anc_Plan($cn,$_REQUEST['c2']);
     $plan->pa_id=$_REQUEST['c2'];
     if ( $plan->exist()==false)
-        exit("Ce plan n'existe pas");
+        exit(_("Ce plan n'existe pas"));
 
     $sql="select po_name , po_description from poste_analytique ".
          "where pa_id=$1 and ".
@@ -71,12 +71,12 @@ if ( isset($_REQUEST['go']))
 
     if (empty($array) == true)
     {
-        echo "D&eacute;sol&eacute; aucun poste trouv&eacute;";
+        echo _("Aucun poste trouvé");
         return;
     }
     $button=new IButton();
-    $button->name="Choix";
-    $button->label="Choix";
+    $button->name=_("Choix");
+    $button->label=_("Choix");
 
     echo '<table>';
     foreach ($array as $line)

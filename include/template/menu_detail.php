@@ -15,8 +15,8 @@ $str_url=new IText('me_url',$m->me_url);
 $str_parameter=new IText('me_parameter',$m->me_parameter);
 $str_js=new IText('me_javascript',$m->me_javascript);
 $a_type=array (
-       array ('label'=>'Impression','value'=>'PR' ),
-       array ('label'=>'Menu','value'=>'ME' )
+       array ('label'=>_('Impression'),'value'=>'PR' ),
+       array ('label'=>_('Menu'),'value'=>'ME' )
     );
 $str_type=new ISelect("me_type", $a_type);
 $str_type->selected=$m->me_type;
@@ -24,7 +24,7 @@ $str_type->selected=$m->me_type;
 <table>
     <tr>
         <td>
-            Code du menu
+            <?php echo _("Code du menu")?>
         </td>
         <td>
             <?php echo $str_code->input()?>
@@ -32,7 +32,7 @@ $str_type->selected=$m->me_type;
     </tr>
         <tr>
         <td>
-            Libellé du menu
+            <?php echo _("Libellé du menu")?>
         </td>
         <td>
             <?php echo $str_menu->input()?>
@@ -40,7 +40,7 @@ $str_type->selected=$m->me_type;
     </tr>
         <tr>
         <td>
-            Description
+            <?php echo _("Description")?>
         </td>
         <td>
             <?php echo $str_desc->input()?>
@@ -48,7 +48,7 @@ $str_type->selected=$m->me_type;
     </tr>
     <tr>
         <td>
-            Type 
+            <?php echo _("Type")?>
         </td>
         <td>
             <?php echo $str_type->input();?>
@@ -56,7 +56,7 @@ $str_type->selected=$m->me_type;
     </tr>
          <tr>
         <td>
-            Fichier à inclure (depuis le répertoire include)
+            <?php echo _("Fichier à inclure (depuis le répertoire include)")?>
         </td>
         <td>
             <?php echo $str_file->input()?>

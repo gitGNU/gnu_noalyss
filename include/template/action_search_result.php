@@ -29,7 +29,7 @@
 ?>
 <form onsubmit="set_action_related('fresultaction');return false;" id="fresultaction">
 	<?php echo HtmlInput::hidden('ctlc',$_GET['ctlc'])?>
-	<?php echo HtmlInput::submit("save_action", "Mettre à jour")?>
+	<?php echo HtmlInput::submit("save_action", _("Mettre à jour"))?>
 <?php if (isset($limit)) : ?>
 	<h2 class="notice">Recherche limitée à <?php echo $limit?> résultats</h2>
 <?php endif;?>
@@ -41,19 +41,19 @@
 
 		</th>
 		<th>
-			Date
+			<?php echo _("Date");?>
 		</th>
 		<th>
-			Ref
+			<?php echo _("Ref");?>
 		</th>
 		<th>
-			Titre
+			<?php echo _("Titre");?>
 		</th>
 		<th>
-			Destinataire
+			<?php echo _("Destinataire");?>
 		</th>
 		<th>
-			Type
+			<?php echo _("Type");?>
 		</th>
 	</tr>
 <?php for ($i=0;$i<$limit;$i++):?>
@@ -85,5 +85,5 @@
 
 <?php endfor;?>
 </table>
-	<?php echo HtmlInput::submit("save_action", "Mettre à jour")?>
+	<?php echo HtmlInput::submit("save_action", _("Mettre à jour"))?>
 </form>

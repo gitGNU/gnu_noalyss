@@ -5,7 +5,7 @@
 echo HtmlInput::title_box('Tag', 'tag_div');
 $max=$this->cn->count($ret);
 if ( $max == 0 ) {
-    echo h2("Aucune étiquette disponible",' class="notice"');
+    echo h2(_("Aucune étiquette disponible"),' class="notice"');
     return;
 }
 ?>
@@ -13,10 +13,10 @@ Filtrer = <?php echo HtmlInput::filter_table('tag_tb_id', '0,1', 1); ?>
 <table id="tag_tb_id">
     <tr>
         <th>
-            Tag
+            <?php echo _("Tag")?>
         </th>
         <th>
-            Description
+            <?php echo _("Description")?>
         </th>
     </tr>
 <?php
