@@ -1452,3 +1452,8 @@ color: brown;
 /* text-decoration: underline; */
 cursor: auto;
 }
+#mod_predf_op {
+    width: 80%;
+    overflow: auto;
+    overflow-style: panner;
+}

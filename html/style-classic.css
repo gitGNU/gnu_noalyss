@@ -1439,3 +1439,8 @@ fieldset {
 #tva_select table {
     border-spacing: 0px;
 }
+#mod_predf_op {
+    width: 80%;
+    overflow: auto;
+    overflow-style: panner;
+}
