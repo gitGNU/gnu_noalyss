@@ -1,11 +1,11 @@
  /* <style type="text/css"> */
 
 BODY {
-    background-color: #FDFDEF;
+    background-color: #FFF1ED;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     padding: 0px 0px 0px 0px ;
     margin:0px;
-    color: #D66B44;
+    color: #A52A2A;
     font-size:100%;
 }
 .notice {
@@ -14,7 +14,7 @@ BODY {
 }
 
 table.sortable, table.table_large, table.result  ,table.resultfooter {
-    color:#FF7F50;
+    /* color:#FF7F50; */
     width:100%;
     border-spacing:  0px;
     border-collapse:collapse;
@@ -316,7 +316,7 @@ td.selectedcell{
 a.mtitle {
     text-decoration:none;
     display:inline;
-    color: #FF7F50;
+    color: #A52A2A;
 
 }
 a.mtitle:hover {
@@ -355,6 +355,7 @@ td.mtitle:hover,td.mtitle:hover a
 {
     background-color: #F9C5B6;
     color:#FFFFFF;
+    font-weight: bold;
 }
 td.msubtitle:hover,td.msubtitle:hover a
 {
@@ -774,7 +775,7 @@ div.pc_calendar td{
 }
 
 div.pc_calendar td.weekend {
-    background-color:#FDFDEF;
+    background-color:#FFF1ED;
 
 }
 div.pc_calendar td.workday{
@@ -907,7 +908,7 @@ h2.gest_name {
     width: 40%;
 }
 body.op_detail_frame,div.op_detail_frame  {
-    background-color: #FDFDEF;
+    background-color: #FFF1ED;
     height:100%; width:100%;
 -moz-box-shadow: 10px 10px 5px #888;
 -webkit-box-shadow: 10px 10px 5px #888;
@@ -979,7 +980,7 @@ div#search_form
     z-index:2;
     width:50%;
     display:none;
-    background-color:#FDFDEF;
+    background-color:#FFF1ED;
     -moz-box-shadow: 10px 10px 5px #888;
     -webkit-box-shadow: 10px 10px 5px #888;
     box-shadow: 10px 10px 5px #888;
@@ -1202,7 +1203,7 @@ h1.title {
     text-transform: uppercase;
 }
 h2.title {
-    background-color:#FF6600;
+    background-color: #FFB483;
     color:#FFFFFF;
     text-align:center;
     padding:0.24%;
@@ -1286,7 +1287,7 @@ div#notice {
     }   
     div#modele_op_div{
     display: none;
-    background-color:#FDFDEF;
+    background-color:#FFF1ED;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     padding:0px;
     margin:0px;
@@ -1307,7 +1308,7 @@ div#notice {
     }   
     div#modele_op_div{
     display: none;
-    background-color:#FDFDEF;
+    background-color:#FFF1ED;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     padding:0px;
     margin:0px;
@@ -1341,7 +1342,7 @@ div.inner_box tr.odd {
     background:  #FFFFCC;
 }
 div#bookmark_div {
-    background-color:#FDFDEF;
+    background-color:#FFF1ED;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     padding:2px;
     margin:0px;
@@ -1354,7 +1355,7 @@ div#bookmark_div {
    width:40%;
 }
 div#preference_div {
-    background-color:#FDFDEF;
+    background-color:#FFF1ED;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     padding:0px;
     margin:0px;
@@ -1400,7 +1401,7 @@ input.inum {
     margin:2px
 }
 div.box  {
-    background-color:#FDFDEF;
+    background-color:#FFF1ED;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     margin-top:10px;
     margin-left:3px;
@@ -1426,11 +1427,11 @@ div.box table{
     border-spacing:0px;
 }
 div.box tr.odd {
-    background-color: #FDFDEF;
+    background-color: #FFF1ED;
     
 }
 div.box tr.even {
-    background-color:#FDFDEF;
+    background-color:#FFF1ED;
     
 }
 #jrn_name_div h2{
