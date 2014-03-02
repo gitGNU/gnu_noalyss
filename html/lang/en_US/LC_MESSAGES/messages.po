@@ -4,13 +4,14 @@
 # Dany De Bontridder <dany@alchimerys.be>
 #
 # dany, 2014.
+# Dany De Bontridder <danydb@noalyss.eu>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS 672\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-16 12:54+0100\n"
-"PO-Revision-Date: 2014-02-21 21:31+0100\n"
-"Last-Translator: dany\n"
+"POT-Creation-Date: 2014-03-02 05:03+0100\n"
+"PO-Revision-Date: 2014-03-02 05:12+0100\n"
+"Last-Translator: Dany De Bontridder <danydb@noalyss.eu>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +22,7 @@ msgstr ""
 
 #: include/template/category_of_card.php:38
 msgid " A moins qu'en créant la fiche, vous forcez un autre poste comptable"
-msgstr "Except if you give  another accounting item When you create the card"
+msgstr "Except if you give  another accounting item when you create the card"
 
 #: include/class_acc_payment.php:291
 msgid " Acompte à déduire"
@@ -111,6 +112,7 @@ msgid " dernière sauvegarde "
 msgstr "last backup"
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:113
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:123
 msgid " destinataire "
 msgstr "recipient"
 
@@ -248,7 +250,7 @@ msgstr "Asset of one year max"
 msgid "Actif avec un solde crediteur"
 msgstr "Asset with a credit saldo"
 
-#: include/template/dashboard.php:105
+#: include/template/dashboard.php:105 include/template/dashboard.php:71
 msgid "Action"
 msgstr "Action"
 
@@ -264,7 +266,7 @@ msgstr "Action Management"
 msgid "Action Sauvée"
 msgstr "Saved"
 
-#: include/template/dashboard.php:222
+#: include/template/dashboard.php:222 include/template/dashboard.php:207
 msgid "Action en retard"
 msgstr "Late"
 
@@ -278,18 +280,17 @@ msgstr "Forbidden"
 msgid "Action non accessible"
 msgstr "Folder not available"
 
-#: include/template/dashboard.php:253
+#: include/template/dashboard.php:253 include/template/dashboard.php:238
 msgid "Action pour aujourd'hui"
 msgstr "For today"
 
 #: include/template/detail-action.php:176
-#, fuzzy
 msgid "Actions concernées"
-msgstr "Concerned op"
+msgstr "Concerned operations"
 
 #: include/template/action_other_action.php:17
 msgid "Actions sur plusieurs documents"
-msgstr ""
+msgstr "Action on different documents"
 
 #: include/compta_ach.inc.php:221 include/compta_ven.inc.php:237
 #: include/template/detail-action.php:359
@@ -331,9 +332,8 @@ msgid "Affecté"
 msgstr "Responsible"
 
 #: include/template/action_search.php:63
-#, fuzzy
 msgid "Affiche aussi les actions fermées"
-msgstr "The closed items"
+msgstr "Display also the closed actions"
 
 #: include/ext/tva/class_ext_list_assujetti.php:54
 #: include/ext/tva/class_ext_tvagen.php:114
@@ -350,11 +350,12 @@ msgstr "Diary"
 
 #: include/ajax_navigator.php:59
 msgid "Aide sur le wiki"
-msgstr ""
+msgstr "Help "
 
 #: include/cat_document.inc.php:55 include/template/dashboard.php:188
 #: include/ext/import_account/include/template/parameter_tva_add.php:52
 #: include/anc_pa.inc.php:127 include/anc_pa.inc.php:225
+#: include/template/dashboard.php:29
 msgid "Ajout"
 msgstr "Add"
 
@@ -369,30 +370,30 @@ msgstr "Add Action"
 msgid "Ajout article"
 msgstr "Add item"
 
-#: include/template/periode_add_exercice.php:21
+#: include/ext/amortis/include/class_am_card.php:56
 #, fuzzy
+msgid "Ajout d'un bien à amortir"
+msgstr "Although damping"
+
+#: include/template/periode_add_exercice.php:21
 msgid "Ajout d'un exercice comptable"
-msgstr "Config. Chart of Accounts"
+msgstr "Add an accounting year"
 
 #: include/menu.inc.php:155
-#, fuzzy
 msgid "Ajout d'un menu"
-msgstr "Add a row"
+msgstr "Add a menu"
 
 #: include/anc_pa.inc.php:248 include/anc_pa.inc.php:283
-#, fuzzy
 msgid "Ajout d'un plan comptable"
-msgstr "Config. Chart of Accounts"
+msgstr "Add a chart of Accounts"
 
 #: include/menu.inc.php:154
-#, fuzzy
 msgid "Ajout d'un plugin"
-msgstr "Add a row"
+msgstr "Add a plugin"
 
 #: include/ajax_tag_list.php:30
-#, fuzzy
 msgid "Ajout d'un tag"
-msgstr "Add a row"
+msgstr "Add a tag"
 
 #: include/ext/import_account/include/template/parameter_tva_add.php:30
 msgid "Ajout d'un taux de tva"
@@ -417,7 +418,6 @@ msgid "Ajout d'une ligne"
 msgstr "Add a row"
 
 #: include/template/fiche_def_list.php:84
-#, fuzzy
 msgid "Ajout d'une nouvelle catégorie"
 msgstr "Add a category"
 
@@ -430,7 +430,6 @@ msgid "Ajout d'utilisateur"
 msgstr "Add users"
 
 #: include/template/action_other_action.php:35
-#, fuzzy
 msgid "Ajout d'étiquettes"
 msgstr "Configuration label"
 
@@ -455,18 +454,16 @@ msgid "Ajouter"
 msgstr "Add"
 
 #: include/ajax_plugin_detail.php:54
-#, fuzzy
 msgid "Ajouter ce plugin"
-msgstr "Add a row"
+msgstr "Add this plugin"
 
 #: include/ext/tools/index.php:43
 msgid "Ajouter des années comptables"
 msgstr "Add accounting years"
 
 #: include/template/detail-action.php:462
-#, fuzzy
 msgid "Ajouter un fichier"
-msgstr "No file"
+msgstr "Add an attachment"
 
 #: include/class_anc_group_operation.php:189
 #: include/class_anticipation.php:430 include/template/stock_inv.php:103
@@ -479,7 +476,7 @@ msgstr "Add this item"
 
 #: include/ajax_bookmark.php:113
 msgid "Ajoutez le menu  actuel à vos favoris"
-msgstr ""
+msgstr "Bookmark the current menu"
 
 #: include/class_acc_ledger_purchase.php:1632
 #: include/class_acc_ledger_sold.php:898
@@ -527,6 +524,7 @@ msgstr "Annuities"
 #: include/template/dashboard.php:343
 #: include/ext/amortis/include/template/material_add.php:51
 #: html/ajax_card.php:284 include/ajax_mod_predf_op.php:56
+#: include/template/dashboard.php:322
 msgid "Annuler"
 msgstr "Cancel"
 
@@ -734,7 +732,7 @@ msgstr "No plane defined"
 msgid "Aucun poste trouvé"
 msgstr "No period found"
 
-#: include/template/dashboard.php:59
+#: include/template/dashboard.php:59 include/template/dashboard.php:195
 msgid "Aucun rapport défini"
 msgstr "No report defined"
 
@@ -743,12 +741,13 @@ msgstr "No report defined"
 msgid "Aucun résultat"
 msgstr "Result"
 
-#: include/template/dashboard.php:247
+#: include/template/dashboard.php:247 include/template/dashboard.php:232
 #, fuzzy
 msgid "Aucune action en retard"
 msgstr "No customer"
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:123
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:133
 msgid "Aucune adresse email trouvée"
 msgstr "No email address found"
 
@@ -799,7 +798,7 @@ msgstr "No goods or services"
 msgid "Aucune opération pour l'exercice courant"
 msgstr "Other entry in this ledger"
 
-#: include/template/dashboard.php:35
+#: include/template/dashboard.php:35 include/template/dashboard.php:171
 msgid "Aucune periode par defaut"
 msgstr "There is no default period"
 
@@ -808,6 +807,7 @@ msgid "Aucune periode trouvée"
 msgstr "No period found"
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:120
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:130
 msgid "Aucune pièce à envoyer"
 msgstr "No room to send"
 
@@ -1014,6 +1014,7 @@ msgid "Calculatrice"
 msgstr "calculator"
 
 #: include/template/dashboard.php:9 include/ajax_calendar_zoom.php:23
+#: include/class_html_input.php:779 include/template/dashboard.php:6
 msgid "Calendrier"
 msgstr "Calendar"
 
@@ -1023,6 +1024,7 @@ msgstr "Category"
 
 #: include/class_document_modele.php:67
 #: include/template/forecast-detail.php:11 include/template/fiche_list.php:45
+#: include/class_html_input.php:367
 msgid "Catégorie"
 msgstr "Category"
 
@@ -1194,6 +1196,11 @@ msgstr "Choice VAT"
 msgid "Choix de la catégorie"
 msgstr "Category"
 
+#: include/class_html_input.php:373
+#, fuzzy
+msgid "Choix des categories"
+msgstr "Category"
+
 #: include/class_acc_bilan.php:83
 msgid "Choix du bilan"
 msgstr "Report choice"
@@ -1229,12 +1236,12 @@ msgstr "Customer"
 msgid "Client incorrect"
 msgstr "Incorrect customer"
 
-#: include/template/dashboard.php:284
+#: include/template/dashboard.php:284 include/template/dashboard.php:267
 #, fuzzy
 msgid "Clients en retard"
 msgstr "Incorrect customer"
 
-#: include/template/dashboard.php:60
+#: include/template/dashboard.php:60 include/template/dashboard.php:197
 msgid "Cliquez ici pour mettre à jour vos préférences"
 msgstr "Click here to update your preference"
 
@@ -1725,7 +1732,7 @@ msgstr "In the ledger"
 #: include/template/ledger_detail_misc.php:27
 #: include/template/ledger_detail_ven.php:25
 #: include/template/print_ledger_simple.php:7
-#: include/template/stock_inv.php:34
+#: include/template/stock_inv.php:34 include/template/dashboard.php:316
 msgid "Date"
 msgstr "Date"
 
@@ -1859,7 +1866,7 @@ msgstr ""
 msgid "Dernière pièce numérotée"
 msgstr "Last numbered receipt"
 
-#: include/template/dashboard.php:291
+#: include/template/dashboard.php:291 include/template/dashboard.php:273
 msgid "Dernières opérations"
 msgstr "Last entries"
 
@@ -1888,6 +1895,7 @@ msgstr "Last entries"
 #: include/template/tag_detail.php:18 include/template/tag_list.php:14
 #: include/template/tag_search_select.php:19
 #: include/template/tag_select.php:19 include/menu.inc.php:114
+#: include/class_html_input.php:327 include/template/dashboard.php:318
 msgid "Description"
 msgstr "Description"
 
@@ -1944,6 +1952,11 @@ msgstr "Difference"
 #: include/ext/amortis/include/template/material_detail.php:128
 #: include/ext/amortis/include/template/material_display.php:102
 msgid "Différence entre le montant à amortir et le montant amorti ="
+msgstr "Difference between the amount to be amortized and depreciated amount ="
+
+#: include/ext/amortis/include/template/material_detail.php:128
+#, fuzzy, php-format
+msgid "Différence entre le montant à amortir et le montant amorti = %d'</h2>"
 msgstr "Difference between the amount to be amortized and depreciated amount ="
 
 #: include/class_calendar.php:168 include/class_calendar.php:256
@@ -2298,6 +2311,7 @@ msgstr "Erase statement"
 #: include/ajax_view_mod_stock.php:55 include/anc_group.inc.php:88
 #: include/card_attr.inc.php:86 include/template/detail-action.php:159
 #: include/template/detail-action.php:189
+#: include/ext/amortis/include/template/material_detail.php:135
 msgid "Effacer"
 msgstr "Remove"
 
@@ -2380,7 +2394,7 @@ msgstr "Customer invoice header"
 msgid "En-tête facture fournisseur"
 msgstr "Supplier invoice header"
 
-#: include/template/dashboard.php:283
+#: include/template/dashboard.php:283 include/template/dashboard.php:266
 msgid "Encaissement clients aujourd'hui"
 msgstr ""
 
@@ -2442,10 +2456,12 @@ msgid "Envoi des factures par email"
 msgstr "Send invoices by email"
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:116
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:126
 msgid "Envoi echoué"
 msgstr "Sending fails"
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:113
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:123
 msgid "Envoi facture "
 msgstr "Shipping bill"
 
@@ -2460,6 +2476,11 @@ msgstr "Sending only those with an email address and an invoice"
 #: include/ext/invoicing/include/invoicing.inc.php:124
 msgid "Envoyer copie à l'expéditeur"
 msgstr "Send copy to sender"
+
+#: include/ac_common.php:317
+#, fuzzy
+msgid "Erreur"
+msgstr "Error:"
 
 #: include/forecast.inc.php:373
 msgid "Erreur : "
@@ -2726,7 +2747,10 @@ msgstr "Firm action"
 #: include/template/ledger_detail_bottom.php:101
 #: include/template/ledger_detail_bottom.php:102
 #: include/template/ledger_detail_top.php:11
-#: include/template/search_top.php:36
+#: include/template/search_top.php:36 include/class_html_input.php:414
+#: include/class_html_input.php:415 include/class_html_input.php:430
+#: include/class_html_input.php:689
+#: include/ext/amortis/include/template/material_detail.php:136
 #, php-format
 msgid "Fermer"
 msgstr "close"
@@ -2862,12 +2886,12 @@ msgstr "Beg"
 msgid "Fournisseur "
 msgstr "Beg"
 
-#: include/template/dashboard.php:282
+#: include/template/dashboard.php:282 include/template/dashboard.php:265
 #, fuzzy
 msgid "Fournisseurs en retad"
 msgstr "Suppliers"
 
-#: include/template/dashboard.php:281
+#: include/template/dashboard.php:281 include/template/dashboard.php:264
 msgid "Fournisseurs à payer aujourd'hui"
 msgstr ""
 
@@ -3398,6 +3422,10 @@ msgstr "No existent ledger"
 #: include/class_acc_ledger.php:3305
 msgid "Journal n'existe pas"
 msgstr "The ledger does not exist"
+
+#: include/class_html_input.php:319
+msgid "Journaux"
+msgstr "Ledgers"
 
 #: include/class_acc_ledger.php:3232
 #, fuzzy
@@ -4101,6 +4129,7 @@ msgstr "No action"
 #: include/ext/transform/include/template/listing_client_display.php:36
 #: include/ajax_mod_stock_repo.php:39 include/anc_pa.inc.php:194
 #: include/template/fiche_list.php:37 include/template/profile.php:33
+#: include/class_html_input.php:326
 msgid "Nom"
 msgstr "Name"
 
@@ -4537,7 +4566,7 @@ msgstr "Receipt #"
 msgid "Paiement"
 msgstr "Loading"
 
-#: include/template/dashboard.php:160
+#: include/template/dashboard.php:160 include/template/dashboard.php:126
 #, fuzzy
 msgid "Paiement client"
 msgstr "Electronic payment"
@@ -4550,7 +4579,7 @@ msgstr "Payment encoded later"
 msgid "Paiement enregistré dans "
 msgstr "Payment Recorded in"
 
-#: include/template/dashboard.php:135
+#: include/template/dashboard.php:135 include/template/dashboard.php:101
 #, fuzzy
 msgid "Paiement fournisseur"
 msgstr "of suppliers"
@@ -4662,6 +4691,7 @@ msgid "Pas d'anomalie détectée"
 msgstr ""
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:75
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:80
 msgid "Pas de conversion en PDF disponible"
 msgstr "No PDF conversion available"
 
@@ -4695,7 +4725,7 @@ msgstr "Paid"
 msgid "Payé par"
 msgstr "Paid by"
 
-#: include/template/dashboard.php:185
+#: include/template/dashboard.php:185 include/template/dashboard.php:10
 msgid "Pense-Bête"
 msgstr "Todo List"
 
@@ -5286,7 +5316,7 @@ msgstr "new line"
 #: include/report.inc.php:118 include/template/dashboard.php:342
 #: include/ext/modop/modop_display.php:311 html/ajax_card.php:193
 #: html/ajax_card.php:438 include/ajax_mod_predf_op.php:55
-#: include/cfgledger.inc.php:122
+#: include/cfgledger.inc.php:122 include/template/dashboard.php:321
 msgid "Sauve"
 msgstr "Save"
 
@@ -5308,6 +5338,7 @@ msgstr "Safeguard"
 #: include/template/modele_document.php:118
 #: include/template/profile_sec_repository.php:59
 #: include/template/stock_inv.php:104 include/template/user_sec_profile.php:58
+#: include/ext/amortis/include/template/material_detail.php:133
 msgid "Sauver"
 msgstr "Save"
 
@@ -5366,7 +5397,7 @@ msgid ""
 "faisiez"
 msgstr ""
 
-#: include/template/dashboard.php:90
+#: include/template/dashboard.php:90 include/template/dashboard.php:60
 #, fuzzy
 msgid "Situation"
 msgstr "View"
@@ -5612,7 +5643,7 @@ msgstr "Folders"
 
 #: include/template/dashboard.php:338 include/template/detail-action.php:227
 #: include/template/action_search_result.php:50
-#: include/template/dashboard.php:191
+#: include/template/dashboard.php:191 include/template/dashboard.php:317
 msgid "Titre"
 msgstr "Title"
 
@@ -5793,6 +5824,7 @@ msgstr ""
 #: include/ext/transform/include/template/listing_assujetti_representative.php:71
 #: include/template/action_search_result.php:56 include/card_attr.inc.php:96
 #: include/template/menu_detail.php:51 include/menu.inc.php:115
+#: include/class_html_input.php:328
 msgid "Type"
 msgstr "Type"
 
@@ -5935,7 +5967,8 @@ msgstr "invalid values"
 #: include/ext/import_account/include/template/test_operation.php:39
 #: include/ext/import_account/include/template/upload_operation.php:43
 #: include/ajax_add_menu.php:142 include/ajax_get_menu_detail.php:115
-#: include/ajax_preference.php:183
+#: include/ajax_preference.php:183 include/class_html_input.php:350
+#: include/class_html_input.php:391
 msgid "Valider"
 msgstr "Validate"
 
@@ -6216,6 +6249,11 @@ msgstr "budgets"
 msgid "ce code n'a pas de poste comptable, créez ce poste : ["
 msgstr "This Code Has No accounting, please create it ["
 
+#: include/class_html_input.php:804
+#, fuzzy
+msgid "choix des journaux"
+msgstr "Ledgers"
+
 #: include/class_acc_ledger.php:3527
 #, fuzzy
 msgid "choix du type de journal"
@@ -6258,6 +6296,9 @@ msgstr "in NOALYSS"
 #: include/template/dashboard.php:112 include/template/dashboard.php:124
 #: include/template/dashboard.php:140 include/template/dashboard.php:150
 #: include/template/dashboard.php:165 include/template/dashboard.php:175
+#: include/template/dashboard.php:78 include/template/dashboard.php:90
+#: include/template/dashboard.php:106 include/template/dashboard.php:116
+#: include/template/dashboard.php:131 include/template/dashboard.php:141
 #, fuzzy
 msgid "détail"
 msgstr "Detail"
@@ -6733,9 +6774,6 @@ msgstr "You cannot record to an ealier time"
 #~ msgid "Choix de l'extension"
 #~ msgstr "Choice of the plugin"
 
-#~ msgid "Choix du journal"
-#~ msgstr "Ledgers"
-
 #~ msgid "Clients"
 #~ msgstr "Customers"
 
@@ -6892,9 +6930,6 @@ msgstr "You cannot record to an ealier time"
 
 #~ msgid "Journal de vente, produit et recette"
 #~ msgstr "Ledger of sale"
-
-#~ msgid "Journaux"
-#~ msgstr "Ledgers"
 
 #~ msgid "Journaux d'OD: salaires, déclarations TVA,..."
 #~ msgstr "Ledger for MO : salary, VAT ..."
