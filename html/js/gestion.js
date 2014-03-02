@@ -63,7 +63,7 @@ function update_document(p_dossier,p_id)
 			onFailure:errorRemoveDoc,
 			onSuccess:function(req){
                                 $('input_desc'+p_id).hide();
-                                $('print_desc'+p_id).innerHTML=$('input_desc_txt'+p_id).value+'<a class="mtitle" style="color:orange" id="desc'+p_id+' onclick="javascript:show_description('+p_id+'">Modifier</a>';
+                                $('print_desc'+p_id).innerHTML=$('input_desc_txt'+p_id).value+'<a class="line" id="desc'+p_id+'" onclick="javascript:show_description('+p_id+')">Modifier</a>';
                                 $('print_desc'+p_id).show();
                         }
 		}
@@ -191,6 +191,7 @@ function successRemoveDoc(request,json)
 	$(doc).style.color="red";
 	$(doc).href="javascript:alert('Document Effacé')";
 	$(doc).style.textDecoration="line-through";
+        $('desc'+answer.d_id).innerHTML="";
 
 }
 /**

@@ -42,7 +42,7 @@ if ($g_user->can_write_action($ag_id) == true || $g_user->can_read_action($ag_id
         $action=  "do.php?".http_build_query(array("gDossier"=>Dossier::id(),"ag_id"=>$ag_id,"ac"=>$menu->get('code_follow'),"sa"=>"detail"));
 	if ( $_GET['mod']== 1) :
 	?>
-<a href="<?php echo $action?>" target="_blank" class="button">Modifier </a>
+<a href="<?php echo $action?>" target="_blank" class="smallbutton"><?php echo _("Modifier")?> </a>
     <?php 
 	endif;
 }

@@ -210,12 +210,11 @@
   <p>
 <script language="javascript">
    function enlarge(p_id_textarea){
-   $(p_id_textarea).style.height='80%';
+   $(p_id_textarea).style.height=$(p_id_textarea).style.height+250+'px';
    $('bt_enlarge').style.display="none";
    $('bt_small').style.display="inline";
  }
 function small(p_id_textarea){
-   $(p_id_textarea).style.height="auto";
    $('bt_enlarge').style.display="inline";
    $('bt_small').style.display="none";
 
@@ -230,7 +229,7 @@ Document créé le <?php echo $this->ag_timestamp ?> par <?php echo $this->ag_ow
     ?>
 </p>
 <h4 class="info">   <?php echo _('Commentaire')?></h4>
-    <div style="margin-left:100">
+    <div style="margin-left:100px">
    <?php
    $style_enl='style="display:inline"';$style_small='style="display:none"';
 
@@ -357,7 +356,7 @@ function toggleShowDetail() {
  <?php if ( ! $readonly ) :  ?>
     <div  style="position:float;float:right">
     <input name="act" id="act_bt" class="smallbutton" value="<?php echo _('Actualiser')?>" onclick="compute_all_ledger();" type="button">
-     <input type="button" class="smallbutton" onclick="gestion_add_row()" value="Ajouter une ligne">
+     <input type="button" class="smallbutton" onclick="gestion_add_row()" value="<?php echo _("Ajouter une ligne")?>">
      </div>
      
 <?php endif; ?>         
@@ -367,7 +366,7 @@ function toggleShowDetail() {
          <p>
          <?php
             $query=  http_build_query(array('gDossier'=>Dossier::id(),'ag_id'=>$this->ag_id,'create_invoice'=>1,'ac'=>$menu->get('code_invoice')));
-            echo HtmlInput::button_anchor("Transformer en facture","do.php?".$query,"create_invoice", '  target="_blank" ',"button");
+            echo HtmlInput::button_anchor(_("Transformer en facture"),"do.php?".$query,"create_invoice", '  target="_blank" ',"button");
          ?>
          </p>
       </div>
@@ -393,47 +392,52 @@ function toggleShowDetail() {
      <?php echo _('Pièces attachées')?>
   </legend>
   <div class="print">
-  <ol>
+      <table>
   <?php
 for ($i=0;$i<sizeof($aAttachedFile);$i++) :
   ?>
 
-      <li> <A class="print" style="display:inline" id="<?php echo "doc".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $aAttachedFile[$i]['link']?>">
+      <tr>
+          <td>
+              <A class="print" style="display:inline" id="<?php echo "doc".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $aAttachedFile[$i]['link']?>">
           <?php echo $aAttachedFile[$i]['d_filename'];?>         </a>
-
-              
-                  <br/>
-        <label>Description</label>
+          </td>
+          <td>
+        <label> : </label>
         <span id="print_desc<?php echo $aAttachedFile[$i]['d_id'];?>"> <?php echo h($aAttachedFile[$i]['d_description'])?>
        <?php if ($p_view != 'READ') : ?> 
         <?php 
             $js=sprintf("javascript:show_description('%s')",$aAttachedFile[$i]['d_id']);
         ?>
-        <a class="mtitle" style="color:orange" id="<?php echo 'desc'.$aAttachedFile[$i]['d_id'];?>" onclick="<?php echo $js?>">Modifier</a>    
+        <a class="line"  id="<?php echo 'desc'.$aAttachedFile[$i]['d_id'];?>" onclick="<?php echo $js?>"><?php echo _("Modifier")?></a>    
         
         </span>
+        </td>
+        <td>
         <span class="noprint" id="input_desc<?php echo $aAttachedFile[$i]['d_id'];?>" style="display:none" >
               <input type="input" class="input_text" id="input_desc_txt<?php echo $aAttachedFile[$i]['d_id'];?>" value="<?php echo h($aAttachedFile[$i]['d_description'])?>">
               <?php 
               $js=sprintf("update_document('%s','%s')",dossier::id(),$aAttachedFile[$i]['d_id']);
-              echo HtmlInput::button('save_desc'.$aAttachedFile[$i]['d_id'], 'Sauve', 'onclick="'.$js.'"','smallbutton');
+              echo HtmlInput::button('save_desc'.$aAttachedFile[$i]['d_id'], _('Sauve'), 'onclick="'.$js.'"','smallbutton');
               ?>
         </span>
         <?php else: ?>
         </span>
         <?php endif;?>
-              <br/>
 <?php $rmDoc=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer le document')." %s')==true ) {remove_document('%s','%s');}",
 	$aAttachedFile[$i]['d_filename'],
 	dossier::id(),
 	$aAttachedFile[$i]['d_id']);
     ?>
-  <?php if ($p_view != 'READ') : ?>  <a class="mtitle" style="color:orange" id="<?php echo "ac".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $rmDoc;?>">Effacer</a><?php endif;?>
-  </li>
+        </td>
+        <td>
+  <?php if ($p_view != 'READ') : ?>  <a class="line"  id="<?php echo "ac".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $rmDoc;?>"><?php echo _("Effacer")?></a><?php endif;?>
+        </td>
+  </tr>
   <?php
 endfor;
   ?>
-  </ol>
+  </table>
   </div>
   <script language="javascript">
 function addFiles() {
@@ -453,13 +457,12 @@ catch(exception) { alert('<?php echo j(_('Je ne peux pas ajouter de fichier'))?>
       <li>
         <?php echo $upload->input();
         ?>
-          <br/>
-        <label>Description</label>
+        <label><?php echo _('Description')?></label>
         <input type="input" class="input_text" name="input_desc[]" >
       </li>
     </ol>
   <span   >
- <input type="button" class="button" onclick="addFiles();" value="<?php echo _("Ajouter un fichier")?>">
+ <input type="button" class="smallbutton" onclick="addFiles();" value="<?php echo _("Ajouter un fichier")?>">
   </span>
   </div>
  <?php endif;?>
