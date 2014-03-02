@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-16 12:54+0100\n"
+"POT-Creation-Date: 2014-03-02 05:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -121,7 +121,7 @@ msgstr ""
 #: include/report.inc.php:118 include/template/dashboard.php:342
 #: include/ext/modop/modop_display.php:311 html/ajax_card.php:193
 #: html/ajax_card.php:438 include/ajax_mod_predf_op.php:55
-#: include/cfgledger.inc.php:122
+#: include/cfgledger.inc.php:122 include/template/dashboard.php:321
 msgid "Sauve"
 msgstr ""
 
@@ -248,6 +248,7 @@ msgstr ""
 #: include/template/modele_document.php:118
 #: include/template/profile_sec_repository.php:59
 #: include/template/stock_inv.php:104 include/template/user_sec_profile.php:58
+#: include/ext/amortis/include/template/material_detail.php:133
 msgid "Sauver"
 msgstr ""
 
@@ -440,6 +441,7 @@ msgstr ""
 #: include/ext/transform/include/template/listing_client_display.php:36
 #: include/ajax_mod_stock_repo.php:39 include/anc_pa.inc.php:194
 #: include/template/fiche_list.php:37 include/template/profile.php:33
+#: include/class_html_input.php:326
 msgid "Nom"
 msgstr ""
 
@@ -532,7 +534,8 @@ msgstr ""
 #: include/ext/import_account/include/template/test_operation.php:39
 #: include/ext/import_account/include/template/upload_operation.php:43
 #: include/ajax_add_menu.php:142 include/ajax_get_menu_detail.php:115
-#: include/ajax_preference.php:183
+#: include/ajax_preference.php:183 include/class_html_input.php:350
+#: include/class_html_input.php:391
 msgid "Valider"
 msgstr ""
 
@@ -569,6 +572,7 @@ msgstr ""
 #: include/cat_document.inc.php:55 include/template/dashboard.php:188
 #: include/ext/import_account/include/template/parameter_tva_add.php:52
 #: include/anc_pa.inc.php:127 include/anc_pa.inc.php:225
+#: include/template/dashboard.php:29
 msgid "Ajout"
 msgstr ""
 
@@ -645,6 +649,7 @@ msgstr ""
 #: include/template/dashboard.php:343
 #: include/ext/amortis/include/template/material_add.php:51
 #: html/ajax_card.php:284 include/ajax_mod_predf_op.php:56
+#: include/template/dashboard.php:322
 msgid "Annuler"
 msgstr ""
 
@@ -814,7 +819,7 @@ msgstr ""
 #: include/template/ledger_detail_misc.php:27
 #: include/template/ledger_detail_ven.php:25
 #: include/template/print_ledger_simple.php:7
-#: include/template/stock_inv.php:34
+#: include/template/stock_inv.php:34 include/template/dashboard.php:316
 msgid "Date"
 msgstr ""
 
@@ -1349,6 +1354,7 @@ msgstr ""
 #: include/template/tag_detail.php:18 include/template/tag_list.php:14
 #: include/template/tag_search_select.php:19
 #: include/template/tag_select.php:19 include/menu.inc.php:114
+#: include/class_html_input.php:327 include/template/dashboard.php:318
 msgid "Description"
 msgstr ""
 
@@ -1506,6 +1512,7 @@ msgstr ""
 
 #: include/class_document_modele.php:67
 #: include/template/forecast-detail.php:11 include/template/fiche_list.php:45
+#: include/class_html_input.php:367
 msgid "Catégorie"
 msgstr ""
 
@@ -1527,6 +1534,7 @@ msgstr ""
 #: include/ajax_view_mod_stock.php:55 include/anc_group.inc.php:88
 #: include/card_attr.inc.php:86 include/template/detail-action.php:159
 #: include/template/detail-action.php:189
+#: include/ext/amortis/include/template/material_detail.php:135
 msgid "Effacer"
 msgstr ""
 
@@ -1711,7 +1719,10 @@ msgstr ""
 #: include/template/ledger_detail_bottom.php:101
 #: include/template/ledger_detail_bottom.php:102
 #: include/template/ledger_detail_top.php:11
-#: include/template/search_top.php:36
+#: include/template/search_top.php:36 include/class_html_input.php:414
+#: include/class_html_input.php:415 include/class_html_input.php:430
+#: include/class_html_input.php:689
+#: include/ext/amortis/include/template/material_detail.php:136
 #, php-format
 msgid "Fermer"
 msgstr ""
@@ -3448,32 +3459,33 @@ msgid " A moins qu'en créant la fiche, vous forcez un autre poste comptable"
 msgstr ""
 
 #: include/template/dashboard.php:9 include/ajax_calendar_zoom.php:23
+#: include/class_html_input.php:779 include/template/dashboard.php:6
 msgid "Calendrier"
 msgstr ""
 
-#: include/template/dashboard.php:35
+#: include/template/dashboard.php:35 include/template/dashboard.php:171
 msgid "Aucune periode par defaut"
 msgstr ""
 
-#: include/template/dashboard.php:59
+#: include/template/dashboard.php:59 include/template/dashboard.php:195
 msgid "Aucun rapport défini"
 msgstr ""
 
-#: include/template/dashboard.php:60
+#: include/template/dashboard.php:60 include/template/dashboard.php:197
 msgid "Cliquez ici pour mettre à jour vos préférences"
 msgstr ""
 
-#: include/template/dashboard.php:185
+#: include/template/dashboard.php:185 include/template/dashboard.php:10
 msgid "Pense-Bête"
 msgstr ""
 
-#: include/template/dashboard.php:291
+#: include/template/dashboard.php:291 include/template/dashboard.php:273
 msgid "Dernières opérations"
 msgstr ""
 
 #: include/template/dashboard.php:338 include/template/detail-action.php:227
 #: include/template/action_search_result.php:50
-#: include/template/dashboard.php:191
+#: include/template/dashboard.php:191 include/template/dashboard.php:317
 msgid "Titre"
 msgstr ""
 
@@ -3502,6 +3514,7 @@ msgstr ""
 #: include/ext/transform/include/template/listing_assujetti_representative.php:71
 #: include/template/action_search_result.php:56 include/card_attr.inc.php:96
 #: include/template/menu_detail.php:51 include/menu.inc.php:115
+#: include/class_html_input.php:328
 msgid "Type"
 msgstr ""
 
@@ -4858,26 +4871,32 @@ msgid "Le sujet est obligatoire"
 msgstr ""
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:75
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:80
 msgid "Pas de conversion en PDF disponible"
 msgstr ""
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:113
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:123
 msgid "Envoi facture "
 msgstr ""
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:113
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:123
 msgid " destinataire "
 msgstr ""
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:116
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:126
 msgid "Envoi echoué"
 msgstr ""
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:120
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:130
 msgid "Aucune pièce à envoyer"
 msgstr ""
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:123
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:133
 msgid "Aucune adresse email trouvée"
 msgstr ""
 
@@ -6055,7 +6074,7 @@ msgstr ""
 msgid "Numéro document"
 msgstr ""
 
-#: include/template/dashboard.php:90
+#: include/template/dashboard.php:90 include/template/dashboard.php:60
 msgid "Situation"
 msgstr ""
 
@@ -6067,49 +6086,52 @@ msgstr ""
 msgid "En retard"
 msgstr ""
 
-#: include/template/dashboard.php:105
+#: include/template/dashboard.php:105 include/template/dashboard.php:71
 msgid "Action"
 msgstr ""
 
 #: include/template/dashboard.php:112 include/template/dashboard.php:124
 #: include/template/dashboard.php:140 include/template/dashboard.php:150
 #: include/template/dashboard.php:165 include/template/dashboard.php:175
+#: include/template/dashboard.php:78 include/template/dashboard.php:90
+#: include/template/dashboard.php:106 include/template/dashboard.php:116
+#: include/template/dashboard.php:131 include/template/dashboard.php:141
 msgid "détail"
 msgstr ""
 
-#: include/template/dashboard.php:135
+#: include/template/dashboard.php:135 include/template/dashboard.php:101
 msgid "Paiement fournisseur"
 msgstr ""
 
-#: include/template/dashboard.php:160
+#: include/template/dashboard.php:160 include/template/dashboard.php:126
 msgid "Paiement client"
 msgstr ""
 
-#: include/template/dashboard.php:222
+#: include/template/dashboard.php:222 include/template/dashboard.php:207
 msgid "Action en retard"
 msgstr ""
 
-#: include/template/dashboard.php:247
+#: include/template/dashboard.php:247 include/template/dashboard.php:232
 msgid "Aucune action en retard"
 msgstr ""
 
-#: include/template/dashboard.php:253
+#: include/template/dashboard.php:253 include/template/dashboard.php:238
 msgid "Action pour aujourd'hui"
 msgstr ""
 
-#: include/template/dashboard.php:281
+#: include/template/dashboard.php:281 include/template/dashboard.php:264
 msgid "Fournisseurs à payer aujourd'hui"
 msgstr ""
 
-#: include/template/dashboard.php:282
+#: include/template/dashboard.php:282 include/template/dashboard.php:265
 msgid "Fournisseurs en retad"
 msgstr ""
 
-#: include/template/dashboard.php:283
+#: include/template/dashboard.php:283 include/template/dashboard.php:266
 msgid "Encaissement clients aujourd'hui"
 msgstr ""
 
-#: include/template/dashboard.php:284
+#: include/template/dashboard.php:284 include/template/dashboard.php:267
 msgid "Clients en retard"
 msgstr ""
 
@@ -6439,4 +6461,29 @@ msgstr ""
 
 #: include/ext/tools/raw.php:84
 msgid "lettrage"
+msgstr ""
+
+#: include/ac_common.php:317
+msgid "Erreur"
+msgstr ""
+
+#: include/class_html_input.php:319
+msgid "Journaux"
+msgstr ""
+
+#: include/class_html_input.php:373
+msgid "Choix des categories"
+msgstr ""
+
+#: include/class_html_input.php:804
+msgid "choix des journaux"
+msgstr ""
+
+#: include/ext/amortis/include/class_am_card.php:56
+msgid "Ajout d'un bien à amortir"
+msgstr ""
+
+#: include/ext/amortis/include/template/material_detail.php:128
+#, php-format
+msgid "Différence entre le montant à amortir et le montant amorti = %d'</h2>"
 msgstr ""

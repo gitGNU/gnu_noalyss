@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-16 12:54+0100\n"
+"POT-Creation-Date: 2014-03-02 05:03+0100\n"
 "PO-Revision-Date: 2014-02-21 21:35+0100\n"
 "Last-Translator: dany\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -114,6 +114,7 @@ msgid " dernière sauvegarde "
 msgstr "laatste back-up"
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:113
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:123
 msgid " destinataire "
 msgstr "Ontvanger"
 
@@ -247,7 +248,7 @@ msgstr "Activa een jaar"
 msgid "Actif avec un solde crediteur"
 msgstr ""
 
-#: include/template/dashboard.php:105
+#: include/template/dashboard.php:105 include/template/dashboard.php:71
 #, fuzzy
 msgid "Action"
 msgstr "Actie"
@@ -265,7 +266,7 @@ msgstr "Actie management"
 msgid "Action Sauvée"
 msgstr "Opgeslagen Operatie"
 
-#: include/template/dashboard.php:222
+#: include/template/dashboard.php:222 include/template/dashboard.php:207
 #, fuzzy
 msgid "Action en retard"
 msgstr "Verboden Actie"
@@ -281,7 +282,7 @@ msgstr "Verboden Actie"
 msgid "Action non accessible"
 msgstr "Folder niet Bereikbaar"
 
-#: include/template/dashboard.php:253
+#: include/template/dashboard.php:253 include/template/dashboard.php:238
 msgid "Action pour aujourd'hui"
 msgstr "Voor vaandag"
 
@@ -359,6 +360,7 @@ msgstr "Help de wiki"
 #: include/cat_document.inc.php:55 include/template/dashboard.php:188
 #: include/ext/import_account/include/template/parameter_tva_add.php:52
 #: include/anc_pa.inc.php:127 include/anc_pa.inc.php:225
+#: include/template/dashboard.php:29
 msgid "Ajout"
 msgstr "Toevoegen"
 
@@ -372,6 +374,11 @@ msgstr "Actie Toevoegen"
 #: include/ext/modop/modop_display.php:98
 msgid "Ajout article"
 msgstr "Artikel Toevoegen"
+
+#: include/ext/amortis/include/class_am_card.php:56
+#, fuzzy
+msgid "Ajout d'un bien à amortir"
+msgstr "Hoewel demping"
 
 #: include/template/periode_add_exercice.php:21
 #, fuzzy
@@ -535,6 +542,7 @@ msgstr "Lijfrentes"
 #: include/template/dashboard.php:343
 #: include/ext/amortis/include/template/material_add.php:51
 #: html/ajax_card.php:284 include/ajax_mod_predf_op.php:56
+#: include/template/dashboard.php:322
 msgid "Annuler"
 msgstr "Annuleren Reactie"
 
@@ -753,7 +761,7 @@ msgstr "Geen Plan"
 msgid "Aucun poste trouvé"
 msgstr "Geen Enkele periode van stuurprogramma"
 
-#: include/template/dashboard.php:59
+#: include/template/dashboard.php:59 include/template/dashboard.php:195
 msgid "Aucun rapport défini"
 msgstr "Geen Enkele available rapport"
 
@@ -761,12 +769,13 @@ msgstr "Geen Enkele available rapport"
 msgid "Aucun résultat"
 msgstr "Geen resultaten"
 
-#: include/template/dashboard.php:247
+#: include/template/dashboard.php:247 include/template/dashboard.php:232
 #, fuzzy
 msgid "Aucune action en retard"
 msgstr "van clients"
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:123
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:133
 #, fuzzy
 msgid "Aucune adresse email trouvée"
 msgstr "Geen Enkele periode van stuurprogramma"
@@ -820,7 +829,7 @@ msgstr "Geen geopende periode"
 msgid "Aucune opération pour l'exercice courant"
 msgstr "Geen operatie in het lopende jaar"
 
-#: include/template/dashboard.php:35
+#: include/template/dashboard.php:35 include/template/dashboard.php:171
 msgid "Aucune periode par defaut"
 msgstr "Geen periode van stuurprogramma"
 
@@ -829,6 +838,7 @@ msgid "Aucune periode trouvée"
 msgstr "Geen Enkele periode van stuurprogramma"
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:120
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:130
 msgid "Aucune pièce à envoyer"
 msgstr "Geen ruimte om te sturen"
 
@@ -1034,6 +1044,7 @@ msgid "Calculatrice"
 msgstr "Rekenmachine"
 
 #: include/template/dashboard.php:9 include/ajax_calendar_zoom.php:23
+#: include/class_html_input.php:779 include/template/dashboard.php:6
 msgid "Calendrier"
 msgstr "Kalender"
 
@@ -1043,6 +1054,7 @@ msgstr "Categorie"
 
 #: include/class_document_modele.php:67
 #: include/template/forecast-detail.php:11 include/template/fiche_list.php:45
+#: include/class_html_input.php:367
 msgid "Catégorie"
 msgstr "Categorie"
 
@@ -1222,6 +1234,11 @@ msgstr "BTW-keuze"
 msgid "Choix de la catégorie"
 msgstr "Categorie Toevoegen"
 
+#: include/class_html_input.php:373
+#, fuzzy
+msgid "Choix des categories"
+msgstr "Categorie Toevoegen"
+
 #: include/class_acc_bilan.php:83
 msgid "Choix du bilan"
 msgstr "Keuze van handelsbalans"
@@ -1259,12 +1276,12 @@ msgstr "Klant"
 msgid "Client incorrect"
 msgstr "Verkeerde balans"
 
-#: include/template/dashboard.php:284
+#: include/template/dashboard.php:284 include/template/dashboard.php:267
 #, fuzzy
 msgid "Clients en retard"
 msgstr "Verkeerde balans"
 
-#: include/template/dashboard.php:60
+#: include/template/dashboard.php:60 include/template/dashboard.php:197
 msgid "Cliquez ici pour mettre à jour vos préférences"
 msgstr "Click here OM UW voorkeuren kunt veranderen"
 
@@ -1769,7 +1786,7 @@ msgstr "Zoals in Het boek"
 #: include/template/ledger_detail_misc.php:27
 #: include/template/ledger_detail_ven.php:25
 #: include/template/print_ledger_simple.php:7
-#: include/template/stock_inv.php:34
+#: include/template/stock_inv.php:34 include/template/dashboard.php:316
 msgid "Date"
 msgstr "Datum"
 
@@ -1905,7 +1922,7 @@ msgstr ""
 msgid "Dernière pièce numérotée"
 msgstr "Laatste stuk genummerd"
 
-#: include/template/dashboard.php:291
+#: include/template/dashboard.php:291 include/template/dashboard.php:273
 msgid "Dernières opérations"
 msgstr "Recente activiteit"
 
@@ -1934,6 +1951,7 @@ msgstr "Recente activiteit"
 #: include/template/tag_detail.php:18 include/template/tag_list.php:14
 #: include/template/tag_search_select.php:19
 #: include/template/tag_select.php:19 include/menu.inc.php:114
+#: include/class_html_input.php:327 include/template/dashboard.php:318
 msgid "Description"
 msgstr "Beschrijving"
 
@@ -1987,6 +2005,13 @@ msgstr "Verschil"
 #: include/ext/amortis/include/template/material_detail.php:128
 #: include/ext/amortis/include/template/material_display.php:102
 msgid "Différence entre le montant à amortir et le montant amorti ="
+msgstr ""
+"Verschil tussen het bedrag dat moet worden afgeschreven en afgeschreven "
+"bedrag ="
+
+#: include/ext/amortis/include/template/material_detail.php:128
+#, fuzzy, php-format
+msgid "Différence entre le montant à amortir et le montant amorti = %d'</h2>"
 msgstr ""
 "Verschil tussen het bedrag dat moet worden afgeschreven en afgeschreven "
 "bedrag ="
@@ -2348,6 +2373,7 @@ msgstr "This Actie Wissen"
 #: include/ajax_view_mod_stock.php:55 include/anc_group.inc.php:88
 #: include/card_attr.inc.php:86 include/template/detail-action.php:159
 #: include/template/detail-action.php:189
+#: include/ext/amortis/include/template/material_detail.php:135
 msgid "Effacer"
 msgstr "Wissen"
 
@@ -2436,7 +2462,7 @@ msgstr "Hoofding"
 msgid "En-tête facture fournisseur"
 msgstr "Hoefdbrief Leverancier"
 
-#: include/template/dashboard.php:283
+#: include/template/dashboard.php:283 include/template/dashboard.php:266
 msgid "Encaissement clients aujourd'hui"
 msgstr ""
 
@@ -2499,10 +2525,12 @@ msgid "Envoi des factures par email"
 msgstr "Facturen versturen per e-mail"
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:116
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:126
 msgid "Envoi echoué"
 msgstr "Het verzenden mislukt"
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:113
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:123
 #, fuzzy
 msgid "Envoi facture "
 msgstr "Facturatie Gegevens"
@@ -2518,6 +2546,11 @@ msgstr "Het verzenden van alleen die met een e-mailadres en een factuur"
 #: include/ext/invoicing/include/invoicing.inc.php:124
 msgid "Envoyer copie à l'expéditeur"
 msgstr "Kopie naar afzender"
+
+#: include/ac_common.php:317
+#, fuzzy
+msgid "Erreur"
+msgstr "Fout:"
 
 #: include/forecast.inc.php:373
 msgid "Erreur : "
@@ -2784,7 +2817,10 @@ msgstr "Krachtdadig optreden"
 #: include/template/ledger_detail_bottom.php:101
 #: include/template/ledger_detail_bottom.php:102
 #: include/template/ledger_detail_top.php:11
-#: include/template/search_top.php:36
+#: include/template/search_top.php:36 include/class_html_input.php:414
+#: include/class_html_input.php:415 include/class_html_input.php:430
+#: include/class_html_input.php:689
+#: include/ext/amortis/include/template/material_detail.php:136
 #, php-format
 msgid "Fermer"
 msgstr "Dicht"
@@ -2923,12 +2959,12 @@ msgstr "Leverancier"
 msgid "Fournisseur "
 msgstr "Leverancier"
 
-#: include/template/dashboard.php:282
+#: include/template/dashboard.php:282 include/template/dashboard.php:265
 #, fuzzy
 msgid "Fournisseurs en retad"
 msgstr "Leverancier"
 
-#: include/template/dashboard.php:281
+#: include/template/dashboard.php:281 include/template/dashboard.php:264
 msgid "Fournisseurs à payer aujourd'hui"
 msgstr ""
 
@@ -3475,6 +3511,11 @@ msgstr "Module bestaat niet"
 #: include/class_acc_ledger.php:3305
 msgid "Journal n'existe pas"
 msgstr "Inloggen bestaat niet"
+
+#: include/class_html_input.php:319
+#, fuzzy
+msgid "Journaux"
+msgstr "Kranten"
 
 #: include/class_acc_ledger.php:3232
 #, fuzzy
@@ -4205,6 +4246,7 @@ msgstr "Actie Toevoegen"
 #: include/ext/transform/include/template/listing_client_display.php:36
 #: include/ajax_mod_stock_repo.php:39 include/anc_pa.inc.php:194
 #: include/template/fiche_list.php:37 include/template/profile.php:33
+#: include/class_html_input.php:326
 msgid "Nom"
 msgstr "Naam"
 
@@ -4661,7 +4703,7 @@ msgstr "Bewijs nummer"
 msgid "Paiement"
 msgstr "Wijzingen bewaard"
 
-#: include/template/dashboard.php:160
+#: include/template/dashboard.php:160 include/template/dashboard.php:126
 #, fuzzy
 msgid "Paiement client"
 msgstr "Elektronisch betalen"
@@ -4674,7 +4716,7 @@ msgstr "Later in te brengen"
 msgid "Paiement enregistré dans "
 msgstr "Betaling geregistreerd in"
 
-#: include/template/dashboard.php:135
+#: include/template/dashboard.php:135 include/template/dashboard.php:101
 #, fuzzy
 msgid "Paiement fournisseur"
 msgstr "van Leveranciers"
@@ -4796,6 +4838,7 @@ msgid "Pas d'anomalie détectée"
 msgstr ""
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:75
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:80
 #, fuzzy
 msgid "Pas de conversion en PDF disponible"
 msgstr "Journaal available Geen"
@@ -4831,7 +4874,7 @@ msgstr "Betaald"
 msgid "Payé par"
 msgstr "Betaald deur"
 
-#: include/template/dashboard.php:185
+#: include/template/dashboard.php:185 include/template/dashboard.php:10
 msgid "Pense-Bête"
 msgstr "Je Doen fractie Lijst"
 
@@ -5445,7 +5488,7 @@ msgstr "Newline"
 #: include/report.inc.php:118 include/template/dashboard.php:342
 #: include/ext/modop/modop_display.php:311 html/ajax_card.php:193
 #: html/ajax_card.php:438 include/ajax_mod_predf_op.php:55
-#: include/cfgledger.inc.php:122
+#: include/cfgledger.inc.php:122 include/template/dashboard.php:321
 msgid "Sauve"
 msgstr "OPSLAAN"
 
@@ -5468,6 +5511,7 @@ msgstr "OPSLAAN"
 #: include/template/modele_document.php:118
 #: include/template/profile_sec_repository.php:59
 #: include/template/stock_inv.php:104 include/template/user_sec_profile.php:58
+#: include/ext/amortis/include/template/material_detail.php:133
 msgid "Sauver"
 msgstr "OPSLAAN"
 
@@ -5535,7 +5579,7 @@ msgstr ""
 "Als u bevestigt, wordt de pagina herladen en je zou kunnen verliezen wat je "
 "hebt gedaan"
 
-#: include/template/dashboard.php:90
+#: include/template/dashboard.php:90 include/template/dashboard.php:60
 #, fuzzy
 msgid "Situation"
 msgstr "Visualisatie"
@@ -5781,7 +5825,7 @@ msgstr "Archief"
 
 #: include/template/dashboard.php:338 include/template/detail-action.php:227
 #: include/template/action_search_result.php:50
-#: include/template/dashboard.php:191
+#: include/template/dashboard.php:191 include/template/dashboard.php:317
 msgid "Titre"
 msgstr "Titel"
 
@@ -5964,6 +6008,7 @@ msgstr ""
 #: include/ext/transform/include/template/listing_assujetti_representative.php:71
 #: include/template/action_search_result.php:56 include/card_attr.inc.php:96
 #: include/template/menu_detail.php:51 include/menu.inc.php:115
+#: include/class_html_input.php:328
 msgid "Type"
 msgstr "Type"
 
@@ -6109,7 +6154,8 @@ msgstr "Ongeldige waarden"
 #: include/ext/import_account/include/template/test_operation.php:39
 #: include/ext/import_account/include/template/upload_operation.php:43
 #: include/ajax_add_menu.php:142 include/ajax_get_menu_detail.php:115
-#: include/ajax_preference.php:183
+#: include/ajax_preference.php:183 include/class_html_input.php:350
+#: include/class_html_input.php:391
 msgid "Valider"
 msgstr "Bevestigen"
 
@@ -6403,6 +6449,11 @@ msgid "ce code n'a pas de poste comptable, créez ce poste : ["
 msgstr ""
 "Deze code heeft geen financieel administratieve post, maken dit bericht: ["
 
+#: include/class_html_input.php:804
+#, fuzzy
+msgid "choix des journaux"
+msgstr "Financiele"
+
 #: include/class_acc_ledger.php:3527
 #, fuzzy
 msgid "choix du type de journal"
@@ -6445,6 +6496,9 @@ msgstr "in NOALYSS"
 #: include/template/dashboard.php:112 include/template/dashboard.php:124
 #: include/template/dashboard.php:140 include/template/dashboard.php:150
 #: include/template/dashboard.php:165 include/template/dashboard.php:175
+#: include/template/dashboard.php:78 include/template/dashboard.php:90
+#: include/template/dashboard.php:106 include/template/dashboard.php:116
+#: include/template/dashboard.php:131 include/template/dashboard.php:141
 #, fuzzy
 msgid "détail"
 msgstr "Detail"
@@ -6804,4 +6858,3 @@ msgstr "U bevestigt"
 #: include/class_acc_ledger.php:1870
 msgid "vous ne pouvez pas encoder à une date antérieure"
 msgstr "Mag Niet voor this U gegeven coderen"
-
