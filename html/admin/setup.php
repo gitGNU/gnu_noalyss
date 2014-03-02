@@ -3,7 +3,7 @@
     <META http-equiv="Content-Type" content="text/html; charset=UTF8">
     </title>
 <head>
-<LINK REL="stylesheet" type="text/css" href="../style.css" media="screen">
+<LINK REL="stylesheet" type="text/css" href="../style-classic.css" media="screen">
 <link rel="icon" type="image/ico" href="../favicon.ico" />
  <META http-equiv="Content-Type" content="text/html; charset=UTF8">
  <script type="text/javascript" charset="<div>utf-8</div>" language="javascript" src="../js/prototype.js"></script>

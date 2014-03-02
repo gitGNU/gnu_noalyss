@@ -268,7 +268,7 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
 	$Res = $cn->exec_sql("select the_filestyle from theme
                            where the_name='" . $p_theme . "'");
 	if (Database::num_row($Res) == 0)
-	    $style = "style.css";
+	    $style = "style-classic.css";
 	else
 	{
 	    $s = Database::fetch_array($Res, 0);
@@ -277,7 +277,7 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
     }
     else
     {
-	$style = "style.css";
+	$style = "style-classic.css";
     } // end if
 	$title="NOALYSS";
 
@@ -348,7 +348,7 @@ function html_min_page_start($p_theme="", $p_script="", $p_script2="")
 	$Res = $cn->exec_sql("select the_filestyle from theme
                            where the_name='" . $p_theme . "'");
 	if (Database::num_row($Res) == 0)
-	    $style = "style.css";
+	    $style = "style-classic.css";
 	else
 	{
 	    $s = Database::fetch_array($Res, 0);
@@ -357,7 +357,7 @@ function html_min_page_start($p_theme="", $p_script="", $p_script2="")
     }
     else
     {
-	$style = "style.css";
+	$style = "style-classic.css";
     } // end if
     echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 FINAL//EN">';
     echo "<HTML>";
