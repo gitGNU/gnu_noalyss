@@ -34,12 +34,12 @@ class IDate extends HtmlInput
 	if( $this->id=="")
 	  $this->id=self::generate_id($this->name);
         $r='<input type="text" name="'.$this->name.'" id="'.$this->id.'" '.
-           'style="border:solid 1px blue;" '.
+           ' class="input_text" '.
            'size="8" '.
            ' value ="'.$this->value.'" '.
            '/>'.
            '<img src="image/x-office-calendar.png" id="'.$this->id.'_trigger"'.
-           ' style="cursor: pointer; border: 1px solid red;" '.
+           ' style="cursor: pointer" '.
            'onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" />';
         $r.='<script type="text/javascript">'.
             'Calendar.setup({'.

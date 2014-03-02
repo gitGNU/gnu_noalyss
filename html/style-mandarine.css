@@ -39,12 +39,12 @@ table.sortable th,  table.table_large th,table.result th {
 
 h2 {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
-    color:#888;
+    color: #E95353;
     margin:1px;
     padding:1px;
     font-style: italic;
     font-size:15px;
-    font-size:1.2rem;
+    font-size: 1.3rem;
 }
 div.info {
     background:#879ED4;
@@ -402,14 +402,14 @@ a.detail
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     text-decoration: none;
     display: block;
-    color: #FF7F50;
+    color: #DB6906;
 }
 
 a.detail:hover
 {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     color: #FFFFFF;
-    background-color:#FF6600;
+    background-color: #FF6600;
     text-decoration: none;
     display: block;
 }
@@ -438,7 +438,7 @@ div.content a {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     text-decoration: none;
     display: block;
-    color: #FF7F50;
+    color: #EF5F2B;
     padding: 0px;
 
 }
@@ -1434,6 +1434,7 @@ div.box tr.even {
     background-color:#FFF1ED;
     
 }
+#FF523F
 #jrn_name_div h2{
     font-size: 2.4rem;
 }
