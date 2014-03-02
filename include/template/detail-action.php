@@ -122,7 +122,7 @@
           </TR>
           <tr>
             <TD>
-	    <?php echo _('Affecté')?>
+	    <?php echo _('Destinataire')?>
             </TD>
             <td>
               <?php echo $str_ag_dest;?>
