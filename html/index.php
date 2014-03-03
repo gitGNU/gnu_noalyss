@@ -114,9 +114,7 @@ if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'confi
     exit(0);
 }
 
-echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">
-
-<HTML>
+echo '<!doctype html><HTML>
 <head>
 <TITLE> NOALYSS </TITLE>
 <link rel="shortcut icon" type="image/ico" href="favicon.ico" />
@@ -157,23 +155,21 @@ background-repeat: repeat-x;
 background-position: left;
 text-decoration:none;
 font-family: helvetica,arial,sans-serif;
-
-border-style:  outset ;
-border-color:  blue ;
-border-width:1 1 1 1;
-padding:2 4 2 4;
+border-width:0px;
+padding:2px 4px 2px 4px;
 cursor:pointer;
-margin:1 2 1 2;
--moz-border-radius:2 2;
-border-radius:2 2;
+margin:1px 2px 1px 2px;
+-moz-border-radius:2px 2px;
+border-radius:2px 2px;
 
 }
 .button:hover {
 cursor:pointer;
 background-color:white;
-border-style:  inset ;
+border-style:  solid;
+border-width:  0px;
 font-color:blue;
-margin:1 2 1 2;
+margin:1px 2px 1px 2px;
 }
 </style>
 <script src="js/scripts.js" type="text/javascript"></script>
@@ -196,7 +192,7 @@ version  6.7.2.0 - '.$my_domain.'
 <BR>
 <BR>
 <center>
-<IMG SRC="image/logo7.png" alt="NOALYSS">
+<IMG SRC="image/logo6720.png" alt="NOALYSS">
 <BR>
 <BR>
 <BR>

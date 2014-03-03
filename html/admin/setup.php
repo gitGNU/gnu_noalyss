@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 FINAL//EN"><HTML><HEAD>
+<!doctype html><HTML><HEAD>
     <TITLE>Noaliss - Mise à jour</TITLE>
     <META http-equiv="Content-Type" content="text/html; charset=UTF8">
     </title>
@@ -11,7 +11,7 @@
 </head>
 <body>
 <p align="center">
-  <IMG SRC="../image/logo7.png" alt="Logo noaliss">
+  <IMG SRC="../image/logo6720.png" alt="NOALYSS">
 </p>
 <?php
 
