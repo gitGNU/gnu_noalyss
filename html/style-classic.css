@@ -1424,7 +1424,7 @@ div.box  {
     font-size:14px;
     font-size:0.90rem;
 }
-@media only screen and (max-width: 1401px) {
+@media only screen and (max-width: 1426px) {
     div.box {
     width: 48%;
     height: 380px;
