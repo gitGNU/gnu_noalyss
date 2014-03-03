@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: NOALYSS 672\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-02 05:03+0100\n"
-"PO-Revision-Date: 2014-03-02 05:12+0100\n"
+"PO-Revision-Date: 2014-03-02 18:31+0100\n"
 "Last-Translator: Dany De Bontridder <danydb@noalyss.eu>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
@@ -1554,7 +1554,7 @@ msgstr "Confirm removal"
 
 #: include/template/periode_add_exercice.php:15
 msgid "Confirmez vous l'ajout d\\'un exercice comptable ?"
-msgstr ""
+msgstr "Do you want to add an periode ?"
 
 #: include/category_card.inc.php:66 include/database.item.php:51
 #: include/template/detail-action.php:74
@@ -1609,11 +1609,10 @@ msgid "Création automatique du poste comptable"
 msgstr "Automatic Creation of the accounting item"
 
 #: include/template/fiche_def_input.php:23
-#, fuzzy
 msgid ""
 "Création automatique du poste comptable uniquement s'il n'y a qu'un seul "
 "poste"
-msgstr "Automatic Creation of the accounting entry if only single"
+msgstr "Automatic creation of the accounting entry if only single"
 
 #: include/template/fiche_def_input.php:23
 msgid ""
@@ -1672,7 +1671,6 @@ msgid "Crédit"
 msgstr "Credit"
 
 #: include/template/letter_prop.php:151
-#, fuzzy
 msgid "Créditeur"
 msgstr "Credit"
 
@@ -1697,14 +1695,13 @@ msgid "D/C"
 msgstr "D / C"
 
 #: include/ext/tools/raw.php:83
-#, fuzzy
 msgid "DC"
 msgstr "D / C"
 
 #: include/template/stock_summary_table.php:89
 #: include/template/stock_summary_table.php:123
 msgid "DIFF"
-msgstr ""
+msgstr "DIFF"
 
 #: include/template/ledger_search.php:8
 msgid "Dans le journal"
@@ -1745,9 +1742,8 @@ msgid "Date Acquisition"
 msgstr "Date Acquisition"
 
 #: include/ext/tools/raw.php:75
-#, fuzzy
 msgid "Date DMY"
-msgstr "Date"
+msgstr "Date DMY"
 
 #: include/database.item.php:162
 msgid "Date Fin"
@@ -1770,12 +1766,10 @@ msgid "Date de calcul incorrect"
 msgstr "Date incorrect calculation"
 
 #: include/template/forecast_cat.php:8
-#, fuzzy
 msgid "Date de début"
 msgstr "Start date"
 
 #: include/template/forecast_cat.php:9
-#, fuzzy
 msgid "Date de fin"
 msgstr "End date"
 
@@ -1784,14 +1778,12 @@ msgid "Date de l'opération"
 msgstr "Date of transaction"
 
 #: include/template/action_search.php:51
-#, fuzzy
 msgid "Date de rappel après"
 msgstr "Reminder"
 
 #: include/template/action_search.php:57
-#, fuzzy
 msgid "Date de rappel avant"
-msgstr "Reminder"
+msgstr "Reminder before"
 
 #: include/database.item.php:139 include/lettering.account.inc.php:65
 #: include/lettering.card.inc.php:69 include/lettering.gestion.inc.php:28
