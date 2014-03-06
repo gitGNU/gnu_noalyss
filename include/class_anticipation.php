@@ -194,6 +194,7 @@ class Anticipation
      */
     private function form_cat_mod()
     {
+        global $g_user;
         $a=new Forecast($this->cn,$this->f_id);
         $a->load();
         $name=new IText('an_name');
