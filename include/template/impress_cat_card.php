@@ -18,7 +18,7 @@
   <td><?php echo _('Jusque')?></td>
   <td><?php echo $str_end?></td>
 <tr id="allcard">
-	<td>Toutes les fiches</td>
+	<td><?php echo _('Pour toutes les catégories')?></td>
 	<td><?php echo $str_icall?></td>
 </tr>
 </tr>

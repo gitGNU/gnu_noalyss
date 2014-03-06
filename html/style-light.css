@@ -1,7 +1,7 @@
  /* <style type="text/css"> */
 
 BODY {
-    background-color:#EDF3FF;
+    background-color: #FDFDFD;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     padding: 0px 0px 0px 0px ;
     margin:0px;
@@ -258,8 +258,8 @@ td.mtitle {
     text-align:center;
     width:250px;
     height :30px;
-    background-color:#DDE6FF;
-    border:1px solid #99B1DF;
+    background-color: #F1F1F1;
+    border: 1px solid #000000;
     border-radius:5px;
 }
 td.msubtitle {
@@ -282,7 +282,7 @@ span.even {
 }
 
 tr.odd {
-    background-color: #DDE6FF;
+    background-color: #F1F1F1;
 }
 tr.highlight {
     font-weight: bold;
@@ -303,10 +303,10 @@ td.cell{
 }
 td.selectedcell{
     border-style:solid;
-    border-color:#0000FF;
+    border-color: #000009;
     border-width:1px ;
     font-weight: bold;
-    background:#5D90CD ;
+    background: #909BA7;
     color:#FFFFFF;
     text-align:center;
     width:120px;
@@ -804,7 +804,7 @@ a#anchorbutton, .button, a.button,div.content a.button {
     font-weight: bold;
     text-decoration:none;
     font-family: arial,verdana,sans-serif,helvetica;
-    background-image: url("image/bg-submit2.gif");
+    background-image: url("image/bg-submit5.png");
     background-repeat: repeat-x;
     background-position: left;
     border-color:  #0000FF;
@@ -830,7 +830,7 @@ a#smallanchorbutton, .smallbutton, a.smallbutton,div.content a.smallbutton {
     font-weight: bold;
     text-decoration:none;
     font-family: arial,verdana,sans-serif,helvetica;
-    background-image: url("image/bg-submit2.gif");
+    background-image: url("image/bg-submit5.png");
     background-repeat: repeat-x;
     background-position: left;
     font-size:12px;
@@ -1206,7 +1206,7 @@ h1.title {
     text-transform: uppercase;
 }
 h2.title {
-    background-color:#879ED4;
+    background-color: #C4CBDB;
     color:#FFFFFF;
     text-align:center;
     padding:0.24%;
