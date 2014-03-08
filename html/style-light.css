@@ -127,6 +127,8 @@ td.tool a.mtitle {
     text-decoration:none;
     display:inline;
     color: #0000FF;
+    text-align:center;
+
     
 }
 td.tool a.mtitle:hover {
@@ -134,6 +136,7 @@ td.tool a.mtitle:hover {
     display:inline;
     color: #00008B;
     background-color:#5D90CD;
+    text-align:center;
 
 }
 #top {
@@ -150,6 +153,10 @@ td.tool a.mtitle:hover {
     margin: 0px;
     font-size:12.16px;
     font-size:0.76rem;
+}
+#module table {
+    border:1px solid #5D90CD;
+    text-align:center;
 }
 div.u_subt2menu {
     background-color:#EDF3FF;
@@ -243,8 +250,12 @@ table.document th{
 }
 
 table.mtitle {
-    border:0;
-    text-align:center
+    border:0px;
+    text-align:center;
+    border-collapse:separate;
+    border-spacing:5px;
+    margin-top:5px;
+    
 }
 td.mshort {
     height:15px;
@@ -259,8 +270,6 @@ td.mtitle {
     width:250px;
     height :30px;
     background-color: #F1F1F1;
-    border: 1px solid #000000;
-    border-radius:5px;
 }
 td.msubtitle {
     text-align:center;
@@ -302,15 +311,13 @@ td.cell{
     
 }
 td.selectedcell{
-    border-style:solid;
-    border-color: #000009;
-    border-width:1px ;
+  
     font-weight: bold;
     background: #909BA7;
     color:#FFFFFF;
     text-align:center;
     width:120px;
-    border-radius:5px;
+  
 }
 a.mtitle {
     text-decoration:none;
@@ -859,18 +866,31 @@ a#smallanchorbutton:hover, .smallbutton:hover,a.smallbutton:hover,div.content a.
 
 }
 td.tool {
-    border: solid 1px gray;
     background-color: #FFFFFF;
-    border-bottom-width: 2px;
     text-align:center;
-    border-radius:2px;
+}
+td.tool:hover,td.tool:hover a
+{
+    text-align: center;
+    text-decoration:none;
+    display:inline;
+    color: #00008B;
+    background-color:#5D90CD;
 }
 div.topmenu {
 	font-size:14px;
 	font-size:0.85rem;
         
 }
-
+div.topmenu table {
+    border-spacing:0px;
+   
+    
+}
+div.topmenu td {
+    border-width:0px;
+    border-radius:0px;
+}
 #dossier h2{
     color:#00008B;
     display:inline;
