@@ -243,7 +243,9 @@ table.document th{
 }
 
 table.mtitle {
-    border:0;
+    border:0px;
+    border-collapse:separate;
+    border-spacing:5px;
     text-align:center
 }
 td.mshort {
@@ -259,8 +261,8 @@ td.mtitle {
     width:250px;
     height :30px;
     background-color:#DDE6FF;
-    border:1px solid #99B1DF;
-    border-radius:5px;
+    border:0px
+    
 }
 td.msubtitle {
     text-align:center;
@@ -310,8 +312,7 @@ td.selectedcell{
     color:#FFFFFF;
     text-align:center;
     width:120px;
-    border-radius:5px;
-}
+   }
 a.mtitle {
     text-decoration:none;
     display:inline;
@@ -870,7 +871,10 @@ div.topmenu {
 	font-size:0.85rem;
         
 }
-
+div.topmenu table {
+    border-collapse:collapse;
+  
+}
 #dossier h2{
     color:#00008B;
     display:inline;

@@ -140,7 +140,7 @@ color:red;
 
 }
 .input_text {
-border:groove 1px blue;
+border:1px solid blue;
 margin:1px;
 }
 .button {
@@ -250,6 +250,7 @@ echo '
 <div  style="position:absolute;bottom:0em;border:1px solid red;text-align:right;width:20em;">
 <span style="display:block">Pour une meilleure expérience web, nous vous conseillons <a href="http://www.mozilla.com/fr/">firefox</a></span>
 <span style="display:block">For a better web experience, we recommend you <a href="http://www.mozilla.com/en/">firefox</a></span>
+</div>
  <script> SetFocus('p_user'); </script>
 </body>
 </html>
