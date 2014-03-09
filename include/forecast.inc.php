@@ -370,7 +370,7 @@ if (isset($_REQUEST['f_id']) && $sa == "vw")
     }
     catch (Exception $e)
     {
-	echo "<div class=\"error\"><p>" . _("Erreur : ") . $e->getMessage() . '</p><p>' . _('Vous devez corriger') . '</p></div>';
+	echo "<div class=\"error\"><p>" . _("Erreur")." : " . $e->getMessage() . '</p><p>' . _('Vous devez corriger') . '</p></div>';
 	$anc = new Anticipation($cn, $_GET['f_id']);
 	echo '<div class="content">';
 	/* display a blank form for name and category */
