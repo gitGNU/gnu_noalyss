@@ -497,7 +497,7 @@ class Follow_Up
 			$num->name = "e_march" . $i . "_tva_amount";
 			$num->id = "e_march" . $i . "_tva_amount";
 			$num->value = ($tmp_ad) ? $tmp_ad->get_parameter('tva_amount') : 0;
-			$num->javascript = " onchange=\"compute_ledger(' . $i . ')\"";
+			$num->javascript = " onchange=\"compute_ledger('" . $i ." ')\"";
 			$num->size = 8;
 			$aArticle[$i]['tva'] = $num->input();
 
