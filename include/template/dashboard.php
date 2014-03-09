@@ -64,7 +64,11 @@ if ( ! empty ($array) )  {
 
 			</th>
 			<th>
+                            <?php echo date('d.m.y'); ?>
 			</th>
+                        <th>
+                            <?php echo _('En retard') ?>
+                        </th>
 		</tr>
 		<tr>
 			<td>
