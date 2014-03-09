@@ -1919,8 +1919,8 @@ function display_task(p_id)
             new Effect.Highlight(obj.id, {scroll: window, queue: 'end'});
         }}
     );
-    $(p_id).style.top = posY;
-    $(p_id).style.left = posX;
+    $(p_id).style.top = posY+'px';
+    $(p_id).style.left = posX+'px';
     $(p_id).style.display = 'block';
 
 }
@@ -2336,8 +2336,8 @@ function search_display_tag(p_dossier, p_prefix)
                         code_html = unescape_xml(code_html);
                         remove_waiting_box();
                         add_div({id: p_prefix + 'tag_div', style: '', cssclass: 'inner_box', drag: 1});
-                        $(p_prefix + 'tag_div').style.top = posY - 80;
-                        $(p_prefix + 'tag_div').style.left = posX - 200;
+                        $(p_prefix + 'tag_div').style.top = posY - 80+"px";
+                        $(p_prefix + 'tag_div').style.left = posX - 200+"px";
                         remove_waiting_box();
                         $(p_prefix + 'tag_div').innerHTML = code_html;
 
