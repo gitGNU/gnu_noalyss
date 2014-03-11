@@ -65,9 +65,10 @@ endif;?>
 			echo "</tr><tr>";
 			continue;
 		    }
+                    $style="tool";
 		    if ($row['me_code']==$selected)
 		    {
-			$style="background:red";
+			$style='toolselected';
 		    }
 		    if ( $row['me_url']!='')
 		    {
@@ -84,7 +85,7 @@ endif;?>
 				$url="do.php?gDossier=".Dossier::id()."&ac=".$row['me_code'];
 		    }
 		    ?>
-		<td class="tool" style="<?php echo $style?>">
+		<td class="<?php echo $style?>">
 			<a class="mtitle" href="<?php echo $url?>" title="<?php echo _($row['me_description'])?>" <?php echo $js?> ><?php echo _($row['me_menu'])?></a></td>
 		<?php 
 		    endforeach;
