@@ -4229,8 +4229,27 @@ Ajax.PeriodicalUpdater = Class.create(Ajax.Base, {
 
     if (options.setLeft)
       styles.left = (p[0] - delta[0] + options.offsetLeft) + 'px';
-    if (options.setTop)
-      styles.top  = (p[1] - delta[1] + options.offsetTop)  + 'px';
+   if (options.setTop) {
+       /****
+        * DDB Scroll
+        */
+                var x = 0, y = 0;
+                if( typeof( window.pageYOffset ) == 'number' ) {
+                    // Netscape
+                    x = window.pageXOffset;
+                    y = window.pageYOffset;
+                } else if( document.body && ( document.body.scrollLeft || document.body.scrollTop ) ) {
+                    // DOM
+                    x = document.body.scrollLeft;
+                    y = document.body.scrollTop;
+                } else if( document.documentElement && ( document.documentElement.scrollLeft || document.documentElement.scrollTop ) ) {
+                    // IE6 standards compliant mode
+                    x = document.documentElement.scrollLeft;
+                    y = document.documentElement.scrollTop;
+                }
+      /**** DDB ***/
+      styles.top  = (p[1] - delta[1] + options.offsetTop) + y + 'px';
+  }
 
     if (options.setWidth)
       styles.width  = layout.get('border-box-width')  + 'px';
