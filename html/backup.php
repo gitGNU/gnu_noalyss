@@ -68,12 +68,14 @@ if ( isset ($_REQUEST['sa']) )
             putenv("PGUSER=".phpcompta_user);
             putenv("PGHOST=".phpcompta_psql_host);
             putenv("PGPORT=".phpcompta_psql_port);
+        } else  {
+        die ('Aucune connection');
         }
         
         if ( $_REQUEST['t'] == 'd' )
         {
             $database=domaine."dossier".$_REQUEST['d'];
-            $args= " -Fc -Z9 --no-owner -h ".noalyss_psql_host." -p ".noalyss_psql_port." ".$database;
+            $args= " -Fc -Z9 --no-owner -h ".getenv("PGHOST")." -p ".getenv("PGPORT")." ".$database;
             header('Content-type: application/octet');
             header('Content-Disposition:attachment;filename="'.$database.'.bin"',FALSE);
 
@@ -84,7 +86,7 @@ if ( isset ($_REQUEST['sa']) )
         if ( $_REQUEST['t'] == 'm' )
         {
             $database=domaine."mod".$_REQUEST['d'];
-            $args= " -Fc -Z9 --no-owner -h ".noalyss_psql_host." -p ".noalyss_psql_port." ".$database;
+            $args= " -Fc -Z9 --no-owner -h ".getenv("PGHOST")." -p ".getenv("PGPORT")." ".$database;
             header('Content-type: bin/x-application');
             header('Content-Disposition: attachment;filename="'.$database.'.bin"',FALSE);
             $a=passthru ($cmd.$args);
