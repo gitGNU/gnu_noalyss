@@ -43,6 +43,8 @@ if ( isset ($_REQUEST['sa'] ))
         putenv("PGUSER=" . phpcompta_user);
         putenv("PGHOST=" . phpcompta_psql_host);
         putenv("PGPORT=" . phpcompta_psql_port);
+    } else  {
+        die ('Aucune connection');
     }
 
     $retour='<hr>'.HtmlInput::button_anchor("Retour","?action=restore");
@@ -69,8 +71,6 @@ if ( isset ($_REQUEST['sa'] ))
     // Restore a folder (dossier)
     if ( $_REQUEST['t']=='d')
     {
-        ini_set('upload_max_filesize','25M');
-        ini_set('post_max_size','25M');
         echo '<div class="content" style="width:80%;margin-left:10%">';
 
         $cn=new Database();
@@ -143,9 +143,6 @@ if ( isset ($_REQUEST['sa'] ))
 
     if ( $_REQUEST['t']=='m')
     {
-        ini_set('upload_max_filesize','25M');
-        ini_set('post_max_size','25M');
-
         echo '<div class="content">';
 
         $cn=new Database();
@@ -196,7 +193,7 @@ if ( isset ($_REQUEST['sa'] ))
 
         $new_cn->apply_patch($name,0);
 
-        echo '<span class="error">'.'Ne pas recharger la page, sinon votre base de données sera restaurée une fois de plus'.'</span>';
+        echo '<span class="error">'._('Ne pas recharger la page, sinon votre base de données sera restaurée une fois de plus').'</span>';
         echo $retour;
 
         echo '</div>';
