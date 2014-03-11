@@ -134,7 +134,7 @@ td.tool a.mtitle {
 td.tool a.mtitle:hover {
     text-decoration:none;
     display:inline;
-    color: #00008B;
+    color: #FDFDFD;
     background-color:#5D90CD;
     text-align:center;
 
@@ -332,6 +332,14 @@ a.mtitle:hover {
     color: #00008B;
     background-color:#5D90CD;
 
+}
+td.toolselected a.mtitle {
+    border: solid 1px gray;
+    color: #FFFFFF;
+    border-bottom-width: 2px;
+    text-align:center;
+    border-radius:2px;
+    background-color:#909BA7;
 }
 td.selectedcell a.mtitle,div.content td.selectedcell a.mtitle {
     text-decoration:none;

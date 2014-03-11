@@ -327,6 +327,14 @@ a.mtitle:hover {
     background-color:#FF6600;
 
 }
+td.toolselected a.mtitle {
+    border: solid 1px gray;
+    color: #FFFFFF;
+    border-bottom-width: 2px;
+    text-align:center;
+    border-radius:2px;
+    background-color:#FF7F50;
+}
 td.selectedcell a.mtitle,div.content td.selectedcell a.mtitle {
     text-decoration:none;
     display:block;
@@ -870,6 +878,14 @@ td.tool {
     border-bottom-width: 2px;
     text-align:center;
     border-radius:2px;
+}
+td.toolselected {
+    border: solid 1px gray;
+    color: #FFFFFF;
+    border-bottom-width: 2px;
+    text-align:center;
+    border-radius:2px;
+    background-color:#FF7F50;
 }
 div.topmenu {
 	font-size:14px;

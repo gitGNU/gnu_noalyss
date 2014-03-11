@@ -865,6 +865,22 @@ td.tool {
     text-align:center;
     border-radius:2px;
 }
+td.toolselected  {
+    border: solid 1px gray;
+    color: #FFFFFF;
+    border-bottom-width: 2px;
+    text-align:center;
+    border-radius:2px;
+    background-color:#FF0000;
+}
+td.toolselected a.mtitle {
+    border: solid 1px gray;
+    color: #FFFFFF;
+    border-bottom-width: 2px;
+    text-align:center;
+    border-radius:2px;
+    background-color:#FF0000;
+}
 div.topmenu {
 	font-size:14px;
 	font-size:13.6px;

@@ -132,9 +132,22 @@ td.tool a.mtitle {
 td.tool a.mtitle:hover {
     text-decoration:none;
     display:inline;
-    color: #00008B;
+    color: #FFFFFF;
     background-color:#5D90CD;
 
+}
+td.toolselected a.mtitle {
+    color: #FFFFFF;
+    text-align:center;
+    background-color:#909BA7;
+}
+td.toolselected {
+    border: solid 1px gray;
+    color: #FFFFFF;
+    border-bottom-width: 2px;
+    text-align:center;
+    border-radius:2px;
+    background-color:#909BA7;
 }
 #top {
     float:left;
