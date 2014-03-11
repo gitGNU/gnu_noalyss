@@ -537,11 +537,11 @@ a.document:hover {
     margin:1px;
 }
 .input_text {
-    border:groove 1px #0000FF;
+    border:solid 1px #0000FF;
     margin:1px;
 }
 .input_text:hover {
-    border:groove 1px #0000FF;
+    border:solid 1px #0000FF;
     margin:1px;
     background-color:  #F93;
 }
@@ -680,7 +680,7 @@ div.popup_content {
     filter:alpha(opacity=100);*/
 }
 div.autocomplete {
-    position:relative;
+    position:absolute;
     background-color:#FFFFFF;
     border:1px solid #888;
     margin:0px;
