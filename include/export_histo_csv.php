@@ -40,7 +40,7 @@ printf('"%s";',"Date");
 printf('"%s";',"Echeance");
 printf('"%s";',"Paiement");
 printf('"%s";',"Piece");
-printf('"%s";',"Tiers");
+printf('"%s";"";',"Tiers");
 printf('"%s";',"Description");
 printf('"%s";',"Note");
 printf('"%s"',"Montant opération");
