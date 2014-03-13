@@ -1431,11 +1431,10 @@ div.box  {
     margin-left:3px;
     margin-right:3px;
     padding:2px;
-    //margin:2px;
     overflow:hidden;
     border:1px solid #00008B;
     width:30%;
-    height:312px;
+    height:338px;
     float:left;
     font-size:14px;
     font-size:0.90rem;
