@@ -40,7 +40,8 @@ $Form=new Acc_Report($cn,$_GET['form_id']);
 $Form->get_name();
 // Step ?
 //--
-if ( $_GET['p_step'] == 0 )
+$step=HtmlInput::default_value_get("p_step", 0);
+if (  $step == 0 )
 {
     if ( $_GET ['type_periode'] == 0 )
         $array=$Form->get_row( $_GET['from_periode'],$_GET['to_periode'], $_GET['type_periode']);
@@ -64,7 +65,7 @@ if ( $_GET['p_step'] == 0 )
 
     }
 }
-else
+elseif ($step == 1)
 {
     // Gather all the data
     //---

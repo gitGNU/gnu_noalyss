@@ -40,15 +40,15 @@ if ( isset( $_GET['bt_html'] ) )
     $Form->get_name();
     // step asked ?
     //--
+    $type_periode=HtmlInput::default_value_get("type_periode", -1);
+    if ( $type_periode == 1 )
+        $array=$Form->get_row( $_GET['from_date'],$_GET['to_date'], $type_periode);
 
-    if ( $_GET['type_periode'] == 1 )
-        $array=$Form->get_row( $_GET['from_date'],$_GET['to_date'], $_GET['type_periode']);
-
-    if ($_GET['type_periode']  == 0  && $_GET['p_step'] == 0 )
-        $array=$Form->get_row( $_GET['from_periode'],$_GET['to_periode'], $_GET['type_periode']);
+    if ($type_periode == 0   && $_GET['p_step'] == 0)
+        $array=$Form->get_row( $_GET['from_periode'],$_GET['to_periode'], $type_periode);
 
 
-    if ($_GET['type_periode']  == 0  && $_GET['p_step'] == 1 )
+    if ($type_periode  == 0  && $_GET['p_step'] == 1 )
     {
         // step are asked
         //--
@@ -132,7 +132,7 @@ if ( isset( $_GET['bt_html'] ) )
     echo "</table>";
     if ( count($Form->row ) == 0 )
         exit;
-    if ( $_GET['type_periode']==0 )
+    if ( $_GET['type_periode']== 0 )
     {
         if ( $_GET['p_step'] == 0)
         { // check the step
@@ -249,6 +249,7 @@ $aStep=array(
        );
 echo '<tr>';
 echo td('Par étape de');
+$w->id='p_step';
 echo $w->input('p_step',$aStep);
 echo '</TR>';
 

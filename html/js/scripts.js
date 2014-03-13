@@ -118,21 +118,21 @@ function g(ID)
  */
 function enable_type_periode()
 {
-    if (g('type_periode').value === 1)
+    if ($("type_periode").options[$("type_periode").selectedIndex].value == 0)
     {
-        g('from_periode').disabled = true;
-        g('to_periode').disabled = true;
-        g('from_date').disabled = false;
-        g('to_date').disabled = false;
-        g('p_step').disabled = true;
+        $('from_periode').enable();
+        $('to_periode').enable ();
+        $('from_date').disable();
+        $('to_date').disable();
+        $('p_step').enable();
     }
     else
     {
-        g('from_periode').disabled = false;
-        g('to_periode').disabled = false;
-        g('from_date').disabled = true;
-        g('to_date').disabled = true;
-        g('p_step').disabled = false;
+        $('from_periode').disable();
+        $('to_periode').disable ();
+        $('from_date').enable();
+        $('to_date').enable();
+        $('p_step').disable();
     }
 }
 
@@ -814,7 +814,7 @@ function show_ledger_choice(json_obj)
                             };
                             //var y=calcy(posY);
                             var y=posY;
-                            if (json_obj.div !== '')obj.cssclass="";
+                           if (json_obj.div != '')obj.cssclass="";
                             obj.style="top:"+y+'px;'+obj.style;
                            /* if ( json_obj.class ) 
                             { 
