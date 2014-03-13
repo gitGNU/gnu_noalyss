@@ -223,7 +223,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
                 '(' . $fiche->id . ')' .
                 $fiche->getName() . ' ' .
                 ' [ ' . $fiche->get_quick_code() . ' ] ' .
-                '<h2>';
+                '</h2>';
             $fiche->HtmlTableHeader();
             $fiche->HtmlTable(null, $_GET['ople']);
             $fiche->HtmlTableHeader();
