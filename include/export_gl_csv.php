@@ -70,11 +70,11 @@ else
       {
 	if  ( $cond_poste == '')
 	  {
-	    $cond_poste =  ' where pcm_val <= upper (\''.Database::escape_string($to_poste).'\')';
+	    $cond_poste =  " where pcm_val <= upper (''".Database::escape_string($to_poste)."'')";
 	  }
 	else
 	  {
-	    $cond_poste.=' and pcm_val <= upper (\''.Database::escape_string($to_poste).'\')';
+	    $cond_poste.=" and pcm_val <= upper (''".Database::escape_string($to_poste)."'')";
 	  }
       }
 
@@ -92,7 +92,7 @@ if ( count($a_poste) == 0 )
 }
 
 // Header
-$header = array( "Date", "Référence", "Libellé", "Pièce", "Débit", "Crédit", "Solde" );
+$header = array( "Date", "Référence", "Libellé", "Pièce","Lettrage", "Débit", "Crédit", "Solde" );
 
 $l=(isset($_GET['letter']))?2:0;
 $s=(isset($_REQUEST['solded']))?1:0;
@@ -161,6 +161,7 @@ foreach ($a_poste as $poste)
         echo $detail['jr_internal'].";";
         echo $detail['description'].";";
         echo $detail['jr_pj_number'].";";
+        if ($detail['letter'] == -1) { echo ';'; } else { echo $detail['letter'].";";}
         echo ($detail['deb_montant']  > 0 ? nb($detail['deb_montant'])  : '').";";
         echo ($detail['cred_montant'] > 0 ? nb($detail['cred_montant']) : '').";";
         echo nb(abs($solde)).";";
@@ -170,6 +171,7 @@ foreach ($a_poste as $poste)
     }
 
 
+    echo ";";
     echo ";";
     echo ";";
     echo ";";
