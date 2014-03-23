@@ -47,10 +47,6 @@ class Database
         $port=(defined("noalyss_psql_port"))?noalyss_psql_port:phpcompta_psql_port;
         $host=( ! defined ("noalyss_psql_host") )?'127.0.0.1':noalyss_psql_host;
 		if (defined ("MULTI") && MULTI=="0") {
-			 $noalyss_user = noalyss_user;
-			$password = noalyss_password;
-			$port = noalyss_psql_port;
-			$host = (!defined("noalyss_psql_host")) ? $host : noalyss_psql_host;
 			$l_dossier= dbname;
 		}
 		else
