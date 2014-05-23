@@ -935,6 +935,7 @@ class Document
 
             /* total VAT for one sold */
         case 'TVA_AMOUNT':
+        case 'VEN_TVA':
             extract ($p_array);
             $qt='e_quant'.$counter;
             $price='e_march'.$counter.'_price' ;
@@ -951,6 +952,7 @@ class Document
             break;
             /* TVA automatically computed */
         case 'VEN_ART_TVA':
+        
             extract ($p_array);
             $qt='e_quant'.$counter;
             $price='e_march'.$counter.'_price' ;
