@@ -73,7 +73,8 @@ class Anc_GrandLivre extends Anc_Print
 	jr_comment,
 	j_poste,
 	jrnx.f_id,
-	( select ad_value from fiche_Detail where f_id=jrnx.f_id and ad_id=23) as qcode
+	( select ad_value from fiche_Detail where f_id=jrnx.f_id and ad_id=23) as qcode,
+        jr_pj_number
 	from operation_analytique as B join poste_analytique using(po_id)
 	left join jrnx using (j_id)
 	left join jrn on  (j_grpt=jr_grpt_id)
@@ -100,6 +101,7 @@ class Anc_GrandLivre extends Anc_Print
 	j_poste,
 	( select ad_value from fiche_Detail where f_id=jrnx.f_id and ad_id=23) as qcode,
 	jr_comment,
+        jr_pj_number,
 	jr_internal,
 	case when oa_debit='t' then 'D' else 'C' end,
 	oa_amount
@@ -157,6 +159,7 @@ class Anc_GrandLivre extends Anc_Print
 		'<th>'._('Poste').'</th>'.
 		'<th>'._('Quick_code').'</th>'.
 		'<th>'._('libelle').'</th>'.
+                '<th>'._('Pièce').'</th>'.
 		'<th>'._('Num.interne').'</th>'.
 		'<th style="text-align:right">'._('Debit').'</th>'.
 		'<th style="text-align:right">'._('Credit').'</th>'.
@@ -182,6 +185,7 @@ class Anc_GrandLivre extends Anc_Print
 	      td($card_detail).
 	      //	      '<td>'.h($row['oa_description']).'</td>'.
 	      td($row['jr_comment']).
+              td($row['jr_pj_number']).
 	      '<td>'.$detail.'</td>'.
 	      '<td class="num">'.nbm($amount_deb).'</td>'.
 	      '<td class="num">'.nbm($amount_cred)
@@ -259,6 +263,7 @@ class Anc_GrandLivre extends Anc_Print
         $aheader[]=array("title"=>'Poste','type'=>'string');
         $aheader[]=array("title"=>'Quick_Code','type'=>'string');
         $aheader[]=array("title"=>'libelle','type'=>'string');
+        $aheader[]=array("title"=>'Pièce','type'=>'string');
         $aheader[]=array("title"=>'Num.interne','type'=>'string');
         $aheader[]=array("title"=>'Debit','type'=>'string');
         $aheader[]=array("title"=>'Credit','type'=>'num');
