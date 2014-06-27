@@ -3,6 +3,7 @@
 //see licence.txt
 
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
+echo '<div style="content">';
 
 require_once 'class_anc_grandlivre.php';
 
@@ -36,4 +37,5 @@ if ($result != null)
     echo '</form>';
     echo $grandLivre->show_button();
 }
+echo '</div>';
 ?>
