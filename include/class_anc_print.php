@@ -115,32 +115,71 @@ class Anc_Print
         $hidden=new IHidden();
         $r=dossier::hidden();
         $r.=$hidden->input("result","1");
-        $r.="Depuis : ".$from->input();
-        $r.= "jusque : ".$to->input();
-        $r.= '<span class="notice">'._('Les dates sont en format DD.MM.YYYY').'</span>';
+        
         $r.=HtmlInput::request_to_hidden(array('ac'));
         $r.=$p_hidden;
-        $r.='<span style="padding:5px;margin:5px;display:block;">';
         $plan=new Anc_Plan($this->db);
         $plan_id=new ISelect("pa_id");
         $plan_id->value=$this->db->make_array("select pa_id, pa_name from plan_analytique order by pa_name");
         $plan_id->selected=$this->pa_id;
-        $r.=_( "Plan Analytique :").$plan_id->input();
+        $choose_from=new IButton();
+        $choose_from->name=_("Choix Poste");
+        $choose_from->label=_("Recherche");
+        $choose_from->javascript="onClick=search_ca(".dossier::id().",'from_poste','pa_id')";
+        
 
+        $choose_to=new IButton();
+        $choose_to->name=_("Choix Poste");
+        $choose_to->label=_("Recherche");
+
+        
+        $choose_to->javascript="onClick=search_ca(".dossier::id().",'to_poste','pa_id')";
+      
+        $r.=HtmlInput::request_to_hidden(array('ac'));
+        ob_start();
+        ?>
+<table>
+    <tr>
+        <td>
+            <?php 
+                echo _('Depuis') ;
+                echo HtmlInput::infobulle(37);
+            ?>
+        </td>
+        <td>
+            <?php 
+                echo $from->input(); 
+            ?>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <?php 
+                echo _('Jusque') ;
+                echo HtmlInput::infobulle(37);
+            ?>
+        </td>
+        <td>
+            <?php 
+                echo $to->input(); 
+            ?>
+        </td>
+    </tr>
+    
+</table>
+<span style="padding:5px;margin:5px;display:block;">
+    <?php echo _( "Plan Analytique :").$plan_id->input(); ?>
+</span>
+
+<?php
+        $r.=ob_get_clean();
         $r.=_("Entre l'activité ").$from_poste->input();
-        $choose=new IButton();
-        $choose->name=_("Choix Poste");
-        $choose->label=_("Recherche");
-        $choose->javascript="onClick=search_ca(".dossier::id().",'from_poste','pa_id')";
-        $r.=$choose->input();
-
+        $r.=$choose_from->input();
         $r.=_(" et l'activité ").$to_poste->input();
-        $choose->javascript="onClick=search_ca(".dossier::id().",'to_poste','pa_id')";
-        $r.=$choose->input();
+        $r.=$choose_to->input();
         $r.='<span class="notice" style="display:block">'._('Selectionnez le plan qui vous intéresse avant de cliquer sur Recherche').'</span>';
 
         $r.='</span>';
-        $r.=HtmlInput::request_to_hidden(array('ac'));
         return $r;
     }
     /*!
