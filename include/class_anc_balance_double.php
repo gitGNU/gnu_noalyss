@@ -339,7 +339,7 @@ class Anc_Balance_Double extends Anc_Print
             '</span>';
 
         $r.='</span>';
-        $r.=HtmlInput::submit('Affiche','Affiche');
+        $r.=HtmlInput::submit('Affiche', _('Rechercher'));
         return $r;
     }
     /*!

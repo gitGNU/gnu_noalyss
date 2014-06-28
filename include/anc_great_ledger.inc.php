@@ -16,7 +16,7 @@ $grandLivre->get_request();
  */
 echo '<form method="get" >';
 echo $grandLivre->display_form();
-echo '<p>' . HtmlInput::submit('Recherche', _('Recherche')) . '</p>';
+echo '<p>' . HtmlInput::submit('Recherche', _('Rechercher')) . '</p>';
 echo HtmlInput::request_to_hidden(array('sa','ac','gDossier'));
 echo '</form>';
 
