@@ -1,7 +1,7 @@
 <?php
 //This file is part of NOALYSS and is under GPL 
 //see licence.txt
-?><TABLE>
+?><TABLE style="width: auto">
 <TR>
 
 		<TD><?php echo _('Nom journal')?> </TD>
@@ -86,13 +86,10 @@ echo $str_add_button;
 </TR>
 <TR>
 <TD><?php echo _('Préfixe pièce justificative')?>
+    <?php echo HtmlInput::infobulle(39);?>
 </TD>
 <TD>
 <?php echo $pj_pref; ?>
-</TD>
-<TD>
-<span class="notice"><?php echo _('Le préfixe des pièces doit être différent pour chaque journal, on peut aussi utiliser l\'année')?></span><br>
-<span class="notice"><?php echo _('Uniquement des chiffres')?></span>
 </TD>
 
 </TR>
@@ -100,6 +97,7 @@ echo $str_add_button;
 <TR>
 <TD>
   <?php echo _('Dernière pièce numérotée')?>
+  <?php echo HtmlInput::infobulle(40);?>
 </TD>
 <TD>
 <?php echo $last_seq?>
@@ -108,22 +106,19 @@ echo $str_add_button;
 
 <tr>
 <TD><?php echo _('N° pièce justificative')?>
+    <?php echo HtmlInput::infobulle(38);?>
 </TD>
 <TD>
-<?php echo $pj_seq; ?>
-</TD>
-
-<TD>
-<span class="notice" style="display:block"><?php echo _('La numérotation est propre à chaque journal')?></span>
-<span class="notice" style="display:block"><?php echo _('Laissez à 0 pour ne pas changer le numéro')?></span>
+    <?php echo $pj_seq; ?>
+   
 </TD>
 </tr>
 <?php endif; ?>
 <tr>
-    <td>
+    <td style="width: 200px">
     <?php echo _('Description') ?>
     </TD>
-    <td>
+    <td style="width: 500px">
      <?php echo $str_description; ?>   
     </td>
 </tr>    
@@ -137,10 +132,10 @@ echo $str_add_button;
     <TABLE class="result" style="width:80%;margin-left:10%;">
         <tr>
             <th>
-                Services, fournitures ou biens  achetés (C)
+                Services, fournitures ou biens  achetés (D)
             </th>
             <th>
-                Fournisseurs (D)
+                Fournisseurs (C)
             </th>
         </tr>
     
@@ -149,7 +144,13 @@ echo $str_add_button;
     // Show the fiche in deb section
     $Res=$cn->exec_sql("select fd_id,fd_label from fiche_def order by fd_label");
     $num=$cn->size();
-
+    // default card for ACH
+    if ($new == 1)
+    {
+        $rdeb=$default_deb_purchase;
+        $rcred=$default_cred_purchase;
+    }
+    
     for ($i=0;$i<$num;$i++) {
       $res=$cn->fetch($i);
       $CHECKED=" unchecked";
@@ -201,6 +202,12 @@ echo $str_add_button;
     // Show the fiche in deb section
     $Res=$cn->exec_sql("select fd_id,fd_label from fiche_def order by fd_label");
     $num=$cn->size();
+    // default card for VEN
+    if ($new == 1)
+    {
+        $rdeb=$default_deb_sale;
+        $rcred=$default_cred_sale;
+    }
 
     for ($i=0;$i<$num;$i++) {
       $res=$cn->fetch($i);
@@ -250,7 +257,11 @@ echo $str_add_button;
     // Show the fiche in deb section
     $Res=$cn->exec_sql("select fd_id,fd_label from fiche_def order by fd_label");
     $num=$cn->size();
-
+    // default card for ODS
+    if ($new == 1)
+    {
+        $rdeb=$default_ods;
+    }
     for ($i=0;$i<$num;$i++) {
       $res=$cn->fetch($i);
       $CHECKED=" unchecked";
@@ -297,7 +308,11 @@ echo $str_add_button;
     // Show the fiche in deb section
     $Res=$cn->exec_sql("select fd_id,fd_label from fiche_def order by fd_label");
     $num=$cn->size();
-
+    // default card for ACH
+    if ($new == 1)
+    {
+        $rdeb=$default_fin;
+    }
     for ($i=0;$i<$num;$i++) {
       $res=$cn->fetch($i);
       $CHECKED=" unchecked";
