@@ -52,6 +52,8 @@ class Anc_Group extends Anc_Print
 
     function insert()
     {
+        if (strlen ($this->ga_id) > 10 )            return '<span class="notice">'.
+                _('Taille de la code trop long maximum 10 caractères').'</span>';
         $sql=" insert into groupe_analytique (ga_id,ga_description,pa_id) values ('%s','%s',%d)";
         $sql=sprintf($sql,Database::escape_string($this->ga_id),
                      Database::escape_string($this->ga_description),
