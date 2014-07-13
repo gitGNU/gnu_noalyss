@@ -1,19 +1,37 @@
 <?php
-
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+ *   This file is part of NOALYSS.
+ *
+ *   NOALYSS is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *
+ *   NOALYSS is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with NOALYSS; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+// Copyright Author Dany De Bontridder danydb@aevalys.eu
 
 /**
- * Description of class_export_receipt
- *
- * @author dany
+ * @brief Export DOCUMENT from Analytic accountancy, can transform into PDF
+ * and add a stamp on each pages
+ * 
+ * It depends on PDFTK and CONVERT_GIF_PDF
  */
 class Document_Export
 {
-
+    /**
+     *@brief create 2 temporary folders, store_pdf and store_convert, initialize
+     * an array feedback containing messages
+     * 
+     */
     function __construct()
     {
         // Create 2 temporary folders   1. convert to PDF + stamp
@@ -27,9 +45,13 @@ class Document_Export
         mkdir($this->store_convert);
         mkdir($this->store_pdf);
     }
-
+    /**
+     * @brief concatenate all PDF into a single one and save it into the
+     * store_pdf folder
+     */
     function concatenate_pdf()
     {
+        $this->check_file();
         $stmt = PDFTK . " " . $this->store_pdf . '/stamp_*pdf  output ' . $this->store_pdf . '/result.pdf';
         $status = 0;
         echo $stmt;
@@ -43,12 +65,15 @@ class Document_Export
             $this->feedback[$cnt_feedback]['error'] = $status;
         }
     }
-
+    
     function move_file($p_source, $target)
     {
+        $this->check_file();
         copy($p_source, $this->store_pdf . '/' . $target);
     }
-
+    /**
+     * @brief send the resulting PDF to the browser
+     */
     function send_pdf()
     {
         header('Content-Type: application/x-download');
@@ -64,11 +89,13 @@ class Document_Export
     }
 
     /**
-     * @brief export all the pieces in PDF
+     * @brief export all the pieces in PDF and transform them into a PDF with
+     * a stamp
      * @param $p_array contents all the jr_id
      */
     function export_all($p_array)
     {
+        $this->check_file();
         ob_start();
         var_dump($p_array);
         global $cn;
@@ -139,7 +166,7 @@ class Document_Export
             {
 
                 $this->feedback[$cnt_feedback]['file'] = $file_pdf;
-                $this->feedback[$cnt_feedback]['message'] = ' cannot convert to stamped PDF';
+                $this->feedback[$cnt_feedback]['message'] = _(' ne peut pas convertir en PDF');
                 $this->feedback[$cnt_feedback]['error'] = $status;
                 $cnt_feedback++;
                 continue;
@@ -156,5 +183,19 @@ class Document_Export
         var_dump($this->feedback);
         // concatenate all pdf into one
     }
-
+   /**
+    * @brief check that the files are installed
+    * throw a exception if one is missing
+    */
+    function check_file()
+    {
+        try 
+        {
+            if (CONVERT_GIF_PDF == 'NO')    throw new Exception(_("CONVERT_GIF_PDF n'est pas installé"));
+            if (PDFTK          == 'NO')     throw new Exception(_("TKPDF n'est pas installé"));
+        } catch (Exception $ex) 
+        {
+            throw ($ex);
+        }
+    }
 }

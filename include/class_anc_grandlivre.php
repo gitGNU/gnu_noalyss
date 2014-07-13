@@ -124,17 +124,27 @@ class Anc_GrandLivre extends Anc_Print
 
     function button_export_pdf($p_string = "")
     {
-        $r = "";
-        $r.= HtmlInput::hidden("to", $this->to);
-        $r.= HtmlInput::hidden("from", $this->from);
-        $r.= HtmlInput::hidden("pa_id", $this->pa_id);
-        $r.= HtmlInput::hidden("from_poste", $this->from_poste);
-        $r.= HtmlInput::hidden("to_poste", $this->to_poste);
-        $r.= HtmlInput::hidden("act","PDF:AncReceipt");
+        if (CONVERT_GIF_PDF <> 'NOT' && PDFTK <> 'NOT')
+        {
+            $r = "";
+            $r.= HtmlInput::hidden("to", $this->to);
+            $r.= HtmlInput::hidden("from", $this->from);
+            $r.= HtmlInput::hidden("pa_id", $this->pa_id);
+            $r.= HtmlInput::hidden("from_poste", $this->from_poste);
+            $r.= HtmlInput::hidden("to_poste", $this->to_poste);
+            $r.= HtmlInput::hidden("act","PDF:AncReceipt");
 
-        $r.= $p_string;
-        $r.= dossier::hidden();
-        $r.=HtmlInput::submit('bt_receipt_anal_pdf', _("Export des pièces en PDF"));
+            $r.= $p_string;
+            $r.= dossier::hidden();
+            $r.=HtmlInput::submit('bt_receipt_anal_pdf', _("Export des pièces en PDF"));
+        } 
+        else 
+        {
+            
+            $r = "";
+            $msg = _("Les extensions pour convertir en pdf ne sont pas installées");
+            $r = HtmlInput::button("bt_receipt_anal", _('Export des pièces en PDF'), sprintf('onclick="alert(\'%s\')"',$msg));
+        }
         return $r;
     }
    /*!
