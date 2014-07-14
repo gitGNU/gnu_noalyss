@@ -59,9 +59,8 @@ $g_captcha=false;
 $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 /* uncomment for development */
-define ('SVNINFO',6720);
-//define ("DEBUG",true);
-define ("DEBUG",false);
+define ('SVNINFO',6721);
+define ("DEBUG",true);
 
 $version_noalyss=SVNINFO;
 // If you don't want to be notified of the update
@@ -70,7 +69,7 @@ define ("SITE_UPDATE",'http://www.noalyss.eu/last_version.txt');
 define ("SITE_UPDATE_PLUGIN",'http://www.noalyss.eu/plugin_last_version.txt');
 
 
-define ("DBVERSION",115);
+define ("DBVERSION",116);
 define ("MONO_DATABASE",25);
 define ("DBVERSIONREPO",15);
 define ('NOTFOUND','--not found--');
@@ -178,7 +177,8 @@ define ("FICHE_TYPE_ACH_MAR",2);
 define ("FICHE_TYPE_ACH_SER",3);
 define ("FICHE_TYPE_ACH_MAT",7);
 define ("FICHE_TYPE_PROJET",26);
-/** -- pour utiliser unoconv démarrer un server libreoffice 
+/** 
+ * -- pour utiliser unoconv démarrer un server libreoffice 
  * commande
  * libreoffice --headless --accept="socket,host=127.0.0.1,port=2002;urp;" --nofirststartwizard 
  * ou
@@ -186,6 +186,32 @@ define ("FICHE_TYPE_PROJET",26);
  */
 define ('OFFICE','unoconv ');
 define ('GENERATE_PDF','YES');
+
+/**
+ * Pour conversion GIF en PDF
+ */
+$convert_gif_pdf='/usr/bin/convert';
+if (file_exists($convert_gif_pdf))
+{
+    define ('CONVERT_GIF_PDF',$convert_gif_pdf);
+} else {
+    define ('CONVERT_GIF_PDF','NOT');
+    
+}
+
+/**
+ * Outil pour manipuler les PDF 
+ */
+$pdftk='/usr/bin/pdftk';
+if (file_exists($pdftk))
+{
+    define ('PDFTK',$pdftk);  
+} 
+else
+{
+    define ('PDFTK','NOT');  
+}
+
 
 define ('JS_INFOBULLE','
         <DIV id="bulle" class="infobulle"></DIV>
