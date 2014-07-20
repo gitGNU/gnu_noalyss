@@ -81,7 +81,7 @@ class Anc_GrandLivre extends Anc_Print
 	left join jrn on  (j_grpt=jr_grpt_id)
              where $pa_id_cond oa_amount <> 0.0  $cond_poste  $filter_date
 	order by po_name,oa_date::date,qcode,j_poste");
-
+        $this->has_data=count($array);
         return $array;
     }
 
@@ -159,15 +159,9 @@ class Anc_GrandLivre extends Anc_Print
         $r = "";
         //---Html
         $array = $this->load();
-        if (is_array($array) == false)
+        if (is_array($array) == false || empty($array))
         {
-            return $array;
-        }
-
-        if (empty($array))
-        {
-            $r.= _("aucune donnée");
-            return $r;
+            return 0;
         }
         $r.= '<table class="result" style="width=100%">';
         $ix = 0;

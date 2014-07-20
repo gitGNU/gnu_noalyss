@@ -52,6 +52,7 @@ class Anc_Print
         $this->to="";
         $this->from_poste="";
         $this->to_poste="";
+        $this->has_data=0;
 
     }
     /*!

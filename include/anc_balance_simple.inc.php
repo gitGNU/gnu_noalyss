@@ -11,7 +11,17 @@ echo $bs->display_form();
 echo '</form>';
 if (isset($_GET['result']))
 {
-    echo $bs->show_button();
-    echo $bs->display_html();
+    $result= $bs->display_html();
+    if ( $bs->has_data > 0)
+    {
+        echo $bs->show_button();
+        echo $result;
+    }
+ else
+    {
+        echo '<p class="notice">';
+        echo _('Aucune donnée trouvée');
+        echo '</p>';
+    }
 }
 ?>

@@ -66,16 +66,9 @@ class Anc_Listing extends Anc_Print
         $r="";
         //---Html
         $array=$this->load();
-        if ( is_array($array) == false )
+        if ( is_array($array) == false ||  empty($array) )
         {
-            return $array;
-
-        }
-
-        if ( empty($array) )
-        {
-            $r.= _("aucune donnée");
-            return $r;
+            return 0;
         }
         $r.= '<table class="result" style="width=100%">';
         $r.= '<tr>'.
@@ -123,6 +116,14 @@ class Anc_Listing extends Anc_Print
         $op=new Anc_Operation ($this->db);
         $op->pa_id=$this->pa_id;
         $array=$op->get_list($this->from,$this->to,$this->from_poste,$this->to_poste);
+        if (! $array ) 
+        {
+            $this->has_data=0;
+        }
+        else 
+        {
+            $this->has_data=count($array);
+        }
         return $array;
     }
     /*!

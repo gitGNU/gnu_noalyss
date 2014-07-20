@@ -24,18 +24,29 @@ $result=HtmlInput::default_value_request('result',null);
 
 if ($result != null)
 {
-    echo '<span style="display:block">';
-      echo _('Tout sélectionner')." ".ICheckBox::toggle_checkbox('export_pdf_bt1','export_anc_receipt_pdf');
-    echo '</span>';
-    echo $grandLivre->show_button();
-    echo '<form method="GET" id="export_anc_receipt_pdf" action="export.php" style="display:inline">';
-  
-    echo $grandLivre->button_export_pdf();
-    echo $grandLivre->display_html();
-    echo $grandLivre->button_export_pdf();
-    echo HtmlInput::get_to_hidden(array('ac','gDossier','sa'));
-    echo '</form>';
-    echo $grandLivre->show_button();
+    $result=$grandLivre->display_html();
+    if ($grandLivre->has_data != 0 )
+    {
+        echo '<span style="display:block">';
+          echo _('Tout sélectionner')." ".ICheckBox::toggle_checkbox('export_pdf_bt1','export_anc_receipt_pdf');
+        echo '</span>';
+        echo $grandLivre->show_button();
+        echo '<form method="GET" id="export_anc_receipt_pdf" action="export.php" style="display:inline">';
+
+        echo $grandLivre->button_export_pdf();
+        echo $grandLivre->display_html();
+        echo $grandLivre->button_export_pdf();
+        echo HtmlInput::get_to_hidden(array('ac','gDossier','sa'));
+        echo '</form>';
+        echo $grandLivre->show_button();
+    }
+    else
+    {
+        echo '<p class="notice">';
+        echo _('Aucune donnée trouvée');
+        echo '</p>';
+    }
+    
 }
 echo '</div>';
 ?>

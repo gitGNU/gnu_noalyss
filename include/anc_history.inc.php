@@ -18,8 +18,18 @@ if (isset($_GET['result']))
     //--------------------------------
     // export Buttons
     //---------------------------------
-    echo $list->show_button();
-    echo $list->display_html();
+    $result=$list->display_html();
+    if ( $list->has_data > 0)
+    {
+        echo $list->show_button();
+        echo $result;
+    }
+    else
+    {
+        echo '<p class="notice">';
+        echo _('Aucune donnée trouvée');
+        echo '</p>';
+    }
     echo '</div>';
 }
 echo '</div>';
