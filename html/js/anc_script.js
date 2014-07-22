@@ -37,9 +37,9 @@ function add_row(p_table,p_seq)
     var new_value=mytable.rows.length+1;
 
 
-    if ( mytable.rows.length > 5 )
+    if ( mytable.rows.length > 15 )
     {
-        alert("Maximum 5 lignes ");
+        alert("Maximum 15 lignes ");
         return;
     }
 	amount=compute_total_table(p_table,p_seq);
