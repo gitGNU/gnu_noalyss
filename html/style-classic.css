@@ -537,11 +537,11 @@ a.document:hover {
     margin:1px;
 }
 .input_text {
-    border:groove 1px #0000FF;
+    border:solid 1px #0000FF;
     margin:1px;
 }
 .input_text:hover {
-    border:groove 1px #0000FF;
+    border:solid 1px #0000FF;
     margin:1px;
     background-color:  #F93;
 }
@@ -680,7 +680,7 @@ div.popup_content {
     filter:alpha(opacity=100);*/
 }
 div.autocomplete {
-    position:relative;
+    position:absolute;
     background-color:#FFFFFF;
     border:1px solid #888;
     margin:0px;
@@ -864,6 +864,22 @@ td.tool {
     border-bottom-width: 2px;
     text-align:center;
     border-radius:2px;
+}
+td.toolselected  {
+    border: solid 1px gray;
+    color: #FFFFFF;
+    border-bottom-width: 2px;
+    text-align:center;
+    border-radius:2px;
+    background-color:#FF0000;
+}
+td.toolselected a.mtitle {
+    border: solid 1px gray;
+    color: #FFFFFF;
+    border-bottom-width: 2px;
+    text-align:center;
+    border-radius:2px;
+    background-color:#FF0000;
 }
 div.topmenu {
 	font-size:14px;
@@ -1415,11 +1431,10 @@ div.box  {
     margin-left:3px;
     margin-right:3px;
     padding:2px;
-    //margin:2px;
     overflow:hidden;
     border:1px solid #00008B;
     width:30%;
-    height:312px;
+    height:350px;
     float:left;
     font-size:14px;
     font-size:0.90rem;

@@ -43,7 +43,14 @@ if ( $action=='X' || ! isset($_GET['act']) || $g_user->check_print($_GET['act'])
     exit();
   }
 // get file and execute it
-
- $prfile=$cn->get_value("select me_file from menu_ref where me_code=$1",array($_GET['act']));
+$action=HtmlInput::default_value_get('act', null);
+if ($action == null )
+{
+    die(_('Appel invalide'));
+}
+ $prfile=$cn->get_value("select me_file from menu_ref where me_code=$1",array($action));
+ if ( $prfile == "") {
+     die (_('Export impossible'));
+ }
  require_once $prfile;
  ?>

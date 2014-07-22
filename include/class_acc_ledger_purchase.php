@@ -274,7 +274,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $p_nd_amount->amount_nd_rate = $p_fiche->strAttribut(ATTR_DEF_DEPENSE_NON_DEDUCTIBLE);
             $p_nd_amount->compute_nd();
         }
-        if (!$p_fiche->empty_attribute(ATTR_DEF_TVA_NON_DEDUCTIBLE) && $tva_both == 0)
+        if (!$p_fiche->empty_attribute(ATTR_DEF_TVA_NON_DEDUCTIBLE) && $p_tva_both == 0)
         {
             $p_nd_amount->nd_vat_rate = $p_fiche->strAttribut(ATTR_DEF_TVA_NON_DEDUCTIBLE);
             $p_nd_amount->compute_nd_vat();

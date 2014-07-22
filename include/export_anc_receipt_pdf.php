@@ -1,4 +1,5 @@
 <?php
+
 /*
  *   This file is part of NOALYSS.
  *
@@ -16,13 +17,24 @@
  *   along with NOALYSS; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-// Copyright Author Dany De Bontridder danydb@aevalys.eu
 
-define ('FICADD',800);	 /* Ajout de fiche */
-define ("FIC",805);  //Création, modification et effacement de fiche
-define ("FICCAT",910);  //création, modification et effacement de catégorie de fiche
-define ('RMDOC',1020);   // Effacement de document pour follow up
-define ('VIEWDOC',1010);   // Voir document pour follow up
-define ('PARCATDOC',1050);   // modifier type document pour follow up
-global $audit; $audit=false;
-?>
+// Copyright Author Dany De Bontridder danydb@aevalys.eu
+// Copyright Author Dany De Bontridder danydb@aevalys.eu
+if (!defined('ALLOWED'))
+    die('Appel direct ne sont pas permis');
+
+
+/**
+ * export all the selected documents for Ana Accountancy in PDF
+ */
+require_once 'class_document_export.php';
+
+$ck = HtmlInput::default_value_get('ck', 0);
+if ($ck == 0)
+{
+    echo "Aucune sélection";
+    exit();
+}
+$anc=new Document_Export();
+
+$anc->export_all($ck);

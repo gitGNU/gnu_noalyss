@@ -1063,6 +1063,8 @@ function gestion_add_row()
             new_tt = new_tt.replace(/sold\(0\)/g, "sold(" + nb.value + ")");
             new_tt = new_tt.replace(/compute_ledger\(0\)/g, "compute_ledger(" + nb.value + ")");
             new_tt = new_tt.replace(/clean_tva\(0\)/g, "clean_tva(" + nb.value + ")");
+            new_tt = new_tt + '<input type="hidden" id="tva_march'+nb.value+'">';
+               new_tt = new_tt + '<input type="hidden" id="htva_march'+nb.value+'">';
             newCell.innerHTML = new_tt;
             if ( mytable.rows[1].cells[e].hasClassName("num") ) {
                 newCell.addClassName("num");

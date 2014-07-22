@@ -35,7 +35,7 @@ class IDate extends HtmlInput
 	  $this->id=self::generate_id($this->name);
         $r='<input type="text" name="'.$this->name.'" id="'.$this->id.'" '.
            ' class="input_text" '.
-           'size="8" '.
+           'size="10" style="width:6em" '.
            ' value ="'.$this->value.'" '.
            '/>'.
            '<img src="image/x-office-calendar.png" id="'.$this->id.'_trigger"'.

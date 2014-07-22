@@ -133,6 +133,21 @@ class Fiche_Def_Ref
         $this->frd_text=$r['frd_text'];
         $this->frd_class_base=$r['frd_class_base'];
     }
+    /**
+    * get category of cards by model
+    * @param $p_modele if the FRD_ID
+    * @return array of category (fd_id)
+    */
+    function get_by_modele($p_modele)
+    {
+        $array = array();
+        $result = $this->db->get_array('select fd_id from fiche_def where frd_id=$1', array($p_modele));
+        for ($i = 0; $i < count($result); $i++)
+        {
+            $array[$i] = $result[$i]['fd_id'];
+        }
+        return $array;
+    }
 
 }
 ?>

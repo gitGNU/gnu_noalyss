@@ -1,7 +1,13 @@
 <?php
 //This file is part of NOALYSS and is under GPL 
 //see licence.txt
-?><?php require_once('template/ledger_detail_top.php'); ?>
+?><?php require_once('ledger_detail_top.php'); ?>
+<?php
+    $tab_account=$div."account";
+    $tab_rapprochement=$div."rapproch";
+    $tab_receipt=$div."receipt";
+    $tab_document=$div."document";
+ ?>
 <div class="content" style="padding:0;">
     <?php
     require_once('class_own.php');

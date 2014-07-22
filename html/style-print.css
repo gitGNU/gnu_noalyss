@@ -1,15 +1,15 @@
 body {
-	font-size:8px;
+	font-size:11pt;
 	}
 input, select ,.input_text{
-	font-size:8px;
+	font-size:11pt;
 border:1px solid #FFFFFF;
  }
 form {
   display:none;
  }
 .print {
-	font-size:8px;
+	font-size:11pt;
 	display: block;
 	}
 .noprint  {
@@ -23,23 +23,23 @@ div.recherche_form {
 	display:none;
 	}
 table.result {
-	font-size:7px;
+	font-size:11pt;
 	font-family:sans-serif;
 	width:100%
   }
 
 table.result th {
-	font-size:7px;
+	font-size:11pt;
 	font-family:sans-serif;
 }
 h3,h4 {
-	font-size:10px;
+	font-size:12pt;
 	text-decoration: underline;
 	font-family:sans-serif;
 }
 
 h2 {
-	font-size:12px;
+	font-size:14pt;
 	font-weight:bold;
 	font-family:sans-serif;
 }
@@ -47,10 +47,10 @@ div.info {
 	display:none;
 }
 .content  {
-	font-size:7px;
+	font-size:11pt;
 }
 h1.content,h1,h2.info,legend {
-	font-size:14px;
+	font-size:14pt;
 	font-weight:bold;
 	font-family:sans-serif;
 }
@@ -98,20 +98,20 @@ div.debit{
 	display:none;
 }
 div.recherche{
-	font-size:7px;
+	font-size:11pt;
 	font-family:sans-serif;
 }
 div.redcontent{
-	font-size:7px;
+	font-size:11pt;
 	font-family:sans-serif;
 
 }
 div.redcontent{
-	font-size:7px;
+	font-size:11pt;
 	font-family:sans-serif;
 }
 div.ccontent{
-	font-size:7px;
+	font-size:11pt;
 	font-family:sans-serif;
 }
 div.rmenu {
@@ -147,24 +147,24 @@ span.even {
  }
 
 tr.odd {
-	font-size:7px;
+	font-size:11pt;
 	font-family:sans-serif;
 }
 tr {
-	font-size:7px;
+	font-size:11pt;
 	font-family:sans-serif;
 	}
 tr.even {
 
-	font-size:7px;
+	font-size:11pt;
 	font-family:sans-serif;
 }
 td.odd{
-	font-size:7px;
+	font-size:11pt;
 	font-family:sans-serif;
 }
 td.even{
-	font-size:7px;
+	font-size:11pt;
 	font-family:sans-serif;
 }
 td.cell{
@@ -235,7 +235,7 @@ table.doc {
 }
 a.detail
 {
-font-size:8px;
+font-size:11pt;
 font-family:sans-serif;
 }
 
@@ -251,40 +251,40 @@ a.detail:hover
 }
 .num {
 	text-align:right;
-	font-size:8px;
+	font-size:11pt;
 }
 h1.title {
-	font-size:24px;
+	font-size:14pt;
 	font-style: italic;
 }
 h2.title {
-	font-size:16px;
+	font-size:14pt;
 	font-style: italic;
-	margin-left: 15px;
+	margin-left: 10em;
 }
 h3.title {
-	font-size:14px;
-	margin-left: 30px;
+	font-size:14pt;
+	margin-left: 10em;
 }
 h4.title {
 	color: blue;
-	font-size:12px;
-	margin-left: 45px;
+	font-size:12pt;
+	margin-left: 10em;
 	text-decoration: underline;
 }
 h5.title {
 	color: blue;
-	font-size:12px;
-	margin-left: 45px;
+	font-size:12pt;
+	margin-left: 10em;
 	text-decoration: none;
 	font-style: italic;
 }
 /* </style> */
 div.myfieldset
 {
-	margin-top: 5px;
-	margin-left:5px;
-	margin-right: 5px;
+	margin-top: 3em;
+	margin-left:3em;
+	margin-right: 3em;
 	border:lightgrey 2px groove;
 }
 #info_div ,div#error_div ,div#close_div{

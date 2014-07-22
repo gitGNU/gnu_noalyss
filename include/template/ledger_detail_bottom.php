@@ -3,7 +3,7 @@
     $other=new IText('OTHER',$obj->info->other);
 ?>
 <div class="myfieldset">
-    <h1 class="legend">"<?php echo _("Informations")?></h1>
+    <h1 class="legend"><?php echo _("Information")?></h1>
     <table>
         <tr>
             <td><?php echo _(" Bon de commande")?>   :</td><td> <?php echo HtmlInput::infobulle(31)." ".$cmd->input();  ?></td>

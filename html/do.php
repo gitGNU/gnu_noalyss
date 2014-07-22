@@ -31,6 +31,7 @@ require_once('user_common.php');
 require_once('ac_common.php');
 require_once 'function_javascript.php';
 require_once 'constant.security.php';
+require_once 'class_html_input.php';
 mb_internal_encoding("UTF-8");
 
 // if gDossier is not set redirect to form to choose a folder
@@ -46,10 +47,9 @@ if ( ! isset ($_SESSION['g_theme']))
     exit();
 
   }
+$style_user=HtmlInput::default_value_post("style_user",$_SESSION['g_theme']);
 
-if (isset ($_POST["style_user"])){$_SESSION['g_theme']=$_POST['style_user'];}
-
-html_page_start($_SESSION['g_theme']);
+html_page_start($style_user);
 
 global $g_user, $cn,$g_parameter;
 

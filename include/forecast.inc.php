@@ -240,8 +240,8 @@ for ($i = 0; $i < count($aForecast); $i++)
 $href = "?ac=" . $_REQUEST['ac'] . "&sa=new&" . $get_dossier;
 $menu[] = array($href, _("Ajout prévision"), _("Ajout d'une prévision"), 0);
 $def = (isset($_REQUEST['f_id'])) ? $_REQUEST['f_id'] : -1;
-echo '<div class="topmenu">';
-echo ShowItem($menu, 'H', 'mtitle', 'mtitle', $def);
+echo '<div class="topmenu2">';
+echo ShowItem($menu, 'H', 'mtitle', 'mtitle', $def,' class="mtitle" ');
 echo '</div>';
 /* * ********************************************************************
  * Ask for a new anticipation (forecast)
@@ -370,7 +370,7 @@ if (isset($_REQUEST['f_id']) && $sa == "vw")
     }
     catch (Exception $e)
     {
-	echo "<div class=\"error\"><p>" . _("Erreur : ") . $e->getMessage() . '</p><p>' . _('Vous devez corriger') . '</p></div>';
+	echo "<div class=\"error\"><p>" . _("Erreur")." : " . $e->getMessage() . '</p><p>' . _('Vous devez corriger') . '</p></div>';
 	$anc = new Anticipation($cn, $_GET['f_id']);
 	echo '<div class="content">';
 	/* display a blank form for name and category */

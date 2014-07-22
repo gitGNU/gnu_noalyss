@@ -59,8 +59,10 @@ class Anc_Balance_Simple extends Anc_Print
         $sql.=" order by po_id";
         $res=$this->db->exec_sql($sql);
 
-        if ( Database::num_row($res) == 0 )
+        if ( Database::num_row($res) == 0 ) {
+            $this->has_data=0;
             return null;
+        }
         $a=array();
         $count=0;
         $array=Database::fetch_all($res);
@@ -74,6 +76,7 @@ class Anc_Balance_Simple extends Anc_Print
             $a[$count]['debit']=($row['sum_deb']>$row['sum_cred'])?"debit":"credit";
             $count++;
         }
+        $this->has_data=$count;
         return $a;
 
 
@@ -166,7 +169,7 @@ class Anc_Balance_Simple extends Anc_Print
     {
         $r=parent::display_form($p_string);
 
-        $r.= HtmlInput::submit('Affiche','Affiche');
+        $r.= HtmlInput::submit('Affiche', _('Rechercher'));
 
         return $r;
     }

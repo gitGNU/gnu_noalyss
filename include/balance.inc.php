@@ -102,7 +102,7 @@ echo '<li>'.$rad->input('p_filter',0)._('Aucun filtre, tous les journaux').'</li
 if (  isset($_GET['p_filter']) && $_GET['p_filter']==1) $rad->selected='t';
 else $rad->selected=false;
 echo '<li>'.$rad->input('p_filter',1)._('Filtré par journal');
-echo HtmlInput::button_choice_ledger(array('div'=>'bal','type'=>'ALL','all_type'=>1));
+echo HtmlInput::button_choice_ledger(array('div'=>'','type'=>'ALL','all_type'=>1));
 echo '</li>';
 if (  isset($_GET['p_filter']) && $_GET['p_filter']==2) $rad->selected='t';
 else $rad->selected=false;

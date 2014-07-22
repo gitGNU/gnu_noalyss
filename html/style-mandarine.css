@@ -327,6 +327,14 @@ a.mtitle:hover {
     background-color:#FF6600;
 
 }
+td.toolselected a.mtitle {
+    border: solid 1px gray;
+    color: #FFFFFF;
+    border-bottom-width: 2px;
+    text-align:center;
+    border-radius:2px;
+    background-color:#FF7F50;
+}
 td.selectedcell a.mtitle,div.content td.selectedcell a.mtitle {
     text-decoration:none;
     display:block;
@@ -423,7 +431,7 @@ div.redcontent a {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     text-decoration: none;
     display: block;
-    color: #FF7F50;
+    color: #A52A2A;
 
 }
 
@@ -870,6 +878,14 @@ td.tool {
     border-bottom-width: 2px;
     text-align:center;
     border-radius:2px;
+}
+td.toolselected {
+    border: solid 1px gray;
+    color: #FFFFFF;
+    border-bottom-width: 2px;
+    text-align:center;
+    border-radius:2px;
+    background-color:#FF7F50;
 }
 div.topmenu {
 	font-size:14px;
@@ -1421,11 +1437,10 @@ div.box  {
     margin-left:3px;
     margin-right:3px;
     padding:2px;
-    //margin:2px;
     overflow:hidden;
     border:1px solid #6D3F2E;
     width:30%;
-    height:312px;
+    height:350px;
     float:left;
     font-size:14px;
     font-size:0.90rem;

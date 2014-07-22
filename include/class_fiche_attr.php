@@ -1,12 +1,10 @@
 <?php
+//This file is part of NOALYSS and is under GPL 
+//see licence.txt
 /**
  *@brief Manage the table attr_def
  *
  *
-Example
-@code
-
-@endcode
  */
 require_once('class_database.php');
 require_once('ac_common.php');

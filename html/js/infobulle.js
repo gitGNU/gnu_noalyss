@@ -64,6 +64,11 @@ content[33]='le type vaut :<ul>	<li> ME pour Menu</li>	<li> PR pour les impressi
 content[34]='Cliquez sur le code AD pour ouvrir le menu dans un nouvel onglet';
 content[35]='Cliquez sur le chemin pour ouvrir le menu';
 content[36]='En utilisant les dates d\'échéance ou de paiement, seuls les journaux de type ACH et VEN seront utilisés ,vous excluez d\'office les autres journaux';
+content[37]='Les dates sont en format DD.MM.YYYY';
+content[38]='La numérotation est propre à chaque journal. Laissez à 0 pour ne pas changer le numéro';
+content[39]='Le préfixe des pièces doit être différent pour chaque journal, on peut aussi utiliser l\'année';
+content[40]='Laissez à 0 pour ne pas changer le numéro';
+
 function showBulle(p_ctl){
     d=document.getElementById('bulle');
     d.innerHTML=content[p_ctl];

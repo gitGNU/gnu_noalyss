@@ -1,5 +1,4 @@
 <?php
-
 /*
  *   This file is part of NOALYSS.
  *
@@ -996,9 +995,7 @@ class Acc_Ledger extends jrn_def_sql
 			//document
 			if ($row['jr_pj_name'] != "")
 			{
-				$image = '<IMG SRC="image/insert_table.gif" title="' . $row['jr_pj_name'] . '" border="0">';
-				$r.="<TD>" . sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s&%s">%s</A>', $row['jrn_def_id'], $row['jr_grpt_id'], $str_dossier, $image)
-						. "</TD>";
+                            $r.='<td>'.HtmlInput::show_receipt_document($row['jr_id']).'</td>';
 			}
 			else
 				$r.="<TD></TD>";
@@ -2201,7 +2198,79 @@ class Acc_Ledger extends jrn_def_sql
 		$Res = $this->db->exec_sql("update jrn set jr_internal='" . $p_internal . "' where " .
 				" jr_grpt_id = " . $this->grpt_id);
 	}
-
+        /**
+         * Return an array of default card for the ledger type given 
+         * 
+         * @param $p_ledger_type VEN ACH ODS or FIN
+         * @param $p_side   D for Debit or C for credit or NA No Applicable
+         */
+        function get_default_card($p_ledger_type,$p_side)
+        {
+            $array=array();
+            $fiche_def_ref=new Fiche_Def_Ref($this->db);
+            // ----- for FINANCIAL  ----
+            if ($p_ledger_type =='FIN')
+            {
+                $array=$fiche_def_ref->get_by_modele(FICHE_TYPE_CLIENT);
+                $array=array_merge ( $array , $fiche_def_ref->get_by_modele(FICHE_TYPE_FOURNISSEUR));
+                $array=array_merge ( $array , $fiche_def_ref->get_by_modele(FICHE_TYPE_FIN));
+                $array=array_merge ( $array , $fiche_def_ref->get_by_modele(FICHE_TYPE_ADM_TAX));
+                $array=array_merge ( $array , $fiche_def_ref->get_by_modele(FICHE_TYPE_EMPL));
+                
+            }
+            // --- for miscellaneous ----
+            if ($p_ledger_type == 'ODS')
+            {
+                $result=$this->db->get_array('select fd_id from fiche_def');
+                for ($i = 0;$i<count($result);$i++ )
+                {
+                    $array[$i]=$result[$i]['fd_id'];
+                }
+            }
+            if ($p_side == 'D')
+            {
+                switch($p_ledger_type) 
+                {
+                    case 'VEN':
+                        $array=$fiche_def_ref->get_by_modele(FICHE_TYPE_CLIENT);
+                        break;
+                    case 'ACH':
+                        $array=$fiche_def_ref->get_by_modele(FICHE_TYPE_ACH_SER);
+                        $array=array_merge ($array, $fiche_def_ref->get_by_modele(FICHE_TYPE_ACH_MAR));
+                        $array=array_merge ($array,$fiche_def_ref->get_by_modele(FICHE_TYPE_ACH_MAT));
+                        break;
+                    default :
+                        throw new Exception(_('get_default_card p_ledger_side is invalide ['.$p_ledger_type.']'));
+                    
+                }
+            } elseif ($p_side == 'C')
+            {
+                 switch($p_ledger_type) 
+                {
+                    case 'VEN':
+                        $array=$fiche_def_ref->get_by_modele(FICHE_TYPE_VENTE);
+                        break;
+                    case 'ACH':
+                        $array=  array_merge($array, $fiche_def_ref->get_by_modele(FICHE_TYPE_ADM_TAX));
+                        $array=  array_merge($array, $fiche_def_ref->get_by_modele(FICHE_TYPE_FOURNISSEUR));
+                        break;
+                    default :
+                        throw new Exception(_('get_default_card p_ledger_side is invalide ['.$p_ledger_type.']'));
+                    
+                }
+            }
+            return $array;
+            /*
+            $return=array();
+            $return = array_values($array);
+            for ($i = 0;$i<count($array);$i++ )
+            {
+                $return[$i]=$array[$i]['fd_id'];
+            }
+            return $return;
+             * 
+             */
+        }
 	/**
 	 * @brief retrieve all the card for this type of ledger, make them
 	 * into a string separated by comma
@@ -3343,6 +3412,7 @@ class Acc_Ledger extends jrn_def_sql
 		$min_row->prec=0;
                 
                 $description=new ITextarea('p_description');
+                $description->style='class="itextarea" style="margin:0px;"';
                 $description->value=$this->jrn_def_description;
                 $str_description=$description->input();
 
@@ -3511,7 +3581,20 @@ class Acc_Ledger extends jrn_def_sql
 		$wSearch->size = 20;
 
 		$search = $wSearch->input();
-
+                // default for ACH
+                $default_deb_purchase = $this->get_default_card('ACH', 'D');
+                $default_cred_purchase = $this->get_default_card('ACH', 'C');
+                
+                // default for VEN
+                $default_deb_sale      = $this->get_default_card('VEN', 'D');
+                $default_cred_sale     = $this->get_default_card('VEN', 'C');
+                
+                // default for FIN
+                $default_fin           = $this->get_default_card("FIN", "");
+                
+                //default ods
+                $default_ods          = $this->get_default_card("ODS", "");
+                
 		/* construct all the hidden */
 		$hidden = HtmlInput::hidden('p_jrn', -1);
 		$hidden.= HtmlInput::hidden('p_action', 'jrn');
@@ -3532,13 +3615,14 @@ class Acc_Ledger extends jrn_def_sql
                 $wType->javascript=' onchange="show_ledger_div()"';
 		$type = $wType->input();
 		$rcred = $rdeb = array();
-		$wPjPref = new IText();
+                $wPjPref = new IText();
 		$wPjPref->name = 'jrn_def_pj_pref';
 		$pj_pref = $wPjPref->input();
 		$pj_seq = '';
 		$last_seq = 0;
 		$new = 1;
                 $description=new ITextarea('p_description');
+                $description->style='class="itextarea" style="margin:0px;"';
                 $description->value="";
                 $str_description=$description->input();
 		/* bank card */

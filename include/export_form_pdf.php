@@ -50,7 +50,9 @@ $pdf->setTitle("Rapport ".$Libelle,true);
 
 // Step ??
 //--
-if ( $_GET['p_step'] == 0 )
+$step=HtmlInput::default_value_get("p_step", 0);
+
+if ( $step == 0 )
 {
     // No step asked
     //--
@@ -78,7 +80,7 @@ else
 $pdf->SetFont('DejaVuCond','',8);
 
 // without step
-if ( $_GET['p_step'] == 0 )
+if ( $step == 0 )
 {
     if ( $_GET['type_periode'] == 0 )
     {

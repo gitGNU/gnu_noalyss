@@ -132,9 +132,22 @@ td.tool a.mtitle {
 td.tool a.mtitle:hover {
     text-decoration:none;
     display:inline;
-    color: #00008B;
+    color: #FFFFFF;
     background-color:#5D90CD;
 
+}
+td.toolselected a.mtitle {
+    color: #FFFFFF;
+    text-align:center;
+    background-color:#909BA7;
+}
+td.toolselected {
+    border: solid 1px gray;
+    color: #FFFFFF;
+    border-bottom-width: 2px;
+    text-align:center;
+    border-radius:2px;
+    background-color:#909BA7;
 }
 #top {
     float:left;
@@ -243,7 +256,9 @@ table.document th{
 }
 
 table.mtitle {
-    border:0;
+    border:0px;
+    border-collapse:separate;
+    border-spacing:5px;
     text-align:center
 }
 td.mshort {
@@ -259,8 +274,8 @@ td.mtitle {
     width:250px;
     height :30px;
     background-color:#DDE6FF;
-    border:1px solid #99B1DF;
-    border-radius:5px;
+    border:0px
+    
 }
 td.msubtitle {
     text-align:center;
@@ -310,8 +325,7 @@ td.selectedcell{
     color:#FFFFFF;
     text-align:center;
     width:120px;
-    border-radius:5px;
-}
+   }
 a.mtitle {
     text-decoration:none;
     display:inline;
@@ -870,7 +884,10 @@ div.topmenu {
 	font-size:0.85rem;
         
 }
-
+div.topmenu table {
+    border-collapse:collapse;
+  
+}
 #dossier h2{
     color:#00008B;
     display:inline;
@@ -1414,11 +1431,10 @@ div.box  {
     margin-left:3px;
     margin-right:3px;
     padding:2px;
-    //margin:2px;
     overflow:hidden;
     border:1px solid #00008B;
     width:30%;
-    height:312px;
+    height:350px;
     float:left;
     font-size:14px;
     font-size:0.90rem;

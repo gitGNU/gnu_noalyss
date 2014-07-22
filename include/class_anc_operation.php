@@ -69,6 +69,7 @@ class Anc_Operation
         $this->id=$p_id;
         $this->oa_jrnx_id_source=null;
         $this->oa_positive='Y';
+        $this->has_data=0;
     }
     /*!\brief add a row  to the table operation_analytique
      * \note if $this->oa_group if 0 then a sequence id will be computed for
@@ -179,7 +180,6 @@ class Anc_Operation
 	order by jr_date,oa_group,oa_debit desc,oa_id";
 
         $RetSql=$this->db->exec_sql($sql);
-
         $array=Database::fetch_all($RetSql);
         return $array;
     }

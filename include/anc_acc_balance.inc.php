@@ -4,6 +4,7 @@
 
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once('class_anc_acc_list.php');
+echo '<div class="content">';
 $tab = new Anc_Acc_List($cn);
 $tab->get_request();
 echo '<form method="get">';
@@ -16,4 +17,5 @@ if (isset($_GET['result']))
     echo $tab->show_button();
     $tab->display_html();
 }
+echo '</div>';
 ?>

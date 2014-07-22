@@ -61,7 +61,7 @@
 <?php echo $str_add_button?>
 
 <h2><?php echo $f_legend_detail?></h2>
-<table id="sold_item" width="100%" border="0">
+<table id="sold_item" style="width:100%;border-width: 0px">
 <tr>
 <th style="width:auto"colspan="2">Code <?php echo HtmlInput::infobulle(0)?></th>
       <th><?php echo _('Dénomination')?></th>
