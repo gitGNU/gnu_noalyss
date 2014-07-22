@@ -4,5 +4,22 @@ update theme set the_name='Mobile' ,the_filestyle='style-mobile.css' where the_n
 update user_global_pref set parameter_value='Mandarine' where parameter_value='Colored';
 update user_global_pref set parameter_value='Mobile' where parameter_value='EPad';
 update theme set the_filestyle='style-classic.css' where the_filestyle='style.css';
-update version set val=15;
+
+CREATE OR REPLACE FUNCTION public.upgrade_repo(p_version integer)
+ RETURNS void
+AS $function$
+declare 
+        is_mono integer;
+begin
+        select count (*) into is_mono from information_schema.tables where table_name='repo_version';
+        if is_mono = 1 then
+                update repo_version set val=p_version;
+        else
+                update repo_version set val=p_version;
+        end if;
+end;
+$function$
+ language plpgsql;
+select upgrade_repo(15);
+
 commit;
