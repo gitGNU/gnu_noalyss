@@ -101,9 +101,9 @@ class Anc_Account
         if ( strlen($this->name) == 0)
             return;
         if ( $this->ga_id == null || strlen(trim($this->ga_id)) == 0 )
-            $ga_id="NULL";
+            $ga_id=NULL;
         else
-            $ga_id="'".$this->ga_id."'";
+            $ga_id=$this->ga_id;
         $sql="insert into poste_analytique (
              po_name ,
              pa_id,
