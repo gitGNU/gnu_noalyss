@@ -272,8 +272,10 @@ else
         '<a class="mtitle" href="?ac='.$_REQUEST['ac'].'&sa=list&pa_id='.$line['id'].'&'.$str_dossier.'">'.
         "Activités".
         "</a>";
-
-        echo '</TR>';
+	echo '<TD>';
+	echo $line['description'];
+	echo '</TD>';
+        echo "</TR>\n";
     }
     echo '</table>';
     if ($obj->isAppend()==true )
