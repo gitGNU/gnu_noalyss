@@ -169,6 +169,7 @@ class Anc_GrandLivre extends Anc_Print
         $idx = 0;
         $tot_deb = $tot_cred = 0;
 
+	bcscale(2);
         foreach ($array as $row)
         {
             if ($prev != $row['po_name'])
