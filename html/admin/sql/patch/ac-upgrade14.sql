@@ -15,7 +15,7 @@ begin
         if is_mono = 1 then
                 update repo_version set val=p_version;
         else
-                update repo_version set val=p_version;
+                update version set val=p_version;
         end if;
 end;
 $function$
