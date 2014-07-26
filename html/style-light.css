@@ -11,6 +11,7 @@ BODY {
 .notice {
     color:#FF0000;
     font-style: italic;
+    font-weight: bolder;
 }
 
 table.sortable, table.table_large, table.result  ,table.resultfooter {
