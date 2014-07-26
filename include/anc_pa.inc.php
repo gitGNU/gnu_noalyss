@@ -271,7 +271,7 @@ else
         echo '<td class="mtitle">'.
         '<a class="mtitle" href="?ac='.$_REQUEST['ac'].'&sa=list&pa_id='.$line['id'].'&'.$str_dossier.'">'.
         "Activités".
-        "</a>";
+        "</a></td>";
 	echo '<TD>';
 	echo $line['description'];
 	echo '</TD>';
