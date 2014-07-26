@@ -47,7 +47,8 @@ class Document_Export
     }
     /**
      * @brief concatenate all PDF into a single one and save it into the
-     * store_pdf folder
+     * store_pdf folder.
+     * If an error occurs then it is added to feedback
      */
     function concatenate_pdf()
     {
@@ -90,7 +91,7 @@ class Document_Export
 
     /**
      * @brief export all the pieces in PDF and transform them into a PDF with
-     * a stamp
+     * a stamp. If an error occurs then $this->feedback won't be empty
      * @param $p_array contents all the jr_id
      */
     function export_all($p_array)
@@ -98,6 +99,7 @@ class Document_Export
         $this->check_file();
         ob_start();
         var_dump($p_array);
+        $cnt_feedback=0;
         global $cn;
 
         $cn->start();
@@ -115,7 +117,9 @@ class Document_Export
             if ($file[0]['jr_pj_type'] != 'application/pdf')
             {
                 $status = 0;
-                passthru(OFFICE . " " . $this->store_convert . '/' . $file[0]['jr_pj_name'], $status);
+                $arg=" ".escapeshellarg($this->store_convert.DIRECTORY_SEPARATOR.$file[0]['jr_pj_name']);
+                echo "arg = [".$arg."]";
+                passthru(OFFICE . " " . $arg , $status);
                 if ($status <> 0)
                 {
                     $this->feedback[$cnt_feedback]['file'] = $file[0]['jr_pj_name'];
@@ -159,7 +163,7 @@ class Document_Export
             // Concatenate stamp + file
             $stmt = PDFTK . " " . escapeshellarg($this->store_convert . '/' . $file_pdf) . ' stamp ' . $this->store_convert .
                     '/stamp.pdf output ' . $output;
-
+            
             passthru($stmt, $status);
             echo $stmt;
             if ($status <> 0)
