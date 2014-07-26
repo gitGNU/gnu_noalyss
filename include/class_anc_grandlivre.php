@@ -163,7 +163,7 @@ class Anc_GrandLivre extends Anc_Print
         {
             return 0;
         }
-        $r.= '<table class="result" style="width=100%">';
+        $r.= '<table class="result" style="width:100%">';
         $ix = 0;
         $prev = 'xx';
         $idx = 0;
@@ -178,9 +178,9 @@ class Anc_GrandLivre extends Anc_Print
                 {
                     $r.='<tr>';
                     $tot_solde = bcsub($tot_cred, $tot_deb);
-                    $sign = ($tot_solde > 0) ? 'C' : 'D';
+                    $sign = " ".($tot_solde > 0) ? 'C' : 'D';
 		    $r.=td('') . td('') . td('');
-                    $r.=td('') . td('') . td('') . td('') . td('') . td(nbm($tot_deb), ' class="num"') . td(nbm($tot_cred), ' class="num"') . td(nbm($tot_solde) . $sign, ' class="num"');
+                    $r.=td('') . td('') . td('') . td('') . td('') . td(nbm($tot_deb), ' class="num"') . td(nbm($tot_cred), ' class="num"') . td(nbm($tot_solde) . $sign, ' class="num notice"');
                 }
                 $r.='<tr>' . '<td colspan="7" style="width:auto">' . '<h2>' . h($row['po_name'] . ' ' . $row['po_description']) . '</td></tr>';
                 $r.= '<tr>' .
@@ -192,8 +192,9 @@ class Anc_GrandLivre extends Anc_Print
                         '<th>' . _('Document') . '</th>' .
                         '<th>' . _('Pièce') . '</th>' .
                         '<th>' . _('Num.interne') . '</th>' .
-                        '<th style="text-align:right">' . _('Debit') . '</th>' .
-                        '<th style="text-align:right">' . _('Credit') . '</th>' .
+                        '<th style="text-align:right">' . _('Débit') . '</th>' .
+                        '<th style="text-align:right">' . _('Crédit') . '</th>' .
+                        '<th style="text-align:right">' . _('Prog.') . '</th>' .
                         '</tr>';
 
                 $tot_deb = $tot_cred = 0;
@@ -210,6 +211,7 @@ class Anc_GrandLivre extends Anc_Print
             $amount_cred = ($row['oa_debit'] == 'f') ? $row['oa_amount'] : 0;
             $tot_deb = bcadd($tot_deb, $amount_deb);
             $tot_cred = bcadd($tot_cred, $amount_cred);
+            $tot_solde=bcsub($tot_deb,$tot_cred);
 
             /*
              * Checked button
@@ -239,15 +241,15 @@ class Anc_GrandLivre extends Anc_Print
                     td($row['jr_pj_number']) .
                     '<td>' . $detail . '</td>' .
                     '<td class="num">' . nbm($amount_deb) . '</td>' .
-                    '<td class="num">' . nbm($amount_cred)
-                    . '</td>';
+                    '<td class="num">' . nbm($amount_cred). '</td>'.
+                    '<td class="num">' . nbm($tot_solde). '</td>';
             $r.= '</tr>';
         }
         $r.='<tr>';
         $tot_solde = bcsub($tot_cred, $tot_deb);
         $sign = ($tot_solde > 0) ? 'C' : 'D';
 	$r.=td('') . td('') . td('');
-        $r.=td('') . td('') . td('') . td('') . td('') . td(nbm($tot_deb), ' class="num"') . td(nbm($tot_cred), ' class="num"') . td(nbm($tot_solde) . $sign, ' class="num"');
+        $r.=td('') . td('') . td('') . td('') . td('') . td(nbm($tot_deb), ' class="num"') . td(nbm($tot_cred), ' class="num"') . td(nbm($tot_solde) . $sign, '  class="num notice"');
 
         $r.= '</table>';
         return $r;
