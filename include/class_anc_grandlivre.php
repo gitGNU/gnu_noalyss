@@ -189,9 +189,9 @@ class Anc_GrandLivre extends Anc_Print
                         '<th>' . _('Poste') . '</th>' .
                         '<th>' . _('Quick_code') . '</th>' .
                         '<th>' . _('Libellé') . '</th>' .
-                        '<th>' . _('Document') . '</th>' .
+                        '<th>' . '</th>' .
                         '<th>' . _('Pièce') . '</th>' .
-                        '<th>' . _('Num.interne') . '</th>' .
+                        '<th>' . _('Interne') . '</th>' .
                         '<th style="text-align:right">' . _('Débit') . '</th>' .
                         '<th style="text-align:right">' . _('Crédit') . '</th>' .
                         '<th style="text-align:right">' . _('Prog.') . '</th>' .
