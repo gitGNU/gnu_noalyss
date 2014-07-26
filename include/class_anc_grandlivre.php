@@ -169,6 +169,7 @@ class Anc_GrandLivre extends Anc_Print
         $idx = 0;
         $tot_deb = $tot_cred = 0;
 
+	bcscale(2);
         foreach ($array as $row)
         {
             if ($prev != $row['po_name'])
@@ -178,6 +179,7 @@ class Anc_GrandLivre extends Anc_Print
                     $r.='<tr>';
                     $tot_solde = bcsub($tot_cred, $tot_deb);
                     $sign = ($tot_solde > 0) ? 'C' : 'D';
+		    $r.=td('') . td('') . td('');
                     $r.=td('') . td('') . td('') . td('') . td('') . td(nbm($tot_deb), ' class="num"') . td(nbm($tot_cred), ' class="num"') . td(nbm($tot_solde) . $sign, ' class="num"');
                 }
                 $r.='<tr>' . '<td colspan="7" style="width:auto">' . '<h2>' . h($row['po_name'] . ' ' . $row['po_description']) . '</td></tr>';
@@ -244,6 +246,7 @@ class Anc_GrandLivre extends Anc_Print
         $r.='<tr>';
         $tot_solde = bcsub($tot_cred, $tot_deb);
         $sign = ($tot_solde > 0) ? 'C' : 'D';
+	$r.=td('') . td('') . td('');
         $r.=td('') . td('') . td('') . td('') . td('') . td(nbm($tot_deb), ' class="num"') . td(nbm($tot_cred), ' class="num"') . td(nbm($tot_solde) . $sign, ' class="num"');
 
         $r.= '</table>';
