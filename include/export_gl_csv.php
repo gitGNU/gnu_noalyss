@@ -63,18 +63,18 @@ else
     if ($from_poste != '')
       {
 	$cond_poste = '  where ';
-	$cond_poste .=' pcm_val >= upper (\''.Database::escape_string($from_poste).'\')';
+	$cond_poste .=" pcm_val >= upper ('".Database::escape_string($from_poste)."')";
       }
 
     if ( $to_poste != '')
       {
 	if  ( $cond_poste == '')
 	  {
-	    $cond_poste =  " where pcm_val <= upper (''".Database::escape_string($to_poste)."'')";
+	    $cond_poste =  " where pcm_val <= upper ('".Database::escape_string($to_poste)."')";
 	  }
 	else
 	  {
-	    $cond_poste.=" and pcm_val <= upper (''".Database::escape_string($to_poste)."'')";
+	    $cond_poste.=" and pcm_val <= upper ('".Database::escape_string($to_poste)."')";
 	  }
       }
 
