@@ -15,3 +15,6 @@ begin
 end;
 $function$
  language plpgsql;
+
+-- bug 
+alter table action_gestion alter ag_title type text;
