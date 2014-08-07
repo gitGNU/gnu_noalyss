@@ -1717,6 +1717,11 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         $ret = $this->db->exec_sql($sql, array($this->id,$p_from, $p_end));
         return $ret;
     }
+    /**
+     * @brief compute an array with the heading cells for the
+     * details, used for the export in CSV
+     * @return array
+     */
     static function heading_detail_purchase()
     {
         $array['jr_id'] = _('Numéro opération');

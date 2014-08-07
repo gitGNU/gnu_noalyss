@@ -1301,7 +1301,12 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         $ret = $this->db->exec_sql($sql, array($this->id,$p_from, $p_end));
         return $ret;
     }
-        static function heading_detail_sale()
+    /**
+     * @brief compute an array with the heading cells for the
+     * details, used for the export in CSV
+     * @return array
+     */
+    static function heading_detail_sale()
     {
         $array['jr_id'] = _('Numéro opération');
         $array['jr_date'] = _('Date');
