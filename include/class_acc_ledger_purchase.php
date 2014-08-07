@@ -1717,6 +1717,41 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         $ret = $this->db->exec_sql($sql, array($this->id,$p_from, $p_end));
         return $ret;
     }
+    static function heading_detail_purchase()
+    {
+        $array['jr_id'] = _('Numéro opération');
+        $array['jr_date'] = _('Date');
+        $array['jr_date_paid'] = _('Date paiement');
+        $array['jr_ech'] = _('Date échéance');
+        $array['jr_tech_per'] = _('Période');
+        $array['jr_comment'] = _('Libellé');
+        $array['jr_pj_number'] = _('Pièce');
+        $array['jr_internal'] = _('Interne');
+        $array['jr_def_id'] = _('Code journal');
+        $array['j_poste'] = _('Poste');
+        $array['j_text'] = _('Commentaire');
+        $array['j_qcode'] = _('Code Item');
+        $array['item_card'] = _('N° fiche');
+        $array['item_name'] = _('Nom fiche');
+        $array['qp_supplier'] = _('N° fiche fournisseur');
+        $array['tiers_name'] = _('Nom fournisseur');
+        $array['quick_code'] = _('Code fournisseur');
+        $array['tva_label'] = _('Nom TVA');
+        $array['tva_comment'] = _('Commentaire TVA');
+        $array['tva_both_side'] = _('TVA annulée');
+        $array['vat_sided'] = _('Retrait TVA');
+        $array['vat_code'] = _('Code TVA');
+        $array['vat'] = _('Montant TVA');
+        $array['price'] = _('Total HTVA');
+        $array['quantity'] = _('quantité');
+        $array['price_per_unit'] = _('PU');
+        $array['non_ded_amount'] = _('Montant ND');
+        $array['non_ded_tva'] = _('Montant TVA ND');
+        $array['non_ded_tva_recup'] = _('TVA récup.');
+        $array['htva'] = _('HTVA Opération');
+        $array['tot_vat'] = _('TVA Opération');
+        return $array;
+    }
 
 }
 
