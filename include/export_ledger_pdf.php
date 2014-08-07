@@ -39,7 +39,7 @@ require_once('class_periode.php');
 require_once 'class_print_ledger.php';
 
 
-        $cn = new Database($gDossier);
+$cn = new Database($gDossier);
 $periode = new Periode($cn);
 
 $l_type = "JRN";

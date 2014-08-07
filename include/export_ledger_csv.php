@@ -85,11 +85,13 @@ if ($get_option == 2)
             case 'VEN':
                 $ledger = new Acc_Ledger_Sold($cn, $get_jrn);
                 $ret_detail = $ledger->get_detail_sale($get_from_periode, $get_to_periode);
+                $a_heading= Acc_Ledger_Sold::heading_detail_sale();
+                
                 break;
             case 'ACH':
                 $ledger = new Acc_Ledger_Purchase($cn, $get_jrn);
                 $ret_detail = $ledger->get_detail_purchase($get_from_periode, $get_to_periode);
-                
+                $a_heading=  Acc_Ledger_Purchase::heading_detail_purchase();
                 break;
             default:
                 die(__FILE__ . ":" . __LINE__ . 'Journal invalide');
@@ -103,10 +105,7 @@ if ($get_option == 2)
         for ($i = 0;$i < $nb ; $i++) {
             $row=Database::fetch_array($ret_detail, $i);
             if ( $i == 0 ) {
-              foreach ($row as $key=>$value) {
-                  if (isNumber($key) == 0 )$array_key[]=$key;
-              }
-              fputcsv($output,$array_key,';');
+              fputcsv($output,$a_heading,';');
             }
             $a_row=array();
             for ($j=0;$j < count($row) / 2;$j++) {
@@ -212,7 +211,10 @@ if  ($get_option == 1)
         $Row=$Jrn->get_rowSimple($get_from_periode,
                              $get_to_periode,
                              0);
-        $cn->prepare('reconcile_date',"select to_char(jr_date,'DD.MM.YY') as str_date,* from jrn where jr_id in (select jra_concerned from jrn_rapt where jr_id = $1 union all select jr_id from jrn_rapt where jra_concerned=$1)");
+        $cn->prepare('reconcile_date',"select to_char(jr_date,'DD.MM.YY') as str_date,* "
+                . "from jrn "
+                . "where "
+                . "jr_id in (select jra_concerned from jrn_rapt where jr_id = $1 union all select jr_id from jrn_rapt where jra_concerned=$1)");
 
         $own=new Own($cn);
         $col_tva="";
