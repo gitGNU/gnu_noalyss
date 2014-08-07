@@ -15,7 +15,7 @@
 </div>
 <div class="myfieldset">
 <h1 class="legend">
-<?php echo _('Rapprochement');?>
+<?php echo _('Opérations liées');?>
 </h1>
 <?php 
 $oRap=new Acc_Reconciliation($cn);
