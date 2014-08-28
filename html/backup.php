@@ -34,7 +34,11 @@ if ($User->admin != 1)
     echo "<script>alert('"._("Vous n\'êtes pas administrateur")."') </script>";
     return;
 }
-
+$dossier_number=HtmlInput::default_value_request("d", 0);
+if ($dossier_number == 0  
+   || isNumber($dossier_number) ==0 ) {
+    die ('Invalid folder number');
+}
 /*!\file
  * \brief Make and restore backup
  */
@@ -44,8 +48,7 @@ if ( isset ($_REQUEST['sa']) )
         putenv("PATH=".PG_PATH);
 
 
-    if ( ! isset ($_REQUEST['d']) ||
-            ! isset($_REQUEST['t']))
+    if ( ! isset($_REQUEST['t']))
     {
         echo "Erreur : paramètre manquant ";
         exit();
@@ -74,7 +77,7 @@ if ( isset ($_REQUEST['sa']) )
         
         if ( $_REQUEST['t'] == 'd' )
         {
-            $database=domaine."dossier".$_REQUEST['d'];
+            $database=domaine."dossier".$dossier_number;
             $args= " -Fc -Z9 --no-owner -h ".getenv("PGHOST")." -p ".getenv("PGPORT")." ".$database;
             header('Content-type: application/octet');
             header('Content-Disposition:attachment;filename="'.$database.'.bin"',FALSE);
@@ -85,7 +88,7 @@ if ( isset ($_REQUEST['sa']) )
 
         if ( $_REQUEST['t'] == 'm' )
         {
-            $database=domaine."mod".$_REQUEST['d'];
+            $database=domaine."mod".$dossier_number;
             $args= " -Fc -Z9 --no-owner -h ".getenv("PGHOST")." -p ".getenv("PGPORT")." ".$database;
             header('Content-type: bin/x-application');
             header('Content-Disposition: attachment;filename="'.$database.'.bin"',FALSE);
