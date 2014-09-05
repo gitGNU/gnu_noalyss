@@ -1,7 +1,7 @@
 <?php
 require_once('class_database.php');
 require_once('ac_common.php');
-require_once 'class_phpcompta_sql.php';
+require_once 'class_noalyss_sql.php';
 /*
  *   This file is part of NOALYSS.
  *
@@ -23,7 +23,7 @@ require_once 'class_phpcompta_sql.php';
 /**
  * @brief Manage the table public.tag
  */
-class Tag_SQL extends Phpcompta_SQL
+class Tag_SQL extends Noalyss_SQL
 {
 	/* example private $variable=array("easy_name"=>column_name,"email"=>"column_name_email","val3"=>0); */
 

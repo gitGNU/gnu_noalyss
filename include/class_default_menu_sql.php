@@ -23,9 +23,9 @@
  *
  * @author dany
  */
-require_once 'class_phpcompta_sql.php';
+require_once 'class_noalyss_sql.php';
 
-class Default_Menu_SQL extends Phpcompta_SQL
+class Default_Menu_SQL extends Noalyss_SQL
 {
     var $md_id;
     var $md_code;

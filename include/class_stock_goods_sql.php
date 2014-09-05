@@ -25,9 +25,9 @@
  * @brief
  *
  */
-require_once 'class_phpcompta_sql.php';
+require_once 'class_noalyss_sql.php';
 
-class Stock_Goods_Sql extends Phpcompta_SQL
+class Stock_Goods_Sql extends Noalyss_SQL
 {
 
 	function __construct($cn,$p_id = -1)
@@ -81,7 +81,7 @@ class Stock_Goods_Sql extends Phpcompta_SQL
 
 }
 
-class Stock_Change_Sql extends Phpcompta_SQL
+class Stock_Change_Sql extends Noalyss_SQL
 {
 
 	function __construct($cn,$p_id = -1)
