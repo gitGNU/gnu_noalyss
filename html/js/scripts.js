@@ -684,7 +684,7 @@ function waiting_box()
         id: 'wait_box', html: '<h2 class="title">Chargement</h2>'+loading()
     };
     var y = calcy(posY);
-    obj.style = fixed_position(posX, y) + ";width:200px";
+    obj.style = "top:35%;right:35%;width:200px";
     if ($('wait_box')) {
         removeDiv('wait_box');
     }
@@ -782,7 +782,7 @@ function success_box(req, json)
 
 function error_box()
 {
-    alert('IBOX : error_box ajax not implemented');
+    alert('[error_box] ajax not implemented');
 }
 /**
  * show the ledger choice
