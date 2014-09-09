@@ -76,8 +76,8 @@ if ( $low_action == "list" )
             $a);
     $sel_card=new ISelect('cat');
     $sel_card->value=$cn->make_array('select fd_id, fd_label from fiche_def '.
-                                     ' where  frd_id='.FICHE_TYPE_FIN.
-                                     ' order by fd_label ',1);
+                                     ' where  frd_id=$1'.
+                                     ' order by fd_label ',1,array(FICHE_TYPE_FIN));
     $sel_card->selected=(isset($_GET['cat']))?$_GET['cat']:-1;
     $sel_card->javascript=' onchange="submit(this);"';
     echo _('Catégorie :').$sel_card->input();

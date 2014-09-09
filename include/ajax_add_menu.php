@@ -33,13 +33,13 @@ $ame_code_dep=$cn->make_array("
 	menu_ref
 	where
 	me_file is null and me_javascript is null and me_url is null and me_type<>'PR' and me_type <> 'SP'
-	and me_code in (select me_code from profile_menu where p_id=".sql_string($p_id).")".
+	and me_code in (select me_code from profile_menu where p_id=$1)".
 	"	UNION ALL
 		select me_code,me_code||' '||me_menu||' '||coalesce(me_description,'') from menu_ref
 	where
 		me_code='EXT'
 	order by 1
-	",1);
+	",1,array($p_id));
 $ame_code=$cn->make_array("
 select me_code,me_code||' '||coalesce(me_menu,'')||' '||coalesce(me_description,'')
 	||'('|| case when me_type='SP' then 'Special'
@@ -109,9 +109,9 @@ select me_code,me_code||' '||coalesce(me_menu,'')||' '||coalesce(me_description,
 	from
 	menu_ref
 	where me_type='PR'
-	and me_code not in (select me_code from profile_menu where p_id=".sql_string($p_id).")
+	and me_code not in (select me_code from profile_menu where p_id=$1)
 	order by 1
-	");
+	",0,array($p_id));
 
 $me_code=new ISelect('me_code');
 $me_code->value=$ame_code;

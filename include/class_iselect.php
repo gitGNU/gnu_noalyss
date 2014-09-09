@@ -21,6 +21,7 @@
 
 /*!\file
  * \brief Html Input
+ * @see Database::make_array
  */
 require_once('class_html_input.php');
 class ISelect extends HtmlInput

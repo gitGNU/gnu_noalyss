@@ -34,13 +34,13 @@ $ame_code_dep=$cn->make_array("
 	menu_ref
 	where
 	me_file is null and me_javascript is null and me_url is null and me_type<>'PR' and me_type <> 'SP'
-	and me_code in (select me_code from profile_menu where p_id=".sql_string($profile).")".
+	and me_code in (select me_code from profile_menu where p_id=$1)".
 	"	UNION ALL
 		select me_code,me_code||' '||me_menu||' '||coalesce(me_description,'') from menu_ref
 	where
 		me_code='EXT'
 	order by 1
-	",1);
+	",1,array($profile));
 $a_type=$cn->make_array("select pm_type,pm_desc from profile_menu_type",1);
 
 $array=$cn->get_array("select p_id,pm_id,me_code,me_code_dep,p_order,p_type_display,pm_default

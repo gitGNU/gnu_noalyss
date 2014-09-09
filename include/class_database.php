@@ -711,42 +711,43 @@ class Database
     }
 
     /**
-     * \brief make a array with the sql
+     * \brief make a array with the sql.
      *
      * \param $p_sql  sql statement, only the first two column will be returned in
      *  an array. The first col. is the label and the second the value
      *  \param $p_null if the array start with a null value
+     *  \param $p_array is the array with the bind value
      * \note this function is used with ISelect when it is needed to have a list of
-     * options
+     * options.
      * \return: a double array like
       \verbatim
       Array
       (
-      [0] => Array
-      (
-      [value] => 1
-      [label] => Marchandise A
-      )
+        [0] => Array
+                (
+                [value] => 1
+                [label] => Marchandise A
+               )
 
       [1] => Array
-      (
-      [value] => 2
-      [label] => Marchandise B
-      )
+            (
+            [value] => 2
+            [label] => Marchandise B
+            )
 
       [2] => Array
-      (
-      [value] => 3
-      [label] => Marchandise C
-      )
+            (
+            [value] => 3
+            [label] => Marchandise C
+            )
       )
       \endverbatim
      * \see ISelect
      */
 
-    function make_array($p_sql, $p_null=0)
+    function make_array($p_sql, $p_null=0,$p_array=null)
     {
-        $a=$this->exec_sql($p_sql);
+        $a=$this->exec_sql($p_sql,$p_array);
         $max=pg_NumRows($a);
         if ($max==0&&$p_null==0)
             return null;
