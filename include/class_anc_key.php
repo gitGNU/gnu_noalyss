@@ -31,9 +31,6 @@ class Anc_Key
 {
 
     private $key; /* !  the distribution key */
-    private $a_ledger; /* ! array of ledger where the key is available */
-    private $a_activity; /* ! array of activities of this key */
-    private $a_row; /* ! array of row */
 
     function __construct($p_id=-1)
     {
@@ -246,6 +243,15 @@ class Anc_Key
         }
         $cn->commit();
     }
+    /**
+     * @brief Call the Anc_Operation::display_form_plan with the right amounts.
+     * This function compute the array and amount to pass to the Anc_Operation::display_form_plan
+     * and replace the current table of activity with the value computed from the key.
+     * 
+     * @global $cn database connection
+     * @param $p_target Table to be replaced
+     * @param $p_amount amount to distribute among activities
+     */
     function fill_table($p_target,$p_amount)
     {
         global $cn;
