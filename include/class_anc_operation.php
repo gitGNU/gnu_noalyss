@@ -545,9 +545,20 @@ class Anc_Operation
             $button=new IButton();
             $button->javascript="add_row('".$p_id."$table_id',$p_seq);";
             $button->name="js".$p_id.$p_seq;
-            $button->label="Nouvelle ligne";
+            $button->label=_("Nouvelle ligne");
 
             $result.="<br>".$button->input();
+            /**
+             * Add a button for distribution key
+             * 
+             */
+            $gDossier=Dossier::id();
+            $button_key=new IButton();
+            $button_key->javascript="anc_key_choice(".$gDossier.",'".$p_id."$table_id',$p_amount);";
+            $button_key->name="js".$p_id.$p_seq;
+            $button_key->label=_("Clef");
+            $result .= $button_key->input();
+
         }
 
         return $result;
