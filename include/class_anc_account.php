@@ -128,7 +128,7 @@ class Anc_Account
     {
         $a=$cn->make_array("select  po_name,po_name from poste_analytique ".
                            " where ".
-                           " pa_id =".$pa_id." order by po_name ");
+                           " pa_id = $1 order by po_name ",0,array($pa_id));
         return $a;
     }
     function update()
