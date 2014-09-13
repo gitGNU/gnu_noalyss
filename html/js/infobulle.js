@@ -68,6 +68,7 @@ content[37]='Les dates sont en format DD.MM.YYYY';
 content[38]='La numérotation est propre à chaque journal. Laissez à 0 pour ne pas changer le numéro';
 content[39]='Le préfixe des pièces doit être différent pour chaque journal, on peut aussi utiliser l\'année';
 content[40]='Laissez à 0 pour ne pas changer le numéro';
+content[41]='Mettez le pourcentage à zéro pour effacer la ligne';
 
 function showBulle(p_ctl){
     d=document.getElementById('bulle');

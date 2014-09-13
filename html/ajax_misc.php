@@ -632,6 +632,19 @@ EOF;
             }
             exit();
             break;
+        
+        case 'anc_key_choice': 
+            /*
+             *  Show the available distribution keys for analytic 
+             */
+            require_once 'ajax_anc_key_choice.php';
+            break;
+        case 'anc_key_compute':
+            /* 
+             * Show the activities computed with the selected distribution key 
+             */
+            require_once 'ajax_anc_key_compute.php';
+            break;
 	default:
 		var_dump($_GET);
 }
