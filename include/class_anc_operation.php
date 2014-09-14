@@ -315,35 +315,97 @@ class Anc_Operation
      */
     function get_by_jid($p_jid)
     {
-        $sql="select distinct oa_id,
-             po_id,
-             oa_amount,
-             oa_description,
-             oa_debit,
-             j_id,
-             oa_group,
-             oa_date,
-             pa_id,
-             oa_row,
-             oa_positive
-             from operation_analytique join poste_analytique using (po_id)
-             where
-             j_id=$p_jid order by j_id,oa_row,pa_id";
-        $ret=$this->db->exec_sql($sql);
-        $res=Database::fetch_all($ret);
-        if ( $res== false) return null;
+        $array=array();
+        $a_plan=$this->db->get_array('select pa_id from plan_analytique order by pa_id');
+        $res=array();
+        /*
+         * For one oa_row
+         */
+        $a_rowcount=$this->db->get_array("select distinct  oa_row "
+                ." from operation_analytique where j_id=$1 order by oa_row", array($p_jid));
+
+        for ($i=0; $i<count($a_rowcount); $i++)
+        {
+            /*
+             * Get one row as template for filling the missing 
+             */
+            $a_existing=$this->db->get_array('
+                    select distinct oa_id,
+                     po_id,
+                     oa_amount,
+                     oa_description,
+                     oa_debit,
+                     j_id,
+                     oa_group,
+                     oa_date,
+                     pa_id,
+                     oa_row,
+                     oa_positive
+                     from operation_analytique join poste_analytique using (po_id)
+                     where
+                     j_id=$1 and oa_row = $2 
+                     order by j_id,oa_row', 
+                    array($p_jid, $a_rowcount[$i]['oa_row']));
+            
+            // the first row we found will be the template
+            $template=$a_existing[0];
+            /*
+             * For each plan
+             */
+            for ($j=0; $j<count($a_plan); $j++)
+            {
+                /*
+                 * Fetch the row with this pa_id, oa_row, max : 1 row
+                 */
+                $a_fetch=$this->db->get_array('
+                    select distinct oa_id,
+                     po_id,
+                     oa_amount,
+                     oa_description,
+                     oa_debit,
+                     j_id,
+                     oa_group,
+                     oa_date,
+                     pa_id,
+                     oa_row,
+                     oa_positive
+                     from operation_analytique join poste_analytique using (po_id)
+                     where
+                     j_id=$1 and oa_row = $2  and pa_id=$3', array($p_jid,
+                    $a_rowcount[$i]['oa_row'],
+                    $a_plan[$j]['pa_id']
+                        )
+                );
+                if (count($a_fetch)==0)
+                {
+                    $a_fetch=$template;
+                    $a_fetch['pa_id']=$a_plan[$j]['pa_id'];
+                    $a_fetch['po_id']=-1;
+                    $a_fetch['oa_id']='';
+                    $res[]=$a_fetch;
+                }
+                else
+                if (count($a_fetch)==1)
+                {
+                    $res[]=$a_fetch[0];
+                }
+            }
+        }
 
         foreach ($res as $row)
         {
             $a=new Anc_Operation($this->db);
-            foreach ( $row as $attr=>$value )
+            foreach ($row as $attr=> $value)
             {
                 $a->$attr=$row[$attr];
             }
             $array[]=clone $a;
         }
+
+
         return $array;
     }
+
     /*!\brief modify an op from modify_op.php
      *
      */
