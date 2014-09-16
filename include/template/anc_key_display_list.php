@@ -32,12 +32,6 @@
         'op'=>'consult',
         'key'=>$a_key[$i]['kd_id']
     ));
-    
-    /*sprintf(' onclick="anc_key_compute(%s,\'%s\',%s,%s)"',
-            Dossier::id(),
-            $p_target,
-            $p_amount,
-            $a_key[$i]['kd_id']);*/
     ?>
         <tr>
             <td>

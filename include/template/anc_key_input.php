@@ -22,22 +22,27 @@
  * all the pa_id and analytic plan
  */
 ?>
-<form method="post">
+<form method="post" action="do.php">
     <?php
     echo HtmlInput::request_to_hidden(array('gDossier', 'ac'));
-    echo HtmlInput::hidden('key_id', $this->key->getp('id'));
+    echo HtmlInput::hidden('op','consult');
+    echo HtmlInput::hidden('key', $this->key->getp('id'));
+    $name=HtmlInput::default_value_post("name_key",$this->key->getp('name'));
+    $description_text=HtmlInput::default_value_post("description_key",$this->key->getp('description'));
     ?>
     <div class="content">
         <div style="width:30%;display:inline-block;min-height: 75px">
-            <h1 class="legend">
-                <?php echo $this->key->getp('name'); ?>
-            </h1>
+                    <?php
+                        $name=new IText('name_key',$name);
+                        echo $name->input();
+                    ?>
         </div>
         <div style="width: 65%;display:inline-block;min-height: 75px">
-            <p>
-                <?php echo $this->key->getp('description'); ?>
-            </p>
-
+                <?php
+                        $description=new IText('description_key',$description_text);
+                        $description->css_size='70%';
+                        echo $description->input();
+                    ?>
         </div>
         <h2>
             <?php echo _('Répartition'); ?>
@@ -61,6 +66,13 @@
                 </th>
             </tr>
             <?php
+            $count_row=count($a_row);
+            if ($count_row == 0 ) {
+                $a_row [0]['ke_row']=1;
+                $a_row [0]['ke_percent']=0;
+                $a_row [0]['ke_id']=-1;
+                
+            }
             for ($j=0; $j<count($a_row); $j++):
                 ?>
                 <tr>
@@ -133,10 +145,21 @@
             </div>
             <div style="margin-left: 8%;width:84%;margin-right:8%">
 
-                <?php $jrn=$cn->get_array('select kl_id,jrn_def_id,jrn_def_name,jrn_def_description from jrn_def 
+                <?php 
+                if ( $this->key->getp("id") == -1 )
+                {
+                    // for a new key
+                        $jrn=$cn->get_array('select null as kl_id,jrn_def_id,jrn_def_name,jrn_def_description 
+                                            from jrn_def 
+                                            order by jrn_def_name ');
+                }else {
+                    // for an existing one
+                        $jrn=$cn->get_array('select kl_id,jrn_def_id,jrn_def_name,jrn_def_description 
+                                            from jrn_def 
                                             left join key_distribution_ledger using (jrn_def_id)
                                             where kd_id=$1 or kd_id is null
                                             order by jrn_def_name ', array($this->key->getp('id')));
+                }
                 ?>
                 <table id="jrn_def_tb" class="result">
                     <?php for ($i=0; $i<count($jrn); $i++): ?>
