@@ -20,7 +20,6 @@
 
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 define('ALLOWED',1);
-var_dump($_POST);
 /**\file
  * \brief Main file
  */
