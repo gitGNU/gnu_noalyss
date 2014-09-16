@@ -144,7 +144,7 @@
                     </tr>
                 </tfoot>
         </table>
-<input type="button" class="smallbutton" value="<?php echo _('Ajout ligne')?>" onclick="add_row_key('key_account_tb',0);">
+<input type="button" class="smallbutton" value="<?php echo _('Ajout ligne')?>" onclick="add_row_key('key_account_tb');">
 
         <div>
             <div>
