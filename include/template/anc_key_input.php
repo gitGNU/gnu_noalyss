@@ -160,6 +160,7 @@
                                             where kd_id=$1 or kd_id is null
                                             order by jrn_def_name ', array($this->key->getp('id')));
                 }
+                $post_jrn=HtmlInput::default_value_post("jrn",-1);
                 ?>
                 <table id="jrn_def_tb" class="result">
                     <?php for ($i=0; $i<count($jrn); $i++): ?>
@@ -167,7 +168,13 @@
                             <td>
                                 <?php $checkbox=new ICheckBox("jrn[]"); ?>
                                 <?php $checkbox->value=$jrn[$i]['jrn_def_id']; ?>
-                                <?php $checkbox->selected=($jrn[$i]['kl_id']=="")?false:true; ?>
+                                <?php
+                                $checkbox->selected=false;
+                                if ( ($post_jrn == -1 && $jrn[$i]['kl_id']<>"" ) || (is_array($post_jrn) && in_array($jrn[$i]['jrn_def_id'], $post_jrn)))
+                                {
+                                    $checkbox->selected=true;
+                                }
+                                ?>
                                 <?php echo $checkbox->input(); ?>
                             </td>
                             <td>
