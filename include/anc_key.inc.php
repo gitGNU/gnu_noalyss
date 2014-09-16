@@ -37,10 +37,11 @@ switch ($op)
 {
     case 'list':
         Anc_Key::display_list();
+        Anc_Key::key_add();
         break;
     case 'consult':
-        $id=HtmlInput::default_value_request("key", "-1");
-        if (isNumber($id)==0||$id==-1)
+        $id=HtmlInput::default_value_request("key", "0");
+        if (isNumber($id)==0||$id==0)
         {
             die(_('Clef invalide'));
         }
@@ -51,6 +52,8 @@ switch ($op)
             {
                 $key->save($_POST);
                 Anc_Key::display_list();
+                Anc_Key::key_add();
+
                 break;
             }
             catch (Exception $e)

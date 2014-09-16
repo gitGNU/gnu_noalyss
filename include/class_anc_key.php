@@ -131,6 +131,9 @@ class Anc_Key
         {
             throw new Exception(_('Le total ne vaut pas 100, total calculé = ').$tot_percent);
         }
+        if ($p_array['name_key']=='') {
+            throw new Exception (_('Le nom ne peut être vide'));
+        }
     }
 
     /**
@@ -198,6 +201,9 @@ class Anc_Key
         $a_plan=$p_array['pa'];
         try
         {
+            $this->key->setp('name',$p_array['name_key']);
+            $this->key->setp('description',$p_array['description_key']);
+            $this->key->save();
             for ($i=0; $i<count($a_row); $i++)
             {
                 //save key_distribution_row
@@ -236,6 +242,7 @@ class Anc_Key
                 $ledger->jrn_def_id=$a_ledger[$k];
                 $ledger->save();
             }
+            
         }
         catch (Exception $e)
         {
@@ -299,4 +306,17 @@ class Anc_Key
         
     }
 
+    static function key_add()
+    {
+        $key=new Anc_Key();
+        $key->key->setp('name',_('Nouvelle clef'));
+        $key->key->setp('description',_('Description de la nouvelle clef'));
+        ?>
+<input type="button" class="smallbutton" value="<?php echo  _('Ajout')?>" onclick="$('key_add_div_id').show()">
+<div id="key_add_div_id" style="display: none">
+<?php
+        $key->input();
+        echo '</div>';
+        
+    }
 }
