@@ -47,7 +47,7 @@
         <h2>
             <?php echo _('Répartition'); ?>
         </h2>
-        <table class="result" style="margin-left: 8%;width:84%;margin-right:8%">
+        <table id="key_account_tb" class="result" style="margin-left: 8%;width:84%;margin-right:8%">
             <tr>
                 <th><?php echo _('n°'); ?></th>
                 <?php
@@ -60,7 +60,7 @@
                     <?php
                 endfor;
                 ?>
-                <th>
+                    <th class="num">
                     <?php echo _('Pourcentage'); ?>
                     <?php echo HtmlInput::infobulle(41); ?>
                 </th>
@@ -73,6 +73,7 @@
                 $a_row [0]['ke_id']=-1;
                 
             }
+            $tot_key=0;
             for ($j=0; $j<count($a_row); $j++):
                 ?>
                 <tr>
@@ -82,6 +83,7 @@
                     </td>
                         <?php
                          $percent=$a_row[$j]['ke_percent'];
+                         $tot_key=bcadd($tot_key,$percent);
                         // For each plan
                         for ($i=0; $i<count($plan); $i++):
                             if ( $j == 0 ) {
@@ -120,7 +122,7 @@
                         <?php
                     endfor;
                     ?>
-                    <td>
+                        <td class="num">
                         <?php
                         $inum_percent=new INum('percent[]');
                         $inum_percent->value=$percent;
@@ -131,11 +133,18 @@
                 <?php
             endfor;
             ?>
-            <tr>
-
-            </tr>
+                <tfoot style="font-weight: bolder">
+                    <tr>
+                        <td style="width: auto" colspan="<?php echo count($plan)+1;?>">
+                            <?php echo _('Total')?>
+                        </td>
+                        <td id="total_key" class="num">
+                            <?php echo $tot_key;?>
+                        </td>
+                    </tr>
+                </tfoot>
         </table>
-
+<input type="button" class="smallbutton" value="<?php echo _('Ajout ligne')?>" onclick="add_row_key('key_account_tb',0);">
 
         <div>
             <div>

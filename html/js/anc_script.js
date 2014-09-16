@@ -481,3 +481,55 @@ function anc_key_choice(p_dossier, p_table, p_amount)
         error_message(e.message);
     }
 }
+function add_row_key(p_table, p_seq)
+{
+    var mytable = g(p_table).tBodies[0];
+    // var max = parseFloat(g('amount_t' + p_seq).value);
+    if (!mytable)
+    {
+        return;
+    }
+    var new_value = mytable.rows.length + 1;
+
+
+    if (mytable.rows.length > 15)
+    {
+        alert("Maximum 15 lignes ");
+        return;
+    }
+   /* var amount = compute_total_table(p_table, p_seq);
+    if (max < amount)
+    {
+        alert('Montant incorrect : max = ' + max + " calculé=" + amount);
+        return;
+    }
+    */
+    // For the detail view (modify_op) there is several form and then several time the
+    // element
+    var rowToCopy = mytable.rows[1];
+    var row = mytable.insertRow(mytable.rows.length);
+
+    for (var i = 0; i < rowToCopy.cells.length; i++)
+    {
+        var cell = row.insertCell(i);
+        cell.className=rowToCopy.cells[i].className;
+        var txt = rowToCopy.cells[i].innerHTML;
+//	txt=txt.replace(/row_1/g,"row_"+new_value);
+        if (  i == 0 )
+        {
+            cell.innerHTML =mytable.rows.length-1 ;
+        } 
+        else
+        {
+            if (i == rowToCopy.cells.length -1 )  {
+                txt=txt.replace(/value="[0-9]*.{1}[0-9]*"/,'value="0"')
+            }
+           cell.innerHTML = txt;
+        }
+    }
+    $('total_key').innerHTML="?";
+ /*   var col = document.getElementsByName("val[" + p_seq + "][]");
+    col[col.length - 1].value = max - amount;
+    anc_refresh_remain(p_table, p_seq);
+    */
+}

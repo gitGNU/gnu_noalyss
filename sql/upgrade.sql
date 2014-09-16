@@ -18,3 +18,8 @@ $function$
 
 -- bug 
 alter table action_gestion alter ag_title type text;
+
+INSERT INTO menu_ref(me_code, me_menu, me_file,   me_type,me_description_etendue)VALUES ('ANCKEY', 'Clef de répartition',  'anc_key.inc.php','ME','Permet de gèrer les clefs de répartition en comptabilité analytique');
+
+insert into profile_menu(me_code,p_id,p_type_display,pm_default,me_code_dep,p_order) values ('ANCKEY',1,'E',0,'ANC',15);
+insert into profile_menu(me_code,p_id,p_type_display,pm_default,me_code_dep,p_order) values ('ANCKEY',2,'E',0,'ANC',15);

@@ -25,6 +25,7 @@
  * \brief file included to manage all the sold operation
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
+var_dump($_POST);
 require_once("class_icheckbox.php");
 require_once("class_acc_ledger_purchase.php");
 require_once ('class_pre_op_ach.php');
