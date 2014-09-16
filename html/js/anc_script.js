@@ -481,31 +481,23 @@ function anc_key_choice(p_dossier, p_table, p_amount)
         error_message(e.message);
     }
 }
-function add_row_key(p_table, p_seq)
+/**
+ * Add a row for distribution key.
+ * This function add a row in the table key distribution
+ * @param p_table table id
+ */
+function add_row_key(p_table)
 {
     var mytable = g(p_table).tBodies[0];
-    // var max = parseFloat(g('amount_t' + p_seq).value);
     if (!mytable)
     {
         return;
     }
-    var new_value = mytable.rows.length + 1;
-
-
     if (mytable.rows.length > 15)
     {
         alert("Maximum 15 lignes ");
         return;
     }
-   /* var amount = compute_total_table(p_table, p_seq);
-    if (max < amount)
-    {
-        alert('Montant incorrect : max = ' + max + " calculé=" + amount);
-        return;
-    }
-    */
-    // For the detail view (modify_op) there is several form and then several time the
-    // element
     var rowToCopy = mytable.rows[1];
     var row = mytable.insertRow(mytable.rows.length);
 
@@ -528,8 +520,4 @@ function add_row_key(p_table, p_seq)
         }
     }
     $('total_key').innerHTML="?";
- /*   var col = document.getElementsByName("val[" + p_seq + "][]");
-    col[col.length - 1].value = max - amount;
-    anc_refresh_remain(p_table, p_seq);
-    */
 }
