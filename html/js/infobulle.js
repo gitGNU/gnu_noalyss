@@ -24,7 +24,7 @@
  \endcode
  */
 
-var posX=0,posy=0,offsetX=10,offsetY=10;
+var posX=0,posY=0,offsetX=10,offsetY=10;
 document.onmousemove=getPosition;
 var content=new Array();
 content[0]="Donnez le quickcode ou tapez une partie du nom de la fiche, en appuyant sur le bouton, vous pourrez la chercher";
