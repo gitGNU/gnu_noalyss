@@ -22,7 +22,7 @@
  * all the pa_id and analytic plan
  */
 ?>
-<form method="post" action="do.php">
+<form method="post" action="do.php" style="display:inline">
     <?php
     echo HtmlInput::request_to_hidden(array('gDossier', 'ac'));
     echo HtmlInput::hidden('op','consult');
@@ -98,7 +98,7 @@
                                 join key_distribution using (kd_id) 
                                 left join poste_analytique using(po_id)
                                 
-                        where ke_id=$1 and ka.pa_id=$2 ', array($a_row[$j]['ke_row'],$plan[$i]['pa_id']));
+                        where ke_id=$1 and ka.pa_id=$2 ', array($a_row[$j]['ke_id'],$plan[$i]['pa_id']));
                             $selected=-1;
                             if (sizeof($value)==1)
                             {
@@ -201,4 +201,11 @@
         <!-- end -->
     </div>
     <?php echo HtmlInput::submit('save_key', _('Sauver')); ?>
+</form>
+<form style="display:inline" action="do.php" method="post">
+    <?php
+    echo HtmlInput::request_to_hidden(array('gDossier', 'ac'));
+    echo HtmlInput::hidden('op','delete_key');
+    echo HtmlInput::hidden('key', $this->key->getp('id'));
+   if ($this->key->getp('id') != -1) echo HtmlInput::submit('delete_key', _('Effacer'),'onclick="return confirm(\''._('Confirmer effacement?').'\')"'); ?>
 </form>

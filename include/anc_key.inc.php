@@ -26,7 +26,6 @@
  * @see do.php
  * 
  */
-var_dump($_POST);
 if (!defined('ALLOWED'))
     die('Appel direct ne sont pas permis');
 global $cn, $g_user;
@@ -63,5 +62,11 @@ switch ($op)
         }
         $key->input();
         break;
+    case 'delete_key':
+        $id=HtmlInput::default_value_request("key", "0");
+        $key=new Anc_Key($id);
+        $key->delete();
+        Anc_Key::display_list();
+        Anc_Key::key_add();
 }
 ?>

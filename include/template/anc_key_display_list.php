@@ -21,19 +21,21 @@
  * @brief display a table with the list of available keys for all ledgers
  * @see Anc_Key::display_list
  */
-
+global $g_succeed,$g_failed;
         
 ?>
+<div class="content">
 <table class="result">
-    <?php for ($i = 0; $i < Database::num_row($rkey); $i++):
+    <?php for ($i = 0; $i < count($a_key); $i++):
     $onclick=  http_build_query(array(
         'gDossier'=>Dossier::id(),
         'ac'=>$_REQUEST['ac'],
         'op'=>'consult',
         'key'=>$a_key[$i]['kd_id']
     ));
+    $class=($i%2==0)?'class="even"':'class="odd"';
     ?>
-        <tr>
+        <tr <?php echo $class;?>>
             <td>
                 <a class="line" href="do.php?<?php echo $onclick; ?>" >
                 <?php echo $a_key[$i]['kd_name']; ?>
@@ -42,7 +44,14 @@
             <td>
                 <?php echo $a_key[$i]['kd_description'] ?>
             </td>
-
+            <?php
+            $sign=($a_key[$i]['distrib']==100)?$g_succeed:$g_failed;
+            ?>
+            <td>
+                <?php echo nbm($a_key[$i]['distrib']);?>%
+                <?php echo $sign;?>
+            </td>
         </tr>
     <?php endfor; ?>
 </table>
+</div>

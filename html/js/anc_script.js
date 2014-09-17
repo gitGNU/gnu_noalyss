@@ -410,6 +410,7 @@ function anc_key_compute(p_dossier, p_table, p_amount, p_key_id)
                             code_html = unescape_xml(code_html);
                             console.log(code_html);
                             $(name_ctl).innerHTML = code_html;
+                            removeDiv('div_anc_key_choice');
                         } catch (e)
                         {
                             error_message(e.message);
@@ -493,28 +494,31 @@ function add_row_key(p_table)
     {
         return;
     }
-    if (mytable.rows.length > 15)
+    var table_length=mytable.rows.length ;
+    if ( table_length > 15)
     {
         alert("Maximum 15 lignes ");
         return;
     }
     var rowToCopy = mytable.rows[1];
-    var row = mytable.insertRow(mytable.rows.length);
-
+    var row = mytable.insertRow(table_length);
+    var nb=mytable.rows.length -2;
     for (var i = 0; i < rowToCopy.cells.length; i++)
     {
         var cell = row.insertCell(i);
         cell.className=rowToCopy.cells[i].className;
         var txt = rowToCopy.cells[i].innerHTML;
-//	txt=txt.replace(/row_1/g,"row_"+new_value);
         if (  i == 0 )
         {
-            cell.innerHTML =mytable.rows.length-1 ;
+            var change=nb+1;
+            cell.innerHTML =change+'<input id="row[]" type="hidden" value="-1" name="row[]">';
         } 
         else
         {
             if (i == rowToCopy.cells.length -1 )  {
                 txt=txt.replace(/value="[0-9]*.{1}[0-9]*"/,'value="0"')
+            } else {
+                txt=txt.replace(/po_id\[0\]/g,'po_id['+nb+']');
             }
            cell.innerHTML = txt;
         }

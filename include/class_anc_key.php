@@ -75,9 +75,9 @@ class Anc_Key
     static function display_list()
     {
         global $cn;
-        $keysql=new Anc_Key_SQL($cn);
-        $rkey=$keysql->seek(' order by kd_name');
-        $a_key=$cn->fetch_all($rkey);
+        $a_key=$cn->get_array('select b.kd_id,b.kd_name,b.kd_description,
+                (select sum(ke_percent) from key_distribution_detail as a where a.kd_id=b.kd_id) as distrib 
+                from key_distribution as b order by b.kd_name');
         if (empty($a_key))
         {
             echo _('Aucune clef disponible');
@@ -127,7 +127,7 @@ class Anc_Key
         {
             $tot_percent=bcadd($tot_percent, $a_percent[$i]);
         }
-        if ($tot_percent<>100)
+        if ($tot_percent >100)
         {
             throw new Exception(_('Le total ne vaut pas 100, total calculé = ').$tot_percent);
         }
@@ -195,7 +195,7 @@ class Anc_Key
         $cn->start();
         // for each row
         $a_row=$p_array['row'];
-        $a_ledger=$p_array['jrn'];
+        $a_ledger=HtmlInput::default_value("jrn",array(),$p_array);
         $a_percent=$p_array['percent'];
         $a_po_id=$p_array['po_id'];
         $a_plan=$p_array['pa'];
@@ -226,7 +226,7 @@ class Anc_Key
                 for ($j=0; $j<count($a_po_id[$i]); $j++)
                 {
                     $activity=new Anc_Key_Activity_SQL($cn);
-                    $activity->setp('detail', $key_row->getp('id'));
+                    $activity->setp('detail', $key_row->ke_id);
                     $value=($a_po_id[$i][$j]==-1)?null:$a_po_id[$i][$j];
                     $activity->setp('activity', $value);
                     $activity->setp('plan',$a_plan[$j]);
@@ -243,12 +243,13 @@ class Anc_Key
                 $ledger->save();
             }
             
+            $cn->commit();
         }
         catch (Exception $e)
         {
-            echo $e->getTraceAsString();
+            if ( DEBUG ) { echo $e->getTraceAsString(); var_dump($_POST);} else { echo _('erreur');}
+            $cn->rollback();
         }
-        $cn->commit();
     }
     /**
      * @brief Call the Anc_Operation::display_form_plan with the right amounts.
@@ -263,6 +264,7 @@ class Anc_Key
     {
         global $cn;
         $number=str_replace('t', '', $p_target);
+        $number=str_replace('popup', '', $number);
         
         $op[$number]=$p_amount;
         $array['op']=$op;
@@ -302,10 +304,13 @@ class Anc_Key
         $array['val']=$val;
                
         $anc_operation=new Anc_Operation($cn);
-        echo $anc_operation->display_form_plan($array, 1, 1, $number, $p_amount);
+        echo $anc_operation->display_form_plan($array, 1, 1, $number, $p_amount,'',false);
         
     }
-
+    /**
+     *@brief show a form for adding a key + button to display it
+     * 
+     */
     static function key_add()
     {
         $key=new Anc_Key();
@@ -318,5 +323,12 @@ class Anc_Key
         $key->input();
         echo '</div>';
         
+    }
+    /**
+     *@brief delete the distribution key 
+     */
+    function delete ()
+    {
+        $this->key->delete();
     }
 }
