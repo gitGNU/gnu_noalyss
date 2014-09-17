@@ -102,6 +102,8 @@ if ( $div != 'popup' ) {
   $a->label=_("Fermer");
   $a->javascript="removeDiv('".$div."')";
   echo $a->input();
+} else {
+    echo HtmlInput::hidden('p_jrn',$oLedger->id);
 }
 
 ?>
