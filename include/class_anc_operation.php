@@ -487,6 +487,7 @@ class Anc_Operation
      * \param $p_amount amount
      * \param $p_id operation is detailled in a HTML popup, if several
      *  are opened, the tableid MUST be different. So we need to use a new parameter
+     * \param $p_add_button true, show the button, false don't display them
      * \see save_form_plan
     @note
     - op is an array containing the line number
@@ -516,7 +517,7 @@ class Anc_Operation
 
     @endcode
      */
-    function display_form_plan($p_array,$p_null,$p_mode,$p_seq,$p_amount,$p_id='')
+    function display_form_plan($p_array,$p_null,$p_mode,$p_seq,$p_amount,$p_id='',$p_add_button=true)
     {
         if ( $p_array != null)
             extract ($p_array);
@@ -596,13 +597,13 @@ class Anc_Operation
         }
 
         $result.="</table>";
-        if ( $p_mode == 1 )
+
+        if ($p_add_button && $p_mode == 1)
         {
             $style_remain=($remain==0)?'style="color:green"':' style="color:red"';
             $result.=" Reste à imputer =  ".
                             '<span class="remain" '.$style_remain.' id="'.$ctrl_remain.'">'.
                             $remain.'</span>';
-
             // add a button to add a row
             $button=new IButton();
             $button->javascript="add_row('".$p_id."$table_id',$p_seq);";
