@@ -125,7 +125,8 @@
                         <td class="num">
                         <?php
                         $inum_percent=new INum('percent[]');
-                        $inum_percent->value=$percent;
+                        $inum_percent->javascript=' onchange="format_number(this,2);anc_key_compute_table();"';
+                        $inum_percent->value=sprintf("%.2f",$percent);
                         echo $inum_percent->input();
                         ?>
                     </td>
@@ -138,8 +139,8 @@
                         <td style="width: auto" colspan="<?php echo count($plan)+1;?>">
                             <?php echo _('Total')?>
                         </td>
-                        <td id="total_key" class="num">
-                            <?php echo $tot_key;?>
+                        <td  class="num">
+                            <span id="total_key"><?php echo nb($tot_key);?></span>%
                         </td>
                     </tr>
                 </tfoot>
