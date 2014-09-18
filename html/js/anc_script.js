@@ -525,3 +525,25 @@ function add_row_key(p_table)
     }
     $('total_key').innerHTML="?";
 }
+function anc_key_compute_table()
+{
+    var tot=0;
+    var i=0;
+    var value=0;
+    var percent=document.getElementsByName('percent[]');
+    for (i=0;i<percent.length;i++)
+    {
+        console.log(percent[i].value);
+        value=percent[i].value;
+        if ( value == 'undefined')
+        {
+            value=0;
+        }
+        if ( isNaN(value)) {
+            value=0;
+        }
+        tot=tot+Math.round(value*100)/100;
+    }
+    $('total_key').innerHTML=Math.round(tot*100)/100;
+
+}
