@@ -330,8 +330,8 @@ if ( isset($_GET['view'] ) )
 	      {
 
 		echo '<tr >';
-		echo td("Total niveau ".$ind,'style="font-weight:bold;"');
 		echo td(${'lvl'.$ind.'_old'},'style="font-weight:bold;"');
+		echo td(${'lvl'.$ind.'_old'}." "._("Total niveau")." ".$ind,'style="font-weight:bold;"');
                 if ($previous==1) {
                     echo td(nbm(${'lvl'.$ind}['sum_deb_previous']),'style="text-align:right;font-weight:bold;"');
                     echo td(nbm(${'lvl'.$ind}['sum_cred_previous']),'style="text-align:right;font-weight:bold;"');
