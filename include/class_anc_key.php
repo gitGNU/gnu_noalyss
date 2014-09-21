@@ -37,7 +37,7 @@ class Anc_Key
      * 
      * @global $cn database connection
      * @param $p_jrn number of the ledger (jrn_def.jrn_def_id
-     * @return number
+     * @return number of available keys
      */
     static function key_avaiable($p_jrn)
     {
