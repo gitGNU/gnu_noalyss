@@ -1480,3 +1480,44 @@ fieldset {
     overflow: auto;
     overflow-style: panner;
 }
+ul.tabs {
+    padding-top: 5px;
+    display:block;
+    border-bottom: 1px solid #879ed4;
+    padding-left: 10px
+}
+li.tabs {
+    display:inline;
+    background-color: grey;
+    color:wheat;margin-left: 2px;
+    padding: 15px 15px 0px 15px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border:1px #879ed4 solid;
+
+}
+li.tabs:hover {
+    display:inline;
+    background-color: blue;
+    color:wheat;margin-left: 2px;
+    padding: 15px 15px 0px 15px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border:1px #879ed4 solid;
+
+}
+li.tabs a {
+    text-decoration: none;
+    color:white;
+    display:inline;
+}
+li.tabs a:hover {
+    text-decoration: none;
+    color:white;
+    display:inline;
+}
+.previous_year
+{
+    text-align:right;
+    color:black;
+}

@@ -333,12 +333,12 @@ if ( isset($_GET['view'] ) )
 		echo td(${'lvl'.$ind.'_old'},'style="font-weight:bold;"');
 		echo td(${'lvl'.$ind.'_old'}." "._("Total niveau")." ".$ind,'style="font-weight:bold;"');
                 if ($previous==1) {
-                    echo td(nbm(${'lvl'.$ind}['sum_deb_previous']),'style="text-align:right;font-weight:bold;"');
-                    echo td(nbm(${'lvl'.$ind}['sum_cred_previous']),'style="text-align:right;font-weight:bold;"');
-                    echo td(nbm(${'lvl'.$ind}['solde_deb_previous']),'style="text-align:right;font-weight:bold;"');
-                    echo td(nbm(${'lvl'.$ind}['solde_cred_previous']),'style="text-align:right;font-weight:bold;"');
+                    echo td(nbm(${'lvl'.$ind}['sum_deb_previous']),'class="previous_year" style="font-weight:bold;"');
+                    echo td(nbm(${'lvl'.$ind}['sum_cred_previous']),' class="previous_year" style="font-weight:bold;" ');
+                    echo td(nbm(${'lvl'.$ind}['solde_deb_previous']),'class="previous_year" style="font-weight:bold;"');
+                    echo td(nbm(${'lvl'.$ind}['solde_cred_previous']),'class="previous_year" style="font-weight:bold;"');
                 }
-		echo td(nbm(${'lvl'.$ind}['sum_deb']),'style="text-align:right;font-weight:bold;"');
+		echo td(nbm(${'lvl'.$ind}['sum_deb']),'style="text-align:right;font-weight:bold;"  ');
 		echo td(nbm(${'lvl'.$ind}['sum_cred']),'style="text-align:right;font-weight:bold;"');
 		echo td(nbm(${'lvl'.$ind}['solde_deb']),'style="text-align:right;font-weight:bold;"');
 		echo td(nbm(${'lvl'.$ind}['solde_cred']),'style="text-align:right;font-weight:bold;"');
@@ -362,10 +362,10 @@ if ( isset($_GET['view'] ) )
         echo td($view_history);
         echo td(h($r['label']));
         if ($previous == 1 ) {
-            echo td(nbm($r['sum_deb_previous']),'style="text-align:right;"');
-            echo td(nbm($r['sum_cred_previous']),'style="text-align:right;"');
-            echo td(nbm($r['solde_deb_previous']),'style="text-align:right;"');
-            echo td(nbm($r['solde_cred_previous']),'style="text-align:right;"');
+            echo td(nbm($r['sum_deb_previous']),' class="previous_year"');
+            echo td(nbm($r['sum_cred_previous']),' class="previous_year" ');
+            echo td(nbm($r['solde_deb_previous']),' class="previous_year"');
+            echo td(nbm($r['solde_cred_previous']),'class="previous_year" ');
         }
         echo td(nbm($r['sum_deb']),'style="text-align:right;"');
 	echo td(nbm($r['sum_cred']),'style="text-align:right;"');
