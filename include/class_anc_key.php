@@ -31,7 +31,24 @@ class Anc_Key
 {
 
     private $key; /* !  the distribution key */
-
+    /**
+     * Return the number of keys available.
+     *  Return the number of keys available for the ledger given in parameter
+     * 
+     * @global $cn database connection
+     * @param $p_jrn number of the ledger (jrn_def.jrn_def_id
+     * @return number
+     */
+    static function key_avaiable($p_jrn)
+    {
+        global $cn;
+        $count=$cn->get_value (' select count(*) 
+            from key_distribution_ledger 
+            join key_distribution using (kd_id)
+            where
+            jrn_def_id=$1', array($p_jrn));
+        return $count;
+    }
     function __construct($p_id=-1)
     {
         global $cn;
@@ -64,6 +81,7 @@ class Anc_Key
         if (empty($a_key))
         {
             echo _('Aucune clef disponible');
+            echo _('Allez dans ANCKEY pour en ajouter pour ce journal');
         }
         include 'template/anc_key_display_choice.php';
     }
