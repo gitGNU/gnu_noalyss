@@ -45,19 +45,19 @@ switch ($op)
 
         $html = '';
         $html.=HtmlInput::anchor_close('mod_periode');
-        $html.=h2info('Modification période');
-        $html.='<p> Modifier les dates de début et fin de période</p>';
-        $html.='<p class="notice">Cela pourrait avoir un impact sur les opérations déjà existantes</p>';
+        $html.=h2info(_('Modification période'));
+        $html.='<p> '._('Modifier les dates de début et fin de période').'</p>';
+        $html.='<p class="notice">'._('Cela pourrait avoir un impact sur les opérations déjà existantes').'</p>';
         $html.='<form method="post" onsubmit="return save_periode(this)">';
         $html.=dossier::hidden();
         $html.='<table>';
 
-        $html.=tr(td(' Début période : ') . td($p_start->input()));
-        $html.=tr(td(' Fin période : ') . td($p_end->input()));
-        $html.=tr(td(' Exercice : ') . td($p_exercice->input()));
+        $html.=tr(td(_(' Début période : ')) . td($p_start->input()));
+        $html.=tr(td(_(' Fin période : ')) . td($p_end->input()));
+        $html.=tr(td(_(' Exercice : ')) . td($p_exercice->input()));
         $html.='</table>';
-        $html.=HtmlInput::submit('sauver', 'sauver');
-        $html.=HtmlInput::button('close', 'Fermer', 'onclick="removeDiv(\'mod_periode\')"');
+        $html.=HtmlInput::submit('sauver', _('sauver'));
+        $html.=HtmlInput::button('close', _('Fermer'), 'onclick="removeDiv(\'mod_periode\')"');
         $html.=HtmlInput::hidden('p_id', $_GET['p_id']);
         $html.='</form>';
         break;
@@ -72,10 +72,10 @@ switch ($op)
         {
             $html = '';
             $html.=HtmlInput::anchor_close('mod_periode');
-            $html.='<h2 class="info"> Modifier les dates de début et fin de période</h2>';
-            $html.="<div class=\"error\">Erreur date invalide</div>";
+            $html.='<h2 class="info">'._('Modifier les dates de début et fin de période').'</h2>';
+            $html.="<div class=\"error\">"._('Erreur date invalide')."</div>";
 
-            $html.=HtmlInput::button('close', 'Fermer', 'onclick="removeDiv(\'mod_periode\')"');
+            $html.=HtmlInput::button('close', _('Fermer'), 'onclick="removeDiv(\'mod_periode\')"');
         }
         else
         {
@@ -86,7 +86,7 @@ switch ($op)
                 $html = '<h2 class="info"> Modifier les dates de début et fin de période</h2>';
                 $html.='<h2 class="notice"> Sauvé </h2>';
 
-                $html.=HtmlInput::button('close', 'Fermer', 'onclick="	refresh_window();"');
+                $html.=HtmlInput::button('close', _('Fermer'), 'onclick="	refresh_window();"');
             }
             catch (Exception $e)
             {
