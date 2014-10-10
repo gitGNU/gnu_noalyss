@@ -39,14 +39,14 @@ if ( $cn->get_value("select count(*) from profile join profile_user using (p_id)
 			?>
 
 	</form>
-	<script charset="utf-8" language="javascript">
+	<script>
 
 		try {
 			new Ajax.Autocompleter("ac","ac_choices","direct.php?gDossier=<?php echo $gDossier?>",
                             {paramName:"acs",minChars:1,indicator:null,
                             callback:null,
                              afterUpdateElement:null});} catch (e){$('info_div').innerHTML=e.message;};
-		</script>
+        </script>
 	</div>
 <?php 
 endif;?>
