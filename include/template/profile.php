@@ -42,7 +42,7 @@
 	<td><?php echo $with_calc->input()?></td>
 </tr>
 <tr>
-	<td><?php echo _("Avec Direct Form")?></td>
+	<td><?php echo _("Avec  Accès Direct ")?></td>
 	<td><?php echo $with_direct_form->input()?></td>
 </tr>
 </table>
