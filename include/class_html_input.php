@@ -447,6 +447,23 @@ class HtmlInput
 
     }
     /**
+     * button Html image
+     *@param $javascript javascript to execute
+     * @param $id id of the button
+     * @param  $class class of the button
+     * @param $p_image image
+     */
+    static function button_image($javascript,$id="xx",$p_class='class="button"',$p_image="")
+    {
+        if ($id=="xx"){
+            $id=HtmlInput::generate_id("xx");
+        }
+        $r="";
+        $r.='<image id="'.$id.'" '.$p_class.' onclick="'.$javascript.'"  src="'.$p_image.'" />';
+        return $r;
+
+    }
+    /**
      * Return a html string with an anchor to hide a div, put it in the right corner
      *@param $action action action to perform (message)
      *@param $javascript javascript
