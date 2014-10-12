@@ -15,6 +15,9 @@
 </a>
 </td>
 <td>
+   <?php echo HtmlInput::history_account($array[$i]['accounting'],$array[$i]['accounting']); ?>
+</td>
+<td>
    <?php echo $array[$i]['name']?>
 </td>
 <td>

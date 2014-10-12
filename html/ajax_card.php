@@ -366,6 +366,7 @@ case 'fs':
     {
         $array[$i]['quick_code']=$a[$i]['quick_code'];
         $array[$i]['name']=h($a[$i]['vw_name']);
+        $array[$i]['accounting']=$a[$i]['accounting'];
         $array[$i]['first_name']=h($a[$i]['vw_first_name']);
         $array[$i]['description']=h($a[$i]['vw_description']);
         $array[$i]['javascript']=sprintf("set_value('%s','%s');",

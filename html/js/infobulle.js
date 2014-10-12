@@ -27,7 +27,7 @@
 var posX=0,posY=0,offsetX=10,offsetY=10;
 document.onmousemove=getPosition;
 var content=new Array();
-content[0]="Donnez le quickcode ou tapez une partie du nom de la fiche, en appuyant sur le bouton, vous pourrez la chercher";
+content[0]="Cherchez en saisissant le quickcode, le poste comptable ou une partie du nom de la fiche ou de l'adresse";
 content[1]="(optionnel) La description est un commentaire libre qui sert à identifier cette opération";
 content[2]="Selectionnez le journal où l'opération doit être sauvée";
 content[3]="Les périodes comptables servent comme un second contrôle pour la date de l'opération. Modifiez dans vos préférence pour avoir une autre période par défaut. Pour ne plus avoir à changer la période aller dans COMPANY, et mettez \"Afficher la période comptable\" à non";
