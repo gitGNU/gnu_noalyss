@@ -94,18 +94,10 @@ function search_card(obj)
 	if (  $('search_card') ) {
 	    removeDiv('search_card');
 	}
-	var sx=0;
-	if ( window.scrollY)
-	{
-            sx=window.scrollY+40;
-	}
-	else
-	{
-            sx=document.body.scrollTop+60;
-	}
-
-	var div_style="top:"+sx+"px;height:80%";
-	add_div({id:'search_card',cssclass:'inner_box',html:loading(),style:div_style,drag:true});
+	
+	
+        waiting_box();
+	
 
         var action=new Ajax.Request ( 'ajax_card.php',
                                       {
@@ -184,6 +176,7 @@ function result_card_search(req)
 {
     try
     {
+        remove_waiting_box();
         var answer=req.responseXML;
         var a=answer.getElementsByTagName('ctl');
         if ( a.length == 0 )
@@ -197,6 +190,19 @@ function result_card_search(req)
         var nodeXml=html[0];
         var code_html=getNodeText(nodeXml);
         code_html=unescape_xml(code_html);
+        
+        var sx=0;
+	if ( window.scrollY)
+	{
+            sx=window.scrollY+40;
+	}
+	else
+	{
+            sx=document.body.scrollTop+60;
+	}
+
+        var div_style="top:"+sx+"px;height:80%";
+        add_div({id:'search_card',cssclass:'inner_box',html:"",style:div_style,drag:true,effect:'blinddown'});
         $('search_card').innerHTML=code_html;
     }
     catch (e)
@@ -441,8 +447,8 @@ function select_card_type(obj)
     }
 
     var str_style="top:"+sx+"px;left:25%;height:30%";
-
-    var popup={'id':  content,'cssclass':'inner_box','style':str_style,'html':loading(),'drag':true};
+    waiting_box();
+    var popup={'id':  content,'cssclass':'inner_box','style':str_style,'html':"",'drag':true};
 
     add_div(popup);
 
