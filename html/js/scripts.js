@@ -475,24 +475,48 @@ function popup_select_tva(obj)
             removeDiv('tva_select');
         }
 
-
-        var nTop = posY - 50;
-        var nLeft = "35%";
-        var str_style = "top:" + nTop + "px;left:" + nLeft + ";width:55em;height:auto";
-
-        var popup = {'id': 'tva_select', 'cssclass': 'inner_box', 'style': str_style, 'html': loading(), 'drag': true};
-        add_div(popup);
         var queryString = "gDossier=" + obj.gDossier + "&op=dsp_tva" + "&ctl=" + obj.ctl + '&popup=' + 'tva_select';
         if (obj.jcode)
             queryString += '&code=' + obj.jcode;
         if (obj.compute)
             queryString += '&compute=' + obj.compute;
+        
         var action = new Ajax.Request(
                 "ajax_misc.php",
                 {method: 'get',
                     parameters: queryString,
                     onFailure: ajax_misc_failure,
-                    onSuccess: success_popup_select_tva
+                    onSuccess: function (req)
+                    {
+                        try
+                        {
+                            var answer = req.responseXML;
+                            var popup = answer.getElementsByTagName('popup');
+                            if (popup.length === 0)
+                            {
+                                var rec = req.responseText;
+                                alert('erreur :' + rec);
+                            }
+                            var html = answer.getElementsByTagName('code');
+
+                            var name_ctl = popup[0].firstChild.nodeValue;
+                            var nodeXml = html[0];
+                            var code_html = getNodeText(nodeXml);
+                            code_html = unescape_xml(code_html);
+                            
+                            var nTop = posY - 200;
+                            var nLeft = "15%";
+                            var str_style = "top:" + nTop + "px;left:" + nLeft + ";right:"+nLeft+";width:55em;height:auto";
+
+                            var popup = {'id': 'tva_select', 'cssclass': 'inner_box', 'style': str_style, 'html': code_html, 'drag': true};
+                            add_div(popup);
+                            
+                        }
+                        catch (e)
+                        {
+                            alert("success_popup_select_tva " + e.message);
+                        }
+                    }
                 }
         );
     }
@@ -503,30 +527,11 @@ function popup_select_tva(obj)
 }
 /**
  *@brief display the popup with vat and explanations
+ *@obsolete
  */
-function success_popup_select_tva(req)
+function success_popup_select_tva_obsolete(req)
 {
-    try
-    {
-        var answer = req.responseXML;
-        var popup = answer.getElementsByTagName('popup');
-        if (popup.length === 0)
-        {
-            var rec = req.responseText;
-            alert('erreur :' + rec);
-        }
-        var html = answer.getElementsByTagName('code');
-
-        var name_ctl = popup[0].firstChild.nodeValue;
-        var nodeXml = html[0];
-        var code_html = getNodeText(nodeXml);
-        code_html = unescape_xml(code_html);
-        $(name_ctl).innerHTML = code_html;
-    }
-    catch (e)
-    {
-        alert("success_popup_select_tva " + e.message);
-    }
+    
 
 }
 
@@ -586,8 +591,9 @@ function success_set_tva_label(req)
  *@brief set loading for waiting
  *@param name of ipopup
  *@see showIPopup
+ *@obsolete
  */
-function set_wait(name)
+function set_wait_obsolete(name)
 {
     var content = name + "_content";
     $(content).innerHTML = 'Un instant...<image src="image/loading.gif" border="0" alt="Chargement...">';
@@ -639,8 +645,11 @@ function add_div(obj)
             elt.innerHTML = obj.html;
         }
 
+        elt.setStyle({visibility:'hidden'});
         var bottom_div = document.body;
         bottom_div.appendChild(elt);
+       /* if ( obj.effect && obj.effect != 'none' ) { Effect.Grow(obj.id,{direction:'top-right',duration:0.1}); }
+        else if ( ! obj.effect ){ Effect.Grow(obj.id,{direction:'top-right',duration:0.1}); }*/
         if (obj.drag)
         {
             new Draggable(obj.id, {starteffect: function()
@@ -649,6 +658,7 @@ function add_div(obj)
                 }}
             );
         }
+        elt.setStyle({visibility:'visible'});
     }
     catch (e)
     {
@@ -683,11 +693,12 @@ function waiting_box()
     obj = {
         id: 'wait_box', html: '<h2 class="title">Chargement</h2>'+loading()
     };
-    var y = calcy(posY);
-    obj.style = "top:35%;right:35%;width:200px";
+    var y = fixed_position(10,15)
+    obj.style = y+";width:200px";
     if ($('wait_box')) {
         removeDiv('wait_box');
     }
+    obj.effect='none';
     add_div(obj);
     $('info_div').innerHTML = 'Un instant';
     $('info_div').style.display = "block";
@@ -1208,8 +1219,8 @@ function search_reconcile(dossier, ctl_concern, amount_id, ledger)
     removeDiv(target);
     var str_style = fixed_position(77, 99);
     str_style += ";width:92%;overflow:auto;";
-
-    var div = {id: target, cssclass: 'inner_box', style: str_style, html: loading(), drag: 1};
+    waiting_box();
+    var div = {id: target, cssclass: 'inner_box', style: str_style, drag: 1};
 
     add_div(div);
     var target = {gDossier: dossier,
@@ -1321,7 +1332,7 @@ function get_profile_detail(gDossier, profile_id)
             }
     );
 }
-function get_profile_detail_success(xml)
+function get_profile_detail_success_obsolete(xml)
 {
     remove_waiting_box();
 
