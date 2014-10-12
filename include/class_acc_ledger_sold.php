@@ -1142,10 +1142,8 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         for ($i = 0; $i < $max; $i++) {
             // Code id, price & vat code
             //--
-            $march = (isset(${"e_march$i"})) ? ${"e_march$i"} : ""
-            ;
-            $march_price = (isset(${"e_march" . $i . "_price"})) ? ${"e_march" . $i . "_price"} : ""
-            ;
+            $march = (isset(${"e_march$i"})) ? ${"e_march$i"} : "";
+            $march_price = (isset(${"e_march" . $i . "_price"})) ? ${"e_march" . $i . "_price"} : ""  ;
             if ($flag_tva == 'Y') {
                 $march_tva_id = (isset(${"e_march$i" . "_tva_id"})) ? ${"e_march$i" . "_tva_id"} : "";
                 $march_tva_amount = (isset(${"e_march$i" . "_tva_amount"})) ? ${"e_march$i" . "_tva_amount"} : "";
