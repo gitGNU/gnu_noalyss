@@ -99,7 +99,7 @@ class IPopup extends HtmlInput
         $r="";
         if ($this->blocking)
         {
-            $r.=sprintf('<div id="%s_fond" name="fond" class="popup_back">',$this->name);
+            $r.=sprintf('<div id="%s_fond" class="popup_back">',$this->name);
             $r.="</div>";
         }
         $javascript=sprintf("javascript:hideIPopup('%s')",
@@ -108,14 +108,14 @@ class IPopup extends HtmlInput
 
         if ( isset($this->title) && trim($this->title) != "" )
         {
-            $r.=sprintf('<div name ="%s_border" id="%s_border" class="popup_border_title">',
+            $r.=sprintf('<div id="%s_border" id="%s_border" class="popup_border_title">',
                         $this->name,
                         $this->name);
             $r.=sprintf('<span id="%s_">%s</span>',$this->name,$this->title);
         }
         else
         {
-            $r.=sprintf('<div name ="%s_border" id="%s_border" class="popup_border_notitle">',
+            $r.=sprintf('<div id ="%s_border" id="%s_border" class="popup_border_notitle">',
                         $this->name,
                         $this->name);
         }
@@ -123,7 +123,7 @@ class IPopup extends HtmlInput
         $r.=sprintf('<a style="background-color:blue;color:white;text-decoration:none" href="%s">'._('Fermer').'</a></div>',
                     $javascript);
 
-        $r.=sprintf('<div name ="%s_content" id="%s_content" class="popup_content"> %s </div></div>',
+        $r.=sprintf('<div id ="%s_content" id="%s_content" class="popup_content"> %s </div></div>',
                     $this->name,
                     $this->name,
                     $this->value);
