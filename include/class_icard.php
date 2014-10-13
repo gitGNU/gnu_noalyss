@@ -126,8 +126,12 @@ class ICard extends HtmlInput
         $this->dblclick='';
         $this->callback='null';
         $this->javascript='';
-		$this->autocomplete=1;
-		$this->id=($p_id != "")?$p_id:$name;
+	$this->id=($p_id != "")?$p_id:$name;
+        $this->choice=null;
+        $this->indicator=null;
+        $this->choice_create=1;
+	$this->autocomplete=1;
+        $this->style=' style="vertical-align:50%"';
     }
     /*!\brief set the javascript callback function
      * by default it is update_value called BEFORE the querystring is send
@@ -171,6 +175,7 @@ class ICard extends HtmlInput
 		$ip_card->set_width('45%');
         $ip_card->title='Fiche ';
         $ip_card->value='';
+        
         return $ip_card->input();
     }
     /*!\brief set the extra javascript property for a double click on
@@ -192,7 +197,8 @@ class ICard extends HtmlInput
         if ( $this->readOnly==true) return $this->display();
 
 		 $this->id=($this->id=="")?$this->name:$this->id;
-
+        $this->choice=($this->choice==null)?sprintf("%s_choices",$this->id):$this->choice;
+        $this->indicator=($this->indicator==null)?sprintf("%s_ind",$this->id):$this->indicator;
         $attr=$this->get_js_attr();
 
         $label='';
@@ -203,30 +209,32 @@ class ICard extends HtmlInput
             $this->dblclick=$e;
         }
         $input=sprintf('<INPUT TYPE="Text"  class="input_text"  '.
-                       ' NAME="%s" ID="%s" VALUE="%s" SIZE="%d" %s %s>',
+                       ' NAME="%s" ID="%s" VALUE="%s" SIZE="%d" %s %s  %s>',
                        $this->name,
                        $this->id,
                        $this->value,
                        $this->size,
                        $this->dblclick,
-                       $this->javascript
+                       $this->javascript,
+                       $this->style
                       );
 		if ( $this->autocomplete == 1)
 		{
-			$ind=sprintf('<span id="%s_ind" class="autocomplete" style="display:none">Un instant... <img src="image/loading.gif" alt="Chargement..."/>'.
+			$ind=sprintf('<span id="%s" class="autocomplete" style="display:none">Un instant... <img src="image/loading.gif" alt="Chargement..."/>'.
 						'</span>',
-						$this->id);
+						$this->indicator);
 
-			$div=sprintf('<div id="%s_choices"  class="autocomplete"></div>',
-						$this->id);
+			$div=($this->choice_create == 1) ? sprintf('<div id="%s"  class="autocomplete"></div>',$this->choice):"";
 
 			$query=dossier::get().'&e='.urlencode($this->typecard);
 
-			$javascript=sprintf('try { new Ajax.Autocompleter("%s","%s_choices","fid_card.php?%s",'.
+			$javascript=sprintf('try { new Ajax.Autocompleter("%s","%s","fid_card.php?%s",'.
 								'{paramName:"FID",minChars:1,indicator:null, '.
 								'callback:%s, '.
 								' afterUpdateElement:%s});} catch (e){alert(e.message);};',
-								$this->id,$this->id,$query,
+								$this->id,
+                                                                $this->choice,
+                                                                $query,
 								$this->callback,
 								$this->fct);
 
@@ -286,8 +294,6 @@ class ICard extends HtmlInput
     {
         if ( $this->readOnly==true) return '';
 		if ( ! isset($this->id )) $this->id=$this->name;
-        $button=new ISmallButton($this->name.'_bt',"","","smallbutton");
-        $button->label=_('Recherche');
         $a="";
         foreach (array('typecard','jrn','label','price','tvaid') as $att)
         {
@@ -299,9 +305,10 @@ class ICard extends HtmlInput
 		else
             $a.="this.inp='".$this->name."';";
         $a.="this.popup='ipop_card';";
-		$button->tabindex=-1;
-        $button->javascript=$a.' search_card(this)';
-        return $button->input();
+        $javascript=$a.' search_card(this);return false;';
+        
+        $button=HtmlInput::button_image($javascript,$this->name."_bt", 'alt="'._('Recherche').'" style="cursor:pointer;width:24px;height:24px;border:1px solid transparent;"',"image/search.png");
+        return $button;
     }
 
     static public function test_me()
