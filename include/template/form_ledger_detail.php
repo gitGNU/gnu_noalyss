@@ -86,7 +86,7 @@ echo '<tr>';
 echo $item['quick_code'];
 echo '<td>'.$item['bt'].'</td>';
 ?>
-<td style="border-bottom: 1px dotted grey; width: 75%;"><?php echo $item['denom'] ?></td>
+<td style="width: 75%;"><?php echo $item['denom'] ?></td>
 <?php 
 echo td($item['pu']);
 echo td($item['quantity' ]);
