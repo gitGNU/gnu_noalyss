@@ -374,6 +374,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 			$W1->value = $tiers;
 			$W1->extra = 'deb';  // credits
 			$W1->typecard = 'deb';
+                        $W1->style=' style = "vertical-align:65%"';
 			$W1->set_dblclick("fill_ipopcard(this);");
 			$W1->set_attribute('ipopup', 'ipopcard');
 
