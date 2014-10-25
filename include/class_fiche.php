@@ -1855,7 +1855,8 @@ class Fiche
 
             if (strlen(trim($query)) > 1)
             {
-                $filter_query=$and."(vw_name ilike '%$query%' or quick_code ilike ('%$query%') or vw_description ilike '%$query%' or tva_num ilike '%$query%' or accounting = '$query')";
+                $filter_query=$and."(vw_name ilike '%$query%' or quick_code ilike ('%$query%') "
+                        . " or vw_description ilike '%$query%' or tva_num ilike '%$query%' or accounting like upper('$query%'))";
             }
             else
             {
