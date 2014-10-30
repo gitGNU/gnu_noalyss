@@ -115,14 +115,14 @@ if ( isset ($_GET['viewsearch']) )
 
    }   else
    {
-	    if ($step<$max_line ) echo '<h2 class="notice">Liste limitée à '.$step.' enregistrements. Le nombre d\'enregistrements trouvés est de ' .$max_line.'</h2>';
+	    if ($step<$max_line ) echo '<h2 class="notice">'._('Liste limitée à ').$step._(' enregistrements. Le nombre d\'enregistrements trouvés est de ') .$max_line.'</h2>';
    }
 	echo '<form method="get" onsubmit="set_reconcile(this);return false">';
-	echo HtmlInput::submit("upd_rec","Mettre à jour");
+	echo HtmlInput::submit("upd_rec",_("Mettre à jour"));
 	echo HtmlInput::get_to_hidden(array('ctlc','amount_id','ledger'));
 	echo HtmlInput::get_to_hidden(array('l','date_start','date_end','desc','amount_min','amount_max','qcodesearch_op','accounting','unpaid','gDossier','ledger_type'));
         echo $content;
-	echo HtmlInput::submit("upd_rec","Mettre à jour");
+	echo HtmlInput::submit("upd_rec",_("Mettre à jour"));
     if (! $inside )echo $bar;
 
     if (isset($_GET[$op.'r_jrn'])) {
