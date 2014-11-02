@@ -19,6 +19,8 @@
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 /*!\file
 *\brief this file let you debug and test the different functionnalities, there are 2 important things to do
+* It is only a quick and dirty testing. You should use a tool as PHPUNIT for the unit testing
+ * 
 *  - first do not forget to create the authorized_debug file in the html folder
 *  - secund the test must adapted to this page : if you do a post (or get) from a test, you won't get any result
 * if the $_REQUEST[test_select] is not set, so set it . 
@@ -59,6 +61,7 @@ $cn=new Database($_GET['gDossier']);
 $a_route[]=array('desc'=>'test sur les menus par défauts','file'=>'class_default_menu.php','function'=>'Default_Menu::test_me');
 $a_route[]=array('desc'=>'test sur Acc_Operations','file'=>'class_acc_operation.php','function'=>'Acc_Operation::test_me');
 $a_route[]=array('desc'=>'test sur INVOICING','file'=>'../include/ext/invoicing/include/class_acc_ledger_sold_generate.php','function'=>'Acc_Ledger_Sold_Generate::test_me');
+$a_route[]=array('desc'=>'test sur menu_ref','file'=>'class_menu_ref_sql.php','function'=>'Menu_Ref_SQL::test_me');
 $called=HtmlInput::default_value_get("called", -1);
 if ($called == -1 )
 {
