@@ -1678,7 +1678,7 @@ class Acc_Ledger extends jrn_def_sql
 		$info_poste = HtmlInput::infobulle(9);
 		if ($g_user->check_action(FICADD) == 1)
 			$ret.=$f_add_button->input();
-		$ret.='<table id="quick_item" style="width:100%">';
+		$ret.='<table id="quick_item" style="position:float;width:100%">';
 		$ret.='<tr>' .
 				'<th style="text-align:left">Quickcode' . $info . '</th>' .
 				'<th style="text-align:left">' . _('Poste') . $info_poste . '</th>' .
@@ -1708,7 +1708,7 @@ class Acc_Ledger extends jrn_def_sql
 
 			$quick_code->value = (isset(${'qc_' . $i})) ? ${'qc_' . $i} : "";
 			$quick_code->readonly = $p_readonly;
-
+                        
 			$label = '';
 			if ($quick_code->value != '')
 			{
