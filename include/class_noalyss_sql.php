@@ -158,8 +158,8 @@ class Noalyss_SQL
     public function delete()
     {
         $pk=$this->primary_key;
-        $sql=" delete from ".$this->table." where ".$this->primary_key."=".sql_string($this->$pk);
-        $this->cn->exec_sql($sql);
+        $sql=" delete from ".$this->table." where ".$this->primary_key."= $1";
+        $this->cn->exec_sql($sql,array($this->$pk));
     }
 
     public function update()
@@ -189,7 +189,8 @@ class Noalyss_SQL
             $set="";
             $idx++;
         }
-        $sql.=" where ".$this->primary_key." =".$this->$pk;
+        $array[]=$this->$pk;
+        $sql.=" where ".$this->primary_key." = $".$idx;
         $this->cn->exec_sql($sql, $array);
     }
 
@@ -214,8 +215,10 @@ class Noalyss_SQL
         }
         $pk=$this->primary_key;
         $sql.=" from ".$this->table;
-        $sql.=" where ".$this->primary_key." = ".$this->$pk;
-        $result=$this->cn->get_array($sql);
+        
+        $sql.=" where ".$this->primary_key." = $1";
+
+        $result=$this->cn->get_array($sql,array ($this->$pk));
         if ($this->cn->count()==0)
         {
             $this->$pk=-1;
