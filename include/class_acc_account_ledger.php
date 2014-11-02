@@ -637,7 +637,8 @@ class Acc_Account_Ledger
         return $sql;
     }
 	/**
-	 * Find the card which is using the current account
+	 * Find the id of the cards which are using the current account
+         * 
 	 * @return an array of f_id
 	 */
 	function find_card()
