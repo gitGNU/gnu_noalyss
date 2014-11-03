@@ -246,7 +246,7 @@ class Acc_Bilan
         try
         {
             if ( $this->b_id=="")
-                throw new Exception("le formulaire id n'est pas donnee");
+                throw new Exception(_("le formulaire id n'est pas donnee"));
 
             $sql="select b_name,b_file_template,b_file_form,lower(b_type) as b_type from bilan where".
                  " b_id = ".$this->b_id;
@@ -603,16 +603,21 @@ class Acc_Bilan
             break;
         case 'odt':
         case 'ods':
-            /*   header("Pragma: public");
+            header("Pragma: public");
             header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
             header("Cache-Control: must-revalidate");
             if ( $this->b_type == 'odt' )
-            header('Content-type: application/vnd.oasis.opendocument.text');
+            {
+                header('Content-type: application/vnd.oasis.opendocument.text');
+                header('Content-Disposition: attachment;filename="'.$this->b_name.'.odt"',FALSE);
+            }
             if ( $this->b_type == 'ods' )
-            header('Content-type: application/vnd.oasis.opendocument.spreadsheet');
-            header('Content-Disposition: attachment;filename="'.$this->b_name.'.odt"',FALSE);
+            {
+                header('Content-type: application/vnd.oasis.opendocument.spreadsheet');
+                header('Content-Disposition: attachment;filename="'.$this->b_name.'.ods"',FALSE);
+            }
+            
             header("Accept-Ranges: bytes");
-            */
             ob_start();
             // save the file in a temp folder
             // create a temp directory in /tmp to unpack file and to parse it
@@ -627,7 +632,7 @@ class Acc_Bilan
             $work_file=basename($file_base);
             if ( copy ($file_base,$work_file) == false )
             {
-                echo "Je ne peux pas ouvrir ce fichier ";
+                echo _("Ouverture fichier impossible");
                 exit();
             }
 	    /*
