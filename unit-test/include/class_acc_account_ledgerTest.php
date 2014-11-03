@@ -102,10 +102,8 @@ class Acc_Account_LedgerTest extends PHPUnit_Framework_TestCase
      */
     public function testLoad()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->object->load();
+        
     }
 
     /**
@@ -150,10 +148,7 @@ class Acc_Account_LedgerTest extends PHPUnit_Framework_TestCase
      */
     public function testIsTVA()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertTrue(false,'Doit être réécrit');
     }
 
     /**
@@ -162,17 +157,14 @@ class Acc_Account_LedgerTest extends PHPUnit_Framework_TestCase
      */
     public function testHtmlTable()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+       $this->assertTrue(true,'Ne peut être testé car vue HTML');
     }
     public function dataGet_amount_side()
     {
         return array (
             array(0,"="), 
-            array(1000,D),
-            array(-1000,C),
+            array(1000,'D'),
+            array(-1000,'C'),
         );
     }
     /**
@@ -192,9 +184,7 @@ class Acc_Account_LedgerTest extends PHPUnit_Framework_TestCase
     public function testHtmlTableHeader()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+       $this->assertTrue(true,'Ne peut être testé car vue HTML');
     }
 
     /**
@@ -290,10 +280,7 @@ class Acc_Account_LedgerTest extends PHPUnit_Framework_TestCase
      */
     public function testTest_me()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+          $this->assertTrue(false,'Must be removed');
     }
 
 }
