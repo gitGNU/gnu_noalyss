@@ -58,7 +58,7 @@ for ($i=0;$i<count($array);$i++) {
                         $ret=$acc_reconciliation->db->execute('detail_quant',array($array[$i]['depend'][$e]['jr_id']));
                         $acc_reconciliation->show_detail($ret);
 			}
-           echo tr(td(_('Total ')).td('operation 1').td(nbm($tot)).td('operation 2').td(nbm($tot2)).td('Delta').td(bcsub($tot,$tot2)));
+           echo tr(td(_('Total ')).td('operation').td(nbm($tot)).td('operations dépendantes').td(nbm($tot2)).td('Delta').td(bcsub($tot,$tot2)),' class="highlight"');
            echo tr(td('<hr>',' colspan="6" style="witdh:auto"'));                        
                          
 	}
