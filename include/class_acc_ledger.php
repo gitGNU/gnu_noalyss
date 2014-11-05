@@ -2930,7 +2930,6 @@ class Acc_Ledger extends jrn_def_sql
 		$button->javascript = "toggleHideShow('search_form','tfs');";
 
 		$r.=$button->input();
-		$r.='<hr>';
 		return $r;
 	}
 
