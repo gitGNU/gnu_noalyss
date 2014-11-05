@@ -43,6 +43,7 @@ if ( count($a->value)==1  )
 {
     $_REQUEST['plugin_code']=$a->value[0]['value'];
 }
+echo '</div>';
 /*else
 {
 	if (!isset($_REQUEST['ac'])) echo_warning ("ac non positionné");
