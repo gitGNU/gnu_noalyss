@@ -44,7 +44,7 @@ echo '<div class="content">';
  */
 echo '<fieldset  class="noprint"><legend>'._('Choississez un autre exercice').'</legend>';;
 echo '<form method="GET">';
-echo 'Choississez un autre exercice :';
+echo _('Choississez un autre exercice')." : ";
 $ex=new Exercice($cn);
 $wex=$ex->select('exercice',$exercice,' onchange="submit(this)"');
 echo $wex->input();
@@ -72,7 +72,7 @@ $input_from->cn=$cn;
 $input_from->filter_year=true;
 $input_from->user=$g_user;
 
-echo 'Depuis :'.$input_from->input();
+echo _('Depuis').' :'.$input_from->input();
 // filter on the current year
 $to=(isset($_GET["to_periode"]))?$_GET['to_periode']:"";
 $input_to=new IPeriod("to_periode",$to,$exercice);
@@ -81,10 +81,11 @@ $input_to->filter_year=true;
 $input_to->type=ALL;
 $input_to->cn=$cn;
 $input_to->user=$g_user;
-echo ' jusque :'.$input_to->input();
-
+echo "  "._('jusque').' :'.$input_to->input();
+echo '<br>';
+echo HtmlInput::button_action(_('Avancé'), " if (\$('balance_advanced_div').style.display=='none') { \$('balance_advanced_div').show();} else { \$('balance_advanced_div').hide();}");
 //-------------------------------------------------
-
+echo '<div id="balance_advanced_div" style="display:none">';
 
 /*  add a all ledger choice */
 echo 'Filtre ';
@@ -171,6 +172,7 @@ echo '</p>';
 echo '<p>';
 echo _("Avec la balance de l'année précédente")." ".$previous_exc->input();
 echo '</p>';
+echo '</div>';
 echo '</div>';
 echo HtmlInput::submit("view",_("Visualisation"));
 echo '</form>';
