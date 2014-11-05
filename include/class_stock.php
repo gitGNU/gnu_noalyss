@@ -26,7 +26,7 @@
  *
  *
  */
-require 'class_stock_sql.php';
+require_once 'class_stock_sql.php';
 
 class Stock extends Stock_Sql
 {

@@ -179,7 +179,8 @@ class Acc_Compute
 
     }
 
-    /*!\brief verify that all the amount are positive or null
+    /**!
+     * \brief verify that all the amount are positive or null
      * otherwise throw a exception and the sum of amount + vat must
      * equal to the sum of all the amount of the current object
      * so you have to copy the object before computing anything and pass
