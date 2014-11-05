@@ -92,6 +92,6 @@ echo _('<span class="notice"> Attention : si le bilan n\'est pas équilibré.<br
        <li> les comptes passifs ont un solde créditeur (sauf les comptes dit inversés) </li>
        </ul>
        Utilisez la balance des comptes pour vérifier. </span>');
-
+echo '<hr>';
 echo '</div>';
 ?>
