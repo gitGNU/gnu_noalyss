@@ -120,7 +120,7 @@ $str_add_card = ($g_user->check_action(FICADD) == 1) ? $h_add_card_b->input() : 
 if ($array == null)
 {
         echo '<div class="content">';
-	echo '<h2 class="info2"> Aucune fiche trouvée</h2>';
+	echo '<h2 class="info2"> '._('Aucune fiche trouvée').'</h2>';
 	echo $str_add_card;
         echo '</div>';
 	exit();
@@ -275,8 +275,8 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 {
 	if (isDate($_REQUEST['start']) == null || isDate($_REQUEST['end']) == null)
 	{
-		echo h2('Date invalide !', 'class="error"');
-		alert('Date invalide !');
+		echo h2(_('Date invalide !'), 'class="error"');
+		alert(_('Date invalide !'));
 		exit;
 	}
 	if ( $allcard == 0 ) echo $str_add_card;
@@ -287,7 +287,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 	$fd = new Fiche_Def($cn, $_REQUEST['cat']);
 	if ($allcard == 0 && $fd->hasAttribute(ATTR_DEF_ACCOUNT) == false)
 	{
-		echo alert("Cette catégorie n'ayant pas de poste comptable n'a pas de balance");
+		echo alert(_("Cette catégorie n'ayant pas de poste comptable n'a pas de balance"));
 		exit;
 	}
 	// all card
@@ -313,9 +313,9 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 				continue;
 		}
 		echo '<h2>' . $cn->get_value("select fd_label from fiche_def where fd_id=$1", array($afiche[$e]['fd_id'])) . '</h2>';
-                $id="table_".$afiche[$e]."_id";
+                $id="table_".$afiche[$e]['fd_id']."_id";
                 echo _('Filtre rapide:').HtmlInput::filter_table($id, '0,1,2', '1'); 
-		echo '<table class="sortable" id="'.$id.'" class="result" style="width:80%;margin-left:10%">';
+		echo '<table class="sortable" id="'.$id.'" class="result" >';
 		echo tr(
 				th('Quick Code') .
 				th('Libellé') .
@@ -364,7 +364,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
                                 td(nbm($sum_deb), 'style="text-align:right"').
                                 td(nbm($sum_cred), 'style="text-align:right"').
                                 td(nbm(abs($sum_solde)), 'style="text-align:right"').
-                                td((($sum_deb < $sum_cred) ? 'CRED' : 'DEB'), 'style="text-align:right"'),"");
+                                td((($sum_deb < $sum_cred) ? 'CRED' : 'DEB'), 'style="text-align:right"'),' class="highlight"');
                 echo '</tfoot>';
 		echo '</table>';
 	}
@@ -433,11 +433,13 @@ for ($e = 0; $e < count($afiche); $e++)
 		/* skip if nothing to display */
 		if (count($letter->content) == 0)
 			continue;
-		$detail_card = HtmlInput::card_detail($row->strAttribut(ATTR_DEF_QUICKCODE), $row->strAttribut(ATTR_DEF_NAME))."poste :".$row->strAttribut(ATTR_DEF_ACCOUNT).HtmlInput::infobulle(27);
+		$detail_card = HtmlInput::card_detail($row->strAttribut(ATTR_DEF_QUICKCODE), $row->strAttribut(ATTR_DEF_NAME));
 
-		echo '<h2 style="font-size:14px;text-align:left;margin-left:10px;padding-left:50px;border:solid 1px blue;width:70%;text-decoration:underline">' . $detail_card . '</h2>';
+		echo '<h2>' . $detail_card ;
+                echo "poste "
+                        . ":".HtmlInput::history_account($row->strAttribut(ATTR_DEF_ACCOUNT),$row->strAttribut(ATTR_DEF_ACCOUNT),'display:inline').HtmlInput::infobulle(27).'</h2>';
 
-		echo '<table style="width:90%;padding-left:5%;padding-right:5%">';
+		echo '<table class="result">';
 		echo '<tr>';
 		echo th(_('Date'));
 		echo th(_('ref'));
