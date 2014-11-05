@@ -42,7 +42,7 @@ echo '<div class="content">';
 /*
  * Let you change the exercice
  */
-echo '<fieldset  class="noprint"><legend>'._('Choississez un autre exercice').'</legend>';;
+echo '<fieldset  class="noprint"><legend>'._('Exercice').'</legend>';;
 echo '<form method="GET">';
 echo _('Choississez un autre exercice')." : ";
 $ex=new Exercice($cn);
