@@ -16,7 +16,7 @@
  *   along with NOALYSS; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-// Copyright(2010) Dany De Bontridder danydb@aevalys.eu
+// Copyright(2004) Dany De Bontridder danydb@aevalys.eu
 /*! \file
  * \brief Show the balance and let you print it or export to PDF
  *        file included by user_impress
