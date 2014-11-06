@@ -88,7 +88,7 @@ echo HtmlInput::button_action(_('Avancé'), " if (\$('balance_advanced_div').sty
 echo '<div id="balance_advanced_div" style="display:none">';
 
 /*  add a all ledger choice */
-echo 'Filtre ';
+echo _('Filtre')." ";
 $rad=new IRadio();
 $array_ledger=$g_user->get_ledger('ALL',3);
 $array=get_array_column($array_ledger,'jrn_def_id');
