@@ -19,8 +19,8 @@ class Acc_AccountTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         global $g_connection;
-        $_REQUEST['gDossier'] = 36;
-        $g_connection=new Database(36);
+        $_REQUEST['gDossier'] = DOSSIER;
+        $g_connection=new Database(DOSSIER);
         $this->object=new Acc_Account($g_connection,400);
         $this->object->load();
     }

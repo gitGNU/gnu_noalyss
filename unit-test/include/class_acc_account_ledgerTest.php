@@ -148,7 +148,11 @@ class Acc_Account_LedgerTest extends PHPUnit_Framework_TestCase
      */
     public function testIsTVA()
     {
-        $this->assertTrue(false,'Doit être réécrit');
+        $this->object->id="4111";
+        $this->assertEquals($this->object->isTVA(),1);
+        $this->object->id=10;
+        $this->assertEquals($this->object->isTVA(),0);
+        
     }
 
     /**
@@ -280,7 +284,7 @@ class Acc_Account_LedgerTest extends PHPUnit_Framework_TestCase
      */
     public function testTest_me()
     {
-          $this->assertTrue(false,'Must be removed');
+          $this->assertEquals($this->object->test_me(),0);
     }
 
 }

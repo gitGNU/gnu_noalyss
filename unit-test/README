@@ -11,3 +11,8 @@ Testing commande en ligne
 Génération
  php <chemin>/phpunit-skelgen.phar --bootstrap bootstrap.php --test -- Intervat ../include/class_transform_intervat.php
  php <chemin>/phpunit.phar  --tap --colors --bootstrap ../bootstrap.php class_acc_accountTest.php
+
+Génération pour tous les fichiers
+=================================
+Permet de voir les lignes de code qui ont été testées
+php <chemin>/phpunit.phar --coverage-html html --bootstrap bootstrap.php include
