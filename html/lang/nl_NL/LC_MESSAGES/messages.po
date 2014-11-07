@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-30 23:30+0100\n"
+"POT-Creation-Date: 2014-11-05 21:05+0100\n"
 "PO-Revision-Date: 2014-02-21 21:35+0100\n"
 "Last-Translator: dany\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -202,17 +202,24 @@ msgid "%s Vous avez ajouté %d mois depuis le %d/%d pour l'exercice %d "
 msgstr "Je hebt% s% d maanden sinds% d /% d% d voor het jaar toegevoegd"
 
 #: include/class_acc_ledger.php:3234 include/class_acc_ledger.php:3303
+#: include/class_acc_ledger.php:3302
 msgid "'Journaux Financier"
 msgstr "Financiële"
 
 #: include/class_acc_ledger.php:3235 include/class_acc_ledger.php:3304
+#: include/class_acc_ledger.php:3303
 msgid "'Journaux d'Opérations diverses"
 msgstr "Menu verschillende bewerkingen"
 
 #: include/class_acc_ledger.php:3233 include/class_acc_ledger.php:3302
+#: include/class_acc_ledger.php:3301
 #, fuzzy
 msgid "'Journaux d'achat"
 msgstr "Ver"
+
+#: include/impress_rapport.inc.php:248
+msgid "1 mois"
+msgstr ""
 
 #: include/impress_bilan.inc.php:89
 #, fuzzy
@@ -317,6 +324,7 @@ msgid "Action interdite"
 msgstr "Verboden Actie"
 
 #: include/class_acc_ledger.php:3684 include/class_acc_ledger.php:3768
+#: include/class_acc_ledger.php:3767
 #, fuzzy
 msgid "Action non accessible"
 msgstr "Folder niet Bereikbaar"
@@ -693,6 +701,25 @@ msgstr ""
 msgid "Attention : il y a %d enregistrements incorrects "
 msgstr "Let op:% d administratie onjuist"
 
+#: include/impress_bilan.inc.php:65
+#, fuzzy
+msgid ""
+"Attention : si le bilan n'est pas équilibré.<br> Vérifiez <ul>\n"
+"       <li>L'affectation du résultat est fait</li>\n"
+"       <li>Vos comptes actifs ont  un solde débiteur (sauf les comptes dit "
+"inversés)</li>\n"
+"       <li> les comptes passifs ont un solde créditeur (sauf les comptes dit "
+"inversés) </li>\n"
+"       </ul>\n"
+"       Utilisez la balance des comptes pour vérifier."
+msgstr "Accepteren"
+
+#: include/impress_rapport.inc.php:257
+msgid ""
+"Attention : vous ne pouvez pas utiliser les &eacute;tapes avec les dates "
+"calendriers."
+msgstr ""
+
 #: include/class_acc_ledger_purchase.php:1484
 #: include/class_acc_ledger_sold.php:755
 msgid "Attention Différence entre TVA calculée et donnée"
@@ -769,6 +796,8 @@ msgstr ""
 #: include/class_acc_ledger.php:3416 include/class_acc_ledger.php:3461
 #: include/class_acc_ledger.php:3594 include/class_acc_ledger.php:3486
 #: include/class_acc_ledger.php:3531 include/class_acc_ledger.php:3678
+#: include/class_acc_ledger.php:3485 include/class_acc_ledger.php:3530
+#: include/class_acc_ledger.php:3677
 #, fuzzy
 msgid "Aucun compte en banque n'est donné"
 msgstr "Geen Enkele analytisch kaart"
@@ -804,7 +833,7 @@ msgstr "Geen bestand"
 msgid "Aucun fichier donné"
 msgstr "Geen Gegevens"
 
-#: include/balance.inc.php:101
+#: include/balance.inc.php:101 include/balance.inc.php:102
 #, fuzzy
 msgid "Aucun filtre, tous les journaux"
 msgstr "Logging Configuratie"
@@ -985,7 +1014,7 @@ msgstr "Andere Informatie"
 msgid "Autres actions"
 msgstr "Actie Toevoegen"
 
-#: include/database.item.php:117
+#: include/database.item.php:117 include/balance.inc.php:86
 msgid "Avancé"
 msgstr "Vergevorderd"
 
@@ -1020,7 +1049,7 @@ msgstr "Nieuwe extract"
 msgid "Avec date opérations"
 msgstr "Operatie Doorsturen"
 
-#: include/balance.inc.php:172
+#: include/balance.inc.php:172 include/balance.inc.php:173
 msgid "Avec la balance de l'année précédente"
 msgstr ""
 
@@ -1158,8 +1187,13 @@ msgstr "Rekenmachine"
 
 #: include/template/dashboard.php:9 include/ajax_calendar_zoom.php:23
 #: include/class_html_input.php:779 include/template/dashboard.php:6
-#: include/class_html_input.php:796
+#: include/class_html_input.php:796 include/impress_rapport.inc.php:209
 msgid "Calendrier"
+msgstr "Kalender"
+
+#: include/impress_rapport.inc.php:240
+#, fuzzy
+msgid "Calendrier depuis :"
 msgstr "Kalender"
 
 #: include/template/impress_cat_card.php:6 include/ajax_boxcard_search.php:57
@@ -1322,6 +1356,11 @@ msgstr "Kosten"
 msgid "Chemin"
 msgstr "Pad"
 
+#: include/fiche.inc.php:91
+#, fuzzy
+msgid "Chercher"
+msgstr "Vinden"
+
 #: html/ajax_misc.php:190
 msgid "Choississez la TVA "
 msgstr ""
@@ -1331,8 +1370,15 @@ msgid ""
 "Choississez la catégorie de fiche à laquelle vous aimeriez ajouter une fiche"
 msgstr "Kies de categorie lijst waar u een record toe te voegen"
 
+#: include/impress_rapport.inc.php:203
+#, fuzzy
+msgid "Choississez le rapport"
+msgstr "Kiez UW map"
+
 #: include/balance.inc.php:45 include/impress_bilan.inc.php:48
 #: include/impress_jrn.inc.php:84 include/impress_rapport.inc.php:182
+#: include/balance.inc.php:47 include/impress_bilan.inc.php:51
+#: include/impress_jrn.inc.php:86
 msgid "Choississez un autre exercice"
 msgstr "Kies een jaar"
 
@@ -1854,7 +1900,7 @@ msgid "Credit"
 msgstr "Credit"
 
 #: include/class_acc_ledger.php:3280 include/user_menu.php:51
-#: include/class_acc_ledger.php:3349
+#: include/class_acc_ledger.php:3349 include/class_acc_ledger.php:3348
 msgid "Création"
 msgstr "Schepping"
 
@@ -1954,6 +2000,7 @@ msgstr "Creditzijde"
 #: include/ext/coprop/include/lot.inc.php:34 include/class_acc_ledger.php:1583
 #: include/class_acc_ledger.php:3563 include/fiche.inc.php:113
 #: include/ext/coprop/include/class_copro_budget.php:134
+#: include/class_acc_ledger.php:3562
 msgid "Créer une nouvelle fiche"
 msgstr "Maak EEN Nieuwe blad"
 
@@ -2162,7 +2209,7 @@ msgstr "Afmelden"
 
 #: include/class_acc_bilan.php:70 include/impress_gl_comptes.inc.php:62
 #: include/impress_poste.inc.php:93 include/template/impress_cat_card.php:14
-#: include/class_anc_print.php:146
+#: include/class_anc_print.php:146 include/balance.inc.php:75
 msgid "Depuis"
 msgstr "VANAF"
 
@@ -2929,6 +2976,11 @@ msgstr "Stap 1/3"
 msgid "Etape 1/3"
 msgstr "Stap 1/3"
 
+#: include/impress_bilan.inc.php:82
+#, fuzzy
+msgid "Etape 2 :Impression"
+msgstr "Indruk"
+
 #: include/ext/transform/include/intervat_listing_assujetti_step_2.inc.php:266
 msgid "Etape 2/3"
 msgstr "Stap 2/3"
@@ -2968,7 +3020,8 @@ msgid "Exclure Etat"
 msgstr "Uitsluiten State"
 
 #: include/ext/tools/index.php:43 include/bank.inc.php:73
-#: include/template/stock_state_search.php:35
+#: include/template/stock_state_search.php:35 include/impress_bilan.inc.php:49
+#: include/impress_jrn.inc.php:84 include/impress_rapport.inc.php:182
 msgid "Exercice"
 msgstr "Oefening"
 
@@ -3261,7 +3314,7 @@ msgstr ""
 #: include/ext/amortis/include/template/listing_histo.php:10
 #: include/ajax_boxcard_search.php:46
 #: include/template/result_cat_card_summary.php:5 include/menu.inc.php:150
-#: html/user_login.php:165
+#: html/user_login.php:165 include/balance.inc.php:280
 msgid "Filtre"
 msgstr "Filter"
 
@@ -3287,12 +3340,12 @@ msgstr "Filter"
 msgid "Filtrer par "
 msgstr "Filteren op"
 
-#: include/balance.inc.php:109
+#: include/balance.inc.php:109 include/balance.inc.php:110
 #, fuzzy
 msgid "Filtré par catégorie"
 msgstr "Categorie Toevoegen"
 
-#: include/balance.inc.php:104
+#: include/balance.inc.php:104 include/balance.inc.php:105
 #, fuzzy
 msgid "Filtré par journal"
 msgstr "Filteren op"
@@ -3758,6 +3811,7 @@ msgid "Importer ce rapport"
 msgstr "Importeer dit verslag"
 
 #: include/class_acc_ledger.php:3611 include/class_acc_ledger.php:3695
+#: include/class_acc_ledger.php:3694
 msgid "Impossible d'effacer un journal qui contient des opérations"
 msgstr ""
 
@@ -3911,6 +3965,7 @@ msgid "Journal inexistant"
 msgstr "Module bestaat niet"
 
 #: include/class_acc_ledger.php:3305 include/class_acc_ledger.php:3374
+#: include/class_acc_ledger.php:3373
 msgid "Journal n'existe pas"
 msgstr "Inloggen bestaat niet"
 
@@ -3920,6 +3975,7 @@ msgid "Journaux"
 msgstr "Kranten"
 
 #: include/class_acc_ledger.php:3232 include/class_acc_ledger.php:3301
+#: include/class_acc_ledger.php:3300
 #, fuzzy
 msgid "Journaux de vente"
 msgstr "Sales Geschiedenis"
@@ -4043,6 +4099,10 @@ msgstr "Lezing"
 #: html/ajax_misc.php:366
 msgid "Les 2"
 msgstr "2"
+
+#: include/impress_rapport.inc.php:259
+msgid "Les clauses FROM sont ignorés avec les dates calendriers"
+msgstr ""
 
 #: include/class_anc_print.php:120
 msgid "Les dates sont en format DD.MM.YYYY"
@@ -4350,6 +4410,7 @@ msgstr "Werk plugin, kunt u de parameter instelling te controleren?"
 
 #: include/class_acc_ledger_purchase.php:1689
 #: include/class_acc_ledger_sold.php:954 include/history_operation.inc.php:140
+#: include/history_operation.inc.php:141
 msgid "Mise à jour paiement"
 msgstr "OPSLAAN"
 
@@ -4580,7 +4641,7 @@ msgid "Montant initial"
 msgstr "Oorspronkelijk bedrag"
 
 #: include/ext/amortis/include/class_am_card.php:179
-#: include/class_acc_compute.php:194
+#: include/class_acc_compute.php:194 include/class_acc_compute.php:195
 #, fuzzy
 msgid "Montant invalide"
 msgstr "has EEN verkeerde Bedrag"
@@ -4683,17 +4744,17 @@ msgstr "Het kan-niet OPSLAAN"
 msgid "Ne remplissez pas s'il n'y a pas de mandataire"
 msgstr "Niet compleet als er geen vertegenwoordiger"
 
-#: include/balance.inc.php:128
+#: include/balance.inc.php:128 include/balance.inc.php:129
 #, fuzzy
 msgid "Niveau 1"
 msgstr "Nieuw"
 
-#: include/balance.inc.php:129
+#: include/balance.inc.php:129 include/balance.inc.php:130
 #, fuzzy
 msgid "Niveau 2"
 msgstr "Nieuw"
 
-#: include/balance.inc.php:130
+#: include/balance.inc.php:130 include/balance.inc.php:131
 #, fuzzy
 msgid "Niveau 3"
 msgstr "Nieuw"
@@ -4802,6 +4863,7 @@ msgid "Nombre d'unité"
 msgstr "Aantal eenheid"
 
 #: include/class_acc_ledger.php:3406 include/class_acc_ledger.php:3476
+#: include/class_acc_ledger.php:3475
 #, fuzzy
 msgid "Nombre de ligne incorrect"
 msgstr "Aantal geregistreerde lijnen"
@@ -5237,6 +5299,16 @@ msgstr "Volgorde van verschijning"
 msgid "Oui"
 msgstr "Ja"
 
+#: include/class_acc_bilan.php:635
+#, fuzzy
+msgid "Ouverture fichier impossible"
+msgstr "Opening Schrift"
+
+#: include/impress_rapport.inc.php:208
+#, fuzzy
+msgid "P&eacute;riode comptable"
+msgstr "Boekhoudingsperiode"
+
 #: include/class_acc_ledger.php:211 include/class_acc_ledger.php:210
 msgid "PERIODE FERMEE"
 msgstr "Gesloten periode"
@@ -5326,6 +5398,11 @@ msgstr "Het blad"
 msgid "Par gérant ou administrateur"
 msgstr "Door de manager of beheerder"
 
+#: include/impress_rapport.inc.php:251
+#, fuzzy
+msgid "Par étape de"
+msgstr "Per jaar"
+
 #: html/ajax_card.php:106
 #, fuzzy
 msgid "Parametre ad_id est invalide"
@@ -5394,6 +5471,10 @@ msgstr "Geen Toegang"
 msgid "Pas d'anomalie détectée"
 msgstr ""
 
+#: include/impress_rapport.inc.php:247
+msgid "Pas d'étape"
+msgstr ""
+
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:75
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:80
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:103
@@ -5433,6 +5514,7 @@ msgid "Payé"
 msgstr "Betaald"
 
 #: include/class_acc_ledger.php:3478 include/class_acc_ledger.php:3548
+#: include/class_acc_ledger.php:3547
 msgid "Payé par"
 msgstr "Betaald deur"
 
@@ -5480,7 +5562,7 @@ msgstr "Bewijs"
 msgid "Pièces attachées"
 msgstr "Documenten"
 
-#: include/balance.inc.php:162
+#: include/balance.inc.php:162 include/balance.inc.php:163
 #, fuzzy
 msgid "Plage de postes"
 msgstr "Basisklasse"
@@ -6593,7 +6675,7 @@ msgstr "Debet Totaal"
 msgid "Total lettré"
 msgstr "Werkelijke totale"
 
-#: include/balance.inc.php:334
+#: include/balance.inc.php:334 include/balance.inc.php:336
 #, fuzzy
 msgid "Total niveau"
 msgstr "Totaal"
@@ -6618,7 +6700,7 @@ msgstr "Werkelijke totale"
 msgid "Totaux"
 msgstr "Totalen"
 
-#: include/balance.inc.php:111
+#: include/balance.inc.php:111 include/balance.inc.php:112
 msgid "Totaux par sous-niveaux"
 msgstr ""
 
@@ -6752,6 +6834,7 @@ msgid "URL"
 msgstr ""
 
 #: include/class_acc_ledger.php:3410 include/class_acc_ledger.php:3480
+#: include/class_acc_ledger.php:3479
 msgid "Un journal avec ce nom existe déjà"
 msgstr ""
 
@@ -6759,7 +6842,7 @@ msgstr ""
 msgid "Uniquement actions internes"
 msgstr "Alleen interne acties"
 
-#: include/balance.inc.php:169
+#: include/balance.inc.php:169 include/balance.inc.php:170
 #, fuzzy
 msgid "Uniquement comptes non soldés"
 msgstr "Alleen interne acties"
@@ -6871,7 +6954,7 @@ msgstr "Sales / Recepten"
 msgid "Ventes"
 msgstr "Verkoop"
 
-#: include/impress_bilan.inc.php:64
+#: include/impress_bilan.inc.php:64 include/impress_bilan.inc.php:71
 msgid "Verification comptabilite"
 msgstr "Verificatie vand van Boekhouding"
 
@@ -6902,6 +6985,7 @@ msgid "Visible Y ou N"
 msgstr "Zichtbare Y of N"
 
 #: include/impress_rec.inc.php:79 include/balance.inc.php:175
+#: include/balance.inc.php:177 include/impress_rapport.inc.php:261
 msgid "Visualisation"
 msgstr "Visualisatie"
 
@@ -7159,6 +7243,7 @@ msgid "choix des journaux"
 msgstr "Financiele"
 
 #: include/class_acc_ledger.php:3527 include/class_acc_ledger.php:3610
+#: include/class_acc_ledger.php:3609
 #, fuzzy
 msgid "choix du type de journal"
 msgstr "For the boek van soort"
@@ -7235,7 +7320,8 @@ msgid "erreur"
 msgstr "Fout:"
 
 #: include/class_acc_bilan.php:348 include/class_acc_bilan.php:656
-#: include/class_acc_bilan.php:681
+#: include/class_acc_bilan.php:681 include/class_acc_bilan.php:661
+#: include/class_acc_bilan.php:686
 #, fuzzy
 msgid "erreur Ouverture fichier"
 msgstr "Opening Schrift"
@@ -7247,7 +7333,7 @@ msgid ""
 msgstr ""
 "enig verzuim periode gemaakte fout, ga dan naar een voorkeur voor kiezen"
 
-#: include/class_acc_bilan.php:662
+#: include/class_acc_bilan.php:662 include/class_acc_bilan.php:667
 msgid "erreur écriture fichier"
 msgstr ""
 
@@ -7280,10 +7366,16 @@ msgstr "onbestaand"
 msgid "journaux"
 msgstr "Kranten"
 
-#: include/balance.inc.php:164
+#: include/balance.inc.php:164 include/balance.inc.php:84
+#: include/balance.inc.php:165 include/impress_rapport.inc.php:242
 #, fuzzy
 msgid "jusque"
 msgstr "peuter"
+
+#: include/class_acc_bilan.php:249
+#, fuzzy
+msgid "le formulaire id n'est pas donnee"
+msgstr "tarief is geen getal"
 
 #: include/dossier.inc.php:58
 msgid "le modele "
