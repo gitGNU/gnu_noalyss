@@ -39,7 +39,7 @@ $choice=(isset($_GET['choice']))?$_GET['choice']:0;
 $r_jrn=(isset($_GET['r_jrn']))?$_GET['r_jrn']:'';
 echo '<form method="GET">';
 echo dossier::hidden().HtmlInput::hidden('ac',$_GET['ac']).HtmlInput::hidden('type','rec');
-echo 'Filtre par journal';
+echo _('Filtre par journal');
 HtmlInput::button_choice_ledger(array('div'=>'','type'=>'ALL','all_type'=>1));
 echo '<br/>';
 /*
@@ -57,19 +57,19 @@ echo '<ol style="list-style-type:none;">';
 
 $radio->selected=($choice==0)?true:false;
 $radio->value=0;
-echo '<li>'.$radio->input().'Opérations rapprochées'.'</li>';
+echo '<li>'.$radio->input()._('Opérations rapprochées').'</li>';
 
 $radio->selected=($choice==1)?true:false;
 $radio->value=1;
-echo '<li>'.$radio->input().'Opérations rapprochées avec des montants différents'.'</li>';
+echo '<li>'.$radio->input()._('Opérations rapprochées avec des montants différents').'</li>';
 
 $radio->selected=($choice==2)?true:false;
 $radio->value=2;
-echo '<li>'.$radio->input().'Opérations rapprochées avec des montants identiques'.'</li>';
+echo '<li>'.$radio->input()._('Opérations rapprochées avec des montants identiques').'</li>';
 
 $radio->selected=($choice==3)?true:false;
 $radio->value=3;
-echo '<li>'.$radio->input().'Opérations non rapprochées'.'</li>';
+echo '<li>'.$radio->input()._('Opérations non rapprochées').'</li>';
 
 echo '</ol>';
 
