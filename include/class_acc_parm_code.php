@@ -84,7 +84,7 @@ class Acc_Parm_Code
         $acc=new Acc_Account_Ledger($this->db,$this->p_value);
         if ( $acc->load() == false )
         {
-            alert("Ce compte n'existe pas");
+            alert(_("Ce compte n'existe pas"));
         }
         else
         {
