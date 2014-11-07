@@ -41,7 +41,7 @@ if (isset($_REQUEST['plugin_code']) )
             exit();
         }
         /* call the ajax script */
-        require_once('ext'.DIRECTORY_SEPARATOR.dirname(trim($ext->get_parameter('me_file'))).DIRECTORY_SEPARATOR.'ajax.php');
+        require_once('ext'.DIRECTORY_SEPARATOR.dirname(trim($ext->getp('me_file'))).DIRECTORY_SEPARATOR.'ajax.php');
     }
     else
     {
