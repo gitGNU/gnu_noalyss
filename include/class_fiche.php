@@ -1512,7 +1512,7 @@ class Fiche
      * \brief  show the default screen
      *
      * \param $p_search (filter)
-     * \param $p_action show the action column
+     * \param $p_action used for specific action bank, red if credit < debit
      * \param $p_sql SQL to filter the number of card must start with AND
      * \param $p_amount true : only cards with at least one operation default : false
      * \return: string to display
@@ -1560,7 +1560,7 @@ class Fiche
 
         if ( $all_tiers == 0 || count($step_tiers)==0 ) return "";
         $r="";
-        $r.="Filtre rapide ".HtmlInput::filter_table("tiers_tb", '0,1', 1);
+        $r.=_("Filtre rapide ").HtmlInput::filter_table("tiers_tb", '0,1', 1);
         $r.=$bar;
         
         $r.='<table  id="tiers_tb" class="sortable"  style="width:90%;margin-left:5%">
@@ -1580,15 +1580,21 @@ class Fiche
         foreach ($step_tiers as $tiers )
         {
             $i++;
-            $odd="";
-             $odd  = ($i % 2 == 0 ) ? 'class="odd"': ' class="even" ';
-            /* Filter on the default year */
-
-            $amount=$tiers->get_solde_detail($filter_year);
+            
+             /* Filter on the default year */
+             $amount=$tiers->get_solde_detail($filter_year);
 
             /* skip the tiers without operation */
             if ( $p_amount && $amount['debit']==0 && $amount['credit'] == 0 && $amount['solde'] == 0 ) continue;
 
+            $odd="";
+             $odd  = ($i % 2 == 0 ) ? ' odd ': ' even ';
+             if ( $p_action == 'bank' && $amount['debit'] <  $amount['credit'] ){
+                 //put in red if c>d
+                 $odd.=" notice ";
+             }
+             $odd=' class="'.$odd.'"';
+             
             $r.="<TR $odd>";
             $e=sprintf('<A HREF="%s?ac=%s&sb=detail&f_id=%d&%s&sc=sv" title="Détail" class="line"> ',
                        $script,$_REQUEST['ac'],$tiers->id,$str_dossier);
