@@ -346,7 +346,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 			echo tr(
 					td(HtmlInput::history_card($oCard->id, $oCard->strAttribut(ATTR_DEF_QUICKCODE))) .
 					td($oCard->strAttribut(ATTR_DEF_NAME)) .
-					td($oCard->strAttribut(ATTR_DEF_ACCOUNT)).
+					td(HtmlInput::history_account($oCard->strAttribut(ATTR_DEF_ACCOUNT),$oCard->strAttribut(ATTR_DEF_ACCOUNT))).
 					td(nbm($solde['debit']), 'class="sorttable_numeric" sorttable_customkey="'.$solde['debit'].'" style="text-align:right"') .
 					td(nbm($solde['credit']), 'class="sorttable_numeric" sorttable_customkey="'.$solde['debit'].'" style="text-align:right"') .
 					td(nbm(abs($solde['solde'])), 'class="sorttable_numeric" sorttable_customkey="'.$solde['solde'].'" style="text-align:right"') .
