@@ -101,7 +101,7 @@ if ( $low_action == "list" )
     $noop=(isset($_GET['noop']))?false:true;
 
     echo '<div class="content">';
-    echo $supplier->Summary($search,'supplier',$sql,$noop);
+    echo $supplier->Summary($search,'bank',$sql,$noop);
 
 
     echo '<br>';
