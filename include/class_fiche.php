@@ -1520,6 +1520,10 @@ class Fiche
     function Summary($p_search="",$p_action="",$p_sql="",$p_amount=false)
     {
         global $g_user;
+        $bank=new Acc_Parm_Code($this->cn,'BANQUE');
+        $cash=new Acc_Parm_Code($this->cn,'CAISSE');
+        $cc=new Acc_Parm_Code($this->cn,'COMPTE_COURANT');
+        
         bcscale(4);
         $str_dossier=dossier::get();
         $p_search=sql_string($p_search);
@@ -1565,8 +1569,9 @@ class Fiche
         
         $r.='<table  id="tiers_tb" class="sortable"  style="width:90%;margin-left:5%">
             <TR >
-            <TH>'._('Quick Code').HtmlInput::infobulle(17).'</TH>
-            <th  class="sorttable_sorted_reverse">'._('Nom').'<span id="sorttable_sortrevind">&nbsp;&blacktriangle;</span>'.'</th>
+            <TH>'._('Quick Code').HtmlInput::infobulle(17).'</TH>'.
+            '<th>'._('Poste comptable').'</th>'.
+            '<th  class="sorttable_sorted_reverse">'._('Nom').'<span id="sorttable_sortrevind">&nbsp;&blacktriangle;</span>'.'</th>
             <th>'._('Adresse').'</th>
             <th style="text-align:right">'._('Total débit').'</th>
             <th style="text-align:right">'._('Total crédit').'</th>
@@ -1589,9 +1594,12 @@ class Fiche
 
             $odd="";
              $odd  = ($i % 2 == 0 ) ? ' odd ': ' even ';
-             if ( $p_action == 'bank' && $amount['debit'] <  $amount['credit'] ){
+             $accounting=$tiers->strAttribut(ATTR_DEF_ACCOUNT);
+             if ( $p_action == 'bank' && $amount['debit'] <  $amount['credit']  ){
+                 if ( strpos($accounting,$bank->p_value)===0 || strpos($accounting,$cash->p_value)===0 || strpos($accounting,$cc->p_value)===0){
                  //put in red if c>d
                  $odd.=" notice ";
+                 }
              }
              $odd=' class="'.$odd.'"';
              
@@ -1600,6 +1608,7 @@ class Fiche
                        $script,$_REQUEST['ac'],$tiers->id,$str_dossier);
 
             $r.="<TD> $e".$tiers->strAttribut(ATTR_DEF_QUICKCODE)."</A></TD>";
+            $r.="<TD> $e".$accounting."</TD>";
             $r.="<TD>".h($tiers->strAttribut(ATTR_DEF_NAME))."</TD>";
             $r.="<TD>".h($tiers->strAttribut(ATTR_DEF_ADRESS).
                          " ".$tiers->strAttribut(ATTR_DEF_CP).
