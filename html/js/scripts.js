@@ -772,9 +772,7 @@ function success_box(req, json)
         g(name_ctl).innerHTML = code_html;
         g(name_ctl).style.height = 'auto';
 
-        if (name_ctl != 'popup')
-            g(name_ctl).style.width = '60%';
-        else
+        if (name_ctl == 'popup')
             g(name_ctl).style.width = 'auto';
     }
     catch (e)
@@ -1575,7 +1573,6 @@ function search_action(dossier, ctl_concern)
         var target = "search_action_div";
         removeDiv(target);
         var str_style = fixed_position(77, 99);
-        str_style += ";width:80%";
 
         var div = {id: target, cssclass: 'inner_box', style: str_style, html: loading(), drag: 1};
 
@@ -1682,7 +1679,7 @@ function stock_repo_change(p_dossier, r_id)
     var queryString = "gDossier=" + p_dossier + "&op=mod_stock_repo" + "&r_id=" + r_id;
     var nTop = calcy(posY);
     var nLeft = "200px";
-    var str_style = "top:" + nTop + "px;left:" + nLeft + ";width:50em;height:auto";
+    var str_style = "top:" + nTop + "px;left:" + nLeft + ";height:auto";
 
     removeDiv('change_stock_repo_div');
     waiting_box();
@@ -1705,7 +1702,7 @@ function stock_inv_detail(p_dossier, p_id)
     var queryString = "gDossier=" + p_dossier + "&op=view_mod_stock" + "&c_id=" + p_id + "&ctl=view_mod_stock_div";
     var nTop = calcy(posY);
     var nLeft = "200px";
-    var str_style = "top:" + nTop + "px;left:" + nLeft + ";width:75%;";
+    var str_style = "top:" + nTop + "px;left:" + nLeft + ";";
 
     removeDiv('view_mod_stock_div');
     waiting_box();
