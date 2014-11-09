@@ -226,4 +226,20 @@ function toNumber($p_num)
     $p_num=str_replace(',','.',$p_num);
     return $p_num;
 }
+/**
+ * Check that all the index are in the array, used by function to check if
+ * the array contains the needed variables before an extract
+ * @param type $p_array array to check
+ * @param type $needed string containing variable separated by comma
+ * @throws Exception
+ */
+function check_parameter($p_array,$p_needed)
+{
+    $needed = split(',',$p_needed);
+    for ($e=0;$e<$needed;$e++) {
+            if ( ! isset($p_array[$needed[$e]])) {
+                throw new Exception (_('Paramètre manquant')." ".$needed[$e]);
+            }
+        }
+}
 ?>

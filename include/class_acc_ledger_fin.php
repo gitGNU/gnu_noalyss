@@ -45,15 +45,25 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		$this->type = 'FIN';
 	}
 
-	/**\brief verify that the data are correct before inserting or confirming
-	 * \param an array (usually $_POST)
-	 * \return String
-	 * \throw Exception on error occurs
+	/**
+         * Verify that the data are correct before inserting or confirming
+         * @brief verify the data 
+	 * @param an array (usually $_POST)
+	 * @return String
+	 * @throw Exception on error occurs
 	 */
 
 	public function verify($p_array)
 	{
 		global $g_user;
+                if (is_array($p_array ) == false || empty($p_array))
+                    throw new Exception ("Array empty");
+               /*
+                * Check needed value
+                */
+                check_parameter($p_array,'p_jrn');
+
+                
 		extract($p_array);
 		/* check for a double reload */
 		if (isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1', array($mt)) != 0)

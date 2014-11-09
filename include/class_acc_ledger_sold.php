@@ -61,7 +61,17 @@ class Acc_Ledger_Sold extends Acc_Ledger {
 
     public function verify($p_array) {
         global $g_parameter, $g_user;
+        
+        if (is_array($p_array ) == false || empty($p_array))
+                    throw new Exception ("Array empty");
+        
         extract($p_array);
+        
+        /*
+         * Check needed value
+         */
+        check_parameter($p_array,'p_jrn,e_date,e_client');
+
         /* check for a double reload */
         if (isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1', array($mt)) != 0)
             throw new Exception(_('Double Encodage'), 5);
@@ -918,7 +928,10 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         return $r;
     }
 
-    /* !\brief update the payment
+    /**
+     * @brief update the payment
+     * @deprecated
+     * 
      */
 
     function show_unpaid() {
