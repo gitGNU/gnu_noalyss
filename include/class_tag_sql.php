@@ -45,9 +45,8 @@ class Tag_SQL extends Noalyss_SQL
 		$this->default = array(
 			"t_id" => "auto",
 		);
-		global $cn;
 
-		parent::__construct($cn,$p_id);
+		parent::__construct($p_cn,$p_id);
 
 	}
 
