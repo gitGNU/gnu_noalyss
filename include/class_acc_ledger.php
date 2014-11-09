@@ -851,8 +851,8 @@ class Acc_Ledger extends jrn_def_sql
 			$r.=th('Journal');
 		}
 		$r.='<th>' . $table->get_header(0) . '</th>';
-		$r.='<th>' . $table->get_header(1) . '</td>';
-		$r.='<th>' . $table->get_header(2) . '</th>';
+		if ($p_paid != 0 ) $r.='<th>' . $table->get_header(1) . '</td>';
+		if ($p_paid != 0 ) $r.='<th>' . $table->get_header(2) . '</th>';
 		$r.='<th>' . $table->get_header(3) . '</th>';
 		$r.='<th>' . $table->get_header(4) . '</th>';
 		$r.='<th>' . $table->get_header(6) . '</th>';
@@ -898,12 +898,15 @@ class Acc_Ledger extends jrn_def_sql
 			$r.=$row['str_jr_date'];
 			$r.="</TD>";
 			// echeance
-			$r.="<TD>";
-			$r.=$row['str_jr_ech'];
-			$r.="</TD>";
-			$r.="<TD>";
-			$r.=$row['str_jr_date_paid'];
-			$r.="</TD>";
+			if ($p_paid != 0 )
+                        {
+                            $r.="<TD>";
+                            $r.=$row['str_jr_ech'];
+                            $r.="</TD>";
+                            $r.="<TD>";
+                            $r.=$row['str_jr_date_paid'];
+                            $r.="</TD>";
+                        }
 
 			// pj
 			$r.="<TD>";
@@ -1815,6 +1818,13 @@ class Acc_Ledger extends jrn_def_sql
 
 	function verify($p_array)
 	{
+            if (is_array($p_array ) == false || empty($p_array))
+                    throw new Exception ("Array empty");
+        /*
+         * Check needed value
+         */
+        check_parameter($p_array,'p_jrn,e_date');
+        
 		extract($p_array);
 		global $g_user;
 		$tot_cred = 0;
@@ -3345,7 +3355,7 @@ class Acc_Ledger extends jrn_def_sql
 
 		$r = "";
 		$r.='<TABLE>';
-		$r.='<TR><TD class="mtitle"><A class="mtitle" HREF="' . $base_url . '&sa=add">' . _('Création') . ' </A></TD></TR>';
+		$r.='<TR><TD class="vert_mtitle"><A class="mtitle" HREF="' . $base_url . '&sa=add">' . _('Création') . ' </A></TD></TR>';
 		$ret = $this->db->exec_sql("select distinct jrn_def_id,jrn_def_name,
                        jrn_def_class_deb,jrn_def_class_cred,jrn_def_type
                        from jrn_def order by jrn_def_name");
@@ -3356,7 +3366,7 @@ class Acc_Ledger extends jrn_def_sql
 		{
 			$l_line = Database::fetch_array($ret, $i);
 			$url = $base_url . "&sa=detail&p_jrn=" . $l_line['jrn_def_id'];
-			$r.=sprintf('<TR><TD class="mtitle"><A class="mtitle" HREF="%s">%s</A></TD></TR>', $url, h($l_line['jrn_def_name']));
+			$r.=sprintf('<TR><TD class="vert_mtitle"><A class="mtitle" HREF="%s">%s</A></TD></TR>', $url, h($l_line['jrn_def_name']));
 		}
 		$r.= "</TABLE>";
 		return $r;
