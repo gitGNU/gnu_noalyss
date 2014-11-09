@@ -100,9 +100,7 @@ class Tag
         echo h($this->data->t_tag);
         echo HtmlInput::hidden($p_prefix.'tag[]', $this->data->t_id);
         $js=sprintf("$('sp_".$p_prefix.$this->data->t_id."').remove();");
-        echo '<span style="background-color:red;text-align:center;border-top:1px solid black; border-right:1px solid black;border-bottom:1px solid black;">';
-        echo HtmlInput::anchor('X', "javascript:void(0)", "onclick=\"$js\"");
-        echo '</span>';
+        echo HtmlInput::anchor( " &#x2D5D; ", "javascript:void(0)", "onclick=\"$js\"", ' class="smallbutton " style="padding:0px;display:inline" ');
         echo '</span>';
     }
     /**
