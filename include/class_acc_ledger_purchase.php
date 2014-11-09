@@ -61,6 +61,14 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
     public function verify($p_array)
     {
         global $g_parameter,$g_user;
+        
+        if (is_array($p_array ) == false || empty($p_array))
+                    throw new Exception ("Array empty");
+        /*
+         * Check needed value
+         */
+        check_parameter($p_array,'p_jrn,e_date,e_client');
+
         extract ($p_array);
         /* check if we can write into this ledger */
         if ( $g_user->check_jrn($p_jrn) != 'W' )
@@ -1653,9 +1661,12 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
     }
 
 
-    /*!\brief update the payment
+    /**
+     * @brief update the payment
+     * @todo to remove, obsolete
+     * @deprecated
      */
-    function show_unpaid()
+    function show_unpaid_deprecated()
     {
         // Show list of unpaid sell
         // Date - date of payment - Customer - amount
@@ -1666,9 +1677,9 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 
 
         $sql=SQL_LIST_UNPAID_INVOICE_DATE_LIMIT." and jr_def_id=".$this->id ;
-        list($max_line,$list)=ListJrn($this->db,$sql,null,$offset,1);
+        list($max_line,$list)=$this->list_operation($sql,null,$offset,1);
         $sql=SQL_LIST_UNPAID_INVOICE." and jr_def_id=".$this->id ;
-        list($max_line2,$list2)=ListJrn($this->db,$sql,null,$offset,1);
+        list($max_line2,$list2)=$this->list_operation($sql,null,$offset,1);
 
         // Get the max line
         $m=($max_line2>$max_line)?$max_line2:$max_line;
