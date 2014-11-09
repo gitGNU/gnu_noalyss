@@ -2228,9 +2228,9 @@ function action_tag_select(p_dossier, ag_id)
                         }
                         var code_html = getNodeText(html[0]);
                         code_html = unescape_xml(code_html);
-                        add_div({id: 'tag_div', style: '', cssclass: 'inner_box', drag: 1});
-                        $('tag_div').style.top = (posY - 70)+"px";
-                        $('tag_div').style.left = (posX - 70)+"px";
+                        pos=fixed_position(35,229 );
+                        add_div({id: 'tag_div', style: pos, cssclass: 'inner_box tag', drag: 1});
+                        
                         remove_waiting_box();
                         $('tag_div').innerHTML = code_html;
                     }
