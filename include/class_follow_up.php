@@ -1531,9 +1531,7 @@ class Follow_Up
                         $a_tag[$e]['t_id']);
                 echo '<span style="border:1px solid black;margin-right:5px;">';
                 echo $a_tag[$e]['t_tag'];
-                echo '</span>';
-                echo '<span style="background-color:red;text-align:center;border-top:1px solid black; border-right:1px solid black;border-bottom:1px solid black;">';
-                echo HtmlInput::anchor("X", "javascript:void(0)", $js_remove);
+                echo HtmlInput::anchor( " &#x2D5D; ", "javascript:void(0)", $js_remove, ' class="smallbutton " style="padding:0px;display:inline" ');
                 echo '</span>';
                 echo '&nbsp;';
                 echo '&nbsp;';
