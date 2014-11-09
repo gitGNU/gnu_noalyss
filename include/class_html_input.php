@@ -716,8 +716,9 @@ class HtmlInput
          * @param string $p_text text of the anchor
          * @param string $p_url  url
          * @param string $p_js javascript
+         * @param string $p_style is the visuable effect (class, style...)
          */
-      static function anchor($p_text,$p_url="",$p_js="")
+      static function anchor($p_text,$p_url="",$p_js="",$p_style=' class="line" ')
       {
           if ($p_js != "")
           {
@@ -725,8 +726,8 @@ class HtmlInput
           }
 
 
-          $str=sprintf('<a class="line" href="%s" %s>%s</a>',
-                  $p_url,$p_js,$p_text);
+          $str=sprintf('<a %s href="%s" %s>%s</a>',
+                  $p_style,$p_url,$p_js,$p_text);
           return $str;
       }
       /**
