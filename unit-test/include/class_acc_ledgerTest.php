@@ -10,7 +10,12 @@ class Acc_LedgerTest extends PHPUnit_Framework_TestCase
      * @var Acc_Ledger
      */
     protected $object;
-
+           protected function getDataSet()
+    {
+        $dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet();
+        $dataSet->addTable('jrn', dirname(__FILE__)."/jrn.csv");
+        return $dataSet;
+    }
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
@@ -35,7 +40,8 @@ class Acc_LedgerTest extends PHPUnit_Framework_TestCase
      * @todo   Implement testGet_last_pj().
      */
     public function testGet_last_pj()
-    {
+    {   
+ 
         $this->object->id=1;
         $array=$this->object->get_last(2);
         $this->assertEquals(2,count($array));
@@ -659,10 +665,7 @@ class Acc_LedgerTest extends PHPUnit_Framework_TestCase
      */
     public function testGet_tiers()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->object->get_tiers($p_jrn_type, $jr_id);
     }
 
     /**

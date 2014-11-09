@@ -59,7 +59,7 @@ class Fiche
     /**
      *@brief used with a usort function, to sort an array of Fiche on the name
      */
-    static function cmp_name($o1,$o2)
+    static function cmp_name(Fiche $o1,Fiche $o2)
     {
         return strcmp($o1->strAttribut(ATTR_DEF_NAME),$o2->strAttribut(ATTR_DEF_NAME));
     }
@@ -1626,10 +1626,12 @@ class Fiche
             $r.="</TR>";
 
         }
-		$r.="<tfoot>";
+		$r.="<tfoot >";
 		$solde=abs(bcsub($deb,$cred));
                 $side=($deb > $cred)?'Débit':'Crédit';
-		$r.=td("").td("").td("Totaux").td(nbm($deb),'class="num"').td(nbm($cred),'class="num"').td(" $side ".nbm($solde),'class="num"');
+                $r.='<tr class="highlight">';
+		$r.=td("").td("").td("").td("Totaux").td(nbm($deb),'class="num"').td(nbm($cred),'class="num"').td(" $side ".nbm($solde),'class="num"');
+                $r.='</tr>';
 		$r.="</tfoot>";
         $r.="</TABLE>";
         $r.=$bar;

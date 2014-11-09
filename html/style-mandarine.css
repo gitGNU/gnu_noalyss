@@ -2,7 +2,7 @@
 
 BODY {
     background-color: #FFF1ED;
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     padding: 0px 0px 0px 0px ;
     margin:0px;
     color: #A52A2A;
@@ -27,7 +27,7 @@ table.resultfooter tfoot {
 }
 table.sortable th,  table.table_large th,table.result th {
     font-weight:bold;
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     border-bottom:1px solid #FF7F50;
     border-top:0;
 
@@ -38,7 +38,7 @@ table.sortable th,  table.table_large th,table.result th {
 }
 
 h2 {
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     color: #E95353;
     margin:1px;
     padding:1px;
@@ -164,7 +164,7 @@ div.lmenu {
 div.lextmenu {
 
     float:left;
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
 
 }
 div.searchmenu {
@@ -177,7 +177,7 @@ div.searchmenu {
 
 div.recherche_form{
     width:700px;
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     border-style:outset;
     border-width:1px;
 
@@ -186,7 +186,7 @@ div.redcontent{
     float:left;
     padding-top:7px;
     padding-left:8px;
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     width:75%;
 
 }
@@ -194,7 +194,7 @@ div.content{
     padding-top:0.0030%;
     margin-top:0.0030%;
     width:100%;
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     font-size:14.4px;
     font-size:0.90rem;
 
@@ -204,12 +204,12 @@ div.content30{
     float:left;
     padding-top:7px;
     width:35%;
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
 
 }
 div.no span{
     position:static;
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     font-weight:bold;
     color:#FF0000;
 
@@ -224,7 +224,7 @@ table.document {
 }
 table.document th{
     font-weight:bold;
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     border-bottom:2px solid #FF7F50;
     border-top:0px;
     color:#6D3F2E;
@@ -259,8 +259,9 @@ td.mtitle {
     width:250px;
     height :30px;
     background-color: #FFD299;
-    border:1px solid #99B1DF;
+    border:0px;
     border-radius:5px;
+    font-weight: bold;
 }
 td.msubtitle {
     text-align:center;
@@ -282,7 +283,7 @@ span.even {
 }
 
 tr.odd {
-    background-color: #FFCC99;
+    background-color: #FFE9D6;
 }
 tr.highlight {
     font-weight: bold;
@@ -407,7 +408,7 @@ a.one:hover {
 
 a.detail
 {
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     text-decoration: none;
     display: block;
     color: #DB6906;
@@ -415,7 +416,7 @@ a.detail
 
 a.detail:hover
 {
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     color: #FFFFFF;
     background-color: #FF6600;
     text-decoration: none;
@@ -428,7 +429,7 @@ li.menuv,ol.menuv {
     padding:1rem 1rem;
 }
 div.redcontent a {
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     text-decoration: none;
     display: block;
     color: #A52A2A;
@@ -436,7 +437,7 @@ div.redcontent a {
 }
 
 div.redcontent a:hover {
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     color: #FFFFFF;
     background-color:#336699;
     text-decoration: none;
@@ -444,7 +445,7 @@ div.redcontent a:hover {
 
 }
 div.content a {
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     text-decoration: none;
     display: block;
     color: #EF5F2B;
@@ -454,7 +455,7 @@ div.content a {
 
 
 div.content a:hover {
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     color: #FFFFFF;
     background-color: #C76626;
     text-decoration: none;
@@ -497,7 +498,7 @@ div.content a.mtitle:hover {
 
 }
 div.redcontent input.text {
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     font-weight:normal;
     border-color:#336699;
     border-style:solid;
@@ -506,7 +507,7 @@ div.redcontent input.text {
     color:#FF7F50;
 }
 div.content input.text {
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     font-weight:normal;
     border-color:#336699;
     border-style:solid;
@@ -827,11 +828,18 @@ a#anchorbutton, .button, a.button,div.content a.button {
     margin:1px 2px 1px 2px;
     border-radius: 5px;
     moz-border-radius:5px;
-    background-color: #EEBC8B;
     border-radius: 2px;
 
     border-width: 1px;
     border-color: #6D3F2E;
+    background: #feccb1; /* Old browsers */
+background: -moz-linear-gradient(top, #feccb1 0%, #f17432 50%, #ea5507 51%, #fb955e 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#feccb1), color-stop(50%,#f17432), color-stop(51%,#ea5507), color-stop(100%,#fb955e)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #feccb1 0%,#f17432 50%,#ea5507 51%,#fb955e 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #feccb1 0%,#f17432 50%,#ea5507 51%,#fb955e 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #feccb1 0%,#f17432 50%,#ea5507 51%,#fb955e 100%); /* IE10+ */
+background: linear-gradient(to bottom, #feccb1 0%,#f17432 50%,#ea5507 51%,#fb955e 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feccb1', endColorstr='#fb955e',GradientType=0 ); /* IE6-9 */
 }
 a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
     cursor:pointer;
@@ -848,7 +856,7 @@ a#smallanchorbutton, .smallbutton, a.smallbutton,div.content a.smallbutton {
     font-family: arial,verdana,sans-serif,helvetica;
     font-size:12px;
     font-size:0.75rem;
-    border-color:  #6D3F2E;
+    border-color:  orange;
 
     border-style: solid;
     border-width: 1px;
@@ -861,8 +869,14 @@ a#smallanchorbutton, .smallbutton, a.smallbutton,div.content a.smallbutton {
     margin:1px 2px 1px 2px;
     border-radius: 2px;
     moz-border-radius:2px;
-
-    background-color: #EEBC8B;
+background: #feccb1; /* Old browsers */
+background: -moz-linear-gradient(top, #feccb1 0%, #f17432 50%, #ea5507 51%, #fb955e 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#feccb1), color-stop(50%,#f17432), color-stop(51%,#ea5507), color-stop(100%,#fb955e)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #feccb1 0%,#f17432 50%,#ea5507 51%,#fb955e 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #feccb1 0%,#f17432 50%,#ea5507 51%,#fb955e 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #feccb1 0%,#f17432 50%,#ea5507 51%,#fb955e 100%); /* IE10+ */
+background: linear-gradient(to bottom, #feccb1 0%,#f17432 50%,#ea5507 51%,#fb955e 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feccb1', endColorstr='#fb955e',GradientType=0 ); /* IE6-9 */
 }
 a#smallanchorbutton:hover, .smallbutton:hover,a.smallbutton:hover,div.content a.smallbutton:hover  {
     cursor:pointer;
@@ -940,7 +954,7 @@ box-shadow: 10px 10px 5px #888;
 }
 div.inner_box  {
     background-color: #FAF3EC;
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     padding:2px;
     margin:0px;
     overflow:hidden;
@@ -954,16 +968,16 @@ box-shadow: 10px 10px 5px #888;
 font-size:14.4px;
 font-size:0.90rem;
 }
-@media only screen and (min-width: 1024px) {
+@media only screen and (min-width: 1281px) {
 div.inner_box  {
-    width: 35%;
+    width: 55%;
     }
 }
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 1280px) {
 div.inner_box  {
-    width: 90%;
-    left:5%;
-    margin-bottom: 5%;
+    width: 95%;
+    left:2%;
+    margin-bottom: 2%;
     }
 }
 div.op_detail_title {
@@ -1228,7 +1242,15 @@ h1.title {
     text-transform: uppercase;
 }
 h2.title {
-    background-color: #FFB483;
+
+        background: -moz-linear-gradient(top, rgba(242,130,91,0.94) 0%, rgba(229,91,43,0.98) 62%, rgba(240,113,70,0.99) 73%, rgba(240,113,70,1) 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(242,130,91,0.94)), color-stop(62%,rgba(229,91,43,0.98)), color-stop(73%,rgba(240,113,70,0.99)), color-stop(100%,rgba(240,113,70,1))); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, rgba(242,130,91,0.94) 0%,rgba(229,91,43,0.98) 62%,rgba(240,113,70,0.99) 73%,rgba(240,113,70,1) 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top, rgba(242,130,91,0.94) 0%,rgba(229,91,43,0.98) 62%,rgba(240,113,70,0.99) 73%,rgba(240,113,70,1) 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top, rgba(242,130,91,0.94) 0%,rgba(229,91,43,0.98) 62%,rgba(240,113,70,0.99) 73%,rgba(240,113,70,1) 100%); /* IE10+ */
+        background: linear-gradient(to bottom, rgba(242,130,91,0.94) 0%,rgba(229,91,43,0.98) 62%,rgba(240,113,70,0.99) 73%,rgba(240,113,70,1) 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f2825b', endColorstr='#f07146',GradientType=0 ); /* IE6-9 */
+
     color:#FFFFFF;
     text-align:center;
     padding:0.24%;
@@ -1315,7 +1337,7 @@ div#notice {
     div#modele_op_div{
     display: none;
     background-color:#FFF1ED;
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     padding:0px;
     margin:0px;
     overflow:hidden;
@@ -1336,7 +1358,7 @@ div#notice {
     div#modele_op_div{
     display: none;
     background-color:#FFF1ED;
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     padding:0px;
     margin:0px;
     overflow:hidden;
@@ -1362,15 +1384,13 @@ div.bxbutton
     margin-right:0.48%;
 }
 div.inner_box tr.odd {
-    background: #FEFFE0;
-    color: br;
 }
 #modele_op_tab tr.odd {
     background:  #FFFFCC;
 }
 div#bookmark_div {
     background-color:#FFF1ED;
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     padding:2px;
     margin:0px;
     overflow:hidden;
@@ -1384,7 +1404,7 @@ div#bookmark_div {
 }
 div#preference_div {
     background-color:#FFF1ED;
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     padding:0px;
     margin:0px;
     overflow:hidden;
@@ -1432,7 +1452,7 @@ input.inum {
 }
 div.box  {
     background-color:#FFF1ED;
-    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family:  "Liberation Sans", FreeSans, sans-serif,Arial, Helvetica;
     margin-top:10px;
     margin-left:3px;
     margin-right:3px;

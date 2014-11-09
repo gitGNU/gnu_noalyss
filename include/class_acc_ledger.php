@@ -131,6 +131,8 @@ class Acc_Ledger extends jrn_def_sql
 	 * - letter
 	 * - reconciliation
 	 * @bug the attached document is not deleted
+         * @bug Normally it should be named delete_operation, cause the id is the ledger_id
+         * (jrn_def_id) and not the operation id
 	 */
 	function delete()
 	{
@@ -175,6 +177,8 @@ class Acc_Ledger extends jrn_def_sql
 	 * @exception if date is invalid or other prob
 	 * @note automatically create a reconciliation between operation
 	 * You must set the ledger_id $this->jrn_def_id
+         * This function should be in operation or call an acc_operation object
+         * 
 	 */
 	function reverse($p_date)
 	{

@@ -138,7 +138,7 @@ if ( $iselect->selected != '')
 {
 	$sql="where me_type='".sql_string($_REQUEST['p_type'])."'  ";
 }
-$menu=new Menu_Ref_sql($cn);
+$menu=new Menu_Ref_sql();
 $ret=$menu->seek($sql.$order);
 ?>
 <fieldset><legend>Recherche</legend>
