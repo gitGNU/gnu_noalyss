@@ -71,11 +71,11 @@ $ac="&ac=".$_REQUEST['ac'];
 $p_action='p_action=defreport';
 echo '<div class="lmenu">';
 echo '<TABLE>';
-echo '<TR><TD class="mtitle"><A class="mtitle" HREF="?'.$p_action.$ac.'&action=add&'.$str_dossier.'">Ajout</A></TD></TR>';
+echo '<TR><TD class="vert_mtitle"><A class="mtitle" HREF="?'.$p_action.$ac.'&action=add&'.$str_dossier.'">Ajout</A></TD></TR>';
 
 foreach ( $lis as $row)
 {
-    printf ('<TR><TD class="mtitle"><A class="mtitle" HREF="?'.$p_action.$ac.'&action=view&fr_id=%s&%s">%s</A></TD></TR>', $row->id,$str_dossier,$row->name);
+    printf ('<TR><TD class="vert_mtitle"><A class="mtitle" HREF="?'.$p_action.$ac.'&action=view&fr_id=%s&%s">%s</A></TD></TR>', $row->id,$str_dossier,$row->name);
 
 }
 echo "</TABLE>";
