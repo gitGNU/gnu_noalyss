@@ -131,7 +131,7 @@ echo '<span style="display:block">';
 
 
 	echo '</span>';
-echo '<table id="t_rec_bk" class="sortable" style="width:80%;margin-left:10%">';
+echo '<table id="t_rec_bk" class="sortable" style="width:90%;margin-left:5%">';
 $r ='<th class=" sorttable_sorted_reverse">'.'Date '.HtmlInput::infobulle(17).'<span id="sorttable_sortrevind">&nbsp;&blacktriangle;</span>'.'</th>';
 $r.=th('Libellé');
 $r.=th('N° interne');
