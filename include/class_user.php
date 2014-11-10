@@ -799,7 +799,7 @@ class User
 		 $r=array();
 		if ($p_access=='R')
 		{
-			$r=$this->db->get_array("select u.r_id,r_name
+			$r=$this->db->get_array("select distinct u.r_id,r_name
                 from
 					profile_sec_repository as u
 					join stock_repository as s on(u.r_id=s.r_id)
@@ -811,7 +811,7 @@ class User
 		}
 		if ($p_access == 'W')
 		{
-			 $r=$this->db->get_array("select u.r_id,r_name
+			 $r=$this->db->get_array("select distinct u.r_id,r_name
                 from
 					profile_sec_repository as u
 					join stock_repository as s on(u.r_id=s.r_id)
