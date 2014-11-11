@@ -683,6 +683,9 @@ $order
      */
     function remove()
     {
+        if ( $this->id >= 500000 ) {
+            throw new Exception(_('Catégorie verrouillée '));
+        }
         $remain=0;
         /* get all the card */
         $aFiche=fiche::get_fiche_def($this->cn,$this->id);

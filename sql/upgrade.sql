@@ -161,3 +161,22 @@ ALTER TABLE action_gestion ADD CONSTRAINT fiche_f_id_fk3  FOREIGN KEY (f_id_dest
 alter table action_gestion alter f_id_dest drop not null;
 update action_gestion set f_id_dest = null where f_id_dest = 0;
 
+CREATE OR REPLACE FUNCTION comptaproc.category_card_before_delete()
+  RETURNS trigger AS
+$BODY$
+
+begin
+    if OLD.fd_id > 499000 then
+        return null;
+    end if;
+    return OLD;
+
+end;
+$BODY$
+language plpgsql;
+
+CREATE TRIGGER trg_category_card_before_delete
+  BEFORE delete
+  ON fiche_def
+  FOR EACH ROW
+  EXECUTE PROCEDURE comptaproc.category_card_before_delete();
