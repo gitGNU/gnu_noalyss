@@ -169,10 +169,10 @@ class Fiche_Def
 		$tab = new Sort_Table();
 
 		$url = HtmlInput::get_to_string(array('ac', 'gDossier'));
-		$tab->add("Nom de fiche", $url, "order by fd_label asc", "order by fd_label desc", "na", "nd");
-		$tab->add("Basé sur le poste comptable", $url, "order by fd_class_base asc", "order by fd_class_base desc", "pa", "pd");
-		$tab->add("Calcul automatique du poste comptable", $url, "order by fd_create_account asc", "order by fd_create_account desc", "ca", "cd");
-		$tab->add("Basé sur le modèle", $url, "order by frd_text asc", "order by frd_text  desc", "ma", "md");
+		$tab->add(_("Nom de fiche"), $url, "order by fd_label asc", "order by fd_label desc", "na", "nd");
+		$tab->add(_("Basé sur le poste comptable"), $url, "order by fd_class_base asc", "order by fd_class_base desc", "pa", "pd");
+		$tab->add(_("Calcul automatique du poste comptable"), $url, "order by fd_create_account asc", "order by fd_create_account desc", "ca", "cd");
+		$tab->add(_("Basé sur le modèle"), $url, "order by frd_text asc", "order by frd_text  desc", "ma", "md");
 
 		$order = (isset($_GET['ord'])) ? $tab->get_sql_order($_GET["ord"]) : $tab->get_sql_order("na");
 
@@ -805,7 +805,7 @@ $order
 		echo HtmlInput::hidden("p_action","fiche");
 		echo dossier::hidden();
 		echo $this->input(); //    CreateCategory($cn,$search);
-		echo HtmlInput::submit("add_modele" ,"Sauve");
+		echo HtmlInput::submit("add_modele" ,_("Sauve"));
 		echo '</FORM>';
 	}
 
