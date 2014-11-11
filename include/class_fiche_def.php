@@ -764,7 +764,7 @@ $order
 		$this->get();
 		$this->GetAttribut();
 		$r.= '<H2 class="info">' . $this->id . " " . h($this->label) . '</H2>';
-		$r.='<fieldset><legend>Données générales</legend>';
+		$r.='<fieldset><legend>'_('Données générales').'</legend>';
 
 		/* show the values label class_base and create account */
 		$r.='<form method="post">';
@@ -777,7 +777,7 @@ $order
 		$r.='</form>';
 		$r.='</fieldset>';
 		/* attributes */
-		$r.='<fieldset><legend>Détails</legend>';
+		$r.='<fieldset><legend>'._('Détails').'</legend>';
 
 		$r.= '<FORM  method="POST">';
 		$r.=dossier::hidden();
