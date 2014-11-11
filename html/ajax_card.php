@@ -404,6 +404,7 @@ case 'ac':
          *
          *----------------------------------------------------------------------*/
         $ipopup=str_replace('_content','',$ctl);
+        $msg="";$base="";
         switch($cat)
         {
         case FICHE_TYPE_CLIENT:
@@ -418,9 +419,13 @@ case 'ac':
             $msg=_(' d\'administration');
             $base='';
             break;
-		case FICHE_TYPE_CONTACT:
-			$msg=_(' de contacts');
-			$base='';
+	case FICHE_TYPE_CONTACT:
+            $msg=_(' de contacts');
+            $base='';
+        case FICHE_TYPE_FIN:
+            $msg=_(' Banque');
+            $base=$cn->get_value("select p_value from parm_code where p_code='BANQUE'");
+         
         }
 
         $html='';
