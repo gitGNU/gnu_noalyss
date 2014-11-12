@@ -52,21 +52,31 @@ class Document_Export
      */
     function concatenate_pdf()
     {
-        $this->check_file();
-        $stmt = PDFTK . " " . $this->store_pdf . '/stamp_*pdf  output ' . $this->store_pdf . '/result.pdf';
-        $status = 0;
-        echo $stmt;
-        passthru($stmt, $status);
-
-        if ($status <> 0)
+        try
         {
-            $cnt_feedback = count($this->feedback);
-            $this->feedback[$cnt_feedback]['file'] = 'result.pdf';
-            $this->feedback[$cnt_feedback]['message'] = ' cannot concatenate PDF';
-            $this->feedback[$cnt_feedback]['error'] = $status;
+            $this->check_file();
+            $stmt=PDFTK." ".$this->store_pdf.'/stamp_*pdf  output '.$this->store_pdf.'/result.pdf';
+            $status=0;
+            echo $stmt;
+            passthru($stmt, $status);
+
+            if ($status<>0)
+            {
+                $cnt_feedback=count($this->feedback);
+                $this->feedback[$cnt_feedback]['file']='result.pdf';
+                $this->feedback[$cnt_feedback]['message']=' cannot concatenate PDF';
+                $this->feedback[$cnt_feedback]['error']=$status;
+            }
+        }
+        catch (Exception $exc)
+        {
+            $cnt_feedback=count($this->feedback);
+            $this->feedback[$cnt_feedback]['file']='result.pdf';
+            $this->feedback[$cnt_feedback]['message']=$exc->getMessage();
+            $this->feedback[$cnt_feedback]['error']=0;
         }
     }
-    
+
     function move_file($p_source, $target)
     {
         $this->check_file();
