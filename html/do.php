@@ -95,7 +95,7 @@ if ($cn->exist_table('version') == false)
 {
     echo '<h2 class="error" style="font-size:12px">' . _("Base de donnée invalide") . '</h2>';
     $base = dirname($_SERVER['REQUEST_URI']);
-    echo HtmlInput::button_anchor('Retour', $base . '/user_login.php');
+       echo HtmlInput::button_anchor('Retour', $base . '/user_login.php');
     exit();
 }
 if (DBVERSION < dossier::get_version($cn))
@@ -150,11 +150,34 @@ if ( isset ($_POST['set_preference'])) {
     $_SESSION['g_pagesize']=$p_size;
     $_SESSION['g_lang']=$lang;
 }
+
 /*
  * if an action is requested
  */
 if (isset($_REQUEST['ac']))
 {
+    // When debugging save all the input in a file
+    if ( LOGINPUT)
+    {
+        $file_loginput=fopen($_ENV['TMP'].'/scenario-'.$_SERVER['REQUEST_TIME'].'.php','a+');
+        $tmp_ac=explode('/',trim(strtoupper($_REQUEST['ac'])));
+        $last=count($tmp_ac);
+        if ($last > 0) $last--;
+        fwrite ($file_loginput,"<?php \n");
+        fwrite ($file_loginput,'//@description:'.$tmp_ac[$last]."\n");
+        fwrite($file_loginput, '$_GET='.var_export($_GET,true));
+        fwrite($file_loginput,";\n");
+        fwrite($file_loginput, '$_POST='.var_export($_POST,true));
+        fwrite($file_loginput,";\n");
+        fwrite($file_loginput, '$_POST[\'gDossier\']=$gDossierLogInput;');
+        fwrite($file_loginput,"\n");
+        fwrite($file_loginput, '$_GET[\'gDossier\']=$gDossierLogInput;');
+        fwrite($file_loginput,"\n");
+        fwrite($file_loginput,' $_REQUEST=array_merge($_GET,$_POST);');
+        fwrite($file_loginput,"\n");
+        fclose($file_loginput);
+    }
+
     $_REQUEST['ac']=  trim(strtoupper($_REQUEST['ac']));
     $all = explode('/', $_REQUEST['ac']);
     $module_selected = $all[0];

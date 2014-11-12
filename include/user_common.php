@@ -235,8 +235,8 @@ function toNumber($p_num)
  */
 function check_parameter($p_array,$p_needed)
 {
-    $needed = split(',',$p_needed);
-    for ($e=0;$e<$needed;$e++) {
+    $needed =explode(',',$p_needed);
+    for ($e=0;$e<count($needed);$e++) {
             if ( ! isset($p_array[$needed[$e]])) {
                 throw new Exception (_('Paramètre manquant')." ".$needed[$e]);
             }

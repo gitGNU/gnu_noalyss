@@ -1,4 +1,5 @@
 <?php
+
 /*
  *   This file is part of NOALYSS.
  *
@@ -15,62 +16,109 @@
  *   You should have received a copy of the GNU General Public License
  *   along with NOALYSS; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
-/*!\file
-*\brief this file let you debug and test the different functionnalities, there are 2 important things to do
-* It is only a quick and dirty testing. You should use a tool as PHPUNIT for the unit testing
+/* !\file
+ * \brief this file let you debug and test the different functionnalities, there are 2 important things to do
+ * It is only a quick and dirty testing. You should use a tool as PHPUNIT for the unit testing
  * 
-*  - first do not forget to create the authorized_debug file in the html folder
-*  - secund the test must adapted to this page : if you do a post (or get) from a test, you won't get any result
-* if the $_REQUEST[test_select] is not set, so set it . 
-*/
+ *  - first do not forget to create the authorized_debug file in the html folder
+ *  - secund the test must adapted to this page : if you do a post (or get) from a test, you won't get any result
+ * if the $_REQUEST[test_select] is not set, so set it . 
+ */
+$start_mem=memory_get_usage();
+$start_time=microtime(true);
+
+
+include_once("../include/constant.php");
 include_once("ac_common.php");
-include_once("constant.php");
 require_once('class_database.php');
 require_once ('class_dossier.php');
 require_once('class_html_input.php');
 require_once ('function_javascript.php');
+require_once 'class_user.php';
 load_all_script();
-global $cn,$g_user,$g_succeed,$g_failed;
-if ( ! file_exists('authorized_debug') )
+$gDossier=HtmlInput::default_value_get('gDossier', -1);
+if ($gDossier==-1)
+{
+    echo " Vous devez donner le dossier avec paramètre gDossier dans l'url, exemple http://localhost/noalyss/html/test.php?gDossier=25";
+    exit();
+}
+$gDossierLogInput=$gDossier;
+global $cn, $g_user, $g_succeed, $g_failed;
+$cn=new Database($_GET['gDossier']);
+
+$g_parameter=new Own($cn);
+$g_user=new User($cn);
+
+if (!file_exists('authorized_debug'))
 {
     echo "Pour pouvoir utiliser ce fichier vous devez creer un fichier nomme authorized_debug
     dans le repertoire html du server";
     exit();
-
 }
+define('ALLOWED', 1);
 html_page_start();
-function start_test($p_array)
+$script=HtmlInput::default_value_get('script', '');
+if ($script=="")
 {
-    echo '<h1>'.$p_array['desc'].'</h1>';
-        require $p_array['file'];
-        call_user_func($p_array['function']);
-}
-// Test the connection
-echo __FILE__.":".__LINE__;
-print_r($_REQUEST);
-if ( ! isset($_REQUEST['gDossier']))
-{
-    echo "Vous avez oublie de specifier le gDossier ;)";
-    echo "L'url aurait du etre test.php?gDossier=xx";
-    exit();
-}
-$cn=new Database($_GET['gDossier']);
-
-$a_route[]=array('desc'=>'test sur les menus par défauts','file'=>'class_default_menu.php','function'=>'Default_Menu::test_me');
-$a_route[]=array('desc'=>'test sur Acc_Operations','file'=>'class_acc_operation.php','function'=>'Acc_Operation::test_me');
-$a_route[]=array('desc'=>'test sur INVOICING','file'=>'../include/ext/invoicing/include/class_acc_ledger_sold_generate.php','function'=>'Acc_Ledger_Sold_Generate::test_me');
-$a_route[]=array('desc'=>'test sur menu_ref','file'=>'class_menu_ref_sql.php','function'=>'Menu_Ref_SQL::test_me');
-$called=HtmlInput::default_value_get("called", -1);
-if ($called == -1 )
-{
-    for ($i=0;$i< count($a_route);$i++)
+    echo "<h1>Test NOALYSS</h1>";
+    /*
+     * cherche pour fichier a include, s'il y en a alors les affiche
+     * avec une description
+     */
+    $scan=scandir('../scenario/');
+    $max=count($scan);
+    
+    echo '<table>';
+    for ($e=0; $e<$max; $e++)
     {
-        start_test($a_route[$i]);
+        if (is_file('../scenario/'.$scan[$e])&&strpos($scan[$e], '.php') == true)
+        {
+            $description="";
+            $a_description=file('../scenario/'.$scan[$e]);
+            $max_description=count($a_description);
+            for ($w=0;$w<$max_description;$w++)
+            {
+                if (strpos($a_description[$w],'@description:')==true)
+                {
+                    $description=$a_description[$w];
+                    $description=str_replace('//@description:','',$description);
+             
+                }
+            }
+            $get='test.php?'.http_build_query(array('script'=>$scan[$e],'gDossier'=>$gDossierLogInput,'description'=>$description));
+            echo '<tr>';
+            echo '<td>';
+            echo '<a href="'.$get.'" target="_blank">';
+            echo $scan[$e];
+            echo '</a>';
+            echo '</td>';
+            echo '<td>'.$description.'</td>';
+            echo '</tr>';
+        }
     }
+    echo '</table>';
 }
- else
+else
 {
-    start_test($a_route[$called]);
+    
+    $script=str_replace('../','',$script);
+    $description=HtmlInput::default_value_get("description", "aucune description");
+    echo '<h1>'.$script."</h1>";
+    echo '<p> description = '.$description.'<p>';
+    include '../scenario/'.$script;
+
+    $end_mem=memory_get_usage();
+    $end_time=microtime(true);
+
+    echo "<p>start mem : ".$start_mem;
+    echo '</p>';
+    echo "<p>end mem : ".$end_mem;
+    echo '</p>';
+    echo "<p>Diff = ".($end_mem-$start_mem)." bytes ";
+    echo "<p>Diff = ".(round(($end_mem-$start_mem)/1024, 2))." kbytes ";
+    echo "<p>Diff = ".(round(($end_mem-$start_mem)/1024/1024, 2))." Mbytes ";
+    echo '</p>';
+    echo "<p>Execution script ".$script." time = ".(round(($end_time-$start_time), 4))." secondes</p>";
 }
