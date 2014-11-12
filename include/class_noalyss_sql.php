@@ -313,7 +313,7 @@ abstract class Noalyss_SQL
         $a_return=array();
         for ($i=0; $i<$max; $i++)
         {
-            $a_return[$i]=$this->next($ret, $i);
+            $a_return[$i]=clone $this->next($ret, $i);
         }
         return $a_return;
     }
