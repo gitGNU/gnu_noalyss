@@ -446,7 +446,7 @@ function select_card_type(obj)
         sx=document.body.scrollTop+60;
     }
 
-    var str_style="top:"+sx+"px;left:25%;height:30%";
+    var str_style="top:"+sx+"px;height:30%";
     waiting_box();
     var popup={'id':  content,'cssclass':'inner_box','style':str_style,'html':"",'drag':true};
 
