@@ -93,7 +93,7 @@ class Anc_Print
             echo '<div class="content">';
             echo '<h2 class="error">'._('Aucun plan défini').'</h2>';
             echo '</div>';
-            exit();
+            return;
         }
 
         $from=new IDate('from','from');

@@ -582,7 +582,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
             echo $e->getTrace();
 
             $this->db->rollback();
-            exit();
+            throw new Exception ($e);
         }
         $this->db->commit();
 
@@ -1044,8 +1044,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
                 $l_form_per = $period->input();
             } catch (Exception $e) {
                 if ($e->getCode() == 1) {
-                    echo _("Aucune période ouverte");
-                    exit();
+                    throw  Exception( _("Aucune période ouverte") );
                 }
             }
             $label = HtmlInput::infobulle(3);
@@ -1065,7 +1064,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
 
         $wLedger = $this->select_ledger('VEN', 2);
         if ($wLedger == null)
-            exit(_('Pas de journal disponible'));
+            throw  Exception(_('Pas de journal disponible'));
         $wLedger->table = 1;
         $wLedger->javascript = "onChange='update_predef(\"ven\",\"f\",\"".$_REQUEST['ac']."\");$add_js'";
         $wLedger->label = " Journal " . HtmlInput::infobulle(2);

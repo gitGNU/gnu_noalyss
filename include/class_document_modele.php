@@ -183,7 +183,7 @@ class Document_modele
                 {
                     echo "<H1>Error</H1>";
                     $this->cn->rollback();
-                    exit;
+                   throw new Exception("Erreur".__FILE__.__LINE__);
                 }
             }
         }
@@ -348,7 +348,7 @@ class Document_modele
                 {
                     echo "<H1>Error</H1>";
                     $this->cn->rollback();
-                    exit;
+                    throw new Exception("Erreur".__FILE__.__LINE__);
                 }
             }
         }

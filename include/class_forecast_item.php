@@ -54,7 +54,7 @@ class Forecast_Item
             return $this->$idx;
         }
         else
-            exit (__FILE__.":".__LINE__."[$p_string]".'Erreur attribut inexistant');
+            throw new Exception("Attribut inexistant $p_string");
     }
     public function set_parameter($p_string,$p_value)
     {
@@ -64,7 +64,7 @@ class Forecast_Item
             $this->$idx=$p_value;
         }
         else
-            exit (__FILE__.":".__LINE__."[$p_string]".'Erreur attribut inexistant');
+        throw new Exception("Attribut inexistant $p_string");
 
 
     }

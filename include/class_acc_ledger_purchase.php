@@ -908,7 +908,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $e->getMessage().$e->getTraceAsString();
 
             $this->db->rollback();
-            exit();
+            throw  new Exception($e);
         }
         $this->db->commit();
         return $internal;
@@ -1014,8 +1014,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             {
                 if ($e->getCode() == 1 )
                 {
-                    echo _("Aucune période ouverte");
-                    exit();
+                    throw  Exception( _("Aucune période ouverte"));
                 }
             }
 
@@ -1040,7 +1039,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 		$add_js.='update_row("sold_item");';
 
 		$wLedger=$this->select_ledger('ACH',2);
-        if ($wLedger == null) exit (_('Pas de journal disponible'));
+        if ($wLedger == null) throw  Exception(_('Pas de journal disponible'));
         $wLedger->javascript="onChange='update_predef(\"ach\",\"f\",\"".$_REQUEST['ac']."\");$add_js'";
         $wLedger->table=1;
         $f_jrn=$wLedger->input();

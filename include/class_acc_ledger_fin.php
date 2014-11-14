@@ -292,8 +292,8 @@ class Acc_Ledger_Fin extends Acc_Ledger
 			{
 				if ($e->getCode() == 1)
 				{
-					echo "Aucune période ouverte";
-					exit();
+					throw  Exception(_("Aucune période ouverte"));
+					
 				}
 			}
 			$label = HtmlInput::infobulle(3);
@@ -312,7 +312,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		$add_js = 'onchange="'.$onchange.'"';
 		$wLedger = $this->select_ledger('FIN', 2);
 		if ($wLedger == null)
-			exit('Pas de journal disponible');
+			throw  Exception(_('Pas de journal disponible'));
 
 		$wLedger->javascript = $add_js;
 
@@ -960,12 +960,12 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		}
 		catch (Exception $e)
 		{
-			echo '<span class="error">' .
+			$r = '<span class="error">' .
 			'Erreur dans l\'enregistrement ' .
 			__FILE__ . ':' . __LINE__ . ' ' .
 			$e->getMessage();
 			$this->db->rollback();
-			exit();
+			throw  Exception($r);
 		}
 		$this->db->commit();
 		$r = "";
@@ -1010,7 +1010,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		$wLedger = $this->select_ledger('fin', 3);
 
 		if ($wLedger == null)
-			exit(_('Pas de journal disponible'));
+			throw  Exception(_('Pas de journal disponible'));
 
 		if (count($wLedger->value) > 1)
 		{

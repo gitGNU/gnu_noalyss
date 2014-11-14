@@ -92,7 +92,7 @@ class Extension extends Menu_Ref_sql
         {
             alert('Cette extension ne fonctionne pas sur cette version de NOALYSS'.
                   ' Veuillez mettre votre programme a jour. Version minimum '.$i);
-            exit();
+            return;
         }
         Extension::check_plugin_version();
     }

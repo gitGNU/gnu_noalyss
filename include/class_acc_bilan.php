@@ -262,7 +262,7 @@ class Acc_Bilan
         catch(Exception $Ex)
         {
             echo $Ex->getMessage();
-            exit();
+            throw $Ex;
         }
     }
     /*!\brief open the file of the form */
@@ -273,7 +273,7 @@ class Acc_Bilan
         if ( $form == false)
         {
             echo 'Cannot Open';
-            exit();
+           throw new Exception(_('Echec ouverture fichier '.$this->b_file_form));
         }
         return $form;
     }
@@ -285,7 +285,7 @@ class Acc_Bilan
         if ( $templ == false)
         {
             echo 'Cannot Open';
-            exit();
+              throw new Exception(_('Echec ouverture fichier '.$this->b_file_template));
         }
         return $templ;
 
@@ -346,7 +346,7 @@ class Acc_Bilan
         if ( copy ($file_base,$work_file) == false )
         {
             echo _("erreur Ouverture fichier");
-            exit();
+              throw new Exception(_('Echec ouverture fichier '.$file_base));
         }
         ob_start();
 	/* unzip the document */
@@ -367,8 +367,7 @@ class Acc_Bilan
 
         if ( $p_file == false)
         {
-            echo 'Cannot Open';
-            exit();
+             throw new Exception(_('Echec ouverture fichier '.$p_file));
         }
 
         $r="";
@@ -632,8 +631,7 @@ class Acc_Bilan
             $work_file=basename($file_base);
             if ( copy ($file_base,$work_file) == false )
             {
-                echo _("Ouverture fichier impossible");
-                exit();
+                throw new Exception ( _("Ouverture fichier impossible"));
             }
 	    /*
 	     * unzip the document
@@ -658,22 +656,20 @@ class Acc_Bilan
             $p_file=fopen($dirname.DIRECTORY_SEPARATOR.'content.xml','wb');
             if ( $p_file == false )
             {
-                exit ( _("erreur Ouverture fichier").' content.xml');
+                  throw new Exception ( _("erreur Ouverture fichier").' content.xml');
 
             }
             $a=fwrite($p_file,$p_result);
             if ( $a==false)
             {
-                echo _("erreur écriture fichier").' content.xml';
-                exit();
+                throw new Exception ( _("erreur écriture fichier").' content.xml');
             }
             // repack
 	    $zip = new Zip_Extended;
             $res = $zip->open($this->b_name.".".$this->b_type, ZipArchive::CREATE);
             if($res !== TRUE)
 	      {
-		echo __FILE__.":".__LINE__."cannot recreate zip";
-		exit;
+		throw new Exception (__FILE__.":".__LINE__."cannot recreate zip");
 	      }
 	    $zip->add_recurse_folder($dirname.DIRECTORY_SEPARATOR);
 	    $zip->close();
@@ -683,7 +679,7 @@ class Acc_Bilan
             $fdoc=fopen($dirname.DIRECTORY_SEPARATOR.$this->b_name.'.'.$this->b_type,'r');
             if ( $fdoc == false )
             {
-                exit  (_("erreur Ouverture fichier"));
+                  throw new Exception   (_("erreur Ouverture fichier"));
             }
             $buffer=fread ($fdoc,filesize($dirname.DIRECTORY_SEPARATOR.$this->b_name.'.'.$this->b_type));
             echo $buffer;

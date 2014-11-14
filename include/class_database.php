@@ -99,7 +99,7 @@ class Database
                 echo "Utilisateur : $noalyss_user <br>";
                 echo '</p>';
 
-                exit("Connection impossible : v&eacute;rifiez vos param&egrave;tres de base
+                die("Connection impossible : v&eacute;rifiez vos param&egrave;tres de base
                   de donn&eacute;es");
             }
             else
@@ -264,8 +264,7 @@ class Database
         $hf=fopen($script, 'r');
         if ($hf==false)
         {
-            echo 'Ne peut ouvrir '.$script;
-            exit();
+            throw new Exception ( 'Ne peut ouvrir '.$script);
         }
         $sql="";
         $flag_function=false;
@@ -327,7 +326,7 @@ class Database
                 if (!DEBUG)
                     ob_end_clean();
                 print "ERROR : $sql";
-                exit();
+                throw new Exception("ERROR : $sql");
             }
             $sql="";
             $flag_function=false;
@@ -619,7 +618,7 @@ class Database
                 break;
             default:
                 echo_error(__FILE__." format_name invalid type ".$p_type, __LINE__);
-                exit();
+                throw new Exception(__FILE__." format_name invalid type ".$p_type. __LINE__);
         }
         return $sys_name;
     }

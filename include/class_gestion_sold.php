@@ -48,7 +48,7 @@ class gestion_sold extends gestion_table
     function get_list()
     {
         if ($this->qs_internal=="")
-            exit (__FILE__.__LINE__." qs_internal est vide");
+            throw  new Exception(__FILE__.__LINE__." qs_internal est vide");
         $sql="select  qs_id,
              qs_internal,
              qs_fiche,

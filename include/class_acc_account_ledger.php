@@ -464,7 +464,6 @@ class Acc_Account_Ledger
 	  break;
 	default:
 	  throw new Exception(" Fonction HtmlTableHeader argument actiontarget invalid");
-	  exit;
 	}
         $hid=new IHidden();
 

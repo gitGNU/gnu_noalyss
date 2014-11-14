@@ -158,7 +158,7 @@ class Follow_Up
 		}
 		else
 		{
-			exit('class_action' . __LINE__ . 'Follow_Up::Display error unknown parameter' . $p_view);
+                    throw new Exception('class_action' . __LINE__ . 'Follow_Up::Display error unknown parameter' . $p_view);
 		}
 		// Compute the widget
 		// Date
@@ -1448,7 +1448,7 @@ class Follow_Up
              where  true  $p_search order by ag.ag_timestamp,ag.ag_id";
 		$ret=$this->db->exec_sql($sql);
 
-		if ( Database::num_row($ret)==0)exit();
+		if ( Database::num_row($ret)==0) return;
 		$this->db->query_to_csv($ret,array(
 				array("title"=>"doc id","type"=>"string"),
 				array("title"=>"date","type"=>"date"),

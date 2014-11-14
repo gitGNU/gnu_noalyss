@@ -67,7 +67,7 @@ class Todo_List
             return $this->$idx;
         }
         else
-            exit (__FILE__.":".__LINE__.'Erreur attribut inexistant');
+            throw new Exception("Attribut inexistant $p_string");
     }
     public function check($p_idx,&$p_value)
     {
@@ -99,7 +99,7 @@ class Todo_List
             if ($this->check($idx,$p_value) == true )      $this->$idx=$p_value;
         }
         else
-            exit (__FILE__.":".__LINE__.'Erreur attribut inexistant');
+            throw new Exception("Attribut inexistant $p_string");
 
 
     }

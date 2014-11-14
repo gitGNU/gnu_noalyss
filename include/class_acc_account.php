@@ -63,7 +63,7 @@ class Acc_Account
             return $this->$idx;
         }
         else
-            exit (__FILE__.":".__LINE__._('Erreur attribut inexistant'));
+            throw new Exception (__FILE__.":".__LINE__._('Erreur attribut inexistant'));
     }
 
     function set_parameter($p_string,$p_value)
@@ -74,7 +74,7 @@ class Acc_Account
             if ($this->check($idx,$p_value) == true )      $this->$idx=$p_value;
         }
         else
-            exit (__FILE__.":".__LINE__._('Erreur attribut inexistant'));
+            throw new Exception (__FILE__.":".__LINE__._('Erreur attribut inexistant'));
 
 
     }

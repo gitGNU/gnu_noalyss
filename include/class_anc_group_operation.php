@@ -76,7 +76,7 @@ class Anc_Group_Operation
         {
             echo $e->getTrace();
             $this->db->rollback();
-            exit();
+            throw new Exception($e);
         }
         $this->db->commit();
     }
@@ -244,7 +244,7 @@ class Anc_Group_Operation
             __FILE__.':'.__LINE__.' '.
             $ex->getMessage();
             $p_cn->rollback();
-            exit();
+            throw new Exception("Erreur ".$ex->getMessage());
 
         }
         $this->db->commit();
@@ -263,7 +263,7 @@ class Anc_Group_Operation
         {
             $b=new Anc_Group_Operation($cn);
             $b->get_from_array($_POST);
-            exit();
+            return;
         }
 
         $a=new Anc_Group_Operation($cn);

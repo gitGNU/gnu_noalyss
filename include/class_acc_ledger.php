@@ -1559,7 +1559,7 @@ class Acc_Ledger extends jrn_def_sql
 	 * @brief Show the form to encode your operation
 	 * @param$p_array if you correct or use a predef operation (default = null)
 	 * @param$p_readonly 1 for readonly 0 for writable (default 0)
-	 *
+	 *@exception if ledger not found
 	 * \return a string containing the form
 	 */
 
@@ -1595,7 +1595,7 @@ class Acc_Ledger extends jrn_def_sql
 		}
 		$wLedger = $this->select_ledger('ODS', 2);
 		if ($wLedger == null)
-			exit(_('Pas de journal disponible'));
+			throw new Exception(_('Pas de journal disponible'));
 		$wLedger->javascript = "onChange='update_name();update_predef(\"ods\",\"t\",\"".$_REQUEST['ac']."\");$add_js'";
 		$label = " Journal " . HtmlInput::infobulle(2);
 
@@ -2208,7 +2208,7 @@ class Acc_Ledger extends jrn_def_sql
 	function update_internal_code($p_internal)
 	{
 		if (!isset($this->grpt_id))
-			exit('ERREUR ' . __FILE__ . ":" . __LINE__);
+			throw new Exception(('ERREUR ' . __FILE__ . ":" . __LINE__));
 		$Res = $this->db->exec_sql("update jrn set jr_internal='" . $p_internal . "' where " .
 				" jr_grpt_id = " . $this->grpt_id);
 	}
@@ -2363,7 +2363,7 @@ class Acc_Ledger extends jrn_def_sql
 			return true;
 		if ($g_parameter->MY_STRICT == 'N')
 			return false;
-		exit("Valeur invalid " . __FILE__ . ':' . __LINE__);
+		throw  Exception("Valeur invalid " . __FILE__ . ':' . __LINE__);
 	}
 
 	/**
@@ -2379,7 +2379,7 @@ class Acc_Ledger extends jrn_def_sql
 			return true;
 		if ($g_parameter->MY_CHECK_PERIODE == 'N')
 			return false;
-		exit("Valeur invalid " . __FILE__ . ':' . __LINE__);
+		throw  Exception("Valeur invalid " . __FILE__ . ':' . __LINE__);
 	}
 
 	/**
@@ -3214,7 +3214,7 @@ class Acc_Ledger extends jrn_def_sql
 					echo $op->show_button();
 				}
 				echo '</form>';
-				exit();
+				exit('test_me');
 			}
 
 			if (isset($_POST['post_id']))
@@ -3225,7 +3225,7 @@ class Acc_Ledger extends jrn_def_sql
 				echo HtmlInput::button('add', 'Ajout d\'une ligne', 'onClick="quick_writing_add_row()"');
 				echo HtmlInput::submit('save_it', "Sauver");
 				echo '</form>';
-				exit();
+				exit('test_me');
 			}
 			if (isset($_POST['save_it']))
 			{
@@ -3245,7 +3245,7 @@ class Acc_Ledger extends jrn_def_sql
 					echo HtmlInput::submit('post_id', 'Try me');
 					echo '</form>';
 				}
-				exit();
+				return;
 			}
 			// The GET at the end because automatically repost when you don't
 			// specify the url in the METHOD field
@@ -3262,7 +3262,7 @@ class Acc_Ledger extends jrn_def_sql
 				echo $a->show_form($p_post);
 				echo HtmlInput::submit('post_id', 'Use predefined operation');
 				echo '</form>';
-				exit();
+				return;
 			}
 		}// if case = ''
 		///////////////////////////////////////////////////////////////////////////

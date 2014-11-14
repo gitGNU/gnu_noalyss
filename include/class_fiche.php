@@ -1464,7 +1464,7 @@ class Fiche
      */
     function get_bk_balance($p_cond="")
     {
-        if ( $this->id == 0 ) exit('fiche->id est nul');
+        if ( $this->id == 0 ) throw  new Exception('fiche->id est nul');
         $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
 
         if ( $p_cond != "") $p_cond=" and ".$p_cond;
@@ -1642,7 +1642,7 @@ class Fiche
      */
     function get_categorie()
     {
-        if ( $this->id == 0 ) exit('class_fiche : f_id = 0 ');
+        if ( $this->id == 0 ) throw  new Exception('class_fiche : f_id = 0 ');
         $sql='select fd_id from fiche where f_id='.$this->id;
         $R=$this->cn->get_value($sql);
         if ( $R == "" )
@@ -1671,8 +1671,7 @@ class Fiche
         if (($this->quick_code==null || $this->quick_code == "" )
                 && $this->id == 0 )
         {
-            echo 'erreur ni quick_code ni f_id ne sont donnes';
-            exit();
+            throw  new Exception( 'erreur ni quick_code ni f_id ne sont donnes');
         }
 
         //retrieve the quick_code

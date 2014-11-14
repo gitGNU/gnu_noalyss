@@ -354,6 +354,7 @@ class User
 
 	function Admin()
 	{
+            $this->admin = 0;
 		if ($this->login != 'phpcompta')
 		{
 			$pass5 = md5($this->pass);
@@ -363,7 +364,7 @@ class User
 			$cn = new Database();
 			$res = $cn->exec_sql($sql, array($this->login));
 			if (Database::num_row($res) == 0)
-				exit(__FILE__ . " " . __LINE__ . " aucun resultat");
+				throw  new Exception(__FILE__ . " " . __LINE__ . " aucun resultat");
 			$this->admin = Database::fetch_result($res, 0);
 		}
 		else
@@ -402,8 +403,7 @@ class User
 			$pid = Database::fetch_result($Res2, 0, 0);
 			if ($pid == null)
 			{
-				echo _("Aucune période trouvéee !!!");
-				exit(1);
+				throw  new Exception( _("Aucune période trouvéee !!!"));
 			}
 
 			$pid = Database::fetch_result($Res2, 0, 0);

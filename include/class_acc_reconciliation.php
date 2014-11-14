@@ -517,7 +517,7 @@ j1.j_poste as poste
                 break;
             default:
                 echo "Choix invalid";
-                exit();
+                throw new Exception("invalide");
         }
         return $array;
     }

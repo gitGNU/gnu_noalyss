@@ -305,8 +305,8 @@ class Pre_operation_detail
     {
         if ( ! isset ($this->valid[$p_param] ) )
         {
-            echo(" le parametre $p_param n'existe pas ".__FILE__.':'.__LINE__);
-            exit();
+            $msg=_(" le parametre $p_param n'existe pas ".__FILE__.':'.__LINE__);
+            throw new Exception($msg);
         }
         $attr=$this->valid[$p_param];
         $this->$attr=$value;
@@ -316,8 +316,8 @@ class Pre_operation_detail
 
         if ( ! isset ($this->valid[$p_param] ) )
         {
-            echo(" le parametre $p_param n'existe pas ".__FILE__.':'.__LINE__);
-            exit();
+            $msg=_(" le parametre $p_param n'existe pas ".__FILE__.':'.__LINE__);
+            throw new Exception($msg);
         }
         $attr=$this->valid[$p_param];
         return $this->$attr;

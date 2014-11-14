@@ -764,7 +764,7 @@ $order
 		$this->get();
 		$this->GetAttribut();
 		$r.= '<H2 class="info">' . $this->id . " " . h($this->label) . '</H2>';
-		$r.='<fieldset><legend>'_('Données générales').'</legend>';
+		$r.='<fieldset><legend>'._('Données générales').'</legend>';
 
 		/* show the values label class_base and create account */
 		$r.='<form method="post">';

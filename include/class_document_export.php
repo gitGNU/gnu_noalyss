@@ -71,7 +71,7 @@ class Document_Export
         catch (Exception $exc)
         {
             $cnt_feedback=count($this->feedback);
-            $this->feedback[$cnt_feedback]['file']='result.pdf';
+            $this->feedback[$cnt_feedback]['file']=' ';
             $this->feedback[$cnt_feedback]['message']=$exc->getMessage();
             $this->feedback[$cnt_feedback]['error']=0;
         }
