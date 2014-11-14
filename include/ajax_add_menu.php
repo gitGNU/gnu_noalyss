@@ -25,7 +25,11 @@
  * @brief show the form to add a menu
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-$type=$_GET['type'];
+$type=HtmlInput::default_value_get('type','XX');
+if ($type == 'XX') {
+     throw new Exception('invalid call');
+    return;
+}
 if ( $type=='me')
 {
 $ame_code_dep=$cn->make_array("
@@ -99,8 +103,6 @@ echo HtmlInput::title_box(_("Nouveau menu"), $ctl);
 </table>
 <?php 
 echo HtmlInput::submit('add_menu',"Valider");
-echo '</form>';
-}
 if ($type=='pr')
 {
 
@@ -114,6 +116,8 @@ select me_code,me_code||' '||coalesce(me_menu,'')||' '||coalesce(me_description,
 	",0,array($p_id));
 
 $me_code=new ISelect('me_code');
+echo '</form>';
+}
 $me_code->value=$ame_code;
 
 	echo HtmlInput::title_box(_("Nouveau menu"), $ctl);
