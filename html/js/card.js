@@ -439,11 +439,11 @@ function select_card_type(obj)
     var sx=0;
     if ( window.scrollY)
     {
-            sx=window.scrollY+40;
+            sx=window.scrollY+160;
     }
     else
     {
-        sx=document.body.scrollTop+60;
+        sx=document.body.scrollTop+160;
     }
 
     var str_style="top:"+sx+"px;height:30%";
