@@ -43,7 +43,7 @@ if (isset($_REQUEST['p_jrn']))
 		NoAccess();
 		exit - 1;
 	}
-
+$p_msg="";
 /* if a new invoice is encoded, we display a form for confirmation */
 if (isset($_POST['view_invoice']))
 {
@@ -55,6 +55,7 @@ if (isset($_POST['view_invoice']))
 	catch (Exception $e)
 	{
 		alert($e->getMessage());
+                $p_msg=$e->getMessage();
 		$correct = 1;
 	}
 	// if correct is not set it means it is correct
@@ -97,6 +98,7 @@ if (isset($_POST['record']))
 	catch (Exception $e)
 	{
 		alert($e->getMessage());
+                $p_msg=$e->getMessage();
 		$correct = 1;
 	}
 	// record the invoice
@@ -186,6 +188,7 @@ echo '</div>';
 echo '</div>';
 
 echo '<div class="content">';
+echo '<p class="notice">'.$p_msg.'</p>';
 echo "<FORM class=\"print\"NAME=\"form_detail\" METHOD=\"POST\" >";
 /* request for a predefined operation */
 if ( isset($_REQUEST['pre_def']) && !isset($_POST['correct']))

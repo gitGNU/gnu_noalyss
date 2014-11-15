@@ -57,7 +57,7 @@ if ( isset($_REQUEST['p_jrn']) && ( $jrn_priv == 'X'))
 	NoAccess();
 	exit -1;
 }
-
+$p_msg="";
 //----------------------------------------
 // Confirm the operations
 //----------------------------------------
@@ -70,13 +70,14 @@ if ( isset($_POST['save']))
 	catch (Exception $e)
 	{
 		alert($e->getMessage());
+                $p_msg=$e->getMessage();
 		$correct=1;
 	}
 	if ( ! isset ($correct ))
 	{
 		echo '<div class="content">';
-		echo h1('Confirmation','');
-                echo_warning("Attention, cette opération n'est pas encore sauvée : vous devez encore confirmer");
+		echo h1(_('Confirmation'),'');
+                echo_warning(_("Attention, cette opération n'est pas encore sauvée : vous devez encore confirmer"));
 		echo '<form name="form_detail" class="print" enctype="multipart/form-data" class="print" METHOD="POST">';
 		echo HtmlInput::hidden('ac',$_REQUEST['ac']);
 		echo $Ledger->confirm($_POST);
@@ -101,6 +102,7 @@ if ( isset($_POST['confirm']))
 	catch (Exception $e)
 	{
 		alert($e->getMessage());
+                $p_msg=$e->getMessage();
 		$correct=1;
 	}
 	if ( !isset($correct))
@@ -131,6 +133,7 @@ if ( isset($_POST['correct']))
 //----------------------------------------
 echo '<div class="content">';
 
+echo '<p class="notice">'.$p_msg.'</p>';
 
 echo '<form class="print" name="form_detail" enctype="multipart/form-data" class="print" METHOD="POST">';
 echo HtmlInput::hidden('ledger_type','fin');
