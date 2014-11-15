@@ -283,7 +283,7 @@ class Acc_Account_Ledger
 
         return array('debit'=>$r['sum_deb'],
                      'credit'=>$r['sum_cred'],
-                     'solde'=>abs($r['sum_deb']-$r['sum_cred']));
+                     'solde'=>abs(bcsub($r['sum_deb'],$r['sum_cred'])));
     }
     /*!
      * \brief isTva tell is a poste is used for VAT
