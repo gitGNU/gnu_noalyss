@@ -277,7 +277,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 	{
 		echo h2(_('Date invalide !'), 'class="error"');
 		alert(_('Date invalide !'));
-		exit;
+		return;
 	}
 	if ( $allcard == 0 ) echo $str_add_card;
 	echo $export_pdf;
@@ -288,7 +288,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 	if ($allcard == 0 && $fd->hasAttribute(ATTR_DEF_ACCOUNT) == false)
 	{
 		echo alert(_("Cette catégorie n'ayant pas de poste comptable n'a pas de balance"));
-		exit;
+		return;
 	}
 	// all card
 	if ($allcard == 1)
@@ -308,7 +308,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 			if ($allcard == 0)
 			{
 				echo _("Aucune fiche trouvée");
-				exit;
+				return;
 			} else
 				continue;
 		}
@@ -379,7 +379,7 @@ if (isDate($_REQUEST['start']) == null || isDate($_REQUEST['end']) == null)
 {
 	echo h2('Date invalide !', 'class="error"');
 	alert('Date invalide !');
-	exit;
+	return;
 }
 /***********************************************************************************************************************************
  * Lettering
