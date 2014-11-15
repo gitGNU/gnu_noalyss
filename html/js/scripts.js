@@ -1891,7 +1891,8 @@ function filter_table(phrase, _id, colnr, start_row) {
         aCol[0] = colnr;
     }
     var ele;
-
+    var tot_found=0;
+    
     for (var r = start_row; r < table.rows.length; r++) {
         var found = 0;
         for (var col = 0; col < aCol.length; col++)
@@ -1908,12 +1909,22 @@ function filter_table(phrase, _id, colnr, start_row) {
 
         }
         if (found === 1) {
+            tot_found++;
             table.rows[r].style.display = '';
         } else {
             table.rows[r].style.display = 'none';
         }
         $('info_div').style.display = "none";
         $('info_div').innerHTML = "";
+    }
+    if (tot_found == 0) {
+        if ($('info_'+_id)) {
+            $('info_'+_id).innerHTML=" Aucun résultat ";
+        }
+    } else {        
+        if ($('info_'+_id)) {
+            $('info_'+_id).innerHTML="  ";
+        }
     }
 }
 /**
@@ -2539,4 +2550,23 @@ function show_description(p_id)
     $('print_desc'+p_id).hide();
     $('input_desc'+p_id).show();
     
+}
+/**
+ * Hightlight the row we select and restore previous one
+ * @param {type} x
+ * @returns {undefined}
+ */
+var old_class = null;
+var old_select = null;
+
+function select_cat(x)
+{
+    if (old_select != null)
+    {
+        $(old_select).className = old_class;
+    }
+    old_select = $('select_cat_row_' + x);
+    old_class = old_select.className;
+    $(old_select).className = "highlight";
+    $('fd_id').value = x;
 }

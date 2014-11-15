@@ -222,7 +222,7 @@ case 'bc':
     /* Before inserting a new card, the type must be selected */
     /* ------------------------------------------------------------ */
 case 'st':
-    $sql="select fd_id,fd_label from fiche_def";
+    $sql="select fd_id,fd_label,fd_description from fiche_def";
     /*  if we filter  thanks the ledger*/
     if ( $ledger != -1 )
     {
@@ -275,7 +275,7 @@ case 'st':
 	}
     $sql.=" ".$where." order by fd_label";
 
-    $array=$cn->make_array($sql);
+    $array=$cn->get_array($sql);
     $html=HtmlInput::title_box(_("Choix de la catégorie"), $ctl);
 
     if ( empty($array))
@@ -287,22 +287,40 @@ case 'st':
     else
     {
         $r='';
-	$r.='<p class="notice" style="padding-left:2em">';
+	$r.='<p  style="padding-left:2em">';
         $r.=_("Choississez la catégorie de fiche à laquelle vous aimeriez ajouter une fiche").'</p>';
-        $isel=new ISelect('fd_id');
-        $isel->value=$array;
+        
 	$r.='<div style="text-align:center">';
-        $r.='<form id="sel_type" method="GET" onsubmit="this.ipopup='.$ctl.';dis_blank_card(this);return false;" >';
+        
+        $msg=_('Choisissez une catégorie svp');
+        $r.='<form id="sel_type" method="GET" onsubmit="this.ipopup='.$ctl.";if ($('fd_id').value != 0 ) {dis_blank_card(this);return false;} else "
+                . "{ $('error_cat').innerHTML='".$msg."'; return false;}\">" ;
+        $r.='<span id="error_cat" class="notice"></span>';
         $r.=dossier::hidden();
         $r.=(isset($ref))?HtmlInput::hidden('ref',1):'';
-
-        $r.=$isel->input();
+        $r.=_('Filtrer').' '.HtmlInput::filter_table("cat_card_table", '0,1', 0);
+        $r.='<table id="cat_card_table" class="result">';
+        for ($i=0;$i<count($array);$i++)
+        {
+            $class=($i%2==0)?' class="even" ':' class="odd" ';
+            $r.='<tr '.$class.' id="select_cat_row_'.$array[$i]['fd_id'].'">';
+            $r.='<td >';
+            $r.='<a href="javascript:void(0)" onclick="select_cat(\''.$array[$i]['fd_id'].'\')">'.h($array[$i]['fd_label']).'</a>';
+            $r.='</td>';
+            $r.='<td>';
+            $r.='<a href="javascript:void(0)" onclick="select_cat(\''.$array[$i]['fd_id'].'\')">'.h($array[$i]['fd_description']).'</a>';
+            $r.='</td>';
+           
+             $r.="</tr>";
+        }
+        $r.='</table>';
+        $r.=HtmlInput::hidden('fd_id',0);
 	$r.='<p>';
         $r.=HtmlInput::submit('st','choix');
 	$r.=HtmlInput::button('Annuler',_('Annuler')," onclick=\"removeDiv('$ctl')\" ");
 	$r.='</p>';
         $r.='</form>';
-	$r.='</div>';
+        $r.='</div>';
         $html.=$r;
 
     }
