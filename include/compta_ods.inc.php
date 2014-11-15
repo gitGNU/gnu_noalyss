@@ -64,7 +64,7 @@ if ($g_user->check_jrn($ledger->id) == 'X')
 if (!isset($_POST['summary']) && !isset($_POST['save']))
 {
 	require('operation_ods_new.inc.php');
-	exit();
+	return;
 }
 elseif (isset($_POST['summary']))
 {
@@ -77,7 +77,7 @@ elseif (isset($_POST['summary']))
 		require('operation_ods_new.inc.php');
 
 	}
-	exit();
+	return;
 }
 elseif (isset($_POST['save']))
 {
@@ -104,7 +104,7 @@ elseif (isset($_POST['save']))
 		require('operation_ods_new.inc.php');
 		alert($e->getMessage());
 	}
-	exit();
+	return;
 }
-exit();
+return;
 

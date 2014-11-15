@@ -80,7 +80,7 @@ if (isset($_POST['view_invoice']))
 		echo '</div>';
 		echo '</div>';
 
-		exit();
+		return;
 	}
 }
 //------------------------------
@@ -141,7 +141,7 @@ if (isset($_POST['record']))
 		}
 
 		echo '</div>';
-		exit();
+		return;
 	}
 }
 //  ------------------------------
@@ -230,6 +230,6 @@ echo create_script(" update_name()");
 echo '</div>';
 
 
-exit();
+return;
 // end record invoice
 ?>

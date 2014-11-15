@@ -71,7 +71,7 @@ if ( isset($_GET['start']) && isset($_GET['end']))
     if ( isDate($_GET['start']) == null || isDate($_GET['end']) == null )
       {
 	echo alert(_('Date malformée, désolé'));
-	exit();
+	return;
       }
   }
 echo '<div id="list">';

@@ -230,7 +230,7 @@ if ( $action == "view" )
 			l'écran administration -> utilisateur.
 			</p>";
 		echo $return;
-		exit();
+		return;
     }
     //
     // Check if the user can access that folder

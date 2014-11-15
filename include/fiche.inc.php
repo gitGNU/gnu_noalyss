@@ -103,7 +103,7 @@ echo '<hr>';
 
 //-----------------------------------------------------
 if (!isset($_GET['cat_display']))
-	exit();
+	return;
 
 $fd_id = $_GET['cat'];
 
@@ -123,7 +123,7 @@ if ($array == null)
 	echo '<h2 class="info2"> '._('Aucune fiche trouvée').'</h2>';
 	echo $str_add_card;
         echo '</div>';
-	exit();
+	return;
 }
 
 $allcard = (isset($_GET['allcard'])) ? 1 : 0;
@@ -218,7 +218,7 @@ if ($_GET['histo'] == -1)
 
 	require_once 'template/fiche_list.php';
 	echo '<hr>'.$bar;
-	exit();
+	return;
 }
 /* * *********************************************************************************************************************************
  * Summary
@@ -241,7 +241,7 @@ if ($_GET['histo'] == 3)
 	$hid->input("fd_id", $_REQUEST['cat']);
 	echo "</form>";
 
-	exit();
+	return;
 }
 $export_pdf = '<FORM METHOD="get" ACTION="export.php" style="display:inline">';
 $export_pdf.=HtmlInput::hidden('cat', $_GET['cat']);
@@ -373,7 +373,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 	echo $export_csv;
 	echo $export_print;
 
-	exit();
+	return;
 }
 if (isDate($_REQUEST['start']) == null || isDate($_REQUEST['end']) == null)
 {

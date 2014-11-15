@@ -36,7 +36,7 @@ if ($g_parameter->MY_STOCK == 'N')
 	echo '<h2 class="notice">';
 	echo _("Vous n'utilisez pas de gestion de stock");
 	echo '</h2>';
-	exit();
+	return;
 }
 if ( isset ($_POST['add_stock']))
 {

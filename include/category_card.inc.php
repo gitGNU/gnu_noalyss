@@ -124,7 +124,7 @@ if ( $ss_action == 'cn')
         echo '<span class="notice">';
         echo _("Vous devez aller dans fiche et créer une catégorie pour les contacts");
         echo '</span>';
-        exit();
+       return;
     }
     /* Add button */
     $f_add_button=new IButton('add_card');

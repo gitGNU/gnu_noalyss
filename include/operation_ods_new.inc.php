@@ -41,7 +41,7 @@ $ledger->id = ($ledger->id == -1) ? $first_ledger['jrn_def_id'] : $id_ledger;
 if ( $g_user->check_jrn($ledger->id)=='X')
 {
 	alert("Vous ne pouvez pas écrire dans ce journal, contacter votre administrateur");
-	exit();
+	return;
 }
 echo '<div class="content">';
 echo '<div id="predef_form">';

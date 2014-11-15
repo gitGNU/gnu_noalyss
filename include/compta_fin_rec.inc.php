@@ -43,7 +43,7 @@ $jrn_priv = $g_user->get_ledger_access($Ledger->id);
 if (isset($_GET["p_jrn"]) && $jrn_priv == "X")
 {
 	NoAccess();
-	exit();
+	return;
 }
 //-------------------------
 // save
@@ -214,5 +214,5 @@ echo '</table>';
 echo HtmlInput::submit('save', 'Mettre à jour le n° de relevé bancaire');
 echo '</form>';
 echo '</div>';
-exit();
+return;
 ?>

@@ -88,7 +88,7 @@ global $g_parameter;
             echo '</form>';
 
             echo '</div>';
-            exit();
+            return;
         }
     }
     //------------------------------
@@ -148,7 +148,7 @@ global $g_parameter;
 
 
             echo '</div>';
-            exit();
+            return;
         }
     }
     //  ------------------------------
@@ -250,5 +250,5 @@ echo '<div class="content">';
 		echo create_script(" get_last_date()");
 	}
 echo create_script(" update_name()");	
-exit();
+return;
 ?>

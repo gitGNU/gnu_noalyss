@@ -26,17 +26,17 @@ $ext=new Extension();
 if ($ext->search($_REQUEST['plugin_code']) == -1)
 	{
 		echo_warning("plugin non trouvé");
-		exit();
+		return;
 }
 if ($ext->can_request($g_user->login)==-1)
 {
 	alert("Plugin non authorisé");
-	exit();
+	return;
 }
 if ( ! file_exists('../include/ext'.DIRECTORY_SEPARATOR.trim($ext->me_file)))
 	{
 		alert(j(_("Ce fichier n'existe pas ")));
-		exit();
+		return;
 	}
 echo '<div class="content">';
 require_once('ext'.DIRECTORY_SEPARATOR.trim($ext->me_file));

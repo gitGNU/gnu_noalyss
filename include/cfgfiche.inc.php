@@ -43,7 +43,7 @@ if ( isset($_POST['add_line']))
      $fiche_def->InsertAttribut($_REQUEST['ad_id']);
      echo $fiche_def->input_detail();
 	 echo $retour;
-	 exit();
+	 return;
 }
 /*******************************************************************************************/
 // Remove an attribut
@@ -55,7 +55,7 @@ if ( isset ($_POST['remove_line']))
 	$fiche_def->RemoveAttribut($_REQUEST['chk_remove']);
     echo $fiche_def->input_detail();
 	echo $retour;
-	exit();
+	return;
 }
 /*******************************************************************************************/
 // Try to remove a category
@@ -99,7 +99,7 @@ if ( isset ($_POST['change_name']))
     }
 	echo $fiche_def->input_detail();
 	echo $retour;
-	exit();
+	return;
 }
 /*******************************************************************************************/
 // Save order of the attributes
@@ -110,7 +110,7 @@ if ( isset($_POST['save_line']))
     $fiche_def->save_order($_POST);
 	echo $fiche_def->input_detail();
 	echo $retour;
-	exit();
+	return;
 }
 /*******************************************************************************************/
 // Save a new category of card
@@ -126,13 +126,13 @@ if ( isset($_POST['add_modele']))
 		{
 			echo $fiche_def->input_detail();
 			echo $retour;
-			exit();
+			return;
 		}
 		else
 		{
 			$fiche_def->input_new();
 			echo $retour;
-			exit();
+			return;
 		}
 	}
 	else

@@ -42,7 +42,7 @@ if (isset($_POST['correct']))
 {
 	$ledger = new Acc_Ledger($cn, $_REQUEST['p_jrn']);
 	require_once 'operation_ods_new.inc.php';
-	exit();
+	return;
 }
 
 // confirm before saving
@@ -59,7 +59,7 @@ if ( isset($_POST['summary']))
 		require('operation_ods_new.inc.php');
 
 	}
-	exit();
+	return;
 }
 
 // record
@@ -89,7 +89,7 @@ if (isset($_POST['save']))
 		require('operation_ods_new.inc.php');
 		alert($e->getMessage());
 	}
-	exit();
+	return;
 }
 
 
@@ -108,7 +108,7 @@ if ($sa == '')
 	if (empty($avail))
 	{
 		echo '*** Aucun dossier ***';
-		exit();
+		return;
 	}
 	echo '<form class="print" method="post">';
 	echo HtmlInput::hidden('ac', $_REQUEST['ac']);
@@ -132,7 +132,7 @@ if ($sa == '')
 	echo '</form>';
 	echo '</div>';
 	echo '</div>';
-	exit();
+	return;
 }
 /* --------------------------------------------------
  * Step 2 choose now the exercice of this folder

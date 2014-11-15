@@ -123,5 +123,5 @@ require_once ('class_acc_parm_code.php');
     echo '</tfoot>';
     echo "</table>";
     echo "</div>";
-    exit();
+    return;
 ?>

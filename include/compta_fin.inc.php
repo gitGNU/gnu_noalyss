@@ -85,7 +85,7 @@ if ( isset($_POST['save']))
 
 		echo '</form>';
 		echo '</div>';
-		exit();
+		return;
 	}
 }
 //----------------------------------------
@@ -116,7 +116,7 @@ if ( isset($_POST['confirm']))
 		echo $a;
 		echo '</div>';
 		echo '</div>';
-		exit();
+		return;
 	}
 }
 //----------------------------------------
@@ -150,4 +150,4 @@ if ( ! isset ($_POST['e_date'])&& $g_parameter->MY_DATE_SUGGEST=='Y')
 	echo create_script(" ajax_saldo('first_sold');");
 }
 echo create_script(" update_name()");
-exit();
+return;

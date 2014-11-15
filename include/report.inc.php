@@ -82,7 +82,7 @@ echo "</TABLE>";
 echo '</div>';
 if ( isset($_POST['upload']))
 {
-    exit();
+    return;
 }
 if ( isset ($_REQUEST["action"]) )
 {

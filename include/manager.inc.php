@@ -139,7 +139,7 @@ if ($low_action == 'detail')
 {
     /* Menu */
     require_once('category_card.inc.php');
-    exit();
+    return;
 }
 
 

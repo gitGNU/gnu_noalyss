@@ -82,7 +82,7 @@ echo '<hr>';
 echo '</div>';
 echo '</div>';
 echo '<div class="content">';
-if ( ! isset($_GET['vis'])) exit();
+if ( ! isset($_GET['vis'])) return;
 $acc_reconciliation=new Acc_Reconciliation($cn);
 $acc_reconciliation->a_jrn=$r_jrn;
 $acc_reconciliation->start_day=$dstart->value;
@@ -100,4 +100,4 @@ $gDossier=Dossier::id();
 </form>
 <?php
 require_once('template/impress_reconciliation.php');
-exit();
+return;
