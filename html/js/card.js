@@ -510,7 +510,7 @@ function dis_blank_card(obj)
         ref='&ref';
     }
     var content='div_new_card';
-    var nTop=calcy(30);
+    var nTop=calcy(150);
     var nLeft=posX;
     var str_style="top:"+nTop+"px;right:"+nLeft+"px;height:auto";
 
