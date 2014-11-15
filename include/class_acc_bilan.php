@@ -86,10 +86,11 @@ class Acc_Bilan
         $r.= '</TABLE>';
         return $r;
     }
-    /*!\brief check and warn if an accound has the wrong saldo
-     * \param $p_message legend of the fieldset
-     * \param $p_type type of the Acccount ACT actif, ACTINV...
-     * \param $p_type the saldo must debit or credit
+    /**
+     * @brief check and warn if an accound has the wrong saldo
+     * @param $p_message legend of the fieldset
+     * @param $p_type type of the Acccount ACT actif, ACTINV...
+     * @param $p_type the saldo must debit or credit
      */
     private function warning($p_message,$p_type,$p_deb)
     {
@@ -111,7 +112,7 @@ class Acc_Bilan
             $obj->id=$line['pcm_val'];
 
             $solde=$obj->get_solde_detail($sql);
-            $solde_signed=$solde['debit']-$solde['credit'];
+            $solde_signed=bcsub($solde['debit'],$solde['credit']);
 
             if (
                 ($solde_signed < 0 && $p_deb == 'D' ) ||
