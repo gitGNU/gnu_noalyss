@@ -26,8 +26,7 @@
  *  - secund the test must adapted to this page : if you do a post (or get) from a test, you won't get any result
  * if the $_REQUEST[test_select] is not set, so set it . 
  */
-$start_mem=memory_get_usage();
-$start_time=microtime(true);
+
 
 
 include_once("../include/constant.php");
@@ -69,25 +68,34 @@ if ($script=="")
      */
     $scan=scandir('../scenario/');
     $max=count($scan);
-    
+
     echo '<table>';
+    $get='test.php?'.http_build_query(array('script'=>"all", 'gDossier'=>$gDossierLogInput, 'description'=>"Tous les scripts"));
+    echo '<tr>';
+    echo '<td>';
+    echo '<a href="'.$get.'" target="_blank">';
+    echo "Tous ";
+    echo '</a>';
+    echo '</td>';
+    echo '<td>Tous les scripts</td>';
+    echo '</tr>';
+
     for ($e=0; $e<$max; $e++)
     {
-        if (is_file('../scenario/'.$scan[$e])&&strpos($scan[$e], '.php') == true)
+        if (is_file('../scenario/'.$scan[$e])&&strpos($scan[$e], '.php')==true)
         {
             $description="";
             $a_description=file('../scenario/'.$scan[$e]);
             $max_description=count($a_description);
-            for ($w=0;$w<$max_description;$w++)
+            for ($w=0; $w<$max_description; $w++)
             {
-                if (strpos($a_description[$w],'@description:')==true)
+                if (strpos($a_description[$w], '@description:')==true)
                 {
                     $description=$a_description[$w];
-                    $description=str_replace('//@description:','',$description);
-             
+                    $description=str_replace('//@description:', '', $description);
                 }
             }
-            $get='test.php?'.http_build_query(array('script'=>$scan[$e],'gDossier'=>$gDossierLogInput,'description'=>$description));
+            $get='test.php?'.http_build_query(array('script'=>$scan[$e], 'gDossier'=>$gDossierLogInput, 'description'=>$description));
             echo '<tr>';
             echo '<td>';
             echo '<a href="'.$get.'" target="_blank">';
@@ -100,10 +108,56 @@ if ($script=="")
     }
     echo '</table>';
 }
+else if ($script=='all')
+{
+    $scan=scandir('../scenario/');
+    $maxscan=count($scan);
+
+    echo '<table>';
+    for ($e_scan=0; $e_scan<$maxscan; $e_scan++)
+    {
+        if (is_file('../scenario/'.$scan[$e_scan])&&strpos($scan[$e_scan], '.php')==true)
+        {
+            $description="";
+            $a_description=file('../scenario/'.$scan[$e_scan]);
+            $max_description=count($a_description);
+            for ($w=0; $w<$max_description; $w++)
+            {
+                if (strpos($a_description[$w], '@description:')==true)
+                {
+                    $description=$a_description[$w];
+                    $description=str_replace('//@description:', '', $description);
+                }
+            }
+            $start_mem=memory_get_usage();
+            $start_time=microtime(true);
+            $script=str_replace('../', '', $script);
+
+            echo '<h1>'.$script."</h1>";
+            echo '<h2> description = '.$description.'</h2>';
+            include '../scenario/'.$scan[$e_scan];
+            echo '</div>';
+            echo '</div>';
+            $end_mem=memory_get_usage();
+            $end_time=microtime(true);
+
+            echo "<p>start mem : ".$start_mem;
+            echo '</p>';
+            echo "<p>end mem : ".$end_mem;
+            echo '</p>';
+            echo "<p>Diff = ".($end_mem-$start_mem)." bytes ";
+            echo "<p>Diff = ".(round(($end_mem-$start_mem)/1024, 2))." kbytes ";
+            echo "<p>Diff = ".(round(($end_mem-$start_mem)/1024/1024, 2))." Mbytes ";
+            echo '</p>';
+            echo "<p>Execution script ".$script." time = ".(round(($end_time-$start_time), 4))." secondes</p>";
+        }
+    }
+}
 else
 {
-    
-    $script=str_replace('../','',$script);
+    $start_mem=memory_get_usage();
+    $start_time=microtime(true);
+    $script=str_replace('../', '', $script);
     $description=HtmlInput::default_value_get("description", "aucune description");
     echo '<h1>'.$script."</h1>";
     echo '<p> description = '.$description.'<p>';
@@ -121,4 +175,4 @@ else
     echo "<p>Diff = ".(round(($end_mem-$start_mem)/1024/1024, 2))." Mbytes ";
     echo '</p>';
     echo "<p>Execution script ".$script." time = ".(round(($end_time-$start_time), 4))." secondes</p>";
-}
+}    
