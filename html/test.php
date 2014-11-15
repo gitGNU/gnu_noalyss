@@ -58,63 +58,15 @@ if (!file_exists('authorized_debug'))
 }
 define('ALLOWED', 1);
 html_page_start();
-$script=HtmlInput::default_value_get('script', '');
-if ($script=="")
-{
-    echo "<h1>Test NOALYSS</h1>";
-    /*
-     * cherche pour fichier a include, s'il y en a alors les affiche
-     * avec une description
-     */
-    $scan=scandir('../scenario/');
-    $max=count($scan);
 
-    echo '<table>';
-    $get='test.php?'.http_build_query(array('script'=>"all", 'gDossier'=>$gDossierLogInput, 'description'=>"Tous les scripts"));
-    echo '<tr>';
-    echo '<td>';
-    echo '<a href="'.$get.'" target="_blank">';
-    echo "Tous ";
-    echo '</a>';
-    echo '</td>';
-    echo '<td>Tous les scripts</td>';
-    echo '</tr>';
+/*
+ * Loading of all scenario
+ */
+$scan=scandir('../scenario/');
+$maxscan=count($scan);
+$cnt_scenario=0;$scenario=array();
 
-    for ($e=0; $e<$max; $e++)
-    {
-        if (is_file('../scenario/'.$scan[$e])&&strpos($scan[$e], '.php')==true)
-        {
-            $description="";
-            $a_description=file('../scenario/'.$scan[$e]);
-            $max_description=count($a_description);
-            for ($w=0; $w<$max_description; $w++)
-            {
-                if (strpos($a_description[$w], '@description:')==true)
-                {
-                    $description=$a_description[$w];
-                    $description=str_replace('//@description:', '', $description);
-                }
-            }
-            $get='test.php?'.http_build_query(array('script'=>$scan[$e], 'gDossier'=>$gDossierLogInput, 'description'=>$description));
-            echo '<tr>';
-            echo '<td>';
-            echo '<a href="'.$get.'" target="_blank">';
-            echo $scan[$e];
-            echo '</a>';
-            echo '</td>';
-            echo '<td>'.$description.'</td>';
-            echo '</tr>';
-        }
-    }
-    echo '</table>';
-}
-else if ($script=='all')
-{
-    $scan=scandir('../scenario/');
-    $maxscan=count($scan);
-
-    echo '<table>';
-    for ($e_scan=0; $e_scan<$maxscan; $e_scan++)
+for ($e_scan=0; $e_scan<$maxscan; $e_scan++)
     {
         if (is_file('../scenario/'.$scan[$e_scan])&&strpos($scan[$e_scan], '.php')==true)
         {
@@ -129,13 +81,64 @@ else if ($script=='all')
                     $description=str_replace('//@description:', '', $description);
                 }
             }
+            $scenario[$cnt_scenario]['file']=$scan[$e_scan];
+            $scenario[$cnt_scenario]['desc']=$description;
+            $cnt_scenario++;
+            
+            
+        }
+    }
+$script=HtmlInput::default_value_get('script', '');
+if ($script=="")
+{
+    echo "<h1>Test NOALYSS</h1>";
+    /*
+     * cherche pour fichier a include, s'il y en a alors les affiche
+     * avec une description
+     */
+    
+
+    echo '<table>';
+    $get='test.php?'.http_build_query(array('script'=>"all", 'gDossier'=>$gDossierLogInput, 'description'=>"Tous les scripts"));
+    echo '<tr>';
+    echo '<td>';
+    echo '<a href="'.$get.'" target="_blank">';
+    echo "Tous ";
+    echo '</a>';
+    echo '</td>';
+    echo '<td>Tous les scripts</td>';
+    echo '</tr>';
+
+    for ($e=0; $e<$cnt_scenario; $e++)
+    {
+
+            $get='test.php?'.http_build_query(array('script'=>$scenario[$e]['file'], 'gDossier'=>$gDossierLogInput, 'description'=>$scenario[$e]['desc']));
+            echo '<tr>';
+            echo '<td>';
+            echo $e;
+            echo '</td>';
+            echo '<td>';
+            echo '<a href="'.$get.'" target="_blank">';
+            echo $scenario[$e]['file'];
+            echo '</a>';
+            echo '</td>';
+            echo '<td>'.$scenario[$e]['desc'].'</td>';
+            echo '</tr>';
+        
+    }
+    echo '</table>';
+}
+else if ($script=='all')
+{
+    $nb=HtmlInput::default_value_get('nb_script', 0);
+    
             $start_mem=memory_get_usage();
             $start_time=microtime(true);
             $script=str_replace('../', '', $script);
-
-            echo '<h1>'.$script."</h1>";
-            echo '<h2> description = '.$description.'</h2>';
-            include '../scenario/'.$scan[$e_scan];
+    
+            echo '<h1>'.$nb." ".$scenario[$nb]['file']."</h1>";
+            echo '<h2> description = '.$scenario[$nb]["desc"].'</h2>';
+            include '../scenario/'.$scenario[$nb]['file'];
             echo '</div>';
             echo '</div>';
             $end_mem=memory_get_usage();
@@ -150,8 +153,14 @@ else if ($script=='all')
             echo "<p>Diff = ".(round(($end_mem-$start_mem)/1024/1024, 2))." Mbytes ";
             echo '</p>';
             echo "<p>Execution script ".$script." time = ".(round(($end_time-$start_time), 4))." secondes</p>";
-        }
-    }
+            $nb++;
+            if      ( $nb == $maxscan ) {
+                echo "Dernier test";
+            } else {
+            $get='test.php?'.http_build_query(array('script'=>"all", 'gDossier'=>$gDossierLogInput, 'nb_script'=>$nb));
+             echo '<a href="'.$get.'" target="_blank">';
+            echo $scenario[$nb]['file'];
+            }
 }
 else
 {

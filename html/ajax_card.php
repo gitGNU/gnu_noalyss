@@ -53,7 +53,7 @@
  * - ref if we want to refresh the window
  *\see fiche fiche::Save constant.php
  */
-define ('ALLOWED',1);
+if ( ! defined('ALLOWED')) define ('ALLOWED',1);
 
 require_once '../include/constant.php';
 require_once('class_database.php');
@@ -94,6 +94,24 @@ $g_user=new User($cn);
 $g_user->check(true);
 $g_user->check_dossier($gDossier,true);
 $html=var_export($_REQUEST,true);
+if ( LOGINPUT)
+    {
+        $file_loginput=fopen($_ENV['TMP'].'/scenario-'.$_SERVER['REQUEST_TIME'].'.php','a+');
+        fwrite ($file_loginput,"<?php \n");
+        fwrite ($file_loginput,'//@description:'.$op."\n");
+        fwrite($file_loginput, '$_GET='.var_export($_GET,true));
+        fwrite($file_loginput,";\n");
+        fwrite($file_loginput, '$_POST='.var_export($_POST,true));
+        fwrite($file_loginput,";\n");
+        fwrite($file_loginput, '$_POST[\'gDossier\']=$gDossierLogInput;');
+        fwrite($file_loginput,"\n");
+        fwrite($file_loginput, '$_GET[\'gDossier\']=$gDossierLogInput;');
+        fwrite($file_loginput,"\n");
+        fwrite($file_loginput,' $_REQUEST=array_merge($_GET,$_POST);');
+        fwrite($file_loginput,"\n");
+        fwrite($file_loginput,"include '".basename(__FILE__)."';\n");
+        fclose($file_loginput);
+    }
 switch($op)
 {
     /* ------------------------------------------------------------ */
@@ -519,13 +537,15 @@ case 'upc':
 	}
       }
 } // switch
-$html=escape_xml($html);
-
+$xml=escape_xml($html);
+if (DEBUG && headers_sent()) {
+    echo $html;return;
+}
 header('Content-type: text/xml; charset=UTF-8');
 echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
 <ctl>$ctl</ctl>
-<code>$html</code>
+<code>$xml</code>
 </data>
 EOF;

@@ -23,6 +23,8 @@
    * \brief show the history of a card of an accounting
    * for the card f_id is set and for an accounting : pcm_val
    */
+if ( ! defined('ALLOWED')) define ('ALLOWED',1);
+
 require_once '../include/constant.php';
 require_once('class_database.php');
 require_once('class_user.php');
@@ -33,7 +35,6 @@ require_once('class_acc_account.php');
 require_once('class_exercice.php');
 $div=$_REQUEST['div'];
 mb_internal_encoding("UTF-8");
-define ('ALLOWED',1);
 
 /**
  *if $_SESSION['g_user'] is not set : echo a warning
@@ -46,7 +47,24 @@ $g_user=new User($cn);
 if ( $g_user->check_dossier(dossier::id(),true) == 'X' ) exit();
 
 $from_div = (isset($_REQUEST['ajax'])) ? 1 : $_GET['l'];
-
+if ( LOGINPUT)
+    {
+        $file_loginput=fopen($_ENV['TMP'].'/scenario-'.$_SERVER['REQUEST_TIME'].'.php','a+');
+        fwrite ($file_loginput,"<?php \n");
+        fwrite ($file_loginput,"//@description:\n");
+        fwrite($file_loginput, '$_GET='.var_export($_GET,true));
+        fwrite($file_loginput,";\n");
+        fwrite($file_loginput, '$_POST='.var_export($_POST,true));
+        fwrite($file_loginput,";\n");
+        fwrite($file_loginput, '$_POST[\'gDossier\']=$gDossierLogInput;');
+        fwrite($file_loginput,"\n");
+        fwrite($file_loginput, '$_GET[\'gDossier\']=$gDossierLogInput;');
+        fwrite($file_loginput,"\n");
+        fwrite($file_loginput,' $_REQUEST=array_merge($_GET,$_POST);');
+        fwrite($file_loginput,"\n");
+        fwrite($file_loginput,"include '".basename(__FILE__)."';\n");
+        fclose($file_loginput);
+    }
 ///////////////////////////////////////////////////////////////////////////
 /* first detail for a card */
 ///////////////////////////////////////////////////////////////////////////
@@ -189,12 +207,15 @@ if ( isset($_REQUEST['pcm_val']))
         ob_end_clean();
       }
   }
-$html=escape_xml($html);
+$xml=escape_xml($html);
+if (DEBUG && headers_sent()) {
+    echo $html;return;
+}
 header('Content-type: text/xml; charset=UTF-8');
 echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
 <ctl>$div</ctl>
-<code>$html</code>
+<code>$xml</code>
 </data>
 EOF;

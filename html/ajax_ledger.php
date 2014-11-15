@@ -28,7 +28,8 @@
     - for reconcialiation
     - update of analytic content
 */
-define ('ALLOWED',1);
+if ( ! defined('ALLOWED')) define ('ALLOWED',1);
+
 require_once '../include/constant.php';
 require_once('class_database.php');
 require_once('class_user.php');
@@ -63,7 +64,24 @@ ajax_disconnected($div);
 
 $cn=new Database(dossier::id());
 $g_parameter=new Own($cn);
-
+if ( LOGINPUT)
+    {
+        $file_loginput=fopen($_ENV['TMP'].'/scenario-'.$_SERVER['REQUEST_TIME'].'.php','a+');
+        fwrite ($file_loginput,"<?php \n");
+        fwrite ($file_loginput,'//@description:'.$action."\n");
+        fwrite($file_loginput, '$_GET='.var_export($_GET,true));
+        fwrite($file_loginput,";\n");
+        fwrite($file_loginput, '$_POST='.var_export($_POST,true));
+        fwrite($file_loginput,";\n");
+        fwrite($file_loginput, '$_POST[\'gDossier\']=$gDossierLogInput;');
+        fwrite($file_loginput,"\n");
+        fwrite($file_loginput, '$_GET[\'gDossier\']=$gDossierLogInput;');
+        fwrite($file_loginput,"\n");
+        fwrite($file_loginput,' $_REQUEST=array_merge($_GET,$_POST);');
+        fwrite($file_loginput,"\n");
+         fwrite($file_loginput,"include '".basename(__FILE__)."';\n");
+        fclose($file_loginput);
+    }
 // check if the user is valid and can access this folder
 global $g_user;
 $g_user=new User($cn);
