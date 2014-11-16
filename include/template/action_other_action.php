@@ -14,7 +14,7 @@ echo HtmlInput::request_to_hidden(array("closed_action","remind_date_end","remin
 		"tdoc",   "action_query","date_start","date_end","hsstate","searchtag"));
 ?>
 <div id="other_div" class="inner_box" style="width:40%;display: none">
-    <?php echo HtmlInput::title_box(_('Actions sur plusieurs documents'),'other_div', 'hide') ?>
+    <?php echo HtmlInput::title_box(_('Actions sur plusieurs documents'),'other_div', 'hide','action_hide_checkbox();') ?>
     <?php echo _("Sélectionner les documents et l' action :")?>
     <ul style='list-style-type: none;padding-left:30px;margin: 0px' >
         <li >

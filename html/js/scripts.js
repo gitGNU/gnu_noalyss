@@ -2451,6 +2451,13 @@ function action_show_checkbox()
         a[i].style.display = 'block';
     }
 }
+function action_hide_checkbox()
+{
+    var a = document.getElementsByName('ag_id_td');
+    for (var i = 0; i < a.length; i++) {
+        a[i].style.display = 'none';
+    }
+}
 /**
  * 
  * @param {type} obj

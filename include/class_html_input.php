@@ -700,10 +700,18 @@ class HtmlInput
 		}
 		return $_REQUEST[$ind];
 	}
-	static function title_box($name,$div,$mod="close")
+        /**
+         * Title for boxes
+         * @param type $name Title
+         * @param type $div element id
+         * @param type $mod hide or close
+         * @param type $p_js if $mod is hide then you can add a javascript
+         * @return type
+         */
+	static function title_box($name,$div,$mod="close",$p_js="")
 	{
 		if ($mod=='close')		$r=HtmlInput::anchor_close($div);
-		if ($mod=='hide')		$r=HtmlInput::anchor_hide(_('Fermer'),"$('$div').hide()");
+		if ($mod=='hide')		$r=HtmlInput::anchor_hide(_('Fermer'),"$('$div').hide();$p_js");
                 if ( $mod == 'none')    $r="";
 		$r.=h2($name,' class="title" ');
 		return $r;
