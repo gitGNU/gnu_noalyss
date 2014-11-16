@@ -9,12 +9,31 @@
  * Variables : $div = popup or box (det[0-9]
  * 
  */
+
+// Contains all the linked actions
+$a_followup = Follow_Up::get_all_operation($jr_id);
+//
+// Contains all the linked operations
+$oRap=new Acc_Reconciliation($cn);
+$oRap->jr_id=$jr_id;
+$aRap=$oRap->get();
+
+// Detail of operation
+ $detail = new Acc_Misc($cn, $obj->jr_id);
+ $detail->get();
+ 
+ $nb_document=($detail->det->jr_pj_name != "")?1:0;
+
+
+// Array of tab
+// 
 $a_tab['writing_div']=array('id'=>'writing_div'.$div,'label'=>_('Ecriture Comptable'),'display'=>'none');
 $a_tab['info_operation_div']=array('id'=>'info_operation_div'.$div,'label'=>_('Information'),'display'=>'none');
-$a_tab['linked_operation_div']=array('id'=>'linked_operation_div'.$div,'label'=>_('Opérations liées'),'display'=>'none');
-$a_tab['document_operation_div']=array('id'=>'document_operation_div'.$div,'label'=>_('Document'),'display'=>'block');
-$a_tab['linked_action_div']=array('id'=>'linked_action_div'.$div,'label'=>_('Actions liées'),'display'=>'none');
+$a_tab['linked_operation_div']=array('id'=>'linked_operation_div'.$div,'label'=>_('Opérations liées').'('.count($aRap).')','display'=>'none');
+$a_tab['document_operation_div']=array('id'=>'document_operation_div'.$div,'label'=>_('Document').'('.$nb_document.')','display'=>'block');
+$a_tab['linked_action_div']=array('id'=>'linked_action_div'.$div,'label'=>_('Actions liées').'('.count($a_followup).')','display'=>'none');
 
+ 
 // show tabs
 if ( $div != "popup") :
  $a_tab['document_operation_div']['display']='block';
@@ -53,8 +72,7 @@ endif;
 
 <div class="content">
             <?php
-            $detail = new Acc_Misc($cn, $obj->jr_id);
-            $detail->get();
+           
             ?>
             <table class="result">
                 <tr>
@@ -134,9 +152,7 @@ endif;
                 <h1 class="legend"><?php echo $a_tab['linked_operation_div']['label']?></h1>
           <?php endif; ?>
 <?php 
-$oRap=new Acc_Reconciliation($cn);
-$oRap->jr_id=$jr_id;
-$aRap=$oRap->get();
+
 if ($aRap  != null ) {
   $tableid="tb".$div;
   echo '<table id="'.$tableid.'">';
@@ -176,40 +192,36 @@ if ( $access=='W') {
 }
 ?>
 </div>
+<div id="linked_action_div<?php echo $div;?>" style="display:<?php echo $a_tab['linked_action_div']['display']?>" class="myfieldset">
+         <?php 
+  // display title only in popup
+  if ($div == 'popup') :
+  ?> 
+        <h1 class="legend"><?php echo $a_tab['linked_action_div']['label']?></h1>
+  <?php endif; ?>
 <?php 
-$array = Follow_Up::get_all_operation($jr_id);
-	?>
-	<div id="linked_action_div<?php echo $div;?>" style="display:<?php echo $a_tab['linked_action_div']['display']?>" class="myfieldset">
-		 <?php 
-          // display title only in popup
-          if ($div == 'popup') :
-          ?> 
-                <h1 class="legend"><?php echo $a_tab['linked_action_div']['label']?></h1>
-          <?php endif; ?>
-	<?php 
-	/**
-	 * show possible linked actions
-	 */
-	$array = Follow_Up::get_all_operation($jr_id);
-	echo '<ul style="list-style-type:square;">';
-	for ($i = 0; $i < count($array); $i++)
-	{
-            $remove='';
-            if ( $access=='W') $remove=HtmlInput::button_action_remove_operation($array[$i]['ago_id']);
-		if ( $div == 'popup')
-		{
-			echo '<li id="op'.$array[$i]['ago_id'].'">'.HtmlInput::detail_action($array[$i]['ag_id'], h($array[$i]['ag_ref']." ".$array[$i]['ag_title']),0).$remove.'</li>';
-		}
-		else
-		{
-			echo '<li id="op'.$array[$i]['ago_id'].'">'.HtmlInput::detail_action($array[$i]['ag_id'], h($array[$i]['ag_ref']." ".$array[$i]['ag_title']),1).$remove.'</li>';
-		}
-	}
-	echo '</ul>';
-        $related=new IRelated_Action('related');
-        $related->id='related'.$div;
-         if ( $access=='W') echo $related->input();
-	echo '</div>';
+/**
+ * show possible linked actions
+ */
+echo '<ul style="list-style-type:square;">';
+for ($i = 0; $i < count($a_followup); $i++)
+{
+    $remove='';
+    if ( $access=='W') $remove=HtmlInput::button_action_remove_operation($a_followup[$i]['ago_id']);
+        if ( $div == 'popup')
+        {
+                echo '<li id="op'.$a_followup[$i]['ago_id'].'">'.HtmlInput::detail_action($a_followup[$i]['ag_id'], h($a_followup[$i]['ag_ref']." ".$a_followup[$i]['ag_title']),0).$remove.'</li>';
+        }
+        else
+        {
+                echo '<li id="op'.$a_followup[$i]['ago_id'].'">'.HtmlInput::detail_action($a_followup[$i]['ag_id'], h($a_followup[$i]['ag_ref']." ".$a_followup[$i]['ag_title']),1).$remove.'</li>';
+        }
+}
+echo '</ul>';
+$related=new IRelated_Action('related');
+$related->id='related'.$div;
+ if ( $access=='W') echo $related->input();
+echo '</div>';
 ?>
 
 <?php 
