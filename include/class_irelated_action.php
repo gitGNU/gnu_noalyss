@@ -46,9 +46,9 @@ class IRelated_Action extends HtmlInput
 
 
         $r=sprintf("
-                   <INPUT TYPE=\"button\" onClick=\"search_action(".dossier::id().",'%s')\" value=\"?\">
+                   <INPUT class=\"smallbutton\" TYPE=\"button\" onClick=\"search_action(".dossier::id().",'%s')\" value=\"?\">
                    <INPUT TYPE=\"text\"  style=\"color:black;background:lightyellow;border:solid 1px grey;\"  NAME=\"%s\" ID=\"%s\" VALUE=\"%s\" SIZE=\"8\" readonly>
-				   <INPUT TYPE=\"button\" onClick=\"$('%s').value=''\" value=\"X\">
+				   <INPUT class=\"smallbutton\"  TYPE=\"button\" onClick=\"$('%s').value=''\" value=\"X\">
 
                    ",
                    $this->id,
