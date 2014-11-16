@@ -153,10 +153,7 @@
 		{
 			if ( $p_view != 'READ')
 				{
-					$rmOperation=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer cette opération ')."')==true ) {remove_operation('%s','%s');}",
-							dossier::id(),
-							$operation[$o]['ago_id']);
-					$js= '<a class="mtitle" style="color:orange" id="acop'.$operation[$o]['ago_id'].'" href="'.$rmOperation.'">'._("Effacer").'</a>';
+                                        $js  = HtmlInput::button_action_remove_operation($operation[$o]['ago_id']);
 					echo '<li id="op'.$operation[$o]['ago_id'].'">'.$operation[$o]['str_date']." ".HtmlInput::detail_op($operation[$o]['jr_id'],$operation[$o]['jr_internal'])." ".h($operation[$o]['jr_comment'])." "
 						.$js.'</li>';
 				}
