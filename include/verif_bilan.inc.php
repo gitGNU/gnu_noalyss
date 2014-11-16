@@ -34,7 +34,7 @@ $exercice=$g_user->get_exercice();
 echo '<div class="content">';
 
 $sql_year=" and j_tech_per in (select p_id from parm_periode where p_exercice='".$g_user->get_exercice()."')";
-echo '<div class="fieldset"><h1 class="legend">'._('Vérification des journaux').'</h1>';
+echo '<div class="myfieldset"><h1 class="legend">'._('Vérification des journaux').'</h1>';
 
 $sql="select jrn_def_id,jrn_def_name from jrn_def";
 $res=$cn->exec_sql($sql);
@@ -81,7 +81,7 @@ print tr(td(_('Grand livre')).td(nbm($deb),' class="num"').td(nbm($cred),' class
 echo '</table>';
 echo '</div>';
 echo '<hr>';
-echo '<div class="fieldset"><h1 class="legend">'._('Vérification des comptes').'</h1>';
+echo '<div class="myfieldset"><h1 class="legend">'._('Vérification des comptes').'</h1>';
 $bilan=new Acc_Bilan($cn);
 $periode=new Periode($cn);
 list ($start_periode,$end_periode)=$periode->get_limit($exercice);
@@ -91,7 +91,7 @@ $bilan->verify();
 echo '</div>';
 ?>
 <hr>
-<div class="fieldset">
+<div class="myfieldset">
     <h1 class="legend">
         <?php echo _("Vérification des fiches").'</legend>';?>
     </h1>
@@ -148,7 +148,7 @@ echo '</div>';
   
     <h2><?php echo _('Poste comptable utilisé sans la fiche correspondante') ?></h2>
 <p class="notice">
-        <?php echo _('Cela va amener des différences entre les balances par fiches et par postes comptables, utilisez le plugin 
+        <?php echo _('Cela pourrait causer des différences entre les balances par fiches et celle par postes comptables, utilisez le plugin 
          "OUTIL COMPTABLE" pour corriger');
         ?>
 </p>
