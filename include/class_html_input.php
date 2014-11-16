@@ -861,5 +861,16 @@ class HtmlInput
             return $r;
             
         }
-
+        /**
+         * 
+         * @param type $p_operation_jr_id action_gestion_operation.ago_id
+         */
+        static function  button_action_remove_operation($p_operation) 
+        {
+            $rmOperation=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer cette relation ')."')==true ) {remove_operation('%s','%s');}",
+							dossier::id(),
+							$p_operation);
+            $js= '<a class="smallbutton" style="padding:0px;display:inline" style="color:orange" id="acop'.$p_operation.'" href="'.$rmOperation.'">'."&#x2D5D;".'</a>';
+            return $js;
+        }
 }
