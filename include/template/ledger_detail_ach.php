@@ -1,6 +1,7 @@
 <?php
 //This file is part of NOALYSS and is under GPL 
 //see licence.txt
+$str_anc="";
 ?><?php require_once('template/ledger_detail_top.php'); ?>
 <div class="content" style="padding:0;">
     <?php
@@ -137,16 +138,16 @@
                 } else
                     echo th(_('Total'), 'style="text-align:right"');
 
-                if ($owner->MY_ANALYTIC != 'nu' && $div == 'popup')
+                if ($owner->MY_ANALYTIC != 'nu' )
                 {
                     $anc = new Anc_Plan($cn);
                     $a_anc = $anc->get_list(' order by pa_id ');
                     $x = count($a_anc);
                     /* set the width of the col */
-                    echo '<th colspan="' . $x . '">' . _('Compt. Analytique') . '</th>';
+                    $str_anc.='<tr><th>Code</th><th>Montant</th><th colspan="' . $x . '">' . _('Compt. Analytique') . '</th>';
 
                     /* add hidden variables pa[] to hold the value of pa_id */
-                    echo Anc_Plan::hidden($a_anc);
+                    $str_anc.=Anc_Plan::hidden($a_anc);
                 }
                 echo '</tr>';
                 for ($e = 0; $e < count($obj->det->array); $e++)
@@ -154,7 +155,8 @@
                     $row = '';
                     $q = $obj->det->array[$e];
                     $fiche = new Fiche($cn, $q['qp_fiche']);
-                    $view_card_detail = HtmlInput::card_detail($fiche->strAttribut(ATTR_DEF_QUICKCODE), "", ' class="line" ');
+                    $qcode=$fiche->strAttribut(ATTR_DEF_QUICKCODE);
+                    $view_card_detail = HtmlInput::card_detail($qcode, "", ' class="line" ');
                     $row = td($view_card_detail);
                     $sym_tva = '';
 
@@ -212,18 +214,21 @@
                     $total_tvac+=$tvac;
                     $total_htva+=$htva;
                     /* Analytic accountancy */
-                    if ($owner->MY_ANALYTIC != "nu" && $div == 'popup')
+                    if ($owner->MY_ANALYTIC != "nu" /*&& $div == 'popup'*/ )
                     {
                         $poste = $fiche->strAttribut(ATTR_DEF_ACCOUNT);
                         if (preg_match('/^(6|7)/', $poste))
                         {
                             $anc_op = new Anc_Operation($cn);
                             $anc_op->j_id = $q['j_id'];
+                            $anc_op->in_div=$div;
                             echo HtmlInput::hidden('op[]', $anc_op->j_id);
                             /* compute total price */
                             bcscale(2);
-
-                            $row.=$anc_op->display_table(1, $htva, $div);
+                            $str_anc.='<tr>';
+                            $str_anc.=td($qcode);
+                            $str_anc.=td(nbm($htva));
+                            $str_anc.='<td>'.$anc_op->display_table(1, $htva, $div).'</td>';
                         } else
                         {
                             $row.=td('');
