@@ -871,7 +871,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
             $fname = new Fiche($this->db);
             $fname->get_by_qcode(${'e_mp_qcode_' . $e_mp});
             $r.='<h2>' . "Payé par " . ${'e_mp_qcode_' . $e_mp} .
-                    " " . $fname->getName() . '</H2> ' . '<p class="decale">' . _('Déduction acompte ') . h($acompte) . '</p>' .
+                    " " . $fname->getName() . '</h2> ' . '<p class="decale">' . _('Déduction acompte ') . h($acompte) . '</p>' .
                     _('Libellé :') . h($e_comm_paiement) ;
             $r.='<br>';
         }

@@ -85,18 +85,18 @@
                         </tr>
 
                     </table>
-                </td><td>
-                    <table style="border:solid 1px yellow">
-                        <tr>
-                            <td>
+                </td>
+                <td style="width:50%;height:100%;vertical-align:top;text-align: center">
+                    <table style="width:99%;height:100%;vertical-align:top;">
+                        <tr style="height: 5%">
+                            <td style="text-align:center;vertical-align: top">
                                 Note
                             </td></tr>
                         <tr>
-                            <td>
+                            <td style="text-align:center;vertical-align: top">
                                 <?php
                                 $inote = new ITextarea('jrn_note');
-                                $inote->width = 25;
-                                $inote->heigh = 5;
+                                $inote->style=' class="itextarea" style="width:90%;height:100%;"';
                                 $inote->value = strip_tags($obj->det->note);
                                 echo $inote->input();
                                 ?>
@@ -245,82 +245,7 @@
 
 
         </div>
-        <div class="myfieldset">
-            <h1 class="legend"><?php echo _('Ecritures comptables') ?></h1>
 
-
-            <?php
-            /* if it is not in a popup, the details are hidden */
-            if ($div != 'popup')
-            {
-                $ib = new IButton("a" . $div);
-                $ib->label = 'Afficher';
-                $ib->javascript = "g('detail_" . $div . "').style.display='block';g('a" . $div . "').style.display='none';";
-                echo $ib->input();
-                echo '<div id="detail_' . $div . '" class="content" style="display:none">';
-                $ib = new IButton("h" . $div);
-                $ib->label = 'Cacher';
-                $ib->javascript = "g('detail_" . $div . "').style.display='none';g('a" . $div . "').style.display='block';";
-                echo $ib->input();
-            } else
-                echo '<div class="content">';
-            $detail = new Acc_Misc($cn, $obj->jr_id);
-            $detail->get();
-            ?>
-            <table class="result">
-                <tr>
-                    <?php
-                    echo th(_('Poste Comptable'));
-                    echo th(_('Quick Code'));
-                    echo th(_('Libellé'));
-                    echo th(_('Débit'), ' style="text-align:right"');
-                    echo th(_('Crédit'), ' style="text-align:right"');
-                    echo '</tr>';
-                    for ($e = 0; $e < count($detail->det->array); $e++)
-                    {
-                        $row = '';
-                        $q = $detail->det->array;
-                        $view_history = sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:view_history_account(\'%s\',\'%s\')" >%s</A>', $q[$e]['j_poste'], $gDossier, $q[$e]['j_poste']);
-
-                        $row.=td($view_history);
-                        if ($q[$e]['j_qcode'] != '')
-                        {
-                            $fiche = new Fiche($cn);
-                            $fiche->get_by_qcode($q[$e]['j_qcode']);
-                            $view_history = sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>', $fiche->id, $gDossier, $q[$e]['j_qcode']);
-                        } else
-                            $view_history = '';
-                        $row.=td($view_history);
-                        
-                        if ($q[$e]['j_text']=="")
-                        {
-                            if ($q[$e]['j_qcode'] != '')
-                            {
-                            // nom de la fiche
-                                $ff = new Fiche($cn);
-                                $ff->get_by_qcode($q[$e]['j_qcode']);
-                                $row.=td($ff->strAttribut(h(ATTR_DEF_NAME)));
-                            } else
-                            {
-                                // libellé du compte
-                                $name = $cn->get_value('select pcm_lib from tmp_pcmn where pcm_val=$1', array($q[$e]['j_poste']));
-                                $row.=td(h($name));
-                            }
-                        }
-                        else 
-                            $row.=td(h($q[$e]['j_text']));
-                        
-                        $montant = td(nbm($q[$e]['j_montant']), 'class="num"');
-                        $row.=($q[$e]['j_debit'] == 't') ? $montant : td('');
-                        $row.=($q[$e]['j_debit'] == 'f') ? $montant : td('');
-                        $class=($e%2==0)?' class="even"':'class="odd"';
-
-                        echo tr($row,$class);
-                    }
-                    ?>
-            </table>
-        </div>
-</div>
 
 <?php
 require_once('ledger_detail_bottom.php');

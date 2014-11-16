@@ -67,26 +67,27 @@ echo td(_('Pièce')).td($itext->input());
 
 </tr>
 </table>
-</td><td style='width:50%'>
-			<table style="width:100%;border:solid 1px yellow">
-<tr>
-<td>
-	Note
-</td></tr>
-<tr>
-<td>
-<?php 
-$inote=new ITextarea('jrn_note');
-$inote->width=25;
-$inote->heigh=5;
-$inote->value=strip_tags($obj->det->note);
-echo $inote->input();
-?>
+</td>
+                <td style="width:50%;height:100%;vertical-align:top;text-align: center">
+                    <table style="width:99%;height:100%;vertical-align:top;">
+                        <tr style="height: 5%">
+                            <td style="text-align:center;vertical-align: top">
+                                Note
+                            </td></tr>
+                        <tr>
+                            <td style="text-align:center;vertical-align: top">
+                                <?php
+                                $inote = new ITextarea('jrn_note');
+                                $inote->style=' class="itextarea" style="width:90%;height:100%;"';
+                                $inote->value = strip_tags($obj->det->note);
+                                echo $inote->input();
+                                ?>
 
-</td>
-</tr>
-</table>
-</td>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
 </tr>
 </table>
 

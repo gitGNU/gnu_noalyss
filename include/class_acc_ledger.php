@@ -600,7 +600,7 @@ class Acc_Ledger extends jrn_def_sql
 	 * @param$sql is the sql stmt, normally created by build_search_sql
 	 * @param$offset the offset
 	 * @param$p_paid if we want to see info about payment
-	  \code
+	  @code
 	  // Example
 	  // Build the sql
 	  list($sql,$where)=$Ledger->build_search_sql($_GET);
@@ -618,12 +618,12 @@ class Acc_Ledger extends jrn_def_sql
 	  // show nav bar
 	  echo $bar;
 
-	  \endcode
-	 * \see build_search_sql
-	 * \see display_search_form
-	 * \see search_form
+	  @endcode
+	 * @see build_search_sql
+	 * @see display_search_form
+	 * @see search_form
 
-	 * \return HTML string
+	 * @return HTML string
 	 */
 
 	public function list_operation_to_reconcile($sql)

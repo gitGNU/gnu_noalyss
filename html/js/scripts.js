@@ -2570,3 +2570,44 @@ function select_cat(x)
     $(old_select).className = "highlight";
     $('fd_id').value = x;
 }
+/**
+ * Show the DIV and hide the other, the array of possible DIV are
+ * in a_tabs, 
+ * @param {array} a_tabs name of possible tabs
+ * @param {strng} p_display_tab tab to display
+ */
+function show_tabs(a_tabs,p_display_tab)
+{
+    try 
+    {
+        if ( a_tabs.length == 0 ) trow ('a_tabs in empty');
+        var i=0;
+        for ( i=0;i<a_tabs.length;i++) {
+           if ( console ) console.log(a_tabs[i]);
+            $(a_tabs[i]).hide();
+        }
+       if ( console )console.log(p_display_tab);
+        $(p_display_tab).show();
+    } catch(e) {
+        if ( console )console.log(e.message);
+    }
+    
+}
+/**
+ * Change the class of all the "LI" element of a UL or OL
+ * @param node of ul (this)
+ */
+function unselect_other_tab(p_tab)
+{
+    try {
+        var other = p_tab.getElementsByTagName("li");
+        var i=0;
+        var tab=null;
+        for (i=0;i<other.length;i++) {
+            tab=other[i];
+            tab.className="tabs";
+        }
+    } catch(e) {
+        if ( console ) console.log(e.message);
+    }
+}
