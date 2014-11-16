@@ -1469,7 +1469,7 @@ class Follow_Up
 	{
 		global $cn;
 		$array=$cn->get_array("
-			select ag_id,ag_ref,
+			select ag_id,ag_ref,ago_id,
 				ag_title
 				from action_gestion
 				join action_gestion_operation using(ag_id)
