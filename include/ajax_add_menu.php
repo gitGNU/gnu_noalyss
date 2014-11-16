@@ -103,6 +103,8 @@ echo HtmlInput::title_box(_("Nouveau menu"), $ctl);
 </table>
 <?php 
 echo HtmlInput::submit('add_menu',"Valider");
+echo '</form>';
+}
 if ($type=='pr')
 {
 
@@ -116,8 +118,6 @@ select me_code,me_code||' '||coalesce(me_menu,'')||' '||coalesce(me_description,
 	",0,array($p_id));
 
 $me_code=new ISelect('me_code');
-echo '</form>';
-}
 $me_code->value=$ame_code;
 
 	echo HtmlInput::title_box(_("Nouveau menu"), $ctl);

@@ -33,15 +33,21 @@ $profile=new Profile_sql($cn,$p_id);
 $gDossier=Dossier::id();
 $add_menu=HtmlInput::button("add", "Ajout Menu","onclick=\"add_menu({dossier:$gDossier,p_id:$p_id,type:'me'})\"");
 $add_impression=HtmlInput::button("add", "Ajout Menu","onclick=\"add_menu({dossier:$gDossier,p_id:$p_id,type:'pr'})\"");
+$call_tab=HtmlInput::default_value_post('tab', 'none');
+$a_tab=array('profile_gen_div'=>'tabs','profile_menu_div'=>'tabs','profile_print_div'=>'tabs','profile_gestion_div'=>'tabs','profile_repo_div'=>'tabs');
+$a_tab[$call_tab]='tabs_selected';
 ?>
 <hr>
 <h1>Profil <?php echo $profile->p_name?></h1>
 <?php if ($p_id > 0 ) : ?>
-<a href="javascript:void(0)" class="line" onclick="profile_show('profile_gen_div')"><?php echo _('Nom')?></a>&nbsp;
-<a href="javascript:void(0)" class="line" onclick="profile_show('profile_menu_div')"><?php echo _('Détail Menus')?></a>&nbsp;
-<a href="javascript:void(0)" class="line" onclick="profile_show('profile_print_div')"><?php echo _('Détail Impressions')?></a>&nbsp;
-<a href="javascript:void(0)" class="line" style="" onclick="profile_show('profile_gestion_div')"><?php echo _('Action Gestion')?> </a>&nbsp;
-<a href="javascript:void(0)" class="line" onclick="profile_show('profile_repo_div')"><?php echo _('Dépôts')?></a>&nbsp;
+<ul class="tabs">
+    
+    <li class="<?php echo $a_tab['profile_gen_div']?>"><a href="javascript:void(0)" class="line" onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';profile_show('profile_gen_div')"><?php echo _('Nom')?></a></li>
+    <li class="<?php echo $a_tab['profile_menu_div']?>"><a href="javascript:void(0)" class="line" onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';profile_show('profile_menu_div')"><?php echo _('Détail Menus')?></a></li>
+    <li class="<?php echo $a_tab['profile_print_div']?>"><a href="javascript:void(0)" class="line" onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';profile_show('profile_print_div')"><?php echo _('Détail Impressions')?></a></li>
+    <li class="<?php echo $a_tab['profile_gestion_div']?>"><a href="javascript:void(0)" class="line" style="" onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';profile_show('profile_gestion_div')"><?php echo _('Action Gestion')?> </a></li>
+    <li class="<?php echo $a_tab['profile_repo_div']?>"><a href="javascript:void(0)" class="line" onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';profile_show('profile_repo_div')"><?php echo _('Dépôts')?></a>&nbsp;
+</ul>
 <?php endif; ?>
 
 <?php 
