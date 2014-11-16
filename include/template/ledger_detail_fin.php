@@ -1,6 +1,7 @@
 <?php
 //This file is part of NOALYSS and is under GPL 
 //see licence.txt
+$str_anc="";
 ?><?php require_once('template/ledger_detail_top.php'); ?>
 <div class="content" style="padding:0;">
 <?php 
@@ -108,15 +109,15 @@ $detail->get();
     echo th(_('Libellé'));
 echo th(_('Débit'),' style="text-align:right"');
 echo th(_('Crédit'),' style="text-align:right"');
- if ($owner->MY_ANALYTIC != 'nu' && $div == 'popup'){
+ if ($owner->MY_ANALYTIC != 'nu' /*&& $div == 'popup'*/){
       $anc=new Anc_Plan($cn);
       $a_anc=$anc->get_list(' order by pa_id ');
       $x=count($a_anc);
       /* set the width of the col */
-      echo '<th colspan="'.$x.'" style="width:auto;text-align:center">'._('Compt. Analytique').'</th>';
+      $str_anc .= '<th colspan="'.$x.'" style="width:auto;text-align:center">'._('Compt. Analytique').'</th>';
 
       /* add hidden variables pa[] to hold the value of pa_id */
-      echo Anc_Plan::hidden($a_anc);
+      $str_anc .= Anc_Plan::hidden($a_anc);
     }
 echo '</tr>';
   for ($e=0;$e<count($detail->det->array);$e++) {
@@ -153,15 +154,24 @@ echo '</tr>';
     $row.=($q[$e]['j_debit']=='t')?$montant:td('');
     $row.=($q[$e]['j_debit']=='f')?$montant:td('');
    /* Analytic accountancy */
-    if ( $owner->MY_ANALYTIC != "nu" && $div == 'popup')
+    if ( $owner->MY_ANALYTIC != "nu" /*&& $div == 'popup'*/)
       {
 	$poste=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
 	if ( preg_match('/^(6|7)/',$q[$e]['j_poste']))
 	  {
+            $qcode=$fiche->strAttribut(ATTR_DEF_QUICKCODE);
 	    $anc_op=new Anc_Operation($cn);
 	    $anc_op->j_id=$q[$e]['j_id'];
-	    $row.= HtmlInput::hidden('op[]',$anc_op->j_id);
-	    $row.=$anc_op->display_table(1,$q[$e]['j_montant'],$div);
+	    $anc_op->in_div=$div;
+            $str_anc.='<tr>';
+            $str_anc.=td($poste);
+            $str_anc.=td($qcode);
+            $str_anc.=td(nbm($q[$e]['j_montant']));
+            $str_anc.='<td>';
+	    $str_anc.= HtmlInput::hidden('op[]',$anc_op->j_id);
+	    $str_anc.=$anc_op->display_table(1,$q[$e]['j_montant'],$div);
+            $str_anc.='</td>';
+            $str_anc.='</tr>';
 
       }  else {
 	$row.=td('');

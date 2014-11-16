@@ -1519,18 +1519,19 @@ li.tabs_selected {
     color:red;
     margin-left: 2px;
     padding: 12px 15px 15px 15px;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 15px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     border:1px #879ed4 solid;
+    font-weight: bold;
 
 }
 li.tabs {
     display:inline;
     background-color: blue;
     color:wheat;margin-left: 2px;
-    padding: 15px 15px 0px 15px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+    padding: 10px 10px 0px 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     border:1px #879ed4 solid;
 
 }
@@ -1538,9 +1539,9 @@ li.tabs:hover {
     display:inline;
     background-color: lightblue;
     color:wheat;margin-left: 2px;
-    padding: 15px 15px 0px 15px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+    padding: 10px 10px 0px 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     border:1px #879ed4 solid;
 
 }
@@ -1548,6 +1549,7 @@ ul.tabs a {
     text-decoration: none;
     color:white;
     display:inline;
+    
 }
 ul.tabs a:hover {
     text-decoration: none;

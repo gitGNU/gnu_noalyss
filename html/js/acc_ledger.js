@@ -984,8 +984,8 @@ function op_save(obj)
                                   parameters:queryString,
                                   onFailure:null,
                                   onSuccess:infodiv
-                                      }
-                                    );
+                                               }
+                            );
     }
     return false;
 	} catch (e)

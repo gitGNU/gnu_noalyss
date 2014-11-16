@@ -59,7 +59,7 @@ class Anc_Operation
      * @brief signed of the amount
      */
     var $oa_positive;
-    
+    var $in_div; /*< name of the div if any, default empty string*/
     /*!\brief constructor
      *
      */
@@ -70,6 +70,7 @@ class Anc_Operation
         $this->oa_jrnx_id_source=null;
         $this->oa_positive='Y';
         $this->has_data=0;
+        $this->in_div="";
     }
     /*!\brief add a row  to the table operation_analytique
      * \note if $this->oa_group if 0 then a sequence id will be computed for
@@ -542,7 +543,7 @@ class Anc_Operation
         $count=0;
 
 		$remain=$p_amount;
-		$ctrl_remain="remain".$table_id;
+		$ctrl_remain="remain".$this->in_div.$table_id;
 
         for ( $i=0; $i < $nb_row;$i++)
         {
@@ -585,7 +586,7 @@ class Anc_Operation
 
             }
             $value=new INum();
-			$value->javascript='onchange="format_number(this);anc_refresh_remain(\''.$table_id.'\',\''.$p_seq.'\')"';
+	    $value->javascript='onchange="format_number(this);anc_refresh_remain(\''.$this->in_div.$table_id.'\',\''.$p_seq.'\')"';
             $value->name="val[".$p_seq."][]";
             $value->size=6;
             $value->value=(isset($val[$p_seq][$i]))?$val[$p_seq][$i]:$p_amount;
@@ -602,7 +603,7 @@ class Anc_Operation
         {
             $style_remain=($remain==0)?'style="color:green"':' style="color:red"';
             $result.=" Reste à imputer =  ".
-                            '<span class="remain" '.$style_remain.' id="'.$ctrl_remain.'">'.
+                     '<span class="remain" '.$style_remain.' id="'.$ctrl_remain.'">'.
                             $remain.'</span>';
             // add a button to add a row
             $button=new IButton();
@@ -615,9 +616,11 @@ class Anc_Operation
              * Add a button for distribution key
              * 
              */
+            
+            $ledger=$this->db->get_value('select j_jrn_def from jrnx where j_id=$1',array($this->j_id));
             $gDossier=Dossier::id();
             $button_key=new IButton();
-            $button_key->javascript="anc_key_choice(".$gDossier.",'".$p_id."$table_id',$p_amount);";
+            $button_key->javascript="anc_key_choice(".$gDossier.",'".$p_id."$table_id',$p_amount,'".$ledger."');";
             $button_key->name="js".$p_id.$p_seq;
             $button_key->label=_("Clef");
             $result .= $button_key->input();

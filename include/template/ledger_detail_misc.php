@@ -5,7 +5,7 @@
 require_once('template/ledger_detail_top.php');
 require_once('class_anc_operation.php');
 require_once('class_anc_plan.php');
-
+ $str_anc="";
 ?>
 <?php 
 require_once('class_own.php');
@@ -90,15 +90,15 @@ require_once ('class_anc_plan.php');
     echo th(_('Libellé'));
 echo th(_('Débit'), 'style="text-align:right"');
 echo th(_('Crédit'), 'style="text-align:right"');
-    if ($owner->MY_ANALYTIC != 'nu' && $div == 'popup'){
+    if ($owner->MY_ANALYTIC != 'nu' /* && $div == 'popup' */ ){
       $anc=new Anc_Plan($cn);
       $a_anc=$anc->get_list(' order by pa_id ');
       $x=count($a_anc);
       /* set the width of the col */
-      echo '<th colspan="'.$x.'">'._('Compt. Analytique').'</th>';
+       $str_anc.='<tr><th>Code</th><th>Poste</th><th>Montant</th><th colspan="' . $x . '">' . _('Compt. Analytique') . '</th>';
 
       /* add hidden variables pa[] to hold the value of pa_id */
-      echo Anc_Plan::hidden($a_anc);
+      $str_anc.= Anc_Plan::hidden($a_anc);
     }
 echo '</tr>';
 $amount_idx=0;
@@ -152,14 +152,20 @@ $amount_idx=0;
     $row.=($q[$e]['j_debit']=='t')?$montant:td('');
     $row.=($q[$e]['j_debit']=='f')?$montant:td('');
     /* Analytic accountancy */
-    if ( $owner->MY_ANALYTIC != "nu" && $div=='popup'){
+    if ( $owner->MY_ANALYTIC != "nu" /*&& $div=='popup'*/){
       if ( preg_match('/^(6|7)/',$q[$e]['j_poste'])) {
 
 	echo HtmlInput::hidden("amount_t".$amount_idx,$q[$e]['j_montant']);
 	$anc_op=new Anc_Operation($cn);
 	$anc_op->j_id=$q[$e]['j_id'];
-	echo HtmlInput::hidden('op[]',$anc_op->j_id);
-	$row.=$anc_op->display_table(1,$q[$e]['j_montant'],$div);
+        $anc_op->in_div=$div;
+        $str_anc.='<tr>';
+	$str_anc.=HtmlInput::hidden('op[]',$anc_op->j_id);
+        $str_anc.=td($q[$e]['j_qcode']);
+        $str_anc.=td($q[$e]['j_poste']);
+        $str_anc.=td($q[$e]['j_montant']);
+	$str_anc.=$anc_op->display_table(1,$q[$e]['j_montant'],$div);
+        $str_anc.='</tr>';
 	$amount_idx++;
       }  else {
 	$row.=td('');

@@ -1,3 +1,4 @@
+<hr>
 <?php
 /**
 //This file is part of NOALYSS and is under GPL 
@@ -31,7 +32,8 @@ $a_tab['writing_div']=array('id'=>'writing_div'.$div,'label'=>_('Ecriture Compta
 $a_tab['info_operation_div']=array('id'=>'info_operation_div'.$div,'label'=>_('Information'),'display'=>'none');
 $a_tab['linked_operation_div']=array('id'=>'linked_operation_div'.$div,'label'=>_('Opérations liées').'('.count($aRap).')','display'=>'none');
 $a_tab['document_operation_div']=array('id'=>'document_operation_div'.$div,'label'=>_('Document').'('.$nb_document.')','display'=>'block');
-$a_tab['linked_action_div']=array('id'=>'linked_action_div'.$div,'label'=>_('Actions liées').'('.count($a_followup).')','display'=>'none');
+$a_tab['linked_action_div']=array('id'=>'linked_action_div'.$div,'label'=>_('Actions Gestion').'('.count($a_followup).')','display'=>'none');
+$a_tab['analytic_div']=array('id'=>'analytic_div'.$div,'label'=>_('Comptabilité Analytique'),'display'=>'none');
 
  
 // show tabs
@@ -45,7 +47,7 @@ if ( $div != "popup") :
     ?>
     <li class="<?php echo $class?>">
         <?php $div_tab_id=$a_value['id'];?>
-        <a href="javascript:void(0)" onclick="unselect_other_tab(this.parentNode.parentNode);var tab=Array('writing_div<?php echo $div?>','info_operation_div<?php echo $div?>','linked_operation_div<?php echo $div?>','document_operation_div<?php echo $div?>','linked_action_div<?php echo $div?>');this.parentNode.className='tabs_selected' ;show_tabs(tab,'<?php echo $div_tab_id; ?>');"><?php echo $a_value['label']?></a>
+        <a href="javascript:void(0)" onclick="unselect_other_tab(this.parentNode.parentNode);var tab=Array('writing_div<?php echo $div?>','info_operation_div<?php echo $div?>','linked_operation_div<?php echo $div?>','document_operation_div<?php echo $div?>','linked_action_div<?php echo $div?>','analytic_div<?php echo $div?>');this.parentNode.className='tabs_selected' ;show_tabs(tab,'<?php echo $div_tab_id; ?>');"><?php echo $a_value['label']?></a>
     </li>
     <?php    endforeach; ?>
 </ul>
@@ -228,6 +230,33 @@ echo '</div>';
 
 require_once('template/ledger_detail_file.php');
 ?>
+
+
+<div id="analytic_div<?php echo $div;?>" style="display:<?php echo $a_tab['analytic_div']['display']?>">
+   <?php
+    if ($div == 'popup') :
+    ?> 
+        <h1 class="legend"><?php echo $a_tab['analytic_div']['label']?></h1>
+  <?php endif; ?>
+    <?php if ( $owner->MY_ANALYTIC != "nu") : 
+        if ( strpos('<td>',$str_anc) ==0 ):
+        ?>
+     
+                <table class="result">
+                            <?php echo $str_anc;?>
+                </table>
+        <?php else: ?>
+        <span class="notice">
+        <?php echo _('Aucune donnée'); ?>
+            </span>
+        <?php endif;?>
+<?php else:?>
+    <span class="notice">
+    <?php echo _('Non utilisée'); ?>
+    </span>
+<?php endif;?>
+</div>
+
 <hr>
 <?php 
 
@@ -249,8 +278,8 @@ if ( $div != 'popup' ) {
   if ( $access=='W') {
   echo HtmlInput::submit('save',_('Sauver'),'onClick="return verify_ca(\'popup\');"');
   $owner=new Own($cn);
-  if ($owner->MY_ANALYTIC != 'nu' && $div=='popup'){
-    echo '<input type="button" class="button" value="'._('verifie CA').'" onClick="verify_ca(\'popup\');">';
+  if ($owner->MY_ANALYTIC != 'nu' /*&& $div=='popup' */){
+    echo '<input type="button" class="button" value="'._('verifie CA').'" onClick="verify_ca(\''.$div.'\');">';
   }
 
   $per=new Periode($cn,$obj->det->jr_tech_per);
@@ -268,11 +297,11 @@ if ( $div != 'popup' ) {
 
 echo '</form>';
 
-  echo '<div id="ext'.$div.'" style="display:none">';
+  echo '<div id="ext'.$div.'" class="inner_box" style="position:relative;top:-150px;display:none">';
   $date=new IDate('ext_date');
   $r="<form id=\"form_".$div."\" onsubmit=\"this.divname='$div';return reverseOperation(this);\">";
   $r.=HtmlInput::hidden('jr_id',$_REQUEST['jr_id']).HtmlInput::hidden('div',$div).dossier::hidden().HtmlInput::hidden('act','reverseop');
-  $r.='<h2 class="info">Extourner </H2>';
+  $r.=HtmlInput::title_box(_('Extourner'), 'ext'.$div, 'hide');
   $r.="entrez une date :".$date->input();
   $r.=HtmlInput::submit('x','accepter','onclick="return confirm(\'Vous confirmez  ? \');"');
   $r.='</form>';
