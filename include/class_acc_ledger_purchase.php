@@ -1612,7 +1612,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 					'<p>'._('Déduction acompte ').h($acompte).'</p>'.
 					_('Libellé :' ).h($e_comm_paiement).'</div>';*/
             $r.='<h2>' . "Payé par " . ${'e_mp_qcode_' . $e_mp} .
-                    " " . $fname->getName() . '</H2> ' . '<p class="decale">' . _('Déduction acompte ') . h($acompte) . '</p>' .
+                    " " . $fname->getName() . '</h2> ' . '<p class="decale">' . _('Déduction acompte ') . h($acompte) . '</p>' .
                     _('Libellé :') . h($e_comm_paiement) ;
             $r.='<br>';
             $r.='<br>';
