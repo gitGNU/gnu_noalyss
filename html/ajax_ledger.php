@@ -122,7 +122,7 @@ if ($ledger=="")
     ob_end_clean();
 
     $html=escape_xml($html);
-    header('Content-type: text/xml; charset=UTF-8');
+    if ( ! headers_sent()) {     header('Content-type: text/xml; charset=UTF-8');} else { echo "HTML".unescape_xml($html);}
     echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
@@ -511,6 +511,12 @@ case 'save':
             //////////////////////////////////////////////////////////////////
             $op->save_info($_POST['OTHER'],'OTHER');
             $op->save_info($_POST['BON_COMMANDE'],'BON_COMMANDE');
+            ///////////////////////////////////////////////////////////////////
+            // Save related
+            //////////////////////////////////////////////////////////////////
+            $related=HtmlInput::default_value_post("related", "0");
+            if ($related == "0" )                throw new Exception('Parameter not send -> related'.__FILE__.__LINE__,10);
+            $op->insert_related_action($related);
 
         }
         echo _('Opération sauvée');
@@ -574,8 +580,9 @@ case 'reverseop':
     break;
 }
 $html=escape_xml($html);
-header('Content-type: text/xml; charset=UTF-8');
-echo <<<EOF
+ if ( ! headers_sent()) {     header('Content-type: text/xml; charset=UTF-8');} else { echo "HTML".unescape_xml($html);}
+ 
+ echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
 <ctl>$div</ctl>
