@@ -87,11 +87,15 @@ abstract class Noalyss_SQL
         /* load it */
         if ($p_id != -1 )$this->load();
     }
-
+/**
+ * Insert or update : if the row already exists, update otherwise insert
+ */
     public function save()
     {
         $pk=$this->primary_key;
-        if ($this->$pk==-1)
+        $count=$this->cn->get_value('select count(*) from '.$this->table.' where '.$this->primary_key.'=$1',array($this->$pk));
+        
+        if ($count == 0)
             $this->insert();
         else
             $this->update();
@@ -226,7 +230,10 @@ abstract class Noalyss_SQL
     {
         return var_export($this, true);
     }
-
+/**
+ * @todo ajout vérification type (date, text ou numeric)
+ * @return int
+ */
     public function verify()
     {
         foreach ($this->name as $key)
@@ -316,6 +323,10 @@ abstract class Noalyss_SQL
             $a_return[$i]=clone $this->next($ret, $i);
         }
         return $a_return;
+    }
+    public function count($p_where="",$p_array=null) {
+        $count=$this->cn->get_value("select count(*) from $this->table".$p_where,$p_array);
+        return $count;
     }
 }
 
