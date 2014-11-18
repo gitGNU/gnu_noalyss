@@ -664,6 +664,12 @@ EOF;
              */
             require_once 'ajax_anc_key_compute.php';
             break;
+        case 'account_update':
+            /**
+             * update an accounting (from CFGPCMN)
+             */
+            require_once 'ajax_account_update.php';
+            break;
 	default:
 		var_dump($_GET);
 }

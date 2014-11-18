@@ -39,17 +39,37 @@ function set_jrn_parent(p_ctl,p_value)
         f.value+=p_value;
     }
 }
+/**
+ * Display a box with accounting detail for update, delete or add
+ * @param {type} p_value pcmn_val
+ * @param {type} p_lib pcmn_lib
+ * @param {type} p_parent pcmn_val_parent
+ * @param {type} p_type pcmn_val_type
+ * @param {type} p_dossier gDossier
+ * @param {type} p_top position of the box
+ * @param {type} p_action = new | update | delete
+ * @returns {undefined}
+ */
 
-
-function PcmnUpdate(p_value,p_lib,p_parent,p_type,p_dossier)
+function PcmnUpdate(p_value,p_lib,p_parent,p_type,p_dossier,p_top,p_action)
 {
+    console.log(p_type);
     $('p_valu').value=p_value;
     $('p_oldu').value=p_value;
     $('p_libu').value=p_lib;
     $('p_parentu').value=p_parent;
     $('p_typeu').value=p_type;
-    $('acc_update').style.top=posY+offsetY+"px";
-    $('acc_update').style.left=posX+offsetX+"px";
+    var i=0;
+    for (i=0;i < $('p_typeu').options.length;i++) {
+        if ($('p_typeu').options[i].value== p_type) {$('p_typeu').options.selectedIndex= i; break; }
+    }
+    $('p_typeu').options.selectedIndex=p_type;
+    $('acc_update').style.top=(posY+offsetY+p_top)+"px";
+    $('acc_update').style.left="10%";
+    $('acc_update').style.width="80%";
+    $('acc_update_info').innerHTML="";
+    $('p_action').value=p_action;
+    $('delete_acc').checked=false;
     $('acc_update').show();
 }
 /**
@@ -248,3 +268,94 @@ function errorPoste()
 {
     alert('Ajax failed');
 }
+function pausecomp(millis)
+ {
+  var date = new Date();
+  var curDate = null;
+  do { curDate = new Date(); }
+  while(curDate-date < millis);
+}
+/**
+ * 
+ * @param {type} p_obj_id id of the form
+ * @returns false
+ */
+function account_update(p_obj_id)
+{
+    try {
+        waiting_box();
+        console.log('call account_update');
+        // initialize variables
+        var gDossier=0;
+        var p_action="";
+        var p_oldu=-1;
+        var p_valu="";
+        var p_libu="";
+        var p_parentu="";
+        var form=$('acc_update_frm_id');
+        var notfound="not found:";
+        var p_typeu=-1;
+        // get them
+        if ( form['gDossier']) { gDossier=form['gDossier'].value;}else { notfound+='gDossier';} 
+        if ( form['p_action']) { action=form['p_action'].value;}else { notfound+=', p_action ';}
+        if ( form['p_oldu']) { p_oldu=form['p_oldu'].value;}else { notfound+=', p_oldu';}
+        if ( form['p_valu']) { p_valu=form['p_valu'].value;}else { notfound+=', p_valu';}
+        if ( form['p_libu']) { p_libu=form['p_libu'].value;}else { notfound+=', p_libu ';}
+        if ( form['p_parentu']) { p_parentu=form['p_parentu'].value;}else { notfound+='p_parentu';}
+        if ( form['delete_acc'])  { 
+                if (form['delete_acc'].checked) { acc_delete=1;} else {acc_delete=0} }
+            else {
+                notfound += ', delete_acc';
+            }
+        if ( form['p_typeu']) { p_typeu=form['p_typeu'].value;} else { notfound+=", p_typeu";}
+        
+        console.log (notfound);
+        
+        if ( notfound != "not found:") throw notfound;
+            
+        var queryString = "op=account_update" + "&gDossier=" + gDossier+ "&action=" + action + "&p_oldu=" + p_oldu+"&p_valu="+p_valu+"&p_libu="+p_libu+"&p_parentu="+p_parentu+"&acc_delete="+acc_delete+"&p_typeu="+p_typeu;
+        var ajax_action = new Ajax.Request(
+                "ajax_misc.php",
+                {
+                    method: 'get',
+                    parameters: queryString,
+                    onFailure: error_box,
+                    onSuccess: function(req, json) {
+                        try
+                        {
+                            var name_ctl = 'acc_update_info';
+                            var answer = req.responseXML;
+                            remove_waiting_box();
+                            var html = answer.getElementsByTagName('code');
+                            var ctl = answer.getElementsByTagName('ctl')[0].textContent;
+                            if (html.length == 0) {
+                                var rec = req.responseText;
+                                alert('erreur :' + rec);
+                            }
+                            console.log("ctl ");console.log(ctl);
+                            console.log('Received ajax_call');
+                            var code_html = getNodeText(html[0]); // Firefox ne prend que les 4096 car.
+                            code_html = unescape_xml(code_html);
+                            console.log(code_html);
+                            
+                            $(name_ctl).innerHTML = code_html;
+                            if ( ctl == 'ok') {
+                               window.location.reload();
+                            }
+                        } catch (e)
+                        {
+                            error_message(e.message);
+                            return false;
+                        }
+                    }
+                }
+
+        );
+        
+    }catch (e) {
+        if (console) { console.log('Account update'); }
+        return false;
+    }
+    return false;
+}
+ 
