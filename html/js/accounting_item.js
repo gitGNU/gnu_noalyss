@@ -276,7 +276,8 @@ function pausecomp(millis)
   while(curDate-date < millis);
 }
 /**
- * 
+ * Update an accounting with the information in the form, called frmo
+ * param_pcmn.inc.php
  * @param {type} p_obj_id id of the form
  * @returns false
  */
