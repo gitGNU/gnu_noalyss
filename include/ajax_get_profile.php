@@ -67,7 +67,7 @@ if ( $p_id > 0 )
 }
 else
 {
-	echo '<div  id="profile_gen_div">';
+	echo '<div  class="myfieldset" id="profile_gen_div">';
 }
 echo '<form method="POST" onsubmit="return confirm (\'vous confirmez\')">';
 echo HtmlInput::hidden('tab','profile_gen_div');
@@ -87,30 +87,30 @@ if ($profile->p_id > 0)
 
 	echo '<form method="POST" onsubmit="return confirm (\''._("vous confirmez").'\')">';
 
-	echo 'Effacer ce profil';
+	echo _('Effacer ce profil');
 
 	echo HtmlInput::hidden('p_id', $profile->p_id);
 	echo HtmlInput::submit("delete_profil", _("Effacer ce profil"));
 	echo '</form>';
         echo '</div>';
-        echo '<div style="display:none" id="profile_menu_div">';
+        echo '<div class="myfieldset"  style="display:none" id="profile_menu_div">';
 	//Menu / Module /plugin in this profile
-	echo "<h2>Menu</h2>";
+	echo "<h1 class=\"legend\">"."Menu"."</h2>";
 	echo $add_menu;
 	$profile_menu = new Profile_Menu($cn);
 	$profile_menu->listing_profile($p_id);
         echo '</div>';
-        echo '<div style="display:none" id="profile_print_div">';
-	echo "<h2>"._("Impression")."</h2>";
+        echo '<div class="myfieldset"  style="display:none" id="profile_print_div">';
+	echo "<h1 class=\"legend\">"._("Impression")."</h1>";
 	$profile_menu->printing($p_id);
 	echo $add_impression;
         echo '</div>';
-        echo '<div style="display:none" id="profile_gestion_div">';
-	echo "<h2>Action gestion accessible</h2>";
+        echo '<div class="myfieldset"  style="display:none" id="profile_gestion_div">';
+	echo "<h1 class=\"legend\">Action gestion accessible</h1>";
 	$profile_menu->available_profile($p_id);
         echo '</div>';
-        echo '<div style="display:none" id="profile_repo_div">';
-	echo "<h2>Dépôt de stock accessible</h2>";
+        echo '<div class="myfieldset"  style="display:none" id="profile_repo_div">';
+	echo "<h1 class=\"legend\">"."Dépôt de stock accessible"."</h1>";
 	$profile_menu->available_repository($p_id);
         echo '</div>';
         if ( isset ($_POST['tab']))
