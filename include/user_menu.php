@@ -143,17 +143,22 @@ function menu_acc_plan($p_start=1)
 {
     $base="?ac=".$_REQUEST['ac'];
     $str_dossier="&".dossier::get();
-    echo '<TABLE>';
-    echo '<TR><TD class="vert_mtitle"><A class="mtitle"  HREF="'.$base.'&p_start=0'.$str_dossier.'">0 '._(' Hors Bilan').' </A></TD></TR>';
-    echo '<TR><TD class="vert_mtitle"><A class="mtitle"  HREF="'.$base.'&p_start=1'.$str_dossier.'">1 '._(' Immobilisé').' </A></TD></TR>';
-    echo '<TR><TD class="vert_mtitle"><A class="mtitle"  HREF="'.$base.'&p_start=2'.$str_dossier.'">2 '._('Actif a un an au plus').'</A></TD></TR>';
-    echo '<TR><TD class="vert_mtitle"><A class="mtitle"  HREF="'.$base.'&p_start=3'.$str_dossier.'">3 '._('Stock et commande').'</A></TD></TR>';
-    echo '<TR><TD class="vert_mtitle"><A class="mtitle"  HREF="'.$base.'&p_start=4'.$str_dossier.'">4 '._('Compte tiers').'</A></TD></TR>';
-    echo '<TR><TD class="vert_mtitle"><A class="mtitle" HREF="'.$base.'&p_start=5'.$str_dossier.'">5 '._('Financier').'</A></TD></TR>';
-    echo '<TR><TD class="vert_mtitle"><A class="mtitle"  HREF="'.$base.'&p_start=6'.$str_dossier.'">6 '._('Charges').'</A></TD></TR>';
-    echo '<TR><TD class="vert_mtitle"><A class="mtitle" HREF="'.$base.'&p_start=7'.$str_dossier.'">7 '._('Produits').'</A></TD></TR>';
-    echo '<TR><TD class="vert_mtitle"><A class="mtitle" HREF="'.$base.'&p_start=8'.$str_dossier.'">8 '._('Hors Comptabilité').'</A></TD></TR>';
-    echo '<TR><TD class="vert_mtitle"><A class="mtitle" HREF="'.$base.'&p_start=9'.$str_dossier.'">9 '._('Hors Comptabilité').'</A></TD></TR>';
-    echo "</TABLE>";
+    for ($i=0;$i<10;$i++) { $class[$i]="tabs";}
+    $class[$p_start]="tabs_selected";
+    $idx=0;
+    ?>
+    <ul class="tabs">
+    <li class="<?php echo $class[$idx];$idx++; ?>"><A HREF="<?php echo $base.'&p_start=0'.$str_dossier; ?>">0 <?php echo _(' Hors Bilan')?></A></li>
+    <li class="<?php echo $class[$idx];$idx++; ?>"><A HREF="<?php echo $base.'&p_start=1'.$str_dossier; ?>">1 <?php echo _(' Immobilisé')?></A></li>
+    <li class="<?php echo $class[$idx];$idx++; ?>"><A HREF="<?php echo $base.'&p_start=2'.$str_dossier; ?>">2 <?php echo _('Actif a un an au plus')?></A></li>
+    <li class="<?php echo $class[$idx];$idx++; ?>"><A HREF="<?php echo $base.'&p_start=3'.$str_dossier; ?>">3 <?php echo _('Stock et commande')?></A></li>
+    <li class="<?php echo $class[$idx];$idx++; ?>"><A HREF="<?php echo $base.'&p_start=4'.$str_dossier; ?>">4 <?php echo _('Compte tiers')?></A></li>
+    <li class="<?php echo $class[$idx];$idx++; ?>"><A HREF="<?php echo $base.'&p_start=5'.$str_dossier; ?>">5 <?php echo _('Financier')?></A></li>
+    <li class="<?php echo $class[$idx];$idx++; ?>"><A HREF="<?php echo $base.'&p_start=6'.$str_dossier; ?>">6 <?php echo _('Charges')?></A></li>
+    <li class="<?php echo $class[$idx];$idx++; ?>"><A HREF="<?php echo $base.'&p_start=7'.$str_dossier; ?>">7 <?php echo _('Produits')?></A></li>
+    <li class="<?php echo $class[$idx];$idx++; ?>"><A HREF="<?php echo $base.'&p_start=8'.$str_dossier; ?>">8 <?php echo _('Hors Comptabilité')?></A></li>
+    <li class="<?php echo $class[$idx];$idx++; ?>"><A HREF="<?php echo $base.'&p_start=9'.$str_dossier; ?>">9 <?php echo _('Hors Comptabilité')?></A></li>
+    </ul>
+<?php
 }
 
