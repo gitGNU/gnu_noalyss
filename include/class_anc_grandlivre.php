@@ -104,6 +104,7 @@ class Anc_GrandLivre extends Anc_Print
 	jr_comment,
         jr_pj_number,
 	jr_internal,
+        oa_row,
 	case when oa_debit='t' then 'D' else 'C' end,
 	oa_amount
 	from operation_analytique as B join poste_analytique using(po_id)
@@ -290,12 +291,6 @@ class Anc_GrandLivre extends Anc_Print
 
         }
 
-        if ( empty($array) )
-        {
-            $r.= _("aucune donnée");
-            return $r;
-        }
-
         $ix=0;$prev='xx';
 	$tot_deb=$tot_cred=0;
         $aheader=array();
@@ -306,6 +301,7 @@ class Anc_GrandLivre extends Anc_Print
         $aheader[]=array("title"=>'libelle','type'=>'string');
         $aheader[]=array("title"=>'Pièce','type'=>'string');
         $aheader[]=array("title"=>'Num.interne','type'=>'string');
+        $aheader[]=array("title"=>'row','type'=>'num');
         $aheader[]=array("title"=>'Debit','type'=>'string');
         $aheader[]=array("title"=>'Credit','type'=>'num');
         Impress::array_to_csv($array, $aheader);
