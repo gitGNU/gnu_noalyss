@@ -616,8 +616,10 @@ class Anc_Operation
              * Add a button for distribution key
              * 
              */
-            
-            $ledger=$this->db->get_value('select j_jrn_def from jrnx where j_id=$1',array($this->j_id));
+            $ledger=HtmlInput::default_value_post("p_jrn", 0);
+            if ($ledger==0) {
+                $ledger=$this->db->get_value('select j_jrn_def from jrnx where j_id=$1',array($this->j_id));
+            }
             $gDossier=Dossier::id();
             $button_key=new IButton();
             $button_key->javascript="anc_key_choice(".$gDossier.",'".$p_id."$table_id',$p_amount,'".$ledger."');";

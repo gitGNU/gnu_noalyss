@@ -144,10 +144,9 @@ $str_anc="";
                     $a_anc = $anc->get_list(' order by pa_id ');
                     $x = count($a_anc);
                     /* set the width of the col */
-                    $str_anc.='<tr><th>Code</th><th>Montant</th><th colspan="' . $x . '">' . _('Compt. Analytique') . '</th>';
-
                     /* add hidden variables pa[] to hold the value of pa_id */
-                    $str_anc.=Anc_Plan::hidden($a_anc);
+                    $str_anc.='<tr><th>Code</th><th>Montant</th><th colspan="' . $x . '">' . _('Compt. Analytique') . Anc_Plan::hidden($a_anc).'</th></tr>';
+
                 }
                 echo '</tr>';
                 for ($e = 0; $e < count($obj->det->array); $e++)
@@ -228,7 +227,7 @@ $str_anc="";
                             $str_anc.='<tr>';
                             $str_anc.=td($qcode);
                             $str_anc.=td(nbm($htva));
-                            $str_anc.='<td>'.$anc_op->display_table(1, $htva, $div).'</td>';
+                            $str_anc.=$anc_op->display_table(1, $htva, $div);
                         } else
                         {
                             $row.=td('');

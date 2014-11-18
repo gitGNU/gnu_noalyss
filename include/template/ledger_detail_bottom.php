@@ -239,7 +239,7 @@ require_once('template/ledger_detail_file.php');
         <h1 class="legend"><?php echo $a_tab['analytic_div']['label']?></h1>
   <?php endif; ?>
     <?php if ( $owner->MY_ANALYTIC != "nu") : 
-        if ( strpos('<td>',$str_anc) ==0 ):
+        if ( strpos($str_anc,'<td>') == true ):
         ?>
      
                 <table class="result">
