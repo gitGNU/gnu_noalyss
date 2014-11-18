@@ -42,11 +42,11 @@ $a_tab[$call_tab]='tabs_selected';
 <?php if ($p_id > 0 ) : ?>
 <ul class="tabs">
     
-    <li class="<?php echo $a_tab['profile_gen_div']?>"><a href="javascript:void(0)" class="line" onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';profile_show('profile_gen_div')"><?php echo _('Nom')?></a></li>
-    <li class="<?php echo $a_tab['profile_menu_div']?>"><a href="javascript:void(0)" class="line" onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';profile_show('profile_menu_div')"><?php echo _('Détail Menus')?></a></li>
-    <li class="<?php echo $a_tab['profile_print_div']?>"><a href="javascript:void(0)" class="line" onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';profile_show('profile_print_div')"><?php echo _('Détail Impressions')?></a></li>
-    <li class="<?php echo $a_tab['profile_gestion_div']?>"><a href="javascript:void(0)" class="line" style="" onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';profile_show('profile_gestion_div')"><?php echo _('Action Gestion')?> </a></li>
-    <li class="<?php echo $a_tab['profile_repo_div']?>"><a href="javascript:void(0)" class="line" onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';profile_show('profile_repo_div')"><?php echo _('Dépôts')?></a>&nbsp;
+    <li class="<?php echo $a_tab['profile_gen_div']?>"><a href="javascript:void(0)"  onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';profile_show('profile_gen_div')"><?php echo _('Nom')?></a></li>
+    <li class="<?php echo $a_tab['profile_menu_div']?>"><a href="javascript:void(0)"  onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';profile_show('profile_menu_div')"><?php echo _('Détail Menus')?></a></li>
+    <li class="<?php echo $a_tab['profile_print_div']?>"><a href="javascript:void(0)" onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';profile_show('profile_print_div')"><?php echo _('Détail Impressions')?></a></li>
+    <li class="<?php echo $a_tab['profile_gestion_div']?>"><a href="javascript:void(0)" style="" onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';profile_show('profile_gestion_div')"><?php echo _('Action Gestion')?> </a></li>
+    <li class="<?php echo $a_tab['profile_repo_div']?>"><a href="javascript:void(0)"  onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';profile_show('profile_repo_div')"><?php echo _('Dépôts')?></a>&nbsp;
 </ul>
 <?php endif; ?>
 
