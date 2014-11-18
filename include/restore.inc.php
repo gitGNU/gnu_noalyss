@@ -47,11 +47,11 @@ if ( isset ($_REQUEST['sa'] ))
         die ('Aucune connection');
     }
 
-    $retour='<hr>'.HtmlInput::button_anchor("Retour","?action=restore");
+    $retour='<hr>'.HtmlInput::button_anchor("Retour","?action=restore","","smallbutton");
     if ( ! isset($_REQUEST['t']))
     {
         echo '<div class="content">';
-        echo ("<span class=\"error\">Vous devez préciser s'il s'agit d'un modèle ou d'un dossier</span>");
+        echo ("<span class=\"error\">"._("Vous devez préciser s'il s'agit d'un modèle ou d'un dossier")."</span>");
         echo $retour;
         echo '</div>';
         exit();
@@ -62,7 +62,7 @@ if ( isset ($_REQUEST['sa'] ))
     {
         echo '<div class="content">';
 
-        echo ("<span class=\"error\">Vous devez donner un fichier </span>");
+        echo ("<span class=\"error\">"._('Vous devez donner un fichier')." </span>");
         echo $retour;
         echo '</div>';
         exit();
@@ -94,11 +94,11 @@ if ( isset ($_REQUEST['sa'] ))
 			$ldesc=sql_string($_REQUEST['desc']);
 		}
 
-        $sql="insert into ac_dossier (dos_id,dos_name,dos_description) values (".$id.",'".$lname."','".$ldesc."') ";
+        $sql="insert into ac_dossier (dos_id,dos_name,dos_description) values ($1,$2,$3)";
         $cn->start();
         try
         {
-            $cn->get_value($sql);
+            $cn->get_value($sql,array($id,$lname,$ldesc));
 
 
         }
@@ -118,13 +118,13 @@ if ( isset ($_REQUEST['sa'] ))
         $test=new Database($id);
         if ( $test->exist_table('version') )
         {
-            echo '<h2 class="info"> Restauration réussie du dossier '.$lname.'</h2>';
+            echo '<h2 class="info"> '._('Restauration réussie du dossier ').$lname.'</h2>';
             $test->close();
         }
         else
         {
             $test->close();
-            echo '<h2 class="error"> Problème lors de la restauration '.$lname.'</h2>';
+            echo '<h2 class="error"> '._('Problème lors de la restauration ').$lname.'</h2>';
             $cn->exec_sql('delete from ac_dossier where dos_id=$1',array($id));
             $cn->exec_sql('drop database '.$name);
             exit();
@@ -132,8 +132,8 @@ if ( isset ($_REQUEST['sa'] ))
         $new_cn=new Database($id);
 
         $new_cn->apply_patch($name,0);
-        echo '<span class="error">'.'Ne pas recharger la page, sinon votre base de données sera restaurée une fois de plus'.'</span>';
-		Dossier::synchro_admin($id);
+        echo '<span class="error">'._('Ne pas recharger la page, sinon votre base de données sera restaurée une fois de plus').'</span>';
+	Dossier::synchro_admin($id);
         echo $retour;
 
         echo '</div>';
