@@ -38,6 +38,9 @@ if (!defined('ALLOWED'))    die('Appel direct ne sont pas permis');
   'p_typeu' => string '0' (length=1)
  * @endcode
  */
+if ($g_user->check_module('CFGPCMN') == 0)
+			exit();
+
 $var=array('action', 'p_oldu', 'p_valu', 'p_libu', 'p_parentu', 'acc_delete', 'p_typeu');
 for ($i=0; $i<count($var); $i++)
 {

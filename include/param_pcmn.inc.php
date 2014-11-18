@@ -79,11 +79,11 @@ echo '<div class="u_subtmenu">';
 echo '</div>';
 
 
-echo '<div class="lmenu">';
-menu_acc_plan($_SESSION['g_start']);
+echo '<div class="content">';
+menu_acc_plan($g_start);
 echo '</div>';
 if ($g_start == -1) return;
-echo '<DIV CLASS="redcontent">';
+echo '<DIV CLASS="myfieldset" style="width:auto">';
 
 $Ret=$cn->exec_sql("select pcm_val,pcm_lib,pcm_val_parent,pcm_type,array_to_string(array_agg(j_qcode) , ',') as acode
 	from tmp_pcmn left join vw_poste_qcode on (j_poste=pcm_val) where substr(pcm_val::text,1,1)='".$g_start."'".
@@ -91,7 +91,7 @@ $Ret=$cn->exec_sql("select pcm_val,pcm_lib,pcm_val_parent,pcm_type,array_to_stri
 $MaxRow=Database::num_row($Ret);
 
 ?>
-<span style="display:block">
+<span style="display:inline;margin: 15px 15px 15px 15px">
 <input type="button" class="smallbutton" onclick="PcmnUpdate('','','','',0,0,'new')" value="<?php echo _('Ajout poste comptable'); ?>">
 </span>
 <?php echo _('Filtre')." ".HtmlInput::filter_table("account_tbl_id", "0,1,2,3,4", 1);?>
@@ -110,15 +110,7 @@ $limite=MAX_QCODE;
                              <TH> Type </TH>
                              <TH> Fiche</TH>
                              </TR>
-<?php
-//$line=new Acc_Account($cn);
-//echo $line->form(false);
-?>
-<!--							 <td></td>
-<TD>
-<INPUT TYPE="SUBMIT" class="button" Value="Ajout" Name="Ajout">
-                                       </TD>
-                                       </TR>-->
+
                                        <?php
                                        $str_dossier=dossier::get();
 for ($i=0; $i <$MaxRow; $i++)
@@ -159,10 +151,10 @@ for ($i=0; $i <$MaxRow; $i++)
 	if ( strlen($A['acode']) >0 ) {
 		if (strpos($A['acode'], ",") >0 ) {
 			$det_qcode=  explode(",", $A['acode']);
-			echo '<ul style="paddding:0;margin:0px;padding-left:0px;list-style-type:none;padding-start-value:0px">';
+			echo '<ul style="display:inline;paddding:0;margin:0px;padding-left:0px;list-style-type:none;padding-start-value:0px">';
 			$max=(count($det_qcode)>MAX_QCODE)?MAX_QCODE:count($det_qcode);
 			for ($e=0;$e<$max;$e++) {
-				echo '<li style="padding-start-value:0">'.HtmlInput::card_detail($det_qcode[$e]).'</li>';
+				echo '<li style="padding-start-value:0;display:inline">'.HtmlInput::card_detail($det_qcode[$e],'',' style="display:inline"').'</li>';
 			}
 			echo '</ol>';
 			if ($max < count($det_qcode)) {
@@ -173,11 +165,6 @@ for ($i=0; $i <$MaxRow; $i++)
 		}
 	}
 	echo '</td>';
-
-    //echo $td;
-    //printf ('<A class="input_text" href="?ac='.$_REQUEST['ac'].'&l=%s&action=del&%s">Efface</A>',$A['pcm_val'],$str_dossier);
-    //echo "</TD>";
-
 
     echo "</TR>";
 }
