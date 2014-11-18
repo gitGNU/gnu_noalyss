@@ -52,7 +52,7 @@ if ( $ext->search($_REQUEST['plugin_code']) != -1 )
 		exit();
       }
     /* call the ajax script */
-    require_once('ext'.DIRECTORY_SEPARATOR.dirname(trim($ext->get_parameter('me_file'))).DIRECTORY_SEPARATOR.'raw.php');
+    require_once('ext'.DIRECTORY_SEPARATOR.dirname(trim($ext->getp('me_file'))).DIRECTORY_SEPARATOR.'raw.php');
   }
 else
   {
