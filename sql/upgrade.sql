@@ -24,6 +24,11 @@ INSERT INTO menu_ref(me_code, me_menu, me_file,   me_type,me_description_etendue
 insert into profile_menu(me_code,p_id,p_type_display,pm_default,me_code_dep,p_order) values ('ANCKEY',1,'E',0,'ANC',15);
 insert into profile_menu(me_code,p_id,p_type_display,pm_default,me_code_dep,p_order) values ('ANCKEY',2,'E',0,'ANC',15);
 
+INSERT INTO menu_ref(me_code, me_menu, me_file,   me_type,me_description_etendue)VALUES ('CFGPLUGIN', 'Configuration extension',  'cfgplugin.inc.php','ME','Permet d''installer et d''activer facilement des extensions');
+
+insert into profile_menu(me_code,p_id,p_type_display,pm_default,me_code_dep,p_order) values ('CFGPLUGIN',1,'E',0,'PARAM',15);
+insert into profile_menu(me_code,p_id,p_type_display,pm_default,me_code_dep,p_order) values ('CFGPLUGIN',2,'E',0,'PARAM',15);
+
 create table key_distribution (
     kd_id serial primary key,
     kd_name text,
