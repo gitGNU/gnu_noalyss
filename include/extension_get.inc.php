@@ -21,7 +21,7 @@ require_once ('class_user.php');
 // find file and check security
 global $cn,$g_user;
 
-$ext=new Extension();
+$ext=new Extension($cn);
 
 if ($ext->search($_REQUEST['plugin_code']) == -1)
 	{
