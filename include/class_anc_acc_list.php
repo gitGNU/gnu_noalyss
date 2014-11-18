@@ -427,7 +427,7 @@ END) <> 0::numeric order by name,po_name",array($this->pa_id));
   function export_csv()
   {
    bcscale(2);
-   if ( $this->check () != 0 ) {echo "DATE INVALIDE";exit();}
+   if ( $this->check () != 0 ) {throw new Exception (_("date invalide"));}
       //---------------------------------------------------------------------------
     // Card  - Acc
     //---------------------------------------------------------------------------

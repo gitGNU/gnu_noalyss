@@ -169,10 +169,10 @@ class Fiche_Def
 		$tab = new Sort_Table();
 
 		$url = HtmlInput::get_to_string(array('ac', 'gDossier'));
-		$tab->add("Nom de fiche", $url, "order by fd_label asc", "order by fd_label desc", "na", "nd");
-		$tab->add("Basé sur le poste comptable", $url, "order by fd_class_base asc", "order by fd_class_base desc", "pa", "pd");
-		$tab->add("Calcul automatique du poste comptable", $url, "order by fd_create_account asc", "order by fd_create_account desc", "ca", "cd");
-		$tab->add("Basé sur le modèle", $url, "order by frd_text asc", "order by frd_text  desc", "ma", "md");
+		$tab->add(_("Nom de fiche"), $url, "order by fd_label asc", "order by fd_label desc", "na", "nd");
+		$tab->add(_("Basé sur le poste comptable"), $url, "order by fd_class_base asc", "order by fd_class_base desc", "pa", "pd");
+		$tab->add(_("Calcul automatique du poste comptable"), $url, "order by fd_create_account asc", "order by fd_create_account desc", "ca", "cd");
+		$tab->add(_("Basé sur le modèle"), $url, "order by frd_text asc", "order by frd_text  desc", "ma", "md");
 
 		$order = (isset($_GET['ord'])) ? $tab->get_sql_order($_GET["ord"]) : $tab->get_sql_order("na");
 
@@ -683,6 +683,9 @@ $order
      */
     function remove()
     {
+        if ( $this->id >= 500000 ) {
+            throw new Exception(_('Catégorie verrouillée '));
+        }
         $remain=0;
         /* get all the card */
         $aFiche=fiche::get_fiche_def($this->cn,$this->id);
@@ -761,7 +764,7 @@ $order
 		$this->get();
 		$this->GetAttribut();
 		$r.= '<H2 class="info">' . $this->id . " " . h($this->label) . '</H2>';
-		$r.='<fieldset><legend>Données générales</legend>';
+		$r.='<fieldset><legend>'._('Données générales').'</legend>';
 
 		/* show the values label class_base and create account */
 		$r.='<form method="post">';
@@ -774,7 +777,7 @@ $order
 		$r.='</form>';
 		$r.='</fieldset>';
 		/* attributes */
-		$r.='<fieldset><legend>Détails</legend>';
+		$r.='<fieldset><legend>'._('Détails').'</legend>';
 
 		$r.= '<FORM  method="POST">';
 		$r.=dossier::hidden();
@@ -802,7 +805,7 @@ $order
 		echo HtmlInput::hidden("p_action","fiche");
 		echo dossier::hidden();
 		echo $this->input(); //    CreateCategory($cn,$search);
-		echo HtmlInput::submit("add_modele" ,"Sauve");
+		echo HtmlInput::submit("add_modele" ,_("Sauve"));
 		echo '</FORM>';
 	}
 

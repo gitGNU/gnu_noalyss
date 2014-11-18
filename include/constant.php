@@ -59,8 +59,15 @@ $g_captcha=false;
 $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 /* uncomment for development */
-define ('SVNINFO',6721);
+
+/*define ('SVNINFO',6722);
+define ("DEBUG",true);
+define ("LOGINPUT",true);
+*/
+
+define ('SVNINFO',6723);
 define ("DEBUG",false);
+define ("LOGINPUT",false);
 
 $version_noalyss=SVNINFO;
 // If you don't want to be notified of the update

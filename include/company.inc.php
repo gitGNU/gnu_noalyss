@@ -145,5 +145,5 @@ echo "</table>";
 echo HtmlInput::submit("record_company", _("Sauve"));
 echo "</form>";
 echo '</div>';
-exit();
+return;
 ?>

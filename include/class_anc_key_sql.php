@@ -32,7 +32,7 @@ require_once 'class_noalyss_sql.php';
 class Anc_Key_SQL extends Noalyss_SQL
 {
 
-    function __construct($cn, $p_id = -1)
+    function __construct($p_cn, $p_id = -1)
     {
         $this->table = "public.key_distribution";
         $this->primary_key = "kd_id";
@@ -52,9 +52,10 @@ class Anc_Key_SQL extends Noalyss_SQL
         $this->default = array(
             "kd_id" => "auto"
         );
-        global $cn;
+       // PHPUNIT seems to have a problem with this line
+       //global $cn;
 
-        parent::__construct($cn, $p_id);
+        parent::__construct($p_cn, $p_id);
     }
 
 }
@@ -63,7 +64,7 @@ class Anc_Key_SQL extends Noalyss_SQL
  */
 class Anc_Key_Ledger_SQL extends Noalyss_SQL
 {
-       function __construct($cn, $p_id = -1)
+       function __construct(&$p_cn, $p_id = -1)
     {
         $this->table = "public.key_distribution_ledger";
         $this->primary_key = "kl_id";
@@ -83,9 +84,10 @@ class Anc_Key_Ledger_SQL extends Noalyss_SQL
         $this->default = array(
             "kl_id" => "auto"
         );
-        global $cn;
+        // PHPUNIT seems to have a problem with this line
+       //global $cn;
 
-        parent::__construct($cn, $p_id);
+        parent::__construct($p_cn, $p_id);
     } 
 }
 /**
@@ -93,8 +95,9 @@ class Anc_Key_Ledger_SQL extends Noalyss_SQL
  */
 class Anc_Key_Detail_SQL extends Noalyss_SQL
 {
-       function __construct($cn, $p_id = -1)
+       function __construct(&$p_cn, $p_id = -1)
     {
+          
         $this->table = "public.key_distribution_detail";
         $this->primary_key = "ke_id";
 
@@ -115,9 +118,11 @@ class Anc_Key_Detail_SQL extends Noalyss_SQL
         $this->default = array(
             "ke_id" => "auto"
         );
-        global $cn;
+       // PHPUNIT seems to have a problem with this line
+       //global $cn;
+       
 
-        parent::__construct($cn, $p_id);
+        parent::__construct($p_cn, $p_id);
     } 
 }
 /**
@@ -125,7 +130,7 @@ class Anc_Key_Detail_SQL extends Noalyss_SQL
  */
 class Anc_Key_Activity_SQL extends Noalyss_SQL
 {
-       function __construct($cn, $p_id = -1)
+       function __construct($p_cn, $p_id = -1)
     {
         $this->table = "public.key_distribution_activity";
         $this->primary_key = "ka_id";
@@ -148,8 +153,7 @@ class Anc_Key_Activity_SQL extends Noalyss_SQL
         $this->default = array(
             "ka_id" => "auto"
         );
-        global $cn;
 
-        parent::__construct($cn, $p_id);
+        parent::__construct($p_cn, $p_id);
     } 
 }

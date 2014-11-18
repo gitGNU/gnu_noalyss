@@ -43,7 +43,7 @@ $jrn_priv = $g_user->get_ledger_access($Ledger->id);
 if (isset($_GET["p_jrn"]) && $jrn_priv == "X")
 {
 	NoAccess();
-	exit();
+	return;
 }
 //-------------------------
 // save
@@ -131,7 +131,7 @@ echo '<span style="display:block">';
 
 
 	echo '</span>';
-echo '<table id="t_rec_bk" class="sortable" style="width:80%;margin-left:10%">';
+echo '<table id="t_rec_bk" class="sortable" style="width:90%;margin-left:5%">';
 $r ='<th class=" sorttable_sorted_reverse">'.'Date '.HtmlInput::infobulle(17).'<span id="sorttable_sortrevind">&nbsp;&blacktriangle;</span>'.'</th>';
 $r.=th('Libellé');
 $r.=th('N° interne');
@@ -214,5 +214,5 @@ echo '</table>';
 echo HtmlInput::submit('save', 'Mettre à jour le n° de relevé bancaire');
 echo '</form>';
 echo '</div>';
-exit();
+return;
 ?>

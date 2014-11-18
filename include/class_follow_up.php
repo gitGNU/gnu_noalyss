@@ -158,7 +158,7 @@ class Follow_Up
 		}
 		else
 		{
-			exit('class_action' . __LINE__ . 'Follow_Up::Display error unknown parameter' . $p_view);
+                    throw new Exception('class_action' . __LINE__ . 'Follow_Up::Display error unknown parameter' . $p_view);
 		}
 		// Compute the widget
 		// Date
@@ -1448,7 +1448,7 @@ class Follow_Up
              where  true  $p_search order by ag.ag_timestamp,ag.ag_id";
 		$ret=$this->db->exec_sql($sql);
 
-		if ( Database::num_row($ret)==0)exit();
+		if ( Database::num_row($ret)==0) return;
 		$this->db->query_to_csv($ret,array(
 				array("title"=>"doc id","type"=>"string"),
 				array("title"=>"date","type"=>"date"),
@@ -1469,7 +1469,7 @@ class Follow_Up
 	{
 		global $cn;
 		$array=$cn->get_array("
-			select ag_id,ag_ref,
+			select ag_id,ag_ref,ago_id,
 				ag_title
 				from action_gestion
 				join action_gestion_operation using(ag_id)
@@ -1531,9 +1531,7 @@ class Follow_Up
                         $a_tag[$e]['t_id']);
                 echo '<span style="border:1px solid black;margin-right:5px;">';
                 echo $a_tag[$e]['t_tag'];
-                echo '</span>';
-                echo '<span style="background-color:red;text-align:center;border-top:1px solid black; border-right:1px solid black;border-bottom:1px solid black;">';
-                echo HtmlInput::anchor("X", "javascript:void(0)", $js_remove);
+                echo HtmlInput::anchor( " &#x2D5D; ", "javascript:void(0)", $js_remove, ' class="smallbutton " style="padding:0px;display:inline" ');
                 echo '</span>';
                 echo '&nbsp;';
                 echo '&nbsp;';

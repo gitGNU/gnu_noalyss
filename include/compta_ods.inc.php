@@ -61,10 +61,11 @@ if ($g_user->check_jrn($ledger->id) == 'X')
 	NoAccess();
 	exit - 1;
 }
+$p_msg="";
 if (!isset($_POST['summary']) && !isset($_POST['save']))
 {
 	require('operation_ods_new.inc.php');
-	exit();
+	return;
 }
 elseif (isset($_POST['summary']))
 {
@@ -74,10 +75,11 @@ elseif (isset($_POST['summary']))
 	} catch (Exception $e)
 	{
 		echo alert($e->getMessage());
+                $p_msg=$e->getMessage();
 		require('operation_ods_new.inc.php');
 
 	}
-	exit();
+	return;
 }
 elseif (isset($_POST['save']))
 {
@@ -103,8 +105,9 @@ elseif (isset($_POST['save']))
 	{
 		require('operation_ods_new.inc.php');
 		alert($e->getMessage());
+                $p_msg=$e->getMessage();
 	}
-	exit();
+	return;
 }
-exit();
+return;
 

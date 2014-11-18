@@ -561,6 +561,18 @@ class Acc_Operation
                     array($this->jr_id,$p_type,$p_info));
         }
     }
+    
+    function insert_related_action($p_string)
+    {
+        if ($p_string == "") return;
+        $a_action=explode(',',$p_string);
+        for ($i=0;$i<count($a_action);$i++)
+        {
+            $action = new Follow_Up($this->db,$a_action[$i]);
+            $action->operation=$this->jr_id;
+            $action->insert_operation();
+        }
+    }
     static function test_me()
     {
         $_SESSION['g_user']='phpcompta';

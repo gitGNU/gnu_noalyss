@@ -69,7 +69,7 @@ class Acc_Tva
             $this->$idx=$p_value;
         }
         else
-            exit (__FILE__.":".__LINE__.'Erreur attribut inexistant');
+            throw new Exception("Attribut inexistant $p_string");
 
 
     }

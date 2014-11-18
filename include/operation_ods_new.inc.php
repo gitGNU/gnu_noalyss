@@ -40,8 +40,8 @@ $ledger->id = ($ledger->id == -1) ? $first_ledger['jrn_def_id'] : $id_ledger;
 // check if we can write in the ledger
 if ( $g_user->check_jrn($ledger->id)=='X')
 {
-	alert("Vous ne pouvez pas écrire dans ce journal, contacter votre administrateur");
-	exit();
+	alert(_("Vous ne pouvez pas écrire dans ce journal, contacter votre administrateur"));
+	return;
 }
 echo '<div class="content">';
 echo '<div id="predef_form">';
@@ -76,7 +76,7 @@ if ( isset ($_GET['action']) && ! isset($_POST['correct']))
 	}
 }
 
-
+print '<p class="notice">'.$p_msg.'</p>';
 echo '<form method="post"  class="print">';
 echo dossier::hidden();
 echo HtmlInput::request_to_hidden(array('ac'));

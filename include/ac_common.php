@@ -983,7 +983,15 @@ function show_menu($module, $idx)
 				$array=compute_variable($file[0]['me_parameter']);
 				put_global($array);
 			}
-
+                        /*
+                         * Log the file we input to put in the folder test-noalyss for replaying it
+                         */
+                        if (LOGINPUT) {
+                                $file_loginput=fopen($_ENV['TMP'].'/scenario-'.$_SERVER['REQUEST_TIME'].'.php','a+');
+                                fwrite($file_loginput, "include '".$file[0]['me_file']."';");
+                                fwrite($file_loginput,"\n");
+                                fclose($file_loginput);
+                        }
 			// if file is not a plugin, include the file, otherwise
 			// include the plugin launcher
 			if ( $file[0]['me_type'] != 'PL')

@@ -366,7 +366,7 @@ if (isset($_REQUEST['f_id']) && $sa == "vw")
 	echo '</form>';
 	echo '</div>';
 	echo '</div>';
-	exit();
+	return;
     }
     catch (Exception $e)
     {

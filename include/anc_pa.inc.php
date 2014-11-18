@@ -110,7 +110,7 @@ if ( isset($_REQUEST['sa']))
         $new->description=$_POST['pa_description'];
         $new->update();
         $ret='<div class="redcontent">';
-        $ret.='<h2 class="info">Mis &agrave; jour</h2>';
+        $ret.='<h2 class="info">'._('Mis à jour').'</h2>';
         $ret.="</div>";
     }
     // show the form for add a poste
@@ -207,7 +207,7 @@ if ( isset($_REQUEST['sa']))
                 $class="odd";
 
             $ret.="<TR class=\"$class\">";
-            $ret.="<TD >".
+            $ret.="<TD class=\"vert_mtitle\">".
                   '<a style="text-decoration:underline;" href="?ac='.$_REQUEST['ac'].'&sa=po_detail&po_id='.$obj->id.'&pa_id='.$_REQUEST['pa_id'].'&'.
                   $str_dossier.'">'.
                   h($obj->name).
@@ -244,7 +244,7 @@ if ( empty($list)  )
 {
     echo '<div class="lmenu">';
     echo '<TABLE>';
-    echo '<TR><TD class="mtitle">';
+    echo '<TR><TD class="vert_mtitle">';
     echo '<a class="mtitle" href="?ac='.$_REQUEST['ac'].'&sa=add_pa&'.$str_dossier.'">'._("Ajout d'un plan comptable").'</a>';
     echo '</TD></TR>';
     echo '</TABLE>';
@@ -264,11 +264,11 @@ else
     foreach ($list as $line)
     {
         echo '<TR>';
-        echo '<TD >'.
+        echo '<TD class="vert_mtitle">'.
         '<a class="mtitle" href="?ac='.$_REQUEST['ac'].'&sa=pa_detail&pa_id='.$line['id'].'&'.$str_dossier.'">'.
         h($line['name']).
         '</TD>';
-        echo '<td class="mtitle">'.
+        echo '<td class="vert_mtitle">'.
         '<a class="mtitle" href="?ac='.$_REQUEST['ac'].'&sa=list&pa_id='.$line['id'].'&'.$str_dossier.'">'.
         "Activités".
         "</a></td>";
@@ -281,7 +281,7 @@ else
     if ($obj->isAppend()==true )
     {
         echo '<TABLE>';
-        echo '<TR><TD class="mtitle">';
+        echo '<TR><TD class="vert_mtitle">';
         echo '<a class="mtitle" href="?ac='.$_REQUEST['ac'].'&sa=add_pa&'.$str_dossier.'">'._("Ajout d'un plan comptable").'</a>';
         echo '</TD></TR>';
         echo '</TABLE>';

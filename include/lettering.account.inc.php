@@ -114,7 +114,7 @@ echo '<div id="list">';
 if ( isDate($_GET['start']) == null || isDate($_GET['end']) == null )
 {
     echo alert(_('Date malformée, désolé'));
-    exit();
+    return;
 }
 $letter=new Lettering_Account($cn);
 $letter->set_parameter('account',$_GET['acc']);

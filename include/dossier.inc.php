@@ -58,7 +58,7 @@ if ( isset ($_POST["DATABASE"]) )
         echo _('le modele ').domaine.'mod'.$_POST["FMOD_ID"]._(" doit être migré en unicode.");
         echo _('Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu').'</span>';
         echo HtmlInput::button_anchor('Retour','admin_repo.php?action=dossier_mgt');
-        exit();
+        return;
     }
 
     $desc=sql_string($_POST["DESCRIPTION"]);
@@ -344,7 +344,7 @@ if ( $sa == 'remove' )
     {
         echo _('Désolé, vous n\'avez pas coché la case');
         echo HtmlInput::button_anchor('Retour','?action=dossier_mgt');
-        exit();
+        return;
     }
 
     $cn=new Database();
@@ -353,7 +353,7 @@ if ( $sa == 'remove' )
     if ( strlen(trim($name)) == 0 )
     {
         echo "<h2 class=\"error\"> $msg "._('inexistant')."</h2>";
-        exit();
+        return;
     }
     $sql="drop database ".domaine."dossier".sql_string($_REQUEST['d']);
     ob_start();

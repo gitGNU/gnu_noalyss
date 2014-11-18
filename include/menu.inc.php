@@ -46,6 +46,7 @@ if ( isset($_POST['save_plugin']))
 	$plugin->me_description=$me_description;
 	$plugin->me_parameter='plugin_code='.$me_code;
 	$plugin->insert_plugin();
+        $plugin->insert_profile_module();
 }
 /**
  * if post update then we update

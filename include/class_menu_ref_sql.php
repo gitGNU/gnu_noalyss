@@ -44,6 +44,7 @@ class Menu_Ref_SQL extends Noalyss_SQL
                     , "me_parameter" => "me_parameter"
                     , "me_javascript" => "me_javascript"
                     , "me_type" => "me_type"
+                    , 'me_description_etendue'=>'me_description_etendue'
             );
     protected $type=array(
                     "me_code" => "text"
@@ -54,26 +55,12 @@ class Menu_Ref_SQL extends Noalyss_SQL
                     , "me_parameter" => "text"
                     , "me_javascript" => "text"
                     , "me_type" => "text"
+                    ,"me_description_etendue"=>"text"
             );
-    function __construct($p_id=null)
+    function __construct(Database &$p_cn,$p_id=-1)
     {
-        global $cn;
-        parent::__construct($cn,$p_id);
+        parent::__construct($p_cn,$p_id);
     }
-    static function test_me()
-    {
-        $a=new Menu_Ref_sql();
-        $a->setp('me_code','test');
-        $a->insert();
-        $a->setp('me_menu','update');
-        $a->update();
-        $a->delete();
-        $b=$a->collect_objects(' where me_type = $1',array('PR'));
-        echo "size ".count($b);
-        $a->verify();
-        $a->setp('me_code','ACH');
-        $a->load();
-        echo $a->get_info();
-    }
+
 }
 ?>

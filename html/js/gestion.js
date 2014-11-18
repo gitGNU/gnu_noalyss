@@ -79,7 +79,7 @@ function update_document(p_dossier,p_id)
 */
 function remove_operation(p_dossier,p_id)
 {
-	queryString="gDossier="+p_dossier+"&a=rmop&id="+p_id;
+	var queryString="gDossier="+p_dossier+"&a=rmop&id="+p_id;
 	var action=new Ajax.Request (
 		"show_document.php",
 		{

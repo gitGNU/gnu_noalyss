@@ -61,7 +61,17 @@ class Acc_Ledger_Sold extends Acc_Ledger {
 
     public function verify($p_array) {
         global $g_parameter, $g_user;
+        
+        if (is_array($p_array ) == false || empty($p_array))
+                    throw new Exception ("Array empty");
+        
         extract($p_array);
+        
+        /*
+         * Check needed value
+         */
+        check_parameter($p_array,'p_jrn,e_date,e_client');
+
         /* check for a double reload */
         if (isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1', array($mt)) != 0)
             throw new Exception(_('Double Encodage'), 5);
@@ -572,7 +582,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
             echo $e->getTrace();
 
             $this->db->rollback();
-            exit();
+            throw new Exception ($e);
         }
         $this->db->commit();
 
@@ -861,7 +871,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
             $fname = new Fiche($this->db);
             $fname->get_by_qcode(${'e_mp_qcode_' . $e_mp});
             $r.='<h2>' . "Payé par " . ${'e_mp_qcode_' . $e_mp} .
-                    " " . $fname->getName() . '</H2> ' . '<p class="decale">' . _('Déduction acompte ') . h($acompte) . '</p>' .
+                    " " . $fname->getName() . '</h2> ' . '<p class="decale">' . _('Déduction acompte ') . h($acompte) . '</p>' .
                     _('Libellé :') . h($e_comm_paiement) ;
             $r.='<br>';
         }
@@ -918,7 +928,10 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         return $r;
     }
 
-    /* !\brief update the payment
+    /**
+     * @brief update the payment
+     * @deprecated
+     * 
      */
 
     function show_unpaid() {
@@ -1031,8 +1044,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
                 $l_form_per = $period->input();
             } catch (Exception $e) {
                 if ($e->getCode() == 1) {
-                    echo _("Aucune période ouverte");
-                    exit();
+                    throw  Exception( _("Aucune période ouverte") );
                 }
             }
             $label = HtmlInput::infobulle(3);
@@ -1052,7 +1064,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
 
         $wLedger = $this->select_ledger('VEN', 2);
         if ($wLedger == null)
-            exit(_('Pas de journal disponible'));
+            throw  Exception(_('Pas de journal disponible'));
         $wLedger->table = 1;
         $wLedger->javascript = "onChange='update_predef(\"ven\",\"f\",\"".$_REQUEST['ac']."\");$add_js'";
         $wLedger->label = " Journal " . HtmlInput::infobulle(2);

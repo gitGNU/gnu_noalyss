@@ -41,13 +41,14 @@ $bilan=new Acc_Bilan($cn);
 $bilan->get_request_get();
 echo '<div class="content">';
 $exercice=(isset($_GET['exercice']))?$_GET['exercice']:$g_user->get_exercice();
-
+if ( ! isset ($_GET['verif']))
+{
 /*
  * Let you change the exercice
  */
-echo '<fieldset><legend>'._('Choississez un autre exercice').'</legend>';;
+echo '<fieldset><legend>'._('Exercice').'</legend>';;
 echo '<form method="GET">';
-echo 'Choississez un autre exercice :';
+echo _('Choississez un autre exercice');
 $ex=new Exercice($cn);
 $wex=$ex->select('exercice',$exercice,' onchange="submit(this)"');
 echo $wex->input();
@@ -61,16 +62,25 @@ echo '<FORM  METHOD="GET">';
 echo HtmlInput::hidden('type','bilan');
 echo dossier::hidden();
 echo $bilan->display_form ($filter_year);
+echo '<span class="notice"> '._('Attention : si le bilan n\'est pas équilibré.<br> Vérifiez <ul>
+       <li>L\'affectation du résultat est fait</li>
+       <li>Vos comptes actifs ont  un solde débiteur (sauf les comptes dit inversés)</li>
+       <li> les comptes passifs ont un solde créditeur (sauf les comptes dit inversés) </li>
+       </ul>
+       Utilisez la balance des comptes pour vérifier.').' </span>';
 echo HtmlInput::submit('verif',_('Verification comptabilite'));
 echo HtmlInput::get_to_hidden(array('ac','exercice'));
 echo '</FORM>';
-
+}
 
 
 if ( isset($_GET['verif']))
 {
-    echo '<h2> Etape 2 :Impression </h2>';
-
+    $periode=new Periode($cn);
+    $date_from=$periode->first_day($bilan->from);
+    $date_to=$periode->last_day($bilan->to);
+    echo '<h2>'._('Etape 2 :Impression')."   ".$date_from.'-'.$date_to.'</h2>';
+    
     $bilan->get_request_get();
     $bilan->verify();
 
@@ -86,12 +96,7 @@ if ( isset($_GET['verif']))
     echo '</form>';
 
 }
-echo _('<span class="notice"> Attention : si le bilan n\'est pas équilibré.<br> Vérifiez <ul>
-       <li>L\'affectation du résultat est fait</li>
-       <li>Vos comptes actifs ont  un solde débiteur (sauf les comptes dit inversés)</li>
-       <li> les comptes passifs ont un solde créditeur (sauf les comptes dit inversés) </li>
-       </ul>
-       Utilisez la balance des comptes pour vérifier. </span>');
 
+echo '<hr>';
 echo '</div>';
 ?>

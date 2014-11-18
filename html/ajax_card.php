@@ -53,7 +53,7 @@
  * - ref if we want to refresh the window
  *\see fiche fiche::Save constant.php
  */
-define ('ALLOWED',1);
+if ( ! defined('ALLOWED')) define ('ALLOWED',1);
 
 require_once '../include/constant.php';
 require_once('class_database.php');
@@ -94,6 +94,24 @@ $g_user=new User($cn);
 $g_user->check(true);
 $g_user->check_dossier($gDossier,true);
 $html=var_export($_REQUEST,true);
+if ( LOGINPUT)
+    {
+        $file_loginput=fopen($_ENV['TMP'].'/scenario-'.$_SERVER['REQUEST_TIME'].'.php','a+');
+        fwrite ($file_loginput,"<?php \n");
+        fwrite ($file_loginput,'//@description:'.$op."\n");
+        fwrite($file_loginput, '$_GET='.var_export($_GET,true));
+        fwrite($file_loginput,";\n");
+        fwrite($file_loginput, '$_POST='.var_export($_POST,true));
+        fwrite($file_loginput,";\n");
+        fwrite($file_loginput, '$_POST[\'gDossier\']=$gDossierLogInput;');
+        fwrite($file_loginput,"\n");
+        fwrite($file_loginput, '$_GET[\'gDossier\']=$gDossierLogInput;');
+        fwrite($file_loginput,"\n");
+        fwrite($file_loginput,' $_REQUEST=array_merge($_GET,$_POST);');
+        fwrite($file_loginput,"\n");
+        fwrite($file_loginput,"include '".basename(__FILE__)."';\n");
+        fclose($file_loginput);
+    }
 switch($op)
 {
     /* ------------------------------------------------------------ */
@@ -204,7 +222,7 @@ case 'bc':
     /* Before inserting a new card, the type must be selected */
     /* ------------------------------------------------------------ */
 case 'st':
-    $sql="select fd_id,fd_label from fiche_def";
+    $sql="select fd_id,fd_label,fd_description from fiche_def";
     /*  if we filter  thanks the ledger*/
     if ( $ledger != -1 )
     {
@@ -257,7 +275,7 @@ case 'st':
 	}
     $sql.=" ".$where." order by fd_label";
 
-    $array=$cn->make_array($sql);
+    $array=$cn->get_array($sql);
     $html=HtmlInput::title_box(_("Choix de la catégorie"), $ctl);
 
     if ( empty($array))
@@ -269,22 +287,40 @@ case 'st':
     else
     {
         $r='';
-	$r.='<p class="notice" style="padding-left:2em">';
+	$r.='<p  style="padding-left:2em">';
         $r.=_("Choississez la catégorie de fiche à laquelle vous aimeriez ajouter une fiche").'</p>';
-        $isel=new ISelect('fd_id');
-        $isel->value=$array;
+        
 	$r.='<div style="text-align:center">';
-        $r.='<form id="sel_type" method="GET" onsubmit="this.ipopup='.$ctl.';dis_blank_card(this);return false;" >';
+        
+        $msg=_('Choisissez une catégorie svp');
+        $r.='<form id="sel_type" method="GET" onsubmit="this.ipopup='.$ctl.";if ($('fd_id').value != 0 ) {dis_blank_card(this);return false;} else "
+                . "{ $('error_cat').innerHTML='".$msg."'; return false;}\">" ;
+        $r.='<span id="error_cat" class="notice"></span>';
         $r.=dossier::hidden();
         $r.=(isset($ref))?HtmlInput::hidden('ref',1):'';
-
-        $r.=$isel->input();
+        $r.=_('Filtrer').' '.HtmlInput::filter_table("cat_card_table", '0,1', 0);
+        $r.='<table id="cat_card_table" class="result">';
+        for ($i=0;$i<count($array);$i++)
+        {
+            $class=($i%2==0)?' class="even" ':' class="odd" ';
+            $r.='<tr '.$class.' id="select_cat_row_'.$array[$i]['fd_id'].'">';
+            $r.='<td >';
+            $r.='<a href="javascript:void(0)" onclick="select_cat(\''.$array[$i]['fd_id'].'\')">'.h($array[$i]['fd_label']).'</a>';
+            $r.='</td>';
+            $r.='<td>';
+            $r.='<a href="javascript:void(0)" onclick="select_cat(\''.$array[$i]['fd_id'].'\')">'.h($array[$i]['fd_description']).'</a>';
+            $r.='</td>';
+           
+             $r.="</tr>";
+        }
+        $r.='</table>';
+        $r.=HtmlInput::hidden('fd_id',0);
 	$r.='<p>';
         $r.=HtmlInput::submit('st','choix');
 	$r.=HtmlInput::button('Annuler',_('Annuler')," onclick=\"removeDiv('$ctl')\" ");
 	$r.='</p>';
         $r.='</form>';
-	$r.='</div>';
+        $r.='</div>';
         $html.=$r;
 
     }
@@ -404,6 +440,7 @@ case 'ac':
          *
          *----------------------------------------------------------------------*/
         $ipopup=str_replace('_content','',$ctl);
+        $msg="";$base="";
         switch($cat)
         {
         case FICHE_TYPE_CLIENT:
@@ -418,9 +455,13 @@ case 'ac':
             $msg=_(' d\'administration');
             $base='';
             break;
-		case FICHE_TYPE_CONTACT:
-			$msg=_(' de contacts');
-			$base='';
+	case FICHE_TYPE_CONTACT:
+            $msg=_(' de contacts');
+            $base='';
+        case FICHE_TYPE_FIN:
+            $msg=_(' Banque');
+            $base=$cn->get_value("select p_value from parm_code where p_code='BANQUE'");
+         
         }
 
         $html='';
@@ -514,13 +555,15 @@ case 'upc':
 	}
       }
 } // switch
-$html=escape_xml($html);
-
+$xml=escape_xml($html);
+if (DEBUG && headers_sent()) {
+    echo $html;return;
+}
 header('Content-type: text/xml; charset=UTF-8');
 echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
 <ctl>$ctl</ctl>
-<code>$html</code>
+<code>$xml</code>
 </data>
 EOF;

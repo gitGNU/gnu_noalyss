@@ -39,6 +39,7 @@ class IRadio extends HtmlInput
         $check = ( $this->selected == true || $this->selected == 't' ) ? "checked" : "unchecked";
         $r = '<input type="RADIO" name="' . $this->name . '"';
         $r.=" VALUE=\"$this->value\"";
+        $r.=' class="css-checkbox" ';
         $r.=($this->javascript != '') ? 'onclick="' . $this->javascript . '"' : '';
         $r.="  $check > ";
         return $r;

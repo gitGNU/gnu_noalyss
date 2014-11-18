@@ -179,7 +179,7 @@ $exercice=(isset($_GET['exercice']))?$_GET['exercice']:$g_user->get_exercice();
 /*
  * Let you change the exercice
  */
-echo '<fieldset><legend>'._('Choississez un autre exercice').'</legend>';;
+echo '<fieldset><legend>'._('Exercice').'</legend>';;
 echo '<form method="GET">';
 echo 'Choississez un autre exercice :';
 $ex=new Exercice($cn);
@@ -200,13 +200,13 @@ echo 	dossier::hidden();
 echo '<TABLE><TR>';
 $w=new ISelect();
 $w->table=1;
-print td("Choississez le rapport");
+print td(_("Choississez le rapport"));
 print $w->input("form_id",$ret);
 print '</TR>';
 //-- calendrier ou periode comptable
 $aCal=array(
-          array('value'=>0,'label'=>'P&eacute;riode comptable'),
-          array('value'=>1,'label'=>'Calendrier')
+          array('value'=>0,'label'=>_('P&eacute;riode comptable')),
+          array('value'=>1,'label'=>_('Calendrier'))
       );
 
 $w->javascript=' onchange=enable_type_periode();';
@@ -237,31 +237,32 @@ $date_from->id='from_date';
 $date_to=new IDate('to_date');
 $date_to->id='to_date';
 
-echo td("Calendrier depuis :");
+echo td(_("Calendrier depuis :"));
 echo td($date_from->input('from_date'));
-echo td("jusque");
+echo td(_("jusque"));
 echo td($date_to->input('to_date'));
 echo '</tr>';
 
 $aStep=array(
-           array('value'=>0,'label'=>'Pas d\'étape'),
-           array('value'=>1,'label'=>'1 mois')
+           array('value'=>0,'label'=>_('Pas d\'étape')),
+           array('value'=>1,'label'=>_('1 mois'))
        );
 echo '<tr>';
-echo td('Par étape de');
+echo td(_('Par étape de'));
 $w->id='p_step';
 echo $w->input('p_step',$aStep);
 echo '</TR>';
 
 echo '</TABLE>';
-echo '<span class="notice"> Attention : vous ne pouvez pas utiliser les &eacute;tapes avec les dates calendriers.</span>';
+echo '<span class="notice"> '._('Attention : vous ne pouvez pas utiliser les &eacute;tapes avec les dates calendriers.').'</span>';
 echo '<br>';
-echo '<span class="notice"> Les clauses FROM sont ignorés avec les dates calendriers</span>';
+echo '<span class="notice">'._('Les clauses FROM sont ignorés avec les dates calendriers').'</span>';
 echo '<br>';
-print HtmlInput::submit('bt_html','Visualisation');
+print HtmlInput::submit('bt_html',_('Visualisation'));
 
 echo '</FORM>';
 echo '<script>enable_type_periode()</script>';
+echo '<hr>';
 echo '</div>';
 //-----------------------------------------------------
 // Function

@@ -772,9 +772,7 @@ function success_box(req, json)
         g(name_ctl).innerHTML = code_html;
         g(name_ctl).style.height = 'auto';
 
-        if (name_ctl != 'popup')
-            g(name_ctl).style.width = '60%';
-        else
+        if (name_ctl == 'popup')
             g(name_ctl).style.width = 'auto';
     }
     catch (e)
@@ -1373,7 +1371,7 @@ function mod_menu(gdossier, pm_id)
     waiting_box();
     removeDiv('divdm' + pm_id);
     var qs = "op=det_menu&gDossier=" + gdossier + "&pm_id=" + pm_id + "&ctl=divdm" + pm_id;
-    var pos = fixed_position(250, 150);
+    var pos = fixed_position(50, 250);
     var action = new Ajax.Request('ajax_misc.php',
             {
                 method: 'get',
@@ -1575,7 +1573,6 @@ function search_action(dossier, ctl_concern)
         var target = "search_action_div";
         removeDiv(target);
         var str_style = fixed_position(77, 99);
-        str_style += ";width:80%";
 
         var div = {id: target, cssclass: 'inner_box', style: str_style, html: loading(), drag: 1};
 
@@ -1682,7 +1679,7 @@ function stock_repo_change(p_dossier, r_id)
     var queryString = "gDossier=" + p_dossier + "&op=mod_stock_repo" + "&r_id=" + r_id;
     var nTop = calcy(posY);
     var nLeft = "200px";
-    var str_style = "top:" + nTop + "px;left:" + nLeft + ";width:50em;height:auto";
+    var str_style = "top:" + nTop + "px;left:" + nLeft + ";height:auto";
 
     removeDiv('change_stock_repo_div');
     waiting_box();
@@ -1705,7 +1702,7 @@ function stock_inv_detail(p_dossier, p_id)
     var queryString = "gDossier=" + p_dossier + "&op=view_mod_stock" + "&c_id=" + p_id + "&ctl=view_mod_stock_div";
     var nTop = calcy(posY);
     var nLeft = "200px";
-    var str_style = "top:" + nTop + "px;left:" + nLeft + ";width:75%;";
+    var str_style = "top:" + nTop + "px;left:" + nLeft + ";";
 
     removeDiv('view_mod_stock_div');
     waiting_box();
@@ -1894,7 +1891,8 @@ function filter_table(phrase, _id, colnr, start_row) {
         aCol[0] = colnr;
     }
     var ele;
-
+    var tot_found=0;
+    
     for (var r = start_row; r < table.rows.length; r++) {
         var found = 0;
         for (var col = 0; col < aCol.length; col++)
@@ -1911,12 +1909,22 @@ function filter_table(phrase, _id, colnr, start_row) {
 
         }
         if (found === 1) {
+            tot_found++;
             table.rows[r].style.display = '';
         } else {
             table.rows[r].style.display = 'none';
         }
         $('info_div').style.display = "none";
         $('info_div').innerHTML = "";
+    }
+    if (tot_found == 0) {
+        if ($('info_'+_id)) {
+            $('info_'+_id).innerHTML=" Aucun résultat ";
+        }
+    } else {        
+        if ($('info_'+_id)) {
+            $('info_'+_id).innerHTML="  ";
+        }
     }
 }
 /**
@@ -2231,9 +2239,9 @@ function action_tag_select(p_dossier, ag_id)
                         }
                         var code_html = getNodeText(html[0]);
                         code_html = unescape_xml(code_html);
-                        add_div({id: 'tag_div', style: '', cssclass: 'inner_box', drag: 1});
-                        $('tag_div').style.top = (posY - 70)+"px";
-                        $('tag_div').style.left = (posX - 70)+"px";
+                        pos=fixed_position(35,229 );
+                        add_div({id: 'tag_div', style: pos, cssclass: 'inner_box tag', drag: 1});
+                        
                         remove_waiting_box();
                         $('tag_div').innerHTML = code_html;
                     }
@@ -2443,6 +2451,13 @@ function action_show_checkbox()
         a[i].style.display = 'block';
     }
 }
+function action_hide_checkbox()
+{
+    var a = document.getElementsByName('ag_id_td');
+    for (var i = 0; i < a.length; i++) {
+        a[i].style.display = 'none';
+    }
+}
 /**
  * 
  * @param {type} obj
@@ -2542,4 +2557,64 @@ function show_description(p_id)
     $('print_desc'+p_id).hide();
     $('input_desc'+p_id).show();
     
+}
+/**
+ * Hightlight the row we select and restore previous one
+ * @param {type} x
+ * @returns {undefined}
+ */
+var old_class = null;
+var old_select = null;
+
+function select_cat(x)
+{
+    if (old_select != null)
+    {
+        $(old_select).className = old_class;
+    }
+    old_select = $('select_cat_row_' + x);
+    old_class = old_select.className;
+    $(old_select).className = "highlight";
+    $('fd_id').value = x;
+}
+/**
+ * Show the DIV and hide the other, the array of possible DIV are
+ * in a_tabs, 
+ * @param {array} a_tabs name of possible tabs
+ * @param {strng} p_display_tab tab to display
+ */
+function show_tabs(a_tabs,p_display_tab)
+{
+    try 
+    {
+        if ( a_tabs.length == 0 ) trow ('a_tabs in empty');
+        var i=0;
+        for ( i=0;i<a_tabs.length;i++) {
+           if ( console ) console.log(a_tabs[i]);
+            $(a_tabs[i]).hide();
+        }
+       if ( console )console.log(p_display_tab);
+        $(p_display_tab).show();
+    } catch(e) {
+        if ( console )console.log(e.message);
+    }
+    
+}
+/**
+ * Change the class of all the "LI" element of a UL or OL
+ * @param node of ul (this)
+ */
+function unselect_other_tab(p_tab)
+{
+    try {
+        var other = p_tab.getElementsByTagName("li");
+        var i=0;
+        var tab=null;
+        for (i=0;i<other.length;i++) {
+            tab=other[i];
+            tab.className="tabs";
+        }
+    } catch(e) {
+        if ( console ) console.log(e.message);
+    }
 }

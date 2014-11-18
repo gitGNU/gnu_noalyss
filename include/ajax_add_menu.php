@@ -25,7 +25,11 @@
  * @brief show the form to add a menu
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-$type=$_GET['type'];
+$type=HtmlInput::default_value_get('type','XX');
+if ($type == 'XX') {
+     throw new Exception('invalid call');
+    return;
+}
 if ( $type=='me')
 {
 $ame_code_dep=$cn->make_array("

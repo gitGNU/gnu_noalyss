@@ -80,7 +80,7 @@ if ( $request_sa== 'jrn' )
 	if (empty($array) == true)
     {
         echo _("Aucun enregistrement");
-        exit();
+        return;
     }
 
     echo '<table>';

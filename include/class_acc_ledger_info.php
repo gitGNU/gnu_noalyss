@@ -51,7 +51,7 @@ class Acc_Ledger_Info
         {
             echo 'Appel incorrecte '.__FILE__.__LINE__;
             var_dump($this);
-            exit();
+            throw  Exception(_('appel incorrect'));
         }
         try
         {
@@ -75,7 +75,7 @@ class Acc_Ledger_Info
         {
             echo 'Appel incorrecte '.__FILE__.__LINE__;
             var_dump($this);
-            exit();
+            throw  Exception('appel incorrect');
         }
         try
         {
@@ -136,7 +136,7 @@ class Acc_Ledger_Info
         if ( ! isset ($this->jr_id) )
         {
             echo "jr_id is not set ".__FILE__.__LINE__;
-            exit();
+            throw  Exception('Error : jr_id not set');
         }
 
         $sql="select ji_id from jrn_info where jr_id=".$this->jr_id;

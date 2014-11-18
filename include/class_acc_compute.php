@@ -91,7 +91,7 @@ class Acc_Compute
             return $this->$idx;
         }
         else
-            exit (__FILE__.":".__LINE__._('Erreur attribut inexistant'));
+            throw new Exception (__FILE__.":".__LINE__._('Erreur attribut inexistant'));
     }
     public function set_parameter($p_string,$p_value)
     {
@@ -101,7 +101,7 @@ class Acc_Compute
             $this->$idx=$p_value;
         }
         else
-            exit (__FILE__.":".__LINE__._('Erreur attribut inexistant'));
+            throw new Exception (__FILE__.":".__LINE__._('Erreur attribut inexistant'));
 
 
     }
@@ -179,7 +179,8 @@ class Acc_Compute
 
     }
 
-    /*!\brief verify that all the amount are positive or null
+    /**!
+     * \brief verify that all the amount are positive or null
      * otherwise throw a exception and the sum of amount + vat must
      * equal to the sum of all the amount of the current object
      * so you have to copy the object before computing anything and pass

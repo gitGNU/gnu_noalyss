@@ -54,6 +54,7 @@ class Acc_ComputeTest extends PHPUnit_Framework_TestCase
     {
        $result=$data;
        $test=$data;
+       $this->object->get_parameter($test);
        $this->assertEquals($test,$result);
     }
 
@@ -63,6 +64,7 @@ class Acc_ComputeTest extends PHPUnit_Framework_TestCase
      */
     public function testSet_parameter()
     {
+        $this->object->set_parameter("nd_vat_rate",50);
          $this->assertTrue(true,true);
     }
 
@@ -72,6 +74,7 @@ class Acc_ComputeTest extends PHPUnit_Framework_TestCase
      */
     public function testGet_info()
     {
+        $this->object->get_info();
         $this->assertTrue(true,true);
     }
 
@@ -160,7 +163,9 @@ class Acc_ComputeTest extends PHPUnit_Framework_TestCase
      */
     public function testVerify()
     {
-        $this->object->correct();
+        $this->object->verify();
+        $new=new Acc_Compute();
+        $this->object->verify($new);
     }
 
     /**
@@ -179,6 +184,7 @@ class Acc_ComputeTest extends PHPUnit_Framework_TestCase
      */
     public function testTest_me()
     {
+        $this->object->test_me();
         $this->assertTrue(true,true);
     }
 

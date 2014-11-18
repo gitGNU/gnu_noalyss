@@ -239,7 +239,7 @@ class Anc_Table extends Anc_Acc_Link
   function export_csv()
   {
    bcscale(2);
-   if ( $this->check () != 0 ) {echo "DATE INVALIDE";exit();}
+   if ( $this->check () != 0 ) {throw new Exception ( "DATE INVALIDE");}
 
     if ( $this->card_poste=='1')
       {

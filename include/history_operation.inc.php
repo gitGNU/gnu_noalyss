@@ -20,7 +20,8 @@
 
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 
-/**\file
+/**
+ * \file
  *
  *
  * \brief
@@ -33,40 +34,38 @@ require_once 'class_acc_ledger_sold.php';
 require_once 'class_acc_ledger.php';
 global $g_user,$cn;
 $p_array = $_GET;
-if ( isset ($_GET['ledger_type']))
+$ledger_type=HtmlInput::default_value_get("ledger_type", 'ALL');
+switch($ledger_type)
 {
-	$ledger_type=$_GET['ledger_type'];
-	switch($ledger_type)
-	{
-		case 'ACH':
-			$Ledger = new Acc_Ledger_Purchase($cn, 0);
-			$ask_pay=1;
-			break;
-		case 'ODS':
-                        $Ledger=new Acc_Ledger($cn,0);
-			$ask_pay=0;
-                        $p_array['ledger_type']='ODS';
-                        $Ledger->type='ODS';
-			break;
-		case 'ALL':
-			$Ledger=new Acc_Ledger($cn,0);
-			$ask_pay=0;
-                        $p_array['ledger_type']='ALL';
-                        $Ledger->type='ALL';
-			break;
-		case 'VEN':
-			$Ledger=new Acc_Ledger_Sold($cn,0);
-			$ask_pay=1;
-			break;
-		case 'FIN':
-			$Ledger=new Acc_Ledger_Fin($cn,0);
-			$ask_pay=0;
-			break;
+        case 'ACH':
+                $Ledger = new Acc_Ledger_Purchase($cn, 0);
+                $ask_pay=1;
+                break;
+        case 'ODS':
+                $Ledger=new Acc_Ledger($cn,0);
+                $ask_pay=0;
+                $p_array['ledger_type']='ODS';
+                $Ledger->type='ODS';
+                break;
+        case 'ALL':
+                $Ledger=new Acc_Ledger($cn,0);
+                $ask_pay=0;
+                $p_array['ledger_type']='ALL';
+                $Ledger->type='ALL';
+                break;
+        case 'VEN':
+                $Ledger=new Acc_Ledger_Sold($cn,0);
+                $ask_pay=1;
+                break;
+        case 'FIN':
+                $Ledger=new Acc_Ledger_Fin($cn,0);
+                $ask_pay=0;
+                break;
 
-	}
 }
 echo '<div class="content">';
 // Check privilege
+$p_jrn=HtmlInput::default_value_request("p_jrn", -1);
 if (isset($_REQUEST['p_jrn']) &&
 		$g_user->check_jrn($_REQUEST['p_jrn']) == 'X')
 {
@@ -75,13 +74,7 @@ if (isset($_REQUEST['p_jrn']) &&
 	exit - 1;
 }
 
-
-if (!isset($_REQUEST['p_jrn']))
-{
-	$Ledger->id = -1;
-}
-else
-	$Ledger->id = $_REQUEST['p_jrn'];
+$Ledger->id = $p_jrn;
 echo $Ledger->display_search_form();
 //------------------------------
 // UPdate the payment
@@ -101,11 +94,11 @@ if (!isset($p_array['date_start']))
 	list($date_start, $date_end) = $per->get_date_limit();
 	$p_array['date_start'] = $date_start;
 	$p_array['date_end'] = $date_end;
-	$msg='<h2 class="info2">'."Période ".$date_start." au ".$date_end.'</h2>';
+	$msg='<h2 class="info2">'._("Période ").$date_start._(" au ").$date_end.'</h2>';
 }
 else
 {
-	$msg='<h2 class="info2">'."Période ".$_GET['date_start']." au ".$_GET['date_end'].'</h2>';
+	$msg='<h2 class="info2">'._("Période ").$_GET['date_start']._(" au ").$_GET['date_end'].'</h2>';
 
 }
 /*  compute the sql stmt */
@@ -121,7 +114,7 @@ $bar = navigation_bar($offset, $max_line, $step, $page);
 echo $msg;
 echo '<form method="GET" id="fpaida" class="print">';
 echo HtmlInput::hidden("ac", $_REQUEST['ac']);
-echo HtmlInput::hidden('ledger_type',$_REQUEST['ledger_type']);
+echo HtmlInput::hidden('ledger_type',$ledger_type);
 echo dossier::hidden();
 echo $bar;
 
@@ -159,5 +152,5 @@ echo HtmlInput::submit('viewsearch', 'Export vers CSV');
 echo '</form>';
 
 echo '</div>';
-exit();
+return;
 ?>

@@ -146,8 +146,7 @@ class Document
             $res = $zip->open($filename, ZipArchive::CREATE);
             if($res !== TRUE)
 	      {
-		echo __FILE__.":".__LINE__."cannot recreate zip";
-		exit;
+		throw new Exception ( __FILE__.":".__LINE__."cannot recreate zip");
 	      }
 	    $zip->add_recurse_folder($dirname.DIRECTORY_SEPARATOR);
 	    $zip->close();
@@ -197,8 +196,8 @@ class Document
         {
             if ( mkdir($temp_dir) == false )
             {
-                echo "Ne peut pas créer le répertoire ".$temp_dir;
-                exit();
+                $msg=_("Ne peut pas créer le répertoire ".$temp_dir); 
+                throw new Exception($msg);
             }
         }
         // Compute output_name
@@ -208,12 +207,14 @@ class Document
         if (  $h === false )
         {
             echo __FILE__.":".__LINE__."cannot open $p_dir $p_file ";
-            exit();
+            $msg=_("Ne peut pas ouvrir $p_dir $p_file"); 
+            throw new Exception($msg);
         }
         if ( $output_file == false)
         {
-            echo "ne peut pas ouvrir le fichier de sortie";
-            exit();
+            $msg=_("Ne peut pas ouvrir $p_dir $p_file"); 
+            echo $msg;
+            throw new Exception($msg);
         }
         // compute the regex
         if ( $p_type=='OOo')

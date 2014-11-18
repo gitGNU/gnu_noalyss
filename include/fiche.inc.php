@@ -88,7 +88,7 @@ $search_card_js=sprintf('onclick="boxsearch_card(\'%d\')"',dossier::id());
 <div id="box_search_card">
 
 		<?php echo _('Recherche de fiche')?> <?php echo HtmlInput::infobulle(18)?> :<?php echo $search_card->input()?>
-		<?php echo HtmlInput::button_anchor("Chercher","javascript:void(0)","",$search_card_js)?>
+		<?php echo HtmlInput::button_anchor(_("Chercher"),"javascript:void(0)","",$search_card_js,'smallbutton')?>
 </div>
 <?php
 echo '</div>';
@@ -103,7 +103,7 @@ echo '<hr>';
 
 //-----------------------------------------------------
 if (!isset($_GET['cat_display']))
-	exit();
+	return;
 
 $fd_id = $_GET['cat'];
 
@@ -120,10 +120,10 @@ $str_add_card = ($g_user->check_action(FICADD) == 1) ? $h_add_card_b->input() : 
 if ($array == null)
 {
         echo '<div class="content">';
-	echo '<h2 class="info2"> Aucune fiche trouvée</h2>';
+	echo '<h2 class="info2"> '._('Aucune fiche trouvée').'</h2>';
 	echo $str_add_card;
         echo '</div>';
-	exit();
+	return;
 }
 
 $allcard = (isset($_GET['allcard'])) ? 1 : 0;
@@ -218,7 +218,7 @@ if ($_GET['histo'] == -1)
 
 	require_once 'template/fiche_list.php';
 	echo '<hr>'.$bar;
-	exit();
+	return;
 }
 /* * *********************************************************************************************************************************
  * Summary
@@ -241,7 +241,7 @@ if ($_GET['histo'] == 3)
 	$hid->input("fd_id", $_REQUEST['cat']);
 	echo "</form>";
 
-	exit();
+	return;
 }
 $export_pdf = '<FORM METHOD="get" ACTION="export.php" style="display:inline">';
 $export_pdf.=HtmlInput::hidden('cat', $_GET['cat']);
@@ -275,9 +275,9 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 {
 	if (isDate($_REQUEST['start']) == null || isDate($_REQUEST['end']) == null)
 	{
-		echo h2('Date invalide !', 'class="error"');
-		alert('Date invalide !');
-		exit;
+		echo h2(_('Date invalide !'), 'class="error"');
+		alert(_('Date invalide !'));
+		return;
 	}
 	if ( $allcard == 0 ) echo $str_add_card;
 	echo $export_pdf;
@@ -287,8 +287,8 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 	$fd = new Fiche_Def($cn, $_REQUEST['cat']);
 	if ($allcard == 0 && $fd->hasAttribute(ATTR_DEF_ACCOUNT) == false)
 	{
-		echo alert("Cette catégorie n'ayant pas de poste comptable n'a pas de balance");
-		exit;
+		echo alert(_("Cette catégorie n'ayant pas de poste comptable n'a pas de balance"));
+		return;
 	}
 	// all card
 	if ($allcard == 1)
@@ -308,14 +308,14 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 			if ($allcard == 0)
 			{
 				echo _("Aucune fiche trouvée");
-				exit;
+				return;
 			} else
 				continue;
 		}
 		echo '<h2>' . $cn->get_value("select fd_label from fiche_def where fd_id=$1", array($afiche[$e]['fd_id'])) . '</h2>';
-                $id="table_".$afiche[$e]."_id";
+                $id="table_".$afiche[$e]['fd_id']."_id";
                 echo _('Filtre rapide:').HtmlInput::filter_table($id, '0,1,2', '1'); 
-		echo '<table class="sortable" id="'.$id.'" class="result" style="width:80%;margin-left:10%">';
+		echo '<table class="sortable" id="'.$id.'" class="result" >';
 		echo tr(
 				th('Quick Code') .
 				th('Libellé') .
@@ -346,7 +346,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 			echo tr(
 					td(HtmlInput::history_card($oCard->id, $oCard->strAttribut(ATTR_DEF_QUICKCODE))) .
 					td($oCard->strAttribut(ATTR_DEF_NAME)) .
-					td($oCard->strAttribut(ATTR_DEF_ACCOUNT)).
+					td(HtmlInput::history_account($oCard->strAttribut(ATTR_DEF_ACCOUNT),$oCard->strAttribut(ATTR_DEF_ACCOUNT))).
 					td(nbm($solde['debit']), 'class="sorttable_numeric" sorttable_customkey="'.$solde['debit'].'" style="text-align:right"') .
 					td(nbm($solde['credit']), 'class="sorttable_numeric" sorttable_customkey="'.$solde['debit'].'" style="text-align:right"') .
 					td(nbm(abs($solde['solde'])), 'class="sorttable_numeric" sorttable_customkey="'.$solde['solde'].'" style="text-align:right"') .
@@ -364,7 +364,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
                                 td(nbm($sum_deb), 'style="text-align:right"').
                                 td(nbm($sum_cred), 'style="text-align:right"').
                                 td(nbm(abs($sum_solde)), 'style="text-align:right"').
-                                td((($sum_deb < $sum_cred) ? 'CRED' : 'DEB'), 'style="text-align:right"'),"");
+                                td((($sum_deb < $sum_cred) ? 'CRED' : 'DEB'), 'style="text-align:right"'),' class="highlight"');
                 echo '</tfoot>';
 		echo '</table>';
 	}
@@ -373,13 +373,13 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 	echo $export_csv;
 	echo $export_print;
 
-	exit();
+	return;
 }
 if (isDate($_REQUEST['start']) == null || isDate($_REQUEST['end']) == null)
 {
 	echo h2('Date invalide !', 'class="error"');
 	alert('Date invalide !');
-	exit;
+	return;
 }
 /***********************************************************************************************************************************
  * Lettering
@@ -433,11 +433,13 @@ for ($e = 0; $e < count($afiche); $e++)
 		/* skip if nothing to display */
 		if (count($letter->content) == 0)
 			continue;
-		$detail_card = HtmlInput::card_detail($row->strAttribut(ATTR_DEF_QUICKCODE), $row->strAttribut(ATTR_DEF_NAME))."poste :".$row->strAttribut(ATTR_DEF_ACCOUNT).HtmlInput::infobulle(27);
+		$detail_card = HtmlInput::card_detail($row->strAttribut(ATTR_DEF_QUICKCODE), $row->strAttribut(ATTR_DEF_NAME));
 
-		echo '<h2 style="font-size:14px;text-align:left;margin-left:10px;padding-left:50px;border:solid 1px blue;width:70%;text-decoration:underline">' . $detail_card . '</h2>';
+		echo '<h2>' . $detail_card ;
+                echo "poste "
+                        . ":".HtmlInput::history_account($row->strAttribut(ATTR_DEF_ACCOUNT),$row->strAttribut(ATTR_DEF_ACCOUNT),'display:inline').HtmlInput::infobulle(27).'</h2>';
 
-		echo '<table style="width:90%;padding-left:5%;padding-right:5%">';
+		echo '<table class="result">';
 		echo '<tr>';
 		echo th(_('Date'));
 		echo th(_('ref'));

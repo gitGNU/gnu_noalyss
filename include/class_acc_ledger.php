@@ -131,6 +131,8 @@ class Acc_Ledger extends jrn_def_sql
 	 * - letter
 	 * - reconciliation
 	 * @bug the attached document is not deleted
+         * @bug Normally it should be named delete_operation, cause the id is the ledger_id
+         * (jrn_def_id) and not the operation id
 	 */
 	function delete()
 	{
@@ -175,6 +177,8 @@ class Acc_Ledger extends jrn_def_sql
 	 * @exception if date is invalid or other prob
 	 * @note automatically create a reconciliation between operation
 	 * You must set the ledger_id $this->jrn_def_id
+         * This function should be in operation or call an acc_operation object
+         * 
 	 */
 	function reverse($p_date)
 	{
@@ -596,7 +600,7 @@ class Acc_Ledger extends jrn_def_sql
 	 * @param$sql is the sql stmt, normally created by build_search_sql
 	 * @param$offset the offset
 	 * @param$p_paid if we want to see info about payment
-	  \code
+	  @code
 	  // Example
 	  // Build the sql
 	  list($sql,$where)=$Ledger->build_search_sql($_GET);
@@ -614,12 +618,12 @@ class Acc_Ledger extends jrn_def_sql
 	  // show nav bar
 	  echo $bar;
 
-	  \endcode
-	 * \see build_search_sql
-	 * \see display_search_form
-	 * \see search_form
+	  @endcode
+	 * @see build_search_sql
+	 * @see display_search_form
+	 * @see search_form
 
-	 * \return HTML string
+	 * @return HTML string
 	 */
 
 	public function list_operation_to_reconcile($sql)
@@ -851,8 +855,8 @@ class Acc_Ledger extends jrn_def_sql
 			$r.=th('Journal');
 		}
 		$r.='<th>' . $table->get_header(0) . '</th>';
-		$r.='<th>' . $table->get_header(1) . '</td>';
-		$r.='<th>' . $table->get_header(2) . '</th>';
+		if ($p_paid != 0 ) $r.='<th>' . $table->get_header(1) . '</td>';
+		if ($p_paid != 0 ) $r.='<th>' . $table->get_header(2) . '</th>';
 		$r.='<th>' . $table->get_header(3) . '</th>';
 		$r.='<th>' . $table->get_header(4) . '</th>';
 		$r.='<th>' . $table->get_header(6) . '</th>';
@@ -898,12 +902,15 @@ class Acc_Ledger extends jrn_def_sql
 			$r.=$row['str_jr_date'];
 			$r.="</TD>";
 			// echeance
-			$r.="<TD>";
-			$r.=$row['str_jr_ech'];
-			$r.="</TD>";
-			$r.="<TD>";
-			$r.=$row['str_jr_date_paid'];
-			$r.="</TD>";
+			if ($p_paid != 0 )
+                        {
+                            $r.="<TD>";
+                            $r.=$row['str_jr_ech'];
+                            $r.="</TD>";
+                            $r.="<TD>";
+                            $r.=$row['str_jr_date_paid'];
+                            $r.="</TD>";
+                        }
 
 			// pj
 			$r.="<TD>";
@@ -1552,7 +1559,7 @@ class Acc_Ledger extends jrn_def_sql
 	 * @brief Show the form to encode your operation
 	 * @param$p_array if you correct or use a predef operation (default = null)
 	 * @param$p_readonly 1 for readonly 0 for writable (default 0)
-	 *
+	 *@exception if ledger not found
 	 * \return a string containing the form
 	 */
 
@@ -1588,7 +1595,7 @@ class Acc_Ledger extends jrn_def_sql
 		}
 		$wLedger = $this->select_ledger('ODS', 2);
 		if ($wLedger == null)
-			exit(_('Pas de journal disponible'));
+			throw new Exception(_('Pas de journal disponible'));
 		$wLedger->javascript = "onChange='update_name();update_predef(\"ods\",\"t\",\"".$_REQUEST['ac']."\");$add_js'";
 		$label = " Journal " . HtmlInput::infobulle(2);
 
@@ -1815,6 +1822,13 @@ class Acc_Ledger extends jrn_def_sql
 
 	function verify($p_array)
 	{
+            if (is_array($p_array ) == false || empty($p_array))
+                    throw new Exception ("Array empty");
+        /*
+         * Check needed value
+         */
+        check_parameter($p_array,'p_jrn,e_date');
+        
 		extract($p_array);
 		global $g_user;
 		$tot_cred = 0;
@@ -2194,7 +2208,7 @@ class Acc_Ledger extends jrn_def_sql
 	function update_internal_code($p_internal)
 	{
 		if (!isset($this->grpt_id))
-			exit('ERREUR ' . __FILE__ . ":" . __LINE__);
+			throw new Exception(('ERREUR ' . __FILE__ . ":" . __LINE__));
 		$Res = $this->db->exec_sql("update jrn set jr_internal='" . $p_internal . "' where " .
 				" jr_grpt_id = " . $this->grpt_id);
 	}
@@ -2349,7 +2363,7 @@ class Acc_Ledger extends jrn_def_sql
 			return true;
 		if ($g_parameter->MY_STRICT == 'N')
 			return false;
-		exit("Valeur invalid " . __FILE__ . ':' . __LINE__);
+		throw  Exception("Valeur invalid " . __FILE__ . ':' . __LINE__);
 	}
 
 	/**
@@ -2365,7 +2379,7 @@ class Acc_Ledger extends jrn_def_sql
 			return true;
 		if ($g_parameter->MY_CHECK_PERIODE == 'N')
 			return false;
-		exit("Valeur invalid " . __FILE__ . ':' . __LINE__);
+		throw  Exception("Valeur invalid " . __FILE__ . ':' . __LINE__);
 	}
 
 	/**
@@ -2930,7 +2944,6 @@ class Acc_Ledger extends jrn_def_sql
 		$button->javascript = "toggleHideShow('search_form','tfs');";
 
 		$r.=$button->input();
-		$r.='<hr>';
 		return $r;
 	}
 
@@ -3201,7 +3214,7 @@ class Acc_Ledger extends jrn_def_sql
 					echo $op->show_button();
 				}
 				echo '</form>';
-				exit();
+				exit('test_me');
 			}
 
 			if (isset($_POST['post_id']))
@@ -3212,7 +3225,7 @@ class Acc_Ledger extends jrn_def_sql
 				echo HtmlInput::button('add', 'Ajout d\'une ligne', 'onClick="quick_writing_add_row()"');
 				echo HtmlInput::submit('save_it', "Sauver");
 				echo '</form>';
-				exit();
+				exit('test_me');
 			}
 			if (isset($_POST['save_it']))
 			{
@@ -3232,7 +3245,7 @@ class Acc_Ledger extends jrn_def_sql
 					echo HtmlInput::submit('post_id', 'Try me');
 					echo '</form>';
 				}
-				exit();
+				return;
 			}
 			// The GET at the end because automatically repost when you don't
 			// specify the url in the METHOD field
@@ -3249,7 +3262,7 @@ class Acc_Ledger extends jrn_def_sql
 				echo $a->show_form($p_post);
 				echo HtmlInput::submit('post_id', 'Use predefined operation');
 				echo '</form>';
-				exit();
+				return;
 			}
 		}// if case = ''
 		///////////////////////////////////////////////////////////////////////////
@@ -3346,7 +3359,7 @@ class Acc_Ledger extends jrn_def_sql
 
 		$r = "";
 		$r.='<TABLE>';
-		$r.='<TR><TD class="mtitle"><A class="mtitle" HREF="' . $base_url . '&sa=add">' . _('Création') . ' </A></TD></TR>';
+		$r.='<TR><TD class="vert_mtitle"><A class="mtitle" HREF="' . $base_url . '&sa=add">' . _('Création') . ' </A></TD></TR>';
 		$ret = $this->db->exec_sql("select distinct jrn_def_id,jrn_def_name,
                        jrn_def_class_deb,jrn_def_class_cred,jrn_def_type
                        from jrn_def order by jrn_def_name");
@@ -3357,7 +3370,7 @@ class Acc_Ledger extends jrn_def_sql
 		{
 			$l_line = Database::fetch_array($ret, $i);
 			$url = $base_url . "&sa=detail&p_jrn=" . $l_line['jrn_def_id'];
-			$r.=sprintf('<TR><TD class="mtitle"><A class="mtitle" HREF="%s">%s</A></TD></TR>', $url, h($l_line['jrn_def_name']));
+			$r.=sprintf('<TR><TD class="vert_mtitle"><A class="mtitle" HREF="%s">%s</A></TD></TR>', $url, h($l_line['jrn_def_name']));
 		}
 		$r.= "</TABLE>";
 		return $r;

@@ -31,7 +31,7 @@ $rep = new Database();
 if (!isset($_REQUEST['use_id']))
 {
     html_page_stop();
-    exit();
+    return;
 }
 $uid = $_REQUEST['use_id'];
 $UserChange = new User($rep, $uid);
@@ -210,7 +210,7 @@ if (empty($Dossier))
 {
     echo hb('* Aucun Dossier *');
     echo '</div>';
-    exit();
+    return;
 }
 
 $mod_user = new User(new Database(), $uid);

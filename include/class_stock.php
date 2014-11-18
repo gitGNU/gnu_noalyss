@@ -26,7 +26,7 @@
  *
  *
  */
-require 'class_stock_sql.php';
+require_once 'class_stock_sql.php';
 
 class Stock extends Stock_Sql
 {
@@ -328,8 +328,9 @@ class Stock extends Stock_Sql
 					sg_type='c'
 					and j_id is null
 					 and r_id  in (select r_id from profile_sec_repository where p_id=$1)
-					and sg_date  <= to_date($2,'DD.MM.YYYY')
-					group by r_id,trim(sg_code),f_id
+                                        and sg_date >= ( select min(p_start) from parm_periode where p_exercice=$2)
+					and sg_date <= ( select max(p_end) from parm_periode where p_exercice=$2)					
+                                        group by r_id,trim(sg_code),f_id
 			";
 		$cn->exec_sql($sql_repo_detail, array($g_user->get_profile(), $periode->p_exercice));
 		return $tmp_id;

@@ -48,9 +48,9 @@ class IConcerned extends HtmlInput
 
 
         $r=sprintf("
-                   <INPUT TYPE=\"button\" onClick=\"search_reconcile(".dossier::id().",'%s','%s','%s')\" value=\"?\">
+                   <INPUT TYPE=\"button\" class=\"smallbutton\" onClick=\"search_reconcile(".dossier::id().",'%s','%s','%s')\" value=\"?\">
                    <INPUT TYPE=\"text\"  style=\"color:black;background:lightyellow;border:solid 1px grey;\"  NAME=\"%s\" ID=\"%s\" VALUE=\"%s\" SIZE=\"8\" readonly>
-				   <INPUT TYPE=\"button\" onClick=\"$('%s').value=''\" value=\"X\">
+				   <INPUT class=\"smallbutton\"  TYPE=\"button\" onClick=\"$('%s').value=''\" value=\"X\">
 
                    ",
                    $this->name,

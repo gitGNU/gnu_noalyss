@@ -61,6 +61,14 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
     public function verify($p_array)
     {
         global $g_parameter,$g_user;
+        
+        if (is_array($p_array ) == false || empty($p_array))
+                    throw new Exception ("Array empty");
+        /*
+         * Check needed value
+         */
+        check_parameter($p_array,'p_jrn,e_date,e_client');
+
         extract ($p_array);
         /* check if we can write into this ledger */
         if ( $g_user->check_jrn($p_jrn) != 'W' )
@@ -900,7 +908,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $e->getMessage().$e->getTraceAsString();
 
             $this->db->rollback();
-            exit();
+            throw  new Exception($e);
         }
         $this->db->commit();
         return $internal;
@@ -1006,8 +1014,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             {
                 if ($e->getCode() == 1 )
                 {
-                    echo _("Aucune période ouverte");
-                    exit();
+                    throw  Exception( _("Aucune période ouverte"));
                 }
             }
 
@@ -1032,7 +1039,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 		$add_js.='update_row("sold_item");';
 
 		$wLedger=$this->select_ledger('ACH',2);
-        if ($wLedger == null) exit (_('Pas de journal disponible'));
+        if ($wLedger == null) throw  Exception(_('Pas de journal disponible'));
         $wLedger->javascript="onChange='update_predef(\"ach\",\"f\",\"".$_REQUEST['ac']."\");$add_js'";
         $wLedger->table=1;
         $f_jrn=$wLedger->input();
@@ -1605,7 +1612,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 					'<p>'._('Déduction acompte ').h($acompte).'</p>'.
 					_('Libellé :' ).h($e_comm_paiement).'</div>';*/
             $r.='<h2>' . "Payé par " . ${'e_mp_qcode_' . $e_mp} .
-                    " " . $fname->getName() . '</H2> ' . '<p class="decale">' . _('Déduction acompte ') . h($acompte) . '</p>' .
+                    " " . $fname->getName() . '</h2> ' . '<p class="decale">' . _('Déduction acompte ') . h($acompte) . '</p>' .
                     _('Libellé :') . h($e_comm_paiement) ;
             $r.='<br>';
             $r.='<br>';
@@ -1653,9 +1660,12 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
     }
 
 
-    /*!\brief update the payment
+    /**
+     * @brief update the payment
+     * @todo to remove, obsolete
+     * @deprecated
      */
-    function show_unpaid()
+    function show_unpaid_deprecated()
     {
         // Show list of unpaid sell
         // Date - date of payment - Customer - amount
@@ -1666,9 +1676,9 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 
 
         $sql=SQL_LIST_UNPAID_INVOICE_DATE_LIMIT." and jr_def_id=".$this->id ;
-        list($max_line,$list)=ListJrn($this->db,$sql,null,$offset,1);
+        list($max_line,$list)=$this->list_operation($sql,null,$offset,1);
         $sql=SQL_LIST_UNPAID_INVOICE." and jr_def_id=".$this->id ;
-        list($max_line2,$list2)=ListJrn($this->db,$sql,null,$offset,1);
+        list($max_line2,$list2)=$this->list_operation($sql,null,$offset,1);
 
         // Get the max line
         $m=($max_line2>$max_line)?$max_line2:$max_line;

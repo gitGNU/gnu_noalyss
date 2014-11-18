@@ -61,7 +61,7 @@ if ( isset($_REQUEST['det']))
 {
     require_once("user_detail.inc.php");
 
-    exit();
+    return;
 }
 ?>
 

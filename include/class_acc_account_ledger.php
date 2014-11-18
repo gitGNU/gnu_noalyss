@@ -283,7 +283,7 @@ class Acc_Account_Ledger
 
         return array('debit'=>$r['sum_deb'],
                      'credit'=>$r['sum_cred'],
-                     'solde'=>abs($r['sum_deb']-$r['sum_cred']));
+                     'solde'=>abs(bcsub($r['sum_deb'],$r['sum_cred'])));
     }
     /*!
      * \brief isTva tell is a poste is used for VAT
@@ -464,7 +464,6 @@ class Acc_Account_Ledger
 	  break;
 	default:
 	  throw new Exception(" Fonction HtmlTableHeader argument actiontarget invalid");
-	  exit;
 	}
         $hid=new IHidden();
 
@@ -652,6 +651,7 @@ class Acc_Account_Ledger
         $cn=new Database(dossier::id());
         $a=new Acc_Account_Ledger($cn,550);
         echo ' Journal 4 '.$a->belong_ledger(4);
+        return $a->belong_ledger(4);;
 
     }
 }

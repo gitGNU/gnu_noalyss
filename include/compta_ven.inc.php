@@ -36,7 +36,7 @@ $cn=new Database(dossier::id());
 $str_dossier=dossier::get();
 $ac="ac=".$_REQUEST['ac'];
 global $g_parameter;
-
+$p_msg="";
 //----------------------------------------------------------------------
 // Encode a new invoice
 // empty form for encoding
@@ -64,14 +64,15 @@ global $g_parameter;
         catch (Exception $e)
         {
             alert($e->getMessage());
+            $p_msg=$e->getMessage();
             $correct=1;
         }
         // if correct is not set it means it is correct
         if ( ! isset($correct))
         {
             echo '<div class="content">';
-            echo h1('Confirmation','');
-            echo_warning("Attention, cette opération n'est pas encore sauvée : vous devez encore confirmer");
+            echo h1(_("Confirmation"),'');
+            echo_warning(_("Attention, cette opération n'est pas encore sauvée : vous devez encore confirmer"));
 
 
             echo '<form class="print" enctype="multipart/form-data" method="post">';
@@ -88,7 +89,7 @@ global $g_parameter;
             echo '</form>';
 
             echo '</div>';
-            exit();
+            return;
         }
     }
     //------------------------------
@@ -148,7 +149,7 @@ global $g_parameter;
 
 
             echo '</div>';
-            exit();
+            return;
         }
     }
     //  ------------------------------
@@ -187,6 +188,7 @@ echo '<div class="content">';
     echo '</div>';
 
    echo '<div class="content">';
+   echo '<p class="notice">'.$p_msg.'</p>';
  echo "<FORM class=\"print\" NAME=\"form_detail\" METHOD=\"POST\" >";
     /* request for a predefined operation */
     if (  isset($_REQUEST['pre_def']) && ! isset($_POST['correct']) )
@@ -234,6 +236,8 @@ echo '<div class="content">';
         echo '</script>';
     }
     echo '<div class="content">';
+
+
     echo HtmlInput::button('act',_('Actualiser'),'onClick="compute_all_ledger();"');
     echo HtmlInput::submit("view_invoice",_("Enregistrer"));
     echo HtmlInput::reset(_('Effacer '));
@@ -250,5 +254,5 @@ echo '<div class="content">';
 		echo create_script(" get_last_date()");
 	}
 echo create_script(" update_name()");	
-exit();
+return;
 ?>

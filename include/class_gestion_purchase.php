@@ -52,7 +52,7 @@ class gestion_purchase extends gestion_table
     function get_list()
     {
         if ($this->qp_internal=="")
-            exit (__FILE__.__LINE__." qs_internal est vide");
+            throw  new Exception(__FILE__.__LINE__." qs_internal est vide");
         $sql="select  qp_id,
              qp_internal,
              qp_fiche,

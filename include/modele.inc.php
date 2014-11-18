@@ -70,7 +70,7 @@ if (isset($_POST["FMOD_NAME"]))
 		echo '<span class="error"> Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu</span>';
 
 		echo HtmlInput::button_anchor('Retour', 'admin_repo.php?action=dossier_mgt');
-		exit();
+		return;
 	}
 
 	$mod_name = sql_string($_POST["FMOD_NAME"]);
@@ -387,7 +387,7 @@ if ($sa == 'add')
 		{
 			echo('Désolé, vous n\'avez pas coché la case');
 			echo HtmlInput::button_anchor('Retour', '?action=modele_mgt');
-			exit();
+			return;
 		}
 
 		$cn = new Database();
@@ -396,7 +396,7 @@ if ($sa == 'add')
 		if (strlen(trim($name)) == 0)
 		{
 			echo "<h2 class=\"error\"> $msg inexistant</h2>";
-			exit();
+			return;
 		}
 		$sql = "drop database " . domaine . "mod" . sql_string($_REQUEST['m']);
 		ob_start();

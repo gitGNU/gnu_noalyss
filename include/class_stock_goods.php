@@ -71,7 +71,7 @@ class Stock_Goods extends Stock_Goods_Sql
 		if (count($idepo->value) == 0)
 		{
 			NoAccess();
-			exit();
+			die();
 		}
 		$idepo->selected = $p_depot;
                 if ($p_readonly ) {

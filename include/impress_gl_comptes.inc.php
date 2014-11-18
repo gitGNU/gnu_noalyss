@@ -147,7 +147,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
     if ( isDate($_REQUEST['from_periode'])==null || isDate($_REQUEST['to_periode'])==null)
     {
         echo alert('Date malformée, désolée');
-        exit();
+        return;
     }
     echo '<div class="content">';
 

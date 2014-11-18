@@ -81,9 +81,9 @@ echo '<div class="content">';
  * Let you change the exercice
  */
 echo '<form method="GET">';
-echo '<fieldset><legend>' . _('Choississez un autre exercice') . '</legend>';
+echo '<fieldset><legend>' . _('Exercice') . '</legend>';
 ;
-echo 'Choississez un autre exercice :';
+echo _('Choississez un autre exercice').' :';
 $ex = new Exercice($cn);
 $wex = $ex->select('exercice', $exercice, ' onchange="submit(this)"');
 echo $wex->input();
@@ -135,7 +135,7 @@ echo '</TABLE>';
 print HtmlInput::submit('bt_html', 'Visualisation');
 
 echo '</FORM>';
-
+echo '<hr>';
 
 
 //-----------------------------------------------------

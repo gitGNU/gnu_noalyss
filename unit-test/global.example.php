@@ -16,27 +16,18 @@
  *   You should have received a copy of the GNU General Public License
  *   along with NOALYSS; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
-/* $Revision$ */
+*/
 
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 
-/**\file
- *
- *
- * \brief
- *
+/*
+ * Global variables
  */
-?>
-<div style="float:right;height:10px;display:block;margin-top:2px;margin-right:2px">
-<?php 
-   if ($div == "search_op") {
-     $callback=$_SERVER['PHP_SELF'];
-     $str="recherche.php?".Dossier::get().'&ac=SEARCH';
-     echo '<A id="close_div" HREF="javascript:void(0)" onclick="removeDiv(\''.$div.'\');">'._("Fermer").'</A>';
-   }
-?>
-</div>
-<div>
-	<?php echo h2info(_('Recherche'))?>
-</div>
+global $g_connection,$g_parameter,$g_user;
+$_REQUEST['gDossier'] = DOSSIER;
+$g_connection=new Database(DOSSIER);
+$g_parameter = new Own($g_connection);
+$_SESSION['g_user']='phpcompta';
+$_SESSION['g_pass']='dany';
+$_SESSION['g_pagesize']='50';
+$g_user=new User($g_connection);

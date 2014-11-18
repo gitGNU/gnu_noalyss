@@ -70,7 +70,6 @@ class Acc_Payment
         else
 		{
 			throw new Exception("Attribut inexistant $p_string");
-            exit (__FILE__.":".__LINE__.'Erreur attribut inexistant');
 		}
     }
     public function set_parameter($p_string,$p_value)
@@ -81,7 +80,7 @@ class Acc_Payment
             $this->$idx=$p_value;
         }
         else
-            exit (__FILE__.":".__LINE__.'Erreur attribut inexistant');
+            throw new Exception("Attribut inexistant $p_string");
 
 
     }

@@ -43,7 +43,7 @@ if ( isset($_POST['add_line']))
      $fiche_def->InsertAttribut($_REQUEST['ad_id']);
      echo $fiche_def->input_detail();
 	 echo $retour;
-	 exit();
+	 return;
 }
 /*******************************************************************************************/
 // Remove an attribut
@@ -55,28 +55,35 @@ if ( isset ($_POST['remove_line']))
 	$fiche_def->RemoveAttribut($_REQUEST['chk_remove']);
     echo $fiche_def->input_detail();
 	echo $retour;
-	exit();
+	return;
 }
 /*******************************************************************************************/
 // Try to remove a category
 /*******************************************************************************************/
 if ( isset ($_POST['remove_cat']))
 {
-	$fd_id=new Fiche_Def($cn,$_POST['fd_id']);
-    $remains=$fd_id->remove();
-    if ( $remains != 0 )
-        /* some card are not removed because it is used */
-        alert(_('Impossible d\'enlever cette catégorie, certaines fiches sont encore utilisées'."\n".
-              'Les fiches non utilisées ont cependant été effacées'));
+    $post_id=HtmlInput::default_value_post('fd_id', 0);
+    if ($post_id == 0 || $post_id >= 500000)
+    {
+        alert(_('Impossible d\'enlever cette catégorie'));
+    } else {
+        $fd_id=new Fiche_Def($cn,$post_id);
+        $remains=$fd_id->remove();
+        if ( $remains != 0 ) {
+            /* some card are not removed because it is used */
+            alert(_('Impossible d\'enlever cette catégorie, certaines fiches sont encore utilisées'."\n".
+                  'Les fiches non utilisées ont cependant été effacées'));
+        }
+    }
 }
 /*******************************************************************************************/
 // Change some basis info
 /*******************************************************************************************/
 if ( isset ($_POST['change_name']))
 {
-	 if (isset ($_REQUEST['label']) )
+    if (isset ($_REQUEST['label']) )
     {
-		 $fiche_def=new Fiche_Def($cn,$_REQUEST['fd_id']);
+	$fiche_def=new Fiche_Def($cn,$_REQUEST['fd_id']);
         $fiche_def->SaveLabel($_REQUEST['label']);
         if ( isset($_REQUEST['create']))
         {
@@ -87,12 +94,12 @@ if ( isset ($_POST['change_name']))
             $fiche_def->set_autocreate(false);
         }
         $fiche_def->save_class_base($_REQUEST['class_base']);
-		$fiche_def->save_description($_REQUEST['fd_description']);
+	$fiche_def->save_description($_REQUEST['fd_description']);
 
     }
 	echo $fiche_def->input_detail();
 	echo $retour;
-	exit();
+	return;
 }
 /*******************************************************************************************/
 // Save order of the attributes
@@ -103,7 +110,7 @@ if ( isset($_POST['save_line']))
     $fiche_def->save_order($_POST);
 	echo $fiche_def->input_detail();
 	echo $retour;
-	exit();
+	return;
 }
 /*******************************************************************************************/
 // Save a new category of card
@@ -119,13 +126,13 @@ if ( isset($_POST['add_modele']))
 		{
 			echo $fiche_def->input_detail();
 			echo $retour;
-			exit();
+			return;
 		}
 		else
 		{
 			$fiche_def->input_new();
 			echo $retour;
-			exit();
+			return;
 		}
 	}
 	else

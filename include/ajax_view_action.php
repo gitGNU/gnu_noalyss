@@ -41,6 +41,7 @@ if ($g_user->can_write_action($ag_id) == true || $g_user->can_read_action($ag_id
 	//$action=HtmlInput::array_to_string(array("gDossier","ag_id"), $_GET)."&ac=FOLLOW&sa=detail";
         $action=  "do.php?".http_build_query(array("gDossier"=>Dossier::id(),"ag_id"=>$ag_id,"ac"=>$menu->get('code_follow'),"sa"=>"detail"));
 	if ( $_GET['mod']== 1) :
+            $forbidden=_("Accès interdit : vous n'avez pas accès à cette information, contactez votre responsable");
 	?>
 <a href="<?php echo $action?>" target="_blank" class="smallbutton"><?php echo _("Modifier")?> </a>
     <?php 
@@ -51,7 +52,7 @@ else
 	echo h2(_("Ce document n'est pas accessible"),"error");
 	?>
 	<div style="margin:0px;padding:0px;background-color:red;text-align:center;">
-<h2 class="error">Accès interdit : vous n'avez pas accès à cette information, contactez votre responsable</h2>;
+        <h2 class="error"><?php echo $forbidden ?></h2>;
 </div>
 	<?php 
 }

@@ -52,7 +52,7 @@ if ( isset ($_POST['other_action_bt'])) {
             case 'IMP':
                 //Impression
                 Follow_Up::action_print($cn,$_POST);
-                exit(0);
+                return;
                 break;
             case 'ST':
                 // Etat
@@ -124,7 +124,7 @@ if ($sub_action == "update")
 			echo '<div class="redcontent">';
 			echo '<h2 class="error">'._('Cette action ne vous est pas autorisée Contactez votre responsable').'</h2>';
 			echo '</div>';
-			exit();
+			return;
 		}
 		$sub_action = "detail";
 		put_global(array(array('key' => "sa", "value" => "detail")));
@@ -195,7 +195,7 @@ if ($sub_action == 'detail')
 	else
 	{
 		echo h2info(_("Ce document n'est pas accessible"));
-		exit();
+		return;
 	}
 
 
@@ -216,7 +216,7 @@ if ($sub_action == 'delete')
 	Follow_Up::show_action_list($cn, $base);
 	if (isset($act->ag_ref))
 		echo hb(_('Action ') . $act->ag_ref . _(' effacée'));
-	exit();
+	return;
 }
 
 //--------------------------------------------------------------------------------

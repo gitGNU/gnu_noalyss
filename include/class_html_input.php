@@ -700,10 +700,18 @@ class HtmlInput
 		}
 		return $_REQUEST[$ind];
 	}
-	static function title_box($name,$div,$mod="close")
+        /**
+         * Title for boxes
+         * @param type $name Title
+         * @param type $div element id
+         * @param type $mod hide or close
+         * @param type $p_js if $mod is hide then you can add a javascript
+         * @return type
+         */
+	static function title_box($name,$div,$mod="close",$p_js="")
 	{
 		if ($mod=='close')		$r=HtmlInput::anchor_close($div);
-		if ($mod=='hide')		$r=HtmlInput::anchor_hide(_('Fermer'),"$('$div').hide()");
+		if ($mod=='hide')		$r=HtmlInput::anchor_hide(_('Fermer'),"$('$div').hide();$p_js");
                 if ( $mod == 'none')    $r="";
 		$r.=h2($name,' class="title" ');
 		return $r;
@@ -716,8 +724,9 @@ class HtmlInput
          * @param string $p_text text of the anchor
          * @param string $p_url  url
          * @param string $p_js javascript
+         * @param string $p_style is the visuable effect (class, style...)
          */
-      static function anchor($p_text,$p_url="",$p_js="")
+      static function anchor($p_text,$p_url="",$p_js="",$p_style=' class="line" ')
       {
           if ($p_js != "")
           {
@@ -725,8 +734,8 @@ class HtmlInput
           }
 
 
-          $str=sprintf('<a class="line" href="%s" %s>%s</a>',
-                  $p_url,$p_js,$p_text);
+          $str=sprintf('<a %s href="%s" %s>%s</a>',
+                  $p_style,$p_url,$p_js,$p_text);
           return $str;
       }
       /**
@@ -778,6 +787,7 @@ class HtmlInput
 			<input type=\"button\" class=\"smallbutton\" onclick=\"$('lk_".$p_table_id."').value='';filter_table($('lk_".$p_table_id."'), '$p_table_id','$p_col',$start_row );\" value=\"X\">
 			</span>
 			";
+                $r.=' <span class="notice" id="info_'.$p_table_id.'"></span>';
 		return $r;
 	}
 
@@ -859,5 +869,16 @@ class HtmlInput
             return $r;
             
         }
-
+        /**
+         * 
+         * @param type $p_operation_jr_id action_gestion_operation.ago_id
+         */
+        static function  button_action_remove_operation($p_operation) 
+        {
+            $rmOperation=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer cette relation ')."')==true ) {remove_operation('%s','%s');}",
+							dossier::id(),
+							$p_operation);
+            $js= '<a class="smallbutton" style="padding:0px;display:inline" style="color:orange" id="acop'.$p_operation.'" href="'.$rmOperation.'">'."&#x2D5D;".'</a>';
+            return $js;
+        }
 }

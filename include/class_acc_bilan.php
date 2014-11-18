@@ -86,10 +86,11 @@ class Acc_Bilan
         $r.= '</TABLE>';
         return $r;
     }
-    /*!\brief check and warn if an accound has the wrong saldo
-     * \param $p_message legend of the fieldset
-     * \param $p_type type of the Acccount ACT actif, ACTINV...
-     * \param $p_type the saldo must debit or credit
+    /**
+     * @brief check and warn if an accound has the wrong saldo
+     * @param $p_message legend of the fieldset
+     * @param $p_type type of the Acccount ACT actif, ACTINV...
+     * @param $p_type the saldo must debit or credit
      */
     private function warning($p_message,$p_type,$p_deb)
     {
@@ -111,7 +112,7 @@ class Acc_Bilan
             $obj->id=$line['pcm_val'];
 
             $solde=$obj->get_solde_detail($sql);
-            $solde_signed=$solde['debit']-$solde['credit'];
+            $solde_signed=bcsub($solde['debit'],$solde['credit']);
 
             if (
                 ($solde_signed < 0 && $p_deb == 'D' ) ||
@@ -246,7 +247,7 @@ class Acc_Bilan
         try
         {
             if ( $this->b_id=="")
-                throw new Exception("le formulaire id n'est pas donnee");
+                throw new Exception(_("le formulaire id n'est pas donnee"));
 
             $sql="select b_name,b_file_template,b_file_form,lower(b_type) as b_type from bilan where".
                  " b_id = ".$this->b_id;
@@ -262,7 +263,7 @@ class Acc_Bilan
         catch(Exception $Ex)
         {
             echo $Ex->getMessage();
-            exit();
+            throw $Ex;
         }
     }
     /*!\brief open the file of the form */
@@ -273,7 +274,7 @@ class Acc_Bilan
         if ( $form == false)
         {
             echo 'Cannot Open';
-            exit();
+           throw new Exception(_('Echec ouverture fichier '.$this->b_file_form));
         }
         return $form;
     }
@@ -285,7 +286,7 @@ class Acc_Bilan
         if ( $templ == false)
         {
             echo 'Cannot Open';
-            exit();
+              throw new Exception(_('Echec ouverture fichier '.$this->b_file_template));
         }
         return $templ;
 
@@ -346,7 +347,7 @@ class Acc_Bilan
         if ( copy ($file_base,$work_file) == false )
         {
             echo _("erreur Ouverture fichier");
-            exit();
+              throw new Exception(_('Echec ouverture fichier '.$file_base));
         }
         ob_start();
 	/* unzip the document */
@@ -367,8 +368,7 @@ class Acc_Bilan
 
         if ( $p_file == false)
         {
-            echo 'Cannot Open';
-            exit();
+             throw new Exception(_('Echec ouverture fichier '.$p_file));
         }
 
         $r="";
@@ -603,16 +603,21 @@ class Acc_Bilan
             break;
         case 'odt':
         case 'ods':
-            /*   header("Pragma: public");
+            header("Pragma: public");
             header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
             header("Cache-Control: must-revalidate");
             if ( $this->b_type == 'odt' )
-            header('Content-type: application/vnd.oasis.opendocument.text');
+            {
+                header('Content-type: application/vnd.oasis.opendocument.text');
+                header('Content-Disposition: attachment;filename="'.$this->b_name.'.odt"',FALSE);
+            }
             if ( $this->b_type == 'ods' )
-            header('Content-type: application/vnd.oasis.opendocument.spreadsheet');
-            header('Content-Disposition: attachment;filename="'.$this->b_name.'.odt"',FALSE);
+            {
+                header('Content-type: application/vnd.oasis.opendocument.spreadsheet');
+                header('Content-Disposition: attachment;filename="'.$this->b_name.'.ods"',FALSE);
+            }
+            
             header("Accept-Ranges: bytes");
-            */
             ob_start();
             // save the file in a temp folder
             // create a temp directory in /tmp to unpack file and to parse it
@@ -627,8 +632,7 @@ class Acc_Bilan
             $work_file=basename($file_base);
             if ( copy ($file_base,$work_file) == false )
             {
-                echo "Je ne peux pas ouvrir ce fichier ";
-                exit();
+                throw new Exception ( _("Ouverture fichier impossible"));
             }
 	    /*
 	     * unzip the document
@@ -653,22 +657,20 @@ class Acc_Bilan
             $p_file=fopen($dirname.DIRECTORY_SEPARATOR.'content.xml','wb');
             if ( $p_file == false )
             {
-                exit ( _("erreur Ouverture fichier").' content.xml');
+                  throw new Exception ( _("erreur Ouverture fichier").' content.xml');
 
             }
             $a=fwrite($p_file,$p_result);
             if ( $a==false)
             {
-                echo _("erreur écriture fichier").' content.xml';
-                exit();
+                throw new Exception ( _("erreur écriture fichier").' content.xml');
             }
             // repack
 	    $zip = new Zip_Extended;
             $res = $zip->open($this->b_name.".".$this->b_type, ZipArchive::CREATE);
             if($res !== TRUE)
 	      {
-		echo __FILE__.":".__LINE__."cannot recreate zip";
-		exit;
+		throw new Exception (__FILE__.":".__LINE__."cannot recreate zip");
 	      }
 	    $zip->add_recurse_folder($dirname.DIRECTORY_SEPARATOR);
 	    $zip->close();
@@ -678,7 +680,7 @@ class Acc_Bilan
             $fdoc=fopen($dirname.DIRECTORY_SEPARATOR.$this->b_name.'.'.$this->b_type,'r');
             if ( $fdoc == false )
             {
-                exit  (_("erreur Ouverture fichier"));
+                  throw new Exception   (_("erreur Ouverture fichier"));
             }
             $buffer=fread ($fdoc,filesize($dirname.DIRECTORY_SEPARATOR.$this->b_name.'.'.$this->b_type));
             echo $buffer;

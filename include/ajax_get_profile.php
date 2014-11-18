@@ -33,15 +33,21 @@ $profile=new Profile_sql($cn,$p_id);
 $gDossier=Dossier::id();
 $add_menu=HtmlInput::button("add", "Ajout Menu","onclick=\"add_menu({dossier:$gDossier,p_id:$p_id,type:'me'})\"");
 $add_impression=HtmlInput::button("add", "Ajout Menu","onclick=\"add_menu({dossier:$gDossier,p_id:$p_id,type:'pr'})\"");
+$call_tab=HtmlInput::default_value_post('tab', 'none');
+$a_tab=array('profile_gen_div'=>'tabs','profile_menu_div'=>'tabs','profile_print_div'=>'tabs','profile_gestion_div'=>'tabs','profile_repo_div'=>'tabs');
+$a_tab[$call_tab]='tabs_selected';
 ?>
 <hr>
 <h1>Profil <?php echo $profile->p_name?></h1>
 <?php if ($p_id > 0 ) : ?>
-<a href="javascript:void(0)" class="line" onclick="profile_show('profile_gen_div')"><?php echo _('Nom')?></a>&nbsp;
-<a href="javascript:void(0)" class="line" onclick="profile_show('profile_menu_div')"><?php echo _('Détail Menus')?></a>&nbsp;
-<a href="javascript:void(0)" class="line" onclick="profile_show('profile_print_div')"><?php echo _('Détail Impressions')?></a>&nbsp;
-<a href="javascript:void(0)" class="line" style="" onclick="profile_show('profile_gestion_div')"><?php echo _('Action Gestion')?> </a>&nbsp;
-<a href="javascript:void(0)" class="line" onclick="profile_show('profile_repo_div')"><?php echo _('Dépôts')?></a>&nbsp;
+<ul class="tabs">
+    
+    <li class="<?php echo $a_tab['profile_gen_div']?>"><a href="javascript:void(0)"  onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';profile_show('profile_gen_div')"><?php echo _('Nom')?></a></li>
+    <li class="<?php echo $a_tab['profile_menu_div']?>"><a href="javascript:void(0)"  onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';profile_show('profile_menu_div')"><?php echo _('Détail Menus')?></a></li>
+    <li class="<?php echo $a_tab['profile_print_div']?>"><a href="javascript:void(0)" onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';profile_show('profile_print_div')"><?php echo _('Détail Impressions')?></a></li>
+    <li class="<?php echo $a_tab['profile_gestion_div']?>"><a href="javascript:void(0)" style="" onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';profile_show('profile_gestion_div')"><?php echo _('Action Gestion')?> </a></li>
+    <li class="<?php echo $a_tab['profile_repo_div']?>"><a href="javascript:void(0)"  onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';profile_show('profile_repo_div')"><?php echo _('Dépôts')?></a>&nbsp;
+</ul>
 <?php endif; ?>
 
 <?php 
@@ -61,7 +67,7 @@ if ( $p_id > 0 )
 }
 else
 {
-	echo '<div  id="profile_gen_div">';
+	echo '<div  class="myfieldset" id="profile_gen_div">';
 }
 echo '<form method="POST" onsubmit="return confirm (\'vous confirmez\')">';
 echo HtmlInput::hidden('tab','profile_gen_div');
@@ -81,30 +87,30 @@ if ($profile->p_id > 0)
 
 	echo '<form method="POST" onsubmit="return confirm (\''._("vous confirmez").'\')">';
 
-	echo 'Effacer ce profil';
+	echo _('Effacer ce profil');
 
 	echo HtmlInput::hidden('p_id', $profile->p_id);
 	echo HtmlInput::submit("delete_profil", _("Effacer ce profil"));
 	echo '</form>';
         echo '</div>';
-        echo '<div style="display:none" id="profile_menu_div">';
+        echo '<div class="myfieldset"  style="display:none" id="profile_menu_div">';
 	//Menu / Module /plugin in this profile
-	echo "<h2>Menu</h2>";
+	echo "<h1 class=\"legend\">"."Menu"."</h2>";
 	echo $add_menu;
 	$profile_menu = new Profile_Menu($cn);
 	$profile_menu->listing_profile($p_id);
         echo '</div>';
-        echo '<div style="display:none" id="profile_print_div">';
-	echo "<h2>"._("Impression")."</h2>";
+        echo '<div class="myfieldset"  style="display:none" id="profile_print_div">';
+	echo "<h1 class=\"legend\">"._("Impression")."</h1>";
 	$profile_menu->printing($p_id);
 	echo $add_impression;
         echo '</div>';
-        echo '<div style="display:none" id="profile_gestion_div">';
-	echo "<h2>Action gestion accessible</h2>";
+        echo '<div class="myfieldset"  style="display:none" id="profile_gestion_div">';
+	echo "<h1 class=\"legend\">Action gestion accessible</h1>";
 	$profile_menu->available_profile($p_id);
         echo '</div>';
-        echo '<div style="display:none" id="profile_repo_div">';
-	echo "<h2>Dépôt de stock accessible</h2>";
+        echo '<div class="myfieldset"  style="display:none" id="profile_repo_div">';
+	echo "<h1 class=\"legend\">"."Dépôt de stock accessible"."</h1>";
 	$profile_menu->available_repository($p_id);
         echo '</div>';
         if ( isset ($_POST['tab']))

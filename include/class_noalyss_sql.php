@@ -22,8 +22,7 @@
 
 /**
  * @file
- * @brief
- * this wrapper is used to created easily a wrapper to a table
+ * @brief this wrapper is used to created easily a wrapper to a table
  *
  * @class
  * Match a table into an object, you need to add the code for each table
@@ -70,7 +69,7 @@
  * @endcode
  *
  */
-class Noalyss_SQL
+abstract class Noalyss_SQL
 {
 
     function __construct(&$p_cn, $p_id=-1)
@@ -86,13 +85,17 @@ class Noalyss_SQL
         }
         $this->$pk=$p_id;
         /* load it */
-        $this->load();
+        if ($p_id != -1 )$this->load();
     }
-
+/**
+ * Insert or update : if the row already exists, update otherwise insert
+ */
     public function save()
     {
         $pk=$this->primary_key;
-        if ($this->$pk==-1)
+        $count=$this->cn->get_value('select count(*) from '.$this->table.' where '.$this->primary_key.'=$1',array($this->$pk));
+        
+        if ($count == 0)
             $this->insert();
         else
             $this->update();
@@ -100,8 +103,7 @@ class Noalyss_SQL
 
     public function getp($p_string)
     {
-        if (array_key_exists($p_string, $this->name))
-        {
+        if (array_key_exists($p_string, $this->name)) {
             $idx=$this->name[$p_string];
             return $this->$idx;
         }
@@ -111,12 +113,10 @@ class Noalyss_SQL
 
     public function setp($p_string, $p_value)
     {
-        if (array_key_exists($p_string, $this->name))
-        {
+        if (array_key_exists($p_string, $this->name))    {
             $idx=$this->name[$p_string];
             $this->$idx=$p_value;
-        }
-        else
+        }        else
             throw new Exception(__FILE__.":".__LINE__.$p_string.'Erreur attribut inexistant '.$p_string);
     }
 
@@ -171,8 +171,7 @@ class Noalyss_SQL
         $idx=1;
         $array=array();
         $set=" set ";
-        foreach ($this->name as $key=> $value)
-        {
+        foreach ($this->name as $key=> $value)        {
             if (isset($this->default[$value])&&$this->default[$value]=="auto")
                 continue;
             switch ($this->type[$value])
@@ -198,11 +197,7 @@ class Noalyss_SQL
     {
         $sql=" select ";
         $sep="";
-        $par="";
-
-        foreach ($this->name as $key)
-        {
-
+        foreach ($this->name as $key)       {
             switch ($this->type[$key])
             {
                 case "date":
@@ -217,7 +212,7 @@ class Noalyss_SQL
         $sql.=" from ".$this->table;
         
         $sql.=" where ".$this->primary_key." = $1";
-
+       
         $result=$this->cn->get_array($sql,array ($this->$pk));
         if ($this->cn->count()==0)
         {
@@ -235,7 +230,10 @@ class Noalyss_SQL
     {
         return var_export($this, true);
     }
-
+/**
+ * @todo ajout vérification type (date, text ou numeric)
+ * @return int
+ */
     public function verify()
     {
         foreach ($this->name as $key)
@@ -315,18 +313,21 @@ class Noalyss_SQL
     {
         if ($p_array != null && ! is_array($p_array) )
         {
-            throw new Exception("Erreur : exec_sql attend un array");
+            throw new Exception(_("Erreur : exec_sql attend un array"));
         }
         $ret=$this->seek($cond, $p_array);
         $max=Database::num_row($ret);
         $a_return=array();
         for ($i=0; $i<$max; $i++)
         {
-            $a_return[$i]=$this->next($ret, $i);
+            $a_return[$i]=clone $this->next($ret, $i);
         }
         return $a_return;
     }
-
+    public function count($p_where="",$p_array=null) {
+        $count=$this->cn->get_value("select count(*) from $this->table".$p_where,$p_array);
+        return $count;
+    }
 }
 
 ?>

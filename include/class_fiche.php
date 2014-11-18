@@ -59,7 +59,7 @@ class Fiche
     /**
      *@brief used with a usort function, to sort an array of Fiche on the name
      */
-    static function cmp_name($o1,$o2)
+    static function cmp_name(Fiche $o1,Fiche $o2)
     {
         return strcmp($o1->strAttribut(ATTR_DEF_NAME),$o2->strAttribut(ATTR_DEF_NAME));
     }
@@ -1464,7 +1464,7 @@ class Fiche
      */
     function get_bk_balance($p_cond="")
     {
-        if ( $this->id == 0 ) exit('fiche->id est nul');
+        if ( $this->id == 0 ) throw  new Exception('fiche->id est nul');
         $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
 
         if ( $p_cond != "") $p_cond=" and ".$p_cond;
@@ -1512,7 +1512,7 @@ class Fiche
      * \brief  show the default screen
      *
      * \param $p_search (filter)
-     * \param $p_action show the action column
+     * \param $p_action used for specific action bank, red if credit < debit
      * \param $p_sql SQL to filter the number of card must start with AND
      * \param $p_amount true : only cards with at least one operation default : false
      * \return: string to display
@@ -1520,6 +1520,10 @@ class Fiche
     function Summary($p_search="",$p_action="",$p_sql="",$p_amount=false)
     {
         global $g_user;
+        $bank=new Acc_Parm_Code($this->cn,'BANQUE');
+        $cash=new Acc_Parm_Code($this->cn,'CAISSE');
+        $cc=new Acc_Parm_Code($this->cn,'COMPTE_COURANT');
+        
         bcscale(4);
         $str_dossier=dossier::get();
         $p_search=sql_string($p_search);
@@ -1560,13 +1564,14 @@ class Fiche
 
         if ( $all_tiers == 0 || count($step_tiers)==0 ) return "";
         $r="";
-        $r.="Filtre rapide ".HtmlInput::filter_table("tiers_tb", '0,1', 1);
+        $r.=_("Filtre rapide ").HtmlInput::filter_table("tiers_tb", '0,1', 1);
         $r.=$bar;
         
         $r.='<table  id="tiers_tb" class="sortable"  style="width:90%;margin-left:5%">
             <TR >
-            <TH>'._('Quick Code').HtmlInput::infobulle(17).'</TH>
-            <th  class="sorttable_sorted_reverse">'._('Nom').'<span id="sorttable_sortrevind">&nbsp;&blacktriangle;</span>'.'</th>
+            <TH>'._('Quick Code').HtmlInput::infobulle(17).'</TH>'.
+            '<th>'._('Poste comptable').'</th>'.
+            '<th  class="sorttable_sorted_reverse">'._('Nom').'<span id="sorttable_sortrevind">&nbsp;&blacktriangle;</span>'.'</th>
             <th>'._('Adresse').'</th>
             <th style="text-align:right">'._('Total débit').'</th>
             <th style="text-align:right">'._('Total crédit').'</th>
@@ -1580,20 +1585,30 @@ class Fiche
         foreach ($step_tiers as $tiers )
         {
             $i++;
-            $odd="";
-             $odd  = ($i % 2 == 0 ) ? 'class="odd"': ' class="even" ';
-            /* Filter on the default year */
-
-            $amount=$tiers->get_solde_detail($filter_year);
+            
+             /* Filter on the default year */
+             $amount=$tiers->get_solde_detail($filter_year);
 
             /* skip the tiers without operation */
             if ( $p_amount && $amount['debit']==0 && $amount['credit'] == 0 && $amount['solde'] == 0 ) continue;
 
+            $odd="";
+             $odd  = ($i % 2 == 0 ) ? ' odd ': ' even ';
+             $accounting=$tiers->strAttribut(ATTR_DEF_ACCOUNT);
+             if ( $p_action == 'bank' && $amount['debit'] <  $amount['credit']  ){
+                 if ( strpos($accounting,$bank->p_value)===0 || strpos($accounting,$cash->p_value)===0 || strpos($accounting,$cc->p_value)===0){
+                 //put in red if c>d
+                 $odd.=" notice ";
+                 }
+             }
+             $odd=' class="'.$odd.'"';
+             
             $r.="<TR $odd>";
             $e=sprintf('<A HREF="%s?ac=%s&sb=detail&f_id=%d&%s&sc=sv" title="Détail" class="line"> ',
                        $script,$_REQUEST['ac'],$tiers->id,$str_dossier);
 
             $r.="<TD> $e".$tiers->strAttribut(ATTR_DEF_QUICKCODE)."</A></TD>";
+            $r.="<TD> $e".$accounting."</TD>";
             $r.="<TD>".h($tiers->strAttribut(ATTR_DEF_NAME))."</TD>";
             $r.="<TD>".h($tiers->strAttribut(ATTR_DEF_ADRESS).
                          " ".$tiers->strAttribut(ATTR_DEF_CP).
@@ -1611,10 +1626,12 @@ class Fiche
             $r.="</TR>";
 
         }
-		$r.="<tfoot>";
+		$r.="<tfoot >";
 		$solde=abs(bcsub($deb,$cred));
                 $side=($deb > $cred)?'Débit':'Crédit';
-		$r.=td("").td("").td("Totaux").td(nbm($deb),'class="num"').td(nbm($cred),'class="num"').td(" $side ".nbm($solde),'class="num"');
+                $r.='<tr class="highlight">';
+		$r.=td("").td("").td("").td("Totaux").td(nbm($deb),'class="num"').td(nbm($cred),'class="num"').td(" $side ".nbm($solde),'class="num"');
+                $r.='</tr>';
 		$r.="</tfoot>";
         $r.="</TABLE>";
         $r.=$bar;
@@ -1625,7 +1642,7 @@ class Fiche
      */
     function get_categorie()
     {
-        if ( $this->id == 0 ) exit('class_fiche : f_id = 0 ');
+        if ( $this->id == 0 ) throw  new Exception('class_fiche : f_id = 0 ');
         $sql='select fd_id from fiche where f_id='.$this->id;
         $R=$this->cn->get_value($sql);
         if ( $R == "" )
@@ -1654,8 +1671,7 @@ class Fiche
         if (($this->quick_code==null || $this->quick_code == "" )
                 && $this->id == 0 )
         {
-            echo 'erreur ni quick_code ni f_id ne sont donnes';
-            exit();
+            throw  new Exception( 'erreur ni quick_code ni f_id ne sont donnes');
         }
 
         //retrieve the quick_code

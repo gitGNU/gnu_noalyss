@@ -2709,12 +2709,13 @@ function unescapebycharacter($str)
         return array($char, 0);
     }
 }
-/*!\brief When data are transfered thanks ajax in a xml document, the xml
+/**
+ * @brief When data are transfered thanks ajax in a xml document, the xml
  * can not contains some character, to escape those characters, we must use this
  * function
- *\param $p_xml the xml to escape
- *\return the xml string with the forbidden char escaped
- *\see ajax_card.js ajaxFid
+ *@param $p_xml the xml to escape
+ *@return the xml string with the forbidden char escaped
+ *@see ajax_card.js ajaxFid
  */
 function escape_xml($p_xml)
 {
@@ -2724,6 +2725,24 @@ function escape_xml($p_xml)
     $xml=str_replace('>','&gt;',$xml);
     $xml=str_replace("'",'&apos;',$xml);
     $xml=str_replace('"','&quot;',$xml);
+    return $xml;
+}
+/**
+ * @brief
+ * replace special char
+ *@param $p_xml the xml to escape
+ *@return the xml string with the forbidden char escaped
+ *@see ajax_card.js ajaxFid
+ *@see escape_xml
+ */
+function unescape_xml($p_xml)
+{
+    $xml=$p_xml;
+    $xml=str_replace('&amp;','&',$xml);
+    $xml=str_replace('&lt;','<',$xml);
+    $xml=str_replace('&gt;','>',$xml);
+    $xml=str_replace('&apos;',"'",$xml);
+    $xml=str_replace('&quot;','"',$xml);
     return $xml;
 }
 /**

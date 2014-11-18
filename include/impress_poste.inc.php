@@ -134,7 +134,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
     if ( isDate($_REQUEST['from_periode'])==null || isDate($_REQUEST['to_periode'])==null)
     {
         echo alert('Date malformée, désolée');
-        exit();
+        return;
     }
     require_once("class_acc_account_ledger.php");
     $go=0;
@@ -187,7 +187,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
             Acc_Account_Ledger::HtmlTableHeader();
 
             $Poste->get_row_date( $_GET['from_periode'], $_GET['to_periode'],$_GET['ople']);
-            if ( empty($Poste->row)) exit();
+            if ( empty($Poste->row)) return;
             $Poste->load();
 
             echo '<table class="result"  style="width:80%;margin-left:10%">';

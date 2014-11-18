@@ -41,7 +41,7 @@ if ( ! $m )
 {
 
     echo '<div style="float:left;width:60%;margin-left:20%"><h2 class="error">'._('Aucun plan analytique défini').'</h2></div>';
-    exit();
+    return;
 }
 
 
@@ -111,7 +111,7 @@ if ( isset($_GET['see']))
     echo '<div class="redcontent"  style="margin-left:12%">';
     echo $a->html_table($current);
     echo '</div>';
-    exit();
+    return;
 }
 if ( isset($_POST['save']))
 {
@@ -127,7 +127,7 @@ if ( isset($_POST['save']))
     $a->save();
     echo $a->show();
     echo '</div>';
-    exit();
+    return;
 }
 
 if ( isset($_GET['new']))
@@ -153,7 +153,7 @@ if ( isset($_GET['new']))
     ';
 
     echo '</div>';
-    exit();
+   return;
 }
 
 ?>

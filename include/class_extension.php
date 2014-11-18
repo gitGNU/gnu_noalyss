@@ -36,6 +36,9 @@
  *    - filepath (extension.ex_file)
  */
 require_once 'class_menu_ref_sql.php';
+include_once 'class_profile_sql.php';
+require_once 'class_menu_ref.php';
+require_once 'class_profile_menu.php';
 
 class Extension extends Menu_Ref_sql
 {
@@ -92,10 +95,57 @@ class Extension extends Menu_Ref_sql
         {
             alert('Cette extension ne fonctionne pas sur cette version de NOALYSS'.
                   ' Veuillez mettre votre programme a jour. Version minimum '.$i);
-            exit();
+            return;
         }
         Extension::check_plugin_version();
     }
+    /**
+     * insert into the table profile_menu for the given profile id and depending
+     * of the module $p_module
+     * @global type $cn
+     * @param type $p_id profile.p_id
+     * @param type $p_module menu_ref.me_code
+     * @throws Exception 10 : profile absent 20 module absent
+     */
+    function insert_profile_menu($p_id=1,$p_module='EXT')
+    {
+        global $cn;
+        //profile exists ?
+        $profile=new Profile_sql($cn,$p_id);
+        if ( $profile->p_id != $p_id) {
+                throw new Exception(_('Profil inexistant'),10);
+        }
+        // Menu exists
+        $module=new Menu_Ref($cn,$p_module);
+        if ($module->me_code==null) {
+                throw new Exception(_('Module inexistant'),20);
+        }
+        
+        $profil_menu=new Profile_Menu($cn);
+        $profil_menu->me_code=$this->me_code;
+        $profil_menu->me_code_dep=$p_module;
+        $profil_menu->p_type_display='S';
+        $profil_menu->p_id=$p_id;
+        $cnt=$profil_menu->count(' where p_id=$1 and me_code = $2',array($p_id,$this->me_code));
+        if ( $cnt==0) {
+            $profil_menu->insert();
+        }
+
+        
+    }
+    function remove_from_profile_menu($p_id)
+    {
+        global $cn;
+       
+         $cn->exec_sql('delete from profile_menu  where (me_code = $1 or me_code in (select me_code from menu_ref where me_file=$2)) and p_id=$3',array($this->me_code,$this->me_file,$p_id));
+        
+    }
+    /**
+     * Insert a plugin into the given profile, by default always insert into EXT
+     * 
+     * @param type $p_id profile.p_id
+     * @throws Exception if duplicate or error db
+     */
 	function insert_plugin()
 	{
 		try
@@ -109,11 +159,6 @@ class Extension extends Menu_Ref_sql
 				throw new Exception("Doublon");
 			$this->me_type = 'PL';
 			$this->insert();
-			/**
-			 * insert into default profile
-			 */
-			$this->cn->exec_sql("insert into profile_menu(me_code,me_code_dep,p_type_display,p_id)
-					values ($1,$2,$3,$4)",array($this->me_code,'EXT','S',1));
 			$this->cn->commit();
 		}
 		catch (Exception $exc)
@@ -180,6 +225,70 @@ class Extension extends Menu_Ref_sql
                     }
                 }
             }
+        }
+        /**
+         * Check that the xml contains all the needed information to change them into
+         * a extension, the exception code is 0 if the element is optional
+         * @brief Check XML.
+         * @param SimpleXMLElement $xml
+         * @throws Exception
+         */
+        function check_xml(SimpleXMLElement $xml)
+        {
+            try {
+                if ( !isset ($xml->plugin)) throw new Exception(_('Manque plugin'),1);
+                $nb_plugin=count($xml->plugin);
+            
+                for ($i=0;$i<$nb_plugin;$i++)
+                {
+                    if ( !isset ($xml->plugin[$i]->name)) throw new Exception(_('Manque nom'),1);
+                    if ( !isset ($xml->plugin[$i]->description)) throw new Exception(_('Manque description'),0);
+                    if ( !isset ($xml->plugin[$i]->code)) throw new Exception(_('Manque code'),1);
+                    if ( !isset ($xml->plugin[$i]->author)) throw new Exception(_('Manque auteur'),0);
+                    if ( !isset ($xml->plugin[$i]->root)) throw new Exception(_('Manque répertoire racine'),1);
+                    if ( !isset ($xml->plugin[$i]->file)) throw new Exception(_('Manque fichier à inclure'),1);
+                }
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+        }
+         /**
+         * Parse a XML file to complete an array of extension objects
+         * @brief Create extension from XML.
+         * @param type $p_file filename
+         * @return array of Extension
+         */
+        static function read_definition($p_file)
+        {
+            global $cn;
+            $dom=new DomDocument('1.0');
+            $dom->load($p_file);
+            $xml=simplexml_import_dom($dom);
+            $nb_plugin=count($xml->plugin);
+            $a_extension=array();
+            for ($i=0;$i<$nb_plugin;$i++)
+            {
+                
+                $extension=new Extension($cn);
+                try {
+                        $extension->check_xml($xml);
+                } catch (Exception $ex) {
+                    echo_warning($e->getMessage());
+                    if ( $ex->getCode()==1) {
+                        continue;
+                    }
+                    
+                }
+                $extension->me_file=trim($xml->plugin[$i]->root).'/'.trim($xml->plugin[$i]->file);
+                $extension->me_code=trim($xml->plugin[$i]->code);
+                $extension->me_description=(isset ($xml->plugin[$i]->description))?$xml->plugin[$i]->description:"";
+                $extension->me_description_etendue=($xml->plugin[$i]->author)?$xml->plugin[$i]->author:"";
+                $extension->me_type='PL';
+                $extension->me_menu=$xml->plugin[$i]->name;
+                $extension->me_parameter='plugin_code='.trim($xml->plugin[$i]->code);
+                $a_extension[]=clone $extension;
+            }
+            return $a_extension;
         }
 }
 

@@ -439,14 +439,14 @@ function select_card_type(obj)
     var sx=0;
     if ( window.scrollY)
     {
-            sx=window.scrollY+40;
+            sx=window.scrollY+160;
     }
     else
     {
-        sx=document.body.scrollTop+60;
+        sx=document.body.scrollTop+160;
     }
 
-    var str_style="top:"+sx+"px;left:25%;height:30%";
+    var str_style="top:"+sx+"px;height:auto";
     waiting_box();
     var popup={'id':  content,'cssclass':'inner_box','style':str_style,'html':"",'drag':true};
 
@@ -510,7 +510,7 @@ function dis_blank_card(obj)
         ref='&ref';
     }
     var content='div_new_card';
-    var nTop=calcy(30);
+    var nTop=calcy(150);
     var nLeft=posX;
     var str_style="top:"+nTop+"px;right:"+nLeft+"px;height:auto";
 

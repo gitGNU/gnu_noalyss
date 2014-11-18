@@ -248,12 +248,13 @@ class Acc_Balance
     }
     /**
      * set the $this->jrn to the cat
+     * @todo Cette function semble ne pas fonctionner correctement
      */
     function filter_cat($p_array)
     {
         if ( empty($p_array) )
         {
-            $bal->jn=null;
+            $this->jrn=null;
             return;
         }
         /* get the list of jrn of the cat. */

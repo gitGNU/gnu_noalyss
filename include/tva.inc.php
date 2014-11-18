@@ -90,8 +90,8 @@ if (isset($_POST['confirm_mod'])
 $own = new Own($cn);
 if ($own->MY_TVA_USE == 'N')
 {
-    echo '<h2 class="error"> Vous n\'êtes pas assujetti à la TVA</h2>';
-    exit();
+    echo '<h2 class="error">'._("Vous n'êtes pas assujetti à la TVA").'</h2>';
+    return;
 }
 //-----------------------------------------------------
 // Display

@@ -106,8 +106,8 @@ function anc_refresh_remain(p_table, p_seq)
         var tot_table = compute_total_table(p_table, p_seq);
         var remain = tot_line - tot_table;
         remain = Math.round(remain * 100) / 100;
-        var popup_table = p_table.toString();
-        p_table = popup_table.replace("popup", "");
+  //      var popup_table = p_table.toString();
+//        p_table = popup_table.replace("popup", "");
         $('remain' + p_table).innerHTML = remain;
         if (remain == 0)
         {
@@ -432,19 +432,13 @@ function anc_key_compute(p_dossier, p_table, p_amount, p_key_id)
  * @param p_amount amount to distribute
  * @param p_ledger
  */
-function anc_key_choice(p_dossier, p_table, p_amount)
+function anc_key_choice(p_dossier, p_table, p_amount,p_ledger)
 {
     waiting_box();
     var op = 'op=anc_key_choice';
     var queryString = op + "&gDossier=" + p_dossier + "&t=" + p_table + "&amount=" + p_amount;
     try {
-        var ledger=$('p_jrn');
-        if (ledger == null ) {
-            error_message('error : ledger is null ');
-            return;
-        }
-        
-        queryString+='&led='+ledger.value;
+        queryString+='&led='+p_ledger;
         var action = new Ajax.Request(
                 "ajax_misc.php",
                 {
@@ -467,7 +461,8 @@ function anc_key_choice(p_dossier, p_table, p_amount)
                             var code_html = getNodeText(html[0]); // Firefox ne prend que les 4096 car.
                             code_html = unescape_xml(code_html);
                             console.log(code_html);
-                            add_div({id: name_ctl, cssclass: 'inner_box', style: 'top:30%;right:35%;position:absolute', drag: 1});
+                            var position=fixed_position(50,120);
+                            add_div({id: name_ctl, cssclass: 'inner_box', style: position, drag: 1});
                             $(name_ctl).innerHTML = code_html;
                         } catch (e)
                         {

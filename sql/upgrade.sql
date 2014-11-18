@@ -24,6 +24,11 @@ INSERT INTO menu_ref(me_code, me_menu, me_file,   me_type,me_description_etendue
 insert into profile_menu(me_code,p_id,p_type_display,pm_default,me_code_dep,p_order) values ('ANCKEY',1,'E',0,'ANC',15);
 insert into profile_menu(me_code,p_id,p_type_display,pm_default,me_code_dep,p_order) values ('ANCKEY',2,'E',0,'ANC',15);
 
+INSERT INTO menu_ref(me_code, me_menu, me_file,   me_type,me_description_etendue)VALUES ('CFGPLUGIN', 'Configuration extension',  'cfgplugin.inc.php','ME','Permet d''installer et d''activer facilement des extensions');
+
+insert into profile_menu(me_code,p_id,p_type_display,pm_default,me_code_dep,p_order) values ('CFGPLUGIN',1,'E',0,'PARAM',15);
+insert into profile_menu(me_code,p_id,p_type_display,pm_default,me_code_dep,p_order) values ('CFGPLUGIN',2,'E',0,'PARAM',15);
+
 create table key_distribution (
     kd_id serial primary key,
     kd_name text,
@@ -144,3 +149,39 @@ quant_purchase.qp_nd_tva_recup AS non_ded_tva_recup,
    JOIN vw_fiche_attr b ON quant_purchase.qp_supplier = b.f_id
    JOIN tva_rate ON quant_purchase.qp_vat_code = tva_rate.tva_id
    JOIN m ON m.jr_id = jrn.jr_id;
+
+create index jrnx_j_qcode_ix on jrnx (j_qcode);
+
+CREATE TABLE action_person 
+(
+    ap_id  SERIAL NOT NULL, 
+    ag_id int4 NOT NULL, 
+f_id int4, PRIMARY KEY (ap_id));
+COMMENT ON TABLE action_person IS 'Person involved in the action';
+
+ALTER TABLE action_person ADD CONSTRAINT action_gestion_ag_id_fk2 FOREIGN KEY (ag_id) REFERENCES  action_gestion (ag_id);
+ALTER TABLE action_person ADD CONSTRAINT fiche_f_id_fk2  FOREIGN KEY (f_id) REFERENCES fiche(f_id);
+ALTER TABLE action_gestion ADD CONSTRAINT fiche_f_id_fk3  FOREIGN KEY (f_id_dest) REFERENCES fiche(f_id);
+
+alter table action_gestion alter f_id_dest drop not null;
+update action_gestion set f_id_dest = null where f_id_dest = 0;
+
+CREATE OR REPLACE FUNCTION comptaproc.category_card_before_delete()
+  RETURNS trigger AS
+$BODY$
+
+begin
+    if OLD.fd_id > 499000 then
+        return null;
+    end if;
+    return OLD;
+
+end;
+$BODY$
+language plpgsql;
+
+CREATE TRIGGER trg_category_card_before_delete
+  BEFORE delete
+  ON fiche_def
+  FOR EACH ROW
+  EXECUTE PROCEDURE comptaproc.category_card_before_delete();
