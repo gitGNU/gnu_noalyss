@@ -19,18 +19,18 @@
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 
 require_once 'class_profile_menu_sql.php';
-
 /**
  * Manage the menu of a profile
  *
  * @author dany
  */
-class Profile_Menu
+class Profile_Menu extends Profile_Menu_sql
 {
 
-	function __construct($p_cn)
+	function __construct($p_cn,$p_id=-1)
 	{
 		$this->cn = $p_cn;
+                parent::__construct($p_cn, $p_id);
 	}
 	/**
 	 * Display the content of a profile
