@@ -1371,7 +1371,7 @@ function mod_menu(gdossier, pm_id)
     waiting_box();
     removeDiv('divdm' + pm_id);
     var qs = "op=det_menu&gDossier=" + gdossier + "&pm_id=" + pm_id + "&ctl=divdm" + pm_id;
-    var pos = fixed_position(250, 150);
+    var pos = fixed_position(50, 250);
     var action = new Ajax.Request('ajax_misc.php',
             {
                 method: 'get',
