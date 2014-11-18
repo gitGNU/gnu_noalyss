@@ -92,7 +92,7 @@ $MaxRow=Database::num_row($Ret);
 
 ?>
 <span style="display:block">
-<input type="button" class="smallbutton" onclick="PcmnUpdate('','','','',0,0,'new')" value="<?php echo _('Ajout'); ?>">
+<input type="button" class="smallbutton" onclick="PcmnUpdate('','','','',0,0,'new')" value="<?php echo _('Ajout poste comptable'); ?>">
 </span>
 <?php echo _('Filtre')." ".HtmlInput::filter_table("account_tbl_id", "0,1,2,3,4", 1);?>
 <FORM METHOD="POST">
@@ -184,7 +184,7 @@ for ($i=0; $i <$MaxRow; $i++)
 echo "</TABLE>";
 echo "</FORM>";
 ?>
-                             <input type="button" class="smallbutton" onclick="PcmnUpdate('','','','',0,-230,'new')" value="<?php echo _('Ajout'); ?>">
+                             <input type="button" class="smallbutton" onclick="PcmnUpdate('','','','',0,-230,'new')" value="<?php echo _('Ajout poste comptable'); ?>">
 <?php
 echo "</DIV>";
 html_page_stop();
