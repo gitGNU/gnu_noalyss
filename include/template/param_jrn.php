@@ -123,12 +123,13 @@ echo $str_add_button;
     </td>
 </tr>    
 </TABLE>
+<hr>
     <?php
     /////////////////// ACH //////////////////////////////////
     if ( $new ==1 || $type=='ACH' ) : 
         ?>
     <div id='ACH_div' >
-    <H2 class="info"> Fiches </H2>
+    <h2 > Fiches </h2>
     <TABLE class="result" style="width:80%;margin-left:10%;">
         <tr>
             <th>
@@ -185,7 +186,7 @@ echo $str_add_button;
     if ( $new ==1  || $type=='VEN' ) : 
         ?>
     <div id='VEN_div' >
-    <H2 class="info"> Fiches </H2>
+    <h2> Fiches </h2>
     <TABLE class="result" style="width:80%;margin-left:10%;">
         
         <tr>
@@ -243,7 +244,7 @@ echo $str_add_button;
     if ( $new ==1 || $type=='ODS' ) : 
         ?>
     <div id='ODS_div' >
-    <H2 class="info"> Fiches </H2>
+    <h2> Fiches </h2>
    <TABLE class="result" style="width:60%;margin-left:20%;">
         <tr>
             <th>
@@ -294,7 +295,7 @@ echo $str_add_button;
     if ( $new ==1 || $type=='FIN' ) : 
         ?>
     <div id='FIN_div' >
-    <H2 class="info"> Fiches </H2>
+    <h2> Fiches </h2>
      <TABLE class="result" style="width:60%;margin-left:20%;">
         <tr>
             <th>
