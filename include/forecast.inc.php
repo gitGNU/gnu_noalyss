@@ -28,7 +28,7 @@ if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once 'class_anticipation.php';
 echo '<div class="content">';
 
-$sa = (isset($_REQUEST['sa'])) ? $_REQUEST['sa'] : '';
+$sa = (isset($_REQUEST['sa'])) ? $_REQUEST['sa'] : 'list';
 /* * ********************************************************************
  * Remove a anticipation
  *
@@ -50,6 +50,7 @@ if (isset($_REQUEST ['clone']))
      */
     $anti = new Forecast($cn, $_REQUEST ['f_id']);
     $anti->object_clone();
+    $sa="list";
 }
 /* * ********************************************************************
  * Save the modification mod_cat_save
@@ -219,30 +220,7 @@ if ($sa == 'new' || isset($_POST['step3']))
 	}
     }
 }
-/* * ********************************************************************
- * Display menu
- *
- *
- * ******************************************************************** */
-// display button add and list of forecast to display
-$aForecast = Forecast::load_all($cn);
-$menu = array();
-$get_dossier = dossier::get();
 
-
-for ($i = 0; $i < count($aForecast); $i++)
-{
-    $href = "?ac=" . $_REQUEST['ac'] . "&sa=vw&" . $get_dossier . '&f_id=' . $aForecast[$i]['f_id'];
-    $name = h($aForecast[$i]['f_name']);
-    $menu[] = array($href, $name, $name, $aForecast[$i]['f_id']);
-}
-
-$href = "?ac=" . $_REQUEST['ac'] . "&sa=new&" . $get_dossier;
-$menu[] = array($href, _("Ajout prévision"), _("Ajout d'une prévision"), 0);
-$def = (isset($_REQUEST['f_id'])) ? $_REQUEST['f_id'] : -1;
-echo '<div class="topmenu2">';
-echo ShowItem($menu, 'H', 'mtitle', 'mtitle', $def,' class="mtitle" ');
-echo '</div>';
 /* * ********************************************************************
  * Ask for a new anticipation (forecast)
  *
@@ -310,6 +288,7 @@ if (isset($_GET['mod_cat']))
 
     echo '</form>';
     echo '</div>';
+    return;
 }
 /* * ********************************************************************
  * If we request to modify the items
@@ -339,6 +318,7 @@ if (isset($_GET['mod_item']))
     echo HtmlInput::submit('step3', _('Sauver'));
     echo '</form>';
     echo '</div>';
+    return;
 }
 /* * ********************************************************************
  * if a forecast is asked we display the result
@@ -363,6 +343,8 @@ if (isset($_REQUEST['f_id']) && $sa == "vw")
 	echo HtmlInput::submit('del', _('Effacer'), 'onclick="return confirm(\'' . _('Vous confirmez l\\\' effacement') . '\')"');
 	echo HtmlInput::submit('clone', _('Cloner'), 'onclick="return confirm(\'' . _('Vous confirmez le clonage ') . '\')"');
 	echo HtmlInput::hidden('ac', $_REQUEST['ac']);
+        $href=http_build_query(array('ac'=>$_REQUEST['ac'],'gDossier'=>$_REQUEST['gDossier']));
+        echo '<a style="display:inline" class="smallbutton" href="do.php?'.$href.'">'._('Retour').'</a>';
 	echo '</form>';
 	echo '</div>';
 	echo '</div>';
@@ -383,6 +365,36 @@ if (isset($_REQUEST['f_id']) && $sa == "vw")
 	echo '</form>';
 	echo '</div>';
     }
+}
+/* * ********************************************************************
+ * Display menu
+ *
+ *
+ * ******************************************************************** */
+// display button add and list of forecast to display
+if ($sa=='list')
+{
+    $aForecast=Forecast::load_all($cn);
+    $menu=array();
+    $get_dossier=dossier::get();
+
+    echo '<div class="content">';
+    echo _('Filtre')." ".HtmlInput::filter_table("forecast_table_id", '0', 1);
+    echo '<TABLE id="forecast_table_id" class="vert_mtitle">';
+    $href="?ac=".$_REQUEST['ac']."&sa=new&".$get_dossier;
+    echo '<TR><TD class="first"><A HREF="'.$href.'">'._("Ajout d'une prévision").'</A></TD></TR>';
+    $def=(isset($_REQUEST['f_id']))?$_REQUEST['f_id']:-1;
+    for ($i=0; $i<count($aForecast); $i++)
+    {
+        $href="?ac=".$_REQUEST['ac']."&sa=vw&".$get_dossier.'&f_id='.$aForecast[$i]['f_id'];
+        $name=h($aForecast[$i]['f_name']);
+        $menu[]=array($href, $name, $name, $aForecast[$i]['f_id']);
+        echo '<TR><TD><A HREF="'.$href.'">'.h($name).'</A></TD></TR>';
+    }
+
+    echo "</TABLE>";
+    echo '</div>';
+    return;
 }
 ?>
 </div>
