@@ -1,4 +1,5 @@
 <?php
+
 /*
  *   This file is part of NOALYSS.
  *
@@ -15,12 +16,13 @@
  *   You should have received a copy of the GNU General Public License
  *   along with NOALYSS; if not, write to the Free Software
 
-*/
+ */
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
-/*! \file
+/* ! \file
  * \brief handle your own report: create or view report
  */
-if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
+if (!defined('ALLOWED'))
+    die('Appel direct ne sont pas permis');
 include_once ("ac_common.php");
 include_once ("user_menu.php");
 require_once("class_ifile.php");
@@ -43,68 +45,52 @@ $rep=new Database($gDossier);
 $cn=new Database($gDossier);
 
 $rap=new Acc_Report($cn);
-
-if ( isset ($_POST["del_form"]) )
+$menu=0;
+if (isset($_POST["del_form"]))
 {
     $rap->id=$_POST['fr_id'];
     $rap->delete();
+    $menu=1;
 }
-if ( isset ($_POST["record"] ))
+if (isset($_POST["record"]))
 {
     $rap->from_array($_POST);
     $rap->save();
+    $menu=1;
 }
-if ( isset($_POST['update']))
+if (isset($_POST['update']))
 {
     $rap->from_array($_POST);
     $rap->save($_POST);
-
+    $menu=1;
 }
-if ( isset($_POST['upload']))
+if (isset($_POST['upload']))
 {
     $rap->upload();
-
+    $menu=1;
 }
 
-$lis=$rap->get_list();
-$ac="&ac=".$_REQUEST['ac'];
-$p_action='p_action=defreport';
-echo '<div class="lmenu">';
-echo '<TABLE>';
-echo '<TR><TD class="vert_mtitle"><A class="mtitle" HREF="?'.$p_action.$ac.'&action=add&'.$str_dossier.'">Ajout</A></TD></TR>';
-
-foreach ( $lis as $row)
-{
-    printf ('<TR><TD class="vert_mtitle"><A class="mtitle" HREF="?'.$p_action.$ac.'&action=view&fr_id=%s&%s">%s</A></TD></TR>', $row->id,$str_dossier,$row->name);
-
-}
-echo "</TABLE>";
-echo '</div>';
-if ( isset($_POST['upload']))
-{
-    return;
-}
-if ( isset ($_REQUEST["action"]) )
+if (isset($_REQUEST["action"]) && $menu == 0)
 {
 
     $action=$_REQUEST ["action"];
     $rap->id=(isset($_REQUEST ['fr_id']))?$_REQUEST['fr_id']:0;
 
-    if ($action == "add" && ! isset($_REQUEST['fr_id']))
+    if ($action=="add"&&!isset($_REQUEST['fr_id']))
     {
 
-        echo '<DIV class="redcontent">';
+        echo '<DIV class="content">';
         echo '<h1>'._('Définition').'</h1>';
         echo '<form method="post" >';
         echo dossier::hidden();
         $rap->id=0;
         echo $rap->form(15);
 
-        echo HtmlInput::submit("record",_("Sauve"));
+        echo HtmlInput::submit("record", _("Sauve"));
         echo '</form>';
         echo '<span class="notice">'._("Les lignes vides seront effacées").'</span>';
         echo "</DIV>";
-        echo '<DIV class="redcontent">';
+        echo '<DIV class="content">';
 
         echo '<form method="post" enctype="multipart/form-data">';
         echo '<h1> Importation</h1>';
@@ -115,39 +101,56 @@ if ( isset ($_REQUEST["action"]) )
         $wUpload->value='report_value';
         echo _('Importer ce rapport').' ';
         echo $wUpload->input();
-        echo HtmlInput::submit("upload",_("Sauve"));
+        echo HtmlInput::submit("upload", _("Sauve"));
         echo '</form>';
         echo '<span class="notice">'._("Les lignes vides seront effacées").'</span>';
         echo "</DIV>";
-
     }
-    if ($action=="view"      )
+    if ($action=="view")
     {
-        echo '<DIV class="redcontent">';
+        echo '<DIV class="content">';
         $rap->id=$_REQUEST ['fr_id'];
         echo '<form method="post" style="display:inline">';
         $rap->load();
+        echo h1($rap->name);
         echo $rap->form();
-        echo HtmlInput::hidden("fr_id",$rap->id);
-        echo HtmlInput::hidden("action","record");
-        echo HtmlInput::submit("update",_("Mise a jour"));
-        echo HtmlInput::submit("del_form",_("Effacement"));
+        echo HtmlInput::hidden("fr_id", $rap->id);
+        echo HtmlInput::hidden("action", "record");
+        echo HtmlInput::submit("update", _("Mise a jour"));
+        echo HtmlInput::submit("del_form", _("Effacement"));
 
         echo '</form>';
-		echo '<form method="get" action="export.php" style="display:inline">';
-		echo dossier::hidden();
-		echo HtmlInput::hidden("act","CSV:reportinit");
-		echo HtmlInput::hidden('f',$rap->id);
-		echo HtmlInput::submit('bt_csv',"Export CSV");
-		echo HtmlInput::request_to_hidden(array('ac','action','p_action','fr_id'));
-		echo '</form>';
+        echo '<form method="get" action="export.php" style="display:inline">';
+        echo dossier::hidden();
+        echo HtmlInput::hidden("act", "CSV:reportinit");
+        echo HtmlInput::hidden('f', $rap->id);
+        echo HtmlInput::submit('bt_csv', "Export CSV");
+        echo HtmlInput::request_to_hidden(array('ac', 'action', 'p_action', 'fr_id'));
+        $href=http_build_query(array('ac'=>$_REQUEST['ac'],'gDossier'=>$_REQUEST['gDossier']));
+        echo '<a style="display:inline" class="smallbutton" href="do.php?'.$href.'">'._('Retour').'</a>';
+        echo '</form>';
         echo '<span class="notice">'._("Les lignes vides seront effacées").'</span>';
         echo "</DIV>";
     }
-
 }
+else
+{
 
+    $lis=$rap->get_list();
+    $ac="&ac=".$_REQUEST['ac'];
+    $p_action='p_action=defreport';
+    echo '<div class="content">';
+   echo _('Filtre')." ".HtmlInput::filter_table("rapport_table_id", '0', 1);
 
+    echo '<TABLE id="rapport_table_id" class="vert_mtitle">';
+    echo '<TR><TD class="first"><A HREF="?'.$p_action.$ac.'&action=add&'.$str_dossier.'">Ajout</A></TD></TR>';
 
+    foreach ($lis as $row)
+    {
+        printf('<TR><TD><A  HREF="?'.$p_action.$ac.'&action=view&fr_id=%s&%s">%s</A></TD></TR>', $row->id, $str_dossier, $row->name);
+    }
+    echo "</TABLE>";
+    echo '</div>';
+}
 html_page_stop();
 ?>
