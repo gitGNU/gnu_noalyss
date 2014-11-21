@@ -91,7 +91,7 @@ if ( $action== "delete_per" )
         $count=$cn->get_value("select count(*) from parm_periode;");
         if ( $count > 1 ) {
             $Res=$cn->exec_sql("delete from parm_periode where p_id=$p_per");
-        }
+        } else
         {
             alert(' Désolé mais vous devez avoir au moins une période');
         }
