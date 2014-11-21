@@ -40,6 +40,7 @@ require_once('class_own.php');
 require_once('class_itva_popup.php');
 require_once('class_acc_ledger_fin.php');
 require_once 'class_stock_goods.php';
+require_once 'class_acc_ledger.php';
 
 /* !\brief Handle the ledger of sold,
  *
@@ -1356,6 +1357,6 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         $a = new Acc_Ledger_Sold($cn, 2);
         echo $a->input();
     }
-
-}
+    
+        }
 

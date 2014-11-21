@@ -36,7 +36,7 @@ require_once 'class_acc_ledger.php';
 
 $gDossier=dossier::id();
 global $cn;
-
+$show_menu=1;
 $ledger=new Acc_Ledger($cn,-1);
 $sa=HtmlInput::default_value("sa","",$_REQUEST);
 //////////////////////////////////////////////////////////////////////////
@@ -50,6 +50,7 @@ if (isset($_POST['update']))
 		if ( $ledger->load() == -1) throw new Exception (_('Journal inexistant'));
 		$ledger->verify_ledger($_POST);
 		$ledger->update($_POST);
+                $show_menu=1;
 	} catch (Exception $e)
 	{
 		alert($e->getMessage());
@@ -71,6 +72,7 @@ if (isset($_POST['efface']))
 		echo '<div id="jrn_name_div">';
 		echo '<h2 id="jrn_name">'.h($name). "  est effacé"."</h2>";
 		echo '</div>';
+                $show_menu=1;
 	}
 	catch (Exception $e)
 	{
@@ -90,6 +92,7 @@ if (isset($_POST['add']))
 		$ledger->save_new($_POST);
 		$sa="detail";
 		$_REQUEST['p_jrn']=$ledger->jrn_def_id;
+                $show_menu=1;
 	}
 	catch (Exception $e)
 	{
@@ -97,12 +100,7 @@ if (isset($_POST['add']))
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////
-// Display list of ledgers
-//////////////////////////////////////////////////////////////////////////
-echo '<div class="lmenu">';
-echo $ledger->listing();
-echo '</div>';
+
 
 
 
@@ -116,14 +114,17 @@ switch ($sa)
 		try
 		{
 			$ledger->id=$_REQUEST['p_jrn'];
-			echo '<div class="redcontent">';
+			echo '<div class="content">';
 			echo '<form method="POST">';
 			echo $ledger->display_ledger();
-			echo '<INPUT TYPE="SUBMIT" class="button" VALUE="'._("Sauve").'" name="update">
-			<INPUT TYPE="RESET" class="button" VALUE="Reset">
-			<INPUT TYPE="submit" class="button"  name="efface" value="'._("Efface").'" onClick="return confirm(\'Vous effacez ce journal ?\')">';
+			echo '<INPUT TYPE="SUBMIT" class="smallbutton" VALUE="'._("Sauve").'" name="update">
+			<INPUT TYPE="RESET" class="smallbutton" VALUE="Reset">
+			<INPUT TYPE="submit" class="smallbutton"  name="efface" value="'._("Efface").'" onClick="return confirm(\'Vous effacez ce journal ?\')">';
+                        $href=http_build_query(array('ac'=>$_REQUEST['ac'],'gDossier'=>$_REQUEST['gDossier']));
+                        echo '<a style="display:inline" class="smallbutton" href="do.php?'.$href.'">'._('Retour').'</a>';
 			echo '</FORM>';
 			echo "</div>";
+                        $show_menu=0;
 		}
 		catch (Exception $e)
 		{
@@ -131,17 +132,24 @@ switch ($sa)
 		}
 		break;
 	case 'add': /* Add a new ledger */
-		echo '<div class="redcontent">';
+		echo '<div class="content">';
 		echo '<FORM METHOD="POST">';
 		$ledger->input_new();
-		echo HtmlInput::submit('add','Sauver');
-		echo '<INPUT TYPE="RESET" class="button" VALUE="Reset">';
+		echo HtmlInput::submit('add',_('Sauver'));
+		echo '<INPUT TYPE="RESET" class="smallbutton" VALUE="Reset">';
 		echo '</FORM>';
 		echo "</DIV>";
+                $show_menu=0;
 }
 
-
-
+//////////////////////////////////////////////////////////////////////////
+// Display list of ledgers
+//////////////////////////////////////////////////////////////////////////
+if ( $show_menu == 1 ) {
+    echo '<div class="content">';
+    echo $ledger->listing();
+    echo '</div>';
+}
 
 
 html_page_stop();

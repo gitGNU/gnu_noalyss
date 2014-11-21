@@ -3358,8 +3358,9 @@ class Acc_Ledger extends jrn_def_sql
 		$base_url = "?" . dossier::get() . "&ac=" . $_REQUEST['ac'];
 
 		$r = "";
-		$r.='<TABLE>';
-		$r.='<TR><TD class="vert_mtitle"><A class="mtitle" HREF="' . $base_url . '&sa=add">' . _('Création') . ' </A></TD></TR>';
+                $r.=_('Filtre')." ".HtmlInput::filter_table("cfgledger_table_id", "0", "1");
+		$r.='<TABLE id="cfgledger_table_id" class="vert_mtitle">';
+		$r.='<TR><TD class="first"><A HREF="' . $base_url . '&sa=add">' . _('Ajout journal') . ' </A></TD></TR>';
 		$ret = $this->db->exec_sql("select distinct jrn_def_id,jrn_def_name,
                        jrn_def_class_deb,jrn_def_class_cred,jrn_def_type
                        from jrn_def order by jrn_def_name");
@@ -3370,7 +3371,7 @@ class Acc_Ledger extends jrn_def_sql
 		{
 			$l_line = Database::fetch_array($ret, $i);
 			$url = $base_url . "&sa=detail&p_jrn=" . $l_line['jrn_def_id'];
-			$r.=sprintf('<TR><TD class="vert_mtitle"><A class="mtitle" HREF="%s">%s</A></TD></TR>', $url, h($l_line['jrn_def_name']));
+			$r.=sprintf('<TR><TD><A HREF="%s">%s</A></TD></TR>', $url, h($l_line['jrn_def_name']).' ('.$l_line['jrn_def_type'].')');
 		}
 		$r.= "</TABLE>";
 		return $r;
