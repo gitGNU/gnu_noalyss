@@ -51,7 +51,7 @@ case 'let':
     $def=6;
     break;
 case 'bal':
-  $def=7;
+  $def=5;
   break;
 default:
     $def=1;
@@ -61,19 +61,28 @@ $f=new Fiche($cn,$_REQUEST['f_id']);
 
 echo '<div class="content">';
 echo $f->get_gestion_title();
-echo ShowItem(array(
-                  array($root."&sc=dc",_('Fiche'),_('Détail de la fiche'),1),
-                  array($root.'&sc=sv',_('Suivi'),_('Suivi Fournisseur, client, banque, devis, bon de commande, courrier'),2),
-                  array($root.'&sc=cn',_('Contact'),_('Liste de contacts'),3),
-                  array($root.'&sc=op',_('Opérations'),_('Toutes les opérations'),4),
-                  array($root.'&sc=bal',_('Balance'),_('Balance du fournisseur'),7),
-                  array($root.'&sc=let',_('Lettrage'),_('Opérations & Lettrages'),6)
-                  ),
-                  'H',"mtitle","mtitle",$def,' ');
+$menu = array(
+                  array('href'=>$root."&sc=dc",'label'=>_('Fiche'),'alt'=>_('Détail de la fiche')),
+                  array('href'=>$root.'&sc=sv','label'=>_('Suivi'),'alt'=>_('Suivi Fournisseur, client, banque, devis, bon de commande, courrier')),
+                  array('href'=>$root.'&sc=cn','label'=>_('Contact'),'alt'=>_('Liste de contacts')),
+                  array('href'=>$root.'&sc=op','label'=>_('Opérations'),'alt'=>_('Toutes les opérations')),
+                  array('href'=>$root.'&sc=bal','label'=>_('Balance'),'alt'=>_('Balance du fournisseur')),
+                  array('href'=>$root.'&sc=let','label'=>_('Lettrage'),'alt'=>_('Opérations & Lettrages'))
+                  );
+echo '<ul class="tabs">';
+for ($i=0;$i<count($menu);$i++) {
+    $style=($def==($i+1))?"tabs_selected":"tabs";
+    echo '<li class="'.$style.'">';
+    echo '<a href="'.$menu[$i]['href'].'" alt="'.$menu[$i]['alt'].'">';
+    echo h($menu[$i]['label']);
+    echo '</a>';
+    echo '</li>';
+}
+echo '</ul>';
 echo '</div>';
 echo '<div>';
 
-
+echo '<div class="myfieldset">';
 //---------------------------------------------------------------------------
 // Show Detail of a card and category
 //---------------------------------------------------------------------------
@@ -143,3 +152,4 @@ if ( $def==6 )
 {
     require_once('lettering.gestion.inc.php');
 }
+echo '</div>';
