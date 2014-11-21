@@ -271,13 +271,7 @@ td.mtitle {
     background: linear-gradient(to bottom, #C2E3FC 0%,#6393c1 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#C2E3FC', endColorstr='#6393c1',GradientType=0 ); /* IE6-9 */
 }
-td.vert_mtitle {
-  text-align:center;
-    border:1px solid #99B1DF;
-    border-radius:5px;
-   
-    
-}
+
 td.msubtitle {
     text-align:center;
     height:20px;
@@ -712,6 +706,7 @@ div.autocomplete {
     margin:0px;
     padding:0px;
     text-align:left;
+    position:absolute;
 }
 div.autocomplete em {
     color:#0000FF;
@@ -1067,7 +1062,6 @@ span.remain {
     #predef_form {
         margin-left:35%;
         width:60%;
-        position: absolute;
     }
 }
 @media only screen and (max-width: 955px) {
@@ -1529,7 +1523,7 @@ li.tabs {
     display:inline;
     background-color: inherit;
     color:inherit;margin-left: 0px;
-    padding: 10px 10px 0px 10px;
+    padding: 15px 15px 0px 15px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border:1px #879ed4 solid;
@@ -1539,7 +1533,7 @@ li.tabs:hover {
     display:inline;
     background-color: lightblue;
     color:wheat;margin-left: 2px;
-    padding: 10px 10px 0px 10px;
+    padding: 15px 15px 0px 15px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border:1px #879ed4 solid;
@@ -1646,7 +1640,7 @@ div.inner_box  {
             display:inline;
             background-color: inherit;
             color:inherit;margin-left: 0px;
-            padding: 5px 5px 0px 5px;
+            padding: 10px 10px 0px 10px;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
             border:1px #879ed4 solid;
@@ -1656,10 +1650,42 @@ div.inner_box  {
             display:inline;
             background-color: lightblue;
             color:wheat;margin-left: 2px;
-            padding: 5px 5px 0px 5px;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
+            padding: 10px 10px 0px 10px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
             border:1px #879ed4 solid;
 
         }
+}
+table.vert_mtitle {
+  text-align:center;
+    /* border:5px solid #99B1DF; */
+    border-radius:5px;
+    width:80%;
+    margin-left: 10%;
+    border-collapse: separate;
+    border-spacing: 10px;
+   
+    
+}
+table.vert_mtitle td.first {
+    background-color: #DCE1EF;
+}
+table.vert_mtitle td {
+    border : 1px solid #99B1DF;
+     background-color:#EDEDED;
+     border-top-radius:20px;
+}
+table.vert_mtitle td a{
+    padding : 20px;
+    font-weight: bold;
+}
+table.vert_mtitle td:hover {
+    border : 1px solid #99B1DF;
+    background-color: #336699;
+    color:white;
+}
+table.vert_mtitle td:hover a{
+   color:white;
+  
 }
