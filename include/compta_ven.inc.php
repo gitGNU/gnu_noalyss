@@ -119,7 +119,7 @@ $p_msg="";
 
         if ( ! isset($correct))
         {
-            echo '<div class="content">';
+            echo '<div style="position:absolute" class="content">';
             $Ledger=new Acc_Ledger_Sold($cn,$_POST['p_jrn']);
             $internal=$Ledger->insert($_POST);
 
@@ -161,7 +161,7 @@ $p_msg="";
 //
 // pre defined operation
 //
-echo '<div class="content">';
+echo '<div style="position:absolute" class="content">';
     if ( !isset($_REQUEST ['p_jrn']) )
     {
         $def_ledger=$Ledger->get_first('ven',2);

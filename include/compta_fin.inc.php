@@ -131,7 +131,7 @@ if ( isset($_POST['correct']))
 //----------------------------------------
 // Blank form
 //----------------------------------------
-echo '<div class="content">';
+echo '<div style="position:absolute" class="content">';
 
 echo '<p class="notice">'.$p_msg.'</p>';
 
