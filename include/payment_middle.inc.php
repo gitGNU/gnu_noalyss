@@ -143,7 +143,7 @@ if ( ! empty ($array))
 {
 
 	require_once 'template/list_mod_payment.php';
-	echo HtmlInput::button_anchor("Ajout", $base_url."&sb=ins");
+	echo HtmlInput::button_anchor("Ajout", $base_url."&sb=ins","","","smallbutton");
 }
 echo '</div>';
 ?>
