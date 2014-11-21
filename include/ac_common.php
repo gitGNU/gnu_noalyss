@@ -1116,4 +1116,42 @@ function get_array_column($p_array,$key)
     }
     return $array;
 }
+
+/**
+ * This function create a ledger object and return the right one.
+ * It uses the factory pattern
+ * @param Database $p_cn
+ * @param type $ledger_id 
+ * @return Acc_Ledger
+ * @throws Exception
+ */
+function factory_Ledger(Database &$p_cn, $ledger_id)
+{
+    include_once 'class_acc_ledger_sold.php';
+    include_once 'class_acc_ledger_purchase.php';
+    include_once 'class_acc_ledger_fin.php';
+    
+    $ledger=new Acc_Ledger($p_cn, $ledger_id);
+    $type=$ledger->get_type();
+
+    switch ($type)
+    {
+        case 'VEN':
+            $obj=new Acc_Ledger_Sold($p_cn, $ledger_id);
+            break;
+        case 'ACH':
+            $obj=new Acc_Ledger_Purchase($p_cn, $ledger_id);
+            break;
+        case 'FIN':
+            $obj= new Acc_Ledger_Fin($p_cn, $ledger_id);
+            break;
+        case 'ODS':
+            $obj=$ledger;
+            break;
+
+        default:
+            throw new Exception('Ledger type not found');
+    }
+    return $obj;
+}
 ?>
