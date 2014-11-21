@@ -1,8 +1,8 @@
 <?php
 //This file is part of NOALYSS and is under GPL 
 //see licence.txt
-?><?php echo HtmlInput::anchor_close('mod_doc');?>
-<h2 class="info">"<?php echo _("Modèle de document")?></h2>
+?>
+    <?php echo HtmlInput::title_box("Modèle de document","mod_doc",'hide')?>
 <form  method="post" enctype="multipart/form-data">
 <table>
 

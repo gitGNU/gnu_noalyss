@@ -54,7 +54,7 @@ require_once ('class_anc_plan.php');
 			</table>
 			</td>
                 <td style="width:50%;height:100%;vertical-align:top;text-align: center">
-                    <table style="width:99%;height:100%;vertical-align:top;">
+                    <table style="width:99%;height:8rem;vertical-align:top;">
                         <tr style="height: 5%">
                             <td style="text-align:center;vertical-align: top">
                                 Note

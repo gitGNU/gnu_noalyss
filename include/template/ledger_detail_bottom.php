@@ -232,7 +232,7 @@ require_once('template/ledger_detail_file.php');
 ?>
 
 
-<div id="analytic_div<?php echo $div;?>" style="display:<?php echo $a_tab['analytic_div']['display']?>">
+<div id="analytic_div<?php echo $div;?>" style="overflow:auto;display:<?php echo $a_tab['analytic_div']['display']?>">
    <?php
     if ($div == 'popup') :
     ?> 
