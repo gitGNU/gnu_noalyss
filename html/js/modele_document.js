@@ -25,7 +25,7 @@ function modifyModeleDocument(p_value,dossier)
     id='det'+layer;
     var pos_y=posY+offsetY-20;
     var pos_x=posX+offsetX+40;
-    var style="position:absolute;top:"+pos_y+"px;left:"+pos_x+"px";
+    var style="position:absolute;top:"+pos_y+"px;left:10%;width:80%";
     var popup={'id':'mod_doc',
 	       'cssclass':'inner_box',
                'html': loading(),
@@ -38,6 +38,7 @@ function modifyModeleDocument(p_value,dossier)
     {
 	add_div(popup);
     }
+    
     var action=new Ajax.Request(
                    "ajax_misc.php",
                    {
@@ -57,6 +58,7 @@ function modify_document_success_box(req,json)
 {
     try
     {
+        $('mod_doc').show();
         var answer=req.responseXML;
         var a=answer.getElementsByTagName('ctl');
         var html=answer.getElementsByTagName('code');
