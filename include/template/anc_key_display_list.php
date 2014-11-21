@@ -25,7 +25,9 @@ global $g_succeed,$g_failed;
         
 ?>
 <div class="content">
-<table class="result">
+    <?php     echo _('Filtre')." ".HtmlInput::filter_table("anc_key_table_id", '0,1', 0); ?>
+
+<table id="anc_key_table_id" class="result">
     <?php for ($i = 0; $i < count($a_key); $i++):
     $onclick=  http_build_query(array(
         'gDossier'=>Dossier::id(),
