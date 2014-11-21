@@ -10,7 +10,7 @@ if ( $max == 0 ) {
 }
 ?>
 Filtrer = <?php echo HtmlInput::filter_table('tag_tb_id', '0,1', 1); ?>
-<table id="tag_tb_id">
+<table class="result"  id="tag_tb_id">
     <tr>
         <th>
             <?php echo _("Tag")?>
