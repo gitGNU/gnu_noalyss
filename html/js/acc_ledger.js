@@ -342,6 +342,8 @@ function ledger_fin_add_row()
 
 /**
  * @brief add a line in the form for the purchase ledger
+ * @param p_dossier folder id
+ * @param p_table_name
  */
 function ledger_add_row()
 {
@@ -378,7 +380,7 @@ function ledger_add_row()
     new_tt.evalScripts();
 	} catch(e) {alert(e.message);}
 
-}
+        }
 /**
  * @brief compute the sum of a purchase, update the span tvac, htva and tva
  * all the needed data are taken from the document (hidden field :  gdossier)
