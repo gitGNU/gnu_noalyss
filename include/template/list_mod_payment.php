@@ -77,7 +77,7 @@
 
 <?php 
 echo $td.HtmlInput::button_anchor(_('Modifie'),'?ac='.$_REQUEST['ac'].'&sa=mp&sb=change&'.dossier::get().
-                                              '&id='.$array[$i]['mp_id']);
+                                              '&id='.$array[$i]['mp_id'],"","","smallbutton");
 ?>
 
 	 </tr>
