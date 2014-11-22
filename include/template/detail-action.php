@@ -282,7 +282,7 @@ endfor;
 if ($show_row !=0 ) :
 
 	?>
-<fieldset id="fldDetail" style='display:block'>
+<fieldset id="fldDetail" style='display:block;top:2px'>
    <LEGEND> <?php echo _('Détail des articles')?>
 </LEGEND>
 <?php // hidden fields
@@ -294,7 +294,7 @@ for ($i=0;$i<count($aArticle);$i++) :
 	if ( ($aCard[$i] != 0 && $p_view == 'READ') || $p_view != 'READ'){ $show_row=1;}
 endfor;
 ?>
-    <div>
+    <div style="position:relative;top:5px">
 <table style="width:100%" id="art" >
 <tr>
   <th><?php echo _('Fiche')?></th>
@@ -323,7 +323,7 @@ if ( ($aCard[$i] != 0 && $p_view == 'READ') || $p_view != 'READ'):
 <?php endif; ?>
 <?php endfor; ?>
 </table>
-    </div>
+    
 <script language="JavaScript">
 if ( $('e_march0') && $('e_march0').value =='') { toggleShowDetail();}
 function toggleShowDetail() {
@@ -371,7 +371,8 @@ function toggleShowDetail() {
 <?php endif; ?>
 </fieldset>
 <?php endif; ?>
-
+</div>
+    
 <?php if ($p_view != 'READ' && $str_select_doc != '') : ?>
 <fieldset class="noprint" >
   <legend>
