@@ -19,7 +19,7 @@ class Acc_Ledger_SoldTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         include 'global.php';
-        $this->object=new Acc_Ledger_Sold($g_connection,2);
+        $this->object=new Acc_Ledger_Sold($g_connection, 2);
     }
 
     /**
@@ -38,7 +38,7 @@ class Acc_Ledger_SoldTest extends PHPUnit_Framework_TestCase
      */
     public function testVerify()
     {
-         $this->object->verify(array());
+        $this->object->verify(array());
     }
 
     /**
@@ -69,7 +69,8 @@ class Acc_Ledger_SoldTest extends PHPUnit_Framework_TestCase
     public function testExtra_info()
     {
         $info=$this->object->extra_info();
-        if ( ! is_string($info) ) {
+        if (!is_string($info))
+        {
             $this->assertTrue(FALSE);
         }
     }
@@ -93,8 +94,9 @@ class Acc_Ledger_SoldTest extends PHPUnit_Framework_TestCase
     public function testInput()
     {
         $_REQUEST['ac']='VEN';
-       $info=$this->object->input();
-        if ( ! is_string($info) ) {
+        $info=$this->object->input();
+        if (!is_string($info))
+        {
             $this->assertTrue(FALSE);
         }
     }
@@ -116,18 +118,6 @@ class Acc_Ledger_SoldTest extends PHPUnit_Framework_TestCase
      * @todo   Implement testHeading_detail_sale().
      */
     public function testHeading_detail_sale()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers Acc_Ledger_Sold::test_me
-     * @todo   Implement testTest_me().
-     */
-    public function testTest_me()
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(

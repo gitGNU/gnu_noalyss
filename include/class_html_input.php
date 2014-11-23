@@ -878,7 +878,16 @@ class HtmlInput
             $rmOperation=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer cette relation ')."')==true ) {remove_operation('%s','%s');}",
 							dossier::id(),
 							$p_operation);
-            $js= '<a class="smallbutton" style="padding:0px;display:inline" style="color:orange" id="acop'.$p_operation.'" href="'.$rmOperation.'">'."&#x2D5D;".'</a>';
+            $js= '<a class="tinybutton" id="acop'.$p_operation.'" href="'.$rmOperation.'">'."&#x2D5D;".'</a>';
+            return $js;
+        }
+        static function button_action_add_concerned_card($p_agid)
+        {
+            $dossier=Dossier::id();
+            $javascript= <<<EOF
+                    obj={dossier:$dossier,ag_id:$p_agid};action_add_concerned_card(obj);
+EOF;
+            $js=HtmlInput::button_action(_('Ajout autres'), $javascript);
             return $js;
         }
 }

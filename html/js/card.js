@@ -114,6 +114,115 @@ function search_card(obj)
     }
 }
 /**
+ *@brief Display form for select card to add to action : other_concerned
+ *action_add_concerned_card
+ */
+function action_add_concerned_card(obj)
+{
+    try
+    {
+        var dossier = 0;
+        var inp="";
+        var ag_id=0;
+        
+        if (obj.dossier) {
+            dossier = obj.dossier; /* From the button */
+        } 
+        if (obj.ag_id) {
+            ag_id=obj.ag_id;
+        }
+        /* from the form */
+        if (obj.elements) {
+            if (obj.elements['gDossier']) 
+            {
+                dossier = obj.elements['gDossier'].value;
+            }
+
+            if (obj.elements['query']) {
+                inp = obj.elements['query'].value;
+            }
+
+            if (obj.elements['ag_id']) {
+                ag_id = obj.elements['ag_id'].value;
+            }
+        }
+        if (dossier == 0) {
+            throw "obj.dossier not found";
+        }
+        if (ag_id == 0) {
+            throw "obj.ag_id not found";
+        }
+        var query = encodeJSON({
+            'gDossier': dossier,
+            'op': 'action_add_concerned_card',
+            'query' : inp,
+            'ctl' : 'unused',
+            'ag_id' : ag_id
+        });
+
+        waiting_box();
+
+
+        var action = new Ajax.Request('ajax_card.php',
+                {
+                    method: 'get',
+                    parameters: query,
+                    onFailure: errorFid,
+                    onSuccess: function (req, txt)
+                    {
+                        try {
+                        console.log(1);
+                        remove_waiting_box();
+                        var answer = req.responseXML;
+                        var a = answer.getElementsByTagName('ctl');
+                        if (a.length == 0)
+                        {
+                            var rec = req.responseText;
+                            alert('erreur :' + rec);
+                        }
+                        console.log(2);
+                        var html = answer.getElementsByTagName('code');
+                        console.log(3);
+                        var namectl = a[0].firstChild.nodeValue;
+                        console.log(31);
+                        var nodeXml = html[0];
+                        console.log(32);
+                        var code_html = getNodeText(nodeXml);
+                        console.log(33);
+                        code_html = unescape_xml(code_html);
+                        console.log(34);
+
+                        var sx = 0;
+                        if (window.scrollY)
+                        {
+                            sx = window.scrollY + 40;
+                        }
+                        else
+                        {
+                            sx = document.body.scrollTop + 60;
+                        }
+                        console.log(4);
+                        var div_style = "top:" + sx + "px;height:80%";
+                        if ( ! $('search_card')) { add_div({id: 'search_card', cssclass: 'inner_box', html: "", style: div_style, drag: true}); }
+                        $('search_card').innerHTML = code_html;
+                        $('query').focus();
+                        console.log(5);
+                        }catch (e) {
+                            console.log('Erreur ')+e.message;
+                        }
+                    }
+                }
+        );
+    }
+    catch (e)
+    {
+        alert('search_card failed' + e.message);
+        return false;
+    }
+    return false;
+}
+
+/**
  *@brief when you submit the form for searching a card
  *@param obj form
  *@note the same as search_card, except it answer to a FORM and not
@@ -176,6 +285,7 @@ function result_card_search(req)
 {
     try
     {
+        
         remove_waiting_box();
         var answer=req.responseXML;
         var a=answer.getElementsByTagName('ctl');
@@ -204,6 +314,7 @@ function result_card_search(req)
         var div_style="top:"+sx+"px;height:80%";
         add_div({id:'search_card',cssclass:'inner_box',html:"",style:div_style,drag:true,effect:'blinddown'});
         $('search_card').innerHTML=code_html;
+        $('query').focus();
     }
     catch (e)
     {
@@ -483,7 +594,11 @@ function select_card_type(obj)
                                   method:'get',
                                   parameters:queryString,
                                   onFailure:errorFid,
-                                  onSuccess:fill_box
+                                  onSuccess:function(req) { 
+                                   
+                                      fill_box(req);
+                                       $('lk_cat_card_table').focus();
+                                    }
                                   }
                                 );
 }
@@ -724,3 +839,79 @@ try {
 	return false;
     }
 }
+/***
+ * In Follow-up, update, it is possible to add several card as concerned person or company
+ * this function save it into the database, display the result and remove the search_card div
+ * @param {type} p_dossier dossier
+ * @param {type} p_fiche_id fiche.f_id
+ * @param {type} p_action_id action_gestion.ag_id
+ * @returns {undefined} nothing
+ */
+function action_save_concerned(p_dossier, p_fiche_id, p_action_id) {
+    var query = encodeJSON({'gDossier': p_dossier, 'f_id': p_fiche_id, 'ag_id': p_action_id,'op':'action_save_concerned','ctl':'unused'});
+    var a=new Ajax.Request('ajax_card.php',
+            {
+                method: 'get',
+                parameters: query,
+                onFailure: errorFid,
+                onSuccess: function (req, txt)
+                {
+                    try {
+                        console.log(1);
+                        remove_waiting_box();
+                        var answer = req.responseXML;
+                        var a = answer.getElementsByTagName('ctl');
+                        if (a.length == 0)
+                        {
+                            var rec = req.responseText;
+                            alert('erreur :' + rec);
+                        }
+                        var html = answer.getElementsByTagName('code');
+                        var namectl = a[0].firstChild.nodeValue;
+                        var nodeXml=html[0];
+                        var code_html = getNodeText(nodeXml);
+                        code_html = unescape_xml(code_html);
+                        removeDiv('search_card');
+                        $('concerned_card_td').innerHTML = code_html;
+                    } catch (e) {
+                        console.log('Erreur ') + e.message;
+                    }
+                }
+            }
+    );
+    }
+function action_remove_concerned(p_dossier,p_fiche_id,p_action_id)
+{
+ var query = encodeJSON({'gDossier': p_dossier, 'f_id': p_fiche_id, 'ag_id': p_action_id,'op':'action_remove_concerned','ctl':'unused'});
+    var a=new Ajax.Request('ajax_card.php',
+            {
+                method: 'get',
+                parameters: query,
+                onFailure: errorFid,
+                onSuccess: function (req, txt)
+                {
+                    try {
+                        console.log(1);
+                        remove_waiting_box();
+                        var answer = req.responseXML;
+                        var a = answer.getElementsByTagName('ctl');
+                        if (a.length == 0)
+                        {
+                            var rec = req.responseText;
+                            alert('erreur :' + rec);
+                        }
+                        var html = answer.getElementsByTagName('code');
+                        var namectl = a[0].firstChild.nodeValue;
+                        var nodeXml=html[0];
+                        var code_html = getNodeText(nodeXml);
+                        code_html = unescape_xml(code_html);
+                        removeDiv('search_card');
+                        $('concerned_card_td').innerHTML = code_html;
+                    } catch (e) {
+                        console.log('Erreur ') + e.message;
+                    }
+                }
+            }
+    );
+    }
+    

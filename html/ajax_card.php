@@ -431,6 +431,16 @@ case 'fs':
     $ctl=$ctl.'_content';
     $html=$r;
     break;
+    case 'action_add_concerned_card':
+        require_once 'ajax_add_concerned_card.php';
+        return;
+    break;
+    case 'action_save_concerned':
+        require 'ajax_action_save_concerned.php';
+        return;
+    case 'action_remove_concerned':
+        require 'ajax_action_remove_concerned.php';
+        return;
 case 'ac':
     if ( $g_user->check_action(FICCAT)==1 )
     {

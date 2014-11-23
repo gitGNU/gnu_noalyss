@@ -1,24 +1,17 @@
 <?php
 //This file is part of NOALYSS and is under GPL 
 //see licence.txt
-?><fieldset>
-  <legend>
-<?php echo _('Informations générales')?>
-  </legend>
-  <div style="float:right">
-    <?echo $retour;
-    ?>
-  </div>
+?><div>
 <h2 class="gest_name"><?php echo $sp->input();   ?></h2>
-<div style="float:left;width: 45%">
+<div style="width:47%;float:left;">
 
 
-        <table >
+    <table>
 			<tr>
             <TD>
 	    <?php echo _('N° document')?>
             </TD>
-            <TD style="font-weight: bolder;" >
+            <TD class="highlight">
               <?php echo $this->ag_id;?>
             </TD>
           </TR>
@@ -31,7 +24,63 @@
               ?>
             </TD>
           </TR>
+   <tr>
+            <TD>
+	    <?php echo _('Type')?>
+            </TD>
+            <TD>
+              <?php echo $str_doc_type;
+              ?>
+            </TD>
+          </tr>
+        <tr>
 
+	<tr>
+          <TD>
+	    <?php echo _('Destinataire')?>
+          </TD>
+          <TD>
+  <?php echo $w->search().$w->input();
+            ?>
+          </td>
+          </Tr>
+	<tr>
+          <TD>
+	  <?php echo _('Contact')?>
+          </TD>
+          <TD>
+  <?php echo $ag_contact->search().$ag_contact->input();
+            ?>
+          </td>
+          </Tr>
+	<tr>
+          <TD colspan="2">
+             <?php echo $spcontact->input(); ?>
+          </td>
+          </Tr>
+          <?php if ($this->ag_id > 0 ): ?>
+          <tr>
+              <td>
+                  <?php echo _('Autres concernés')?>
+              </td>
+              <td id="concerned_card_td">
+              <?php 
+                    echo $this->display_linked();
+                    echo HtmlInput::button_action_add_concerned_card( $this->ag_id)?>
+              </td>
+              <td>
+
+              </td>
+          </tr>
+          <?php endif; ?>
+        </table>
+ <?php if ($p_view != 'READ') echo $str_add_button;?>
+
+</div>
+<div style="width:47%;float:left">
+        <table>
+
+         
             <TD>
    <?php echo _('Date')?>
             </TD>
@@ -59,47 +108,6 @@
               ?>
             </TD>
           </TR>
-
-	<tr>
-          <TD>
-	    <?php echo _('Destinataire')?>
-          </TD>
-          <TD>
-  <?php echo $w->search().$w->input();
-            ?>
-          </td>
-          </Tr>
-	<tr>
-          <TD>
-	  <?php echo _('Contact')?>
-          </TD>
-          <TD>
-  <?php echo $ag_contact->search().$ag_contact->input();
-            ?>
-          </td>
-          </Tr>
-	<tr>
-          <TD colspan="2">
-             <?php echo $spcontact->input(); ?>
-          </td>
-          </Tr>
-        </table>
- <?php if ($p_view != 'READ') echo $str_add_button;?>
-
-</div>
-<div style="float:left;width:45%">
-        <table>
-
-          <tr>
-            <TD>
-	    <?php echo _('Type')?>
-            </TD>
-            <TD>
-              <?php echo $str_doc_type;
-              ?>
-            </TD>
-          </tr>
-
           <tr>
             <TD>
 	    <?php echo _('Etat')?>
@@ -143,9 +151,9 @@
         </table>
 
 </div>
-<div style="float:right;clear:both"></div>
-	<div style="float:left;width:45%">
-		<h4 style="display:inline">Opérations concernées</h4>
+<div style="clear: both"></div>
+	<div style="float:left;width: 47%">
+		<h4 style="display:inline;">Opérations concernées</h4>
 		<ol>
 
 		<?php
@@ -169,7 +177,7 @@
 		<?php if ($p_view != 'READ')   echo '<span class="noprint">'.$iconcerned->input().'</span>';?>
 	</div>
 
-	<div style="float:left;width:45%">
+        <div style="float:left;width: 47%">
 		<h4 style="display:inline"><?php echo _("Actions concernées")?></h4>
 		<ol>
 
@@ -183,7 +191,7 @@
 					dossier::id(),
 					$action[$o]['ag_id'],$_REQUEST['ag_id']);
 			$showAction='<a class="line" href="'.$base."&ag_id=".$action[$o]['ag_id'].'">';
-			$js= '<a class="mtitle" style="color:orange" id="acact'.$action[$o]['ag_id'].'" href="'.$rmAction.'">'._("Effacer").'</a>';
+			$js= '<a class="tinybutton" id="acact'.$action[$o]['ag_id'].'" href="'.$rmAction.'">&#x2D5D;</a>';
 			echo '<li id="act'.$action[$o]['ag_id'].'">'.$showAction.$action[$o]['str_date']." ".$action[$o]['ag_ref']." ".
 					h($action[$o]['sub_title']).'('.h($action[$o]['dt_value']).')</a>'." "
 				.$js.'</li>';
@@ -199,8 +207,9 @@
 		</ol>
 		<?php if ( $p_view != 'READ') echo '<span class="noprint">'.$iaction->input().'</span>';?>
 	</div>
-</fieldset>
-<div class="myfieldset">
+</div>
+<div style="clear: both"></div>
+<div id="div_action_description">
   <h1 class="legend">
 	    <?php echo _('Description')?>
   </h1>
@@ -220,23 +229,30 @@ function small(p_id_textarea){
 <?php if  ($p_view != 'NEW') : ?>
 Document créé le <?php echo $this->ag_timestamp ?> par <?php echo $this->ag_owner?>
 <?php endif; ?>
-   <h4 class="info"><?php echo _('Titre')?></h4>
-    <p style="margin-left:100">
+  <h4 class="info" style="margin-left:110px"><?php echo _('Titre')?></h4>
+    <p style="margin-left:100px">
     <?php echo $title->input();
     ?>
 </p>
-<h4 class="info">   <?php echo _('Commentaire')?></h4>
     <div style="margin-left:100px">
    <?php
    $style_enl='style="display:inline"';$style_small='style="display:none"';
 
 for( $c=0;$c<count($acomment);$c++){
-	if ( $p_view != 'READ')
+        if ($c == 0) { $m_desc=_('Description');}
+        else
+        if ($c == 1) { $m_desc=_('Commentaire');}
+        else
+         { $m_desc="";}?>
+        <h4 class="info" >   <?php echo $m_desc;?></h4>
+
+	<?php
+        if ( $p_view != 'READ')
 	{
 		$rmComment=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer ce commentaire')." ?')==true ) {remove_comment('%s','%s');}",
 						dossier::id(),
 						$acomment[$c]['agc_id']);
-				$js= '<a class="mtitle" style="color:red" id="accom'.$acomment[$c]['agc_id'].'" href="'.$rmComment.'">Effacer</a>';
+				$js= '<a class="tinybutton" id="accom'.$acomment[$c]['agc_id'].'" href="'.$rmComment.'">&#x2D5D;</a>';
 		echo hb('n°'.$acomment[$c]['agc_id'].'('.$acomment[$c]['tech_user']." ".$acomment[$c]['str_agc_date'].')').$js.
 				'<pre style="white-space: -moz-pre-wrap;white-space: pre-wrap;border:1px solid blue;width:80%;" id="com'.$acomment[$c]['agc_id'].'"> '.
 				" ".h($acomment[$c]['agc_comment']).'</pre>'
@@ -265,6 +281,7 @@ echo '</span>';
 </div>
 <?php if ( $p_view !='READ'  ) :?>
 <input type='button' class="button" class="noprint" value='Montrer articles' id="toggleButton" onclick='toggleShowDetail()'>
+<input type='button' class="button" class="noprint" value='Générer' id="toggleButtonGenerate" onclick="$('div_generate_document').show()">
 <?php endif; ?>
 <?php
 /**
@@ -282,8 +299,8 @@ endfor;
 if ($show_row !=0 ) :
 
 	?>
-<fieldset id="fldDetail" style='display:block;top:2px'>
-   <LEGEND> <?php echo _('Détail des articles')?>
+<div id="fldDetail" class="myfieldset" style='padding-bottom:  100px;display:block;top:2px'>
+   <LEGEND> <?php echo _('Détail')?>
 </LEGEND>
 <?php // hidden fields
 $show_row=0;
@@ -323,9 +340,10 @@ if ( ($aCard[$i] != 0 && $p_view == 'READ') || $p_view != 'READ'):
 <?php endif; ?>
 <?php endfor; ?>
 </table>
-    
+    </div>
 <script language="JavaScript">
 if ( $('e_march0') && $('e_march0').value =='') { toggleShowDetail();}
+$('div_generate_document').hide();
 function toggleShowDetail() {
 	try {var detail=g('fldDetail');
 	var but=g('toggleButton');
@@ -333,25 +351,25 @@ function toggleShowDetail() {
 	else { but.value="<?php echo _("Cacher les détails")?>";detail.style.display='block';} }
 	catch (error)  {alert(error);}
 	}
+</script>    
 
-</script>
 <?php if ( $show_row != 0 ): ?>
-<div style="float: right; text-align: right; padding-right: 5px; font-size: 1.2em; font-weight: bold; color: blue;">
+<div>
   
-    <div style="float: right; text-align: left; font-size: 1.2em; font-weight: bold; color: blue;" id="sum">
-    <br><span style="text-align: right" id="htva">0.0</span>
-     <br><span style="text-align: right"  id="tva">0.0</span>
-    <br><span style="text-align: right" id="tvac">0.0</span>
+    <div style=" float:right;margin-right: 2px"" id="sum">
+    <br><span style="text-align: right;" class="highlight" id="htva">0.0</span>
+     <br><span style="text-align: right" class="highlight" id="tva">0.0</span>
+    <br><span style="text-align: right" class="highlight" id="tvac">0.0</span>
  </div>
 
-<div style="float: right; text-align: right; padding-right: 5px; font-size: 1.2em; font-weight: bold; color: blue;">
+    <div  style="float:right;margin-right: 230px" >
     <br>Total HTVA
     <br>Total TVA
     <br>Total TVAC
  </div>
 
  <?php if ( ! $readonly ) :  ?>
-    <div  style="position:float;float:right">
+    <div style="float:right" >
     <input name="act" id="act_bt" class="smallbutton" value="<?php echo _('Actualiser')?>" onclick="compute_all_ledger();" type="button">
      <input type="button" class="smallbutton" onclick="gestion_add_row()" value="<?php echo _("Ajouter une ligne")?>">
      </div>
@@ -359,7 +377,7 @@ function toggleShowDetail() {
 <?php endif; ?>         
 </div>
 <?php if ( $this->ag_id != 0 && ! $readonly) : ?>
-     <div  style="position:float;float:left">
+     <div >
          <p>
          <?php
             $query=  http_build_query(array('gDossier'=>Dossier::id(),'ag_id'=>$this->ag_id,'create_invoice'=>1,'ac'=>$menu->get('code_invoice')));
@@ -369,23 +387,23 @@ function toggleShowDetail() {
       </div>
      <?php endif; ?>
 <?php endif; ?>
-</fieldset>
+</div>
 <?php endif; ?>
 </div>
-    
+<div style="clear:both"></div>    
 <?php if ($p_view != 'READ' && $str_select_doc != '') : ?>
-<fieldset class="noprint" >
+<div id="div_generate_document" class="noprint" style="display:none" >
   <legend>
      <?php echo _('Document à générer')?>
   </legend>
   <?php echo $str_select_doc;
  echo $str_submit_generate;
   ?>
-</fieldset>
+</div>
 <?php endif; ?>
 
 
-<fieldset>
+<div class="myfieldset" id="div_action_attached_doc">
   <legend>
      <?php echo _('Pièces attachées')?>
   </legend>
@@ -464,6 +482,6 @@ catch(exception) { alert('<?php echo j(_('Je ne peux pas ajouter de fichier'))?>
   </span>
   </div>
  <?php endif;?>
-</fieldset>
+</div>
 </div>
 <script>compute_all_ledger()</script>

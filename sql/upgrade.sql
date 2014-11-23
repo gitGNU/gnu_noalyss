@@ -57,9 +57,27 @@ create table key_distribution_activity
 );
 
 comment on table key_distribution is 'Distribution key for analytic';
-comment on table key_distribution_ledger is 'Legder where the distribution key can be used' ;
-comment on table key_distribution_detail is 'Row of activity and percent';
 comment on table key_distribution_activity is 'activity (account) linked to the row';
+comment on column key_distribution.kd_id is 'PK';
+comment on column key_distribution.kd_name is 'Name of the key';
+comment on column key_distribution.kd_description is 'Description of the key';
+
+comment on table key_distribution_ledger is 'Legder where the distribution key can be used' ;
+comment on column key_distribution_ledger.kl_id is 'pk';
+comment on column key_distribution_ledger.kd_id is 'fk to key_distribution';
+comment on column key_distribution_ledger.jrn_def_id is 'fk to jrnd_def, ledger where this key is available';
+
+
+comment on table key_distribution_detail is 'Row of activity and percent';
+comment on column key_distribution_detail.ke_id is 'pk';
+comment on column key_distribution_detail.kd_id is 'fk to key_distribution';
+comment on column key_distribution_detail.ke_row is 'group order';
+
+comment on table key_distribution_activity is 'Contains the analytic account';
+comment on column key_distribution_activity.ka_id is 'pk';
+comment on column key_distribution_activity.ke_id is 'fk to key_distribution_detail';
+comment on column key_distribution_activity.po_id is 'fk to poste_analytique';
+comment on column key_distribution_activity.pa_id is 'fk to plan_analytique';
 
 drop view vw_fiche_attr cascade;
 
@@ -155,9 +173,14 @@ create index jrnx_j_qcode_ix on jrnx (j_qcode);
 CREATE TABLE action_person 
 (
     ap_id  SERIAL NOT NULL, 
-    ag_id int4 NOT NULL, 
-f_id int4, PRIMARY KEY (ap_id));
+    ag_id int4 NOT NULL references action_gestion(ag_id) on update cascade on delete cascade,, 
+    f_id int4 not null references fiche(f_id) on update cascade on delete cascade, 
+    PRIMARY KEY (ap_id));
+
 COMMENT ON TABLE action_person IS 'Person involved in the action';
+comment on column action_person.ap_id is 'pk';
+comment on column action_person.ag_id is 'fk to action_action';
+comment on column action_person.ag_id is 'fk to fiche';
 
 ALTER TABLE action_person ADD CONSTRAINT action_gestion_ag_id_fk2 FOREIGN KEY (ag_id) REFERENCES  action_gestion (ag_id);
 ALTER TABLE action_person ADD CONSTRAINT fiche_f_id_fk2  FOREIGN KEY (f_id) REFERENCES fiche(f_id);
@@ -185,3 +208,5 @@ CREATE TRIGGER trg_category_card_before_delete
   ON fiche_def
   FOR EACH ROW
   EXECUTE PROCEDURE comptaproc.category_card_before_delete();
+
+alter table action_gestion add constraint fk_action_gestion_document_type foreign key (ag_type) references document_type(dt_id);

@@ -9,7 +9,7 @@
 <?php for ($i=0;$i<sizeof($array);$i++) : ?>
     <?php $class=($i%2==0)?'odd':'even';?>
 <tr class="<?php echo $class;?>">
-<td style="padding-right:55">
+<td style="padding-right:55px">
 <a href="javascript:void(0)" class="one" onclick="<?php echo $array[$i]['javascript']?>">
 <?php echo $array[$i]['quick_code']?>
 </a>

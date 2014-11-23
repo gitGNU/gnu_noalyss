@@ -165,18 +165,20 @@ class Follow_Up
 		$date = new IDate();
 		$date->readOnly = $readonly;
 		$date->name = "ag_timestamp";
+		$date->id= "ag_timestamp";
 		$date->value = $this->ag_timestamp;
 
 		$remind_date = new IDate();
 		$remind_date->readOnly = $readonly;
 		$remind_date->name = "ag_remind_date";
+		$remind_date->id = "ag_remind_date";
 		$remind_date->value = $this->ag_remind_date;
 
 
 		// Doc Type
 		$doc_type = new ISelect();
 		$doc_type->name = "dt_id";
-		$doc_type->value = $this->db->make_array("select dt_id,dt_value from document_type order by dt_value");
+		$doc_type->value = $this->db->make_array("select dt_id,dt_value from document_type order by dt_value",1);
 		$doc_type->selected = $this->dt_id;
 		$doc_type->readOnly = $readonly;
 		$str_doc_type = $doc_type->input();
@@ -338,7 +340,8 @@ class Follow_Up
 		$sp->name = 'qcode_dest_label';
 		$sp->value = $qcode_dest_label;
 
-		// contact
+		// autre - a refaire pour avoir plusieurs fiches
+                // Sur le modèle des tags
 		$ag_contact = new ICard();
 		$ag_contact->readOnly = $readonly;
 		$ag_contact->jrn = 0;
@@ -1012,7 +1015,7 @@ class Follow_Up
 	function fromArray($p_array)
 	{
                 global $g_user;
-		$this->ag_id = (isset($p_array['ag_id'])) ? $p_array['ag_id'] : "";
+		$this->ag_id = (isset($p_array['ag_id'])) ? $p_array['ag_id'] : 0;
 		$this->ag_ref = (isset($p_array['ag_ref'])) ? $p_array['ag_ref'] : "";
 		$this->qcode_dest = (isset($p_array['qcode_dest'])) ? $p_array['qcode_dest'] : "";
 		$this->f_id_dest = (isset($p_array['f_id_dest'])) ? $p_array['f_id_dest'] : 0;
@@ -1311,7 +1314,7 @@ class Follow_Up
 				if ($fiche->id == 0)
 					$str = ' and false ';
 				else
-					$str = " and (f_id_dest= " . $fiche->id . " ) ";
+					$str = " and (f_id_dest= " . $fiche->id . " or ag_id in (select ag_id from action_person as ap where ap.f_id=". $fiche->id .")  )";
 			}
 		}
 		if (isset($tdoc) && $tdoc != -1)
@@ -1531,7 +1534,7 @@ class Follow_Up
                         $a_tag[$e]['t_id']);
                 echo '<span style="border:1px solid black;margin-right:5px;">';
                 echo $a_tag[$e]['t_tag'];
-                echo HtmlInput::anchor( " &#x2D5D; ", "javascript:void(0)", $js_remove, ' class="smallbutton " style="padding:0px;display:inline" ');
+                echo HtmlInput::anchor( " &#x2D5D; ", "javascript:void(0)", $js_remove, ' class="smallbutton" style="padding:0px;display:inline" ');
                 echo '</span>';
                 echo '&nbsp;';
                 echo '&nbsp;';
@@ -1621,6 +1624,74 @@ class Follow_Up
                if ($g_user->can_write_action($mag_id[$i]) == false) continue;
                $cn->exec_sql('delete from action_gestion where ag_id=$1',
                        array($mag_id[$i]));
+            }
+        }
+        /**
+         * Verify that data are correct
+         * @throws Exception
+         */
+        function verify()
+        {
+            if ( $this->dt_id == -1 ) {
+                throw new Exception (_('Type action invalide'),10);
+            }
+            if ( isDate($this->ag_timestamp) != $this->ag_timestamp )
+                throw new Exception (_('Date invalide'),20);
+            if ( isDate($this->ag_remind_date) != $this->ag_remind_date )
+                throw new Exception (_('Date invalide'),30);
+        }
+        /**
+         *  Add another concerned (tiers, supplier...)
+         * @global type $g_user
+         * @param type $p_fiche_id
+         */
+        function insert_linked_card($p_fiche_id) 
+        {
+            global $g_user;
+            if ( $g_user->can_write_action($this->ag_id))  {
+                /**
+                 * insert into action_person
+                 */
+                $count=$this->db->get_value('select count(*) from action_person where f_id=$1 and ag_id=$2',array($p_fiche_id,$this->ag_id));
+                if ( $count == 0 ) 
+                {
+                    $this->db->exec_sql('insert into action_person (ag_id,f_id) values ($1,$2)',array($this->ag_id,$p_fiche_id));
+                }
+            }
+        }
+        /**
+         * Remove  another concerned (tiers, supplier...)
+         * @global type $g_user
+         * @param type $p_fiche_id
+         */
+        function remove_linked_card($p_fiche_id)
+        {
+             global $g_user;
+            if ( $g_user->can_write_action($this->ag_id))  {
+                  $this->db->exec_sql('delete from action_person where ag_id = $1 and f_id = $2',array($this->ag_id,$p_fiche_id));
+            }
+            
+        }
+        /**
+         * Display the other concerned (tiers, supplier...)
+         * @return string
+         */
+        function display_linked()
+        {
+            $a_linked=$this->db->get_array('select ap_id,f_id from action_person where ag_id=$1',array($this->ag_id));
+            if ( count($a_linked) == 0 ) return "";
+            for ($i=0;$i<count($a_linked);$i++)
+            {
+                $fiche=new Fiche($this->db,$a_linked[$i]['f_id']);
+                $qc=$fiche->get_quick_code();
+                 $js_remove=sprintf("onclick=\"action_remove_concerned('%s','%s','%s')\"",dossier::id(),
+                        $a_linked[$i]['f_id'],$this->ag_id);
+                echo '<span style="border:1px solid black;margin-right:5px;">';
+                echo $qc;
+                echo HtmlInput::anchor( " &#x2D5D; ", "javascript:void(0)", $js_remove, ' class="smallbutton" style="padding:0px;display:inline" ');
+                echo '</span>';
+                echo '&nbsp;';
+                echo '&nbsp;';
             }
         }
 }
