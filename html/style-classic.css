@@ -2,16 +2,18 @@
 
 BODY {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
-    padding: 0px 0px 0px 0px ;
+    padding: 1x;
     margin:0px;
- color:#0000FF; 
+    color:#0000FF; 
     font-size:100%;
 }
 .notice {
     color:#FF0000;
     font-style: italic;
 }
-
+span.notice {
+    font-weight: bold;
+}
 table.sortable, table.table_large, table.result  ,table.resultfooter {
     color:#0000FF;
     width:99%;
@@ -704,9 +706,10 @@ div.autocomplete {
     background-color:#FFFFFF;
     border:1px solid #888;
     margin:0px;
-    padding:0px;
+    padding:1px;
     text-align:left;
-    position:absolute;
+    position:relative;
+    top : 0px;
 }
 div.autocomplete em {
     color:#0000FF;
@@ -934,12 +937,14 @@ div.gest_name {
     margin-top:15px;
 }
 h2.gest_name {
-    border-left: 5px solid  #403a8d;
-    border-bottom:1px solid  #b4bbc2;
+    border-right:  2px solid  #403a8d;
+    border-bottom:2px solid  #403a8d;
     border-top:1px solid  #b4bbc2;
-    border-right:1px solid  #b4bbc2;
+    border-left: 1px solid  #b4bbc2;
     padding: 5px;
-    width: 40%;
+    width: 80%;
+    font-size:140%;
+    margin-left: 10%;
 }
 body.op_detail_frame,div.op_detail_frame  {
     background-color:#e4e7ed;
@@ -1101,6 +1106,12 @@ div#wait_box
     /* color:#000000; */
     text-align:center;
     /* width: 50%; */
+}
+#navi_tb {
+width: 95%;
+margin-left: 2%;
+border-spacing: 0em 0.50em;
+border-collapse: separate;
 }
 div#div_jrnsearch_op{
 
@@ -1631,32 +1642,36 @@ tr.highlight{
     color: inherit;
 }
 @media only screen and (max-width: 1280px) {
-div.inner_box  {
-    width: 95%;
-    left:2%;
-    margin-bottom: 2%;
-    }
-     li.tabs {
-            display:inline;
-            background-color: inherit;
-            color:inherit;margin-left: 0px;
-            padding: 10px 10px 0px 10px;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-            border:1px #879ed4 solid;
-
+    div.inner_box  {
+        width: 95%;
+        left:2%;
+        margin-bottom: 2%;
         }
-        li.tabs:hover {
-            display:inline;
-            background-color: lightblue;
-            color:wheat;margin-left: 2px;
-            padding: 10px 10px 0px 10px;
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
-            border:1px #879ed4 solid;
+    li.tabs {
+           display:inline;
+           background-color: inherit;
+           color:inherit;margin-left: 0px;
+           padding: 10px 10px 0px 10px;
+           border-top-left-radius: 10px;
+           border-top-right-radius: 10px;
+           border:1px #879ed4 solid;
 
-        }
+       }
+       li.tabs:hover {
+           display:inline;
+           background-color: lightblue;
+           color:wheat;margin-left: 2px;
+           padding: 10px 10px 0px 10px;
+           border-top-left-radius: 5px;
+           border-top-right-radius: 5px;
+           border:1px #879ed4 solid;
+
+       }
 }
+/*****************************************************************************
+ * Table of one column to present menu 
+ * as in CFGLED, FORECAST, REPORT
+ *****************************************************************************/
 table.vert_mtitle {
   text-align:center;
     /* border:5px solid #99B1DF; */
@@ -1688,4 +1703,31 @@ table.vert_mtitle td:hover {
 table.vert_mtitle td:hover a{
    color:white;
   
+}
+
+/*******************************************************************************
+ *  Tiny button example : -X for remove action, remove link...
+ *******************************************************************************/
+div.content a.tinybutton{
+    color: blue;
+    font-weight: bold;
+    text-decoration: none;
+    font-family: arial,verdana,sans-serif,helvetica;
+   /* background-image: url("image/bg-submit2.gif");
+    background-repeat: repeat-x;
+    background-position: left; */
+    font-size: 8px;
+    font-size: 0.7rem;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-top: 3px;
+    cursor: pointer;
+    margin: 1px 2px 1px 2px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: blue;
+    border-radius: 2px; 
+    display : inline;
 }
