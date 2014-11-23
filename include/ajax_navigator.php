@@ -41,7 +41,7 @@ $a_menu=$cn->get_array($sql,array($_SESSION['g_user']));
     echo HtmlInput::filter_table("navi_tb", "0,1,2", '1');
     ?>
     </p>
-    <table id="navi_tb" class="sortable" style="width:90%;margin-left: 5%;border-spacing:0em 0.50em;border-collapse: separate">
+    <table id="navi_tb" class="sortable" >
         <tr>
             <th class='sorttable_sorted'>
                 Code AD 
