@@ -37,6 +37,8 @@ if (isset($_REQUEST['f_id']))
 if (isset($_REQUEST['sb']))
 	$supl_hidden.=HtmlInput::hidden('sb', $_REQUEST['sb']);
 $supl_hidden.=HtmlInput::hidden('ac', $_REQUEST['ac']);
+$correction = 0;
+$error_id=0;
 /*-----------------------------------------------------------------------------*/
 /* For other action
 /*-----------------------------------------------------------------------------*/
@@ -128,7 +130,22 @@ if ($sub_action == "update")
 		}
 		$sub_action = "detail";
 		put_global(array(array('key' => "sa", "value" => "detail")));
-		$act2->Update() ;
+                try {
+                    $act2->verify() ;
+                    $act2->Update() ;
+                }
+                catch (Exception $e)
+                {
+                    echo '<span class="notice">';
+                    echo _("Erreur")." ".$e->getMessage();
+                    echo '</span>';
+                    $sub_action="detail";
+                    $correction = 1;
+                    $act = clone $act2;
+                    $act->get();
+                    $act->fromArray($_POST);
+                    $error_id=$e->getCode();
+                }
 	}
 	//----------------------------------------------------------------------
 	// Add a related action
@@ -170,11 +187,14 @@ if ($sub_action == "update")
 if ($sub_action == 'detail')
 {
 	echo '<div class="content">';
-	$act = new Follow_Up($cn);
-	$act->ag_id = $ag_id;
-
-	echo $act->get();
-	if ($g_user->can_write_action($ag_id) == true)
+        if ( $correction == 0 )
+        {
+            $act = new Follow_Up($cn);
+            $act->ag_id = $ag_id;
+            echo $act->get();
+        }
+        
+	if ($g_user->can_write_action($ag_id)  == true)
 	{
 		echo '<form  enctype="multipart/form-data"  class="print" action="do.php"  method="post"   >';
 		echo $supl_hidden;
@@ -233,6 +253,37 @@ if ($sub_action == "list")
 	Follow_Up::show_action_list($cn, $base);
 }
 //--------------------------------------------------------------------------------
+// Save Follow_Up
+// Stage 2 : Save a NEW action + Files and generate eventually a document
+//--------------------------------------------------------------------------------
+if ($sub_action == "save_action_st2")
+{
+	$act = new Follow_Up($cn);
+	$act->fromArray($_POST);
+    try {
+	$act->d_id = 0;
+	$act->md_id = (isset($_POST['gen_doc'])) ? $_POST['gen_doc'] : 0;
+
+        $act->verify();
+        
+	// insert into action_gestion
+	echo $act->save();
+	$url = "?$base&sa=detail&ag_id=" . $act->ag_id . '&' . dossier::get();
+	echo '<p><a class="mtitle" href="' . $url . '">' . hb(_('Action Sauvée').'  : ' . $act->ag_ref) . '</a></p>';
+
+	Follow_Up::show_action_list($cn,$base);
+	$url = "?$base&sa=detail&ag_id=" . $act->ag_id . '&' . dossier::get();
+	echo '<p><a class="mtitle" href="' . $url . '">' . hb(_('Action Sauvée').'  : ' . $act->ag_ref) . '</a></p>';
+    } catch (Exception $e)
+    {
+        echo '<span class="notice">';
+        echo _("Erreur")." ".$e->getMessage();
+        echo '</span>';
+        $sub_action="add_action";
+        $error_id=$e->getCode();
+    }
+}
+//--------------------------------------------------------------------------------
 // Add an action
 if ($sub_action == "add_action")
 {
@@ -259,26 +310,20 @@ if ($sub_action == "add_action")
 	echo '</form>';
 
 	echo '</div>';
+  
 }
-//--------------------------------------------------------------------------------
-// Save Follow_Up
-// Stage 2 : Save the action + Files and generate eventually a document
-//--------------------------------------------------------------------------------
-if ($sub_action == "save_action_st2")
-{
-	$act = new Follow_Up($cn);
-	$act->fromArray($_POST);
-	$act->d_id = 0;
-	$act->md_id = (isset($_POST['gen_doc'])) ? $_POST['gen_doc'] : 0;
-
-	// insert into action_gestion
-	echo $act->save();
-	$url = "?$base&sa=detail&ag_id=" . $act->ag_id . '&' . dossier::get();
-	echo '<p><a class="mtitle" href="' . $url . '">' . hb(_('Action Sauvée').'  : ' . $act->ag_ref) . '</a></p>';
-
-	Follow_Up::show_action_list($cn,$base);
-	$url = "?$base&sa=detail&ag_id=" . $act->ag_id . '&' . dossier::get();
-	echo '<p><a class="mtitle" href="' . $url . '">' . hb(_('Action Sauvée').'  : ' . $act->ag_ref) . '</a></p>';
-}
+if ( $error_id != 0 ){
+            $error[10]='dt_id';
+            $error[20]='ag_timestamp';
+            $error[30]='ag_remind_date';
+            $div=$error[$error_id];
+            $js=<<<EOF
+    <script>$('$div').style.borderColor="red";
+   $('info_div').innerHTML='erreur';     
+   </script>
+                    
+EOF;
+            echo $js;
+        }
 ?>
 
