@@ -92,7 +92,7 @@ echo _('Filtre')." ";
 $rad=new IRadio();
 $array_ledger=$g_user->get_ledger('ALL',3);
 $array=get_array_column($array_ledger,'jrn_def_id');
-$selected=(isset($_GET['balr_jrn']))?$_GET['balr_jrn']:null;
+$selected=(isset($_GET['r_jrn']))?$_GET['r_jrn']:null;
 $select_cat=(isset($_GET['r_cat']))?$_GET['r_cat']:null;
 $array_cat=Acc_Ledger::array_cat();
 
