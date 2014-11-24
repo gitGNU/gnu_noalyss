@@ -185,6 +185,8 @@ comment on column action_person.ag_id is 'fk to fiche';
 ALTER TABLE action_person ADD CONSTRAINT action_gestion_ag_id_fk2 FOREIGN KEY (ag_id) REFERENCES  action_gestion (ag_id);
 ALTER TABLE action_person ADD CONSTRAINT fiche_f_id_fk2  FOREIGN KEY (f_id) REFERENCES fiche(f_id);
 ALTER TABLE action_gestion ADD CONSTRAINT fiche_f_id_fk3  FOREIGN KEY (f_id_dest) REFERENCES fiche(f_id);
+create index fk_action_person_action_gestion on action_person (ag_id);
+create index fk_action_person_fiche on action_person (f_id);
 
 alter table action_gestion alter f_id_dest drop not null;
 update action_gestion set f_id_dest = null where f_id_dest = 0;
@@ -210,3 +212,4 @@ CREATE TRIGGER trg_category_card_before_delete
   EXECUTE PROCEDURE comptaproc.category_card_before_delete();
 
 alter table action_gestion add constraint fk_action_gestion_document_type foreign key (ag_type) references document_type(dt_id);
+
