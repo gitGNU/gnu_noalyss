@@ -107,7 +107,8 @@ if ( isset ($_GET['viewsearch']) )
     list($sql,$where)=$ledger->build_search_sql($array);
     // Count nb of line
     $max_line=$cn->count_sql($sql);
-    list($count,$content)=$ledger->list_operation_to_reconcile($sql);
+    $target=HtmlInput::default_value_get("target", "");
+    list($count,$content)=$ledger->list_operation_to_reconcile($sql,$target);
     $bar=navigation_bar($offset,$max_line,$step,$page);
 
    if (! $inside ) {

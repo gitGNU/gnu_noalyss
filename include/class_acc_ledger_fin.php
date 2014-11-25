@@ -431,6 +431,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 			${"e_concerned" . $i} = (isset(${"e_concerned" . $i})) ? ${"e_concerned" . $i} : ""
 			;
 			$wConcerned = new IConcerned("e_concerned" . $i, ${"e_concerned" . $i});
+                        $wConcerned->tiers="e_other" . $i;
 			$wConcerned->setReadOnly($pview_only);
 			$wConcerned->amount_id = "e_other" . $i . "_amount";
 

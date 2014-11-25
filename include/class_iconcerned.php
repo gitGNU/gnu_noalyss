@@ -36,6 +36,7 @@ class IConcerned extends HtmlInput
 		$this->amount_id=null;
 		$this->paid='';
 		$this->id=$p_id;
+                $this->tiers=""; // id of the field for the tiers to be updated
 	}
     /*!\brief show the html  input of the widget*/
     public function input($p_name=null,$p_value=null)
@@ -48,7 +49,8 @@ class IConcerned extends HtmlInput
 
 
         $r=sprintf("
-                   <INPUT TYPE=\"button\" class=\"smallbutton\" onClick=\"search_reconcile(".dossier::id().",'%s','%s','%s')\" value=\"?\">
+                    <image onclick=\"search_reconcile(".dossier::id().",'%s','%s','%s','%s')\" class=\"image_search\" src=\"image/magnifier13.png\" />
+                   
                    <INPUT TYPE=\"text\"  style=\"color:black;background:lightyellow;border:solid 1px grey;\"  NAME=\"%s\" ID=\"%s\" VALUE=\"%s\" SIZE=\"8\" readonly>
 				   <INPUT class=\"smallbutton\"  TYPE=\"button\" onClick=\"$('%s').value=''\" value=\"X\">
 
@@ -56,6 +58,7 @@ class IConcerned extends HtmlInput
                    $this->name,
                    $this->amount_id,
                    $this->paid,
+                   $this->tiers,
                    $this->name,
                    $this->id,
                    $this->value,

@@ -1190,11 +1190,18 @@ function save_predf_op(obj)
 
     return false;
 }
+
 /**
  *ctl_concern is the widget to update
- *amount_id is either a html obj. or an amount
+ *amount_id is either a html obj. or an amount and the field tiers if given
+ * @param {type} dossier
+ * @param {type} ctl_concern
+ * @param {type} amount_id
+ * @param {type} ledger
+ * @param {type} p_id_target
+ * @returns {undefined}
  */
-function search_reconcile(dossier, ctl_concern, amount_id, ledger)
+function search_reconcile(dossier, ctl_concern, amount_id, ledger,p_id_target)
 {
     var dossier = g('gDossier').value;
     if (amount_id === undefined)
@@ -1227,7 +1234,8 @@ function search_reconcile(dossier, ctl_concern, amount_id, ledger)
         ctl: target,
         ac: 'JSSEARCH',
         amount_id: amount_id,
-        ledger: ledger};
+        ledger: ledger,
+        target : p_id_target};
 
     var qs = encodeJSON(target);
 
@@ -1272,14 +1280,20 @@ function search_operation(obj)
         alert(e.message);
     }
 }
-
+/**
+ * Update the field e_concerned, from class_iconcerned
+ * Value is the field where to put the quick-code but only if one checkbox has been
+ * selected
+ * @param {type} obj
+ * @returns {undefined}
+ */
 function set_reconcile(obj)
 {
 
     try
     {
         var ctlc = obj.elements['ctlc'];
-
+        var target=obj.elements['target'].value;
         for (var e = 0; e < obj.elements.length; e++)
         {
 
@@ -1292,6 +1306,11 @@ function set_reconcile(obj)
                     var nValue = str_name.replace("jr_concerned", "");
                     if ($(ctlc.value).value != '') {
                         $(ctlc.value).value += ',';
+                       
+                    } else {
+                        if ( target !="" && $(target).value == "") {
+                            $(target).value=elmt.value;
+                        }
                     }
                     $(ctlc.value).value += nValue;
                 }

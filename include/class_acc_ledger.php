@@ -626,7 +626,7 @@ class Acc_Ledger extends jrn_def_sql
 	 * @return HTML string
 	 */
 
-	public function list_operation_to_reconcile($sql)
+	public function list_operation_to_reconcile($sql,$p_target)
 	{
 		global $g_parameter, $g_user;
 		$gDossier = dossier::id();
@@ -650,7 +650,7 @@ class Acc_Ledger extends jrn_def_sql
 
 		if ($Max == 0)
 			return array(0, _("Aucun enregistrement trouvé"));
-
+                $r.=HtmlInput::hidden("target", $p_target);
 		$r.='<table class="result">';
 
 
@@ -689,7 +689,7 @@ class Acc_Ledger extends jrn_def_sql
 			// Radiobox
 			//
 
-			$r.='<td><INPUT TYPE="CHECKBOX" name="jr_concerned' . $row['jr_id'] . '" ID="jr_concerned' . $row['jr_id'] . '"> </td>';
+			$r.='<td><INPUT TYPE="CHECKBOX" name="jr_concerned' . $row['jr_id'] . '" ID="jr_concerned' . $row['jr_id'] . '" value="'.$row['quick_code'].'"> </td>';
 			//internal code
 			// button  modify
 			$r.="<TD>";
@@ -3824,6 +3824,37 @@ class Acc_Ledger extends jrn_def_sql
         {
             $lib=$this->db->get_value('select pcm_lib from tmp_pcmn where pcm_val=$1',array($p_value));
             return $lib;
+        }
+        /**
+         * Let you select the repository before confirming a sale or a purchase.
+         * Returns an empty string if the company doesn't use stock
+         * @brief Let you select the repository before confirming a sale or a purchase.
+         * @global type $g_parameter check if company is using stock
+         * @param type $p_readonly 
+         * @param type $p_repo
+         * @return string
+         */
+        public function select_depot($p_readonly, $p_repo)
+        {
+            global $g_parameter;
+            $r='<div id="repo_div_id">';
+            // Show the available repository
+            if ($g_parameter->MY_STOCK=='Y')
+            {
+                $sel=HtmlInput::select_stock($this->db, 'repo', 'W');
+                $sel->readOnly=$p_readonly;
+                if ($p_readonly==true)
+                    $sel->selected=$p_repo;
+                $r.="<p class=\"decale\">"._('Dans le dépôt')." : ";
+                $r.=$sel->input();
+                $r.='</p>';
+            } else
+            {
+                $r.='<span class="notice">'.'Stock non utilisé'.'</span>';
+            }
+            $r.='</div>';
+            return $r;
+            
         }
 
 }
