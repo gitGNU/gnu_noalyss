@@ -1482,7 +1482,8 @@ class Acc_Ledger extends jrn_def_sql
 				if (!isset(${'amount' . $i}))
 					${'amount' . $i} = '';
 			}
-			$ret.="<tr>";
+                        $class=($i%2==0)?' class="even" ':' class="odd" ';
+			$ret.="<tr $class> ";
 			if (trim(${'qc_' . $i}) != "")
 			{
 				$oqc = new Fiche($this->db);
@@ -1544,7 +1545,7 @@ class Acc_Ledger extends jrn_def_sql
 
 			$ret.="</tr>";
 		}
-		$ret.=tr(td('') . td(_('Totaux')) . td($total_deb, 'class="num"') . td($total_cred, 'class="num"'), 'class="footer"');
+		$ret.=tr(td('') . td(_('Totaux')) . td($total_deb, 'class="num"') . td($total_cred, 'class="num"'), 'class="highlight"');
 		$ret.="</table>";
 		if ($g_parameter->MY_ANALYTIC != 'nu' && $p_readonly == false)
 			$ret.='<input type="button" class="button" value="' . _('verifie Imputation Analytique') . '" onClick="verify_ca(\'\');">';
@@ -3837,7 +3838,7 @@ class Acc_Ledger extends jrn_def_sql
         public function select_depot($p_readonly, $p_repo)
         {
             global $g_parameter;
-            $r='<div id="repo_div_id">';
+            $r='<div id="repo_div_id" style="height:185px;height:10rem;">';
             // Show the available repository
             if ($g_parameter->MY_STOCK=='Y')
             {

@@ -84,7 +84,7 @@ elseif (isset($_POST['summary']))
 elseif (isset($_POST['save']))
 {
 	$array = $_POST;
-
+        echo '<div class="content">';
 	try
 	{
 		$ledger->save($array);
@@ -98,7 +98,7 @@ elseif (isset($_POST['save']))
 		printf('<a class="detail" style="display:inline" href="javascript:modifyOperation(%d,%d)">%s</a><hr>', $jr_id, dossier::id(), $ledger->internal);
 
 		// show feedback
-		echo '<div id="jrn_name_div">'; echo '<h2 id="jrn_name" class="title"  style="display:inline">' . $ledger->get_name() . '</h2>'; echo '</div>';
+		echo '<div id="jrn_name_div">'; echo '<h2 id="jrn_name"  style="display:inline">' . $ledger->get_name() . '</h2>'; echo '</div>';
 		echo $ledger->confirm($_POST, true);
 	}
 	catch (Exception $e)
@@ -107,6 +107,7 @@ elseif (isset($_POST['save']))
 		alert($e->getMessage());
                 $p_msg=$e->getMessage();
 	}
+        echo '</div>';
 	return;
 }
 return;

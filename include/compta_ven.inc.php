@@ -71,23 +71,46 @@ $p_msg="";
         if ( ! isset($correct))
         {
             echo '<div class="content">';
-            echo h1(_("Confirmation"),'');
-            echo_warning(_("Attention, cette opération n'est pas encore sauvée : vous devez encore confirmer"));
 
+            echo '<div id="confirm_div_id" style="width: 47%; float: left;">';
+            echo h1(_("Confirmation"));
+            echo '</div>';
 
+            echo '<div id="warning_ven_id" class="notice" style="width: 50%; margin-left: 0px; float: right;">';
+            echo h2(_("Attention, cette opération n'est pas encore sauvée : vous devez encore confirmer"),' class="notice"');
+            echo '</div>';
+            
+            echo '<div id="confirm_div_id" style="width: 100%; float: left;">';
             echo '<form class="print" enctype="multipart/form-data" method="post">';
             echo dossier::hidden();
             echo $Ledger->confirm($_POST );
-			echo HtmlInput::hidden('ac',$_REQUEST['ac']);
-	    echo '<div style="clear:both">';
-            
+            echo HtmlInput::hidden('ac',$_REQUEST['ac']);
+            ?>
+<div id="tab_id" >
+<ul class="tabs">
+    <li class="tabs_selected"><a href="javascript:void(0)" onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';$('modele_div_id').hide();$('repo_div_id').hide();$('facturation_div_id').show();"><?php echo _('Facture')?></a></li>
+    <li class="tabs"> <a href="javascript:void(0)" onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';$('modele_div_id').hide();$('facturation_div_id').hide();$('repo_div_id').show();"> <?php echo _('Dépôt')?> </a></li>
+    <li class="tabs"> <a href="javascript:void(0)" onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';$('facturation_div_id').hide();$('repo_div_id').hide();$('modele_div_id').show()"> <?php echo _('Modèle')?> </a></li>
+</ul>
+<?php
+            echo $Ledger->select_depot(false, -1);
+            echo $Ledger->extra_info();
+	    echo '<div id="modele_div_id" style="display:none;height:185px;height:10rem">';
             echo Pre_operation::save_propose();
 	    echo '</div>';
+            
 	    echo HtmlInput::hidden('ac',$_REQUEST['ac']);
             echo HtmlInput::submit("record",_("Enregistrement"),'onClick="return verify_ca(\'\');"');
             echo HtmlInput::submit('correct',_("Corriger"));
             echo '</form>';
-
+            echo '</div>';
+            echo '</div>'; /* tab_id */
+?>
+<script>
+    $('repo_div_id').hide();
+    $('modele_div_id').hide();
+</script>
+<?php
             echo '</div>';
             return;
         }
@@ -132,7 +155,7 @@ $p_msg="";
             }
 
             /* Show button  */
-            echo '<h1 > Enregistrement </h1>';
+            echo '<h1 style="float:right;margin-right:20%"> Enregistrement </h1>';
 
             echo $Ledger->confirm($_POST,true);
             /* Show link for Invoice */

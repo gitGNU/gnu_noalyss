@@ -33,6 +33,10 @@ echo '<div id="jrn_name_div">';
 echo '<h2 id="jrn_name" style="display:inline">' . $ledger->get_name() . '</h2>';
 echo '</div>';
 
+echo '<div id="warning_ven_id" class="notice" style="width: 50%; margin-left: 0px; float: right;">';
+echo h2(_("Attention, cette opération n'est pas encore sauvée : vous devez encore confirmer"),' class="notice"');
+echo '</div>';
+
 echo '<FORM METHOD="POST" class="print">';
 echo HtmlInput::request_to_hidden(array('ac'));
 echo $ledger->confirm($_POST,false);

@@ -1393,7 +1393,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $r.='<th style="text-align:right">' . _('Montant TVAC') . '</th>';
         } else {
             $r.='<th style="text-align:right">' . _('Montant') . '</th>';
-            $r.="<th style=\"text-align:right\">"._('quantité')."</th>";
         }
 
         /* if we use the AC */
@@ -1522,14 +1521,37 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $r.='</tr>';
 
         }
-
+        // Add the sum
+        $decalage=($g_parameter->MY_TVA_USE == 'Y')?'<td></td><td></td><td></td><td></td>':'<td></td>';
+         $tot = round(bcadd($tot_amount, $tot_tva), 2);
+        $tot_tva=nbm($tot_tva);
+        $tot=nbm($tot);
+        $str_tot=_('Totaux');
+        $tot_amount=nbm($tot_amount);
+        $r.=<<<EOF
+<tr class="highlight">
+    {$decalage}            
+     <td>
+                {$str_tot}
+     </td>
+    <td class="num">
+        {$tot_tva}
+    </td>
+    <td class="num">
+        {$tot_amount}
+    </td>
+    <td class="num">
+        {$tot_amount}
+    </td>
+EOF;
 
         $r.='</table>';
         $r.='</p>';
         if ( $g_parameter->MY_ANALYTIC!='nu' && !$p_summary) // use of AA
             $r.='<input type="button" class="button" value="'._('Vérifiez imputation analytique').'" onClick="verify_ca(\'\');">';
+        
+        $r.=(! $p_summary )?'<div id="total_div_id" style="float:right;width:30%;margin-top:50px;">':'<div>';
         $r.='<h2>Totaux</h2>';
-        $r.='<p class="decale">';
         $tot = round(bcadd($tot_amount, $tot_tva), 2);
         /* use VAT */
         if ($g_parameter->MY_TVA_USE == 'Y') {
@@ -1549,7 +1571,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         } else {
             $r.='<br>Total '.hb(nbm($tot));
         }
-        $r.='</p>';
+        $r.='</div>';
         /*  Add hidden */
         $r.=HtmlInput::hidden('e_client',$e_client);
         $r.=HtmlInput::hidden('nb_item',$nb_item);
@@ -1584,8 +1606,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $r.=HtmlInput::hidden("e_quant".$i,${"e_quant".$i});
 
         }
-	if ( ! $p_summary )
-            $r.=$this->extra_info();
+	
 	// Show the available repository
         if ($g_parameter->MY_STOCK == 'Y') {
             $sel = HtmlInput::select_stock($this->db, 'repo', 'W');
@@ -1631,7 +1652,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
     public function extra_info()
     {
         $r="";
-        $r.='<h2> Facturation</h2>';
+        $r = '<div id="facturation_div_id" style="height:185px;height:10rem">';
         $r.='<p class="decale">';
         // check for upload piece
         $file=new IFile();
@@ -1656,6 +1677,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         $r.=_('Numero de bon de commande : ').$obj->input('bon_comm').'<br>';
         $r.=_('Autre information : ').$obj->input('other_info').'<br>';
         $r.='</p>';
+        $r.='</div>';
         return $r;
     }
 

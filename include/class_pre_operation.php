@@ -51,7 +51,7 @@ class Pre_operation
      * @return HTML  string
      */
     static function save_propose() {
-        $r="<h2>Modèle d'opération</h2>";
+        $r="";
         $r.= '<p class="decale">';
         $r.= "Donnez un nom pour sauver cette opération comme modèle <br>";
         $opd_name = new IText('opd_name');

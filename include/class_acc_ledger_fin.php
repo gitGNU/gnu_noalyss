@@ -740,7 +740,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 			$this->db->start();
 			$amount = 0.0;
 			$idx_operation = 0;
-			$ret = '<table class="result" style="width:75%">';
+			$ret = '<table class="result" >';
 			$ret.=tr(th('Date').th('n° interne') . th('Quick Code') . th('Nom') . th('Libellé') . th('Montant', ' style="text-align:right"'));
 			// Credit = goods
 			$get_solde=true;
@@ -889,7 +889,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 						{
 							// Add a "concerned operation to bound these op.together
 							//
-                            $rec = new Acc_Reconciliation($this->db);
+                                                        $rec = new Acc_Reconciliation($this->db);
 							$rec->set_jr_id($jr_id);
 
 							if (isNumber($rRapt) == 1)
@@ -932,8 +932,8 @@ class Acc_Ledger_Fin extends Acc_Ledger
 				$js_detail = HtmlInput::detail_op($jr_id, $internal);
 				// Compute display
 				$row = td($e_date).td($js_detail) . td(${"e_other$i"}) . td($fPoste->strAttribut(ATTR_DEF_NAME)) . td(${"e_other" . $i . "_comment"}) . td(nbm(${"e_other$i" . "_amount"}), 'class="num"');
-
-				$ret.=tr($row);
+                                $class=($i%2==0)?' class="even" ':' class="odd" ';
+				$ret.=tr($row,$class);
 
 
 				if ($i == 0)
