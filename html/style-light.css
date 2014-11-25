@@ -335,6 +335,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', end
 }
 td.mtitle a.mtitle {
     color : white;
+    font-variant: small-caps;
 }
 a.mtitle {
     text-decoration:none;
@@ -518,19 +519,13 @@ div.redcontent a.mtitle:hover {
 div.content a.mtitle {
     text-decoration:none;
     display:inline;
-    color:#605D5D;
-
-
-
-}
+    }
 
 div.content a.mtitle:hover {
     text-decoration:none;
     display:inline;
     background-color:#00008B;
     color:#FFFFFF;
-
-
 }
 div.redcontent input.text {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
@@ -1250,6 +1245,9 @@ a.nav:hover,div.content a.nav:hover,div.redcontent a.nav:hover {
     text-align: center;
     font-variant:small-caps;
     font-weight: bolder;
+    text-transform: full-width;
+    text-transform: fullwidth;
+     text-shadow: 7px 7px 7px black;
     }
 }
 @media only screen and (max-width: 955px) {
@@ -1261,6 +1259,7 @@ a.nav:hover,div.content a.nav:hover,div.redcontent a.nav:hover {
     text-align: left;
     font-variant:small-caps;
     font-weight: bolder;
+    text-transform: full-width;
     }
 }
 
@@ -1420,7 +1419,7 @@ div.bxbutton
     margin-right:0.48%;
 }
 div.inner_box tr.odd {
-    background: #E0EBFF;
+    background: #E5E5E5;
 }
 #modele_op_tab tr.odd {
     background:  #EDF3FF;
@@ -1544,3 +1543,147 @@ fieldset {
     overflow: auto;
     overflow-style: panner;
 }
+/****************************************************************************
+ * Tabs  
+ ****************************************************************************/
+ul.tabs {
+    padding-top: 15px;
+    display:block;
+    border-bottom: 1px solid #879ed4;
+    padding-left: 2px
+}
+ul.tabs  a  {
+    display:inline;
+}
+li.tabs_selected {
+    display:inline;
+   background: rgb(206,220,231); /* Old browsers */
+background: -moz-linear-gradient(top, rgba(206,220,231,1) 0%, rgba(89,106,114,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(206,220,231,1)), color-stop(100%,rgba(89,106,114,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cedce7', endColorstr='#596a72',GradientType=0 ); /* IE6-9 */
+    color:whitesmoke;
+    margin-left: 2px;
+    padding: 12px 15px 15px 15px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border:1px #879ed4 solid;
+    font-weight: bold;
+
+}
+li.tabs {
+    display:inline;
+    background-color: inherit;
+    color:inherit;margin-left: 0px;
+    padding: 15px 15px 0px 15px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border:1px grey solid;
+
+}
+li.tabs:hover {
+    display:inline;
+    background-color: grey;
+    color:wheat;margin-left: 2px;
+    padding: 15px 15px 0px 15px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border:1px grey solid;
+
+}
+ul.tabs a {
+    text-decoration: none;
+    color:inherit;
+    display:inline;
+    
+}
+ul.tabs a:hover {
+    text-decoration: none;
+    color:white;
+    display:inline;
+     background-color: lightblue;
+}
+/*****************************************************************************
+ * Table of one column to present menu 
+ * as in CFGLED, FORECAST, REPORT
+ *****************************************************************************/
+table.vert_mtitle {
+  text-align:center;
+    /* border:5px solid #99B1DF; */
+    border-radius:5px;
+    width:80%;
+    margin-left: 10%;
+    border-collapse: separate;
+    border-spacing: 10px;
+   
+    
+}
+table.vert_mtitle td.first {
+    background-color: #DCE1EF;
+}
+table.vert_mtitle td {
+    border : 1px solid #99B1DF;
+     background-color:#EDEDED;
+     border-top-radius:20px;
+}
+table.vert_mtitle td a{
+    padding : 20px;
+    font-weight: bold;
+}
+table.vert_mtitle td:hover {
+    border : 1px solid #99B1DF;
+    background-color: #336699;
+    color:white;
+}
+table.vert_mtitle td:hover a{
+   color:white;
+  
+}
+
+/*******************************************************************************
+ *  Tiny button example : -X for remove action, remove link...
+ *******************************************************************************/
+div.content a.tinybutton{
+    color: red;
+    font-weight: bold;
+    text-decoration: none;
+    font-family: arial,verdana,sans-serif,helvetica;
+   /* background-image: url("image/bg-submit2.gif");
+    background-repeat: repeat-x;
+    background-position: left; */
+    font-size: 8px;
+    font-size: 0.7rem;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-top: 3px;
+    cursor: pointer;
+    margin: 1px 2px 1px 2px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: orangered;
+    border-radius: 2px; 
+    display : inline;
+}
+div.content td.mtitle a.mtitle {
+    color : white;
+    font-variant: small-caps;
+    background-color: inherit;
+}
+/*******************************************************************************
+ Image Search
+*******************************************************************************/
+.image_search {
+    cursor:pointer;
+    width:16px;
+    height:16px;
+    padding:1px;
+    border:#000000 1px solid;
+    vertical-align: top;
+    background: grey;
+}
+    

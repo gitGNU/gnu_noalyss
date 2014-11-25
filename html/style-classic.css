@@ -256,12 +256,11 @@ td.mshort {
     color:#5D90CD ;
     background-color:#DDE6FF;
 }
-
+/* first Menu  */
 td.mtitle {
     text-align:center;
     width:250px;
     height :30px;
-/*    background-color:#DDE6FF;*/
     border:1px solid #99B1DF;
     border-radius:5px;
     background: #C2E3FC; /* Old browsers */
@@ -273,7 +272,9 @@ td.mtitle {
     background: linear-gradient(to bottom, #C2E3FC 0%,#6393c1 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#C2E3FC', endColorstr='#6393c1',GradientType=0 ); /* IE6-9 */
 }
-
+td.mtitle a.mtitle {
+    color : white;
+}
 td.msubtitle {
     text-align:center;
     height:20px;
@@ -292,7 +293,7 @@ span.even {
     background-color:#DDE6FF;
     display:block;
 }
-
+/* highlight table row */
 tr.odd {
     background-color: #DDE6FF;
 }
@@ -1502,6 +1503,9 @@ fieldset {
     width: 80%;
     overflow: auto;
 }
+/****************************************************************************
+ * Tabs  
+ ****************************************************************************/
 ul.tabs {
     padding-top: 15px;
     display:block;
@@ -1562,11 +1566,18 @@ ul.tabs a:hover {
     display:inline;
      background-color: lightblue;
 }
+/*
+ * ????
+ */
 .previous_year
 {
     text-align:right;
     color:black;
 }
+/*****************************************************************************
+ * autocomplete style
+ *****************************************************************************/
+
 div.autocomplete_fixed {
     background-color:#FFFFFF;
     border:1px solid #888;
@@ -1731,3 +1742,17 @@ div.content a.tinybutton{
     border-radius: 2px; 
     display : inline;
 }
+/*******************************************************************************
+ Image Search
+*******************************************************************************/
+.image_search {
+    cursor:pointer;
+    width:16px;
+    height:16px;
+    padding:1px;
+    border:#000000 1px solid;
+    vertical-align: top;
+  background: lightcyan; /* Old browsers */
+  border-radius:7px
+  
+}c
