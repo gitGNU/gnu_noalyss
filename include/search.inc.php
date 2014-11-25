@@ -62,7 +62,7 @@ if ($base == 'recherche.php' || $base == 'do.php')
 		$callback="";
                 echo HtmlInput::title_box(_('Recherche'), $div);
 		echo '<form name="search_form_ajx" id="search_form_ajx" onsubmit="search_operation(this);return false">';
-		echo HtmlInput::get_to_hidden(array('ctlc','ledger'));
+		echo HtmlInput::get_to_hidden(array('ctlc','ledger','target'));
 		$inside=true;
 	}
 
