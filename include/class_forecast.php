@@ -114,7 +114,7 @@ class Forecast
      */
     public static function load_all($p_cn)
     {
-        $sql="select f_id, f_name,f_start_date,f_end_date from forecast";
+        $sql="select f_id, f_name,f_start_date,f_end_date from forecast order by 2 desc";
         $ret=$p_cn->get_array($sql);
         return $ret;
     }
