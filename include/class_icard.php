@@ -307,7 +307,7 @@ class ICard extends HtmlInput
         $a.="this.popup='ipop_card';";
         $javascript=$a.' search_card(this);return false;';
         
-        $button=HtmlInput::button_image($javascript,$this->name."_bt", 'alt="'._('Recherche').'" style="cursor:pointer;width:24px;height:24px;border:1px solid transparent;"',"image/search.png");
+        $button=HtmlInput::button_image($javascript,$this->name."_bt", 'alt="'._('Recherche').'" class="image_search"',"image/magnifier13.png");
         return $button;
     }
 
