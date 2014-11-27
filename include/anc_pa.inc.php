@@ -103,6 +103,7 @@ if ( isset($_REQUEST['sa']))
         $po->pa_id=$_REQUEST['pa_id'];
         $wSa=HtmlInput::hidden("sa","po_write");
         $ret.='<div class="content">';
+        $ret.=h2(_("Ajout d'un poste analytique"));
         $ret.='<form method="post">';
         $ret.=dossier::hidden();
         $ret.=$po->form();
@@ -136,6 +137,7 @@ if ( isset($_REQUEST['sa']))
      */
     if ( $sa=="po_detail")
     {
+        $ret.=h2(_('Modification'));
         $po=new Anc_Account($cn,$_GET['po_id']);
         $po->get_by_id();
         $ret.='<div class="content">';
