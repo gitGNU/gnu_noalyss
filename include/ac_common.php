@@ -295,12 +295,13 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
 
     if ($p_script2 != "")
 	$p_script2 = '<script src="' . $p_script2 . '" type="text/javascript"></script>';
-
+    $style=trim($style);
+    $DIR=dirname(__FILE__);
     echo "<HEAD>
     <TITLE>$title</TITLE>
 	<link rel=\"icon\" type=\"image/ico\" href=\"favicon.ico\" />
     <META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">
-    <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$style\" media=\"screen\">
+    <LINK REL=\"stylesheet\" type=\"text/css\" href=\"./$style\" media=\"screen\">
     <link rel=\"stylesheet\" type=\"text/css\" href=\"style-print.css\" media=\"print\">" .
     $p_script2 . "
     ";
