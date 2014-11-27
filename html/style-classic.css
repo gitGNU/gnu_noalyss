@@ -493,6 +493,14 @@ div.redcontent a.mtitle:hover {
 
 
 }
+div.content td.mtitle a.mtitle {
+    text-decoration:none;
+    display:inline;
+    color:white;
+
+
+
+}
 div.content a.mtitle {
     text-decoration:none;
     display:inline;
@@ -1068,6 +1076,8 @@ span.remain {
     #predef_form {
         margin-left:35%;
         width:60%;
+        position:absolute;
+        z-index:2
     }
 }
 @media only screen and (max-width: 955px) {
@@ -1150,6 +1160,7 @@ a.line:hover,div_content a.line
     margin-top:0px;
     font-size:12px;
     font-size:0.75rem;
+    cursor: pointer;
 }
 #close_div:hover
 {
@@ -1640,6 +1651,9 @@ hr {
     height:5px;
         
 }
+/******************************************************************************
+ * Hightlight row in a table 
+ ******************************************************************************/
 tr.highlight{
     font-weight: bolder;
     font-size:14px;
@@ -1649,9 +1663,16 @@ tr.highlight{
     border-style: solid;
     border-color: blue;
 }
+tr.highlight a{
+    color:white !important;
+    
+}
 *|*:link {
     color: inherit;
 }
+/*******************************************************************************
+ * Inner_box on a smaller screen
+ *******************************************************************************/
 @media only screen and (max-width: 1280px) {
     div.inner_box  {
         width: 95%;
@@ -1749,10 +1770,11 @@ div.content a.tinybutton{
     cursor:pointer;
     width:16px;
     height:16px;
-    padding:1px;
-    border:#000000 1px solid;
     vertical-align: top;
-  background: lightcyan; /* Old browsers */
-  border-radius:7px
+  background-image: url("image/bg-submit2.gif");
+    background-repeat: repeat-x;
+    background-position: left;
   
-}c
+  padding : 3px;
+  
+}
