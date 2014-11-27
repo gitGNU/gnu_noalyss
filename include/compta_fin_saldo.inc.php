@@ -110,7 +110,7 @@ require_once ('class_acc_parm_code.php');
         }
     }// for
     echo '<tfoot>';
-    echo '<tr>';
+    echo '<tr class="highlight">';
     echo td('');
     echo td('');
     echo td('');
