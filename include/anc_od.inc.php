@@ -51,7 +51,7 @@ if ( ! $m )
 //----------------------------------------------------------------------
 echo '
 <div class="content" >
-<div class="lmenu">
+<div class="menu2">
 <table>
 <tr>
 <td  class="mtitle" >
@@ -80,7 +80,7 @@ if ( isset($_GET['see']))
     $a=new Anc_Operation($cn);
 
     echo '
-    <div class="redcontent"  style="margin-left:12%">
+    <div class="content"  >
     <form method= "get">
     ';
 
@@ -105,10 +105,10 @@ if ( isset($_GET['see']))
     $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$g_user->get_periode();
     $w->value=$periode_start;
     $w->selected=$current;
-    echo $w->input();
-    echo 'P&eacute;riode  '.HtmlInput::submit('gl_submit','Valider').'</form>';
+    echo _('Filter par période').":".$w->input().HtmlInput::submit('gl_submit','Valider').'</form>';
+    echo '<hr>';
 
-    echo '<div class="redcontent"  style="margin-left:12%">';
+    echo '<div class="content" >';
     echo $a->html_table($current);
     echo '</div>';
     return;
@@ -118,7 +118,7 @@ if ( isset($_POST['save']))
     // record the operation and exit
     // and exit
     //-----------------------------
-    echo '<div class="redcontent" style="margin-left:12%">'.
+    echo '<div class="redcontent" >'.
     _('Opération sauvée');
     $a=new Anc_Group_Operation($cn);
 
@@ -138,7 +138,7 @@ if ( isset($_GET['new']))
 
     $wSubmit=new IHidden("p_action","ca_od");
     $wSubmit->table=0;
-    echo '<div class="redcontent"  style="margin-left:12%">';
+    echo '<div class="redcontent"  >';
     echo '<form method="post">';
     echo dossier::hidden();
     echo $wSubmit->input();
