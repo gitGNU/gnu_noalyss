@@ -147,9 +147,9 @@ class Anc_Operation
         $cond_poste="";
 
         if ($p_from!="")
-            $cond="and jr_date >= to_date('$p_from','DD.MM.YYYY') ";
+            $cond="and (jr_date >= to_date('$p_from','DD.MM.YYYY')  or oa_date >= to_date('$p_from','DD.MM.YYYY') )";
         if ( $p_to!="" )
-            $cond.="and jr_date <=to_date('$p_to','DD.MM.YYYY')";
+            $cond.="and (jr_date <=to_date('$p_to','DD.MM.YYYY') or  oa_date <=to_date('$p_to','DD.MM.YYYY')) ";
 
         if ($p_from_poste != "" )
             $cond_poste=" and upper(po_name) >= upper('".$p_from_poste."')";
@@ -159,12 +159,13 @@ class Anc_Operation
         if ( isset ( $this->pa_id) && $this->pa_id !='')
             $pa_id_cond= "pa_id=".$this->pa_id." and";
 	$sql="
+        
 	select oa_id,
 	po_name,
 	oa_description,
 	po_description,
 	oa_debit,
-	to_char(jr_date,'DD.MM.YYYY') as oa_date,
+	(case when jr_date is not null then to_char(jr_date,'DD.MM.YYYY') else to_char(oa_date,'DD.MM.YYYY') end )  as oa_date,
 	oa_amount,
 	oa_group,
 	j_id ,
@@ -173,7 +174,8 @@ class Anc_Operation
 	jr_comment,
 	j_poste,
 	jrnx.f_id,
-	( select ad_value from fiche_Detail where f_id=jrnx.f_id and ad_id=23) as qcode
+	( select ad_value from fiche_Detail where f_id=jrnx.f_id and ad_id=23) as qcode,
+        jr_pj_number
 	from operation_analytique as B join poste_analytique using(po_id)
 	left join jrnx using (j_id)
 	left join jrn on  (j_grpt=jr_grpt_id)
@@ -253,18 +255,18 @@ class Anc_Operation
                     $ret.='</table>';
 
                 }
-                $ret.='<table id="'.$row['oa_group'].'" style="margin-bottom:2px;border: 1px solid blue; width: 90%;">';
+                $ret.='<table id="'.$row['oa_group'].'" class="result">';
 
-                $ret.="<th>".
-                      $row['oa_date'].
-                      "</th>".
-                      "<th>".
-                      h($row['oa_description']).
-                      "</th>";
+                $ret.="<tr class=\"highlight\">".
+                      td($row['oa_date']).
+                      "<td>".
+                      HtmlInput::detail_op($row['jr_id'],  h($row['oa_description']." ".$row['jr_pj_number'])).
+                      "</td>".
+                        td();
 
-                $ret.="<th>".
+                $ret.="<td>".
                       "Groupe id : ".$row['oa_group'].
-                      "</th>";
+                      "</td>".
 
                 $oldgroup=$group;
 

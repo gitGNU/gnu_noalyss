@@ -103,21 +103,21 @@ echo '</tr>';
 ?>
 </table>
 
-<div style="position:float;float:right;text-align:right;padding-right:5px;font-size:1.2em;font-weight:bold;color:blue">
+<div style="position:float;float:right;text-align:right;padding-right:5px;font-size:1.2em;font-weight:bold">
       <?php echo HtmlInput::button('act',_('Actualiser'),'onClick="compute_all_ledger();"'); ?>
  </div>
 
-    <div style="position:float;float:right;text-align:left;font-size:1.2em;font-weight:bold;color:blue" id="sum">
+    <div style="position:float;float:right;text-align:left;font-size:1.2em;font-weight:bold;" id="sum">
     <br><span id="htva">0.0</span>
 <?php
     if ( $flag_tva=='Y' )  : ?>
      <br><span id="tva">0.0</span>
-    <br><span id="tvac">0.0</span>
+    <br><span id="tvac" >0.0</span>
 <?php    endif;     ?>
 
  </div>
 
-<div style="position:float;float:right;text-align:right;padding-right:5px;font-size:1.2em;font-weight:bold;color:blue">
+<div style="position:float;float:right;text-align:right;padding-right:5px;font-size:1.2em;font-weight:bold;">
 <?php
 	if ( $flag_tva =='Y') :
 	?>

@@ -352,6 +352,7 @@ class HtmlInput
         echo '</form>';
         echo '</div>';
         echo '</div>';
+  
         $ret=ob_get_contents();
         ob_end_clean();
         return $ret;
@@ -427,7 +428,7 @@ class HtmlInput
     {
 	$r='';
 	$r.='<div style="float:right;margin-right:2px;margin-top:5px;padding:0px;">';
-	$r.= '<A id="close_div" class="input_text" HREF="javascript:void(0)" onclick="removeDiv(\''.$div.'\');">'._('Fermer').'</A>';
+	$r.= '<A id="close_div" class="input_text" onclick="removeDiv(\''.$div.'\');">'._('Fermer').'</A>';
 	$r.='</div>';
 	return $r;
     }

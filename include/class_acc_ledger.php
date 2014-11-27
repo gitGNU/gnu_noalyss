@@ -3500,6 +3500,9 @@ class Acc_Ledger extends jrn_def_sql
 				if ($result == 1)
 					throw new Exception(_("Aucun compte en banque n'est donné"));
 			}
+                        if ($p_jrn_type == "-1") {
+                            throw new Exception(_('Choix du type de journal est obligatoire'));
+                        }
 		}
 		catch (Exception $e)
 		{
@@ -3573,6 +3576,14 @@ class Acc_Ledger extends jrn_def_sql
 	 */
 	function input_new()
 	{
+            $retry=HtmlInput::default_value_post("sa", "");
+//            if ( $retry == "add") {
+                $default_type=HtmlInput::default_value_post("p_jrn_type", -1);
+                $previous_jrn_def_pj_pref=HtmlInput::default_value_post("jrn_def_pj_pref","");
+                $previous_p_description=HtmlInput::default_value_post("p_description","");
+                $previous_p_jrn_name=HtmlInput::default_value_post('p_jrn_name','');
+                $previous_p_jrn_type = HtmlInput::default_value_post("p_jrn_type","");
+//            }
                 global $g_user;
                 $f_add_button=new ISmallButton('add_card');
                 $f_add_button->label=_('Créer une nouvelle fiche');
@@ -3619,7 +3630,7 @@ class Acc_Ledger extends jrn_def_sql
 		$hidden.=HtmlInput::hidden('p_ech_lib', 'echeance');
 
 		/* properties of the ledger */
-		$name = "";
+		$name = $previous_p_jrn_name;
 		$code = "";
 		$wType = new ISelect();
                 $a_jrn= $this->db->make_array("select '-1',' -- "._("choix du type de journal")." -- ' union select jrn_type_id,jrn_desc from jrn_type");
@@ -3628,17 +3639,19 @@ class Acc_Ledger extends jrn_def_sql
 		$wType->name = "p_jrn_type";
 		$wType->id= "p_jrn_type_select_id";
                 $wType->javascript=' onchange="show_ledger_div()"';
+                $wType->selected=$default_type;
 		$type = $wType->input();
 		$rcred = $rdeb = array();
                 $wPjPref = new IText();
 		$wPjPref->name = 'jrn_def_pj_pref';
+                $wPjPref->value=$previous_jrn_def_pj_pref;
 		$pj_pref = $wPjPref->input();
 		$pj_seq = '';
 		$last_seq = 0;
 		$new = 1;
                 $description=new ITextarea('p_description');
                 $description->style='class="itextarea" style="margin:0px;"';
-                $description->value="";
+                $description->value=$previous_p_description;
                 $str_description=$description->input();
 		/* bank card */
 		$qcode_bank = '';

@@ -379,5 +379,12 @@ echo $str_add_button;
    }
     hide_ledger();
     hide_row();
+    <?php
+    if (isset ($previous_p_jrn_type)  ):
+    ?>
+      show_ledger_div();              
+    <?php
+    endif;
+    ?>
 </script>
 <?php endif; ?>

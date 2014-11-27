@@ -6,9 +6,12 @@
    if ($div != "popup") {
      $callback=$_SERVER['PHP_SELF'];
      $str=$_SERVER['QUERY_STRING']."&act=$action&ajax=$callback";
-     echo '<A id="close_div" onclick="var a=window.open(\'popup.php?'.$str.'\',\'\',\'location=no,toolbar=no,fullscreen=yes,scrollbars=yes,resizable=yes,status=no\'); a.focus();removeDiv(\''.$div.'\')">
+     $msg_close=_('Fermer');
+     $msg_pop=_('Ouvrir dans une fenêtre séparée');
+     
+     echo '<A id="close_div" title="'.$msg_pop.'" onclick="var a=window.open(\'popup.php?'.$str.'\',\'\',\'location=no,toolbar=no,fullscreen=yes,scrollbars=yes,resizable=yes,status=no\'); a.focus();removeDiv(\''.$div.'\')">
 !pop me out ! </A>';
-     echo '<A id="close_div" onclick="removeDiv(\''.$div.'\');">'._("Fermer").'</A>';
+     echo '<A id="close_div" title="'.$msg_close.'"  onclick="removeDiv(\''.$div.'\');">'._("Fermer").'</A>';
    }
 ?>
 </div>
