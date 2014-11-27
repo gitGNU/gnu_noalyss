@@ -188,12 +188,19 @@ case "sf":
     $html=$r;
     break;
 }
-$html=escape_xml($html);
-header('Content-type: text/xml; charset=UTF-8');
+$xml=escape_xml($html);
+if (headers_sent() && DEBUG ) {
+    echo $html;
+}
+else 
+{
+    header('Content-type: text/xml; charset=UTF-8');
+}
+    
 echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
 <ctl>$ctl</ctl>
-<code>$html</code>
+<code>$xml</code>
 </data>
 EOF;
