@@ -408,7 +408,6 @@ function anc_key_compute(p_dossier, p_table, p_amount, p_key_id)
 
                             var code_html = getNodeText(html[0]); // Firefox ne prend que les 4096 car.
                             code_html = unescape_xml(code_html);
-                            console.log(code_html);
                             $(name_ctl).innerHTML = code_html;
                             removeDiv('div_anc_key_choice');
                         } catch (e)
@@ -457,10 +456,8 @@ function anc_key_choice(p_dossier, p_table, p_amount,p_ledger)
                                 alert('erreur :' + rec);
                             }
 
-                            console.log('Received ajax_call');
                             var code_html = getNodeText(html[0]); // Firefox ne prend que les 4096 car.
                             code_html = unescape_xml(code_html);
-                            console.log(code_html);
                             var position=fixed_position(50,120);
                             add_div({id: name_ctl, cssclass: 'inner_box', style: position, drag: 1});
                             $(name_ctl).innerHTML = code_html;
@@ -528,7 +525,6 @@ function anc_key_compute_table()
     var percent=document.getElementsByName('percent[]');
     for (i=0;i<percent.length;i++)
     {
-        console.log(percent[i].value);
         value=percent[i].value;
         if ( value == 'undefined')
         {

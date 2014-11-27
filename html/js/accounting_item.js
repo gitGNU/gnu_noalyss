@@ -53,7 +53,6 @@ function set_jrn_parent(p_ctl,p_value)
 
 function PcmnUpdate(p_value,p_lib,p_parent,p_type,p_dossier,p_top,p_action)
 {
-    console.log(p_type);
     $('p_valu').value=p_value;
     $('p_oldu').value=p_value;
     $('p_libu').value=p_lib;
@@ -285,7 +284,6 @@ function account_update(p_obj_id)
 {
     try {
         waiting_box();
-        console.log('call account_update');
         // initialize variables
         var gDossier=0;
         var p_action="";
@@ -310,7 +308,6 @@ function account_update(p_obj_id)
             }
         if ( form['p_typeu']) { p_typeu=form['p_typeu'].value;} else { notfound+=", p_typeu";}
         
-        console.log (notfound);
         
         if ( notfound != "not found:") throw notfound;
             
@@ -333,11 +330,8 @@ function account_update(p_obj_id)
                                 var rec = req.responseText;
                                 alert('erreur :' + rec);
                             }
-                            console.log("ctl ");console.log(ctl);
-                            console.log('Received ajax_call');
                             var code_html = getNodeText(html[0]); // Firefox ne prend que les 4096 car.
                             code_html = unescape_xml(code_html);
-                            console.log(code_html);
                             
                             $(name_ctl).innerHTML = code_html;
                             if ( ctl == 'ok') {
@@ -354,7 +348,6 @@ function account_update(p_obj_id)
         );
         
     }catch (e) {
-        if (console) { console.log('Account update'); }
         return false;
     }
     return false;

@@ -845,7 +845,7 @@ function show_ledger_choice(json_obj)
                             code_html = unescape_xml(code_html);
                             remove_waiting_box();
                             g(obj.id).innerHTML = code_html;
-
+                           
                         }
                         catch (e) {
                             alert("show_ledger_callback" + e.message);
@@ -2609,13 +2609,11 @@ function show_tabs(a_tabs,p_display_tab)
         if ( a_tabs.length == 0 ) trow ('a_tabs in empty');
         var i=0;
         for ( i=0;i<a_tabs.length;i++) {
-           if ( console ) console.log(a_tabs[i]);
             $(a_tabs[i]).hide();
         }
-       if ( console )console.log(p_display_tab);
         $(p_display_tab).show();
     } catch(e) {
-        if ( console )console.log(e.message);
+       alert(e.message);
     }
     
 }

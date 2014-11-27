@@ -171,7 +171,6 @@ function action_add_concerned_card(obj)
                     onSuccess: function (req, txt)
                     {
                         try {
-                        console.log(1);
                         remove_waiting_box();
                         var answer = req.responseXML;
                         var a = answer.getElementsByTagName('ctl');
@@ -180,17 +179,11 @@ function action_add_concerned_card(obj)
                             var rec = req.responseText;
                             alert('erreur :' + rec);
                         }
-                        console.log(2);
                         var html = answer.getElementsByTagName('code');
-                        console.log(3);
                         var namectl = a[0].firstChild.nodeValue;
-                        console.log(31);
                         var nodeXml = html[0];
-                        console.log(32);
                         var code_html = getNodeText(nodeXml);
-                        console.log(33);
                         code_html = unescape_xml(code_html);
-                        console.log(34);
 
                         var sx = 0;
                         if (window.scrollY)
@@ -201,14 +194,12 @@ function action_add_concerned_card(obj)
                         {
                             sx = document.body.scrollTop + 60;
                         }
-                        console.log(4);
                         var div_style = "top:" + sx + "px;height:80%";
                         if ( ! $('search_card')) { add_div({id: 'search_card', cssclass: 'inner_box', html: "", style: div_style, drag: true}); }
                         $('search_card').innerHTML = code_html;
                         $('query').focus();
-                        console.log(5);
                         }catch (e) {
-                            console.log('Erreur ')+e.message;
+                            alert(e.message);
                         }
                     }
                 }
@@ -857,7 +848,6 @@ function action_save_concerned(p_dossier, p_fiche_id, p_action_id) {
                 onSuccess: function (req, txt)
                 {
                     try {
-                        console.log(1);
                         remove_waiting_box();
                         var answer = req.responseXML;
                         var a = answer.getElementsByTagName('ctl');
@@ -874,7 +864,7 @@ function action_save_concerned(p_dossier, p_fiche_id, p_action_id) {
                         removeDiv('search_card');
                         $('concerned_card_td').innerHTML = code_html;
                     } catch (e) {
-                        console.log('Erreur ') + e.message;
+                       
                     }
                 }
             }
@@ -891,7 +881,6 @@ function action_remove_concerned(p_dossier,p_fiche_id,p_action_id)
                 onSuccess: function (req, txt)
                 {
                     try {
-                        console.log(1);
                         remove_waiting_box();
                         var answer = req.responseXML;
                         var a = answer.getElementsByTagName('ctl');
@@ -908,7 +897,7 @@ function action_remove_concerned(p_dossier,p_fiche_id,p_action_id)
                         removeDiv('search_card');
                         $('concerned_card_td').innerHTML = code_html;
                     } catch (e) {
-                        console.log('Erreur ') + e.message;
+                        if ( console) { console.log('Erreur ') + e.message;}
                     }
                 }
             }
