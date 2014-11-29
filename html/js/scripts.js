@@ -1958,7 +1958,8 @@ function display_task(p_id)
         }}
     );
     $(p_id).style.top = posY+'px';
-    $(p_id).style.left = posX+'px';
+    $(p_id).style.left = "10%";
+    $(p_id).style.width= "80%";
     $(p_id).style.display = 'block';
 
 }
@@ -2634,4 +2635,17 @@ function unselect_other_tab(p_tab)
     } catch(e) {
         if ( console ) console.log(e.message);
     }
+}
+/**
+ * logout function call from ajax
+ * @see ajax_disconnected
+ * @returns {undefined}
+ */
+function logout()
+{
+    var tmp_place = window.location.href
+    var tmp_b=tmp_place.split('/')
+    var tmp_last=tmp_b.length-1
+    var place_logout=tmp_place.replace(tmp_b[tmp_last],'logout.php');
+    window.location.href=place_logout;
 }

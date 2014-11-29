@@ -784,8 +784,8 @@ function ajax_disconnected($div)
 	$html.=h2(_('Données non disponibles'), 'class="title" style="width:auto"');
 	$html.=h2(_('Veuillez vous reconnecter'), 'class="error"');
 	$html.=alert(_("Déconnecté"), true);
+        $html.="<script>logout();</script>";
 	$html = escape_xml($html);
-
 	header('Content-type: text/xml; charset=UTF-8');
 	echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
