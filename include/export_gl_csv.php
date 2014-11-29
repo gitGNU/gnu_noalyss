@@ -129,7 +129,7 @@ foreach ($a_poste as $poste)
     $solde = 0.0;
     $solde_d = 0.0;
     $solde_c = 0.0;
-
+    $current_exercice="";
     foreach ($Poste->row as $detail)
     {
 
@@ -145,7 +145,32 @@ foreach ($a_poste as $poste)
                [8] => 17OD-01-1 [jr_internal] => 17OD-01-1
                [9] => ODS1 [jr_pj_number] => ODS1 ) 1
          */
+/*
+             * separation per exercice
+             */
+        if ( $current_exercice == "") $current_exercice=$detail['p_exercice'];
 
+        if ( $current_exercice != $detail['p_exercice']) {
+            echo ";";
+            echo '"'.$current_exercice.'";';
+            echo ";";
+            echo ";";
+            echo 'Total du compte '.$Poste->id.";";
+            echo ($solde_d  > 0 ? nb($solde_d)  : '').";";
+            echo ($solde_c  > 0 ? nb( $solde_c)  : '').";";
+            echo nb(abs($solde_c-$solde_d)).";";
+            echo ($solde_c > $solde_d ? 'C' : 'D').";";
+            printf("\n");
+            printf("\n");
+            /*
+            * reset total and current_exercice
+            */
+            $current_exercice=$detail['p_exercice'];
+            $solde = 0.0;
+            $solde_d = 0.0;
+            $solde_c = 0.0;
+
+        }
         if ($detail['cred_montant'] > 0)
         {
             $solde   -= $detail['cred_montant'];
@@ -172,7 +197,7 @@ foreach ($a_poste as $poste)
 
 
     echo ";";
-    echo ";";
+    echo '"'.$current_exercice.'";';
     echo ";";
     echo ";";
     echo 'Total du compte '.$Poste->id.";";

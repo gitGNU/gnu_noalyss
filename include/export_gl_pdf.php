@@ -210,7 +210,7 @@ foreach ($a_poste as $poste)
     $pdf->SetFont('DejaVuCond','B',8);
 
     $i = 0;
-    $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]);
+    $pdf->Cell($width[$i], 6, $current_exercice, 0, 0, $lor[$i]);
     $i++;
     $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]);
     $i++;
