@@ -245,7 +245,7 @@ table.document th{
 table.mtitle {
     border:0px;
     text-align:center;
-    min-width: 75%;   
+    /* min-width: 75%; */   
 }
 td.mshort {
     height:15px;
@@ -257,7 +257,7 @@ td.mshort {
 }
 td.mtitle {
     text-align:center;
-    max-width:100px;
+    /* max-width:100px; */
     height :20px;
     background: rgb(255,100,86); /* Old browsers */
 /*background: -moz-linear-gradient(top, rgba(255,100,86,1) 11%, rgba(207,4,4,1) 67%);  FF3.6+ 
@@ -341,7 +341,7 @@ td.selectedcell{
     background:#FFA268;
     color:#FFFFFF;
     text-align:center;
-    max-width:50%;
+    /* max-width:50%; */
     width: 10rem;
     border-radius:5px;
 }
@@ -1646,7 +1646,7 @@ div.menu2 table.mtitle td.mtitle {
     border:0px;
     background:inherit;
     color:white;
-    width: 10rem;
+    /* width: 10rem; */
     border-spacing: 12px;
     border-bottom: 2px #E95353 solid;
     border-radius: 0px;
@@ -1707,9 +1707,6 @@ div.content a.tinybutton{
     font-weight: bold;
     text-decoration: none;
     font-family: arial,verdana,sans-serif,helvetica;
-   /* background-image: url("image/bg-submit2.gif");
-    background-repeat: repeat-x;
-    background-position: left; */
     font-size: 8px;
     font-size: 0.7rem;
     padding-bottom: 0px;
@@ -1724,4 +1721,77 @@ div.content a.tinybutton{
     border-color: blue;
     border-radius: 2px; 
     display : inline;
+}
+input[type="button"].tinybutton {
+     color: red;
+    font-weight: blue;
+    text-decoration: none;
+    font-family: arial,verdana,sans-serif,helvetica;
+    font-size: 8px;
+    font-size: 0.7rem;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-top: 3px;
+    cursor: pointer;
+    margin: 1px 2px 1px 2px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: blue;
+    border-radius: 2px; 
+    display : inline;
+}
+/*******************************************************************************
+ Image Search
+*******************************************************************************/
+.image_search {
+    cursor:pointer;
+    width:16px;
+    height:16px;
+    vertical-align: top;
+     border-radius: 2px;
+
+    border-width: 1px;
+    border-color: #6D3F2E;
+    background: #feccb1; /* Old browsers */
+background: -moz-linear-gradient(top, #feccb1 0%, #f17432 50%, #ea5507 51%, #fb955e 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#feccb1), color-stop(50%,#f17432), color-stop(51%,#ea5507), color-stop(100%,#fb955e)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #feccb1 0%,#f17432 50%,#ea5507 51%,#fb955e 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #feccb1 0%,#f17432 50%,#ea5507 51%,#fb955e 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #feccb1 0%,#f17432 50%,#ea5507 51%,#fb955e 100%); /* IE10+ */
+background: linear-gradient(to bottom, #feccb1 0%,#f17432 50%,#ea5507 51%,#fb955e 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feccb1', endColorstr='#fb955e',GradientType=0 ); /* IE6-9 */
+  
+  padding : 3px;
+  
+}
+/******************************************************************************
+ * Hightlight row in a table 
+ ******************************************************************************/
+tr.highlight{
+    font-weight: bolder;
+    font-size:14px;
+    background-color: orangered;
+    color:white !important;
+    border-width:  0px;
+    border-style: solid;
+    border-color: inherit;
+}
+tr.highlight a{
+    color:white !important;
+    
+}
+div.topmenu a.mtitle{
+    font-size:13.6px;
+    font-size:0.85rem;
+    color:white;
+}
+div.menu2 a.mtitle{
+    font-size:13.6px;
+    font-size:0.85rem;
+    color:white;
+}
+*|*:link {
+    color: inherit;
 }
