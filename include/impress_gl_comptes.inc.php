@@ -258,7 +258,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
             <td  style="text-align:right;color:red">'.$html_let.'</td>
             </tr>';
         }
-        echo '<tr class="hightlight">
+        echo '<tr class="highlight">
         <td>'.$current_exercice.'</td>
         <td>'.''.'</td>
         <td>'.'<b>'.'Total du compte '.$poste_id['pcm_val'].'</b>'.'</td>
