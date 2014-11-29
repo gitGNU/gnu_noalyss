@@ -118,7 +118,7 @@ foreach ($a_poste as $poste)
     $solde = 0.0;
     $solde_d = 0.0;
     $solde_c = 0.0;
-
+    $current_exercice="";
     foreach ($Poste->row as $detail)
     {
 
@@ -134,16 +134,53 @@ foreach ($a_poste as $poste)
                [8] => 17OD-01-1 [jr_internal] => 17OD-01-1
                [9] => ODS1 [jr_pj_number] => ODS1 ) 1
          */
+         /*
+             * separation per exercice
+             */
+            if ( $current_exercice == "") $current_exercice=$detail['p_exercice'];
+            
+            if ( $current_exercice != $detail['p_exercice']) {
+                
+                $pdf->SetFont('DejaVuCond','B',8);
+                $i=0;
+                $pdf->Cell($width[$i], 6, $current_exercice, 0, 0, $lor[$i]);
+                $i++;
+                $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]);
+                $i++;
+                $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]);
+                $i++;
+                $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]);
+                $i++;
+                $pdf->Cell($width[$i], 6, 'Total du compte '.$Poste->id, 0, 0, 'R');
+                $i++;
+                $pdf->Cell($width[$i], 6, ($solde_d  > 0 ? nbm($solde_d)  : ''), 0, 0, $lor[$i]);
+                $i++;
+                $pdf->Cell($width[$i], 6, ($solde_c  > 0 ? nbm( $solde_c)  : ''), 0, 0, $lor[$i]);
+                $i++;
+                $pdf->Cell($width[$i], 6, nbm(abs($solde_c-$solde_d)), 0, 0, $lor[$i]);
+                $i++;
+                $pdf->Cell(5, 6, ($solde_c > $solde_d ? 'C' : 'D'), 0, 0, 'L');
+                /*
+                * reset total and current_exercice
+                */
+                $current_exercice=$detail['p_exercice'];
+                $solde = 0.0;
+                $solde_d = 0.0;
+                $solde_c = 0.0;
+                $pdf->Ln();
+                $pdf->SetFont('DejaVuCond','',7);
+
+            }
 
         if ($detail['cred_montant'] > 0)
         {
-            $solde   -= $detail['cred_montant'];
-            $solde_c += $detail['cred_montant'];
+            $solde   = bcsub ($solde,$detail['cred_montant']);
+            $solde_c = bcadd($solde_c,$detail['cred_montant']);
         }
         if ($detail['deb_montant'] > 0)
         {
-            $solde   += $detail['deb_montant'];
-            $solde_d += $detail['deb_montant'];
+            $solde   = bcadd($solde,$detail['deb_montant']);
+            $solde_d = bcadd($solde_d,$detail['deb_montant']);
         }
 
         $i = 0;

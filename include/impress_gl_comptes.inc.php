@@ -85,19 +85,19 @@ echo td(_("Jusqu'au poste")).td($to_poste->input());
 echo '</tr>';
 
 echo '<tr>';
-echo td('Uniquement les opérations non lettrées');
+echo td(_('Uniquement les opérations non lettrées'));
 echo td($letter->input());
 echo '</tr>';
 
 echo '<tr>';
-echo td('Uniquement les comptes non soldés');
+echo td(_('Uniquement les comptes non soldés'));
 echo td($solded->input());
 echo '</tr>';
 
 
 //
 echo '</TABLE>';
-print HtmlInput::submit('bt_html','Visualisation');
+print HtmlInput::submit('bt_html',_('Visualisation'));
 
 echo '</FORM>';
 echo '<hr>';
@@ -155,7 +155,8 @@ if ( isset( $_REQUEST['bt_html'] ) )
     echo '<table class="result">';
 	$l=(isset($_REQUEST['letter']))?2:0;
 	$s=(isset($_REQUEST['solded']))?1:0;
-
+    
+    
     foreach ($a_poste as $poste_id )
     {
         $Poste=new Acc_Account_Ledger ($cn, $poste_id['pcm_val']);
@@ -167,7 +168,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
         {
             continue;
         }
-
+        
 
         echo '<tr >
         <td colspan="8" style="width:auto">
@@ -191,9 +192,42 @@ if ( isset( $_REQUEST['bt_html'] ) )
         $solde_c = 0.0;
 	bcscale(2);
 	$i=0;
+        $current_exercice="";
+
         foreach ($Poste->row as $detail)
         {
+            /*
+             * separation per exercice
+             */
+            if ( $current_exercice == "") $current_exercice=$detail['p_exercice'];
+            
+            if ( $current_exercice != $detail['p_exercice']) {
+                echo '<tr class="highlight">
+               <td>'.$current_exercice.'</td>
+               <td>'.''.'</td>
+               <td>'.'Total du compte '.$poste_id['pcm_val'].'</td>
+               <td>'.''.'</td>
+               <td align="right">'.($solde_d  > 0 ? nbm( $solde_d)  : '').'</td>
+               <td align="right">'.($solde_c  > 0 ? nbm( $solde_c)  : '').'</td>
+               <td align="right">'.nbm( abs($solde_c-$solde_d)).'</td>
+               <td>';
+               if ($solde_c > $solde_d ) echo _("Crédit");
+               if ($solde_c < $solde_d )  echo _("Débit");
+               if ($solde_c == $solde_d )  echo "=";
 
+             echo '</td>'.
+               '</tr>';
+             /*
+              * reset total and current_exercice
+              */
+                $current_exercice=$detail['p_exercice'];
+                $solde = 0.0;
+                $solde_d = 0.0;
+                $solde_c = 0.0;
+
+            }
+            
+            
             if ($detail['cred_montant'] > 0)
             {
 	      $solde=bcsub($solde, $detail['cred_montant']);
@@ -224,8 +258,8 @@ if ( isset( $_REQUEST['bt_html'] ) )
             <td  style="text-align:right;color:red">'.$html_let.'</td>
             </tr>';
         }
-        echo '<tr >
-        <td>'.''.'</td>
+        echo '<tr class="hightlight">
+        <td>'.$current_exercice.'</td>
         <td>'.''.'</td>
         <td>'.'<b>'.'Total du compte '.$poste_id['pcm_val'].'</b>'.'</td>
         <td>'.''.'</td>
