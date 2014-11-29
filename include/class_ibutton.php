@@ -26,19 +26,21 @@ require_once('class_html_input.php');
 class IButton extends HtmlInput
 {
     var $label;
+    var $class;
     /*!\brief show the html  input of the widget*/
     public function input($p_name=null,$p_value=null,$p_class="")
     {
         $this->name=($p_name==null)?$this->name:$p_name;
         $this->value=($p_value==null)?$this->value:$p_value;
-		$this->label=(trim($this->label) != '')?$this->label:$this->value;
-        $class=($p_class=="")?"smallbutton ":$this->class;
+	$this->label=(trim($this->label) != '')?$this->label:$this->value;
+        $this->class=($p_class != "")?$p_class:$this->class;
+        $this->class=($this->class=="")?"smallbutton ":$this->class;
         if ( $this->readOnly==true) return $this->display();
         $extra= ( isset($this->extra))?$this->extra:"";
         $this->id=($this->id=="")?$this->name:$this->id;
 		$tab=(isset($this->tabindex))?' tabindex="'.$this->tabindex.'"':"";
         $r='<input type="BUTTON" name="'.$this->name.'"'.
-           ' class="'.$class.'" '.
+           ' class="'.$this->class.'" '.
                 $this->extra.
 				$tab.
            ' id="'.$this->id.'"'.
