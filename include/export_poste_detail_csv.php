@@ -43,7 +43,7 @@ else
 {
   $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val = $1",array($_REQUEST['poste_id']));
 }
-
+bcscale(2);
 if ( ! isset ($_REQUEST['oper_detail']))
 {
     if ( count($a_poste) == 0 )
@@ -62,6 +62,8 @@ if ( ! isset ($_REQUEST['oper_detail']))
 
         echo '"Poste";'.
 	  '"n° pièce";'.
+	  '"Code journal";'.
+	  '"Nom journal";'.
 	  '"Lib.";'.
         "\"Code interne\";".
         "\"Date\";".
@@ -73,12 +75,43 @@ if ( ! isset ($_REQUEST['oper_detail']))
         printf("\n");
 
         $prog=0;
+        $current_exercice="";
+        $tot_cred=0;
+        $tot_deb=0;
+        $diff=0;
         foreach ( $Poste->row as $op )
         {
+           /*
+             * separation per exercice
+             */
+            if ( $current_exercice == "") $current_exercice=$op['p_exercice'];
+            
+            if ( $current_exercice != $op['p_exercice']) {
+                $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
+                $diff=abs($tot_deb-$tot_cred);
+                printf(
+                     ";;;".
+                     '"'._('total').'";'.
+                     '"'.$current_exercice.'";'.
+                '"'."$solde_type".'"'.";".
+                nb($tot_deb).";".
+                nb($tot_cred).";".
+                nb($diff).";"."\n");
+                /*
+                * reset total and current_exercice
+                */
+                $prog=0;
+                $current_exercice=$op['p_exercice'];
+                $tot_deb=0;$tot_cred=0;    
+            }
+          $tot_deb=bcadd($tot_deb,$op['deb_montant']);
+          $tot_cred=bcadd($tot_cred,$op['cred_montant']);
 	  $diff=bcsub($op['deb_montant'],$op['cred_montant']);
 	  $prog=bcadd($prog,$diff);
 	  echo '"'.$pos['pcm_val'].'";'.
 	    '"'.$op['jr_pj_number'].'"'.";".
+	    '"'.$op['jrn_def_code'].'"'.";".
+	    '"'.$op['jrn_def_name'].'"'.";".
             '"'.$name.'";'.
             '"'.$op['jr_internal'].'"'.";".
             '"'.$op['j_date_fmt'].'"'.";".
@@ -93,11 +126,14 @@ if ( ! isset ($_REQUEST['oper_detail']))
         }
         $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
         $diff=abs($tot_deb-$tot_cred);
-        printf(
+       printf(
+                         ";;;".
+                         '"'._('total').'";'.
+                         '"'.$current_exercice.'";'.
             '"'."$solde_type".'"'.";".
-            nb($diff).";".
             nb($tot_deb).";".
-            nb($tot_cred)."\n");
+            nb($tot_cred).";".
+            nb($diff).";"."\n");
     }
 }
 else

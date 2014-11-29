@@ -61,7 +61,7 @@ if ( count($a_poste) == 0 )
     $pdf->Output('poste.pdf','D');
     exit;
 }
-$size=array(13,25,20,60,12,20,20,20);
+$size=array(13,25,13,65,12,20,20,20);
 $align=array('L','C','C','L','R','R','R','R');
 
 foreach ($a_poste as $poste)
@@ -100,11 +100,50 @@ foreach ($a_poste as $poste)
     $tot_deb=0;
     $tot_cred=0;
     $prog=0;
+    $current_exercice="";
+    bcscale(2);
     for ($e=0;$e<count($array);$e++)
     {
-        $l=0;
         $row=$array[$e];
-        $prog+=$row['deb_montant']-$row['cred_montant'];
+         /*
+             * separation per exercice
+             */
+            if ( $current_exercice == "") $current_exercice=$row['p_exercice'];
+            
+            if ( $current_exercice != $row['p_exercice']) {
+                    $str_debit=sprintf("% 12.2f €",$tot_deb);
+                    $str_credit=sprintf("% 12.2f €",$tot_cred);
+                    $diff_solde=bcsub($tot_deb,$tot_cred);
+                    if ( $diff_solde < 0 )
+                    {
+                        $solde=" créditeur ";
+                        $diff_solde=bcmul($diff_solde,-1);
+                    }
+                    else
+                    {
+                         $solde=" débiteur ";
+                    }
+                    $str_diff_solde=sprintf("%12.2f €",$diff_solde);
+
+                    $pdf->SetFont('DejaVu','B',8);
+                    $pdf->Cell(15,6,_('totaux'),0,0,'L');
+                    $pdf->Cell(15,6,$current_exercice,0,0,'L');
+                    $pdf->Cell(40,6,$solde,0,'L');
+                    $pdf->Cell(40,6,$str_debit,0,0,'R');
+                    $pdf->Cell(40,6,$str_credit,0,0,'R');
+                    $pdf->Cell(40,6,$str_diff_solde,0,0,'R');
+                    $pdf->Ln();
+                    /*
+                    * reset total and current_exercice
+                    */
+                    $prog=0;
+                    $current_exercice=$row['p_exercice'];
+                    $tot_deb=0;$tot_cred=0;    
+                    $pdf->SetFont('DejaVuCond','',8);
+            }
+        $l=0;
+        $diff=bcsub($row['deb_montant'],$row['cred_montant']);
+        $prog=bcadd($row['deb_montant'],$row['cred_montant']);
 
         $date=shrink_date($row['j_date_fmt']);
         $pdf->Cell($size[$l],6,$date,0,0,$align[$l]);
@@ -114,7 +153,7 @@ foreach ($a_poste as $poste)
 	else
 	  $pdf->Cell($size[$l],6,$row['jr_pj_number'],0,0,$align[$l]);
         $l++;
-        $pdf->Cell($size[$l],6,mb_substr($row['jrn_name'],0,14),0,0,$align[$l]);
+        $pdf->Cell($size[$l],6,mb_substr($row['jrn_def_code'],0,14),0,0,$align[$l]);
         $l++;
         $pdf->LongLine($size[$l],6,  $row['description'],0,$align[$l]);
         $l++;
@@ -127,8 +166,8 @@ foreach ($a_poste as $poste)
         $pdf->Cell($size[$l],6,(sprintf('% 12.2f',abs($prog))),0,0,$align[$l]);
         $l++;
         $pdf->ln();
-        $tot_deb+=$row['deb_montant'];
-        $tot_cred+=$row['cred_montant'];
+        $tot_deb=bcadd($tot_deb,$row['deb_montant']);
+        $tot_cred=bcadd($tot_deb,$row['cred_montant']);
         /* -------------------------------------- */
         /* if details are asked we show them here */
         /* -------------------------------------- */
@@ -176,7 +215,7 @@ foreach ($a_poste as $poste)
     if ( $diff_solde < 0 )
     {
         $solde=" créditeur ";
-        $diff_solde*=-1;
+        $diff_solde=bcmul($diff_solde,-1);
     }
     else
     {

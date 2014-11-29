@@ -24,10 +24,10 @@ if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 include_once("ac_common.php");
 require_once('class_database.php');
 require_once("class_fiche.php");
-header('Content-type: application/csv');
-
-header('Pragma: public');
-header('Content-Disposition: attachment;filename="poste.csv"',FALSE);
+$f_id=HtmlInput::default_value_request("f_id", "-");
+if ( $f_id == "-") {
+     throw new Exception ('Invalid parameter');
+}
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
@@ -35,7 +35,13 @@ $gDossier=dossier::id();
 $cn=new Database($gDossier);
 
 
-$Fiche=new Fiche($cn,$_REQUEST['f_id']);
+$Fiche=new Fiche($cn,$f_id);
+$qcode=$Fiche->get_quick_code();
+
+header('Content-type: application/csv');
+
+header('Pragma: public');
+header('Content-Disposition: attachment;filename="fiche-'.$qcode.'.csv"',FALSE);
 $Fiche->getName();
 list($array,$tot_deb,$tot_cred)=$Fiche->get_row_date(
                                     $_GET['from_periode'],
@@ -55,6 +61,8 @@ if ( ! isset ($_REQUEST['oper_detail']))
     "\"Date\";".
       "\"n° pièce\";".
     "\"Code interne\";".
+    '"Code journal";'.
+    '"Nom journal";'.
     "\"Description\";".
     "\"Débit\";".
     "\"Crédit\";".
@@ -62,14 +70,44 @@ if ( ! isset ($_REQUEST['oper_detail']))
     "\"Let.\""     ;
     printf("\n");
     $progress=0;
+    $current_exercice="";
+    $tot_deb=0;$tot_cred=0; 
+    bcscale(2);
     foreach ( $Fiche->row as $op )
     {
-        $progress+=$op['deb_montant']-$op['cred_montant'];
-
+        /*
+             * separation per exercice
+             */
+            if ( $current_exercice == "") $current_exercice=$op['p_exercice'];
+            
+            if ( $current_exercice != $op['p_exercice']) {
+                $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
+                $diff=abs($tot_deb-$tot_cred);
+                printf(
+                     ";;;".
+                     '"'._('total').'";'.
+                     '"'.$current_exercice.'";;'.
+                '"'."$solde_type".'"'.";".
+                nb($tot_deb).";".
+                nb($tot_cred).";".
+                nb($diff).";"."\n");
+                /*
+                * reset total and current_exercice
+                */
+                $progress=0;
+                $current_exercice=$op['p_exercice'];
+                $tot_deb=0;$tot_cred=0;    
+            }
+        $diff=bcsub($op['deb_montant'],$op['cred_montant']);
+        $progress=bcadd($progress,$diff);
+        $tot_deb=bcadd($tot_deb,$op['deb_montant']);
+        $tot_cred=bcadd($tot_cred,$op['cred_montant']);
         echo '"'.$op['j_qcode'].'";'.
 	  '"'.$op['j_date_fmt'].'"'.";".
 	  '"'.$op['jr_pj_number'].'"'.";".
 	  '"'.$op['jr_internal'].'"'.";".
+	  '"'.$op['jrn_def_code'].'"'.";".
+	  '"'.$op['jrn_def_name'].'"'.";".
 	  '"'.$op['description'].'"'.";".
 	  nb($op['deb_montant']).";".
 	  nb($op['cred_montant']).";".
