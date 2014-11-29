@@ -129,14 +129,11 @@ class IPoste extends HtmlInput
     public function dsp_button()
     {
 		$this->id=($this->id=="")?$this->name:$this->id;
-        $ib=new ISmallButton($this->id.'_bt');
-        $ib->label=_('Recherche');
-       //  $ib->extra='style="background:url(image/search.png) no-repeat;background-position:0;padding-left:36px;"';
-        $ib->javascript='search_poste(this)';
-
+        $javascript='search_poste(this)';
+        $button=HtmlInput::button_image($javascript,$this->name."_bt", 'alt="'._('Recherche').'" class="image_search"',"image/magnifier13.png");
         /*  add the property */
         $sc=$this->get_js_attr();
-        return $ib->input().$sc;
+        return $button.$sc;
     }
     /*!\brief show the html  input of the widget*/
     public function input($p_name=null,$p_value=null)
