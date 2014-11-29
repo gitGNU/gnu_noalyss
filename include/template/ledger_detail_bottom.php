@@ -166,7 +166,8 @@ if ($aRap  != null ) {
     $amount=$array_jr[0]['jr_montant'];
     $str="modifyOperation(".$aRap[$e].",".$gDossier.")";
     $rmReconciliation=new IButton('rmr');
-    $rmReconciliation->label='enlever';
+    $rmReconciliation->label='&#x2D5D;';
+    $rmReconciliation->class="tinybutton";
     $rmReconciliation->javascript="if (confirm ('vous confirmez?') ) {";
     $rmReconciliation->javascript.=sprintf('dropLink(\'%s\',\'%s\',\'%s\',\'%s\');deleteRowRec(\'%s\',this);}',
 					  $gDossier,
@@ -179,7 +180,8 @@ if ($aRap  != null ) {
       $remove=$rmReconciliation->input();
     else
       $remove='';
-	$comment=strip_tags($array_jr[0]['jr_comment']);
+    
+    $comment=strip_tags($array_jr[0]['jr_comment']);
     echo tr (td('<a class="line" href="javascript:void(0)" onclick="'.$str.'" >'.$internal.'</A>').td(nbm($amount)).td($comment).td($remove));
   }
   echo '</table>';
