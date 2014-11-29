@@ -1131,7 +1131,7 @@ class Fiche
                                  " jr_comment as description,jrn_def_name as jrn_name,".
 				 " jr_pj_number,".
                                  "j_debit, jr_internal,jr_id,coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter, ".
-				 " jr_tech_per,p_exercice,
+				 " jr_tech_per,p_exercice,jrn_def_name,
 								  jrn_def_code".
                                  " from jrnx left join jrn_def on jrn_def_id=j_jrn_def ".
                                  " left join jrn on jr_grpt_id=j_grpt".
@@ -1313,7 +1313,7 @@ class Fiche
 		    $progress=bcsub($sum_deb,$sum_cred);
 			$side="&nbsp;".$this->get_amount_side($progress);
 		    echo "<TR  style=\"font-weight:bold\">".
-		      "<TD></TD>".
+		       "<TD>$old_exercice</TD>".
 		      td('').
 		      "<TD></TD>".
 		      "<TD>Totaux</TD>".
