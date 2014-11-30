@@ -818,7 +818,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         {$tot_amount}
     </td>
     <td class="num">
-        {$tot_amount}
+        {$tot}
     </td>
 EOF;
 
@@ -833,7 +833,7 @@ EOF;
         if ($g_parameter->MY_TVA_USE == 'Y') {
             $r.='<table>';
             $r.='<tr><td>Total HTVA</td>';
-            $r.=td(hb(nbm($tot_amount) ),'class="num"');
+            $r.=td(hb($tot_amount ),'class="num"');
             foreach ($tva as $i => $value) {
                 $oTva->set_parameter('id', $i);
                 $oTva->load();
@@ -841,8 +841,8 @@ EOF;
                 $r.='<tr><td>  TVA ' . $oTva->get_parameter('label').'</td>';
                 $r.=td(hb(nbm($tva[$i])),'class="num"');
             }
-            $r.='<tr>'.td(_('Total TVA')).td(hb(nbm($tot_tva)),'class="num"');
-            $r.='<tr>'.td(_('Total TVAC')).td(hb(nbm($tot)),'class="num"');
+            $r.='<tr>'.td(_('Total TVA')).td(hb($tot_tva),'class="num"');
+            $r.='<tr>'.td(_('Total TVAC')).td(hb($tot),'class="num"');
             $r.='</table>';
         } else {
             $r.='<br>Total '.hb(nbm($tot));
