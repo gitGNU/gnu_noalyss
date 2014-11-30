@@ -1594,7 +1594,9 @@ class Follow_Up
                if ($g_user->can_read_action($mag_id[$i]) == false) continue;
                $a=new Follow_Up($cn,$mag_id[$i]);
                $a->get();
+               echo '<div class="content">';
                echo $a->Display("READ", false, "");
+               echo '</div>';
                echo '<P id="breakhere"> - - </p>';
             }
         }

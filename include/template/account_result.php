@@ -20,13 +20,13 @@
 <td>
 <a href="javascript:void(0)" onclick="<?php echo $array[$i]['javascript']?>">
 <span  id="val<?php echo $i?>">
-<?php echo $array[$i]['pcm_val']?>
+<?php echo strip_tags($array[$i]['pcm_val'])?>
 </span>
 </a>
 </td>
 <td>
 <span id="lib<?php echo $i?>">
-<?php echo $array[$i]['pcm_lib']?>
+<?php echo strip_tags($array[$i]['pcm_lib'])?>
 </span>
 </td>
 <td>
