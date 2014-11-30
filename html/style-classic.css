@@ -1798,3 +1798,15 @@ input[type="button"].tinybutton {
   padding : 3px;
   
 }
+/****************************************************************************
+ * Aligned button
+ ****************************************************************************/
+ul.aligned-block {
+    padding:5px;
+    display : block;
+}
+ul.aligned-block li {
+    display:table-cell;
+    padding : 10px;
+    list-style: none;
+}

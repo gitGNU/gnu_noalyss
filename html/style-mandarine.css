@@ -288,7 +288,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fac695', end
 
     border:0px;
     border-radius:5px;
-    font-weight: bold;
+/*    font-weight: bold;*/
 }
 td.mtitle a.mtitle {
     color:whitesmoke;
@@ -1578,6 +1578,19 @@ hr {
     border-width:2px;
     border-style:solid;
     margin-left: 12.5%
+}
+
+/****************************************************************************
+ * Aligned button
+ ****************************************************************************/
+ul.aligned-block {
+    padding:5px;
+    display : block;
+}
+ul.aligned-block li {
+    display:table-cell;
+    padding : 10px;
+    list-style: none;
 }
 /****************************************************************************
  * Tabs  
