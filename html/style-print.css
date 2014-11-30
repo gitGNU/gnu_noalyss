@@ -23,13 +23,13 @@ div.recherche_form {
 	display:none;
 	}
 table.result {
-	font-size:5mm;
+	font-size:3.5mm;
 	font-family:sans-serif;
 	width:100%
   }
 
 table.result th {
-	font-size:5mm;
+	font-size:4mm;
 	font-family:sans-serif;
 }
 h3,h4 {
@@ -147,24 +147,24 @@ span.even {
  }
 
 tr.odd {
-	font-size:5mm;
+	font-size:3.5mm;
 	font-family:sans-serif;
 }
 tr {
-	font-size:5mm;
+	font-size:3.5mm;
 	font-family:sans-serif;
 	}
 tr.even {
 
-	font-size:5mm;
+	font-size:3.5mm;
 	font-family:sans-serif;
 }
 td.odd{
-	font-size:5mm;
+	font-size:3.5mm;
 	font-family:sans-serif;
 }
 td.even{
-	font-size:5mm;
+	font-size:3.5mm;
 	font-family:sans-serif;
 }
 td.cell{
