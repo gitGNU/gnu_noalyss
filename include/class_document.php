@@ -47,6 +47,7 @@ class Document
     {
         $this->db=$p_cn;
         $this->d_id=$p_d_id;
+        $this->counter=0;
     }
     /*!\brief insert a minimal document and set the d_id
      */
@@ -555,7 +556,7 @@ class Document
         $p_tag=strtoupper($p_tag);
         $p_tag=str_replace('=','',$p_tag);
         $r="Tag inconnu";
-        static $counter=0;
+
         switch ($p_tag)
         {
 		case 'DATE':
@@ -838,17 +839,17 @@ class Document
             $r=${$id};
             break;
         case 'MARCH_NEXT':
-            $counter++;
+            $this->counter++;
             $r='';
             break;
 
         case 'VEN_ART_NAME':
             extract ($p_array);
-            $id='e_march'.$counter;
+            $id='e_march'.$this->counter;
             // check if the march exists
             if ( ! isset (${$id})) return "";
             // check that something is sold
-            if ( ${'e_march'.$counter.'_price'} != 0 && ${'e_quant'.$counter} != 0 )
+            if ( ${'e_march'.$this->counter.'_price'} != 0 && ${'e_quant'.$this->counter} != 0 )
             {
                 $f=new Fiche($this->db);
                 $f->get_by_qcode(${$id},false);
@@ -858,19 +859,19 @@ class Document
             break;
        case 'VEN_ART_LABEL':
             extract ($p_array);
-            $id='e_march'.$counter."_label";
+            $id='e_march'.$this->counter."_label";
             // check if the march exists
 
             if (! isset (${$id}) || (isset (${$id}) && strlen(trim(${$id})) == 0))
                 {
-                    $id = 'e_march' . $counter;
+                    $id = 'e_march' . $this->counter;
                     // check if the march exists
                     if (!isset(${$id}))
                         $r= "";
                     else 
                     {
                     // check that something is sold
-                        if (${'e_march' . $counter . '_price'} != 0 && ${'e_quant' . $counter} != 0)
+                        if (${'e_march' . $this->counter . '_price'} != 0 && ${'e_quant' . $this->counter} != 0)
                         {
                             $f = new Fiche($this->db);
                             $f->get_by_qcode(${$id}, false);
@@ -880,12 +881,12 @@ class Document
                     }
                 }
                 else
-                    $r=${'e_march'.$counter.'_label'};
+                    $r=${'e_march'.$this->counter.'_label'};
             break;
 
         case 'VEN_ART_PRICE':
             extract ($p_array);
-            $id='e_march'.$counter.'_price' ;
+            $id='e_march'.$this->counter.'_price' ;
             if ( !isset (${$id}) ) return "";
 			if (${$id} == 0 ) return "";
             $r=${$id};
@@ -894,10 +895,10 @@ class Document
         case 'TVA_RATE':
         case 'VEN_ART_TVA_RATE':
             extract ($p_array);
-            $id='e_march'.$counter.'_tva_id';
+            $id='e_march'.$this->counter.'_tva_id';
             if ( !isset (${$id}) ) return "";
             if ( ${$id} == -1 || ${$id}=='' ) return "";
-            $march_id='e_march'.$counter.'_price' ;
+            $march_id='e_march'.$this->counter.'_price' ;
             if ( ! isset (${$march_id})) return '';
             $tva=new Acc_Tva($this->db);
             $tva->set_parameter("id",${$id});
@@ -908,11 +909,11 @@ class Document
         case 'TVA_CODE':
         case 'VEN_ART_TVA_CODE':
             extract ($p_array);
-            $id='e_march'.$counter.'_tva_id';
+            $id='e_march'.$this->counter.'_tva_id';
             if ( !isset (${$id}) ) return "";
             if ( ${$id} == -1 ) return "";
-            $qt='e_quant'.$counter;
-            $price='e_march'.$counter.'_price' ;
+            $qt='e_quant'.$this->counter;
+            $price='e_march'.$this->counter.'_price' ;
             if ( ${$price} == 0 || ${$qt} == 0
                     || strlen(trim( $price )) ==0
                     || strlen(trim($qt)) ==0)
@@ -923,9 +924,9 @@ class Document
 
         case 'TVA_LABEL':
             extract ($p_array);
-            $id='e_march'.$counter.'_tva_id';
+            $id='e_march'.$this->counter.'_tva_id';
             if ( !isset (${$id}) ) return "";
-            $march_id='e_march'.$counter.'_price' ;
+            $march_id='e_march'.$this->counter.'_price' ;
             if ( ! isset (${$march_id})) return '';
             if ( ${$march_id} == 0) return '';
             $tva=new Acc_Tva($this->db,${$id});
@@ -938,27 +939,27 @@ class Document
         case 'TVA_AMOUNT':
         case 'VEN_TVA':
             extract ($p_array);
-            $qt='e_quant'.$counter;
-            $price='e_march'.$counter.'_price' ;
-            $tva='e_march'.$counter.'_tva_id';
+            $qt='e_quant'.$this->counter;
+            $price='e_march'.$this->counter.'_price' ;
+            $tva='e_march'.$this->counter.'_tva_id';
             /* if we do not use vat this var. is not set */
             if ( !isset(${$tva}) ) return '';
-            if ( !isset (${'e_march'.$counter}) ) return "";
+            if ( !isset (${'e_march'.$this->counter}) ) return "";
             // check that something is sold
             if ( ${$price} == 0 || ${$qt} == 0
                     || strlen(trim( $price )) ==0
                     || strlen(trim($qt)) ==0)
                 return "";
-            $r=${'e_march'.$counter.'_tva_amount'};
+            $r=${'e_march'.$this->counter.'_tva_amount'};
             break;
             /* TVA automatically computed */
         case 'VEN_ART_TVA':
         
             extract ($p_array);
-            $qt='e_quant'.$counter;
-            $price='e_march'.$counter.'_price' ;
-            $tva='e_march'.$counter.'_tva_id';
-            if ( !isset (${'e_march'.$counter}) ) return "";
+            $qt='e_quant'.$this->counter;
+            $price='e_march'.$this->counter.'_price' ;
+            $tva='e_march'.$this->counter.'_tva_id';
+            if ( !isset (${'e_march'.$this->counter}) ) return "";
             // check that something is sold
             if ( ${$price} == 0 || ${$qt} == 0
                     || strlen(trim( $price )) ==0
@@ -972,10 +973,10 @@ class Document
 
         case 'VEN_ART_TVAC':
             extract ($p_array);
-            $qt='e_quant'.$counter;
-            $price='e_march'.$counter.'_price' ;
-            $tva='e_march'.$counter.'_tva_id';
-            if ( !isset (${'e_march'.$counter}) ) return "";
+            $qt='e_quant'.$this->counter;
+            $price='e_march'.$this->counter.'_price' ;
+            $tva='e_march'.$this->counter.'_tva_id';
+            if ( !isset (${'e_march'.$this->counter}) ) return "";
             // check that something is sold
             if ( ${$price} == 0 || ${$qt} == 0
                     || strlen(trim( $price )) ==0
@@ -996,27 +997,27 @@ class Document
 
         case 'VEN_ART_QUANT':
             extract ($p_array);
-            $id='e_quant'.$counter;
+            $id='e_quant'.$this->counter;
             if ( !isset (${$id}) ) return "";
             // check that something is sold
-            if ( ${'e_march'.$counter.'_price'} == 0
-                    || ${'e_quant'.$counter} == 0
-                    || strlen(trim( ${'e_march'.$counter.'_price'} )) ==0
-                    || strlen(trim(${'e_quant'.$counter})) ==0 )
+            if ( ${'e_march'.$this->counter.'_price'} == 0
+                    || ${'e_quant'.$this->counter} == 0
+                    || strlen(trim( ${'e_march'.$this->counter.'_price'} )) ==0
+                    || strlen(trim(${'e_quant'.$this->counter})) ==0 )
                 return "";
             $r=${$id};
             break;
 
         case 'VEN_HTVA':
             extract ($p_array);
-            $id='e_march'.$counter.'_price' ;
-            $quant='e_quant'.$counter;
+            $id='e_march'.$this->counter.'_price' ;
+            $quant='e_quant'.$this->counter;
             if ( !isset (${$id}) ) return "";
 
             // check that something is sold
-            if ( ${'e_march'.$counter.'_price'} == 0 || ${'e_quant'.$counter} == 0
-                    || strlen(trim( ${'e_march'.$counter.'_price'} )) ==0
-                    || strlen(trim(${'e_quant'.$counter})) ==0)
+            if ( ${'e_march'.$this->counter.'_price'} == 0 || ${'e_quant'.$this->counter} == 0
+                    || strlen(trim( ${'e_march'.$this->counter.'_price'} )) ==0
+                    || strlen(trim(${'e_quant'.$this->counter})) ==0)
                 return "";
 			bcscale(4);
             $r=bcmul(${$id},${$quant});
@@ -1025,12 +1026,12 @@ class Document
 
         case 'VEN_TVAC':
             extract ($p_array);
-            $id='e_march'.$counter.'_tva_amount' ;
-            $price='e_march'.$counter.'_price' ;
-            $quant='e_quant'.$counter;
-            if ( ! isset(${'e_march'.$counter.'_price'})|| !isset(${'e_quant'.$counter}))     return "";
+            $id='e_march'.$this->counter.'_tva_amount' ;
+            $price='e_march'.$this->counter.'_price' ;
+            $quant='e_quant'.$this->counter;
+            if ( ! isset(${'e_march'.$this->counter.'_price'})|| !isset(${'e_quant'.$this->counter}))     return "";
             // check that something is sold
-            if ( ${'e_march'.$counter.'_price'} == 0 || ${'e_quant'.$counter} == 0 ) return "";
+            if ( ${'e_march'.$this->counter.'_price'} == 0 || ${'e_quant'.$this->counter} == 0 ) return "";
 			bcscale(4);
             // if TVA not exist
             if ( ! isset(${$id}))
@@ -1162,9 +1163,9 @@ class Document
         if (preg_match('/^ATTR/', $p_tag) == 1)
         {
             // Retrieve f_id
-            if ( isset ($p_array['e_march'.$counter]))
+            if ( isset ($p_array['e_march'.$this->counter]))
             {
-                $id = $p_array['e_march' . $counter];
+                $id = $p_array['e_march' . $this->counter];
                 $r=$this->replace_special_tag($id,$p_tag);
             }
         }
