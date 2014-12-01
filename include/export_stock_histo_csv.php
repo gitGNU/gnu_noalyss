@@ -28,7 +28,7 @@
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once 'class_stock.php';
 
-$stock=new Stock();
+$stock=new Stock($cn);
 $sql = $stock->create_query_histo($_GET);
 $sql .= " order by  real_date asc";
 
