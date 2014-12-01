@@ -100,8 +100,34 @@
 	</tr>
 <?php endfor; ?>
 </table>
-<?php if ($p_readonly == false) echo HtmlInput::button_action(_('Ajouter une ligne'),'stock_add_row();')?>
+<?php if ($p_readonly == false) echo HtmlInput::button_action(_('Ajouter une ligne'),'stock_add_row();','smallbutton')?>
 <?php if ($p_readonly == false) echo HtmlInput::submit('save',_('Sauver'))?>
 <?php if ($p_readonly == false) echo HtmlInput::hidden('row',$nb)?>
+<?php if ($p_readonly == false) echo HtmlInput::button("reprise_show",_('Reprise inventaire'),  " onclick=\"$('reprise_inventaire_div').show();\"")?>
 	</form>
+</div>
+<div class="inner_box" id="reprise_inventaire_div" style="display:none">
+    <form method="get">
+    <?php echo HtmlInput::title_box(_('Reprise inventaire'), 'reprise_inventaire_div', 'hide');?>
+    <?php echo HtmlInput::request_to_hidden(array('gDossier','ac'))?>
+    <table>
+        <tr>
+            <td>
+                <?php echo _('Dépot'); ?>
+            </td>
+            <td>
+                <?php echo $idepo->input()?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <?php echo _('Exercice')?>
+            </td>
+            <td>
+                <?php echo $select_exercice->input();?>
+            </td>
+        </tr>
+    </table>
+        <?php echo HtmlInput::submit("reprise_frm", _('Reprise inventaire'));?>
+     </form>
 </div>

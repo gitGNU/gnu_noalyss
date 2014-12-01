@@ -107,7 +107,10 @@ class Stock_Goods extends Stock_Goods_Sql
 				$fiche[$e]=new Fiche($this->cn,${'f_id'.$e});
 			}
 		}
-		require_once 'template/stock_inv.php';
+                $select_exercice=new ISelect('p_exercice');
+                $select_exercice->value=$cn->make_array('select distinct p_exercice,p_exercice from parm_periode order by 1 desc');
+                
+                require_once 'template/stock_inv.php';
 	}
 
 	function record_save($p_array)
@@ -208,7 +211,61 @@ class Stock_Goods extends Stock_Goods_Sql
             );
            return $Res;
     }
+    /**
+     * Return an array, used by Stock_Goods::input 
+     * @global type $cn
+     * @param type $p_array
+     * @throws Exception
+     */
+    function take_last_inventory($p_array)
+    {
+        global $cn;
+        $year=HtmlInput::default_value("p_exercice", "", $p_array);
+        $depot=HtmlInput::default_value("p_depot", "", $p_array);
+        if ($year=="")
+            throw new Exception(_('Inventaire invalide'), 10);
+        if ($depot=="")
+            throw new Exception(_('Dépôt invalide'), 20);
 
+        // compute state_exercice
+        $periode=new Periode($cn);
+        $periode->p_id=$cn->get_value("select min(p_id) from parm_periode where p_exercice=$1", array($year));
+        $first_day=$periode->first_day();
+
+        // compute array for stock
+        $array['state_exercice']=$first_day;
+        
+        $stock=new Stock($cn);
+        $rowid=$stock->build_tmp_table($array);
+
+        // compute first day of the next year
+        $next_year=$year+1;
+        $periode=new Periode($cn);
+        $periode->p_id=$cn->get_value("select min(p_id) from parm_periode where p_exercice=$1", array($next_year));
+        
+        if ($periode->p_id=="")
+            $array['p_date']="";
+        else
+            $array['p_date']=$periode->first_day();
+        
+        // Compute an array compatible with Stock_Goods::input
+        $array['p_motif']=_('Inventaire ').$year;
+        $array['p_depot']=$depot;
+        
+        $result=$cn->get_array("
+                select sg_code,sum(coalesce(s_qin,0)-coalesce(s_qout,0)) tot_
+                from tmp_stockgood_detail 
+                where 
+                s_id=$1 and r_id=$2 
+                group by sg_code",
+            array($rowid,$depot));
+        for ($e=0;$e< count($result);$e++) {
+            $array['sg_code'.$e]=$result[$e]['sg_code'];
+            $array['sg_quantity'.$e]=$result[$e]['tot_'];
+        }
+        return $array;
+        
+    }
 }
 
 ?>

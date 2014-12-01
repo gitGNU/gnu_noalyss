@@ -335,6 +335,7 @@ class Stock extends Stock_Sql
 		$cn->exec_sql($sql_repo_detail, array($g_user->get_profile(), $periode->p_exercice));
 		return $tmp_id;
 	}
+    
 
 }
 
