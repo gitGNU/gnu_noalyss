@@ -27,7 +27,7 @@
  *
  */
 ?>
-<div style="position:absolute" class="content">
+<div style="<?php if ( ! $p_readonly) echo "position:absolute";?>" class="content">
 	<form method="POST" class="print" onsubmit="return confirm('<?php echo _("Vous confirmez ?")?>')">
 <table>
 	<tr><td>
