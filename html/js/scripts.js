@@ -1720,8 +1720,8 @@ function stock_inv_detail(p_dossier, p_id)
 {
     var queryString = "gDossier=" + p_dossier + "&op=view_mod_stock" + "&c_id=" + p_id + "&ctl=view_mod_stock_div";
     var nTop = calcy(posY);
-    var nLeft = "200px";
-    var str_style = "top:" + nTop + "px;left:" + nLeft + ";";
+    var nLeft = "10%";
+    var str_style = "top:" + nTop + "px;left:" + nLeft + ";width:80%;";
 
     removeDiv('view_mod_stock_div');
     waiting_box();
