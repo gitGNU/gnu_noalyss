@@ -27,9 +27,11 @@
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once 'class_stock_goods.php';
+require_once 'class_stock.php';
 global $cn;
 
 $inv=new Stock_Goods($cn);
+$array=array();
 if ( isset ($_POST['save']))
 {
 	try
@@ -41,9 +43,13 @@ if ( isset ($_POST['save']))
 	}catch(Exception $e)
 	{
 		 alert($e->getMessage());
-		 $inv->input($_POST);
+		$array=input($_POST);
 	}
+} else if ( isset ($_GET['reprise_frm']) )
+{
+    
+    $array=$inv->take_last_inventory($_GET);
 }
-echo $inv->input();
+echo $inv->input($array);
 
 ?>
