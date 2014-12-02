@@ -857,7 +857,7 @@ function dsp_letter(obj)
 {
     try
     {
-        var queryString='gDossier='+obj.gDossier+'&j_id='+obj.j_id+'&op=dl'+'&ot='+this.obj_type;
+        var queryString='gDossier='+obj.gDossier+'&j_id='+obj.j_id+'&op=dl'+'&ot='+obj.obj_type;
         var action=new Ajax.Request(
                        "ajax_misc.php",
                        {
