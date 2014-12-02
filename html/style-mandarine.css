@@ -342,7 +342,6 @@ td.selectedcell{
     color:#FFFFFF;
     text-align:center;
     /* max-width:50%; */
-    width: 10rem;
     border-radius:5px;
 }
 a.mtitle {
@@ -1542,7 +1541,6 @@ div.box tr.even {
     background-color:#FFF1ED;
     
 }
-#FF523F
 #jrn_name_div h2{
     font-size:38.4px;
     font-size: 2.4rem;
@@ -1632,6 +1630,7 @@ ul.tabs a {
     text-decoration: none;
     color:inherit;
     display:inline;
+    white-space: nowrap;
     
 }
 ul.tabs a:hover {
@@ -1639,6 +1638,17 @@ ul.tabs a:hover {
     color:red;
     display:inline;
      background-color: pink;
+     white-space: nowrap;
+}
+@media only screen and (max-width: 1426px) {
+    li.tabs_selected {
+        padding: 8px 10px 10px 10px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+    li.tabs , li.tabs:hover {
+            padding: 10px 10px 0px 10px;
+    }
 }
 /*****************************************************************************
  * Second row of menu
