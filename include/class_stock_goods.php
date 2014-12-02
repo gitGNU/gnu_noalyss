@@ -263,6 +263,7 @@ class Stock_Goods extends Stock_Goods_Sql
             $array['sg_code'.$e]=$result[$e]['sg_code'];
             $array['sg_quantity'.$e]=$result[$e]['tot_'];
         }
+        $array['row']=$e;
         return $array;
         
     }
