@@ -57,7 +57,7 @@ $js="this.gDossier=".dossier::id().
   ";dsp_letter(this)";
 
 ?>
-<A class="detail" style="text-decoration: underline" href="javascript:<?php echo $js?>"><?php echo $letter?>
+<A class="detail" style="text-decoration: underline" href="javascript:void(0)" onclick="<?php echo $js?>"><?php echo $letter?>
 <?php if ( $this->content[$i]['letter_diff'] != 0) echo $g_failed;	?>
 	</A>
 </td>
@@ -65,7 +65,7 @@ $js="this.gDossier=".dossier::id().
 <td> <?php echo $this->content[$i]['jr_pj_number']?> </td>
 
 <?php
-$r=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:viewOperation(\'%s\',\'%s\')" >%s</A>',
+$r=sprintf('<A class="detail" style="text-decoration:underline"  href="javascript:void(0)" onclick="viewOperation(\'%s\',\'%s\')" >%s</A>',
 	     $this->content[$i]['jr_id'], $gDossier, $this->content[$i]['jr_internal']);
 ?>
   <td> <?php echo $r?> </td>
@@ -90,7 +90,7 @@ $r=sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript
 	$operation->jr_id=$element;
 	$l_amount=$this->db->get_value("select jr_montant from jrn ".
 					 " where jr_id=$element");
-	echo "<A class=\"detail\" HREF=\"javascript:viewOperation('".$element."',".$gDossier.")\" > ".$operation->get_internal()." [ ".nb($l_amount)." &euro; ]</A>";
+	echo "<A class=\"detail\"  href=\"javascript:void(0)\" onclick=\"viewOperation('".$element."',".$gDossier.")\" > ".$operation->get_internal()." [ ".nb($l_amount)." &euro; ]</A>";
       }//for
     }// if ( $a != null ) {
 // compute amount
