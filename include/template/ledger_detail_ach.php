@@ -195,7 +195,7 @@ $str_anc="";
                     $tvac = bcadd($htva, $q['qp_vat']);
                     $tvac = bcadd($tvac, $q['qp_nd_tva']);
                     $tvac = bcadd($tvac, $q['qp_nd_tva_recup']);
-
+                    $tvac = bcsub ($tvac,$q['qp_vat_sided']);
 
                     if ($owner->MY_TVA_USE == 'Y')
                     {
@@ -204,14 +204,13 @@ $str_anc="";
                         if ($q['qp_vat_sided'] <> 0)
                         {
                             $class = ' style="text-decoration:line-through"';
-                            $tvac = bcsub($tvac, $q['qp_vat']);
                         }
                         $row.=td(nbm($tva_amount_nd), 'class="num" ' . $class);
                         $row.=td(nbm($q['qp_vat']), 'class="num" ' . $class);
                         $row.=td(nbm($tvac), 'class="num"');
                     }
-                    $total_tvac+=$tvac;
-                    $total_htva+=$htva;
+                    $total_tvac=bcadd($total_tvac,$tvac);
+                    $total_htva=bcadd($htva,$total_htva);
                     /* Analytic accountancy */
                     if ($owner->MY_ANALYTIC != "nu" /*&& $div == 'popup'*/ )
                     {
