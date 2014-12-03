@@ -146,14 +146,6 @@ if (isset($_POST['record']))
 		$jr_id = $cn->get_value('select jr_id from jrn where jr_internal=$1', array($internal));
 
 		echo '<h1> Enregistrement </h1>';
-		// echo "<h2 >" . _('Opération sauvée') . " $internal ";
-		// if ($Ledger->pj != '')
-		//	echo ' Piece : ' . h($Ledger->pj);
-		// echo "</h2>";
-		// if (strcmp($Ledger->pj, $_POST['e_pj']) != 0)
-		// {
-		//	echo '<h3 class="notice"> ' . _('Attention numéro pièce existante, elle a du être adaptée') . '</h3>';
-		// }
 		/* Save the additional information into jrn_info */
 		$obj = new Acc_Ledger_Info($cn);
 		$obj->save_extra($Ledger->jr_id, $_POST);
