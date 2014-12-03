@@ -227,10 +227,10 @@ if  ($get_option == 1)
                 $col_tva.='"Tva '.$line_tva['tva_label'].'";';
             }
         }
-        echo '"Date";"Paiement";"operation";"Pièce";"Client/Fourn.";"Commentaire";"inter.";"HTVA";privé;DNA;tva non ded.;'.$col_tva.'"TVAC";"opérations liées"'."\n\r";
+        echo '"Date";"Paiement";"operation";"Pièce";"Client/Fourn.";"Commentaire";"inter.";"HTVA";"privé";"DNA";"tva non ded.";"autoliquidation";'.$col_tva.'"TVAC";"opérations liées"'."\n\r";
         foreach ($Row as $line)
         {
-            printf('"%s";"%s";"%s";"%s";"%s";%s;%s;%s;%s;%s;%s;',
+            printf('"%s";"%s";"%s";"%s";"%s";%s;%s;%s;%s;%s;%s;%s;',
                    $line['date'],
                    $line['date_paid'],
                    $line['num'],
@@ -241,7 +241,8 @@ if  ($get_option == 1)
                    nb($line['HTVA']),
                    nb($line['dep_priv']),
                    nb($line['dna']),
-                   nb($line['tva_dna'])
+                   nb($line['tva_dna']),
+                    nb($line['autoliq'])
                    );
             $a_tva_amount=array();
             //- set all TVA to 0

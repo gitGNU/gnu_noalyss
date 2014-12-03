@@ -42,6 +42,7 @@ class gestion_sold extends gestion_table
     var $qs_client;				/*!< f_id of the customer */
     var $qs_valid;				/*!< will not be used */
     var $j_id;					/*!< jrnx.j_id */
+    var $qs_vat_sided;
     /*!\brief return an array of gestion_table, the object are
      * retrieved thanks the qs_internal
      */
@@ -59,7 +60,8 @@ class gestion_sold extends gestion_table
              tva_rate,
              qs_vat_code,
              qs_client,
-             j_id
+             j_id,
+             qs_vat_sided
              from quant_sold left join tva_rate on (qs_vat_code=tva_id)
              where qs_internal='".$this->qs_internal."'";
         $ret=$this->db->exec_sql($sql);
@@ -78,5 +80,36 @@ class gestion_sold extends gestion_table
             $count++;
         }
         return $array;
+    }
+     function search_by_jid($p_jid)
+    {
+        $res=$this->db->exec_sql("select qs_id from quant_sold where j_id=".$p_jid);
+
+        if ( Database::num_row($res) == 1)
+            $this->qs_id=Database::fetch_result($res,0,0);
+        else
+            $this->qs_id=0;
+    }
+    function load()
+    {
+       $sql=" select  qs_id,
+             qs_internal,
+             qs_fiche,
+             qs_quantite,
+             qs_price,
+             qs_vat,
+             qs_vat_code,
+             qs_client,
+             j_id,
+             qs_vat_sided
+             from quant_sold 
+             where qs_id=$1";
+       $ret=$this->db->exec_sql($sql,array($this->qs_id));
+        // $res contains all the line
+        $res=Database::fetch_all($ret);
+
+        if ( empty($res) ) return null;
+        foreach ($res[0] as $idx=>$value)
+        $this->$idx=$value;
     }
 }

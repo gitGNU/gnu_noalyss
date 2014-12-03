@@ -35,6 +35,7 @@ require_once ('class_pre_op_advanced.php');
 require_once ('class_acc_reconciliation.php');
 require_once ('class_periode.php');
 require_once ('class_gestion_purchase.php');
+require_once ('class_gestion_sold.php');
 require_once ('class_acc_account.php');
 require_once('ac_common.php');
 require_once('class_inum.php');
@@ -1062,6 +1063,8 @@ class Acc_Ledger extends jrn_def_sql
 
 	function get_detail(&$p_array, $p_jrn_type, $trunc = 0, $a_TVA = null, $a_ParmCode = null)
 	{
+            bcscale(2);
+            
 		if ($a_TVA == null)
 		{
 			//Load TVA array
@@ -1081,6 +1084,7 @@ class Acc_Ledger extends jrn_def_sql
 		$p_array['dep_priv'] = 0;
 		$p_array['dna'] = 0;
 		$p_array['tva_dna'] = 0;
+		$p_array['autoliq'] = 0;
 		$dep_priv = 0.0;
                 
 		//
@@ -1193,11 +1197,19 @@ class Acc_Ledger extends jrn_def_sql
 				$p_array['dep_priv'] = $dep_priv;
                                 $p_array['dna']=bcadd($p_array['dna'],$purchase->qp_nd_amount);
                                 $p_array['tva_dna']=bcadd($p_array['tva_dna'],bcadd($purchase->qp_nd_tva,$purchase->qp_nd_tva_recup));
+                                $p_array['autoliq']=bcadd($purchase->qp_vat_sided,$p_array['autoliq']);
 			}
+			if ($p_array['jrn_def_type'] == 'VEN') {
+                            $sold=new gestion_sold($this->db);
+                            $sold->search_by_jid($code['j_id']);
+                            $sold->load();
+                            $p_array['autoliq']=bcadd($sold->qs_vat_sided,$p_array['autoliq']);
+                        }
+                        
                         
 		}
 		$p_array['TVAC'] = sprintf('% 10.2f', $p_array['TVAC'] );
-		$p_array['HTVA'] = sprintf('% 10.2f', $p_array['TVAC'] - $p_array['AMOUNT_TVA']);
+		$p_array['HTVA'] = sprintf('% 10.2f', $p_array['TVAC'] - $p_array['AMOUNT_TVA']-$p_array['tva_dna']);
 		$r = "";
 		$a_tva_amount = array();
 		// inline TVA (used for the PDF)
