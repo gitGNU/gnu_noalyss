@@ -2705,7 +2705,7 @@ class Acc_Ledger extends jrn_def_sql
 			(
 				select sum(qp_price)+sum(vat)+sum(qp_nd_tva)+sum(qp_nd_tva_recup)
 				from
-				 (select qp_internal,qp_price,qp_nd_tva,qp_nd_tva_recup,case when qp_vat_sided<>0 then 0 else qp_vat end as vat from quant_purchase where qp_internal=X.jr_internal) as invoice_purchase
+				 (select qp_internal,qp_price,qp_nd_tva,qp_nd_tva_recup,qp_vat-qp_vat_sided as vat from quant_purchase where qp_internal=X.jr_internal) as invoice_purchase
 			)
 		else null
 		end as total_invoice,
@@ -3138,6 +3138,7 @@ class Acc_Ledger extends jrn_def_sql
 			$sql = "select coalesce(sum(qp_price),0) as price" .
 					" ,coalesce(sum(qp_vat),0) as vat " .
 					',coalesce(sum(qp_dep_priv),0) as priv' .
+					',coalesce(sum(qp_vat_sided),0) as reversed' .
 					',coalesce(sum(qp_nd_tva_recup),0)+coalesce(sum(qp_nd_tva),0) as tva_nd' .
 					'  from quant_purchase join jrnx using(j_id) ' .
 					' where j_tech_per >= $1 and j_tech_per < $2';
@@ -3157,6 +3158,7 @@ class Acc_Ledger extends jrn_def_sql
 					" ,coalesce(sum(qs_vat),0) as vat " .
 					',0 as priv' .
 					',0 as tva_nd' .
+                                        ',coalesce(sum(qs_vat_sided),0) as reversed' .
 					'  from quant_sold join jrnx using(j_id) ' .
 					' where j_tech_per >= $1 and j_tech_per < $2';
 			$array = $this->db->get_array($sql, array($min->p_id, $p_to));

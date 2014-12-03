@@ -274,20 +274,19 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
      * @param Fiche $p_fiche Concerned Card (purchase items)
      * @param type $p_tva_bot 0 TVA on one side, 1 TVA on both side
      */
-    private function compute_no_deductible(Acc_Compute $p_nd_amount, Fiche $p_fiche, $p_tva_both)
+    private function compute_no_deductible(Acc_Compute $p_nd_amount, Fiche $p_fiche)
     {
-
         if (!$p_fiche->empty_attribute(ATTR_DEF_DEPENSE_NON_DEDUCTIBLE))
         {
             $p_nd_amount->amount_nd_rate = $p_fiche->strAttribut(ATTR_DEF_DEPENSE_NON_DEDUCTIBLE);
             $p_nd_amount->compute_nd();
         }
-        if (!$p_fiche->empty_attribute(ATTR_DEF_TVA_NON_DEDUCTIBLE) && $p_tva_both == 0)
+        if (!$p_fiche->empty_attribute(ATTR_DEF_TVA_NON_DEDUCTIBLE) )
         {
             $p_nd_amount->nd_vat_rate = $p_fiche->strAttribut(ATTR_DEF_TVA_NON_DEDUCTIBLE);
             $p_nd_amount->compute_nd_vat();
         }
-        if (!$p_fiche->empty_attribute(ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP) && $p_tva_both == 0)
+        if (!$p_fiche->empty_attribute(ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP) )
         {
             $p_nd_amount->nd_ded_vat_rate = $p_fiche->strAttribut(ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP);
             $p_nd_amount->compute_ndded_vat();
@@ -528,6 +527,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $tot_perso=0;
             $tot_tva_nd=0;
             $tot_tva_ndded=0;
+            $tot_tva_reversed=0;
 			$tva=array();
             /* Save all the items without vat and no deductible vat and expense*/
             for ($i=0;$i< $nb_item;$i++)
@@ -538,7 +538,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 /* First we save all the items without vat */
                 $fiche=new Fiche($this->db);
                 $fiche->get_by_qcode(${"e_march".$i});
-				$tva_both=0;
+		$tva_both=0;
                 /* tva */
                 if ($g_parameter->MY_TVA_USE=='Y')
                 {
@@ -546,7 +546,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     $oTva=new Acc_Tva($this->db);
                     $oTva->set_parameter('id',$idx_tva);
                     $oTva->load();
-					$tva_both=$oTva->get_parameter("both_side");
+                    $tva_both=$oTva->get_parameter("both_side");
                 }
                 /* -- Create acc_operation -- */
                 $acc_operation=new Acc_Operation($this->db);
@@ -565,7 +565,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $acc_amount->check=false;
                 $acc_amount->set_parameter('amount',$amount);
                 
-                
+                // Compute VAT or take the given one
                 if ( $g_parameter->MY_TVA_USE=='Y')
                 {
                     $acc_amount->set_parameter('amount_vat_rate',$oTva->get_parameter('rate'));
@@ -579,14 +579,17 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                         $acc_amount->amount_vat= ${'e_march'.$i.'_tva_amount'};
 
                     }
-                    if ($tva_both==0) $tot_tva=bcadd($tot_tva,$acc_amount->amount_vat);
+                   $tot_tva=bcadd($tot_tva,$acc_amount->amount_vat);
                 }
 
                
                 /* compute ND */
-                $this->compute_no_deductible($acc_amount, $fiche, $tva_both);
+                $save_amount_vat=$acc_amount->amount_vat;
+                $this->compute_no_deductible($acc_amount, $fiche);
                 $acc_amount->correct();
-
+                // TVA which avoid 
+                $acc_amount->amount_to_reverse=($tva_both == 1 ) ? $save_amount_vat :0 ;
+                $tot_tva_reversed=bcadd($tot_tva_reversed,$acc_amount->amount_to_reverse);
                 
 
               
@@ -658,7 +661,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 //-----
                 if ( $g_parameter->MY_TVA_USE=='Y')
                 {
-                    if ( $tva_both==1) $n_both=$acc_amount->amount_vat;
 
                     $r=$this->db->exec_sql("select insert_quant_purchase ".
                                            "(null".
@@ -672,7 +674,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                                            ",".$acc_amount->nd_vat.	     /* 9 */
                                            ",".$acc_amount->nd_ded_vat.    /* 10 */
                                            ",".$acc_amount->amount_perso.  /* 11 */ 
-                                           ",'".$e_client."',".$n_both.")");	     /* 12 */
+                                           ",'".$e_client."',". $acc_amount->amount_to_reverse.")");	     /* 12 */
 
                 }
                 else
@@ -689,7 +691,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                                            ",0".
                                            ",".$acc_amount->nd_ded_vat.
                                            ",".$acc_amount->amount_perso.
-                                           ",'".$e_client."',".$n_both.")");
+                                           ",'".$e_client."',".$acc_amount->amount_to_reverse.")");
 
 
                 }
@@ -700,7 +702,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $acc_operation=new Acc_Operation($this->db);
             $acc_operation->date=$e_date;
             $acc_operation->poste=$poste;
-            $acc_operation->amount=$cust_amount;
+            $acc_operation->amount=$cust_amount-$tot_tva_reversed;
             $acc_operation->grpt=$seq;
             $acc_operation->jrn=$p_jrn;
             $acc_operation->type='c';
@@ -740,16 +742,17 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     {
                         $poste_vat=$oTva->get_side('c');
                         $cust_amount=bcadd($tot_amount,$tot_tva);
+                        $cust_amount=bcsub($tot_amount,$tot_tva_reversed);
                         $acc_operation=new Acc_Operation($this->db);
                         $acc_operation->date=$e_date;
                         $acc_operation->poste=$poste_vat;
-                        $acc_operation->amount=$value;
+                        $acc_operation->amount=$tot_tva_reversed;
                         $acc_operation->grpt=$seq;
                         $acc_operation->jrn=$p_jrn;
                         $acc_operation->type='c';
                         $acc_operation->periode=$tperiode;
                         $acc_operation->insert_jrnx();
-						 if ( $value < 0 ) $tot_debit=bcadd($tot_debit,abs($value));
+			if ( $value < 0 ) $tot_debit=bcadd($tot_debit,abs($value));
                     }
 
                 }
@@ -1427,23 +1430,19 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             else
                 $fiche_name=$fiche->strAttribut (ATTR_DEF_NAME);
 
+            $amount=bcmul(${"e_march".$i."_price"},${'e_quant'.$i});
             if ( $g_parameter->MY_TVA_USE=='Y')
             {
                 $idx_tva=${"e_march".$i."_tva_id"};
                 $oTva=new Acc_Tva($this->db);
                 $oTva->set_parameter('id',$idx_tva);
                 $oTva->load();
-            }
-            $amount=bcmul(${"e_march".$i."_price"},${'e_quant'.$i});
+                $op=new Acc_Compute();
 
-            if ( $g_parameter->MY_TVA_USE=='Y')
-            {
-				$op=new Acc_Compute();
-
-				$op->set_parameter("amount",$amount);
-				$op->set_parameter('amount_vat_rate',$oTva->get_parameter('rate'));
-				$op->compute_vat();
-				 $tva_computed=$op->get_parameter('amount_vat');
+                $op->set_parameter("amount",$amount);
+                $op->set_parameter('amount_vat_rate',$oTva->get_parameter('rate'));
+                $op->compute_vat();
+                $tva_computed=$op->get_parameter('amount_vat');
                 //----- if tva_amount is not given we compute the vat ----
                 if ( strlen (trim (${'e_march'.$i.'_tva_amount'})) == 0)
                 {
@@ -1456,8 +1455,9 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     $tva[$idx_tva]+=$tva_item;
                 else
                     $tva[$idx_tva]=$tva_item;
-                $tot_tva=round(bcadd($tva_item,$tot_tva),2);
-				$tot_row=bcadd($tot_row,$tva_item);
+               
+		
+                
             }
             $tot_amount=round(bcadd($tot_amount,$amount),2);
 			$tot_row=bcadd($tot_row,$amount);
@@ -1474,32 +1474,39 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $r.='<td class="num">';
             $r.=nbm(${"e_quant".$i});
             $r.='</td>';
+            $both_side=0;
             if ($g_parameter->MY_TVA_USE == 'Y')
             {
                 $r.='<td class="num">';
                 $r.=$oTva->get_parameter('label');
+                $both_side=$oTva->get_parameter("both_side");
+                if ( $both_side == 0) {
+                    $tot_row=bcadd($tot_row,$tva_item);
+                    $tot_tva=round(bcadd($tva_item,$tot_tva),2);
+                }
                 $r.='</td>';
                 /* warning if tva_computed and given are not the
                    same */
-				bcscale(2);
+		bcscale(2);
+                $css_void_tva=($both_side == 1)?'style="text-decoration:line-through"':'';
                 if ( bcsub($tva_item,$tva_computed) != 0)
                 {
 
-					 $r.='<td style="background-color:red" class="num">';
+					 $r.='<td style="background-color:red" class="num" '.$css_void_tva.'>';
 					 $r.=HtmlInput::infobulle(28);
-                    $r.='<a href="#" class="error" style="display:inline" title="'. _("Attention Différence entre TVA calculée et donnée").'">'
+                                         $r.='<a href="#" class="error" style="display:inline" title="'. _("Attention Différence entre TVA calculée et donnée").'">'
 							.nbm($tva_item).'<a>';
                 }
-				else{
-					 $r.='<td  class="num">';
-					$r.=nbm($tva_item);
-				}
+                else{
+                        $r.='<td  class="num" '.$css_void_tva.'>';
+                        $r.=nbm($tva_item);
+                }
                 $r.='</td>';
-				$r.='<td class="num">';
-				$r.=nbm(round($amount,2));
-				$r.='</td>';
+                $r.='<td class="num">';
+                $r.=nbm(round($amount,2));
+                $r.='</td>';
             }
-			$r.='<td class="num">';
+            $r.='<td class="num">';
             $r.=nbm(round($tot_row,2));
             $r.='</td>';
             // encode the pa
