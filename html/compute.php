@@ -73,7 +73,8 @@ if ( $t != -1 && isNumber($t) == 1 )
 {
     $total->set_parameter('amount_vat_rate',$tva_rate->get_parameter('rate'));
     $total->compute_vat();
-    $tvac=bcadd($total->get_parameter('amount_vat'),$amount);
+    if ($tva_rate->get_parameter('both_side')== 1) $total->set_parameter('amount_vat', 0);
+    $tvac=($tva_rate->get_parameter('rate') == 0 || $tva_rate->get_parameter('both_side')== 1) ? $amount : bcadd($total->get_parameter('amount_vat'),$amount);
     header("Content-type: text/html; charset: utf8",true);
     echo '{"ctl":"'.$n.'","htva":"'.$amount.'","tva":"'.$total->get_parameter('amount_vat').'","tvac":"'.$tvac.'"}';
 }

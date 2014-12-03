@@ -315,7 +315,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
                     $oTva->set_parameter("id", $idx_tva);
                     $oTva->load();
                     /* if empty then we need to compute it */
-                    if (trim($tva_item) == '') {
+                    if (trim($tva_item) == '' || ${'e_march'.$i.'_tva_amount'} == 0) {
                         /* retrieve tva */
                         $l = new Acc_Tva($this->db, $idx_tva);
                         $l->load();
@@ -753,14 +753,15 @@ class Acc_Ledger_Sold extends Acc_Ledger {
             $r.='<td class="num">';
             $r.=nbm(${"e_quant" . $i});
             $r.='</td>';
+            $both_side=0;
             if ($g_parameter->MY_TVA_USE == 'Y') {
                 $r.='<td class="num">';
                 $r.=$oTva->get_parameter('label');
                 $r.='</td>';
-
+                $both_side=$oTva->get_parameter("both_side");
                 /* warning if tva_computed and given are not the
                   same */
-                if (bcsub($tva_item, $tva_computed) != 0) {
+                if (bcsub($tva_item, $tva_computed) != 0 && ! ($tva_item == 0 && $both_side == 1)) {
                     $r.='<td style="background-color:red" class="num">';
                     $r.=HtmlInput::infobulle(28);
                     $r.='<a href="#" class="error" style="display:inline" title="' . _("Attention Différence entre TVA calculée et donnée") . '">'

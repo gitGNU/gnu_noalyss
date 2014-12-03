@@ -569,7 +569,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 if ( $g_parameter->MY_TVA_USE=='Y')
                 {
                     $acc_amount->set_parameter('amount_vat_rate',$oTva->get_parameter('rate'));
-                    if ( strlen(trim(${'e_march'.$i.'_tva_amount'})) ==0)
+                    if ( strlen(trim(${'e_march'.$i.'_tva_amount'})) ==0 || ${'e_march'.$i.'_tva_amount'} == 0)
                     {
                         $acc_amount->compute_vat();
 
@@ -1489,7 +1489,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                    same */
 		bcscale(2);
                 $css_void_tva=($both_side == 1)?'style="text-decoration:line-through"':'';
-                if ( bcsub($tva_item,$tva_computed) != 0)
+                if ( bcsub($tva_item,$tva_computed) != 0 && ! ($tva_item == 0 && $both_side == 1))
                 {
 
 					 $r.='<td style="background-color:red" class="num" '.$css_void_tva.'>';
