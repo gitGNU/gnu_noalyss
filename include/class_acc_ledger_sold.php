@@ -827,7 +827,7 @@ EOF;
         $r.='</p>';
         if ($g_parameter->MY_ANALYTIC != 'nu' && ! $p_summary) // use of AA
             $r.='<input type="button" class="button" value="' . _('Vérifiez Imputation Analytique') . '" onClick="verify_ca(\'\');">';
-        $r.=(! $p_summary )?'<div id="total_div_id" style="float:right;width:30%;margin-top:50px;">':'<div>';
+        $r.=(! $p_summary )?'<div id="total_div_id" >':'<div>';
         $r.='<h2>Totaux</h2>';
        
         /* use VAT */
@@ -1351,7 +1351,7 @@ EOF;
         $array['tva_label'] = _('Nom TVA');
         $array['tva_comment'] = _('Commentaire TVA');
         $array['tva_both_side'] = _('TVA annulée');
-        $array['vat_sided'] = _('Retrait TVA');
+        $array['vat_sided'] = _('TVA Non Payé');
         $array['vat_code'] = _('Code TVA');
         $array['vat'] = _('Montant TVA');
         $array['price'] = _('Total HTVA');

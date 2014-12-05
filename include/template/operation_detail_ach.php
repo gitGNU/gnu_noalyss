@@ -50,6 +50,7 @@ global $g_parameter;
 	if ($g_parameter->MY_TVA_USE == 'Y')
 	{
 		echo th(_('HTVA'), 'style="text-align:right"');
+		echo th(_('TVA NP'), 'style="text-align:right"');
 		echo th(_('TVA'), 'style="text-align:right"');
 		echo th(_('TVAC'), 'style="text-align:right"');
 	}else
@@ -79,7 +80,7 @@ global $g_parameter;
 		$row.=td($sym_tva, 'style="text-align:center"');
 		$pu = 0;
 		if ($q['qp_quantite'] != 0)
-			$pu = bcdiv($q['qp_price'], $q['qp_quantite']);
+		$pu = bcdiv($q['qp_price'], $q['qp_quantite']);
 		$row.=td(nbm($pu), 'class="num"');
 		$row.=td(nbm($q['qp_quantite']), 'class="num"');
 
@@ -103,8 +104,9 @@ global $g_parameter;
 			if ($q['qp_vat_sided'] <> 0)
 			{
 				$class = ' style="text-decoration:line-through"';
-				$tvac = bcsub($tvac, $q['qp_vat']);
+				$tvac = bcsub($tvac, $q['qp_vat_sided']);
 			}
+                        $row.=td(nbm($q['qp_vat_sided']),'class="num"');
 			$row.=td(nbm($tva_amount), 'class="num" ' . $class);
 			$row.=td(nbm($tvac), 'class="num"');
 		}

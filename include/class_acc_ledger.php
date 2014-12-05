@@ -1084,7 +1084,7 @@ class Acc_Ledger extends jrn_def_sql
 		$p_array['dep_priv'] = 0;
 		$p_array['dna'] = 0;
 		$p_array['tva_dna'] = 0;
-		$p_array['autoliq'] = 0;
+		$p_array['tva_np'] = 0;
 		$dep_priv = 0.0;
                 
 		//
@@ -1197,13 +1197,13 @@ class Acc_Ledger extends jrn_def_sql
 				$p_array['dep_priv'] = $dep_priv;
                                 $p_array['dna']=bcadd($p_array['dna'],$purchase->qp_nd_amount);
                                 $p_array['tva_dna']=bcadd($p_array['tva_dna'],bcadd($purchase->qp_nd_tva,$purchase->qp_nd_tva_recup));
-                                $p_array['autoliq']=bcadd($purchase->qp_vat_sided,$p_array['autoliq']);
+                                $p_array['tva_np']=bcadd($purchase->qp_vat_sided,$p_array['tva_np']);
 			}
 			if ($p_array['jrn_def_type'] == 'VEN') {
                             $sold=new gestion_sold($this->db);
                             $sold->search_by_jid($code['j_id']);
                             $sold->load();
-                            $p_array['autoliq']=bcadd($sold->qs_vat_sided,$p_array['autoliq']);
+                            $p_array['tva_np']=bcadd($sold->qs_vat_sided,$p_array['tva_np']);
                         }
                         
                         
@@ -3062,8 +3062,9 @@ class Acc_Ledger extends jrn_def_sql
 		if ($this->type == 'ACH')
 		{
 			$array = $this->db->get_array('select sum(qp_price) as price,sum(qp_vat) as vat ' .
-					',coalesce(sum(qp_nd_amount),0)+coalesce(sum(qp_dep_priv),0) as priv' .
-					',sum(qp_nd_tva_recup)+sum(qp_nd_tva) as tva_nd' .
+					',sum(coalesce(qp_nd_amount,0)+coalesce(qp_dep_priv,0)) as priv' .
+					',sum(coalesce(qp_nd_tva_recup,0)+coalesce(qp_nd_tva,0)) as tva_nd' .
+					',sum(qp_vat_sided)  as tva_np' .
 					'  from quant_purchase join jrnx using(j_id)
                                         where  j_grpt=$1 ', array($p_jr_id));
 			$ret = $array[0];
@@ -3073,6 +3074,7 @@ class Acc_Ledger extends jrn_def_sql
 			$array = $this->db->get_array('select sum(qs_price) as price,sum(qs_vat) as vat ' .
 					',0 as priv' .
 					',0 as tva_nd' .
+                                        ',sum(qs_vat_sided)  as tva_np' .
 					'  from quant_sold join jrnx using(j_id)
                                         where  j_grpt=$1 ', array($p_jr_id));
 			$ret = $array[0];
@@ -3152,6 +3154,7 @@ class Acc_Ledger extends jrn_def_sql
 					',coalesce(sum(qp_dep_priv),0) as priv' .
 					',coalesce(sum(qp_vat_sided),0) as reversed' .
 					',coalesce(sum(qp_nd_tva_recup),0)+coalesce(sum(qp_nd_tva),0) as tva_nd' .
+					',coalesce(sum(qp_vat_sided),0) as tva_np' .
 					'  from quant_purchase join jrnx using(j_id) ' .
 					' where j_tech_per >= $1 and j_tech_per < $2';
 			$array = $this->db->get_array($sql, array($min->p_id, $p_to));
@@ -3170,7 +3173,7 @@ class Acc_Ledger extends jrn_def_sql
 					" ,coalesce(sum(qs_vat),0) as vat " .
 					',0 as priv' .
 					',0 as tva_nd' .
-                                        ',coalesce(sum(qs_vat_sided),0) as reversed' .
+                                        ',coalesce(sum(qs_vat_sided),0) as tva_np' .
 					'  from quant_sold join jrnx using(j_id) ' .
 					' where j_tech_per >= $1 and j_tech_per < $2';
 			$array = $this->db->get_array($sql, array($min->p_id, $p_to));

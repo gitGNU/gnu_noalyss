@@ -67,7 +67,7 @@ $pdf->setDossierInfo($Jrn->name);
 $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetAuthor('NOALYSS');
-$pdf->setTitle("Journal", true);
+$pdf->setTitle(_("Journal"), true);
 
 $pdf->export();
 

@@ -42,6 +42,7 @@ else
   echo th('');
 if ( $g_parameter->MY_TVA_USE == 'Y') {
   echo th(_('HTVA'), 'style="text-align:right"');
+  echo th(_('TVA NP'), 'style="text-align:right"');
   echo th(_('TVA'), 'style="text-align:right"');
   echo th(_('TVAC'), 'style="text-align:right"');
 } else
@@ -87,6 +88,7 @@ echo '</tr>';
 			$class=' style="text-decoration:line-through"';
 			$tvac=bcsub($tvac,$q['qs_vat']);
 		}
+		$row.=td(nbm($q['qs_vat_sided']),'class="num"');
 		$row.=td(nbm($q['qs_vat']),'class="num"'.$class);
 		$row.=td(nbm($tvac),'class="num"');
       }

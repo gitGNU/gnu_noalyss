@@ -588,8 +588,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $this->compute_no_deductible($acc_amount, $fiche);
                 $acc_amount->correct();
                 // TVA which avoid 
-                $acc_amount->amount_to_reverse=($tva_both == 1 ) ? $save_amount_vat :0 ;
-                $tot_tva_reversed=bcadd($tot_tva_reversed,$acc_amount->amount_to_reverse);
+                $acc_amount->amount_unpaid=($tva_both == 1 ) ? $save_amount_vat :0 ;
+                $tot_tva_reversed=bcadd($tot_tva_reversed,$acc_amount->amount_unpaid);
                 
 
               
@@ -674,7 +674,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                                            ",".$acc_amount->nd_vat.	     /* 9 */
                                            ",".$acc_amount->nd_ded_vat.    /* 10 */
                                            ",".$acc_amount->amount_perso.  /* 11 */ 
-                                           ",'".$e_client."',". $acc_amount->amount_to_reverse.")");	     /* 12 */
+                                           ",'".$e_client."',". $acc_amount->amount_unpaid.")");	     /* 12 */
 
                 }
                 else
@@ -691,7 +691,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                                            ",0".
                                            ",".$acc_amount->nd_ded_vat.
                                            ",".$acc_amount->amount_perso.
-                                           ",'".$e_client."',".$acc_amount->amount_to_reverse.")");
+                                           ",'".$e_client."',".$acc_amount->amount_unpaid.")");
 
 
                 }
@@ -1557,7 +1557,7 @@ EOF;
         if ( $g_parameter->MY_ANALYTIC!='nu' && !$p_summary) // use of AA
             $r.='<input type="button" class="button" value="'._('Vérifiez imputation analytique').'" onClick="verify_ca(\'\');">';
         
-        $r.=(! $p_summary )?'<div id="total_div_id" style="float:right;width:30%;margin-top:50px;">':'<div>';
+        $r.=(! $p_summary )?'<div id="total_div_id" >':'<div>';
         $r.='<h2>Totaux</h2>';
         /* use VAT */
         if ($g_parameter->MY_TVA_USE == 'Y') {
@@ -1782,7 +1782,7 @@ EOF;
         $array['tva_label'] = _('Nom TVA');
         $array['tva_comment'] = _('Commentaire TVA');
         $array['tva_both_side'] = _('TVA annulée');
-        $array['vat_sided'] = _('Retrait TVA');
+        $array['vat_sided'] = _('TVA Non Payé');
         $array['vat_code'] = _('Code TVA');
         $array['vat'] = _('Montant TVA');
         $array['price'] = _('Total HTVA');
@@ -1793,6 +1793,7 @@ EOF;
         $array['non_ded_tva_recup'] = _('TVA récup.');
         $array['htva'] = _('HTVA Opération');
         $array['tot_vat'] = _('TVA Opération');
+        $array['tot_tva_np'] = _('TVA NP opération');
         return $array;
     }
 
