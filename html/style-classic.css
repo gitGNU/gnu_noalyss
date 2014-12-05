@@ -1812,3 +1812,12 @@ ul.aligned-block li {
     padding : 10px;
     list-style: none;
 }
+/******************************************************************************
+ * Total in confirmation VEN / ACH
+ ******************************************************************************/
+#total_div_id {
+    float: right;
+    margin-right: 150px;
+    background: snow;
+    margin-top: 50px;
+}

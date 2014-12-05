@@ -1001,6 +1001,7 @@ border-bottom-style:solid;
     margin:0px;
     padding:0px;
     font-variant:small-caps;
+    
 }
 /* </style> */
 #add_todo_list {
@@ -1307,8 +1308,10 @@ a.nav:hover,div.content a.nav:hover,div.redcontent a.nav:hover {
     font-weight: bolder;
     text-transform: full-width;
     text-transform: fullwidth;
-     text-shadow: 7px 7px 7px black;
-    }
+     
+    text-shadow: 7px 7px 7px darkslategray;
+    font-size: 200%;
+}
 }
 @media only screen and (max-width: 955px) {
 #dossier {
@@ -1779,4 +1782,13 @@ ul.aligned-block li {
     display:table-cell;
     padding : 10px;
     list-style: none;
+}
+/******************************************************************************
+ * Total in confirmation VEN / ACH
+ ******************************************************************************/
+#total_div_id {
+    float: right;
+    margin-right: 150px;
+    background: snow;
+    margin-top: 50px;
 }

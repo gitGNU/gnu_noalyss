@@ -1813,3 +1813,12 @@ div.menu2 a.mtitle{
 *|*:link {
     color: inherit;
 }
+/******************************************************************************
+ * Total in confirmation VEN / ACH
+ ******************************************************************************/
+#total_div_id {
+    float: right;
+    margin-right: 150px;
+    background: snow;
+    margin-top: 50px;
+}
