@@ -508,7 +508,6 @@ class Document
      *  - [VEN_ART_PRICE]
      *  - [VEN_ART_QUANT]
      *  - [VEN_ART_TVA_CODE]
-     *  - [VEN_ART_TVA_AMOUNT]
      *  - [VEN_ART_STOCK_CODE]
      *  - [VEN_HTVA]
      *  - [VEN_TVAC]
@@ -818,7 +817,6 @@ class Document
              *  - [VEN_ART_PRICE]
              *  - [VEN_ART_QUANT]
              *  - [VEN_ART_TVA_CODE]
-             *  - [VEN_ART_TVA_AMOUNT]
              *  - [VEN_ART_STOCK_CODE]
              *  - [VEN_HTVA]
              *  - [VEN_TVAC]
@@ -883,7 +881,24 @@ class Document
                 else
                     $r=${'e_march'.$this->counter.'_label'};
             break;
-
+        case 'VEN_ART_STOCK_CODE':
+            extract ($p_array);
+                    $id = 'e_march' . $this->counter;
+                    // check if the march exists
+                    if (!isset(${$id}))
+                        $r= "";
+                    else 
+                    {
+                    // check that something is sold
+                        if (${'e_march' . $this->counter . '_price'} != 0 && ${'e_quant' . $this->counter} != 0)
+                        {
+                            $f = new Fiche($this->db);
+                            $f->get_by_qcode(${$id}, false);
+                            $r = $f->strAttribut(ATTR_DEF_STOCK);
+                            $r=($r == NOTFOUND)?'':$r;
+                        } 
+                    }
+            break;
         case 'VEN_ART_PRICE':
             extract ($p_array);
             $id='e_march'.$this->counter.'_price' ;
