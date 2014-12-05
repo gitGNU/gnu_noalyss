@@ -1147,29 +1147,29 @@ class Document
                 return $p_array['acompte'];
 			return "0";
             break;
-		case 'STOCK_NAME':
-			if ( ! isset ($p_array['repo'])) return "";
-			$ret=$this->db->get_value('select r_name from public.stock_repository where r_id=$1',array($p_array['repo']));
-			return $ret;
-		case 'STOCK_ADRESS':
-			if ( ! isset ($p_array['repo'])) return "";
-			$ret=$this->db->get_value('select r_adress from public.stock_repository where r_id=$1',array($p_array['repo']));
-			return $ret;
-		case 'STOCK_COUNTRY':
-			if ( ! isset ($p_array['repo'])) return "";
-			$ret=$this->db->get_value('select r_country from public.stock_repository where r_id=$1',array($p_array['repo']));
-			return $ret;
-		case 'STOCK_CITY':
-			if ( ! isset ($p_array['repo'])) return "";
-			$ret=$this->db->get_value('select r_city from public.stock_repository where r_id=$1',array($p_array['repo']));
-			return $ret;
-		case 'STOCK_PHONE':
-			if ( ! isset ($p_array['repo'])) return "";
-			$ret=$this->db->get_value('select r_phone from public.stock_repository where r_id=$1',array($p_array['repo']));
-			return $ret;
-                case 'TITLE':
-                    $title=HtmlInput::default_value_request("ag_title", "");
-                    return $title;
+        case 'STOCK_NAME':
+                if ( ! isset ($p_array['repo'])) return "";
+                $ret=$this->db->get_value('select r_name from public.stock_repository where r_id=$1',array($p_array['repo']));
+                return $ret;
+        case 'STOCK_ADRESS':
+                if ( ! isset ($p_array['repo'])) return "";
+                $ret=$this->db->get_value('select r_adress from public.stock_repository where r_id=$1',array($p_array['repo']));
+                return $ret;
+        case 'STOCK_COUNTRY':
+                if ( ! isset ($p_array['repo'])) return "";
+                $ret=$this->db->get_value('select r_country from public.stock_repository where r_id=$1',array($p_array['repo']));
+                return $ret;
+        case 'STOCK_CITY':
+                if ( ! isset ($p_array['repo'])) return "";
+                $ret=$this->db->get_value('select r_city from public.stock_repository where r_id=$1',array($p_array['repo']));
+                return $ret;
+        case 'STOCK_PHONE':
+                if ( ! isset ($p_array['repo'])) return "";
+                $ret=$this->db->get_value('select r_phone from public.stock_repository where r_id=$1',array($p_array['repo']));
+                return $ret;
+        case 'TITLE':
+            $title=HtmlInput::default_value_request("ag_title", "");
+            return $title;
 
 		}
         /*
