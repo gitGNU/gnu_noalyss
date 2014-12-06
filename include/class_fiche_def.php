@@ -244,7 +244,7 @@ $order
             $p_create='false';
 
         // Class is valid ?
-        if ( sql_string($p_class_base) != null || strpos(',',$p_class_base) != 0 )
+        if ( sql_string($p_class_base) != null || ( $p_class_base !='' && strpos(',',$p_class_base) != 0 ))
         {
             // p_class is a valid number
             $sql="insert into fiche_def(fd_label,fd_class_base,frd_id,fd_create_account,fd_description)
