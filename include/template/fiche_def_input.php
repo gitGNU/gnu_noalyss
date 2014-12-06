@@ -4,7 +4,7 @@
 ?><TABLE BORDER="0" CELLSPACING="0">
 <TR>
 <TD><?php echo _('Catégorie de fiche')?> </TD>
-<TD><INPUT TYPE="INPUT" NAME="nom_mod"></TD>
+<TD><INPUT TYPE="INPUT" class="input_text" NAME="nom_mod"></TD>
 </TR>
 <tr>
 	<td style="vertical-align: text-top">
