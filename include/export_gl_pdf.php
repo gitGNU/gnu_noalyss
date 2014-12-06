@@ -189,8 +189,9 @@ foreach ($a_poste as $poste)
         $i++;
         $pdf->LongLine($width[$i], 6, $detail['jr_internal'], 0, $lor[$i] );
         $i++;
-        /* limit set to 20 for the substring */
-        $pdf->LongLine($width[$i], 6, mb_substr($detail['description'],0,120), 0,$lor[$i]);
+        /* limit set to 40 for the substring */
+        $triple_point = (mb_strlen($detail['description']) > 40 ) ? '...':'';
+        $pdf->LongLine($width[$i], 6, mb_substr($detail['description'],0,40).$triple_point, 0,$lor[$i]);
         $i++;
         $pdf->Cell($width[$i], 6, $detail['jr_pj_number'], 0, 0, $lor[$i]);
         $i++;
