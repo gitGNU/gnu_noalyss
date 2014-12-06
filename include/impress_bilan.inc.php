@@ -83,7 +83,8 @@ if ( isset($_GET['verif']))
     
     $bilan->get_request_get();
     $bilan->verify();
-
+    $url_verify=http_build_query(array('ac'=>'VERIFBIL','gDossier'=>dossier::id()));
+    echo _('Pour une vérification complète, allez dans ').'<a class="line" href="?'.$url_verify.'"> VERIFBIL</a>';
     echo '<FORM METHOD="GET" ACTION="export.php">';
     echo dossier::hidden();
     echo HtmlInput::get_to_hidden(array('exercice'));
