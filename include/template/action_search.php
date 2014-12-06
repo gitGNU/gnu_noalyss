@@ -47,6 +47,20 @@
 <?php endif; ?>
 		<?php echo  dossier::hidden()?>
 		<table style="width:100%">
+                    <tr>
+				<td style="text-align:right">
+					<?php printf(_("Après le "))?>
+				</td>
+				<td >
+					<?php echo  $start->input()?>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align:right"><?php echo  _('Avant le')?></td>
+				<td>
+					<?php echo  $end->input()?>
+				</td>
+			</tr>
 			<tr>
 				<td style="width:180px;text-align:right"> <?php echo _("Date de rappel après");?></td>
 				<td>
@@ -114,20 +128,7 @@
 				<td style="text-align:right"><?php echo  _('Type de document')?></td>
 				<td><?php echo $type_doc->input();?></td>
 			</tr>
-			<tr>
-				<td style="text-align:right">
-					<?php printf(_("Après le "))?>
-				</td>
-				<td >
-					<?php echo  $start->input()?>
-				</td>
-			</tr>
-			<tr>
-				<td style="text-align:right"><?php echo  _('Avant le')?></td>
-				<td>
-					<?php echo  $end->input()?>
-				</td>
-			</tr>
+			
 			</tr>
 			<tr>
 				<td style="text-align:right"><?php echo  _('Uniquement actions internes')?></td>
