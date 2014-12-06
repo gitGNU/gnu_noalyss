@@ -60,14 +60,18 @@ $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 /* uncomment for development */
 
-/*define ('SVNINFO',6722);
+/*
+ define ('SVNINFO',6800);
 define ("DEBUG",true);
 define ("LOGINPUT",true);
-*/
+ */
 
-define ('SVNINFO',6723);
+
+
+define ('SVNINFO',6800);
 define ("DEBUG",false);
 define ("LOGINPUT",false);
+
 
 $version_noalyss=SVNINFO;
 // If you don't want to be notified of the update
@@ -76,7 +80,7 @@ define ("SITE_UPDATE",'http://www.noalyss.eu/last_version.txt');
 define ("SITE_UPDATE_PLUGIN",'http://www.noalyss.eu/plugin_last_version.txt');
 
 
-define ("DBVERSION",116);
+define ("DBVERSION",117);
 define ("MONO_DATABASE",25);
 define ("DBVERSIONREPO",15);
 define ('NOTFOUND','--not found--');
@@ -184,6 +188,8 @@ define ("FICHE_TYPE_ACH_MAR",2);
 define ("FICHE_TYPE_ACH_SER",3);
 define ("FICHE_TYPE_ACH_MAT",7);
 define ("FICHE_TYPE_PROJET",26);
+define ("FICHE_TYPE_MATERIAL",7);
+
 /** 
  * -- pour utiliser unoconv démarrer un server libreoffice 
  * commande
