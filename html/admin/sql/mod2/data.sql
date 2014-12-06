@@ -413,7 +413,7 @@ INSERT INTO attr_def (ad_id, ad_text) VALUES (26, 'Fax');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (27, 'GSM');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (15, 'code postal');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (30, 'Numero de client');
-INSERT INTO attr_def (ad_id, ad_text) VALUES (31, 'Dpense  charge du grant (partie prive)');
+INSERT INTO attr_def (ad_id, ad_text) VALUES (31, 'Dépense  charge du gérant (partie privée)');
 
 
 
