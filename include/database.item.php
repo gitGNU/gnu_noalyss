@@ -1,4 +1,7 @@
 <?php 
+$menu[]=_('Export pièce PDF');  
+$menu[]=_('Clef de répartition');  
+$menu[]=_('Configuration extension');  
 $menu[]=_('Achat');  $desc[]=_('Nouvel achat ou dépense');
 $menu[]=_('Historique');  $desc[]=_('Historique des imputations analytiques');
 $menu[]=_('Balance simple');  $desc[]=_('Balance simple des imputations analytiques');
