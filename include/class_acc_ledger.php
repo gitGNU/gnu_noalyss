@@ -3895,7 +3895,7 @@ class Acc_Ledger extends jrn_def_sql
         {
             $url=http_build_query(array('ac'=>$_REQUEST['ac'],'gDossier'=>$_REQUEST['gDossier'],'p_jrn'=>$_REQUEST['p_jrn']));
             $button = HtmlInput::button_anchor(_("Nouvelle opération"), 'do.php?'.$url);
-            return $button;
+            return '<p>'.$button.'</p>';
         }
 
 }
