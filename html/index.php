@@ -203,7 +203,7 @@ if ( strlen(domaine) > 0 )
 
 echo '
 <span style="background-color:#879ed4;color:white;padding-left:4px;padding-right:4px;">
-version  6.7.2.3 - '.$my_domain.'
+version  6.7.2.4 - '.$my_domain.'
 </span>
 <BR>
 <BR>
