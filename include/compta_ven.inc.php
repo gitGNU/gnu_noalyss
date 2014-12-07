@@ -170,6 +170,7 @@ $p_msg="";
             $obj=new Acc_Ledger_Info($cn);
             $obj->save_extra($Ledger->jr_id,$_POST);
 
+            echo $Ledger->button_new_operation();
 
             echo '</div>';
             return;

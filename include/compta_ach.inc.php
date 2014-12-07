@@ -157,7 +157,7 @@ if (isset($_POST['record']))
                      echo '<h2>Document</h2>';
                      echo $Ledger->doc;
 		}
-
+                echo $Ledger->button_new_operation();
 		echo '</div>';
 		return;
 	}

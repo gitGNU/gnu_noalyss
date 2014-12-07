@@ -100,6 +100,8 @@ elseif (isset($_POST['save']))
 		// show feedback
 		echo '<div id="jrn_name_div">'; echo '<h2 id="jrn_name"  style="display:inline">' . $ledger->get_name() . '</h2>'; echo '</div>';
 		echo $ledger->confirm($_POST, true);
+                echo $ledger->button_new_operation();
+
 	}
 	catch (Exception $e)
 	{

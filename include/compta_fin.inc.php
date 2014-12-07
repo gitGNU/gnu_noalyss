@@ -117,7 +117,9 @@ if ( isset($_POST['confirm']))
 		echo '<div class="content">';
 		echo $a;
 		echo '</div>';
+
 		echo '</div>';
+                echo $Ledger->button_new_operation();
 		return;
 	}
 }
