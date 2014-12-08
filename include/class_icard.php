@@ -220,7 +220,8 @@ class ICard extends HtmlInput
                       );
 		if ( $this->autocomplete == 1)
 		{
-			$ind=sprintf('<span id="%s" class="autocomplete" style="display:none">Un instant... <img src="image/loading.gif" alt="Chargement..."/>'.
+                    $this->indicator="ind_".$this->id;
+			$ind=sprintf('<span id="%s" class="autocomplete" style="position:absolute;display:none">Un instant... <img src="image/loading.gif" alt="Chargement..."/>'.
 						'</span>',
 						$this->indicator);
 
@@ -229,12 +230,13 @@ class ICard extends HtmlInput
 			$query=dossier::get().'&e='.urlencode($this->typecard);
 
 			$javascript=sprintf('try { new Ajax.Autocompleter("%s","%s","fid_card.php?%s",'.
-								'{paramName:"FID",minChars:1,indicator:null, '.
+								'{paramName:"FID",minChars:1,indicator:%s, '.
 								'callback:%s, '.
 								' afterUpdateElement:%s});} catch (e){alert(e.message);};',
 								$this->id,
                                                                 $this->choice,
                                                                 $query,
+								$this->indicator,
 								$this->callback,
 								$this->fct);
 

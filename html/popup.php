@@ -77,7 +77,7 @@ load_all_script();
 
 $str=$_SERVER['QUERY_STRING']."&div=popup";
 $script="
-        var obj={id:'popup',fixed:1,class:'content',style:'width:auto',html:loading(),qs:'$str',js_success:'success_box',js_error:null,callback:'".$_GET['ajax']."'};
+        var obj={id:'popup',fixed:1,cssclass:'content',style:'width:auto',html:loading(),qs:'$str',js_success:'success_box',js_error:null,callback:'".$_GET['ajax']."'};
         show_box(obj);
         ";
 echo create_script($script);

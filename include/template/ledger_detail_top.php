@@ -1,7 +1,7 @@
 <?php
 //This file is part of NOALYSS and is under GPL 
 //see licence.txt
-?><div style="float:right;height:10px;display:block;margin-top:0.48%;margin-right:0.48%">
+?><div style="position:absolute;right:2px;height:10px;display:block;margin-top:0.48%;margin-right:0.48%">
 <?php 
    if ($div != "popup") {
      $callback=$_SERVER['PHP_SELF'];

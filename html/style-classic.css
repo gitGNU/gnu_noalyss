@@ -979,6 +979,9 @@ box-shadow: 10px 10px 5px #888;
 font-size:14.4px;
 font-size:0.90rem;
 }
+div.inner_box  {
+    width: 85%;
+    }
 @media only screen and (min-width: 1281px) {
 div.inner_box  {
     width: 85%;
@@ -1063,7 +1066,19 @@ span.remain {
     font-weight: bold;
     color:#000000;
 }
+ div#jrn_name_div
+    {
+        float: right;
+        margin-right:150px;
 
+
+    }
+    #predef_form {
+        margin-left:35%;
+        width:60%;
+        position:absolute;
+        z-index:2
+    }
 @media only screen and (min-width: 955px) {
     div#jrn_name_div
     {
@@ -1212,6 +1227,15 @@ a.nav:hover,div.content a.nav:hover,div.redcontent a.nav:hover {
     background-color:#00008B;
     color:#FFFFFF;
 }
+#dossier {
+    display:inline;
+    float:left;
+    width:100%;
+    top:0px;
+    text-align: center;
+    font-variant:small-caps;
+    font-weight: bolder;
+    }
 @media only screen and (min-width: 955px) {
 #dossier {
     display:inline;
@@ -1334,6 +1358,25 @@ div#notice {
     top:200px;
     background-color:#FCFFCC;
     border: 1px solid #000000;
+}
+div.name  {
+    position:absolute;
+    top:0px;
+    left:0px;
+    display:none;
+    }   
+div#modele_op_div{
+    display: none;
+    background-color:#e4e7ed;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    padding:0px;
+    margin:0px;
+    overflow:hidden;
+    z-index:3;
+    position:absolute;
+    left: 10%;
+    border:1px solid #00008B;
+    width: 80%;
 }
 @media only screen and (min-width: 955px) {
     div.name  {
@@ -1467,7 +1510,7 @@ div.box  {
     padding:2px;
     overflow:hidden;
     border:1px solid #00008B;
-    width:30%;
+    width:48%;
     height:350px;
     float:left;
     font-size:14px;
@@ -1600,6 +1643,17 @@ div.autocomplete_fixed {
 div.autocomplete_fixed em {
     color:#0000FF;
     font-weight:bold;
+}
+div.autocomplete_fixed ul {
+        list-style-type:none;
+        background-color:#FFFFFF;
+        border:1px solid blue;
+        width:300px;
+        margin:0px;
+        padding:0px;
+        }
+div.tag {
+            
 }
 @media only screen and (max-width: 1280px) {
     div.autocomplete_fixed ul {
