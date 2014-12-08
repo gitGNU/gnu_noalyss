@@ -121,7 +121,7 @@ function enable_type_periode()
     if ($("type_periode").options[$("type_periode").selectedIndex].value == 0)
     {
         $('from_periode').enable();
-        $('to_periode').enable ();
+        $('to_periode').enable();
         $('from_date').disable();
         $('to_date').disable();
         $('p_step').enable();
@@ -129,7 +129,7 @@ function enable_type_periode()
     else
     {
         $('from_periode').disable();
-        $('to_periode').disable ();
+        $('to_periode').disable();
         $('from_date').enable();
         $('to_date').enable();
         $('p_step').disable();
@@ -343,7 +343,7 @@ function getNodeText(xmlNode)
  */
 function change_month(obj)
 {
-    var queryString = "gDossier=" + obj.gDossier + "&op=cal" + "&per=" + obj.value+"&t="+obj.type_display;
+    var queryString = "gDossier=" + obj.gDossier + "&op=cal" + "&per=" + obj.value + "&t=" + obj.type_display;
     var action = new Ajax.Request(
             "ajax_misc.php", {method: 'get', parameters: queryString, onFailure: ajax_misc_failure, onSuccess: success_misc}
     );
@@ -427,7 +427,7 @@ function cat_doc_change(p_dt_id, p_dossier)
             {
                 method: 'get', parameters: queryString,
                 onFailure: ajax_misc_failure,
-                onSuccess: function(req) {
+                onSuccess: function (req) {
                     remove_waiting_box();
                     add_div({id: 'change_doc_div', style: str_style, cssclass: 'inner_box', drag: "1"});
                     $('change_doc_div').innerHTML = req.responseText;
@@ -480,7 +480,7 @@ function popup_select_tva(obj)
             queryString += '&code=' + obj.jcode;
         if (obj.compute)
             queryString += '&compute=' + obj.compute;
-        
+
         var action = new Ajax.Request(
                 "ajax_misc.php",
                 {method: 'get',
@@ -503,14 +503,14 @@ function popup_select_tva(obj)
                             var nodeXml = html[0];
                             var code_html = getNodeText(nodeXml);
                             code_html = unescape_xml(code_html);
-                            
+
                             var nTop = posY - 200;
                             var nLeft = "15%";
-                            var str_style = "top:" + nTop + "px;left:" + nLeft + ";right:"+nLeft+";width:55em;height:auto";
+                            var str_style = "top:" + nTop + "px;left:" + nLeft + ";right:" + nLeft + ";width:55em;height:auto";
 
                             var popup = {'id': 'tva_select', 'cssclass': 'inner_box', 'style': str_style, 'html': code_html, 'drag': true};
                             add_div(popup);
-                            
+
                         }
                         catch (e)
                         {
@@ -531,7 +531,7 @@ function popup_select_tva(obj)
  */
 function success_popup_select_tva_obsolete(req)
 {
-    
+
 
 }
 
@@ -645,14 +645,13 @@ function add_div(obj)
             elt.innerHTML = obj.html;
         }
 
-        elt.setStyle({visibility:'hidden'});
         var bottom_div = document.body;
         bottom_div.appendChild(elt);
-       /* if ( obj.effect && obj.effect != 'none' ) { Effect.Grow(obj.id,{direction:'top-right',duration:0.1}); }
-        else if ( ! obj.effect ){ Effect.Grow(obj.id,{direction:'top-right',duration:0.1}); }*/
+        /* if ( obj.effect && obj.effect != 'none' ) { Effect.Grow(obj.id,{direction:'top-right',duration:0.1}); }
+         else if ( ! obj.effect ){ Effect.Grow(obj.id,{direction:'top-right',duration:0.1}); }*/
         if (obj.drag)
         {
-            new Draggable(obj.id, {starteffect: function()
+            new Draggable(obj.id, {starteffect: function ()
                 {
                     new Effect.Highlight(obj.id, {scroll: window, queue: 'end'});
                 }}
@@ -691,14 +690,14 @@ function removeDiv(elt)
 function waiting_box()
 {
     obj = {
-        id: 'wait_box', html: '<h2 class="title">Chargement</h2>'+loading()
+        id: 'wait_box', html: '<h2 class="title">Chargement</h2>' + loading()
     };
-    var y = fixed_position(10,15)
-    obj.style = y+";width:200px";
+    var y = fixed_position(10, 15)
+    obj.style = y + ";width:200px";
     if ($('wait_box')) {
         removeDiv('wait_box');
     }
-    obj.effect='none';
+    obj.effect = 'none';
     add_div(obj);
     $('info_div').innerHTML = 'Un instant';
     $('info_div').style.display = "block";
@@ -730,7 +729,7 @@ function show_box(obj)
         {
             sx = document.body.scrollTop + 40;
         }
-        g(obj.id).style.top = sx+"px";
+        g(obj.id).style.top = sx + "px";
         show(obj.id);
     }
     else
@@ -803,17 +802,17 @@ function show_ledger_choice(json_obj)
         waiting_box();
         var i = 0;
         var query = "gDossier=" + json_obj.dossier + '&type=' + json_obj.type + '&div=' + json_obj.div + '&op=ledger_show';
-        query = query + '&nbjrn=' + $( json_obj.div+'nb_jrn').value;
+        query = query + '&nbjrn=' + $(json_obj.div + 'nb_jrn').value;
         query = query + '&all_type=' + json_obj.all_type;
-        for (i = 0; i < $( json_obj.div+'nb_jrn').value; i++) {
-            query = query + "&r_jrn[]=" + $( json_obj.div+'r_jrn[' + i + ']').value;
+        for (i = 0; i < $(json_obj.div + 'nb_jrn').value; i++) {
+            query = query + "&r_jrn[]=" + $(json_obj.div + 'r_jrn[' + i + ']').value;
         }
         var action = new Ajax.Request(
                 "ajax_misc.php",
                 {method: 'get',
                     parameters: query,
                     onFailure: ajax_misc_failure,
-                    onSuccess: function(req, json) {
+                    onSuccess: function (req, json) {
                         try {
                             var obj = {
                                 id: json_obj.div + 'jrn_search',
@@ -822,13 +821,14 @@ function show_ledger_choice(json_obj)
                                 drag: 1
                             };
                             //var y=calcy(posY);
-                            var y=posY;
-                           if (json_obj.div != '')obj.cssclass="";
-                            obj.style="top:"+y+'px;'+obj.style;
-                           /* if ( json_obj.class ) 
-                            { 
-                                obj.cssclass=json_obj.class;
-                            }*/
+                            var y = posY;
+                            if (json_obj.div != '')
+                                obj.cssclass = "";
+                            obj.style = "top:" + y + 'px;' + obj.style;
+                            /* if ( json_obj.class ) 
+                             { 
+                             obj.cssclass=json_obj.class;
+                             }*/
                             add_div(obj);
 
 
@@ -845,7 +845,7 @@ function show_ledger_choice(json_obj)
                             code_html = unescape_xml(code_html);
                             remove_waiting_box();
                             g(obj.id).innerHTML = code_html;
-                           
+
                         }
                         catch (e) {
                             alert("show_ledger_callback" + e.message);
@@ -862,7 +862,7 @@ function show_ledger_choice(json_obj)
                 }
         );
     } catch (e) {
-        alert('show_ledger_choice'+e.message);
+        alert('show_ledger_choice' + e.message);
     }
 }
 /**
@@ -878,21 +878,21 @@ function hide_ledger_choice(p_frm_search)
         var str = "";
         var name = "";
         var n_name = "";
-        var sel=0;
+        var sel = 0;
         for (i = 0; i < nb; i++) {
-            n_name = div + "r_jrn[" + sel+"]";
+            n_name = div + "r_jrn[" + sel + "]";
             name = div + "r_jrn" + i;
             if ($(name).checked) {
                 str += '<input type="hidden" id="' + n_name + '" name="' + n_name + '" value="' + $(name).value + '">';
                 sel++;
             }
         }
-        str += '<input type="hidden" name="'+div+'nb_jrn" id="'+div+'nb_jrn" value="' + sel + '">';
-        $('ledger_id'+div).innerHTML = str;
-        removeDiv(div+'jrn_search');
+        str += '<input type="hidden" name="' + div + 'nb_jrn" id="' + div + 'nb_jrn" value="' + sel + '">';
+        $('ledger_id' + div).innerHTML = str;
+        removeDiv(div + 'jrn_search');
         return false;
     } catch (e) {
-        alert('hide_ledger_choice'+e.message);
+        alert('hide_ledger_choice' + e.message);
         return false;
     }
 
@@ -1041,8 +1041,8 @@ function display_periode(p_dossier, p_id)
                     onSuccess: success_display_periode
                 }
         );
-        $('mod_periode').style.top = (posY - 70)+"px";
-        $('mod_periode').style.left = (posX - 70)+"px";
+        $('mod_periode').style.top = (posY - 70) + "px";
+        $('mod_periode').style.left = (posX - 70) + "px";
     }
     catch (e)
     {
@@ -1155,7 +1155,7 @@ function mod_predf_op(dossier_id, od_id)
     removeDiv(target);
     var sx = '20%';
     var sy = '10%';
-    var str_style = "top:" + sx + ";left:" + sy+";";
+    var str_style = "top:" + sx + ";left:" + sy + ";";
 
     var div = {id: target, cssclass: 'inner_box', style: str_style, html: loading(), drag: 1};
 
@@ -1201,7 +1201,7 @@ function save_predf_op(obj)
  * @param {type} p_id_target
  * @returns {undefined}
  */
-function search_reconcile(dossier, ctl_concern, amount_id, ledger,p_id_target)
+function search_reconcile(dossier, ctl_concern, amount_id, ledger, p_id_target)
 {
     var dossier = g('gDossier').value;
     if (amount_id === undefined)
@@ -1235,7 +1235,7 @@ function search_reconcile(dossier, ctl_concern, amount_id, ledger,p_id_target)
         ac: 'JSSEARCH',
         amount_id: amount_id,
         ledger: ledger,
-        target : p_id_target};
+        target: p_id_target};
 
     var qs = encodeJSON(target);
 
@@ -1244,7 +1244,7 @@ function search_reconcile(dossier, ctl_concern, amount_id, ledger,p_id_target)
                 method: 'get',
                 parameters: qs,
                 onFailure: null,
-                onSuccess: function(req) {
+                onSuccess: function (req) {
                     remove_waiting_box();
                     $('search_op').innerHTML = req.responseText;
                     req.responseText.evalScripts();
@@ -1267,7 +1267,7 @@ function search_operation(obj)
                     method: 'get',
                     parameters: qs,
                     onFailure: null,
-                    onSuccess: function(req) {
+                    onSuccess: function (req) {
                         remove_waiting_box();
                         $('search_op').innerHTML = req.responseText;
                         req.responseText.evalScripts();
@@ -1293,7 +1293,7 @@ function set_reconcile(obj)
     try
     {
         var ctlc = obj.elements['ctlc'];
-        var target=obj.elements['target'].value;
+        var target = obj.elements['target'].value;
         for (var e = 0; e < obj.elements.length; e++)
         {
 
@@ -1306,10 +1306,10 @@ function set_reconcile(obj)
                     var nValue = str_name.replace("jr_concerned", "");
                     if ($(ctlc.value).value != '') {
                         $(ctlc.value).value += ',';
-                       
+
                     } else {
-                        if ( target !="" && $(target).value == "") {
-                            $(target).value=elmt.value;
+                        if (target != "" && $(target).value == "") {
+                            $(target).value = elmt.value;
                         }
                     }
                     $(ctlc.value).value += nValue;
@@ -1338,7 +1338,7 @@ function get_profile_detail(gDossier, profile_id)
                 method: 'get',
                 parameters: qs,
                 onFailure: null,
-                onSuccess: function(req) {
+                onSuccess: function (req) {
                     remove_waiting_box();
                     $('detail_profile').innerHTML = req.responseText;
                     req.responseText.evalScripts();
@@ -1396,7 +1396,7 @@ function mod_menu(gdossier, pm_id)
                 method: 'get',
                 parameters: qs,
                 onFailure: null,
-                onSuccess: function(req) {
+                onSuccess: function (req) {
                     try {
                         remove_waiting_box();
                         add_div({id: "divdm" + pm_id, drag: 1, cssclass: "inner_box", style: pos});
@@ -1422,7 +1422,7 @@ function add_menu(obj)
                 method: 'get',
                 parameters: qs,
                 onFailure: null,
-                onSuccess: function(req) {
+                onSuccess: function (req) {
                     try {
                         remove_waiting_box();
                         add_div({id: "divdm" + p_id, drag: 1, cssclass: "inner_box", style: pos});
@@ -1445,7 +1445,7 @@ function add_plugin(p_dossier)
                 method: 'get',
                 parameters: qs,
                 onFailure: null,
-                onSuccess: function(req) {
+                onSuccess: function (req) {
                     try {
                         remove_waiting_box();
                         var pos = fixed_position(250, 150) + ";width:30%";
@@ -1469,7 +1469,7 @@ function mod_plugin(p_dossier, me_code)
                 method: 'get',
                 parameters: qs,
                 onFailure: null,
-                onSuccess: function(req) {
+                onSuccess: function (req) {
                     try {
                         remove_waiting_box();
                         var pos = fixed_position(250, 150) + ";width:30%";
@@ -1494,7 +1494,7 @@ function create_menu(p_dossier)
                 method: 'get',
                 parameters: qs,
                 onFailure: null,
-                onSuccess: function(req) {
+                onSuccess: function (req) {
                     try {
                         remove_waiting_box();
                         var pos = fixed_position(250, 150) + ";width:30%";
@@ -1523,7 +1523,7 @@ function modify_menu(p_dossier, me_code)
                 method: 'get',
                 parameters: qs,
                 onFailure: null,
-                onSuccess: function(req) {
+                onSuccess: function (req) {
                     try {
                         remove_waiting_box();
                         var pos = fixed_position(250, 150) + ";width:30%";
@@ -1609,7 +1609,7 @@ function search_action(dossier, ctl_concern)
                     method: 'get',
                     parameters: qs,
                     onFailure: null,
-                    onSuccess: function(req) {
+                    onSuccess: function (req) {
                         try {
                             remove_waiting_box();
                             $('search_action_div').innerHTML = req.responseText;
@@ -1635,7 +1635,7 @@ function result_search_action(obj)
                 {method: 'get',
                     parameters: queryString,
                     onFailure: ajax_misc_failure,
-                    onSuccess: function(req) {
+                    onSuccess: function (req) {
                         try {
                             remove_waiting_box();
                             $('search_action_div').innerHTML = req.responseText;
@@ -1707,7 +1707,7 @@ function stock_repo_change(p_dossier, r_id)
             {
                 method: 'get', parameters: queryString,
                 onFailure: ajax_misc_failure,
-                onSuccess: function(req) {
+                onSuccess: function (req) {
                     remove_waiting_box();
                     add_div({id: 'change_stock_repo_div', style: str_style, cssclass: 'inner_box', drag: "1"});
                     $('change_stock_repo_div').innerHTML = req.responseText;
@@ -1730,7 +1730,7 @@ function stock_inv_detail(p_dossier, p_id)
             {
                 method: 'get', parameters: queryString,
                 onFailure: ajax_misc_failure,
-                onSuccess: function(req) {
+                onSuccess: function (req) {
                     remove_waiting_box();
                     add_div({id: 'view_mod_stock_div', style: str_style, cssclass: 'inner_box', drag: "1"});
                     $('view_mod_stock_div').innerHTML = req.responseText;
@@ -1795,7 +1795,7 @@ function detail_category_show(p_div, p_dossier, p_id)
             {
                 method: 'get', parameters: queryString,
                 onFailure: ajax_misc_failure,
-                onSuccess: function(req) {
+                onSuccess: function (req) {
                     remove_waiting_box();
                     $('list_cat_div').hide();
                     $('detail_category_div').innerHTML = req.responseText;
@@ -1859,7 +1859,7 @@ function view_action(ag_id, dossier, modify)
                 method: 'get',
                 parameters: querystring,
                 onFailure: error_box,
-                onSuccess: function(req) {
+                onSuccess: function (req) {
                     try {
                         remove_waiting_box();
                         var answer = req.responseXML;
@@ -1910,8 +1910,8 @@ function filter_table(phrase, _id, colnr, start_row) {
         aCol[0] = colnr;
     }
     var ele;
-    var tot_found=0;
-    
+    var tot_found = 0;
+
     for (var r = start_row; r < table.rows.length; r++) {
         var found = 0;
         for (var col = 0; col < aCol.length; col++)
@@ -1937,12 +1937,12 @@ function filter_table(phrase, _id, colnr, start_row) {
         $('info_div').innerHTML = "";
     }
     if (tot_found == 0) {
-        if ($('info_'+_id)) {
-            $('info_'+_id).innerHTML=" Aucun résultat ";
+        if ($('info_' + _id)) {
+            $('info_' + _id).innerHTML = " Aucun résultat ";
         }
-    } else {        
-        if ($('info_'+_id)) {
-            $('info_'+_id).innerHTML="  ";
+    } else {
+        if ($('info_' + _id)) {
+            $('info_' + _id).innerHTML = "  ";
         }
     }
 }
@@ -1952,14 +1952,14 @@ function filter_table(phrase, _id, colnr, start_row) {
  */
 function display_task(p_id)
 {
-    new Draggable(p_id, {starteffect: function()
+    new Draggable(p_id, {starteffect: function ()
         {
             new Effect.Highlight(obj.id, {scroll: window, queue: 'end'});
         }}
     );
-    $(p_id).style.top = posY+'px';
+    $(p_id).style.top = posY + 'px';
     $(p_id).style.left = "10%";
-    $(p_id).style.width= "80%";
+    $(p_id).style.width = "80%";
     $(p_id).style.display = 'block';
 
 }
@@ -1993,7 +1993,7 @@ function ask_navigator(p_dossier) {
                 {
                     method: 'get', parameters: queryString,
                     onFailure: ajax_misc_failure,
-                    onSuccess: function(req) {
+                    onSuccess: function (req) {
                         remove_waiting_box();
                         add_div({id: 'navi_div', style: 'top:2em;left:2em;width:90%', cssclass: 'inner_box'});
                         $('navi_div').innerHTML = req.responseText;
@@ -2029,7 +2029,7 @@ function set_preference(p_dossier) {
                 {
                     method: 'get', parameters: queryString,
                     onFailure: ajax_misc_failure,
-                    onSuccess: function(req) {
+                    onSuccess: function (req) {
                         remove_waiting_box();
                         add_div({id: 'preference_div', drag: 1});
                         $('preference_div').innerHTML = req.responseText;
@@ -2066,7 +2066,7 @@ function show_bookmark(p_dossier) {
                 {
                     method: 'get', parameters: queryString,
                     onFailure: ajax_misc_failure,
-                    onSuccess: function(req) {
+                    onSuccess: function (req) {
                         remove_waiting_box();
                         add_div({id: 'bookmark_div', cssclass: 'inner_box', drag: 1});
                         $('bookmark_div').innerHTML = req.responseText;
@@ -2099,7 +2099,7 @@ function save_bookmark() {
                 {
                     method: 'get', parameters: queryString,
                     onFailure: ajax_misc_failure,
-                    onSuccess: function(req) {
+                    onSuccess: function (req) {
                         remove_waiting_box();
                         // removeDiv('bookmark_div');
                         // 
@@ -2133,7 +2133,7 @@ function remove_bookmark() {
                 {
                     method: 'get', parameters: queryString,
                     onFailure: ajax_misc_failure,
-                    onSuccess: function(req) {
+                    onSuccess: function (req) {
                         remove_waiting_box();
                         $('bookmark_div').innerHTML = req.responseText;
                         try
@@ -2176,7 +2176,7 @@ function show_tag(p_dossier, p_ac, p_tag_id, p_post)
                 {
                     method: 'get', parameters: queryString,
                     onFailure: ajax_misc_failure,
-                    onSuccess: function(req) {
+                    onSuccess: function (req) {
                         var answer = req.responseXML;
                         var html = answer.getElementsByTagName('code');
                         if (html.length === 0)
@@ -2220,7 +2220,7 @@ function save_tag()
                     method: 'get',
                     parameters: queryString,
                     onFailure: ajax_misc_failure,
-                    onSuccess: function(req, j) {
+                    onSuccess: function (req, j) {
                         remove_waiting_box();
                         removeDiv('tag_div');
                     }
@@ -2249,7 +2249,7 @@ function action_tag_select(p_dossier, ag_id)
                 {
                     method: 'get', parameters: queryString,
                     onFailure: ajax_misc_failure,
-                    onSuccess: function(req, j) {
+                    onSuccess: function (req, j) {
                         var answer = req.responseXML;
                         var html = answer.getElementsByTagName('code');
                         if (html.length === 0)
@@ -2259,9 +2259,9 @@ function action_tag_select(p_dossier, ag_id)
                         }
                         var code_html = getNodeText(html[0]);
                         code_html = unescape_xml(code_html);
-                        pos=fixed_position(35,229 );
+                        pos = fixed_position(35, 229);
                         add_div({id: 'tag_div', style: pos, cssclass: 'inner_box tag', drag: 1});
-                        
+
                         remove_waiting_box();
                         $('tag_div').innerHTML = code_html;
                     }
@@ -2287,7 +2287,7 @@ function action_tag_add(p_dossier, ag_id, t_id)
                 {
                     method: 'get', parameters: queryString,
                     onFailure: ajax_misc_failure,
-                    onSuccess: function(req, j) {
+                    onSuccess: function (req, j) {
                         var answer = req.responseXML;
                         var html = answer.getElementsByTagName('code');
                         if (html.length === 0)
@@ -2325,7 +2325,7 @@ function action_tag_remove(p_dossier, ag_id, t_id)
                 {
                     method: 'get', parameters: queryString,
                     onFailure: ajax_misc_failure,
-                    onSuccess: function(req, j) {
+                    onSuccess: function (req, j) {
                         var answer = req.responseXML;
                         var html = answer.getElementsByTagName('code');
                         if (html.length === 0)
@@ -2363,7 +2363,7 @@ function search_display_tag(p_dossier, p_prefix)
                 {
                     method: 'get', parameters: queryString,
                     onFailure: ajax_misc_failure,
-                    onSuccess: function(req, j) {
+                    onSuccess: function (req, j) {
                         var answer = req.responseXML;
                         var html = answer.getElementsByTagName('code');
                         if (html.length === 0)
@@ -2375,8 +2375,8 @@ function search_display_tag(p_dossier, p_prefix)
                         code_html = unescape_xml(code_html);
                         remove_waiting_box();
                         add_div({id: p_prefix + 'tag_div', style: '', cssclass: 'inner_box', drag: 1});
-                        $(p_prefix + 'tag_div').style.top = posY - 80+"px";
-                        $(p_prefix + 'tag_div').style.left = posX - 200+"px";
+                        $(p_prefix + 'tag_div').style.top = posY - 80 + "px";
+                        $(p_prefix + 'tag_div').style.left = posX - 200 + "px";
                         remove_waiting_box();
                         $(p_prefix + 'tag_div').innerHTML = code_html;
 
@@ -2408,7 +2408,7 @@ function search_add_tag(p_dossier, p_tag_id, p_prefix)
                 {
                     method: 'get', parameters: queryString,
                     onFailure: ajax_misc_failure,
-                    onSuccess: function(req, j) {
+                    onSuccess: function (req, j) {
                         var answer = req.responseXML;
                         var html = answer.getElementsByTagName('html');
                         if (html.length === 0)
@@ -2445,7 +2445,7 @@ function search_clear_tag(p_dossier, p_prefix)
                 {
                     method: 'get', parameters: queryString,
                     onFailure: ajax_misc_failure,
-                    onSuccess: function(req, j) {
+                    onSuccess: function (req, j) {
                         var answer = req.responseXML;
                         var html = answer.getElementsByTagName('html');
                         if (html.length === 0)
@@ -2499,7 +2499,7 @@ function calendar_zoom(obj)
                 {
                     method: 'get', parameters: query,
                     onFailure: ajax_misc_failure,
-                    onSuccess: function(req, j) {
+                    onSuccess: function (req, j) {
                         var answer = req.responseXML;
                         var html = answer.getElementsByTagName('html');
                         if (html.length === 0)
@@ -2574,9 +2574,9 @@ function stock_add_row()
 }
 function show_description(p_id)
 {
-    $('print_desc'+p_id).hide();
-    $('input_desc'+p_id).show();
-    
+    $('print_desc' + p_id).hide();
+    $('input_desc' + p_id).show();
+
 }
 /**
  * Hightlight the row we select and restore previous one
@@ -2603,20 +2603,21 @@ function select_cat(x)
  * @param {array} a_tabs name of possible tabs
  * @param {strng} p_display_tab tab to display
  */
-function show_tabs(a_tabs,p_display_tab)
+function show_tabs(a_tabs, p_display_tab)
 {
-    try 
+    try
     {
-        if ( a_tabs.length == 0 ) trow ('a_tabs in empty');
-        var i=0;
-        for ( i=0;i<a_tabs.length;i++) {
+        if (a_tabs.length == 0)
+            trow('a_tabs in empty');
+        var i = 0;
+        for (i = 0; i < a_tabs.length; i++) {
             $(a_tabs[i]).hide();
         }
         $(p_display_tab).show();
-    } catch(e) {
-       alert(e.message);
+    } catch (e) {
+        alert(e.message);
     }
-    
+
 }
 /**
  * Change the class of all the "LI" element of a UL or OL
@@ -2626,14 +2627,15 @@ function unselect_other_tab(p_tab)
 {
     try {
         var other = p_tab.getElementsByTagName("li");
-        var i=0;
-        var tab=null;
-        for (i=0;i<other.length;i++) {
-            tab=other[i];
-            tab.className="tabs";
+        var i = 0;
+        var tab = null;
+        for (i = 0; i < other.length; i++) {
+            tab = other[i];
+            tab.className = "tabs";
         }
-    } catch(e) {
-        if ( console ) console.log(e.message);
+    } catch (e) {
+        if (console)
+            console.log(e.message);
     }
 }
 /**
@@ -2644,8 +2646,8 @@ function unselect_other_tab(p_tab)
 function logout()
 {
     var tmp_place = window.location.href
-    var tmp_b=tmp_place.split('/')
-    var tmp_last=tmp_b.length-1
-    var place_logout=tmp_place.replace(tmp_b[tmp_last],'logout.php');
-    window.location.href=place_logout;
+    var tmp_b = tmp_place.split('/')
+    var tmp_last = tmp_b.length - 1
+    var place_logout = tmp_place.replace(tmp_b[tmp_last], 'logout.php');
+    window.location.href = place_logout;
 }
