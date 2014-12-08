@@ -1604,6 +1604,9 @@ input.inum {
     border:1px solid #605D5D;
     margin:2px
 }
+/**************************************************************************
+Box dashboard on 3 columns
+**************************************************************************/
 div.box  {
     background-color:#e4e7ed;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
@@ -1620,12 +1623,14 @@ div.box  {
     font-size:0.90rem;
 }
 @media only screen and (max-width: 1426px) {
+/* Dashboard on 2 cols */
     div.box {
     width: 48%;
     height: 380px;
     }
 }
 @media only screen and (max-width: 955px) {
+/* Dashboard on 1 cols */
     div.box {
     width: 95%;
         
