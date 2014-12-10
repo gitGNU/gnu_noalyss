@@ -22,6 +22,8 @@ table.sortable, table.table_large, table.result  ,table.resultfooter {
     margin  :0.5%;
     border:1px #5D90CD solid;
     border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
 }
 table.resultfooter tfoot {
     font-weight: bold;
@@ -263,6 +265,9 @@ td.mtitle {
     height :30px;
     border:1px solid #99B1DF;
     border-radius:5px;
+   -moz-border-radius: 10px;
+   -webkit-border-radius: 10px;
+
   background: -moz-linear-gradient(top, rgba(53,106,160,0.79) 0%, rgba(53,106,160,0.79) 19%, rgba(53,106,160,1) 100%); /* FF3.6+ */
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(53,106,160,0.79)), color-stop(19%,rgba(53,106,160,0.79)), color-stop(100%,rgba(53,106,160,1))); /* Chrome,Safari4+ */
 background: -webkit-linear-gradient(top, rgba(53,106,160,0.79) 0%,rgba(53,106,160,0.79) 19%,rgba(53,106,160,1) 100%); /* Chrome10+,Safari5.1+ */
@@ -327,6 +332,9 @@ td.selectedcell{
     width:250px;
     text-align:center;
     border-radius:5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+
     background: #b8c6df; /* Old browsers */
     background: -moz-linear-gradient(top, #b8c6df 0%, #6d88b7 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b8c6df), color-stop(100%,#6d88b7)); /* Chrome,Safari4+ */
@@ -846,6 +854,9 @@ a#anchorbutton, .button, a.button,div.content a.button {
     cursor:pointer;
     margin:1px 2px 1px 2px;
     border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+
 }
 a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
     cursor:pointer;
@@ -877,6 +888,9 @@ a#smallanchorbutton, .smallbutton, a.smallbutton,div.content a.smallbutton {
     cursor:pointer;
     margin:1px 2px 1px 2px;
     border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+
 }
 a#smallanchorbutton:hover, .smallbutton:hover,a.smallbutton:hover,div.content a.smallbutton:hover  {
     cursor:pointer;
@@ -892,6 +906,9 @@ td.tool {
     border-bottom-width: 2px;
     text-align:center;
     border-radius:2px;
+    -moz-border-radius: 2px;
+   -webkit-border-radius: 2px;
+
 }
 td.toolselected  {
     border: solid 1px gray;
@@ -899,6 +916,9 @@ td.toolselected  {
     border-bottom-width: 2px;
     text-align:center;
     border-radius:2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+
     background-color:#FF0000;
 }
 td.toolselected a.mtitle {
@@ -907,6 +927,9 @@ td.toolselected a.mtitle {
     border-bottom-width: 2px;
     text-align:center;
     border-radius:2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+
     background-color:#FF0000;
 }
 div.topmenu {
@@ -1273,7 +1296,7 @@ h1.title {
     text-transform: uppercase;
 }
 h2.title {
-   /* background-color:#879ED4; */
+    background-color:#879ED4; 
     color:#FFFFFF;
     text-align:center;
     padding:0.24%;
@@ -1285,7 +1308,7 @@ h2.title {
     background: -o-linear-gradient(top, #606c88 0%,#3f4c6b 100%); /* Opera 11.10+ */
     background: -ms-linear-gradient(top, #606c88 0%,#3f4c6b 100%); /* IE10+ */
     background: linear-gradient(to bottom, #606c88 0%,#3f4c6b 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#3f4c6b',GradientType=0 ); /* IE6-9 */
+   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#3f4c6b',GradientType=0 ); /* IE6-9 */
 
 }
 h3.title {
@@ -1310,6 +1333,9 @@ div.myfieldset
     margin-right: 5px;
     border:#EDF3FF 2px groove;
     border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+
 }
 #info_div {
     display:none;
@@ -1363,7 +1389,7 @@ div.name  {
     position:absolute;
     top:0px;
     left:0px;
-    display:none;
+    display:block;
     }   
 div#modele_op_div{
     display: none;
@@ -1763,6 +1789,9 @@ table.vert_mtitle {
   text-align:center;
     /* border:5px solid #99B1DF; */
     border-radius:5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+
     width:80%;
     margin-left: 10%;
     border-collapse: separate;
@@ -1816,6 +1845,9 @@ div.content a.tinybutton{
     border-style: solid;
     border-color: blue;
     border-radius: 2px; 
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+
     display : inline;
 }
 input[type="button"].tinybutton {
@@ -1836,6 +1868,9 @@ input[type="button"].tinybutton {
     border-style: solid;
     border-color: blue;
     border-radius: 2px; 
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+
     display : inline;
 }
 /*******************************************************************************
