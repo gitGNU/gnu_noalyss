@@ -290,7 +290,17 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
 		else
 			$title=$_REQUEST['ac']."  ".$title;
 	}
-    echo '<!doctype html>';
+    if ( strpos ($_SERVER['HTTP_USER_AGENT'],'MSIE 8.0')  != 0 ||
+         strpos ($_SERVER['HTTP_USER_AGENT'],'MSIE 9.0')  != 0 )
+       $is_msie=1;
+    else
+        $is_msie=0;
+    
+    if ($is_msie == 0 ) 
+        echo '<!doctype html>';
+    else
+         echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 FINAL//EN" >';
+    
     echo "<HTML>";
 
     if ($p_script2 != "")
@@ -308,9 +318,10 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
     echo '<script language="javascript" src="js/calendar.js"></script>
     <script type="text/javascript" src="js/lang/calendar-en.js"></script>
     <script language="javascript" src="js/calendar-setup.js"></script>
-    <LINK REL="stylesheet" type="text/css" href="calendar-blue.css" media="screen">
-    </HEAD>
-    ';
+    <LINK REL="stylesheet" type="text/css" href="calendar-blue.css" media="screen">';
+    if ( $is_msie == 1 )echo '      <meta http-equiv="x-ua-compatible" content="IE=edge"/>';
+
+    echo '    </HEAD>    ';
 
     echo "<BODY $p_script>";
     echo '<div id="info_div"></div>';
