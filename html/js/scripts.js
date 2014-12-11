@@ -657,7 +657,8 @@ function add_div(obj)
                 }}
             );
         }
-        elt.setStyle({visibility:'visible'});
+        /* elt.setStyle({visibility:'visible'}); */
+        elt.style.visibility='visible';
     }
     catch (e)
     {
