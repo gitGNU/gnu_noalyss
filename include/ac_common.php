@@ -290,11 +290,7 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
 		else
 			$title=$_REQUEST['ac']."  ".$title;
 	}
-    if ( strpos ($_SERVER['HTTP_USER_AGENT'],'MSIE 8.0')  != 0 ||
-         strpos ($_SERVER['HTTP_USER_AGENT'],'MSIE 9.0')  != 0 )
-       $is_msie=1;
-    else
-        $is_msie=0;
+    $is_msie=is_msie();
     
     if ($is_msie == 0 ) 
         echo '<!doctype html>';
@@ -308,7 +304,7 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
     $style=trim($style);
     $DIR=dirname(__FILE__);
     echo "<HEAD>";
-   // if ( $is_msie == 1 )echo '      <meta http-equiv="x-ua-compatible" content="IE=edge"/>';
+    if ( $is_msie == 1 )echo '      <meta http-equiv="x-ua-compatible" content="IE=edge"/>';
     echo "
     <TITLE>$title</TITLE>
 	<link rel=\"icon\" type=\"image/ico\" href=\"favicon.ico\" />
@@ -1166,5 +1162,18 @@ function factory_Ledger(Database &$p_cn, $ledger_id)
             throw new Exception('Ledger type not found');
     }
     return $obj;
+}
+/**
+ * Check if we use IE 8 or 9
+ * @return int 1 for IE8-9;0 otherwise
+ */
+function is_msie()
+{
+    if ( strpos ($_SERVER['HTTP_USER_AGENT'],'MSIE 8.0')  != 0 ||
+         strpos ($_SERVER['HTTP_USER_AGENT'],'MSIE 9.0')  != 0 )
+       $is_msie=1;
+    else
+        $is_msie=0;
+    return $is_msie;
 }
 ?>

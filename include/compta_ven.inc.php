@@ -142,7 +142,11 @@ $p_msg="";
 
         if ( ! isset($correct))
         {
-            echo '<div style="position:absolute" class="content">';
+            if ( is_msie() == 0 ) 
+                echo '<div style="position:absolute"  class="content">';
+             else
+                echo '<div class="content">';
+
             $Ledger=new Acc_Ledger_Sold($cn,$_POST['p_jrn']);
             $internal=$Ledger->insert($_POST);
 
@@ -185,7 +189,11 @@ $p_msg="";
 //
 // pre defined operation
 //
-echo '<div style="position:absolute" class="content">';
+if ( is_msie() == 0 ) 
+    echo '<div style="position:absolute"  class="content">';
+else
+    echo '<div class="content">';
+
     if ( !isset($_REQUEST ['p_jrn']) )
     {
         $def_ledger=$Ledger->get_first('ven',2);

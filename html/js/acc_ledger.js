@@ -347,7 +347,7 @@ function ledger_fin_add_row()
  */
 function ledger_add_row()
 {
-	try{
+    try{
     style='class="input_text"';
     var mytable=g("sold_item").tBodies[0];
     var ofirstRow=mytable.rows[1];
@@ -368,19 +368,18 @@ function ledger_add_row()
         new_tt.evalScripts();
     }
 
-    g("e_march"+nb.value+"_label").innerHTML='&nbsp;';
-    g("e_march"+nb.value+"_label").value='';
-    g("e_march"+nb.value+"_price").value='0';
-    g("e_march"+nb.value).value="";
-    g("e_quant"+nb.value).value="1";
-    if ($("e_march"+nb.value+"_tva_amount")) g("e_march"+nb.value+"_tva_amount").value=0;
+    $("e_march"+nb.value+"_label").innerHTML='';
+    $("e_march"+nb.value+"_label").value='';
+    $("e_march"+nb.value+"_price").value='0';
+    $("e_march"+nb.value).value="";
+    $("e_quant"+nb.value).value="1";
+    if ($("e_march"+nb.value+"_tva_amount")) $("e_march"+nb.value+"_tva_amount").value=0;
 
     nb.value++;
 
     new_tt.evalScripts();
 	} catch(e) {alert(e.message);}
-
-        }
+}
 /**
  * @brief compute the sum of a purchase, update the span tvac, htva and tva
  * all the needed data are taken from the document (hidden field :  gdossier)

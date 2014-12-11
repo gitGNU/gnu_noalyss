@@ -203,7 +203,11 @@ echo $op->form_get('do.php?'.$url);
 echo '</div>';
 echo '</div>';
 
-echo '<div style="position:absolute"  class="content">';
+if ( is_msie() == 0 ) 
+    echo '<div style="position:absolute"  class="content">';
+else
+    echo '<div class="content">';
+
 echo '<p class="notice">'.$p_msg.'</p>';
 echo "<FORM class=\"print\"NAME=\"form_detail\" METHOD=\"POST\" >";
 /* request for a predefined operation */
