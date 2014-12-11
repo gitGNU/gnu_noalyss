@@ -208,13 +208,7 @@ version  6.8.0.0 - '.$my_domain.'
 <BR>
 <BR>
 <BR>
-<div>
-Nous conseillons d\'utiliser Firefox ou chrome. Internet Explorer n\'est pas pleinement compatible.
-<ul style="list-style:none;display:block">
-<li style="display:inline"> <a href="https://www.mozilla.org/fr/firefox/new/"> <img border="0" width="128px" src="https://mozorg.cdn.mozilla.net/media/img/firefox/new/header-firefox.png?2013-06"></a></li>
-<li style="display:inline"><a href=""> <img border="0" width="128px" src="https://www.google.com/intl/fr_ALL/chrome/assets/common/images/chrome_logo_2x.png"></a></li>
-</ul>
-</div>
+
 <BR>
 <center>
 <IMG SRC="image/logo6720.png" alt="NOALYSS">
@@ -271,6 +265,13 @@ echo '
 </table>
 
 </form>
+<div>
+Nous conseillons d'utiliser Firefox ou chrome. Internet Explorer n'est pas pleinement compatible.
+<ul style="list-style:none;display:block">
+<li style="display:inline"> <a href="https://www.mozilla.org/fr/firefox/new/"> <img border="0" width="128px" src="https://mozorg.cdn.mozilla.net/media/img/firefox/new/header-firefox.png?2013-06"></a></li>
+<li style="display:inline"><a href=""> <img border="0" width="128px" src="https://www.google.com/intl/fr_ALL/chrome/assets/common/images/chrome_logo_2x.png"></a></li>
+</ul>
+</div>
 </Center>
 <div  style="position:absolute;bottom:0em;border:1px solid red;text-align:right;width:20em;">
 <span style="display:block">Pour une meilleure expérience web, nous vous conseillons <a href="http://www.mozilla.com/fr/">firefox</a></span>
