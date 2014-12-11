@@ -224,7 +224,7 @@ class ICard extends HtmlInput
 			$ind=sprintf('<span id="%s" class="autocomplete" style="position:absolute;display:none">Un instant... <img src="image/loading.gif" alt="Chargement..."/>'.
 						'</span>',
 						$this->indicator);
-
+                        $this->indicator="null";
 			$div=($this->choice_create == 1) ? sprintf('<div id="%s"  class="autocomplete"></div>',$this->choice):"";
 
 			$query=dossier::get().'&e='.urlencode($this->typecard);
