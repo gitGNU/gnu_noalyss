@@ -3145,6 +3145,12 @@ class Acc_Ledger extends jrn_def_sql
 		$periode = new Periode($this->db, $p_to);
 		$exercise = $periode->get_exercice();
 		list ($min, $max) = $periode->get_limit($exercise);
+                // transform min into date
+                $min_date=$min->first_day();
+                // transform $p_to  into date
+                $periode_max=new Periode($this->db,$p_to);
+                $max_date=$periode_max->first_day();
+                bcscale(2);
 		// min periode
 		if ($this->type == 'ACH')
 		{
@@ -3156,15 +3162,18 @@ class Acc_Ledger extends jrn_def_sql
 					',coalesce(sum(qp_nd_tva_recup),0)+coalesce(sum(qp_nd_tva),0) as tva_nd' .
 					',coalesce(sum(qp_vat_sided),0) as tva_np' .
 					'  from quant_purchase join jrnx using(j_id) ' .
-					' where j_tech_per >= $1 and j_tech_per < $2'.
+					" where j_date >= to_date($1,'DD.MM.YYYY') and j_date < to_date($2,'DD.MM.YYYY') ".
                                 ' and j_jrn_def = $3';
-			$array = $this->db->get_array($sql, array($min->p_id, $p_to,$this->idq));
+			$array = $this->db->get_array($sql, array($min_date, $max_date,$this->id));
 
 			$ret = $array[0];
 			/* retrieve all vat code */
-			$array = $this->db->get_array('select coalesce(sum(qp_vat),0) as sum_vat,tva_id
+			$array = $this->db->get_array("select coalesce(sum(qp_vat),0) as sum_vat,tva_id
                                         from quant_purchase as p right join tva_rate on (qp_vat_code=tva_id)  join jrnx using(j_id)
-                                        where tva_rate !=0 and j_tech_per >= $1 and j_tech_per < $2 group by tva_id', array($min->p_id, $p_to));
+                                        where tva_rate !=0 and  j_date >= to_date($1,'DD.MM.YYYY') and j_date < to_date($2,'DD.MM.YYYY') 
+                                        and j_jrn_def = $3
+                                        group by tva_id", 
+                                array($min_date, $max_date,$this->id));
 			$ret['tva'] = $array;
 		}
 		if ($this->type == 'VEN')
@@ -3176,24 +3185,31 @@ class Acc_Ledger extends jrn_def_sql
 					',0 as tva_nd' .
                                         ',coalesce(sum(qs_vat_sided),0) as tva_np' .
 					'  from quant_sold join jrnx using(j_id) ' .
-					' where j_tech_per >= $1 and j_tech_per < $2'.
+					" where j_date >= to_date($1,'DD.MM.YYYY') and j_date < to_date($2,'DD.MM.YYYY') ".
                                 ' and j_jrn_def = $3';
-			$array = $this->db->get_array($sql, array($min->p_id, $p_to,$this->id));
+			$array = $this->db->get_array($sql, array($min_date, $max_date,$this->id));
 			$ret = $array[0];
 			/* retrieve all vat code */
-			$array = $this->db->get_array('select coalesce(sum(qs_vat),0) as sum_vat,tva_id
+			$array = $this->db->get_array("select coalesce(sum(qs_vat),0) as sum_vat,tva_id
                                         from quant_sold as p right join tva_rate on (qs_vat_code=tva_id)  join jrnx using(j_id)
-                                        where tva_rate !=0 and j_tech_per >= $1 and j_tech_per < $2 group by tva_id', array($min->p_id, $p_to));
+                                        where tva_rate !=0 and
+                                        j_date >= to_date($1,'DD.MM.YYYY') and j_date < to_date($2,'DD.MM.YYYY') 
+                                        and j_jrn_def = $3
+                                        group by tva_id", array($min_date, $max_date,$this->id));
 			$ret['tva'] = $array;
 		}
                 if ($this->type=="FIN") 
                 {
-                    /*  get all amount exclude vat */
-			$sql = "select coalesce(sum(qf_amount),0) as amount" .
-					'  from quant_fin join jrn using(jr_id) ' .
-					' where jr_tech_per >= $1 and jr_tech_per < $2'.
-                                ' and jr_def_id=$3';
-			$ret = $this->db->get_array($sql, array($min->p_id, $p_to,$this->id));
+                        
+                    /* find the quick code of this ledger */
+                    $ledger=new Acc_Ledger_Fin($this->db,$this->id);
+                    $qcode=$ledger->get_bank();
+                    $bank_card=new Fiche($this->db,$qcode);
+                    
+                    /*add the amount from Opening Writing                  */
+                    $cond=sprintf(" j_jrn_def <> %d  and j_date >= to_date('%s','DD.MM.YYYY') and j_date < to_date('%s','DD.MM.YYYY') ",$this->id,$min_date,$max_date);
+                    $saldo = $bank_card->get_bk_balance ($cond);
+                    $ret['amount']=bcsub($saldo['debit'],$saldo['credit']);
                 }
 		return $ret;
 	}

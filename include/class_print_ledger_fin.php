@@ -41,7 +41,7 @@ class Print_Ledger_Financial extends PDF
         $this->tp_amount=0;
         
         $amount=$this->ledger->previous_amount($_GET['from_periode']);
-        $this->rap_amount=$amount[0]['amount'];
+        $this->rap_amount=$amount['amount'];
     }
     function Header()
     {
