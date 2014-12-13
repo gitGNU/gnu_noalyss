@@ -267,7 +267,8 @@ if (isset($_REQUEST['bt_html']))
 		"<th>Total opération</th>" .
 		"</TR>";
 		// set a filter for the FIN
-		$i = 0;
+		$i = 0;$tot_amount=0;
+                bcscale(2);
 		foreach ($Row as $line)
 		{
 			$i++;
@@ -297,14 +298,25 @@ if (isset($_REQUEST['bt_html']))
 				echo "<TD align=\"right\">";
 				echo ( $positive == 0 ) ? "<font color=\"red\">  - " . nbm($line['montant']) . "</font>" : nbm($line['montant']);
 				echo "</TD>";
+                                if ( $positive == 1 ) {
+                                    $tot_amount=bcadd($tot_amount,$line['montant']);
+                                } else {
+                                    $tot_amount=bcsub($tot_amount,$line['montant']);
+                                }
 			}
 			else
 			{
 				echo "<TD align=\"right\">" . nbm($line['montant']) . "</TD>";
+                                $tot_amount=bcadd($tot_amount,$line['montant']);
 			}
 
 			echo "</tr>";
 		}
+                echo '<tr class="highlight">';
+                echo '<td>'._('Totaux').'</td>';
+                echo td().td().td().td().td();
+                echo '<td class="num">'.nbm($tot_amount).'</td>';
+                echo '</tr>';
 		echo "</table>";
             } else {
                 /*

@@ -25,11 +25,23 @@
 require_once('class_pdf.php');
 class Print_Ledger_Financial extends PDF
 {
-    function __construct($p_cn,$p_jrn)
+    private $rap_amount; /* amount from begining exercice */
+    private $tp_amount; /* amount total page */
+    
+    function __construct($p_cn,  Acc_Ledger $p_jrn)
     {
         parent::__construct($p_cn,'L','mm','A4');
         $this->ledger=$p_jrn;
         $this->jrn_type=$p_jrn->get_type();
+        
+        // report from begin exercice
+        $this->rap_amount=0; 
+        
+        // total page
+        $this->tp_amount=0;
+        
+        $amount=$this->ledger->previous_amount($_GET['from_periode']);
+        $this->rap_amount=$amount[0]['amount'];
     }
     function Header()
     {
@@ -38,7 +50,11 @@ class Print_Ledger_Financial extends PDF
         //Title
         $this->Cell(0,10,$this->dossier, 'B', 0, 'C');
         //Line break
-        $this->Ln(20);
+        $this->SetFont('DejaVu', 'B', 7);
+        $this->Ln(10);
+        $this->Cell(100,6,_('report'),0,0,'R');
+        $this->Cell(120,6,nbm($this->rap_amount),0,0,'R');
+        $this->Ln(6);
         $this->SetFont('DejaVu', 'B', 7);
         $this->Cell(30,6,'Piece');
         $this->Cell(10,6,'Date');
@@ -47,10 +63,19 @@ class Print_Ledger_Financial extends PDF
         $this->Cell(105,6,'Commentaire');
         $this->Cell(15,6,'Montant');
         $this->Ln(6);
-
+        
     }
     function Footer()
     {
+        $this->SetFont('DejaVu', 'B', 7);
+
+        $this->Cell(50,6,_('Total page'),0,0,'R');
+        $this->Cell(50,6,nbm($this->tp_amount),0,0,'R');
+        bcscale(2);
+        $this->rap_amount=bcadd($this->rap_amount,$this->tp_amount);
+        $this->Cell(50,6,_('Total à reporter'),0,0,'R');
+        $this->Cell(50,6,nbm($this->rap_amount),0,0,'R');
+        $this->tp_amount=0;
         //Position at 2 cm from bottom
         $this->SetY(-20);
         //Arial italic 8
@@ -71,6 +96,7 @@ class Print_Ledger_Financial extends PDF
                                             $_GET['to_periode']);
         $this->SetFont('DejaVu', '', 6);
         if ( $a_jrn == null ) return;
+        bcscale(2);
         for ( $i=0;$i<count($a_jrn);$i++)
         {
             $row=$a_jrn[$i];
@@ -86,6 +112,7 @@ class Print_Ledger_Financial extends PDF
             $amount=$this->cn->get_value('select qf_amount from quant_fin where jr_id=$1',array( $row['id']));
             $this->Cell(15,5,sprintf('%s',nbm($amount)),0,0,'R');
             $this->Ln(5);
+            $this->tp_amount=bcadd($this->tp_amount,$amount);
 
         }
     }

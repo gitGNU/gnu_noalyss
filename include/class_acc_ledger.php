@@ -3156,8 +3156,9 @@ class Acc_Ledger extends jrn_def_sql
 					',coalesce(sum(qp_nd_tva_recup),0)+coalesce(sum(qp_nd_tva),0) as tva_nd' .
 					',coalesce(sum(qp_vat_sided),0) as tva_np' .
 					'  from quant_purchase join jrnx using(j_id) ' .
-					' where j_tech_per >= $1 and j_tech_per < $2';
-			$array = $this->db->get_array($sql, array($min->p_id, $p_to));
+					' where j_tech_per >= $1 and j_tech_per < $2'.
+                                ' and j_jrn_def = $3';
+			$array = $this->db->get_array($sql, array($min->p_id, $p_to,$this->idq));
 
 			$ret = $array[0];
 			/* retrieve all vat code */
@@ -3175,8 +3176,9 @@ class Acc_Ledger extends jrn_def_sql
 					',0 as tva_nd' .
                                         ',coalesce(sum(qs_vat_sided),0) as tva_np' .
 					'  from quant_sold join jrnx using(j_id) ' .
-					' where j_tech_per >= $1 and j_tech_per < $2';
-			$array = $this->db->get_array($sql, array($min->p_id, $p_to));
+					' where j_tech_per >= $1 and j_tech_per < $2'.
+                                ' and j_jrn_def = $3';
+			$array = $this->db->get_array($sql, array($min->p_id, $p_to,$this->id));
 			$ret = $array[0];
 			/* retrieve all vat code */
 			$array = $this->db->get_array('select coalesce(sum(qs_vat),0) as sum_vat,tva_id
@@ -3184,6 +3186,15 @@ class Acc_Ledger extends jrn_def_sql
                                         where tva_rate !=0 and j_tech_per >= $1 and j_tech_per < $2 group by tva_id', array($min->p_id, $p_to));
 			$ret['tva'] = $array;
 		}
+                if ($this->type=="FIN") 
+                {
+                    /*  get all amount exclude vat */
+			$sql = "select coalesce(sum(qf_amount),0) as amount" .
+					'  from quant_fin join jrn using(jr_id) ' .
+					' where jr_tech_per >= $1 and jr_tech_per < $2'.
+                                ' and jr_def_id=$3';
+			$ret = $this->db->get_array($sql, array($min->p_id, $p_to,$this->id));
+                }
 		return $ret;
 	}
 
