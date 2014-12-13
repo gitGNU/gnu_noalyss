@@ -30,7 +30,7 @@ class Print_Ledger_Financial extends PDF
     
     function __construct($p_cn,  Acc_Ledger $p_jrn)
     {
-        parent::__construct($p_cn,'L','mm','A4');
+        parent::__construct($p_cn,'P','mm','A4');
         $this->ledger=$p_jrn;
         $this->jrn_type=$p_jrn->get_type();
         
@@ -52,16 +52,16 @@ class Print_Ledger_Financial extends PDF
         //Line break
         $this->SetFont('DejaVu', 'B', 7);
         $this->Ln(10);
-        $this->Cell(100,6,_('report'),0,0,'R');
-        $this->Cell(120,6,nbm($this->rap_amount),0,0,'R');
+        $this->Cell(40,6,_('report'),0,0,'R');
+        $this->Cell(40,6,nbm($this->rap_amount),0,0,'R');
         $this->Ln(6);
         $this->SetFont('DejaVu', 'B', 7);
-        $this->Cell(30,6,'Piece');
+        $this->Cell(15,6,'Piece');
         $this->Cell(10,6,'Date');
-        $this->Cell(20,6,'Interne');
+        $this->Cell(15,6,'Interne');
         $this->Cell(40,6,'Dest/Orig');
-        $this->Cell(105,6,'Commentaire');
-        $this->Cell(15,6,'Montant');
+        $this->Cell(80,6,'Commentaire');
+        $this->Cell(20,6,'Montant');
         $this->Ln(6);
         
     }
@@ -69,12 +69,12 @@ class Print_Ledger_Financial extends PDF
     {
         $this->SetFont('DejaVu', 'B', 7);
 
-        $this->Cell(50,6,_('Total page'),0,0,'R');
-        $this->Cell(50,6,nbm($this->tp_amount),0,0,'R');
+        $this->Cell(40,6,_('Total page'),0,0,'R');
+        $this->Cell(40,6,nbm($this->tp_amount),0,0,'R');
         bcscale(2);
         $this->rap_amount=bcadd($this->rap_amount,$this->tp_amount);
-        $this->Cell(50,6,_('Total à reporter'),0,0,'R');
-        $this->Cell(50,6,nbm($this->rap_amount),0,0,'R');
+        $this->Cell(40,6,_('Total à reporter'),0,0,'R');
+        $this->Cell(40,6,nbm($this->rap_amount),0,0,'R');
         $this->tp_amount=0;
         //Position at 2 cm from bottom
         $this->SetY(-20);
@@ -100,17 +100,17 @@ class Print_Ledger_Financial extends PDF
         for ( $i=0;$i<count($a_jrn);$i++)
         {
             $row=$a_jrn[$i];
-            $this->LongLine(30,5,$row['pj']);
+            $this->LongLine(15,5,$row['pj']);
             $this->Cell(10,5,$row['date_fmt']);
-            $this->Cell(20,5,$row['internal']);
+            $this->Cell(15,5,$row['internal']);
 
             $name=$this->ledger->get_tiers($this->jrn_type,$row['id']);
             $this->LongLine(40,5,$name,0,'L');
 
 
-            $this->LongLine(105,5,$row['comment'],0,'L');
+            $this->LongLine(80,5,$row['comment'],0,'L');
             $amount=$this->cn->get_value('select qf_amount from quant_fin where jr_id=$1',array( $row['id']));
-            $this->Cell(15,5,sprintf('%s',nbm($amount)),0,0,'R');
+            $this->Cell(20,5,sprintf('%s',nbm($amount)),0,0,'R');
             $this->Ln(5);
             $this->tp_amount=bcadd($this->tp_amount,$amount);
 
