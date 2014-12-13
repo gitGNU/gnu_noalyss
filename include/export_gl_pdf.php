@@ -31,7 +31,7 @@ require_once('class_own.php');
 require_once('class_dossier.php');
 require_once('class_user.php');
 require_once('class_pdf.php');
-
+bcscale(2);
 
 $gDossier=dossier::id();
 
