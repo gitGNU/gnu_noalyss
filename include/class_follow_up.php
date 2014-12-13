@@ -612,7 +612,8 @@ class Follow_Up
 		// f_id exp
 		$exp = new Fiche($this->db);
 		$exp->get_by_qcode($this->qcode_dest);
-
+                $exp->id=($exp->id==0)?null:$exp->id;
+                
 		$contact = new Fiche($this->db);
 		$contact->get_by_qcode($this->ag_contact);
 
@@ -863,7 +864,7 @@ class Follow_Up
 		if (trim($this->qcode_dest) == "")
 		{
 			// internal document
-			$this->f_id_dest = 0; // internal document
+			$this->f_id_dest = null; // internal document
 		}
 		else
 		{
@@ -1018,7 +1019,7 @@ class Follow_Up
 		$this->ag_id = (isset($p_array['ag_id'])) ? $p_array['ag_id'] : 0;
 		$this->ag_ref = (isset($p_array['ag_ref'])) ? $p_array['ag_ref'] : "";
 		$this->qcode_dest = (isset($p_array['qcode_dest'])) ? $p_array['qcode_dest'] : "";
-		$this->f_id_dest = (isset($p_array['f_id_dest'])) ? $p_array['f_id_dest'] : 0;
+		$this->f_id_dest = (isset($p_array['f_id_dest'])) ? $p_array['f_id_dest'] : null;
 		$this->ag_timestamp = (isset($p_array['ag_timestamp'])) ? $p_array['ag_timestamp'] : date('d.m.Y');
 		$this->qcode_dest = (isset($p_array['qcode_dest'])) ? $p_array['qcode_dest'] : "";
 		$this->dt_id = (isset($p_array['dt_id'])) ? $p_array['dt_id'] : "";
@@ -1641,6 +1642,7 @@ class Follow_Up
                 throw new Exception (_('Date invalide'),20);
             if ( isDate($this->ag_remind_date) != $this->ag_remind_date )
                 throw new Exception (_('Date invalide'),30);
+            if ( $this->f_id_dest == 0 ) $this->f_id_dest=null;
         }
         /**
          *  Add another concerned (tiers, supplier...)
