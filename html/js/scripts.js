@@ -693,8 +693,8 @@ function waiting_box()
     obj = {
         id: 'wait_box', html: '<h2 class="title">Chargement</h2>' + loading()
     };
-    var y = fixed_position(10, 15)
-    obj.style = y + ";width:200px";
+    var y = fixed_position(10, 250)
+    obj.style = y + ";width:20%;margin-left:40%;";
     if ($('wait_box')) {
         removeDiv('wait_box');
     }
@@ -1226,9 +1226,8 @@ function search_reconcile(dossier, ctl_concern, amount_id, ledger, p_id_target)
     var str_style = fixed_position(77, 99);
     str_style += ";width:92%;overflow:auto;";
     waiting_box();
-    var div = {id: target, cssclass: 'inner_box', style: str_style, drag: 1};
 
-    add_div(div);
+    
     var target = {gDossier: dossier,
         ctlc: ctl_concern,
         op: 'search_op',
@@ -1247,6 +1246,8 @@ function search_reconcile(dossier, ctl_concern, amount_id, ledger, p_id_target)
                 onFailure: null,
                 onSuccess: function (req) {
                     remove_waiting_box();
+                    var div = {id: 'search_op', cssclass: 'inner_box', style: str_style, drag: 1};
+                    add_div(div);
                     $('search_op').innerHTML = req.responseText;
                     req.responseText.evalScripts();
                 }
