@@ -185,17 +185,33 @@
 		$base=HtmlInput::request_to_string(array("gDossier","ac","sa","sb","sc","f_id"));
 		for ($o=0;$o<count($action);$o++)
 		{
-			if ( $p_view != 'READ')
-				{
-			$rmAction=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer cette action ')."')==true ) {remove_action('%s','%s','%s');}",
+			if ( $p_view != 'READ' && $p_base != 'ajax')
+			{
+                            $rmAction=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer cette action ')."')==true ) {remove_action('%s','%s','%s');}",
 					dossier::id(),
 					$action[$o]['ag_id'],$_REQUEST['ag_id']);
-			$showAction='<a class="line" href="'.$base."&ag_id=".$action[$o]['ag_id'].'">';
-			$js= '<a class="tinybutton" id="acact'.$action[$o]['ag_id'].'" href="'.$rmAction.'">&#x2D5D;</a>';
-			echo '<li id="act'.$action[$o]['ag_id'].'">'.$showAction.$action[$o]['str_date']." ".$action[$o]['ag_ref']." ".
+                            $showAction='<a class="line" href="'.$base."&ag_id=".$action[$o]['ag_id'].'">';
+                            $js= '<a class="tinybutton" id="acact'.$action[$o]['ag_id'].'" href="'.$rmAction.'">&#x2D5D;</a>';
+                            echo '<li id="act'.$action[$o]['ag_id'].'">'.$showAction.$action[$o]['str_date']." ".$action[$o]['ag_ref']." ".
 					h($action[$o]['sub_title']).'('.h($action[$o]['dt_value']).')</a>'." "
 				.$js.'</li>';
-			} else {
+			} else 
+                        /*
+                         * Display detail requested from Ajax Div
+                         */
+                         if ( $p_base == 'ajax' )
+                         {
+                            $xaction = sprintf('view_action(%d,%d,%d)',$action[$o]['ag_id'],Dossier::id(),1);
+                            $showAction='<a class="line" href="javascript:'.$xaction.'">';
+                            echo '<li>'.$showAction.$action[$o]['str_date']." ".$action[$o]['ag_ref']." ".
+					h($action[$o]['sub_title']).'('.h($action[$o]['dt_value']).')</a>'." "
+				.'</li>';
+                         }
+                         /*
+                          * READ ONLY
+                          */
+                         else
+                         {
 				$showAction='<a class="line" href="'.$base."&ag_id=".$action[$o]['ag_id'].'">';
 				echo '<li>'.$showAction.$action[$o]['str_date']." ".$action[$o]['ag_ref']." ".
 					h($action[$o]['sub_title']).'('.h($action[$o]['dt_value']).')</a>'." "
