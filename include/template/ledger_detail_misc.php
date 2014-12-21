@@ -77,7 +77,6 @@ require_once ('class_anc_plan.php');
 </table>
 
 <div class="myfieldset">
-	<h1 class="legend"><?php echo _('Détail')?></h1>
 <?php 
   require_once('class_own.php');
   $owner=new Own($cn);

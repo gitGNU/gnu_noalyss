@@ -94,21 +94,11 @@ echo td(_('Pièce')).td($itext->input());
 
 </td>
 <div class="myfieldset">
-	<h1 class="legend">
-<?php echo _('Détail')?>
 <?php 
   $detail=new Acc_Misc($cn,$obj->jr_id);
-$detail->get();
+  $detail->get();
 ?>
-</h1>
-<table class="result">
-<tr>
 <?php 
- echo th(_('Poste Comptable'));
-    echo th(_('Quick Code'));
-    echo th(_('Libellé'));
-echo th(_('Débit'),' style="text-align:right"');
-echo th(_('Crédit'),' style="text-align:right"');
  if ($owner->MY_ANALYTIC != 'nu' /*&& $div == 'popup'*/){
       $anc=new Anc_Plan($cn);
       $a_anc=$anc->get_list(' order by pa_id ');
@@ -119,40 +109,11 @@ echo th(_('Crédit'),' style="text-align:right"');
       /* add hidden variables pa[] to hold the value of pa_id */
       $str_anc .= Anc_Plan::hidden($a_anc);
     }
-echo '</tr>';
+    bcscale(2);
   for ($e=0;$e<count($detail->det->array);$e++) {
     $row=''; $q=$detail->det->array;
-   $view_history= sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:view_history_account(\'%s\',\'%s\')" >%s</A>',
-			   $q[$e]['j_poste'], $gDossier, $q[$e]['j_poste']);
-
-    $row.=td($view_history);
-
-    if ( $q[$e]['j_qcode'] !=''){
-      $fiche=new Fiche($cn);
-      $fiche->get_by_qcode($q[$e]['j_qcode']);
-      $view_history= sprintf('<A class="detail" style="text-decoration:underline" HREF="javascript:view_history_card(\'%s\',\'%s\')" >%s</A>',
-			     $fiche->id,$gDossier, $q[$e]['j_qcode']);
-    }
-    else
-      $view_history='';
-    $row.=td($view_history);
-	if ( $q[$e]['j_text']!='')
-	{
-	 $row.=td(h(strip_tags($q[$e]['j_text'])));
-	}else
-    if ( $q[$e]['j_qcode'] !='') {
-      // nom de la fiche
-      $ff=new Fiche($cn);
-      $ff->get_by_qcode( $q[$e]['j_qcode']);
-      $row.=td($ff->strAttribut(h(ATTR_DEF_NAME)));
-    } else {
-      // libellé du compte
-      $name=$cn->get_value('select pcm_lib from tmp_pcmn where pcm_val=$1',array($q[$e]['j_poste']));
-      $row.=td(h($name));
-    }
-    $montant=td(nbm($q[$e]['j_montant']),'class="num"');
-    $row.=($q[$e]['j_debit']=='t')?$montant:td('');
-    $row.=($q[$e]['j_debit']=='f')?$montant:td('');
+    $fiche=new Fiche($cn);
+    $fiche->get_by_qcode($q[$e]['j_qcode']);
    /* Analytic accountancy */
     if ( $owner->MY_ANALYTIC != "nu" /*&& $div == 'popup'*/)
       {
@@ -169,19 +130,15 @@ echo '</tr>';
             $str_anc.=td(nbm($q[$e]['j_montant']));
             $str_anc.='<td>';
 	    $str_anc.= HtmlInput::hidden('op[]',$anc_op->j_id);
-	    $str_anc.=$anc_op->display_table(1,$q[$e]['j_montant'],$div);
+            $montant=($q[$e]['j_debit'] == "t")?$q[$e]['j_montant']:bcmul($q[$e]['j_montant'], -1);
+	    $str_anc.=$anc_op->display_table(1,$montant,$div);
             $str_anc.='</td>';
             $str_anc.='</tr>';
 
-      }  else {
-	$row.=td('');
+          } 
       }
-      }
-    echo tr($row);
-
   }
 ?>
-</table>
 </div>
 <?php 
 require_once('ledger_detail_bottom.php');

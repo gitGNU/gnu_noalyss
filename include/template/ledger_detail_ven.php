@@ -118,9 +118,6 @@ echo $ipaid->input();
             </tr>
         </table>
         <div class="myfieldset">
-            <h1 class="legend">
-<?php echo _('Détail') ?>
-            </h1>
             <table class="result">
                 <?php
                 bcscale(2);
