@@ -212,7 +212,7 @@ class Anc_GrandLivre extends Anc_Print
             $amount_cred = ($row['oa_debit'] == 'f') ? $row['oa_amount'] : 0;
             $tot_deb = bcadd($tot_deb, $amount_deb);
             $tot_cred = bcadd($tot_cred, $amount_cred);
-            $tot_solde=bcsub($tot_deb,$tot_cred);
+            $tot_solde=bcsub($tot_cred,$tot_deb);
 
             /*
              * Checked button
