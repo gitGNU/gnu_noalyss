@@ -921,7 +921,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 					$op->oa_group = $this->db->get_next_seq("s_oa_group"); /* for analytic */
 					$op->j_id = $j_id;
 					$op->oa_date = $e_date;
-					$op->oa_debit = ($amount < 0 ) ? 't' : 'f';
+					$op->oa_debit = 'f';
 					$op->oa_description = sql_string($comment);
 					$op->save_form_plan($_POST, $i, $j_id);
 				}

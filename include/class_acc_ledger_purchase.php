@@ -399,7 +399,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $op->j_id=$j_id;
                 $op->oa_date=$p_acc_operation->date;
 
-                $op->oa_debit=($p_nd_amount->nd_vat > 0 )?'t':'f';
+                $op->oa_debit='t';
                 $op->oa_description=sql_string('ND_TVA');
                 $op->oa_jrnx_id_source=$source_j_id;
                 $op->save_form_plan_vat_nd($_POST,$idx,$j_id,$p_nd_amount->nd_vat,$p_acc_operation->jrnx_id);
@@ -438,7 +438,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $op->j_id=$j_id;
                 $op->oa_date=$p_acc_operation->date;
 
-                $op->oa_debit=($p_nd_amount->nd_ded_vat > 0 )?'t':'f';
+                $op->oa_debit='t';
                 $op->oa_description=sql_string('DED_TVA ');
                 $op->oa_jrnx_id_source=$source_j_id;
                 $op->save_form_plan_vat_nd($_POST,$idx,$j_id,$p_nd_amount->nd_ded_vat);

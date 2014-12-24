@@ -788,13 +788,20 @@ class Anc_Operation
         extract($p_array);
         for ($i = 0; $i < count($op); $i++)
         {
-            /* clean jrnx */
+            /* clean operation_analytique */
             $this->db->exec_sql('delete from operation_analytique where j_id=$1', array($op[$i]));
 
             /* get missing data for adding */
-            $a_missing = $this->db->get_array("select to_char(jr_date,'DD.MM.YYYY') as mdate,j_montant,j_debit,jr_comment from jrnx join jrn on (j_grpt=jr_grpt_id) where j_id=$1", array($op[$i]));
+            $a_missing = $this->db->get_array("select to_char(jr_date,'DD.MM.YYYY') 
+                    as mdate,j_montant,j_debit,jr_comment ,j_poste
+                    from jrnx join jrn on (j_grpt=jr_grpt_id) where j_id=$1", array($op[$i]));
             $missing = $a_missing[0];
-            $this->oa_debit = $missing['j_debit'];
+            $poste=substr(trim($missing['j_poste']),0,1);
+            if ( $poste == 6 || $poste == 7)  {
+                $this->oa_debit = ($poste == 6) ?'t':'f';
+            }else {
+                $this->oa_debit=$missing['j_debit'];
+            }
             $this->oa_description = $missing['jr_comment'];
             $this->j_id = $op[$i];
             $group = $this->db->get_next_seq("s_oa_group"); /* for analytic */
@@ -814,7 +821,7 @@ class Anc_Operation
                     /* get missing data for adding */
                     $a_missing_vat = $this->db->get_array("select to_char(jr_date,'DD.MM.YYYY') as mdate,j_montant,j_debit,jr_comment from jrnx join jrn on (j_grpt=jr_grpt_id) where j_id=$1", array($a_nd[$e]['j_id']));
                     $missing_vat = $a_missing_vat[0];
-                    $this->oa_debit = $missing_vat['j_debit'];
+                    $this->oa_debit = 't';
                     $this->oa_description = $missing_vat['jr_comment'];
                     $this->j_id = $op[$i];
                     $group = $this->db->get_next_seq("s_oa_group"); /* for analytic */
@@ -857,9 +864,21 @@ class Anc_Operation
         $result['hplan']=$hplan;
         /* Add the amount */
         $idx_pa=0;
+        $jrn_def=$this->db->get_value('select jrn_def_type from jrnx join jrn_def on (j_jrn_def=jrn_def_id) where j_id=$1',array($this->j_id));
         for ($i=0;$i < count($p_array);$i++)
         {
-            $val[$p_line][$p_array[$i]->oa_row]=($p_array[$i]->oa_positive=='Y')?$p_array[$i]->oa_amount:($p_array[$i]->oa_amount*(-1));
+            
+            /*
+             * For the bank, negatif are always on the debit and positif on the credit
+             */
+            if ( $jrn_def != 'FIN')
+            {
+                $val[$p_line][$p_array[$i]->oa_row]=($p_array[$i]->oa_positive=='Y')?$p_array[$i]->oa_amount:($p_array[$i]->oa_amount*(-1));
+            }
+            else
+            {
+                $val[$p_line][$p_array[$i]->oa_row]=$p_array[$i]->oa_amount;
+            }
         }
         $result['val']=$val;
         return $result;
