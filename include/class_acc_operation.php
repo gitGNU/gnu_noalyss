@@ -489,7 +489,7 @@ class Acc_Operation
     function get_quant()
     {
         $ledger_id=$this->get_ledger();
-        if ( $ledger_id=='') throw new Exception('Journal non trouvé');
+        if ( $ledger_id=='') throw new Exception(_('Journal non trouvé'));
         $oledger=new Acc_Ledger($this->db,$ledger_id);
 
         // retrieve info from jrn_info
