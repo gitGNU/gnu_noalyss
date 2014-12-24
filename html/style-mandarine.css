@@ -1406,7 +1406,7 @@ div.name  {
     position:absolute;
     top:0px;
     left:0px;
-    display:none;
+    display:block;
 }   
 div#modele_op_div{
     display: none;
@@ -1426,6 +1426,7 @@ div#modele_op_div{
     position:absolute;
     top:0px;
     left:0px;
+    display: block;
     }   
     div#modele_op_div{
     display: none;
