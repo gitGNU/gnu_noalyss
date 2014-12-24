@@ -105,7 +105,7 @@ if ( isset($_GET['see']))
     $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$g_user->get_periode();
     $w->value=$periode_start;
     $w->selected=$current;
-    echo _('Filter par période').":".$w->input().HtmlInput::submit('gl_submit','Valider').'</form>';
+    echo _('Filtrer par période').":".$w->input().HtmlInput::submit('gl_submit','Valider').'</form>';
     echo '<hr>';
 
     echo '<div class="content" >';
