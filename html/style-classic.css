@@ -263,7 +263,6 @@ td.mtitle {
     text-align:center;
     width:250px;
     height :30px;
-    border:1px solid #99B1DF;
     border-radius:10px;
    -moz-border-radius: 10px;
    -webkit-border-radius: 10px;
@@ -323,17 +322,17 @@ td.cell{
     
 }
 td.selectedcell{
-    border-style:solid;
+    
 /*    border-color:#0000FF;*/
-    border-width:1px ;
+  border-radius:10px;
+   -moz-border-radius: 10px;
+   -webkit-border-radius: 10px;
     font-weight: bold;
 /*    background:#5D90CD ;*/
     color:#FFFFFF;
     width:250px;
     text-align:center;
-    border-radius:5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
+  height:30px;
 
     background: #b8c6df; /* Old browsers */
     background: -moz-linear-gradient(top, #b8c6df 0%, #6d88b7 100%); /* FF3.6+ */
