@@ -552,8 +552,7 @@ case 'upc':
 
       else
 	{
-	  $html=HtmlInput::anchor_close($ctl);
-	  $html.=h2info(_('Détail fiche (sauvée)'));
+	  $html=HtmlInput::title_box(_('Détail fiche (sauvée)'),$ctl);
 
 	  $f=new Fiche($cn,$_GET['f_id']);
 	  ob_start();
