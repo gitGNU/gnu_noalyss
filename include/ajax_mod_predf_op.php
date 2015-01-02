@@ -57,11 +57,16 @@ echo HtmlInput::button('close', _('Annuler'), 'onclick="removeDiv(\'mod_predf_op
 echo '</form>';
 
 
-$html = ob_get_contents();
+$html1 = ob_get_contents();
 ob_end_clean();
-$html = escape_xml($html);
-//echo $html;exit();
-header('Content-type: text/xml; charset=UTF-8');
+$html = escape_xml($html1);
+if (headers_sent() ) 
+    { 
+    echo $html1; 
+    }
+else {
+    header('Content-type: text/xml; charset=UTF-8');
+}
 echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <data>

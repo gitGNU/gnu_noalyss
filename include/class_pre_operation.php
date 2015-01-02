@@ -101,8 +101,7 @@ class Pre_operation
                                   "and jrn_def_id=".$this->p_jrn)
                 != 0 )
         {
-            echo "<span class=\"notice\"> Ce modèle d' op&eacute;ration a d&eacute;j&agrave; &eacute;t&eacute; sauv&eacute;</span>";
-            return false;
+            $this->name="copy_".$this->name."_".microtime(true);
         }
         if ( $this->count()  > MAX_PREDEFINED_OPERATION )
         {

@@ -43,12 +43,21 @@ class Pre_Op_Advanced extends Pre_operation_detail
 
         for ($i=0;$i<$this->operation->nb_item;$i++)
         {
-            if ( ! isset ($_POST['poste'.$i]) && ! isset ($_POST['qc_'.$i]))
-                continue;
-            if (isset ($this->{'poste'.$i})) 
-                $this->{'poste'.$i}=(trim($_POST['qc_'.$i]) != "" )?$_POST['qc_'.$i]:$_POST['poste'.$i];
-            if ( isset($this->{'qc'.$i}))    
+            $poste=HtmlInput::default_value_post("poste".$i, null);
+            $qcode=HtmlInput::default_value_post("qc_".$i, null);
+            
+            if ( $poste == null && $qcode == null )                continue;
+            
+            if ($poste != null && trim ($poste) != "")
+            {
+                $this->{'poste'.$i}=$poste;
+                 $this->{'isqc'.$i}='f';
+            }
+            
+            if ( $qcode != null && trim ($qcode) != "") {
                 $this->{'isqc'.$i}=(trim($_POST['qc_'.$i]) != "")?'t':'f';
+                $this->{'poste'.$i}=trim ($qcode);
+            }   
             $this->{"amount".$i}=$_POST['amount'.$i];
             $this->{"ck".$i}=(isset($_POST['ck'.$i]))?'t':'f';
 
@@ -62,9 +71,9 @@ class Pre_Op_Advanced extends Pre_operation_detail
     {
         try
         {
-            $this->db->start();
             if ($this->operation->save() == false )
                 return;
+            $this->db->start();
             // save the selling
             for ($i=0;$i<$this->operation->nb_item;$i++)
             {
@@ -85,6 +94,8 @@ class Pre_Op_Advanced extends Pre_operation_detail
                 $this->db->exec_sql($sql);
 
             }
+             $this->db->commit();
+            
         }
         catch (Exception $e)
         {
