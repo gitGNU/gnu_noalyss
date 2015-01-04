@@ -4,13 +4,13 @@
 # Dany De Bontridder <dany@alchimerys.be>
 #
 # dany, 2014.
-# Dany De Bontridder <danydb@noalyss.eu>, 2014.
+# Dany De Bontridder <danydb@noalyss.eu>, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS 672\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-21 14:30+0100\n"
-"PO-Revision-Date: 2014-12-21 14:35+0100\n"
+"POT-Creation-Date: 2015-01-03 16:36+0100\n"
+"PO-Revision-Date: 2015-01-03 16:43+0100\n"
 "Last-Translator: Dany De Bontridder <danydb@noalyss.eu>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
@@ -252,6 +252,7 @@ msgid "1 mois"
 msgstr "1 month"
 
 #: include/class_pre_operation.php:308 include/class_pre_operation.php:319
+#: include/class_pre_operation.php:307 include/class_pre_operation.php:318
 msgid ":"
 msgstr ":"
 
@@ -286,10 +287,6 @@ msgstr "To amortize"
 #: include/template/stock_histo_search.php:43
 msgid "A partir de"
 msgstr "From"
-
-#: include/database.item.php:188
-msgid "Abonnement PhpCompta"
-msgstr ""
 
 #: include/ext/amortis/include/print_fiche.inc.php:55
 msgid "Accepter"
@@ -478,6 +475,7 @@ msgstr "Help "
 #: include/template/dashboard.php:29 include/class_anc_key.php:338
 #: include/anc_pa.inc.php:110 include/anc_pa.inc.php:238
 #: include/anc_pa.inc.php:111 include/anc_pa.inc.php:240
+#: include/class_anc_key.php:340
 msgid "Ajout"
 msgstr "Add"
 
@@ -1912,6 +1910,10 @@ msgstr "Department"
 #: include/template/ledger_detail_ven.php:152
 #: include/class_acc_ledger.php:1461
 #: include/class_acc_ledger_purchase.php:1408
+#: include/template/ledger_detail_ach.php:147
+#: include/template/ledger_detail_fin.php:107
+#: include/template/ledger_detail_misc.php:97
+#: include/template/ledger_detail_ven.php:149
 msgid "Compt. Analytique"
 msgstr "Cost Accounting"
 
@@ -2272,6 +2274,7 @@ msgstr "Credit"
 #: include/template/ledger_detail_misc.php:92
 #: include/ext/coprop/include/class_coprop_appel_fond.php:222
 #: include/class_acc_ledger.php:1453 include/impress_gl_comptes.inc.php:214
+#: include/template/ledger_detail_misc.php:91
 msgid "Crédit"
 msgstr "Credit"
 
@@ -2303,6 +2306,7 @@ msgstr "Credit"
 #: include/class_acc_ledger.php:3606 include/class_acc_ledger_purchase.php:960
 #: include/class_acc_ledger_sold.php:998
 #: include/class_acc_ledger_sold.php:1005 include/class_acc_ledger.php:3633
+#: include/class_pre_op_advanced.php:173
 msgid "Créer une nouvelle fiche"
 msgstr "Add a new card"
 
@@ -2628,7 +2632,7 @@ msgstr "Last entries"
 #: include/template/detail-action.php:334
 #: include/template/detail-action.php:492
 #: include/ext/amortis/include/class_amortissement_table_pdf.php:41
-#: include/database.item.php:152
+#: include/database.item.php:152 include/template/ledger_detail_ven.php:127
 msgid "Description"
 msgstr "Description"
 
@@ -2640,7 +2644,7 @@ msgstr "Description"
 msgid "Description complète"
 msgstr "Description"
 
-#: include/class_anc_key.php:336
+#: include/class_anc_key.php:336 include/class_anc_key.php:338
 msgid "Description de la nouvelle clef"
 msgstr "Description of the new key"
 
@@ -2854,6 +2858,8 @@ msgstr "Amortization term"
 #: include/ext/coprop/include/class_coprop_appel_fond.php:221
 #: include/class_acc_ledger.php:1452 include/class_acc_ledger.php:1707
 #: include/impress_gl_comptes.inc.php:215
+#: include/class_pre_op_advanced.php:199
+#: include/template/ledger_detail_misc.php:90
 msgid "Débit"
 msgstr "Debit"
 
@@ -2938,6 +2944,10 @@ msgstr "Purchase"
 #: include/database.item.php:180
 msgid "Dépense  charge du grant (partie privé) "
 msgstr "Expenditure charged to the grant (private party)"
+
+#: include/database.item.php:140
+msgid "Dépense  charge du gérant (partie privé) "
+msgstr "Expense charged to the grant (private part)"
 
 #: include/template/fiche_list.php:89
 msgid "Déplacer la sélection  vers"
@@ -3064,6 +3074,7 @@ msgid "Détail fiche"
 msgstr "Detailed sheet"
 
 #: html/ajax_card.php:504 html/ajax_card.php:505 html/ajax_card.php:556
+#: html/ajax_card.php:555
 msgid "Détail fiche (sauvée)"
 msgstr "Details of card (saved)"
 
@@ -3408,10 +3419,6 @@ msgstr "Error log this type is not yet supported"
 #: include/ajax_mod_periode.php:76
 msgid "Erreur date invalide"
 msgstr "Invalid Date"
-
-#: include/database.item.php:197
-msgid "Essai PhpCompta"
-msgstr ""
 
 #: include/template/forecast_result.php:36
 msgid "Estimé"
@@ -3913,6 +3920,10 @@ msgstr "Filter"
 msgid "Filtrer par "
 msgstr "Filter by"
 
+#: include/anc_od.inc.php:108
+msgid "Filtrer par période"
+msgstr "Filter per periode"
+
 #: include/balance.inc.php:109 include/balance.inc.php:110
 msgid "Filtré par catégorie"
 msgstr "Filter on category"
@@ -4217,6 +4228,7 @@ msgstr "Generate an invoice or upload a document"
 #: include/template/ledger_detail_ven.php:138
 #: include/template/ledger_detail_ach.php:134
 #: include/template/ledger_detail_ven.php:139
+#: include/template/ledger_detail_ven.php:136
 msgid "HTVA"
 msgstr "wo VAT"
 
@@ -4487,7 +4499,7 @@ msgstr "Print Great Ledger"
 #: include/database.item.php:112 include/database.item.php:115
 #: include/database.item.php:121
 msgid "Impression Journaux"
-msgstr "Newspapers Printing"
+msgstr "Ledger Printing"
 
 #: include/database.item.php:114 include/database.item.php:117
 #: include/database.item.php:123
@@ -4512,7 +4524,7 @@ msgstr "Print balance"
 #: include/database.item.php:112 include/database.item.php:115
 #: include/database.item.php:121
 msgid "Impression des journaux"
-msgstr "Printing of newspapers"
+msgstr "Ledger Printing"
 
 #: include/database.item.php:104 include/database.item.php:107
 #: include/database.item.php:113
@@ -4640,6 +4652,10 @@ msgstr "No existent ledger"
 #: include/class_acc_ledger.php:3406 include/class_acc_ledger.php:3433
 msgid "Journal n'existe pas"
 msgstr "The ledger does not exist"
+
+#: include/class_acc_operation.php:492
+msgid "Journal non trouvé"
+msgstr "Ledger not found"
 
 #: include/class_html_input.php:319
 msgid "Journaux"
@@ -4903,6 +4919,8 @@ msgstr "Reminder"
 #: include/class_acc_ledger_purchase.php:1770
 #: include/class_acc_ledger_sold.php:1339
 #: include/class_print_ledger_detail_item.php:60
+#: include/class_pre_op_advanced.php:197
+#: include/template/ledger_detail_misc.php:89
 #, php-format
 msgid "Libellé"
 msgstr "Label"
@@ -5330,6 +5348,7 @@ msgstr "Month"
 #: include/ac_common.php:1083
 #: include/ext/amortis/include/class_amortissement_material_pdf.php:38
 #: include/ext/amortis/include/class_amortissement_table_pdf.php:44
+#: include/class_pre_op_advanced.php:198
 msgid "Montant"
 msgstr "Amount"
 
@@ -5805,7 +5824,7 @@ msgstr "new entry"
 msgid "Nouvel extrait bancaire"
 msgstr "New bank statement"
 
-#: include/class_anc_key.php:335
+#: include/class_anc_key.php:335 include/class_anc_key.php:337
 msgid "Nouvelle clef"
 msgstr "New key"
 
@@ -6530,7 +6549,7 @@ msgstr "Several tax code match that rate"
 #: include/class_acc_ledger_purchase.php:1774
 #: include/class_acc_ledger_sold.php:1343 include/database.item.php:65
 #: include/database.item.php:81 include/database.item.php:71
-#: include/database.item.php:86
+#: include/database.item.php:86 include/class_pre_op_advanced.php:196
 msgid "Poste"
 msgstr "Account. Item"
 
@@ -6549,7 +6568,7 @@ msgstr "Post Charge"
 #: include/template/ledger_detail_bottom.php:82
 #: include/template/ledger_detail_fin.php:107
 #: include/template/ledger_detail_misc.php:88 include/database.item.php:164
-#: include/database.item.php:174
+#: include/database.item.php:174 include/template/ledger_detail_misc.php:87
 msgid "Poste Comptable"
 msgstr "Accounting item"
 
@@ -6743,6 +6762,7 @@ msgstr "Sale Price"
 #: include/template/operation_detail_ven.php:37
 #: include/template/ledger_detail_ven.php:130
 #: include/template/ledger_detail_ven.php:131
+#: include/template/ledger_detail_ven.php:128
 msgid "Prix/Un"
 msgstr "Price / unit"
 
@@ -6880,6 +6900,7 @@ msgstr "Code"
 #: include/template/ledger_detail_ven.php:131
 #: include/template/ledger_detail_ach.php:129
 #: include/template/ledger_detail_ven.php:132
+#: include/template/ledger_detail_ven.php:129
 msgid "Quantité"
 msgstr "Quantity"
 
@@ -6902,7 +6923,8 @@ msgstr "Quantity"
 #: include/template/ledger_detail_fin.php:108
 #: include/template/ledger_detail_misc.php:89
 #: include/template/ledger_detail_ven.php:129 include/database.item.php:153
-#: include/database.item.php:159
+#: include/database.item.php:159 include/template/ledger_detail_misc.php:88
+#: include/template/ledger_detail_ven.php:126
 msgid "Quick Code"
 msgstr "Quick Code"
 
@@ -6946,7 +6968,7 @@ msgstr "Warning: by default, the accounting item Will Be"
 #: include/database.item.php:63 include/ext/amortis/index.php:53
 #: include/database.item.php:66 include/database.item.php:72
 msgid "Rapport"
-msgstr "Postponement"
+msgstr "Reporting"
 
 #: include/database.item.php:56
 msgid "Rapport avance"
@@ -7476,6 +7498,7 @@ msgstr "TKPDF is not installed"
 #: include/template/ledger_detail_ven.php:140
 #: include/template/operation_detail_ach.php:54
 #: include/template/operation_detail_ven.php:46 include/database.item.php:11
+#: include/template/ledger_detail_ven.php:137
 msgid "TVA"
 msgstr "VAT"
 
@@ -7554,6 +7577,7 @@ msgstr "TVA Ded"
 #: include/class_print_ledger_detail_item.php:65
 #: include/template/operation_detail_ach.php:55
 #: include/template/operation_detail_ven.php:47
+#: include/template/ledger_detail_ven.php:138
 msgid "TVAC"
 msgstr "with VAT"
 
@@ -7606,7 +7630,7 @@ msgstr "Spleen"
 #: include/template/ledger_detail_ven.php:133
 #: include/template/ledger_detail_ach.php:123
 #: include/template/ledger_detail_ven.php:134 include/database.item.php:144
-#: include/database.item.php:150
+#: include/database.item.php:150 include/template/ledger_detail_ven.php:131
 msgid "Taux TVA"
 msgstr "VAT rate"
 
@@ -7698,6 +7722,8 @@ msgstr "Total VAT NP"
 #: include/template/operation_detail_ach.php:120
 #: include/template/operation_detail_ven.php:49
 #: include/template/operation_detail_ven.php:103
+#: include/template/ledger_detail_ven.php:140
+#: include/template/ledger_detail_ven.php:239
 msgid "Total"
 msgstr "Total"
 
@@ -7938,6 +7964,10 @@ msgstr "Type of card"
 #: include/template/param_jrn.php:78
 msgid "Type de journal"
 msgstr "Type of ledgers"
+
+#: include/ajax_save_predf_op.php:52
+msgid "Type de journal invalide"
+msgstr "Type of ledgers invalid"
 
 #: include/class_calendar.php:85
 msgid "Tâches"
@@ -9104,9 +9134,7 @@ msgstr "wiki"
 #, fuzzy
 #~ msgid ""
 #~ "Concerne tous les mouvements financiers (comptes en banque, caisses, "
-#~ "visa...).\r\n"
-#~ "\r\n"
-#~ "979-0657242-72"
+#~ "visa...)."
 #~ msgstr "Balance of bank accounts, cash ..."
 
 #~ msgid "Confirmez Cloture"
@@ -9220,9 +9248,6 @@ msgstr "wiki"
 
 #~ msgid "Historique : toutes les opérations"
 #~ msgstr "Historic : all operation"
-
-#~ msgid "ING"
-#~ msgstr "IN"
 
 #~ msgid "Immobilisé"
 #~ msgstr "Fixed asset"
@@ -9514,9 +9539,6 @@ msgstr "wiki"
 #~ msgstr "Concerned other"
 
 #, fuzzy
-#~ msgid "argenta internet"
-#~ msgstr "No internal"
-
 #~ msgid "chemin et nom de fichier"
 #~ msgstr "Path and name of the file"
 
