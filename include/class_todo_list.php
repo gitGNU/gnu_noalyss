@@ -185,7 +185,7 @@ class Todo_List
     {
         $sql="select tl_id, tl_title,tl_desc,to_char( tl_date,'DD.MM.YYYY') as str_tl_date,tl_date
              from todo_list where use_login=$1".
-             " order by tl_date::date asc";
+             " order by tl_date::date desc";
         $res=$this->cn->exec_sql(
                  $sql,
                  array($this->use_login));
