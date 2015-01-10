@@ -1525,7 +1525,7 @@ class Fiche
         $cc=new Acc_Parm_Code($this->cn,'COMPTE_COURANT');
         
         bcscale(4);
-        $str_dossier=dossier::get();
+        $gDossier=dossier::id();
         $p_search=sql_string($p_search);
         $script=$_SERVER['PHP_SELF'];
         // Creation of the nav bar
@@ -1564,7 +1564,7 @@ class Fiche
 
         if ( $all_tiers == 0 || count($step_tiers)==0 ) return "";
         $r="";
-        $r.=_("Filtre rapide ").HtmlInput::filter_table("tiers_tb", '0,1', 1);
+        $r.=_("Filtre rapide ").HtmlInput::filter_table("tiers_tb", '0,1,2', 1);
         $r.=$bar;
         
         $r.='<table  id="tiers_tb" class="sortable"  style="width:90%;margin-left:5%">
@@ -1604,8 +1604,9 @@ class Fiche
              $odd=' class="'.$odd.'"';
              
             $r.="<TR $odd>";
-            $e=sprintf('<A HREF="%s?ac=%s&sb=detail&f_id=%d&%s&sc=sv" title="Détail" class="line"> ',
-                       $script,$_REQUEST['ac'],$tiers->id,$str_dossier);
+            $url_detail=$script.'?'.http_build_query(array('sb'=>'detail','sc'=>'sv','ac'=>$_REQUEST['ac'],'f_id'=>$tiers->id,'gDossier'=>$gDossier));
+            $e=sprintf('<A HREF="%s" title="Détail" class="line"> ',
+                       $url_detail);
 
             $r.="<TD> $e".$tiers->strAttribut(ATTR_DEF_QUICKCODE)."</A></TD>";
             $r.="<TD> $e".$accounting."</TD>";
