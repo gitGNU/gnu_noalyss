@@ -45,7 +45,7 @@ global $g_user;
 $g_user=new User($cn);
 $g_user->Check();
 $g_user->check_dossier($gDossier);
-if ( isNumber($jr_grpt_id) != 0 ) die (_('Données invalides'));
+if ( isNumber($jr_grpt_id) != 1 ) die (_('Données invalides'));
 
 // retrieve the jrn
 $r=$cn->exec_sql("select jr_def_id from jrn where jr_grpt_id=$jr_grpt_id");
