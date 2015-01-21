@@ -141,6 +141,6 @@ echo td(_('Pièce')).td($itext->input());
 ?>
 </div>
 <?php 
-require_once('ledger_detail_bottom.php');
+require_once 'ledger_detail_bottom.php';
 ?>
 </div>
