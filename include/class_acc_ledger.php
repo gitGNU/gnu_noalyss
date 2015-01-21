@@ -2528,7 +2528,7 @@ class Acc_Ledger extends jrn_def_sql
                 
                 $bledger_param=  str_replace('"', "'", $bledger_param);
                 $bledger=new ISmallButton('l');
-                $bledger->label="choix des journaux";
+                $bledger->label=_("choix des journaux");
                 $bledger->javascript=" show_ledger_choice($bledger_param)";
                 $f_ledger=$bledger->input();
                 $hid_jrn="";
@@ -2839,8 +2839,17 @@ class Acc_Ledger extends jrn_def_sql
 				$amount_min > 0 &&
 				bccomp($amount_min, $amount_max, 2) == 0)
 		{
-			$fil_amount = $and . 'jr_grpt_id in  ( select distinct j_grpt from jrnx where j_montant = ' . $amount_min . ')';
-			$and = " and ";
+			 $fil_amount = $and . ' ( ';
+ 
+                        // Look in detail
+                       $fil_amount .= 'jr_grpt_id in ( select distinct j_grpt from jrnx where j_montant = ' . $amount_min . ') ';
+
+                       //and the total operation
+                       $fil_amount .= ' or ';
+                       $fil_amount .= ' jr_montant = '.$amount_min;
+
+                      $fil_amount .= ')';
+                      $and = " and ";
 		}
 		// date
 		if (isset($date_start) && isDate($date_start) != null)
