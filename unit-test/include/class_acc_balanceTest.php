@@ -39,7 +39,7 @@ class Acc_BalanceTest extends PHPUnit_Framework_TestCase
      */
     public function testGet_row()
     {
-        $this->object->get_row();
+        $this->object->get_row(1,200);
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
                 'DATA : cannot be tested'
