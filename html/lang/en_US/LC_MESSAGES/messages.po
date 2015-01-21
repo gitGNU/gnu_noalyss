@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS 672\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-03 16:36+0100\n"
-"PO-Revision-Date: 2015-01-03 16:43+0100\n"
+"POT-Creation-Date: 2015-01-21 20:35+0100\n"
+"PO-Revision-Date: 2015-01-21 20:36+0100\n"
 "Last-Translator: Dany De Bontridder <danydb@noalyss.eu>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
@@ -1366,6 +1366,7 @@ msgstr "Category"
 #: include/class_html_input.php:367
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:130
 #: include/class_html_input.php:368
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:132
 msgid "Catégorie"
 msgstr "Category"
 
@@ -1547,6 +1548,32 @@ msgstr "Path"
 #: include/fiche.inc.php:91
 msgid "Chercher"
 msgstr "Search"
+
+#: html/ajax_misc.php:209
+msgid "Choisissez la TVA "
+msgstr "Select the VAT"
+
+#: html/ajax_card.php:291
+msgid ""
+"Choisissez la catégorie de fiche à laquelle vous aimeriez ajouter une fiche"
+msgstr "Select the category of card"
+
+#: include/impress_rapport.inc.php:203
+msgid "Choisissez le rapport"
+msgstr "Select the report"
+
+#: include/ext/amortis/include/class_am_card.php:229
+msgid "Choisissez poste comptable ou fiche"
+msgstr "Select card or accounting "
+
+#: include/balance.inc.php:47 include/impress_bilan.inc.php:51
+#: include/impress_jrn.inc.php:86
+msgid "Choisissez un autre exercice"
+msgstr "Select another year"
+
+#: html/user_login.php:162
+msgid "Choisissez un dossier"
+msgstr "Select your folder"
 
 #: html/ajax_card.php:295
 msgid "Choisissez une catégorie svp"
@@ -2153,6 +2180,7 @@ msgstr "Consideration for expenditure from the manager"
 
 #: include/ext/invoicing/include/invoicing.inc.php:106
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:66
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:67
 msgid "Conversion en PDF"
 msgstr "PDF conversion"
 
@@ -2389,6 +2417,7 @@ msgstr "In the ledger"
 #: include/class_acc_ledger_purchase.php:1766
 #: include/class_acc_ledger_sold.php:1335
 #: include/class_print_ledger_detail_item.php:57 include/ac_common.php:1079
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:95
 msgid "Date"
 msgstr "Date"
 
@@ -2527,6 +2556,7 @@ msgid "Date paiement"
 msgstr "Payment date"
 
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:102
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:103
 msgid "Date rappel"
 msgstr "Reminder"
 
@@ -2789,6 +2819,10 @@ msgstr "Unknown member"
 #: include/class_fiche_def.php:767
 msgid "Données générales"
 msgstr "General paramaters"
+
+#: html/show_pj.php:48
+msgid "Données invalides"
+msgstr "Invalid data"
 
 #: include/ac_common.php:782 include/ac_common.php:783
 #: include/ac_common.php:784 include/ac_common.php:792
@@ -3256,6 +3290,7 @@ msgstr "E-mail"
 
 #: include/ext/invoicing/include/invoicing.inc.php:109
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:69
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:70
 msgid "Email envoyé par"
 msgstr "Email sent"
 
@@ -3382,11 +3417,13 @@ msgstr "Send by email"
 
 #: include/ext/invoicing/include/invoicing.inc.php:104
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:64
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:65
 msgid "Envoi uniquement à ceux ayant une adresse email et une facture"
 msgstr "Sending only those with an email address and an invoice"
 
 #: include/ext/invoicing/include/invoicing.inc.php:124
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:84
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:85
 msgid "Envoyer copie à l'expéditeur"
 msgstr "Send copy to sender"
 
@@ -3711,6 +3748,7 @@ msgid "Extrait de compte"
 msgstr "Bank receipt"
 
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:141
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:143
 msgid "Exécuter"
 msgstr "Execute"
 
@@ -3852,7 +3890,7 @@ msgstr "Queue"
 #: html/show_pj.php:82 include/ext/rapport_avance/raw.php:65
 #: include/ext/rapport_avance/raw.php:109
 #: include/ext/rapport_avance/raw.php:163
-#: include/ext/rapport_avance/raw.php:210
+#: include/ext/rapport_avance/raw.php:210 html/show_pj.php:83
 msgid "Fichier effacé"
 msgstr "Removed file"
 
@@ -4542,6 +4580,7 @@ msgid "Impression du grand livre"
 msgstr "Print great ledger"
 
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:87
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:88
 msgid "Inclure dans le suivi"
 msgstr "Save in follow up"
 
@@ -5148,6 +5187,7 @@ msgstr "Wednesday"
 #: include/ext/import_account/include/class_impacc_operation.php:259
 #: include/ext/invoicing/include/invoicing.inc.php:120
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:80
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:81
 msgid "Message"
 msgstr "Message"
 
@@ -6790,6 +6830,7 @@ msgstr "Products"
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:111
 #: include/template/action_search.php:113 include/database.item.php:80
 #: include/database.item.php:85
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:112
 msgid "Profil"
 msgstr "Profile"
 
@@ -7273,6 +7314,7 @@ msgid "Sauver"
 msgstr "Save"
 
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:89
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:90
 msgid "Sauver dans le suivi"
 msgstr "Save in follow up"
 
@@ -7452,6 +7494,7 @@ msgstr "Follow up supplier"
 
 #: include/ext/invoicing/include/invoicing.inc.php:115
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:75
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:76
 msgid "Sujet"
 msgstr "Topic"
 
@@ -7673,6 +7716,7 @@ msgstr "Tiers"
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:121
 #: include/template/detail-action.php:232
 #: include/template/detail-action.php:248
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:122
 msgid "Titre"
 msgstr "Title"
 

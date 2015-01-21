@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-03 16:36+0100\n"
+"POT-Creation-Date: 2015-01-21 20:35+0100\n"
 "PO-Revision-Date: 2014-02-21 21:35+0100\n"
 "Last-Translator: dany\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -1442,6 +1442,7 @@ msgstr "Categorie"
 #: include/class_html_input.php:367
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:130
 #: include/class_html_input.php:368
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:132
 msgid "Catégorie"
 msgstr "Categorie"
 
@@ -1639,6 +1640,38 @@ msgstr "Pad"
 #, fuzzy
 msgid "Chercher"
 msgstr "Vinden"
+
+#: html/ajax_misc.php:209
+#, fuzzy
+msgid "Choisissez la TVA "
+msgstr "Kiez UW map"
+
+#: html/ajax_card.php:291
+#, fuzzy
+msgid ""
+"Choisissez la catégorie de fiche à laquelle vous aimeriez ajouter une fiche"
+msgstr "Kies de categorie lijst waar u een record toe te voegen"
+
+#: include/impress_rapport.inc.php:203
+#, fuzzy
+msgid "Choisissez le rapport"
+msgstr "Kiez UW map"
+
+#: include/ext/amortis/include/class_am_card.php:229
+#, fuzzy
+msgid "Choisissez poste comptable ou fiche"
+msgstr "Rekening van ["
+
+#: include/balance.inc.php:47 include/impress_bilan.inc.php:51
+#: include/impress_jrn.inc.php:86
+#, fuzzy
+msgid "Choisissez un autre exercice"
+msgstr "Kies een jaar"
+
+#: html/user_login.php:162
+#, fuzzy
+msgid "Choisissez un dossier"
+msgstr "Kiez UW map"
 
 #: html/ajax_card.php:295
 #, fuzzy
@@ -2289,6 +2322,7 @@ msgstr "Tegenprestatie voor de uitgaven van de manager"
 
 #: include/ext/invoicing/include/invoicing.inc.php:106
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:66
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:67
 msgid "Conversion en PDF"
 msgstr "PDF-conversie"
 
@@ -2539,6 +2573,7 @@ msgstr "Zoals in Het boek"
 #: include/class_acc_ledger_purchase.php:1766
 #: include/class_acc_ledger_sold.php:1335
 #: include/class_print_ledger_detail_item.php:57 include/ac_common.php:1079
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:95
 msgid "Date"
 msgstr "Datum"
 
@@ -2687,6 +2722,7 @@ msgid "Date paiement"
 msgstr "Betaling"
 
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:102
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:103
 #, fuzzy
 msgid "Date rappel"
 msgstr "Datum herinnering voor"
@@ -2963,6 +2999,11 @@ msgstr ""
 #, fuzzy
 msgid "Données générales"
 msgstr "Algemeen Opties"
+
+#: html/show_pj.php:48
+#, fuzzy
+msgid "Données invalides"
+msgstr "is a Jaar ongeldig"
 
 #: include/ac_common.php:782 include/ac_common.php:783
 #: include/ac_common.php:784 include/ac_common.php:792
@@ -3456,6 +3497,7 @@ msgstr "E-mail"
 
 #: include/ext/invoicing/include/invoicing.inc.php:109
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:69
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:70
 #, fuzzy
 msgid "Email envoyé par"
 msgstr "Betaald deur"
@@ -3588,11 +3630,13 @@ msgstr "Verzenden per e-mail"
 
 #: include/ext/invoicing/include/invoicing.inc.php:104
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:64
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:65
 msgid "Envoi uniquement à ceux ayant une adresse email et une facture"
 msgstr "Het verzenden van alleen die met een e-mailadres en een factuur"
 
 #: include/ext/invoicing/include/invoicing.inc.php:124
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:84
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:85
 msgid "Envoyer copie à l'expéditeur"
 msgstr "Kopie naar afzender"
 
@@ -3628,10 +3672,6 @@ msgstr "Foutenlogboek dit type wordt nog niet ondersteund"
 #, fuzzy
 msgid "Erreur date invalide"
 msgstr "Verkeerd datum"
-
-#: include/database.item.php:197
-msgid "Essai PhpCompta"
-msgstr ""
 
 #: include/template/forecast_result.php:36
 msgid "Estimé"
@@ -3933,6 +3973,7 @@ msgid "Extrait de compte"
 msgstr "Rekeningoverzicht"
 
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:141
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:143
 msgid "Exécuter"
 msgstr ""
 
@@ -4079,7 +4120,7 @@ msgstr "Bestand"
 #: html/show_pj.php:82 include/ext/rapport_avance/raw.php:65
 #: include/ext/rapport_avance/raw.php:109
 #: include/ext/rapport_avance/raw.php:163
-#: include/ext/rapport_avance/raw.php:210
+#: include/ext/rapport_avance/raw.php:210 html/show_pj.php:83
 msgid "Fichier effacé"
 msgstr "Verwijderde bestand"
 
@@ -4808,6 +4849,7 @@ msgid "Impression du grand livre"
 msgstr "Het grootboek afdrukken"
 
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:87
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:88
 msgid "Inclure dans le suivi"
 msgstr ""
 
@@ -5441,6 +5483,7 @@ msgstr "Woensdag"
 #: include/ext/import_account/include/class_impacc_operation.php:259
 #: include/ext/invoicing/include/invoicing.inc.php:120
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:80
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:81
 msgid "Message"
 msgstr "Bericht"
 
@@ -7212,6 +7255,7 @@ msgstr "Producten"
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:111
 #: include/template/action_search.php:113 include/database.item.php:80
 #: include/database.item.php:85
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:112
 msgid "Profil"
 msgstr "Profiel"
 
@@ -7712,6 +7756,7 @@ msgid "Sauver"
 msgstr "OPSLAAN"
 
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:89
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:90
 msgid "Sauver dans le suivi"
 msgstr ""
 
@@ -7900,6 +7945,7 @@ msgstr "Leverancier controle"
 
 #: include/ext/invoicing/include/invoicing.inc.php:115
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:75
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:76
 msgid "Sujet"
 msgstr "Onderwerp"
 
@@ -8129,6 +8175,7 @@ msgstr "Archief"
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:121
 #: include/template/detail-action.php:232
 #: include/template/detail-action.php:248
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:122
 msgid "Titre"
 msgstr "Titel"
 
