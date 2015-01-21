@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS 672\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-21 20:46+0100\n"
-"PO-Revision-Date: 2015-01-21 20:53+0100\n"
+"POT-Creation-Date: 2015-01-21 20:56+0100\n"
+"PO-Revision-Date: 2015-01-21 20:59+0100\n"
 "Last-Translator: Dany De Bontridder <danydb@noalyss.eu>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
@@ -4325,7 +4325,7 @@ msgstr "Lettered history and different Amounts"
 #: include/database.item.php:60 include/database.item.php:63
 #: include/database.item.php:69
 msgid "Historique achat"
-msgstr "Buy log"
+msgstr "Historical purchase"
 
 #: include/ext/coprop/index.php:47
 msgid "Historique des appels"
@@ -7240,6 +7240,7 @@ msgstr "Key distribution"
 #: include/ext/rapport_avance/ajax_send_mail.php:10 include/audit_log.php:40
 #: include/ext/rapport_avance/ajax_send_mail.php:13
 #: include/verif_bilan.inc.php:116 include/verif_bilan.inc.php:177
+#: include/ext/rapport_avance/ajax_include_follow_save.php:11
 msgid "Résultat"
 msgstr "Result"
 

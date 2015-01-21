@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-21 20:46+0100\n"
+"POT-Creation-Date: 2015-01-21 20:56+0100\n"
 "PO-Revision-Date: 2014-02-21 21:35+0100\n"
 "Last-Translator: dany\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -7680,6 +7680,7 @@ msgstr "Key distribution"
 #: include/ext/rapport_avance/ajax_send_mail.php:10 include/audit_log.php:40
 #: include/ext/rapport_avance/ajax_send_mail.php:13
 #: include/verif_bilan.inc.php:116 include/verif_bilan.inc.php:177
+#: include/ext/rapport_avance/ajax_include_follow_save.php:11
 msgid "Résultat"
 msgstr "Resultaat"
 
