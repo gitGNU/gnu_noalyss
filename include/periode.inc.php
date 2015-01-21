@@ -137,7 +137,7 @@ else
     $wSel=new ISelect();
     $wSel->value=$sel_jrn;
     $wSel->name='jrn_def_id';
-    echo "Choississez global ou uniquement le journal à fermer".$wSel->input();
+    echo "Choisissez global ou uniquement le journal à fermer".$wSel->input();
     echo   HtmlInput::submit('choose','Valider');
     echo HtmlInput::hidden('ac',$_REQUEST['ac']);
     echo "</form>";

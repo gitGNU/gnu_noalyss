@@ -206,7 +206,7 @@ EOF;
 		$Max = Database::num_row($Res);
 		$r = "";
 		$r = HtmlInput::anchor_close('tva_select');
-		$r.=h2(_('Choississez la TVA '),'class="title"');
+		$r.=h2(_('Choisissez la TVA '),'class="title"');
 		$r.='<div >';
 		$r.= '<TABLE style="width:100%">';
 		$r.=th('');

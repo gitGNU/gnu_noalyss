@@ -46,7 +46,7 @@ $sel->value=$cn->make_array("select jrn_def_id,jrn_def_name from ".
                             " jrn_def where jrn_def_type in ('VEN','ACH','ODS') order by jrn_def_name");
 // Show a list of ledger
 $sel->selected=$request_jrn;
-echo 'Choississez un journal '.$sel->input();
+echo 'Choisissez un journal '.$sel->input();
 
 echo dossier::hidden();
 $hid=new IHidden();

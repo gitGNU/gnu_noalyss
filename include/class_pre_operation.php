@@ -277,7 +277,7 @@ class Pre_operation_detail
         if ( $this->jrn_def_id=='') $value=array();
         
         $r="";
-        $r.='<h2>Choississez un modèle</h2>';
+        $r.='<h2>Choisissez un modèle</h2>';
         $r.='Filtrer '.HtmlInput::filter_table('modele_op_tab', '0', '0');
         $r.='<table style="width:100%" id="modele_op_tab">';
         for ($i=0;$i<count($value);$i++) {

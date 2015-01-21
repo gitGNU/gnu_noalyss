@@ -102,7 +102,7 @@ if ($sa == '')
         
 	echo '<h1 class="legend"> Etape 1 </h1>';
 
-	echo 'Choississez le dossier où sont les soldes à importer';
+	echo 'Choisissez le dossier où sont les soldes à importer';
 	$avail = $g_user->get_available_folder();
 
 	if (empty($avail))
@@ -144,7 +144,7 @@ if ($sa == 'step2')
 	'<div><h1 class="legend">Etape 2</h1>' .
 	'<h2 class="info">' . dossier::name($_REQUEST['f']) . '</h2>' .
 	'<form class="print" method="post">' .
-	' Choississez l\'exercice du dossier ';
+	' Choisissez l\'exercice du dossier ';
 	echo dossier::hidden();
 	echo HtmlInput::hidden('ac', $_REQUEST['ac']);
 	echo HtmlInput::hidden('sa', 'step3');
@@ -173,7 +173,7 @@ if ($sa == 'step3')
 	'<div><h1 class="legend">Etape 3</h1>' .
 	'<h2 class="info">' . dossier::name($_REQUEST['f']) . '</h2>' .
 	'<form class="print" method="post">' .
-	' Choississez le journal qui contiendra l\'opération d\'ouverture ';
+	' Choisissez le journal qui contiendra l\'opération d\'ouverture ';
 	echo dossier::hidden();
 	echo HtmlInput::hidden('p_action', 'ouv');
 	echo HtmlInput::hidden('sa', 'step4');

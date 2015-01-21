@@ -62,15 +62,15 @@ $w->set_attribute('label','poste_id_label');
 $w->set_attribute('account','poste_id');
 $w->table=0;
 $w->value=(isset($_REQUEST['poste_id']))?$_REQUEST['poste_id']:"";
-$w->label="Choississez le poste";
-print td('Choississez un poste ').td($w->input());
+$w->label="Choisissez le poste";
+print td('Choisissez un poste ').td($w->input());
 echo td($span->input('poste_id_label'));
 echo '</tr><tr>';
 
 $w_poste=new ICard('f_id');
 $w_poste->table=0;
 $w_poste->jrn=0;
-echo td("Ou choississez la fiche");
+echo td("Ou Choisissez la fiche");
 $w_poste->set_attribute('label','f_id_label');
 $w_poste->set_attribute('ipopup','ipop_card');
 $w_poste->set_attribute('gDossier',dossier::id());

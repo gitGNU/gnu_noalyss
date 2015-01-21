@@ -181,7 +181,7 @@ $exercice=(isset($_GET['exercice']))?$_GET['exercice']:$g_user->get_exercice();
  */
 echo '<fieldset><legend>'._('Exercice').'</legend>';;
 echo '<form method="GET">';
-echo 'Choississez un autre exercice :';
+echo 'Choisissez un autre exercice :';
 $ex=new Exercice($cn);
 $wex=$ex->select('exercice',$exercice,' onchange="submit(this)"');
 echo $wex->input();
@@ -200,7 +200,7 @@ echo 	dossier::hidden();
 echo '<TABLE><TR>';
 $w=new ISelect();
 $w->table=1;
-print td(_("Choississez le rapport"));
+print td(_("Choisissez le rapport"));
 print $w->input("form_id",$ret);
 print '</TR>';
 //-- calendrier ou periode comptable

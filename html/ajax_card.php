@@ -288,7 +288,7 @@ case 'st':
     {
         $r='';
 	$r.='<p  style="padding-left:2em">';
-        $r.=_("Choississez la catégorie de fiche à laquelle vous aimeriez ajouter une fiche").'</p>';
+        $r.=_("Choisissez la catégorie de fiche à laquelle vous aimeriez ajouter une fiche").'</p>';
         
 	$r.='<div style="text-align:center">';
         
