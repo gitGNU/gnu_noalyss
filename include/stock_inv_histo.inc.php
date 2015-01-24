@@ -25,6 +25,8 @@
  *
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
+require_once 'class_exercice.php';
+
 if ( isset($_POST['del']))
 {
 	if (isset($_POST['ok']))
@@ -35,38 +37,51 @@ if ( isset($_POST['del']))
 		}
 		else
 		{
-			alert("Vous ne pouvez pas modifier ce dépôt");
+			alert(_("Vous ne pouvez pas modifier ce dépôt"));
 		}
 	}
 	else
 	{
-		alert("Opération non effacée: vous n'avez pas confirmé");
+		alert(_("Opération non effacée: vous n'avez pas confirmé"));
 	}
 }
 $profile=$g_user->get_profile();
+$gDossier=dossier::id();
+$default_exercice=$g_user->get_exercice();
+$p_exercice=HtmlInput::default_value_get("p_exercice", $default_exercice);
+
 $a_change=$cn->get_array("select *,to_char(c_date,'DD.MM.YY') as str_date from stock_change as sc
 			join stock_repository as sr on (sc.r_id=sr.r_id)
-			where sc.r_id in (select r_id from profile_sec_repository where p_id=$profile)
-		order by c_date");
-$gDossier=dossier::id();
+			where sc.r_id in (select r_id from profile_sec_repository where p_id=$1)
+                         and c_date >= (select min(p_start) from parm_periode where p_exercice = $2)
+                        and c_date <= (select max(p_end) from parm_periode where p_exercice = $2)
+		order by c_date",array($profile,$p_exercice));
+
+
+$exercice=new Exercice($cn);
 ?>
 <div class="content">
+    <form method="get" class="print">
+      <?php echo HtmlInput::get_to_hidden(array('gDossier','ac',));?>
+      <?php echo $exercice->select('p_exercice',$p_exercice)->input();?>
+      <?php echo HtmlInput::submit("filter", _('Valider')); ?>
+    </form>
 <table class="result">
 	<tr>
 
 		<th>
-			Date
+			<?php echo _('Date')?>
 		</th>
 		<th>
-			Commentaire
+			<?php echo _('Commentaire')?>
 		</th>
 		<th>
-			Dépot
+			<?php echo _('Dépot')?>
 		</th>
 		<th>
-			Utilisateur
+			<?php echo _('Utilisateur') ?>
 		</th>
-			<th>
+		<th>
 
 		</th>
 	</tr>
@@ -87,7 +102,7 @@ $gDossier=dossier::id();
 			<?php echo $a_change[$e]['tech_user']?>
 		</td>
 		<td>
-			<?php echo HtmlInput::anchor("Détail","javascript:void()",sprintf("onclick=\"stock_inv_detail('%s','%s')\"",$gDossier,$a_change[$e]['c_id']));?>
+			<?php echo HtmlInput::anchor(_("Détail"),"javascript:void()",sprintf("onclick=\"stock_inv_detail('%s','%s')\"",$gDossier,$a_change[$e]['c_id']));?>
 		</td>
 
 	</tr>
