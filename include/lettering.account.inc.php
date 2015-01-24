@@ -32,7 +32,6 @@ echo '<FORM METHOD="GET">';
 echo dossier::hidden();
 echo HtmlInput::hidden('ac',$_REQUEST['ac']);
 echo HtmlInput::hidden('sa','poste');
-echo '<table width="50%">';
 
 $poste=new IPoste();
 $poste->name="acc";
@@ -42,11 +41,20 @@ $poste->set_attribute('gDossier',dossier::id());
 $poste->set_attribute('ipopup','ipop_account');
 $poste->set_attribute('label','account_label');
 $poste->set_attribute('account','acc');
-if (isset($_GET['acc'])) $poste->value=$_GET['acc'];
+$acc_lib="";
+if (isset($_GET['acc'])) { 
+    $poste->value=$_GET['acc']; 
+    $acc_lib=$cn->get_value('select pcm_lib from tmp_pcmn where pcm_val=upper($1)',array($poste->value));
+}
+
 $poste_span=new ISpan('account_label');
+$poste_span->value=$acc_lib;
+
 $r= td(_('Lettrage pour le poste comptable ')).
     td($poste->input()).
     td($poste_span->input());
+
+echo '<table width="50%">';
 echo tr($r);
 // limit of the year
 $exercice=$g_user->get_exercice();
