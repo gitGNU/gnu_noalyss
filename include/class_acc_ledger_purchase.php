@@ -1612,19 +1612,11 @@ EOF;
             $r.=HtmlInput::hidden("e_quant".$i,${"e_quant".$i});
 
         }
-	
-	// Show the available repository
-        if ($g_parameter->MY_STOCK == 'Y') {
-            $sel = HtmlInput::select_stock($this->db, 'repo', 'W');
-            $sel->readOnly = $p_summary;
-            if ($p_summary == true)
-                $sel->selected = $repo;
-            $r.='<h2>Dépôt</h2>';
-            $r.="<p class=\"decale\"> Dans le dépôt : ";
-            $r.=$sel->input();
-            $r.='</p>';
-        }
-	if ( $e_mp!=0 && strlen (trim (${'e_mp_qcode_'.$e_mp})) != 0 )
+
+        /**
+         * 
+         */
+        if ( $e_mp!=0 && strlen (trim (${'e_mp_qcode_'.$e_mp})) != 0 )
         {
             $r.=HtmlInput::hidden('e_mp_qcode_'.$e_mp,${'e_mp_qcode_'.$e_mp});
             $r.=HtmlInput::hidden('acompte',$acompte);
@@ -1633,12 +1625,7 @@ EOF;
            $r.=HtmlInput::hidden('qcode_benef', ${'e_mp_qcode_' . $e_mp});
 			$fname = new Fiche($this->db);
 			$fname->get_by_qcode(${'e_mp_qcode_' . $e_mp});
-			/*$r.="<div style=\"clear:both\"></div>";
-			$r.='<div style="float:left"><h2 class="info">' . "Payé par " . ${'e_mp_qcode_' . $e_mp} .
-					" ".$fname->getName() ."</h2> ".
-					'<p>'._('Déduction acompte ').h($acompte).'</p>'.
-					_('Libellé :' ).h($e_comm_paiement).'</div>';*/
-            $r.='<h2>' . "Payé par " . ${'e_mp_qcode_' . $e_mp} .
+            $r.='<h2>' . _("Payé par")." " . ${'e_mp_qcode_' . $e_mp} .
                     " " . $fname->getName() . '</h2> ' . '<p class="decale">' . _('Déduction acompte ') . h($acompte) . '</p>' .
                     _('Libellé :') . h($e_comm_paiement) ;
             $r.='<br>';
