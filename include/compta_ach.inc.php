@@ -145,7 +145,7 @@ if (isset($_POST['record']))
 		/* Show button  */
 		$jr_id = $cn->get_value('select jr_id from jrn where jr_internal=$1', array($internal));
 
-		echo '<h1> Enregistrement </h1>';
+		echo '<h1> '._('Enregistrement').' </h1>';
 		/* Save the additional information into jrn_info */
 		$obj = new Acc_Ledger_Info($cn);
 		$obj->save_extra($Ledger->jr_id, $_POST);
@@ -154,7 +154,7 @@ if (isset($_POST['record']))
 		echo $Ledger->confirm($_POST, true);
 		if (isset($Ledger->doc))
 		{
-                     echo '<h2>Document</h2>';
+                     echo '<h2>'._('Document').'</h2>';
                      echo $Ledger->doc;
 		}
                 echo $Ledger->button_new_operation();
