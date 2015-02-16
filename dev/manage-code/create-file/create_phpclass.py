@@ -55,13 +55,13 @@ Example
 
 @endcode
  */
-require_once('class_phpcompta_sql.php');
+require_once('class_noalyss_sql.php');
 
 
 /**
  *@brief Manage the table @table@
 */
-class @class_name@ extends Phpcompta_SQL
+class @class_name@ extends Noalyss_SQL
 {
 	@vars@
   /* example private $variable=array("easy_name"=>column_name,"email"=>"column_name_email","val3"=>0); */
