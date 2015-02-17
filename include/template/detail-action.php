@@ -405,7 +405,7 @@ function toggleShowDetail() {
 <?php endif; ?>
 </div>
 <?php endif; ?>
-</div>
+
 <div style="clear:both"></div>    
 <?php if ($p_view != 'READ' && $str_select_doc != '') : ?>
 <div id="div_generate_document" class="noprint" style="display:none" >
@@ -476,7 +476,7 @@ function addFiles() {
 try {
 	docAdded=document.getElementById('add_file');
 	new_element=document.createElement('li');
-	new_element.innerHTML='<input class="inp" type="file" value="" name="file_upload[]"/><br><label>Description</label><input type="input" class="input_text" name="input_desc[]" >';
+	new_element.innerHTML='<input class="inp" type="file" value="" name="file_upload[]"/><label>Description</label> <input type="input" class="input_text" name="input_desc[]" >';
 	docAdded.appendChild(new_element);
 }
 catch(exception) { alert('<?php echo j(_('Je ne peux pas ajouter de fichier'))?>'); alert(exception.message);}
