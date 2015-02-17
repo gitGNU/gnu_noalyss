@@ -68,7 +68,7 @@ define ("LOGINPUT",true);
 
 
 
-define ('SVNINFO',6800);
+define ('SVNINFO',6801);
 define ("DEBUG",false);
 define ("LOGINPUT",false);
 
