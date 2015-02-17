@@ -81,9 +81,9 @@ function compute_total_table(p_table, seq)
         var col = document.getElementsByName("val[" + seq + "][]");
         for (i = 0; i < col.length; i++)
         {
-            // here is the problem
-            tot += parseFloat(col[i].value);
-
+            if ( $(p_table).contains(col[i])) {
+                tot += parseFloat(col[i].value);
+            }
         }
         return tot;
     }
