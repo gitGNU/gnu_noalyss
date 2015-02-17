@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS 672\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-21 20:56+0100\n"
+"POT-Creation-Date: 2015-01-24 17:23+0100\n"
 "PO-Revision-Date: 2015-01-21 20:59+0100\n"
 "Last-Translator: Dany De Bontridder <danydb@noalyss.eu>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -427,6 +427,11 @@ msgstr "Administrator"
 msgid "Administration"
 msgstr "Administration"
 
+#: html/admin_repo.php:42
+#, fuzzy
+msgid "Administration Globale"
+msgstr "Global Parameter"
+
 #: include/class_fiche.php:1570 include/stock_cfg.inc.php:66
 #: include/ajax_mod_stock_repo.php:47 include/audit_log.php:38
 #: include/template/stock_summary_list.php:39 include/class_fiche.php:1575
@@ -648,6 +653,7 @@ msgstr "Bookmark the current menu"
 #: include/class_acc_ledger_sold.php:919
 #: include/class_acc_ledger_purchase.php:1666
 #: include/class_acc_ledger_sold.php:920
+#: include/class_acc_ledger_purchase.php:1653
 msgid "Ajoutez une pièce justificative "
 msgstr "Add a receipt"
 
@@ -1137,6 +1143,7 @@ msgstr "Other info"
 #: include/class_acc_ledger_sold.php:937
 #: include/class_acc_ledger_purchase.php:1684
 #: include/class_acc_ledger_sold.php:938
+#: include/class_acc_ledger_purchase.php:1671
 msgid "Autre information : "
 msgstr "Other info"
 
@@ -1787,6 +1794,7 @@ msgstr "Internal code"
 #: include/class_acc_ledger_sold.php:1344
 #: include/class_acc_ledger_purchase.php:1776
 #: include/class_acc_ledger_sold.php:1345
+#: include/class_acc_ledger_purchase.php:1763
 msgid "Code Item"
 msgstr "Code"
 
@@ -1821,6 +1829,7 @@ msgstr "Stock"
 #: include/class_acc_ledger_purchase.php:1786
 #: include/class_acc_ledger_sold.php:1355
 #: include/template/detail-action.php:337
+#: include/class_acc_ledger_purchase.php:1773
 msgid "Code TVA"
 msgstr "VAT Code"
 
@@ -1845,6 +1854,7 @@ msgstr "Menu code"
 #: include/class_acc_ledger_sold.php:1349
 #: include/class_acc_ledger_purchase.php:1781
 #: include/class_acc_ledger_sold.php:1350
+#: include/class_acc_ledger_purchase.php:1768
 msgid "Code fournisseur"
 msgstr "Dealer code"
 
@@ -1867,6 +1877,7 @@ msgstr "Invalid code"
 #: include/class_acc_ledger_sold.php:1341
 #: include/class_acc_ledger_purchase.php:1773
 #: include/class_acc_ledger_sold.php:1342
+#: include/class_acc_ledger_purchase.php:1760
 msgid "Code journal"
 msgstr "Ledger code"
 
@@ -1904,6 +1915,8 @@ msgstr "How"
 #: include/class_acc_ledger_purchase.php:1775
 #: include/class_acc_ledger_sold.php:1344
 #: include/template/detail-action.php:260
+#: include/class_acc_ledger_purchase.php:1762
+#: include/stock_inv_histo.inc.php:76
 msgid "Commentaire"
 msgstr "How"
 
@@ -1918,6 +1931,7 @@ msgstr "Comment"
 #: include/class_acc_ledger_sold.php:1351
 #: include/class_acc_ledger_purchase.php:1783
 #: include/class_acc_ledger_sold.php:1352
+#: include/class_acc_ledger_purchase.php:1770
 msgid "Commentaire TVA"
 msgstr "Comment VAT"
 
@@ -2425,6 +2439,8 @@ msgstr "In the ledger"
 #: include/class_acc_ledger_sold.php:1335
 #: include/class_print_ledger_detail_item.php:57 include/ac_common.php:1079
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:95
+#: include/class_acc_ledger_purchase.php:1753
+#: include/stock_inv_histo.inc.php:73
 msgid "Date"
 msgstr "Date"
 
@@ -2491,7 +2507,7 @@ msgstr "Reminder before"
 #: include/lettering.card.inc.php:69 include/lettering.gestion.inc.php:28
 #: include/ext/tools/include/export_operation.inc.php:32
 #: include/lettering.gestion.inc.php:27 include/database.item.php:142
-#: include/database.item.php:148
+#: include/database.item.php:148 include/lettering.account.inc.php:73
 msgid "Date début"
 msgstr "Start date"
 
@@ -2507,7 +2523,7 @@ msgstr "Date and period do not match"
 #: include/lettering.account.inc.php:77 include/lettering.card.inc.php:82
 #: include/lettering.gestion.inc.php:34
 #: include/ext/tools/include/export_operation.inc.php:33
-#: include/lettering.gestion.inc.php:33
+#: include/lettering.gestion.inc.php:33 include/lettering.account.inc.php:85
 msgid "Date fin"
 msgstr "End date"
 
@@ -2543,7 +2559,8 @@ msgstr "Date malformed"
 #: include/lettering.account.inc.php:59 include/lettering.account.inc.php:72
 #: include/lettering.account.inc.php:116 include/lettering.card.inc.php:62
 #: include/lettering.card.inc.php:76 include/lettering.gestion.inc.php:74
-#: include/lettering.gestion.inc.php:73
+#: include/lettering.gestion.inc.php:73 include/lettering.account.inc.php:67
+#: include/lettering.account.inc.php:80 include/lettering.account.inc.php:124
 msgid "Date malformée, désolé"
 msgstr "Wrong time sorry"
 
@@ -2559,6 +2576,7 @@ msgstr "Wrong time sorry"
 #: include/template/ledger_detail_ven.php:45
 #: include/class_acc_ledger_purchase.php:1767
 #: include/class_acc_ledger_sold.php:1336
+#: include/class_acc_ledger_purchase.php:1754
 msgid "Date paiement"
 msgstr "Payment date"
 
@@ -2574,6 +2592,7 @@ msgstr "Reminder"
 #: include/class_acc_ledger_sold.php:1336
 #: include/class_acc_ledger_purchase.php:1768
 #: include/class_acc_ledger_sold.php:1337
+#: include/class_acc_ledger_purchase.php:1755
 msgid "Date échéance"
 msgstr " Limit Date"
 
@@ -2778,7 +2797,7 @@ msgstr "Miscelleanous"
 #: include/class_acc_ledger.php:871
 #: include/template/ledger_detail_bottom.php:34
 #: include/class_acc_ledger.php:872 include/database.item.php:90
-#: include/database.item.php:95
+#: include/database.item.php:95 include/compta_ach.inc.php:157
 msgid "Document"
 msgstr "Document"
 
@@ -2950,6 +2969,7 @@ msgstr "Logout"
 #: include/class_acc_ledger_sold.php:886
 #: include/class_acc_ledger_purchase.php:1642
 #: include/class_acc_ledger_sold.php:887
+#: include/class_acc_ledger_purchase.php:1629
 msgid "Déduction acompte "
 msgstr "Amount already paid"
 
@@ -2996,6 +3016,7 @@ msgstr "Move selection to"
 
 #: include/template/profile_sec_repository.php:35
 #: include/template/stock_inv.php:42 include/template/stock_inv.php:116
+#: include/stock_inv_histo.inc.php:79
 msgid "Dépot"
 msgstr "Warehouse"
 
@@ -3045,7 +3066,7 @@ msgstr "Sorry the box is not checked"
 #: include/template/ledger_detail_fin.php:98
 #: include/template/ledger_detail_misc.php:80
 #: include/template/ledger_detail_ven.php:122
-#: include/template/detail-action.php:319
+#: include/template/detail-action.php:319 include/stock_inv_histo.inc.php:105
 msgid "Détail"
 msgstr "Detail"
 
@@ -3151,6 +3172,7 @@ msgstr "Limit Date"
 #: include/class_acc_ledger_sold.php:968
 #: include/class_acc_ledger_purchase.php:1716
 #: include/class_acc_ledger_sold.php:969
+#: include/class_acc_ledger_purchase.php:1703
 msgid "Echeance dépassée"
 msgstr "Missed deadline"
 
@@ -3365,6 +3387,7 @@ msgstr "Record"
 #: include/compta_ach.inc.php:77 include/compta_fin.inc.php:114
 #: include/compta_ven.inc.php:86 include/compta_ach.inc.php:94
 #: include/compta_fin.inc.php:116 include/compta_ven.inc.php:103
+#: include/compta_ach.inc.php:148
 msgid "Enregistrement"
 msgstr "Record"
 
@@ -4287,6 +4310,7 @@ msgstr "wo VAT"
 #: include/class_acc_ledger_sold.php:1359
 #: include/class_acc_ledger_purchase.php:1794
 #: include/class_acc_ledger_sold.php:1360
+#: include/class_acc_ledger_purchase.php:1781
 msgid "HTVA Opération"
 msgstr "Operation without tax"
 
@@ -4648,6 +4672,7 @@ msgstr "Internal"
 #: include/class_acc_ledger_sold.php:1340 include/class_anc_grandlivre.php:195
 #: include/fiche.inc.php:446 include/class_acc_ledger_purchase.php:1772
 #: include/class_acc_ledger_sold.php:1341
+#: include/class_acc_ledger_purchase.php:1759
 msgid "Interne"
 msgstr "Internal"
 
@@ -4914,7 +4939,7 @@ msgstr "Lettering by card"
 msgid "Lettrage pour la fiche "
 msgstr "Lettering for the card"
 
-#: include/lettering.account.inc.php:47
+#: include/lettering.account.inc.php:47 include/lettering.account.inc.php:53
 msgid "Lettrage pour le poste comptable "
 msgstr "Lettering for the accounting"
 
@@ -4973,6 +4998,7 @@ msgstr "Reminder"
 #: include/class_print_ledger_detail_item.php:60
 #: include/class_pre_op_advanced.php:197
 #: include/template/ledger_detail_misc.php:89
+#: include/class_acc_ledger_purchase.php:1757
 #, php-format
 msgid "Libellé"
 msgstr "Label"
@@ -4983,6 +5009,7 @@ msgstr "Label"
 #: include/class_acc_ledger_sold.php:887
 #: include/class_acc_ledger_purchase.php:1643
 #: include/class_acc_ledger_sold.php:888
+#: include/class_acc_ledger_purchase.php:1630
 msgid "Libellé :"
 msgstr "Follows:"
 
@@ -5239,6 +5266,7 @@ msgstr "Update plugin, could you check the parameter setting?"
 #: include/class_acc_ledger_sold.php:979 include/history_operation.inc.php:133
 #: include/class_acc_ledger_purchase.php:1727
 #: include/class_acc_ledger_sold.php:980
+#: include/class_acc_ledger_purchase.php:1714
 msgid "Mise à jour paiement"
 msgstr "Update payment"
 
@@ -5432,6 +5460,7 @@ msgstr "Initial amount"
 #: include/class_acc_ledger_purchase.php:1753
 #: include/class_acc_ledger_purchase.php:1785
 #: include/class_acc_ledger_purchase.php:1791
+#: include/class_acc_ledger_purchase.php:1778
 msgid "Montant ND"
 msgstr "Amount ND"
 
@@ -5452,12 +5481,14 @@ msgstr "Amount ND"
 #: include/class_acc_ledger_purchase.php:1787
 #: include/class_acc_ledger_sold.php:1356
 #: include/template/detail-action.php:338
+#: include/class_acc_ledger_purchase.php:1774
 msgid "Montant TVA"
 msgstr "VAT Amount"
 
 #: include/class_acc_ledger_purchase.php:1754
 #: include/class_acc_ledger_purchase.php:1786
 #: include/class_acc_ledger_purchase.php:1792
+#: include/class_acc_ledger_purchase.php:1779
 msgid "Montant TVA ND"
 msgstr "VAT Amount"
 
@@ -5679,6 +5710,7 @@ msgstr "Name"
 #: include/class_acc_ledger_sold.php:1350
 #: include/class_acc_ledger_purchase.php:1782
 #: include/class_acc_ledger_sold.php:1351
+#: include/class_acc_ledger_purchase.php:1769
 msgid "Nom TVA"
 msgstr "Label VAT"
 
@@ -5710,6 +5742,7 @@ msgstr "Folder name"
 #: include/class_acc_ledger_sold.php:1346
 #: include/class_acc_ledger_purchase.php:1778
 #: include/class_acc_ledger_sold.php:1347
+#: include/class_acc_ledger_purchase.php:1765
 msgid "Nom fiche"
 msgstr "From card"
 
@@ -5720,6 +5753,7 @@ msgstr "From card"
 #: include/class_acc_ledger_sold.php:1348
 #: include/class_acc_ledger_purchase.php:1780
 #: include/class_acc_ledger_sold.php:1349
+#: include/class_acc_ledger_purchase.php:1767
 msgid "Nom fournisseur"
 msgstr "Dealer name"
 
@@ -5802,6 +5836,7 @@ msgstr "Not Deductible from Tax"
 #: include/class_acc_ledger_sold.php:970
 #: include/class_acc_ledger_purchase.php:1718
 #: include/class_acc_ledger_sold.php:971
+#: include/class_acc_ledger_purchase.php:1705
 msgid "Non Payée"
 msgstr "Not paid"
 
@@ -5924,6 +5959,7 @@ msgstr "Internal number"
 #: include/class_acc_ledger_sold.php:936
 #: include/class_acc_ledger_purchase.php:1683
 #: include/class_acc_ledger_sold.php:937
+#: include/class_acc_ledger_purchase.php:1670
 msgid "Numero de bon de commande : "
 msgstr "Number of ordering"
 
@@ -6002,6 +6038,7 @@ msgstr "Internal number"
 #: include/class_acc_ledger_sold.php:1333
 #: include/class_acc_ledger_purchase.php:1765
 #: include/class_acc_ledger_sold.php:1334
+#: include/class_acc_ledger_purchase.php:1752
 msgid "Numéro opération"
 msgstr "Operation #"
 
@@ -6028,6 +6065,7 @@ msgstr "Document No."
 #: include/class_acc_ledger_sold.php:1345
 #: include/class_acc_ledger_purchase.php:1777
 #: include/class_acc_ledger_sold.php:1346
+#: include/class_acc_ledger_purchase.php:1764
 msgid "N° fiche"
 msgstr "# Card"
 
@@ -6038,6 +6076,7 @@ msgstr "# Card"
 #: include/class_acc_ledger_sold.php:1347
 #: include/class_acc_ledger_purchase.php:1779
 #: include/class_acc_ledger_sold.php:1348
+#: include/class_acc_ledger_purchase.php:1766
 msgid "N° fiche fournisseur"
 msgstr "# dealer card"
 
@@ -6148,6 +6187,10 @@ msgstr "Operation already transferred: duplicate"
 msgid "Opération extournée"
 msgstr "Reversed accounting"
 
+#: include/stock_inv_histo.inc.php:45
+msgid "Opération non effacée: vous n'avez pas confirmé"
+msgstr ""
+
 #: html/ajax_ledger.php:498 include/anc_od.inc.php:122
 #: include/ext/modop/modop_save.php:80 include/ext/modop/modop_save.php:162
 #: include/ext/amortis/include/am_generate.inc.php:76 html/ajax_ledger.php:522
@@ -6180,6 +6223,7 @@ msgstr "Various operations"
 
 #: include/lettering.account.inc.php:87 include/lettering.card.inc.php:92
 #: include/lettering.gestion.inc.php:43 include/lettering.gestion.inc.php:42
+#: include/lettering.account.inc.php:95
 msgid "Opérations NON lettrées"
 msgstr "Not Lettered operations"
 
@@ -6196,10 +6240,12 @@ msgstr "Misc. writing"
 
 #: include/lettering.account.inc.php:85 include/lettering.card.inc.php:90
 #: include/lettering.gestion.inc.php:42 include/lettering.gestion.inc.php:41
+#: include/lettering.account.inc.php:93
 msgid "Opérations lettrées"
 msgstr "Lettered operations"
 
 #: include/lettering.account.inc.php:86 include/lettering.card.inc.php:91
+#: include/lettering.account.inc.php:94
 msgid "Opérations lettrées montants différents"
 msgstr "Lettered writing with different Amounts"
 
@@ -6281,6 +6327,7 @@ msgstr "Receipt #"
 #: include/class_acc_ledger_sold.php:1358
 #: include/class_acc_ledger_purchase.php:1790
 #: include/class_acc_ledger_sold.php:1359
+#: include/class_acc_ledger_purchase.php:1777
 msgid "PU"
 msgstr "Pu"
 
@@ -6483,6 +6530,7 @@ msgstr "Paid"
 #: include/class_acc_ledger.php:3547 include/class_acc_ledger.php:3563
 #: include/class_acc_ledger.php:3583 include/class_acc_ledger.php:3610
 #: include/class_acc_ledger.php:3619
+#: include/class_acc_ledger_purchase.php:1628
 msgid "Payé par"
 msgstr "Paid by"
 
@@ -6536,6 +6584,7 @@ msgstr "Staff"
 #: include/class_acc_ledger_purchase.php:1771
 #: include/class_acc_ledger_sold.php:1340
 #: include/ext/tools/include/tool_function.php:491
+#: include/class_acc_ledger_purchase.php:1758
 msgid "Pièce"
 msgstr "Receipt"
 
@@ -6605,6 +6654,7 @@ msgstr "Several tax code match that rate"
 #: include/class_acc_ledger_sold.php:1343 include/database.item.php:65
 #: include/database.item.php:81 include/database.item.php:71
 #: include/database.item.php:86 include/class_pre_op_advanced.php:196
+#: include/class_acc_ledger_purchase.php:1761
 msgid "Poste"
 msgstr "Account. Item"
 
@@ -6906,7 +6956,7 @@ msgstr "Forecast"
 #: include/class_acc_ledger_sold.php:1337
 #: include/class_acc_ledger_purchase.php:1769
 #: include/class_acc_ledger_sold.php:1338 include/database.item.php:87
-#: include/database.item.php:92
+#: include/database.item.php:92 include/class_acc_ledger_purchase.php:1756
 msgid "Période"
 msgstr "Period"
 
@@ -7070,6 +7120,7 @@ msgstr "Bank Reconciliation"
 #: include/search.inc.php:63 include/database.item.php:59
 #: include/database.item.php:98 include/class_icard.php:312
 #: include/database.item.php:66 include/database.item.php:103
+#: include/lettering.account.inc.php:105
 #, php-format
 msgid "Recherche"
 msgstr "Search"
@@ -7582,11 +7633,13 @@ msgid "TVA NP"
 msgstr "VAT ND"
 
 #: include/class_acc_ledger_purchase.php:1796
+#: include/class_acc_ledger_purchase.php:1783
 msgid "TVA NP opération"
 msgstr "VAT NP Operation"
 
 #: include/class_acc_ledger_purchase.php:1785
 #: include/class_acc_ledger_sold.php:1354
+#: include/class_acc_ledger_purchase.php:1772
 msgid "TVA Non Payé"
 msgstr "VAT Not paid"
 
@@ -7597,6 +7650,7 @@ msgstr "VAT Not paid"
 #: include/class_acc_ledger_sold.php:1360
 #: include/class_acc_ledger_purchase.php:1795
 #: include/class_acc_ledger_sold.php:1361
+#: include/class_acc_ledger_purchase.php:1782
 msgid "TVA Opération"
 msgstr "VAT Operation"
 
@@ -7607,6 +7661,7 @@ msgstr "VAT Operation"
 #: include/class_acc_ledger_sold.php:1352
 #: include/class_acc_ledger_purchase.php:1784
 #: include/class_acc_ledger_sold.php:1353
+#: include/class_acc_ledger_purchase.php:1771
 msgid "TVA annulée"
 msgstr "canceled VAT "
 
@@ -7623,6 +7678,7 @@ msgstr "Non-deductible VAT recoverable by the Tax"
 #: include/class_acc_ledger_purchase.php:1755
 #: include/class_acc_ledger_purchase.php:1787
 #: include/class_acc_ledger_purchase.php:1793
+#: include/class_acc_ledger_purchase.php:1780
 msgid "TVA récup."
 msgstr "TVA Ded"
 
@@ -7822,6 +7878,7 @@ msgstr "Total Debit"
 #: include/class_acc_ledger_sold.php:1356
 #: include/class_acc_ledger_purchase.php:1788
 #: include/class_acc_ledger_sold.php:1357
+#: include/class_acc_ledger_purchase.php:1775
 msgid "Total HTVA"
 msgstr "Total VAT excluded"
 
@@ -7955,6 +8012,7 @@ msgstr "All entries"
 
 #: include/lettering.account.inc.php:84 include/lettering.card.inc.php:89
 #: include/lettering.gestion.inc.php:41 include/lettering.gestion.inc.php:40
+#: include/lettering.account.inc.php:92
 msgid "Toutes opérations"
 msgstr "All operations"
 
@@ -8111,6 +8169,7 @@ msgid "Update Valeurs invalides"
 msgstr "invalid values"
 
 #: html/user_login.php:96 include/audit_log.php:36 html/user_login.php:98
+#: include/stock_inv_histo.inc.php:82
 msgid "Utilisateur"
 msgstr "Users"
 
@@ -8183,6 +8242,7 @@ msgstr "Special value"
 #: include/ajax_preference.php:183 include/class_html_input.php:350
 #: include/class_html_input.php:391 include/ajax_add_menu.php:146
 #: include/cfgplugin.inc.php:151 include/class_html_input.php:392
+#: include/stock_inv_histo.inc.php:67
 msgid "Valider"
 msgstr "Validate"
 
@@ -8401,6 +8461,11 @@ msgstr "You are not using VAT"
 #: html/backup.php:34
 msgid "Vous n\\'êtes pas administrateur"
 msgstr "You are not an administrator"
+
+#: include/stock_inv_histo.inc.php:40
+#, fuzzy
+msgid "Vous ne pouvez pas modifier ce dépôt"
+msgstr "You cannot enter an accounting entry"
 
 #: include/operation_ods_new.inc.php:43
 msgid ""
@@ -8839,6 +8904,7 @@ msgstr "or QuickCode"
 #: include/class_acc_ledger_purchase.php:1638
 #: include/class_acc_ledger_purchase.php:1666
 #: include/class_acc_ledger_purchase.php:1672
+#: include/class_acc_ledger_purchase.php:1659
 msgid "ou générer un document"
 msgstr "or generate a paper"
 
@@ -8922,6 +8988,7 @@ msgstr "QCode"
 #: include/class_acc_ledger_purchase.php:1789
 #: include/class_acc_ledger_sold.php:1358
 #: include/template/detail-action.php:336
+#: include/class_acc_ledger_purchase.php:1776
 msgid "quantité"
 msgstr "quantity"
 
@@ -9074,9 +9141,6 @@ msgstr "wiki"
 
 #~ msgid " opérations à complèter"
 #~ msgstr " operation to complete"
-
-#~ msgid " vous ne pouvez pas encoder à une "
-#~ msgstr "You cannot enter an accounting entry"
 
 #~ msgid "Actif"
 #~ msgstr "Asset"
