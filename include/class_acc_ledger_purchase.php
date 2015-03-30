@@ -379,7 +379,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             /* save op. */
             $p_acc_operation->type = 'd';
             $p_acc_operation->qcode = '';
-            if (!$p_fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA_ND) && $p_tva_both == 0)
+            if (!$p_fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA_ND) )
             {
                 $dna = $p_fiche->strAttribut(ATTR_DEF_ACCOUNT_ND_TVA_ND);
             } else
@@ -412,7 +412,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         {
             $dna_default = new Acc_Parm_Code($this->db, 'TVA_DED_IMPOT');
             /* save op. */
-            if (!$p_fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA) && $p_tva_both == 0)
+            if (!$p_fiche->empty_attribute(ATTR_DEF_ACCOUNT_ND_TVA) )
             {
                 $dna = $p_fiche->strAttribut(ATTR_DEF_ACCOUNT_ND_TVA);
             } else

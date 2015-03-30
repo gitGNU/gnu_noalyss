@@ -81,13 +81,12 @@
  *
  * \section convention_code Coding convention
  * <p>
- * Some coding conventions to have a homogene code
+ * Some coding conventions to have a homogeneous code
  * <ol>
  * <li>Reuse the existing code , </li>
- * <li>Improve and check that the function is still working</li>
+ * <li>Improve and test that the function is still working</li>
  * <li>Make documentation thanks doxygen tag</li>
  * <li>In the folder include: filenames ending by  *.inc.php will be executer after being included</li>
- * <li>Dans le répertoire include: Les noms de fichiers sont *.php pour les fichiers contenant des fonctions uniquement</li>
  * <li>In the folder include: filenames end by  *.php if they contains only function</li>
  * <li>In the folder include: filenames starting with
  * class_*.php if it is related to a class.</li>
@@ -203,7 +202,7 @@ if ( strlen(domaine) > 0 )
 
 echo '
 <span style="background-color:#879ed4;color:white;padding-left:4px;padding-right:4px;">
-version  6.8.0.1 - '.$my_domain.'
+version  6.8.0.2 - '.$my_domain.'
 </span>
 <BR>
 <BR>
