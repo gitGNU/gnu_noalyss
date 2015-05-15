@@ -350,7 +350,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 					td(nbm($solde['debit']), 'class="sorttable_numeric" sorttable_customkey="'.$solde['debit'].'" style="text-align:right"') .
 					td(nbm($solde['credit']), 'class="sorttable_numeric" sorttable_customkey="'.$solde['debit'].'" style="text-align:right"') .
 					td(nbm(abs($solde['solde'])), 'class="sorttable_numeric" sorttable_customkey="'.$solde['solde'].'" style="text-align:right"') .
-					td((($solde['debit'] < $solde['credit']) ? 'CRED' : 'DEB'), 'style="text-align:right"'), $class
+					td((($solde['debit'] < $solde['credit']) ? 'C' : 'D'), 'style="text-align:right"'), $class
 			);
 
 
@@ -364,7 +364,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
                                 td(nbm($sum_deb), 'style="text-align:right"').
                                 td(nbm($sum_cred), 'style="text-align:right"').
                                 td(nbm(abs($sum_solde)), 'style="text-align:right"').
-                                td((($sum_deb < $sum_cred) ? 'CRED' : 'DEB'), 'style="text-align:right"'),' class="highlight"');
+                                td((($sum_deb < $sum_cred) ? 'C' : 'D'), 'style="text-align:right"'),' class="highlight"');
                 echo '</tfoot>';
 		echo '</table>';
 	}
