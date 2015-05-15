@@ -43,7 +43,7 @@ echo '<div id="acc_update" class="inner_box" style="display:none;position:absolu
 
 $g_start=HtmlInput::default_value_get('p_start',1);
 ?>
-
+<a  id="top"></a>
 
 <div class="content">
 <?php
@@ -129,7 +129,7 @@ for ($i=0; $i <$MaxRow; $i++):
 endfor;
 ?>
 </TABLE>
-    
+    <div id="go_up" class="inner_box" style="padding:0px;left:auto;width:auto;display:none;position:fixed;top:250px;right:20px"><a class="button" href="#top" ><?php echo _('Haut');?></a></div>
  <input type="button" id="pcmn_update_add_bt2" class="smallbutton"  value="<?php echo _('Ajout poste comptable'); ?>">
  </div>
  <script>
@@ -140,6 +140,9 @@ endfor;
      $('pcmn_update_add_bt2').onclick = function () 
      {
          pcmn_update(<?php echo Dossier::id()?>,'');
+     }
+     window.onscroll=function () {
+         $('go_up').show();
      }
 </script>
 <?php
