@@ -1601,6 +1601,7 @@ class Fiche
                  $odd.=" notice ";
                  }
              }
+        
              $odd=' class="'.$odd.'"';
              
             $r.="<TR $odd>";
@@ -1620,7 +1621,18 @@ class Fiche
             $str_solde=nbm($amount['solde']);
             $r.='<TD sorttable_customkey="'.$amount['debit'].'" align="right"> '.$str_deb.'</TD>';
             $r.='<TD sorttable_customkey="'.$amount['credit'].'" align="right"> '.$str_cred.'</TD>';
-            $r.='<TD sorttable_customkey="'.$amount['solde'].'" align="right"> '.$str_solde."</TD>";
+            $side=($amount['debit'] >  $amount['credit'])?'D':'C';
+            $side=($amount['debit'] ==  $amount['credit'])?'=':$side;
+            $red="";
+            if ( $p_action == 'customer' && $amount['debit'] <  $amount['credit']  ){
+                 //put in red if d>c
+                 $red=" notice ";
+             }
+             if ( $p_action == 'supplier' && $amount['debit'] >  $amount['credit']  ){
+                 //put in red if c>d
+                 $red=" notice ";
+             }
+            $r.='<TD class="'.$red.'" sorttable_customkey="'.$amount['solde'].'" align="right"> '.$str_solde."$side </TD>";
             $deb=bcadd($deb,$amount['debit']);
             $cred=bcadd($cred,$amount['credit']);
 
