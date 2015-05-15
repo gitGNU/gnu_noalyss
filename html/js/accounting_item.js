@@ -40,36 +40,58 @@ function set_jrn_parent(p_ctl,p_value)
     }
 }
 /**
- * Display a box with accounting detail for update, delete or add
- * @param {type} p_value pcmn_val
- * @param {type} p_lib pcmn_lib
- * @param {type} p_parent pcmn_val_parent
- * @param {type} p_type pcmn_val_type
- * @param {type} p_dossier gDossier
- * @param {type} p_top position of the box
- * @param {type} p_action = new | update | delete
- * @returns {undefined}
+ *@brief Display a box with accounting detail for update, delete or add, update the
+ * table account_tbl_id
+ *@param p_dossier dossier id
+ *@param p_val value of the accounting, it is used to compute the row id
  */
-
-function PcmnUpdate(p_value,p_lib,p_parent,p_type,p_dossier,p_top,p_action)
+function pcmn_update(p_dossier, p_val)
 {
-    $('p_valu').value=p_value;
-    $('p_oldu').value=p_value;
-    $('p_libu').value=p_lib;
-    $('p_parentu').value=p_parent;
-    $('p_typeu').value=p_type;
-    var i=0;
-    for (i=0;i < $('p_typeu').options.length;i++) {
-        if ($('p_typeu').options[i].value== p_type) {$('p_typeu').options.selectedIndex= i; break; }
-    }
-    $('p_typeu').options.selectedIndex=p_type;
-    $('acc_update').style.top=(posY+offsetY+p_top)+"px";
-    $('acc_update').style.left="10%";
-    $('acc_update').style.width="80%";
-    $('acc_update_info').innerHTML="";
-    $('p_action').value=p_action;
-    $('delete_acc').checked=false;
-    $('acc_update').show();
+    var query = {gDossier: p_dossier, value: p_val, op: 'pcmn_update'};
+    waiting_box();
+    var action = new Ajax.Request('ajax_misc.php',
+            {
+                method: 'get',
+                parameters: query,
+                onSuccess: function (req)
+                {
+                    try
+                    {
+                        remove_waiting_box();
+                        var answer = req.responseXML;
+                        var a = answer.getElementsByTagName('ctl');
+                        var html = answer.getElementsByTagName('code');
+                        var status= answer.getElementsByTagName('status');
+                        
+                        if (a.length == 0)
+                        {
+                            var rec = req.responseText;
+                            alert('erreur :' + rec);
+                        }
+
+                        var name_ctl = getNodeText(a[0]);
+                        var code_html = getNodeText(html[0]);
+                        var result = getNodeText(status[0]);
+                        $('acc_update').innerHTML=code_html;
+                        $('acc_update').setStyle('top:'+calcy(150)+'px');
+                        $('acc_update').show();
+                    }
+                    catch (e)
+                    {
+                        error_message(e.message);
+                    }
+                    try
+                    {
+                        code_html.evalScripts();
+                    }
+                    catch (e)
+                    {
+                        alert("Impossible executer script de la reponse\n" + e.message);
+                    }
+
+                }
+            }
+    );
 }
 /**
  *@brief show the popup for search an accounting item
@@ -277,10 +299,9 @@ function pausecomp(millis)
 /**
  * Update an accounting with the information in the form, called frmo
  * param_pcmn.inc.php
- * @param {type} p_obj_id id of the form
  * @returns false
  */
-function account_update(p_obj_id)
+function pcmn_save()
 {
     try {
         waiting_box();
@@ -294,9 +315,10 @@ function account_update(p_obj_id)
         var form=$('acc_update_frm_id');
         var notfound="not found:";
         var p_typeu=-1;
+        var acc_delete=0;
         // get them
         if ( form['gDossier']) { gDossier=form['gDossier'].value;}else { notfound+='gDossier';} 
-        if ( form['p_action']) { action=form['p_action'].value;}else { notfound+=', p_action ';}
+        if ( form['p_action']) { p_action=form['p_action'].value;}else { notfound+=', p_action ';}
         if ( form['p_oldu']) { p_oldu=form['p_oldu'].value;}else { notfound+=', p_oldu';}
         if ( form['p_valu']) { p_valu=form['p_valu'].value;}else { notfound+=', p_valu';}
         if ( form['p_libu']) { p_libu=form['p_libu'].value;}else { notfound+=', p_libu ';}
@@ -311,7 +333,7 @@ function account_update(p_obj_id)
         
         if ( notfound != "not found:") throw notfound;
             
-        var queryString = "op=account_update" + "&gDossier=" + gDossier+ "&action=" + action + "&p_oldu=" + p_oldu+"&p_valu="+p_valu+"&p_libu="+p_libu+"&p_parentu="+p_parentu+"&acc_delete="+acc_delete+"&p_typeu="+p_typeu;
+        var queryString={op:'account_update',action:p_action,gDossier:gDossier,p_oldu:p_oldu,p_valu:p_valu,p_libu:p_libu,p_parentu:p_parentu,acc_delete:acc_delete,p_typeu:p_typeu};
         var ajax_action = new Ajax.Request(
                 "ajax_misc.php",
                 {
@@ -321,9 +343,9 @@ function account_update(p_obj_id)
                     onSuccess: function(req, json) {
                         try
                         {
+                            remove_waiting_box();
                             var name_ctl = 'acc_update_info';
                             var answer = req.responseXML;
-                            remove_waiting_box();
                             var html = answer.getElementsByTagName('code');
                             var ctl = answer.getElementsByTagName('ctl')[0].textContent;
                             if (html.length == 0) {
@@ -334,7 +356,7 @@ function account_update(p_obj_id)
                             code_html = unescape_xml(code_html);
                             
                             $(name_ctl).innerHTML = code_html;
-                            if ( ctl == 'ok') {
+                           if ( ctl == 'ok') {
                                window.location.reload();
                             }
                         } catch (e)

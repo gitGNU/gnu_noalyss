@@ -90,6 +90,9 @@ if ( LOGINPUT)
     }
 switch ($op)
 {
+        case 'pcmn_update':
+            require 'ajax_pcmn_update.php';
+            return;
 	case "remove_anc":
 		if ($g_user->check_module('ANCODS') == 0)
 			exit();

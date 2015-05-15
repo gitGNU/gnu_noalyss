@@ -42,6 +42,10 @@
  * <li>Dans le répertoire include: Les noms de fichiers sont *.php pour les fichiers contenant des fonctions uniquement</li>
  * <li>Dans le répertoire include: Les noms de fichier sont
  * class_*.php pour les fichiers contenant des classes.</li>
+ * <li>Dans le répertoire include: Les noms de fichier ajax* correspondent aux fichiers appelé par une fonction javascript en ajax, 
+ * normalement le nom de fichier est basé sur le nom de la fonction javascript
+ * exemple pour la fonction javascript anc_key_choice le fichier correspondant est
+ * ajax_anc_key_choice.php
  * <li>Dans le répertoire include/template: les fichiers de
  * présentation HTML </li>
  * <li>Utiliser sql/upgrade.sql comme fichier temporaire pour modifier la base de données, en général
@@ -90,6 +94,10 @@
  * <li>In the folder include: filenames end by  *.php if they contains only function</li>
  * <li>In the folder include: filenames starting with
  * class_*.php if it is related to a class.</li>
+ * <li>In the folder include, files starting with ajax are executed by ajax call, usually, the file name is
+ * based on the javascript function, example for the javascript function anc_key_choice the corresponding file is
+ * ajax_anc_key_choice.php
+ * 
  * <li>In the folder include/template: files for the HTML presentation
  * </li>
  * <li>Use sql/upgrade.sql as temporary file to modify the database,this file will be the base for a SQL patch
@@ -101,13 +109,13 @@
  * \section advice Advices
  * <p>
  * Use this document, it is generated automatically by doxygen, check the documentation your made, read it first this
- * documentation before making change
+ * documentation before making changes
  * <ul>
  * <li>Related contains all the \\todo</li>
  * <li>Global -> all the functions</li>
  * <li>check into mod1.html and account_repository.html for the database design
  *</ul>
- *  You need to know only this tags
+ *  You need to know only these tags
  * <ul>
  * <li> \\file in the beginning of a file</li>
  * <li> \\todo add a todo </li>
