@@ -28,13 +28,15 @@
 ?>
 <?php echo  $bar?>
 <form method="POST" class="print" style="display:inline" onsubmit="return confirm('<?php echo _("Vous confirmez ?")?>')">
-	<table class="result">
+	<table class="sortable" id="fiche_list_table_id">
 		<tr>
-			<th>
+			<th >
 				<?php echo _("Quick Code")?>
+                            <?php echo HtmlInput::infobulle(17)?>
 			</th>
-			<th>
+			<th class="sorttable_sorted_reverse">
 				<?php echo _("Nom")?>
+                            <span id="sorttable_sortrevind">&nbsp;&blacktriangle;</span>
 
 			</th>
 			<th>
@@ -96,3 +98,5 @@ echo $iselect->input();
 <?php endif ; ?>
 </form>
 </div>
+    
+    
