@@ -100,7 +100,7 @@ if ($low_action == "list")
 	}
 	$noop = (isset($_GET['noop'])) ? false : true;
 	echo '<div class="content">';
-	echo $client->Summary($search, 'client', $sql, $noop);
+	echo $client->Summary($search, 'customer', $sql, $noop);
 
 
 	echo '<br>';
