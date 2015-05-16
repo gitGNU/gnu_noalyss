@@ -304,7 +304,7 @@ for($i=0;$i<count($last_ledger);$i++):
 </div>
 
 
-<div id="add_todo_list" class="box">
+<div id="add_todo_list" class="box" style="display:none">
 	<script charset="utf-8" type="text/javascript" language="javascript">
 		new Draggable($('add_todo_list'),{});
 	</script>
@@ -322,8 +322,8 @@ echo _("Titre")." ".$wTitle->input().'<br>';
 echo _("Description")."<br>".$wDesc->input().'<br>';
 echo dossier::hidden();
 echo HtmlInput::hidden('tl_id',0);
-echo HtmlInput::submit('save_todo_list',_('Sauve'),'onClick="$(\'add_todo_list\').hide();return true;"');
-echo HtmlInput::button('hide',_('Annuler'),'onClick="$(\'add_todo_list\').hide();return true;"');
+echo HtmlInput::submit('save_todo_list',_('Sauve'),'onClick="Effect.Fold(\'add_todo_list\');return true;"');
+echo HtmlInput::button('hide',_('Annuler'),'onClick="Effect.Fold(\'add_todo_list\');return true;"');
 ?>
 </form>
 </div>
