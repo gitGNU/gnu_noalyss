@@ -129,7 +129,13 @@ for ($i=0; $i <$MaxRow; $i++):
 endfor;
 ?>
 </TABLE>
-    <div id="go_up" class="inner_box" style="padding:0px;left:auto;width:auto;display:none;position:fixed;top:250px;right:20px"><a class="button" href="#top" ><?php echo _('Haut');?></a></div>
+    <div id="go_up" class="inner_box" style="padding:0px;left:auto;width:250px;height: 150px;display:none;position:fixed;top:250px;right:20px">
+        <?php echo HtmlInput::title_box(_('Navigation'), 'go_up', "hide");?>
+        <div style="margin:3%;padding:3%">
+            <a class="smallbutton" href="#top" ><?php echo _('Haut');?></a>
+            <input type="button" id="pcmn_update_add_bt3" class="smallbutton"  value="<?php echo _('Ajout poste comptable'); ?>">
+        </div>
+    </div>
  <input type="button" id="pcmn_update_add_bt2" class="smallbutton"  value="<?php echo _('Ajout poste comptable'); ?>">
  </div>
  <script>
@@ -141,8 +147,19 @@ endfor;
      {
          pcmn_update(<?php echo Dossier::id()?>,'');
      }
+     $('pcmn_update_add_bt3').onclick = function () 
+     {
+         pcmn_update(<?php echo Dossier::id()?>,'');
+     }
      window.onscroll=function () {
-         $('go_up').show();
+         console.log( document.viewport.getScrollOffsets().top);
+         if ( document.viewport.getScrollOffsets().top> 0) {
+             if ($('go_up').visible() == false) {
+                Effect.BlindDown('go_up',{duration:0.1});
+            }
+        } else {
+            $('go_up').hide();
+        }
      }
 </script>
 <?php
