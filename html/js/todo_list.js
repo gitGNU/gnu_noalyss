@@ -78,7 +78,7 @@ function todo_list_show_success(req)
         $('p_date_todo').value=getNodeText(tl_date[0]);
         $('p_desc').value=getNodeText(tl_desc[0]);
         $('tl_id').value=getNodeText(tl_id[0]);
-        Effect.Grow('add_todo_list',{duration:0.3});
+        if ($('add_todo_list').visible()==false) { Effect.Grow('add_todo_list',{duration:0.2,direction:'top-left'}) };
     }
     catch (e)
     {
@@ -94,12 +94,12 @@ function add_todo()
     $('add_todo_list').style.top=posY+offsetY+"px";
     $('add_todo_list').style.left=posX+offsetX+"px";
 
-    $('add_todo_list').style.display='block';
     $('p_title').value='';
 
     $('p_date_todo').value='';
     $('p_desc').value='';
     $('tl_id').value=0;
+    $('add_todo_list').style.display='block';
 }
 function todo_list_remove(p_ctl)
 {
