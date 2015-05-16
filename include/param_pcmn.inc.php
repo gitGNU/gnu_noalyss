@@ -129,7 +129,7 @@ for ($i=0; $i <$MaxRow; $i++):
 endfor;
 ?>
 </TABLE>
-    <div id="go_up" class="inner_box" style="padding:0px;left:auto;width:250px;height: 150px;display:none;position:fixed;top:250px;right:20px">
+    <div id="go_up" class="inner_box" style="padding:0px;left:auto;width:250px;height: 100px;display:none;position:fixed;top:250px;right:20px">
         <?php echo HtmlInput::title_box(_('Navigation'), 'go_up', "hide");?>
         <div style="margin:3%;padding:3%">
             <a class="smallbutton" href="#top" ><?php echo _('Haut');?></a>
@@ -155,7 +155,8 @@ endfor;
          console.log( document.viewport.getScrollOffsets().top);
          if ( document.viewport.getScrollOffsets().top> 0) {
              if ($('go_up').visible() == false) {
-                Effect.BlindDown('go_up',{duration:0.1});
+                $('go_up').setOpacity(0.8); 
+                $('go_up').show();
             }
         } else {
             $('go_up').hide();
