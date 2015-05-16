@@ -698,10 +698,10 @@ function waiting_box()
     if ($('wait_box')) {
         removeDiv('wait_box');
     }
-    obj.effect = 'none';
-    add_div(obj);
     $('info_div').innerHTML = 'Un instant';
     $('info_div').style.display = "block";
+    add_div(obj);
+    $('wait_box').setOpacity(0.7);
 
 }
 /**
