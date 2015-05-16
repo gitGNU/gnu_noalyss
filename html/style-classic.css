@@ -1418,9 +1418,10 @@ div#modele_op_div{
     overflow:hidden;
     z-index:3;
     position:absolute;
-    left: 17.5%;
+    left: 4%;
     border:1px solid #00008B;
-    width: 75%;
+    width: 100%;
+    box-shadow: 10px 10px 5px #888888;
 }
 }
 @media only screen and (max-width: 955px) {
@@ -1441,7 +1442,8 @@ div#modele_op_div{
     position:absolute;
     left: 10%;
     border:1px solid #00008B;
-    width: 80%;
+    width: 85%;
+     box-shadow: 10px 10px 5px #888888;
 }
 }
 
