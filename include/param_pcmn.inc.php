@@ -152,7 +152,6 @@ endfor;
          pcmn_update(<?php echo Dossier::id()?>,'');
      }
      window.onscroll=function () {
-         console.log( document.viewport.getScrollOffsets().top);
          if ( document.viewport.getScrollOffsets().top> 0) {
              if ($('go_up').visible() == false) {
                 $('go_up').setOpacity(0.8); 
