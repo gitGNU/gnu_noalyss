@@ -27,9 +27,11 @@
  */
 function todo_list_show(p_id)
 {
+    waiting_box();
     var gDossier=$('gDossier').value;
     $('add_todo_list').style.top=(posY+offsetY)+'px';
     $('add_todo_list').style.left=(posX+offsetX-200)+'px';
+     $('add_todo_list').hide();
 
     try
     {
@@ -58,6 +60,7 @@ function todo_list_show_success(req)
 {
     try
     {
+       
         var answer=req.responseXML;
         var tl_id=answer.getElementsByTagName('tl_id');
         var tl_title=answer.getElementsByTagName('tl_title');
@@ -69,12 +72,13 @@ function todo_list_show_success(req)
             var rec=req.responseText;
             alert ('erreur :'+rec);
         }
+        remove_waiting_box();
 
         $('p_title').value=getNodeText(tl_title[0]);
         $('p_date_todo').value=getNodeText(tl_date[0]);
         $('p_desc').value=getNodeText(tl_desc[0]);
         $('tl_id').value=getNodeText(tl_id[0]);
-        $('add_todo_list').style.display='block';
+        Effect.Grow('add_todo_list',{duration:0.3});
     }
     catch (e)
     {
