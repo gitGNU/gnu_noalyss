@@ -299,10 +299,9 @@ case 'file':
 			echo "<div>";
 
 		}
-		echo "<h1 class=\"legend\">"._("Document")."</h1>";
         echo '<div class="op_detail_frame">';
         $x='';
-        if ($access=='W')
+        if ($access=='W' && $g_user->check_action (RMDOC) == 1)
             $x=sprintf('<a class="notice" style="margin-left:12;margin-right:12" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">'._('enlever').'</a>',
                        $gDossier,$div,$jr_id);
         echo $x;
@@ -341,9 +340,13 @@ case 'loadfile':
 		if ( ! isset($_REQUEST['ajax']) ) echo "<body class=\"op_detail_frame\">"; else echo "<body>";
 		echo "<h2>"._("Document")."</h2>";
         echo '<div class="op_detail_frame">';
-        $x=sprintf('<a class="mtitle" class="notice" style="margin-left:12;margin-right:12px" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">'._('enlever').'</a>',
+        
+        // check if the user can remove a document
+        if ($g_user->check_action (RMDOC) == 1) {
+            $x=sprintf('<a class="mtitle" class="notice" style="margin-left:12;margin-right:12px" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">'._('enlever').'</a>',
                    $gDossier,$div,$jr_id);
-        echo $x;
+            echo $x;
+        }
         $filename= $obj->det->jr_pj_name;
         $h=sprintf('<a class="mtitle"  href="show_pj.php?gDossier=%d&jrn=%d&jr_grpt_id=%d">%s</a>',
                    $gDossier,$ledger,$obj->det->jr_grpt_id,h($filename));
@@ -356,7 +359,7 @@ case 'loadfile':
 // remove a file
 /////////////////////////////////////////////////////////////////////////////
 case 'rmf':
-    if (   $access == 'W' )
+    if (   $access == 'W' && $g_user->check_action (RMDOC) == 1)
     {
         echo "<html><head>";
         $repo=new Database();
