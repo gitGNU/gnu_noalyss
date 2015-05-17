@@ -1,0 +1,1 @@
+update action set ac_description = 'Effacer un document de la comptabilité ou du suivi' where ac_id=1020;
