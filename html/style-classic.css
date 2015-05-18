@@ -1,4 +1,7 @@
  /* <style type="text/css"> */
+ /**
+  * Use a font
+  */
 @font-face {
 	font-family: 'OpenSansRegular';
 	src: url('image/OpenSansRegular.eot');
@@ -1451,7 +1454,6 @@ div#modele_op_div{
     left: 4%;
     border:1px solid #00008B;
     min-width: 75%;
-    width: 100%;
     box-shadow: 10px 10px 5px #888888;
 }
 }
