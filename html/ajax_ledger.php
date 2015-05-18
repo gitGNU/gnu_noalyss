@@ -160,7 +160,7 @@ switch ($action)
     //  remove op
     ///////////////////////////////////////////////////////////////////////////
 case 'rmop':
-        if ( $access=='W')
+        if ( $access=='W' && $g_user->check_action(RMOPER) == 1)
         {
             ob_start();
             /* get the ledger */
@@ -180,6 +180,10 @@ case 'rmop':
             }
             $html=ob_get_contents();
             ob_end_clean();
+        }
+        else 
+        {
+            $html= _("Effacement refusé");
         }
     break;
     //////////////////////////////////////////////////////////////////////
@@ -227,22 +231,21 @@ case 'de':
 case 'file':
     $op->get();
     $obj=$op->get_quant();	/* return an obj. ACH / FIN or VEN or null if nothing is found*/
+    
+    $repo = new Database();
+    $theme = $repo->get_value("select the_filestyle from theme where the_name=$1", array($_SESSION['g_theme']));
+    html_min_page_start($theme);
 
+    // if there is a receipt document
     if ( $obj->det->jr_pj_name=='')
     {
-        echo "<html><head>";
-        $repo=new Database();
-        $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
-        echo    "<LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
- 		if ( ! isset($_REQUEST['ajax']) ) {
-			echo "<body class=\"op_detail_frame\">";
-			echo '<div class="op_detail_frame">';
-		}else {
-			echo "<body>";
-			echo "<div>";
+        if ( ! isset($_REQUEST['ajax']) ) {
+                echo '<div class="op_detail_frame">';
+        }else {
+                echo "<div>";
 
-		}
-		echo "<h1 class=\"legend\">Document</h1>";
+        }
+        echo "<h1 class=\"legend\">Document</h1>";
         if ( $access=='W')
         {
             echo '<FORM METHOD="POST" ENCTYPE="multipart/form-data" id="form_file">';
@@ -261,50 +264,37 @@ case 'file':
         }
         else
         {
-				echo "<html><head>";
-				if (!isset($_REQUEST['ajax']))
-				{
-					echo "<body class=\"op_detail_frame\">";
-					echo '<div class="op_detail_frame">';
-				}
-				else
-				{
-					echo "<body>";
-					echo "<div>";
-				}
-				$repo = new Database();
-				$theme = $repo->get_value("select the_filestyle from theme where the_name=$1", array($_SESSION['g_theme']));
-				echo "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
-				echo "</head>";
-				echo '<div class="op_detail_frame">';
+            if (!isset($_REQUEST['ajax']))
+            {
+                    echo '<div class="op_detail_frame">';
+            }
+            else
+            {
+                    echo "<div>";
+            }
+            
 
-				echo _('Aucun fichier');
-			}
-			echo '</div>';
-			echo '</body></html>';
-			exit();
+            echo _('Aucun fichier');
+    }
+    echo '</div>';
+    exit();
     }
     else
     {
-        echo "<html><head>";
-        $repo=new Database();
-        $theme=$repo->get_value("select the_filestyle from theme where the_name=$1",array($_SESSION['g_theme']));
-        echo    "   <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$theme\" media=\"screen\">";
-        echo "</head>";
-		if ( ! isset($_REQUEST['ajax']) ) {
-			echo "<body class=\"op_detail_frame\">";
-			echo '<div class="op_detail_frame">';
-		}else {
-			echo "<body>";
-			echo "<div>";
+        // There is no document attached to this writing
+        //
+        if ( ! isset($_REQUEST['ajax']) ) {
+                echo '<div class="op_detail_frame">';
+        }else {
+                echo "<div>";
 
-		}
+        }
         echo '<div class="op_detail_frame">';
         $x='';
-        if ($access=='W' && $g_user->check_action (RMDOC) == 1)
-            $x=sprintf('<a class="notice" style="margin-left:12;margin-right:12" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">'._('enlever').'</a>',
+        if ($access=='W' && $g_user->check_action (RMRECEIPT) == 1)
+            $x=sprintf('<a class="smallbutton" style="margin-left:12;margin-right:12" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">&#x2D5D;</a>',
                        $gDossier,$div,$jr_id);
-        echo $x;
+        
         $filename= $obj->det->jr_pj_name;
         if ( strlen($obj->det->jr_pj_name) > 20 )
         {
@@ -313,6 +303,7 @@ case 'file':
         $h=sprintf('<a class="mtitle"  href="show_pj.php?gDossier=%d&jrn=%d&jr_grpt_id=%d">%s</a>',
                    $gDossier,$ledger,$obj->det->jr_grpt_id,h( $filename));
         echo $h;
+        echo $x;
         echo '</div>';
         echo '</body></html>';
         exit();
@@ -342,8 +333,8 @@ case 'loadfile':
         echo '<div class="op_detail_frame">';
         
         // check if the user can remove a document
-        if ($g_user->check_action (RMDOC) == 1) {
-            $x=sprintf('<a class="mtitle" class="notice" style="margin-left:12;margin-right:12px" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">'._('enlever').'</a>',
+        if ($g_user->check_action (RMRECEIPT) == 1) {
+            $x=sprintf('<a class="mtitle" class="notice" style="margin-left:12;margin-right:12px" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">'."&#x2D5D;".'</a>',
                    $gDossier,$div,$jr_id);
             echo $x;
         }
@@ -359,7 +350,7 @@ case 'loadfile':
 // remove a file
 /////////////////////////////////////////////////////////////////////////////
 case 'rmf':
-    if (   $access == 'W' && $g_user->check_action (RMDOC) == 1)
+    if (   $access == 'W' && $g_user->check_action (RMRECEIPT) == 1)
     {
         echo "<html><head>";
         $repo=new Database();

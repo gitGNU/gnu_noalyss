@@ -24,5 +24,7 @@ define ("FICCAT",910);  //création, modification et effacement de catégorie de
 define ('RMDOC',1020);   // Effacement de document pour follow up & comptabilité
 define ('VIEWDOC',1010);   // Voir document pour follow up
 define ('PARCATDOC',1050);   // modifier type document pour follow up
+define ('RMRECEIPT',1110);   // Effacer un document d'une pièce comptable
+define ('RMOPER',1120);   // Effacer une opération comptable
 global $audit; $audit=false;
 ?>

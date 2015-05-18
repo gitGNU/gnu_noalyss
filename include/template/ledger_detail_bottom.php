@@ -285,7 +285,8 @@ if ( $div != 'popup' ) {
   }
 
   $per=new Periode($cn,$obj->det->jr_tech_per);
-  if ( $per->is_closed() == 0 && $owner->MY_STRICT=='N'){
+  if ( $per->is_closed() == 0 && $owner->MY_STRICT=='N' && $g_user->check_action(RMOPER)==1)
+  {
     $remove=new IButton('Effacer');
     $remove->label=_('Effacer');
     $remove->javascript="if ( confirm('Vous confirmez effacement ?')) {removeOperation('".$obj->det->jr_id."',".dossier::id().",'".$div."')}";
