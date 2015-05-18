@@ -189,7 +189,8 @@ class User
 		return $ret;
 	}
 
-	/**\brief return  the access to a folder,
+	/**
+         * \brief return  the access to a folder,
 	 * \param $p_dossier id if it is == 0 then we take the value from $_SESSION
 	 * \return the priv_priv
 	 *          - X no access
@@ -216,7 +217,8 @@ class User
 		return $res;
 	}
 
-	/* \brief save the access of a folder
+	/**
+         * \brief save the access of a folder
 	 * \param $db_id the dossier id
 	 * \param $priv the priv. to set
 	 */
@@ -237,7 +239,8 @@ class User
 		$Res = $cn->exec_sql("update priv_user set priv_priv=$1 where priv_jnt=$2", array($priv, $jnt));
 	}
 
-	/**\brief check that a user is valid and the access to the folder
+	/**
+         * \brief check that a user is valid and the access to the folder
 	 * \param $p_ledger the ledger to check
 	 * \return the priv_priv
 	 * - O only predefined operation
@@ -325,7 +328,8 @@ class User
 		return $array;
 	}
 
-	/**\brief return an sql condition for filtering the permitted ledger
+	/**
+         * \brief return an sql condition for filtering the permitted ledger
 	 * \param $p_type = ALL or the type of the ledger (ACH,VEN,FIN,ODS)
 	 * \param $p_access =3 for READ or WRITE, 2 READ and write, 1 for readonly
 	 *
@@ -434,7 +438,9 @@ class User
 		return $array['PERIODE'];
 	}
 
-	/**\brief return the mini rapport to display on the welcome page
+	/**
+         * 
+         * \brief return the mini rapport to display on the welcome page
 	 * \return 0 if nothing if found or the report to display (formdef.fr_id)
 	 */
 
