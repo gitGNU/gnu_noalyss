@@ -18,41 +18,49 @@ require_once ('class_anc_plan.php');
    <?php endif; ?>
 
     <?php echo HtmlInput::hidden('whatdiv',$div).HtmlInput::hidden('jr_id',$jr_id).dossier::hidden();?>
-  <table style="width:100%"><tr><td>
-					<table>
-								<tr><td>
-								<?php
-								$date=new IDate('p_date');
-								$date->value=format_date($obj->det->jr_date);
-								 echo td(_('Date')).td($date->input());
+  <table style="width:100%">
+      <tr>
+          <td>
+            <table>
+                <tr>
+                    <td>
+                        <?php
+                        $date=new IDate('p_date');
+                        $date->value=format_date($obj->det->jr_date);
+                         echo td(_('Date')).td($date->input());
 
-								 ?>
-								</td>
-								</tr>
+                         ?>
+                    </td>
+                </tr>
 
-								<tr><td>
-								<?php 
-								  $itext=new IText('lib');
-								  $itext->value=strip_tags($obj->det->jr_comment);
-								  $itext->size=40;
-								  echo td(_('Libellé')).td($itext->input());
+                <tr>
+                    <td>
+                        <?php 
+                          $itext=new IText('lib');
+                          $itext->value=strip_tags($obj->det->jr_comment);
+                          $itext->size=40;
+                          echo td(_('Libellé')).td($itext->input());
 
 
-								?>
-								</td></tr>
-								<tr><td>
-								<?php echo td(_('Montant')).td(nbm($obj->det->jr_montant),' class="inum"');?>
-								</td></tr>
-								<tr><td>
-								<?php 
-								$itext=new IText('npj');
-								$itext->value=strip_tags($obj->det->jr_pj_number);
-								echo td(_('Pièce')).td($itext->input());
-								?>
-
-								</td></tr>
-			</table>
-			</td>
+                        ?>
+                    </td>
+                </tr>
+                 <tr>
+                     <td>
+                        <?php echo td(_('Montant')).td(nbm($obj->det->jr_montant),' class="inum"');?>
+                     </td>
+                 </tr>
+                  <tr>
+                      <td>
+                        <?php 
+                        $itext=new IText('npj');
+                        $itext->value=strip_tags($obj->det->jr_pj_number);
+                        echo td(_('Pièce')).td($itext->input());
+                        ?>
+                    </td>
+                  </tr>
+            </table>
+        </td>
                 <td style="width:50%;height:100%;vertical-align:top;text-align: center">
                     <table style="width:99%;height:8rem;vertical-align:top;">
                         <tr style="height: 5%">
