@@ -412,7 +412,7 @@ class HtmlInput
      */
     static function button_close($div_name)
     {
-      $a=new IButton('Fermer',_('Fermer'));
+      $a=new IButton('Fermer');
       $a->label=_("Fermer");
       $a->javascript="removeDiv('".$div_name."')";
       $html=$a->input();
@@ -428,7 +428,7 @@ class HtmlInput
     {
 	$r='';
 	$r.='<div style="position:absolute;right:2px;margin:2px;padding:0px;">';
-	$r.= '<A id="close_div" class="input_text" onclick="removeDiv(\''.$div.'\');">'._('Fermer').'</A>';
+	$r.= '<A id="close_div" class="input_text" onclick="removeDiv(\''.$div.'\');">&#10761;</A>';
 	$r.='</div>';
 	return $r;
     }
@@ -712,7 +712,7 @@ class HtmlInput
 	static function title_box($name,$div,$mod="close",$p_js="")
 	{
 		if ($mod=='close')		$r=HtmlInput::anchor_close($div);
-		if ($mod=='hide')		$r=HtmlInput::anchor_hide(_('Fermer'),"$('$div').hide();$p_js");
+		if ($mod=='hide')		$r=HtmlInput::anchor_hide("&#10761;","$('$div').hide();$p_js");
                 if ( $mod == 'none')    $r="";
 		$r.=h2($name,' class="title" ');
 		return $r;

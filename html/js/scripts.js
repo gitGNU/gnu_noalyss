@@ -510,7 +510,7 @@ function popup_select_tva(obj)
 
                             var popup = {'id': 'tva_select', 'cssclass': 'inner_box', 'style': str_style, 'html': code_html, 'drag': true};
                             add_div(popup);
-
+                            $('lk_tva_select_table').focus();
                         }
                         catch (e)
                         {
