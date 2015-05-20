@@ -135,7 +135,7 @@ function update_pj()
     );
 }
 /**
- *ask the name, quick_code of the bank for the ledger
+ *@brief ask the name, quick_code of the bank for the ledger
  */
 function update_bank()
 {
@@ -154,7 +154,7 @@ function update_bank()
 
 }
 /**
- * Update the number of rows when changing of ledger
+ * @brief Update the number of rows when changing of ledger
  */
 function update_row(ctl)
 {
@@ -211,7 +211,7 @@ function update_row(ctl)
     }
 }
 /**
- * Put into the span, the name of the bank, the bank account
+ * @brief Put into the span, the name of the bank, the bank account
  * and the quick_code
  */
 function success_update_bank(req)
@@ -237,7 +237,7 @@ function success_update_bank(req)
     }
 }
 /**
- * call ajax, ask what is the last date for the current ledger
+ * @brief call ajax, ask what is the last date for the current ledger
  */
 function get_last_date()
 {
@@ -255,7 +255,7 @@ function get_last_date()
     );
 }
 /**
- * callback ajax, set the ctl with the last date from the ledger
+ * @brief callback ajax, set the ctl with the last date from the ledger
  */
 function success_get_last_date(req)
 {
