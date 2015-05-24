@@ -54,9 +54,20 @@ if (isset($_REQUEST['show']))
     $todo=new Todo_list($cn);
     $todo->set_parameter('id',$_REQUEST['id']);
     $todo->load();
+    $content=$todo->display();
     header('Content-type: text/xml; charset=UTF-8');
-    header ('<?xml version="1.0" encoding="UTF-8"?>');
-    echo $todo->toXML();
+    $dom=new DOMDocument('1.0','UTF-8');
+    $tl_id=$dom->createElement('tl_id',$todo->get_parameter('id'));
+    $tl_content=$dom->createElement('tl_content',$content);
+    
+    
+    $root=$dom->createElement("root");
+    
+    $root->appendChild($tl_id);
+    $root->appendChild($tl_content);
+    $dom->appendChild($root);
+   
+    echo $dom->saveXML();
     exit();
 }
 
@@ -68,3 +79,34 @@ if (isset($_REQUEST['del']))
     $todo->delete();
     exit();
 }
+$ac=HtmlInput::default_value_get('act', 'save');
+
+if ($ac == 'save')
+{
+    $cn=new Database(dossier::id());
+    $todo=new Todo_List($cn);
+    $todo->set_parameter("id", HtmlInput::default_value_get("id", 0));
+    $todo->set_parameter("date", HtmlInput::default_value_get("p_date_todo", ""));
+    $todo->set_parameter("title", HtmlInput::default_value_get("p_title", ""));
+    $todo->set_parameter("desc", HtmlInput::default_value_get("p_desc", ""));
+    $todo->set_is_public(HtmlInput::default_value_get("p_public", "N"));
+    $todo->save();
+    $todo->load();
+     header('Content-type: text/xml; charset=UTF-8');
+    $dom=new DOMDocument('1.0','UTF-8');
+    $tl_id=$dom->createElement('tl_id',$todo->get_parameter('id'));
+    $tl_content=$dom->createElement('row',$todo->display_row('class="odd"','N'));
+     $root=$dom->createElement("root");
+     $todo_class=$todo->get_class();
+     $todo_class=($todo_class=="")?' odd ':$todo_class;
+     $class=$dom->createElement("style",$todo_class);
+    
+    $root->appendChild($tl_id);
+    $root->appendChild($tl_content);
+    $root->appendChild($class);
+    $dom->appendChild($root);
+   
+    echo $dom->saveXML();
+    exit();
+}
+

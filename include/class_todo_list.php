@@ -47,9 +47,10 @@ class Todo_List
                                  "date"=>"tl_date",
                                  "title"=>"tl_title",
                                  "desc"=>"tl_desc",
-                                 "owner"=>"use_login");
+                                 "owner"=>"use_login",
+                                 "is_public"=>"is_public");
     private $cn;
-    private  $tl_id,$tl_date,$tl_title,$use_login;
+    private  $tl_id,$tl_date,$tl_title,$use_login,$is_public;
 
     function __construct ($p_init)
     {
@@ -57,6 +58,7 @@ class Todo_List
         $this->tl_id=0;
         $this->tl_desc="";
         $this->use_login=$_SESSION['g_user'];
+        $this->is_public="N";
 
     }
     public function get_parameter($p_string)
@@ -139,13 +141,14 @@ class Todo_List
         $this->tl_title=mb_substr(trim($this->tl_title),0,30);
 
         $sql="insert into todo_list (tl_date,tl_title,tl_desc,use_login) ".
-             " values (to_date($1,'DD.MM.YYYY'),$2,$3,$4)  returning tl_id";
+             " values (to_date($1,'DD.MM.YYYY'),$2,$3,$4,$5)  returning tl_id";
         $res=$this->cn->exec_sql(
                  $sql,
                  array($this->tl_date,
                        $this->tl_title,
                        $this->tl_desc,
-                       $this->use_login)
+                       $this->use_login,
+                     $this->is_public)
              );
         $this->tl_id=Database::fetch_result($res,0,0);
 
@@ -158,23 +161,24 @@ class Todo_List
         if (trim($this->tl_title)=='')
             $this->tl_title=mb_substr(trim($this->tl_desc),0,40);
 
-        if (trim($this->tl_desc)=='')
+        if (trim($this->tl_title)=='')
         {
-            alert('La note est vide');
+            
             return;
         }
 
         /*  limit the title to 35 char */
         $this->tl_title=mb_substr(trim($this->tl_title),0,40);
 
-        $sql="update todo_list set tl_title=$1,tl_date=to_date($2,'DD.MM.YYYY'),tl_desc=$3 ".
+        $sql="update todo_list set tl_title=$1,tl_date=to_date($2,'DD.MM.YYYY'),tl_desc=$3,is_public=$5 ".
              " where tl_id = $4";
         $res=$this->cn->exec_sql(
                  $sql,
                  array($this->tl_title,
                        $this->tl_date,
                        $this->tl_desc,
-                       $this->tl_id)
+                       $this->tl_id,
+                     $this->is_public)
              );
 
     }
@@ -183,19 +187,29 @@ class Todo_List
      */
     public function load_all()
     {
-        $sql="select tl_id, tl_title,tl_desc,to_char( tl_date,'DD.MM.YYYY') as str_tl_date,tl_date
-             from todo_list where use_login=$1".
-             " order by tl_date::date desc";
+        $sql="select tl_id, 
+                tl_title,
+                tl_desc,
+                to_char( tl_date,'DD.MM.YYYY') as tl_date,
+                is_public,
+                use_login
+             from todo_list 
+             where 
+                use_login=$1
+                or is_public = 'Y'
+                or tl_id in (select tl_id from todo_list_shared where use_login=$1)
+             order by tl_date::date desc";
         $res=$this->cn->exec_sql(
                  $sql,
                  array($this->use_login));
         $array=Database::fetch_all($res);
+        
         return $array;
     }
     public function load()
     {
 
-        $sql="select tl_id,tl_title,tl_desc,to_char( tl_date,'DD.MM.YYYY') as tl_date
+        $sql="select tl_id,tl_title,tl_desc,to_char( tl_date,'DD.MM.YYYY') as tl_date,is_public
              from todo_list where tl_id=$1 and use_login=$2";
 
         $res=$this->cn->exec_sql(
@@ -213,12 +227,14 @@ class Todo_List
     }
     public function delete()
     {
-        $sql="delete from todo_list where tl_id=$1 and use_login=$2";
-        $res=$this->cn->exec_sql($sql,array($this->tl_id,$_SESSION['g_user']));
+        global $g_user;
+        if ( $this->use_login != $_SESSION['g_user'] && $g_user->check_action(SHARENOTEREMOVE)==0) return;
+        $sql="delete from todo_list where tl_id=$1 ";
+        $res=$this->cn->exec_sql($sql,array($this->tl_id));
 
     }
     /**
-     *@brief transform into xml
+     *@brief transform into xml for ajax answer
      */
     public function toXML()
     {
@@ -229,24 +245,107 @@ class Todo_List
         $ret='<data>'.$id.$title.$desc.$date.'</data>';
         return $ret;
     }
+    /**
+     * @brief set a note public
+     * @param $p_value is Y or N
+     */
+    public function set_is_public($p_value)
+    {
+        global $g_user;
+        if ($g_user->check_action(SHARENOTEPUBLIC) == 1 )
+        {
+            $this->is_public=$p_value;
+        }
+    }
+    /**
+     * @brief Insert a share for current note 
+     * in the table todo_list_shared
+     * @param string (use_login)
+     */
+    public function save_shared_with($p_array)
+    {
+        global $g_user;
+        if ($g_user->check_action(SHARENOTE) == 1 )
+        {
+            $this->cn->exec_sql('insert into todo_list_shared (todo_list_id,use_login) values ($1,$2)',
+                    array($this->tl_id,$p_array));
+            
+        }
+    }
+    /**
+     * @brief Insert a share for current note 
+     * in the table todo_list_shared
+     * The public shared note cannot be removed
+     * @param string (use_login)
+     */
+    public function remove_shared_with($p_array)
+    {
+          $this->cn->exec_sql('delete from todo_list_shared where todo_list_id = $1 and use_login=$2',
+                    array($this->tl_id,$p_array));
+    }
+
+    /**
+     * Display the note
+     * @return html string
+     */
+    function display()
+    {
+        ob_start();
+        $this->load();
+        include 'template/todo_list_display.php';
+        $ret=ob_get_clean();
+        
+        return $ret;
+    }
+    function get_class()
+    {
+        $p_odd="";
+        $a=date('d.m.Y');
+        if ($a == $this->tl_date) $p_odd='highlight';
+        return $p_odd;
+    }
+    function display_row($p_odd,$with_tag='Y')
+    {
+        $r="";
+        $highlight=$this->get_class();
+        $p_odd=($highlight == "")?$p_odd:$highlight;
+        if ( $with_tag == 'Y') $r =  '<tr id="tr'.$this->tl_id.'" class="'.$p_odd.'">';
+        $r.=
+      '<td sorttable_customkey="'.format_date($this->tl_date,'DD.MM.YYYY','YYYYMMDD').'">'.
+                $this->tl_date.
+      '</td>'.
+      '<td>'.
+      '<a class="line" href="javascript:void(0)" onclick="todo_list_show(\''.$this->tl_id.'\')">'.
+      htmlspecialchars($this->tl_title).
+      '</a>'.
+       '</td>'.
+      '<td>'.
+      HtmlInput::button('del','X','onClick="todo_list_remove('.$this->tl_id.')"','smallbutton').
+      '</td>';
+      if ( $with_tag == 'Y')  $r .= '</tr>';
+        return $r;
+    }
+    static  function to_object ($p_cn,$p_array) 
+    {
+        $end=count($p_array);
+        $ret=array();
+        for ($i=0;$i < $end;$i++)
+        {
+            $t=new Todo_List($p_cn);
+            $t->tl_id=$p_array[$i]['tl_id'];
+            $t->tl_date=$p_array[$i]['tl_date'];
+            $t->tl_title=$p_array[$i]['tl_title'];
+            $t->tl_desc=$p_array[$i]['tl_desc'];
+            $t->is_public=$p_array[$i]['is_public'];
+            $t->use_login=$p_array[$i]['use_login'];
+            $ret[$i]=clone $t;
+        }
+        return $ret;
+    }
     /*!\brief static testing function
      */
     static function test_me()
     {
-        $cn=new Database(dossier::id());
-        $r=new Todo_List($cn);
-        $r->set_parameter('title','test');
-        $r->use_login='phpcompta';
-        $r->set_parameter('date','02.03.2008');
-        $r->save();
-        $r->set_parameter('id',3);
-        $r->load();
-        print_r($r);
-        $r->set_parameter('title','Test UPDATE');
-        $r->save();
-        print_r($r);
-        $r->set_parameter('id',1);
-        $r->delete();
     }
 
 }

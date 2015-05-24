@@ -65,3 +65,10 @@ $array=$cn->get_array("select ac_id, ac_description from action  where ac_id >=$
  $array=$cn->get_array("select ac_id, ac_description from action  where ac_id >=$1 and ac_id <=$2 order by ac_id ",
     array(1101,1200));
     display_security_fieldset(_('Comptabilité'),$array,$sec_User); ?>
+
+<?php
+// Note Sharing
+ $array=$cn->get_array("select ac_id, ac_description from action  where ac_id >=$1 and ac_id <=$2 order by ac_id ",
+    array(1200,1300));
+    display_security_fieldset(_('Note'),$array,$sec_User); 
+?>

@@ -14,17 +14,9 @@
  * Todo list
  */
 echo dossier::hidden();
-if ( isset($_REQUEST['save_todo_list'])) {
-  /* Save the new elt */
-  $add_todo=new Todo_List($cn);
-  $add_todo->set_parameter('id',$_REQUEST['tl_id']);
-  $add_todo->set_parameter('title',$_REQUEST['p_title']);
-  $add_todo->set_parameter('desc',$_REQUEST['p_desc']);
-  $add_todo->set_parameter('date',$_REQUEST['p_date_todo']);
-  $add_todo->save();
-}
 $todo=new Todo_List($cn);
 $array=$todo->load_all();
+$a_todo=Todo_List::to_object($cn,$array);
 
 echo HtmlInput::button('add',_('Ajout'),'onClick="add_todo()"','smallbutton');
 if ( ! empty ($array) )  {
@@ -33,23 +25,10 @@ if ( ! empty ($array) )  {
   $nb=0;
   $today=date('d.m.Y');
 
-  foreach ($array as $row) {
-    if ( $nb % 2 == 0 ) $odd='class="odd" '; else $odd='class="even" ';
-    if ( strcmp($today,$row['str_tl_date'])==0) { $odd.=' style="background-color:#FFEA00"';}
+  foreach ($a_todo as $row) {
+    if ( $nb % 2 == 0 ) $odd='odd '; else $odd='even ';
     $nb++;
-    echo '<tr id="tr'.$row['tl_id'].'" '.$odd.'>'.
-      '<td sorttable_customkey="'.$row['tl_date'].'">'.
-      $row['str_tl_date'].
-      '</td>'.
-      '<td>'.
-      '<a class="line" href="javascript:void(0)" onclick="todo_list_show(\''.$row['tl_id'].'\')">'.
-      htmlspecialchars($row['tl_title']).
-      '</a>'.
-       '</td>'.
-      '<td>'.
-      HtmlInput::button('del','X','onClick="todo_list_remove('.$row['tl_id'].')"','smallbutton').
-      '</td>'.
-      '</tr>';
+    echo $row->display_row($odd);
   }
   echo '</table>';
 }

@@ -973,7 +973,7 @@ div.topmenu {
     font-variant:small-caps;
 }
 /* </style> */
-#add_todo_list {
+#add_todo_list , div.add_todo_list {
     border:1px solid #0000FF;
     background-color:#DDE6FF;
     padding:0.07%;
