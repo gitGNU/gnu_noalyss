@@ -132,7 +132,7 @@ endfor;
     <div id="go_up" class="inner_box" style="padding:0px;left:auto;width:250px;height: 100px;display:none;position:fixed;top:5px;right:20px">
         <?php echo HtmlInput::title_box(_('Navigation'), 'go_up', "hide");?>
         <div style="margin:3%;padding:3%">
-            <a class="smallbutton" href="#top" ><?php echo _('Haut');?></a>
+            <a class="button" href="#top" ><?php echo "&#11014;";?></a>
             <input type="button" id="pcmn_update_add_bt3" class="smallbutton"  value="<?php echo _('Ajout poste comptable'); ?>">
         </div>
     </div>
