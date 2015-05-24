@@ -4,7 +4,6 @@
 ?><!-- left div -->
 <div id="calendar_box_div" class="box">
 <?php echo HtmlInput::title_box(_('Calendrier'),'cal_div','zoom',"onclick=\"calendar_zoom($obj)\"");?>
-<?php echo HtmlInput::calendar_zoom($obj); ?>
 <?php echo $cal->display('short'); ?>
 </div>
 
