@@ -599,26 +599,28 @@ function set_wait_obsolete(name)
     $(content).innerHTML = 'Un instant...<image src="image/loading.gif" border="0" alt="Chargement...">';
 }
 /**
- *@brief add dynamically a object for AJAX
- *@param obj.
- * the attributes are
+ * Create a div without showing it
+ * @param {type} obj
+ *  the attributes are
  *   - style to add style
  *   - id to add an id
  *   - cssclass to add a class
  *   - html is the content
  *   - drag is the div can be moved
+ * @returns html dom element
+ * @see add_div
  */
-function add_div(obj)
+function create_div(obj)
 {
     try
     {
         var top = document;
-
+        var elt = null;
         if (!$(obj.id)) {
-            var elt = top.createElement('div');
+             elt = top.createElement('div');
         }
         else {
-            var elt = $(obj.id);
+            elt = $(obj.id);
         }
         if (obj.id)
         {
@@ -637,7 +639,7 @@ function add_div(obj)
         }
         if (obj.cssclass)
         {
-            elt.setAttribute('class', obj.cssclass);/* FF */
+            elt.setAttribute('class', obj.cssclass); /* FF */
             elt.setAttribute('className', obj.cssclass); /* IE */
         }
         if (obj.html)
@@ -646,7 +648,9 @@ function add_div(obj)
         }
 
         var bottom_div = document.body;
+        elt.hide();
         bottom_div.appendChild(elt);
+        
         /* if ( obj.effect && obj.effect != 'none' ) { Effect.Grow(obj.id,{direction:'top-right',duration:0.1}); }
          else if ( ! obj.effect ){ Effect.Grow(obj.id,{direction:'top-right',duration:0.1}); }*/
         if (obj.drag)
@@ -657,8 +661,30 @@ function add_div(obj)
                 }}
             );
         }
+        return elt;
+    }
+    catch (e)
+    {
+         error_message("create_div " + e.message);
+    }
+}
+/**
+ *@brief add dynamically a object for AJAX
+ *@param obj.
+ * the attributes are
+ *   - style to add style
+ *   - id to add an id
+ *   - cssclass to add a class
+ *   - html is the content
+ *   - drag is the div can be moved
+ */
+function add_div(obj)
+{
+    try {
+        var elt=create_div(obj);
         /* elt.setStyle({visibility:'visible'}); */
-        elt.style.visibility='visible';
+        elt.style.visibility = 'visible';
+        elt.show();
     }
     catch (e)
     {
@@ -683,6 +709,11 @@ function removeDiv(elt)
         window.location.reload();
     }
 }
+function waiting_node()
+{
+    $('info_div').innerHTML = 'Un instant';
+    $('info_div').style.display = "block";
+}
 /**
  *show a box while loading
  *must be remove when ajax is successfull
@@ -698,8 +729,7 @@ function waiting_box()
     if ($('wait_box')) {
         removeDiv('wait_box');
     }
-    $('info_div').innerHTML = 'Un instant';
-    $('info_div').style.display = "block";
+    waiting_node();
     add_div(obj);
     $('wait_box').setOpacity(0.7);
 
@@ -1227,7 +1257,7 @@ function search_reconcile(dossier, ctl_concern, amount_id, ledger, p_id_target)
     str_style += ";width:92%;overflow:auto;";
     waiting_box();
 
-    
+
     var target = {gDossier: dossier,
         ctlc: ctl_concern,
         op: 'search_op',
@@ -1325,11 +1355,16 @@ function set_reconcile(obj)
         alert(e.message)
     }
 }
+function remove_waiting_node()
+{
+    $('info_div').innerHTML = "";
+    $('info_div').style.display = "none";
+    
+}
 function remove_waiting_box()
 {
     removeDiv('wait_box');
-    $('info_div').innerHTML = "";
-    $('info_div').style.display = "none";
+    remove_waiting_node();
 }
 function get_profile_detail(gDossier, profile_id)
 {
