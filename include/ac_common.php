@@ -88,8 +88,9 @@ function tr($p_string, $p_extra='')
     return '<tr  ' . $p_extra . '>' . $p_string . '</tr>';
 }
 
-/**\brief escape correctly php string to javascript */
-
+/**
+ * @brief escape correctly php string to javascript 
+ */
 function j($p_string)
 {
     $a = preg_replace("/\r?\n/", "\\n", addslashes($p_string));
