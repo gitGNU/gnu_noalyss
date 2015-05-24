@@ -713,6 +713,7 @@ class HtmlInput
 	{
 		if ($mod=='close')		$r=HtmlInput::anchor_close($div);
 		if ($mod=='hide')		$r=HtmlInput::anchor_hide("&#10761;","$('$div').hide();$p_js");
+		if ($mod=='zoom')		$r='<span  style="float:right;margin-right:5px">'.HtmlInput::anchor("&#11036;","",$p_js,' id="close_div" class="input_text"  ').'</span>';
                 if ( $mod == 'none')    $r="";
 		$r.=h2($name,' class="title" ');
 		return $r;

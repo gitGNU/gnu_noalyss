@@ -140,7 +140,7 @@ class Todo_List
         /*  limit the title to 35 char */
         $this->tl_title=mb_substr(trim($this->tl_title),0,30);
 
-        $sql="insert into todo_list (tl_date,tl_title,tl_desc,use_login) ".
+        $sql="insert into todo_list (tl_date,tl_title,tl_desc,use_login,is_public) ".
              " values (to_date($1,'DD.MM.YYYY'),$2,$3,$4,$5)  returning tl_id";
         $res=$this->cn->exec_sql(
                  $sql,

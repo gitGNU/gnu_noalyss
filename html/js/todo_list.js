@@ -174,3 +174,28 @@ function todo_list_save(p_form)
         }
         return false;
 }
+
+/**
+ * @brief maximize or minimize the todo  list from the
+ * dashboard.
+ */
+var todo_maximize=false;
+
+function zoom_todo ()
+{
+    if ( ! todo_maximize)
+    {
+        
+        $('todo_listg_div').setStyle({'z-index':3,'position':'absolute'});
+        new Effect.Scale('todo_listg_div',200,{scaleContent:false,scaleMode:'contents'});
+        todo_maximize=true;
+    } else
+    {
+        todo_maximize=false;
+        $('todo_listg_div').setAttribute('style',"");
+        /* IE Bug */
+         if ($('todo_listg_div').style.setAttribute) { $('todo_listg_div').style.setAttribute('cssText', "") ;}
+        new Effect.Scale('todo_listg_div',100,{scaleContent:false,scaleMode:'contents'});
+    }
+   
+}

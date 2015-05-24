@@ -23,6 +23,7 @@
  * create a html with content
  * @see Todo_List
  */
+global $g_user;
 $wDate=new IDate('p_date_todo',$this->tl_date);
        
 $wTitle=new IText('p_title',$this->tl_title);
