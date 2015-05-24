@@ -21,7 +21,6 @@
  * \brief Page who manage the different actions (meeting, letter)
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once('class_ipopup.php');
 global $g_user;
 $retour=HtmlInput::button_anchor(_('Retour liste'),
 	HtmlInput::request_to_string(array("closed_action","remind_date_end","remind_date","sag_ref","only_internal","state","ac","gDossier","qcode","ag_dest_query","action_query","tdoc","date_start","date_end","hsstate","searchtag")),
@@ -34,7 +33,6 @@ require_once("class_ispan.php");
 require_once("class_ifile.php");
 require_once("class_itext.php");
 require_once("class_follow_up.php");
-require_once('class_iaction.php');
 /*!\brief Show the list of action, this code should be common
  *        to several webpage. But for the moment we keep like that
  *        because it is used only by this file.

@@ -25,7 +25,6 @@ require_once('class_dossier.php');
 include_once("ac_common.php");
 include_once ("constant.php");
 require_once('class_acc_ledger.php');
-require_once('class_ipopup.php');
 html_page_start($_SESSION['g_theme']);
 
 load_all_script();

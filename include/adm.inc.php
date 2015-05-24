@@ -25,11 +25,8 @@ require_once("class_iselect.php");
 require_once("class_ihidden.php");
 require_once("class_customer.php");
 require_once("class_ibutton.php");
-require_once('class_iaction.php');
 require_once('class_fiche_def.php');
-require_once('class_iaction.php');
 require_once('class_fiche_def.php');
-require_once('class_ipopup.php');
 require_once('class_admin.php');
 
 global $g_user;

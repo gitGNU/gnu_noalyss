@@ -120,10 +120,10 @@ class IPopup extends HtmlInput
                         $this->name);
         }
         $r.='<div style="position:absolute;top:0px;right:10px;font-weight:normal;font-size:9px;color:black;text-align:right">';
-        $r.=sprintf('<a style="background-color:blue;color:white;text-decoration:none" href="%s">'._('Fermer').'</a></div>',
+        $r.=sprintf('<a style="background-color:blue;color:white;text-decoration:none" href="%s">&#10761;</a></div>',
                     $javascript);
 
-        $r.=sprintf('<div id ="%s_content" id="%s_content" class="popup_content"> %s </div></div>',
+        $r.=sprintf('<div id ="%s_content" id="%s_content" class="inner_box"> %s </div></div>',
                     $this->name,
                     $this->name,
                     $this->value);
@@ -157,13 +157,12 @@ class IPopup extends HtmlInput
 
     static function test_me()
     {
-        echo js_include('js/scripts.js');
         require_once('class_iselect.php');
         $select=new ISelect('a');
         $select->value=array(array ('value'=>0,'label'=>'Première valeur'),
                              array ('value'=>0,'label'=>'Première valeur'),
                              array ('value'=>0,'label'=>'Première valeur'));
-        for ($e=0;$e<50;$e++)
+        for ($e=0;$e<5;$e++)
         {
             echo $select->input();
             if ($e%10 == 0 ) echo '<hr>';
@@ -178,7 +177,7 @@ class IPopup extends HtmlInput
         echo '
         <input type="button" onclick="hide(\'pop1\');hide(\'pop1_border\')" value="cacher">
                                      <input type="button" onclick="showIPopup(\'pop1\')" value="montrer">
-              ',
+              ';
         $a=new IPopup('pop2');
         $a->value='';
         $a->title="Retrouvez une saucisse";

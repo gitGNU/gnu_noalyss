@@ -25,7 +25,6 @@ require_once("class_iselect.php");
 require_once("class_ihidden.php");
 require_once("class_bank.php");
 require_once("class_ibutton.php");
-require_once('class_iaction.php');
 global $g_user;
 
 $low_action=(isset($_REQUEST['sb']))?$_REQUEST['sb']:"list";

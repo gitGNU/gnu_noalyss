@@ -25,7 +25,7 @@
  * value must be empty
  */
 require_once('class_html_input.php');
-class IAction extends HtmlInput
+class IAction_deprecated extends HtmlInput
 {
     /*!\brief show the html  input of the widget*/
     public function input($p_name="",$p_value="")
