@@ -178,6 +178,15 @@ echo "</li>";
 $module=get_loaded_extensions();
 
 echo "<li>";
+if ( in_array('mbstring',$module) == false )
+{
+  echo 'module mbstring '.$failed;
+  print '<span class="warning">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; ou activé l\'extension(mbstring) soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </span>';
+  $flag_php++;
+} else echo 'module mbstring '.$succeed;
+echo "</li>";
+
+echo "<li>";
 if ( in_array('pgsql',$module) == false )
 {
   echo 'module PGSQL '.$failed;
