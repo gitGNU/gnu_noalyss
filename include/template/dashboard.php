@@ -7,7 +7,7 @@
 <?php echo $cal->display('short'); ?>
 </div>
 
-<div id="todo_listg_div" class="box"> <?php echo HtmlInput::title_box(_('Pense-Bête'),"todo_listg_div",'zoom'," onclick=\"zoom_todo()\"\"")?>
+<div id="todo_listg_div" class="box"> <?php echo HtmlInput::title_box(_('Pense-Bête'),"todo_listg_div",'zoom'," onclick=\"zoom_todo()\"")?>
 
 <?php
 /*
