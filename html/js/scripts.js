@@ -2688,3 +2688,54 @@ function logout()
     var place_logout = tmp_place.replace(tmp_b[tmp_last], 'logout.php');
     window.location.href = place_logout;
 }
+/**
+ * Create a div which can be used in a anchor
+ * @returns {undefined}
+ */
+function create_anchor_up()
+{
+    if ( $('up_top')) return;
+    
+    var newElt = new Element('div');
+    newElt.setAttribute('id', 'up_top');
+    newElt.innerHTML='<a id="up_top"></a>';
+    
+    var parent = $('info_div').parentNode;
+    parent.insertBefore(newElt, $('info_div'));
+    
+}
+/**
+ * Initialize the window to show the button "UP" if the window is scrolled
+ * vertically
+ * @returns {undefined}
+ */
+function init_scroll()
+{
+    var up=new Element('div',{"class":"inner_box",
+            "style":"padding:10px;left:auto;width:30px;height: auto;display:none;position:fixed;top:25px;right:20px;text-align:center",
+            id:"go_up"
+        });
+        up.innerHTML=' <a class="button" href="#up_top" >&#11014;</a>';
+        document.body.appendChild(up);
+         window.onscroll=function () {
+         if ( document.viewport.getScrollOffsets().top> 0) {
+             if ($('go_up').visible() == false) {
+                $('go_up').setOpacity(0.85); 
+                $('go_up').show();
+            }
+        } else {
+            $('go_up').hide();
+        }
+     }
+}
+/**
+ * All the onload must be here otherwise the other will overwritten
+ * @returns {undefined}
+ */
+window.onload=function ()
+{
+    console.log('loading');
+    create_anchor_up();
+    init_scroll();
+    sorttable.init
+}

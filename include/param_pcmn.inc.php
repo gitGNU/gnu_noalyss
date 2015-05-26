@@ -129,6 +129,11 @@ for ($i=0; $i <$MaxRow; $i++):
 endfor;
 ?>
 </TABLE>
+    <?php
+    /* it will override the classic onscroll (see scripts.js)
+     * @see scripts.js
+     */
+    ?>
     <div id="go_up" class="inner_box" style="padding:0px;left:auto;width:250px;height: 100px;display:none;position:fixed;top:5px;right:20px">
         <?php echo HtmlInput::title_box(_('Navigation'), 'go_up', "hide");?>
         <div style="margin:3%;padding:3%">
