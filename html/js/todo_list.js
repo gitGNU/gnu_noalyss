@@ -186,7 +186,7 @@ function zoom_todo ()
     if ( ! todo_maximize)
     {
         
-        $('todo_listg_div').setStyle({'z-index':3,'position':'absolute'});
+        $('todo_listg_div').setStyle({'z-index':1,'position':'absolute'});
         new Effect.Scale('todo_listg_div',200,{scaleContent:false,scaleMode:'contents'});
         todo_maximize=true;
     } else
