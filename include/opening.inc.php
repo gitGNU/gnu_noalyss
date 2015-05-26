@@ -32,6 +32,8 @@ if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once("class_iselect.php");
 require_once('class_acc_ledger.php');
 
+$p_mesg="";
+
 $sa = (isset($_REQUEST['sa'])) ? $_REQUEST['sa'] : '';
 $g_user->Check();
 
