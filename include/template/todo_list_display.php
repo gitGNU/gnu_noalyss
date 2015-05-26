@@ -33,7 +33,7 @@ $wDesc->width=40;
 $is_public=new ICheckBox('p_public');
 $is_public->value='Y';
 $is_public->set_check($this->is_public);
-
+$dossier=Dossier::id();
 echo HtmlInput::title_box("Note","todo_list_div".$this->tl_id);
 ?>
 <form id="todo_form_<?php echo $this->tl_id?>" onsubmit="todo_list_save(<?php echo $this->tl_id?>);return false">
@@ -75,21 +75,29 @@ echo HtmlInput::title_box("Note","todo_list_div".$this->tl_id);
         <?php
         endif;
         ?>
+        <?php 
+        // section if the user can share note with other
+        //users
+        if ($g_user->check_action(SHARENOTE)) : 
+        ?>
         
         <tr>
             <td>
                 <?php echo _('Partage')?>
             </td>
             <td>
-                Partage
+               <?php echo HtmlInput::anchor(_('Partage'), "", " onclick=\"todo_list_share({$this->tl_id},{$dossier}) \";")?>
             </td>
         </tr>
+        <?php
+        endif;
+        ?>
     </table>
     <?php echo h($wDesc->input()); ?>
     <?php echo dossier::hidden(); ?>
     <?php echo HtmlInput::hidden('act','save') ?>
     <?php echo HtmlInput::hidden('id',$this->tl_id) ?>
-    
+    <p style='text-align: center'>
     <input type="submit" class="smallbutton" value="<?php echo _('Sauve');?>" onclick="todo_list_save(<?php echo $this->tl_id?>);return false">
-    
+    </p>
 </form>

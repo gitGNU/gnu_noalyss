@@ -95,15 +95,6 @@ function todo_list_show_error(request_json)
 function add_todo()
 {
     todo_list_show(0);
-    /*$('add_todo_list').style.top = posY + offsetY + "px";
-    $('add_todo_list').style.left = posX + offsetX + "px";
-
-    $('p_title').value = '';
-
-    $('p_date_todo').value = '';
-    $('p_desc').value = '';
-    $('tl_id').value = 0;
-    $('add_todo_list').style.display = 'block';*/
 }
 function todo_list_remove(p_ctl)
 {
@@ -132,7 +123,6 @@ function todo_list_remove(p_ctl)
 function todo_list_save(p_form)
 {
     try {
-    console.log(p_form);
     var form=$('todo_form_'+p_form);
     var json=form.serialize(true);
     new Ajax.Request('ajax_todo_list.php',
@@ -176,11 +166,14 @@ function todo_list_save(p_form)
 }
 
 /**
- * @brief maximize or minimize the todo  list from the
- * dashboard.
+ * @brief toggle the zoom of the note
  */
 var todo_maximize=false;
-
+/**
+ * @brief maximize or minimize the todo  list from the
+ * dashboard.
+ * @returns {undefined}
+ */
 function zoom_todo ()
 {
     if ( ! todo_maximize)
@@ -198,4 +191,56 @@ function zoom_todo ()
          if ($('todo_listg_div').style.setAttribute) { $('todo_listg_div').style.setAttribute('cssText', "") ;}
     }
    
+}
+function todo_list_share(p_note, p_dossier)
+{
+    waiting_node();
+    new Ajax.Request(
+            'ajax_todo_list.php',
+            {
+                method: "get",
+                parameters: {"act": 'shared_note',
+                    "todo_id": p_note,
+                    "gDossier": p_dossier
+                },
+                onSuccess: function (p_xml) {
+                    try {
+                        /**
+                         * Show the little div to add other user
+                         * or a error message if it is forbidden
+                         */
+                        remove_waiting_node();
+                        var answer = p_xml.responseXML;
+                        var content = answer.getElementsByTagName('content');
+                        if (content.length == 0) {
+                            return;
+                        }
+                        var html_content=unescape_xml(getNodeText(content[0]));
+                        var shared_note = "shared_" + p_note;
+                        create_div({"id": shared_note, "cssclass": "inner_box",drag:1});
+                        $("shared_" + p_note).setStyle( { top : posY + offsetY+"px",left:posX+offsetY+"px","width":"25%"});
+                        $("shared_" + p_note).hide();
+                        $(shared_note).innerHTML = html_content;
+                        $(shared_note).show();
+
+                    } catch (e) {
+                        alert(e.message);
+                    }
+                }
+            }
+    );
+
+}
+function todo_list_set_share(note_id,p_login,p_dossier)
+{
+    waiting_node();
+    new Ajax.Request('ajax_todo_list.php',
+            {
+                method:"get",
+                parameters: { todo_id:note_id,act:"set_share","gDossier":p_dossier,"login":p_login},
+                onSuccess:function() {
+                    remove_waiting_node();
+                }
+            }
+    )
 }

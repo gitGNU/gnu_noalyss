@@ -47,7 +47,9 @@ $g_user=new User($cn);
 $g_user->check(true);
 $g_user->check_dossier(Dossier::id(),true);
 ajax_disconnected('add_todo_list');
-
+////////////////////////////////////////////////////////////////////////////////
+// Display the note
+////////////////////////////////////////////////////////////////////////////////
 if (isset($_REQUEST['show']))
 {
     $cn=new Database(dossier::id());
@@ -70,7 +72,9 @@ if (isset($_REQUEST['show']))
     echo $dom->saveXML();
     exit();
 }
-
+////////////////////////////////////////////////////////////////////////////////
+// Delete  the note
+////////////////////////////////////////////////////////////////////////////////
 if (isset($_REQUEST['del']))
 {
     $cn=new Database(dossier::id());
@@ -81,6 +85,9 @@ if (isset($_REQUEST['del']))
 }
 $ac=HtmlInput::default_value_get('act', 'save');
 
+////////////////////////////////////////////////////////////////////////////////
+// Save the modification of a note
+////////////////////////////////////////////////////////////////////////////////
 if ($ac == 'save')
 {
     $cn=new Database(dossier::id());
@@ -110,3 +117,110 @@ if ($ac == 'save')
     exit();
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Display a list to select the user with who we want to share notes
+////////////////////////////////////////////////////////////////////////////////
+if ($ac=='shared_note')
+{
+    $id=HtmlInput::default_value_get("todo_id", 0);
+    // If note_id is not correct then give an error
+    if ($id==0||isNumber($id)==0)
+    {
+        header('Content-type: text/xml; charset=UTF-8');
+        $dom=new DOMDocument('1.0', 'UTF-8');
+        $tl_id=$dom->createElement('content', _("Erreur : note invalide"));
+        $dom->appendChild($tl_id);
+        echo $dom->saveXML();
+        return;
+    }
+    $todo=new Todo_List($cn);
+    $todo->set_parameter("id", $id);
+    $todo->load();
+    if ($g_user->login!=$todo->get_parameter("owner"))
+    {
+        header('Content-type: text/xml; charset=UTF-8');
+        $dom=new DOMDocument('1.0', 'UTF-8');
+        $tl_id=$dom->createElement('content', _("Cette note n'est pas à vous"));
+        $dom->appendChild($tl_id);
+        echo $dom->saveXML();
+        return;
+    }
+    if ($g_user->check_action(SHARENOTE)== 0) 
+    {
+        header('Content-type: text/xml; charset=UTF-8');
+        $dom=new DOMDocument('1.0', 'UTF-8');
+        $tl_id=$dom->createElement('content', _("Accès interdit"));
+        $dom->appendChild($tl_id);
+        echo $dom->saveXML();
+        return;
+    }
+    ob_start();
+    echo HtmlInput::title_box(_('Liste utilisateurs'), "shared_".$id);
+    $todo->display_user();
+    $result=ob_get_clean();
+    // 
+    // output the XML
+    header('Content-type: text/xml; charset=UTF-8');
+    $dom=new DOMDocument('1.0', 'UTF-8');
+    $tl_id=$dom->createElement('content',  escape_xml($result));
+    $dom->appendChild($tl_id);
+    echo $dom->saveXML();
+    return;
+}
+////////////////////////////////////////////////////////////////////////////////
+// Share the note with someone or remove it
+////////////////////////////////////////////////////////////////////////////////
+if ( $ac=="set_share") 
+{
+    $id=HtmlInput::default_value_get("todo_id", 0);
+    $p_login=HtmlInput::default_value_get("login","");
+    // If note_id is not correct then give an error
+    if ($id==0||isNumber($id)==0  || trim ($p_login)=="")
+    {
+        header('Content-type: text/xml; charset=UTF-8');
+        $dom=new DOMDocument('1.0', 'UTF-8');
+        $tl_id=$dom->createElement('content', _("Erreur : paramètre invalide"));
+        $dom->appendChild($tl_id);
+        echo $dom->saveXML();
+        return;
+    }
+    $todo=new Todo_List($cn);
+    $todo->set_parameter("id", $id);
+    $todo->load();
+    if ($g_user->login!=$todo->get_parameter("owner"))
+    {
+        header('Content-type: text/xml; charset=UTF-8');
+        $dom=new DOMDocument('1.0', 'UTF-8');
+        $tl_id=$dom->createElement('content', _("Cette note n'est pas à vous"));
+        $dom->appendChild($tl_id);
+        echo $dom->saveXML();
+        return;
+    }
+    if ($g_user->login!=$todo->get_parameter("owner"))
+    {
+        header('Content-type: text/xml; charset=UTF-8');
+        $dom=new DOMDocument('1.0', 'UTF-8');
+        $tl_id=$dom->createElement('content', _("Cette note n'est pas à vous"));
+        $dom->appendChild($tl_id);
+        echo $dom->saveXML();
+        return;
+    } 
+    if ($g_user->check_action(SHARENOTE)== 0) 
+    {
+        header('Content-type: text/xml; charset=UTF-8');
+        $dom=new DOMDocument('1.0', 'UTF-8');
+        $tl_id=$dom->createElement('content', _("Accès interdit"));
+        $dom->appendChild($tl_id);
+        echo $dom->saveXML();
+        return;
+    }
+    if ( $todo->is_shared_with($p_login) == 0 )
+    {
+        // Add a share to the user
+        $todo->add_share($p_login);
+        
+    } else {
+        // remove a share from the user
+        $todo->remove_share($p_login);
+    }
+}

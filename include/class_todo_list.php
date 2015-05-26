@@ -342,6 +342,48 @@ class Todo_List
         }
         return $ret;
     }
+    /**
+     * @brief display all the user to select the user with who we want to share
+     * the connected user is not shown
+     * @global type $g_user
+     */
+    function display_user()
+    {
+        global $g_user;
+        // Get array of user
+        $p_array=User::get_list(Dossier::id());
+        $dossier=Dossier::id();
+        include 'template/todo_list_list_user.php';
+        
+    }
+    /**
+     * return the todo_list_shared.id of the note, if nothing is found then
+     * return 0
+     * @param $p_login
+     * @return int
+     */
+    function is_shared_with($p_login)
+    {
+        $ret=$this->cn->get_value("select id from todo_list_shared where use_login=$1 and todo_list_id=$2",array($p_login,$this->tl_id));
+        if ($ret == "")return 0;
+        return $ret;
+    }
+    /**
+     * @brief Add a share with someone
+     * @param type $p_login
+     */
+    function add_share($p_login)
+    {
+        $this->cn->exec_sql("insert into todo_list_shared(todo_list_id,use_login) values ($1,$2)",array($this->tl_id,$p_login));
+    }
+    /**
+     * @brief remove the share with someone
+     * @param type $p_login
+     */
+    function remove_share($p_login)
+    {
+        $this->cn->exec_sql("delete from todo_list_shared where todo_list_id = $1 and use_login  = $2 ",array($this->tl_id,$p_login));
+    }
     /*!\brief static testing function
      */
     static function test_me()
