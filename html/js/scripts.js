@@ -2734,7 +2734,6 @@ function init_scroll()
  */
 window.onload=function ()
 {
-    console.log('loading');
     create_anchor_up();
     init_scroll();
     sorttable.init
