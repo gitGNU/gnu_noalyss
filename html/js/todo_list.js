@@ -187,15 +187,15 @@ function zoom_todo ()
     {
         
         $('todo_listg_div').setStyle({'z-index':1,'position':'absolute'});
-        new Effect.Scale('todo_listg_div',200,{scaleContent:false,scaleMode:'contents'});
+        new Effect.Scale('todo_listg_div',200,{scaleContent:false,scaleMode:'contents',scaleFromCenter :false});
         todo_maximize=true;
     } else
     {
         todo_maximize=false;
+        new Effect.Scale('todo_listg_div',99,{scaleContent:false,scaleMode:'contents'});
         $('todo_listg_div').setAttribute('style',"");
         /* IE Bug */
          if ($('todo_listg_div').style.setAttribute) { $('todo_listg_div').style.setAttribute('cssText', "") ;}
-        new Effect.Scale('todo_listg_div',100,{scaleContent:false,scaleMode:'contents'});
     }
    
 }
