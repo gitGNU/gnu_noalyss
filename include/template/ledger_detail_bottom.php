@@ -261,6 +261,7 @@ require_once('template/ledger_detail_file.php');
 
 <hr>
 <?php 
+      echo '<p style="text-align:center">';
 
 if ( $div != 'popup' ) {
   $a=new IButton('Fermer',_('Fermer'));
@@ -272,6 +273,7 @@ if ( $div != 'popup' ) {
 }
 
 ?>
+
 <?php 
 
 /**
@@ -297,7 +299,7 @@ if ( $div != 'popup' ) {
   $reverse->label=_('Extourner');
   $reverse->javascript="g('ext".$div."').style.display='block'";
   echo $reverse->input();
-
+    echo '</p>';
 echo '</form>';
 
   echo '<div id="ext'.$div.'" class="inner_box" style="position:relative;top:-150px;display:none">';
@@ -305,13 +307,21 @@ echo '</form>';
   $r="<form id=\"form_".$div."\" onsubmit=\"this.divname='$div';return reverseOperation(this);\">";
   $r.=HtmlInput::hidden('jr_id',$_REQUEST['jr_id']).HtmlInput::hidden('div',$div).dossier::hidden().HtmlInput::hidden('act','reverseop');
   $r.=HtmlInput::title_box(_('Extourner'), 'ext'.$div, 'hide');
-  $r.="entrez une date :".$date->input();
+  $r.="<p>";
+  $r.= _("Extourner une opération vous permet de l'annuler par son écriture inverse");
+  $r.="</p>";
+
+  $r.=_("entrez une date")." :".$date->input();
+    $r.='<p  style="text-align:center">';
   $r.=HtmlInput::submit('x','accepter','onclick="return confirm(\'Vous confirmez  ? \');"');
+    $r.="</p>";
   $r.='</form>';
   echo $r;
   echo '</div>';
 
 
 
+}else {
+    echo '</p>';
 }
 ?>
