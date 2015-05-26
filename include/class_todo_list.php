@@ -197,7 +197,7 @@ class Todo_List
              where 
                 use_login=$1
                 or is_public = 'Y'
-                or tl_id in (select tl_id from todo_list_shared where use_login=$1)
+                or tl_id in (select todo_list_id from todo_list_shared where use_login=$1)
              order by tl_date::date desc";
         $res=$this->cn->exec_sql(
                  $sql,
@@ -210,11 +210,11 @@ class Todo_List
     {
 
         $sql="select tl_id,tl_title,tl_desc,to_char( tl_date,'DD.MM.YYYY') as tl_date,is_public
-             from todo_list where tl_id=$1 and use_login=$2";
+             from todo_list where tl_id=$1 ";
 
         $res=$this->cn->exec_sql(
                  $sql,
-                 array($this->tl_id,$_SESSION['g_user'])
+                 array($this->tl_id)
              );
 
         if ( Database::num_row($res) == 0 ) return;
