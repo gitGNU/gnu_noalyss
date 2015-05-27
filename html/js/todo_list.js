@@ -244,3 +244,29 @@ function todo_list_set_share(note_id,p_login,p_dossier)
             }
     )
 }
+function todo_list_remove_share(note_id,p_login,p_dossier)
+{
+    waiting_node();
+    new Ajax.Request('ajax_todo_list.php',{
+        parameters : {
+            'gDossier':p_dossier,
+            'todo_id':note_id,
+            'login':p_login,
+            'act':"remove_share"
+        },
+        method:"get",
+        onSuccess:function (p_xml) {
+            remove_waiting_node();
+            var answer=p_xml.responseXML;
+            var status=answer.getElementsByTagName('status');
+            if ( status.length == 0) {
+                alert ('erreur reponse ');
+            }
+            var status_code=getNodeText(status[0]);
+            if ( status_code == 'ok') {
+                $("tr" + note_id).hide();
+                
+            }
+        }
+    });
+}

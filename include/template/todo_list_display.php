@@ -97,7 +97,9 @@ echo HtmlInput::title_box("Note","todo_list_div".$this->tl_id);
     <?php echo dossier::hidden(); ?>
     <?php echo HtmlInput::hidden('act','save') ?>
     <?php echo HtmlInput::hidden('id',$this->tl_id) ?>
+    <?php if ($this->use_login == $_SESSION['g_user']) : ?>
     <p style='text-align: center'>
-    <input type="submit" class="smallbutton" value="<?php echo _('Sauve');?>" onclick="todo_list_save(<?php echo $this->tl_id?>);return false">
+        <input type="submit" class="smallbutton" value="<?php echo _('Sauve');?>" onclick="todo_list_save(<?php echo $this->tl_id?>);return false">
     </p>
+     <?php endif; ?>   
 </form>

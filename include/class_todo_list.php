@@ -322,10 +322,26 @@ class Todo_List
       '<a class="line" href="javascript:void(0)" onclick="todo_list_show(\''.$this->tl_id.'\')">'.
       htmlspecialchars($this->tl_title).
       '</a>'.
-       '</td>'.
-      '<td>'.
-      HtmlInput::button('del','X','onClick="todo_list_remove('.$this->tl_id.')"','smallbutton').
-      '</td>';
+       '</td>';
+        if ( $this->is_public == 'Y' && $this->use_login != $_SESSION['g_user'] )
+        { // This is a public note, cannot be removed
+            $r.= '<td></td>';
+        }
+        elseif ($this->use_login == $_SESSION['g_user'] )
+        {
+            // This a note the user owns
+            $r.=  '<td>'.
+         HtmlInput::button('del','X','onClick="todo_list_remove('.$this->tl_id.')"','smallbutton').
+         '</td>';
+        }
+        else
+        { 
+            // this is a note shared by someone else
+            $r.=  '<td>'.
+                HtmlInput::button('del','X','onClick="todo_list_remove_share('.$this->tl_id.',\''.$this->use_login.'\','.Dossier::id().')"','smallbutton').
+         '</td>';
+        }
+        
       if ( $with_tag == 'Y')  $r .= '</tr>';
         return $r;
     }
