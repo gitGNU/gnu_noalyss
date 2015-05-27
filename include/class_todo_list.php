@@ -297,6 +297,10 @@ class Todo_List
         
         return $ret;
     }
+    /**
+     * Highlight today
+     * @return string
+     */
     function get_class()
     {
         $p_odd="";
