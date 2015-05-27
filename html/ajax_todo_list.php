@@ -90,14 +90,23 @@ $ac=HtmlInput::default_value_get('act', 'save');
 ////////////////////////////////////////////////////////////////////////////////
 if ($ac == 'save')
 {
+    
     $cn=new Database(dossier::id());
     $todo=new Todo_List($cn);
-    $todo->set_parameter("id", HtmlInput::default_value_get("id", 0));
+     $id=HtmlInput::default_value_get("id", 0);
+    $todo->set_parameter("id",$id);
+    if ($id <> 0 ) { $todo->load(); }
+    else
+    {
+        $todo->set_parameter("owner", $_SESSION['g_user']);
+    }
+    
     $todo->set_parameter("date", HtmlInput::default_value_get("p_date_todo", ""));
     $todo->set_parameter("title", HtmlInput::default_value_get("p_title", ""));
     $todo->set_parameter("desc", HtmlInput::default_value_get("p_desc", ""));
     $todo->set_is_public(HtmlInput::default_value_get("p_public", "N"));
-    $todo->save();
+    
+    if ( $todo->get_parameter('owner') == $_SESSION['g_user'] ) $todo->save();
     $todo->load();
      header('Content-type: text/xml; charset=UTF-8');
     $dom=new DOMDocument('1.0','UTF-8');
@@ -223,4 +232,36 @@ if ( $ac=="set_share")
         // remove a share from the user
         $todo->remove_share($p_login);
     }
+}
+////////////////////////////////////////////////////////////////////////////////
+// Remove the share of a note which the connected user doesn't own
+// 
+////////////////////////////////////////////////////////////////////////////////
+if ( $ac=="remove_share") 
+{
+    $id=HtmlInput::default_value_get("todo_id", 0);
+    $p_login=HtmlInput::default_value_get("login","");
+    // If note_id is not correct then give an error
+    if ($id==0||isNumber($id)==0  || trim ($p_login)=="")
+    {
+        header('Content-type: text/xml; charset=UTF-8');
+        $dom=new DOMDocument('1.0', 'UTF-8');
+        $status=$dom->createElement('status', "nok");
+        $tl_id=$dom->createElement('content', _("Erreur : paramètre invalide"));
+        $dom->appendChild($status);
+        $dom->appendChild($tl_id);
+        echo $dom->saveXML();
+        return;
+    }
+    $todo=new Todo_List($cn);
+    $todo->set_parameter("id", $id);
+    $todo->load();
+    $todo->remove_share($p_login);
+    
+    header('Content-type: text/xml; charset=UTF-8');
+    $dom=new DOMDocument('1.0', 'UTF-8');
+    $status=$dom->createElement('status', "ok");
+    $dom->appendChild($status);
+    echo $dom->saveXML();
+    return;
 }
