@@ -209,7 +209,7 @@ class Todo_List
     public function load()
     {
 
-        $sql="select tl_id,tl_title,tl_desc,to_char( tl_date,'DD.MM.YYYY') as tl_date,is_public
+        $sql="select tl_id,tl_title,tl_desc,to_char( tl_date,'DD.MM.YYYY') as tl_date,is_public,use_login
              from todo_list where tl_id=$1 ";
 
         $res=$this->cn->exec_sql(
