@@ -2715,7 +2715,7 @@ function init_scroll()
             "style":"padding:10px;left:auto;width:30px;height: auto;display:none;position:fixed;top:25px;right:20px;text-align:center",
             id:"go_up"
         });
-        up.innerHTML=' <a class="button" href="#up_top" >&#11014;</a>';
+        up.innerHTML=' <a class="button" href="#up_top" >&#8679;</a>';
         document.body.appendChild(up);
          window.onscroll=function () {
          if ( document.viewport.getScrollOffsets().top> 0) {
