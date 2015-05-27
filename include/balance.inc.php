@@ -288,11 +288,16 @@ if ( isset($_GET['view'] ) )
         echo '<th>Cr&eacute;dit N-1</th>';
         echo '<th>Solde D&eacute;biteur N-1</th>';
         echo '<th>Solde Cr&eacute;diteur N-1</th>';
+        if ( isset($_GET['lvl1']) || isset($_GET['lvl2']) || isset($_GET['lvl3'])) 
+            echo '<th>Solde  N-1</th>';
+            
     }
     echo '<th>D&eacute;bit</th>';
     echo '<th>Cr&eacute;dit</th>';
     echo '<th>Solde D&eacute;biteur </th>';
     echo '<th>Solde Cr&eacute;diteur</th>';
+    if ( isset($_GET['lvl1']) || isset($_GET['lvl2']) || isset($_GET['lvl3'])) 
+        echo '<th>Solde</th>';
     $i=0;
     if ( $previous == 1) {
         $a_sum=array('sum_cred','sum_deb','solde_deb','solde_cred','sum_cred_previous','sum_deb_previous','solde_deb_previous','solde_cred_previous');
@@ -339,11 +344,18 @@ if ( isset($_GET['view'] ) )
                     echo td(nbm(${'lvl'.$ind}['sum_cred_previous']),' class="previous_year" style="font-weight:bold;" ');
                     echo td(nbm(${'lvl'.$ind}['solde_deb_previous']),'class="previous_year" style="font-weight:bold;"');
                     echo td(nbm(${'lvl'.$ind}['solde_cred_previous']),'class="previous_year" style="font-weight:bold;"');
+                    $delta_previous=bcsub(${'lvl'.$ind}['solde_cred_previous'],${'lvl'.$ind}['solde_deb_previous']);
+                    $side_previous=($delta_previous > 0 ) ? "C":"D";
+                    echo td(nbm($delta_previous)." $side_previous",'class="previous_year"  style="text-align:right;font-weight:bold;"  ');
+                    
                 }
 		echo td(nbm(${'lvl'.$ind}['sum_deb']),'style="text-align:right;font-weight:bold;"  ');
 		echo td(nbm(${'lvl'.$ind}['sum_cred']),'style="text-align:right;font-weight:bold;"');
 		echo td(nbm(${'lvl'.$ind}['solde_deb']),'style="text-align:right;font-weight:bold;"');
 		echo td(nbm(${'lvl'.$ind}['solde_cred']),'style="text-align:right;font-weight:bold;"');
+                $delta=bcsub(${'lvl'.$ind}['solde_cred'],${'lvl'.$ind}['solde_deb']);
+                $side=($delta > 0 ) ? "C":"D";
+                echo td(nbm($delta)." $side",'style="text-align:right;font-weight:bold;"  ');
 
 		echo '</tr>';
 		${'lvl'.$ind.'_old'}=mb_substr($r['poste'],0,$ind);
@@ -368,11 +380,13 @@ if ( isset($_GET['view'] ) )
             echo td(nbm($r['sum_cred_previous']),' class="previous_year" ');
             echo td(nbm($r['solde_deb_previous']),' class="previous_year"');
             echo td(nbm($r['solde_cred_previous']),'class="previous_year" ');
+            if ( isset($_GET['lvl1']) || isset($_GET['lvl2']) || isset($_GET['lvl3']))             echo '<td></td>';
         }
         echo td(nbm($r['sum_deb']),'style="text-align:right;"');
 	echo td(nbm($r['sum_cred']),'style="text-align:right;"');
 	echo td(nbm($r['solde_deb']),'style="text-align:right;"');
 	echo td(nbm($r['solde_cred']),'style="text-align:right;"');
+        if ( isset($_GET['lvl1']) || isset($_GET['lvl2']) || isset($_GET['lvl3']))             echo '<td></td>';
         echo '</TR>';
 
     }

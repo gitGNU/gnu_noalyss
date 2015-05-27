@@ -37,7 +37,7 @@ require_once ('header_print.php');
 require_once('class_dossier.php');
 require_once('class_pdf.php');
 $gDossier=dossier::id();
-
+bcscale(4);
 $cn=new Database($gDossier);
 $rep=new Database();
 require_once ('class_user.php');
@@ -160,13 +160,20 @@ if (! empty($array))
 	    if ( ${'lvl'.$ind.'_old'} != substr($r['poste'],0,$ind))
 	      {
 		$pdf->SetFont('DejaVu','B',7);
-		$pdf->LongLine(30,6,"Totaux ".$ind);
-		$pdf->LongLine(60,6,${'lvl'.$ind.'_old'});
+		$pdf->LongLine(30,6,${'lvl'.$ind.'_old'});
+                $delta=bcsub(${'nlvl'.$ind}['solde_cred'],${'nlvl'.$ind}['solde_deb']);
+                $side=($delta< 0) ? "D":"C";
                 if ($previous == 1 ) {
+                    $delta_previous=bcsub(${'nlvl'.$ind}['solde_cred_previous'],${'nlvl'.$ind}['solde_deb_previous']);
+                    $side_previous=($delta_previous < 0) ? "D":"C";
+                    $pdf->Cell(30,6,"n-1 : " .nbm($delta_previous)." $side_previous",0,0,'R');
+                     $pdf->Cell(30,6," n : ".nbm($delta)." $side",0,0,'R');
                     $pdf->Cell(22,6,nbm(${'nlvl'.$ind}['sum_deb_previous']),0,0,'R');
                     $pdf->Cell(22,6,nbm(${'nlvl'.$ind}['sum_cred_previous']),0,0,'R');
                     $pdf->Cell(22,6,nbm(${'nlvl'.$ind}['solde_deb_previous']),0,0,'R');
                     $pdf->Cell(22,6,nbm(${'nlvl'.$ind}['solde_cred_previous']),0,0,'R');
+                } else {
+                     $pdf->Cell(60,6,nbm($delta)." $side",0,0,'R');
                 }
 		$pdf->Cell(25,6,nbm(${'nlvl'.$ind}['sum_deb']),0,0,'R');
 		$pdf->Cell(25,6,nbm(${'nlvl'.$ind}['sum_cred']),0,0,'R');
