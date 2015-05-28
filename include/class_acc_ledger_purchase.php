@@ -559,7 +559,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 
                 
                 /* We have to compute all the amount thanks Acc_Compute */
-                $amount=bcmul(${'e_march'.$i.'_price'},${'e_quant'.$i});
+                $amount=round(bcmul(${'e_march'.$i.'_price'},${'e_quant'.$i}),2);
                 
                 $acc_amount=new Acc_Compute();
                 $acc_amount->check=false;
@@ -593,7 +593,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 
 
               
-                $tot_amount=bcadd($tot_amount,$amount);
+                $tot_amount=round(bcadd($tot_amount,$amount),2);
 
                 /* get the account and explode if necessary */
                 $sposte=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
@@ -1429,7 +1429,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $fiche_name=h(${"e_march".$i."_label"});
             else
                 $fiche_name=$fiche->strAttribut (ATTR_DEF_NAME);
-
+$r.="x";
             $amount=bcmul(${"e_march".$i."_price"},${'e_quant'.$i});
             if ( $g_parameter->MY_TVA_USE=='Y')
             {
@@ -1452,7 +1452,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     $tva_item=round(${'e_march'.$i.'_tva_amount'},2);
 
                 if (isset($tva[$idx_tva] ) )
-                    $tva[$idx_tva]+=$tva_item;
+                    $tva[$idx_tva]=bcadd($tva_item,$tva[$idx_tva]);
                 else
                     $tva[$idx_tva]=$tva_item;
                
@@ -1460,7 +1460,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 
             }
             $tot_amount=round(bcadd($tot_amount,$amount),2);
-			$tot_row=bcadd($tot_row,$amount);
+            $tot_row=round(bcadd($tot_row,$amount),2);
             $r.='<tr>';
             $r.='<td>';
             $r.=${"e_march".$i};
@@ -1487,7 +1487,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $r.='</td>';
                 /* warning if tva_computed and given are not the
                    same */
-		bcscale(2);
                 $css_void_tva=($both_side == 1)?'style="text-decoration:line-through"':'';
                 if ( bcsub($tva_item,$tva_computed) != 0 && ! ($tva_item == 0 && $both_side == 1))
                 {
@@ -1502,7 +1501,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                         $r.=nbm($tva_item);
                 }
                 $r.='</td>';
-                $r.='<td class="num">';
+                $r.='<td class="num"> ';
                 $r.=nbm(round($amount,2));
                 $r.='</td>';
             }

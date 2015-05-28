@@ -277,7 +277,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
                 $fiche = new Fiche($this->db);
                 $fiche->get_by_qcode(${"e_march" . $i});
                 $amount = bcmul(${'e_march' . $i . '_price'}, ${'e_quant' . $i});
-                $tot_amount = bcadd($tot_amount, $amount);
+                $tot_amount = round(bcadd($tot_amount, $amount),2);
                 $acc_operation = new Acc_Operation($this->db);
                 $acc_operation->date = $e_date;
                 $sposte = $fiche->strAttribut(ATTR_DEF_ACCOUNT);
