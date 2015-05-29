@@ -46,3 +46,4 @@ Arbre dépendance
 ) select * from t;
 
 */
+update menu_ref set me_menu = me_menu||' <span id="menu_'||lower(me_code)||'"><img src="image/empty.gif"></span>' where me_type='ME';
