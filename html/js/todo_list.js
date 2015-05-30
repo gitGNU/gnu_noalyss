@@ -153,6 +153,8 @@ function todo_list_save(p_form)
                             tr.innerHTML=unescape_xml(html);
                             $w(tr.className).each ( function(p_class) { tr.removeClassName(p_class); } );
                             tr.addClassName(getNodeText(style[0]));
+                            // remove the user list if exists
+                            if ( $('shared_'+p_form)) {$('shared_'+p_form).remove();}
                            Effect.Fold('todo_list_div'+p_form,{duration:0.1});
                        }
                     }
@@ -176,21 +178,24 @@ var todo_maximize=false;
  */
 function zoom_todo ()
 {
+    waiting_box();
     if ( ! todo_maximize)
     {
-        
-        $('todo_listg_div').setStyle({'z-index':1,'position':'absolute'});
-        new Effect.Scale('todo_listg_div',200,{scaleContent:false,scaleMode:'contents',scaleFromCenter :false});
+        var clonetodo=$('todo_listg_div').clone();
+        clonetodo.setAttribute('id','clone_todo_list')
+        clonetodo.setStyle({'z-index':1,'position':'absolute','width':'100%','height':'100%'})
+        clonetodo.innerHTML=$('todo_listg_div').innerHTML;
+        $('todo_listg_div').innerHTML="";
+
+        document.body.appendChild(clonetodo);
         todo_maximize=true;
     } else
     {
         todo_maximize=false;
-        new Effect.Scale('todo_listg_div',99,{scaleContent:false,scaleMode:'contents'});
-        $('todo_listg_div').setAttribute('style',"");
-        /* IE Bug */
-         if ($('todo_listg_div').style.setAttribute) { $('todo_listg_div').style.setAttribute('cssText', "") ;}
+         $('todo_listg_div').innerHTML=$('clone_todo_list').innerHTML;
+        $('clone_todo_list').remove();
     }
-   
+    remove_waiting_box();
 }
 function todo_list_share(p_note, p_dossier)
 {

@@ -166,6 +166,9 @@ if ($ac=='shared_note')
     ob_start();
     echo HtmlInput::title_box(_('Liste utilisateurs'), "shared_".$id);
     $todo->display_user();
+    echo '<p style="text-align:center">';
+    echo HtmlInput::submit('close'.$id, 'Ferme'," onclick=\"\$('shared_{$id}').remove();\"");
+    echo '</p>';
     $result=ob_get_clean();
     // 
     // output the XML
