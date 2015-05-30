@@ -131,15 +131,35 @@ if ($ac == 'save')
 ////////////////////////////////////////////////////////////////////////////////
 if ($ac=='shared_note')
 {
-    $id=HtmlInput::default_value_get("todo_id", 0);
+    $id=HtmlInput::default_value_get("todo_id", -1);
     // If note_id is not correct then give an error
-    if ($id==0||isNumber($id)==0)
+    if ($id==-1||isNumber($id)==0)
     {
         header('Content-type: text/xml; charset=UTF-8');
         $dom=new DOMDocument('1.0', 'UTF-8');
         $tl_id=$dom->createElement('content', _("Erreur : note invalide"));
         $dom->appendChild($tl_id);
         echo $dom->saveXML();
+        return;
+    }
+    if ($id==0)
+    {
+        ob_start();
+        echo HtmlInput::title_box(_('Liste utilisateurs'), "shared_{$id}");
+        echo '<p class="notice">';
+        echo _("Vous devez d'abord sauver");
+        echo '</p>';
+        echo '<p style="text-align:center">';
+        echo HtmlInput::submit('close'.$id, 'Ferme'," onclick=\"\$('shared_{$id}').remove();\"");
+        echo '</p>';
+        $result=ob_get_clean();
+    // 
+    // output the XML
+    header('Content-type: text/xml; charset=UTF-8');
+    $dom=new DOMDocument('1.0', 'UTF-8');
+    $tl_id=$dom->createElement('content',  escape_xml($result));
+    $dom->appendChild($tl_id);
+    echo $dom->saveXML();
         return;
     }
     $todo=new Todo_List($cn);
