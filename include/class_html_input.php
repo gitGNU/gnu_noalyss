@@ -424,11 +424,11 @@ class HtmlInput
      * Return a html string with an anchor which close the inside popup. (top-right corner)
      *@param name of the DIV to close
      */
-    static function anchor_close($div)
+    static function anchor_close($div,$p_js="")
     {
 	$r='';
 	$r.='<div style="position:absolute;right:2px;margin:2px;padding:0px;">';
-	$r.= '<A id="close_div" class="input_text" onclick="removeDiv(\''.$div.'\');">&#10761;</A>';
+	$r.= '<A id="close_div" class="input_text" onclick="removeDiv(\''.$div.'\');'.$p_js.'">&#10761;</A>';
 	$r.='</div>';
 	return $r;
     }
@@ -702,19 +702,24 @@ class HtmlInput
 		return $_REQUEST[$ind];
 	}
         /**
-         * Title for boxes
+         * Title for boxes, you can customize the symbol thanks symbol with
+         * the mode "custom"
          * @param type $name Title
-         * @param type $div element id
-         * @param type $mod hide or close
-         * @param type $p_js if $mod is hide then you can add a javascript
+         * @param type $div element id, except for mode none or custom
+         * @param type $mod hide , close , zoom , custom or none, with
+         * custom , the $name contains all the code
+         * @param type $p_js contains the javascript with "custom" contains button + code 
          * @return type
          */
 	static function title_box($name,$div,$mod="close",$p_js="")
 	{
-		if ($mod=='close')		$r=HtmlInput::anchor_close($div);
-		if ($mod=='hide')		$r=HtmlInput::anchor_hide("&#10761;","$('$div').hide();$p_js");
-		if ($mod=='zoom')		$r='<span  style="float:right;margin-right:5px">'.HtmlInput::anchor("&#11036;","",$p_js,' id="close_div" class="input_text"  ').'</span>';
-                if ( $mod == 'none')    $r="";
+		if ($mod=='close')	{$r=HtmlInput::anchor_close($div,$p_js); }else
+		if ($mod=='hide')	{$r=HtmlInput::anchor_hide("&#10761;","$('$div').hide();$p_js");} else
+		if ($mod=='zoom')	{$r='<span  id="span_'.$div.'" style="float:right;margin-right:5px">'.HtmlInput::anchor("&#11036;","",$p_js,' name="small'.$div.'" id="close_div" class="input_text"  ').'</span>'; } else
+                if ( $mod == 'custom')  {$r='<span  id="span_'.$div.'" style="float:right;margin-right:5px">'.$p_js."</span>";} else
+                if ( $mod == 'none')    {$r="" ; }
+                    else 
+                            die (__FILE__.":".__LINE__._('Paramètre invaide'));
 		$r.=h2($name,' class="title" ');
 		return $r;
 	}
