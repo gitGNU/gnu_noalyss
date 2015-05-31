@@ -533,6 +533,13 @@ class Database
         $r=pg_fetch_row($this->ret, 0);
         return $r[0];
     }
+    /**
+     * @brief return the number of rows affected by the previous query
+     */
+    function get_affected()
+    {
+        return Database::num_row($this->ret);
+    }
 
     /**\brief  purpose return the result of a sql statment
      * in a array
