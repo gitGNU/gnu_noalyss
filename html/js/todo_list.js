@@ -183,10 +183,11 @@ function zoom_todo ()
     {
         var clonetodo=$('todo_listg_div').clone();
         clonetodo.setAttribute('id','clone_todo_list')
-        clonetodo.setStyle({'z-index':1,'position':'absolute','width':'100%','height':'100%'})
+        clonetodo.setStyle({'z-index':1,'position':'absolute','width':'95%','height':'95%','top':'2%','right':'2%'})
         clonetodo.innerHTML=$('todo_listg_div').innerHTML;
         $('todo_listg_div').innerHTML="";
-
+        clonetodo.addClassName('inner_box');
+        clonetodo.removeClassName('box');
         document.body.appendChild(clonetodo);
         todo_maximize=true;
     } else
