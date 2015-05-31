@@ -1471,6 +1471,12 @@ function add_menu(obj)
             }
     );
 }
+/**
+ * @brief Display a box to enter data for adding a new plugin from
+ * the CFGMENU
+ * @param {type} p_dossier
+ * @returns {undefined}
+ */
 function add_plugin(p_dossier)
 {
     waiting_box();

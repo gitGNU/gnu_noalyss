@@ -61,16 +61,14 @@ if ( ! isset($_REQUEST['action']))
 
 
 	$repo=new Database();
-	/*  Show all the users, included local admin */
+	/*  Show all the active users, including admin */
 	$user_sql = $repo->exec_sql("select use_id,
                                             use_first_name,
                                             use_name,
                                             use_login,
-                                            use_admin,
-                                            priv_priv
-                                                from ac_users natural join jnt_use_dos " .
-                                               " join priv_user on (jnt_id=priv_jnt)
-					where use_login != 'phpcompta' and priv_priv <> 'X' and use_active=1
+                                            use_admin
+                                                from ac_users natural join jnt_use_dos 
+					where use_login != 'phpcompta' and use_active=1
 					and dos_id=$1  " . $ord_sql, array($gDossier));
 
     $MaxUser = Database::num_row($user_sql);
@@ -89,8 +87,8 @@ if ( ! isset($_REQUEST['action']))
         $l_line=Database::fetch_array($user_sql,$i);
 
 
-		$str="";
-        $str=($l_line['priv_priv'] == 'R')?'Utilisateur Normal':$str;
+	$str="";
+        $str='Utilisateur Normal';
         if ( $l_line['use_admin'] == 1 )
             $str=' Administrateur global';
 

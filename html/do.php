@@ -57,11 +57,6 @@ global $g_user, $cn,$g_parameter;
 $cn = new Database(Dossier::id());
 $g_user = new User($cn);
 
-if ($g_user->check_dossier(dossier::id()) == 'P')
-{
-    redirect("extension.php?" . dossier::get(), 0);
-    exit();
-}
 $g_parameter=new Own($cn);
 
 load_all_script();

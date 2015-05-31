@@ -53,12 +53,13 @@ class Dossier
         return $_REQUEST['gDossier'];
     }
 
-    /*!
-     * \param  p_type string : all for all dossiers lim for only the
+    /**!
+     * @brief Show the folder where user have access. 
+     * @param  p_type string : all for all dossiers lim for only the
      *             dossier where we've got rights
+     * @return     nothing
      *
-     * Show the folder where user have access. Return    : nothing
-     ++*/
+     */
     function show_dossier($p_type,$p_first=0,$p_max=0,$p_Num=0)
     {
         $l_user=$_SESSION['g_user'];
@@ -81,8 +82,8 @@ class Dossier
             $l_sql="select * from jnt_use_dos
                    natural join ac_dossier
                    natural join ac_users
-                   inner join priv_user on priv_jnt=jnt_id where
-                   use_login='".$l_user."' and priv_priv !='NO'
+                   where
+                   use_login='".sql_string($l_user)."'
                    order by dos_name ";
             $p_Num=$this->cn->count_sql($l_sql);
         }
@@ -120,9 +121,6 @@ class Dossier
             left join    (select array_to_string(array_agg(dos_name),',') as ag_dossier,jt.use_id as jt_use_id
                         from ac_dossier as ds
                         join  jnt_use_dos as jt on (jt.dos_id=ds.dos_id)
-                        join priv_user as pu on (pu.priv_jnt=jt.jnt_id)
-                        where
-                        pu.priv_priv != 'X'
                         group by jt.use_id) as dossier_name on (jt_use_id=ac.use_id)
             where
             use_login!='phpcompta'

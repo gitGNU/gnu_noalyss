@@ -100,7 +100,6 @@ else
     if (isset($_POST["DELETE"]))
     {
         $cn = new Database();
-        $Res = $cn->exec_sql("delete from priv_user where priv_jnt in ( select jnt_id from jnt_use_dos where use_id=$1)", array($uid));
         $Res = $cn->exec_sql("delete from jnt_use_dos where use_id=$1", array($uid));
         $Res = $cn->exec_sql("delete from ac_users where use_id=$1", array($uid));
 

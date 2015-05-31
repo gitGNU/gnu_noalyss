@@ -208,12 +208,11 @@ class User
 			return 'L';
 		$cn = new Database();
 
-		$sql = "select priv_priv from priv_user join jnt_use_dos on (jnt_id=priv_jnt) join ac_users using (use_id)
-             where use_id=$1 and dos_id=$2";
+		$sql = "select 1 from jnt_use_dos where use_id=$1 and dos_id=$2";
 
 		$res = $cn->get_value($sql, array($this->id, $p_dossier));
-		if ($res == '')
-			return 'X';
+                
+		if ($cn->get_affected()== 0) return 'X';
 		return $res;
 	}
 
@@ -234,11 +233,8 @@ class User
 
 			$Res = $cn->exec_sql("insert into jnt_use_dos(dos_id,use_id) values($1,$2)", array($db_id, $this->id));
 			$jnt = $cn->get_value("select jnt_id from jnt_use_dos where dos_id=$1 and use_id=$2", array($db_id, $this->id));
-			$Res = $cn->exec_sql("insert into priv_user (priv_priv,priv_jnt) values($1,$2)", array($priv, $jnt));
 		}
-		$Res = $cn->exec_sql("update priv_user set priv_priv=$1 where priv_jnt=$2", array($priv, $jnt));
-	}
-
+        }
 	/**
          * \brief check that a user is valid and the access to the folder
 	 * \param $p_ledger the ledger to check
@@ -763,6 +759,7 @@ class User
 
 	/**
 	 * \brief  Check if an user is an local administrator
+         * @deprecated since version 6.7
 	 *
 	 *
 	 * \param $p_dossier : dossier_id
@@ -775,24 +772,20 @@ class User
 
 	function is_local_admin($p_dossier = -1)
 	{
-		if ($p_dossier == -1)
-		{
-			$p_dossier = dossier::id();
-		}
+            if ($p_dossier==-1)
+            {
+                $p_dossier=dossier::id();
+            }
 
-		if ($this->login == 'admin')
-			return 1;
-		$sql = 'select priv_priv from ac_users join jnt_use_dos using (use_id) join priv_user ' .
-				' on ( jnt_use_dos.jnt_id = priv_user.priv_jnt) ' .
-				" where priv_priv='L' and use_login='" . $this->login . "' and dos_id=$p_dossier";
-
-		$cn = new Database();
-
-		$isAdmin = $cn->count_sql($sql);
-
-
-		return $isAdmin;
-	}
+            if ($this->login=='admin')
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
 	/**
 	 *@brief return array of available repository
 	 *
@@ -828,8 +821,9 @@ class User
 		return $r;
 	}
 	/**
-	 * \brief return an array with all the users who can access $p_dossier including the global admin. The user
-	 * must be activated
+	 * \brief return an array with all the active users who can access 
+         *  $p_dossier including the global admin. 
+         *  The user must be activated
 	 *
 	 * \param $p_dossier dossier
 	 * \return an array of user's  object
@@ -846,9 +840,9 @@ class User
 	{
 		$sql = "select distinct use_id,use_login,use_first_name,use_name from ac_users
              left outer join  jnt_use_dos using (use_id)
-	     left join priv_user on (priv_jnt=jnt_id)
-              where
-              (dos_id=$1 or  use_admin=1) and use_active=1 and (use_admin=1  or priv_priv <> 'X') order by use_login,use_name";
+             where
+              (dos_id=$1 and use_active=1) or (use_active=1 and use_admin=1)
+              order by use_login,use_name";
 
 
 		$repo = new Database();
@@ -875,7 +869,8 @@ class User
 		return $this->get_ledger_access($p_jrn);
 	}
 
-	/**\brief check if an user can access a folder, if he cannot display a dialog box
+	/**
+         * \brief check if an user can access a folder, if he cannot display a dialog box
 	 * and exit
 	 * \param the folder if
 	 * \param $silent false, echo an error message and exit, true : exit without warning
@@ -893,7 +888,7 @@ class User
 			return 'L';
 		$cn = new Database();
 
-		$dossier = $cn->get_value("select priv_priv from jnt_use_dos join priv_user on (priv_jnt=jnt_id) where dos_id=$1 and use_id=$2", array($p_dossier_id, $this->id));
+		$dossier = $cn->get_value("select 'L' from jnt_use_dos join where dos_id=$1 and use_id=$2", array($p_dossier_id, $this->id));
 		$dossier = ($dossier == '') ? 'X' : $dossier;
 		if ($dossier == 'X')
 		{
@@ -999,14 +994,15 @@ class User
 		{
 			// show only available folders
 			// if user is not an admin
-			$Res = $cn->exec_sql("select distinct dos_id,dos_name,dos_description from ac_users
-             natural join jnt_use_dos
-             natural join  ac_dossier
-             join  priv_user on ( priv_jnt=jnt_id)
-             where use_active=1
-             and use_login= $1
-             and priv_priv != 'X' and ( dos_name ~* $2 or dos_description ~* $2 )
-             order by dos_name", array($this->login, $p_filter));
+			$Res = $cn->exec_sql("select distinct dos_id,dos_name,dos_description 
+                            from ac_users
+                            natural join jnt_use_dos
+                            natural join  ac_dossier
+                            where
+                            use_login= $1
+                            and use_active = 1
+                            and ( dos_name ~* $2 or dos_description ~* $2 )
+                            order by dos_name", array($this->login, $p_filter));
 		}
 		else
 		{

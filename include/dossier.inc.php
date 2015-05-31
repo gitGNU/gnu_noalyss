@@ -367,8 +367,6 @@ if ( $sa == 'remove' )
         exit;
     }
     ob_flush();
-    $sql="delete from priv_user where priv_id in (select jnt_id from jnt_use_dos where dos_id=$1)";
-    $cn->exec_sql($sql,array($_REQUEST['d']));
     $sql="delete from  jnt_use_dos where dos_id=$1";
     $cn->exec_sql($sql,array($_REQUEST['d']));
     $sql="delete from ac_dossier where dos_id=$1";
