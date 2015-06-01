@@ -724,6 +724,24 @@ class HtmlInput
 		return $r;
 	}
         /**
+         * @brief let you create only a link and set an id on it.
+         * After create a javascript for getting the event 
+         * onclick = function() {...}
+         * @param type $p_text Text to display
+         * @param type $p_id id of the link
+         * @code
+         * echo HtmlInput::anchor_empty('go','go_id');
+         * <script>$("go_id").onclick=function (e) { ...}</script>
+         * @endcode
+         */
+        static  function anchor_empty($p_text,$p_id)
+        {
+            $p_url="javascript:void(0)";
+            $str=sprintf('<a id="%s" href="javascript:void(0)" class="line">%s</a>',
+            $p_id,$p_text);
+            return $str;
+        }
+        /**
          *Return a simple anchor with a url or a javascript
          * if $p_js is not null then p_url will be javascript:void(0)
          * we don't add the event onclick. You must give p_url OR p_js
