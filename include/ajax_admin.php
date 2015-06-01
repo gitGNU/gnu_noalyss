@@ -138,7 +138,7 @@ if ($op=='folder_display') // operation
         </form>    
         <p>
             <?php
-            $found_dossier=count($a_dossier);
+            $nb_dossier=count($a_dossier);
             $max=( $nb_dossier>=MAX_FOLDER_TO_SHOW)?MAX_FOLDER_TO_SHOW:$nb_dossier;
             echo _('Dossiers trouvés').':'.$nb_dossier." "._('Dossiers affichés').$max;
             ?>

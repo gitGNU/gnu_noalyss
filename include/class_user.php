@@ -40,7 +40,13 @@ class User
 	var $db;
 	var $admin;
 	var $valid;
-
+        var $first_name;
+        var $name;
+        var $active ;
+        var $login ;
+        var $password ;
+        var $email ;
+        
 	function User(&$p_cn, $p_id = -1)
 	{
 		// if p_id is not set then check the connected user
@@ -99,13 +105,14 @@ class User
 			$sql_array = array($this->id);
 		}
 		$sql = "select use_id,
-             use_first_name,
-             use_name,
-             use_login,
-             use_active,
-             use_admin,
-			 use_pass
-             from ac_users ";
+                            use_first_name,
+                            use_name,
+                            use_login,
+                            use_active,
+                            use_admin,
+                            use_pass,
+                            use_email
+                        from ac_users ";
 		$cn = new Database();
 		$Res = $cn->exec_sql($sql . $sql_cond, $sql_array);
 		if (($Max = Database::num_row($Res)) == 0)
@@ -118,15 +125,27 @@ class User
 		$this->login = $row['use_login'];
 		$this->admin = $row['use_admin'];
 		$this->password = $row['use_pass'];
+                $this->email=$row['use_email'];
 	}
 
 	function save()
 	{
 
 		$Sql = "update ac_users set use_first_name=$1, use_name=$2
-             ,use_active=$3,use_admin=$4,use_pass=$5 where use_id=$6";
+             ,use_active=$3,use_admin=$4,use_pass=$5 ,use_email = $7 where use_id=$6";
 		$cn = new Database();
-		$Res = $cn->exec_sql($Sql, array($this->first_name, $this->last_name, $this->active, $this->admin, $this->pass, $this->id));
+		$Res = $cn->exec_sql($Sql, array($this->first_name, $this->last_name, $this->active, $this->admin, $this->pass, $this->id,$this->email));
+	}
+        function insert()
+	{
+
+		$Sql = "INSERT INTO ac_users(
+                        use_first_name, use_name, use_login, use_active, use_pass, 
+                        use_admin, use_email)
+                            VALUES ($1, $2, $3, $4, $5, $6, $7) returning use_id";
+
+		$cn = new Database();
+		$this->id= $cn->get_value($Sql, array($this->first_name, $this->last_name, $this->login,0,0, $this->pass,$this->email));
 	}
 
 	/**

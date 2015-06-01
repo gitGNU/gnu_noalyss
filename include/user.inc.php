@@ -35,23 +35,27 @@ if ( isset ($_POST["ADD"]) )
 {
     $cn=new Database();
     $pass5=md5($_POST['PASS']);
-
-    $first_name=Database::escape_string($_POST['FNAME']);
-    $last_name=Database::escape_string($_POST['LNAME']);
-    $login=$_POST['LOGIN'];
+    $new_user=new User($cn,0);
+    $new_user->first_name=HtmlInput::default_value_post('FNAME','');
+    $new_user->last_name=HtmlInput::default_value_post('LNAME','');
+    $login=HtmlInput::default_value_post('LOGIN','');
     $login=str_replace("'","",$login);
     $login=str_replace('"',"",$login);
     $login=str_replace(" ","",$login);
     $login=strtolower($login);
+    $new_user->login=$login;
+    $new_user->email=HtmlInput::default_value_post('EMAIL','');
 	if ( trim($login)=="")
 	{
 		alert("Le login ne peut pas être vide");
 	}
 	else
 	{
-    $Res=$cn->exec_sql("insert into ac_users(use_first_name,use_name,use_login,use_active,use_pass)
-                       values ($1,$2,$3,1,$4)",
-                       array($first_name,$last_name,$login,$pass5));
+            $new_user->insert();
+            $new_user->load();
+            $_REQUEST['use_id']=$new_user->id;
+            require_once("user_detail.inc.php");
+            return;
 
 	}
 } //SET login
@@ -65,30 +69,44 @@ if ( isset($_REQUEST['det']))
 }
 ?>
 
-<div id="create_user" style="display:none">
-<h2>Gestion Utilisateurs</h2>
-<TABLE> <TR>
-<form action="admin_repo.php?action=user_mgt" method="POST">
-             <TD><H3>
-             <?php
-             echo _("Ajout d'utilisateur");
-echo '<H3></TD></TR>';
-echo '<TR><TD> First Name </TD><TD><INPUT class="input_text" TYPE="TEXT" NAME="FNAME"></TD>';
-echo '<TD> Last Name </TD><TD><INPUT class="input_text"  TYPE="TEXT" NAME="LNAME"></TD></TR>';
-echo '<TR><TD> login </TD><TD><INPUT class="input_text"  TYPE="TEXT" NAME="LOGIN"></TD>';
-echo '<TD> password </TD><TD> <INPUT class="input_text" TYPE="TEXT" NAME="PASS"></TD></TR>';
-echo '</TABLE>';
+<div id="create_user" style="display:none;width:30%;margin-right: 20%" class="inner_box">
+<?php echo HtmlInput::title_box(_('Ajout Utilisateur'),"create_user","hide");?>
+    <form action="admin_repo.php?action=user_mgt" method="POST" onsubmit="return check_form()">
+    <div style="text-align: center">
+<TABLE class="result" >            
+       <TR><TD style="text-align: right"> <?php echo _('login')?></TD><TD><INPUT id="input_login" class="input_text"  TYPE="TEXT" NAME="LOGIN"></TD></tr>
+        <TR><TD style="text-align: right"> <?php echo _('Prénom')?></TD><TD><INPUT class="input_text" TYPE="TEXT" NAME="FNAME"></TD></tr>
+       <TR><TD style="text-align: right"> <?php echo _('Nom')?></TD><TD><INPUT class="input_text"  TYPE="TEXT" NAME="LNAME"></TD></TR>
+       <TR><TD style="text-align: right"> <?php echo _('Mot de passe')?></TD><TD> <INPUT id="input_password" class="input_text" TYPE="TEXT" NAME="PASS"></TD></TR>
+       <TR><TD style="text-align: right"> <?php echo _('Email')?></TD><TD> <INPUT class="input_text" TYPE="TEXT" NAME="EMAIL"></TD></TR>
+</TABLE>
+<?php
 echo HtmlInput::submit("ADD",'Créer Utilisateur');
-echo HtmlInput::button_action("Fermer", "$('create_user').style.display='none';$('cu').style.display='block'");
-
+echo HtmlInput::button_action("Fermer", "$('create_user').style.display='none';");
 
 ?>
+</div>
 </FORM>
+    <script>
+        function check_form() {
+            if ($F('input_login') == "") { 
+                    alert('<?php echo _('Le login ne peut être vide') ?>');
+                    $('input_login').setStyle({border:"red solid 2px"});
+                    return false;
+                }
+            if ($F('input_password') == "") { 
+                alert('<?php echo _('Le mot de passe ne peut être vide') ?>');
+                $('input_password').setStyle({border:"red solid 2px"});
+                return false;
+            }
+            return true;
+        }
+    </script>
 </div>
 
 <?php
 echo '<p>';
-echo HtmlInput::button_action("Ajout utilisateur", "$('create_user').show();$('cu').hide()","cu");
+echo HtmlInput::button_action("Ajout utilisateur", "$('create_user').show();","cu");
 echo '</p>';
 // Show all the existing user on 7 columns
 $repo=new Dossier(0);

@@ -31,6 +31,11 @@ global $version_noalyss;
  */
 $inc_path=get_include_path();
 $dirname=dirname(__FILE__);
+/* Global variable of the include dir */
+global $g_include_dir,$g_ext_dir;
+$g_include_dir=$dirname;
+$g_ext_dir = $dirname."/ext";
+
 if ( strpos($inc_path,";") != 0 ) {
   $new_path=$inc_path.';'.$dirname;
   $os=0;			/* $os is 0 for windoz */
@@ -60,19 +65,17 @@ $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 /* uncomment for development */
 
-/*
  define ('SVNINFO',6800);
 define ("DEBUG",true);
 define ("LOGINPUT",true);
- */
 
 
 
-define ('SVNINFO',6803);
+/*define ('SVNINFO',6801);
 define ("DEBUG",false);
 define ("LOGINPUT",false);
 
-
+*/
 $version_noalyss=SVNINFO;
 // If you don't want to be notified of the update
 // define ("SITE_UPDATE",'');
