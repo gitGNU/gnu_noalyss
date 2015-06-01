@@ -153,11 +153,11 @@ if ( !empty ($a_user) )
         echo "<tr class=\"$class\">";
         if ( $r_user['use_active'] == 0 )
         {
-            $Active="non actif";
+            $Active=$g_failed;
         }
         else
         {
-            $Active="Actif";
+            $Active=$g_succeed;
         }
         $det_url=$url."&det&use_id=".$r_user['use_id'];
         echo "<td>";
