@@ -729,16 +729,17 @@ class HtmlInput
          * onclick = function() {...}
          * @param type $p_text Text to display
          * @param type $p_id id of the link
+         * @param type $type title of the link
          * @code
          * echo HtmlInput::anchor_empty('go','go_id');
          * <script>$("go_id").onclick=function (e) { ...}</script>
          * @endcode
          */
-        static  function anchor_empty($p_text,$p_id)
+        static  function anchor_empty($p_text,$p_id,$p_title="")
         {
             $p_url="javascript:void(0)";
-            $str=sprintf('<a id="%s" href="javascript:void(0)" class="line">%s</a>',
-            $p_id,$p_text);
+            $str=sprintf('<a id="%s" href="javascript:void(0)" class="line" title="%s">%s</a>',
+            $p_id,$p_title,$p_text);
             return $str;
         }
         /**
