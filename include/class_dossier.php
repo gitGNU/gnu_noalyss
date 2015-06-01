@@ -108,7 +108,15 @@ class Dossier
         
        
     }
-
+    /**
+     * Count the number of folder in the repository
+     * @return integer
+     */
+    function count() 
+    {
+        $nb_folder=$this->cn->get_value('select count(*) from ac_dossier');
+        return $nb_folder;
+    }
     /*!
      * \brief Return all the users
      * as an array

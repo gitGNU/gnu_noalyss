@@ -69,35 +69,6 @@ if (isset($_POST['SAVE']))
 		}
         $UserChange->save();
 
- /**
-  * replace by ajax see ajax_admin.php
-  *        foreach ($_POST as $name => $elem)
-        // Update Priv on Folder
-  
-        {
-            if (substr_count($name, 'PRIV') != 0)
-            {
-                $cn = new Database();
-				if ( defined ('MULTI')&& MULTI==0)
-				{
-					$name=dbname;
-					$db_id=MONO_DATABASE;
-					$UserChange->set_folder_access($db_id, $elem);
-				}
-				else
-				{
-				    $db_id = mb_substr($name, 4);
-					$name=$cn->format_name($db_id, "dos");
-					if ( $cn->exist_database($name) == 1 )
-					{
-						$UserChange->set_folder_access($db_id, $elem);
-						Dossier::synchro_admin($db_id);
-					}
-				}
-			}
-        }
-  * 
-  */
     }
 }
 else
@@ -210,14 +181,14 @@ $array = array(
     array('value' => 'R', 'label' => 'Utilisateur normal')
 );
 $repo = new Dossier(0);
-
-$Dossier = $repo->show_dossier('R',$UserChange->login);
-if (empty($Dossier))
+if ( $repo->count() == 0) 
 {
     echo hb('* Aucun Dossier *');
     echo '</div>';
     return;
 }
+
+$Dossier = $repo->show_dossier('R',$UserChange->login);
 
 $mod_user = new User(new Database(), $uid);
 ?>

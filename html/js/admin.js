@@ -45,7 +45,7 @@ function folder_display(p_user)
             var folder = {};
             var create = false;
             if (!$('folder_list_div')) {
-                folder = create_div({'id': 'folder_list_div', 'cssclass': "inner_box", 'style': 'width:90%,right:5%;top:100px;display:block'});
+                folder = create_div({'id': 'folder_list_div', 'cssclass': "inner_box", 'style': 'width:90%,right:5%;top:100px'});
                 create = true;
             }
             folder = $('folder_list_div');
@@ -83,7 +83,7 @@ function folder_remove(p_user,p_dossier )
         parameters: {"p_user": p_user, 'p_dossier': p_dossier, "op": "folder_remove", 'gDossier': 0},
         onSuccess: function (p_xml) {
             // table id = database_list
-            $('row'+p_dossier).hide();
+            new Effect.Opacity('row'+p_dossier, { from: 1.0, to: 0.0, duration: 0.2 });
             remove_waiting_box();
         }
     });
