@@ -61,12 +61,23 @@ if ($cont != 0)
 extract($_REQUEST);
 set_language();
 global $g_user, $cn, $g_parameter;
-$cn = new Database($gDossier);
-$g_user = new User($cn);
-$g_user->check(true);
-$g_user->check_dossier($gDossier, true);
+//
+// If database id == 0 then we are not connected to a folder 
+// but to the administration
+// 
 if ($gDossier<>0) {
+    $cn = new Database($gDossier);
     $g_parameter=new Own($cn);
+    $g_user = new User($cn);
+    $g_user->check(true);
+    $g_user->check_dossier($gDossier, true);
+}
+else
+{
+    // connect to repository
+    $cn=new Database(); 
+    $g_user = new User($cn);
+    $g_user->check(true);
 }
 $html = var_export($_REQUEST, true);
 
@@ -673,6 +684,22 @@ EOF;
              */
             require_once 'ajax_account_update.php';
             break;
+        // From admin, revoke the access to a folder from an
+        // user
+        case 'folder_remove':
+            require_once 'ajax_admin.php';
+            break;
+        // From admin, display a list of folder to which the user has 
+        // no access
+        case 'folder_display':
+            require_once 'ajax_admin.php';
+            break;
+        // From admin, grant the access to a folder to an
+        // user
+        case 'folder_add':
+            require_once 'ajax_admin.php';
+            break;
+            
 	default:
 		var_dump($_GET);
 }

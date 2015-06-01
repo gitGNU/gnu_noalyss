@@ -195,7 +195,7 @@ class User
 	 * \return the priv_priv
 	 *          - X no access
 	 *          - R has access (normal user)
-	 *          - L Local Admin
+	 
 	 *
 	 */
 
@@ -204,11 +204,10 @@ class User
 
 		if ($p_dossier == 0)
 			$p_dossier = dossier::id();
-		if ($this->is_local_admin($p_dossier) == 1 || $this->admin == 1)
-			return 'L';
+		if ($this->admin == 1)		return 'R';
 		$cn = new Database();
 
-		$sql = "select 1 from jnt_use_dos where use_id=$1 and dos_id=$2";
+		$sql = "select 'R' from jnt_use_dos where use_id=$1 and dos_id=$2";
 
 		$res = $cn->get_value($sql, array($this->id, $p_dossier));
                 
@@ -219,23 +218,32 @@ class User
 	/**
          * \brief save the access of a folder
 	 * \param $db_id the dossier id
-	 * \param $priv the priv. to set
+	 * \param $priv boolean, true then it is granted, false it is removed
 	 */
 
 	function set_folder_access($db_id, $priv)
-	{
+        {
 
-		$cn = new Database();
-		$jnt = $cn->get_value("select jnt_id from jnt_use_dos where dos_id=$1 and use_id=$2", array($db_id, $this->id));
+            $cn=new Database();
+            if ($priv)
+            {
+                // the access is granted
+                $jnt=$cn->get_value("select jnt_id from jnt_use_dos where dos_id=$1 and use_id=$2", array($db_id, $this->id));
 
-		if ($cn->size() == 0)
-		{
+                if ($cn->size()==0)
+                {
 
-			$Res = $cn->exec_sql("insert into jnt_use_dos(dos_id,use_id) values($1,$2)", array($db_id, $this->id));
-			$jnt = $cn->get_value("select jnt_id from jnt_use_dos where dos_id=$1 and use_id=$2", array($db_id, $this->id));
-		}
+                    $Res=$cn->exec_sql("insert into jnt_use_dos(dos_id,use_id) values($1,$2)", array($db_id, $this->id));
+                }
+            } 
+            else 
+            {
+                // Access is revoked
+                $cn->exec_sql('delete from jnt_use_dos where use_id  = $1 and dos_id = $2 ', array($this->id, $db_id));
+            }
         }
-	/**
+
+    /**
          * \brief check that a user is valid and the access to the folder
 	 * \param $p_ledger the ledger to check
 	 * \return the priv_priv
@@ -711,10 +719,10 @@ class User
 	}
 
 	/**
-	 *  !\brief Check if the user can print (in menu_ref p_type_display=p)
+	 *@brief Check if the user can print (in menu_ref p_type_display=p)
 	 * 	otherwise warn and exit
-	 * \param $p_action requested action
-	 * \return nothing the program exits automatically
+	 * @param $p_action requested action
+	 * @return nothing the program exits automatically
 	 */
 	function check_print($p_action)
 	{
@@ -722,8 +730,7 @@ class User
 		$this->audit('AUDIT', $p_action);
 		if ($this->Admin() == 1)
 			return 1;
-		if ($this->is_local_admin(dossier::id()) == 1)
-			return 1;
+		
 		$res = $cn->get_value("select count(*) from profile_menu
 			join profile_user using (p_id)
 			where user_name=$1 and me_code=$2 ", array($this->login, $p_action));

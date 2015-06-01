@@ -69,8 +69,11 @@ if (isset($_POST['SAVE']))
 		}
         $UserChange->save();
 
+ /**
+  * replace by ajax see ajax_admin.php
+  *        foreach ($_POST as $name => $elem)
         // Update Priv on Folder
-        foreach ($_POST as $name => $elem)
+  
         {
             if (substr_count($name, 'PRIV') != 0)
             {
@@ -93,6 +96,8 @@ if (isset($_POST['SAVE']))
 				}
 			}
         }
+  * 
+  */
     }
 }
 else
@@ -103,7 +108,7 @@ else
         $Res = $cn->exec_sql("delete from jnt_use_dos where use_id=$1", array($uid));
         $Res = $cn->exec_sql("delete from ac_users where use_id=$1", array($uid));
 
-        echo "<center><H2 class=\"info\"> User " . h($_POST['fname']) . " " . h($_POST['lname']) . " est effacé</H2></CENTER>";
+        echo "<center><H2 class=\"info\"> Utilisateur " . h($_POST['fname']) . " " . h($_POST['lname']) . " est effacé</H2></CENTER>";
         require_once("class_iselect.php");
         require_once("user.inc.php");
         return;
@@ -113,8 +118,6 @@ $UserChange->load();
 $it_pass=new IText('password');
 $it_pass->value="";
 ?>
-<h1 class="info">Modification</h1>
-<?php echo HtmlInput::button_anchor('Retour', 'admin_repo.php?action=user_mgt'); ?>
 <FORM  METHOD="POST">
 
 <?php echo HtmlInput::hidden('UID',$uid)?>
@@ -185,18 +188,22 @@ printf('<INPUT type="RADIO" NAME="Admin" VALUE="0" %s> Pas administrateur global
 echo "</TD></TR>";
 ?>
     </TABLE>
-</TD>
-</TR>
-<TR>
-    <TD>
+        <input type="Submit" class="button" NAME="SAVE" VALUE="Sauver les changements" onclick="return confirm('Confirmer changement ?');">
+
+        <input type="Submit"  class="button" NAME="DELETE" VALUE="Effacer" onclick="return confirm('Confirmer effacement ?');" >
+
+</FORM>
+<?php
+if  ($UserChange->admin == 0 ) :
+?>
         <!-- Show all database and rights -->
-        <H2 class="info"> Droit sur les dossiers pour les utilisateurs normaux </H2>
+        <H2 class="info"> Accès aux dossiers</H2>
         <p class="notice">
             Les autres droits doivent être réglés dans les dossiers (paramètre->sécurité), le fait de changer un utilisateur d'administrateur à utilisateur
 			normal ne change pas le profil administrateur dans les dossiers.
 			Il faut aller dans CFGSECURITY pour diminuer ses privilèges.
         </p>
-        <TABLE>
+     
 <?php
 $array = array(
     array('value' => 'X', 'label' => 'Aucun Accès'),
@@ -204,7 +211,7 @@ $array = array(
 );
 $repo = new Dossier(0);
 
-$Dossier = $repo->show_dossier('all', 1, 0);
+$Dossier = $repo->show_dossier('R',$UserChange->login);
 if (empty($Dossier))
 {
     echo hb('* Aucun Dossier *');
@@ -213,48 +220,49 @@ if (empty($Dossier))
 }
 
 $mod_user = new User(new Database(), $uid);
-foreach ($Dossier as $rDossier)
-{
-	if (defined ("MULTI") && MULTI==0)
-	{
-			$priv = $mod_user->get_folder_access(MONO_DATABASE);
-			$priv=($priv=='L')?'R':$priv;
-	}
-		else
-			$priv = $mod_user->get_folder_access($rDossier['dos_id']);
-    printf("<TR><TD> Dossier : %s </TD>", h($rDossier['dos_name']));
-
-    $select = new ISelect();
-    $select->table = 1;
-    $select->name = sprintf('PRIV%s', $rDossier['dos_id']);
-    $select->value = $array;
-    $select->selected = $priv;
-    echo $select->input();
-    echo "</TD></TR>";
-}
+?>
+           <TABLE id="database_list" class="result">
+<?php 
+//
+// Display all the granted folders
+//
+$i=0;
+foreach ($Dossier as $rDossier):
+    $i++;
+$class=($i%2==0)?' even ':'odd ';
+?>
+            <tr id="row<?php echo $rDossier['dos_id']?>" class="<?php echo $class;?>">
+                <td>
+                    <?php echo h($rDossier['dos_name']); ?>
+                </td>
+                <td>
+                    <?php echo h($rDossier['dos_description']); ?>
+                </td>
+                <td>
+                    <?php echo HtmlInput::anchor(_('Enleve'),"",
+                            " onclick=\"folder_remove({$mod_user->id},{$rDossier['dos_id']});\"");?>
+                </td>
+                
+            </tr>
+<?php 	
+endforeach;
 ?>
         </TABLE>
-
-
-
-
-
-        <input type="Submit" class="button" NAME="SAVE" VALUE="Sauver les changements" onclick="return confirm('Confirmer changement ?');">
-
-        <input type="Submit"  class="button" NAME="DELETE" VALUE="Effacer" onclick="return confirm('Confirmer effacement ?');" >
-<?php echo HtmlInput::button_anchor('Retour', 'admin_repo.php?action=user_mgt'); ?>
-</FORM>
+        <?php 
+               echo HtmlInput::button("database_add_button",_('Ajout'),
+                            " onclick=\"folder_display({$mod_user->id});\"");
+        ?>
+        <?php
+        // If UserChange->admin==1 it means he can access all databases
+        //
+        else :
+        ?>
+        
+<?php
+    endif;
+?>
 
 </DIV>
-
-
-
-
-
-
-
-
-
 
 <?php
 html_page_stop();

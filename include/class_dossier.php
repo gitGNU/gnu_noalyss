@@ -53,51 +53,60 @@ class Dossier
         return $_REQUEST['gDossier'];
     }
 
-    /**!
+    /**
      * @brief Show the folder where user have access. 
-     * @param  p_type string : all for all dossiers lim for only the
-     *             dossier where we've got rights
+     * @param  p_type string   
+       - A for all dossiers 
+       - R for accessible folders
+       - X forbidden folders
+     * @param p_login is the user name
+     * @param p_text is a part of the name where are looking for
      * @return     nothing
      *
      */
-    function show_dossier($p_type,$p_first=0,$p_max=0,$p_Num=0)
+    static function show_dossier($p_type,$p_login="",$p_text="",$limit=0)
     {
-        $l_user=$_SESSION['g_user'];
-        if ( $p_max == 0 )
+        $cn=new Database();
+        $str_limit=($limit==0)?'':' limit '.$limit;
+        if ( $p_type == "A")
         {
-            $l_step="";
+            $l_sql="select *, 'W' as priv_priv from ac_dossier where dos_name ~* $2 or dos_description ~* $2 ORDER BY dos_name $str_limit  ";
+            $a_row=$cn->get_array($l_sql,$p_text);
+            return $a_row;
         }
-        else
-        {
-            $l_step="LIMIT $p_max OFFSET $p_first";
-        }
-
-        if ( $p_type == "all")
-        {
-            $l_sql="select *, 'W' as priv_priv from ac_dossier ORDER BY dos_name  ";
-            $p_Num=$this->cn->count_sql($l_sql);
-        }
-        else
+        else if ($p_type == "R")
         {
             $l_sql="select * from jnt_use_dos
                    natural join ac_dossier
                    natural join ac_users
                    where
-                   use_login='".sql_string($l_user)."'
-                   order by dos_name ";
-            $p_Num=$this->cn->count_sql($l_sql);
-        }
-        $l_sql=$l_sql.$l_step;
-        $p_res=$this->cn->exec_sql($l_sql);
+                   use_login=$1
+                   and ( dos_name ~* $2 or dos_description ~* $2)
+                   
+                   order by dos_name 
+                   $str_limit
+                   ";
+            
+            $a_row=$cn->get_array($l_sql,array($p_login,$p_text));
+            return $a_row;
 
-
-        $Max=$this->cn->size();
-        if ( $Max == 0 ) return null;
-        for ( $i=0;$i<$Max; $i++)
+        } 
+        else  if ($p_type == 'X')
         {
-	  $row[]=$this->cn->fetch($i);
+            $l_sql=' select * from ac_dossier where dos_id not in 
+                  (select dos_id from jnt_use_dos where use_id=$1)
+                  and ( dos_name ~* $2 or dos_description ~* $2)
+                  order by dos_name '.$str_limit;
+            $a_row=$cn->get_array($l_sql,array($p_login,$p_text));
+            return $a_row;
+
         }
-        return $row;
+        else
+        {
+            throw new Exception (_("Erreur paramètre"));
+        } 
+        
+       
     }
 
     /*!

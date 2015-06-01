@@ -52,6 +52,7 @@ define('ALLOWED',true);
 <?php
 if ( isset ($_REQUEST["action"]) )
 {
+    echo js_include("admin.js");
     if ( $_REQUEST["action"]=="user_mgt" )
     {
         //----------------------------------------------------------------------
