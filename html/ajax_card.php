@@ -173,12 +173,13 @@ case 'dc':
 		$html.=HtmlInput::hidden('ctl',$ctl);
 	      }
 	    $html.=$card;
+            $html.='<p style="text-align:center">';
 	    if ( $can_modify==1)
 	      {
 		$html.=HtmlInput::submit('save',_('Sauver'));
 	      }
-	    $html.=HtmlInput::button('close_'.$ctl,'&#10761;',"onclick=\"removeDiv('$ctl')\"");
 	    if ( ! isset ($nohistory))$html.=HtmlInput::history_card_button($f->id,_('Historique'));
+            $html.='</p>';
 	    if ($can_modify==1)
 	      {
 		$html.='</form>';
@@ -188,7 +189,6 @@ case 'dc':
     else
       {
       $html.='<h2 class="error">'._('Aucune fiche demandée').'</h2>';
-      $html.=HtmlInput::button('close_'.$ctl,_('&#10761;'),"onclick=\"removeDiv('$ctl')\"");
       }
     break;
     /* ------------------------------------------------------------ */
@@ -208,7 +208,9 @@ case 'bc':
         $r.=HtmlInput::hidden('fd_id',$fd_id);
         $r.=HtmlInput::hidden('ctl',$ctl);
         $r.=$f->blank($fd_id);
+        $r.='<p style="text-align:center">';
         $r.=HtmlInput::submit('sc',_('Sauve'));
+        $r.='</p>';
         $r.='</form>';
         $html=$r;
     }
@@ -315,7 +317,7 @@ case 'st':
         }
         $r.='</table>';
         $r.=HtmlInput::hidden('fd_id',0);
-	$r.='<p>';
+        $r.='<p style="text-align:center">';
         $r.=HtmlInput::submit('st','choix');
 	$r.=HtmlInput::button('Annuler',_('Annuler')," onclick=\"removeDiv('$ctl')\" ");
 	$r.='</p>';
@@ -347,7 +349,6 @@ case 'sc':
     {
         $html.=alert(_('Action interdite'),true);
     }
-    $html.=HtmlInput::button('fermer',_('&#10761;')," onclick=\"removeDiv('$ctl')\";");
     break;
     /*----------------------------------------------------------------------
      * Search a card
@@ -560,7 +561,6 @@ case 'upc':
 	  $html.=ob_get_contents();
 	  ob_end_clean();
 	  $html.=$f->Display(true);
-	  $html.=HtmlInput::button('close_'.$ctl,'&#10761;',"onclick=\"removeDiv('$ctl')\"");
 	}
       }
 } // switch
