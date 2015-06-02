@@ -914,7 +914,7 @@ class User
 			return 'L';
 		$cn = new Database();
 
-		$dossier = $cn->get_value("select 'L' from jnt_use_dos join where dos_id=$1 and use_id=$2", array($p_dossier_id, $this->id));
+		$dossier = $cn->get_value("select 'L' from jnt_use_dos where dos_id=$1 and use_id=$2", array($p_dossier_id, $this->id));
 		$dossier = ($dossier == '') ? 'X' : $dossier;
 		if ($dossier == 'X')
 		{
