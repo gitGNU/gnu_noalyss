@@ -144,8 +144,7 @@ if ( isset ($_POST['set_preference'])) {
     $_SESSION['g_theme']=$style_user;
     $_SESSION['g_pagesize']=$p_size;
     $_SESSION['g_lang']=$lang;
-    $g_user->email=$p_email;
-    $g_user->save();
+    $g_user->save_email($p_email);
 }
 
 /*
