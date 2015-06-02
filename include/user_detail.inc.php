@@ -42,7 +42,9 @@ if ($UserChange->id == false)
     html_page_stop();
 }
 
-/*  Save the changes */
+/*  
+ * Update user changes 
+ */
 if (isset($_POST['SAVE']))
 {
     $uid = $_POST['UID'];
@@ -50,29 +52,42 @@ if (isset($_POST['SAVE']))
     // Update User
     $cn = new Database();
     $UserChange = new User($cn, $uid);
+    
     if ($UserChange->load() == -1)
     {
         alert("Cet utilisateur n'existe pas");
     }
     else
     {
-        $UserChange->first_name = $_POST['fname'];
-        $UserChange->last_name = $_POST['lname'];
-        $UserChange->active = $_POST['Actif'];
-        $UserChange->admin = $_POST['Admin'];
-        if ( trim($_POST['password'])<>'')
+        $UserChange->first_name =HtmlInput::default_value_post('fname',null);
+        $UserChange->last_name = HtmlInput::default_value_post('lname',null);
+        $UserChange->active = HtmlInput::default_value_post('Actif',-1);
+        $UserChange->admin = HtmlInput::default_value_post('Admin',-1);
+        $UserChange->email = HtmlInput::default_value_post('email',null);
+        if ($UserChange->active ==-1 || $UserChange->admin ==-1)
         {
-                    $UserChange->pass = md5($_POST['password']);
-        }		else
-		{
-			$UserChange->pass=$UserChange->password;
-		}
-        $UserChange->save();
+            var_dump($_POST);
+            var_dump($UserChange);
+            die ('Missing data');
+        }
+        else if (  trim($_POST['password'])<>'')
+        {
+            $UserChange->pass = md5($_POST['password']);
+            $UserChange->save();
+        }
+        else
+	{
+            $UserChange->pass=$UserChange->password;
+            $UserChange->save();
+	}
 
     }
 }
 else
 {
+    //
+    // Delete the user
+    //
     if (isset($_POST["DELETE"]))
     {
         $cn = new Database();
@@ -111,54 +126,56 @@ $it_pass->value="";
         </TR>
         <tr>
             <td>
+                <?php 
+                echo _('email');
+                ?>
+            </td>
+            <td>
+                <INPUT class="input_text" type="text" NAME="email" value="<?php echo $UserChange->email;?>">
+            </td>
+        </tr>
+        <tr>
+            <td>
                 Mot de passe :<span class="info">Laisser à VIDE pour ne PAS le changer</span>
             </td>
             <td>
                 <?php echo $it_pass->input();?>
             </td>
         </tr>
+        <tr>
+            <td>
+                <?php echo _('Actif');?>
+            </td>
+            <td>
+                <?php
+                $select_actif=new ISelect('Actif');
+                $select_actif->value=array(
+                    array('value'=>0,'label'=>_('Non')),
+                    array('value'=>1,'label'=>_('Oui'))
+                );
+                $select_actif->selected=$UserChange->active;
+                echo $select_actif->input();
+                ?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <?php echo _('Type');?>
+            </td>
+            <td>
+                <?php
+                $select_admin=new ISelect('Admin');
+                $select_admin->value=array(
+                    array('value'=>0,'label'=>_('Utilisateur normal')),
+                    array('value'=>1,'label'=>_('Administrateur'))
+                );
+                $select_admin->selected=$UserChange->admin;
+                echo $select_admin->input();
+                ?>
+            </td>
+        </tr>
     </table>
 
-    <TABLE>
-<?php
-if ($UserChange->active == 1)
-{
-    $ACT = "CHECKED";
-    $NACT = "UNCHECKED";
-}
-else
-{
-    $ACT = "UNCHECKED";
-    $NACT = "CHECKED";
-}
-echo "<TR><TD>";
-printf('<INPUT type="RADIO" NAME="Actif" VALUE="1" %s> Actif', $ACT);
-echo "</TD><TD>";
-printf('<INPUT type="RADIO" NAME="Actif" VALUE="0" %s> Non Actif', $NACT);
-echo "</TD></TR>";
-?>
-    </TABLE>
-</TD>
-<TD>
-    <TABLE>
-<?php
-if ($UserChange->admin == 1)
-{
-    $ACT = "CHECKED";
-    $NACT = "UNCHECKED";
-}
-else
-{
-    $ACT = "UNCHECKED";
-    $NACT = "CHECKED";
-}
-echo "<TR><TD>";
-printf('<INPUT type="RADIO" NAME="Admin" VALUE="1" %s> Administrateur global', $ACT);
-echo "</TD><TD>";
-printf('<INPUT type="RADIO" NAME="Admin" VALUE="0" %s> Pas administrateur global ', $NACT);
-echo "</TD></TR>";
-?>
-    </TABLE>
         <input type="Submit" class="button" NAME="SAVE" VALUE="Sauver les changements" onclick="return confirm('Confirmer changement ?');">
 
         <input type="Submit"  class="button" NAME="DELETE" VALUE="Effacer" onclick="return confirm('Confirmer effacement ?');" >

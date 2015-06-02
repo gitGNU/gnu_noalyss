@@ -20,7 +20,6 @@
 /**\file
  * \brief this file is always included and then executed
  *        it permits to change the user preferences
- * \see user_pref.php
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once('class_user.php');
@@ -69,6 +68,14 @@ if (isset($_REQUEST['gDossier']) && $_REQUEST['gDossier']<>0)
     <FORM  METHOD="POST">
 	<fieldset style="margin: 1%"><legend><?php echo _('Options Générales')?></legend>
 	    <table>
+                <tr>
+                    <td>
+                        <?php echo _('Email')?>
+                    </td>
+                    <td>
+                        <input type="text" name="p_email" value="<?php echo $g_user->email?>" class="input_text">
+                    </td>
+                </tr>
 		<tr><td>
 			Mot de passe :
 		    </td>

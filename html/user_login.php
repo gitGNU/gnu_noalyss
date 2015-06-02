@@ -110,6 +110,8 @@ if ( isset ($_POST['set_preference'])) {
     $User->save_global_preference('LANG', $lang);
     $_SESSION['g_theme']=$style_user;
     $_SESSION['g_lang']=$lang;
+    $User->load();
+    $User->save_email($p_email);
 }
 echo '<div class="welcome"> ';
 /**

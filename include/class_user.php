@@ -120,6 +120,7 @@ class User
 		$row = Database::fetch_array($Res, 0);
 		$this->id = $row['use_id'];
 		$this->first_name = $row['use_first_name'];
+		$this->last_name = $row['use_name'];
 		$this->name = $row['use_name'];
 		$this->active = $row['use_active'];
 		$this->login = $row['use_login'];
@@ -1169,7 +1170,11 @@ class User
             alert(_("Les mots de passe ne correspondent pas. Mot de passe inchangé"));
         }
     }
-
+    function save_email($p_email)
+    {
+        $repo=new Database();
+        $repo->exec_sql("update ac_users set use_email=$1 where use_login=$2", array($p_email, $_SESSION['g_user']));
+    }
 }
 
 ?>
