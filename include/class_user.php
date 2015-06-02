@@ -18,13 +18,14 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
-/** \file
- * \brief
- *   Data & function about connected users
+/** 
+ * @file
+ * @brief Data & function about connected users
  */
+
 /**
- * \brief
- *   Data & function about connected users
+ * @brief Data & function about connected users
+ *   
  */
 
 require_once("constant.php");
@@ -1170,6 +1171,10 @@ class User
             alert(_("Les mots de passe ne correspondent pas. Mot de passe inchangé"));
         }
     }
+    /**
+     * Save the password from PREFERENCE MODULE
+     * @param type $p_email
+     */
     function save_email($p_email)
     {
         $repo=new Database();
