@@ -1,8 +1,20 @@
  /* <style type="text/css"> */
-
+ /**
+  * Use a font
+  */
+@font-face {
+	font-family: 'OpenSansRegular';
+	src: url('image/OpenSansRegular.eot');
+	src: local('OpenSansRegular'), url('image/OpenSansRegular.woff') format('woff'), url('image/OpenSansRegular.ttf') format('truetype');
+}
+/* use this class to attach this font to any element i.e. <p class="fontsforweb_fontid_38327">Text with this font applied</p> */
+.fontsforweb_fontid_38327 {
+	font-family: 'OpenSansRegular' !important;
+}
 BODY {
     background-color: white;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     padding: 0px 0px 0px 0px ;
     margin:0px;
     color: #494141;
@@ -33,6 +45,7 @@ table.resultfooter tfoot {
 table.sortable th,  table.table_large th,table.result th {
     font-weight:bold;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     border-bottom:1px solid #605D5D;
     border-top:0;
     text-align: left;
@@ -42,6 +55,7 @@ table.sortable th,  table.table_large th,table.result th {
 
 h2 {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     /* color:#888; */
     margin:1px;
     padding:1px;
@@ -173,6 +187,7 @@ div.lextmenu {
 
     float:left;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
 
 }
 div.searchmenu {
@@ -186,6 +201,7 @@ div.searchmenu {
 div.recherche_form{
     width:700px;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     border-style:outset;
     border-width:1px;
 
@@ -195,6 +211,7 @@ div.redcontent{
     padding-top:7px;
     padding-left:8px;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     width:75%;
 
 }
@@ -203,6 +220,7 @@ div.content{
     margin-top:0.0030%;
     width:100%;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     font-size:14.4px;
     font-size:0.90rem;
 
@@ -213,11 +231,13 @@ div.content30{
     padding-top:7px;
     width:35%;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
 
 }
 div.no span{
     position:static;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     font-weight:bold;
     color:#FF0000;
 
@@ -233,6 +253,7 @@ table.document {
 table.document th{
     font-weight:bold;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     border-bottom:2px solid #605D5D;
     border-top:0px;
     color:#202267;
@@ -361,7 +382,6 @@ td.selectedcell a.mtitle,div.content td.selectedcell a.mtitle {
     text-decoration:none;
     display:block;
     color:#FFFFFF;
-    width: 250px;
 }
 a.dossier {
     text-decoration:none;
@@ -450,6 +470,7 @@ a.one:hover {
 a.detail
 {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     text-decoration: none;
     display: block;
     color: #333030;
@@ -458,6 +479,7 @@ a.detail
 a.detail:hover
 {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     color: #FFFFFF;
     background-color:#5D90CD;
     text-decoration: none;
@@ -471,6 +493,7 @@ li.menuv,ol.menuv {
 }
 div.redcontent a {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     text-decoration: none;
     display: block;
     color: #605D5D;
@@ -479,6 +502,7 @@ div.redcontent a {
 
 div.redcontent a:hover {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     color: #FFFFFF;
     background-color:#336699;
     text-decoration: none;
@@ -487,6 +511,7 @@ div.redcontent a:hover {
 }
 div.content a {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     text-decoration: none;
     display: block;
     color: #333030;
@@ -497,6 +522,7 @@ div.content a {
 
 div.content a:hover {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     color: #FFFFFF;
     background-color:#336699;
     text-decoration: none;
@@ -534,6 +560,7 @@ div.content a.mtitle {
 }*/
 div.redcontent input.text {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     font-weight:normal;
     border-color:#336699;
     border-style:solid;
@@ -543,6 +570,7 @@ div.redcontent input.text {
 }
 div.content input.text {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     font-weight:normal;
     border-color:#336699;
     border-style:solid;
@@ -1044,6 +1072,7 @@ box-shadow: 10px 10px 5px #888;
 div.inner_box  {
     background-color: #DCE1EF;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     padding:2px;
     margin:0px;
     overflow:hidden;
@@ -1236,15 +1265,14 @@ a.line:hover,div_content a.line
 }
 #close_div
 {
-    background-color:#FFFFFF;
-    color:#605D5D;
+    color:white;
     text-decoration:none;
     border:1px solid #605D5D;
     margin-left: 2px;
     margin-right:2px;
     margin-top:0px;
     font-size:12px;
-    font-size:0.75rem;
+    font-size:1rem;
 }
 #close_div:hover
 {
@@ -1445,6 +1473,7 @@ div#notice {
     display: none;
     background-color:#e4e7ed;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     padding:0px;
     margin:0px;
     overflow:hidden;
@@ -1466,6 +1495,7 @@ div#notice {
     display: none;
     background-color:#e4e7ed;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     padding:0px;
     margin:0px;
     overflow:hidden;
@@ -1499,6 +1529,7 @@ div.inner_box tr.odd {
 div#bookmark_div {
     background-color:#e4e7ed;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     padding:2px;
     margin:0px;
     overflow:hidden;
@@ -1513,6 +1544,7 @@ div#bookmark_div {
 div#preference_div {
     background-color:#e4e7ed;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     padding:0px;
     margin:0px;
     overflow:hidden;
@@ -1561,6 +1593,7 @@ input.inum {
 div.box  {
     background-color:#e4e7ed;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     margin-top:10px;
     margin-left:3px;
     margin-right:3px;
@@ -1735,9 +1768,6 @@ div.content a.tinybutton,input[type="button"].tinybutton {
     font-weight: bold;
     text-decoration: none;
     font-family: arial,verdana,sans-serif,helvetica;
-   /* background-image: url("image/bg-submit2.gif");
-    background-repeat: repeat-x;
-    background-position: left; */
     font-size: 8px;
     font-size: 0.7rem;
     padding-bottom: 0px;
@@ -1792,3 +1822,122 @@ ul.aligned-block li {
     background: snow;
     margin-top: 50px;
 }
+/*******************************************************************************
+ * image Menu 
+ * the id name of the element is always "menu_"+code of the menu (lowercase)
+ * We set after the background
+ *******************************************************************************/
+#menu_bookmark {
+    
+}
+#menu_bookmark>img{
+    vertical-align: top;
+    height: 20px;
+    width:  20px;
+    background-image: url('image/bookmark.gif');
+    background-size:20px;
+}
+/* logout */
+#menu_logout{
+    
+}
+#menu_logout>img{
+    vertical-align: top;
+    height: 20px;
+    width:  20px;
+    background-image: url('image/logout.gif');
+    background-size:20px;
+
+}
+#menu_anckey{}  #menu_anckey> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_cfgplugin{}  #menu_cfgplugin> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_ach{}  #menu_ach> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_anchop{}  #menu_anchop> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_ancbs{}  #menu_ancbs> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_anctab{}  #menu_anctab> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_ancbcc{}  #menu_ancbcc> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_ancgr{}  #menu_ancgr> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_cfgtva{}  #menu_cfgtva> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_ven{}  #menu_ven> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_cfgmenu{}  #menu_cfgmenu> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_suppl{}  #menu_suppl> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_ancods{}  #menu_ancods> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_report{}  #menu_report> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_cfgcatdoc{}  #menu_cfgcatdoc> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_letcard{}  #menu_letcard> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_achisto{}  #menu_achisto> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_odhisto{}  #menu_odhisto> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_printposte{}  #menu_printposte> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_printreport{}  #menu_printreport> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_printgl{}  #menu_printgl> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_printbal{}  #menu_printbal> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_cust{}  #menu_cust> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_stock_histo{}  #menu_stock_histo> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_plananc{}  #menu_plananc> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_ancgroup{}  #menu_ancgroup> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_contact{}  #menu_contact> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_ext{}  #menu_ext> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_predop{}  #menu_predop> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_ods{}  #menu_ods> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_fin{}  #menu_fin> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_jssearch{}  #menu_jssearch> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_param{}  #menu_param> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_menuach{}  #menu_menuach> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_mod{}  #menu_mod> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_print{}  #menu_print> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_bk{}  #menu_bk> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_let{}  #menu_let> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_letacc{}  #menu_letacc> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_cardbal{}  #menu_cardbal> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_ancgl{}  #menu_ancgl> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_gestion{}  #menu_gestion> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_access{}  #menu_access> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_compta{}  #menu_compta> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_divparm{}  #menu_divparm> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_cfgpro{}  #menu_cfgpro> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_venmenu{}  #menu_venmenu> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_cfgacc{}  #menu_cfgacc> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_card{}  #menu_card> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_preference{}  #menu_preference> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_cfgtag{}  #menu_cfgtag> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_ancbc2{}  #menu_ancbc2> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_company{}  #menu_company> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_periode{}  #menu_periode> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_verifbil{}  #menu_verifbil> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_open{}  #menu_open> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_cfgdoc{}  #menu_cfgdoc> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_cfgled{}  #menu_cfgled> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_cfgsec{}  #menu_cfgsec> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_cfgatcard{}  #menu_cfgatcard> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_stock_state{}  #menu_stock_state> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_stock_inv{}  #menu_stock_inv> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_stock_invhisto{}  #menu_stock_invhisto> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_navi{}  #menu_navi> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_search{}  #menu_search> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_hist{}  #menu_hist> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_frec{}  #menu_frec> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_fsaldo{}  #menu_fsaldo> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_cfgpcmn{}  #menu_cfgpcmn> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_vehisto{}  #menu_vehisto> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_fihisto{}  #menu_fihisto> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_printrec{}  #menu_printrec> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_printbilan{}  #menu_printbilan> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_cfgstock{}  #menu_cfgstock> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_stock{}  #menu_stock> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_cfgcardcat{}  #menu_cfgcardcat> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_cfgcard{}  #menu_cfgcard> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_cfgdocst{}  #menu_cfgdocst> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_menuods{}  #menu_menuods> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_printjrn{}  #menu_printjrn> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_ancimp{}  #menu_ancimp> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_anc{}  #menu_anc> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_dashboard{}  #menu_dashboard> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_adv{}  #menu_adv> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_menufin{}  #menu_menufin> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_follow{}  #menu_follow> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_cfgpay{}  #menu_cfgpay> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_adm{}  #menu_adm> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_forecast{}  #menu_forecast> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_manager{}  #menu_manager> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_cfgdefmenu{}  #menu_cfgdefmenu> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
+#menu_agenda{}  #menu_agenda> img {vertical-align:top;height:20px;width:20px;background-image:url('image/empty.gif')}
