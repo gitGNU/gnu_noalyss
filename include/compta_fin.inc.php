@@ -143,16 +143,22 @@ echo HtmlInput::hidden('ac',$_REQUEST['ac']);
 $array=( isset($correct))?$_POST:null;
 
 // show select ledger
-echo $Ledger->input($array);
-echo HtmlInput::button('add_item',_('Ajout article'),   ' onClick="ledger_fin_add_row()"');
-echo HtmlInput::submit('save',_('Sauve'));
-echo HtmlInput::reset(_('Effacer'));
-
-if ( ! isset ($_POST['e_date'])&& $g_parameter->MY_DATE_SUGGEST=='Y')
+try 
 {
-	echo create_script(" get_last_date();ajax_saldo('first_sold');");
-}else {
-	echo create_script(" ajax_saldo('first_sold');");
+    echo $Ledger->input($array);
+
+    echo HtmlInput::button('add_item',_('Ajout article'),   ' onClick="ledger_fin_add_row()"');
+    echo HtmlInput::submit('save',_('Sauve'));
+    echo HtmlInput::reset(_('Effacer'));
+
+    if ( ! isset ($_POST['e_date'])&& $g_parameter->MY_DATE_SUGGEST=='Y')
+    {
+            echo create_script(" get_last_date();ajax_saldo('first_sold');");
+    }else {
+            echo create_script(" ajax_saldo('first_sold');");
+    }
+    echo create_script(" update_name()");
+} catch (Exception $ex) {
+    echo $ex->getMessage();
 }
-echo create_script(" update_name()");
 return;
