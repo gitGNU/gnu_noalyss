@@ -312,7 +312,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		$add_js = 'onchange="'.$onchange.'"';
 		$wLedger = $this->select_ledger('FIN', 2);
 		if ($wLedger == null)
-			throw  Exception(_('Pas de journal disponible'));
+			throw  new Exception(_('Pas de journal disponible'));
 
 		$wLedger->javascript = $add_js;
 
