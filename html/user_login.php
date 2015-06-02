@@ -161,8 +161,7 @@ echo '<div id="module">'.$result.'</div>';
 echo '</div>';
 ?>
 <div class="foldercontent">
-<?php echo '<h2 >'._('Choisissez un dossier').'</h2>';?>
-	<span style="display:block;margin:2.5%">
+	<span style="display:block;margin:2%">
  <?php
                         echo _('Filtre').HtmlInput::infobulle(23);
 ?>

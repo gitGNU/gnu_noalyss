@@ -1312,8 +1312,8 @@ a.nav:hover,div.content a.nav:hover,div.redcontent a.nav:hover {
 div.foldercontent {
     font-size:14px;
     font-size:0.95rem;
-    width: 80%;
-    margin-left: 10%;
+    width: 95%;
+    margin-left: 2.5%;
 }
 
 h1.title {
@@ -1387,12 +1387,17 @@ div.menu3 {
     margin-left:30px;
 }
 #folder {
-    border-width:0px;
-    border-collapse: collapse;
-    }
-    #folder tr {
+    border: 1px solid #0000ff;
+    border-collapse: separate;
+    border-radius: 10px;
+    border-spacing: 0px;
+    box-shadow: 10px 10px 5px #888888;
+    padding: 5px;
+    width: 100%;
+}
+#folder tr {
         height: 30px;
-    }    
+}    
 /*#folder tr.odd,#folder tr.even {
     font-size : 1.2em;
 }*/
