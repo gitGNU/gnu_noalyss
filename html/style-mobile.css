@@ -1032,9 +1032,8 @@ border-bottom-style:solid;
     
 }
 /* </style> */
-#add_todo_list {
+#add_todo_list,div.add_todo_list {
     border:1px solid #605D5D;
-    display:none;
     background-color:#DDE6FF;
     padding:0.07%;
     position:absolute;
