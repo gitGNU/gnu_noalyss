@@ -78,10 +78,14 @@ if (isset($_POST['view_invoice']))
 		echo HtmlInput::hidden('ac', $_REQUEST['ac']);
                             ?>
 <div id="tab_id" >
+    <script>
+        var a_tab = ['modele_div_id','repo_div_id','facturation_div_id','reverse_div_id'];
+    </script>
 <ul class="tabs">
-    <li class="tabs_selected"><a href="javascript:void(0)" title="<?php echo _("Générer une facture ou charger un document")?>"  onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';$('modele_div_id').hide();$('repo_div_id').hide();$('facturation_div_id').show();"><?php echo _('Facture')?></a></li>
-    <li class="tabs"> <a href="javascript:void(0)" title="<?php echo _("Choix du dépôt")?>"  onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';$('modele_div_id').hide();$('facturation_div_id').hide();$('repo_div_id').show();"> <?php echo _('Dépôt')?> </a></li>
-    <li class="tabs"> <a href="javascript:void(0)" title="<?php echo _("Modèle à sauver")?>"  onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';$('facturation_div_id').hide();$('repo_div_id').hide();$('modele_div_id').show()"> <?php echo _('Modèle')?> </a></li>
+    <li class="tabs_selected"><a href="javascript:void(0)" title="<?php echo _("Générer une facture ou charger un document")?>"  onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';show_tabs(a_tab,'facturation_div_id')"><?php echo _('Facture')?></a></li>
+    <li class="tabs"> <a href="javascript:void(0)" title="<?php echo _("Choix du dépôt")?>"  onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';show_tabs(a_tab,'repo_div_id')"> <?php echo _('Dépôt')?> </a></li>
+    <li class="tabs"> <a href="javascript:void(0)" title="<?php echo _("Modèle à sauver")?>"  onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';show_tabs(a_tab,'modele_div_id')"> <?php echo _('Modèle')?> </a></li>
+    <li class="tabs"> <a href="javascript:void(0)" title="<?php echo _("Extourne")?>"  onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';show_tabs(a_tab,'reverse_div_id')"> <?php echo _('Extourne')?> </a></li>
 </ul>
 <?php
 		echo $Ledger->select_depot(false, -1);
@@ -91,15 +95,24 @@ if (isset($_POST['view_invoice']))
                 echo Pre_operation::save_propose();
                 echo '</div>';
 
-                echo HtmlInput::submit("record", _("Enregistrement"), 'onClick="return verify_ca(\'\');"');
+               
+                echo '<div id="reverse_div_id" style="display:none;height:185px;height:10rem">';
+                $reverse_date=new IDate('reverse_date');
+                $reverse_ck=new ICheckBox('reverse_ck');
+                echo _('Extourne opération')." ".$reverse_ck->input()." ";
+                echo $reverse_date->input();
+                echo '</div>';
+                
+                 echo HtmlInput::submit("record", _("Enregistrement"), 'onClick="return verify_ca(\'\');"');
 		echo HtmlInput::submit('correct', _("Corriger"));
 		echo '</form>';
 		echo '</div>'; /* tab_id */
 		echo '</div>';
                 ?>
 <script>
-    $('repo_div_id').hide();
+     $('repo_div_id').hide();
     $('modele_div_id').hide();
+show_tab(a_tab,'facturation_div_id');
 </script>
 <?php
             echo '</div>';
@@ -157,6 +170,33 @@ if (isset($_POST['record']))
                      echo '<h2>'._('Document').'</h2>';
                      echo $Ledger->doc;
 		}
+                // extourne
+                if (isset($_POST['reverse_ck']))
+                {
+                    $p_date=HtmlInput::default_value_post('reverse_date', '');
+                    if (isDate($p_date)==$p_date)
+                    {
+                        // reverse the operation
+                        try
+                        {
+                            $Ledger->reverse($p_date);
+                            echo '<p>';
+                            echo _('Extourné au ').$p_date;
+                            echo '</p>';
+                        }
+                        catch (Exception $e)
+                        {
+                            echo '<p class="notice">'._('Opération non extournée').
+                                $e->getMessage().
+                                '</p>';
+                        }
+                    }
+                    else
+                    {
+                        // warning because date is invalid
+                        echo '<p class="notice">'._('Date invalide, opération non extournée').'</p>';
+                    }
+                }
                 echo $Ledger->button_new_operation();
 		echo '</div>';
 		return;

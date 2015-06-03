@@ -220,7 +220,7 @@ class Acc_Ledger extends jrn_def_sql
 
 			// Mark the operation invalid into the ledger
 			// to avoid to nullify twice the same op.
-			$sql = "update jrn set jr_comment='Annule : '||jr_comment where jr_id=$1";
+			$sql = "update jrn set jr_comment='extourne : '||jr_comment where jr_id=$1";
 			$Res = $this->db->exec_sql($sql, array($this->jr_id));
 
 			// Check return code
@@ -287,7 +287,7 @@ class Acc_Ledger extends jrn_def_sql
               jr_internal
               ,jr_tech_per, jr_valid
               )
-              select $1,jr_def_id,jr_montant,'Annulation '||jr_comment,
+              select $1,jr_def_id,jr_montant,jr_comment,
               to_date($2,'DD.MM.YYYY'),$3,$4,
               $5, true
               from
@@ -326,6 +326,7 @@ class Acc_Ledger extends jrn_def_sql
 			$Res = $this->db->exec_sql($sql);
 			if ($Res == false)
 				throw (new Exception(__FILE__ . __LINE__ . "SQL ERROR [ $sql ]"));
+                        $this->db->commit();
 		}
 		catch (Exception $e)
 		{
@@ -1518,7 +1519,9 @@ class Acc_Ledger extends jrn_def_sql
 
 			if (trim(${'qc_' . $i}) == "" && trim(${'poste' . $i}) == "")
 				continue;
-			$ret.="<td>" . h(${"ld" . $i}) . HtmlInput::hidden('ld' . $i, ${'ld' . $i}) . "</td>";
+			$ret.="<td>" . h(${"ld" . $i}) . HtmlInput::hidden('ld' . $i, ${'ld' . $i}) ; 
+                        $ret .=(isset(${"ck$i"})) ? HtmlInput::hidden('ck' . $i, ${'ck' . $i}) : "";
+                        $ret .=        "</td>";
 			if (isset(${"ck$i"}))
 			{
 				$ret.="<td class=\"num\">" . nbm(${"amount" . $i}) . HtmlInput::hidden('amount' . $i, ${'amount' . $i}) . "</td>" . td("");
@@ -1529,9 +1532,9 @@ class Acc_Ledger extends jrn_def_sql
 				$ret.=td("") . "<td class=\"num\">" . nbm(${"amount" . $i}) . HtmlInput::hidden('amount' . $i, ${'amount' . $i}) . "</td>";
 				$total_cred = bcadd($total_cred, ${"amount" . $i});
 			}
-			$ret.="<td>";
+			/*$ret.="<td>";
 			$ret.=(isset(${"ck$i"})) ? HtmlInput::hidden('ck' . $i, ${'ck' . $i}) : "";
-			$ret.="</td>";
+			$ret.="</td>";*/
 			// CA
 
 			if ($g_parameter->MY_ANALYTIC != 'nu') // use of AA
@@ -3903,7 +3906,7 @@ class Acc_Ledger extends jrn_def_sql
         public function select_depot($p_readonly, $p_repo)
         {
             global $g_parameter;
-            $r='<div id="repo_div_id" style="height:185px;height:10rem;">';
+            $r=($p_readonly==false)?'<div id="repo_div_id" style="height:185px;height:10rem;">':'<div id="repo_div_id" >';
             // Show the available repository
             if ($g_parameter->MY_STOCK=='Y')
             {

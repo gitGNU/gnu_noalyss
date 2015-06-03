@@ -100,6 +100,34 @@ elseif (isset($_POST['save']))
 		// show feedback
 		echo '<div id="jrn_name_div">'; echo '<h2 id="jrn_name"  style="display:inline">' . $ledger->get_name() . '</h2>'; echo '</div>';
 		echo $ledger->confirm($_POST, true);
+                 // extourne
+                if (isset($_POST['reverse_ck']))
+                {
+                    $p_date=HtmlInput::default_value_post('reverse_date', '');
+                    if (isDate($p_date)==$p_date)
+                    {
+                        // reverse the operation
+                        try
+                        {
+                            $ledger->reverse($p_date);
+                            echo '<p>';
+                            echo _('Extourné au ').$p_date;
+                            echo '</p>';
+                        }
+                        catch (Exception $e)
+                        {
+                            echo '<p class="notice">'._('Opération non extournée').
+                                $e->getMessage().
+                                '</p>';
+                                
+                            }
+                    }
+                    else
+                    {
+                        // warning because date is invalid
+                        echo '<p class="notice">'._('Date invalide, opération non extournée').'</p>';
+                    }
+                }
                 echo $ledger->button_new_operation();
 
 	}

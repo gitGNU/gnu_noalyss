@@ -41,11 +41,31 @@ echo '<FORM METHOD="POST" class="print">';
 echo HtmlInput::request_to_hidden(array('ac'));
 echo $ledger->confirm($_POST,false);
 
-echo '<hr>';
-echo Pre_operation::save_propose();
-echo '<hr>';
+
+?>
+<div id="tab_id" >
+    <script>
+        var a_tab = ['modele_div_id','reverse_div_id'];
+    </script>
+<ul class="tabs">
+    <li class="tabs_selected"> <a href="javascript:void(0)" title="<?php echo _("Modèle à sauver")?>"  onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';show_tabs(a_tab,'modele_div_id')"> <?php echo _('Modèle')?> </a></li>
+    <li class="tabs"> <a href="javascript:void(0)" title="<?php echo _("Extourne")?>"  onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';show_tabs(a_tab,'reverse_div_id')"> <?php echo _('Extourne')?> </a></li>
+</ul>
+    <div id="modele_div_id">
+        <?php echo Pre_operation::save_propose(); ?>
+    </div>
+    <div id="reverse_div_id" style="display:none;height:185px;height:10rem">
+    <?php
+        $reverse_date=new IDate('reverse_date');
+        $reverse_ck=new ICheckBox('reverse_ck');
+        echo _('Extourne opération')." ".$reverse_ck->input()." ";
+        echo $reverse_date->input();
+    ?>
+    </div>
+</div>
+<?php
 echo HtmlInput::submit("save","Confirmer");
 echo HtmlInput::submit("correct","Corriger");
 
-echo '</FORM>';
 ?>
+</FORM>
