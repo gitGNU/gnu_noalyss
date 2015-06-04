@@ -266,6 +266,10 @@ for($i=0;$i<count($last_ledger);$i++):
 	<td>
 		<?php echo $last_ledger[$i]['jrn_def_code']?>
 	</td>
+        <td>
+		<?php echo $last_ledger[$i]['jr_pj_number']?>
+            
+        </td>
 <td>
    <?php echo h(mb_substr($last_ledger[$i]['jr_comment'],0,40,'UTF-8'))?>
 </td>

@@ -1067,6 +1067,12 @@ function ajax_xml_error($p_code,$p_string)
 </data>
 EOF;
 }
+/**
+ * @brief Display a box with the contains
+ * @param type $p_array Data to display
+ * @param type $p_title Title of the box
+ * @param type $p_div id of the box
+ */
 function display_dashboard_operation($p_array,$p_title,$p_div)
 {
 	?>
@@ -1078,6 +1084,7 @@ function display_dashboard_operation($p_array,$p_title,$p_div)
 	<table class="result">
 		<tr>
 			<th><?php echo _('Date')?></th>
+			<th><?php echo _('Pièce')?></th>
 			<th><?php echo _('Code Interne')?></th>
 			<th><?php echo _('Description')?></th>
 			<th>
@@ -1095,6 +1102,9 @@ function display_dashboard_operation($p_array,$p_title,$p_div)
 			<td>
 				<?php echo HtmlInput::detail_op($p_array[$i]['jr_id'], $p_array[$i]['jr_internal']) ?>
 			</td>
+                        <td>
+                            <?php echo h($p_array[$i]['jr_pj_number'])?>
+                        </td>
 			<td>
 				<?php echo h($p_array[$i]['jr_comment']) ?>
 			</td>

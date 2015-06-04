@@ -1528,6 +1528,7 @@ class Follow_Up
          */
         function tag_cell()
         {
+            global $g_user;
             $a_tag=$this->tag_get();
             $c=count($a_tag);
             for ($e=0;$e<$c;$e++) {
@@ -1535,13 +1536,17 @@ class Follow_Up
                         $a_tag[$e]['t_id']);
                 echo '<span style="border:1px solid black;margin-right:5px;">';
                 echo $a_tag[$e]['t_tag'];
-                echo HtmlInput::anchor( " &#x2D5D; ", "javascript:void(0)", $js_remove, ' class="smallbutton" style="padding:0px;display:inline" ');
+                if  ($g_user->can_write_action($this->ag_id) == true ) 
+                    { HtmlInput::anchor( SMALLX, "javascript:void(0)", $js_remove, ' class="smallbutton" style="padding:0px;display:inline" ');}
                 echo '</span>';
                 echo '&nbsp;';
                 echo '&nbsp;';
             }
             $js=sprintf("onclick=\"action_tag_select('%s','%s')\"",dossier::id(),$this->ag_id);
-            echo HtmlInput::button('tag_bt', 'Ajout tag',$js, 'smallbutton');
+            if  ($g_user->can_write_action($this->ag_id) == true )
+            {
+                echo HtmlInput::button('tag_bt', 'Ajout tag',$js, 'smallbutton');
+            }
 
         }
         static function action_tag_remove($cn,$p_array)
@@ -1692,7 +1697,7 @@ class Follow_Up
                         $a_linked[$i]['f_id'],$this->ag_id);
                 echo '<span style="border:1px solid black;margin-right:5px;">';
                 echo $qc;
-                echo HtmlInput::anchor( " &#x2D5D; ", "javascript:void(0)", $js_remove, ' class="smallbutton" style="padding:0px;display:inline" ');
+                echo HtmlInput::anchor(SMALLX, "javascript:void(0)", $js_remove, ' class="smallbutton" style="padding:0px;display:inline" ');
                 echo '</span>';
                 echo '&nbsp;';
                 echo '&nbsp;';

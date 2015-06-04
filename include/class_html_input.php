@@ -904,7 +904,7 @@ class HtmlInput
             $rmOperation=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer cette relation ')."')==true ) {remove_operation('%s','%s');}",
 							dossier::id(),
 							$p_operation);
-            $js= '<a class="tinybutton" id="acop'.$p_operation.'" href="'.$rmOperation.'">'."&#x2D5D;".'</a>';
+            $js= '<a class="tinybutton" id="acop'.$p_operation.'" href="'.$rmOperation.'">'.SMALLX.'</a>';
             return $js;
         }
         static function button_action_add_concerned_card($p_agid)

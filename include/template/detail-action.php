@@ -49,7 +49,10 @@
 	  <?php echo _('Contact')?>
           </TD>
           <TD>
-  <?php echo $ag_contact->search().$ag_contact->input();
+  <?php 
+  if  ($g_user->can_write_action($this->ag_id) == true ):
+    echo $ag_contact->search().$ag_contact->input();
+  endif;
             ?>
           </td>
           </Tr>
@@ -66,7 +69,10 @@
               <td id="concerned_card_td">
               <?php 
                     echo $this->display_linked();
-                    echo HtmlInput::button_action_add_concerned_card( $this->ag_id)?>
+                     if  ($g_user->can_write_action($this->ag_id) == true ):
+                        echo HtmlInput::button_action_add_concerned_card( $this->ag_id);
+                     endif;
+               ?>
               </td>
               <td>
 
@@ -191,7 +197,7 @@
 					dossier::id(),
 					$action[$o]['ag_id'],$_REQUEST['ag_id']);
                             $showAction='<a class="line" href="'.$base."&ag_id=".$action[$o]['ag_id'].'">';
-                            $js= '<a class="tinybutton" id="acact'.$action[$o]['ag_id'].'" href="'.$rmAction.'">&#x2D5D;</a>';
+                            $js= '<a class="tinybutton" id="acact'.$action[$o]['ag_id'].'" href="'.$rmAction.'">'.SMALLX.'</a>';
                             echo '<li id="act'.$action[$o]['ag_id'].'">'.$showAction.$action[$o]['str_date']." ".$action[$o]['ag_ref']." ".
 					h($action[$o]['sub_title']).'('.h($action[$o]['dt_value']).')</a>'." "
 				.$js.'</li>';
@@ -268,7 +274,7 @@ for( $c=0;$c<count($acomment);$c++){
 		$rmComment=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer ce commentaire')." ?')==true ) {remove_comment('%s','%s');}",
 						dossier::id(),
 						$acomment[$c]['agc_id']);
-				$js= '<a class="tinybutton" id="accom'.$acomment[$c]['agc_id'].'" href="'.$rmComment.'">&#x2D5D;</a>';
+				$js= '<a class="tinybutton" id="accom'.$acomment[$c]['agc_id'].'" href="'.$rmComment.'">'.SMALLX.'</a>';
 		echo hb('n°'.$acomment[$c]['agc_id'].'('.$acomment[$c]['tech_user']." ".$acomment[$c]['str_agc_date'].')').$js.
 				'<pre style="white-space: -moz-pre-wrap;white-space: pre-wrap;border:1px solid blue;width:80%;" id="com'.$acomment[$c]['agc_id'].'"> '.
 				" ".h($acomment[$c]['agc_comment']).'</pre>'

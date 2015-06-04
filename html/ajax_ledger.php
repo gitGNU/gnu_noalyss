@@ -291,7 +291,7 @@ case 'file':
         echo '<div class="op_detail_frame">';
         $x='';
         if ($access=='W' && $g_user->check_action (RMRECEIPT) == 1)
-            $x=sprintf('<a class="smallbutton" style="margin-left:12;margin-right:12" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">&#x2D5D;</a>',
+            $x=sprintf('<a class="smallbutton" style="margin-left:12;margin-right:12" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">'.SMALLX.'</a>',
                        $gDossier,$div,$jr_id);
         
         $filename= $obj->det->jr_pj_name;
@@ -333,7 +333,7 @@ case 'loadfile':
         
         // check if the user can remove a document
         if ($g_user->check_action (RMRECEIPT) == 1) {
-            $x=sprintf('<a class="mtitle" class="notice" style="margin-left:12;margin-right:12px" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">'."&#x2D5D;".'</a>',
+            $x=sprintf('<a class="mtitle" class="notice" style="margin-left:12;margin-right:12px" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">'.SMALLX.'</a>',
                    $gDossier,$div,$jr_id);
             echo $x;
         }

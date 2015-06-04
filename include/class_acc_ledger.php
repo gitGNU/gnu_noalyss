@@ -3783,7 +3783,17 @@ class Acc_Ledger extends jrn_def_sql
 			throw $e;
 		}
 	}
-
+        /**
+         * Get operation from the ledger type before, after or with the 
+         * given date . The array is filtered by the ledgers granted to the 
+         * user
+         * @global type $g_user
+         * @param $p_date Date (d.m.Y)
+         * @param $p_ledger_type VEN ACH 
+         * @param type $sql_op < > or =
+         * @return array from jrn (jr_id, jr_internal, jr_date, jr_comment,jr_pj_number,jr_montant)
+         * @throws Exception
+         */
 	function get_operation_date($p_date,$p_ledger_type,$sql_op)
 	{
 		global $g_user;
@@ -3800,7 +3810,7 @@ class Acc_Ledger extends jrn_def_sql
 		}
 
 
-		$sql = "select jr_id, jr_internal, jr_date, jr_comment,jr_comment,jr_montant
+		$sql = "select jr_id, jr_internal, jr_date, jr_comment,jr_pj_number,jr_montant
 				from jrn
 				join jrn_def on (jrn_def_id=jr_def_id)
 				where
