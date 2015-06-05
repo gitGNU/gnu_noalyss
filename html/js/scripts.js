@@ -2563,7 +2563,7 @@ function calendar_zoom(obj)
                         }
                         if ($(obj.outdiv) == undefined) {
                             var str_style = fixed_position(0, 20);
-                            add_div({id: obj.outdiv, style: 'margin-left:3%;width:94%;height:94%;' + str_style, cssclass: "inner_box", drag: 1});
+                            add_div({id: obj.outdiv, style: 'margin-left:3%;width:94%;' + str_style, cssclass: "inner_box", drag: 1});
                         }
                         remove_waiting_box();
                         $(obj.outdiv).innerHTML = code_html;
