@@ -35,10 +35,19 @@
     <table class="result">
 <?php
     $nb_event=count($a_event);
+    $a_status=array('R'=>_('Retard'),'N'=>'Auj.','F'=>'');
     for ($i=0;$i<$nb_event;$i++):
         $class=($i % 2 == 0 )? 'even':'odd';
+        $idx=$a_event[$i]['status'];
+        $class=($idx=='R')?'notice':$class;
+        
 ?>
         <tr class="<?php echo $class?>">
+            <td>
+                <?php
+                echo $a_status[$idx];
+                ?>
+            </td>
             <td>
                 <?php echo $a_event[$i]['str_date']; ?>
                 &nbsp; 

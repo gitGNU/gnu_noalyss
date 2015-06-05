@@ -299,12 +299,15 @@ class Calendar
         // union the TODO list
         $sql = "
           select ag_id,ag_remind_date,to_char(ag_remind_date,'DD.MM.YY') as str_date,ag_title,ag_hour,
-             coalesce(name,'interne') as str_name
+             coalesce(name,'interne') as str_name,
+             case when ag_remind_date < now() then 'R' 
+                when ag_remind_date = now() then 'N' 
+                else 'F'
+              end as status
               from action_gestion 
                left join vw_fiche_name  on (f_id=f_id_dest)
               where 
-              ag_remind_date >= now() 
-              and ag_dest in (select p_granted from user_sec_action_profile where p_id =$1)
+               ag_dest in (select p_granted from user_sec_action_profile where p_id =$1)
               and ag_state IN (2, 3)
               order by ag_remind_date,ag_hour
         ";
