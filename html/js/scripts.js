@@ -2533,14 +2533,17 @@ function action_hide_checkbox()
 function calendar_zoom(obj)
 {
     try {
-
-        var query = "";
-        query = "op=calendar_zoom&gDossier=" + obj.gDossier + "&in=" + $(obj.invalue).value + '&out=' + obj.outdiv;
         waiting_box();
+        var per_periode=null;
+        var notitle=0;
+        var from=0;
+        if ( $(obj.invalue) ) { per_periode=$(obj.invalue).value;}
+        if ( obj.notitle && obj.notitle==1 ) { notitle=1;}
         var action = new Ajax.Request(
                 "ajax_misc.php",
                 {
-                    method: 'get', parameters: query,
+                    method: 'get', 
+                    parameters: { "notitle":notitle,"op":'calendar_zoom','from':from,'gDossier':obj.gDossier,'in':per_periode ,'out' : obj.outdiv,'distype':obj.distype},
                     onFailure: ajax_misc_failure,
                     onSuccess: function (req, j) {
                         var answer = req.responseXML;

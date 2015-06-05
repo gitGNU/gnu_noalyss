@@ -20,10 +20,14 @@
 if ( !defined ('ALLOWED') )  die('Appel direct ne sont pas permis');
 require_once 'class_calendar.php';
 ob_start();
-echo HtmlInput::title_box(_("Calendrier"), "calendar_zoom_div");
+if ( $notitle== 0 ) echo HtmlInput::title_box(_("Calendrier"), "calendar_zoom_div");
 $cal=new Calendar();
-$cal->set_periode($_GET['in']);
-echo $cal->zoom();
+$in=HtmlInput::default_value_get('in',"");
+if ( $in == "") {
+    $in=$cal->get_preference();
+}
+$cal->set_periode($in);
+echo $cal->zoom($distype);
 $response=  ob_get_clean();
 
 $html=escape_xml($response);

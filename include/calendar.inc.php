@@ -15,5 +15,5 @@ $cal->default_periode=(isset ($_GET['in']))?$_GET['in']:$g_user->get_periode();
 ?>
 <div id="calendar_zoom_div">
     
-<?php echo $cal->display('long'); ?>
+<?php echo $cal->display('long',true); ?>
 </div>

@@ -150,7 +150,7 @@ class Calendar
      * 
      *\return HTML String
      */
-    function display($p_type)
+    function display($p_type,$p_notitle=false)
     {
         global $g_user;
         if  ($p_type != 'long' && $p_type != 'short') {
@@ -179,16 +179,18 @@ class Calendar
         $month_year=$wMonth->input().$wMonth->get_js_attr();
         ob_start();
         $zoom=($p_type=='short')?0:1;
+        $notitle=($p_notitle)?1:0;
+        
         require_once('template/calendar.php');
 
-		if (count($this->action_div) > 0)
-		{
-			foreach ($this->action_div as $day)
-			{
-				echo $day;
-			}
-		}
-		$ret=ob_get_contents();
+        if (count($this->action_div) > 0)
+        {
+                foreach ($this->action_div as $day)
+                {
+                        echo $day;
+                }
+        }
+        $ret=ob_get_contents();
         ob_end_clean();
         return $ret;
     }
@@ -227,7 +229,7 @@ class Calendar
         {
             $p_id=$g_user->get_periode();
         }
-		$this->default_periode=$p_id;
+	$this->default_periode=$p_id;
         return  $p_id;
     }
     /**
@@ -241,7 +243,7 @@ class Calendar
     /**
      * @brief zoom the calendar
      */
-    function zoom()
+    function zoom_calendar()
     {
         global $g_user;
         $exercice_user=$g_user->get_exercice();
@@ -261,12 +263,13 @@ class Calendar
         $cn=new Database(dossier::id());
         $wMonth->value=$cn->make_array("select p_id,to_char(p_start,'MM/YYYY') from parm_periode where p_exercice = '$exercice_user' order by p_start");
         $wMonth->selected=$this->default_periode;
-        $wMonth->javascript=sprintf("onchange=calendar_zoom({gDossier:%d,invalue:'%s',outvalue:'%s'})",
-            dossier::id(),'per_div','calendar_zoom_div');
+        $wMonth->javascript=sprintf("onchange=calendar_zoom({gDossier:%d,invalue:'%s',outvalue:'%s',distype:'%s'})",
+            dossier::id(),'per_div','calendar_zoom_div','cal');
         $wMonth->set_attribute('gDossier',dossier::id());
         $month_year=$wMonth->input().$wMonth->get_js_attr();
-        $zoom=1;
         ob_start();
+         $zoom=1;
+         $notitle=HtmlInput::default_value_get('notitle', 0);
         require_once('template/calendar.php');
 
         if (count($this->action_div) > 0)
@@ -280,6 +283,52 @@ class Calendar
         ob_end_clean();
         return $ret;
     }
+    /**
+     * Display the next events for 30 days 
+     * todo list + action to remind
+     */
+    function zoom_list()
+    {
+        global $g_user;
+        $cn=new Database(dossier::id());
+        $profile=$g_user->get_profile();
+
+        // Get the event from now and before 30 before
+        // union the TODO list
+        $sql = "
+          select ag_id,ag_remind_date,to_char(ag_remind_date,'DD.MM.YY') as str_date,ag_title,ag_hour,
+             coalesce(name,'interne') as str_name
+              from action_gestion 
+               left join vw_fiche_name  on (f_id=f_id_dest)
+              where 
+              ag_remind_date >= now() 
+              and ag_dest in (select p_granted from user_sec_action_profile where p_id =$1)
+              and ag_state IN (2, 3)
+              order by ag_remind_date,ag_hour
+        ";
+        $a_event=$cn->get_array($sql,array($profile));
+        $notitle=HtmlInput::default_value_get('notitle', 0);
+        ob_start();
+        require_once 'template/calendar-list.php';
+        $ret=ob_get_clean();
+        return $ret;
+                
+        
+    }
+    
+    function zoom($p_type)
+    {
+        switch ($p_type)
+        {
+            case 'cal':
+                return $this->zoom_calendar();
+                break;
+            case 'list':
+                return $this->zoom_list();
+                break;
+        }
+    }
+        
     static function test_me() {
         
     }

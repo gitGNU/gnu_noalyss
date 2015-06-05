@@ -21,8 +21,8 @@ global $g_user;
 $cal=new Calendar();
 $cal->get_preference();
 
-$obj=sprintf("{gDossier:%d,invalue:'%s',outdiv:'%s'}",
-        dossier::id(),'per','calendar_zoom_div');
+$obj=sprintf("{gDossier:%d,invalue:'%s',outdiv:'%s','distype':'%s'}",
+        dossier::id(),'per','calendar_zoom_div','cal');
 $Operation=new Follow_Up($cn);
 $last_operation=$Operation->get_today();
 $late_operation=$Operation->get_late();

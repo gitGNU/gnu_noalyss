@@ -4,6 +4,12 @@
 ?>
 <div class="pc_calendar" id="user_cal" style="width:100%">
 <?php echo $month_year?>
+<?php 
+    $js=sprintf("calendar_zoom({gDossier:%d,invalue:'%s',outvalue:'%s',distype:'%s','notitle':%d})",
+            dossier::id(),'per_div','calendar_zoom_div','list',$notitle);
+    echo HtmlInput::anchor(_('Liste'),''," onclick=\"{$js}\"")   ;
+ ?>
+    
 <?php if ($zoom == 1 ): ?>    
 <table style="width:100%;height:80%">
     <?php else: ?>
