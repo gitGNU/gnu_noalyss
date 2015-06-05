@@ -168,7 +168,7 @@ if (in_array($op, array('modele_drop', 'modele_modify', 'folder_modify', 'folder
     $dossier=HtmlInput::default_value_get('p_dossier', 0);
     $content=_('Erreur paramètre');
     $status="NOK";
-
+    // check if we receive a valid parameter 
     if ($dossier==0||isNumber($dossier)==0)
     {
         //----------------------------------------------------------------
@@ -185,6 +185,7 @@ if (in_array($op, array('modele_drop', 'modele_modify', 'folder_modify', 'folder
         echo $dom->saveXML();
         exit();
     }
+    // Modify the description or the name of folder
     if ($op=='folder_modify')
     {
         $dos=new Dossier($dossier);
@@ -210,6 +211,7 @@ if (in_array($op, array('modele_drop', 'modele_modify', 'folder_modify', 'folder
     }
     else if ($op=='folder_drop')
     {
+        // ask to confirm the removal a folder
         $dos=new Dossier($dossier);
         ob_start();
         echo HtmlInput::title_box(_('Efface'), 'folder_admin_div');
@@ -234,6 +236,7 @@ if (in_array($op, array('modele_drop', 'modele_modify', 'folder_modify', 'folder
     }
     else if ($op=='modele_drop')
     {
+        // ask to confirm the removal a folder
         $cn=new Database();
         $name=$cn->get_value('select mod_name from modeledef where mod_id=$1', array($dossier));
         ob_start();
@@ -258,6 +261,7 @@ if (in_array($op, array('modele_drop', 'modele_modify', 'folder_modify', 'folder
     }
     else if ($op=='modele_modify')
     {
+        // Modify the description or the name of a template
         $cn=new Database();
         ob_start();
         echo HtmlInput::title_box(_('Modification'), 'folder_admin_div');
