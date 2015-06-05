@@ -19,9 +19,9 @@ $array=$todo->load_all();
 $a_todo=Todo_List::to_object($cn,$array);
 
 echo HtmlInput::button('add',_('Ajout'),'onClick="add_todo()"','smallbutton');
-if ( ! empty ($array) )  {
   echo '<table id="table_todo" class="sortable" width="100%">';
   echo '<tr><th class=" sorttable_sorted_reverse" id="todo_list_date">Date <span id="sorttable_sortrevind">&nbsp;&blacktriangle;</span></th><th>Titre</th><th></th>';
+if ( ! empty ($array) )  {
   $nb=0;
   $today=date('d.m.Y');
 
@@ -30,8 +30,8 @@ if ( ! empty ($array) )  {
     $nb++;
     echo $row->display_row($odd);
   }
-  echo '</table>';
 }
+  echo '</table>';
 ?>
 </div>
 
