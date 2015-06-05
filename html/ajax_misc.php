@@ -699,6 +699,27 @@ EOF;
         case 'folder_add':
             require_once 'ajax_admin.php';
             break;
+
+        // From admin, display info and propose to drop the folder
+        case 'folder_drop':
+            require_once 'ajax_admin.php';
+            break;
+
+        // From admin, display the information of a folder you can 
+        // modify
+        case 'folder_modify':
+            require_once 'ajax_admin.php';
+            break;
+        // From admin, display info and propose to drop the template
+        case 'modele_drop':
+            require_once 'ajax_admin.php';
+            break;
+
+        // From admin, display the information of a template you can 
+        // modify
+        case 'modele_modify':
+            require_once 'ajax_admin.php';
+            break;
             
 	default:
 		var_dump($_GET);

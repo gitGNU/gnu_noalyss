@@ -156,22 +156,21 @@ if ( $sa == 'list' )
 {
 	require_once('class_sort_table.php');
         echo '<p>';
-        echo HtmlInput::button_anchor(_('Rafraîchir'),'admin_repo.php?action=dossier_mgt');
-        echo HtmlInput::button_anchor(_('Ajouter'),'admin_repo.php?action=dossier_mgt&sa=add');
+        echo HtmlInput::button(_('Ajouter'),_('Ajouter')," onclick=\$('folder_add_id').show()");
         echo '</p>';
 	$header=new Sort_Table();
 	$url=$_SERVER['PHP_SELF']."?sa=list&action=".$_REQUEST['action'];
 	$header->add("id",$url," order by dos_id asc"," order by dos_id desc","da","dd");
 	$header->add("Nom",$url," order by dos_name asc"," order by dos_name desc","na","nd");
 	$header->add("Description",$url," order by dos_description asc"," order by dos_description  desc","da","dd");
-    $repo=new Dossier(0);
+        $repo=new Dossier(0);
 	$repocn=new Database();
 	$ord=(isset($_REQUEST['ord']))?$_REQUEST['ord']:'na';
 	$sql_order=$header->get_sql_order($ord);
 	$Res=$repocn->get_array("select *  from ac_dossier $sql_order");
 
 	$compteur=1;
-    $template="";
+        $template="";
 	echo '<div class="content">';
 	echo '<span style="display:block">';
 	echo _('Filtre').HtmlInput::infobulle(23);
@@ -197,7 +196,7 @@ if ( $sa == 'list' )
             else
                 $cl='class="even"';
 
-            echo "<TR $cl><TD style=\"vertical-align:top\"> ".
+            echo "<TR id=\"folder{$Dossier['dos_id']}\" $cl><TD style=\"vertical-align:top\"> ".
 	      $Dossier['dos_id']."</td><td> <B>".h($Dossier['dos_name'])."</B> </TD>";
 	    $str_name=domaine.'dossier'.$Dossier['dos_id'];
 
@@ -214,23 +213,20 @@ if ( $sa == 'list' )
                 echo td(_("Dossier inexistant"),'style="color:red"');
             }
 	    echo td($str_name);
-            echo "<TD>";
             if ( $database_exist > 0)
             {
-                echo td(HtmlInput::button_anchor(_('Effacer'),'?action=dossier_mgt&sa=del&d='.$Dossier['dos_id']));
+                echo td(HtmlInput::anchor(_('Effacer'),'?action=dossier_mgt&sa=del&d='.$Dossier['dos_id']," onclick=\"folder_drop('".$Dossier['dos_id']."')\""));
 
-                echo td(HtmlInput::button_anchor(_('Modifier'),'?action=dossier_mgt&sa=mod&d='
-                                                 .$Dossier['dos_id']));
+                echo td(HtmlInput::anchor(_('Modifier'),'?action=dossier_mgt&sa=mod&d='
+                                                 .$Dossier['dos_id']," onclick=\"folder_modify('".$Dossier['dos_id']."')\""));
 
-                echo td(HtmlInput::button_anchor(_('Backup'),'backup.php?action=backup&sa=b&t=d&d='
+                echo td(HtmlInput::anchor(_('Backup'),'backup.php?action=backup&sa=b&t=d&d='
                                               .$Dossier['dos_id']));
                 echo '</td>';
             }
-            echo '<tr>';
             $compteur++;
 
         }
-
         echo "</TR>";
 
     }
@@ -238,11 +234,12 @@ if ( $sa == 'list' )
 
 
 }
-
+?>
+<div id="folder_add_id" class="inner_box" style="display:none;top:50px">
+    <?php
 //---------------------------------------------------------------------------
 // Add a new folder
-if ( $sa == 'add' )
-{
+    echo HtmlInput::title_box(_("Ajout d'un dossier"), 'folder_add_id', "hide");
     $repo=new Database();
     // Load the available Templates
     $Res=$repo->exec_sql("select mod_id,mod_name,mod_desc from
@@ -273,68 +270,27 @@ if ( $sa == 'add' )
                  <TABLE>
                  <TR>
                  <TD><?php echo _('Nom du dossier');
-    ?></td><td>  <INPUT TYPE="TEXT" NAME="DATABASE"> </TD>
+    ?></td><td>  <INPUT TYPE="TEXT" class="input_text" NAME="DATABASE"> </TD>
                                          </TR><TR>
                                          <TD><?php echo _('Description');
-    ?></td><td>  <TEXTAREA COLS="60" ROWS="2" NAME="DESCRIPTION" ></TEXTAREA> </TD>
+    ?></td><td>  <TEXTAREA  class="input_text"  COLS="60" ROWS="2" NAME="DESCRIPTION" ></TEXTAREA> </TD>
                                           </TR>
                                           <TR> <TD><?php echo _('Modèle');
     ?></td><td>  <?php   echo $template;
     ?> </TD></TR>
-    <TR><TD>Année </TD><TD><input type="text" size=4 name="YEAR" value=<?php  echo '"'.$m_date.'"'; ?>></TD></TR>
+    <TR><TD>Année </TD><TD><input  class="input_text"  type="text" size=4 name="YEAR" value=<?php  echo '"'.$m_date.'"'; ?>></TD></TR>
     <TR>
     <TD> <INPUT TYPE=SUBMIT class="button" VALUE="<?php echo _('Creation Dossier'); ?>"> </TD>
                                               <td>
-                                              <?php  echo HtmlInput::button_anchor(_('Retour'),'admin_repo.php?action=dossier_mgt');
-    ?>
     </td>
     </TR>
     </TABLE>
     </FORM>
     <?php
-}
-//---------------------------------------------------------------------------
-// action= mod
-if ( $sa == 'mod' )
-{
-    require_once ('class_dossier.php');
-    $dos=new dossier($_REQUEST['d']);
-    $dos->load();
-    $wText=new IText();
-    echo '<form action="admin_repo.php" method="post">';
-    echo HtmlInput::hidden('action','dossier_mgt');
-    echo HtmlInput::hidden('d',$dos->get_parameter("id"));
-    echo _('Nom').' : ';
-    echo  $wText->input('name',$dos->get_parameter('name'));
-    echo '<br>';
-    $wDesc=new ITextArea();
-    $wDesc->heigh=5;
-    echo _('Description').' : <br>';
-    echo  $wDesc->input('desc',$dos->get_parameter('desc'));
-    echo '<br>';
-    echo HtmlInput::submit('upd',_('Modifie'));
-    echo HtmlInput::button_anchor(_('Retour'),'?action=dossier_mgt');
-    echo '</form>';
-}
-//---------------------------------------------------------------------------
-// action = del
-//---------------------------------------------------------------------------
-if ( $sa == 'del' )
-{
-    $d=new Dossier($_REQUEST ['d'] );
-    $d->load();
-    echo '<form method="post">';
-    echo HtmlInput::hidden('d',$_REQUEST['d']);
-    echo HtmlInput::hidden('sa','remove');
-    echo '<h2 class="error">'._('Etes vous sûr et certain de vouloir effacer ').$d->dos_name.' ???</h2>';
-    $confirm=new ICheckBox();
-    $confirm->name="p_confirm";
-    echo _('Cochez la case si vous êtes sûr de vouloir effacer ce dossier');
-    echo $confirm->input();
-    echo HtmlInput::submit('remove',_('Effacer'));
-    echo HtmlInput::button_anchor(_('Retour'),'?action=dossier_mgt');
-    echo '</form>';
-}
+
+?>
+</div>
+<?php
 //---------------------------------------------------------------------------
 // action = del
 //---------------------------------------------------------------------------

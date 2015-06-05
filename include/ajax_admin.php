@@ -53,8 +53,7 @@ if ($op=='folder_add') // operation
         $dossier->load();
         $content="<td>{$dossier->dos_name}</td><td>{$dossier->dos_description}</td>".
                 "<td>".
-                 HtmlInput::anchor(_('Enleve'),"",
-                            " onclick=\"folder_remove({$user_id},{$dossier_id});\"").
+                HtmlInput::anchor(_('Enleve'), "", " onclick=\"folder_remove({$user_id},{$dossier_id});\"").
                 "</td>";
         $status='OK';
     }
@@ -130,7 +129,7 @@ if ($op=='folder_display') // operation
         echo HtmlInput::title_box(_("Liste dossier"), 'folder_list_div');
         ?>
         <form method="get" onsubmit="folder_display('<?php echo $user_id ?>');
-                return false">
+                        return false">
             <p style="text-align: center">
                 <?php echo _('Recherche'); ?><input type="text" id="database_filter_input" class="input_text" autofocus="true" nohistory autocomplete="false" value="<?php echo $p_filter ?>">
                 <input type="submit" class="smallbutton" value="<?php echo _('Valider') ?>">
@@ -145,6 +144,134 @@ if ($op=='folder_display') // operation
         </p>
         <?php
         require 'template/folder_display.php';
+        $content=ob_get_clean();
+        $status='OK';
+    }
+    //----------------------------------------------------------------
+    // Answer in XML
+    header('Content-type: text/xml; charset=UTF-8');
+    $dom=new DOMDocument('1.0', 'UTF-8');
+    $xml=escape_xml($content);
+    $xml_content=$dom->createElement('content', $xml);
+    $xml_status=$dom->createElement('status', $status);
+    $root=$dom->createElement("root");
+    $root->appendChild($xml_content);
+    $root->appendChild($xml_status);
+    $dom->appendChild($root);
+    echo $dom->saveXML();
+    exit();
+}
+// For the operation 'modele_drop','modele_modify','folder_modify','folder_drop'
+// the p_dossier parameter is mandatory
+if (in_array($op, array('modele_drop', 'modele_modify', 'folder_modify', 'folder_drop')))
+{
+    $dossier=HtmlInput::default_value_get('p_dossier', 0);
+    $content=_('Erreur paramètre');
+    $status="NOK";
+
+    if ($dossier==0||isNumber($dossier)==0)
+    {
+        //----------------------------------------------------------------
+        // Answer in XML
+        header('Content-type: text/xml; charset=UTF-8');
+        $dom=new DOMDocument('1.0', 'UTF-8');
+        $xml=escape_xml($content);
+        $xml_content=$dom->createElement('content', $xml);
+        $xml_status=$dom->createElement('status', $status);
+        $root=$dom->createElement("root");
+        $root->appendChild($xml_content);
+        $root->appendChild($xml_status);
+        $dom->appendChild($root);
+        echo $dom->saveXML();
+        exit();
+    }
+    if ($op=='folder_modify')
+    {
+        $dos=new Dossier($dossier);
+        ob_start();
+        $dos->load();
+        echo HtmlInput::title_box(_('Modification'), 'folder_admin_div');
+        $wText=new IText();
+        echo '<form action="admin_repo.php" method="post">';
+        echo HtmlInput::hidden('action', 'dossier_mgt');
+        echo HtmlInput::hidden('d', $dos->get_parameter("id"));
+        echo _('Nom').' : ';
+        echo $wText->input('name', $dos->get_parameter('name'));
+        echo '<br>';
+        $wDesc=new ITextArea();
+        $wDesc->heigh=5;
+        echo _('Description').' : <br>';
+        echo $wDesc->input('desc', $dos->get_parameter('desc'));
+        echo '<br>';
+        echo HtmlInput::submit('upd', _('Modifie'));
+        echo '</form>';
+        $content=ob_get_clean();
+        $status='OK';
+    }
+    else if ($op=='folder_drop')
+    {
+        $dos=new Dossier($dossier);
+        ob_start();
+        echo HtmlInput::title_box(_('Efface'), 'folder_admin_div');
+        $dos->load();
+        echo '<form action="admin_repo.php" method="post">';
+        echo HtmlInput::hidden('action', 'dossier_mgt');
+        echo HtmlInput::hidden('d', $dossier);
+        echo HtmlInput::hidden('sa', 'remove');
+        echo '<h2 class="error">'._('Etes vous sûr et certain de vouloir effacer ').$dos->dos_name.' ???</h2>';
+        $confirm=new ICheckBox();
+        $confirm->name="p_confirm";
+        echo _('Cochez la case si vous êtes sûr de vouloir effacer ce dossier');
+        echo $confirm->input();
+        echo HtmlInput::submit('remove', _('Effacer'));
+        echo '</form>';
+        $content=ob_get_clean();
+        $status='OK';
+    }
+    else if ($op=='modele_drop')
+    {
+        $cn=new Database();
+        $name=$cn->get_value('select mod_name from modeledef where mod_id=$1', array($dossier));
+        ob_start();
+        echo HtmlInput::title_box(_('Efface'), 'folder_admin_div');
+        echo '<form  action="admin_repo.php" method="post">';
+        echo HtmlInput::hidden('d', $dossier);
+        echo HtmlInput::hidden('sa', 'remove');
+        echo HtmlInput::hidden('action', 'modele_mgt');
+        echo '<h2 class="error">'._('Etes vous sure et certain de vouloir effacer ').$name.' ?</h2>';
+        $confirm=new ICheckBox();
+        $confirm->name="p_confirm";
+        echo _('Cochez la case si vous êtes sûr de vouloir effacer ce modèle');
+        echo $confirm->input();
+        echo HtmlInput::submit('remove', 'Effacer');
+        echo '</form>';
+        $content=ob_get_clean();
+        $status='OK';
+    }
+    else if ($op=='modele_modify')
+    {
+        $cn=new Database();
+        ob_start();
+        echo HtmlInput::title_box(_('Modification'), 'folder_admin_div');
+        echo '<form method="post">';
+        $name=$cn->get_value(
+                "select mod_name from modeledef where ".
+                " mod_id=$1", array($dossier));
+
+        $desc=$cn->get_value(
+                "select mod_desc from modeledef where ".
+                " mod_id=$1", array($dossier));
+        $wText=new IText();
+        echo 'Nom : '.$wText->input('name', $name);
+        $wDesc=new ITextArea();
+        $wDesc->heigh=5;
+        echo '<br>Description :<br>';
+        echo $wDesc->input('desc', $desc);
+        echo HtmlInput::hidden('m', $dossier);
+        echo HtmlInput::hidden('action', 'modele_mgt');
+        echo '<br>';
+        echo HtmlInput::submit('upd', 'Modifie');
+        echo '</form>';
         $content=ob_get_clean();
         $status='OK';
     }

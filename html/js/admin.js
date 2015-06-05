@@ -129,3 +129,58 @@ function folder_add(p_user, p_dossier)
     });
 
 }
+function display_admin_answer(p_dossier,p_action)
+{
+     waiting_box();
+    new Ajax.Request ("ajax_misc.php",{
+        method:"get",
+        parameters:{"p_dossier":p_dossier,"op":p_action,'gDossier':0},
+        onSuccess : function (p_xml) {
+            try {
+            var div_display="folder_admin_div";
+            var answer = p_xml.responseXML;
+            var a = answer.getElementsByTagName('status');
+            var html = answer.getElementsByTagName('content');
+            if (a.length == 0) {
+                var rec = req.responseText;
+                alert('erreur :' + rec);
+            }
+            
+            var folder;
+            var create = false;
+            if (!$(div_display)) {
+                folder = create_div({'id': div_display, 'cssclass': "inner_box", style: 'width:90%;right:5%;top:100px'});
+                create = true;
+            }
+            folder=$(div_display);
+
+            var content = getNodeText(html[0]);
+            folder.innerHTML=unescape_xml(content);
+            var pos=calcy(250);
+            $(div_display).setStyle({top:pos+'px'});
+            
+            folder.show();
+            remove_waiting_box();
+        } catch (e) {
+            console.log(e.message);
+        }
+        }
+    });
+}
+function folder_drop(p_dossier)
+{
+   display_admin_answer(p_dossier,'folder_drop');
+}
+
+function folder_modify(p_dossier)
+{
+   display_admin_answer(p_dossier,'folder_modify'); 
+}
+function modele_modify(p_dossier)
+{
+   display_admin_answer(p_dossier,'modele_modify'); 
+}
+function modele_drop(p_dossier)
+{
+   display_admin_answer(p_dossier,'modele_drop'); 
+}

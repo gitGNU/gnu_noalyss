@@ -230,8 +230,8 @@ if ($sa == 'list')
 	{
 
                 echo '<p>';
-		echo HtmlInput::button_anchor('Rafra&icirc;chir', 'admin_repo.php?action=modele_mgt');
-		echo HtmlInput::button_anchor('Ajouter', 'admin_repo.php?action=modele_mgt&sa=add');
+                echo HtmlInput::button(_('Ajouter'),_('Ajouter')," onclick=\$('folder_add_id').show()");
+
                 echo '</p>';
 		echo '<span style="display:block;margin-top:10">';
 		echo _('Filtre').HtmlInput::infobulle(23);
@@ -254,11 +254,11 @@ if ($sa == 'list')
 					'<TD>%d </td><td><b> %s</b> </TD>' .
 					'<TD><I> %s </I></TD>' .
 					'<td> ' .
-					HtmlInput::button_anchor('Effacer', '?action=modele_mgt&sa=del&m=' . $mod['mod_id']) . '</td>' .
+					HtmlInput::anchor('Effacer', '?action=modele_mgt&sa=del&m=' . $mod['mod_id']," onclick = \"modele_drop('{$mod['mod_id']}') \"") . '</td>' .
 					'</td>' .
-					'<td>' . HtmlInput::button_anchor('Modifie', '?action=modele_mgt&sa=mod&m=' . $mod['mod_id']) . '</td>' .
+					'<td>' . HtmlInput::anchor('Modifie', '?action=modele_mgt&sa=mod&m=' . $mod['mod_id']," onclick = \"modele_modify('{$mod['mod_id']}') \"") . '</td>' .
 					'</td>' .
-					'<td>' . HtmlInput::button_anchor('Backup', 'backup.php?action=backup&sa=b&t=m&d='
+					'<td>' . HtmlInput::anchor('Backup', 'backup.php?action=backup&sa=b&t=m&d='
 							. $mod['mod_id']) . '</td>' .
 					'</TR>', $mod['mod_id'], $mod['mod_name'], $mod['mod_desc']);
 		}// for
@@ -269,11 +269,14 @@ if ($sa == 'list')
 	" Seules les fiches, la structure des journaux, les p&eacute;riodes,... seront reprises " .
 	"et aucune donn&eacute;e du dossier sur lequel le dossier est bas&eacute;. Les données contenues dans les extensions ne sont pas effacées</p>";
 }
+?>
+<div id="folder_add_id" class="inner_box" style="display:none;top:50px">
+    <?php
+        echo HtmlInput::title_box(_("Ajout d'un modèle"), 'folder_add_id', "hide");
+
 //---------------------------------------------------------------------------
 // Add a template
 //---------------------------------------------------------------------------
-if ($sa == 'add')
-{
 // Show All available folder
 	$Res = $cn->exec_sql("select dos_id, dos_name,dos_description from ac_dossier
                        order by dos_name");
@@ -323,61 +326,11 @@ if ($sa == 'add')
 
 		            '
 
-		            <INPUT TYPE="SUBMIT" class="button" VALUE="Ajout d'un modele">
-				<?php
-				echo HtmlInput::button_anchor('Retour', '?action=modele_mgt');
-				?>
-
-		            </form>
+  <INPUT TYPE="SUBMIT" class="button" VALUE="Ajout d'un modele">
+</form>
+</div>
 		<?php
-	}
-	//---------------------------------------------------------------------------
-	// Modify
-	if ($sa == 'mod' && isset($_GET['m']))
-	{
-		$cn = new Database();
-
-		echo '<form method="post">';
-		$name = $cn->get_value(
-				"select mod_name from modeledef where " .
-				" mod_id=$1", array($_GET['m']));
-
-		$desc = $cn->get_value(
-				"select mod_desc from modeledef where " .
-				" mod_id=$1", array($_GET['m']));
-		$wText = new IText();
-		echo 'Nom : ' . $wText->input('name', $name);
-		$wDesc = new ITextArea();
-		$wDesc->heigh = 5;
-		echo '<br>Description :<br>';
-		echo $wDesc->input('desc', $desc);
-		echo HtmlInput::hidden('m', $_GET['m']);
-		echo HtmlInput::hidden('action', 'modele_mgt');
-		echo '<br>';
-		echo HtmlInput::button_anchor('Retour', '?action=modele_mgt');
-		echo HtmlInput::submit('upd', 'Modifie');
-		echo '</form>';
-	}
-
-	//---------------------------------------------------------------------------
-	// action = del
-	//---------------------------------------------------------------------------
-	if ($sa == 'del')
-	{
-		$cn = new Database();
-		$name = $cn->get_value('select mod_name from modeledef where mod_id=$1', array($_REQUEST['m']));
-		echo '<form method="post">';
-		echo HtmlInput::hidden('d', $_REQUEST['m']);
-		echo HtmlInput::hidden('sa', 'remove');
-		echo '<h2 class="error">Etes vous sure et certain de vouloir effacer ' . $name . ' ???</h2>';
-		$confirm = new ICheckBox();
-		$confirm->name = "p_confirm";
-		echo 'Cochez la case si vous êtes sûr de vouloir effacer ce modèle';
-		echo $confirm->input();
-		echo HtmlInput::submit('remove', 'Effacer');
-		echo HtmlInput::button_anchor('Retour', '?action=modele_mgt');
-		echo '</form>';
-	}
+	
 	//---------------------------------------------------------------------------
 	// action = del
 	//---------------------------------------------------------------------------
