@@ -115,6 +115,7 @@ if (isset($_POST["FMOD_NAME"]))
 	$Res = $cn_mod->exec_sql("delete from del_jrn");
 	$Res = $cn_mod->exec_sql("delete from del_jrnx");
 	$Res = $cn_mod->exec_sql("truncate table  jrnx cascade ");
+	$Res = $cn_mod->exec_sql("truncate table  todo_list cascade ");
 	$Res = $cn_mod->exec_sql("delete from del_action");
 	$Res = $cn_mod->exec_sql("delete from profile_user");
 	$Res = $cn_mod->exec_sql("delete from jnt_letter");
@@ -200,6 +201,19 @@ if (isset($_POST["FMOD_NAME"]))
 		$Res = $cn_mod->exec_sql('delete from poste_analytique');
 		$Res = $cn_mod->exec_sql('delete from plan_analytique');
 	}
+        if ( isset ($_POST['PLUGIN'])) {
+            $a_schema=$cn_mod->get_array("
+                select nspname from pg_namespace 
+                where
+                nspname not like 'pg_%'
+                and nspname not in ('information_schema','public','comptaproc')
+                    ");      
+            $nb_schema=count($a_schema);
+            for ($i=0;$i < $nb_schema;$i++)
+            {
+                $cn_mod->exec_sql(" drop schema ".$a_schema[$i]['nspname']." cascade");
+            }
+        }
 
 }
 // Show all available templates
@@ -222,17 +236,17 @@ echo '<div class="content" style="width:80%;margin-left:10%">';
 echo "<H2>Modèles</H2>";
 if ($sa == 'list')
 {
+        echo '<p>';
+        echo HtmlInput::button(_('Ajouter'),_('Ajouter')," onclick=\$('folder_add_id').show()");
+
+        echo '</p>';
 	if ($count == 0)
 	{
-		echo "Aucun modèle disponible";
+		echo _("Aucun modèle disponible");
 	}
 	else
 	{
 
-                echo '<p>';
-                echo HtmlInput::button(_('Ajouter'),_('Ajouter')," onclick=\$('folder_add_id').show()");
-
-                echo '</p>';
 		echo '<span style="display:block;margin-top:10">';
 		echo _('Filtre').HtmlInput::infobulle(23);
 		echo HtmlInput::filter_table("t_modele", "0,1,2","1");
@@ -242,6 +256,7 @@ if ($sa == 'list')
 				"<TH>".$header->get_header(0)."</TH>" .
 				"<TH>".$header->get_header(1)."</TH>" .
 				"<TH>".$header->get_header(2)."</TH>" .
+				"<TH>"._('Nom base de données')."</TH>" .
 		"<th> </th>" .
 		"<th> </th>" .
 		"</TR>";
@@ -250,9 +265,11 @@ if ($sa == 'list')
 		{
 			$mod = Database::fetch_array($Res, $i);
 			$class = ($i % 2 == 0) ? "odd" : "even";
+                        $str_name=domaine.'mod'.$mod['mod_id'];
 			printf('<TR class="' . $class . '" style="vertical-align:top">' .
 					'<TD>%d </td><td><b> %s</b> </TD>' .
 					'<TD><I> %s </I></TD>' .
+                                        '<td>'.$str_name.'</td>'.
 					'<td> ' .
 					HtmlInput::anchor('Effacer', '?action=modele_mgt&sa=del&m=' . $mod['mod_id']," onclick = \"modele_drop('{$mod['mod_id']}') \"") . '</td>' .
 					'</td>' .
@@ -297,11 +314,11 @@ if ($sa == 'list')
 		<TABLE>
 			<tr>
 				<td>Nom </TD>
-				<TD><INPUT TYPE="TEXT" VALUE="" NAME="FMOD_NAME"></TD>
+				<TD><INPUT TYPE="TEXT"  class="input_text"  VALUE="" NAME="FMOD_NAME"></TD>
 			</TR>
 			<TR>
 				<TD>Description</TD>
-				<TD><TEXTAREA ROWS="2" COLS="60" NAME="FMOD_DESC"></Textarea></TD>
+				<TD><TEXTAREA ROWS="2" class="input_text"  COLS="60" NAME="FMOD_DESC"></Textarea></TD>
 																							</TR>
 																							<TR>
 																							<TD> Bas&eacute;
@@ -320,12 +337,13 @@ if ($sa == 'list')
 	<TR>
 		<TD>Nettoyage de la comptabilit&eacute; analytique : effacement des plans et des postes, les op&eacute;rations
 	sont de toute fa&ccedil;on effac&eacute;es </TD>
-		<TD> <input type="checkbox" name="CANAL"></TD>
+		<TD> <input class="input_text" type="checkbox" name="CANAL"></TD>
+	</TR>
+	<TR>
+		<TD>Effacement de toutes les donn&eacute;es des plugins</TD>
+		<TD> <input type="checkbox" name="PLUGIN"></TD>
 	</TR>
 	</TABLE>
-
-		            '
-
   <INPUT TYPE="SUBMIT" class="button" VALUE="Ajout d'un modele">
 </form>
 </div>
