@@ -221,9 +221,13 @@ if (in_array($op, array('modele_drop', 'modele_modify', 'folder_modify', 'folder
         echo '<h2 class="error">'._('Etes vous sûr et certain de vouloir effacer ').$dos->dos_name.' ???</h2>';
         $confirm=new ICheckBox();
         $confirm->name="p_confirm";
+        echo '<p>';
         echo _('Cochez la case si vous êtes sûr de vouloir effacer ce dossier');
         echo $confirm->input();
+        echo '</p>';
+        echo '<p style="text-align:center">';
         echo HtmlInput::submit('remove', _('Effacer'));
+        echo '</p>';
         echo '</form>';
         $content=ob_get_clean();
         $status='OK';
