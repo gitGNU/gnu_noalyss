@@ -23,11 +23,12 @@ ob_start();
 if ( $notitle== 0 ) echo HtmlInput::title_box(_("Calendrier"), "calendar_zoom_div");
 $cal=new Calendar();
 $in=HtmlInput::default_value_get('in',"");
+$notitle=HtmlInput::default_value_get('notitle',"0");
 if ( $in == "") {
     $in=$cal->get_preference();
 }
 $cal->set_periode($in);
-echo $cal->zoom($distype);
+echo $cal->zoom($distype,$notitle);
 $response=  ob_get_clean();
 
 $html=escape_xml($response);

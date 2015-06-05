@@ -156,9 +156,9 @@ EOF;
 		/* others report */
 		$cal = new Calendar();
 		$cal->set_periode($per);
-
+                $notitle=HtmlInput::default_value_get("notitle", 0);
 		$html = "";
-		$html = $cal->display($_GET['t']);
+		$html = $cal->display($_GET['t'],$notitle);
 		$html = escape_xml($html);
 		header('Content-type: text/xml; charset=UTF-8');
 		echo <<<EOF
