@@ -708,5 +708,53 @@ class Lettering_Card extends Lettering
              order by j_date,j_id";
         $this->content=$this->db->get_array($sql,array($this->quick_code,$this->start,$this->end));
     }
+    /**
+     * fill $this->content with the rows from this query
+     * Columns are 
+     *  - j_id, id of jrnx
+     *  - j_date, date opeation (yyyy.mm.dd)
+     *  - to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
+     *  - jr_pj_number, receipt number
+     *  - j_montant, amount of the rows
+     *  - j_debit,  Debit or credit
+     *  - jr_comment, label of the operation
+     *  - jr_internal, internal number
+     *  - jr_id, id of jrn
+     *  - jr_def_id, id of the ledger (jrn_def.jrn_def_id)
+     *  - coalesce(let_diff.jl_id,-1) as letter, id of the lettering , -1 means unlettered
+     *  - diff_letter1 as letter_diff, delta between lettered operation
+     *  - extract ('days' from coalesce(jr_date_paid,now())-coalesce(jr_ech,jr_date)) as day_paid, days between operation and payment
+     *  - jd1.jrn_def_type type of the ledger (FIN, ODS,VEN or ACH)
+     * 
+     * 
+     * @param type $p_type  value is unlet for unlettered operation or let for everything
+     */
+    public function get_balance_ageing($p_type)
+    {
+        $sql_let = ($p_type =='unlet')?'  let_diff.jl_id is null and':'';
+        $sql = 
+               "  with let_diff as (select jl_id,deb_amount-cred_amount as diff_letter1
+                        from
+                        ( select jl_id,coalesce(sum(j_montant),0) as cred_amount from letter_cred join jrnx using (j_id) group by jl_id) as CRED
+                        left join (select jl_id,coalesce(sum(j_montant),0) as deb_amount from letter_deb join jrnx using (j_id) group by jl_id) as DEB using (jl_id)) ,
+                        letter_jl as (select jl_id,j_id from letter_cred union all select jl_id,j_id from letter_deb)
+                select DISTINCT j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,jr_pj_number,
+                                                                j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
+                                                                coalesce(let_diff.jl_id,-1) as letter,
+                                                                diff_letter1 as letter_diff,
+                                                                extract ('days' from coalesce(jr_date_paid,now())-coalesce(jr_ech,jr_date)) as day_paid,
+                                                                jd1.jrn_def_type
+                                                                from jrnx join jrn on (j_grpt = jr_grpt_id)
+                                                                join jrn_def as jd1 on (jrn.jr_def_id=jd1.jrn_def_id)
+                                                                left join letter_jl using (j_id)
+                                                                left join let_diff using (jl_id)
+                where 
+                 {$sql_let}
+                  j_qcode = upper($1) 
+                and j_date >= to_date($2,'DD.MM.YYYY')
+                and {$this->sql_ledger}
+                 order by j_date,j_id";
+        $this->content=$this->db->get_array($sql,array($this->quick_code,$this->start));
 
+     }
 }

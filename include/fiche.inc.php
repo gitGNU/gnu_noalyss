@@ -67,6 +67,8 @@ $histo->value = array(
 	array('value' => 2, 'label' => _('Historique non Lettré')),
 	array('value' => 3, 'label' => _('Résumé')),
 	array('value' => 4, 'label' => _('Balance')),
+	array('value' => 6, 'label' => _('Balance âgée')),
+	array('value' => 7, 'label' => _('Balance âgée en-cours')),
 	array('value' => 5, 'label' => _('Balance non soldée'))
 );
 $histo->javascript = 'onchange="if (this.value==3 || this.value==-1) {
@@ -266,19 +268,90 @@ $export_csv.=HtmlInput::request_to_hidden(array('allcard'));
 $export_csv.=dossier::hidden();
 $export_csv.=HtmlInput::submit('CSV', 'Export en CSV');
 $export_csv.='</FORM>';
-
+if (isDate($_REQUEST['start']) == null || isDate($_REQUEST['end']) == null)
+{
+	echo h2('Date invalide !', 'class="error"');
+	alert('Date invalide !');
+	return;
+}
+/*************************************************************************************************************************
+ * Balance agée tous
+/*************************************************************************************************************************/
+if ( $_GET['histo'] == 6)
+{
+    require_once 'class_balance_age.php';
+    $bal=new Balance_Age($cn);
+    $export_csv = '<FORM METHOD="get" ACTION="export.php" style="display:inline">';
+    $export_csv .=HtmlInput::request_to_hidden(array('gDossier','ac','p_let','p_date_start'));
+    $export_csv.=HtmlInput::hidden('p_date_start', $_GET['start']);
+    $export_csv .= HtmlInput::hidden('act','CSV:balance_age');
+    $export_csv .= HtmlInput::hidden('p_let','let');
+    $export_csv .= HtmlInput::hidden('p_type','X');
+    $export_csv .= HtmlInput::hidden('cat',$_GET['cat']);
+    $export_csv .= HtmlInput::hidden('all',$allcard);
+    $export_csv .= HtmlInput::submit('csv',_('Export CSV'));
+    $export_csv.='</FORM><p></p>';
+    if ( $allcard == 0 )
+    {
+        echo $export_csv;
+        $bal->display_category($_GET['start'],$_GET['cat'],'let');
+        echo $export_csv;
+    }    
+    else
+    {
+        echo $export_csv;
+        $a_cat = $cn->get_array("select fd_id from vw_fiche_def where ad_id=" . ATTR_DEF_ACCOUNT . " order by fd_label asc");
+        $nb_cat=count($a_cat);
+        for ($i=0;$i < $nb_cat;$i++)
+        {
+             $bal->display_category($_GET['start'],$a_cat[$i]['fd_id'],'let');
+        }
+        echo $export_csv;
+    }
+    return;
+}
+/*************************************************************************************************************************
+ * Balance en-cours
+/*************************************************************************************************************************/
+if ( $_GET['histo'] == 7)
+{
+    require_once 'class_balance_age.php';
+    $bal=new Balance_Age($cn);
+       $export_csv = '<FORM METHOD="get" ACTION="export.php" style="display:inline">';
+    $export_csv .=HtmlInput::request_to_hidden(array('gDossier','ac','p_let','p_date_start'));
+    $export_csv.=HtmlInput::hidden('p_date_start', $_GET['start']);
+    $export_csv .= HtmlInput::hidden('act','CSV:balance_age');
+    $export_csv .= HtmlInput::hidden('p_let','unlet');
+    $export_csv .= HtmlInput::hidden('p_type','X');
+    $export_csv .= HtmlInput::hidden('cat',$_GET['cat']);
+    $export_csv .= HtmlInput::hidden('all',$allcard);
+    $export_csv .= HtmlInput::submit('csv',_('Export CSV'));
+    $export_csv.='</FORM><p></p>';
+    if ( $allcard == 0 )
+    {
+        echo $export_csv;
+        $bal->display_category($_GET['start'],$_GET['cat'],'unlet');
+        echo $export_csv;
+    }
+      else
+    {
+        echo $export_csv;
+        $a_cat = $cn->get_array("select fd_id from vw_fiche_def where ad_id=" . ATTR_DEF_ACCOUNT . " order by fd_label asc");
+        $nb_cat=count($a_cat);
+        for ($i=0;$i < $nb_cat;$i++)
+        {
+             $bal->display_category($_GET['start'],$a_cat[$i]['fd_id'],'unlet');
+        }
+        echo $export_csv;
+    }
+    return;
+}
 /********************************************************************************************************************************
  * Balance
  *
  **********************************************************************************************************************************/
 if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 {
-	if (isDate($_REQUEST['start']) == null || isDate($_REQUEST['end']) == null)
-	{
-		echo h2(_('Date invalide !'), 'class="error"');
-		alert(_('Date invalide !'));
-		return;
-	}
 	if ( $allcard == 0 ) echo $str_add_card;
 	echo $export_pdf;
 	echo $export_csv;
@@ -375,12 +448,7 @@ if ($_GET['histo'] == 4 || $_GET['histo'] == 5)
 
 	return;
 }
-if (isDate($_REQUEST['start']) == null || isDate($_REQUEST['end']) == null)
-{
-	echo h2('Date invalide !', 'class="error"');
-	alert('Date invalide !');
-	return;
-}
+
 /***********************************************************************************************************************************
  * Lettering
  *

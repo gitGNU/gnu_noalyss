@@ -48,11 +48,14 @@ case 'op':
     $def=4;
     break;
 case 'let':
-    $def=6;
+    $def=7;
     break;
 case 'bal':
   $def=5;
   break;
+case 'balag':
+    $def=6;
+    break;
 default:
     $def=1;
     $ss_action='dc';
@@ -66,14 +69,15 @@ $menu = array(
                   array('href'=>$root.'&sc=sv','label'=>_('Suivi'),'alt'=>_('Suivi Fournisseur, client, banque, devis, bon de commande, courrier')),
                   array('href'=>$root.'&sc=cn','label'=>_('Contact'),'alt'=>_('Liste de contacts')),
                   array('href'=>$root.'&sc=op','label'=>_('Opérations'),'alt'=>_('Toutes les opérations')),
-                  array('href'=>$root.'&sc=bal','label'=>_('Balance'),'alt'=>_('Balance du fournisseur')),
+                  array('href'=>$root.'&sc=bal','label'=>_('Balance'),'alt'=>_('Balance du tiers')),
+                  array('href'=>$root.'&sc=balag','label'=>_('Balance âgée'),'alt'=>_('Balance âgée du tiers')),
                   array('href'=>$root.'&sc=let','label'=>_('Lettrage'),'alt'=>_('Opérations & Lettrages'))
                   );
 echo '<ul class="tabs">';
 for ($i=0;$i<count($menu);$i++) {
     $style=($def==($i+1))?"tabs_selected":"tabs";
     echo '<li class="'.$style.'">';
-    echo '<a href="'.$menu[$i]['href'].'" alt="'.$menu[$i]['alt'].'">';
+    echo '<a href="'.$menu[$i]['href'].'" title="'.$menu[$i]['alt'].'">';
     echo h($menu[$i]['label']);
     echo '</a>';
     echo '</li>';
@@ -112,6 +116,13 @@ if ( $ss_action=='bal')
   {
     require_once('balance_card.inc.php');
   }
+/*-------------------------------------------------------------------------
+ * Ageing Balance of the card
+ *-------------------------------------------------------------------------*/
+if ( $ss_action=='balag')
+  {
+    require_once('balance_card_ageing.inc.php');
+  }
 /*----------------------------------------------------------------------
  * All the contact
  *
@@ -148,7 +159,7 @@ if ( $ss_action == 'cn')
 /*----------------------------------------------------------------------------
  * Lettering
  *----------------------------------------------------------------------------*/
-if ( $def==6 )
+if ( $def==7 )
 {
     require_once('lettering.gestion.inc.php');
 }
