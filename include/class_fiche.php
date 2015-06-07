@@ -332,13 +332,13 @@ class Fiche
         "<TR> <TD>".
         $this->attribut_def."</TD></TR>";
     }
-    /*!
-     **************************************************
-     * \brief  return the string of the given attribute
+    /***
+     * @brief  return the string of the given attribute
      *        (attr_def.ad_id)
-     * \param $p_ad_id the AD_ID from attr_def.ad_id
-     * \see constant.php
-     * \return string
+     * @param $p_ad_id the AD_ID from attr_def.ad_id
+     * @param $p_return 1 return NOTFOUND otherwise an empty string
+     * @see constant.php
+     * @return string
      */
     function strAttribut($p_ad_id,$p_return=1)
     {
