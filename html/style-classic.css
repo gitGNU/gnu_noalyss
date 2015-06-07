@@ -38,6 +38,7 @@ table.sortable, table.table_large, table.result  ,table.resultfooter {
     border-radius: 10px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
+    padding:3px;
 }
 table.resultfooter tfoot {
     font-weight: bold;
