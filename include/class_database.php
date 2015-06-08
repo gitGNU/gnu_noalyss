@@ -363,7 +363,9 @@ class Database
         return pg_fetch_array($this->ret, $p_indice);
     }
 
-    /**@brief return the number of rows found by the last query, or the number
+    /**
+     * 
+     * @brief return the number of rows found by the last query, or the number
      * of rows from $p_ret
      * @param $p_ret is the result of a query, the default value is null, in that case
      * it is related to the last query
@@ -378,14 +380,17 @@ class Database
             return pg_NumRows($p_ret);
     }
 
-    /**@brief       synomym for size() */
+    /**
+     * @brief       synomym for size() 
+     */
 
     function count($p_ret=null)
     {
         return $this->size($p_ret);
     }
 
-    /**\brief loop to apply all the path to a folder or
+    /**
+     * \brief loop to apply all the path to a folder or
      *         a template
      * \param $p_name database name
      * \param $from_setup == 1 if called from setup.php
@@ -507,7 +512,9 @@ class Database
         echo '</ul>';
     }
 
-    /**\brief return the value of the sql, the sql will return only one value
+    /**
+     * 
+     * \brief return the value of the sql, the sql will return only one value
      *        with the value
      * \param $p_sql the sql stmt example :select s_value from
       document_state where s_id=2
@@ -541,7 +548,8 @@ class Database
         return Database::num_row($this->ret);
     }
 
-    /**\brief  purpose return the result of a sql statment
+    /**
+     * \brief  purpose return the result of a sql statment
      * in a array
      * \param $p_sql sql query
      * \param $p_array if not null we use ExecSqlParam
@@ -566,7 +574,8 @@ class Database
         $this->exec_sql($sql);
     }
 
-    /**\brief test if a sequence exist */
+    /**
+     * \brief test if a sequence exist */
     /* \return true if the seq. exist otherwise false
      */
 
