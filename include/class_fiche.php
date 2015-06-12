@@ -782,7 +782,7 @@ class Fiche
                 // account
                 if ( $id == ATTR_DEF_ACCOUNT )
                 {
-                    $v=sql_string($value);
+                    $v=mb_substr(sql_string($value),0,40);
                     try
                     {
 
