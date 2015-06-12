@@ -128,6 +128,7 @@ elseif (isset($_POST['save']))
                         echo '<p class="notice">'._('Date invalide, opération non extournée').'</p>';
                     }
                 }
+                
                 echo $ledger->button_new_operation();
 
 	}
