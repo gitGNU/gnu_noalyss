@@ -208,9 +208,13 @@ if ( strlen(domaine) > 0 )
     $my_domain="Domaine : ".domaine;
 }
 
+if (defined("RECOVER") && isset ($_REQUEST['recover']) )
+{
+    require_once '../include/recover.php';
+}
 echo '
 <span style="background-color:#879ed4;color:white;padding-left:4px;padding-right:4px;">
-version  6.8.0.3 - '.$my_domain.'
+version  6.8.1.0 - '.$my_domain.'
 </span>
 <BR>
 <BR>
@@ -272,6 +276,35 @@ echo '
 </table>
 
 </form>
+<?php if (defined("RECOVER")) : ?>
+    <a id="recover_link" href="#">Mot de passe oublié ? </a>
+    
+<div id="recover_box" style="display:none;position:absolute;top:40%;z-index:1;border:solid blue 2px;width:30%;margin-left: 25%;background-color: whitesmoke">
+    <span style="display:block;font-size:120%">Indiquez votre login ou votre email <span style="cursor: pointer;background-color: blue;color:wheat;right:0%;float: right" id="close"><a ref="#" id="close_link"><?php echo SMALLX?></a></span></span>
+            <form method="POST">
+                <input type="hidden" value="send_email" name="id">
+                <input type="hidden" value="recover" name="recover" >
+                <p>
+                login <input type="text"     class="input_text" name="login" nohistory>
+                </p>
+                <p>or</p> 
+                <p>
+                email <input type="text"  class="input_text" name="email" nohistory>
+                </p>
+                <input type="submit" class="button" name="send_email" value="Envoi email">
+                
+            </form>
+</div>
+    <script>
+        document.getElementById('recover_link').onclick=function() {
+            document.getElementById('recover_box').style.display="block";
+        }
+        document.getElementById('close_link').onclick=function() {
+            document.getElementById('recover_box').style.display="none";
+        }
+    </script>
+<?php endif; ?>
+        
 <div style="position:absolute;bottom: 0px;width:80%;right:10%">
     <p>Nous conseillons d'utiliser Firefox ou chrome.</p>
     <p>We recommend to use Firefox or Chrome.</p>
