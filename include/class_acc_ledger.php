@@ -2136,6 +2136,14 @@ class Acc_Ledger extends jrn_def_sql
 
 				$orap->insert($jrn_concerned);
 			}
+                        /**
+                         * Save the file is any
+                         */
+                        if (isset($_FILES))
+                        {
+                            $this->db->save_upload_document($seq);
+                        }
+			
 		}
 		catch (Exception $a)
 		{

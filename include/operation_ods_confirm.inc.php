@@ -37,7 +37,7 @@ echo '<div id="warning_ven_id" class="notice" style="width: 50%; margin-left: 0p
 echo h2(_("Attention, cette opération n'est pas encore sauvée : vous devez encore confirmer"),' class="notice"');
 echo '</div>';
 
-echo '<FORM METHOD="POST" class="print">';
+echo '<FORM METHOD="POST" enctype="multipart/form-data" class="print">';
 echo HtmlInput::request_to_hidden(array('ac'));
 echo $ledger->confirm($_POST,false);
 
@@ -45,10 +45,11 @@ echo $ledger->confirm($_POST,false);
 ?>
 <div id="tab_id" >
     <script>
-        var a_tab = ['modele_div_id','reverse_div_id'];
+        var a_tab = ['modele_div_id','reverse_div_id','document_div_id'];
     </script>
 <ul class="tabs">
     <li class="tabs_selected"> <a href="javascript:void(0)" title="<?php echo _("Modèle à sauver")?>"  onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';show_tabs(a_tab,'modele_div_id')"> <?php echo _('Modèle')?> </a></li>
+    <li class="tabs"> <a href="javascript:void(0)" title="<?php echo _("Document")?>"  onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';show_tabs(a_tab,'document_div_id')"> <?php echo _('Document')?> </a></li>
     <li class="tabs"> <a href="javascript:void(0)" title="<?php echo _("Extourne")?>"  onclick="unselect_other_tab(this.parentNode.parentNode);this.parentNode.className='tabs_selected';show_tabs(a_tab,'reverse_div_id')"> <?php echo _('Extourne')?> </a></li>
 </ul>
     <div id="modele_div_id">
@@ -61,6 +62,16 @@ echo $ledger->confirm($_POST,false);
         echo _('Extourne opération')." ".$reverse_ck->input()." ";
         echo $reverse_date->input();
     ?>
+    </div>
+    <div id="document_div_id" style="display:none;height:185px;height:10rem">
+      <?php
+      $file = new IFile();
+        $file->table = 0;
+        echo '<p class="decale">';
+        echo _("Ajoutez une pièce justificative ");
+        echo $file->input("pj", "");
+        echo '</p>';
+        ?>
     </div>
 </div>
 <?php

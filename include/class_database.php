@@ -834,8 +834,9 @@ class Database
                         pg_lo_unlink($cn, $old_oid);
                 }
                 // Load new document
-                $this->exec_sql("update jrn set jr_pj=".$oid.", jr_pj_name='".$_FILES['pj']['name']."', ".
-                        "jr_pj_type='".$_FILES['pj']['type']."'  where jr_grpt_id=$seq");
+               $this->exec_sql("update jrn set jr_pj=$1 , jr_pj_name=$2,
+                                        jr_pj_type=$3  where jr_grpt_id=$4",
+                                        array($oid,$_FILES['pj']['name'] ,$_FILES['pj']['type'],$seq));
                 return $oid;
             }
             else
