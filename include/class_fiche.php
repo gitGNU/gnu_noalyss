@@ -427,7 +427,7 @@ class Fiche
         $f=new Fiche_Def($this->cn,$p_fiche_def);
         $f->get();
         $array=$f->getAttribut();
-        $r=h2('Catégorie '.$f->label,"");
+        $r=h2(_('Catégorie').' '.$f->label,"");
         $r.='<table style="width:98%;margin:1%">';
         foreach ($array as $attr)
         {
@@ -528,7 +528,7 @@ class Fiche
 			{
 				$bulle=HtmlInput::infobulle(21);
 			}
-			$r.="<TR>" . td($w->label." $bulle", ' class="input_text" ') . td($w->input()." $msg")." </TR>";
+			$r.="<TR>" . td(_($w->label)." $bulle", ' class="input_text" ') . td($w->input()." $msg")." </TR>";
 		}
 		$r.= '</table>';
         return $r;
@@ -550,7 +550,7 @@ class Fiche
 		/* show card type here */
 		$type_card = $this->cn->get_value('select fd_label from fiche_def join fiche using (fd_id) where f_id=$1', array($this->id));
 		$ret = "";
-		$ret.=h2( "Catégorie ".$type_card, 'style="display:inline"');
+		$ret.=h2( _("Catégorie")." ".$type_card, 'style="display:inline"');
 		$ret.='<span style="font-weight:bolder;margin-right:5px;float:right"> id fiche:' . $this->id . "</span>";
 		$ret.="<table style=\"width:98%;margin:1%\">";
 		if (empty($attr))
@@ -699,7 +699,7 @@ class Fiche
 			{
 				$bulle=HtmlInput::infobulle(21);
 			}
-			$ret.="<TR>" . td($r->ad_text . $bulle) . td($w->input()." ". $msg) . " </TR>";
+			$ret.="<TR>" . td(_($r->ad_text) . $bulle) . td($w->input()." ". $msg) . " </TR>";
 		}
 
 		$ret.="</table>";
