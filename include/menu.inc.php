@@ -55,11 +55,11 @@ if (isset($_POST['mod_plugin']))
 {
 	extract ($_POST);
 	$plugin=new Extension($cn);
-	$plugin->me_code=$me_code;
+	$plugin->me_code=strtoupper($me_code);
 	$plugin->me_menu=$me_menu;
 	$plugin->me_file=$me_file;
 	$plugin->me_description=$me_description;
-	$plugin->me_parameter='plugin_code='.$me_code;
+	$plugin->me_parameter='plugin_code='.strtoupper($me_code);
 	if ( !isset ($delete_pl))
 	{
 		$plugin->update_plugin();
@@ -76,7 +76,7 @@ if ( isset($_POST['create_menu'])|| isset($_POST['modify_menu']))
 {
 	extract($_POST);
 	$menu_ref=new Menu_Ref($cn);
-	$menu_ref->me_code=$me_code;
+	$menu_ref->me_code=strtoupper($me_code);
 	$menu_ref->me_menu=$me_menu;
 	$menu_ref->me_file=$me_file;
 	$menu_ref->me_description=$me_description;
