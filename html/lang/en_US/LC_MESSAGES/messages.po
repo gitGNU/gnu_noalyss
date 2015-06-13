@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS 672\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-09 00:19+0200\n"
-"PO-Revision-Date: 2015-06-09 00:19+0200\n"
+"POT-Creation-Date: 2015-06-13 00:16+0200\n"
+"PO-Revision-Date: 2015-06-13 10:30+0200\n"
 "Last-Translator: Dany De Bontridder <danydb@noalyss.eu>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
@@ -109,9 +109,9 @@ msgid " Ne peut pas modifier; aucun poste parent"
 msgstr "Warning : no parent accounting"
 
 #: include/balance_age.inc.php:49
-#, fuzzy, php-format
+#, php-format
 msgid " Opérations après la date %s qui sont %s "
-msgstr "Lettered writing with same amount"
+msgstr "Operation after %s which are %s"
 
 #: include/ext/rapport_avance/include/declaration.inc.php:57
 msgid " Sauvé "
@@ -126,9 +126,8 @@ msgid " Tous les journaux"
 msgstr "All the  ledgers"
 
 #: include/ext/rapport_avance/include/class_formulaire_param_detail.php:315
-#, fuzzy
 msgid " Un poste comptable est manquant"
-msgstr "Accounting item target"
+msgstr "Missing accounting "
 
 #: include/history_operation.inc.php:97 include/history_operation.inc.php:101
 msgid " au "
@@ -217,7 +216,6 @@ msgid " pour la fiche "
 msgstr "For the card"
 
 #: include/ext/rapport_avance/include/class_formulaire_param_detail.php:299
-#, fuzzy
 msgid " utilisé avec le poste comptable"
 msgstr "And using the accounting item"
 
@@ -250,6 +248,7 @@ msgstr "You have added% s% d months since% d /% d% d for the year"
 #: include/class_acc_ledger.php:3302 include/class_acc_ledger.php:3317
 #: include/class_acc_ledger.php:3334 include/class_acc_ledger.php:3361
 #: include/class_acc_ledger.php:3370 include/class_acc_ledger.php:3372
+#: include/class_acc_ledger.php:3380
 msgid "'Journaux Financier"
 msgstr "Financial"
 
@@ -257,6 +256,7 @@ msgstr "Financial"
 #: include/class_acc_ledger.php:3303 include/class_acc_ledger.php:3318
 #: include/class_acc_ledger.php:3335 include/class_acc_ledger.php:3362
 #: include/class_acc_ledger.php:3371 include/class_acc_ledger.php:3373
+#: include/class_acc_ledger.php:3381
 msgid "'Journaux d'Opérations diverses"
 msgstr "Miscellaneous ledger"
 
@@ -264,6 +264,7 @@ msgstr "Miscellaneous ledger"
 #: include/class_acc_ledger.php:3301 include/class_acc_ledger.php:3316
 #: include/class_acc_ledger.php:3333 include/class_acc_ledger.php:3360
 #: include/class_acc_ledger.php:3369 include/class_acc_ledger.php:3371
+#: include/class_acc_ledger.php:3379
 msgid "'Journaux d'achat"
 msgstr "Purchase ledgers"
 
@@ -278,11 +279,11 @@ msgstr ":"
 
 #: include/template/balance_aged_result.php:59
 msgid "< 30 jours"
-msgstr ""
+msgstr "<30days"
 
 #: include/class_balance_age.php:145
 msgid "<30 jours"
-msgstr ""
+msgstr ">30 days"
 
 #: include/impress_bilan.inc.php:89
 msgid ""
@@ -308,7 +309,7 @@ msgstr ""
 #: include/class_balance_age.php:148
 #: include/template/balance_aged_result.php:68
 msgid "> 90 jours"
-msgstr ""
+msgstr "> 90 days"
 
 #: include/ext/amortis/include/class_amortissement_table_pdf.php:58
 #: include/ext/amortis/include/class_amortissement_material_pdf.php:39
@@ -422,6 +423,7 @@ msgstr "Forbidden"
 #: include/class_acc_ledger.php:3767 include/class_acc_ledger.php:3783
 #: include/class_acc_ledger.php:3813 include/class_acc_ledger.php:3840
 #: include/class_acc_ledger.php:3849 include/class_acc_ledger.php:3861
+#: include/class_acc_ledger.php:3869
 msgid "Action non accessible"
 msgstr "Folder not available"
 
@@ -470,7 +472,6 @@ msgid "Administration"
 msgstr "Administration"
 
 #: html/admin_repo.php:42
-#, fuzzy
 msgid "Administration Globale"
 msgstr "Global Parameter"
 
@@ -540,12 +541,10 @@ msgid "Ajout Action"
 msgstr "Add Action"
 
 #: include/ext/sav/include/template/sas_display_detail.php:175
-#, fuzzy
 msgid "Ajout Matériel"
-msgstr "Adding others"
+msgstr "Adding equipment"
 
 #: include/user.inc.php:73
-#, fuzzy
 msgid "Ajout Utilisateur"
 msgstr "Add users"
 
@@ -568,18 +567,16 @@ msgid "Ajout autres"
 msgstr "Adding others"
 
 #: include/ext/sav/include/template/sas_display_detail.php:75
-#, fuzzy
 msgid "Ajout client"
-msgstr "Add a row "
+msgstr "Add a customer"
 
 #: include/ext/amortis/include/class_am_card.php:56
 msgid "Ajout d'un bien à amortir"
 msgstr "Add materiel to amortize"
 
 #: include/dossier.inc.php:242
-#, fuzzy
 msgid "Ajout d'un dossier"
-msgstr "Folder name"
+msgstr "Add folder"
 
 #: include/template/periode_add_exercice.php:21
 msgid "Ajout d'un exercice comptable"
@@ -590,9 +587,8 @@ msgid "Ajout d'un menu"
 msgstr "Add a menu"
 
 #: include/modele.inc.php:292
-#, fuzzy
 msgid "Ajout d'un modèle"
-msgstr "Add a menu"
+msgstr "Add a template"
 
 #: include/anc_pa.inc.php:248 include/anc_pa.inc.php:283
 #: include/anc_pa.inc.php:285 include/anc_pa.inc.php:267
@@ -663,13 +659,12 @@ msgid "Ajout facture "
 msgstr "Adding invoice"
 
 #: include/ext/sav/index.php:44
-#, fuzzy
 msgid "Ajout fiche réparation"
-msgstr "no distribution Key  found"
+msgstr "Add repair card"
 
 #: include/class_acc_ledger.php:3364 include/class_acc_ledger.php:3381
 #: include/class_acc_ledger.php:3408 include/class_acc_ledger.php:3417
-#: include/class_acc_ledger.php:3419
+#: include/class_acc_ledger.php:3419 include/class_acc_ledger.php:3427
 msgid "Ajout journal"
 msgstr "Add ledger"
 
@@ -741,6 +736,7 @@ msgstr "Bookmark the current menu"
 #: include/class_acc_ledger_sold.php:920
 #: include/class_acc_ledger_purchase.php:1653
 #: include/class_acc_ledger_purchase.php:1652
+#: include/operation_ods_confirm.inc.php:71
 msgid "Ajoutez une pièce justificative "
 msgstr "Add a receipt"
 
@@ -859,7 +855,7 @@ msgstr "Invalid call"
 #: include/ext/sav/include/class_service_after_sale.php:237
 #: include/ext/sav/include/class_service_after_sale.php:264
 msgid "Appel invalide Service_After_Sale "
-msgstr ""
+msgstr "Invalid call SAS"
 
 #: include/template/action_search.php:119
 #: include/template/action_search.php:52
@@ -1032,6 +1028,8 @@ msgstr "No VAT code corresponds to the rate"
 #: include/class_acc_ledger.php:3554 include/class_acc_ledger.php:3602
 #: include/class_acc_ledger.php:3759 include/class_acc_ledger.php:3556
 #: include/class_acc_ledger.php:3604 include/class_acc_ledger.php:3761
+#: include/class_acc_ledger.php:3564 include/class_acc_ledger.php:3612
+#: include/class_acc_ledger.php:3769
 msgid "Aucun compte en banque n'est donné"
 msgstr "No bank account given"
 
@@ -1041,7 +1039,6 @@ msgid "Aucun document"
 msgstr "No document"
 
 #: include/template/folder_display.php:36
-#, fuzzy
 msgid "Aucun dossier à afficher"
 msgstr "No file"
 
@@ -1076,9 +1073,8 @@ msgstr "No filter, all ledgers"
 
 #: include/ext/sav/include/class_service_after_sale_parameter.php:95
 #: include/ext/sav/include/class_service_after_sale_parameter.php:120
-#, fuzzy
 msgid "Aucun matériel choisi"
-msgstr "New equipment"
+msgstr "No equipment"
 
 #: include/ajax_preference.php:152 include/ajax_preference.php:153
 #: include/ajax_preference.php:160
@@ -1090,9 +1086,8 @@ msgid "Aucun modèle"
 msgstr "no data"
 
 #: include/modele.inc.php:245
-#, fuzzy
 msgid "Aucun modèle disponible"
-msgstr "No distribution key available"
+msgstr "No available template"
 
 #: include/anc_od.inc.php:43
 msgid "Aucun plan analytique défini"
@@ -1363,9 +1358,8 @@ msgid "Balance du fournisseur"
 msgstr "Supplier balance"
 
 #: include/category_card.inc.php:72
-#, fuzzy
 msgid "Balance du tiers"
-msgstr "Customer balance"
+msgstr "Tiers balance"
 
 #: include/class_acc_ledger.php:2083 include/class_acc_ledger.php:2080
 #: include/class_acc_ledger.php:2095 include/class_acc_ledger.php:2107
@@ -1401,19 +1395,16 @@ msgid "Balance simple des imputations analytiques"
 msgstr "Simple analytic balance for record"
 
 #: include/category_card.inc.php:73 include/fiche.inc.php:70
-#, fuzzy
 msgid "Balance âgée"
-msgstr "Cross balance "
+msgstr "Ageing balance "
 
 #: include/category_card.inc.php:73
-#, fuzzy
 msgid "Balance âgée du tiers"
-msgstr "Crossed balance"
+msgstr "Ageing balance"
 
 #: include/fiche.inc.php:71
-#, fuzzy
 msgid "Balance âgée en-cours"
-msgstr "Balance"
+msgstr "Balance en-cours"
 
 #: include/class_anticipation.php:292 include/database.item.php:69
 #: include/template/form_ledger_fin.php:25
@@ -1482,7 +1473,7 @@ msgstr "Good customer order"
 #: include/ext/sav/include/class_sav_repair_card_sql.php:66
 #: include/ext/sav/include/class_sav_repair_card_sql.php:71
 msgid "Brouillon"
-msgstr ""
+msgstr "Draft"
 
 #: include/ext/coprop/index.php:46
 msgid "Budget"
@@ -1527,9 +1518,8 @@ msgid "Calendrier depuis :"
 msgstr "from"
 
 #: include/ext/sav/ajax_prepare_invoice.php:40
-#, fuzzy
 msgid "Carte réparation inexistante"
-msgstr "Existing category"
+msgstr "Repair card not found"
 
 #: include/template/impress_cat_card.php:6 include/ajax_boxcard_search.php:57
 msgid "Categorie"
@@ -1570,14 +1560,12 @@ msgid "Catégorie de fiche"
 msgstr "Card Category"
 
 #: include/ext/sav/include/sav_param.inc.php:80
-#, fuzzy
 msgid "Catégorie de fiche pour les pièces"
-msgstr "Card Category"
+msgstr "Card Category for spare part"
 
 #: include/ext/sav/include/sav_param.inc.php:88
-#, fuzzy
 msgid "Catégorie des biens à dépanner"
-msgstr "Category of card"
+msgstr "Card Category for material"
 
 #: include/class_fiche_def.php:236
 msgid "Catégorie existante"
@@ -1639,7 +1627,7 @@ msgstr "It could make difference between the balance by accountings and cards"
 
 #: include/class_acc_ledger.php:2376 include/class_acc_ledger.php:2445
 #: include/class_acc_ledger.php:2460 include/class_acc_ledger.php:2472
-#: include/class_acc_ledger.php:2475
+#: include/class_acc_ledger.php:2475 include/class_acc_ledger.php:2483
 msgid "Celui qui paie n' a pas de poste comptable"
 msgstr "Has no accounting entry"
 
@@ -1672,7 +1660,7 @@ msgstr "This plugin do not exist"
 
 #: include/database.item.php:16
 msgid "Cette extension permet de faire les listings et declarations TVA"
-msgstr ""
+msgstr "This extension let make VAT listing and form"
 
 #: include/ext/import_account/include/class_impacc_operation.php:146
 msgid "Cette fiche n'a pas de poste comptable valide"
@@ -1853,6 +1841,7 @@ msgstr "Select the type of paper"
 
 #: include/class_acc_ledger.php:3521 include/class_acc_ledger.php:3548
 #: include/class_acc_ledger.php:3557 include/class_acc_ledger.php:3559
+#: include/class_acc_ledger.php:3567
 msgid "Choix du type de journal est obligatoire"
 msgstr "Select the type of ledger"
 
@@ -2262,7 +2251,7 @@ msgstr "Balance of bank accounts, cash ..."
 #: include/database.item.php:254
 msgid ""
 "Concerne toutes les opérations comme les amortissements, les comptes TVA, ..."
-msgstr ""
+msgstr "Concerns all operations like VAT Accounting,..."
 
 #: include/database.item.php:205 include/database.item.php:208
 #: include/database.item.php:262
@@ -2574,6 +2563,7 @@ msgstr "Credit"
 #: include/adm.inc.php:114 include/bank.inc.php:113
 #: include/category_card.inc.php:151 include/class_acc_ledger.php:1606
 #: include/class_acc_ledger.php:3644 include/fiche.inc.php:115
+#: include/class_acc_ledger.php:3652
 msgid "Créer une nouvelle fiche"
 msgstr "Add a new card"
 
@@ -2597,7 +2587,7 @@ msgstr "DIFF"
 
 #: include/class_acc_ledger.php:3849 include/class_acc_ledger.php:3879
 #: include/class_acc_ledger.php:3906 include/class_acc_ledger.php:3915
-#: include/class_acc_ledger.php:3927
+#: include/class_acc_ledger.php:3927 include/class_acc_ledger.php:3935
 msgid "Dans le dépôt"
 msgstr "In the warehouse"
 
@@ -3069,6 +3059,7 @@ msgstr "Miscelleanous"
 #: include/database.item.php:95 include/compta_ach.inc.php:157
 #: html/ajax_ledger.php:331 html/ajax_ledger.php:359
 #: include/class_acc_ledger.php:873 include/compta_ach.inc.php:170
+#: include/operation_ods_confirm.inc.php:52
 msgid "Document"
 msgstr "Document"
 
@@ -3422,12 +3413,12 @@ msgstr "Plugin detail"
 #: html/ajax_card.php:322 html/ajax_card.php:148 html/ajax_card.php:358
 #: include/ajax_add_concerned_card.php:32 html/ajax_card.php:359
 msgid "Détail fiche"
-msgstr "Detailed sheet"
+msgstr "Card details"
 
 #: html/ajax_card.php:504 html/ajax_card.php:505 html/ajax_card.php:556
 #: html/ajax_card.php:555
 msgid "Détail fiche (sauvée)"
-msgstr "Details of card (saved)"
+msgstr "Card details(saved)"
 
 #: include/class_acc_ledger_purchase.php:1328
 #: include/class_acc_ledger_sold.php:624
@@ -3650,7 +3641,7 @@ msgstr "Late"
 #: include/ext/sav/include/class_sav_repair_card_sql.php:68
 #: include/ext/sav/include/class_sav_repair_card_sql.php:73
 msgid "En-cours"
-msgstr ""
+msgstr "en-cours"
 
 #: include/class_pre_op_ven.php:176
 msgid "En-tête facture client"
@@ -4109,11 +4100,13 @@ msgstr "Plugin"
 
 #: include/compta_ach.inc.php:88 include/compta_ven.inc.php:97
 #: include/operation_ods_confirm.inc.php:52
+#: include/operation_ods_confirm.inc.php:53
 msgid "Extourne"
 msgstr "Reverse"
 
 #: include/compta_ach.inc.php:102 include/compta_ven.inc.php:110
 #: include/operation_ods_confirm.inc.php:61
+#: include/operation_ods_confirm.inc.php:62
 msgid "Extourne opération"
 msgstr "Reverse operation"
 
@@ -4131,7 +4124,7 @@ msgstr "Reverse"
 #: include/template/ledger_detail_bottom.php:311
 msgid ""
 "Extourner une opération vous permet de l'annuler par son écriture inverse"
-msgstr ""
+msgstr "Avoid an operation by writing the reversed one"
 
 #: include/compta_ach.inc.php:184 include/compta_ods.inc.php:114
 #: include/compta_ven.inc.php:200
@@ -4155,7 +4148,7 @@ msgstr "Invoicing"
 
 #: include/database.item.php:137
 msgid "Facturation, envoi de facture, téléchargement"
-msgstr ""
+msgstr "Invoicing, send invoices by email, download"
 
 #: include/database.item.php:170
 #: include/ext/invoicing/include/invoice_to_zip.inc.php:64
@@ -4345,6 +4338,7 @@ msgstr "Filter per periode"
 #: include/class_acc_ledger.php:3417 include/dossier.inc.php:176
 #: include/modele.inc.php:251 include/param_pcmn.inc.php:65
 #: include/user.inc.php:135 include/template/todo_list_list_user.php:31
+#: include/class_acc_ledger.php:3425
 msgid "Filtre"
 msgstr "Filter"
 
@@ -4374,7 +4368,7 @@ msgstr "Rapid filter:"
 #: include/class_acc_ledger.php:2929 html/ajax_card.php:301
 #: include/class_acc_ledger.php:2944 include/class_acc_ledger.php:2956
 #: include/class_acc_ledger.php:2965 html/ajax_card.php:303
-#: include/class_acc_ledger.php:2967
+#: include/class_acc_ledger.php:2967 include/class_acc_ledger.php:2975
 msgid "Filtrer"
 msgstr "Filter"
 
@@ -4396,7 +4390,7 @@ msgstr "filter on ledger"
 
 #: include/class_balance_age.php:144
 msgid "Fin"
-msgstr ""
+msgstr "Fin"
 
 #: html/test_class.php:239
 msgid "Fin de programme"
@@ -4404,7 +4398,7 @@ msgstr "End of program"
 
 #: include/template/balance_aged_result.php:56
 msgid "Fin/ OD"
-msgstr ""
+msgstr "Fin /MO"
 
 #: include/database.item.php:197 include/user_menu.php:152
 #: include/user_menu.php:156 include/database.item.php:200
@@ -4853,7 +4847,7 @@ msgstr "Buildings, lots, and condominium"
 
 #: include/database.item.php:140
 msgid "Import Dolibarr"
-msgstr ""
+msgstr "Import Dolibarr"
 
 #: include/database.item.php:18
 msgid "Import Fiche"
@@ -4865,11 +4859,11 @@ msgstr "Import accounting"
 
 #: include/database.item.php:140
 msgid "Import depuis dolibarr"
-msgstr ""
+msgstr "Import from dolibarr"
 
 #: include/database.item.php:21
 msgid "Import. fichier CVS de la banque"
-msgstr ""
+msgstr "Import CSV file from bank"
 
 #: include/database.item.php:20 include/database.item.php:138
 msgid "Import/export plan"
@@ -4941,6 +4935,7 @@ msgstr "Import this report"
 #: include/class_acc_ledger.php:3694 include/class_acc_ledger.php:3710
 #: include/class_acc_ledger.php:3740 include/class_acc_ledger.php:3767
 #: include/class_acc_ledger.php:3776 include/class_acc_ledger.php:3778
+#: include/class_acc_ledger.php:3786
 msgid "Impossible d'effacer un journal qui contient des opérations"
 msgstr "It is not possible to remove this ledger.It is still in use"
 
@@ -5047,9 +5042,8 @@ msgstr "Including beg wo operation"
 
 #: include/ext/sav/include/class_sav_spare_part.php:96
 #: include/ext/sav/include/class_sav_workhour.php:136
-#, fuzzy
 msgid "Inexistant spare part"
-msgstr "does not exist"
+msgstr "Spare part not found"
 
 #: html/ajax_ledger.php:100 html/ajax_ledger.php:122
 #: include/template/ledger_detail_bottom.php:6 html/ajax_ledger.php:118
@@ -5149,6 +5143,7 @@ msgstr "No existent ledger"
 #: include/class_acc_ledger.php:3373 include/class_acc_ledger.php:3389
 #: include/class_acc_ledger.php:3406 include/class_acc_ledger.php:3433
 #: include/class_acc_ledger.php:3442 include/class_acc_ledger.php:3444
+#: include/class_acc_ledger.php:3452
 msgid "Journal n'existe pas"
 msgstr "The ledger does not exist"
 
@@ -5164,6 +5159,7 @@ msgstr "Ledgers"
 #: include/class_acc_ledger.php:3300 include/class_acc_ledger.php:3315
 #: include/class_acc_ledger.php:3332 include/class_acc_ledger.php:3359
 #: include/class_acc_ledger.php:3368 include/class_acc_ledger.php:3370
+#: include/class_acc_ledger.php:3378
 msgid "Journaux de vente"
 msgstr "Ledger of sales"
 
@@ -5563,7 +5559,7 @@ msgstr "Monday"
 
 #: include/ext/sav/include/template/sas_display_detail.php:211
 msgid "Main d'oeuvre"
-msgstr ""
+msgstr "Workhour"
 
 #: include/ext/transform/include/intervat_listing_assujetti_step_1.inc.php:49
 #: include/ext/transform/include/intervat_listing_assujetti_step_2.inc.php:267
@@ -6317,6 +6313,7 @@ msgstr "Number of unit"
 #: include/class_acc_ledger.php:3475 include/class_acc_ledger.php:3491
 #: include/class_acc_ledger.php:3508 include/class_acc_ledger.php:3535
 #: include/class_acc_ledger.php:3544 include/class_acc_ledger.php:3546
+#: include/class_acc_ledger.php:3554
 msgid "Nombre de ligne incorrect"
 msgstr "Number of incorrect rows"
 
@@ -6369,7 +6366,7 @@ msgstr "No ded"
 
 #: include/ext/sav/include/sav_card.inc.php:71
 msgid "Non enregistré : données incorrectes"
-msgstr ""
+msgstr "Not saved, invalid data"
 
 #: include/class_acc_ledger.php:1023 include/class_acc_ledger.php:1020
 #: include/class_acc_ledger.php:1027 include/class_acc_ledger.php:1028
@@ -6457,7 +6454,7 @@ msgid "Nouvelle ligne"
 msgstr "New row"
 
 #: include/class_acc_ledger.php:3924 include/class_acc_ledger.php:3933
-#: include/class_acc_ledger.php:3945
+#: include/class_acc_ledger.php:3945 include/class_acc_ledger.php:3953
 msgid "Nouvelle opération"
 msgstr "New  operations"
 
@@ -6642,7 +6639,7 @@ msgstr "MW analytic"
 
 #: include/class_acc_ledger.php:2120 include/class_acc_ledger.php:2117
 #: include/class_acc_ledger.php:2132 include/class_acc_ledger.php:2144
-#: include/class_acc_ledger.php:2147
+#: include/class_acc_ledger.php:2147 include/class_acc_ledger.php:2155
 msgid "OPERATION ANNULEE "
 msgstr "Canceled"
 
@@ -6728,7 +6725,7 @@ msgstr "Reversed accounting"
 
 #: include/stock_inv_histo.inc.php:45
 msgid "Opération non effacée: vous n'avez pas confirmé"
-msgstr ""
+msgstr "Operation not removed"
 
 #: include/compta_ach.inc.php:189 include/compta_ods.inc.php:119
 #: include/compta_ven.inc.php:206
@@ -7074,6 +7071,7 @@ msgstr "Not given file"
 #: include/class_acc_ledger_sold.php:1079 include/class_acc_ledger.php:1611
 #: include/class_acc_ledger_purchase.php:1045
 #: include/class_acc_ledger_sold.php:1080 include/class_acc_ledger.php:1614
+#: include/class_acc_ledger_fin.php:1015
 msgid "Pas de journal disponible"
 msgstr "No available ledger"
 
@@ -7108,6 +7106,7 @@ msgstr "Paid"
 #: include/class_acc_ledger_purchase.php:1628
 #: include/class_acc_ledger.php:3621
 #: include/class_acc_ledger_purchase.php:1627
+#: include/class_acc_ledger.php:3629
 msgid "Payé par"
 msgstr "Paid by"
 
@@ -7172,9 +7171,8 @@ msgstr "Receipt"
 
 #: include/ext/sav/include/class_sav_spare_part.php:87
 #: include/ext/sav/include/class_sav_spare_part.php:96
-#, fuzzy
 msgid "Pièce inexistante"
-msgstr "Profile not found"
+msgstr "Spare part not found"
 
 #: include/template/detail-action.php:393
 #: include/template/detail-action.php:392
@@ -7317,9 +7315,8 @@ msgid "Poste comptable "
 msgstr "Accounting"
 
 #: include/param_pcmn.inc.php:76
-#, fuzzy
 msgid "Poste comptable Parent"
-msgstr "Accounting"
+msgstr "Parent Accounting"
 
 #: include/ext/tva/form_parameter.php:137
 #: include/ext/tva/form_parameter.php:140
@@ -7382,6 +7379,8 @@ msgid ""
 "donner une catégorie de fiche existante. Ensuite, il suffit d'indiquer "
 "quelles colonnes correspondent à quelle attribut"
 msgstr ""
+"To import data, it means transform CSV file into cards, you must choose a "
+"file, and after give a category. Then you just need to set the columns"
 
 #: include/ext/import_account/include/template/input_file.php:7
 #: include/ext/import_account/include/template/test_file.php:9
@@ -7391,6 +7390,8 @@ msgid ""
 "donner une catégorie de fiche existante. Ensuite, il suffit d'indiquer "
 "quelles colonnes correspondent à quelle attribut."
 msgstr ""
+"To import data, it means transform CSV file into cards, you must choose a "
+"file, and after give a category. Then you just need to set the columns"
 
 #: include/class_acc_ledger_purchase.php:141
 #: include/class_acc_ledger_purchase.php:212
@@ -7403,7 +7404,7 @@ msgstr "For the card"
 
 #: include/class_acc_ledger.php:2393 include/class_acc_ledger.php:2462
 #: include/class_acc_ledger.php:2477 include/class_acc_ledger.php:2489
-#: include/class_acc_ledger.php:2492
+#: include/class_acc_ledger.php:2492 include/class_acc_ledger.php:2500
 #, php-format
 msgid "Pour la fiche %s le poste comptable [%s] n'existe pas"
 msgstr "For the card %s the accounting %s doesn't exist"
@@ -7569,7 +7570,7 @@ msgstr "Forecast"
 
 #: include/template/todo_list_display.php:70
 msgid "Public"
-msgstr ""
+msgstr "Public"
 
 #: include/ajax_preference.php:114 include/database.item.php:84
 #: include/template/forecast_result.php:25
@@ -7806,6 +7807,7 @@ msgstr "Search accounting"
 #: include/class_acc_ledger_fin.php:1038 include/class_acc_ledger_fin.php:1049
 #: include/class_acc_ledger.php:2926 include/class_acc_ledger.php:2938
 #: include/class_acc_ledger.php:2947 include/class_acc_ledger.php:2950
+#: include/class_acc_ledger_fin.php:1050 include/class_acc_ledger.php:2958
 msgid "Rechercher"
 msgstr "Search"
 
@@ -8060,7 +8062,7 @@ msgstr "Save"
 
 #: include/ext/skel/index.php:46
 msgid "Seconde route"
-msgstr ""
+msgstr "second road"
 
 #: include/ext/amortis/include/template/util_generate.php:65
 #: include/card_attr.inc.php:83 include/class_acc_ledger.php:655
@@ -8241,7 +8243,7 @@ msgstr "Topic"
 #: include/ext/sav/include/template/sas_spare_part_print_row.php:46
 #: include/ext/sav/include/template/sas_workhour_print_row.php:49
 msgid "Supprimer"
-msgstr ""
+msgstr "Delete"
 
 #: include/ajax_bookmark.php:103
 msgid "Supprimez favoris sélectionnés"
@@ -8669,7 +8671,7 @@ msgid "Tous les biens y compris ceux qui sont complétement amortis"
 msgstr "All properties including those fully depreciated"
 
 #: include/class_acc_ledger_fin.php:1007 include/class_acc_ledger_fin.php:1008
-#: include/class_acc_ledger_fin.php:1019
+#: include/class_acc_ledger_fin.php:1019 include/class_acc_ledger_fin.php:1020
 msgid "Tous les journaux financiers"
 msgstr "All the financial ledgers"
 
@@ -8824,6 +8826,7 @@ msgstr "URL"
 #: include/class_acc_ledger.php:3479 include/class_acc_ledger.php:3495
 #: include/class_acc_ledger.php:3512 include/class_acc_ledger.php:3539
 #: include/class_acc_ledger.php:3548 include/class_acc_ledger.php:3550
+#: include/class_acc_ledger.php:3558
 msgid "Un journal avec ce nom existe déjà"
 msgstr "This name is already used"
 
@@ -9342,7 +9345,7 @@ msgstr "This Code Has No accounting, please create it ["
 #: include/class_html_input.php:804 include/class_html_input.php:821
 #: include/class_html_input.php:831 include/class_html_input.php:832
 #: include/class_acc_ledger.php:2531 include/class_acc_ledger.php:2534
-#: include/class_html_input.php:857
+#: include/class_html_input.php:857 include/class_acc_ledger.php:2542
 msgid "choix des journaux"
 msgstr "Ledgers"
 
@@ -9350,6 +9353,7 @@ msgstr "Ledgers"
 #: include/class_acc_ledger.php:3609 include/class_acc_ledger.php:3625
 #: include/class_acc_ledger.php:3653 include/class_acc_ledger.php:3680
 #: include/class_acc_ledger.php:3689 include/class_acc_ledger.php:3691
+#: include/class_acc_ledger.php:3699
 msgid "choix du type de journal"
 msgstr "Select the type of ledger"
 
@@ -9440,19 +9444,19 @@ msgstr "Remove"
 
 #: include/class_balance_age.php:146
 msgid "entre 30 et 60 jours"
-msgstr ""
+msgstr "Between 30 and 60 days"
 
 #: include/template/balance_aged_result.php:62
 msgid "entre 31 et 60 jours"
-msgstr ""
+msgstr "Between 31 and 60 days"
 
 #: include/class_balance_age.php:147
 msgid "entre 60 et 90 jours"
-msgstr ""
+msgstr "Between 61 and 90 days"
 
 #: include/template/balance_aged_result.php:65
 msgid "entre 61 et 90 jours"
-msgstr ""
+msgstr "Between 61 and 90 days"
 
 #: html/ajax_ledger.php:527 html/ajax_ledger.php:551 html/ajax_ledger.php:544
 #: include/template/ledger_detail_bottom.php:314
@@ -9503,6 +9507,7 @@ msgstr "plugs are inserted in the category"
 #: include/class_acc_ledger.php:2243 include/class_acc_ledger.php:2258
 #: include/class_acc_ledger.php:2273 include/class_acc_ledger.php:2270
 #: include/class_acc_ledger.php:2285 include/class_acc_ledger.php:2288
+#: include/class_acc_ledger.php:2281 include/class_acc_ledger.php:2296
 msgid "get_default_card p_ledger_side is invalide ["
 msgstr "get_default_card p_ledger_side is invalide ["
 

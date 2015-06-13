@@ -47,7 +47,7 @@ global $g_user;
 $g_user=new User($cn);
 $g_user->check();
 $g_user->check_dossier(dossier::id());
-
+set_language();
 $fLabel=(isset($_REQUEST['l']))?$_REQUEST['l']:'none';
 $fTva_id=(isset($_REQUEST['t']))?$_REQUEST['t']:'none';
 $fPrice_sale=(isset($_REQUEST['p']))?$_REQUEST['p']:'none';

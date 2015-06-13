@@ -26,7 +26,7 @@ $cn=new Database(dossier::id());
 $g_parameter=new Own($cn);
 $g_user=new User($cn);
 $g_user->check(true);
-
+set_language();
 /* if a code has been asked */
 if (isset($_REQUEST['plugin_code']) )
 {

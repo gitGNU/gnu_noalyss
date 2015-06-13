@@ -962,7 +962,7 @@ function show_menu($module, $idx)
     elseif (count($amenu) == 1)
     {
 		echo '<div class="topmenu">';
-		echo h2info($amenu[0]['me_menu']);
+		echo h2info(_($amenu[0]['me_menu']));
 		echo '</div>';
 		$module[$idx] = $amenu[0]['me_code'];
     }

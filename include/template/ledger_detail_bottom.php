@@ -47,7 +47,7 @@ if ( $div != "popup") :
     ?>
     <li class="<?php echo $class?>">
         <?php $div_tab_id=$a_value['id'];?>
-        <a href="javascript:void(0)" onclick="unselect_other_tab(this.parentNode.parentNode);var tab=Array('writing_div<?php echo $div?>','info_operation_div<?php echo $div?>','linked_operation_div<?php echo $div?>','document_operation_div<?php echo $div?>','linked_action_div<?php echo $div?>','analytic_div<?php echo $div?>');this.parentNode.className='tabs_selected' ;show_tabs(tab,'<?php echo $div_tab_id; ?>');"><?php echo $a_value['label']?></a>
+        <a href="javascript:void(0)" onclick="unselect_other_tab(this.parentNode.parentNode);var tab=Array('writing_div<?php echo $div?>','info_operation_div<?php echo $div?>','linked_operation_div<?php echo $div?>','document_operation_div<?php echo $div?>','linked_action_div<?php echo $div?>','analytic_div<?php echo $div?>');this.parentNode.className='tabs_selected' ;show_tabs(tab,'<?php echo $div_tab_id; ?>');"><?php echo _($a_value['label'])?></a>
     </li>
     <?php    endforeach; ?>
 </ul>

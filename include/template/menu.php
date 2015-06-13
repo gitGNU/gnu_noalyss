@@ -32,8 +32,8 @@ $style="";
 		$class="selectedcell";
 ?>
 	<td class="<?php echo $class?>">
-	    <a class="mtitle" href="do.php?gDossier=<?php echo Dossier::id()?>&ac=<?php echo $_REQUEST['ac']?>" title="<?php echo h(_($amenu[$i]['me_description']))?>" >
-	    <?php echo _($amenu[$i]['me_menu'])?>
+            <a class="mtitle" href="do.php?gDossier=<?php echo Dossier::id()?>&ac=<?php echo $_REQUEST['ac']?>" title="<?php echo h(gettext($amenu[$i]['me_description']))?>" >
+	    <?php echo gettext($amenu[$i]['me_menu'])?>
 	    </a>
 	</td>
 <?php 
@@ -60,8 +60,8 @@ $style="";
 		}
 
 ?>	<td class="<?php echo $class?>">
-	    <a class="mtitle" href="do.php?gDossier=<?php echo Dossier::id()?>&ac=<?php echo $url?>" <?php echo $js?> title="<?php echo h(_($amenu[$i]['me_description']))?>">
-	    <?php echo _($amenu[$i]['me_menu'])?>
+	    <a class="mtitle" href="do.php?gDossier=<?php echo Dossier::id()?>&ac=<?php echo $url?>" <?php echo $js?> title="<?php echo h(gettext($amenu[$i]['me_description']))?>">
+	    <?php echo gettext($amenu[$i]['me_menu'])?>
 	    </a>
 	</td>
 
@@ -78,7 +78,3 @@ endif;
 
 </table>
 </div>
-<?php
-// if something is selected check if file to include or submen
-//
- ?>

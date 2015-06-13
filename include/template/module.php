@@ -35,7 +35,7 @@ if ( $cn->get_value("select count(*) from profile join profile_user using (p_id)
 			?>
 		<div id="ac_choices" class="autocomplete" style="width:150"></div>
 		<?php 
-			echo HtmlInput::submit('go','aller');
+			echo HtmlInput::submit('go',_('Aller'));
 			?>
 
 	</form>
@@ -86,7 +86,7 @@ endif;?>
 		    }
 		    ?>
 		<td class="<?php echo $style?>">
-			<a class="mtitle" href="<?php echo $url?>" title="<?php echo _($row['me_description'])?>" <?php echo $js?> ><?php echo _($row['me_menu'])?></a></td>
+                    <a class="mtitle" href="<?php echo $url?>" title="<?php echo _($row['me_description'])?>" <?php echo $js?> ><?php echo gettext($row['me_menu'])?></a></td>
 		<?php 
 		    endforeach;
 		?>

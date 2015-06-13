@@ -41,7 +41,7 @@ $cn=new Database(dossier::id());
 $g_user=new User($cn);
 $g_user->check();
 $only_plugin=$g_user->check_dossier(dossier::id());
-
+set_language();
 $ext=new Extension($cn);
 
 if ( $ext->search($_REQUEST['plugin_code']) != -1 )

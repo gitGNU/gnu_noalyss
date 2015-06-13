@@ -18,7 +18,7 @@
 <div>
    <?php echo h2($oLedger->get_name(),'class="title"'); ?>
 </div>
-<?php echo "Opération ID=".hb($obj->det->jr_internal); ?>
+<?php echo _("Opération ID")."=".hb($obj->det->jr_internal); ?>
 <div id="<?php echo $div.'info'?>" class="divinfo"></div>
 <?php require_once('class_itextarea.php');
 ?>

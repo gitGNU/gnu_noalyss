@@ -5,8 +5,6 @@ export PGPASSWORD=dany
 export PGHOST=localhost
 export PGDATABASE=rel671mod1
 export PGPORT=5432
-export PGCLUSTER=9.1/main
-
 (
 echo "<?php "
 psql -A -F"  " -t -c "select '\$menu[]=_('''||replace(me_menu,'''',E'\\\\''')||''');' , '\$desc[]=_('''||replace(me_description,'''',E'\\\\''')||''');' from menu_ref ;"

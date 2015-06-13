@@ -33,7 +33,7 @@ if ( !isset ($_GET['jrn'] ) ||
 }
 
 require_once('class_database.php');
-
+set_language();
 
 $jr_grpt_id=$_GET['jr_grpt_id'];
 

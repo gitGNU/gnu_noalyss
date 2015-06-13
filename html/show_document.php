@@ -36,7 +36,7 @@ global $g_user;
 $g_user = new User($cn);
 $g_user->Check();
 $g_user->check_dossier($gDossier);
-
+set_language();
 /* Show the document */
 if ($action == 'sh')
 {

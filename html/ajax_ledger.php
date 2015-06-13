@@ -85,6 +85,7 @@ if ( LOGINPUT)
 // check if the user is valid and can access this folder
 global $g_user;
 $g_user=new User($cn);
+set_language();
 $g_user->check();
 if ( $g_user->check_dossier(dossier::id(),true)=='X' )
 {

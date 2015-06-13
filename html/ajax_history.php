@@ -43,6 +43,7 @@ ajax_disconnected($div);
 global $g_user,$cn;
 $cn=new Database(dossier::id());
 $g_user=new User($cn);
+set_language();
 /* security */
 if ( $g_user->check_dossier(dossier::id(),true) == 'X' ) exit();
 

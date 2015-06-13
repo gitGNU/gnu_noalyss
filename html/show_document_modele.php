@@ -34,6 +34,7 @@ require_once ('class_user.php');
 global $g_user;
 $g_user=new User($cn);
 $g_user->Check();
+set_language();
 if ( $g_user->check_module("CFGDOC") == 0 ) exit();
 // retrieve the document
 $r=$cn->exec_sql("select md_id,md_lob,md_filename,md_mimetype

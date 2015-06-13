@@ -31,6 +31,7 @@ if ($g_user->Admin()==0)
 {
     die();
 }
+set_language();
 // From admin, grant  the access to a folder to an
 // user
 if ($op=='folder_add') // operation

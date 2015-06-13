@@ -35,7 +35,7 @@ mb_internal_encoding("UTF-8");
 $g_user=new User($cn);
 $g_user->Check();
 $action=$g_user->check_dossier($gDossier);
-
+set_language();
 if ( $action=='X' || ! isset($_GET['act']) || $g_user->check_print($_GET['act'])==0 )
   {
     echo alert(_('Accès interdit'));

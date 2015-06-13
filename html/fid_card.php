@@ -53,6 +53,7 @@ global $g_user;
 $g_user=new User($cn);
 $g_user->check();
 $g_user->check_dossier(dossier::id());
+set_language();
 
 if ( $d == 'all')
 {
