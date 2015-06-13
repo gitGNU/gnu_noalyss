@@ -64,12 +64,12 @@ if (isset($_POST["FMOD_NAME"]))
 
 	if ($encoding != 6)
 	{
-		alert('Désolé vous devez migrer ce modèle en unicode');
-		echo '<span class="error">la base de donnée ' .
-		domaine . 'mod' . $_POST["FMOD_DBID"] . " doit être migrée en unicode</span>";
-		echo '<span class="error"> Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu</span>';
+		alert(_('Désolé vous devez migrer ce modèle en unicode'));
+		echo '<span class="error">'._('la base de donnée')." " .
+		domaine . 'mod' . $_POST["FMOD_DBID"]." " . _("doit être migrée en unicode")."</span>";
+		echo '<span class="error"> '._("Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu").'</span>';
 
-		echo HtmlInput::button_anchor('Retour', 'admin_repo.php?action=dossier_mgt');
+		echo HtmlInput::button_anchor(_('Retour'), 'admin_repo.php?action=dossier_mgt');
 		return;
 	}
 
@@ -90,7 +90,7 @@ if (isset($_POST["FMOD_NAME"]))
 			if ($cn->exec_sql($Sql) == false)
 			{
 				ob_end_clean();
-				echo "<h2 class=\"error\"> Base de donn&eacute;e " . domaine . "dossier" . $_POST['FMOD_DBID'] . "  est accèd&eacute;e, d&eacute;connectez-vous en d'abord</h2>";
+				echo "<h2 class=\"error\"> Base de donn&eacute;e " . domaine . "dossier" . $_POST['FMOD_DBID'] . "  "._("est accèd&eacute;e, d&eacute;connectez-vous en d'abord")."</h2>";
 				$Res = $cn->exec_sql("delete from modeledef where mod_id=" . $l_id);
 
 				exit;
@@ -221,9 +221,9 @@ require_once('class_sort_table.php');
 $url=$_SERVER['PHP_SELF']."?sa=list&action=".$_REQUEST['action'];
 
 $header=new Sort_Table();
-$header->add("id",$url," order by mod_id asc"," order by mod_id desc","ia","id");
-$header->add("Nom",$url," order by mod_name asc"," order by mod_name desc","na","nd");
-$header->add("Description",$url," order by mod_desc asc"," order by mod_desc desc","da","dd");
+$header->add(_("id"),$url," order by mod_id asc"," order by mod_id desc","ia","id");
+$header->add(_("Nom"),$url," order by mod_name asc"," order by mod_name desc","na","nd");
+$header->add(_("Description"),$url," order by mod_desc asc"," order by mod_desc desc","da","dd");
 
 $ord=(isset($_REQUEST['ord']))?$_REQUEST['ord']:'na';
 $sql_order=$header->get_sql_order($ord);
@@ -233,11 +233,11 @@ $Res = $cn->exec_sql("select mod_id,mod_name,mod_desc from
 
 $count = Database::num_row($Res);
 echo '<div class="content" style="width:80%;margin-left:10%">';
-echo "<H2>Modèles</H2>";
+echo "<H2>"._('Modèles')."</H2>";
 if ($sa == 'list')
 {
         echo '<p>';
-        echo HtmlInput::button(_('Ajouter'),_('Ajouter')," onclick=\$('folder_add_id').show()");
+        echo HtmlInput::button(_('Ajouter'),_('Ajouter un modèle')," onclick=\$('folder_add_id').show()");
 
         echo '</p>';
 	if ($count == 0)
@@ -271,20 +271,20 @@ if ($sa == 'list')
 					'<TD><I> %s </I></TD>' .
                                         '<td>'.$str_name.'</td>'.
 					'<td> ' .
-					HtmlInput::anchor('Effacer', '?action=modele_mgt&sa=del&m=' . $mod['mod_id']," onclick = \"modele_drop('{$mod['mod_id']}') \"") . '</td>' .
+					HtmlInput::anchor(_('Effacer'), '?action=modele_mgt&sa=del&m=' . $mod['mod_id']," onclick = \"modele_drop('{$mod['mod_id']}') \"") . '</td>' .
 					'</td>' .
-					'<td>' . HtmlInput::anchor('Modifie', '?action=modele_mgt&sa=mod&m=' . $mod['mod_id']," onclick = \"modele_modify('{$mod['mod_id']}') \"") . '</td>' .
+					'<td>' . HtmlInput::anchor(_('Modifie'), '?action=modele_mgt&sa=mod&m=' . $mod['mod_id']," onclick = \"modele_modify('{$mod['mod_id']}') \"") . '</td>' .
 					'</td>' .
-					'<td>' . HtmlInput::anchor('Backup', 'backup.php?action=backup&sa=b&t=m&d='
+					'<td>' . HtmlInput::anchor(_('Backup'), 'backup.php?action=backup&sa=b&t=m&d='
 							. $mod['mod_id']) . '</td>' .
 					'</TR>', $mod['mod_id'], $mod['mod_name'], $mod['mod_desc']);
 		}// for
 		echo "</table>";
 	}// if count = 0
-	echo "<p class=\"notice\">Si vous voulez r&eacute;cup&eacute;rer toutes les adaptations d'un dossier " .
+	echo "<p class=\"notice\">"._("Si vous voulez r&eacute;cup&eacute;rer toutes les adaptations d'un dossier " .
 	" dans un autre dossier, vous pouvez en faire un modèle." .
 	" Seules les fiches, la structure des journaux, les p&eacute;riodes,... seront reprises " .
-	"et aucune donn&eacute;e du dossier sur lequel le dossier est bas&eacute;. Les données contenues dans les extensions ne sont pas effacées</p>";
+	"et aucune donn&eacute;e du dossier sur lequel le dossier est bas&eacute;. Les données contenues dans les extensions ne sont pas effacées")."</p>";
 }
 ?>
 <div id="folder_add_id" class="inner_box" style="display:none;top:50px">
@@ -313,38 +313,37 @@ if ($sa == 'list')
 	<form action="admin_repo.php?action=modele_mgt" METHOD="post">
 		<TABLE>
 			<tr>
-				<td>Nom </TD>
+				<td><?php echo _('Nom')?> </TD>
 				<TD><INPUT TYPE="TEXT"  class="input_text"  VALUE="" NAME="FMOD_NAME"></TD>
 			</TR>
 			<TR>
-				<TD>Description</TD>
+				<TD><?php echo _('Description')?></TD>
 				<TD><TEXTAREA ROWS="2" class="input_text"  COLS="60" NAME="FMOD_DESC"></Textarea></TD>
-																							</TR>
-																							<TR>
-																							<TD> Bas&eacute;
-	sur </TD>
+                        </TR>
+                        <TR>
+                        <TD> <?php echo _("Bas&eacute; sur")?> </TD>
 	<TD> <?php echo $available?></TD>
 	</TR>
 	<TR>
-		<TD>Nettoyage des Documents et courriers (ce qui  n'effacera pas les modèles de documents)</TD>
+		<TD><?php echo _("Nettoyage des Documents et courriers (ce qui  n'effacera pas les modèles de documents)")?></TD>
 		<TD> <input type="checkbox" name="DOC"></TD></TR>
 	<TR>
-		<TD>Nettoyage de toutes les fiches (ce qui effacera client,
-	op&eacute;rations pr&eacute;d&eacute;finies fournisseurs modèles de documents et documents)</TD>
+		<TD><?php echo _("Nettoyage de toutes les fiches (ce qui effacera client,
+	op&eacute;rations pr&eacute;d&eacute;finies fournisseurs modèles de documents et documents)")?></TD>
 		<TD> <input type="checkbox" name="CARD"></TD>
 	</TR>
 
 	<TR>
-		<TD>Nettoyage de la comptabilit&eacute; analytique : effacement des plans et des postes, les op&eacute;rations
-	sont de toute fa&ccedil;on effac&eacute;es </TD>
+		<TD><?php echo _("Nettoyage de la comptabilit&eacute; analytique : effacement des plans et des postes, les op&eacute;rations
+	sont de toute fa&ccedil;on effac&eacute;es")?> </TD>
 		<TD> <input class="input_text" type="checkbox" name="CANAL"></TD>
 	</TR>
 	<TR>
-		<TD>Effacement de toutes les donn&eacute;es des plugins</TD>
+		<TD><?php echo _("Effacement de toutes les donn&eacute;es des plugins")?></TD>
 		<TD> <input type="checkbox" name="PLUGIN"></TD>
 	</TR>
 	</TABLE>
-  <INPUT TYPE="SUBMIT" class="button" VALUE="Ajout d'un modele">
+  <INPUT TYPE="SUBMIT" class="button" VALUE="<?php echo _("Ajout d'un modele")?>" >
 </form>
 </div>
 		<?php
@@ -356,8 +355,8 @@ if ($sa == 'list')
 	{
 		if (!isset($_REQUEST['p_confirm']))
 		{
-			echo('Désolé, vous n\'avez pas coché la case');
-			echo HtmlInput::button_anchor('Retour', '?action=modele_mgt');
+			echo _('Désolé, vous n\'avez pas coché la case');
+			echo HtmlInput::button_anchor(_('Retour'), '?action=modele_mgt');
 			return;
 		}
 
@@ -375,16 +374,17 @@ if ($sa == 'list')
 		{
 			ob_end_clean();
 
-			echo "<h2 class=\"error\">
-	Base de donnée " . domaine . "mod" . $_REQUEST['m'] . "  est accèdée, déconnectez-vous d'abord</h2>";
+			echo "<h2 class=\"error\">";
+                        printf (_("Base de donnée %s mod %s est accèdée, déconnectez-vous d'abord"),domaine,$_REQUEST['m'] )
+                                . "</h2>";
 			exit;
 		}
 		ob_flush();
 		$sql = "delete from modeledef where mod_id=$1";
 		$cn->exec_sql($sql, array($_REQUEST['m']));
 		print '<h2 class="error">';
-		print "Le modèle $name est effacé</H2>";
-		echo HtmlInput::button_anchor('Retour', '?action=modele_mgt');
+		printf (_("Le modèle %s est effacé"),$name )."</H2>";
+		echo HtmlInput::button_anchor(_('Retour'), '?action=modele_mgt');
 	}
 	echo '</div>';
 	?>

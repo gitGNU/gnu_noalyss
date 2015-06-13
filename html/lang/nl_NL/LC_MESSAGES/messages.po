@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-13 10:06+0200\n"
+"POT-Creation-Date: 2015-06-13 13:28+0200\n"
 "PO-Revision-Date: 2014-02-21 21:35+0100\n"
 "Last-Translator: dany\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -359,6 +359,7 @@ msgstr "Verkeerd periode van datum"
 #: include/class_acc_ledger_sold.php:82 include/class_acc_ledger.php:1853
 #: html/ajax_todo_list.php:181 html/ajax_todo_list.php:244
 #: html/recherche.php:52 include/class_acc_ledger.php:1856
+#: html/ajax_todo_list.php:182 html/ajax_todo_list.php:245
 msgid "Accès interdit"
 msgstr "Verboden"
 
@@ -381,7 +382,7 @@ msgstr "Aankoop"
 msgid "Acquisition de l'année"
 msgstr "Acquisitie jaar"
 
-#: include/user_detail.inc.php:147
+#: include/user_detail.inc.php:147 include/user.inc.php:126
 #, fuzzy
 msgid "Actif"
 msgstr "Actie"
@@ -477,7 +478,7 @@ msgstr "verversen"
 
 #: include/database.item.php:125 html/user_login.php:96 html/user_login.php:98
 #: include/database.item.php:128 include/database.item.php:134
-#: include/user_detail.inc.php:170
+#: include/user_detail.inc.php:170 include/user.inc.php:170
 msgid "Administrateur"
 msgstr "Beheerder"
 
@@ -612,6 +613,11 @@ msgstr "Voegt Categorieën van Documenten teen"
 msgid "Ajout d'un menu"
 msgstr "Categorie Toevoegen"
 
+#: include/modele.inc.php:346
+#, fuzzy
+msgid "Ajout d'un modele"
+msgstr "Categorie Toevoegen"
+
 #: include/modele.inc.php:292
 #, fuzzy
 msgid "Ajout d'un modèle"
@@ -726,6 +732,11 @@ msgstr "van rekening"
 msgid "Ajout prévision"
 msgstr "Vooruitzicht"
 
+#: include/user.inc.php:109
+#, fuzzy
+msgid "Ajout utilisateur"
+msgstr "Gebruiker toevoegen"
+
 #: include/action.common.inc.php:186 include/action.common.inc.php:206
 msgid "Ajoute une action à celle-ci"
 msgstr "EEN Actie Toevoegen BIJ this"
@@ -745,6 +756,11 @@ msgstr "VOEG zei element toe"
 msgid "Ajouter des années comptables"
 msgstr "Voegt Categorieën van Documenten teen"
 
+#: include/dossier.inc.php:159
+#, fuzzy
+msgid "Ajouter un dossier"
+msgstr "Naam van de map"
+
 #: include/template/detail-action.php:462
 #: include/template/detail-action.php:465
 #: include/template/detail-action.php:481
@@ -753,6 +769,11 @@ msgstr "Voegt Categorieën van Documenten teen"
 #, fuzzy
 msgid "Ajouter un fichier"
 msgstr "Geen bestand"
+
+#: include/modele.inc.php:240
+#, fuzzy
+msgid "Ajouter un modèle"
+msgstr "Categorie Toevoegen"
 
 #: include/class_anc_group_operation.php:189
 #: include/class_anticipation.php:430 include/template/stock_inv.php:103
@@ -854,7 +875,7 @@ msgstr "Annuleren Reactie"
 #: include/ext/amortis/include/template/material_detail.php:55
 #: include/ext/amortis/include/template/material_display.php:41
 #: include/ext/amortis/include/template/util_generate.php:35
-#: include/ext/tva/form_periode.php:10
+#: include/ext/tva/form_periode.php:10 include/dossier.inc.php:281
 msgid "Année"
 msgstr "Jaar"
 
@@ -1120,6 +1141,7 @@ msgid "Aucun enregistrement trouvé"
 msgstr "Geen Enkele Gegevens van stuurprogramma"
 
 #: html/ajax_ledger.php:263 html/ajax_ledger.php:281 html/ajax_ledger.php:276
+#: html/ajax_ledger.php:277
 msgid "Aucun fichier"
 msgstr "Geen bestand"
 
@@ -1261,6 +1283,7 @@ msgstr "Geen geopende periode"
 #: html/ajax_history.php:113 html/ajax_history.php:184
 #: include/balance_card.inc.php:70 include/balance_card.inc.php:69
 #: html/ajax_history.php:131 html/ajax_history.php:202
+#: html/ajax_history.php:132 html/ajax_history.php:203
 msgid "Aucune opération pour l'exercice courant"
 msgstr "Geen operatie in het lopende jaar"
 
@@ -1326,7 +1349,9 @@ msgstr "Analytisch"
 #: html/ajax_history.php:90 html/ajax_history.php:96 html/ajax_history.php:161
 #: html/ajax_history.php:167 html/ajax_history.php:108
 #: html/ajax_history.php:114 html/ajax_history.php:179
-#: html/ajax_history.php:185
+#: html/ajax_history.php:185 html/ajax_history.php:109
+#: html/ajax_history.php:115 html/ajax_history.php:180
+#: html/ajax_history.php:186
 msgid "Autre exercice"
 msgstr "Een andere oefening"
 
@@ -1403,6 +1428,7 @@ msgid "Avec la fiche"
 msgstr "Ontmoette blad"
 
 #: include/dossier.inc.php:225 include/dossier.inc.php:223
+#: include/modele.inc.php:278
 msgid "Backup"
 msgstr "Reservekopie"
 
@@ -1509,9 +1535,18 @@ msgstr "Double Cross Balance"
 msgid "Banque"
 msgstr "Bank"
 
+#: include/modele.inc.php:324
+msgid "Bas&eacute; sur"
+msgstr ""
+
 #: include/dossier.inc.php:365 include/dossier.inc.php:321
 msgid "Base de donnée "
 msgstr "Database"
+
+#: include/modele.inc.php:378
+#, fuzzy, php-format
+msgid "Base de donnée %s mod %s est accèdée, déconnectez-vous d'abord"
+msgstr "is in use of, logout eerst"
 
 #: html/do.php:97 html/user_login.php:66 html/do.php:96 html/do.php:91
 msgid "Base de donnée invalide"
@@ -1782,7 +1817,8 @@ msgid "Cette fiche n'existe pas"
 msgstr "Die plugin doorsturingslijst is leeg niet"
 
 #: html/ajax_todo_list.php:172 html/ajax_todo_list.php:226
-#: html/ajax_todo_list.php:235
+#: html/ajax_todo_list.php:235 html/ajax_todo_list.php:173
+#: html/ajax_todo_list.php:227 html/ajax_todo_list.php:236
 #, fuzzy
 msgid "Cette note n'est pas à vous"
 msgstr "Die plugin doorsturingslijst is leeg niet"
@@ -1811,6 +1847,7 @@ msgid "Changement des états"
 msgstr "Operatie Doorsturen"
 
 #: html/ajax_ledger.php:504 html/ajax_ledger.php:528 html/ajax_ledger.php:521
+#: html/ajax_ledger.php:522
 msgid ""
 "Changement impossible: on ne peut pas changer la date dans une période fermée"
 msgstr ""
@@ -1835,6 +1872,7 @@ msgid "Chaque fiche aura automatiquement son propre poste comptable : "
 msgstr "Ieder blad ZAL are eigentijd Automatisch rekening hebben"
 
 #: html/ajax_ledger.php:353 html/ajax_ledger.php:371 html/ajax_ledger.php:364
+#: html/ajax_ledger.php:365
 #, fuzzy
 msgid "Chargement"
 msgstr "Wijzingen bewaard"
@@ -2079,11 +2117,12 @@ msgstr ""
 "zijn"
 
 #: include/dossier.inc.php:332 include/ajax_admin.php:227
+#: include/ajax_admin.php:228
 msgid "Cochez la case si vous êtes sûr de vouloir effacer ce dossier"
 msgstr ""
 "Kruis Indiase Aan u DAT u zei Zeker map gebogen verwelkingsziekte Wissen"
 
-#: include/ajax_admin.php:252
+#: include/ajax_admin.php:252 include/ajax_admin.php:253
 #, fuzzy
 msgid "Cochez la case si vous êtes sûr de vouloir effacer ce modèle"
 msgstr ""
@@ -2720,6 +2759,11 @@ msgstr "Creditzijde"
 msgid "Créditeur"
 msgstr "Creditzijde"
 
+#: include/user.inc.php:84
+#, fuzzy
+msgid "Créer Utilisateur"
+msgstr "Users"
+
 #: include/adm.inc.php:117 include/bank.inc.php:114
 #: include/category_card.inc.php:131 include/class_acc_ledger_fin.php:242
 #: include/class_acc_ledger.php:1586 include/class_acc_ledger.php:3493
@@ -3148,7 +3192,9 @@ msgstr "Recente activiteit"
 #: include/template/detail-action.php:498 include/template/pcmn_update.php:37
 #: include/ext/sav/include/template/spare_part_display_list.php:36
 #: include/ext/sav/include/template/workhour_display_list.php:33
-#: include/class_fiche.php:1207
+#: include/class_fiche.php:1207 include/ajax_admin.php:205
+#: include/dossier.inc.php:165 include/modele.inc.php:226
+#: include/modele.inc.php:320
 msgid "Description"
 msgstr "Beschrijving"
 
@@ -3273,7 +3319,8 @@ msgstr "Divers"
 #: include/database.item.php:95 include/compta_ach.inc.php:157
 #: html/ajax_ledger.php:331 html/ajax_ledger.php:359
 #: include/class_acc_ledger.php:873 include/compta_ach.inc.php:170
-#: include/operation_ods_confirm.inc.php:52
+#: include/operation_ods_confirm.inc.php:52 html/ajax_ledger.php:332
+#: html/ajax_ledger.php:360
 msgid "Document"
 msgstr "Document"
 
@@ -3339,6 +3386,16 @@ msgstr "is a Jaar ongeldig"
 msgid "Données non disponibles"
 msgstr "Extensie available Geen"
 
+#: include/user.inc.php:124 include/restore.inc.php:219
+#, fuzzy
+msgid "Dossier"
+msgstr "Archief"
+
+#: include/dossier.inc.php:150
+#, fuzzy
+msgid "Dossier Management"
+msgstr "Map niet bestaat"
+
 #: include/dossier.inc.php:214 include/dossier.inc.php:213
 msgid "Dossier inexistant"
 msgstr "Map niet bestaat"
@@ -3351,12 +3408,12 @@ msgstr "Folder niet Bereikbaar"
 msgid "Dossiers"
 msgstr "Archief"
 
-#: include/ajax_admin.php:142
+#: include/ajax_admin.php:142 include/ajax_admin.php:143
 #, fuzzy
 msgid "Dossiers affichés"
 msgstr "Archief"
 
-#: include/ajax_admin.php:142
+#: include/ajax_admin.php:142 include/ajax_admin.php:143
 #, fuzzy
 msgid "Dossiers trouvés"
 msgstr "Niet gevonden"
@@ -3552,6 +3609,7 @@ msgid "Désolé aucun résultat trouvé"
 msgstr "Sorry Geen Result van stuurprogramma"
 
 #: html/ajax_ledger.php:200 html/ajax_ledger.php:218 html/ajax_ledger.php:222
+#: html/ajax_ledger.php:223
 msgid "Désolé il y a une erreur"
 msgstr "Sorry er is een fout opgetreden"
 
@@ -3560,11 +3618,12 @@ msgstr "Sorry er is een fout opgetreden"
 msgid "Désolé mais il faut donner l'email de celui qui envoie"
 msgstr "Sorry, maar je moet de e-mail van de afzender te geven"
 
-#: include/dossier.inc.php:56
+#: include/dossier.inc.php:56 include/modele.inc.php:67
 msgid "Désolé vous devez migrer ce modèle en unicode"
 msgstr "This model Moet are in unicode"
 
 #: include/dossier.inc.php:345 include/dossier.inc.php:301
+#: include/modele.inc.php:358
 msgid "Désolé, vous n'avez pas coché la case"
 msgstr "Sorry hebt u Het niet VAK aangekruisd"
 
@@ -3699,6 +3758,10 @@ msgstr "Termijn"
 msgid "Echeance dépassée"
 msgstr "termijn wordt overschreden"
 
+#: include/restore.inc.php:107 include/restore.inc.php:166
+msgid "Echec de la restauration "
+msgstr ""
+
 #: include/class_acc_bilan.php:277 include/class_acc_bilan.php:289
 #: include/class_acc_bilan.php:350 include/class_acc_bilan.php:371
 #, fuzzy
@@ -3756,6 +3819,7 @@ msgstr "Boekingen"
 #: include/cfgledger.inc.php:124 include/anc_pa.inc.php:193
 #: include/cfgledger.inc.php:122 include/anc_pa.inc.php:195
 #: include/ajax_admin.php:217 include/ajax_admin.php:243
+#: include/ajax_admin.php:218 include/ajax_admin.php:244
 msgid "Efface"
 msgstr "Wissen"
 
@@ -3767,12 +3831,16 @@ msgstr "This Actie Wissen"
 msgid "Effacement"
 msgstr "Erasure"
 
+#: include/modele.inc.php:342
+msgid "Effacement de toutes les donn&eacute;es des plugins"
+msgstr ""
+
 #: include/ext/tva/class_ext_tva.php:342
 #, fuzzy
 msgid "Effacement déclaration"
 msgstr "This Actie Wissen"
 
-#: html/ajax_ledger.php:186
+#: html/ajax_ledger.php:186 html/ajax_ledger.php:187
 #, fuzzy
 msgid "Effacement refusé"
 msgstr "Erasure"
@@ -3800,7 +3868,8 @@ msgstr "Erasure"
 #: include/compta_fin.inc.php:149 include/template/detail-action.php:466
 #: include/ajax_admin.php:231 include/compta_fin.inc.php:152
 #: include/dossier.inc.php:218 include/template/detail-action.php:472
-#: include/template/ledger_detail_bottom.php:293
+#: include/template/ledger_detail_bottom.php:293 include/ajax_admin.php:232
+#: include/modele.inc.php:274
 msgid "Effacer"
 msgstr "Wissen"
 
@@ -3928,6 +3997,7 @@ msgid "Encoder la facture"
 msgstr "Facturatie Gegevens"
 
 #: include/ajax_admin.php:56 include/user_detail.inc.php:230
+#: include/ajax_admin.php:57
 #, fuzzy
 msgid "Enleve"
 msgstr "Verwijderen"
@@ -4043,12 +4113,13 @@ msgstr "Fout:"
 msgid "Erreur : exec_sql attend un array"
 msgstr ""
 
-#: html/ajax_todo_list.php:140
+#: html/ajax_todo_list.php:140 html/ajax_todo_list.php:141
 #, fuzzy
 msgid "Erreur : note invalide"
 msgstr "Verkeerd datum"
 
 #: html/ajax_todo_list.php:214 html/ajax_todo_list.php:273
+#: html/ajax_todo_list.php:215 html/ajax_todo_list.php:274
 #, fuzzy
 msgid "Erreur : paramètre invalide"
 msgstr "Verkeerd datum"
@@ -4072,7 +4143,9 @@ msgstr "Verkeerd datum"
 
 #: include/ajax_admin.php:45 include/ajax_admin.php:83
 #: include/ajax_admin.php:121 include/ajax_admin.php:169
-#: include/class_dossier.php:106
+#: include/class_dossier.php:106 include/ajax_admin.php:46
+#: include/ajax_admin.php:84 include/ajax_admin.php:122
+#: include/ajax_admin.php:170
 #, fuzzy
 msgid "Erreur paramètre"
 msgstr "Module instellen"
@@ -4156,12 +4229,13 @@ msgstr "Documenten staat"
 msgid "Etat des stock"
 msgstr "Toestand van het bestand"
 
-#: include/ajax_admin.php:248
+#: include/ajax_admin.php:248 include/ajax_admin.php:249
 #, fuzzy
 msgid "Etes vous sure et certain de vouloir effacer "
 msgstr "Bent u DAT u verwelkingsziekte Zeker Wissen"
 
 #: include/dossier.inc.php:329 include/ajax_admin.php:223
+#: include/ajax_admin.php:224
 msgid "Etes vous sûr et certain de vouloir effacer "
 msgstr "Bent u DAT u verwelkingsziekte Zeker Wissen"
 
@@ -4493,7 +4567,7 @@ msgstr "Krachtdadig optreden"
 #: include/template/ledger_detail_top.php:14
 #: include/ext/amortis/include/template/material_detail.php:184
 #: include/class_acc_ledger.php:2959
-#: include/template/ledger_detail_bottom.php:268
+#: include/template/ledger_detail_bottom.php:268 include/user.inc.php:85
 #, php-format
 msgid "Fermer"
 msgstr "Dicht"
@@ -4578,6 +4652,11 @@ msgstr "De% s-plug heeft geen financieel administratieve post"
 #: include/template/modele_document.php:61 include/menu.inc.php:116
 #: include/menu.inc.php:117
 msgid "Fichier"
+msgstr "Bestand"
+
+#: include/restore.inc.php:228
+#, fuzzy
+msgid "Fichier "
 msgstr "Bestand"
 
 #: html/show_pj.php:82 include/ext/rapport_avance/raw.php:65
@@ -5376,6 +5455,7 @@ msgstr "doorsturingslijst is leeg niet"
 #: html/ajax_ledger.php:100 html/ajax_ledger.php:122
 #: include/template/ledger_detail_bottom.php:6 html/ajax_ledger.php:118
 #: html/ajax_ledger.php:140 include/template/ledger_detail_bottom.php:32
+#: html/ajax_ledger.php:119 html/ajax_ledger.php:141
 msgid "Information"
 msgstr "Informatie"
 
@@ -5580,6 +5660,11 @@ msgstr "Laat 0 het nummer niet wijzigen"
 msgid "Langue"
 msgstr "Taal"
 
+#: include/dossier.inc.php:331
+#, fuzzy, php-format
+msgid "Le dossier %s est effacé"
+msgstr "De Naam van de map is leeg"
+
 #: include/user.inc.php:93
 #, fuzzy
 msgid "Le login ne peut être vide"
@@ -5589,6 +5674,11 @@ msgstr "De naam mag niet leeg zijn"
 #: include/ajax_preference.php:166
 msgid "Le mini rapport est un rapport qui s'affiche  sur votre page d'accueil"
 msgstr "De quick ratio is een verhouding die op uw homepage verschijnt"
+
+#: include/modele.inc.php:386
+#, fuzzy, php-format
+msgid "Le modèle %s est effacé"
+msgstr "De Naam van de map is leeg"
 
 #: include/user.inc.php:98
 #, fuzzy
@@ -5850,7 +5940,7 @@ msgstr "Lijst met contacten"
 msgid "Liste des déclarations TVA"
 msgstr "Listing van Operatie"
 
-#: include/ajax_admin.php:129
+#: include/ajax_admin.php:129 include/ajax_admin.php:130
 #, fuzzy
 msgid "Liste dossier"
 msgstr "Records Management"
@@ -5865,6 +5955,7 @@ msgid "Liste opérations"
 msgstr "Operatielijsten"
 
 #: html/ajax_todo_list.php:148 html/ajax_todo_list.php:187
+#: html/ajax_todo_list.php:149 html/ajax_todo_list.php:188
 #, fuzzy
 msgid "Liste utilisateurs"
 msgstr "Users Beheer"
@@ -5899,7 +5990,7 @@ msgstr "Intra Listing"
 msgid "Listing intracommunautaire trimestriel"
 msgstr "Quarterly intra Listing"
 
-#: include/template/todo_list_list_user.php:37
+#: include/template/todo_list_list_user.php:37 include/user.inc.php:122
 msgid "Login"
 msgstr ""
 
@@ -6102,11 +6193,17 @@ msgstr "Werk plugin, kunt u de parameter instelling te controleren?"
 msgid "Mise à jour paiement"
 msgstr "OPSLAAN"
 
+#: include/restore.inc.php:223
+#, fuzzy
+msgid "Modele"
+msgstr "Het model"
+
 #: include/class_anticipation.php:202
 #: include/ext/import_account/include/imd_parameter.inc.php:86
 #: include/ajax_plugin_detail.php:29 include/class_anticipation.php:203
 #: include/anc_pa.inc.php:140 include/ajax_admin.php:194
-#: include/ajax_admin.php:267
+#: include/ajax_admin.php:267 include/ajax_admin.php:195
+#: include/ajax_admin.php:268
 msgid "Modification"
 msgstr "Verandering"
 
@@ -6136,7 +6233,8 @@ msgid "Modification période"
 msgstr "Verandering"
 
 #: include/dossier.inc.php:315 include/template/list_mod_payment.php:79
-#: include/ajax_admin.php:207
+#: include/ajax_admin.php:207 include/ajax_admin.php:208
+#: include/modele.inc.php:276
 msgid "Modifie"
 msgstr "Veranderen"
 
@@ -6233,7 +6331,7 @@ msgstr "Config. documentsjabloon"
 msgid "Modèle à sauver"
 msgstr "Modellen"
 
-#: include/user_menu.php:112
+#: include/user_menu.php:112 include/modele.inc.php:236
 msgid "Modèles"
 msgstr "Modellen"
 
@@ -6554,6 +6652,26 @@ msgstr "Het kan-niet OPSLAAN"
 msgid "Ne remplissez pas s'il n'y a pas de mandataire"
 msgstr "Niet compleet als er geen vertegenwoordiger"
 
+#: include/modele.inc.php:337
+msgid ""
+"Nettoyage de la comptabilit&eacute; analytique : effacement des plans et des "
+"postes, les op&eacute;rations\n"
+"\tsont de toute fa&ccedil;on effac&eacute;es"
+msgstr ""
+
+#: include/modele.inc.php:331
+msgid ""
+"Nettoyage de toutes les fiches (ce qui effacera client,\n"
+"\top&eacute;rations pr&eacute;d&eacute;finies fournisseurs modèles de "
+"documents et documents)"
+msgstr ""
+
+#: include/modele.inc.php:328
+msgid ""
+"Nettoyage des Documents et courriers (ce qui  n'effacera pas les modèles de "
+"documents)"
+msgstr ""
+
 #: include/balance.inc.php:128 include/balance.inc.php:129
 #, fuzzy
 msgid "Niveau 1"
@@ -6597,6 +6715,9 @@ msgstr "Actie Toevoegen"
 #: include/class_balance_age.php:139 include/user.inc.php:79
 #: include/template/fiche_list.php:38
 #: include/ext/sav/include/template/sas_display_detail.php:87
+#: include/ajax_admin.php:200 include/user.inc.php:123
+#: include/dossier.inc.php:164 include/modele.inc.php:225
+#: include/modele.inc.php:316
 msgid "Nom"
 msgstr "Naam"
 
@@ -6618,7 +6739,7 @@ msgstr "Geen BTW"
 msgid "Nom TVA"
 msgstr "Geen BTW"
 
-#: include/modele.inc.php:259
+#: include/modele.inc.php:259 include/dossier.inc.php:184
 #, fuzzy
 msgid "Nom base de données"
 msgstr "Database"
@@ -6632,6 +6753,11 @@ msgstr "Nieuwe Verkoop"
 #: include/database.item.php:151
 msgid "Nom de la banque"
 msgstr "Naam van de bank"
+
+#: include/restore.inc.php:209
+#, fuzzy
+msgid "Nom de la base de donnée"
+msgstr "Database"
 
 #: include/template/category_of_card.php:17
 msgid "Nom de la catégorie de fiche"
@@ -6786,6 +6912,7 @@ msgid "Non payé"
 msgstr "Niet Betaald &#39;"
 
 #: include/ext/amortis/include/class_am_card.php:245 html/fid_card.php:169
+#: html/fid_card.php:170
 msgid "Non trouvé"
 msgstr "Niet gevonden"
 
@@ -7138,9 +7265,14 @@ msgstr "Operatie"
 msgid "Opération Diverses"
 msgstr "Diverse operatie"
 
-#: html/ajax_ledger.php:156 html/ajax_ledger.php:174
+#: html/ajax_ledger.php:156 html/ajax_ledger.php:174 html/ajax_ledger.php:175
 msgid "Opération Effacée"
 msgstr "Operatie Ontruimde"
+
+#: include/template/ledger_detail_top.php:21
+#, fuzzy
+msgid "Opération ID"
+msgstr "Operatie"
 
 #: include/class_acc_ledger.php:762 include/class_acc_ledger.php:990
 #: include/class_acc_ledger.php:761 include/class_acc_ledger.php:989
@@ -7162,6 +7294,7 @@ msgid "Opération déjà transférée : doublon "
 msgstr "Operatie Doorsturen"
 
 #: html/ajax_ledger.php:546 html/ajax_ledger.php:570 html/ajax_ledger.php:563
+#: html/ajax_ledger.php:564
 msgid "Opération extournée"
 msgstr "Werking omgekeerd"
 
@@ -7178,7 +7311,7 @@ msgstr "Werking omgekeerd"
 #: html/ajax_ledger.php:498 include/anc_od.inc.php:122
 #: include/ext/modop/modop_save.php:80 include/ext/modop/modop_save.php:162
 #: include/ext/amortis/include/am_generate.inc.php:76 html/ajax_ledger.php:522
-#: html/ajax_ledger.php:515
+#: html/ajax_ledger.php:515 html/ajax_ledger.php:516
 msgid "Opération sauvée"
 msgstr "Opgeslagen Operatie"
 
@@ -7918,7 +8051,7 @@ msgstr "VOOR Het blad"
 msgid "Pour le journal"
 msgstr "Voor de krant"
 
-#: include/dossier.inc.php:59
+#: include/dossier.inc.php:59 include/modele.inc.php:70
 msgid ""
 "Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu"
 msgstr ""
@@ -7989,7 +8122,7 @@ msgstr "Prijs / A"
 msgid "Prix/Un."
 msgstr "Prijs / A."
 
-#: include/restore.inc.php:127
+#: include/restore.inc.php:127 include/restore.inc.php:186
 msgid "Problème lors de la restauration "
 msgstr ""
 
@@ -8052,6 +8185,7 @@ msgstr "Voorkeur"
 #: include/database.item.php:147 include/class_balance_age.php:140
 #: include/user.inc.php:78 include/template/todo_list_list_user.php:43
 #: include/ext/sav/include/template/sas_display_detail.php:91
+#: include/user.inc.php:142
 msgid "Prénom"
 msgstr "Voornaam"
 
@@ -8261,7 +8395,7 @@ msgstr "Bank Verzoening"
 #: include/database.item.php:66 include/database.item.php:103
 #: include/lettering.account.inc.php:105 html/ajax_card.php:366
 #: html/recherche.php:64 include/adm.inc.php:78 include/ajax_admin.php:134
-#: include/bank.inc.php:74 include/fiche.inc.php:85
+#: include/bank.inc.php:74 include/fiche.inc.php:85 include/ajax_admin.php:135
 #, php-format
 msgid "Recherche"
 msgstr "Vinden"
@@ -8343,7 +8477,12 @@ msgstr "Verworpen"
 msgid "Reprise inventaire"
 msgstr "Eenheid Prijs"
 
-#: include/restore.inc.php:121
+#: include/restore.inc.php:237
+#, fuzzy
+msgid "Restauration"
+msgstr "Herstelt"
+
+#: include/restore.inc.php:121 include/restore.inc.php:180
 #, fuzzy
 msgid "Restauration réussie du dossier "
 msgstr "Records Management"
@@ -8378,7 +8517,9 @@ msgstr ""
 #: include/cfgledger.inc.php:124 include/forecast.inc.php:347
 #: include/report.inc.php:130 include/anc_pa.inc.php:242
 #: include/ext/invoicing/include/invoice_generate.inc.php:82
-#: html/ajax_misc.php:314
+#: html/ajax_misc.php:314 include/dossier.inc.php:302
+#: include/modele.inc.php:72 include/modele.inc.php:359
+#: include/modele.inc.php:387 include/restore.inc.php:50
 msgid "Retour"
 msgstr "Terug"
 
@@ -8468,7 +8609,7 @@ msgstr "Resultaat"
 msgid "Résultat limité à %d , %d nombre de fiches trouvées"
 msgstr "Beperkt tot% d resultaat% d aantal records gevonden"
 
-#: html/fid_card.php:164
+#: html/fid_card.php:164 html/fid_card.php:165
 #, php-format
 msgid "Résultat limité à 12"
 msgstr "Beperkt tot 12 resultaten"
@@ -8640,6 +8781,15 @@ msgid ""
 msgstr ""
 "Als u bevestigt, wordt de pagina herladen en je zou kunnen verliezen wat je "
 "hebt gedaan"
+
+#: include/modele.inc.php:284
+msgid ""
+"Si vous voulez r&eacute;cup&eacute;rer toutes les adaptations d'un dossier  "
+"dans un autre dossier, vous pouvez en faire un modèle. Seules les fiches, la "
+"structure des journaux, les p&eacute;riodes,... seront reprises et aucune "
+"donn&eacute;e du dossier sur lequel le dossier est bas&eacute;. Les données "
+"contenues dans les extensions ne sont pas effacées"
+msgstr ""
 
 #: include/database.item.php:185
 msgid "Site web"
@@ -8940,7 +9090,7 @@ msgstr "Tabel met betrekking tot boekhouding"
 msgid "Tag"
 msgstr ""
 
-#: include/card_attr.inc.php:97
+#: include/card_attr.inc.php:97 include/dossier.inc.php:184
 #, fuzzy
 msgid "Taille"
 msgstr "City"
@@ -9309,6 +9459,7 @@ msgstr ""
 #: include/class_html_input.php:328 include/menu.inc.php:116
 #: include/template/detail-action.php:29 include/param_pcmn.inc.php:77
 #: include/user_detail.inc.php:163 include/template/pcmn_update.php:41
+#: include/user.inc.php:144
 msgid "Type"
 msgstr "Type"
 
@@ -9321,6 +9472,11 @@ msgstr "Type"
 #, fuzzy
 msgid "Type action invalide"
 msgstr "Algemeen Opties"
+
+#: include/restore.inc.php:215
+#, fuzzy
+msgid "Type de backup"
+msgstr "Soort document"
 
 #: include/template/action_search.php:114
 #: include/template/document_mod_change.php:25
@@ -9432,7 +9588,7 @@ msgid "Update Valeurs invalides"
 msgstr "Ongeldige waarden"
 
 #: html/user_login.php:96 include/audit_log.php:36 html/user_login.php:98
-#: include/stock_inv_histo.inc.php:82
+#: include/stock_inv_histo.inc.php:82 include/user.inc.php:170
 #, fuzzy
 msgid "Utilisateur"
 msgstr "Users"
@@ -9526,7 +9682,7 @@ msgstr "Ongeldige waarden"
 #: include/cfgplugin.inc.php:151 include/class_html_input.php:392
 #: include/stock_inv_histo.inc.php:67 include/ajax_admin.php:135
 #: include/ajax_preference.php:190 include/balance_age.inc.php:51
-#: include/balance_card_ageing.inc.php:45
+#: include/balance_card_ageing.inc.php:45 include/ajax_admin.php:136
 msgid "Valider"
 msgstr "Bevestigen"
 
@@ -9721,7 +9877,7 @@ msgstr "U Moet EEN map kiezen"
 msgid "Vous devez corriger"
 msgstr "U moet corrigeren"
 
-#: html/ajax_todo_list.php:150
+#: html/ajax_todo_list.php:150 html/ajax_todo_list.php:151
 #, fuzzy
 msgid "Vous devez d'abord sauver"
 msgstr "U moet corrigeren"
@@ -9991,6 +10147,11 @@ msgstr "Datum"
 msgid "date invalide"
 msgstr "Verkeerd datum"
 
+#: include/modele.inc.php:69
+#, fuzzy
+msgid "doit être migrée en unicode"
+msgstr "Moet are in unicode"
+
 #: include/ext/rapport_avance/include/class_formulaire_param_detail.php:295
 #, fuzzy
 msgid "du poste comptable"
@@ -10051,7 +10212,7 @@ msgid "entre 61 et 90 jours"
 msgstr ""
 
 #: html/ajax_ledger.php:527 html/ajax_ledger.php:551 html/ajax_ledger.php:544
-#: include/template/ledger_detail_bottom.php:314
+#: include/template/ledger_detail_bottom.php:314 html/ajax_ledger.php:545
 #, fuzzy
 msgid "entrez une date"
 msgstr "In between datum"
@@ -10071,7 +10232,8 @@ msgstr "Opening Schrift"
 
 #: html/ajax_history.php:61 html/ajax_history.php:131
 #: include/balance_card.inc.php:36 include/balance_card.inc.php:35
-#: html/ajax_history.php:79 html/ajax_history.php:149
+#: html/ajax_history.php:79 html/ajax_history.php:149 html/ajax_history.php:80
+#: html/ajax_history.php:150
 msgid ""
 "erreur aucune période par défaut, allez dans préférence pour en choisir une"
 msgstr ""
@@ -10081,6 +10243,11 @@ msgstr ""
 #: include/class_acc_bilan.php:666
 msgid "erreur écriture fichier"
 msgstr ""
+
+#: include/modele.inc.php:93
+#, fuzzy
+msgid "est accèd&eacute;e, d&eacute;connectez-vous en d'abord"
+msgstr "is in use of, logout eerst"
 
 #: include/dossier.inc.php:112 include/dossier.inc.php:366
 #: include/dossier.inc.php:322
@@ -10113,7 +10280,8 @@ msgstr ""
 msgid "historique fiche réparation"
 msgstr "Listing van Operatie"
 
-#: include/card_attr.inc.php:94
+#: include/card_attr.inc.php:94 include/dossier.inc.php:163
+#: include/modele.inc.php:224
 msgid "id"
 msgstr "id"
 
@@ -10131,6 +10299,11 @@ msgstr "Kranten"
 #, fuzzy
 msgid "jusque"
 msgstr "peuter"
+
+#: include/modele.inc.php:68
+#, fuzzy
+msgid "la base de donnée"
+msgstr "Database"
 
 #: include/class_acc_bilan.php:249 include/class_acc_bilan.php:250
 #, fuzzy

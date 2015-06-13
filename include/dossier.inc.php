@@ -147,7 +147,7 @@ if ( isset ($_POST["DATABASE"]) )
     } // if $l_id != 0
 } // $_POST[DATABASE]
 ?>
-<h2> Dossier Management</h2>
+<h2> <?php echo _('Dossier Management')?></h2>
 
 <?php
 //---------------------------------------------------------------------------
@@ -156,13 +156,13 @@ if ( $sa == 'list' )
 {
 	require_once('class_sort_table.php');
         echo '<p>';
-        echo HtmlInput::button(_('Ajouter'),_('Ajouter')," onclick=\$('folder_add_id').show()");
+        echo HtmlInput::button(_('Ajouter'),_('Ajouter un dossier')," onclick=\$('folder_add_id').show()");
         echo '</p>';
 	$header=new Sort_Table();
 	$url=$_SERVER['PHP_SELF']."?sa=list&action=".$_REQUEST['action'];
-	$header->add("id",$url," order by dos_id asc"," order by dos_id desc","da","dd");
-	$header->add("Nom",$url," order by dos_name asc"," order by dos_name desc","na","nd");
-	$header->add("Description",$url," order by dos_description asc"," order by dos_description  desc","da","dd");
+	$header->add(_("id"),$url," order by dos_id asc"," order by dos_id desc","da","dd");
+	$header->add(_("Nom"),$url," order by dos_name asc"," order by dos_name desc","na","nd");
+	$header->add(_("Description"),$url," order by dos_description asc"," order by dos_description  desc","da","dd");
         $repo=new Dossier(0);
 	$repocn=new Database();
 	$ord=(isset($_REQUEST['ord']))?$_REQUEST['ord']:'na';
@@ -181,7 +181,7 @@ if ( $sa == 'list' )
 	$r.='<th>'.$header->get_header(0).'</td>';
 	$r.='<th>'.$header->get_header(1).'</td>';
 	$r.='<th>'.$header->get_header(2).'</td>';
-    $r.=th('Taille').th('Nom base de données');
+    $r.=th(_('Taille')).th(_('Nom base de données'));
 
     $r=tr($r);
     echo $r;
@@ -278,7 +278,7 @@ if ( $sa == 'list' )
                                           <TR> <TD><?php echo _('Modèle');
     ?></td><td>  <?php   echo $template;
     ?> </TD></TR>
-    <TR><TD>Année </TD><TD><input  class="input_text"  type="text" size=4 name="YEAR" value=<?php  echo '"'.$m_date.'"'; ?>></TD></TR>
+    <TR><TD><?php echo _('Année')?> </TD><TD><input  class="input_text"  type="text" size=4 name="YEAR" value=<?php  echo '"'.$m_date.'"'; ?>></TD></TR>
     <TR>
     <TD> <INPUT TYPE=SUBMIT class="button" VALUE="<?php echo _('Creation Dossier'); ?>"> </TD>
                                               <td>
@@ -299,7 +299,7 @@ if ( $sa == 'remove' )
     if ( ! isset ($_REQUEST['p_confirm']))
     {
         echo _('Désolé, vous n\'avez pas coché la case');
-        echo HtmlInput::button_anchor('Retour','?action=dossier_mgt');
+        echo HtmlInput::button_anchor(_('Retour'),'?action=dossier_mgt');
         return;
     }
 
@@ -328,7 +328,7 @@ if ( $sa == 'remove' )
     $sql="delete from ac_dossier where dos_id=$1";
     $cn->exec_sql($sql,array($_REQUEST['d']));
     print '<h2 class="error">';
-    print "Le dossier ".h($name)." est effacé</h2>";
+    printf (_("Le dossier %s est effacé"),h($name))."</h2>";
     echo HtmlInput::button_anchor('Retour','?action=dossier_mgt');
 }
 ?>

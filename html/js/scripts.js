@@ -1458,7 +1458,7 @@ function add_menu(obj)
     waiting_box();
     removeDiv('divdm' + p_id);
     var qs = "op=add_menu&gDossier=" + pdossier + "&p_id=" + p_id + "&ctl=divdm" + p_id + "&type=" + p_type;
-    var pos = fixed_position(250, 150);
+    var pos = fixed_position(250, 150)+"width:50%;";
     var action = new Ajax.Request('ajax_misc.php',
             {
                 method: 'get',
@@ -1467,7 +1467,7 @@ function add_menu(obj)
                 onSuccess: function (req) {
                     try {
                         remove_waiting_box();
-                        add_div({id: "divdm" + p_id, drag: 1, cssclass: "inner_box", style: pos});
+                        add_div({id: "divdm" + p_id, drag: 1, "cssclass": "inner_box", "style": pos});
                         $('divdm' + p_id).innerHTML = req.responseText;
                     } catch (e) {
                         alert(e.message);

@@ -80,29 +80,29 @@ echo HtmlInput::title_box(_("Nouveau menu"), $ctl);
 	<?php echo HtmlInput::hidden('p_id',$p_id)?>
 <table>
 <tr>
-	<td>Code</td>
+	<td><?php echo _("Code")?></td>
 	<td><?php echo $me_code->input()?></td>
 </tr>
 <tr>
-	<td>Dépendant de <?php echo HtmlInput::infobulle(20)?></td>
+	<td><?php echo _("Dépendant de ")?><?php echo HtmlInput::infobulle(20)?></td>
 	<td><?php echo $me_code_dep->input()?></td>
 </tr>
 
 <tr>
-	<td>Ordre d'apparition</td>
+	<td><?php echo _("Ordre d'apparition")?></td>
 	<td><?php echo $p_order->input()?></td>
 </tr>
 <tr>
-	<td>Menu par défaut</td>
+	<td><?php echo _("Menu par défaut")?></td>
 	<td><?php echo $pm_default->input()?></td>
 </tr>
 <tr>
-	<td>Type de menu</td>
+	<td><?php echo _("Type de menu")?></td>
 	<td><?php echo $p_type->input()?></td>
 </tr>
 </table>
 <?php 
-echo HtmlInput::submit('add_menu',"Valider");
+echo HtmlInput::submit('add_menu',_("Valider"));
 echo '</form>';
 }
 if ($type=='pr')

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-13 10:06+0200\n"
+"POT-Creation-Date: 2015-06-13 13:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -98,7 +98,7 @@ msgstr ""
 #: include/database.item.php:66 include/database.item.php:103
 #: include/lettering.account.inc.php:105 html/ajax_card.php:366
 #: html/recherche.php:64 include/adm.inc.php:78 include/ajax_admin.php:134
-#: include/bank.inc.php:74 include/fiche.inc.php:85
+#: include/bank.inc.php:74 include/fiche.inc.php:85 include/ajax_admin.php:135
 #, php-format
 msgid "Recherche"
 msgstr ""
@@ -194,18 +194,21 @@ msgstr ""
 #: html/ajax_ledger.php:100 html/ajax_ledger.php:122
 #: include/template/ledger_detail_bottom.php:6 html/ajax_ledger.php:118
 #: html/ajax_ledger.php:140 include/template/ledger_detail_bottom.php:32
+#: html/ajax_ledger.php:119 html/ajax_ledger.php:141
 msgid "Information"
 msgstr ""
 
-#: html/ajax_ledger.php:156 html/ajax_ledger.php:174
+#: html/ajax_ledger.php:156 html/ajax_ledger.php:174 html/ajax_ledger.php:175
 msgid "Opération Effacée"
 msgstr ""
 
 #: html/ajax_ledger.php:200 html/ajax_ledger.php:218 html/ajax_ledger.php:222
+#: html/ajax_ledger.php:223
 msgid "Désolé il y a une erreur"
 msgstr ""
 
 #: html/ajax_ledger.php:263 html/ajax_ledger.php:281 html/ajax_ledger.php:276
+#: html/ajax_ledger.php:277
 msgid "Aucun fichier"
 msgstr ""
 
@@ -221,23 +224,26 @@ msgstr ""
 #: include/database.item.php:95 include/compta_ach.inc.php:157
 #: html/ajax_ledger.php:331 html/ajax_ledger.php:359
 #: include/class_acc_ledger.php:873 include/compta_ach.inc.php:170
-#: include/operation_ods_confirm.inc.php:52
+#: include/operation_ods_confirm.inc.php:52 html/ajax_ledger.php:332
+#: html/ajax_ledger.php:360
 msgid "Document"
 msgstr ""
 
 #: html/ajax_ledger.php:498 include/anc_od.inc.php:122
 #: include/ext/modop/modop_save.php:80 include/ext/modop/modop_save.php:162
 #: include/ext/amortis/include/am_generate.inc.php:76 html/ajax_ledger.php:522
-#: html/ajax_ledger.php:515
+#: html/ajax_ledger.php:515 html/ajax_ledger.php:516
 msgid "Opération sauvée"
 msgstr ""
 
 #: html/ajax_ledger.php:504 html/ajax_ledger.php:528 html/ajax_ledger.php:521
+#: html/ajax_ledger.php:522
 msgid ""
 "Changement impossible: on ne peut pas changer la date dans une période fermée"
 msgstr ""
 
 #: html/ajax_ledger.php:546 html/ajax_ledger.php:570 html/ajax_ledger.php:563
+#: html/ajax_ledger.php:564
 msgid "Opération extournée"
 msgstr ""
 
@@ -269,7 +275,9 @@ msgstr ""
 #: include/cfgledger.inc.php:124 include/forecast.inc.php:347
 #: include/report.inc.php:130 include/anc_pa.inc.php:242
 #: include/ext/invoicing/include/invoice_generate.inc.php:82
-#: html/ajax_misc.php:314
+#: html/ajax_misc.php:314 include/dossier.inc.php:302
+#: include/modele.inc.php:72 include/modele.inc.php:359
+#: include/modele.inc.php:387 include/restore.inc.php:50
 msgid "Retour"
 msgstr ""
 
@@ -594,6 +602,9 @@ msgstr ""
 #: include/class_balance_age.php:139 include/user.inc.php:79
 #: include/template/fiche_list.php:38
 #: include/ext/sav/include/template/sas_display_detail.php:87
+#: include/ajax_admin.php:200 include/user.inc.php:123
+#: include/dossier.inc.php:164 include/modele.inc.php:225
+#: include/modele.inc.php:316
 msgid "Nom"
 msgstr ""
 
@@ -712,7 +723,7 @@ msgstr ""
 #: include/cfgplugin.inc.php:151 include/class_html_input.php:392
 #: include/stock_inv_histo.inc.php:67 include/ajax_admin.php:135
 #: include/ajax_preference.php:190 include/balance_age.inc.php:51
-#: include/balance_card_ageing.inc.php:45
+#: include/balance_card_ageing.inc.php:45 include/ajax_admin.php:136
 msgid "Valider"
 msgstr ""
 
@@ -971,6 +982,7 @@ msgstr ""
 #: include/class_acc_ledger_sold.php:82 include/class_acc_ledger.php:1853
 #: html/ajax_todo_list.php:181 html/ajax_todo_list.php:244
 #: html/recherche.php:52 include/class_acc_ledger.php:1856
+#: html/ajax_todo_list.php:182 html/ajax_todo_list.php:245
 msgid "Accès interdit"
 msgstr ""
 
@@ -2143,7 +2155,9 @@ msgstr ""
 #: include/template/detail-action.php:498 include/template/pcmn_update.php:37
 #: include/ext/sav/include/template/spare_part_display_list.php:36
 #: include/ext/sav/include/template/workhour_display_list.php:33
-#: include/class_fiche.php:1207
+#: include/class_fiche.php:1207 include/ajax_admin.php:205
+#: include/dossier.inc.php:165 include/modele.inc.php:226
+#: include/modele.inc.php:320
 msgid "Description"
 msgstr ""
 
@@ -2251,7 +2265,8 @@ msgstr ""
 #: include/ext/import_account/include/imd_parameter.inc.php:86
 #: include/ajax_plugin_detail.php:29 include/class_anticipation.php:203
 #: include/anc_pa.inc.php:140 include/ajax_admin.php:194
-#: include/ajax_admin.php:267
+#: include/ajax_admin.php:267 include/ajax_admin.php:195
+#: include/ajax_admin.php:268
 msgid "Modification"
 msgstr ""
 
@@ -2373,7 +2388,8 @@ msgstr ""
 #: include/compta_fin.inc.php:149 include/template/detail-action.php:466
 #: include/ajax_admin.php:231 include/compta_fin.inc.php:152
 #: include/dossier.inc.php:218 include/template/detail-action.php:472
-#: include/template/ledger_detail_bottom.php:293
+#: include/template/ledger_detail_bottom.php:293 include/ajax_admin.php:232
+#: include/modele.inc.php:274
 msgid "Effacer"
 msgstr ""
 
@@ -2610,7 +2626,7 @@ msgstr ""
 #: include/template/ledger_detail_top.php:14
 #: include/ext/amortis/include/template/material_detail.php:184
 #: include/class_acc_ledger.php:2959
-#: include/template/ledger_detail_bottom.php:268
+#: include/template/ledger_detail_bottom.php:268 include/user.inc.php:85
 #, php-format
 msgid "Fermer"
 msgstr ""
@@ -3732,7 +3748,7 @@ msgstr ""
 
 #: include/database.item.php:125 html/user_login.php:96 html/user_login.php:98
 #: include/database.item.php:128 include/database.item.php:134
-#: include/user_detail.inc.php:170
+#: include/user_detail.inc.php:170 include/user.inc.php:170
 msgid "Administrateur"
 msgstr ""
 
@@ -3885,6 +3901,7 @@ msgstr ""
 #: include/database.item.php:147 include/class_balance_age.php:140
 #: include/user.inc.php:78 include/template/todo_list_list_user.php:43
 #: include/ext/sav/include/template/sas_display_detail.php:91
+#: include/user.inc.php:142
 msgid "Prénom"
 msgstr ""
 
@@ -4074,7 +4091,7 @@ msgstr ""
 msgid "Le nom du dossier est vide"
 msgstr ""
 
-#: include/dossier.inc.php:56
+#: include/dossier.inc.php:56 include/modele.inc.php:67
 msgid "Désolé vous devez migrer ce modèle en unicode"
 msgstr ""
 
@@ -4086,7 +4103,7 @@ msgstr ""
 msgid " doit être migré en unicode."
 msgstr ""
 
-#: include/dossier.inc.php:59
+#: include/dossier.inc.php:59 include/modele.inc.php:70
 msgid ""
 "Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu"
 msgstr ""
@@ -4124,6 +4141,7 @@ msgid "Dossier inexistant"
 msgstr ""
 
 #: include/dossier.inc.php:225 include/dossier.inc.php:223
+#: include/modele.inc.php:278
 msgid "Backup"
 msgstr ""
 
@@ -4147,19 +4165,23 @@ msgid "Creation Dossier"
 msgstr ""
 
 #: include/dossier.inc.php:315 include/template/list_mod_payment.php:79
-#: include/ajax_admin.php:207
+#: include/ajax_admin.php:207 include/ajax_admin.php:208
+#: include/modele.inc.php:276
 msgid "Modifie"
 msgstr ""
 
 #: include/dossier.inc.php:329 include/ajax_admin.php:223
+#: include/ajax_admin.php:224
 msgid "Etes vous sûr et certain de vouloir effacer "
 msgstr ""
 
 #: include/dossier.inc.php:332 include/ajax_admin.php:227
+#: include/ajax_admin.php:228
 msgid "Cochez la case si vous êtes sûr de vouloir effacer ce dossier"
 msgstr ""
 
 #: include/dossier.inc.php:345 include/dossier.inc.php:301
+#: include/modele.inc.php:358
 msgid "Désolé, vous n'avez pas coché la case"
 msgstr ""
 
@@ -4468,6 +4490,7 @@ msgstr ""
 #: include/cfgledger.inc.php:124 include/anc_pa.inc.php:193
 #: include/cfgledger.inc.php:122 include/anc_pa.inc.php:195
 #: include/ajax_admin.php:217 include/ajax_admin.php:243
+#: include/ajax_admin.php:218 include/ajax_admin.php:244
 msgid "Efface"
 msgstr ""
 
@@ -4535,7 +4558,7 @@ msgstr ""
 msgid "Gestion des dossiers"
 msgstr ""
 
-#: include/user_menu.php:112
+#: include/user_menu.php:112 include/modele.inc.php:236
 msgid "Modèles"
 msgstr ""
 
@@ -4776,6 +4799,7 @@ msgstr ""
 #: include/class_html_input.php:328 include/menu.inc.php:116
 #: include/template/detail-action.php:29 include/param_pcmn.inc.php:77
 #: include/user_detail.inc.php:163 include/template/pcmn_update.php:41
+#: include/user.inc.php:144
 msgid "Type"
 msgstr ""
 
@@ -5951,7 +5975,7 @@ msgstr ""
 #: include/ext/amortis/include/template/material_detail.php:55
 #: include/ext/amortis/include/template/material_display.php:41
 #: include/ext/amortis/include/template/util_generate.php:35
-#: include/ext/tva/form_periode.php:10
+#: include/ext/tva/form_periode.php:10 include/dossier.inc.php:281
 msgid "Année"
 msgstr ""
 
@@ -6038,6 +6062,7 @@ msgid "Poste à créditer incorrect"
 msgstr ""
 
 #: include/ext/amortis/include/class_am_card.php:245 html/fid_card.php:169
+#: html/fid_card.php:170
 msgid "Non trouvé"
 msgstr ""
 
@@ -6947,7 +6972,8 @@ msgstr ""
 
 #: html/ajax_history.php:61 html/ajax_history.php:131
 #: include/balance_card.inc.php:36 include/balance_card.inc.php:35
-#: html/ajax_history.php:79 html/ajax_history.php:149
+#: html/ajax_history.php:79 html/ajax_history.php:149 html/ajax_history.php:80
+#: html/ajax_history.php:150
 msgid ""
 "erreur aucune période par défaut, allez dans préférence pour en choisir une"
 msgstr ""
@@ -6955,13 +6981,16 @@ msgstr ""
 #: html/ajax_history.php:90 html/ajax_history.php:96 html/ajax_history.php:161
 #: html/ajax_history.php:167 html/ajax_history.php:108
 #: html/ajax_history.php:114 html/ajax_history.php:179
-#: html/ajax_history.php:185
+#: html/ajax_history.php:185 html/ajax_history.php:109
+#: html/ajax_history.php:115 html/ajax_history.php:180
+#: html/ajax_history.php:186
 msgid "Autre exercice"
 msgstr ""
 
 #: html/ajax_history.php:113 html/ajax_history.php:184
 #: include/balance_card.inc.php:70 include/balance_card.inc.php:69
 #: html/ajax_history.php:131 html/ajax_history.php:202
+#: html/ajax_history.php:132 html/ajax_history.php:203
 msgid "Aucune opération pour l'exercice courant"
 msgstr ""
 
@@ -6972,11 +7001,12 @@ msgid "enlever"
 msgstr ""
 
 #: html/ajax_ledger.php:353 html/ajax_ledger.php:371 html/ajax_ledger.php:364
+#: html/ajax_ledger.php:365
 msgid "Chargement"
 msgstr ""
 
 #: html/ajax_ledger.php:527 html/ajax_ledger.php:551 html/ajax_ledger.php:544
-#: include/template/ledger_detail_bottom.php:314
+#: include/template/ledger_detail_bottom.php:314 html/ajax_ledger.php:545
 msgid "entrez une date"
 msgstr ""
 
@@ -6994,7 +7024,7 @@ msgstr ""
 msgid "Vous n\\'êtes pas administrateur"
 msgstr ""
 
-#: html/fid_card.php:164
+#: html/fid_card.php:164 html/fid_card.php:165
 #, php-format
 msgid "Résultat limité à 12"
 msgstr ""
@@ -7016,7 +7046,7 @@ msgid "Export PDF"
 msgstr ""
 
 #: html/user_login.php:96 include/audit_log.php:36 html/user_login.php:98
-#: include/stock_inv_histo.inc.php:82
+#: include/stock_inv_histo.inc.php:82 include/user.inc.php:170
 msgid "Utilisateur"
 msgstr ""
 
@@ -7373,11 +7403,12 @@ msgstr ""
 msgid "Zone de texte"
 msgstr ""
 
-#: include/card_attr.inc.php:94
+#: include/card_attr.inc.php:94 include/dossier.inc.php:163
+#: include/modele.inc.php:224
 msgid "id"
 msgstr ""
 
-#: include/card_attr.inc.php:97
+#: include/card_attr.inc.php:97 include/dossier.inc.php:184
 msgid "Taille"
 msgstr ""
 
@@ -8992,11 +9023,11 @@ msgstr ""
 msgid "Vous devez donner un fichier"
 msgstr ""
 
-#: include/restore.inc.php:121
+#: include/restore.inc.php:121 include/restore.inc.php:180
 msgid "Restauration réussie du dossier "
 msgstr ""
 
-#: include/restore.inc.php:127
+#: include/restore.inc.php:127 include/restore.inc.php:186
 msgid "Problème lors de la restauration "
 msgstr ""
 
@@ -9437,7 +9468,7 @@ msgstr ""
 msgid "Opération non effacée: vous n'avez pas confirmé"
 msgstr ""
 
-#: html/ajax_ledger.php:186
+#: html/ajax_ledger.php:186 html/ajax_ledger.php:187
 msgid "Effacement refusé"
 msgstr ""
 
@@ -9445,24 +9476,27 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: html/ajax_todo_list.php:140
+#: html/ajax_todo_list.php:140 html/ajax_todo_list.php:141
 msgid "Erreur : note invalide"
 msgstr ""
 
 #: html/ajax_todo_list.php:148 html/ajax_todo_list.php:187
+#: html/ajax_todo_list.php:149 html/ajax_todo_list.php:188
 msgid "Liste utilisateurs"
 msgstr ""
 
-#: html/ajax_todo_list.php:150
+#: html/ajax_todo_list.php:150 html/ajax_todo_list.php:151
 msgid "Vous devez d'abord sauver"
 msgstr ""
 
 #: html/ajax_todo_list.php:172 html/ajax_todo_list.php:226
-#: html/ajax_todo_list.php:235
+#: html/ajax_todo_list.php:235 html/ajax_todo_list.php:173
+#: html/ajax_todo_list.php:227 html/ajax_todo_list.php:236
 msgid "Cette note n'est pas à vous"
 msgstr ""
 
 #: html/ajax_todo_list.php:214 html/ajax_todo_list.php:273
+#: html/ajax_todo_list.php:215 html/ajax_todo_list.php:274
 msgid "Erreur : paramètre invalide"
 msgstr ""
 
@@ -9494,31 +9528,34 @@ msgstr ""
 
 #: include/ajax_admin.php:45 include/ajax_admin.php:83
 #: include/ajax_admin.php:121 include/ajax_admin.php:169
-#: include/class_dossier.php:106
+#: include/class_dossier.php:106 include/ajax_admin.php:46
+#: include/ajax_admin.php:84 include/ajax_admin.php:122
+#: include/ajax_admin.php:170
 msgid "Erreur paramètre"
 msgstr ""
 
 #: include/ajax_admin.php:56 include/user_detail.inc.php:230
+#: include/ajax_admin.php:57
 msgid "Enleve"
 msgstr ""
 
-#: include/ajax_admin.php:129
+#: include/ajax_admin.php:129 include/ajax_admin.php:130
 msgid "Liste dossier"
 msgstr ""
 
-#: include/ajax_admin.php:142
+#: include/ajax_admin.php:142 include/ajax_admin.php:143
 msgid "Dossiers trouvés"
 msgstr ""
 
-#: include/ajax_admin.php:142
+#: include/ajax_admin.php:142 include/ajax_admin.php:143
 msgid "Dossiers affichés"
 msgstr ""
 
-#: include/ajax_admin.php:248
+#: include/ajax_admin.php:248 include/ajax_admin.php:249
 msgid "Etes vous sure et certain de vouloir effacer "
 msgstr ""
 
-#: include/ajax_admin.php:252
+#: include/ajax_admin.php:252 include/ajax_admin.php:253
 msgid "Cochez la case si vous êtes sûr de vouloir effacer ce modèle"
 msgstr ""
 
@@ -9623,7 +9660,7 @@ msgstr ""
 msgid "Aucun modèle disponible"
 msgstr ""
 
-#: include/modele.inc.php:259
+#: include/modele.inc.php:259 include/dossier.inc.php:184
 msgid "Nom base de données"
 msgstr ""
 
@@ -9639,7 +9676,7 @@ msgstr ""
 msgid "Navigation"
 msgstr ""
 
-#: include/user_detail.inc.php:147
+#: include/user_detail.inc.php:147 include/user.inc.php:126
 msgid "Actif"
 msgstr ""
 
@@ -9709,7 +9746,7 @@ msgstr ""
 msgid "Partage"
 msgstr ""
 
-#: include/template/todo_list_list_user.php:37
+#: include/template/todo_list_list_user.php:37 include/user.inc.php:122
 msgid "Login"
 msgstr ""
 
@@ -9905,4 +9942,124 @@ msgstr ""
 
 #: include/template/module.php:38
 msgid "Aller"
+msgstr ""
+
+#: include/user.inc.php:84
+msgid "Créer Utilisateur"
+msgstr ""
+
+#: include/user.inc.php:109
+msgid "Ajout utilisateur"
+msgstr ""
+
+#: include/user.inc.php:124 include/restore.inc.php:219
+msgid "Dossier"
+msgstr ""
+
+#: include/template/ledger_detail_top.php:21
+msgid "Opération ID"
+msgstr ""
+
+#: include/dossier.inc.php:159
+msgid "Ajouter un dossier"
+msgstr ""
+
+#: include/dossier.inc.php:331
+#, php-format
+msgid "Le dossier %s est effacé"
+msgstr ""
+
+#: include/dossier.inc.php:150
+msgid "Dossier Management"
+msgstr ""
+
+#: include/modele.inc.php:68
+msgid "la base de donnée"
+msgstr ""
+
+#: include/modele.inc.php:69
+msgid "doit être migrée en unicode"
+msgstr ""
+
+#: include/modele.inc.php:93
+msgid "est accèd&eacute;e, d&eacute;connectez-vous en d'abord"
+msgstr ""
+
+#: include/modele.inc.php:240
+msgid "Ajouter un modèle"
+msgstr ""
+
+#: include/modele.inc.php:284
+msgid ""
+"Si vous voulez r&eacute;cup&eacute;rer toutes les adaptations d'un dossier  "
+"dans un autre dossier, vous pouvez en faire un modèle. Seules les fiches, la "
+"structure des journaux, les p&eacute;riodes,... seront reprises et aucune "
+"donn&eacute;e du dossier sur lequel le dossier est bas&eacute;. Les données "
+"contenues dans les extensions ne sont pas effacées"
+msgstr ""
+
+#: include/modele.inc.php:324
+msgid "Bas&eacute; sur"
+msgstr ""
+
+#: include/modele.inc.php:328
+msgid ""
+"Nettoyage des Documents et courriers (ce qui  n'effacera pas les modèles de "
+"documents)"
+msgstr ""
+
+#: include/modele.inc.php:331
+msgid ""
+"Nettoyage de toutes les fiches (ce qui effacera client,\n"
+"\top&eacute;rations pr&eacute;d&eacute;finies fournisseurs modèles de "
+"documents et documents)"
+msgstr ""
+
+#: include/modele.inc.php:337
+msgid ""
+"Nettoyage de la comptabilit&eacute; analytique : effacement des plans et des "
+"postes, les op&eacute;rations\n"
+"\tsont de toute fa&ccedil;on effac&eacute;es"
+msgstr ""
+
+#: include/modele.inc.php:342
+msgid "Effacement de toutes les donn&eacute;es des plugins"
+msgstr ""
+
+#: include/modele.inc.php:346
+msgid "Ajout d'un modele"
+msgstr ""
+
+#: include/modele.inc.php:378
+#, php-format
+msgid "Base de donnée %s mod %s est accèdée, déconnectez-vous d'abord"
+msgstr ""
+
+#: include/modele.inc.php:386
+#, php-format
+msgid "Le modèle %s est effacé"
+msgstr ""
+
+#: include/restore.inc.php:107 include/restore.inc.php:166
+msgid "Echec de la restauration "
+msgstr ""
+
+#: include/restore.inc.php:209
+msgid "Nom de la base de donnée"
+msgstr ""
+
+#: include/restore.inc.php:215
+msgid "Type de backup"
+msgstr ""
+
+#: include/restore.inc.php:223
+msgid "Modele"
+msgstr ""
+
+#: include/restore.inc.php:228
+msgid "Fichier "
+msgstr ""
+
+#: include/restore.inc.php:237
+msgid "Restauration"
 msgstr ""

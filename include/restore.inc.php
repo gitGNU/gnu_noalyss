@@ -47,7 +47,7 @@ if ( isset ($_REQUEST['sa'] ))
         die ('Aucune connection');
     }
 
-    $retour='<hr>'.HtmlInput::button_anchor("Retour","?action=restore","","smallbutton");
+    $retour='<hr>'.HtmlInput::button_anchor(_("Retour"),"?action=restore","","smallbutton");
     if ( ! isset($_REQUEST['t']))
     {
         echo '<div class="content">';
@@ -104,7 +104,7 @@ if ( isset ($_REQUEST['sa'] ))
         }
         catch ( Exception $e)
         {
-            echo '<span class="error">'."Echec de la restauration ".'</span>';
+            echo '<span class="error">'._("Echec de la restauration ").'</span>';
             $cn->rollback();
             exit();
         }
@@ -163,7 +163,7 @@ if ( isset ($_REQUEST['sa'] ))
         }
         catch ( Exception $e)
         {
-            echo '<span class="error">'."Echec de la restauration ".'</span>';
+            echo '<span class="error">'._("Echec de la restauration ").'</span>';
             $cn->rollback();
             exit();
         }
@@ -177,13 +177,13 @@ if ( isset ($_REQUEST['sa'] ))
         $test=new Database($id,'mod');
         if ( $test->exist_table('version') )
         {
-            echo '<h2 class="info"> Restauration réussie du dossier '.$lname.'</h2>';
+            echo '<h2 class="info"> '._('Restauration réussie du dossier ').$lname.'</h2>';
             $test->close();
         }
         else
         {
             $test->close();
-            echo '<h2 class="error"> Problème lors de la restauration '.$lname.'</h2>';
+            echo '<h2 class="error"> '._('Problème lors de la restauration ').$lname.'</h2>';
             $cn->exec_sql('delete from modeledef where mod_id=$1',array($id));
             $cn->exec_sql('drop database '.$name);
             exit();
@@ -206,26 +206,26 @@ else
     echo HtmlInput::hidden('action','restore');
     echo HtmlInput::hidden('sa','r');
     echo '<table>';
-    echo '<tr><td>'."Nom de la base de donnée".HtmlInput::infobulle(29)
+    echo '<tr><td>'._("Nom de la base de donnée").HtmlInput::infobulle(29)
 			.'</td>';
     $wNom=new IText();
     $wNom->name="database";
     $wNom->size=30;
     echo '<td>'.$wNom->input().'</td></tr>';
-    echo '<tr><td>'."Type de backup :".'</td>';
+    echo '<tr><td>'._("Type de backup")." :".'</td>';
     $chk=new IRadio();
     $chk->name="t";
     $chk->value="d";
-    echo '<td> '.$chk->input()."Dossier".'</td>';
+    echo '<td> '.$chk->input()._("Dossier").'</td>';
     echo '</tr><tr><td></td>';
     $chk->name="t";
     $chk->value="m";
-    echo '<td>'.$chk->input()."Modele".'</td>';
+    echo '<td>'.$chk->input()._("Modele").'</td>';
     echo '<tr>';
     $file=new IFile();
     $file->name="file";
     $file->value="mod";
-    echo td('Fichier ').
+    echo td(_('Fichier ')).
     td($file->input());
 	$desc=new ITextarea('desc');
 	echo '</tr>';
@@ -234,7 +234,7 @@ else
 	$desc->heigh=4;$desc->width=60;
 	echo $desc->input();
 	echo '<p>';
-    echo HtmlInput::submit("","Restauration");
+    echo HtmlInput::submit("",_("Restauration"));
 	echo '</p>';
     echo '</form>';
     echo '</div>';

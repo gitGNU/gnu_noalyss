@@ -81,8 +81,8 @@ if ( isset($_REQUEST['det']))
        <TR><TD style="text-align: right"> <?php echo _('Email')?></TD><TD> <INPUT class="input_text" TYPE="TEXT" NAME="EMAIL"></TD></TR>
 </TABLE>
 <?php
-echo HtmlInput::submit("ADD",'Créer Utilisateur');
-echo HtmlInput::button_action("Fermer", "$('create_user').style.display='none';");
+echo HtmlInput::submit("ADD",_('Créer Utilisateur'));
+echo HtmlInput::button_action(_("Fermer"), "$('create_user').style.display='none';");
 
 ?>
 </div>
@@ -106,7 +106,7 @@ echo HtmlInput::button_action("Fermer", "$('create_user').style.display='none';"
 
 <?php
 echo '<p>';
-echo HtmlInput::button_action("Ajout utilisateur", "$('create_user').show();","cu");
+echo HtmlInput::button_action(_("Ajout utilisateur"), "$('create_user').show();","cu");
 echo '</p>';
 // Show all the existing user on 7 columns
 $repo=new Dossier(0);
@@ -119,11 +119,11 @@ $repo=new Dossier(0);
 $compteur=0;
 $header=new Sort_Table();
 $url=basename($_SERVER['PHP_SELF'])."?action=".$_REQUEST['action'];
-$header->add("Login", $url," order by use_login asc", "order by use_login desc","la", "ld");
-$header->add("Nom", $url," order by use_name asc,use_first_name asc", "order by use_name desc,use_first_name desc","na", "nd");
-$header->add('Dossier',$url,' order by ag_dossier asc','order by ag_dossier desc',
+$header->add(_("Login"), $url," order by use_login asc", "order by use_login desc","la", "ld");
+$header->add(_("Nom"), $url," order by use_name asc,use_first_name asc", "order by use_name desc,use_first_name desc","na", "nd");
+$header->add(_('Dossier'),$url,' order by ag_dossier asc','order by ag_dossier desc',
         'da','dd');
-$header->add("Actif", $url," order by use_active asc", "order by  use_active desc","aa", "ad");
+$header->add(_("Actif"), $url," order by use_active asc", "order by  use_active desc","aa", "ad");
 $ord=(isset($_REQUEST['ord']))?$_REQUEST['ord']:'la';
 $sql=$header->get_sql_order($ord);
 
@@ -139,9 +139,9 @@ if ( !empty ($a_user) )
     echo '<tr>';
     echo '<th>'.$header->get_header(0).'</th>';
     echo '<th>'.$header->get_header(1).'</th>';
-    echo th("Prénom");
+    echo th(_("Prénom"));
     echo '<th>'.$header->get_header(3).'</th>';
-	echo "<th>Type</th>";
+	echo "<th>"._('Type')."</th>";
     echo '<th>'.$header->get_header(2).'</th>';
     echo '</tr>';
 
@@ -167,7 +167,7 @@ if ( !empty ($a_user) )
         echo td($r_user['use_name']);
         echo td($r_user['use_first_name']);
         echo td($Active);
-		$type=($r_user['use_admin']==1)?"Administrateur":"Utilisateur";
+		$type=($r_user['use_admin']==1)?_("Administrateur"):_("Utilisateur");
 		echo "<td>".$type."</td>";
 		echo td($r_user['ag_dossier']);
         echo '</tr>';
