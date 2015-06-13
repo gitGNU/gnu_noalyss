@@ -1202,11 +1202,11 @@ class Fiche
         echo '<h2 class="info">'.$this->id." ".$name.'</h2>';
         echo "<TABLE class=\"result\" style=\"width:100%;border-collapse:separate;border-spacing:5px\">";
         echo "<TR>".
-        "<TH> n° de pièce / Code interne </TH>".
-        "<TH> Date</TH>".
-        "<TH> Description </TH>".
-        "<TH> Montant  </TH>".
-        "<TH> Débit/Crédit </TH>".
+        "<TH>"._("n° de pièce / Code interne")." </TH>".
+        "<TH>"._("Date")."</TH>".
+        "<TH>"._("Description")." </TH>".
+        "<TH>"._('Montant')."  </TH>".
+        "<TH> "._('Débit/Crédit')." </TH>".
         "</TR>";
 
         foreach ( $this->row as $op )
@@ -1228,7 +1228,7 @@ class Fiche
             echo $ac->display_jrnx_detail(1);
 
         }
-        $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
+        $solde_type=($tot_deb>$tot_cred)?_("solde débiteur"):_("solde créditeur");
         $diff=round(abs($tot_deb-$tot_cred),2);
         echo "<TR>".
         "<TD>$solde_type".
@@ -1394,7 +1394,7 @@ class Fiche
         $str_ople=(isset($_REQUEST['ople']))?HtmlInput::hidden('ople',$_REQUEST['ople']):'';
 
         echo '<TD><form method="GET" ACTION="export.php">'.
-        HtmlInput::submit('bt_pdf',"Export PDF").
+        HtmlInput::submit('bt_pdf',_("Export PDF")).
         dossier::hidden().$str_ople.
 	  HtmlInput::hidden('act','PDF:fichedetail').
         $hid->input("type","poste").
@@ -1409,7 +1409,7 @@ class Fiche
         echo "</form></TD>";
 
         echo '<TD><form method="GET" ACTION="export.php">'.
-        HtmlInput::submit('bt_csv',"Export CSV").
+        HtmlInput::submit('bt_csv',_("Export CSV")).
 	  HtmlInput::hidden('act','CSV:fichedetail').
         dossier::hidden().$str_ople.
         $hid->input("type","poste").
