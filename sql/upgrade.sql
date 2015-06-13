@@ -155,7 +155,8 @@ begin
 	end if;
 	return sResult::account_type;
 end;
-$BODY$;
+$BODY$ 
+LANGUAGE plpgsql ;;
 
 CREATE OR REPLACE FUNCTION comptaproc.account_insert(p_f_id integer, p_account text)
   RETURNS text AS
