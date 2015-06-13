@@ -137,7 +137,7 @@ $me_code->value=$ame_code;
 	<?php echo HtmlInput::hidden('p_type','PR')?>
 <table>
 <tr>
-	<td>Code</td>
+	<td><?php echo _("Code")?></td>
 	<td><?php echo $me_code->input()?></td>
 </tr>
 
