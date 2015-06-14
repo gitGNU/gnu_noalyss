@@ -1458,7 +1458,7 @@ function add_menu(obj)
     waiting_box();
     removeDiv('divdm' + p_id);
     var qs = "op=add_menu&gDossier=" + pdossier + "&p_id=" + p_id + "&ctl=divdm" + p_id + "&type=" + p_type;
-    var pos = fixed_position(250, 150)+"width:50%;";
+    var pos = fixed_position(250, 150)+";width:50%;";
     var action = new Ajax.Request('ajax_misc.php',
             {
                 method: 'get',
