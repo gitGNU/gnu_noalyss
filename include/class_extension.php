@@ -281,10 +281,10 @@ class Extension extends Menu_Ref_sql
                 }
                 $extension->me_file=trim($xml->plugin[$i]->root).'/'.trim($xml->plugin[$i]->file);
                 $extension->me_code=trim($xml->plugin[$i]->code);
-                $extension->me_description=(isset ($xml->plugin[$i]->description))?$xml->plugin[$i]->description:"";
-                $extension->me_description_etendue=($xml->plugin[$i]->author)?$xml->plugin[$i]->author:"";
+                $extension->me_description=(isset ($xml->plugin[$i]->description))?trim($xml->plugin[$i]->description):"";
+                $extension->me_description_etendue=(trim($xml->plugin[$i]->author))?trim($xml->plugin[$i]->author):"";
                 $extension->me_type='PL';
-                $extension->me_menu=$xml->plugin[$i]->name;
+                $extension->me_menu=trim($xml->plugin[$i]->name);
                 $extension->me_parameter='plugin_code='.trim($xml->plugin[$i]->code);
                 $a_extension[]=clone $extension;
             }
