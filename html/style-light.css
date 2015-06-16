@@ -397,10 +397,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#596a72', end
 /*    background-color:blue;*/
    border-bottom-color: red;
    border-bottom-style: solid;
-   border-bottom-width: 4px;
-   border-top-color:red;
-   border-top-style:solid;
-   border-top-width:4px;
+   border-bottom-width: 5px;
    
 }
 td.mtitle:hover a , div.content a.mtitle:hover  {
@@ -1105,7 +1102,6 @@ div#search_form
     position:absolute;
     border:1px solid #000000;
     top:15%;left:100px;
-    margin-left:25%;
     z-index:2;
     width:50%;
     display:none;
