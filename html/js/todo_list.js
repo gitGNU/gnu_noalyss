@@ -196,7 +196,9 @@ function zoom_todo ()
          $('todo_listg_div').innerHTML=$('clone_todo_list').innerHTML;
         $('clone_todo_list').remove();
     }
-    remove_waiting_box();
+    
+  sorttable.makeSortable(document.getElementById('table_todo'));
+  remove_waiting_box();
 }
 function todo_list_share(p_note, p_dossier)
 {
