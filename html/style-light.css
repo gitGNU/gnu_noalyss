@@ -1,8 +1,21 @@
  /* <style type="text/css"> */
+ /**
+  * Use a font
+  */
+@font-face {
+	font-family: 'OpenSansRegular';
+	src: url('image/OpenSansRegular.eot');
+	src: local('OpenSansRegular'), url('image/OpenSansRegular.woff') format('woff'), url('image/OpenSansRegular.ttf') format('truetype');
+}
+/* use this class to attach this font to any element i.e. <p class="fontsforweb_fontid_38327">Text with this font applied</p> */
+.fontsforweb_fontid_38327 {
+	font-family: 'OpenSansRegular' !important;
+}
 
 BODY {
     background-color: #FDFDFD;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+    font-family: 'openSansRegular';
     padding: 0px 0px 0px 0px ;
     margin:0px;
     color: #494141;
@@ -33,6 +46,8 @@ table.resultfooter tfoot {
 table.sortable th,  table.table_large th,table.result th {
     font-weight:bold;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     border-bottom:1px solid #605D5D;
     border-top:0;
     text-align: left;
@@ -42,6 +57,8 @@ table.sortable th,  table.table_large th,table.result th {
 
 h2 {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     /* color:#888; */
     margin:1px;
     padding:1px;
@@ -173,6 +190,8 @@ div.lextmenu {
 
     float:left;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
 
 }
 div.searchmenu {
@@ -186,6 +205,8 @@ div.searchmenu {
 div.recherche_form{
     width:700px;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     border-style:outset;
     border-width:1px;
 
@@ -195,6 +216,8 @@ div.redcontent{
     padding-top:7px;
     padding-left:8px;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     width:75%;
 
 }
@@ -203,6 +226,8 @@ div.content{
     margin-top:0.0030%;
     width:100%;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     font-size:14.4px;
     font-size:0.90rem;
 
@@ -213,11 +238,15 @@ div.content30{
     padding-top:7px;
     width:35%;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
 
 }
 div.no span{
     position:static;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     font-weight:bold;
     color:#FF0000;
 
@@ -233,6 +262,8 @@ table.document {
 table.document th{
     font-weight:bold;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     border-bottom:2px solid #605D5D;
     border-top:0px;
     color:#202267;
@@ -447,6 +478,8 @@ a.one:hover {
 a.detail
 {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     text-decoration: none;
     display: block;
     color: #333030;
@@ -455,6 +488,8 @@ a.detail
 a.detail:hover
 {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     color: #FFFFFF;
     background-color:#5D90CD;
     text-decoration: none;
@@ -468,6 +503,8 @@ li.menuv,ol.menuv {
 }
 div.redcontent a {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     text-decoration: none;
     display: block;
     color: #605D5D;
@@ -476,6 +513,8 @@ div.redcontent a {
 
 div.redcontent a:hover {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     color: #FFFFFF;
     background-color:#336699;
     text-decoration: none;
@@ -484,6 +523,8 @@ div.redcontent a:hover {
 }
 div.content a {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     text-decoration: none;
     display: block;
     color: #333030;
@@ -494,6 +535,8 @@ div.content a {
 
 div.content a:hover {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     color: #FFFFFF;
     background-color:#336699;
     text-decoration: none;
@@ -531,6 +574,8 @@ div.content a.mtitle {
 }*/
 div.redcontent input.text {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     font-weight:normal;
     border-color:#336699;
     border-style:solid;
@@ -540,6 +585,8 @@ div.redcontent input.text {
 }
 div.content input.text {
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     font-weight:normal;
     border-color:#336699;
     border-style:solid;
@@ -1040,6 +1087,8 @@ box-shadow: 10px 10px 5px #888;
 div.inner_box  {
     background-color: #DCE1EF;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     padding:2px;
     margin:0px;
     overflow:hidden;
@@ -1466,6 +1515,8 @@ div#notice {
     display: none;
     background-color:#e4e7ed;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     padding:0px;
     margin:0px;
     overflow:hidden;
@@ -1485,6 +1536,8 @@ div#notice {
     display: none;
     background-color:#e4e7ed;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     padding:0px;
     margin:0px;
     overflow:hidden;
@@ -1506,6 +1559,8 @@ div#notice {
     display: none;
     background-color:#e4e7ed;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     padding:0px;
     margin:0px;
     overflow:hidden;
@@ -1539,6 +1594,8 @@ div.inner_box tr.odd {
 div#bookmark_div {
     background-color:#e4e7ed;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     padding:2px;
     margin:0px;
     overflow:hidden;
@@ -1553,6 +1610,8 @@ div#bookmark_div {
 div#preference_div {
     background-color:#e4e7ed;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     padding:0px;
     margin:0px;
     overflow:hidden;
@@ -1604,6 +1663,8 @@ Box dashboard on 3 columns
 div.box  {
     background-color:#e4e7ed;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
     margin-top:10px;
     margin-left:3px;
     margin-right:3px;
