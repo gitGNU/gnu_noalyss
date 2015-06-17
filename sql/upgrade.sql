@@ -59,7 +59,7 @@ values
 
 insert into profile_menu (me_code,me_code_dep,p_id,p_order, p_type_display,pm_default) 
 values
-('BALAGE','PRINT',1,550,'M',0),('BALAGE','PRINT',2,550,'M',0),
+('BALAGE','PRINT',1,550,'E',0),('BALAGE','PRINT',2,550,'E',0),
 ('CSV:balance_age',null,1,null,'P',0),('CSV:balance_age',null,2,null,'P',0)
 ;
 
@@ -156,7 +156,7 @@ begin
 	return sResult::account_type;
 end;
 $BODY$ 
-LANGUAGE plpgsql ;;
+LANGUAGE plpgsql ;
 
 CREATE OR REPLACE FUNCTION comptaproc.account_insert(p_f_id integer, p_account text)
   RETURNS text AS
