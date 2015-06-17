@@ -1001,12 +1001,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', end
 div.menu2 td, div.menu2 td.mtitle {
     border-width:1px;
       border-top-color:rgba(96,108,136,1);
-    border-bottom-width: 4px;
     border-bottom-style: solid;
     border-bottom-color:rgba(63,76,107,1);
-    border-top-width: 4px;
     border-top-style: solid;
-    /* border-radius : 5px 5px 0px 0px; */
+    border-radius : 10px 0px 0px 0px; 
     
     background: -moz-linear-gradient(top, rgba(96,108,136,1) 40%, rgba(63,76,107,1) 70%); /* FF3.6+ */
 background: -webkit-gradient(linear, left top, left bottom, color-stop(40%,rgba(96,108,136,1)), color-stop(70%,rgba(63,76,107,1))); /* Chrome,Safari4+ */
