@@ -104,7 +104,13 @@ class Follow_Up
         $this->operation="";
         $this->action="";
     }
-
+    /**
+     * Create a filter based on the current user, 
+     * @global type $g_user Connected user
+     * @param type $cn Database connection
+     * @param type $p_mode Mode is R (for Read) or W (for write)
+     * @return type
+     */
     static function sql_security_filter($cn, $p_mode)
     {
         global $g_user;
