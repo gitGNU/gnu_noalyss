@@ -328,8 +328,8 @@ if ( $sa == 'remove' )
     $sql="delete from ac_dossier where dos_id=$1";
     $cn->exec_sql($sql,array($_REQUEST['d']));
     print '<h2 class="error">';
-    printf (_("Le dossier %s est effacé"),h($name))."</h2>";
-    echo HtmlInput::button_anchor('Retour','?action=dossier_mgt');
+    printf (_("Le dossier %s est effacé").'</h2>',h($name));
+    echo HtmlInput::button_anchor(_('Retour'),'?action=dossier_mgt');
 }
 ?>
 </div>

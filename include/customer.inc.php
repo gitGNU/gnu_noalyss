@@ -68,23 +68,33 @@ if ($low_action == "list")
     <div class="content">
         <div>
     	<form method="get" action="<?php echo $href;?>">
-		<?php
-		echo '<h2>' . "Exercice " . $g_user->get_exercice() . '</h2>';
-		echo dossier::hidden();
-		$a = (isset($_GET['query'])) ? $_GET['query'] : "";
-		printf(_('Recherche') . ' <input class="input_text" type="text" name="query" value="%s">', $a);
-		$sel_card = new ISelect('cat');
-		$sel_card->value = $cn->make_array('select fd_id, fd_label from fiche_def ' .
-			' where  frd_id=' . FICHE_TYPE_CLIENT .
-			' order by fd_label ', 1);
-		$sel_card->selected = (isset($_GET['cat'])) ? $_GET['cat'] : -1;
-		$sel_card->javascript = ' onchange="submit(this);"';
-		echo _('Catégorie :') . $sel_card->input();
-		$nooperation = new ICheckBox('noop');
-		$nooperation->selected = (isset($_GET['noop'])) ? true : false;
+            <?php
+            echo '<h2>' . "Exercice " . $g_user->get_exercice() . '</h2>';
+            $a=(isset($_GET['query']))?$_GET['query']:"";
+            printf (_('Recherche').' <input class="input_text" type="text" name="query" value="%s">',
+             $a);
+            $choice_cat=HtmlInput::default_value_request("choice_cat", 1);
 
-		echo _('Inclure les clients sans opération :') . $nooperation->input();
-		?>
+            if ( $choice_cat == 1 )
+            {
+                $sel_card=new ISelect('cat');
+                $sel_card->value=$cn->make_array('select fd_id, fd_label from fiche_def '.
+                                                 ' where  frd_id='.FICHE_TYPE_CLIENT.
+                                                 ' order by fd_label ',1);
+                $sel_card->selected=(isset($_GET['cat']))?$_GET['cat']:-1;
+                $sel_card->javascript=' onchange="submit(this);"';
+                echo _('Catégorie :').$sel_card->input();
+            } else 
+            {
+                $cat=HtmlInput::default_value_request('cat', '');
+                echo HtmlInput::hidden("cat",$cat);
+                echo HtmlInput::hidden('choice_cat', 0);
+            }
+            $nooperation = new ICheckBox('noop');
+            $nooperation->selected = (isset($_GET['noop'])) ? true : false;
+
+            echo _('Inclure les clients sans opération :') . $nooperation->input();
+            ?>
     	    <input type="submit" class="button" name="submit_query" value="<?php echo  _('recherche')?>">
     	    <input type="hidden" name="ac" value="<?php echo  $_REQUEST['ac']?>">
     	</form>

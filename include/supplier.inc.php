@@ -78,13 +78,22 @@ if ( $low_action == "list" )
     $a=(isset($_GET['query']))?$_GET['query']:"";
     printf (_('Recherche').' <input class="input_text" type="text" name="query" value="%s">',
             $a);
-    $sel_card=new ISelect('cat');
-    $sel_card->value=$cn->make_array('select fd_id, fd_label from fiche_def '.
-                                     ' where  frd_id='.FICHE_TYPE_FOURNISSEUR.
-                                     ' order by fd_label ',1);
-    $sel_card->selected=(isset($_GET['cat']))?$_GET['cat']:-1;
-    $sel_card->javascript=' onchange="submit(this);"';
-    echo _('Catégorie :').$sel_card->input();
+    $choice_cat=HtmlInput::default_value_request("choice_cat", 1);
+    if ( $choice_cat == 1 )
+    {
+        $sel_card=new ISelect('cat');
+        $sel_card->value=$cn->make_array('select fd_id, fd_label from fiche_def '.
+                                         ' where  frd_id='.FICHE_TYPE_FOURNISSEUR.
+                                         ' order by fd_label ',1);
+        $sel_card->selected=(isset($_GET['cat']))?$_GET['cat']:-1;
+        $sel_card->javascript=' onchange="submit(this);"';
+        echo _('Catégorie :').$sel_card->input();
+    } else 
+    {
+        $cat=HtmlInput::default_value_request('cat', '');
+        echo HtmlInput::hidden("cat",$cat);
+        echo HtmlInput::hidden('choice_cat', 0);
+    }
     $nooperation=new ICheckBox('noop');
     $nooperation->selected=(isset($_GET['noop']))?true:false;
     echo _('Inclure les fournisseurs sans opération :').$nooperation->input();

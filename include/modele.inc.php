@@ -383,7 +383,7 @@ if ($sa == 'list')
 		$sql = "delete from modeledef where mod_id=$1";
 		$cn->exec_sql($sql, array($_REQUEST['m']));
 		print '<h2 class="error">';
-		printf (_("Le modèle %s est effacé"),$name )."</H2>";
+		printf (_("Le modèle %s est effacé")."</H2>",$name );
 		echo HtmlInput::button_anchor(_('Retour'), '?action=modele_mgt');
 	}
 	echo '</div>';
