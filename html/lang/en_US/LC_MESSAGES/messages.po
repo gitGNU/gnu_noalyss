@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS 672\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-13 13:28+0200\n"
-"PO-Revision-Date: 2015-06-13 13:30+0200\n"
+"POT-Creation-Date: 2015-06-13 21:11+0200\n"
+"PO-Revision-Date: 2015-06-13 21:11+0200\n"
 "Last-Translator: Dany De Bontridder <danydb@noalyss.eu>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
@@ -1022,6 +1022,7 @@ msgstr "No"
 
 #: include/class_profile_menu.php:238 include/class_profile_menu.php:262
 #: include/class_profile_menu.php:253 include/class_profile_menu.php:277
+#: include/class_profile_menu.php:256 include/class_profile_menu.php:281
 msgid "Aucun accès"
 msgstr "No access"
 
@@ -2005,6 +2006,7 @@ msgstr "Tick ​​to delete this record"
 #: include/ext/amortis/include/class_amortissement_table_pdf.php:40
 #: include/ext/sav/include/template/spare_part_display_list.php:33
 #: include/ext/sav/include/template/workhour_display_list.php:30
+#: include/ajax_add_menu.php:83 include/ajax_add_menu.php:140
 msgid "Code"
 msgstr "Code"
 
@@ -3333,6 +3335,10 @@ msgstr "Name"
 msgid "Dépendant de"
 msgstr "Depending on"
 
+#: include/ajax_add_menu.php:87
+msgid "Dépendant de "
+msgstr "Depending on"
+
 #: include/class_anticipation.php:292 include/class_anticipation.php:293
 msgid "Dépense"
 msgstr "Purchase"
@@ -3540,6 +3546,7 @@ msgstr "Limit of payment"
 
 #: include/class_profile_menu.php:237 include/class_profile_menu.php:261
 #: include/class_profile_menu.php:252 include/class_profile_menu.php:276
+#: include/class_profile_menu.php:255 include/class_profile_menu.php:280
 msgid "Ecriture"
 msgstr "Writing"
 
@@ -5392,6 +5399,7 @@ msgstr "Total different from 100, computed total ="
 
 #: include/class_profile_menu.php:236 include/class_profile_menu.php:260
 #: include/class_profile_menu.php:251 include/class_profile_menu.php:275
+#: include/class_profile_menu.php:254 include/class_profile_menu.php:279
 msgid "Lecture"
 msgstr "Reading"
 
@@ -5766,6 +5774,7 @@ msgstr "Menu various operations"
 
 #: include/database.item.php:126 include/ajax_get_menu_detail.php:91
 #: include/database.item.php:129 include/database.item.php:135
+#: include/ajax_add_menu.php:96
 msgid "Menu par défaut"
 msgstr "Default menu"
 
@@ -6959,7 +6968,7 @@ msgstr "Saved operations"
 msgid "Ordre"
 msgstr "Order"
 
-#: include/ajax_get_menu_detail.php:87
+#: include/ajax_get_menu_detail.php:87 include/ajax_add_menu.php:92
 msgid "Ordre d'apparition"
 msgstr "Display order"
 
@@ -8947,6 +8956,10 @@ msgstr "Type of ledgers"
 msgid "Type de journal invalide"
 msgstr "Type of ledgers invalid"
 
+#: include/ajax_add_menu.php:100
+msgid "Type de menu"
+msgstr "Type of menu"
+
 #: include/balance_age.inc.php:50
 msgid "Type de tiers"
 msgstr "Type of tiers"
@@ -9120,6 +9133,7 @@ msgstr "Special value"
 #: include/stock_inv_histo.inc.php:67 include/ajax_admin.php:135
 #: include/ajax_preference.php:190 include/balance_age.inc.php:51
 #: include/balance_card_ageing.inc.php:45 include/ajax_admin.php:136
+#: include/ajax_add_menu.php:105
 msgid "Valider"
 msgstr "Validate"
 

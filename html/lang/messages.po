@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-13 13:28+0200\n"
+"POT-Creation-Date: 2015-06-13 21:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -724,6 +724,7 @@ msgstr ""
 #: include/stock_inv_histo.inc.php:67 include/ajax_admin.php:135
 #: include/ajax_preference.php:190 include/balance_age.inc.php:51
 #: include/balance_card_ageing.inc.php:45 include/ajax_admin.php:136
+#: include/ajax_add_menu.php:105
 msgid "Valider"
 msgstr ""
 
@@ -1777,6 +1778,7 @@ msgstr ""
 #: include/ext/amortis/include/class_amortissement_table_pdf.php:40
 #: include/ext/sav/include/template/spare_part_display_list.php:33
 #: include/ext/sav/include/template/workhour_display_list.php:30
+#: include/ajax_add_menu.php:83 include/ajax_add_menu.php:140
 msgid "Code"
 msgstr ""
 
@@ -2686,16 +2688,19 @@ msgstr ""
 
 #: include/class_profile_menu.php:236 include/class_profile_menu.php:260
 #: include/class_profile_menu.php:251 include/class_profile_menu.php:275
+#: include/class_profile_menu.php:254 include/class_profile_menu.php:279
 msgid "Lecture"
 msgstr ""
 
 #: include/class_profile_menu.php:237 include/class_profile_menu.php:261
 #: include/class_profile_menu.php:252 include/class_profile_menu.php:276
+#: include/class_profile_menu.php:255 include/class_profile_menu.php:280
 msgid "Ecriture"
 msgstr ""
 
 #: include/class_profile_menu.php:238 include/class_profile_menu.php:262
 #: include/class_profile_menu.php:253 include/class_profile_menu.php:277
+#: include/class_profile_menu.php:256 include/class_profile_menu.php:281
 msgid "Aucun accès"
 msgstr ""
 
@@ -3759,6 +3764,7 @@ msgstr ""
 
 #: include/database.item.php:126 include/ajax_get_menu_detail.php:91
 #: include/database.item.php:129 include/database.item.php:135
+#: include/ajax_add_menu.php:96
 msgid "Menu par défaut"
 msgstr ""
 
@@ -7164,7 +7170,7 @@ msgstr ""
 msgid "Dépendant de"
 msgstr ""
 
-#: include/ajax_get_menu_detail.php:87
+#: include/ajax_get_menu_detail.php:87 include/ajax_add_menu.php:92
 msgid "Ordre d'apparition"
 msgstr ""
 
@@ -10062,4 +10068,12 @@ msgstr ""
 
 #: include/restore.inc.php:237
 msgid "Restauration"
+msgstr ""
+
+#: include/ajax_add_menu.php:87
+msgid "Dépendant de "
+msgstr ""
+
+#: include/ajax_add_menu.php:100
+msgid "Type de menu"
 msgstr ""
