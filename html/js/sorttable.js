@@ -161,9 +161,9 @@ sorttable = {
 	        // i.e., we "decorate" each row with the actual sort key,
 	        // sort based on the sort keys, and then put the rows back in order
 	        // which is a lot faster because you only do getInnerText once per row
-	        row_array = [];
-	        col = this.sorttable_columnindex;
-	        rows = this.sorttable_tbody.rows;
+	        var row_array = [];
+	        var col = this.sorttable_columnindex;
+	        var rows = this.sorttable_tbody.rows;
 	        for (var j=0; j<rows.length; j++) {
 	          row_array[row_array.length] = [sorttable.getInnerText(rows[j].cells[col]), rows[j]];
 	        }
@@ -279,9 +279,9 @@ sorttable = {
      each sort function takes two parameters, a and b
      you are comparing a[0] and b[0] */
   sort_numeric: function(a,b) {
-    aa = parseFloat(a[0].replace(/[^0-9.-]/g,''));
+    var aa = parseFloat(a[0].replace(/[^0-9.-]/g,''));
     if (isNaN(aa)) aa = 0;
-    bb = parseFloat(b[0].replace(/[^0-9.-]/g,''));
+    var bb = parseFloat(b[0].replace(/[^0-9.-]/g,''));
     if (isNaN(bb)) bb = 0;
     return aa-bb;
   },

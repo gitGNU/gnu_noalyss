@@ -726,7 +726,7 @@ function waiting_node()
  */
 function waiting_box()
 {
-    obj = {
+    var obj = {
         id: 'wait_box', html: '<h2 class="title">Chargement</h2>' + loading()
     };
     var y = fixed_position(10, 250)
