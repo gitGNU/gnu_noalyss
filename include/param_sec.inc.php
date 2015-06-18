@@ -88,9 +88,9 @@ if ( ! isset($_REQUEST['action']))
 
 
 	$str="";
-        $str='Utilisateur Normal';
+        $str=_('Utilisateur Normal');
         if ( $l_line['use_admin'] == 1 )
-            $str=' Administrateur global';
+            $str=_('Administrateur');
 
 		// get profile
 		$profile=$cn->get_value("select p_name from profile
