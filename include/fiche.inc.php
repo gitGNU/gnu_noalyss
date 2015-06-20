@@ -575,12 +575,17 @@ for ($e = 0; $e < count($afiche); $e++)
 		echo td(nbm($amount_cred), ' style="font-weight:bold;text-align:right"');
 		echo '</tr>';
 		echo '<tr>';
-		if ($amount_deb > $amount_cred)
+                $solde=abs(round($amount_cred - $amount_deb, 2));
+                if ( $solde == 0)
+                {
+                    $s='solde';
+                }
+                else if ($amount_deb > $amount_cred)
 			$s = 'solde débiteur';
 		else
 			$s = 'solde crediteur';
 		echo td($s);
-		echo td(nbm(abs(round($amount_cred - $amount_deb, 2))), ' style="font-weight:bold;text-align:right"');
+		echo td(nbm($solde), ' style="font-weight:bold;text-align:right"');
 		echo '</tr>';
 		echo '</table>';
 	}
