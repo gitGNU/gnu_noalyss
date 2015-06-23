@@ -130,7 +130,7 @@ class IPoste extends HtmlInput
     {
 		$this->id=($this->id=="")?$this->name:$this->id;
         $javascript='search_poste(this)';
-        $button=HtmlInput::button_image($javascript,$this->name."_bt", 'alt="'._('Recherche').'" class="image_search"',"image/magnifier13.png");
+        $button=HtmlInput::button_image($javascript,$this->id."_bt", 'alt="'._('Recherche').'" class="image_search"',"image/magnifier13.png");
         /*  add the property */
         $sc=$this->get_js_attr();
         return $button.$sc;
