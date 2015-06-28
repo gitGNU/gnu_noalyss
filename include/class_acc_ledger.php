@@ -2139,7 +2139,7 @@ class Acc_Ledger extends jrn_def_sql
                         /**
                          * Save the file is any
                          */
-                        if (isset($_FILES))
+                        if (isset($_FILES["pj"]))
                         {
                             $this->db->save_upload_document($seq);
                         }
