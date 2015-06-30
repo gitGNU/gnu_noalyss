@@ -63,6 +63,8 @@ global $g_captcha,$g_failed,$g_succeed;
 $g_captcha=false;
 $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $g_succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
+define ('SMALLX','&#x2D5D;');
+
 /* uncomment for development */
 
  define ('SVNINFO',6800);
@@ -83,11 +85,10 @@ define ("SITE_UPDATE",'http://www.noalyss.eu/last_version.txt');
 define ("SITE_UPDATE_PLUGIN",'http://www.noalyss.eu/plugin_last_version.txt');
 
 
-define ("DBVERSION",117);
+define ("DBVERSION",118);
 define ("MONO_DATABASE",25);
-define ("DBVERSIONREPO",15);
+define ("DBVERSIONREPO",16);
 define ('NOTFOUND','--not found--');
-
 define ("MAX_COMPTE",4);
 define ('MAX_ARTICLE',5);
 define ('MAX_ARTICLE_STOCK',20);
@@ -101,6 +102,7 @@ define ('COMPTA_MIN_YEAR',1900);
 define ('MAX_RECONCILE',25);
 define ('MAX_QCODE',4);
 define ('MAX_SEARCH_CARD',20);
+define ('MAX_FOLDER_TO_SHOW',20);
 
 if ( DEBUG ) {
 	error_reporting(2147483647);
