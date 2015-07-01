@@ -303,7 +303,8 @@ class Calendar
              case when ag_remind_date < now() then 'R' 
                 when ag_remind_date = now() then 'N' 
                 else 'F'
-              end as status
+              end as status,
+              coalesce (ag_remind_date::date,current_date) - current_date as delta_days
               from action_gestion 
                left join vw_fiche_name  on (f_id=f_id_dest)
               where 

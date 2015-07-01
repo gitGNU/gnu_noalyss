@@ -46,6 +46,7 @@
             <td>
                 <?php
                 echo $a_status[$idx];
+                if ($a_event[$i]['delta_days'] != 0 ) echo $a_event[$i]['delta_days']," "._('jours');
                 ?>
             </td>
             <td>
@@ -54,7 +55,7 @@
                 <?php echo $a_event[$i]['ag_hour']; ?>
             </td>
             <td>
-                <?php echo HtmlInput::detail_action($a_event[$i]["ag_id"],$a_event[$i]["ag_title"]);?>
+                <?php echo HtmlInput::detail_action($a_event[$i]["ag_id"],$a_event[$i]["str_name"]);?>
             </td>
             <td>
                 <?php echo h($a_event[$i]['ag_title']); ?>
