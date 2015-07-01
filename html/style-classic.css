@@ -960,9 +960,8 @@ td.toolselected a.mtitle {
     background-color:#FF0000;
 }
 div.topmenu {
-	font-size:14px;
 	font-size:13.6px;
-	font-size:0.75rem;
+	font-size:0.80rem;
         
 }
 
@@ -1374,11 +1373,11 @@ div.myfieldset
 }
 div.menu2 a.mtitle{
     font-size:13.6px;
-    font-size:0.75rem; 
+    font-size:0.80rem; 
 }
 div.menu3 {
 	font-size:13.6px;
-	font-size:0.75rem;
+	font-size:0.80rem;
     
 }
 #go_submit_id {
