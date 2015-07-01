@@ -185,7 +185,7 @@ endif;
 ?>
 
     
-<div id="action_late_div"  class="inner_box" style="display:none;margin-left:25%;top:25%;width: 50%;min-height:50%;overflow: auto;">
+<div id="action_late_div"  class="inner_box" style="display:none;margin-left:12%;top:25%;width:75%;min-height:50%;overflow: auto;">
 	<?php
 		echo HtmlInput::title_box(_("Action en retard"), "action_late_div","hide")
 	?>
