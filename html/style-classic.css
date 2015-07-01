@@ -220,8 +220,8 @@ div.content{
     width:100%;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     font-family: 'openSansRegular';
-    font-size:14.4px;
-/*    font-size:0.90rem; */
+    font-size:12px;
+    font-size:0.90rem;
 
 }
 div.content30{
@@ -1864,7 +1864,7 @@ table.vert_mtitle td:hover a{
 /*******************************************************************************
  *  Tiny button example : -X for remove action, remove link...
  *******************************************************************************/
-div.content a.tinybutton{
+div.content a.tinybutton,a.tinybutton{
     color: blue;
     font-weight: bold;
     text-decoration: none;
