@@ -1220,7 +1220,7 @@ a.line:hover,div_content a.line
     color:white;
     text-decoration:none;
     margin-left: 2px;
-    margin-right:2px;
+    margin-right:6px;
     margin-top:0px;
     font-size:14px;
     font-size:1rem;
@@ -1374,11 +1374,11 @@ div.myfieldset
 }
 div.menu2 a.mtitle{
     font-size:13.6px;
-    font-size:0.85rem;
+    font-size:0.75rem; 
 }
 div.menu3 {
 	font-size:13.6px;
-	font-size:0.85rem;
+	font-size:0.75rem;
     
 }
 #go_submit_id {
