@@ -1076,7 +1076,7 @@ EOF;
 function display_dashboard_operation($p_array,$p_title,$p_div)
 {
 	?>
-<div id="<?php echo $p_div;?>" class="inner_box" style="display:none;top:250;left:25%;width: 50%;min-height:50%;overflow:auto;">
+<div id="<?php echo $p_div;?>" class="inner_box" style="display:none;top:250px;left:12%;width: 75%;min-height:50%;overflow:auto;">
 	<?php
 	echo HtmlInput::title_box($p_title, $p_div, "hide");
 	?>
@@ -1084,8 +1084,8 @@ function display_dashboard_operation($p_array,$p_title,$p_div)
 	<table class="result">
 		<tr>
 			<th><?php echo _('Date')?></th>
-			<th><?php echo _('Pièce')?></th>
 			<th><?php echo _('Code Interne')?></th>
+			<th><?php echo _('Pièce')?></th>
 			<th><?php echo _('Description')?></th>
 			<th>
 				<?php echo _('Montant')?>
