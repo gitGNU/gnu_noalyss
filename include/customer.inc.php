@@ -92,6 +92,7 @@ if ($low_action == "list")
             }
             $nooperation = new ICheckBox('noop');
             $nooperation->selected = (isset($_GET['noop'])) ? true : false;
+            echo Dossier::hidden();
 
             echo _('Inclure les clients sans opération :') . $nooperation->input();
             ?>
