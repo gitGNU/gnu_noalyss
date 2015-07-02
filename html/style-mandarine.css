@@ -1355,12 +1355,18 @@ div.menu3 {
     margin-left:30px;
 }
 #folder {
-    border-width:0px;
-    border-collapse: collapse;
-    }
-    #folder tr {
-        height: 30px;
-    }    
+ border-width:1px;
+    border-collapse: separate;
+    margin-left: 5%;
+    width: 90%;
+    border-radius: 9px;
+    border-style:solid;
+    padding : 5px;
+    border-color: #DF3F3F;
+}
+#folder tr {
+        height: 33px;
+}    
 /*#folder tr.odd,#folder tr.even {
     font-size : 1.2em;
 }*/
@@ -1839,4 +1845,18 @@ div.menu2 a.mtitle{
     margin-right: 150px;
     background: snow;
     margin-top: 50px;
+}
+/*******************************************************************************
+ * For TODO List
+ *******************************************************************************/
+#add_todo_list , div.add_todo_list {
+    border:1px solid #0000FF;
+    background-color:#FFCCCC;
+    padding:0.07%;
+    position:absolute;
+    text-align:left;
+    z-index:1;
+    width:480px;
+    width:30rem;
+    height:auto;
 }
