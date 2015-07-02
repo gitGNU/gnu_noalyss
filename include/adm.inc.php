@@ -94,6 +94,7 @@ if ( $low_action == "list" )
             echo HtmlInput::hidden("cat",$cat);
             echo HtmlInput::hidden('choice_cat', 0);
         }
+            echo Dossier::hidden();
 
     ?>
     <input type="submit" class="button" name="submit_query" value="<?php echo _('recherche')?>">
