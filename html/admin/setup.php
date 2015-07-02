@@ -401,13 +401,30 @@ if  (defined("MULTI") && MULTI == 0)
 	$db = new Database();
 	if ($db->exist_table("version") == false)
 	{
-		echo '<p class="warning">' . $failed . 'La base de donnée ' . dbname . ' est vide, veuillez y restaurer un modèle de base de données plus le script mono.sql
-				, ce script se trouve dans noalyss/contrib/mono.sql</p>';
+		echo '<p class="warning">' . $failed . 'La base de donnée ' . dbname . ' est vide, veuillez executer noalyss/contrib/mono-dossier/mono.sql
+                    puis faites un seul de ces choix : 
+                    <ul>
+                    <li>soit noalyss/contrib/mono-dossier/mono-france.sql pour la comptabilité française</li>
+                    <li>soit noalyss/contrib/mono-dossier/mono-belge.sql pour la comptabilité belge</li>
+                    <li>soit y restaurer un backup ou un modèle</li>
+                    </ul>
+				</p>';
 		exit();
 	}
 	echo "<h3>Patching " . dbname . '</h3>';
 	$db->apply_patch(dbname);
 	echo "<p class=\"info\">Tout est install&eacute; $succeed";
+        
+         echo "<h2>Mise &agrave; jour Repository</h2>";
+         if ( DEBUG == false ) ob_start();
+        $MaxVersion=DBVERSIONREPO-1;
+        for ($i=4;$i<= $MaxVersion;$i++)
+        {
+            if ( $db->get_value (' select val from repo_version') <= $i ) {
+                $db->execute_script('sql/patch/ac-upgrade'.$i.'.sql');
+            }
+        }
+
 	?>
 		<A style="" class="button" HREF="../index.php">Connectez-vous à NOALYSS</A>
 	<?php
