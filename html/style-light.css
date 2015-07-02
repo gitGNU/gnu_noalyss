@@ -1361,8 +1361,6 @@ a.nav:hover,div.content a.nav:hover,div.redcontent a.nav:hover {
     font-weight: bolder;
     text-transform: full-width;
     text-transform: fullwidth;
-     
-    text-shadow: 7px 7px 7px darkslategray;
     font-size: 200%;
 }
 @media only screen and (min-width: 955px) {
@@ -1376,8 +1374,7 @@ a.nav:hover,div.content a.nav:hover,div.redcontent a.nav:hover {
     font-weight: bolder;
     text-transform: full-width;
     text-transform: fullwidth;
-     
-    text-shadow: 7px 7px 7px darkslategray;
+    
     font-size: 200%;
 }
 }
