@@ -8973,4 +8973,4 @@ ALTER TABLE ONLY user_sec_jrn
 --
 -- PostgreSQL database dump complete
 --
-
+commit;

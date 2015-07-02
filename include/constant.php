@@ -67,18 +67,18 @@ define ('SMALLX','&#x2D5D;');
 
 /* uncomment for development */
 
- define ('SVNINFO',6800);
-define ("DEBUG",true);
-define ("LOGINPUT",true);
+// define ('SVNINFO',6800);
+//define ("DEBUG",true);
+//define ("LOGINPUT",true);
 
 
+$version_noalyss=SVNINFO;
 
-/*define ('SVNINFO',6801);
+define ('SVNINFO',SVNINFO);
 define ("DEBUG",false);
 define ("LOGINPUT",false);
 
-*/
-$version_noalyss=SVNINFO;
+
 // If you don't want to be notified of the update
 // define ("SITE_UPDATE",'');
 define ("SITE_UPDATE",'http://www.noalyss.eu/last_version.txt');
