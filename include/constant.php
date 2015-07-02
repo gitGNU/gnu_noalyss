@@ -72,12 +72,12 @@ define ('SMALLX','&#x2D5D;');
 //define ("LOGINPUT",true);
 
 
-$version_noalyss=SVNINFO;
 
 define ('SVNINFO',SVNINFO);
 define ("DEBUG",false);
 define ("LOGINPUT",false);
 
+$version_noalyss=SVNINFO;
 
 // If you don't want to be notified of the update
 // define ("SITE_UPDATE",'');
