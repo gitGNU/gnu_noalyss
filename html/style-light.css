@@ -1477,8 +1477,14 @@ div.menu3 {
     margin-left:30px;
 }
 #folder {
-    border-width:0px;
-    border-collapse: collapse;
+    border-width:1px;
+    border-collapse: separate;
+    margin-left: 5%;
+    width: 90%;
+    border-radius: 9px;
+    border-style:solid;
+    padding : 5px;
+    
     }
     #folder tr {
         height: 30px;
