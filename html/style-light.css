@@ -159,7 +159,7 @@ td.tool a.mtitle:hover {
 }
 #top {
     float:left;
-    margin-bottom: 40px;
+    margin-bottom: 18px;
     width: 100%;
 }
 #module {
@@ -418,7 +418,7 @@ td.mtitle:hover
     border-radius: 0px;
    border-bottom-color: red;
    border-bottom-style: solid;
-   border-bottom-width: 5px;
+   border-bottom-width: 4px;
    
 }
 div.menu2 td.mtitle:hover
@@ -427,7 +427,7 @@ div.menu2 td.mtitle:hover
     border-radius: 10px 0px 0px;
    border-bottom-color: red;
    border-bottom-style: solid;
-   border-bottom-width: 5px;
+   border-bottom-width: 4px;
    
 }
 td.mtitle:hover a , div.content a.mtitle:hover  {
@@ -920,17 +920,17 @@ a#anchorbutton:hover, .button:hover,a.button:hover,div.content a.button:hover  {
 
 }
 a#smallanchorbutton, .smallbutton, a.smallbutton,div.content a.smallbutton {
-    color:#FFFFFF;
     font-weight: bold;
     text-decoration:none;
     font-family: arial,verdana,sans-serif,helvetica;
-
+    font-family: 'openSansRegular';
     font-size:12px;
     font-size:0.75rem;
-
-    border-style:  outset ;
+    background-color: inherit;
+    color : black;
+    border-style:  solid ;
     border-color:  #605D5D;
-    border-width:0;
+    border-width:1px;
     padding-bottom: 3px;
     padding-top: 3px;
     padding-right: 3px;
@@ -938,22 +938,15 @@ a#smallanchorbutton, .smallbutton, a.smallbutton,div.content a.smallbutton {
     margin-top:3px;
     cursor:pointer;
     margin:1px 2px 1px 2px;
-    border-radius: 2px;
-    moz-border-radius:2px;
-   background: #606c88; /* Old browsers */
-    background: -moz-linear-gradient(top, #606c88 0%, #3f4c6b 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#606c88), color-stop(100%,#3f4c6b)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #606c88 0%,#3f4c6b 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #606c88 0%,#3f4c6b 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #606c88 0%,#3f4c6b 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #606c88 0%,#3f4c6b 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#3f4c6b',GradientType=0 ); /* IE6-9 */
-}
+    border-radius: 4px;
+    moz-border-radius:4px;
+  }
 a#smallanchorbutton:hover, .smallbutton:hover,a.smallbutton:hover,div.content a.smallbutton:hover  {
     cursor:pointer;
-    background-color:#FFFFFF;
+    color: white;
+    background-color : black;
+
     /* border-style:  inset ; */
-    color:#FF0000;
     margin:1px 2px 1px 2px;
 
 }
