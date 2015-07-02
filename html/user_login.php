@@ -85,7 +85,7 @@ if ( $User->Admin()  == 1)
 	if (SITE_UPDATE !="") {
 	 $update=@file_get_contents(SITE_UPDATE);
 	 if ($update > $version_noalyss ) {
-		 echo '<div class="inner_box" style="margin-left:0px;margin-top:3px;left:3px">';
+		 echo '<div class="inner_box" style="width:25%;margin-left:10%;margin-top:3px;">';
 		 echo '<p class="notice">';
 		 echo "Mise à jour disponible de NOALYSS version actuelle : $update votre version $version_noalyss";
 		 echo '</p>';
