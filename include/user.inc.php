@@ -44,6 +44,7 @@ if ( isset ($_POST["ADD"]) )
     $login=str_replace(" ","",$login);
     $login=strtolower($login);
     $new_user->login=$login;
+    $new_user->pass=$pass5;
     $new_user->email=HtmlInput::default_value_post('EMAIL','');
 	if ( trim($login)=="")
 	{

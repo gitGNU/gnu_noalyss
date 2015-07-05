@@ -142,12 +142,12 @@ class User
 	{
 
 		$Sql = "INSERT INTO ac_users(
-                        use_first_name, use_name, use_login, use_active, use_pass, 
-                        use_admin, use_email)
+                        use_first_name, use_name, use_login, use_active,  
+                        use_admin, use_pass, use_email)
                             VALUES ($1, $2, $3, $4, $5, $6, $7) returning use_id";
 
 		$cn = new Database();
-		$this->id= $cn->get_value($Sql, array($this->first_name, $this->last_name, $this->login,0,0, $this->pass,$this->email));
+		$this->id= $cn->get_value($Sql, array($this->first_name, $this->last_name, $this->login,1,0, $this->pass,$this->email));
 	}
 
 	/**
