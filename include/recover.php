@@ -119,7 +119,7 @@ Suivez ce lien pour activer le changement ou ignorer ce message si vous n'êtes 
 Ce lien ne sera actif que 12 heures.
    
    
-   http://{$_SERVER['SERVER_NAME']}{$_SERVER['SCRIPT_NAME']}?recover&id=req&req={$request_id}
+   https://{$_SERVER['SERVER_NAME']}{$_SERVER['SCRIPT_NAME']}?recover&id=req&req={$request_id}
    
    Merci d'utiliser NOALYSS
    
