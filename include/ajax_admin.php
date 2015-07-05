@@ -52,7 +52,7 @@ if ($op=='folder_add') // operation
         $user->set_folder_access($dossier_id, true);
         $dossier=new Dossier($dossier_id);
         $dossier->load();
-        $content="<td>{$dossier->dos_name}</td><td>{$dossier->dos_description}</td>".
+        $content="<td>".h($dossier->dos_name)."</td><td>".h($dossier->dos_description)."</td>".
                 "<td>".
                 HtmlInput::anchor(_('Enleve'), "", " onclick=\"folder_remove({$user_id},{$dossier_id});\"").
                 "</td>";
