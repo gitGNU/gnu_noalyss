@@ -57,11 +57,11 @@ if (isset($_GET['bookmark_delete']) && isset ($_GET['book'])){
     }
 }
 
-$bookmark_sql="select distinct b_id,b_action,b_order,me_description, javascript"
+$bookmark_sql="select distinct b_id,b_action,b_order,me_code,me_description, javascript"
         . " from bookmark "
-        . "join v_menu_description_favori on (code=b_action)"
+        . "join v_menu_description_favori on (code=b_action or b_action=me_code)"
         . "where "
-        . "login=$1 order by b_order,b_action";
+        . "login=$1 order by me_code";
 $a_bookmark=$cn->get_array($bookmark_sql,array($g_user->login));
 $url="do.php?gDossier=".Dossier::id()."&ac=";
 ?>
