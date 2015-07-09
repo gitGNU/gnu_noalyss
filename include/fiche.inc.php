@@ -268,6 +268,9 @@ $export_csv.=HtmlInput::request_to_hidden(array('allcard'));
 $export_csv.=dossier::hidden();
 $export_csv.=HtmlInput::submit('CSV', 'Export en CSV');
 $export_csv.='</FORM>';
+/*
+ * Date is important is requested balance
+ */
 if (isDate($_REQUEST['start']) == null || isDate($_REQUEST['end']) == null)
 {
 	echo h2('Date invalide !', 'class="error"');
