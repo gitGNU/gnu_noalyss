@@ -469,9 +469,15 @@ case 'ac':
 	case FICHE_TYPE_CONTACT:
             $msg=_(' de contacts');
             $base='';
+            break;
         case FICHE_TYPE_FIN:
             $msg=_(' Banque');
             $base=$cn->get_value("select p_value from parm_code where p_code='BANQUE'");
+            break;
+        case FICHE_TYPE_EMPL:
+            $msg=_(' Employé ou administrateur');
+            $base='';
+            break;
          
         }
 
