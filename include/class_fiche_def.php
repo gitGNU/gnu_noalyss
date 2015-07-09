@@ -210,24 +210,7 @@ $order
 			alert (_('Le nom de la catégorie ne peut pas être vide'));
             return 1;
 		}
-        /**!! (== fiche_def_ref.frd_id
-        if (! isset ($p_FICHE_REF) || strlen($p_FICHE_REF) == 0 )
-        {
-            echo alert (_('Vous devez choisir une categorie'));
-            return 1;
-        }
-        $fiche_Def_ref=new Fiche_Def_Ref($this->cn,$p_FICHE_REF);
-        $fiche_Def_ref->Get();
-
-        // build the sql request for fiche_def
-        // and insert into fiche_def
-        // if p_class_base is null get the default class base from
-        // fiche_def_ref
-        if ( sql_string($p_class_base) == null )
-        { // p_class is null
-            // So we take the default one
-            $p_class_base=$fiche_Def_ref->frd_class_base;
-        }
+        
         /* check if the cat. name already exists */
         $sql="select count(*) from fiche_Def where upper(fd_label)=upper($1)";
         $count=$this->cn->get_value($sql,array(trim($p_nom_mod)));
@@ -626,8 +609,6 @@ $order
         $sql=sprintf("insert into jnt_fic_attr (fd_id,ad_id,jnt_order) values (%d,%d,%d)",
                      $this->id,$p_ad_id,$max);
         $Res=$this->cn->exec_sql($sql);
-        // update all the existing card
-
     }
     /*!\brief remove an attribut for this fiche_def
      * \param array of ad_id to remove
