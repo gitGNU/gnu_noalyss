@@ -47,18 +47,14 @@ echo td($detail);
         	echo td($attr->av_text,'style="padding: 0 10 1 10;white-space:nowrap;" '.$sort);
 	 else:
 		$value=$cn->make_array($attr->ad_extra);
-                $found=0;
+                $row_content="";
                 for ($e=0;$e<count($value);$e++):
                         if ( $value[$e]['value']==$attr->av_text):
-                                echo td($value[$e]['label'],'style="padding: 0 10 1 10;white-space:nowrap;"');
-                                $found=1;
+                                $row_content=h($value[$e]['label']);
                                 break;
                         endif;
                 endfor;
-                if ( $found == 0 ):
-                                echo td($attr->av_text,'style="padding: 0 10 1 10;white-space:nowrap;"');
-                    
-                endif;
+                echo td($row_content,'style="padding: 0 10 1 10;white-space:nowrap;"');
 
 	 endif;
  endforeach;
