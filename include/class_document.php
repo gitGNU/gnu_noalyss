@@ -1271,7 +1271,7 @@ class Document
                 if ($array[$a]['value']==$ad_value)
                     return $array[$a]['label'];
             }
-
+            
         }
         // if ad_id is not type select get value
         return $ad_value;
