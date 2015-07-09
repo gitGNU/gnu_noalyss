@@ -435,10 +435,13 @@ function fill_ipopcard(obj)
     card_layer++;
 
     var content='card_'+card_layer;
-    var nTop=posY-40;
+    var nTop=15+card_layer;
+    if ( nTop > 35 ) {
+        nTop=15;
+    }
     //var nLeft=posX-20;
-	var nLeft="20%";
-    var str_style="top:"+nTop+"px;left:"+nLeft+"px;width:45em;height:auto";
+	var nLeft="20em";
+    var str_style="top: "+nTop+"%"+";left:"+nLeft+";width:45em;height:auto;position:absolute";
 
     var popup={'id':  content,'cssclass':'inner_box','style':str_style,'html':loading(),'drag':true};
 
