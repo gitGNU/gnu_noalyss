@@ -1,15 +1,18 @@
 body {
-	font-size:3.5mm;
+	font-size:10pt;
+        font-family:sans-serif;
+        margin-left: 5mm;
+        margin-right: 5mm;
 	}
 input, select ,.input_text{
-	font-size:3.5mm;
-border:1px solid #FFFFFF;
+	font-size:10pt;
+        border:1px solid #FFFFFF;
  }
 form {
   display:none;
  }
 .print {
-	font-size:3.5mm;
+	font-size:10pt;
 	display: block;
 	}
 .noprint  {
@@ -23,23 +26,23 @@ div.recherche_form {
 	display:none;
 	}
 table.result {
-	font-size:3.5mm;
+	font-size:10pt;
 	font-family:sans-serif;
 	width:100%
   }
 
 table.result th {
-	font-size:4mm;
+	font-size:105%;
 	font-family:sans-serif;
 }
 h3,h4 {
-	font-size:5mm;
+	font-size:110%;
 	text-decoration: underline;
 	font-family:sans-serif;
 }
 
 h2 {
-	font-size:6mm;
+	font-size:110%;
 	font-weight:bold;
 	font-family:sans-serif;
 }
@@ -47,10 +50,10 @@ div.info {
 	display:none;
 }
 .content  {
-	font-size:3.5mm;
+	font-size:10pt;
 }
 h1.content,h1,h2.info,legend {
-	font-size:6mm;
+	font-size:120%;
 	font-weight:bold;
 	font-family:sans-serif;
 }
@@ -98,20 +101,20 @@ div.debit{
 	display:none;
 }
 div.recherche{
-	font-size:3.5mm;
+	font-size:10pt;
 	font-family:sans-serif;
 }
 div.redcontent{
-	font-size:3.5mm;
+	font-size:10pt;
 	font-family:sans-serif;
 
 }
 div.redcontent{
-	font-size:3.5mm;
+	font-size:10pt;
 	font-family:sans-serif;
 }
 div.ccontent{
-	font-size:3.5mm;
+	font-size:10pt;
 	font-family:sans-serif;
 }
 div.rmenu {
@@ -147,24 +150,24 @@ span.even {
  }
 
 tr.odd {
-	font-size:3.5mm;
+	font-size:10pt;
 	font-family:sans-serif;
 }
 tr {
-	font-size:3.5mm;
+	font-size:10pt;
 	font-family:sans-serif;
 	}
 tr.even {
 
-	font-size:3.5mm;
+	font-size:10pt;
 	font-family:sans-serif;
 }
 td.odd{
-	font-size:3.5mm;
+	font-size:10pt;
 	font-family:sans-serif;
 }
 td.even{
-	font-size:3.5mm;
+	font-size:10pt;
 	font-family:sans-serif;
 }
 td.cell{
@@ -235,7 +238,7 @@ table.doc {
 }
 a.detail
 {
-font-size:3.5mm;
+font-size:10pt;
 font-family:sans-serif;
 }
 
@@ -251,31 +254,31 @@ a.detail:hover
 }
 .num {
 	text-align:right;
-	font-size:3.5mm;
+	font-size:10pt;
 }
 h1.title {
-	font-size:7mm;
+	font-size:120%;
 	font-style: italic;
 }
 h2.title {
-	font-size:6mm;
+	font-size:110%;
 	font-style: italic;
-	margin-left: 10em;
+	margin-left: 3em;
 }
 h3.title {
-	font-size:7mm;
-	margin-left: 10em;
+	font-size:110%;
+	margin-left: 3em;
 }
 h4.title {
 	color: blue;
-	font-size:6mm;
-	margin-left: 10em;
+	font-size:110%;
+	margin-left: 3em;
 	text-decoration: underline;
 }
 h5.title {
 	color: blue;
-	font-size:4mm;
-	margin-left: 10em;
+	font-size:110%;
+	margin-left: 3em;
 	text-decoration: none;
 	font-style: italic;
 }
