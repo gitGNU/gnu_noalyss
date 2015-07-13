@@ -73,7 +73,7 @@ define ('SMALLX','&#x2D5D;');
 
 
 
-define ('SVNINFO',6812);
+define ('SVNINFO',6813);
 define ("DEBUG",false);
 define ("LOGINPUT",false);
 
