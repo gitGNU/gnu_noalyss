@@ -915,8 +915,17 @@ function find_default_module()
 			*/
 			if (empty ($default_module))
 			{
-				echo_warning(_("Utilisateur n'a pas de profil, votre administrateur doit en configurer un dans CFGSEC"));
-				exit();
+                            /* 
+                             * If administrateur, then we insert a default profile (1)
+                             * for him
+                             */
+                            if ( $g_user->admin == 1 )
+                            {
+                                $cn->exec_sql('insert into profile_user(user_name,p_id) values ($1,1) ',array($g_user->login));
+                                return find_default_module();
+                            }
+                            echo_warning(_("Utilisateur n'a pas de profil, votre administrateur doit en configurer un dans CFGSEC"));
+                            exit();
 			}
 		}
 		return $default_module[0]['me_code'];
