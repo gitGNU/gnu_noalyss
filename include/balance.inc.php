@@ -64,7 +64,7 @@ echo dossier::hidden();
 
 
 // filter on the current year
-$from=(isset($_GET["from_periode"]))?$_GET['from_periode']:"";
+$from=HtmlInput::default_value_get("from_periode", "");
 $input_from=new IPeriod("from_periode",$from,$exercice);
 $input_from->show_end_date=false;
 $input_from->type=ALL;
@@ -74,7 +74,7 @@ $input_from->user=$g_user;
 
 echo _('Depuis').' :'.$input_from->input();
 // filter on the current year
-$to=(isset($_GET["to_periode"]))?$_GET['to_periode']:"";
+$to=HtmlInput::default_value_get("to_periode", "");
 $input_to=new IPeriod("to_periode",$to,$exercice);
 $input_to->show_start_date=false;
 $input_to->filter_year=true;
@@ -346,7 +346,7 @@ if ( isset($_GET['view'] ) )
                     echo td(nbm(${'lvl'.$ind}['solde_cred_previous']),'class="previous_year" style="font-weight:bold;"');
                     $delta_previous=bcsub(${'lvl'.$ind}['solde_cred_previous'],${'lvl'.$ind}['solde_deb_previous']);
                     $side_previous=($delta_previous > 0 ) ? "C":"D";
-                    echo td(nbm($delta_previous)." $side_previous",'class="previous_year"  style="text-align:right;font-weight:bold;"  ');
+                    echo td(nbm(abs($delta_previous))." $side_previous",'class="previous_year"  style="text-align:right;font-weight:bold;"  ');
                     
                 }
 		echo td(nbm(${'lvl'.$ind}['sum_deb']),'style="text-align:right;font-weight:bold;"  ');
@@ -355,7 +355,7 @@ if ( isset($_GET['view'] ) )
 		echo td(nbm(${'lvl'.$ind}['solde_cred']),'style="text-align:right;font-weight:bold;"');
                 $delta=bcsub(${'lvl'.$ind}['solde_cred'],${'lvl'.$ind}['solde_deb']);
                 $side=($delta > 0 ) ? "C":"D";
-                echo td(nbm($delta)." $side",'style="text-align:right;font-weight:bold;"  ');
+                echo td(nbm(abs($delta))." $side",'style="text-align:right;font-weight:bold;"  ');
 
 		echo '</tr>';
 		${'lvl'.$ind.'_old'}=mb_substr($r['poste'],0,$ind);
