@@ -3,11 +3,67 @@
     <META http-equiv="Content-Type" content="text/html; charset=UTF8">
     </title>
 <head>
-<LINK REL="stylesheet" type="text/css" href="../style-classic.css" media="screen">
 <link rel="icon" type="image/ico" href="../favicon.ico" />
  <META http-equiv="Content-Type" content="text/html; charset=UTF8">
  <script type="text/javascript" charset="<div>utf-8</div>" language="javascript" src="../js/prototype.js"></script>
  <script type="text/javascript" charset="utf-8" language="javascript" src="../js/infobulle.js"></script>
+ <style>
+     body {
+         font : 100%;
+         color:darkblue;
+         margin-left : 50px;
+         margin-right: 50px;
+         background-color: #e1edf7;
+     }
+     h1 {
+         font-size: 120%;
+         text-align: center;
+         background-color: darkblue;
+         color:white;
+         text-transform: uppercase;
+     }
+     h2 {
+         font-size: 105%;
+         text-align: left;
+         text-decoration: underline;
+     }
+     h3 {
+         font-size : 102%;
+         font-style: italic;
+         margin-left: 3px;
+     }
+ 
+    .button {
+        font-size:110%;
+        color:white;
+        font-weight: bold;
+        border:0px;
+        text-decoration:none;
+        font-family: helvetica,arial,sans-serif;
+        background-image: url("../image/bg-submit2.gif");
+        background-repeat: repeat-x;
+        background-position: left;
+        text-decoration:none;
+        font-family: helvetica,arial,sans-serif;
+        border-width:0px;
+        padding:2px 4px 2px 4px;
+        cursor:pointer;
+        margin:1px 2px 1px 2px;
+        -moz-border-radius:2px 2px;
+        border-radius:2px 2px;
+     }
+    .button:hover {
+    cursor:pointer;
+    background-color:white;
+    border-style:  solid;
+    border-width:  0px;
+    font-color:blue;
+    margin:1px 2px 1px 2px;
+    }
+    .warning,.error {
+        color:red;
+    }
+ </style>
 </head>
 <body>
 <p align="center">
@@ -52,14 +108,15 @@ $succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
 $inc_path=get_include_path();
 global $os;
 $inc_path=get_include_path();
-	global $os;
-	if ( strpos($inc_path,";") != 0 ) {
-	  $new_path=$inc_path.';../../include;addon';
-	  $os=0;			/* $os is 0 for windoz */
-	} else {
-	  $new_path=$inc_path.':../../include:addon';
-	  $os=1;			/* $os is 1 for unix */
-	}
+global $os;
+if ( strpos($inc_path,";") != 0 ) {
+  $new_path=$inc_path.';../../include;addon';
+  $os=0;			/* $os is 0 for windoz */
+} else {
+  $new_path=$inc_path.':../../include:addon';
+  $os=1;			/* $os is 1 for unix */
+}
+
 /**
  *@brief create correctly the htaccess file
  */
@@ -111,7 +168,7 @@ function create_htaccess()
 
 /* The config file is created here */
 if (isset($_POST['save_config'])) {
-  require_once('../../include/config_file.php');
+  require_once '../../include/config_file.php';
   $url=config_file_create($_POST,1,$os);
 echo '
 <form method="post" >
@@ -121,7 +178,10 @@ echo '
  exit();
  }
 if ( is_writable ('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'constant.php') == false ) {
-    echo '<h2 class="notice"> Ecriture non possible </h2><p class="warning"> On ne peut pas &eacute;crire dans le r&eacute;pertoire de NOALYSS, changez-en les droits </p>';
+    echo '<h2 class="notice"> '._("Ecriture non possible").' </h2>'.
+            '<p class="warning"> '.
+            _("On ne peut pas écrire dans le répertoire de NOALYSS, changez-en les droits ")
+            .'</p>';
     exit();
   }
 
@@ -132,7 +192,9 @@ if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.D
   require_once('../../include/config_file.php');
   echo config_file_form();
   echo '<div style="position:float;float:left;"></div>';
-  echo HtmlInput::submit('save_config','Sauver la configuration');
+  echo '<p style="text-align:center">',
+        HtmlInput::submit('save_config','Sauver la configuration',"","button"),
+          '</p>';
   echo "</div>";
   echo '</form>';
   exit();
@@ -153,7 +215,7 @@ require_once('config_file.php');
 require_once('class_database.php');
 if ( defined ("MULTI") && MULTI==1) { create_htaccess();}
 
-echo "<h1>Configuration</h1>";
+echo '<h1 class="title">Configuration</h1>';
 ?>
 <h2>Info</h2>
 Vous utilisez le domaine <?php echo domaine; ?>
@@ -178,19 +240,23 @@ echo "</li>";
 $module=get_loaded_extensions();
 
 echo "<li>";
-if ( in_array('mbstring',$module) == false )
-{
+$str_error_message=_('Vous devez installer ou activer l\'extension<span style="font-weight:bold"> %s </span>');
+if (  in_array('mbstring',$module) == false ){
   echo 'module mbstring '.$failed;
-  print '<span class="warning">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; ou activé l\'extension(mbstring) soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </span>';
+  echo '<span class="warning">',
+        sprintf($str_error_message, "mbstring"),
+        ' </span>';
   $flag_php++;
 } else echo 'module mbstring '.$succeed;
 echo "</li>";
 
 echo "<li>";
-if ( in_array('pgsql',$module) == false )
+if (  in_array('pgsql',$module) == false )
 {
   echo 'module PGSQL '.$failed;
-  print '<span class="warning">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; ou activé l\'extension(pgsql)  pour postgresql soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </span>';
+   echo '<span class="warning">',
+        sprintf($str_error_message, "psql"),
+        ' </span>';
   $flag_php++;
 } else echo 'module PGSQL '.$succeed;
 echo "</li>";
@@ -199,16 +265,20 @@ echo "<li>";
 if ( in_array('bcmath',$module) == false )
 {
   echo 'module BCMATH ok '.$failed;
-  print '<span class="warning">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; ou activé l\'extension (bcmath)  pour bcmath soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </span>';
+  echo '<span class="warning">',
+        sprintf($str_error_message, "bcmath"),
+        ' </span>';
   $flag_php++;
 } else echo 'module BCMATH '.$succeed;
 echo "</li>";
 
 echo "<li>";
-if ( in_array('gettext',$module) == false )
+if (in_array('gettext',$module) == false )
 {
   echo 'module GETTEXT '.$failed;
-  print '<span class="warning">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; ou activé l\'extension  (gettext) pour gettext soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </span>';
+   echo '<span class="warning">',
+        sprintf($str_error_message, "gettext"),
+        ' </span>';
   $flag_php++;
 } else echo 'module GETTEXT '.$succeed;
 echo "</li>";
@@ -217,21 +287,35 @@ echo "<li>";
 if ( in_array('zip',$module) == false )
 {
   echo 'module ZIP '.$failed;
-  print '<span class="warning">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; ou activé l\'extension (zip) pour zip soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </span>';
+   echo '<span class="warning">',
+        sprintf($str_error_message, "zip"),
+        ' </span>';
   $flag_php++;
 } else echo 'module ZIP '.$succeed;
+echo "</li>";
+echo "<li>";
+if ( in_array('gd',$module) == false )
+{
+  echo 'module GD '.$failed;
+   echo '<span class="warning">',
+        sprintf($str_error_message, "gd"),
+        ' </span>';
+  $flag_php++;
+} else echo 'module GD '.$succeed;
 echo "</li>";
 
 if ( ini_get("max_execution_time") < 60 )  {
         echo "<li>";
-        echo 'Avertissement : '.$failed;
-	print '<span class="info"> max_execution_time devrait être de 60 minimum</span>';
+        echo _('Avertissement').' : '.$failed;
+	echo '<span class="info"> ',
+                _("max_execution_time devrait être de 60 minimum"),
+                '</span>';
         echo "</li>";
 }
 
 if ( ini_get("register_globals") == true)  {
         echo "<li>";
-        echo 'Avertissement : '.$failed;
+        echo _('Avertissement').' : '.$failed;
 	print '<span class="warning"> register_globals doit être à off</span>';
         echo "</li>";
 	$flag_php++;
@@ -239,7 +323,7 @@ if ( ini_get("register_globals") == true)  {
 
 if ( ini_get("session.use_trans_sid") == false )  {
         echo "<li>";
-        echo 'Avertissement : '.$failed;
+        echo _('Avertissement').' : '.$failed;
 	print '<span class="warning"> avertissement session.use_trans_sid should be set to true </span>';
         echo "</li>";
 }
@@ -250,7 +334,7 @@ echo "</li>";
 if ( $flag_php==0 ) {
 	echo '<p class="info"> php.ini est bien configur&eacute; '.$succeed.'</p>';
 } else {
-	echo '<p class="warning"> php mal configur&eacute; '.$failed.'</p>';
+	echo '<p class="warning"> php mal configur&eacute; '.$failed.' </p>';
 }
 /* check user */
 if ( (defined("MULTI") && MULTI==1)|| !defined("MULTI"))
@@ -270,7 +354,7 @@ if ( (defined("MULTI") && MULTI==1)|| !defined("MULTI"))
 $sql="select setting from pg_settings where name='server_version'";
 $version=$cn->get_value($sql);
 
-var_dump($version);
+echo "Version base de données :",$version;
 
 if ( $version[0] < 8 ||
      ($version[0]=='8' && $version[2]<4)
@@ -282,6 +366,8 @@ offre pas, installez en une en la compilant. </p><p>Lisez attentivement la notic
 vos bases de donn&eacute;es
 </p>
 <?php exit(); //'
+} else {
+    echo " ",$g_succeed;
 }
 
 ?>
@@ -336,9 +422,11 @@ if ( $flag == 0 ) {
  }
 if ( ! isset($_POST['go']) ) {
 ?>
+<span style="text-align: center">
 <FORM action="setup.php" METHOD="post">
-<input type="submit" name="go" value="Pr&ecirc;t &agrave; commencer la mise &agrave; jour ou l'installation?">
+<input type="submit" class="button" name="go" value="<?php echo _("Commencer la mise à jour ou l'installation");?>">
 </form>
+</span>
 <?php
 }
 if ( ! isset($_POST['go']) )
@@ -426,7 +514,9 @@ if  (defined("MULTI") && MULTI == 0)
         }
 
 	?>
+<p style="text-align: center">
 		<A style="" class="button" HREF="../index.php">Connectez-vous à NOALYSS</A>
+                </p>
 	<?php
 	exit();
 }
@@ -499,4 +589,6 @@ for ($e=0;$e < $MaxDossier;$e++) {
  echo "<p class=\"info\">Tout est install&eacute; $succeed";
 ?>
 </p>
+<p style="text-align: center">
 <A style="" class="button" HREF="../index.php">Connectez-vous à NOALYSS</A>
+</p>
