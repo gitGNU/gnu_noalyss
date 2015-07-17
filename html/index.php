@@ -134,8 +134,7 @@
 
 if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php'))
 {
-    $p_string='admin/setup.php';
-    echo '<HTML><head><META HTTP-EQUIV="REFRESH" content="0;url='.$p_string.'"></head><body> Connecting... </body></html>';
+    header("Location: admin/setup.php",true, 307);
     exit(0);
 }
 
