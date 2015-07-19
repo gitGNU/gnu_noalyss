@@ -169,7 +169,9 @@ class Anc_Print
     
 </table>
 <span style="padding:5px;margin:5px;display:block;">
-    <?php echo _( "Plan Analytique :").$plan_id->input(); ?>
+    <?php echo _( "Plan Analytique :").$plan_id->input(); 
+        echo HtmlInput::infobulle(42);
+    ?>
 </span>
 
 <?php
@@ -178,7 +180,6 @@ class Anc_Print
         $r.=$choose_from->input();
         $r.=_(" et l'activité ").$to_poste->input();
         $r.=$choose_to->input();
-        $r.='<span class="notice" style="display:block">'._('Selectionnez le plan qui vous intéresse avant de cliquer sur Recherche').'</span>';
 
         $r.='</span>';
         return $r;

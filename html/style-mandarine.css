@@ -11,6 +11,7 @@ BODY {
 .notice {
     color:#FF0000;
     font-style: italic;
+    font-weight: bold;
 }
 
 table.sortable, table.table_large, table.result  ,table.resultfooter {
@@ -268,7 +269,6 @@ td.mtitle {
 /*    font-weight: bold;*/
 }
 td.mtitle a.mtitle {
-    color:whitesmoke;
 }
 td.msubtitle {
     text-align:center;

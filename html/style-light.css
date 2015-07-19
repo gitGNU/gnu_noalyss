@@ -340,8 +340,10 @@ tr.odd {
 
 tr.highlight {
     font-weight: bold;
-    background:darkslategrey;
-    color:white;
+    background:grey;
+    color:black;
+    font-style:bold;
+    border-style:solid;
     
 }
 tr.highlight a {
@@ -424,7 +426,7 @@ td.mtitle:hover
 div.menu2 td.mtitle:hover
 {
     color:#FFFFFF;
-    border-radius: 10px 0px 0px;
+    border-radius: 10px 10px 0px 0px;
    border-bottom-color: red;
    border-bottom-style: solid;
    border-bottom-width: 4px;
@@ -968,7 +970,7 @@ div.topmenu {
         
 }
 div.topmenu table {
-    border-spacing:0px;
+    border-spacing:1px;
    
     
 }
@@ -989,6 +991,7 @@ background: -ms-linear-gradient(top, rgba(96,108,136,1) 40%,rgba(63,76,107,1) 70
 background: linear-gradient(to bottom, rgba(96,108,136,1) 40%,rgba(63,76,107,1) 70%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#3f4c6b',GradientType=0 ); /* IE6-9 */
    
+    width: 250px;
 }
 div.menu2 td, div.menu2 td.mtitle {
     border-width:4px;
@@ -996,7 +999,7 @@ div.menu2 td, div.menu2 td.mtitle {
     border-bottom-style: solid;
     border-bottom-color:rgba(63,76,107,1);
     border-top-style: solid;
-    border-radius : 10px 0px 0px 0px; 
+    border-radius : 10px 10px 0px 0px; 
     
     background: -moz-linear-gradient(top, rgba(96,108,136,1) 40%, rgba(63,76,107,1) 70%); /* FF3.6+ */
 background: -webkit-gradient(linear, left top, left bottom, color-stop(40%,rgba(96,108,136,1)), color-stop(70%,rgba(63,76,107,1))); /* Chrome,Safari4+ */
@@ -1025,7 +1028,9 @@ border-bottom-width : 4px !important;
 border-bottom-style:solid;
     color:#FFFFFF;
     text-align:center;
-    width:120px;
+    
+
+width: 250px;
   
 }
 
@@ -1291,7 +1296,7 @@ a.line:hover,div_content a.line
     margin-right:2px;
     margin-top:2px;
     font-size:12px;
-    font-size:1rem;
+    font-size: 1.2rem;
 }
 #close_div:hover
 {
@@ -1354,7 +1359,7 @@ a.nav:hover,div.content a.nav:hover,div.redcontent a.nav:hover {
     font-weight: bolder;
     text-transform: full-width;
     text-transform: fullwidth;
-    font-size: 200%;
+    font-size: 150%;
 }
 @media only screen and (min-width: 955px) {
 #dossier {
@@ -1368,7 +1373,7 @@ a.nav:hover,div.content a.nav:hover,div.redcontent a.nav:hover {
     text-transform: full-width;
     text-transform: fullwidth;
     
-    font-size: 200%;
+    font-size: 150%;
 }
 }
 @media only screen and (max-width: 955px) {
@@ -1748,7 +1753,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cedce7', end
 li.tabs {
     display:inline;
     background-color: inherit;
-    color:inherit;margin-left: 0px;
+    color:inherit;
+    margin-left: 2px;
     padding: 15px 15px 0px 15px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
