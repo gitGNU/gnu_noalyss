@@ -259,7 +259,7 @@ td.mshort {
 td.mtitle {
     text-align:center;
     /* max-width:100px; */
-    height :20px;
+    height :35px;
 
     border:0px;
     border-style: solid;
@@ -312,14 +312,16 @@ td.cell{
 }
 td.selectedcell{
     border-style:solid;
-    border-color:red;
+    border-color:white;
     border-width:1px ;
     font-weight: bold;
     background:#FFA268;
     color:#FFFFFF;
     text-align:center;
     /* max-width:50%; */
-    border-radius:5px;
+    border-radius:7px;
+    background: #F9C5B6;
+
 }
 a.mtitle {
     text-decoration:none;
@@ -333,7 +335,7 @@ a.mtitle:hover {
     display:inline;
 
     color: #6D3F2E;
-    background-color:#FF6600;
+    /* background-color:#FF6600; */
 
 }
 td.toolselected a.mtitle {
@@ -367,7 +369,7 @@ tr.even:hover td
     background-color: #FFFFCC;
     color: #DAC245;
 }
-td.mtitle:hover,td.mtitle:hover a
+td.mtitle:hover,td.mtitle:hover a,div.menu2 table.mtitle td.mtitle:hover
 {
     border-radius: 5px;
     background: #F9C5B6;
@@ -1630,24 +1632,23 @@ li.tabs_selected {
     padding: 20px 15px 0px 15px;
     border:1px red solid;
 }
-li.tabs {
+
+li.tabs,li.tabs:hover{
     display:inline;
-    background-color: inherit;
-    color:inherit;
     margin-left: 5px;
     border-top-right-radius: 10px;
     padding: 15px 15px 0px 15px;
     border:1px red solid;
+    color:rgb(165, 42, 42);
+}
+li.tabs {
+    background-color: inherit;
 
 }
 li.tabs:hover {
-    display:inline;
     background-color: pink;
-    color:wheat;margin-left: 2px;
-    padding:  15px 15px 0px 15px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border:1px red solid;
+    color:wheat;
+    border:1px orange solid;
 
 }
 ul.tabs a {
@@ -1780,9 +1781,10 @@ input[type="button"].tinybutton {
     margin: 1px 2px 1px 2px;
     border-width: 1px;
     border-style: solid;
-    border-color: blue;
+    border-color: red;
     border-radius: 2px; 
     display : inline;
+    background-color:white;
 }
 /*******************************************************************************
  Image Search
