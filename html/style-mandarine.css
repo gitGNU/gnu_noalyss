@@ -292,6 +292,7 @@ span.even {
 tr.odd {
     background-color: #FFE9D6;
 }
+
 tr.highlight {
     font-weight: bold;
 }
@@ -302,6 +303,7 @@ tr.even {
 td.odd{
     background-color:#FFCC99;
 }
+
 td.even{
     border:0px;
 }
@@ -339,7 +341,7 @@ a.mtitle:hover {
 
 }
 td.toolselected a.mtitle {
-    border: solid 1px gray;
+    /* border: solid 1px gray; */
     color: #FFFFFF;
     border-bottom-width: 2px;
     text-align:center;
@@ -357,17 +359,12 @@ a.dossier {
     color: #6D3F2E;
 
 }
-tr.odd:hover td
+tr.odd:hover td,tr.even:hover td
 {
     text-decoration:none;
-    background-color: #FFFFCC;
-    color: #0F0E0E;
-}
-tr.even:hover td
-{
-    text-decoration:none;
-    background-color: #FFFFCC;
-    color: #DAC245;
+    /* background-color: #FFFFCC; */
+      background: #F9C5B6;
+    color:#FFFFFF;
 }
 td.mtitle:hover,td.mtitle:hover a,div.menu2 table.mtitle td.mtitle:hover
 {
@@ -562,6 +559,7 @@ a.document:hover {
 .input_text {
     border:groove 1px #FF7F50;
     margin:1px;
+    color:rgb(165, 42, 42);
 }
 .input_text:hover {
     border:groove 1px #FF7F50;
@@ -1377,6 +1375,7 @@ textarea.itextarea{
     width:90%;
     margin-left:5%;
     height:120px;
+    color:rgb(165, 42, 42);
 }
 
 div#notice {
@@ -1831,10 +1830,10 @@ div.topmenu a.mtitle{
     font-size:0.85rem;
     color:red;
 }
-div.menu2 a.mtitle{
+div.topmenu td.selectedcell a.mtitle, div.menu2 a.mtitle{
     font-size:13.6px;
     font-size:0.85rem;
-    color:red;
+    color:white;
 } 
 *|*:link {
     color: inherit;
