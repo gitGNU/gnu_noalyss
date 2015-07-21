@@ -1312,7 +1312,7 @@ class Fiche
 		  {
 		    $progress=bcsub($sum_deb,$sum_cred);
 			$side="&nbsp;".$this->get_amount_side($progress);
-		    echo "<TR  style=\"font-weight:bold\">".
+		    echo "<TR class=\"highlight\">".
 		       "<TD>$old_exercice</TD>".
 		      td('').
 		      "<TD></TD>".
