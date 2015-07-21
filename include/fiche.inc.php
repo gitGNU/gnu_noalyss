@@ -135,6 +135,7 @@ if ( $allcard == 0 ){
 	echo h1($fiche_def->label,"");
 	echo h2($fiche_def->fd_description,"");
 }
+echo '<div class="content">';
 /* * *********************************************************************************************************************************
  * Liste
  *
@@ -217,7 +218,6 @@ if ($_GET['histo'] == -1)
 	");
 	$nb_line = Database::num_row($res);
 	if ($write != 1 || $allcard != 0 )  $str_add_card="";
-
 	require_once 'template/fiche_list.php';
 	echo '<hr>'.$bar;
 	return;
@@ -577,7 +577,7 @@ for ($e = 0; $e < count($afiche); $e++)
 		echo td(_('Credit'));
 		echo td(nbm($amount_cred), ' style="font-weight:bold;text-align:right"');
 		echo '</tr>';
-		echo '<tr>';
+		echo '<tr class="highlight">';
                 $solde=abs(round($amount_cred - $amount_deb, 2));
                 if ( $solde == 0)
                 {
