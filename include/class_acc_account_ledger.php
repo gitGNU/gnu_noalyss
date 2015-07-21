@@ -412,7 +412,7 @@ class Acc_Account_Ledger
         $solde_type=($sum_deb>$sum_cred)?"solde débiteur":"solde créditeur";
         $diff=bcsub($sum_deb,$sum_cred);
 		$side="&nbsp;".$this->get_amount_side($diff);
-        echo "<TR style=\"font-weight:bold\">".
+        echo "<TR class=\"highlight\">".
         "<TD >Totaux</TD><td></td>".
         "<TD ></TD>".
         "<TD></TD>".

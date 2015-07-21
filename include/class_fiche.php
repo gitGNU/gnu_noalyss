@@ -1350,7 +1350,7 @@ class Fiche
         $solde_type=($sum_deb>$sum_cred)?"solde débiteur":"solde créditeur";
         $diff=abs(bcsub($sum_deb,$sum_cred));
         echo '<tfoot>';
-       echo "<TR style=\"font-weight:bold\">".
+       echo "<TR class=\"highlight\">".
         "<TD>Totaux</TD>".
         "<TD ></TD>".
         "<TD ></TD>".
