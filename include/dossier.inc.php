@@ -23,18 +23,23 @@ if ( !defined ('ALLOWED')) die('Forbidden');
 * \brief Management of the folder
  *
  */
-require_once("class_itext.php");
-require_once("class_icheckbox.php");
-require_once("class_itextarea.php");
+require_once "class_itext.php";
+require_once "class_icheckbox.php";
+require_once "class_itextarea.php";
+require_once 'class_html_input.php';
 
 $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:'list';
 //---------------------------------------------------------------------------
 // Update
-if ( isset ($_POST['upd']) && isset ($_POST['d']))
+$dossier_id=HtmlInput::default_value_request('d', -1);
+
+if ( isset ($_POST['upd']) && isNumber($dossier_id) == 1 && $dossier_id != -1)
 {
-    $dos=new dossier($_POST['d']);
-    $dos->set_parameter('name',$_POST['name']);
-    $dos->set_parameter('desc',$_POST['desc']);
+    $dos=new dossier($dossier_id);
+    $name=HtmlInput::default_value_post('name', "--vide--");
+    $desc=HtmlInput::default_value_post('desc', "--vide--");
+    $dos->set_parameter('name',$name);
+    $dos->set_parameter('desc',$desc);
     $dos->save();
 }
 echo '<div class="content" style="width:80%;margin-left:10%">';
@@ -42,15 +47,28 @@ echo '<div class="content" style="width:80%;margin-left:10%">';
 if ( isset ($_POST["DATABASE"]) )
 {
     $repo=new Database();
-    $dos=trim($_POST["DATABASE"]);
+    $dos=HtmlInput::default_value_post('DATABASE', "");
     $dos=sql_string($dos);
     if (strlen($dos)==0)
     {
         echo _("Le nom du dossier est vide");
         exit -1;
     }
+    /* 
+     * check template encoding
+     */
+    
+    // Get the modeledef.mod_id
+    $template=HtmlInput::default_value_post("FMOD_ID",-1);
+    if ( $template == -1 || isNumber($template ) == 0) 
+        die (_('Parametre invalide'));
+    
+    // compute template name
+    $template_name=domaine.'mod'.$template;
+    
+    
     $encoding=$repo->get_value("select encoding from pg_database  where ".
-                             " datname='".domaine.'mod'.sql_string($_POST["FMOD_ID"])."'");
+                             " datname=$1",array($template_name));
     if ( $encoding != 6 )
     {
         alert(_('Désolé vous devez migrer ce modèle en unicode'));
@@ -61,13 +79,16 @@ if ( isset ($_POST["DATABASE"]) )
         return;
     }
 
-    $desc=sql_string($_POST["DESCRIPTION"]);
+    /*
+     * Insert new dossier with description
+     */
+    $desc=HtmlInput::default_value_post("DESCRIPTION","");
     try
     {
         $repo->start();
 
         $Res=$repo->exec_sql("insert into ac_dossier(dos_name,dos_description)
-                           values ('".$dos."','$desc')");
+                           values ($1,$2)",array($dos,$desc));
         $l_id=$repo->get_current_seq('dossier_id');
         $repo->commit();
     }
@@ -113,7 +134,6 @@ if ( isset ($_POST["DATABASE"]) )
                 exit;
             }
             ob_flush();
-            $Res=$repo->exec_sql("insert into jnt_use_dos (use_id,dos_id) values (1,$l_id)");
             // Connect to the new database
             $cn=new Database($l_id);
             //--year --
@@ -222,7 +242,9 @@ if ( $sa == 'list' )
 
                 echo td(HtmlInput::anchor(_('Backup'),'backup.php?action=backup&sa=b&t=d&d='
                                               .$Dossier['dos_id']));
-                echo '</td>';
+            } else
+            {
+                echo td(HtmlInput::anchor(_('Effacer'),'?action=dossier_mgt&sa=del&d='.$Dossier['dos_id']," onclick=\"folder_drop('".$Dossier['dos_id']."')\""));
             }
             $compteur++;
 
@@ -294,8 +316,9 @@ if ( $sa == 'list' )
 //---------------------------------------------------------------------------
 // action = del
 //---------------------------------------------------------------------------
-if ( $sa == 'remove' )
+if ( $sa == 'remove' && isNumber($dossier_id) == 1 && $dossier_id != -1 )
 {
+    
     if ( ! isset ($_REQUEST['p_confirm']))
     {
         echo _('Désolé, vous n\'avez pas coché la case');
@@ -305,28 +328,41 @@ if ( $sa == 'remove' )
 
     $cn=new Database();
     $msg="dossier";
-    $name=$cn->get_value("select dos_name from ac_dossier where dos_id=$1",array($_REQUEST['d']));
+    $name=$cn->get_value("select dos_name from ac_dossier where dos_id=$1",array($dossier_id));
     if ( strlen(trim($name)) == 0 )
     {
         echo "<h2 class=\"error\"> $msg "._('inexistant')."</h2>";
         return;
     }
-    $sql="drop database ".domaine."dossier".sql_string($_REQUEST['d']);
-    ob_start();
-    if ( $cn->exec_sql($sql)==false)
+    /**
+     * Check if db exists
+     */
+    $str_name=domaine.'dossier'.$dossier_id;
+    
+    $database_exist=$cn->exist_database($str_name);
+    
+    // if db exists for postgres then drop it
+    if ( $database_exist  == 1)
     {
-        ob_end_clean();
+        $sql="drop database ".domaine."dossier".sql_string($_REQUEST['d']);
+        ob_start();
+        if ( $cn->exec_sql($sql)==false)
+        {
+            ob_end_clean();
 
-        echo "<h2 class=\"error\"> ";
-        echo _('Base de donnée ').domaine."dossier".$_REQUEST['d'].
-        _("est accèdée, déconnectez-vous d'abord")."</h2>";
-        exit;
+            echo "<h2 class=\"error\"> ";
+            echo _('Base de donnée ').domaine."dossier".$_REQUEST['d'].
+            _("est accèdée, déconnectez-vous d'abord")."</h2>";
+            exit;
+        }
+        ob_flush();
     }
-    ob_flush();
+    
+    // clean tables about this dossier
     $sql="delete from  jnt_use_dos where dos_id=$1";
-    $cn->exec_sql($sql,array($_REQUEST['d']));
+    $cn->exec_sql($sql,array($dossier_id));
     $sql="delete from ac_dossier where dos_id=$1";
-    $cn->exec_sql($sql,array($_REQUEST['d']));
+    $cn->exec_sql($sql,array($dossier_id));
     print '<h2 class="error">';
     printf (_("Le dossier %s est effacé").'</h2>',h($name));
     echo HtmlInput::button_anchor(_('Retour'),'?action=dossier_mgt');
