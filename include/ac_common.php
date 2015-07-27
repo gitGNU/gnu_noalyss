@@ -1002,6 +1002,7 @@ function show_menu($module, $idx)
 				$array=compute_variable($file[0]['me_parameter']);
 				put_global($array);
 			}
+                        if ( DEBUG ) echo  $file[0]['me_file']," param : ",$file[0]['me_parameter'] ;
                         /*
                          * Log the file we input to put in the folder test-noalyss for replaying it
                          */
