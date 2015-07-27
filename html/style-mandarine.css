@@ -68,7 +68,7 @@ redcontent h2.info {
     margin:0px;
 }
 h2.info {
-    background-color: #FF6600;
+    background-color: #FFBF94;
     color:#FFFFFF;
     text-align:center;
     padding:0px;
@@ -865,7 +865,7 @@ a#smallanchorbutton, .smallbutton, a.smallbutton,div.content a.smallbutton {
     text-decoration:none;
     font-family: arial,verdana,sans-serif,helvetica;
     font-size:12px;
-    font-size:0.75rem;
+    font-size:0.80rem;
     border-color:  orange;
 
     border-style: solid;
@@ -981,7 +981,7 @@ font-size:0.90rem;
 }
 @media only screen and (min-width: 1281px) {
 div.inner_box  {
-    width: 55%;
+    width: 85%;
     }
 }
 @media only screen and (max-width: 1280px) {
@@ -1815,14 +1815,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feccb1', end
 tr.highlight{
     font-weight: bolder;
     font-size:14px;
-    background-color: orangered;
-    color:white !important;
+    background-color: lightgrey ! important;
+    color:orangered !important;
     border-width:  0px;
     border-style: solid;
     border-color: inherit;
+    
 }
 tr.highlight a{
     color:white !important;
+    background-color:grey !important;
     
 }
 div.topmenu a.mtitle{

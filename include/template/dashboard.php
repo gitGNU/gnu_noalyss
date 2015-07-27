@@ -253,7 +253,7 @@ endif;
 
 
 <div id="last_operation_box_div" class="box">
-<?php echo HtmlInput::title_box(_('Dernières opérations'),"last_operation_box_div",'none')?>
+<?php echo HtmlInput::title_box(_('Dernières opérations'),"last_operation_box_div",'zoom','onclick="popup_recherche('.dossier::id().')"')?>
 
 <table style="width: 100%">
 <?php

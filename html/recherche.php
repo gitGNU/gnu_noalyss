@@ -63,7 +63,7 @@ echo '<form method="GET">';
 echo $search_box;
 echo HtmlInput::submit("viewsearch",_("Recherche"));
 ?>
-<input type="button" class="button" onclick="window.close()" value="&#10761;">
+<input type="button" class="smallbutton" onclick="window.close()" value="<?php echo _('Fermer')?>">
 
 <?php
 echo '</form>';
@@ -107,7 +107,7 @@ if ( isset ($_GET['viewsearch']))
     echo HtmlInput::submit('viewsearch','Export vers CSV');
     echo HtmlInput::hidden('p_action','ALL');
     ?>
-    <input type="button" class="button" onclick="window.close()" value="&#10761;">
+    <input type="button" class="smallbutton" onclick="window.close()" value="<?php echo _('Fermer')?>">
 
 <?php
     echo '</form>';

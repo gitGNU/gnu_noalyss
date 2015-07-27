@@ -145,7 +145,7 @@ echo '<!doctype html><HTML>
 <style>
 BODY {
 background-color:white;
-font-size:14px;
+font-size:18px;
 font-family:sans-serif,arial;
 color:blue;
 }
@@ -166,9 +166,10 @@ color:red;
 .input_text {
 border:1px solid blue;
 margin:1px;
+padding: 10px;
+border-radius: 4px;
 }
 .button {
-font-size:12px;
 color:white;
 font-weight: bold;
 border:0px;
@@ -221,7 +222,7 @@ version  6.8.1.3 - '.$my_domain.'
 
 <BR>
 <center>
-<IMG SRC="image/logo6720.png" alt="NOALYSS">
+<IMG SRC="image/logo6820.png" alt="NOALYSS">
 <BR>
 <BR>
 <BR>
