@@ -145,9 +145,12 @@ echo '<!doctype html><HTML>
 <style>
 BODY {
 background-color:white;
-font-size:18px;
+font-size:12px;
 font-family:sans-serif,arial;
 color:blue;
+}
+.cell , #recover_box p{
+font-size : 18px;
 }
 .remark {
 border: solid black 1px;
@@ -168,6 +171,7 @@ border:1px solid blue;
 margin:1px;
 padding: 10px;
 border-radius: 4px;
+font-size:18px;
 }
 .button {
 color:white;
@@ -186,7 +190,8 @@ cursor:pointer;
 margin:1px 2px 1px 2px;
 -moz-border-radius:2px 2px;
 border-radius:2px 2px;
-
+font-size : 20px;
+margin-bottom: 10px;
 }
 .button:hover {
 cursor:pointer;
@@ -195,6 +200,8 @@ border-style:  solid;
 border-width:  0px;
 font-color:blue;
 margin:1px 2px 1px 2px;
+margin-bottom: 9px;
+
 }
 </style>
 <script src="js/scripts.js" type="text/javascript"></script>
@@ -235,7 +242,7 @@ version  6.8.1.3 - '.$my_domain.'
 <TD><input type="text" class="input_text" value="" id="p_user" name="p_user" tabindex="1"></TD>
 </TR>
 <TR>
-<TD> mot de passe </TD>
+<TD class="cell"> mot de passe </TD>
 <TD><INPUT TYPE="PASSWORD"  class="input_text" value=""  NAME="p_pass" tabindex="2"></TD>
 </TR>';
 
@@ -280,7 +287,7 @@ echo '
     <a id="recover_link" href="#">Mot de passe oublié ? </a>
     
 <div id="recover_box" style="display:none;position:absolute;top:40%;z-index:1;border:solid blue 2px;width:30%;margin-left: 25%;background-color: whitesmoke">
-    <span style="display:block;font-size:120%">Indiquez votre login ou votre email <span style="cursor: pointer;background-color: blue;color:wheat;right:0%;float: right" id="close"><a ref="#" id="close_link"><?php echo SMALLX?></a></span></span>
+    <span style="display:block;font-size:120%;padding:10px">Indiquez votre login ou votre email <span style="cursor: pointer;background-color: white;color:block;top:-5px;float: right;position:relative;right:-5px" id="close"><a ref="#" id="close_link"><?php echo SMALLX?></a></span></span>
             <form method="POST">
                 <input type="hidden" value="send_email" name="id">
                 <input type="hidden" value="recover" name="recover" >
