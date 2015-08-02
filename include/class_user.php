@@ -97,7 +97,7 @@ class User
 		  the database thanks it login */
 		if ($this->id < 0)
 		{
-			$sql_cond = "   where use_login=$1";
+			$sql_cond = "   where use_login=lower($1)";
 			$sql_array = array($this->login);
 		}
 		else
