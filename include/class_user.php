@@ -60,7 +60,7 @@ class User
 				exit();
 			}
 
-			$this->login = $_SESSION['g_user'];
+			$this->login =strtolower($_SESSION['g_user']);
 			$this->pass = $_SESSION['g_pass'];
 			$this->lang = (isset($_SESSION['g_lang'])) ? $_SESSION['g_lang'] : 'fr_FR.utf8';
 			$this->valid = (isset($_SESSION['isValid'])) ? 1 : 0;
@@ -97,7 +97,7 @@ class User
 		  the database thanks it login */
 		if ($this->id < 0)
 		{
-			$sql_cond = "   where use_login=lower($1)";
+			$sql_cond = "   where lower(use_login)=lower($1)";
 			$sql_array = array($this->login);
 		}
 		else
