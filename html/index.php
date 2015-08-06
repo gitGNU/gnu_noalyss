@@ -180,14 +180,14 @@ border:0px;
 text-decoration:none;
 font-family: helvetica,arial,sans-serif;
 background-image: url("image/bg-submit2.gif");
-background-repeat: repeat-x;
+background-repeat: repeat-x repeat-y;
 background-position: left;
 text-decoration:none;
 font-family: helvetica,arial,sans-serif;
 border-width:0px;
 padding:2px 4px 2px 4px;
 cursor:pointer;
-margin:1px 2px 1px 2px;
+margin:31px 2px 1px 2px;
 -moz-border-radius:2px 2px;
 border-radius:2px 2px;
 font-size : 20px;
@@ -198,10 +198,9 @@ cursor:pointer;
 background-color:white;
 border-style:  solid;
 border-width:  0px;
-font-color:blue;
-margin:1px 2px 1px 2px;
-margin-bottom: 9px;
-
+color:red;
+background-image: url("image/bg-submit3.gif");
+background-repeat: repeat-x repeat-y;
 }
 </style>
 <script src="js/scripts.js" type="text/javascript"></script>
@@ -221,7 +220,7 @@ if (defined("RECOVER") && isset ($_REQUEST['recover']) )
 }
 echo '
 <span style="background-color:#879ed4;color:white;padding-left:4px;padding-right:4px;">
-version  6.8.1.3 - '.$my_domain.'
+version  6.8.1.4 - '.$my_domain.'
 </span>
 <BR>
 <BR>
@@ -238,11 +237,11 @@ version  6.8.1.3 - '.$my_domain.'
 <TABLE><TR><TD>
 <TABLE  BORDER=0 CELLSPACING=0>
 <TR>
-<TD class="cell">utilisateur</TD>
+<TD class="cell">Utilisateur</TD>
 <TD><input type="text" class="input_text" value="" id="p_user" name="p_user" tabindex="1"></TD>
 </TR>
 <TR>
-<TD class="cell"> mot de passe </TD>
+<TD class="cell"> Mot de passe </TD>
 <TD><INPUT TYPE="PASSWORD"  class="input_text" value=""  NAME="p_pass" tabindex="2"></TD>
 </TR>';
 
@@ -273,7 +272,7 @@ if ( $g_captcha == true )
 echo '
 <TR style="height:50px;vertical-align:bottom">
 <TD style="width:auto;text-align:center" colspan="2">
-<INPUT TYPE="SUBMIT"  style="width:60%;height:32px;-moz-border-radius:10px;border-radius:10px" class="button" NAME="login" value="Se connecter">
+<INPUT TYPE="SUBMIT"  style="width:250px;height:48px;-moz-border-radius:10px;border-radius:10px" class="button" NAME="login" value="Se connecter">
 </TD>
 </TR>
 </table>
@@ -292,11 +291,11 @@ echo '
                 <input type="hidden" value="send_email" name="id">
                 <input type="hidden" value="recover" name="recover" >
                 <p>
-                login <input type="text"     class="input_text" name="login" nohistory>
+                Login <input type="text"     class="input_text" name="login" nohistory>
                 </p>
-                <p>or</p> 
+                <p>OU</p> 
                 <p>
-                email <input type="text"  class="input_text" name="email" nohistory>
+                Email <input type="text"  class="input_text" name="email" nohistory>
                 </p>
                 <input type="submit" class="button" name="send_email" value="Envoi email">
                 

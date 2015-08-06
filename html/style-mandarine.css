@@ -1827,10 +1827,15 @@ tr.highlight a{
     background-color:grey !important;
     
 }
-div.topmenu a.mtitle{
+//--- Top menu and menu2
+div.topmenu a.mtitle , div.menu2 a.mtitle{
     font-size:13.6px;
     font-size:0.85rem;
     color:red;
+}
+div.topmenu a.mtitle:hover,div.menu2 a.mtitle:hover{
+    color:red;
+    background-color: transparent;
 }
 div.topmenu td.selectedcell a.mtitle, div.menu2 a.mtitle{
     font-size:13.6px;

@@ -73,7 +73,7 @@ define ('SMALLX','&#x2D5D;');
 
 
 
-define ('SVNINFO',6813);
+define ('SVNINFO',6814);
 define ("DEBUG",false);
 define ("LOGINPUT",false);
 
@@ -108,12 +108,15 @@ if ( DEBUG ) {
 	error_reporting(2147483647);
 	ini_set("display_errors",1);
 	ini_set("html_errors",1);
+        ini_set('log_errors',1);
+        ini_set('error_log','syslog');
 }
-	else {
-	error_reporting(0);
+else {
+	error_reporting(15);
 	ini_set("display_errors",1);
-	ini_set("html_errors",1);
-        
+	ini_set("html_errors",0);
+        ini_set('log_errors',1);
+        ini_set('error_log','syslog');
 }
 // Erreur
 define ("NOERROR",0);

@@ -36,7 +36,7 @@ class Database
 
     private $db;    /**< database connection */
     private $ret;   /**< return value  */
-
+    private $is_open;                   /*!< true is connected */
     /**\brief constructor
      * \param $p_database_id is the id of the dossier, or the modele following the
      * p_type if = 0 then connect to the repository
@@ -108,8 +108,9 @@ class Database
             }
         }
         $this->db=$a;
+        $this->is_open=TRUE;
         if ($this->exist_schema('comptaproc'))
-            pg_exec($this->db, 'set search_path to public,comptaproc;');
+        pg_exec($this->db, 'set search_path to public,comptaproc;');
         pg_exec($this->db, 'set DateStyle to ISO, MDY;');
         ob_end_clean();
     }
@@ -136,7 +137,7 @@ class Database
     {
         try
         {
-
+            if ( ! $this->is_open ) throw new Exception(' Database is closed');
             $this->sql=$p_string;
             $this->array=$p_array;
 
@@ -176,6 +177,8 @@ class Database
                 echo $a->getTraceAsString();
                 echo pg_last_error($this->db);
             }
+            $this->rollback();
+            
             throw ($a);
         }
 
@@ -228,6 +231,7 @@ class Database
      */
     function commit()
     {
+        if ( ! $this->is_open) return;
         $Res=$this->exec_sql("commit");
     }
 
@@ -236,6 +240,7 @@ class Database
      */
     function rollback()
     {
+        if ( ! $this->is_open) return;
         $Res=$this->exec_sql("rollback");
     }
 
@@ -973,7 +978,8 @@ class Database
 
     function close()
     {
-        pg_close($this->db);
+        if ( $this->is_open ) pg_close($this->db);
+        $this->is_open=FALSE;
     }
 
     /**\brief
