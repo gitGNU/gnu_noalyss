@@ -27,6 +27,25 @@
 class Own
 {
     var $db;
+    var $MY_NAME;
+    var $MY_TVA;
+    var $MY_STREET;
+    var $MY_NUMBER;
+    var $MY_CP;
+    var $MY_TEL;
+    var $MY_PAYS;
+    var $MY_COMMUNE;
+    var $MY_FAX;
+    var $MY_ANALYTIC;
+    var $MY_STRICT;
+    var $MY_TVA_USE;
+    var $MY_PJ_SUGGEST;
+    var $MY_CHECK_PERIODE;
+    var $MY_DATE_SUGGEST;
+    var $MY_ALPHANUM;
+    var $MY_UPDLAB;
+    var $MY_STOCK;
+    
     // constructor
     function Own($p_cn)
     {
