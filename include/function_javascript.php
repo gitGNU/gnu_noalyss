@@ -24,7 +24,7 @@ function js_include($p_string)
 
     if ( !  file_exists('js/'.$p_string))
         alert("Erreur js/$p_string n existe pas");
-    $script='<script type="text/javascript" charset="utf-8" language="javascript" src="js/'.$p_string.'"></script>';
+    $script='<script type="text/javascript" charset="utf-8" language="javascript" src="js/'.$p_string.'?version='.SVNINFO.'"></script>';
     // debug
 
     return $script;
