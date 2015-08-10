@@ -960,10 +960,28 @@ class User
 		$p_array = $this->get_available_folder($p_filtre);
 
 		$result = "";
-		if ($p_array == 0)
-			return $result . " * Aucun dossier *";
-
-		$result.="<TABLE id=\"folder\" >";
+		
+		$result.="<TABLE id=\"folder\" class=\"result\">";
+                $result.="<tr>";
+                $result.="<th>";
+                $result.=_("Id");
+                $result.="</th>";
+                $result.="<th>";
+                $result.=_("Nom");
+                $result.="</th>";
+                $result.="<th>";
+                $result.=_("Description");
+                $result.="</th>";
+                $result.="</tr>";
+                if ($p_array == 0) {
+                    $result.="<tr>";
+                    $result.='<td style="width:auto" colspan=3>';
+                    $result.=_("Aucun dossier disponible");
+                    $result.='</td>';
+                    $result.="</tr>";
+                    return $result;
+                }
+                
 		for ($i = 0; $i < sizeof($p_array); $i++)
 		{
 
@@ -993,7 +1011,7 @@ class User
 			$result.="</TD>";
 			$desc = ($desc == "") ? "<i>Aucune description</i>" : h($desc);
 			$desc = "<A class=\"dossier\" HREF=\"$target\">$desc</A>";
-			$result.="<TD class=\"$tr\" style=\"padding-left:50px\">" . $desc;
+			$result.="<TD class=\"$tr\" >" . $desc;
 			$result.="</TD>";
 			$result.="</TR>";
 		}
