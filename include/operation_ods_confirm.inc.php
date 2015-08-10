@@ -28,7 +28,7 @@
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 echo '<div class="content">';
-echo h2("Confirmation",'class="info"');
+echo h2(_("Confirmation"),'class="info"');
 echo '<div id="jrn_name_div">';
 echo '<h2 id="jrn_name" style="display:inline">' . $ledger->get_name() . '</h2>';
 echo '</div>';
@@ -75,8 +75,8 @@ echo $ledger->confirm($_POST,false);
     </div>
 </div>
 <?php
-echo HtmlInput::submit("save","Confirmer");
-echo HtmlInput::submit("correct","Corriger");
+echo HtmlInput::submit("save",_("Confirmer"));
+echo HtmlInput::submit("correct",_("Corriger"));
 
 ?>
 </FORM>
