@@ -198,7 +198,6 @@ cursor:pointer;
 background-color:white;
 border-style:  solid;
 border-width:  0px;
-color:red;
 background-image: url("image/bg-submit3.gif");
 background-repeat: repeat-x repeat-y;
 }
