@@ -22,8 +22,7 @@
  * \brief Contains all the variable + the javascript
  * and some parameter
  */
-require_once ('config.inc.php');
-require_once('constant.security.php');
+
 // SVNVERSION
 global $version_noalyss;
 /*
@@ -31,10 +30,18 @@ global $version_noalyss;
  */
 $inc_path=get_include_path();
 $dirname=dirname(__FILE__);
+
 /* Global variable of the include dir */
 global $g_include_dir,$g_ext_dir;
 $g_include_dir=$dirname;
 $g_ext_dir = $dirname."/ext";
+
+if ( !defined("NOALYSS_HOME")) define ("NOALYSS_HOME",dirname($dirname)."/html");
+if ( !defined("NOALYSS_PLUGIN")) define ("NOALYSS_PLUGIN",$g_ext_dir);
+if ( !defined("NOALYSS_INCLUDE")) define ("NOALYSS_INCLUDE",$g_include_dir);
+
+require_once NOALYSS_INCLUDE.'/config.inc.php';
+require_once NOALYSS_INCLUDE.'/constant.security.php';
 
 if ( strpos($inc_path,";") != 0 ) {
   $new_path=$inc_path.';'.$dirname;
@@ -74,8 +81,12 @@ define ('SMALLX','&#x2D5D;');
 
 
 define ('SVNINFO',6815);
-define ("DEBUG",false);
-define ("LOGINPUT",false);
+if ( ! defined  ('DEBUG')) {
+    define ("DEBUG",false);
+}
+if ( ! defined ('LOGINPUT')) {
+    define ("LOGINPUT",false);
+}
 
 $version_noalyss=SVNINFO;
 
@@ -112,8 +123,9 @@ if ( DEBUG ) {
         ini_set('error_log','syslog');
 }
 else {
-	error_reporting(15);
-	ini_set("display_errors",1);
+        // Rapporte les erreurs d'exécution de script
+        error_reporting(E_ERROR | E_WARNING | E_PARSE);
+        ini_set("display_errors",0);
 	ini_set("html_errors",0);
         ini_set('log_errors',1);
         ini_set('error_log','syslog');
