@@ -905,7 +905,7 @@ class User
 	 * default is false
 	 * \return
 	 *  - L for administrator (local and global)
-	 *  - P for extension only
+	 *  - X no access
 	 *  - R regular user
 	 */
 
@@ -916,7 +916,7 @@ class User
 			return 'L';
 		$cn = new Database();
 
-		$dossier = $cn->get_value("select 'L' from jnt_use_dos where dos_id=$1 and use_id=$2", array($p_dossier_id, $this->id));
+		$dossier = $cn->get_value("select 'R' from jnt_use_dos where dos_id=$1 and use_id=$2", array($p_dossier_id, $this->id));
 		$dossier = ($dossier == '') ? 'X' : $dossier;
 		if ($dossier == 'X')
 		{
@@ -992,14 +992,7 @@ class User
 				$tr = "odd";
 			else
 				$tr = "even";
-			if ($this->check_dossier($id) != 'P')
-			{
-				$target = "do.php?gDossier=$id";
-			}
-			else
-			{
-				$target = "extension.php?gDossier=$id";
-			}
+    			$target = "do.php?gDossier=$id";
 
 			$result.="<TR class=\"$tr\">";
 
