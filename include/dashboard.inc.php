@@ -1,19 +1,19 @@
 <?php
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once("class_idate.php");
-require_once("class_itext.php");
-require_once ('constant.php');
-require_once ('ac_common.php');
-require_once ('class_user.php');
-require_once('class_acc_report.php');
-require_once('class_periode.php');
-require_once ('user_menu.php');
-require_once ('class_dossier.php');
-require_once('class_todo_list.php');
-require_once("class_itextarea.php");
-require_once('class_calendar.php');
-require_once('class_acc_ledger.php');
-require_once 'class_follow_up.php';
+require_once NOALYSS_INCLUDE.'/class_idate.php';
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once  NOALYSS_INCLUDE.'/constant.php';
+require_once  NOALYSS_INCLUDE.'/ac_common.php';
+require_once  NOALYSS_INCLUDE.'/class_user.php';
+require_once NOALYSS_INCLUDE.'/class_acc_report.php';
+require_once NOALYSS_INCLUDE.'/class_periode.php';
+require_once  NOALYSS_INCLUDE.'/user_menu.php';
+require_once  NOALYSS_INCLUDE.'/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/class_todo_list.php';
+require_once NOALYSS_INCLUDE.'/class_itextarea.php';
+require_once NOALYSS_INCLUDE.'/class_calendar.php';
+require_once NOALYSS_INCLUDE.'/class_acc_ledger.php';
+require_once NOALYSS_INCLUDE.'/class_follow_up.php';
 
 echo '<div class="content">';
 global $g_user;
@@ -40,7 +40,7 @@ $customer_now=$Ledger->get_customer_now();
 $customer_late=$Ledger->get_customer_late();
 
 ob_start();
-require_once('template/dashboard.php');
+require_once NOALYSS_INCLUDE.'/template/dashboard.php';
 $ret=ob_get_contents();
 ob_end_clean();
 echo $ret;

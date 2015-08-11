@@ -22,11 +22,11 @@
  * the customer category
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once("class_iselect.php");
-require_once("class_ihidden.php");
-require_once("class_customer.php");
-require_once("class_ibutton.php");
-require_once('class_fiche_def.php');
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/class_customer.php';
+require_once NOALYSS_INCLUDE.'/class_ibutton.php';
+require_once NOALYSS_INCLUDE.'/class_fiche_def.php';
 
 
 
@@ -147,7 +147,7 @@ if ($low_action == "list")
 if ( $low_action == 'detail')
 {
     /* Menu */
-    require_once('category_card.inc.php');
+    require_once NOALYSS_INCLUDE.'/category_card.inc.php';
     return;
 }
 

@@ -22,7 +22,7 @@
 /*!\file
  * \brief Html Input
  */
-require_once('class_html_input.php');
+require_once NOALYSS_INCLUDE.'/class_html_input.php';
 class IText extends HtmlInput
 {
     function __construct($name='',$value='',$p_id="")

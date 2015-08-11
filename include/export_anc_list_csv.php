@@ -28,7 +28,7 @@ header('Pragma: public');
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="jrn.csv"',FALSE);
 
-require_once ('class_anc_listing.php');
+require_once  NOALYSS_INCLUDE.'/class_anc_listing.php';
 
 $cn=new Database(dossier::id());
 

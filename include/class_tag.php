@@ -17,7 +17,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
-require_once 'class_tag_sql.php';
+require_once NOALYSS_INCLUDE.'/class_tag_sql.php';
 
 class Tag
 {
@@ -34,7 +34,7 @@ class Tag
     {
         $ret=$this->data->seek(' order by t_tag');
         if ( $this->cn->count($ret) == 0) return "";
-        require_once 'template/tag_list.php';
+        require_once NOALYSS_INCLUDE.'/template/tag_list.php';
     }
     /**
      * let select a tag to add
@@ -42,7 +42,7 @@ class Tag
     function select()
     {
         $ret=$this->data->seek(' order by t_tag');
-        require_once 'template/tag_select.php';
+        require_once NOALYSS_INCLUDE.'/template/tag_select.php';
     }
     /**
      * Display a inner window with the detail of a tag
@@ -50,7 +50,7 @@ class Tag
     function form_add()
     {
         $data=$this->data;
-        require_once 'template/tag_detail.php';
+        require_once NOALYSS_INCLUDE.'/template/tag_detail.php';
     }
     /**
      * Show the tag you can add to a document
@@ -90,7 +90,7 @@ class Tag
     function select_search($p_prefix)
     {
         $ret=$this->data->seek(' order by t_tag');
-        require_once 'template/tag_search_select.php';
+        require_once NOALYSS_INCLUDE.'/template/tag_search_select.php';
     }
     /**
      * In the screen search add this data to the cell

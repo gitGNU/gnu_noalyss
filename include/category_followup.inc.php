@@ -27,7 +27,7 @@
  *  - $cn = database connection
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once('class_follow_up.php');
+require_once NOALYSS_INCLUDE.'/class_follow_up.php';
 
 /**
  *\note problem with ShowActionList, this function is local
@@ -47,5 +47,5 @@ $_GET['qcode']=$fiche->get_quick_code();
 $_REQUEST['qcode'] = $fiche->get_quick_code();
 
 echo '<div class="content">';
-require_once('action.common.inc.php');
+require_once NOALYSS_INCLUDE.'/action.common.inc.php';
 echo '</div>';

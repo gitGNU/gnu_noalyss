@@ -24,7 +24,7 @@
  *
  * @author dany
  */
-require_once 'class_filetosend.php';
+require_once NOALYSS_INCLUDE.'/class_filetosend.php';
 
 class Sendmail
 {

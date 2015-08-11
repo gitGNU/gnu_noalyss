@@ -15,10 +15,10 @@ header('Pragma: public');
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="'.$filename.'.csv"',FALSE);
 
-require_once 'class_acc_reconciliation.php';
-include_once ("ac_common.php");
-require_once('class_database.php');
-require_once('class_dossier.php');
+require_once NOALYSS_INCLUDE.'/class_acc_reconciliation.php';
+require_once NOALYSS_INCLUDE.'/ac_common.php';
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
 // --------------------------
 // Check if all mandatory arg are passed
 foreach (array('choice','p_end','p_start') as $arg)

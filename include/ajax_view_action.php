@@ -27,8 +27,8 @@
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 ob_start();
-require_once 'class_follow_up.php';
-require_once 'class_default_menu.php';
+require_once NOALYSS_INCLUDE.'/class_follow_up.php';
+require_once NOALYSS_INCLUDE.'/class_default_menu.php';
 
 echo HtmlInput::title_box(_("Détail action"), $div);
 $act = new Follow_Up($cn);

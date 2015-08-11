@@ -1,4 +1,5 @@
-<!doctype html><HTML><HEAD>
+<!doctype html>
+<HTML><HEAD>
     <TITLE>Noaliss - Mise à jour</TITLE>
     <META http-equiv="Content-Type" content="text/html; charset=UTF8">
     </title>

@@ -26,7 +26,7 @@ if ( !defined ('ALLOWED')) die('Forbidden');
  * action=user_mgt
  *
  */
-require_once 'class_sort_table.php';
+require_once NOALYSS_INCLUDE.'/class_sort_table.php';
 echo '<div class="content" style="width:80%;margin-left:10%">';
 /******************************************************/
 // Add user
@@ -55,7 +55,7 @@ if ( isset ($_POST["ADD"]) )
             $new_user->insert();
             $new_user->load();
             $_REQUEST['use_id']=$new_user->id;
-            require_once("user_detail.inc.php");
+            require_once NOALYSS_INCLUDE.'/user_detail.inc.php';
             return;
 
 	}
@@ -64,7 +64,7 @@ if ( isset ($_POST["ADD"]) )
 // View user detail
 if ( isset($_REQUEST['det']))
 {
-    require_once("user_detail.inc.php");
+    require_once NOALYSS_INCLUDE.'/user_detail.inc.php';
 
     return;
 }

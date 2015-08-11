@@ -25,7 +25,7 @@
  * @brief Manage the goods
  *
  */
-require_once 'class_stock_goods_sql.php';
+require_once NOALYSS_INCLUDE.'/class_stock_goods_sql.php';
 
 class Stock_Goods extends Stock_Goods_Sql
 {
@@ -110,7 +110,7 @@ class Stock_Goods extends Stock_Goods_Sql
                 $select_exercice=new ISelect('p_exercice');
                 $select_exercice->value=$cn->make_array('select distinct p_exercice,p_exercice from parm_periode order by 1 desc');
                 
-                require_once 'template/stock_inv.php';
+                require_once NOALYSS_INCLUDE.'/template/stock_inv.php';
 	}
 
 	function record_save($p_array)

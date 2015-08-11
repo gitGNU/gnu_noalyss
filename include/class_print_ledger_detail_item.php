@@ -23,8 +23,8 @@
  *
  * @author danydb
  */
-require_once 'class_acc_ledger_sold.php';
-require_once 'class_acc_ledger_purchase.php';
+require_once NOALYSS_INCLUDE.'/class_acc_ledger_sold.php';
+require_once NOALYSS_INCLUDE.'/class_acc_ledger_purchase.php';
 class Print_Ledger_Detail_Item extends PDFLand
 {
     public function __construct (Database $p_cn,Acc_Ledger $p_jrn)

@@ -26,8 +26,8 @@
  *
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once 'class_stock_sql.php';
-require_once 'class_sort_table.php';
+require_once NOALYSS_INCLUDE.'/class_stock_sql.php';
+require_once NOALYSS_INCLUDE.'/class_sort_table.php';
 
 global $g_user, $cn,$g_parameter;
 

@@ -22,8 +22,8 @@
 /*!\file
  * \brief about the accountant exercice
  */
-require_once('class_database.php');
-require_once('class_iselect.php');
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
 class Exercice
 {
   function __construct(&$cn)

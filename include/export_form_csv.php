@@ -21,16 +21,16 @@
  * \brief Send a report in CSV format
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once ("ac_common.php");
-require_once('class_database.php');
-require_once ('class_user.php');
-require_once("class_acc_report.php");
-require_once("class_impress.php");
+require_once  NOALYSS_INCLUDE.'/ac_common.php';
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once  NOALYSS_INCLUDE.'/class_user.php';
+require_once NOALYSS_INCLUDE.'/class_acc_report.php';
+require_once NOALYSS_INCLUDE.'/class_impress.php';
 header('Pragma: public');
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="rapport.csv"',FALSE);
 
-require_once('class_dossier.php');
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
 $gDossier=dossier::id();
 
 /* Admin. Dossier */

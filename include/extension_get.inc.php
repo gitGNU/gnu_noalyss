@@ -3,16 +3,16 @@
 //see licence.txt
 
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once('class_database.php');
-require_once('class_dossier.php');
-require_once("ac_common.php");
-require_once("constant.php");
-require_once('function_javascript.php');
-require_once('class_extension.php');
-require_once ('class_html_input.php');
-require_once('class_iselect.php');
-require_once ('constant.security.php');
-require_once ('class_user.php');
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/ac_common.php';
+require_once NOALYSS_INCLUDE.'/constant.php';
+require_once NOALYSS_INCLUDE.'/function_javascript.php';
+require_once NOALYSS_INCLUDE.'/class_extension.php';
+require_once  NOALYSS_INCLUDE.'/class_html_input.php';
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once  NOALYSS_INCLUDE.'/constant.security.php';
+require_once  NOALYSS_INCLUDE.'/class_user.php';
 
 /**
  * included from do.php + extension_choice.inc.php
@@ -33,13 +33,13 @@ if ($ext->can_request($g_user->login)==-1)
 	alert("Plugin non authorisé");
 	return;
 }
-if ( ! file_exists('../include/ext'.DIRECTORY_SEPARATOR.trim($ext->me_file)))
+if ( ! file_exists(NOALYSS_PLUGIN.'/'.trim($ext->me_file)))
 	{
 		alert(j(_("Ce fichier n'existe pas ")));
 		return;
 	}
 echo '<div class="content">';
-require_once('ext'.DIRECTORY_SEPARATOR.trim($ext->me_file));
+require_once NOALYSS_PLUGIN.DIRECTORY_SEPARATOR.trim($ext->me_file);
 
 
 ?>

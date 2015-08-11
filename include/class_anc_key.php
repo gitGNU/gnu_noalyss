@@ -25,7 +25,7 @@
  * @brief Class to manage distribution keys for Analytic accountancy
  * 
  */
-require_once 'class_anc_key_sql.php';
+require_once NOALYSS_INCLUDE.'/class_anc_key_sql.php';
 
 class Anc_Key
 {
@@ -125,7 +125,7 @@ class Anc_Key
          where
          kd_id=$1 order by ke_row', array($this->key->getp('id')));
 
-        require_once 'template/anc_key_input.php';
+        require_once NOALYSS_INCLUDE.'/template/anc_key_input.php';
     }
 
     /**

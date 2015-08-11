@@ -27,8 +27,8 @@
  *
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once 'class_profile_sql.php';
-require_once 'class_profile_menu.php';
+require_once NOALYSS_INCLUDE.'/class_profile_sql.php';
+require_once NOALYSS_INCLUDE.'/class_profile_menu.php';
 $profile=new Profile_sql($cn,$p_id);
 $gDossier=Dossier::id();
 $add_menu=HtmlInput::button("add", "Ajout Menu","onclick=\"add_menu({dossier:$gDossier,p_id:$p_id,type:'me'})\"");
@@ -79,7 +79,7 @@ if ($profile->p_id > 0)
 {
 	echo '<form method="POST" onsubmit="return confirm (\''._("vous confirmez").'\')">';
 
-	echo 'Vous pouvez aussi copier ce profil et puis le corriger';
+	echo _('Vous pouvez aussi copier ce profil et puis le corriger');
 
 	echo HtmlInput::hidden('p_id', $profile->p_id);
 	echo HtmlInput::submit("clone", "Copier");
@@ -95,7 +95,7 @@ if ($profile->p_id > 0)
         echo '</div>';
         echo '<div class="myfieldset"  style="display:none" id="profile_menu_div">';
 	//Menu / Module /plugin in this profile
-	echo "<h1 class=\"legend\">"."Menu"."</h2>";
+	echo "<h1 class=\"legend\">"._("Menu")."</h2>";
 	echo $add_menu;
 	$profile_menu = new Profile_Menu($cn);
 	$profile_menu->listing_profile($p_id);
@@ -106,11 +106,11 @@ if ($profile->p_id > 0)
 	echo $add_impression;
         echo '</div>';
         echo '<div class="myfieldset"  style="display:none" id="profile_gestion_div">';
-	echo "<h1 class=\"legend\">Action gestion accessible</h1>";
+	echo "<h1 class=\"legend\">".('Action gestion accessible')."</h1>";
 	$profile_menu->available_profile($p_id);
         echo '</div>';
         echo '<div class="myfieldset"  style="display:none" id="profile_repo_div">';
-	echo "<h1 class=\"legend\">"."Dépôt de stock accessible"."</h1>";
+	echo "<h1 class=\"legend\">"._("Dépôt de stock accessible")."</h1>";
 	$profile_menu->available_repository($p_id);
         echo '</div>';
         if ( isset ($_POST['tab']))

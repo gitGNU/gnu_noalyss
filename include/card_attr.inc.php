@@ -23,7 +23,7 @@
  * \brief Manage the attributs
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once('class_fiche_attr.php');
+require_once NOALYSS_INCLUDE.'/class_fiche_attr.php';
 
 
 

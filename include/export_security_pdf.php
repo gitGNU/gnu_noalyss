@@ -22,18 +22,18 @@
  * \brief Print the user security in pdf
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once('class_dossier.php');
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
 $gDossier=dossier::id();
-include_once("ac_common.php");
-require_once('class_database.php');
-require_once("class_pdf.php");
+require_once NOALYSS_INCLUDE.'/ac_common.php';
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_pdf.php';
 $cn=new Database($gDossier);
 //-----------------------------------------------------
 // Security
 
 // Check User
 $rep=new Database();
-include_once ("class_user.php");
+require_once  NOALYSS_INCLUDE.'/class_user.php';
 $User=new User($rep);
 
 //-----------------------------------------------------

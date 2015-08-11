@@ -25,12 +25,12 @@
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 include_once('class_acc_account_ledger.php');
 include_once('ac_common.php');
-require_once('class_database.php');
+require_once NOALYSS_INCLUDE.'/class_database.php';
 include_once('class_impress.php');
-require_once('class_own.php');
-require_once('class_dossier.php');
-require_once('class_user.php');
-require_once('class_pdf.php');
+require_once NOALYSS_INCLUDE.'/class_own.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/class_user.php';
+require_once NOALYSS_INCLUDE.'/class_pdf.php';
 bcscale(2);
 
 $gDossier=dossier::id();

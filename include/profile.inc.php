@@ -19,7 +19,7 @@
  */
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once 'class_profile_sql.php';
+require_once NOALYSS_INCLUDE.'/class_profile_sql.php';
 global $cn;
 
 //**********************************************
@@ -354,7 +354,7 @@ echo '</div>';
 echo '<div id="detail_profile" class="content">';
 if (isset($_POST['p_id']))
 {
-	require_once 'ajax_get_profile.php';
+	require_once NOALYSS_INCLUDE.'/ajax_get_profile.php';
 }
 echo '</div>';
 if ( isset($_POST['delete_profil'] ))

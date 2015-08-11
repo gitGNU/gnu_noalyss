@@ -26,8 +26,8 @@
  */
 
 require_once '../include/constant.php';
-require_once('class_database.php');
-require_once('class_dossier.php');
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
 /*!\brief
  *  Received parameters are
  *   - j for the ledger

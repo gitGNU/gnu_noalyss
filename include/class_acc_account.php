@@ -23,9 +23,9 @@
 /*!
  * \brief Manage the account from the table tmp_pcmn
  */
-require_once("class_iselect.php");
-require_once ('class_database.php');
-require_once ('class_dossier.php');
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
 
 class Acc_Account
 {

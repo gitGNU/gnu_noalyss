@@ -23,8 +23,8 @@
  *
  * @author dany
  */
-require_once 'class_default_menu_sql.php';
-require_once 'class_itext.php';
+require_once NOALYSS_INCLUDE.'/class_default_menu_sql.php';
+require_once NOALYSS_INCLUDE.'/class_itext.php';
 
 class Default_Menu
 {

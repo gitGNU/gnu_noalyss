@@ -17,13 +17,15 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-require_once('../include/ac_common.php');
-require_once('function_javascript.php');
-require_once('class_html_input.php');
-require_once('class_dossier.php');
-require_once('class_database.php');
-require_once('class_user.php');
-require_once('class_periode.php');
+require_once '../include/constant.php';
+require_once NOALYSS_INCLUDE.'/ac_common.php';
+require_once NOALYSS_INCLUDE.'/function_javascript.php';
+require_once NOALYSS_INCLUDE.'/class_html_input.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_user.php';
+require_once NOALYSS_INCLUDE.'/class_periode.php';
+
 echo '<div style="float:left;">'.HtmlInput::print_window();
 
 html_page_start($_SESSION['g_theme']);

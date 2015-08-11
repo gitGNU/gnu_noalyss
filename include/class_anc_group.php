@@ -23,10 +23,10 @@
  * \brief class for the group of the analytic account
  *
  */
-require_once ('class_database.php');
-require_once ('constant.php');
-require_once ('class_dossier.php');
-require_once('class_anc_print.php');
+require_once  NOALYSS_INCLUDE.'/class_database.php';
+require_once  NOALYSS_INCLUDE.'/constant.php';
+require_once  NOALYSS_INCLUDE.'/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/class_anc_print.php';
 
 /*! \brief class for the group of the analytic account
  *
@@ -193,7 +193,7 @@ order by ga_description,po_name";
 
       $array=$this->get_result();
       if ( empty ($array) ) return "";
-      require_once('template/anc_balance_group.php');
+      require_once NOALYSS_INCLUDE.'/template/anc_balance_group.php';
 
 
     }

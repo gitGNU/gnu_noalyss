@@ -21,7 +21,7 @@
 /*!\file
  * \brief contains function for the printing
 */
-require_once('class_periode.php');
+require_once NOALYSS_INCLUDE.'/class_periode.php';
 
 
 class Impress

@@ -19,7 +19,7 @@
 // Copyright (2014) Author Dany De Bontridder <dany@alchimerys.be>
 
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once 'class_extension.php';
+require_once NOALYSS_INCLUDE.'/class_extension.php';
 
 /**
  * @file
@@ -32,15 +32,15 @@ global $cn;
  * store them into an array a_plugin
  ******************************************************************************
  */
-$dirscan=scandir('../include/ext/');
+$dirscan=scandir(NOALYSS_PLUGIN);
 $nb_dirscan=count($dirscan);
 $a_plugin=array();
 for ($e=0;$e<$nb_dirscan;$e++) {
-    if ($dirscan[$e] != '.' && $dirscan[$e]!='..' && is_dir('../include/ext/'.$dirscan[$e])) {
+    if ($dirscan[$e] != '.' && $dirscan[$e]!='..' && is_dir(NOALYSS_PLUGIN.'/'.$dirscan[$e])) {
         $dir_plugin=$dirscan[$e];
-        if (file_exists('../include/ext/'.$dir_plugin.'/plugin.xml')) {
+        if (file_exists(NOALYSS_PLUGIN.'/'.$dir_plugin.'/plugin.xml')) {
 
-            $extension=Extension::read_definition('../include/ext/'.$dir_plugin.'/plugin.xml');
+            $extension=Extension::read_definition(NOALYSS_PLUGIN.'/'.$dir_plugin.'/plugin.xml');
             for ($i=0;$i<count($extension);$i++)
             {
                 $a_plugin[]=clone $extension[$i];

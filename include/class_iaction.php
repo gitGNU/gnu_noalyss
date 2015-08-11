@@ -24,7 +24,7 @@
  * create a button with a link, if you want to use a javascript
  * value must be empty
  */
-require_once('class_html_input.php');
+require_once NOALYSS_INCLUDE.'/class_html_input.php';
 class IAction_deprecated extends HtmlInput
 {
     /*!\brief show the html  input of the widget*/

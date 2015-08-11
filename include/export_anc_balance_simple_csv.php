@@ -27,7 +27,7 @@ header('Pragma: public');
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="ca_bal_simple.csv"',FALSE);
 
-require_once ('class_anc_balance_simple.php');
+require_once  NOALYSS_INCLUDE.'/class_anc_balance_simple.php';
 
 $cn=new Database(dossier::id());
 

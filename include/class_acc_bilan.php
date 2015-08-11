@@ -23,12 +23,12 @@
  * \brief this class handle the different bilan, from the table bilan
  *
  */
-require_once("class_iselect.php");
-require_once ('class_database.php');
-require_once ('class_dossier.php');
-require_once ('class_impress.php');
-require_once ('header_print.php');
-require_once ('class_acc_account_ledger.php');
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/class_impress.php';
+require_once NOALYSS_INCLUDE.'/header_print.php';
+require_once NOALYSS_INCLUDE.'/class_acc_account_ledger.php';
 
 /*!
  * \brief this class handle the different bilan, from the table bilan, parse the form and replace

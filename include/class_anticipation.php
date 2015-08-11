@@ -29,13 +29,13 @@
  *@see Forecast Forecast_Cat Forecast_Item
  *
  */
-require_once 'class_forecast.php';
-require_once 'class_forecast_cat.php';
-require_once 'class_forecast_item.php';
-require_once 'class_fiche.php';
-require_once 'class_acc_account_ledger.php';
-require_once 'class_periode.php';
-require_once 'class_impress.php';
+require_once NOALYSS_INCLUDE.'/class_forecast.php';
+require_once NOALYSS_INCLUDE.'/class_forecast_cat.php';
+require_once NOALYSS_INCLUDE.'/class_forecast_item.php';
+require_once NOALYSS_INCLUDE.'/class_fiche.php';
+require_once NOALYSS_INCLUDE.'/class_acc_account_ledger.php';
+require_once NOALYSS_INCLUDE.'/class_periode.php';
+require_once NOALYSS_INCLUDE.'/class_impress.php';
 
 class Anticipation
 {
@@ -174,7 +174,7 @@ class Anticipation
 
         }
         ob_start();
-        require_once('template/forecast_result.php');
+        require_once NOALYSS_INCLUDE.'/template/forecast_result.php';
         $r.=ob_get_contents();
         ob_end_clean();
         return $r;
@@ -245,7 +245,7 @@ class Anticipation
         }
 
         ob_start();
-        require_once('template/forecast_cat.php');
+        require_once NOALYSS_INCLUDE.'/template/forecast_cat.php';
         $r.=ob_get_contents();
         ob_end_clean();
         return $r;
@@ -308,7 +308,7 @@ class Anticipation
         }
 
         ob_start();
-        require_once('template/forecast_cat.php');
+        require_once NOALYSS_INCLUDE.'/template/forecast_cat.php';
         $r.=ob_get_contents();
         ob_end_clean();
         return $r;
@@ -432,7 +432,7 @@ class Anticipation
         $add_row->javascript='for_add_row(\'fortable\')';
         $f_add_row=$add_row->input();
         ob_start();
-        require_once('template/forecast-detail.php');
+        require_once NOALYSS_INCLUDE.'/template/forecast-detail.php';
         $r.=ob_get_contents();
         ob_end_clean();
         return $r;

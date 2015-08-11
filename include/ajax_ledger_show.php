@@ -13,8 +13,8 @@
  *   - r_jrn[]
  */
 // require_once '.php';
-require_once 'class_acc_ledger.php';
-require_once 'class_html_input.php';
+require_once NOALYSS_INCLUDE.'/class_acc_ledger.php';
+require_once NOALYSS_INCLUDE.'/class_html_input.php';
 if ( ! isset ($r_jrn)) { $r_jrn=null;}
 $ctl='div_jrn'.$div;
 ob_start();

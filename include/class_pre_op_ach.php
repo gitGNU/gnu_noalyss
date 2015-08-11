@@ -22,7 +22,7 @@
 /*!\file
  * \brief definition of the class pre_op_ach
  */
-require_once ('class_pre_operation.php');
+require_once  NOALYSS_INCLUDE.'/class_pre_operation.php';
 
 /*---------------------------------------------------------------------- */
 /*!\brief concerns the predefined operation for ACH ledger
@@ -147,7 +147,7 @@ class Pre_op_ach extends Pre_operation_detail
     }
    function display($p_array)
    {
-        require_once('class_acc_ledger_purchase.php');
+        require_once NOALYSS_INCLUDE.'/class_acc_ledger_purchase.php';
        global $g_parameter,$g_user;
        extract($p_array);
        $ledger=new Acc_Ledger_Purchase($this->db,$this->jrn_def_id);
@@ -381,7 +381,7 @@ class Pre_op_ach extends Pre_operation_detail
         $f_type=_('Fournisseur');
 
         ob_start();
-        require_once('template/predf_ledger_detail.php');
+        require_once NOALYSS_INCLUDE.'/template/predf_ledger_detail.php';
         $r.=ob_get_contents();
         ob_end_clean();
 

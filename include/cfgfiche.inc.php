@@ -21,16 +21,16 @@
  * \brief module to manage the card (removing, listing, creating, modify attribut)
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-include_once ("ac_common.php");
-require_once("class_itext.php");
-require_once("class_ihidden.php");
-require_once('class_fiche.php');
-require_once('class_database.php');
-include_once ("user_menu.php");
-require_once('class_dossier.php');
-require_once 'class_sort_table.php';
-require_once 'class_fiche_def.php';
-require_once 'class_tool_uos.php';
+require_once NOALYSS_INCLUDE.'/ac_common.php';
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/class_fiche.php';
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/user_menu.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
+require_once NOALYSS_INCLUDE.'class_sort_table.php';
+require_once NOALYSS_INCLUDE.'class_fiche_def.php';
+require_once NOALYSS_INCLUDE.'class_tool_uos.php';
 
 $retour=HtmlInput::button_anchor("Retour à la liste", HtmlInput::get_to_string(array("gDossier","ac")));
 

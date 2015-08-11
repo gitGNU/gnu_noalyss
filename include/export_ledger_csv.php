@@ -26,14 +26,14 @@ header('Pragma: public');
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="jrn-'.$fDate.'.csv"',FALSE);
 include_once ("ac_common.php");
-require_once('class_own.php');
-require_once 'class_acc_ledger_sold.php';
-require_once 'class_acc_ledger_purchase.php';
-require_once('class_dossier.php');
+require_once NOALYSS_INCLUDE.'/class_own.php';
+require_once NOALYSS_INCLUDE.'/class_acc_ledger_sold.php';
+require_once NOALYSS_INCLUDE.'/class_acc_ledger_purchase.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
 $gDossier=dossier::id();
 
-require_once('class_database.php');
-require_once("class_acc_ledger.php");
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_acc_ledger.php';
 
 /*
  * Variable from $_GET
@@ -50,7 +50,7 @@ if ( $get_jrn ==-1  || $get_option == -1 || $get_from_periode == null || $get_to
 }
 
 
-require_once ('class_user.php');
+require_once  NOALYSS_INCLUDE.'/class_user.php';
 $g_user->Check();
 $g_user->check_dossier($gDossier);
 

@@ -23,7 +23,7 @@
  * \brief the todo list is managed by this class
  */
 
-require_once('function_javascript.php');
+require_once NOALYSS_INCLUDE.'/function_javascript.php';
 
 /*!\brief
  * This class manages the table todo_list

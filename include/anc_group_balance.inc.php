@@ -3,7 +3,8 @@
 //see licence.txt
 
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once('class_anc_group.php');
+require_once NOALYSS_INCLUDE.'/class_anc_group.php';
+
 $gr = new Anc_Group($cn);
 $gr->get_request();
 echo '<form method="get">';

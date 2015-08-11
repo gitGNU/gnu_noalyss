@@ -22,8 +22,8 @@
 /*!\file
  * \brief show the Grand Livre for analytic
  */
-require_once('class_anc_print.php');
-require_once 'class_impress.php';
+require_once NOALYSS_INCLUDE.'/class_anc_print.php';
+require_once NOALYSS_INCLUDE.'/class_impress.php';
 
 class Anc_GrandLivre extends Anc_Print
 {

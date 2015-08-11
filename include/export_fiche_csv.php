@@ -26,13 +26,13 @@ header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="fiche.csv"',FALSE);
 include_once ("ac_common.php");
 include_once('class_fiche.php');
-require_once('class_database.php');
-require_once('class_dossier.php');
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
 $gDossier=dossier::id();
 
 $cn=new Database($gDossier);
 
-require_once ('class_user.php');
+require_once  NOALYSS_INCLUDE.'/class_user.php';
 
 
 

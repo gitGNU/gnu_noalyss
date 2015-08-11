@@ -20,7 +20,7 @@
 
 // Copyright Author Dany De Bontridder dany@alchimerys.be
 if ( ! defined ('ALLOWED')) die('Appel direct ne sont pas permis');
-echo HtmlInput::title_box("Navigateur", "navi_div");
+echo HtmlInput::title_box(_("Navigateur"), "navi_div");
 $sql="
     select code, me_code,me_description,coalesce(me_description_etendue,me_description) as me_description_etendue,v1menu,v2menu,v3menu,p_type_display,
     javascript

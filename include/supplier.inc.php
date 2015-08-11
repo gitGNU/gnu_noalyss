@@ -21,15 +21,15 @@
  * the supplier category
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once("class_iselect.php");
-require_once("class_ihidden.php");
-require_once("class_supplier.php");
-require_once("class_ibutton.php");
-require_once('class_iaction.php');
-require_once('class_fiche_def.php');
-require_once('class_iaction.php');
-require_once('class_fiche_def.php');
-require_once('class_ipopup.php');
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/class_supplier.php';
+require_once NOALYSS_INCLUDE.'/class_ibutton.php';
+require_once NOALYSS_INCLUDE.'/class_iaction.php';
+require_once NOALYSS_INCLUDE.'/class_fiche_def.php';
+require_once NOALYSS_INCLUDE.'/class_iaction.php';
+require_once NOALYSS_INCLUDE.'/class_fiche_def.php';
+require_once NOALYSS_INCLUDE.'/class_ipopup.php';
 global $g_user;
 
 $low_action=(isset($_REQUEST['sb']))?$_REQUEST['sb']:"list";
@@ -151,7 +151,7 @@ if ( $low_action == "list" )
 if ( $low_action == 'detail')
 {
     /* Menu */
-    require_once('category_card.inc.php');
+    require_once NOALYSS_INCLUDE.'/category_card.inc.php';
     return;
 }
 

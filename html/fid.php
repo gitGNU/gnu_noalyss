@@ -33,11 +33,10 @@
    *\note if the j is -1 then all the card are shown
  */
 require_once '../include/constant.php';
-require_once('class_own.php');
-require_once  ("constant.php");
-require_once('class_database.php');
-require_once ("user_common.php");
-require_once('class_dossier.php');
+require_once NOALYSS_INCLUDE.'/class_own.php';
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/user_common.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
 $gDossier=dossier::id();
 
 require_once('class_user.php');

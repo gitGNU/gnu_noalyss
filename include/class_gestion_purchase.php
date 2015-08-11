@@ -26,7 +26,7 @@
 /*! \brief this object handles the table quant_purchase
  *
  */
-require_once ('class_gestion_table.php');
+require_once  NOALYSS_INCLUDE.'/class_gestion_table.php';
 
 
 class gestion_purchase extends gestion_table

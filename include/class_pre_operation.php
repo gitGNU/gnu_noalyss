@@ -27,11 +27,11 @@
  * and op_def_detail
  *
  */
-require_once("class_iselect.php");
-require_once("class_ihidden.php");
-require_once 'class_pre_op_ach.php';
-require_once 'class_pre_op_ven.php';
-require_once 'class_pre_op_advanced.php';
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/class_pre_op_ach.php';
+require_once NOALYSS_INCLUDE.'/class_pre_op_ven.php';
+require_once NOALYSS_INCLUDE.'/class_pre_op_advanced.php';
 class Pre_operation
 {
     var $db;						/*!< $db database connection */

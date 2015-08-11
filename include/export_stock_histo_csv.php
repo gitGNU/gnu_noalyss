@@ -26,7 +26,7 @@
  *
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once 'class_stock.php';
+require_once NOALYSS_INCLUDE.'/class_stock.php';
 
 $stock=new Stock($cn);
 $sql = $stock->create_query_histo($_GET);

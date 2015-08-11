@@ -22,12 +22,12 @@
 /*!\file
  *\brief definition of Anc_Operation
  */
-require_once("class_ibutton.php");
-require_once("class_ihidden.php");
-require_once("class_iselect.php");
-require_once("class_itext.php");
-require_once("class_anc_plan.php");
-require_once ("user_common.php");
+require_once NOALYSS_INCLUDE.'/class_ibutton.php';
+require_once NOALYSS_INCLUDE.'/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/class_anc_plan.php';
+require_once  NOALYSS_INCLUDE.'/user_common.php';
 
 /*! \brief this class is used to show the form for entering an
  *   operation only FOR analytic operation

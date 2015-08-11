@@ -24,7 +24,7 @@
  *
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once ('class_anc_balance_simple.php');
+require_once  NOALYSS_INCLUDE.'/class_anc_balance_simple.php';
 
 $cn=new Database(dossier::id());
 

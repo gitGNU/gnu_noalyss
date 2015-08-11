@@ -23,9 +23,9 @@
 /*!
  * \brief Class for the document template
  */
-require_once('class_icheckbox.php');
-require_once('class_ihidden.php');
-require_once('class_ifile.php');
+require_once NOALYSS_INCLUDE.'/class_icheckbox.php';
+require_once NOALYSS_INCLUDE.'/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/class_ifile.php';
 class Document_modele
 {
     var $cn;         	/*!< $cn  database connection */

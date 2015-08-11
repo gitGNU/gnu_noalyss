@@ -22,25 +22,25 @@
 /*!\file
  * \brief class for the purchase, herits from acc_ledger
  */
-require_once("class_iselect.php");
-require_once("class_icard.php");
-require_once("class_ispan.php");
-require_once("class_ihidden.php");
-require_once("class_iperiod.php");
-require_once("class_idate.php");
-require_once("class_itext.php");
-require_once("class_ifile.php");
-require_once('class_acc_ledger.php');
-require_once('class_acc_compute.php');
-require_once('class_anc_operation.php');
-require_once('user_common.php');
-require_once('class_acc_parm_code.php');
-require_once('class_acc_payment.php');
-require_once('ac_common.php');
-require_once('class_itva_popup.php');
-require_once('class_acc_ledger_info.php');
-require_once('class_acc_ledger_fin.php');
-require_once 'class_stock_goods.php';
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_icard.php';
+require_once NOALYSS_INCLUDE.'/class_ispan.php';
+require_once NOALYSS_INCLUDE.'/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/class_iperiod.php';
+require_once NOALYSS_INCLUDE.'/class_idate.php';
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/class_ifile.php';
+require_once NOALYSS_INCLUDE.'/class_acc_ledger.php';
+require_once NOALYSS_INCLUDE.'/class_acc_compute.php';
+require_once NOALYSS_INCLUDE.'/class_anc_operation.php';
+require_once NOALYSS_INCLUDE.'/user_common.php';
+require_once NOALYSS_INCLUDE.'/class_acc_parm_code.php';
+require_once NOALYSS_INCLUDE.'/class_acc_payment.php';
+require_once NOALYSS_INCLUDE.'/ac_common.php';
+require_once NOALYSS_INCLUDE.'/class_itva_popup.php';
+require_once NOALYSS_INCLUDE.'/class_acc_ledger_info.php';
+require_once NOALYSS_INCLUDE.'/class_acc_ledger_fin.php';
+require_once NOALYSS_INCLUDE.'/class_stock_goods.php';
 
 /*!\brief Handle the ledger of purchase,
  *
@@ -1272,7 +1272,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         $f_type=_('Fournisseur');
 
         ob_start();
-        require_once('template/form_ledger_detail.php');
+        require_once NOALYSS_INCLUDE.'/template/form_ledger_detail.php';
         $r.=ob_get_contents();
         ob_end_clean();
 

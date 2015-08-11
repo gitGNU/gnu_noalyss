@@ -26,13 +26,13 @@
 if ( ! defined('ALLOWED')) define ('ALLOWED',1);
 
 require_once '../include/constant.php';
-require_once('class_database.php');
-require_once('class_user.php');
-require_once('class_dossier.php');
-require_once('class_periode.php');
-require_once('class_html_input.php');
-require_once('class_acc_account.php');
-require_once('class_exercice.php');
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_user.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/class_periode.php';
+require_once NOALYSS_INCLUDE.'/class_html_input.php';
+require_once NOALYSS_INCLUDE.'/class_acc_account.php';
+require_once NOALYSS_INCLUDE.'/class_exercice.php';
 $div=$_REQUEST['div'];
 mb_internal_encoding("UTF-8");
 

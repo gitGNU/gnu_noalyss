@@ -18,26 +18,26 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
-require_once('class_itextarea.php');
-require_once("class_idate.php");
-require_once("class_iselect.php");
-require_once("class_ihidden.php");
-require_once("class_itext.php");
-require_once("class_ispan.php");
-require_once("class_icard.php");
-require_once("class_icheckbox.php");
-require_once("class_ifile.php");
-require_once("class_fiche.php");
-require_once("class_document.php");
-require_once("class_document_type.php");
-require_once("class_document_modele.php");
-require_once("user_common.php");
-require_once('class_follow_up_detail.php');
-require_once('class_inum.php');
-require_once 'class_sort_table.php';
-require_once 'class_irelated_action.php';
-require_once 'class_tag.php';
-require_once 'class_default_menu.php';
+require_once NOALYSS_INCLUDE.'/class_itextarea.php';
+require_once NOALYSS_INCLUDE.'/class_idate.php';
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/class_ispan.php';
+require_once NOALYSS_INCLUDE.'/class_icard.php';
+require_once NOALYSS_INCLUDE.'/class_icheckbox.php';
+require_once NOALYSS_INCLUDE.'/class_ifile.php';
+require_once NOALYSS_INCLUDE.'/class_fiche.php';
+require_once NOALYSS_INCLUDE.'/class_document.php';
+require_once NOALYSS_INCLUDE.'/class_document_type.php';
+require_once NOALYSS_INCLUDE.'/class_document_modele.php';
+require_once NOALYSS_INCLUDE.'/user_common.php';
+require_once NOALYSS_INCLUDE.'/class_follow_up_detail.php';
+require_once NOALYSS_INCLUDE.'/class_inum.php';
+require_once NOALYSS_INCLUDE.'/class_sort_table.php';
+require_once NOALYSS_INCLUDE.'/class_irelated_action.php';
+require_once NOALYSS_INCLUDE.'/class_tag.php';
+require_once NOALYSS_INCLUDE.'/class_default_menu.php';
 /**
  * \file
  * \brief class_action for manipulating actions
@@ -1175,7 +1175,7 @@ class Follow_Up
          * Show the default button (add action, show search...)
          */
         if (!$inner)
-            require_once 'template/action_button.php';
+            require_once NOALYSS_INCLUDE.'/template/action_button.php';
 
         $w=new ICard();
         $w->name='qcode';
@@ -1245,7 +1245,7 @@ class Follow_Up
         $otag=new Tag($cn);
 
         // show the  action in
-        require_once 'template/action_search.php';
+        require_once NOALYSS_INCLUDE.'/template/action_search.php';
     }
 
     /**
@@ -1266,7 +1266,7 @@ class Follow_Up
 
         echo '<form method="POST" id="list_ag_frm" style="display:inline">';
         echo HtmlInput::request_to_hidden(array("gDossier", "ac", "sb", "sc", "f_id"));
-        require_once 'template/action_other_action.php';
+        require_once NOALYSS_INCLUDE.'/template/action_other_action.php';
         echo $act->myList($p_base, "", $query);
         echo '</form>';
     }
@@ -1419,7 +1419,7 @@ class Follow_Up
         $limit=($max_line>25)?25:$max_line;
         $Res=$cn->exec_sql($sql."limit ".$limit);
         $a_row=Database::fetch_all($Res);
-        require_once 'template/action_search_result.php';
+        require_once NOALYSS_INCLUDE.'/template/action_search_result.php';
     }
 
     /**

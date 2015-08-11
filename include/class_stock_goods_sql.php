@@ -25,7 +25,7 @@
  * @brief
  *
  */
-require_once 'class_noalyss_sql.php';
+require_once NOALYSS_INCLUDE.'/class_noalyss_sql.php';
 
 class Stock_Goods_Sql extends Noalyss_SQL
 {

@@ -17,32 +17,32 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
-require_once("class_iselect.php");
-require_once("class_icard.php");
-require_once("class_ispan.php");
-require_once("class_ihidden.php");
-require_once("class_idate.php");
-require_once("class_itext.php");
-require_once("class_icheckbox.php");
-require_once('class_iperiod.php');
-require_once('class_fiche.php');
-require_once('class_user.php');
-require_once ('class_dossier.php');
-require_once ('class_anc_operation.php');
-require_once ('class_acc_operation.php');
-require_once ('class_acc_account_ledger.php');
-require_once ('class_pre_op_advanced.php');
-require_once ('class_acc_reconciliation.php');
-require_once ('class_periode.php');
-require_once ('class_gestion_purchase.php');
-require_once ('class_gestion_sold.php');
-require_once ('class_acc_account.php');
-require_once('ac_common.php');
-require_once('class_inum.php');
-require_once('class_lettering.php');
-require_once 'class_sort_table.php';
-require_once 'class_jrn_def_sql.php';
-require_once 'class_acc_payment.php';
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_icard.php';
+require_once NOALYSS_INCLUDE.'/class_ispan.php';
+require_once NOALYSS_INCLUDE.'/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/class_idate.php';
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/class_icheckbox.php';
+require_once NOALYSS_INCLUDE.'/class_iperiod.php';
+require_once NOALYSS_INCLUDE.'/class_fiche.php';
+require_once NOALYSS_INCLUDE.'/class_user.php';
+require_once  NOALYSS_INCLUDE.'/class_dossier.php';
+require_once  NOALYSS_INCLUDE.'/class_anc_operation.php';
+require_once  NOALYSS_INCLUDE.'/class_acc_operation.php';
+require_once  NOALYSS_INCLUDE.'/class_acc_account_ledger.php';
+require_once  NOALYSS_INCLUDE.'/class_pre_op_advanced.php';
+require_once  NOALYSS_INCLUDE.'/class_acc_reconciliation.php';
+require_once  NOALYSS_INCLUDE.'/class_periode.php';
+require_once  NOALYSS_INCLUDE.'/class_gestion_purchase.php';
+require_once  NOALYSS_INCLUDE.'/class_gestion_sold.php';
+require_once  NOALYSS_INCLUDE.'/class_acc_account.php';
+require_once NOALYSS_INCLUDE.'/ac_common.php';
+require_once NOALYSS_INCLUDE.'/class_inum.php';
+require_once NOALYSS_INCLUDE.'/class_lettering.php';
+require_once NOALYSS_INCLUDE.'/class_sort_table.php';
+require_once NOALYSS_INCLUDE.'/class_jrn_def_sql.php';
+require_once NOALYSS_INCLUDE.'/class_acc_payment.php';
 /** \file
  * @brief Class for jrn,  class acc_ledger for manipulating the ledger
  */
@@ -2643,7 +2643,7 @@ class Acc_Ledger extends jrn_def_sql
 		$r.=HtmlInput::hidden('ledger_type', $this->type);
 		$r.=HtmlInput::hidden('ac', $_REQUEST['ac']);
 		ob_start();
-		require_once('template/ledger_search.php');
+		require_once NOALYSS_INCLUDE.'/template/ledger_search.php';
 		$r.=ob_get_contents();
 		ob_end_clean();
 		return $r;
@@ -3516,7 +3516,7 @@ class Acc_Ledger extends jrn_def_sql
 		$new = 0;
 		$cn = $this->db;
 		echo $hidden;
-		require_once('template/param_jrn.php');
+		require_once NOALYSS_INCLUDE.'/template/param_jrn.php';
 	}
 
 	/**
@@ -3727,7 +3727,7 @@ class Acc_Ledger extends jrn_def_sql
 		$cn = $this->db;
 		$min_row = new INum("min_row",MAX_ARTICLE);
 		$min_row->prec=0;
-		require_once('template/param_jrn.php');
+		require_once NOALYSS_INCLUDE.'/template/param_jrn.php';
 	}
 
 	/**

@@ -22,13 +22,15 @@
 
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 require_once '../include/constant.php';
-include_once ("ac_common.php");
-require_once('class_database.php');
-require_once('class_itext.php');
-require_once 'function_javascript.php';
+include_once NOALYSS_INCLUDE.'/ac_common.php';
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/function_javascript.php';
+
 @html_page_start($_SESSION['g_theme']);
 $rep=new Database();
-include_once ("class_user.php");
+include_once NOALYSS_INCLUDE.'/class_user.php';
+
 $User=new User($rep);
 
 $User->Check();
@@ -156,7 +158,6 @@ $result.='<TD  class="tool" ><A class="cell" HREF="logout.php" >'._('Deconnexion
 $result.="</TR>";
 $result.="</table>";
 
-echo '<h2 class="info">'._('Bienvenue')."  ".$User->first_name.'  '.$User->name.'   '._("dans NOALYSS")."</h2>";
 echo '<div id="module">'.$result.'</div>';
 echo '</div>';
 ?>
@@ -166,7 +167,7 @@ echo '</div>';
                         echo _('Filtre').HtmlInput::infobulle(23);
 ?>
 <?php
-	echo HtmlInput::filter_table("folder", '1,2',0);
+	echo HtmlInput::filter_table("folder", '1,2',1);
 ?>
 </span>
 <?php

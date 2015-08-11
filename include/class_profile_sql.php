@@ -28,9 +28,9 @@
 
   @endcode
  */
-require_once('class_database.php');
-require_once('ac_common.php');
-require_once 'class_noalyss_sql.php';
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/ac_common.php';
+require_once NOALYSS_INCLUDE.'/class_noalyss_sql.php';
 
 /**
  * @brief Manage the table public.profile

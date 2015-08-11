@@ -6,8 +6,8 @@
  *
  *
  */
-require_once('class_database.php');
-require_once('ac_common.php');
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/ac_common.php';
 
 class Fiche_Attr
 {

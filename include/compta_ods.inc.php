@@ -27,13 +27,13 @@
  *
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once("class_icheckbox.php");
-require_once ('class_acc_ledger.php');
-require_once ('class_acc_reconciliation.php');
-require_once('ac_common.php');
-require_once('class_periode.php');
-require_once('function_javascript.php');
-require_once('class_ipopup.php');
+require_once NOALYSS_INCLUDE.'/class_icheckbox.php';
+require_once  NOALYSS_INCLUDE.'/class_acc_ledger.php';
+require_once  NOALYSS_INCLUDE.'/class_acc_reconciliation.php';
+require_once NOALYSS_INCLUDE.'/ac_common.php';
+require_once NOALYSS_INCLUDE.'/class_periode.php';
+require_once NOALYSS_INCLUDE.'/function_javascript.php';
+require_once NOALYSS_INCLUDE.'/class_ipopup.php';
 
 global $g_user;
 
@@ -71,7 +71,7 @@ elseif (isset($_POST['summary']))
 {
 	try {
 			$ledger->verify($_POST);
-			require_once 'operation_ods_confirm.inc.php';
+			require_once NOALYSS_INCLUDE.'/operation_ods_confirm.inc.php';
 	} catch (Exception $e)
 	{
 		echo alert($e->getMessage());

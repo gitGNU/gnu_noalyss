@@ -22,13 +22,13 @@
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 include_once("ac_common.php");
-require_once('class_database.php');
-require_once("class_fiche.php");
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_fiche.php';
 $f_id=HtmlInput::default_value_request("f_id", "-");
 if ( $f_id == "-") {
      throw new Exception ('Invalid parameter');
 }
-require_once('class_dossier.php');
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
 $gDossier=dossier::id();
 
 /* Admin. Dossier */

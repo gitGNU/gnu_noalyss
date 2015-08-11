@@ -25,7 +25,7 @@
  */
 
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once 'class_anticipation.php';
+require_once NOALYSS_INCLUDE.'/class_anticipation.php';
 echo '<div class="content">';
 
 $sa = (isset($_REQUEST['sa'])) ? $_REQUEST['sa'] : 'list';

@@ -18,9 +18,9 @@
 */
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 //!\brief class for the contact, contact are derived from fiche
-require_once("class_fiche.php");
-require_once("constant.php");
-require_once("user_common.php");
+require_once NOALYSS_INCLUDE.'/class_fiche.php';
+require_once NOALYSS_INCLUDE.'/constant.php';
+require_once NOALYSS_INCLUDE.'/user_common.php';
 /*! \file
  * \brief Contact are a card which are own by a another card (customer, supplier...)
  */

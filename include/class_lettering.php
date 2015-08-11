@@ -22,7 +22,7 @@
 /*!\file
  * \brief letter the accounting entry (row level)
  */
-require_once ('class_user.php');
+require_once  NOALYSS_INCLUDE.'/class_user.php';
 
 /**
  *@brief mother class for the lettering by account and by card
@@ -366,7 +366,7 @@ class Lettering
 		}
 		$this->get_linked($jnt_id);
         ob_start();
-        require_once('template/letter_prop.php');
+        require_once NOALYSS_INCLUDE.'/template/letter_prop.php';
         $r=ob_get_contents();
         ob_end_clean();
         $r.=HtmlInput::hidden('j_id',$p_jid);

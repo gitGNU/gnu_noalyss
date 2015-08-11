@@ -23,7 +23,7 @@
  * \brief
  */
 
-require_once('tfpdf/tfpdf.php');
+require_once NOALYSS_INCLUDE.'/tfpdf/tfpdf.php';
 
 class PDF extends TFPDF
 {

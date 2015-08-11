@@ -26,14 +26,14 @@
 /*! \brief group of object operations, used for misc operation
  *
  */
-require_once("class_idate.php");
-require_once("class_itext.php");
-require_once("class_iselect.php");
-require_once("class_icheckbox.php");
-require_once ("class_anc_operation.php");
-require_once('class_database.php');
-require_once ('class_anc_plan.php');
-require_once ('class_dossier.php');
+require_once NOALYSS_INCLUDE.'/class_idate.php';
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_icheckbox.php';
+require_once  NOALYSS_INCLUDE.'/class_anc_operation.php';
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once  NOALYSS_INCLUDE.'/class_anc_plan.php';
+require_once  NOALYSS_INCLUDE.'/class_dossier.php';
 
 class Anc_Group_Operation
 {

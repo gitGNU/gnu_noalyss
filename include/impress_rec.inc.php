@@ -23,8 +23,8 @@
  * \brief print the all the operation reconciled or not, with or without the same amount
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once ('class_acc_reconciliation.php');
-require_once('function_javascript.php');
+require_once  NOALYSS_INCLUDE.'/class_acc_reconciliation.php';
+require_once NOALYSS_INCLUDE.'/function_javascript.php';
 global $g_user;
 
 /**
@@ -99,5 +99,5 @@ $gDossier=Dossier::id();
     ?>
 </form>
 <?php
-require_once('template/impress_reconciliation.php');
+require_once NOALYSS_INCLUDE.'/template/impress_reconciliation.php';
 return;

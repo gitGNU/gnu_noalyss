@@ -23,8 +23,8 @@
  * \brief export the operation in pdf
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once ('class_anc_balance_double.php');
-require_once ('header_print.php');
+require_once  NOALYSS_INCLUDE.'/class_anc_balance_double.php';
+require_once  NOALYSS_INCLUDE.'/header_print.php';
 
 $cn=new Database(dossier::id());
 

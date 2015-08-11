@@ -22,8 +22,8 @@
 /*!\file
  * \brief this class is used for the table tva_rate
  */
-require_once('class_dossier.php');
-require_once('class_database.php');
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/class_database.php';
 
 /*!\brief Acc_Tva is used for to map the table tva_rate
  * parameter are

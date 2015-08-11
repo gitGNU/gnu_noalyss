@@ -23,7 +23,7 @@
  * \brief Html Input
  * @see Database::make_array
  */
-require_once('class_html_input.php');
+require_once NOALYSS_INCLUDE.'/class_html_input.php';
 class ISelect extends HtmlInput
 {
     /*!\brief show the html  input of the widget*/

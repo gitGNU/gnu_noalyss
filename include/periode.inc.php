@@ -22,8 +22,8 @@
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 $gDossier=dossier::id();
-require_once("class_iselect.php");
-require_once ('class_periode.php');
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once  NOALYSS_INCLUDE.'/class_periode.php';
 echo '<div class="content">';
 $cn=new Database($gDossier);
 //-----------------------------------------------------
@@ -125,7 +125,7 @@ if ( $choose=="yes" )
 			      array('value'=>13,'label'=>"13 périodes")
 			      );
 
-    require_once('template/periode_add_exercice.php');
+    require_once NOALYSS_INCLUDE.'/template/periode_add_exercice.php';
 }
 else
 {

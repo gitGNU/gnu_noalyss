@@ -35,10 +35,10 @@
  *    - enable (extension.ex_enable)
  *    - filepath (extension.ex_file)
  */
-require_once 'class_menu_ref_sql.php';
-include_once 'class_profile_sql.php';
-require_once 'class_menu_ref.php';
-require_once 'class_profile_menu.php';
+require_once NOALYSS_INCLUDE.'/class_menu_ref_sql.php';
+require_once NOALYSS_INCLUDE.'/class_profile_sql.php';
+require_once NOALYSS_INCLUDE.'/class_menu_ref.php';
+require_once NOALYSS_INCLUDE.'/class_profile_menu.php';
 
 class Extension extends Menu_Ref_sql
 {

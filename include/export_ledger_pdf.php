@@ -26,17 +26,17 @@
  */
 if (!defined('ALLOWED'))
     die('Appel direct ne sont pas permis');
-require_once('class_dossier.php');
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
 $gDossier = dossier::id();
-require_once('class_pdf.php');
-include_once('class_user.php');
-include_once("ac_common.php");
-require_once('class_database.php');
-include_once("class_impress.php");
-include_once("class_acc_ledger.php");
-require_once('class_own.php');
-require_once('class_periode.php');
-require_once 'class_print_ledger.php';
+require_once NOALYSS_INCLUDE.'/class_pdf.php';
+require_once NOALYSS_INCLUDE.'/class_user.php';
+require_once NOALYSS_INCLUDE.'/ac_common.php';
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_impress.php';
+require_once NOALYSS_INCLUDE.'/class_acc_ledger.php';
+require_once NOALYSS_INCLUDE.'/class_own.php';
+require_once NOALYSS_INCLUDE.'/class_periode.php';
+require_once NOALYSS_INCLUDE.'/class_print_ledger.php';
 
 
 $cn = new Database($gDossier);

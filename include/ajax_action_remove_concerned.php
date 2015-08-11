@@ -19,7 +19,6 @@
 
 // Copyright 2014 Author Dany De Bontridder danydb@aevalys.eu
 
-// require_once '.php';
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 $ag_id=HtmlInput::default_value_get("ag_id", "0");
 $f_id=HtmlInput::default_value_get("f_id", "0");

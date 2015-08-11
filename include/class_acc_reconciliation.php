@@ -24,10 +24,10 @@
  *   must use it
  *
  */
-require_once("class_iconcerned.php");
-require_once ('class_database.php');
-require_once ('class_dossier.php');
-require_once 'class_lettering.php';
+require_once NOALYSS_INCLUDE.'/class_iconcerned.php';
+require_once  NOALYSS_INCLUDE.'/class_database.php';
+require_once  NOALYSS_INCLUDE.'/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/class_lettering.php';
 
 /*! \brief new class for managing the reconciliation it must be used
  * instead of the function InsertRapt, ...

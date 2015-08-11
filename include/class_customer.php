@@ -17,13 +17,13 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
-require_once("constant.php");
-require_once('class_database.php');
-require_once("class_acc_parm_code.php");
-require_once('class_periode.php');
-require_once('class_fiche.php');
-require_once('class_acc_account_ledger.php');
-require_once('user_common.php');
+require_once NOALYSS_INCLUDE.'/constant.php';
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_acc_parm_code.php';
+require_once NOALYSS_INCLUDE.'/class_periode.php';
+require_once NOALYSS_INCLUDE.'/class_fiche.php';
+require_once NOALYSS_INCLUDE.'/class_acc_account_ledger.php';
+require_once NOALYSS_INCLUDE.'/user_common.php';
 /*! \file
  * \brief Derived from class fiche Customer are a specific kind of card
  */

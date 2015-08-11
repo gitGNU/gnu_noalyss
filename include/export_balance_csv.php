@@ -26,15 +26,15 @@ header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="balance.csv"',FALSE);
 include_once ("ac_common.php");
 include_once("class_acc_balance.php");
-require_once('class_database.php');
-require_once('class_dossier.php');
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
 $gDossier=dossier::id();
 
-require_once("class_acc_ledger.php");
+require_once NOALYSS_INCLUDE.'/class_acc_ledger.php';
 $cn=new Database($gDossier);
 
 
-require_once ('class_user.php');
+require_once  NOALYSS_INCLUDE.'/class_user.php';
 
 $bal=new Acc_Balance($cn);
 $bal->jrn=null;

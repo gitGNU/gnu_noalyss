@@ -23,10 +23,10 @@
  * \brief definition of Anc_Listing
  */
 
-require_once("class_ihidden.php");
-require_once ('class_anc_plan.php');
-require_once ('class_anc_print.php');
-require_once ('class_anc_operation.php');
+require_once NOALYSS_INCLUDE.'/class_ihidden.php';
+require_once  NOALYSS_INCLUDE.'/class_anc_plan.php';
+require_once  NOALYSS_INCLUDE.'/class_anc_print.php';
+require_once  NOALYSS_INCLUDE.'/class_anc_operation.php';
 /*!
  * \brief manage the CA listing
  *

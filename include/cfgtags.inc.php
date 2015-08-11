@@ -24,8 +24,8 @@ if ( !defined ('ALLOWED') )  die('Appel direct ne sont pas permis');
  * @brief Manage the tags
  *
  */
-require_once 'class_tag.php';
-require_once 'class_tool_uos.php';
+require_once NOALYSS_INCLUDE.'/class_tag.php';
+require_once NOALYSS_INCLUDE.'/class_tool_uos.php';
 
 $tag=new Tag($cn);
 $uos=new Tool_Uos('tag');

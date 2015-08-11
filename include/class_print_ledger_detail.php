@@ -23,7 +23,7 @@
  * \brief this class extends PDF and let you export the detailled printing
  *  of any ledgers
  */
-require_once('class_pdf.php');
+require_once NOALYSS_INCLUDE.'/class_pdf.php';
 
 class Print_Ledger_Detail extends PDF
 {

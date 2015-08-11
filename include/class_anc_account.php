@@ -26,12 +26,12 @@
 /*!\brief contains the object for the poste_analytique (table poste_analytique)
  *
  */
-require_once("class_ihidden.php");
-require_once("class_itext.php");
-require_once("class_iselect.php");
-require_once("class_ispan.php");
-require_once('class_database.php');
-require_once("class_anc_plan.php");
+require_once NOALYSS_INCLUDE.'/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_ispan.php';
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_anc_plan.php';
 
 class Anc_Account
 {

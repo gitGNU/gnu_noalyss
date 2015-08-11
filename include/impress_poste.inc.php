@@ -18,11 +18,11 @@
 */
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once("class_ispan.php");
-require_once("class_icard.php");
-require_once("class_iselect.php");
-require_once("class_icheckbox.php");
-require_once('class_acc_operation.php');
+require_once NOALYSS_INCLUDE.'/class_ispan.php';
+require_once NOALYSS_INCLUDE.'/class_icard.php';
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_icheckbox.php';
+require_once NOALYSS_INCLUDE.'/class_acc_operation.php';
 /*! \file
  * \brief Print account (html or pdf)
  *        file included from user_impress
@@ -33,8 +33,8 @@ require_once('class_acc_operation.php');
 //-----------------------------------------------------
 // Show the jrn and date
 //-----------------------------------------------------
-require_once('class_database.php');
-require_once('class_ipopup.php');
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_ipopup.php';
 global $g_user;
 
 echo IPoste::ipopup('ipop_account');
@@ -136,7 +136,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
         echo alert('Date malformée, désolée');
         return;
     }
-    require_once("class_acc_account_ledger.php");
+    require_once NOALYSS_INCLUDE.'/class_acc_account_ledger.php';
     $go=0;
 // we ask a poste_id
     if ( isset($_GET['poste_id']) && strlen(trim($_GET['poste_id'])) != 0 )
@@ -156,7 +156,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
     }
     if ( strlen(trim($_GET['f_id'])) != 0 )
     {
-        require_once("class_fiche.php");
+        require_once NOALYSS_INCLUDE.'/class_fiche.php';
         // thanks the qcode we found the poste account
         $fiche=new Fiche($cn);
         $qcode=$fiche->get_by_qcode($_GET['f_id']);

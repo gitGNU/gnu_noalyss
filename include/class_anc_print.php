@@ -27,16 +27,16 @@
  *
  *
  */
-require_once("class_idate.php");
-require_once("class_itext.php");
-require_once("class_ihidden.php");
-require_once("class_iselect.php");
-require_once("class_ibutton.php");
-require_once('class_database.php');
-require_once('constant.php');
-require_once('class_dossier.php');
-require_once ('class_anc_plan.php');
-require_once 'class_ianccard.php';
+require_once NOALYSS_INCLUDE.'/class_idate.php';
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_ibutton.php';
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/constant.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
+require_once  NOALYSS_INCLUDE.'/class_anc_plan.php';
+require_once NOALYSS_INCLUDE.'/class_ianccard.php';
 class Anc_Print
 {
     var $db;						/*!< $db database connection */

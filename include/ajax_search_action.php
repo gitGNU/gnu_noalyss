@@ -21,9 +21,10 @@
  * \brief Search module
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once('class_dossier.php');
-include_once("ac_common.php");
-require_once('class_follow_up.php');
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
+include_once NOALYSS_INCLUDE.'/ac_common.php';
+require_once NOALYSS_INCLUDE.'/class_follow_up.php';
+
 $_REQUEST['ac']='FOLLOW';
 
 echo Follow_Up::display_search($cn,true);

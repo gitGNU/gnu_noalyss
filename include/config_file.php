@@ -23,9 +23,9 @@
  * \brief functions concerning the config file config.inc.php. The domain is not set into the form for security issues
  */
 
-require_once("class_itext.php");
-require_once '../../include/class_iselect.php';
-require_once '../../include/class_icheckbox.php';
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/../../include/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/../../include/class_icheckbox.php';
 
 function is_unix()
 {
@@ -146,10 +146,22 @@ function config_file_create($p_array,$from_setup=1,$p_os=1)
     fputs($hFile,"\r\n");
     if (isset ($multi))	fputs($hFile, 'define ("MULTI",0);');
     if (! isset ($multi))	fputs($hFile, 'define ("MULTI",1);');
-	fputs($hFile,"\r\n");
-    fputs($hFile, 'define ("dbname","'.$cdbname.'");');
     fputs($hFile,"\r\n");
-
+    
+    fputs($hFile,' // Do not change below !!!');
+    fputs($hFile,"\r\n");
+    fputs($hFile,' // These variable are computed but could be changed in ');
+    fputs($hFile,"\r\n");
+    fputs($hFile,' // very special configuration');
+    fputs($hFile,"\r\n");
+    fputs($hFile, '// define ("dbname","'.$cdbname.'");');
+    fputs($hFile,"\r\n");
+    fputs($hFile, '// define ("NOALYSS_HOME","")');
+    fputs($hFile,"\r\n");
+    fputs($hFile, '// define ("NOALYSS_PLUGIN","")');
+    fputs($hFile,"\r\n");
+    fputs($hFile, '// define ("NOALYSS_INCLUDE","")');
+    fputs($hFile,"\r\n");
     fputs($hFile,'?>');
     fclose($hFile);
 }

@@ -28,7 +28,7 @@
 // 
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 
-require_once 'class_anc_key.php';
+require_once NOALYSS_INCLUDE.'/class_anc_key.php';
 ob_start();
 /////
 $key=HtmlInput::default_value_get('key',0);

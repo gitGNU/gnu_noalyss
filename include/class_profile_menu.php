@@ -18,7 +18,7 @@
  */
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 
-require_once 'class_profile_menu_sql.php';
+require_once NOALYSS_INCLUDE.'/class_profile_menu_sql.php';
 
 /**
  * Manage the menu of a profile
@@ -255,7 +255,7 @@ class Profile_Menu extends Profile_Menu_sql
                 array('value'=>'W', 'label'=>_('Ecriture')),
                 array('value'=>'X', 'label'=>_('Aucun accès'))
             );
-            require_once 'template/user_sec_profile.php';
+            require_once NOALYSS_INCLUDE.'/template/user_sec_profile.php';
         }
 
         /**
@@ -280,7 +280,7 @@ class Profile_Menu extends Profile_Menu_sql
                 array('value'=>'W', 'label'=>_('Ecriture')),
                 array('value'=>'X', 'label'=>_('Aucun accès'))
             );
-            require_once 'template/profile_sec_repository.php';
+            require_once NOALYSS_INCLUDE.'/template/profile_sec_repository.php';
         }
 
     }

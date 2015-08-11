@@ -28,10 +28,10 @@
  *   
  */
 
-require_once("constant.php");
-require_once("user_common.php");
-require_once('class_dossier.php');
-require_once('ac_common.php');
+require_once NOALYSS_INCLUDE.'/constant.php';
+require_once NOALYSS_INCLUDE.'/user_common.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/ac_common.php';
 
 class User
 {
@@ -1055,7 +1055,7 @@ class User
 			$Res = $cn->exec_sql("select distinct dos_id,dos_name,dos_description from ac_dossier
              where   dos_name ~* $1 or dos_description ~* $1 order by dos_name", array($p_filter));
 		}
-		require_once('class_database.php');
+		require_once NOALYSS_INCLUDE.'/class_database.php';
 
 		$max = Database::num_row($Res);
 		if ($max == 0)

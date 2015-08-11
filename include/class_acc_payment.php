@@ -22,13 +22,13 @@
 /*!\file
  * \brief Handle the table mod_payment
  */
-require_once("class_iselect.php");
-require_once("class_icard.php");
-require_once("class_ispan.php");
-require_once('class_acc_ledger.php');
-require_once('class_fiche.php');
-require_once('class_fiche_def.php');
-require_once('constant.php');
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_icard.php';
+require_once NOALYSS_INCLUDE.'/class_ispan.php';
+require_once NOALYSS_INCLUDE.'/class_acc_ledger.php';
+require_once NOALYSS_INCLUDE.'/class_fiche.php';
+require_once NOALYSS_INCLUDE.'/class_fiche_def.php';
+require_once NOALYSS_INCLUDE.'/constant.php';
 /*!\brief Handle the table mod_payment
  *\note the private data member are accessed via
   - mp_id  ==> id ( Primary key )
@@ -267,7 +267,7 @@ class Acc_Payment
 
 		$msg="Modification de ".$this->mp_lib;
         ob_start();
-        require_once('template/new_mod_payment.php');
+        require_once NOALYSS_INCLUDE.'/template/new_mod_payment.php';
         $r=ob_get_contents();
         ob_end_clean();
         return $r;
@@ -389,7 +389,7 @@ class Acc_Payment
         $f_qcode=$qcode->input();
 		$msg="Ajout d'un nouveau moyen de paiement";
         ob_start();
-        require_once('template/new_mod_payment.php');
+        require_once NOALYSS_INCLUDE.'/template/new_mod_payment.php';
         $r=ob_get_contents();
         ob_end_clean();
         return $r;

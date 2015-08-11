@@ -21,21 +21,21 @@
  * the supplier category
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once("class_iselect.php");
-require_once("class_ihidden.php");
-require_once("class_bank.php");
-require_once("class_ibutton.php");
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/class_bank.php';
+require_once NOALYSS_INCLUDE.'/class_ibutton.php';
 global $g_user;
 
-$low_action=(isset($_REQUEST['sb']))?$_REQUEST['sb']:"list";
+$low_action=(isset($_REQUEST['sb']))?$_REQUEST['sb']:'list';
 /*! \file
- * \brief Called from the module "Gestion" to manage the supplier
+ * \brief Called from the module 'Gestion' to manage the supplier
  */
 $href=basename($_SERVER['PHP_SELF']);
 
 // by default open liste
-if ( $low_action  == "" )
-    $low_action="list";
+if ( $low_action  == '' )
+    $low_action='list';
 
 
 //-----------------------------------------------------

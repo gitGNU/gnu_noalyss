@@ -3,14 +3,14 @@
 //see licence.txt
 
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once 'class_menu_ref.php';
+require_once NOALYSS_INCLUDE.'/class_menu_ref.php';
 $m=new Menu_Ref($cn,$me_code);
 $msg="Modification ".$m->me_code.' '.h($m->me_menu);
 echo '<form method="POST" onsubmit="return confirm(\'Vous confirmez ?\')">';
 
-require_once 'template/menu_detail.php';
+require_once NOALYSS_INCLUDE.'/template/menu_detail.php';
 
-echo HtmlInput::submit('modify_menu','Sauver');
+echo HtmlInput::submit('modify_menu',_('Sauver'));
 echo HtmlInput::button_close('divmenu');
 echo '</form>';
 ?>

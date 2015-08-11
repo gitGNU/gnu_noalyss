@@ -27,9 +27,9 @@
  *
  */
 if ( !defined ('ALLOWED')) die('Forbidden');
-require_once("class_itext.php");
-require_once("class_icheckbox.php");
-require_once ('class_extension.php');
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/class_icheckbox.php';
+require_once  NOALYSS_INCLUDE.'/class_extension.php';
 
 $sa = (isset($_REQUEST['sa'])) ? $_REQUEST['sa'] : 'list';
 if (isset($_POST['upd']) &&
@@ -217,7 +217,7 @@ if (isset($_POST["FMOD_NAME"]))
 
 }
 // Show all available templates
-require_once('class_sort_table.php');
+require_once NOALYSS_INCLUDE.'/class_sort_table.php';
 $url=$_SERVER['PHP_SELF']."?sa=list&action=".$_REQUEST['action'];
 
 $header=new Sort_Table();

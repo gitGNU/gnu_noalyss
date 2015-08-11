@@ -31,16 +31,16 @@
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 include_once("ac_common.php");
-require_once('class_database.php');
+require_once NOALYSS_INCLUDE.'/class_database.php';
 include_once("class_acc_balance.php");
-require_once ('header_print.php');
-require_once('class_dossier.php');
-require_once('class_pdf.php');
+require_once  NOALYSS_INCLUDE.'/header_print.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/class_pdf.php';
 $gDossier=dossier::id();
 bcscale(4);
 $cn=new Database($gDossier);
 $rep=new Database();
-require_once ('class_user.php');
+require_once  NOALYSS_INCLUDE.'/class_user.php';
 $g_user->Check();
 
 $bal=new Acc_Balance($cn);

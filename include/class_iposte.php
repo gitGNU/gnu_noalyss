@@ -23,11 +23,11 @@
  * \brief Html Input
  *
  */
-require_once('class_html_input.php');
-require_once('class_itext.php');
-require_once('class_ibutton.php');
-require_once('class_ipopup.php');
-require_once('function_javascript.php');
+require_once NOALYSS_INCLUDE.'/class_html_input.php';
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/class_ibutton.php';
+require_once NOALYSS_INCLUDE.'/class_ipopup.php';
+require_once NOALYSS_INCLUDE.'/function_javascript.php';
 /**
  *@brief show a button, for selecting a account and a input text for manually inserting an account
  * the different value of table are
@@ -63,7 +63,7 @@ require_once('function_javascript.php');
  echo js_include('accounting_item.js');
 
 
-require_once('class_iposte.php');
+require_once NOALYSS_INCLUDE.'/class_iposte.php';
 
 // In the FORM
 $text=new IPoste();

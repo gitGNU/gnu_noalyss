@@ -22,7 +22,7 @@
 /*!\file
  * \brief Html Input
  */
-require_once('class_html_input.php');
+require_once NOALYSS_INCLUDE.'/class_html_input.php';
 class ISpan extends HtmlInput
 {
     public function __construct($p_name="",$p_value="")

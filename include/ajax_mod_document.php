@@ -23,9 +23,9 @@
  * \brief show the detail of a document and let you modify it
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once('class_database.php');
-require_once('class_dossier.php');
-require_once("class_document_modele.php");
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/class_document_modele.php';
 
   /* 1. Check security */
 $cn=new Database(dossier::id());
@@ -35,7 +35,7 @@ $doc=new Document_Modele($cn,$id);
   /* 3. display it */
 $doc->load();
 ob_start();
-require('template/modele_document.php');
+require(NOALYSS_INCLUDE.'/template/modele_document.php');
 
 $html=ob_get_contents();
 ob_end_clean();

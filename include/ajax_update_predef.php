@@ -28,10 +28,11 @@
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 
-require_once ('constant.php');
-require_once ('class_database.php');
-require_once('class_dossier.php');
-require_once('class_pre_operation.php');
+require_once NOALYSS_INCLUDE.'/constant.php';
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/class_pre_operation.php';
+
 // Check if the needed field does exist
 extract ($_GET);
 foreach (array('l','t','d','gDossier') as $a)

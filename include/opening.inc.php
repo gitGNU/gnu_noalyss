@@ -29,21 +29,21 @@
  *
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once("class_iselect.php");
-require_once('class_acc_ledger.php');
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_acc_ledger.php';
 
 $p_mesg="";
 
 $sa = (isset($_REQUEST['sa'])) ? $_REQUEST['sa'] : '';
 $g_user->Check();
 
-require_once 'user_menu.php';
+require_once NOALYSS_INCLUDE.'/user_menu.php';
 
 // Correct (last step)
 if (isset($_POST['correct']))
 {
 	$ledger = new Acc_Ledger($cn, $_REQUEST['p_jrn']);
-	require_once 'operation_ods_new.inc.php';
+	require_once NOALYSS_INCLUDE.'/operation_ods_new.inc.php';
 	return;
 }
 
@@ -54,7 +54,7 @@ if ( isset($_POST['summary']))
 		$ledger = new Acc_Ledger($cn, $_REQUEST['p_jrn']);
 		$ledger->with_concerned=false;
 			$ledger->verify($_POST);
-			require_once 'operation_ods_confirm.inc.php';
+			require_once NOALYSS_INCLUDE.'/operation_ods_confirm.inc.php';
 	} catch (Exception $e)
 	{
 		echo alert($e->getMessage());
@@ -259,6 +259,6 @@ if ($sa == 'step4')
 if ($_REQUEST['sa'] == 'step5')
 {
 	$ledger = new Acc_Ledger($cn, $_REQUEST['p_jrn']);
-	require_once 'operation_ods_new.inc.php';
+	require_once NOALYSS_INCLUDE.'/operation_ods_new.inc.php';
 }
 

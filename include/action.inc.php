@@ -28,11 +28,11 @@ $retour=HtmlInput::button_anchor(_('Retour liste'),
 //-----------------------------------------------------
 // Follow_Up
 //-----------------------------------------------------
-require_once("class_icard.php");
-require_once("class_ispan.php");
-require_once("class_ifile.php");
-require_once("class_itext.php");
-require_once("class_follow_up.php");
+require_once NOALYSS_INCLUDE.'/class_icard.php';
+require_once NOALYSS_INCLUDE.'/class_ispan.php';
+require_once NOALYSS_INCLUDE.'/class_ifile.php';
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/class_follow_up.php';
 /*!\brief Show the list of action, this code should be common
  *        to several webpage. But for the moment we keep like that
  *        because it is used only by this file.
@@ -54,7 +54,7 @@ $ag_id=(isset($_REQUEST['ag_id']))?$_REQUEST['ag_id']:0;
 $ac=$_REQUEST['ac'];
 $base=HtmlInput::request_to_string(array('ac','gDossier'),"");
 
-require_once('action.common.inc.php');
+require_once NOALYSS_INCLUDE.'/action.common.inc.php';
 echo "</div>";
 
 ?>

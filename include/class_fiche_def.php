@@ -17,12 +17,12 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
-include_once("class_fiche_attr.php");
-require_once("class_itext.php");
-require_once('class_fiche_def_ref.php');
-require_once('class_fiche.php');
-require_once('user_common.php');
-require_once('class_iradio.php');
+require_once NOALYSS_INCLUDE.'/class_fiche_attr.php';
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/class_fiche_def_ref.php';
+require_once NOALYSS_INCLUDE.'/class_fiche.php';
+require_once NOALYSS_INCLUDE.'/user_common.php';
+require_once NOALYSS_INCLUDE.'/class_iradio.php';
 
 /*! \file
  * \brief define Class fiche and fiche def, those class are using
@@ -63,7 +63,7 @@ class Fiche_Def
 		$fd_description->width=80;
 		$fd_description->heigh=4;
 		$fd_description->style='style="vertical-align:text-top"';
-        require_once ('template/fiche_def_input.php');
+        require_once  NOALYSS_INCLUDE.'/template/fiche_def_input.php';
         return;
     }
 
@@ -182,7 +182,7 @@ frd_text , fd_description FROM fiche_def join fiche_def_ref on (fiche_def.frd_id
 $order
 ");
 
-		require_once 'template/fiche_def_list.php';
+		require_once NOALYSS_INCLUDE.'/template/fiche_def_list.php';
 	}
     /*!\brief Add a fiche category thanks the element from the array
      * you cannot add twice the same cat. name

@@ -25,9 +25,8 @@
  * @brief common utilities for a lot of procedure, classe
  */
 
-include_once("constant.php");
-require_once('class_database.php');
-require_once('class_periode.php');
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_periode.php';
 
 /**\brief to protect again bad characters which can lead to a cross scripting attack
   the string to be diplayed must be protected

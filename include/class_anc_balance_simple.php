@@ -23,12 +23,12 @@
   \brief manage the simple balance for CA, inherit from balance_ca
  */
 
-require_once("class_ihidden.php");
-require_once ('class_anc_print.php');
-require_once ('class_anc_plan.php');
-require_once ('ac_common.php');
-include_once("class_pdf.php");
-require_once ('header_print.php');
+require_once NOALYSS_INCLUDE.'/class_ihidden.php';
+require_once  NOALYSS_INCLUDE.'/class_anc_print.php';
+require_once  NOALYSS_INCLUDE.'/class_anc_plan.php';
+require_once  NOALYSS_INCLUDE.'/ac_common.php';
+require_once NOALYSS_INCLUDE.'/class_pdf.php';
+require_once  NOALYSS_INCLUDE.'/header_print.php';
 /*! \brief manage the simple balance for CA, inherit from balance_ca
  *
  */

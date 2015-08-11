@@ -21,12 +21,12 @@
 
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 include_once("class_fiche_attr.php");
-require_once("class_ispan.php");
-require_once("class_itva_popup.php");
-require_once("class_itext.php");
-require_once("class_ihidden.php");
-require_once('class_fiche_def.php');
-require_once('class_iposte.php');
+require_once NOALYSS_INCLUDE.'/class_ispan.php';
+require_once NOALYSS_INCLUDE.'/class_itva_popup.php';
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/class_fiche_def.php';
+require_once NOALYSS_INCLUDE.'/class_iposte.php';
 
 /*! \file
  * \brief define Class fiche, this class are using

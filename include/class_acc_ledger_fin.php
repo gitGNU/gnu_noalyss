@@ -24,17 +24,17 @@
  * \brief the class Acc_Ledger_Fin inherits from Acc_Ledger, this
  * object permit to manage the financial ledger
  */
-require_once("class_idate.php");
-require_once("class_icard.php");
-require_once("class_ispan.php");
-require_once("class_itext.php");
-require_once("class_iconcerned.php");
-require_once("class_ifile.php");
-require_once("class_ihidden.php");
-require_once("class_iselect.php");
-require_once('class_acc_ledger.php');
-require_once('ac_common.php');
-require_once('class_acc_reconciliation.php');
+require_once NOALYSS_INCLUDE.'/class_idate.php';
+require_once NOALYSS_INCLUDE.'/class_icard.php';
+require_once NOALYSS_INCLUDE.'/class_ispan.php';
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/class_iconcerned.php';
+require_once NOALYSS_INCLUDE.'/class_ifile.php';
+require_once NOALYSS_INCLUDE.'/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_acc_ledger.php';
+require_once NOALYSS_INCLUDE.'/ac_common.php';
+require_once NOALYSS_INCLUDE.'/class_acc_reconciliation.php';
 
 class Acc_Ledger_Fin extends Acc_Ledger
 {
@@ -440,7 +440,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		}
 
 		ob_start();
-		require_once('template/form_ledger_fin.php');
+		require_once NOALYSS_INCLUDE.'/template/form_ledger_fin.php';
 		$r.=ob_get_contents();
 		ob_end_clean();
 		$r.= create_script("$('".$Date->id."').focus()");

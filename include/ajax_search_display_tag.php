@@ -19,7 +19,7 @@
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 if ( !defined ('ALLOWED') )  die('Appel direct ne sont pas permis');
 
-require_once 'class_tag.php';
+require_once NOALYSS_INCLUDE.'/class_tag.php';
 ob_start();
 $tag=new Tag($cn);
 $tag->select_search($_GET['pref']);

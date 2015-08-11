@@ -26,7 +26,7 @@
  * -l for the ledger
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once 'class_acc_ledger.php';
+require_once NOALYSS_INCLUDE.'/class_acc_ledger.php';
 $ledger=new Acc_Ledger($cn,$l);
 echo $ledger->input_paid(1);
 ?>

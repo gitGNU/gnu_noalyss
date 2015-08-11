@@ -26,7 +26,7 @@
 
 // show list of document
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once ('class_document_type.php');
+require_once NOALYSS_INCLUDE.'/class_document_type.php';
 
 if ( isset($_POST['add']) )
 {
@@ -54,6 +54,7 @@ $str_addCat=$addCat->input();
 $str_addPrefix=$addPrefix->input();
 $str_submit=HtmlInput::submit('add',_('Ajout'));
 echo '<div class="content">';
-require_once('template/list_category_document.php');
+require_once NOALYSS_INCLUDE.'/template/list_category_document.php';
+
 echo '</div>';
 ?>

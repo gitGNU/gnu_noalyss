@@ -183,7 +183,7 @@ class Calendar
         ob_start();
         $zoom=($p_type=='short')?0:1;
         
-        require_once('template/calendar.php');
+        require_once NOALYSS_INCLUDE.'/template/calendar.php';
 
         if (count($this->action_div) > 0)
         {
@@ -272,7 +272,7 @@ class Calendar
         ob_start();
          $zoom=1;
          $notitle=HtmlInput::default_value_get('notitle', 0);
-        require_once('template/calendar.php');
+        require_once NOALYSS_INCLUDE.'/template/calendar.php';
 
         if (count($this->action_div) > 0)
         {
@@ -314,7 +314,7 @@ class Calendar
         ";
         $a_event=$cn->get_array($sql,array($profile));
         ob_start();
-        require_once 'template/calendar-list.php';
+        require_once NOALYSS_INCLUDE.'/template/calendar-list.php';
         $ret=ob_get_clean();
         return $ret;
                 

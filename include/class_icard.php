@@ -114,8 +114,8 @@ $label->name="av_text".$attr->ad_id."_label";
 $msg.=td($w->search().$label->input());
 @endcode
 */
-require_once('class_html_input.php');
-require_once('function_javascript.php');
+require_once NOALYSS_INCLUDE.'/class_html_input.php';
+require_once NOALYSS_INCLUDE.'/function_javascript.php';
 
 class ICard extends HtmlInput
 {
@@ -315,7 +315,7 @@ class ICard extends HtmlInput
 
     static public function test_me()
     {
-        require_once('class_itext.php');
+        require_once NOALYSS_INCLUDE.'/class_itext.php';
         $_SESSION['isValid']=1;
         $a=new ICard('testme');
         $a->extra="all";

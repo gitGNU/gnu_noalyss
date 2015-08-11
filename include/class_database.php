@@ -23,8 +23,8 @@
 /**\file
  * \brief contains the class for connecting to a postgresql database
  */
-require_once('constant.php');
-require_once('ac_common.php');
+require_once NOALYSS_INCLUDE.'/constant.php';
+require_once NOALYSS_INCLUDE.'/ac_common.php';
 
 /**\brief
  * This class allow you to connect to the postgresql database, execute sql, retrieve data

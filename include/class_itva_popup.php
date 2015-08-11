@@ -22,9 +22,9 @@
 /*!\file
  * \brief Html Input
  */
-require_once ('class_ipopup.php');
-require_once('class_ibutton.php');
-require_once('class_ispan.php');
+require_once  NOALYSS_INCLUDE.'/class_ipopup.php';
+require_once NOALYSS_INCLUDE.'/class_ibutton.php';
+require_once NOALYSS_INCLUDE.'/class_ispan.php';
 /**
  *@brief let you choose a TVA in a popup
  *@code

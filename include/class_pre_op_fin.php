@@ -22,7 +22,7 @@
 /*!\file
  * \brief definition of the class Pre_op_fin
  */
-require_once ('class_pre_operation.php');
+require_once  NOALYSS_INCLUDE.'/class_pre_operation.php';
 
 /*---------------------------------------------------------------------- */
 /*!\brief concerns the predefined operation for FIN ledger

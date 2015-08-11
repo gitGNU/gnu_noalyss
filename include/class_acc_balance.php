@@ -23,7 +23,7 @@
 /*!
  * \brief Class for manipulating data to print the balance of account
  */
-require_once('class_acc_account.php');
+require_once NOALYSS_INCLUDE.'/class_acc_account.php';
 
 class Acc_Balance
 {

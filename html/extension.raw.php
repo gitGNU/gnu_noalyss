@@ -24,16 +24,14 @@
  * the security. Load several javascript files
  */
 require_once '../include/constant.php';
-require_once('class_database.php');
-require_once('class_dossier.php');
-require_once("ac_common.php");
-require_once("constant.php");
-require_once('function_javascript.php');
-require_once('class_extension.php');
-require_once ('class_html_input.php');
-require_once('class_iselect.php');
-require_once ('constant.security.php');
-require_once ('class_user.php');
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/ac_common.php';
+require_once NOALYSS_INCLUDE.'/function_javascript.php';
+require_once NOALYSS_INCLUDE.'/class_extension.php';
+require_once  NOALYSS_INCLUDE.'/class_html_input.php';
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once  NOALYSS_INCLUDE.'/class_user.php';
 
 global $g_user,$cn,$g_parameter;
 
@@ -52,7 +50,7 @@ if ( $ext->search($_REQUEST['plugin_code']) != -1 )
 		exit();
       }
     /* call the ajax script */
-    require_once('ext'.DIRECTORY_SEPARATOR.dirname(trim($ext->getp('me_file'))).DIRECTORY_SEPARATOR.'raw.php');
+    require_once(NOALYSS_PLUGIN.DIRECTORY_SEPARATOR.dirname(trim($ext->getp('me_file'))).DIRECTORY_SEPARATOR.'raw.php');
   }
 else
   {

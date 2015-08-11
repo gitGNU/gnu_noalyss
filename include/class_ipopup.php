@@ -24,8 +24,8 @@
  * the html inside the popup cannot contain any floating elt as div..
  *
  */
-require_once('function_javascript.php');
-require_once('class_html_input.php');
+require_once NOALYSS_INCLUDE.'/function_javascript.php';
+require_once NOALYSS_INCLUDE.'/class_html_input.php';
 
 class IPopup extends HtmlInput
 {
@@ -157,7 +157,7 @@ class IPopup extends HtmlInput
 
     static function test_me()
     {
-        require_once('class_iselect.php');
+        require_once NOALYSS_INCLUDE.'/class_iselect.php';
         $select=new ISelect('a');
         $select->value=array(array ('value'=>0,'label'=>'Première valeur'),
                              array ('value'=>0,'label'=>'Première valeur'),

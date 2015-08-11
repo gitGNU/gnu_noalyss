@@ -27,7 +27,7 @@ header('Pragma: public');
 header('Content-type: application/csv'); 
 header('Content-Disposition: attachment;filename="anc-table-export.csv"',FALSE);
 
-require_once('class_anc_table.php');
+require_once NOALYSS_INCLUDE.'/class_anc_table.php';
 $atable=new Anc_Table($cn);
 $atable->get_request();
 $atable->export_csv();

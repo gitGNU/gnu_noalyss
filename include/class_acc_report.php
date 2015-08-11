@@ -21,10 +21,10 @@
  * \brief Create, view, modify and parse report
  */
 
-require_once("class_itext.php");
-require_once("class_ibutton.php");
-require_once('class_acc_report_row.php');
-require_once('class_impress.php');
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/class_ibutton.php';
+require_once NOALYSS_INCLUDE.'/class_acc_report_row.php';
+require_once NOALYSS_INCLUDE.'/class_impress.php';
 
 /*!
  * \brief Class rapport  Create, view, modify and parse report

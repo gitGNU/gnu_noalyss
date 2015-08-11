@@ -26,12 +26,13 @@
  *
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once("class_ihidden.php");
-require_once("class_iselect.php");
-require_once("class_anc_account.php");
-require_once ("class_anc_operation.php");
-require_once ("class_anc_plan.php");
-require_once ("class_anc_group_operation.php");
+require_once NOALYSS_INCLUDE.'/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_anc_account.php';
+require_once  NOALYSS_INCLUDE.'/class_anc_operation.php';
+require_once  NOALYSS_INCLUDE.'/class_anc_plan.php';
+require_once  NOALYSS_INCLUDE.'/class_anc_group_operation.php';
+
 global $g_user;
 
 $str_dossier=Dossier::get();

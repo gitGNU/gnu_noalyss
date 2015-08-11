@@ -107,7 +107,7 @@ class HtmlInput
      */
     public function get_js_attr()
     {
-        require_once('function_javascript.php');
+        require_once NOALYSS_INCLUDE.'/function_javascript.php';
         $attr="";
         if ( count($this->attribute) == 0) return "";
 

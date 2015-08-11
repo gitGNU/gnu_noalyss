@@ -26,7 +26,7 @@
  *
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once 'class_follow_up.php';
+require_once NOALYSS_INCLUDE.'/class_follow_up.php';
 header('Pragma: public');
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="action-gestion.csv"',FALSE);

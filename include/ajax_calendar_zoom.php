@@ -18,7 +18,7 @@
  */
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 if ( !defined ('ALLOWED') )  die('Appel direct ne sont pas permis');
-require_once 'class_calendar.php';
+require_once NOALYSS_INCLUDE.'/class_calendar.php';
 ob_start();
 if ( $notitle== 0 ) echo HtmlInput::title_box(_("Calendrier"), "calendar_zoom_div");
 $cal=new Calendar();

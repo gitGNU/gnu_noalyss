@@ -23,10 +23,10 @@ if ( !defined ('ALLOWED')) die('Forbidden');
 * \brief Management of the folder
  *
  */
-require_once "class_itext.php";
-require_once "class_icheckbox.php";
-require_once "class_itextarea.php";
-require_once 'class_html_input.php';
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/class_icheckbox.php';
+require_once NOALYSS_INCLUDE.'/class_itextarea.php';
+require_once NOALYSS_INCLUDE.'/class_html_input.php';
 
 $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:'list';
 //---------------------------------------------------------------------------
@@ -174,7 +174,7 @@ if ( isset ($_POST["DATABASE"]) )
 // List of folder
 if ( $sa == 'list' )
 {
-	require_once('class_sort_table.php');
+	require_once NOALYSS_INCLUDE.'/class_sort_table.php';
         echo '<p>';
         echo HtmlInput::button(_('Ajouter'),_('Ajouter un dossier')," onclick=\$('folder_add_id').show()");
         echo '</p>';

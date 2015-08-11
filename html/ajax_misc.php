@@ -37,12 +37,12 @@
 if ( ! defined('ALLOWED')) define ('ALLOWED',1);
 
 require_once '../include/constant.php';
-require_once('class_database.php');
-require_once ('class_fiche.php');
-require_once('class_iradio.php');
-require_once('function_javascript.php');
-require_once('ac_common.php');
-require_once ('class_user.php');
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once  NOALYSS_INCLUDE.'/class_fiche.php';
+require_once NOALYSS_INCLUDE.'/class_iradio.php';
+require_once NOALYSS_INCLUDE.'/function_javascript.php';
+require_once NOALYSS_INCLUDE.'/ac_common.php';
+require_once  NOALYSS_INCLUDE.'/class_user.php';
 mb_internal_encoding("UTF-8");
 
 $var = array('gDossier', 'op');

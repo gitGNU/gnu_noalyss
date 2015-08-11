@@ -28,15 +28,15 @@
 // parameter are gDossier , c1 : the control id to update,
 // c2 the control id which contains the pa_id
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once("class_itext.php");
-require_once("class_ihidden.php");
-require_once("class_ibutton.php");
-require_once ('class_database.php');
-require_once ("ac_common.php");
-require_once ('class_dossier.php');
-require_once ('class_anc_account.php');
-require_once ('class_anc_plan.php');
-require_once('function_javascript.php');
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/class_ibutton.php';
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/ac_common.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/class_anc_account.php';
+require_once NOALYSS_INCLUDE.'/class_anc_plan.php';
+require_once NOALYSS_INCLUDE.'/function_javascript.php';
 
 echo HtmlInput::title_box(_("Recherche activité"), $ctl);
 

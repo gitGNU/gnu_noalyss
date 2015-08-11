@@ -18,9 +18,9 @@
  */
 
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
-require_once ('class_dossier.php');
-require_once ('class_database.php');
-require_once('ac_common.php');
+require_once  NOALYSS_INCLUDE.'/class_dossier.php';
+require_once  NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/ac_common.php';
 
 /*!\file
  * \brief Manage additional info for Accountancy

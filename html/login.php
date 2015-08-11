@@ -19,14 +19,13 @@
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 require_once '../include/constant.php';
 
-include_once ("ac_common.php");
-require_once('constant.php');
+include_once NOALYSS_INCLUDE.'/ac_common.php';
 
 /*! \file
  * \brief Login page
  */
 
-require_once('class_database.php');
+require_once NOALYSS_INCLUDE.'/class_database.php';
 // Verif if User and Pass match DB
     // if no, then redirect to the login page
 $rep=new Database();

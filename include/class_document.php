@@ -17,12 +17,12 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
-require_once('class_own.php');
-require_once('class_acc_account_ledger.php');
-require_once('class_follow_up.php');
-require_once('class_acc_tva.php');
-require_once('class_user.php');
-require_once('class_zip_extended.php');
+require_once NOALYSS_INCLUDE.'/class_own.php';
+require_once NOALYSS_INCLUDE.'/class_acc_account_ledger.php';
+require_once NOALYSS_INCLUDE.'/class_follow_up.php';
+require_once NOALYSS_INCLUDE.'/class_acc_tva.php';
+require_once NOALYSS_INCLUDE.'/class_user.php';
+require_once NOALYSS_INCLUDE.'/class_zip_extended.php';
 
 /*! \file
  * \brief Class Document corresponds to the table document

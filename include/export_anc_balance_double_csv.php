@@ -31,7 +31,7 @@ header('Content-type: application/csv');
 header('Pragma: public');
 header('Content-Disposition: attachment;filename="ca_bal_croise.csv"',FALSE);
 
-require_once ('class_anc_balance_double.php');
+require_once  NOALYSS_INCLUDE.'/class_anc_balance_double.php';
 
 $cn=new Database(dossier::id());
 

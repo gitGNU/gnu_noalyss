@@ -28,13 +28,13 @@
  *  Print the crossed balance between 2 plan
  *
  */
-require_once("class_iselect.php");
-require_once("class_itext.php");
-require_once("class_ibutton.php");
-require_once("class_ihidden.php");
-require_once ('class_anc_print.php');
-require_once ('class_anc_plan.php');
-require_once('class_pdf.php');
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/class_ibutton.php';
+require_once NOALYSS_INCLUDE.'/class_ihidden.php';
+require_once  NOALYSS_INCLUDE.'/class_anc_print.php';
+require_once  NOALYSS_INCLUDE.'/class_anc_plan.php';
+require_once NOALYSS_INCLUDE.'/class_pdf.php';
 
 class Anc_Balance_Double extends Anc_Print
 {

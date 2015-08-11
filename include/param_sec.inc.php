@@ -23,12 +23,12 @@
  * \brief Set the security for an user
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-include_once ("ac_common.php");
-require_once("class_iselect.php");
-require_once('class_dossier.php');
-include_once ("class_user.php");
-require_once('class_database.php');
-require_once 'class_sort_table.php';
+require_once  NOALYSS_INCLUDE.'/ac_common.php';
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_dossier.php';
+require_once  NOALYSS_INCLUDE.'/class_user.php';
+require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/class_sort_table.php';
 
 $gDossier=dossier::id();
 $str_dossier=dossier::get();
@@ -39,7 +39,7 @@ global $g_user;
 $g_user->Check();
 $g_user->check_dossier($gDossier);
 
-include_once ("user_menu.php");
+require_once  NOALYSS_INCLUDE.'/user_menu.php';
 
 /////////////////////////////////////////////////////////////////////////
 // List users

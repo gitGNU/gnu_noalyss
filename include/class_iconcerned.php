@@ -25,7 +25,7 @@
  *  - extra amount of the operation to reconcile
  *  - extra2 ledger paid
  */
-require_once('class_html_input.php');
+require_once NOALYSS_INCLUDE.'/class_html_input.php';
 class IConcerned extends HtmlInput
 {
 

@@ -25,8 +25,8 @@
  * \brief Manage the table parm_code which contains the custom parameter
  * for the module accountancy
  */
-require_once("class_itext.php");
-require_once('class_acc_account_ledger.php');
+require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/class_acc_account_ledger.php';
 
 class Acc_Parm_Code
 {
