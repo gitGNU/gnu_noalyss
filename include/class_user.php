@@ -494,6 +494,12 @@ class User
 			$Res = $this->db->exec_sql($sql, array($this->id, $p_id));
 		}
 	}
+        /**
+         * Save the preference , the scope is global, the settings are saved
+         * into account_repository
+         * @param $key THEME,  LANG , PAGESIZE
+         * @param $value value of the key
+         */
 
 	function save_global_preference($key, $value)
 	{
