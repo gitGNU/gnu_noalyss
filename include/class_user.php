@@ -1121,6 +1121,7 @@ class User
          */
 	function can_write_action($dtoc)
 	{
+            if ( $this->Admin() == 1 ) return true;
 		$profile = $this->get_profile();
 		$r = $this->db->get_value(" select count(*) from action_gestion where ag_id=$1 and ag_dest in
 				(select p_granted from user_sec_action_profile where ua_right='W' and p_id=$2) ", array($dtoc, $profile));
@@ -1136,6 +1137,7 @@ class User
          */
 	function can_read_action($dtoc)
 	{
+                if ( $this->Admin() == 1 ) return true;
 		$profile = $this->get_profile();
 		$r = $this->db->get_value(" select count(*) from action_gestion where ag_id=$1 and (ag_dest in
 				(select p_granted from user_sec_action_profile where p_id=$2) or ag_owner=$3)", array($dtoc, $profile, $this->login));
@@ -1150,6 +1152,7 @@ class User
          */
         function can_write_repo($p_repo)
         {
+            if ( $this->Admin() == 1 ) return true;
             $profile=$this->get_profile();
             $r=$this->db->get_value("select count(*)
                 from profile_sec_repository
@@ -1168,6 +1171,7 @@ class User
          */
         function can_read_repo($p_repo)
         {
+            if ( $this->Admin() == 1 ) return true;
             $profile=$this->get_profile();
             $r=$this->db->get_value("select count(*)
                 from profile_sec_repository
