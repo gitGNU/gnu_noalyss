@@ -7,11 +7,11 @@
 
 
     <table>
-			<tr>
+			<tr class="highlight">
             <TD>
 	    <?php echo _('N° document')?>
             </TD>
-            <TD class="highlight">
+            <TD >
               <?php echo $this->ag_id;?>
             </TD>
           </TR>
