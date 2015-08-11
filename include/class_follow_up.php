@@ -1559,11 +1559,11 @@ class Follow_Up
         $c=count($a_tag);
         for ($e=0; $e<$c; $e++)
         {
-            $js_remove=sprintf("onclick=\"action_tag_remove('%s','%s','%s')\"", dossier::id(), $this->ag_id, $a_tag[$e]['t_id']);
             echo '<span style="border:1px solid black;margin-right:5px;">';
             echo $a_tag[$e]['t_tag'];
             if ($g_user->can_write_action($this->ag_id)==true)
             {
+                $js_remove=sprintf("onclick=\"action_tag_remove('%s','%s','%s')\"", dossier::id(), $this->ag_id, $a_tag[$e]['t_id']);
                 echo HtmlInput::anchor(SMALLX, "javascript:void(0)", $js_remove, ' class="smallbutton" style="padding:0px;display:inline" ');
             }
             echo '</span>';
