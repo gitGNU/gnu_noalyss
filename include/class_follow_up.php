@@ -1564,7 +1564,7 @@ class Follow_Up
             echo $a_tag[$e]['t_tag'];
             if ($g_user->can_write_action($this->ag_id)==true)
             {
-                HtmlInput::anchor(SMALLX, "javascript:void(0)", $js_remove, ' class="smallbutton" style="padding:0px;display:inline" ');
+                echo HtmlInput::anchor(SMALLX, "javascript:void(0)", $js_remove, ' class="smallbutton" style="padding:0px;display:inline" ');
             }
             echo '</span>';
             echo '&nbsp;';
