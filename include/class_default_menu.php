@@ -37,7 +37,7 @@ class Default_Menu
     /**
      * Possible value
      */
-    private $code;
+    private $code; // array with the valid code
 
     function __construct()
     {
