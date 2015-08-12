@@ -1951,3 +1951,12 @@ ul.aligned-block li {
     background: snow;
     margin-top: 50px;
 }
+td.cut {
+    max-width: 25%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+td.box {
+    border-left: #9999ff solid 1px;
+}

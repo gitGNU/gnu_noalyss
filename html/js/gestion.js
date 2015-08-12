@@ -265,3 +265,27 @@ function successRemoveStock(request,json)
 		alert("success_box"+e.message);
 	}
 }
+/**
+ * @brief display details of the last actions in management
+ * called from dashboard
+ * @param p_dossier : dossier id
+ */
+function action_show(p_dossier)
+{
+    try {
+        waiting_box();
+        var action = new Ajax.Request('ajax_misc.php',
+        {
+            method:'get',
+            parameters : {gDossier:p_dossier,'op':'action_show'},
+            onSuccess : function(p_xml, p_text) {
+                        remove_waiting_box();
+                        add_div({id: 'action_list_div', style:"top:1%;width:90%;margin-left:5%" , cssclass: 'inner_box'});
+                        $('action_list_div').innerHTML=p_xml.responseText;
+            }
+        });
+    } catch (e)
+    {
+        alert('action_show '+e.message);
+    }
+}

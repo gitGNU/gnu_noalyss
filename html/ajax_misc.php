@@ -720,7 +720,10 @@ EOF;
         case 'modele_modify':
             require_once NOALYSS_INCLUDE.'/ajax_admin.php';
             break;
-            
+        // From dashboard, display detail about last operation 
+        case 'action_show':
+            require_once NOALYSS_INCLUDE.'/ajax_gestion.php';
+            break;
 	default:
 		var_dump($_GET);
 }
