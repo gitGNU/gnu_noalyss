@@ -40,7 +40,7 @@ if ( !defined("NOALYSS_HOME")) define ("NOALYSS_HOME",dirname($dirname)."/html")
 if ( !defined("NOALYSS_PLUGIN")) define ("NOALYSS_PLUGIN",$g_ext_dir);
 if ( !defined("NOALYSS_INCLUDE")) define ("NOALYSS_INCLUDE",$g_include_dir);
 
-require_once NOALYSS_INCLUDE.'/config.inc.php';
+if (file_exists(NOALYSS_INCLUDE.'/config.inc.php')) require_once NOALYSS_INCLUDE.'/config.inc.php';
 require_once NOALYSS_INCLUDE.'/constant.security.php';
 
 if ( strpos($inc_path,";") != 0 ) {
