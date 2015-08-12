@@ -90,7 +90,7 @@ $g_user->check();
 if ( $g_user->check_dossier(dossier::id(),true)=='X' )
 {
     ob_start();
-    require_once ('template/ledger_detail_forbidden.php');
+    require_once  NOALYSS_INCLUDE.'/template/ledger_detail_forbidden.php';
 	echo HtmlInput::button_close($div);
     $html=ob_get_contents();
     ob_end_clean();
@@ -117,7 +117,7 @@ if ($ledger=="")
 
     ob_start();
 	echo HtmlInput::title_box(_("Information"), $div);
-    require_once ('template/ledger_detail_forbidden.php');
+    require_once NOALYSS_INCLUDE.'/template/ledger_detail_forbidden.php';
 	echo HtmlInput::button_close($div);
     $html=ob_get_contents();
     ob_end_clean();
@@ -139,7 +139,7 @@ if ( $access == 'X' )
 {
     ob_start();
 	echo HtmlInput::title_box(_("Information"), $div);
-    require_once ('template/ledger_detail_forbidden.php');
+    require_once NOALYSS_INCLUDE.'/template/ledger_detail_forbidden.php';
 	echo HtmlInput::button_close($div);
     $html=ob_get_contents();
     ob_end_clean();
@@ -202,19 +202,19 @@ case 'de':
         if ( $obj==null || $obj->signature == 'ODS'  )
         {
             /* only the details */
-            require_once('template/ledger_detail_misc.php');
+            require_once NOALYSS_INCLUDE.'/template/ledger_detail_misc.php';
         }
         elseif ( $obj->signature=='ACH')
         {
-            require_once('template/ledger_detail_ach.php');
+            require_once NOALYSS_INCLUDE.'/template/ledger_detail_ach.php';
         }
         elseif ($obj->signature=='FIN')
         {
-            require_once('template/ledger_detail_fin.php');
+            require_once NOALYSS_INCLUDE.'/template/ledger_detail_fin.php';
         }
         elseif ( $obj->signature=='VEN')
         {
-            require_once('template/ledger_detail_ven.php');
+            require_once NOALYSS_INCLUDE.'/template/ledger_detail_ven.php';
         }
     }
     catch (Exception $e)

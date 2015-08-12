@@ -14,7 +14,7 @@
          color:darkblue;
          margin-left : 50px;
          margin-right: 50px;
-         background-color: #e1edf7;
+         background-color: #F8F8FF;
      }
      h1 {
          font-size: 120%;
@@ -59,7 +59,7 @@
     border-style:  solid;
     border-width:  0px;
     font-color:blue;
-    margin:1px 2px 1px 2px;
+    margin:2px 2px 1px 2px;
     }
     .warning,.error {
         color:red;
@@ -68,7 +68,7 @@
 </head>
 <body>
 <p align="center">
-  <IMG SRC="../image/logo6720.png" alt="NOALYSS">
+  <IMG SRC="../image/logo6820.png" style="width: 415px;height: 200px" alt="NOALYSS">
 </p>
 <?php
 
@@ -103,6 +103,7 @@
 		 <script type="text/javascript" charset="utf-8" language="javascript" src="setup.js"></script>
 
 <?php
+require_once '../../include/constant.php';
 
 $failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
@@ -211,9 +212,9 @@ if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.D
 // magic_quotes_runtime = Off
 // magic_quotes_sybase = Off
 // include_path
-require_once '../../include/constant.php';
-require_once('config_file.php');
-require_once('class_database.php');
+require_once NOALYSS_INCLUDE.'/config_file.php';
+require_once NOALYSS_INCLUDE.'/class_database.php';
+
 if ( defined ("MULTI") && MULTI==1) { create_htaccess();}
 
 echo '<h1 class="title">Configuration</h1>';

@@ -20,5 +20,5 @@
 </div>
 <?php echo _("Opération ID")."=".hb($obj->det->jr_internal); ?>
 <div id="<?php echo $div.'info'?>" class="divinfo"></div>
-<?php require_once('class_itextarea.php');
+<?php require_once NOALYSS_INCLUDE.'/class_itextarea.php';
 ?>

@@ -18,7 +18,7 @@ require_once NOALYSS_INCLUDE.'/class_user.php';
 require_once NOALYSS_INCLUDE.'/class_extension.php';
 if ( !isset ($_REQUEST['gDossier'])) exit();
 
-require_once 'class_own.php';
+require_once NOALYSS_INCLUDE.'/class_own.php';
 mb_internal_encoding("UTF-8");
 
 global $g_user,$cn,$g_parameter;
@@ -59,7 +59,7 @@ if (isset($_REQUEST['plugin_code']) )
             exit();
         }
         /* call the ajax script */
-        require_once('ext'.DIRECTORY_SEPARATOR.dirname(trim($ext->getp('me_file'))).DIRECTORY_SEPARATOR.'ajax.php');
+        require_once(NOALYSS_PLUGIN.DIRECTORY_SEPARATOR.dirname(trim($ext->getp('me_file'))).DIRECTORY_SEPARATOR.'ajax.php');
     }
     else
     {

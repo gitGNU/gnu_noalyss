@@ -227,7 +227,7 @@ version  6.8.1.5 - '.$my_domain.'
 
 <BR>
 <center>
-<IMG SRC="image/logo6820.png" alt="NOALYSS">
+<IMG SRC="image/logo6820.png" style="width:420px;height:200px" alt="NOALYSS">
 <BR>
 <BR>
 <BR>

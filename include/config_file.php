@@ -24,8 +24,8 @@
  */
 
 require_once NOALYSS_INCLUDE.'/class_itext.php';
-require_once NOALYSS_INCLUDE.'/../../include/class_iselect.php';
-require_once NOALYSS_INCLUDE.'/../../include/class_icheckbox.php';
+require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class_icheckbox.php';
 
 function is_unix()
 {

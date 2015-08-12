@@ -1,7 +1,7 @@
 <?php
 //This file is part of NOALYSS and is under GPL 
 //see licence.txt
-?><?php require_once('ledger_detail_top.php'); ?>
+?><?php require_once NOALYSS_INCLUDE.'/template/ledger_detail_top.php'; ?>
 <?php
     $tab_account=$div."account";
     $tab_rapprochement=$div."rapproch";
@@ -11,7 +11,7 @@
  ?>
 <div class="content" style="padding:0;">
     <?php
-    require_once('class_own.php');
+    require_once NOALYSS_INCLUDE.'/class_own.php';
     $owner = new Own($cn);
     ?>
 
@@ -252,5 +252,5 @@ echo $ipaid->input();
         </div>
             
 <?php
-require_once('ledger_detail_bottom.php');
+require_once NOALYSS_INCLUDE.'/template/ledger_detail_bottom.php';
 ?>

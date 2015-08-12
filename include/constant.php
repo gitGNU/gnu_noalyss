@@ -65,7 +65,6 @@ ini_set ('default_charset',"UTF-8");
  */
 
 
-
 global $g_captcha,$g_failed,$g_succeed;
 $g_captcha=false;
 $g_failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";

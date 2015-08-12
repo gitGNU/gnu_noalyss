@@ -60,7 +60,7 @@ set_language();
 
 if ( $cont != 0 ) exit();
 $cn=new Database(dossier::id());
-include_once ("class_user.php");
+require_once  NOALYSS_INCLUDE.'/class_user.php';
 global $g_user;
 $g_user=new User($cn);
 $g_user->Check();
@@ -105,7 +105,7 @@ case "sf":
 
     $r.='<form id="sp" method="get" onsubmit="'.$attr.'search_get_poste(this);return false;">';
     ob_start();
-    require_once('template/account_search.php');
+    require_once NOALYSS_INCLUDE.'/template/account_search.php';
     $r.=ob_get_contents();
     ob_end_clean();
     $r.=dossier::hidden();
@@ -181,7 +181,7 @@ case "sf":
     }
     ob_start();
 
-    require_once('template/account_result.php');
+    require_once NOALYSS_INCLUDE.'/template/account_result.php';
     $r.=ob_get_contents();
     ob_end_clean();
 

@@ -230,7 +230,7 @@ echo '</div>';
 
 <?php 
 
-require_once('template/ledger_detail_file.php');
+require_once NOALYSS_INCLUDE.'/template/ledger_detail_file.php';
 ?>
 
 

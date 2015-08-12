@@ -112,7 +112,7 @@ switch ($op)
 	case "rm_stock":
 		if ($g_user->check_module('STOCK') == 0)
 			exit();
-		require_once('constant.security.php');
+		require_once NOALYSS_INCLUDE.'/constant.security.php';
 		$cn->exec_sql('delete from stock_goods where sg_id=$1', array($s_id));
 		$html = escape_xml($s_id);
 		header('Content-type: text/xml; charset=UTF-8');
@@ -122,7 +122,7 @@ switch ($op)
 	//--------------------------------------------------
 	// get the last date of a ledger
 	case 'lastdate':
-		require_once('class_acc_ledger_fin.php');
+		require_once NOALYSS_INCLUDE.'/class_acc_ledger_fin.php';
 		$ledger = new Acc_Ledger_Fin($cn, $_GET['p_jrn']);
 		$html = $ledger->get_last_date();
 		$html = escape_xml($html);
@@ -137,7 +137,7 @@ EOF;
 
 		break;
 	case 'bkname':
-		require_once('class_acc_ledger_fin.php');
+		require_once NOALYSS_INCLUDE.'/class_acc_ledger_fin.php';
 		$ledger = new Acc_Ledger_Fin($cn, $_GET['p_jrn']);
 		$html = $ledger->get_bank_name();
 		$html = escape_xml($html);
@@ -152,7 +152,7 @@ EOF;
 		break;
 	// display new calendar
 	case 'cal':
-		require_once('class_calendar.php');
+		require_once NOALYSS_INCLUDE.'/class_calendar.php';
 		/* others report */
 		$cal = new Calendar();
 		$cal->set_periode($per);
@@ -170,7 +170,7 @@ EOF;
 		break;
 	/* rem a cat of document */
 	case 'rem_cat_doc':
-		require_once('class_document_type.php');
+		require_once NOALYSS_INCLUDE.'/class_document_type.php';
 		// if user can not return error message
 		if ($g_user->check_action(PARCATDOC) == 0)
 		{
@@ -212,7 +212,7 @@ EOF;
 		return;
 		break;
 	case 'mod_cat_doc':
-		require_once 'template/document_mod_change.php';
+		require_once NOALYSS_INCLUDE.'/template/document_mod_change.php';
 		break;
 	case 'dsp_tva':
 		$cn = new Database($gDossier);
@@ -303,7 +303,7 @@ EOF;
 	 * display the lettering
 	 */
 	case 'dl':
-		require_once('class_lettering.php');
+		require_once NOALYSS_INCLUDE.'/class_lettering.php';
 		$exercice = $g_user->get_exercice();
 		if ($g_user->check_module("LETCARD") == 0 && $g_user->check_module("LETACC") == 0)
 			exit();
@@ -510,37 +510,37 @@ EOF;
 EOF;
 		break;
 	case 'mod_doc':
-		require_once('ajax_mod_document.php');
+		require_once NOALYSS_INCLUDE.'/ajax_mod_document.php';
 		break;
 	case 'input_per':
-		require_once('ajax_mod_periode.php');
+		require_once NOALYSS_INCLUDE.'/ajax_mod_periode.php';
 		break;
 	case 'save_per':
-		require_once('ajax_mod_periode.php');
+		require_once NOALYSS_INCLUDE.'/ajax_mod_periode.php';
 		break;
 	case 'mod_predf':
-		require_once('ajax_mod_predf_op.php');
+		require_once NOALYSS_INCLUDE.'/ajax_mod_predf_op.php';
 		break;
 	case 'save_predf':
-		require_once('ajax_save_predf_op.php');
+		require_once NOALYSS_INCLUDE.'/ajax_save_predf_op.php';
 		break;
 	case 'search_op':
-		require_once 'search.inc.php';
+		require_once NOALYSS_INCLUDE.'/search.inc.php';
 		break;
 	case 'search_action':
-		require_once 'ajax_search_action.php';
+		require_once NOALYSS_INCLUDE.'/ajax_search_action.php';
 		break;
 	case 'display_profile':
-		require_once("ajax_get_profile.php");
+		require_once NOALYSS_INCLUDE.'/ajax_get_profile.php';
 		break;
 	case 'det_menu':
-		require_once("ajax_get_menu_detail.php");
+		require_once NOALYSS_INCLUDE.'/ajax_get_menu_detail.php';
 		break;
 	case 'add_menu':
-		require_once 'ajax_add_menu.php';
+		require_once NOALYSS_INCLUDE.'/ajax_add_menu.php';
 		break;
 	case 'cardsearch':
-		require_once 'ajax_boxcard_search.php';
+		require_once NOALYSS_INCLUDE.'/ajax_boxcard_search.php';
 		break;
 	case 'add_plugin':
 		$me_code = new IText('me_code');
@@ -549,7 +549,7 @@ EOF;
 		$me_description = new IText("me_description");
 		$me_parameter = new IText("me_parameter");
 		$new = true;
-		require_once 'ajax_plugin_detail.php';
+		require_once NOALYSS_INCLUDE.'/ajax_plugin_detail.php';
 		break;
 	case 'mod_plugin':
 		$m = $cn->get_array("select me_code,me_file,me_menu,me_description,me_parameter
@@ -566,92 +566,92 @@ EOF;
 		$me_description = new IText("me_description", $m[0] ['me_description']);
 		$me_parameter = new IText("me_parameter", $m[0] ['me_parameter']);
 		$new = false;
-		require_once 'ajax_plugin_detail.php';
+		require_once NOALYSS_INCLUDE.'/ajax_plugin_detail.php';
 		break;
 	case 'saldo':
-		require_once 'ajax_bank_saldo.php';
+		require_once NOALYSS_INCLUDE.'/ajax_bank_saldo.php';
 		break;
 	case 'up_predef':
-		require_once 'ajax_update_predef.php';
+		require_once NOALYSS_INCLUDE.'/ajax_update_predef.php';
 		break;
 	case 'upd_receipt':
-		require_once 'ajax_get_receipt.php';
+		require_once NOALYSS_INCLUDE.'/ajax_get_receipt.php';
 		break;
 	case 'up_pay_method':
-		require_once 'ajax_update_payment.php';
+		require_once NOALYSS_INCLUDE.'/ajax_update_payment.php';
 		break;
 	case 'openancsearch':
 	case 'resultancsearch':
-		require_once('ajax_anc_search.php');
+		require_once NOALYSS_INCLUDE.'/ajax_anc_search.php';
 		break;
 	case 'autoanc':
-		require_once 'ajax_auto_anc_card.php';
+		require_once NOALYSS_INCLUDE.'/ajax_auto_anc_card.php';
 		break;
 	case 'create_menu';
-		require_once 'ajax_create_menu.php';
+		require_once NOALYSS_INCLUDE.'/ajax_create_menu.php';
 		break;
 	case 'modify_menu';
-		require_once 'ajax_mod_menu.php';
+		require_once NOALYSS_INCLUDE.'/ajax_mod_menu.php';
 		break;
 	case 'mod_stock_repo':
-		require_once 'ajax_mod_stock_repo.php';
+		require_once NOALYSS_INCLUDE.'/ajax_mod_stock_repo.php';
 		break;
 	case 'view_mod_stock':
-		require_once 'ajax_view_mod_stock.php';
+		require_once NOALYSS_INCLUDE.'/ajax_view_mod_stock.php';
 		break;
 	case 'fddetail':
-		require_once 'ajax_fiche_def_detail.php';
+		require_once NOALYSS_INCLUDE.'/ajax_fiche_def_detail.php';
 		break;
 	case 'vw_action':
-		require_once 'ajax_view_action.php';
+		require_once NOALYSS_INCLUDE.'/ajax_view_action.php';
 		break;
 	case 'minrow':
-		require_once 'ajax_min_row.php';
+		require_once NOALYSS_INCLUDE.'/ajax_min_row.php';
 		break;
         case 'navigator':
-                require_once 'ajax_navigator.php';
+                require_once NOALYSS_INCLUDE.'/ajax_navigator.php';
                 break;
         case 'preference':
-                require_once 'ajax_preference.php';
+                require_once NOALYSS_INCLUDE.'/ajax_preference.php';
                 break;
         case 'bookmark':
-            require_once 'ajax_bookmark.php';
+            require_once NOALYSS_INCLUDE.'/ajax_bookmark.php';
             break;
         case 'tag_detail':
-            require_once 'ajax_tag_detail.php';
+            require_once NOALYSS_INCLUDE.'/ajax_tag_detail.php';
             break;
         case 'tag_save':
-            require_once 'ajax_tag_save.php';
+            require_once NOALYSS_INCLUDE.'/ajax_tag_save.php';
             break;
         case 'tag_list':
-            require_once 'ajax_tag_list.php';
+            require_once NOALYSS_INCLUDE.'/ajax_tag_list.php';
             break;
         case 'tag_add':
-            require_once 'ajax_tag_add_action.php';
+            require_once NOALYSS_INCLUDE.'/ajax_tag_add_action.php';
             break;
         case 'tag_remove':
-            require_once 'ajax_tag_remove_action.php';
+            require_once NOALYSS_INCLUDE.'/ajax_tag_remove_action.php';
             break;
         case 'tag_choose':
-            require_once 'ajax_tag_choose.php';
+            require_once NOALYSS_INCLUDE.'/ajax_tag_choose.php';
             break;
         case 'tag_choose':
-            require_once 'ajax_tag_choose.php';
+            require_once NOALYSS_INCLUDE.'/ajax_tag_choose.php';
             break;
        case 'search_display_tag':
-            require_once 'ajax_search_display_tag.php';
+            require_once NOALYSS_INCLUDE.'/ajax_search_display_tag.php';
             break;
         case 'search_add_tag':
-            require_once 'ajax_search_add_tag.php';
+            require_once NOALYSS_INCLUDE.'/ajax_search_add_tag.php';
             break;
         case 'search_clear_tag':
-            require_once 'ajax_search_clear_tag.php';
+            require_once NOALYSS_INCLUDE.'/ajax_search_clear_tag.php';
             break;
         case 'calendar_zoom':
-            require_once 'ajax_calendar_zoom.php';
+            require_once NOALYSS_INCLUDE.'/ajax_calendar_zoom.php';
             break;
         case 'ledger_show':
-            require_once 'ajax_ledger_show.php';
+            require_once NOALYSS_INCLUDE.'/ajax_ledger_show.php';
         case 'ledger_description':
             $ajrn=$cn->get_array('select jrn_def_name,jrn_def_description from jrn_def where jrn_def_id=$1',array($l));
             if ( count($ajrn)==1)
@@ -670,55 +670,55 @@ EOF;
             /*
              *  Show the available distribution keys for analytic 
              */
-            require_once 'ajax_anc_key_choice.php';
+            require_once NOALYSS_INCLUDE.'/ajax_anc_key_choice.php';
             break;
         case 'anc_key_compute':
             /* 
              * Show the activities computed with the selected distribution key 
              */
-            require_once 'ajax_anc_key_compute.php';
+            require_once NOALYSS_INCLUDE.'/ajax_anc_key_compute.php';
             break;
         case 'account_update':
             /**
              * update an accounting (from CFGPCMN)
              */
-            require_once 'ajax_account_update.php';
+            require_once NOALYSS_INCLUDE.'/ajax_account_update.php';
             break;
         // From admin, revoke the access to a folder from an
         // user
         case 'folder_remove':
-            require_once 'ajax_admin.php';
+            require_once NOALYSS_INCLUDE.'/ajax_admin.php';
             break;
         // From admin, display a list of folder to which the user has 
         // no access
         case 'folder_display':
-            require_once 'ajax_admin.php';
+            require_once NOALYSS_INCLUDE.'/ajax_admin.php';
             break;
         // From admin, grant the access to a folder to an
         // user
         case 'folder_add':
-            require_once 'ajax_admin.php';
+            require_once NOALYSS_INCLUDE.'/ajax_admin.php';
             break;
 
         // From admin, display info and propose to drop the folder
         case 'folder_drop':
-            require_once 'ajax_admin.php';
+            require_once NOALYSS_INCLUDE.'/ajax_admin.php';
             break;
 
         // From admin, display the information of a folder you can 
         // modify
         case 'folder_modify':
-            require_once 'ajax_admin.php';
+            require_once NOALYSS_INCLUDE.'/ajax_admin.php';
             break;
         // From admin, display info and propose to drop the template
         case 'modele_drop':
-            require_once 'ajax_admin.php';
+            require_once NOALYSS_INCLUDE.'/ajax_admin.php';
             break;
 
         // From admin, display the information of a template you can 
         // modify
         case 'modele_modify':
-            require_once 'ajax_admin.php';
+            require_once NOALYSS_INCLUDE.'/ajax_admin.php';
             break;
             
 	default:

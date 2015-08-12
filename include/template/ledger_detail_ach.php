@@ -2,10 +2,10 @@
 //This file is part of NOALYSS and is under GPL 
 //see licence.txt
 $str_anc="";
-?><?php require_once('template/ledger_detail_top.php'); ?>
+?><?php require_once NOALYSS_INCLUDE.'/template/ledger_detail_top.php'; ?>
 <div class="content" style="padding:0;">
     <?php
-    require_once('class_own.php');
+    require_once NOALYSS_INCLUDE.'/class_own.php';
     $owner = new Own($cn);
     ?>
 
@@ -250,6 +250,6 @@ $str_anc="";
 
 
 <?php
-require_once('ledger_detail_bottom.php');
+require_once NOALYSS_INCLUDE.'/template/ledger_detail_bottom.php';
 ?>
 </div>

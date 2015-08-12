@@ -356,7 +356,7 @@ case 'sc':
      *
      *----------------------------------------------------------------------*/
 case 'fs':
-    require_once('class_acc_ledger.php');
+    require_once NOALYSS_INCLUDE.'/class_acc_ledger.php';
     $r=HtmlInput::title_box(_("Détail fiche"), 'search_card');
     $r.='<form method="GET" onsubmit="this.ctl=\'ipop_card\';search_get_card(this);return false;">';
     $q=new IText('query');
@@ -427,14 +427,14 @@ case 'fs':
     }//foreach
 
     ob_start();
-    require_once('template/card_result.php');
+    require_once NOALYSS_INCLUDE.'/template/card_result.php';
     $r.=ob_get_contents();
     ob_end_clean();
     $ctl=$ctl.'_content';
     $html=$r;
     break;
     case 'action_add_concerned_card':
-        require_once 'ajax_add_concerned_card.php';
+        require_once NOALYSS_INCLUDE.'/ajax_add_concerned_card.php';
         return;
     break;
     case 'action_save_concerned':
