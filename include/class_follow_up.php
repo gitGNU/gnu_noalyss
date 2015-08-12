@@ -120,10 +120,12 @@ class Follow_Up
         if ($p_mode=='R')
         {
             $sql=" (ag_dest in (select p_granted from user_sec_action_profile where p_id=$profile ) ) ";
-        }
-        if ($p_mode=='W')
+        } else if ($p_mode=='W')
         {
             $sql=" ( ag_dest in (select p_granted from user_sec_action_profile where p_id=$profile and ua_right='W' ) )";
+        } else  {
+            error_log(_('Securité'));
+            throw new Exception(_('Securité'));
         }
         return $sql;
     }
@@ -1073,16 +1075,21 @@ class Follow_Up
     }
 
     /**
-     * \brief return the last p_limit operation into an array, there is no security
+     * \brief return the last p_limit operation into an array, there is a security
      * on user
      * \param $p_limit is the max of operation to return
      * \return $p_array of Follow_Up object
      */
     function get_last($p_limit)
     {
+        
         $sql="select coalesce(vw_name,'Interne') as vw_name,ag_id,ag_title,ag_ref, dt_value,to_char(ag_timestamp,'DD.MM.YYYY') as ag_timestamp_fmt,ag_timestamp ".
                 " from action_gestion join document_type ".
-                " on (ag_type=dt_id) left join vw_fiche_attr on (f_id=f_id_dest) where ag_state in (2,3) order by ag_timestamp desc limit $p_limit";
+                " on (ag_type=dt_id) "
+                . "left join vw_fiche_attr on (f_id=f_id_dest) "
+                . "where ag_state in (2,3) "
+                . "and ".self::sql_security_filter($this->db,'R').
+                        "order by ag_timestamp desc limit $p_limit";
         $array=$this->db->get_array($sql);
         return $array;
     }

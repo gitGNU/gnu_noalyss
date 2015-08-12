@@ -261,22 +261,20 @@ for($i=0;$i<count($last_ledger);$i++):
 	$class=($i%2==0)?' class="even" ':' class="odd" ';
 ?>
 <tr <?php echo $class ?>>
-	<td><?php echo   smaller_date($last_ledger[$i]['jr_date_fmt'])?>
+	<td class="box">
+            <?php echo   smaller_date($last_ledger[$i]['jr_date_fmt'])?>
 	</td>
-	<td>
-		<?php echo $last_ledger[$i]['jrn_def_code']?>
-	</td>
-        <td>
+	<td class="box">
 		<?php echo $last_ledger[$i]['jr_pj_number']?>
             
         </td>
-<td>
+<td class="box">
    <?php echo h(mb_substr($last_ledger[$i]['jr_comment'],0,40,'UTF-8'))?>
 </td>
-<td>
+<td class="box">
 <?php echo HtmlInput::detail_op($last_ledger[$i]['jr_id'], $last_ledger[$i]['jr_internal'])?>
 </td>
-<td class="num">
+<td class="num box">
 <?php echo nbm($last_ledger[$i]['jr_montant'])?>
 </td>
 
@@ -285,7 +283,40 @@ for($i=0;$i<count($last_ledger);$i++):
 </table>
     
 </div>
-
+<div id="last_operation_management_div" class="box">
+    <?php 
+     echo HtmlInput::title_box(_('Suivi'),"last_operation_management_div",'zoom','onclick="action_show('.dossier::id().')"');
+    //echo HtmlInput::title_box(_('Suivi'),"last_operation_management_div");
+    ?>
+    <?php
+    require_once NOALYSS_INCLUDE.'/class_follow_up.php';
+    $gestion=new Follow_Up($cn);
+    $array=$gestion->get_last(MAX_ACTION_SHOW);
+    $len_array=count($array);
+    ?>
+    <table style="width: 100%">
+    <?php
+    for ($i=0;$i < $len_array;$i++) :
+    ?>
+        <tr class=" <?php echo ($i%2==0)?'even':'odd'?>">
+            <td class="box">
+                <?php echo smaller_date($array[$i]['ag_timestamp_fmt']) ;?>
+            </td>
+            <td class="box">
+                <?php echo HtmlInput::detail_action($array[$i]['ag_id'], $array[$i]['ag_ref'], 1)  ?>
+            </td>
+            <td class="box">
+                <?php echo mb_substr(h($array[$i]['vw_name']),0,15)?>
+            </td>
+            <td class="box cut">
+                <?php echo h($array[$i]['ag_title'])?>
+            </td>
+        </tr>
+    <?php
+    endfor;
+    ?>
+    </table>
+</div>
 
 <div id="add_todo_list" class="box" style="display:none">
 	<script charset="utf-8" type="text/javascript" language="javascript">
