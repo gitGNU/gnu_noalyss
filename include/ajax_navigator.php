@@ -103,7 +103,7 @@ for ($i=0;$i<$nMax;$i++):
                 echo $a_menu[$i]['me_description_etendue']; ?>
             </td>
             <td>
-                <a class="mtitle" style='text-decoration: underline' href="http://wiki.phpcompta.eu/doku.php?id=MENU:<?php echo $a_menu[$i]['me_code']; ?>" target='_blank'><?php echo _("sur le wiki")?> : <?php echo $a_menu[$i]['me_code']; ?></a>
+                <a class="mtitle" style='text-decoration: underline' href="http://wiki.noalyss.eu/doku.php?id=MENU:<?php echo $a_menu[$i]['me_code']; ?>" target='_blank'><?php echo _("sur le wiki")?> : <?php echo $a_menu[$i]['me_code']; ?></a>
             </td>
         </tr>
 <?php endfor; ?>        
