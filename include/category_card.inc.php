@@ -92,14 +92,14 @@ echo '<div class="myfieldset">';
 //---------------------------------------------------------------------------
 if ( $ss_action == 'dc' )
 {
-    require_once NOALYSS_INCLUDE.'category_detail.inc.php';
+    require_once NOALYSS_INCLUDE.'/category_detail.inc.php';
 }
 //---------------------------------------------------------------------------
 // Follow up : mail, bons de commande, livraison, rendez-vous...
 //---------------------------------------------------------------------------
 if ( $ss_action == 'sv' )
 {
-    require_once NOALYSS_INCLUDE.'category_followup.inc.php';
+    require_once NOALYSS_INCLUDE.'/category_followup.inc.php';
 }
 /*----------------------------------------------------------------------
  * Operation all the operation of this customer
@@ -107,21 +107,21 @@ if ( $ss_action == 'sv' )
  * ----------------------------------------------------------------------*/
 if ( $ss_action == 'op')
 {
-    require_once NOALYSS_INCLUDE.'category_operation.inc.php';
+    require_once NOALYSS_INCLUDE.'/category_operation.inc.php';
 }
 /*-------------------------------------------------------------------------
  * Balance of the card
  *-------------------------------------------------------------------------*/
 if ( $ss_action=='bal')
   {
-    require_once NOALYSS_INCLUDE.'balance_card.inc.php';
+    require_once NOALYSS_INCLUDE.'/balance_card.inc.php';
   }
 /*-------------------------------------------------------------------------
  * Ageing Balance of the card
  *-------------------------------------------------------------------------*/
 if ( $ss_action=='balag')
   {
-    require_once NOALYSS_INCLUDE.'balance_card_ageing.inc.php';
+    require_once NOALYSS_INCLUDE.'/balance_card_ageing.inc.php';
   }
 /*----------------------------------------------------------------------
  * All the contact
@@ -161,6 +161,6 @@ if ( $ss_action == 'cn')
  *----------------------------------------------------------------------------*/
 if ( $def==7 )
 {
-    require_once NOALYSS_INCLUDE.'lettering.gestion.inc.php';
+    require_once NOALYSS_INCLUDE.'/lettering.gestion.inc.php';
 }
 echo '</div>';
