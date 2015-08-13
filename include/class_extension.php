@@ -217,10 +217,14 @@ class Extension extends Menu_Ref_sql
                     $update = @file_get_contents(SITE_UPDATE_PLUGIN);
                     if ($update > $version_plugin)
                     {
-                        echo '<div class="inner_box" style="position:absolute;zindex:2;top:5px;left:360px">';
+                        echo '<div id="version_plugin_div_id" class="inner_box" style="position:absolute;zindex:2;top:5px;left:37.5%;width:25%">';
                         echo '<p class="notice">';
                         echo "Mise à jour disponible des plugins pour NOALYSS, version actuelle : $update votre version $version_plugin";
                         echo '</p>';
+                         echo '<p style="text-align:center">'.
+                               '<a id="version_plugin_button" class="button" onclick="$(\'version_plugin_div_id\').remove()">'.
+                         _('Fermer').
+                         "</a></p>";
                         echo '</div>';
                     }
                 }

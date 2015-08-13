@@ -79,7 +79,7 @@ define ('SMALLX','&#x2D5D;');
 
 
 
-define ('SVNINFO',6815);
+define ('SVNINFO',6700);
 if ( ! defined  ('DEBUG')) {
     define ("DEBUG",false);
 }
@@ -91,8 +91,10 @@ $version_noalyss=SVNINFO;
 
 // If you don't want to be notified of the update
 // define ("SITE_UPDATE",'');
-define ("SITE_UPDATE",'http://www.noalyss.eu/last_version.txt');
-define ("SITE_UPDATE_PLUGIN",'http://www.noalyss.eu/plugin_last_version.txt');
+if ( !defined("SITE_UPDATE"))
+    define ("SITE_UPDATE",'http://www.noalyss.eu/last_version.txt');
+if ( !defined("SITE_UPDATE_PLUGIN"))
+    define ("SITE_UPDATE_PLUGIN",'http://www.noalyss.eu/plugin_last_version.txt');
 
 
 define ("DBVERSION",118);

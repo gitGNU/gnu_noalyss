@@ -30,7 +30,6 @@ require_once NOALYSS_INCLUDE.'/function_javascript.php';
 @html_page_start($_SESSION['g_theme']);
 $rep=new Database();
 include_once NOALYSS_INCLUDE.'/class_user.php';
-
 $User=new User($rep);
 
 $User->Check();
@@ -87,10 +86,13 @@ if ( $User->Admin()  == 1)
 	if (SITE_UPDATE !="") {
 	 $update=@file_get_contents(SITE_UPDATE);
 	 if ($update > $version_noalyss ) {
-		 echo '<div class="inner_box" style="width:25%;margin-left:10%;margin-top:3px;">';
+		 echo '<div id="version_div" class="inner_box" style="width:25%;margin-left:10%;margin-top:3px;">';
 		 echo '<p class="notice">';
 		 echo "Mise à jour disponible de NOALYSS version actuelle : $update votre version $version_noalyss";
 		 echo '</p>';
+                 echo '<p style="text-align:center"> <a class="button" onclick="document.body.removeChild(document.getElementById(\'version_div\'))">'.
+                         _('Fermer').
+                         "</a></p>";
 		 echo '</div>';
 	 }
 	}
@@ -179,6 +181,7 @@ echo $res;
 <P>
 
 </P>
+</div>
 <?php
 html_page_stop();
 ?>
