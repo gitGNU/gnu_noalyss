@@ -53,5 +53,5 @@ echo HtmlInput::title_box(_('Suivi'), 'action_list_div');
     ?>
     </table>
 <p style="text-align: center">
-<a class="smallbutton" target="_blank" href="?gDossier=<?php echo Dossier::id()?>&ac=<?php echo $a_default->get('code_follow')?>"><?php echo _('Gestion')?></a>
+    <?php echo HTMLInput::button_action_add()?>
 </p>

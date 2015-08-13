@@ -916,4 +916,10 @@ EOF;
             $js=HtmlInput::button_action(_('Ajout autres'), $javascript);
             return $js;
         }
+        static function button_action_add()
+        {
+            $dossier=Dossier::id();
+            $js=HtmlInput::button_action(_('Nouvel événement'),'action_add('.$dossier.')','xx','smallbutton');
+            return $js;
+        }
 }

@@ -136,7 +136,7 @@
           </TR>
           <tr>
             <TD>
-	    <?php echo _('Destinataire')?>
+	    <?php echo _('Groupe Gestion')?>
             </TD>
             <td>
               <?php echo $str_ag_dest;?>

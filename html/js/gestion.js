@@ -280,7 +280,7 @@ function action_show(p_dossier)
             parameters : {gDossier:p_dossier,'op':'action_show'},
             onSuccess : function(p_xml, p_text) {
                         remove_waiting_box();
-                        add_div({id: 'action_list_div', style:"top:1%;width:90%;margin-left:5%" , cssclass: 'inner_box'});
+                        add_div({id: 'action_list_div', style:"top:1%;width:90%;left:5%" , cssclass: 'inner_box'});
                         $('action_list_div').innerHTML=p_xml.responseText;
             }
         });
@@ -288,4 +288,98 @@ function action_show(p_dossier)
     {
         alert('action_show '+e.message);
     }
+}
+/**
+ * @brief add a new event 
+ * @param {type} p_dossier
+ * @returns {undefined}
+ */
+function action_add(p_dossier) {
+     try {
+        if ( $('action_add_div')) {
+            alert('Désolé, événement en cours de création à sauver');
+            return;
+        }
+        waiting_box();
+        var action = new Ajax.Request('ajax_misc.php',
+        {
+            method:'get',
+            parameters : {gDossier:p_dossier,'op':'action_add'},
+            onSuccess : function(p_xml, p_text) {
+                        remove_waiting_box();
+                        add_div({id: 'action_add_div',
+                            style:"top:1%;width:80%;left:10%" , 
+                            cssclass: 'inner_box'});
+                        $('action_add_div').innerHTML=p_xml.responseText;
+                        p_xml.responseText.evalScripts();
+            }
+        });
+    } catch (e)
+    {
+        alert('action_add '+e.message);
+    }
+}
+/**
+ * @brief The new event is entered into the div action_add_div, we try
+ * to save and receive as answer a XML file with a code of success and possibly
+ * a message
+ * If the message is OK then the div is fading out, otherwise the reason of 
+ * failure is shown and the div remains
+ */
+function action_save_short()
+{
+    try {
+         $('action_add_frm_info').innerHTML="";
+         $('action_add_frm')['date_event_action_short'].parentNode.className="";
+         $('action_add_frm')['title_event'].parentNode.className="";
+         $('action_add_frm')['type_event'].parentNode.className="";
+
+        if ( $('action_add_frm')['date_event_action_short'].value.trim() == '') {
+            $('action_add_frm')['date_event_action_short'].parentNode.className="notice";
+            return false;
+        }
+
+        if ( $('action_add_frm')['title_event'].value.trim()=="") {
+            $('action_add_frm')['title_event'].parentNode.className="notice";
+            return false;
+        }
+
+        if ( $('action_add_frm')['type_event'].options[$('action_add_frm')['type_event'].selectedIndex].value == -1 )
+        {
+            $('action_add_frm')['type_event'].parentNode.className="notice";
+            return false;
+        }
+        var form=$('action_add_frm').serialize();
+        waiting_box();
+        var action = new Ajax.Request('ajax_misc.php',
+                {
+                    method: 'get',
+                    parameters: form,
+                    onSuccess: function (p_xml, p_text) {
+                        remove_waiting_box();
+                        var answer=p_xml.responseXML;
+                        var code_tags=answer.getElementsByTagName('status');
+                        var code=getNodeText(code_tags[0]);
+                        var message_tags=answer.getElementsByTagName('content');
+                        var message=getNodeText(message_tags[0]);
+
+                        if ( code == 'OK') {
+                            // Successfully saved
+                             $('action_add_frm_info').innerHTML=message;
+                             $('action_add_div').remove();
+                             
+                        }
+                        else if (code == 'NOK') {
+                            // issue while saving
+                            $('action_add_frm_info').innerHTML=message;
+                        }
+                        
+                        
+                    }
+                });
+    } catch (e)
+    {
+        alert('action_add ' + e.message);
+    }
+    return false;
 }

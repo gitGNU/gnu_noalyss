@@ -31,6 +31,8 @@
     $js=sprintf("calendar_zoom({gDossier:%d,invalue:'%s',outvalue:'%s',distype:'%s','notitle':%d})",
             dossier::id(),'per_div','calendar_zoom_div','cal',$notitle);
     echo HtmlInput::anchor(_('Calendrier'),''," onclick=\"{$js}\"")   ;
+    echo HtmlInput::button_action_add();
+
 ?>
     <table class="result">
 <?php

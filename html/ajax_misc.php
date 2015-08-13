@@ -724,6 +724,14 @@ EOF;
         case 'action_show':
             require_once NOALYSS_INCLUDE.'/ajax_gestion.php';
             break;
+        // From dashboard, display form for a new event
+        case 'action_add':
+            require_once NOALYSS_INCLUDE.'/ajax_gestion.php';
+            break;
+        // Save a event given in the short form
+        case 'action_save':
+            require_once NOALYSS_INCLUDE.'/ajax_gestion.php';
+            break;
 	default:
 		var_dump($_GET);
 }

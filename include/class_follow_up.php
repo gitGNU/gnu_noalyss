@@ -1755,5 +1755,64 @@ class Follow_Up
             echo '&nbsp;';
         }
     }
+    /**
+     * @brief display a small form to enter a new event
+     * 
+     */
+    function display_short()
+    {
+        $cn=$this->db;
+        include 'template/action_display_short.php'; 
+    }
+    /**
+     * 
+     */
+    function save_short()
+    {
+        // Get The sequence id,
+        $seq_name="seq_doc_type_".$this->dt_id;
+        $str_file="";
+        $add_file='';
 
+        
+        $this->ag_id=$this->db->get_next_seq('action_gestion_ag_id_seq');
+
+        // Create the reference
+        $ag_ref=$this->db->get_value('select dt_prefix from document_type '
+                . 'where dt_id=$1', array($this->dt_id))
+                .'-'.$this->db->get_next_seq($seq_name);
+        
+        $this->ag_ref=$ag_ref;
+        /**
+         * If ag_ref already exist then compute a new one
+         */
+        
+        // save into the database
+        $this->ag_remind_date=null;
+        $sql="insert into action_gestion".
+                    "(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_ref, ag_dest, ".
+                    "  ag_priority,ag_owner,ag_state,ag_remind_date) ".
+                    " values ($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11)";
+        
+        $this->db->exec_sql($sql, array(
+            $this->ag_id, /* 1 */
+            $this->ag_timestamp, /* 2 */
+            $this->dt_id, /* 3 */
+            $this->ag_title, /* 4 */
+            $this->f_id_dest, /* 5 */
+            $ag_ref, /* 6 */
+            $this->ag_dest, /* 7 */
+            $this->ag_priority, /* 8 */
+            $_SESSION['g_user'], /* 9 */
+            $this->ag_state, /* 10 */
+            $this->ag_remind_date /* 11 */
+           )
+        );
+
+        if (trim($this->ag_comment)!='')
+        {
+            $this->db->exec_sql("insert into action_gestion_comment (ag_id,tech_user,agc_comment) values ($1,$2,$3)"
+                    , array($this->ag_id, $_SESSION['g_user'], $this->ag_comment));
+        }
+    }
 }

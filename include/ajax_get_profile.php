@@ -106,7 +106,7 @@ if ($profile->p_id > 0)
 	echo $add_impression;
         echo '</div>';
         echo '<div class="myfieldset"  style="display:none" id="profile_gestion_div">';
-	echo "<h1 class=\"legend\">".('Action gestion accessible')."</h1>";
+	echo "<h1 class=\"legend\">".('Groupe gestion')."</h1>";
 	$profile_menu->available_profile($p_id);
         echo '</div>';
         echo '<div class="myfieldset"  style="display:none" id="profile_repo_div">';

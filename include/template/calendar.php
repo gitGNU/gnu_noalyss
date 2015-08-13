@@ -8,6 +8,7 @@
     $js=sprintf("calendar_zoom({gDossier:%d,invalue:'%s',outvalue:'%s',distype:'%s','notitle':%d})",
             dossier::id(),'per_div','calendar_zoom_div','list',$notitle);
     echo HtmlInput::anchor(_('Liste'),''," onclick=\"{$js}\"")   ;
+    echo HtmlInput::button_action_add();
  ?>
     
 <?php if ($zoom == 1 ): ?>    
