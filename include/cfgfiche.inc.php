@@ -28,9 +28,9 @@ require_once NOALYSS_INCLUDE.'/class_fiche.php';
 require_once NOALYSS_INCLUDE.'/class_database.php';
 require_once NOALYSS_INCLUDE.'/user_menu.php';
 require_once NOALYSS_INCLUDE.'/class_dossier.php';
-require_once NOALYSS_INCLUDE.'class_sort_table.php';
-require_once NOALYSS_INCLUDE.'class_fiche_def.php';
-require_once NOALYSS_INCLUDE.'class_tool_uos.php';
+require_once NOALYSS_INCLUDE.'/class_sort_table.php';
+require_once NOALYSS_INCLUDE.'/class_fiche_def.php';
+require_once NOALYSS_INCLUDE.'/class_tool_uos.php';
 
 $retour=HtmlInput::button_anchor("Retour à la liste", HtmlInput::get_to_string(array("gDossier","ac")));
 
