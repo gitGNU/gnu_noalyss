@@ -72,7 +72,7 @@ content[41]='Mettez le pourcentage à zéro pour effacer la ligne';
 content[42]="Selectionnez le plan qui vous intéresse avant de cliquer sur Recherche";
 
 function showBulle(p_ctl){
-    d=document.getElementById('bulle');
+    var d=document.getElementById('bulle');
     d.innerHTML=content[p_ctl];
     d.style.top=posY+offsetY+"px";
     d.style.left=posX+offsetX+"px";
@@ -93,6 +93,6 @@ function getPosition(e)
 }
 function hideBulle(p_ctl)
 {
-    d=document.getElementById('bulle');
+    var d=document.getElementById('bulle');
     d.style.visibility="hidden";
 }
