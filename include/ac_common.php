@@ -302,21 +302,20 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
     if ($p_script2 != "")
 	$p_script2 = '<script src="' . $p_script2 . '?version='.SVNINFO.'" type="text/javascript"></script>';
     $style=trim($style);
-    $DIR=dirname(__FILE__);
     echo "<HEAD>";
     if ( $is_msie == 1 )echo '      <meta http-equiv="x-ua-compatible" content="IE=edge"/>';
     echo "
     <TITLE>$title</TITLE>
 	<link rel=\"icon\" type=\"image/ico\" href=\"favicon.ico\" />
     <META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">
-    <LINK REL=\"stylesheet\" type=\"text/css\" href=\"./$style?version=".SVNINFO."\" media=\"screen\"/>
-    <link rel=\"stylesheet\" type=\"text/css\" href=\"style-print.css?version=".SVNINFO."\" media=\"print\"/>" .
+    <LINK REL=\"stylesheet\" type=\"text/css\" href=\"".$style."?version=".SVNINFO."\" media=\"screen\"/>
+    <link rel=\"stylesheet\" type=\"text/css\" href=\"./style-print.css?version=".SVNINFO."\" media=\"print\"/>" .
     $p_script2 . "
     ";
     echo '<script language="javascript" src="js/calendar.js"></script>
     <script type="text/javascript" src="js/lang/calendar-en.js"></script>
     <script language="javascript" src="js/calendar-setup.js"></script>
-    <LINK REL="stylesheet" type="text/css" href="calendar-blue.css" media="screen">';
+    <LINK REL="stylesheet" type="text/css" href="./calendar-blue.css" media="screen">';
 
     echo '    </HEAD>    ';
 
