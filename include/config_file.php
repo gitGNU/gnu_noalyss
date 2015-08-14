@@ -144,17 +144,33 @@ function config_file_create($p_array,$from_setup=1,$p_os=1)
 
     fputs($hFile, 'define ("domaine","");');
     fputs($hFile,"\r\n");
-    if (isset ($multi))	fputs($hFile, 'define ("MULTI",0);');
-    if (! isset ($multi))	fputs($hFile, 'define ("MULTI",1);');
+    if (isset($multi))
+    {
+        fputs($hFile, 'define ("MULTI",0);');
+    }
+    if (!isset($multi))
+    {
+        fputs($hFile, 'define ("MULTI",1);');
+    }
+    fputs($hFile,"\r\n");
+    fputs($hFile, 'define ("dbname","'.$cdbname.'");');
     fputs($hFile,"\r\n");
     
+    fputs($hFile,' // Uncomment to DEBUG');
+    fputs($hFile,"\r\n");
+    fputs($hFile, '// define ("DEBUG",TRUE);');
+    fputs($hFile,"\r\n");
+    fputs($hFile,' // Uncomment to log your input');
+    fputs($hFile,"\r\n");
+    fputs($hFile, '// define ("LOGINPUT",TRUE);');
+    fputs($hFile,"\r\n");
     fputs($hFile,' // Do not change below !!!');
     fputs($hFile,"\r\n");
     fputs($hFile,' // These variable are computed but could be changed in ');
     fputs($hFile,"\r\n");
     fputs($hFile,' // very special configuration');
     fputs($hFile,"\r\n");
-    fputs($hFile, '// define ("dbname","'.$cdbname.'");');
+    fputs($hFile, 'define ("dbname","'.$cdbname.'");');
     fputs($hFile,"\r\n");
     fputs($hFile, '// define ("NOALYSS_HOME","")');
     fputs($hFile,"\r\n");
