@@ -913,7 +913,7 @@ class HtmlInput
             $javascript= <<<EOF
                     obj={dossier:$dossier,ag_id:$p_agid};action_add_concerned_card(obj);
 EOF;
-            $js=HtmlInput::button_action(_('Ajout autres'), $javascript);
+            $js=HtmlInput::button_action(_('Ajout autres'), $javascript,'xx','smallbutton');
             return $js;
         }
         static function button_action_add()
