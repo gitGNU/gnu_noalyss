@@ -18,8 +18,7 @@ BODY {
     padding : 0px;
     margin:0px;
     color:#0000FF; 
-    font-size:1.2em;
-    font-size:1.2rem;
+   font-size:100%;
 }
 .notice {
     color:#FF0000;
@@ -169,8 +168,7 @@ td.tool a.mtitle:hover {
     text-align:right;
     padding:0px;
     margin: 0px;
-    font-size:13px;
-    font-size:0.86rem;
+    font-size:70%:
 }
 div.u_subt2menu {
     background-color:#EDF3FF;
@@ -220,10 +218,7 @@ div.content{
     width:100%;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
     font-family: 'openSansRegular';
-    font-size:14px;
-    font-size:1.1rem;
-
-}
+   }
 div.content30{
 
     float:left;
@@ -952,8 +947,7 @@ td.toolselected a.mtitle {
     background-color:#FF0000;
 }
 div.topmenu {
-	font-size:14.6px;
-	font-size:1.1rem;
+	font-size:85%;
         
 }
 

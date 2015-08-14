@@ -26,9 +26,9 @@ require_once NOALYSS_INCLUDE.'/class_database.php';
 require_once NOALYSS_INCLUDE.'/class_user.php';
 require_once NOALYSS_INCLUDE.'/class_periode.php';
 
-echo '<div style="float:left;">'.HtmlInput::print_window();
 
 html_page_start($_SESSION['g_theme']);
+echo '<div style="float:left;">';
 global $g_user;
 if ( basename($_GET['ajax']) == 'ajax_history.php' )
   {
@@ -69,9 +69,12 @@ if ( basename($_GET['ajax']) == 'ajax_history.php' )
 	$href_csv="export.php?".$href.'&f_id='.$_GET['f_id'].'&ople=0&type=poste&'.$from_periode.'&'.$to_periode."&act=CSV:fichedetail";
 	$href_pdf="export.php?".$href.'&f_id='.$_GET['f_id'].'&ople=0&type=poste&'.$from_periode.'&'.$to_periode."&act=PDF:fichedetail";
       }
-
+    echo HtmlInput::print_window();
     echo '<a class="smallbutton"  href="'.$href_csv.'">'._("Export CSV").'</a>';
     echo '<a class="smallbutton"  href="'.$href_pdf.'">'._("Export PDF").'</a>';
+  }
+  else {
+      echo HtmlInput::print_window();
   }
 echo '</div>';
 echo HtmlInput::hidden('inpopup',1);

@@ -1173,11 +1173,13 @@ a.line:hover,div_content a.line
     text-decoration:none;
     margin-left: 2px;
     margin-right:2px;
-    margin-top:0px;
+    margin-top:3px;
     font-size:12px;
     font-size:0.90rem;
     cursor: pointer;
-
+ cursor: pointer;
+    border:0px;
+    font-size:20px;
 }
 #close_div:hover
 {
@@ -1457,8 +1459,8 @@ div.bxbutton
     float:right;
     height:10px;
     display:block;
-    margin-top:0.48%;
     margin-right:0.48%;
+    margin-top:3px;
 }
 div.inner_box tr.odd {
 }
