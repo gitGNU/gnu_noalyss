@@ -1450,6 +1450,11 @@ function mod_menu(gdossier, pm_id)
             }
     );
 }
+/**
+ * @brief add a menu to a profile, propose only the available menu
+ * @param obj json object {dossier  : , p_id : profile id , type : type of menu}
+ * Type of menu are "pr" for Printing "me" for plain menu
+ */
 function add_menu(obj)
 {
     var pdossier = obj.dossier;
