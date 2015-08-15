@@ -1765,10 +1765,20 @@ class Follow_Up
         include 'template/action_display_short.php'; 
     }
     /**
-     * 
+     * Add an event , with the minimum of informations, 
+     * used in Dashboard and Scheduler
      */
     function save_short()
     {
+        global $g_user;
+        // check if we can add
+        if ($g_user->can_add_action($this->ag_dest) == FALSE ) 
+        {
+                throw new Exception(_('SECURITE : Ajout impossible'));
+        }
+        
+            
+        
         // Get The sequence id,
         $seq_name="seq_doc_type_".$this->dt_id;
         $str_file="";

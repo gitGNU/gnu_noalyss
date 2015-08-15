@@ -1114,6 +1114,25 @@ class User
 		return $profile;
 	}
         /**
+         * Check if the current user can add an action in the profile given
+         * in parameter
+         * @param type $p_profile profile.p_id = action_gestion.ag_dest
+         * @return boolean
+         */
+        function can_add_action($p_profile)
+        {
+            $r=$this->db->get_value (' select count(*) 
+                from user_sec_action_profile
+                where p_granted=$1
+                and p_id=$2',
+                    array($this->get_profile(),$p_profile));
+            if ($r == 0 ) 
+            {
+                return false;
+            } 
+            return true;
+        }
+        /**
          *Check if the profile of the user can write for this profile
          * @param  $dtoc action_gestion.ag_id
          * @return true if he can write otherwise false
@@ -1122,7 +1141,7 @@ class User
 	{
             if ( $this->Admin() == 1 ) return true;
 		$profile = $this->get_profile();
-		$r = $this->db->get_value(" select count(*) from action_gestion where ag_id=$1 and ag_dest in
+                    $r = $this->db->get_value(" select count(*) from action_gestion where ag_id=$1 and ag_dest in
 				(select p_granted from user_sec_action_profile where ua_right='W' and p_id=$2) ", array($dtoc, $profile));
 		if ($r == 0)
 			return false;

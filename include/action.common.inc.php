@@ -203,8 +203,8 @@ if ($sub_action == 'detail')
 		echo $act->Display('UPD', false, $base, $retour);
 		echo '<input type="hidden" name="sa" value="update">';
 		echo HtmlInput::submit("save", "Sauve");
-		echo HtmlInput::submit("add_action_here", _("Ajoute une action à celle-ci"));
-		echo HtmlInput::submit("delete", _("Efface cette action"), ' onclick="return confirm(\'' . _("Vous confirmez l\'effacement") . '\')" ');
+		echo HtmlInput::submit("add_action_here", _("Ajoute un événement à celui-ci"));
+		echo HtmlInput::submit("delete", _("Efface cet événement "), ' onclick="return confirm(\'' . _("Vous confirmez l\'effacement") . '\')" ');
 		echo $retour;
 		echo '</form>';
 	}
@@ -269,11 +269,11 @@ if ($sub_action == "save_action_st2")
 	// insert into action_gestion
 	echo $act->save();
 	$url = "?$base&sa=detail&ag_id=" . $act->ag_id . '&' . dossier::get();
-	echo '<p><a class="mtitle" href="' . $url . '">' . hb(_('Action Sauvée').'  : ' . $act->ag_ref) . '</a></p>';
+	echo '<p><a class="mtitle" href="' . $url . '">' . hb(_('Evènement Sauvée').'  : ' . $act->ag_ref) . '</a></p>';
 
 	Follow_Up::show_action_list($cn,$base);
 	$url = "?$base&sa=detail&ag_id=" . $act->ag_id . '&' . dossier::get();
-	echo '<p><a class="mtitle" href="' . $url . '">' . hb(_('Action Sauvée').'  : ' . $act->ag_ref) . '</a></p>';
+	echo '<p><a class="mtitle" href="' . $url . '">' . hb(_('Evènement Sauvée').'  : ' . $act->ag_ref) . '</a></p>';
     } catch (Exception $e)
     {
         echo '<span class="notice">';

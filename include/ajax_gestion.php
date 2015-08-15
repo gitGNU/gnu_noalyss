@@ -106,7 +106,15 @@ if ($op=='action_save')
     $gestion->dt_id=$type_event;
     $gestion->ag_comment=h($summary);
     $gestion->ag_timestamp=$date_event;
-    $gestion->save_short();
+    $content=_('Sauvé');
+    $status='OK';
+    try {
+        $gestion->save_short();
+    } catch (Exception $ex)
+    {
+        $content=$ex->getMessage();
+        $status='NOK';
+    }
     header('Content-type: text/xml; charset=UTF-8');
     $dom=new DOMDocument('1.0', 'UTF-8');
     $xml_content=$dom->createElement('content', _("Sauvé"));
