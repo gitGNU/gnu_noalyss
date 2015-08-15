@@ -39,6 +39,9 @@ $a_tab[$call_tab]='tabs_selected';
 ?>
 <hr>
 <h1>Profil <?php echo $profile->p_name?></h1>
+<?php
+    echo HtmlInput::anchor(_('Retour'), "", " onclick = \" $('detail_profile').hide();$('list_profile').show(); \" ", 'class="line"');
+?>
 <?php if ($p_id > 0 ) : ?>
 <ul class="tabs">
     
