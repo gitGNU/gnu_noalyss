@@ -355,10 +355,20 @@ echo '<div id="detail_profile" class="content">';
 if (isset($_POST['p_id']))
 {
 	require_once NOALYSS_INCLUDE.'/ajax_get_profile.php';
+        ?>
+<script>
+        $('list_profile').hide()
+</script>
+<?php
 }
 echo '</div>';
 if ( isset($_POST['delete_profil'] ))
 {
 	echo create_script(" $('detail_profile').hide()");
+?>
+<script>
+        $('list_profile').show()
+</script>
+<?php
 }
 ?>
