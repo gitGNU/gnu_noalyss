@@ -309,10 +309,10 @@ echo '<div id="list_profile" class="content">';
 $table = new Sort_Table();
 $url = $_SERVER['REQUEST_URI'];
 
-$table->add('Nom', $url, "order by p_name asc", "order by p_name desc", "na", "nd");
-$table->add('Description', $url, "order by p_desc asc", "order by p_desc desc", "da", "dd");
-$table->add('Calculatrice visible', $url, "order by with_calc asc", "order by with_calc desc", "ca", "cd");
-$table->add('Form Direct visible', $url, "order by with_direct_form asc", "order by with_direct_form desc", "fa", "fd");
+$table->add(_('Nom'), $url, "order by p_name asc", "order by p_name desc", "na", "nd");
+$table->add(_('Description'), $url, "order by p_desc asc", "order by p_desc desc", "da", "dd");
+$table->add(_('Calculatrice visible'), $url, "order by with_calc asc", "order by with_calc desc", "ca", "cd");
+$table->add(_('Accès Direct visible'), $url, "order by with_direct_form asc", "order by with_direct_form desc", "fa", "fd");
 
 $ord = (isset($_REQUEST['ord'])) ? $_REQUEST['ord'] : 'na';
 
