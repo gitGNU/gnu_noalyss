@@ -30,6 +30,7 @@ if ($type == 'XX') {
      throw new Exception('invalid call');
     return;
 }
+// if type == menu the 
 if ( $type=='me')
 {
 $ame_code_dep=$cn->make_array("
@@ -47,7 +48,6 @@ $ame_code_dep=$cn->make_array("
 $ame_code=$cn->make_array("
 select me_code,me_code||' '||coalesce(me_menu,'')||' '||coalesce(me_description,'')
 	||'('|| case when me_type='SP' then 'Special'
-		when me_type='PR' then 'Impression'
 		when me_type='PL' then 'Plugin'
 		when me_type='ME' and me_file is null and me_javascript is null and me_url is null then 'Module - Menu principal'
 		when me_type='ME' then 'Menu'
@@ -56,6 +56,8 @@ select me_code,me_code||' '||coalesce(me_menu,'')||' '||coalesce(me_description,
 		end||')'
 	from
 	menu_ref
+        where
+        me_type<>'PR'
 	order by 1
 	");
 
@@ -104,7 +106,10 @@ echo HtmlInput::title_box(_("Nouveau menu"), $ctl);
 <?php 
 echo HtmlInput::submit('add_menu',_("Valider"));
 echo '</form>';
+return;
 }
+
+// for printing menu (export CSV or PDF)
 if ($type=='pr')
 {
 
@@ -143,8 +148,9 @@ $me_code->value=$ame_code;
 
 </table>
 <?php 
-echo HtmlInput::submit('add_impress',_("Valider"));
-echo '</form>';
+    echo HtmlInput::submit('add_impress',_("Valider"));
+    echo '</form>';
+    return;
 }
 
 ?>
