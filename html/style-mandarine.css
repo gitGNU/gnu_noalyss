@@ -1870,3 +1870,15 @@ div.topmenu td.selectedcell a.mtitle, div.menu2 a.mtitle{
     width:30rem;
     height:auto;
 }
+/***************************************************************************
+ * column in the dashboard
+ ***************************************************************************/
+td.cut {
+    max-width: 25%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+td.box {
+    border-left : #C76626 solid 1px;
+}

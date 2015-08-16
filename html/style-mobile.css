@@ -168,7 +168,7 @@ td.tool a.mtitle:hover {
     text-align:right;
     padding:0px;
     margin: 0px;
-    font-size:70%:
+    font-size:70%;
 }
 div.u_subt2menu {
     background-color:#EDF3FF;
@@ -1933,4 +1933,16 @@ ul.aligned-block li {
     margin-right: 150px;
     background: snow;
     margin-top: 50px;
+}
+/***************************************************************************
+ * column in the dashboard
+ ***************************************************************************/
+td.cut {
+    max-width: 25%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+td.box {
+    border-left : #3f4c6b solid 1px;
 }

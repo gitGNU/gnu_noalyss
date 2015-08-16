@@ -1951,6 +1951,10 @@ ul.aligned-block li {
     background: snow;
     margin-top: 50px;
 }
+/***************************************************************************
+ * column in the dashboard
+ ***************************************************************************/
+
 td.cut {
     max-width: 25%;
     overflow: hidden;
