@@ -48,7 +48,7 @@ if ( isset ($_POST["ADD"]) )
     $new_user->email=HtmlInput::default_value_post('EMAIL','');
 	if ( trim($login)=="")
 	{
-		alert("Le login ne peut pas être vide");
+		alert(_("Le login ne peut pas être vide"));
 	}
 	else
 	{
