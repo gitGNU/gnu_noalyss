@@ -46,7 +46,7 @@ for ($i=0;$i<$nb_dossier;$i++):
     <tr id="row_db_<?php echo $a_dossier[$i]['dos_id'];?>" class="<?php echo $class?>">
         <td>
             <?php
-                echo HtmlInput::button('add_folder','&#10010;',  " onclick=\"folder_add({$user_id},{$a_dossier[$i]['dos_id']});\"", ' smallbutton');
+                echo HtmlInput::button('add_folder',BUTTONADD,  " onclick=\"folder_add({$user_id},{$a_dossier[$i]['dos_id']});\"", ' smallbutton');
             ?>
          
         </td>
