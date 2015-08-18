@@ -55,7 +55,7 @@ if (isset($_POST['SAVE']))
     
     if ($UserChange->load() == -1)
     {
-        alert("Cet utilisateur n'existe pas");
+        alert(_("Cet utilisateur n'existe pas"));
     }
     else
     {
@@ -66,8 +66,6 @@ if (isset($_POST['SAVE']))
         $UserChange->email = HtmlInput::default_value_post('email',null);
         if ($UserChange->active ==-1 || $UserChange->admin ==-1)
         {
-            var_dump($_POST);
-            var_dump($UserChange);
             die ('Missing data');
         }
         else if (  trim($_POST['password'])<>'')
