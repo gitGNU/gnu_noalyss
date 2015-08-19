@@ -29,7 +29,7 @@
 <form method="POST" class="print">
 <?php echo HtmlInput::hidden('tab','profile_repo_div')?>
 
-	<?php echo HtmlInput::hidden("p_id", $p_id);?>
+	<?php echo HtmlInput::hidden("p_id", $this->p_id);?>
 	<table>
 		<tr>
 			<th><?php echo _("Dépot")?></th>
@@ -56,4 +56,5 @@
 		</tr>
 		<?php endfor;?>
 	</table>
+</form>
 <?php echo HtmlInput::submit("change_stock", _("Sauver"))?>

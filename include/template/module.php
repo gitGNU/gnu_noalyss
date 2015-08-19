@@ -66,7 +66,7 @@ endif;?>
 			continue;
 		    }
                     $style="tool";
-		    if ($row['me_code']==$selected)
+		    if ($row['me_code']==$selected_module)
 		    {
 			$style='toolselected';
 		    }

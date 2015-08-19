@@ -175,23 +175,46 @@ if (isset($_REQUEST['ac']))
     }
 
     $_REQUEST['ac']=  trim(strtoupper($_REQUEST['ac']));
-    $all = explode('/', $_REQUEST['ac']);
-    $module_selected = $all[0];
-    $g_user->audit();
-// Show module and highligt selected one
-    show_module($module_selected);
-    for ($i = 0; $i != count($all); $i++)
-    {   // show the menu
-		show_menu($all, $i);
+    $AC=$_REQUEST['ac'];
+    $user_profile=$g_user->get_profile();
+    
+    
+    $amenu_id=$cn->get_array('select 
+      pm_id_v3,pm_id_v2,pm_id_v1
+    from v_menu_profile where code= upper($1)  and p_id=$2',
+            array($AC,$user_profile));
+            
+    if ( count($amenu_id) != 1 ) {
+        throw new Exception(_('Erreur menu'));
     }
+    $module_id=$cn->get_value('select case when pm_id_v3 = 0 then (case when pm_id_v2 = 0 then pm_id_v1 else pm_id_v2 end) else pm_id_v3 end 
+        from v_menu_profile where p_id=$1 and upper(code)=upper($2)',
+            array($user_profile,$AC));
+    $g_user->audit();
+    // Show module and highligt selected one
+    show_module($module_id);
+    show_menu( $amenu_id[0]['pm_id_v3']);
+    show_menu( $amenu_id[0]['pm_id_v2']);
+    show_menu($amenu_id[0]['pm_id_v1']);
 }
 else
 {
     $default = find_default_module();
+    $user_profile=$cn->get_value('select p_id from profile_user where lower(user_name)=lower($1)',
+                array($g_user->login));
+    if ( $user_profile == "" ) 
+        throw new Exception (_('Aucun profil utilisateur'));
+    
+    $menu_id=$cn->get_value('select 
+        case when pm_id_v3 = 0 then 
+            (case when pm_id_v2 = 0 then pm_id_v1 else pm_id_v2 end) 
+       else pm_id_v3 end 
+    from v_menu_profile where code= upper($1)  and p_id=$2',
+            array($default,$user_profile));
     $_GET['ac']=$default;
     $_POST['ac']=$default;
     $_REQUEST['ac']=$default;
-    show_module($default);
+    show_module($menu_id);
     $all[0] = $default;
     show_menu($all, 0);
 }

@@ -1110,7 +1110,7 @@ class User
 	function get_profile()
 	{
 		$profile = $this->db->get_value("select p_id from profile_user where
-				user_name=$1", array($this->login));
+				lower(user_name)=lower($1)", array($this->login));
 		return $profile;
 	}
         /**

@@ -1,245 +1,160 @@
-ALTER TABLE action    ALTER COLUMN ac_code TYPE character varying(30);
 
-INSERT INTO action(ac_id, ac_description, ac_module, ac_code)
-    VALUES (1110, 'Enlever une pièce justificative', 'compta', 'RMRECEIPT');
-INSERT INTO action(ac_id, ac_description, ac_module, ac_code)
-    VALUES (1120, 'Effacer une opération ', 'compta', 'RMOPER');
-INSERT INTO action(ac_id, ac_description, ac_module, ac_code)
-    VALUES (1210, 'Partager une note', 'note', 'SHARENOTE');
-INSERT INTO action(ac_id, ac_description, ac_module, ac_code)
-    VALUES (1220, 'Créer une note publique', 'note', 'SHARENOTEPUBLIC');
-INSERT INTO action(ac_id, ac_description, ac_module, ac_code)
-    VALUES (1230, 'Effacer une note publique', 'note', 'SHARENOTEREMOVE');
+alter table profile_menu add pm_id_dep bigint ;
+comment on column profile_menu.pm_id_dep is 'parent of this menu item';
 
 
-CREATE TABLE todo_list_shared (id  serial primary key, todo_list_id int4 NOT NULL, use_login text NOT NULL, CONSTRAINT unique_todo_list_id_login 
-    UNIQUE (todo_list_id, use_login));
+CREATE OR REPLACE VIEW v_menu_dependency AS 
+ WITH t_menu AS (
+         SELECT pm.pm_id, mr.me_menu, pm.me_code, pm.me_code_dep, pm.p_type_display, mr.me_file, mr.me_javascript, mr.me_description, mr.me_description_etendue, p.p_id
+           FROM profile_menu pm
+      JOIN profile p ON p.p_id = pm.p_id
+   JOIN menu_ref mr USING (me_code)
+        )
+ SELECT DISTINCT (COALESCE(v3.me_code || '/'::text, ''::text) || COALESCE(v2.me_code, ''::text)) || 
+        CASE
+            WHEN v2.me_code IS NULL THEN COALESCE(v1.me_code, ''::text)
+            WHEN v2.me_code IS NOT NULL THEN COALESCE('/'::text || v1.me_code, ''::text)
+            ELSE NULL::text
+        END AS code, v1.pm_id, v1.me_code, v1.me_description, v1.me_description_etendue, v1.me_file, '> '::text || v1.me_menu AS v1menu, 
+        CASE
+            WHEN v2.pm_id IS NOT NULL THEN v2.pm_id
+            WHEN v3.pm_id IS NOT NULL THEN v3.pm_id
+            ELSE NULL::integer
+        END AS higher_dep, 
+        CASE
+            WHEN COALESCE(v3.me_menu, ''::text) <> ''::text THEN ' > '::text || v2.me_menu
+            ELSE v2.me_menu
+        END AS v2menu, v3.me_menu AS v3menu, v3.p_type_display, COALESCE(v1.me_javascript, COALESCE(v2.me_javascript, v3.me_javascript)) AS javascript, v1.p_id, v2.p_id AS v2pid, v3.p_id AS v3pid
+   FROM t_menu v1
+   LEFT JOIN t_menu v2 ON v1.me_code_dep = v2.me_code
+   LEFT JOIN t_menu v3 ON v2.me_code_dep = v3.me_code
+  WHERE COALESCE(v2.p_id, v1.p_id) = v1.p_id AND COALESCE(v3.p_id, v1.p_id) = v1.p_id AND v1.p_type_display <> 'P'::text
+  ORDER BY v1.pm_id;
 
-ALTER TABLE todo_list_shared ADD CONSTRAINT fk_todo_list_shared_todo_list FOREIGN KEY (todo_list_id) REFERENCES todo_list (tl_id);
-
-comment on table todo_list_shared is 'Note of todo list shared with other users';
-comment on column todo_list_shared.todo_list_id is 'fk to todo_list';
-comment on column todo_list_shared.use_login is 'user login';
-
-alter table todo_list add is_public char(1) default 'N';
-comment on column todo_list.is_public is 'Flag for the public parameter';
-ALTER TABLE todo_list    ALTER COLUMN is_public SET NOT NULL;
-
-ALTER TABLE todo_list ADD CONSTRAINT ck_is_public CHECK (is_public in ('Y','N'));
-
-/**
-Arbre dépendance
- with recursive t (ag_id,ag_ref_ag_id,ag_title,depth) as (
-  select 
-    ag_id , ag_ref_ag_id, ag_title , 1
-  from 
-    action_gestion
-  where ag_id=55
-  union all
-  select 
-    p2.ag_id,p2.ag_ref_ag_id,p2.ag_title,depth + 1
-  from 
-    t as p1, action_gestion as p2
-  where
-    p1.ag_ref_ag_id is not null and
-    p1.ag_id = p2.ag_ref_ag_id
-) select * from t;
-
-*/
--- update menu_ref set me_menu = me_menu||' <span id="menu_'||lower(me_code)||'"><img src="image/empty.gif"></span>' where me_type='ME';
-update menu_ref set me_menu = 'Favori &#9733; ' where me_code='BOOKMARK';
-update menu_ref set me_menu = 'Sortie &#9094;' where me_code='LOGOUT'; 
-
-insert into menu_ref(me_code,me_menu,me_file, me_url,me_description,me_parameter,me_javascript,me_type,me_description_etendue)
-values
-('BALAGE','Balance agée','balance_age.inc.php',null,'Balance agée',null,null,'ME','Balance agée pour les clients et fournisseurs') ,
-('CSV:balance_age','Export Balance agée','export_balance_age_csv.php',null,'Balance agée',null,null,'PR','Balance agée pour les clients et fournisseurs') 
-
-;
-
-insert into profile_menu (me_code,me_code_dep,p_id,p_order, p_type_display,pm_default) 
-values
-('BALAGE','PRINT',1,550,'E',0),('BALAGE','PRINT',2,550,'E',0),
-('CSV:balance_age',null,1,null,'P',0),('CSV:balance_age',null,2,null,'P',0)
-;
-
-
-/*
-with m as (
-    select jr_id,jr_grpt_id,
-            coalesce(jr_ech,jr_date) as op_date ,
-            jr_date_paid from jrn 
-    where jr_date_paid is not null
-),n as (
-    select jr_id ,jr_date_paid - op_date    as delta,jr_grpt_id,jr_date_paid,op_date
-    from m 
-    where 
-    jr_date_paid  - op_date < 30 
-    ),solde as (
-select sum(qp_price+qp_vat+qp_nd_amount+qp_nd_tva+qp_nd_tva_recup - qp_vat_sided), 
-    qp_supplier 
-from quant_purchase 
-    join jrnx using (j_id) 
-    join n on (j_grpt=n.jr_grpt_id) 
-group by qp_supplier)
-select * , 
-    (select vw_name from vw_fiche_attr where f_id=qp_supplier) ,
-    (select vw_first_name from vw_fiche_attr where f_id=qp_supplier) ,
-(select quick_code from vw_fiche_attr where f_id=qp_supplier) 
-from solde
-;
-*/
-/*
-CREATE TABLE tmp_bal_aged (
-  id         SERIAL NOT NULL, 
-  create_on timestamp default now(), 
-  PRIMARY KEY (id));
-COMMENT ON TABLE tmp_bal_aged IS 'Table temporaire pour le calcul des balances agées';
-
-CREATE TABLE tmp_bal_aged_child (
-  tmp_bal_agedid bigint NOT NULL, 
-  id              SERIAL NOT NULL, 
-  f_id           bigint NOT NULL, 
-  amount         numeric(20,4) NOT NULL, 
-  amount30       numeric(20,4)  NOT NULL, 
-  amount60       numeric(20,4) NOT NULL, 
-  amount90       numeric(20,4) NOT NULL, 
-  PRIMARY KEY (id));
-COMMENT ON TABLE tmp_bal_aged_child IS 'Table temporaire pour le calcul des balances agées';
-*/
-
-
-CREATE OR REPLACE FUNCTION comptaproc.account_compute(p_f_id integer)
-  RETURNS account_type AS
+CREATE OR REPLACE FUNCTION modify_menu_system(n_profile numeric)
+  RETURNS void AS
 $BODY$
-declare
-	class_base fiche_def.fd_class_base%type;
-	maxcode numeric;
-	sResult text;
-	bAlphanum bool;
-	sName text;
-begin
-	select fd_class_base into class_base
-	from
-		fiche_def join fiche using (fd_id)
-	where
-		f_id=p_f_id;
-	raise notice 'account_compute class base %',class_base;
-	bAlphanum := account_alphanum();
-	if bAlphanum = false  then
-	raise info 'account_compute : Alphanum is false';
-		select count (pcm_val) into maxcode from tmp_pcmn where pcm_val_parent = class_base;
-		if maxcode = 0	then
-			maxcode:=class_base::numeric;
-		else
-			select max (pcm_val) into maxcode from tmp_pcmn where pcm_val_parent = class_base;
-			maxcode:=maxcode::numeric;
-		end if;
-		if maxcode::text = class_base then
-			maxcode:=class_base::numeric*1000;
-		end if;
-		maxcode:=maxcode+1;
-		raise notice 'account_compute Max code %',maxcode;
-		sResult:=maxcode::account_type;
-	else
-	raise info 'account_compute : Alphanum is true';
-		-- if alphanum, use name
-		select ad_value into sName from fiche_detail where f_id=p_f_id and ad_id=1;
-		raise info 'name is %',sName;
-		if sName is null then
-			raise exception 'Cannot compute an accounting without the name of the card for %',p_f_id;
-		end if;
-		sResult := class_base||sName;
-		sResult := substr(sResult,1,40);
-		raise info 'Result is %',sResult;
-	end if;
-	return sResult::account_type;
-end;
-$BODY$ 
-LANGUAGE plpgsql ;
+declare 
+r_duplicate profile_menu%ROWTYPE;
+str_duplicate text;
+n_lowest_id numeric; -- lowest pm_id : update the dependency in profile_menu
+n_highest_id numeric; -- highest pm_id insert into profile_menu
 
-CREATE OR REPLACE FUNCTION comptaproc.account_insert(p_f_id integer, p_account text)
-  RETURNS text AS
-$BODY$
-declare
-	nParent tmp_pcmn.pcm_val_parent%type;
-	sName varchar;
-	sNew tmp_pcmn.pcm_val%type;
-	bAuto bool;
-	nFd_id integer;
-	sClass_Base fiche_def.fd_class_base%TYPE;
-	nCount integer;
-	first text;
-	second text;
-	s_account text;
 begin
 
-	if p_account is not null and length(trim(p_account)) != 0 then
-	-- if there is coma in p_account, treat normally
-		if position (',' in p_account) = 0 then
-			raise info 'p_account is not empty';
-				s_account := substr( p_account,1 , 40);
-				select count(*)  into nCount from tmp_pcmn where pcm_val=s_account::account_type;
-				raise notice 'found in tmp_pcm %',nCount;
-				if nCount !=0  then
-					raise info 'this account exists in tmp_pcmn ';
-					perform attribut_insert(p_f_id,5,s_account);
-				   else
-				       -- account doesn't exist, create it
-					select ad_value into sName from
-						fiche_detail
-					where
-					ad_id=1 and f_id=p_f_id;
+for str_duplicate in   
+	select me_code 
+	from profile_menu 
+	where 
+	p_id=n_profile and 
+	p_type_display <> 'P' and
+	pm_id_dep is null
+	group by me_code 
+	having count(*) > 1 
+loop
+	raise info 'str_duplicate %',str_duplicate;
+	for r_duplicate in select * 
+		from profile_menu 
+		where 
+		p_id=n_profile and
+		me_code_dep=str_duplicate
+	loop
+		raise info 'r_duplicate %',r_duplicate;
+		-- get the lowest 
+		select a.pm_id into n_lowest_id from profile_menu a join profile_menu b on (a.me_code=b.me_code and a.p_id = b.p_id)
+		where
+		a.me_code=str_duplicate
+		and a.p_id=n_profile
+		and a.pm_id < b.pm_id;
+		raise info 'lowest is %',n_lowest_id;
+		-- get the highest
+		select a.pm_id into n_highest_id from profile_menu a join profile_menu b on (a.me_code=b.me_code and a.p_id = b.p_id)
+		where
+		a.me_code=str_duplicate
+		and a.p_id=n_profile
+		and a.pm_id > b.pm_id;
+		raise info 'highest is %',n_highest_id;
 
-					nParent:=account_parent(s_account::account_type);
-					insert into tmp_pcmn(pcm_val,pcm_lib,pcm_val_parent) values (s_account::account_type,sName,nParent);
-					perform attribut_insert(p_f_id,5,s_account);
+		-- update the first one
+		update profile_menu set pm_id_dep = n_lowest_id where pm_id=r_duplicate.pm_id;
+		-- insert a new one
+		insert into profile_menu (me_code,
+			me_code_dep,
+			p_id,
+			p_order,
+			p_type_display,
+			pm_default,
+			pm_id_dep)
+		values (r_duplicate.me_code,
+			r_duplicate.me_code_dep,
+			r_duplicate.p_id,
+			r_duplicate.p_order,
+			r_duplicate.p_type_display,
+			r_duplicate.pm_default,
+			n_highest_id);
+		
+	end loop;	
 
-				end if;
-		else
-		raise info 'presence of a comma';
-		-- there is 2 accounts separated by a comma
-		first := split_part(p_account,',',1);
-		second := split_part(p_account,',',2);
-		-- check there is no other coma
-		raise info 'first value % second value %', first, second;
-
-		if  position (',' in first) != 0 or position (',' in second) != 0 then
-			raise exception 'Too many comas, invalid account';
-		end if;
-		perform attribut_insert(p_f_id,5,p_account);
-		end if;
-	else
-	raise info 'A000 : p_account is  empty';
-		select fd_id into nFd_id from fiche where f_id=p_f_id;
-		bAuto:= account_auto(nFd_id);
-
-		select fd_class_base into sClass_base from fiche_def where fd_id=nFd_id;
-raise info 'sClass_Base : %',sClass_base;
-		if bAuto = true and sClass_base similar to '[[:digit:]]*'  then
-			raise info 'account generated automatically';
-			sNew:=account_compute(p_f_id);
-			raise info 'sNew %', sNew;
-			select ad_value into sName from
-				fiche_detail
-			where
-				ad_id=1 and f_id=p_f_id;
-			nParent:=account_parent(sNew);
-			sNew := account_add  (sNew,sName);
-			perform attribut_insert(p_f_id,5,sNew);
-
-		else
-		-- if there is an account_base then it is the default
-		      select fd_class_base::account_type into sNew from fiche_def join fiche using (fd_id) where f_id=p_f_id;
-			if sNew is null or length(trim(sNew)) = 0 then
-				raise notice 'count is null';
-				 perform attribut_insert(p_f_id,5,null);
-			else
-				 perform attribut_insert(p_f_id,5,sNew);
-			end if;
-		end if;
-	end if;
-
-return 0;
+end loop;	
 end;
-$BODY$  LANGUAGE plpgsql ;
+$BODY$
+language plpgsql;
+
+select modify_menu_system(1);
+select modify_menu_system(2);
+
+update profile_menu set pm_id_dep=(select higher_dep from v_menu_dependency as a where
+ a.pm_id= profile_menu.pm_id) where pm_id_dep is null and p_id=1;
+
+update profile_menu set pm_id_dep=(select higher_dep from v_menu_dependency as a where
+ a.pm_id= profile_menu.pm_id) where pm_id_dep is null and p_id=2;
+CREATE OR REPLACE VIEW v_menu_profile AS 
+ WITH t_menu AS (
+         SELECT pm.pm_id,pm.pm_id_dep, pm.me_code, pm.me_code_dep, pm.p_type_display,pm.p_id
+           FROM profile_menu pm
+   JOIN profile p ON p.p_id = pm.p_id
+   )
+ SELECT DISTINCT 
+	(COALESCE(v3.me_code || '/'::text, ''::text) || COALESCE(v2.me_code, ''::text)) || 
+        CASE
+            WHEN v2.me_code IS NULL THEN COALESCE(v1.me_code, ''::text)
+            WHEN v2.me_code IS NOT NULL THEN COALESCE('/'::text || v1.me_code, ''::text)
+            ELSE NULL::text
+        END AS code, 
+        v3.p_type_display,
+        coalesce(v3.pm_id,0) as pm_id_v3,
+	coalesce(v2.pm_id,0) as pm_id_v2,
+        v1.pm_id as pm_id_v1
+        ,v1.p_id
+   FROM t_menu v1
+   LEFT JOIN t_menu v2 ON v1.pm_id_dep = v2.pm_id
+   LEFT JOIN t_menu v3 ON v2.pm_id_dep= v3.pm_id
+  WHERE v1.p_type_display <> 'P'::text 
+;
+COMMENT ON VIEW v_menu_profile  IS 'Give the profile and the menu + dependencies';
+
+CREATE OR REPLACE VIEW v_menu_description AS 
+ WITH t_menu AS (
+         SELECT pm.pm_id,pm.pm_id_dep,pm.p_id,mr.me_menu, pm.me_code, pm.me_code_dep, pm.p_type_display, pu.user_name, mr.me_file, mr.me_javascript, mr.me_description, mr.me_description_etendue
+           FROM profile_menu pm
+      JOIN profile_user pu ON pu.p_id = pm.p_id
+   JOIN profile p ON p.p_id = pm.p_id
+   JOIN menu_ref mr USING (me_code)
+        )
+ SELECT DISTINCT (COALESCE(v3.me_code || '/'::text, ''::text) || COALESCE(v2.me_code, ''::text)) || 
+        CASE
+            WHEN v2.me_code IS NULL THEN COALESCE(v1.me_code, ''::text)
+            WHEN v2.me_code IS NOT NULL THEN COALESCE('/'::text || v1.me_code, ''::text)
+            ELSE NULL::text
+        END AS code, v1.me_code, v1.me_description, v1.me_description_etendue, v1.me_file, v1.user_name, '> '::text || v1.me_menu AS v1menu, 
+        CASE
+            WHEN COALESCE(v3.me_menu, ''::text) <> ''::text THEN ' > '::text || v2.me_menu
+            ELSE v2.me_menu
+        END AS v2menu, v3.me_menu AS v3menu, v3.p_type_display, COALESCE(v1.me_javascript, COALESCE(v2.me_javascript, v3.me_javascript)) AS javascript,
+        v1.pm_id,v1.pm_id_dep,v1.p_id
+   FROM t_menu v1
+   LEFT JOIN t_menu v2 ON v1.me_code_dep = v2.me_code
+   LEFT JOIN t_menu v3 ON v2.me_code_dep = v3.me_code
+  WHERE v1.p_type_display <> 'P'::text AND (COALESCE(v1.me_file, ''::text) <> ''::text OR COALESCE(v1.me_javascript, ''::text) <> ''::text);
+
+COMMENT ON VIEW v_menu_description  IS 'Description des menus';

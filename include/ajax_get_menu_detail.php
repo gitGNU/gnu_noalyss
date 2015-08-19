@@ -29,19 +29,6 @@
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 $profile=$cn->get_value("select p_id from profile_menu where pm_id=$1",array($pm_id));
 $a_value=$cn->make_array("select me_code,me_code||' '||me_menu||' '||coalesce(me_description,'') from menu_ref",0);
-$ame_code_dep=$cn->make_array("
-	select me_code,me_code||' '||me_menu||' '||coalesce(me_description,'') from
-	menu_ref
-	where
-	me_file is null and me_javascript is null and me_url is null and me_type<>'PR' and me_type <> 'SP'
-	and me_code in (select me_code from profile_menu where p_id=$1)".
-	"	UNION ALL
-		select me_code,me_code||' '||me_menu||' '||coalesce(me_description,'') from menu_ref
-	where
-		me_code='EXT'
-	order by 1
-	",1,array($profile));
-$a_type=$cn->make_array("select pm_type,pm_desc from profile_menu_type",1);
 
 $array=$cn->get_array("select p_id,pm_id,me_code,me_code_dep,p_order,p_type_display,pm_default
 	from profile_menu
@@ -58,10 +45,6 @@ $me_code=new ISelect('me_code');
 $me_code->value=$a_value;
 $me_code->selected=$array[0]['me_code'];
 
-$me_code_dep=new ISelect('me_code_dep');
-$me_code_dep->value=$ame_code_dep;
-$me_code_dep->selected=$array[0]['me_code_dep'];
-
 $p_order=new Inum('p_order',$array[0]['p_order']);
 $pm_default=new ICheckBox('pm_default','1');
 $pm_default->set_check($array[0]['pm_default']);
@@ -70,6 +53,7 @@ $pm_default->set_check($array[0]['pm_default']);
 <form method="POST" onsubmit="return confirm('<?php echo _("Vous confirmez")?> ?')">
 	<?php echo HtmlInput::hidden('pm_id',$array[0]['pm_id'])?>
 	<?php echo HtmlInput::hidden('p_id',$array[0]['p_id'])?>
+	<?php echo HtmlInput::hidden('tab',"profile_menu_div")?>
 <table>
 <tr>
 	<td><?php echo _("Code");?></td>
@@ -78,11 +62,6 @@ $pm_default->set_check($array[0]['pm_default']);
 <?php 
 if ($array[0]['p_type_display']!='P'):
 ?>
-<tr>
-	<td><?php echo _('Dépendant de');?> </td>
-	<td><?php echo $me_code_dep->input()?></td>
-</tr>
-
 <tr>
 	<td><?php echo _("Ordre d'apparition");?></td>
 	<td><?php echo $p_order->input()?></td>
@@ -93,24 +72,6 @@ if ($array[0]['p_type_display']!='P'):
 </tr>
 <?php endif;?>
 </table>
-	<p>
-<?php echo _("Cochez cette case si vous souhaitez effacer ce menu");?>
-<?php 
-$delete=new ICheckBox('delete',"1");
-echo $delete->input();
-?>
-</p>
-<?php 
-if ($array[0]['p_type_display']!='P'):
-?>
-	<p>
-<?php echo _("Cochez cette case si vous souhaitez effacer ce menu ainsi que ceux qui en dépendent");?>
-<?php 
-$delete=new ICheckBox('del_dep',"1");
-echo $delete->input();
-?>
-</p>
-<?php endif;?>
 <?php 
 echo HtmlInput::submit('mod',_("Valider"));
 echo '</form>';

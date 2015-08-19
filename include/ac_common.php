@@ -806,8 +806,8 @@ EOF;
 }
 
 /**
- *
- * @param int $selected module selected
+ *Show the modules
+ * @param int $selected module selected profile_menu.pm_id
  */
 function show_module($selected)
 {
@@ -823,9 +823,11 @@ function show_module($selected)
 
     if ($selected != -1)
     {
-	require_once('template/module.php');
+        $selected_module=$cn->get_value('select me_code from profile_menu where'
+                . ' pm_id = $1 ', array($selected));
+	require_once NOALYSS_INCLUDE.'/template/module.php';
 	$file = $cn->get_array("select me_file,me_parameter,me_javascript,me_type,me_description from v_all_menu
-	    where me_code=$1 and user_name=$2", array($selected,$g_user->login));
+	    where pm_id=$1 and user_name=$2", array($selected,$g_user->login));
 	if ( count($file ) == 0 )
 	{
 		echo '</div>';
@@ -946,34 +948,52 @@ function find_default_module()
  * @param $module the $_REQUEST['ac'] exploded into an array
  * @param  $idx the index of the array : the AD code is splitted into an array thanks the slash
  */
-function show_menu($module, $idx)
+function show_menu($module)
 {
+    if ($module == 0)return;
+    static $level=0;
     global $g_user;
+    
     $cn = Dossier::connect();
-    $amenu = $cn->get_array("select
-	me_menu,me_code,me_url,me_javascript,me_type,me_description
-	from v_all_menu
-	where
-	me_code_dep=$1 and user_name=$2 order by p_order", array($module[$idx], $g_user->login));
-
+    /**
+     * Show the submenus
+     */
+    $amenu = $cn->get_array("
+        select 
+            pm_id,
+            me_code,
+            pm_id_dep,
+            me_file,
+            me_javascript,
+            me_url,
+            me_menu,
+            me_description,
+            me_description_etendue
+            from profile_menu 
+            join menu_ref using (me_code) 
+            where pm_id_dep=$1 and p_id=$2
+	 order by p_order", array($module, $g_user->get_profile()));
+    
+    // There are submenuS, so show them
     if (!empty($amenu) && count($amenu) > 1)
     {
         $a_style_menu=array('topmenu','menu2','menu3');
-        if ( $idx > count($a_style_menu))
+        if ( $level > count($a_style_menu))
             $style_menu='menu3';
         else {
-            $style_menu=$a_style_menu[$idx];
+            $style_menu=$a_style_menu[$level];
         }
 		require 'template/menu.php';
-    }
+    } // there is only one submenu so we include the code or javascript
     elseif (count($amenu) == 1)
     {
 		echo '<div class="topmenu">';
 		echo h2info(_($amenu[0]['me_menu']));
 		echo '</div>';
-		$module[$idx] = $amenu[0]['me_code'];
+		$module = $amenu[0]['pm_id'];
     }
-
+    
+    // There is no submenu or only one
     if (empty($amenu) || count($amenu) == 1)
     {
 		$file = $cn->get_array("select me_file,me_parameter,me_javascript,me_type
@@ -981,14 +1001,14 @@ function show_menu($module, $idx)
 		join profile_menu using (me_code)
 		join profile_user using (p_id)
 		where
-		me_code=$1 and
+		pm_id=$1 and
 		user_name=$2 and
 		(me_file is not null or trim(me_file) <>'' or
-		me_javascript is not null or trim (me_javascript) <> '')", array($module[$idx],$g_user->login));
+		me_javascript is not null or trim (me_javascript) <> '')", array($module,$g_user->login));
 
 		if (count($file)==0)
 		{
-			echo "Configuration incorrecte pour ce module ".$module[$idx];
+			echo "Configuration incorrecte pour ce module ".$module;
 			exit;
 		}
 
@@ -1025,6 +1045,7 @@ function show_menu($module, $idx)
                     echo create_script($js);
 		}
     }
+    $level++;
 }
 /**
  * Put in superglobal (get,post,request) the value contained in

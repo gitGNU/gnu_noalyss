@@ -2,9 +2,9 @@
 //This file is part of NOALYSS and is under GPL 
 //see licence.txt
 ?><div class="<?php echo $style_menu; ?>">
-    <?php if ( count($amenu) > 4 && $idx == 0) :
+    <?php if ( count($amenu) > 4 && $level == 0) :
 	$style ='style= "width:100%"';
-     elseif ($idx==0):
+     elseif ($level==0):
 switch (count($amenu))
 {
 case 4:
@@ -28,7 +28,7 @@ $style="";
 	global $g_user;
 	// Display the menu
 	for($i=0;$i < count($amenu);$i++):
-	    if ( (count($amenu)==1)|| (isset($module[$idx+1]) && $module[$idx+1]==$amenu[$i]['me_code'])):
+	    if ( (count($amenu)==1)):
 		$class="selectedcell";
 ?>
 	<td class="<?php echo $class?>">
@@ -39,12 +39,8 @@ $style="";
 <?php 
 	    else:
 		$class="mtitle";
-	    $url="";$pt="";
 		$js="";
-	    for ($e=0;$e <= $idx;$e++):
-			$url.=$pt.$module[$e];
-			$pt="/";
-	    endfor;
+                
 		if ( $amenu[$i]['me_url']!='')
 		{
 			$url=$row['me_url'];
@@ -56,7 +52,14 @@ $style="";
 		}
 		else
 		{
-			$url.=$pt.$amenu[$i]['me_code'];
+                    $a_request=explode('/', $_REQUEST['ac']);
+                    if ( $level == 0) {
+                        $url=$a_request[0];
+                    } elseif ($level == 1)
+                    {
+                        $url=$a_request[0].'/'.$a_request[1];
+                    }
+                    $url.='/'.$amenu[$i]['me_code'];
 		}
 
 ?>	<td class="<?php echo $class?>">

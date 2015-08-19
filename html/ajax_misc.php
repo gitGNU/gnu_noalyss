@@ -539,6 +539,12 @@ EOF;
 	case 'add_menu':
 		require_once NOALYSS_INCLUDE.'/ajax_add_menu.php';
 		break;
+        case 'display_submenu':
+                require_once NOALYSS_INCLUDE.'/ajax_display_submenu.php';
+                break;
+        case 'remove_submenu':
+                require_once NOALYSS_INCLUDE.'/ajax_remove_submenu.php';
+                break;
 	case 'cardsearch':
 		require_once NOALYSS_INCLUDE.'/ajax_boxcard_search.php';
 		break;

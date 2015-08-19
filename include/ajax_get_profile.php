@@ -27,17 +27,21 @@
  *
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
+
+// Security 
+if ( $g_user->check_module('CFGPRO') == 0 ) die();
+
 require_once NOALYSS_INCLUDE.'/class_profile_sql.php';
 require_once NOALYSS_INCLUDE.'/class_profile_menu.php';
+require_once NOALYSS_INCLUDE.'/class_html_input.php';
+
 $profile=new Profile_sql($cn,$p_id);
 $gDossier=Dossier::id();
-$add_menu=HtmlInput::button("add", _("Ajout Menu"),"onclick=\"add_menu({dossier:$gDossier,p_id:$p_id,type:'me'})\"");
 $add_impression=HtmlInput::button("add", _("Ajout Menu"),"onclick=\"add_menu({dossier:$gDossier,p_id:$p_id,type:'pr'})\"");
 $call_tab=HtmlInput::default_value_post('tab', 'none');
 $a_tab=array('profile_gen_div'=>'tabs','profile_menu_div'=>'tabs','profile_print_div'=>'tabs','profile_gestion_div'=>'tabs','profile_repo_div'=>'tabs');
 $a_tab[$call_tab]='tabs_selected';
 ?>
-<hr>
 <h1>Profil <?php echo $profile->p_name?></h1>
 <?php
     echo HtmlInput::anchor(_('Retour'), "", " onclick = \" $('detail_profile').hide();$('list_profile').show(); \" ", 'class="line"');
@@ -99,22 +103,22 @@ if ($profile->p_id > 0)
         echo '<div class="myfieldset"  style="display:none" id="profile_menu_div">';
 	//Menu / Module /plugin in this profile
 	echo "<h1 class=\"legend\">"._("Menu")."</h2>";
-	echo $add_menu;
 	$profile_menu = new Profile_Menu($cn);
-	$profile_menu->listing_profile($p_id);
+        $profile_menu->p_id=$p_id;
+	$profile_menu->display_profile_menu_detail();
         echo '</div>';
         echo '<div class="myfieldset"  style="display:none" id="profile_print_div">';
 	echo "<h1 class=\"legend\">"._("Impression")."</h1>";
-	$profile_menu->printing($p_id);
+	$profile_menu->printing();
 	echo $add_impression;
         echo '</div>';
         echo '<div class="myfieldset"  style="display:none" id="profile_gestion_div">';
 	echo "<h1 class=\"legend\">".('Groupe gestion')."</h1>";
-	$profile_menu->available_profile($p_id);
+	$profile_menu->available_profile();
         echo '</div>';
         echo '<div class="myfieldset"  style="display:none" id="profile_repo_div">';
 	echo "<h1 class=\"legend\">"._("Dépôt de stock accessible")."</h1>";
-	$profile_menu->available_repository($p_id);
+	$profile_menu->available_repository();
         echo '</div>';
         if ( isset ($_POST['tab']))
         {

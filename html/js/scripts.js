@@ -1371,6 +1371,13 @@ function remove_waiting_box()
     removeDiv('wait_box');
     remove_waiting_node();
 }
+/**
+ * Show all the detail of a profile : Menu, Management, Repository and
+ * let the user to modify it
+ * @param {type} gDossier
+ * @param {type} profile_id
+ * @returns {undefined}
+ */
 function get_profile_detail(gDossier, profile_id)
 {
     waiting_box();
@@ -1382,6 +1389,7 @@ function get_profile_detail(gDossier, profile_id)
                 onFailure: null,
                 onSuccess: function (req) {
                     remove_waiting_box();
+                    $('list_profile').hide();
                     $('detail_profile').innerHTML = req.responseText;
                     req.responseText.evalScripts();
                     $('detail_profile').show();
@@ -1427,6 +1435,12 @@ function calcy(p_sy)
     return sy;
 
 }
+/**
+ * @brief display a box with the menu option
+ * @param {type} gdossier
+ * @param {type} pm_id
+ * @returns {undefined}
+ */
 function mod_menu(gdossier, pm_id)
 {
     waiting_box();
@@ -1451,23 +1465,100 @@ function mod_menu(gdossier, pm_id)
     );
 }
 /**
+ * Display the submenu of a menu or a module, used in setting the menu
+ * 
+ * @param {type} p_dossier
+ * @param {type} p_profile
+ * @param {type} p_dep
+ * @returns {undefined}
+ */
+function display_sub_menu(p_dossier,p_profile,p_dep,p_level)
+{
+    waiting_box();
+    new Ajax.Request('ajax_misc.php',
+    {
+        method:'get',
+        parameters : { op:'display_submenu',
+                gDossier:p_dossier,
+                dep:p_dep,
+                p_profile:p_profile ,
+                p_level : p_level
+            },
+        onSuccess : function (req) {
+            try {
+                remove_waiting_box();
+                if ( $('menu_table').rows.length > p_level ) {
+                    $('menu_table').rows[1].remove();
+                }
+                var new_row = document.createElement('TR');
+                new_row.innerHTML = req.responseText;
+                $('menu_table').appendChild(new_row);
+            } catch (e) {
+                alert(e.message);
+            }
+        }
+    })
+}
+/**
+ * in CFGPRO, ask to confirm before removing a submenu and its children
+ * @param {type} p_dossier
+ * @param {type} profile_menu_id
+ * @returns {undefined}
+ */
+function remove_sub_menu(p_dossier,profile_menu_id)
+{
+    if ( ! confirm ('Confirm ?')) return;
+    waiting_box();
+    new Ajax.Request('ajax_misc.php',
+                    {                   
+                        method:'get',
+                        parameters: { op:'remove_submenu',gDossier:p_dossier,
+                        p_profile_menu_id:profile_menu_id},
+                        onSuccess:function (req) {
+                            try {
+                                remove_waiting_box();
+                                 if ( $('menu_table').rows.length > 1 ) {
+                                      $('menu_table').rows[1].remove();
+                                 }
+                                $('sub'+profile_menu_id).remove();
+                            } catch(e)
+                            {
+                                alert(e.message);
+                            }
+                        }
+                    }
+                            
+            );
+}
+/**
  * @brief add a menu to a profile, propose only the available menu
- * @param obj json object {dossier  : , p_id : profile id , type : type of menu}
- * Type of menu are "pr" for Printing "me" for plain menu
+ * @param obj json object 
+ *   - dossier  : , 
+ *   - p_id : profile id , 
+ *   - type : Type of menu are "pr" for Printing "me" for plain menu 
+ *   - p_level : level of menu (0 -> module,1-> top menu, 2->submenu)
+ *   - dep : the parent menu id  (pm_id)
+ * 
  */
 function add_menu(obj)
 {
     var pdossier = obj.dossier;
     var p_id = obj.p_id;
     var p_type = obj.type;
+    
     waiting_box();
     removeDiv('divdm' + p_id);
-    var qs = "op=add_menu&gDossier=" + pdossier + "&p_id=" + p_id + "&ctl=divdm" + p_id + "&type=" + p_type;
     var pos = fixed_position(250, 150)+";width:50%;";
     var action = new Ajax.Request('ajax_misc.php',
             {
                 method: 'get',
-                parameters: qs,
+                parameters:  { op:'add_menu',
+                            'gDossier':pdossier , 
+                            'p_id' :p_id ,
+                            'ctl' : 'divdm' + p_id ,
+                            'type' : p_type,
+                            'dep':obj.dep,
+                            'p_level':obj.p_level},
                 onFailure: null,
                 onSuccess: function (req) {
                     try {
@@ -1511,6 +1602,12 @@ function add_plugin(p_dossier)
             }
     );
 }
+/**
+ * Modify a menu
+ * @param {type} p_dossier
+ * @param {type} me_code
+ * @returns {undefined}
+ */
 function mod_plugin(p_dossier, me_code)
 {
     waiting_box();
