@@ -1,4 +1,4 @@
-begin
+begin;
 
 
 alter table profile_menu add pm_id_dep bigint ;
@@ -162,6 +162,6 @@ CREATE OR REPLACE VIEW v_menu_description AS
 COMMENT ON VIEW v_menu_description  IS 'Description des menus';
 
 
-update version set val=118;
+update version set val=119;
 
 commit;
