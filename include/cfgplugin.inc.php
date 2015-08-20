@@ -76,7 +76,19 @@ if ( isset ($_POST['save_plugin'])){
                 if ( $count == 0 ) {
                     $a_plugin[$i]->insert();
                 }
-                $a_plugin[$i]->insert_profile_menu($profile,'EXT');
+                try
+                {
+                    $a_plugin[$i]->insert_profile_menu($profile,'EXT');
+                }
+                catch (Exception $exc)
+                {
+                    $profile_name=$cn->get_value('select profile.p_name from profile where p_id=$1'
+                            ,array($profile));
+                    echo '<p class="notice">';
+                    echo "code $code"," profile $profile_name ",$exc->getMessage();
+                    echo '</p>';
+                }
+
             } else {
                 // delete
                 $a_plugin[$i]->remove_from_profile_menu ($profile);
