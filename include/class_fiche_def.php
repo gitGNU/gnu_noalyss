@@ -193,12 +193,18 @@ $order
      *        index FICHE_REF
      *              nom_mod
      *              class_base
+     *              fd_description
      */
     function Add($array)
     {
         foreach ( $array as $key=>$element )
         {
             ${"p_$key"}=$element;
+        }
+        
+        // If there is no description then add a empty one
+        if ( ! isset ($p_fd_description)) {
+            $p_fd_description="";
         }
         // Format correctly the name of the cat. of card
         $p_nom_mod=sql_string($p_nom_mod);

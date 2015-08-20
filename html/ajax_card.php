@@ -522,7 +522,8 @@ case 'scc':
         {
             $array=array("FICHE_REF"=>$cat,
                          "nom_mod"=>$_GET['nom_mod'],
-                         "class_base"=>$_GET['class_base']);
+                         "class_base"=>$_GET['class_base'],
+                          "fd_description"=>$_GET['fd_description']);
             if ( isset ($_POST['create'])) $array['create']=1;
             $catcard=new Fiche_Def($cn);
             if ( $catcard->Add($array) == -1)

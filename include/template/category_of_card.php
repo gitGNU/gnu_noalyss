@@ -3,7 +3,7 @@
 //see licence.txt
 ?>
 <?php 
-$html=HtmlInput::title_box("Ajout d'une catégorie ".$msg, $ctl);
+$html=HtmlInput::title_box(_("Ajout d'une catégorie ").$msg, $ctl);
 ?>
 
 <div class="content">
@@ -24,6 +24,10 @@ $html=HtmlInput::title_box("Ajout d'une catégorie ".$msg, $ctl);
 </TD>
 <td><span id="class_base_label"></span></td>
 </TR>
+<tr>
+    <td> <?php echo _('Description')?> </td>
+    <td> <input type="text" class="input_text" name="fd_description" style="width: 100%"></td>
+</tr>
 <TR>
    <TD> <INPUT TYPE="CHECKBOX" NAME="create" UNCHECKED><?php echo _('Création automatique du poste comptable')?></TD>
 </TR>
