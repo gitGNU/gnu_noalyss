@@ -98,7 +98,7 @@ if ( !defined("SITE_UPDATE_PLUGIN"))
     define ("SITE_UPDATE_PLUGIN",'http://www.noalyss.eu/plugin_last_version.txt');
 
 
-define ("DBVERSION",118);
+define ("DBVERSION",119);
 define ("MONO_DATABASE",25);
 define ("DBVERSIONREPO",16);
 define ('NOTFOUND','--not found--');

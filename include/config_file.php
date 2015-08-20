@@ -172,8 +172,6 @@ function config_file_create($p_array,$from_setup=1,$p_os=1)
     fputs($hFile,"\r\n");
     fputs($hFile,' // very special configuration');
     fputs($hFile,"\r\n");
-    fputs($hFile, 'define ("dbname","'.$cdbname.'");');
-    fputs($hFile,"\r\n");
     fputs($hFile, '// define ("NOALYSS_HOME","")');
     fputs($hFile,"\r\n");
     fputs($hFile, '// define ("NOALYSS_PLUGIN","")');
