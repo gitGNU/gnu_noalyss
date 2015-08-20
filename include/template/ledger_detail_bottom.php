@@ -283,7 +283,7 @@ if ( $div != 'popup' ) {
   echo HtmlInput::submit('save',_('Sauver'),'onClick="return verify_ca(\'popup\');"');
   $owner=new Own($cn);
   if ($owner->MY_ANALYTIC != 'nu' /*&& $div=='popup' */){
-    echo '<input type="button" class="button" value="'._('verifie CA').'" onClick="verify_ca(\''.$div.'\');">';
+    echo '<input type="button" class="smallbutton" value="'._('verifie CA').'" onClick="verify_ca(\''.$div.'\');">';
   }
 
   $per=new Periode($cn,$obj->det->jr_tech_per);
