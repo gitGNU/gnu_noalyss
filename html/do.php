@@ -200,8 +200,8 @@ if (isset($_REQUEST['ac']))
 else
 {
     $default = find_default_module();
-    $user_profile=$cn->get_value('select p_id from profile_user where lower(user_name)=lower($1)',
-                array($g_user->login));
+    $user_profile=$g_user->get_profile();
+    
     if ( $user_profile == "" ) 
         throw new Exception (_('Aucun profil utilisateur'));
     
@@ -216,7 +216,7 @@ else
     $_REQUEST['ac']=$default;
     show_module($menu_id);
     $all[0] = $default;
-    show_menu($all, 0);
+    show_menu($menu_id, 0);
 }
 
 
