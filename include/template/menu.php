@@ -55,7 +55,10 @@ $style="";
                     $a_request=explode('/', $_REQUEST['ac']);
                     if ( $level == 0) {
                         $url=$a_request[0];
-                        if ($url.'/'.$amenu[$i]['me_code'] == $a_request[0].'/'.$a_request[1]) $class="selectedcell";
+                        
+                        if (count($a_request) > 1 &&
+                            $url.'/'.$amenu[$i]['me_code'] == $a_request[0].'/'.$a_request[1]) 
+                                $class="selectedcell";
                     } elseif ($level == 1)
                     {
                         $url=$a_request[0].'/'.$a_request[1];
