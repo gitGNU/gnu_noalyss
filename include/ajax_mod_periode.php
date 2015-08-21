@@ -57,7 +57,7 @@ switch ($op)
         $html.=tr(td(_(' Exercice : ')) . td($p_exercice->input()));
         $html.='</table>';
         $html.=HtmlInput::submit('sauver', _('sauver'));
-        $html.=HtmlInput::button('close', "&#10761;", 'onclick="removeDiv(\'mod_periode\')"');
+        $html.=HtmlInput::button('close', _('fermer'), 'onclick="removeDiv(\'mod_periode\')"');
         $html.=HtmlInput::hidden('p_id', $_GET['p_id']);
         $html.='</form>';
         break;
@@ -75,7 +75,7 @@ switch ($op)
             $html.='<h2 class="info">'._('Modifier les dates de début et fin de période').'</h2>';
             $html.="<div class=\"error\">"._('Erreur date invalide')."</div>";
 
-            $html.=HtmlInput::button('close', '&#10761;', 'onclick="removeDiv(\'mod_periode\')"');
+            $html.=HtmlInput::button('close', _('fermer'), 'onclick="removeDiv(\'mod_periode\')"');
         }
         else
         {
@@ -86,7 +86,7 @@ switch ($op)
                 $html = '<h2 class="info"> Modifier les dates de début et fin de période</h2>';
                 $html.='<h2 class="notice"> Sauvé </h2>';
 
-                $html.=HtmlInput::button('close', "&#10761;", 'onclick="	refresh_window();"');
+                $html.=HtmlInput::button('close', _('Fermer'), 'onclick="	refresh_window();"');
             }
             catch (Exception $e)
             {

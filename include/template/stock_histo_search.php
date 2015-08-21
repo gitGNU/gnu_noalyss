@@ -26,7 +26,7 @@
  *
  */
 ?>
-<div id="histo_search_d" class="inner_box" style="width:60%;height:280px;display:none">
+<div id="histo_search_d" class="inner_box" style="width:60%;height:380px;display:none">
 	<?php echo  HtmlInput::title_box(_("Recherche"), "histo_search_d", "hide")?>
 	<form method="GET">
 		<?php echo  HtmlInput::get_to_hidden(array("gDossier", "ac"))?>
