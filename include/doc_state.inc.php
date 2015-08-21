@@ -60,12 +60,13 @@ $a_stat=$cn->get_array("select s_value,s_status from document_state order by 1")
 	<?php endfor;?>
 </table>
 <h2>Ajout d'un état</h2>
-<form method="post" onsubmit="return confirm_form(this,'Vous confirmez ?'); ">
+<form method="post" id='etat_add_frm' onsubmit="return confirm_form(this,'Vous confirmez ?'); ">
 	<p>
 		Nom de l'état <?php $value=new IText("s_value",""); echo $value->input()?>
 	</p>
 	<p>
 		Cochez la case si cet état ferme une action <?php $state=new ICheckBox("s_state",""); echo $state->input()?>
-		<?php echo HtmlInput::submit("add", "Ajouter")?>
+                <input type='hidden' name='add' value='1'>
+		<?php echo HtmlInput::submit("addbt", "Ajouter")?>
 	</p>
 </form>

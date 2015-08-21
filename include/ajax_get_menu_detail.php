@@ -50,10 +50,11 @@ $pm_default=new ICheckBox('pm_default','1');
 $pm_default->set_check($array[0]['pm_default']);
 
 ?>
-<form method="POST" onsubmit="return confirm_form(this,'<?php echo _("Vous confirmez")?> ?')">
+<form method="POST" id="ajax_get_menu_detail_frm" onsubmit="return confirm_form(this,'<?php echo _("Vous confirmez")?> ?')">
 	<?php echo HtmlInput::hidden('pm_id',$array[0]['pm_id'])?>
 	<?php echo HtmlInput::hidden('p_id',$array[0]['p_id'])?>
 	<?php echo HtmlInput::hidden('tab',"profile_menu_div")?>
+	<?php echo HtmlInput::hidden('mod',"1")?>
 <table>
 <tr>
 	<td><?php echo _("Code");?></td>
@@ -73,7 +74,7 @@ if ($array[0]['p_type_display']!='P'):
 <?php endif;?>
 </table>
 <?php 
-echo HtmlInput::submit('mod',_("Valider"));
+echo HtmlInput::submit('modbt',_("Valider"));
 echo '</form>';
 
 

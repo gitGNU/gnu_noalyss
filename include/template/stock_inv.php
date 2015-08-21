@@ -28,7 +28,7 @@
  */
 ?>
 <div style="<?php if ( ! $p_readonly) echo "position:absolute";?>" class="content">
-	<form method="POST" class="print" onsubmit="return confirm_form(this,'<?php echo _("Vous confirmez ?")?>')">
+	<form method="POST" id="stock_reprise" class="print" onsubmit="return confirm_form(this,'<?php echo _("Vous confirmez ?")?>')">
 <table>
 	<tr><td>
 			<?php echo _("Date")?>
@@ -128,6 +128,7 @@
             </td>
         </tr>
     </table>
-        <?php echo HtmlInput::submit("reprise_frm", _('Reprise inventaire'));?>
+        <?php echo HtmlInput::hidden('reprise_frm',1);?>
+        <?php echo HtmlInput::submit("reprise_frm_bt", _('Reprise inventaire'));?>
      </form>
 </div>

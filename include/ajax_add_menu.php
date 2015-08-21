@@ -138,6 +138,7 @@ select me_code,me_code||' '||coalesce(me_menu,'')||' '||coalesce(me_description,
         echo HtmlInput::hidden('tab', 'profile_menu_div');
         ?>
         <?php echo HtmlInput::hidden('p_id', $p_id) ?>
+        <?php echo HtmlInput::hidden('add_menu', 1) ?>
         <?php echo HtmlInput::hidden('p_level', $p_level) ?>
         <?php echo HtmlInput::hidden('type', $type) ?>
         <?php echo HtmlInput::hidden('dep', $dep) ?>
@@ -158,7 +159,7 @@ select me_code,me_code||' '||coalesce(me_menu,'')||' '||coalesce(me_description,
 
         </table>
         <?php
-        echo HtmlInput::submit('add_menu', _("Valider"));
+        echo HtmlInput::submit('add_menubt', _("Valider"));
         echo '</form>';
         return;
     }
@@ -195,6 +196,7 @@ select me_code,me_code||' '||coalesce(me_menu,'')||' '||coalesce(me_description,
             <?php echo HtmlInput::hidden('p_order', 10) ?>
             <?php echo HtmlInput::hidden('me_code_dep', '') ?>
             <?php echo HtmlInput::hidden('p_type', 'PR') ?>
+            <?php echo HtmlInput::hidden('add_impress', 1) ?>
             <table>
                 <tr>
                     <td><?php echo _("Code") ?></td>
@@ -203,7 +205,7 @@ select me_code,me_code||' '||coalesce(me_menu,'')||' '||coalesce(me_description,
 
             </table>
             <?php
-            echo HtmlInput::submit('add_impress', _("Valider"));
+            echo HtmlInput::submit('add_impressbt', _("Valider"));
             echo '</form>';
             return;
         }

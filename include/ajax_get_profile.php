@@ -34,7 +34,7 @@ if ( $g_user->check_module('CFGPRO') == 0 ) die();
 require_once NOALYSS_INCLUDE.'/class_profile_sql.php';
 require_once NOALYSS_INCLUDE.'/class_profile_menu.php';
 require_once NOALYSS_INCLUDE.'/class_html_input.php';
-
+$p_id=HtmlInput::default_value_request('p_id', -1);
 $profile=new Profile_sql($cn,$p_id);
 $gDossier=Dossier::id();
 $add_impression=HtmlInput::button("add", _("Ajout Menu"),"onclick=\"add_menu({dossier:$gDossier,p_id:$p_id,type:'pr'})\"");
@@ -76,27 +76,30 @@ else
 {
 	echo '<div  class="myfieldset" id="profile_gen_div">';
 }
-echo '<form method="POST" onsubmit="return confirm_form(this,\'vous confirmez\')">';
+echo '<form method="POST" id="profile_save_name_frm" onsubmit="return confirm_form(this,\'vous confirmez\')">';
 echo HtmlInput::hidden('tab','profile_gen_div');
 echo HtmlInput::hidden('p_id',$profile->p_id);
+echo HtmlInput::hidden('save_name',1);
 require_once("template/profile.php");
-echo HtmlInput::submit("save_name",_("Modifier"));
+echo HtmlInput::submit("save_namebt",_("Modifier"));
 echo '</form>';
 if ($profile->p_id > 0)
 {
-	echo '<form method="POST" onsubmit="return confirm_form(this,\''._("vous confirmez").'\')">';
+	echo '<form method="POST" id="profile_clone_frm" onsubmit="return confirm_form(this,\''._("vous confirmez").'\')">';
 
 	echo _('Vous pouvez aussi copier ce profil et puis le corriger');
 
 	echo HtmlInput::hidden('p_id', $profile->p_id);
-	echo HtmlInput::submit("clone", "Copier");
+	echo HtmlInput::hidden('clone', 1);
+	echo HtmlInput::submit("clonebt", "Copier");
 	echo '</form>';
 
-	echo '<form method="POST" onsubmit="return confirm_form(this,\''._("vous confirmez").'\')">';
+	echo '<form method="POST" id="delete_profile_frm" onsubmit="return confirm_form(this,\''._("vous confirmez").'\')">';
 
 	echo _('Effacer ce profil');
 
 	echo HtmlInput::hidden('p_id', $profile->p_id);
+	echo HtmlInput::hidden('delete_profil', 1);
 	echo HtmlInput::submit("delete_profil", _("Effacer ce profil"));
 	echo '</form>';
         echo '</div>';
