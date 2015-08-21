@@ -27,7 +27,7 @@
  */
 ?>
 <?php echo  $bar?>
-<form method="POST" class="print" style="display:inline" onsubmit="return confirm('<?php echo _("Vous confirmez ?")?>')">
+<form method="POST" id="fiche_list_frm" class="print" style="display:inline" onsubmit="return confirm_form(this,'<?php echo _("Vous confirmez ?")?>')">
 	<table class="sortable" id="fiche_list_table_id">
 		<tr>
 			<th >
@@ -86,9 +86,11 @@
 	</table>
 	<?php echo $str_add_card?>
 <?php echo HtmlInput::hidden('action',"1");?>
-<?php echo HtmlInput::submit('delete',_('Effacer la sélection '))?>
+<?php echo HtmlInput::hidden('delete',"0");?>
+<?php echo HtmlInput::hidden('move',"0");?>
+<?php echo HtmlInput::submit('delete_bt',_('Effacer la sélection '),'onclick="$(\'delete\').value=1;$(\'move\').value=0"')?>
 <?php if ( $allcard ==  0  ): ?>
-<?php echo HtmlInput::submit('move',_('Déplacer la sélection  vers'))?>
+<?php echo HtmlInput::submit('move_bt',_('Déplacer la sélection  vers'),'onclick="$(\'delete\').value=0;$(\'move\').value=1"')?>
 <?php 
 $iselect=new ISelect('move_to');
 $iselect->value=$cn->make_array("select fd_id,fd_label from fiche_def order by 2");

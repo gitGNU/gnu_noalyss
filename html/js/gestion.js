@@ -221,22 +221,26 @@ function check_hour(p_ctl)
 
 function removeStock(s_id,p_dossier)
 {
-	if ( ! confirm("Confirmez-vous l'effacement de cette entrée dans le stock?") )
-	{
-		return;
-	}
-	queryString="gDossier="+p_dossier+"&op=rm_stock&s_id="+s_id;
-	var action=new Ajax.Request (
-		"ajax_misc.php",
-		{
-			method:'get',
-			parameters:queryString,
-			onFailure:errorRemoveStock,
-			onSuccess:successRemoveStock
-		}
-
+	smoke.confirm("Confirmez-vous l'effacement de cette entrée dans le stock?",
+        function (a) {
+            if (a)
+            {
+                queryString="gDossier="+p_dossier+"&op=rm_stock&s_id="+s_id;
+                var action=new Ajax.Request (
+                        "ajax_misc.php",
+                        {
+                                method:'get',
+                                parameters:queryString,
+                                onFailure:errorRemoveStock,
+                                onSuccess:successRemoveStock
+                        }
 		);
-
+                
+            }
+            else {
+                    return ;
+            }
+        });
 }
 /**
  *@brief error if a document if removed

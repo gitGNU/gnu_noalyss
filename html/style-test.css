@@ -72,3 +72,15 @@ table.sortable td,table.result td
 	top:0;
 	left:0;
 }
+/***************************************************************************
+ * Confirm dialog box
+ ***************************************************************************/
+div.confirm_box {
+    position:fixed;
+    top:100px;
+    left:0px;
+    right:0px;
+    z-index:101;
+    width:50%;
+    left:25%;
+}

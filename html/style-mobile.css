@@ -661,14 +661,15 @@ span.action a.action:hover {
     color:#000000;
 }
 div.popup_back{
-    position:absolute;
+    position:fixed;
     top:0px;
     left:0px;
-    opacity:0.6;
+    opacity:0.2;
     width:100%;
     height:100%;
     z-index:1;
-    display:none;
+    display:block;
+    background: #3f4c6b;
 }
 
 div.popup_border_title {
@@ -1945,4 +1946,16 @@ td.cut {
 }
 td.box {
     border-left : #3f4c6b solid 1px;
+}
+/***************************************************************************
+ * Confirm dialog box
+ ***************************************************************************/
+div.confirm_box {
+    position:fixed;
+    top:100px;
+    left:0px;
+    right:0px;
+    z-index:101;
+    width:50%;
+    left:25%;
 }

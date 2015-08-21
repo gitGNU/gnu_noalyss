@@ -322,17 +322,23 @@ function caod_checkTotal()
  */
 function anc_remove_operation(p_dossier, p_oa_group)
 {
-    var a = confirm("Etes-vous sur de vouloir effacer cette operation ?\n");
-    if (a == false)
-        return;
-    var obj = {"oa":
-                p_oa_group, "gDossier":
-                p_dossier, "op": "remove_anc"};
-    var queryString = encodeJSON(obj);
-    g(p_oa_group).style.display = 'none';
-    var e = new Ajax.Request("ajax_misc.php",
-            {method: 'get', parameters: queryString});
-
+     smoke.confirm("Etes-vous sur de vouloir effacer cette operation ?\n",
+     function (a)
+     {
+         if ( a) {
+            var obj = {"oa":
+                        p_oa_group, "gDossier":
+                        p_dossier, "op": "remove_anc"};
+            var queryString = encodeJSON(obj);
+            g(p_oa_group).style.display = 'none';
+            var e = new Ajax.Request("ajax_misc.php",
+                    {method: 'get', parameters: queryString});
+             
+         } else
+         {
+             return;
+         }
+     });
 }
 /**
  * add a row in misc operation for ANC

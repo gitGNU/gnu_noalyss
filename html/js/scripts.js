@@ -69,13 +69,18 @@ function infodiv(req, json)
  */
 function deleteRow(tb, obj)
 {
-    if (confirm('Confirmez effacement'))
+    smoke.confirm('Confirmez effacement',function (e)
     {
-        var td = obj.parentNode;
-        var tr = td.parentNode;
-        var lidx = tr.rowIndex;
-        g(tb).deleteRow(lidx);
-    }
+        if (e) {
+            var td = obj.parentNode;
+            var tr = td.parentNode;
+            var lidx = tr.rowIndex;
+            g(tb).deleteRow(lidx);
+            
+        } else {
+            return ;
+        }
+    });
 }
 function deleteRowRec(tb, obj)
 {
@@ -1508,27 +1513,33 @@ function display_sub_menu(p_dossier,p_profile,p_dep,p_level)
 function remove_sub_menu(p_dossier,profile_menu_id)
 {
     if ( ! confirm ('Confirm ?')) return;
-    waiting_box();
-    new Ajax.Request('ajax_misc.php',
-                    {                   
-                        method:'get',
-                        parameters: { op:'remove_submenu',gDossier:p_dossier,
-                        p_profile_menu_id:profile_menu_id},
-                        onSuccess:function (req) {
-                            try {
-                                remove_waiting_box();
-                                 if ( $('menu_table').rows.length > 1 ) {
-                                      $('menu_table').rows[1].remove();
-                                 }
-                                $('sub'+profile_menu_id).remove();
-                            } catch(e)
-                            {
-                                alert_box(e.message);
-                            }
-                        }
-                    }
-                            
-            );
+    smoke.confirm('Confirme ?', 
+    function (e) {
+    if (e) {
+        waiting_box();
+        new Ajax.Request('ajax_misc.php',
+        {                   
+            method:'get',
+            parameters: { op:'remove_submenu',gDossier:p_dossier,
+            p_profile_menu_id:profile_menu_id},
+            onSuccess:function (req) {
+                try {
+                    remove_waiting_box();
+                     if ( $('menu_table').rows.length > 1 ) {
+                          $('menu_table').rows[1].remove();
+                     }
+                    $('sub'+profile_menu_id).remove();
+                } catch(e)
+                {
+                    alert_box(e.message);
+                }
+            }
+        }
+       );
+       } else {
+                return;
+            }
+        });
 }
 /**
  * @brief add a menu to a profile, propose only the available menu
@@ -2871,8 +2882,7 @@ function confirm_form(p_obj, p_message)
 
         var newdiv = document.createElement('DIV');
         newdiv.id = 'confirm_12';
-        newdiv.addClassName("inner_box");
-        newdiv.setStyle('z-index:101;width:50%;left:25%;');
+        newdiv.addClassName("inner_box confirm_box");
         //newdiv.innerHTML="<h2 class='title'></h2>";
         newdiv.innerHTML += '<p style="text-align:center">';
         newdiv.innerHTML += p_message;

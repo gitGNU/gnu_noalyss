@@ -154,7 +154,7 @@ if ($_GET['histo'] == -1)
 			/**
 			 * Move
 			 */
-			if (isset($_POST['move']))
+			if (isset($_POST['move'])&& $_POST['move'] == 1)
 			{
 				for ($i = 0; $i < count($ack); $i++)
 				{
@@ -165,7 +165,7 @@ if ($_GET['histo'] == -1)
 			/**
 			 * Delete
 			 */
-			if (isset($_POST['delete']))
+			if (isset($_POST['delete'])&& $_POST['delete']==1)
 			{
 				$msg="";
 				for ($i = 0; $i < count($ack); $i++)

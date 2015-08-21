@@ -98,27 +98,21 @@ function add_todo()
 }
 function todo_list_remove(p_ctl)
 {
-    if (confirm('Effacer ?') == false)
-    {
-        return;
-    }
-    $("tr" + p_ctl).hide();
-    var gDossier = $('gDossier').value;
+    smoke.confirm('Effacer ?',
+    function (e) {
+        if ( !e ) {return;}
+        $("tr" + p_ctl).hide();
+        var gDossier = $('gDossier').value;
 
-    var action = new Ajax.Request(
-            'ajax_todo_list.php',
-            {
-                method: 'get',
-                parameters:
-                        {'del':
-                                    1, 'id':
-                                    p_ctl, 'gDossier':
-                                    gDossier
-                        }
-            }
-    );
-    return false;
-
+        var action = new Ajax.Request(
+                'ajax_todo_list.php',
+                {
+                    method: 'get',
+                    parameters:{'del':1, 'id':p_ctl, 'gDossier':gDossier}
+                }
+        );
+        return false;
+    });
 }
 function todo_list_save(p_form)
 {
