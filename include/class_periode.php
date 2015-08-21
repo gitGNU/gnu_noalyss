@@ -201,7 +201,7 @@ class Periode
                                      from parm_periode
                                      order by p_start,p_end");
             $Max=Database::num_row($Res);
-            echo '<form id="periode_frm" method="POST" onsubmit="confirm(\'Confirmez-vous la fermeture des périodes choisies ?\')" >';
+            echo '<form id="periode_frm" method="POST" onsubmit="confirm_form(this,\'Confirmez-vous la fermeture des périodes choisies ?\')" >';
             echo HtmlInput::array_to_hidden(array('ac','gDossier','jrn_def_id','choose'), $_REQUEST);
             echo '<TABLE ALIGN="CENTER">';
             echo "</TR>";
@@ -262,7 +262,7 @@ class Periode
                     if ($l_line['count_op'] == 0 )
                     {
                         $remove.='<A class="mtitle" HREF="?ac='.$_REQUEST['ac'].'&action=delete_per&p_per='.
-                                 $l_line['p_id']."&$str_dossier\" onclick=\"return confirm('"._('Confirmez effacement ?')."')\" > Efface</A>";
+                                 $l_line['p_id']."&$str_dossier\" onclick=\"return confirm_form(this,'"._('Confirmez effacement ?')."')\" > Efface</A>";
                     }
                     else
                     {
@@ -326,7 +326,7 @@ class Periode
                                    $this->jrn_def_id);
             $jrn_name=Database::fetch_result($r,0,0);
             echo '<h2> Journal '.$jrn_name.'</h2>';
-            echo '<form id="periode_frm" method="POST" onsubmit="confirm(\'Confirmez-vous la fermeture des périodes choisies ?\')" >';
+            echo '<form id="periode_frm" method="POST" onsubmit="confirm_form(this,\'Confirmez-vous la fermeture des périodes choisies ?\')" >';
             echo HtmlInput::array_to_hidden(array('ac','gDossier','jrn_def_id','choose'), $_REQUEST);
 
             echo '<TABLE ALIGN="CENTER">';

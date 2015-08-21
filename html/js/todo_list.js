@@ -65,7 +65,7 @@ function todo_list_show(p_id)
                             if (tl_id.length == 0)
                             {
                                 var rec = req.responseText;
-                                alert('erreur :' + rec);
+                                alert_box('erreur :' + rec);
                             }
                             var content = unescape_xml(getNodeText(tl_content[0]));
                             todo_div.innerHTML=content;
@@ -76,7 +76,7 @@ function todo_list_show(p_id)
                         }
                         catch (e)
                         {
-                            alert(e.message);
+                            alert_box(e.message);
                         }
                     }
                 }
@@ -84,13 +84,13 @@ function todo_list_show(p_id)
     }
     catch (e)
     {
-        alert(" Envoi ajax non possible" + e.message);
+        alert_box(" Envoi ajax non possible" + e.message);
     }
     return false;
 }
 function todo_list_show_error(request_json)
 {
-    alert('failure');
+    alert_box('failure');
 }
 function add_todo()
 {
@@ -140,7 +140,7 @@ function todo_list_save(p_form)
                             if (tl_id.length == 0)
                             {
                                 var rec = req.responseText;
-                                alert('erreur :' + rec);
+                                alert_box('erreur :' + rec);
                             }
                             var tr = $('tr'+p_form);
                             if ( p_form == 0) 
@@ -232,7 +232,7 @@ function todo_list_share(p_note, p_dossier)
                         $(shared_note).show();
 
                     } catch (e) {
-                        alert(e.message);
+                        alert_box(e.message);
                     }
                 }
             }
@@ -268,7 +268,7 @@ function todo_list_remove_share(note_id,p_login,p_dossier)
             var answer=p_xml.responseXML;
             var status=answer.getElementsByTagName('status');
             if ( status.length == 0) {
-                alert ('erreur reponse ');
+                alert_box ('erreur reponse ');
             }
             var status_code=getNodeText(status[0]);
             if ( status_code == 'ok') {

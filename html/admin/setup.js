@@ -25,6 +25,6 @@ function show_dbname(obj) {
                         this.document.getElementById('div_db').style.visibility= 'hidden';
 		}
 	} catch (e) {
-		alert(e.getMessage);
+		alert_box(e.getMessage);
 	}
 }

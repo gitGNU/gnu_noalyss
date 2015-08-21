@@ -96,16 +96,16 @@ function successRemoveOp(request,json)
 {
 	try{
 		var answer=request.responseText.evalJSON(true);
-		if ( answer.ago_id == -1 ) { alert ('Effacement non autorisé');return;}
+		if ( answer.ago_id == -1 ) { alert_box ('Effacement non autorisé');return;}
 
 		var action="acop"+answer.ago_id;
 		$(action).innerHTML="";
 		var doc="op"+answer.ago_id;
 		$(doc).style.color="red";
-		$(doc).href="javascript:alert('Commentaire Effacé')";
+		$(doc).href="javascript:alert_box('Commentaire Effacé')";
 		$(doc).style.textDecoration="line-through";
 	}catch(e){
-		alert(e.message);
+		alert_box(e.message);
 	}
 }
 /**
@@ -125,14 +125,14 @@ function remove_action(p_dossier,p_id,ag_id)
 			onSuccess:function(request,json) {
 				try{
 				var answer=request.responseText.evalJSON(true);
-				if ( answer.act_id == -1 ) { alert ('Effacement non autorisé');return;}
+				if ( answer.act_id == -1 ) { alert_box ('Effacement non autorisé');return;}
 				var action="acact"+answer.act_id;
 				$(action).innerHTML="";
 				var doc="act"+answer.act_id;
 				$(doc).style.color="red";
-				$(doc).href="javascript:alert('Action Effacée')";
+				$(doc).href="javascript:alert_box('Action Effacée')";
 				$(doc).style.textDecoration="line-through";
-				} catch (e){ alert(e.message);}
+				} catch (e){ alert_box(e.message);}
 			}
 		}
 
@@ -162,12 +162,12 @@ function remove_comment(p_dossier,p_id)
 function successRemoveComment(request,json)
 {
 	var answer=request.responseText.evalJSON(true);
-	if ( answer.agc_id == -1 ) { alert ('Effacement non autorisé');return;}
+	if ( answer.agc_id == -1 ) { alert_box ('Effacement non autorisé');return;}
 	var action="accom"+answer.agc_id;
 	$(action).innerHTML="";
 	var doc="com"+answer.agc_id;
 	$(doc).style.color="red";
-	$(doc).href="javascript:alert('Commentaire Effacé')";
+	$(doc).href="javascript:alert_box('Commentaire Effacé')";
 	$(doc).style.textDecoration="line-through";
 
 }
@@ -176,7 +176,7 @@ function successRemoveComment(request,json)
  */
 function errorRemoveDoc()
 {
-	alert('Impossible d\'effacer ce document');
+	alert_box('Impossible d\'effacer ce document');
 }
 /**
  *@brief success when removing a document
@@ -184,12 +184,12 @@ function errorRemoveDoc()
 function successRemoveDoc(request,json)
 {
 	var answer=request.responseText.evalJSON(true);
-	if ( answer.d_id == -1 ) { alert ('Effacement non autorisé');return;}
+	if ( answer.d_id == -1 ) { alert_box ('Effacement non autorisé');return;}
 	var action="ac"+answer.d_id;
 	$(action).innerHTML="";
 	var doc="doc"+answer.d_id;
 	$(doc).style.color="red";
-	$(doc).href="javascript:alert('Document Effacé')";
+	$(doc).href="javascript:alert_box('Document Effacé')";
 	$(doc).style.textDecoration="line-through";
         $('desc'+answer.d_id).innerHTML="";
 
@@ -205,11 +205,11 @@ function check_hour(p_ctl)
 		var h=document.getElementById(p_ctl);
 		var re = /^\d{1,2}:\d{2}$/;
 		if ( trim(h.value) !='' && ! h.value.match(re))
-			alert("Format de l'heure est HH:MM ")
+			alert_box("Format de l'heure est HH:MM ")
 	}
 	catch (erreur)
 	{
-		alert('fct : check_hour '+erreur);
+		alert_box('fct : check_hour '+erreur);
 	}
 
 }
@@ -243,7 +243,7 @@ function removeStock(s_id,p_dossier)
  */
 function errorRemoveStock()
 {
-	alert('Impossible d\'effacer ');
+	alert_box('Impossible d\'effacer ');
 }
 /**
  *@brief success when removing a document
@@ -258,11 +258,11 @@ function successRemoveStock(request,json)
 		$(href).innerHTML='';
 
 		$(doc).style.color="red";
-		//    $(doc).href="javascript:alert('Stock Effacé')";
+		//    $(doc).href="javascript:alert_box('Stock Effacé')";
 		$(doc).style.textDecoration="line-through";
 	} catch (e)
 {
-		alert("success_box"+e.message);
+		alert_box("success_box"+e.message);
 	}
 }
 /**
@@ -286,7 +286,7 @@ function action_show(p_dossier)
         });
     } catch (e)
     {
-        alert('action_show '+e.message);
+        alert_box('action_show '+e.message);
     }
 }
 /**
@@ -297,7 +297,7 @@ function action_show(p_dossier)
 function action_add(p_dossier) {
      try {
         if ( $('action_add_div')) {
-            alert('Désolé, événement en cours de création à sauver');
+            alert_box('Désolé, événement en cours de création à sauver');
             return;
         }
         waiting_box();
@@ -316,7 +316,7 @@ function action_add(p_dossier) {
         });
     } catch (e)
     {
-        alert('action_add '+e.message);
+        alert_box('action_add '+e.message);
     }
 }
 /**
@@ -379,7 +379,7 @@ function action_save_short()
                 });
     } catch (e)
     {
-        alert('action_add ' + e.message);
+        alert_box('action_add ' + e.message);
     }
     return false;
 }

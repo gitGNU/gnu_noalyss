@@ -66,7 +66,7 @@ function pcmn_update(p_dossier, p_val)
                         if (a.length == 0)
                         {
                             var rec = req.responseText;
-                            alert('erreur :' + rec);
+                            alert_box('erreur :' + rec);
                         }
 
                         var name_ctl = getNodeText(a[0]);
@@ -86,7 +86,7 @@ function pcmn_update(p_dossier, p_val)
                     }
                     catch (e)
                     {
-                        alert("Impossible executer script de la reponse\n" + e.message);
+                        alert_box("Impossible executer script de la reponse\n" + e.message);
                     }
 
                 }
@@ -185,7 +185,7 @@ function search_poste(obj)
     }
     catch (e)
     {
-        alert(e.getMessage);
+        alert_box(e.getMessage);
     }
 }
 /**
@@ -258,7 +258,7 @@ function result_poste_search(req)
         if ( a.length == 0 )
         {
             var rec=req.responseText;
-            alert ('erreur :'+rec);
+            alert_box ('erreur :'+rec);
         }
         var html=answer.getElementsByTagName('code');
 
@@ -270,7 +270,7 @@ function result_poste_search(req)
     }
     catch (e)
     {
-        alert(e.message);
+        alert_box(e.message);
     }
     try
     {
@@ -278,7 +278,7 @@ function result_poste_search(req)
     }
     catch(e)
     {
-        alert("Impossible executer script de la reponse\n"+e.message);
+        alert_box("Impossible executer script de la reponse\n"+e.message);
     }
 
 }
@@ -287,7 +287,7 @@ function result_poste_search(req)
 */
 function errorPoste()
 {
-    alert('Ajax failed');
+    alert_box('Ajax failed');
 }
 function pausecomp(millis)
  {
@@ -350,7 +350,7 @@ function pcmn_save()
                             var ctl = answer.getElementsByTagName('ctl')[0].textContent;
                             if (html.length == 0) {
                                 var rec = req.responseText;
-                                alert('erreur :' + rec);
+                                alert_box('erreur :' + rec);
                             }
                             var code_html = getNodeText(html[0]); // Firefox ne prend que les 4096 car.
                             code_html = unescape_xml(code_html);

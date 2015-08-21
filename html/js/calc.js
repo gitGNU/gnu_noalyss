@@ -49,7 +49,7 @@ function cal()
     }
     catch(exception)
     {
-        alert("Mauvaise formule\n"+p_variable);
+        alert_box("Mauvaise formule\n"+p_variable);
         return false;
     }
     p_history=p_history+'<hr>'+p_variable;

@@ -293,7 +293,10 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
     $is_msie=is_msie();
     
     if ($is_msie == 0 ) 
+    {
         echo '<!doctype html>';
+        echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
+    }
     else
          echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 FINAL//EN" >';
     
@@ -315,7 +318,8 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
     echo '<script language="javascript" src="js/calendar.js"></script>
     <script type="text/javascript" src="js/lang/calendar-en.js"></script>
     <script language="javascript" src="js/calendar-setup.js"></script>
-    <LINK REL="stylesheet" type="text/css" href="./calendar-blue.css" media="screen">';
+    <LINK REL="stylesheet" type="text/css" href="./calendar-blue.css" media="screen">
+    <LINK REL="stylesheet" type="text/css" href="./smoke.css" media="screen">';
 
     echo '    </HEAD>    ';
 

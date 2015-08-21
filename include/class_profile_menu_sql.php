@@ -50,6 +50,7 @@ class Profile_Menu_sql extends Noalyss_SQL
             , "p_order"=>"p_order"
             , "p_type_display"=>"p_type_display"
             , "pm_default"=>"pm_default"
+            ,"pm_id_dep"=>"pm_id_dep"
         );
 
         $this->type=array(
@@ -60,6 +61,7 @@ class Profile_Menu_sql extends Noalyss_SQL
             , "p_order"=>"number"
             , "p_type_display"=>"text"
             , "pm_default"=>"text"
+            , "pm_id_dep"=>"number"
         );
 
         $this->default=array(

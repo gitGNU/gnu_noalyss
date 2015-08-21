@@ -41,13 +41,13 @@ function add_row(p_table, p_seq)
 
     if (mytable.rows.length > 15)
     {
-        alert("Maximum 15 lignes ");
+        alert_box("Maximum 15 lignes ");
         return;
     }
     var amount = compute_total_table(p_table, p_seq);
     if (max < amount)
     {
-        alert('Montant incorrect : max = ' + max + " calculé=" + amount);
+        alert_box('Montant incorrect : max = ' + max + " calculé=" + amount);
         return;
     }
     // For the detail view (modify_op) there is several form and then several time the
@@ -89,7 +89,7 @@ function compute_total_table(p_table, seq)
     }
     catch (e)
     {
-        alert(e.message);
+        alert_box(e.message);
     }
 }
 /**
@@ -119,7 +119,7 @@ function anc_refresh_remain(p_table, p_seq)
         }
     } catch (a)
     {
-        alert(a.message);
+        alert_box(a.message);
     }
 }
 /*!
@@ -175,14 +175,14 @@ function verify_ca(div)
         }
         if (amount_error != 0)
         {
-            alert('Désolé, les montants pour la comptabilité analytique sont incorrects');
+            alert_box('Désolé, les montants pour la comptabilité analytique sont incorrects');
             return false;
         }
         return true;
     }
     catch (e)
     {
-        alert(e.message);
+        alert_box(e.message);
         return false;
     }
 }
@@ -221,7 +221,7 @@ function search_ca(p_dossier, p_target, p_source)
                         $('searchanc').innerHTML = req.responseText;
 
                     } catch (e) {
-                        alert(e.message);
+                        alert_box(e.message);
                     }
                 }
             }
@@ -246,7 +246,7 @@ function search_anc_form(obj)
                         req.responseText.evalScripts();
 
                     } catch (e) {
-                        alert(e.message);
+                        alert_box(e.message);
                     }
                 }
             }
@@ -403,7 +403,7 @@ function anc_key_compute(p_dossier, p_table, p_amount, p_key_id)
                             var html = answer.getElementsByTagName('code');
                             if (html.length == 0) {
                                 var rec = req.responseText;
-                                alert('erreur :' + rec);
+                                alert_box('erreur :' + rec);
                             }
 
                             var code_html = getNodeText(html[0]); // Firefox ne prend que les 4096 car.
@@ -453,7 +453,7 @@ function anc_key_choice(p_dossier, p_table, p_amount,p_ledger)
                             var html = answer.getElementsByTagName('code');
                             if (html.length == 0) {
                                 var rec = req.responseText;
-                                alert('erreur :' + rec);
+                                alert_box('erreur :' + rec);
                             }
 
                             var code_html = getNodeText(html[0]); // Firefox ne prend que les 4096 car.
@@ -489,7 +489,7 @@ function add_row_key(p_table)
     var table_length=mytable.rows.length ;
     if ( table_length > 15)
     {
-        alert("Maximum 15 lignes ");
+        alert_box("Maximum 15 lignes ");
         return;
     }
     var rowToCopy = mytable.rows[1];

@@ -41,7 +41,7 @@ function infodiv(req, json)
         if (a.length === 0)
         {
             var rec = req.responseText;
-            alert('erreur :' + rec);
+            alert_box('erreur :' + rec);
         }
         var name_ctl = a[0].firstChild.nodeValue;
         var code_html = getNodeText(html[0]);
@@ -51,7 +51,7 @@ function infodiv(req, json)
     }
     catch (e)
     {
-        alert("success_box" + e.message);
+        alert_box("success_box" + e.message);
     }
     try
     {
@@ -59,7 +59,7 @@ function infodiv(req, json)
     }
     catch (e)
     {
-        alert("answer_box Impossible executer script de la reponse\n" + e.message);
+        alert_box("answer_box Impossible executer script de la reponse\n" + e.message);
     }
 
 }
@@ -154,7 +154,7 @@ function encodeJSON(obj)
 {
     if (typeof obj != 'object')
     {
-        alert('encodeParameter  obj n\'est pas  un objet');
+        alert_box('encodeParameter  obj n\'est pas  un objet');
     }
     try
     {
@@ -177,7 +177,7 @@ function encodeJSON(obj)
     }
     catch (e)
     {
-        alert('encodeParameter ' + e.message);
+        alert_box('encodeParameter ' + e.message);
         return "";
     }
 }
@@ -372,7 +372,7 @@ function success_misc(req)
         if (html.length === 0)
         {
             var rec = req.responseText;
-            alert('erreur :' + rec);
+            alert_box('erreur :' + rec);
         }
         var nodeXml = html[0];
         var code_html = getNodeText(nodeXml);
@@ -381,7 +381,7 @@ function success_misc(req)
     }
     catch (e)
     {
-        alert(e.message);
+        alert_box(e.message);
     }
     try
     {
@@ -389,7 +389,7 @@ function success_misc(req)
     }
     catch (e)
     {
-        alert("Impossible executer script de la reponse\n" + e.message);
+        alert_box("Impossible executer script de la reponse\n" + e.message);
     }
 
 
@@ -403,7 +403,7 @@ function loading()
 
 function ajax_misc_failure()
 {
-    alert('Ajax Misc failed');
+    alert_box('Ajax Misc failed');
 }
 /**
  *@brief remove a document_modele
@@ -451,13 +451,13 @@ function success_cat_doc_remove(req)
         if (html.length === 0)
         {
             var rec = req.responseText;
-            alert('erreur :' + rec);
+            alert_box('erreur :' + rec);
         }
         nodeXML = html[0];
         row_id = getNodeText(nodeXML);
         if (row_id === 'nok')
         {
-            alert('Error');
+            alert_box('Error');
             return;
         }
         $('row' + row_id).style.textDecoration = "line-through";
@@ -465,7 +465,7 @@ function success_cat_doc_remove(req)
     }
     catch (e)
     {
-        alert(e.message);
+        alert_box(e.message);
     }
 }
 /**
@@ -500,7 +500,7 @@ function popup_select_tva(obj)
                             if (popup.length === 0)
                             {
                                 var rec = req.responseText;
-                                alert('erreur :' + rec);
+                                alert_box('erreur :' + rec);
                             }
                             var html = answer.getElementsByTagName('code');
 
@@ -519,7 +519,7 @@ function popup_select_tva(obj)
                         }
                         catch (e)
                         {
-                            alert("success_popup_select_tva " + e.message);
+                            alert_box("success_popup_select_tva " + e.message);
                         }
                     }
                 }
@@ -527,7 +527,7 @@ function popup_select_tva(obj)
     }
     catch (e)
     {
-        alert("popup_select_tva " + e.message);
+        alert_box("popup_select_tva " + e.message);
     }
 }
 /**
@@ -562,7 +562,7 @@ function set_tva_label(obj)
     }
     catch (e)
     {
-        alert("set_tva_label " + e.message);
+        alert_box("set_tva_label " + e.message);
     }
 }
 /**
@@ -579,7 +579,7 @@ function success_set_tva_label(req)
         if (code.length === 0)
         {
             var rec = req.responseText;
-            alert('erreur :' + rec);
+            alert_box('erreur :' + rec);
         }
 
         var label_code = code[0].firstChild.nodeValue;
@@ -588,7 +588,7 @@ function success_set_tva_label(req)
     }
     catch (e)
     {
-        alert("success_set_tva_label " + e.message);
+        alert_box("success_set_tva_label " + e.message);
     }
 
 }
@@ -693,7 +693,7 @@ function add_div(obj)
     }
     catch (e)
     {
-        alert("add_div " + e.message);
+        alert_box("add_div " + e.message);
     }
 }
 /**
@@ -798,7 +798,7 @@ function success_box(req, json)
         if (a.length === 0)
         {
             var rec = req.responseText;
-            alert('erreur :' + rec);
+            alert_box('erreur :' + rec);
         }
         var name_ctl = a[0].firstChild.nodeValue;
         var code_html = getNodeText(html[0]);
@@ -812,7 +812,7 @@ function success_box(req, json)
     }
     catch (e)
     {
-        alert("success_box" + e.message);
+        alert_box("success_box" + e.message);
     }
     try
     {
@@ -820,13 +820,13 @@ function success_box(req, json)
     }
     catch (e)
     {
-        alert("answer_box Impossible executer script de la reponse\n" + e.message);
+        alert_box("answer_box Impossible executer script de la reponse\n" + e.message);
     }
 }
 
 function error_box()
 {
-    alert('[error_box] ajax not implemented');
+    alert_box('[error_box] ajax not implemented');
 }
 /**
  * show the ledger choice
@@ -873,7 +873,7 @@ function show_ledger_choice(json_obj)
                             var html = answer.getElementsByTagName('code');
                             if (a.length === 0) {
                                 var rec = req.responseText;
-                                alert('erreur :' + rec);
+                                alert_box('erreur :' + rec);
                             }
                             var name_ctl = a[0].firstChild.nodeValue;
                             var code_html = getNodeText(html[0]);
@@ -884,13 +884,13 @@ function show_ledger_choice(json_obj)
 
                         }
                         catch (e) {
-                            alert("show_ledger_callback" + e.message);
+                            alert_box("show_ledger_callback" + e.message);
                         }
                         try {
                             code_html.evalScripts();
                         }
                         catch (e) {
-                            alert("answer_box Impossible executer script de la reponse\n" + e.message);
+                            alert_box("answer_box Impossible executer script de la reponse\n" + e.message);
                         }
 
                     }
@@ -898,7 +898,7 @@ function show_ledger_choice(json_obj)
                 }
         );
     } catch (e) {
-        alert('show_ledger_choice' + e.message);
+        alert_box('show_ledger_choice' + e.message);
     }
 }
 /**
@@ -928,7 +928,7 @@ function hide_ledger_choice(p_frm_search)
         removeDiv(div + 'jrn_search');
         return false;
     } catch (e) {
-        alert('hide_ledger_choice' + e.message);
+        alert_box('hide_ledger_choice' + e.message);
         return false;
     }
 
@@ -1082,7 +1082,7 @@ function display_periode(p_dossier, p_id)
     }
     catch (e)
     {
-        alert("display_periode " + e.message);
+        alert_box("display_periode " + e.message);
     }
 
 }
@@ -1097,7 +1097,7 @@ function success_display_periode(req)
         if (html.length === 0)
         {
             var rec = req.responseText;
-            alert('erreur :' + rec);
+            alert_box('erreur :' + rec);
         }
 
         var code_html = getNodeText(html[0]);
@@ -1107,7 +1107,7 @@ function success_display_periode(req)
     }
     catch (e)
     {
-        alert("success_display_periode".e.message);
+        alert_box("success_display_periode".e.message);
     }
     try
     {
@@ -1115,7 +1115,7 @@ function success_display_periode(req)
     }
     catch (e)
     {
-        alert("success_display_periode Impossible executer script de la reponse\n" + e.message);
+        alert_box("success_display_periode Impossible executer script de la reponse\n" + e.message);
     }
 
 }
@@ -1137,7 +1137,7 @@ function save_periode(obj)
     }
     catch (e)
     {
-        alert("display_periode " + e.message);
+        alert_box("display_periode " + e.message);
     }
 
     return false;
@@ -1161,7 +1161,7 @@ function fill_box(req)
         var html = answer.getElementsByTagName('code');
         if (a.length === 0) {
             var rec = req.responseText;
-            alert('erreur :' + rec);
+            alert_box('erreur :' + rec);
         }
         var name_ctl = a[0].firstChild.nodeValue;
         var code_html = getNodeText(html[0]); // Firefox ne prend que les 4096 car.
@@ -1169,13 +1169,13 @@ function fill_box(req)
         $(name_ctl).innerHTML = code_html;
     }
     catch (e) {
-        alert(e.message);
+        alert_box(e.message);
     }
     try {
         code_html.evalScripts();
     }
     catch (e) {
-        alert("Impossible executer script de la reponse\n" + e.message);
+        alert_box("Impossible executer script de la reponse\n" + e.message);
     }
 
 
@@ -1314,7 +1314,7 @@ function search_operation(obj)
     } catch (e)
     {
         remove_waiting_box();
-        alert(e.message);
+        alert_box(e.message);
     }
 }
 /**
@@ -1357,7 +1357,7 @@ function set_reconcile(obj)
     }
     catch (e)
     {
-        alert(e.message)
+        alert_box(e.message)
     }
 }
 function remove_waiting_node()
@@ -1458,7 +1458,7 @@ function mod_menu(gdossier, pm_id)
                         add_div({id: "divdm" + pm_id, drag: 1, cssclass: "inner_box", style: pos});
                         $('divdm' + pm_id).innerHTML = req.responseText;
                     } catch (e) {
-                        alert(e.message);
+                        alert_box(e.message);
                     }
                 }
             }
@@ -1494,7 +1494,7 @@ function display_sub_menu(p_dossier,p_profile,p_dep,p_level)
                 new_row.innerHTML = req.responseText;
                 $('menu_table').appendChild(new_row);
             } catch (e) {
-                alert(e.message);
+                alert_box(e.message);
             }
         }
     })
@@ -1523,7 +1523,7 @@ function remove_sub_menu(p_dossier,profile_menu_id)
                                 $('sub'+profile_menu_id).remove();
                             } catch(e)
                             {
-                                alert(e.message);
+                                alert_box(e.message);
                             }
                         }
                     }
@@ -1566,7 +1566,7 @@ function add_menu(obj)
                         add_div({id: "divdm" + p_id, drag: 1, "cssclass": "inner_box", "style": pos});
                         $('divdm' + p_id).innerHTML = req.responseText;
                     } catch (e) {
-                        alert(e.message);
+                        alert_box(e.message);
                     }
                 }
             }
@@ -1596,7 +1596,7 @@ function add_plugin(p_dossier)
                         add_div({id: "divplugin", drag: 1, cssclass: "inner_box", style: pos});
                         $('divplugin').innerHTML = req.responseText;
                     } catch (e) {
-                        alert(e.message);
+                        alert_box(e.message);
                     }
                 }
             }
@@ -1627,7 +1627,7 @@ function mod_plugin(p_dossier, me_code)
                         $('divplugin').innerHTML = req.responseText;
 
                     } catch (e) {
-                        alert(e.message);
+                        alert_box(e.message);
                     }
                 }
             }
@@ -1656,7 +1656,7 @@ function create_menu(p_dossier)
                         });
                         $('divmenu').innerHTML = req.responseText;
                     } catch (e) {
-                        alert(e.message);
+                        alert_box(e.message);
                     }
                 }
             }
@@ -1686,7 +1686,7 @@ function modify_menu(p_dossier, me_code)
                         $('divmenu').innerHTML = req.responseText;
 
                     } catch (e) {
-                        alert(e.message);
+                        alert_box(e.message);
                     }
                 }
             }
@@ -1700,7 +1700,7 @@ function get_properties(obj)
     {
         a_array.push(m);
     }
-    alert(s_type + a_array.join(","));
+    alert_box(s_type + a_array.join(","));
 }
 /**
  * @brief add a line in the form for the report
@@ -1765,13 +1765,13 @@ function search_action(dossier, ctl_concern)
                             $('search_action_div').innerHTML = req.responseText;
                             req.responseText.evalScripts();
                         } catch (e) {
-                            alert(e.message);
+                            alert_box(e.message);
                         }
                     }
                 }
         );
     } catch (e) {
-        alert(e.message);
+        alert_box(e.message);
     }
 }
 
@@ -1791,7 +1791,7 @@ function result_search_action(obj)
                             $('search_action_div').innerHTML = req.responseText;
                             req.responseText.evalScripts();
                         } catch (e) {
-                            alert(e.message);
+                            alert_box(e.message);
                         }
                     }
                 }
@@ -1800,7 +1800,7 @@ function result_search_action(obj)
     }
     catch (e)
     {
-        alert("display_periode " + e.message);
+        alert_box("display_periode " + e.message);
     }
 
     return false;
@@ -1836,7 +1836,7 @@ function set_action_related(p_obj)
     }
     catch (e)
     {
-        alert(e.message);
+        alert_box(e.message);
         return false;
     }
 }
@@ -1915,7 +1915,7 @@ function show_fin_chdate(obj_id)
             }
         }
     } catch (e) {
-        alert(e.message);
+        alert_box(e.message);
     }
 }
 /**
@@ -1931,7 +1931,7 @@ function profile_show(p_div)
         $(p_div).show();
     } catch (e)
     {
-        alert(e.message)
+        alert_box(e.message)
     }
 }
 function detail_category_show(p_div, p_dossier, p_id)
@@ -2017,7 +2017,7 @@ function view_action(ag_id, dossier, modify)
                         if (html.length === 0)
                         {
                             var rec = req.responseText;
-                            alert('erreur :' + rec);
+                            alert_box('erreur :' + rec);
                         }
                         var code_html = getNodeText(html[0]);
                         code_html = unescape_xml(code_html);
@@ -2031,7 +2031,7 @@ function view_action(ag_id, dossier, modify)
                         $(id).innerHTML = code_html;
                         compute_all_ledger();
                     } catch (e) {
-                        alert('view_action' + e.message);
+                        alert_box('view_action' + e.message);
                     }
                 }
             }
@@ -2154,7 +2154,7 @@ function ask_navigator(p_dossier) {
                         }
                         catch (e)
                         {
-                            alert("answer_box Impossible executer script de la reponse\n" + e.message);
+                            alert_box("answer_box Impossible executer script de la reponse\n" + e.message);
                         }
 
                     }
@@ -2189,7 +2189,7 @@ function set_preference(p_dossier) {
                         }
                         catch (e)
                         {
-                            alert("answer_box Impossible executer script de la reponse\n" + e.message);
+                            alert_box("answer_box Impossible executer script de la reponse\n" + e.message);
                         }
 
                     }
@@ -2226,7 +2226,7 @@ function show_bookmark(p_dossier) {
                         }
                         catch (e)
                         {
-                            alert("answer_box Impossible executer script de la reponse\n" + e.message);
+                            alert_box("answer_box Impossible executer script de la reponse\n" + e.message);
                         }
 
                     }
@@ -2260,7 +2260,7 @@ function save_bookmark() {
                         }
                         catch (e)
                         {
-                            alert("answer_box Impossible executer script de la reponse\n" + e.message);
+                            alert_box("answer_box Impossible executer script de la reponse\n" + e.message);
                         }
 
                     }
@@ -2292,7 +2292,7 @@ function remove_bookmark() {
                         }
                         catch (e)
                         {
-                            alert("answer_box Impossible executer script de la reponse\n" + e.message);
+                            alert_box("answer_box Impossible executer script de la reponse\n" + e.message);
                         }
 
                     }
@@ -2332,7 +2332,7 @@ function show_tag(p_dossier, p_ac, p_tag_id, p_post)
                         if (html.length === 0)
                         {
                             var rec = req.responseText;
-                            alert('erreur :' + rec);
+                            alert_box('erreur :' + rec);
                         }
                         var code_html = getNodeText(html[0]);
                         code_html = unescape_xml(code_html);
@@ -2345,7 +2345,7 @@ function show_tag(p_dossier, p_ac, p_tag_id, p_post)
                         }
                         catch (e)
                         {
-                            alert("answer_box Impossible executer script de la reponse\n" + e.message);
+                            alert_box("answer_box Impossible executer script de la reponse\n" + e.message);
                         }
 
                     }
@@ -2721,7 +2721,7 @@ function stock_add_row()
 
         new_tt.evalScripts();
     } catch (e) {
-        alert(e.message);
+        alert_box(e.message);
     }
 
 }
@@ -2768,7 +2768,7 @@ function show_tabs(a_tabs, p_display_tab)
         }
         $(p_display_tab).show();
     } catch (e) {
-        alert(e.message);
+        alert_box(e.message);
     }
 
 }
@@ -2843,6 +2843,54 @@ function init_scroll()
             $('go_up').hide();
         }
      }
+}
+/**
+ * Confirm a form thanks a modal dialog Box, it returns true if we agree otherwise
+ * false
+ * @code
+<form onsubmit="return confirm_form(this,'message')">
+</form>
+ * @endcode
+ * @param p_obj form element id
+ * @param p_message message to display
+ * @returns true or false
+ */
+function confirm_form(p_obj, p_message)
+{
+    try {
+        var name="";
+        if ( typeof (p_obj) == "object") {
+            name=p_obj.id;
+        } else {
+            name=p_obj;
+        }
+        var background_block = document.createElement('DIV');
+        background_block.id = 'background_block';
+        background_block.addClassName('popup_back');
+        document.body.appendChild(background_block);
+
+        var newdiv = document.createElement('DIV');
+        newdiv.id = 'confirm_12';
+        newdiv.addClassName("inner_box");
+        newdiv.setStyle('z-index:101;width:50%;left:25%;');
+        //newdiv.innerHTML="<h2 class='title'></h2>";
+        newdiv.innerHTML += '<p style="text-align:center">';
+        newdiv.innerHTML += p_message;
+        newdiv.innerHTML += '</p>';
+        newdiv.innerHTML += '<p style="text-align:center">';
+        newdiv.innerHTML += '<input type="button" class="button" value="ok" onclick="$(\'' + name + '\').submit()">';
+        newdiv.innerHTML += '<input type="button" class="button"  value="cancel" onclick="$(\'background_block\').remove();$(\'confirm_12\').remove()">';
+        newdiv.innerHTML += '</p>';
+        document.body.appendChild(newdiv);
+
+    } catch (e) {
+        console.debug(e);
+    }
+    return false;
+}
+function alert_box(p_message)
+{
+    smoke.alert(p_message,false , {ok:'ok',classname:"inner_box"});
 }
 /**
  * All the onload must be here otherwise the other will overwritten

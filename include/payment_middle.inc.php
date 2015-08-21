@@ -43,19 +43,18 @@ if ( $sb=='change')
     if ( !isset($_GET['id'])) exit;
     $row=new Acc_Payment($cn,$_GET['id']);
     $row->load();
-    $javascript="return confirm('"._('Vous confirmez')."')";
-    echo '<form method="post" onsubmit="'.$javascript.'">';
+    echo '<form method="post" id="modify_acc_pay_frm" onsubmit="return confirm_form(\'modify_acc_pay_frm\',\''._('Vous confirmez').'\')">';
     echo dossier::hidden();
     echo HtmlInput::hidden('sa','mp');
     echo HtmlInput::hidden('sb','save');
     echo HtmlInput::hidden('id',$row->get_parameter("id"));
-
+    echo HtmlInput::hidden('delete_ck',0);
     echo $row->form();
-    echo HtmlInput::submit('save',_('Sauve'));
-    echo HtmlInput::submit('delete',_('Efface'));
+    echo HtmlInput::submit('save',_('Sauve'), ' onclick="$(\'delete_ck\').value=0"');
+    echo HtmlInput::submit('delete',_('Efface'),' onclick="$(\'delete_ck\').value=1"');
     echo HtmlInput::button_anchor(_('Retour sans sauver'),
-                                  '?p_action=divers&sa=mp&'.dossier::get()."&ac=".$_REQUEST['ac']
-                                     );
+                                  '?p_action=divers&sa=mp&'.dossier::get()."&ac=".$_REQUEST['ac'],
+                                    "","","smallbutton");
     echo '</form>';
     return;
 }
@@ -64,19 +63,21 @@ if ( $sb=='change')
 //
 if ( $sb=='save')
 {
-    $row=new Acc_Payment($cn,$_POST ['id']);
-    $row->from_array($_POST);
-    $row->update();
-
-}
+    $delete=HtmlInput::default_value_post("delete_ck", 0);
+    if ( $delete == 0 )
+    {
+        $row=new Acc_Payment($cn,$_POST ['id']);
+        $row->from_array($_POST);
+        $row->update();
+    } else {
 //---------------------------------------------------------------------------
 // Delete a card
 //---------------------------------------------------------------------------
-if (isset($_POST['delete']))
-{
     $row=new Acc_Payment($cn,$_POST['id']);
     $row->from_array($_POST);
     $row->delete();
+        
+    }
 }
 //---------------------------------------------------------------------------
 // Insert a new mod of payment
@@ -96,14 +97,14 @@ if ($sb=='ins')
 {
     $mp=new Acc_Payment($cn);
     $r=$mp->blank();
-    echo '<form method="POST" onsubmit="return confirm(\'Vous confirmez ?\')">';
+    echo '<form method="POST" id="payment_frm" onsubmit="return confirm_form(this,\'Vous confirmez ?\')">';
     echo dossier::hidden();
-	HtmlInput::hidden('ac',$_REQUEST['ac']).HtmlInput::hidden('sb','insert');
+    echo HtmlInput::hidden('ac',$_REQUEST['ac']),HtmlInput::hidden('insert',0);
     echo $r;
-    echo HtmlInput::submit('insert',_('Enregistre'));
+    echo HtmlInput::submit('insertsub',_('Enregistre'));
     echo HtmlInput::button_anchor(_('Retour sans sauver'),
-                                  '?p_action=divers&sa=mp&'.dossier::get()."&ac=".$_REQUEST['ac']
-                                     );
+                                  '?p_action=divers&sa=mp&'.dossier::get()."&ac=".$_REQUEST['ac'],
+                                     "","","smallbutton");
     echo '</form>';
 
     return;
@@ -115,11 +116,11 @@ if ($sb=='ins')
 $header=new Sort_Table();
 $base_url=$_SERVER['PHP_SELF']."?".Dossier::get()."&ac=".$_REQUEST['ac'];
 
-$header->add("Libelle",$base_url,"order by mp_lib asc","order by mp_lib desc",'la','ld');
-$header->add("Pour le journal",$base_url,"order by jrn_def_name asc","order by jrn_def_name  desc",'ja','jd');
-$header->add("Type de fiche",$base_url,"order by fd_label asc","order by fd_label desc",'tc','td');
-$header->add("Enregistré dans le journal",$base_url,"order by jrn_target asc","order by jrn_target desc",'jta','jtd');
-$header->add("Avec la fiche",$base_url,"order by vw_name asc","order by vw_name desc",'na','nd');
+$header->add(_("Libelle"),$base_url,"order by mp_lib asc","order by mp_lib desc",'la','ld');
+$header->add(_("Pour le journal"),$base_url,"order by jrn_def_name asc","order by jrn_def_name  desc",'ja','jd');
+$header->add(_("Type de fiche"),$base_url,"order by fd_label asc","order by fd_label desc",'tc','td');
+$header->add(_("Enregistré dans le journal"),$base_url,"order by jrn_target asc","order by jrn_target desc",'jta','jtd');
+$header->add(_("Avec la fiche"),$base_url,"order by vw_name asc","order by vw_name desc",'na','nd');
 
 $order=(isset($_REQUEST['ord']))?$_REQUEST['ord']:'la';
 

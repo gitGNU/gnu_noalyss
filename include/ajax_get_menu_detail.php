@@ -50,7 +50,7 @@ $pm_default=new ICheckBox('pm_default','1');
 $pm_default->set_check($array[0]['pm_default']);
 
 ?>
-<form method="POST" onsubmit="return confirm('<?php echo _("Vous confirmez")?> ?')">
+<form method="POST" onsubmit="return confirm_form(this,'<?php echo _("Vous confirmez")?> ?')">
 	<?php echo HtmlInput::hidden('pm_id',$array[0]['pm_id'])?>
 	<?php echo HtmlInput::hidden('p_id',$array[0]['p_id'])?>
 	<?php echo HtmlInput::hidden('tab',"profile_menu_div")?>

@@ -49,7 +49,7 @@ function update_predef(p_type, p_direct, p_ac)
                         if (a.length == 0)
                         {
                             var rec = req.responseText;
-                            alert('erreur :' + rec);
+                            alert_box('erreur :' + rec);
                         }
                         var code_html = getNodeText(html[0]);
                         code_html = unescape_xml(code_html);
@@ -113,7 +113,7 @@ function update_name()
  */
 function error_get_predef(request, json)
 {
-    alert("Erreur mise à jour champs non possible");
+    alert_box("Erreur mise à jour champs non possible");
 
 }
 /**
@@ -201,13 +201,13 @@ function update_row(ctl)
                                 }
                             }
                         } catch (e) {
-                            alert(e.getMessage);
+                            alert_box(e.getMessage);
                         }
                     }
                 }
         );
     } catch (e) {
-        alert(e.getMessage);
+        alert_box(e.getMessage);
     }
 }
 /**
@@ -224,7 +224,7 @@ function success_update_bank(req)
         if (a.length == 0)
         {
             var rec = req.responseText;
-            alert('erreur :' + rec);
+            alert_box('erreur :' + rec);
         }
         var name_ctl = a[0].firstChild.nodeValue;
         var code_html = getNodeText(html[0]);
@@ -233,7 +233,7 @@ function success_update_bank(req)
     }
     catch (e)
     {
-        alert("success_update_bank" + e.message);
+        alert_box("success_update_bank" + e.message);
     }
 }
 /**
@@ -267,7 +267,7 @@ function success_get_last_date(req)
         if (a.length == 0)
         {
             var rec = req.responseText;
-            alert('erreur :' + rec);
+            alert_box('erreur :' + rec);
         }
         var name_ctl = a[0].firstChild.nodeValue;
         var code_html = getNodeText(html[0]);
@@ -276,7 +276,7 @@ function success_get_last_date(req)
     }
     catch (e)
     {
-        alert(e.message);
+        alert_box(e.message);
     }
 }
 /**
@@ -298,7 +298,7 @@ function success_get_pj(request, json)
  */
 function error_get_pj(request, json)
 {
-    alert("Ajax a echoue");
+    alert_box("Ajax a echoue");
 }
 
 /**
@@ -383,7 +383,7 @@ function ledger_add_row()
 
         new_tt.evalScripts();
     } catch (e) {
-        alert(e.message);
+        alert_box(e.message);
     }
 }
 /**
@@ -518,7 +518,7 @@ function success_compute_ledger(request, json)
  */
 function error_compute_ledger(request, json)
 {
-    alert('Ajax does not work');
+    alert_box('Ajax does not work');
 }
 function compute_all_ledger()
 {
@@ -691,7 +691,7 @@ function update_history_account(obj)
                 });
     } catch (e)
     {
-        alert("update_history_account error " + e.message);
+        alert_box("update_history_account error " + e.message);
     }
 
     return false;
@@ -744,7 +744,7 @@ function update_history_card(obj)
                 });
     } catch (e)
     {
-        alert("update_history_account error " + e.message);
+        alert_box("update_history_account error " + e.message);
     }
 
     return false;
@@ -894,7 +894,7 @@ function dsp_letter(obj)
     }
     catch (e)
     {
-        alert('dsp_letter failed  ' + e.message);
+        alert_box('dsp_letter failed  ' + e.message);
     }
 }
 
@@ -908,7 +908,7 @@ function success_dsp_letter(req)
         if (a.length == 0)
         {
             var rec = req.responseText;
-            alert('erreur :' + rec);
+            alert_box('erreur :' + rec);
         }
         var name_ctl = a[0].firstChild.nodeValue;
         var code_html = getNodeText(html[0]);
@@ -917,7 +917,7 @@ function success_dsp_letter(req)
     }
     catch (e)
     {
-        alert(e.message);
+        alert_box(e.message);
     }
     try
     {
@@ -925,13 +925,13 @@ function success_dsp_letter(req)
     }
     catch (e)
     {
-        alert("Impossible executer script de la reponse\n" + e.message);
+        alert_box("Impossible executer script de la reponse\n" + e.message);
     }
 
 }
 function error_dsp_letter(req)
 {
-    alert('Erreur AJAX DSP_LETTER');
+    alert_box('Erreur AJAX DSP_LETTER');
 }
 
 function search_letter(obj)
@@ -975,7 +975,7 @@ function search_letter(obj)
     }
     catch (e)
     {
-        alert('search_letter  ' + e.message);
+        alert_box('search_letter  ' + e.message);
     }
 }
 /**
@@ -1021,7 +1021,7 @@ function op_save(obj)
         return false;
     } catch (e)
     {
-        alert(e.message);
+        alert_box(e.message);
     }
 }
 function  get_history_account(ctl, dossier) {
@@ -1059,7 +1059,7 @@ function show_reconcile(p_div, p_let)
 
     } catch (e)
     {
-        alert(e.message);
+        alert_box(e.message);
     }
 
 
@@ -1108,7 +1108,7 @@ function gestion_add_row()
 
         new_tt.evalScripts();
     } catch (e) {
-        alert(e.message);
+        alert_box(e.message);
     }
 
 }

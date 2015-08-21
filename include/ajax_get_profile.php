@@ -76,7 +76,7 @@ else
 {
 	echo '<div  class="myfieldset" id="profile_gen_div">';
 }
-echo '<form method="POST" onsubmit="return confirm (\'vous confirmez\')">';
+echo '<form method="POST" onsubmit="return confirm_form(this,\'vous confirmez\')">';
 echo HtmlInput::hidden('tab','profile_gen_div');
 echo HtmlInput::hidden('p_id',$profile->p_id);
 require_once("template/profile.php");
@@ -84,7 +84,7 @@ echo HtmlInput::submit("save_name",_("Modifier"));
 echo '</form>';
 if ($profile->p_id > 0)
 {
-	echo '<form method="POST" onsubmit="return confirm (\''._("vous confirmez").'\')">';
+	echo '<form method="POST" onsubmit="return confirm_form(this,\''._("vous confirmez").'\')">';
 
 	echo _('Vous pouvez aussi copier ce profil et puis le corriger');
 
@@ -92,7 +92,7 @@ if ($profile->p_id > 0)
 	echo HtmlInput::submit("clone", "Copier");
 	echo '</form>';
 
-	echo '<form method="POST" onsubmit="return confirm (\''._("vous confirmez").'\')">';
+	echo '<form method="POST" onsubmit="return confirm_form(this,\''._("vous confirmez").'\')">';
 
 	echo _('Effacer ce profil');
 

@@ -51,7 +51,7 @@ function boxsearch_card(p_dossier)
 				  );
 	}catch( e)
 	{
-		alert(e.getMessage);
+		alert_box(e.getMessage);
 	}
 }
 /**
@@ -110,7 +110,7 @@ function search_card(obj)
     }
     catch(e)
     {
-        alert('search_card failed'+e.message);
+        alert_box('search_card failed'+e.message);
     }
 }
 /**
@@ -177,7 +177,7 @@ function action_add_concerned_card(obj)
                         if (a.length == 0)
                         {
                             var rec = req.responseText;
-                            alert('erreur :' + rec);
+                            alert_box('erreur :' + rec);
                         }
                         var html = answer.getElementsByTagName('code');
                         var namectl = a[0].firstChild.nodeValue;
@@ -199,7 +199,7 @@ function action_add_concerned_card(obj)
                         $('search_card').innerHTML = code_html;
                         $('query').focus();
                         }catch (e) {
-                            alert(e.message);
+                            alert_box(e.message);
                         }
                     }
                 }
@@ -207,7 +207,7 @@ function action_add_concerned_card(obj)
     }
     catch (e)
     {
-        alert('search_card failed' + e.message);
+        alert_box('search_card failed' + e.message);
         return false;
     }
     return false;
@@ -283,7 +283,7 @@ function result_card_search(req)
         if ( a.length == 0 )
         {
             var rec=req.responseText;
-            alert ('erreur :'+rec);
+            alert_box ('erreur :'+rec);
         }
         var html=answer.getElementsByTagName('code');
 
@@ -309,7 +309,7 @@ function result_card_search(req)
     }
     catch (e)
     {
-        alert(e.message);
+        alert_box(e.message);
     }
     try
     {
@@ -317,7 +317,7 @@ function result_card_search(req)
     }
     catch(e)
     {
-        alert("Impossible executer script de la reponse\n"+e.message);
+        alert_box("Impossible executer script de la reponse\n"+e.message);
     }
 
 }
@@ -374,7 +374,7 @@ function clean_Fid(p_ctl)
 }
 function errorFid(request,json)
 {
-    alert('erreur : ajax fiche');
+    alert_box('erreur : ajax fiche');
 }
 function update_value(text,li)
 {
@@ -496,7 +496,7 @@ function  successFill_ipopcard(req,json)
         if ( a.length == 0 )
         {
             var rec=req.responseText;
-            alert ('erreur :'+rec);
+            alert_box ('erreur :'+rec);
         }
         var name_ctl=a[0].firstChild.nodeValue;
         var code_html=getNodeText(html[0]);
@@ -506,7 +506,7 @@ function  successFill_ipopcard(req,json)
     }
     catch (e)
     {
-        alert(e.message);
+        alert_box(e.message);
     }
     try
     {
@@ -514,7 +514,7 @@ function  successFill_ipopcard(req,json)
     }
     catch(e)
     {
-        alert("Impossible executer script de la reponse\n"+e.message);
+        alert_box("Impossible executer script de la reponse\n"+e.message);
     }
 }
 /**
@@ -758,7 +758,7 @@ function save_card_category(obj)
 {
     if ( ! $(obj).ipopup)
     {
-        alert('Erreur pas d\' attribut ipopup '+obj.id);
+        alert_box('Erreur pas d\' attribut ipopup '+obj.id);
         return;
     };
 	try {
@@ -780,7 +780,7 @@ function save_card_category(obj)
                                 );
 	} catch(e)
 	{
-		alert(e.message);
+		alert_box(e.message);
 		return false;
 	}
 	return false;
@@ -828,7 +828,7 @@ try {
 				  }
 				);
     } catch (e) {
-	alert(e.message);
+	alert_box(e.message);
 	return false;
     }
 }
@@ -856,7 +856,7 @@ function action_save_concerned(p_dossier, p_fiche_id, p_action_id) {
                         if (a.length == 0)
                         {
                             var rec = req.responseText;
-                            alert('erreur :' + rec);
+                            alert_box('erreur :' + rec);
                         }
                         var html = answer.getElementsByTagName('code');
                         var namectl = a[0].firstChild.nodeValue;
@@ -889,7 +889,7 @@ function action_remove_concerned(p_dossier,p_fiche_id,p_action_id)
                         if (a.length == 0)
                         {
                             var rec = req.responseText;
-                            alert('erreur :' + rec);
+                            alert_box('erreur :' + rec);
                         }
                         var html = answer.getElementsByTagName('code');
                         var namectl = a[0].firstChild.nodeValue;

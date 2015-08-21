@@ -133,7 +133,7 @@ select me_code,me_code||' '||coalesce(me_menu,'')||' '||coalesce(me_description,
     $pm_default=new ICheckBox('pm_default');
     echo HtmlInput::title_box(_("Nouveau"), $ctl);
     ?>
-    <form method="POST" onsubmit="return confirm('<?php echo _('Vous confirmez'); ?> ?')">
+    <form method="POST" id="menu_new_frm" onsubmit="return confirm_form('menu_new_frm','<?php echo _('Vous confirmez'); ?> ?')">
         <?php
         echo HtmlInput::hidden('tab', 'profile_menu_div');
         ?>
@@ -187,7 +187,7 @@ select me_code,me_code||' '||coalesce(me_menu,'')||' '||coalesce(me_description,
             return;
         }
         ?>
-        <form method="POST" onsubmit="return confirm('<?php echo _('Vous confirmez ?') ?>">
+        <form method="POST" id="menu_new2_frm" onsubmit="return confirm_form('menu_new2_frm','<?php echo _('Vous confirmez ?') ?>">
             <?php
             echo HtmlInput::hidden('tab', 'profile_print_div');
             ?>

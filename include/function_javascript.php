@@ -2756,6 +2756,7 @@ function load_all_script()
     $already_call=1;
 
     echo JS_INFOBULLE;
+    echo js_include('smoke.js');
     echo js_include('prototype.js');
     echo js_include('scriptaculous.js');
     echo js_include('scripts.js');
@@ -2772,7 +2773,6 @@ function load_all_script()
     echo js_include('card.js');
     echo js_include('compute_direct.js');
     echo js_include('compute.js');
-    echo js_include('confirm.js');
     echo js_include('forecast.js');
     echo js_include('gestion.js');
     echo js_include('todo_list.js');

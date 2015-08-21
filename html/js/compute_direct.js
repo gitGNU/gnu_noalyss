@@ -59,7 +59,7 @@ function checkTotalDirect()
         {
             if ( side[e].checked == true)
             {
-                //	alert('checked !!! '+side[e].value);
+                //	alert_box('checked !!! '+side[e].value);
                 total_deb+=amount;
             }
             else
@@ -68,7 +68,7 @@ function checkTotalDirect()
             }
         }
 
-        //    alert("amount ="+i+"="+amount+" cred/deb = "+deb+"total d/b"+total_deb+"/"+total_cred);
+        //    alert_box("amount ="+i+"="+amount+" cred/deb = "+deb+"total d/b"+total_deb+"/"+total_cred);
     }
 
 

@@ -55,7 +55,7 @@ function folder_display(p_user)
             var html = answer.getElementsByTagName('content');
             if (a.length == 0) {
                 var rec = req.responseText;
-                alert('erreur :' + rec);
+                alert_box('erreur :' + rec);
             }
 
             var content = getNodeText(html[0]);
@@ -110,7 +110,7 @@ function folder_add(p_user, p_dossier)
             var html = answer.getElementsByTagName('content');
             if (a.length == 0) {
                 var rec = req.responseText;
-                alert('erreur :' + rec);
+                alert_box('erreur :' + rec);
             }
 
             var content = getNodeText(html[0]);
@@ -143,7 +143,7 @@ function display_admin_answer(p_dossier,p_action)
             var html = answer.getElementsByTagName('content');
             if (a.length == 0) {
                 var rec = req.responseText;
-                alert('erreur :' + rec);
+                alert_box('erreur :' + rec);
             }
             
             var folder;

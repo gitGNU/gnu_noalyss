@@ -53,7 +53,7 @@ function clean_Fid(p_ctl)
 }
 function errorFid(request,json)
 {
-    alert('erreur : ajax fiche');
+    alert_box('erreur : ajax fiche');
 }
 /*!\brief this function fills the data from fid.php,
  * \param p_ctl object : field of the input,
@@ -128,8 +128,8 @@ function ajaxFid(p_ctl)
 
                );
 	}catch (e)  {
-		alert(e.message);
-		alert(p_ctl);
+		alert_box(e.message);
+		alert_box(p_ctl);
 	}
 
 }
@@ -183,7 +183,7 @@ function successFid(request,json)
 }
 function ajax_error_saldo(request,json)
 {
-    alert('erreur : ajax solde ');
+    alert_box('erreur : ajax solde ');
 }
 /*!\brief this function get the saldo
  * \param p_ctl the ctrl where we take the quick_code
@@ -196,7 +196,7 @@ function ajax_saldo(p_ctl)
     queryString="FID="+ctl_value+"&op=saldo";
     queryString=queryString+'&gDossier='+gDossier+'&j='+jrn;
     queryString=queryString+'&ctl='+ctl_value;
-    /*  alert(queryString); */
+    /*  alert_box(queryString); */
     var action=new Ajax.Request (
                    "ajax_misc.php",
                    {
@@ -245,7 +245,7 @@ function ajax_get_success(request,json)
 */
 function ajax_get_failure(request,json)
 {
-    alert("Ajax do not work for ajax_get");
+    alert_box("Ajax do not work for ajax_get");
 
 }
 

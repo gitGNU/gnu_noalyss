@@ -65,7 +65,7 @@ function modify_document_success_box(req,json)
         if ( a.length == 0 )
         {
             var rec=req.responseText;
-            alert ('erreur :'+rec);
+            alert_box ('erreur :'+rec);
         }
         var name_ctl=a[0].firstChild.nodeValue;
         var code_html=getNodeText(html[0]);
@@ -76,7 +76,7 @@ function modify_document_success_box(req,json)
     }
     catch (e)
     {
-        alert("success_box"+e.message);
+        alert_box("success_box"+e.message);
     }
     try
     {
@@ -84,6 +84,6 @@ function modify_document_success_box(req,json)
     }
     catch(e)
     {
-        alert("answer_box Impossible executer script de la reponse\n"+e.message);
+        alert_box("answer_box Impossible executer script de la reponse\n"+e.message);
     }
 }
