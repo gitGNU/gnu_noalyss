@@ -645,7 +645,7 @@ function sql_filter_per($p_cn, $p_from, $p_to, $p_form='p_id', $p_field='jr_tech
 function alert($p_msg, $buffer=false)
 {
     $r = '<script>';
-    $r.= 'alert(\'' . j($p_msg) . '\')';
+    $r.= 'alert_box(\'' . j($p_msg) . '\')';
     $r.= '</script>';
 
     if ($buffer)
