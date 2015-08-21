@@ -1057,7 +1057,7 @@ EOF;
                 $l_form_per = $period->input();
             } catch (Exception $e) {
                 if ($e->getCode() == 1) {
-                    throw  Exception( _("Aucune période ouverte") );
+                    throw new Exception( _("Aucune période ouverte") );
                 }
             }
             $label = HtmlInput::infobulle(3);
@@ -1077,7 +1077,7 @@ EOF;
 
         $wLedger = $this->select_ledger('VEN', 2);
         if ($wLedger == null)
-            throw  Exception(_('Pas de journal disponible'));
+            throw new Exception(_('Pas de journal disponible'));
         $wLedger->table = 1;
         $wLedger->javascript = "onChange='update_predef(\"ven\",\"f\",\"".$_REQUEST['ac']."\");$add_js'";
         $wLedger->label = " Journal " . HtmlInput::infobulle(2);

@@ -2387,7 +2387,7 @@ class Acc_Ledger extends jrn_def_sql
 			return true;
 		if ($g_parameter->MY_STRICT == 'N')
 			return false;
-		throw  Exception("Valeur invalid " . __FILE__ . ':' . __LINE__);
+		throw  new Exception("Valeur invalid " . __FILE__ . ':' . __LINE__);
 	}
 
 	/**
@@ -2403,7 +2403,7 @@ class Acc_Ledger extends jrn_def_sql
 			return true;
 		if ($g_parameter->MY_CHECK_PERIODE == 'N')
 			return false;
-		throw  Exception("Valeur invalid " . __FILE__ . ':' . __LINE__);
+		throw  new Exception("Valeur invalid " . __FILE__ . ':' . __LINE__);
 	}
 
 	/**
