@@ -137,7 +137,7 @@ class Anc_Key
         $a_percent=$p_array['percent'];
         if (count($a_percent)==0)
         {
-            throw Exception(_('Aucune répartition'));
+            throw new Exception(_('Aucune répartition'));
         }
         $tot_percent=0;
         bcscale(4);

@@ -292,7 +292,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 			{
 				if ($e->getCode() == 1)
 				{
-					throw  Exception(_("Aucune période ouverte"));
+					throw  new Exception(_("Aucune période ouverte"));
 					
 				}
 			}
@@ -967,7 +967,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 			__FILE__ . ':' . __LINE__ . ' ' .
 			$e->getMessage();
 			$this->db->rollback();
-			throw  Exception($r);
+			throw new Exception($r);
 		}
 		$this->db->commit();
 		$r = "";
@@ -1012,7 +1012,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		$wLedger = $this->select_ledger('fin', 3);
 
 		if ($wLedger == null)
-			throw  Exception(_('Pas de journal disponible'));
+			throw  new Exception(_('Pas de journal disponible'));
 
 		if (count($wLedger->value) > 1)
 		{
