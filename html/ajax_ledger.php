@@ -292,9 +292,13 @@ case 'file':
         echo '<div class="op_detail_frame">';
         $x='';
         if ($access=='W' && $g_user->check_action (RMRECEIPT) == 1)
+        {
+            // Not possible to remove the file thanks a modal dialog box,
+            // because of the frameset
             $x=sprintf('<a class="smallbutton" style="margin-left:12;margin-right:12" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">'.SMALLX.'</a>',
                        $gDossier,$div,$jr_id);
-        
+            
+        }  
         $filename= $obj->det->jr_pj_name;
         if ( strlen($obj->det->jr_pj_name) > 20 )
         {
@@ -334,6 +338,8 @@ case 'loadfile':
         
         // check if the user can remove a document
         if ($g_user->check_action (RMRECEIPT) == 1) {
+            // Not possible to remove the file thanks a modal dialog box,
+            // because of the frameset
             $x=sprintf('<a class="mtitle" class="notice" style="margin-left:12;margin-right:12px" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">'.SMALLX.'</a>',
                    $gDossier,$div,$jr_id);
             echo $x;
@@ -509,7 +515,8 @@ case 'save':
             // Save related
             //////////////////////////////////////////////////////////////////
             $related=HtmlInput::default_value_post("related", "0");
-            if ($related == "0" )                throw new Exception('Parameter not send -> related'.__FILE__.__LINE__,10);
+            if ($related == "0" )                
+                throw new Exception('Parameter not send -> related'.__FILE__.__LINE__,10);
             $op->insert_related_action($related);
 
         }
@@ -525,9 +532,9 @@ case 'save':
     ob_end_clean();
 
     break;
-/////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
     // remove a reconciliation
-/////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
 case 'rmr':
     if ( $access=='W')
     {
@@ -536,20 +543,25 @@ case 'rmr':
         $rec->remove($_GET['jr_id2']);
     }
     break;
-    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
     // ask for a date for reversing the operation
+    ////////////////////////////////////////////////////////////////////////////
 case 'ask_extdate':
     $date=new IDate('p_date');
     $html.="<form id=\"form_".$div."\" onsubmit=\"return reverseOperation(this);\">";
-    $html.=HtmlInput::hidden('jr_id',$_REQUEST['jr_id']).HtmlInput::hidden('div',$div).dossier::hidden().HtmlInput::hidden('act','reverseop');
+    $html.=HtmlInput::hidden('jr_id',$_REQUEST['jr_id']).
+            HtmlInput::hidden('div',$div).
+            dossier::hidden().
+            HtmlInput::hidden('act','reverseop');
+    
     $html.='<h2 class="info">'._('entrez une date').' </H2>'.$date->input();
     $html.=HtmlInput::submit('x','accepter');
-	$html=HtmlInput::button_close($div);
+    $html.=HtmlInput::button_close($div);
     $html.='</form>';
     break;
-    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
     // Reverse an operation
-    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
 case 'reverseop':
     if ( $access=='W')
     {

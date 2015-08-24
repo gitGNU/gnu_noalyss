@@ -45,7 +45,8 @@ if ($UserChange->id == false)
 /*  
  * Update user changes 
  */
-if (isset($_POST['SAVE']))
+$sbaction=HtmlInput::default_value_post('sbaction', "");
+if ($sbaction == "save")
 {
     $uid = $_POST['UID'];
 
@@ -81,28 +82,25 @@ if (isset($_POST['SAVE']))
 
     }
 }
-else
+else if ($sbaction == "delete")
 {
-    //
-    // Delete the user
-    //
-    if (isset($_POST["DELETE"]))
-    {
-        $cn = new Database();
-        $Res = $cn->exec_sql("delete from jnt_use_dos where use_id=$1", array($uid));
-        $Res = $cn->exec_sql("delete from ac_users where use_id=$1", array($uid));
+//
+// Delete the user
+//
+    $cn = new Database();
+    $Res = $cn->exec_sql("delete from jnt_use_dos where use_id=$1", array($uid));
+    $Res = $cn->exec_sql("delete from ac_users where use_id=$1", array($uid));
 
-        echo "<center><H2 class=\"info\"> Utilisateur " . h($_POST['fname']) . " " . h($_POST['lname']) . " est effacé</H2></CENTER>";
-        require_once NOALYSS_INCLUDE.'/class_iselect.php';
-        require_once NOALYSS_INCLUDE.'/user.inc.php';
-        return;
-    }
+    echo "<center><H2 class=\"info\"> Utilisateur " . h($_POST['fname']) . " " . h($_POST['lname']) . " est effacé</H2></CENTER>";
+    require_once NOALYSS_INCLUDE.'/class_iselect.php';
+    require_once NOALYSS_INCLUDE.'/user.inc.php';
+    return;
 }
 $UserChange->load();
 $it_pass=new IText('password');
 $it_pass->value="";
 ?>
-<FORM  METHOD="POST">
+<FORM  id="user_detail_frm" METHOD="POST">
 
 <?php echo HtmlInput::hidden('UID',$uid)?>
     <TABLE BORDER=0>
@@ -173,10 +171,10 @@ $it_pass->value="";
             </td>
         </tr>
     </table>
+    <input type="hidden" name="sbaction" id="sbaction" value="">
+        <input type="Submit" class="button" NAME="SAVE" VALUE="Sauver les changements" onclick="$('sbaction').value='save';return confirm_form('user_detail_frm','Confirmer changement ?');">
 
-        <input type="Submit" class="button" NAME="SAVE" VALUE="Sauver les changements" onclick="return confirm('Confirmer changement ?');">
-
-        <input type="Submit"  class="button" NAME="DELETE" VALUE="Effacer" onclick="return confirm('Confirmer effacement ?');" >
+        <input type="Submit"  class="button" NAME="DELETE" VALUE="Effacer" onclick="$('sbaction').value='delete';return confirm_form('user_detail_frm','Confirmer effacement ?');" >
 
 </FORM>
 <?php

@@ -82,8 +82,7 @@ $select_type->value=array(
                         array('value'=>'card','label'=>_('Fiche')),
                         array('value'=>'select','label'=>_('Selection'))
                     );
-$remove=new IButton('rmfa');
-$remove->label=_('Effacer');
+
 echo '<div class="content">';
 echo '<form method="post">';
 
@@ -106,6 +105,8 @@ for ($e=0;$e<count($array);$e++)
     $desc->value=$row->get_parameter('desc');
     $size->value=$row->get_parameter('size');
     $extra->value=$row->get_parameter('extra');
+    $remove=new IButton('rmfa'.$e);
+    $remove->label=_('Effacer');
     if ( $row->get_parameter('id')>= 9000)
     {
         $select_type->readOnly=false;
@@ -119,8 +120,8 @@ for ($e=0;$e<count($array);$e++)
         $r.=td($size->input());
         $r.=td($extra->input());
 
-        $remove->javascript=sprintf('if ( confirm(\'Vous  confirmez ?\')) { removeCardAttribut(%d,%d,\'tb_rmfa\',this);}',
-                                    $row->get_parameter('id'),$gDossier);
+        $remove->javascript=sprintf('confirm_form(\'tb_rmfa\',\'Vous  confirmez ?\',function() { removeCardAttribut(%d,%d,\'tb_rmfa\',$(\'rmfa%d\') );})',
+                                    $row->get_parameter('id'),$gDossier,$e);
         $msg='<span class="notice">'._("Attention : effacera les données qui y sont liées").' </span>';
         $r.=td($remove->input().$msg);
     }

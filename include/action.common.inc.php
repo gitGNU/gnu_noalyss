@@ -97,7 +97,7 @@ if (isset($_POST['generate']))
 	$sub_action = 'detail';
 }
 /* for delete  */
-if (isset($_POST['delete']))
+if (isset($_POST['delete']) && $_POST['delete'] == "1")
 	$sub_action = 'delete';
 if ($sub_action == "")
 	$sub_action = "list";
@@ -196,15 +196,16 @@ if ($sub_action == 'detail')
         
 	if ($g_user->can_write_action($ag_id)  == true)
 	{
-		echo '<form  enctype="multipart/form-data"  class="print" action="do.php"  method="post"   >';
+		echo '<form  enctype="multipart/form-data"  id="action_common_frm" class="print" action="do.php"  method="post"   >';
 		echo $supl_hidden;
 		echo HtmlInput::hidden('ac', $_REQUEST['ac']);
 		echo dossier::hidden();
 		echo $act->Display('UPD', false, $base, $retour);
 		echo '<input type="hidden" name="sa" value="update">';
-		echo HtmlInput::submit("save", "Sauve");
-		echo HtmlInput::submit("add_action_here", _("Ajoute un événement à celui-ci"));
-		echo HtmlInput::submit("delete", _("Efface cet événement "), ' onclick="return confirm(\'' . _("Vous confirmez l\'effacement") . '\')" ');
+		echo '<input type="hidden" id="delete" name="delete" value="0">';
+		echo HtmlInput::submit("save", "Sauve",' onclick="$(\'delete\').value=0"');
+		echo HtmlInput::submit("add_action_here", _("Ajoute un événement à celui-ci"),' onclick="$(\'delete\').value=0"');
+		echo HtmlInput::submit("delete_bt", _("Efface cet événement "), ' onclick="$(\'delete\').value=1;return confirm_form(\'action_common_frm\',\''. _("Vous confirmez l\'effacement") . '\')" ');
 		echo $retour;
 		echo '</form>';
 	}

@@ -71,7 +71,7 @@ class Document_type
 			$tmp['dt_value'] = $r[$i]['dt_value'];
 			$tmp['dt_prefix'] = $r[$i]['dt_prefix'];
 
-			$bt = new IButton('X' . $r[$i]['dt_id']);
+			$bt = new IButton('M' . $r[$i]['dt_id']);
 			$bt->label = _('Modifier');
 			$bt->javascript = "cat_doc_change('" . $r[$i]['dt_id'] . "','" . Dossier::id() . "');";
 
@@ -80,9 +80,8 @@ class Document_type
 
 			$bt = new IButton('X' . $r[$i]['dt_id']);
 			$bt->label = _('Effacer');
-			$bt->javascript = "if (confirm('" . _('Vous confirmez') . "')==true) {";
-			$bt->javascript.="cat_doc_remove('" . $r[$i]['dt_id'] . "','" . Dossier::id() . "');";
-			$bt->javascript.='}';
+			$bt->javascript = "confirm_form('X{$r[$i]['dt_id']}','" . _('Vous confirmez') . "',";
+                        $bt->javascript.="function () { cat_doc_remove('{$r[$i]['dt_id']}','" . Dossier::id() . "');})";
 
 			$tmp['js_remove'] = $bt->input();
 

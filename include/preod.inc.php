@@ -97,7 +97,7 @@ if ( $request_sa== 'jrn' )
         echo '<td>'.h($row['od_name']).'</td>';
         echo '<td>'.h($row['od_description']).'</td>';
         echo '<td>';
-	echo '<form method="POST" class="print" style="margin:0px;padding:0px;">';
+	echo '<form method="POST" id="preod_frm" class="print" style="margin:0px;padding:0px;">';
         echo dossier::hidden();
         echo $hid->input("sa","del");
         echo $hid->input("ac",$request_ac);
@@ -106,7 +106,7 @@ if ( $request_sa== 'jrn' )
         echo $hid->input("jrn",$get_jrn);
 
 	$b='<input type="submit" class="smallbutton" value="'._("Effacer").'"'.
-	  ' onClick="return confirm(\''._("Voulez-vous vraiment effacer cette operation ?").'\');" >';
+	  ' onClick="return confirm_form(\'preod_frm\',\''._("Voulez-vous vraiment effacer cette operation ?").'\');" >';
 	   echo $b;
 	   echo '</form>';
 

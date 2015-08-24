@@ -168,13 +168,14 @@ if ($aRap  != null ) {
     $rmReconciliation=new IButton('rmr');
     $rmReconciliation->label=SMALLX;
     $rmReconciliation->class="tinybutton";
-    $rmReconciliation->javascript="if (confirm ('vous confirmez?') ) {";
-    $rmReconciliation->javascript.=sprintf('dropLink(\'%s\',\'%s\',\'%s\',\'%s\');deleteRowRec(\'%s\',this);}',
+    $rmReconciliation->javascript="return confirm_form(null,'"._("vous confirmez?")."',";
+    $rmReconciliation->javascript.=sprintf('function () { dropLink(\'%s\',\'%s\',\'%s\',\'%s\');deleteRowRec(\'%s\',$(\'row%d\'));})',
 					  $gDossier,
 					  $div,
 					  $jr_id,
 					   $aRap[$e],
-					   $tableid
+					   $tableid,
+                                          $e
 					  );
     if ( $access=='W')
       $remove=$rmReconciliation->input();
@@ -182,7 +183,11 @@ if ($aRap  != null ) {
       $remove='';
     
     $comment=strip_tags($array_jr[0]['jr_comment']);
-    echo tr (td(format_date($array_jr[0]['jr_date'])).td('<a class="line" href="javascript:void(0)" onclick="'.$str.'" >'.$internal.'</A>').td($comment).td(nbm($amount)).td($remove));
+    echo tr (td(format_date($array_jr[0]['jr_date'])).
+            td('<a class="line" href="javascript:void(0)" onclick="'.$str.'" >'.$internal.'</A>').
+            td($comment).
+            td(nbm($amount)).
+            td($remove),' id = "row'.$e.'"');
   }
   echo '</table>';
 }
@@ -291,7 +296,7 @@ if ( $div != 'popup' ) {
   {
     $remove=new IButton('Effacer');
     $remove->label=_('Effacer');
-    $remove->javascript="if ( confirm('Vous confirmez effacement ?')) {removeOperation('".$obj->det->jr_id."',".dossier::id().",'".$div."')}";
+    $remove->javascript="return confirm_form(null,'Vous confirmez effacement ?',function () {removeOperation('".$obj->det->jr_id."',".dossier::id().",'".$div."')})";
     echo $remove->input();
   }
 
@@ -304,8 +309,9 @@ echo '</form>';
 
   echo '<div id="ext'.$div.'" class="inner_box" style="position:relative;top:-150px;display:none">';
   $date=new IDate('ext_date');
-  $r="<form id=\"form_".$div."\" onsubmit=\"this.divname='$div';return reverseOperation(this);\">";
-  $r.=HtmlInput::hidden('jr_id',$_REQUEST['jr_id']).HtmlInput::hidden('div',$div).dossier::hidden().HtmlInput::hidden('act','reverseop');
+  $r="<form id=\"form_".$div."\" onsubmit=\"return false;\">";
+  $r.=HtmlInput::hidden('jr_id',$_REQUEST['jr_id'])
+      . HtmlInput::hidden('div',$div).dossier::hidden().HtmlInput::hidden('act','reverseop');
   $r.=HtmlInput::title_box(_('Extourner'), 'ext'.$div, 'hide');
   $r.="<p>";
   $r.= _("Extourner une opération vous permet de l'annuler par son écriture inverse");
@@ -313,7 +319,8 @@ echo '</form>';
 
   $r.=_("entrez une date")." :".$date->input();
     $r.='<p  style="text-align:center">';
-  $r.=HtmlInput::submit('x','accepter','onclick="return confirm(\'Vous confirmez  ? \');"');
+  $r.=HtmlInput::submit('x','accepter',
+          'onclick="confirm_form($(\'form_'.$div.'\'),\'Vous confirmez  ? \',function () {$(\'form_'.$div.'\').divname=\''.$div.'\';reverseOperation($(\'form_'.$div.'\'))}); return false"');
     $r.="</p>";
   $r.='</form>';
   echo $r;

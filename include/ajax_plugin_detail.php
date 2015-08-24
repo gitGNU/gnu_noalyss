@@ -29,7 +29,7 @@ if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 $msg=($new==1)?_("Nouvelle extension"):_("Modification"). " ".$me_menu->value;
 echo HtmlInput::title_box($msg, $ctl);
 ?>
-<form method="POST" onsubmit="return confirm('<?php echo _("Vous confirmez");?>')">
+<form method="POST" id="plugin_detail_frm" onsubmit="return confirm_form('plugin_detail_frm','<?php echo _("Vous confirmez");?>')">
 <table>
 	<tr>
 		<TD><?php echo _("Label");?></td>
@@ -51,11 +51,13 @@ echo HtmlInput::title_box($msg, $ctl);
 	<?php 
 	if ($new ==1 )
 	{
-		echo HtmlInput::submit("save_plugin",_("Ajouter ce plugin"));
+            echo HtmlInput::hidden('save_plugin',1);
+		echo HtmlInput::submit("save_plugin_sbt",_("Ajouter ce plugin"));
 	} else {
 		$delete=new ICheckBox('delete_pl');
 		echo "<p>"._("Voulez-vous effacer ce plugin ?")." ".$delete->input()."</p>";
-		echo HtmlInput::submit("mod_plugin",_("Modifier ce plugin"));
+                echo HtmlInput::hidden('mod_plugin',1);
+		echo HtmlInput::submit("mod_plugin_sbt",_("Modifier ce plugin"));
 
 	}
 	?>

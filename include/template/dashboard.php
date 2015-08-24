@@ -286,7 +286,6 @@ for($i=0;$i<count($last_ledger);$i++):
 <div id="last_operation_management_div" class="box">
     <?php 
      echo HtmlInput::title_box(_('Suivi'),"last_operation_management_div",'zoom','onclick="action_show('.dossier::id().')"');
-    //echo HtmlInput::title_box(_('Suivi'),"last_operation_management_div");
     ?>
     <?php
     require_once NOALYSS_INCLUDE.'/class_follow_up.php';
@@ -306,7 +305,7 @@ for($i=0;$i<count($last_ledger);$i++):
                 <?php echo HtmlInput::detail_action($array[$i]['ag_id'], $array[$i]['ag_ref'], 1)  ?>
             </td>
             <td class="box">
-                <?php echo mb_substr(h($array[$i]['vw_name']),0,15)?>
+                <?php echo mb_substr(h($array[$i]['quick_code']),0,15)?>
             </td>
             <td class="box cut">
                 <?php echo h($array[$i]['ag_title'])?>

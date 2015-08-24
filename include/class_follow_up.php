@@ -1083,7 +1083,7 @@ class Follow_Up
     function get_last($p_limit)
     {
         
-        $sql="select coalesce(vw_name,'Interne') as vw_name,ag_id,ag_title,ag_ref, dt_value,to_char(ag_timestamp,'DD.MM.YYYY') as ag_timestamp_fmt,ag_timestamp ".
+        $sql="select coalesce(vw_name,'Interne') as vw_name,quick_code,ag_id,ag_title,ag_ref, dt_value,to_char(ag_timestamp,'DD.MM.YYYY') as ag_timestamp_fmt,ag_timestamp ".
                 " from action_gestion join document_type ".
                 " on (ag_type=dt_id) "
                 . "left join vw_fiche_attr on (f_id=f_id_dest) "

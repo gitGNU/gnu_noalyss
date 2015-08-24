@@ -26,6 +26,8 @@
 
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once NOALYSS_INCLUDE.'/class_anticipation.php';
+$action=HtmlInput::default_value_get('action','');
+
 echo '<div class="content">';
 
 $sa = (isset($_REQUEST['sa'])) ? $_REQUEST['sa'] : 'list';
@@ -34,7 +36,7 @@ $sa = (isset($_REQUEST['sa'])) ? $_REQUEST['sa'] : 'list';
  *
  *
  * ******************************************************************** */
-if (isset($_GET['del']))
+if ( $action == 'del' )
 {
     $forecast = new Forecast($cn, $_GET['f_id']);
     $forecast->delete();
@@ -42,7 +44,7 @@ if (isset($_GET['del']))
 /*
  * Cloning
  */
-if (isset($_REQUEST ['clone']))
+if ( $action == 'clone' )
 {
     echo "<h2> cloning</h2>";
     /*
@@ -274,7 +276,7 @@ if ($sa == 'new')
  *
  *
  * ******************************************************************** */
-if (isset($_GET['mod_cat']))
+if ( $action == 'mod_cat')
 {
     $anc = new Anticipation($cn, $_GET['f_id']);
     echo '<div class="content">';
@@ -295,20 +297,13 @@ if (isset($_GET['mod_cat']))
  *
  *
  * ******************************************************************** */
-if (isset($_GET['mod_item']))
+if ($action == 'mod_item' )
 {
 
     /* Propose a form for the items
      */
     $anticip = new Anticipation($cn, $_GET['f_id']);
     echo '<div class="content">';
-    echo ICard::ipopup('ipopcard');
-    echo IPoste::ipopup('ipop_account');
-    $search_card = new IPopup('ipop_card');
-    $search_card->title = _('Recherche de fiche');
-    $search_card->value = '';
-    echo $search_card->input();
-
     echo '<form method="post" action="?">';
     echo dossier::hidden();
     echo HtmlInput::hidden('sa', 'new');
@@ -334,14 +329,15 @@ if (isset($_REQUEST['f_id']) && $sa == "vw")
     {
 	echo $forecast->display();
 	echo '<div class="noprint">';
-	echo '<form method="get">';
+	echo '<form id="forecast_frm" method="get">';
 	echo dossier::hidden();
+        echo HtmlInput::hidden('action','');
 	echo HtmlInput::hidden('f_id', $_REQUEST['f_id']);
-	echo HtmlInput::submit('mod_cat', _('Modifier nom ou catégories'));
-	echo HtmlInput::submit('mod_item', _('Modifier éléments'));
+	echo HtmlInput::submit('mod_cat_bt', _('Modifier nom ou catégories'),'onclick="$(\'action\').value=\'mod_cat\';"');
+	echo HtmlInput::submit('mod_item_bt', _('Modifier éléments'),'onclick="$(\'action\').value=\'mod_item\';"');
 	//echo HtmlInput::submit('cvs',_('Export CVS'));
-	echo HtmlInput::submit('del', _('Effacer'), 'onclick="return confirm(\'' . _('Vous confirmez l\\\' effacement') . '\')"');
-	echo HtmlInput::submit('clone', _('Cloner'), 'onclick="return confirm(\'' . _('Vous confirmez le clonage ') . '\')"');
+	echo HtmlInput::submit('del_bt', _('Effacer'), 'onclick="$(\'action\').value=\'del\';return confirm_form(\'forecast_frm\',\'' . _('Vous confirmez l\\\' effacement') . '\')"');
+	echo HtmlInput::submit('clone_bt', _('Cloner'), 'onclick="$(\'action\').value=\'clone\';return confirm_form(\'forecast_frm\',\'' . _('Vous confirmez le clonage ') . '\')"');
 	echo HtmlInput::hidden('ac', $_REQUEST['ac']);
         $href=http_build_query(array('ac'=>$_REQUEST['ac'],'gDossier'=>$_REQUEST['gDossier']));
         echo '<a style="display:inline" class="smallbutton" href="do.php?'.$href.'">'._('Retour').'</a>';

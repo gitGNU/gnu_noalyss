@@ -239,7 +239,8 @@ class Periode
                     $change='<TD></TD>';
 		    $remove=sprintf(_('Nombre opérations %d'),$l_line['count_op']);
                     $remove=td($remove,' class="mtitle" ');
-                    $change=td ('<A class="mtitle" HREF="?ac='.$_REQUEST['ac'].'&action=reopen&p_per='.$l_line['p_id'].'&'.$str_dossier.'" onclick="return confirm(\''._('Confirmez Réouverture').' ?\')"> Réouverture</A>',' class="mtitle"');
+                    $change=td ('<A class="mtitle" HREF="javascript:void(0)"'
+                            . ' onclick="return confirm_form(null,\''._('Confirmez Réouverture').' ?\',function() {window.location=\'do.php?ac='.$_REQUEST['ac'].'&action=reopen&p_per='.$l_line['p_id'].'&'.$str_dossier.'\';} )"> Réouverture</A>',' class="mtitle"');
 
                 }
                 else
@@ -261,8 +262,14 @@ class Periode
 
                     if ($l_line['count_op'] == 0 )
                     {
-                        $remove.='<A class="mtitle" HREF="?ac='.$_REQUEST['ac'].'&action=delete_per&p_per='.
-                                 $l_line['p_id']."&$str_dossier\" onclick=\"return confirm ('"._('Confirmez effacement ?')."')\" > Efface</A>";
+                        $go='do.php?'.http_build_query(array('ac'=>$_REQUEST['ac'],
+                            'action'=>'delete_per',
+                            'p_per'=>$l_line['p_id'],
+                            'gDossier'=>Dossier::id()));
+                        
+                        $remove.='<A class="mtitle" HREF="javascript:void(0)" '
+                                . 'onclick="return confirm_form (null,\''._('Confirmez effacement ?').'\',function() { window.location=\''.$go.'\'});" >'
+                                . ' Efface</A>';
                     }
                     else
                     {
@@ -358,8 +365,14 @@ class Periode
                 $closed="";
                 if ( $l_line['status'] != 'OP' )
                 {
-		  $closed=td ('<A class="mtitle" HREF="?ac='.$_REQUEST['ac'].'&action=reopen&p_per='.$l_line['p_id'].'&'.$str_dossier.'&jrn_def_id='.$this->jrn_def_id.'" onclick="return confirm(\''._('Confirmez Réouverture').' ?\')"> Réouverture</A>',' class="mtitle"');
-		  //                    $closed=($l_line['status']=='CE')?'<TD>Centralisee</TD>':'<TD>Ferm&eacute;e</TD>';
+                    $go='do.php?'.http_build_query(array('ac'=>$_REQUEST['ac'],
+                        'action'=>'reopen',
+                        'p_per'=>$l_line['p_id'],
+                        'gDossier'=>Dossier::id(),
+                        'jrn_def_id'=>$this->jrn_def_id));
+                    
+		  $closed=td ('<A class="mtitle" HREF="javascript:void(0)" '
+                          . 'onclick="return confirm_form(null,\''._('Confirmez Réouverture').' ?\',function() {window.location=\''.$go.'\';} );"> Réouverture</A>',' class="mtitle"');
                 }
                
                 echo "$closed";

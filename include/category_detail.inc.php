@@ -51,7 +51,7 @@ if ( isset($_POST['mod'])) echo hb(_('Information sauvée'));
 
 $supplier=new Fiche($cn,$f_id);
 $p_readonly=($g_user->check_action(FICADD)==0)?true:false;
-if ( ! $p_readonly) echo '<form method="post">';
+if ( ! $p_readonly) echo '<form id="catergory_detail_frm" method="post">';
 echo dossier::hidden();
 echo HtmlInput::hidden('sb','detail');
 echo HtmlInput::hidden('dc','cc');
@@ -67,7 +67,7 @@ if ( ! $p_readonly)
 {
 	echo HtmlInput::submit('mod',_('Sauver les modifications'));
 	echo HtmlInput::reset(_("Annuler"));
-	echo HtmlInput::submit('delete_card',_('Effacer cette fiche'),'onclick="return confirm(\'Confirmer effacement ?\');"');
+	echo HtmlInput::submit('delete_card',_('Effacer cette fiche'),'onclick="return confirm_form(\'catergory_detail_frm\',\''.('Confirmer effacement ?').'\');"');
 	echo '</form>';
 }
 echo '</div>';

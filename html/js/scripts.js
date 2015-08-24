@@ -84,8 +84,7 @@ function deleteRow(tb, obj)
 }
 function deleteRowRec(tb, obj)
 {
-    var td = obj.parentNode;
-    var tr = td.parentNode;
+    var tr = obj;
     var lidx = tr.rowIndex;
     g(tb).deleteRow(lidx);
 }
@@ -417,7 +416,40 @@ function cat_doc_remove(p_dt_id, p_dossier)
 {
     var queryString = "gDossier=" + p_dossier + "&op=rem_cat_doc" + "&dt_id=" + p_dt_id;
     var action = new Ajax.Request(
-            "ajax_misc.php", {method: 'get', parameters: queryString, onFailure: ajax_misc_failure, onSuccess: success_cat_doc_remove}
+            "ajax_misc.php", {method: 'get',
+                parameters: queryString,
+                onFailure: ajax_misc_failure,
+                onSuccess: function (req)
+                {
+                    try
+                    {
+                        var answer = req.responseXML;
+                        var html = answer.getElementsByTagName('dtid');
+                        if (html.length === 0)
+                        {
+                            var rec = req.responseText;
+                            alert_box('erreur <br>' + rec );
+                            return;
+                        }
+                        nodeXML = html[0];
+                        row_id = getNodeText(nodeXML);
+                        if (row_id === 'nok')
+                        {
+                            var message_node = answer.getElementsByTagName('message');
+                            var message_text = getNodeText(message_node[0]);
+                            alert_box('erreur <br>' + message_text);
+                            return;
+                        }
+                        $('row' + row_id).style.textDecoration = "line-through";
+                        $('X' + row_id).style.display='none';
+                        $('M' + row_id).style.display='none';
+                    }
+                    catch (e)
+                    {
+                        alert_box(e.message);
+                    }
+                }
+            }
     );
 }
 /**
@@ -447,32 +479,6 @@ function cat_doc_change(p_dt_id, p_dossier)
     );
 }
 
-function success_cat_doc_remove(req)
-{
-    try
-    {
-        var answer = req.responseXML;
-        var html = answer.getElementsByTagName('dtid');
-        if (html.length === 0)
-        {
-            var rec = req.responseText;
-            alert_box('erreur :' + rec);
-        }
-        nodeXML = html[0];
-        row_id = getNodeText(nodeXML);
-        if (row_id === 'nok')
-        {
-            alert_box('Error');
-            return;
-        }
-        $('row' + row_id).style.textDecoration = "line-through";
-        $('X' + row_id).style.display = 'none';
-    }
-    catch (e)
-    {
-        alert_box(e.message);
-    }
-}
 /**
  *@brief display the popup with vat and explanation
  *@param obj with 4 attributes gdossier, ctl,popup
@@ -2862,39 +2868,40 @@ function init_scroll()
 <form onsubmit="return confirm_form(this,'message')">
 </form>
  * @endcode
- * @param p_obj form element id
+ * @param p_obj form element (object) or element id (string)
  * @param p_message message to display
  * @returns true or false
  */
-function confirm_form(p_obj, p_message)
+function confirm_form(p_obj, p_message,p_callback_true)
 {
     try {
+        // Find id of the end
         var name="";
-        if ( typeof (p_obj) == "object") {
-            name=p_obj.id;
-        } else {
-            name=p_obj;
+        if ( p_obj != null )
+        {
+            if ( typeof (p_obj) === "object") {
+                name=p_obj.id;
+            } else {
+                name=p_obj;
+            }
         }
-        var background_block = document.createElement('DIV');
-        background_block.id = 'background_block';
-        background_block.addClassName('popup_back');
-        document.body.appendChild(background_block);
-
-        var newdiv = document.createElement('DIV');
-        newdiv.id = 'confirm_12';
-        newdiv.addClassName("inner_box confirm_box");
-        //newdiv.innerHTML="<h2 class='title'></h2>";
-        newdiv.innerHTML += '<p style="text-align:center">';
-        newdiv.innerHTML += p_message;
-        newdiv.innerHTML += '</p>';
-        newdiv.innerHTML += '<p style="text-align:center">';
-        newdiv.innerHTML += '<input type="button" class="button" value="ok" onclick="$(\'' + name + '\').submit()">';
-        newdiv.innerHTML += '<input type="button" class="button"  value="cancel" onclick="$(\'background_block\').remove();$(\'confirm_12\').remove()">';
-        newdiv.innerHTML += '</p>';
-        document.body.appendChild(newdiv);
-
+       
+       // execute the callback function or submit the form
+       if ( p_callback_true == undefined || p_callback_true==null)
+        {
+            smoke.confirm(p_message,function (e) {
+                if ( e ) {
+                    $(name).submit();
+                }
+            });
+        } else {
+            smoke.confirm(p_message,function (e) 
+            {
+                if ( e ) { p_callback_true.apply();}
+            });
+        }
     } catch (e) {
-        console.debug(e);
+        alert_box(e.getMessage);
     }
     return false;
 }

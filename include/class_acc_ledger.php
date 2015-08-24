@@ -225,7 +225,7 @@ class Acc_Ledger extends jrn_def_sql
 
 			// Check return code
 			if ($Res == false)
-				throw (new Exception(__FILE__ . __LINE__ . "sql a echoue [ $sql ]"));
+				throw new Exception(__FILE__ . __LINE__ . "sql a echoue [ $sql ]");
 
 			//////////////////////////////////////////////////
 			// Reverse in jrnx* tables
@@ -264,7 +264,7 @@ class Acc_Ledger extends jrn_def_sql
                                      FROM quant_sold where j_id=$3", array($p_internal, $j_id, $row));
 
 				if ($Res == false)
-					throw (new Exception(__FILE__ . __LINE__ . "sql a echoue [ $sql ]"));
+					throw new Exception(__FILE__ . __LINE__ . "sql a echoue [ $sql ]");
 				$Res = $this->db->exec_sql("INSERT INTO quant_purchase(
                                      qp_internal, j_id, qp_fiche, qp_quantite, qp_price, qp_vat,
                                      qp_vat_code, qp_nd_amount, qp_nd_tva, qp_nd_tva_recup, qp_supplier,
@@ -275,7 +275,7 @@ class Acc_Ledger extends jrn_def_sql
                                      FROM quant_purchase where j_id=$3", array($p_internal, $j_id, $row));
 
 				if ($Res == false)
-					throw (new Exception(__FILE__ . __LINE__ . "SQL ERROR [ $sql ]"));
+					throw new Exception(__FILE__ . __LINE__ . "SQL ERROR [ $sql ]");
 			}
 			$sql = "insert into jrn (
               jr_id,

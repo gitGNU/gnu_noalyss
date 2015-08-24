@@ -901,10 +901,10 @@ class HtmlInput
          */
         static function  button_action_remove_operation($p_operation) 
         {
-            $rmOperation=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer cette relation ')."')==true ) {remove_operation('%s','%s');}",
+            $rmOperation=sprintf("javascript:confirm_form(null,'"._('Voulez-vous effacer cette relation ')."',function ()  {remove_operation('%s','%s');});",
 							dossier::id(),
 							$p_operation);
-            $js= '<a class="tinybutton" id="acop'.$p_operation.'" href="'.$rmOperation.'">'.SMALLX.'</a>';
+            $js= '<a class="tinybutton" id="acop'.$p_operation.'" href="javascript:void(0)" onclick="'.$rmOperation.'">'.SMALLX.'</a>';
             return $js;
         }
         static function button_action_add_concerned_card($p_agid)

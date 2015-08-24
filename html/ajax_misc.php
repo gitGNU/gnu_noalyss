@@ -172,14 +172,17 @@ EOF;
 	case 'rem_cat_doc':
 		require_once NOALYSS_INCLUDE.'/class_document_type.php';
 		// if user can not return error message
+                $message="";
 		if ($g_user->check_action(PARCATDOC) == 0)
 		{
 			$html = "nok";
+                        $message=_('Action non autorisée');
 			header('Content-type: text/xml; charset=UTF-8');
 			echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
 <dtid>$html</dtid>
+<message>$message</message>                                
 </data>
 EOF;
 			return;
@@ -190,12 +193,14 @@ EOF;
 
 		if ($count_md != 0 || $count_a != 0)
 		{
+                    $message=_('Des actions dépendent de cette catégorie');
 			$html = "nok";
 			header('Content-type: text/xml; charset=UTF-8');
 			echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
 <dtid>$html</dtid>
+<message>$message</message>                                
 </data>
 EOF;
 			exit;
@@ -205,9 +210,10 @@ EOF;
 		header('Content-type: text/xml; charset=UTF-8');
 		echo <<<EOF
 <?xml version="1.0" encoding="UTF-8"?>
-                                 <data>
-                                 <dtid>$html</dtid>
-                                 </data>
+<data>
+<dtid>$html</dtid>
+<message>$message</message>                                
+</data>
 EOF;
 		return;
 		break;

@@ -193,11 +193,11 @@
 		{
 			if ( $p_view != 'READ' && $p_base != 'ajax')
 			{
-                            $rmAction=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer cette action ')."')==true ) {remove_action('%s','%s','%s');}",
+                            $rmAction=sprintf("return confirm_form(null,'"._('Voulez-vous effacer cette action ')."', function () {remove_action('%s','%s','%s');});",
 					dossier::id(),
 					$action[$o]['ag_id'],$_REQUEST['ag_id']);
                             $showAction='<a class="line" href="'.$base."&ag_id=".$action[$o]['ag_id'].'">';
-                            $js= '<a class="tinybutton" id="acact'.$action[$o]['ag_id'].'" href="'.$rmAction.'">'.SMALLX.'</a>';
+                            $js= '<a class="tinybutton" id="acact'.$action[$o]['ag_id'].'" href="javascript:void(0)" onclick="'.$rmAction.'">'.SMALLX.'</a>';
                             echo '<li id="act'.$action[$o]['ag_id'].'">'.$showAction.$action[$o]['str_date']." ".$action[$o]['ag_ref']." ".
 					h($action[$o]['sub_title']).'('.h($action[$o]['dt_value']).')</a>'." "
 				.$js.'</li>';
@@ -271,10 +271,10 @@ for( $c=0;$c<count($acomment);$c++){
 	<?php
         if ( $p_view != 'READ')
 	{
-		$rmComment=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer ce commentaire')." ?')==true ) {remove_comment('%s','%s');}",
+		$rmComment=sprintf("return confirm_form(null,'"._('Voulez-vous effacer ce commentaire')." ?',function() {remove_comment('%s','%s');});",
 						dossier::id(),
 						$acomment[$c]['agc_id']);
-				$js= '<a class="tinybutton" id="accom'.$acomment[$c]['agc_id'].'" href="'.$rmComment.'">'.SMALLX.'</a>';
+				$js= '<a class="tinybutton" id="accom'.$acomment[$c]['agc_id'].'" href="javascript:void(0)" onclick="'.$rmComment.'">'.SMALLX.'</a>';
 		echo hb('n°'.$acomment[$c]['agc_id'].'('.$acomment[$c]['tech_user']." ".$acomment[$c]['str_agc_date'].')').$js.
 				'<pre style="white-space: -moz-pre-wrap;white-space: pre-wrap;border:1px solid blue;width:80%;" id="com'.$acomment[$c]['agc_id'].'"> '.
 				" ".h($acomment[$c]['agc_comment']).'</pre>'
@@ -462,14 +462,14 @@ for ($i=0;$i<sizeof($aAttachedFile);$i++) :
         <?php else: ?>
         </span>
         <?php endif;?>
-<?php $rmDoc=sprintf("javascript:if ( confirm('"._('Voulez-vous effacer le document')." %s')==true ) {remove_document('%s','%s');}",
+<?php $rmDoc=sprintf("return confirm_form(null,'"._('Voulez-vous effacer le document')." %s' , function(){remove_document('%s','%s');});",
 	$aAttachedFile[$i]['d_filename'],
 	dossier::id(),
 	$aAttachedFile[$i]['d_id']);
     ?>
         </td>
         <td>
-  <?php if ($p_view != 'READ') : ?>  <a class="line"  id="<?php echo "ac".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $rmDoc;?>"><?php echo _("Effacer")?></a><?php endif;?>
+  <?php if ($p_view != 'READ') : ?>  <a class="line"  id="<?php echo "ac".$aAttachedFile[$i]['d_id'];?>" href="javascript:void(0)" onclick="<?php echo $rmDoc;?>"><?php echo _("Effacer")?></a><?php endif;?>
         </td>
   </tr>
   <?php

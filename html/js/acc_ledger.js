@@ -1112,3 +1112,18 @@ function gestion_add_row()
     }
 
 }
+function document_remove(p_dossier,p_div,p_jrid)
+{
+    smoke.confirm('Effacer ?', function (e) 
+    {
+        if (e) {
+            new Ajax.Request('ajax_ledger.php',
+            {
+                parameters:{"p_dossier":p_dossier,"div":p_div,"p_jrid":p_jrid,'act':'rmf'},
+                onSuccess : function(x) {
+                    $('receipt'+p_div).innerHTML=x.responseText;
+                }
+            })
+        }
+    });
+}

@@ -33,11 +33,11 @@ require_once NOALYSS_INCLUDE.'/class_fiche_def.php';
 require_once NOALYSS_INCLUDE.'/class_tool_uos.php';
 
 $retour=HtmlInput::button_anchor("Retour à la liste", HtmlInput::get_to_string(array("gDossier","ac")));
-
+$action=HtmlInput::default_value_post('action', '');
 /*******************************************************************************************/
 // Add an attribut
 /*******************************************************************************************/
-if ( isset($_POST['add_line']))
+if ( $action == 'add_line')
 {
 	 $fiche_def=new Fiche_Def($cn,$_REQUEST['fd_id']);
      $fiche_def->InsertAttribut($_REQUEST['ad_id']);
@@ -48,7 +48,7 @@ if ( isset($_POST['add_line']))
 /*******************************************************************************************/
 // Remove an attribut
 /*******************************************************************************************/
-if ( isset ($_POST['remove_line']))
+if ( $action == 'remove_line' )
 {
 	$fiche_def=new Fiche_Def($cn,$_REQUEST['fd_id']);
 	$fiche_def=new Fiche_Def($cn,$_REQUEST['fd_id']);
@@ -60,7 +60,7 @@ if ( isset ($_POST['remove_line']))
 /*******************************************************************************************/
 // Try to remove a category
 /*******************************************************************************************/
-if ( isset ($_POST['remove_cat']))
+if ( $action == 'remove_cat' ) 
 {
     $post_id=HtmlInput::default_value_post('fd_id', 0);
     if ($post_id == 0 || $post_id >= 500000)
@@ -104,7 +104,7 @@ if ( isset ($_POST['change_name']))
 /*******************************************************************************************/
 // Save order of the attributes
 /*******************************************************************************************/
-if ( isset($_POST['save_line']))
+if ( $action == 'save_line' )
 {
     $fiche_def=new Fiche_Def($cn,$_REQUEST['fd_id']);
     $fiche_def->save_order($_POST);

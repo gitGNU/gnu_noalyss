@@ -147,8 +147,8 @@ if ( isset($_REQUEST['sa']))
         $ret.=$po->form();
         $ret.=HtmlInput::hidden('sa','po_update');
         $ret.=HtmlInput::submit('Correction','Correction');
-        $ret.=sprintf('<A class="mtitle" HREF="?ac='.$_REQUEST['ac'].'&sa=po_delete&po_id=%s&pa_id=%s&'.$str_dossier.'">'.
-                      '<input type="button" class="smallbutton" value="Efface" onClick="return confirm(\' Voulez-vous vraiment effacer cette activité\');"></A>',
+        $ret.=sprintf('<input type="button" class="smallbutton" value="Efface" onClick="return confirm_form(\'anchor_del\',\' Voulez-vous vraiment effacer cette activité\','
+                . 'function () { window.location=\'do.php?ac='.$_REQUEST['ac'].'&sa=po_delete&po_id=%s&pa_id=%s&'.$str_dossier.'\'}) ;"',
                       $po->id,
                       $_REQUEST['pa_id']
                      );
@@ -192,7 +192,11 @@ if ( isset($_REQUEST['sa']))
         $ret.= $new->form();
         $ret.= $wSa;
         $ret.=HtmlInput::submit("submit",_("Enregistre"));
-        $ret.=HtmlInput::button_anchor(_('Efface'),"?ac=".$_REQUEST['ac']."&pa_id=".$_GET['pa_id']."&sa=pa_delete&$str_dossier",_('Efface'),'onclick="return confirm(\'Effacer ?\')"','smallbutton');
+        $ret.=HtmlInput::button_anchor(_('Efface'),
+                '',
+                'remove_analytic_plan',
+                'onclick="return confirm_form(\'remove_analytic_plan\',\'Effacer ?\',function () {window.location=\'do.php?ac='.$_REQUEST['ac'].'&pa_id='.$_GET['pa_id'].'&sa=pa_delete&'.$str_dossier.'\';})"',
+                'smallbutton');
         $ret.= '</form>';
         /**
          * Detail now

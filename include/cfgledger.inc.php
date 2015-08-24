@@ -42,7 +42,8 @@ $sa=HtmlInput::default_value("sa","",$_REQUEST);
 //////////////////////////////////////////////////////////////////////////
 // Perform request action : update
 //////////////////////////////////////////////////////////////////////////
-if (isset($_POST['update']))
+$action_frm = HtmlInput::default_value_post('action_frm', '');
+if (  $action_frm == 'update')
 {
 	try
 	{
@@ -60,7 +61,7 @@ if (isset($_POST['update']))
 //////////////////////////////////////////////////////////////////////////
 // Perform request action : delete
 //////////////////////////////////////////////////////////////////////////
-if (isset($_POST['efface']))
+if ($action_frm == 'delete' )
 {
 	$ledger->jrn_def_id=$_POST['p_jrn'];
 	$ledger->id=$_POST['p_jrn'];
@@ -115,11 +116,12 @@ switch ($sa)
 		{
 			$ledger->id=$_REQUEST['p_jrn'];
 			echo '<div class="content">';
-			echo '<form method="POST">';
+			echo '<form id="cfg_ledger_frm"  method="POST">';
 			echo $ledger->display_ledger();
-			echo '<INPUT TYPE="SUBMIT" class="smallbutton" VALUE="'._("Sauve").'" name="update">
+                        echo HtmlInput::hidden('action_frm','');
+			echo '<INPUT TYPE="SUBMIT" class="smallbutton" VALUE="'._("Sauve").'" name="update" onClick="$(\'action_frm\').value=\'update\';return confirm_form(\'cfg_ledger_frm\',\'Valider ?\')">
 			<INPUT TYPE="RESET" class="smallbutton" VALUE="Reset">
-			<INPUT TYPE="submit" class="smallbutton"  name="efface" value="'._("Efface").'" onClick="return confirm(\'Vous effacez ce journal ?\')">';
+			<INPUT TYPE="submit" class="smallbutton"  name="efface" value="'._("Efface").'" onClick="$(\'action_frm\').value=\'delete\';return confirm_form(\'cfg_ledger_frm\',\'Vous effacez ce journal ?\')">';
                         $href=http_build_query(array('ac'=>$_REQUEST['ac'],'gDossier'=>$_REQUEST['gDossier']));
                         echo '<a style="display:inline" class="smallbutton" href="do.php?'.$href.'">'._('Retour').'</a>';
 			echo '</FORM>';

@@ -766,17 +766,22 @@ $order
 		/* attributes */
 		$r.='<fieldset><legend>'._('Détails').'</legend>';
 
-		$r.= '<FORM  method="POST">';
+		$r.= '<FORM  id="input_detail_frm" method="POST">';
 		$r.=dossier::hidden();
 		$r.=HtmlInput::hidden("fd_id", $this->id);
+		$r.=HtmlInput::hidden("action", "");
 		$r.= $this->DisplayAttribut("remove");
-		$r.= HtmlInput::submit('add_line', _('Ajoutez cet élément'));
-		$r.= HtmlInput::submit("save_line", _("Sauvez"));
-		$r.=HtmlInput::submit('remove_cat', _('Effacer cette catégorie'), 'onclick="return confirm(\'' . _('Vous confirmez ?') . '\')"');
+		$r.= HtmlInput::submit('add_line_bt', _('Ajoutez cet élément'),
+                        'onclick="$(\'action\').value=\'add_line\'"');
+		$r.= HtmlInput::submit("save_line_bt", _("Sauvez"),
+                        'onclick="$(\'action\').value=\'save_line\'"');
+                        
+		$r.=HtmlInput::submit('remove_cat_bt', _('Effacer cette catégorie'), 'onclick="$(\'action\').value=\'remove_cat\';return confirm_form(\'input_detail_frm\',\'' . _('Vous confirmez ?') . '\')"');
 		// if there is nothing to remove then hide the button
 		if (strpos($r, "chk_remove") != 0)
 		{
-			$r.=HtmlInput::submit('remove_line', _("Enleve les éléments cochés"), "onclick=\"return confirm('Vous confirmez?')\"");
+                    $r.=HtmlInput::submit('remove_line_bt', _("Enleve les éléments cochés"), 
+                            'onclick="$(\'action\').value=\'remove_line\';return confirm_form(\'input_detail_frm\',\'' . _('Vous confirmez ?') . '\')"');
 		}
 		$r.= "</form>";
 		$r.=" <p class=\"notice\"> " . _("Attention : il n'y aura pas de demande de confirmation pour enlever les
