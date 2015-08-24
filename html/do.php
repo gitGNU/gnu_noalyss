@@ -183,19 +183,23 @@ if (isset($_REQUEST['ac']))
       pm_id_v3,pm_id_v2,pm_id_v1
     from v_menu_profile where code= upper($1)  and p_id=$2',
             array($AC,$user_profile));
-            
-    if ( count($amenu_id) != 1 ) {
-        throw new Exception(_('Erreur menu'));
+    try {        
+        if ( count($amenu_id) != 1 ) {
+            throw new Exception(_('Erreur menu'),10);
+        }
+        
+        $module_id=$cn->get_value('select case when pm_id_v3 = 0 then (case when pm_id_v2 = 0 then pm_id_v1 else pm_id_v2 end) else pm_id_v3 end 
+            from v_menu_profile where p_id=$1 and upper(code)=upper($2)',
+                array($user_profile,$AC));
+        $g_user->audit();
+        // Show module and highligt selected one
+        show_module($module_id);
+        show_menu( $amenu_id[0]['pm_id_v3']);
+        show_menu( $amenu_id[0]['pm_id_v2']);
+        show_menu($amenu_id[0]['pm_id_v1']);
+    } catch (Exception $e) {
+        if ( $e->getCode() == 10 ) alert(_('Accès menu impossible'));
     }
-    $module_id=$cn->get_value('select case when pm_id_v3 = 0 then (case when pm_id_v2 = 0 then pm_id_v1 else pm_id_v2 end) else pm_id_v3 end 
-        from v_menu_profile where p_id=$1 and upper(code)=upper($2)',
-            array($user_profile,$AC));
-    $g_user->audit();
-    // Show module and highligt selected one
-    show_module($module_id);
-    show_menu( $amenu_id[0]['pm_id_v3']);
-    show_menu( $amenu_id[0]['pm_id_v2']);
-    show_menu($amenu_id[0]['pm_id_v1']);
 }
 else
 {

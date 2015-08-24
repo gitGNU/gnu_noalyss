@@ -49,7 +49,7 @@ if ($g_user->can_write_action($ag_id) == true || $g_user->can_read_action($ag_id
 }
 else
 {
-	echo h2(_("Ce document n'est pas accessible"),"error");
+	$forbidden = _("Ce document n'est pas accessible");
 	?>
 	<div style="margin:0px;padding:0px;background-color:red;text-align:center;">
         <h2 class="error"><?php echo $forbidden ?></h2>;
