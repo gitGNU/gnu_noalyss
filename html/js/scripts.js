@@ -1518,9 +1518,8 @@ function display_sub_menu(p_dossier,p_profile,p_dep,p_level)
  */
 function remove_sub_menu(p_dossier,profile_menu_id)
 {
-    smoke.confirm('Confirme ?', 
-    function (e) {
-    if (e) {
+    confirm_form(null,'Confirme ?', 
+    function () {
         waiting_box();
         new Ajax.Request('ajax_misc.php',
         {                   
@@ -1541,11 +1540,9 @@ function remove_sub_menu(p_dossier,profile_menu_id)
                 }
             }
         }
-       );
-       } else {
-                return;
-            }
-        });
+       )
+    });
+       
 }
 /**
  * @brief add a menu to a profile, propose only the available menu
