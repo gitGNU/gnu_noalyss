@@ -295,11 +295,14 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
     if ($is_msie == 0 ) 
     {
         echo '<!doctype html>';
+        printf("\n");
         echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
+        printf("\n");
     }
-    else
-         echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 FINAL//EN" >';
-    
+    else {
+        echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 FINAL//EN" >';
+        printf("\n");
+    }
     echo "<HTML>";
 
     if ($p_script2 != "")
@@ -991,13 +994,26 @@ function show_menu($module)
             $style_menu=$a_style_menu[$level];
         }
 		require 'template/menu.php';
-    } // there is only one submenu so we include the code or javascript
+    } // there is only one submenu so we include the code or javascript 
+      // or we show the submenu
     elseif (count($amenu) == 1)
     {
+        if ( trim($amenu[0]['me_url']) != "" ||
+             trim ($amenu[0]['me_file']) != "" ||
+             trim ($amenu[0]['me_javascript']) != "" )
+        {
 		echo '<div class="topmenu">';
 		echo h2info(_($amenu[0]['me_menu']));
 		echo '</div>';
 		$module = $amenu[0]['pm_id'];
+        } else {
+           $url=$_REQUEST['ac'].'/'.$amenu[0]['me_code'];
+           echo '<a href="do.php?gDossier='.Dossier::id().'&ac='.$url.'">';
+           echo _($amenu[0]['me_menu']);
+           echo '</a>';
+           $level++;
+           return;
+        }
     }
     
     // There is no submenu or only one
@@ -1015,8 +1031,7 @@ function show_menu($module)
 
 		if (count($file)==0)
 		{
-			echo "Configuration incorrecte pour ce module ".$module;
-			exit;
+                        return;
 		}
 
 		if ($file[0]['me_file'] != "")
