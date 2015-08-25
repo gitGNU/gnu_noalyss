@@ -1518,7 +1518,6 @@ function display_sub_menu(p_dossier,p_profile,p_dep,p_level)
  */
 function remove_sub_menu(p_dossier,profile_menu_id)
 {
-    if ( ! confirm ('Confirm ?')) return;
     smoke.confirm('Confirme ?', 
     function (e) {
     if (e) {
@@ -1531,10 +1530,11 @@ function remove_sub_menu(p_dossier,profile_menu_id)
             onSuccess:function (req) {
                 try {
                     remove_waiting_box();
+                    $('sub'+profile_menu_id).remove();
                      if ( $('menu_table').rows.length > 1 ) {
                           $('menu_table').rows[1].remove();
                      }
-                    $('sub'+profile_menu_id).remove();
+                    
                 } catch(e)
                 {
                     alert_box(e.message);
