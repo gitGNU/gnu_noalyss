@@ -319,7 +319,7 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
     <script type="text/javascript" src="js/lang/calendar-en.js"></script>
     <script language="javascript" src="js/calendar-setup.js"></script>
     <LINK REL="stylesheet" type="text/css" href="./calendar-blue.css" media="screen">
-    <LINK REL="stylesheet" type="text/css" href="./smoke.css" media="screen">';
+    ';
 
     echo '    </HEAD>    ';
 
