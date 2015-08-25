@@ -794,8 +794,10 @@ function reverseOperation(obj)
     return false;
 }
 
-/*!\brief
+/*!
+ * \brief Show the details of an operation
  * \param p_value jrn.jr_id
+ * \param dossier dossier id
  */
 function modifyOperation(p_value, dossier)
 {
@@ -995,6 +997,9 @@ function op_save(obj)
         queryString += '&div=' + obj.whatdiv.value;
         queryString += '&act=save';
         waiting_box();
+        /*
+         * Operation detail is in a new window
+         */
         if (g('inpopup'))
         {
             var action = new Ajax.Request('ajax_ledger.php',
@@ -1009,6 +1014,9 @@ function op_save(obj)
         }
         else
         {
+            /*
+             *Operation is in a modal box 
+             */
             var action = new Ajax.Request('ajax_ledger.php',
                     {
                         method: 'post',

@@ -1913,3 +1913,124 @@ td.cut {
 td.box {
     border-left : #C76626 solid 1px;
 }
+/****************************************************************************
+* Smoke appearance of modal box
+ ****************************************************************************/
+.smoke-base {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  visibility: hidden;
+  opacity: 0;
+  background: rgba(0,0,0,.3);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#90000000,endColorstr=#900000000);
+}
+
+.smoke-base.smoke-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.smokebg {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+}
+
+.smoke-base .dialog {
+  position: absolute;
+    top: 25%;
+  width: 40%;
+  left: 50%;
+  margin-left: -20%;
+}
+
+.dialog-prompt {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.dialog-buttons {
+  margin: 20px 0px 5px 0px
+}
+
+.smoke {
+  text-align: center;
+    background-color: #DCE1EF;
+    font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
+        font-family: 'openSansRegular';
+
+    padding:2px;
+    margin:0px;
+    overflow:hidden;
+    z-index:3;
+    position:absolute;
+    left:10%;
+    border:1px solid #00008B;
+-moz-box-shadow: 10px 10px 5px #888;
+-webkit-box-shadow: 10px 10px 5px #888;
+box-shadow: 10px 10px 5px #888;
+font-size:14.4px;
+font-size:0.90rem;
+width: 85%;
+}
+.dialog-buttons button:hover{
+  color:beige;
+  font-weight: bold;
+}
+.dialog-buttons button {
+   color:#FFFFFF;
+    font-weight: normal;
+    text-decoration:none;
+    background: #606c88; /* Old browsers */
+    background: -moz-linear-gradient(top, #606c88 0%, #3f4c6b 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#606c88), color-stop(100%,#3f4c6b)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #606c88 0%,#3f4c6b 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #606c88 0%,#3f4c6b 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #606c88 0%,#3f4c6b 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #606c88 0%,#3f4c6b 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#3f4c6b',GradientType=0 ); /* IE6-9 */
+    border-color:  #605D5D;
+    border-width:0px;
+    padding:4px;
+    margin:3px;
+    cursor:pointer;
+    margin:1px 2px 1px 2px;
+    border-radius: 5px;
+    moz-border-radius:5px;
+    width:7em;
+    width:7rem;
+}
+
+.dialog-prompt input {
+  margin: 0;
+  border: 0;
+  font-family: sans-serif;
+  outline: none;
+  font-family: Menlo, 'Andale Mono', monospace;
+  border: 1px solid #aaa;
+  width: 75%;
+  display: inline-block;
+  background-color: transparent;
+  font-size: 16px;
+  padding: 8px;
+}
+
+.smoke-base .dialog-inner {
+  padding: 15px;
+
+  color:#202020;
+}
+
+button.cancel {
+  background-color: rgba(0,0,0,.40);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#444444,endColorstr=#444444);
+}
+
+.queue{
+	display:none;
+}
