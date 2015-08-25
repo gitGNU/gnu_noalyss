@@ -47,7 +47,8 @@ if ($module == ""
 
 require_once NOALYSS_INCLUDE.'/class_profile_menu.php';
 $p_level++;
-$profile=new Profile_Menu($cn,$p_id);
+$profile=new Profile_Menu($cn);
+$profile->p_id=$p_id;
 $profile->display_module_menu($module,$p_level);
 
 ////////////////////////////////////////////////////////////////////////////////
