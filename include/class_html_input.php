@@ -320,14 +320,18 @@ class HtmlInput
         echo '<div style="padding:5px">';
         echo '<form method="GET" id="'.$div.'search_frm" onsubmit="return hide_ledger_choice(\''.$div.'search_frm\')">';
         echo HtmlInput::hidden('nb_jrn', count($p_array));
-        echo _('Filtre ').HtmlInput::filter_table($div.'tb_jrn', '0,1,2', 1);
+        echo _('Filtre ').HtmlInput::filter_table($div.'tb_jrn', '0,1,2', 2);
         echo '<table class="result" id="'.$div.'tb_jrn">';
         echo '<tr>';
         echo th(_('Nom'));
         echo th(_('Description'));
         echo th(_('Type'));
         echo '</tr>';
-        
+        echo '<tr>';
+        echo '<td>';
+        echo HtmlInput::button('sel_'.$div,_('Inverser la sélection'),' onclick = "toggle_checkbox(\''."{$div}search_frm".'\')"');
+        echo '</td>';
+        echo '</tr>';
         for ($e=0;$e<count($p_array);$e++)
         {
             $row=$p_array[$e];
