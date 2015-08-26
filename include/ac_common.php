@@ -799,9 +799,9 @@ function ajax_disconnected($div)
 	$html.=HtmlInput::anchor_close($div);
 	$html.='<div>';
 	$html.=h2(_('Données non disponibles'), 'class="title" style="width:auto"');
-	$html.=h2(_('Veuillez vous reconnecter'), 'class="error"');
-        $backurl="do.php?".http_build_query(array('gDossier'=>Dossier::id()));
-        $url="index.php?".http_build_query(array('reconnect'=>1,'backurl'=>urlencode($backurl)));
+	$html.=h2(_('Veuillez vous reconnecter soit dans une autre fenêtre soit '
+                . ' en cliquant sur le lien'), 'class="error"');
+        $url="javascript:window.location.reload()";
         $html.=sprintf('<a href="%s">'._('Cliquez ici pour vous reconnecter').'</a>',
                 $url);
 
