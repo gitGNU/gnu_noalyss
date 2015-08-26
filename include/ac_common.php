@@ -386,7 +386,6 @@ function html_min_page_start($p_theme="", $p_script="", $p_script2="")
     <META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF8\">
     <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$style\" media=\"screen\">
     <link rel=\"stylesheet\" type=\"text/css\" href=\"style-print.css\" media=\"print\">" .
-    "<link rel=\"stylesheet\" type=\"text/css\" href=\"smoke.css\" media=\"screen\">" .
     $p_script2 . "
     <script src=\"js/scripts.js\" type=\"text/javascript\"></script>
     <script src=\"js/acc_ledger.js\" type=\"text/javascript\"></script>
