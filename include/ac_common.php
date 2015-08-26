@@ -800,8 +800,11 @@ function ajax_disconnected($div)
 	$html.='<div>';
 	$html.=h2(_('Données non disponibles'), 'class="title" style="width:auto"');
 	$html.=h2(_('Veuillez vous reconnecter'), 'class="error"');
-	$html.=alert(_("Déconnecté"), true);
-        $html.="<script>logout();</script>";
+        $backurl="do.php?".http_build_query(array('gDossier'=>Dossier::id()));
+        $url="index.php?".http_build_query(array('reconnect'=>1,'backurl'=>urlencode($backurl)));
+        $html.=sprintf('<a href="%s">'._('Cliquez ici pour vous reconnecter').'</a>',
+                $url);
+
 	$html = escape_xml($html);
 	header('Content-type: text/xml; charset=UTF-8');
 	echo <<<EOF
