@@ -42,7 +42,9 @@ if ( ! isset($_REQUEST['gDossier']))
 if ( ! isset ($_SESSION['g_theme']))
   {
     echo "<h2>"._('Vous  êtes déconnecté')."</h2>";
-    redirect('user_login.php');
+    $backurl=$_SERVER['REQUEST_URI'];
+    $url="index.php?".http_build_query(array('reconnect'=>1,'backurl'=>urlencode($backurl)));
+    redirect($url);
     exit();
 
   }

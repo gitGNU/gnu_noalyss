@@ -207,7 +207,9 @@ background-repeat: repeat-x repeat-y;
 <BODY>';
 $my_domain="";
 require_once '../include/constant.php';
-require_once ('config.inc.php');
+require_once '../include/config.inc.php';
+require_once NOALYSS_INCLUDE.'/ac_common.php';
+
 if ( strlen(domaine) > 0 )
 {
     $my_domain="Domaine : ".domaine;
@@ -216,6 +218,11 @@ if ( strlen(domaine) > 0 )
 if (defined("RECOVER") && isset ($_REQUEST['recover']) )
 {
     require_once '../include/recover.php';
+}
+// reconnect , create a variable to reconnect properly in login.php
+$goto="";
+if (isset ($_REQUEST['reconnect']) && isset ($_REQUEST['backurl'])) {
+    $goto='<input type="hidden" value="'.$_REQUEST['backurl'].'" name="backurl">';
 }
 echo '
 <span style="background-color:#879ed4;color:white;padding-left:4px;padding-right:4px;">
@@ -232,8 +239,9 @@ version  6.8.1.6 - '.$my_domain.'
 <BR>
 <BR>
 
-<form action="login.php" method="post" name="loginform">
-<TABLE><TR><TD>
+<form action="login.php" method="post" name="loginform">'.
+       $goto .
+'<TABLE><TR><TD>
 <TABLE  BORDER=0 CELLSPACING=0>
 <TR>
 <TD class="cell">Utilisateur</TD>
@@ -244,8 +252,7 @@ version  6.8.1.6 - '.$my_domain.'
 <TD><INPUT TYPE="PASSWORD"  class="input_text" value=""  NAME="p_pass" tabindex="2"></TD>
 </TR>';
 
-require_once('constant.php');
-require_once('ac_common.php');
+
 
 if ( $g_captcha == true )
   {

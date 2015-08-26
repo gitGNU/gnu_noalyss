@@ -53,7 +53,7 @@ if (  isset ($_POST["p_user"] ) )
 		echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=admin/setup.php\">";
 		exit();
 	}
-	include_once ("class_user.php");
+    include_once NOALYSS_INCLUDE."/class_user.php";
     $User=new User($rep);
     $User->Check(false,'LOGIN');
     if ($g_captcha == true)
@@ -68,8 +68,12 @@ if (  isset ($_POST["p_user"] ) )
 	    exit();
 	  }
       }
-    echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=user_login.php\">";
-
+      $backurl='user_login.php';
+      if ( isset ($_POST['backurl'])) {
+          $backurl=urldecode($_POST['backurl']);
+      }
+    echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url={$backurl}\">";
+    exit();
 }
 else
 {
