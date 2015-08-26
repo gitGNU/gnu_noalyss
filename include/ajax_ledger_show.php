@@ -12,7 +12,8 @@
  *   - nbjrn
  *   - r_jrn[]
  */
-// require_once '.php';
+if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
+
 require_once NOALYSS_INCLUDE.'/class_acc_ledger.php';
 require_once NOALYSS_INCLUDE.'/class_html_input.php';
 if ( ! isset ($r_jrn)) { $r_jrn=null;}
