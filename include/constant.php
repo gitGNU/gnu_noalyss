@@ -32,13 +32,15 @@ $inc_path=get_include_path();
 $dirname=dirname(__FILE__);
 
 /* Global variable of the include dir */
-global $g_include_dir,$g_ext_dir;
+global $g_include_dir,$g_ext_dir,$g_template_dir;
 $g_include_dir=$dirname;
 $g_ext_dir = $dirname."/ext";
+$g_template_dir = $dirname."/template";
 
 if ( !defined("NOALYSS_HOME")) define ("NOALYSS_HOME",dirname($dirname)."/html");
 if ( !defined("NOALYSS_PLUGIN")) define ("NOALYSS_PLUGIN",$g_ext_dir);
 if ( !defined("NOALYSS_INCLUDE")) define ("NOALYSS_INCLUDE",$g_include_dir);
+if ( !defined("NOALYSS_TEMPLATE")) define ("NOALYSS_TEMPLATE",$g_template_dir);
 
 if (file_exists(NOALYSS_INCLUDE.'/config.inc.php')) require_once NOALYSS_INCLUDE.'/config.inc.php';
 require_once NOALYSS_INCLUDE.'/constant.security.php';
