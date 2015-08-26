@@ -1034,12 +1034,12 @@ function op_save(obj)
                                     try {
                                         var answer=xml.responseXML;
                                         var html = answer.getElementsByTagName('code');
-                                    $(divid).innerHTML=unescape(getNodeText(html[0]));
-                                    infodiv(req,json);
-                                    remove_waiting_box();
-                                    }  catch (e) {
-                                        alert_box("1038"+e.message)
-                                    } 
+                                        $(divid).innerHTML=unescape(getNodeText(html[0]));
+                                        infodiv(req,json);
+                                        remove_waiting_box();
+                                        }  catch (e) {
+                                            alert_box("1038"+e.message)
+                                        } 
                                     }
                              });
                             
