@@ -782,7 +782,8 @@ function format_date($p_date, $p_from_format = 'YYYY-MM-DD',$p_to_format='DD.MM.
 
 
 /**
- * Should a dialog box that you are disconnected for ajax
+ * Should a dialog box when you are disconnected from an ajax call
+ * propose to reload or to connect in another tab
  */
 function ajax_disconnected($div)
 {
@@ -791,7 +792,7 @@ function ajax_disconnected($div)
      */
     if (!isset($_SESSION['g_user']))
     {
-	$script = 'var a=$("' . $div . '");a.style.height="70%";a.style.width="70%";';
+	$script = 'var a=$("' . $div . '");a.style.height="70%";a.style.width="60%";';
 	$script.='a.style.top=posY-20+offsetY;a.style.left=posX+offsetX;';
 	$script = create_script($script);
 	$html = $script;
@@ -800,10 +801,18 @@ function ajax_disconnected($div)
 	$html.=h2(_('Données non disponibles'), 'class="title" style="width:auto"');
 	$html.=h2(_('Veuillez vous reconnecter soit dans une autre fenêtre soit '
                 . ' en cliquant sur le lien'), 'class="error"');
-        $url="javascript:window.location.reload()";
-        $html.=sprintf('<a href="%s">'._('Cliquez ici pour vous reconnecter').'</a>',
-                $url);
-
+        // Reload button
+        $reload=new IButton("reload");
+        $reload->value=_("Se reconnecter pour revenir ici");
+        $reload->class="button";
+        $reload->javascript='window.location.reload()';
+        // Link to log in another tab
+        $html.='<p style="text-align:center">';
+        $html.='<a href="index.php" class="button" target="_blank">'.
+                _('Cliquez ici pour vous reconnecter dans une autre page').
+                '</a>';
+        $html.=$reload->input();
+        $html.='</p>';
 	$html = escape_xml($html);
 	header('Content-type: text/xml; charset=UTF-8');
 	echo <<<EOF
