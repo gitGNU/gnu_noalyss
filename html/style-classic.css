@@ -1575,7 +1575,7 @@ div.box  {
     padding:2px;
     overflow:hidden;
     border:1px solid #00008B;
-    width:30%;
+    width:32%;
     height:350px;
     float:left;
     font-size:14px;
@@ -1595,6 +1595,7 @@ div.box  {
 }
 div.box table{
     border-spacing:0px;
+    font-size: 90%;
 }
 div.box tr.odd {
     background-color: #F2F6FD;
