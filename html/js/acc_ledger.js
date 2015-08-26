@@ -994,7 +994,9 @@ function op_save(obj)
         var rapt2 = "rapt" + obj.whatdiv.value;
         queryString += "&rapt=" + g(rapt2).value;
         queryString += '&jr_id=' + obj.jr_id.value;
+        var jr_id=obj.jr_id.value;
         queryString += '&div=' + obj.whatdiv.value;
+        var divid=obj.whatdiv.value;
         queryString += '&act=save';
         waiting_box();
         /*
@@ -1022,9 +1024,27 @@ function op_save(obj)
                         method: 'post',
                         parameters: queryString,
                         onFailure: null,
-                        onSuccess: infodiv
-                    }
-            );
+                        onSuccess: function(req,json) {
+                            new Ajax.Request('ajax_ledger.php', {
+                                parameters:{'gDossier':obj.gDossier.value,
+                                         'act':'de',
+                                         'jr_id' :  jr_id,
+                                         'div' :  divid},
+                                onSuccess:function(xml) {
+                                    try {
+                                        var answer=xml.responseXML;
+                                        var html = answer.getElementsByTagName('code');
+                                    $(divid).innerHTML=unescape(getNodeText(html[0]));
+                                    infodiv(req,json);
+                                    remove_waiting_box();
+                                    }  catch (e) {
+                                        alert_box("1038"+e.message)
+                                    } 
+                                    }
+                             });
+                            
+                        }
+                    });
         }
         return false;
     } catch (e)
