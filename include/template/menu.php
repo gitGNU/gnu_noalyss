@@ -43,7 +43,7 @@ $style="";
                 
 		if ( $amenu[$i]['me_url']!='')
 		{
-			$url=$row['me_url'];
+			$url=$amenu[$i]['me_url'];
 		}
 		elseif ($amenu[$i]['me_javascript'] != '')
 		{
@@ -65,10 +65,11 @@ $style="";
                     }
                     $url.='/'.$amenu[$i]['me_code'];
                     if ($url == $_REQUEST['ac']) $class="selectedcell";
+                    $url="do.php?gDossier=".Dossier::id()."&ac=".$url;
 		}
 
 ?>	<td class="<?php echo $class?>">
-	    <a class="mtitle" href="do.php?gDossier=<?php echo Dossier::id()?>&ac=<?php echo $url?>" <?php echo $js?> title="<?php echo h(gettext($amenu[$i]['me_description']))?>">
+	    <a class="mtitle" href="<?php echo $url;?>" <?php echo $js?> title="<?php echo h(gettext($amenu[$i]['me_description']))?>">
 	    <?php echo gettext($amenu[$i]['me_menu'])?>
 	    </a>
 	</td>
