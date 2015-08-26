@@ -2746,7 +2746,8 @@ function unescape_xml($p_xml)
     return $xml;
 }
 /**
- *load all the javascript in once
+ *load all the javascript only one time
+ * 
  */
 function load_all_script()
 {
