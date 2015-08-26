@@ -2871,6 +2871,7 @@ function init_scroll()
  */
 function confirm_form(p_obj, p_message,p_callback_true)
 {
+    waiting_box();
     try {
         // Find id of the end
         var name="";
@@ -2900,6 +2901,7 @@ function confirm_form(p_obj, p_message,p_callback_true)
     } catch (e) {
         alert_box(e.getMessage);
     }
+    remove_waiting_box();
     return false;
 }
 function alert_box(p_message)
