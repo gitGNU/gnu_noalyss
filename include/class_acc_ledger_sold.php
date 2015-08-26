@@ -1092,7 +1092,7 @@ EOF;
 
         $label = HtmlInput::infobulle(1);
 
-        $f_desc = $Commentaire->input("e_comm", h($e_comm)) . $label;
+        $f_desc = $Commentaire->input("e_comm", h($e_comm)) ;
         // PJ
         //--
         /* suggest PJ ? */

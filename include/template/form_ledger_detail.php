@@ -48,6 +48,7 @@
     <tr>
         <td>
              <?php echo _('Libellé')?> 
+             <?php echo $label ; ?> 
         </td>
         <td>
             <?php echo $f_desc?>
