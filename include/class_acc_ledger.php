@@ -3376,9 +3376,9 @@ class Acc_Ledger extends jrn_def_sql
 	{
 		$r = array(
 			array('cat' => 'VEN', 'name' => _("Journaux de vente")),
-			array('cat' => 'ACH', 'name' => _("'Journaux d'achat")),
-			array('cat' => 'FIN', 'name' => _("'Journaux Financier")),
-			array('cat' => 'ODS', 'name' => _("'Journaux d'Opérations diverses"))
+			array('cat' => 'ACH', 'name' => _("Journaux d'achat")),
+			array('cat' => 'FIN', 'name' => _("Journaux Financier")),
+			array('cat' => 'ODS', 'name' => _("Journaux d'Opérations diverses"))
 		);
 		return $r;
 	}

@@ -37,13 +37,6 @@ require_once NOALYSS_INCLUDE.'/class_database.php';
 require_once NOALYSS_INCLUDE.'/class_ipopup.php';
 global $g_user;
 
-echo IPoste::ipopup('ipop_account');
-echo ICard::ipopup('ipopcard');
-$search_card=new IPopup('ipop_card');
-$search_card->title=_('Recherche de fiche');
-$search_card->value='';
-echo $search_card->input();
-
 //-----------------------------------------------------
 // Form
 //-----------------------------------------------------
@@ -190,7 +183,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
             if ( empty($Poste->row)) return;
             $Poste->load();
 
-            echo '<table class="result"  style="width:80%;margin-left:10%">';
+            echo '<table class="result" >';
             echo '<tr><td  class="mtitle" style="width:auto" colspan="6"><h2 class="info">'. $_GET['poste_id'].' '.h($Poste->label).'</h2></td></tr>';
             /* avoid duplicates */
             $old=array();
@@ -198,7 +191,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
             {
                 if ( in_array($detail['jr_id'],$old) == TRUE ) continue;
                 $old[]=$detail['jr_id'];
-                echo '<tr><td class="mtitle" style="width:auto" colspan="6">'.$detail['j_date'].' '.$detail['jr_internal'].h($detail['description']).'</td></tr>';
+                echo '<tr><td style="text-align:center;background-color:lightgrey" colspan="6">'.$detail['j_date'].' '.$detail['jr_internal'].h($detail['description']).'</td></tr>';
 
                 $op=new Acc_Operation($cn);
                 $op->jr_id=$detail['jr_id'];

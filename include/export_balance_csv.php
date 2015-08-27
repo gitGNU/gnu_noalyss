@@ -32,7 +32,7 @@ $gDossier=dossier::id();
 
 require_once NOALYSS_INCLUDE.'/class_acc_ledger.php';
 $cn=new Database($gDossier);
-
+bcscale(2);
 
 require_once  NOALYSS_INCLUDE.'/class_user.php';
 
@@ -71,8 +71,8 @@ $row=$bal->get_row($_GET['from_periode'],
         $prev);
 $prev =  ( isset ($row[0]['sum_cred_previous'])) ?1:0;
 echo 'poste;libelle;';
-if ($prev  == 1 ) echo 'deb n-1;cred n-1;solde deb n-1;solde cred n-1;';
-echo 'deb;cred;solde deb;solde cred';
+if ($prev  == 1 ) echo 'deb n-1;cred n-1;solde n-1;d/c;';
+echo 'deb;cred;solde;d/c';
 printf("\n");
 foreach ($row as $r)
 {
@@ -80,15 +80,22 @@ foreach ($row as $r)
     $r['label'].';';
     if ( $prev == 1 )
     {
-       echo  nb($r['sum_deb_previous']).';'.
+        $delta=bcsub($r['solde_deb_previous'],$r['solde_cred_previous']);
+        $sign=($delta<0)?'C':'D';
+        $sign=($delta == 0)?'=':$sign;
+        echo  nb($r['sum_deb_previous']).';'.
         nb($r['sum_cred_previous']).';'.
-        nb($r['solde_deb_previous']).';'.
-        nb($r['solde_cred_previous']).';';
+        nb(abs($delta)).';'.
+        "$sign".';';
+       
     }
+    $delta=bcsub($r['solde_deb'],$r['solde_cred']);
+    $sign=($delta<0)?'C':'D';
+    $sign=($delta == 0)?'=':$sign;
     echo nb($r['sum_deb']).';'.
     nb($r['sum_cred']).';'.
-    nb($r['solde_deb']).';'.
-    nb($r['solde_cred']);
+    nb(abs($delta)).';'.
+    "$sign";
     printf("\n");
 }
 

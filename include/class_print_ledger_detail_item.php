@@ -34,7 +34,7 @@ class Print_Ledger_Detail_Item extends PDFLand
 
         parent::__construct($p_cn,'L', 'mm', 'A4');
         $this->ledger=$p_jrn;
-        
+        $this->show_col=true;
     }
 
     function setDossierInfo($dossier = "n/a")
@@ -64,6 +64,7 @@ class Print_Ledger_Detail_Item extends PDFLand
         $this->Cell(20, $high, _('Tot TVA'), 0, 0, 'R', false);
         $this->Cell(20, $high, _('TVAC'), 0, 0, 'R', false);
         $this->Ln(6);
+        $this->show_col=true;
         
     }
     /**
@@ -115,6 +116,7 @@ class Print_Ledger_Detail_Item extends PDFLand
         $high=4;
         for ( $i=0;$i< $nb ;$i++)
         {
+            
             $row=Database::fetch_array($ret_detail, $i);
             if ($internal != $row['jr_internal'])
             {
@@ -132,19 +134,23 @@ class Print_Ledger_Detail_Item extends PDFLand
                 $this->Cell(20, $high, nbm($sum), 1, 0, 'R', true);
                 $internal=$row['jr_internal'];
                 $this->Ln(6);
-                //
-                // Header detail
-                $this->LongLine(30,$high,'QuickCode');
-                $this->Cell(30,$high,'Poste');
-                $this->LongLine(70,$high,'Libellé');
-                $this->Cell(20,$high,'Prix/Unit',0,0,'R');
-                $this->Cell(20,$high,'Quant.',0,0,'R');
-                $this->Cell(20,$high,'HTVA',0,0,'R');
-                $this->Cell(20,$high,'TVA NP',0,0,'R');
-                $this->Cell(20,$high,'Code TVA');
-                $this->Cell(20,$high,'TVA',0,0,'R');
-                $this->Cell(20,$high,'TVAC',0,0,'R');
-                $this->Ln(6);
+               // on the first line, the code for each column is displaid
+                if ( $this->show_col == true ) {
+                    //
+                    // Header detail
+                    $this->LongLine(30,$high,'QuickCode');
+                    $this->Cell(30,$high,'Poste');
+                    $this->LongLine(70,$high,'Libellé');
+                    $this->Cell(20,$high,'Prix/Unit',0,0,'R');
+                    $this->Cell(20,$high,'Quant.',0,0,'R');
+                    $this->Cell(20,$high,'HTVA',0,0,'R');
+                    $this->Cell(20,$high,'TVA NP',0,0,'R');
+                    $this->Cell(20,$high,'Code TVA');
+                    $this->Cell(20,$high,'TVA',0,0,'R');
+                    $this->Cell(20,$high,'TVAC',0,0,'R');
+                    $this->Ln(6);
+                    $this->show_col=false;
+                 } 
             }
             // Print detail sale / purchase
             $this->LongLine(30,$high,$row['j_qcode']);

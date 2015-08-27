@@ -70,21 +70,26 @@ class Print_Ledger_Misc extends PDF
      */
     function export()
     {
-        $a_jrn=$this->ledger->get_operation($_GET['from_periode'],
+        $a_jrn=$this->ledger->get_rowSimple($_GET['from_periode'],
                                             $_GET['to_periode']);
         $this->SetFont('DejaVu', '', 6);
         if ( $a_jrn == null ) return;
         for ( $i=0;$i<count($a_jrn);$i++)
         {
             $row=$a_jrn[$i];
-            $this->LongLine(30,5,$row['pj']);
-            $this->Cell(10,5,$row['date_fmt']);
-            $this->Cell(20,5,$row['internal']);
+            $this->LongLine(30,5,$row['jr_pj_number']);
+            $this->Cell(10,5,  smaller_date($row['date']));
+            $this->Cell(20,5,$row['jr_internal']);
 	    $type=$this->cn->get_value("select jrn_def_type from jrn_def where jrn_def_id=$1",array($a_jrn[$i]['jr_def_id']));
-	    $other=mb_substr($this->ledger->get_tiers($type,$a_jrn[$i]['id']),0,25);
+	    $other=mb_substr($this->ledger->get_tiers($type,$a_jrn[$i]['jr_id']),0,25);
 	    $this->LongLine(25,5,$other,0,'L');
+            $positive=$row['montant'];
             $this->LongLine(80,5,$row['comment'],0,'L');
-            $this->Cell(15,5,nbm($row['montant']),0,0,'R');
+             if ( $type == 'FIN' ) {
+	       $positive = $this->cn->get_value("select qf_amount from quant_fin  ".
+					  " where jr_id=".$row['jr_id']);
+             }
+            $this->Cell(15,5,nbm($positive),0,0,'R');
             $this->Ln(5);
 
         }

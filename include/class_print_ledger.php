@@ -72,7 +72,7 @@ class Print_Ledger {
                                 ($jrn_type == 'VEN' && $cn->get_value('select count(qs_id) from quant_sold') == 0)
                         ) {
                             $pdf = new Print_Ledger_Simple_without_vat($cn, $p_ledger);
-                            $pdf->set_error('Ce journal ne peut être imprimé en mode simple');
+                            $pdf->set_error(_('Ce journal ne peut être imprimé en mode simple'));
                             return $pdf;
                         }
                         if ($own->MY_TVA_USE == 'Y') {
