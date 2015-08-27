@@ -142,7 +142,10 @@ if ( $ss_action == 'cn')
     if ( empty ($filter))
     {
         echo '<span class="notice">';
+        $url="do.php?".http_build_query(array('gDossier'=>Dossier::id(),'ac'=>'CFGCARD'));
+        echo '<a class="line" href="'.$url.'" targer="_blank">';
         echo _("Vous devez aller dans fiche et créer une catégorie pour les contacts");
+        echo '</a>';
         echo '</span>';
        return;
     }
