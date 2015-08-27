@@ -27,6 +27,8 @@
 
 require_once NOALYSS_INCLUDE.'/class_database.php';
 require_once NOALYSS_INCLUDE.'/class_periode.php';
+require_once NOALYSS_INCLUDE.'/class_html_input.php';
+require_once NOALYSS_INCLUDE.'/function_javascript.php';
 
 /**\brief to protect again bad characters which can lead to a cross scripting attack
   the string to be diplayed must be protected
@@ -256,7 +258,6 @@ function isDate($p_date)
 
 function html_page_start($p_theme="", $p_script="", $p_script2="")
 {
-    require_once 'class_html_input.php';
     // check not called twiced
     static  $already_call=0;
     if ( $already_call==1)return;
@@ -323,7 +324,7 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
     <script language="javascript" src="js/calendar-setup.js"></script>
     <LINK REL="stylesheet" type="text/css" href="./calendar-blue.css" media="screen">
     ';
-
+    echo load_all_script();
     echo '    </HEAD>    ';
 
     echo "<BODY $p_script>";

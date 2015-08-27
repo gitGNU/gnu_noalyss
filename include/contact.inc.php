@@ -43,19 +43,23 @@ if ($low_action == "")
 //-----------------------------------------------------
 // Remove a card
 //-----------------------------------------------------
-if (isset($_POST['delete_card']))
+if (isset($_POST['action_fiche']))
 {
-    if ($g_user->check_action(FICADD) == 0)
+    
+    if ( $_POST['action_fiche'] == 'delete_card') 
     {
-	alert(j(_('Vous  ne pouvez pas enlever de fiche')));
-	return;
+        if ( $g_user->check_action(FICADD) == 0 )
+        {
+            alert(_('Vous  ne pouvez pas enlever de fiche'));
+            return;
+        }
+
+        $f_id = $_REQUEST['f_id'];
+
+        $fiche = new Contact($cn, $f_id);
+        $fiche->remove();
+        $low_action = "list";
     }
-
-    $f_id = $_REQUEST['f_id'];
-
-    $fiche = new Contact($cn, $f_id);
-    $fiche->remove();
-    $low_action = "list";
 }
 
 //-----------------------------------------------------

@@ -121,9 +121,6 @@ if ($oPeriode->load() == -1)
     $g_user->set_periode($periode);
 }
 
-// Display available menu in the right order
-load_all_script();
-
 $module_selected = -1;
 
 /*
