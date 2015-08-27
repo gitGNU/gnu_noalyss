@@ -100,7 +100,7 @@
 	</tr>
 <?php endfor; ?>
 </table>
-<?php if ($p_readonly == false) echo HtmlInput::button_action(_('Ajouter une ligne'),'stock_add_row();','smallbutton')?>
+<?php if ($p_readonly == false) echo HtmlInput::button_action(_('Ajouter une ligne'),'stock_add_row();',"xx",'smallbutton')?>
 <?php if ($p_readonly == false) echo HtmlInput::submit('save',_('Sauver'))?>
 <?php if ($p_readonly == false) echo HtmlInput::hidden('row',$nb)?>
 <?php if ($p_readonly == false) echo HtmlInput::button("reprise_show",_('Reprise inventaire'),  " onclick=\"$('reprise_inventaire_div').show();\"")?>
