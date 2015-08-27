@@ -37,7 +37,7 @@ if ( isset ($_POST['save']))
 	try
 	{
 		$inv->record_save($_POST);
-		echo h2info("Opération sauvée");
+		echo h2info(_("Opération sauvée"));
 		$inv->input($_POST,true);
 
 	}catch(Exception $e)
