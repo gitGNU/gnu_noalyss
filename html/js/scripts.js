@@ -2904,10 +2904,16 @@ function confirm_form(p_obj, p_message,p_callback_true)
     remove_waiting_box();
     return false;
 }
+/**
+ * Alert box in CSS and HTML to replace the common javascript alert
+ * @param p_message message to display
+ * @returns void
+ */
 function alert_box(p_message)
 {
     smoke.alert(p_message,false , {ok:'ok',classname:"inner_box"});
 }
+
 /**
  * All the onload must be here otherwise the other will overwritten
  * @returns {undefined}
