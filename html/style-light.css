@@ -1437,7 +1437,7 @@ div#modele_op_div{
     border:1px solid #00008B;
     width: 80%;
 }
-@media only screen and (min-width: 955px) {
+@media only screen and (min-width: 1015px) {
     div.name  {
     position:absolute;
     top:0px;

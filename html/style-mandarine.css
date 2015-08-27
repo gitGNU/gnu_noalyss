@@ -1931,7 +1931,7 @@ td.box {
 
 .smoke {
   text-align: center;
-    background-color: #DCE1EF;
+    background-color:#FFF1ED ;
     font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;
         font-family: 'openSansRegular';
 
@@ -1941,7 +1941,7 @@ td.box {
     z-index:3;
     position:absolute;
     left:10%;
-    border:1px solid #00008B;
+    border:1px solid #white;
 -moz-box-shadow: 10px 10px 5px #888;
 -webkit-box-shadow: 10px 10px 5px #888;
 box-shadow: 10px 10px 5px #888;
@@ -1998,8 +1998,8 @@ width: 85%;
 }
 
 button.cancel {
-  background-color: rgba(0,0,0,.40);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#444444,endColorstr=#444444);
+  background-color: rgba(0,0,0,.50);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#2000,endColorstr=#444444);
 }
 
 .queue{
