@@ -392,7 +392,7 @@ class HtmlInput
 
         }
         echo '</ul>';
-        $hide=new IButton('l');
+        $hide=new IButton('l2');
         $hide->label=_("Valider");
         $hide->javascript=" hide_cat_choice() ";
         echo $hide->input();
