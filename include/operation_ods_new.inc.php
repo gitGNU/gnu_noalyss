@@ -65,17 +65,17 @@ if ( isset ($_GET['action']) && ! isset($_POST['correct']))
 {
 	if ( $_GET['action']=='use_opd')
 	{
-		// get data from predef. operation
-		$op=new Pre_op_advanced($cn);
-        $p_post=null;
-        if ( isset($_REQUEST['pre_def']) && $_REQUEST['pre_def'] != '')
-        {
-            $op->set_od_id($_REQUEST['pre_def']);
-            $p_post=$op->compute_array();
-        }
+            // get data from predef. operation
+            $op=new Pre_op_advanced($cn);
+            $p_post=null;
+            if ( isset($_REQUEST['pre_def']) && $_REQUEST['pre_def'] != '')
+            {
+                $op->set_od_id($_REQUEST['pre_def']);
+                $p_post=$op->compute_array();
+            }
 	}
 }
-
+$p_msg=(isset($p_msg))?$p_msg:"";
 print '<p class="notice">'.$p_msg.'</p>';
 echo '<form method="post"  class="print">';
 echo dossier::hidden();
