@@ -527,14 +527,14 @@ case 'scc':
             if ( isset ($_POST['create'])) $array['create']=1;
             $catcard=new Fiche_Def($cn);
             if ( $catcard->Add($array) == -1)
-                $script="alert('"._('Catégorie existe déjà')."')";
+                $script="alert_box('"._('Catégorie existe déjà')."')";
             else
-                $script="alert('"._('Catégorie sauvée')."')";
+                $script="alert_box('"._('Catégorie sauvée')."')";
             $html.=create_script($script);
         }
         else
         {
-            $script="alert('"._("Le nom et la classe base ne peuvent être vide")."')";
+            $script="alert_box('"._("Le nom et la classe base ne peuvent être vide")."')";
             $html.=create_script($script);
 
             $invalid=1;
