@@ -187,7 +187,17 @@ if (isset($_REQUEST['ac']))
             array($AC,$user_profile));
     try {        
         if ( count($amenu_id) != 1 ) {
-            throw new Exception(_('Erreur menu'),10);
+            // if AC is a simple code and this menu can be accessed 
+            // we should find the first menu which used it and change the
+            // request AC to it
+            $pm_id=$cn->get_array('select pm_id from profile_menu '
+                    . ' where lower(me_code)=lower($1) and p_id=$2',
+                    array($AC,$user_profile));
+            if ( count($pm_id) > 0 ) {
+                show_menu($pm_id[0]['pm_id']);
+            } else {
+                throw new Exception(_('Erreur menu'),10);
+            }
         }
         
         $module_id=$cn->get_value('select case when pm_id_v3 = 0 then (case when pm_id_v2 = 0 then pm_id_v1 else pm_id_v2 end) else pm_id_v3 end 
@@ -222,7 +232,7 @@ else
     $_REQUEST['ac']=$default;
     show_module($menu_id);
     $all[0] = $default;
-    show_menu($menu_id, 0);
+    show_menu($menu_id);
 }
 
 
