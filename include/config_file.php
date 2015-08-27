@@ -161,7 +161,7 @@ function config_file_create($p_array,$from_setup=1,$p_os=1)
     fputs($hFile, '// define ("DEBUG",TRUE);');
     fputs($hFile,"\r\n");
     fputs($hFile,' // Uncomment to log your input');
-    fputs($hFile,"\r\n");
+    fputs($hFile,"\r\n");   
     fputs($hFile, '// define ("LOGINPUT",TRUE);');
     fputs($hFile,"\r\n");
     fputs($hFile,"\r\n");
@@ -172,19 +172,21 @@ function config_file_create($p_array,$from_setup=1,$p_os=1)
     fputs($hFile,"\r\n");
     fputs($hFile,' // very special configuration');
     fputs($hFile,"\r\n");
-    fputs($hFile, '// define ("NOALYSS_HOME","")');
+    fputs($hFile, '// define ("NOALYSS_HOME","");');
     fputs($hFile,"\r\n");
-    fputs($hFile, '// define ("NOALYSS_PLUGIN","")');
+    fputs($hFile, '// define ("NOALYSS_PLUGIN","");');
     fputs($hFile,"\r\n");
-    fputs($hFile, '// define ("NOALYSS_INCLUDE","")');
+    fputs($hFile, '// define ("NOALYSS_INCLUDE","");');
+    fputs($hFile,"\r\n");
+    fputs($hFile, '// define ("NOALYSS_TEMPLATE","");');
     fputs($hFile,"\r\n");
     fputs($hFile,"\r\n");
     fputs($hFile,"\r\n");
      fputs($hFile, "// Uncomment if you don't want "."\r\n");
      fputs($hFile, "// to be informed when a new release is "."\r\n");
      fputs($hFile, "// published"."\r\n");
-     fputs($hFile, '// define ("SITE_UPDATE","")'."\r\n");
-     fputs($hFile, '// define ("SITE_UPDATE_PLUGIN","")'."\r\n");
+     fputs($hFile, '// define ("SITE_UPDATE","");'."\r\n");
+     fputs($hFile, '// define ("SITE_UPDATE_PLUGIN","");'."\r\n");
     fputs($hFile,'?>');
     fclose($hFile);
 }
