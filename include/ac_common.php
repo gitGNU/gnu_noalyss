@@ -30,7 +30,8 @@ require_once NOALYSS_INCLUDE.'/class_periode.php';
 require_once NOALYSS_INCLUDE.'/class_html_input.php';
 require_once NOALYSS_INCLUDE.'/function_javascript.php';
 
-/**\brief to protect again bad characters which can lead to a cross scripting attack
+/**
+ * \brief to protect again bad characters which can lead to a cross scripting attack
   the string to be diplayed must be protected
  */
 
