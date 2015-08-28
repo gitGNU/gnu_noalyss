@@ -336,8 +336,8 @@ if (isset($_REQUEST['f_id']) && $sa == "vw")
 	echo HtmlInput::submit('mod_cat_bt', _('Modifier nom ou catégories'),'onclick="$(\'action\').value=\'mod_cat\';"');
 	echo HtmlInput::submit('mod_item_bt', _('Modifier éléments'),'onclick="$(\'action\').value=\'mod_item\';"');
 	//echo HtmlInput::submit('cvs',_('Export CVS'));
-	echo HtmlInput::submit('del_bt', _('Effacer'), 'onclick="$(\'action\').value=\'del\';return confirm_form(\'forecast_frm\',\'' . _('Vous confirmez l\\\' effacement') . '\')"');
-	echo HtmlInput::submit('clone_bt', _('Cloner'), 'onclick="$(\'action\').value=\'clone\';return confirm_form(\'forecast_frm\',\'' . _('Vous confirmez le clonage ') . '\')"');
+	echo HtmlInput::submit('del_bt', _('Effacer'), 'onclick="$(\'action\').value=\'del\';return confirm_box(\'forecast_frm\',\'' . _('Vous confirmez l\\\' effacement') . '\')"');
+	echo HtmlInput::submit('clone_bt', _('Cloner'), 'onclick="$(\'action\').value=\'clone\';return confirm_box(\'forecast_frm\',\'' . _('Vous confirmez le clonage ') . '\')"');
 	echo HtmlInput::hidden('ac', $_REQUEST['ac']);
         $href=http_build_query(array('ac'=>$_REQUEST['ac'],'gDossier'=>$_REQUEST['gDossier']));
         echo '<a style="display:inline" class="smallbutton" href="do.php?'.$href.'">'._('Retour').'</a>';

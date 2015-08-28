@@ -201,7 +201,7 @@ class Periode
                                      from parm_periode
                                      order by p_start,p_end");
             $Max=Database::num_row($Res);
-            echo '<form id="periode_frm" method="POST" onsubmit="return confirm_form(this,\'Confirmez-vous la fermeture des périodes choisies ?\')" >';
+            echo '<form id="periode_frm" method="POST" onsubmit="return confirm_box(this,\'Confirmez-vous la fermeture des périodes choisies ?\')" >';
             echo HtmlInput::array_to_hidden(array('ac','gDossier','jrn_def_id','choose'), $_REQUEST);
             echo '<TABLE ALIGN="CENTER">';
             echo "</TR>";
@@ -240,7 +240,7 @@ class Periode
 		    $remove=sprintf(_('Nombre opérations %d'),$l_line['count_op']);
                     $remove=td($remove,' class="mtitle" ');
                     $change=td ('<A class="mtitle" HREF="javascript:void(0)"'
-                            . ' onclick="return confirm_form(null,\''._('Confirmez Réouverture').' ?\',function() {window.location=\'do.php?ac='.$_REQUEST['ac'].'&action=reopen&p_per='.$l_line['p_id'].'&'.$str_dossier.'\';} )"> Réouverture</A>',' class="mtitle"');
+                            . ' onclick="return confirm_box(null,\''._('Confirmez Réouverture').' ?\',function() {window.location=\'do.php?ac='.$_REQUEST['ac'].'&action=reopen&p_per='.$l_line['p_id'].'&'.$str_dossier.'\';} )"> Réouverture</A>',' class="mtitle"');
 
                 }
                 else
@@ -268,7 +268,7 @@ class Periode
                             'gDossier'=>Dossier::id()));
                         
                         $remove.='<A class="mtitle" HREF="javascript:void(0)" '
-                                . 'onclick="return confirm_form (null,\''._('Confirmez effacement ?').'\',function() { window.location=\''.$go.'\'});" >'
+                                . 'onclick="return confirm_box (null,\''._('Confirmez effacement ?').'\',function() { window.location=\''.$go.'\'});" >'
                                 . ' Efface</A>';
                     }
                     else
@@ -334,7 +334,7 @@ class Periode
                                    $this->jrn_def_id);
             $jrn_name=Database::fetch_result($r,0,0);
             echo '<h2> Journal '.$jrn_name.'</h2>';
-            echo '<form id="periode_frm" method="POST" onsubmit="return confirm_form(this,\'Confirmez-vous la fermeture des périodes choisies ?\')" >';
+            echo '<form id="periode_frm" method="POST" onsubmit="return confirm_box(this,\'Confirmez-vous la fermeture des périodes choisies ?\')" >';
             echo HtmlInput::array_to_hidden(array('ac','gDossier','jrn_def_id','choose'), $_REQUEST);
 
             echo '<TABLE ALIGN="CENTER">';
@@ -372,7 +372,7 @@ class Periode
                         'jrn_def_id'=>$this->jrn_def_id));
                     
 		  $closed=td ('<A class="mtitle" HREF="javascript:void(0)" '
-                          . 'onclick="return confirm_form(null,\''._('Confirmez Réouverture').' ?\',function() {window.location=\''.$go.'\';} );"> Réouverture</A>',' class="mtitle"');
+                          . 'onclick="return confirm_box(null,\''._('Confirmez Réouverture').' ?\',function() {window.location=\''.$go.'\';} );"> Réouverture</A>',' class="mtitle"');
                 }
                
                 echo "$closed";

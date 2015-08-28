@@ -119,9 +119,9 @@ switch ($sa)
 			echo '<form id="cfg_ledger_frm"  method="POST">';
 			echo $ledger->display_ledger();
                         echo HtmlInput::hidden('action_frm','');
-			echo '<INPUT TYPE="SUBMIT" class="smallbutton" VALUE="'._("Sauve").'" name="update" onClick="$(\'action_frm\').value=\'update\';return confirm_form(\'cfg_ledger_frm\',\'Valider ?\')">
+			echo '<INPUT TYPE="SUBMIT" class="smallbutton" VALUE="'._("Sauve").'" name="update" onClick="$(\'action_frm\').value=\'update\';return confirm_box(\'cfg_ledger_frm\',\'Valider ?\')">
 			<INPUT TYPE="RESET" class="smallbutton" VALUE="Reset">
-			<INPUT TYPE="submit" class="smallbutton"  name="efface" value="'._("Efface").'" onClick="$(\'action_frm\').value=\'delete\';return confirm_form(\'cfg_ledger_frm\',\'Vous effacez ce journal ?\')">';
+			<INPUT TYPE="submit" class="smallbutton"  name="efface" value="'._("Efface").'" onClick="$(\'action_frm\').value=\'delete\';return confirm_box(\'cfg_ledger_frm\',\'Vous effacez ce journal ?\')">';
                         $href=http_build_query(array('ac'=>$_REQUEST['ac'],'gDossier'=>$_REQUEST['gDossier']));
                         echo '<a style="display:inline" class="smallbutton" href="do.php?'.$href.'">'._('Retour').'</a>';
 			echo '</FORM>';

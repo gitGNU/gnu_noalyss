@@ -208,5 +208,5 @@
     echo HtmlInput::request_to_hidden(array('gDossier', 'ac'));
     echo HtmlInput::hidden('op','delete_key');
     echo HtmlInput::hidden('key', $this->key->getp('id'));
-   if ($this->key->getp('id') != -1) echo HtmlInput::submit('delete_key', _('Effacer'),'onclick="return confirm_form(\'anc_key_input_frm\',\''._('Confirmer effacement?').'\')"'); ?>
+   if ($this->key->getp('id') != -1) echo HtmlInput::submit('delete_key', _('Effacer'),'onclick="return confirm_box(\'anc_key_input_frm\',\''._('Confirmer effacement?').'\')"'); ?>
 </form>

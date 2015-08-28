@@ -1518,7 +1518,7 @@ function display_sub_menu(p_dossier,p_profile,p_dep,p_level)
  */
 function remove_sub_menu(p_dossier,profile_menu_id)
 {
-    confirm_form(null,'Confirme ?', 
+    confirm_box(null,'Confirme ?', 
     function () {
         waiting_box();
         new Ajax.Request('ajax_misc.php',
@@ -2862,14 +2862,14 @@ function init_scroll()
  * Confirm a form thanks a modal dialog Box, it returns true if we agree otherwise
  * false
  * @code
-<form onsubmit="return confirm_form(this,'message')">
+<form onsubmit="return confirm_box(this,'message')">
 </form>
  * @endcode
  * @param p_obj form element (object) or element id (string)
  * @param p_message message to display
  * @returns true or false
  */
-function confirm_form(p_obj, p_message,p_callback_true)
+function confirm_box(p_obj, p_message,p_callback_true)
 {
     waiting_box();
     try {

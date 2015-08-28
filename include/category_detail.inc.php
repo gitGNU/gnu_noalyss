@@ -68,7 +68,7 @@ if ( ! $p_readonly)
 {
 	echo HtmlInput::submit('mod',_('Sauver les modifications'),' onclick="$(\'action_fiche\').value=\'mod\';"');
 	echo HtmlInput::reset(_("Annuler"));
-	echo HtmlInput::submit('delete_card',_('Effacer cette fiche'),'onclick="$(\'action_fiche\').value=\'delete_card\';return confirm_form(\'catergory_detail_frm\',\''.('Confirmer effacement ?').'\');"');
+	echo HtmlInput::submit('delete_card',_('Effacer cette fiche'),'onclick="$(\'action_fiche\').value=\'delete_card\';return confirm_box(\'catergory_detail_frm\',\''.('Confirmer effacement ?').'\');"');
 	echo '</form>';
 }
 echo '</div>';

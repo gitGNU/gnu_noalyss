@@ -27,7 +27,7 @@
  */
 ?>
 <?php echo  $bar?>
-<form method="POST" id="fiche_list_frm" class="print" style="display:inline" onsubmit="return confirm_form(this,'<?php echo _("Vous confirmez ?")?>')">
+<form method="POST" id="fiche_list_frm" class="print" style="display:inline" onsubmit="return confirm_box(this,'<?php echo _("Vous confirmez ?")?>')">
 	<table class="sortable" id="fiche_list_table_id">
 		<tr>
 			<th >

@@ -43,7 +43,7 @@ if ( $sb=='change')
     if ( !isset($_GET['id'])) exit;
     $row=new Acc_Payment($cn,$_GET['id']);
     $row->load();
-    echo '<form method="post" id="modify_acc_pay_frm" onsubmit="return confirm_form(\'modify_acc_pay_frm\',\''._('Vous confirmez').'\')">';
+    echo '<form method="post" id="modify_acc_pay_frm" onsubmit="return confirm_box(\'modify_acc_pay_frm\',\''._('Vous confirmez').'\')">';
     echo dossier::hidden();
     echo HtmlInput::hidden('sa','mp');
     echo HtmlInput::hidden('sb','save');
@@ -97,7 +97,7 @@ if ($sb=='ins')
 {
     $mp=new Acc_Payment($cn);
     $r=$mp->blank();
-    echo '<form method="POST" id="payment_frm" onsubmit="return confirm_form(this,\'Vous confirmez ?\')">';
+    echo '<form method="POST" id="payment_frm" onsubmit="return confirm_box(this,\'Vous confirmez ?\')">';
     echo dossier::hidden();
     echo HtmlInput::hidden('ac',$_REQUEST['ac']),HtmlInput::hidden('insert',0);
     echo $r;

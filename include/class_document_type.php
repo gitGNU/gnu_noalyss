@@ -80,7 +80,7 @@ class Document_type
 
 			$bt = new IButton('X' . $r[$i]['dt_id']);
 			$bt->label = _('Effacer');
-			$bt->javascript = "confirm_form('X{$r[$i]['dt_id']}','" . _('Vous confirmez') . "',";
+			$bt->javascript = "confirm_box('X{$r[$i]['dt_id']}','" . _('Vous confirmez') . "',";
                         $bt->javascript.="function () { cat_doc_remove('{$r[$i]['dt_id']}','" . Dossier::id() . "');})";
 
 			$tmp['js_remove'] = $bt->input();

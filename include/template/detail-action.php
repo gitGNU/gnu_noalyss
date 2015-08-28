@@ -193,7 +193,7 @@
 		{
 			if ( $p_view != 'READ' && $p_base != 'ajax')
 			{
-                            $rmAction=sprintf("return confirm_form(null,'"._('Voulez-vous effacer cette action ')."', function () {remove_action('%s','%s','%s');});",
+                            $rmAction=sprintf("return confirm_box(null,'"._('Voulez-vous effacer cette action ')."', function () {remove_action('%s','%s','%s');});",
 					dossier::id(),
 					$action[$o]['ag_id'],$_REQUEST['ag_id']);
                             $showAction='<a class="line" href="'.$base."&ag_id=".$action[$o]['ag_id'].'">';
@@ -271,7 +271,7 @@ for( $c=0;$c<count($acomment);$c++){
 	<?php
         if ( $p_view != 'READ')
 	{
-		$rmComment=sprintf("return confirm_form(null,'"._('Voulez-vous effacer ce commentaire')." ?',function() {remove_comment('%s','%s');});",
+		$rmComment=sprintf("return confirm_box(null,'"._('Voulez-vous effacer ce commentaire')." ?',function() {remove_comment('%s','%s');});",
 						dossier::id(),
 						$acomment[$c]['agc_id']);
 				$js= '<a class="tinybutton" id="accom'.$acomment[$c]['agc_id'].'" href="javascript:void(0)" onclick="'.$rmComment.'">'.SMALLX.'</a>';
@@ -462,7 +462,7 @@ for ($i=0;$i<sizeof($aAttachedFile);$i++) :
         <?php else: ?>
         </span>
         <?php endif;?>
-<?php $rmDoc=sprintf("return confirm_form(null,'"._('Voulez-vous effacer le document')." %s' , function(){remove_document('%s','%s');});",
+<?php $rmDoc=sprintf("return confirm_box(null,'"._('Voulez-vous effacer le document')." %s' , function(){remove_document('%s','%s');});",
 	$aAttachedFile[$i]['d_filename'],
 	dossier::id(),
 	$aAttachedFile[$i]['d_id']);

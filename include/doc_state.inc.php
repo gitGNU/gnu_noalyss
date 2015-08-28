@@ -60,7 +60,7 @@ $a_stat=$cn->get_array("select s_value,s_status from document_state order by 1")
 	<?php endfor;?>
 </table>
 <h2>Ajout d'un état</h2>
-<form method="post" id='etat_add_frm' onsubmit="return confirm_form(this,'Vous confirmez ?'); ">
+<form method="post" id='etat_add_frm' onsubmit="return confirm_box(this,'Vous confirmez ?'); ">
 	<p>
 		Nom de l'état <?php $value=new IText("s_value",""); echo $value->input()?>
 	</p>

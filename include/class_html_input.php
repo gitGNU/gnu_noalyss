@@ -905,7 +905,7 @@ class HtmlInput
          */
         static function  button_action_remove_operation($p_operation) 
         {
-            $rmOperation=sprintf("javascript:confirm_form(null,'"._('Voulez-vous effacer cette relation ')."',function ()  {remove_operation('%s','%s');});",
+            $rmOperation=sprintf("javascript:confirm_box(null,'"._('Voulez-vous effacer cette relation ')."',function ()  {remove_operation('%s','%s');});",
 							dossier::id(),
 							$p_operation);
             $js= '<a class="tinybutton" id="acop'.$p_operation.'" href="javascript:void(0)" onclick="'.$rmOperation.'">'.SMALLX.'</a>';

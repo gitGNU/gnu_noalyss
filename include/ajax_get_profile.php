@@ -76,7 +76,7 @@ else
 {
 	echo '<div  class="myfieldset" id="profile_gen_div">';
 }
-echo '<form method="POST" id="profile_save_name_frm" onsubmit="return confirm_form(this,\'vous confirmez\')">';
+echo '<form method="POST" id="profile_save_name_frm" onsubmit="return confirm_box(this,\'vous confirmez\')">';
 echo HtmlInput::hidden('tab','profile_gen_div');
 echo HtmlInput::hidden('p_id',$profile->p_id);
 echo HtmlInput::hidden('save_name',1);
@@ -85,7 +85,7 @@ echo HtmlInput::submit("save_namebt",_("Modifier"));
 echo '</form>';
 if ($profile->p_id > 0)
 {
-	echo '<form method="POST" id="profile_clone_frm" onsubmit="return confirm_form(this,\''._("vous confirmez").'\')">';
+	echo '<form method="POST" id="profile_clone_frm" onsubmit="return confirm_box(this,\''._("vous confirmez").'\')">';
 
 	echo _('Vous pouvez aussi copier ce profil et puis le corriger');
 
@@ -94,7 +94,7 @@ if ($profile->p_id > 0)
 	echo HtmlInput::submit("clonebt", "Copier");
 	echo '</form>';
 
-	echo '<form method="POST" id="delete_profile_frm" onsubmit="return confirm_form(this,\''._("vous confirmez").'\')">';
+	echo '<form method="POST" id="delete_profile_frm" onsubmit="return confirm_box(this,\''._("vous confirmez").'\')">';
 
 	echo _('Effacer ce profil');
 

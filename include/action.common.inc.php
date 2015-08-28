@@ -205,7 +205,7 @@ if ($sub_action == 'detail')
 		echo '<input type="hidden" id="delete" name="delete" value="0">';
 		echo HtmlInput::submit("save", "Sauve",' onclick="$(\'delete\').value=0"');
 		echo HtmlInput::submit("add_action_here", _("Ajoute un événement à celui-ci"),' onclick="$(\'delete\').value=0"');
-		echo HtmlInput::submit("delete_bt", _("Efface cet événement "), ' onclick="$(\'delete\').value=1;return confirm_form(\'action_common_frm\',\''. _("Vous confirmez l\'effacement") . '\')" ');
+		echo HtmlInput::submit("delete_bt", _("Efface cet événement "), ' onclick="$(\'delete\').value=1;return confirm_box(\'action_common_frm\',\''. _("Vous confirmez l\'effacement") . '\')" ');
 		echo $retour;
 		echo '</form>';
 	}

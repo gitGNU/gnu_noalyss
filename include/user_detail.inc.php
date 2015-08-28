@@ -172,9 +172,9 @@ $it_pass->value="";
         </tr>
     </table>
     <input type="hidden" name="sbaction" id="sbaction" value="">
-        <input type="Submit" class="button" NAME="SAVE" VALUE="Sauver les changements" onclick="$('sbaction').value='save';return confirm_form('user_detail_frm','Confirmer changement ?');">
+        <input type="Submit" class="button" NAME="SAVE" VALUE="Sauver les changements" onclick="$('sbaction').value='save';return confirm_box('user_detail_frm','Confirmer changement ?');">
 
-        <input type="Submit"  class="button" NAME="DELETE" VALUE="Effacer" onclick="$('sbaction').value='delete';return confirm_form('user_detail_frm','Confirmer effacement ?');" >
+        <input type="Submit"  class="button" NAME="DELETE" VALUE="Effacer" onclick="$('sbaction').value='delete';return confirm_box('user_detail_frm','Confirmer effacement ?');" >
 
 </FORM>
 <?php

@@ -106,7 +106,7 @@ if ( $request_sa== 'jrn' )
         echo $hid->input("jrn",$get_jrn);
 
 	$b='<input type="submit" class="smallbutton" value="'._("Effacer").'"'.
-	  ' onClick="return confirm_form(\'preod_frm\',\''._("Voulez-vous vraiment effacer cette operation ?").'\');" >';
+	  ' onClick="return confirm_box(\'preod_frm\',\''._("Voulez-vous vraiment effacer cette operation ?").'\');" >';
 	   echo $b;
 	   echo '</form>';
 

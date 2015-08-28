@@ -29,7 +29,7 @@ if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 $msg=($new==1)?_("Nouvelle extension"):_("Modification"). " ".$me_menu->value;
 echo HtmlInput::title_box($msg, $ctl);
 ?>
-<form method="POST" id="plugin_detail_frm" onsubmit="return confirm_form('plugin_detail_frm','<?php echo _("Vous confirmez");?>')">
+<form method="POST" id="plugin_detail_frm" onsubmit="return confirm_box('plugin_detail_frm','<?php echo _("Vous confirmez");?>')">
 <table>
 	<tr>
 		<TD><?php echo _("Label");?></td>

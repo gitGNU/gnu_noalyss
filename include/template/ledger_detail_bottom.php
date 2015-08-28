@@ -168,7 +168,7 @@ if ($aRap  != null ) {
     $rmReconciliation=new IButton('rmr');
     $rmReconciliation->label=SMALLX;
     $rmReconciliation->class="tinybutton";
-    $rmReconciliation->javascript="return confirm_form(null,'"._("vous confirmez?")."',";
+    $rmReconciliation->javascript="return confirm_box(null,'"._("vous confirmez?")."',";
     $rmReconciliation->javascript.=sprintf('function () { dropLink(\'%s\',\'%s\',\'%s\',\'%s\');deleteRowRec(\'%s\',$(\'row%d\'));})',
 					  $gDossier,
 					  $div,
@@ -296,7 +296,7 @@ if ( $div != 'popup' ) {
   {
     $remove=new IButton('Effacer');
     $remove->label=_('Effacer');
-    $remove->javascript="return confirm_form(null,'Vous confirmez effacement ?',function () {removeOperation('".$obj->det->jr_id."',".dossier::id().",'".$div."')})";
+    $remove->javascript="return confirm_box(null,'Vous confirmez effacement ?',function () {removeOperation('".$obj->det->jr_id."',".dossier::id().",'".$div."')})";
     echo $remove->input();
   }
 
@@ -320,7 +320,7 @@ echo '</form>';
   $r.=_("entrez une date")." :".$date->input();
     $r.='<p  style="text-align:center">';
   $r.=HtmlInput::submit('x','accepter',
-          'onclick="confirm_form($(\'form_'.$div.'\'),\'Vous confirmez  ? \',function () {$(\'form_'.$div.'\').divname=\''.$div.'\';reverseOperation($(\'form_'.$div.'\'))}); return false"');
+          'onclick="confirm_box($(\'form_'.$div.'\'),\'Vous confirmez  ? \',function () {$(\'form_'.$div.'\').divname=\''.$div.'\';reverseOperation($(\'form_'.$div.'\'))}); return false"');
     $r.="</p>";
   $r.='</form>';
   echo $r;

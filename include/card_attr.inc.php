@@ -120,7 +120,7 @@ for ($e=0;$e<count($array);$e++)
         $r.=td($size->input());
         $r.=td($extra->input());
 
-        $remove->javascript=sprintf('confirm_form(\'tb_rmfa\',\'Vous  confirmez ?\',function() { removeCardAttribut(%d,%d,\'tb_rmfa\',$(\'rmfa%d\') );})',
+        $remove->javascript=sprintf('confirm_box(\'tb_rmfa\',\'Vous  confirmez ?\',function() { removeCardAttribut(%d,%d,\'tb_rmfa\',$(\'rmfa%d\') );})',
                                     $row->get_parameter('id'),$gDossier,$e);
         $msg='<span class="notice">'._("Attention : effacera les données qui y sont liées").' </span>';
         $r.=td($remove->input().$msg);
