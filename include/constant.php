@@ -37,12 +37,14 @@ $g_include_dir=$dirname;
 $g_ext_dir = $dirname."/ext";
 $g_template_dir = $dirname."/template";
 
+if (file_exists($dirname.'/config.inc.php')) require_once $dirname.'/config.inc.php';
+
 if ( !defined("NOALYSS_HOME")) define ("NOALYSS_HOME",dirname($dirname)."/html");
 if ( !defined("NOALYSS_PLUGIN")) define ("NOALYSS_PLUGIN",$g_ext_dir);
 if ( !defined("NOALYSS_INCLUDE")) define ("NOALYSS_INCLUDE",$g_include_dir);
 if ( !defined("NOALYSS_TEMPLATE")) define ("NOALYSS_TEMPLATE",$g_template_dir);
+if ( !defined("ENABLE_CACHE")) define ("ENABLE_CACHE",'YES');
 
-if (file_exists(NOALYSS_INCLUDE.'/config.inc.php')) require_once NOALYSS_INCLUDE.'/config.inc.php';
 require_once NOALYSS_INCLUDE.'/constant.security.php';
 
 if ( strpos($inc_path,";") != 0 ) {
