@@ -1693,8 +1693,8 @@ ul.tabs a:hover {
 div.menu2 a.mtitle{
     font-size:13.6px;
     font-size:0.85rem;
-    padding-left: 5rem;
-    padding-right: 5rem;
+    padding-left: 2%;
+    padding-right: 2%;
 }
 
 div.menu2 table.mtitle td.mtitle {
@@ -1709,8 +1709,8 @@ div.menu2 table.mtitle td.mtitle {
 }
 div.menu2 table.mtitle td.mtitle a.mtitle {
     color:red;
-    padding-left: 5rem;
-    padding-right: 5rem;
+    padding-left: 2%;
+    padding-right: 2%;
     cursor:pointer;
 }
 /*****************************************************************************
@@ -1853,7 +1853,6 @@ div.topmenu a.mtitle:hover,div.menu2 a.mtitle:hover{
 div.topmenu td.selectedcell a.mtitle, div.menu2 a.mtitle{
     font-size:13.6px;
     font-size:0.85rem;
-    color:white;
 } 
 *|*:link {
     color: inherit;
