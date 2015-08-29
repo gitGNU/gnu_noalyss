@@ -68,7 +68,8 @@ if (  isset ($_POST["p_user"] ) )
 	    exit();
 	  }
       }
-      $backurl='user_login.php';
+      // force the nocache
+      $backurl='user_login.php?v='.microtime(true);
       if ( isset ($_POST['backurl'])) {
           $backurl=urldecode($_POST['backurl']);
       }
@@ -96,7 +97,7 @@ else
     $User=new User($rep);
     $User->Check();
 
-    echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=user_login.php\">";
+    echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=user_login.php?v=".microtime(true)."\">";
 }
 html_page_stop();
 ?>
