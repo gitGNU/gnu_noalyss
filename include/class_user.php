@@ -193,7 +193,7 @@ class User
 			$cn->exec_sql($sql, array($_SESSION['g_user'], $_SERVER["REMOTE_ADDR"], $from, $_SERVER['REQUEST_URI'], 'FAIL'));
 			if (!$silent)
 			{
-				alert(_('Utilisateur ou mot de passe incorrect'));
+				echo '<script> alert(\''._('Utilisateur ou mot de passe incorrect').'\')</script>';
 				redirect('index.html');
 			}
 			$this->valid = 0;
