@@ -1677,6 +1677,16 @@ ul.tabs a:hover {
             padding: 10px 10px 0px 10px;
     }
 }
+@media only screen and (max-width: 955px) {
+    li.tabs_selected {
+        padding: 1px 1px 1px 1px;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+    }
+    li.tabs , li.tabs:hover {
+            padding: 1px 1px 1px 1px;
+    }
+}
 /*****************************************************************************
  * Second row of menu
  *****************************************************************************/
