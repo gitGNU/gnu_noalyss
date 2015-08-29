@@ -2005,3 +2005,71 @@ button.cancel {
 .queue{
 	display:none;
 }
+
+/*****************************************************************************
+ * autocomplete style
+ *****************************************************************************/
+
+div.autocomplete_fixed {
+    background-color:#FFFFFF;
+    border:1px solid  #C76626;
+    margin:0px;
+    padding:0px;
+    text-align:left;
+}
+div.autocomplete_fixed em {
+    color: #C76626;
+    font-weight:bold;
+}
+div.autocomplete_fixed ul {
+        list-style-type:none;
+        background-color:#FFFFFF;
+        border:1px solid blue;
+        width:300px;
+        margin:0px;
+        padding:0px;
+        }
+div.tag {
+            
+}
+@media only screen and (max-width: 1280px) {
+    div.autocomplete_fixed ul {
+        list-style-type:none;
+        background-color:#FFFFFF;
+        border:1px solid blue;
+        width:300px;
+        margin:0px;
+        padding:0px;
+        }
+       div.tag {
+            
+        }
+
+}
+@media only screen and (min-width: 1281px) {
+    div.autocomplete_fixed ul {
+        list-style-type:none;
+        background-color:#FFFFFF;
+        border:1px solid orangered;
+        width:500px;
+        margin:0px;
+        padding:0px;
+        }
+        div.tag {
+            width: 50%;
+        }
+       
+
+}
+div.autocomplete_fixed ul li.selected { 
+    background-color: #feccb1;
+    border-bottom: 1px solid black;
+}
+
+div.autocomplete_fixed ul li {
+    list-style-type:none;
+    display:block;
+    margin:0px;
+    padding:0px;
+    cursor:pointer;
+}
