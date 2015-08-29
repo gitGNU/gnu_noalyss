@@ -459,10 +459,11 @@ $order
         $class_base->set_attribute('ipopup','ipop_account');
         $class_base->set_attribute('account','class_base');
         $class_base->set_attribute('label','acc_label');
-		$fd_description=new ITextarea('fd_description',$this->fd_description);
-		$fd_description->width=80;
-		$fd_description->heigh=4;
-		$fd_description->style='style="vertical-align:text-top"';
+        $fd_description=new ITextarea('fd_description',$this->fd_description);
+        $fd_description->width=80;
+        $fd_description->heigh=4;
+        $fd_description->style='class="itextarea" style="margin-left:0px;vertical-align:text-top"';
+
         $r.=_('Poste Comptable de base').' : ';
         $r.=$class_base->input();
         $r.='<span id="acc_label"></span><br>';

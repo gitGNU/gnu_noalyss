@@ -140,7 +140,7 @@ if ( isset($_POST['add_modele']))
 	}
 	else
 	{
-		alert('Doublon');
+		alert(_('Doublon'));
 	}
 }
 $fiche_def=new Fiche_def($cn);
