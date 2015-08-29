@@ -1143,7 +1143,7 @@ EOF;
 function display_dashboard_operation($p_array,$p_title,$p_div)
 {
 	?>
-<div id="<?php echo $p_div;?>" class="inner_box" style="display:none;top:250px;left:12%;width: 75%;min-height:50%;overflow:auto;">
+<div id="<?php echo $p_div;?>" class="inner_box" style="display:none;position:fixed;top:250px;left:12%;width: 75%;min-height:50%;overflow:auto;">
 	<?php
 	echo HtmlInput::title_box($p_title, $p_div, "hide");
 	?>

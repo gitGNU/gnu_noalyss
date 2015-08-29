@@ -158,17 +158,22 @@ if ( $report != 0 ) : ?>
 
     $result=$rapport->get_row($limit['start'],$limit['end'],'periode');
     $ix=0;
-    echo '<table border="0" width="100%">';
-    foreach ($result as $row) {
-      $ix++;
-	  $class=($ix%2==0)?' class="even" ':' class="odd" ';
-      echo '<tr '.$class.'>';
+    if ( count ($result) >  0)
+    {
+        echo '<table border="0" width="100%">';
+        foreach ($result as $row) {
+          $ix++;
+              $class=($ix%2==0)?' class="even" ':' class="odd" ';
+          echo '<tr '.$class.'>';
 
-      echo '<td> '.$row['desc'].'</td>'.
-	'<td style="text-align:right">'.nbm($row['montant'])." &euro;</td>";
-      echo '</tr>';
+          echo '<td> '.$row['desc'].'</td>'.
+            '<td style="text-align:right">'.nbm($row['montant'])." &euro;</td>";
+          echo '</tr>';
+        }
+        echo '</table>';
+    } else {
+        echo _('Aucun résultat');
     }
-    echo '</table>';
   }
   ?>
   </div>
@@ -185,7 +190,7 @@ endif;
 ?>
 
     
-<div id="action_late_div"  class="inner_box" style="display:none;margin-left:12%;top:25%;width:75%;min-height:50%;overflow: auto;">
+<div id="action_late_div"  class="inner_box" style="position:fixed;display:none;margin-left:12%;top:25%;width:75%;min-height:50%;overflow: auto;">
 	<?php
 		echo HtmlInput::title_box(_("Action en retard"), "action_late_div","hide")
 	?>
@@ -344,6 +349,7 @@ echo HtmlInput::button('hide',_('Annuler'),'onClick="Effect.Fold(\'add_todo_list
 <script type="text/javascript" language="javascript" charset="utf-8">
 function display_detail(div) {
 	$(div).style.display="block";
+       // $(div).style.top=calcy('150')+'px';
 	//Effect.Grow(div,{});
 }
 try {

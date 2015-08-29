@@ -109,7 +109,8 @@ class Follow_Up
      * @global type $g_user Connected user
      * @param type $cn Database connection
      * @param type $p_mode Mode is R (for Read) or W (for write)
-     * @return type
+     * @return string SQL where clause to include in the SQL 
+     * example: (ag_dest in (select p_granted from user_sec_action_profile where p_id=x)
      */
     static function sql_security_filter($cn, $p_mode)
     {
@@ -1102,8 +1103,12 @@ class Follow_Up
     {
         $sql="select ag_ref,coalesce(vw_name,'Interne') as vw_name,ag_id,ag_title,ag_ref, dt_value,to_char(ag_remind_date,'DD.MM.YYYY') as ag_timestamp_fmt,ag_timestamp ".
                 " from action_gestion join document_type ".
-                " on (ag_type=dt_id) left join vw_fiche_attr on (f_id=f_id_dest) where ag_state not in (1,4)
-					and to_char(ag_remind_date,'DDMMYYYY')=to_char(now(),'DDMMYYYY') ";
+                " on (ag_type=dt_id) 
+                  left join vw_fiche_attr on (f_id=f_id_dest) 
+                  where 
+                  ag_state not in (1,4)
+                  and to_char(ag_remind_date,'DDMMYYYY')=to_char(now(),'DDMMYYYY')
+                  and ". self::sql_security_filter($this->db,'R');
         $array=$this->db->get_array($sql);
         return $array;
     }
@@ -1117,7 +1122,7 @@ class Follow_Up
         $sql="select ag_ref,coalesce(vw_name,'Interne') as vw_name,ag_id,ag_title,ag_ref, dt_value,to_char(ag_remind_date,'DD.MM.YYYY') as ag_timestamp_fmt,ag_timestamp ".
                 " from action_gestion join document_type ".
                 " on (ag_type=dt_id) left join vw_fiche_attr on (f_id=f_id_dest) where ag_state not in  (1,4)
-				and ag_remind_date < now() ";
+				and ag_remind_date < now()  and ".self::sql_security_filter($this->db,'R');
         $array=$this->db->get_array($sql);
         return $array;
     }
