@@ -22,7 +22,7 @@
 if ( ! defined ('ALLOWED')) die('Appel direct ne sont pas permis');
 echo HtmlInput::title_box(_("Navigateur"), "navi_div");
 $sql="
-    select code, me_code,me_description,coalesce(me_description_etendue,me_description) as me_description_etendue,v1menu,v2menu,v3menu,p_type_display,
+    select distinct code, me_code,me_description,coalesce(me_description_etendue,me_description) as me_description_etendue,v1menu,v2menu,v3menu,p_type_display,
     javascript
     from 
     v_menu_description
