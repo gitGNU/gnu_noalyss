@@ -2050,7 +2050,7 @@ div.tag {
     div.autocomplete_fixed ul {
         list-style-type:none;
         background-color:#FFFFFF;
-        border:1px solid orangered;
+        border:#EF5F2B 1px solid;
         width:500px;
         margin:0px;
         padding:0px;
