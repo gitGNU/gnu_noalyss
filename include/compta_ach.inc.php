@@ -249,44 +249,52 @@ else
     echo '<div class="content">';
 
 echo '<p class="notice">'.$p_msg.'</p>';
-echo "<FORM class=\"print\"NAME=\"form_detail\" METHOD=\"POST\" >";
-/* request for a predefined operation */
-if ( isset($_REQUEST['pre_def']) && !isset($_POST['correct']))
+try
 {
-	// used a predefined operation
-	//
-        $op = new Pre_op_ach($cn);
-	$op->set_od_id($_REQUEST['pre_def']);
-	$p_post = $op->compute_array();
-	$Ledger->id = $_REQUEST ['p_jrn_predef'];
-	$p_post['p_jrn'] = $Ledger->id;
-	echo $Ledger->input($p_post);
-	echo '<div class="content">';
-	echo $Ledger->input_paid();
-	echo '</div>';
-	echo '<script>';
-	echo 'compute_all_ledger();';
-	echo '</script>';
+    echo "<FORM class=\"print\"NAME=\"form_detail\" METHOD=\"POST\" >";
+    /* request for a predefined operation */
+    if (isset($_REQUEST['pre_def'])&&!isset($_POST['correct']))
+    {
+        // used a predefined operation
+        //
+        $op=new Pre_op_ach($cn);
+        $op->set_od_id($_REQUEST['pre_def']);
+        $p_post=$op->compute_array();
+        $Ledger->id=$_REQUEST ['p_jrn_predef'];
+        $p_post['p_jrn']=$Ledger->id;
+        echo $Ledger->input($p_post);
+        echo '<div class="content">';
+        echo $Ledger->input_paid();
+        echo '</div>';
+        echo '<script>';
+        echo 'compute_all_ledger();';
+        echo '</script>';
+    }
+    else
+    {
+        echo $Ledger->input($array);
+        echo HtmlInput::hidden("p_action", "ach");
+        echo HtmlInput::hidden("sa", "p");
+        echo '<div class="content">';
+        echo $Ledger->input_paid();
+        echo '</div>';
+        echo '<script>';
+        echo 'compute_all_ledger();';
+        echo '</script>';
+    }
+    echo '<div class="content">';
+    echo HtmlInput::button('act', _('Actualiser'),
+            'onClick="compute_all_ledger();"');
+    echo HtmlInput::submit("view_invoice", _("Enregistrer"));
+    echo HtmlInput::reset(_('Effacer '));
+    echo '</div>';
+    echo "</FORM>";
 }
-else
+catch (Exception $e)
 {
-	echo $Ledger->input($array);
-	echo HtmlInput::hidden("p_action", "ach");
-	echo HtmlInput::hidden("sa", "p");
-	echo '<div class="content">';
-	echo $Ledger->input_paid();
-	echo '</div>';
-	echo '<script>';
-	echo 'compute_all_ledger();';
-	echo '</script>';
+    alert($e->getMessage());
+    return;
 }
-echo '<div class="content">';
-echo HtmlInput::button('act', _('Actualiser'), 'onClick="compute_all_ledger();"');
-echo HtmlInput::submit("view_invoice", _("Enregistrer"));
-echo HtmlInput::reset(_('Effacer '));
-echo '</div>';
-echo "</FORM>";
-
 if (!isset($_POST['e_date']) && $g_parameter->MY_DATE_SUGGEST=='Y')
 	echo create_script(" get_last_date()");
 echo create_script(" update_name()");

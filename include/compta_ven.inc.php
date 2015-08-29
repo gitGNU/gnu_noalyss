@@ -235,40 +235,43 @@ if ( is_msie() == 0 )
 else
     echo '<div class="content">';
 
-    if ( !isset($_REQUEST ['p_jrn']) )
+if (!isset($_REQUEST ['p_jrn']))
+{
+    $def_ledger=$Ledger->get_first('ven', 2);
+    if (empty($def_ledger))
     {
-        $def_ledger=$Ledger->get_first('ven',2);
-		if (empty($def_ledger))
-	{
-		exit('Pas de journal disponible');
-	}
-        $Ledger->id=$def_ledger['jrn_def_id'];
+        exit('Pas de journal disponible');
     }
-    else
-        $Ledger->id=$_REQUEST ['p_jrn'];
-	if (isset ($_REQUEST['p_jrn_predef'])){
-		$Ledger->id=$_REQUEST['p_jrn_predef'];
-	}
+    $Ledger->id=$def_ledger['jrn_def_id'];
+}
+else
+    $Ledger->id=$_REQUEST ['p_jrn'];
+if (isset($_REQUEST['p_jrn_predef']))
+{
+    $Ledger->id=$_REQUEST['p_jrn_predef'];
+}
 
-    echo '<div id="predef_form">';
-    echo HtmlInput::hidden('p_jrn_predef', $Ledger->id);
-    $op=new Pre_op_ven($cn);
-    $op->set('ledger',$Ledger->id);
-    $op->set('ledger_type',"VEN");
-    $op->set('direct','f');
-    $url=http_build_query(array('p_jrn_predef'=>$Ledger->id,'ac'=>$_REQUEST['ac'],'gDossier'=>dossier::id()));
-    echo $op->form_get('do.php?'.$url);
-    echo '</div>';
+echo '<div id="predef_form">';
+echo HtmlInput::hidden('p_jrn_predef', $Ledger->id);
+$op=new Pre_op_ven($cn);
+$op->set('ledger',$Ledger->id);
+$op->set('ledger_type',"VEN");
+$op->set('direct','f');
+$url=http_build_query(array('p_jrn_predef'=>$Ledger->id,'ac'=>$_REQUEST['ac'],'gDossier'=>dossier::id()));
+echo $op->form_get('do.php?'.$url);
+echo '</div>';
 
-   echo '<div class="content">';
-   echo '<p class="notice">'.$p_msg.'</p>';
- echo "<FORM class=\"print\" NAME=\"form_detail\" METHOD=\"POST\" >";
+echo '<div class="content">';
+echo '<p class="notice">'.$p_msg.'</p>';
+try
+{
+    echo "<FORM class=\"print\" NAME=\"form_detail\" METHOD=\"POST\" >";
     /* request for a predefined operation */
-    if (  isset($_REQUEST['pre_def']) && ! isset($_POST['correct']) )
+    if (isset($_REQUEST['pre_def'])&&!isset($_POST['correct']))
     {
         // used a predefined operation
         //
-        $op=new Pre_op_ven($cn);
+       $op=new Pre_op_ven($cn);
         $op->set_od_id($_REQUEST['pre_def']);
         $p_post=$op->compute_array();
         $Ledger->id=$_REQUEST ['p_jrn_predef'];
@@ -281,12 +284,12 @@ else
         echo 'compute_all_ledger();';
         echo '</script>';
     }
-    else if ( isset ($_GET['create_invoice']))
+    else if (isset($_GET['create_invoice']))
     {
         $array=$Ledger->convert_from_follow($_GET ['ag_id']);
-        echo HtmlInput::hidden("ledger_type","VEN");
-	echo HtmlInput::hidden("ac",$_REQUEST['ac']);
-        echo HtmlInput::hidden("sa","p");
+        echo HtmlInput::hidden("ledger_type", "VEN");
+        echo HtmlInput::hidden("ac", $_REQUEST['ac']);
+        echo HtmlInput::hidden("sa", "p");
         echo $Ledger->input($array);
         echo '<div class="content">';
         echo $Ledger->input_paid();
@@ -297,9 +300,10 @@ else
     }
     else
     {
-        echo HtmlInput::hidden("ledger_type","VEN");
-	  echo HtmlInput::hidden("ac",$_REQUEST['ac']);
-        echo HtmlInput::hidden("sa","p");
+        echo HtmlInput::hidden("ledger_type", "VEN");
+        echo HtmlInput::hidden("ac", $_REQUEST['ac']);
+        echo HtmlInput::hidden("sa", "p");
+
         echo $Ledger->input($array);
         echo '<div class="content">';
         echo $Ledger->input_paid();
@@ -308,7 +312,13 @@ else
         echo 'compute_all_ledger();';
         echo '</script>';
     }
-    echo '<div class="content">';
+}
+catch (Exception $e)
+{
+    alert($e->getMessage());
+    return;
+}
+echo '<div class="content">';
 
 
     echo HtmlInput::button('act',_('Actualiser'),'onClick="compute_all_ledger();"');

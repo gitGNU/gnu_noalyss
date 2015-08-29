@@ -207,7 +207,12 @@ if (isset($_REQUEST['ac']))
         show_menu( $amenu_id[0]['pm_id_v2']);
         show_menu($amenu_id[0]['pm_id_v1']);
     } catch (Exception $e) {
-        if ( $e->getCode() == 10 ) alert(_('Accès menu impossible'));
+        if ( $e->getCode() == 10 ) {
+            alert(_('Accès menu impossible'));
+        }
+        else {
+            alert($e->getTraceAsString());
+        }
     }
 }
 else
