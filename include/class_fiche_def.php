@@ -62,7 +62,7 @@ class Fiche_Def
 		$fd_description=new ITextarea('fd_description');
 		$fd_description->width=80;
 		$fd_description->heigh=4;
-		$fd_description->style='style="vertical-align:text-top"';
+		$fd_description->style='class="itextarea" style="margin-left:0px;vertical-align:text-top"';
         require_once  NOALYSS_INCLUDE.'/template/fiche_def_input.php';
         return;
     }
@@ -197,10 +197,15 @@ $order
      */
     function Add($array)
     {
-        foreach ( $array as $key=>$element )
-        {
-            ${"p_$key"}=$element;
-        }
+        var_dump($array);
+        /** 
+         * Check needed info
+         */
+        $p_nom_mod = HtmlInput::default_value('nom_mod', "", $array);
+        $p_fd_description = HtmlInput::default_value('fd_description', "", $array);
+        $p_class_base= HtmlInput::default_value('class_base', "", $array);
+        $p_fiche_def= HtmlInput::default_value('FICHE_REF', "", $array);
+        $p_create= HtmlInput::default_value('create', "off", $array);
         
         // If there is no description then add a empty one
         if ( ! isset ($p_fd_description)) {
@@ -212,10 +217,16 @@ $order
 
         // Name can't be empty
         if ( strlen(trim($p_nom_mod)) == 0 )
-		{
-			alert (_('Le nom de la catégorie ne peut pas être vide'));
+	{
+            alert (_('Le nom de la catégorie ne peut pas être vide'));
             return 1;
-		}
+	}
+        // $p_fiche_def can't be empty
+        if ( strlen(trim($p_fiche_def)) == 0 )
+	{
+            alert (_('Un modéle de catégorie est obligatoire'));
+            return 1;
+	}
         
         /* check if the cat. name already exists */
         $sql="select count(*) from fiche_Def where upper(fd_label)=upper($1)";
@@ -227,7 +238,7 @@ $order
 		}
         // Set the value of fiche_def.fd_create_account
         // automatic creation for 'poste comptable'
-        if ( isset($p_create) && strlen(trim($p_class_base)) != 0)
+        if ( $p_create == "on" && strlen(trim($p_class_base)) != 0)
             $p_create='true';
         else
             $p_create='false';
@@ -239,7 +250,7 @@ $order
             $sql="insert into fiche_def(fd_label,fd_class_base,frd_id,fd_create_account,fd_description)
                  values ($1,$2,$3,$4,$5) returning fd_id";
 
-            $fd_id=$this->cn->get_value($sql,array($p_nom_mod,$p_class_base,$p_FICHE_REF,$p_create,$p_fd_description));
+            $fd_id=$this->cn->get_value($sql,array($p_nom_mod,$p_class_base,$p_fiche_def,$p_create,$p_fd_description));
 
             // p_class must be added to tmp_pcmn if it is a single accounting
             if ( strpos(',',$p_class_base) ==0)
@@ -261,7 +272,7 @@ $order
             $sql="insert into fiche_def(fd_label,frd_id,fd_create_account,fd_description) values ($1,$2,$3,$4) returning fd_id";
 
 
-            $this->id=$this->cn->get_value($sql,array($p_nom_mod,$p_FICHE_REF,$p_create,$p_fd_description));
+            $this->id=$this->cn->get_value($sql,array($p_nom_mod,$p_fiche_def,$p_create,$p_fd_description));
 
             // Get the fd_id
             $fd_id=$this->cn->get_current_seq('s_fdef');
@@ -269,7 +280,7 @@ $order
         }
 
         // Get the default attr_def from attr_min
-        $def_attr=$this->get_attr_min($p_FICHE_REF);
+        $def_attr=$this->get_attr_min($p_fiche_def);
 
         //if defaut attr not null
         // build the sql insert for the table attr_def

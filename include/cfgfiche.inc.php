@@ -122,6 +122,9 @@ if ( isset($_POST['add_modele']))
 	{
 		$single->save();
 		$fiche_def=new Fiche_Def($cn);
+                /**
+                 * Check if we have all needed information
+                 */
 		if ( $fiche_def->Add($_POST) == 0 )
 		{
 			echo $fiche_def->input_detail();
