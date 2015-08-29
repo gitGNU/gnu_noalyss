@@ -2027,11 +2027,16 @@ function view_action(ag_id, dossier, modify)
                     try {
                         remove_waiting_box();
                         var answer = req.responseXML;
+                        var ctl = answer.getElementsByTagName('ctl');
+                        if ( ctl.length == 0) {
+                            throw 'ajax failed ctl view_action';
+                        }
+                        var ctl_txt=getNodeText(ctl[0]);
                         var html = answer.getElementsByTagName('code');
                         if (html.length === 0)
                         {
                             var rec = req.responseText;
-                            alert_box('erreur :' + rec);
+                            throw 'ajax failed  html view_action';
                         }
                         var code_html = getNodeText(html[0]);
                         code_html = unescape_xml(code_html);
@@ -2043,7 +2048,7 @@ function view_action(ag_id, dossier, modify)
                             style: pos
                         });
                         $(id).innerHTML = code_html;
-                        compute_all_ledger();
+                        if ( ctl_txt == 'ok') { compute_all_ledger();}
                     } catch (e) {
                         alert_box('view_action' + e.message);
                     }
