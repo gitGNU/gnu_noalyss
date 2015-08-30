@@ -304,8 +304,10 @@ function result_card_search(req)
 
         var div_style="top:"+sx+"px;height:80%";
         add_div({id:'search_card',cssclass:'inner_box',html:"",style:div_style,drag:true,effect:'blinddown'});
+        
         $('search_card').innerHTML=code_html;
-        $('query').focus();
+        
+        if ($('query')) { $('query').focus();}
     }
     catch (e)
     {
