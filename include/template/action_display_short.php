@@ -30,7 +30,7 @@ global $g_user;
 $date=new IDate("date_event");
 $date->id="date_event_action_short";
 $title=new IText('title_event');
-
+$title->css_isze="60%";
 // Description
 $summary=new ITextarea('summary');
 $summary->style.='class="itextarea" style="padding:0px;margin:0px"';
