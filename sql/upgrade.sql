@@ -179,3 +179,7 @@ begin
 end;
 $BODY$
 language plpgsql;
+
+select insert_menu();
+
+drop function insert_menu();
