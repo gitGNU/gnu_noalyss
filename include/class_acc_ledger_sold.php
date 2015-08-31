@@ -846,7 +846,7 @@ EOF;
             $r.='<tr>'.td(_('Total TVAC')).td(hb($tot),'class="num"');
             $r.='</table>';
         } else {
-            $r.='<br>Total '.hb(nbm($tot));
+            $r.='<br>Total '.hb($tot);
         }
         $r.='</div>';
         /*  Add hidden */
