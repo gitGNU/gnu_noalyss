@@ -51,7 +51,35 @@ if ( ! isset ($_SESSION['g_theme']))
 $style_user=HtmlInput::default_value_post("style_user",$_SESSION['g_theme']);
 
 html_page_start($style_user);
+if ( DEBUG ) {
+    ?>
+<div id="debug_div" style="border:slategray solid 1px;position:absolute;background:white;display:fixed;top:2px;left:50px;z-index:1000;display:none">
+    <h2>$_POST</h2>
+    <?php        
+    var_dump($_POST);
+    ?>
+    <h2>$_GET</h2>
+    <?php        
+    var_dump($_GET);
+    ?>
+</div>
+<script>
+    function show_debug_request() {
+        var visible=document.getElementById('debug_div').style.display;
+        console.log(visible);
+        var new_state="";
+        if ( visible == 'block') { new_state='none';}
+        else
+        if ( visible == 'none') { new_state='block';}
+        else 
+            console.log('erreur');
+        document.getElementById('debug_div').style.display=new_state;
+    }
+</script>
+<input type="button" class="tinybutton" style="position:absolute;display:fixed;top:40px;margin-left:580px;z-index:1000" value="show request" onclick="show_debug_request()">
 
+<?php
+}
 global $g_user, $cn,$g_parameter;
 
 
