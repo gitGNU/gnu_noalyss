@@ -2995,7 +2995,7 @@ class Acc_Ledger extends jrn_def_sql
 			from jrn
 			join jrn_def on (jrn_def_id=jr_def_id)
 			 where $filter_ledger
-			order by jr_date desc limit $p_limit";
+			order by jr_date desc , substring(jr_pj_number,'[0-9]+$')::numeric desc limit $p_limit";
 		$array = $this->db->get_array($sql);
 		return $array;
 	}
