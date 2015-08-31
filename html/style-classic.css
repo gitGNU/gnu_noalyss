@@ -1645,6 +1645,7 @@ ul.tabs {
     border-bottom: 1px solid #879ed4;
     padding-left: 2px;
     list-style: none;
+    margin-left:2px;
 }
 ul.tabs  a  {
     display:inline;
@@ -1692,7 +1693,7 @@ li.tabs:hover {
    li.tabs {
     display:inline;
     background-color: inherit;
-    color:inherit;margin-left: 0px;
+    color:inherit;margin-left: 2px;
     padding: 15px 7px 0px 10px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
