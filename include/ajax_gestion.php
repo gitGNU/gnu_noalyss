@@ -106,6 +106,7 @@ if ($op=='action_save')
     $gestion->dt_id=$type_event;
     $gestion->ag_comment=h($summary);
     $gestion->ag_timestamp=$date_event;
+    $gestion->ag_remind_date=$date_event;
     $content=_('Sauvé');
     $status='OK';
     try {

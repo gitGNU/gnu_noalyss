@@ -294,7 +294,7 @@ function action_show(p_dossier)
     }
 }
 /**
- * @brief add a new event 
+ * @brief Display a box for adding a new event 
  * @param {type} p_dossier
  * @returns {undefined}
  */

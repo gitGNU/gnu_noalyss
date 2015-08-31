@@ -1803,11 +1803,14 @@ class Follow_Up
          */
         
         // save into the database
-        $this->ag_remind_date=null;
         $sql="insert into action_gestion".
-                    "(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_ref, ag_dest, ".
+                    "(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_ref, "
+                . "ag_dest, ".
                     "  ag_priority,ag_owner,ag_state,ag_remind_date) ".
-                    " values ($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,$7,$8,$9,$10,$11)";
+                    " values "
+                . "($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,"
+                . "$7,"
+                . "$8,$9,$10,to_date($11,'DD.MM.YYYY'))";
         
         $this->db->exec_sql($sql, array(
             $this->ag_id, /* 1 */
