@@ -1388,21 +1388,22 @@ class Fiche
         echo '<TR>';
 
         echo '<TD><form method="GET" ACTION="">'.
-        HtmlInput::submit('bt_other',"Autre poste").
-        dossier::hidden().
-        $hid->input("type","poste").$hid->input('p_action','impress')."</form></TD>";
+            HtmlInput::submit('bt_other',"Autre poste").
+            HtmlInput::array_to_hidden(array('gDossier','ac'), $_REQUEST).
+            dossier::hidden().
+            $hid->input("type","poste").$hid->input('p_action','impress')."</form></TD>";
         $str_ople=(isset($_REQUEST['ople']))?HtmlInput::hidden('ople',$_REQUEST['ople']):'';
 
         echo '<TD><form method="GET" ACTION="export.php">'.
-        HtmlInput::submit('bt_pdf',_("Export PDF")).
-        dossier::hidden().$str_ople.
-	  HtmlInput::hidden('act','PDF:fichedetail').
-        $hid->input("type","poste").
-        $hid->input('p_action','impress').
-        $hid->input("f_id",$this->id).
-        dossier::hidden().
-        $hid->input("from_periode",$p_array['from_periode']).
-        $hid->input("to_periode",$p_array['to_periode']);
+            HtmlInput::submit('bt_pdf',_("Export PDF")).
+            dossier::hidden().$str_ople.
+              HtmlInput::hidden('act','PDF:fichedetail').
+            $hid->input("type","poste").
+            $hid->input('p_action','impress').
+            $hid->input("f_id",$this->id).
+            dossier::hidden().
+            $hid->input("from_periode",$p_array['from_periode']).
+            $hid->input("to_periode",$p_array['to_periode']);
         if (isset($p_array['oper_detail']))
             echo $hid->input('oper_detail','on');
 

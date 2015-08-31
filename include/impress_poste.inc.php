@@ -126,7 +126,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
 {
     if ( isDate($_REQUEST['from_periode'])==null || isDate($_REQUEST['to_periode'])==null)
     {
-        echo alert('Date malformée, désolée');
+        echo alert(_('Date malformée, désolée'));
         return;
     }
     require_once NOALYSS_INCLUDE.'/class_acc_account_ledger.php';
