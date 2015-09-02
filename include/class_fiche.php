@@ -1045,6 +1045,12 @@ class Fiche
     {
         $this->getAttribut();
     }
+    /*!\brief Synonum of fiche::getAttribut
+     */
+    function load() 
+    {
+        $this->getAttribut();
+    }
     /*!\brief get all the card thanks the fiche_def_ref
      * \param $p_offset (default =-1)
      * \param $p_search sql condition
