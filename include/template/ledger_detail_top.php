@@ -5,7 +5,13 @@
 <?php 
    if ($div != "popup") {
      $callback=$_SERVER['PHP_SELF'];
-     $str=$_SERVER['QUERY_STRING']."&act=$action&ajax=$callback";
+     // create the url for the ajax (for zoom feature)
+     $str=http_build_query(array(
+            'gDossier'=>Dossier::id(),
+             'jr_id'=>$obj->det->jr_id,
+             'act'=>'de',
+             'div'=>$div,
+            'ajax'=>$callback));
      $msg_close=_('Fermer');
      $msg_pop=_('Ouvrir dans une fenêtre séparée');
      
