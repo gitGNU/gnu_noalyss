@@ -172,7 +172,8 @@ class Anc_Account
         $sql="delete from poste_analytique where po_id=".$this->id;
         $this->db->exec_sql($sql);
     }
-    /*! \brief return an array of object Poste_Analytique
+    /*! 
+     * \brief return an array of object Poste_Analytique
      *
      */
     function get_list()

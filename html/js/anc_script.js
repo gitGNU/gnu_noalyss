@@ -31,7 +31,7 @@
 function add_row(p_table, p_seq)
 {
     var mytable = g(p_table).tBodies[0];
-    var max = parseFloat(g('amount_t' + p_seq).value);
+    var max =Math.abs( parseFloat(g('amount_t' + p_seq).value));
     if (!mytable)
     {
         return;
@@ -102,7 +102,7 @@ function anc_refresh_remain(p_table, p_seq)
 {
     try
     {
-        var tot_line = parseFloat(g('amount_t' + p_seq).value);
+        var tot_line =Math.abs( parseFloat(g('amount_t' + p_seq).value));
         var tot_table = compute_total_table(p_table, p_seq);
         var remain = tot_line - tot_table;
         remain = Math.round(remain * 100) / 100;
@@ -155,7 +155,7 @@ function verify_ca(div)
 
                     total_amount += parseFloat(array_value[i].value);
                 }
-                var amount = parseFloat(g('amount_t' + idx).value);
+                var amount = Math.abs(parseFloat(g('amount_t' + idx).value));
                 var diff = amount - total_amount;
 
                 if (Math.round(diff, 2) != 0.0)

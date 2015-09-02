@@ -88,6 +88,18 @@ class Anc_Operation
         if ( $this->j_id == 0 )
         {
             $this->j_id=null;
+        } else {
+            // must be the same side than the operation
+            if ( $this->oa_jrnx_id_source == null)
+            {
+                $side=$this->db->get_value('select j_debit from jrnx where j_id=$1',
+                    array($this->j_id));
+            } else 
+            {
+                $side=$this->db->get_value('select j_debit from jrnx where j_id=$1',
+                    array($this->oa_jrnx_id_source));
+            }
+            $this->oa_debit=$side;
         }
 
 
@@ -97,8 +109,9 @@ class Anc_Operation
         
         if ( $this->oa_amount< 0) 
         {
-            $this->oa_debit=($this->oa_debit=='t')?'f':'t';
+            // if negatif must be oa_positive='N'
             $this->oa_positive='N';
+            $this->oa_debit=($this->oa_debit=='t')?'f':'t';
         }
         
         $oa_row=(isset($this->oa_row))?$this->oa_row:null;
@@ -544,8 +557,8 @@ class Anc_Operation
         $nb_row=(isset($val[$p_seq]))?count($val[$p_seq]):1;
         $count=0;
 
-		$remain=$p_amount;
-		$ctrl_remain="remain".$this->in_div.$table_id;
+        $remain=abs($p_amount);
+        $ctrl_remain="remain".$this->in_div.$table_id;
 
         for ( $i=0; $i < $nb_row;$i++)
         {
@@ -591,9 +604,9 @@ class Anc_Operation
 	    $value->javascript='onchange="format_number(this);anc_refresh_remain(\''.$this->in_div.$table_id.'\',\''.$p_seq.'\')"';
             $value->name="val[".$p_seq."][]";
             $value->size=6;
-            $value->value=(isset($val[$p_seq][$i]))?$val[$p_seq][$i]:$p_amount;
+            $value->value=(isset($val[$p_seq][$i]))?$val[$p_seq][$i]:abs($p_amount);
             $value->readOnly=($p_mode==1)?false:true;
-			$remain=bcsub($remain,$value->value);
+            $remain=bcsub($remain,$value->value);
             $result.='<td>'.$value->input().'</td>';
 
             $result.="</tr>";
@@ -682,7 +695,7 @@ class Anc_Operation
                 $op->j_id=$p_j_id;
                 $ratio=bcdiv($val[$p_item][$row],${"amount_t".$p_item});
                 $amount=  bcmul($p_nd, $ratio);
-                $op->oa_amount=abs(round($amount,2));
+                $op->oa_amount=round($amount,2);
                 $op->oa_debit=$this->oa_debit;
                 $op->oa_date=$this->oa_date;
 
@@ -796,12 +809,7 @@ class Anc_Operation
                     as mdate,j_montant,j_debit,jr_comment ,j_poste
                     from jrnx join jrn on (j_grpt=jr_grpt_id) where j_id=$1", array($op[$i]));
             $missing = $a_missing[0];
-            $poste=substr(trim($missing['j_poste']),0,1);
-            if ( $poste == 6 || $poste == 7)  {
-                $this->oa_debit = ($poste == 6) ?'t':'f';
-            }else {
-                $this->oa_debit=$missing['j_debit'];
-            }
+           
             $this->oa_description = $missing['jr_comment'];
             $this->j_id = $op[$i];
             $group = $this->db->get_next_seq("s_oa_group"); /* for analytic */
