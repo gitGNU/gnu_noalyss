@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-31 21:47+0200\n"
+"POT-Creation-Date: 2015-09-03 04:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -225,12 +225,12 @@ msgid "Opération Effacée"
 msgstr ""
 
 #: html/ajax_ledger.php:200 html/ajax_ledger.php:218 html/ajax_ledger.php:222
-#: html/ajax_ledger.php:223
+#: html/ajax_ledger.php:223 html/ajax_ledger.php:225
 msgid "Désolé il y a une erreur"
 msgstr ""
 
 #: html/ajax_ledger.php:263 html/ajax_ledger.php:281 html/ajax_ledger.php:276
-#: html/ajax_ledger.php:277
+#: html/ajax_ledger.php:277 html/ajax_ledger.php:279
 msgid "Aucun fichier"
 msgstr ""
 
@@ -247,7 +247,8 @@ msgstr ""
 #: html/ajax_ledger.php:331 html/ajax_ledger.php:359
 #: include/class_acc_ledger.php:873 include/compta_ach.inc.php:170
 #: include/operation_ods_confirm.inc.php:52 html/ajax_ledger.php:332
-#: html/ajax_ledger.php:360 html/ajax_ledger.php:336
+#: html/ajax_ledger.php:360 html/ajax_ledger.php:336 html/ajax_ledger.php:338
+#: html/ajax_ledger.php:368
 msgid "Document"
 msgstr ""
 
@@ -257,17 +258,18 @@ msgstr ""
 #: html/ajax_ledger.php:515 html/ajax_ledger.php:516 html/ajax_ledger.php:523
 #: include/anc_od.inc.php:123 include/stock_inv.inc.php:40
 #: include/ext/modop/modop_save.php:84 include/ext/modop/modop_save.php:166
+#: html/ajax_ledger.php:525
 msgid "Opération sauvée"
 msgstr ""
 
 #: html/ajax_ledger.php:504 html/ajax_ledger.php:528 html/ajax_ledger.php:521
-#: html/ajax_ledger.php:522 html/ajax_ledger.php:529
+#: html/ajax_ledger.php:522 html/ajax_ledger.php:529 html/ajax_ledger.php:531
 msgid ""
 "Changement impossible: on ne peut pas changer la date dans une période fermée"
 msgstr ""
 
 #: html/ajax_ledger.php:546 html/ajax_ledger.php:570 html/ajax_ledger.php:563
-#: html/ajax_ledger.php:564 html/ajax_ledger.php:576
+#: html/ajax_ledger.php:564 html/ajax_ledger.php:576 html/ajax_ledger.php:578
 msgid "Opération extournée"
 msgstr ""
 
@@ -428,23 +430,24 @@ msgid "Vous  êtes déconnecté"
 msgstr ""
 
 #: html/do.php:97 html/user_login.php:66 html/do.php:96 html/do.php:91
-#: html/do.php:93 html/user_login.php:67
+#: html/do.php:93 html/user_login.php:67 html/do.php:121
 msgid "Base de donnée invalide"
 msgstr ""
 
 #: html/do.php:104 html/do.php:103 html/do.php:98 html/do.php:100
+#: html/do.php:128
 msgid ""
 "Attention: la version de base de donnée est supérieure à la version du "
 "programme, vous devriez mettre à jour"
 msgstr ""
 
 #: html/do.php:108 html/user_login.php:75 html/do.php:107 html/do.php:102
-#: html/do.php:104 html/user_login.php:76
+#: html/do.php:104 html/user_login.php:76 html/do.php:132
 msgid "Votre base de données n'est pas à jour"
 msgstr ""
 
 #: html/do.php:109 html/user_login.php:76 html/do.php:108 html/do.php:103
-#: html/do.php:105 html/user_login.php:77
+#: html/do.php:105 html/user_login.php:77 html/do.php:133
 msgid "cliquez ici pour appliquer le patch"
 msgstr ""
 
@@ -694,6 +697,7 @@ msgstr ""
 #: include/ajax_get_profile.php:52 include/anc_pa.inc.php:212
 #: include/class_user.php:976 include/dossier.inc.php:184
 #: include/profile.inc.php:352 include/class_fiche.php:1575
+#: include/class_anc_account.php:267 include/class_fiche.php:1581
 msgid "Nom"
 msgstr ""
 
@@ -839,6 +843,7 @@ msgstr ""
 #: include/class_follow_up.php:160 include/ajax_add_menu.php:134
 #: include/anc_od.inc.php:59 include/class_follow_up.php:162
 #: include/class_follow_up.php:163
+#: include/ext/importbank/include/class_import_bank.php:137
 msgid "Nouveau"
 msgstr ""
 
@@ -1201,6 +1206,7 @@ msgstr ""
 #: include/ajax_gestion.php:67 include/class_follow_up.php:1694
 #: include/class_follow_up.php:1696 include/class_follow_up.php:1699
 #: include/class_follow_up.php:1701
+#: include/ext/importbank/include/template/show_transfer.php:108
 msgid "Date invalide"
 msgstr ""
 
@@ -1320,7 +1326,8 @@ msgstr ""
 #: include/class_acc_ledger_purchase.php:1751 include/fiche.inc.php:515
 #: html/ajax_misc.php:335 include/ac_common.php:1150
 #: include/template/dashboard.php:333 include/ac_common.php:1153
-#: include/template/dashboard.php:338
+#: include/template/dashboard.php:338 include/class_fiche.php:1212
+#: include/class_fiche.php:1287 include/ext/importbank/bank_constant.php:54
 msgid "Date"
 msgstr ""
 
@@ -1407,7 +1414,7 @@ msgstr ""
 #: include/class_acc_ledger.php:1453 include/class_acc_ledger.php:1710
 #: include/template/ledger_detail_misc.php:98 include/anc_od.inc.php:150
 #: include/ext/modop/modop_display.php:136
-#: include/ext/modop/modop_display.php:153
+#: include/ext/modop/modop_display.php:153 include/class_fiche.php:1291
 msgid "Débit"
 msgstr ""
 
@@ -1438,7 +1445,7 @@ msgstr ""
 #: include/class_acc_ledger.php:1454
 #: include/template/ledger_detail_misc.php:99 include/anc_od.inc.php:151
 #: include/ext/modop/modop_display.php:137
-#: include/ext/modop/modop_display.php:154
+#: include/ext/modop/modop_display.php:154 include/class_fiche.php:1292
 msgid "Crédit"
 msgstr ""
 
@@ -1571,6 +1578,8 @@ msgstr ""
 #: include/template/ledger_detail_misc.php:50 include/class_fiche.php:1208
 #: include/fiche.inc.php:519 include/ac_common.php:1155
 #: include/anc_pa.inc.php:213 include/ac_common.php:1158
+#: include/class_anc_account.php:272 include/class_fiche.php:1214
+#: include/ext/importbank/bank_constant.php:55
 msgid "Montant"
 msgstr ""
 
@@ -1637,7 +1646,7 @@ msgstr ""
 #: include/class_acc_ledger.php:2944 include/class_acc_ledger.php:2956
 #: include/class_acc_ledger.php:2965 html/ajax_card.php:303
 #: include/class_acc_ledger.php:2967 include/class_acc_ledger.php:2975
-#: html/ajax_card.php:304
+#: html/ajax_card.php:304 include/class_pre_operation.php:282
 msgid "Filtrer"
 msgstr ""
 
@@ -2323,11 +2332,12 @@ msgstr ""
 #: include/dossier.inc.php:185 include/dossier.inc.php:297
 #: include/profile.inc.php:354 include/template/category_of_card.php:28
 #: include/template/dashboard.php:335 include/ac_common.php:1156
-#: include/template/dashboard.php:340
+#: include/template/dashboard.php:340 include/class_anc_account.php:278
+#: include/class_fiche.php:1213 include/class_fiche.php:1290
 msgid "Description"
 msgstr ""
 
-#: include/class_anc_account.php:282
+#: include/class_anc_account.php:282 include/class_anc_account.php:283
 msgid "Plan Analytique"
 msgstr ""
 
@@ -2336,6 +2346,7 @@ msgstr ""
 #: include/anc_pa.inc.php:209 include/anc_pa.inc.php:211
 #: include/database.item.php:10 include/database.item.php:53
 #: include/database.item.php:62 include/anc_pa.inc.php:215
+#: include/class_anc_account.php:288
 msgid "Groupe"
 msgstr ""
 
@@ -2564,6 +2575,7 @@ msgstr ""
 #: include/template/ledger_detail_bottom.php:298
 #: include/ext/importbank/include/template/show_list.php:15
 #: include/ext/importbank/include/template/show_list.php:83
+#: include/ext/importbank/include/class_import_bank.php:141
 msgid "Effacer"
 msgstr ""
 
@@ -2702,10 +2714,11 @@ msgid "Rappel: Poste par défaut sera "
 msgstr ""
 
 #: include/class_fiche.php:1282 include/template/impress_reconciliation.php:16
+#: include/class_fiche.php:1288
 msgid "n° pièce"
 msgstr ""
 
-#: include/class_fiche.php:1283
+#: include/class_fiche.php:1283 include/class_fiche.php:1289
 msgid "Code interne"
 msgstr ""
 
@@ -2731,6 +2744,7 @@ msgstr ""
 #: include/database.item.php:159 include/template/ledger_detail_misc.php:88
 #: include/template/ledger_detail_ven.php:126
 #: include/template/ledger_detail_misc.php:96 include/class_fiche.php:1573
+#: include/class_fiche.php:1579
 msgid "Quick Code"
 msgstr ""
 
@@ -2738,24 +2752,24 @@ msgstr ""
 #: include/ajax_mod_stock_repo.php:47 include/audit_log.php:38
 #: include/template/stock_summary_list.php:39 include/class_fiche.php:1575
 #: include/ext/sav/include/template/sas_display_detail.php:95
-#: include/class_fiche.php:1576
+#: include/class_fiche.php:1576 include/class_fiche.php:1582
 msgid "Adresse"
 msgstr ""
 
 #: include/class_fiche.php:1571 include/class_fiche.php:1576
-#: include/class_fiche.php:1577
+#: include/class_fiche.php:1577 include/class_fiche.php:1583
 msgid "Total débit"
 msgstr ""
 
 #: include/class_fiche.php:1572 include/class_fiche.php:1577
-#: include/class_fiche.php:1578
+#: include/class_fiche.php:1578 include/class_fiche.php:1584
 msgid "Total crédit"
 msgstr ""
 
 #: include/class_fiche.php:1573 include/template/anc_balance_group.php:51
 #: include/template/anc_balance_group.php:72 include/class_acc_bilan.php:157
 #: include/class_acc_bilan.php:158 include/class_fiche.php:1578
-#: include/class_fiche.php:1579
+#: include/class_fiche.php:1579 include/class_fiche.php:1585
 msgid "Solde"
 msgstr ""
 
@@ -2835,6 +2849,7 @@ msgstr ""
 #: include/class_html_input.php:420
 #: include/template/ledger_detail_bottom.php:272
 #: include/template/ledger_detail_bottom.php:273
+#: include/template/ledger_detail_top.php:15
 #, php-format
 msgid "Fermer"
 msgstr ""
@@ -4737,6 +4752,7 @@ msgstr ""
 #: include/ext/tva/form_parameter.php:119 include/class_fiche.php:1573
 #: include/param_pcmn.inc.php:52 include/param_pcmn.inc.php:74
 #: include/template/pcmn_update.php:35 include/class_fiche.php:1574
+#: include/class_fiche.php:1580
 msgid "Poste comptable"
 msgstr ""
 
@@ -5919,6 +5935,7 @@ msgstr ""
 #: include/ext/rapport_avance/ajax_send_mail.php:13
 #: include/verif_bilan.inc.php:116 include/verif_bilan.inc.php:177
 #: include/ext/rapport_avance/ajax_include_follow_save.php:11
+#: include/ext/importbank/include/template/confirm_transfer.php:275
 msgid "Résultat"
 msgstr ""
 
@@ -6347,6 +6364,7 @@ msgstr ""
 #: include/ext/amortis/include/class_am_card.php:179
 #: include/class_acc_compute.php:194 include/class_acc_compute.php:195
 #: include/ext/amortis/include/class_am_card.php:222
+#: include/ext/importbank/include/template/show_transfer.php:100
 msgid "Montant invalide"
 msgstr ""
 
@@ -6447,7 +6465,7 @@ msgstr ""
 #: include/balance_card_ageing.inc.php:39 include/fiche.inc.php:292
 #: include/fiche.inc.php:328 include/class_fiche.php:1412
 #: include/fiche.inc.php:295 include/fiche.inc.php:331 html/popup.php:73
-#: include/class_fiche.php:1413
+#: include/class_fiche.php:1413 include/class_fiche.php:1419
 msgid "Export CSV"
 msgstr ""
 
@@ -6464,6 +6482,7 @@ msgid "Nouvelle fiche "
 msgstr ""
 
 #: include/ext/import_account/include/class_impacc_operation.php:38
+#: include/ext/importbank/include/import_bank.php:120
 msgid "Pas de fichier donné"
 msgstr ""
 
@@ -6772,6 +6791,7 @@ msgstr ""
 
 #: include/ext/transform/include/class_transform_client.php:98
 #: include/ext/transform/include/class_transform_client.php:99
+#: include/ext/importbank/include/template/confirm_transfer.php:114
 msgid "Montant incorrect"
 msgstr ""
 
@@ -7315,13 +7335,14 @@ msgid "enlever"
 msgstr ""
 
 #: html/ajax_ledger.php:353 html/ajax_ledger.php:371 html/ajax_ledger.php:364
-#: html/ajax_ledger.php:365
+#: html/ajax_ledger.php:365 html/ajax_ledger.php:373
 msgid "Chargement"
 msgstr ""
 
 #: html/ajax_ledger.php:527 html/ajax_ledger.php:551 html/ajax_ledger.php:544
 #: include/template/ledger_detail_bottom.php:314 html/ajax_ledger.php:545
 #: html/ajax_ledger.php:557 include/template/ledger_detail_bottom.php:320
+#: html/ajax_ledger.php:559
 msgid "entrez une date"
 msgstr ""
 
@@ -7360,7 +7381,7 @@ msgid "Vous êtes déconnecté"
 msgstr ""
 
 #: html/popup.php:55 html/popup.php:72 include/class_fiche.php:1397
-#: html/popup.php:74 include/class_fiche.php:1398
+#: html/popup.php:74 include/class_fiche.php:1398 include/class_fiche.php:1404
 msgid "Export PDF"
 msgstr ""
 
@@ -7523,7 +7544,7 @@ msgstr ""
 msgid "Modification du nom"
 msgstr ""
 
-#: include/ajax_mod_predf_op.php:44
+#: include/ajax_mod_predf_op.php:44 include/class_pre_operation.php:63
 msgid "Description (max 50 car.)"
 msgstr ""
 
@@ -7911,6 +7932,7 @@ msgstr ""
 #: include/class_acc_ledger.php:819 include/class_acc_ledger.php:823
 #: include/template/ledger_detail_fin.php:45 include/class_acc_ledger.php:824
 #: include/class_acc_ledger.php:825
+#: include/ext/importbank/bank_constant.php:58
 msgid "Tiers"
 msgstr ""
 
@@ -8513,6 +8535,7 @@ msgstr ""
 #: include/ac_common.php:326 include/ac_common.php:327
 #: include/ac_common.php:334 include/action.common.inc.php:281
 #: include/forecast.inc.php:351 include/ac_common.php:337
+#: include/ext/importbank/include/class_import_bank.php:140
 msgid "Erreur"
 msgstr ""
 
@@ -8608,6 +8631,7 @@ msgstr ""
 #: include/class_acc_ledger_purchase.php:1752
 #: include/class_acc_ledger_purchase.php:1751
 #: include/class_acc_ledger_purchase.php:1750
+#: include/ext/importbank/bank_constant.php:57
 msgid "Numéro opération"
 msgstr ""
 
@@ -8871,12 +8895,12 @@ msgid "Description de la nouvelle clef"
 msgstr ""
 
 #: include/class_anc_operation.php:611 include/class_anc_operation.php:612
-#: include/class_anc_operation.php:614
+#: include/class_anc_operation.php:614 include/class_anc_operation.php:627
 msgid "Nouvelle ligne"
 msgstr ""
 
 #: include/class_anc_operation.php:622 include/class_anc_operation.php:627
-#: include/class_anc_operation.php:629
+#: include/class_anc_operation.php:629 include/class_anc_operation.php:642
 msgid "Clef"
 msgstr ""
 
@@ -9295,6 +9319,7 @@ msgid "Poste de base"
 msgstr ""
 
 #: include/class_fiche.php:1567 include/class_fiche.php:1568
+#: include/class_fiche.php:1574
 msgid "Filtre rapide "
 msgstr ""
 
@@ -9322,6 +9347,7 @@ msgstr ""
 
 #: include/class_pre_operation.php:308 include/class_pre_operation.php:319
 #: include/class_pre_operation.php:307 include/class_pre_operation.php:318
+#: include/class_pre_operation.php:309 include/class_pre_operation.php:320
 msgid ":"
 msgstr ""
 
@@ -9575,6 +9601,7 @@ msgid "Uniquement les comptes non soldés"
 msgstr ""
 
 #: include/template/ledger_detail_top.php:10
+#: include/template/ledger_detail_top.php:16
 msgid "Ouvrir dans une fenêtre séparée"
 msgstr ""
 
@@ -10320,19 +10347,19 @@ msgstr ""
 msgid "Pièce inexistante"
 msgstr ""
 
-#: include/class_fiche.php:1205
+#: include/class_fiche.php:1205 include/class_fiche.php:1211
 msgid "n° de pièce / Code interne"
 msgstr ""
 
-#: include/class_fiche.php:1209
+#: include/class_fiche.php:1209 include/class_fiche.php:1215
 msgid "Débit/Crédit"
 msgstr ""
 
-#: include/class_fiche.php:1231
+#: include/class_fiche.php:1231 include/class_fiche.php:1237
 msgid "solde débiteur"
 msgstr ""
 
-#: include/class_fiche.php:1231
+#: include/class_fiche.php:1231 include/class_fiche.php:1237
 msgid "solde créditeur"
 msgstr ""
 
@@ -10354,6 +10381,7 @@ msgid "Dossier"
 msgstr ""
 
 #: include/template/ledger_detail_top.php:21
+#: include/template/ledger_detail_top.php:27
 msgid "Opération ID"
 msgstr ""
 
@@ -10514,15 +10542,15 @@ msgstr ""
 msgid "Des actions dépendent de cette catégorie"
 msgstr ""
 
-#: html/do.php:196
+#: html/do.php:196 html/do.php:224
 msgid "Erreur menu"
 msgstr ""
 
-#: html/do.php:210 html/do.php:211
+#: html/do.php:210 html/do.php:211 html/do.php:239
 msgid "Accès menu impossible"
 msgstr ""
 
-#: html/do.php:219 html/do.php:224
+#: html/do.php:219 html/do.php:224 html/do.php:252
 msgid "Aucun profil utilisateur"
 msgstr ""
 
@@ -10632,6 +10660,7 @@ msgid "Parametre invalide"
 msgstr ""
 
 #: include/payment_middle.inc.php:119
+#: include/ext/importbank/bank_constant.php:56
 msgid "Libelle"
 msgstr ""
 
@@ -10716,4 +10745,89 @@ msgstr ""
 #: include/ext/importbank/include/template/show_list.php:17
 #: include/ext/importbank/include/template/show_list.php:85
 msgid "Transfèrer"
+msgstr ""
+
+#: include/ext/importbank/bank_constant.php:53
+msgid "-- Non utilisé --"
+msgstr ""
+
+#: include/ext/importbank/bank_constant.php:59
+msgid "Info supplémentaire"
+msgstr ""
+
+#: include/ext/importbank/include/class_import_bank.php:78
+msgid "Il manque la colonne pour les  dates"
+msgstr ""
+
+#: include/ext/importbank/include/class_import_bank.php:80
+msgid "Il manque la colonne pour les  montants"
+msgstr ""
+
+#: include/ext/importbank/include/class_import_bank.php:136
+msgid "Tous"
+msgstr ""
+
+#: include/ext/importbank/include/class_import_bank.php:138
+msgid "Transfèré"
+msgstr ""
+
+#: include/ext/importbank/include/class_import_bank.php:139
+msgid "Attente"
+msgstr ""
+
+#: include/ext/importbank/include/class_import_bank.php:437
+#: include/ext/importbank/include/import_bank.php:220
+msgid "Journal financier mal configuré"
+msgstr ""
+
+#: include/ext/importbank/include/import_bank.php:89
+msgid "Nombre de ligne trouvé incorrect"
+msgstr ""
+
+#: include/ext/importbank/include/import_bank.php:228
+msgid "Poste comptable de la fiche banque est incorrect"
+msgstr ""
+
+#: include/ext/importbank/include/template/confirm_transfer.php:56
+msgid "Lignes non prises"
+msgstr ""
+
+#: include/ext/importbank/include/template/confirm_transfer.php:69
+msgid "Nombre de colonnes incorrect"
+msgstr ""
+
+#: include/ext/importbank/include/template/confirm_transfer.php:88
+msgid "date incorrecte"
+msgstr ""
+
+#: include/ext/importbank/include/template/confirm_transfer.php:280
+msgid "Enregistrer les opérations"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_field.php:98
+msgid "Nom manquant"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_transfer.php:18
+msgid "Séparateur de champs inconnu"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_transfer.php:125
+msgid "Echec import"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_transfer.php:270
+msgid "Importés"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_transfer.php:271
+msgid "Echec"
+msgstr ""
+
+#: include/class_pre_operation.php:56
+msgid "Donnez un nom pour sauver cette opération comme modèle"
+msgstr ""
+
+#: include/class_pre_operation.php:281
+msgid "Choisissez un modèle"
 msgstr ""

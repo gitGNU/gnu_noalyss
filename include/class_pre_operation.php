@@ -53,14 +53,14 @@ class Pre_operation
     static function save_propose() {
         $r="";
         $r.= '<p class="decale">';
-        $r.= "Donnez un nom pour sauver cette opération comme modèle <br>";
+        $r.= _("Donnez un nom pour sauver cette opération comme modèle")." <br>";
         $opd_name = new IText('opd_name');
         $r.= "Nom du modèle " . $opd_name->input();
         $opd_description=new ITextarea('od_description');
         $opd_description->style=' class="itextarea" style="width:30em;height:4em;vertical-align:top"';
         $r.='</p>';
         $r.= '<p class="decale">';
-        $r.= 'Description (max 50 car.)';   
+        $r.= _('Description (max 50 car.)');   
         $r.='<br>';
         $r.=$opd_description->input();
         $r.='</p>';
@@ -105,7 +105,7 @@ class Pre_operation
         }
         if ( $this->count()  > MAX_PREDEFINED_OPERATION )
         {
-            echo '<span class="notice">Vous avez atteint le max. d\'op&eacute;ration pr&eacute;d&eacute;finie, d&eacute;sol&eacute;</span>';
+            echo '<span class="notice">'.("Vous avez atteint le max. d'op&eacute;ration pr&eacute;d&eacute;finie, d&eacute;sol&eacute;").'</span>';
             return false;
         }
         $sql='insert into op_predef (jrn_def_id,od_name,od_item,od_jrn_type,od_direct,od_description)'.
@@ -272,18 +272,20 @@ class Pre_operation_detail
         $value=$this->db->get_array("select od_id,od_name,od_description from op_predef ".
                                      " where jrn_def_id=$1".
                                      " and od_direct =$2".
-                                     " order by od_name",array($this->jrn_def_id,$this->od_direct ));
+                                     " order by od_name",
+                            array($this->jrn_def_id,$this->od_direct ));
         
         if ( $this->jrn_def_id=='') $value=array();
         
         $r="";
-        $r.='<h2>Choisissez un modèle</h2>';
-        $r.='Filtrer '.HtmlInput::filter_table('modele_op_tab', '0', '0');
+        $r.='<h2>'._("Choisissez un modèle").'</h2>';
+        $r.=_('Filtrer').' '.HtmlInput::filter_table('modele_op_tab', '0', '0');
         $r.='<table style="width:100%" id="modele_op_tab">';
         for ($i=0;$i<count($value);$i++) {
             $r.='<tr class="'.(($i%2==0)?"even":"odd").'">';
             $r.='<td style="font-weight:bold;vertical-align:top;text-decoration:underline">';
-            $r.=sprintf('<a href="%s&pre_def=%s" onclick="waiting_box()">%s</a> ',$p_url,$value[$i]['od_id'],$value[$i]['od_name']);
+            $r.=sprintf('<a href="%s&pre_def=%s" onclick="waiting_box()">%s</a> ',
+                    $p_url,$value[$i]['od_id'],$value[$i]['od_name']);
             $r.='</td>';
             $r.='<td>'.h($value[$i]['od_description']).'</td>';
             $r.='</tr>';
