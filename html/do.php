@@ -85,6 +85,19 @@ global $g_user, $cn,$g_parameter;
 
 
 $cn = new Database(Dossier::id());
+
+/*
+ * check that the database is not empty
+ */
+if ( ! $cn->exist_table('version')) {
+    echo '<h2 class="notice">'._('Désolé').'</h2>';
+    echo _('Ce dossier est vide');
+    echo '<p>';
+    echo '<a class="button" href="do.php">'._("Retour à l'accueil").'</a>';
+    echo '</p>';
+    return;
+}
+
 $g_user = new User($cn);
 
 $g_parameter=new Own($cn);

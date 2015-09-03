@@ -43,7 +43,9 @@ if ( isset ($_POST['upd']) && isNumber($dossier_id) == 1 && $dossier_id != -1)
     $dos->save();
 }
 echo '<div class="content" style="width:80%;margin-left:10%">';
-// check and add an new folder
+/*
+ *  check and add an new folder
+ */
 if ( isset ($_POST["DATABASE"]) )
 {
     $repo=new Database();
@@ -62,23 +64,27 @@ if ( isset ($_POST["DATABASE"]) )
     $template=HtmlInput::default_value_post("FMOD_ID",-1);
     if ( $template == -1 || isNumber($template ) == 0) 
         die (_('Parametre invalide'));
-    
-    // compute template name
-    $template_name=domaine.'mod'.$template;
-    
-    
-    $encoding=$repo->get_value("select encoding from pg_database  where ".
-                             " datname=$1",array($template_name));
-    if ( $encoding != 6 )
+    /*
+     * If template is not empty
+     */
+    if ( $template != 0 )
     {
-        alert(_('Désolé vous devez migrer ce modèle en unicode'));
-        echo '<span class="error">';
-        echo _('le modele ').domaine.'mod'.$_POST["FMOD_ID"]._(" doit être migré en unicode.");
-        echo _('Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu').'</span>';
-        echo HtmlInput::button_anchor('Retour','admin_repo.php?action=dossier_mgt');
-        return;
-    }
+        // compute template name
+        $template_name=domaine.'mod'.$template;
 
+
+        $encoding=$repo->get_value("select encoding from pg_database  where ".
+                                 " datname=$1",array($template_name));
+        if ( $encoding != 6 )
+        {
+            alert(_('Désolé vous devez migrer ce modèle en unicode'));
+            echo '<span class="error">';
+            echo _('le modele ').domaine.'mod'.$_POST["FMOD_ID"]._(" doit être migré en unicode.");
+            echo _('Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu').'</span>';
+            echo HtmlInput::button_anchor('Retour','admin_repo.php?action=dossier_mgt');
+            return;
+        }
+    }
     /*
      * Insert new dossier with description
      */
@@ -106,63 +112,91 @@ if ( isset ($_POST["DATABASE"]) )
 
     if ( $l_id != 0)
     {
-        //--
-        // setting the year
-        //--
-        $year=sql_string($_POST['YEAR']);
-        if ( strlen($year) != 4 || isNumber($year) == 0 || $year > 2100 || $year < 2000 || $year != round($year,0))
+        /*
+         * We don't create  and empty database
+         */
+        if ($template != 0 )
         {
-            echo "$year"._(" est une année invalide");
-            $Res=$repo->exec_sql("delete from ac_dossier where dos_id=$l_id");
-        }
-        else
-        {
-            $Sql=sprintf("CREATE DATABASE %sDOSSIER%d encoding='UTF8' TEMPLATE %sMOD%d",
-                         domaine,
-                         $l_id,
-                         domaine,
-                         sql_string($_POST["FMOD_ID"]));
-            ob_start();
-            if ( $repo->exec_sql($Sql)==false)
+            //--
+            // setting the year
+            //--
+            $year=sql_string($_POST['YEAR']);
+            if ( strlen($year) != 4 || isNumber($year) == 0 || $year > 2100 || $year < 2000 || $year != round($year,0))
             {
-                echo   "[".$Sql."]";
-
-                //ob_end_clean();
-                $repo->exec_sql("delete from ac_dossier where dos_id=$l_id");
-                echo "<h2 class=\"error\">"._(" Base de donnée ").domaine."mod".$_POST['FMOD_ID']."  ".
-                _("est accèdée, déconnectez-vous d'abord")."</h2>";
-                exit;
+                echo "$year"._(" est une année invalide");
+                $Res=$repo->exec_sql("delete from ac_dossier where dos_id=$l_id");
             }
-            ob_flush();
-            // Connect to the new database
-            $cn=new Database($l_id);
-            //--year --
-            $Res=$cn->exec_sql("delete from parm_periode");
-            if ( ($year % 4 == 0 && $year % 100 != 0) || $year % 400 == 0 )
-                $fev=29;
             else
-                $fev=28;
-            $Res=$cn->exec_sql("delete from user_local_pref where parameter_type='PERIODE'");
-            $nb_day=array(31,$fev,31,30,31,30,31,31,30,31,30,31);
-            $m=1;
-            foreach ($nb_day as $day)
             {
-                $p_start=sprintf("01-%d-%s",$m,$year);
-                $p_end=sprintf("%d-%d-%s",$day,$m,$year);
-                $sql=sprintf("insert into parm_periode (p_start,p_end,p_exercice)
-                             values (to_date('%s','DD-MM-YYYY'),to_date('%s','DD-MM-YYYY'),'%s')",
-                             $p_start,$p_end,$year);
+                $Sql=sprintf("CREATE DATABASE %sDOSSIER%d encoding='UTF8' TEMPLATE %sMOD%d",
+                             domaine,
+                             $l_id,
+                             domaine,
+                             sql_string($_POST["FMOD_ID"]));
+                ob_start();
+                if ( $repo->exec_sql($Sql)==false)
+                {
+                    echo   "[".$Sql."]";
+
+                    //ob_end_clean();
+                    $repo->exec_sql("delete from ac_dossier where dos_id=$l_id");
+                    echo "<h2 class=\"error\">"._(" Base de donnée ").domaine."mod".$_POST['FMOD_ID']."  ".
+                    _("est accèdée, déconnectez-vous d'abord")."</h2>";
+                    exit;
+                }
+                ob_flush();
+                // Connect to the new database
+                $cn=new Database($l_id);
+                //--year --
+                $Res=$cn->exec_sql("delete from parm_periode");
+                if ( ($year % 4 == 0 && $year % 100 != 0) || $year % 400 == 0 )
+                    $fev=29;
+                else
+                    $fev=28;
+                $Res=$cn->exec_sql("delete from user_local_pref where parameter_type='PERIODE'");
+                $nb_day=array(31,$fev,31,30,31,30,31,31,30,31,30,31);
+                $m=1;
+                foreach ($nb_day as $day)
+                {
+                    $p_start=sprintf("01-%d-%s",$m,$year);
+                    $p_end=sprintf("%d-%d-%s",$day,$m,$year);
+                    $sql=sprintf("insert into parm_periode (p_start,p_end,p_exercice)
+                                 values (to_date('%s','DD-MM-YYYY'),to_date('%s','DD-MM-YYYY'),'%s')",
+                                 $p_start,$p_end,$year);
+                    $Res=$cn->exec_sql($sql);
+                    $m++;
+                }
+                $sql="	insert into jrn_periode(p_id,jrn_def_id,status) ".
+                     "select p_id,jrn_def_id, 'OP'".
+                     " from parm_periode cross join jrn_def";
                 $Res=$cn->exec_sql($sql);
-                $m++;
+
+                Dossier::synchro_admin($l_id);
+
+
             }
-            $sql="	insert into jrn_periode(p_id,jrn_def_id,status) ".
-                 "select p_id,jrn_def_id, 'OP'".
-                 " from parm_periode cross join jrn_def";
-            $Res=$cn->exec_sql($sql);
+        }
+        else {
+            /*
+             * An empty database is asked, it is created 
+             */
+             $Sql=sprintf("CREATE DATABASE %sDOSSIER%d encoding='UTF8' ",
+                             domaine,
+                             $l_id,
+                             domaine
+                         );
+                ob_start();
+                if ( $repo->exec_sql($Sql)==false)
+                {
+                    echo   "[".$Sql."]";
 
-	    Dossier::synchro_admin($l_id);
-
-
+                    //ob_end_clean();
+                    $repo->exec_sql("delete from ac_dossier where dos_id=$l_id");
+                    echo _("Echec création ");
+                    exit;
+                }
+                ob_flush();
+            
         }
     } // if $l_id != 0
 } // $_POST[DATABASE]
@@ -275,11 +309,13 @@ if ( $sa == 'list' )
     else
     {
         $template='<SELECT NAME=FMOD_ID>';
+       
         for ($i=0;$i<$count;$i++)
         {
             $mod=Database::fetch_array($Res,$i);
             $template.='<OPTION VALUE="'.$mod['mod_id'].'"> '.h($mod['mod_name']." - ".mb_substr($mod['mod_desc'],0,30));
         }// for
+         $template.='<option value="0" >'._('Aucun modèle (dossier vide, devant être restauré manuellement)');
         $template.="</SELECT>";
     }// if count = 0
     $m_date=date('Y');
