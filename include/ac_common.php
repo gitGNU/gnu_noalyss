@@ -843,9 +843,9 @@ function show_module($selected)
 	me_code,me_menu,me_url,me_javascript,p_order,me_type,me_description
 	from v_all_menu
 	where
-	user_name=$1
+	p_id=$1
 	and p_type_display='M'
-	order by p_order", array($g_user->login));
+	order by p_order", array($g_user->get_profile()));
 
     if ($selected != -1)
     {
@@ -853,7 +853,7 @@ function show_module($selected)
                 . ' pm_id = $1 ', array($selected));
 	require_once NOALYSS_INCLUDE.'/template/module.php';
 	$file = $cn->get_array("select me_file,me_parameter,me_javascript,me_type,me_description from v_all_menu
-	    where pm_id=$1 and user_name=$2", array($selected,$g_user->login));
+	    where pm_id=$1 and p_id=$2", array($selected,$g_user->get_profile()));
 	if ( count($file ) == 0 )
 	{
 		echo '</div>';

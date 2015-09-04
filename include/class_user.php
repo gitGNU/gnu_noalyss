@@ -545,12 +545,13 @@ class User
 	/**
 	 * Check if an user can access a module, return 1 if yes, otherwise 0
 	 * record in audit log
+         * This function works only if user is connected to a Folder
 	 * @param string $p_module menu_ref.me_code
 	 */
 	function check_module($p_module)
 	{
-		$acc = $this->db->get_value("select count(*) from v_all_menu where user_name = $1
-                and me_code=$2", array($this->login, $p_module));
+		$acc = $this->db->get_value("select count(*) from v_all_menu where p_id = $1
+                and me_code=$2", array($this->get_profile(), $p_module));
 		if ($acc == 0)
 		{
 			$this->audit("FAIL", $p_module);

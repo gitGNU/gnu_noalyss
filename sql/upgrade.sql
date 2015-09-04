@@ -183,3 +183,84 @@ language plpgsql;
 select insert_menu();
 
 drop function insert_menu();
+
+CREATE OR REPLACE VIEW v_all_menu AS 
+ SELECT pm.me_code, 
+	pm.pm_id, 
+	pm.me_code_dep, 
+	pm.p_order, 
+	pm.p_type_display, 
+	p.p_name, 
+	p.p_desc, 
+	mr.me_menu, 
+	mr.me_file, 
+	mr.me_url, 
+	mr.me_parameter, 
+	mr.me_javascript, 
+	mr.me_type, 
+	pm.p_id, 
+	mr.me_description
+   FROM profile_menu pm
+   JOIN profile p ON p.p_id = pm.p_id
+   JOIN menu_ref mr USING (me_code)
+  ORDER BY pm.p_order;
+
+DROP FUNCTION comptaproc.get_profile_menu(text);
+
+CREATE OR REPLACE FUNCTION comptaproc.get_profile_menu(p_profile integer)
+  RETURNS SETOF menu_tree AS
+$BODY$
+declare
+	a menu_tree;
+	e menu_tree;
+begin
+for a in select me_code,me_description from v_all_menu where p_id=p_profile
+	and me_code_dep is null and me_type <> 'PR' and me_type <>'SP'
+loop
+		return next a;
+
+		for e in select * from get_menu_tree(a.code,p_profile)
+		loop
+			return next e;
+		end loop;
+
+	end loop;
+return;
+end;
+$BODY$
+  LANGUAGE plpgsql ;
+
+DROP FUNCTION comptaproc.get_menu_tree(text, text);
+
+CREATE OR REPLACE FUNCTION comptaproc.get_menu_tree(p_code text, p_profile integer)
+  RETURNS SETOF menu_tree AS
+$BODY$
+declare
+	i menu_tree;
+	e menu_tree;
+	a text;
+	x v_all_menu%ROWTYPE;
+begin
+	for x in select *  from v_all_menu where me_code_dep=p_code::text and p_id=p_profile
+	loop
+		if x.me_code_dep is not null then
+			i.code := x.me_code_dep||'/'||x.me_code;
+		else
+			i.code := x.me_code;
+		end if;
+
+		i.description := x.me_description;
+
+		return next i;
+
+	for e in select *  from get_menu_tree(x.me_code,p_profile)
+		loop
+			e.code:=x.me_code_dep||'/'||e.code;
+			return next e;
+		end loop;
+
+	end loop;
+	return;
+end;
+$BODY$
+  LANGUAGE plpgsql;
