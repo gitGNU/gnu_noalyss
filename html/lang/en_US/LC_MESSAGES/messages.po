@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: NOALYSS 672\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-03 04:11+0200\n"
-"PO-Revision-Date: 2015-09-03 04:18+0200\n"
+"PO-Revision-Date: 2015-09-04 01:09+0200\n"
 "Last-Translator: Dany De Bontridder <danydb@noalyss.eu>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
@@ -9563,7 +9563,7 @@ msgstr "Quarter"
 #: include/database.item.php:119 include/database.item.php:122
 #: include/database.item.php:128
 msgid "Trésorerie"
-msgstr "Treasury"
+msgstr "Financial"
 
 #: include/template/impress_reconciliation_detail.php:22
 msgid "Tva ND"
