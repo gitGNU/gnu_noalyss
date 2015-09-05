@@ -43,7 +43,6 @@ if ( !defined("NOALYSS_HOME")) define ("NOALYSS_HOME",dirname($dirname)."/html")
 if ( !defined("NOALYSS_PLUGIN")) define ("NOALYSS_PLUGIN",$g_ext_dir);
 if ( !defined("NOALYSS_INCLUDE")) define ("NOALYSS_INCLUDE",$g_include_dir);
 if ( !defined("NOALYSS_TEMPLATE")) define ("NOALYSS_TEMPLATE",$g_template_dir);
-if ( !defined("ENABLE_CACHE")) define ("ENABLE_CACHE",'YES');
 
 require_once NOALYSS_INCLUDE.'/constant.security.php';
 
@@ -101,7 +100,7 @@ if ( !defined("SITE_UPDATE_PLUGIN"))
     define ("SITE_UPDATE_PLUGIN",'http://www.noalyss.eu/plugin_last_version.txt');
 
 
-define ("DBVERSION",120);
+define ("DBVERSION",121);
 define ("MONO_DATABASE",25);
 define ("DBVERSIONREPO",16);
 define ('NOTFOUND','--not found--');
