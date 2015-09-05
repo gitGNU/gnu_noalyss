@@ -83,7 +83,7 @@ define ('BUTTONADD',"&#10010;");
 
 
 
-define ('SVNINFO',6800);
+define ('SVNINFO',6900);
 if ( ! defined  ('DEBUG')) {
     define ("DEBUG",false);
 }
