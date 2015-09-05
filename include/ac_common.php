@@ -320,9 +320,6 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
     <link rel=\"stylesheet\" type=\"text/css\" href=\"./style-print.css?version=".SVNINFO."\" media=\"print\"/>" .
     $p_script2 . "
     ";
-    if (ENABLE_CACHE == 'YES') {
-        echo '<meta http-equiv="Cache-control" content="private,max-age:3600">';
-    }
     echo '<script language="javascript" src="js/calendar.js"></script>
     <script type="text/javascript" src="js/lang/calendar-en.js"></script>
     <script language="javascript" src="js/calendar-setup.js"></script>

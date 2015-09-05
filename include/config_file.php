@@ -187,8 +187,6 @@ function config_file_create($p_array,$from_setup=1,$p_os=1)
     fputs($hFile, "// published"."\r\n");
     fputs($hFile, '// define ("SITE_UPDATE","");'."\r\n");
     fputs($hFile, '// define ("SITE_UPDATE_PLUGIN","");'."\r\n");
-    fputs($hFile, '// Uncomment to disable cache header'."\r\n");
-    fputs($hFile, '// define ("ENABLE_CACHE","NO");'."\r\n");
     fputs($hFile,'?>');
     fclose($hFile);
 }
